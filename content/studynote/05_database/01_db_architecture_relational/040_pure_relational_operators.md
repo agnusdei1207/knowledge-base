@@ -234,7 +234,7 @@ AI 기반 쿼리 최적화 연구
 
 **진행 상황**: 40 / 600
 
-← **이전**: [039. 일반 집합 연산 (General Set Operators)](/knowledge-base/studynote/05_database/01_db_architecture_relational/039_general_set_operators/)
-**다음**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/knowledge-base/studynote/05_database/01_db_architecture_relational/041_select_operator/) →
+<- **이전**: [039. 일반 집합 연산 (General Set Operators)](/knowledge-base/studynote/05_database/01_db_architecture_relational/039_general_set_operators/)
+**다음**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/knowledge-base/studynote/05_database/01_db_architecture_relational/041_select_operator/) ->
 
 ---

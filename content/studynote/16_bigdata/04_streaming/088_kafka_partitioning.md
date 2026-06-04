@@ -29,12 +29,12 @@ tags = ["studynote-bigdata"]
 
 ```
 토픽 "orders" (파티션 수 = 3):
-  파티션 0: [msg1] [msg4] [msg7] ...  → Consumer 1
-  파티션 1: [msg2] [msg5] [msg8] ...  → Consumer 2
-  파티션 2: [msg3] [msg6] [msg9] ...  → Consumer 3
+  파티션 0: [msg1] [msg4] [msg7] ...  -> Consumer 1
+  파티션 1: [msg2] [msg5] [msg8] ...  -> Consumer 2
+  파티션 2: [msg3] [msg6] [msg9] ...  -> Consumer 3
 
-→ 3개 Consumer가 병렬 처리 가능
-→ 4번째 Consumer를 추가해도 파티션이 3개뿐이면 유휴 Consumer 발생
+-> 3개 Consumer가 병렬 처리 가능
+-> 4번째 Consumer를 추가해도 파티션이 3개뿐이면 유휴 Consumer 발생
 ```
 
 **📢 섹션 요약 비유**
@@ -48,23 +48,23 @@ tags = ["studynote-bigdata"]
 
 ```
 [1. 키 기반 파티셔닝 (Key-Based)]
-Producer → hash(key) % 파티션수 = 파티션 인덱스
+Producer -> hash(key) % 파티션수 = 파티션 인덱스
 
-key="user-001" → hash("user-001") % 3 = 파티션 1
-key="user-001" → 항상 파티션 1 → 순서 보장 ✓
-key="user-002" → 파티션 0 → user-002 메시지 순서 보장 ✓
+key="user-001" -> hash("user-001") % 3 = 파티션 1
+key="user-001" -> 항상 파티션 1 -> 순서 보장 ✓
+key="user-002" -> 파티션 0 -> user-002 메시지 순서 보장 ✓
 
 [2. 라운드로빈 (Round-Robin, 키 없음)]
-msg1 → 파티션 0
-msg2 → 파티션 1
-msg3 → 파티션 2
-msg4 → 파티션 0 ...
+msg1 -> 파티션 0
+msg2 -> 파티션 1
+msg3 -> 파티션 2
+msg4 -> 파티션 0 ...
 균등 분산 ✓, 순서 보장 ✗ (다른 파티션에 분산)
 
 [3. 커스텀 파티셔너 (Custom Partitioner)]
-if (msg.region == "KR") → 파티션 0
-if (msg.region == "US") → 파티션 1
-if (msg.priority == "HIGH") → 파티션 2
+if (msg.region == "KR") -> 파티션 0
+if (msg.region == "US") -> 파티션 1
+if (msg.priority == "HIGH") -> 파티션 2
 비즈니스 로직 기반 라우팅
 ```
 
@@ -90,7 +90,7 @@ if (msg.priority == "HIGH") → 파티션 2
 
 예시:
   T_write = 1GB/s, T_single = 10MB/s
-  P = 1024MB / 10MB = 102 → 파티션 128개 (2의 거듭제곱)
+  P = 1024MB / 10MB = 102 -> 파티션 128개 (2의 거듭제곱)
 ```
 
 **📢 섹션 요약 비유**
@@ -118,12 +118,12 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
 
 ### 2. 스티키 파티셔너 (Sticky Partitioner, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+)
 
-키 없는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 배치(Batch) 단위로 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 몰아서 처리 → I/O 효율 향상.
+키 없는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 배치(Batch) 단위로 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 몰아서 처리 -> I/O 효율 향상.
 
 ```
-기존 라운드로빈: msg1→P0, msg2→P1, msg3→P2, msg4→P0 (배치 효율 낮음)
-스티키:         [msg1,msg2,msg3]→P0(배치 완성 후), [msg4,msg5]→P1
-→ 배치 크기 증가 → 처리량 향상
+기존 라운드로빈: msg1->P0, msg2->P1, msg3->P2, msg4->P0 (배치 효율 낮음)
+스티키:         [msg1,msg2,msg3]->P0(배치 완성 후), [msg4,msg5]->P1
+-> 배치 크기 증가 -> 처리량 향상
 ```
 
 **📢 섹션 요약 비유**
@@ -151,7 +151,7 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
 # 솔팅으로 핫 파티션 방지
 salt = random.randint(0, 9)
 composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
-# → 나중에 집계 시 user_001_* 패턴으로 합산
+# -> 나중에 집계 시 user_001_* 패턴으로 합산
 ```
 
 ### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -200,17 +200,17 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 ```text
 [카프카 토픽 (Kafka Topic) — 메시지를 논리적으로 분류하는 단위]
-    │
-    ▼
+    |
+    v
 [파티션 (Partition) — 토픽을 병렬 처리 단위로 분할, 순서 보장은 파티션 내 한정]
-    │
-    ▼
+    |
+    v
 [파티션 키 (Partition Key) — 동일 키는 동일 파티션, 연관 메시지 순서 보장]
-    │
-    ▼
+    |
+    v
 [파티션 복제 (Replication) — 리더·팔로워 복제본으로 내결함성 확보]
-    │
-    ▼
+    |
+    v
 [파티션 재조정 (Rebalancing) — 컨슈머 그룹 변경 시 파티션 재분배]
 ```
 
@@ -226,7 +226,7 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 **진행 상황**: 88 / 262
 
-← **이전**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/knowledge-base/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/)
-**다음**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) →
+<- **이전**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/knowledge-base/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/)
+**다음**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) ->
 
 ---

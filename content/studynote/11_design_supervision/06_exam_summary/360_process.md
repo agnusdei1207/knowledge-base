@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 객체가 직접 아는 협력자와만 대화하게 만들어 최소 지식만 사용하도록 하는 설계 원칙이다. 객체 내부 구조를 따라 깊게 탐색하는 코드는 구조 변경 때마다 연쇄 수정의 원인이 된다. 이 개념이 필요한 이유는 협력 범위를 가까운 이웃으로 제한하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 객체의 내부 변경이 멀리 떨어진 호출부까지 깨뜨리는 숨은 결합이 생긴다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Change   │──▶│    LoD     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Change   |--->|    LoD     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Reason  │──▶│ Boundary │──▶│   LoD    │──▶│   Test   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Reason  |--->| Boundary |--->|   LoD    |--->|   Test   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 리팩터링 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[탐색형 호출] → [LoD 적용] → [메시지 중심 협력]
+[탐색형 호출] -> [LoD 적용] -> [메시지 중심 협력]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 친구의 친구 서랍까지 직접 뒤지지 않고 주인에게 부탁하는 예절처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 438 / 530
 
-← **이전**: [359. 의존 역전 원칙 (Dependency Inversion Principle, DIP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/)
-**다음**: [361. 중복 배제 원칙 (Don't Repeat Yourself, DRY)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/361_process/) →
+<- **이전**: [359. 의존 역전 원칙 (Dependency Inversion Principle, DIP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/)
+**다음**: [361. 중복 배제 원칙 (Don't Repeat Yourself, DRY)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/361_process/) ->
 
 ---

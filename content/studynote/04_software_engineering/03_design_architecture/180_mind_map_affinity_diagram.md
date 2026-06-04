@@ -25,14 +25,14 @@ tags = ["software_engineering"]
 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 관점에서도 중요하다. 좋은 요구사항은 처음부터 완성된 문장으로 나오지 않는다. 사용자의 말, 운영자의 불만, 경쟁사 비교, 제약 조건, 품질 요구가 뒤섞인 상태로 나타난다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 <strong>생각을 넓히는 도구와, 넓어진 생각을 다시 구조화하는 도구</strong>를 의도적으로 구분해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ 아이디어 워크숍의 두 단계                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ 질문이 막히는 단계  -> 생각을 넓혀야 함 -> Mind Map                │
-│ 생각이 넘치는 단계  -> 묶고 이름 붙여야 함 -> Affinity Diagram     │
-│                                                                    │
-│ 둘을 연결해야 "아이디어 모음"이 "요구사항 후보"로 바뀐다.          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| 아이디어 워크숍의 두 단계                                            |
++--------------------------------------------------------------------+
+| 질문이 막히는 단계  -> 생각을 넓혀야 함 -> Mind Map                |
+| 생각이 넘치는 단계  -> 묶고 이름 붙여야 함 -> Affinity Diagram     |
+|                                                                    |
+| 둘을 연결해야 "아이디어 모음"이 "요구사항 후보"로 바뀐다.          |
++--------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 마인드 맵과 친화도는 요리 준비와 같다. 먼저 냉장고에서 재료를 넓게 꺼내 보고, 그다음 비슷한 재료끼리 묶어 어떤 메뉴를 만들지 정해야 식사가 완성된다.
@@ -54,20 +54,20 @@ tags = ["software_engineering"]
 아래 그림은 두 도구의 역할 차이를 한 번에 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Diverge first, then converge                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Mind Map                                                            │
-│                  [ 결제 시스템 개선 ]                                │
-│                    ├─ 사용자 경험                                    │
-│                    ├─ 보안                                            │
-│                    ├─ 연계 시스템                                    │
-│                    └─ 운영 정책                                      │
-│                                                                    │
-│ Affinity Diagram                                                    │
-│ [앱 느림] [오류 잦음] [로그인 불편] [결제 실패] [승인 지연]          │
-│        └──── 성능 ────┘      └── 인증 ──┘  └──── 결제 흐름 ─────┘  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Diverge first, then converge                                        |
++--------------------------------------------------------------------+
+| Mind Map                                                            |
+|                  [ 결제 시스템 개선 ]                                |
+|                    +- 사용자 경험                                    |
+|                    +- 보안                                            |
+|                    +- 연계 시스템                                    |
+|                    +- 운영 정책                                      |
+|                                                                    |
+| Affinity Diagram                                                    |
+| [앱 느림] [오류 잦음] [로그인 불편] [결제 실패] [승인 지연]          |
+|        +---- 성능 ----+      +-- 인증 --+  +---- 결제 흐름 -----+  |
++--------------------------------------------------------------------+
 ```
 
 마인드 맵은 상위 주제를 중심으로 하위 기능, 제약, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 등을 빠르게 펼쳐 보는 데 강하다. 반면 친화도는 인터뷰 메모, VOC, 장애 원인 목록처럼 문장 단위의 조각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어 숨은 패턴을 찾는 데 강하다. 그래서 마인드 맵은 **생각을 생성하는 도구**, 친화도는 <strong>생각을 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>하고 해석하는 도구</strong>로 구분하면 실무 활용이 쉬워진다.
@@ -105,15 +105,15 @@ tags = ["software_engineering"]
 이렇게 하면 "무슨 생각을 해야 하지?"라는 공백과 "의견은 많은데 뭘 결정하지?"라는 혼란을 모두 줄일 수 있다. 이후에는 각 친화 그룹을 요구사항, 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 비기능 요구로 연결하면 실제 설계 입력으로 바뀐다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Workshop decision flow                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ central theme is clear, but ideas are thin? -> Mind Map first       │
-│ many raw notes exist, but categories are unclear? -> Affinity first │
-│ both are true? -> Mind Map -> collect notes -> Affinity             │
-│                                                                    │
-│ output should become: requirement themes / architecture issues      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Workshop decision flow                                              |
++--------------------------------------------------------------------+
+| central theme is clear, but ideas are thin? -> Mind Map first       |
+| many raw notes exist, but categories are unclear? -> Affinity first |
+| both are true? -> Mind Map -> collect notes -> Affinity             |
+|                                                                    |
+| output should become: requirement themes / architecture issues      |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -160,17 +160,17 @@ tags = ["software_engineering"]
 
 ```text
 문제 정의
-    │
-    ▼
+    |
+    v
 마인드 맵으로 논점 발산
-    │
-    ▼
+    |
+    v
 메모·인터뷰·VOC 수집
-    │
-    ▼
+    |
+    v
 친화도로 군집화 및 명명
-    │
-    ▼
+    |
+    v
 요구사항 테마 · 아키텍처 이슈 · 백로그
 ```
 
@@ -188,7 +188,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 180 / 973
 
-← **이전**: [179. SWOT 분석, 3C/4C 분석 연계 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/179_swot_3c_4c_analysis/)
-**다음**: [181. 역공학을 통한 요구사항 추출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/181_reverse_engineering_requirements/) →
+<- **이전**: [179. SWOT 분석, 3C/4C 분석 연계 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/179_swot_3c_4c_analysis/)
+**다음**: [181. 역공학을 통한 요구사항 추출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/181_reverse_engineering_requirements/) ->
 
 ---

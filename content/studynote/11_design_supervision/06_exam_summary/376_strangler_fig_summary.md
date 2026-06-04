@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴 ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))은 레거시 시스템을 한 번에 교체하지 않고 기능별로 감싸며 점진적으로 새 시스템으로 이전하는 현대화 전략이다. 대규모 레거시를 빅뱅 방식으로 교체하면 일정, 품질, 사업 연속성 위험이 너무 커진다. 이 개념이 필요한 이유는 현행 시스템을 운영하면서 단계적으로 교체하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 전면 교체 실패가 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단과 대규모 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)으로 이어질 수 있다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│  Strangle  │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|  Strangle  |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 레거시 현대화 | [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴 ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[빅뱅 교체 고민] → [스트랭글러 피그] → [점진적 전환 완료]
+[빅뱅 교체 고민] -> [스트랭글러 피그] -> [점진적 전환 완료]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴 ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))은 큰 나무를 한 번에 베지 않고 덩굴처럼 조금씩 새 가지로 바꾸는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 454 / 530
 
-← **이전**: [375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/)
-**다음**: [377. 서버리스 콜드 스타트 (Serverless Cold Start)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/) →
+<- **이전**: [375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/)
+**다음**: [377. 서버리스 콜드 스타트 (Serverless Cold Start)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/) ->
 
 ---

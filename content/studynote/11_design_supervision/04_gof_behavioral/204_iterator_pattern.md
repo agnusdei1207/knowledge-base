@@ -58,9 +58,9 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 | C# | `IEnumerator<T>`: `MoveNext()`, `Current` | `foreach` |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
@@ -71,14 +71,14 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 ```
   «interface»                   «interface»
   Iterable<T>                   Iterator<T>
-  ──────────────                ──────────────────
+  --------------                ------------------
   + iterator(): Iterator<T>     + hasNext(): boolean
-        ▲                       + next(): T
-        │                       + remove()  [optional]
-  ConcreteCollection                  ▲
-  ──────────────────                  │
+        ^                       + next(): T
+        |                       + remove()  [optional]
+  ConcreteCollection                  ^
+  ------------------                  |
   + iterator()                 ConcreteIterator
-    → new ConcreteIterator(this)  - collection
+    -> new ConcreteIterator(this)  - collection
                                   - currentIndex
                                   + hasNext()
                                   + next()
@@ -86,7 +86,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 
 ```
   외부 이터레이터 (External Iterator)
-  ─────────────────────────────────────
+  -------------------------------------
   Client가 Iterator를 직접 제어
 
   Iterator<T> it = list.iterator();
@@ -98,9 +98,9 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
   장점: 세밀한 제어 가능, 중간 탈출 가능
   단점: 클라이언트 코드가 복잡
 
-  ─────────────────────────────────────
+  -------------------------------------
   내부 이터레이터 (Internal Iterator)
-  ─────────────────────────────────────
+  -------------------------------------
   Collection이 순회를 제어하고 콜백 호출
 
   list.forEach(item -> process(item));
@@ -114,19 +114,19 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
   파일 시스템 트리 (Composite)
 
   root/
-  ├── docs/
-  │   ├── readme.txt
-  │   └── design.pdf
-  └── src/
-      ├── main.java
-      └── util/
-          └── helper.java
+  +-- docs/
+  |   +-- readme.txt
+  |   +-- design.pdf
+  +-- src/
+      +-- main.java
+      +-- util/
+          +-- helper.java
 
   DFSIterator (깊이 우선 탐색):
-  root → docs → readme.txt → design.pdf → src → main.java → util → helper.java
+  root -> docs -> readme.txt -> design.pdf -> src -> main.java -> util -> helper.java
 
   BFSIterator (너비 우선 탐색):
-  root → docs → src → readme.txt → design.pdf → main.java → util → helper.java
+  root -> docs -> src -> readme.txt -> design.pdf -> main.java -> util -> helper.java
 
   // 동일한 Collection에 다른 Iterator 적용
   Iterator<File> dfs = fileSystem.dfsIterator();
@@ -140,9 +140,9 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Input/State  |--->| Control Point |--->| Output/Action |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/).
@@ -252,7 +252,7 @@ Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의
 | 연관 개념 | [Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | Iterator로 순회하며 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-Collection [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) → [이터레이터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/) → [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)/파이프라인
+Collection [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) -> [이터레이터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/) -> [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)/파이프라인
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사탕 상자(컬렉션)에서 사탕을 꺼내는 방법이 상자마다 달라도, "다음 사탕 주세요"라는 말은 항상 같아요.
@@ -265,7 +265,7 @@ Collection [추상화](/knowledge-base/studynote/04_software_engineering/04_test
 
 **진행 상황**: 265 / 530
 
-← **이전**: [203. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/203_visitor_pattern/)
-**다음**: [205. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/) →
+<- **이전**: [203. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/203_visitor_pattern/)
+**다음**: [205. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/) ->
 
 ---

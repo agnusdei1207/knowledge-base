@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [소스/목적지 포트 번호, 일련번호]
-    │
-    ▼
+    |
+    v
 [확인응답번호]
-    │
-    └──▶ [헤더 길이/데이터 오프셋]
+    |
+    +---> [헤더 길이/데이터 오프셋]
 ```
 
 - **📢 섹션 요약 비유**: ** TCP의 누적 ACK(Cumulative ACK)는 식당의 **"최종 결제 계산서"**입니다. 삼겹살, 소주, 볶음밥을 시킬 때마다 카드를 긁지 않고(개별 ACK 낭비), 다 먹고 나갈 때 한 방에 퉁쳐서 "볶음밥(마지막 패킷)까지 다 먹었으니 5만 원 결제해(누적 ACK)!"라고 쿨하게 승인하는 고도의 효율성입니다.
@@ -53,7 +53,7 @@ tags = ["studynote-network"]
 송신자가 1, 2, 3, 4, 5번 상자(각 100바이트)를 쏟아부었다.
 그런데 3번 상자(Seq 300)가 라우터 큐 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)(Drop)로 사라졌다! 수신자의 램(버퍼)에는 `1, 2, _, 4, 5`가 들어왔다. 수신자는 어떻게 행동할까?
 
-- 1, 2번 상자 수신 완료 ──▶ <strong><code>ACK = 300</code></strong> (오케이 300번 상자 줘!)
+- 1, 2번 상자 수신 완료 ---> <strong><code>ACK = 300</code></strong> (오케이 300번 상자 줘!)
 - 3번 상자(Seq 300) 증발함.
 - 4번 상자(Seq 400) 도착!
   - 수신자 뇌구조: "야 4번 상자 먼저 왔네? 근데 난 아직 3번 못 받았다고!! 난 3번 안 주면 뒤에 거 인정 안 해!!"
@@ -63,22 +63,22 @@ tags = ["studynote-network"]
 - 송신자 뇌구조: "어? 저쪽에서 똑같은 영수증(`ACK=300`)이 3번 연속으로 날아오네 **(3 Duplicate ACKs)**. 이거 백퍼 3번 상자 가다가 터진 거네! 타이머 다 되기 전이지만 당장 3번 상자 복사해서 긴급 재전송 때려라! ([Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/))"
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 빠른 재전송 (Fast Retransmit) 시나리오          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ]                                      [ 수신자 ]   │
- │   패킷 1 (Seq 100) ───────────────▶ 잘 받음!                 │
- │   패킷 2 (Seq 200) ───────────────▶ 잘 받음!                 │
- │   패킷 3 (Seq 300) ───(가다 터짐 Drop)                       │
- │                                                             │
- │   패킷 4 (Seq 400) ───────────────▶ "어 3번 내놔!" (ACK 300) │
- │   패킷 5 (Seq 500) ───────────────▶ "아 3번 달라고!" (ACK 300)│
- │   패킷 6 (Seq 600) ───────────────▶ "3번!! 3번!!" (ACK 300) │
- │                                                             │
- │   송신자: "헐 ACK 300이 중복(Dup)으로 3번이나 날아왔네! 3번 유실 확정!"│
- │   송신자 ── (타이머 무시하고 패킷 3번 긴급 재전송 빵!!) ──▶ 수신자 쾌재.│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 빠른 재전송 (Fast Retransmit) 시나리오          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 송신자 ]                                      [ 수신자 ]   |
+ |   패킷 1 (Seq 100) ----------------> 잘 받음!                 |
+ |   패킷 2 (Seq 200) ----------------> 잘 받음!                 |
+ |   패킷 3 (Seq 300) ---(가다 터짐 Drop)                       |
+ |                                                             |
+ |   패킷 4 (Seq 400) ----------------> "어 3번 내놔!" (ACK 300) |
+ |   패킷 5 (Seq 500) ----------------> "아 3번 달라고!" (ACK 300)|
+ |   패킷 6 (Seq 600) ----------------> "3번!! 3번!!" (ACK 300) |
+ |                                                             |
+ |   송신자: "헐 ACK 300이 중복(Dup)으로 3번이나 날아왔네! 3번 유실 확정!"|
+ |   송신자 -- (타이머 무시하고 패킷 3번 긴급 재전송 빵!!) ---> 수신자 쾌재.|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 현대적 보완: SACK (Selective ACK)
@@ -145,12 +145,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 소스/목적지 포트 번호, 일련번호]
-    │
-    ▼
+    |
+    v
 [현재 개념: 확인응답번호]
-    │
-    ├──▶ [확장 A: 헤더 길이/데이터 오프셋]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 헤더 길이/데이터 오프셋]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)응답번호는 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호에서 출발해 현재 메커니즘을 정교화하고, 이후 헤더 길이/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프셋와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 530 / 1120
 
-← **이전**: [408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/408_tcp_header_ports_and_sequence_number_32bit/)
-**다음**: [410. 헤더 길이/데이터 오프셋 (Data Offset, 4bit)](/knowledge-base/studynote/03_network/08_transport_layer/410_tcp_header_data_offset_length/) →
+<- **이전**: [408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/408_tcp_header_ports_and_sequence_number_32bit/)
+**다음**: [410. 헤더 길이/데이터 오프셋 (Data Offset, 4bit)](/knowledge-base/studynote/03_network/08_transport_layer/410_tcp_header_data_offset_length/) ->
 
 ---

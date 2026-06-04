@@ -23,8 +23,8 @@ tags = ["studynote-software-engineering"]
 
 1. 회피 (Avoid):
    위험 원인/활동 자체를 제거
-   예: 미검증 기술 스택 → 검증된 기술로 교체
-       불확실 요구사항 작업 → 착수 연기
+   예: 미검증 기술 스택 -> 검증된 기술로 교체
+       불확실 요구사항 작업 -> 착수 연기
    장점: 위험 근본 제거
    단점: 기회도 포기 (범위/일정 변경)
 
@@ -71,17 +71,17 @@ tags = ["studynote-software-engineering"]
 
 예시 위험 선택:
   새 프레임워크 도입 (확률2, 영향4, 점수8):
-  → 완화: PoC(기술 검증) 후 진행
+  -> 완화: PoC(기술 검증) 후 진행
 
   핵심 개발자 이탈 (확률3, 영향5, 점수15):
-  → 전가/완화: 지식 이전 문서화
+  -> 전가/완화: 지식 이전 문서화
               복수 담당자 지정
 
   데이터 유출 (확률1, 영향5, 점수5):
-  → 전가: 사이버 보험 + 완화: 암호화
+  -> 전가: 사이버 보험 + 완화: 암호화
 
   사소한 UI 버그 (확률4, 영향1, 점수4):
-  → 수용: 이슈 트래커 등록, 다음 릴리즈 대응
+  -> 수용: 이슈 트래커 등록, 다음 릴리즈 대응
 ```
 
 > 📢 **섹션 요약 비유**: 위험 매트릭스는 의사 결정 지도 — 심각도×발생 가능성으로 좌표를 찍고 "회피/완화/전가/수용" 구역 중 어디에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
@@ -97,13 +97,13 @@ tags = ["studynote-software-engineering"]
   완화 후 잔류 위험:
     완화 전: 확률3, 영향4, 점수12 (높음)
     완화 후: 확률2, 영향3, 점수6  (중간)
-    → 잔류 위험 6점에 대한 수용 결정 필요
+    -> 잔류 위험 6점에 대한 수용 결정 필요
 
 보조 위험 (Secondary Risk):
   위험 대응 전략 실행으로 발생하는 새로운 위험
 
-  예: 외주 전가(Transfer) → 외주사 부도 위험 (보조)
-  테스트 자동화(Mitigate) → 자동화 유지보수 위험 (보조)
+  예: 외주 전가(Transfer) -> 외주사 부도 위험 (보조)
+  테스트 자동화(Mitigate) -> 자동화 유지보수 위험 (보조)
 
 위험 유발 원인(Trigger):
   위험 발생 징후 (Early Warning Signal)
@@ -116,8 +116,8 @@ tags = ["studynote-software-engineering"]
 
 위험 노출도 (Risk Exposure):
   RE = 확률(P) × 영향(I)
-  예: P=0.3, I=100만원 → RE=30만원
-  → 30만원 이하 완화 비용이면 완화 가치 있음
+  예: P=0.3, I=100만원 -> RE=30만원
+  -> 30만원 이하 완화 비용이면 완화 가치 있음
 ```
 
 > 📢 **섹션 요약 비유**: 잔류 위험은 우산 후 남은 빗물 — 완벽한 우산도 발은 젖는다. 이 남은 위험을 받아들일지, 장화도 신을지 결정.
@@ -191,7 +191,7 @@ R04. 성능 목표 미달 (점수 9, 중간)
         CDN, 캐시 아키텍처 설계
 
 결과: 9개월 내 완료
-  R02 레거시 지연 → 비상 계획 실행
+  R02 레거시 지연 -> 비상 계획 실행
   Mock API 전략으로 일정 영향 2주 최소화
 ```
 
@@ -252,7 +252,7 @@ ML 기반 리스크 모델 적용
 
 **진행 상황**: 42 / 973
 
-← **이전**: [041. 위험 관리 4단계 (Risk Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/041_risk_management_4_steps/)
-**다음**: [043. QA vs QC (품질 보증 vs 품질 통제)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/) →
+<- **이전**: [041. 위험 관리 4단계 (Risk Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/041_risk_management_4_steps/)
+**다음**: [043. QA vs QC (품질 보증 vs 품질 통제)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/) ->
 
 ---

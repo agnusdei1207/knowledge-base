@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 대신 상태를 만든 이벤트들의 불변 로그를 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 저장하는 방식이다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 시간 여행 조회, 상태 재구성이 중요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 중심 저장만으로는 한계가 드러났다. 이 개념이 필요한 이유는 상태 변화 자체를 원본 사실로 보존하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 누가 언제 어떤 의사결정을 했는지 추적하기 어렵고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 근거도 부족해진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│     ES     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|     ES     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 | [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[현재 상태 저장] → [이벤트 소싱] → [재생·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 중심 모델]
+[현재 상태 저장] -> [이벤트 소싱] -> [재생·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 중심 모델]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 오늘 점수만 적는 대신 경기 기록을 매번 남겨 다시 볼 수 있게 하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 447 / 530
 
-← **이전**: [368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/368_cqrs/)
-**다음**: [370. 마이크로서비스 아키텍처 (Microservice Architecture, MSA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/370_process/) →
+<- **이전**: [368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/368_cqrs/)
+**다음**: [370. 마이크로서비스 아키텍처 (Microservice Architecture, MSA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/370_process/) ->
 
 ---

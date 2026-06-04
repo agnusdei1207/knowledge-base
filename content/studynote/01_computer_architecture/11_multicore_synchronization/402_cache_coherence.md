@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 캐시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 왜 필요한지, 그리고 이 문제가 단순한 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 문제가 아니라 "진실의 복사본 관리" 문제임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        공유 변수 A에 대해 복사본이 갈라질 때 발생하는 문제         │
-├──────────────────────────────────────────────────────────────────────┤
-│ DRAM: A = 10                                                        │
-│   │                                                                  │
-│   ├─ Core 0 read ──▶ L1-0: A = 10                                   │
-│   └─ Core 1 read ──▶ L1-1: A = 10                                   │
-│                                                                      │
-│ Core 0 write A = 11                                                  │
-│   └─ L1-0만 11로 바뀌고 L1-1이 그대로 10이면                         │
-│      다음 읽기에서 Core 0과 Core 1의 세계가 달라짐                  │
-│                                                                      │
-│ 캐시 일관성의 역할: "수정 사실을 전파하거나, 옛 복사본을 무효화"    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        공유 변수 A에 대해 복사본이 갈라질 때 발생하는 문제         |
++----------------------------------------------------------------------+
+| DRAM: A = 10                                                        |
+|   |                                                                  |
+|   +- Core 0 read ---> L1-0: A = 10                                   |
+|   +- Core 1 read ---> L1-1: A = 10                                   |
+|                                                                      |
+| Core 0 write A = 11                                                  |
+|   +- L1-0만 11로 바뀌고 L1-1이 그대로 10이면                         |
+|      다음 읽기에서 Core 0과 Core 1의 세계가 달라짐                  |
+|                                                                      |
+| 캐시 일관성의 역할: "수정 사실을 전파하거나, 옛 복사본을 무효화"    |
++----------------------------------------------------------------------+
 ```
 
 핵심은 캐시가 빠르기만 해서는 충분하지 않다는 점이다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서는 "빠른 복사본"보다 "정확한 최신본"이 먼저 보장되어야 하고, 그 위에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 뒤따른다. 그래서 캐시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이면서 동시에 멀티코어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기술이다.
@@ -67,21 +67,21 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 하나의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작이 어떻게 다른 캐시 복사본을 정리하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 MESI 기반 쓰기-무효화 흐름의 핵심                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) Core 0, Core 1이 같은 라인을 읽음                                │
-│    Core 0: S                     Core 1: S                           │
-│                                                                      │
-│ 2) Core 0이 쓰기 요청                                                 │
-│    Core 0 ── Invalidate broadcast / directory request ──▶ Core 1     │
-│                                                                      │
-│ 3) Core 1은 해당 라인을 I(Invalid)로 전환                           │
-│                                                                      │
-│ 4) Core 0은 독점권을 얻어 M(Modified) 상태로 기록                    │
-│                                                                      │
-│ 결과: 동시에 두 캐시가 서로 다른 "최신 값"을 주장하지 못함         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 MESI 기반 쓰기-무효화 흐름의 핵심                   |
++----------------------------------------------------------------------+
+| 1) Core 0, Core 1이 같은 라인을 읽음                                |
+|    Core 0: S                     Core 1: S                           |
+|                                                                      |
+| 2) Core 0이 쓰기 요청                                                 |
+|    Core 0 -- Invalidate broadcast / directory request ---> Core 1     |
+|                                                                      |
+| 3) Core 1은 해당 라인을 I(Invalid)로 전환                           |
+|                                                                      |
+| 4) Core 0은 독점권을 얻어 M(Modified) 상태로 기록                    |
+|                                                                      |
+| 결과: 동시에 두 캐시가 서로 다른 "최신 값"을 주장하지 못함         |
++----------------------------------------------------------------------+
 ```
 
 이 구조가 보장하는 것은 보통 두 가지다. 첫째, 어떤 시점에도 한 메모리 위치에 대해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 가능한 최신 복사본은 논리적으로 하나여야 한다. 둘째, 어떤 코어가 값을 읽을 때는 그 시점에 허용되는 최신 값을 보게 해야 한다. 다만 이 보장은 "한 주소"에 대한 규칙이며, 여러 주소 간의 순서를 다루는 [메모리 일관성 모델](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/))과는 구분된다.
@@ -162,23 +162,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 메모리 병렬처리
-    │
-    ▼
+    |
+    v
 캐시 계층 (L1/L2/L3, Level 1/2/3) 확대
-    │
-    ▼
+    |
+    v
 캐시 일관성 (Cache Coherence)
-    │
-    ├─ 소규모 확장 ──▶ 스누핑 프로토콜 (Snooping Protocol)
-    │
-    ├─ 상태 제어 ──▶ MESI (Modified, Exclusive, Shared, Invalid)
-    │
-    ├─ 대규모 확장 ──▶ 디렉터리 기반 프로토콜 (Directory-based Protocol)
-    │
-    └─ 성능 이슈 ──▶ 거짓 공유 (False Sharing) · NUMA 최적화
+    |
+    +- 소규모 확장 ---> 스누핑 프로토콜 (Snooping Protocol)
+    |
+    +- 상태 제어 ---> MESI (Modified, Exclusive, Shared, Invalid)
+    |
+    +- 대규모 확장 ---> 디렉터리 기반 프로토콜 (Directory-based Protocol)
+    |
+    +- 성능 이슈 ---> 거짓 공유 (False Sharing) · NUMA 최적화
 ```
 
-이 흐름은 "빠른 로컬 캐시 확보 → 복사본 충돌 관리 → 상태 기계 정교화 → 대규모 확장 대응 → 소프트웨어 최적화"로 이어지는 발전 방향을 보여준다.
+이 흐름은 "빠른 로컬 캐시 확보 -> 복사본 충돌 관리 -> 상태 기계 정교화 -> 대규모 확장 대응 -> 소프트웨어 최적화"로 이어지는 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +192,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 403 / 803
 
-← **이전**: [401. 하이퍼스레딩 (Hyper-Threading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/401_hyper_threading/)
-**다음**: [403. 스누핑 프로토콜 (Snooping Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/) →
+<- **이전**: [401. 하이퍼스레딩 (Hyper-Threading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/401_hyper_threading/)
+**다음**: [403. 스누핑 프로토콜 (Snooping Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/) ->
 
 ---

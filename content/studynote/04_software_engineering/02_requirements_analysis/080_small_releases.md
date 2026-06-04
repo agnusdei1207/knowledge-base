@@ -32,25 +32,25 @@ tags = ["studynote-software-engineering"]
 소규모 릴리즈는 단순히 배포를 자주 하자는 구호가 아니라, 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(위험)를 수학적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 관리 통제 아키텍처다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           소규모 릴리즈(Small Releases) 기반 가치 인도 프로세스    │
-├────────────────────────────────────────────────────────┤
-│   [ 전통적 빅뱅 릴리즈 (Risky) ]                            │
-│    개발 시작 ────────────────────── (1년 암흑기) ─────────────────────▶ 💣 오픈 (대참사) │
-│    - 리스크가 1년 내내 누적되다 마지막 날 한꺼번에 폭발함.       │
-│                                                        │
-│   [ XP 소규모 릴리즈 (Safe & Agile) ]                       │
-│    주차:    1주차      2주차      3주차            N주차      │
-│    기능:  (로그인) ➔ (장바구니) ➔ (결제) ... ➔ (최종 오픈) │
-│    배포:    ▲ 🚀       ▲ 🚀       ▲ 🚀             ▲ 🚀     │
-│             │          │          │                │     │
-│   피드백: [고객]     [고객]      [고객]          [비즈니스 가치 완성]│
-│                                                        │
-│ * 핵심 논리: 배포(Release)의 단위를 극단적으로 작게 자르면,     │
-│   어느 한 주차에 버그가 터지거나 요구사항이 어긋나더라도,       │
-│   전체 시스템이 무너지지 않고 해당 주차의 기능만 폐기/수정하면 되는│
-│   압도적인 리스크 통제권(Governance)을 획득하게 된다.          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           소규모 릴리즈(Small Releases) 기반 가치 인도 프로세스    |
++--------------------------------------------------------+
+|   [ 전통적 빅뱅 릴리즈 (Risky) ]                            |
+|    개발 시작 ---------------------- (1년 암흑기) ----------------------> 💣 오픈 (대참사) |
+|    - 리스크가 1년 내내 누적되다 마지막 날 한꺼번에 폭발함.       |
+|                                                        |
+|   [ XP 소규모 릴리즈 (Safe & Agile) ]                       |
+|    주차:    1주차      2주차      3주차            N주차      |
+|    기능:  (로그인) ➔ (장바구니) ➔ (결제) ... ➔ (최종 오픈) |
+|    배포:    ^ 🚀       ^ 🚀       ^ 🚀             ^ 🚀     |
+|             |          |          |                |     |
+|   피드백: [고객]     [고객]      [고객]          [비즈니스 가치 완성]|
+|                                                        |
+| * 핵심 논리: 배포(Release)의 단위를 극단적으로 작게 자르면,     |
+|   어느 한 주차에 버그가 터지거나 요구사항이 어긋나더라도,       |
+|   전체 시스템이 무너지지 않고 해당 주차의 기능만 폐기/수정하면 되는|
+|   압도적인 리스크 통제권(Governance)을 획득하게 된다.          |
++--------------------------------------------------------+
 ```
 
 <strong>최소 요건 제품(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a>)</strong> 개념과 직결된다. 첫 번째 릴리즈는 완벽할 필요가 없다. 가장 뼈대가 되는 비즈니스 가치(예: 물건 담고 사기)만 엉성하게라도 작동하게 만들어 라이브 서버에 올리는 것이, PPT 문서 수백 장을 쓰는 것보다 천 배 가치 있는 일이다.
@@ -113,21 +113,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 전통적 폭포수(Waterfall) 모델의 장기 프로젝트(빅뱅 릴리즈) 강행
-    │
-    ▼
+    |
+    v
 요구사항 변경에 대응 불가능 및 막대한 매몰 비용(오픈 실패) 재앙 직면
-    │
-    ▼
+    |
+    v
 리스크 최소화 및 고객 피드백 수용을 위한 애자일(Agile) 철학의 태동
-    │
-    ▼
+    |
+    v
 XP 핵심 실천법: 동작하는 작은 기능을 자주 배포하는 '소규모 릴리즈(Small Releases)' 확립
-    │
-    ▼
-CI/CD 쇳덩어리 도구와 융합 ──▶ 하루에도 수천 번 코드가 나가는 지속적 배포(Continuous Deployment) 체계로 통일
+    |
+    v
+CI/CD 쇳덩어리 도구와 융합 ---> 하루에도 수천 번 코드가 나가는 지속적 배포(Continuous Deployment) 체계로 통일
 ```
 
-이 흐름도는 "빅뱅의 공포 → 위험 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 위한 극단적 쪼개기 → [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 형성 → 테스트 및 배포 인프라 자동화 융합"이라는 현대 소프트웨어 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 혁명 과정을 보여준다.
+이 흐름도는 "빅뱅의 공포 -> 위험 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 위한 극단적 쪼개기 -> [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 형성 -> 테스트 및 배포 인프라 자동화 융합"이라는 현대 소프트웨어 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 혁명 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ CI/CD 쇳덩어리 도구와 융합 ──▶ 하루에도 수천 번 코드가 
 
 **진행 상황**: 80 / 973
 
-← **이전**: [079. 메타포 (Metaphor - XP Practice)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/)
-**다음**: [81. 사용자 스토리 (User Story) - Who, What, Why 형식](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) →
+<- **이전**: [079. 메타포 (Metaphor - XP Practice)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/)
+**다음**: [81. 사용자 스토리 (User Story) - Who, What, Why 형식](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ->
 
 ---

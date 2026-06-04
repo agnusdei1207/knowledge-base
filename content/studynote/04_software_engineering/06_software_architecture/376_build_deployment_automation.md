@@ -38,16 +38,16 @@ tags = ["studynote-software-engineering"]
 다음은 소프트웨어 빌드 및 배포 자동화의 품의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 빌드 및 배포 자동화의 품                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  소프트웨어 빌드 및 배포 자동화의 품                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 소프트웨어 빌드 및 배포 자동화의 품가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -147,21 +147,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 소프트웨어 빌드 및 배포 자동화의 품질 검증 단계 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 376 / 973
 
-← **이전**: [375. SBOM (Software Bill of Materials) - 소프트웨어 구성 요소 명세서 의무화 동향](/knowledge-base/studynote/04_software_engineering/06_software_architecture/375_sbom/)
-**다음**: [377. 체크섬(Checksum), 서명(Signature)을 통한 무결성(Integrity) 검증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/377_checksum_signature_integrity/) →
+<- **이전**: [375. SBOM (Software Bill of Materials) - 소프트웨어 구성 요소 명세서 의무화 동향](/knowledge-base/studynote/04_software_engineering/06_software_architecture/375_sbom/)
+**다음**: [377. 체크섬(Checksum), 서명(Signature)을 통한 무결성(Integrity) 검증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/377_checksum_signature_integrity/) ->
 
 ---

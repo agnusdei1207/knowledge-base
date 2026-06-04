@@ -19,17 +19,17 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    MQTT Pub/Sub 아키텍처                               │
-├───────────────────────────────────────────────────────┤
-│  [Publisher]                [Subscriber]               │
-│   센서 ──publish──▶ Broker ──subscribe──▶ 서버       │
-│   Topic: home/sensor/temp   Topic: home/sensor/#     │
-│   Payload: {"temp": 25.3}                             │
-│                                                       │
-│  Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장      │
-│  Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    MQTT Pub/Sub 아키텍처                               |
++-------------------------------------------------------+
+|  [Publisher]                [Subscriber]               |
+|   센서 --publish---> Broker --subscribe---> 서버       |
+|   Topic: home/sensor/temp   Topic: home/sensor/#     |
+|   Payload: {"temp": 25.3}                             |
+|                                                       |
+|  Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장      |
+|  Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MQTT는 우체국(Broker) 시스템이다. 보내는 사람(Publisher)은 우편함(Topic)에 넣고, 받는 사람(Subscriber)은 원하는 우편함을 구독한다.
@@ -105,17 +105,17 @@ MQTT는 AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 ```text
 [MQTT v3.1 (1999, IBM) — IoT 경량 메시징 시작]
-    │
-    ▼
+    |
+    v
 [OASIS 표준화 (2014) — MQTT 3.1.1]
-    │
-    ▼
+    |
+    v
 [AWS IoT Core (2015~) — MQTT 클라우드 네이티브]
-    │
-    ▼
+    |
+    v
 [MQTT 5.0 (2019) — Shared Sub, Properties]
-    │
-    ▼
+    |
+    v
 [현재: MQTT over QUIC — 고속 전송·멀티플렉싱]
 ```
 
@@ -130,7 +130,7 @@ MQTT는 AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 **진행 상황**: 118 / 552
 
-← **이전**: [117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/)
-**다음**: [119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/119_mqtt_qos_levels/) →
+<- **이전**: [117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/)
+**다음**: [119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/119_mqtt_qos_levels/) ->
 
 ---

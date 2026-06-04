@@ -36,7 +36,7 @@ tags = ["bigdata"]
 | **저장 방식 및 유실 방지** | 기본적으로 Memory Channel 사용 (서버 죽으면 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증발</strong>). [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Channel을 쓰면 엄청나게 느려짐. | <strong>무조건 Disk(순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>) 기반 Append-Only 저장</strong>. 서버가 죽어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 <strong>0% 보장 (내구성/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">Durability</a> 극강)</strong> |
 | **전송 모델 철학** | **Push 모델** (수집기가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 입에 억지로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣음, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 뻗기 쉬움) | **Pull 모델** ([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/소비자가 자기 능력껏 땡겨감, 병목 방어 탁월) |
 | **확장성 (Scalability)** | 노드 간 연결(Topology) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 끔찍하게 복잡함. 1:N [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 구성 시 유지보수 지옥. | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong> 개념으로 무한대 수평 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 완벽 지원. |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보존 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a>)</strong>| HDFS로 전달하면 메모리에서 즉시 삭제 (재전송 불가) | 디스크에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 기간(예: 7일) 동안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유지. **과거로 돌아가 재실행(Replay) 가능** ◀ 핵심 강점! |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보존 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a>)</strong>| HDFS로 전달하면 메모리에서 즉시 삭제 (재전송 불가) | 디스크에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 기간(예: 7일) 동안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유지. **과거로 돌아가 재실행(Replay) 가능** <- 핵심 강점! |
 
 ---
 
@@ -45,31 +45,31 @@ tags = ["bigdata"]
 Kafka가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 중앙에 위치하면서 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 뼈대가 어떻게 거대하게 융합되었는지 보여준다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Kafka 기반 하둡/빅데이터 통일 수집 아키텍처             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 데이터 생산자 (Producers) ]                                      │
-  │     웹 서버 / 모바일 앱 / IoT 센서 / DB CDC(Debezium)               │
-  │            │  (초당 100만 건의 미친 트래픽 쏟아짐)                        │
-  │            ▼                                                      │
-  │  ===============================================================  │
-  │  [ Apache Kafka Cluster (분산 메시지 브로커 / 중앙 버퍼) ]            │
-  │     - 토픽(Topic): 'Click_Log', 파티션 3개로 분산 분할 저장            │
-  │     - 복제(Replication) 계수 3: 노드 2개 죽어도 안 터짐               │
-  │     - 7일간 무조건 하드디스크에 보관 (안전빵)                             │
-  │  ===============================================================  │
-  │            │                                                      │
-  │            ├─▶ (길 1: 영구 저장 및 배치)                           │
-  │            │    [ Kafka Connect / Logstash ]                      │
-  │            │        ▼ 주기적으로 묶어서(Batch)                     │
-  │            │    [ HDFS (Hadoop) / AWS S3 ] ◀ 영구 보관/기계학습 용 │
-  │            │                                                      │
-  │            └─▶ (길 2: 1초 만에 실시간 분석)                         │
-  │                 [ Apache Spark Streaming / Flink ]                │
-  │                       ▼ 스트리밍 연산 후                           │
-  │                 [ Redis / 실시간 대시보드 ] ◀ CEO가 지금 보는 화면     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Kafka 기반 하둡/빅데이터 통일 수집 아키텍처             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 데이터 생산자 (Producers) ]                                      |
+  |     웹 서버 / 모바일 앱 / IoT 센서 / DB CDC(Debezium)               |
+  |            |  (초당 100만 건의 미친 트래픽 쏟아짐)                        |
+  |            v                                                      |
+  |  ===============================================================  |
+  |  [ Apache Kafka Cluster (분산 메시지 브로커 / 중앙 버퍼) ]            |
+  |     - 토픽(Topic): 'Click_Log', 파티션 3개로 분산 분할 저장            |
+  |     - 복제(Replication) 계수 3: 노드 2개 죽어도 안 터짐               |
+  |     - 7일간 무조건 하드디스크에 보관 (안전빵)                             |
+  |  ===============================================================  |
+  |            |                                                      |
+  |            +--> (길 1: 영구 저장 및 배치)                           |
+  |            |    [ Kafka Connect / Logstash ]                      |
+  |            |        v 주기적으로 묶어서(Batch)                     |
+  |            |    [ HDFS (Hadoop) / AWS S3 ] <- 영구 보관/기계학습 용 |
+  |            |                                                      |
+  |            +--> (길 2: 1초 만에 실시간 분석)                         |
+  |                 [ Apache Spark Streaming / Flink ]                |
+  |                       v 스트리밍 연산 후                           |
+  |                 [ Redis / 실시간 대시보드 ] <- CEO가 지금 보는 화면     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림에서 볼 수 있듯, Kafka는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>'중앙 분배기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)'</strong> 다. 웹 서버가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 꽂는 것이 아니다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 Kafka라는 저수지에 모인다. 이 상태에서 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))은 자기가 한가할 때 1시간 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한방에 퍼가서 영구 저장한다. 동시에, 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 필요한 스파크 엔진([Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))은 Kafka에 방금 들어온 1초짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미친 듯이 퍼가서 실시간 뷰를 그려낸다. 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 여러 소비자가 독립적으로 뽑아갈 수 있게 <strong>디커플링(Decoupling, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 분리)</strong> 을 완벽하게 구현한 것이 이 아키텍처의 위대함이다.
@@ -139,20 +139,20 @@ Apache Kafka는 단순한 "[데이터](/knowledge-base/studynote/05_database/01_
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [Apache Flume (플룸)]
-    │
-    ▼
+    |
+    v
 [파티션 (Partition) / 오프셋 (Offset)]
-    │
-    ▼
+    |
+    v
 [카파 아키텍처 (Kappa Architecture)]
-    │
-    ▼
+    |
+    v
 [Consumer Lag (컨슈머 랙)]
-    │
-    ▼
+    |
+    v
 [제로 카피 (Zero-Copy)]
 ```
 
@@ -169,7 +169,7 @@ Apache Kafka는 단순한 "[데이터](/knowledge-base/studynote/05_database/01_
 
 **진행 상황**: 78 / 262
 
-← **이전**: [02. Apache Kafka - 메시징에서 데이터 허브로의 진화](/knowledge-base/studynote/16_bigdata/04_streaming/077_apache_kafka/)
-**다음**: [04. Apache Storm](/knowledge-base/studynote/16_bigdata/04_streaming/079_apache_storm/) →
+<- **이전**: [02. Apache Kafka - 메시징에서 데이터 허브로의 진화](/knowledge-base/studynote/16_bigdata/04_streaming/077_apache_kafka/)
+**다음**: [04. Apache Storm](/knowledge-base/studynote/16_bigdata/04_streaming/079_apache_storm/) ->
 
 ---

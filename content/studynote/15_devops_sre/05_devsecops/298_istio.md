@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 트래픽 보안이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [출시 직전 수동 보안 점검]
-    │
-    ▼
+    |
+    v
 [서비스 메시 Istio 사이드카 트래픽 보안]
-    │
-    ├──▶ [서비스 메시 Istio 사이드카 트래픽 보안 (Istio)]
-    ├──▶ [Observability]
-    └──▶ [Scalability]
+    |
+    +---> [서비스 메시 Istio 사이드카 트래픽 보안 (Istio)]
+    +---> [Observability]
+    +---> [Scalability]
 ```
 
 이 흐름도는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 트래픽 보안이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 298 / 373
 
-← **이전**: [297. API 게이트웨이 인증 스로틀링 (Process)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/297_process/)
-**다음**: [299. mTLS 상호 인증 제로 트러스트 (Mutual TLS)](/knowledge-base/studynote/15_devops_sre/05_devsecops/299_mtls/) →
+<- **이전**: [297. API 게이트웨이 인증 스로틀링 (Process)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/297_process/)
+**다음**: [299. mTLS 상호 인증 제로 트러스트 (Mutual TLS)](/knowledge-base/studynote/15_devops_sre/05_devsecops/299_mtls/) ->
 
 ---

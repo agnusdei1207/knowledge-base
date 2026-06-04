@@ -32,7 +32,7 @@ OOA 산출물:
 
 ## Ⅱ~Ⅴ. 결론
 
-OOA는 <strong>현실→모델 전이가 자연스러운 분석 방법</strong>이며, UML이 표준 표현 도구이다.
+OOA는 <strong>현실->모델 전이가 자연스러운 분석 방법</strong>이며, UML이 표준 표현 도구이다.
 
 ---
 
@@ -49,9 +49,9 @@ OOA는 <strong>현실→모델 전이가 자연스러운 분석 방법</strong>�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[구조적 분석 (DFD, 1978)] → [OMT (Rumbaugh, 1991)]
-    → [OOSE (Jacobson, 1992)] → [UML 통합 (1997)]
-    → [현재: UML + Agile — 경량 모델링]
+[구조적 분석 (DFD, 1978)] -> [OMT (Rumbaugh, 1991)]
+    -> [OOSE (Jacobson, 1992)] -> [UML 통합 (1997)]
+    -> [현재: UML + Agile — 경량 모델링]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ OOA는 <strong>현실→모델 전이가 자연스러운 분석 방법</strong>�
 
 **진행 상황**: 146 / 973
 
-← **이전**: [145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/)
-**다음**: [147. 유스케이스 다이어그램 (Use Case Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/) →
+<- **이전**: [145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/)
+**다음**: [147. 유스케이스 다이어그램 (Use Case Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/) ->
 
 ---

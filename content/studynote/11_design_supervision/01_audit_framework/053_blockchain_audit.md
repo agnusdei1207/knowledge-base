@@ -32,7 +32,7 @@ tags = ["studynote-design-supervision"]
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 생성부터 블록 연결, 합의, 저장까지의 전체 흐름을 본다. 해시로 연결된 블록은 흔적을 남기므로 조작 시점이 드러난다.
 
 ```text
-Tx → Signature → Block → Hash Chain → Consensus → Ledger
+Tx -> Signature -> Block -> Hash Chain -> Consensus -> Ledger
 ```
 
 | 항목 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 포인트 | 예시 |
@@ -113,17 +113,17 @@ Tx → Signature → Block → Hash Chain → Consensus → Ledger
 
 ```text
 트랜잭션
-    │
-    ▼
+    |
+    v
 해시 / 서명
-    │
-    ▼
+    |
+    v
 블록 / 합의
-    │
-    ▼
+    |
+    v
 분산 원장
-    │
-    ▼
+    |
+    v
 감사 추적 / 통제 검증
 ```
 
@@ -141,7 +141,7 @@ Tx → Signature → Block → Hash Chain → Consensus → Ledger
 
 **진행 상황**: 80 / 530
 
-← **이전**: [52. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_pmo_audit_difference/)
-**다음**: [54. ITIL/ITSM 감사 (ITIL ITSM Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/054_itil_itsm_audit/) →
+<- **이전**: [52. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_pmo_audit_difference/)
+**다음**: [54. ITIL/ITSM 감사 (ITIL ITSM Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/054_itil_itsm_audit/) ->
 
 ---

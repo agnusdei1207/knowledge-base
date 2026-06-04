@@ -28,18 +28,18 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 능동 무선과 앰비언트 백스캐터의 구조 차이를 한눈에 보여 준다. 배터리와 발진기가 빠지는 순간, 센서 설계의 중심이 송신기에서 <strong>반사 제어 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>로 이동한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Active radio vs ambient backscatter                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Active IoT                                                         │
-│   battery -> oscillator -> own carrier -> receiver                │
-│                                                                    │
-│ Ambient backscatter                                                │
-│   ambient RF -> tiny harvest / switch -> reflected signal         │
-│                                      -> nearby receiver            │
-│                                                                    │
-│ Result: maintenance power drops, but rate and range also shrink   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Active radio vs ambient backscatter                               |
++--------------------------------------------------------------------+
+| Active IoT                                                         |
+|   battery -> oscillator -> own carrier -> receiver                |
+|                                                                    |
+| Ambient backscatter                                                |
+|   ambient RF -> tiny harvest / switch -> reflected signal         |
+|                                      -> nearby receiver            |
+|                                                                    |
+| Result: maintenance power drops, but rate and range also shrink   |
++--------------------------------------------------------------------+
 ```
 
 즉 이 기술의 필요성은 "배터리를 더 오래 간다"가 아니라, <strong>배터리 교체가 시스템 경제성을 무너뜨리는 영역에서 아예 다른 통신 방식을 제안한다</strong>는 데 있다. 그래서 앰비언트 백스캐터는 고속 무선의 경쟁자가 아니라, 배터리 없는 초소형 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)를 가능하게 하는 별도 축으로 이해해야 한다.
@@ -50,7 +50,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-앰비언트 백스캐터 링크는 보통 **주변 전파원 → 태그/센서 → 수신기** 세 요소로 구성된다. 여기서 센서는 단순한 반사판이 아니라, 에너지 수집부·[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)·[임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·제어 로직을 가진 최소한의 통신 노드다. 다만 능동 송신기와 달리 가장 전력을 많이 먹는 발진기와 고출력 증폭기가 없다.
+앰비언트 백스캐터 링크는 보통 **주변 전파원 -> 태그/센서 -> 수신기** 세 요소로 구성된다. 여기서 센서는 단순한 반사판이 아니라, 에너지 수집부·[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)·[임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·제어 로직을 가진 최소한의 통신 노드다. 다만 능동 송신기와 달리 가장 전력을 많이 먹는 발진기와 고출력 증폭기가 없다.
 
 | 구성 요소 | 역할 | 설계 포인트 | 실패 시 문제 |
 | :--- | :--- | :--- | :--- |
@@ -64,19 +64,19 @@ tags = ["studynote-ict-convergence"]
 아래 구조에서 가장 중요한 지점은 수신기가 <strong>센서에서 온 반사파만 듣는 것이 아니라, 원래 주변 전파의 직통 성분도 함께 받는다</strong>는 사실이다. 그래서 수신기의 난제는 송신보다 복조에 더 가깝다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ambient backscatter link                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ TV / Wi-Fi AP ---------------- direct ambient wave ------------> RX│
-│          \                                                         │
-│           \-> Tag: rectifier + capacitor + switch                  │
-│                 state A : reflect less / absorb more               │
-│                 state B : reflect more / absorb less               │
-│                               \                                    │
-│                                \-- weak modulated reflection ----> │
-│                                                                    │
-│ RX task: separate tiny reflected delta from strong direct signal   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Ambient backscatter link                                           |
++--------------------------------------------------------------------+
+| TV / Wi-Fi AP ---------------- direct ambient wave ------------> RX|
+|          \                                                         |
+|           \-> Tag: rectifier + capacitor + switch                  |
+|                 state A : reflect less / absorb more               |
+|                 state B : reflect more / absorb less               |
+|                               \                                    |
+|                                \-- weak modulated reflection ----> |
+|                                                                    |
+| RX task: separate tiny reflected delta from strong direct signal   |
++--------------------------------------------------------------------+
 ```
 
 실무적으로는 harvested power가 마이크로와트급인 경우가 많아, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)율도 대개 낮고 동작 거리도 제한된다. 그러나 이 제약이 곧 무의미함을 뜻하지는 않는다. 구조물 균열 경보, 온도·습도 주기 보고, 단순 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처럼 <strong>작은 페이로드를 오래 보내는 업무</strong>에서는 극단적 저전력이 오히려 핵심 가치가 된다.
@@ -165,24 +165,24 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 주변 RF 신호 존재
-        │
-        ▼
+        |
+        v
 미세 에너지 수집
-        │
-        ▼
+        |
+        v
 임피던스 스위칭으로 반사 변화
-        │
-        ▼
+        |
+        v
 수신기의 약한 반사파 검출
-        │
-        ▼
+        |
+        v
 무전원 센서 데이터 전송
-        │
-        ▼
+        |
+        v
 반사형 IoT / RIS 연계 무선 인프라
 ```
 
-이 흐름은 "주변 전파 활용 → 최소 구동 전력 확보 → 반사 변조 → 복조 → 무전원 센싱 → 반사형 차세대 인프라 확장"으로 이어지는 기술 축을 보여 준다.
+이 흐름은 "주변 전파 활용 -> 최소 구동 전력 확보 -> 반사 변조 -> 복조 -> 무전원 센싱 -> 반사형 차세대 인프라 확장"으로 이어지는 기술 축을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -196,7 +196,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 175 / 552
 
-← **이전**: [174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/)
-**다음**: [176. 웨어러블 디바이스 (Wearable Device) - 신체 부착형 기기 통신 체계 (WBAN, Wireless Body Area](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/176_wearable_device_wban/) →
+<- **이전**: [174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/)
+**다음**: [176. 웨어러블 디바이스 (Wearable Device) - 신체 부착형 기기 통신 체계 (WBAN, Wireless Body Area](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/176_wearable_device_wban/) ->
 
 ---

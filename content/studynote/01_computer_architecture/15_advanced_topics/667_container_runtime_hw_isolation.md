@@ -44,18 +44,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 `runc`가 만드는 "가시성 격리"를 단순화한 것이다.
 
 ```text
-┌──────────────────────── Host kernel ────────────────────────┐
-│ physical NICs, device nodes, global PID space, host mounts │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ runc creates namespaces
-                            ▼
-┌────────────────────── Container view ───────────────────────┐
-│ net ns   : lo + veth as eth0                               │
-│ mount ns : own rootfs + selected /dev nodes                │
-│ pid ns   : process 1 starts inside container               │
-│ ipc ns   : isolated shm/sem                                │
-│ user ns  : remapped ids                                    │
-└─────────────────────────────────────────────────────────────┘
++------------------------ Host kernel ------------------------+
+| physical NICs, device nodes, global PID space, host mounts |
++---------------------------+---------------------------------+
+                            | runc creates namespaces
+                            v
++---------------------- Container view -----------------------+
+| net ns   : lo + veth as eth0                               |
+| mount ns : own rootfs + selected /dev nodes                |
+| pid ns   : process 1 starts inside container               |
+| ipc ns   : isolated shm/sem                                |
+| user ns  : remapped ids                                    |
++-------------------------------------------------------------+
 ```
 
 핵심은 "보이는 장치"와 "실제 물리 장치"가 같지 않다는 점이다. 예를 들어 network [namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 안의 `eth0`는 보통 가상 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) (virtual [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), veth) 쌍의 한쪽 끝이고, 다른 끝은 브리지나 가상 스위치에 붙는다. 또한 [mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) namespace는 전체 `/dev`를 보여 주는 대신, 필요한 장치 노드만 bind [mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 하거나 새로 만들어 노출한다. 즉 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 하드웨어를 직접 소유하는 것이 아니라, 하드웨어 접근 창구를 재구성한 뷰를 받는다.
@@ -135,21 +135,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 chroot / jail
-    │
-    ▼
+    |
+    v
 Linux namespace
-    │
-    ▼
+    |
+    v
 OCI + runc
-    │
-    ▼
+    |
+    v
 rootless container + seccomp hardening
-    │
-    ▼
+    |
+    v
 microVM / confidential container
 ```
 
-이 흐름은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 격리 → 이름공간 분리 → 표준 런타임화 → 권한 축소 → 더 강한 경계 추가"로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리가 진화하는 방향을 나타낸다.
+이 흐름은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 격리 -> 이름공간 분리 -> 표준 런타임화 -> 권한 축소 -> 더 강한 경계 추가"로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리가 진화하는 방향을 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ microVM / confidential container
 
 **진행 상황**: 668 / 803
 
-← **이전**: [666. VFIO 프레임워크](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/666_vfio_framework/)
-**다음**: [668. cgroups (Control Groups) 자원 할당](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/) →
+<- **이전**: [666. VFIO 프레임워크](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/666_vfio_framework/)
+**다음**: [668. cgroups (Control Groups) 자원 할당](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/) ->
 
 ---

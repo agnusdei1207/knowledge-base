@@ -43,21 +43,21 @@ SWOT-AHP의 전개는 보통 4단계다. 먼저 목표를 정의하고, SWOT 관
 아래 그림은 SWOT 요인이 AHP 계층에 들어가 최종 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 점수로 변환되는 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ SWOT-AHP hierarchy                                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Goal: IT strategy priority                                          │
-│   │                                                                  │
-│   ├─ Criteria: S / W / O / T                                         │
-│   │      │                                                           │
-│   │      ├─ Factors: S1 S2 / W1 W2 / O1 O2 / T1 T2                  │
-│   │      │                                                           │
-│   │      └─ Pairwise comparison (1..9 scale)                        │
-│   │                                                                  │
-│   └─ Alternatives: A / B / C                                         │
-│             │                                                        │
-│             └─ Global weight -> final ranking                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| SWOT-AHP hierarchy                                                  |
++----------------------------------------------------------------------+
+| Goal: IT strategy priority                                          |
+|   |                                                                  |
+|   +- Criteria: S / W / O / T                                         |
+|   |      |                                                           |
+|   |      +- Factors: S1 S2 / W1 W2 / O1 O2 / T1 T2                  |
+|   |      |                                                           |
+|   |      +- Pairwise comparison (1..9 scale)                        |
+|   |                                                                  |
+|   +- Alternatives: A / B / C                                         |
+|             |                                                        |
+|             +- Global weight -> final ranking                        |
++----------------------------------------------------------------------+
 ```
 
 AHP에서 중요한 것은 숫자 자체보다 비교의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이다. 예를 들어 보안을 클라우드 전환보다 훨씬 중요하다고 하고, 클라우드 전환을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼보다 중요하다고 하면서, 다시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼을 보안보다 훨씬 중요하다고 답하면 판단 체계가 흔들린다. 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 지표가 CR ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Ratio)이며, 일반적으로 0.1 이하일 때 수용 가능한 수준으로 본다. 따라서 SWOT-AHP는 단순한 점수 놀이가 아니라, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 검사하는 절차까지 포함한다.
@@ -118,21 +118,21 @@ SWOT-AHP의 가장 큰 효과는 [전략](/knowledge-base/studynote/04_software_
 
 ```text
 Environmental scan
-        │
-        ▼
+        |
+        v
 SWOT factor discovery
-        │
-        ▼
+        |
+        v
 AHP hierarchy design
-        │
-        ▼
+        |
+        v
 Pairwise weighting and CR check
-        │
-        ▼
+        |
+        v
 Strategy ranking and portfolio decision
 ```
 
-이 흐름은 "환경 진단 → 요인 구조화 → 계층화 → [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 투자 우선순위 결정"의 전개를 보여준다.
+이 흐름은 "환경 진단 -> 요인 구조화 -> 계층화 -> [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 투자 우선순위 결정"의 전개를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +146,7 @@ Strategy ranking and portfolio decision
 
 **진행 상황**: 213 / 482
 
-← **이전**: [212. BIA (Business Impact Analysis) 평가 지표 분석 기법](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)
-**다음**: [214. 델파이 (Delphi) 기법 - 복수 전문가의 익명 반복 설문을 통한 예측 및 합의 도출](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) →
+<- **이전**: [212. BIA (Business Impact Analysis) 평가 지표 분석 기법](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)
+**다음**: [214. 델파이 (Delphi) 기법 - 복수 전문가의 익명 반복 설문을 통한 예측 및 합의 도출](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) ->
 
 ---

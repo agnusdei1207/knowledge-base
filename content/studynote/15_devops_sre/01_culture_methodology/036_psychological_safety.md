@@ -42,10 +42,10 @@ Google Project Aristotle (2012-2015):
 ```
 DORA 연구 (2023) 상관관계:
 
-심리적 안전 높음 -> 배포 빈도 ↑
-                 -> MTTR (복구 시간) ↓
-                 -> 변경 실패율 ↓
-                 -> 변경 리드타임 ↓
+심리적 안전 높음 -> 배포 빈도 ^
+                 -> MTTR (복구 시간) v
+                 -> 변경 실패율 v
+                 -> 변경 리드타임 v
 
 원인 분석:
   실패 보고 두려움 없음 -> 빠른 포스트모템
@@ -196,7 +196,7 @@ AI 코드 리뷰, 자동화로 인한 불안감 증가
 
 **진행 상황**: 36 / 373
 
-← **이전**: [035. 무결함 사후 검토 (Blameless Postmortem)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/)
-**다음**: [037. 애자일 PMO (Agile PMO)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/) →
+<- **이전**: [035. 무결함 사후 검토 (Blameless Postmortem)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/)
+**다음**: [037. 애자일 PMO (Agile PMO)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/) ->
 
 ---

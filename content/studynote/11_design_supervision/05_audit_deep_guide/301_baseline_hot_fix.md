@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 베이스라인과 Hot fix 통제 감리는 형상 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))과 긴급 수정(Hot fix) 통제 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 연속 배포 환경이 일반화되면서 빠른 수정과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제를 동시에 만족시키는 형상관리의 중요성이 커졌다. 특히 긴급 변경이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 사람 의존 절차로 흩어지고, 최종적으로 승인 추적이 남지 않아 의사결정이 감각에 의존하게 된다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제가 약하면 긴급 수정이 누적되어 재현 불가, 회귀 장애, 책임 추적 실패가 발생한다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 긴급 변경 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 기준선 무결성 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 승인 추적 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 긴급 변경 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 기준선 무결성 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 승인 추적 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 베이스라인과 Hot fix 통제 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 승인 추적을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 긴급 변경, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 승인 추적은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 연속 배포 통제(Controlled [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[긴급 변경] → [베이스라인과 Hot fix 통제 감리] → [연속 배포 통제(Controlled [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))]
+[긴급 변경] -> [베이스라인과 Hot fix 통제 감리] -> [연속 배포 통제(Controlled [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 긴급 변경은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 362 / 530
 
-← **이전**: [300. 기능안전과 FMEA 감리 (Functional Safety FMEA Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/300_functional_safety_fmea_audit/)
-**다음**: [302. 감리 결과 공시와 책임조치 이행보증 (Audit Result Disclosure and Accountability Assurance)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit/) →
+<- **이전**: [300. 기능안전과 FMEA 감리 (Functional Safety FMEA Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/300_functional_safety_fmea_audit/)
+**다음**: [302. 감리 결과 공시와 책임조치 이행보증 (Audit Result Disclosure and Accountability Assurance)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit/) ->
 
 ---

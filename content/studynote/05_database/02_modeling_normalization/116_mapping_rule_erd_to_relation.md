@@ -1,5 +1,5 @@
 +++
-title = "116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환"
+title = "116. 매핑 규칙 (ERD->릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환"
 date = 2026-04-19
 
 [taxonomies]
@@ -12,24 +12,24 @@ tags = ["studynote-database"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>(테이블·PK·FK·컬럼)</strong>로 변환하는 <strong>체계적 규칙 집합</strong>이다.
 > 2. **가치**: 규칙 없이 직감으로 변환하면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 누락·PK 오류·중복 테이블이 발생하므로, <strong>7대 매핑 규칙</strong>을 순서대로 적용하여 정확한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 도출한다.
-> 3. **판단 포인트**: 1:1, 1:N, M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 변환 방식이 각각 다르며, <strong>M:N → 교차 테이블 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>, <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> → 별도 테이블 분리</strong>, <strong>약한 엔터티 → 소유자 FK 포함 복합 PK</strong>를 정확히 적용해야 한다.
+> 3. **판단 포인트**: 1:1, 1:N, M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 변환 방식이 각각 다르며, <strong>M:N -> 교차 테이블 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>, <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> -> 별도 테이블 분리</strong>, <strong>약한 엔터티 -> 소유자 FK 포함 복합 PK</strong>를 정확히 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    7대 매핑 규칙 순서                                  │
-├───────────────────────────────────────────────────────┤
-│  1. 강한 엔터티 → 테이블 (PK = 식별자)               │
-│  2. 약한 엔터티 → 테이블 (PK = 소유자FK + 부분키)    │
-│  3. 1:1 관계 → 한쪽 테이블에 FK 추가                 │
-│  4. 1:N 관계 → N쪽 테이블에 FK 추가                  │
-│  5. M:N 관계 → 교차 테이블 생성 (양쪽 PK가 복합키)   │
-│  6. 다치 속성 → 별도 테이블 분리                      │
-│  7. N-ary 관계 → 관계 테이블 생성                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    7대 매핑 규칙 순서                                  |
++-------------------------------------------------------+
+|  1. 강한 엔터티 -> 테이블 (PK = 식별자)               |
+|  2. 약한 엔터티 -> 테이블 (PK = 소유자FK + 부분키)    |
+|  3. 1:1 관계 -> 한쪽 테이블에 FK 추가                 |
+|  4. 1:N 관계 -> N쪽 테이블에 FK 추가                  |
+|  5. M:N 관계 -> 교차 테이블 생성 (양쪽 PK가 복합키)   |
+|  6. 다치 속성 -> 별도 테이블 분리                      |
+|  7. N-ary 관계 -> 관계 테이블 생성                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 매핑 규칙은 외국어 번역 문법이다. "주어+동사+목적어" 순서를 지키지 않으면 엉뚱한 문장(잘못된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))이 나온다.
@@ -42,11 +42,11 @@ tags = ["studynote-database"]
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 매핑 방식 | 예시 |
 |:---|:---|:---|
-| **1:1** | 한쪽에 FK (가능하면 전참여 쪽) | 사원←→여권 |
-| **1:N** | N쪽에 FK | 부서←→사원 |
-| **M:N** | **교차 테이블** | 학생←→과목 → 수강(학생ID, 과목ID) |
-| **약한 엔터티** | 소유자 FK + 부분키 = 복합 PK | 주문←→주문상세 |
-| <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong> | 별도 테이블 + FK | 사원(취미) → 취미(사원ID, 취미명) |
+| **1:1** | 한쪽에 FK (가능하면 전참여 쪽) | 사원<-->여권 |
+| **1:N** | N쪽에 FK | 부서<-->사원 |
+| **M:N** | **교차 테이블** | 학생<-->과목 -> 수강(학생ID, 과목ID) |
+| **약한 엔터티** | 소유자 FK + 부분키 = 복합 PK | 주문<-->주문상세 |
+| <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong> | 별도 테이블 + FK | 사원(취미) -> 취미(사원ID, 취미명) |
 
 - **📢 섹션 요약 비유**: M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 학생과 과목이 서로 "누가 누구를 듣는지" 모르므로, <strong>수강 기록부(교차 테이블)</strong>를 만들어 연결하는 것이다.
 
@@ -91,18 +91,18 @@ tags = ["studynote-database"]
 
 ```text
 [ER 모델 (Chen, 1976) — 개념적 데이터 모델]
-    │
-    ▼
-[매핑 규칙 체계화 (1980s) — ERD→릴레이션 7대 규칙]
-    │
-    ▼
+    |
+    v
+[매핑 규칙 체계화 (1980s) — ERD->릴레이션 7대 규칙]
+    |
+    v
 [CASE 도구 (ERwin, 1990s) — 자동 매핑 구현]
-    │
-    ▼
+    |
+    v
 [Schema-as-Code (2020s) — 코드 기반 스키마 생성]
-    │
-    ▼
-[현재: AI 기반 ERD→스키마 자동 변환]
+    |
+    v
+[현재: AI 기반 ERD->스키마 자동 변환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -116,7 +116,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 116 / 600
 
-← **이전**: [115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석](/knowledge-base/studynote/05_database/02_modeling_normalization/115_logical_design_normalization/)
-**다음**: [117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화](/knowledge-base/studynote/05_database/02_modeling_normalization/117_physical_database_design_indexing/) →
+<- **이전**: [115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD->릴레이션 변환·FD 분석](/knowledge-base/studynote/05_database/02_modeling_normalization/115_logical_design_normalization/)
+**다음**: [117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화](/knowledge-base/studynote/05_database/02_modeling_normalization/117_physical_database_design_indexing/) ->
 
 ---

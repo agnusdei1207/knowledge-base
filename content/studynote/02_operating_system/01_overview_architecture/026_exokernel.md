@@ -19,16 +19,16 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│          OS 커널 아키텍처 비교                               │
-├────────────────────────┬───────────────────────────────────┤
-│ 전통 모놀리식/마이크로  │         엑소커널                  │
-├────────────────────────┼───────────────────────────────────┤
-│ HW 추상화 통일 (VFS,   │ HW 안전 다중화만 담당             │
-│ 가상 메모리, TCP/IP)   │ 추상화 = LibOS에 위임             │
-│                        │                                   │
-│ 모든 앱이 같은 추상화  │ 앱별 맞춤형 LibOS 구현 가능       │
-└────────────────────────┴───────────────────────────────────┘
++------------------------------------------------------------+
+|          OS 커널 아키텍처 비교                               |
++------------------------+-----------------------------------+
+| 전통 모놀리식/마이크로  |         엑소커널                  |
++------------------------+-----------------------------------+
+| HW 추상화 통일 (VFS,   | HW 안전 다중화만 담당             |
+| 가상 메모리, TCP/IP)   | 추상화 = LibOS에 위임             |
+|                        |                                   |
+| 모든 앱이 같은 추상화  | 앱별 맞춤형 LibOS 구현 가능       |
++------------------------+-----------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전통 OS는 요리사(OS)가 모든 식재료(HW)를 미리 손질해서 제공하는 레스토랑이고, 엑소커널은 신선한 식재료(HW)를 직접 제공하고 요리(LibOS)는 고객(앱)이 직접 하는 자연식품 가게다.
@@ -51,7 +51,7 @@ tags = ["studynote-operating-system"]
 
 3. 프로토콜 탈출 (Abort Protocol)
    - 응용이 응답 없을 때 강제 회수
-   - 체크포인트 저장 → 응용 재시작
+   - 체크포인트 저장 -> 응용 재시작
 ```
 
 ### LibOS 개념
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 ### 현대 적용: AWS Firecracker
 - 엑소커널 철학을 VMM([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 적용.
 - 각 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 함수가 경량 MicroVM 위에서 실행.
-- 불필요한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능 제거 → 부팅 125ms, 메모리 오버헤드 5MB 미만.
+- 불필요한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능 제거 -> 부팅 125ms, 메모리 오버헤드 5MB 미만.
 - "[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 함수마다 맞춤형 경량 환경" = 엑소커널의 앱별 커스텀 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 철학.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -100,7 +100,7 @@ tags = ["studynote-operating-system"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 제거 → 최대 HW [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 제거 -> 최대 HW [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **유연성** | 앱별 맞춤 LibOS 구현 가능 |
 | **연구 영향** | [Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/), MicroVM 설계에 영향 |
 
@@ -124,17 +124,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 [모놀리식 커널 — 통합 추상화, 고성능·고결합]
-    │
-    ▼
+    |
+    v
 [엑소커널 — 추상화 최소화, LibOS에 위임 (MIT, 1994)]
-    │
-    ▼
+    |
+    v
 [Unikernel — 단일 앱 전용 경량 OS 이미지]
-    │
-    ▼
+    |
+    v
 [MicroVM (Firecracker) — 경량 VM으로 기능별 격리]
-    │
-    ▼
+    |
+    v
 [eBPF — 커널 수준 확장을 유저 코드로 안전 실행]
 ```
 
@@ -150,7 +150,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 26 / 800
 
-← **이전**: [25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)
-**다음**: [27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/027_unikernel/) →
+<- **이전**: [25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)
+**다음**: [27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/027_unikernel/) ->
 
 ---

@@ -25,15 +25,15 @@ tags = ["studynote-operating-system"]
 
 ```text
 low addr
-┌────────────────────┐
-│ Text / Data        │
-├────────────────────┤
-│ Heap   →           │  grows up
-├────────────────────┤
-│ Free space         │
-├────────────────────┤
-│ Stack  ←           │  grows down
-└────────────────────┘
++--------------------+
+| Text / Data        |
++--------------------+
+| Heap   ->           |  grows up
++--------------------+
+| Free space         |
++--------------------+
+| Stack  <-           |  grows down
++--------------------+
 high addr
 ```
 
@@ -127,14 +127,14 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 ```text
 메모리 요청
-  │
-  ▼
+  |
+  v
 할당기에서 블록 확보
-  │
-  ▼
+  |
+  v
 객체 사용
-  │
-  ▼
+  |
+  v
 free / 해제 / 병합
 ```
 
@@ -152,7 +152,7 @@ free / 해제 / 병합
 
 **진행 상황**: 84 / 800
 
-← **이전**: [83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)
-**다음**: [85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소](/knowledge-base/studynote/02_operating_system/02_process_thread/085_stack_segment/) →
+<- **이전**: [83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)
+**다음**: [85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소](/knowledge-base/studynote/02_operating_system/02_process_thread/085_stack_segment/) ->
 
 ---

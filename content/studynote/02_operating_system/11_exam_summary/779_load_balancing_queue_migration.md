@@ -37,29 +37,29 @@ tags = ["studynote-operating-system"]
   - 전통적인 단일 프로세서(Uni-processor) 시대에는 큐가 하나라 필요 없는 개념이었으나, 1990년대 후반 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)(Symmetric Multiprocessing) 구조가 표준화되고 각 코어별 런큐(Per-CPU Runqueue) 체제가 정착하면서 코어 간 눈치싸움을 조율하기 위한 필연적 알고리즘으로 탄생했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 Push Migration 과 Pull Migration 매커니즘 시각화       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 상황: Core 0 큐 폭발, Core 1 큐 텅 빔 ]                     │
-  │                                                             │
-  │   ┌── Core 0 Run Queue ──┐        ┌── Core 1 Run Queue ──┐  │
-  │   │ Proc A (실행 중)       │        │ (텅 빔 - Idle)       │  │
-  │   │ Proc B (대기 중)       │        │                      │  │
-  │   │ Proc C (대기 중)       │        │                      │  │
-  │   │ Proc D (대기 중)       │        │                      │  │
-  │   └──────────────────────┘        └──────────────────────┘  │
-  │                                                             │
-  │  [ 1. Pull Migration (당겨오기) - 놀고 있는 놈이 훔쳐옴 ]        │
-  │   - Core 1: "나 할 일 없네? 딴 코어 큐 좀 뒤져볼까?"             │
-  │   - Core 1이 Core 0의 큐 락을 몰래 잡고 Proc C, D를 자버림!      │
-  │      Proc C, D ─────────(가져옴)─────────▶ Core 1 큐 안착!   │
-  │                                                             │
-  │  [ 2. Push Migration (밀어내기) - OS 백그라운드 데몬의 개입 ]     │
-  │   - 커널 스레드(Migration Thread): 주기적으로 전체 큐 모니터링 함.  │
-  │   - 커널: "Core 0 불쌍하네. 내가 강제로 B, C 빼서 Core 1로 밀어줄게!"│
-  │      Proc B, C ─────────(밀어냄)─────────▶ Core 1 큐 안착!   │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 Push Migration 과 Pull Migration 매커니즘 시각화       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 상황: Core 0 큐 폭발, Core 1 큐 텅 빔 ]                     |
+  |                                                             |
+  |   +-- Core 0 Run Queue --+        +-- Core 1 Run Queue --+  |
+  |   | Proc A (실행 중)       |        | (텅 빔 - Idle)       |  |
+  |   | Proc B (대기 중)       |        |                      |  |
+  |   | Proc C (대기 중)       |        |                      |  |
+  |   | Proc D (대기 중)       |        |                      |  |
+  |   +----------------------+        +----------------------+  |
+  |                                                             |
+  |  [ 1. Pull Migration (당겨오기) - 놀고 있는 놈이 훔쳐옴 ]        |
+  |   - Core 1: "나 할 일 없네? 딴 코어 큐 좀 뒤져볼까?"             |
+  |   - Core 1이 Core 0의 큐 락을 몰래 잡고 Proc C, D를 자버림!      |
+  |      Proc C, D ---------(가져옴)----------> Core 1 큐 안착!   |
+  |                                                             |
+  |  [ 2. Push Migration (밀어내기) - OS 백그라운드 데몬의 개입 ]     |
+  |   - 커널 스레드(Migration Thread): 주기적으로 전체 큐 모니터링 함.  |
+  |   - 커널: "Core 0 불쌍하네. 내가 강제로 B, C 빼서 Core 1로 밀어줄게!"|
+  |      Proc B, C ---------(밀어냄)----------> Core 1 큐 안착!   |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 이 두 가지 톱니바퀴를 섞어 쓴다. **Pull(당겨오기)** 방식은 코어가 놀기 시작하는 그 찰나의 순간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 진입)에 가장 능동적으로 딴 코어의 짐을 훔쳐 오는 즉각적 반응이다. 하지만 아무도 안 놀고 모두가 어설프게 바쁘면 아무도 짐을 훔쳐 가지 않아 불균형이 방치된다. 이를 막기 위해 **Push(밀어내기)** 방식이 도입되어, 감시자([Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))가 주기적(예: 매 밀리초마다)으로 깨어나 시스템 전체의 가중치를 무자비하게 평균치로 맞춰버린다. 이 상호보완적 구조 덕분에 128개의 코어를 가진 몬스터 서버도 단 1개의 코어조차 쉬지 않고 100% 혹사당하는 아름다운(?) 균형을 유지한다.
@@ -84,29 +84,29 @@ tags = ["studynote-operating-system"]
 리눅스는 캐시 파괴를 막기 위해 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(계급) 기반의 이주 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>을 만들었다. "아무 데나 던지는 게 아니라, 이왕 던질 거면 캐시를 공유하는 가장 가까운 형제 코어한테 던져라!"
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 CPU 캐시 지형도를 반영한 Sched Domains 마이그레이션       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ NUMA Node 0 (물리 CPU 1번) ]    [ NUMA Node 1 (물리 CPU 2번) ] │
-  │    ┌──────────────────────────┐      ┌──────────────────────────┐ │
-  │    │  L3 캐시 (공유)            │      │  L3 캐시 (공유)            │ │
-  │    │ ┌──────┐ ┌──────┐ ┌──────┤      │ ┌──────┐ ┌──────┐ ┌──────┤ │
-  │    │ │L2캐시│ │L2캐시│ │L2캐시│      │ │L2캐시│ │L2캐시│ │L2캐시│ │
-  │    │ └─┬────┘ └─┬────┘ └─┬────┤      │ └─┬────┘ └─┬────┘ └─┬────┤ │
-  │    │ Core 0   Core 1   Core 2 │      │ Core 3   Core 4   Core 5 │ │
-  │    └──────────────────────────┘      └──────────────────────────┘ │
-  │                                                                   │
-  │   [ 리눅스 스케줄러의 타겟 탐색 논리 (Migration 우선순위) ]               │
-  │                                                                   │
-  │   1순위 🟢 [동일 L2 캐시 형제 (SMT/하이퍼스레딩)]                         │
-  │           : 물리 코어 안의 가상 논리 코어끼리 주고받음. 캐시 손실 0%.         │
-  │   2순위 🟡 [동일 L3 캐시 형제 (같은 Node 내)]                            │
-  │           : Core 0의 짐을 Core 1로 던짐. L1/L2는 날아가도 L3는 살아있음! │
-  │   3순위 🔴 [완전 남남 (다른 NUMA Node)]                                │
-  │           : Core 0의 짐을 Core 3으로 던짐. 최악의 도박! 짐을 싸서 QPI 다리를│
-  │             건너가야 하므로 성능 개박살. (진짜 0번이 죽기 직전일 때만 발동)   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 CPU 캐시 지형도를 반영한 Sched Domains 마이그레이션       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ NUMA Node 0 (물리 CPU 1번) ]    [ NUMA Node 1 (물리 CPU 2번) ] |
+  |    +--------------------------+      +--------------------------+ |
+  |    |  L3 캐시 (공유)            |      |  L3 캐시 (공유)            | |
+  |    | +------+ +------+ +------+      | +------+ +------+ +------+ |
+  |    | |L2캐시| |L2캐시| |L2캐시|      | |L2캐시| |L2캐시| |L2캐시| |
+  |    | +-+----+ +-+----+ +-+----+      | +-+----+ +-+----+ +-+----+ |
+  |    | Core 0   Core 1   Core 2 |      | Core 3   Core 4   Core 5 | |
+  |    +--------------------------+      +--------------------------+ |
+  |                                                                   |
+  |   [ 리눅스 스케줄러의 타겟 탐색 논리 (Migration 우선순위) ]               |
+  |                                                                   |
+  |   1순위 🟢 [동일 L2 캐시 형제 (SMT/하이퍼스레딩)]                         |
+  |           : 물리 코어 안의 가상 논리 코어끼리 주고받음. 캐시 손실 0%.         |
+  |   2순위 🟡 [동일 L3 캐시 형제 (같은 Node 내)]                            |
+  |           : Core 0의 짐을 Core 1로 던짐. L1/L2는 날아가도 L3는 살아있음! |
+  |   3순위 🔴 [완전 남남 (다른 NUMA Node)]                                |
+  |           : Core 0의 짐을 Core 3으로 던짐. 최악의 도박! 짐을 싸서 QPI 다리를|
+  |             건너가야 하므로 성능 개박살. (진짜 0번이 죽기 직전일 때만 발동)   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 예술이다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 부팅될 때 메인보드 하드웨어의 생김새(Topology)를 싹 다 스캔해서 족보([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))를 만든다. 부하가 터져서 이사(Migration)를 보내야 할 때, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 족보를 보고 "가장 촌수가 가까운 친척 코어"를 1순위로 찾는다. 같은 L3 캐시 지붕 아래 있는 코어끼리 짐을 넘기면, 프로세스는 L3 캐시에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쑥쑥 뽑아 쓰므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락이 거의 없다. 하지만 다른 물리 칩([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) Node 1)으로 짐을 넘기는 행위는 이혼하고 다른 나라로 이민 가는 수준의 거대 오버헤드이므로, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 몹시 높게 잡아 웬만하면 실행되지 않게 꾹 참는다.
@@ -149,25 +149,25 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (밸런서 무력화, Pinning 강제화)**: 로드 밸런서는 여러 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 있을 때 빛을 발한다. 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 거대 괴물 프로세스는 밸런서의 먹잇감이 되어서는 안 된다. 즉시 `taskset`이나 `systemd CPUAffinity`로 Redis를 0번 코어에 시멘트로 발라버려야 한다(Pinning). OS 로드 밸런서의 개입을 원천 차단하는 것이 이 아키텍처의 정석이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 멀티코어/NUMA 환경의 CPU 스케줄러 아키텍트 결정 트리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 64코어 이상의 거대 서버에 워크로드를 올린다 ]                            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      이 서버가 Nginx 워커 100개, Node.js 100개처럼 쪼개진 앱을 돌리는가?   │
-  │          ├─ 예 ─────▶ [ 부하 균등화(Load Balancing) 100% 맹신! ]    │
-  │          │             (OS 커널의 기본 Migration 로직이 기가 막히게 분배해 줌)│
-  │          └─ 아니오 (단일 거대 DB나 초저지연 트레이딩 싱글스레드 앱이다)         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      앱의 메모리 용량이 너무 커서(수백 GB) 이사 갈 때 캐시 오염 타격이 심한가?  │
-  │          ├─ 예 ─────▶ [ OS 로드 밸런서 개입을 강제 차단하라! ]         │
-  │          │             - `isolcpus` 로 일반 스레드의 침범을 격리시키고,    │
-  │          │             - `numactl`, `taskset`으로 특정 코어에 Affinity 고정│
-  │          └─ 아니오 ──▶ 일반 OS 정책 수용                                │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 멀티코어/NUMA 환경의 CPU 스케줄러 아키텍트 결정 트리          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 64코어 이상의 거대 서버에 워크로드를 올린다 ]                            |
+  |                |                                                  |
+  |                v                                                  |
+  |      이 서버가 Nginx 워커 100개, Node.js 100개처럼 쪼개진 앱을 돌리는가?   |
+  |          +- 예 ------> [ 부하 균등화(Load Balancing) 100% 맹신! ]    |
+  |          |             (OS 커널의 기본 Migration 로직이 기가 막히게 분배해 줌)|
+  |          +- 아니오 (단일 거대 DB나 초저지연 트레이딩 싱글스레드 앱이다)         |
+  |                |                                                  |
+  |                v                                                  |
+  |      앱의 메모리 용량이 너무 커서(수백 GB) 이사 갈 때 캐시 오염 타격이 심한가?  |
+  |          +- 예 ------> [ OS 로드 밸런서 개입을 강제 차단하라! ]         |
+  |          |             - `isolcpus` 로 일반 스레드의 침범을 격리시키고,    |
+  |          |             - `numactl`, `taskset`으로 특정 코어에 Affinity 고정|
+  |          +- 아니오 ---> 일반 OS 정책 수용                                |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 엔지니어가 리눅스를 다룰 때 "기본값이 무조건 진리다"라는 환상에서 깨어나는 분기점이다. 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)의 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)은 '일반적인' 데스크톱이나 짜잘한 웹 서버 수천 개를 돌릴 때 가장 훌륭한 범용 알고리즘일 뿐이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 덩치가 거대해지고 레이턴시가 나노초 단위로 내려가는 하이엔드 엔터프라이즈(DB, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 캐시) 생태계로 진입하면, 이 친절한 밸런서는 오지랖 넓고 서버를 박살 내는 악마(캐시 파괴자)로 돌변한다. 아키텍트는 하드웨어 캐시 구조를 꿰뚫고, OS의 목줄을 당겨 밸런서를 잠재울 줄 알아야 한다.
@@ -216,12 +216,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [프로세스 친화성 (Affinity) 스케줄링]
-    │
-    ▼
+    |
+    v
 [부하 균등화 (Load Balancing) 큐 이주]
-    │
-    ├──▶ [eBPF 동적 커널 트레이싱 프레임워크 성능]
-    └──▶ [ZFS Copy-on-Write 볼륨 관리 통합]
+    |
+    +---> [eBPF 동적 커널 트레이싱 프레임워크 성능]
+    +---> [ZFS Copy-on-Write 볼륨 관리 통합]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -238,7 +238,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 779 / 800
 
-← **이전**: [778. 프로세스 친화성 (Affinity) 스케줄링](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)
-**다음**: [780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/) →
+<- **이전**: [778. 프로세스 친화성 (Affinity) 스케줄링](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)
+**다음**: [780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/) ->
 
 ---

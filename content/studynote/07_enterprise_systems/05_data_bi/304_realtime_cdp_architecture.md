@@ -25,8 +25,8 @@ DMP ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/
 CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 Unified [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Profile (통합 고객 프로필)을 구축한다.
 
 실시간 CDP의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요건:
-- 이벤트 발생 → 세그먼트 업데이트 → 채널 활성화까지 <200ms
-- 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 통합: 이메일, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ID, 디바이스 ID, 회원 ID → 하나의 UUID
+- 이벤트 발생 -> 세그먼트 업데이트 -> 채널 활성화까지 <200ms
+- 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 통합: 이메일, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ID, 디바이스 ID, 회원 ID -> 하나의 UUID
 - 실시간 개인화: 장바구니 이탈 고객에게 10초 내 타겟 팝업 표시
 
 📢 **섹션 요약 비유**: CDP는 고객 여러 명의 명함([식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))을 한 명의 인물 카드로 합치는 비서다. 카드 한 장에 모든 접점 정보가 담겨 즉시 응대가 가능하다.
@@ -37,8 +37,8 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 
 | 기능 | 설명 | 요구 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 |:---|:---|:---|
-| 이벤트 수집 | SDK/Pixel → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → 실시간 처리 | <50ms |
-| Identity Resolution | 복수 ID → 1 UUID 통합 | <100ms |
+| 이벤트 수집 | SDK/Pixel -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> 실시간 처리 | <50ms |
+| Identity Resolution | 복수 ID -> 1 UUID 통합 | <100ms |
 | Unified Profile 업데이트 | 실시간 행동 프로필 갱신 ([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) | <50ms |
 | [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) 계산 | 규칙 기반 or ML 세그먼트 | <100ms (Streaming) |
 | 채널 활성화 | 이메일/SMS/광고/웹 푸시 연동 | <200ms (전체) |
@@ -47,40 +47,40 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 
 ```
   데이터 소스
-  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
-  │웹 클릭 로그│  │앱 이벤트 │  │ CRM 거래 │  │오프라인POS│
-  │(JS Pixel)│  │  (SDK)  │  │ (Batch) │  │ (배치)  │
-  └────┬─────┘  └────┬────┘  └────┬────┘  └────┬────┘
-       └─────────────┼─────────────┼─────────────┘
-                     ▼
-          ┌─────────────────────┐
-          │   Kafka Topics      │  초당 수십만 이벤트
-          └──────────┬──────────┘
-                     ▼
-          ┌──────────────────────────────────────┐
-          │         CDP Core Engine              │
-          │  ┌──────────────────────────────────┐│
-          │  │ Identity Resolution              ││
-          │  │ (Graph DB / Redis)               ││
-          │  └─────────────────┬────────────────┘│
-          │                    ▼                 │
-          │  ┌──────────────────────────────────┐│
-          │  │ Unified Profile Store (Redis)    ││
-          │  │ 고객 1인 = 1 Profile UUID         ││
-          │  └─────────────────┬────────────────┘│
-          │                    ▼                 │
-          │  ┌──────────────────────────────────┐│
-          │  │ Segment Engine (Flink/Druid)     ││
-          │  │ 실시간 세그먼트 갱신 <100ms        ││
-          │  └─────────────────┬────────────────┘│
-          └────────────────────┼─────────────────┘
-                               ▼
-          ┌───────────────────────────────────────┐
-          │         활성화 채널 (Activation)        │
-          │  ┌───────┐  ┌─────┐  ┌─────────────┐  │
-          │  │이메일ESP│  │ SMS │  │ 구글/메타 광고│  │
-          │  └───────┘  └─────┘  └─────────────┘  │
-          └───────────────────────────────────────┘
+  +---------+  +---------+  +---------+  +---------+
+  |웹 클릭 로그|  |앱 이벤트 |  | CRM 거래 |  |오프라인POS|
+  |(JS Pixel)|  |  (SDK)  |  | (Batch) |  | (배치)  |
+  +----+-----+  +----+----+  +----+----+  +----+----+
+       +-------------+-------------+-------------+
+                     v
+          +---------------------+
+          |   Kafka Topics      |  초당 수십만 이벤트
+          +----------+----------+
+                     v
+          +--------------------------------------+
+          |         CDP Core Engine              |
+          |  +----------------------------------+|
+          |  | Identity Resolution              ||
+          |  | (Graph DB / Redis)               ||
+          |  +-----------------+----------------+|
+          |                    v                 |
+          |  +----------------------------------+|
+          |  | Unified Profile Store (Redis)    ||
+          |  | 고객 1인 = 1 Profile UUID         ||
+          |  +-----------------+----------------+|
+          |                    v                 |
+          |  +----------------------------------+|
+          |  | Segment Engine (Flink/Druid)     ||
+          |  | 실시간 세그먼트 갱신 <100ms        ||
+          |  +-----------------+----------------+|
+          +--------------------+-----------------+
+                               v
+          +---------------------------------------+
+          |         활성화 채널 (Activation)        |
+          |  +-------+  +-----+  +-------------+  |
+          |  |이메일ESP|  | SMS |  | 구글/메타 광고|  |
+          |  +-------+  +-----+  +-------------+  |
+          +---------------------------------------+
 ```
 
 ### Identity Resolution 유형
@@ -143,7 +143,7 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) | 핵심 플랫폼 | [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합·활성화 |
-| Identity Resolution | 핵심 기능 | 복수 ID → 단일 UUID 통합 |
+| Identity Resolution | 핵심 기능 | 복수 ID -> 단일 UUID 통합 |
 | Unified Profile | 산출물 | 고객 1인의 모든 행동 통합 뷰 |
 | [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 원료 | 직접 수집한 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
@@ -151,21 +151,21 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 
 ```
 채널별 고객 데이터 사일로 (CRM·웹·앱 분리)
-    │
-    ▼
+    |
+    v
 DMP (Data Management Platform) - 쿠키 기반 익명
-    │
-    ▼
+    |
+    v
 CDP (Customer Data Platform) - ID 통합 실명 프로파일
-    │
-    ▼
+    |
+    v
 실시간 CDP - 스트리밍 이벤트 즉각 프로파일 갱신
-    │
-    ▼
+    |
+    v
 Real-Time Personalization + 동의 관리 통합
 ```
 
-> **키워드**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/), Real-Time [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Identity Resolution, DMP, 360° Profile, Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)
+> **키워드**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/), Real-Time [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Identity Resolution, DMP, 360+ Profile, Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -179,7 +179,7 @@ Real-Time Personalization + 동의 관리 통합
 
 **진행 상황**: 304 / 482
 
-← **이전**: [303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/303_mlops_feature_store/)
-**다음**: [305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) →
+<- **이전**: [303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/303_mlops_feature_store/)
+**다음**: [305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) ->
 
 ---

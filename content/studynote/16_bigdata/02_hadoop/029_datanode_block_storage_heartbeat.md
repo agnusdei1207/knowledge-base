@@ -68,17 +68,17 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 
 ```text
 [HDFS NameNode]
-    │
-    ▼
+    |
+    v
 [DataNode]
-    │
-    ▼
+    |
+    v
 [블록 저장]
-    │
-    ▼
+    |
+    v
 [Heartbeat]
-    │
-    ▼
+    |
+    v
 [HA]
 ```
 
@@ -95,7 +95,7 @@ NameNode와 DataNode의 역할 분담과 Heartbeat 기반 상태 감지가 [HDFS
 
 **진행 상황**: 29 / 262
 
-← **이전**: [06. Apache Tez](/knowledge-base/studynote/16_bigdata/02_hadoop/028_apache_tez/)
-**다음**: [08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략](/knowledge-base/studynote/16_bigdata/02_hadoop/030_rack_awareness_fault_tolerance_topology/) →
+<- **이전**: [06. Apache Tez](/knowledge-base/studynote/16_bigdata/02_hadoop/028_apache_tez/)
+**다음**: [08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략](/knowledge-base/studynote/16_bigdata/02_hadoop/030_rack_awareness_fault_tolerance_topology/) ->
 
 ---

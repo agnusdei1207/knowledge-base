@@ -34,25 +34,25 @@ tags = ["studynote-devops-sre"]
 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 보통 시나리오 정의, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 조건, 결과 수집, 경보 발송의 다섯 요소로 구성된다. 시나리오는 단일 하이퍼텍스트 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Hypertext Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청일 수도 있고, 브라우저 자동화 기반 다단계 사용자 여정일 수도 있다. 실행 지점은 여러 리전이나 네트워크에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치해 지역별 차이를 측정하고, 각 실행 결과는 중앙 대시보드에 집계되어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 연결된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               합성 모니터링의 실행 파이프라인               │
-├──────────────────────────────────────────────────────────────┤
-│ [시나리오 정의]                                              │
-│   로그인 → 상품 검색 → 장바구니 → 결제 페이지 확인          │
-│          │                                                   │
-│          ▼                                                   │
-│ [분산 에이전트 실행]  서울 / 도쿄 / 프랑크푸르트 / 버지니아  │
-│          │                                                   │
-│          ▼                                                   │
-│ [검증] 상태 코드, 문서 객체 모델 (Document Object Model, DOM)│
-│        요소, 응답 시간, 인증서 만료일                        │
-│          │                                                   │
-│          ▼                                                   │
-│ [결과 집계] 성공률 · 95백분위 (p95) 지연시간 · 실패 단계    │
-│          │                                                   │
-│          ▼                                                   │
-│ [경보] 다중 지역 실패 시 호출 · 온콜 전달                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               합성 모니터링의 실행 파이프라인               |
++--------------------------------------------------------------+
+| [시나리오 정의]                                              |
+|   로그인 -> 상품 검색 -> 장바구니 -> 결제 페이지 확인          |
+|          |                                                   |
+|          v                                                   |
+| [분산 에이전트 실행]  서울 / 도쿄 / 프랑크푸르트 / 버지니아  |
+|          |                                                   |
+|          v                                                   |
+| [검증] 상태 코드, 문서 객체 모델 (Document Object Model, DOM)|
+|        요소, 응답 시간, 인증서 만료일                        |
+|          |                                                   |
+|          v                                                   |
+| [결과 집계] 성공률 · 95백분위 (p95) 지연시간 · 실패 단계    |
+|          |                                                   |
+|          v                                                   |
+| [경보] 다중 지역 실패 시 호출 · 온콜 전달                   |
++--------------------------------------------------------------+
 ```
 
 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 목적에 따라 여러 종류로 나뉜다. 단순 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 빠르고 유지보수가 쉬우며, 브라우저 시나리오는 실제 사용자 경험을 더 잘 반영한다. 네트워크·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 체크는 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)), 전송 계층 보안 (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), 인터넷 제어 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Internet Control Message Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/), [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)) 수준의 외부 경로 문제를 조기에 잡는 데 유용하다. 중요한 것은 모든 시나리오를 같은 수준으로 다루지 않고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향도에 따라 계층화하는 것이다.
@@ -143,20 +143,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 업타임 체크 · 핑 모니터링
-    │
-    ▼
+    |
+    v
 HTTP/API 합성 점검
-    │
-    ▼
+    |
+    v
 브라우저 기반 사용자 여정 검증
-    │
-    ▼
+    |
+    v
 다중 지역 외부 가용성 측정
-    │
-    ▼
+    |
+    v
 SLO 연계 경보 · 카나리 배포 게이트
-    │
-    ▼
+    |
+    v
 RUM · 트레이스와 결합한 종합 관측성
 ```
 
@@ -174,7 +174,7 @@ RUM · 트레이스와 결합한 종합 관측성
 
 **진행 상황**: 164 / 373
 
-← **이전**: [163. RUM (Real User Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/163_rum_real_user_monitoring/)
-**다음**: [165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/165_service_mesh_telemetry_sidecar/) →
+<- **이전**: [163. RUM (Real User Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/163_rum_real_user_monitoring/)
+**다음**: [165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/165_service_mesh_telemetry_sidecar/) ->
 
 ---

@@ -22,15 +22,15 @@ tags = ["studynote-design-supervision"]
 객체지향 설계에서 가장 흔한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 실수는 클라이언트가 `new ConcreteClass()`를 직접 호출하며 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 스스로 떠안는 것이다. 처음에는 단순하지만, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙이 늘어나면 클라이언트는 구체 클래스, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 값, 조립 순서, 환경 분기까지 모두 알게 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   직접 생성이 만드는 결합 구조                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client ──new──▶ ConcreteA                                            │
-│ Client ──new──▶ ConcreteB                                            │
-│ Client ──if/else──▶ 환경별 생성 규칙                                 │
-│                                                                      │
-│ 결과: 생성 규칙 변경 ──▶ Client 수정 ──▶ 테스트/확장 비용 증가        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   직접 생성이 만드는 결합 구조                       |
++----------------------------------------------------------------------+
+| Client --new---> ConcreteA                                            |
+| Client --new---> ConcreteB                                            |
+| Client --if/else---> 환경별 생성 규칙                                 |
+|                                                                      |
+| 결과: 생성 규칙 변경 ---> Client 수정 ---> 테스트/확장 비용 증가        |
++----------------------------------------------------------------------+
 ```
 
 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 목적은 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 별도 계층, 메서드, 객체, 원형으로 옮기는 데 있다. 즉 클라이언트는 무슨 역할의 객체가 필요하다까지만 알고, 구체적으로 어떻게 만들어지는가는 숨긴다. 이 구조가 OCP와 DIP를 실무 수준에서 돕는다.
@@ -44,17 +44,17 @@ tags = ["studynote-design-supervision"]
 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 모두 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 분리하지만, 해결하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 다르다. 유일 인스턴스 보장, 서브클래스 위임, 패밀리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 단계적 조립, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)처럼 문제 유형별로 초점이 달라진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    생성 책임 분리의 기본 흐름                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │                                                                  │
-│   ├──▶ Singleton ─────▶ 유일 인스턴스 보장                           │
-│   ├──▶ Factory Method ─▶ 생성할 하위 타입 결정                       │
-│   ├──▶ Abstract Factory ─▶ 관련 객체 묶음 생성                       │
-│   ├──▶ Builder ───────▶ 복잡한 조립 순서 분리                        │
-│   └──▶ Prototype ─────▶ 기존 객체 복제로 생성                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    생성 책임 분리의 기본 흐름                         |
++----------------------------------------------------------------------+
+| Client                                                               |
+|   |                                                                  |
+|   +---> Singleton ------> 유일 인스턴스 보장                           |
+|   +---> Factory Method --> 생성할 하위 타입 결정                       |
+|   +---> Abstract Factory --> 관련 객체 묶음 생성                       |
+|   +---> Builder --------> 복잡한 조립 순서 분리                        |
+|   +---> Prototype ------> 기존 객체 복제로 생성                        |
++----------------------------------------------------------------------+
 ```
 
 | 패턴 | 해결하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제 | 핵심 메커니즘 |
@@ -93,7 +93,7 @@ tags = ["studynote-design-supervision"]
 
 실무에서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 멀티 플랫폼 UI, 복잡한 DTO 조립, 캐시 가능한 원형 객체 관리 등에 널리 쓰인다. 중요한 것은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 감춘다가 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변경의 파급을 어디서 끊을지 설계하는 것</strong>이다.
 
-기술사 답안에서는 5개 패턴을 단순 나열하기보다, 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 문제 → [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임 분리 → 적합한 패턴 선택 → 기대효과 흐름으로 서술하면 구조적 완성도가 높다.
+기술사 답안에서는 5개 패턴을 단순 나열하기보다, 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 문제 -> [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임 분리 -> 적합한 패턴 선택 -> 기대효과 흐름으로 서술하면 구조적 완성도가 높다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -143,20 +143,20 @@ tags = ["studynote-design-supervision"]
 
 ```text
 직접 생성(new) 남용
-    │
-    ▼
+    |
+    v
 구체 클래스 결합 · 테스트 어려움
-    │
-    ▼
+    |
+    v
 생성 패턴 (Creational Patterns)
-    │
-    ├──▶ Singleton
-    ├──▶ Factory Method
-    ├──▶ Abstract Factory
-    ├──▶ Builder
-    └──▶ Prototype
-            │
-            ▼
+    |
+    +---> Singleton
+    +---> Factory Method
+    +---> Abstract Factory
+    +---> Builder
+    +---> Prototype
+            |
+            v
 생성 책임 분리 · 확장성 · 테스트 용이성 향상
 ```
 
@@ -174,7 +174,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 199 / 530
 
-← **이전**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/)
-**다음**: [144. 싱글턴 패턴 (Singleton Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/) →
+<- **이전**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/)
+**다음**: [144. 싱글턴 패턴 (Singleton Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/) ->
 
 ---

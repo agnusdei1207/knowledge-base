@@ -38,29 +38,29 @@ tags = ["studynote-design-supervision"]
 CISA 시험과 실무 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 역량은 철저하게 비즈니스 라이프사이클에 맞춘 5개의 거대한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 프레임워크로 구성되어 있습니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ CISA 5대 지식 도메인 체계 아키텍처 ]             │
-│                                                             │
-│ ┌─ [ Domain 1. 정보시스템 감사 프로세스 (21%) ] ────────────┐ │
-│ │  ▶ 위험 기반 감사(Risk-based Audit) 계획, 증거 수집, 보고 │ │
-│ └────────────────────────────┬────────────────────────────┘ │
-│                                ▼                            │
-│ ┌─ [ Domain 2. IT 거버넌스와 관리 (17%) ] ────────────────┐ │
-│ │  ▶ 비즈니스-IT 정렬, IT 전략, 조직 구조, 정책 및 절차 통제│ │
-│ └────────────────────────────┬────────────────────────────┘ │
-│                                ▼                            │
-│ ┌─ [ Domain 3. 정보시스템 획득, 개발 및 구현 (12%) ] ───────┐ │
-│ │  ▶ 프로젝트 관리(PM), SDLC 통제, 요구사항 검증, 테스트(UAT)│ │
-│ └────────────────────────────┬────────────────────────────┘ │
-│                                ▼                            │
-│ ┌─ [ Domain 4. 정보시스템 운영 및 비즈니스 회복력 (23%) ] ────┐ │
-│ │  ▶ IT 서비스 관리(ITIL 연계), BCP/DRP, 백업/복구 아키텍처 │ │
-│ └────────────────────────────┬────────────────────────────┘ │
-│                                ▼                            │
-│ ┌─ [ Domain 5. 정보 자산의 보호 (27%) ] ───────────────────┐ │
-│ │  ▶ 논리/물리적 접근 제어, 암호화, 네트워크 보안, 침해 대응 │ │
-│ └──────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ CISA 5대 지식 도메인 체계 아키텍처 ]             |
+|                                                             |
+| +- [ Domain 1. 정보시스템 감사 프로세스 (21%) ] ------------+ |
+| |  -> 위험 기반 감사(Risk-based Audit) 계획, 증거 수집, 보고 | |
+| +----------------------------+----------------------------+ |
+|                                v                            |
+| +- [ Domain 2. IT 거버넌스와 관리 (17%) ] ----------------+ |
+| |  -> 비즈니스-IT 정렬, IT 전략, 조직 구조, 정책 및 절차 통제| |
+| +----------------------------+----------------------------+ |
+|                                v                            |
+| +- [ Domain 3. 정보시스템 획득, 개발 및 구현 (12%) ] -------+ |
+| |  -> 프로젝트 관리(PM), SDLC 통제, 요구사항 검증, 테스트(UAT)| |
+| +----------------------------+----------------------------+ |
+|                                v                            |
+| +- [ Domain 4. 정보시스템 운영 및 비즈니스 회복력 (23%) ] ----+ |
+| |  -> IT 서비스 관리(ITIL 연계), BCP/DRP, 백업/복구 아키텍처 | |
+| +----------------------------+----------------------------+ |
+|                                v                            |
+| +- [ Domain 5. 정보 자산의 보호 (27%) ] -------------------+ |
+| |  -> 논리/물리적 접근 제어, 암호화, 네트워크 보안, 침해 대응 | |
+| +------------------------------------------------------+ |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** CISA의 아키텍처는 단순히 '보안([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 5)'에만 치중하지 않습니다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 방법론(D1)을 바탕으로, 조직이 룰을 세우고(D2), 시스템을 만들거나 사오고(D3), 무중단으로 운영하며(D4), 해커로부터 지켜내는(D5) 기업 IT 생애주기 전반에 대한 완벽한 통제 매트릭스를 그립니다.
@@ -152,17 +152,17 @@ CISA 프레임워크는 거버넌스와 서류적 증명(Evidence)을 극한으�
 
 ```text
 [IT 블랙박스 문제 — 경영진의 IT 통제 불가]
-    │
-    ▼
+    |
+    v
 [CISA 5대 도메인 — 거버넌스·획득·운영·보호·감사 프로세스]
-    │
-    ▼
+    |
+    v
 [COBIT 기반 위험 감사 — 비즈니스 목표 정렬]
-    │
-    ▼
+    |
+    v
 [ISMS-P / ISO 27001 연계 — 국내외 인증 통합]
-    │
-    ▼
+    |
+    v
 [지속적 감사 (Continuous Auditing) — 클라우드·DevSecOps 대응]
 ```
 IT 시스템의 불투명성을 CISA 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 기반으로 투명화하고, ISMS-P와 ISO 27001에 연계되며 클라우드 시대의 지속적 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로 진화하는 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 발전 흐름이다.
@@ -182,7 +182,7 @@ IT 시스템의 불투명성을 CISA 5대 [도메인](/knowledge-base/studynote/
 
 **진행 상황**: 24 / 530
 
-← **이전**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/)
-**다음**: [23. EA 기반 감리 (EA-based Information System Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/023_ea_based_audit/) →
+<- **이전**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/)
+**다음**: [23. EA 기반 감리 (EA-based Information System Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/023_ea_based_audit/) ->
 
 ---

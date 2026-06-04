@@ -27,18 +27,18 @@ tags = ["ict_convergence"]
 
 이 그림은 완전 개방형 시스템(퍼블릭)과 권한 통제형 시스템(프라이빗)의 근본적인 접근 제어 구조 차이를 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [Public Blockchain: 무허가 통신망]                     │
-│  Anonymous Node ───(자유로운 가입/탈퇴)──> 네트워크 참여 │
-│  ※ 누구나 원장을 읽고 트랜잭션을 전송함 (투명성 100%) │
-├────────────────────────────────────────────────────────┤
-│ [Private Blockchain: 인가된 방화벽 내부망]             │
-│                 [ Membership Service Provider (MSP) ]  │
-│                           │ (인증 및 권한 부여 발급)   │
-│                           ↓                            │
-│  [인가된 노드 A] ↔ [인가된 노드 B] ↔ [인가된 노드 C]   │
-│  ※ 허가받지 않은 외부자는 네트워크 접속 및 데이터 열람 불가 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [Public Blockchain: 무허가 통신망]                     |
+|  Anonymous Node ---(자유로운 가입/탈퇴)--> 네트워크 참여 |
+|  ※ 누구나 원장을 읽고 트랜잭션을 전송함 (투명성 100%) |
++--------------------------------------------------------+
+| [Private Blockchain: 인가된 방화벽 내부망]             |
+|                 [ Membership Service Provider (MSP) ]  |
+|                           | (인증 및 권한 부여 발급)   |
+|                           v                            |
+|  [인가된 노드 A] ↔ [인가된 노드 B] ↔ [인가된 노드 C]   |
+|  ※ 허가받지 않은 외부자는 네트워크 접속 및 데이터 열람 불가 |
++--------------------------------------------------------+
 ```
 이 도식의 핵심은 시스템에 진입하기 전에 강력한 문지기(MSP 등 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관)가 존재한다는 점이다. 이런 배치는 네트워크 내부에 악의적인 해커나 스패머가 없음을 전제로 신뢰 환경(Trusted [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))을 구축하기 때문이며, 따라서 복잡한 [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW)이나 암호화폐 수수료 보상 시스템을 완전히 제거할 수 있게 만든다. 실무에서는 이러한 설계 덕분에 프라이빗 체인이 기존 중앙 집중형 RDBMS와 견줄 만한 처리 속도를 내면서도, 참여 기업 간에 부인 방지(Non-repudiation)와 장부 일치를 달성하는 강력한 시너지를 발휘한다.
 
@@ -64,21 +64,21 @@ tags = ["ict_convergence"]
 [프라이빗 블록체인(하이퍼레저) 트랜잭션 순차 흐름도]
 
 [Client (앱)]
-   │
-   ├─ 1. 트랜잭션 제안 (Proposal) ──┐
-   ↓                              ↓
+   |
+   +- 1. 트랜잭션 제안 (Proposal) --+
+   v                              v
 [Endorsing Peer A]             [Endorsing Peer B]
-   │                              │
-   └─ 2. 체인코드(로직) 선행 실행 (Execute) 및 결과에 서명 (Endorsement)
-                                  │
-[Client (앱)] <── (서명된 결과 수집) ┘
-   │
-   ├─ 3. 서명된 트랜잭션 묶음을 [Orderer] 노드로 전송
-   ↓
+   |                              |
+   +- 2. 체인코드(로직) 선행 실행 (Execute) 및 결과에 서명 (Endorsement)
+                                  |
+[Client (앱)] <-- (서명된 결과 수집) +
+   |
+   +- 3. 서명된 트랜잭션 묶음을 [Orderer] 노드로 전송
+   v
 [Orderer (정렬 노드)] -- 4. 트랜잭션들을 시간순 정렬하여 [새 블록] 생성 (Order)
-   │
-   └─ 5. 생성된 블록을 모든 Peer에게 브로드캐스트
-   ↓
+   |
+   +- 5. 생성된 블록을 모든 Peer에게 브로드캐스트
+   v
 [All Peers] -- 6. 최종 서명 및 권한 검증(Validate) 후 자신의 장부(Ledger)에 기록 완료 (Commit)
 ```
 이 흐름의 핵심은 복잡한 연산(Execute)과 단순한 블록 묶음(Order)을 서로 다른 노드가 분담하여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다는 점이다. 이런 배치는 특정 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 무한 루프에 빠지거나 오류를 내더라도 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 엔진(Orderer) 자체가 멈추는 것을 방지하기 때문이며, 따라서 수만 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 폭주해도 엔터프라이즈급 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 고속 처리가 가능하다. 실무에서는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실행하고 보증하는 Endorsing Peer의 수를 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Endorsement [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 조정하여, 속도와 다자간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수준 사이의 균형을 비즈니스 요구에 맞게 세밀하게 설정한다.
@@ -88,14 +88,14 @@ tags = ["ict_convergence"]
 ```text
 [프라이빗 블록체인의 Channel을 통한 데이터 격리 레이아웃]
 
-  ┌─ 전체 네트워크 (네트워크 관리자 통제) ─┐
-  │                                        │
-  │ [Channel 1: A기업 - B기업 단가 계약망] │
-  │   => C기업은 이 원장의 존재조차 모름   │
-  │                                        │
-  │ [Channel 2: A기업 - C기업 부품 공급망] │
-  │   => B기업은 이 원장의 존재조차 모름   │
-  └────────────────────────────────────────┘
+  +- 전체 네트워크 (네트워크 관리자 통제) -+
+  |                                        |
+  | [Channel 1: A기업 - B기업 단가 계약망] |
+  |   => C기업은 이 원장의 존재조차 모름   |
+  |                                        |
+  | [Channel 2: A기업 - C기업 부품 공급망] |
+  |   => B기업은 이 원장의 존재조차 모름   |
+  +----------------------------------------+
 ```
 이 도식의 핵심은 단일 인프라 내에서도 논리적 분할을 통해 완벽한 정보 비대칭성을 제공한다는 점이다. 따라서 기업 A는 하나의 노드만 운영하면서도 파트너사별로 철저히 분리된 비밀 장부를 유지할 수 있다. 이는 퍼블릭 체인이 절대 할 수 없는 강력한 B2B 무기다.
 
@@ -118,14 +118,14 @@ tags = ["ict_convergence"]
 기업들은 종종 "그냥 여러 회사가 한 중앙 DB를 공유하면 되지 않느냐"고 질문한다. 중앙 DB는 한 기업이 루트 권한을 쥐고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 몰래 조작할 수 있다는 의심([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 및 신뢰 문제)을 낳는다. 반면 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 물리적으로 노드를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 조작을 불가능하게 만들면서도 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한은 통제하므로 이 신뢰의 딜레마를 완벽히 깬다.
 
 ```text
-┌─────────── [엔터프라이즈 데이터 아키텍처 결정 매트릭스] ───────────┐
-│                                                                  │
-│  데이터를 공유해야 하는 주체들이 서로 100% 신뢰하는가?           │
-│   ├─ YES ──> [일반 중앙 집중형 RDBMS 도입] (가장 빠르고 저렴)    │
-│   └─ NO ───> 데이터를 전 세계 모두에게 공개해도 되는가?          │
-│               ├─ YES ──> [퍼블릭 블록체인 도입] (비트코인, 이더리움) │
-│               └─ NO ───> [프라이빗 블록체인 도입] (Hyperledger Fabric) │
-└──────────────────────────────────────────────────────────────────┘
++----------- [엔터프라이즈 데이터 아키텍처 결정 매트릭스] -----------+
+|                                                                  |
+|  데이터를 공유해야 하는 주체들이 서로 100% 신뢰하는가?           |
+|   +- YES --> [일반 중앙 집중형 RDBMS 도입] (가장 빠르고 저렴)    |
+|   +- NO ---> 데이터를 전 세계 모두에게 공개해도 되는가?          |
+|               +- YES --> [퍼블릭 블록체인 도입] (비트코인, 이더리움) |
+|               +- NO ---> [프라이빗 블록체인 도입] (Hyperledger Fabric) |
++------------------------------------------------------------------+
 ```
 이 의사결정 트리의 핵심은 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 도입 기준이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 '[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 신뢰 부재'와 '프라이버시 요구'의 교집합에 있다는 점이다. 실무에서는 여러 기업이 얽혀 책임 소재를 가리기 힘들고 분쟁이 자주 일어나는 물류, 무역, 보험 청구 업무에서 중앙 권력 없이 공동의 신뢰 장부를 만들기 위해 이 아키텍처를 도입한다.
 
@@ -154,10 +154,10 @@ tags = ["ict_convergence"]
 [프라이빗 블록체인 인프라 구축의 치명적 안티패턴]
 
 [AWS VPC (A기업 소유)]
- ┌──────────────────────────────────────────────┐
- │ [Peer A (A사)]  [Peer B (B사)]  [Peer C (C사)]│
- │       [Orderer Node]  [MSP Server]           │
- └──────────────────────────────────────────────┘
+ +----------------------------------------------+
+ | [Peer A (A사)]  [Peer B (B사)]  [Peer C (C사)]|
+ |       [Orderer Node]  [MSP Server]           |
+ +----------------------------------------------+
    🚨 위험: A기업 인프라 관리자가 DB를 통째로 롤백하거나 삭제 가능!
    => 블록체인 도입 의미 0%. 그냥 비싼 중앙 DB를 쓰는 꼴.
 
@@ -199,17 +199,17 @@ tags = ["ict_convergence"]
 
 ```text
 [퍼블릭 블록체인 (Bitcoin/Ethereum) — 개방·무허가 네트워크]
-    │
-    ▼
+    |
+    v
 [컨소시엄 블록체인 — 복수 기관 공동 운영, 반허가형]
-    │
-    ▼
+    |
+    v
 [프라이빗 블록체인 — 단일 기관 완전 통제, 허가형 네트워크]
-    │
-    ▼
+    |
+    v
 [Hyperledger Fabric — 채널/조직/MSP 모듈형 B2B 표준 프레임워크]
-    │
-    ▼
+    |
+    v
 [체인코드 (Smart Contract) — BFT/Raft 합의 기반 비즈니스 로직 자동 실행]
 ```
 개방형 [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)의 한계를 극복하고자 허가형 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 등장했으며, Hyperledger Fabric이 B2B 표준으로 자리 잡았다.
@@ -225,7 +225,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 20 / 552
 
-← **이전**: [19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)
-**다음**: [21. 컨소시엄 블록체인 (Consortium Blockchain) - 여러 기업이 연합하여 노드 운영](/knowledge-base/studynote/06_ict_convergence/01_blockchain/021_consortium_blockchain/) →
+<- **이전**: [19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)
+**다음**: [21. 컨소시엄 블록체인 (Consortium Blockchain) - 여러 기업이 연합하여 노드 운영](/knowledge-base/studynote/06_ict_convergence/01_blockchain/021_consortium_blockchain/) ->
 
 ---

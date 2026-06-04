@@ -46,25 +46,25 @@ KVM 오버 IP의 핵심은 "화면은 캡처해서 보내고, 입력은 가짜 �
 아래 그림은 KVM 오버 IP가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 위가 아니라 메인보드 관리 경로에서 동작함을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Admin PC                                                                  │
-│  Browser / KVM Client                                                     │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ HTTPS / Vendor Console Protocol
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ OOB Mgmt Network                                                          │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Server Mainboard                                                          │
-│                                                                            │
-│  Host VGA/FB ─────▶ [ Video Capture ] ─────▶ Encode/Stream ─────▶ Remote  │
-│                                                                            │
-│  Admin Input ─────▶ [ BMC ] ─────▶ USB HID Emulation ─────▶ BIOS / OS     │
-│                                                                            │
-│  Power / Reset / Boot Order ───────────────────────────────▶ Control Path  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Admin PC                                                                  |
+|  Browser / KVM Client                                                     |
++---------------+------------------------------------------------------------+
+                | HTTPS / Vendor Console Protocol
+                v
++----------------------------------------------------------------------------+
+| OOB Mgmt Network                                                          |
++---------------+------------------------------------------------------------+
+                v
++----------------------------------------------------------------------------+
+| Server Mainboard                                                          |
+|                                                                            |
+|  Host VGA/FB ------> [ Video Capture ] ------> Encode/Stream ------> Remote  |
+|                                                                            |
+|  Admin Input ------> [ BMC ] ------> USB HID Emulation ------> BIOS / OS     |
+|                                                                            |
+|  Power / Reset / Boot Order --------------------------------> Control Path  |
++----------------------------------------------------------------------------+
 ```
 
 화면 경로는 보통 호스트의 VGA [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)나 BMC가 공유하는 프레임버퍼를 읽어 JPEG, H.264, 또는 벤더 전용 스트림으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 전송한다. 입력 경로는 반대로 관리자가 누른 키를 BMC가 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 키보드·마우스로 에뮬레이션해 호스트에 꽂힌 것처럼 보이게 만든다. 이 때문에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰 있어도 BIOS 메뉴에서 `Del`, `F2`, `Esc`를 누르는 동작이 가능하다.
@@ -152,19 +152,19 @@ KVM 오버 IP를 잘 도입하면 물리 방문을 줄이고, [초기](/knowledg
 
 ```text
 Crash Cart
-    │
-    ▼
+    |
+    v
 Local KVM Switch
-    │
-    ▼
+    |
+    v
 OOB Management + BMC
-    │
-    ├──▶ KVM over IP
-    │        │
-    │        ├──▶ Virtual Media
-    │        └──▶ Remote Power / Reset
-    │
-    ▼
+    |
+    +---> KVM over IP
+    |        |
+    |        +---> Virtual Media
+    |        +---> Remote Power / Reset
+    |
+    v
 HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops
 ```
 
@@ -182,7 +182,7 @@ HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops
 
 **진행 상황**: 714 / 803
 
-← **이전**: [712. 서버 대역외 관리 (OOB Management)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/712_oob_management/)
-**다음**: [714. 원격 미디어 마운트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/714_virtual_media_mount/) →
+<- **이전**: [712. 서버 대역외 관리 (OOB Management)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/712_oob_management/)
+**다음**: [714. 원격 미디어 마운트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/714_virtual_media_mount/) ->
 
 ---

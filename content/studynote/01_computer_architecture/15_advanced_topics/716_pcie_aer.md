@@ -49,16 +49,16 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 | Header Log | 문제 패킷의 헤더 저장 | 어떤 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 문제였는지 추적 |
 | Root Error Status/[Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차원의 집계·통지 | 운영체제와 [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), Serviceability) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 연동 |
 
-아래 그림은 AER가 단일 장치 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 장치→루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)→운영체제로 이어지는 보고 경로임을 나타낸다.
+아래 그림은 AER가 단일 장치 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 장치->루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)->운영체제로 이어지는 보고 경로임을 나타낸다.
 
 ```text
-┌──────────────┐      error       ┌──────────────┐      report      ┌──────────────┐
-│ Endpoint /   ├────────────────▶ │ Root Port    ├────────────────▶ │ Operating    │
-│ Switch Port  │                  │ AER Registers│                  │ System AER   │
-└──────┬───────┘                  └──────┬───────┘                  └──────┬───────┘
-       │                                  │                                 │
-       │ set status bits                  │ root error status               │
-       ▼                                  ▼                                 ▼
++--------------+      error       +--------------+      report      +--------------+
+| Endpoint /   +-----------------> | Root Port    +-----------------> | Operating    |
+| Switch Port  |                  | AER Registers|                  | System AER   |
++------+-------+                  +------+-------+                  +------+-------+
+       |                                  |                                 |
+       | set status bits                  | root error status               |
+       v                                  v                                 v
   Header Log                        ERR_COR / NONFATAL / FATAL        Reset / Quarantine
 ```
 
@@ -142,18 +142,18 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 ```text
 PCIe Link Errors
-      │
-      ▼
+      |
+      v
 Replay / Retry at Data Link Layer
-      │
-      ▼
+      |
+      v
 AER Status + Header Log + Severity
-      │
-      ├──▶ Operating System Error Handling
-      ├──▶ Driver Recovery / Reset
-      └──▶ DPC Containment
-      │
-      ▼
+      |
+      +---> Operating System Error Handling
+      +---> Driver Recovery / Reset
+      +---> DPC Containment
+      |
+      v
 Higher RAS for GPU / NVMe / NIC Platforms
 ```
 
@@ -171,7 +171,7 @@ Higher RAS for GPU / NVMe / NIC Platforms
 
 **진행 상황**: 717 / 803
 
-← **이전**: [715. 하드웨어 헬스 모니터링 (센서 레지스터)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/715_hw_health_monitoring/)
-**다음**: [717. 메모리 MCA (Machine Check Architecture)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/) →
+<- **이전**: [715. 하드웨어 헬스 모니터링 (센서 레지스터)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/715_hw_health_monitoring/)
+**다음**: [717. 메모리 MCA (Machine Check Architecture)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/) ->
 
 ---

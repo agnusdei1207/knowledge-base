@@ -58,31 +58,31 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 패닉 발생부터 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`vmcore`)이 저장되기까지의 시간적 흐름이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Kdump 메커니즘 (Panic -> Dump -> Reboot)           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 정상 부팅 시 (Preparation)]                                  │
-  │   1. GRUB 파라미터 `crashkernel=256M`을 통해 물리 램의 일부 공간을 예약함.   │
-  │   2. Production Kernel 부팅 완료 후, `kexec` 도구가 Capture Kernel과     │
-  │      그것의 initramfs를 아까 예약해 둔 256MB 공간에 몰래 로드해 둠.           │
-  │                                                                   │
-  │  [상황 2: 치명적 장애 발생 (Kernel Panic!)]                             │
-  │   3. 널 포인터 역참조 등 버그 발생 -> 커널이 `panic()` 함수 호출.          │
-  │   4. `panic()` 함수 내부에 있는 `machine_kexec()`가 즉시 트리거됨.       │
-  │                                                                   │
-  │  [상황 3: 커널 교대 (Kexec Hot-Boot)]                                  │
-  │   5. CPU는 BIOS/UEFI를 거치지 않고, 레지스터의 Program Counter(PC)를     │
-  │      미리 로드된 Capture Kernel의 시작 주소로 강제 변경함 (순간 이동!).      │
-  │   6. 이제 Capture Kernel이 시스템의 통제권을 쥠. (Production Kernel은 정지)│
-  │                                                                   │
-  │  [상황 4: 덤프 추출 및 재부팅 (Dumping & Reboot)]                       │
-  │   7. Capture Kernel은 `/proc/vmcore`라는 가상 파일을 생성함.             │
-  │      (이 파일은 아까 죽은 Production Kernel이 쓰던 메모리 전체를 가리킴)      │
-  │   8. `makedumpfile` 명령어가 이 /proc/vmcore를 읽어, 디스크의            │
-  │      /var/crash/ 디렉터리에 압축하여 저장함.                             │
-  │   9. 덤프 저장이 끝나면 Capture Kernel이 시스템을 완전히 하드웨어 재부팅함.     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Kdump 메커니즘 (Panic -> Dump -> Reboot)           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 정상 부팅 시 (Preparation)]                                  |
+  |   1. GRUB 파라미터 `crashkernel=256M`을 통해 물리 램의 일부 공간을 예약함.   |
+  |   2. Production Kernel 부팅 완료 후, `kexec` 도구가 Capture Kernel과     |
+  |      그것의 initramfs를 아까 예약해 둔 256MB 공간에 몰래 로드해 둠.           |
+  |                                                                   |
+  |  [상황 2: 치명적 장애 발생 (Kernel Panic!)]                             |
+  |   3. 널 포인터 역참조 등 버그 발생 -> 커널이 `panic()` 함수 호출.          |
+  |   4. `panic()` 함수 내부에 있는 `machine_kexec()`가 즉시 트리거됨.       |
+  |                                                                   |
+  |  [상황 3: 커널 교대 (Kexec Hot-Boot)]                                  |
+  |   5. CPU는 BIOS/UEFI를 거치지 않고, 레지스터의 Program Counter(PC)를     |
+  |      미리 로드된 Capture Kernel의 시작 주소로 강제 변경함 (순간 이동!).      |
+  |   6. 이제 Capture Kernel이 시스템의 통제권을 쥠. (Production Kernel은 정지)|
+  |                                                                   |
+  |  [상황 4: 덤프 추출 및 재부팅 (Dumping & Reboot)]                       |
+  |   7. Capture Kernel은 `/proc/vmcore`라는 가상 파일을 생성함.             |
+  |      (이 파일은 아까 죽은 Production Kernel이 쓰던 메모리 전체를 가리킴)      |
+  |   8. `makedumpfile` 명령어가 이 /proc/vmcore를 읽어, 디스크의            |
+  |      /var/crash/ 디렉터리에 압축하여 저장함.                             |
+  |   9. 덤프 저장이 끝나면 Capture Kernel이 시스템을 완전히 하드웨어 재부팅함.     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** `kexec`의 위대함은 하드웨어 리셋(POST 과정, 장치 초기화 등)을 생략한다는 것이다. 서버가 하드웨어부터 다시 부팅하면 램(RAM)의 내용이 날아가거나(Clear) 덮어써질 수 있다. `kexec`은 하드웨어 전원을 그대로 둔 채, CPU의 머릿속만 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 쏙 바꿔치기한다. 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 깨어나서 주위를 둘러보면, 메모리 전체에 아까 죽은 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시체(변수, 상태)가 고스란히 얼어붙어 있다. 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 시체를 차분하게 분석해서 디스크나 원격 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버로 복사(`vmcore`)한 뒤, 임무를 마치고 스스로 재부팅 버튼을 누른다.
@@ -135,28 +135,28 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엔터프라이즈 서버 Kdump 도입 의사결정 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [Mission Critical 운영 서버의 가용성 및 장애 분석 체계 설계]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 시스템이 1회성 컨테이너/서버리스인가, 영구적인 인프라 노드인가?       │
-  │          ├─ 1회성 (K8s Pod 등) ──▶ [Kdump 불필요]                     │
-  │          │                        (노드가 죽으면 버리고 새로 띄움. 클라우드 │
-  │          │                         공급자가 하이퍼바이저 덤프를 가져감)     │
-  │          └─ 영구 인프라 (DB, 하이퍼바이저 호스트)                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      메모리 자원이 극도로 쪼들리는 엣지(Edge) 디바이스인가?                 │
-  │          ├─ 예 ─────▶ [Kdump 신중 도입 (crashkernel 예약분 낭비 발생)] │
-  │          │            (평소에 128MB~256MB의 램을 아예 못 쓰게 예약하므로  │
-  │          │             저사양 기기에서는 치명적일 수 있음)               │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Kdump 필수 활성화 (Default Enable)]         │
-  │                         - NFS 등 원격 스토리지 덤프 백업 설정 병행 고려    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 엔터프라이즈 서버 Kdump 도입 의사결정 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [Mission Critical 운영 서버의 가용성 및 장애 분석 체계 설계]              |
+  |                |                                                  |
+  |                v                                                  |
+  |      해당 시스템이 1회성 컨테이너/서버리스인가, 영구적인 인프라 노드인가?       |
+  |          +- 1회성 (K8s Pod 등) ---> [Kdump 불필요]                     |
+  |          |                        (노드가 죽으면 버리고 새로 띄움. 클라우드 |
+  |          |                         공급자가 하이퍼바이저 덤프를 가져감)     |
+  |          +- 영구 인프라 (DB, 하이퍼바이저 호스트)                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      메모리 자원이 극도로 쪼들리는 엣지(Edge) 디바이스인가?                 |
+  |          +- 예 ------> [Kdump 신중 도입 (crashkernel 예약분 낭비 발생)] |
+  |          |            (평소에 128MB~256MB의 램을 아예 못 쓰게 예약하므로  |
+  |          |             저사양 기기에서는 치명적일 수 있음)               |
+  |          |                                                        |
+  |          +- 아니오 ---> [Kdump 필수 활성화 (Default Enable)]         |
+  |                         - NFS 등 원격 스토리지 덤프 백업 설정 병행 고려    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 레벨"에서 Kdump를 켜는 것은 종종 낭비로 여겨진다. 클라우드는 장애가 나면 원인을 찾기보다 빨리 새 인스턴스로 교체하는 것(Pet vs Cattle)이 미덕이기 때문이다. 하지만, 그 클라우드를 지탱하는 "[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 호스트(Bare-metal)" 자체나, 거대한 Stateful [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서는 Kdump가 꺼져있으면 10억짜리 장애의 원인 규명을 영원히 미궁에 빠뜨리는 직무 유기가 된다.
@@ -203,12 +203,12 @@ Kdump와 Kexec 메커니즘은 소프트웨어의 완벽성이란 존재하지 �
 
 ```text
 [클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
-    │
-    ▼
+    |
+    v
 [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
-    │
-    ├──▶ [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
-    └──▶ [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
+    |
+    +---> [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
+    +---> [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -225,7 +225,7 @@ Kdump와 Kexec 메커니즘은 소프트웨어의 완벽성이란 존재하지 �
 
 **진행 상황**: 660 / 800
 
-← **이전**: [659. 클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)](/knowledge-base/studynote/02_operating_system/10_security/659_cloud_guest_os_cloud_init_bootstrap/)
-**다음**: [661. eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/) →
+<- **이전**: [659. 클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)](/knowledge-base/studynote/02_operating_system/10_security/659_cloud_guest_os_cloud_init_bootstrap/)
+**다음**: [661. eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/) ->
 
 ---

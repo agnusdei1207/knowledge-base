@@ -56,19 +56,19 @@ tags = ["studynote-bigdata"]
 ### DP 주요 메커니즘
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              차등 프라이버시 메커니즘 비교                   │
-├──────────────────┬──────────────────┬───────────────────────┤
-│   Laplace 메커니즘│  Gaussian 메커니즘│   Exponential 메커니즘│
-├──────────────────┼──────────────────┼───────────────────────┤
-│ 수치형 쿼리 전용 │ (ε,δ)-DP용       │ 비수치형 쿼리용       │
-│                  │ Gaussian 노이즈  │ (최적 응답 선택)      │
-│ 노이즈 크기:     │ 노이즈 크기:     │                       │
-│ Lap(Δf/ε)       │ N(0, σ²)        │                       │
-│ Δf = 민감도      │ σ ≥ Δf√(2ln(1.25/δ))/ε│              │
-│ (sensitivity)   │                  │                       │
-│ 강한 ε-DP 보장  │ 약한 (ε,δ)-DP   │                       │
-└──────────────────┴──────────────────┴───────────────────────┘
++-------------------------------------------------------------+
+|              차등 프라이버시 메커니즘 비교                   |
++------------------+------------------+-----------------------+
+|   Laplace 메커니즘|  Gaussian 메커니즘|   Exponential 메커니즘|
++------------------+------------------+-----------------------+
+| 수치형 쿼리 전용 | (ε,δ)-DP용       | 비수치형 쿼리용       |
+|                  | Gaussian 노이즈  | (최적 응답 선택)      |
+| 노이즈 크기:     | 노이즈 크기:     |                       |
+| Lap(Δf/ε)       | N(0, σ^)        |                       |
+| Δf = 민감도      | σ ≥ Δf√(2ln(1.25/δ))/ε|              |
+| (sensitivity)   |                  |                       |
+| 강한 ε-DP 보장  | 약한 (ε,δ)-DP   |                       |
++------------------+------------------+-----------------------+
 ```
 
 ### 전역 DP vs 로컬 DP
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
   병렬 쿼리(다른 파티션): 총 ε_total = max(ε₁, ε₂, ..., εₙ)
 
 실용적 의미:
-  100번 쿼리, 각 ε=0.01 → 총 소비 = 1.0
+  100번 쿼리, 각 ε=0.01 -> 총 소비 = 1.0
   예산 소진 후에는 추가 쿼리 거부 (Privacy Budget Exhausted)
 ```
 
@@ -135,9 +135,9 @@ Apple은 iOS [10](/knowledge-base/studynote/02_operating_system/08_storage_and_i
 #### US Census Bureau 2020 인구조사
 
 TopDown [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용:
-- 각 지리적 수준(전국→주→카운티→도시·지역→블록)에서 노이즈 예산 배분
+- 각 지리적 수준(전국->주->카운티->도시·지역->블록)에서 노이즈 예산 배분
 - 총 ε = 17.14 (지리적 수준별 차등 배분)
-- 소규모 지역구(인구 100명 이하)에서 비율 왜곡 발생 → 사회적 논란
+- 소규모 지역구(인구 100명 이하)에서 비율 왜곡 발생 -> 사회적 논란
 
 #### Google RAPPOR
 
@@ -184,17 +184,17 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 
 ```text
 [전통 익명화 — 재식별 공격에 취약한 단순 마스킹]
-    │
-    ▼
+    |
+    v
 [차등 프라이버시 (Differential Privacy) — ε 보장, 수학적 프라이버시]
-    │
-    ▼
+    |
+    v
 [로컬 차등 프라이버시 (Local DP) — 데이터 수집 전 단말에서 노이즈 추가]
-    │
-    ▼
+    |
+    v
 [연합 학습 + DP (FL + DP) — 분산 학습에 프라이버시 보장 결합]
-    │
-    ▼
+    |
+    v
 [프라이버시 예산 관리 (Privacy Budget) — ε 누적 소모 모니터링]
 ```
 차등 프라이버시는 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 여부를 수학적으로 숨기는 엄격한 프라이버시 보장을 제공하며, 로컬 DP·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 결합해 프라이버시 보존 AI의 표준이 되어가고 있다.
@@ -211,7 +211,7 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 
 **진행 상황**: 209 / 262
 
-← **이전**: [202. 데이터 비식별화 기법 (Data De-identification Techniques) — 마스킹/가명화/집계화](/knowledge-base/studynote/16_bigdata/10_governance/208_data_deidentification_techniques/)
-**다음**: [204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체](/knowledge-base/studynote/16_bigdata/10_governance/210_synthetic_data/) →
+<- **이전**: [202. 데이터 비식별화 기법 (Data De-identification Techniques) — 마스킹/가명화/집계화](/knowledge-base/studynote/16_bigdata/10_governance/208_data_deidentification_techniques/)
+**다음**: [204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체](/knowledge-base/studynote/16_bigdata/10_governance/210_synthetic_data/) ->
 
 ---

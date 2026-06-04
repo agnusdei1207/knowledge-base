@@ -21,11 +21,11 @@ tags = ["design_supervision"]
 BPR과 ISP는 모두 기업 변화를 다루지만 역할이 다르다. ISP는 목표 아키텍처와 투자 우선순위를 정하고, BPR은 그 목표에 맞게 핵심 업무를 다시 설계한다.
 두 작업이 분리되면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서는 멋있지만 현업은 그대로인 상태가 되기 쉽다. 그래서 시스템 구축 뒤에는 사후평가로 원래 목표가 실제로 달성됐는지 확인해야 한다.
 ```text
-┌──────────────────────────────────────────────┐
-│ 전략 목표 → ISP → BPR → 시스템 구축 → KPI 검증 │
-├──────────────────────────────────────────────┤
-│ AS-IS 업무 ──▶ TO-BE 업무 ──▶ 데이터/화면/권한 정렬 │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| 전략 목표 -> ISP -> BPR -> 시스템 구축 -> KPI 검증 |
++----------------------------------------------+
+| AS-IS 업무 ---> TO-BE 업무 ---> 데이터/화면/권한 정렬 |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 설계 전에 방향을 맞추지 않으면 구축 후에는 원래 문제로 되돌아간다.
@@ -35,7 +35,7 @@ BPR과 ISP는 모두 기업 변화를 다루지만 역할이 다르다. ISP는 �
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ISP는 비전, 응용, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라 방향을 내놓고, BPR은 업무 순서와 승인·예외 규칙을 바꾼다. 둘이 같은 목표 문구와 지표를 공유해야 요구사항 추적표가 흔들리지 않는다.
-즉, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 설계 문서와 따로 놀지 않도록 사업 목표 → 프로세스 변경 → 화면/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구현이 한 묶음으로 내려와야 한다.
+즉, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 설계 문서와 따로 놀지 않도록 사업 목표 -> 프로세스 변경 -> 화면/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구현이 한 묶음으로 내려와야 한다.
 | 구분 | 역할 | 판단 포인트 |
 | --- | --- | --- |
 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | 목표 아키텍처와 로드맵 수립 | 범위와 투자 우선순위를 정한다 |
@@ -63,7 +63,7 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 처리 시간, 재작업률, 오류율, 승인 단계 수, 사용자 채택률로 효과를 본다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 관점에서는 경영 목표 → 프로세스 변경 → 기능 구현 → 결과 보고서의 연결이 끊기지 않아야 한다.
+실무에서는 처리 시간, 재작업률, 오류율, 승인 단계 수, 사용자 채택률로 효과를 본다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 관점에서는 경영 목표 -> 프로세스 변경 -> 기능 구현 -> 결과 보고서의 연결이 끊기지 않아야 한다.
 또한 사업 책임자와 프로세스 오너가 분리되지 않아야 하고, 변경된 업무가 교육과 운영 규정에 반영돼야 한다.
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -105,18 +105,18 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 ```text
 경영 목표
-  │
-  ▼
+  |
+  v
 ISP (전략/로드맵)
-  │
-  ▼
+  |
+  v
 BPR (프로세스 재설계)
-  │
-  ▼
+  |
+  v
 시스템 구축
-  │
-  ▼
-사후평가 → 개선 과제
+  |
+  v
+사후평가 -> 개선 과제
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -131,7 +131,7 @@ BPR (프로세스 재설계)
 
 **진행 상황**: 121 / 530
 
-← **이전**: [78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/)
-**다음**: [79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) →
+<- **이전**: [78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/)
+**다음**: [79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) ->
 
 ---

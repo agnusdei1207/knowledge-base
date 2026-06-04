@@ -19,19 +19,19 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    아웃바운드 vs 인바운드 비교                         │
-├───────────────────────────────────────────────────────┤
-│  [아웃바운드 (Push)]                                  │
-│   기업 → 고객에게 메시지 푸시                         │
-│   TV 광고, 콜드콜, 배너, 전단지                       │
-│   → 고객이 원하지 않아도 노출 → Ad Blocker 증가      │
-│                                                       │
-│  [인바운드 (Pull)]                                    │
-│   고객 ← 자발적으로 찾아옴                           │
-│   블로그, SEO, 유튜브, 웨비나, 전자책                │
-│   → 고객이 필요할 때 찾아옴 → 신뢰도 높음            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    아웃바운드 vs 인바운드 비교                         |
++-------------------------------------------------------+
+|  [아웃바운드 (Push)]                                  |
+|   기업 -> 고객에게 메시지 푸시                         |
+|   TV 광고, 콜드콜, 배너, 전단지                       |
+|   -> 고객이 원하지 않아도 노출 -> Ad Blocker 증가      |
+|                                                       |
+|  [인바운드 (Pull)]                                    |
+|   고객 <- 자발적으로 찾아옴                           |
+|   블로그, SEO, 유튜브, 웨비나, 전자책                |
+|   -> 고객이 필요할 때 찾아옴 -> 신뢰도 높음            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 아웃바운드는 길에서 전단지를 뿌리는 것(Push)이고, 인바운드는 맛집이 되어 손님이 알아서 찾아오게 하는 것(Pull)이다.
@@ -40,7 +40,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 인바운드 퍼널 (Attract → Convert → Close → Delight)
+### 인바운드 퍼널 (Attract -> Convert -> Close -> Delight)
 
 | 단계 | 활동 | 도구 |
 |:---|:---|:---|
@@ -57,7 +57,7 @@ tags = ["studynote-enterprise-systems"]
 
 | 비교 | 아웃바운드 | 인바운드 |
 |:---|:---|:---|
-| **방향** | Push (기업→고객) | **Pull (고객→기업)** |
+| **방향** | Push (기업->고객) | **Pull (고객->기업)** |
 | **CPL** | 높음 | **낮음 (시간 경과 시)** |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a></strong> | 낮음 (광고 피로) | **높음 (콘텐츠 가치)** |
 | **측정** | 어려움 | <strong>GA4·<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> 추적 용이</strong> |
@@ -67,7 +67,7 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### Blended [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-- **인바운드**: 블로그·SEO로 유입 → 리드 수집.
+- **인바운드**: 블로그·SEO로 유입 -> 리드 수집.
 - **아웃바운드**: 수집된 리드에 이메일 너처링·리타겟팅 광고.
 
 ---
@@ -92,17 +92,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [TV·신문 광고 (아웃바운드, 1950s~)]
-    │
-    ▼
+    |
+    v
 [인터넷 배너·이메일 (디지털 아웃바운드, 2000s)]
-    │
-    ▼
+    |
+    v
 [인바운드 마케팅 (2006, HubSpot) — 콘텐츠·SEO·블로그]
-    │
-    ▼
+    |
+    v
 [Blended 전략 (2015~) — 인바운드+리타겟팅 혼합]
-    │
-    ▼
+    |
+    v
 [현재: AI 인바운드 — GenAI 콘텐츠 자동 생성·SEO 최적화]
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 118 / 482
 
-← **이전**: [117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/117_martech_marketing_technology_convergence/)
-**다음**: [119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) →
+<- **이전**: [117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/117_martech_marketing_technology_convergence/)
+**다음**: [119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ->
 
 ---

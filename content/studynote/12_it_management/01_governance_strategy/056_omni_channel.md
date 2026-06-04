@@ -33,9 +33,9 @@ tags = ["studynote-it-management"]
 
 ```text
 웹 / 앱 / 매장 / 상담센터
-          ↓
+          v
    통합 고객 프로필
-          ↓
+          v
 MDM (Master Data Management)
 CRM (Customer Relationship Management)
 POS (Point of Sale)
@@ -102,11 +102,11 @@ POS (Point of Sale)
 
 ```text
 고객 ID
-   ↓
+   v
 MDM / CRM / POS / LBS
-   ↓
+   v
 재고 / 가격 / 혜택 / 상담 통합
-   ↓
+   v
 끊김 없는 고객 경험
 ```
 
@@ -114,11 +114,11 @@ MDM / CRM / POS / LBS
 
 ## 관련 키워드 및 발전 흐름도
 
-1. Single Channel → 하나의 판매 창구
-2. Multi-Channel → 채널 확대
-3. Cross-Channel → 채널 간 연계 시작
-4. [Omni-Channel](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) → 고객 중심 통합 경험 완성
-5. 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합과 개인화 → [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) 고도화
+1. Single Channel -> 하나의 판매 창구
+2. Multi-Channel -> 채널 확대
+3. Cross-Channel -> 채널 간 연계 시작
+4. [Omni-Channel](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) -> 고객 중심 통합 경험 완성
+5. 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합과 개인화 -> [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) 고도화
 
 ---
 
@@ -134,7 +134,7 @@ MDM / CRM / POS / LBS
 
 **진행 상황**: 99 / 587
 
-← **이전**: [55. 디지털 전환 (Digital Transformation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)
-**다음**: [57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) →
+<- **이전**: [55. 디지털 전환 (Digital Transformation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)
+**다음**: [57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) ->
 
 ---

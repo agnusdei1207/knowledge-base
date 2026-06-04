@@ -26,13 +26,13 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 버퍼가 "burst fill"과 "steady drain" 사이를 이어 주는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      명령어 공급은 뭉텅이로 채워지고, 디코더는 일정한 속도로 소비한다        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ I-cache / Flash Refill ---> [Prefetch Buffer] ---> Decode / Issue         │
-│      burst fill                 smooth drain                              │
-│ refill 지연이 와도 버퍼가 남아 있으면 front-end stall을 늦출 수 있다.      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      명령어 공급은 뭉텅이로 채워지고, 디코더는 일정한 속도로 소비한다        |
++----------------------------------------------------------------------------+
+| I-cache / Flash Refill ---> [Prefetch Buffer] ---> Decode / Issue         |
+|      burst fill                 smooth drain                              |
+| refill 지연이 와도 버퍼가 남아 있으면 front-end stall을 늦출 수 있다.      |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치 버퍼는 분식집 앞에 미리 삶아 둔 떡과 어묵 바구니와 같다. 손님 주문이 잠깐 몰려도 재료가 이미 앞에 있으면 조리대가 바로 멈추지 않는다.
@@ -56,17 +56,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 front-end에서 버퍼가 차지하는 자리를 구조적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        Fetch Front-End: predict -> fetch -> buffer -> align -> decode       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [PC / Branch Predictor] -> [I-cache / Flash] -> [Fill Buffer]              │
-│            │                                      │                         │
-│            └------ redirect / flush <-------------┘                         │
-│                                                     ▼                      │
-│                                            [Prefetch Buffer Queue]         │
-│                                                     ▼                      │
-│                                            [Align / Predecode / Decode]    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        Fetch Front-End: predict -> fetch -> buffer -> align -> decode       |
++----------------------------------------------------------------------------+
+| [PC / Branch Predictor] -> [I-cache / Flash] -> [Fill Buffer]              |
+|            |                                      |                         |
+|            +------ redirect / flush <-------------+                         |
+|                                                     v                      |
+|                                            [Prefetch Buffer Queue]         |
+|                                                     v                      |
+|                                            [Align / Predecode / Decode]    |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 유튜브 영상이 끊기지 않으려면 인터넷이 완벽해서가 아니라, 잠깐 느려져도 버퍼에 남은 화면이 있기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치 버퍼도 바로 그 완충 공간이다.
@@ -144,17 +144,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 8086 Prefetch Queue
-        │
-        ▼
+        |
+        v
 I-cache + Simple Instruction Buffer
-        │
-        ▼
+        |
+        v
 Predecode · Alignment-Aware Buffer
-        │
-        ▼
+        |
+        v
 BTB · Branch Predictor 결합 Front-End
-        │
-        ▼
+        |
+        v
 Loop Stream Detector · Micro-Operation Cache
 ```
 
@@ -172,7 +172,7 @@ Loop Stream Detector · Micro-Operation Cache
 
 **진행 상황**: 571 / 803
 
-← **이전**: [570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)
-**다음**: [572. 루프 프리패처 (Loop Prefetcher)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/572_loop_prefetcher/) →
+<- **이전**: [570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)
+**다음**: [572. 루프 프리패처 (Loop Prefetcher)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/572_loop_prefetcher/) ->
 
 ---

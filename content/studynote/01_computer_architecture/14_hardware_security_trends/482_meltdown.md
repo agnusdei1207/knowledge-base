@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 멜트다운이 가능했던 오래된 전제를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Old fast design: kernel stays mapped even in user mode                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User process page table                                                    │
-│  ├─ user pages            : accessible                                     │
-│  └─ kernel pages          : mapped, supervisor-only                        │
-│                                                                            │
-│ Faulting load on kernel address                                            │
-│    ├─ transient data use happens first                                     │
-│    └─ permission exception arrives later                                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Old fast design: kernel stays mapped even in user mode                    |
++----------------------------------------------------------------------------+
+| User process page table                                                    |
+|  +- user pages            : accessible                                     |
+|  +- kernel pages          : mapped, supervisor-only                        |
+|                                                                            |
+| Faulting load on kernel address                                            |
+|    +- transient data use happens first                                     |
+|    +- permission exception arrives later                                   |
++----------------------------------------------------------------------------+
 ```
 
 이 그림이 보여 주는 핵심은 "권한 없음"과 "물리적으로 아직 읽지 않음"이 같지 않다는 점이다. 멜트다운 이후 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 단순 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 믿지 않고, 애초에 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 매핑을 보지 못하게 만드는 방향으로 설계를 바꿨다.
@@ -62,23 +62,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 멜트다운의 시간 순서를 한눈에 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Meltdown timeline: fault is late, cache footprint is early               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Load kernel_addr                                                           │
-│      │                                                                     │
-│      ├─ address translation + permission check ............... pending      │
-│      └─ transient load returns byte B                                      │
-│                        │                                                    │
-│                        ▼                                                    │
-│                 probe[B * 4096] touched                                    │
-│                        │                                                    │
-│                        ▼                                                    │
-│            exception raised / architectural state squashed                 │
-│                        │                                                    │
-│                        ▼                                                    │
-│               attacker times probe array and learns B                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Meltdown timeline: fault is late, cache footprint is early               |
++----------------------------------------------------------------------------+
+| Load kernel_addr                                                           |
+|      |                                                                     |
+|      +- address translation + permission check ............... pending      |
+|      +- transient load returns byte B                                      |
+|                        |                                                    |
+|                        v                                                    |
+|                 probe[B * 4096] touched                                    |
+|                        |                                                    |
+|                        v                                                    |
+|            exception raised / architectural state squashed                 |
+|                        |                                                    |
+|                        v                                                    |
+|               attacker times probe array and learns B                     |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 때문에 멜트다운은 직접 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 값을 출력하지 않아도 성립한다. 공격자는 CPU가 순간적으로 남긴 캐시 발자국만 있으면 된다. 그래서 이 취약점은 "권한 예외가 떴으니 안전하다"는 직관을 완전히 깨뜨렸다.
@@ -157,16 +157,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유된 사용자/커널 매핑
-        │
-        ▼
+        |
+        v
 비순차 실행 · 일시적 실행
-        │
-        ▼
+        |
+        v
 멜트다운 (Meltdown)
-        │
-        ├────────▶ 캐시 타이밍 기반 데이터 유출
-        │
-        └────────▶ KPTI · 마이크로코드 · 하이퍼바이저 강화
+        |
+        +---------> 캐시 타이밍 기반 데이터 유출
+        |
+        +---------> KPTI · 마이크로코드 · 하이퍼바이저 강화
 ```
 
 이 흐름은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 매핑 공유"가 "일시적 실행 취약점"으로 이어지고, 다시 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어가 함께 경계를 재설계하는 방향으로 발전한 과정을 보여 준다.
@@ -183,7 +183,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 482 / 803
 
-← **이전**: [481. 사이드 채널 공격 (Side-channel Attack)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/)
-**다음**: [483. 스펙터 (Spectre)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) →
+<- **이전**: [481. 사이드 채널 공격 (Side-channel Attack)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/)
+**다음**: [483. 스펙터 (Spectre)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) ->
 
 ---

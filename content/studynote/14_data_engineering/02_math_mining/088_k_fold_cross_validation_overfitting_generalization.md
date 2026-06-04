@@ -38,19 +38,19 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 | **최종 평가** | K번의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표)를 평균 산출 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이고 안정적인 일반화 점수 도출 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  5-Fold Cross Validation 구조                │
-├──────────────────────────────────────────────────────────────┤
-│ 전체 데이터 세트 분할 (K=5)                                  │
-│                                                              │
-│ Iteration 1: [VALID] [TRAIN] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 1│
-│ Iteration 2: [TRAIN] [VALID] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 2│
-│ Iteration 3: [TRAIN] [TRAIN] [VALID] [TRAIN] [TRAIN] ─▶ Score 3│
-│ Iteration 4: [TRAIN] [TRAIN] [TRAIN] [VALID] [TRAIN] ─▶ Score 4│
-│ Iteration 5: [TRAIN] [TRAIN] [TRAIN] [TRAIN] [VALID] ─▶ Score 5│
-│                                                              │
-│ 🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  5-Fold Cross Validation 구조                |
++--------------------------------------------------------------+
+| 전체 데이터 세트 분할 (K=5)                                  |
+|                                                              |
+| Iteration 1: [VALID] [TRAIN] [TRAIN] [TRAIN] [TRAIN] --> Score 1|
+| Iteration 2: [TRAIN] [VALID] [TRAIN] [TRAIN] [TRAIN] --> Score 2|
+| Iteration 3: [TRAIN] [TRAIN] [VALID] [TRAIN] [TRAIN] --> Score 3|
+| Iteration 4: [TRAIN] [TRAIN] [TRAIN] [VALID] [TRAIN] --> Score 4|
+| Iteration 5: [TRAIN] [TRAIN] [TRAIN] [TRAIN] [VALID] --> Score 5|
+|                                                              |
+| 🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5            |
++--------------------------------------------------------------+
 ```
 
 가장 많이 쓰이는 K값은 5 또는 10이다. 극단적으로 K를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체 개수(N)와 동일하게 두면, 단 1개의 샘플만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용하는 `LOOCV (Leave-One-Out Cross Validation)`가 된다.
@@ -116,20 +116,20 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 ```text
 [성능 평가의 시작]
 Hold-out Validation (단순 분할, 변동성 큼)
-        │
-        ▼
+        |
+        v
 [데이터 활용 및 신뢰도 극대화]
 K-Fold Cross Validation (반복 검증, 변동성 억제)
-        │
-        ▼
+        |
+        v
 [데이터 특성에 따른 파생 기법]
 Stratified K-Fold (불균형 극복) / Group K-Fold (누수 방지)
-        │
-        ▼
+        |
+        v
 [시계열 특화 분할]
 Time Series Split (미래 데이터 참조 금지)
-        │
-        ▼
+        |
+        v
 [최상위 검증 아키텍처]
 Nested Cross Validation (튜닝과 평가의 완전한 분리)
 ```
@@ -146,7 +146,7 @@ Nested Cross Validation (튜닝과 평가의 완전한 분리)
 
 **진행 상황**: 88 / 258
 
-← **이전**: [87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출](/knowledge-base/studynote/14_data_engineering/02_math_mining/087_fp_growth_algorithm_frequent_pattern_tree/)
-**다음**: [혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) →
+<- **이전**: [87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출](/knowledge-base/studynote/14_data_engineering/02_math_mining/087_fp_growth_algorithm_frequent_pattern_tree/)
+**다음**: [혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ->
 
 ---

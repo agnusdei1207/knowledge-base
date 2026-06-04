@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
+    |
+    v
 [Flannel]
-    │
-    └──▶ [Calico]
+    |
+    +---> [Calico]
 ```
 
 - **📢 섹션 요약 비유**: Flannel는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ Flannel은 백엔드 방식으로 여러 가지를 지원하지만, 99% 실무�
 
 ```text
 [컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
+    |
+    v
 [Flannel]
-    │
-    └──▶ [Calico]
+    |
+    +---> [Calico]
 ```
 
 - **📢 섹션 요약 비유**: Flannel의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ Flannel는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 
 
 ```text
 [선행 개념: 컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Flannel]
-    │
-    ├──▶ [확장 A: Calico]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: Calico]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 Flannel는 [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 망…에서 출발해 현재 메커니즘을 정교화하고, 이후 Calico와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ Flannel는 [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote
 
 **진행 상황**: 944 / 1120
 
-← **이전**: [822. 컨테이너 네트워킹 인터페이스 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)
-**다음**: [824. Calico (BGP 라우팅 CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) →
+<- **이전**: [822. 컨테이너 네트워킹 인터페이스 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)
+**다음**: [824. Calico (BGP 라우팅 CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) ->
 
 ---

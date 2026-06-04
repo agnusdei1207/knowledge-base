@@ -27,20 +27,20 @@ tags = ["ict_convergence"]
 
 ```text
 [기존 B2B 데이터 사일로 한계]
-┌─────────┐      ┌─────────┐      ┌─────────┐
-│ 기업 A  │<사고>│ 기업 B  │<대조>│ 기업 C  │ => 불일치 발생 시
-│ (DB)    │      │ (DB)    │      │ (DB)    │    책임 공방 및 지연
-└─────────┘      └─────────┘      └─────────┘
++---------+      +---------+      +---------+
+| 기업 A  |<사고>| 기업 B  |<대조>| 기업 C  | => 불일치 발생 시
+| (DB)    |      | (DB)    |      | (DB)    |    책임 공방 및 지연
++---------+      +---------+      +---------+
 
 [컨소시엄 블록체인 패러다임]
-        ┌──────────────────────────────┐
-        │     Consortium Network       │
-        │  [Peer A]─[Orderer]─[Peer B] │ => 실시간 동기화
-        │      │        │        │     │ => 다수결 검증 (PBFT)
-        └──────┼────────┼────────┼─────┘
-             ┌─┴─┐    ┌─┴─┐    ┌─┴─┐
-             │A사│    │B사│    │C사│
-             └───┘    └───┘    └───┘
+        +------------------------------+
+        |     Consortium Network       |
+        |  [Peer A]-[Orderer]-[Peer B] | => 실시간 동기화
+        |      |        |        |     | => 다수결 검증 (PBFT)
+        +------+--------+--------+-----+
+             +-+-+    +-+-+    +-+-+
+             |A사|    |B사|    |C사|
+             +---+    +---+    +---+
 ```
 
 이 그림의 핵심은 중앙 집중형 중개자나 독립된 로컬 DB 없이, 참여 기업(A, B, C사)이 각각의 노드([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))를 보유하고 합의 클러스터(Orderer)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다는 점이다. 이런 배치는 특정 기관의 악의적 위변조를 다수의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 차단하면서도 비인가 외부인의 접근을 차단하기 위함이다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 대조 작업에 소요되는 비용이 극적으로 감소하며, 법적 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 시 투명한 원장을 즉시 제출할 수 있어 안정성에 크게 기여한다. 실무에서는 이 구조를 통해 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 금융([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Finance)이나 전자 선하증권(e-B/L) 교환 시스템 등에서 거래 속도를 획기적으로 향상시킬 수 있다.
@@ -65,22 +65,22 @@ tags = ["ict_convergence"]
 
 ```text
 [Client]                [Endorsing Peer]          [Orderer]          [Committing Peer]
-   │                           │                      │                     │
-   │ 1. Proposal(요청) 발송    │                      │                     │
-   │──────────────────────────>│                      │                     │
-   │                           │ 2. 체인코드 시뮬레이션                     │
-   │                           │    (결과 및 서명)    │                     │
-   │ 3. Endorsement(보증) 반환 │                      │                     │
-   │<──────────────────────────│                      │                     │
-   │                           │                      │                     │
-   │ 4. 서명 모아 트랜잭션 전송                       │                     │
-   │─────────────────────────────────────────────────>│                     │
-   │                                                  │ 5. 블록 생성        │
-   │                                                  │ 6. 블록 브로드캐스트│
-   │                                                  │────────────────────>│
-   │                                                  │                     │ 7. 유효성 검증
-   │ 8. 성공/실패 이벤트 알림                         │                     │ 8. 원장 커밋
-   │<═══════════════════════════════════════════════════════════════════│
+   |                           |                      |                     |
+   | 1. Proposal(요청) 발송    |                      |                     |
+   |-------------------------->|                      |                     |
+   |                           | 2. 체인코드 시뮬레이션                     |
+   |                           |    (결과 및 서명)    |                     |
+   | 3. Endorsement(보증) 반환 |                      |                     |
+   |<--------------------------|                      |                     |
+   |                           |                      |                     |
+   | 4. 서명 모아 트랜잭션 전송                       |                     |
+   |------------------------------------------------->|                     |
+   |                                                  | 5. 블록 생성        |
+   |                                                  | 6. 블록 브로드캐스트|
+   |                                                  |-------------------->|
+   |                                                  |                     | 7. 유효성 검증
+   | 8. 성공/실패 이벤트 알림                         |                     | 8. 원장 커밋
+   |<-------------------------------------------------------------------|
 ```
 
 이 흐름의 핵심은 '실행-정렬-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Execute-Order-Validate)'이라는 3단계 아키텍처다. 일반적인 [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)이 '정렬-실행' 구조를 가져 모든 노드가 연산을 중복 수행하는 구조적 병목이 발생하는 반면, 이 배치는 보증 피어(Endorsing [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))에서만 [체인코드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/)를 시뮬레이션하고 오더러(Orderer)는 정렬만 수행하므로 시스템 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 극적으로 상승한다. 결과적으로 악의적인 코드가 전체 네트워크를 마비시키는 것을 사전에 차단하고 높은 TPS를 보장한다. 실무에서는 보증 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Endorsement [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 어떻게 설정하느냐(예: A, B, C 중 2개 기관의 서명 필수)에 따라 일관성과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 간의 트레이드오프가 발생하므로 비즈니스 성격에 맞는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계가 필수적이다.
@@ -105,24 +105,24 @@ tags = ["ict_convergence"]
 
 ```text
 [블록체인 도입 결정 플로우]
-            │
-            ▼
- ┌───────────────────────┐ No
- │ 모든 데이터가 퍼블릭에│─────┐
- │ 노출되어도 무방한가?  │     │
- └──────────┬────────────┘     │
-        Yes │                  ▼
-            │       ┌───────────────────────┐ No
-            ▼       │ 참여자 간 상호 신뢰가 │─────┐
-   [퍼블릭 블록체인]│ 완벽하게 존재하는가?  │     │
-   (Ethereum, etc)  └──────────┬────────────┘     │
-                           Yes │                  ▼
-                               │        ┌───────────────────┐
-                               ▼        │ 복수의 기업이     │
-                      [기존 관계형 DB]  │ 거버넌스 공유 필요│
-                      또는 [프라이빗]   └─────────┬─────────┘
-                                                  │
-                                                  ▼
+            |
+            v
+ +-----------------------+ No
+ | 모든 데이터가 퍼블릭에|-----+
+ | 노출되어도 무방한가?  |     |
+ +----------+------------+     |
+        Yes |                  v
+            |       +-----------------------+ No
+            v       | 참여자 간 상호 신뢰가 |-----+
+   [퍼블릭 블록체인]| 완벽하게 존재하는가?  |     |
+   (Ethereum, etc)  +----------+------------+     |
+                           Yes |                  v
+                               |        +-------------------+
+                               v        | 복수의 기업이     |
+                      [기존 관계형 DB]  | 거버넌스 공유 필요|
+                      또는 [프라이빗]   +---------+---------+
+                                                  |
+                                                  v
                                          [컨소시엄 블록체인]
                                          (Hyperledger Fabric)
 ```
@@ -145,11 +145,11 @@ tags = ["ict_convergence"]
 ```text
 [장애 및 리스크 방지 운영 플로우]
 [기획] 데이터의 해시값만 온체인에 기록 설계 (Storage 병목 완화)
-  ↓
+  v
 [거버넌스] 오더링 노드를 최소 3개 이상 기관에 분산 배치 (Raft 합의, 중앙화 방어)
-  ↓
+  v
 [운영] 주기적인 인증서(Certificate) 갱신 파이프라인 자동화 (접근 차단 장애 예방)
-  ↓
+  v
 [모니터링] 채널별 트랜잭션 큐 길이 및 Endorsement 지연 시간 관찰
 ```
 
@@ -165,7 +165,7 @@ tags = ["ict_convergence"]
 
 | 기대효과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 지표 |
 |:---|:---|:---|
-| **정량적 효과** | 정산/대조 업무 자동화로 인한 시간 단축 | 거래 청산 시간: D+3일 → 실시간(Real-time) 완료 |
+| **정량적 효과** | 정산/대조 업무 자동화로 인한 시간 단축 | 거래 청산 시간: D+3일 -> 실시간(Real-time) 완료 |
 | **정성적 효과** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조 원천 차단으로 규제 대응력 확보 | 투명한 [Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) 제공, 상호 분쟁(Claim) [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) |
 | **인프라 효과** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심의 [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 결합으로 개발 생산성 향상 | 노드 구축 시간 및 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인프라 셋업 비용 70% 절감 |
 
@@ -186,20 +186,20 @@ tags = ["ict_convergence"]
 
 ```text
 [퍼블릭 블록체인 (Public — 완전 개방, PoW/PoS)]
-    │
-    ▼
+    |
+    v
 [컨소시엄 블록체인 (Consortium — 허가형 반공개, PBFT)]
-    │
-    ▼
+    |
+    v
 [프라이빗 블록체인 (Private — 완전 폐쇄)]
-    │
-    ▼
+    |
+    v
 [스마트 컨트랙트 / BaaS — 기업 간 자동 실행 비즈니스 룰]
-    │
-    ▼
+    |
+    v
 [CBDC / 크로스체인 브리지 — 국가 단위 디지털 화폐 인프라]
 ```
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 신뢰 주체의 개방 범위에 따라 퍼블릭→컨소시엄→프라이빗으로 구분되며, 컨소시엄 체인은 프라이버시와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 절충한 최적 기업 간 협업 구조로 CBDC의 중추 네트워크로 진화한다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 신뢰 주체의 개방 범위에 따라 퍼블릭->컨소시엄->프라이빗으로 구분되며, 컨소시엄 체인은 프라이버시와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 절충한 최적 기업 간 협업 구조로 CBDC의 중추 네트워크로 진화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 친구들끼리 비밀 노트를 만들었는데, 누군가 몰래 내용을 지울까 봐 걱정이 되었어요.
@@ -212,7 +212,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 21 / 552
 
-← **이전**: [20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)
-**다음**: [22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) →
+<- **이전**: [20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)
+**다음**: [22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ->
 
 ---

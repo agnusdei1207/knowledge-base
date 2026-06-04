@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ECDSA, Ed25519]
-    │
-    ▼
+    |
+    v
 [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    └──▶ [해시 함수]
+    |
+    +---> [해시 함수]
 ```
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [ECDSA, Ed25519]
-    │
-    ▼
+    |
+    v
 [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    └──▶ [해시 함수]
+    |
+    +---> [해시 함수]
 ```
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ECDSA, Ed25519]
-    │
-    ▼
+    |
+    v
 [현재 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    ├──▶ [확장 A: 해시 함수]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 해시 함수]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519에서 출발해 현재 메커니즘을 정교화하고, 이후 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 787 / 1120
 
-← **이전**: [665. ECDSA, Ed25519 (고성능 차세대 공개키 디지털 전자서명 방식)](/knowledge-base/studynote/03_network/13_network_security_basics/665_ecdsa_ed25519_digital_signature_algorithm/)
-**다음**: [667. 해시 함수 (Hash Function)](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) →
+<- **이전**: [665. ECDSA, Ed25519 (고성능 차세대 공개키 디지털 전자서명 방식)](/knowledge-base/studynote/03_network/13_network_security_basics/665_ecdsa_ed25519_digital_signature_algorithm/)
+**다음**: [667. 해시 함수 (Hash Function)](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ->
 
 ---

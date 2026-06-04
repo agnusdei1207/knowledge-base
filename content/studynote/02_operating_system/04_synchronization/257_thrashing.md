@@ -27,14 +27,14 @@ tags = ["studynote-operating-system"]
 ```text
   [다중 프로그래밍 정도(Multiprogramming)와 CPU 이용률의 스래싱 곡선]
 
-      100% ┼                     (C) 스래싱 발생! (수직 낙하)
-           │   (A) 정상 구간        .
-  CPU      │     .··············  │           ..··(↓)
-  이용률    │   .· (↑) 이용률     │        .··
-           │  .·                 │      .·
-           │ .·                  ▼   .·
-           │.·                  (B) 임계점 (Thrashing Point)
-        0% ┼─────────────────────────────────────────────
+      100% +                     (C) 스래싱 발생! (수직 낙하)
+           |   (A) 정상 구간        .
+  CPU      |     .··············  |           ..··(v)
+  이용률    |   .· (^) 이용률     |        .··
+           |  .·                 |      .·
+           | .·                  v   .·
+           |.·                  (B) 임계점 (Thrashing Point)
+        0% +---------------------------------------------
              0        10        20        30         40
                    메모리에 띄운 프로그램(프로세스) 개수
 ```
@@ -101,23 +101,23 @@ tags = ["studynote-operating-system"]
    - <strong>현대적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Fail-Fast)</strong>: 서버는 메모리가 모자라면 10분 동안 디스크를 긁으며 스래싱(연명 치료)을 하는 대신, 즉시 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>가 튀어나와 메모리를 제일 많이 먹는 놈을 쏴 죽인다(즉사). 그리고 K8s가 1초 만에 새 파드를 띄워 서버를 재개시킨다. 스래싱을 막기 위해 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연함을 포기하고 "빠른 죽음과 빠른 부활"을 택한 모던 아키텍처의 혁명이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │     메모리 부족(OOM) 시나리오에 대처하는 아키텍트의 의사결정 트리      │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [요구사항: 16GB 서버에 트래픽 폭주로 메모리 20GB 요구 발생]          │
-  │                │                                                       │
-  │                ▼ 운영체제의 스왑(Swap) 파라미터 튜닝                   │
-  │   [ 1. Swap 공간을 넉넉히(16GB) 잡아둔다 (고전적 방식) ]               │
-  │     ▶ 작동: 16G 램 + 4G 스왑(디스크) 사용. 프로그램 생존함.            │
-  │     ▶ 결과: 🚨 완벽한 스래싱(Thrashing) 발생. API 응답 속도가          │
-  │             10ms에서 5,000ms로 500배 폭증하며 유저 다 떨어져 나감.     │
-  │                                                                        │
-  │   [ 2. Swap 공간을 아예 삭제(0GB)해버린다 (클라우드 네이티브) ]        │
-  │     ▶ 작동: 16G 램 꽉 차는 순간 OS가 OOM 에러 뱉고 앱 킬(Kill).        │
-  │     ▶ 결과: ✅ 서버가 느려지는 꼴을 절대 안 봄(Fail-fast).             │
-  │             죽은 앱은 로드밸런서가 즉시 차단하고 새 노드로 트래픽 우회.│
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |     메모리 부족(OOM) 시나리오에 대처하는 아키텍트의 의사결정 트리      |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |   [요구사항: 16GB 서버에 트래픽 폭주로 메모리 20GB 요구 발생]          |
+  |                |                                                       |
+  |                v 운영체제의 스왑(Swap) 파라미터 튜닝                   |
+  |   [ 1. Swap 공간을 넉넉히(16GB) 잡아둔다 (고전적 방식) ]               |
+  |     -> 작동: 16G 램 + 4G 스왑(디스크) 사용. 프로그램 생존함.            |
+  |     -> 결과: 🚨 완벽한 스래싱(Thrashing) 발생. API 응답 속도가          |
+  |             10ms에서 5,000ms로 500배 폭증하며 유저 다 떨어져 나감.     |
+  |                                                                        |
+  |   [ 2. Swap 공간을 아예 삭제(0GB)해버린다 (클라우드 네이티브) ]        |
+  |     -> 작동: 16G 램 꽉 차는 순간 OS가 OOM 에러 뱉고 앱 킬(Kill).        |
+  |     -> 결과: ✅ 서버가 느려지는 꼴을 절대 안 봄(Fail-fast).             |
+  |             죽은 앱은 로드밸런서가 즉시 차단하고 새 노드로 트래픽 우회.|
+  +------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "메모리가 부족하면 스왑을 늘려라"는 쌍팔년도 조언이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 서버에서 스왑이 도는 순간 그 서버는 죽은 것이나 다름없다. 현대 인프라는 스래싱이라는 고통스러운 연명 치료를 혐오한다. 메모리가 부족하면 쿨하게 뻗고 램(RAM)을 사서 끼우는([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 것이 돈과 정신 건강을 지키는 유일한 정답이다.
 
@@ -151,12 +151,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [락-프리 (Lock-free) 자료구조]
-    │
-    ▼
+    |
+    v
 [스래싱 (Thrashing)]
-    │
-    ├──▶ [스케줄러 일드 (sched_yield)]
-    └──▶ [ABA 문제]
+    |
+    +---> [스케줄러 일드 (sched_yield)]
+    +---> [ABA 문제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -173,7 +173,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 257 / 800
 
-← **이전**: [256. 락-프리 (Lock-free) 자료구조 - CAS 연산 적극 활용](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)
-**다음**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) →
+<- **이전**: [256. 락-프리 (Lock-free) 자료구조 - CAS 연산 적극 활용](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)
+**다음**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) ->
 
 ---

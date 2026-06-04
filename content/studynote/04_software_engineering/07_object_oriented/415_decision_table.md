@@ -35,7 +35,7 @@ tags = ["studynote-software-engineering"]
   2. **1970년대**: [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 명세서 및 테스트 설계 도구로 활용 확대
   3. **현재**: 복잡한 비즈니스 규칙 시스템의 설계 및 테스트 문서화로 폭넓게 사용
 
-- **섹션 요약 비유**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 <strong>'게임의사결정 트리'</strong>와 같다. RPG 게임에서 "보스가 남았는가? → Yes → 체력이 50% 이하인가? → Yes → 포션이 있는가?"와 같은 선택지가 있고, 각 조합에 따라 다른 전투 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(행동)이 결정된다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 이러한 선택지를격자목형식에서정리하여 모든 경우의수를루らさず렬거하는 것이다.
+- **섹션 요약 비유**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 <strong>'게임의사결정 트리'</strong>와 같다. RPG 게임에서 "보스가 남았는가? -> Yes -> 체력이 50% 이하인가? -> Yes -> 포션이 있는가?"와 같은 선택지가 있고, 각 조합에 따라 다른 전투 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(행동)이 결정된다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 이러한 선택지를격자목형식에서정리하여 모든 경우의수를루らさず렬거하는 것이다.
 
 ---
 
@@ -44,16 +44,16 @@ tags = ["studynote-software-engineering"]
 다음은 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) (Decision 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  의사 결정 테이블 (Decision                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  의사 결정 테이블 (Decision                         |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) (Decision 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -153,21 +153,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 의사 결정 테이블 (Decision Table) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 422 / 973
 
-← **이전**: [415. 의사 결정 테이블 (Decision Table)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/)
-**다음**: [416. 상태 전이 테스트 (State Transition Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/416_state_transition_testing/) →
+<- **이전**: [415. 의사 결정 테이블 (Decision Table)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/)
+**다음**: [416. 상태 전이 테스트 (State Transition Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/416_state_transition_testing/) ->
 
 ---

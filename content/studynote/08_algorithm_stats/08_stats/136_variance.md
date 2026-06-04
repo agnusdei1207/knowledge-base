@@ -22,19 +22,19 @@ tags = ["studynote-algorithm"]
 ### 분산 (Variance)
 
 ```
-Var[X] = E[(X-μ)²]    (정의)
-       = E[X²] - (E[X])²   (계산 공식, 실무적으로 이 공식 사용)
+Var[X] = E[(X-μ)^]    (정의)
+       = E[X^] - (E[X])^   (계산 공식, 실무적으로 이 공식 사용)
 
 여기서 μ = E[X]
 ```
 
 **계산 공식이 더 편한 이유**:
 ```
-E[(X-μ)²] = E[X²-2μX+μ²]
-           = E[X²] - 2μ·E[X] + μ²
-           = E[X²] - 2μ² + μ²
-           = E[X²] - μ²
-           = E[X²] - (E[X])²
+E[(X-μ)^] = E[X^-2μX+μ^]
+           = E[X^] - 2μ·E[X] + μ^
+           = E[X^] - 2μ^ + μ^
+           = E[X^] - μ^
+           = E[X^] - (E[X])^
 ```
 
 ### 표준편차 (Standard Deviation)
@@ -42,15 +42,15 @@ E[(X-μ)²] = E[X²-2μX+μ²]
 ```
 σ = √Var[X]
 
-장점: 원래 단위와 같음 (분산은 단위²)
-예: 키의 분산 = cm² → 표준편차 = cm
+장점: 원래 단위와 같음 (분산은 단위^)
+예: 키의 분산 = cm^ -> 표준편차 = cm
 ```
 
 **예시 — 주사위**:
 ```
 E[X] = 3.5
-E[X²] = (1²+2²+3²+4²+5²+6²)/6 = 91/6 ≈ 15.17
-Var[X] = 15.17 - 3.5² = 15.17 - 12.25 ≈ 2.92
+E[X^] = (1^+2^+3^+4^+5^+6^)/6 = 91/6 ≈ 15.17
+Var[X] = 15.17 - 3.5^ = 15.17 - 12.25 ≈ 2.92
 σ ≈ 1.71
 ```
 
@@ -65,8 +65,8 @@ Var[X] = 15.17 - 3.5² = 15.17 - 12.25 ≈ 2.92
 ```
 Var[c] = 0                  (상수는 산포 없음)
 Var[X+c] = Var[X]           (이동(shift)은 분산 불변!)
-Var[cX] = c²·Var[X]         (스케일 제곱)
-Var[aX+b] = a²·Var[X]       (이동+스케일)
+Var[cX] = c^·Var[X]         (스케일 제곱)
+Var[aX+b] = a^·Var[X]       (이동+스케일)
 ```
 
 **핵심**: [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)은 E[X+c] = E[X]+c 이지만, 분산은 Var[X+c] = Var[X] — 이동해도 흩어짐은 그대로다.
@@ -88,9 +88,9 @@ Var[aX+b] = a²·Var[X]       (이동+스케일)
 
 | 공식 | 수식 | 조건 |
 |:---:|:---:|:---:|
-| 정의 | Var[X] = E[(X-μ)²] | 항상 |
-| 계산 공식 | E[X²]-(E[X])² | 항상 |
-| 스케일 | Var[cX] = c²Var[X] | 항상 |
+| 정의 | Var[X] = E[(X-μ)^] | 항상 |
+| 계산 공식 | E[X^]-(E[X])^ | 항상 |
+| 스케일 | Var[cX] = c^Var[X] | 항상 |
 | 이동 | Var[X+c] = Var[X] | 항상 |
 | 합 (독립) | Var[X+Y] = Var[X]+Var[Y] | 독립인 경우 |
 | 합 (일반) | Var[X+Y] = Var[X]+Var[Y]+2Cov[X,Y] | 항상 |
@@ -128,19 +128,19 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 <strong>저분산 vs 고분산 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  저분산 분포                   고분산 분포               │
-│                                                          │
-│      ████                    ██                         │
-│     ██████                  ████                        │
-│    ████████                ██████                       │
-│   ██████████              ████████                      │
-│  ────μ────→              ───────μ───────→               │
-│                                                         │
-│  σ 작음 (좁은 분포)       σ 큼 (넓은 분포)             │
-│                                                         │
-│  품질 균일 (소분산)        위험 높음 (대분산)            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  저분산 분포                   고분산 분포               |
+|                                                          |
+|      ████                    ██                         |
+|     ██████                  ████                        |
+|    ████████                ██████                       |
+|   ██████████              ████████                      |
+|  ----μ----->              -------μ-------->               |
+|                                                         |
+|  σ 작음 (좁은 분포)       σ 큼 (넓은 분포)             |
+|                                                         |
+|  품질 균일 (소분산)        위험 높음 (대분산)            |
++----------------------------------------------------------+
 ```
 
 ### 변동 계수 ([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), Coefficient of Variation)
@@ -150,7 +150,7 @@ CV = σ / μ × 100%
 
 용도: 단위가 다른 분포들의 상대적 산포 비교
 예: 키(σ=10cm, μ=170cm) CV=5.9%
-   체중(σ=10kg, μ=70kg)  CV=14.3% → 체중이 상대적으로 더 산포
+   체중(σ=10kg, μ=70kg)  CV=14.3% -> 체중이 상대적으로 더 산포
 ```
 
 📢 **섹션 요약 비유**: 상관 계수는 "두 학생의 시험 점수 등락이 같이 올라가면 +1, 반대로 움직이면 -1, 무관하면 0"처럼 두 변수가 어떻게 함께 움직이는지 알려주는 나침반이다.
@@ -162,9 +162,9 @@ CV = σ / μ × 100%
 ### 공식
 
 ```
-P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
+P(|X-μ| ≥ kσ) ≤ 1/k^    (k > 0)
 
-동치: P(|X-μ| < kσ) ≥ 1 - 1/k²
+동치: P(|X-μ| < kσ) ≥ 1 - 1/k^
 ```
 
 <strong>분포 모양에 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>없이</strong> 성립하는 강력한 부등식!
@@ -184,16 +184,16 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 ### 응용 — 표본 평균의 수렴 증명
 
 ```
-X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
+X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ^
 
 표본 평균 X̄ = (1/n)ΣXᵢ:
   E[X̄] = μ
-  Var[X̄] = σ²/n
+  Var[X̄] = σ^/n
 
 체비쇼프 적용:
-  P(|X̄-μ| ≥ ε) ≤ σ²/(nε²) → 0 as n→∞
+  P(|X̄-μ| ≥ ε) ≤ σ^/(nε^) -> 0 as n->∞
 
-→ 대수의 법칙 (Law of Large Numbers) 증명!
+-> 대수의 법칙 (Law of Large Numbers) 증명!
 ```
 
 📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%다"라는 최악의 경우 보증서다.
@@ -207,19 +207,19 @@ X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
 ```
 포트폴리오 수익률 R = w₁R₁ + w₂R₂
 
-Var[R] = w₁²Var[R₁] + w₂²Var[R₂] + 2w₁w₂Cov[R₁,R₂]
-       = w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂
+Var[R] = w₁^Var[R₁] + w₂^Var[R₂] + 2w₁w₂Cov[R₁,R₂]
+       = w₁^σ₁^ + w₂^σ₂^ + 2w₁w₂ρσ₁σ₂
 
-→ ρ = -1 이면 완전 분산 투자(헤지) 가능
-→ ρ > 0 이면 리스크 분산 효과 감소
+-> ρ = -1 이면 완전 분산 투자(헤지) 가능
+-> ρ > 0 이면 리스크 분산 효과 감소
 ```
 
 ### ML [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))
 
 ```
 L2 정규화 (Ridge): 가중치 분산 억제
-  Loss = MSE + λ·Σ wᵢ²    (Var[w] 감소)
-  → 과적합 방지, 분산-편향 트레이드오프
+  Loss = MSE + λ·Σ wᵢ^    (Var[w] 감소)
+  -> 과적합 방지, 분산-편향 트레이드오프
 ```
 
 ### 품질 관리 (Quality Control)
@@ -229,7 +229,7 @@ SPC (Statistical Process Control, 통계적 공정 관리):
   UCL (Upper Control Limit) = μ + 3σ
   LCL (Lower Control Limit) = μ - 3σ
 
-  μ±3σ 범위 벗어남 → 공정 이상 신호
+  μ±3σ 범위 벗어남 -> 공정 이상 신호
   (정규 분포 가정 시 오경보율 = 0.27%)
 ```
 
@@ -241,7 +241,7 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 분산 | [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) | E[X²]-(E[X])² |
+| 분산 | [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) | E[X^]-(E[X])^ |
 | 표준편차 | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 68-95-99.7 | μ±σ 범위 정의 |
 | 공분산 | 상관 계수 | 표준화한 공분산 |
 | 체비쇼프 | [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) | 수렴 증명 도구 |
@@ -252,20 +252,20 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 ```text
 [중심 경향 (Central Tendency)]
-    │
-    ▼
+    |
+    v
 [편차 (Deviation)]
-    │
-    ▼
+    |
+    v
 [분산 (Variance)]
-    │
-    ▼
+    |
+    v
 [표준 편차 (Standard Deviation)]
-    │
-    ▼
+    |
+    v
 [정규 분포 (Normal Distribution)]
-    │
-    ▼
+    |
+    v
 [통계적 추론 (Statistical Inference)]
 ```
 
@@ -285,7 +285,7 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 **진행 상황**: 136 / 175
 
-← **이전**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]]
-**다음**: [8. 확률 분포 — 이항/포아송/정규/지수/균등](/knowledge-base/studynote/08_algorithm_stats/08_stats/137_probability_distributions/) →
+<- **이전**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]]
+**다음**: [8. 확률 분포 — 이항/포아송/정규/지수/균등](/knowledge-base/studynote/08_algorithm_stats/08_stats/137_probability_distributions/) ->
 
 ---

@@ -26,14 +26,14 @@ VMX root 모드는 Intel이 x86 [가상화](/knowledge-base/studynote/13_cloud_a
 아래 그림은 "권한 레벨"과 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 문맥"이 서로 다른 축임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Privilege and virtualization are different axes             │
-├───────────────────────────┬──────────────────────────────────┤
-│ VMX root operation        │ VMX non-root operation           │
-├───────────────────────────┼──────────────────────────────────┤
-│ Hypervisor   (Ring 0)     │ Guest kernel    (Ring 0)         │
-│ Host user app (Ring 3)    │ Guest user app  (Ring 3)         │
-└───────────────────────────┴──────────────────────────────────┘
++--------------------------------------------------------------+
+| Privilege and virtualization are different axes             |
++---------------------------+----------------------------------+
+| VMX root operation        | VMX non-root operation           |
++---------------------------+----------------------------------+
+| Hypervisor   (Ring 0)     | Guest kernel    (Ring 0)         |
+| Host user app (Ring 3)    | Guest user app  (Ring 3)         |
++---------------------------+----------------------------------+
 ```
 
 이 구조가 중요한 이유는, 하이퍼바이저가 게스트를 완전히 에뮬레이션하지 않아도 되기 때문이다. 정상적인 계산은 게스트가 직접 수행하고, 제어권이 필요한 순간에만 root로 돌아오게 하면 된다.
@@ -56,13 +56,13 @@ VMX root 모드의 실체는 하이퍼바이저가 <strong>가상 머신 (<a hre
 아래 흐름은 root 모드가 "직접 계산"보다 "상태 저장과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행"에 집중한다는 점을 보여준다.
 
 ```text
-┌────────────────────┐   VM-Entry    ┌──────────────────────────┐
-│ Root handler       │ ───────────▶  │ Guest in non-root mode   │
-│ (hypervisor)       │               │ direct execution         │
-└─────────┬──────────┘               └──────────┬───────────────┘
-          │                                     │
-          │  VM-Exit on configured events       │
-          └─────────────────────────────────────┘
++--------------------+   VM-Entry    +--------------------------+
+| Root handler       | ------------>  | Guest in non-root mode   |
+| (hypervisor)       |               | direct execution         |
++---------+----------+               +----------+---------------+
+          |                                     |
+          |  VM-Exit on configured events       |
+          +-------------------------------------+
 ```
 
 게스트에서 모든 특권 동작이 무조건 Exit 되는 것은 아니다. 하이퍼바이저는 `CPUID`, 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 변경, 입출력 (Input/Output, I/O), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달 같은 항목 중 무엇을 잡을지 고른다. 따라서 root 모드의 핵심 기술은 "더 많은 것을 직접 처리"가 아니라 "정말 필요한 것만 돌아오게 만드는 선별"이다.
@@ -131,24 +131,24 @@ VMX root 모드는 x86 [가상화](/knowledge-base/studynote/13_cloud_architectu
 
 ```text
 Ring 0 한계
-    │
-    ▼
+    |
+    v
 Binary translation and ring compression
-    │
-    ▼
+    |
+    v
 VMX root / VMX non-root split
-    │
-    ▼
+    |
+    v
 VMCS-based control and VM-Exit policy
-    │
-    ▼
+    |
+    v
 EPT · VT-d · interrupt virtualization
-    │
-    ▼
+    |
+    v
 Nested virtualization and VM introspection
 ```
 
-이 흐름은 "특권 충돌 해결 → 하드웨어 분리 → 주변 가속 기술 결합 → 고급 운영 기능"으로 커진다.
+이 흐름은 "특권 충돌 해결 -> 하드웨어 분리 -> 주변 가속 기술 결합 -> 고급 운영 기능"으로 커진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -162,7 +162,7 @@ Nested virtualization and VM introspection
 
 **진행 상황**: 658 / 803
 
-← **이전**: [656. x86 Ring 0, 1, 2, 3 보호 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/656_x86_protection_modes/)
-**다음**: [658. Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) →
+<- **이전**: [656. x86 Ring 0, 1, 2, 3 보호 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/656_x86_protection_modes/)
+**다음**: [658. Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) ->
 
 ---

@@ -62,7 +62,7 @@ tags = ["ai"]
 | <strong>가치 정렬 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (Alignment <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)</strong> | 인류 가치관 유지 (이상적) | 인간의 피드백([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))을 넘어서는 내재적 가치 체계 보존 연산 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Alignment, Inverse RL | 로봇 3원칙 코어 |
 | <strong>에러 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>기 (Error Validator)</strong> | 자가 개선 중 버그 방지 | 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Formal Verification](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/))을 통해 컴파일 전 완벽한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류 검사 | Theorem Prover | 절대 틀리지 않는 검수자 |
 
-특이점 시스템의 동작은 <strong>분석 → 재설계 → 배포 → 평가</strong>의 무한 루프로 작동한다.
+특이점 시스템의 동작은 <strong>분석 -> 재설계 -> 배포 -> 평가</strong>의 무한 루프로 작동한다.
 
 ① <strong>상태 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: 자신의 현재 추론 능력과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS) 한계를 감지한다.
 ② <strong>가설 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 기존 어텐션(Attention) 메커니즘을 대체할 더 나은 행렬 연산 가설을 스스로 수립한다.
@@ -74,16 +74,16 @@ tags = ["ai"]
 이 흐름도는 재귀적 자가 개선 시스템이 ఎలా 무한 루프를 돌며 폭발적으로 지능을 향상시키는지 보여주는 순차 흐름도이다.
 
 [Generation 1 (초기 AGI)]
-   │
-   ├─ 모니터링 (병목 탐지)
-   ├─ 병렬 아키텍처 시뮬레이션 ==(디지털 트윈 연동)==> [최적의 구조 발견]
-   ├─ 코드 자동 재작성 (Self-Coding)
-   ↓
+   |
+   +- 모니터링 (병목 탐지)
+   +- 병렬 아키텍처 시뮬레이션 ==(디지털 트윈 연동)==> [최적의 구조 발견]
+   +- 코드 자동 재작성 (Self-Coding)
+   v
 [Generation 2 (향상된 AGI)] : 시간 단축 (t/2)
-   │
-   ├─ 더 복잡한 병목 탐지
-   ├─ 양자 알고리즘 도입 등 아키텍처 혁신
-   ↓
+   |
+   +- 더 복잡한 병목 탐지
+   +- 양자 알고리즘 도입 등 아키텍처 혁신
+   v
 [Generation N (ASI 도달)] : 시간 0 수렴 (지능 폭발)
 ```
 이 흐름의 핵심은 각 세대(Generation)가 거듭될수록 시스템을 업그레이드하는 데 걸리는 시간(t)이 기하급수적으로 단축된다는 점이다. 이런 배치는 향상된 지능이 최적화 비용을 줄여주기 때문이며, 따라서 어느 순간 인간의 개입 시간(Human-in-the-loop)이 개입할 수 없을 만큼 빠른 속도로 업데이트가 발생한다. 실무에서는 이 지점에 도달하기 전에, 루프를 강제로 차단할 수 있는 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 시스템 코어 바깥에 존재해야만 한다.
@@ -109,14 +109,14 @@ tags = ["ai"]
 ```text
 이 매트릭스 도식은 특이점을 촉발하기 위한 AI와 주변 인프라 기술 간의 시너지 병목 구조를 보여준다. 소프트웨어가 아무리 뛰어나도 하드웨어 병목을 넘어야 한다.
 
-┌─────────────────┬──────────────────────┬──────────────────────┐
-│ 기술 스택       │ 한계 지점 (Bottleneck)│ 특이점 돌파 구조 (Solution)│
-├─────────────────┼──────────────────────┼──────────────────────┤
-│ 하드웨어 계층   │ 폰 노이만 병목, 발열 │ 뉴로모픽 칩, 광 컴퓨팅 │
-│ 데이터 계층     │ 고품질 인간 데이터 고갈│ AI 합성 데이터, 자가 플레이│
-│ 통신/네트워크   │ 대역폭 제한, 지연 시간 │ 양자 얽힘 통신, 6G/7G│
-│ 추론 알고리즘   │ 역전파 연산 비용 과다 │ Forward-Only 학습, SNN│
-└─────────────────┴──────────────────────┴──────────────────────┘
++-----------------+----------------------+----------------------+
+| 기술 스택       | 한계 지점 (Bottleneck)| 특이점 돌파 구조 (Solution)|
++-----------------+----------------------+----------------------+
+| 하드웨어 계층   | 폰 노이만 병목, 발열 | 뉴로모픽 칩, 광 컴퓨팅 |
+| 데이터 계층     | 고품질 인간 데이터 고갈| AI 합성 데이터, 자가 플레이|
+| 통신/네트워크   | 대역폭 제한, 지연 시간 | 양자 얽힘 통신, 6G/7G|
+| 추론 알고리즘   | 역전파 연산 비용 과다 | Forward-Only 학습, SNN|
++-----------------+----------------------+----------------------+
 ```
 이 도식의 핵심은 특이점 도달을 방해하는 가장 큰 병목이 '소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'보다 '물리적 하드웨어 한계'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고갈'에 있다는 점이다. 따라서 AI가 특이점을 넘기 위해서는 인간이 텍스트로 남긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘어, 물리 세계의 법칙을 스스로 시뮬레이션하여 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)를 무한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(자가 플레이)하는 구조가 필요하다. 실무에서는 초거대 모델 훈련 시 외부 지식 주입([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))만으로는 AGI에 도달할 수 없으며, 추론 엔진 자체가 세계 모델(World Model)을 내재화해야 함을 의미한다.
 
@@ -140,14 +140,14 @@ tags = ["ai"]
 이 도식은 특이점 과도기의 AI 시스템을 실무에 배포할 때 요구되는 안전 통제(Safety Control) 의사결정 트리를 나타낸다.
 
 [AI 에이전트 배포 요청]
-         │
-         ▼
+         |
+         v
 [시스템이 자체 목표 수정 권한을 가지는가?]
-   ├─(Yes)──> [안전 격리 구역 (Air-Gapped) 실행 강제] ──> [물리적 망분리 모니터링]
-   │
-   └─(No)───> [결과 예측 가능성 (Explainability) 검증]
-                ├─(낮음)──> XAI 대리 모델 부착 후 로깅 강화
-                └─(높음)──> 일반 MLOps 파이프라인 배포 및 주기적 드리프트 감사
+   +-(Yes)--> [안전 격리 구역 (Air-Gapped) 실행 강제] --> [물리적 망분리 모니터링]
+   |
+   +-(No)---> [결과 예측 가능성 (Explainability) 검증]
+                +-(낮음)--> XAI 대리 모델 부착 후 로깅 강화
+                +-(높음)--> 일반 MLOps 파이프라인 배포 및 주기적 드리프트 감사
 ```
 이 트리의 핵심은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 자율성 수준에 따라 아키텍처의 격리 수준을 물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 단계까지 격상해야 한다는 점이다. AI가 스스로 코드를 수정할 권한을 갖는 순간 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 방어벽은 무력화될 수 있다. 실무에서는 이를 방어하기 위해 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)([Identity and Access Management](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) 기반의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통제뿐만 아니라, 시스템이 소비하는 CPU/메모리 자원량의 상한선을 강제로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 지능 폭발(루프)을 하드웨어 레벨에서 차단하는 '자원 쿼터 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'를 마련해야 한다.
 
@@ -181,14 +181,14 @@ tags = ["ai"]
 
 ```text
 [지수 성장 (Exponential Growth)]
-    │
-    ▼
+    |
+    v
 [범용 인공지능 (AGI, Artificial General Intelligence)]
-    │
-    ▼
+    |
+    v
 [특이점 (Singularity)]
-    │
-    ▼
+    |
+    v
 [트랜스휴머니즘 (Transhumanism)]
 ```
 
@@ -204,7 +204,7 @@ tags = ["ai"]
 
 **진행 상황**: 6 / 420
 
-← **이전**: [5. 초인공지능 (ASI, Artificial Super Intelligence) - 모든 면에서 인간을 초월한 지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)
-**다음**: [7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) →
+<- **이전**: [5. 초인공지능 (ASI, Artificial Super Intelligence) - 모든 면에서 인간을 초월한 지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)
+**다음**: [7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) ->
 
 ---

@@ -107,7 +107,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Autonomous Agents · LLM] → [에이전틱 AI 워크플로우] → [LangGraph · CrewAI]
+[Autonomous Agents · LLM] -> [에이전틱 AI 워크플로우] -> [LangGraph · CrewAI]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -122,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 536 / 552
 
-← **이전**: [535. 전문가 혼합 모델 (Mixture of Experts, MoE)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/535_moe_mixture_of_experts/)
-**다음**: [537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/537_semantic_cache_rag_cost_reduction/) →
+<- **이전**: [535. 전문가 혼합 모델 (Mixture of Experts, MoE)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/535_moe_mixture_of_experts/)
+**다음**: [537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/537_semantic_cache_rag_cost_reduction/) ->
 
 ---

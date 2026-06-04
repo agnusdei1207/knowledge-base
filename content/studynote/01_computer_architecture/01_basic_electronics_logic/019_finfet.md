@@ -39,22 +39,22 @@ FinFET 구조는 채널을 세워 통제력을 강화하고 수직 공간을 활
 평면 구조에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 채널의 폭을 넓히면 됐지만, FinFET에서는 이미 깎인 핀의 높이를 맘대로 키울 수 없으므로(부러짐 위험), 핀을 2개, 3개 옆으로 나란히 늘어놓는 <strong>Multi-Fin 방식</strong>으로 구동 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 늘린다. 고속 코어에는 핀을 4개씩 깔고, 저전력 코어에는 1~2개만 까는 식이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Planar (평면 1면) vs FinFET (3D 3면) 채널 제어력     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [과거: Planar MOSFET (1면)]        [혁신: FinFET (3면)]        │
-│                                                              │
-│     [ 게이트 (Gate) ] ◀ 위에서만 누름   [ 게이트 (Gate) ]           │
-│   ===================                +=======+======+          │
-│   [채널] (전자가 지나는 길)               | ◀ | 채널 | ▶ |         │
-│   ───────────────────                +--+---+--+--+          │
-│   (기판 바닥) ↘ 전자가 밑으로 샘          (바닥)                   │
-│                                (양옆과 위에서 꽉 쥐어짜 누설 차단)│
-│                                                              │
-│ * FinFET은 접촉 면적이 늘어나 통제력이 강해져 누설이 0이 되며,     │
-│   수직으로 채널 면적을 넓힌 효과가 있어 전류(성능)가 폭발한다.   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Planar (평면 1면) vs FinFET (3D 3면) 채널 제어력     |
++--------------------------------------------------------------+
+|                                                              |
+|   [과거: Planar MOSFET (1면)]        [혁신: FinFET (3면)]        |
+|                                                              |
+|     [ 게이트 (Gate) ] <- 위에서만 누름   [ 게이트 (Gate) ]           |
+|   ===================                +=======+======+          |
+|   [채널] (전자가 지나는 길)               | <- | 채널 | -> |         |
+|   -------------------                +--+---+--+--+          |
+|   (기판 바닥) ↘ 전자가 밑으로 샘          (바닥)                   |
+|                                (양옆과 위에서 꽉 쥐어짜 누설 차단)|
+|                                                              |
+| * FinFET은 접촉 면적이 늘어나 통제력이 강해져 누설이 0이 되며,     |
+|   수직으로 채널 면적을 넓힌 효과가 있어 전류(성능)가 폭발한다.   |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 넓고 얕은 강물(평면)은 위에서 댐을 누르는 것만으론 바닥 스며드는 물을 못 막는다. 그래서 강을 좁고 깊은 인공 협곡(Fin)으로 파내고 수문을 양옆과 위쪽 벽에 완전히 밀착시켜(FinFET) 완벽히 틀어막은 것이다.
@@ -115,14 +115,14 @@ FinFET은 평면 구조의 단채널 붕괴 위기를 3D 입체 제어라는 혁
 
 ```text
 [Planar MOSFET — 단채널 효과로 20nm 이하 붕괴]
-    │
-    ▼
+    |
+    v
 [FinFET (핀 전계효과 트랜지스터) — 3면 게이트로 14nm~5nm 지배]
-    │
-    ▼
-[GAA (Gate-All-Around) — 4면 360° 포위, 3nm 이하 필수]
-    │
-    ▼
+    |
+    v
+[GAA (Gate-All-Around) — 4면 360+ 포위, 3nm 이하 필수]
+    |
+    v
 [나노리본 / CFET — 수직 적층으로 2nm 이하 도전]
 ```
 Planar 구조의 단채널 한계를 FinFET이 3D 입체 구조로 극복했고, 5nm 이하에서는 채널을 완전히 감싸는 [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) 구조로 진화하고 있다.
@@ -139,7 +139,7 @@ Planar 구조의 단채널 한계를 FinFET이 3D 입체 구조로 극복했고,
 
 **진행 상황**: 19 / 803
 
-← **이전**: [18. CMOS (Complementary MOS)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)
-**다음**: [20. GAA (Gate-All-Around)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) →
+<- **이전**: [18. CMOS (Complementary MOS)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)
+**다음**: [20. GAA (Gate-All-Around)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ->
 
 ---

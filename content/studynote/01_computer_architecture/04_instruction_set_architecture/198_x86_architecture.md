@@ -40,32 +40,32 @@ x86이 없으면 어떤 문제가 생길까를 생각하면 필요성이 더 선
 아래 그림은 x86의 외부 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 내부에서 어떻게 단순화되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           x86 명령어가 내부 실행 경로로 변환되는 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로그램 코드                                                       │
-│   MOV RAX, [RBX+8]                                                  │
-│   ADD RAX, RCX                                                      │
-│   JNZ target                                                        │
-│        │                                                            │
-│        ▼                                                            │
-│ 프런트엔드 (Front-End)                                              │
-│   ├─ 분기 예측 (Branch Prediction)                                  │
-│   ├─ 프리디코드 / 디코드 (Predecode / Decode)                       │
-│   └─ μop 캐시 (Micro-Op Cache)                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ 내부 μop 변환                                                       │
-│   LOAD   p1, [RBX+8]                                                │
-│   ADD    p2, p1, RCX                                                │
-│   BRANCH if NZ                                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ 백엔드 (Back-End)                                                   │
-│   ├─ 레지스터 리네이밍 (Register Renaming)                          │
-│   ├─ 스케줄링 / 비순차 실행 (Scheduling / OoOE)                     │
-│   └─ ALU · Load/Store · SIMD 유닛                                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           x86 명령어가 내부 실행 경로로 변환되는 흐름               |
++----------------------------------------------------------------------+
+| 프로그램 코드                                                       |
+|   MOV RAX, [RBX+8]                                                  |
+|   ADD RAX, RCX                                                      |
+|   JNZ target                                                        |
+|        |                                                            |
+|        v                                                            |
+| 프런트엔드 (Front-End)                                              |
+|   +- 분기 예측 (Branch Prediction)                                  |
+|   +- 프리디코드 / 디코드 (Predecode / Decode)                       |
+|   +- μop 캐시 (Micro-Op Cache)                                      |
+|        |                                                            |
+|        v                                                            |
+| 내부 μop 변환                                                       |
+|   LOAD   p1, [RBX+8]                                                |
+|   ADD    p2, p1, RCX                                                |
+|   BRANCH if NZ                                                      |
+|        |                                                            |
+|        v                                                            |
+| 백엔드 (Back-End)                                                   |
+|   +- 레지스터 리네이밍 (Register Renaming)                          |
+|   +- 스케줄링 / 비순차 실행 (Scheduling / OoOE)                     |
+|   +- ALU · Load/Store · SIMD 유닛                                 |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 x86이 단순히 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 직접 실행하는 구조"가 아니라는 점이다. 실제 병목은 대개 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 전력 예산에서 발생한다. 그래서 최신 x86 설계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체를 더 화려하게 만들기보다, 앞단 해독 비용을 줄이고 뒤단 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 높이는 데 집중한다.
@@ -151,23 +151,23 @@ x86 아키텍처의 가장 큰 효과는 연속성이다. 수십 년간 축적�
 
 ```text
 8086 기반 16비트 출발
-    │
-    ▼
+    |
+    v
 IA-32 (Intel Architecture 32-bit)
-    │
-    ├─ 보호 모드 · 페이징 · PC 운영체제 확장
-    │
-    ▼
+    |
+    +- 보호 모드 · 페이징 · PC 운영체제 확장
+    |
+    v
 슈퍼스칼라 · μop 변환 · 비순차 실행
-    │
-    ▼
+    |
+    v
 x86-64 (AMD64, AMD 64-bit Architecture)
-    │
-    ├─ 가상화 확장 (VT-x / AMD-V)
-    ├─ SIMD 확장 (SSE → AVX → AVX-512)
-    └─ 서버 · 클라우드 중심 최적화
-    │
-    ▼
+    |
+    +- 가상화 확장 (VT-x / AMD-V)
+    +- SIMD 확장 (SSE -> AVX -> AVX-512)
+    +- 서버 · 클라우드 중심 최적화
+    |
+    v
 전력·보안·이기종 코어까지 포함한 현대 플랫폼 경쟁
 ```
 
@@ -185,7 +185,7 @@ x86-64 (AMD64, AMD 64-bit Architecture)
 
 **진행 상황**: 198 / 803
 
-← **이전**: [197. 로드/스토어 아키텍처 (Load-Store Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/)
-**다음**: [199. ARM 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/199_arm_architecture/) →
+<- **이전**: [197. 로드/스토어 아키텍처 (Load-Store Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/)
+**다음**: [199. ARM 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/199_arm_architecture/) ->
 
 ---

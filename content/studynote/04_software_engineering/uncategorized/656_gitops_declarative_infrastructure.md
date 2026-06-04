@@ -32,35 +32,35 @@ tags = ["studynote-software-engineering"]
   전통적인 푸시(Push) 기반 배포와 GitOps의 풀(Pull) 기반 배포 아키텍처의 근본적인 차이를 시각화하면 다음과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교 │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [기존 방식: CIOps (Push Model)]                              │
-  │                                   (무소불위 권한)                  │
-  │   Developer ──▶ Git Repo ──▶ [ CI/CD Server ] ──▶ K8s Cluster │
-  │                  (코드)        (Jenkins/Action)     (운영 서버)   │
-  │                                                               │
-  │   ⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)         │
-  │   ⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)│
-  │                                                               │
-  │  =============================================================│
-  │                                                               │
-  │   [GitOps 방식: Pull Model (Reconciliation)]                  │
-  │                                                               │
-  │   Developer ──▶ Git Repo         [ K8s Cluster ]              │
-  │                (Manifest)        │                            │
-  │                   ▲              │ ┌───────────────────────┐  │
-  │                   │              │ │ GitOps Agent (ArgoCD) │  │
-  │                   │ (Pull/Watch) │ └───────────────────────┘  │
-  │                   └──────────────┼───────┘  │ (Apply)         │
-  │                                  │          ▼                 │
-  │                                  │     [ K8s API Server ]     │
-  │                                  └────────────────────────────┘
-  │                                                               │
-  │   ✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화    │
-  │   ✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)│
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교 |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |   [기존 방식: CIOps (Push Model)]                              |
+  |                                   (무소불위 권한)                  |
+  |   Developer ---> Git Repo ---> [ CI/CD Server ] ---> K8s Cluster |
+  |                  (코드)        (Jenkins/Action)     (운영 서버)   |
+  |                                                               |
+  |   ⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)         |
+  |   ⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)|
+  |                                                               |
+  |  =============================================================|
+  |                                                               |
+  |   [GitOps 방식: Pull Model (Reconciliation)]                  |
+  |                                                               |
+  |   Developer ---> Git Repo         [ K8s Cluster ]              |
+  |                (Manifest)        |                            |
+  |                   ^              | +-----------------------+  |
+  |                   |              | | GitOps Agent (ArgoCD) |  |
+  |                   | (Pull/Watch) | +-----------------------+  |
+  |                   +--------------+-------+  | (Apply)         |
+  |                                  |          v                 |
+  |                                  |     [ K8s API Server ]     |
+  |                                  +----------------------------+
+  |                                                               |
+  |   ✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화    |
+  |   ✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)|
+  +---------------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 도식은 보안과 상태 관리의 주도권이 어떻게 이동했는지를 보여준다. 상단의 Push 모델에서는 외부의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터의 API를 찔러야 하므로 방화벽을 열어주어야 하고 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버에 저장해야 한다. 반면 하단의 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Pull 모델에서는 클러스터 내부에 설치된 에이전트(ArgoCD나 Flux)가 외부의 Git 저장소를 감시(Pull)하다가 변경이 발생하면 클러스터 내부에서 배포를 수행한다. 외부에서 안으로 들어오는 인바운드 연결이 불필요해지며, 배포 권한이 클러스터 내부에 격리되므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 모델을 달성할 수 있다.
@@ -164,21 +164,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 GitOps 인프라 선언적 관리 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +192,7 @@ GitOps 인프라 선언적 관리 개념 정립
 
 **진행 상황**: 824 / 973
 
-← **이전**: [655. 카오스 엔지니어링 카오스 몽키 복원력](/knowledge-base/studynote/04_software_engineering/uncategorized/655_chaos_engineering_monkey/)
-**다음**: [657. 옵저버빌리티 로그, 메트릭, 분산 추적(Tracing)](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) →
+<- **이전**: [655. 카오스 엔지니어링 카오스 몽키 복원력](/knowledge-base/studynote/04_software_engineering/uncategorized/655_chaos_engineering_monkey/)
+**다음**: [657. 옵저버빌리티 로그, 메트릭, 분산 추적(Tracing)](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) ->
 
 ---

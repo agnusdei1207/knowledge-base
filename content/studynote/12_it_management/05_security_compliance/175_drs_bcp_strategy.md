@@ -24,18 +24,18 @@ DRS와 BCP는 "장애가 나면 [백업](/knowledge-base/studynote/02_operating_
 이 구분이 필요한 이유는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만으로는 비즈니스가 바로 살아나지 않기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파일을 되살렸더라도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 전환이 안 되어 있거나, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 막혀 있거나, 담당자가 누구인지 몰라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 선언이 지연되면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 여전히 멈춰 있다. 즉 "복원 가능성"과 "업무 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)"은 같은 말이 아니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Disaster impact is broader than server failure                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Disaster / ransomware / region outage                              │
-│   ├─ system downtime                                               │
-│   ├─ workplace / network access disruption                         │
-│   ├─ customer communication gap                                    │
-│   └─ supplier / operator confusion                                 │
-│                                                                    │
-│ Backup only restores stored data                                   │
-│ BCP + DRS restore business priority and recovery execution path    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Disaster impact is broader than server failure                      |
++----------------------------------------------------------------------+
+| Disaster / ransomware / region outage                              |
+|   +- system downtime                                               |
+|   +- workplace / network access disruption                         |
+|   +- customer communication gap                                    |
+|   +- supplier / operator confusion                                 |
+|                                                                    |
+| Backup only restores stored data                                   |
+| BCP + DRS restore business priority and recovery execution path    |
++----------------------------------------------------------------------+
 ```
 
 따라서 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/)/BCP의 필요성은 "자료를 살리는 것"이 아니라 <strong>정해진 시간 안에 중요한 업무를 다시 돌릴 수 있는 상태를 만드는 것</strong>에 있다. 기술, 운영, 의사결정 체계가 같이 준비되어 있어야 진짜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 된다.
@@ -49,24 +49,24 @@ DRS와 BCP는 "장애가 나면 [백업](/knowledge-base/studynote/02_operating_
 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/)/BCP 아키텍처의 출발점은 BIA다. 어떤 업무가 몇 시간 멈추면 매출, 안전, 법규, 고객 신뢰에 어떤 손실이 나는지 파악하고, 그 결과로 MTPD (Maximum Tolerable Period of Disruption), [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), RPO를 정한다. 그 다음에야 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)([Mirror Site](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)), [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)([Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)), [웜 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)([Warm Site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)), [콜드 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)([Cold Site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)) 같은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택할 수 있다. 즉 센터 유형은 기술 취향이 아니라 <strong>업무 영향 분석의 결과물</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ BCP-DRS architecture loop                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ BIA -> critical service tier -> MTPD / RTO / RPO                   │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Site strategy                                                        │
-│   ├─ Mirror / Active-Active                                          │
-│   ├─ Hot Site                                                        │
-│   ├─ Warm Site                                                       │
-│   └─ Cold Site                                                       │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Replication + runbook + communication tree                           │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Disaster declaration -> failover -> business operation -> failback   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| BCP-DRS architecture loop                                           |
++----------------------------------------------------------------------+
+| BIA -> critical service tier -> MTPD / RTO / RPO                   |
+|   |                                                                  |
+|   v                                                                  |
+| Site strategy                                                        |
+|   +- Mirror / Active-Active                                          |
+|   +- Hot Site                                                        |
+|   +- Warm Site                                                       |
+|   +- Cold Site                                                       |
+|   |                                                                  |
+|   v                                                                  |
+| Replication + runbook + communication tree                           |
+|   |                                                                  |
+|   v                                                                  |
+| Disaster declaration -> failover -> business operation -> failback   |
++----------------------------------------------------------------------+
 ```
 
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 | 대표 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 수준 | 비용 | 적합한 업무 |
@@ -158,23 +158,23 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 
 ```text
 위험 식별
-    │
-    ▼
+    |
+    v
 BIA (Business Impact Analysis)
-    │
-    ▼
+    |
+    v
 MTPD / RTO / RPO 설정
-    │
-    ▼
+    |
+    v
 Mirror · Hot · Warm · Cold 전략 선택
-    │
-    ▼
+    |
+    v
 복제 · 런북 · 연락망 · 자동화
-    │
-    ▼
+    |
+    v
 모의 훈련 / failover / failback 검증
-    │
-    ▼
+    |
+    v
 지속 개선형 BCP / DRS 거버넌스
 ```
 
@@ -192,7 +192,7 @@ Mirror · Hot · Warm · Cold 전략 선택
 
 **진행 상황**: 289 / 587
 
-← **이전**: [174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)
-**다음**: [176. RTO (Recovery Time Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) →
+<- **이전**: [174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)
+**다음**: [176. RTO (Recovery Time Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ->
 
 ---

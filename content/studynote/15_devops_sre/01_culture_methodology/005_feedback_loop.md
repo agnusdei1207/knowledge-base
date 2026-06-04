@@ -20,7 +20,7 @@ tags = ["devops_sre"]
 
 피드백 루프(Feedback Loop)는 시스템론에서 출발한개념으로, 시스템의 출력이 다시 그 시스템의 입력으로 영향을 미치는 순환적인과관계를 말한다. 소프트웨어 개발과 운영의 문맥에서 피드백 루프란, 프로덕션 환경에서 돌아가는 시스템의 실제 동작 결과([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 사용자 행동, 장애 정보 등)가 개발 조직에 전달되어 다음 개발 결정에 영향을 미치는 과정을 의미한다.
 
-전통적인 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)에서는 이러한 피드백 루프가 매우 길었다. 요구사항 정의(1단계) → 설계 → 구현 → 테스트 → 배포 →유지보수(6단계)로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되며, 유지보수 단계에서 발견된 문제는 다음 프로젝트(혹은 다음 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))의 요구사항 단계로 돌아가야 했다. 이러한 긴 피드백 루프는 문제 발견 시점을 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에서 멀어지게 만들어, 수정 비용이지수적으로 증가하는 "비용 증가 곡선(Cost of Change Curve)"을 야기했다.
+전통적인 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)에서는 이러한 피드백 루프가 매우 길었다. 요구사항 정의(1단계) -> 설계 -> 구현 -> 테스트 -> 배포 ->유지보수(6단계)로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되며, 유지보수 단계에서 발견된 문제는 다음 프로젝트(혹은 다음 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))의 요구사항 단계로 돌아가야 했다. 이러한 긴 피드백 루프는 문제 발견 시점을 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에서 멀어지게 만들어, 수정 비용이지수적으로 증가하는 "비용 증가 곡선(Cost of Change Curve)"을 야기했다.
 
 이에 반해 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서는 피드백 루프를진가능 단축하여 문제을초기에 발견하고수정하는 것을 핵심 원칙으로 삼는다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 개발자의 코드 변경에서부터 프로덕션 배포까지의시간을압축하고, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도구는 프로덕션의 실시간 상태를개발조직에즉시에반궤한다.
 
@@ -30,28 +30,28 @@ tags = ["devops_sre"]
 [전통적 개발 vs 피드백 루프 중심 개발]
 
 전통적 방식 (긴 피드백 루프 = 높은 수정 비용):
-Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release ──▶ Operate
-                                       ↑
-                                       │ 수개월~수년 후
-                                       │ 문제 발견
-                                       │
-                                 "수정 비용 ↑
+Requirements ---> Design ---> Code ---> Test ---> Release ---> Operate
+                                       ^
+                                       | 수개월~수년 후
+                                       | 문제 발견
+                                       |
+                                 "수정 비용 ^
                                  发现 시점 ∙∙∙∙∙∙"
-                                        ↑
+                                        ^
                                 문제 발견 시점 (개발 후)
 
 데브옵스/애자일 방식 (짧은 피드백 루프 = 낮은 수정 비용):
-┌────────────────────────────────────────────────────────────┐
-│ Plan ──▶ Code ──▶ Build ──▶ Test ──▶ Release ──▶ Operate │
-│              ↑                                    │       │
-│              │           ┌────────────────────────┘       │
-│              │           │ (数時間~数일 후)                 │
-│              │           │ 문제/피드백 발견                 │
-│              │           ↓                                 │
-│              │    "수정 비용 ↓"                           │
-│              │    发现 시점 ∙∙                             │
-│              └──────── 문제 발견 시점 (코드 작성 직후)     │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+| Plan ---> Code ---> Build ---> Test ---> Release ---> Operate |
+|              ^                                    |       |
+|              |           +------------------------+       |
+|              |           | (数時間~数일 후)                 |
+|              |           | 문제/피드백 발견                 |
+|              |           v                                 |
+|              |    "수정 비용 v"                           |
+|              |    发现 시점 ∙∙                             |
+|              +-------- 문제 발견 시점 (코드 작성 직후)     |
++------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 피드백 루프의 길이가 수정 비용과 직접적으로상련한다는 점이다. 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(코딩 직후)에 문제를 발견하면수정 비용이 거의 들지 않지만, 프로덕션 배포 후에 발견되면 영향을 받는 사용자 범위, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에서 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)손실,긴급 patches로 인한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 등을 고려하면수정 비용은 수배에서 수십배 증가한다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 궁극적 가치는 이 피드백 루프를진가능 단축하여 수정 비용을 최소화하는 데 있다.
@@ -76,49 +76,49 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 ```text
 [완전한 DevOps 피드백 루프 구조]
 
-┌─────────────────────────────────────────────────────────────────┐
-│                    개발 환경 (Development)                      │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
-│  │ Backlog     │───▶│ 코드 작성    │───▶│ CI/CD       │       │
-│  │ (User Story)│    │ (Developer) │    │ Pipeline    │       │
-│  └─────────────┘    └─────────────┘    └──────┬──────┘       │
-└──────────────────────────────────────────────┼───────────────┘
-                                               │
-                                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    운영 환경 (Production)                       │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
-│  │ 사용자       │◀───│ 서비스      │◀───│ 배포된      │       │
-│  │ (End User)  │    │ (Service)   │    │ Application │       │
-│  └──────┬──────┘    └──────┬──────┘    └─────────────┘       │
-└─────────┼──────────────────┼───────────────────────────────────┘
-          │                  │
-          ▼                  ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    피드백 수집 (Feedback Collection)            │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
-│  │ 메트릭스     │    │ 로그        │    │ 사용자      │       │
-│  │ (Prometheus)│    │ (ELK)       │    │ 피드백      │       │
-│  └──────┬──────┘    └──────┬──────┘    └──────┬──────┘       │
-└─────────┼──────────────────┼──────────────────┼───────────────┘
-          │                  │                  │
-          ▼                  ▼                  ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    분석 및 대응 (Analysis & Action)            │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
-│  │ SLO/SLI     │    │ 포스트모텀   │    │ 제품        │       │
-│  │ 평가        │    │ (장애 회고)  │    │ 로드맵 갱신  │       │
-│  └──────┬──────┘    └──────┬──────┘    └──────┬──────┘       │
-└─────────┼──────────────────┼──────────────────┼───────────────┘
-          │                  │                  │
-          └──────────────────┴──────────────────┘
-                        │
-                        ▼
-              ┌─────────────────┐
-              │ 개발 환경으로    │
-              │ 피드백 환류      │
-              │ (Back to Plan)  │
-              └─────────────────┘
++-----------------------------------------------------------------+
+|                    개발 환경 (Development)                      |
+|  +-------------+    +-------------+    +-------------+       |
+|  | Backlog     |---->| 코드 작성    |---->| CI/CD       |       |
+|  | (User Story)|    | (Developer) |    | Pipeline    |       |
+|  +-------------+    +-------------+    +------+------+       |
++----------------------------------------------+---------------+
+                                               |
+                                               v
++-----------------------------------------------------------------+
+|                    운영 환경 (Production)                       |
+|  +-------------+    +-------------+    +-------------+       |
+|  | 사용자       |<----| 서비스      |<----| 배포된      |       |
+|  | (End User)  |    | (Service)   |    | Application |       |
+|  +------+------+    +------+------+    +-------------+       |
++---------+------------------+-----------------------------------+
+          |                  |
+          v                  v
++-----------------------------------------------------------------+
+|                    피드백 수집 (Feedback Collection)            |
+|  +-------------+    +-------------+    +-------------+       |
+|  | 메트릭스     |    | 로그        |    | 사용자      |       |
+|  | (Prometheus)|    | (ELK)       |    | 피드백      |       |
+|  +------+------+    +------+------+    +------+------+       |
++---------+------------------+------------------+---------------+
+          |                  |                  |
+          v                  v                  v
++-----------------------------------------------------------------+
+|                    분석 및 대응 (Analysis & Action)            |
+|  +-------------+    +-------------+    +-------------+       |
+|  | SLO/SLI     |    | 포스트모텀   |    | 제품        |       |
+|  | 평가        |    | (장애 회고)  |    | 로드맵 갱신  |       |
+|  +------+------+    +------+------+    +------+------+       |
++---------+------------------+------------------+---------------+
+          |                  |                  |
+          +------------------+------------------+
+                        |
+                        v
+              +-----------------+
+              | 개발 환경으로    |
+              | 피드백 환류      |
+              | (Back to Plan)  |
+              +-----------------+
 ```
 
 이 구조의 핵심은 피드백 루프가 단일방향이 아니라 무한 순환결구이라는 점이다. 개발에서 운영으로의 단일 방향 배포(One-way [deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 함께, 운영에서 개발으로의 다중 방향 피드백(Multi-way feedback)이 동시에 존재해야 한다. 기술적 피드백(빌드 실패, 테스트 에러)은 수분 내 개발자에게 전달되고,업무적 피드백([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 경보)은 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 반영되며, 고객 피드백(버그 신고)은 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)에적산되어야 한다.
@@ -134,9 +134,9 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 | 방법론 | 피드백 루프의 초점 | 핵심 도구 | 측정 지표 |
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | Build-Measure-Learn | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 백로그 정리 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 달성률 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a>)</strong> | 코드 → 프로덕션 → 피드백 속도 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a>)</strong> | 코드 -> 프로덕션 -> 피드백 속도 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (사이트 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 공학)</strong> | 에러 버짓 소진 속도 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), 에러 버짓 대시보드 | 에러율, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) |
-| <strong>린 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) → 측정 → 학습 속도 | A/B 테스트, 린 애널리틱스 | 학습 속도, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)/퍼시eve 비율 |
+| <strong>린 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) -> 측정 -> 학습 속도 | A/B 테스트, 린 애널리틱스 | 학습 속도, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)/퍼시eve 비율 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>)</strong> | 작업 흐름 최적화 | Cumulative Flow Diagram | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 사이클 타임 |
 
 피드백 루프의 효과는 그 길이(반복 주기)뿐 아니라질량(얼마나 유의의한 정보를 전달하는가)에 भी 영향을 받는다. noisy한 알람만 많이 받는 피드백은 역효과를 내며, 핵심적인 신호을 여하calescens할 수 있는능력([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))이 중요하다.
@@ -145,17 +145,17 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 [피드백 루프의 두 축: 속도 vs 品質]
 
                     속도 (Speed)
-            느림 ◀─────────────────▶ 빠름
-           │                          │
-           │  Level 1:                │  Level 3:
-           │  低速 + 低品質           │  高速 + 高品質
-           │  (불확실한 피드백)       │  (이상적 상태)
-品質        │                          │
-(Quality)   │  Level 2:                │  Level 4:
-           │  低速 + 高品質           │  高速 + 低品質
-           │  (정확하지만 늦은 피드백) │  (빠르지만 noisy)
-           │                          │
-           └──────────────────────────┘
+            느림 <-------------------> 빠름
+           |                          |
+           |  Level 1:                |  Level 3:
+           |  低速 + 低品質           |  高速 + 高品質
+           |  (불확실한 피드백)       |  (이상적 상태)
+品質        |                          |
+(Quality)   |  Level 2:                |  Level 4:
+           |  低速 + 高品質           |  高速 + 低品質
+           |  (정확하지만 늦은 피드백) |  (빠르지만 noisy)
+           |                          |
+           +--------------------------+
 
 목표: 제4사분면 (고속 + 고품질) 도달
 方法: 옵저버빌리티高度화, Alert 경량화, 자동화된 분석
@@ -182,10 +182,10 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 [피드백 루프 실효성 확보를 위한 체크리스트]
 
 □ 피드백이 개발 조직에 실제로 전달되는가?
-  - 알람 → 담당자 연동 → 조치 여부 추적
+  - 알람 -> 담당자 연동 -> 조치 여부 추적
 
 □ 피드백이 다음 개발 결정에 반영되는가?
-  - 포스트모텀 조치 → 백로그 편성 → 스프린트 포함
+  - 포스트모텀 조치 -> 백로그 편성 -> 스프린트 포함
 
 □ 피드백 속도가 충분히 빠른가?
   - CI/CD 파이프라인: 수분 내
@@ -213,7 +213,7 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 | **조직 학습** | 동일한 실수 반복 | 체계적 원인 분석과 개선 | 반복 장애 감소 |
 
 **미래 전망 및 결론**:
-피드백 루프의 개념은 더욱 확장되고 있다. 기존에는 개발→운영→피드백→개선이었지만, 이제는 개발초기단계(디자인 단계)에서부터 피드백을 수집하는 "샤ド잉"이나 "트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)" 같은 기법이 활용된다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML을활용한 예측적 피드백(문제 발생 전에 선제적 알람)으로 발전하고 있다.
+피드백 루프의 개념은 더욱 확장되고 있다. 기존에는 개발->운영->피드백->개선이었지만, 이제는 개발초기단계(디자인 단계)에서부터 피드백을 수집하는 "샤ド잉"이나 "트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)" 같은 기법이 활용된다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML을활용한 예측적 피드백(문제 발생 전에 선제적 알람)으로 발전하고 있다.
 
 결론적으로, 피드백 루프의 궁극적 목적은"실패를 빠르게 인정하고 빠르게 개선하는 조직 문화"를 구축하는 것이다. 이것은 Toyota Production System의"밑빠진 독에 물 붓기"개념와도 맥을 같이하며, 어떤 조직이 더 빨리 학습하느냐가 경쟁 시대의 핵심 차별화 요인이 된다.
 
@@ -233,17 +233,17 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 
 ```text
 [CI/CD 파이프라인]
-    │
-    ▼
+    |
+    v
 [모니터링 (Monitoring) & 알람]
-    │
-    ▼
+    |
+    v
 [SLO/SLI (Service Level Objective/Indicator)]
-    │
-    ▼
+    |
+    v
 [포스트모텀 (Postmortem)]
-    │
-    ▼
+    |
+    v
 [지속적 개선 (Continuous Improvement)]
 ```
 
@@ -260,7 +260,7 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 
 **진행 상황**: 5 / 373
 
-← **이전**: [4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)
-**다음**: [6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/) →
+<- **이전**: [4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)
+**다음**: [6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/) ->
 
 ---

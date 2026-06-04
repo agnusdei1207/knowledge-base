@@ -41,30 +41,30 @@ tags = ["studynote-algorithm"]
 ```
 정렬된 배열: [1, 3, 5, 7, 9, 11, 13, 15]   목표: 9
 
-단계 1: left=0, right=7, mid=3 → arr[3]=7 < 9 → left=4
-단계 2: left=4, right=7, mid=5 → arr[5]=11 > 9 → right=4
-단계 3: left=4, right=4, mid=4 → arr[4]=9 == 9 → 반환(4)  ✓
+단계 1: left=0, right=7, mid=3 -> arr[3]=7 < 9 -> left=4
+단계 2: left=4, right=7, mid=5 -> arr[5]=11 > 9 -> right=4
+단계 3: left=4, right=4, mid=4 -> arr[4]=9 == 9 -> 반환(4)  ✓
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 이진 탐색 포인터 이동
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  배열:  [ 1]  [ 3]  [ 5]  [ 7]  [ 9]  [11]  [13]  [15]      │
-│  index:   0     1     2     3     4     5     6     7         │
-│                                                              │
-│  Step1:  L=0              M=3                    R=7         │
-│          └──────────── arr[3]=7 < 9 ──────────── ┘          │
-│                           → left = M+1 = 4                   │
-│                                                              │
-│  Step2:                  L=4   M=5               R=7         │
-│                          └─── arr[5]=11 > 9 ──── ┘          │
-│                                  → right = M-1 = 4           │
-│                                                              │
-│  Step3:                  L=4  M=4  R=4                       │
-│                           └── arr[4]=9 == 9 ──┘              │
-│                               → Found! 반환(4)               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  배열:  [ 1]  [ 3]  [ 5]  [ 7]  [ 9]  [11]  [13]  [15]      |
+|  index:   0     1     2     3     4     5     6     7         |
+|                                                              |
+|  Step1:  L=0              M=3                    R=7         |
+|          +------------ arr[3]=7 < 9 ------------ +          |
+|                           -> left = M+1 = 4                   |
+|                                                              |
+|  Step2:                  L=4   M=5               R=7         |
+|                          +--- arr[5]=11 > 9 ---- +          |
+|                                  -> right = M-1 = 4           |
+|                                                              |
+|  Step3:                  L=4  M=4  R=4                       |
+|                           +-- arr[4]=9 == 9 --+              |
+|                               -> Found! 반환(4)               |
++--------------------------------------------------------------+
 ```
 
 ### Lower Bound / Upper Bound
@@ -74,14 +74,14 @@ tags = ["studynote-algorithm"]
 | 변형 | 조건 변경 | 결과 |
 |:---|:---|:---|
 | 기본 이진 탐색 | `arr[mid] == target` 즉시 반환 | 임의의 위치 |
-| Lower Bound | `arr[mid] >= target` → right=mid | 첫 번째 위치 |
-| Upper Bound | `arr[mid] > target` → right=mid | 마지막+1 위치 |
+| Lower Bound | `arr[mid] >= target` -> right=mid | 첫 번째 위치 |
+| Upper Bound | `arr[mid] > target` -> right=mid | 마지막+1 위치 |
 
 ```
 배열: [2, 3, 3, 3, 5, 7]   target=3
 
-Lower Bound → index 1  (첫 번째 3의 위치)
-Upper Bound → index 4  (마지막 3의 다음 위치)
+Lower Bound -> index 1  (첫 번째 3의 위치)
+Upper Bound -> index 4  (마지막 3의 다음 위치)
 개수 = Upper - Lower = 4 - 1 = 3
 ```
 
@@ -112,7 +112,7 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 ### 흔한 오류 3가지
 
 1. **off-by-one**: `while (left < right)` vs `while (left <= right)` 차이로 무한 루프 또는 탐색 실패
-2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/">정수 오버플로우</a></strong>: `mid = (left + right) / 2` → left+right가 int 범위 초과 가능 → `mid = left + (right - left) / 2` 사용
+2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/">정수 오버플로우</a></strong>: `mid = (left + right) / 2` -> left+right가 int 범위 초과 가능 -> `mid = left + (right - left) / 2` 사용
 3. **비정렬 적용**: 정렬 전제가 깨진 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 적용 시 오탐 (회전 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 조건부 이진 탐색 사용)
 
 📢 **섹션 요약 비유**: off-by-one 오류는 계단에서 마지막 계단을 한 칸 더 내딛는 실수와 같다. 딱 한 칸 차이가 추락을 만든다.
@@ -122,9 +122,9 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 ### 실무 시나리오
 
 **시나리오 1**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) IP 차단 목록 조회 (n=500만)
-- [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/): 최대 500만 비교 → 패킷 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 발생
+- [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/): 최대 500만 비교 -> 패킷 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 발생
 - 이진 탐색: 최대 23번 비교 (log₂ 5,000,000 ≈ 22.9)
-- → 정렬된 차단 목록에서 이진 탐색으로 실시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확보
+- -> 정렬된 차단 목록에서 이진 탐색으로 실시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확보
 
 **시나리오 2**: git bisect (버그 커밋 이진 탐색)
 - "이 커밋부터 버그가 발생한다" — git bisect는 Parametric Search
@@ -159,7 +159,7 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 |:---|:---|:---|
 | Lower Bound | 변형 | 조건 만족 최솟값 위치 |
 | Upper Bound | 변형 | 조건 만족 마지막+1 위치 |
-| Parametric Search | 응용 | 단조 함수 최적화 → 결정 문제 변환 |
+| Parametric Search | 응용 | 단조 함수 최적화 -> 결정 문제 변환 |
 | [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 활용 | DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 노드 내 탐색 |
 | git bisect | 활용 | 버그 커밋 이진 탐색 |
 | 회전 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 탐색 | 변형 | 조건부 이진 탐색 적용 |
@@ -168,17 +168,17 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 
 ```text
 [Lower Bound]
-    │
-    ▼
+    |
+    v
 [Upper Bound]
-    │
-    ▼
+    |
+    v
 [Parametric Search]
-    │
-    ▼
+    |
+    v
 [B-Tree 인덱스]
-    │
-    ▼
+    |
+    v
 [git bisect]
 ```
 
@@ -196,7 +196,7 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 
 **진행 상황**: 31 / 175
 
-← **이전**: [1. 선형 탐색 (Linear Search) — O(n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)
-**다음**: [3. 해시 탐색 (Hash Search) — O(1) 평균](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) →
+<- **이전**: [1. 선형 탐색 (Linear Search) — O(n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)
+**다음**: [3. 해시 탐색 (Hash Search) — O(1) 평균](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) ->
 
 ---

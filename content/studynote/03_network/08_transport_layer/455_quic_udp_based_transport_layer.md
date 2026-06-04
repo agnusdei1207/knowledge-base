@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [QUIC]
-    │
-    ▼
+    |
+    v
 [QUIC 전송]
-    │
-    └──▶ [HOL 블로킹 문제 해결]
+    |
+    +---> [HOL 블로킹 문제 해결]
 ```
 
 - **📢 섹션 요약 비유**: <strong> TCP가 정부(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)가 수십 년 전에 지어놓고 규정이 빡세서 리모델링조차 맘대로 못 하는 </strong>"낡은 공공 인프라 철도망"<strong>이라면, QUIC은 차가 쌩쌩 달릴 수 있게 민간 기업(브라우저 앱)이 텅 빈 들판(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>) 위에 자기 돈으로 직접 깔고 매일매일 아스팔트를 새로 까는 </strong>"최첨단 민자 고속도로"**입니다.
@@ -56,24 +56,24 @@ tags = ["studynote-network"]
   - 이 철벽 암호화 덕분에 QUIC은 전 세계 어떤 싸구려 통신망을 통과해도 망가지지 않는 극강의 무결성을 확보했다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs QUIC의 패킷 내용 노출도 비교 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP + TLS(HTTPS) 패킷 ]                              │
- │   [ IP 헤더 ] + [ TCP 헤더 (포트, ACK, Seq, 플래그 전부 보임!) ] │
- │             + [ TLS 헤더 (인사말 보임) ] + [ 암호화된 진짜 데이터 ] │
- │   * 방화벽 왈: "오호 통신 상태가 다 보이네? 내 맘대로 통제해야지~"        │
- │                                                             │
- │   [ 최첨단 QUIC 패킷 ]                                         │
- │   [ IP 헤더 ] + [ UDP 깡통 헤더 (포트번호 달랑 2개 보임 끝) ]       │
- │             + █ █ █ █ [ 100% 암호화 영역 ] █ █ █ █             │
- │                 (여기에 QUIC 헤더, ACK, TLS 인사, 데이터 다 숨어있음)│
- │                                                             │
- │   * 방화벽 왈: "뭐가 들었는지 알 수가 없네. 통제 불가. 통과시켜!"         │
- │                                                             │
- │   ▶ "이 100% 블랙박스화 전략이 QUIC을 막을 수 없게 만든 원동력이다."   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP vs QUIC의 패킷 내용 노출도 비교 도식           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 구형 TCP + TLS(HTTPS) 패킷 ]                              |
+ |   [ IP 헤더 ] + [ TCP 헤더 (포트, ACK, Seq, 플래그 전부 보임!) ] |
+ |             + [ TLS 헤더 (인사말 보임) ] + [ 암호화된 진짜 데이터 ] |
+ |   * 방화벽 왈: "오호 통신 상태가 다 보이네? 내 맘대로 통제해야지~"        |
+ |                                                             |
+ |   [ 최첨단 QUIC 패킷 ]                                         |
+ |   [ IP 헤더 ] + [ UDP 깡통 헤더 (포트번호 달랑 2개 보임 끝) ]       |
+ |             + █ █ █ █ [ 100% 암호화 영역 ] █ █ █ █             |
+ |                 (여기에 QUIC 헤더, ACK, TLS 인사, 데이터 다 숨어있음)|
+ |                                                             |
+ |   * 방화벽 왈: "뭐가 들었는지 알 수가 없네. 통제 불가. 통과시켜!"         |
+ |                                                             |
+ |   -> "이 100% 블랙박스화 전략이 QUIC을 막을 수 없게 만든 원동력이다."   |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 전송의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -130,12 +130,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: QUIC]
-    │
-    ▼
+    |
+    v
 [현재 개념: QUIC 전송]
-    │
-    ├──▶ [확장 A: HOL 블로킹 문제 해결]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: HOL 블로킹 문제 해결]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 전송는 QUIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제 해결와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 576 / 1120
 
-← **이전**: [454. QUIC (Quick UDP Internet Connections)](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)
-**다음**: [456. HOL (Head-of-Line) 블로킹 문제 해결 (독립적 스트림 처리 적용)](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) →
+<- **이전**: [454. QUIC (Quick UDP Internet Connections)](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)
+**다음**: [456. HOL (Head-of-Line) 블로킹 문제 해결 (독립적 스트림 처리 적용)](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) ->
 
 ---

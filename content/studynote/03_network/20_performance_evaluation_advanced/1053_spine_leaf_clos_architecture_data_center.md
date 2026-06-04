@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    ▼
+    |
+    v
 [Spine-Leaf 대용량 클로스 구조]
-    │
-    └──▶ [IBN 선행 AI 설계]
+    |
+    +---> [IBN 선행 AI 설계]
 ```
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    ▼
+    |
+    v
 [Spine-Leaf 대용량 클로스 구조]
-    │
-    └──▶ [IBN 선행 AI 설계]
+    |
+    +---> [IBN 선행 AI 설계]
 ```
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ Spine-Leaf 대용량 클로스 구조는 [성능](/knowledge-base/studynote/04_s
 
 ```text
 [선행 개념: EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Spine-Leaf 대용량 클로스 구조]
-    │
-    ├──▶ [확장 A: IBN 선행 AI 설계]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: IBN 선행 AI 설계]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [BGP](/knowledge-base/studyn
 
 **진행 상황**: 158 / 1120
 
-← **이전**: [1052. EVPN-VXLAN BGP 컨트롤 플레인 전이](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/)
-**다음**: [1054. IBN(의도기반망) 선행 AI 설계](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/) →
+<- **이전**: [1052. EVPN-VXLAN BGP 컨트롤 플레인 전이](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/)
+**다음**: [1054. IBN(의도기반망) 선행 AI 설계](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/) ->
 
 ---

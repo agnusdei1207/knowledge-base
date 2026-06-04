@@ -146,7 +146,7 @@ RDBMS 한계           ->  Hadoop HDFS + MapReduce  ->  Spark (메모리 처리)
 
 **진행 상황**: 339 / 373
 
-← **이전**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/)
-**다음**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/) →
+<- **이전**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/)
+**다음**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/) ->
 
 ---

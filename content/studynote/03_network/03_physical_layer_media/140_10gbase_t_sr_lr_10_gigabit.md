@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [1000BASE-T]
-    │
-    ▼
+    |
+    v
 [10GBASE-T / 10GBASE-SR /…]
-    │
-    └──▶ [40GbE / 100GbE / 400GbE…]
+    |
+    +---> [40GbE / 100GbE / 400GbE…]
 ```
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [1000BASE-T]
-    │
-    ▼
+    |
+    v
 [10GBASE-T / 10GBASE-SR /…]
-    │
-    └──▶ [40GbE / 100GbE / 400GbE…]
+    |
+    +---> [40GbE / 100GbE / 400GbE…]
 ```
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 1000BASE-T]
-    │
-    ▼
+    |
+    v
 [현재 개념: 10GBASE-T / 10GBASE-SR /…]
-    │
-    ├──▶ [확장 A: 40GbE / 100GbE / 400GbE…]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 40GbE / 100GbE / 400GbE…]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 10GBASE-T / 10GBASE-SR /…는 1000BASE-T에서 출발해 현재 메커니즘을 정교화하고, 이후 40GbE / 100GbE / 400GbE…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 261 / 1120
 
-← **이전**: [139. 1000BASE-T (Gigabit Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)
-**다음**: [141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷](/knowledge-base/studynote/03_network/03_physical_layer_media/141_40gbe_100gbe_400gbe_ethernet/) →
+<- **이전**: [139. 1000BASE-T (Gigabit Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)
+**다음**: [141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷](/knowledge-base/studynote/03_network/03_physical_layer_media/141_40gbe_100gbe_400gbe_ethernet/) ->
 
 ---

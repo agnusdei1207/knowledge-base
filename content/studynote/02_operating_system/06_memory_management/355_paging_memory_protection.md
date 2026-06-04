@@ -28,32 +28,32 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>의 완성</strong>: 이 V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 보안을 넘어, "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 지금 RAM에 없고 하드디스크에 쫓겨나 있으니(Invalid), 에러 내지 말고 디스크에서 불러와!"라는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 핵심 시그널([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))로 그 의미가 찬란하게 확장되었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        유효-무효 비트 (Valid-Invalid Bit)의 보안 동작 시각화       │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 프로세스 A의 32비트 가상 주소 공간: 0 ~ 4GB (이론상) ]           │
-│ 하지만 A는 실제로는 코드와 데이터로 3개의 페이지만(12KB) 쓰고 있음!│
-│                                                                    │
-│ ▶ 프로세스 A의 페이지 테이블 (Page Table)                          │
-│ ┌──────┬───────┬─────┬─────┐                                       │
-│ │ Page │ Frame │ V/I │ R/W │ ◀ 보안 비트들                         │
-│ ├──────┼───────┼─────┼─────┤                                       │
-│ │  0   │   4   │  V  │ R-X │ (정상: 코드 영역, 쓰기 불가)          │
-│ │  1   │   7   │  V  │ RW- │ (정상: 데이터 영역, 읽고 쓰기)        │
-│ │  2   │   9   │  V  │ RW- │ (정상)                                │
-│ │  3   │   0   │  I  │ --- │ ◀ (불법: 앱이 쓰지 않는 빈 공간!)     │
-│ │  4   │   0   │  I  │ --- │ ◀ (불법)                              │
-│ │ ...  │  ...  │ ... │ ... │ (전부 I 비트로 세팅됨)                │
-│ └──────┴───────┴─────┴─────┘                                       │
-│                                                                    │
-│ [ 해커의 공격 ]                                                    │
-│ "A 프로세스가 자기한테 없는 Page 4번 데이터를 달라고 요청(CALL)!"  │
-│                                                                    │
-│ [ MMU 하드웨어의 철퇴 ]                                            │
-│ "테이블 4번 줄을 보니 V/I 비트가 'I(Invalid)'네? 이 자식 뻗어라!"  │
-│ 💥 결과: 운영체제에 Trap 발생 -> Segmentation Fault로 즉시 사살!   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        유효-무효 비트 (Valid-Invalid Bit)의 보안 동작 시각화       |
++--------------------------------------------------------------------+
+|                                                                    |
+| [ 프로세스 A의 32비트 가상 주소 공간: 0 ~ 4GB (이론상) ]           |
+| 하지만 A는 실제로는 코드와 데이터로 3개의 페이지만(12KB) 쓰고 있음!|
+|                                                                    |
+| -> 프로세스 A의 페이지 테이블 (Page Table)                          |
+| +------+-------+-----+-----+                                       |
+| | Page | Frame | V/I | R/W | <- 보안 비트들                         |
+| +------+-------+-----+-----+                                       |
+| |  0   |   4   |  V  | R-X | (정상: 코드 영역, 쓰기 불가)          |
+| |  1   |   7   |  V  | RW- | (정상: 데이터 영역, 읽고 쓰기)        |
+| |  2   |   9   |  V  | RW- | (정상)                                |
+| |  3   |   0   |  I  | --- | <- (불법: 앱이 쓰지 않는 빈 공간!)     |
+| |  4   |   0   |  I  | --- | <- (불법)                              |
+| | ...  |  ...  | ... | ... | (전부 I 비트로 세팅됨)                |
+| +------+-------+-----+-----+                                       |
+|                                                                    |
+| [ 해커의 공격 ]                                                    |
+| "A 프로세스가 자기한테 없는 Page 4번 데이터를 달라고 요청(CALL)!"  |
+|                                                                    |
+| [ MMU 하드웨어의 철퇴 ]                                            |
+| "테이블 4번 줄을 보니 V/I 비트가 'I(Invalid)'네? 이 자식 뻗어라!"  |
+| 💥 결과: 운영체제에 Trap 발생 -> Segmentation Fault로 즉시 사살!   |
++--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가상 주소 공간은 4GB(32비트 기준)로 무한정 넓어 보이지만, 실제 프로그램이 점유한 유효한 공간은 아주 작다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 이 4GB를 전부 덮는 장부를 가지고 있되, 할당되지 않은 모든 허공의 주소에는 'I (Invalid)' [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 찍어둔다. 앱이 미쳐서 엉뚱한 포인터를 참조하면 바로 이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지뢰를 밟고 자폭하게 된다. 이 매커니즘이 C언어 포인터 에러가 날 때 뱉어내는 영원한 단골 에러 메세지(Segfault)의 근원이다.
 
@@ -81,25 +81,25 @@ tags = ["studynote-operating-system"]
 `I (Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟았을 때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handler)로 제어권이 넘어가면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 두 가지 중 하나를 판단한다. 이게 이 아키텍처의 가장 눈부신 예술적 융합이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────────┐
-│              'I (Invalid)' 비트를 만났을 때 운영체제의 심판                   │
-├───────────────────────────────────────────────────────────────────────────────┤
-│                                                                               │
-│ [ MMU ] "OS야, 이 앱이 'I' 비트가 찍힌 7번 페이지를 건드렸어!"                │
-│      │                                                                        │
-│      ▼                                                                        │
-│ [ OS의 내부 장부(PCB 내부의 정밀 메모리 맵) 2차 검사 ]                        │
-│                                                                               │
-│ 1. 💀 진짜 불법인가? (Illegal Memory Access)                                  │
-│    OS: "이 앱은 애초에 7번 페이지를 할당받은 적이 없는데? 완벽한 해킹/버그다!"│
-│    결과: SIGSEGV (Segmentation Fault) 전송 -> 프로세스 강제 종료.             │
-│                                                                               │
-│ 2. 🟢 스왑 아웃(Swap Out) 된 내 새끼인가? (Page Fault)                        │
-│    OS: "아, 할당은 해줬는데 메모리 모자라서 내가 잠깐 하드디스크(Swap)에      │
-│         내쫓았던(Swap out) 데이터구나! 미안미안."                             │
-│    결과: 디스크에서 7번 페이지를 RAM으로 읽어옴 (Swap in)                     │
-│          -> 테이블을 'V'로 갱신 -> 멈췄던 CPU 명령 재시작!                    │
-└───────────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------------+
+|              'I (Invalid)' 비트를 만났을 때 운영체제의 심판                   |
++-------------------------------------------------------------------------------+
+|                                                                               |
+| [ MMU ] "OS야, 이 앱이 'I' 비트가 찍힌 7번 페이지를 건드렸어!"                |
+|      |                                                                        |
+|      v                                                                        |
+| [ OS의 내부 장부(PCB 내부의 정밀 메모리 맵) 2차 검사 ]                        |
+|                                                                               |
+| 1. 💀 진짜 불법인가? (Illegal Memory Access)                                  |
+|    OS: "이 앱은 애초에 7번 페이지를 할당받은 적이 없는데? 완벽한 해킹/버그다!"|
+|    결과: SIGSEGV (Segmentation Fault) 전송 -> 프로세스 강제 종료.             |
+|                                                                               |
+| 2. 🟢 스왑 아웃(Swap Out) 된 내 새끼인가? (Page Fault)                        |
+|    OS: "아, 할당은 해줬는데 메모리 모자라서 내가 잠깐 하드디스크(Swap)에      |
+|         내쫓았던(Swap out) 데이터구나! 미안미안."                             |
+|    결과: 디스크에서 7번 페이지를 RAM으로 읽어옴 (Swap in)                     |
+|          -> 테이블을 'V'로 갱신 -> 멈췄던 CPU 명령 재시작!                    |
++-------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초창기 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 오직 '죽음(보안 위반)'만을 의미했다. 하지만 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 시대가 열리면서 이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "지금 램(RAM)에 없으니 디스크에서 좀 퍼와라"는 <strong>초인종(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong> 역할로 진화했다. 즉, 보안 가드([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Guard)의 역할과 캐시 미스(Cache Miss) 알림의 역할을 동시에 수행하는 천재적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 설계다.
@@ -116,7 +116,7 @@ tags = ["studynote-operating-system"]
 
 | 방어막 | 방어 메커니즘 | 한계점 및 보완 |
 |:---|:---|:---|
-| **PTLR (길이 방어)** | "총 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수가 100개인데, 101번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 달라고?" → 즉시 차단 | 전체 길이만 체크하므로, 0~100 중간에 이빨 빠진(Free) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공격하면 못 막음 |
+| **PTLR (길이 방어)** | "총 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수가 100개인데, 101번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 달라고?" -> 즉시 차단 | 전체 길이만 체크하므로, 0~100 중간에 이빨 빠진(Free) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공격하면 못 막음 |
 | <strong>V/I <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (조각 방어)</strong> | 테이블 내부 1~100번 줄을 일일이 검사. 50번이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)면 중간 접근도 완벽 차단 | 조각 단위의 극히 세밀한 방어가 가능해 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 찌꺼기 공격도 100% 방어함 |
 
 ### NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(No-eXecute)와 하드웨어 보안 혁명
@@ -127,13 +127,13 @@ tags = ["studynote-operating-system"]
 - <strong>NX <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>의 등장</strong>: 인텔과 AMD는 하드웨어 PTE 구조에 `NX(eXecute-Disable)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 박아넣었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에는 NX=1을 걸어두어, CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 실행(Execute)하려 시도하면 벼락([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 내려 사살하게 만들었다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계가 소프트웨어 보안 역사에 기여한 가장 위대한 훈장 중 하나다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 보호 비트  │ 정상 권한    │ 해커 공격    │ 방어 결과 (트랩)│
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ V/I 비트 │ 할당 영역만  │ 할당 외 접근 │ SegFault (사살)   │
-│ R/W 비트 │ Read Only  │ Write 시도  │ SegFault (사살)      │
-│ NX 비트  │ Data (RW-) │ 코드 실행 시도│ DEP 차단 (사살)    │
-└──────────┴────────────┴────────────┴───────────────────────┘
++----------+------------+------------+-----------------------+
+| 보호 비트  | 정상 권한    | 해커 공격    | 방어 결과 (트랩)|
++----------+------------+------------+-----------------------+
+| V/I 비트 | 할당 영역만  | 할당 외 접근 | SegFault (사살)   |
+| R/W 비트 | Read Only  | Write 시도  | SegFault (사살)      |
+| NX 비트  | Data (RW-) | 코드 실행 시도| DEP 차단 (사살)    |
++----------+------------+------------+-----------------------+
 ```
 **[매트릭스 해설]** V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 시작된 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 씨앗은, 현대 하드웨어 아키텍처의 철통같은 권한 제어 매트릭스로 만개했다. 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들은 단순히 메모리를 나누는 것을 넘어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라는 성곽을 지키는 다층 방어막([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))의 물리적 콘크리트 역할을 한다.
 
@@ -191,12 +191,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
-    │
-    ▼
+    |
+    v
 [페이징의 메모리 보호]
-    │
-    ├──▶ [페이징에서의 공유 페이지 (Shared Pages)]
-    └──▶ [TLB (Translation Look-aside Buffer)]
+    |
+    +---> [페이징에서의 공유 페이지 (Shared Pages)]
+    +---> [TLB (Translation Look-aside Buffer)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -213,7 +213,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 355 / 800
 
-← **이전**: [354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)
-**다음**: [356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) →
+<- **이전**: [354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)
+**다음**: [356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) ->
 
 ---

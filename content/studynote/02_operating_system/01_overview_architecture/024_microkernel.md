@@ -23,17 +23,17 @@ tags = ["studynote-operating-system"]
 핵심 철학: "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 최소한의 메커니즘만 제공하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 사용자 공간에서 결정한다."
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        모놀리식 커널 vs 마이크로커널 구조 비교                  │
-├─────────────────────────┬────────────────────────────────────┤
-│    모놀리식 커널          │        마이크로커널                  │
-├─────────────────────────┼────────────────────────────────────┤
-│ [사용자 프로세스]          │ [파일서버] [드라이버서버] [네트워크]  │
-│          │               │      │ 사용자 공간(User Space)       │
-│ ─────────────────────   │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
-│ [커널: FS+Driver+Net     │ [마이크로커널: IPC+메모리+스케줄러]  │
-│  +Memory+Scheduler]     │      커널 공간(Kernel Space)        │
-└─────────────────────────┴────────────────────────────────────┘
++--------------------------------------------------------------+
+|        모놀리식 커널 vs 마이크로커널 구조 비교                  |
++-------------------------+------------------------------------+
+|    모놀리식 커널          |        마이크로커널                  |
++-------------------------+------------------------------------+
+| [사용자 프로세스]          | [파일서버] [드라이버서버] [네트워크]  |
+|          |               |      | 사용자 공간(User Space)       |
+| ---------------------   | - - - - - - - - - - - - - - -   |
+| [커널: FS+Driver+Net     | [마이크로커널: IPC+메모리+스케줄러]  |
+|  +Memory+Scheduler]     |      커널 공간(Kernel Space)        |
++-------------------------+------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)은 모든 기능이 한 방에 있는 대형 마트이고, 마이크로커널은 핵심 계산대([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), 메모리)만 중앙에 두고 각 가게([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템, 드라이버)는 별도 건물에 있는 복합쇼핑몰이다. 편의성 vs 유연성의 트레이드오프다.
@@ -54,18 +54,18 @@ tags = ["studynote-operating-system"]
 ### [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메시지 패싱 흐름
 
 ```text
-[App] → send(msg) → [마이크로커널 IPC]
-                         │
+[App] -> send(msg) -> [마이크로커널 IPC]
+                         |
                     메시지 라우팅
-                         │
-                    [파일서버(User)] ← recv(msg)
-                         │
-                    응답 → [마이크로커널 IPC] → [App]
+                         |
+                    [파일서버(User)] <- recv(msg)
+                         |
+                    응답 -> [마이크로커널 IPC] -> [App]
 
-Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
+Context Switch: 2회 (App->Kernel->Server, Server->Kernel->App)
 ```
 
-[모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) 시스템 콜: 1회 [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) (User→[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)→User)
+[모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) 시스템 콜: 1회 [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) (User->[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)->User)
 
 - **📢 섹션 요약 비유**: 마이크로커널 IPC는 편지를 우체국([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 통해 서로 다른 건물(서버)에 보내는 것이다. 보안은 높지만 편지가 오고 가는 데 시간이 걸린다.
 
@@ -77,7 +77,7 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 크기</strong> | 크다 (수백만 줄) | 작다 (수만 줄) | 중간 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 빠름 ([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)) | 느림 ([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 오버헤드) | 중간 |
-| **안정성** | 드라이버 버그 → 크래시 | 서버 격리 → 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 중간 |
+| **안정성** | 드라이버 버그 -> 크래시 | 서버 격리 -> 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 중간 |
 | **사례** | Linux, Unix | QNX, L4, MINIX | macOS(XNU), Windows NT |
 
 - **📢 섹션 요약 비유**: 모놀리식은 슈퍼맨(혼자 다 처리, 빠르지만 한 번 다치면 치명적), 마이크로커널은 팀(역할 분리, 한 명 쓰러져도 팀은 유지), 하이브리드는 둘의 절충이다.
@@ -90,9 +90,9 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 실시간성(Hard Real-time)과 고가용성(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이 동시에 요구되는 항공기 비행 제어 시스템 OS 선택.
 
 - **선택: QNX (마이크로커널 기반)**.
-- 디바이스 드라이버가 사용자 공간에서 실행 → 드라이버 버그가 비행 제어 코어에 영향 없음.
-- POSIX 표준 지원 → 기존 SW 포팅 용이.
-- 드라이버 장애 시 재시작(Restart) 가능 → 비행 중 무중단 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/).
+- 디바이스 드라이버가 사용자 공간에서 실행 -> 드라이버 버그가 비행 제어 코어에 영향 없음.
+- POSIX 표준 지원 -> 기존 SW 포팅 용이.
+- 드라이버 장애 시 재시작(Restart) 가능 -> 비행 중 무중단 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 마이크로커널의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 오버헤드를 무시하고 초고성능 실시간 시스템에 적용하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 메시지 패싱의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 비용이 수백~수천 ns에 달하여 Hard Real-time [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(< 1ms) 요건을 충족하지 못할 수 있다. L4 계열처럼 IPC를 극한 최적화한 마이크로커널만이 이를 해결할 수 있다.
@@ -129,17 +129,17 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 ```text
 [모놀리식 커널 — 단일 주소공간, 고성능, 낮은 안정성]
-    │
-    ▼
+    |
+    v
 [마이크로커널 — 최소 커널 + 사용자 공간 서버, IPC 기반]
-    │
-    ▼
+    |
+    v
 [하이브리드 커널 — 성능/안정성 절충 (macOS, Windows NT)]
-    │
-    ▼
+    |
+    v
 [형식 검증 마이크로커널 — seL4, 수학적 안전성 증명]
-    │
-    ▼
+    |
+    v
 [임베디드/자율주행 OS — 기능 안전 인증 (ISO 26262)]
 ```
 
@@ -155,7 +155,7 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 **진행 상황**: 24 / 800
 
-← **이전**: [23. 모놀리식 커널 (Monolithic Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)
-**다음**: [25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) →
+<- **이전**: [23. 모놀리식 커널 (Monolithic Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)
+**다음**: [25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) ->
 
 ---

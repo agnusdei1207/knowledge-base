@@ -24,19 +24,19 @@ tags = ["studynote-computer-architecture"]
 문제는 규모가 커질수록 명확해진다. 100GbE, 200GbE급 네트워크, 저장장치 암호화, [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 격리, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 동서 트래픽이 늘어나면 패킷 처리와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 암호화, 주소 변환이 모두 CPU에 부담으로 쌓인다. 이때 SDI는 유연성을 얻는 대신, 제대로 설계하지 않으면 호스트 CPU가 인프라 오버헤드에 잠식되는 이른바 Datacenter Tax를 맞게 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ "소프트웨어 정의" 계층 아래에서 실제로 버티는 것                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Orchestrator / Hypervisor / SDN Controller                                 │
-│                 │ policy                                                    │
-│                 ▼                                                           │
-│ Host CPU ─ vSwitch ─ NIC ─ Network                                          │
-│    │        │                                                               │
-│    ├─ VM / Container                                                        │
-│    └─ Storage Stack                                                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 패킷 전송, DMA, 인터럽트, 암호화, 격리는 결국 하드웨어 특성에 좌우됨         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| "소프트웨어 정의" 계층 아래에서 실제로 버티는 것                            |
++----------------------------------------------------------------------------+
+| Orchestrator / Hypervisor / SDN Controller                                 |
+|                 | policy                                                    |
+|                 v                                                           |
+| Host CPU - vSwitch - NIC - Network                                          |
+|    |        |                                                               |
+|    +- VM / Container                                                        |
+|    +- Storage Stack                                                         |
++----------------------------------------------------------------------------+
+| 패킷 전송, DMA, 인터럽트, 암호화, 격리는 결국 하드웨어 특성에 좌우됨         |
++----------------------------------------------------------------------------+
 ```
 
 즉 SDI의 핵심 질문은 "하드웨어를 없앨 수 있는가"가 아니라, <strong>하드웨어를 얼마나 잘 추상화하고 가속해 소프트웨어 유연성을 유지할 것인가</strong>다. 그래서 SDI는 본질적으로 하드웨어 독립이 아니라 하드웨어 활용 방식의 변화라고 보는 편이 정확하다.
@@ -59,17 +59,17 @@ tags = ["studynote-computer-architecture"]
 | [Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) 계열 하드웨어 | [부팅 무결성](/knowledge-base/studynote/09_security/18_iot_ot_physical/916_secure_boot/), 장치 신뢰, 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 보안 강화 |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 현대 SDI 서버의 역할 분담                                                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Control Plane : Kubernetes / OpenStack / SDN                               │
-│        │                                                                    │
-│        ▼                                                                    │
-│ Host CPU / Hypervisor ── config ──▶ DPU / SmartNIC ──▶ NIC Queues          │
-│        │                        │                 ├─ 접근 제어 / 오버레이    │
-│        ├─ VM scheduling         ├─ SR-IOV        ├─ 저지연 전송 / 저장 경로 │
-│        └─ storage policy        └─ IOMMU         └─ Telemetry / Isolation   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| 현대 SDI 서버의 역할 분담                                                   |
++----------------------------------------------------------------------------+
+| Control Plane : Kubernetes / OpenStack / SDN                               |
+|        |                                                                    |
+|        v                                                                    |
+| Host CPU / Hypervisor -- config ---> DPU / SmartNIC ---> NIC Queues          |
+|        |                        |                 +- 접근 제어 / 오버레이    |
+|        +- VM scheduling         +- SR-IOV        +- 저지연 전송 / 저장 경로 |
+|        +- storage policy        +- IOMMU         +- Telemetry / Isolation   |
++----------------------------------------------------------------------------+
 ```
 
 여기서 핵심은 소프트웨어가 완전히 사라지는 것이 아니라, <strong>소프트웨어가 하드웨어 기능을 프로그래밍하는 구조</strong>라는 점이다. 예를 들어 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 여전히 소프트웨어가 작성하지만, 실제 빠른 패킷 분류와 터널 종단은 DPU나 NIC가 맡는다. 소프트웨어 정의가 성공하려면 하드웨어는 더 단순해지는 것이 아니라 오히려 더 프로그래머블해진다.
@@ -149,17 +149,17 @@ SDI는 흔히 "범용 서버만 있으면 된다"는 식으로 오해되지만, 
 
 ```text
 전용 네트워크 / 스토리지 어플라이언스
-        │
-        ▼
+        |
+        v
 범용 서버 + 가상화 기반 SDI 확산
-        │
-        ▼
+        |
+        v
 CPU 오버헤드 증가 · Datacenter Tax 부각
-        │
-        ▼
+        |
+        v
 SR-IOV · IOMMU · SmartNIC · DPU 도입
-        │
-        ▼
+        |
+        v
 프로그래머블 데이터 평면 · 기밀 컴퓨팅 · 분리형 인프라
 ```
 
@@ -177,7 +177,7 @@ SR-IOV · IOMMU · SmartNIC · DPU 도입
 
 **진행 상황**: 499 / 803
 
-← **이전**: [498. 2.5D 및 3D 패키징 기술](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/498_2d_3d_packaging/)
-**다음**: [500. 폰 노이만 병목 개선 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/) →
+<- **이전**: [498. 2.5D 및 3D 패키징 기술](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/498_2d_3d_packaging/)
+**다음**: [500. 폰 노이만 병목 개선 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/) ->
 
 ---

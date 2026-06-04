@@ -28,20 +28,20 @@ tags = ["studynote-operating-system"]
   [시간 경과에 따른 연산 결과의 가치(Value) 변화 그래프]
 
   (1) Hard Real-time (경성 실시간)
-  가치 100 ┼─────────┐ (데드라인)
-           │         │
-           │         ▼
-   가치 0  ┼─────────┼──────────▶ 시간
-           │         │ 🚨 가치가 즉시 마이너스(재앙)로 곤두박질침
-           │         ▼
+  가치 100 +---------+ (데드라인)
+           |         |
+           |         v
+   가치 0  +---------+-----------> 시간
+           |         | 🚨 가치가 즉시 마이너스(재앙)로 곤두박질침
+           |         v
          -∞
 
   (2) Soft Real-time (연성 실시간)
-  가치 100 ┼─────────┐ (데드라인)
-           │         │ ↘
-           │         │    ↘
-   가치 0  ┼─────────┼───────↘──▶ 시간
-           │                    (서서히 불만족도 증가, 가치 하락)
+  가치 100 +---------+ (데드라인)
+           |         | ↘
+           |         |    ↘
+   가치 0  +---------+-------↘---> 시간
+           |                    (서서히 불만족도 증가, 가치 하락)
 ```
 **[다이어그램 해설]** 데드라인 직후 결과물의 가치가 어떻게 변하는지가 두 시스템을 가르는 유일한 철학적 잣대다. 하드 실시간에서 브레이크를 밟으라는 연산이 데드라인(예: 10ms)을 넘겨 11ms에 나오면, 그 연산은 안 하느니만 못한 재앙을 부른다(충돌 발생). 반면 소프트 실시간에서 영상 프레임 디코딩이 11ms에 나오면 1 프레임(16ms)이 스킵되어 화면이 살짝 끊길 뿐, 전체 영화를 보는 데는 지장이 없다.
 
@@ -76,22 +76,22 @@ tags = ["studynote-operating-system"]
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락을 쪼개어, 백그라운드 작업이 시스템 콜을 하더라도 최대한 빨리 실시간 태스크가 CPU를 뺏을 수 있도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선점성(Preemptibility)을 높인다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         하드 vs 소프트 실시간의 커널 선점(Preemption) 차이          │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │ [ 일반 태스크가 커널에서 거대한 락(Big Lock)을 쥐고 있을 때 ]       │
-  │                                                                     │
-  │  ▶ 소프트 실시간 (범용 Linux):                                      │
-  │     - "커널 락 쥐고 있네? 어쩔 수 없지. 락 풀 때까지 대기해."       │
-  │     - 결과: 디스패치 지연이 수십 ms까지 튀어 렉 발생.               │
-  │                                                                     │
-  │  ▶ 하드 실시간 (RT_Linux 패치):                                     │
-  │     - "네가 커널 락을 쥐고 있다고? 난 알 바 아냐! 방 빼!!"          │
-  │     - 조치: 커널 락 자체를 무시(또는 수면 가능한 Mutex로 변환)      │
-  │             하고, 일반 태스크를 쫓아낸 뒤 브레이크를 먼저 밟음.     │
-  │     - 결과: 디스패치 지연 0.05ms (50μs) 고정. 데드라인 방어!        │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         하드 vs 소프트 실시간의 커널 선점(Preemption) 차이          |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  | [ 일반 태스크가 커널에서 거대한 락(Big Lock)을 쥐고 있을 때 ]       |
+  |                                                                     |
+  |  -> 소프트 실시간 (범용 Linux):                                      |
+  |     - "커널 락 쥐고 있네? 어쩔 수 없지. 락 풀 때까지 대기해."       |
+  |     - 결과: 디스패치 지연이 수십 ms까지 튀어 렉 발생.               |
+  |                                                                     |
+  |  -> 하드 실시간 (RT_Linux 패치):                                     |
+  |     - "네가 커널 락을 쥐고 있다고? 난 알 바 아냐! 방 빼!!"          |
+  |     - 조치: 커널 락 자체를 무시(또는 수면 가능한 Mutex로 변환)      |
+  |             하고, 일반 태스크를 쫓아낸 뒤 브레이크를 먼저 밟음.     |
+  |     - 결과: 디스패치 지연 0.05ms (50μs) 고정. 데드라인 방어!        |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 범용 리눅스(소프트)가 하드 실시간 영역에 진입하지 못했던 가장 큰 이유가 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락"이었다. 시스템의 무결성을 지키려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 수정할 때 선점을 금지해야 하는데, 하드 실시간은 그 무결성보다 데드라인이 더 중요하기 때문에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조 자체를 갈아엎어(모든 스핀락을 뮤텍스로 변경) 기어코 선점을 해내고야 만다.
 
@@ -128,23 +128,23 @@ tags = ["studynote-operating-system"]
    - **실무 조치**: K8s 노드의 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) 설정을 `cpuManagerPolicy: static`으로 바꾸고, 파드에 정수 개수(예: 2.0)의 CPU 리밋을 준다. 그러면 OS는 아예 <strong>"이 2개의 물리 코어를 이 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 전용으로 완전히 분리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)시켜 다른 어떤 놈도 스케줄링되지 않게(No <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)"</strong> 막아버려, 완벽한 하드 실시간 환경의 베어메탈급 성능을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 제공한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     실시간(Real-time) 프로젝트 아키텍처 도입 의사결정 트리        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [요구사항: 드론의 비행 자세 제어 모듈 개발 (주기 5ms)]          │
-  │                │                                                  │
-  │                ▼ 데드라인 실패 시의 타격은?                       │
-  │      [ 5ms를 한 번이라도 넘기면 드론이 추락해 박살남 ]            │
-  │       ├─▶ 판단: Hard Real-time 환경 필수                          │
-  │       ├─▶ OS: VxWorks, QNX, RT_Linux (선점형 커널)                │
-  │       └─▶ 메모리: Swap OFF, mlockall() 사용, 캐시 락킹            │
-  │                                                                   │
-  │      [ 5ms를 넘기면 영상이 약간 흔들리지만 비행엔 지장 없음 ]     │
-  │       ├─▶ 판단: Soft Real-time 환경으로 타협                      │
-  │       ├─▶ OS: 일반 Linux (SCHED_FIFO, Priority 99 튜닝)           │
-  │       └─▶ 비용 절감: 값비싼 RTOS 보증 라이선스 구매 불필요        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |     실시간(Real-time) 프로젝트 아키텍처 도입 의사결정 트리        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [요구사항: 드론의 비행 자세 제어 모듈 개발 (주기 5ms)]          |
+  |                |                                                  |
+  |                v 데드라인 실패 시의 타격은?                       |
+  |      [ 5ms를 한 번이라도 넘기면 드론이 추락해 박살남 ]            |
+  |       +--> 판단: Hard Real-time 환경 필수                          |
+  |       +--> OS: VxWorks, QNX, RT_Linux (선점형 커널)                |
+  |       +--> 메모리: Swap OFF, mlockall() 사용, 캐시 락킹            |
+  |                                                                   |
+  |      [ 5ms를 넘기면 영상이 약간 흔들리지만 비행엔 지장 없음 ]     |
+  |       +--> 판단: Soft Real-time 환경으로 타협                      |
+  |       +--> OS: 일반 Linux (SCHED_FIFO, Priority 99 튜닝)           |
+  |       +--> 비용 절감: 값비싼 RTOS 보증 라이선스 구매 불필요        |
+  +-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 아키텍트가 무턱대고 "우린 빠른 게 좋으니까 하드 실시간 하자!"라고 결정하면 프로젝트는 망한다. 하드 실시간 코딩은 메모리를 동적으로 할당(malloc)할 수도 없고, 시스템 콜(print 등)도 함부로 못 쓰는 감옥 같은 제약을 견뎌야 하기 때문이다. 타격이 크지 않다면 99.9% 확률로 잘 동작하는 소프트 실시간(우선순위 튜닝)으로 합의하는 것이 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 측면에서 정답이다.
 
@@ -177,12 +177,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [대칭 다중 처리 (SMP) 스케줄링]
-    │
-    ▼
+    |
+    v
 [부하 균등화 (Load Balancing)]
-    │
-    ├──▶ [프로세서 친화성 (Processor Affinity)]
-    └──▶ [멀티코어 스케줄링 (Multicore Scheduling)]
+    |
+    +---> [프로세서 친화성 (Processor Affinity)]
+    +---> [멀티코어 스케줄링 (Multicore Scheduling)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -199,7 +199,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 196 / 800
 
-← **이전**: [195. 대칭 다중 처리 (SMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)
-**다음**: [197. RM (Rate Monotonic) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) →
+<- **이전**: [195. 대칭 다중 처리 (SMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)
+**다음**: [197. RM (Rate Monotonic) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ->
 
 ---

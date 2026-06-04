@@ -82,20 +82,20 @@ AVL 트리는 자가 균형 알고리즘의 표준 모델로서, [데이터](/kn
 
 ```text
 [이진 탐색 트리 (BST) — 편향 시 O(n)]
-    │
-    ▼
+    |
+    v
 [균형 인수 (Balance Factor) — 높이 차이 감시]
-    │
-    ▼
+    |
+    v
 [AVL 트리 — 엄격한 자가 균형 BST]
-    │
-    ▼
+    |
+    v
 [회전 (Rotation) — LL/RR/LR/RL 구조 복구]
-    │
-    ▼
+    |
+    v
 [레드-블랙 트리 — 삽입·삭제 빈번한 범용 대안]
-    │
-    ▼
+    |
+    v
 [정렬 인덱스 / 사전형 자료구조 — 탐색 중심 실무 활용]
 ```
 AVL 트리는 BST의 편향 문제를 엄격한 회전 규칙으로 해결한 자가 균형 구조이며, 이후 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)와 검색 중심 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계의 기준점이 되었다.
@@ -111,7 +111,7 @@ AVL 트리는 BST의 편향 문제를 엄격한 회전 규칙으로 해결한 �
 
 **진행 상황**: 62 / 175
 
-← **이전**: [이진 탐색 트리 (Binary Search Tree, BST)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)
-**다음**: [레드-블랙 트리 (Red-Black Tree, RBT)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) →
+<- **이전**: [이진 탐색 트리 (Binary Search Tree, BST)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)
+**다음**: [레드-블랙 트리 (Red-Black Tree, RBT)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ->
 
 ---

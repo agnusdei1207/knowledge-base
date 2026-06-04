@@ -26,42 +26,42 @@ tags = ["algorithm_stats"]
 ```text
 [재귀의 3단계 구조]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [재귀 함수의 3단계 구조]                             │
-│  ────────────────────────────────────                │
-│                                                      │
-│  function solve(problem):                            │
-│                                                      │
-│  1. BASE CASE (기본 사례)                           │
-│     if problem가 충분히 작다:                        │
-│         return problem의 직접적解答                  │
-│                                                      │
-│  2. DIVIDE (분할)                                   │
-│     sub_problems = 분할(problem)                     │
-│                                                      │
-│  3. RECURSE (재귀)                                  │
-│     for each sub_problem:                           │
-│         result = solve(sub_problem)                  │
-│                                                      │
-│  4. COMBINE (결합)                                  │
-│     return 결합(result들)                          │
-│                                                      │
-│  [하노이 탑으로 이해하기]                            │
-│  ────────────────────────────────────                │
-│  목표: N개의 원판을 A에서 C로 이동 (B 사용)         │
-│                                                      │
-│  Base Case: N=1 → 그냥 A→C 이동                     │
-│                                                      │
-│  Recursive Case: N>1일 때                           │
-│  Step 1: N-1개 원판을 A→B (C를 임시로 사용)         │
-│  Step 2: 가장 큰 원판을 A→C 이동                     │
-│  Step 3: N-1개 원판을 B→C (A를 임시로 사용)         │
-│                                                      │
-│  이동 횟수: T(N) = 2T(N-1) + 1                      │
-│           = 2^N - 1                                 │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [재귀 함수의 3단계 구조]                             |
+|  ------------------------------------                |
+|                                                      |
+|  function solve(problem):                            |
+|                                                      |
+|  1. BASE CASE (기본 사례)                           |
+|     if problem가 충분히 작다:                        |
+|         return problem의 직접적解答                  |
+|                                                      |
+|  2. DIVIDE (분할)                                   |
+|     sub_problems = 분할(problem)                     |
+|                                                      |
+|  3. RECURSE (재귀)                                  |
+|     for each sub_problem:                           |
+|         result = solve(sub_problem)                  |
+|                                                      |
+|  4. COMBINE (결합)                                  |
+|     return 결합(result들)                          |
+|                                                      |
+|  [하노이 탑으로 이해하기]                            |
+|  ------------------------------------                |
+|  목표: N개의 원판을 A에서 C로 이동 (B 사용)         |
+|                                                      |
+|  Base Case: N=1 -> 그냥 A->C 이동                     |
+|                                                      |
+|  Recursive Case: N>1일 때                           |
+|  Step 1: N-1개 원판을 A->B (C를 임시로 사용)         |
+|  Step 2: 가장 큰 원판을 A->C 이동                     |
+|  Step 3: N-1개 원판을 B->C (A를 임시로 사용)         |
+|                                                      |
+|  이동 횟수: T(N) = 2T(N-1) + 1                      |
+|           = 2^N - 1                                 |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 재귀 함수의 핵심은 자기 자신을 호출할 때 입력 크기가 반드시 줄어들어야 한다는 것이다. 그렇지 않으면 무한 재귀에 빠진다.
@@ -82,51 +82,51 @@ tags = ["algorithm_stats"]
 ```text
 [콜 스택의 동작: 하노이 탑]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택]           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  Push: hanoi(3, A, B, C)                           │
-│  ├─ Push: hanoi(2, A, C, B)                        │
-│  │  ├─ Push: hanoi(1, A, B, C)                    │
-│  │  │  ├─ Push: hanoi(0, A, C, B) → 바로 Return   │
-│  │  │  └─ Move: A→C                                 │
-│  │  └─ Move: A→B                                 │
-│  │  ├─ Push: hanoi(1, C, A, B)                    │
-│  │  │  └─ Move: C→B                                 │
-│  │  └─ Return                                      │
-│  ├─ Move: A→C (가장 큰 원반)                        │
-│  ├─ Push: hanoi(2, B, A, C)                        │
-│  │  ├─ Push: hanoi(1, B, C, A)                    │
-│  │  │  └─ Move: B→A                                 │
-│  │  ├─ Move: B→C                                 │
-│  │  ├─ Push: hanoi(1, A, B, C)                    │
-│  │  │  └─ Move: A→C                                 │
-│  │  └─ Return                                      │
-│  └─ Return                                          │
-│                                                      │
-│  총 함수 호출: 2³ - 1 = 7번                         │
-│  스택 깊이: 최대 3 (N과 동일)                        │
-│                                                      │
-│  [일반 재귀 vs 꼬리 재귀]                           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  // 일반 재귀: 스택 프레임 누적                      │
-│  int factorial(int n) {                             │
-│      if (n <= 1) return 1;                         │
-│      return n * factorial(n - 1);                  │
-│      // ← 복귀 후 곱셈 연산 수행 → 스택 유지 필요    │
-│  }                                                  │
-│                                                      │
-│  // 꼬리 재귀: TCO 적용 가능                        │
-│  int factorial_tail(int n, int acc) {               │
-│      if (n <= 1) return acc;                       │
-│      return factorial_tail(n - 1, n * acc);         │
-│      // ← 마지막 연산이 재귀 호출 → 스택 재사용 가능  │
-│  }                                                  │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택]           |
+|  ------------------------------------                |
+|                                                      |
+|  Push: hanoi(3, A, B, C)                           |
+|  +- Push: hanoi(2, A, C, B)                        |
+|  |  +- Push: hanoi(1, A, B, C)                    |
+|  |  |  +- Push: hanoi(0, A, C, B) -> 바로 Return   |
+|  |  |  +- Move: A->C                                 |
+|  |  +- Move: A->B                                 |
+|  |  +- Push: hanoi(1, C, A, B)                    |
+|  |  |  +- Move: C->B                                 |
+|  |  +- Return                                      |
+|  +- Move: A->C (가장 큰 원반)                        |
+|  +- Push: hanoi(2, B, A, C)                        |
+|  |  +- Push: hanoi(1, B, C, A)                    |
+|  |  |  +- Move: B->A                                 |
+|  |  +- Move: B->C                                 |
+|  |  +- Push: hanoi(1, A, B, C)                    |
+|  |  |  +- Move: A->C                                 |
+|  |  +- Return                                      |
+|  +- Return                                          |
+|                                                      |
+|  총 함수 호출: 2³ - 1 = 7번                         |
+|  스택 깊이: 최대 3 (N과 동일)                        |
+|                                                      |
+|  [일반 재귀 vs 꼬리 재귀]                           |
+|  ------------------------------------                |
+|                                                      |
+|  // 일반 재귀: 스택 프레임 누적                      |
+|  int factorial(int n) {                             |
+|      if (n <= 1) return 1;                         |
+|      return n * factorial(n - 1);                  |
+|      // <- 복귀 후 곱셈 연산 수행 -> 스택 유지 필요    |
+|  }                                                  |
+|                                                      |
+|  // 꼬리 재귀: TCO 적용 가능                        |
+|  int factorial_tail(int n, int acc) {               |
+|      if (n <= 1) return acc;                       |
+|      return factorial_tail(n - 1, n * acc);         |
+|      // <- 마지막 연산이 재귀 호출 -> 스택 재사용 가능  |
+|  }                                                  |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 재귀 호출이 함수의 마지막 연산(tail position)일 때, 컴파일러는 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 덮어쓸 수 있어 공간을 절약할 수 있다.
@@ -147,46 +147,46 @@ tags = ["algorithm_stats"]
 ```text
 [실무 재귀: 이진 트리 중위 순회]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [이진 트리 중위 순회 (Inorder Traversal)]           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  트리 구조:                                           │
-│              4                                       │
-│            /   \                                     │
-│           2     6                                    │
-│          / \   / \                                   │
-│         1   3 5   7                                 │
-│                                                      │
-│  중위 순회 결과: 1 → 2 → 3 → 4 → 5 → 6 → 7        │
-│  (왼쪽 → 현재 → 오른쪽)                              │
-│                                                      │
-│  [재귀적 구현]                                       │
-│  ────────────────────────────────────                │
-│  function inorder(node):                             │
-│      if node is null: return                        │
-│      inorder(node.left)                             │
-│      visit(node.value)                              │
-│      inorder(node.right)                            │
-│                                                      │
-│  [반복적 구현 (명시적 스택)]                         │
-│  ────────────────────────────────────                │
-│  function inorder_iterative(root):                   │
-│      stack = []                                      │
-│      current = root                                  │
-│                                                      │
-│      while current is not null or stack:            │
-│          while current is not null:                 │
-│              stack.push(current)                     │
-│              current = current.left                  │
-│          current = stack.pop()                       │
-│          visit(current.value)                        │
-│          current = current.right                     │
-│                                                      │
-│  → 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능 │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [이진 트리 중위 순회 (Inorder Traversal)]           |
+|  ------------------------------------                |
+|                                                      |
+|  트리 구조:                                           |
+|              4                                       |
+|            /   \                                     |
+|           2     6                                    |
+|          / \   / \                                   |
+|         1   3 5   7                                 |
+|                                                      |
+|  중위 순회 결과: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7        |
+|  (왼쪽 -> 현재 -> 오른쪽)                              |
+|                                                      |
+|  [재귀적 구현]                                       |
+|  ------------------------------------                |
+|  function inorder(node):                             |
+|      if node is null: return                        |
+|      inorder(node.left)                             |
+|      visit(node.value)                              |
+|      inorder(node.right)                            |
+|                                                      |
+|  [반복적 구현 (명시적 스택)]                         |
+|  ------------------------------------                |
+|  function inorder_iterative(root):                   |
+|      stack = []                                      |
+|      current = root                                  |
+|                                                      |
+|      while current is not null or stack:            |
+|          while current is not null:                 |
+|              stack.push(current)                     |
+|              current = current.left                  |
+|          current = stack.pop()                       |
+|          visit(current.value)                        |
+|          current = current.right                     |
+|                                                      |
+|  -> 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능 |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 재귀는교당의 종을 생각하면 됩니다. 1층 종을 치고(기본 사례), 다음 층의 종을 치고,정층까지 도달하면(재귀 깊이) 더 이상 올라갈 수 없으므로 내려오면서 각 층의 종을 다시 치는(결합) 것과 같습니다.
@@ -218,37 +218,37 @@ tags = ["algorithm_stats"]
 ```text
 [재귀 (Recursion) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │         재귀 (Recursion)              │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  3단계 구조    │  │   콜 스택     │  │   꼬리 재귀   │
-│  Structure   │  │  Call Stack  │  │  Tail Rec.  │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 1. Base Case │  │ 함수 호출마다 │  │ 마지막 연산이 │
-│ 2. Recursive  │  │ 프레임 Push  │  │ 재귀 호출    │
-│    Case       │  │ 반환 시 Pop  │  │ → TCO 적용  │
-│ 3. Combine    │  │ O(N) 공간    │  │ → O(1) 공간  │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      재귀 vs 반복 (Iteration)         │
-         ├─────────────────────────────────┤
-         │ 재귀: 가독성 높음, 스택 오버플로우 위험   │
-         │ 반복: 메모리 안정적, 상태 관리 복잡      │
-         │                                      │
-         │ 선택 기준:                              │
-         │ - 문제의 자연스러운 기술이 재귀적?       │
-         │ - 재귀 깊이 예측 가능? (< 10,000)       │
-         │ - TCO 지원 언어?                       │
-         └─────────────────────────────────┘
+         +---------------------------------+
+         |         재귀 (Recursion)              |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  3단계 구조    |  |   콜 스택     |  |   꼬리 재귀   |
+|  Structure   |  |  Call Stack  |  |  Tail Rec.  |
++--------------+  +--------------+  +--------------+
+| 1. Base Case |  | 함수 호출마다 |  | 마지막 연산이 |
+| 2. Recursive  |  | 프레임 Push  |  | 재귀 호출    |
+|    Case       |  | 반환 시 Pop  |  | -> TCO 적용  |
+| 3. Combine    |  | O(N) 공간    |  | -> O(1) 공간  |
++--------------+  +--------------+  +--------------+
+      |                   |                    |
+      +-------------------+--------------------+
+                          |
+                          v
+         +---------------------------------+
+         |      재귀 vs 반복 (Iteration)         |
+         +---------------------------------+
+         | 재귀: 가독성 높음, 스택 오버플로우 위험   |
+         | 반복: 메모리 안정적, 상태 관리 복잡      |
+         |                                      |
+         | 선택 기준:                              |
+         | - 문제의 자연스러운 기술이 재귀적?       |
+         | - 재귀 깊이 예측 가능? (< 10,000)       |
+         | - TCO 지원 언어?                       |
+         +---------------------------------+
 ```
 
 
@@ -265,17 +265,17 @@ tags = ["algorithm_stats"]
 
 ```text
 [재귀 기본 구조 — 기본 사례(Base Case) + 재귀 사례(Recursive Case)]
-    │
-    ▼
+    |
+    v
 [콜 스택 (Call Stack) — 재귀 호출 시 LIFO 방식으로 프레임 Push/Pop]
-    │
-    ▼
-[꼬리 재귀 최적화 (TCO, Tail Call Optimization) — O(N) 스택 → O(1) 공간]
-    │
-    ▼
+    |
+    v
+[꼬리 재귀 최적화 (TCO, Tail Call Optimization) — O(N) 스택 -> O(1) 공간]
+    |
+    v
 [분할 정복 (Divide and Conquer) — 재귀로 구현하는 퀵·머지소트 핵심 패러다임]
-    │
-    ▼
+    |
+    v
 [동적 프로그래밍 (DP) — 재귀 + 메모이제이션으로 중복 계산 완전 제거]
 ```
 
@@ -300,7 +300,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 14 / 175
 
-← **이전**: [13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo](/knowledge-base/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/)
-**다음**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/) →
+<- **이전**: [13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo](/knowledge-base/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/)
+**다음**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/) ->
 
 ---

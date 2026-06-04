@@ -18,22 +18,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-새 결제 시스템을 개발 완료했지만, 모든 사용자에게 한 번에 공개하기 두렵다. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)로 **사내 직원 10명에게만 ON** → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → <strong>1% <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a></strong> → <strong>100% 릴리즈</strong>로 점진 공개할 수 있다.
+새 결제 시스템을 개발 완료했지만, 모든 사용자에게 한 번에 공개하기 두렵다. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)로 **사내 직원 10명에게만 ON** -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> <strong>1% <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a></strong> -> <strong>100% 릴리즈</strong>로 점진 공개할 수 있다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    피처 플래그 = 배포 ≠ 릴리즈                         │
-├───────────────────────────────────────────────────────┤
-│  [기존] 배포 = 릴리즈 (동시에 전체 공개)              │
-│         문제 시 → 코드 롤백 (5~30분)                  │
-│                                                       │
-│  [피처 플래그] 배포 ≠ 릴리즈                          │
-│   1. 코드 배포 (Flag OFF → 아무도 안 보임)            │
-│   2. 사내 직원에게 ON → 검증                          │
-│   3. 1% 사용자 ON → 카나리 검증                      │
-│   4. 100% ON → 전체 릴리즈                           │
-│   5. 문제 시 → Flag OFF (1초, 롤백 불필요)            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    피처 플래그 = 배포 ≠ 릴리즈                         |
++-------------------------------------------------------+
+|  [기존] 배포 = 릴리즈 (동시에 전체 공개)              |
+|         문제 시 -> 코드 롤백 (5~30분)                  |
+|                                                       |
+|  [피처 플래그] 배포 ≠ 릴리즈                          |
+|   1. 코드 배포 (Flag OFF -> 아무도 안 보임)            |
+|   2. 사내 직원에게 ON -> 검증                          |
+|   3. 1% 사용자 ON -> 카나리 검증                      |
+|   4. 100% ON -> 전체 릴리즈                           |
+|   5. 문제 시 -> Flag OFF (1초, 롤백 불필요)            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 극장 무대의 <strong>조명 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>다. 배우(코드)는 이미 무대에 서 있지만, 조명을 켜야([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ON) 관객(사용자)에게 보인다.
@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 3. **문서화**: 각 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)의 목적·소유자·만료일을 레지스트리에 기록.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>50개 이상 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 방치</strong>: 코드 분기 폭발 → 테스트 경우의 수 $2^{50}$ → 유지보수 불가.
+- <strong>50개 이상 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 방치</strong>: 코드 분기 폭발 -> 테스트 경우의 수 $2^{50}$ -> 유지보수 불가.
 
 ---
 
@@ -112,17 +112,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [Feature Branch (2000s) — 브랜치별 기능 개발]
-    │
-    ▼
+    |
+    v
 [Feature Flag 개념 (2010s) — 배포와 릴리즈 분리]
-    │
-    ▼
+    |
+    v
 [LaunchDarkly SaaS (2014~) — 실시간 플래그 관리]
-    │
-    ▼
+    |
+    v
 [Trunk-based + Flag (2018~) — 단일 브랜치 + 플래그 점진 공개]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 자동 롤아웃 — 카나리 분석 + 자동 Flag ON/OFF]
 ```
 
@@ -137,7 +137,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 114 / 973
 
-← **이전**: [113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/)
-**다음**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) →
+<- **이전**: [113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/)
+**다음**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ->
 
 ---

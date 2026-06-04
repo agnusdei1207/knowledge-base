@@ -29,12 +29,12 @@ tags = ["studynote-ai"]
 이 위대한 타협의 산물이 바로 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/">ANN</a> (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/">Approximate Nearest Neighbor</a>, 근사 최근접 이웃)</strong> 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 이 기술 덕분에 밀리초(ms) 단위의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 벡터 DB와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 세상에 탄생할 수 있었다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [K-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/)(전수 조사)은 서울에서 '김서방'을 찾기 위해 서울시민 1,000만 명의 집을 일일이 다 두들겨보는 멍청한 짓이다(정확도 100%, 시간 10년). [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)(근사 탐색)은 타협이다. "일단 김씨가 제일 많이 사는 종로구로 무작정 헬기 타고 날아간 다음(건너뛰기), 거기서 주변 사람 100명만 빠르게 물어봐서 제일 김서방 비슷한 사람 데려와!" 하는 것이다(정확도 95%, 시간 0.01초). 실시간 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 무조건 후자가 정답이다.
@@ -46,28 +46,28 @@ tags = ["studynote-ai"]
 [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 검색의 절대 제왕으로 군림하고 있는 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/">HNSW</a> (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/352_rag/">Hierarchical Navigable Small World</a>)</strong> [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조와, 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 끝판왕 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/">PQ</a> (Product <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>의 아키텍처를 뜯어보자.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           벡터 검색의 끝판왕: HNSW (계층적 그래프) 알고리즘 도해          │
-├──────────────────────────────────────────────────────────────┤
-│  [목표]: 우주에 뿌려진 100만 개의 별 중 내 질문(초록별)과 가장 가까운 별 찾기!  │
-│                                                              │
-│  [Top Layer (최상위 층 - 듬성듬성한 고속도로)]                     │
-│   * 층위 구조: 별이 10개밖에 안 그려짐. (서울 -> 대전 -> 부산 큼직하게 연결됨)  │
-│   * 탐색 시작: 내 초록별 좌표로 뚝 떨어짐. "어? 대전 쪽이 제일 가깝네!"       │
-│   ─▶ 대전을 콕 찍고 바로 밑에 층(아래층)으로 수직 강하(Drop)!         │
-│                                                              │
-│  [Middle Layer (중간 층 - 국도)]                               │
-│   * 층위 구조: 별이 1,000개 정도 촘촘해짐.                         │
-│   * 탐색: 최상위에서 찍고 내려온 '대전' 근처에서만 깔짝거리며 찾음.         │
-│   * "어? 대전 중에서도 '유성구' 쪽 별이 제일 가깝네!"                  │
-│   ─▶ 유성구를 콕 찍고 가장 밑바닥 층(원본 데이터)으로 수직 강하!        │
-│                                                              │
-│  [Bottom Layer (최하위 층 - 골목길, 원본 데이터 100만 개)]         │
-│   * 층위 구조: 100만 개의 모든 별이 거미줄처럼 다 연결되어 있음.          │
-│   * 탐색: 이미 '유성구' 한복판에 떨어졌으므로, 거기서 옆집 별 5개만 톡톡    │
-│          비교해 보면 가장 완벽한 근사치 정답(ANN) 도출 완료!!          │
-│   ─▶ [결과]: 100만 개를 다 뒤지지 않고, 단 3번의 점프만으로 정답 색출(0.01초)!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           벡터 검색의 끝판왕: HNSW (계층적 그래프) 알고리즘 도해          |
++--------------------------------------------------------------+
+|  [목표]: 우주에 뿌려진 100만 개의 별 중 내 질문(초록별)과 가장 가까운 별 찾기!  |
+|                                                              |
+|  [Top Layer (최상위 층 - 듬성듬성한 고속도로)]                     |
+|   * 층위 구조: 별이 10개밖에 안 그려짐. (서울 -> 대전 -> 부산 큼직하게 연결됨)  |
+|   * 탐색 시작: 내 초록별 좌표로 뚝 떨어짐. "어? 대전 쪽이 제일 가깝네!"       |
+|   --> 대전을 콕 찍고 바로 밑에 층(아래층)으로 수직 강하(Drop)!         |
+|                                                              |
+|  [Middle Layer (중간 층 - 국도)]                               |
+|   * 층위 구조: 별이 1,000개 정도 촘촘해짐.                         |
+|   * 탐색: 최상위에서 찍고 내려온 '대전' 근처에서만 깔짝거리며 찾음.         |
+|   * "어? 대전 중에서도 '유성구' 쪽 별이 제일 가깝네!"                  |
+|   --> 유성구를 콕 찍고 가장 밑바닥 층(원본 데이터)으로 수직 강하!        |
+|                                                              |
+|  [Bottom Layer (최하위 층 - 골목길, 원본 데이터 100만 개)]         |
+|   * 층위 구조: 100만 개의 모든 별이 거미줄처럼 다 연결되어 있음.          |
+|   * 탐색: 이미 '유성구' 한복판에 떨어졌으므로, 거기서 옆집 별 5개만 톡톡    |
+|          비교해 보면 가장 완벽한 근사치 정답(ANN) 도출 완료!!          |
+|   --> [결과]: 100만 개를 다 뒤지지 않고, 단 3번의 점프만으로 정답 색출(0.01초)!|
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (HNSW와 IVFFlat, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/">PQ</a>)</strong>:
@@ -142,7 +142,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [벡터 차원 색인 ANN (HNSW / PQ)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [벡터 차원 색인 ANN (HNSW / PQ)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 221 / 420
 
-← **이전**: [220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)](/knowledge-base/studynote/10_ai/03_llm_nlp/220_dspy_prompt_optimization/)
-**다음**: [222. 스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드](/knowledge-base/studynote/10_ai/03_llm_nlp/222_scale_up_out_distributed_training/) →
+<- **이전**: [220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)](/knowledge-base/studynote/10_ai/03_llm_nlp/220_dspy_prompt_optimization/)
+**다음**: [222. 스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드](/knowledge-base/studynote/10_ai/03_llm_nlp/222_scale_up_out_distributed_training/) ->
 
 ---

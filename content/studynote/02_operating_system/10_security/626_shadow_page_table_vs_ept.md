@@ -57,27 +57,27 @@ tags = ["studynote-operating-system"]
 SPT는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 물리 CPU MMU를 속이는 고도의 트릭이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 쉐도우 페이지 테이블 (SPT) 아키텍처                  │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [게스트 OS의 상상]                      [하이퍼바이저의 실제 작업]        │
-  │                                                                   │
-  │  1. "내 페이지 테이블(CR3) 갱신!"        2. VM Exit 발생 (Trap)         │
-  │  GVA ───▶ GPA (Guest PT)          VMM이 이 작업을 가로챔             │
-  │                                                                   │
-  │  3. VMM은 GPA ──▶ HPA 매핑 정보(Host PT)를 알고 있음                  │
-  │                                                                   │
-  │  4. VMM이 두 테이블을 조합하여 GVA ──▶ HPA로 직결되는                  │
-  │     [Shadow Page Table]을 생성!                                   │
-  │                                                                   │
-  │  5. 진짜 물리 CPU의 CR3 레지스터에는 Guest PT가 아니라                   │
-  │     하이퍼바이저가 몰래 만든 'Shadow PT' 주소를 꽂아 넣음!               │
-  │                                                                   │
-  │  ⚠ 치명적 문제점 (Page Fault 폭증)                                  │
-  │  - 게스트 OS 내부에서 Context Switch가 일어날 때마다 CR3가 바뀜         │
-  │  - 그때마다 VM Exit가 발생하고 VMM은 새 쉐도우 테이블을 동기화해야 함      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 쉐도우 페이지 테이블 (SPT) 아키텍처                  |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [게스트 OS의 상상]                      [하이퍼바이저의 실제 작업]        |
+  |                                                                   |
+  |  1. "내 페이지 테이블(CR3) 갱신!"        2. VM Exit 발생 (Trap)         |
+  |  GVA ----> GPA (Guest PT)          VMM이 이 작업을 가로챔             |
+  |                                                                   |
+  |  3. VMM은 GPA ---> HPA 매핑 정보(Host PT)를 알고 있음                  |
+  |                                                                   |
+  |  4. VMM이 두 테이블을 조합하여 GVA ---> HPA로 직결되는                  |
+  |     [Shadow Page Table]을 생성!                                   |
+  |                                                                   |
+  |  5. 진짜 물리 CPU의 CR3 레지스터에는 Guest PT가 아니라                   |
+  |     하이퍼바이저가 몰래 만든 'Shadow PT' 주소를 꽂아 넣음!               |
+  |                                                                   |
+  |  ⚠ 치명적 문제점 (Page Fault 폭증)                                  |
+  |  - 게스트 OS 내부에서 Context Switch가 일어날 때마다 CR3가 바뀜         |
+  |  - 그때마다 VM Exit가 발생하고 VMM은 새 쉐도우 테이블을 동기화해야 함      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 물리 CPU의 MMU는 무조건 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 가리키는 테이블 1개만 보고 주소를 변환한다. 그래서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트 OS의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 읽기 전용(Read-Only)으로 잠가버린다. 게스트가 메모리 할당을 위해 테이블을 쓰려고 하면 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit)이 걸린다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 그 내역을 확인하고, 실제 물리 메모리([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))에 맞게끔 변환된 '그림자(Shadow) 테이블'을 업데이트한 뒤, 물리 CR3에는 그림자 테이블을 연결해 둔다. 결과적으로 메모리 접근 자체는 GVA$\rightarrow$HPA로 빨라지지만, 테이블을 '관리'하는 비용([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit)이 너무 커서 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살난다.
@@ -89,29 +89,29 @@ SPT는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_ove
 EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)이 가능하도록 개조한 것이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │              확장 페이지 테이블 (EPT/NPT) 2차원 탐색 아키텍처            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [CPU MMU 하드웨어 내부 로직]                                        │
-  │                                                                   │
-  │   가상 주소 (GVA) 입력                                              │
-  │         │                                                         │
-  │         ▼                                                         │
-  │  (1차 탐색: Guest PT)                                              │
-  │  Guest CR3 ────▶ Guest PML4 ────▶ Guest PDPT ────▶ ... (GPA 도출) │
-  │                                                                   │
-  │    *주의: Guest PT 자체가 메모리에 있으므로, 그 주소들도 모두 GPA임!        │
-  │    따라서 MMU가 Guest PT를 읽기 위해 접근할 때마다 2차 탐색이 발동함.       │
-  │                                                                   │
-  │         ▼ (매 단계마다 GPA가 도출되면)                                │
-  │                                                                   │
-  │  (2차 탐색: Extended PT)                                           │
-  │  EPTP (EPT Pointer) ──▶ EPT PML4 ──▶ EPT PDPT ──▶ ... (HPA 도출) │
-  │                                                                   │
-  │  결과: 하이퍼바이저 개입(VM Exit) 없이, 하드웨어 MMU가 알아서               │
-  │        수십 번의 메모리 참조를 수행하여 GVA ──▶ HPA 최종 주소 획득!      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |              확장 페이지 테이블 (EPT/NPT) 2차원 탐색 아키텍처            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [CPU MMU 하드웨어 내부 로직]                                        |
+  |                                                                   |
+  |   가상 주소 (GVA) 입력                                              |
+  |         |                                                         |
+  |         v                                                         |
+  |  (1차 탐색: Guest PT)                                              |
+  |  Guest CR3 -----> Guest PML4 -----> Guest PDPT -----> ... (GPA 도출) |
+  |                                                                   |
+  |    *주의: Guest PT 자체가 메모리에 있으므로, 그 주소들도 모두 GPA임!        |
+  |    따라서 MMU가 Guest PT를 읽기 위해 접근할 때마다 2차 탐색이 발동함.       |
+  |                                                                   |
+  |         v (매 단계마다 GPA가 도출되면)                                |
+  |                                                                   |
+  |  (2차 탐색: Extended PT)                                           |
+  |  EPTP (EPT Pointer) ---> EPT PML4 ---> EPT PDPT ---> ... (HPA 도출) |
+  |                                                                   |
+  |  결과: 하이퍼바이저 개입(VM Exit) 없이, 하드웨어 MMU가 알아서               |
+  |        수십 번의 메모리 참조를 수행하여 GVA ---> HPA 최종 주소 획득!      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** EPT 아키텍처에서는 게스트가 자기 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(CR3)을 마음대로 썼다 지웠다 해도 아무 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 발생하지 않는다. 실제 메모리에 접근할 때, 하드웨어 MMU가 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(Guest PT)을 읽어 GPA를 계산하고, 즉시 VMM이 설정해둔 EPT([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/), EPTP [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 가리킴)를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 HPA로 변환한다. 소프트웨어([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 횟수는 0으로 수렴한다. 단, 최악의 경우 1번의 주소 변환을 위해 $4 \times 4 = 16$번(64비트 기준) 또는 $5 \times 5 = 25$번의 메모리 탐색([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)이 발생하므로 하드웨어 레벨의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생할 수 있다. (이를 TLB와 Huge Page로 극복한다.)
@@ -154,24 +154,24 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/knowledge-base/studynote/01
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 가상화(EPT) 성능 최적화 의사결정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [VM 애플리케이션의 메모리 성능 병목(Latency) 발생]                      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Host의 EPT 및 VPID 하드웨어 기능이 활성화되었는가? (dmesg 확인)     │
-  │          ├─ 아니오 ────▶ BIOS 설정에서 VT-x/EPT 강제 활성화            │
-  │          └─ 예                                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Workload 특성이 메모리 대용량/순차 접근(DB, BigData)인가?          │
-  │          ├─ 예 ─────▶ [Host와 Guest 모두에 THP (Huge Page) 활성화]    │
-  │          │            (EPT 2D Page Walk 오버헤드 70% 감소)           │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ I/O DMA 병목 의심 (IOMMU / VT-d 패스스루 검토)   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 가상화(EPT) 성능 최적화 의사결정 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [VM 애플리케이션의 메모리 성능 병목(Latency) 발생]                      |
+  |                |                                                  |
+  |                v                                                  |
+  |      Host의 EPT 및 VPID 하드웨어 기능이 활성화되었는가? (dmesg 확인)     |
+  |          +- 아니오 -----> BIOS 설정에서 VT-x/EPT 강제 활성화            |
+  |          +- 예                                                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      Workload 특성이 메모리 대용량/순차 접근(DB, BigData)인가?          |
+  |          +- 예 ------> [Host와 Guest 모두에 THP (Huge Page) 활성화]    |
+  |          |            (EPT 2D Page Walk 오버헤드 70% 감소)           |
+  |          |                                                        |
+  |          +- 아니오 ---> I/O DMA 병목 의심 (IOMMU / VT-d 패스스루 검토)   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** EPT는 기본적으로 "켜기만 하면 빠른" 훌륭한 기능이지만, 2차원 탐색이라는 태생적 족쇄를 지닌다. 이 족쇄의 무게를 줄이는 가장 완벽하고 유일한 기술사적 처방은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>)</strong>의 결합이다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 4KB에서 2MB로 늘리면, EPT가 순회해야 할 테이블의 층(Depth)이 낮아져 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 페널티가 사실상 제로에 수렴하게 된다.
@@ -218,12 +218,12 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/knowledge-base/studynote/01
 
 ```text
 [하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
-    │
-    ▼
+    |
+    v
 [쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]
-    │
-    ├──▶ [IOMMU (Input/Output MMU) 역할]
-    └──▶ [컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
+    |
+    +---> [IOMMU (Input/Output MMU) 역할]
+    +---> [컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -240,7 +240,7 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/knowledge-base/studynote/01
 
 **진행 상황**: 626 / 800
 
-← **이전**: [625. 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)](/knowledge-base/studynote/02_operating_system/10_security/625_hypervisor_ring_level_vmx/)
-**다음**: [627. IOMMU (Input/Output MMU) 역할 - 가상머신 DMA 장치 할당 및 보호 격리](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) →
+<- **이전**: [625. 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)](/knowledge-base/studynote/02_operating_system/10_security/625_hypervisor_ring_level_vmx/)
+**다음**: [627. IOMMU (Input/Output MMU) 역할 - 가상머신 DMA 장치 할당 및 보호 격리](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) ->
 
 ---

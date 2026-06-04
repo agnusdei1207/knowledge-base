@@ -267,7 +267,7 @@ SQL + 분산 + 강한 일관성 시도
 
 **진행 상황**: 41 / 258
 
-← **이전**: [040. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/040_cap_theorem_consistency_availability_partition/)
-**다음**: [042. BASE 특성 — NoSQL 일관성 모델](/knowledge-base/studynote/14_data_engineering/01_infrastructure/042_base_characteristics_nosql_eventual_consistency/) →
+<- **이전**: [040. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/040_cap_theorem_consistency_availability_partition/)
+**다음**: [042. BASE 특성 — NoSQL 일관성 모델](/knowledge-base/studynote/14_data_engineering/01_infrastructure/042_base_characteristics_nosql_eventual_consistency/) ->
 
 ---

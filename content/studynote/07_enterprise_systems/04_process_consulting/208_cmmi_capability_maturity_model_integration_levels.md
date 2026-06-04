@@ -42,15 +42,15 @@ CMMI의 중심은 성숙도 수준 (Maturity Level) 1에서 5까지의 계단 �
 아래 그림은 CMMI가 단순한 등급표가 아니라, 통제 수준이 점진적으로 높아지는 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             CMMI 성숙도 계단: 재현성과 예측성의 상승         │
-├──────────────────────────────────────────────────────────────┤
-│ Level 5  최적화        ─ 원인 분석 · 지속 개선                │
-│ Level 4  정량 관리     ─ 지표 기반 통제                       │
-│ Level 3  정의          ─ 조직 표준 프로세스                   │
-│ Level 2  관리          ─ 프로젝트 단위 계획·추적              │
-│ Level 1  초기          ─ 개인 경험 의존                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             CMMI 성숙도 계단: 재현성과 예측성의 상승         |
++--------------------------------------------------------------+
+| Level 5  최적화        - 원인 분석 · 지속 개선                |
+| Level 4  정량 관리     - 지표 기반 통제                       |
+| Level 3  정의          - 조직 표준 프로세스                   |
+| Level 2  관리          - 프로젝트 단위 계획·추적              |
+| Level 1  초기          - 개인 경험 의존                       |
++--------------------------------------------------------------+
 ```
 
 실무적으로 중요하게 보는 축은 세 가지다. 첫째, 요구사항과 변경을 추적하는 관리 체계가 있는가. 둘째, 품질보증 (QA, Quality Assurance)과 형상관리 같은 공통 활동이 조직 표준으로 정착되어 있는가. 셋째, [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/), 일정 편차, 생산성 같은 지표를 통해 프로세스를 실제로 조정하는가다.
@@ -125,17 +125,17 @@ CMMI를 제대로 적용하면 요구사항 누락 감소, 일정 편차 축소,
 
 ```text
 개인 의존 개발
-      │
-      ▼
+      |
+      v
 Level 2 관리형 프로젝트
-      │
-      ▼
+      |
+      v
 Level 3 조직 표준화
-      │
-      ▼
+      |
+      v
 Level 4 정량 관리
-      │
-      ▼
+      |
+      v
 Level 5 지속 개선 · 혁신
 ```
 
@@ -153,7 +153,7 @@ Level 5 지속 개선 · 혁신
 
 **진행 상황**: 208 / 482
 
-← **이전**: [207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/)
-**다음**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/) →
+<- **이전**: [207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/)
+**다음**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/) ->
 
 ---

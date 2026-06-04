@@ -120,26 +120,26 @@ DPC가 "CPU 코어"의 숙제라면, APC는 <strong>"특정 <a href="/knowledge-
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Windows 커널 드라이버 비동기 처리 설계 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [하드웨어 인터럽트(ISR) 발생 후 대용량 데이터 처리 로직 구현]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      처리해야 할 작업이 밀리초(ms) 단위 이상 오래 걸리거나 Sleep이 필요한가? │
-  │          ├─ 예 ─────▶ [System Worker Thread (PASSIVE_LEVEL) 위임]  │
-  │          │            (DPC에서 워커 스레드로 큐잉하여 안전하게 처리)         │
-  │          └─ 아니오 (순수 메모리 연산, 매우 빠름)                          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      결과를 특정 사용자 스레드(User Thread)의 컨텍스트에서 실행해야 하는가?  │
-  │          ├─ 예 ─────▶ [APC (Asynchronous Procedure Call) 삽입]     │
-  │          │            (해당 스레드가 Alertable 상태가 되면 콜백 실행)     │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [DPC (Deferred Procedure Call) 로 직접 처리]  │
-  │                         (단, Page Fault 주의, NonPagedPool만 사용)    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Windows 커널 드라이버 비동기 처리 설계 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [하드웨어 인터럽트(ISR) 발생 후 대용량 데이터 처리 로직 구현]              |
+  |                |                                                  |
+  |                v                                                  |
+  |      처리해야 할 작업이 밀리초(ms) 단위 이상 오래 걸리거나 Sleep이 필요한가? |
+  |          +- 예 ------> [System Worker Thread (PASSIVE_LEVEL) 위임]  |
+  |          |            (DPC에서 워커 스레드로 큐잉하여 안전하게 처리)         |
+  |          +- 아니오 (순수 메모리 연산, 매우 빠름)                          |
+  |                |                                                  |
+  |                v                                                  |
+  |      결과를 특정 사용자 스레드(User Thread)의 컨텍스트에서 실행해야 하는가?  |
+  |          +- 예 ------> [APC (Asynchronous Procedure Call) 삽입]     |
+  |          |            (해당 스레드가 Alertable 상태가 되면 콜백 실행)     |
+  |          |                                                        |
+  |          +- 아니오 ---> [DPC (Deferred Procedure Call) 로 직접 처리]  |
+  |                         (단, Page Fault 주의, NonPagedPool만 사용)    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 윈도우 시스템 프로그래밍의 정수는 "IRQL의 룰을 거스르지 않는 것"이다. 초보 드라이버 개발자들은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 DPC 안에서 무거운 암호화 연산을 돌리거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 날려 시스템 전체를 벽돌로 만든다. 우수한 아키텍트는 작업을 3단계([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) $\rightarrow$ DPC $\rightarrow$ Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))로 폭포수처럼 잘게 쪼개어 시스템의 반응성(Responsiveness)을 극한으로 끌어올린다.
@@ -186,12 +186,12 @@ Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_archi
 
 ```text
 [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
-    │
-    ▼
+    |
+    v
 [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
-    │
-    ├──▶ [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
-    └──▶ [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
+    |
+    +---> [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
+    +---> [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -208,7 +208,7 @@ Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_archi
 
 **진행 상황**: 664 / 800
 
-← **이전**: [663. macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)
-**다음**: [665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/) →
+<- **이전**: [663. macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)
+**다음**: [665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/) ->
 
 ---

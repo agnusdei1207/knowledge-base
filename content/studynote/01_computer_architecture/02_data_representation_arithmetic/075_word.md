@@ -24,11 +24,11 @@ tags = ["studynote-computer-architecture"]
 워드가 필요했던 이유는 연산 폭과 메모리 폭을 하나로 맞춰야 했기 때문이다. CPU가 4바이트를 한 번에 읽는데 메모리와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 1바이트씩만 느리게 움직이면 병목이 생긴다. 그래서 워드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 주소 지정 능력, 소프트웨어 ABI를 동시에 규정하는 기준이 됐다.
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│ 32-bit word                  64-bit word            │
-├──────────────────────────────────────────────────────┤
-│ [B][B][B][B] -> CPU          [B][B][B][B][B][B][B][B] │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+| 32-bit word                  64-bit word            |
++------------------------------------------------------+
+| [B][B][B][B] -> CPU          [B][B][B][B][B][B][B][B] |
++------------------------------------------------------+
 ```
 
 이 그림의 핵심은 워드가 클수록 "한 덩어리"의 크기가 커진다는 점이다.
@@ -111,20 +111,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 bit
-  │
-  ▼
+  |
+  v
 byte
-  │
-  ▼
+  |
+  v
 word
-  │
-  ▼
+  |
+  v
 register file
-  │
-  ▼
+  |
+  v
 memory bus
-  │
-  ▼
+  |
+  v
 64-bit system
 ```
 
@@ -140,7 +140,7 @@ memory bus
 
 **진행 상황**: 75 / 803
 
-← **이전**: [74. 바이트 (Byte)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)
-**다음**: [76. 더블 워드 (Double Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/) →
+<- **이전**: [74. 바이트 (Byte)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)
+**다음**: [76. 더블 워드 (Double Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [VoLTE]
-    │
-    ▼
+    |
+    v
 [5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    └──▶ [eMBB AR/VR 기술 지원 파급 체계 지…]
+    |
+    +---> [eMBB AR/VR 기술 지원 파급 체계 지…]
 ```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [VoLTE]
-    │
-    ▼
+    |
+    v
 [5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    └──▶ [eMBB AR/VR 기술 지원 파급 체계 지…]
+    |
+    +---> [eMBB AR/VR 기술 지원 파급 체계 지…]
 ```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 사람의 스마트폰이 아니라, 배터리를 적게 먹는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 기기</strong> 수백만 개를 동시에 수용하는 꿀벌 부대 영역입니다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 목표</strong>: 1제곱킬로미터(1km²) 당 <strong>100만 대</strong>의 기기 동시 접속 지원, 배터리 수명 10년 보장.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 목표</strong>: 1제곱킬로미터(1km^) 당 <strong>100만 대</strong>의 기기 동시 접속 지원, 배터리 수명 10년 보장.
 - <strong>응용 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 스마트 시티의 모든 가로등, 맨홀 뚜껑 센서, 쓰레기통, 공장 부품 트래커 등이 5G망 하나에 일제히 다 물려서 통신하는 환경. (이전 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 기술들을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 생태계로 흡수한 것)
 
 | 구분 (지표) | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) (IMT-Advanced) | [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) (IMT-2020) | 차이 (진화 배수) |
@@ -75,8 +75,8 @@ tags = ["studynote-network"]
 | **최대 전송 속도** | 1 Gbps | <strong>20 Gbps (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>)</strong> | **20배** 빠름 |
 | **체감 전송 속도** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Mbps | **100 Mbps** | 10배 빠름 |
 | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/">전송 지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ~ 20 ms | <strong>1 ms (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>)</strong> | **10배** 단축 (즉각 반응) |
-| **최대 기기 접속 수** | 10만 대 / km² | <strong>100만 대 / km² (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a>)</strong> | **10배** 빽빽한 연결 |
-| **면적당 트래픽 용량**| 0.1 Tbps / km² | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Tbps / km²</strong> | 100배 (망 붕괴 방지) |
+| **최대 기기 접속 수** | 10만 대 / km^ | <strong>100만 대 / km^ (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a>)</strong> | **10배** 빽빽한 연결 |
+| **면적당 트래픽 용량**| 0.1 Tbps / km^ | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Tbps / km^</strong> | 100배 (망 붕괴 방지) |
 
 - **📢 섹션 요약 비유**: 5G망은 전지전능한 마법의 고속도로입니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>)</strong>는 한 번에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1만 개를 싣고 무지막지한 속도로 달리는 KTX 특급열차(영화, VR)를 위한 철길입니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>(초저지연)</strong>는 다른 차를 다 밀어버리고 0.001초 만에 응급 환자를 병원으로 직행시키는 119 구급차(자율주행, 수술 로봇) 전용 모세의 기적 하이패스 갓길입니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a>(초연결)</strong>는 짐칸은 작지만 기름 1방울로 10년을 달리는 오토바이 수백만 대([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서)가 꽉 막히지 않고 다 같이 나란히 굴러갈 수 있는 개미 떼 전용 지하 터널입니다. 이 세 길이 하나의 통신망 안에 조화롭게 공존하는 기적이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처입니다.
 
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: VoLTE]
-    │
-    ▼
+    |
+    v
 [현재 개념: 5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    ├──▶ [확장 A: eMBB AR/VR 기술 지원 파급 체계 지…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: eMBB AR/VR 기술 지원 파급 체계 지…]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…는 VoLTE에서 출발해 현재 메커니즘을 정교화하고, 이후 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) AR/VR 기술 지원 파급 체계 지…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 880 / 1120
 
-← **이전**: [758. VoLTE (Voice over LTE 음성 통화 올 IP 패킷망 진화 우선 제어 처리 SIP QOS 제어망 적용 구조 최적화)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)
-**다음**: [760. eMBB (Enhanced Mobile Broadband 초고속 광대역 대용량 증강 기술 적용) AR/VR 기술 지원 파급 체계](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) →
+<- **이전**: [758. VoLTE (Voice over LTE 음성 통화 올 IP 패킷망 진화 우선 제어 처리 SIP QOS 제어망 적용 구조 최적화)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)
+**다음**: [760. eMBB (Enhanced Mobile Broadband 초고속 광대역 대용량 증강 기술 적용) AR/VR 기술 지원 파급 체계](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) ->
 
 ---

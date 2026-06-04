@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [OSPF 링크 상태 데이터베이스]
-    │
-    ▼
+    |
+    v
 [BGP AS-Path]
-    │
-    └──▶ [서브넷 마스크 / CIDR]
+    |
+    +---> [서브넷 마스크 / CIDR]
 ```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ BGP의 경로 찾기(Path Vector) 원리의 절대적인 핵심 꼬리표([속�
 
 ```text
 [OSPF 링크 상태 데이터베이스]
-    │
-    ▼
+    |
+    v
 [BGP AS-Path]
-    │
-    └──▶ [서브넷 마스크 / CIDR]
+    |
+    +---> [서브넷 마스크 / CIDR]
 ```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [AS](/knowledge-base/studyn
 
 ```text
 [선행 개념: OSPF 링크 상태 데이터베이스]
-    │
-    ▼
+    |
+    v
 [현재 개념: BGP AS-Path]
-    │
-    ├──▶ [확장 A: 서브넷 마스크 / CIDR]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 서브넷 마스크 / CIDR]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) / CIDR와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [AS](/knowledge-base/studyn
 
 **진행 상황**: 1083 / 1120
 
-← **이전**: [961. OSPF 링크 상태 데이터베이스 (LSDB)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/)
-**다음**: [963. 서브넷 마스크 (Subnet Mask) / CIDR](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) →
+<- **이전**: [961. OSPF 링크 상태 데이터베이스 (LSDB)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/)
+**다음**: [963. 서브넷 마스크 (Subnet Mask) / CIDR](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) ->
 
 ---

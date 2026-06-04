@@ -32,7 +32,7 @@ IPFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 chunk로 쪼개지고, 각 chunk는 해시로 식별된다. 이 해시들이 Merkle DAG를 만들고, 최종적으로 CID가 생성된다.
 
 ```text
-File → Chunks → Hashes → Merkle DAG → CID → Retrieval
+File -> Chunks -> Hashes -> Merkle DAG -> CID -> Retrieval
 ```
 
 | 요소 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ IPFS는 콘텐츠 중심 배포와 [분산](/knowledge-base/studynote/08_algorit
 
 ```text
 파일
-    │
-    ▼
+    |
+    v
 해시 / CID
-    │
-    ▼
+    |
+    v
 Merkle DAG
-    │
-    ▼
+    |
+    v
 P2P 저장 / pinning
 ```
 
@@ -136,7 +136,7 @@ P2P 저장 / pinning
 
 **진행 상황**: 55 / 552
 
-← **이전**: [54. DAO (Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)
-**다음**: [56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/) →
+<- **이전**: [54. DAO (Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)
+**다음**: [56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/) ->
 
 ---

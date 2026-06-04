@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [ARP]
-    │
-    ▼
+    |
+    v
 [ARP 프레임]
-    │
-    └──▶ [RARP]
+    |
+    +---> [RARP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 프레임 구조는 주관식 </strong>"설문지 양식"**입니다. 내 이름과 연락처는 꽉 채워 넣고, 네가 적어야 할 답변 칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 텅 비운 채로 동네 사람들에게 돌리는 종이 쪼가리입니다.
@@ -57,28 +57,28 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 - **Target IP (4B)**: 내가 찾고자 하는 김대리의 IP 주소.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ARP Request (요청) 메시지 생성 과정             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC: IP 1.1.1.1, MAC AA:AA ]                          │
- │   [ 타겟 : IP 1.1.1.2, MAC 모름! ]                            │
- │                                                             │
- │   1. 이더넷 봉투 (L2 헤더)                                      │
- │      - 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)            │
- │      - 출발지 MAC: AA:AA:AA:AA:AA:AA                          │
- │      - Type    : 0x0806 (ARP)                               │
- │                                                             │
- │   2. ARP 알맹이 (28 Bytes)                                    │
- │      - Opcode    : 1 (Request)                              │
- │      - Sender MAC: AA:AA:AA:AA:AA:AA                        │
- │      - Sender IP : 1.1.1.1                                  │
- │      - Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)       │
- │      - Target IP : 1.1.1.2                                  │
- │                                                             │
- │   ▶ 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기  │
- │     진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!                 │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ARP Request (요청) 메시지 생성 과정             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC: IP 1.1.1.1, MAC AA:AA ]                          |
+ |   [ 타겟 : IP 1.1.1.2, MAC 모름! ]                            |
+ |                                                             |
+ |   1. 이더넷 봉투 (L2 헤더)                                      |
+ |      - 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)            |
+ |      - 출발지 MAC: AA:AA:AA:AA:AA:AA                          |
+ |      - Type    : 0x0806 (ARP)                               |
+ |                                                             |
+ |   2. ARP 알맹이 (28 Bytes)                                    |
+ |      - Opcode    : 1 (Request)                              |
+ |      - Sender MAC: AA:AA:AA:AA:AA:AA                        |
+ |      - Sender IP : 1.1.1.1                                  |
+ |      - Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)       |
+ |      - Target IP : 1.1.1.2                                  |
+ |                                                             |
+ |   -> 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기  |
+ |     진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!                 |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 와이어샤크(Wireshark)에서 잡히는 모습
@@ -144,12 +144,12 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 
 ```text
 [선행 개념: ARP]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARP 프레임]
-    │
-    ├──▶ [확장 A: RARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: RARP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임는 ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 RARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -166,7 +166,7 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 
 **진행 상황**: 434 / 1120
 
-← **이전**: [312. ARP (Address Resolution Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)
-**다음**: [314. RARP (Reverse ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/314_rarp_reverse_arp_mac_to_ip/) →
+<- **이전**: [312. ARP (Address Resolution Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)
+**다음**: [314. RARP (Reverse ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/314_rarp_reverse_arp_mac_to_ip/) ->
 
 ---

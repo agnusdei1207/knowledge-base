@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [OSPF Area 계층적 구조]
-    │
-    ▼
+    |
+    v
 [DR, BDR]
-    │
-    └──▶ [OSPF 트래픽엔지니어링 연동]
+    |
+    +---> [OSPF 트래픽엔지니어링 연동]
 ```
 
 - **📢 섹션 요약 비유**: <strong> DR(반장) 제도는 거미줄처럼 엉킨 수백 개의 실타래를, </strong>바퀴살(Spoke)들이 오직 중앙 축([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), DR) 하나하고만 연결되는 자전거 바퀴 모양으로 아주 깔끔하게 빗질하여 재정렬하는 극강의 통신망 다이어트**입니다.
@@ -56,22 +56,22 @@ DR이 있는 환경에서, 평민 라우터(DROther)들끼리 `show ip ospf neig
 2. **2순위 (Router ID)**: Priority가 1로 전부 동점이라면? "라우터 IP 주소가 가장 높은 놈"이 이긴다. (예: `10.1.1.1`보다 `192.168.1.1`이 깡패라서 반장이 됨).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DR 선거의 절대 룰: 기득권 유지 (Non-Preemptive)     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1) 아침 9시: 동네에 꾸진 구형 라우터 A(IP: 1.1.1.1) 혼자 켜짐.     │
- │               "동네에 나 혼자네? 내가 당연히 반장(DR)이지!"         │
- │                                                             │
- │   2) 아침 10시: 초호화 최신형 라우터 B(IP: 200.200.200.200) 켜짐.  │
- │               "야! 내 IP 깡패인 거 안 보여? 반장 자리 내놔!!"       │
- │                                                             │
- │   3) OSPF의 심판: "안 돼 돌아가. 이미 A가 반장 완장 차고 통신 돌리고   │
- │                 있는데, 너한테 반장 주려고 판 다시 엎으면 통신 끊겨!"│
- │                                                             │
- │   ▶ 결과: OSPF 반장 선거는 '굴러온 돌이 박힌 돌을 절대 빼낼 수 없다'. │
- │           새로 온 B는 끽해야 부반장(BDR)밖에 못 먹는다.              │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                DR 선거의 절대 룰: 기득권 유지 (Non-Preemptive)     |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1) 아침 9시: 동네에 꾸진 구형 라우터 A(IP: 1.1.1.1) 혼자 켜짐.     |
+ |               "동네에 나 혼자네? 내가 당연히 반장(DR)이지!"         |
+ |                                                             |
+ |   2) 아침 10시: 초호화 최신형 라우터 B(IP: 200.200.200.200) 켜짐.  |
+ |               "야! 내 IP 깡패인 거 안 보여? 반장 자리 내놔!!"       |
+ |                                                             |
+ |   3) OSPF의 심판: "안 돼 돌아가. 이미 A가 반장 완장 차고 통신 돌리고   |
+ |                 있는데, 너한테 반장 주려고 판 다시 엎으면 통신 끊겨!"|
+ |                                                             |
+ |   -> 결과: OSPF 반장 선거는 '굴러온 돌이 박힌 돌을 절대 빼낼 수 없다'. |
+ |           새로 온 B는 끽해야 부반장(BDR)밖에 못 먹는다.              |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> 반장(DR) 선거의 '기득권 보장' 룰은, 회의가 이미 시작되어 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중일 때 늦게 들어온 사람이 아무리 </strong>"내가 사장님 아들이야!"<strong>라며 완장을 뺏으려 해도, 회의 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>의 흐름(통신 무중단)을 지키기 위해 </strong>"다음 선거(라우터 재부팅) 때까지 넌 그냥 조용히 부반장이나 해!"**라고 질서를 유지하는 훌륭한 억제기입니다.
@@ -132,12 +132,12 @@ DR, BDR는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ```text
 [선행 개념: OSPF Area 계층적 구조]
-    │
-    ▼
+    |
+    v
 [현재 개념: DR, BDR]
-    │
-    ├──▶ [확장 A: OSPF 트래픽엔지니어링 연동]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: OSPF 트래픽엔지니어링 연동]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 DR, BDR는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층적 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ DR, BDR는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/
 
 **진행 상황**: 481 / 1120
 
-← **이전**: [359. OSPF Area 계층적 구조](/knowledge-base/studynote/03_network/07_network_layer_routing/359_ospf_hierarchical_area_structure_abr_asbr/)
-**다음**: [361. OSPF 트래픽엔지니어링(TE) 연동](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/) →
+<- **이전**: [359. OSPF Area 계층적 구조](/knowledge-base/studynote/03_network/07_network_layer_routing/359_ospf_hierarchical_area_structure_abr_asbr/)
+**다음**: [361. OSPF 트래픽엔지니어링(TE) 연동](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/) ->
 
 ---

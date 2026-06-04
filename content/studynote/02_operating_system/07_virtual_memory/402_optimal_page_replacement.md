@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. **평가 지표의 정립**: 비록 코딩으로 구현할 순 없지만, "OPT가 10번 폴트가 나는데 네 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 12번 났다면, 네 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 효율은 83%다!"라고 채점할 수 있는 명확한 스코어보드가 탄생했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        최적 교체 알고리즘(OPT)의 미래 투시 런타임 시뮬레이션        │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ 상황: 램 프레임 3개 / 미래 참조열: 7, 0, 1, 2, 0, 3, 0, 4 ]       │
-│                                                                     │
-│ 1. [7] [0] [1] 이 램에 꽉 참. (초기 세팅 완료)                      │
-│                                                                     │
-│ 2. 👉 CPU가 '2'를 불렀음! 램에 없네? (Page Fault!)                  │
-│   - OPT의 예지력 발동: "앞으로 누굴 가장 늦게 부를까 보자..."       │
-│   - 현재 램에 있는 애들: 7, 0, 1                                    │
-│   - 미래의 스케줄: 0(바로 다음), 3, 0, 4... 어? '7'과 '1'은         │
-│     아예 미래에 부를 계획조차 없네? (무한대 뒤에 부름)              │
-│   - 결과: 7이나 1 중 아무거나 하나를 버리고 '2'를 가져옴.           │
-│   - 램 상태: [2] [0] [1] (7을 쫓아냄)                               │
-│                                                                     │
-│ 3. 👉 CPU가 '0'을 부름! 램에 있네? (Hit!)                           │
-│                                                                     │
-│ 4. 👉 CPU가 '3'을 불렀음! (Page Fault!)                             │
-│   - OPT 예지력 발동: "2, 0, 1 중에 누굴 죽일까?"                    │
-│   - 미래 스케줄: 0(바로 부름), 4(그다음)... 1과 2는 영영 안 부름!   │
-│   - 결과: '1'을 버리고 '3'을 가져옴.                                │
-│   - 램 상태: [2] [0] [3]                                            │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|        최적 교체 알고리즘(OPT)의 미래 투시 런타임 시뮬레이션        |
++---------------------------------------------------------------------+
+|                                                                     |
+| [ 상황: 램 프레임 3개 / 미래 참조열: 7, 0, 1, 2, 0, 3, 0, 4 ]       |
+|                                                                     |
+| 1. [7] [0] [1] 이 램에 꽉 참. (초기 세팅 완료)                      |
+|                                                                     |
+| 2. 👉 CPU가 '2'를 불렀음! 램에 없네? (Page Fault!)                  |
+|   - OPT의 예지력 발동: "앞으로 누굴 가장 늦게 부를까 보자..."       |
+|   - 현재 램에 있는 애들: 7, 0, 1                                    |
+|   - 미래의 스케줄: 0(바로 다음), 3, 0, 4... 어? '7'과 '1'은         |
+|     아예 미래에 부를 계획조차 없네? (무한대 뒤에 부름)              |
+|   - 결과: 7이나 1 중 아무거나 하나를 버리고 '2'를 가져옴.           |
+|   - 램 상태: [2] [0] [1] (7을 쫓아냄)                               |
+|                                                                     |
+| 3. 👉 CPU가 '0'을 부름! 램에 있네? (Hit!)                           |
+|                                                                     |
+| 4. 👉 CPU가 '3'을 불렀음! (Page Fault!)                             |
+|   - OPT 예지력 발동: "2, 0, 1 중에 누굴 죽일까?"                    |
+|   - 미래 스케줄: 0(바로 부름), 4(그다음)... 1과 2는 영영 안 부름!   |
+|   - 결과: '1'을 버리고 '3'을 가져옴.                                |
+|   - 램 상태: [2] [0] [3]                                            |
++---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** OPT는 철저히 미래 시점(미래의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열)을 스캔하여 교체 대상을 찾는다. 만약 FIFO였다면 2번 스텝에서 냅다 '7'을 쫓아내서 운 좋게 맞췄다 쳐도, 4번 스텝에서 가장 오래된 '0'을 버리는 미친 짓을 저지른다. (바로 다음 5번 스텝에서 0을 부르는데!). OPT는 미래를 보았기에 절대 '0'을 버리지 않고 1이나 2를 버려 연쇄 폴트를 완벽하게 차단한다.
 
@@ -103,13 +103,13 @@ tags = ["studynote-operating-system"]
 - 따라서 과거를 완벽하게 역추적([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))하는 것은, 훌륭하게 미래를 투시([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/))하는 것과 통계적으로 거의 똑같은 결괏값을 도출해 내는 마법을 부린다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 알고리즘   │ 타겟 선정 논리│ 모순 발생(Belady)│ 구현 여부     │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ FIFO     │ 그냥 먼저 온 놈│ ☠️ 터짐 (멍청함)│ 🟢 쉬움         │
-│ LRU      │ 최근에 안 쓴 놈│ 🟢 안 터짐    │ 🟡 복잡하지만 됨  │
-│ OPT      │ 미래에 안 쓸 놈│ 🟢 절대 안 터짐│ ❌ 불가능        │
-└──────────┴────────────┴────────────┴──────────────────────────┘
++----------+------------+------------+--------------------------+
+| 알고리즘   | 타겟 선정 논리| 모순 발생(Belady)| 구현 여부     |
++----------+------------+------------+--------------------------+
+| FIFO     | 그냥 먼저 온 놈| ☠️ 터짐 (멍청함)| 🟢 쉬움         |
+| LRU      | 최근에 안 쓴 놈| 🟢 안 터짐    | 🟡 복잡하지만 됨  |
+| OPT      | 미래에 안 쓸 놈| 🟢 절대 안 터짐| ❌ 불가능        |
++----------+------------+------------+--------------------------+
 ```
 **[매트릭스 해설]** 컴퓨터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 학계에서 OPT라는 등대는 길을 잃지 않게 해 준다. 어떤 천재가 새로운 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 딥러닝 예측 교체)을 만들더라도, 그 논문의 마지막 결론은 항상 "내 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기존 LRU보다 5% 좋고, 절대 벽인 OPT의 목밑까지 2% 차이로 쫓아갔다"로 끝난다.
 
@@ -167,12 +167,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [페이지 교체 알고리즘 (Page Replacement Algorithms)]
-    │
-    ▼
+    |
+    v
 [최적 교체 알고리즘 (OPT, Optimal)]
-    │
-    ├──▶ [벨라디의 모순 (Belady's Anomaly)]
-    └──▶ [FIFO (First-In, First-Out) 교체]
+    |
+    +---> [벨라디의 모순 (Belady's Anomaly)]
+    +---> [FIFO (First-In, First-Out) 교체]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 402 / 800
 
-← **이전**: [401. 페이지 교체 알고리즘 (Page Replacement Algorithms)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)
-**다음**: [403. 벨라디의 모순 (Belady's Anomaly) - 프레임을 늘렸는데 오히려 페이지 부재가 증가하는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/403_beladys_anomaly/) →
+<- **이전**: [401. 페이지 교체 알고리즘 (Page Replacement Algorithms)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)
+**다음**: [403. 벨라디의 모순 (Belady's Anomaly) - 프레임을 늘렸는데 오히려 페이지 부재가 증가하는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/403_beladys_anomaly/) ->
 
 ---

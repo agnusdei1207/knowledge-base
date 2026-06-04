@@ -13,7 +13,7 @@ tags = ["studynote-it-management"]
 
 > 1. **본질**: SCM ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))은 소프트웨어 산출물을 형상 항목 ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 단위로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 변경을 승인·기록·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 통제 체계다.
 > 2. **가치**: 소스코드뿐 아니라 요구사항, 설계서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), 배포 패키지까지 같은 기준으로 관리해야 변경 추적성, 재현 가능한 릴리스, 빠른 복구가 가능해진다.
-> 3. **판단 포인트**: [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) → [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) → [형상 상태 기록](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) → [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)의 흐름과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 관리가 핵심이며, 단순 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 도구 사용만으로 SCM이 완성되지는 않는다.
+> 3. **판단 포인트**: [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) -> [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) -> [형상 상태 기록](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) -> [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)의 흐름과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 관리가 핵심이며, 단순 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 도구 사용만으로 SCM이 완성되지는 않는다.
 
 ---
 
@@ -26,15 +26,15 @@ SCM ([Software Configuration Management](/knowledge-base/studynote/04_software_e
 아래 그림은 SCM이 없는 경우와 있는 경우의 차이를 단순화해 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             SCM의 필요성: 변경을 기록하지 않으면 혼란이 된다    │
-├───────────────────────────────┬──────────────────────────────┤
-│ SCM 없음                      │ SCM 있음                     │
-├───────────────────────────────┼──────────────────────────────┤
-│ 누가 바꿨는지 모름            │ 변경 요청과 승인 이력 존재    │
-│ 어떤 버전이 운영 중인지 불명확 │ 배포 버전과 기준선 추적 가능  │
-│ 장애 시 원복 경로 불명확      │ 이전 기준선으로 신속 복구     │
-└───────────────────────────────┴──────────────────────────────┘
++--------------------------------------------------------------+
+|             SCM의 필요성: 변경을 기록하지 않으면 혼란이 된다    |
++-------------------------------+------------------------------+
+| SCM 없음                      | SCM 있음                     |
++-------------------------------+------------------------------+
+| 누가 바꿨는지 모름            | 변경 요청과 승인 이력 존재    |
+| 어떤 버전이 운영 중인지 불명확 | 배포 버전과 기준선 추적 가능  |
+| 장애 시 원복 경로 불명확      | 이전 기준선으로 신속 복구     |
++-------------------------------+------------------------------+
 ```
 
 따라서 SCM은 개발 속도를 늦추는 문서 작업이 아니라, 변경이 빨라질수록 더 중요해지는 안전장치다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경에서도 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 원칙은 사라지지 않고, 더 자동화된 방식으로 재구성될 뿐이다.
@@ -50,26 +50,26 @@ SCM의 핵심 원리는 "무엇을 관리할지 정의하고, 어떻게 바뀌�
 아래 흐름은 [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/)의 전체 제어 루프를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                SCM 제어 루프 (Control Loop)                  │
-├──────────────────────────────────────────────────────────────┤
-│ 형상 식별                                                     │
-│   └─ 형상 항목 (Configuration Item, CI) 정의                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 기준선 설정 (Baseline)                                        │
-│        │                                                     │
-│        ▼                                                     │
-│ 변경 요청 (CR) ─▶ 영향 분석 ─▶ 형상 통제 위원회               │
-│                              (Configuration Control Board,    │
-│                               CCB) 승인/반려                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 구현 · 테스트 · 배포                                          │
-│        │                                                     │
-│        ▼                                                     │
-│ 상태 기록 · 감사 · 차기 기준선 갱신                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                SCM 제어 루프 (Control Loop)                  |
++--------------------------------------------------------------+
+| 형상 식별                                                     |
+|   +- 형상 항목 (Configuration Item, CI) 정의                  |
+|        |                                                     |
+|        v                                                     |
+| 기준선 설정 (Baseline)                                        |
+|        |                                                     |
+|        v                                                     |
+| 변경 요청 (CR) --> 영향 분석 --> 형상 통제 위원회               |
+|                              (Configuration Control Board,    |
+|                               CCB) 승인/반려                  |
+|        |                                                     |
+|        v                                                     |
+| 구현 · 테스트 · 배포                                          |
+|        |                                                     |
+|        v                                                     |
+| 상태 기록 · 감사 · 차기 기준선 갱신                           |
++--------------------------------------------------------------+
 ```
 
 | 기능 | 핵심 질문 | 실무 산출물 |
@@ -157,17 +157,17 @@ SCM을 제대로 운영하면 변경 추적성, 릴리스 재현성, [감사](/k
 
 ```text
 형상 항목 (Configuration Item) 식별
-    │
-    ▼
+    |
+    v
 베이스라인 (Baseline) 설정
-    │
-    ▼
+    |
+    v
 변경 요청 · CCB (Configuration Control Board) 통제
-    │
-    ▼
+    |
+    v
 상태 기록 (Status Accounting) · 형상 감사 (Audit)
-    │
-    ▼
+    |
+    v
 GitOps · IaC (Infrastructure as Code) 기반 자동화 SCM
 ```
 
@@ -185,7 +185,7 @@ GitOps · IaC (Infrastructure as Code) 기반 자동화 SCM
 
 **진행 상황**: 281 / 587
 
-← **이전**: [166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/)
-**다음**: [168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/168_risk_response_strategies/) →
+<- **이전**: [166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/)
+**다음**: [168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/168_risk_response_strategies/) ->
 
 ---

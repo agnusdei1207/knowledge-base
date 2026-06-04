@@ -19,15 +19,15 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    3대 ERD 표기법                                     │
-├───────────────────────────────────────────────────────┤
-│  IE (까마귀발):  ──┤├── (1:N)                        │
-│  Barker:         ──O── (선택), ──|── (필수)          │
-│  IDEF1X:         ●── (식별), ◇── (비식별)           │
-│                                                       │
-│  한국 SI 표준: IE (까마귀발)                         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    3대 ERD 표기법                                     |
++-------------------------------------------------------+
+|  IE (까마귀발):  --++-- (1:N)                        |
+|  Barker:         --O-- (선택), --|-- (필수)          |
+|  IDEF1X:         ●-- (식별), ◇-- (비식별)           |
+|                                                       |
+|  한국 SI 표준: IE (까마귀발)                         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 표기법은 지도의 <strong>범례</strong>이다. 같은 지형도 범례가 다르면 다르게 읽힌다.
@@ -63,9 +63,9 @@ ERD 표기법 선택은 <strong>프로젝트·조직·도구에 의해 결정</s
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Chen 표기법 (1976)] → [IE 까마귀발 (1981)]
-    → [IDEF1X (1985, 국방)] → [Barker (Oracle, 1990s)]
-    → [UML 클래스 (2000s)] → [현재: 도구 자동 변환 — 표기법 간 호환]
+[Chen 표기법 (1976)] -> [IE 까마귀발 (1981)]
+    -> [IDEF1X (1985, 국방)] -> [Barker (Oracle, 1990s)]
+    -> [UML 클래스 (2000s)] -> [현재: 도구 자동 변환 — 표기법 간 호환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -79,7 +79,7 @@ ERD 표기법 선택은 <strong>프로젝트·조직·도구에 의해 결정</s
 
 **진행 상황**: 130 / 600
 
-← **이전**: [129. ORM & 임피던스 불일치 (Object-Relational Mismatch)](/knowledge-base/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/)
-**다음**: [131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준](/knowledge-base/studynote/05_database/03_relational_model/131_sql_ansi_iso_standard/) →
+<- **이전**: [129. ORM & 임피던스 불일치 (Object-Relational Mismatch)](/knowledge-base/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/)
+**다음**: [131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준](/knowledge-base/studynote/05_database/03_relational_model/131_sql_ansi_iso_standard/) ->
 
 ---

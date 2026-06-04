@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP RPKI 라우팅 보안 망]
-    │
-    ▼
+    |
+    v
 [DNSSEC 존]
-    │
-    └──▶ [DoH / DoT]
+    |
+    +---> [DoH / DoT]
 ```
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP RPKI 라우팅 보안 망]
-    │
-    ▼
+    |
+    v
 [DNSSEC 존]
-    │
-    └──▶ [DoH / DoT]
+    |
+    +---> [DoH / DoT]
 ```
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: BGP RPKI 라우팅 보안 망]
-    │
-    ▼
+    |
+    v
 [현재 개념: DNSSEC 존]
-    │
-    ├──▶ [확장 A: DoH / DoT]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: DoH / DoT]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 168 / 1120
 
-← **이전**: [1061. BGP RPKI 라우팅 보안 망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1061_bgp_rpki_routing_security/)
-**다음**: [1063. DoH / DoT (웹/전송 보안 계층 DNS 암호화)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1063_doh_dot_dns_over_https_tls_encryption/) →
+<- **이전**: [1061. BGP RPKI 라우팅 보안 망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1061_bgp_rpki_routing_security/)
+**다음**: [1063. DoH / DoT (웹/전송 보안 계층 DNS 암호화)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1063_doh_dot_dns_over_https_tls_encryption/) ->
 
 ---

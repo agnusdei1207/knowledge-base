@@ -19,22 +19,22 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Shadow Page Table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/))은 게스트 가상 주소 (Guest Virtual Address, GVA)에서 호스트 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (Host [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/), [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))로 바로 이어지는 별도의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 만들어, 프로세서가 그것만 보도록 속이는 방식이다. 원래 게스트 운영체제는 GVA를 게스트 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (Guest [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/), GPA)로 바꾸는 표를 가진다. 하지만 전통적인 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 GVA→GPA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 같은 2단계 번역을 이해하지 못하므로, 누군가가 이 두 지도를 합성해 한 장짜리 지도로 만들어야 했다.
+그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Shadow Page Table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/))은 게스트 가상 주소 (Guest Virtual Address, GVA)에서 호스트 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (Host [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/), [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))로 바로 이어지는 별도의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 만들어, 프로세서가 그것만 보도록 속이는 방식이다. 원래 게스트 운영체제는 GVA를 게스트 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (Guest [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/), GPA)로 바꾸는 표를 가진다. 하지만 전통적인 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 GVA->GPA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 같은 2단계 번역을 이해하지 못하므로, 누군가가 이 두 지도를 합성해 한 장짜리 지도로 만들어야 했다.
 
 이 그림은 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 어떤 발상으로 만들어졌는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            그림자 페이지 테이블의 핵심: 두 지도를 한 장으로 합성          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest Page Table : GVA ──▶ GPA                                            │
-│ Host Mapping     : GPA ──▶ HPA                                            │
-│                                  │                                         │
-│ Hypervisor가 둘을 합성            ▼                                         │
-│ Shadow Page Table: GVA ──▶ HPA                                             │
-│ 중앙 처리 장치 (Central Processing Unit, CPU)의                            │
-│ CR3 (Control Register 3)는 Shadow Page Table을 가리킴                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            그림자 페이지 테이블의 핵심: 두 지도를 한 장으로 합성          |
++----------------------------------------------------------------------------+
+| Guest Page Table : GVA ---> GPA                                            |
+| Host Mapping     : GPA ---> HPA                                            |
+|                                  |                                         |
+| Hypervisor가 둘을 합성            v                                         |
+| Shadow Page Table: GVA ---> HPA                                             |
+| 중앙 처리 장치 (Central Processing Unit, CPU)의                            |
+| CR3 (Control Register 3)는 Shadow Page Table을 가리킴                     |
++----------------------------------------------------------------------------+
 ```
 
 이 방식의 출발점은 단순하다. 하드웨어가 두 번 번역하지 못한다면, 소프트웨어가 미리 번역해 둔 결과를 넣어 주자는 것이다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제품들은 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 변경될 때마다 그 변화를 감지하고, 이에 대응하는 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 새로 만들거나 수정했다. 즉 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 “하드웨어 한계를 소프트웨어 장인 정신으로 메운” 대표적 기술이다.
@@ -45,12 +45,12 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 핵심 과제는 “정확한 합성”과 “빠른 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 엔트리와 자신이 관리하는 GPA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 매핑을 결합해 GVA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 엔트리를 만든다. 문제는 게스트 운영체제가 이 사실을 모른 채 자신만의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 계속 수정한다는 점이다. 그래서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 놓인 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽기 전용으로 잠가 두고, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도가 발생하면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권을 넘겨 변경 내용을 반영한다.
+그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 핵심 과제는 “정확한 합성”과 “빠른 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 엔트리와 자신이 관리하는 GPA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 매핑을 결합해 GVA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 엔트리를 만든다. 문제는 게스트 운영체제가 이 사실을 모른 채 자신만의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 계속 수정한다는 점이다. 그래서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 놓인 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽기 전용으로 잠가 두고, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도가 발생하면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권을 넘겨 변경 내용을 반영한다.
 
 | 요소 | 역할 | 비용 포인트 |
 | :-- | :-- | :-- |
-| 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | GVA→GPA 정보 유지 | 게스트가 자주 수정함 |
-| 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | GVA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 합성 결과 제공 | 프로세서는 이것만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
+| 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | GVA->GPA 정보 유지 | 게스트가 자주 수정함 |
+| 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | GVA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 합성 결과 제공 | 프로세서는 이것만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 수정 감지 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시마다 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 유발 |
 | 그림자 캐시 | 프로세스별 그림자 테이블 재사용 | 캐시 적중 시 재생성 비용 절감 |
 | 주소 변환 캐시 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 무효화 | 오래된 주소 변환 제거 | 문맥 전환이 잦으면 큰 부담 |
@@ -127,17 +127,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 단계 MMU 한계
-    │
-    ▼
+    |
+    v
 그림자 페이지 테이블 합성
-    │
-    ▼
+    |
+    v
 쓰기 보호 · 트랩 기반 동기화
-    │
-    ▼
+    |
+    v
 EPT · NPT 같은 하드웨어 2차 페이징
-    │
-    ▼
+    |
+    v
 메모리 인트로스펙션 · 연구용 제한 활용
 ```
 
@@ -155,7 +155,7 @@ EPT · NPT 같은 하드웨어 2차 페이징
 
 **진행 상황**: 663 / 803
 
-← **이전**: [661. 확장 페이지 테이블 (Extended Page Table, EPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)
-**다음**: [663. 반가상화 (Paravirtualization) I/O](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/663_paravirtualization_io/) →
+<- **이전**: [661. 확장 페이지 테이블 (Extended Page Table, EPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)
+**다음**: [663. 반가상화 (Paravirtualization) I/O](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/663_paravirtualization_io/) ->
 
 ---

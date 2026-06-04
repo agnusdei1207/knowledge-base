@@ -24,15 +24,15 @@ tags = ["studynote-data-engineering"]
 
 ```
 훈련 데이터 과적합 진단
-┌───────────────────────────────────────┐
-│  훈련 손실 (Train Loss)               │
-│   ↘↘↘↘↘↘↘↘ (계속 감소)               │
-│                                       │
-│  검증 손실 (Validation Loss)          │
-│   ↘↘  최적점  ↗↗↗↗↗↗ (증가 시작)     │
-│       ★──────────────                │
-│    [여기서 멈춰야 함 = Early Stopping] │
-└───────────────────────────────────────┘
++---------------------------------------+
+|  훈련 손실 (Train Loss)               |
+|   ↘↘↘↘↘↘↘↘ (계속 감소)               |
+|                                       |
+|  검증 손실 (Validation Loss)          |
+|   ↘↘  최적점  ↗↗↗↗↗↗ (증가 시작)     |
+|       ★--------------                |
+|    [여기서 멈춰야 함 = Early Stopping] |
++---------------------------------------+
 ```
 
 **과적합 징후**: 훈련 정확도 99%, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 정확도 70% — 30%p 격차
@@ -60,36 +60,36 @@ L_total = L_original + λ·Σ|w_i|
 
 - **희소성(Sparsity) 유도**: 불필요한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 수렴
 - <strong>특성 선택(Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong> 효과 자동 달성
-- 다이아몬드 형태의 제약 영역 → 꼭짓점에서 해 발생
+- 다이아몬드 형태의 제약 영역 -> 꼭짓점에서 해 발생
 
 ### L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Ridge)
 
 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합을 추가한다.
 
 ```
-L_total = L_original + λ·Σw_i²
+L_total = L_original + λ·Σw_i^
 ```
 
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 축소(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Shrinkage)</strong>: 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 (0은 아님)
 - **안정성**: 입력 간 상관관계에 강인
-- 원형 제약 영역 → 경계 어느 곳에서든 해 발생
+- 원형 제약 영역 -> 경계 어느 곳에서든 해 발생
 
 ### L1 vs L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 비교
 
 ```
         L2 제약 (원형)              L1 제약 (다이아몬드)
-           │                              │
-      ┌────┼────┐                    ┌────┼────┐
-    ─── 등고선    ───               ─── 등고선    ───
-      └────┼────┘                    └──←─┼→──┘
-           │                              ★ (꼭짓점 = w=0 가능)
+           |                              |
+      +----+----+                    +----+----+
+    --- 등고선    ---               --- 등고선    ---
+      +----+----+                    +--<--+->--+
+           |                              ★ (꼭짓점 = w=0 가능)
     손실+원형 교차점                 손실+다이아몬드 교차점
-    → 가중치 분산 감소               → 가중치 희소화 (0 포함)
+    -> 가중치 분산 감소               -> 가중치 희소화 (0 포함)
 ```
 
 | 구분 | L1 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | L2 (Ridge) | [Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) |
 |:---|:---|:---|:---|
-| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항 | λΣ|w| | λΣw² | α·L1 + (1-α)·L2 |
+| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항 | λΣ|w| | λΣw^ | α·L1 + (1-α)·L2 |
 | 희소성 | ✅ 강함 | ❌ 없음 | ✅ 중간 |
 | 특성 선택 | ✅ 자동 | ❌ | ✅ 부분 |
 | 안정성 | 낮음 | 높음 | 중간 |
@@ -101,21 +101,21 @@ L_total = L_original + λ·Σw_i²
 
 ```
 훈련 단계 (p=0.5)
-┌─────────────────────────────────┐
-│ 입력  →  [○] [×] [○] [×] [○]  │  ← × 비활성화 뉴런
-│          [×] [○] [×] [○] [×]  │
-│                   ↓             │
-│              출력 (×2 스케일)   │
-└─────────────────────────────────┘
++---------------------------------+
+| 입력  ->  [○] [×] [○] [×] [○]  |  <- × 비활성화 뉴런
+|          [×] [○] [×] [○] [×]  |
+|                   v             |
+|              출력 (×2 스케일)   |
++---------------------------------+
 
 추론 단계
-┌─────────────────────────────────┐
-│ 입력  →  [○] [○] [○] [○] [○]  │  ← 모든 뉴런 활성
-│          [○] [○] [○] [○] [○]  │  ← 가중치 ×(1-p) 스케일링
-└─────────────────────────────────┘
++---------------------------------+
+| 입력  ->  [○] [○] [○] [○] [○]  |  <- 모든 뉴런 활성
+|          [○] [○] [○] [○] [○]  |  <- 가중치 ×(1-p) 스케일링
++---------------------------------+
 ```
 
-<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 효과</strong>: 매 배치마다 다른 부분 네트워크 훈련 → 암묵적 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 효과</strong>: 매 배치마다 다른 부분 네트워크 훈련 -> 암묵적 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
 - 은닉층: p=0.5, 입력층: p=0.1~0.2가 일반적
 - [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 병행 시 주의 (상호작용 효과)
 
@@ -170,34 +170,34 @@ for epoch in range(max_epochs):
 
 ```
 훈련 완료 후 검진
-         ↓
+         v
   훈련 정확도 높은가?
      /        \
    YES          NO
-    ↓           ↓
+    v           v
 검증 정확도   모델 용량
- 낮은가?      부족 → 복잡도 증가
+ 낮은가?      부족 -> 복잡도 증가
    /  \
  YES   NO
-  ↓     ↓
+  v     v
 과적합  과소적합도
 발생!    아님 (정상)
-  ↓
+  v
 처방 선택:
-├── 데이터 증강 우선
-├── 드롭아웃 추가 (p=0.3~0.5)
-├── L2 정규화 (λ=1e-4~1e-2)
-├── 배치 크기 증가
-└── 조기 종료 활성화
++-- 데이터 증강 우선
++-- 드롭아웃 추가 (p=0.3~0.5)
++-- L2 정규화 (λ=1e-4~1e-2)
++-- 배치 크기 증가
++-- 조기 종료 활성화
 ```
 
 ### λ ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도) 튜닝 가이드
 
 | λ 값 | 효과 | 주의 |
 |:---|:---|:---|
-| λ → 0 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 없음 = 원래 모델 | 과적합 위험 |
+| λ -> 0 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 없음 = 원래 모델 | 과적합 위험 |
 | λ = 1e-4~1e-2 | 표준 범위 | 대부분 상황 적합 |
-| λ → ∞ | 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0 | 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)) |
+| λ -> ∞ | 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0 | 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)) |
 
 📢 **섹션 요약 비유**: λ 값 조정은 약의 복용량 결정과 같다. 너무 적으면 병이 낫지 않고(과적합), 너무 많으면 부작용이 생긴다(과소적합). 정확한 진단과 적절한 처방이 핵심이다.
 
@@ -209,14 +209,14 @@ for epoch in range(max_epochs):
 
 ```
 과적합 모델 vs 정규화 모델 비교
-┌──────────────────────────────────────────────┐
-│ 지표        │ 과적합 모델 │ L2+Dropout 적용 │
-├─────────────┼─────────────┼─────────────────┤
-│ 훈련 정확도 │   99.5%     │    97.2%        │
-│ 검증 정확도 │   72.1%     │    93.8%        │
-│ 일반화 갭   │   27.4%p    │     3.4%p       │
-└──────────────────────────────────────────────┘
-→ 훈련 정확도 약간 감소, 검증 성능 대폭 향상
++----------------------------------------------+
+| 지표        | 과적합 모델 | L2+Dropout 적용 |
++-------------+-------------+-----------------+
+| 훈련 정확도 |   99.5%     |    97.2%        |
+| 검증 정확도 |   72.1%     |    93.8%        |
+| 일반화 갭   |   27.4%p    |     3.4%p       |
++----------------------------------------------+
+-> 훈련 정확도 약간 감소, 검증 성능 대폭 향상
 ```
 
 ### 기술사 시험 핵심 포인트
@@ -250,15 +250,15 @@ for epoch in range(max_epochs):
 
 ```text
 과적합 (Overfitting) 발생
-    │
-    ▼
+    |
+    v
 정규화 기법
-    ├─► L1 (Lasso): 가중치 0으로 만듦 → 피처 선택
-    ├─► L2 (Ridge): 가중치를 작게 유지
-    ├─► Dropout: 랜덤 뉴런 비활성화
-    └─► Early Stopping: 검증 손실 증가 시 학습 중단
-    │
-    ▼
+    +-► L1 (Lasso): 가중치 0으로 만듦 -> 피처 선택
+    +-► L2 (Ridge): 가중치를 작게 유지
+    +-► Dropout: 랜덤 뉴런 비활성화
+    +-► Early Stopping: 검증 손실 증가 시 학습 중단
+    |
+    v
 데이터 증강 · Batch Normalization · Weight Decay
 ```
 2. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 스포츠 훈련에서 매번 다른 선수를 쉬게 해서 아무도 혼자 게임을 이길 수 없게 만드는 훈련법이야.
@@ -270,7 +270,7 @@ for epoch in range(max_epochs):
 
 **진행 상황**: 242 / 258
 
-← **이전**: [241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)
-**다음**: [243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) →
+<- **이전**: [241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)
+**다음**: [243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ->
 
 ---

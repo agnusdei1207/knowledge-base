@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-일반: "15+27×3=?" → "96" (오답)
+일반: "15+27×3=?" -> "96" (오답)
 CoT: "15+27×3=? 단계별로:"
-  → "27×3=81, 15+81=96" (정답, 과정 명시)
-Self-Consistency: 5번 CoT → 다수결 → 정답률↑
-Tree-of-Thought: 여러 분기 탐색 → 최적 경로
+  -> "27×3=81, 15+81=96" (정답, 과정 명시)
+Self-Consistency: 5번 CoT -> 다수결 -> 정답률^
+Tree-of-Thought: 여러 분기 탐색 -> 최적 경로
 ```
 
 - **📢 섹션 요약 비유**: CoT는 <strong>시험에서 풀이 과정 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>이다. 답만 쓰면 실수하지만, 풀이를 쓰면 정확해진다.
@@ -49,10 +49,10 @@ CoT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[직접 답변 (2020)] → [CoT (Wei et al., 2022)]
-    → [Zero-shot CoT (Kojima, 2022)]
-    → [Self-Consistency (Wang, 2023)]
-    → [현재: o1/o3 — 내부 CoT 자동 생성]
+[직접 답변 (2020)] -> [CoT (Wei et al., 2022)]
+    -> [Zero-shot CoT (Kojima, 2022)]
+    -> [Self-Consistency (Wang, 2023)]
+    -> [현재: o1/o3 — 내부 CoT 자동 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ CoT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 **진행 상황**: 146 / 420
 
-← **이전**: [145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬](/knowledge-base/studynote/10_ai/02_dl_architecture_new/145_concept/)
-**다음**: [147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) →
+<- **이전**: [145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬](/knowledge-base/studynote/10_ai/02_dl_architecture_new/145_concept/)
+**다음**: [147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) ->
 
 ---

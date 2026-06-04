@@ -31,24 +31,24 @@ tags = ["studynote-bigdata"]
 ### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│             CNN 기반 이미지 분석 파이프라인                         │
-├────────────────────────────────────────────────────────────────────┤
-│  입력 이미지 (224×224×3 RGB)                                       │
-│       │                                                            │
-│       ▼                                                            │
-│  [합성곱 레이어 (Conv Layer)] × N                                  │
-│   커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출            │
-│       │                                                            │
-│       ▼                                                            │
-│  [풀링 레이어 (Pooling)] → 특성 맵 크기 축소, 위치 불변성          │
-│       │                                                            │
-│       ▼                                                            │
-│  [완전연결층 (FC Layer)] + Softmax                                 │
-│       │                                                            │
-│       ▼                                                            │
-│  분류 (고양이 0.95 / 개 0.04 / 기타 0.01)                          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|             CNN 기반 이미지 분석 파이프라인                         |
++--------------------------------------------------------------------+
+|  입력 이미지 (224×224×3 RGB)                                       |
+|       |                                                            |
+|       v                                                            |
+|  [합성곱 레이어 (Conv Layer)] × N                                  |
+|   커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출            |
+|       |                                                            |
+|       v                                                            |
+|  [풀링 레이어 (Pooling)] -> 특성 맵 크기 축소, 위치 불변성          |
+|       |                                                            |
+|       v                                                            |
+|  [완전연결층 (FC Layer)] + Softmax                                 |
+|       |                                                            |
+|       v                                                            |
+|  분류 (고양이 0.95 / 개 0.04 / 기타 0.01)                          |
++--------------------------------------------------------------------+
 ```
 
 ### [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 핵심 아키텍처
@@ -93,10 +93,10 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 ### 적용 시나리오
 
-1. **제조 불량 검사**: 라인 카메라 + YOLOv8 실시간 탐지 → 불량품 즉시 제거, 불량률 90% 감소
-2. **의료 영상 진단 보조**: [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 스캔 U-Net [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) → 암 의심 구역 자동 표시
-3. **리테일 상품 인식**: 매장 카메라 + EfficientNet → 진열 현황 자동 집계, 발주 자동화
-4. **위성 이미지 분석**: Sentinel 위성 + DeepLab → 산림 피복 변화 자동 탐지
+1. **제조 불량 검사**: 라인 카메라 + YOLOv8 실시간 탐지 -> 불량품 즉시 제거, 불량률 90% 감소
+2. **의료 영상 진단 보조**: [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 스캔 U-Net [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) -> 암 의심 구역 자동 표시
+3. **리테일 상품 인식**: 매장 카메라 + EfficientNet -> 진열 현황 자동 집계, 발주 자동화
+4. **위성 이미지 분석**: Sentinel 위성 + DeepLab -> 산림 피복 변화 자동 탐지
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -141,24 +141,24 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 ```text
 [전통 컴퓨터 비전 — 수동 피처 추출(SIFT·HOG)]
-    │
-    ▼
+    |
+    v
 [CNN (합성곱 신경망) — 자동 피처 학습, ImageNet 정복]
-    │
-    ▼
+    |
+    v
 [객체 탐지 (YOLO·SSD·Faster R-CNN) — 실시간 경계박스 예측]
-    │
-    ▼
+    |
+    v
 [세그멘테이션 (U-Net·Mask R-CNN) — 픽셀 단위 의미 분할]
-    │
-    ▼
+    |
+    v
 [Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임]
 ```
 이미지 분석은 수동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출에서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 학습으로 전환되고, [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Vision Transformer로 발전해 의료·자율주행 등 핵심 산업에 응용된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 이미지 분석은 컴퓨터에게 눈을 달아주는 기술이에요. "이 사진 속에 고양이가 있다!"를 스스로 알아내요.
-- CNN은 이미지를 여러 번 훑으면서 선→모서리→귀→얼굴 순서로 점점 더 복잡한 특징을 찾아요.
+- CNN은 이미지를 여러 번 훑으면서 선->모서리->귀->얼굴 순서로 점점 더 복잡한 특징을 찾아요.
 - 공장에서 불량품 찾기, 의사가 X-레이 보기, CCTV에서 이상한 사람 찾기가 모두 이 기술을 써요!
 
 ---
@@ -167,7 +167,7 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 **진행 상황**: 118 / 262
 
-← **이전**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)
-**다음**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) →
+<- **이전**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)
+**다음**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) ->
 
 ---

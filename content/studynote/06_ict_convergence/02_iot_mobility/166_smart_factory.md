@@ -26,18 +26,18 @@ tags = ["studynote-ict"]
 아래 그림은 스마트 팩토리가 단순 설비 자동화가 아니라, 수요와 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해 공정을 다시 조정하는 구조임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                스마트 팩토리의 기본 가치: 보는 공장에서              │
-│                    스스로 조정하는 공장으로 전환                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Customer Demand                                                      │
-│      │                                                               │
-│      ▼                                                               │
-│ Production Plan ──▶ Shop Floor Execution ──▶ Sensor Data             │
-│      ▲                                   │                           │
-│      │                                   ▼                           │
-│ Quality / Maintenance / Energy Analysis ──▶ Feedback Control         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                스마트 팩토리의 기본 가치: 보는 공장에서              |
+|                    스스로 조정하는 공장으로 전환                     |
++----------------------------------------------------------------------+
+| Customer Demand                                                      |
+|      |                                                               |
+|      v                                                               |
+| Production Plan ---> Shop Floor Execution ---> Sensor Data             |
+|      ^                                   |                           |
+|      |                                   v                           |
+| Quality / Maintenance / Energy Analysis ---> Feedback Control         |
++----------------------------------------------------------------------+
 ```
 
 즉 스마트 팩토리는 "기계가 자동으로 움직이는 공장"이 아니라, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 공정이 지속적으로 최적화되는 공장"으로 이해하는 것이 정확하다.
@@ -48,7 +48,7 @@ tags = ["studynote-ict"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스마트 팩토리의 아키텍처는 보통 <strong>현장 계층 → 제어 계층 → 운영 계층 → 경영 계층</strong>으로 구성된다. 현장 센서가 온도, 진동, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 위치 같은 상태를 읽고, 프로그래머블 로직 컨트롤러 ([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))나 산업용 제어기가 설비를 움직인다. 그 위에서 제조 실행 시스템 ([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))이 작업지시와 공정 이력을 관리하고, 전사적 자원관리 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))가 수주·재고·원가를 연결한다.
+스마트 팩토리의 아키텍처는 보통 <strong>현장 계층 -> 제어 계층 -> 운영 계층 -> 경영 계층</strong>으로 구성된다. 현장 센서가 온도, 진동, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 위치 같은 상태를 읽고, 프로그래머블 로직 컨트롤러 ([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))나 산업용 제어기가 설비를 움직인다. 그 위에서 제조 실행 시스템 ([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))이 작업지시와 공정 이력을 관리하고, 전사적 자원관리 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))가 수주·재고·원가를 연결한다.
 
 | 계층 | 대표 기술 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -58,17 +58,17 @@ tags = ["studynote-ict"]
 | 분석 계층 | [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) | [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 예측, 시뮬레이션 | 모델 정확도, 실시간성 |
 | 경영 계층 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)관리 ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 수주·재고·원가·납기 연계 | 의사결정 연결 |
 
-핵심 원리는 `감지 → 연결 → 분석 → 제어`의 반복이다. 설비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) (Open Platform Communications Unified [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)), 프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 네트워크를 통해 엣지 또는 중앙 플랫폼으로 모인다. 여기서 AI가 불량 가능성, 설비 이상, 작업 우선순위를 분석하고, 그 결과가 다시 작업지시나 설비 파라미터 조정으로 이어진다.
+핵심 원리는 `감지 -> 연결 -> 분석 -> 제어`의 반복이다. 설비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) (Open Platform Communications Unified [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)), 프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 네트워크를 통해 엣지 또는 중앙 플랫폼으로 모인다. 여기서 AI가 불량 가능성, 설비 이상, 작업 우선순위를 분석하고, 그 결과가 다시 작업지시나 설비 파라미터 조정으로 이어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 스마트 팩토리의 폐루프 운영 구조                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ [센서/설비] ─▶ [PLC·SCADA] ─▶ [MES/Edge] ─▶ [AI 분석]                │
-│     ▲              │               │              │                  │
-│     │              ▼               ▼              ▼                  │
-│ [액추에이터] ◀─ [제어 명령] ◀─ [작업지시 조정] ◀─ [예측·최적화]      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 스마트 팩토리의 폐루프 운영 구조                    |
++----------------------------------------------------------------------+
+| [센서/설비] --> [PLC·SCADA] --> [MES/Edge] --> [AI 분석]                |
+|     ^              |               |              |                  |
+|     |              v               v              v                  |
+| [액추에이터] <-- [제어 명령] <-- [작업지시 조정] <-- [예측·최적화]      |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간성과 의미를 맞추는 일이다. 설비 이벤트가 1초 늦게 들어오거나, 설비마다 코드 체계가 다르면 분석은 있어도 제어로 이어지지 않는다. 그래서 스마트 팩토리 구축은 단순한 대시보드 설치가 아니라, <strong>현장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표준화와 제어 가능한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a> 설계</strong>를 포함한다.
@@ -153,21 +153,21 @@ tags = ["studynote-ict"]
 
 ```text
 설비 자동화 (Factory Automation)
-    │
-    ▼
+    |
+    v
 SCADA · MES 기반 공정 가시화
-    │
-    ▼
+    |
+    v
 사물인터넷 (IoT, Internet of Things) · 엣지 데이터 수집
-    │
-    ▼
+    |
+    v
 스마트 팩토리 (Smart Factory)
-    │
-    ├─ 예지보전
-    ├─ 디지털 트윈
-    └─ CPS 기반 자율 제어
-    │
-    ▼
+    |
+    +- 예지보전
+    +- 디지털 트윈
+    +- CPS 기반 자율 제어
+    |
+    v
 자율형 제조 · 에너지 최적화 · 공급망 연계
 ```
 
@@ -185,7 +185,7 @@ SCADA · MES 기반 공정 가시화
 
 **진행 상황**: 166 / 552
 
-← **이전**: [165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/)
-**다음**: [167. CPS (Cyber-Physical System / 가상물리시스템) - 컴퓨팅 연산 체계(Cyber)가 물리(Physical)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/) →
+<- **이전**: [165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/)
+**다음**: [167. CPS (Cyber-Physical System / 가상물리시스템) - 컴퓨팅 연산 체계(Cyber)가 물리(Physical)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/) ->
 
 ---

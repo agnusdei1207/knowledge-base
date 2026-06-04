@@ -33,13 +33,13 @@ tags = ["studynote-database"]
 
 ```text
 Nomount
-   ↓
+   v
 제어 파일(Control File) 읽기
-   ↓
+   v
 Mount
-   ↓
+   v
 데이터 파일(Data File) + 로그 파일(Redo Log) 확인
-   ↓
+   v
 Open
 ```
 
@@ -112,9 +112,9 @@ DBWR([Database](/knowledge-base/studynote/05_database/04_transactions_concurrenc
 
 ```text
 인스턴스(메모리)
-   ↓
+   v
 데이터 파일 / 로그 파일 / 제어 파일
-   ↓
+   v
 복구 / 기동 / 운영
 ```
 
@@ -124,11 +124,11 @@ DBWR([Database](/knowledge-base/studynote/05_database/04_transactions_concurrenc
 
 ```text
 휘발성 메모리
-   ↓
+   v
 영구 저장소
-   ↓
+   v
 Redo Log / Control File
-   ↓
+   v
 백업 · 복구 · 재생
 ```
 
@@ -146,7 +146,7 @@ Redo Log / Control File
 
 **진행 상황**: 59 / 600
 
-← **이전**: [58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/)
-**다음**: [60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/060_serverless_database_aurora/) →
+<- **이전**: [58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/)
+**다음**: [60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/060_serverless_database_aurora/) ->
 
 ---

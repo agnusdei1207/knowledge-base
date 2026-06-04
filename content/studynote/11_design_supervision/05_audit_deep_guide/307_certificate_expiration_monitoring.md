@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 서버 인증서 수명주기 모니터링 체계는 서버 인증서 수명주기(Lifecycle) 전반의 모니터링 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영이 24x7 체계로 바뀌며 단순 운영 절차보다 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도와 자동화된 관제가 핵심 역량이 되었다. 특히 수명주기 대시보드가 기준선으로 정리되지 않으면 책임자 지정은 사람 의존 절차로 흩어지고, 최종적으로 만료 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)가 남지 않아 의사결정이 감각에 의존하게 된다. 운영 설계가 약하면 작은 장애도 고객 체감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 확대된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 수명주기 대시보드 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 책임자 지정 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 만료 제로화 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 수명주기 대시보드 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 책임자 지정 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 만료 제로화 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 서버 인증서 수명주기 모니터링 체계는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 만료 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 수명주기 대시보드, 책임자 지정, 만료 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[수명주기 대시보드] → [서버 인증서 수명주기 모니터링 체계] → SRE 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)]
+[수명주기 대시보드] -> [서버 인증서 수명주기 모니터링 체계] -> SRE 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 수명주기 대시보드는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 373 / 530
 
-← **이전**: [307. 서버 인증서 만료 모니터링 감리 (Server Certificate Expiration Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/307_audit/)
-**다음**: [308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/308_audit/) →
+<- **이전**: [307. 서버 인증서 만료 모니터링 감리 (Server Certificate Expiration Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/307_audit/)
+**다음**: [308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/308_audit/) ->
 
 ---

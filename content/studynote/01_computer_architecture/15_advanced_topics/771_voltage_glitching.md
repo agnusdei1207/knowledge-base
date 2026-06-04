@@ -40,21 +40,21 @@ tags = ["studynote-computer-architecture"]
 | depth | 얼마나 낮출지 | fault가 안 남음 | 전체 동작 정지 |
 | trigger | 글리치 발사 조건 | 타이밍 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패 | 반복성 없는 실험이 됨 |
 
-아래 그림은 [voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) glitch가 "전원 부족 → 게이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 → 잘못된 래치"로 이어지는 과정을 요약한다.
+아래 그림은 [voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) glitch가 "전원 부족 -> 게이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 -> 잘못된 래치"로 이어지는 과정을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Voltage glitch timing                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ VDD : ──────────────────┐    ┌──────────────────────────────────   │
-│                         └────┘                                     │
-│ CLK : ──┐  ┌──┐  ┌──┐  ┌──┐  ┌──┐                                  │
-│         └──┘  └──┘  └──┘  └──┘  └──                               │
-│                 ▲                                                  │
-│         target instruction active during VDD dip                   │
-│                 │                                                  │
-│                 └─ longer gate delay -> setup violation -> fault   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Voltage glitch timing                                              |
++--------------------------------------------------------------------+
+| VDD : ------------------+    +----------------------------------   |
+|                         +----+                                     |
+| CLK : --+  +--+  +--+  +--+  +--+                                  |
+|         +--+  +--+  +--+  +--+  +--                               |
+|                 ^                                                  |
+|         target instruction active during VDD dip                   |
+|                 |                                                  |
+|                 +- longer gate delay -> setup violation -> fault   |
++--------------------------------------------------------------------+
 ```
 
 실전에서는 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) 기반 glitcher, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 로직 애널라이저를 함께 써서 수천~수만 번 파라미터를 스윕한다. 목표는 "장비가 멈추지 않으면서도 보안 로직만 어긋나는 창"을 찾는 것이다. 예를 들어 [secure boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 서명 비교 시점에 맞춘 short dip은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 분기를 건너뛰게 할 수 있고, 암호 연산 라운드 중 fault는 DFA (Differential Fault Analysis)로 이어질 수 있다.
@@ -126,19 +126,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 외부 전원 접근 + trigger 수집
-              │
-              ▼
+              |
+              v
 볼티지 글리칭 파라미터 탐색
 : offset / width / depth
-              │
-              ▼
+              |
+              v
 fault 발생
 : instruction skip / faulty crypto / state desync
-              │
-              ├──▶ secure boot bypass
-              └──▶ DFA 기반 키 복원
-              │
-              ▼
+              |
+              +---> secure boot bypass
+              +---> DFA 기반 키 복원
+              |
+              v
 BOD + regulator + redundancy + tamper response
 ```
 
@@ -156,7 +156,7 @@ BOD + regulator + redundancy + tamper response
 
 **진행 상황**: 772 / 803
 
-← **이전**: [770. PACMAN 공격 (ARM PAC 우회)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/770_pacman_attack/)
-**다음**: [772. 클럭 글리칭 (Clock Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/772_clock_glitching/) →
+<- **이전**: [770. PACMAN 공격 (ARM PAC 우회)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/770_pacman_attack/)
+**다음**: [772. 클럭 글리칭 (Clock Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/772_clock_glitching/) ->
 
 ---

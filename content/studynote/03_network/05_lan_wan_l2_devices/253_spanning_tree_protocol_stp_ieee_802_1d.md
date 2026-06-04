@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [MAC 주소 호핑]
-    │
-    ▼
+    |
+    v
 [스패닝 트리 프로토콜]
-    │
-    └──▶ [BPDU]
+    |
+    +---> [BPDU]
 ```
 
 - **📢 섹션 요약 비유**: ** STP는 거미줄처럼 엉킨 실타래(루프 네트워크)를 가위로 싹둑싹둑 잘라서, 물이 역류하지 않고 폭포수처럼 위에서 아래로만 흐르는 **"완벽한 나무뿌리 모양(Spanning Tree)의 물길"**로 정돈해 주는 조경사입니다.
@@ -56,26 +56,26 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 - 남은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 중에서, RP도 아니고 DP도 못 된 불쌍한 패배자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 **차단(Block, Non-Designated)** 모드로 들어가 입을 다문다. 루프가 완벽히 끊어지는 순간이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 동작 결과 도식 (루프 차단 과정)               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │            [ 루트 브리지 (대장!) ]                             │
- │             (우선순위: 4096)                                │
- │             DP ↙            ↘ DP                          │
- │      (Cost 4) /              \ (Cost 4)                   │
- │             ↙                  ↘                          │
- │         RP ↙                    ↘ RP                      │
- │    [ 스위치 B ] ──── (예비선) ──── [ 스위치 C ]                 │
- │              DP                BLOCK                        │
- │                                                             │
- │   * 설명:                                                     │
- │   1) 대장은 우선순위가 낮은 위쪽 스위치.                          │
- │   2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.           │
- │   3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.          │
- │   4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.             │
- │   5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                STP 동작 결과 도식 (루프 차단 과정)               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |            [ 루트 브리지 (대장!) ]                             |
+ |             (우선순위: 4096)                                |
+ |             DP ↙            ↘ DP                          |
+ |      (Cost 4) /              \ (Cost 4)                   |
+ |             ↙                  ↘                          |
+ |         RP ↙                    ↘ RP                      |
+ |    [ 스위치 B ] ---- (예비선) ---- [ 스위치 C ]                 |
+ |              DP                BLOCK                        |
+ |                                                             |
+ |   * 설명:                                                     |
+ |   1) 대장은 우선순위가 낮은 위쪽 스위치.                          |
+ |   2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.           |
+ |   3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.          |
+ |   4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.             |
+ |   5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!  |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. STP의 50초 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 문제
@@ -139,12 +139,12 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ```text
 [선행 개념: MAC 주소 호핑]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스패닝 트리 프로토콜]
-    │
-    ├──▶ [확장 A: BPDU]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: BPDU]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑에서 출발해 현재 메커니즘을 정교화하고, 이후 BPDU와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 **진행 상황**: 374 / 1120
 
-← **이전**: [252. MAC 주소 호핑 (MAC Flapping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/252_mac_address_hopping_flapping/)
-**다음**: [254. BPDU (Bridge Protocol Data Unit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) →
+<- **이전**: [252. MAC 주소 호핑 (MAC Flapping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/252_mac_address_hopping_flapping/)
+**다음**: [254. BPDU (Bridge Protocol Data Unit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) ->
 
 ---

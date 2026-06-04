@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object, DTO)은 계층 또는 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아 전달하기 위한 순수 전송 객체다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 그대로 외부로 노출하면 불필요한 필드 공개와 결합 증가가 발생한다. 이 개념이 필요한 이유는 전달용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태를 별도로 정의하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 화면·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 저장 모델까지 직접 흔들게 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│    Data    │──▶│    DTO     │──▶│  Boundary  │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|    Data    |--->|    DTO     |--->|  Boundary  |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Caller  │──▶│ Contract │──▶│   DTO    │──▶│  Store   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Caller  |--->| Contract |--->|   DTO    |--->|  Store   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object, DTO)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[도메인 직접 노출] → [DTO 분리] → [계약 중심 전달]
+[도메인 직접 노출] -> [DTO 분리] -> [계약 중심 전달]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object, DTO)은 선생님께 전달할 메모를 공책 전체가 아니라 필요한 내용만 적어 보내는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 479 / 530
 
-← **이전**: [400. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/)
-**다음**: [402. 데이터 접근 객체 (Data Access Object, DAO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/402_process/) →
+<- **이전**: [400. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/)
+**다음**: [402. 데이터 접근 객체 (Data Access Object, DAO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/402_process/) ->
 
 ---

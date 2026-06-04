@@ -45,21 +45,21 @@ tags = ["studynote-operating-system"]
 아래 그림은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 위치를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   long-term scheduling admission flow                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Disk Job Pool                                                              │
-│ [J1][J2][J3][J4][J5]                                                       │
-│        │                                                                   │
-│        ├── check memory capacity                                           │
-│        ├── check CPU-bound / I/O-bound mix                                 │
-│        └── check policy / priority                                         │
-│                ▼                                                           │
-│         Long-term Scheduler                                                │
-│                ▼ admit                                                     │
-│       Ready Queue in Main Memory                                           │
-│      [P1][P3][P4] ──▶ Short-term Scheduler ──▶ CPU                         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   long-term scheduling admission flow                      |
++----------------------------------------------------------------------------+
+| Disk Job Pool                                                              |
+| [J1][J2][J3][J4][J5]                                                       |
+|        |                                                                   |
+|        +-- check memory capacity                                           |
+|        +-- check CPU-bound / I/O-bound mix                                 |
+|        +-- check policy / priority                                         |
+|                v                                                           |
+|         Long-term Scheduler                                                |
+|                v admit                                                     |
+|       Ready Queue in Main Memory                                           |
+|      [P1][P3][P4] ---> Short-term Scheduler ---> CPU                         |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 단순히 빈자리가 생길 때 하나 채우는 것이 아니다. 시스템 안에 이미 CPU 바운드 작업이 많다면 다음에는 I/O 바운드 작업을 선택해 CPU와 장치가 번갈아 바쁘게 돌아가도록 만드는 것이 더 유리할 수 있다. 그래서 장기 스케줄링은 공정성보다도 <strong>적절한 작업 조합을 설계하는 문제</strong>에 가깝다.
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 | :--- | :--- | :--- | :--- |
 | 개입 시점 | 작업이 시스템에 들어올 때 | 실행 중 메모리 압박 시 | 매우 자주, CPU 배정 시 |
 | 주요 자원 | 전체 시스템 수용량 | 메모리 상주 집합 | CPU 시간 |
-| 대표 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → Ready | Ready/Waiting ↔ Suspended | Ready → Running |
+| 대표 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> Ready | Ready/Waiting ↔ Suspended | Ready -> Running |
 | 핵심 목표 | 적정 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) 유지 | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 완화 | 응답성·공정성 확보 |
 
 또한 역사적 관점도 중요하다. 전통적 배치 시스템에서는 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 분명한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이었지만, 현대 시분할 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 사용자 응답성을 위해 프로그램 실행 요청을 즉시 받아들이는 경향이 강하다. 대신 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), 중기 스케줄링, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 제한 같은 메커니즘이 뒤에서 부하를 조절한다.
@@ -135,17 +135,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 배치 시스템의 Job Pool
-        │
-        ▼
+        |
+        v
 장기 스케줄러의 입장 통제
-        │
-        ▼
+        |
+        v
 다중 프로그래밍 정도 · CPU/I/O mix 최적화
-        │
-        ▼
+        |
+        v
 가상 메모리 · 시분할 시스템으로 역할 축소
-        │
-        ▼
+        |
+        v
 HPC / 클러스터 workload admission으로 철학 계승
 ```
 
@@ -163,7 +163,7 @@ HPC / 클러스터 workload admission으로 철학 계승
 
 **진행 상황**: 163 / 800
 
-← **이전**: [162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)
-**다음**: [164. I/O 바운드 프로세스 (I/O Bound Process)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/164_io_bound_process/) →
+<- **이전**: [162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)
+**다음**: [164. I/O 바운드 프로세스 (I/O Bound Process)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/164_io_bound_process/) ->
 
 ---

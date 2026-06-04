@@ -36,22 +36,22 @@ CPI의 계산은 단순하지만, 해석은 [EVM](/knowledge-base/studynote/12_i
 아래 그림은 EVM에서 CPI가 어떤 정보 흐름으로 만들어지는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 CPI가 만들어지는 EVM 정보 흐름                    │
-├────────────────────────────────────────────────────────────────────┤
-│ 기준선(Baseline) ──▶ PV(Planned Value, 계획 가치)                │
-│                            │                                      │
-│ 실제 진척률 측정 ──────────┴─▶ EV(Earned Value, 획득 가치)        │
-│ 실제 지출 집계 ─────────────▶ AC(Actual Cost, 실제 비용)          │
-│                                                                    │
-│ EV ÷ AC = CPI                                                      │
-│    │                                                               │
-│    ├─▶ CPI > 1 : 예산보다 효율적                                  │
-│    ├─▶ CPI = 1 : 계획과 일치                                      │
-│    └─▶ CPI < 1 : 예산보다 비효율적                                │
-│                                                                    │
-│ BAC ÷ CPI = EAC(완료 예상 총비용)                                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 CPI가 만들어지는 EVM 정보 흐름                    |
++--------------------------------------------------------------------+
+| 기준선(Baseline) ---> PV(Planned Value, 계획 가치)                |
+|                            |                                      |
+| 실제 진척률 측정 ----------+--> EV(Earned Value, 획득 가치)        |
+| 실제 지출 집계 --------------> AC(Actual Cost, 실제 비용)          |
+|                                                                    |
+| EV ÷ AC = CPI                                                      |
+|    |                                                               |
+|    +--> CPI > 1 : 예산보다 효율적                                  |
+|    +--> CPI = 1 : 계획과 일치                                      |
+|    +--> CPI < 1 : 예산보다 비효율적                                |
+|                                                                    |
+| BAC ÷ CPI = EAC(완료 예상 총비용)                                 |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 EV가 8억 원이고 AC가 10억 원이면 CPI는 0.8이다. 이는 1원을 써서 0.8원어치 가치만 만들고 있다는 뜻이며, 현재 효율이 유지된다고 가정하면 완료 시점 총비용은 BAC보다 커질 가능성이 높다. 이처럼 CPI는 단순 상태 보고를 넘어 미래 예측으로 바로 연결된다.
@@ -146,18 +146,18 @@ CPI를 제대로 운영하면 비용 문제를 늦게 발견하는 일을 줄일
 
 ```text
 기준선 수립(BAC · PV)
-    │
-    ▼
+    |
+    v
 진척 측정(EV) + 비용 집계(AC)
-    │
-    ▼
+    |
+    v
 CPI (Cost Performance Index)
-    │
-    ├─▶ CV (Cost Variance)와 비용 차이 확인
-    ├─▶ SPI (Schedule Performance Index)와 일정 결합 분석
-    └─▶ EAC / ETC / TCPI로 미래 예측
-            │
-            ▼
+    |
+    +--> CV (Cost Variance)와 비용 차이 확인
+    +--> SPI (Schedule Performance Index)와 일정 결합 분석
+    +--> EAC / ETC / TCPI로 미래 예측
+            |
+            v
 재계획 · 예산 조정 · 포트폴리오 통제
 ```
 
@@ -175,7 +175,7 @@ CPI (Cost Performance Index)
 
 **진행 상황**: 272 / 587
 
-← **이전**: [157. SV (Schedule Variance, 일정 차이)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)
-**다음**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) →
+<- **이전**: [157. SV (Schedule Variance, 일정 차이)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)
+**다음**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ->
 
 ---

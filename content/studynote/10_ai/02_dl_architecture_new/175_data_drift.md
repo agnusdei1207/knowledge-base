@@ -26,21 +26,21 @@ tags = ["studynote-ai"]
 아래 그림은 왜 오프라인에서 좋던 모델이 운영에서 조용히 약해지는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why offline accuracy decays after deployment                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training window                                                     │
-│   winter queries, old camera, weekday-heavy users                  │
-│        │                                                            │
-│        ▼                                                            │
-│ Model deployment                                                    │
-│        │                                                            │
-│ Live window                                                         │
-│   spring queries, new camera noise, mobile-heavy users             │
-│        │                                                            │
-│        └─ predictions continue, labels arrive later                │
-│                     -> silent quality decay                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why offline accuracy decays after deployment                         |
++----------------------------------------------------------------------+
+| Training window                                                     |
+|   winter queries, old camera, weekday-heavy users                  |
+|        |                                                            |
+|        v                                                            |
+| Model deployment                                                    |
+|        |                                                            |
+| Live window                                                         |
+|   spring queries, new camera noise, mobile-heavy users             |
+|        |                                                            |
+|        +- predictions continue, labels arrive later                |
+|                     -> silent quality decay                         |
++----------------------------------------------------------------------+
 ```
 
 결국 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 이해한다는 것은 "모델의 수명은 코드가 아니라 입력 환경에 의해 결정된다"는 사실을 받아들이는 일이다. 운영 중인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 시스템은 배포 완료가 끝이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경 변화와의 장기전 안에 놓여 있다.
@@ -56,19 +56,19 @@ tags = ["studynote-ai"]
 실무에서는 학습 시점의 기준 분포를 저장해 두고, 운영 입력을 일정 시간 창(window)으로 묶어 비교한다. 이때 PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), KS 검정 (Kolmogorov-Smirnov Test), KL 발산 ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)), Jensen-Shannon Divergence 같은 통계 거리를 사용해 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)별 변화를 측정한다. 수치형과 범주형, 단일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 결합 분포에 따라 적합한 지표가 달라지므로 "한 개 지표로 끝내는 감시"는 보통 부족하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Drift monitoring loop                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training data -> baseline stats / schema                           │
-│        │                                                            │
-│        ▼                                                            │
-│ Live feature window -> drift scorer -> alert threshold             │
-│        │                  │                                          │
-│        │                  ├─ PSI / KS / KL / Jensen-Shannon        │
-│        │                  └─ segment-level comparison              │
-│        ▼                                                            │
-│ Root-cause analysis -> retrain / preprocess fix / threshold tune   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Drift monitoring loop                                               |
++----------------------------------------------------------------------+
+| Training data -> baseline stats / schema                           |
+|        |                                                            |
+|        v                                                            |
+| Live feature window -> drift scorer -> alert threshold             |
+|        |                  |                                          |
+|        |                  +- PSI / KS / KL / Jensen-Shannon        |
+|        |                  +- segment-level comparison              |
+|        v                                                            |
+| Root-cause analysis -> retrain / preprocess fix / threshold tune   |
++----------------------------------------------------------------------+
 ```
 
 | 감시 대상 | 대표 지표 | 해석 포인트 |
@@ -159,24 +159,24 @@ tags = ["studynote-ai"]
 
 ```text
 정적 오프라인 학습 데이터
-    │
-    ▼
+    |
+    v
 운영 입력 모니터링
-    │
-    ▼
+    |
+    v
 피처별 분포 거리 계산
-    │
-    ▼
+    |
+    v
 원인 분석
-    ├─ 계절성 변화
-    ├─ 사용자군 변화
-    ├─ 센서 / 채널 변화
-    └─ 파이프라인 오류 구분
-    │
-    ▼
+    +- 계절성 변화
+    +- 사용자군 변화
+    +- 센서 / 채널 변화
+    +- 파이프라인 오류 구분
+    |
+    v
 재학습 · 전처리 수정 · 임계값 조정
-    │
-    ▼
+    |
+    v
 폐루프 MLOps 운영
 ```
 
@@ -194,7 +194,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 175 / 420
 
-← **이전**: [174. MLOps (Machine Learning Operations)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/174_mlops/)
-**다음**: [176. 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/176_concept_drift/) →
+<- **이전**: [174. MLOps (Machine Learning Operations)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/174_mlops/)
+**다음**: [176. 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/176_concept_drift/) ->
 
 ---

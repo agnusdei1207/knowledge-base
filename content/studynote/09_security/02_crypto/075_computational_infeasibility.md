@@ -26,8 +26,8 @@ tags = ["studynote-software-engineering"]
 
 ```text
 secret -> algorithm -> attacker search cost -> infeasible -> security
-                   │
-                   └─ 2^n growth
+                   |
+                   +- 2^n growth
 ```
 
 핵심은 공격자가 포기하는 것이 아니라, 끝내지 못하게 만드는 데 있다.
@@ -108,17 +108,17 @@ computational infeasibility는 암호학의 현실주의를 보여 준다. 보�
 
 ```text
 secret
-  │
-  ▼
+  |
+  v
 algorithm
-  │
-  ▼
+  |
+  v
 search cost
-  │
-  ▼
+  |
+  v
 infeasible
-  │
-  ▼
+  |
+  v
 security
 ```
 
@@ -134,7 +134,7 @@ security
 
 **진행 상황**: 75 / 1108
 
-← **이전**: [074. 일회용 패드 (One-Time Pad)](/knowledge-base/studynote/09_security/02_crypto/074_one_time_pad/)
-**다음**: [76. 대칭키 암호 (Symmetric Encryption) — 동일한 키로 암호화/복호화](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) →
+<- **이전**: [074. 일회용 패드 (One-Time Pad)](/knowledge-base/studynote/09_security/02_crypto/074_one_time_pad/)
+**다음**: [76. 대칭키 암호 (Symmetric Encryption) — 동일한 키로 암호화/복호화](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) ->
 
 ---

@@ -38,21 +38,21 @@ tags = ["studynote-devops"]
 | **Reconciliation Loop** | 드리프트(Drift) 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | Git 명세([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))와 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(Actual [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 지속 비교하여 불일치 시 자동 재조정 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Pull-based GitOps 아키텍처 (보안 격리 구조)        │
-├──────────────────────────────────────────────────────────────┤
-│ [외부 환경]                    │ [쿠버네티스 클러스터 내부]  │
-│                                │                             │
-│ 1. 개발자 Commit               │                             │
-│       │                        │   3. Pull (변경 감지)       │
-│       ▼                        │      ◀───────────┐          │
-│ 2. Git 저장소 (SSOT) ◀────────┼─ ArgoCD Controller │          │
-│    (Desired State)             │      │            │          │
-│                                │      ▼            │          │
-│    * CI 서버는 Git만           │   4. K8s API Apply │          │
-│      업데이트하고 배포 끝      │      ▼            │          │
-│                                │  실제 파드 (Actual State)    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Pull-based GitOps 아키텍처 (보안 격리 구조)        |
++--------------------------------------------------------------+
+| [외부 환경]                    | [쿠버네티스 클러스터 내부]  |
+|                                |                             |
+| 1. 개발자 Commit               |                             |
+|       |                        |   3. Pull (변경 감지)       |
+|       v                        |      <------------+          |
+| 2. Git 저장소 (SSOT) <---------+- ArgoCD Controller |          |
+|    (Desired State)             |      |            |          |
+|                                |      v            |          |
+|    * CI 서버는 Git만           |   4. K8s API Apply |          |
+|      업데이트하고 배포 끝      |      v            |          |
+|                                |  실제 파드 (Actual State)    |
++--------------------------------------------------------------+
 ```
 
 이 루프 구조의 가장 큰 특징은 <strong>자동 치유(Auto-healing)</strong>다. 누군가 수동 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 무단으로 변경하더라도, 에이전트가 즉각 이를 감지하고 Git에 선언된 원래 상태로 되돌려버린다.
@@ -118,20 +118,20 @@ Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [�
 ```text
 [배포의 한계와 위험]
 Push-based Deployment (외부 CI의 과도한 권한)
-        │
-        ▼
+        |
+        v
 [보안 및 권한 분리 모델]
 CI/CD 파이프라인 분리 (App Repo vs Config Repo)
-        │
-        ▼
+        |
+        v
 [새로운 배포 패러다임]
 Pull-based Deployment (클러스터 내부 통제)
-        │
-        ▼
+        |
+        v
 [선언형 인프라의 완성]
 GitOps 아키텍처 및 SSOT 확립
-        │
-        ▼
+        |
+        v
 [자동화의 끝판왕]
 Reconciliation Loop를 통한 Auto-healing (자동 복구)
 ```
@@ -148,7 +148,7 @@ Reconciliation Loop를 통한 Auto-healing (자동 복구)
 
 **진행 상황**: 88 / 373
 
-← **이전**: [87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/)
-**다음**: [89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/089_argocd_gitops_continuous_delivery_kubernetes/) →
+<- **이전**: [87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/)
+**다음**: [89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/089_argocd_gitops_continuous_delivery_kubernetes/) ->
 
 ---

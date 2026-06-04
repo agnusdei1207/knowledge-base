@@ -20,9 +20,9 @@ TDD는 레드-그린-리팩터 (Red-Green-[Refactor](/knowledge-base/studynote/0
 설계감리나 기술사 서술에서는 “TDD는 품질보증 활동이면서 설계 유도 기법”이라는 관점이 핵심이다. 테스트가 먼저 존재하면 인터페이스가 지나치게 복잡한지, 결합도가 높은지, 의존성이 숨겨져 있는지를 구현 전에 발견할 수 있다. 특히 변경이 잦은 업무 시스템에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구현 속도보다 장기 유지보수성이 더 중요하므로 TDD의 효과가 커진다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 실패 테스트 │──▶│ 최소 구현   │──▶│ 구조 개선   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| 실패 테스트 |--->| 최소 구현   |--->| 구조 개선   |
++------------+   +------------+   +------------+
 ```
 
 따라서 시험 답안에서는 “테스트를 많이 만드는 기법”이라고 좁게 정의하지 말고, 요구사항을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 단위로 분해하는 설계 절차라고 써야 한다.
@@ -38,11 +38,11 @@ TDD의 핵심 원리는 짧은 [피드백 루프](/knowledge-base/studynote/15_d
 | [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | 중복 제거, 구조 개선, 회귀 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 테스트가 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망으로 기능하는지 정리 |
 
 ```text
-┌──────┐   ┌──────┐   ┌──────────┐
-│ 요구  │──▶│ 테스트 │──▶│ 구현/개선 │
-└──────┘   └──┬───┘   └────┬─────┘
-              │            │
-              └────회귀 검증┴────반복
++------+   +------+   +----------+
+| 요구  |--->| 테스트 |--->| 구현/개선 |
++------+   +--+---+   +----+-----+
+              |            |
+              +----회귀 검증+----반복
 ```
 
 여기서 중요한 설계 원리는 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)), 순수 함수화, 경계 분리다. 테스트하기 어려운 코드는 대개 책임이 과도하게 섞여 있고, 외부 자원 의존성이 강하다. 즉 TDD는 테스트 기술이면서 동시에 좋은 객체지향 설계를 강제하는 장치다.
@@ -83,13 +83,13 @@ TDD를 정착시키면 [결함](/knowledge-base/studynote/04_software_engineerin
 - **📢 섹션 요약 비유**: 건물 모형을 먼저 검토하고 본공사에 들어가면 큰 실수를 훨씬 줄일 수 있다.
 
 ### 📌 관련 개념 맵
-- [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) → 실패 테스트 → 요구사항 명세화
-- 실패 테스트 → 최소 구현 → 과잉 설계 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
-- 테스트 자동화 → 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 → 빠른 피드백 → 품질 문화 정착
+- [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) -> 실패 테스트 -> 요구사항 명세화
+- 실패 테스트 -> 최소 구현 -> 과잉 설계 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
+- 테스트 자동화 -> 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 -> 빠른 피드백 -> 품질 문화 정착
 
 ### 📈 관련 키워드 및 발전 흐름도
-수동 테스트 → [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 → [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) → [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 연계 → 테스트 피라미드 최적화 → [지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) 기반 품질관리
+수동 테스트 -> [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 -> [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 연계 -> 테스트 피라미드 최적화 -> [지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) 기반 품질관리
 
 - 핵심 키워드: Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/), 설계 단순화
 
@@ -104,7 +104,7 @@ TDD를 정착시키면 [결함](/knowledge-base/studynote/04_software_engineerin
 
 **진행 상황**: 489 / 530
 
-← **이전**: [410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/410_process/)
-**다음**: [412. 행위 주도 개발 (Behavior-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) →
+<- **이전**: [410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/410_process/)
+**다음**: [412. 행위 주도 개발 (Behavior-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) ->
 
 ---

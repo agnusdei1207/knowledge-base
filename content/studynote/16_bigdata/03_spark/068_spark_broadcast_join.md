@@ -66,20 +66,20 @@ Broadcast Join은 '[데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```text
 [셔플 해시 조인 (Shuffle Hash Join) — 양쪽 테이블 전체 셔플, 네트워크 비용 O(N+M)]
-    │
-    ▼
+    |
+    v
 [소트 병합 조인 (Sort-Merge Join) — 정렬 후 병합, 대용량 대용량 조인 기본 전략]
-    │
-    ▼
+    |
+    v
 [브로드캐스트 조인 (Broadcast Join) — 소규모 테이블 전 노드 복사, 셔플 제로]
-    │
-    ▼
+    |
+    v
 [버킷 조인 (Bucket Join) — 사전 버킷팅으로 셔플 없이 로컬 조인, 반복 조인 최적화]
-    │
-    ▼
+    |
+    v
 [AQE (Adaptive Query Execution) — 런타임 통계 기반 동적 조인 전략 전환]
-    │
-    ▼
+    |
+    v
 [DPP (Dynamic Partition Pruning) — 브로드캐스트 필터로 대규모 테이블 파티션 제거]
 ```
 이 흐름은 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조인의 네트워크 셔플 비용을 줄이기 위해 브로드캐스트 조인이 도입되고, 런타임 적응형 실행과 동적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 제거로 진화하는 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 최적화 기법의 발전을 보여준다.
@@ -95,7 +95,7 @@ Broadcast Join은 '[데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 **진행 상황**: 68 / 262
 
-← **이전**: [Spark 데이터 직렬화 (Data Serialization)](/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/)
-**다음**: [18. Skew Join — 데이터 쏠림 조인 최적화](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) →
+<- **이전**: [Spark 데이터 직렬화 (Data Serialization)](/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/)
+**다음**: [18. Skew Join — 데이터 쏠림 조인 최적화](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) ->
 
 ---

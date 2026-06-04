@@ -224,7 +224,7 @@ Discovery Kanban, Design Thinking과 통합
 
 **진행 상황**: 68 / 587
 
-← **이전**: [38. 양손잡이 조직 (Ambidextrous Organization)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
-**다음**: [039. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_design_thinking/) →
+<- **이전**: [38. 양손잡이 조직 (Ambidextrous Organization)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
+**다음**: [039. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_design_thinking/) ->
 
 ---

@@ -22,25 +22,25 @@ tags = ["studynote-it-management"]
 정보기술이 단순 비용 센터(Cost Center)에서 **전략적 비즈니스 인에이블러(Strategic Business Enabler)**로 격상되면서, IT 투자의 정당화·운영 효율성·리스크 통제를 통합 관리하는 체계의 부재가 기업의 디지털 경쟁력 약화로 직결되고 있다. 과거 CFO 중심의 CAPEX/OPEX 단순 회계 관리는 클라우드·AI·데이터 거버넌스 시대의 복잡한 의사결정 요구를 충족하지 못한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│            IT 경영 관리 4계층 통합 프레임워크 (요약)               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   ① 거버넌스(Governance)    ──  COBIT 2019, ISO 38500            │
-│       │   이사회의 책임, 정책·통제, 이해관계자 가치제공            │
-│       ▼                                                          │
-│   ② 전략 기획(Strategy)     ──  ISP(Information Strategy Planning)│
-│       │   SWOT, TOBE 모델, BSC, Portfolio 분석                   │
-│       ▼                                                          │
-│   ③ 운영 관리(Operations)   ──  ITIL 4 SVS, SIAM, DevOps         │
-│       │   SLA, Incident/Problem/Change, SRE                      │
-│       ▼                                                          │
-│   ④ 통제·감사(Control/Audit)──  ISO 27001, SOX, IS Audit         │
-│       │   K-ISMS, 개인정보보호법, GDPR, 내부통제                  │
-│       ▼                                                          │
-│   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   │
-│   ✦ 핵심 4대 영역: Alignment / Value / Risk / Resource           │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            IT 경영 관리 4계층 통합 프레임워크 (요약)               |
++------------------------------------------------------------------+
+|                                                                  |
+|   ① 거버넌스(Governance)    --  COBIT 2019, ISO 38500            |
+|       |   이사회의 책임, 정책·통제, 이해관계자 가치제공            |
+|       v                                                          |
+|   ② 전략 기획(Strategy)     --  ISP(Information Strategy Planning)|
+|       |   SWOT, TOBE 모델, BSC, Portfolio 분석                   |
+|       v                                                          |
+|   ③ 운영 관리(Operations)   --  ITIL 4 SVS, SIAM, DevOps         |
+|       |   SLA, Incident/Problem/Change, SRE                      |
+|       v                                                          |
+|   ④ 통제·감사(Control/Audit)--  ISO 27001, SOX, IS Audit         |
+|       |   K-ISMS, 개인정보보호법, GDPR, 내부통제                  |
+|       v                                                          |
+|   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   |
+|   ✦ 핵심 4대 영역: Alignment / Value / Risk / Resource           |
++------------------------------------------------------------------+
 ```
 
 **기존 vs 신규 패러다임 비교**
@@ -57,34 +57,34 @@ tags = ["studynote-it-management"]
 IT 경영 관리의 핵심은 **COBIT 2019의 거버넌스/관리 목표 체계(40개Governance & Management Objectives)**를 최상위 개념으로 두고, 하위에 프로세스·사람·기술·정보를 배치한 **Cascade Model**이다. IT 전략은 비즈니스 목표(예: 신규 수익원 확보)에서 출발하여 BSC 4관점(재무·고객·내부프로세스·학습성장)의 KPI로 변환되고, 이를 ITIL 4의 34개 Practice로 실행·운영하며, ISO 27001 Annex A 통제항목과 ISMS 인증으로 통제한다.
 
 ```text
-            ┌─────────────────────────────────────┐
-            │       비즈니스 전략 및 목표          │
-            │  (Vision, Mission, SWOT, BSC 재무)  │
-            └──────────────┬──────────────────────┘
-                           │ 정렬(Alignment)
-            ┌──────────────▼──────────────────────┐
-            │   IT 전략 & 거버넌스 (COBIT EDM)     │
-            │   ─ Stakeholder Needs & Goals       │
-            │   ─ Risk Appetite & Tolerance       │
-            │   ─ 목표 계층화(Cascading Goals)     │
-            └──────────────┬──────────────────────┘
-                           │
-       ┌───────────────────┼───────────────────┐
-       ▼                   ▼                   ▼
- ┌──────────┐        ┌──────────┐        ┌──────────┐
- │전략 기획  │        │서비스 운영│        │통제/감사  │
- │ISP,EA    │        │ITIL 4    │        │ISO27001  │
- │Portfolio │        │DevOps    │        │K-ISMS    │
- │BSC/KPI   │        │SRE,SIAM  │        │SOX,GDPR  │
- └────┬─────┘        └────┬─────┘        └────┬─────┘
-      │                   │                   │
-      └───────────────────┴───────────────────┘
-                          │
-            ┌─────────────▼─────────────┐
-            │   Value Delivery & 측정    │
-            │  ROI, NPV, TCO, NPS, SLA  │
-            │  Maturity Level (1~5)     │
-            └───────────────────────────┘
+            +-------------------------------------+
+            |       비즈니스 전략 및 목표          |
+            |  (Vision, Mission, SWOT, BSC 재무)  |
+            +--------------+----------------------+
+                           | 정렬(Alignment)
+            +--------------v----------------------+
+            |   IT 전략 & 거버넌스 (COBIT EDM)     |
+            |   - Stakeholder Needs & Goals       |
+            |   - Risk Appetite & Tolerance       |
+            |   - 목표 계층화(Cascading Goals)     |
+            +--------------+----------------------+
+                           |
+       +-------------------+-------------------+
+       v                   v                   v
+ +----------+        +----------+        +----------+
+ |전략 기획  |        |서비스 운영|        |통제/감사  |
+ |ISP,EA    |        |ITIL 4    |        |ISO27001  |
+ |Portfolio |        |DevOps    |        |K-ISMS    |
+ |BSC/KPI   |        |SRE,SIAM  |        |SOX,GDPR  |
+ +----+-----+        +----+-----+        +----+-----+
+      |                   |                   |
+      +-------------------+-------------------+
+                          |
+            +-------------v-------------+
+            |   Value Delivery & 측정    |
+            |  ROI, NPV, TCO, NPS, SLA  |
+            |  Maturity Level (1~5)     |
+            +---------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -101,7 +101,7 @@ IT 경영 관리의 핵심은 **COBIT 2019의 거버넌스/관리 목표 체계(
 - **NPV (Net Present Value)**: `Σ(CFt / (1+r)^t) - 초기투자`, IT 투자 의사결정의 핵심 척도 (r=할인율, 통상 8~12%)
 - **ROI**: `(Benefits - Costs) / Costs × 100%`, 통상 IT 프로젝트 기준 15% 이상 목표
 - **성과 균형 점수(BSC Score)**: 재무(20%) + 고객(30%) + 내부프로세스(30%) + 학습성장(20%) 가중치
-- **Maturity Level**: COBIT 0(Incomplete) → 1(Initial) → 2(Managed) → 3(Defined) → 4(Quantitatively Managed) → 5(Optimizing)
+- **Maturity Level**: COBIT 0(Incomplete) -> 1(Initial) -> 2(Managed) -> 3(Defined) -> 4(Quantitatively Managed) -> 5(Optimizing)
 
 - **📢 섹션 요약 비유**: COBIT의 EDM-APO-BAI-DSS-MEA는 마치 **병원 진료 시스템**과 같습니다. 의사(EDM)가 진단하고, 접수실(APO)이 일정을 잡고, 수술팀(BAI)이 시술하며, 간호사(DSS)가 돌보고, 의무기록팀(MEA)이 사후 점검을 합니다.
 
@@ -136,7 +136,7 @@ IT 경영 관리의 주요 프레임워크는 서로 **상호보완적** 관계�
 
 ### 기술사형 판단 체크리스트
 
-1. **비즈니스-IT 정렬도(Strategic Alignment Maturity)**: Henderson & Venkatraman 모델 기준 L1(Initiated) → L5(Optimized) 중 현재 단계는? 정렬 갭(Gap) 2단계 이상 시 EA 재정비 필요
+1. **비즈니스-IT 정렬도(Strategic Alignment Maturity)**: Henderson & Venkatraman 모델 기준 L1(Initiated) -> L5(Optimized) 중 현재 단계는? 정렬 갭(Gap) 2단계 이상 시 EA 재정비 필요
 2. **IT 거버넌스 위원회 운영**: 분기 1회 이상 개최 여부, 의사결정 사항의 RACI(Responsible, Accountable, Consulted, Informed) 매트릭스 명확성, 크로스펑셔널 CIO-CFO-CISO 합동 의사결정 구조 유무
 3. **IT 투자 포트폴리오 관리**: BCG/McKinsey 매트릭스 분류(Star/Cash Cow/Question Mark/Dog) 적용, 신규 투자 중 Question Mark 비중 30% 미만 유지, 포트폴리오 리밸런싱 주기 6개월 단위
 4. **컴플라이언스 동시 충족**: 개인정보보호법(PIPA) + 정보통신망법 + GDPR + 전자상거래법 + 전자금융거래법 등 다중 규제 매핑표(RACI × Regulation Matrix) 작성, DPO(데이터보호책임자) 지정 및 정기 교육(연 8시간 이상)
@@ -144,11 +144,11 @@ IT 경영 관리의 주요 프레임워크는 서로 **상호보완적** 관계�
 
 ### 피해야 할 안티패턴
 
-- **Shadow IT 방치**: 클라우드 SaaS(예: 미승인 ChatGPT Enterprise, 미인가 Dropbox) 사용을 통제 없이 허용 → 데이터 유출·컴플라이언스 위반 위험. **대응**: CASB(Cloud Access Security Broker) 도입, 승인된 SaaS 카탈로그 운영
-- **ROI 계산 생략 또는 형식화**: 정성적 효과만으로 투자 승인 → 포트폴리오 균형 붕괴. **대응**: 재정적 ROI + 전략적 ROI + 리스크 감소 ROI의 3축 점수 모델 적용
+- **Shadow IT 방치**: 클라우드 SaaS(예: 미승인 ChatGPT Enterprise, 미인가 Dropbox) 사용을 통제 없이 허용 -> 데이터 유출·컴플라이언스 위반 위험. **대응**: CASB(Cloud Access Security Broker) 도입, 승인된 SaaS 카탈로그 운영
+- **ROI 계산 생략 또는 형식화**: 정성적 효과만으로 투자 승인 -> 포트폴리오 균형 붕괴. **대응**: 재정적 ROI + 전략적 ROI + 리스크 감소 ROI의 3축 점수 모델 적용
 - **KPI가 너무 많거나 측정 불가**: BSC에 50개 이상 KPI 등록, 실제 데이터 수집 안 됨. **대응**: 핵심 7~12개 KPI로 압축(Smart KPI: Specific/Measurable/Attainable/Relevant/Time-bound)
-- **프로세스·사람·기술의 불균형**: 도구(예: ServiceNow)만 도입하고 거버넌스 문화 부재 → 'Shelfware'화. **대응**: ADKAR(Kotter) 변화관리 모델 적용, 8단계 Kotter 변화 프로세스 수행
-- **사일로 조직과 수직 보고체계**: CIO가 CFO/CTO 양쪽 이중 보고 → 의사결정 지연. **대응**: IT Steering Committee에 사업부 VP 의무 참석, 매월 KPI 리뷰
+- **프로세스·사람·기술의 불균형**: 도구(예: ServiceNow)만 도입하고 거버넌스 문화 부재 -> 'Shelfware'화. **대응**: ADKAR(Kotter) 변화관리 모델 적용, 8단계 Kotter 변화 프로세스 수행
+- **사일로 조직과 수직 보고체계**: CIO가 CFO/CTO 양쪽 이중 보고 -> 의사결정 지연. **대응**: IT Steering Committee에 사업부 VP 의무 참석, 매월 KPI 리뷰
 
 - **📢 섹션 요약 비유**: 안티패턴은 마치 **자동차를 엔진만 좋은 차체로 운전하는 것**과 같습니다. 아무리 좋은 SIEM·Gartner Magic Quadrant 솔루션을 도입해도, 거버넌스 문화가 없이는 사고가 나는 것과 같습니다.
 
@@ -159,9 +159,9 @@ IT 경영 관리의 주요 프레임워크는 서로 **상호보완적** 관계�
 | 영역 | 정량 효과 | 정성 효과 |
 | :--- | :--- | :--- |
 | **IT 운영 효율** | TCO 20~35% 절감, MTTR 50% 단축 | 사용자 만족도(NPS) 상승, 부서 간 협업 개선 |
-| **위험 관리** | 보안사고 60% 감소, 컴플라이언스 위반 80%↓ | 평판 보호, 규제 리스크 예측 가능 |
+| **위험 관리** | 보안사고 60% 감소, 컴플라이언스 위반 80%v | 평판 보호, 규제 리스크 예측 가능 |
 | **전략 가치** | IT 투자 ROI 평균 25% 향상, Time-to-Market 40% 단축 | 디지털 전환 성공률 2배, 사업敏捷성(Agility) 확보 |
-| **감사·통제** | 내부감사 소요시간 70% 단축, 통제 누락 90%↓ | 투명한 보고 체계, 이사회 신뢰도↑ |
+| **감사·통제** | 내부감사 소요시간 70% 단축, 통제 누락 90%v | 투명한 보고 체계, 이사회 신뢰도^ |
 
 **한계 및 리스크**
 
@@ -182,7 +182,7 @@ IT 경영 관리의 주요 프레임워크는 서로 **상호보완적** 관계�
 
 **진행 상황**: 546 / 800
 
-← **이전**: [545. IT 경영 관리 핵심 토픽 545번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/545_it_management_core_topic_545_exam_summary/)
-**다음**: [547. IT 경영 관리 핵심 토픽 547번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/547_it_management_core_topic_547_exam_summary/) →
+<- **이전**: [545. IT 경영 관리 핵심 토픽 545번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/545_it_management_core_topic_545_exam_summary/)
+**다음**: [547. IT 경영 관리 핵심 토픽 547번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/547_it_management_core_topic_547_exam_summary/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [Gratuitous ARP]
-    │
-    ▼
+    |
+    v
 [ARP 캐시 오염]
-    │
-    └──▶ [ICMP 진단/오류 알림]
+    |
+    +---> [ICMP 진단/오류 알림]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>은 동네 내비게이션(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 테이블) 앱을 해킹해서, </strong>"서울 가는 고속도로 톨게이트(라우터)"** 목적지 좌표를 **"산골짜기 해커의 아지트(해커 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))"**로 몰래 바꿔치기하여 모든 차량을 납치하는 톨게이트 사기극입니다.
@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 공격의 완벽한 3단계 (MITM)
-- **정상 상태**: 피해자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(IP: 10번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)) ──▶ 진짜 공유기(IP: 1번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))로 통신 중.
+- **정상 상태**: 피해자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(IP: 10번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)) ---> 진짜 공유기(IP: 1번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))로 통신 중.
 - **해커 난입**: 해커 노트북(IP: 99번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): HH)이 같은 사무실 랜선에 몰래 꽂혔다.
 
 1. **독약 살포 (Poisoning)**: 해커가 칼리 리눅스(arpspoof 툴 등)를 켜서 1초에 한 번씩 위조된 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 응답(Reply)을 방송한다. "여러분! 게이트웨이(1번)의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 RR이 아니라 내 MAC인 HH입니다!"
@@ -48,19 +48,19 @@ tags = ["studynote-network"]
 3. **가로채기와 릴레이 (Sniffing & Relay)**: 이제 피해자 PC가 네이버 아이디/비밀번호를 로그인해서 보낸다. 이 패킷은 1번(게이트웨이)을 향해 쏘아졌지만, 도착지는 해커의 노트북(HH)이 된다. 해커는 패킷 분석기(와이어샤크)로 비밀번호를 쏙 빼먹은 뒤, 피해자가 인터넷이 끊겨서 의심하지 않도록 패킷을 진짜 공유기([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))로 다시 보내준다. (완벽한 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ARP 스푸핑 (중간자 공격, MITM) 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 피해자 PC ] ARP 캐시: "공유기 MAC은 해커 꺼다!"                 │
- │       │                                                     │
- │       │  (1. 패킷 탈취)                (2. 몰래 전달)           │
- │       ▼                               ▼                     │
- │   [ 해커 노트북 ] ─────────────────────────▶ [ 진짜 공유기 ]       │
- │   "오호, 비밀번호가 1234군."                    (인터넷으로 나감)     │
- │                                                             │
- │   * 피해자 입장: 인터넷이 평소보다 아주 살~짝 느려질 뿐 전혀 눈치채지 못함.│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ARP 스푸핑 (중간자 공격, MITM) 시각화           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 피해자 PC ] ARP 캐시: "공유기 MAC은 해커 꺼다!"                 |
+ |       |                                                     |
+ |       |  (1. 패킷 탈취)                (2. 몰래 전달)           |
+ |       v                               v                     |
+ |   [ 해커 노트북 ] --------------------------> [ 진짜 공유기 ]       |
+ |   "오호, 비밀번호가 1234군."                    (인터넷으로 나감)     |
+ |                                                             |
+ |   * 피해자 입장: 인터넷이 평소보다 아주 살~짝 느려질 뿐 전혀 눈치채지 못함.|
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 한계와 탐지
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Gratuitous ARP]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARP 캐시 오염]
-    │
-    ├──▶ [확장 A: ICMP 진단/오류 알림]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: ICMP 진단/오류 알림]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염는 Gratuitous ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 진단/오류 알림와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 438 / 1120
 
-← **이전**: [316. Gratuitous ARP (G-ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/)
-**다음**: [318. ICMP (Internet Control Message Protocol) 진단/오류 알림](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) →
+<- **이전**: [316. Gratuitous ARP (G-ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/)
+**다음**: [318. ICMP (Internet Control Message Protocol) 진단/오류 알림](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) ->
 
 ---

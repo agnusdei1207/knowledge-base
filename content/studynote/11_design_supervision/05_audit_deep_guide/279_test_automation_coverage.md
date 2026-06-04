@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 테스트 자동화 커버리지 감리는 테스트 자동화(Test Automation) 범위와 커버리지(Coverage) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 개발 주기가 짧아지면서 테스트를 뒤에서 많이 하는 방식보다 앞단에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 예방하는 품질 체계가 중요해졌다. 특히 위험기반 커버리지가 기준선으로 정리되지 않으면 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)는 사람 의존 절차로 흩어지고, 최종적으로 플래키 테스트가 남지 않아 의사결정이 감각에 의존하게 된다. 예방 활동이 약하면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 후반부에 폭증해 일정과 비용을 동시에 압박한다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 위험기반 커버리지 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 통합 테스트 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 플래키 테스트 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 위험기반 커버리지 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 통합 테스트 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 플래키 테스트 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 테스트 자동화 커버리지 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 플래키 테스트를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 위험기반 커버리지, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), 플래키 테스트는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: Shift Left 품질 체계(Shift Left Quality)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[위험기반 커버리지] → [테스트 자동화 커버리지 감리] → [Shift Left 품질 체계(Shift Left Quality)]
+[위험기반 커버리지] -> [테스트 자동화 커버리지 감리] -> [Shift Left 품질 체계(Shift Left Quality)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 위험기반 커버리지는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 340 / 530
 
-← **이전**: [278. SLA와 MTTR 측정 감리 (SLA and MTTR Measurement Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/278_sla_mttr_measurement/)
-**다음**: [280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/280_inspection_peer_review_audit/) →
+<- **이전**: [278. SLA와 MTTR 측정 감리 (SLA and MTTR Measurement Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/278_sla_mttr_measurement/)
+**다음**: [280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/280_inspection_peer_review_audit/) ->
 
 ---

@@ -47,20 +47,20 @@ SMBIOS는 크게 "엔트리 포인트"와 "구조체 테이블"로 이뤄진다.
 아래 그림은 SMBIOS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 소비되는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    SMBIOS data path                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Firmware / UEFI                                                   │
-│   │                                                               │
-│   ▼                                                               │
-│ Entry Point -> Type 0 -> Type 1 -> Type 2 -> Type 4 -> Type 17    │
-│   │                                                               │
-│   ▼                                                               │
-│ OS tools : dmidecode / WMI / inventory agent                      │
-│   │                                                               │
-│   ▼                                                               │
-│ CMDB / monitoring / provisioning / support workflow               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    SMBIOS data path                               |
++--------------------------------------------------------------------+
+| Firmware / UEFI                                                   |
+|   |                                                               |
+|   v                                                               |
+| Entry Point -> Type 0 -> Type 1 -> Type 2 -> Type 4 -> Type 17    |
+|   |                                                               |
+|   v                                                               |
+| OS tools : dmidecode / WMI / inventory agent                      |
+|   |                                                               |
+|   v                                                               |
+| CMDB / monitoring / provisioning / support workflow               |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 SMBIOS가 하드웨어를 직접 탐지해 얻은 "실시간 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"가 아니라, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 게시한 정적 설명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 사실이다. 따라서 내용이 유용하더라도 언제나 100% 진실이라고 가정하면 안 된다. 제조 과정에서 잘못 채워졌거나, 가상 머신이 의도적으로 다른 모델명을 에뮬레이션할 수도 있다.
@@ -137,17 +137,17 @@ SMBIOS의 가장 큰 효과는 자동화 가능성이다. [운영체제](/knowle
 
 ```text
 벤더별 제각각인 시스템 식별 정보
-    │
-    ▼
+    |
+    v
 DMI 기반 관리 정보 표준화 시도
-    │
-    ▼
+    |
+    v
 SMBIOS 구조체 테이블 정착
-    │
-    ▼
+    |
+    v
 OS 도구 · 에이전트 기반 자동 수집
-    │
-    ▼
+    |
+    v
 CMDB · 프로비저닝 · 가상화 인벤토리 연동
 ```
 
@@ -165,7 +165,7 @@ CMDB · 프로비저닝 · 가상화 인벤토리 연동
 
 **진행 상황**: 709 / 803
 
-← **이전**: [707. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/707_acpi/)
-**다음**: [709. IPMI (Intelligent Platform Management Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/) →
+<- **이전**: [707. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/707_acpi/)
+**다음**: [709. IPMI (Intelligent Platform Management Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/) ->
 
 ---

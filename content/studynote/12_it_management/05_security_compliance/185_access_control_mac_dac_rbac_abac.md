@@ -34,21 +34,21 @@ tags = ["studynote-it-management"]
 네 가지 모델의 차이는 결국 "접근 허용 여부를 누가 무엇으로 판단하는가"에 있다. MAC은 시스템이 레이블과 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 등급을 강제로 비교하고, DAC은 자원 소유자가 권한을 나눠 준다. RBAC은 사용자에게 직접 권한을 주기보다 역할을 매개로 권한을 묶고, ABAC은 주체·객체·환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 평가해 결정을 내린다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Access control decision lens                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Request = Subject + Object + Action + Context                       │
-│        │                                                            │
-│        ▼                                                            │
-│ Decision model                                                      │
-│   MAC  -> label vs clearance                                        │
-│   DAC  -> owner / ACL                                               │
-│   RBAC -> role -> permission map                                    │
-│   ABAC -> attribute policy evaluation                               │
-│        │                                                            │
-│        ▼                                                            │
-│ Enforcement point -> allow / deny / log                             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Access control decision lens                                        |
++----------------------------------------------------------------------+
+| Request = Subject + Object + Action + Context                       |
+|        |                                                            |
+|        v                                                            |
+| Decision model                                                      |
+|   MAC  -> label vs clearance                                        |
+|   DAC  -> owner / ACL                                               |
+|   RBAC -> role -> permission map                                    |
+|   ABAC -> attribute policy evaluation                               |
+|        |                                                            |
+|        v                                                            |
+| Enforcement point -> allow / deny / log                             |
++----------------------------------------------------------------------+
 ```
 
 이 구조가 보여 주는 핵심은 네 모델이 모두 "허용/거부"를 내리지만, 판단의 근거가 다르다는 점이다. 그래서 동일한 시스템이라도 규정 준수, 운영 편의성, 예외 처리 방식이 크게 달라진다. 예를 들어 MAC은 강력하지만 예외가 어렵고, ABAC은 유연하지만 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 품질과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 복잡도가 성패를 가른다.
@@ -148,26 +148,26 @@ MAC의 대표 원리는 "No Read Up, No Write Down" 같은 보안 규칙이고, 
 
 ```text
 기밀 등급 중심 통제
-    │
-    ▼
+    |
+    v
 MAC (Mandatory Access Control)
-    │
-    ▼
+    |
+    v
 파일 소유권 중심 공유
-    │
-    ▼
+    |
+    v
 DAC (Discretionary Access Control)
-    │
-    ▼
+    |
+    v
 조직 역할 중심 권한 묶음
-    │
-    ▼
+    |
+    v
 RBAC (Role-Based Access Control)
-    │
-    ▼
+    |
+    v
 속성 · 문맥 · 위험 기반 정책
-    │
-    ▼
+    |
+    v
 ABAC 및 적응형 접근 제어
 ```
 
@@ -185,7 +185,7 @@ ABAC 및 적응형 접근 제어
 
 **진행 상황**: 299 / 587
 
-← **이전**: [184. 제로 트러스트 아키텍처 (Zero Trust Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)
-**다음**: [186. 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/) →
+<- **이전**: [184. 제로 트러스트 아키텍처 (Zero Trust Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)
+**다음**: [186. 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/) ->
 
 ---

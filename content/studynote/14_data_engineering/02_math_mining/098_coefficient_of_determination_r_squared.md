@@ -36,21 +36,21 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong>: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          R-Squared 분해 원리 (SST = SSR + SSE)            │
-├─────────────────────────────────────────────────────────────┤
-│                 ▲ Y (종속 변수)                            │
-│                 │          ● (실제 데이터 포인트)          │
-│                 │          │                             │
-│ 전체 변동(SST)  │          │ ◀─ 설명 못 한 오차 (SSE)      │
-│                 │          ▼                             │
-│                 │       ／ ◼ ◀─ 회귀 모델 (예측값 Ŷ)     │
-│                 │    ／    │                             │
-│                 │ ／       │ ◀─ 모델이 설명한 부분 (SSR) │
-│                 ├──────────▼─ ◀─ 평균선 (Ȳ)              │
-│                 │                                        │
-│                 └────────────────────────────────────▶ X │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          R-Squared 분해 원리 (SST = SSR + SSE)            |
++-------------------------------------------------------------+
+|                 ^ Y (종속 변수)                            |
+|                 |          ● (실제 데이터 포인트)          |
+|                 |          |                             |
+| 전체 변동(SST)  |          | <-- 설명 못 한 오차 (SSE)      |
+|                 |          v                             |
+|                 |       ／ ◼ <-- 회귀 모델 (예측값 Ŷ)     |
+|                 |    ／    |                             |
+|                 | ／       | <-- 모델이 설명한 부분 (SSR) |
+|                 +----------v- <-- 평균선 (Ȳ)              |
+|                 |                                        |
+|                 +-------------------------------------> X |
++-------------------------------------------------------------+
 ```
 
 결정 계수의 수식은 **$R^2 = \frac{[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)}{SST} = 1 - \frac{[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)}{SST}$** 이다. 모델의 예측이 완벽하면 오차([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 0이 되어 $R^2$는 1이 되고, 모델이 단순히 평균값(Ȳ)으로만 예측한다면 SSR이 0이 되어 $R^2$는 0이 된다.
@@ -119,14 +119,14 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 ```text
 절대 오차 측정 (MSE, RMSE)
-    │ 데이터 스케일 의존성 한계
-    ▼
+    | 데이터 스케일 의존성 한계
+    v
 상대적 설명력 지표 (R-Squared)
-    │ 다중 변수 투입 시 과적합 발생 (맹목적 증가)
-    ▼
+    | 다중 변수 투입 시 과적합 발생 (맹목적 증가)
+    v
 패널티 적용 모델 (Adjusted R-Squared)
-    │ 비선형 모델 로지스틱 회귀 등으로의 확장
-    ▼
+    | 비선형 모델 로지스틱 회귀 등으로의 확장
+    v
 유사 결정 계수 (McFadden's Pseudo R-Squared)
 ```
 
@@ -144,7 +144,7 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 **진행 상황**: 98 / 258
 
-← **이전**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/)
-**다음**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/knowledge-base/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/) →
+<- **이전**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/)
+**다음**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/knowledge-base/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/) ->
 
 ---

@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 왜 본질적으로 빠른지, [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 경로 자체가 짧다는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why register addressing is fast                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction bits : opcode | rs1 | rs2 | rd                        │
-│                               │     │                              │
-│                               ▼     ▼                              │
-│                         Register File read                         │
-│                               │                                    │
-│                               ▼                                    │
-│                           ALU execute                              │
-│                                                                    │
-│ skipped path : EA generation -> cache lookup -> memory return      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why register addressing is fast                                    |
++--------------------------------------------------------------------+
+| instruction bits : opcode | rs1 | rs2 | rd                        |
+|                               |     |                              |
+|                               v     v                              |
+|                         Register File read                         |
+|                               |                                    |
+|                               v                                    |
+|                           ALU execute                              |
+|                                                                    |
+| skipped path : EA generation -> cache lookup -> memory return      |
++--------------------------------------------------------------------+
 ```
 
 핵심은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 "저장 위치 탐색"보다 "이미 준비된 값 선택"에 가깝다는 점이다. 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 안에서도 메모리 전체 주소를 담는 것보다 수십 개 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중 하나를 고르는 편이 훨씬 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 가능하므로, 속도와 코드 밀도를 동시에 챙길 수 있다.
@@ -64,17 +64,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 ISA의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호가 실제 실행 경로로 어떻게 흘러가는지를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ISA operand path for register addressing                           │
-├────────────────────────────────────────────────────────────────────┤
-│ ADD rd, rs1, rs2                                                   │
-│      │    │    │                                                   │
-│      │    │    └─ src B index -> read port B ------------------┐   │
-│      │    └────── src A index -> read port A ---------------┐  │   │
-│      └──────────── dst index  -> write-back tag             │  │   │
-│                                                             ▼  ▼   │
-│                        Register File / rename map -> ALU -> wb     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| ISA operand path for register addressing                           |
++--------------------------------------------------------------------+
+| ADD rd, rs1, rs2                                                   |
+|      |    |    |                                                   |
+|      |    |    +- src B index -> read port B ------------------+   |
+|      |    +------ src A index -> read port A ---------------+  |   |
+|      +------------ dst index  -> write-back tag             |  |   |
+|                                                             v  v   |
+|                        Register File / rename map -> ALU -> wb     |
++--------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 있다"가 곧 "언제나 싸다"는 뜻은 아니라는 점이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 많이 제공할수록 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 배선, 소비전력, [context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 함께 늘어난다. 따라서 설계자는 무조건 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)보다, 충분히 빠르면서도 관리 가능한 개수를 찾는 쪽에 집중한다.
@@ -109,15 +109,15 @@ tags = ["studynote-computer-architecture"]
 아래 판단 흐름은 값 하나를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 붙잡아 둘지 말지를 결정할 때 보는 핵심 질문을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Keep value in register?                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ reused in a hot path soon?                                         │
-│   ├─ yes -> keep in register                                       │
-│   └─ no                                                            │
-│        ├─ large live set? -> spill / recompute trade-off           │
-│        └─ memory object?  -> keep load/store boundary explicit     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Keep value in register?                                            |
++--------------------------------------------------------------------+
+| reused in a hot path soon?                                         |
+|   +- yes -> keep in register                                       |
+|   +- no                                                            |
+|        +- large live set? -> spill / recompute trade-off           |
+|        +- memory object?  -> keep load/store boundary explicit     |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -167,21 +167,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 memory wall
-    │
-    ▼
+    |
+    v
 General-Purpose Register
-    │
-    ▼
+    |
+    v
 Register File + multi-port read/write
-    │
-    ▼
+    |
+    v
 load/store ISA
-    │
-    ├──────────────▶ compiler register allocation
-    │
-    ├──────────────▶ forwarding / pipelining
-    │
-    └──────────────▶ spill and context-switch cost
+    |
+    +---------------> compiler register allocation
+    |
+    +---------------> forwarding / pipelining
+    |
+    +---------------> spill and context-switch cost
 ```
 
 이 흐름도는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 단순한 문법이 아니라, 메모리 병목을 줄이기 위해 등장해 컴파일러·파이프라인·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 비용까지 이어지는 구조적 축임을 보여 준다.
@@ -198,7 +198,7 @@ load/store ISA
 
 **진행 상황**: 175 / 803
 
-← **이전**: [174. 즉시 주소 지정 (Immediate)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)
-**다음**: [176. 직접 주소 지정 (Direct)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) →
+<- **이전**: [174. 즉시 주소 지정 (Immediate)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)
+**다음**: [176. 직접 주소 지정 (Direct)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) ->
 
 ---

@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 2020년 DDPM (Ho et al.)이 이미지 품질에서 GAN을 처음 넘어섰고, DALL-E 2, Stable Diffusion, Imagen의 핵심 기술이 됐다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 "눈보라에 맞아 지워진 그림을 원래대로 복원하는" 과정을 학습한다. 눈을 어떻게 뿌렸는지 알면 반대로 지울 수 있다.
@@ -55,30 +55,30 @@ xₜ = √ᾱₜ·x₀ + √(1-ᾱₜ)·ε,  ε ~ N(0,I)
 
 ```
 학습 목표: 역전이 분포 pθ(xₜ₋₁|xₜ) 추정
-pθ(xₜ₋₁|xₜ) = N(xₜ₋₁; μθ(xₜ,t), σₜ²I)
+pθ(xₜ₋₁|xₜ) = N(xₜ₋₁; μθ(xₜ,t), σₜ^I)
 
 DDPM 핵심 통찰: μθ 예측 대신 노이즈 ε 예측:
 εθ(xₜ, t): t시점의 노이즈 예측 신경망
 
 간소화된 학습 목표 (VLB 하한):
-L_simple = E_{t,x₀,ε}[||ε - εθ(√ᾱₜ·x₀ + √(1-ᾱₜ)·ε, t)||²]
+L_simple = E_{t,x₀,ε}[||ε - εθ(√ᾱₜ·x₀ + √(1-ᾱₜ)·ε, t)||^]
 ```
 
 ```
-┌────────────────────────────────────────────────────────┐
-│  순방향: x₀ →[+ε₁]→ x₁ →[+ε₂]→ x₂ → ... → xₜ≈N(0,I)│
-│                                                        │
-│  역방향: xₜ →[εθ예측]→ xₜ₋₁ → ... → x₀ (복원)         │
-│          ↑                                             │
-│     t, xₜ 입력 → UNet → 예측 노이즈 εθ(xₜ,t)          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  순방향: x₀ ->[+ε₁]-> x₁ ->[+ε₂]-> x₂ -> ... -> xₜ≈N(0,I)|
+|                                                        |
+|  역방향: xₜ ->[εθ예측]-> xₜ₋₁ -> ... -> x₀ (복원)         |
+|          ^                                             |
+|     t, xₜ 입력 -> UNet -> 예측 노이즈 εθ(xₜ,t)          |
++--------------------------------------------------------+
 ```
 
 | 구성요소 | 역할 | 설계 선택 |
 |:---|:---|:---|
 | 노이즈 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | β₁,...,βT 결정 | 선형, 코사인(IDDPM) |
 | 역방향 신경망 | εθ 예측 | UNet + 셀프 어텐션 |
-| 샘플링 방법 | xₜ→x₀ 경로 | DDPM(T=1000), DDIM(빠름) |
+| 샘플링 방법 | xₜ->x₀ 경로 | DDPM(T=1000), DDIM(빠름) |
 | 조건부 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 텍스트/클래스 조건 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 없는 가이던스(CFG) |
 
 ### DDIM (Denoising Diffusion Implicit Models)
@@ -86,7 +86,7 @@ L_simple = E_{t,x₀,ε}[||ε - εθ(√ᾱₜ·x₀ + √(1-ᾱₜ)·ε, t)||²
 마르코프 조건을 완화한 비마르코프 역방향 과정:
 ```
 DDPM: T=1000 샘플링 스텝 필요
-DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품질 생성
+DDIM: 결정론적(η=0) 또는 확률적(η=1) -> 50~100 스텝으로 고품질 생성
 ```
 
 - **📢 섹션 요약 비유**: DDPM의 샘플링은 1000번 지우개질, DDIM은 100번 지우개질로 같은 품질을 달성하는 더 효율적인 복원 방법이다.
@@ -108,7 +108,7 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**Stable Diffusion**: [Latent Diffusion Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) - 픽셀 공간 대신 잠재 공간에서 디퓨전 → 4~8배 효율 향상
+**Stable Diffusion**: [Latent Diffusion Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) - 픽셀 공간 대신 잠재 공간에서 디퓨전 -> 4~8배 효율 향상
 <strong>조건부 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: CFG (Classifier-Free Guidance) - 텍스트 조건 없는/있는 예측의 선형 결합
 **아키텍처**: U-Net에 크로스 어텐션(텍스트 조건), 타임 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 추가
 
@@ -131,8 +131,8 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | DDPM | Ho et al., 노이즈 예측 / [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 기초 |
-| 순방향 과정 | 가우시안 추가, β [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 노이즈 |
-| 역방향 과정 | εθ 예측, UNet / 노이즈 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 순방향 과정 | 가우시안 추가, β [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 노이즈 |
+| 역방향 과정 | εθ 예측, UNet / 노이즈 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | DDIM | 비마르코프, 가속 샘플링 / 효율적 역과정 |
 | CFG | 텍스트 조건, 가이던스 / 조건부 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 제어 |
 | Latent Diffusion | 잠재 공간, Stable Diffusion / 계산 효율화 |
@@ -140,7 +140,7 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [디퓨전 역과정 (Reverse Diffusion Process)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [디퓨전 역과정 (Reverse Diffusion Process)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -155,7 +155,7 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 
 **진행 상황**: 391 / 420
 
-← **이전**: [390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/390_maml_meta_learning/)
-**다음**: [392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) →
+<- **이전**: [390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/390_maml_meta_learning/)
+**다음**: [392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) ->
 
 ---

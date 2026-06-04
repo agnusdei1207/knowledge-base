@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 게이팅 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Gating)은 일이 없는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 뱅크와 기능 블록에 클럭 전달 자체를 멈춰, 불필요한 스위칭 활동을 원천 차단하는 대표적인 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 절감 기법이다.
-> 2. **가치**: [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 대략 `P_dynamic ≈ α × C × V² × f`에 비례하므로, 클럭 게이팅은 활동률 `α`를 낮춰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태를 유지한 채 유휴 블록 전력을 빠르게 줄이는 데 특히 강하다.
+> 2. **가치**: [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 대략 `P_dynamic ≈ α × C × V^ × f`에 비례하므로, 클럭 게이팅은 활동률 `α`를 낮춰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태를 유지한 채 유휴 블록 전력을 빠르게 줄이는 데 특히 강하다.
 > 3. **판단 포인트**: 단순히 AND 게이트로 클럭을 막으면 글리치(Glitch)와 타이밍 문제가 생길 수 있으므로, 실제 설계에서는 ICG (Integrated [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Gate) 셀·클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계·유휴 시간 길이를 함께 판단해야 한다.
 
 ---
@@ -26,26 +26,26 @@ tags = ["studynote-computer-architecture"]
 이 그림은 "클럭이 계속 가면 일이 없어도 전력이 든다"는 점과, 클럭을 차단하면 어디서 절감이 발생하는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          클럭 게이팅의 출발점: 유휴 블록에도 클럭이 가면 전력이 샌다       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 기준 클럭 ───────────────▶ 클럭 트리 (Clock Tree) ───────────────┐         │
-│                                                                  │         │
-│                     ┌──────────────────────┐                     │         │
-│                     │ 정수 연산기          │ ◀── 현재 실제 사용  │         │
-│                     └──────────────────────┘                     │         │
-│                                                                  │         │
-│                     ┌──────────────────────┐                     │         │
-│                     │ 부동소수점 유닛      │ ◀── 지금은 유휴     │         │
-│                     └──────────────────────┘                     │         │
-│                                                                  │         │
-│                     ┌──────────────────────┐                     │         │
-│                     │ 비디오 처리 블록     │ ◀── 지금은 유휴     │         │
-│                     └──────────────────────┘                     │         │
-│                                                                  │         │
-│ 유휴 블록에도 클럭이 남아 있으면: FF 샘플링 + 버퍼 충방전 + 배선 토글 지속    │
-│ 유휴 블록 앞에서 클럭을 차단하면: 해당 분기 활동률 α 감소 + 동적 전력 절감    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          클럭 게이팅의 출발점: 유휴 블록에도 클럭이 가면 전력이 샌다       |
++----------------------------------------------------------------------------+
+| 기준 클럭 ----------------> 클럭 트리 (Clock Tree) ---------------+         |
+|                                                                  |         |
+|                     +----------------------+                     |         |
+|                     | 정수 연산기          | <--- 현재 실제 사용  |         |
+|                     +----------------------+                     |         |
+|                                                                  |         |
+|                     +----------------------+                     |         |
+|                     | 부동소수점 유닛      | <--- 지금은 유휴     |         |
+|                     +----------------------+                     |         |
+|                                                                  |         |
+|                     +----------------------+                     |         |
+|                     | 비디오 처리 블록     | <--- 지금은 유휴     |         |
+|                     +----------------------+                     |         |
+|                                                                  |         |
+| 유휴 블록에도 클럭이 남아 있으면: FF 샘플링 + 버퍼 충방전 + 배선 토글 지속    |
+| 유휴 블록 앞에서 클럭을 차단하면: 해당 분기 활동률 α 감소 + 동적 전력 절감    |
++----------------------------------------------------------------------------+
 ```
 
 클럭 게이팅은 그래서 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하는 절전"이 아니라 "쓸모없는 박자만 없애는 절전"으로 이해해야 한다. 물론 영구적인 전원 차단은 아니므로 누설 전류까지 없애지는 못한다. 하지만 복귀 지연이 매우 짧고 상태를 그대로 유지할 수 있어, 짧고 잦은 유휴 구간을 다루는 데는 가장 실용적이다.
@@ -63,28 +63,28 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 ICG 셀이 필요한지, 그리고 어떤 순서로 클럭이 안전하게 차단되는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                ICG 셀의 역할: 클럭을 막되, 잘못된 엣지는 만들지 않기        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 잘못된 방식                                                               │
-│                                                                            │
-│   CLK ───────┐                                                             │
-│              ├─ AND ─────────────▶ Gated Clock                             │
-│   EN  ───────┘                                                             │
-│                                                                            │
-│ EN이 CLK 상승 직전 흔들리면 → 짧은 펄스 발생 가능 → 오동작 위험            │
-│                                                                            │
-│ 올바른 방식: ICG (Integrated Clock Gate)                                  │
-│                                                                            │
-│   EN ─────────▶ 래치 ───────┐                                              │
-│                            ├─ AND ───▶ Gated Clock ───▶ Register Bank      │
-│   CLK ─────────────────────┘                                              │
-│                                                                            │
-│ 동작 순서                                                                  │
-│   1) CLK가 안전 구간일 때만 래치가 EN 값을 캡처                            │
-│   2) 캡처된 EN으로만 클럭 통과 여부 결정                                   │
-│   3) EN=0이면 엣지 자체가 뒤로 전달되지 않음                               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                ICG 셀의 역할: 클럭을 막되, 잘못된 엣지는 만들지 않기        |
++----------------------------------------------------------------------------+
+| 잘못된 방식                                                               |
+|                                                                            |
+|   CLK -------+                                                             |
+|              +- AND --------------> Gated Clock                             |
+|   EN  -------+                                                             |
+|                                                                            |
+| EN이 CLK 상승 직전 흔들리면 -> 짧은 펄스 발생 가능 -> 오동작 위험            |
+|                                                                            |
+| 올바른 방식: ICG (Integrated Clock Gate)                                  |
+|                                                                            |
+|   EN ----------> 래치 -------+                                              |
+|                            +- AND ----> Gated Clock ----> Register Bank      |
+|   CLK ---------------------+                                              |
+|                                                                            |
+| 동작 순서                                                                  |
+|   1) CLK가 안전 구간일 때만 래치가 EN 값을 캡처                            |
+|   2) 캡처된 EN으로만 클럭 통과 여부 결정                                   |
+|   3) EN=0이면 엣지 자체가 뒤로 전달되지 않음                               |
++----------------------------------------------------------------------------+
 ```
 
 실무에서는 이 구조를 사람이 일일이 그리는 대신, RTL ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level) 코드의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) enable 패턴을 합성기가 찾아 자동으로 삽입하는 경우가 많다. 예를 들어 `if (load_en) reg <= data;` 같은 형태가 반복되면, 합성 도구는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 매번 평가하는 대신 클럭 자체를 멈추는 편이 더 낫다고 판단해 ICG 셀을 삽입한다. 이때 절감 대상은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 내부 토글뿐 아니라 그 앞단 클럭 버퍼와 분기 배선까지 포함된다.
@@ -175,24 +175,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 불필요한 레지스터 토글 인식
-        │
-        ▼
+        |
+        v
 레지스터 enable 기반 제어
-        │
-        ▼
+        |
+        v
 ICG (Integrated Clock Gate) 셀 도입
-        │
-        ▼
+        |
+        v
 합성기 자동 클럭 게이팅 삽입
-        │
-        ▼
+        |
+        v
 블록 단위 전력 관리 + DVFS 연계
-        │
-        ▼
+        |
+        v
 전원 도메인 기반 저전력 통합 설계
 ```
 
-이 흐름은 "개별 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) → 안전한 게이트 셀 → 자동화 → 계층형 저전력 관리"로 사고가 확장되는 과정을 보여준다.
+이 흐름은 "개별 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) -> 안전한 게이트 셀 -> 자동화 -> 계층형 저전력 관리"로 사고가 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -206,7 +206,7 @@ ICG (Integrated Clock Gate) 셀 도입
 
 **진행 상황**: 471 / 803
 
-← **이전**: [469. DVFS (동적 전압 및 주파수 스케일링)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)
-**다음**: [471. 전력 게이팅 (Power Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) →
+<- **이전**: [469. DVFS (동적 전압 및 주파수 스케일링)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)
+**다음**: [471. 전력 게이팅 (Power Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [IGRP]
-    │
-    ▼
+    |
+    v
 [EIGRP]
-    │
-    └──▶ [EIGRP 특징: 부분/바운디드 업데이트,…]
+    |
+    +---> [EIGRP 특징: 부분/바운디드 업데이트,…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> EIGRP는 전교 1등(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)의 꼼꼼한 노트 필기법(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 교환)과 전교 꼴찌(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>)의 단순한 뇌 구조(남의 말 믿기)를 융합하여, </strong>가장 빠르고 가벼우면서도 틀리지 않는 시험 정답([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 뽑아내는 하이브리드 잡종 천재**입니다.
@@ -57,25 +57,25 @@ EIGRP의 심장인 DUAL의 용어는 시험에 100% 단골 출제된다.
   - 이 이상한 공식을 통과한 2등 길만 토폴로지 장부에 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>용으로 합격 마크를 찍어둔다</strong>. (루프를 방지하기 위한 절대 수학 공식이다).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DUAL 알고리즘의 무중단 수렴(Convergence) 도식     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   목적지로 가는 두 갈래 길:                                       │
- │   [ 1번 윗길 ] 나 ─(5)─ A ─(5)─ 목적지  (총 10점, 내 친구 A는 5점) │
- │   [ 2번 아랫길 ] 나 ─(10)─ B ─(5)─ 목적지  (총 15점, 내 친구 B는 5점) │
- │                                                             │
- │   1. 1등 뽑기 (Successor):                                    │
- │      총점이 10점으로 더 싼 [1번 윗길] 당첨! (라우팅 테이블 등재)        │
- │                                                             │
- │   2. 2등 백업 자격 심사 (Feasible Successor 조건):               │
- │      B가 부르는 점수(AD=5) < 1등 총점(FD=10)                      │
- │      ▶ 5 < 10 이니까 합격! [2번 아랫길]은 훌륭한 백업이다!            │
- │                                                             │
- │   3. 기적의 수렴 (1번 선로 포크레인 컷!!):                           │
- │      1번 윗길 폭파됨 ──▶ 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"    │
- │      ──▶ **연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!**       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                DUAL 알고리즘의 무중단 수렴(Convergence) 도식     |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   목적지로 가는 두 갈래 길:                                       |
+ |   [ 1번 윗길 ] 나 -(5)- A -(5)- 목적지  (총 10점, 내 친구 A는 5점) |
+ |   [ 2번 아랫길 ] 나 -(10)- B -(5)- 목적지  (총 15점, 내 친구 B는 5점) |
+ |                                                             |
+ |   1. 1등 뽑기 (Successor):                                    |
+ |      총점이 10점으로 더 싼 [1번 윗길] 당첨! (라우팅 테이블 등재)        |
+ |                                                             |
+ |   2. 2등 백업 자격 심사 (Feasible Successor 조건):               |
+ |      B가 부르는 점수(AD=5) < 1등 총점(FD=10)                      |
+ |      -> 5 < 10 이니까 합격! [2번 아랫길]은 훌륭한 백업이다!            |
+ |                                                             |
+ |   3. 기적의 수렴 (1번 선로 포크레인 컷!!):                           |
+ |      1번 윗길 폭파됨 ---> 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"    |
+ |      ---> **연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!**       |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) (Reliable Transport [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)
@@ -141,12 +141,12 @@ EIGRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ```text
 [선행 개념: IGRP]
-    │
-    ▼
+    |
+    v
 [현재 개념: EIGRP]
-    │
-    ├──▶ [확장 A: EIGRP 특징: 부분/바운디드 업데이트,…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: EIGRP 특징: 부분/바운디드 업데이트,…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 EIGRP는 IGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 EIGRP 특징: 부분/바운디드 업데이트,…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ EIGRP는 IGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 EIG
 
 **진행 상황**: 476 / 1120
 
-← **이전**: [354. IGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/)
-**다음**: [356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor](/knowledge-base/studynote/03_network/07_network_layer_routing/356_eigrp_features_bounded_update_unequal_cost_load_balancing/) →
+<- **이전**: [354. IGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/)
+**다음**: [356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor](/knowledge-base/studynote/03_network/07_network_layer_routing/356_eigrp_features_bounded_update_unequal_cost_load_balancing/) ->
 
 ---

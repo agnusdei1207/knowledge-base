@@ -26,26 +26,26 @@ tags = ["studynote-operating-system"]
 사용자가 폴더 그림을 클릭할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 텍스트 번역 장부를 어떻게 까고 뒤지는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메커니즘으로 분해하면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 폴더(디렉터리)의 본질: 그저 2열 테이블(장부) 파일일 뿐!        │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  [ 사용자 뷰 (환상 가림막) ]                       [ 물리적 관점 (OS의 현실) ] │
-  │                                                                                │
-  │    📁 my_folder (더블클릭!)            ▶▶ OS 커널: "어 `my_folder` 내용 까봐!" │
-  │    ├── 📄 report.docx                 ▶▶ (실제 my_folder 라는 파일 내부엔...)  │
-  │    ├── 🎵 music.mp3                   ▶▶ ┌── (Symbol Table 배열 텍스트) ──┐    │
-  │    └── 📁 secret_sub                  ▶▶ │ [이름]          [Inode주소]  │      │
-  │                                           │ "report.docx" : 번호 104  │        │
-  │                                           │ "music.mp3"   : 번호 509  │        │
-  │                                           │ "secret_sub"  : 번호 992  │        │
-  │                                           └───────────────────────────┘        │
-  │                                                                                │
-  │  =============================================================                 │
-  │                                                                                │
-  │  [결론]: 디렉터리는 파란색 바구니가 아니라, 그저 "텍스트 2줄짜리 표"가 적힌    │
-  │         또 다른 특수한 '파일(File)'일 뿐이다. (Everything is a file)           │
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 폴더(디렉터리)의 본질: 그저 2열 테이블(장부) 파일일 뿐!        |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |  [ 사용자 뷰 (환상 가림막) ]                       [ 물리적 관점 (OS의 현실) ] |
+  |                                                                                |
+  |    📁 my_folder (더블클릭!)            ->-> OS 커널: "어 `my_folder` 내용 까봐!" |
+  |    +-- 📄 report.docx                 ->-> (실제 my_folder 라는 파일 내부엔...)  |
+  |    +-- 🎵 music.mp3                   ->-> +-- (Symbol Table 배열 텍스트) --+    |
+  |    +-- 📁 secret_sub                  ->-> | [이름]          [Inode주소]  |      |
+  |                                           | "report.docx" : 번호 104  |        |
+  |                                           | "music.mp3"   : 번호 509  |        |
+  |                                           | "secret_sub"  : 번호 992  |        |
+  |                                           +---------------------------+        |
+  |                                                                                |
+  |  =============================================================                 |
+  |                                                                                |
+  |  [결론]: 디렉터리는 파란색 바구니가 아니라, 그저 "텍스트 2줄짜리 표"가 적힌    |
+  |         또 다른 특수한 '파일(File)'일 뿐이다. (Everything is a file)           |
+  +--------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 서버에서 아무 폴더나 붙잡고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열듯 `cat 디렉터리명` 을 쳐보면 에러가 나거나 외계어 테이블 바이트가 튀어나온다. 즉 폴더 안에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 "들어있는" 게 절대 아니다. 폴더는 그저 `이름 -> 번호` 를 통역 매핑 적어놓은 일기장 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이며, 어플리케이션이 `report.docx`을 열어달라고 하면, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 저 디렉터리 일기장에서 `report.docx` 텍스트를 찾아 옆에 있는 `104`번 이라는 진짜 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) Inode 위치 좌표값을 토해내는 1차원적 매칭 룩업(Look-up) 행위만을 반복 수행할 뿐이다.
@@ -134,12 +134,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [색인 접근 (Indexed Access)]
-    │
-    ▼
+    |
+    v
 [디렉터리 (Directory) 구조]
-    │
-    ├──▶ [1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)]
-    └──▶ [트리 구조 디렉터리 (Tree-structured Directory)]
+    |
+    +---> [1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)]
+    +---> [트리 구조 디렉터리 (Tree-structured Directory)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -156,7 +156,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 506 / 800
 
-← **이전**: [505. 색인 접근 (Indexed Access)](/knowledge-base/studynote/02_operating_system/09_file_system/505_file_indexed_access_method/)
-**다음**: [507. 1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)](/knowledge-base/studynote/02_operating_system/09_file_system/507_single_two_level_directory_ufd/) →
+<- **이전**: [505. 색인 접근 (Indexed Access)](/knowledge-base/studynote/02_operating_system/09_file_system/505_file_indexed_access_method/)
+**다음**: [507. 1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)](/knowledge-base/studynote/02_operating_system/09_file_system/507_single_two_level_directory_ufd/) ->
 
 ---

@@ -22,7 +22,7 @@ tags = ["studynote-dataengineering"]
 FP16: 7B × 2B = 14GB
 INT4: 7B × 0.5B = 3.5GB (4배 축소)
 QLoRA = NF4 양자화 + LoRA + Double Quantization
-  → 단일 24GB GPU에서 65B 모델 Fine-tuning
+  -> 단일 24GB GPU에서 65B 모델 Fine-tuning
 ```
 
 - **📢 섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 <strong>고해상도 사진을 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하는 것이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(메모리)은 작아지지만 품질([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))은 거의 유지된다.
@@ -39,7 +39,7 @@ QLoRA = NF4 양자화 + LoRA + Double Quantization
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a></strong> | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)→INT 축소 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a></strong> | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)->INT 축소 |
 | <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/">QLoRA</a></strong> | 4비트+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) |
 | **GPTQ** | PTQ 도구 |
 | **AWQ** | 활성화 기반 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) |
@@ -48,9 +48,9 @@ QLoRA = NF4 양자화 + LoRA + Double Quantization
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[FP32 학습 (전통)] → [FP16/BF16 Mixed Precision (2018)]
-    → [INT8 양자화 (2020)] → [GPTQ (2022)]
-    → [QLoRA (2023)] → [현재: AWQ·GGUF — 추론 최적화]
+[FP32 학습 (전통)] -> [FP16/BF16 Mixed Precision (2018)]
+    -> [INT8 양자화 (2020)] -> [GPTQ (2022)]
+    -> [QLoRA (2023)] -> [현재: AWQ·GGUF — 추론 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ QLoRA = NF4 양자화 + LoRA + Double Quantization
 
 **진행 상황**: 146 / 258
 
-← **이전**: [145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)
-**다음**: [147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/) →
+<- **이전**: [145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)
+**다음**: [147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/) ->
 
 ---

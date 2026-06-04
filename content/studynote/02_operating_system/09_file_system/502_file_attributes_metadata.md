@@ -26,35 +26,35 @@ tags = ["studynote-operating-system"]
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 그 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Attributes) 정보가 디스크 내부에서 어떻게 철저히 격리 분리되어 생존하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 매핑 도로 까발리면 아래 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │                 파일의 이중 구조: 메타데이터(속성)와 실제 데이터 공간 방벽    │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │  [ 리눅스 파일 시스템(Ext4) 내부 관리 검문소 격리 ]                           │
-  │                                                                               │
-  │     🗂️ 사용자 시점 (파일 1개 합체 착각)                                       │
-  │     [  test.txt (10MB 텍스트 내용물)  ]  ◀ (사용자 눈엔 이렇게 1개로 보임)    │
-  │                                                                               │
-  │  ──────│────────────────────────────────────────────────────────│──
-  │        ▼ (OS 내부 장막의 철벽 분리 마이그레이션)                              │
-  │                                                                               │
-  │  1. [ 속성 통제소 (Inode Table - Metadata) 구역 ]   ▶ 용량 작음(256B)         │
-  │     ┌───────────────────────────────────┐                                     │
-  │     │ 🔹 식별자(ID): 140592 (고유번호) │                                      │
-  │     │ 🔹 보호(Perm): rwx-r--r-- (보안권한) │          포인터 빔 쏴!           │
-  │     │ 🔹 소유자(User): root / size: 10M│ ───────────────┓                     │
-  │     │ 🔹 시간(Time): 2026-03-22 수정   │                ┃                     │
-  │     │ 🔹 물리 위치(Location Pointer)  │ ─(여기부터 1번임!)─┫                  │
-  │     └───────────────────────────────────┘                ┃                    │
-  │                                                          ▼                    │
-  │  2. [ 실제 내용물 쓰레기장 (Data Block) 구역 ]      ▶ 용량 집어 삼킴(10MB)    │
-  │     ┌────────────────────────────────────────────────────────┐                │
-  │     │ "Hello World... (10MB 만큼의 진짜 본문 텍스트 글자 데이터)"   │         │
-  │     └────────────────────────────────────────────────────────┘                │
-  │                                                                               │
-  │  * 핵심: `ls -l` 명령어를 치면 OS는 "데이터 블록" 구역은 아예 가지도 않고     │
-  │          오직 "속성(Inode)" 구역만 초광속으로 읽어와 화면에 뿌려버린다!       │
-  └───────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------+
+  |                 파일의 이중 구조: 메타데이터(속성)와 실제 데이터 공간 방벽    |
+  +-------------------------------------------------------------------------------+
+  |                                                                               |
+  |  [ 리눅스 파일 시스템(Ext4) 내부 관리 검문소 격리 ]                           |
+  |                                                                               |
+  |     🗂️ 사용자 시점 (파일 1개 합체 착각)                                       |
+  |     [  test.txt (10MB 텍스트 내용물)  ]  <- (사용자 눈엔 이렇게 1개로 보임)    |
+  |                                                                               |
+  |  ------|--------------------------------------------------------|--
+  |        v (OS 내부 장막의 철벽 분리 마이그레이션)                              |
+  |                                                                               |
+  |  1. [ 속성 통제소 (Inode Table - Metadata) 구역 ]   -> 용량 작음(256B)         |
+  |     +-----------------------------------+                                     |
+  |     | 🔹 식별자(ID): 140592 (고유번호) |                                      |
+  |     | 🔹 보호(Perm): rwx-r--r-- (보안권한) |          포인터 빔 쏴!           |
+  |     | 🔹 소유자(User): root / size: 10M| ---------------┓                     |
+  |     | 🔹 시간(Time): 2026-03-22 수정   |                ┃                     |
+  |     | 🔹 물리 위치(Location Pointer)  | -(여기부터 1번임!)-┫                  |
+  |     +-----------------------------------+                ┃                    |
+  |                                                          v                    |
+  |  2. [ 실제 내용물 쓰레기장 (Data Block) 구역 ]      -> 용량 집어 삼킴(10MB)    |
+  |     +--------------------------------------------------------+                |
+  |     | "Hello World... (10MB 만큼의 진짜 본문 텍스트 글자 데이터)"   |         |
+  |     +--------------------------------------------------------+                |
+  |                                                                               |
+  |  * 핵심: `ls -l` 명령어를 치면 OS는 "데이터 블록" 구역은 아예 가지도 않고     |
+  |          오직 "속성(Inode)" 구역만 초광속으로 읽어와 화면에 뿌려버린다!       |
+  +-------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정보 라벨이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞 장에 같이 붙어 저장된다고 착각하지만, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 파편 관리를 위해 <strong>엄격하게 두 구역(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> Inode 테이블 vs <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 풀)을 대륙 가르듯 찢어놓는다.</strong> 만약 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 구역이 망가지면? 내용물은 멀쩡하게 기판에 10MB어치 살아있어도 디스크 주소 매핑 포인터(위치 위치값)를 송두리째 잃어 쓰레기 미아 고아 (Orphan) 공간이 되어버린다. [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 곧 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 증명하는 유일한 호적등본 뼈대인 셈이다.
@@ -150,12 +150,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [파일 (File)의 정의]
-    │
-    ▼
+    |
+    v
 [파일 속성 (Attributes)]
-    │
-    ├──▶ [매직 넘버 (Magic Number)]
-    └──▶ [파일 접근 방법]
+    |
+    +---> [매직 넘버 (Magic Number)]
+    +---> [파일 접근 방법]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -172,7 +172,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 502 / 800
 
-← **이전**: [501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-**다음**: [503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) →
+<- **이전**: [501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+**다음**: [503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) ->
 
 ---

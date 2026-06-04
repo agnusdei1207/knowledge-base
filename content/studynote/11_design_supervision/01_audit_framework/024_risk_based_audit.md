@@ -21,22 +21,22 @@ tags = ["studynote-design-supervision"]
 위험 기반 감리는 전통적인 "모든 항목 균등 점검" 방식에서 "고위험 집중 감리" 방식으로의 패러다임 전환이다.
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│          위험 기반 감리 위험 매트릭스                      │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  영향도   높음 │  중위험   ★고위험   ★최고위험           │
-│          중간 │  저위험    중위험   ★고위험               │
-│          낮음 │  무시     저위험    중위험                │
-│               └──────────────────────────              │
-│                 낮음      중간      높음  ← 발생 가능성   │
-│                                                         │
-│  감리 자원 배분:                                         │
-│  ★최고위험: 집중 감리 (40%)                              │
-│  ★고위험:  주요 감리 (30%)                               │
-│   중위험:  표준 감리 (20%)                               │
-│   저위험:  최소 감리 (10%)                               │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|          위험 기반 감리 위험 매트릭스                      |
++---------------------------------------------------------+
+|                                                         |
+|  영향도   높음 |  중위험   ★고위험   ★최고위험           |
+|          중간 |  저위험    중위험   ★고위험               |
+|          낮음 |  무시     저위험    중위험                |
+|               +--------------------------              |
+|                 낮음      중간      높음  <- 발생 가능성   |
+|                                                         |
+|  감리 자원 배분:                                         |
+|  ★최고위험: 집중 감리 (40%)                              |
+|  ★고위험:  주요 감리 (30%)                               |
+|   중위험:  표준 감리 (20%)                               |
+|   저위험:  최소 감리 (10%)                               |
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 위험 기반 감리는 소방서의 화재 위험 지도다. 모든 건물에 소방관을 균등 배치하는 대신, 화재 위험이 높은 건물(화학 공장, 목조 건물)에 더 많은 소방관을 집중 배치한다.
@@ -59,11 +59,11 @@ tags = ["studynote-design-supervision"]
 
 | 위험 영역 | 위험 요인 |
 |:---|:---|
-| **요구사항 변경** | 잦은 변경 → 범위 확대, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| **외부 인터페이스** | 레거시 연동 → 기술 불확실성 |
-| <strong>보안·<a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong> | 법적 의무 불이행 → 과징금 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 요구사항</strong> | 과소 테스트 → 운영 환경 병목 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전환</strong> | 오류 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 오픈 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 문제 |
+| **요구사항 변경** | 잦은 변경 -> 범위 확대, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| **외부 인터페이스** | 레거시 연동 -> 기술 불확실성 |
+| <strong>보안·<a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong> | 법적 의무 불이행 -> 과징금 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 요구사항</strong> | 과소 테스트 -> 운영 환경 병목 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전환</strong> | 오류 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 오픈 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 문제 |
 
 - **📢 섹션 요약 비유**: 고위험 영역 집중 감리는 의사가 증상이 없어도 가족력 있는 부위를 먼저 정밀 검사하는 것이다. 아픈 곳이 없다고 모든 곳을 같은 비중으로 검사하지 않고, 통계적으로 위험한 곳을 먼저 본다.
 
@@ -91,7 +91,7 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/">위험 식별</a></strong>: 레거시 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환(500GB), 36개 외부 시스템 연동, 2회 요구사항 변경 이력.
 2. **최고위험 선정**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환, 핵심 외부 인터페이스 10개.
 3. **감리 집중**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 계획·테스트 결과물 심층 검토, 인터페이스 명세서·[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 100% 샘플링.
-4. **결과**: 고위험 30% 영역에 감리 시간 60% 투입 → 오픈 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 오류 12건 사전 발견.
+4. **결과**: 고위험 30% 영역에 감리 시간 60% 투입 -> 오픈 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 오류 12건 사전 발견.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 위험 평가 없이 경험에만 의존하여 감리 영역을 정하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 감리인의 과거 경험 기반 직관이 현재 프로젝트의 실제 위험과 불일치할 수 있다. 반드시 형식화된 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)·평가 절차를 거쳐야 "잘못된 안심"을 방지할 수 있다.
@@ -105,7 +105,7 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 | 기대효과 | 내용 |
 |:---|:---|
 | **감리 효율** | 제한 자원의 전략적 배분 |
-| **위험 조기 발견** | 고위험 영역 집중 → 사고 사전 예방 |
+| **위험 조기 발견** | 고위험 영역 집중 -> 사고 사전 예방 |
 | **설득력 있는 보고서** | 위험 근거 기반 감리 결과 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위험 예측(과거 유사 프로젝트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습)이 위험 기반 감리의 다음 단계로 부상하고 있으며, 지속 감리(Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))와 결합하여 감리 주기를 단축하는 방향으로 발전하고 있다.
@@ -128,17 +128,17 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 
 ```text
 [전통적 균등 감리 — 모든 항목 동일 비중 점검]
-    │
-    ▼
+    |
+    v
 [위험 기반 감리 — 위험도 기반 자원 집중 배분]
-    │
-    ▼
+    |
+    v
 [준거 기반 + 위험 기반 통합 감리 — 법 준수 + 실질 위험]
-    │
-    ▼
+    |
+    v
 [AI 위험 예측 감리 — 과거 데이터 기반 위험 자동 식별]
-    │
-    ▼
+    |
+    v
 [지속 감리 — 실시간 모니터링 + 위험 기반 자동 알림]
 ```
 
@@ -154,7 +154,7 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 
 **진행 상황**: 26 / 530
 
-← **이전**: [23. EA 기반 감리 (EA-based Information System Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/023_ea_based_audit/)
-**다음**: [25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/) →
+<- **이전**: [23. EA 기반 감리 (EA-based Information System Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/023_ea_based_audit/)
+**다음**: [25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/) ->
 
 ---

@@ -30,20 +30,20 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              블록체인 블록 구조 및 BFT 합의                      │
-├──────────────────────────────────────────────────────────────────┤
-│  [블록 N-1]          [블록 N]            [블록 N+1]             │
-│  ┌──────────┐        ┌──────────┐        ┌──────────┐           │
-│  │ 헤더      │        │ 헤더      │        │ 헤더      │          │
-│  │ PrevHash │◀───────│ PrevHash │◀───────│ PrevHash │           │
-│  │ Merkle   │        │ Merkle   │        │ Merkle   │           │
-│  ├──────────┤        ├──────────┤        ├──────────┤           │
-│  │ 트랜잭션  │        │ 트랜잭션  │        │ 트랜잭션  │          │
-│  └──────────┘        └──────────┘        └──────────┘           │
-│                                                                  │
-│  PBFT: Pre-prepare → Prepare → Commit → Reply (3f+1 노드 필요)  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              블록체인 블록 구조 및 BFT 합의                      |
++------------------------------------------------------------------+
+|  [블록 N-1]          [블록 N]            [블록 N+1]             |
+|  +----------+        +----------+        +----------+           |
+|  | 헤더      |        | 헤더      |        | 헤더      |          |
+|  | PrevHash |<--------| PrevHash |<--------| PrevHash |           |
+|  | Merkle   |        | Merkle   |        | Merkle   |           |
+|  +----------+        +----------+        +----------+           |
+|  | 트랜잭션  |        | 트랜잭션  |        | 트랜잭션  |          |
+|  +----------+        +----------+        +----------+           |
+|                                                                  |
+|  PBFT: Pre-prepare -> Prepare -> Commit -> Reply (3f+1 노드 필요)  |
++------------------------------------------------------------------+
 ```
 
 | [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)   | 내결함성          | TPS       | 주요 사용처          |
@@ -79,12 +79,12 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 2. 공개형 vs 허가형: TPS, 프라이버시, 규제 요건 기반 결정
 3. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/): Reentrancy, [Integer Overflow](/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/) 등 취약점 전문 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)
 4. [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 선택: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) (소규모, 고성능), PoS (대규모 탈중앙)
-5. 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 연동: 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 입력 신뢰 경로 설계
+5. 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 연동: 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 입력 신뢰 경로 설계
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- 불필요한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 도입 → "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 씻기([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Washing)"
-- [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 배포 후 버그 발견 → 수정 불가로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 완전 중단
-- [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 노드 수를 너무 늘림 → O(n^2) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 복잡도로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락
+- 불필요한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 도입 -> "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 씻기([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Washing)"
+- [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 배포 후 버그 발견 -> 수정 불가로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 완전 중단
+- [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 노드 수를 너무 늘림 -> O(n^2) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 복잡도로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락
 
 - 📢 섹션 요약 비유: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 버그는 자판기 프로그램 오류와 같다. 자판기가 설치된 후에는 프로그램을 바꾸기가 매우 어렵다.
 
@@ -114,20 +114,20 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ```text
 Bitcoin PoW (에너지 집약 탈중앙 합의)
-    │
-    ▼
+    |
+    v
 Ethereum 스마트 컨트랙트 + EVM (DApp 플랫폼)
-    │
-    ▼
+    |
+    v
 허가형 블록체인 (Hyperledger Fabric + PBFT)
-    │
-    ▼
+    |
+    v
 DeFi (탈중앙화 금융) / NFT / DAO
-    │
-    ▼
+    |
+    v
 Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)
-    │
-    ▼
+    |
+    v
 멀티체인 + 크로스체인 + AI 추론 검증
 ```
 
@@ -143,7 +143,7 @@ Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)
 
 **진행 상황**: 369 / 373
 
-← **이전**: [368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)](/knowledge-base/studynote/15_devops_sre/05_devsecops/368_process/)
-**다음**: [370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign](/knowledge-base/studynote/15_devops_sre/05_devsecops/370_did_zkp/) →
+<- **이전**: [368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)](/knowledge-base/studynote/15_devops_sre/05_devsecops/368_process/)
+**다음**: [370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign](/knowledge-base/studynote/15_devops_sre/05_devsecops/370_did_zkp/) ->
 
 ---

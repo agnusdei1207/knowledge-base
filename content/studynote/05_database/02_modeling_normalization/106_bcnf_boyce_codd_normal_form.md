@@ -36,22 +36,22 @@ BCNF의 핵심은 **"모든 [결정자](/knowledge-base/studynote/05_database/02
 | 테이블 분할 | 테이블 A: `[교수이름](PK), 과목명`<br>테이블 B: `[학번, 교수이름](PK/FK)` | **만족**<br>모든 테이블의 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)가 됨 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  BCNF 위반 테이블의 분해 과정                  │
-├──────────────────────────────────────────────────────────────┤
-│ [ 분해 전: 3NF는 만족하지만 BCNF는 위반 ]                    │
-│   ┌─────── PK ───────┐                                       │
-│   │ 학번  │  과목명  │    교수이름 (일반 속성)               │
-│   └───────┴──────────┘                                       │
-│      └──────┬────────────────▲                               │
-│             │                │                               │
-│             ▼                │ (역하극상 발생!)               │
-│          과목명  ◀───────────┘ 교수이름 ➔ 과목명              │
-│                                                              │
-│ [ 분해 후: BCNF 완전 만족 ]                                  │
-│   테이블 1: [ 교수이름 (PK) ] ➔ 과목명                      │
-│   테이블 2: [ 학번, 교수이름 (PK/FK) ]                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  BCNF 위반 테이블의 분해 과정                  |
++--------------------------------------------------------------+
+| [ 분해 전: 3NF는 만족하지만 BCNF는 위반 ]                    |
+|   +------- PK -------+                                       |
+|   | 학번  |  과목명  |    교수이름 (일반 속성)               |
+|   +-------+----------+                                       |
+|      +------+----------------^                               |
+|             |                |                               |
+|             v                | (역하극상 발생!)               |
+|          과목명  <------------+ 교수이름 ➔ 과목명              |
+|                                                              |
+| [ 분해 후: BCNF 완전 만족 ]                                  |
+|   테이블 1: [ 교수이름 (PK) ] ➔ 과목명                      |
+|   테이블 2: [ 학번, 교수이름 (PK/FK) ]                       |
++--------------------------------------------------------------+
 ```
 
 분해 과정의 핵심은 불법 권력을 행사하던 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(`교수이름`)를 아예 새로운 테이블의 왕([기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/))으로 독립시키고, 원래 테이블에서는 그 값을 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)(FK)로 참조하게 만드는 것이다.
@@ -116,17 +116,17 @@ BCNF를 철저히 적용하면 [데이터베이스](/knowledge-base/studynote/05
 
 ```text
 제1정규형 (1NF) · 부분 종속성 잔존
-    │
-    ▼
+    |
+    v
 제2정규형 (2NF) · 이행 종속성 잔존
-    │
-    ▼
+    |
+    v
 제3정규형 (3NF) · 모든 결정자가 후보 키가 아닐 수 있음 (역하극상 잔존)
-    │
-    ▼
+    |
+    v
 BCNF (Boyce-Codd Normal Form) · 후보 키가 아닌 결정자 완벽 제거
-    │
-    ▼
+    |
+    v
 제4정규형 (4NF) · 다치 종속(Multi-valued Dependency) 제거로 확장
 ```
 
@@ -142,7 +142,7 @@ BCNF (Boyce-Codd Normal Form) · 후보 키가 아닌 결정자 완벽 제거
 
 **진행 상황**: 106 / 600
 
-← **이전**: [105. 제3정규형 (3NF) - 2NF 만족 및 이행적 함수 종속 제거](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)
-**다음**: [107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) →
+<- **이전**: [105. 제3정규형 (3NF) - 2NF 만족 및 이행적 함수 종속 제거](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)
+**다음**: [107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) ->
 
 ---

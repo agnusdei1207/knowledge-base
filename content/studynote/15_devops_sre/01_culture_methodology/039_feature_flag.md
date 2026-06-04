@@ -247,7 +247,7 @@ OpenFeature 표준 (CNCF)
 
 **진행 상황**: 39 / 373
 
-← **이전**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/)
-**다음**: [040. 트렁크 기반 개발 (Trunk-Based Development)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/) →
+<- **이전**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/)
+**다음**: [040. 트렁크 기반 개발 (Trunk-Based Development)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/) ->
 
 ---

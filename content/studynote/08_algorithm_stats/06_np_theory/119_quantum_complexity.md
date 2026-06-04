@@ -22,10 +22,10 @@ tags = ["studynote-algorithm-stats"]
 고전 vs 양자 복잡도 대응:
 
 고전:           양자:
-P           →   BQP   (다항 시간 결정론/양자)
-NP          →   QMA   (검증 가능/양자)
-PSPACE      →   PSPACE (양자도 동일)
-BPP (랜덤)  →   BQP   (양자로 BPP 일반화)
+P           ->   BQP   (다항 시간 결정론/양자)
+NP          ->   QMA   (검증 가능/양자)
+PSPACE      ->   PSPACE (양자도 동일)
+BPP (랜덤)  ->   BQP   (양자로 BPP 일반화)
 
 포함 관계:
 P ⊆ BPP ⊆ BQP ⊆ PSPACE
@@ -66,10 +66,10 @@ Shor's Algorithm (쇼어 알고리즘, 1994):
   양자: O(n³) (다항 시간!)
 
   핵심: 양자 푸리에 변환 (QFT)
-  주기 탐색 → 공약수 발견
+  주기 탐색 -> 공약수 발견
 
   의미: RSA 암호 위협
-  2048비트 RSA → 현재 양자 컴퓨터로 N/A
+  2048비트 RSA -> 현재 양자 컴퓨터로 N/A
   (오류 수정 포함 수백만 큐비트 필요, 현재 수천 큐비트)
 
   BQP에 속함: 다항 시간 양자 알고리즘 존재
@@ -87,7 +87,7 @@ Grover's Algorithm (그로버 알고리즘, 1996):
 
   BQP에 속함: O(√N) 양자 알고리즘
   NP에 대한 함의: Grover로 NP 문제 빠르게 못 풀음
-  (2^n → 2^(n/2): 여전히 지수)
+  (2^n -> 2^(n/2): 여전히 지수)
 
 HHL Algorithm (하로우-하시딤-로이드, 2009):
   문제: 선형 방정식 계 Ax = b 풀기
@@ -181,7 +181,7 @@ BQP의 실용적 의미:
   NIST PQC 표준화 (2024 완료)
 
 약물 설계 (QMA 근처):
-  분자 시뮬레이션 → 양자 컴퓨터 자연스러운 영역
+  분자 시뮬레이션 -> 양자 컴퓨터 자연스러운 영역
   VQE (Variational Quantum Eigensolver): NISQ 시대 접근
 
 최적화 (BQP 경계):
@@ -200,24 +200,24 @@ BQP의 실용적 의미:
 양자 위협 대응: 후양자 암호(PQC) 전환
 
 배경:
-  Shor 알고리즘 → RSA/ECC 취약 (BQP 내 문제)
+  Shor 알고리즘 -> RSA/ECC 취약 (BQP 내 문제)
   "Store Now, Decrypt Later": 현재 암호화 데이터 수집
-  → FTQC 완성 시 복호화
+  -> FTQC 완성 시 복호화
 
   위협 시점: 10~20년 (추정)
 
 NIST PQC 표준화 (2024):
   CRYSTALS-Kyber (ML-KEM): 키 교환
-  → 격자(Lattice) 기반
+  -> 격자(Lattice) 기반
 
   CRYSTALS-Dilithium (ML-DSA): 전자서명
-  → 격자 기반
+  -> 격자 기반
 
   SPHINCS+ (SLH-DSA): 전자서명
-  → 해시 기반
+  -> 해시 기반
 
   FALCON (FN-DSA): 전자서명
-  → 격자 기반
+  -> 격자 기반
 
 전환 계획 (일반 기업):
 
@@ -239,9 +239,9 @@ NIST PQC 표준화 (2024):
 
 주의:
   PQC도 QMA 문제 아님
-  → 양자 컴퓨터도 격자 문제 못 풀 것으로 예상
+  -> 양자 컴퓨터도 격자 문제 못 풀 것으로 예상
   But: "격자 문제는 BQP 밖"이 완전 증명되지 않음
-  → 지속적 수학적 검증 필요
+  -> 지속적 수학적 검증 필요
 ```
 
 > 📢 **섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
@@ -316,7 +316,7 @@ NIST PQC 표준 완성 (2024)
 
 **진행 상황**: 119 / 175
 
-← **이전**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)
-**다음**: [001. 유클리드 호제법 — Euclidean Algorithm](/knowledge-base/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/) →
+<- **이전**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)
+**다음**: [001. 유클리드 호제법 — Euclidean Algorithm](/knowledge-base/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/) ->
 
 ---

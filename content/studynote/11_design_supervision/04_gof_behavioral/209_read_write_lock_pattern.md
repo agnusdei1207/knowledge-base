@@ -21,11 +21,11 @@ tags = ["studynote-design-supervision"]
 ```
   synchronized 블록 (모든 접근 직렬화):
 
-  Thread A (읽기) ─┐
-  Thread B (읽기) ─┤── 모두 순차 실행 (읽기끼리도 차단)
-  Thread C (쓰기) ─┘
+  Thread A (읽기) -+
+  Thread B (읽기) -+-- 모두 순차 실행 (읽기끼리도 차단)
+  Thread C (쓰기) -+
 
-  → 읽기끼리는 서로를 차단할 이유가 없음!
+  -> 읽기끼리는 서로를 차단할 이유가 없음!
     캐시 조회, 설정 읽기 등 읽기 집중 작업에서 심각한 성능 저하
 ```
 
@@ -38,21 +38,21 @@ tags = ["studynote-design-supervision"]
   Read-Write Lock 접근 규칙:
 
   상황 1: 읽기만 있을 때
-  Thread A (읽기) ───────────────────
-  Thread B (읽기) ───────────────────  ← 동시 실행 가능
-  Thread C (읽기) ───────────────────
+  Thread A (읽기) -------------------
+  Thread B (읽기) -------------------  <- 동시 실행 가능
+  Thread C (읽기) -------------------
 
   상황 2: 쓰기 시도
-  Thread A (읽기) ─────┐
-  Thread B (읽기) ─────┤ 쓰기 대기
-  Thread D (쓰기) ─────┘───────────   ← 단독 실행
-  Thread E (읽기)          ─────────  ← 쓰기 완료 후 실행
+  Thread A (읽기) -----+
+  Thread B (읽기) -----+ 쓰기 대기
+  Thread D (쓰기) -----+-----------   <- 단독 실행
+  Thread E (읽기)          ---------  <- 쓰기 완료 후 실행
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 도서관 열람실 — 책을 읽는 사람은 여럿이어도 괜찮지만, 누군가 책을 수정([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때는 다른 사람이 읽거나 쓸 수 없게 책을 잠근다.
@@ -62,17 +62,17 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
   ReentrantReadWriteLock
-  ┌──────────────────────────────────────────────────┐
-  │  ReadLock (공유 락)                              │
-  │  ─────────────────                               │
-  │  lock()   → 읽기 락 획득 (다른 읽기와 공유 가능) │
-  │  unlock() → 읽기 락 해제                         │
-  │                                                  │
-  │  WriteLock (배타 락)                             │
-  │  ──────────────────                              │
-  │  lock()   → 쓰기 락 획득 (모든 접근 차단)        │
-  │  unlock() → 쓰기 락 해제                         │
-  └──────────────────────────────────────────────────┘
+  +--------------------------------------------------+
+  |  ReadLock (공유 락)                              |
+  |  -----------------                               |
+  |  lock()   -> 읽기 락 획득 (다른 읽기와 공유 가능) |
+  |  unlock() -> 읽기 락 해제                         |
+  |                                                  |
+  |  WriteLock (배타 락)                             |
+  |  ------------------                              |
+  |  lock()   -> 쓰기 락 획득 (모든 접근 차단)        |
+  |  unlock() -> 쓰기 락 해제                         |
+  +--------------------------------------------------+
 ```
 
 ```java
@@ -106,11 +106,11 @@ Java 8에서 도입된 StampedLock은 <strong>낙관적 읽기(Optimistic Read <
 ```
   StampedLock 낙관적 읽기 흐름:
 
-  (1) tryOptimisticRead() → stamp 반환 (락 획득 없음!)
+  (1) tryOptimisticRead() -> stamp 반환 (락 획득 없음!)
   (2) 데이터 읽기
-  (3) validate(stamp) → 쓰기가 없었으면 true
-      → true: 읽은 데이터 유효 → 사용
-      → false: 충돌 발생 → readLock으로 재시도
+  (3) validate(stamp) -> 쓰기가 없었으면 true
+      -> true: 읽은 데이터 유효 -> 사용
+      -> false: 충돌 발생 -> readLock으로 재시도
 
   일반 ReadLock 대비 성능 향상: 읽기가 매우 빈번하고
   쓰기 충돌이 거의 없을 때 극대화
@@ -120,13 +120,13 @@ Java 8에서 도입된 StampedLock은 <strong>낙관적 읽기(Optimistic Read <
   시나리오: 읽기 90%, 쓰기 10%, 스레드 10개
 
   synchronized:
-  처리량 = 직렬화 → ~1x 기준
+  처리량 = 직렬화 -> ~1x 기준
 
   ReentrantReadWriteLock:
-  처리량 = 읽기 9개 동시 → ~4~6x 향상
+  처리량 = 읽기 9개 동시 -> ~4~6x 향상
 
   StampedLock (낙관적):
-  처리량 = 락 없이 읽기 → ~6~8x 향상
+  처리량 = 락 없이 읽기 -> ~6~8x 향상
 
   ※ 쓰기가 50% 이상이면 오히려 오버헤드 발생
 ```
@@ -153,15 +153,15 @@ Java 8에서 도입된 StampedLock은 <strong>낙관적 읽기(Optimistic Read <
 ```
   ReadWriteLock의 쓰기 기아 문제:
 
-  Thread A (읽기) ────────────────────────────────►
-  Thread B (읽기) ────────────────────────────────►
-  Thread C (읽기) ────────────────────────────────►
-  Thread D (쓰기) ─── 대기 대기 대기 ... (기아!) ►
+  Thread A (읽기) --------------------------------►
+  Thread B (읽기) --------------------------------►
+  Thread C (읽기) --------------------------------►
+  Thread D (쓰기) --- 대기 대기 대기 ... (기아!) ►
 
   해결: 공정성 정책 (Fairness Policy)
   new ReentrantReadWriteLock(true);  // fair=true
-  → 대기 순서대로 락 부여 (FIFO)
-  → 단, 성능 감소 (20~30% 오버헤드)
+  -> 대기 순서대로 락 부여 (FIFO)
+  -> 단, 성능 감소 (20~30% 오버헤드)
 ```
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 우선 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 읽기(일반 차)는 많이 다닐 수 있지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))도 너무 오래 기다리면 안 된다. 공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 같다.
@@ -191,17 +191,17 @@ public class ReadHeavyCache<K, V> {
 
 ```
   ReadWriteLock 도입 판단:
-  ┌────────────────────────────────────────────────┐
-  │  읽기 비율이 70% 이상인가?                     │
-  │    YES → ReadWriteLock 적합                    │
-  │                                                │
-  │  쓰기 지연이 허용되는가?                       │
-  │    YES → 공정성 정책 불필요                    │
-  │    NO  → fair=true 또는 StampedLock            │
-  │                                                │
-  │  동일 스레드에서 읽기→쓰기 락 업그레이드 필요? │
-  │    YES → StampedLock.tryConvertToWriteLock()   │
-  └────────────────────────────────────────────────┘
+  +------------------------------------------------+
+  |  읽기 비율이 70% 이상인가?                     |
+  |    YES -> ReadWriteLock 적합                    |
+  |                                                |
+  |  쓰기 지연이 허용되는가?                       |
+  |    YES -> 공정성 정책 불필요                    |
+  |    NO  -> fair=true 또는 StampedLock            |
+  |                                                |
+  |  동일 스레드에서 읽기->쓰기 락 업그레이드 필요? |
+  |    YES -> StampedLock.tryConvertToWriteLock()   |
+  +------------------------------------------------+
 ```
 
 - <strong>Shared <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/">공유 락</a>) vs Exclusive <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/">배타 락</a>)</strong> 용어 명확히 구분
@@ -228,7 +228,7 @@ public class ReadHeavyCache<K, V> {
 
 - 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율이 균등하면 오버헤드로 `synchronized`보다 느릴 수 있음
 - [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지를 위한 공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검토 필요
-- 락 업그레이드(Read → Write) 불가 → 해제 후 재획득 필요
+- 락 업그레이드(Read -> Write) 불가 -> 해제 후 재획득 필요
 
 [Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) 패턴은 읽기 집중적인 시스템에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 모두 달성하는 핵심 기법이다. 캐시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리, 조회 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등에 광범위하게 적용된다. StampedLock을 활용한 낙관적 읽기는 그 진화형으로 더 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
@@ -249,7 +249,7 @@ public class ReadHeavyCache<K, V> {
 | 연관 개념 | [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) (기아) | Write [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 방지 필요 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) 패턴 → 락 세분화
+[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) 패턴 -> 락 세분화
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 그림책은 여러 친구가 동시에 볼 수 있어요 — 읽기 락은 공유해요!
@@ -262,7 +262,7 @@ public class ReadHeavyCache<K, V> {
 
 **진행 상황**: 270 / 530
 
-← **이전**: [208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/208_guarded_suspension_pattern/)
-**다음**: [210. 모니터 객체 패턴 (Monitor Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) →
+<- **이전**: [208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/208_guarded_suspension_pattern/)
+**다음**: [210. 모니터 객체 패턴 (Monitor Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) ->
 
 ---

@@ -26,13 +26,13 @@ tags = ["studynote-bigdata"]
 아래 그림은 단순 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 차이를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From job scheduling to orchestration                               │
-├────────────────────────────────────────────────────────────────────┤
-│ cron      : run A at 00:00, B at 01:00, hope A finished           │
-│ orchestral: extract -> validate -> transform -> publish           │
-│             with retries, state, alerts, backfill, lineage        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| From job scheduling to orchestration                               |
++--------------------------------------------------------------------+
+| cron      : run A at 00:00, B at 01:00, hope A finished           |
+| orchestral: extract -> validate -> transform -> publish           |
+|             with retries, state, alerts, backfill, lineage        |
++--------------------------------------------------------------------+
 ```
 
 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 빅데이터 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 "자동 실행 버튼"이 아니라, 실패와 재실행을 견딜 수 있게 만드는 운영 규칙 모음이다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수가 늘수록 이 제어 평면의 품질이 곧 플랫폼 성숙도를 결정한다.
@@ -57,17 +57,17 @@ tags = ["studynote-bigdata"]
 아래 구조는 오케스트레이터가 제어하는 공통 실행 경로를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Data orchestration control plane                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ event / schedule -> scheduler -> task queue -> workers / pods     │
-│                        │                           │                │
-│                        └------ metadata DB <-------┘                │
-│                                 │                                   │
-│                           states / logs / retries                   │
-│                                 │                                   │
-│                      backfill / alerts / lineage                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Data orchestration control plane                                   |
++--------------------------------------------------------------------+
+| event / schedule -> scheduler -> task queue -> workers / pods     |
+|                        |                           |                |
+|                        +------ metadata DB <-------+                |
+|                                 |                                   |
+|                           states / logs / retries                   |
+|                                 |                                   |
+|                      backfill / alerts / lineage                    |
++--------------------------------------------------------------------+
 ```
 
 모델링 방식은 도구에 따라 조금씩 다르다.
@@ -164,17 +164,17 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 
 ```text
 cron 기반 스크립트 실행
-    │
-    ▼
+    |
+    v
 DAG 기반 워크플로우 제어
-    │
-    ▼
+    |
+    v
 재시도 · 상태 추적 · 백필
-    │
-    ▼
+    |
+    v
 Asset 중심 계보 · 품질 관리
-    │
-    ▼
+    |
+    v
 플랫폼 수준 데이터 오케스트레이션
 ```
 
@@ -192,7 +192,7 @@ Asset 중심 계보 · 품질 관리
 
 **진행 상황**: 183 / 262
 
-← **이전**: [182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/)
-**다음**: [184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata](/knowledge-base/studynote/16_bigdata/09_platform/184_data_catalog_integration/) →
+<- **이전**: [182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/)
+**다음**: [184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata](/knowledge-base/studynote/16_bigdata/09_platform/184_data_catalog_integration/) ->
 
 ---

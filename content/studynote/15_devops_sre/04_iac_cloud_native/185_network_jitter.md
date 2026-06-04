@@ -26,16 +26,16 @@ tags = ["studynote-devops-sre"]
 지터와 손실을 같이 봐야 하는 이유도 분명하다. 지터만 높고 손실이 없으면 재생 버퍼나 재정렬로 흡수될 수 있지만, 지터가 커지는 순간 큐 오버플로와 재전송이 뒤따르면 곧 손실로 이어질 수 있다. 반대로 손실만 봐서는 왜 끊기는지 모르는 경우가 많다. 따라서 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 네트워크를 빠른가 느린가가 아니라 <strong>안정적으로 일정한가</strong>의 관점으로 읽어야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Delay vs jitter                                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ ideal send gap : 20ms | 20ms | 20ms | 20ms                        │
-│ arrival gap    : 18ms | 44ms | 11ms | 27ms                        │
-│                                                                    │
-│ latency = average end-to-end delay                                 │
-│ jitter  = variation between consecutive delays                     │
-│ loss    = packets missing or arriving too late to be useful        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Delay vs jitter                                                   |
++--------------------------------------------------------------------+
+| ideal send gap : 20ms | 20ms | 20ms | 20ms                        |
+| arrival gap    : 18ms | 44ms | 11ms | 27ms                        |
+|                                                                    |
+| latency = average end-to-end delay                                 |
+| jitter  = variation between consecutive delays                     |
+| loss    = packets missing or arriving too late to be useful        |
++--------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 지터는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 느린 것보다 도착 간격이 들쑥날쑥한 상태와 같다. 평균 이동시간이 비슷해도 어떤 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 바로 오고 어떤 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 한참 늦으면 승객 체감은 훨씬 나빠진다.
@@ -51,24 +51,24 @@ tags = ["studynote-devops-sre"]
 실무 관측 아키텍처는 보통 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 프로브와 패시브 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 함께 쓴다. [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 프로브는 blackbox_exporter, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 프로브, 인터넷 제어 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Internet Control Message Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/), [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)), 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)), 하이퍼텍스트 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Hypertext Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 체크처럼 "일부러 보내 보는 트래픽"이다. 패시브 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽에서 재전송, 인터페이스 드롭, 큐 길이, 버퍼 오버런, 흐름 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 오거나, 확장 버클리 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/) ([extended Berkeley Packet Filter](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 관측하는 방식이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Jitter and loss observability path                                │
-├────────────────────────────────────────────────────────────────────┤
-│ Probe Agent / Client / eBPF                                       │
-│   ├─ active RTT samples                                            │
-│   ├─ packet loss ratio                                              │
-│   ├─ tcp retransmissions                                            │
-│   └─ interface drops / queue depth                                  │
-│                 │                                                   │
-│                 ▼                                                   │
-│ Metrics pipeline                                                    │
-│   ├─ Prometheus histograms                                          │
-│   ├─ percentiles by path / region / service                         │
-│   └─ alert rules                                                    │
-│                 │                                                   │
-│                 ▼                                                   │
-│ Grafana dashboards -> SLO view -> incident routing                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Jitter and loss observability path                                |
++--------------------------------------------------------------------+
+| Probe Agent / Client / eBPF                                       |
+|   +- active RTT samples                                            |
+|   +- packet loss ratio                                              |
+|   +- tcp retransmissions                                            |
+|   +- interface drops / queue depth                                  |
+|                 |                                                   |
+|                 v                                                   |
+| Metrics pipeline                                                    |
+|   +- Prometheus histograms                                          |
+|   +- percentiles by path / region / service                         |
+|   +- alert rules                                                    |
+|                 |                                                   |
+|                 v                                                   |
+| Grafana dashboards -> SLO view -> incident routing                 |
++--------------------------------------------------------------------+
 ```
 
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 의미 | 대표 수식 또는 예 | 해석 포인트 |
@@ -160,20 +160,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 RTT 기본 측정
-    │
-    ▼
+    |
+    v
 지터 · 손실 백분위수 관측
-    │
-    ▼
+    |
+    v
 재전송 · 인터페이스 드롭 상관분석
-    │
-    ▼
+    |
+    v
 서비스 영향 기반 경보
-    │
-    ▼
+    |
+    v
 QoS · 경로 최적화 · 회선 품질 개선
-    │
-    ▼
+    |
+    v
 SLO 기반 실시간 네트워크 운영
 ```
 
@@ -189,7 +189,7 @@ SLO 기반 실시간 네트워크 운영
 
 **진행 상황**: 185 / 373
 
-← **이전**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/)
-**다음**: [186. DNS 캐시 중독 및 라우팅 BGP 하이재킹 모니터링망](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/186_dns_bgp/) →
+<- **이전**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/)
+**다음**: [186. DNS 캐시 중독 및 라우팅 BGP 하이재킹 모니터링망](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/186_dns_bgp/) ->
 
 ---

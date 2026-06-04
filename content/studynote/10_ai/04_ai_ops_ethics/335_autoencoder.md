@@ -21,22 +21,22 @@ tags = ["studynote-ai"]
 
 ### 비지도 표현 학습의 핵심 아키텍처
 
-오토인코더는 "입력 X → [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) → 잠재 벡터 z → [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) → 복원 X̂" 구조로, 정답 레이블 없이 입력 자체를 목표로 삼는 자기지도학습 ([Self-Supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)) 의 원조다.
+오토인코더는 "입력 X -> [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) -> 잠재 벡터 z -> [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) -> 복원 X̂" 구조로, 정답 레이블 없이 입력 자체를 목표로 삼는 자기지도학습 ([Self-Supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)) 의 원조다.
 
 | 활용 분야 | 설명 | 구체적 예시 |
 |:---|:---|:---|
 | [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로만 학습 후 복원 오차로 이상 판정 | 제조 불량 검출, 금융 사기 탐지 |
 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 의 비선형 확장 | 고차원 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
-| 노이즈 제거 (Denoising) | 노이즈 입력 → 깨끗한 출력 | 이미지 복원, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 |
+| 노이즈 제거 (Denoising) | 노이즈 입력 -> 깨끗한 출력 | 이미지 복원, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 |
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 (Generative Model) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 로 새 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 얼굴 합성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 오토인코더는 "여행 가방 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩"이다. 두꺼운 옷을 꾹꾹 눌러서 최소 부피로 만든 다음, 도착지에서 다시 원래 모양으로 꺼낸다. 잘 복원되면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩이 제대로 동작한 것이고, 형태가 달라지면 이상이 생긴 것이다.
@@ -49,31 +49,31 @@ tags = ["studynote-ai"]
 
 ```
   입력층               병목층(Bottleneck)          출력층
-  ┌───────┐  인코더   ┌─────┐  디코더(Decoder)  ┌───────┐
-  │  x    │──────────▶│  z  │──────────────────▶│  x̂   │
-  │(784)  │[784→256→  │(32) │ [32→128→256→784]  │(784)  │
-  └───────┘  128]     └─────┘                   └───────┘
-       ▲                                              │
-       └─────── 재구성 손실 L = ||x - x̂||²  ─────────┘
+  +-------+  인코더   +-----+  디코더(Decoder)  +-------+
+  |  x    |----------->|  z  |------------------->|  x̂   |
+  |(784)  |[784->256->  |(32) | [32->128->256->784]  |(784)  |
+  +-------+  128]     +-----+                   +-------+
+       ^                                              |
+       +------- 재구성 손실 L = ||x - x̂||^  ---------+
 ```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))
 
-- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">Mean Squared Error</a>)</strong>: `L = (1/n) Σ(xᵢ - x̂ᵢ)²` — 연속 값 입력
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">Mean Squared Error</a>)</strong>: `L = (1/n) Σ(xᵢ - x̂ᵢ)^` — 연속 값 입력
 - <strong>BCE (Binary <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">Cross-Entropy</a>)</strong>: 이진 픽셀 입력 (흑백 이미지)
 
 ### [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 동작 원리
 
 1. **훈련 단계**: 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 재구성 능력 학습
 2. **추론 단계**: 새 입력의 재구성 오차 계산
-3. **판정**: 오차 > 임계값 θ → [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))
+3. **판정**: 오차 > 임계값 θ -> [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))
 
 ```
-  정상 입력 → 오토인코더 → 복원 잘 됨 → 오차 ↓ → 정상 판정
-  이상 입력 → 오토인코더 → 복원 못함 → 오차 ↑ → 이상 판정
-  ────────────────────────────────────────────────────────
+  정상 입력 -> 오토인코더 -> 복원 잘 됨 -> 오차 v -> 정상 판정
+  이상 입력 -> 오토인코더 -> 복원 못함 -> 오차 ^ -> 이상 판정
+  --------------------------------------------------------
                           θ (임계값)
-         정상 영역 ◀──────┤├──────▶ 이상 영역
+         정상 영역 <-------++-------> 이상 영역
 ```
 
 ### [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) 비교
@@ -81,7 +81,7 @@ tags = ["studynote-ai"]
 | 항목 | AE (기본 오토인코더) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) (변분 오토인코더) |
 |:---|:---|:---|
 | 잠재 표현 | 고정 벡터 z | 분포 파라미터 (μ, σ) |
-| 샘플링 | 불가 | 가능 (z ~ N(μ, σ²)) |
+| 샘플링 | 불가 | 가능 (z ~ N(μ, σ^)) |
 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 재구성 손실만 | 재구성 손실 + KL 발산 |
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력 | 낮음 | 높음 |
 | 잠재 공간 | 불연속 | 연속·부드러움 |
@@ -97,7 +97,7 @@ tags = ["studynote-ai"]
 | 변형 | 핵심 아이디어 | 목적 |
 |:---|:---|:---|
 | 희소 AE (Sparse AE) | 잠재 뉴런 대부분을 0으로 강제 | 더 분리된 특징 학습 |
-| 노이즈 제거 AE (Denoising AE, DAE) | 노이즈 추가 입력 → 깨끗한 출력 | 강건한 표현 학습 |
+| 노이즈 제거 AE (Denoising AE, DAE) | 노이즈 추가 입력 -> 깨끗한 출력 | 강건한 표현 학습 |
 | 수축 AE (Contractive AE, CAE) | 잠재 공간 자코비안 패널티 | 연속적 표현 학습 |
 | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | 잠재 분포 파라미터 학습 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 |
 | VQ-[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) (Vector Quantized [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)) | 이산 코드북 (Codebook) 사용 | 이미지·오디오 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
@@ -112,7 +112,7 @@ tags = ["studynote-ai"]
 
 1. 정상 제품 이미지 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000장으로 오토인코더 학습
 2. 재구성 오차의 95 퍼센타일을 임계값 θ 로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-3. 실시간 컨베이어 이미지에서 오차 > θ → 불량 판정
+3. 실시간 컨베이어 이미지에서 오차 > θ -> 불량 판정
 4. 임계값 조정으로 민감도 (Sensitivity) / 특이도 (Specificity) 균형 조절
 
 ### 기술사 출제 포인트
@@ -131,8 +131,8 @@ tags = ["studynote-ai"]
 
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a></strong>: 레이블 없는 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유용한 표현 자동 습득
 - **확장성**: 이미지·텍스트·시계열·표형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두 적용 가능
-- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 확장</strong>: [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) → DALL-E, Stable Diffusion 의 이론적 선조
-- **한계**: 기본 AE 잠재 공간은 불연속적 → 보간 ([Interpolation](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)) 불안정
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 확장</strong>: [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) -> DALL-E, Stable Diffusion 의 이론적 선조
+- **한계**: 기본 AE 잠재 공간은 불연속적 -> 보간 ([Interpolation](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)) 불안정
 
 오토인코더는 딥러닝 표현 학습의 근간이자, [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)·노이즈 제거·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 의 공통 뿌리다. 기술사 시험에서는 구조와 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 와의 차이, [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 활용 방식을 체계적으로 서술하면 고득점이 가능하다.
 
@@ -144,7 +144,7 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) | 특징 추출, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) / 입력 → 잠재 벡터 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) | 특징 추출, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) / 입력 -> 잠재 벡터 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | 병목층 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) | 잠재 공간, 표현 학습 / 핵심 정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포인트 |
 | 재구성 오차 (Reconstruction Error) | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/), BCE / [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 판정 기준 |
 | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | KL 발산, 리파라미터화 / [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 잠재 공간 모델 |
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [오토인코더 (Autoencoder)] → [최적화·운영 자동화]
+[데이터 전처리] -> [오토인코더 (Autoencoder)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -169,7 +169,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 335 / 420
 
-← **이전**: [334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/)
-**다음**: [336. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/336_tensor_core/) →
+<- **이전**: [334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/)
+**다음**: [336. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/336_tensor_core/) ->
 
 ---

@@ -21,29 +21,29 @@ tags = ["studynote-network"]
 
 - **개념**: MANET (모바일 애드혹 네트워크)은 고정된 인프라(기지국, 라우터, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 없이, 이동하는 노드(단말기)들만으로 일시적이고 자율적으로 구성되는 무선 네트워크다. 'Ad-hoc(애드혹)'은 라틴어로 "특별한 목적을 위해, 임시로"라는 뜻이다. 모든 노드는 단말기이자 동시에 중계기(Router) 역할을 수행한다.
 - **필요성**: 기존의 이동통신망이나 무선랜은 '인프라스트럭처 모드(Infrastructure Mode)'다. 즉, 중앙의 잘 지어진 기지국([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 철탑이 박살 나면 수만 대의 스마트폰은 순식간에 고철 덩어리가 된다. 지진, 쓰나미, 혹은 적진 한가운데 침투한 특수부대의 경우 기지국을 세울 시간이 없다. <strong>"단말기 5대만 모이면 지들끼리 1초 만에 전파를 튕겨가며 10km 밖의 대장에게 무전 패킷을 릴레이로 전달해 줄 수 있는 자생적(Self-forming) 임시 생존 망"</strong>이 절대적으로 필요했다.
-- **등장 배경**: ① 군사 작전 및 재난 구조 현장 등 인프라 파괴 환경에서의 통신 생존성 요구 → ② 노드의 잦은 이동으로 지도가 초 단위로 붕괴되는 동적 토폴로지(Dynamic Topology) 극복을 위한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(AODV 등) 연구 폭발 → ③ [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), Wi-Fi [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 등 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 칩셋의 보급으로 민간 영역(드론, 자동차)으로 확장.
+- **등장 배경**: ① 군사 작전 및 재난 구조 현장 등 인프라 파괴 환경에서의 통신 생존성 요구 -> ② 노드의 잦은 이동으로 지도가 초 단위로 붕괴되는 동적 토폴로지(Dynamic Topology) 극복을 위한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(AODV 등) 연구 폭발 -> ③ [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), Wi-Fi [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 등 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 칩셋의 보급으로 민간 영역(드론, 자동차)으로 확장.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             인프라 모드(기지국) vs 애드혹 모드(MANET) 생존력 시각화   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: Infrastructure Mode (의존적 폰의 비극)]                   │
-│   군인 A ─(살려줘!)─▶ [💥 기지국 철탑 (미사일 맞고 붕괴)] ─X─▶ 본부     │
-│   => 결과: 10미터 옆에 다른 아군이 있어도, 기지국이 죽으면 서로 통신 불가! 전멸!│
-│                                                             │
-│   [혁신: MANET (Mobile Ad-hoc Network) - "나 자신이 곧 기지국이다"] │
-│                                                             │
-│   군인 A (구조 요청!) ======(무선 10m)======▶ 군인 B (릴레이 중계 📡)   │
-│                                              ∥                 │
-│                                     (무선 10m 점프)           │
-│                                              ▼                 │
-│   [본부 벙커] ◀======(무선 10m 점프)====== 군인 C (릴레이 중계 📡)   │
-│                                                             │
-│   => 결과: 중간에 철탑이 없어도, 군인 B와 C가 임시 기지국(라우터)이 되어     │
-│            패킷을 징검다리(Multi-hop) 건너듯 토스해서 본부까지 완벽히 전송!  │
-│            (만약 군인 B가 전사해도, 군인 D를 찾아 0.1초 만에 우회로 창조!)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             인프라 모드(기지국) vs 애드혹 모드(MANET) 생존력 시각화   |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: Infrastructure Mode (의존적 폰의 비극)]                   |
+|   군인 A -(살려줘!)--> [💥 기지국 철탑 (미사일 맞고 붕괴)] -X--> 본부     |
+|   => 결과: 10미터 옆에 다른 아군이 있어도, 기지국이 죽으면 서로 통신 불가! 전멸!|
+|                                                             |
+|   [혁신: MANET (Mobile Ad-hoc Network) - "나 자신이 곧 기지국이다"] |
+|                                                             |
+|   군인 A (구조 요청!) ======(무선 10m)======-> 군인 B (릴레이 중계 📡)   |
+|                                              ∥                 |
+|                                     (무선 10m 점프)           |
+|                                              v                 |
+|   [본부 벙커] <-======(무선 10m 점프)====== 군인 C (릴레이 중계 📡)   |
+|                                                             |
+|   => 결과: 중간에 철탑이 없어도, 군인 B와 C가 임시 기지국(라우터)이 되어     |
+|            패킷을 징검다리(Multi-hop) 건너듯 토스해서 본부까지 완벽히 전송!  |
+|            (만약 군인 B가 전사해도, 군인 D를 찾아 0.1초 만에 우회로 창조!)   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** MANET 아키텍처의 가장 위대한 패러다임 전환은 단말기(Node)에 '라우터(Router)'의 역할을 부여했다는 점이다. 기존 폰은 자기가 말하거나 듣기만 할 뿐(End-point), 남의 패킷을 받아 남에게 토스해 줄 지능이 없었다. MANET 노드들은 내부 OS에 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 엔진을 탑재하고 있다. A가 너무 멀리 있는 본부에 전파가 닿지 않자, 옆에 있던 B에게 "형이 좀 던져줘!" 하고 넘기고 B는 C에게 넘긴다. 만약 B가 갑자기 뛰어가서 대열(토폴로지)이 무너지면, 망은 붕괴하지 않고 스스로 살아있는 D를 찾아 새로운 생명줄 지도를 1초 만에 다시 그려낸다(Self-Healing). 이것이 궁극의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 무선망이다.
@@ -80,25 +80,25 @@ MANET의 실질적인 표준(De-facto Standard)이자, 가장 위대한 온디�
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/">WSN</a> (무선 센서 망)</strong> | 아예 안 움직임 (산속에 수천 개 뿌려둔 온도 센서 칩). | **동전 배터리 1개로 10년을 버텨야 함.** 컴퓨팅 파워 0에 수렴. 싱크 노드(대장) 쪽으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일방통행 수집([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)). | 산불 감지, 농장 습도 수집. "릴레이는 하는데, 똑똑한 지능은 버리고 극단적 굶주림(저전력) 생존에 몰빵." |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               VANET (차량 애드혹 망)의 치명적 딜레마와 융합 시각화     │
-├───────────────────────────────────────────────────────────────┤
-│   * VANET은 MANET의 후손이지만, 시속 150km로 달린다는 엄청난 물리적 한계가 있다. │
-│                                                               │
-│   [시속 150km 고속도로 위의 아찔한 상황]                            │
-│   (앞차 A) === 급브레이크 콱!!! ===> (뒤차 B) ======> (뒤차 C)      │
-│                                                               │
-│   [AODV(Reactive) 알고리즘을 썼을 때의 지옥도]                      │
-│   앞차 A: "야! 나 사고 났어! 뒤차 길 아는 사람?(RREQ 탐색 시작.. 0.5초 소요)" │
-│   뒤차 B: (길 찾는 0.5초 동안 이미 시속 150km 관성으로 A차 뒤통수 들이박음 💥)│
-│   => 결과: MANET의 자랑인 '길 찾기(On-demand)' 시간이 자동차 세계에서는     │
-│            사람 목숨을 앗아가는 치명적 딜레이(Delay)가 됨.                  │
-│                                                               │
-│   [융합 해결책: WAVE (IEEE 802.11p) 통신과 BSM 브로드캐스트의 등장]  │
-│   앞차 A: (라우팅 길 찾기 따위 개나 줘버리고, 그냥 허공에다 0.001초 만에 소리침)│
-│          "나 사고 났어어어어!!! (BSM 패킷 무자비한 360도 브로드캐스트 💣)" │
-│   뒤차 B: (소리 듣자마자 컴퓨터가 0.01초 만에 자동 급브레이크 발동! 생존! 🛡️) │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               VANET (차량 애드혹 망)의 치명적 딜레마와 융합 시각화     |
++---------------------------------------------------------------+
+|   * VANET은 MANET의 후손이지만, 시속 150km로 달린다는 엄청난 물리적 한계가 있다. |
+|                                                               |
+|   [시속 150km 고속도로 위의 아찔한 상황]                            |
+|   (앞차 A) === 급브레이크 콱!!! ===> (뒤차 B) ======> (뒤차 C)      |
+|                                                               |
+|   [AODV(Reactive) 알고리즘을 썼을 때의 지옥도]                      |
+|   앞차 A: "야! 나 사고 났어! 뒤차 길 아는 사람?(RREQ 탐색 시작.. 0.5초 소요)" |
+|   뒤차 B: (길 찾는 0.5초 동안 이미 시속 150km 관성으로 A차 뒤통수 들이박음 💥)|
+|   => 결과: MANET의 자랑인 '길 찾기(On-demand)' 시간이 자동차 세계에서는     |
+|            사람 목숨을 앗아가는 치명적 딜레이(Delay)가 됨.                  |
+|                                                               |
+|   [융합 해결책: WAVE (IEEE 802.11p) 통신과 BSM 브로드캐스트의 등장]  |
+|   앞차 A: (라우팅 길 찾기 따위 개나 줘버리고, 그냥 허공에다 0.001초 만에 소리침)|
+|          "나 사고 났어어어어!!! (BSM 패킷 무자비한 360도 브로드캐스트 💣)" |
+|   뒤차 B: (소리 듣자마자 컴퓨터가 0.01초 만에 자동 급브레이크 발동! 생존! 🛡️) |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 군인들이 걸어 다니는 MANET의 훌륭한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 공식(AODV)을 고속도로의 자율주행차(VANET)에 그대로 넣으면 사람이 죽는다. 차가 시속 100km로 달리면 토폴로지가 1초 만에 완전히 바뀌어, 기껏 고생해서 찾은 경로(RREQ-RREP)가 1초 뒤면 무용지물이 되기 때문이다. 그래서 자동차 MANET인 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 규격)는 복잡하게 길을 개척하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 과감히 포기했다. 사고나 급브레이크 같은 생명 직결 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 1초에 10번씩 주변 300미터 반경의 모든 차에게 무차별 방송(Broadcast, BSM 패킷)해 버리는 극단적인 <strong>"노 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(No-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>), 무지성 브로드캐스트"</strong> 융합 아키텍처로 진화했다. 생존을 위해 수학적 우아함을 버리고 물리적 찰나의 속도를 택한 공학적 결단이다.
@@ -173,12 +173,12 @@ MANET (Mobile Ad-hoc Network)은 인류가 만든 네트워크 중 가장 무정
 
 ```text
 [선행 개념: 무선 메시 네트워크]
-    │
-    ▼
+    |
+    v
 [현재 개념: MANET]
-    │
-    ├──▶ [확장 A: V2X]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: V2X]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 MANET는 [무선 메시 네트워크](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/)에서 출발해 현재 메커니즘을 정교화하고, 이후 V2X와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -195,7 +195,7 @@ MANET는 [무선 메시 네트워크](/knowledge-base/studynote/03_network/11_wi
 
 **진행 상황**: 709 / 1120
 
-← **이전**: [587. 무선 메시 네트워크 (Wireless Mesh Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/)
-**다음**: [589. V2X (Vehicle to Everything)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/589_v2x_vehicle_to_everything_autonomous/) →
+<- **이전**: [587. 무선 메시 네트워크 (Wireless Mesh Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/)
+**다음**: [589. V2X (Vehicle to Everything)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/589_v2x_vehicle_to_everything_autonomous/) ->
 
 ---

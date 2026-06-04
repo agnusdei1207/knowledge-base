@@ -38,27 +38,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V가 어떻게 공통분모와 선택 기능을 분리하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 RISC-V의 계층형 구성 원리                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  응용 소프트웨어 / 운영체제 / 컴파일러                              │
-│                     │                                                │
-│                     ▼                                                │
-│  ABI (Application Binary Interface) / 호출 규약 / 툴체인            │
-│                     │                                                │
-│                     ▼                                                │
-│  ┌──────────────────────────────────────────────────────────────┐    │
-│  │ Base ISA : RV32I / RV64I                                     │    │
-│  │ - 정수 연산   - 분기/점프   - Load/Store   - 예외 기본틀     │    │
-│  └──────────────────────────────────────────────────────────────┘    │
-│        │                  │                 │                │       │
-│        ├──────────┬───────┼─────────┬───────┼────────┬───────┤       │
-│        ▼          ▼       ▼         ▼       ▼        ▼               │
-│      M 확장      A 확장   F/D 확장  C 확장  V 확장   기타 표준 확장  │
-│  (곱셈/나눗셈) (원자성) (부동소수점) (코드밀도) (벡터)   (Bitmanip 등)│
-│                                                                     │
-│  구현자 선택: 표준 확장 조합 + 필요 시 커스텀 확장 추가             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 RISC-V의 계층형 구성 원리                           |
++----------------------------------------------------------------------+
+|  응용 소프트웨어 / 운영체제 / 컴파일러                              |
+|                     |                                                |
+|                     v                                                |
+|  ABI (Application Binary Interface) / 호출 규약 / 툴체인            |
+|                     |                                                |
+|                     v                                                |
+|  +--------------------------------------------------------------+    |
+|  | Base ISA : RV32I / RV64I                                     |    |
+|  | - 정수 연산   - 분기/점프   - Load/Store   - 예외 기본틀     |    |
+|  +--------------------------------------------------------------+    |
+|        |                  |                 |                |       |
+|        +----------+-------+---------+-------+--------+-------+       |
+|        v          v       v         v       v        v               |
+|      M 확장      A 확장   F/D 확장  C 확장  V 확장   기타 표준 확장  |
+|  (곱셈/나눗셈) (원자성) (부동소수점) (코드밀도) (벡터)   (Bitmanip 등)|
+|                                                                     |
+|  구현자 선택: 표준 확장 조합 + 필요 시 커스텀 확장 추가             |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 “베이스를 단순하게 유지할수록 확장 조합을 관리하기 쉽다”는 점이다. 고정 길이 32비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 중심에 두고, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `C` 확장으로 코드 밀도를 보완하며, 로드/스토어 중심의 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 스타일로 파이프라인을 단순화한다. 또한 조건 코드 플래그에 과도하게 의존하지 않고, 비교와 분기를 명시적으로 처리해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성과 구현 복잡도를 줄인다.
@@ -111,22 +111,22 @@ MIPS와는 철학적으로 닮은 면이 있다. 둘 다 교육용으로 이해�
 아래 흐름은 실무에서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V 채택 여부를 판단할 때 보는 주요 기준을 정리한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                RISC-V 채택 판단 흐름                                 │
-├──────────────────────────────────────────────────────────────────────┤
-│  맞춤형 명령어/가속기 필요? ── 아니오 ──▶ 상용 IP 검토 우선          │
-│            │                                                         │
-│           예                                                         │
-│            ▼                                                         │
-│  소프트웨어 툴체인 직접 관리 가능? ── 아니오 ──▶ 범용 플랫폼 재검토   │
-│            │                                                         │
-│           예                                                         │
-│            ▼                                                         │
-│  표준 확장 조합 정의 + ABI/OS 호환성 검증 + 검증환경 구축            │
-│            │                                                         │
-│            ▼                                                         │
-│       RISC-V 기반 맞춤형 SoC 설계 진행                               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                RISC-V 채택 판단 흐름                                 |
++----------------------------------------------------------------------+
+|  맞춤형 명령어/가속기 필요? -- 아니오 ---> 상용 IP 검토 우선          |
+|            |                                                         |
+|           예                                                         |
+|            v                                                         |
+|  소프트웨어 툴체인 직접 관리 가능? -- 아니오 ---> 범용 플랫폼 재검토   |
+|            |                                                         |
+|           예                                                         |
+|            v                                                         |
+|  표준 확장 조합 정의 + ABI/OS 호환성 검증 + 검증환경 구축            |
+|            |                                                         |
+|            v                                                         |
+|       RISC-V 기반 맞춤형 SoC 설계 진행                               |
++----------------------------------------------------------------------+
 ```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -173,19 +173,19 @@ MIPS와는 철학적으로 닮은 면이 있다. 둘 다 교육용으로 이해�
 
 ```text
 전통적 RISC 철학
-    │
-    ▼
+    |
+    v
 ISA 단순화와 로드/스토어 구조
-    │
-    ▼
+    |
+    v
 RISC-V Base ISA (RV32I / RV64I)
-    │
-    ├──▶ 표준 확장 (M, A, F, D, C, V)
-    │
-    ▼
+    |
+    +---> 표준 확장 (M, A, F, D, C, V)
+    |
+    v
 오픈 툴체인 · 리눅스 포팅 · SoC 설계 확산
-    │
-    ▼
+    |
+    v
 도메인 특화 아키텍처 · 커스텀 가속기 · 공급망 다변화
 ```
 
@@ -203,7 +203,7 @@ RISC-V Base ISA (RV32I / RV64I)
 
 **진행 상황**: 200 / 803
 
-← **이전**: [199. ARM 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/199_arm_architecture/)
-**다음**: [201. MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) →
+<- **이전**: [199. ARM 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/199_arm_architecture/)
+**다음**: [201. MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) ->
 
 ---

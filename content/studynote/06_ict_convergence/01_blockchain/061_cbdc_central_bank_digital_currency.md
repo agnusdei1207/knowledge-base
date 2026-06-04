@@ -31,9 +31,9 @@ CBDC는 이런 환경에서 국가가 직접 발행하는 디지털 현금에 �
 
 ```text
 중앙은행
-   ↓ 발행 / 정산
+   v 발행 / 정산
 중간기관(은행 / 결제망)
-   ↓ 유통 / 지갑
+   v 유통 / 지갑
 개인 / 기업
 ```
 
@@ -102,13 +102,13 @@ CBDC는 디지털 시대의 법정화폐를 다시 정의하려는 시도다. �
 
 ```text
 Central Bank
-   ↓
+   v
 CBDC
-   ↓
+   v
 Retail / Wholesale
-   ↓
+   v
 Digital Payment Infrastructure
-   ↓
+   v
 Monetary Policy Tools
 ```
 
@@ -118,13 +118,13 @@ Monetary Policy Tools
 
 ```text
 현금
-   ↓
+   v
 전자지갑 / 카드결제
-   ↓
+   v
 Stablecoin / Crypto
-   ↓
+   v
 CBDC
-   ↓
+   v
 디지털 법정화폐
 ```
 
@@ -142,7 +142,7 @@ CBDC는 종이돈을 스마트폰에 넣은 것처럼 보이지만, 실제 주�
 
 **진행 상황**: 61 / 552
 
-← **이전**: [60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)
-**다음**: [62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/) →
+<- **이전**: [60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)
+**다음**: [62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/) ->
 
 ---

@@ -10,15 +10,15 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. [메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)([Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))는 Databricks가 제시한 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 <strong>Bronze→Silver→Gold 3계층 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> 설계 표준</strong>으로, 각 계층이 점진적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 높인다.
+1. [메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)([Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))는 Databricks가 제시한 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 <strong>Bronze->Silver->Gold 3계층 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> 설계 표준</strong>으로, 각 계층이 점진적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 높인다.
 2. <strong>AutoLoader</strong>와 <strong>COPY INTO</strong>로 Bronze 계층에 증분 적재하고, MERGE INTO로 Silver의 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) ([Slowly Changing Dimension](/knowledge-base/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/)) 이력을 관리하며, dbt나 Spark SQL로 Gold 집계 테이블을 선언적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
-3. Delta Live Tables ([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))를 활용하면 Bronze→Silver→Gold 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반으로 선언하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기대값(Expectations)을 코드로 관리할 수 있다.
+3. Delta Live Tables ([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))를 활용하면 Bronze->Silver->Gold 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반으로 선언하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기대값(Expectations)을 코드로 관리할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[Multi-Tier Architecture](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/)(009)가 개념적 설계 원칙이라면, [메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 이를 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a> 위에 구현한 <a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> 공식 패턴</strong>이다. Medallion이라는 이름은 Bronze→Silver→Gold가 올림픽 메달처럼 품질이 높아진다는 비유에서 유래했다.
+[Multi-Tier Architecture](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/)(009)가 개념적 설계 원칙이라면, [메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 이를 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a> 위에 구현한 <a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> 공식 패턴</strong>이다. Medallion이라는 이름은 Bronze->Silver->Gold가 올림픽 메달처럼 품질이 높아진다는 비유에서 유래했다.
 
 핵심 차별점은 Delta Lake의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 타임 트래블, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화 기능을 활용하여 각 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 처리한다는 점이다. 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 레이크에서는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중간 실패 시 오염된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남아있어 재처리가 복잡했으나, Delta Lake는 원자적 커밋으로 이 문제를 해결한다.
 
@@ -29,45 +29,45 @@ tags = ["studynote-bigdata"]
 | Gold | 집계·[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) + dbt + [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | 계층 간 의존성 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Workflows / [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
 
-> 📢 **섹션 요약 비유**: 메달리온은 올림픽 선발 과정이다. 지역 예선(Bronze)→전국 선발전(Silver)→국가 대표 확정(Gold) 순으로 점진적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 선수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 최종 무대에 선다.
+> 📢 **섹션 요약 비유**: 메달리온은 올림픽 선발 과정이다. 지역 예선(Bronze)->전국 선발전(Silver)->국가 대표 확정(Gold) 순으로 점진적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 선수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 최종 무대에 선다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│              Medallion Architecture (Databricks 구현)             │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────┐   AutoLoader / COPY INTO                       │
-│  │  원본 소스    │ ──────────────────────────▶ 🥉 BRONZE           │
-│  │  (S3 Raw)   │                              Delta Table        │
-│  └──────────────┘                             - 스키마: 원본 그대로│
-│                                               - 파티션: 적재 날짜  │
-│                                               - 모드: append-only │
-│                                                      │           │
-│                              MERGE INTO (upsert)     │           │
-│                              + SCD Type 2 변환        │           │
-│                                                      ▼           │
-│                                              🥈 SILVER           │
-│                                              Delta Table         │
-│                                              - 중복 제거          │
-│                                              - null 처리          │
-│                                              - 비즈니스 키 정의    │
-│                                              - 품질 기대값 검사    │
-│                                                      │           │
-│                              Spark SQL / dbt 집계    │           │
-│                                                      ▼           │
-│                                              🥇 GOLD             │
-│                                              Delta Table         │
-│                                              - 일별/월별 집계     │
-│                                              - Star 스키마        │
-│                                              - BI 최적화 파티션   │
-│                                                      │           │
-│                                          [Power BI / Tableau /   │
-│                                           Databricks SQL]        │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              Medallion Architecture (Databricks 구현)             |
++------------------------------------------------------------------+
+|                                                                  |
+|  +--------------+   AutoLoader / COPY INTO                       |
+|  |  원본 소스    | ---------------------------> 🥉 BRONZE           |
+|  |  (S3 Raw)   |                              Delta Table        |
+|  +--------------+                             - 스키마: 원본 그대로|
+|                                               - 파티션: 적재 날짜  |
+|                                               - 모드: append-only |
+|                                                      |           |
+|                              MERGE INTO (upsert)     |           |
+|                              + SCD Type 2 변환        |           |
+|                                                      v           |
+|                                              🥈 SILVER           |
+|                                              Delta Table         |
+|                                              - 중복 제거          |
+|                                              - null 처리          |
+|                                              - 비즈니스 키 정의    |
+|                                              - 품질 기대값 검사    |
+|                                                      |           |
+|                              Spark SQL / dbt 집계    |           |
+|                                                      v           |
+|                                              🥇 GOLD             |
+|                                              Delta Table         |
+|                                              - 일별/월별 집계     |
+|                                              - Star 스키마        |
+|                                              - BI 최적화 파티션   |
+|                                                      |           |
+|                                          [Power BI / Tableau /   |
+|                                           Databricks SQL]        |
++------------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> 구현 도구 매핑</strong>
@@ -81,7 +81,7 @@ tags = ["studynote-bigdata"]
 | Gold 집계 | dbt / [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) | 선언적 SQL 변환 |
 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 관리 | Delta Live Tables | 의존성 자동 해결, 재처리 지원 |
 
-> 📢 **섹션 요약 비유**: AutoLoader는 우체통처럼 새 편지가 오면 자동으로 감지해서 Bronze 서랍에 넣어준다. DLT는 편지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템으로 Bronze→Silver→Gold 경로를 자동으로 처리한다.
+> 📢 **섹션 요약 비유**: AutoLoader는 우체통처럼 새 편지가 오면 자동으로 감지해서 Bronze 서랍에 넣어준다. DLT는 편지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템으로 Bronze->Silver->Gold 경로를 자동으로 처리한다.
 
 ---
 
@@ -129,8 +129,8 @@ WHEN NOT MATCHED THEN
 | 질문 | 핵심 답변 |
 |:---|:---|
 | Medallion과 Multi-Tier 차이 | Medallion = [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 구현 표준, Multi-Tier = 일반 설계 원칙 |
-| AutoLoader 동작 원리 | S3/ADLS 이벤트 알림 구독 → 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 감지 → Delta append |
-| [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations 역할 | 품질 규칙 코드화 → 위반 시 격리/드롭/경고 중 선택 가능 |
+| AutoLoader 동작 원리 | S3/ADLS 이벤트 알림 구독 -> 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 감지 -> Delta append |
+| [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations 역할 | 품질 규칙 코드화 -> 위반 시 격리/드롭/경고 중 선택 가능 |
 | Gold [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 필터 기준 컬럼(date, region) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) + Z-ORDER 적용 |
 
 > 📢 **섹션 요약 비유**: Medallion Architecture는 IKEA 조립 설명서와 같다. Delta Lake라는 표준 부품과 AutoLoader·DLT라는 전동 드라이버를 써서 누구나 같은 결과물을 만들 수 있다.
@@ -169,26 +169,26 @@ WHEN NOT MATCHED THEN
 
 ```text
 [원시 데이터 수집 (Raw Ingestion) — 다양한 소스에서 무결 저장]
-    │
-    ▼
+    |
+    v
 [브론즈 레이어 (Bronze) — 원시 데이터 그대로 보존]
-    │
-    ▼
+    |
+    v
 [실버 레이어 (Silver) — 정제·표준화·중복 제거]
-    │
-    ▼
+    |
+    v
 [골드 레이어 (Gold) — 비즈니스 집계·분석용 최종 데이터]
-    │
-    ▼
+    |
+    v
 [레이크하우스 (Lakehouse) — 메달리온 위에 ACID 트랜잭션 지원]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인별 메달리온 자율 관리]
 ```
-[메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치를 브론즈→실버→골드 정제 단계로 점진적으로 높이며, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)와 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기반을 제공한다.
+[메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치를 브론즈->실버->골드 정제 단계로 점진적으로 높이며, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)와 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기반을 제공한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 메달리온은 그림 대회의 예선→본선→결선처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단계별로 더 좋아지는 여정이에요.
+1. 메달리온은 그림 대회의 예선->본선->결선처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단계별로 더 좋아지는 여정이에요.
 2. AutoLoader는 우편함을 자동으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해서 새 편지가 오면 바로 Bronze 방에 넣어주는 로봇이에요.
 3. 각 단계에서 품질 검사([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations)를 통과해야만 다음 단계로 올라갈 수 있어요.
 
@@ -198,7 +198,7 @@ WHEN NOT MATCHED THEN
 
 **진행 상황**: 152 / 262
 
-← **이전**: [151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/)
-**다음**: [153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/153_data_mesh_in_lake/) →
+<- **이전**: [151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/)
+**다음**: [153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/153_data_mesh_in_lake/) ->
 
 ---

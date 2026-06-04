@@ -26,17 +26,17 @@ tags = ["security"]
 <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/">정보보호 관리체계의 [PDCA</a> 사이클 도식]</strong>
 이 도식은 프레임워크가 일회성 프로젝트가 아니라, 끊임없이 위협을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 개선하는 순환 프로세스(Deming Wheel)임을 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│               Security Governance Cycle                │
-├────────────────────────────────────────────────────────┤
-│           [Plan] (위험 식별 및 정책 수립)              │
-│             ▲                         ▼                │
-│             │                         │                │
-│ [Act] (사후 조치 및 개선)    [Do] (통제 기술 구현)     │
-│             ▲                         ▼                │
-│             │                         │                │
-│           [Check] (내/외부 감사 및 모니터링)           │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|               Security Governance Cycle                |
++--------------------------------------------------------+
+|           [Plan] (위험 식별 및 정책 수립)              |
+|             ^                         v                |
+|             |                         |                |
+| [Act] (사후 조치 및 개선)    [Do] (통제 기술 구현)     |
+|             ^                         v                |
+|             |                         |                |
+|           [Check] (내/외부 감사 및 모니터링)           |
++--------------------------------------------------------+
 ```
 이 흐름의 핵심은 보안 솔루션의 도입(Do)보다 앞서 반드시 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 분석(Plan)해야 하며, 구현 후에는 반드시 효과성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Check)해야 한다는 점이다. 만약 Plan 단계 없이 최신 보안 솔루션만 도입한다면(Do), 정작 기업의 핵심 자산(예: 고객 DB)이 아닌 엉뚱한 곳에 예산을 낭비하게 된다. 이 사이클을 문서화하고 경영진의 승인을 받는 것이 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) ([Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)의 핵심이다.
 
@@ -58,14 +58,14 @@ tags = ["security"]
 <strong>SABSA (Sherwood Applied Business <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/">Security Architecture</a>) 매트릭스 도식]</strong>
 이 도식은 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)가 철저하게 비즈니스(Why/What)에서 시작하여 기술(How/Where)로 구체화되는 하향식 매트릭스 구조를 보여준다.
 ```text
-┌──────────────┬─────────────┬──────────────┬──────────────┐
-│  관점(View)  │ 자산 (What) │ 프로세스 (How)│ 위치 (Where) │
-├──────────────┼─────────────┼──────────────┼──────────────┤
-│ 비즈니스(회장)│ 핵심 정보   │ 비즈니스 목표│ 주요 사업장  │
-│ 아키텍트(설계)│ 데이터 모델 │ 권한/통제구조│ 네트워크 토폴│
-│ 설계자 (구현)│ DB 스키마   │ 암호화/SSO   │ 클라우드 존  │
-│ 시공자 (엔지)│ 데이터 필드 │ ACL/방화벽룰 │ IP / 포트    │
-└──────────────┴─────────────┴──────────────┴──────────────┘
++--------------+-------------+--------------+--------------+
+|  관점(View)  | 자산 (What) | 프로세스 (How)| 위치 (Where) |
++--------------+-------------+--------------+--------------+
+| 비즈니스(회장)| 핵심 정보   | 비즈니스 목표| 주요 사업장  |
+| 아키텍트(설계)| 데이터 모델 | 권한/통제구조| 네트워크 토폴|
+| 설계자 (구현)| DB 스키마   | 암호화/SSO   | 클라우드 존  |
+| 시공자 (엔지)| 데이터 필드 | ACL/방화벽룰 | IP / 포트    |
++--------------+-------------+--------------+--------------+
 ```
 이 구조의 핵심은 하위 계층([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰)의 어떤 설정도 상위 계층(비즈니스 목표)과 연결되지 않으면 의미가 없다는 점이다. [SABSA](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/) 프레임워크는 6개의 층(수직)과 6개의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(수평, 5W1H)으로 이루어져 있으며, 각 칸(Cell)이 완벽히 채워져야 구멍 없는 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)가 완성된다. 실무에서 보안 엔지니어는 자신이 구성하는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(시공자-How)이 어떤 비즈니스 목표(비즈니스-How)를 지키기 위함인지 추적 가능해야 한다.
 
@@ -89,14 +89,14 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 **[클라우드 환경에 따른 책임 공유 모델 (Shared Responsibility Model) 도식]**
 이 도식은 컴플라이언스 충족을 위해 클라우드 사업자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))와 고객사(Tenant) 간의 책임이 어떻게 나뉘는지를 보여준다.
 ```text
-┌─────────────────┬───────────┬───────────┬───────────┐
-│     책임 영역     │   IaaS    │   PaaS    │   SaaS    │
-├─────────────────┼───────────┼───────────┼───────────┤
-│ 데이터 (Data)     │  [고객]   │  [고객]   │  [고객]   │
-│ 애플리케이션 (App)│  [고객]   │  [고객]   │   CSP     │
-│ OS / 미들웨어     │  [고객]   │   CSP     │   CSP     │
-│ 물리적 서버/네트  │   CSP     │   CSP     │   CSP     │
-└─────────────────┴───────────┴───────────┴───────────┘
++-----------------+-----------+-----------+-----------+
+|     책임 영역     |   IaaS    |   PaaS    |   SaaS    |
++-----------------+-----------+-----------+-----------+
+| 데이터 (Data)     |  [고객]   |  [고객]   |  [고객]   |
+| 애플리케이션 (App)|  [고객]   |  [고객]   |   CSP     |
+| OS / 미들웨어     |  [고객]   |   CSP     |   CSP     |
+| 물리적 서버/네트  |   CSP     |   CSP     |   CSP     |
++-----------------+-----------+-----------+-----------+
 ```
 이 비교의 핵심은 클라우드를 사용하더라도 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 책임(컴플라이언스)'은 절대 클라우드 사업자에게 전가(Transfer)할 수 없다는 점이다. [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 모델이라 하더라도, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/))와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 설정이 잘못되어 정보가 유출되었다면, GDPR이나 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 위반의 책임은 오롯이 고객사(Tenant)에게 있다. 따라서 프레임워크 수립 시 책임 공유 모델에 대한 명확한 R&R(Role and Responsibilities) 정의가 필수적이다.
 
@@ -153,20 +153,20 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 ```text
 [임시방편 보안 (Ad-hoc Security) — 사고 발생 후 대응, 체계 부재]
-    │
-    ▼
+    |
+    v
 [보안 정책·표준 수립 (Security Policy) — ISO 27001 관리 프레임워크, PDCA 사이클]
-    │
-    ▼
+    |
+    v
 [법정 인증 (ISMS-P / SOC 2) — 법적 요구 사항 충족, 감사 기반 신뢰 확보]
-    │
-    ▼
+    |
+    v
 [완전한 중재 (Complete Mediation) — 모든 접근 경로 매번 검증, 우회 경로 차단]
-    │
-    ▼
+    |
+    v
 [GRC 통합 관리 — 복수 프레임워크 Cross-walk, 중복 통제 제거, 비용 절감]
-    │
-    ▼
+    |
+    v
 [지속적 컴플라이언스 (Continuous Compliance) — Policy as Code, CI/CD 내장 자동 검증]
 ```
 이 흐름은 임시 보안 대응에서 체계적 프레임워크로 진화하고, 클라우드·[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 환경에서는 코드 기반 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 수렴하는 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 성숙도의 발전을 보여준다.
@@ -183,7 +183,7 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 **진행 상황**: 17 / 1108
 
-← **이전**: [16. 데이터 및 개인정보 보호 (Data & Privacy Protection)](/knowledge-base/studynote/09_security/01_intro_principles/016_data_privacy/)
-**다음**: [18. IoT, OT, ICS 및 물리적 보안 (IoT, OT, ICS & Physical Security)](/knowledge-base/studynote/09_security/01_intro_principles/018_iot_ot_ics_physical/) →
+<- **이전**: [16. 데이터 및 개인정보 보호 (Data & Privacy Protection)](/knowledge-base/studynote/09_security/01_intro_principles/016_data_privacy/)
+**다음**: [18. IoT, OT, ICS 및 물리적 보안 (IoT, OT, ICS & Physical Security)](/knowledge-base/studynote/09_security/01_intro_principles/018_iot_ot_ics_physical/) ->
 
 ---

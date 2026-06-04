@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 Serializable (레벨 3)은 완벽한 직렬화, 가장 엄격 (모든 이상현상 방지, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 최저)에 초점을 맞춘 개념이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 비용과 가시성 규칙을 잘못 잡으면 장기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 스토리지 팽창이 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read view -> Version chain -> Current concept -> Visible row │
-├──────────────────────────────────────────────────────────────┤
-│ Snapshot -> version choice -> blocking reduction             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read view -> Version chain -> Current concept -> Visible row |
++--------------------------------------------------------------+
+| Snapshot -> version choice -> blocking reduction             |
++--------------------------------------------------------------+
 ```
 
 이 그림은 Serializable를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ Serializable는 결국 "언제 보고, 어디에서 적용하고, 무엇을 보�
 | 운영 주의 | `Repeatable Read`·`데이터베이스 장애 유형`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Old version -> current version -> current concept -> reader  │
-├──────────────────────────────────────────────────────────────┤
-│ Undo chain -> snapshot rule -> visibility                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Old version -> current version -> current concept -> reader  |
++--------------------------------------------------------------+
+| Undo chain -> snapshot rule -> visibility                    |
++--------------------------------------------------------------+
 ```
 
 핵심은 Serializable를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ Serializable를 올바르게 적용하면 구조를 단순화하고, 정합성�
 
 ```text
 [Repeatable Read]
-    │
-    ▼
+    |
+    v
 [Serializable]
-    │
-    ├──▶ [데이터베이스 장애 유형]
-    └──▶ [회복]
+    |
+    +---> [데이터베이스 장애 유형]
+    +---> [회복]
 ```
 
 Repeatable Read에서 출발한 논점이 Serializable에서 핵심 판단으로 모이고, 이후 [데이터베이스 장애 유형](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/)·[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ Repeatable Read에서 출발한 논점이 Serializable에서 핵심 판단으로
 
 **진행 상황**: 231 / 600
 
-← **이전**: [230. Repeatable Read (Repeatable read Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/)
-**다음**: [232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/) →
+<- **이전**: [230. Repeatable Read (Repeatable read Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/)
+**다음**: [232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/) ->
 
 ---

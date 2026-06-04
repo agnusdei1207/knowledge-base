@@ -31,22 +31,22 @@ tags = ["database"]
 [그림 1: 데이터 모델의 필수 3요소와 역할 다이어그램]
 
                        [현실 세계의 비즈니스 요구사항]
-                                     │ (추상화 / 모델링)
-                                     ▼
-                  ┌─────────────────────────────────────┐
-                  │          데이터 모델 (Data Model)   │
-                  │                                     │
-                  │  (1) 구조 (Structure) - [정적]      │ ──> "무엇(What)을 저장할 것인가?"
-                  │      : 개체, 속성, 관계의 형태      │     (예: 테이블, 컬럼, 트리 노드)
-                  │                                     │
-                  │  (2) 연산 (Operation) - [동적]      │ ──> "어떻게(How) 처리할 것인가?"
-                  │      : 상태 변경, 검색, 조작 방법   │     (예: 관계 대수, SELECT/JOIN)
-                  │                                     │
-                  │  (3) 제약조건 (Constraint) - [규칙] │ ──> "무엇을 금지(Limit)할 것인가?"
-                  │      : 무결성을 위한 논리적 규칙    │     (예: 기본키 제약, Not Null)
-                  └─────────────────────────────────────┘
-                                     │ (물리적 구현)
-                                     ▼
+                                     | (추상화 / 모델링)
+                                     v
+                  +-------------------------------------+
+                  |          데이터 모델 (Data Model)   |
+                  |                                     |
+                  |  (1) 구조 (Structure) - [정적]      | --> "무엇(What)을 저장할 것인가?"
+                  |      : 개체, 속성, 관계의 형태      |     (예: 테이블, 컬럼, 트리 노드)
+                  |                                     |
+                  |  (2) 연산 (Operation) - [동적]      | --> "어떻게(How) 처리할 것인가?"
+                  |      : 상태 변경, 검색, 조작 방법   |     (예: 관계 대수, SELECT/JOIN)
+                  |                                     |
+                  |  (3) 제약조건 (Constraint) - [규칙] | --> "무엇을 금지(Limit)할 것인가?"
+                  |      : 무결성을 위한 논리적 규칙    |     (예: 기본키 제약, Not Null)
+                  +-------------------------------------+
+                                     | (물리적 구현)
+                                     v
                              [DBMS 데이터베이스]
 ```
 
@@ -61,7 +61,7 @@ tags = ["database"]
 | 구성 요소 | 역할 (기능) | RDB에서의 구현 (예시) | 내부 동작 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
 | **1. 구조** (Structure) | 개체와 개체 간의 연관성 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '정적(Static)'인 형태 정의 | [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)/Table), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)), [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)(Create/Alter)을 통해 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 영구 등록 | 건물의 뼈대와 방의 배치 |
-| **2. 연산** ([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 검색하고 조작하는 '동적(Dynamic)'인 상태 변화 메커니즘 | [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) ([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/), [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등) 및 SQL [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (Insert, Update) | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 파싱 → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 스토리지 엔진 I/O 호출 | 건물 내 엘리베이터 이동과 리모델링 작업 |
+| **2. 연산** ([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 검색하고 조작하는 '동적(Dynamic)'인 상태 변화 메커니즘 | [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) ([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/), [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등) 및 SQL [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (Insert, Update) | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 파싱 -> [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 스토리지 엔진 I/O 호출 | 건물 내 엘리베이터 이동과 리모델링 작업 |
 | **3. 제약조건** (Constraint) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 모순을 막는 '[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))' 통제 규칙 | [개체 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/)(PK), [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)(FK), [도메인 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/)(Check) | [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 실행 전 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저가 제약조건 위반 검사, 위반 시 예외([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 발생 | 건물 입구의 보안 게이트 및 출입증 검사 |
 
 **핵심 원리: 연산과 제약조건의 상호 작용**
@@ -70,23 +70,23 @@ tags = ["database"]
 ```text
 [그림 2: 데이터 조작 연산(Operation) 시 제약조건(Constraint) 검증 흐름도]
 
-[Client] ── (연산 발생: UPDATE 부서코드=99 WHERE 사원=홍길동) ──┐
-                                                               │
-┌────────────────────── DBMS 트랜잭션 제어기 ──────────────────▼──┐
-│                                                                 │
-│  [1. 구조 확인]                                                 │
-│   → '사원' 테이블과 '부서코드' 컬럼이 존재하는가? (Pass)        │
-│                                                                 │
-│  [2. 제약조건(참조 무결성) 검사]                                │
-│   → '부서코드 99'가 부서(Parent) 테이블의 기본키에 존재하는가?  │
-│      ├─ 존재함 (Pass) ────────┐                                 │
-│      │                        ▼                                 │
-│      │               [3. 연산 확정 적용] (데이터 갱신 반영)     │
-│      │                                                          │
-│      └─ 존재 안 함 (Fail) ────┐                                 │
-│                               ▼                                 │
-│               [연산 거부 및 Exception 발생 (ORA-02291 등)]      │
-└─────────────────────────────────────────────────────────────────┘
+[Client] -- (연산 발생: UPDATE 부서코드=99 WHERE 사원=홍길동) --+
+                                                               |
++---------------------- DBMS 트랜잭션 제어기 ------------------v--+
+|                                                                 |
+|  [1. 구조 확인]                                                 |
+|   -> '사원' 테이블과 '부서코드' 컬럼이 존재하는가? (Pass)        |
+|                                                                 |
+|  [2. 제약조건(참조 무결성) 검사]                                |
+|   -> '부서코드 99'가 부서(Parent) 테이블의 기본키에 존재하는가?  |
+|      +- 존재함 (Pass) --------+                                 |
+|      |                        v                                 |
+|      |               [3. 연산 확정 적용] (데이터 갱신 반영)     |
+|      |                                                          |
+|      +- 존재 안 함 (Fail) ----+                                 |
+|                               v                                 |
+|               [연산 거부 및 Exception 발생 (ORA-02291 등)]      |
++-----------------------------------------------------------------+
 ```
 
 이 흐름도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델에서 '연산'이 단독으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신할 수 없고, 반드시 사전에 정의된 '제약조건' 필터를 통과해야만 '구조' 내에 정착할 수 있다는 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다는 점이다. 제약조건이 DB 엔진 레벨(제약조건 검사)에서 수행될지, 아니면 애플리케이션 백엔드 코드 레벨에서 수행될지에 따라 시스템의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 크게 달라진다.
@@ -108,14 +108,14 @@ tags = ["database"]
 ```text
 [그림 3: 데이터 모델별 구조적 차이 비교 매트릭스 (계층/망/관계형)]
 
-┌────────────┬─────────────────────────────┬──────────────────────────────┬──────────────────────────────┐
-│ 모델 유형  │ 계층형 (Hierarchical)       │ 망형 (Network)               │ 관계형 (Relational)          │
-├────────────┼─────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-│ 1. 구조    │ 트리 (Tree) / 부모-자식     │ 그래프 (Graph) / 오너-멤버   │ 2차원 표 (Table) / 수학적 집합│
-│ 2. 연산    │ 포인터 네비게이션 (순차적)  │ 링크 리스트 순회 탐색        │ 관계 대수 (조인 등 집합 연산)│
-│ 3. 제약조건│ 자식은 부모 하나만 가짐(1:N)│ 여러 오너 소유 허용 (N:M)    │ 키 기반 참조 무결성 통제     │
-│ 실무 활용  │ LDAP, XML 문서 구조         │ 초기 메인프레임 시스템       │ 현대 RDBMS의 절대적 표준     │
-└────────────┴─────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
++------------+-----------------------------+------------------------------+------------------------------+
+| 모델 유형  | 계층형 (Hierarchical)       | 망형 (Network)               | 관계형 (Relational)          |
++------------+-----------------------------+------------------------------+------------------------------+
+| 1. 구조    | 트리 (Tree) / 부모-자식     | 그래프 (Graph) / 오너-멤버   | 2차원 표 (Table) / 수학적 집합|
+| 2. 연산    | 포인터 네비게이션 (순차적)  | 링크 리스트 순회 탐색        | 관계 대수 (조인 등 집합 연산)|
+| 3. 제약조건| 자식은 부모 하나만 가짐(1:N)| 여러 오너 소유 허용 (N:M)    | 키 기반 참조 무결성 통제     |
+| 실무 활용  | LDAP, XML 문서 구조         | 초기 메인프레임 시스템       | 현대 RDBMS의 절대적 표준     |
++------------+-----------------------------+------------------------------+------------------------------+
 ```
 
 이 매트릭스는 과거부터 현대까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델이 진화해 온 과정을 3요소 관점에서 명확히 대조한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 계층/망형 모델은 '구조'가 복잡한 포인터로 얽혀 있어 '연산'이 매우 종속적이고 절차적이었다. 반면, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델은 표라는 단순한 '구조'와 수학적 집합 '연산([관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/))'을 도입하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직관적이고 비절차적으로 다룰 수 있게 함으로써 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 대중화를 이끌어냈다.
@@ -138,24 +138,24 @@ tags = ["database"]
 ```text
 [그림 4: 데이터 품질 확보를 위한 모델링 3요소 설계 체크리스트 흐름도]
 
-[요구사항 분석] ──> [논리적 데이터 모델링]
-                         │
-        ┌────────────────┼────────────────┐
-        ▼                ▼                ▼
+[요구사항 분석] --> [논리적 데이터 모델링]
+                         |
+        +----------------+----------------+
+        v                v                v
    [구조 설계]      [연산(트랜잭션) 분석] [제약조건 설계]
  - 정규화 준수?     - CRUD 빈도는?     - PK/FK 식별 관계 명확?
  - 슈퍼/서브타입?   - 복잡한 조인 유무? - 도메인(Check/Null) 유효?
-        │                │                │
-        └───────┬────────┴────────┬───────┘
-                ▼                 ▼
+        |                |                |
+        +-------+--------+--------+-------+
+                v                 v
           (구조가 연산을     (제약이 연산을
            감당 가능한가?)    안전하게 막는가?)
-                │                 │
-                ▼                 ▼
+                |                 |
+                v                 v
           [병목 예상 시]     [오류 예상 시]
           (반정규화 적용)    (DB/App 검증 분리)
-                         │
-                         ▼
+                         |
+                         v
                 [물리적 데이터베이스 생성]
 ```
 
@@ -190,17 +190,17 @@ tags = ["database"]
 
 ```text
 [데이터 모델 3요소 — 구조(Structure), 연산(Operation), 제약(Constraint)]
-    │
-    ▼
+    |
+    v
 [개념적 데이터 모델 (E-R 다이어그램) — 엔티티·속성·관계 개념적 표현]
-    │
-    ▼
+    |
+    v
 [논리적 데이터 모델 (관계형 모델) — 테이블·키·정규화·SQL 규칙 정의]
-    │
-    ▼
+    |
+    v
 [물리적 데이터 모델 — 인덱스·파티션·스토리지 엔진 매핑]
-    │
-    ▼
+    |
+    v
 [NoSQL / 다중 모델 DB — 유연한 구조로 비정형 데이터 제약 완화]
 ```
 
@@ -218,7 +218,7 @@ tags = ["database"]
 
 **진행 상황**: 14 / 600
 
-← **이전**: [13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/)
-**다음**: [15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)](/knowledge-base/studynote/05_database/01_db_architecture_relational/015_hierarchical_data_model/) →
+<- **이전**: [13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/)
+**다음**: [15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)](/knowledge-base/studynote/05_database/01_db_architecture_relational/015_hierarchical_data_model/) ->
 
 ---

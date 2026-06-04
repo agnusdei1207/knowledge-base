@@ -21,7 +21,7 @@ tags = ["studynote-algorithm"]
 
 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 큰 문제를 작은 문제로 쪼갠 뒤 다시 합치는 전형적인 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 알고리즘이다. 핵심은 "어떻게 한 번에 정렬할까"가 아니라, <strong>작게 쪼개면 정렬이 쉬워지고, 정렬된 두 조각은 선형 시간에 합칠 수 있다</strong>는 사실을 이용하는 데 있다.
 
-이 알고리즘이 중요해진 이유는 단순 비교 정렬들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 커질수록 급격히 느려지기 때문이다. 버블 정렬이나 선택 정렬은 최악에 `O(n²)`가 걸리므로, 입력 크기가 커지면 처리 시간이 폭증한다. 반면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 입력이 이미 정렬돼 있든 역순이든 관계없이 작업량이 거의 일정하다.
+이 알고리즘이 중요해진 이유는 단순 비교 정렬들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 커질수록 급격히 느려지기 때문이다. 버블 정렬이나 선택 정렬은 최악에 `O(n^)`가 걸리므로, 입력 크기가 커지면 처리 시간이 폭증한다. 반면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 입력이 이미 정렬돼 있든 역순이든 관계없이 작업량이 거의 일정하다.
 
 또한 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 안정 정렬이라는 점에서 실무 가치가 크다. 예를 들어 "점수순 정렬 후 같은 점수에서는 먼저 들어온 순서를 유지"해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서, [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 동일 키의 기존 순서를 보존한다. 그래서 단순히 빠른 정렬이 아니라 <strong>예측 가능하고 순서를 보존하는 정렬</strong>로 기억해야 한다.
 
@@ -33,7 +33,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 보통 **분할 (Divide) → 정복 (Conquer) → 병합 (Merge)** 의 세 단계로 이해하면 된다. 분할은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 절반씩 쪼개는 단계이고, 정복은 길이 1이 될 때까지 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 내려가는 단계이며, 병합은 이미 정렬된 두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 선형 시간에 합치는 단계다.
+[합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 보통 **분할 (Divide) -> 정복 (Conquer) -> 병합 (Merge)** 의 세 단계로 이해하면 된다. 분할은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 절반씩 쪼개는 단계이고, 정복은 길이 1이 될 때까지 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 내려가는 단계이며, 병합은 이미 정렬된 두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 선형 시간에 합치는 단계다.
 
 | 단계 | 핵심 동작 | 시간 관점 | 구현 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -44,22 +44,22 @@ tags = ["studynote-algorithm"]
 아래 그림은 분할과 병합이 어떻게 맞물리는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Merge Sort: split first, merge later               │
-├────────────────────────────────────────────────────────────────────┤
-│ [38 27 43 03 09 82 10 14]                                          │
-│          ├───────────────┬───────────────┤                         │
-│      [38 27 43 03]   [09 82 10 14]                                │
-│        ├──────┬──────┤   ├──────┬──────┤                          │
-│      [38 27][43 03] [09 82][10 14]                                │
-│                                                                    │
-│ merge upward:                                                      │
-│ [27 38] [03 43] [09 82] [10 14]                                   │
-│      └──────┬──────┘   └──────┬──────┘                            │
-│      [03 27 38 43]      [09 10 14 82]                             │
-│               └──────────────┬──────────────┘                     │
-│           [03 09 10 14 27 38 43 82]                               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Merge Sort: split first, merge later               |
++--------------------------------------------------------------------+
+| [38 27 43 03 09 82 10 14]                                          |
+|          +---------------+---------------+                         |
+|      [38 27 43 03]   [09 82 10 14]                                |
+|        +------+------+   +------+------+                          |
+|      [38 27][43 03] [09 82][10 14]                                |
+|                                                                    |
+| merge upward:                                                      |
+| [27 38] [03 43] [09 82] [10 14]                                   |
+|      +------+------+   +------+------+                            |
+|      [03 27 38 43]      [09 10 14 82]                             |
+|               +--------------+--------------+                     |
+|           [03 09 10 14 27 38 43 82]                               |
++--------------------------------------------------------------------+
 ```
 
 병합 단계의 핵심은 두 포인터 비교다. 왼쪽 정렬 구간과 오른쪽 정렬 구간의 맨 앞 원소를 비교해 더 작은 값을 임시 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고, 그쪽 포인터만 한 칸 전진한다. 이 작업을 반복하면 두 정렬 구간을 `O(n)`에 합칠 수 있다. 따라서 전체 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 `T(n) = 2T(n/2) + O(n)` 이 되고, 마스터 정리 (Master Theorem) 에 의해 `O(n log n)`이 된다.
@@ -77,7 +77,7 @@ tags = ["studynote-algorithm"]
 | 비교 축 | [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) |
 | :--- | :--- | :--- | :--- |
 | 평균 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | `O(n log n)` | `O(n log n)` | `O(n log n)` |
-| 최악 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | `O(n log n)` | `O(n²)` | `O(n log n)` |
+| 최악 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | `O(n log n)` | `O(n^)` | `O(n log n)` |
 | 추가 메모리 | `O(n)` | 보통 `O(log n)` | `O(1)` |
 | 안정성 | 안정 | 불안정 | 불안정 |
 | 잘 맞는 환경 | [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/), [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/), 다중 키 정렬 | 일반 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 캐시 효율 | 메모리 제약, 최악 보장 |
@@ -145,21 +145,21 @@ tags = ["studynote-algorithm"]
 
 ```text
 Quadratic comparison sorts
-         │
-         ▼
+         |
+         v
 Divide and Conquer idea
-         │
-         ▼
+         |
+         v
 Merge Sort with stable O(n log n)
-         │
-         ▼
+         |
+         v
 External multi-way merge for large files
-         │
-         ▼
+         |
+         v
 Timsort and parallel merge based optimizations
 ```
 
-이 흐름은 "단순 비교 정렬의 한계 → [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) → 안정적 병합 정렬 → 대용량·하이브리드 정렬로의 확장"을 보여 준다.
+이 흐름은 "단순 비교 정렬의 한계 -> [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) -> 안정적 병합 정렬 -> 대용량·하이브리드 정렬로의 확장"을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -173,7 +173,7 @@ Timsort and parallel merge based optimizations
 
 **진행 상황**: 173 / 175
 
-← **이전**: [172. 이분 매칭 (Bipartite Matching)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)
-**다음**: [퀵 정렬 (Quick Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/174_quick_sort/) →
+<- **이전**: [172. 이분 매칭 (Bipartite Matching)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)
+**다음**: [퀵 정렬 (Quick Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/174_quick_sort/) ->
 
 ---

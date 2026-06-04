@@ -30,26 +30,26 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)의 폭발</strong>: 3D 게임이 나오며 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에 수 기가바이트를 쏟아부어야 하자, 인텔의 `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로는 렉이 걸려 도저히 감당이 안 됐다. 결국 인텔도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 MMIO로 도배하며 항복했다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화          │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ ▶ 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙             │
-│   [ 메모리 주소 공간 (4GB) ]       [ I/O 포트 주소 공간 (64KB) ]      │
-│   0x00000000 ~ 0xFFFFFFFF      0x0000 ~ 0xFFFF                        │
-│   (오직 RAM만 100% 꽉 채워 씀)     (키보드 0x60, 마우스 0x64)         │
-│                                                                       │
-│   💥 동작: CPU가 램을 건드릴 땐 `MOV` 명령어를 쓰고,                  │
-│           키보드를 찌를 땐 무조건 `IN / OUT` 명령어만 써야 함.        │
-│                                                                       │
-│ ▶ 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합                  │
-│   [ 통합된 단일 물리 주소 공간 (예: 4GB) ]                            │
-│   0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)              │
-│   0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)           │
-│                                                                       │
-│   ✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.      │
-│           CPU는 키보드든 램이든 전부 다 `MOV` 명령어로 퉁쳐서 조작함. │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화          |
++-----------------------------------------------------------------------+
+|                                                                       |
+| -> 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙             |
+|   [ 메모리 주소 공간 (4GB) ]       [ I/O 포트 주소 공간 (64KB) ]      |
+|   0x00000000 ~ 0xFFFFFFFF      0x0000 ~ 0xFFFF                        |
+|   (오직 RAM만 100% 꽉 채워 씀)     (키보드 0x60, 마우스 0x64)         |
+|                                                                       |
+|   💥 동작: CPU가 램을 건드릴 땐 `MOV` 명령어를 쓰고,                  |
+|           키보드를 찌를 땐 무조건 `IN / OUT` 명령어만 써야 함.        |
+|                                                                       |
+| -> 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합                  |
+|   [ 통합된 단일 물리 주소 공간 (예: 4GB) ]                            |
+|   0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)              |
+|   0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)           |
+|                                                                       |
+|   ✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.      |
+|           CPU는 키보드든 램이든 전부 다 `MOV` 명령어로 퉁쳐서 조작함. |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 그림 2번(MMIO)을 보면 치명적인 부작용이 보인다. 램을 4GB 돈 주고 사서 꽂았는데, 시스템이 그래픽카드랑 통신하려고 상위 500MB 주소를 MMIO 웜홀로 빼앗아 버렸다. 그 주소에 할당된 '진짜 램 500MB'는 주소가 없어져서 영영 못 쓰는 투명인간이 되어버린다. 이것이 과거 32비트 윈도우에서 램 4GB를 꽂아도 3.2GB밖에 인식 안 되던(Hardware Reserved) 뼈아픈 역사의 진실이다. (64비트가 되며 주소가 텅텅 남아돌아 이 문제는 완전히 해결되었다.)
 
@@ -99,12 +99,12 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반의 MMIO 시대가 오면서, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS)가 부팅될 때 알아서 수십 기가바이트의 널널한 램 주소 공간을 자동으로 찢어서 장비들에 안 겹치게 나눠주게 되었다. 우리가 '플러그 앤 플레이(꽂으면 바로 켜짐)'를 누리게 된 배경에는 이 광활한 MMIO 주소 공간의 여유로움이 있다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 아키텍처   │ 주소 공간 낭비│ 하드웨어 로직 │ 프로그래밍 난이도 │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ PMIO     │ 0% (독립됨) │ 복잡함 (핀 분리)│ ☠️ 어셈블리 지옥    │
-│ MMIO     │ 🔴 램 뺏어먹음│ 매우 단순함   │ 🟢 C 포인터 천국    │
-└──────────┴────────────┴────────────┴───────────────────────────┘
++----------+------------+------------+---------------------------+
+| 아키텍처   | 주소 공간 낭비| 하드웨어 로직 | 프로그래밍 난이도 |
++----------+------------+------------+---------------------------+
+| PMIO     | 0% (독립됨) | 복잡함 (핀 분리)| ☠️ 어셈블리 지옥    |
+| MMIO     | 🔴 램 뺏어먹음| 매우 단순함   | 🟢 C 포인터 천국    |
++----------+------------+------------+---------------------------+
 ```
 **[매트릭스 해설]** "공간을 희생해서 개발자의 편의와 속도를 취한다"는 컴퓨터 공학의 절대 법칙이 다시 한번 발동했다. 주소 공간 수백 MB를 버리더라도 C언어 포인터로 하드웨어를 주무르는 달콤함은 포기할 수 없었다. 그리고 64비트 시대가 오며 '주소 공간의 낭비'라는 유일한 단점마저 수학적으로 소멸해버려 MMIO가 100% 천하 통일을 이뤘다.
 
@@ -160,12 +160,12 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 
 ```text
 [포트 (Port) / 버스 (Bus)]
-    │
-    ▼
+    |
+    v
 [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    │
-    ├──▶ [폴링 (Polling / Programmed I/O)]
-    └──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
+    |
+    +---> [폴링 (Polling / Programmed I/O)]
+    +---> [인터럽트 구동 I/O (Interrupt-driven I/O)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -182,7 +182,7 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 
 **진행 상황**: 447 / 800
 
-← **이전**: [446. 포트 (Port) / 버스 (Bus) - PCIe, USB, SATA, NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)
-**다음**: [448. 폴링 (Polling / Programmed I/O) - 상태 비트를 지속적으로 호스트가 읽음 (바쁜 대기)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) →
+<- **이전**: [446. 포트 (Port) / 버스 (Bus) - PCIe, USB, SATA, NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)
+**다음**: [448. 폴링 (Polling / Programmed I/O) - 상태 비트를 지속적으로 호스트가 읽음 (바쁜 대기)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ->
 
 ---

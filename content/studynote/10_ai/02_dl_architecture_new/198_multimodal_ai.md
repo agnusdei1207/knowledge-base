@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 "아니, 사진 픽셀이든 음성 파동이든 어차피 컴퓨터 입장에선 결국 숫자(Tensor) 조각이잖아? 둘 다 16x16 조각으로 깍두기 썰듯 썰어버려서(Patches), 하나의 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 용광로 신경망에 텍스트랑 같이 왕창 때려 넣고 한꺼번에 버무려보자!" 이 미친 통합의 발상이 <strong>OpenAI의 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4o, 구글의 Gemini, 비디오 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Sora</strong> 같은 세상을 지배하는 융합 괴수([파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))들을 세상에 쏟아낸 원천 동력이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 옛날 AI는 완벽한 분업화 공장이었다. 시각 장애인인 천재 작가(텍스트 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 벙어리인 천재 화가(이미지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 다른 방에 갇혀있었다. 그림을 그려달라고 하면 쪽지를 주고받으며 힘들게 일해야 했다. [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI는 이 둘의 뇌 신경을 외과 수술로 완벽하게 연결해 버린 '궁극의 초인'이다. 한 사람의 몸으로 그림을 보면서 즉시 동시에 아름다운 소설을 읊어내는 진정한 인간 흉내 내기의 완성이다.
@@ -44,24 +44,24 @@ tags = ["studynote-ai"]
 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 뼈대는 결국 물과 기름(이미지와 텍스트)을 한 그릇에 섞이게 만드는 마법의 유화제, <strong>공동 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 공간 (Joint <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a> Space)</strong>과 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>)</strong> 아키텍처다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           멀티모달 AI의 감각 융합 (Cross-Attention) 트랜스포머 도해      │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 이기종 감각의 깍두기 썰기 (Tokenization & Patching)]          │
-│   * 텍스트: "빨간 우산" ─▶ 토큰 쪼개기 ─▶ 숫자 배열 [0.1, 0.4]       │
-│   * 이미지: (빨간 우산 사진) ─▶ 16x16 픽셀 조각 ─▶ 숫자 배열 [0.2, 0.5]│
-│   * 목표: "글자와 사진을 컴퓨터가 똑같이 알아먹는 '통일 규격 텐서 블록'으로 맞춤!"│
-│                                                              │
-│  [2. 공동 임베딩 융합 용광로 (CLIP / Joint Embedding)]            │
-│   * 글자 "빨간 우산"의 벡터와, 사진 조각의 벡터를 3차원 수학 공간에 던짐. │
-│   * "야! 이 글자랑 이 사진은 의미가 똑같은 거니까 찰싹 붙어(거리를 0으로 좁혀)!"│
-│   * 결과: 이미지와 텍스트가 똑같은 뜻을 갖는 하나의 융합 공간 좌표로 짬뽕됨. │
-│                                                              │
-│  [3. 크로스 어텐션 (Cross-Attention) 출력]                      │
-│   * 거대 트랜스포머(LLM) 뇌가 이 융합된 텐서를 통째로 집어삼킴.           │
-│   * 사용자가 사진을 올리면 ─▶ 뇌가 사진의 픽셀 조각 텐서를 보고 ─▶ 그 옆에   │
-│     붙어있던 '글자 단어'들을 본능적으로 끌어와서 대답("빨간 우산이네!") 생성.  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           멀티모달 AI의 감각 융합 (Cross-Attention) 트랜스포머 도해      |
++--------------------------------------------------------------+
+|  [1. 이기종 감각의 깍두기 썰기 (Tokenization & Patching)]          |
+|   * 텍스트: "빨간 우산" --> 토큰 쪼개기 --> 숫자 배열 [0.1, 0.4]       |
+|   * 이미지: (빨간 우산 사진) --> 16x16 픽셀 조각 --> 숫자 배열 [0.2, 0.5]|
+|   * 목표: "글자와 사진을 컴퓨터가 똑같이 알아먹는 '통일 규격 텐서 블록'으로 맞춤!"|
+|                                                              |
+|  [2. 공동 임베딩 융합 용광로 (CLIP / Joint Embedding)]            |
+|   * 글자 "빨간 우산"의 벡터와, 사진 조각의 벡터를 3차원 수학 공간에 던짐. |
+|   * "야! 이 글자랑 이 사진은 의미가 똑같은 거니까 찰싹 붙어(거리를 0으로 좁혀)!"|
+|   * 결과: 이미지와 텍스트가 똑같은 뜻을 갖는 하나의 융합 공간 좌표로 짬뽕됨. |
+|                                                              |
+|  [3. 크로스 어텐션 (Cross-Attention) 출력]                      |
+|   * 거대 트랜스포머(LLM) 뇌가 이 융합된 텐서를 통째로 집어삼킴.           |
+|   * 사용자가 사진을 올리면 --> 뇌가 사진의 픽셀 조각 텐서를 보고 --> 그 옆에   |
+|     붙어있던 '글자 단어'들을 본능적으로 끌어와서 대답("빨간 우산이네!") 생성.  |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (CLIP과 Cross-Attention 매핑)**:
@@ -133,7 +133,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [멀티모달 AI (Multimodal AI)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [멀티모달 AI (Multimodal AI)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 198 / 420
 
-← **이전**: [197. 적대적 예제 (Adversarial Attack)와 방어](/knowledge-base/studynote/10_ai/02_dl_architecture_new/197_adversarial_attack/)
-**다음**: [199. 공간 컴퓨팅 (Spatial Computing) 결합 AI](/knowledge-base/studynote/10_ai/02_dl_architecture_new/199_spatial_computing/) →
+<- **이전**: [197. 적대적 예제 (Adversarial Attack)와 방어](/knowledge-base/studynote/10_ai/02_dl_architecture_new/197_adversarial_attack/)
+**다음**: [199. 공간 컴퓨팅 (Spatial Computing) 결합 AI](/knowledge-base/studynote/10_ai/02_dl_architecture_new/199_spatial_computing/) ->
 
 ---

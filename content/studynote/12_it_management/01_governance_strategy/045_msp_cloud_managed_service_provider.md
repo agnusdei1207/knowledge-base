@@ -134,11 +134,11 @@ FinOps 3단계:
   실제 CPU 사용률: 평균 12%
 
   최적화:
-  Right-sizing → c5.xlarge (4코어, 8GB) × 15대
+  Right-sizing -> c5.xlarge (4코어, 8GB) × 15대
   예약 인스턴스 (1년) 40% 할인
 
   결과:
-  월 $15,000 → $5,500 (63% 절감)
+  월 $15,000 -> $5,500 (63% 절감)
 
 MSP FinOps 도구:
   AWS Cost Explorer, CloudWatch
@@ -176,7 +176,7 @@ MSP의 역할:
   고객 책임 영역 대행
 
   CSP 책임 | MSP가 대행하는 고객 책임 | 고객
-  ─────────┼──────────────────────────┼─────
+  ---------+--------------------------+-----
   인프라   | OS패치, IAM, 모니터링,   | 비즈니스
           | 보안, 비용 최적화,       | 로직
           | 아키텍처 설계            | 데이터
@@ -188,7 +188,7 @@ MSP의 역할:
   - 장애 시 에스컬레이션 절차
   - 데이터 접근 권한 범위
 
-  주의: "클라우드 관리 다 해주세요" →
+  주의: "클라우드 관리 다 해주세요" ->
   데이터 주권, 보안 책임 소재 불명확
 
 MSSP (Managed Security Service Provider):
@@ -205,21 +205,21 @@ MSSP (Managed Security Service Provider):
 ## Ⅴ. 실무 시나리오 — 제조업 MSP 전환
 
 ```
-중견 제조업체 On-Premise → AWS MSP 전환:
+중견 제조업체 On-Premise -> AWS MSP 전환:
 
 배경:
-  IDC 자체 운영 서버 200대 → 5년 내 만료
+  IDC 자체 운영 서버 200대 -> 5년 내 만료
   IT 인력: 3명 (다재다능이지만 클라우드 미경험)
   비용: IDC 운영 연 5억원
 
 MSP 선정 과정:
-  RFP 발송 → 5개 업체 제안
+  RFP 발송 -> 5개 업체 제안
   평가 기준: AWS 파트너십, 제조업 경험, 가격, SLA
   선정: AWS Premier Partner MSP (연 3.5억원)
 
 전환 계획 (12개월):
   1~3개월: 현황 분석, 마이그레이션 설계
-  4~8개월: 단계적 마이그레이션 (비핵심 → 핵심)
+  4~8개월: 단계적 마이그레이션 (비핵심 -> 핵심)
   9~12개월: 최적화, MSP SLA 안정화
 
 MSP 서비스 범위:
@@ -230,10 +230,10 @@ MSP 서비스 범위:
   Well-Architected Review (연 1회)
 
 결과 (18개월 후):
-  비용: IDC 5억 → AWS + MSP 3.8억 (24% 절감)
-  가용성: 99.6% → 99.95%
-  보안 인시던트 대응: 72시간 → 4시간
-  IT 팀 업무: 인프라 운영 → 비즈니스 서비스 개발 전환
+  비용: IDC 5억 -> AWS + MSP 3.8억 (24% 절감)
+  가용성: 99.6% -> 99.95%
+  보안 인시던트 대응: 72시간 -> 4시간
+  IT 팀 업무: 인프라 운영 -> 비즈니스 서비스 개발 전환
 
   ROI: 1.8억/년 절감 + IT 인력 생산성 30% 향상
 
@@ -243,7 +243,7 @@ MSP 서비스 범위:
   SLA 위반 페널티 조항 반드시 포함
 ```
 
-> 📢 **섹션 요약 비유**: 제조업 MSP 전환은 자체 보안팀 → 경비 전문 업체 아웃소싱 — 자체 경비원(IT팀)이 전문 경비 업체(MSP)에 24시간 건물 관리를 맡기고, 본업(제조)에 집중!
+> 📢 **섹션 요약 비유**: 제조업 MSP 전환은 자체 보안팀 -> 경비 전문 업체 아웃소싱 — 자체 경비원(IT팀)이 전문 경비 업체(MSP)에 24시간 건물 관리를 맡기고, 본업(제조)에 집중!
 
 ---
 
@@ -308,7 +308,7 @@ DevSecOps 통합 MSP
 
 **진행 상황**: 81 / 587
 
-← **이전**: [044. BPO — 비즈니스 프로세스 아웃소싱](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_business_process_outsourcing_bpo/)
-**다음**: [45. 클라우드 매니지드 서비스 (MSP, Managed Service Provider)](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/) →
+<- **이전**: [044. BPO — 비즈니스 프로세스 아웃소싱](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_business_process_outsourcing_bpo/)
+**다음**: [45. 클라우드 매니지드 서비스 (MSP, Managed Service Provider)](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/) ->
 
 ---

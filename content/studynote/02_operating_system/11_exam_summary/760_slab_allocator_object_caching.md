@@ -35,29 +35,29 @@ tags = ["studynote-operating-system"]
   - 1994년 SunOS(Solaris)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커 Jeff Bonwick이 최초로 설계했으며, 이후 Linux 등 현대 유닉스 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 디폴트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당기 알고리즘으로 채택되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 Slab 할당기의 메모리 구조 (버디 시스템과의 결합)        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 버디 시스템 (Buddy System) ] -> 4KB 단위의 통짜 페이지 제공         │
-  │     │                                                       │
-  │     ▼ (물리 페이지 1장을 슬랩에 넘겨줌)                           │
-  │  ┌───────────────────────────────────────────────────────┐  │
-  │  │ 캐시 (Cache) - 예: "프로세스 관리용 (task_struct) 전용 캐시" │  │
-  │  │                                                       │  │
-  │  │  [ 슬랩 1 (Slab) - 꽉 참(Full) ]                          │  │
-  │  │  | 객체A | 객체B | 객체C | 객체D | 객체E |                    │  │
-  │  │                                                       │  │
-  │  │  [ 슬랩 2 (Slab) - 부분 사용(Partial) ] ◀ 여기서 할당해 줌!   │  │
-  │  │  | 객체F | 객체G |(빈 객체)|(빈 객체)|(빈 객체)|               │  │
-  │  │                                                       │  │
-  │  │  [ 슬랩 3 (Slab) - 텅 빔(Empty) ]                        │  │
-  │  │  |(빈 객체)|(빈 객체)|(빈 객체)|(빈 객체)|(빈 객체)|               │  │
-  │  └───────────────────────────────────────────────────────┘  │
-  │                                                             │
-  │   ※ 커널이 `task_struct`를 달라고 하면, 부분 사용(Partial) 슬랩을       │
-  │      찾아가서 이미 만들어져 있는 (빈 객체)를 0.001초 만에 즉시 내어줌.      │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 Slab 할당기의 메모리 구조 (버디 시스템과의 결합)        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 버디 시스템 (Buddy System) ] -> 4KB 단위의 통짜 페이지 제공         |
+  |     |                                                       |
+  |     v (물리 페이지 1장을 슬랩에 넘겨줌)                           |
+  |  +-------------------------------------------------------+  |
+  |  | 캐시 (Cache) - 예: "프로세스 관리용 (task_struct) 전용 캐시" |  |
+  |  |                                                       |  |
+  |  |  [ 슬랩 1 (Slab) - 꽉 참(Full) ]                          |  |
+  |  |  | 객체A | 객체B | 객체C | 객체D | 객체E |                    |  |
+  |  |                                                       |  |
+  |  |  [ 슬랩 2 (Slab) - 부분 사용(Partial) ] <- 여기서 할당해 줌!   |  |
+  |  |  | 객체F | 객체G |(빈 객체)|(빈 객체)|(빈 객체)|               |  |
+  |  |                                                       |  |
+  |  |  [ 슬랩 3 (Slab) - 텅 빔(Empty) ]                        |  |
+  |  |  |(빈 객체)|(빈 객체)|(빈 객체)|(빈 객체)|(빈 객체)|               |  |
+  |  +-------------------------------------------------------+  |
+  |                                                             |
+  |   ※ 커널이 `task_struct`를 달라고 하면, 부분 사용(Partial) 슬랩을       |
+  |      찾아가서 이미 만들어져 있는 (빈 객체)를 0.001초 만에 즉시 내어줌.      |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)는 메모리 관리의 중간 도매상이다. 도매상(Slab)은 공장([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))에서 4KB라는 큰 덩어리를 떼어와서, 소매상([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드)이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 좋게 잘게 쪼개어 캐시라는 이름으로 진열해 둔다. 슬랩의 3가지 상태(Full, Partial, Empty) 관리가 핵심이다. 할당 요청이 오면 무조건 `Partial(일부 빈자리 있음)` 슬랩에서 남은 객체를 빼준다. Partial이 다 차서 `Full`이 되거나 아예 없으면, 그때서야 `Empty` 슬랩 하나를 개봉하여 쓴다. 만약 메모리가 부족해지면 OS는 제일 쓸모없는 `Empty` 슬랩 통째로 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)(공장)에 반품(해제)하여 메모리를 회수한다.
@@ -83,25 +83,25 @@ tags = ["studynote-operating-system"]
 [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)의 또 다른 천재성은 하드웨어 L1 캐시의 효율을 극대화하는 '컬러링' 기법에 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 캐시 색상화 (Cache Coloring) 원리                    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 문제 상황: L1 캐시 충돌 (Cache Thrashing) ]                        │
-  │  슬랩 1의 첫 객체 주소: 0x1000                                        │
-  │  슬랩 2의 첫 객체 주소: 0x2000                                        │
-  │  (페이지 단위로 딱딱 떨어지면, 하드웨어 캐시 라인의 "같은 인덱스"에 매핑됨)     │
-  │  -> 코어가 슬랩 1과 슬랩 2를 번갈아 쓰면 캐시가 서로를 쫓아내는 충돌 100% 발생! │
-  │                                                                   │
-  │  [ 해결: 캐시 컬러링 적용 (Offset 밀어주기) ]                          │
-  │                                                                   │
-  │  슬랩 1: [색상0(0B)] | 객체A | 객체B | 객체C | ...                    │
-  │  슬랩 2: [색상1(64B)]| 객체F | 객체G | 객체H | ...                    │
-  │  슬랩 3: [색상2(128B)] | 객체K | 객체L | 객체M | ...                  │
-  │                                                                   │
-  │  ※ 각 슬랩의 시작 부분에 고의로 서로 다른 크기의 빈 공간(Color Offset)을 넣음. │
-  │  -> 객체들의 물리적 주소가 어긋나게 되어 L1 캐시의 서로 다른 라인에 안착 성공!  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 캐시 색상화 (Cache Coloring) 원리                    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 문제 상황: L1 캐시 충돌 (Cache Thrashing) ]                        |
+  |  슬랩 1의 첫 객체 주소: 0x1000                                        |
+  |  슬랩 2의 첫 객체 주소: 0x2000                                        |
+  |  (페이지 단위로 딱딱 떨어지면, 하드웨어 캐시 라인의 "같은 인덱스"에 매핑됨)     |
+  |  -> 코어가 슬랩 1과 슬랩 2를 번갈아 쓰면 캐시가 서로를 쫓아내는 충돌 100% 발생! |
+  |                                                                   |
+  |  [ 해결: 캐시 컬러링 적용 (Offset 밀어주기) ]                          |
+  |                                                                   |
+  |  슬랩 1: [색상0(0B)] | 객체A | 객체B | 객체C | ...                    |
+  |  슬랩 2: [색상1(64B)]| 객체F | 객체G | 객체H | ...                    |
+  |  슬랩 3: [색상2(128B)] | 객체K | 객체L | 객체M | ...                  |
+  |                                                                   |
+  |  ※ 각 슬랩의 시작 부분에 고의로 서로 다른 크기의 빈 공간(Color Offset)을 넣음. |
+  |  -> 객체들의 물리적 주소가 어긋나게 되어 L1 캐시의 서로 다른 라인에 안착 성공!  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 컴퓨터 하드웨어(CPU 캐시)는 멍청해서 주소의 끝자리가 같으면 같은 캐시 방(Set)에 쑤셔 넣으려 한다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB) 단위로 메모리를 할당받는 슬랩들은 필연적으로 시작 주소의 끝자리가 전부 `000`으로 똑같다. 이를 방치하면 여러 슬랩의 객체들이 CPU L1 캐시의 0번 방에만 들어가려고 박 터지게 싸우는 지옥([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 펼쳐진다. 이를 막기 위해 [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)는 슬랩을 만들 때마다 앞에 64바이트, 128바이트씩 고의로 쓰레기 여백(Color)을 두어 시작 주소를 비틀어버린다. 이렇게 색깔(위치)을 다르게 칠해주면 L1 캐시의 모든 방을 골고루 쓸 수 있어 메모리 읽기 속도가 수십 배 빨라진다.
@@ -145,25 +145,25 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (Per-CPU 슬랩 활용)**: 다중 코어에서 모든 코어가 하나의 슬랩(도매상)에 달라붙어 객체를 가져가려 하면 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합 때문에 시스템이 마비된다. 현대의 SLUB 할당기는 각 CPU 코어마다 자기만의 개인용 소매상 캐시(**Per-CPU Cache**)를 따로 할당해 둔다. 코어 0번은 오직 0번 캐시에서만 객체를 빼가므로 락이 필요 없다([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)). 만약 이 튜닝이 어긋나서 다른 코어의 캐시(Alien Cache)를 침범하고 있다면, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 매핑 및 캐시 친화성([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 설정을 재점검하여 철저한 로컬 캐시 히트를 유도해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 누수(Leak) 분석을 위한 /proc/slabinfo 트리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서버 램 고갈 시 아키텍트의 분석 절차 ]                                  │
-  │                                                                   │
-  │   1. `free -m` 쳤는데 buff/cache가 비정상적으로 크고 여유가 없음.            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │   2. `slabtop` 명령어 실행 (슬랩 캐시 랭킹 확인)                          │
-  │          ├─ [ ext4_inode_cache ] 1위 ──▶ 수많은 파일 오픈/닫기 폭주 의심 │
-  │          ├─ [ dentry ] 1위 ─────────▶ 경로 탐색(find 등) 로직 폭주 의심 │
-  │          └─ [ task_struct ] 1위 ─────▶ 좀비 프로세스 폭발 의심          │
-  │                │                                                  │
-  │                ▼ [아키텍트 액션 플랜]                                  │
-  │      - 임시 조치: 커널 캐시 강제 Drop (`sysctl vm.drop_caches=3`)        │
-  │      - 영구 조치: 커널 파라미터 `vfs_cache_pressure` 조정하여                │
-  │                 파일 메타데이터 슬랩을 더 공격적으로 회수(Reclaim)하도록 설정.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 누수(Leak) 분석을 위한 /proc/slabinfo 트리          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서버 램 고갈 시 아키텍트의 분석 절차 ]                                  |
+  |                                                                   |
+  |   1. `free -m` 쳤는데 buff/cache가 비정상적으로 크고 여유가 없음.            |
+  |                |                                                  |
+  |                v                                                  |
+  |   2. `slabtop` 명령어 실행 (슬랩 캐시 랭킹 확인)                          |
+  |          +- [ ext4_inode_cache ] 1위 ---> 수많은 파일 오픈/닫기 폭주 의심 |
+  |          +- [ dentry ] 1위 ----------> 경로 탐색(find 등) 로직 폭주 의심 |
+  |          +- [ task_struct ] 1위 ------> 좀비 프로세스 폭발 의심          |
+  |                |                                                  |
+  |                v [아키텍트 액션 플랜]                                  |
+  |      - 임시 조치: 커널 캐시 강제 Drop (`sysctl vm.drop_caches=3`)        |
+  |      - 영구 조치: 커널 파라미터 `vfs_cache_pressure` 조정하여                |
+  |                 파일 메타데이터 슬랩을 더 공격적으로 회수(Reclaim)하도록 설정.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자들은 앱 로직만 뒤지지만, 시니어 아키텍트는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 프로그램이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 램을 먹는다"는 사실을 안다. 특히 `dentry`나 `inode` 캐시는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 속도를 위해 OS가 스스로 슬랩을 한도 끝도 없이 부풀리는 경향이 있다. 메모리가 꽉 차면 OS가 알아서 슬랩을 버리고 앱에게 메모리를 내어줘야(Reclaim) 하는데, 이 반납 속도보다 앱의 메모리 요구 속도가 빠르면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 터진다. 슬랩은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 엔진이자 동시에 가장 위험한 메모리 블랙홀이다.
@@ -212,12 +212,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [블로킹 / 논블로킹 / 비동기 I/O]
-    │
-    ▼
+    |
+    v
 [슬랩 (Slab) 할당기 객체 캐싱]
-    │
-    ├──▶ [디바이스 드라이버 모듈 인터페이스]
-    └──▶ [인터럽트 처리 상프/하프 메커니즘]
+    |
+    +---> [디바이스 드라이버 모듈 인터페이스]
+    +---> [인터럽트 처리 상프/하프 메커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -234,7 +234,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 760 / 800
 
-← **이전**: [759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/759_blocking_nonblocking_async_io/)
-**다음**: [761. 디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)](/knowledge-base/studynote/02_operating_system/11_exam_summary/761_device_driver_module_interface/) →
+<- **이전**: [759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/759_blocking_nonblocking_async_io/)
+**다음**: [761. 디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)](/knowledge-base/studynote/02_operating_system/11_exam_summary/761_device_driver_module_interface/) ->
 
 ---

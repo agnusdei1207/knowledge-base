@@ -21,15 +21,15 @@ tags = ["studynote-ai"]
 
 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))는 제조업 품질 관리, 금융 사기 탐지, 사이버 보안, 의료 진단 등에서 핵심적이다. 단변량 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)는 z-점수로 탐지하지만, 다변량에서는 변수 간 상관관계를 고려해야 한다.
 
-예: 키 180cm / 체중 50kg → 각 변수 개별로는 정상이지만, 조합으로는 비정상이다.
+예: 키 180cm / 체중 50kg -> 각 변수 개별로는 정상이지만, 조합으로는 비정상이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 유클리드 거리는 "단순 자 거리", [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포 형태를 반영한 표준화 거리"다. 타원형 분포에서 진짜 거리를 측정한다.
@@ -60,32 +60,32 @@ x: 관측 벡터 (p차원)
 
 ```
 상관관계가 높은 두 특성 x₁, x₂:
-┌──────────────────────────────────────────────────────┐
-│  유클리드 기준:                                       │
-│  A가 멀어 보임   B가 가까워 보임                      │
-│        ↗                                             │
-│       ↗ 데이터 분포 방향 (타원)                       │
-│      ↗                                               │
-│  마할라노비스 기준:                                   │
-│  타원을 원으로 변환 후 거리 측정                       │
-│  → 분포 방향 기준으로 진짜 이상치 판별               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  유클리드 기준:                                       |
+|  A가 멀어 보임   B가 가까워 보임                      |
+|        ↗                                             |
+|       ↗ 데이터 분포 방향 (타원)                       |
+|      ↗                                               |
+|  마할라노비스 기준:                                   |
+|  타원을 원으로 변환 후 거리 측정                       |
+|  -> 분포 방향 기준으로 진짜 이상치 판별               |
++------------------------------------------------------+
 ```
 
 **카이제곱 임계값**:
 ```
-가우시안 데이터에서 D_M² ~ χ²(p) (자유도 p)
+가우시안 데이터에서 D_M^ ~ χ^(p) (자유도 p)
 
 이상치 판별:
-D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
-예: p=2, α=0.05 → D_M² > 5.99 이면 이상치
+D_M^ > χ^(p, α)  -> 이상치 (α = 0.01~0.05)
+예: p=2, α=0.05 -> D_M^ > 5.99 이면 이상치
 ```
 
 | 방법 | 다변량 | 척도 불변 | 상관 반영 | 계산 복잡도 |
 |:---|:---|:---|:---|:---|
 | z-점수 | ✗ | ✓ | ✗ | O(n) |
 | 유클리드 거리 | ✓ | ✗ | ✗ | O(nd) |
-| 마할라노비스 | ✓ | ✓ | ✓ | O(nd²+d³) |
+| 마할라노비스 | ✓ | ✓ | ✓ | O(nd^+d³) |
 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest | ✓ | ✓ | 암묵적 | O(n log n) |
 
 - **📢 섹션 요약 비유**: 역공분산 행렬은 "상관관계 지도의 역방향 보정기"다. 특성들이 서로 다른 방향으로 연결된 구조를 펼쳐서 독립적으로 만들어 공정하게 거리를 잰다.
@@ -98,7 +98,7 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 - MCD (Minimum Covariance [Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)): 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 h부분에서 가장 작은 공분산 추정
 - Robust Mahalanobis: MCD 추정값 사용
 
-<strong>LOF (Local <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> Factor)</strong>: 지역 밀도 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 → 비가우시안 분포에 강함
+<strong>LOF (Local <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> Factor)</strong>: 지역 밀도 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 -> 비가우시안 분포에 강함
 <strong>One-Class <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a></strong>: 초구면 경계 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지
 
 | 구분 | 핵심 초점 | 적용 상황 |
@@ -113,9 +113,9 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**고차원 문제**: p > n 이면 Σ 역행렬 계산 불가 → [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)): Σ_reg = Σ + λI
-<strong>딥러닝 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong>: 특성 추출 → [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 계산
-**마할라노비스 기반 OOD 탐지**: 각 클래스의 훈련 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 분포 학습 → 새 입력의 최소 클래스 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)
+**고차원 문제**: p > n 이면 Σ 역행렬 계산 불가 -> [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)): Σ_reg = Σ + λI
+<strong>딥러닝 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong>: 특성 추출 -> [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 계산
+**마할라노비스 기반 OOD 탐지**: 각 클래스의 훈련 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 분포 학습 -> 새 입력의 최소 클래스 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)
 
 기술사 포인트: 유클리드 vs 마할라노비스 비교, 역공분산 행렬의 역할, 카이제곱 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방법을 체계적으로 설명.
 
@@ -137,7 +137,7 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 |:---|:---|
 | [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) | Σ⁻¹, 공분산 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) / 다변량 거리 측정 |
 | 역공분산 행렬 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Matrix / 상관 구조 반영 |
-| 카이제곱 임계값 | χ²(p), [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 기준 / 통계적 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 판별 |
+| 카이제곱 임계값 | χ^(p), [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 기준 / 통계적 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 판별 |
 | MCD | Robust 추정, h부분 집합 / 견고한 공분산 추정 |
 | OOD 탐지 | Out-of-Distribution / 딥러닝 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 응용 |
 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest | 비모수 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 / 마할라노비스 대안 |
@@ -145,7 +145,7 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [이상치 탐지 (Outlier Detection)] → [최적화·운영 자동화]
+[데이터 전처리] -> [이상치 탐지 (Outlier Detection)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -160,7 +160,7 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 
 **진행 상황**: 397 / 420
 
-← **이전**: [396. 차분 프라이버시 (Differential Privacy)](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)
-**다음**: [398. GAT (Graph Attention Network)](/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/) →
+<- **이전**: [396. 차분 프라이버시 (Differential Privacy)](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)
+**다음**: [398. GAT (Graph Attention Network)](/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/) ->
 
 ---

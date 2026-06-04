@@ -26,12 +26,12 @@ tags = ["studynote-software-engineering"]
 
 ```text
 평문 + 비밀키 + IV/nonce
-         │
-         ▼
+         |
+         v
     대칭키 암호화
-         │
-  ┌──────┴──────┐
-  ▼             ▼
+         |
+  +------+------+
+  v             v
 암호문        인증 태그(AEAD)
 ```
 
@@ -54,10 +54,10 @@ tags = ["studynote-software-engineering"]
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 | 변조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 복호화 전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ```text
-평문 ─▶ [AES/ChaCha20] ─▶ 암호문
-     │         ▲
-     │         │
-     └─ 키 / IV / nonce / mode
+평문 --> [AES/ChaCha20] --> 암호문
+     |         ^
+     |         |
+     +- 키 / IV / nonce / mode
 ```
 
 GCM이나 Poly1305 계열을 쓰면 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 함께 다룰 수 있다. 반면 ECB는 같은 평문이 같은 패턴으로 드러나므로 거의 쓰지 않는다.
@@ -128,15 +128,15 @@ TLS에서는 대개 공개키 방식으로 [세션](/knowledge-base/studynote/02
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-DES → AES
-    │
-    ▼
+DES -> AES
+    |
+    v
 블록/스트림 암호
-    │
-    ▼
+    |
+    v
 AEAD(GCM, ChaCha20-Poly1305)
-    │
-    ▼
+    |
+    v
 TLS 세션 키 + 대용량 데이터 보호
 ```
 
@@ -154,7 +154,7 @@ TLS 세션 키 + 대용량 데이터 보호
 
 **진행 상황**: 76 / 1108
 
-← **이전**: [75. 현대 암호학 기본 가정 — computationally infeasible](/knowledge-base/studynote/09_security/02_crypto/075_computational_infeasibility/)
-**다음**: [77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/) →
+<- **이전**: [75. 현대 암호학 기본 가정 — computationally infeasible](/knowledge-base/studynote/09_security/02_crypto/075_computational_infeasibility/)
+**다음**: [77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/) ->
 
 ---

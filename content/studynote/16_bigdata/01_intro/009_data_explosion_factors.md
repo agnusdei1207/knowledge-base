@@ -29,13 +29,13 @@ tags = ["bigdata"]
 이 도식은 과거 시스템 입력 기반에서 현재의 멀티채널 자동 생성 기반으로 변화한 데이터 생성 주체의 역전 현상과 트래픽 병목을 보여준다.
 
 [과거: 사람 주도 생성 (정형, 저빈도)]
-User Keyboard ──> (B2B System) ──> [RDBMS] (100 TPS 이하, 안정적)
+User Keyboard --> (B2B System) --> [RDBMS] (100 TPS 이하, 안정적)
 
 [현재: 기계/환경 주도 생성 (비정형, 고빈도)]
-IoT Sensors (10Hz) ──┐
-Mobile GPS (1Hz)   ──┼──> [API Gateway / 네트워크 망] ──(병목 폭발)──> [Data Lake]
-CCTV / Video       ──┤      ▲ 수십만~수백만 TPS 지속, 대역폭 고갈
-SNS / Clicks       ──┘
+IoT Sensors (10Hz) --+
+Mobile GPS (1Hz)   --+--> [API Gateway / 네트워크 망] --(병목 폭발)--> [Data Lake]
+CCTV / Video       --+      ^ 수십만~수백만 TPS 지속, 대역폭 고갈
+SNS / Clicks       --+
 ```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생의 '주기(Frequency)'와 '크기(Size)'의 변화다. 과거 사람이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력할 때는 초당 수 건에 불과했지만, 수백만 대의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 사람의 개입 없이 1초에도 수십 번씩 상태 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 뿜어낸다. 실무에서는 이 엄청난 트래픽을 필터링 없이 중앙의 코어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 모두 끌고 오는 순간, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 고갈과 디스크 I/O 스레싱([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))으로 시스템 전체가 마비된다.
 
@@ -60,13 +60,13 @@ SNS / Clicks       ──┘
 이 도식은 폭증하는 엣지 단의 트래픽을 시스템 마비 없이 수용하기 위해, 메시지 브로커(Kafka)를 활용하여 트래픽을 완충하고 일정한 속도로 처리하는 아키텍처 흐름도이다.
 
 [Data Producers (폭증)]               [Buffering Layer]              [Consumers (안정)]
-100만 대 IoT 기기 ──(1M TPS)──> [Load Balancer]
-                                     ↓ (분산)
-                         [Apache Kafka (메시지 큐)] ────> [Spark Streaming / Flink]
-                         ├─ Topic A (Partition 1)       │ (데이터를 일정량씩 모아서 처리)
-                         ├─ Topic A (Partition 2)       │ (DB 커넥션 수 최소화)
-                         └─ Topic A (Partition 3)       ↓
-                                ▲ 병목 해소 지점:      [NoSQL / HDFS]
+100만 대 IoT 기기 --(1M TPS)--> [Load Balancer]
+                                     v (분산)
+                         [Apache Kafka (메시지 큐)] ----> [Spark Streaming / Flink]
+                         +- Topic A (Partition 1)       | (데이터를 일정량씩 모아서 처리)
+                         +- Topic A (Partition 2)       | (DB 커넥션 수 최소화)
+                         +- Topic A (Partition 3)       v
+                                ^ 병목 해소 지점:      [NoSQL / HDFS]
                                 디스크 순차 쓰기로
                                 폭증 트래픽을 영속 저장
 ```
@@ -83,14 +83,14 @@ SNS / Clicks       ──┘
 ```text
 이 매트릭스는 데이터 폭증 유형에 따라 IT 인프라에서 발생하는 병목 지점과 이를 해결하기 위한 타 도메인(네트워크/스토리지) 융합 기술을 비교한다.
 
-┌──────────────┬────────────────────────┬───────────────────────┬──────────────┐
-│ 폭증 유형    │ 주요 병목 지점         │ 아키텍처적 대응 전략  │ 융합 기술    │
-├──────────────┼────────────────────────┼───────────────────────┼──────────────┤
-│ 센서 (고빈도)│ 서버의 TCP 커넥션 한계 │ UDP 전환, 연결 다중화 │ gRPC, MQTT   │
-│ 영상 (대용량)│ 네트워크 대역폭(Bandwidth)│ 엣지 압축, 분산 저장  │ Edge AI, CDN │
-│ 로그 (비정형)│ 파싱/역직렬화 CPU 부하 │ 스키마리스/바이너리포맷│ Protobuf, JSON
-│ SNS (연결성) │ RDBMS 조인 연산 폭발   │ 그래프 DB, 역정규화   │ Graph DB, Redis│
-└──────────────┴────────────────────────┴───────────────────────┴──────────────┘
++--------------+------------------------+-----------------------+--------------+
+| 폭증 유형    | 주요 병목 지점         | 아키텍처적 대응 전략  | 융합 기술    |
++--------------+------------------------+-----------------------+--------------+
+| 센서 (고빈도)| 서버의 TCP 커넥션 한계 | UDP 전환, 연결 다중화 | gRPC, MQTT   |
+| 영상 (대용량)| 네트워크 대역폭(Bandwidth)| 엣지 압축, 분산 저장  | Edge AI, CDN |
+| 로그 (비정형)| 파싱/역직렬화 CPU 부하 | 스키마리스/바이너리포맷| Protobuf, JSON
+| SNS (연결성) | RDBMS 조인 연산 폭발   | 그래프 DB, 역정규화   | Graph DB, Redis|
++--------------+------------------------+-----------------------+--------------+
 ```
 이 표의 핵심은 폭증하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '성질'에 따라 처방이 완전히 달라진다는 것이다. 예를 들어, 자율주행 자동차의 4K 카메라 영상(대용량) 수만 대를 중앙 클라우드로 전송하는 것은 불가능하다. 이때는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 융합하여, 차량 내부나 기지국(Edge)에서 영상을 실시간으로 분석하고 '보행자 인식 여부'라는 단 10Byte의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 중앙 서버로 보내야 한다. 반대로 온도 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(고빈도)는 크기는 작지만 연결(Connection)을 유지하는 오버헤드가 크므로, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 대신 초경량 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 MQTT를 사용하여 통신 병목을 줄여야 한다.
 
@@ -106,13 +106,13 @@ SNS / Clicks       ──┘
 이 의사결정 트리는 폭증하는 데이터를 수집할 때, 데이터의 중요도와 인프라 한계에 따라 데이터를 전체 수용할지 아니면 샘플링/집계할지를 결정하는 실무 운영 플로우다.
 
 [트래픽 폭증 대응 설계 플로우]
-           ↓
+           v
 (결제, 보안 로그 등 유실이 절대 불가한 데이터인가?)
-   ├── Yes ──> Auto-Scaling 적용 및 다중 Kafka 클러스터 할당 (비용 무관 수용)
-   │
-   └── No ───> (전체 데이터 저장이 시스템 대역폭을 초과하는가?)
-                  ├── Yes ──> (엣지 단에서 통계 집계 후 전송) -> Edge Aggregation
-                  └── No  ──> (10% 등 확률적 샘플링(Sampling) 수행 후 전송)
+   +-- Yes --> Auto-Scaling 적용 및 다중 Kafka 클러스터 할당 (비용 무관 수용)
+   |
+   +-- No ---> (전체 데이터 저장이 시스템 대역폭을 초과하는가?)
+                  +-- Yes --> (엣지 단에서 통계 집계 후 전송) -> Edge Aggregation
+                  +-- No  --> (10% 등 확률적 샘플링(Sampling) 수행 후 전송)
 ```
 이 흐름의 핵심은 '모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살릴 필요는 없다'는 것이다. 초당 수십만 건씩 들어오는 웹사이트 체류 시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 온도 센서의 정상 상태 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))은 유실되더라도 전체 통계의 경향성에 큰 영향을 미치지 않는다.
 
@@ -147,17 +147,17 @@ SNS / Clicks       ──┘
 
 ```text
 [디지털 전환]
-    │
-    ▼
+    |
+    v
 [IoT 기기 급증]
-    │
-    ▼
+    |
+    v
 [소셜 미디어/모바일]
-    │
-    ▼
+    |
+    v
 [클라우드 스토리지 확산]
-    │
-    ▼
+    |
+    v
 [빅데이터 플랫폼 필요성]
 ```
 
@@ -169,7 +169,7 @@ SNS / Clicks       ──┘
 
 **진행 상황**: 9 / 262
 
-← **이전**: [8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)](/knowledge-base/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
-**다음**: [10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) →
+<- **이전**: [8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)](/knowledge-base/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/)
+**다음**: [10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) ->
 
 ---

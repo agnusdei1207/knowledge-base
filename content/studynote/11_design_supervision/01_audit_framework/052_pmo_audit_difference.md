@@ -32,13 +32,13 @@ PMO와 감리는 둘 다 프로젝트 품질을 높이지만, 출발점이 다�
 PMO와 감리는 개입 시점과 결과물이 다르다. PMO는 계획, 일정, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 의사소통을 상시 조정하고, 감리는 특정 시점에 산출물과 과정을 검토해 권고한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 발주자- PMO - 감리 - 사업자                 │
-├──────────────────────────────────────────────────────────────┤
-│ 발주자 ── 위임/감독 ── PMO ── 관리/조정 ── 사업자            │
-│    │                                  │                      │
-│    └──────── 독립 평가 요청 ───────▶ 감리 ── 검증/권고 ─────▶│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 발주자- PMO - 감리 - 사업자                 |
++--------------------------------------------------------------+
+| 발주자 -- 위임/감독 -- PMO -- 관리/조정 -- 사업자            |
+|    |                                  |                      |
+|    +-------- 독립 평가 요청 --------> 감리 -- 검증/권고 ------>|
++--------------------------------------------------------------+
 ```
 
 | 항목 | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 감리 |
@@ -119,17 +119,17 @@ PMO와 감리를 구분하면 거버넌스가 선명해진다. PMO는 프로젝�
 
 ```text
 발주자 요구
-    │
-    ▼
+    |
+    v
 PMO (계획 / 조정 / 예방)
-    │
-    ▼
+    |
+    v
 사업자 구현
-    │
-    ▼
+    |
+    v
 감리 (검증 / 권고 / 독립성)
-    │
-    ▼
+    |
+    v
 시정 조치 / 종료
 ```
 
@@ -147,7 +147,7 @@ PMO (계획 / 조정 / 예방)
 
 **진행 상황**: 79 / 530
 
-← **이전**: [52. IoT 구축 사업 감리 (IoT Project Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/)
-**다음**: [53. 블록체인 감사 (Blockchain Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/053_blockchain_audit/) →
+<- **이전**: [52. IoT 구축 사업 감리 (IoT Project Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/)
+**다음**: [53. 블록체인 감사 (Blockchain Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/053_blockchain_audit/) ->
 
 ---

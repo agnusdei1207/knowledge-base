@@ -36,20 +36,20 @@ tags = ["studynote-ict-convergence"]
 
 ```
           실패율 < 임계값           실패율 ≥ 임계값
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  ┌─────────┐  실패율 초과  ┌──────────┐              │
-│  │ CLOSED  │────────────→ │  OPEN    │              │
-│  │ (정상)  │              │ (즉시 거부)│              │
-│  └─────────┘              └──────────┘              │
-│       ↑                        │                    │
-│  성공률 회복                  타임아웃 경과           │
-│       │                        ↓                    │
-│       └──────────────── ┌────────────┐              │
-│                         │ HALF-OPEN  │              │
-│                         │ (소수 허용) │              │
-│                         └────────────┘              │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  +---------+  실패율 초과  +----------+              |
+|  | CLOSED  |-------------> |  OPEN    |              |
+|  | (정상)  |              | (즉시 거부)|              |
+|  +---------+              +----------+              |
+|       ^                        |                    |
+|  성공률 회복                  타임아웃 경과           |
+|       |                        v                    |
+|       +---------------- +------------+              |
+|                         | HALF-OPEN  |              |
+|                         | (소수 허용) |              |
+|                         +------------+              |
++------------------------------------------------------+
 ```
 
 | 기술 | 목적 | 적용 시점 | 트래픽 영향 |
@@ -86,11 +86,11 @@ tags = ["studynote-ict-convergence"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **기술사 시험 판단 포인트**:
-1. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 4단계 실험 방법론(안정 상태 → 가설 → 주입 → 측정)을 체계적으로 기술한다.
+1. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 4단계 실험 방법론(안정 상태 -> 가설 -> 주입 -> 측정)을 체계적으로 기술한다.
 2. [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 세 상태 전환 조건과 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 응답 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(캐시 응답, 기본값 반환)을 설명한다.
 3. 섀도/[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)/블루-그린의 트레이드오프를 표로 정리하면 고득점 요인이다.
 
-**실무 시나리오**: 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포 시 — [섀도 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/)로 1주일간 실제 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/정확도 이상 없음 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 1% → 5% → 20% → 100% 순차 증가 → 각 단계에서 에러율과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 모니터링 → 이상 시 즉시 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 비율 0%로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/).
+**실무 시나리오**: 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포 시 — [섀도 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/)로 1주일간 실제 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/정확도 이상 없음 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 1% -> 5% -> 20% -> 100% 순차 증가 -> 각 단계에서 에러율과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 모니터링 -> 이상 시 즉시 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 비율 0%로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/).
 
 - **📢 섹션 요약 비유**: 섀도 + [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) + 블루-그린 조합은 새 다리를 개통할 때 — 먼저 몰래 차를 1대 테스트(섀도)하고, 트럭 몇 대 통행([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))하다가, 구 다리 완전 철거(블루-그린 전환)하는 순서와 같다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Resilience4j · 폴백] → [카오스 엔지니어링 · 섀도 배포] → [DNS 전환 · 인프라 이중화]
+[Resilience4j · 폴백] -> [카오스 엔지니어링 · 섀도 배포] -> [DNS 전환 · 인프라 이중화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 507 / 552
 
-← **이전**: [506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/506_cqrs_event_sourcing_saga_pattern/)
-**다음**: [508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/508_quantum_computing_security_shor_grover_threat/) →
+<- **이전**: [506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/506_cqrs_event_sourcing_saga_pattern/)
+**다음**: [508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/508_quantum_computing_security_shor_grover_threat/) ->
 
 ---

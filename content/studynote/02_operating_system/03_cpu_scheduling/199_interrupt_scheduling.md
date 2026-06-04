@@ -28,14 +28,14 @@ tags = ["studynote-operating-system"]
   [단일 코어 집중 vs 다중 코어 인터럽트 분산 (IRQ Balancing)]
 
   (1) 안 좋은 예: 인터럽트 0번 코어 쏠림 (Interrupt Storm)
-  [ NIC (랜카드) ] ── (패킷 10만 개 도착) ──▶ [ 코어 0 ] 🚨 (CPU 100% 포화, 터짐)
+  [ NIC (랜카드) ] -- (패킷 10만 개 도착) ---> [ 코어 0 ] 🚨 (CPU 100% 포화, 터짐)
                                             [ 코어 1 ] (0%)
                                             [ 코어 2 ] (0%)
 
   (2) 좋은 예: 인터럽트 스케줄링 (IRQ Affinity 분산)
-  [ NIC (랜카드) ] ─┬─ (패킷 3만 개) ────▶ [ 코어 0 ] (30% 부하)
-   (다중 큐 지원)   ├─ (패킷 3만 개) ────▶ [ 코어 1 ] (30% 부하)
-                   └─ (패킷 4만 개) ────▶ [ 코어 2 ] (30% 부하)
+  [ NIC (랜카드) ] -+- (패킷 3만 개) -----> [ 코어 0 ] (30% 부하)
+   (다중 큐 지원)   +- (패킷 3만 개) -----> [ 코어 1 ] (30% 부하)
+                   +- (패킷 4만 개) -----> [ 코어 2 ] (30% 부하)
    >> 시스템 전체가 여유를 갖고 백엔드 사용자 애플리케이션을 돌릴 수 있다.
 ```
 **[다이어그램 해설]** 초고성능 서버 튜닝의 첫걸음은 `top` 명령어를 쳤을 때 특정 코어의 `si` (소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 혹은 `hi` (하드 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 수치만 100%를 치고 있는지 확인하는 것이다. 코어 1개에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 몰리면 다른 코어가 아무리 널널해도 시스템 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 그 코어 1개의 한계에 갇혀버린다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 찢어서 던지는 것이 스케줄링의 핵심이다.
@@ -59,20 +59,20 @@ x86 시스템에서는 [인터럽트](/knowledge-base/studynote/02_operating_sys
 - <strong>Bottom Half (소프트 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>, Tasklet)</strong>: Top Half가 던져놓고 간 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여유 있게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제하고 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 밀어 올리는 긴 작업. (일반 프로세스처럼 나중에 스케줄링되어 실행됨)
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         리눅스 인터럽트 처리의 이원화 구조 (Top & Bottom Half)       │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │   [ 1단계: Top Half (매우 빠름, 선점 불가 구역) ]                    │
-  │   ▶ 랜카드가 패킷 도착 인터럽트(IRQ) 쏨                              │
-  │   ▶ 코어가 하던 일 멈추고 NIC 버퍼에서 메모리(Ring Buffer)로 복사    │
-  │   ▶ "나머지 긴 작업은 Bottom Half로 예약할게!" 하고 즉시 빠져나옴.   │
-  │                                                                      │
-  │   [ 2단계: Bottom Half (ksoftirqd 데몬 스케줄링) ]                   │
-  │   ▶ 커널 스케줄러가 여유 있을 때 `ksoftirqd/0` (코어 0의 데몬)를 띄움│
-  │   ▶ 예약된 패킷들을 꺼내서 TCP 스택 분석, 방화벽(iptables) 룰 검사   │
-  │   ▶ 사용자 애플리케이션(Nginx) 소켓으로 데이터 전달 완료             │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |         리눅스 인터럽트 처리의 이원화 구조 (Top & Bottom Half)       |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |   [ 1단계: Top Half (매우 빠름, 선점 불가 구역) ]                    |
+  |   -> 랜카드가 패킷 도착 인터럽트(IRQ) 쏨                              |
+  |   -> 코어가 하던 일 멈추고 NIC 버퍼에서 메모리(Ring Buffer)로 복사    |
+  |   -> "나머지 긴 작업은 Bottom Half로 예약할게!" 하고 즉시 빠져나옴.   |
+  |                                                                      |
+  |   [ 2단계: Bottom Half (ksoftirqd 데몬 스케줄링) ]                   |
+  |   -> 커널 스케줄러가 여유 있을 때 `ksoftirqd/0` (코어 0의 데몬)를 띄움|
+  |   -> 예약된 패킷들을 꺼내서 TCP 스택 분석, 방화벽(iptables) 룰 검사   |
+  |   -> 사용자 애플리케이션(Nginx) 소켓으로 데이터 전달 완료             |
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 구조 덕분에 리눅스는 1초에 수십만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭격을 맞아도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 얼어붙지 않는다. Top Half는 치고 빠지기의 달인이고, 진짜 무거운 계산은 Bottom Half 데몬(`ksoftirqd`)으로 위임하여, <strong>일반 프로세스 스케줄러가 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 후속 작업마저 통제(스케줄링)할 수 있게</strong> 만든 천재적 설계다.
 
@@ -111,21 +111,21 @@ x86 시스템에서는 [인터럽트](/knowledge-base/studynote/02_operating_sys
    - **아키텍처 결단**: 패킷이 랜카드에 들어올 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쏘는 것(IRQ) 자체를 금지한다. 대신 유저 스페이스의 애플리케이션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 코어를 100% 독점한 상태로 랜카드 메모리([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) RX Ring)를 직접 무한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하여 퍼 나른다. 이것이 인텔의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)</strong>이자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스케줄링을 통째로 부정하고 우회(Bypass)하는 클라우드 네트워크 아키텍처의 정점이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │     고대역폭(10G+) 서버의 인터럽트 처리 성능 최적화 의사결정 트리     │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [서버 튜닝: Top 명령어 상 'si(softirq)'가 1개 코어에서 100% 임]     │
-  │                │                                                      │
-  │                ▼ 랜카드가 하드웨어 다중 큐(RSS)를 지원하는가?         │
-  │      [지원함 (Multi-Queue NIC)]                                       │
-  │       ├─▶ 조치 1: irqbalance 끄기                                     │
-  │       └─▶ 조치 2: 각 NIC 큐별로 smp_affinity에 코어 1:1 매핑          │
-  │                                                                       │
-  │      [지원 안 함 (Single-Queue 저가형 NIC)]                           │
-  │       ├─▶ 조치 1: 리눅스 커널 RPS/RFS 활성화 (`echo f > rps_cpus`)    │
-  │       └─▶ 조치 2: 소프트웨어적으로 인터럽트 부하를 타 코어로 강제 산란│
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |     고대역폭(10G+) 서버의 인터럽트 처리 성능 최적화 의사결정 트리     |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   [서버 튜닝: Top 명령어 상 'si(softirq)'가 1개 코어에서 100% 임]     |
+  |                |                                                      |
+  |                v 랜카드가 하드웨어 다중 큐(RSS)를 지원하는가?         |
+  |      [지원함 (Multi-Queue NIC)]                                       |
+  |       +--> 조치 1: irqbalance 끄기                                     |
+  |       +--> 조치 2: 각 NIC 큐별로 smp_affinity에 코어 1:1 매핑          |
+  |                                                                       |
+  |      [지원 안 함 (Single-Queue 저가형 NIC)]                           |
+  |       +--> 조치 1: 리눅스 커널 RPS/RFS 활성화 (`echo f > rps_cpus`)    |
+  |       +--> 조치 2: 소프트웨어적으로 인터럽트 부하를 타 코어로 강제 산란|
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 리눅스 서버 운영의 가장 흔하면서도 치명적인 병목 해결법이다. 랜카드는 10G를 샀는데 다운로드 속도가 1G밖에 안 나온다면 100% 확률로 0번 코어 하나만 `si` 부하를 맞고 장렬히 전사한 것이다. 이를 여러 코어로 찢어주기만 하면([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 튜닝) 별도의 하드웨어 추가 없이 속도가 4배, 8배로 선형 증가하는 마법을 볼 수 있다.
 
@@ -159,12 +159,12 @@ x86 시스템에서는 [인터럽트](/knowledge-base/studynote/02_operating_sys
 
 ```text
 [멀티코어 스케줄링 (Multicore Scheduling)]
-    │
-    ▼
+    |
+    v
 [하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링]
-    │
-    ├──▶ [이기종 다중 처리기 스케줄링 (HMP)]
-    └──▶ [실시간 스케줄링 (Real-time Scheduling)]
+    |
+    +---> [이기종 다중 처리기 스케줄링 (HMP)]
+    +---> [실시간 스케줄링 (Real-time Scheduling)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -181,7 +181,7 @@ x86 시스템에서는 [인터럽트](/knowledge-base/studynote/02_operating_sys
 
 **진행 상황**: 199 / 800
 
-← **이전**: [198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/)
-**다음**: [200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) →
+<- **이전**: [198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/)
+**다음**: [200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) ->
 
 ---

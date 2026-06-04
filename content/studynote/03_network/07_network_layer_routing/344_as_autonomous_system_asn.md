@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [관리 거리]
-    │
-    ▼
+    |
+    v
 [AS / ASN 분배]
-    │
-    └──▶ [IGP]
+    |
+    +---> [IGP]
 ```
 
 - **📢 섹션 요약 비유**: ** AS(자율 시스템)는 인터넷이라는 거대한 피자를 수만 개의 먹기 좋은 조각으로 자른 **"독립된 영지(영토)"**입니다. 각 영지 영주들(통신사)은 자기 땅 안에서의 규칙([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))은 맘대로 정하지만, 영지와 영지 사이를 넘어갈 때([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))는 전 세계 공통의 외교 규칙을 지켜야만 합니다.
@@ -47,20 +47,20 @@ AS라는 거대한 울타리를 치는 순간, [라우팅](/knowledge-base/study
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>)</strong>: AS와 AS "사이"를 이어주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). 각 회사의 관문(Border) 라우터끼리만 대화를 나눈다. BGP는 골목길 정보는 싹 버리고, "우리나라(AS 1번)에는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 국민들이 살고 있어!"라고 통째로 요약해서 남의 나라(AS 2번) 관문 라우터에 던져준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                인터넷의 거시적 구조 (AS 덩어리들의 결합)           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ AS 1759 (KT 망) ]                 [ AS 15169 (구글 망) ]  │
- │     /          \                          /            \    │
- │  OSPF          OSPF                    OSPF            OSPF │
- │   /              \                      /                \  │
- │ [라우터]       [관문 라우터] ◀── BGP ──▶ [관문 라우터]        [서버] │
- │ (국내용)        (국제용)     (국가 간 외교)   (국제용)        (국내용)│
- │                                                             │
- │  ▶ OSPF: "우리 동네에서 관문까지 어떻게 가지?" (속도가 짱!)          │
- │  ▶ BGP : "KT에서 구글 가려면 중간에 SKT를 거쳐야 하나?" (외교가 짱!)    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                인터넷의 거시적 구조 (AS 덩어리들의 결합)           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ AS 1759 (KT 망) ]                 [ AS 15169 (구글 망) ]  |
+ |     /          \                          /            \    |
+ |  OSPF          OSPF                    OSPF            OSPF |
+ |   /              \                      /                \  |
+ | [라우터]       [관문 라우터] <--- BGP ---> [관문 라우터]        [서버] |
+ | (국내용)        (국제용)     (국가 간 외교)   (국제용)        (국내용)|
+ |                                                             |
+ |  -> OSPF: "우리 동네에서 관문까지 어떻게 가지?" (속도가 짱!)          |
+ |  -> BGP : "KT에서 구글 가려면 중간에 SKT를 거쳐야 하나?" (외교가 짱!)    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. AS Number (ASN)
@@ -131,12 +131,12 @@ AS / ASN 분배는 [라우팅](/knowledge-base/studynote/03_network/07_network_l
 
 ```text
 [선행 개념: 관리 거리]
-    │
-    ▼
+    |
+    v
 [현재 개념: AS / ASN 분배]
-    │
-    ├──▶ [확장 A: IGP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: IGP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 AS / ASN 분배는 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ AS / ASN 분배는 [관리 거리](/knowledge-base/studynote/03_network/07_netwo
 
 **진행 상황**: 465 / 1120
 
-← **이전**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)
-**다음**: [345. IGP (Interior Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) →
+<- **이전**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)
+**다음**: [345. IGP (Interior Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) ->
 
 ---

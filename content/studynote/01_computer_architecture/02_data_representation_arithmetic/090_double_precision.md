@@ -38,18 +38,18 @@ tags = ["studynote-computer-architecture"]
 | **가수 (Mantissa)** | 52비트 | 실제 유효 숫자(디테일) 저장 | 10진수 기준 15~17자리 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 보존 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           배정밀도 (FP64) 비트 레이아웃 및 구성              │
-├──────────────────────────────────────────────────────────────┤
-│ [63]    [62 <--- 11 bits ---> 52]    [51 <---- 52 bits ----> 0]
-│ ┌──┐    ┌───────────────────────┐    ┌────────────────────────┐
-│ │ S│    │   지수부 (Exponent)   │    │    가수부 (Mantissa)   │
-│ └──┘    └───────────────────────┘    └────────────────────────┘
-│ 부호           배율 결정 (크기)             유효 숫자 (정밀도)  │
-│                                                              │
-│ * 지수 편향 (Bias): 1023                                     │
-│ * 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           배정밀도 (FP64) 비트 레이아웃 및 구성              |
++--------------------------------------------------------------+
+| [63]    [62 <--- 11 bits ---> 52]    [51 <---- 52 bits ----> 0]
+| +--+    +-----------------------+    +------------------------+
+| | S|    |   지수부 (Exponent)   |    |    가수부 (Mantissa)   |
+| +--+    +-----------------------+    +------------------------+
+| 부호           배율 결정 (크기)             유효 숫자 (정밀도)  |
+|                                                              |
+| * 지수 편향 (Bias): 1023                                     |
+| * 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)         |
++--------------------------------------------------------------+
 ```
 
 FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 포함해 총 53비트의 연산을 수행한다. 이는 소수점 아래 15번째 자리까지의 미세한 변화도 놓치지 않고 덧셈기에 적립함을 의미한다. 반면 11비트의 지수부는 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 값 1023을 사용하여 매우 작은 소수부터 우주적 크기의 정수까지 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 없이 표현할 수 있게 해준다.
@@ -114,17 +114,17 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 ```text
 정수 연산 한계 돌파
-    │
-    ▼
+    |
+    v
 FP32 (단정밀도) · IEEE 754 표준화
-    │
-    ▼
+    |
+    v
 잘림 오차 (Truncation Error) · 상쇄 오차 (Cancellation)
-    │
-    ▼
+    |
+    v
 FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보
-    │
-    ▼
+    |
+    v
 최신 AI 가속기에서의 혼합 정밀도 (Mixed Precision) 연산
 ```
 
@@ -142,7 +142,7 @@ FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보
 
 **진행 상황**: 90 / 803
 
-← **이전**: [89. 단정밀도 (Single Precision, FP32)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/)
-**다음**: [91. 반정밀도 (Half Precision, FP16)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/) →
+<- **이전**: [89. 단정밀도 (Single Precision, FP32)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/)
+**다음**: [91. 반정밀도 (Half Precision, FP16)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/) ->
 
 ---

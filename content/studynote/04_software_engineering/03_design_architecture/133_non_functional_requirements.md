@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NFR(Non-Functional Requirements)은 <strong>시스템이 "어떻게" 동작해야 하는가의 품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>으로, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·확장성·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등을 정의하며 ISO 25010이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 표준이다.
 > 2. **가치**: NFR이 <strong>아키텍처를 결정</strong>한다. "초당 10만 요청"이면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처, "99.999% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"이면 Active-Active 이중화가 필요하며, NFR 없이는 아키텍처 결정이 불가능하다.
-> 3. **판단 포인트**: NFR은 <strong>측정 가능한 수치</strong>로 명세해야 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하다. "빨라야 한다"(✗) → "P99 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 200ms 이내"(✓).
+> 3. **판단 포인트**: NFR은 <strong>측정 가능한 수치</strong>로 명세해야 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하다. "빨라야 한다"(✗) -> "P99 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 200ms 이내"(✓).
 
 ---
 
@@ -58,9 +58,9 @@ NFR은 <strong>아키텍처의 핵심 동인(<a href="/knowledge-base/studynote/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 NFR (~2000s)] → [ISO 9126 (2001)]
-    → [ISO 25010 (2011)] → [QAW·ATAM (아키텍처 관점)]
-    → [현재: AI NFR 추출 — 요구사항에서 품질 속성 자동 식별]
+[비공식 NFR (~2000s)] -> [ISO 9126 (2001)]
+    -> [ISO 25010 (2011)] -> [QAW·ATAM (아키텍처 관점)]
+    -> [현재: AI NFR 추출 — 요구사항에서 품질 속성 자동 식별]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ NFR은 <strong>아키텍처의 핵심 동인(<a href="/knowledge-base/studynote/
 
 **진행 상황**: 133 / 973
 
-← **이전**: [132. 요구사항 유형 (기능·비기능·제약사항) - FR·NFR·Constraints 분류](/knowledge-base/studynote/04_software_engineering/03_design_architecture/132_types_of_requirements/)
-**다음**: [134. 요구사항 공학 프로세스 - 도출→분석→명세→검증→관리 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/) →
+<- **이전**: [132. 요구사항 유형 (기능·비기능·제약사항) - FR·NFR·Constraints 분류](/knowledge-base/studynote/04_software_engineering/03_design_architecture/132_types_of_requirements/)
+**다음**: [134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/) ->
 
 ---

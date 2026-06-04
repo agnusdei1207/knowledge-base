@@ -24,29 +24,29 @@ tags = ["studynote-design-supervision"]
 [계층형 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/)가 필요한 이유는 소프트웨어의 서로 다른 관심사를 분리하여 변경의 파급을 제한하기 위해서다. UI가 바뀐다고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 코드가 바뀌면 안 되고, 비즈니스 규칙이 변경된다고 화면이 재설계되어서는 안 된다. 계층 경계가 이 분리를 보장한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        4계층 아키텍처 구조 (전형적 웹 애플리케이션)           │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────────────────────────────────────┐               │
-│  │  프레젠테이션 계층 (Presentation Layer)   │               │
-│  │  Controller, View, REST API 엔드포인트    │               │
-│  └──────────────┬───────────────────────────┘               │
-│                 │ (단방향 의존)                              │
-│  ┌──────────────▼───────────────────────────┐               │
-│  │  비즈니스 로직 계층 (Business Layer)      │               │
-│  │  Service, Domain Object, Use Case         │               │
-│  └──────────────┬───────────────────────────┘               │
-│                 │                                           │
-│  ┌──────────────▼───────────────────────────┐               │
-│  │  퍼시스턴스 계층 (Persistence Layer)      │               │
-│  │  Repository, DAO, ORM Mapper              │               │
-│  └──────────────┬───────────────────────────┘               │
-│                 │                                           │
-│  ┌──────────────▼───────────────────────────┐               │
-│  │  데이터베이스 계층 (Database Layer)       │               │
-│  │  RDBMS, NoSQL, 파일 시스템                │               │
-│  └──────────────────────────────────────────┘               │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        4계층 아키텍처 구조 (전형적 웹 애플리케이션)           |
++-------------------------------------------------------------+
+|  +------------------------------------------+               |
+|  |  프레젠테이션 계층 (Presentation Layer)   |               |
+|  |  Controller, View, REST API 엔드포인트    |               |
+|  +--------------+---------------------------+               |
+|                 | (단방향 의존)                              |
+|  +--------------v---------------------------+               |
+|  |  비즈니스 로직 계층 (Business Layer)      |               |
+|  |  Service, Domain Object, Use Case         |               |
+|  +--------------+---------------------------+               |
+|                 |                                           |
+|  +--------------v---------------------------+               |
+|  |  퍼시스턴스 계층 (Persistence Layer)      |               |
+|  |  Repository, DAO, ORM Mapper              |               |
+|  +--------------+---------------------------+               |
+|                 |                                           |
+|  +--------------v---------------------------+               |
+|  |  데이터베이스 계층 (Database Layer)       |               |
+|  |  RDBMS, NoSQL, 파일 시스템                |               |
+|  +------------------------------------------+               |
++-------------------------------------------------------------+
 ```
 
 각 계층은 위에서 아래로만 의존하며, 계층 격리(Layer [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 통해 각 계층을 독립적으로 변경하거나 교체할 수 있다. 예를 들어 ORM(Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))을 Hibernate에서 MyBatis로 교체해도 비즈니스 로직 계층은 영향을 받지 않는다.
@@ -67,18 +67,18 @@ tags = ["studynote-design-supervision"]
 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 / DB, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 | 없음 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       아키텍처 싱크홀(Sinkhole) 안티패턴 탐지               │
-├─────────────────────────────────────────────────────────────┤
-│  정상 흐름: 각 계층이 실질적 처리를 수행                    │
-│  Controller → Service(비즈니스 로직 수행) → Repository      │
-│                                                             │
-│  싱크홀 흐름: 로직 없이 단순 전달만                         │
-│  Controller → Service(그냥 Repository 호출만)               │
-│                                   → Repository(그냥 DB 호출)│
-│                                                             │
-│  20% 이상이 싱크홀이면 계층 통합 검토 필요                   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       아키텍처 싱크홀(Sinkhole) 안티패턴 탐지               |
++-------------------------------------------------------------+
+|  정상 흐름: 각 계층이 실질적 처리를 수행                    |
+|  Controller -> Service(비즈니스 로직 수행) -> Repository      |
+|                                                             |
+|  싱크홀 흐름: 로직 없이 단순 전달만                         |
+|  Controller -> Service(그냥 Repository 호출만)               |
+|                                   -> Repository(그냥 DB 호출)|
+|                                                             |
+|  20% 이상이 싱크홀이면 계층 통합 검토 필요                   |
++-------------------------------------------------------------+
 ```
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서 [계층형 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/)는 각 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환(DTO ↔ [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ↔ Entity)에서 불필요한 오버헤드가 발생할 수 있다. 특히 간단한 CRUD(Create, Read, Update, Delete) 작업에서 5개 계층을 거치는 것은 과도한 복잡성이 될 수 있다.
@@ -134,7 +134,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[관심사 분리] → [계층형 아키텍처] → [Spring MVC] → [계층형 한계 인식] → [헥사고날/클린 아키텍처] → MSA]
+[관심사 분리] -> [계층형 아키텍처] -> [Spring MVC] -> [계층형 한계 인식] -> [헥사고날/클린 아키텍처] -> MSA]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -145,7 +145,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[임기응변 스파게티 코드] → [계층형 아키텍처 정착] → [Java EE·Spring 표준화] → [계층형 한계(확장성·배포)] → [헥사고날·클린 아키텍처] → MSA·모듈형 모놀리스]
+[임기응변 스파게티 코드] -> [계층형 아키텍처 정착] -> [Java EE·Spring 표준화] -> [계층형 한계(확장성·배포)] -> [헥사고날·클린 아키텍처] -> MSA·모듈형 모놀리스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 171 / 530
 
-← **이전**: [114. 아키텍처 스타일 (Architecture Style)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)
-**다음**: [116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/116_hexagonal_architecture_ports_and_adapters/) →
+<- **이전**: [114. 아키텍처 스타일 (Architecture Style)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)
+**다음**: [116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/116_hexagonal_architecture_ports_and_adapters/) ->
 
 ---

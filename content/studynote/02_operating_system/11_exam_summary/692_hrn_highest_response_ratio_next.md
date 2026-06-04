@@ -119,26 +119,26 @@ HRN은 하늘에서 뚝 떨어진 게 아니라, 이전 [알고리즘](/knowledg
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 비동기 백그라운드 큐(Job Queue) 스케줄링 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [이미지 리사이징, 메일 발송 등 처리 시간이 각기 다른 백그라운드 작업들]       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      큐에 쌓인 작업의 처리 시간을 사전에 예측(추정)할 수 있는가?              │
-  │          ├─ 아니오 ──▶ [HRN / SJF 사용 불가]                        │
-  │          │            대책: 단순 라운드 로빈(RR)이나 FCFS 워커 풀 사용     │
-  │          └─ 예 (예: 파일 용량 기반으로 추정 가능)                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      짧은 작업을 무조건 먼저 빼고 싶은데, 무거운 작업이 영원히 갇히면 안 되는가? │
-  │          ├─ 예 ─────▶ [HRN의 에이징(Aging) 기법 도입]                │
-  │          │            워커 스레드가 큐를 뺄 때 `(대기시간/예상시간)` 점수가  │
-  │          │            가장 높은 작업을 Polling 하도록 쿼리 튜닝           │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ Strict Priority (무거운 건 며칠 뒤에 돌아도 됨) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 비동기 백그라운드 큐(Job Queue) 스케줄링 플로우          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [이미지 리사이징, 메일 발송 등 처리 시간이 각기 다른 백그라운드 작업들]       |
+  |                |                                                  |
+  |                v                                                  |
+  |      큐에 쌓인 작업의 처리 시간을 사전에 예측(추정)할 수 있는가?              |
+  |          +- 아니오 ---> [HRN / SJF 사용 불가]                        |
+  |          |            대책: 단순 라운드 로빈(RR)이나 FCFS 워커 풀 사용     |
+  |          +- 예 (예: 파일 용량 기반으로 추정 가능)                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      짧은 작업을 무조건 먼저 빼고 싶은데, 무거운 작업이 영원히 갇히면 안 되는가? |
+  |          +- 예 ------> [HRN의 에이징(Aging) 기법 도입]                |
+  |          |            워커 스레드가 큐를 뺄 때 `(대기시간/예상시간)` 점수가  |
+  |          |            가장 높은 작업을 Polling 하도록 쿼리 튜닝           |
+  |          |                                                        |
+  |          +- 아니오 ---> Strict Priority (무거운 건 며칠 뒤에 돌아도 됨) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))을 적용한다"는 말은 멋있게 들리지만, 실무(DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 등)에서는 대기 시간이 실시간으로 변하기 때문에 인덱싱이 깨져서 [테이블 풀 스캔](/knowledge-base/studynote/05_database/07_exam_summary/428_table_full_scan/)(Full Scan)을 유발하는 성능의 덫이 된다. 기술사는 [HRN](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) 공식을 곧이곧대로 쓰지 않고, 10분마다 배치 데몬을 돌려 오래 기다린 작업의 Priority 컬럼을 +1씩 갱신해 주는(Discrete [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 타협안을 통해 성능과 공정성을 모두 잡아야 한다.
@@ -184,12 +184,12 @@ HRN은 하늘에서 뚝 떨어진 게 아니라, 이전 [알고리즘](/knowledg
 
 ```text
 [다단계 피드백 큐 (MLFQ) 천이]
-    │
-    ▼
+    |
+    v
 [HRN 대기 시간 공식 (Hrn Highest Response Ratio Next)]
-    │
-    ├──▶ [멀티스레드 유저모드 커널모드]
-    └──▶ [스레드 로컬 스토리지 (TLS)]
+    |
+    +---> [멀티스레드 유저모드 커널모드]
+    +---> [스레드 로컬 스토리지 (TLS)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -206,7 +206,7 @@ HRN은 하늘에서 뚝 떨어진 게 아니라, 이전 [알고리즘](/knowledg
 
 **진행 상황**: 692 / 800
 
-← **이전**: [691. 다단계 피드백 큐 (MLFQ) 천이](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)
-**다음**: [693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)](/knowledge-base/studynote/02_operating_system/11_exam_summary/693_multithread_user_mode_kernel_mode/) →
+<- **이전**: [691. 다단계 피드백 큐 (MLFQ) 천이](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)
+**다음**: [693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)](/knowledge-base/studynote/02_operating_system/11_exam_summary/693_multithread_user_mode_kernel_mode/) ->
 
 ---

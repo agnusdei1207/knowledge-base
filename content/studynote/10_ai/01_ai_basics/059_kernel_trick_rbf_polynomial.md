@@ -33,11 +33,11 @@ tags = ["studynote-ai"]
 
 ```text
 입력 x, z
-   ↓
+   v
 커널 함수 K(x, z)
-   ↓
+   v
 고차원 내적과 같은 값
-   ↓
+   v
 SVM 초평면 분리
 ```
 
@@ -75,7 +75,7 @@ RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architect
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형적으로 잘 분리되는가?
-2. 샘플 수가 너무 커서 O(N²)~O(N³) 부담이 큰가?
+2. 샘플 수가 너무 커서 O(N^)~O(N³) 부담이 큰가?
 3. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 gamma와 [regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)(C)를 조절했는가?
 4. 텍스트처럼 고차원 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 선형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 더 낫지 않은가?
 
@@ -109,11 +109,11 @@ RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 ```text
 비선형 데이터
-   ↓
+   v
 커널 함수 K
-   ↓
+   v
 SVM 초평면
-   ↓
+   v
 비선형 분류
 ```
 
@@ -123,13 +123,13 @@ SVM 초평면
 
 ```text
 선형 분류 한계
-   ↓
+   v
 특징 공간 확장
-   ↓
+   v
 커널 트릭
-   ↓
+   v
 Polynomial / RBF 커널
-   ↓
+   v
 비선형 패턴 분류
 ```
 
@@ -147,7 +147,7 @@ Polynomial / RBF 커널
 
 **진행 상황**: 59 / 420
 
-← **이전**: [58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델](/knowledge-base/studynote/10_ai/01_ai_basics/058_svm_support_vector_machine_margin_hyperplane/)
-**다음**: [60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/) →
+<- **이전**: [58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델](/knowledge-base/studynote/10_ai/01_ai_basics/058_svm_support_vector_machine_margin_hyperplane/)
+**다음**: [60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/) ->
 
 ---

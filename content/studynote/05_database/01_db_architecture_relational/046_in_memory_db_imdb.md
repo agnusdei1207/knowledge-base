@@ -23,19 +23,19 @@ IMDB vs 전통 디스크 DB:
 
 전통 DB (디스크 기반):
   데이터: 디스크 (HDD: ms, SSD: us)
-  처리: 디스크 읽기 → 버퍼 풀 → CPU
+  처리: 디스크 읽기 -> 버퍼 풀 -> CPU
 
   병목: 디스크 I/O (랜덤 읽기 HDD: ~10ms)
 
-  예: MySQL SELECT → 100ms (캐시 미스)
+  예: MySQL SELECT -> 100ms (캐시 미스)
 
 IMDB (메모리 기반):
   데이터: 완전히 RAM에 상주
-  처리: RAM 직접 접근 → CPU
+  처리: RAM 직접 접근 -> CPU
 
   RAM 접근: ~100ns (HDD 대비 100,000×)
 
-  예: Redis GET → ~10-100μs
+  예: Redis GET -> ~10-100μs
 
 성능 비교:
   HDD: 100 IOPS
@@ -57,8 +57,8 @@ IMDB 유형:
 
 RAM 비용:
   DRAM 32GB: ~$50~100 (2024)
-  → 수십~수백 GB IMDB = 수백~수천만원
-  → 성능 이점 대비 비용 효과적
+  -> 수십~수백 GB IMDB = 수백~수천만원
+  -> 성능 이점 대비 비용 효과적
 ```
 
 > 📢 **섹션 요약 비유**: IMDB는 책상 위 노트 vs 책장 창고 — 책장(디스크)에서 책 꺼내기(ms) vs 이미 책상(RAM)에 펼쳐진 노트 보기(μs). 1,000배 빠른 차이!
@@ -69,7 +69,7 @@ RAM 비용:
 
 ```
 IMDB 내구성 (Durability) 문제:
-  RAM = 휘발성 → 전원 장애 → 데이터 소실
+  RAM = 휘발성 -> 전원 장애 -> 데이터 소실
 
 Redis 내구성 옵션:
 
@@ -90,9 +90,9 @@ Redis 내구성 옵션:
    파일: appendonly.aof
 
    fsync 옵션:
-   - always: 매 명령 → 가장 안전 (성능 ↓)
-   - everysec: 1초마다 → 균형 (기본)
-   - no: OS에 위임 → 가장 빠름
+   - always: 매 명령 -> 가장 안전 (성능 v)
+   - everysec: 1초마다 -> 균형 (기본)
+   - no: OS에 위임 -> 가장 빠름
 
    RPO: everysec = 최대 1초 데이터 손실
 
@@ -104,14 +104,14 @@ Redis 내구성 옵션:
 
 4. Redis Cluster + Replica:
    Master-Replica 복제
-   Master 장애 → Replica 자동 승격
-   → RPO ≈ 0 (비동기 복제 시 소량 손실)
+   Master 장애 -> Replica 자동 승격
+   -> RPO ≈ 0 (비동기 복제 시 소량 손실)
 
 VoltDB:
   ACID 트랜잭션 완전 지원 IMDB
   2PC (2-Phase Commit)
   K-Safety: 노드 장애 대비 복제
-  WAL → 영구 스토리지
+  WAL -> 영구 스토리지
 ```
 
 > 📢 **섹션 요약 비유**: IMDB 내구성은 노트 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) — 책상 노트(RAM)는 지진(전원장애)에 사라지므로, 주기적으로 사진([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)=RDB) 찍거나 모든 수정 기록(AOF) 유지!
@@ -125,8 +125,8 @@ Redis 데이터 구조:
 
 String: 문자열
   SET user:1 "Alice"
-  GET user:1 → "Alice"
-  INCR counter → 원자적 증가
+  GET user:1 -> "Alice"
+  INCR counter -> 원자적 증가
   사용: 캐싱, 카운터, 세션
 
 List: 연결 리스트
@@ -156,7 +156,7 @@ Geospatial:
 
 HyperLogLog:
   PFADD visitors "user1" "user2"
-  PFCOUNT visitors → 근사 고유 카운트
+  PFCOUNT visitors -> 근사 고유 카운트
   사용: 대규모 카디널리티 추정 (12KB로!)
 
 Streams:
@@ -178,12 +178,12 @@ Cache-Aside (Look-Aside, Lazy Loading):
   가장 일반적
 
   읽기:
-  앱 → 캐시(Redis) 확인
+  앱 -> 캐시(Redis) 확인
   히트: 캐시에서 반환
-  미스: DB 조회 → 캐시 저장 → 반환
+  미스: DB 조회 -> 캐시 저장 -> 반환
 
   쓰기:
-  앱 → DB 갱신 → 캐시 삭제 (또는 무효화)
+  앱 -> DB 갱신 -> 캐시 삭제 (또는 무효화)
 
   장점: 필요한 것만 캐싱 (필요 시 로드)
   단점: 첫 요청 느림 (Cache Miss)
@@ -209,7 +209,7 @@ TTL (Time-To-Live):
   너무 긴 TTL: 오래된 데이터 제공
 
 Thundering Herd (Cache Stampede):
-  대량 캐시 동시 만료 → DB 과부하
+  대량 캐시 동시 만료 -> DB 과부하
 
   해결:
   - TTL 지터(랜덤 분산)
@@ -235,9 +235,9 @@ Thundering Herd (Cache Stampede):
 아키텍처:
 
 [사용자]
-   ↓ 요청
-[API 서버] → Redis Cluster
-   ↓ 캐시 미스
+   v 요청
+[API 서버] -> Redis Cluster
+   v 캐시 미스
 [MySQL/DynamoDB]
 
 상품 캐시:
@@ -252,13 +252,13 @@ Thundering Herd (Cache Stampede):
 
 재고 실시간:
   DECR product:12345:stock  (원자적 감소)
-  → 재고 0 → 품절 처리
+  -> 재고 0 -> 품절 처리
   (DB에 비동기 반영)
 
 리더보드:
   ZADD sales:rank:daily <판매량> <상품ID>
   ZREVRANGE sales:rank:daily 0 9 WITHSCORES
-  → 실시간 TOP 10
+  -> 실시간 TOP 10
 
 Redis Cluster 구성:
   3 Master × 2 Replica = 6 노드
@@ -266,9 +266,9 @@ Redis Cluster 구성:
   장애 자동 페일오버
 
 결과:
-  DB 쿼리: 초당 10만 → 5천 (95% 절감)
-  응답 시간: 150ms → 8ms
-  DB CPU: 90% → 35%
+  DB 쿼리: 초당 10만 -> 5천 (95% 절감)
+  응답 시간: 150ms -> 8ms
+  DB CPU: 90% -> 35%
   Flash Sale 트래픽 (초당 100만 요청) 처리
 ```
 
@@ -342,7 +342,7 @@ Redis Enterprise: 멀티티어
 
 **진행 상황**: 46 / 600
 
-← **이전**: [045. 관계 해석 — Relational Calculus](/knowledge-base/studynote/05_database/01_db_architecture_relational/045_relational_calculus/)
-**다음**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/) →
+<- **이전**: [045. 관계 해석 — Relational Calculus](/knowledge-base/studynote/05_database/01_db_architecture_relational/045_relational_calculus/)
+**다음**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/) ->
 
 ---

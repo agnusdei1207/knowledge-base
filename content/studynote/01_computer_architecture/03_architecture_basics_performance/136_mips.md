@@ -41,22 +41,22 @@ MIPS는 단순한 카운터가 아니라, 클럭과 평균 실행 효율을 묶�
 아래 그림은 MIPS가 어떤 흐름에서 계산되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  MIPS 계산 흐름: 클럭과 CPI의 결합                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로그램 실행                                                       │
-│     │                                                               │
-│     ├─▶ 총 명령어 수 (Instruction Count)                            │
-│     │                                                               │
-│     └─▶ 실행 시간 (Execution Time)                                  │
-│             │                                                       │
-│             ├─▶ 클럭 주파수 (Clock Rate)                            │
-│             └─▶ CPI (Cycles Per Instruction)                        │
-│                                                                     │
-│ 결과: MIPS = Clock Rate / (CPI × 10^6)                              │
-│                                                                     │
-│ 해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다. │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  MIPS 계산 흐름: 클럭과 CPI의 결합                  |
++----------------------------------------------------------------------+
+| 프로그램 실행                                                       |
+|     |                                                               |
+|     +--> 총 명령어 수 (Instruction Count)                            |
+|     |                                                               |
+|     +--> 실행 시간 (Execution Time)                                  |
+|             |                                                       |
+|             +--> 클럭 주파수 (Clock Rate)                            |
+|             +--> CPI (Cycles Per Instruction)                        |
+|                                                                     |
+| 결과: MIPS = Clock Rate / (CPI × 10^6)                              |
+|                                                                     |
+| 해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다. |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 2 GHz (gigahertz) 프로세서가 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 2로 동작하면 약 1,000 MIPS가 된다. 반대로 1 GHz 프로세서라도 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.5 수준으로 매우 효율적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처리하면 이론상 2,000 MIPS까지도 계산될 수 있다. 이처럼 MIPS는 단순 주파수 경쟁보다 한 단계 나아간 지표였지만, 여전히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 개수"를 기준으로 삼는다는 점에서 구조적 전제를 갖는다.
@@ -141,18 +141,18 @@ MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_
 
 ```text
 클럭 주파수 중심 비교
-    │
-    ▼
+    |
+    v
 MIPS (Million Instructions Per Second)
-    │
-    ├─▶ CPI (Cycles Per Instruction) 인식 확대
-    │
-    ├─▶ ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기
-    │
-    ▼
+    |
+    +--> CPI (Cycles Per Instruction) 인식 확대
+    |
+    +--> ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기
+    |
+    v
 DMIPS (Dhrystone MIPS) 같은 보정 시도
-    │
-    ▼
+    |
+    v
 SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
 ```
 
@@ -170,7 +170,7 @@ SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
 
 **진행 상황**: 136 / 803
 
-← **이전**: [135. IPC (Instructions Per Cycle)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)
-**다음**: [137. FLOPS (Floating-point Operations Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) →
+<- **이전**: [135. IPC (Instructions Per Cycle)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)
+**다음**: [137. FLOPS (Floating-point Operations Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ->
 
 ---

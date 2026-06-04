@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [사이드카 아키텍처]
-    │
-    ▼
+    |
+    v
 [mTLS]
-    │
-    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    |
+    +---> [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
 ```
 
 - **📢 섹션 요약 비유**: mTLS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [사이드카 아키텍처]
-    │
-    ▼
+    |
+    v
 [mTLS]
-    │
-    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    |
+    +---> [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
 ```
 
 - **📢 섹션 요약 비유**: mTLS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ mTLS는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축
 
 ```text
 [선행 개념: 사이드카 아키텍처]
-    │
-    ▼
+    |
+    v
 [현재 개념: mTLS]
-    │
-    ├──▶ [확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 mTLS는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ mTLS는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud
 
 **진행 상황**: 952 / 1120
 
-← **이전**: [830. 사이드카 (Sidecar Proxy)](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)
-**다음**: [832. 트래픽 섀도잉 및 카나리 배포](/knowledge-base/studynote/03_network/16_data_center_cloud/832_traffic_shadowing_canary_deployment_routing/) →
+<- **이전**: [830. 사이드카 (Sidecar Proxy)](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)
+**다음**: [832. 트래픽 섀도잉 및 카나리 배포](/knowledge-base/studynote/03_network/16_data_center_cloud/832_traffic_shadowing_canary_deployment_routing/) ->
 
 ---

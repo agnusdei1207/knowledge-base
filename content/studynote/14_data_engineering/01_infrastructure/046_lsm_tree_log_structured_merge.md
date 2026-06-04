@@ -11,7 +11,7 @@ tags = ["studynote-data-engineering"]
 
 > **핵심 인사이트**
 > 1. LSM([Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)) 트리는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약적 워크로드에 최적화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 — 임의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random Write)를 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Write)로 변환해 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/SSD에서 극적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성능을 달성하며, RocksDB·[Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)·LevelDB의 스토리지 엔진으로 사용된다.
-> 2. LSM의 핵심 트레이드오프는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)↑ vs 읽기↓ — 컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 과정 없이는 여러 레벨에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분산되어 읽기 성능이 저하되며, Bloom Filter가 불필요한 디스크 읽기를 방지하는 핵심 최적화 도구다.
+> 2. LSM의 핵심 트레이드오프는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)^ vs 읽기v — 컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 과정 없이는 여러 레벨에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분산되어 읽기 성능이 저하되며, Bloom Filter가 불필요한 디스크 읽기를 방지하는 핵심 최적화 도구다.
 > 3. [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) vs LSM: 워크로드 특성에 따른 선택 — 읽기 많은 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(MySQL, PostgreSQL)는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약적([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이벤트 스트림)은 LSM이 적합하며, 현대 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 대부분이 LSM을 채택한 이유가 여기에 있다.
 
 ---
@@ -23,13 +23,13 @@ tags = ["studynote-data-engineering"]
 
 B-Tree (전통 RDBMS):
   임의 쓰기 (Random Write):
-  데이터 → 페이지 탐색 → 디스크 랜덤 위치 쓰기
+  데이터 -> 페이지 탐색 -> 디스크 랜덤 위치 쓰기
 
   HDD 랜덤 쓰기: ~150 IOPS (매우 느림)
   SSD 랜덤 쓰기: ~10,000 IOPS
 
 LSM 아이디어:
-  임의 쓰기 → 순차 쓰기로 변환
+  임의 쓰기 -> 순차 쓰기로 변환
 
   "모든 쓰기를 메모리에 먼저 모은 후
    순차적으로 디스크에 한번에 기록"
@@ -47,7 +47,7 @@ LSM 활용 사례:
 
 LSM 장점:
   높은 쓰기 처리량
-  순차 쓰기 → HDD/SSD 친화적
+  순차 쓰기 -> HDD/SSD 친화적
   Write Amplification 낮음 (B-Tree 대비)
 
 LSM 단점:
@@ -83,8 +83,8 @@ SSTable (Sorted String Table):
   정렬된 키-값 파일
 
   Level 0 (L0):
-  MemTable → L0 SSTable (최신 데이터)
-  L0 파일 수 임계값 → L1으로 Compaction
+  MemTable -> L0 SSTable (최신 데이터)
+  L0 파일 수 임계값 -> L1으로 Compaction
 
   Level 1 (L1):
   키 범위가 겹치지 않도록 정렬
@@ -106,9 +106,9 @@ SSTable (Sorted String Table):
 읽기 과정:
   1. MemTable 검색 (최신)
   2. L0 SSTable 검색 (최신순)
-  3. L1 → L2 → ... 검색
-  → 최악: 모든 레벨 검색 (느림)
-  → Bloom Filter로 불필요한 탐색 건너뜀
+  3. L1 -> L2 -> ... 검색
+  -> 최악: 모든 레벨 검색 (느림)
+  -> Bloom Filter로 불필요한 탐색 건너뜀
 ```
 
 > 📢 **섹션 요약 비유**: LSM 구조는 서류 정리 시스템 — 새 서류([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 책상 메모장([MemTable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/))에 먼저. 가득 차면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿(L0 SSTable)으로 이동, 주기적으로 캐비닛(더 깊은 레벨)으로 정리!
@@ -126,13 +126,13 @@ Compaction (컴팩션):
 왜 필요한가:
   LSM 쓰기: 항상 새 SSTable 추가
   같은 키가 여러 파일에 존재 가능
-  → 읽기 시 여러 파일 검색
-  → 오래된 데이터(tombstone) 공간 낭비
+  -> 읽기 시 여러 파일 검색
+  -> 오래된 데이터(tombstone) 공간 낭비
 
 Compaction 유형:
 
 Size-Tiered Compaction (크기 기반):
-  비슷한 크기의 SSTable 여러 개 → 하나로 합침
+  비슷한 크기의 SSTable 여러 개 -> 하나로 합침
 
   장점: Compaction 적게 발생
   단점: 임시 공간 많이 필요 (1.5~2× 데이터)
@@ -140,7 +140,7 @@ Size-Tiered Compaction (크기 기반):
 
 Level Compaction (레벨 기반):
   LevelDB/RocksDB 방식
-  L0 → L1으로, L1 → L2로 단계적 합침
+  L0 -> L1으로, L1 -> L2로 단계적 합침
 
   각 레벨은 겹치지 않는 키 범위
   읽기: 각 레벨에서 1개 SSTable만 확인
@@ -154,14 +154,14 @@ Bloom Filter (블룸 필터):
   확률적 자료구조 (False Positive 있지만 False Negative 없음)
 
   읽기 최적화:
-  블룸 필터: "이 SSTable에 없음" → 건너뜀
+  블룸 필터: "이 SSTable에 없음" -> 건너뜀
   불필요한 디스크 I/O 90%+ 절감
 
 Write Amplification:
   실제 쓰기 / 논리적 쓰기
   LSM Level Compaction: ~10×
   B-Tree: ~3~5× (낮음)
-  → Compaction으로 인한 추가 쓰기
+  -> Compaction으로 인한 추가 쓰기
 ```
 
 > 📢 **섹션 요약 비유**: Compaction은 책 정리, Bloom Filter는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) — 정기적으로 흩어진 책(SSTable)을 합쳐 정리([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)). 목차([Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))로 "이 책에 없다"고 빠르게 판단!
@@ -201,14 +201,14 @@ RUM Conjecture:
   Read / Update / Memory 트레이드오프
 
   R(읽기 오버헤드) × U(쓰기 오버헤드) × M(공간 오버헤드)
-  → 셋 중 둘을 최소화하면 하나는 증가
+  -> 셋 중 둘을 최소화하면 하나는 증가
 
 선택 가이드:
   IoT 센서 데이터 수집: LSM (쓰기 우선)
   온라인 쇼핑 주문: B-Tree (읽기 빠름)
   시계열 DB (InfluxDB, Prometheus): LSM
   관계형 OLTP (MySQL): B-Tree
-  로그 저장 (Kafka→Cassandra): LSM
+  로그 저장 (Kafka->Cassandra): LSM
 ```
 
 > 📢 **섹션 요약 비유**: [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) vs LSM은 창고 정리법 — [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/): 물건 제자리 즉시 정리(느린 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 빠른 찾기). LSM: 일단 입구에 쌓고 나중에 한번에 정리(빠른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 느린 찾기)!
@@ -247,9 +247,9 @@ RocksDB 설정:
 
   비교: MySQL InnoDB (B-Tree)
   동일 쓰기 워크로드:
-  → 쓰기 처리량: 초당 30,000
-  → P99 쓰기 지연: 10~50ms
-  → 디스크 IOPS 포화 현상
+  -> 쓰기 처리량: 초당 30,000
+  -> P99 쓰기 지연: 10~50ms
+  -> 디스크 IOPS 포화 현상
 
 Compaction 관리:
   TTL Compaction: 2년 지난 데이터 자동 삭제
@@ -260,7 +260,7 @@ Compaction 관리:
   (프로덕션 영향 최소화)
 
 확장:
-  Kafka → Flink → RocksDB 파이프라인
+  Kafka -> Flink -> RocksDB 파이프라인
   RocksDB Replication: Leader-Follower
   스냅샷 백업: S3로 주기적 백업
 
@@ -281,7 +281,7 @@ LSM 트리 (Log-Structured Merge-Tree)
 |   +-- SSTable (불변 파일)
 |   +-- WAL (장애 복구)
 +-- 핵심 프로세스
-|   +-- Flush (MemTable → SSTable)
+|   +-- Flush (MemTable -> SSTable)
 |   +-- Compaction (SSTable 합병)
 +-- 최적화
 |   +-- Bloom Filter (읽기 최적화)
@@ -337,7 +337,7 @@ Cassandra, TiKV 등 채택
 
 **진행 상황**: 46 / 258
 
-← **이전**: [045. 컬럼형 저장 형식 — Parquet & ORC](/knowledge-base/studynote/14_data_engineering/01_infrastructure/045_columnar_storage_format_parquet_orc/)
-**다음**: [047. 컴팩션과 툼스톤 — Compaction & Tombstone](/knowledge-base/studynote/14_data_engineering/01_infrastructure/047_compaction_and_tombstone/) →
+<- **이전**: [045. 컬럼형 저장 형식 — Parquet & ORC](/knowledge-base/studynote/14_data_engineering/01_infrastructure/045_columnar_storage_format_parquet_orc/)
+**다음**: [047. 컴팩션과 툼스톤 — Compaction & Tombstone](/knowledge-base/studynote/14_data_engineering/01_infrastructure/047_compaction_and_tombstone/) ->
 
 ---

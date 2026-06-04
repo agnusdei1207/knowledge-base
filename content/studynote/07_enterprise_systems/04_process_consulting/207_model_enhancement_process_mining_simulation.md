@@ -40,18 +40,18 @@ tags = ["studynote-enterprise"]
 아래 그림은 모델 향상이 단순 편집이 아니라, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 진단과 TO-BE [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 연결된 순환 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│        모델 향상 흐름: 발견된 문제를 TO-BE와 검증으로 연결       │
-├──────────────────────────────────────────────────────────────────┤
-│ 이벤트 로그 ─┐                                                   │
-│             ├─▶ 병목·루프·편차 분석 ─▶ 개선 가설 ─▶ TO-BE 모델    │
-│ 기준 모델 ──┘                                   │                │
-│                                                  ▼                │
-│                                   시뮬레이션·KPI 검증             │
-│                                                  │                │
-│                                                  ▼                │
-│                                   운영 반영 또는 재설계 반복      │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|        모델 향상 흐름: 발견된 문제를 TO-BE와 검증으로 연결       |
++------------------------------------------------------------------+
+| 이벤트 로그 -+                                                   |
+|             +--> 병목·루프·편차 분석 --> 개선 가설 --> TO-BE 모델    |
+| 기준 모델 --+                                   |                |
+|                                                  v                |
+|                                   시뮬레이션·KPI 검증             |
+|                                                  |                |
+|                                                  v                |
+|                                   운영 반영 또는 재설계 반복      |
++------------------------------------------------------------------+
 ```
 
 실무에서는 세 가지 순서가 중요하다. 첫째, 병목이 발생한 활동 자체보다 그 앞뒤 대기열과 핸드오프 (Hand-off)를 본다. 둘째, 제거 가능한 단계와 반드시 남겨야 하는 통제 단계를 나눈다. 셋째, 자동화 후보는 처리시간뿐 아니라 오류율, 야간처리 필요성, 규정 준수 여부를 함께 평가한다.
@@ -94,7 +94,7 @@ tags = ["studynote-enterprise"]
 - 한 부서의 처리시간만 줄이고 후속 부서 적체를 키우는 국소 최적화
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질이 낮은데도 시뮬레이션 숫자를 절대값처럼 신뢰하는 의사결정
 
-기술사 답안에서는 "발견 → 편차 분석 → 수리/확장 → 시뮬레이션 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → TO-BE 정착"의 흐름을 기억하면 안정적이다. 특히 개선안 제시 시에는 비용 절감만이 아니라 통제 유지와 변화관리까지 함께 언급해야 설계 판단이 완성된다.
+기술사 답안에서는 "발견 -> 편차 분석 -> 수리/확장 -> 시뮬레이션 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> TO-BE 정착"의 흐름을 기억하면 안정적이다. 특히 개선안 제시 시에는 비용 절감만이 아니라 통제 유지와 변화관리까지 함께 언급해야 설계 판단이 완성된다.
 
 - **📢 섹션 요약 비유**: 집을 리모델링할 때 벽 하나 허물면 넓어 보여도, 그 벽이 하중을 버티는 구조벽이면 건물이 위험해진다. 모델 [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) 빨라 보이는 해법보다, 남겨야 할 구조를 먼저 구분하는 리모델링 감각이 필요하다.
 
@@ -126,21 +126,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 프로세스 발견 (Process Discovery)
-        │
-        ▼
+        |
+        v
 적합성 검사 (Conformance Checking)
-        │
-        ▼
+        |
+        v
 모델 향상 (Model Enhancement)
-   ├─ 수리 (Repair)
-   ├─ 확장 (Extension)
-   └─ 시뮬레이션 (Simulation)
-        │
-        ▼
+   +- 수리 (Repair)
+   +- 확장 (Extension)
+   +- 시뮬레이션 (Simulation)
+        |
+        v
 TO-BE 정착 · 자동화 · 지속 개선
 ```
 
-이 흐름도는 "가시화 → 위반 분석 → 설계 변경 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 정착"의 개선 폐루프를 보여준다.
+이 흐름도는 "가시화 -> 위반 분석 -> 설계 변경 -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 정착"의 개선 폐루프를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ TO-BE 정착 · 자동화 · 지속 개선
 
 **진행 상황**: 207 / 482
 
-← **이전**: [206. 적합성 검사 (Conformance Checking)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/)
-**다음**: [208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/208_cmmi_capability_maturity_model_integration_levels/) →
+<- **이전**: [206. 적합성 검사 (Conformance Checking)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/)
+**다음**: [208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/208_cmmi_capability_maturity_model_integration_levels/) ->
 
 ---

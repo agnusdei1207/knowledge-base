@@ -24,11 +24,11 @@ tags = ["studynote-design-supervision"]
 설계감리에서 [개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)은 '멋진 구조'를 말하기 위한 주제가 아니라, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 왜 우선했는지 설명하기 위한 기준이다. 그래서 정의를 외우는 것보다, 어디서 경계를 긋고 무엇을 고정하며 무엇을 유연하게 남길지를 이해하는 것이 더 중요하다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Requirement  │──▶│ Decision     │──▶│ Structure    │
-└──────────────┘   └──────┬───────┘   └──────┬───────┘
-                          │                  │
-                          └──────▶ Quality Attribute
++--------------+   +--------------+   +--------------+
+| Requirement  |--->| Decision     |--->| Structure    |
++--------------+   +------+-------+   +------+-------+
+                          |                  |
+                          +-------> Quality Attribute
 ```
 
 이 다이어그램은 요구사항이 그대로 코드가 되는 것이 아니라, 중간의 설계 결정과 책임 분할을 거쳐 구조와 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 연결된다는 점을 보여 준다.
@@ -110,14 +110,14 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [선행 개념: 요구사항]
-    │
-    ▼
+    |
+    v
 [현재 개념: 개방-폐쇄 원칙]
-    │
-    ├──▶ [확장 A: Open]
-    └──▶ [확장 B: 품질 속성]
-            │
-            ▼
+    |
+    +---> [확장 A: Open]
+    +---> [확장 B: 품질 속성]
+            |
+            v
         [다음 단계: 구조 진화]
 ```
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 148 / 530
 
-← **이전**: [SRP (Single Responsibility Principle, 단일 책임 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
-**다음**: [OCP (Open-Closed Principle, 개방-폐쇄 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) →
+<- **이전**: [SRP (Single Responsibility Principle, 단일 책임 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
+**다음**: [OCP (Open-Closed Principle, 개방-폐쇄 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) ->
 
 ---

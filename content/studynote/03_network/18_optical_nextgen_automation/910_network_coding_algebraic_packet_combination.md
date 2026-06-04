@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [MOS]
-    │
-    ▼
+    |
+    v
 [네트워크 코딩]
-    │
-    └──▶ [에지 보안 SASE 진화 모델 SSE]
+    |
+    +---> [에지 보안 SASE 진화 모델 SSE]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 코딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [MOS]
-    │
-    ▼
+    |
+    v
 [네트워크 코딩]
-    │
-    └──▶ [에지 보안 SASE 진화 모델 SSE]
+    |
+    +---> [에지 보안 SASE 진화 모델 SSE]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 코딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MOS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 코딩]
-    │
-    ├──▶ [확장 A: 에지 보안 SASE 진화 모델 SSE]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 에지 보안 SASE 진화 모델 SSE]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 네트워크 코딩는 MOS에서 출발해 현재 메커니즘을 정교화하고, 이후 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1031 / 1120
 
-← **이전**: [909. MOS (Mean Opinion Score 음성/영상 체감 품질 사용자 5점 척도 측정 통신망 평가 주관식 및 E-Model](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/)
-**다음**: [911. SSE (에지 보안 서비스)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/911_sse_security_service_edge_sase_evolution/) →
+<- **이전**: [909. MOS (Mean Opinion Score 음성/영상 체감 품질 사용자 5점 척도 측정 통신망 평가 주관식 및 E-Model](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/)
+**다음**: [911. SSE (에지 보안 서비스)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/911_sse_security_service_edge_sase_evolution/) ->
 
 ---

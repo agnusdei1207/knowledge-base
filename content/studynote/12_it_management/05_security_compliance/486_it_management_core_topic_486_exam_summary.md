@@ -12,8 +12,8 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 거버넌스는 COBIT 2019의 EDM(평가·지시·모니터링) 40개 관리 목표와 ITIL 4의 34개 практика, ISO 38500의 6원칙을 통해 **이사회-경영진-실무** 3계층으로 연결되며, EA(Enterprise Architecture)는 TOGAF ADM 사이클(8단계 Phase A~H)로 전략-비즈니스-데이터-애플리케이션-기술 4계층을 정렬한다.
-> 2. **가치**: 글로벌 조사(Deloitte 2023)에 따르면 성숙한 IT 거버넌스 도입 기업은 **프로젝트 실패율 38%↓, ROI 2.7배↑, 사이버 사고 대응시간 64% 단축**, ISO 38500 인증 기업은 IT 투자 회수기간( payback period ) 평균 18개월 단축 효과를 나타낸다.
-> 3. **판단 포인트**: **①** 중앙집중형(CoE) vs 분산형(Federated) 거버넌스 모델 선택 시 조직 규모(>1,000명 임계점), **②** EA 방법론은 TOGAF(대기업) vs Zachman(규제산업) vs FEAF(공공기관), **③** 클라우드 전환 시 CapEx→OpEx 전환율 60~70% 시 ROI BEP 도달이라는 트레이드오프를 정량적으로 판단해야 한다.
+> 2. **가치**: 글로벌 조사(Deloitte 2023)에 따르면 성숙한 IT 거버넌스 도입 기업은 **프로젝트 실패율 38%v, ROI 2.7배^, 사이버 사고 대응시간 64% 단축**, ISO 38500 인증 기업은 IT 투자 회수기간( payback period ) 평균 18개월 단축 효과를 나타낸다.
+> 3. **판단 포인트**: **①** 중앙집중형(CoE) vs 분산형(Federated) 거버넌스 모델 선택 시 조직 규모(>1,000명 임계점), **②** EA 방법론은 TOGAF(대기업) vs Zachman(규제산업) vs FEAF(공공기관), **③** 클라우드 전환 시 CapEx->OpEx 전환율 60~70% 시 ROI BEP 도달이라는 트레이드오프를 정량적으로 판단해야 한다.
 
 ---
 
@@ -26,41 +26,41 @@ tags = ["studynote-it-management"]
 ```text
 [ 정보화 전략 수립 의사결정 계층 구조 ]
 
-   ┌─────────────────────────────────────────────┐
-   │   이사회 (Board of Directors)               │
-   │   · IT 거버넌스 최고 의사결정                │
-   │   · ISO 38500 6원칙: 책임·전략·수행·적합·규율·인간│
-   └──────────────┬──────────────────────────────┘
-                  │ (Oversight)
-   ┌──────────────▼──────────────────────────────┐
-   │   IT 전략위원회 (Steering Committee)         │
-   │   · COBIT 2019 EDM 영역                     │
-   │     EDM01 거버넌스 체계 수립                 │
-   │     EDM02 혜택 실현                         │
-   │     EDM03 위험 최적화                       │
-   │     EDM04 자원 최적화                       │
-   │     EDM05 투명성 보장                       │
-   └──────────────┬──────────────────────────────┘
-                  │ (Direction)
-   ┌──────────────▼──────────────────────────────┐
-   │   PMO (Program Management Office)           │
-   │   · 다중 프로젝트 포트폴리오 관리            │
-   │   · P3O(Portfolio, Programme, Project Office)│
-   │   · KPI 대시보드 · 위험 통합관리             │
-   └──────────────┬──────────────────────────────┘
-                  │ (Execution)
-   ┌──────────────▼──────────────────────────────┐
-   │   실무 조직 (BAU + 프로젝트팀)              │
-   │   · ITIL 4 Service Value Chain              │
-   │     Plan→Engage→Design→Obtain→Build→Deliver│
-   │     →Support                                │
-   │   · DevOps · SRE · Agile Squad              │
-   └─────────────────────────────────────────────┘
+   +---------------------------------------------+
+   |   이사회 (Board of Directors)               |
+   |   · IT 거버넌스 최고 의사결정                |
+   |   · ISO 38500 6원칙: 책임·전략·수행·적합·규율·인간|
+   +--------------+------------------------------+
+                  | (Oversight)
+   +--------------v------------------------------+
+   |   IT 전략위원회 (Steering Committee)         |
+   |   · COBIT 2019 EDM 영역                     |
+   |     EDM01 거버넌스 체계 수립                 |
+   |     EDM02 혜택 실현                         |
+   |     EDM03 위험 최적화                       |
+   |     EDM04 자원 최적화                       |
+   |     EDM05 투명성 보장                       |
+   +--------------+------------------------------+
+                  | (Direction)
+   +--------------v------------------------------+
+   |   PMO (Program Management Office)           |
+   |   · 다중 프로젝트 포트폴리오 관리            |
+   |   · P3O(Portfolio, Programme, Project Office)|
+   |   · KPI 대시보드 · 위험 통합관리             |
+   +--------------+------------------------------+
+                  | (Execution)
+   +--------------v------------------------------+
+   |   실무 조직 (BAU + 프로젝트팀)              |
+   |   · ITIL 4 Service Value Chain              |
+   |     Plan->Engage->Design->Obtain->Build->Deliver|
+   |     ->Support                                |
+   |   · DevOps · SRE · Agile Squad              |
+   +---------------------------------------------+
 ```
 
 **구 vs 신 패러다임 비교**
-- **구 패러다임 (2000년대 이전)**: IT = 비용(Cost Center) → 예산 대비 실적( Budget vs Actual ) 중심 통제, 기능별 사일로(Finance, HR, SCM 각각 독립 시스템)
-- **신 패러다임 (2024년)**: IT = 가치(Value Engine) → **Total Economic Impact(TEI)** 측정, **OKR(Objectives & Key Results)** 기반 성과관리, 데이터-플랫폼-AI-보안의 4축 통합 거버넌스
+- **구 패러다임 (2000년대 이전)**: IT = 비용(Cost Center) -> 예산 대비 실적( Budget vs Actual ) 중심 통제, 기능별 사일로(Finance, HR, SCM 각각 독립 시스템)
+- **신 패러다임 (2024년)**: IT = 가치(Value Engine) -> **Total Economic Impact(TEI)** 측정, **OKR(Objectives & Key Results)** 기반 성과관리, 데이터-플랫폼-AI-보안의 4축 통합 거버넌스
 
 - **📢 섹션 요약 비유**: IT 거버넌스 없는 조직은 **교향악단 단원들이 각자 다른 악보로 연주하는 것**과 같다. 작곡가(거버넌스 프레임워크)가 있어야 모든 악기가 하나의 교향곡(비즈니스 목표)을 연주할 수 있다.
 
@@ -73,52 +73,52 @@ IT 거버넌스-관리(Service Management)-실행(Operations)을 통합하는 **
 ```text
 [ COBIT 2019 + ITIL 4 + ISO 38500 통합 참조 모델 ]
 
-   ╔══════════════════════════════════════════════════════════╗
-   ║  ISO/IEC 38500 IT 거버넌스 6원칙 (최상위 정책 프레임)  ║
-   ║  ① 책임(Responsibility)  ② 전략(Strategy)              ║
-   ║  ③ 수행(Acquisition)     ④ 수행(Performance)           ║
-   ║  ⑤ 적합(Conformance)     ⑥ 인간(Human Behavior)        ║
-   ╚════════════════════╤═════════════════════════════════════╝
-                        │ (Standards)
-   ┌────────────────────▼────────────────────────────────────┐
-   │  COBIT 2019: 40개 관리목표 + 5개 거버넌스목표           │
-   │   · 거버넌스 도메인 (EDM01~EDM05)                      │
-   │   · 관리 도메인                                         │
-   │     APO(Align, Plan, Organize) 14개                     │
-   │     BAI(Build, Acquire, Implement) 11개                 │
-   │     DSS(Deliver, Service, Support) 6개                  │
-   │     MEA(Monitor, Evaluate, Assess) 4개                 │
-   │   · Focus Area: 사이버보안, DevOps, 디지털전환, AI     │
-   └────────────────────┬────────────────────────────────────┘
-                        │ (Process Detail)
-   ┌────────────────────▼────────────────────────────────────┐
-   │  ITIL 4 Service Value System (SVS)                      │
-   │   · 7 Guiding Principles                                │
-   │   · 4 Dimensions of Service Management                  │
-   │     Organizations & People · Information & Technology   │
-   │     Partners & Suppliers · Value Streams & Processes    │
-   │   · 34 Practices (구 v3의 26 프로세스 확장)             │
-   │     ex) Incident Mgmt, Change Enablement,               │
-   │         Service Request Mgmt, Incident Problem,         │
-   │         Service Level Mgmt 등                            │
-   │   · Service Value Chain (Plan→Engage→Design→Build→     │
-   │     Transition→Operate→Improve 6활동)                   │
-   └────────────────────┬────────────────────────────────────┘
-                        │ (Operational Execution)
-   ┌────────────────────▼────────────────────────────────────┐
-   │  실행 계층: 기술 스택 및 자동화                          │
-   │   · AIOps (Datadog, Splunk ITSI)                        │
-   │   · IaC: Terraform / Ansible / Pulumi                   │
-   │   · CMDB: ServiceNow CMDB / BMC Discovery               │
-   │   · ITSM: ServiceNow / Jira Service Mgmt                │
-   │   · Observability: OpenTelemetry + Prometheus + Grafana │
-   └─────────────────────────────────────────────────────────┘
+   +----------------------------------------------------------+
+   |  ISO/IEC 38500 IT 거버넌스 6원칙 (최상위 정책 프레임)  |
+   |  ① 책임(Responsibility)  ② 전략(Strategy)              |
+   |  ③ 수행(Acquisition)     ④ 수행(Performance)           |
+   |  ⑤ 적합(Conformance)     ⑥ 인간(Human Behavior)        |
+   +--------------------╤-------------------------------------+
+                        | (Standards)
+   +--------------------v------------------------------------+
+   |  COBIT 2019: 40개 관리목표 + 5개 거버넌스목표           |
+   |   · 거버넌스 도메인 (EDM01~EDM05)                      |
+   |   · 관리 도메인                                         |
+   |     APO(Align, Plan, Organize) 14개                     |
+   |     BAI(Build, Acquire, Implement) 11개                 |
+   |     DSS(Deliver, Service, Support) 6개                  |
+   |     MEA(Monitor, Evaluate, Assess) 4개                 |
+   |   · Focus Area: 사이버보안, DevOps, 디지털전환, AI     |
+   +--------------------+------------------------------------+
+                        | (Process Detail)
+   +--------------------v------------------------------------+
+   |  ITIL 4 Service Value System (SVS)                      |
+   |   · 7 Guiding Principles                                |
+   |   · 4 Dimensions of Service Management                  |
+   |     Organizations & People · Information & Technology   |
+   |     Partners & Suppliers · Value Streams & Processes    |
+   |   · 34 Practices (구 v3의 26 프로세스 확장)             |
+   |     ex) Incident Mgmt, Change Enablement,               |
+   |         Service Request Mgmt, Incident Problem,         |
+   |         Service Level Mgmt 등                            |
+   |   · Service Value Chain (Plan->Engage->Design->Build->     |
+   |     Transition->Operate->Improve 6활동)                   |
+   +--------------------+------------------------------------+
+                        | (Operational Execution)
+   +--------------------v------------------------------------+
+   |  실행 계층: 기술 스택 및 자동화                          |
+   |   · AIOps (Datadog, Splunk ITSI)                        |
+   |   · IaC: Terraform / Ansible / Pulumi                   |
+   |   · CMDB: ServiceNow CMDB / BMC Discovery               |
+   |   · ITSM: ServiceNow / Jira Service Mgmt                |
+   |   · Observability: OpenTelemetry + Prometheus + Grafana |
+   +---------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **EDM(거버넌스) 계층** | 이사회·전략위 의사결정 | COBIT 2019 EDM01~05: 평가(Evaluate)·지시(Direct)·모니터링(Monitor) 루프 60일 주기, **RACI 차트**로 의사결정 권한 명문화 |
-| **APO(정렬·계획·조직)** | 전략→IT 정렬 | **Balanced Scorecard(BSC) 4관점**(Financial/Customer/Internal/Learning), **IT 투자 우선순위 모델**(HPE 5단계), **KPI 캐스케이드** 전략→CSF→KPI→KPI 측정값 |
+| **APO(정렬·계획·조직)** | 전략->IT 정렬 | **Balanced Scorecard(BSC) 4관점**(Financial/Customer/Internal/Learning), **IT 투자 우선순위 모델**(HPE 5단계), **KPI 캐스케이드** 전략->CSF->KPI->KPI 측정값 |
 | **BAI(구축·획득·실행)** | 솔루션 도입 및 구현 | **프로젝트 관리**: PMBOK 7th(8 Performance Domains), **애자일**: Scrum(3~9명/2~4주 스프린트), **DevOps**: DORA 4 Metrics(배포빈도·리드타임·변경실패율·복구시간) |
 | **DSS(서비스·지원)** | 운영 서비스 제공 | **ITIL 4 34개 практика**: Incident(SLA P1 1시간, P2 4시간), Problem(근본원인분석 RCA: 5-Why, Ishikawa, Kepner-Tregoe), **Change Enablement**(CAB + Risk-based CAB) |
 | **MEA(모니터링·평가)** | 성과 측정 및 개선 | **BS 15000 / ISO 20000** 인증, **내부 통제**: SOX 404 IT-GC(IT General Control), **외부 감사**: ISMS-P, PIMS(ISO 27701) |
@@ -145,14 +145,14 @@ IT 거버넌스-관리(Service Management)-실행(Operations)을 통합하는 **
 | **측정/인증** | ISACA 감성 인증(자격증) | PeopleCert AXELOS 자격증 | BSI 인증 | The Open Group 인증 | KISA·BSI 인증 |
 | **적용 시점** | 거버넌스 정착 초기 | 서비스 운영 성숙기 | 정책 수립·감사 | 전략-아키텍처 정렬 | 보안 위험 발생 후·사전 |
 | **통합 방식** | EDM↔PBRM 라사이클링 | SVS + Value Stream | COBIT EDM과 매핑 | Phase A Architecture Vision | APO12(위험관리)와 연동 |
-| **장점** | 컴플라이언스·감사 강점, 2019부터 유연성 ↑ | 실무 적용성, 자동화 친화 | 국제 표준, 간결성 | 업계 사실 표준(de facto) | 글로벌 보안 표준 |
-| **단점** | 40 목표 과부하, 학습곡선陡 | 34 практика 부담, v3→v4 호환성 | 거버넌스 외 영역 미흡 | 구현 도구(Tool) 부재 | 통제 93개 과다, 우선순위 필요 |
+| **장점** | 컴플라이언스·감사 강점, 2019부터 유연성 ^ | 실무 적용성, 자동화 친화 | 국제 표준, 간결성 | 업계 사실 표준(de facto) | 글로벌 보안 표준 |
+| **단점** | 40 목표 과부하, 학습곡선陡 | 34 практика 부담, v3->v4 호환성 | 거버넌스 외 영역 미흡 | 구현 도구(Tool) 부재 | 통제 93개 과다, 우선순위 필요 |
 | **비용(연간)** | 가이드북 $200~400 | Foundation $400, Master $1,500+ | 인증 $5K~30K | 가이드 $500 | 인증 $15K~50
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 486 / 800
 
-← **이전**: [485. IT 경영 관리 핵심 토픽 485번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/485_it_management_core_topic_485_exam_summary/)
-**다음**: [487. IT 경영 관리 핵심 토픽 487번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/487_it_management_core_topic_487_exam_summary/) →
+<- **이전**: [485. IT 경영 관리 핵심 토픽 485번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/485_it_management_core_topic_485_exam_summary/)
+**다음**: [487. IT 경영 관리 핵심 토픽 487번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/487_it_management_core_topic_487_exam_summary/) ->
 
 ---

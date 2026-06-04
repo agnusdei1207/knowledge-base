@@ -29,12 +29,12 @@ tags = ["ai"]
 이 도식은 문제 해결에 있어서 범용 알고리즘과 전문가 시스템의 접근 방식(패러다임) 차이를 보여준다.
 
 [초기 AI: 범용 탐색 지향]            [전문가 시스템: 도메인 지식 지향]
-   ┌────────────────┐                ┌────────────────┐
-   │ 얇은 지식 (Low)│                │ 깊은 지식 (High)│ <-- (해당 분야 전용)
-   │ 넓은 범위 (All)│                │ 좁은 범위 (One) │ <-- (의료, 법률 등)
-   │ 무차별 탐색    │                │ 룰 기반 추론    │
-   └───────┬────────┘                └───────┬────────┘
-           ▼ (결과)                          ▼ (결과)
+   +----------------+                +----------------+
+   | 얇은 지식 (Low)|                | 깊은 지식 (High)| <-- (해당 분야 전용)
+   | 넓은 범위 (All)|                | 좁은 범위 (One) | <-- (의료, 법률 등)
+   | 무차별 탐색    |                | 룰 기반 추론    |
+   +-------+--------+                +-------+--------+
+           v (결과)                          v (결과)
     조합 폭발로 실패                   상업적 성과 창출 (성공)
 ```
 이 도식의 핵심은 컴퓨팅 파워가 극도로 부족했던 과거에, 연산(탐색)에 의존하는 대신 인간의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 '경험적 규칙([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))'을 직접 주입하여 문제 공간(Search Space)을 획기적으로 줄였다는 점이다. 이런 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 제한된 자원 안에서 정확도와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장했다. 실무적으로 이는 오늘날 복잡한 엔터프라이즈 시스템 구축 시, 딥러닝으로 모든 것을 해결하려 하기보다 확실한 비즈니스 룰은 명시적으로 분리하여 구현해야 한다는 아키텍처적 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)을 남겼다.
@@ -67,23 +67,23 @@ tags = ["ai"]
 이 도식은 전문가 시스템 구축을 위한 사람(전문가/엔지니어)과 시스템의 상호작용 및 전체 아키텍처 흐름을 보여준다.
 
 [Human Expert] (도메인 전문가: 의사, 변호사)
-      │
-      ▼ (인터뷰 / 문서 분석)
+      |
+      v (인터뷰 / 문서 분석)
 [Knowledge Engineer] (지식 공학자: 룰 설계)
-      │
-      ▼ (Rule 입력: IF A THEN B)
-┌─────┴─────────────────────────────────┐
-│         Expert System (전문가 시스템) │
-│                                       │
-│  [Knowledge Base] <─매칭/조회─> [Inference Engine]
-│   (Facts & Rules)                 (전향/후향 추론)
-│                                       │
-│            ┌───────(설명 로깅)───────┘
-│            ▼                          │
-│  [Explanation Facility]               │
-└────────────┬──────────────────────────┘
-             │ (질의 / 응답 / 설명)
-             ▼
+      |
+      v (Rule 입력: IF A THEN B)
++-----+---------------------------------+
+|         Expert System (전문가 시스템) |
+|                                       |
+|  [Knowledge Base] <-매칭/조회-> [Inference Engine]
+|   (Facts & Rules)                 (전향/후향 추론)
+|                                       |
+|            +-------(설명 로깅)-------+
+|            v                          |
+|  [Explanation Facility]               |
++------------+--------------------------+
+             | (질의 / 응답 / 설명)
+             v
       [User / Non-Expert] (초보자, 실무자)
 ```
 이 구조도의 핵심은 시스템의 지능([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))이 개발자(프로그래머)가 아닌 '지식 공학자'와 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가'의 지속적인 협업을 통해 주입된다는 점이다. 이런 분리 아키텍처는 프로그램의 로직을 손대지 않고도 새로운 의학 지식이 발견되면 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)만 업데이트하여 시스템을 진화시킬 수 있게 한다. 그러나 실무적으로는 전문가가 자신의 직관을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 IF-THEN 규칙으로 완벽하게 설명하지 못한다는 치명적인 한계(Knowledge [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))가 존재했다.
@@ -109,16 +109,16 @@ tags = ["ai"]
 ```text
 이 매트릭스는 현대의 복잡한 의사결정 프로세스에서 전문가 시스템(Rule)과 딥러닝(ML)이 상호 보완적으로 어떻게 배치되는지 보여준다.
 
-┌───────────────┬─────────────────────────┬─────────────────────────┐
-│ 처리 단계     │ 딥러닝 (인지 및 패턴)   │ 전문가 시스템 (논리 판단)│
-├───────────────┼─────────────────────────┼─────────────────────────┤
-│ 의료 진단     │ X-Ray 이미지에서 암     │ 환자 나이, 병력을 Rule에│
-│ 파이프라인    │ 의심 영역(종양)을 99%   │ 넣어 수술 불가 여부를   │
-│               │ 확률로 인식 (비정형 데이터)│ 최종적으로 확정 (법적 판단)│
-├───────────────┼─────────────────────────┼─────────────────────────┤
-│ 자율 주행     │ 카메라로 앞의 물체가    │ "사람이면 무조건 멈춘다"│
-│ 시스템        │ '사람'임을 인식         │ 라는 절대 규칙을 실행   │
-└───────────────┴─────────────────────────┴─────────────────────────┘
++---------------+-------------------------+-------------------------+
+| 처리 단계     | 딥러닝 (인지 및 패턴)   | 전문가 시스템 (논리 판단)|
++---------------+-------------------------+-------------------------+
+| 의료 진단     | X-Ray 이미지에서 암     | 환자 나이, 병력을 Rule에|
+| 파이프라인    | 의심 영역(종양)을 99%   | 넣어 수술 불가 여부를   |
+|               | 확률로 인식 (비정형 데이터)| 최종적으로 확정 (법적 판단)|
++---------------+-------------------------+-------------------------+
+| 자율 주행     | 카메라로 앞의 물체가    | "사람이면 무조건 멈춘다"|
+| 시스템        | '사람'임을 인식         | 라는 절대 규칙을 실행   |
++---------------+-------------------------+-------------------------+
 ```
 이 융합 구조의 핵심은 딥러닝을 인간의 '감각 기관(눈, 귀)'으로, [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)을 인간의 '이성적 제어 기관(전두엽)'으로 분리 배치했다는 점이다. 이런 배치는 딥러닝이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 일으켜 잘못된 예측을 하더라도, 최종 실행 전 [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)의 하드코딩된 '안전 규칙(Safety Rule)' 층을 통과하게 만들어 치명적인 사고를 막아준다. 실무 아키텍처에서는 이를 가드레일(Guardrail) 패턴이라고 부른다.
 
@@ -142,17 +142,17 @@ tags = ["ai"]
 이 도식은 전문가 시스템 도입 시 가장 큰 실패 원인인 '지식 획득 병목(Knowledge Acquisition Bottleneck)'의 악순환 구조를 나타낸다.
 
 [도메인 전문가] (바쁨, 암묵적 직관 위주)
-      │
-      ├─ "그냥 척 보면 알지, 이걸 어떻게 다 말로 설명해?" (암묵지의 형식지화 실패)
-      ▼
+      |
+      +- "그냥 척 보면 알지, 이걸 어떻게 다 말로 설명해?" (암묵지의 형식지화 실패)
+      v
 [지식 공학자] (도메인 지식 부족)
-      │
-      ├─ 오해된 규칙 작성 -> [지식 베이스 오염]
-      ▼
+      |
+      +- 오해된 규칙 작성 -> [지식 베이스 오염]
+      v
 [시스템의 엉뚱한 결론]
-      │
-      ├─ 전문가: "이 시스템은 바보군, 안 쓰겠어!" -> 피드백 중단
-      ▼
+      |
+      +- 전문가: "이 시스템은 바보군, 안 쓰겠어!" -> 피드백 중단
+      v
 [시스템 성능 저하 및 프로젝트 폐기] (전문가 시스템의 대표적 안티패턴)
 ```
 이 흐름도의 핵심은 [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계가 컴퓨팅 자원이 아니라 '인간의 커뮤니케이션'에서 발생한다는 점이다. 인간 전문가는 자전거 타는 법처럼 본능적으로 행하는 지식을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 IF-THEN으로 쪼개 설명하는 데 극히 서툴다. 실무적으로 이 병목을 피하기 위해서는, 처음부터 100% 완벽한 룰을 구축하려 하지 말고 '최소 기능 모델([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))'을 띄운 뒤, 시스템이 틀린 결론을 낼 때마다 전문가가 예외 룰을 하나씩 추가하는 점진적 구축(Incremental Development) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 취해야 한다.
@@ -187,17 +187,17 @@ tags = ["ai"]
 
 ```text
 [규칙 기반 AI 도입]
-    │
-    ▼
+    |
+    v
 [지식 베이스 구축]
-    │
-    ▼
+    |
+    v
 [추론 엔진(전향/후향 추론)]
-    │
-    ▼
+    |
+    v
 [전문가 시스템]
-    │
-    ▼
+    |
+    v
 [지식 그래프/LLM 진화]
 ```
 
@@ -214,7 +214,7 @@ tags = ["ai"]
 
 **진행 상황**: 9 / 420
 
-← **이전**: [8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference 엔진)](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)
-**다음**: [10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/) →
+<- **이전**: [8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference 엔진)](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)
+**다음**: [10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/) ->
 
 ---

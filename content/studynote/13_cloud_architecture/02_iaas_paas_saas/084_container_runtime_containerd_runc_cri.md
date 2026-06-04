@@ -25,17 +25,17 @@ Docker라는 이름이 널리 쓰이지만, 실제 현장에서는 containerd와
 
 ```text
 Pod spec
-  │
-  ▼
+  |
+  v
 kubelet
-  │  CRI
-  ▼
-containerd ── 이미지 / 스냅샷 관리
-  │
-  ▼
-runc ── OCI bundle ──> namespaces / cgroups
-  │
-  ▼
+  |  CRI
+  v
+containerd -- 이미지 / 스냅샷 관리
+  |
+  v
+runc -- OCI bundle --> namespaces / cgroups
+  |
+  v
 Linux kernel start process
 ```
 
@@ -131,17 +131,17 @@ containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게
 
 ```text
 Pod manifest
-  │
-  ▼
+  |
+  v
 kubelet
-  │  CRI
-  ▼
+  |  CRI
+  v
 containerd
-  │
-  ▼
+  |
+  v
 runc
-  │
-  ▼
+  |
+  v
 Linux kernel / container process
 ```
 
@@ -159,7 +159,7 @@ Linux kernel / container process
 
 **진행 상황**: 83 / 371
 
-← **이전**: [83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/083_kube_proxy_iptables_ipvs_routing/)
-**다음**: [85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) →
+<- **이전**: [83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/083_kube_proxy_iptables_ipvs_routing/)
+**다음**: [85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ->
 
 ---

@@ -27,13 +27,13 @@ tags = ["software_engineering"]
 아래 그림은 왜 pairwise가 집단 우선순위 토론에 잘 맞는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why pairwise works                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ hard  : rank A, B, C, D, E all at once                            │
-│ easier: decide A vs B, then A vs C, then B vs C ...               │
-│ output: traceable wins / losses -> final priority order           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why pairwise works                                                |
++--------------------------------------------------------------------+
+| hard  : rank A, B, C, D, E all at once                            |
+| easier: decide A vs B, then A vs C, then B vs C ...               |
+| output: traceable wins / losses -> final priority order           |
++--------------------------------------------------------------------+
 ```
 
 핵심은 절대 순위를 한 번에 맞히는 것이 아니라, 국소 비교의 결과를 누적해 전체 순서를 만드는 데 있다. 그래서 pairwise는 복잡한 백로그를 작은 판단 조각으로 쪼개는 도구이며, 논쟁을 없애기보다 논쟁의 근거를 구조화하는 도구라고 보는 편이 정확하다.
@@ -59,19 +59,19 @@ tags = ["software_engineering"]
 아래 예시는 4개 요구사항을 pairwise matrix로 우선순위화한 모습이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example pairwise priority matrix                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ criterion: MVP 3개월 내 business impact                           │
-│ A=결제 안정성  B=검색 속도  C=쿠폰 발급  D=통계 대시보드           │
-│                                                                    │
-│        A   B   C   D   score                                      │
-│ A      -   1   1   1     3                                        │
-│ B      0   -   1   1     2                                        │
-│ C      0   0   -   1     1                                        │
-│ D      0   0   0   -     0                                        │
-│ comparisons = 4×3/2 = 6                                           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Example pairwise priority matrix                                  |
++--------------------------------------------------------------------+
+| criterion: MVP 3개월 내 business impact                           |
+| A=결제 안정성  B=검색 속도  C=쿠폰 발급  D=통계 대시보드           |
+|                                                                    |
+|        A   B   C   D   score                                      |
+| A      -   1   1   1     3                                        |
+| B      0   -   1   1     2                                        |
+| C      0   0   -   1     1                                        |
+| D      0   0   0   -     0                                        |
+| comparisons = 4×3/2 = 6                                           |
++--------------------------------------------------------------------+
 ```
 
 이 표는 결제 안정성이 세 번 모두 이겨 1순위가 되고, 검색 속도는 두 번 이겨 2순위가 된다는 뜻이다. 단순 승패형 pairwise에서는 1점과 0점만 써도 되지만, tie를 허용해야 하면 0.5점씩 나눌 수 있다. 더 나아가 중요도 차이의 강도까지 반영하려면 이후 AHP 같은 가중 pairwise 기법으로 확장할 수 있다.
@@ -106,21 +106,21 @@ tags = ["software_engineering"]
 아래 판단 흐름은 pairwise를 언제 바로 쓰고, 언제 먼저 후보를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When to use pairwise priority matrix                              │
-├────────────────────────────────────────────────────────────────────┤
-│ candidate items > 12 ?                                            │
-│   ├─ yes ─▶ coarse filter first (MoSCoW / Kano / business case)   │
-│   └─ no                                                           │
-│        │                                                          │
-│        ▼                                                          │
-│ single comparison criterion fixed?                                │
-│   ├─ no  ─▶ define criterion before matrix                        │
-│   └─ yes ─▶ run pairwise session                                  │
-│                    │                                               │
-│                    ▼                                               │
-│        overlay effort / dependency / capacity before roadmap      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When to use pairwise priority matrix                              |
++--------------------------------------------------------------------+
+| candidate items > 12 ?                                            |
+|   +- yes --> coarse filter first (MoSCoW / Kano / business case)   |
+|   +- no                                                           |
+|        |                                                          |
+|        v                                                          |
+| single comparison criterion fixed?                                |
+|   +- no  --> define criterion before matrix                        |
+|   +- yes --> run pairwise session                                  |
+|                    |                                               |
+|                    v                                               |
+|        overlay effort / dependency / capacity before roadmap      |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -171,19 +171,19 @@ tags = ["software_engineering"]
 
 ```text
 candidate requirements
-    │
-    ▼
+    |
+    v
 coarse filtering
-    │
-    ▼
+    |
+    v
 pairwise comparisons
-    │
-    ├──────────────▶ win / loss matrix
-    ├──────────────▶ explicit priority order
-    ▼
+    |
+    +---------------> win / loss matrix
+    +---------------> explicit priority order
+    v
 weighted extension with AHP
-    │
-    ▼
+    |
+    v
 roadmap / backlog / release planning
 ```
 
@@ -201,7 +201,7 @@ roadmap / backlog / release planning
 
 **진행 상황**: 174 / 973
 
-← **이전**: [173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)
-**다음**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/) →
+<- **이전**: [173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)
+**다음**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/) ->
 
 ---

@@ -26,22 +26,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생한 뒤 교체 여부와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 어떻게 갈리는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              페이지 폴트 이후의 핵심 의사결정 흐름                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU 참조 ─▶ 페이지 폴트 ─▶ 빈 프레임 있음? ── 예 ─▶ 즉시 적재             │
-│                           │                                                │
-│                           └─ 아니오 ─▶ 희생 페이지 선택                    │
-│                                         │                                  │
-│                                         ▼                                  │
-│                              Dirty Bit = 1 인가?                           │
-│                                │                 │                          │
-│                               예                아니오                      │
-│                                │                 │                          │
-│                         디스크에 기록        바로 제거                       │
-│                                │                 │                          │
-│                                └─────── 빈 프레임 확보 ───────▶ 새 페이지 적재 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              페이지 폴트 이후의 핵심 의사결정 흐름                        |
++----------------------------------------------------------------------------+
+| CPU 참조 --> 페이지 폴트 --> 빈 프레임 있음? -- 예 --> 즉시 적재             |
+|                           |                                                |
+|                           +- 아니오 --> 희생 페이지 선택                    |
+|                                         |                                  |
+|                                         v                                  |
+|                              Dirty Bit = 1 인가?                           |
+|                                |                 |                          |
+|                               예                아니오                      |
+|                                |                 |                          |
+|                         디스크에 기록        바로 제거                       |
+|                                |                 |                          |
+|                                +------- 빈 프레임 확보 --------> 새 페이지 적재 |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 교체가 "누구를 버릴까"만의 문제가 아니라 "버리는 데 얼마가 드는가"까지 포함한다는 점이다. 수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 켜진 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내보내기 전에 반드시 보조기억장치에 써야 하므로, 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 패턴에서도 [희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) 비용이 달라진다.
@@ -69,19 +69,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 왜 "최근에 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 두 번째 기회"를 주는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Clock 알고리즘의 순환 스캔                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│                    hand                                                    │
-│                     ▼                                                      │
-│      [P1,R=1] ─ [P2,R=0] ─ [P3,R=1] ─ [P4,R=0]                            │
-│         │          │          │          │                                 │
-│   R=1 이면 0으로    └─ 희생 가능  R=1 이면 0으로   다음 후보                │
-│   내리고 통과                     내리고 통과                              │
-│                                                                            │
-│  1회전 차: 최근 사용 페이지는 보호                                          │
-│  2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    Clock 알고리즘의 순환 스캔                              |
++----------------------------------------------------------------------------+
+|                    hand                                                    |
+|                     v                                                      |
+|      [P1,R=1] - [P2,R=0] - [P3,R=1] - [P4,R=0]                            |
+|         |          |          |          |                                 |
+|   R=1 이면 0으로    +- 희생 가능  R=1 이면 0으로   다음 후보                |
+|   내리고 통과                     내리고 통과                              |
+|                                                                            |
+|  1회전 차: 최근 사용 페이지는 보호                                          |
+|  2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨                   |
++----------------------------------------------------------------------------+
 ```
 
 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에는 중요한 이론적 구분도 있다. LRU와 OPT처럼 프레임 수가 늘어나면 기존 메모리 집합을 포함하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 일반적으로 프레임 증가가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 악화로 이어지지 않는다. 반면 FIFO처럼 포함 성질이 없는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프레임을 더 줬는데도 폴트가 늘어나는 벨라디의 모순 (Bélády's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 일으킬 수 있다. 따라서 핵심 원리는 단순히 "오래된 것을 버린다"가 아니라, <strong>지역성을 얼마나 보존하면서 구현 비용을 감당할 수 있느냐</strong>다.
@@ -161,24 +161,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 교체 필요성 인식
-    │
-    ▼
+    |
+    v
 FIFO (First-In, First-Out)
-    │
-    ├─ 한계 노출: 벨라디의 모순 (Bélády's Anomaly)
-    ▼
+    |
+    +- 한계 노출: 벨라디의 모순 (Bélády's Anomaly)
+    v
 OPT (Optimal)로 이상적 기준 정립
-    │
-    ▼
+    |
+    v
 LRU (Least Recently Used) 중심의 지역성 활용
-    │
-    ▼
+    |
+    v
 Clock · Second Chance로 실무형 근사 구현
-    │
-    ▼
+    |
+    v
 Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어
-    │
-    ▼
+    |
+    v
 적응형 다중 큐 · 세대 기반 메모리 관리로 확장
 ```
 
@@ -196,7 +196,7 @@ Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어
 
 **진행 상황**: 300 / 803
 
-← **이전**: [299. 페이지 폴트 처리 과정 (Page Fault Handling)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/299_page_fault_handling/)
-**다음**: [301. OPT (최적 교체)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/) →
+<- **이전**: [299. 페이지 폴트 처리 과정 (Page Fault Handling)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/299_page_fault_handling/)
+**다음**: [301. OPT (최적 교체)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/) ->
 
 ---

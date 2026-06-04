@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Semantic Segmentation은 픽셀을 **클래스(종류)별로만 색칠**(고양이 3마리 = 전부 파란색 1덩어리)하고, Instance Segmentation은 <strong>클래스+개체별로 각각 다른 색</strong>으로 분리(고양이 1=빨강, 고양이 2=노랑)하여 동일 클래스 내 개별 객체를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
 > 2. **가치**: 종양 영역 분할(Semantic)과 도로 위 차량 개수 세기(Instance)처럼 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>에 따라 적합한 분할 유형이 달라지며</strong>, 최근 Panoptic Segmentation이 둘을 통합하여 배경+개체를 동시에 분석한다.
-> 3. **판단 포인트**: FCN(최초 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/))→U-Net(Skip Connection)→Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(Instance)→SAM([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))으로 아키텍처가 진화했으며, **엣지 디바이스 배포 시 경량화(MobileNet 백본) 필수**.
+> 3. **판단 포인트**: FCN(최초 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/))->U-Net(Skip Connection)->Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(Instance)->SAM([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))으로 아키텍처가 진화했으며, **엣지 디바이스 배포 시 경량화(MobileNet 백본) 필수**.
 
 ---
 
@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)(YOLO)가 "어디에 무엇이 있는지" Bounding Box로 알려준다면, [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)은 "어떤 픽셀이 무엇인지"까지 정밀하게 색칠한다. 의료 MRI에서 종양 경계를 **1픽셀 단위로** 추출하거나, 자율주행에서 차선·보행자·차량을 동시에 분리하는 데 필수적이다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│   Semantic vs Instance vs Panoptic 분할 비교           │
-├───────────────────────────────────────────────────────┤
-│  [Semantic]         [Instance]         [Panoptic]     │
-│  ┌────────────┐    ┌────────────┐    ┌────────────┐  │
-│  │ ████ ████ │    │ ▓▓▓▓ ░░░░ │    │ ▓▓▓▓ ░░░░ │  │
-│  │ (전부 파랑)│    │ (빨강)(노랑)│    │ (빨강)(노랑)│  │
-│  │  1덩어리  │    │ 각각 분리   │    │+배경 분리   │  │
-│  └────────────┘    └────────────┘    └────────────┘  │
-│  개체 수 파악 불가   개체 수 파악 가능  완전 분석       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|   Semantic vs Instance vs Panoptic 분할 비교           |
++-------------------------------------------------------+
+|  [Semantic]         [Instance]         [Panoptic]     |
+|  +------------+    +------------+    +------------+  |
+|  | ████ ████ |    | ▓▓▓▓ ░░░░ |    | ▓▓▓▓ ░░░░ |  |
+|  | (전부 파랑)|    | (빨강)(노랑)|    | (빨강)(노랑)|  |
+|  |  1덩어리  |    | 각각 분리   |    |+배경 분리   |  |
+|  +------------+    +------------+    +------------+  |
+|  개체 수 파악 불가   개체 수 파악 가능  완전 분석       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Semantic은 "여기에 양 떼가 있다"(하얀 덩어리), Instance는 "첫째 양, 둘째 양, 셋째 양"(각각 다른 색), Panoptic은 "양+풀밭+하늘 전부 분리"이다.
@@ -42,7 +42,7 @@ tags = ["studynote-ai"]
 
 | 모델 | 유형 | 핵심 혁신 | 한계 |
 |:---|:---|:---|:---|
-| **FCN (2015)** | Semantic | [FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) → 1×1 Conv 대체, 위치 정보 보존 | 해상도 손실 |
+| **FCN (2015)** | Semantic | [FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) -> 1×1 Conv 대체, 위치 정보 보존 | 해상도 손실 |
 | **U-Net (2015)** | Semantic | Skip Connection으로 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 특징 직접 전달 | 개체 구별 불가 |
 | <strong>Mask R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (2017)</strong> | Instance | Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) + [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 Branch + RoIAlign | 연산 비용 높음 |
 | **Panoptic FPN** | Panoptic | Semantic + Instance 통합 | 가장 무거움 |
@@ -77,7 +77,7 @@ tags = ["studynote-ai"]
 3. **영상 편집 누끼**: Instance — 인물 개별 분리.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Semantic으로 밀집 객체 세기**: 주차장 차량 100대를 Semantic으로 처리 → 하나의 덩어리 → 개수 파악 불가.
+- **Semantic으로 밀집 객체 세기**: 주차장 차량 100대를 Semantic으로 처리 -> 하나의 덩어리 -> 개수 파악 불가.
 
 ---
 
@@ -107,17 +107,17 @@ SAM([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_se
 
 ```text
 [FCN (2015) — 최초 E2E Semantic Segmentation]
-    │
-    ▼
+    |
+    v
 [U-Net (2015) — Skip Connection, 의료 영상 정복]
-    │
-    ▼
+    |
+    v
 [Mask R-CNN (2017) — Instance Segmentation 확립]
-    │
-    ▼
+    |
+    v
 [Panoptic FPN (2019) — Semantic+Instance 통합]
-    │
-    ▼
+    |
+    v
 [SAM (2023) — 프롬프트 기반 범용 분할 Foundation Model]
 ```
 
@@ -132,7 +132,7 @@ SAM([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_se
 
 **진행 상황**: 110 / 420
 
-← **이전**: [109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론](/knowledge-base/studynote/10_ai/02_dl_architecture_new/109_image_segmentation_semantic_instance_u_net_pixel/)
-**다음**: [111. 순환 신경망 (RNN, Recurrent Neural Network) - 시퀀스 데이터와 기울기 소실](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/) →
+<- **이전**: [109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론](/knowledge-base/studynote/10_ai/02_dl_architecture_new/109_image_segmentation_semantic_instance_u_net_pixel/)
+**다음**: [111. 순환 신경망 (RNN, Recurrent Neural Network) - 시퀀스 데이터와 기울기 소실](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/) ->
 
 ---

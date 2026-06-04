@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [iSCSI]
-    │
-    ▼
+    |
+    v
 [인피니밴드]
-    │
-    └──▶ [RDMA]
+    |
+    +---> [RDMA]
 ```
 
 - **📢 섹션 요약 비유**: [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [iSCSI]
-    │
-    ▼
+    |
+    v
 [인피니밴드]
-    │
-    └──▶ [RDMA]
+    |
+    +---> [RDMA]
 ```
 
 - **📢 섹션 요약 비유**: [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: iSCSI]
-    │
-    ▼
+    |
+    v
 [현재 개념: 인피니밴드]
-    │
-    ├──▶ [확장 A: RDMA]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: RDMA]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 iSCSI에서 출발해 현재 메커니즘을 정교화하고, 이후 RDMA와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 932 / 1120
 
-← **이전**: [810. iSCSI (Internet Small Computer System Interface)](/knowledge-base/studynote/03_network/16_data_center_cloud/810_iscsi_internet_small_computer_system_interface/)
-**다음**: [812. RDMA (Remote Direct Memory Access)](/knowledge-base/studynote/03_network/16_data_center_cloud/812_rdma_remote_direct_memory_access_kernel_bypass/) →
+<- **이전**: [810. iSCSI (Internet Small Computer System Interface)](/knowledge-base/studynote/03_network/16_data_center_cloud/810_iscsi_internet_small_computer_system_interface/)
+**다음**: [812. RDMA (Remote Direct Memory Access)](/knowledge-base/studynote/03_network/16_data_center_cloud/812_rdma_remote_direct_memory_access_kernel_bypass/) ->
 
 ---

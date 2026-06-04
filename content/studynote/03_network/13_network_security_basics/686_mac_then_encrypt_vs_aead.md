@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
+    |
+    v
 [MAC-then-Encrypt 패러다임 /…]
-    │
-    └──▶ [세션 재개 기능 구성]
+    |
+    +---> [세션 재개 기능 구성]
 ```
 
 - **📢 섹션 요약 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 
 ```text
 [TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
+    |
+    v
 [MAC-then-Encrypt 패러다임 /…]
-    │
-    └──▶ [세션 재개 기능 구성]
+    |
+    +---> [세션 재개 기능 구성]
 ```
 
 - **📢 섹션 요약 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MAC-then-Encrypt 패러다임 /…]
-    │
-    ├──▶ [확장 A: 세션 재개 기능 구성]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 세션 재개 기능 구성]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션 재개](/knowledge-base/studynote/03_network/13_network_security_basics/687_tls_session_resumption_ticket/) 기능 구성와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 807 / 1120
 
-← **이전**: [685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이](/knowledge-base/studynote/03_network/13_network_security_basics/685_tls_1_3_0_rtt_1_rtt/)
-**다음**: [687. 세션 재개 (Session Resumption / TLS Ticket) 기능 구성](/knowledge-base/studynote/03_network/13_network_security_basics/687_tls_session_resumption_ticket/) →
+<- **이전**: [685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이](/knowledge-base/studynote/03_network/13_network_security_basics/685_tls_1_3_0_rtt_1_rtt/)
+**다음**: [687. 세션 재개 (Session Resumption / TLS Ticket) 기능 구성](/knowledge-base/studynote/03_network/13_network_security_basics/687_tls_session_resumption_ticket/) ->
 
 ---

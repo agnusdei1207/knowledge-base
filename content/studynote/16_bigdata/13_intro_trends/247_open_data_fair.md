@@ -204,7 +204,7 @@ FAIR + CARE (원주민 데이터 권리) 통합 논의
 
 **진행 상황**: 247 / 262
 
-← **이전**: [데이터바우처 사업 (Data Voucher Program)](/knowledge-base/studynote/16_bigdata/13_intro_trends/246_data_voucher/)
-**다음**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/) →
+<- **이전**: [데이터바우처 사업 (Data Voucher Program)](/knowledge-base/studynote/16_bigdata/13_intro_trends/246_data_voucher/)
+**다음**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/) ->
 
 ---

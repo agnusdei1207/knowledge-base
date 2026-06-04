@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
+    |
+    v
 [로드 밸런싱]
-    │
-    └──▶ [라운드 로빈]
+    |
+    +---> [라운드 로빈]
 ```
 
 - **📢 섹션 요약 비유**: 로드 밸런싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ tags = ["studynote-network"]
 
 ```text
 [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
+    |
+    v
 [로드 밸런싱]
-    │
-    └──▶ [라운드 로빈]
+    |
+    +---> [라운드 로빈]
 ```
 
 - **📢 섹션 요약 비유**: <strong>L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 대형 공항의 '주차장 입구 안내요원'입니다. 들어오는 차(패킷)의 번호판(IP)만 보고, 창문 안은 들여다보지도 않은 채 "1번 구역으로 가세요~ 2번 구역으로 가세요~" 라며 차가 안 막히게 무작정 빈자리로 밀어 넣습니다(무식하지만 극강의 속도). 반면 <strong>L7 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 특급 호텔의 '도어맨(안내 컨시어지)'입니다. 손님이 오면 차 문을 열고 들어가 여권([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 방문 목적([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URI)을 깐깐하게 물어봅니다. "아, 스파 예약 손님이시군요! 스파 전용 엘리베이터로 모시겠습니다. 앗, 식당 VIP 손님이시군요! 식당가로 안내하겠습니다!" 시간이 조금 더 걸리지만 손님의 목적(애플리케이션 내용)에 맞춰 100% 최적의 방으로 꽂아주는 천재적인 맞춤형 안내 시스템입니다.
@@ -133,12 +133,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 로드 밸런싱]
-    │
-    ├──▶ [확장 A: 라운드 로빈]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 라운드 로빈]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 로드 밸런싱는 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…에서 출발해 현재 메커니즘을 정교화하고, 이후 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 954 / 1120
 
-← **이전**: [832. 트래픽 섀도잉 및 카나리 배포](/knowledge-base/studynote/03_network/16_data_center_cloud/832_traffic_shadowing_canary_deployment_routing/)
-**다음**: [834. 라운드 로빈 분배 (RR)](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) →
+<- **이전**: [832. 트래픽 섀도잉 및 카나리 배포](/knowledge-base/studynote/03_network/16_data_center_cloud/832_traffic_shadowing_canary_deployment_routing/)
+**다음**: [834. 라운드 로빈 분배 (RR)](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) ->
 
 ---

@@ -47,8 +47,8 @@ SLA 체인 원칙:
   OLA: 서버팀이 네트워크팀에 알림 후 30분 내 처리
   UC: 클라우드 제공자 가용성 99.95% 보장
 
-  OLA 위반 → SLA 위반 가능성 높음
-  UC 위반 → SLA 위반 가능성 높음
+  OLA 위반 -> SLA 위반 가능성 높음
+  UC 위반 -> SLA 위반 가능성 높음
 ```
 
 > 📢 **섹션 요약 비유**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 3계층 = 레스토랑 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체계 — 손님(고객)에게 "30분 내 음식 제공([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))" 약속. 주방팀 내 "15분 내 조리([OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/))" 합의. 식재료 공급사와 "당일 납품([UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/))" 계약. 모든 계층 지켜야 손님 약속 이행!
@@ -80,16 +80,16 @@ SLA (Service Level Agreement) 구성요소:
 
 5. 위반 시 조치:
   SLA Credit:
-  가용성 99.9% 미달 시 → 요금 10% 크레딧
-  99% 미달 시 → 25% 크레딧
-  95% 미달 시 → 50% 크레딧
+  가용성 99.9% 미달 시 -> 요금 10% 크레딧
+  99% 미달 시 -> 25% 크레딧
+  95% 미달 시 -> 50% 크레딧
 
 6. 검토 주기:
   분기별 SLM 검토 미팅
   서비스 변경 시 SLA 재협의
 
 SLA 작성 원칙:
-  측정 가능: "빠른 응답" X → "P99 < 500ms" O
+  측정 가능: "빠른 응답" X -> "P99 < 500ms" O
   현실적: 현재 성능 기반 + 개선 여유
   균형: 고객 기대 + 제공 가능한 수준
 ```
@@ -108,17 +108,17 @@ OLA (Operational Level Agreement):
 예시: P1 인시던트 대응 OLA:
 
 서비스 데스크:
-  P1 탐지 → 5분 내 분류(Triage)
+  P1 탐지 -> 5분 내 분류(Triage)
   15분 내 에스컬레이션 결정
   고객 최초 알림: 30분 내
 
 인프라팀:
-  서비스 데스크 에스컬레이션 → 15분 내 대응
+  서비스 데스크 에스컬레이션 -> 15분 내 대응
   초기 진단: 30분 내
   임시 조치(Workaround): 2시간 내
 
 애플리케이션팀:
-  코드 관련 장애 에스컬레이션 → 30분 내 대응
+  코드 관련 장애 에스컬레이션 -> 30분 내 대응
   핫픽스 릴리스: 4시간 내
 
 SLA 연결:
@@ -134,7 +134,7 @@ OLA 측정:
 
 OLA 거버넌스:
   분기별 팀 리뷰
-  반복 위반 팀 → 근본 원인 분석 + 개선 계획
+  반복 위반 팀 -> 근본 원인 분석 + 개선 계획
 ```
 
 > 📢 **섹션 요약 비유**: [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) = 식당 내부 배달 타임라인 — 주방(인프라): 15분, 포장(앱팀): 10분, 배달([서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)): 5분 합계 30분. 외부 약속([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 지키려면 내부 타임라인([OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)) 먼저 정확히!
@@ -174,12 +174,12 @@ ServiceNow SLM:
 
 Prometheus + SLO:
   SLI(Error Rate, Latency) 자동 수집
-  SLO 위반 → PagerDuty 자동 알림
+  SLO 위반 -> PagerDuty 자동 알림
   Error Budget 실시간 계산
 
 Datadog SLO Tracking:
-  서비스 수준 목표 정의 → 자동 모니터링
-  SLA 리포트 자동 생성 → 고객 공유
+  서비스 수준 목표 정의 -> 자동 모니터링
+  SLA 리포트 자동 생성 -> 고객 공유
 ```
 
 > 📢 **섹션 요약 비유**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 성숙도 = 배달 추적 시스템 발전 — 레벨 1(배달 완료만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 레벨 2(배달 완료 후 늦음 인지), 레벨 3(실시간 GPS 추적 + 30분 초과 경보), 레벨 4([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측으로 최적 경로 자동 선택)!
@@ -221,12 +221,12 @@ Datadog SLO Tracking:
 4단계: 월별 SLM 검토
   SLA 달성률: 서비스별
   OLA 위반: 팀별
-  반복 위반 → 근본 원인 분석
+  반복 위반 -> 근본 원인 분석
 
 결과 (6개월):
   SLA 측정 자동화: 100% 서비스 커버리지
-  SLA 위반: 10건/월 → 3건/월
-  OLA 위반 식별: "DB팀이 병목" 발견 → DB 전담 인력 증원
+  SLA 위반: 10건/월 -> 3건/월
+  OLA 위반 식별: "DB팀이 병목" 발견 -> DB 전담 인력 증원
   클레임 분쟁: 데이터 기반 해결 (클레임 80% 감소)
 ```
 
@@ -250,7 +250,7 @@ SLM (Service Level Management)
 |   +-- ServiceNow, Jira SM
 |   +-- Prometheus + Grafana
 +-- 성숙도
-    +-- 임시 → 반응적 → 예방적 → 최적화
+    +-- 임시 -> 반응적 -> 예방적 -> 최적화
 ```
 
 ---
@@ -297,7 +297,7 @@ DevOps + SRE 통합
 
 **진행 상황**: 48 / 482
 
-← **이전**: [047. SLA 심화 — 계약 구조와 거버넌스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/047_sla_service_level_agreement/)
-**다음**: [049. 서비스 카탈로그 — Service Catalog](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/049_service_catalog/) →
+<- **이전**: [047. SLA 심화 — 계약 구조와 거버넌스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/047_sla_service_level_agreement/)
+**다음**: [049. 서비스 카탈로그 — Service Catalog](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/049_service_catalog/) ->
 
 ---

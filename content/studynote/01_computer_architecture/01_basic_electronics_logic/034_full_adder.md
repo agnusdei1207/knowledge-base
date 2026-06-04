@@ -43,11 +43,11 @@ Cout = (A AND B) OR (Cin AND (A XOR B))
 ### 구현 회로
 
 ```
-     A ──┬─ XOR ──────────── XOR ──→ Sum
-     B ──┘         Cin ──┘   (2nd)
-                              │
-     A ──┬─ AND ──────────── OR ──→ Cout
-     B ──┘         (A XOR B) AND Cin ──┘
+     A --+- XOR ------------ XOR ---> Sum
+     B --+         Cin --+   (2nd)
+                              |
+     A --+- AND ------------ OR ---> Cout
+     B --+         (A XOR B) AND Cin --+
 ```
 
 📢 **섹션 요약 비유**: 전가산기는 세 명이 함께 더하는 덧셈이다 — 두 숫자(A, B)에 이전 자리에서 올라온 1(Cin)까지 더해 결과(Sum)와 다음 자리 올림(Cout)을 계산한다.
@@ -72,15 +72,15 @@ Cout = C1 OR C2
 4비트 리플 캐리 가산기:
 
 A3B3    A2B2    A1B1    A0B0
-  │       │       │       │
+  |       |       |       |
  FA3    FA2    FA1    FA0
-  │       │       │       │
-Cout   ←C3    ←C2    ←C1   Cin=0
+  |       |       |       |
+Cout   <-C3    <-C2    <-C1   Cin=0
 
 Sum3   Sum2   Sum1   Sum0
 ```
 
-<strong>올림수 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a></strong>: FA0→C1→FA1→[C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)→...→FA3→Cout (n단계)
+<strong>올림수 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a></strong>: FA0->C1->FA1->[C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)->...->FA3->Cout (n단계)
 
 📢 **섹션 요약 비유**: 리플 캐리는 릴레이 경주다 — 앞 선수(FA0)가 배턴(Carry)을 넘기기 전까지 다음 선수(FA1)가 출발 못하므로 전체 시간이 n배 걸린다.
 
@@ -97,7 +97,7 @@ C2 = G1 OR (P1 AND G0) OR (P1 AND P0 AND C0)
 C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 ```
 
-모든 올림수를 <strong>동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 계산</strong> → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) O(log n)
+모든 올림수를 <strong>동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 계산</strong> -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) O(log n)
 
 📢 **섹션 요약 비유**: CLA는 모든 릴레이 선수가 동시에 출발 신호를 받는 것이다 — "만약 앞 선수가 배턴을 줄 것 같다면"을 미리 계산해 일제히 달린다.
 
@@ -120,16 +120,16 @@ C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 
 ```
 전가산기 (Full Adder)
-├── 구성 요소
-│   ├── 반가산기 (HA) × 2
-│   └── OR 게이트 × 1
-├── 연결 구성
-│   ├── 리플 캐리 가산기 (직렬, O(n) 지연)
-│   └── CLA 가산기 (병렬, O(log n) 지연)
-└── 상위 활용
-    ├── ALU (산술 논리 장치)
-    ├── 곱셈기 (CSA 기반)
-    └── FPU (부동소수점 연산)
++-- 구성 요소
+|   +-- 반가산기 (HA) × 2
+|   +-- OR 게이트 × 1
++-- 연결 구성
+|   +-- 리플 캐리 가산기 (직렬, O(n) 지연)
+|   +-- CLA 가산기 (병렬, O(log n) 지연)
++-- 상위 활용
+    +-- ALU (산술 논리 장치)
+    +-- 곱셈기 (CSA 기반)
+    +-- FPU (부동소수점 연산)
 ```
 
 ---
@@ -137,22 +137,22 @@ C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                전가산기 발전 흐름                                │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1940년대     │ 반가산기/전가산기   │ 디지털 컴퓨터 기초 회로      │
-│ 1950년대     │ 리플 캐리 가산기   │ 직렬 n비트 덧셈기 표준화     │
-│ 1960년대     │ CLA 가산기         │ 병렬 올림수 예측, O(log n)   │
-│ 1970~80년대  │ 캐리 저장 가산기   │ 곱셈기 파이프라인 최적화      │
-│ 2000년대~    │ 접두사 가산기      │ VLSI 고속 ALU 표준           │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                전가산기 발전 흐름                                |
++--------------+--------------------+-----------------------------+
+| 1940년대     | 반가산기/전가산기   | 디지털 컴퓨터 기초 회로      |
+| 1950년대     | 리플 캐리 가산기   | 직렬 n비트 덧셈기 표준화     |
+| 1960년대     | CLA 가산기         | 병렬 올림수 예측, O(log n)   |
+| 1970~80년대  | 캐리 저장 가산기   | 곱셈기 파이프라인 최적화      |
+| 2000년대~    | 접두사 가산기      | VLSI 고속 ALU 표준           |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-반가산기 → 전가산기 → 리플 캐리 → CLA
-   ↓            ↓            ↓          ↓
+반가산기 -> 전가산기 -> 리플 캐리 -> CLA
+   v            v            v          v
 A XOR B    +Cin 처리    O(n) 지연   O(log n)
-   ↓
-ALU → CPU 산술 연산
+   v
+ALU -> CPU 산술 연산
 ```
 
 ---
@@ -169,7 +169,7 @@ ALU → CPU 산술 연산
 
 **진행 상황**: 34 / 803
 
-← **이전**: [반가산기 (Half Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)
-**다음**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) →
+<- **이전**: [반가산기 (Half Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)
+**다음**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ->
 
 ---

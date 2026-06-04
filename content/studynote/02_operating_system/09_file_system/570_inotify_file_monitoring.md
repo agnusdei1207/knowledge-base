@@ -31,33 +31,33 @@ tags = ["studynote-operating-system"]
 동일한 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변경을 감지하려 들 때, 서버 I/O 부하가 어떻게 극단적으로 갈리는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "100만 번 허탕 치는 바보와, 단 1번의 귓속말로 일어나는 천재의 차이!" │
-  ├──────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                      │
-  │  🚨 [ 모델 A: 전통적 Polling 무지성 감시 (stat() 무한 루프 장벽 늪) ]                │
-  │     [유저 앱 (VScode)]         [OS 커널 VFS]             [디스크 (test.c)]           │
-  │       "바뀌었어?" ──(호출 빔!)──> 확인 (아니?) ──(응답)──>  (아니...)                │
-  │       "지금은?"  ──(호출 빔!)──> 확인 (아니?) ──(응답)──>  (아니...)                 │
-  │       (1시간 동안 CPU 100% 터트리며 백만 번 허탕 랙 발현! 배터리 광탈 파단!)         │
-  │                                                                                      │
-  │  =========================▼===================================                       │
-  │                                                                                      │
-  │  🔥 [ 모델 B: inotify 구동 시스템 (Event-Driven 잠수 록백 ❗) ]                      │
-  │                                                                                      │
-  │     [1단계: 센서 부착 빔]                                                            │
-  │     => 유저 앱: "커널아! `test.c` 에 IN_MODIFY 센서 부착하고 나 잘게!"               │
-  │                                                                                      │
-  │     [2단계: 수면 모드 CPU 0% 쾌조]                                                   │
-  │     => 유저 앱: (Zzz... CPU 점유 0% 완전 대기 Block 상태 스왑)                       │
-  │     => 커널 봇: (VFS 뱃속에서 조용히 `test.c`만 주시 중)                             │
-  │                                                                                      │
-  │  ✅ [3단계: 이벤트 폭발! 누군가 파일 수정 발생 타격! ]                               │
-  │     => 침입자 앱: `test.c` 파일 1줄 추가 저장 (vfs_write 발동!)                      │
-  │     => 커널 봇: "야! 낚싯대 흔들린다! 이벤트 포착!"                                  │
-  │     => 커널 봇이 즉시 유저 앱을 번쩍 깨움 (Signal / Poll 틱 타격 록백 빔!)           │
-  │     => 유저 앱: "오! 컴파일 시작!" 0.001초만에 대응하는 $O(1)$ 초고속 스루풋!        │
-  └──────────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------------+
+  |                 "100만 번 허탕 치는 바보와, 단 1번의 귓속말로 일어나는 천재의 차이!" |
+  +--------------------------------------------------------------------------------------+
+  |                                                                                      |
+  |  🚨 [ 모델 A: 전통적 Polling 무지성 감시 (stat() 무한 루프 장벽 늪) ]                |
+  |     [유저 앱 (VScode)]         [OS 커널 VFS]             [디스크 (test.c)]           |
+  |       "바뀌었어?" --(호출 빔!)--> 확인 (아니?) --(응답)-->  (아니...)                |
+  |       "지금은?"  --(호출 빔!)--> 확인 (아니?) --(응답)-->  (아니...)                 |
+  |       (1시간 동안 CPU 100% 터트리며 백만 번 허탕 랙 발현! 배터리 광탈 파단!)         |
+  |                                                                                      |
+  |  =========================v===================================                       |
+  |                                                                                      |
+  |  🔥 [ 모델 B: inotify 구동 시스템 (Event-Driven 잠수 록백 ❗) ]                      |
+  |                                                                                      |
+  |     [1단계: 센서 부착 빔]                                                            |
+  |     => 유저 앱: "커널아! `test.c` 에 IN_MODIFY 센서 부착하고 나 잘게!"               |
+  |                                                                                      |
+  |     [2단계: 수면 모드 CPU 0% 쾌조]                                                   |
+  |     => 유저 앱: (Zzz... CPU 점유 0% 완전 대기 Block 상태 스왑)                       |
+  |     => 커널 봇: (VFS 뱃속에서 조용히 `test.c`만 주시 중)                             |
+  |                                                                                      |
+  |  ✅ [3단계: 이벤트 폭발! 누군가 파일 수정 발생 타격! ]                               |
+  |     => 침입자 앱: `test.c` 파일 1줄 추가 저장 (vfs_write 발동!)                      |
+  |     => 커널 봇: "야! 낚싯대 흔들린다! 이벤트 포착!"                                  |
+  |     => 커널 봇이 즉시 유저 앱을 번쩍 깨움 (Signal / Poll 틱 타격 록백 빔!)           |
+  |     => 유저 앱: "오! 컴파일 시작!" 0.001초만에 대응하는 $O(1)$ 초고속 스루풋!        |
+  +--------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Dropbox, Google Drive)의 코어 뼈대 엔진이다. 앱은 자기가 직접 `stat`을 찔러보는 노동을 멈추고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 `inode` 바닥층(Subsystem)에게 "나비효과 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)" 를 걸었다. 누군가가 무심코 `vfs_write` 시스템콜을 치는 순간, 그 내부 뱃속 톱니바퀴에서 `fsnotify` 훅이 같이 딸려 돌아가며 앱에게 `event` 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 통신을 날려주는 극강 자율 통치 조율 도출.
@@ -140,12 +140,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스파스 파일 (Sparse File) 저장 공간 절약 기술]
-    │
-    ▼
+    |
+    v
 [리눅스 inotify 시스템 (Inotify File Monitoring)]
-    │
-    ├──▶ [보호 (Protection) vs 보안 (Security)의 개념 차이]
-    └──▶ [보호 도메인 (Protection Domain)]
+    |
+    +---> [보호 (Protection) vs 보안 (Security)의 개념 차이]
+    +---> [보호 도메인 (Protection Domain)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -162,7 +162,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 570 / 800
 
-← **이전**: [569. 스파스 파일 (Sparse File) 저장 공간 절약 기술](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/)
-**다음**: [571. 보호 (Protection) vs 보안 (Security)의 개념 차이](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) →
+<- **이전**: [569. 스파스 파일 (Sparse File) 저장 공간 절약 기술](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/)
+**다음**: [571. 보호 (Protection) vs 보안 (Security)의 개념 차이](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ->
 
 ---

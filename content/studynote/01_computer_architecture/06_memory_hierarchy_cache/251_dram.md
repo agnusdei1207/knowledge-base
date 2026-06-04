@@ -26,19 +26,19 @@ DRAM은 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_bas
 아래 그림은 DRAM 셀이 왜 싸지만 귀찮은 메모리인지를 보여준다. 저장 구조는 단순하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존을 위해 보조 동작이 계속 필요하다는 점이 핵심이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                  DRAM 셀의 본질: 저장은 간단, 유지관리는 필수           │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Word Line ON                                                            │
-│     │                                                                    │
-│     ▼                                                                    │
-│  [Access Transistor] ──────────────── [Bit Line]                         │
-│     │                                                                    │
-│     ▼                                                                    │
-│  [Capacitor]  ← 전하 있음 = 1 / 전하 부족 = 0                            │
-│     │                                                                    │
-│     └──── 시간이 지나면 누설 발생 ────▶ Refresh 필요                      │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                  DRAM 셀의 본질: 저장은 간단, 유지관리는 필수           |
++--------------------------------------------------------------------------+
+| Word Line ON                                                            |
+|     |                                                                    |
+|     v                                                                    |
+|  [Access Transistor] ---------------- [Bit Line]                         |
+|     |                                                                    |
+|     v                                                                    |
+|  [Capacitor]  <- 전하 있음 = 1 / 전하 부족 = 0                            |
+|     |                                                                    |
+|     +---- 시간이 지나면 누설 발생 -----> Refresh 필요                      |
++--------------------------------------------------------------------------+
 ```
 
 이 그림에서 중요한 점은 저장 소자가 매우 작아 대량 집적에 유리하다는 사실과, 바로 그 소자가 불안정해서 유지 비용을 낳는다는 사실이 동시에 성립한다는 점이다. 즉 DRAM은 "간단해서 싸다"와 "간단해서 계속 돌봐야 한다"가 한 몸으로 붙어 있는 기술이다.
@@ -49,7 +49,7 @@ DRAM은 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_bas
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Write) → 프리차지 (Precharge)** 흐름이다. 먼저 특정 행(Row)을 열어 그 행 전체를 센스 앰프 (Sense Amplifier)와 로우 버퍼 (Row Buffer)에 올린 뒤, 필요한 열(Column)만 골라 읽거나 쓴다. 이 방식은 주소 핀 수를 줄이고 한 번 연 행에서 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 접근하기 쉽게 만들지만, 다른 행으로 넘어갈 때는 다시 닫고 여는 시간이 필요하다.
+DRAM 내부 동작의 핵심은 **행 활성화(Activate) -> 열 선택(Read/Write) -> 프리차지 (Precharge)** 흐름이다. 먼저 특정 행(Row)을 열어 그 행 전체를 센스 앰프 (Sense Amplifier)와 로우 버퍼 (Row Buffer)에 올린 뒤, 필요한 열(Column)만 골라 읽거나 쓴다. 이 방식은 주소 핀 수를 줄이고 한 번 연 행에서 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 접근하기 쉽게 만들지만, 다른 행으로 넘어갈 때는 다시 닫고 여는 시간이 필요하다.
 
 특히 DRAM 읽기는 사실상 **파괴적 읽기 (Destructive Read)** 성격을 가진다. 셀의 전하는 너무 약해서 읽는 순간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라인과 전하를 공유하고, 센스 앰프가 이를 증폭한 뒤 원래 값을 다시 써 넣어 복원해야 한다. 이 때문에 DRAM 지연시간은 단순한 "찾는 시간"이 아니라 활성화, 감지, 복원, 프리차지까지 포함한 복합 지연으로 이해해야 한다.
 
@@ -64,15 +64,15 @@ DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Wr
 아래 흐름도는 DRAM 접근에서 왜 로우 버퍼 적중과 미적중의 차이가 큰지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 DRAM 접근 비용: 같은 행이면 빠르고, 행이 바뀌면 느림     │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 요청 A ─▶ Row X Activate ─▶ Col 3 Read ─▶ Col 9 Read ─▶ Col 15 Read     │
-│            ▲                         같은 Row Buffer 활용 = Row Hit       │
-│            │                                                               │
-│ 요청 B ─▶ Precharge ─▶ Row Y Activate ─▶ Col 1 Read                       │
-│            └──────────── 행 교체 비용 발생 = Row Miss / Row Conflict      │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 DRAM 접근 비용: 같은 행이면 빠르고, 행이 바뀌면 느림     |
++--------------------------------------------------------------------------+
+| 요청 A --> Row X Activate --> Col 3 Read --> Col 9 Read --> Col 15 Read     |
+|            ^                         같은 Row Buffer 활용 = Row Hit       |
+|            |                                                               |
+| 요청 B --> Precharge --> Row Y Activate --> Col 1 Read                       |
+|            +------------ 행 교체 비용 발생 = Row Miss / Row Conflict      |
++--------------------------------------------------------------------------+
 ```
 
 결국 DRAM은 셀 자체가 느리다기보다, **행 단위로 크게 열고 열 단위로 작게 쓰는 구조적 절차** 때문에 지연시간 편차가 생긴다. 그래서 메모리 컨트롤러는 뱅크 (Bank) 병렬화, 버스트 전송, 스케줄링 재배치로 이 비용을 숨기려 하고, 소프트웨어는 연속 접근 패턴으로 로우 버퍼 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이려 한다.
@@ -155,24 +155,24 @@ DRAM은 완벽한 메모리가 아니지만, 현대 컴퓨터가 "큰 메모리 
 
 ```text
 1T-1C 셀 구조
-    │
-    ▼
+    |
+    v
 리프레시 (Refresh) · 센스 앰프 (Sense Amplifier)
-    │
-    ▼
+    |
+    v
 로우/컬럼 분리 주소화 · 로우 버퍼 기반 접근
-    │
-    ▼
+    |
+    v
 SDRAM (Synchronous DRAM) · DDR (Double Data Rate)
-    │
-    ▼
+    |
+    v
 멀티채널 · 인터리빙 · ECC (Error Correcting Code)
-    │
-    ▼
+    |
+    v
 HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장
 ```
 
-이 흐름은 DRAM이 "셀 발명 → 유지·복원 기술 → 접근 구조 최적화 → 인터페이스 고속화 → 시스템 확장"으로 발전해 왔음을 보여준다.
+이 흐름은 DRAM이 "셀 발명 -> 유지·복원 기술 -> 접근 구조 최적화 -> 인터페이스 고속화 -> 시스템 확장"으로 발전해 왔음을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -186,7 +186,7 @@ HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장
 
 **진행 상황**: 251 / 803
 
-← **이전**: [250. SRAM (Static RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)
-**다음**: [252. SDRAM (Synchronous DRAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) →
+<- **이전**: [250. SRAM (Static RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)
+**다음**: [252. SDRAM (Synchronous DRAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) ->
 
 ---

@@ -22,15 +22,15 @@ tags = ["studynote-design-supervision"]
 GoF (Gang of Four) 이전에도 좋은 설계 관행은 있었지만, 문제는 좋은 구조를 어떻게 반복 가능하게 공유하느냐였다. 프로젝트마다 비슷한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제, 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제, 역할 분배 문제가 다시 나타났고, 경험 많은 설계자들은 이를 패턴이라는 이름으로 추상화했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  반복 문제와 패턴의 등장 배경                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 요구사항 변화 ──▶ 임시 수정 누적 ──▶ 클래스 얽힘 ──▶ 유지보수 비용 증가 │
-│        │                                                           │
-│        └────────────▶ 경험 추상화 ──▶ 패턴 이름 ──▶ 재사용 가능한 해법 │
-│                                   │                                │
-│                                   └──▶ 팀 공통 언어 형성           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  반복 문제와 패턴의 등장 배경                        |
++----------------------------------------------------------------------+
+| 요구사항 변화 ---> 임시 수정 누적 ---> 클래스 얽힘 ---> 유지보수 비용 증가 |
+|        |                                                           |
+|        +-------------> 경험 추상화 ---> 패턴 이름 ---> 재사용 가능한 해법 |
+|                                   |                                |
+|                                   +---> 팀 공통 언어 형성           |
++----------------------------------------------------------------------+
 ```
 
 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이 필요한 이유는 세 가지다. 첫째, <strong>반복 문제를 매번 새로 풀지 않기 위해서</strong>다. 둘째, <strong>클래스 간 결합을 제어하기 위해서</strong>다. 셋째, <strong>설계 의도를 이름으로 전달하기 위해서</strong>다. 그래서 패턴은 코드 조각보다 언제 왜 이 구조를 쓰는가를 설명하는 문법에 가깝다.
@@ -44,19 +44,19 @@ GoF (Gang of Four) 이전에도 좋은 설계 관행은 있었지만, 문제는 
 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 보통 네 가지 요소로 읽는다: 이름(Name), 문제(Problem), 해결책(Solution), 결과(Consequences). 이 네 요소가 있어야 패턴이 단순 구현 팁이 아니라 구조적 의사결정 문서가 된다. GoF는 이를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational), 구조(Structural), 행위(Behavioral) 세 범주로 정리했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   디자인 패턴의 기본 해석 프레임                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Name ───────▶ 패턴을 부르는 공통 어휘                              │
-│ Problem ────▶ 어떤 반복 문제에서 쓰는가                            │
-│ Solution ───▶ 객체/클래스 책임을 어떻게 배치하는가                  │
-│ Consequence▶ 유연성, 복잡도, 성능의 트레이드오프는 무엇인가         │
-│                                                                      │
-│               ┌──────────────┬──────────────┬──────────────┐         │
-│               │ 생성 패턴     │ 구조 패턴     │ 행위 패턴     │         │
-│               │ create        │ compose      │ interact     │         │
-│               └──────────────┴──────────────┴──────────────┘         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   디자인 패턴의 기본 해석 프레임                     |
++----------------------------------------------------------------------+
+| Name --------> 패턴을 부르는 공통 어휘                              |
+| Problem -----> 어떤 반복 문제에서 쓰는가                            |
+| Solution ----> 객체/클래스 책임을 어떻게 배치하는가                  |
+| Consequence-> 유연성, 복잡도, 성능의 트레이드오프는 무엇인가         |
+|                                                                      |
+|               +--------------+--------------+--------------+         |
+|               | 생성 패턴     | 구조 패턴     | 행위 패턴     |         |
+|               | create        | compose      | interact     |         |
+|               +--------------+--------------+--------------+         |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 의미 | 실무 해석 |
@@ -143,18 +143,18 @@ GoF (Gang of Four) 이전에도 좋은 설계 관행은 있었지만, 문제는 
 
 ```text
 반복 설계 문제
-    │
-    ▼
+    |
+    v
 경험 축적과 명명
-    │
-    ▼
+    |
+    v
 디자인 패턴 (Design Pattern)
-    │
-    ├──▶ 생성 패턴
-    ├──▶ 구조 패턴
-    └──▶ 행위 패턴
-            │
-            ▼
+    |
+    +---> 생성 패턴
+    +---> 구조 패턴
+    +---> 행위 패턴
+            |
+            v
 구조적 의사소통 · 재사용 · 유지보수성 향상
 ```
 
@@ -172,7 +172,7 @@ GoF (Gang of Four) 이전에도 좋은 설계 관행은 있었지만, 문제는 
 
 **진행 상황**: 197 / 530
 
-← **이전**: [140. 설계 부채 (Design Debt / Technical Debt)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)
-**다음**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/) →
+<- **이전**: [140. 설계 부채 (Design Debt / Technical Debt)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)
+**다음**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/) ->
 
 ---

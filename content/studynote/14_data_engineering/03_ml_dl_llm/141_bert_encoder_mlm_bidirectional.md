@@ -20,8 +20,8 @@ tags = ["studynote-dataengineering"]
 
 ```text
 BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
-  → Token Embedding + Segment Embedding + Position Embedding
-  → Encoder × 12 → 출력
+  -> Token Embedding + Segment Embedding + Position Embedding
+  -> Encoder × 12 -> 출력
   [CLS] 벡터: 분류·유사도
   각 토큰 벡터: NER·QA 태깅
 ```
@@ -49,10 +49,10 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Word2Vec (2013)] → [ELMo (2018)] → [BERT (2018)]
-    → [RoBERTa (2019)] → [DeBERTa (2020)]
-    → [Sentence-BERT (SBERT, 2019)]
-    → [현재: E5/BGE — 임베딩 모델 표준]
+[Word2Vec (2013)] -> [ELMo (2018)] -> [BERT (2018)]
+    -> [RoBERTa (2019)] -> [DeBERTa (2020)]
+    -> [Sentence-BERT (SBERT, 2019)]
+    -> [현재: E5/BGE — 임베딩 모델 표준]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
 
 **진행 상황**: 141 / 258
 
-← **이전**: [140. Self-Attention·Multi-Head·Positional Encoding 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/140_self_attention_multihead_positional_encoding/)
-**다음**: [142. GPT Decoder - 자기회귀 생성 모델 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/142_gpt_decoder_autoregressive_generation/) →
+<- **이전**: [140. Self-Attention·Multi-Head·Positional Encoding 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/140_self_attention_multihead_positional_encoding/)
+**다음**: [142. GPT Decoder - 자기회귀 생성 모델 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/142_gpt_decoder_autoregressive_generation/) ->
 
 ---

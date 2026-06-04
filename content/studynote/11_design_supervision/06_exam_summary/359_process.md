@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 의존 역전 원칙 ([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))은 고수준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 저수준 구현이 아니라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존하게 만드는 설계 원칙이다. 비즈니스 규칙이 데이터베이스나 프레임워크 세부 구현에 묶이면 핵심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경보다 도구 교체가 더 어려워진다. 이 개념이 필요한 이유는 의존 방향을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 중심으로 뒤집는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 인프라 교체나 테스트 준비가 곧 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직 수정으로 이어진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Change   │──▶│    DIP     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Change   |--->|    DIP     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Reason  │──▶│ Boundary │──▶│   DIP    │──▶│   Test   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Reason  |--->| Boundary |--->|   DIP    |--->|   Test   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) | 의존 역전 원칙 ([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[구현체 직접 의존] → DIP 적용] → [정책 중심 추상화]
+[구현체 직접 의존] -> DIP 적용] -> [정책 중심 추상화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 의존 역전 원칙 ([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))은 집의 설계도를 먼저 정하고 가전제품은 나중에 끼우는 방식처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 437 / 530
 
-← **이전**: [358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)
-**다음**: [360. 데메테르 법칙 (Law of Demeter, LoD)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/) →
+<- **이전**: [358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)
+**다음**: [360. 데메테르 법칙 (Law of Demeter, LoD)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/360_process/) ->
 
 ---

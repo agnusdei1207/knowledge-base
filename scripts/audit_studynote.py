@@ -17,9 +17,7 @@ TEMPLATE_PATTERNS = [
     "자동 발송 시스템이다",
     "실행 효율을 높이는 기반 기술이다",
 ]
-BOX_CHARS = set("┌┐└┘├┤┬┴┼─│╭╮╰╯═║╔╗╚╝╠╣╦╩╬")
-BOX_CORNERS = set("┌┐└┘╭╮╰╯╔╗╚╝")
-BOX_BORDER_RE = re.compile(r"^\s*[┌└╔╚╭╰][─═]{3,}[┐┘╗╝╮╯]\s*$")
+BOX_CHARS = set("┌┐└┘├┤┬┴┼─│╭╮╰╯═║╔╗╚╝╠╣╦╩╬▶▼▲◀→←↑↓")
 
 
 def subject_dirs() -> list[Path]:
@@ -67,16 +65,7 @@ def has_box_drawing(block: str) -> bool:
 
 
 def likely_broken_ascii(block: str) -> bool:
-    if not has_box_drawing(block):
-        return False
-    if not any(BOX_BORDER_RE.match(line) for line in block.splitlines()):
-        return False
-    lines = [line.rstrip() for line in block.splitlines() if line.strip()]
-    if len(lines) < 3:
-        return True
-    top_or_bottom = sum(1 for line in lines if any(ch in line for ch in BOX_CORNERS))
-    vertical = sum(1 for line in lines if any(ch in line for ch in "│║"))
-    return top_or_bottom == 0 or vertical == 0
+    return has_box_drawing(block)
 
 
 def audit_numbers() -> list[str]:

@@ -72,17 +72,17 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [로그 파일 (Log Files) — 서버·애플리케이션 이벤트 기록, 분산 생성]
-    │
-    ▼
-[아파치 플룸 (Apache Flume) — Source→Channel→Sink 파이프라인 수집]
-    │
-    ▼
+    |
+    v
+[아파치 플룸 (Apache Flume) — Source->Channel->Sink 파이프라인 수집]
+    |
+    v
 [HDFS / HBase — 플룸 싱크(Sink) 대상, 대용량 저장]
-    │
-    ▼
+    |
+    v
 [아파치 카프카 (Apache Kafka) — 고처리량 스트리밍, 플룸의 현대적 대안]
-    │
-    ▼
+    |
+    v
 [스트림 처리 (Stream Processing: Flink·Spark Streaming) — 실시간 분석]
 ```
 Apache Flume은 Source-Channel-Sink 아키텍처로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 HDFS로 안정적으로 전송하며, 현재는 Kafka와 혼용되거나 대체되고 있다.
@@ -97,7 +97,7 @@ Apache Flume은 Source-Channel-Sink 아키텍처로 [분산](/knowledge-base/stu
 
 **진행 상황**: 40 / 262
 
-← **이전**: [17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/039_apache_sqoop/)
-**다음**: [아파치 암바리 (Apache Ambari)](/knowledge-base/studynote/16_bigdata/02_hadoop/041_apache_ambari_management/) →
+<- **이전**: [17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/039_apache_sqoop/)
+**다음**: [아파치 암바리 (Apache Ambari)](/knowledge-base/studynote/16_bigdata/02_hadoop/041_apache_ambari_management/) ->
 
 ---

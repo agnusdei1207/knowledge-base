@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 세그먼트 헤더]
-    │
-    ▼
+    |
+    v
 [소스/목적지 포트 번호, 일련번호]
-    │
-    └──▶ [확인응답번호]
+    |
+    +---> [확인응답번호]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>가 우체국 직원이 편지를 들고 </strong>"아파트 101호(크롬), 102호(카톡)"**를 찾아가게 해주는 동호수라면, 시퀀스 넘버는 그 101호 주인이 받은 장문의 편지 100장에 적혀 있는 **"[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호(1쪽, 2쪽, 3쪽...)"**입니다. 이 두 개가 합쳐져야 완벽한 배달과 조립이 끝납니다.
@@ -59,20 +59,20 @@ tags = ["studynote-network"]
 - 난수([ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/))로 시작하면 해커가 다음 번호를 예측할 확률이 43억 분의 1로 떨어지므로 완벽한 보안 방어막이 형성된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                와이어샤크(Wireshark)에서 보는 Relative Seq 번호    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 실제 인터넷 위를 날아다니는 진짜 패킷의 번호 (Raw) ]               │
- │   Seq = 3,456,789,123  (복잡해서 인간이 눈으로 분석 불가능!)       │
- │                                                             │
- │   [ 와이어샤크가 엔지니어 뇌 보호를 위해 보여주는 가짜 번호 (Relative) ] │
- │   Seq = 1                                                   │
- │                                                             │
- │   * 팁: 와이어샤크는 최초 접속 시 뽑힌 미친 난수(ISN)를 지가 알아서      │
- │        `0` 또는 `1`로 치환(Relative)해서 1, 2, 3 순서로 예쁘게     │
- │        보여준다. 실제론 저 32비트짜리 괴물 같은 숫자가 돌아가고 있다.    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                와이어샤크(Wireshark)에서 보는 Relative Seq 번호    |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 실제 인터넷 위를 날아다니는 진짜 패킷의 번호 (Raw) ]               |
+ |   Seq = 3,456,789,123  (복잡해서 인간이 눈으로 분석 불가능!)       |
+ |                                                             |
+ |   [ 와이어샤크가 엔지니어 뇌 보호를 위해 보여주는 가짜 번호 (Relative) ] |
+ |   Seq = 1                                                   |
+ |                                                             |
+ |   * 팁: 와이어샤크는 최초 접속 시 뽑힌 미친 난수(ISN)를 지가 알아서      |
+ |        `0` 또는 `1`로 치환(Relative)해서 1, 2, 3 순서로 예쁘게     |
+ |        보여준다. 실제론 저 32비트짜리 괴물 같은 숫자가 돌아가고 있다.    |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 32비트의 랩어라운드 (Wrap-around)
@@ -138,12 +138,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: TCP 세그먼트 헤더]
-    │
-    ▼
+    |
+    v
 [현재 개념: 소스/목적지 포트 번호, 일련번호]
-    │
-    ├──▶ [확장 A: 확인응답번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 확인응답번호]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더에서 출발해 현재 메커니즘을 정교화하고, 이후 [확인응답번호](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 529 / 1120
 
-← **이전**: [407. TCP 세그먼트 (Segment) 헤더](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)
-**다음**: [409. 확인응답번호 (Acknowledgment Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/) →
+<- **이전**: [407. TCP 세그먼트 (Segment) 헤더](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)
+**다음**: [409. 확인응답번호 (Acknowledgment Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/) ->
 
 ---

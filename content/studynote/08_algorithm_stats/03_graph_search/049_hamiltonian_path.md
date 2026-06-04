@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해밀턴 경로 (Hamiltonian Path)는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 정점을 정확히 한 번씩 방문하는 경로로, 존재 판별 자체가 NP-완전 ([NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)) 문제다.
-> 2. **가치**: Dirac 정리, Ore 정리 등 충분조건으로 존재를 보장할 수 있고, [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)으로 탐색하거나 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP + 비트마스크, O(2ⁿn²))으로 TSP와 동일하게 접근한다.
+> 2. **가치**: Dirac 정리, Ore 정리 등 충분조건으로 존재를 보장할 수 있고, [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)으로 탐색하거나 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP + 비트마스크, O(2ⁿn^))으로 TSP와 동일하게 접근한다.
 > 3. **판단 포인트**: 오일러 경로(간선 방문, P)와 혼동하지 말 것 — 해밀턴 경로는 정점 방문이며 NP-완전으로 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 알려져 있지 않다.
 
 ## Ⅰ. 개요 및 필요성
@@ -26,7 +26,7 @@ tags = ["studynote-algorithm"]
 | 결정 문제 | 존재 여부 판별 = NP-완전 |
 | 최적화 문제 | 최단 해밀턴 경로 = [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) |
 | [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) | O(n!) 최악 |
-| DP + 비트마스크 | O(2ⁿn²) |
+| DP + 비트마스크 | O(2ⁿn^) |
 
 📢 **섹션 요약 비유**: 해밀턴 경로는 도시들을 한 번씩만 방문하는 여행 경로가 존재하는지 찾는 것이다. 오일러(도로를 한 번씩)와 달리, 정점을 한 번씩 방문하는 조건은 훨씬 어렵다.
 
@@ -40,8 +40,8 @@ tags = ["studynote-algorithm"]
 
 ```
 주의: 이 조건들은 충분조건이지 필요조건이 아님
-  → 조건 불만족 ≠ 해밀턴 경로 없음
-  → 조건 만족 = 해밀턴 경로 반드시 존재
+  -> 조건 불만족 ≠ 해밀턴 경로 없음
+  -> 조건 만족 = 해밀턴 경로 반드시 존재
 ```
 
 ### [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
@@ -64,25 +64,25 @@ solve(pos):
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 탐색 트리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  그래프: A─B─C─D (선형)                                  │
-│           │   │                                          │
-│           └───┘                                          │
-│                                                          │
-│  백트래킹 탐색 트리 (A에서 시작):                         │
-│  A                                                       │
-│  ├─ B                                                    │
-│  │  ├─ C                                                 │
-│  │  │  ├─ D  → 해밀턴 경로: A-B-C-D ✓                   │
-│  │  │  └─ (역추적)                                       │
-│  │  └─ (역추적)                                          │
-│  └─ (역추적)                                             │
-│                                                          │
-│  최악: n! 탐색 (가지치기 없을 때)                         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  그래프: A-B-C-D (선형)                                  |
+|           |   |                                          |
+|           +---+                                          |
+|                                                          |
+|  백트래킹 탐색 트리 (A에서 시작):                         |
+|  A                                                       |
+|  +- B                                                    |
+|  |  +- C                                                 |
+|  |  |  +- D  -> 해밀턴 경로: A-B-C-D ✓                   |
+|  |  |  +- (역추적)                                       |
+|  |  +- (역추적)                                          |
+|  +- (역추적)                                             |
+|                                                          |
+|  최악: n! 탐색 (가지치기 없을 때)                         |
++----------------------------------------------------------+
 ```
 
-### DP + 비트마스크 (O(2ⁿn²))
+### DP + 비트마스크 (O(2ⁿn^))
 
 ```
 dp[mask][v] = mask에 포함된 정점들을 방문하고 현재 v에 있을 때의 최소 비용
@@ -97,10 +97,10 @@ dp[1<<s][s] = 0  (시작 정점 s에서 시작)
 | 방식 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | 적용 규모 |
 |:---|:---:|:---:|:---:|
 | [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) | O(n!) 최악 | O(n) | n ≤ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) |
-| DP + 비트마스크 | O(2ⁿn²) | O(2ⁿn) | n ≤ 20 |
-| [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) | O(n²) | O(n) | 대규모 |
+| DP + 비트마스크 | O(2ⁿn^) | O(2ⁿn) | n ≤ 20 |
+| [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) | O(n^) | O(n) | 대규모 |
 
-📢 **섹션 요약 비유**: 비트마스크 DP는 "어느 도시를 방문했는지"를 비트로 기록하는 여행 일지다. 20개 도시라면 2²⁰=100만 가지 상태만 기록하면 된다.
+📢 **섹션 요약 비유**: 비트마스크 DP는 "어느 도시를 방문했는지"를 비트로 기록하는 여행 일지다. 20개 도시라면 2^⁰=100만 가지 상태만 기록하면 된다.
 
 ## Ⅲ. 비교 및 연결
 
@@ -130,11 +130,11 @@ TSP 최적화 = NP-hard
 
 **시나리오 1**: 게놈 서열 조립 (Genome Assembly)
 - DNA 조각들(reads)을 겹침 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 해밀턴 경로로 재조합
-- 실용적 접근: De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) + [Euler Path](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) (정점 → 간선 변환)
+- 실용적 접근: De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) + [Euler Path](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) (정점 -> 간선 변환)
 
 **시나리오 2**: 파레트 포장 순서 (물류)
 - 여러 창고를 한 번씩 방문하는 트럭 경로
-- n=15 이하: DP 비트마스크 O(2¹⁵×15²) ≈ 7백만 → 실시간 가능
+- n=15 이하: DP 비트마스크 O(2¹⁵×15^) ≈ 7백만 -> 실시간 가능
 
 **시나리오 3**: 집적회로 테스트 경로
 - 칩의 모든 핀을 한 번씩 테스트하는 탐침 순서
@@ -146,7 +146,7 @@ TSP 최적화 = NP-hard
 |:---|:---|
 | 모든 정점 방문 경로 | 해밀턴 경로 (NP-완전) |
 | 대규모 (n > 20) | [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) 또는 메타휴리스틱 |
-| 소규모 (n ≤ 20) | DP + 비트마스크 O(2ⁿn²) |
+| 소규모 (n ≤ 20) | DP + 비트마스크 O(2ⁿn^) |
 | 존재 보장 필요 | Dirac/Ore 정리 충분조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | DNA 조립 | 오일러 경로로 환원 (De Bruijn) |
 
@@ -167,25 +167,25 @@ TSP 최적화 = NP-hard
 | [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ([외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | 최적화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 최단 해밀턴 회로 |
 | 오일러 경로 | 대비 개념 | 간선 방문, P 복잡도 |
 | NP-완전 | 복잡도 클래스 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없음 |
-| DP + 비트마스크 | 정확 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(2ⁿn²), n≤20 |
+| DP + 비트마스크 | 정확 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(2ⁿn^), n≤20 |
 | Dirac/Ore 정리 | 존재 충분조건 | 차수 기반 보장 |
-| De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 응용 변환 | 정점→간선 변환으로 Euler 활용 |
+| De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 응용 변환 | 정점->간선 변환으로 Euler 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [그래프 완전 탐색 (DFS/BFS — 다항식 P)]
-    │
-    ▼
+    |
+    v
 [해밀턴 경로 (Hamiltonian Path — NP-완전)]
-    │
-    ▼
+    |
+    v
 [외판원 문제 (TSP — 해밀턴 회로의 최적화 버전)]
-    │
-    ▼
-[DP + 비트마스크 (소규모 n≤20 정확해 O(2ⁿn²))]
-    │
-    ▼
+    |
+    v
+[DP + 비트마스크 (소규모 n≤20 정확해 O(2ⁿn^))]
+    |
+    v
 [메타휴리스틱 (대규모 근사해 — 유전 알고리즘·모의담금질)]
 ```
 해밀턴 경로는 P≠NP 가설에 의해 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 해가 없는 NP-완전 문제로, 소규모에서 DP+비트마스크, 대규모에서 메타휴리스틱 근사가 실용적 해법이다.
@@ -202,7 +202,7 @@ TSP 최적화 = NP-hard
 
 **진행 상황**: 49 / 175
 
-← **이전**: [21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/048_bubble_sort_algorithm/)
-**다음**: [22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/050_selection_sort_algorithm/) →
+<- **이전**: [21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/048_bubble_sort_algorithm/)
+**다음**: [22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/050_selection_sort_algorithm/) ->
 
 ---

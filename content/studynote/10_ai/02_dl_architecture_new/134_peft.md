@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-Full FT:       100% 파라미터 학습 (비용↑↑)
+Full FT:       100% 파라미터 학습 (비용^^)
 LoRA:          저랭크 행렬만 학습 (~1%)
 Adapter:       작은 모듈 삽입 (~3%)
 Prefix Tuning: 프리픽스 벡터 학습 (<0.1%)
@@ -49,9 +49,9 @@ PEFT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Full Fine-tuning (2018)] → [Adapter (2019)]
-    → [Prefix Tuning (2021)] → [LoRA (2021)]
-    → [QLoRA (2023)] → [현재: DoRA·LoRA+ — 차세대 PEFT]
+[Full Fine-tuning (2018)] -> [Adapter (2019)]
+    -> [Prefix Tuning (2021)] -> [LoRA (2021)]
+    -> [QLoRA (2023)] -> [현재: DoRA·LoRA+ — 차세대 PEFT]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ PEFT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 **진행 상황**: 134 / 420
 
-← **이전**: [133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)
-**다음**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/knowledge-base/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/) →
+<- **이전**: [133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)
+**다음**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/knowledge-base/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/) ->
 
 ---

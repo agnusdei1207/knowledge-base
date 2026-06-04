@@ -41,36 +41,36 @@ tags = ["studynote-bigdata"]
 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 아키텍처는 네 가지 핵심 원칙으로 구성되며, 각 원칙이 서로를 inúmer고 있는 구조입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    [ 데이터 메시 (Data Mesh) 4대 핵심 원칙 아키텍처 ]            │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │  [ 원칙 1: 도메인 소유권 (Domain Ownership) ]                       │    │
-│  │   예: 물류 도메인팀 ──▶ 물류 데이터 제품 ──▶ 배송데이터, 재고데이터, 경로데이터 │    │
-│  │   예: 마케팅 도메인팀 ──▶ 마케팅 데이터 제품 ──▶ 고객세분, 캠페인데이터       │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 원칙 2: 데이터 제품 (Data as a Product) ] ★ 핵심 제공 단위 ★       │    │
-│  │   ▶ 모든 도메인 데이터는 "제품"으로 인식 - 인터페이스, SLA, 품질보증 포함    │    │
-│  │   ▶ 서로 다른 도메인이 표준화된 방식으로 데이터 접근 가능               │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 원칙 3: 데이터 서비스로서의 인터페이스 (Data as a Service) ]          │    │
-│  │   ▶ REST API / gRPC / Stream - 도메인 간 데이터 접근 표준화            │    │
-│  │   ▶ 스키마_registry(Apache Schema Registry) - 호환성 보장            │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 원칙 4: 공동 컴퓨팅 플랫폼 (Self-Serve Data Infrastructure) ]     │    │
-│  │   ★ 이것만 중앙이 제공 ★                                           │    │
-│  │   - 물리적 스토리지/컴퓨팅 자원 (S3, GCS, Snowflake, Databricks)      │    │
-│  │   - 데이터 카탈로그, 리니지 추적 도구                                │    │
-│  │   - 접근 제어, 감사 로그                                            │    │
-│  │   - 도메인 팀은 "앱 개발"에만 집중하고, infra는 중앙이 관리             │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|                    [ 데이터 메시 (Data Mesh) 4대 핵심 원칙 아키텍처 ]            |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |  [ 원칙 1: 도메인 소유권 (Domain Ownership) ]                       |    |
+|  |   예: 물류 도메인팀 ---> 물류 데이터 제품 ---> 배송데이터, 재고데이터, 경로데이터 |    |
+|  |   예: 마케팅 도메인팀 ---> 마케팅 데이터 제품 ---> 고객세분, 캠페인데이터       |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 원칙 2: 데이터 제품 (Data as a Product) ] ★ 핵심 제공 단위 ★       |    |
+|  |   -> 모든 도메인 데이터는 "제품"으로 인식 - 인터페이스, SLA, 품질보증 포함    |    |
+|  |   -> 서로 다른 도메인이 표준화된 방식으로 데이터 접근 가능               |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 원칙 3: 데이터 서비스로서의 인터페이스 (Data as a Service) ]          |    |
+|  |   -> REST API / gRPC / Stream - 도메인 간 데이터 접근 표준화            |    |
+|  |   -> 스키마_registry(Apache Schema Registry) - 호환성 보장            |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 원칙 4: 공동 컴퓨팅 플랫폼 (Self-Serve Data Infrastructure) ]     |    |
+|  |   ★ 이것만 중앙이 제공 ★                                           |    |
+|  |   - 물리적 스토리지/컴퓨팅 자원 (S3, GCS, Snowflake, Databricks)      |    |
+|  |   - 데이터 카탈로그, 리니지 추적 도구                                |    |
+|  |   - 접근 제어, 감사 로그                                            |    |
+|  |   - 도메인 팀은 "앱 개발"에만 집중하고, infra는 중앙이 관리             |    |
+|  +-----------------------------------------------------------------+    |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))의 구조
@@ -92,10 +92,10 @@ tags = ["studynote-bigdata"]
 | :--- | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유권</strong> | 중앙 플랫폼 팀 단독 | 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 Own |
 | **확장성** | 팀 규모에 한계 (병목) | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 추가 = 팀 추가 =선성 확장 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | 중앙 팀의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 부족 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가가 직접 설계 → 품질↑ |
-| **개발 속도** | 중앙 팀 의존 → 느림 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급자족 → 빠름 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | 중앙 팀의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 부족 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가가 직접 설계 -> 품질^ |
+| **개발 속도** | 중앙 팀 의존 -> 느림 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급자족 -> 빠름 |
 | <strong>거버넌스 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 중앙에서 강제 가능 | 연합(연합 컴퓨팅) 구조로 달성 |
-| **장애 영향 범위** | 중앙 플랫폼 장애 = 전체 마비 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 격리 → 부분적 영향 |
+| **장애 영향 범위** | 중앙 플랫폼 장애 = 전체 마비 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 격리 -> 부분적 영향 |
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 비용</strong> | 상대적으로 낮음 | 높은 편 (문화 변화 필요) |
 | **적합한 조직 규모** | 소규모~중간 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수 < [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) | 대규모 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+), 다중 사업부 |
 
@@ -143,10 +143,10 @@ tags = ["studynote-bigdata"]
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 *   <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a> 4대 핵심 원칙</strong>
-    *   [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유) → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 생산자 지정
-    *   [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product ([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)) → 발견 가능, 접근 가능, 이해 가능, 상호운용 가능, 신뢰 가능
-    *   [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) → Self-Serve [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 인터페이스
-    *   Federated Governance (연합 거버넌스) → 중앙 규범 + [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성 균형
+    *   [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유) -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 생산자 지정
+    *   [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product ([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)) -> 발견 가능, 접근 가능, 이해 가능, 상호운용 가능, 신뢰 가능
+    *   [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) -> Self-Serve [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 인터페이스
+    *   Federated Governance (연합 거버넌스) -> 중앙 규범 + [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성 균형
 *   <strong>관련 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>
     *   [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) Interface: [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)
     *   [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/): DataHub, Apache Atlas, OpenMetadata, Alation
@@ -159,14 +159,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Centralized DW]
-    │
-    ▼
+    |
+    v
 [Data Mesh]
-    │
-    ▼
+    |
+    v
 [Data Product]
-    │
-    ▼
+    |
+    v
 [Federated Governance]
 ```
 
@@ -187,7 +187,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 191 / 262
 
-← **이전**: [190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)](/knowledge-base/studynote/16_bigdata/09_platform/190_management/)
-**다음**: [02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처](/knowledge-base/studynote/16_bigdata/10_governance/192_datafabric/) →
+<- **이전**: [190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)](/knowledge-base/studynote/16_bigdata/09_platform/190_management/)
+**다음**: [02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처](/knowledge-base/studynote/16_bigdata/10_governance/192_datafabric/) ->
 
 ---

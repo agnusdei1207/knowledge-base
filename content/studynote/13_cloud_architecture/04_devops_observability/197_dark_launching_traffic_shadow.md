@@ -35,21 +35,21 @@ tags = ["studynote-cloud-architecture"]
 
 ```
   클라이언트 요청
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────┐
-  │               API Gateway / Feature Proxy            │
-  └──────────────────────┬──────────────────────────────┘
-                         │
-         ┌───────────────┴───────────────┐
-         │ (동기, 사용자에게 반환)         │ (비동기, 결과 버림/로깅)
-         ▼                               ▼
-  ┌──────────────┐               ┌──────────────────┐
-  │  기존 서비스  │               │  신규 서비스(Dark) │
-  │  (v1)        │               │  (v2)             │
-  └──────┬───────┘               └────────┬─────────┘
-         │                                │
-         ▼                                ▼
+       |
+       v
+  +-----------------------------------------------------+
+  |               API Gateway / Feature Proxy            |
+  +----------------------+------------------------------+
+                         |
+         +---------------+---------------+
+         | (동기, 사용자에게 반환)         | (비동기, 결과 버림/로깅)
+         v                               v
+  +--------------+               +------------------+
+  |  기존 서비스  |               |  신규 서비스(Dark) |
+  |  (v1)        |               |  (v2)             |
+  +------+-------+               +--------+---------+
+         |                                |
+         v                                v
   [사용자에게 응답]              [결과를 Metrics/Log에만 기록]
                                  - 응답 시간
                                  - 에러 여부
@@ -174,14 +174,14 @@ def dark_execute():
 
 ```text
 Shadow Traffic: 실제 트래픽을 새 버전에 복제
-    │
-    ▼
+    |
+    v
 Dark Launching: 사용자 모르게 신버전 동작 검증
-    ├─► 응답은 폐기 (사용자에게 전달 안 됨)
-    └─► 성능·정확성 비교: 기존 vs 신규
-    │
-    ▼
-확인 완료 → Canary → 전체 전환
+    +-► 응답은 폐기 (사용자에게 전달 안 됨)
+    +-► 성능·정확성 비교: 기존 vs 신규
+    |
+    v
+확인 완료 -> Canary -> 전체 전환
 ```
 2. 친구에게는 기존 계산기 답을 알려주고, 새 계산기 결과는 선생님 수첩에만 적어둬.
 3. 수첩에 틀린 답이 없고 속도도 빠르다는 걸 확인하면, 그때서야 친구에게 새 계산기를 공개해.
@@ -192,7 +192,7 @@ Dark Launching: 사용자 모르게 신버전 동작 검증
 
 **진행 상황**: 196 / 371
 
-← **이전**: [196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/196_feature_flag_toggle_ab_testing/)
-**다음**: [198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/198_shadow_deployment_traffic_mirroring/) →
+<- **이전**: [196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/196_feature_flag_toggle_ab_testing/)
+**다음**: [198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/198_shadow_deployment_traffic_mirroring/) ->
 
 ---

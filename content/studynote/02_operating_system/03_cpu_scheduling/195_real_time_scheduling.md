@@ -30,18 +30,18 @@ tags = ["studynote-operating-system"]
   [ 범용 OS (General Purpose OS) ]
   목표: 공평성(Fairness), 평균 처리량 극대화
   반응 패턴:
-  요청 1 ─▶ [ 5 ms 응답 ] (우와 빠르다!)
-  요청 2 ─▶ [ 7 ms 응답 ]
-  요청 3 ─▶ [ 150ms 응답] (🚨 커널 락 걸림. 렉 발생. "어쩔 수 없지 뭐")
-  ▶ 평균 응답: 54 ms (빠름) / 최악 응답: 150 ms (예측 불가, Jitter 큼)
+  요청 1 --> [ 5 ms 응답 ] (우와 빠르다!)
+  요청 2 --> [ 7 ms 응답 ]
+  요청 3 --> [ 150ms 응답] (🚨 커널 락 걸림. 렉 발생. "어쩔 수 없지 뭐")
+  -> 평균 응답: 54 ms (빠름) / 최악 응답: 150 ms (예측 불가, Jitter 큼)
 
   [ 실시간 OS (RTOS) ]
   목표: 엄격한 데드라인 보장 (최악의 지연시간 상한선 보장)
   반응 패턴:
-  요청 1 ─▶ [ 30 ms 응답 ]
-  요청 2 ─▶ [ 31 ms 응답 ]
-  요청 3 ─▶ [ 30 ms 응답 ] (절대 35ms를 넘지 않음. 100% 보장)
-  ▶ 평균 응답: 30 ms / 최악 응답: 31 ms (느리더라도 완벽히 예측 가능)
+  요청 1 --> [ 30 ms 응답 ]
+  요청 2 --> [ 31 ms 응답 ]
+  요청 3 --> [ 30 ms 응답 ] (절대 35ms를 넘지 않음. 100% 보장)
+  -> 평균 응답: 30 ms / 최악 응답: 31 ms (느리더라도 완벽히 예측 가능)
 ```
 **[다이어그램 해설]** 실시간 운영체제가 "세상에서 제일 빠른 OS"가 아님을 증명하는 그림이다. 오히려 복잡한 캐시 최적화나 I/O 비동기화를 포기하기 때문에 평상시 연산 처리량은 리눅스보다 느리다. 하지만 RTOS의 존재 이유는 "절대로 튀지 않는(Jitter가 없는) 평탄한 반응"에 있다. 예측 불가능성을 파괴하는 것이 실시간 스케줄링의 알파이자 오메가다.
 
@@ -69,20 +69,20 @@ tags = ["studynote-operating-system"]
 - RTOS: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 수행 중에도 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) 구역이 아니면 언제든 강제로 중단시키고 실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 끼워 넣는 <strong>선점형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a></strong>을 구현하여, 최대 [디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/) 시간을 마이크로초(μs) 단위 상수 $O(1)$로 묶어버린다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │         디스패치 지연 통제로 인한 데드라인(Deadline) 방어 메커니즘 │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │ 이벤트(센서) 발생 ────────▶ 데드라인 한계선 (예: 5ms 이내 방어)    │
-  │   │                                                                │
-  │   │← (1) 인터럽트 처리 →│← (2) 디스패치 지연 →│← (3) 실제 연산 →   │
-  │                                                                    │
-  │ 🚨 범용 Linux: (2)번 구간이 커널 락 때문에 10ms로 튀어버리면,      │
-  │               (3)번 연산은 시작도 못해보고 데드라인 초과 폭발.     │
-  │                                                                    │
-  │ ✅ RT_Linux:   (2)번 구간을 0.1ms 고정(Bounded)으로 강제 선점!     │
-  │               안정적으로 5ms 데드라인 안에 브레이크(연산) 작동.    │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |         디스패치 지연 통제로 인한 데드라인(Deadline) 방어 메커니즘 |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  | 이벤트(센서) 발생 ---------> 데드라인 한계선 (예: 5ms 이내 방어)    |
+  |   |                                                                |
+  |   |<- (1) 인터럽트 처리 ->|<- (2) 디스패치 지연 ->|<- (3) 실제 연산 ->   |
+  |                                                                    |
+  | 🚨 범용 Linux: (2)번 구간이 커널 락 때문에 10ms로 튀어버리면,      |
+  |               (3)번 연산은 시작도 못해보고 데드라인 초과 폭발.     |
+  |                                                                    |
+  | ✅ RT_Linux:   (2)번 구간을 0.1ms 고정(Bounded)으로 강제 선점!     |
+  |               안정적으로 5ms 데드라인 안에 브레이크(연산) 작동.    |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 실시간 엔지니어링의 목표는 (3)번 '연산 시간'을 줄이는 것이 아니다. 어디로 튈지 모르는 블랙박스인 (2)번 '디스패치 대기 시간'의 최댓값(Worst-case Bound)을 수학적으로 증명해 내고 통제하는 것이다. 이를 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 거의 모든 코드를 수면 가능(Sleepable)한 상태로 뜯어고쳐 놓은 것이 [PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치다.
 
@@ -121,25 +121,25 @@ RM은 "자주 해야 하는 숙제(주기가 짧은 [태스크](/knowledge-base/
    - <strong>실무 조치 (우선순위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">Priority Inheritance</a>)</strong>: 낮은 계급(기상 관측)이 락을 쥐고 있을 때 높은 계급([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 관리)이 락을 달라고 요청하면, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 기상 관측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 계급을 '최고 존엄' 급으로 임시 뻥튀기([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 시켜준다. 중간 계급이 덤비지 못하게 무적의 방어막을 쳐서 빨리 락을 풀고 나가게 만드는 이 기법은, 이후 모든 RTOS의 필수 구현 표준이 되었다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     실무 시스템의 실시간(Real-time) 보장 계층별 아키텍처 트리    │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [요구사항: 로봇 팔 제어 1ms 응답 보장 프로젝트]                │
-  │                │                                                 │
-  │                ▼ [1단계: OS 커널 레벨 통제]                      │
-  │           - 일반 OS 절대 금지 (Windows, 기본 Linux)              │
-  │           - PREEMPT_RT 패치 또는 VxWorks, QNX 도입               │
-  │           - SCHED_FIFO(우선순위 99)로 스레드 박제                │
-  │                │                                                 │
-  │                ▼ [2단계: 메모리 레벨 통제]                       │
-  │           - 디스크 페이징(Swap) 절대 금지 (지연 발생 원흉)       │
-  │           - mlockall() 시스템콜로 RAM에 메모리 강제 고정         │
-  │                │                                                 │
-  │                ▼ [3단계: 하드웨어 코어 레벨 통제]                │
-  │           - CPU Pinning(taskset)으로 코어 1개 완전 독점          │
-  │           - isolcpus 파라미터로 OS 타이머 인터럽트 격리          │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     실무 시스템의 실시간(Real-time) 보장 계층별 아키텍처 트리    |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [요구사항: 로봇 팔 제어 1ms 응답 보장 프로젝트]                |
+  |                |                                                 |
+  |                v [1단계: OS 커널 레벨 통제]                      |
+  |           - 일반 OS 절대 금지 (Windows, 기본 Linux)              |
+  |           - PREEMPT_RT 패치 또는 VxWorks, QNX 도입               |
+  |           - SCHED_FIFO(우선순위 99)로 스레드 박제                |
+  |                |                                                 |
+  |                v [2단계: 메모리 레벨 통제]                       |
+  |           - 디스크 페이징(Swap) 절대 금지 (지연 발생 원흉)       |
+  |           - mlockall() 시스템콜로 RAM에 메모리 강제 고정         |
+  |                |                                                 |
+  |                v [3단계: 하드웨어 코어 레벨 통제]                |
+  |           - CPU Pinning(taskset)으로 코어 1개 완전 독점          |
+  |           - isolcpus 파라미터로 OS 타이머 인터럽트 격리          |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 데드라인을 보장한다는 것은 단순히 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하나 쓴다고 해결되는 마법이 아니다. OS, 메모리, 캐시, CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(Jitter)를 유발하는 시스템의 모든 변수를 하나하나 찾아가며 멱살을 잡고 통제선 안에 가두는 극단적인 억압([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 튜닝의 예술이다. [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 엔지니어가 일반 개발자보다 몸값이 비싼 이유다.
 
@@ -172,12 +172,12 @@ RM은 "자주 해야 하는 숙제(주기가 짧은 [태스크](/knowledge-base/
 
 ```text
 [비대칭 다중 처리 (ASMP) 스케줄링]
-    │
-    ▼
+    |
+    v
 [대칭 다중 처리 (SMP) 스케줄링]
-    │
-    ├──▶ [부하 균등화 (Load Balancing)]
-    └──▶ [프로세서 친화성 (Processor Affinity)]
+    |
+    +---> [부하 균등화 (Load Balancing)]
+    +---> [프로세서 친화성 (Processor Affinity)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -194,7 +194,7 @@ RM은 "자주 해야 하는 숙제(주기가 짧은 [태스크](/knowledge-base/
 
 **진행 상황**: 195 / 800
 
-← **이전**: [194. 비대칭 다중 처리 (ASMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)
-**다음**: [196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) →
+<- **이전**: [194. 비대칭 다중 처리 (ASMP) 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)
+**다음**: [196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) ->
 
 ---

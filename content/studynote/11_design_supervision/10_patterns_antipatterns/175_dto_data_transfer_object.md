@@ -24,20 +24,20 @@ DTO는 원래 "말이 많은 원격 호출(chatty remote [call](/knowledge-base/
 오늘날 DTO의 의미는 더 넓어졌다. [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 메시지 큐, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 프런트엔드 백엔드 분리 구조에서는 원격 호출 횟수만큼이나 <strong>계약 형태를 별도로 관리하는 일</strong>이 중요하다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity를 그대로 외부에 노출하면 내부 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 깨짐으로 이어지고, 민감 정보나 불필요한 연관 객체가 함께 새어 나갈 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why DTO was created                                                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without DTO                                                         │
-│   Client -> getName()                                               │
-│          -> getEmail()                                              │
-│          -> getRole()                                               │
-│          -> getAddress()                                            │
-│   = many remote round trips                                         │
-│                                                                     │
-│ With DTO                                                            │
-│   Client -> getUserSummaryDTO()                                     │
-│   = one call, one shaped payload                                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why DTO was created                                                 |
++----------------------------------------------------------------------+
+| Without DTO                                                         |
+|   Client -> getName()                                               |
+|          -> getEmail()                                              |
+|          -> getRole()                                               |
+|          -> getAddress()                                            |
+|   = many remote round trips                                         |
+|                                                                     |
+| With DTO                                                            |
+|   Client -> getUserSummaryDTO()                                     |
+|   = one call, one shaped payload                                    |
++----------------------------------------------------------------------+
 ```
 
 그래서 DTO의 필요성은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 넘어, <strong>경계 밖으로 내보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태를 의도적으로 설계하는 것</strong>에 있다. 무엇을 실어 보낼지, 무엇을 숨길지, 어떤 이름과 형식으로 계약을 고정할지를 분리해 주는 도구가 바로 DTO다.
@@ -51,29 +51,29 @@ DTO는 원래 "말이 많은 원격 호출(chatty remote [call](/knowledge-base/
 DTO의 핵심 원리는 세 가지다. 첫째, **경계 전용성**: DTO는 경계를 넘을 때만 의미가 있다. 둘째, **무행동성**: 비즈니스 규칙을 담기보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 데 집중한다. 셋째, **형태 분리**: 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 외부 계약 모델을 분리해 각각 다른 변경 주기를 허용한다. 이 때문에 DTO는 보통 Controller, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), Application [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계에서 생성되거나 변환된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DTO at a system boundary                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                              │
-│   │ Request DTO                                                     │
-│   ▼                                                                 │
-│ Controller / API Adapter                                            │
-│   │ map                                                             │
-│   ▼                                                                 │
-│ Application Service                                                 │
-│   │ uses                                                            │
-│   ▼                                                                 │
-│ Domain Entity / Value Object                                        │
-│   │ map                                                             │
-│   ▼                                                                 │
-│ Response DTO / Integration DTO                                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| DTO at a system boundary                                            |
++----------------------------------------------------------------------+
+| Client                                                              |
+|   | Request DTO                                                     |
+|   v                                                                 |
+| Controller / API Adapter                                            |
+|   | map                                                             |
+|   v                                                                 |
+| Application Service                                                 |
+|   | uses                                                            |
+|   v                                                                 |
+| Domain Entity / Value Object                                        |
+|   | map                                                             |
+|   v                                                                 |
+| Response DTO / Integration DTO                                      |
++----------------------------------------------------------------------+
 ```
 
 | DTO 유형 | 주 사용 위치 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Request DTO | 클라이언트 → 애플리케이션 | 입력 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 필수값 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 과도한 필드 차단 |
-| Response DTO | 애플리케이션 → 클라이언트 | 필요한 필드만 노출, 민감 정보 제거, 화면 친화적 구조 |
+| Request DTO | 클라이언트 -> 애플리케이션 | 입력 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 필수값 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 과도한 필드 차단 |
+| Response DTO | 애플리케이션 -> 클라이언트 | 필요한 필드만 노출, 민감 정보 제거, 화면 친화적 구조 |
 | Integration DTO / Event DTO | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신, [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/) | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 직렬화 형식, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 안정성 |
 
 실무에서는 Mapper나 Assembler가 DTO와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 상호 변환한다. 중요한 것은 변환 기술이 아니라 책임의 위치다. DTO가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 품기 시작하면 전송 객체가 아니라 또 하나의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체가 되어 버리고, 반대로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체가 단순 getter/setter 묶음으로 전락하면 모델이 빈혈 상태가 된다.
@@ -160,23 +160,23 @@ DTO를 올바르게 사용하면 [API](/knowledge-base/studynote/02_operating_sy
 
 ```text
 원격 호출 비용 문제
-    │
-    ▼
+    |
+    v
 DTO (Data Transfer Object)
-    │
-    ├─ 페이로드 집계
-    ├─ 내부 모델 은닉
-    └─ 요청 / 응답 형태 분리
-    │
-    ▼
+    |
+    +- 페이로드 집계
+    +- 내부 모델 은닉
+    +- 요청 / 응답 형태 분리
+    |
+    v
 Mapper / Assembler
-    │
-    ▼
+    |
+    v
 유스케이스별 DTO + 계약 버전 관리
-    │
-    ▼
+    |
+    v
 안티패턴 통제
-    └─ Entity 직접 노출 방지 / 빈혈 도메인 모델 방지
+    +- Entity 직접 노출 방지 / 빈혈 도메인 모델 방지
 ```
 
 이 흐름은 DTO가 단순 원격 호출 최적화에서 출발해, 현대 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 관리와 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 통제까지 확장되는 과정을 보여 준다.
@@ -193,7 +193,7 @@ Mapper / Assembler
 
 **진행 상황**: 231 / 530
 
-← **이전**: [174. J2EE 프레임워크 패턴 (J2EE Framework Patterns)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/174_j2ee_framework_patterns/)
-**다음**: [176. DAO 패턴 (Data Access Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) →
+<- **이전**: [174. J2EE 프레임워크 패턴 (J2EE Framework Patterns)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/174_j2ee_framework_patterns/)
+**다음**: [176. DAO 패턴 (Data Access Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/) ->
 
 ---

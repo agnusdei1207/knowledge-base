@@ -92,11 +92,11 @@ tags = ["studynote-it-management"]
 
 ```text
 데이터 읽기
-   ↓
+   v
 해석
-   ↓
+   v
 소통
-   ↓
+   v
 의사결정 적용
 ```
 
@@ -104,11 +104,11 @@ tags = ["studynote-it-management"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 홍수 → 해석 능력 필요
-2. 전사적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교육 → 기본 문해력 향상
-3. 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI → 현업의 직접 활용
-4. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) → 지표 표준화
-5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 문화 → 조직 의사결정 개선
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 홍수 -> 해석 능력 필요
+2. 전사적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교육 -> 기본 문해력 향상
+3. 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI -> 현업의 직접 활용
+4. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) -> 지표 표준화
+5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 문화 -> 조직 의사결정 개선
 
 ---
 
@@ -124,7 +124,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 101 / 587
 
-← **이전**: [57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)
-**다음**: [59. 바이모달 IT (Bimodal IT, 가트너)](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/) →
+<- **이전**: [57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)
+**다음**: [59. 바이모달 IT (Bimodal IT, 가트너)](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/) ->
 
 ---

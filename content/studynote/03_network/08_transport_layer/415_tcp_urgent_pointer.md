@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [체크섬]
-    │
-    ▼
+    |
+    v
 [긴급 포인터]
-    │
-    └──▶ [TCP 3-Way Handshake]
+    |
+    +---> [TCP 3-Way Handshake]
 ```
 
 - **📢 섹션 요약 비유**: <strong> URG <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>와 Urgent Pointer는 고속도로 꽉 막힌 터널 안에서 앰뷸런스가 사이렌(URG 불빛)을 켜고, 내비게이션 좌표(Pointer)를 통해 </strong>정확히 환자가 쓰러져 있는 터널 속 50m 지점까지 역주행해서 환자만 쏙 빼오는 응급 구조 시스템**입니다.
@@ -54,23 +54,23 @@ tags = ["studynote-network"]
 6. 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1번째 바이트부터 포인터가 가리키는 **50번째 바이트까지만 칼로 싹 도려내서**, 앱(응용 프로그램)을 당장 깨워 "야! 이거 긴급 명령 떨어졌어! 하던 거 멈추고 이거부터 읽어!"라고 강제로 대령한다. 나머지 51번~1000번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 원래 큐에 줄을 세워 천천히 처리한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Urgent Pointer 족집게 추출 원리 시각화             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신된 1개의 거대한 TCP 패킷 ]                              │
- │                                                             │
- │   TCP 헤더: [ URG 불 켜짐! ] [ Urgent Pointer: 50 ]            │
- │                                                             │
- │   데이터 바디 (총 1000바이트 덩어리):                            │
- │   바이트 0 ───────────────────────── 바이트 50 ────── 바이트 1000 │
- │   [ (응급) Ctrl + C 강제 종료 명령! ] [ 일반 텍스트 쓰레기 데이터들 ] │
- │   ▲                                ▲                       │
- │   └── OS가 이 부분만 핀셋으로 쏙 뽑아서 0순위로 앱에 갖다 바침! ───┘ │
- │                                                             │
- │   ▶ "1000바이트 전체가 긴급한 게 아니다. 50번째 바이트 전까지만      │
- │      응급 환자라는 것을 족집게처럼 가리켜 주는 포인터(화살표)다!"        │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Urgent Pointer 족집게 추출 원리 시각화             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 수신된 1개의 거대한 TCP 패킷 ]                              |
+ |                                                             |
+ |   TCP 헤더: [ URG 불 켜짐! ] [ Urgent Pointer: 50 ]            |
+ |                                                             |
+ |   데이터 바디 (총 1000바이트 덩어리):                            |
+ |   바이트 0 ------------------------- 바이트 50 ------ 바이트 1000 |
+ |   [ (응급) Ctrl + C 강제 종료 명령! ] [ 일반 텍스트 쓰레기 데이터들 ] |
+ |   ^                                ^                       |
+ |   +-- OS가 이 부분만 핀셋으로 쏙 뽑아서 0순위로 앱에 갖다 바침! ---+ |
+ |                                                             |
+ |   -> "1000바이트 전체가 긴급한 게 아니다. 50번째 바이트 전까지만      |
+ |      응급 환자라는 것을 족집게처럼 가리켜 주는 포인터(화살표)다!"        |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. OOB (Out-of-Band) 통신과의 차이점
@@ -141,12 +141,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 체크섬]
-    │
-    ▼
+    |
+    v
 [현재 개념: 긴급 포인터]
-    │
-    ├──▶ [확장 A: TCP 3-Way Handshake]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP 3-Way Handshake]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 긴급 포인터는 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 536 / 1120
 
-← **이전**: [414. 체크섬 (Checksum)](/knowledge-base/studynote/03_network/08_transport_layer/414_tcp_udp_checksum_virtual_header/)
-**다음**: [416. TCP 3-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/) →
+<- **이전**: [414. 체크섬 (Checksum)](/knowledge-base/studynote/03_network/08_transport_layer/414_tcp_udp_checksum_virtual_header/)
+**다음**: [416. TCP 3-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/) ->
 
 ---

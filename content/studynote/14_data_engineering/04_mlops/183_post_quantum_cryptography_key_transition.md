@@ -26,14 +26,14 @@ tags = ["studynote-data-engineering"]
 아래 그림은 왜 양자 컴퓨터가 완성되기 전에 전환을 시작해야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Harvest now, decrypt later timeline                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Today  : capture TLS sessions, backups, signed artifacts          │
-│ Future : fault-tolerant quantum breaks RSA / ECC                  │
-│ Result : old data becomes readable, old signatures may be forged  │
-│ Defense: migrate before confidentiality lifetime expires          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Harvest now, decrypt later timeline                               |
++--------------------------------------------------------------------+
+| Today  : capture TLS sessions, backups, signed artifacts          |
+| Future : fault-tolerant quantum breaks RSA / ECC                  |
+| Result : old data becomes readable, old signatures may be forged  |
+| Defense: migrate before confidentiality lifetime expires          |
++--------------------------------------------------------------------+
 ```
 
 여기서 가장 시급한 표적은 공개키 계열이다. [Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 대칭 암호는 키 길이를 늘려 대응할 여지가 있지만, 공개키 기반의 키 교환과 디지털 서명은 구조 자체를 바꿔야 한다. 그래서 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 추가가 아니라 <strong>클라우드 신뢰 사슬 전체를 다시 설계하는 작업</strong>에 가깝다.
@@ -57,18 +57,18 @@ tags = ["studynote-data-engineering"]
 아래 구조는 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 PQC가 어느 층에 걸쳐 들어가는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Hybrid PQC cloud stack                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Client / Partner                                                   │
-│   │                                                                │
-│   ├─ TLS 1.3 : X25519 + ML-KEM  -> external edge                   │
-│   ├─ mTLS    : service mesh hybrid handshakes                      │
-│   ├─ KMS     : envelope key wrap / re-wrap policies                │
-│   └─ CI/CD   : dual signature on images, models, manifests         │
-│                                                                    │
-│ Protected assets: object store, backups, model registry, secrets   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Hybrid PQC cloud stack                                             |
++--------------------------------------------------------------------+
+| Client / Partner                                                   |
+|   |                                                                |
+|   +- TLS 1.3 : X25519 + ML-KEM  -> external edge                   |
+|   +- mTLS    : service mesh hybrid handshakes                      |
+|   +- KMS     : envelope key wrap / re-wrap policies                |
+|   +- CI/CD   : dual signature on images, models, manifests         |
+|                                                                    |
+| Protected assets: object store, backups, model registry, secrets   |
++--------------------------------------------------------------------+
 ```
 
 현재 기준으로 NIST (National Institute of Standards and Technology) 표준화의 중심은 다음 세 계열이다.
@@ -111,21 +111,21 @@ shared_secret = KDF(classical_secret || pqc_secret)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현실적인 전환 로드맵은 "전수 조사 → 위험 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 하이브리드 적용 → 신뢰 체계 확장 → 레거시 일몰" 순서다. 양자 위협을 이유로 모든 키를 하루아침에 바꾸려 하면, 오히려 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 장애와 운영 리스크가 먼저 터진다.
+현실적인 전환 로드맵은 "전수 조사 -> 위험 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 하이브리드 적용 -> 신뢰 체계 확장 -> 레거시 일몰" 순서다. 양자 위협을 이유로 모든 키를 하루아침에 바꾸려 하면, 오히려 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 장애와 운영 리스크가 먼저 터진다.
 
 ```text
 CBOM inventory
-    │
-    ▼
+    |
+    v
 confidentiality lifetime classification
-    │
-    ▼
+    |
+    v
 hybrid pilot on edge / internal mesh
-    │
-    ▼
+    |
+    v
 PKI · KMS · HSM expansion
-    │
-    ▼
+    |
+    v
 legacy-only path sunset
 ```
 
@@ -182,20 +182,20 @@ legacy-only path sunset
 
 ```text
 RSA / ECC 기반 공개키 체계
-    │
-    ▼
+    |
+    v
 Harvest Now, Decrypt Later 위협 인식
-    │
-    ▼
+    |
+    v
 CBOM 작성 · 자산별 기밀 수명 분류
-    │
-    ▼
+    |
+    v
 Hybrid TLS · Dual Signature 도입
-    │
-    ▼
+    |
+    v
 KMS / HSM / PKI 전환
-    │
-    ▼
+    |
+    v
 Crypto-Agility 기반의 장기 운영 체계
 ```
 
@@ -213,7 +213,7 @@ Crypto-Agility 기반의 장기 운영 체계
 
 **진행 상황**: 183 / 258
 
-← **이전**: [182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token](/knowledge-base/studynote/14_data_engineering/04_mlops/182_blockchain_smart_contract_data_integrity/)
-**다음**: [184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)](/knowledge-base/studynote/14_data_engineering/04_mlops/184_differential_privacy_noise_statistical_defense/) →
+<- **이전**: [182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token](/knowledge-base/studynote/14_data_engineering/04_mlops/182_blockchain_smart_contract_data_integrity/)
+**다음**: [184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)](/knowledge-base/studynote/14_data_engineering/04_mlops/184_differential_privacy_noise_statistical_defense/) ->
 
 ---

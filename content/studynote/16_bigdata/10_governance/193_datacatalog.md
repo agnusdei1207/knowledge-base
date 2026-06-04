@@ -41,45 +41,45 @@ tags = ["studynote-bigdata"]
 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 핵심 메커니즘은 크게 세 가지 기능으로 구성됩니다: [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집(採集), 중앙 저장소 관리, 검색 및 발견 인터페이스 제공입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    [ 데이터 카탈로그 (Data Catalog) 아키텍처 ]                │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │  [ 1. 메타데이터 수집기 (Metadata Collector / Scanner) ]               │    │
-│  │                                                                       │    │
-│  │   AWS Glue Crawler ──▶ RDBMS, S3, Data Lake 스키마 자동 추출         │    │
-│  │   Apache Atlas Hooks ──▶ Hadoop/Hive Metastore 변경 감지             │    │
-│  │   Fivetran / Airbyte ──▶ SaaS API 메타데이터 동기화                    │    │
-│  │   수동 등록 ──▶ 데이터Owner가 手動으로 설명, 분류 체계 입력                │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 2. 메타데이터 저장소 (Metadata Repository) - 지식 그래프 기반 ]        │    │
-│  │                                                                       │    │
-│  │   ┌─────────────────────────────────────────────────────────────┐  │    │
-│  │   │  [테이블: ORDERS]          [OWNER: 마케팅팀]                   │  │    │
-│  │   │       │                          │                          │  │    │
-│  │   │       ▼                          ▼                          │  │    │
-│  │   │  [COLUMN: ORDER_ID]    [分类: 판매]                          │  │    │
-│  │   │       │                                                    │  │    │
-│  │   │       ▼                                                    │  │    │
-│  │   │  [DATA_TYPE: BIGINT]  [설명: 고객 주문 고유 식별자]             │  │    │
-│  │   │       │                                                    │  │    │
-│  │   │       ▼                                                    │  │    │
-│  │   │  [LINEAGE: ORDERS ──▶ ORDER_ITEMS ──▶ INVENTORY]            │  │    │
-│  │   └─────────────────────────────────────────────────────────────┘  │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 3. 검색 및 발견 인터페이스 (Search & Discovery UI) ]              │    │
-│  │                                                                       │    │
-│  │   예: "마케팅 고객 분석" 이라고 검색하면...                               │    │
-│  │   ▶ NLP 의미론적 검색: "고객" 관련 테이블 상위 노출                      │    │
-│  │   ▶ Popularity 순으로 정렬 (많이 사용된 데이터優先)                     │    │
-│  │   ▶ 데이터品质 지표,_description,Owner 표시                            │    │
-│  │   ▶ "이 데이터 사용 시 필요한承認 PROC" 표시                            │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|                    [ 데이터 카탈로그 (Data Catalog) 아키텍처 ]                |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |  [ 1. 메타데이터 수집기 (Metadata Collector / Scanner) ]               |    |
+|  |                                                                       |    |
+|  |   AWS Glue Crawler ---> RDBMS, S3, Data Lake 스키마 자동 추출         |    |
+|  |   Apache Atlas Hooks ---> Hadoop/Hive Metastore 변경 감지             |    |
+|  |   Fivetran / Airbyte ---> SaaS API 메타데이터 동기화                    |    |
+|  |   수동 등록 ---> 데이터Owner가 手動으로 설명, 분류 체계 입력                |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 2. 메타데이터 저장소 (Metadata Repository) - 지식 그래프 기반 ]        |    |
+|  |                                                                       |    |
+|  |   +-------------------------------------------------------------+  |    |
+|  |   |  [테이블: ORDERS]          [OWNER: 마케팅팀]                   |  |    |
+|  |   |       |                          |                          |  |    |
+|  |   |       v                          v                          |  |    |
+|  |   |  [COLUMN: ORDER_ID]    [分类: 판매]                          |  |    |
+|  |   |       |                                                    |  |    |
+|  |   |       v                                                    |  |    |
+|  |   |  [DATA_TYPE: BIGINT]  [설명: 고객 주문 고유 식별자]             |  |    |
+|  |   |       |                                                    |  |    |
+|  |   |       v                                                    |  |    |
+|  |   |  [LINEAGE: ORDERS ---> ORDER_ITEMS ---> INVENTORY]            |  |    |
+|  |   +-------------------------------------------------------------+  |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 3. 검색 및 발견 인터페이스 (Search & Discovery UI) ]              |    |
+|  |                                                                       |    |
+|  |   예: "마케팅 고객 분석" 이라고 검색하면...                               |    |
+|  |   -> NLP 의미론적 검색: "고객" 관련 테이블 상위 노출                      |    |
+|  |   -> Popularity 순으로 정렬 (많이 사용된 데이터優先)                     |    |
+|  |   -> 데이터品质 지표,_description,Owner 표시                            |    |
+|  |   -> "이 데이터 사용 시 필요한承認 PROC" 표시                            |    |
+|  +-----------------------------------------------------------------+    |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 추출 (Automated [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Collection)
@@ -149,7 +149,7 @@ tags = ["studynote-bigdata"]
 
 *   <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a> 핵심 기능 5가지</strong>
     *   검색 및 발견 (Search & Discovery): NLP/키워드 기반 테이블 검색
-    *   계보 추적 (Lineage): 테이블 → 컬럼 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 추적
+    *   계보 추적 (Lineage): 테이블 -> 컬럼 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 추적
     *   [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/): 설명, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 태그, 소유자 정보
     *   품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: 결측치 비율, 갱신시간,쇄새로운 주기
     *   워크플로우 연동: Airflow, Dagster 작업 연결,impact 분석
@@ -164,20 +164,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 카탈로그 핵심 기능 5가지]
-    │
-    ▼
+    |
+    v
 [검색 및 발견 (Search & Discovery): NLP/키워드 기반 테이블 검색]
-    │
-    ▼
-[계보 추적 (Lineage): 테이블 → 컬럼 수준 데이터 흐름 추적]
-    │
-    ▼
+    |
+    v
+[계보 추적 (Lineage): 테이블 -> 컬럼 수준 데이터 흐름 추적]
+    |
+    v
 [메타데이터 관리: 설명, 분류, 태그, 소유자 정보]
-    │
-    ▼
+    |
+    v
 [품질 모니터링: 결측치 비율, 更新时间,刷新 주기]
-    │
-    ▼
+    |
+    v
 [워크플로우 연동: Airflow, Dagster 작업 연결,impact 分析]
 ```
 
@@ -198,7 +198,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 193 / 262
 
-← **이전**: [02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처](/knowledge-base/studynote/16_bigdata/10_governance/192_datafabric/)
-**다음**: [04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템](/knowledge-base/studynote/16_bigdata/10_governance/194_datalineage/) →
+<- **이전**: [02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처](/knowledge-base/studynote/16_bigdata/10_governance/192_datafabric/)
+**다음**: [04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템](/knowledge-base/studynote/16_bigdata/10_governance/194_datalineage/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SONiC]
-    │
-    ▼
+    |
+    v
 [ONIE]
-    │
-    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    |
+    +---> [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
 ```
 
 - **📢 섹션 요약 비유**: ONIE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [SONiC]
-    │
-    ▼
+    |
+    v
 [ONIE]
-    │
-    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    |
+    +---> [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
 ```
 
 - **📢 섹션 요약 비유**: ONIE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ ONIE는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ```text
 [선행 개념: SONiC]
-    │
-    ▼
+    |
+    v
 [현재 개념: ONIE]
-    │
-    ├──▶ [확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 ONIE는 SONiC에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ ONIE는 SONiC에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP
 
 **진행 상황**: 1005 / 1120
 
-← **이전**: [883. SONiC (개방형 네트워크 OS)](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)
-**다음**: [885. BGP-EVPN 스파인-리프 오버레이](/knowledge-base/studynote/03_network/17_sdn_nfv/885_bgp_evpn_routing_spine_leaf_overlay_sdn/) →
+<- **이전**: [883. SONiC (개방형 네트워크 OS)](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)
+**다음**: [885. BGP-EVPN 스파인-리프 오버레이](/knowledge-base/studynote/03_network/17_sdn_nfv/885_bgp_evpn_routing_spine_leaf_overlay_sdn/) ->
 
 ---

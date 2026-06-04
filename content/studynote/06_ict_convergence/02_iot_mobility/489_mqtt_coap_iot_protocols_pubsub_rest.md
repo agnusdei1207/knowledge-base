@@ -35,19 +35,19 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│         MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교         │
-├──────────────────────────┬─────────────────────────────────┤
-│         MQTT             │           CoAP                  │
-│  [Publisher(발행자)]      │  [CoAP Client]                  │
-│       │                  │       │ GET/PUT/POST/DELETE      │
-│       ▼  토픽(Topic)      │       ▼                         │
-│  [Broker(브로커)]         │  [CoAP Server]                  │
-│       │                  │  (자원 URI: /sensor/temp)        │
-│       ▼  구독(Subscribe)  │                                 │
-│  [Subscriber(구독자)]     │  [Observe 옵션]                  │
-│  (다수의 클라이언트)        │  (변경 시 자동 알림 → Push)       │
-└──────────────────────────┴─────────────────────────────────┘
++------------------------------------------------------------+
+|         MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교         |
++--------------------------+---------------------------------+
+|         MQTT             |           CoAP                  |
+|  [Publisher(발행자)]      |  [CoAP Client]                  |
+|       |                  |       | GET/PUT/POST/DELETE      |
+|       v  토픽(Topic)      |       v                         |
+|  [Broker(브로커)]         |  [CoAP Server]                  |
+|       |                  |  (자원 URI: /sensor/temp)        |
+|       v  구독(Subscribe)  |                                 |
+|  [Subscriber(구독자)]     |  [Observe 옵션]                  |
+|  (다수의 클라이언트)        |  (변경 시 자동 알림 -> Push)       |
++--------------------------+---------------------------------+
 ```
 
 ### [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) vs [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 핵심 비교표
@@ -91,7 +91,7 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 | 클라우드 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 플랫폼 연동 | [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) (표준화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중) |
 | [M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)(Machine-to-Machine) [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) | [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) |
 
-**혼합 아키텍처**: 현장 기기([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)) ↔ 엣지 게이트웨이([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)→[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 변환) ↔ 클라우드 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 브로커. 제약 기기는 CoAP로 게이트웨이에 보내고, 게이트웨이가 MQTT로 변환해 클라우드에 전달.
+**혼합 아키텍처**: 현장 기기([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)) ↔ 엣지 게이트웨이([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)->[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 변환) ↔ 클라우드 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 브로커. 제약 기기는 CoAP로 게이트웨이에 보내고, 게이트웨이가 MQTT로 변환해 클라우드에 전달.
 
 - **📢 섹션 요약 비유**: MQTT와 CoAP를 함께 쓰는 것은 지역 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))와 고속버스([MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/))를 환승하는 것이다. 마을에서 지역 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))로 나오고, 터미널(게이트웨이)에서 고속버스([MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/))로 갈아탄다.
 
@@ -135,7 +135,7 @@ MQTT와 CoAP는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobili
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Mosquitto · HiveMQ] → [MQTT Pub · Sub] → [CoAP 보안 · UDP 위 TLS 계층]
+[Mosquitto · HiveMQ] -> [MQTT Pub · Sub] -> [CoAP 보안 · UDP 위 TLS 계층]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ MQTT와 CoAP는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobili
 
 **진행 상황**: 489 / 552
 
-← **이전**: [488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/488_lpwan_lora_nb_iot_licensed_unlicensed/)
-**다음**: [490. Matter 스마트홈 상호 운용성 표준 (Matter Smart Home Interoperability Standard)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/490_matter_smart_home_interoperability_standard/) →
+<- **이전**: [488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/488_lpwan_lora_nb_iot_licensed_unlicensed/)
+**다음**: [490. Matter 스마트홈 상호 운용성 표준 (Matter Smart Home Interoperability Standard)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/490_matter_smart_home_interoperability_standard/) ->
 
 ---

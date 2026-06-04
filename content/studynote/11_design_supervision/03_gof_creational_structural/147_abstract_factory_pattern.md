@@ -28,7 +28,7 @@ tags = ["studynote-design-supervision"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">추상 팩토리</a> 없으면 발생하는 문제</strong>:
 - 플랫폼별 `if/else` 분기가 비즈니스 로직 전체에 산재
-- 새 플랫폼 추가 시 모든 분기문 수정 필요 → [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 위반
+- 새 플랫폼 추가 시 모든 분기문 수정 필요 -> [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 위반
 - 서로 다른 제품군의 객체가 섞여 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 깨짐 (예: Windows 버튼 + [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 스크롤바)
 
 - **📢 섹션 요약 비유**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 **'가구 세트 공장'** 과 같습니다. "북유럽 스타일" 공장에 가면 소파·테이블·침대가 모두 북유럽 디자인으로 나오고, "클래식 스타일" 공장에 가면 모두 클래식 스타일로 나옵니다. 어떤 공장을 선택하느냐에 따라 제품군 전체가 일관된 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 바뀝니다.
@@ -42,29 +42,29 @@ tags = ["studynote-design-supervision"]
 ```text
 추상 팩토리 패턴 구조
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │                <<interface>>                                │
-  │               AbstractFactory                              │
-  │   + createButton(): AbstractButton                         │
-  │   + createCheckbox(): AbstractCheckbox                     │
-  └────────────────┬────────────────────────────────────────────┘
-                   │
-        ┌──────────┴──────────┐
-        │                     │
-  ┌─────▼──────┐       ┌──────▼──────┐
-  │  Win       │       │  Mac        │
-  │  Factory   │       │  Factory    │
-  │            │       │             │
-  │createButton│       │createButton │
-  │→WinButton  │       │→MacButton   │
-  │createCheckb│       │createCheckb │
-  │→WinCheckbox│       │→MacCheckbox │
-  └────────────┘       └─────────────┘
-        │                     │
-  ┌─────▼──────┐       ┌──────▼──────┐
-  │WinButton   │       │MacButton    │
-  │WinCheckbox │       │MacCheckbox  │
-  └────────────┘       └─────────────┘
+  +-------------------------------------------------------------+
+  |                <<interface>>                                |
+  |               AbstractFactory                              |
+  |   + createButton(): AbstractButton                         |
+  |   + createCheckbox(): AbstractCheckbox                     |
+  +----------------+--------------------------------------------+
+                   |
+        +----------+----------+
+        |                     |
+  +-----v------+       +------v------+
+  |  Win       |       |  Mac        |
+  |  Factory   |       |  Factory    |
+  |            |       |             |
+  |createButton|       |createButton |
+  |->WinButton  |       |->MacButton   |
+  |createCheckb|       |createCheckb |
+  |->WinCheckbox|       |->MacCheckbox |
+  +------------+       +-------------+
+        |                     |
+  +-----v------+       +------v------+
+  |WinButton   |       |MacButton    |
+  |WinCheckbox |       |MacCheckbox  |
+  +------------+       +-------------+
 ```
 
 ### 2. 코드 예시 (Python 스타일)
@@ -186,18 +186,18 @@ render_ui(factory)            # 나머지 코드 변경 없음
 
 ```text
 단순 직접 생성 (new ConcreteClass())
-    │
-    ▼
+    |
+    v
 팩토리 메서드 — 단일 객체 생성 위임
-    │
-    ▼
+    |
+    v
 추상 팩토리 — 연관 제품군 전체 일괄 생성
-    │
-    ├─► OCP / DIP SOLID 원칙 실현
-    │
-    ├─► 의존성 주입 (Spring DI, Guice)
-    │
-    └─► 서비스 로케이터 패턴과 비교
+    |
+    +-► OCP / DIP SOLID 원칙 실현
+    |
+    +-► 의존성 주입 (Spring DI, Guice)
+    |
+    +-► 서비스 로케이터 패턴과 비교
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -212,7 +212,7 @@ render_ui(factory)            # 나머지 코드 변경 없음
 
 **진행 상황**: 203 / 530
 
-← **이전**: [146. 팩터리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/)
-**다음**: [148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/) →
+<- **이전**: [146. 팩터리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/)
+**다음**: [148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/) ->
 
 ---

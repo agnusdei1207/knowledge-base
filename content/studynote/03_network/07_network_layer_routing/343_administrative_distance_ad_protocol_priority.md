@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [메트릭]
-    │
-    ▼
+    |
+    v
 [관리 거리]
-    │
-    └──▶ [AS / ASN 분배]
+    |
+    +---> [AS / ASN 분배]
 ```
 
 - **📢 섹션 요약 비유**: ** AD 값은 라우터 세상의 **"공무원 직급(서열)"**입니다. 9급 공무원([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))이 아무리 완벽한 보고서를 써와도, 1급 장관(Static)이 "이 길로 가!"라고 한마디 하면 9급의 보고서는 즉각 휴지통에 버려집니다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [메트릭]
-    │
-    ▼
+    |
+    v
 [관리 거리]
-    │
-    └──▶ [AS / ASN 분배]
+    |
+    +---> [AS / ASN 분배]
 ```
 
 - **📢 섹션 요약 비유**: 관리 거리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -82,20 +82,20 @@ tags = ["studynote-network"]
 | **5순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong> | <strong><code>120</code></strong> | 남의 말만 듣고 소문 퍼뜨리는 멍청한 놈이라 제일 안 믿음. |
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AD 대결과 라우팅 테이블(RIB) 승리 시나리오           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   * 목적지: 부산 (192.168.10.0/24) 망으로 가고 싶다.                 │
- │                                                             │
- │   1) OSPF 프로세스가 정보를 들고옴: "1번 포트로 가십쇼!" (AD: 110)      │
- │   2) RIP 프로세스가 정보를 들고옴: "아닙니다! 2번 포트가 짱입니다!" (AD: 120)│
- │   3) 관리자가 쳐둔 Static 룰: "무조건 3번으로 가라" (AD: 1)           │
- │                                                             │
- │   ▶ 라우터의 결단: "다 닥쳐! 관리자님이 쳐두신 Static(1)이 최고 존엄이다!" │
- │   ▶ 결과: 라우팅 테이블에는 오직 "Static -> 3번 포트" 단 한 줄만 올라감. │
- │           (OSPF와 RIP 정보는 메모리 구석에 처박혀서 대기함)            │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                AD 대결과 라우팅 테이블(RIB) 승리 시나리오           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   * 목적지: 부산 (192.168.10.0/24) 망으로 가고 싶다.                 |
+ |                                                             |
+ |   1) OSPF 프로세스가 정보를 들고옴: "1번 포트로 가십쇼!" (AD: 110)      |
+ |   2) RIP 프로세스가 정보를 들고옴: "아닙니다! 2번 포트가 짱입니다!" (AD: 120)|
+ |   3) 관리자가 쳐둔 Static 룰: "무조건 3번으로 가라" (AD: 1)           |
+ |                                                             |
+ |   -> 라우터의 결단: "다 닥쳐! 관리자님이 쳐두신 Static(1)이 최고 존엄이다!" |
+ |   -> 결과: 라우팅 테이블에는 오직 "Static -> 3번 포트" 단 한 줄만 올라감. |
+ |           (OSPF와 RIP 정보는 메모리 구석에 처박혀서 대기함)            |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 플로팅 스태틱 (Floating Static) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기술
@@ -138,12 +138,12 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 
 ```text
 [선행 개념: 메트릭]
-    │
-    ▼
+    |
+    v
 [현재 개념: 관리 거리]
-    │
-    ├──▶ [확장 A: AS / ASN 분배]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: AS / ASN 분배]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 관리 거리는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 
 **진행 상황**: 464 / 1120
 
-← **이전**: [342. 메트릭 (Metric)](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
-**다음**: [344. AS (Autonomous System, 자율 시스템) / ASN 분배](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) →
+<- **이전**: [342. 메트릭 (Metric)](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
+**다음**: [344. AS (Autonomous System, 자율 시스템) / ASN 분배](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) ->
 
 ---

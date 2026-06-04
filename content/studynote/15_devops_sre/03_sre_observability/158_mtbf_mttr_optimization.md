@@ -36,19 +36,19 @@ tags = ["studynote-devops-sre"]
 아래 그림은 장애 한 번이 발생했을 때 MTTR이 어떻게 여러 단계로 쪼개지는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 장애 수명주기와 MTBF / MTTR 관계                  │
-├────────────────────────────────────────────────────────────────────┤
-│ 정상 운영 구간 --------------------------- 장애 ------------------ │
-│<------------- MTBF --------------------->|<------ MTTR ------->| │
-│                                          │                      │ │
-│                                      탐지  인지  진단  완화  복구 │ │
-│                                      |----|----|----|----|----| │ │
-│                                      MTTD MTTA      복구 작업    │ │
-│                                                                    │
-│ MTTD = Mean Time To Detect      MTTA = Mean Time To Acknowledge    │
-│ MTTR = 위 단계 전체의 누적 시간                                   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 장애 수명주기와 MTBF / MTTR 관계                  |
++--------------------------------------------------------------------+
+| 정상 운영 구간 --------------------------- 장애 ------------------ |
+|<------------- MTBF --------------------->|<------ MTTR ------->| |
+|                                          |                      | |
+|                                      탐지  인지  진단  완화  복구 | |
+|                                      |----|----|----|----|----| | |
+|                                      MTTD MTTA      복구 작업    | |
+|                                                                    |
+| MTTD = Mean Time To Detect      MTTA = Mean Time To Acknowledge    |
+| MTTR = 위 단계 전체의 누적 시간                                   |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 MTTR이 단순히 "수리 시간"이 아니라는 점이다. 실제 현장에서는 장애를 늦게 발견하는 시간이 가장 길 수도 있고, 담당자 호출은 빨라도 원인 진단이 느릴 수도 있다. 즉 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최적화는 평균값 하나를 낮추는 일이 아니라, 각 단계의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 쪼개서 제거하는 일이다.
@@ -147,19 +147,19 @@ tags = ["studynote-devops-sre"]
 
 ```text
 가용성 목표(SLO)
-    │
-    ▼
+    |
+    v
 장애 측정 체계 수립
-    │
-    ├─▶ MTBF (Mean Time Between Failures)
-    └─▶ MTTR (Mean Time To Repair or Restore)
-            │
-            ├─▶ MTTD / MTTA / 진단 / 복구 단계 분해
-            ├─▶ 관측성 · 온콜 · 런북 · 자동 복구
-            └─▶ 페일오버 · 카오스 엔지니어링 · AIOps
+    |
+    +--> MTBF (Mean Time Between Failures)
+    +--> MTTR (Mean Time To Repair or Restore)
+            |
+            +--> MTTD / MTTA / 진단 / 복구 단계 분해
+            +--> 관측성 · 온콜 · 런북 · 자동 복구
+            +--> 페일오버 · 카오스 엔지니어링 · AIOps
 ```
 
-이 흐름은 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 장애 측정 → 단계별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 → 자동화 확장"으로 이어지는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영 성숙 단계를 보여준다.
+이 흐름은 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 장애 측정 -> 단계별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 -> 자동화 확장"으로 이어지는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영 성숙 단계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -173,7 +173,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 158 / 373
 
-← **이전**: [157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/157_operational_debt_dark_debt/)
-**다음**: [159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/159_failover_failback_architecture/) →
+<- **이전**: [157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/157_operational_debt_dark_debt/)
+**다음**: [159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/159_failover_failback_architecture/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
+    |
+    v
 [네트워크 슬라이스 오케스트레이터]
-    │
-    └──▶ [NFV]
+    |
+    +---> [NFV]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
+    |
+    v
 [네트워크 슬라이스 오케스트레이터]
-    │
-    └──▶ [NFV]
+    |
+    +---> [NFV]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 슬라이스 오케스트레이터]
-    │
-    ├──▶ [확장 A: NFV]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: NFV]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 NFV와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 985 / 1120
 
-← **이전**: [863. SDN 분산 컨트롤러 이중화](/knowledge-base/studynote/03_network/17_sdn_nfv/863_sdn_controller_split_brain_ha_cluster_raft/)
-**다음**: [865. NFV (네트워크 기능 가상화)](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) →
+<- **이전**: [863. SDN 분산 컨트롤러 이중화](/knowledge-base/studynote/03_network/17_sdn_nfv/863_sdn_controller_split_brain_ha_cluster_raft/)
+**다음**: [865. NFV (네트워크 기능 가상화)](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) ->
 
 ---

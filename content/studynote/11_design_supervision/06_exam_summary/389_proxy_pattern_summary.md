@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) ([Proxy Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))은 실제 객체 대신 대리 객체를 두어 접근 제어, [지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/), 원격 호출 등을 제어하는 구조 패턴이다. 실제 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 크거나 접근 전에 권한·캐시·로깅을 넣고 싶을 때 중간 제어점이 필요하다. 이 개념이 필요한 이유는 접근 시점을 통제하고 부가 정책을 끼워 넣는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 클라이언트가 직접 실제 객체를 다루면 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 원격 통신 제어를 넣기 어렵다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Proxy    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Proxy    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Proxy   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Proxy   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 캐시 | [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) ([Proxy Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[실체 직접 접근] → [프록시 패턴] → [접근 제어 계층]
+[실체 직접 접근] -> [프록시 패턴] -> [접근 제어 계층]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) ([Proxy Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))은 도서관에서 귀한 책을 바로 만지지 않고 사서에게 부탁해 보여 달라는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 467 / 530
 
-← **이전**: [388. 플라이웨이트 패턴 (Flyweight Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/)
-**다음**: [390. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/390_observer_pattern_summary/) →
+<- **이전**: [388. 플라이웨이트 패턴 (Flyweight Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/)
+**다음**: [390. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/390_observer_pattern_summary/) ->
 
 ---

@@ -33,13 +33,13 @@ tags = ["studynote-design-supervision"]
 
 ```text
 계약 종료일
-   ↓
+   v
 기준 계획(Baseline)
-   ↓
+   v
 실제 진척 / 변경 요청
-   ↓
+   v
 지연 사유 분류
-   ↓
+   v
 지체 상금 여부 판단
 ```
 
@@ -114,11 +114,11 @@ tags = ["studynote-design-supervision"]
 
 ```text
 계약 종료일
-   ↓
+   v
 진척도 측정
-   ↓
+   v
 지연 사유 분류
-   ↓
+   v
 지체 상금 판단
 ```
 
@@ -128,13 +128,13 @@ tags = ["studynote-design-supervision"]
 
 ```text
 계약 기준
-   ↓
+   v
 WBS / PMIS
-   ↓
+   v
 변경 요청 관리
-   ↓
+   v
 증빙 기반 진척도 검증
-   ↓
+   v
 분쟁 예방과 책임 비율 산정
 ```
 
@@ -152,7 +152,7 @@ WBS / PMIS
 
 **진행 상황**: 89 / 530
 
-← **이전**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/)
-**다음**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_security_device_ruleset_audit/) →
+<- **이전**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/)
+**다음**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_security_device_ruleset_audit/) ->
 
 ---

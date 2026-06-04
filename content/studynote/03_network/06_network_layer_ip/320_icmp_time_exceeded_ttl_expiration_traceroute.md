@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [ICMP 메시지 종류]
-    │
-    ▼
+    |
+    v
 [Time Exceeded]
-    │
-    └──▶ [Destination Unreachable…]
+    |
+    +---> [Destination Unreachable…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> Time Exceeded는 첩보 영화에서 적진에 침투한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(패킷)가 제한 시간(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>) 내에 임무를 완수하지 못해 자폭 장치가 터지는 순간, 본부에 마지막으로 송출하는 </strong>"나 여기서 죽는다(나를 죽인 건 이 동네 라우터다)"라는 최후의 단말마 통신**입니다.
@@ -62,20 +62,20 @@ tags = ["studynote-network"]
 - 만약 8번째 라우터 IP까지 잘 찍히다가 9번째부터 `* * * Request timed out`이 뜬다면? <strong>8번째 라우터와 9번째 라우터 사이의 해저 광케이블이 끊어졌거나, 9번째 라우터가 죽어버렸다는 완벽한 심증</strong>을 잡아낼 수 있다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Tracert (Traceroute) 실행 원리 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\> tracert 8.8.8.8                                      │
- │                                                             │
- │   1    <1 ms    <1 ms    <1 ms  192.168.0.1  ◀─ (TTL=1 폭사) │
- │   2     2 ms     1 ms     2 ms  211.100.1.1  ◀─ (TTL=2 폭사) │
- │   3     5 ms     5 ms     4 ms  112.22.33.4  ◀─ (TTL=3 폭사) │
- │   4     *        *        *     요청 시간 초과. ◀─ (여기서 망 끊김!!)│
- │                                                             │
- │   ▶ "3번 라우터(112.22.33.4)까지는 살아서 갔는데, 그다음 놈이         │
- │      대답이 없네! 저기 3번 구간 가서 선로 점검해라!!"라고 진단 가능.    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Tracert (Traceroute) 실행 원리 시각화           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   C:\> tracert 8.8.8.8                                      |
+ |                                                             |
+ |   1    <1 ms    <1 ms    <1 ms  192.168.0.1  <-- (TTL=1 폭사) |
+ |   2     2 ms     1 ms     2 ms  211.100.1.1  <-- (TTL=2 폭사) |
+ |   3     5 ms     5 ms     4 ms  112.22.33.4  <-- (TTL=3 폭사) |
+ |   4     *        *        *     요청 시간 초과. <-- (여기서 망 끊김!!)|
+ |                                                             |
+ |   -> "3번 라우터(112.22.33.4)까지는 살아서 갔는데, 그다음 놈이         |
+ |      대답이 없네! 저기 3번 구간 가서 선로 점검해라!!"라고 진단 가능.    |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** Traceroute는 첩보 영화에서 **"요원에게 일부러 10초짜리, 20초짜리 산소통([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 매어 적진에 침투시키는 잔인한 작전"**입니다. 요원이 산소가 떨어져 쓰러진 위치에서 보내는 구조 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))를 바탕으로, 지휘관은 안갯속 적진의 지도를 한 칸 한 칸 밝혀냅니다.
@@ -136,12 +136,12 @@ Time Exceeded는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아
 
 ```text
 [선행 개념: ICMP 메시지 종류]
-    │
-    ▼
+    |
+    v
 [현재 개념: Time Exceeded]
-    │
-    ├──▶ [확장 A: Destination Unreachable…]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: Destination Unreachable…]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 Time Exceeded는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 Destination Unreachable…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ Time Exceeded는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 **진행 상황**: 441 / 1120
 
-← **이전**: [319. ICMP 메시지 종류](/knowledge-base/studynote/03_network/06_network_layer_ip/319_icmp_message_types_query_error_reporting/)
-**다음**: [321. Destination Unreachable (목적지 도달 불가](/knowledge-base/studynote/03_network/06_network_layer_ip/321_destination_unreachable_port_host_prohibited/) →
+<- **이전**: [319. ICMP 메시지 종류](/knowledge-base/studynote/03_network/06_network_layer_ip/319_icmp_message_types_query_error_reporting/)
+**다음**: [321. Destination Unreachable (목적지 도달 불가](/knowledge-base/studynote/03_network/06_network_layer_ip/321_destination_unreachable_port_host_prohibited/) ->
 
 ---

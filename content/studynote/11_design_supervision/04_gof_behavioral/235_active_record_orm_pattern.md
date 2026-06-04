@@ -29,9 +29,9 @@ tags = ["studynote-design-supervision"]
 | CRUD 보일러플레이트 | save / find / destroy 기본 제공 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 통장(객체)이 스스로 입금도 하고 출금도 하고 잔액 조회도 할 수 있는 것처럼, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 객체는 DB 작업을 스스로 처리한다.
@@ -40,31 +40,31 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────┐
-│             Active Record 객체 구조                     │
-│                                                        │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │               User (ActiveRecord)                │  │
-│  │                                                  │  │
-│  │  [데이터 속성]              [영속성 메서드]         │  │
-│  │  + id: Long                + save()              │  │
-│  │  + name: String            + delete()            │  │
-│  │  + email: String           + validate()          │  │
-│  │  + createdAt: DateTime     + find(id)            │  │
-│  │                            + findAll()           │  │
-│  │  [비즈니스 메서드]           + findBy(condition)   │  │
-│  │  + changeEmail(e)          + update(attrs)       │  │
-│  │  + isAdmin()                                     │  │
-│  └──────────────────┬───────────────────────────────┘  │
-│                     │ SQL 자동 생성                     │
-│                     ▼                                  │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │             Database Table: users                │  │
-│  │  id | name  | email           | created_at       │  │
-│  │  ───┼───────┼─────────────────┼──────────────    │  │
-│  │   1 │ Alice │ alice@email.com │ 2026-01-01       │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             Active Record 객체 구조                     |
+|                                                        |
+|  +--------------------------------------------------+  |
+|  |               User (ActiveRecord)                |  |
+|  |                                                  |  |
+|  |  [데이터 속성]              [영속성 메서드]         |  |
+|  |  + id: Long                + save()              |  |
+|  |  + name: String            + delete()            |  |
+|  |  + email: String           + validate()          |  |
+|  |  + createdAt: DateTime     + find(id)            |  |
+|  |                            + findAll()           |  |
+|  |  [비즈니스 메서드]           + findBy(condition)   |  |
+|  |  + changeEmail(e)          + update(attrs)       |  |
+|  |  + isAdmin()                                     |  |
+|  +------------------+-------------------------------+  |
+|                     | SQL 자동 생성                     |
+|                     v                                  |
+|  +--------------------------------------------------+  |
+|  |             Database Table: users                |  |
+|  |  id | name  | email           | created_at       |  |
+|  |  ---+-------+-----------------+--------------    |  |
+|  |   1 | Alice | alice@email.com | 2026-01-01       |  |
+|  +--------------------------------------------------+  |
++--------------------------------------------------------+
 ```
 
 ```ruby
@@ -106,10 +106,10 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 
 ```
 도메인 로직이 복잡한가?
-     │
-     ├── 아니오 (CRUD 중심 단순 앱)  → Active Record
-     │
-     └── 예 (복잡한 비즈니스 규칙)   → Data Mapper + Repository
+     |
+     +-- 아니오 (CRUD 중심 단순 앱)  -> Active Record
+     |
+     +-- 예 (복잡한 비즈니스 규칙)   -> Data Mapper + Repository
 ```
 
 - **📢 섹션 요약 비유**: 간단한 메모장 앱은 셀프서비스 식당([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record)으로 충분하지만, 병원 예약 시스템 같은 복잡한 앱은 전문 웨이터([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper)가 필요하다.
@@ -127,7 +127,7 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 **테스트 속도 저하**: `User.save`는 실제 DB 연결 없이는 테스트 불가능하다.
 - **해결책**: FactoryBot + 인메모리 DB, 혹은 Repository 패턴 도입
 
-- 테이블 이름: `User` 클래스 → `users` 테이블 (자동 복수화)
+- 테이블 이름: `User` 클래스 -> `users` 테이블 (자동 복수화)
 - [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/): `id` 컬럼 자동 매핑
 - 타임스탬프: `created_at`, `updated_at` 자동 관리
 
@@ -166,7 +166,7 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 | 하위 개념 | Laravel Eloquent | PHP 생태계의 대표 구현체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-ORM 매핑 → [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 ORM 패턴 → rich [domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) model
+ORM 매핑 -> [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 ORM 패턴 -> rich [domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) model
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 객체는 자기 방(DB 테이블)을 직접 청소하고 정리하는 학생이야.
@@ -179,7 +179,7 @@ ORM 매핑 → [액티브](/knowledge-base/studynote/03_network/09_application_l
 
 **진행 상황**: 296 / 530
 
-← **이전**: [234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/234_front_controller_vs_page_controller/)
-**다음**: [236. 데이터 매퍼 패턴 (Data Mapper Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/236_data_mapper_pattern/) →
+<- **이전**: [234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/234_front_controller_vs_page_controller/)
+**다음**: [236. 데이터 매퍼 패턴 (Data Mapper Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/236_data_mapper_pattern/) ->
 
 ---

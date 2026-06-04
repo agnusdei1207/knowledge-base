@@ -22,12 +22,12 @@ tags = ["studynote-design-supervision"]
 메모리 튜닝의 목적은 “GC를 없애는 것”이 아니라 <strong>예측 가능한 pause와 안정적인 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 패턴을 만드는 것</strong>이다. Young 영역이 너무 작으면 잦은 Minor GC가, Old 영역이 과도하게 차면 긴 Full GC가 생길 수 있다. 따라서 GC 종류, 객체 생존률, 힙 크기, 트래픽 패턴을 함께 봐야 한다.
 
 ```text
-┌──────────────────── 요청 처리 시간 축 ────────────────────┐
-│ 요청 처리 │ 요청 처리 │ STW Pause │ 요청 처리 │ 요청 처리 │
-│   12ms    │   15ms    │   480ms   │   14ms    │   13ms    │
-└──────────────────────────────────────────────────────────┘
-                          ▲
-                          └─ 사용자는 이 구간을 장애처럼 체감
++-------------------- 요청 처리 시간 축 --------------------+
+| 요청 처리 | 요청 처리 | STW Pause | 요청 처리 | 요청 처리 |
+|   12ms    |   15ms    |   480ms   |   14ms    |   13ms    |
++----------------------------------------------------------+
+                          ^
+                          +- 사용자는 이 구간을 장애처럼 체감
 ```
 
 기술사 답안에서는 STW를 단순 JVM 내부 현상이 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질과 직결되는 운영 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>로 설명해야 설득력이 높다.
@@ -39,12 +39,12 @@ tags = ["studynote-design-supervision"]
 메모리 튜닝은 힙을 Young/Old 중심으로 나누어 보고, 객체가 얼마나 빨리 죽는지, 오래 살아남는지, 어느 시점에 승격되는지를 해석하는 데서 출발한다. 이후 컬렉터가 어떤 방식으로 회수하고, 어느 단계에서 STW가 길어지는지 분석해 파라미터와 컬렉터 전략을 조정한다.
 
 ```text
-┌──────────────────────────── JVM Heap 관점 ────────────────────────────┐
-│ Young 영역 ── Minor GC ──▶ 살아남은 객체 승격 ──▶ Old 영역            │
-│    │                           │                    │                  │
-│    └─ 짧지만 잦은 STW 가능     └─ 승격 과다 시      └─ Full GC 길어짐   │
-│                                                 Metaspace / Native   │
-└───────────────────────────────────────────────────────────────────────┘
++---------------------------- JVM Heap 관점 ----------------------------+
+| Young 영역 -- Minor GC ---> 살아남은 객체 승격 ---> Old 영역            |
+|    |                           |                    |                  |
+|    +- 짧지만 잦은 STW 가능     +- 승격 과다 시      +- Full GC 길어짐   |
+|                                                 Metaspace / Native   |
++-----------------------------------------------------------------------+
 ```
 
 | 조정 영역 | 의미 | 대표 튜닝 포인트 |
@@ -74,7 +74,7 @@ STW는 GC마다 완전히 없애는 대상이 아니라 줄이거나 분산하�
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무 튜닝은 보통 <strong>GC <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 확보 → pause 원인 분해 → 힙/컬렉터 조정 → 부하 재검증</strong> 순서로 진행한다. 먼저 Minor/Full GC 빈도와 pause 시간을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 객체 할당률과 생존률을 본 뒤, 필요하면 힙 크기, Young 비율, 컬렉터 종류를 조정한다. 이때 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 JVM 힙 밖의 native memory, [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) buffer도 함께 고려해야 한다.
+실무 튜닝은 보통 <strong>GC <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 확보 -> pause 원인 분해 -> 힙/컬렉터 조정 -> 부하 재검증</strong> 순서로 진행한다. 먼저 Minor/Full GC 빈도와 pause 시간을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 객체 할당률과 생존률을 본 뒤, 필요하면 힙 크기, Young 비율, 컬렉터 종류를 조정한다. 이때 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 JVM 힙 밖의 native memory, [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) buffer도 함께 고려해야 한다.
 
 `Xmx`를 키우면 당장 Full GC 빈도가 줄어들 수는 있지만, 한번 발생한 pause가 더 길어질 수도 있다. 반대로 힙을 과도하게 작게 잡으면 GC가 너무 자주 돌게 된다. 따라서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 인프라 여유, JDK [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 함께 보는 균형 감각이 중요하다.
 
@@ -107,14 +107,14 @@ GC STW 메모리 튜닝을 체계적으로 수행하면 [응답 시간](/knowled
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 기본 힙 설정 운영
-        │
-        ▼
+        |
+        v
 GC 로그 기반 STW 원인 분석
-        │
-        ▼
+        |
+        v
 세대 비율 · 컬렉터 · 힙 크기 조정
-        │
-        ▼
+        |
+        v
 부하 재검증 · 저지연 GC · 컨테이너 메모리 최적화
 ```
 
@@ -129,7 +129,7 @@ GC 로그 기반 STW 원인 분석
 
 **진행 상황**: 528 / 530
 
-← **이전**: [449. 동시성 제어 MVCC 낙관 비관 락킹 패턴 (MVCC Concurrency Control with Optimistic and](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)
-**다음**: [451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management](/knowledge-base/studynote/11_design_supervision/06_exam_summary/451_audit/) →
+<- **이전**: [449. 동시성 제어 MVCC 낙관 비관 락킹 패턴 (MVCC Concurrency Control with Optimistic and](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)
+**다음**: [451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management](/knowledge-base/studynote/11_design_supervision/06_exam_summary/451_audit/) ->
 
 ---

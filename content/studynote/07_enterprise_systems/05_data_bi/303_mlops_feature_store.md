@@ -43,27 +43,27 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 ```
   원천 데이터
-  ┌──────────┐  ┌──────────┐  ┌──────────┐
-  │ 이벤트 로그│  │  RDB 거래  │  │ 사용자 프로필│
-  └────┬─────┘  └────┬─────┘  └────┬─────┘
-       └──────────────┼──────────────┘
-                      ▼
-            ┌─────────────────────┐
-            │  Feature Pipeline   │ (Spark / Flink)
-            └──────────┬──────────┘
-               ┌───────┴────────┐
-               ▼                ▼
-  ┌─────────────────────┐  ┌─────────────────────┐
-  │   Offline Store     │  │   Online Store      │
-  │  (S3 / Hive)        │  │  (Redis Cluster)    │
-  │  학습 데이터 생성용  │  │  서빙 시 <10ms 조회  │
-  └────────┬────────────┘  └────────┬────────────┘
-           │                        │
-           ▼                        ▼
-  ┌─────────────────┐    ┌───────────────────────┐
-  │  ML Training    │    │  Real-time Serving    │
-  │  (Batch)        │    │  (API, <100ms 응답)    │
-  └─────────────────┘    └───────────────────────┘
+  +----------+  +----------+  +----------+
+  | 이벤트 로그|  |  RDB 거래  |  | 사용자 프로필|
+  +----+-----+  +----+-----+  +----+-----+
+       +--------------+--------------+
+                      v
+            +---------------------+
+            |  Feature Pipeline   | (Spark / Flink)
+            +----------+----------+
+               +-------+--------+
+               v                v
+  +---------------------+  +---------------------+
+  |   Offline Store     |  |   Online Store      |
+  |  (S3 / Hive)        |  |  (Redis Cluster)    |
+  |  학습 데이터 생성용  |  |  서빙 시 <10ms 조회  |
+  +--------+------------+  +--------+------------+
+           |                        |
+           v                        v
+  +-----------------+    +-----------------------+
+  |  ML Training    |    |  Real-time Serving    |
+  |  (Batch)        |    |  (API, <100ms 응답)    |
+  +-----------------+    +-----------------------+
 ```
 
 ### Feast vs Tecton vs Hopsworks
@@ -83,7 +83,7 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 | 상황 | Skew 없이 | Skew 발생 시 |
 |:---|:---|:---|
-| 나이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 | Feature Store에서 동일 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 학습: pandas, 서빙: Java → 소숫점 오차 |
+| 나이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 | Feature Store에서 동일 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 학습: pandas, 서빙: Java -> 소숫점 오차 |
 | 결측값 처리 | 스토어 레벨에서 통일 | 학습: 0 대체, 서빙: -1 대체 |
 | 7일 윈도우 집계 | Point-in-Time Correct [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 보장 | 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage) |
 
@@ -105,7 +105,7 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 |:---|:---|:---|
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 모델별로 개별 관리 | 동일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 수십 중복, Skew 발생 | [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 중앙화 |
 | Online Store에 모든 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 메모리 비용 폭증 | 서빙 필요 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)만 선택적 저장 |
-| Point-in-Time 조인 미적용 | 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 → 과평가 모델 | Feast/Tecton PiT [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활용 |
+| Point-in-Time 조인 미적용 | 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 -> 과평가 모델 | Feast/Tecton PiT [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활용 |
 
 📢 **섹션 요약 비유**: Point-in-Time Join은 시험 당일 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보는 것이다. 미래 정답을 미리 알고 풀면 성적이 좋아도 실제로는 틀린 것이다.
 
@@ -122,7 +122,7 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 ### 한계 및 선결 과제
 
-- [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 인프라 자체가 운영 부담 → 플랫폼 팀 전담 필요
+- [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 인프라 자체가 운영 부담 -> 플랫폼 팀 전담 필요
 - [Cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/): 히스토리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없는 신규 사용자 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 처리 별도 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
 - Streaming [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(실시간 집계)는 Flink/[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 연동 복잡도 높음
 
@@ -142,18 +142,18 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 ```
 실험실 ML 모델 - 프로덕션 배포 단절 문제
-    │
-    ▼
+    |
+    v
 수작업 피처 엔지니어링 반복 - 일관성 부재
-    │
-    ▼
+    |
+    v
 Feature Store 등장 - 피처 재사용·공유 플랫폼
-    │
-    ▼
+    |
+    v
 온라인(Redis)/오프라인(Hive) 이중 저장 구조
-    │
-    ▼
-MLOps 통합 - 피처→모델→서빙 자동화 파이프라인
+    |
+    v
+MLOps 통합 - 피처->모델->서빙 자동화 파이프라인
 ```
 
 > **키워드**: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/), Online Store, Offline Store, Feast, [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew
@@ -170,7 +170,7 @@ MLOps 통합 - 피처→모델→서빙 자동화 파이프라인
 
 **진행 상황**: 303 / 482
 
-← **이전**: [302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/302_dataops_cicd_dbt/)
-**다음**: [304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/304_realtime_cdp_architecture/) →
+<- **이전**: [302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/302_dataops_cicd_dbt/)
+**다음**: [304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/304_realtime_cdp_architecture/) ->
 
 ---

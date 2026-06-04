@@ -38,17 +38,17 @@ K8s의 Kubelet은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_ia
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/">Overlay Network</a></strong> | 노드 간 논리적 통신망 | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), IPIP 등을 사용해 기존 물리망 위를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  오버레이 네트워크 캡슐화 통신 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ Node 1 (IP: 192.168.1.10)              Node 2 (IP: 10.0.0.5) │
-│ ┌───────────────┐                      ┌───────────────┐     │
-│ │ Pod A (10.1.x)│──▶ [VXLAN 캡슐화] ──▶│ Pod B (10.2.x)│     │
-│ └───────────────┘    (가짜 겉봉투 씌움)  └───────────────┘     │
-│       │                                        ▲             │
-│       ▼                                        │             │
-│ [물리 라우터] ───── (192.168.1.10 ─▶ 10.0.0.5) ─────┘             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  오버레이 네트워크 캡슐화 통신 흐름                 |
++--------------------------------------------------------------+
+| Node 1 (IP: 192.168.1.10)              Node 2 (IP: 10.0.0.5) |
+| +---------------+                      +---------------+     |
+| | Pod A (10.1.x)|---> [VXLAN 캡슐화] --->| Pod B (10.2.x)|     |
+| +---------------+    (가짜 겉봉투 씌움)  +---------------+     |
+|       |                                        ^             |
+|       v                                        |             |
+| [물리 라우터] ----- (192.168.1.10 --> 10.0.0.5) -----+             |
++--------------------------------------------------------------+
 ```
 
 물리 라우터는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 가상 IP 대역을 모르기 때문에 패킷을 버린다. 따라서 CNI는 출발지와 목적지 물리 노드 IP를 적은 새 헤더로 원본 패킷을 감싸는 캡슐화 작업을 수행해 물리망을 통과시킨다.
@@ -113,17 +113,17 @@ Flannel은 단순 통신만 뚫어주기 때문에 소규모 개발망에 적합
 
 ```text
 Underlay Network 한계 (물리 라우터 파드 IP 인식 불가)
-    │
-    ▼
+    |
+    v
 오버레이 네트워크 캡슐화 (VXLAN, IPIP) · Flannel
-    │
-    ▼
+    |
+    v
 CNI (Container Network Interface) 표준화
-    │
-    ▼
+    |
+    v
 다이렉트 라우팅 및 보안 규칙 (BGP, Network Policy) · Calico
-    │
-    ▼
+    |
+    v
 커널 네이티브 네트워크 가속 및 가시성 확보 (eBPF) · Cilium
 ```
 
@@ -139,7 +139,7 @@ CNI (Container Network Interface) 표준화
 
 **진행 상황**: 99 / 371
 
-← **이전**: [99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/)
-**다음**: [101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/) →
+<- **이전**: [99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/)
+**다음**: [101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/) ->
 
 ---

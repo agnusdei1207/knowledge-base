@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-페일 세이프는 보통 <strong>이상 감지 → 위험 판단 → <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a> 전환 → 재가동 제한</strong>의 흐름으로 동작한다. 중요한 점은 이 흐름이 소프트웨어 예외 처리에만 의존하면 안 된다는 것이다. 실제 안전 설계에서는 센서, 전원 차단 회로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 하드웨어 래치, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 펌웨어처럼 더 낮은 계층이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 전환을 강제해야 한다.
+페일 세이프는 보통 <strong>이상 감지 -> 위험 판단 -> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a> 전환 -> 재가동 제한</strong>의 흐름으로 동작한다. 중요한 점은 이 흐름이 소프트웨어 예외 처리에만 의존하면 안 된다는 것이다. 실제 안전 설계에서는 센서, 전원 차단 회로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 하드웨어 래치, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 펌웨어처럼 더 낮은 계층이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 전환을 강제해야 한다.
 
 | 구성 요소 | 역할 | 대표 구현 | 설계 핵심 |
 | :-------- | :--- | :-------- | :-------- |
@@ -43,22 +43,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 페일 세이프가 단순 셧다운이 아니라, <strong>검출된 이상을 더 큰 사고로 번지기 전에 제어 경로에서 끊어내는 과정</strong>임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          Fail-Safe control path: detect, isolate, force safe        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Sensor/Event                                                         │
-│   │                                                                  │
-│   ├─ Overheat / Overvoltage / Uncorrectable ECC Error / Hang         │
-│   ▼                                                                  │
-│ [Fault Detector] ──▶ [Protection Logic] ──▶ [Safe-State Action]      │
-│                               │                    │                  │
-│                               │                    ├─ Clock throttle  │
-│                               │                    ├─ Power cutoff    │
-│                               │                    ├─ Output disable  │
-│                               │                    └─ Read-only lock  │
-│                               ▼                                       │
-│                      [Recovery Gate / Manual Check]                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          Fail-Safe control path: detect, isolate, force safe        |
++----------------------------------------------------------------------+
+| Sensor/Event                                                         |
+|   |                                                                  |
+|   +- Overheat / Overvoltage / Uncorrectable ECC Error / Hang         |
+|   v                                                                  |
+| [Fault Detector] ---> [Protection Logic] ---> [Safe-State Action]      |
+|                               |                    |                  |
+|                               |                    +- Clock throttle  |
+|                               |                    +- Power cutoff    |
+|                               |                    +- Output disable  |
+|                               |                    +- Read-only lock  |
+|                               v                                       |
+|                      [Recovery Gate / Manual Check]                  |
++----------------------------------------------------------------------+
 ```
 
 대표 예시는 세 가지로 정리할 수 있다. 첫째, CPU 열 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서는 온도 임계값을 넘으면 먼저 스로틀링 (Throttling)으로 발열을 낮추고, 그래도 회복되지 않으면 전원을 차단한다. 둘째, 서버 메모리에서는 정정 불가능 오류가 발생할 경우 운영체제가 계속 계산을 수행하게 두지 않고 Machine Check 예외를 통해 프로세스 종료나 시스템 정지를 선택한다. 셋째, 저장장치나 파일시스템은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 불일치가 감지되면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 계속 허용하지 않고 읽기 전용으로 전환해 원본 손상을 막는다.
@@ -101,18 +101,18 @@ tags = ["studynote-computer-architecture"]
 4. **전원 이상**: 언더볼티지(Undervoltage)나 오버볼티지(Overvoltage)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 전에 차단한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Fail-Safe decision: stop now or keep running?       │
-├──────────────────────────────────────────────────────────────┤
-│ 1. Can wrong output damage people, hardware, or data?       │
-│ 2. Is the fault recoverable by retry or redundancy?         │
-│ 3. Is state integrity already in doubt?                     │
-│ 4. Will continued operation increase recovery cost?         │
-├──────────────────────────────────────────────────────────────┤
-│ Mostly Yes  ─▶ Force safe state                             │
-│ Mixed        ─▶ Degrade first, then safe stop if needed     │
-│ Mostly No    ─▶ Prefer fail-soft or fault-tolerant design   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Fail-Safe decision: stop now or keep running?       |
++--------------------------------------------------------------+
+| 1. Can wrong output damage people, hardware, or data?       |
+| 2. Is the fault recoverable by retry or redundancy?         |
+| 3. Is state integrity already in doubt?                     |
+| 4. Will continued operation increase recovery cost?         |
++--------------------------------------------------------------+
+| Mostly Yes  --> Force safe state                             |
+| Mixed        --> Degrade first, then safe stop if needed     |
+| Mostly No    --> Prefer fail-soft or fault-tolerant design   |
++--------------------------------------------------------------+
 ```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -159,20 +159,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고장 발생 가능성 인식
-    │
-    ▼
+    |
+    v
 센서 · 패리티 · 타임아웃 기반 이상 감지
-    │
-    ▼
+    |
+    v
 워치독 타이머 · Thermal Shutdown · Read-Only 보호
-    │
-    ▼
+    |
+    v
 ECC (Error Correcting Code) · Lockstep 기반 정교한 오류 판정
-    │
-    ▼
+    |
+    v
 RAS (Reliability, Availability, Serviceability) 통합 보호 체계
-    │
-    ▼
+    |
+    v
 예지 정비와 결합한 적응형 Fail-Safe 제어
 ```
 
@@ -190,7 +190,7 @@ RAS (Reliability, Availability, Serviceability) 통합 보호 체계
 
 **진행 상황**: 460 / 803
 
-← **이전**: [458. 콜드 스탠바이 (Cold Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/)
-**다음**: [460. 페일 소프트 (Fail-Soft)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) →
+<- **이전**: [458. 콜드 스탠바이 (Cold Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/)
+**다음**: [460. 페일 소프트 (Fail-Soft)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ->
 
 ---

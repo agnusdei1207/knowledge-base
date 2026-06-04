@@ -31,7 +31,7 @@ tags = ["studynote-bigdata"]
 
 <strong>NDVI (Normalized Difference Vegetation <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>, <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 식생 지수)</strong>:
 - 위성 영상에서 식물의 건강도를 수치화 (-1~+1)
-- 높은 NDVI: 건강한 식물 → 낮은 NDVI: 스트레스·병해 가능성
+- 높은 NDVI: 건강한 식물 -> 낮은 NDVI: 스트레스·병해 가능성
 
 > 📢 **섹션 요약 비유**: 정밀농업은 "밭의 어느 구석이 목이 마르고, 어느 구석이 병들었는지 한눈에 보이는 열화상 안경"이다. 예전엔 눈으로만 봤다면, 이제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 밭을 진찰한다.
 
@@ -42,41 +42,41 @@ tags = ["studynote-bigdata"]
 ### 정밀농업 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  정밀농업 빅데이터 플랫폼                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 수집                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
-│  │ 위성 영상 │ │ 드론 촬영 │ │ IoT 센서 │ │ 기상청 API       │   │
-│  │ (NDVI 등) │ │ (작물 상태│ │ (토양/공기│ │ (기온/강수/일조) │   │
-│  └─────┬────┘ └─────┬────┘ └─────┬────┘ └────────┬─────────┘   │
-│        └────────────┴────────────┴─────────────────┘            │
-│                                │                                 │
-│                                ▼                                 │
-│                 ┌──────────────────────────┐                    │
-│                 │ 공간 데이터 처리 (GIS)    │                    │
-│                 │ - 격자(Grid) 단위 매핑    │                    │
-│                 │ - 다중 레이어 오버레이    │                    │
-│                 └──────────────┬───────────┘                    │
-│                                │                                 │
-│               ┌────────────────┼─────────────────┐              │
-│               ▼                ▼                  ▼              │
-│  ┌─────────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │ 수확량 예측 모델  │  │ 병해충 감지  │  │ 스마트 관개 제어  │   │
-│  │ (Random Forest / │  │ (드론 CNN)   │  │ (ET 모델 + 수분   │   │
-│  │  LSTM)           │  │              │  │  센서 통합)       │   │
-│  └─────────────────┘  └──────────────┘  └──────────────────┘   │
-│               │                │                  │              │
-│               └────────────────┴─────────────────┘              │
-│                                │                                 │
-│                                ▼                                 │
-│                 ┌──────────────────────────┐                    │
-│                 │ 농가 대시보드 / 처방 지도  │                    │
-│                 │ (Variable Rate Application│                    │
-│                 │  — 구역별 비료·농약 처방) │                    │
-│                 └──────────────────────────┘                    │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  정밀농업 빅데이터 플랫폼                          |
++-----------------------------------------------------------------+
+|                                                                  |
+|  데이터 수집                                                      |
+|  +----------+ +----------+ +----------+ +------------------+   |
+|  | 위성 영상 | | 드론 촬영 | | IoT 센서 | | 기상청 API       |   |
+|  | (NDVI 등) | | (작물 상태| | (토양/공기| | (기온/강수/일조) |   |
+|  +-----+----+ +-----+----+ +-----+----+ +--------+---------+   |
+|        +------------+------------+-----------------+            |
+|                                |                                 |
+|                                v                                 |
+|                 +--------------------------+                    |
+|                 | 공간 데이터 처리 (GIS)    |                    |
+|                 | - 격자(Grid) 단위 매핑    |                    |
+|                 | - 다중 레이어 오버레이    |                    |
+|                 +--------------+-----------+                    |
+|                                |                                 |
+|               +----------------+-----------------+              |
+|               v                v                  v              |
+|  +-----------------+  +--------------+  +------------------+   |
+|  | 수확량 예측 모델  |  | 병해충 감지  |  | 스마트 관개 제어  |   |
+|  | (Random Forest / |  | (드론 CNN)   |  | (ET 모델 + 수분   |   |
+|  |  LSTM)           |  |              |  |  센서 통합)       |   |
+|  +-----------------+  +--------------+  +------------------+   |
+|               |                |                  |              |
+|               +----------------+-----------------+              |
+|                                |                                 |
+|                                v                                 |
+|                 +--------------------------+                    |
+|                 | 농가 대시보드 / 처방 지도  |                    |
+|                 | (Variable Rate Application|                    |
+|                 |  — 구역별 비료·농약 처방) |                    |
+|                 +--------------------------+                    |
++-----------------------------------------------------------------+
 ```
 
 ### 수확량 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 구성
@@ -94,16 +94,16 @@ tags = ["studynote-bigdata"]
 ```
 ET (Penman-Monteith 공식)
   = f(기온, 습도, 풍속, 일조, 작물 종류, 생육 단계)
-      │
-      ▼
+      |
+      v
   작물 필요 수분량 산출
-      │
-      ▼
+      |
+      v
   실제 토양 수분 센서 값과 비교
-      │
-      ▼
+      |
+      v
   관개 ON/OFF + 양 조절 자동화
-  → 물 사용량 30~50% 절감
+  -> 물 사용량 30~50% 절감
 ```
 
 > 📢 **섹션 요약 비유**: 스마트 관개는 "식물이 실제로 목이 마를 때만 물을 주는 것"이다. 사람이 매일 시간을 정해 물을 주는 것이 아니라, 흙과 하늘이 말해줄 때 정확히 필요한 만큼만 준다.
@@ -125,20 +125,20 @@ ET (Penman-Monteith 공식)
 
 ```
 드론 비행 (5~30m 고도)
-      │
-      ▼
+      |
+      v
 고해상도 RGB + 다중분광 영상 캡처
-      │
-      ▼
+      |
+      v
 이미지 전처리 (정사보정, 모자이킹)
-      │
-      ▼
+      |
+      v
 CNN 모델 (ResNet 전이학습)
   - 병 종류 분류 (잎마름병, 탄저병 등)
   - 발생 위치 매핑 (GPS 좌표)
-      │
-      ▼
-처방 지도 생성 → 구역별 농약 처방
+      |
+      v
+처방 지도 생성 -> 구역별 농약 처방
 ```
 
 > 📢 **섹션 요약 비유**: 드론으로 병해충을 탐지하는 것은 "의사가 드론을 타고 밭 전체를 빠르게 검진하는 것"이다. 아픈 잎이 있는 구역만 치료하니 약도 줄고, 환경도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다.
@@ -157,9 +157,9 @@ CNN 모델 (ResNet 전이학습)
 | 농협 경영 컨설팅 | 농가 경영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 수익성 분석 |
 
 **기술사 핵심 판단**:
-- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 사막 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Desert)</strong>: 영세 농가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 혜택 접근 어려움 → 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 필수.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 사막 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Desert)</strong>: 영세 농가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 혜택 접근 어려움 -> 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 필수.
 - <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 지식 통합</strong>: 순수 ML 모델보다 작물 생리 지식을 통합한 Hybrid 모델이 실전에서 안정적.
-- **연결성 한계**: 농촌 지역의 통신 인프라 한계 → 오프라인 동작 가능한 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계 필요.
+- **연결성 한계**: 농촌 지역의 통신 인프라 한계 -> 오프라인 동작 가능한 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계 필요.
 
 > 📢 **섹션 요약 비유**: 한국 농업 빅데이터의 도전은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘 쓸 수 있는 대형 농장만이 아니라, 할머니 할아버지 소농도 혜택을 받을 수 있어야 한다"는 것이다. 기술이 격차를 줄여야 한다.
 
@@ -195,17 +195,17 @@ CNN 모델 (ResNet 전이학습)
 
 ```text
 [전통 농업]
-    │
-    ▼
+    |
+    v
 [스마트 농업(정밀농업)]
-    │
-    ▼
+    |
+    v
 [IoT 센서 데이터 수집]
-    │
-    ▼
+    |
+    v
 [빅데이터 분석(작황 예측)]
-    │
-    ▼
+    |
+    v
 [AI 자동화 농업]
 ```
 
@@ -223,7 +223,7 @@ CNN 모델 (ResNet 전이학습)
 
 **진행 상황**: 222 / 262
 
-← **이전**: [216. 스마트시티 빅데이터 (Smart City Big Data) — CCTV분석/교통신호최적화/에너지그리드](/knowledge-base/studynote/16_bigdata/11_industry/221_smart_city_bigdata/)
-**다음**: [218. 교육 빅데이터 (Education Big Data) — 학습분석/맞춤형교육/중도탈락예측](/knowledge-base/studynote/16_bigdata/11_industry/223_education_bigdata/) →
+<- **이전**: [216. 스마트시티 빅데이터 (Smart City Big Data) — CCTV분석/교통신호최적화/에너지그리드](/knowledge-base/studynote/16_bigdata/11_industry/221_smart_city_bigdata/)
+**다음**: [218. 교육 빅데이터 (Education Big Data) — 학습분석/맞춤형교육/중도탈락예측](/knowledge-base/studynote/16_bigdata/11_industry/223_education_bigdata/) ->
 
 ---

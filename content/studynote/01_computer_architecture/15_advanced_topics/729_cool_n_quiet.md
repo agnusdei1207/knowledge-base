@@ -31,9 +31,9 @@ AMD (Advanced Micro Devices)의 Cool'n'Quiet는 데스크톱 프로세서가 항
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Cool'n'Quiet의 핵심 경로는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 부하 판단 → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/">ACPI</a> P-<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 선택 → CPU의 배수·<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 하향 조정 → 발열 감소 → 팬 속도 하향</strong> 순으로 이어진다. BIOS (Basic Input/Output System)는 CPU가 지원하는 P-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 테이블을 ACPI를 통해 노출하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 부하와 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바탕으로 어느 상태가 적절한지 고른다. 선택이 내려지면 CPU는 내부 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 요청 값을 조정하고, 메인보드의 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))은 그에 맞는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 공급한다.
+Cool'n'Quiet의 핵심 경로는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 부하 판단 -> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/">ACPI</a> P-<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 선택 -> CPU의 배수·<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 하향 조정 -> 발열 감소 -> 팬 속도 하향</strong> 순으로 이어진다. BIOS (Basic Input/Output System)는 CPU가 지원하는 P-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 테이블을 ACPI를 통해 노출하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 부하와 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바탕으로 어느 상태가 적절한지 고른다. 선택이 내려지면 CPU는 내부 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 요청 값을 조정하고, 메인보드의 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))은 그에 맞는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 공급한다.
 
-전력 절감 효과가 큰 이유는 주파수만이 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 낮추기 때문이다. [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 회로의 동적 전력은 보통 `P ≈ C × V² × f`로 이해하므로, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 조금만 내려가도 절감 효과가 눈에 띄게 커진다. Cool'n'Quiet의 "Quiet"는 이 결과로 따라오는 2차 효과다. CPU 온도가 내려가면 보드의 팬 커브가 더 낮은 RPM (Revolutions Per Minute)으로도 충분하다고 판단해 소음이 줄어든다.
+전력 절감 효과가 큰 이유는 주파수만이 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 낮추기 때문이다. [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 회로의 동적 전력은 보통 `P ≈ C × V^ × f`로 이해하므로, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 조금만 내려가도 절감 효과가 눈에 띄게 커진다. Cool'n'Quiet의 "Quiet"는 이 결과로 따라오는 2차 효과다. CPU 온도가 내려가면 보드의 팬 커브가 더 낮은 RPM (Revolutions Per Minute)으로도 충분하다고 판단해 소음이 줄어든다.
 
 아래 표는 개념 설명을 위한 예시 P-State다. 실제 수치는 CPU 세대와 보드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 달라지지만, <strong>낮은 부하일수록 주파수와 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 함께 낮춘다</strong>는 구조는 동일하다.
 
@@ -46,26 +46,26 @@ Cool'n'Quiet의 핵심 경로는 <strong><a href="/knowledge-base/studynote/02_o
 아래 그림은 Cool'n'Quiet가 소음을 직접 제어하는 것이 아니라, 전력과 열을 낮춘 결과로 팬이 조용해지는 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      Cool'n'Quiet control path: lower load, lower V/f, lower RPM    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Light workload detected by OS                                        │
-│        │                                                             │
-│        ▼                                                             │
-│ ACPI P-state request: P0 -> P1 / P2                                  │
-│        │                                                             │
-│        ▼                                                             │
-│ CPU lowers multiplier and VID                                        │
-│        │                                                             │
-│        ▼                                                             │
-│ VRM supplies lower core voltage                                      │
-│        │                                                             │
-│        ▼                                                             │
-│ Dynamic power falls: P ≈ C × V² × f                                  │
-│        │                                                             │
-│        ▼                                                             │
-│ Package temperature falls -> fan controller lowers RPM               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      Cool'n'Quiet control path: lower load, lower V/f, lower RPM    |
++----------------------------------------------------------------------+
+| Light workload detected by OS                                        |
+|        |                                                             |
+|        v                                                             |
+| ACPI P-state request: P0 -> P1 / P2                                  |
+|        |                                                             |
+|        v                                                             |
+| CPU lowers multiplier and VID                                        |
+|        |                                                             |
+|        v                                                             |
+| VRM supplies lower core voltage                                      |
+|        |                                                             |
+|        v                                                             |
+| Dynamic power falls: P ≈ C × V^ × f                                  |
+|        |                                                             |
+|        v                                                             |
+| Package temperature falls -> fan controller lowers RPM               |
++----------------------------------------------------------------------+
 ```
 
 이 과정에서 전환 지연이 0은 아니므로, 시스템은 너무 자주 상태를 바꾸지 않도록 히스테리시스나 샘플링 주기를 둔다. 즉 Cool'n'Quiet는 단순 스위치가 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 소음을 함께 관리하는 <strong>제어 루프</strong>로 이해해야 한다.
@@ -144,26 +144,26 @@ Cool'n'Quiet의 직접 효과는 경부하 전력 절감이고, 간접 효과는
 
 ```text
 고정 클럭 데스크톱 CPU 시대
-    │
-    ▼
+    |
+    v
 모바일 DVFS 실험: PowerNow! · SpeedStep
-    │
-    ▼
+    |
+    v
 ACPI P-State 표준화
-    │
-    ▼
+    |
+    v
 Cool'n'Quiet
 : 데스크톱 경부하 전력 절감 + 정숙성 향상
-    │
-    ▼
+    |
+    v
 하드웨어 자율 제어 강화
 : CPPC · HWP · 센서 기반 제어
-    │
-    ▼
+    |
+    v
 Precision Boost · 플랫폼 단위 전력 최적화
 ```
 
-이 흐름은 "단순 절전 → 데스크톱 정숙성 → 센서 기반 자율 제어"로 전력 관리가 진화한 과정을 보여 준다.
+이 흐름은 "단순 절전 -> 데스크톱 정숙성 -> 센서 기반 자율 제어"로 전력 관리가 진화한 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -177,7 +177,7 @@ Precision Boost · 플랫폼 단위 전력 최적화
 
 **진행 상황**: 730 / 803
 
-← **이전**: [728. 인텔 스피드스텝 (SpeedStep)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/728_speedstep/)
-**다음**: [730. 인텔 터보부스트 (Turbo Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/730_turbo_boost/) →
+<- **이전**: [728. 인텔 스피드스텝 (SpeedStep)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/728_speedstep/)
+**다음**: [730. 인텔 터보부스트 (Turbo Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/730_turbo_boost/) ->
 
 ---

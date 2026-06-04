@@ -36,20 +36,20 @@ CF는 보통 ALU의 최상위 [비트](/knowledge-base/studynote/01_computer_arc
 아래 그림은 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)의 자리올림이 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 계산으로 전달되는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          fixed-width adder + CF = wider arithmetic          │
-├──────────────────────────────────────────────────────────────┤
-│ 하위 32비트: 1111...1111 + 0000...0001                      │
-│                     │                                        │
-│                     ├──── 결과 = 0000...0000                │
-│                     └──── carry-out = 1 ───▶ CF = 1         │
-│                                                              │
-│ 상위 32비트: upperA + upperB + CF                            │
-│                     │                                        │
-│                     └──── ADC (Add with Carry) 수행          │
-│                                                              │
-│ 결과: 32비트 가산기 두 번으로 64비트 합산 완성               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          fixed-width adder + CF = wider arithmetic          |
++--------------------------------------------------------------+
+| 하위 32비트: 1111...1111 + 0000...0001                      |
+|                     |                                        |
+|                     +---- 결과 = 0000...0000                |
+|                     +---- carry-out = 1 ----> CF = 1         |
+|                                                              |
+| 상위 32비트: upperA + upperB + CF                            |
+|                     |                                        |
+|                     +---- ADC (Add with Carry) 수행          |
+|                                                              |
+| 결과: 32비트 가산기 두 번으로 64비트 합산 완성               |
++--------------------------------------------------------------+
 ```
 
 이 구조 때문에 `ADD`와 `ADC (Add with Carry)`는 짝을 이룬다. 첫 번째 연산이 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 합과 CF를 만들고, 두 번째 연산은 그 CF를 세 번째 입력처럼 받아 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)에 반영한다. 반대로 감산에서는 `SUB`와 `SBB (Subtract with Borrow)`가 같은 역할을 한다.
@@ -138,17 +138,17 @@ CF를 올바르게 활용하면 CPU는 작은 가산기만으로도 넓은 정�
 
 ```text
 고정 비트폭 레지스터
-    │
-    ▼
+    |
+    v
 ALU 최상위 carry-out 검출
-    │
-    ▼
+    |
+    v
 Carry Flag (CF)
-    │
-    ├──────────────▶ unsigned overflow / borrow 판단
-    ├──────────────▶ ADC · SBB 기반 다중 정밀도 연산
-    ├──────────────▶ JC · JB 계열 조건 분기
-    ▼
+    |
+    +---------------> unsigned overflow / borrow 판단
+    +---------------> ADC · SBB 기반 다중 정밀도 연산
+    +---------------> JC · JB 계열 조건 분기
+    v
 rotate-through-carry · big integer 최적화
 ```
 
@@ -166,7 +166,7 @@ rotate-through-carry · big integer 최적화
 
 **진행 상황**: 169 / 803
 
-← **이전**: [168. 제로 플래그 (Zero Flag)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)
-**다음**: [170. 명령어 형식 (Instruction Format)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) →
+<- **이전**: [168. 제로 플래그 (Zero Flag)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)
+**다음**: [170. 명령어 형식 (Instruction Format)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) ->
 
 ---

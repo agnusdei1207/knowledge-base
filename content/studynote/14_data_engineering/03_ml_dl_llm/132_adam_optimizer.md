@@ -21,7 +21,7 @@ tags = ["studynote-dataengineering"]
 ```text
 Adam = Momentum + RMSProp
   m = β₁·m + (1-β₁)·g      (1차 모멘트, 방향)
-  v = β₂·v + (1-β₂)·g²     (2차 모멘트, 크기)
+  v = β₂·v + (1-β₂)·g^     (2차 모멘트, 크기)
   θ = θ - lr · m̂/√(v̂+ε)    (업데이트)
 ```
 
@@ -58,9 +58,9 @@ Adam = Momentum + RMSProp
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[SGD (1951)] → [Momentum (1964)] → [AdaGrad (2011)]
-    → [RMSProp (2012)] → [Adam (2014)]
-    → [AdamW (2018)] → [현재: Lion·Sophia — 메모리 효율↑]
+[SGD (1951)] -> [Momentum (1964)] -> [AdaGrad (2011)]
+    -> [RMSProp (2012)] -> [Adam (2014)]
+    -> [AdamW (2018)] -> [현재: Lion·Sophia — 메모리 효율^]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ Adam = Momentum + RMSProp
 
 **진행 상황**: 132 / 258
 
-← **이전**: [131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/131_loss_function_optimizer_gradient_descent/)
-**다음**: [133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/133_backpropagation_chain_rule/) →
+<- **이전**: [131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/131_loss_function_optimizer_gradient_descent/)
+**다음**: [133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/133_backpropagation_chain_rule/) ->
 
 ---

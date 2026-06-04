@@ -30,9 +30,9 @@ tags = ["software_engineering"]
 
 ```text
 Sprint End
-  ↓
+  v
 Retrospective
-  ↓
+  v
 Process Improvement
 ```
 
@@ -104,11 +104,11 @@ Process Improvement
 
 ```text
 Sprint End
-  ↓
+  v
 Retrospective
-  ↓
+  v
 Action Items
-  ↓
+  v
 Process Improvement
 ```
 
@@ -118,11 +118,11 @@ Process Improvement
 
 ```text
 Review
-  ↓
+  v
 Retrospective
-  ↓
+  v
 Continuous Improvement
-  ↓
+  v
 Learning Team
 ```
 
@@ -140,7 +140,7 @@ Learning Team
 
 **진행 상황**: 71 / 973
 
-← **이전**: [70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)
-**다음**: [72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) →
+<- **이전**: [70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)
+**다음**: [72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) ->
 
 ---

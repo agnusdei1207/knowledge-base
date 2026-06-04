@@ -26,11 +26,11 @@ tags = ["studynote-ai"]
 암 환자 진단 데이터: 양성(암) 1%, 음성(정상) 99%
 
 "항상 음성으로 예측"하는 모델:
-  정확도(Accuracy) = 99% ← 높아 보이지만!
+  정확도(Accuracy) = 99% <- 높아 보이지만!
   암 환자를 한 명도 찾지 못하는 쓸모없는 모델
 ```
 
-→ 이런 상황에서 정확도는 오해를 유발. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> 기반 세부 지표 필수</strong>
+-> 이런 상황에서 정확도는 오해를 유발. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> 기반 세부 지표 필수</strong>
 
 ### 1.2 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)의 4가지 셀
 
@@ -39,10 +39,10 @@ tags = ["studynote-ai"]
 | **실제: Positive** | TP (True Positive) | FN (False Negative) |
 | **실제: Negative** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (False Positive) | TN (True Negative) |
 
-- **TP (True Positive)**: 실제 양성 → 양성으로 정확히 예측 ✅
-- **TN (True Negative)**: 실제 음성 → 음성으로 정확히 예측 ✅
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (False Positive, 1종 오류)</strong>: 실제 음성 → 양성으로 잘못 예측 ❌
-- **FN (False Negative, 2종 오류)**: 실제 양성 → 음성으로 잘못 예측 ❌
+- **TP (True Positive)**: 실제 양성 -> 양성으로 정확히 예측 ✅
+- **TN (True Negative)**: 실제 음성 -> 음성으로 정확히 예측 ✅
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (False Positive, 1종 오류)</strong>: 실제 음성 -> 양성으로 잘못 예측 ❌
+- **FN (False Negative, 2종 오류)**: 실제 양성 -> 음성으로 잘못 예측 ❌
 
 - **📢 섹션 요약 비유**: [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)은 의사의 진단 성적표와 같다. 환자를 환자라고 맞힌 것(TP), 건강한 사람을 건강하다고 맞힌 것(TN), 건강한 사람을 환자라고 오진한 것([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 환자를 건강하다고 놓친 것(FN) — 이 네 가지가 의사의 실력을 정확히 보여준다.
 
@@ -53,22 +53,22 @@ tags = ["studynote-ai"]
 ### 2.1 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) 전체 구조
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   혼동 행렬 (Confusion Matrix)             │
-│                                                          │
-│              │  예측: Positive  │  예측: Negative  │      │
-│  ────────────┼──────────────────┼──────────────────┤      │
-│  실제: Pos.  │   TP (진양성)    │   FN (위음성)    │      │
-│              │  (올바른 양성)   │ (2종 오류, 미검출)│      │
-│  ────────────┼──────────────────┼──────────────────┤      │
-│  실제: Neg.  │   FP (위양성)   │   TN (진음성)    │      │
-│              │ (1종 오류, 과경보)│  (올바른 음성)   │      │
-│  ────────────┴──────────────────┴──────────────────┘      │
-│                                                          │
-│  오류 유형:                                               │
-│  FP = 1종 오류 (Type I Error) — 없는 것을 있다고 함       │
-│  FN = 2종 오류 (Type II Error) — 있는 것을 없다고 함      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                   혼동 행렬 (Confusion Matrix)             |
+|                                                          |
+|              |  예측: Positive  |  예측: Negative  |      |
+|  ------------+------------------+------------------+      |
+|  실제: Pos.  |   TP (진양성)    |   FN (위음성)    |      |
+|              |  (올바른 양성)   | (2종 오류, 미검출)|      |
+|  ------------+------------------+------------------+      |
+|  실제: Neg.  |   FP (위양성)   |   TN (진음성)    |      |
+|              | (1종 오류, 과경보)|  (올바른 음성)   |      |
+|  ------------+------------------+------------------+      |
+|                                                          |
+|  오류 유형:                                               |
+|  FP = 1종 오류 (Type I Error) — 없는 것을 있다고 함       |
+|  FN = 2종 오류 (Type II Error) — 있는 것을 없다고 함      |
++----------------------------------------------------------+
 ```
 
 ### 2.2 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 계산
@@ -87,12 +87,12 @@ tags = ["studynote-ai"]
 
 ```
 정밀도=1.0, 재현율=0.0:
-  산술평균 = 0.5      ← 높아 보임
-  F1-Score = 0.0     ← 실제론 쓸모없음
+  산술평균 = 0.5      <- 높아 보임
+  F1-Score = 0.0     <- 실제론 쓸모없음
 
 정밀도=0.8, 재현율=0.8:
   산술평균 = 0.8
-  F1-Score = 0.8     ← 균형잡힌 성능
+  F1-Score = 0.8     <- 균형잡힌 성능
 ```
 
 - **📢 섹션 요약 비유**: F1-Score는 양 팔 힘이 다 좋아야 높은 점수를 받는 철봉 체력검사와 같다. 왼팔만 강하고 오른팔이 0이면 총점은 0에 가깝다 — 양쪽이 균형 있어야 진짜 강한 것이다.
@@ -105,11 +105,11 @@ tags = ["studynote-ai"]
 
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 더 치명적인 오류 | 최우선 지표 | 이유 |
 |:---|:---|:---|:---|
-| 암 진단 | FN (암 미검출) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ↑ | 환자를 놓치면 치명적 |
-| 스팸 필터 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (정상 메일을 스팸) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) ↑ | 중요 메일 차단 방지 |
-| 사기 탐지 | FN (사기 미탐지) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ↑ | 사기를 놓치면 손실 |
-| 광고 타기팅 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (관심 없는 사용자) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) ↑ | 광고 비용 낭비 |
-| 자율주행 장애물 | FN (장애물 미탐지) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ↑ | 충돌 사고 방지 |
+| 암 진단 | FN (암 미검출) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ^ | 환자를 놓치면 치명적 |
+| 스팸 필터 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (정상 메일을 스팸) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) ^ | 중요 메일 차단 방지 |
+| 사기 탐지 | FN (사기 미탐지) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ^ | 사기를 놓치면 손실 |
+| 광고 타기팅 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (관심 없는 사용자) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) ^ | 광고 비용 낭비 |
+| 자율주행 장애물 | FN (장애물 미탐지) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) ^ | 충돌 사고 방지 |
 
 ### 3.2 클래스 불균형에서의 지표 선택
 
@@ -153,11 +153,11 @@ F1    = 2×(0.895×0.85)/(0.895+0.85) = 87.2%
 ```
 확률 출력 모델: P(스팸) = 0.65
 
-임계값 = 0.5 → Positive 판정 (P > 0.5)
-  → 더 많이 양성 판정 → 재현율↑, 정밀도↓
+임계값 = 0.5 -> Positive 판정 (P > 0.5)
+  -> 더 많이 양성 판정 -> 재현율^, 정밀도v
 
-임계값 = 0.8 → Negative 판정 (P < 0.8)
-  → 더 적게 양성 판정 → 정밀도↑, 재현율↓
+임계값 = 0.8 -> Negative 판정 (P < 0.8)
+  -> 더 적게 양성 판정 -> 정밀도^, 재현율v
 ```
 
 ### 4.3 기술사 핵심 판단 포인트
@@ -165,7 +165,7 @@ F1    = 2×(0.895×0.85)/(0.895+0.85) = 87.2%
 - [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)/FN 오류 비용이 비대칭일 때 비용 민감 학습(Cost-Sensitive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 적용
 - <strong>다중 클래스 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a></strong>: n×n 행렬로 확장, Macro/Micro/Weighted F1 사용
 
-- **📢 섹션 요약 비유**: 임계값 조정은 보안 게이트의 민감도를 조절하는 것이다. 민감도를 높이면(임계값 낮춤) 수상한 사람을 더 많이 잡지만([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↑) 정상인도 자주 검사받고([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)↓), 민감도를 낮추면 반대가 된다.
+- **📢 섹션 요약 비유**: 임계값 조정은 보안 게이트의 민감도를 조절하는 것이다. 민감도를 높이면(임계값 낮춤) 수상한 사람을 더 많이 잡지만([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)^) 정상인도 자주 검사받고([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)v), 민감도를 낮추면 반대가 된다.
 
 ---
 
@@ -197,7 +197,7 @@ F1    = 2×(0.895×0.85)/(0.895+0.85) = 87.2%
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [혼동 행렬 (Confusion Matrix)] → [최적화·운영 자동화]
+[데이터 전처리] -> [혼동 행렬 (Confusion Matrix)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -212,7 +212,7 @@ F1    = 2×(0.895×0.85)/(0.895+0.85) = 87.2%
 
 **진행 상황**: 252 / 420
 
-← **이전**: [251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)
-**다음**: [253. 정밀도 (Precision)](/knowledge-base/studynote/10_ai/03_llm_nlp/253_precision/) →
+<- **이전**: [251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)
+**다음**: [253. 정밀도 (Precision)](/knowledge-base/studynote/10_ai/03_llm_nlp/253_precision/) ->
 
 ---

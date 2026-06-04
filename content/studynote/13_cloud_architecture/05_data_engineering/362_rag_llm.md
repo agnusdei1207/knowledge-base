@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 증강 정보 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 오케스트레이터 결합를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정                 │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 ─▶ 자원 배치 ─▶ 실행 환경 ─▶ 운영 피드백                  │
-│    │           │             │             │                       │
-│    └──────── 성능·비용·전력의 균형점을 반복적으로 조정 ──────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정                 |
++--------------------------------------------------------------+
+| 요구사항 --> 자원 배치 --> 실행 환경 --> 운영 피드백                  |
+|    |           |             |             |                       |
+|    +-------- 성능·비용·전력의 균형점을 반복적으로 조정 ----------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 증강 정보 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 오케스트레이터 결합가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | 운영 계층 | 비용·전력·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 최적화 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), cooling, scheduling |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 증강 정보 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 오케스트레이터 결합는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[전용 장비 중심] → [RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합] → [풀링·오프로딩·자동 최적화]
+[전용 장비 중심] -> [RAG 증강 정보 환각 방지 LLM 오케스트레이터 결합] -> [풀링·오프로딩·자동 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 361 / 371
 
-← **이전**: [361. 다크 데이터 식별 비식별화 K-익명 통계 안전 연계 (Dark Data)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/361_process/)
-**다음**: [363. LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/363_process/) →
+<- **이전**: [361. 다크 데이터 식별 비식별화 K-익명 통계 안전 연계 (Dark Data)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/361_process/)
+**다음**: [363. LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/363_process/) ->
 
 ---

@@ -34,10 +34,10 @@ tags = ["database"]
 
 [스키마 도입 후: 엄격한 통제]
 [ Schema ] : 테이블 "USER" (이름: 문자열, 나이: 정수, 조건: 나이>0)
-   │
-   ├─> 입력 1 (홍길동, 30) ────> (승인) DB 저장
-   ├─> 입력 2 (이몽룡, "서른살") ─> (거부) Type Mismatch 에러!
-   └─> 입력 3 (성춘향, -5) ────> (거부) Constraint 위반 에러!
+   |
+   +-> 입력 1 (홍길동, 30) ----> (승인) DB 저장
+   +-> 입력 2 (이몽룡, "서른살") -> (거부) Type Mismatch 에러!
+   +-> 입력 3 (성춘향, -5) ----> (거부) Constraint 위반 에러!
 ```
 이 도식은 스키마가 단순한 그릇이 아니라, 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 침투를 막는 강력한 "[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방어벽"임을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것입니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 인입될 때마다 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)에 저장된 스키마 정보를 실시간으로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 승인 여부를 결정합니다. 실무에서는 이 스키마를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 얼마나 탄탄하게 설계하느냐가 향후 수십 년간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))을 좌우하는 결정적 요인이 됩니다.
 
@@ -60,21 +60,21 @@ tags = ["database"]
 시간의 흐름에 따라 변하지 않는 '스키마(내포)'와 매일 변하는 '인스턴스(외연)'의 아키텍처적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 다음과 같습니다.
 
 ```text
-┌───────────────── [ System Catalog / Data Dictionary ] ──────────────────┐
-│ (Meta-Data) 스키마 (Schema) - 내포 (Intension)                          │
-│ ▶ 시간에 따라 거의 변하지 않음 (Static)                                  │
-│   테이블명: EMPLOYEE                                                    │
-│   속성: EMP_ID (INT, PK), NAME (VARCHAR), DEPT_ID (INT, FK)             │
-└───────────────────────────────────┬─────────────────────────────────────┘
-                                    │ (DBMS 제어 및 검증)
-                                    ▼
-┌─────────────────────── [ User Data Files ] ─────────────────────────────┐
-│ (Real-Data) 인스턴스 (Instance) - 외연 (Extension)                      │
-│ ▶ INSERT/UPDATE/DELETE에 의해 시시각각 상태가 변함 (Dynamic)            │
-│   튜플 1: { EMP_ID: 101, NAME: "Alice", DEPT_ID: 10 }                   │
-│   튜플 2: { EMP_ID: 102, NAME: "Bob",   DEPT_ID: 20 }                   │
-│   튜플 3: { EMP_ID: 103, NAME: "Charlie", DEPT_ID: 10 }                 │
-└─────────────────────────────────────────────────────────────────────────┘
++----------------- [ System Catalog / Data Dictionary ] ------------------+
+| (Meta-Data) 스키마 (Schema) - 내포 (Intension)                          |
+| -> 시간에 따라 거의 변하지 않음 (Static)                                  |
+|   테이블명: EMPLOYEE                                                    |
+|   속성: EMP_ID (INT, PK), NAME (VARCHAR), DEPT_ID (INT, FK)             |
++-----------------------------------+-------------------------------------+
+                                    | (DBMS 제어 및 검증)
+                                    v
++----------------------- [ User Data Files ] -----------------------------+
+| (Real-Data) 인스턴스 (Instance) - 외연 (Extension)                      |
+| -> INSERT/UPDATE/DELETE에 의해 시시각각 상태가 변함 (Dynamic)            |
+|   튜플 1: { EMP_ID: 101, NAME: "Alice", DEPT_ID: 10 }                   |
+|   튜플 2: { EMP_ID: 102, NAME: "Bob",   DEPT_ID: 20 }                   |
+|   튜플 3: { EMP_ID: 103, NAME: "Charlie", DEPT_ID: 10 }                 |
++-------------------------------------------------------------------------+
 ```
 이 구조도의 핵심은 스키마(명세)와 인스턴스(실제 값)의 완벽한 분리입니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 이론에서는 스키마를 '내포(Intension)', 인스턴스를 '외연(Extension)'이라고 부릅니다. DBMS는 사용자 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 실행될 때 인스턴스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 뒤지기 전에, 반드시 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)의 스키마를 먼저 읽어 권한, 제약, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)합니다. 따라서 테이블 정의(스키마)가 거대해져도 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)의 크기는 작게 유지되며 메모리([Data Dictionary Cache](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/))에 상주하여 극강의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도를 냅니다. 실무에서는 스키마 락([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸리면 연관된 모든 인스턴스의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 대기 상태에 빠지는 현상을 매우 주의해야 합니다.
 
@@ -98,15 +98,15 @@ tags = ["database"]
 
 ```text
 [RDBMS: Schema-on-write 구조]
-원시 데이터 ──> 변환기(Transform) ──> [엄격한 스키마 검증] ──> RDBMS 적재
+원시 데이터 --> 변환기(Transform) --> [엄격한 스키마 검증] --> RDBMS 적재
                   (버려지는 데이터 발생)      (병목 지점)
 
 [Data Lake: Schema-on-read 구조]
-원시 데이터 ──(무조건 적재)──> Data Lake (Raw 스토리지)
-                                   │
+원시 데이터 --(무조건 적재)--> Data Lake (Raw 스토리지)
+                                   |
                            [읽기 시점에 동적 스키마 부여]
-                                   ├──> 분석가 A (SQL 형태 뷰)
-                                   └──> AI 모델 B (JSON 형태 뷰)
+                                   +--> 분석가 A (SQL 형태 뷰)
+                                   +--> AI 모델 B (JSON 형태 뷰)
 ```
 이 흐름도의 핵심은 스키마의 "통제권"이 누구에게 있느냐의 차이입니다. RDBMS는 DBA가 미리 강력하게 통제하는 환경으로, 정밀한 금융/운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 적합합니다. 반면 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 구조를 미리 알 수 없는 웹 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이미지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 등을 유실 없이 빠르게 빨아들이기 위해 적재 시점의 장벽(스키마)을 허물어버립니다. 실무에서는 최근 이 둘을 융합하여, 원본은 [스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)로 쌓되, 핵심 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)로 웨어하우스에 넘기는 '[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))' 아키텍처가 대세를 이루고 있습니다.
 
@@ -130,13 +130,13 @@ tags = ["database"]
 
 (현대적 운영 - Database Migration Tool)
 [ Git Repository ]
- ├─ V1.1__Create_User_Table.sql
- ├─ V1.2__Add_Email_Column.sql
- └─> CI/CD 파이프라인 가동 (Flyway / Liquibase)
-       │
-       ├─> (1) DB 내 `schema_version` 테이블 확인 (현재 V1.1)
-       ├─> (2) 누락된 V1.2 스크립트 자동 실행 (ALTER TABLE)
-       └─> (3) App V2 배포 (스키마와 App의 완벽한 동기화)
+ +- V1.1__Create_User_Table.sql
+ +- V1.2__Add_Email_Column.sql
+ +-> CI/CD 파이프라인 가동 (Flyway / Liquibase)
+       |
+       +-> (1) DB 내 `schema_version` 테이블 확인 (현재 V1.1)
+       +-> (2) 누락된 V1.2 스크립트 자동 실행 (ALTER TABLE)
+       +-> (3) App V2 배포 (스키마와 App의 완벽한 동기화)
 ```
 이 흐름도의 핵심은 스키마 변경 역시 애플리케이션 소스코드처럼 '상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)'으로 관리되어야 한다는 점입니다. Flyway나 Liquibase 같은 스키마 마이그레이션 도구는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부에 메타 테이블을 스스로 만들어 현재 스키마 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추적합니다. 실무에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 이러한 스키마 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 툴을 연동하여, 인간의 개입을 차단하고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확보하는 것이 현대적 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))의 필수 표준입니다.
 
@@ -175,17 +175,17 @@ tags = ["database"]
 
 ```text
 [3단계 스키마 아키텍처]
-    │
-    ▼
+    |
+    v
 [시스템 카탈로그 (System Catalog)]
-    │
-    ▼
+    |
+    v
 [스키마 온 라이트 (Schema-on-write)]
-    │
-    ▼
+    |
+    v
 [Flyway / Liquibase]
-    │
-    ▼
+    |
+    v
 [DDL (Data Definition Language)]
 ```
 
@@ -202,7 +202,7 @@ tags = ["database"]
 
 **진행 상황**: 5 / 600
 
-← **이전**: [4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)
-**다음**: [6. 3단계 스키마 아키텍처 (ANSI/SPARC)](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/) →
+<- **이전**: [4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)
+**다음**: [6. 3단계 스키마 아키텍처 (ANSI/SPARC)](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/) ->
 
 ---

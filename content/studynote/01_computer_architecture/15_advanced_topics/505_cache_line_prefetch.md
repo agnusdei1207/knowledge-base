@@ -33,28 +33,28 @@ tags = ["studynote-computer-architecture"]
 
 프리패처는 보통 L1이나 L2 캐시 옆에서 최근 접근 주소, 명령어의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), 캐시 미스 이력, 현재 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 요청 수를 관찰한다. 그리고 다음 라인 프리패처, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 프리패처, 스트림·상관 프리패처처럼 서로 다른 규칙으로 미래 주소를 만들고, 중복 여부와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 여유를 검사한 뒤 메모리 요청을 발행한다. 이때 이미 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 미스와 충돌하지 않도록 MSHR (Miss Status Holding [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))이나 유사한 요청 추적 구조와 협력하는 것이 중요하다.
 
-아래 흐름은 프리패치가 단순한 "선행 메모리 읽기"가 아니라, <strong>예측 → 필터링 → 발행 → 적절한 캐시로 채우기</strong>의 연쇄 판단이라는 점을 보여준다.
+아래 흐름은 프리패치가 단순한 "선행 메모리 읽기"가 아니라, <strong>예측 -> 필터링 -> 발행 -> 적절한 캐시로 채우기</strong>의 연쇄 판단이라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Prefetch pipeline: predict early, fill before demand                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Load PC/Addr                                                            │
-│     │                                                                    │
-│     ▼                                                                    │
-│ [Trigger] -> [Pattern Table] -> [Filter/Throttle] -> [MSHR/Queue]       │
-│                 │                      │                     │            │
-│                 │                      ├─ duplicate? drop    │            │
-│                 │                      ├─ bus busy? hold      │            │
-│                 │                      └─ page edge? limit   │            │
-│                 ▼                                            ▼            │
-│         next-line / stride / stream                    [DRAM / L3]       │
-│                                                             │            │
-│                                                             ▼            │
-│                                             [L2 / L1 / Prefetch Buffer]  │
-│                                                             │            │
-│                                     later demand arrives -> cache hit    │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Prefetch pipeline: predict early, fill before demand                    |
++--------------------------------------------------------------------------+
+| Load PC/Addr                                                            |
+|     |                                                                    |
+|     v                                                                    |
+| [Trigger] -> [Pattern Table] -> [Filter/Throttle] -> [MSHR/Queue]       |
+|                 |                      |                     |            |
+|                 |                      +- duplicate? drop    |            |
+|                 |                      +- bus busy? hold      |            |
+|                 |                      +- page edge? limit   |            |
+|                 v                                            v            |
+|         next-line / stride / stream                    [DRAM / L3]       |
+|                                                             |            |
+|                                                             v            |
+|                                             [L2 / L1 / Prefetch Buffer]  |
+|                                                             |            |
+|                                     later demand arrives -> cache hit    |
++--------------------------------------------------------------------------+
 ```
 
 | 방식 | 예측 근거 | 강점 | 취약점 |
@@ -128,24 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공간 지역성 인식
-    │
-    ▼
+    |
+    v
 다음 라인 프리패치
-    │
-    ▼
+    |
+    v
 스트라이드 프리패치
-    │
-    ▼
+    |
+    v
 스트림·상관 프리패치
-    │
-    ▼
+    |
+    v
 피드백 기반 스로틀링
-    │
-    ▼
+    |
+    v
 협력형·ML 프리패치
 ```
 
-이 흐름은 "단순한 순차 예측 → 규칙 학습 → 복합 패턴 학습 → 적응형 제어"로 프리패처가 진화하는 방향을 보여준다.
+이 흐름은 "단순한 순차 예측 -> 규칙 학습 -> 복합 패턴 학습 -> 적응형 제어"로 프리패처가 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 505 / 803
 
-← **이전**: [504. 캐시 웨이 예측 (Cache Way Prediction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/504_cache_way_prediction/)
-**다음**: [506. 비순차 메모리 접근 (Out-of-Order Memory Access)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/506_ooo_memory_access/) →
+<- **이전**: [504. 캐시 웨이 예측 (Cache Way Prediction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/504_cache_way_prediction/)
+**다음**: [506. 비순차 메모리 접근 (Out-of-Order Memory Access)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/506_ooo_memory_access/) ->
 
 ---

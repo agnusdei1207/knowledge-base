@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [서비스 체이닝 (Service Chainin…]
-    │
-    ▼
+    |
+    v
 [네트워크 서비스 헤더]
-    │
-    └──▶ [P4 (Programming Protocol…]
+    |
+    +---> [P4 (Programming Protocol…]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [서비스 체이닝 (Service Chainin…]
-    │
-    ▼
+    |
+    v
 [네트워크 서비스 헤더]
-    │
-    └──▶ [P4 (Programming Protocol…]
+    |
+    +---> [P4 (Programming Protocol…]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 서비스 체이닝 (Service Chainin…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 서비스 헤더]
-    │
-    ├──▶ [확장 A: P4 (Programming Protocol…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: P4 (Programming Protocol…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…에서 출발해 현재 메커니즘을 정교화하고, 이후 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 994 / 1120
 
-← **이전**: [872. 서비스 체이닝 (SFC)](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)
-**다음**: [874. 데이터 평면 프로그래밍 모델 (P4)](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) →
+<- **이전**: [872. 서비스 체이닝 (SFC)](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)
+**다음**: [874. 데이터 평면 프로그래밍 모델 (P4)](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) ->
 
 ---

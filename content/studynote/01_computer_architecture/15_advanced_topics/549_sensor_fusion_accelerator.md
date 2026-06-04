@@ -43,22 +43,22 @@ ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobilit
 | 추적·안전 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | 시간 연속성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 점수 산출, 워치독 | 기능 안전과 감쇠 모드 보장 |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ ADAS sensor fusion accelerator data path                                  │
-├────────────┬────────────┬────────────┬────────────┬────────────────────────┤
-│ Camera     │ Radar      │ LiDAR      │ IMU/Odo    │ Ultrasonic             │
-├─────┬──────┴─────┬──────┴─────┬──────┴─────┬──────┴──────────────┬────────┤
-│ ISP │ Rectify    │ Radar Prep │ LiDAR Flt. │ Time Sync / Pose    │ Range   │
-└──┬──┴──────┬─────┴──────┬─────┴──────┬─────┴──────────────┬──────┴────────┘
-   ▼         ▼            ▼            ▼                    ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Shared SRAM / NoC → Coordinate Align → BEV Feature Map → Fusion Core      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Object Track · Free-space Estimation · Confidence Check · Safety Monitor   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| ADAS sensor fusion accelerator data path                                  |
++------------+------------+------------+------------+------------------------+
+| Camera     | Radar      | LiDAR      | IMU/Odo    | Ultrasonic             |
++-----+------+-----+------+-----+------+-----+------+--------------+--------+
+| ISP | Rectify    | Radar Prep | LiDAR Flt. | Time Sync / Pose    | Range   |
++--+--+------+-----+------+-----+------+-----+--------------+------+--------+
+   v         v            v            v                    v
++----------------------------------------------------------------------------+
+| Shared SRAM / NoC -> Coordinate Align -> BEV Feature Map -> Fusion Core      |
++----------------------------------------------------------------------------+
+| Object Track · Free-space Estimation · Confidence Check · Safety Monitor   |
++----------------------------------------------------------------------------+
 ```
 
-이 그림이 보여 주는 핵심은 "센서별 전처리 → 공통 표현 → 퓨전 → 추적"이 단순 순서가 아니라, 중간 결과를 최대한 칩 내부에 머물게 하려는 메모리 전략이라는 점이다. 특히 BEV로 한 번 표현을 통일하면 카메라의 2차원 화소, 라이다의 3차원 점, 레이더의 속도 정보를 같은 격자나 특징 맵에서 다룰 수 있어 후단 인식 모델이 단순해진다.
+이 그림이 보여 주는 핵심은 "센서별 전처리 -> 공통 표현 -> 퓨전 -> 추적"이 단순 순서가 아니라, 중간 결과를 최대한 칩 내부에 머물게 하려는 메모리 전략이라는 점이다. 특히 BEV로 한 번 표현을 통일하면 카메라의 2차원 화소, 라이다의 3차원 점, 레이더의 속도 정보를 같은 격자나 특징 맵에서 다룰 수 있어 후단 인식 모델이 단순해진다.
 
 또한 퓨전 가속기는 계산기이면서 안전 장치이기도 하다. 확신도가 낮은 객체는 후기 퓨전 단계로 넘기거나, 안전 섬 (Safety Island)에서 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거쳐 제동 제어기에 전달해야 한다. 즉 이 구조의 목적은 "정확도 극대화"만이 아니라 "제한된 시간 안에 믿을 수 있는 결과를 내는 것"이다.
 
@@ -135,17 +135,17 @@ ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobilit
 
 ```text
 Single-sensor ADAS camera ECU
-        │
-        ▼
+        |
+        v
 Camera + Radar late fusion
-        │
-        ▼
+        |
+        v
 Dedicated multi-sensor fusion SoC
-        │
-        ▼
+        |
+        v
 BEV feature fusion on centralized automotive HPC
-        │
-        ▼
+        |
+        v
 Occupancy network · fail-operational perception
 ```
 
@@ -163,7 +163,7 @@ Occupancy network · fail-operational perception
 
 **진행 상황**: 549 / 803
 
-← **이전**: [548. 자율주행용 고성능 컴퓨터 (HPC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)
-**다음**: [550. 스마트 팩토리 엣지 게이트웨이 HW](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/550_smart_factory_gateway/) →
+<- **이전**: [548. 자율주행용 고성능 컴퓨터 (HPC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)
+**다음**: [550. 스마트 팩토리 엣지 게이트웨이 HW](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/550_smart_factory_gateway/) ->
 
 ---

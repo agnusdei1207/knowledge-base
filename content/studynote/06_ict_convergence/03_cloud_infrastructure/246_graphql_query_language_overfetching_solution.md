@@ -26,12 +26,12 @@ GraphQL ([Graphql Query Language](/knowledge-base/studynote/03_network/09_applic
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -54,11 +54,11 @@ GraphQL의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_softw
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Operate            │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Operate            | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ GraphQL의 경계를 드러내려면 <strong>단일 <a href="/knowledge-base/stu
 
 ```text
 [RESTful API 성숙도 모델]
-    │
-    ▼
+    |
+    v
 [GraphQL]
-    │
-    ├──▶ [오픈 API 및 API 게이트웨이 보안 스로틀링]
-    └──▶ [플랫폼 엔지니어링 / FinOps·AIOps]
+    |
+    +---> [오픈 API 및 API 게이트웨이 보안 스로틀링]
+    +---> [플랫폼 엔지니어링 / FinOps·AIOps]
 ```
 
 이 흐름도는 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델에서 출발해 현재 개념을 거쳐 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 및 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 보안 스로틀링와 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ GraphQL의 경계를 드러내려면 <strong>단일 <a href="/knowledge-base/stu
 
 **진행 상황**: 246 / 552
 
-← **이전**: [245. RESTful API 성숙도 모델 (Richardson Maturity Model - Level 3 HATEOAS)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/245_richardson_maturity_model_hateoas_rest_api/)
-**다음**: [247. 오픈 API 및 API 게이트웨이 보안 스로틀링 (Open API)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/) →
+<- **이전**: [245. RESTful API 성숙도 모델 (Richardson Maturity Model - Level 3 HATEOAS)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/245_richardson_maturity_model_hateoas_rest_api/)
+**다음**: [247. 오픈 API 및 API 게이트웨이 보안 스로틀링 (Open API)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/) ->
 
 ---

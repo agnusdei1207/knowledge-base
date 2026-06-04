@@ -36,19 +36,19 @@ tags = ["studynote-design-supervision"]
 아래 그림은 두 패턴의 구조 차이를 한눈에 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                Adapter vs Facade 구조 비교                  │
-├──────────────────────────────────────────────────────────────┤
-│ [Adapter]                                                   │
-│ Client ─▶ Target Interface ─▶ Adapter ─▶ Adaptee            │
-│          (기대 규격)         (변환)      (기존 규격)        │
-│                                                              │
-│ [Facade]                                                    │
-│ Client ─▶ Facade ─┬─▶ Subsystem A                           │
-│                   ├─▶ Subsystem B                           │
-│                   └─▶ Subsystem C                           │
-│          (단순 창구)   (복잡한 내부 협력은 내부에 숨김)      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                Adapter vs Facade 구조 비교                  |
++--------------------------------------------------------------+
+| [Adapter]                                                   |
+| Client --> Target Interface --> Adapter --> Adaptee            |
+|          (기대 규격)         (변환)      (기존 규격)        |
+|                                                              |
+| [Facade]                                                    |
+| Client --> Facade -+--> Subsystem A                           |
+|                   +--> Subsystem B                           |
+|                   +--> Subsystem C                           |
+|          (단순 창구)   (복잡한 내부 협력은 내부에 숨김)      |
++--------------------------------------------------------------+
 ```
 
 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Object [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))와 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Class [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))로 나눌 수 있다. 실무에서는 상속보다 조합이 유연하므로 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 더 많이 쓰인다. 예를 들어 `LegacySmsSender.sendLegacy()`를 `NotificationPort.send()` 형태로 감싸면, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 구체 구현을 모르고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 사용하면 된다. 이는 [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) ([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/))나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)-[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 구조와도 자연스럽게 연결된다.
@@ -138,19 +138,19 @@ tags = ["studynote-design-supervision"]
 
 ```text
 레거시 통합 · 외부 API 연동
-    │
-    ▼
+    |
+    v
 어댑터 (Adapter)
-    │
-    ├─▶ 포트-어댑터 아키텍처
-    │
-    ▼
+    |
+    +--> 포트-어댑터 아키텍처
+    |
+    v
 서브시스템 증가 · 호출 절차 복잡화
-    │
-    ▼
+    |
+    v
 퍼사드 (Facade)
-    │
-    ▼
+    |
+    v
 서비스 레이어 · API 게이트웨이 · 유스케이스 경계 강화
 ```
 
@@ -168,7 +168,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 220 / 530
 
-← **이전**: [163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/163_singleton_pattern_drawbacks/)
-**다음**: [165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/165_bridge_vs_strategy/) →
+<- **이전**: [163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/163_singleton_pattern_drawbacks/)
+**다음**: [165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/165_bridge_vs_strategy/) ->
 
 ---

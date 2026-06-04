@@ -29,13 +29,13 @@ tags = ["security"]
 [기존 계층형 인가 모델의 한계와 알 필요성 원칙의 도입]
 
 (기존: 인가 등급만 적용된 경우)
-[CTO / Top Secret 인가자] ──> 프로젝트 A 기밀 + 프로젝트 B 기밀 + 인사 기록 (전체 열람 가능)
-                               ▲ 프로젝트 B와 무관해도 열람 가능 (유출 리스크 폭발)
+[CTO / Top Secret 인가자] --> 프로젝트 A 기밀 + 프로젝트 B 기밀 + 인사 기록 (전체 열람 가능)
+                               ^ 프로젝트 B와 무관해도 열람 가능 (유출 리스크 폭발)
 
 (개선: 인가 등급 + 알 필요성 적용)
-[CTO / Top Secret 인가자] ──> [접근 제어 검증] ──> 오직 [프로젝트 A 기밀] (참여 중)
-                              (Task: Project A)  ├─X 프로젝트 B 기밀 (미참여)
-                                                 └─X 인사 기록 (인사팀 전용)
+[CTO / Top Secret 인가자] --> [접근 제어 검증] --> 오직 [프로젝트 A 기밀] (참여 중)
+                              (Task: Project A)  +-X 프로젝트 B 기밀 (미참여)
+                                                 +-X 인사 기록 (인사팀 전용)
 ```
 
 이 흐름도는 단순한 수직적 신뢰(Trust)가 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출면을 불필요하게 넓히는지를 보여준다. 이러한 알 필요성 부재는 계정 탈취나 악의적 내부자로 인한 '대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덤프(Mass [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Dump)' 공격에 무방비 상태를 제공하기 때문이며, 따라서 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)는 반드시 사용자의 현재 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(업무 범위)와 교집합을 이루어야 한다. 실무에서는 이를 구현하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 세밀한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 라벨링이 선행되어야 한다.
@@ -94,15 +94,15 @@ tags = ["security"]
 [알 필요성과 최소 권한의 교차 적용 매트릭스]
 
                       [ 데이터 접근 범위 (Need-to-Know) ]
-                   넓음 ◀───────────────────────────▶ 좁음
-       넓음 ┌────────────────────────┬────────────────────────┐
-[시스템│    │  가장 취약한 상태      │  데이터는 안전하나     │
- 액션  │    │  (Super User / Admin)  │  시스템 파괴 위험 존재 │
- 권한  │    ├────────────────────────┼────────────────────────┤
- (PoLP)│    │  시스템은 안전하나     │  [가장 안전한 상태]    │
-       좁음 │  데이터 대량 유출 위험 │  특정 데이터만 조회,   │
-            │  (조회 전용 막강 권한) │  특정 작업만 가능      │
-            └────────────────────────┴────────────────────────┘
+                   넓음 <-----------------------------> 좁음
+       넓음 +------------------------+------------------------+
+[시스템|    |  가장 취약한 상태      |  데이터는 안전하나     |
+ 액션  |    |  (Super User / Admin)  |  시스템 파괴 위험 존재 |
+ 권한  |    +------------------------+------------------------+
+ (PoLP)|    |  시스템은 안전하나     |  [가장 안전한 상태]    |
+       좁음 |  데이터 대량 유출 위험 |  특정 데이터만 조회,   |
+            |  (조회 전용 막강 권한) |  특정 작업만 가능      |
+            +------------------------+------------------------+
 ```
 
 이 매트릭스는 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Read)와 기능(Execute)을 분리해서 통제해야 함을 시사한다. 많은 기업이 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(최소 권한)만 적용하여 '조회 권한(Read-Only)'을 넓게 부여하는 실수를 저지르는데, 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 관점에서는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 알 필요성 원칙이 결여된 최소 권한은 내부망의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을 전혀 보장하지 못한다. 반면 두 원칙을 결합하면 사용자는 오직 '자신의 프로젝트 문서'만 '읽기 전용'으로 여는 가장 안전한 상태에 도달한다.
@@ -127,16 +127,16 @@ tags = ["security"]
 ```text
 [실무적인 알 필요성(NtK) 기반 데이터 접근 승인 플로우]
 
-[사용자 요청] ──> 데이터 접근 (문서 'Project_X_Architecture.pdf')
-                  │
-[컨텍스트 수집] ──> 1. 사용자 부서/직무 (Identity)
+[사용자 요청] --> 데이터 접근 (문서 'Project_X_Architecture.pdf')
+                  |
+[컨텍스트 수집] --> 1. 사용자 부서/직무 (Identity)
                   2. 사용자의 현재 할당된 프로젝트 목록 (HR/Jira 연동)
-                  │
-[정책 엔진 평가] ──> [문서 메타데이터: Tag=Project_X] 와 교집합 비교
-  (ABAC/DRM)      │
-                  ├──> 교집합 있음 (NtK 충족) ──> [일시적 열람 허용 (DRM 암호화)]
-                  │
-                  └──> 교집합 없음 (NtK 미달) ──> [접근 차단 및 데이터 소유자에게 승인 요청 워크플로우 트리거]
+                  |
+[정책 엔진 평가] --> [문서 메타데이터: Tag=Project_X] 와 교집합 비교
+  (ABAC/DRM)      |
+                  +--> 교집합 있음 (NtK 충족) --> [일시적 열람 허용 (DRM 암호화)]
+                  |
+                  +--> 교집합 없음 (NtK 미달) --> [접근 차단 및 데이터 소유자에게 승인 요청 워크플로우 트리거]
 ```
 
 이 플로우의 핵심은 알 필요성 검증을 정적인 권한 테이블이 아니라, Jira나 인사 시스템과 연동하여 동적인 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반으로 평가한다는 점이다. 이러한 배치는 직원이 새로운 프로젝트에 투입되거나 빠질 때마다 수동으로 권한을 넣고 빼는 관리적 오버헤드를 제거하기 때문이며, 따라서 보안성과 협업의 민첩성을 동시에 달성할 수 있다. 실무에서는 접근 거부 시 즉각적인 예외 승인(Request Access) 플로우를 연동하여 업무 마비를 방지해야 한다.
@@ -173,17 +173,17 @@ tags = ["security"]
 
 ```text
 [최소 권한 원칙 (Least Privilege) — 꼭 필요한 권한만 부여하는 보안 설계 철학]
-    │
-    ▼
+    |
+    v
 [알 필요성 원칙 (Need-to-Know) — 업무 수행에 필요한 정보만 접근 허용]
-    │
-    ▼
+    |
+    v
 [강제적 접근 통제 (MAC) — 보안 등급 기반 자동 접근 제한 정책]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 (Zero Trust) — 내부 네트워크도 신뢰하지 않는 지속 검증 모델]
-    │
-    ▼
+    |
+    v
 [마이크로 세그멘테이션 (Micro-Segmentation) — 워크로드 단위의 세밀한 접근 통제]
 ```
 
@@ -200,7 +200,7 @@ tags = ["security"]
 
 **진행 상황**: 13 / 1108
 
-← **이전**: [12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)
-**다음**: [14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거](/knowledge-base/studynote/09_security/01_intro_principles/014_simplicity/) →
+<- **이전**: [12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)
+**다음**: [14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거](/knowledge-base/studynote/09_security/01_intro_principles/014_simplicity/) ->
 
 ---

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기 ([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Lifecycle)는 테스트나 사용 중에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되어 등록된 시점부터 최종 종결까지의과정을추적한も의에서ある. 일반적인 단계는 발생(Discovery) → 등록(Report) → 분석(Analysis) → 할당(Assignment) → 수정(Fix) → 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) → 종료(Close)이다. 각 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 상태가 변경되며, 이를 통해 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적할 수 있다.
+- **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기 ([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Lifecycle)는 테스트나 사용 중에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되어 등록된 시점부터 최종 종결까지의과정을추적한も의에서ある. 일반적인 단계는 발생(Discovery) -> 등록(Report) -> 분석(Analysis) -> 할당(Assignment) -> 수정(Fix) -> 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) -> 종료(Close)이다. 각 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 상태가 변경되며, 이를 통해 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적할 수 있다.
 
 - **필요성**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기가 없으면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 관리되고 있는지 파악하기 어려우며, 어떤 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 아직 해결되지 않았는지, 어떤 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 긴급한지 등을 즉시에 파악할 수 없다. 또한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리를 통해 테스트적유효성을평가한り, 프로젝트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 파악할 수 있다.
 
@@ -27,23 +27,23 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리 분야에서 발전되었으며, IEEE Std. 829에서 테스트 문서 표준으로 정리되었다.
 
-- **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기는 "택배 배송 과정"에 비유할 수 있다. 주문접수(발생) → 물류센터 입고(등록) → 배송 경로 분석(분석) → 배송 담당자 배정(할당) → 배송(수정) → 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) → 거래 완료(종결).
+- **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기는 "택배 배송 과정"에 비유할 수 있다. 주문접수(발생) -> 물류센터 입고(등록) -> 배송 경로 분석(분석) -> 배송 담당자 배정(할당) -> 배송(수정) -> 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) -> 거래 완료(종결).
 
 ---
 
 다음은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  결함 생명주기                                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  결함 생명주기                                     |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 생명주기가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 결함 생명주기 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 353 / 973
 
-← **이전**: [352. 결함(Defect)의 정의 - 오류(Error/Mistake), 결점(Fault/Bug), 고장/실패(Failure)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)
-**다음**: [354. 결함 심각도 (Severity) vs 결함 우선순위 (Priority)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) →
+<- **이전**: [352. 결함(Defect)의 정의 - 오류(Error/Mistake), 결점(Fault/Bug), 고장/실패(Failure)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)
+**다음**: [354. 결함 심각도 (Severity) vs 결함 우선순위 (Priority)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) ->
 
 ---

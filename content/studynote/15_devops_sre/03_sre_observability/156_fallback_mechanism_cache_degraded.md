@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Failure Signal       |--->| Protection Policy    |--->| Isolation Layer      |--->| Recovery Path        |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 메커니즘이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Failure Signal       |--->| Protection Policy    |--->| Isolation Layer      |--->| Recovery Path        |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Graceful Degradation]
-    │
-    ▼
+    |
+    v
 [폴백 메커니즘]
-    │
-    ├──▶ [Cache]
-    ├──▶ [Circuit Breaker]
-    └──▶ [직접 재시도 중심의 단순 장애 대응]
+    |
+    +---> [Cache]
+    +---> [Circuit Breaker]
+    +---> [직접 재시도 중심의 단순 장애 대응]
 ```
 
 이 흐름도는 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 메커니즘이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 156 / 373
 
-← **이전**: [155. 타임아웃 (Timeout) 동기화 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/155_timeout_synchronization_strategy/)
-**다음**: [157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/157_operational_debt_dark_debt/) →
+<- **이전**: [155. 타임아웃 (Timeout) 동기화 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/155_timeout_synchronization_strategy/)
+**다음**: [157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략](/knowledge-base/studynote/15_devops_sre/03_sre_observability/157_operational_debt_dark_debt/) ->
 
 ---

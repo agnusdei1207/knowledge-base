@@ -11,21 +11,21 @@ tags = ["studynote-it-management"]
 
 # 📚 정보관리 기술사 핵심 토픽 — IT 경영 관리 심화 (디지털 전환 시대의 IT 거버넌스 및 가치 실현 전략)
 
-> **시험 대비 포인트**: 본 토픽은 단순히 거버넌스 프레임워크(COBIT, ITIL 등)의 암기형이 아니라, **"왜(Why) → 어떻게(How) → 무엇을(What) 측정·통제할 것인가"**의 가치사슬을 논리적으로 서술하는 능력을 평가합니다. 특히 **IT-비즈니스 정렬(Alignment)**, **IT 투자대비 가치(ROI/VOI)**, **디지털 거버넌스 컴플라이언스**가 3대 핵심 키워드입니다.
+> **시험 대비 포인트**: 본 토픽은 단순히 거버넌스 프레임워크(COBIT, ITIL 등)의 암기형이 아니라, **"왜(Why) -> 어떻게(How) -> 무엇을(What) 측정·통제할 것인가"**의 가치사슬을 논리적으로 서술하는 능력을 평가합니다. 특히 **IT-비즈니스 정렬(Alignment)**, **IT 투자대비 가치(ROI/VOI)**, **디지털 거버넌스 컴플라이언스**가 3대 핵심 키워드입니다.
 
 ---
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 경영 관리는 **COBIT 2019(거버넌스/관리 목표 40개), ITIL 4(Service Value System), ISO 38500(6원칙), ISO 27001(ISMS), CMMI(성숙도)** 등 다중 프레임워크를 **"IT 거버넌스 삼각형(Structure-Process-Relationship)"** 으로 통합하여, 디지털 시대의 **데이터·플랫폼·AI 자산**에 대한 의사결정 권한·책무·성과측정 체계를 설계하는 경영과학이다.
-> 2. **가치**: 잘 설계된 IT 거버넌스는 ROI 25~40% 향상, IT 프로젝트 실패율 70%→30% 감소, M&A 시 IT 실사(Due Diligence) 기간 50% 단축, 규제 컴플라이언스 비용 평균 35% 절감의 정량 효과를 창출하며, Gartner(2024) 기준 **Top Quartile 기업은 IT 예산 대비 매출 비중 4.2% 대비 EBITDA 마진 12.7%p 우위**.
+> 2. **가치**: 잘 설계된 IT 거버넌스는 ROI 25~40% 향상, IT 프로젝트 실패율 70%->30% 감소, M&A 시 IT 실사(Due Diligence) 기간 50% 단축, 규제 컴플라이언스 비용 평균 35% 절감의 정량 효과를 창출하며, Gartner(2024) 기준 **Top Quartile 기업은 IT 예산 대비 매출 비중 4.2% 대비 EBITDA 마진 12.7%p 우위**.
 > 3. **판단 포인트**: **집중형(Centralized) vs 분산형(Federated) 거버넌스** 선택, **규범적(Normative) vs 합의적(Consensus) 의사결정** 메커니즘, **BSC 4관점(재무/고객/내부/학습성장) KPI 가중치**, **Two-Speed IT(Greenfield/Digital vs Brownfield/Legacy)** 이원화 전략 사이의 **Trade-off**가 기술사 논술의 핵심 쟁점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 시대적 배경: VUCA → BANI → 디지털 복잡성
+### 1.1 시대적 배경: VUCA -> BANI -> 디지털 복잡성
 
 4차 산업혁명(AI·클라우드·IoT·블록체인) 이후, IT는 **"비용 센터(Cost Center)"에서 "전략적 가치 창출 엔진(Value Engine)"**으로 역할이 전환되었습니다. 한국 정보화진흥원(KIAT) 조사에 따르면, 국내 대기업의 78%가 **"IT 투자의 비즈니스 성과 가시성 부족"**을 최대 경영 리스크로 인식하고 있으며, CIO의 64%가 **"이사회와의 IT 가치 소통 부족"**을 고충으로 호소합니다.
 
@@ -40,19 +40,19 @@ tags = ["studynote-it-management"]
 | **레거시 부채** | COBOL/AS400 등 30년 이상 시스템 잔존 | 신규 기능 출시 속도 40% 지연 |
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│         디지털 전환 시대의 IT 경영 관리 패러다임 전환도             │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|         디지털 전환 시대의 IT 경영 관리 패러다임 전환도             |
++---------------------------------------------------------------------+
 
    1990s (전산실 시대)        2000s (정보화 시대)         2020s+ (디지털 시대)
-   ┌──────────────┐         ┌──────────────┐         ┌──────────────┐
-   │  Mainframe   │         │  ERP/CRM     │         │ Cloud-Native │
-   │  중앙집중식  │  ────►  │  프로세스중심 │  ────►  │ 데이터/AI중심│
-   │  CIO 권한↑   │         │  사업부별 분권 │         │  플랫폼 거버 │
-   │  TCO 최적화  │         │  ROI 추구    │         │  가치/리스크 │
-   └──────────────┘         └──────────────┘         └──────────────┘
-         │                          │                          │
-         ▼                          ▼                          ▼
+   +--------------+         +--------------+         +--------------+
+   |  Mainframe   |         |  ERP/CRM     |         | Cloud-Native |
+   |  중앙집중식  |  ----►  |  프로세스중심 |  ----►  | 데이터/AI중심|
+   |  CIO 권한^   |         |  사업부별 분권 |         |  플랫폼 거버 |
+   |  TCO 최적화  |         |  ROI 추구    |         |  가치/리스크 |
+   +--------------+         +--------------+         +--------------+
+         |                          |                          |
+         v                          v                          v
    Cost Center(비용)        Profit Partner(파트너)    Value Engine(가치)
    "전산은 블랙박스"        "IT는 사업지원"          "IT는 사업 그 자체"
 ```
@@ -71,39 +71,39 @@ tags = ["studynote-it-management"]
 ### 2.1 IT 거버넌스 참조 아키텍처 (3-Layer Governance Model)
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│  Layer 1: 전략 거버넌스 (Strategic Governance)                       │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  Board / Steering Committee                                 │    │
-│  │  ├─ IT Strategy Committee (분기 1회)                        │    │
-│  │  ├─ Digital Transformation Council (월 1회)                │    │
-│  │  └─ Architecture Review Board (ARB, 수시)                  │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│         │                                                            │
-│         ▼  (의사결정: 페이퍼 모빌리티, 비중, 우선순위)                │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  Layer 2: 전술 거버넌스 (Tactical Governance)               │    │
-│  │  ├─ Portfolio Management Office (PfMO)                      │    │
-│  │  ├─ Demand Management (수요·공급 매칭)                     │    │
-│  │  ├─ Architecture Governance (EA, 참조모델)                  │    │
-│  │  └─ Risk & Compliance (GRC 통합)                            │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│         │                                                            │
-│         ▼  (정책/표준/가이드 배포)                                   │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  Layer 3: 운영 거버넌스 (Operational Governance)            │    │
-│  │  ├─ Service Management (ITIL 4 SVS)                        │    │
-│  │  ├─ Project/Program Office (PMO)                            │    │
-│  │  ├─ DevSecOps Pipeline (CI/CD/CT)                          │    │
-│  │  └─ FinOps / GreenOps (클라우드 비용·탄소)                  │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│         │                                                            │
-│         ▼  (피드백 루프: KPI/BSC 대시보드 → Layer 1로 환류)          │
-│  Layer 4: 측정·개선 (Feedback & Continuous Improvement)             │
-│  ├─ Balanced Scorecard (4 Perspectives)                             │
-│  ├─ OKR (Objectives & Key Results)                                  │
-│  └─ Maturity Assessment (CMMI/COBIT PAM)                            │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|  Layer 1: 전략 거버넌스 (Strategic Governance)                       |
+|  +-------------------------------------------------------------+    |
+|  |  Board / Steering Committee                                 |    |
+|  |  +- IT Strategy Committee (분기 1회)                        |    |
+|  |  +- Digital Transformation Council (월 1회)                |    |
+|  |  +- Architecture Review Board (ARB, 수시)                  |    |
+|  +-------------------------------------------------------------+    |
+|         |                                                            |
+|         v  (의사결정: 페이퍼 모빌리티, 비중, 우선순위)                |
+|  +-------------------------------------------------------------+    |
+|  |  Layer 2: 전술 거버넌스 (Tactical Governance)               |    |
+|  |  +- Portfolio Management Office (PfMO)                      |    |
+|  |  +- Demand Management (수요·공급 매칭)                     |    |
+|  |  +- Architecture Governance (EA, 참조모델)                  |    |
+|  |  +- Risk & Compliance (GRC 통합)                            |    |
+|  +-------------------------------------------------------------+    |
+|         |                                                            |
+|         v  (정책/표준/가이드 배포)                                   |
+|  +-------------------------------------------------------------+    |
+|  |  Layer 3: 운영 거버넌스 (Operational Governance)            |    |
+|  |  +- Service Management (ITIL 4 SVS)                        |    |
+|  |  +- Project/Program Office (PMO)                            |    |
+|  |  +- DevSecOps Pipeline (CI/CD/CT)                          |    |
+|  |  +- FinOps / GreenOps (클라우드 비용·탄소)                  |    |
+|  +-------------------------------------------------------------+    |
+|         |                                                            |
+|         v  (피드백 루프: KPI/BSC 대시보드 -> Layer 1로 환류)          |
+|  Layer 4: 측정·개선 (Feedback & Continuous Improvement)             |
+|  +- Balanced Scorecard (4 Perspectives)                             |
+|  +- OKR (Objectives & Key Results)                                  |
+|  +- Maturity Assessment (CMMI/COBIT PAM)                            |
++---------------------------------------------------------------------+
 ```
 
 ### 2.2 핵심 프레임워크 통합 메커니즘
@@ -114,7 +114,7 @@ tags = ["studynote-it-management"]
 | **전략/전술** | **ISO 38500** | 6원칙(책임·방향·전략·획득·성과·규정 준수) 기반 이사회 거버넌스 | 정책, 거버넌스 평가 |
 | **전술** | **TOGAF 10 / Zachman** | EA(Enterprise Architecture) 참조모델로 정합성 확보 | 시스템 설계, 통합 |
 | **전술/운영** | **ITIL 4** | 34개 Practice 기반 Service Value System(SVS) | 서비스 운영 |
-| **전술/운영** | **CMMI v2.0** | 5단계(Initial→Optimizing) 성숙도 측정 | 프로세스 개선 |
+| **전술/운영** | **CMMI v2.0** | 5단계(Initial->Optimizing) 성숙도 측정 | 프로세스 개선 |
 | **운영** | **DevSecOps / SRE** | 4대 측정지표(SLI/SLO/SLA/Error Budget) | 운영 자동화 |
 | **전체** | **ISO 27001/27701** | 정보보안/개인정보경영시스템(ISMS/PIMS) | 보안 통제 |
 | **전체** | **ISO 31000 / COSO ERM** | 전사 리스크 관리(ERM) 통합 | 리스크 평가 |
@@ -123,25 +123,25 @@ tags = ["studynote-it-management"]
 
 ```text
    Stage 1        Stage 2          Stage 3         Stage 4
-   Input  ────►   Process  ────►   Output  ────►   Outcome
+   Input  ----►   Process  ----►   Output  ----►   Outcome
    (투자)         (활동/프로세스)   (산출물)        (성과/가치)
 
-   ┌──────┐      ┌──────────┐      ┌────────┐      ┌─────────┐
-   │CAPEX │ ──── │  IT      │ ──── │시스템/ │ ──── │매출증가 │
-   │OPEX  │      │프로세스  │      │서비스  │      │비용절감 │
-   │인력  │      │아키텍처  │      │데이터  │      │리스크↓  │
-   └──────┘      └──────────┘      └────────┘      └─────────┘
-        │              │               │               │
-        └──────────────┴───────────────┴───────────────┘
-                                │
-                                ▼
-              ┌───────────────────────────────────┐
-              │ BSC 4관점 KPI 측정 및 환류        │
-              │ ① Financial(예: IT Cost/Revenue)  │
-              │ ② Customer(예: NPS, SLA)         │
-              │ ③ Internal(예: 배포 빈도, MTTR)   │
-              │ ④ Learning(예: 디지털 역량 지수)  │
-              └───────────────────────────────────┘
+   +------+      +----------+      +--------+      +---------+
+   |CAPEX | ---- |  IT      | ---- |시스템/ | ---- |매출증가 |
+   |OPEX  |      |프로세스  |      |서비스  |      |비용절감 |
+   |인력  |      |아키텍처  |      |데이터  |      |리스크v  |
+   +------+      +----------+      +--------+      +---------+
+        |              |               |               |
+        +--------------+---------------+---------------+
+                                |
+                                v
+              +-----------------------------------+
+              | BSC 4관점 KPI 측정 및 환류        |
+              | ① Financial(예: IT Cost/Revenue)  |
+              | ② Customer(예: NPS, SLA)         |
+              | ③ Internal(예: 배포 빈도, MTTR)   |
+              | ④ Learning(예: 디지털 역량 지수)  |
+              +-----------------------------------+
 ```
 
 **핵심 공식**:
@@ -156,12 +156,12 @@ tags = ["studynote-it-management"]
 
 - **RACI 매트릭스**: Responsible(실행), Accountable(책임), Consulted(자문), Informed(통보) — 의사결정 권한의 명문화
 - **DAMB 모델**: D(Driver) - A(Approver) - M(Manager) - B(Contributor) — 4단계 역할
-- **OKR Cascading**: Company OKR → Business Unit OKR → Team OKR →
+- **OKR Cascading**: Company OKR -> Business Unit OKR -> Team OKR ->
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 536 / 800
 
-← **이전**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/)
-**다음**: [537. IT 경영 관리 핵심 토픽 537번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/537_it_management_core_topic_537_exam_summary/) →
+<- **이전**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/)
+**다음**: [537. IT 경영 관리 핵심 토픽 537번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/537_it_management_core_topic_537_exam_summary/) ->
 
 ---

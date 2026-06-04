@@ -19,22 +19,22 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          Oozie 워크플로 구조                               │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  워크플로 DAG:                                            │
-│  [START] → [Sqoop 임포트] → [Hive ETL] → [Pig 집계]      │
-│                                 │                         │
-│                           성공/실패 분기                  │
-│                         /              \                  │
-│                    [이메일 알림]    [오류 처리 잡]          │
-│                         \              /                  │
-│                              [END]                        │
-│                                                           │
-│  코디네이터:                                              │
-│  매일 02:00 → 전날 데이터 준비 확인 → 워크플로 자동 실행  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          Oozie 워크플로 구조                               |
++----------------------------------------------------------+
+|                                                           |
+|  워크플로 DAG:                                            |
+|  [START] -> [Sqoop 임포트] -> [Hive ETL] -> [Pig 집계]      |
+|                                 |                         |
+|                           성공/실패 분기                  |
+|                         /              \                  |
+|                    [이메일 알림]    [오류 처리 잡]          |
+|                         \              /                  |
+|                              [END]                        |
+|                                                           |
+|  코디네이터:                                              |
+|  매일 02:00 -> 전날 데이터 준비 확인 -> 워크플로 자동 실행  |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Oozie는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장의 자동화 관리자다. 매일 새벽 원재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 도착을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 순서대로 공정([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 잡)을 실행하며, 문제가 생기면 알림을 보내는 공장 자동화 시스템이다.
@@ -114,16 +114,16 @@ Airflow:
 </workflow-app>
 ```
 
-### 마이그레이션: Oozie → Airflow
+### 마이그레이션: Oozie -> Airflow
 
 ```text
 1. Oozie XML 워크플로를 Airflow Python DAG로 변환
-2. YARN 직접 실행 → SparkSubmitOperator, HiveOperator
-3. 코디네이터 스케줄 → Airflow cron expression
-4. 데이터 가용성 트리거 → Airflow Sensor (HdfsFileSensor)
+2. YARN 직접 실행 -> SparkSubmitOperator, HiveOperator
+3. 코디네이터 스케줄 -> Airflow cron expression
+4. 데이터 가용성 트리거 -> Airflow Sensor (HdfsFileSensor)
 ```
 
-- **📢 섹션 요약 비유**: Oozie → Airflow 마이그레이션은 구형 팩스기에서 이메일로 전환하는 것이다. 기능(문서 전달)은 같지만, 더 빠르고 추적 가능하며 다른 시스템과 통합이 훨씬 쉬워진다.
+- **📢 섹션 요약 비유**: Oozie -> Airflow 마이그레이션은 구형 팩스기에서 이메일로 전환하는 것이다. 기능(문서 전달)은 같지만, 더 빠르고 추적 가능하며 다른 시스템과 통합이 훨씬 쉬워진다.
 
 ---
 
@@ -155,17 +155,17 @@ Airflow:
 
 ```text
 [Cron + 쉘 스크립트 — 기본 배치 스케줄링]
-    │
-    ▼
+    |
+    v
 [Apache Oozie — Hadoop 전용 워크플로 스케줄러]
-    │
-    ▼
+    |
+    v
 [Apache Airflow — Python DAG 기반 범용 오케스트레이터]
-    │
-    ▼
+    |
+    v
 [클라우드 관리형 — AWS MWAA, GCP Composer]
-    │
-    ▼
+    |
+    v
 [AI 파이프라인 — MLflow·Kubeflow·Vertex AI 워크플로]
 ```
 
@@ -181,7 +181,7 @@ Airflow:
 
 **진행 상황**: 51 / 262
 
-← **이전**: [28. Hadoop 보안 — Kerberos, Ranger, Atlas](/knowledge-base/studynote/16_bigdata/02_hadoop/050_hadoop_security_kerberos_ranger_atlas/)
-**다음**: [01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics 엔진)](/knowledge-base/studynote/16_bigdata/03_spark/052_apache_spark/) →
+<- **이전**: [28. Hadoop 보안 — Kerberos, Ranger, Atlas](/knowledge-base/studynote/16_bigdata/02_hadoop/050_hadoop_security_kerberos_ranger_atlas/)
+**다음**: [01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics 엔진)](/knowledge-base/studynote/16_bigdata/03_spark/052_apache_spark/) ->
 
 ---

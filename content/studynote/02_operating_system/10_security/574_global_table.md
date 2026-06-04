@@ -125,12 +125,12 @@ Rule 3: DROP   ALL
 
 ```text
 [접근 제어 행렬 (Access Matrix)]
-    │
-    ▼
+    |
+    v
 [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
-    │
-    ├──▶ [접근 제어 목록 (ACL, Access Control List)]
-    └──▶ [자격 증명 리스트 (Capability List / Ticket)]
+    |
+    +---> [접근 제어 목록 (ACL, Access Control List)]
+    +---> [자격 증명 리스트 (Capability List / Ticket)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -149,7 +149,7 @@ Rule 3: DROP   ALL
 
 **진행 상황**: 574 / 800
 
-← **이전**: [573. 접근 제어 행렬 (Access Matrix) - 주체(행)와 객체(열) 교차점의 권한 표현 모형](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)
-**다음**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/knowledge-base/studynote/02_operating_system/10_security/575_acl_access_control_list/) →
+<- **이전**: [573. 접근 제어 행렬 (Access Matrix) - 주체(행)와 객체(열) 교차점의 권한 표현 모형](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)
+**다음**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/knowledge-base/studynote/02_operating_system/10_security/575_acl_access_control_list/) ->
 
 ---

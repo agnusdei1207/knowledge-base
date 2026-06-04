@@ -44,28 +44,28 @@ iSCSI 연결은 보통 발견(Discovery), 로그인(Login), [세션](/knowledge-
 아래 그림은 iSCSI가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라 **블록 명령을 IP망에 얹어** 전달하는 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               iSCSI data path: block storage over routed IP          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Application / File System                                            │
-│            │                                                         │
-│            ▼                                                         │
-│      SCSI commands                                                   │
-│            │                                                         │
-│            ▼                                                         │
-│  iSCSI Initiator on host                                             │
-│            │                                                         │
-│            ▼                                                         │
-│      TCP / IP / Ethernet                                             │
-│            │                                                         │
-│     Routed Ethernet network                                          │
-│            │                                                         │
-│            ▼                                                         │
-│      iSCSI Target                                                    │
-│            │                                                         │
-│            ▼                                                         │
-│   Remote LUN exposed as local block device                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               iSCSI data path: block storage over routed IP          |
++----------------------------------------------------------------------+
+| Application / File System                                            |
+|            |                                                         |
+|            v                                                         |
+|      SCSI commands                                                   |
+|            |                                                         |
+|            v                                                         |
+|  iSCSI Initiator on host                                             |
+|            |                                                         |
+|            v                                                         |
+|      TCP / IP / Ethernet                                             |
+|            |                                                         |
+|     Routed Ethernet network                                          |
+|            |                                                         |
+|            v                                                         |
+|      iSCSI Target                                                    |
+|            |                                                         |
+|            v                                                         |
+|   Remote LUN exposed as local block device                           |
++----------------------------------------------------------------------+
 ```
 
 iSCSI가 중요한 이유는 원격 저장장치를 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버가 아니라 <strong>로컬 디스크처럼 다루게 만든다</strong>는 점이다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 클러스터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 자신이 직접 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)를 제어한다고 생각하며 동작할 수 있다.
@@ -140,19 +140,19 @@ iSCSI의 가장 큰 공헌은 SAN을 전용 장비의 세계에서 꺼내 <stron
 
 ```text
 직접 연결 SCSI 저장장치
-    │
-    ▼
+    |
+    v
 Fibre Channel (FC) SAN
     : 고성능 전용 패브릭
-    │
-    ▼
+    |
+    v
 iSCSI (Internet Small Computer System Interface)
     : TCP/IP 기반 블록 스토리지 대중화
-    │
-    ▼
+    |
+    v
 10/25/100 Gigabit Ethernet + MPIO (Multipath I/O)
-    │
-    ▼
+    |
+    v
 NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
 ```
 
@@ -168,7 +168,7 @@ NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
 
 **진행 상황**: 699 / 803
 
-← **이전**: [697. FCoE (Fibre Channel over Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/)
-**다음**: [699. NVMe 큐 쌍 (Queue Pairs)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/699_nvme_queue_pairs/) →
+<- **이전**: [697. FCoE (Fibre Channel over Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/)
+**다음**: [699. NVMe 큐 쌍 (Queue Pairs)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/699_nvme_queue_pairs/) ->
 
 ---

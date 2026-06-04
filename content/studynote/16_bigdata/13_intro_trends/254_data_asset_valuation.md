@@ -129,13 +129,13 @@ tags = ["studynote-bigdata"]
 데이터 품질과 가치 함수:
   Data Value = f(품질, 관련성, 희소성, 시의성)
 
-  품질 < 임계값 → 음(-)의 가치:
+  품질 < 임계값 -> 음(-)의 가치:
     오염된 데이터 기반 잘못된 ML 모델
-    → 잘못된 제품 추천 → 고객 이탈
-    → 데이터 없을 때보다 더 나쁜 결과
+    -> 잘못된 제품 추천 -> 고객 이탈
+    -> 데이터 없을 때보다 더 나쁜 결과
 
 데이터 품질 부채 (Data Quality Debt):
-  낮은 품질 데이터 방치 → 다운스트림 시스템 오염
+  낮은 품질 데이터 방치 -> 다운스트림 시스템 오염
   수정 비용 = 발견 지점까지의 처리 비용 × 10배 법칙
 
   예시:
@@ -146,7 +146,7 @@ tags = ["studynote-bigdata"]
 
 데이터 품질 ROI:
   품질 개선 투자 비용 vs 오류 데이터로 인한 손실 방지
-  IBM 연구: 데이터 품질 불량 → 미국 기업 연간 3.1조 달러 손실
+  IBM 연구: 데이터 품질 불량 -> 미국 기업 연간 3.1조 달러 손실
 ```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 요리 재료 신선도 — 신선한 재료(고품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 맛있는 요리(올바른 의사결정), 상한 재료는 배탈(잘못된 결정)을 만들어요.
@@ -161,7 +161,7 @@ tags = ["studynote-bigdata"]
 데이터 카탈로그 (Data Catalog):
   자산 목록화: 데이터셋명, 소유자, 위치
   메타데이터: 스키마, 샘플, 품질 점수
-  데이터 계보(Lineage): 출처 → 변환 → 사용처
+  데이터 계보(Lineage): 출처 -> 변환 -> 사용처
   도구: Apache Atlas, Collibra, Alation
 
 데이터 소유권 (Data Ownership):
@@ -171,8 +171,8 @@ tags = ["studynote-bigdata"]
 
 규제 컴플라이언스와 가치:
   GDPR (EU): 개인정보 삭제권
-    → 데이터 정리 의무 = 가치 훼손 위험
-    → 컴플라이언스 = 데이터 가치 보호
+    -> 데이터 정리 의무 = 가치 훼손 위험
+    -> 컴플라이언스 = 데이터 가치 보호
 
   CCPA (미국): 개인정보 판매 옵트아웃
   PIPA (한국): 개인정보보호법
@@ -208,12 +208,12 @@ tags = ["studynote-bigdata"]
   저장 비용: 클라우드 스토리지 = 연간 5,000만원
   관리 비용: DBA, 컴플라이언스 = 연간 3억원
   5년 누적 총비용: 약 27억원
-  → 자산 가치 하한선: 27억원
+  -> 자산 가치 하한선: 27억원
 
 DCF 접근법 (간접 가치):
   개인화 추천 시스템 적용:
-    전환율 3% → 4.5% (+50%)
-    연간 매출 1,000억 → 1,500억 (+500억)
+    전환율 3% -> 4.5% (+50%)
+    연간 매출 1,000억 -> 1,500억 (+500억)
     할인율 8%, 유효 수명 5년:
     NPV = 500억 × PVIFA(8%, 5) = 500억 × 3.99 ≈ 1,995억원
 
@@ -282,7 +282,7 @@ Gartner, IBM: 데이터 자산 측정 프레임워크
       |
       v
 [데이터 규제 강화 (2018~)]
-GDPR 시행 → 데이터 관리 의무화
+GDPR 시행 -> 데이터 관리 의무화
 데이터 거버넌스 = 가치 보호 핵심
       |
       v
@@ -306,7 +306,7 @@ AI 학습 데이터 고가치화
 
 **진행 상황**: 254 / 262
 
-← **이전**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/)
-**다음**: [043. 데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) →
+<- **이전**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/)
+**다음**: [043. 데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) ->
 
 ---

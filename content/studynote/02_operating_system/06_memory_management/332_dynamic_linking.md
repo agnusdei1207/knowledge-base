@@ -28,22 +28,22 @@ tags = ["studynote-operating-system"]
   3. <strong>메모리 맵핑 (Memory <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 프로세스가 이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출하면, OS는 물리 메모리에 해당 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 1개만 올려두고, 호출한 모든 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(가상 주소)이 이 1개의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 가리키도록 연결선만 이어주게 되었다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│       정적 연결(Static) vs 동적 연결(Dynamic) 메모리 낭비 비교    │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [정적 연결 시 메모리 맵]                                          │
-│  프로세스 A (3MB): [자체 코드 1MB] + [표준 라이브러리 2MB]        │
-│  프로세스 B (4MB): [자체 코드 2MB] + [표준 라이브러리 2MB]        │
-│  => 총 메모리 소모: 7MB (라이브러리 코드가 중복 적재됨!)          │
-│                                                                   │
-│ [동적 연결 시 메모리 맵]                                          │
-│  물리 메모리 1번지: [표준 라이브러리 2MB] (OS가 1개만 띄움)       │
-│                                                                   │
-│  프로세스 A (1MB): [자체 코드 1MB] ────주소 연결──▶ 라이브러리    │
-│  프로세스 B (2MB): [자체 코드 2MB] ────주소 연결──▶ 라이브러리    │
-│  => 총 메모리 소모: 1MB + 2MB + 2MB(공용) = 5MB (공간 절약!)      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|       정적 연결(Static) vs 동적 연결(Dynamic) 메모리 낭비 비교    |
++-------------------------------------------------------------------+
+|                                                                   |
+| [정적 연결 시 메모리 맵]                                          |
+|  프로세스 A (3MB): [자체 코드 1MB] + [표준 라이브러리 2MB]        |
+|  프로세스 B (4MB): [자체 코드 2MB] + [표준 라이브러리 2MB]        |
+|  => 총 메모리 소모: 7MB (라이브러리 코드가 중복 적재됨!)          |
+|                                                                   |
+| [동적 연결 시 메모리 맵]                                          |
+|  물리 메모리 1번지: [표준 라이브러리 2MB] (OS가 1개만 띄움)       |
+|                                                                   |
+|  프로세스 A (1MB): [자체 코드 1MB] ----주소 연결---> 라이브러리    |
+|  프로세스 B (2MB): [자체 코드 2MB] ----주소 연결---> 라이브러리    |
+|  => 총 메모리 소모: 1MB + 2MB + 2MB(공용) = 5MB (공간 절약!)      |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 단순한 도식이 윈도우나 리눅스 생태계의 뼈대를 설명한다. 동적 연결은 단순히 디스크 용량만 줄여주는 게 아니라, 한정된 물리 램(RAM)에 똑같은 코드가 여러 개 올라가는 것을 OS 차원에서 차단하여 가용 메모리를 극적으로 늘려준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑 기술을 이용해, 각 프로세스에게는 "너 혼자 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 다 쓰고 있어"라는 착각을 심어준 채 뒤에서는 하나의 물리 메모리를 은밀하게 공유시킨다.
 
@@ -70,23 +70,23 @@ tags = ["studynote-operating-system"]
 프로그램이 시작될 때 모든 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 주소를 연결하면 부팅 속도가 매우 느려진다. 그래서 현대 OS는 함수가 **실제로 처음 호출될 때** 주소를 연결하는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding)</strong> 기법을 사용한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│             지연 바인딩(Lazy Binding) 동적 연결 과정                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [프로세스 A 코드]                                                        │
-│ CALL printf ───────┐                                                     │
-│                    ▼                                                     │
-│               [ Stub 코드 영역 (PLT) ]                                   │
-│               "printf의 실제 메모리 주소를 아는가?"                      │
-│                    │                                                     │
-│       ┌───(No: 최초 호출 시)───┐        ┌───(Yes: 두 번째 호출)          │
-│       ▼                        ▼        ▼                                │
-│ [OS 개입]                [주소 테이블(GOT) 갱신]  [즉시 실행]            │
-│ 1. printf가 메모리에 없으면  2. printf의 실제 주소를  3. 오버헤드 없이   │
-│    디스크(DLL)에서 적재     Stub 포인터에 기록     printf 코드 실행      │
-│ 2. 주소 계산 후 반환                                                     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|             지연 바인딩(Lazy Binding) 동적 연결 과정                     |
++--------------------------------------------------------------------------+
+|                                                                          |
+| [프로세스 A 코드]                                                        |
+| CALL printf -------+                                                     |
+|                    v                                                     |
+|               [ Stub 코드 영역 (PLT) ]                                   |
+|               "printf의 실제 메모리 주소를 아는가?"                      |
+|                    |                                                     |
+|       +---(No: 최초 호출 시)---+        +---(Yes: 두 번째 호출)          |
+|       v                        v        v                                |
+| [OS 개입]                [주소 테이블(GOT) 갱신]  [즉시 실행]            |
+| 1. printf가 메모리에 없으면  2. printf의 실제 주소를  3. 오버헤드 없이   |
+|    디스크(DLL)에서 적재     Stub 포인터에 기록     printf 코드 실행      |
+| 2. 주소 계산 후 반환                                                     |
++--------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조는 속도와 메모리라는 두 마리 토끼를 잡는 핵심 메커니즘이다. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 진짜 `printf` 코드가 아니라 껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있다. 최초 호출 시에는 OS의 동적 링커가 개입하여 시스템 폴더를 뒤져 `libc.so`를 찾고 메모리에 올린 뒤 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 알아내어 주소 테이블(GOT)에 적어둔다. (이때 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). 하지만 두 번째 호출부터는 테이블에 적힌 주소로 다이렉트 점프(Yes 경로)하므로 속도 저하가 전혀 발생하지 않는다.
@@ -125,12 +125,12 @@ tags = ["studynote-operating-system"]
 | **목적** | 지금 당장 안 쓰는 내 코드 덩어리를 메모리에 안 올리려는 목적 | 모두가 쓰는 코드를 한 번만 올려서 셰어하려는 목적 |
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────┐
-│ 환경       │ 실행파일 독립성│ 버전 관리    │ 메모리 중복 │
-├──────────┼────────────┼────────────┼─────────────────────┤
-│ 정적 링킹  │ 완벽함       │ 매우 불편함  │ 심각함        │
-│ 동적 링킹  │ 의존성 높음   │ 파일 교체만  │ 1개만 상주   │
-└──────────┴────────────┴────────────┴─────────────────────┘
++----------+------------+------------+---------------------+
+| 환경       | 실행파일 독립성| 버전 관리    | 메모리 중복 |
++----------+------------+------------+---------------------+
+| 정적 링킹  | 완벽함       | 매우 불편함  | 심각함        |
+| 동적 링킹  | 의존성 높음   | 파일 교체만  | 1개만 상주   |
++----------+------------+------------+---------------------+
 ```
 **[매트릭스 해설]** 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))이나 구글의 Go 언어 생태계에서는 최근 정적 링킹을 다시 선호하는 역설적인 현상이 벌어지고 있다. 디스크나 메모리 용량이 충분히 저렴해졌기 때문에, "대상 서버에 해당 SO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 설치되어 있나?"를 걱정(의존성 문제)하느니 그냥 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나에 다 때려 넣고([정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) 배포의 안정성을 취하겠다는 트레이드오프다. 반면 윈도우 OS나 안드로이드 시스템 코어는 여전히 철저한 동적 링킹 기반으로 용량을 쥐어짜고 있다.
 
@@ -187,12 +187,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [동적 적재 (Dynamic Loading)]
-    │
-    ▼
+    |
+    v
 [동적 연결 (Dynamic Linking)]
-    │
-    ├──▶ [공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
-    └──▶ [정적 연결 (Static Linking)]
+    |
+    +---> [공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
+    +---> [정적 연결 (Static Linking)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -209,7 +209,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 332 / 800
 
-← **이전**: [331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)
-**다음**: [333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) →
+<- **이전**: [331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)
+**다음**: [333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ->
 
 ---

@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 이러한 <strong>정렬 문제 (Alignment Problem)</strong>를 해결하기 위해 오픈AI(OpenAI)는 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 아이디어를 끌고 왔다. 강아지에게 앉으라고 지시한 뒤, 잘 앉으면 간식을 주고 사람을 물면 혼을 내듯, AI가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변에 인간이 칭찬(보상, Reward)을 주어 모델을 인간의 가치관과 도덕성에 완벽히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">Reinforcement Learning from Human Feedback</a>)</strong> 방법론을 완성했고, 그 결과물이 바로 세상을 뒤집은 ChatGPT다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 인터넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 삼킨 AI가 막말을 일삼는 '야생의 앵무새'라면, RLHF는 이 앵무새에게 나쁜 말을 하면 밥을 안 주고, 예쁜 말을 하면 해바라기씨(보상)를 주어 가장 예의 바른 '안내원 앵무새'로 길들이는 엄격한 조련 과정이다.
@@ -41,25 +41,25 @@ tags = ["studynote-ai"]
 RLHF의 아키텍처는 사람의 노동력과 수학적 모델링이 결합된 고도의 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 굴러간다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           RLHF (인간 피드백 강화학습) 3단계 아키텍처 사이클          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Step 1. SFT (Supervised Fine-Tuning)]                      │
-│   * 사람의 지시를 따를 수 있도록 인스트럭션 튜닝으로 기본 챗봇 훈련         │
-│                                                              │
-│  [Step 2. RM (Reward Model) 보상 모델 훈련 - 핵심!]              │
-│   * 질문: "달에 토끼가 살아?"                                  │
-│   * 챗봇이 4개의 다른 답변(A, B, C, D)을 생성                       │
-│   * 인간 채점자가 순위를 매김: B(사실) > C(거절) > A(거짓말) > D(욕설)  │
-│   * "이 인간의 채점 취향(점수)"을 그대로 외우는 2번째 심판 AI(RM)를 생성│
-│                                                              │
-│  [Step 3. PPO (Proximal Policy Optimization) 강화학습 최적화] │
-│   * 이제 인간은 퇴근하고, SFT 모델이 끝없이 답변을 뱉어냄             │
-│   * 심판 AI(RM)가 답변을 보고 자동으로 점수(간식)를 줌                │
-│   * SFT 모델은 PPO 알고리즘을 통해 간식을 가장 많이 받는 방향으로        │
-│     자신의 파라미터(말투, 논리)를 최종 업데이트함!                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           RLHF (인간 피드백 강화학습) 3단계 아키텍처 사이클          |
++--------------------------------------------------------------+
+|                                                              |
+|  [Step 1. SFT (Supervised Fine-Tuning)]                      |
+|   * 사람의 지시를 따를 수 있도록 인스트럭션 튜닝으로 기본 챗봇 훈련         |
+|                                                              |
+|  [Step 2. RM (Reward Model) 보상 모델 훈련 - 핵심!]              |
+|   * 질문: "달에 토끼가 살아?"                                  |
+|   * 챗봇이 4개의 다른 답변(A, B, C, D)을 생성                       |
+|   * 인간 채점자가 순위를 매김: B(사실) > C(거절) > A(거짓말) > D(욕설)  |
+|   * "이 인간의 채점 취향(점수)"을 그대로 외우는 2번째 심판 AI(RM)를 생성|
+|                                                              |
+|  [Step 3. PPO (Proximal Policy Optimization) 강화학습 최적화] |
+|   * 이제 인간은 퇴근하고, SFT 모델이 끝없이 답변을 뱉어냄             |
+|   * 심판 AI(RM)가 답변을 보고 자동으로 점수(간식)를 줌                |
+|   * SFT 모델은 PPO 알고리즘을 통해 간식을 가장 많이 받는 방향으로        |
+|     자신의 파라미터(말투, 논리)를 최종 업데이트함!                    |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (보상 모델과 PPO의 분리)**:
@@ -129,7 +129,7 @@ RLHF는 통계와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [RLHF (인간 피드백 기반 강화학습)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [RLHF (인간 피드백 기반 강화학습)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ RLHF는 통계와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 **진행 상황**: 155 / 420
 
-← **이전**: [154. 인스트럭션 튜닝 (Instruction Tuning) - 앵무새를 비서로 각성시키는 지시 복종 세뇌](/knowledge-base/studynote/10_ai/02_dl_architecture_new/154_instruction_tuning/)
-**다음**: [156. RLAIF (AI 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/156_rlaif/) →
+<- **이전**: [154. 인스트럭션 튜닝 (Instruction Tuning) - 앵무새를 비서로 각성시키는 지시 복종 세뇌](/knowledge-base/studynote/10_ai/02_dl_architecture_new/154_instruction_tuning/)
+**다음**: [156. RLAIF (AI 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/156_rlaif/) ->
 
 ---

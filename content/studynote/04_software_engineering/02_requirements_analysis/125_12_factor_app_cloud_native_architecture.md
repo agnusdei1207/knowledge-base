@@ -19,22 +19,22 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    12 Factor App                                      │
-├───────────────────────────────────────────────────────┤
-│  I.   Codebase — 1앱 = 1리포                         │
-│  II.  Dependencies — 명시적 선언 (requirements.txt)  │
-│  III. Config — 환경 변수로 분리 (하드코딩 금지)      │
-│  IV.  Backing Services — DB·캐시를 리소스로          │
-│  V.   Build/Release/Run — 단계 분리                  │
-│  VI.  Processes — Stateless (세션은 외부 저장소)      │
-│  VII. Port Binding — 자체 HTTP 서버                   │
-│  VIII.Concurrency — 프로세스 수평 확장               │
-│  IX.  Disposability — 빠른 시작·우아한 종료          │
-│  X.   Dev/Prod Parity — 개발≈프로덕션               │
-│  XI.  Logs — stdout 스트림                            │
-│  XII. Admin Processes — 일회성 관리 작업              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    12 Factor App                                      |
++-------------------------------------------------------+
+|  I.   Codebase — 1앱 = 1리포                         |
+|  II.  Dependencies — 명시적 선언 (requirements.txt)  |
+|  III. Config — 환경 변수로 분리 (하드코딩 금지)      |
+|  IV.  Backing Services — DB·캐시를 리소스로          |
+|  V.   Build/Release/Run — 단계 분리                  |
+|  VI.  Processes — Stateless (세션은 외부 저장소)      |
+|  VII. Port Binding — 자체 HTTP 서버                   |
+|  VIII.Concurrency — 프로세스 수평 확장               |
+|  IX.  Disposability — 빠른 시작·우아한 종료          |
+|  X.   Dev/Prod Parity — 개발≈프로덕션               |
+|  XI.  Logs — stdout 스트림                            |
+|  XII. Admin Processes — 일회성 관리 작업              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 12 Factor는 클라우드 앱의 <strong>건축 법규 12조</strong>이다. 이 규칙을 따라야 어떤 땅(클라우드)에서도 안전한 건물(앱)을 지을 수 있다.
@@ -69,10 +69,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### K8s와의 매핑
-- [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/[Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/).
-- Processes → StatelessSet, [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/).
-- [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) → stdout → Fluentd → [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/).
-- [Disposability](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/) → Graceful Shutdown (SIGTERM).
+- [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/[Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/).
+- Processes -> StatelessSet, [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/).
+- [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> stdout -> Fluentd -> [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/).
+- [Disposability](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/) -> Graceful Shutdown (SIGTERM).
 
 ---
 
@@ -96,17 +96,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [전통 서버 앱 (설정·상태 내장, ~2010s)]
-    │
-    ▼
+    |
+    v
 [12 Factor App (Heroku, 2011) — SaaS 설계 원칙]
-    │
-    ▼
+    |
+    v
 [Docker + K8s (2014~) — 12 Factor 최적 구현]
-    │
-    ▼
+    |
+    v
 [Beyond 12 Factor (2016) — API First, 텔레메트리 등 추가]
-    │
-    ▼
+    |
+    v
 [현재: 클라우드 네이티브 — 12 Factor + MSA + GitOps]
 ```
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 125 / 973
 
-← **이전**: [124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/124_cloud_native_development_architecture/)
-**다음**: [126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/) →
+<- **이전**: [124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/124_cloud_native_development_architecture/)
+**다음**: [126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/) ->
 
 ---

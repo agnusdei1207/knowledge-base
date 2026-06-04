@@ -28,7 +28,7 @@ tags = ["studynote-ict-convergence"]
 
   문제:
   이더리움 ETH를 솔라나 DeFi에서 사용?
-  → 직접 불가 (다른 네트워크)
+  -> 직접 불가 (다른 네트워크)
 
   각 체인의 장점:
   이더리움: 생태계, 보안
@@ -37,9 +37,9 @@ tags = ["studynote-ict-convergence"]
   폴리곤: 이더리움 L2, 저비용
 
 크로스체인 필요 시나리오:
-  1. 이더리움 USDC → 솔라나 DeFi 예치
-  2. 비트코인 → 이더리움 DeFi (wBTC)
-  3. 이더리움 NFT → 다른 체인 전시
+  1. 이더리움 USDC -> 솔라나 DeFi 예치
+  2. 비트코인 -> 이더리움 DeFi (wBTC)
+  3. 이더리움 NFT -> 다른 체인 전시
   4. 멀티체인 포트폴리오 관리
 
 크로스체인 브릿지 솔루션:
@@ -59,16 +59,16 @@ tags = ["studynote-ict-convergence"]
 ```
 메커니즘 1 - Lock-and-Mint:
 
-이더리움 → 폴리곤 브릿지:
+이더리움 -> 폴리곤 브릿지:
 
-1. 사용자: 이더리움에서 100 USDC → 브릿지 컨트랙트
+1. 사용자: 이더리움에서 100 USDC -> 브릿지 컨트랙트
 2. 브릿지 컨트랙트: 100 USDC 잠금 (Lock)
 3. 오라클/검증자: 잠금 이벤트 감지
 4. 폴리곤: 100 USDC(래핑) 민트 (Mint)
 5. 사용자: 폴리곤에서 100 USDC 수령
 
 반환:
-1. 폴리곤 100 USDC → 브릿지 번
+1. 폴리곤 100 USDC -> 브릿지 번
 2. 이더리움 잠금 해제 (Unlock)
 3. 사용자: 이더리움 USDC 수령
 
@@ -77,12 +77,12 @@ tags = ["studynote-ict-convergence"]
   원본 자산이 브릿지 컨트랙트에 보관
 
   wBTC (Wrapped Bitcoin):
-  비트코인 → BitGo 보관 → 이더리움 wBTC 발행
+  비트코인 -> BitGo 보관 -> 이더리움 wBTC 발행
   ERC-20 형태로 DeFi 사용 가능
 
 메커니즘 2 - Burn-and-Mint:
 
-체인 A → 체인 B:
+체인 A -> 체인 B:
   체인 A에서 토큰 소각 (Burn)
   체인 B에서 동일량 발행 (Mint)
 
@@ -96,8 +96,8 @@ tags = ["studynote-ict-convergence"]
   체인 A 풀: 1000 USDC
   체인 B 풀: 1000 USDC
 
-  사용자 A→B 전송:
-  A 풀에서 수령 → B 풀에서 전달
+  사용자 A->B 전송:
+  A 풀에서 수령 -> B 풀에서 전달
 
   Stargate Finance 방식
   락/민트 없이 즉시 전송
@@ -137,8 +137,8 @@ tags = ["studynote-ict-convergence"]
 
 3. Nomad Bridge 해킹 (2022.08, $190M):
    원인:
-   초기화 버그 → 모든 메시지를 유효로 처리
-   누구든 공격 가능 → "공개 해킹"
+   초기화 버그 -> 모든 메시지를 유효로 처리
+   누구든 공격 가능 -> "공개 해킹"
    수백 명이 동시에 자금 탈취
 
 취약점 유형:
@@ -154,7 +154,7 @@ tags = ["studynote-ict-convergence"]
   버그 바운티 + 감사
 ```
 
-> 📢 **섹션 요약 비유**: 브릿지 해킹 = 은행 금고 열쇠 탈취 — 9명 중 5명 열쇠 필요한 금고. 해커가 5개 훔치면 모든 돈 탈취. ZK 브릿지는 수학으로 증명 → 열쇠 탈취 무의미!
+> 📢 **섹션 요약 비유**: 브릿지 해킹 = 은행 금고 열쇠 탈취 — 9명 중 5명 열쇠 필요한 금고. 해커가 5개 훔치면 모든 돈 탈취. ZK 브릿지는 수학으로 증명 -> 열쇠 탈취 무의미!
 
 ---
 
@@ -167,7 +167,7 @@ ZK (Zero-Knowledge) 브릿지:
 원리:
   체인 A에서 트랜잭션 발생
   ZK Prover: "트랜잭션이 유효함" 증명 생성
-  체인 B: ZK 증명만 검증 → 신뢰 불필요
+  체인 B: ZK 증명만 검증 -> 신뢰 불필요
 
 장점:
   검증자 키 탈취 불가 (키 없음)
@@ -185,7 +185,7 @@ LayerZero:
   Relayer: 트랜잭션 증명 전달 (독립)
 
   둘 다 공모해야 공격 가능
-  → 신뢰 최소화
+  -> 신뢰 최소화
 
 Stargate (LayerZero 기반):
   유동성 풀 방식
@@ -209,7 +209,7 @@ DeFi 프로토콜 멀티체인 브릿지 전략:
 
 배경:
   이더리움 기반 DEX (탈중앙화 거래소)
-  가스비 급등 → 사용자 이탈
+  가스비 급등 -> 사용자 이탈
   솔라나/아비트럼/폴리곤 확장 필요
 
 브릿지 선택:
@@ -218,7 +218,7 @@ DeFi 프로토콜 멀티체인 브릿지 전략:
   Arbitrum 공식 브릿지 (네이티브 롤업)
   보안 최고 (이더리움 보안 상속)
   인출 지연: 7일 (챌린지 기간)
-  → 장기 예치 사용자에 적합
+  -> 장기 예치 사용자에 적합
 
 이더리움 ↔ 폴리곤:
   Polygon PoS Bridge
@@ -247,8 +247,8 @@ Circle CCTP (Cross-Chain Transfer Protocol):
 
 결과:
   솔라나 배포 후 사용자 +40%
-  평균 가스비: 이더리움 $15 → 솔라나 $0.001
-  거래량: 월 $150M → $400M
+  평균 가스비: 이더리움 $15 -> 솔라나 $0.001
+  거래량: 월 $150M -> $400M
 ```
 
 > 📢 **섹션 요약 비유**: 멀티체인 브릿지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) = 도로망 최적 경로 — 이더리움-아비트럼(고속도로: 안전, [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)), 이더리움-솔라나(Wormhole: 빠름, 위험 관리). 자산 크기/용도별 경로 선택!
@@ -282,7 +282,7 @@ Circle CCTP (Cross-Chain Transfer Protocol):
 
 ```
 [wBTC 출시 (2019)]
-비트코인 → 이더리움
+비트코인 -> 이더리움
 중앙화 커스터디
       |
       v
@@ -319,7 +319,7 @@ $1.2B+ 피해
 
 **진행 상황**: 49 / 552
 
-← **이전**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/)
-**다음**: [SBT — 소울바운드 토큰 (Soulbound Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/) →
+<- **이전**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/)
+**다음**: [SBT — 소울바운드 토큰 (Soulbound Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/) ->
 
 ---

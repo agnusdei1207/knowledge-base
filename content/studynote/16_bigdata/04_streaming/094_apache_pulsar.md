@@ -26,11 +26,11 @@ Kafka는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_syste
 ```
 Kafka 문제:
   Broker 1: Partition 0, 1 (Leader)
-  Broker 2: Partition 2 (Leader) ← 이 브로커 장애 발생!
+  Broker 2: Partition 2 (Leader) <- 이 브로커 장애 발생!
 
-  → Partition 2의 팔로워가 리더가 될 때까지 일시 불가용
-  → 새 브로커 추가 시 파티션 재배치 필요 (시간 소요)
-  → 클러스터 규모 커질수록 리밸런싱 비용 증가
+  -> Partition 2의 팔로워가 리더가 될 때까지 일시 불가용
+  -> 새 브로커 추가 시 파티션 재배치 필요 (시간 소요)
+  -> 클러스터 규모 커질수록 리밸런싱 비용 증가
 ```
 
 ### 2. Pulsar의 분리 아키텍처
@@ -41,9 +41,9 @@ Pulsar 해결책:
   BookKeeper: 실제 데이터 저장 (상태 있음, Stateful)
 
   Broker 2 장애 시:
-  → 해당 토픽의 소유권(Ownership)만 다른 Broker로 즉시 이전
-  → 데이터는 BookKeeper에 그대로 있어 손실 없음
-  → 리밸런싱 수 초 내 완료
+  -> 해당 토픽의 소유권(Ownership)만 다른 Broker로 즉시 이전
+  -> 데이터는 BookKeeper에 그대로 있어 손실 없음
+  -> 리밸런싱 수 초 내 완료
 ```
 
 **📢 섹션 요약 비유**
@@ -56,28 +56,28 @@ Pulsar 해결책:
 ### 1. Pulsar 아키텍처 다이어그램
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Apache Pulsar 클러스터                                       │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  서빙 계층 (Brokers) — Stateless                     │    │
-│  │  Broker 1   Broker 2   Broker 3                      │    │
-│  │  (토픽 소유권 관리, 프로토콜 처리)                     │    │
-│  └──────────────────────┬──────────────────────────────┘    │
-│                         │ 읽기/쓰기 (Ledger)                 │
-│  ┌──────────────────────▼──────────────────────────────┐    │
-│  │  스토리지 계층 (Apache BookKeeper) — Stateful         │    │
-│  │  Bookie 1   Bookie 2   Bookie 3                      │    │
-│  │  (데이터 영구 저장, Ledger 기반)                       │    │
-│  └──────────────────────┬──────────────────────────────┘    │
-│                         │                                    │
-│  ┌──────────────────────▼──────────────────────────────┐    │
-│  │  계층형 스토리지 (Tiered Storage) — 선택적            │    │
-│  │  S3 / GCS / ADLS (콜드 데이터 자동 이전)              │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                              │
-│  메타데이터: ZooKeeper (또는 Oxia, BookKeeper Metadata)       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  Apache Pulsar 클러스터                                       |
+|                                                              |
+|  +-----------------------------------------------------+    |
+|  |  서빙 계층 (Brokers) — Stateless                     |    |
+|  |  Broker 1   Broker 2   Broker 3                      |    |
+|  |  (토픽 소유권 관리, 프로토콜 처리)                     |    |
+|  +----------------------+------------------------------+    |
+|                         | 읽기/쓰기 (Ledger)                 |
+|  +----------------------v------------------------------+    |
+|  |  스토리지 계층 (Apache BookKeeper) — Stateful         |    |
+|  |  Bookie 1   Bookie 2   Bookie 3                      |    |
+|  |  (데이터 영구 저장, Ledger 기반)                       |    |
+|  +----------------------+------------------------------+    |
+|                         |                                    |
+|  +----------------------v------------------------------+    |
+|  |  계층형 스토리지 (Tiered Storage) — 선택적            |    |
+|  |  S3 / GCS / ADLS (콜드 데이터 자동 이전)              |    |
+|  +-----------------------------------------------------+    |
+|                                                              |
+|  메타데이터: ZooKeeper (또는 Oxia, BookKeeper Metadata)       |
++--------------------------------------------------------------+
 ```
 
 ### 2. Pulsar의 핵심 기능
@@ -137,7 +137,7 @@ Key-Shared:  같은 키는 같은 Consumer로 (순서 보장 + 병렬)
 |:---|:---|
 | 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 플랫폼 ([멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) | 기본 내장 테넌트 격리 |
 | 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 필수) | [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 내장 |
-| 무제한 보존 필요 (비용 최적화) | Tiered Storage로 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) → S3 이전 |
+| 무제한 보존 필요 (비용 최적화) | Tiered Storage로 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) -> S3 이전 |
 | 브로커 확장 빈번 | 스토리지와 독립 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
 
 ### 2. Pulsar vs [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 선택 기준
@@ -188,24 +188,24 @@ Apache Pulsar는 <strong>대규모 <a href="/knowledge-base/studynote/03_network
 | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 비교/경쟁 | 기존 표준, Pulsar가 해결하려는 한계 |
 | Apache BookKeeper | 스토리지 엔진 | Pulsar의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층 |
 | Pulsar Functions | 내장 기능 | 경량 스트리밍 로직 실행 |
-| Tiered Storage | 비용 최적화 | 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 저렴한 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) |
+| Tiered Storage | 비용 최적화 | 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 저렴한 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) |
 | [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 기능 | 클러스터 간 자동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [전통 메시지 큐 (ActiveMQ·RabbitMQ) — 단일 브로커, 스케일 한계]
-    │
-    ▼
+    |
+    v
 [Apache Kafka — 분산 로그, 높은 처리량의 스트리밍 표준]
-    │
-    ▼
+    |
+    v
 [Apache Pulsar — 브로커·저장소 분리(BookKeeper), 지역 복제 내장]
-    │
-    ▼
+    |
+    v
 [Pulsar Functions — 경량 스트림 처리 컴퓨팅을 브로커 내 통합]
-    │
-    ▼
+    |
+    v
 [클라우드 네이티브 스트리밍 — 서버리스 이벤트 허브로 진화]
 ```
 Apache Pulsar는 Kafka의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 전통 MQ의 유연성을 결합하고, 저장소 계층 분리와 지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 기본 내장해 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 플랫폼으로 자리잡았다.
@@ -220,7 +220,7 @@ Kafka는 "배달부(브로커)가 직접 창고도 가진 구조"이고, Pulsar�
 
 **진행 상황**: 94 / 262
 
-← **이전**: [18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/093_azure_event_hubs/)
-**다음**: [20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/) →
+<- **이전**: [18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/093_azure_event_hubs/)
+**다음**: [20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/) ->
 
 ---

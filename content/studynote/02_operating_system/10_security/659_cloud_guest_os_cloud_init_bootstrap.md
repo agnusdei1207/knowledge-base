@@ -61,30 +61,30 @@ tags = ["studynote-operating-system"]
 가장 신기한 점은, 인터넷이 안 되는 폐쇄망 안에서도 VM은 자기가 누구인지, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 공개키가 뭔지 알아낸다는 것이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Cloud-init과 메타데이터 서버 통신 아키텍처               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [가상머신 (Guest OS) 내부]                                          │
-  │   - 부팅 중 Network 통신이 가능해지자마자,                             │
-  │     `curl http://169.254.169.254/latest/meta-data` 실행!          │
-  │            │                                                      │
-  │            ▼ (이 패킷은 외부 인터넷으로 나가지 않음)                     │
-  │  ========================= [ 하이퍼바이저 격리망 ] ===================│
-  │            │                                                      │
-  │            ▼                                                      │
-  │  [클라우드 컨트롤 플레인 (AWS Nitro / OpenStack Neutron)]              │
-  │   - KVM 가상 스위치가 IP "169.254.169.254" 로 향하는 패킷을 가로챔.     │
-  │   - 하이퍼바이저는 "아, 이 패킷을 보낸 놈은 가상 랜카드 MAC 주소가         │
-  │     aa:bb:cc 구나! 얜 인스턴스 ID가 i-1234 구만!" 하고 식별.             │
-  │   - DB를 뒤져서 i-1234 생성 시 사용자가 입력했던 User-data를 던져줌.       │
-  │            │                                                      │
-  │            ▼ (응답 반환)                                             │
-  │  [가상머신 (Guest OS) 내부]                                          │
-  │   - Cloud-init 데몬이 응답을 받아 파싱.                               │
-  │   - "내 호스트 이름은 web-server-01, ubuntu 계정에 넣을 SSH 키는 이거군!"│
-  │   - /etc/hostname, /home/ubuntu/.ssh/authorized_keys 파일 자동 갱신! │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Cloud-init과 메타데이터 서버 통신 아키텍처               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [가상머신 (Guest OS) 내부]                                          |
+  |   - 부팅 중 Network 통신이 가능해지자마자,                             |
+  |     `curl http://169.254.169.254/latest/meta-data` 실행!          |
+  |            |                                                      |
+  |            v (이 패킷은 외부 인터넷으로 나가지 않음)                     |
+  |  ========================= [ 하이퍼바이저 격리망 ] ===================|
+  |            |                                                      |
+  |            v                                                      |
+  |  [클라우드 컨트롤 플레인 (AWS Nitro / OpenStack Neutron)]              |
+  |   - KVM 가상 스위치가 IP "169.254.169.254" 로 향하는 패킷을 가로챔.     |
+  |   - 하이퍼바이저는 "아, 이 패킷을 보낸 놈은 가상 랜카드 MAC 주소가         |
+  |     aa:bb:cc 구나! 얜 인스턴스 ID가 i-1234 구만!" 하고 식별.             |
+  |   - DB를 뒤져서 i-1234 생성 시 사용자가 입력했던 User-data를 던져줌.       |
+  |            |                                                      |
+  |            v (응답 반환)                                             |
+  |  [가상머신 (Guest OS) 내부]                                          |
+  |   - Cloud-init 데몬이 응답을 받아 파싱.                               |
+  |   - "내 호스트 이름은 web-server-01, ubuntu 계정에 넣을 SSH 키는 이거군!"|
+  |   - /etc/hostname, /home/ubuntu/.ssh/authorized_keys 파일 자동 갱신! |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** `169.254.169.254`는 Link-local 주소로, 전 세계 모든 클라우드(AWS, GCP, Azure, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))가 약속한 마법의 IP다. 공유기나 라우터를 타지 않고 VM과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 사이에서만 통신된다. Cloud-init은 어떤 클라우드에 배포되든 무조건 이 주소로 먼저 찔러보고, 클라우드 사업자가 내려주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))를 파싱하여 이질적인 환경을 동일한 방식으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화한다.
@@ -161,29 +161,29 @@ runcmd:
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 클라우드 서버 부트스트래핑(Bootstrapping) 아키텍처 플로우  │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [오토 스케일링으로 하루에도 수십 번씩 인스턴스가 켜지고 꺼지는 환경]         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      인스턴스가 켜지고 실제 서비스 트래픽을 받을 때까지의 시간이 1분 이상 걸리는가?│
-  │          ├─ 예 ─────▶ [Cloud-init의 과부하 (Anti-pattern)]          │
-  │          │            원인: User-data 안에 `apt update && apt install`│
-  │          │                  같은 무거운 네트워크 다운로드 명령이 들어있음.     │
-  │          │            대책: 이 과정들을 미리 수행한 Packer 커스텀 이미지(AMI)│
-  │          │                  를 만들고, Cloud-init은 환경 변수만 주입.     │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      User-Data 텍스트 박스 안에 DB 비밀번호나 API 키가 하드코딩 되어 있는가?  │
-  │          ├─ 예 ─────▶ [심각한 보안 취약점]                            │
-  │          │            이유: 누구나 `curl 169.254.../user-data`를 치면  │
-  │          │                  그 스크립트 평문이 그대로 다 보임.            │
-  │          │            대책: AWS Secrets Manager나 HashiCorp Vault에서  │
-  │          │                  IAM Role을 이용해 실행 시점에 땡겨오도록 코드 수정│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 클라우드 서버 부트스트래핑(Bootstrapping) 아키텍처 플로우  |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [오토 스케일링으로 하루에도 수십 번씩 인스턴스가 켜지고 꺼지는 환경]         |
+  |                |                                                  |
+  |                v                                                  |
+  |      인스턴스가 켜지고 실제 서비스 트래픽을 받을 때까지의 시간이 1분 이상 걸리는가?|
+  |          +- 예 ------> [Cloud-init의 과부하 (Anti-pattern)]          |
+  |          |            원인: User-data 안에 `apt update && apt install`|
+  |          |                  같은 무거운 네트워크 다운로드 명령이 들어있음.     |
+  |          |            대책: 이 과정들을 미리 수행한 Packer 커스텀 이미지(AMI)|
+  |          |                  를 만들고, Cloud-init은 환경 변수만 주입.     |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      User-Data 텍스트 박스 안에 DB 비밀번호나 API 키가 하드코딩 되어 있는가?  |
+  |          +- 예 ------> [심각한 보안 취약점]                            |
+  |          |            이유: 누구나 `curl 169.254.../user-data`를 치면  |
+  |          |                  그 스크립트 평문이 그대로 다 보임.            |
+  |          |            대책: AWS Secrets Manager나 HashiCorp Vault에서  |
+  |          |                  IAM Role을 이용해 실행 시점에 땡겨오도록 코드 수정|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Cloud-init은 너무 강력해서 개발자들이 모든 것을 다 User-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창에 때려 넣는 실수를 범한다. 부팅할 때 소스코드를 컴파일하고, 자바를 깔고 앉아 있으면 서버가 트래픽을 받기까지 5분이 걸린다. 5분 뒤면 이미 서비스는 폭주해서 죽은 뒤다. 클라우드 아키텍처의 정수는 <strong>"베이크(Bake)할 것인가, 프라이(Fry)할 것인가"</strong>의 비율 조절이다. 무거운 짐은 무조건 미리 구워(Bake, [Packer](/knowledge-base/studynote/15_devops_sre/05_devsecops/199_packer_aws_ami_baking/))두고, IP나 토큰 같은 마지막 양념만 현장에서 튀겨야(Fry, Cloud-init) 한다.
@@ -230,12 +230,12 @@ Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아�
 
 ```text
 [Virtio]
-    │
-    ▼
+    |
+    v
 [클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
-    │
-    ├──▶ [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
-    └──▶ [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
+    |
+    +---> [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
+    +---> [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -252,7 +252,7 @@ Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아�
 
 **진행 상황**: 659 / 800
 
-← **이전**: [658. Virtio - 반가상화 I/O 백엔드/프론트엔드 링버퍼(Vring) 디바이스 드라이버 구조](/knowledge-base/studynote/02_operating_system/10_security/658_virtio_paravirtualization_vring/)
-**다음**: [660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조](/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/) →
+<- **이전**: [658. Virtio - 반가상화 I/O 백엔드/프론트엔드 링버퍼(Vring) 디바이스 드라이버 구조](/knowledge-base/studynote/02_operating_system/10_security/658_virtio_paravirtualization_vring/)
+**다음**: [660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조](/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/) ->
 
 ---

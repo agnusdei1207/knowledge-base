@@ -27,15 +27,15 @@ tags = ["ict_convergence"]
 
 이 다이어그램은 중앙집중형 시스템과 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 합의 시스템의 근본적인 구조적 차이를 보여줍니다.
 ```text
-┌──────────────────────────┐    ┌──────────────────────────┐
-│   Centralized System     │    │  Decentralized System    │
-├──────────────────────────┤    ├──────────────────────────┤
-│        [ Master ]        │    │    [N1] <-----> [N2]     │
-│         /   |   \        │    │     ^  \       /  ^      │
-│      [N1]  [N2]  [N3]    │    │     |    [N5]     |      │
-│                          │    │     v  /       \  v      │
-│ * Master가 진실을 결정     │    │    [N3] <-----> [N4]     │
-└──────────────────────────┘    └──────────────────────────┘
++--------------------------+    +--------------------------+
+|   Centralized System     |    |  Decentralized System    |
++--------------------------+    +--------------------------+
+|        [ Master ]        |    |    [N1] <-----> [N2]     |
+|         /   |   \        |    |     ^  \       /  ^      |
+|      [N1]  [N2]  [N3]    |    |     |    [N5]     |      |
+|                          |    |     v  /       \  v      |
+| * Master가 진실을 결정     |    |    [N3] <-----> [N4]     |
++--------------------------+    +--------------------------+
 ```
 이 도식에서 핵심은 중앙집중형에서는 노드 간 통신 없이 마스터만 바라보면 되지만, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 환경에서는 N1부터 N5까지 모든 노드가 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 방식으로 통신하여 스스로 상태를 동기화해야 한다는 점입니다. 이런 배치는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하여 시스템 생존성을 높이는 장점이 있으나, 메시지 교환 복잡도가 기하급수적으로 증가하는 원인이 됩니다. 따라서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모와 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 막대한 영향을 주며, 실무에서는 합의 속도와 노드 수 사이의 트레이드오프를 반드시 고려해야 합니다.
 
@@ -56,16 +56,16 @@ tags = ["ict_convergence"]
 합의 과정의 논리적 상태 전이와 흐름을 시각화한 타이밍 차트입니다.
 ```text
 [네트워크] --TX 전파--> [Mempool 대기]
-                          ↓
+                          v
 [블록 제안] <--- (Proposer 선정 알고리즘: PoW/PoS)
-                          ↓
+                          v
 [블록 검증] <--- (Validators의 암호학적 서명 및 투표)
-                          ↓
+                          v
 [합의 도달] -- (정족수 2/3 초과 또는 가장 긴 체인 선택) --> [최종 체인 기록]
 ```
 이 흐름의 핵심은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 발생하자마자 기록되는 것이 아니라, Mempool이라는 대기열을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자들의 합의를 통해서만 체인에 진입한다는 점입니다. 이런 배치는 잘못된 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이나 악의적인 공격이 시스템에 반영되는 것을 물리적으로 차단하기 때문입니다. 따라서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 걸리는 시간과 네트워크 전파 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 의해 가장 먼저 제한됩니다. 실무에서는 TPS를 높이기 위해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 수를 줄일 것인지, 탈중앙성을 지키기 위해 낮은 TPS를 감수할 것인지의 선택이 요구됩니다.
 
-📢 **섹션 요약 비유**: 국회에서 법안이 통과되기 위해, 발의(제안) → 상임위 검토([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) → 본회의 표결(합의) → 대통령 공포(완결성)를 거쳐 번복할 수 없는 법률이 되는 과정과 같습니다.
+📢 **섹션 요약 비유**: 국회에서 법안이 통과되기 위해, 발의(제안) -> 상임위 검토([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) -> 본회의 표결(합의) -> 대통령 공포(완결성)를 거쳐 번복할 수 없는 법률이 되는 과정과 같습니다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -73,14 +73,14 @@ tags = ["ict_convergence"]
 
 다음은 주요 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 스펙을 비교한 매트릭스입니다.
 ```text
-┌───────────┬───────────────┬───────────────┬─────────────────┐
-│ 특성      │ PoW (비트코인)│ PoS (이더리움)│ PBFT (프라이빗) │
-├───────────┼───────────────┼───────────────┼─────────────────┤
-│ 참여 조건 │ 제한 없음     │ 지분(Stake)   │ 허가된 노드     │
-│ 에너지소비│ 매우 높음     │ 매우 낮음     │ 매우 낮음       │
-│ 완결성    │ 확률적(느림)  │ 에포크 단위   │ 즉각적(빠름)    │
-│ 처리 속도 │ < 10 TPS      │ 수십~수백 TPS │ 수천 TPS 이상   │
-└───────────┴───────────────┴───────────────┴─────────────────┘
++-----------+---------------+---------------+-----------------+
+| 특성      | PoW (비트코인)| PoS (이더리움)| PBFT (프라이빗) |
++-----------+---------------+---------------+-----------------+
+| 참여 조건 | 제한 없음     | 지분(Stake)   | 허가된 노드     |
+| 에너지소비| 매우 높음     | 매우 낮음     | 매우 낮음       |
+| 완결성    | 확률적(느림)  | 에포크 단위   | 즉각적(빠름)    |
+| 처리 속도 | < 10 TPS      | 수십~수백 TPS | 수천 TPS 이상   |
++-----------+---------------+---------------+-----------------+
 ```
 PoW 방식은 누구나 참여 가능하여 탈중앙성과 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 극대화되지만, 연산 낭비와 속도 저하가 심각합니다. 반면 [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 방식은 소수의 인가된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자만 합의에 참여하므로 속도는 획기적으로 빠르고 즉각적 완결성을 가지지만, 프라이빗 망에 한정됩니다. PoS는 그 중간에서 지분 기반 투표를 통해 퍼블릭망의 확장성을 모색합니다. 따라서 구축하려는 서비스가 극강의 검열 저항성이 필요한지, 실시간 결제 처리가 필요한지에 따라 아키텍처를 선택해야 합니다.
 
@@ -93,12 +93,12 @@ PoW 방식은 누구나 참여 가능하여 탈중앙성과 [보안성](/knowled
 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 도입을 위한 실무적 의사결정 트리입니다.
 ```text
 [네트워크에 누구나 자유롭게 참여할 수 있는가?]
-  ├── (Yes: 퍼블릭) --> [탈중앙성과 검열 저항성이 최우선인가?]
-  │                        ├── (Yes) --> Nakamoto PoW
-  │                        └── (No, 성능 우선) --> PoS / DPoS
-  └── (No: 프라이빗) --> [노드 간에 악의적 배신(해킹) 가능성이 있는가?]
-                           ├── (Yes) --> BFT (PBFT, IBFT)
-                           └── (No, 단순 크래시만 존재) --> CFT (Raft)
+  +-- (Yes: 퍼블릭) --> [탈중앙성과 검열 저항성이 최우선인가?]
+  |                        +-- (Yes) --> Nakamoto PoW
+  |                        +-- (No, 성능 우선) --> PoS / DPoS
+  +-- (No: 프라이빗) --> [노드 간에 악의적 배신(해킹) 가능성이 있는가?]
+                           +-- (Yes) --> BFT (PBFT, IBFT)
+                           +-- (No, 단순 크래시만 존재) --> CFT (Raft)
 ```
 이 의사결정 트리의 핵심은 최초의 질문이 네트워크의 '개방성([Permissionless](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/))' 여부에서 출발한다는 점입니다. 개방형 환경에서는 [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방어를 위해 무거운 경제적 페널티(PoW, PoS)가 필수적입니다. 반면, 노드 신원이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 프라이빗 환경에서는 악의적 노드 허용 여부([BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) vs CFT)에 따라 가벼운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 적용할 수 있습니다. 실무에서는 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 PoW 같은 무거운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 얹어 불필요한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 연산 낭비를 초래하는 안티패턴을 절대적으로 피해야 합니다.
 
@@ -131,17 +131,17 @@ PoW 방식은 누구나 참여 가능하여 탈중앙성과 [보안성](/knowled
 
 ```text
 [분산 원장 (Distributed Ledger) — 중앙 권위 없이 복수 노드가 동일 장부 유지]
-    │
-    ▼
+    |
+    v
 [합의 알고리즘 (Consensus Algorithm) — 노드 간 상태 일치 규칙 결정]
-    │
-    ▼
-[PoW (Proof of Work) → PoS (Proof of Stake) — 에너지 효율·경제적 보안 모델로 전환]
-    │
-    ▼
+    |
+    v
+[PoW (Proof of Work) -> PoS (Proof of Stake) — 에너지 효율·경제적 보안 모델로 전환]
+    |
+    v
 [BFT 계열 (PBFT / HotStuff) — 허가형 체인·고속 파이널리티 요구 환경에 채택]
-    │
-    ▼
+    |
+    v
 [레이어2 / 모듈러 블록체인 — 합의 레이어 분리로 확장성(Scalability) 극복]
 ```
 
@@ -158,7 +158,7 @@ PoW 방식은 누구나 참여 가능하여 탈중앙성과 [보안성](/knowled
 
 **진행 상황**: 11 / 552
 
-← **이전**: [10. 탈중앙화 (Decentralization) - 단일 장애점(SPOF) 제거 및 투명성 확보](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)
-**다음**: [12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의](/knowledge-base/studynote/06_ict_convergence/01_blockchain/012_bft_byzantine_fault_tolerance/) →
+<- **이전**: [10. 탈중앙화 (Decentralization) - 단일 장애점(SPOF) 제거 및 투명성 확보](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)
+**다음**: [12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의](/knowledge-base/studynote/06_ict_convergence/01_blockchain/012_bft_byzantine_fault_tolerance/) ->
 
 ---

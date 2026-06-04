@@ -30,24 +30,24 @@ tags = ["studynote-operating-system"]
   3. **NVMe의 등장**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 속도는 빨라졌는데 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 버벅대자, 아예 디스크를 그래픽카드 꽂는 제일 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))에 직접 꽂아버리는 괴물 규격이 탄생함.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        컴퓨터 메인보드 내부의 버스(Bus) 계층도 시각화               │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ CPU (황제) ] ◀──(프론트 사이드 버스, 빛의 속도)──▶ [ RAM ]        │
-│       │                                                             │
-│       ▼                                                             │
-│ [ 노스 브릿지 / 메모리 컨트롤러 (수도권 고속도로) ]                 │
-│       │                                                             │
-│       ├─▶ [ PCIe 버스 16배속 ] ──▶ 최고급 그래픽 카드 (GPU)         │
-│       │                                                             │
-│       ▼                                                             │
-│ [ 사우스 브릿지 / I/O 컨트롤러 (지방 국도) ]                        │
-│       │                                                             │
-│       ├─▶ [ SATA 버스 ] ──▶ 일반 하드디스크 (HDD)                   │
-│       ├─▶ [ USB 버스 ]  ──▶ 마우스, 키보드, 외장하드                │
-│       └─▶ [ LPC 버스 ]  ──▶ 메인보드 펌웨어 (느려 터짐)             │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|        컴퓨터 메인보드 내부의 버스(Bus) 계층도 시각화               |
++---------------------------------------------------------------------+
+|                                                                     |
+| [ CPU (황제) ] <---(프론트 사이드 버스, 빛의 속도)---> [ RAM ]        |
+|       |                                                             |
+|       v                                                             |
+| [ 노스 브릿지 / 메모리 컨트롤러 (수도권 고속도로) ]                 |
+|       |                                                             |
+|       +--> [ PCIe 버스 16배속 ] ---> 최고급 그래픽 카드 (GPU)         |
+|       |                                                             |
+|       v                                                             |
+| [ 사우스 브릿지 / I/O 컨트롤러 (지방 국도) ]                        |
+|       |                                                             |
+|       +--> [ SATA 버스 ] ---> 일반 하드디스크 (HDD)                   |
+|       +--> [ USB 버스 ]  ---> 마우스, 키보드, 외장하드                |
+|       +--> [ LPC 버스 ]  ---> 메인보드 펌웨어 (느려 터짐)             |
++---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 컴퓨터 내부는 철저한 계급 사회다. CPU와 가장 가까운 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 1초에 수십 GB를 뿜어내지만 가장 비싸고 짧다. 멀어질수록 속도는 수 MB/s로 떨어지지만 길게 늘일 수 있고 값싼 장비를 많이 붙일 수 있다. 운영체제는 이 복잡한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 계층망을 뚫고 들어가, 제일 밑바닥에 있는 마우스([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))의 딸깍거림을 꼭대기에 있는 CPU까지 배달해 주는 거대한 택배 회사다.
 
@@ -97,13 +97,13 @@ tags = ["studynote-operating-system"]
 - 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 4K 144Hz 게임을 돌릴 수 있는 이유는 메인보드에서 가장 두꺼운 `PCIe x16` 레인(초당 수십 기가바이트 전송)을 혼자 독식하고 있기 때문이다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 장비 종류  │ 연결된 버스   │ 사용하는 레인 수│ 1초당 데이터 전송량│
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ 랜카드/사운드│ PCIe x1    │ 1 차선       │ 약 1~2 GB/s            │
-│ NVMe SSD │ PCIe x4    │ 4 차선       │ 약 7~8 GB/s                │
-│ 고성능 GPU │ PCIe x16   │ 16 차선      │ 약 32~64 GB/s            │
-└──────────┴────────────┴────────────┴──────────────────────────────┘
++----------+------------+------------+------------------------------+
+| 장비 종류  | 연결된 버스   | 사용하는 레인 수| 1초당 데이터 전송량|
++----------+------------+------------+------------------------------+
+| 랜카드/사운드| PCIe x1    | 1 차선       | 약 1~2 GB/s            |
+| NVMe SSD | PCIe x4    | 4 차선       | 약 7~8 GB/s                |
+| 고성능 GPU | PCIe x16   | 16 차선      | 약 32~64 GB/s            |
++----------+------------+------------+------------------------------+
 ```
 **[매트릭스 해설]** CPU가 뿜어내는 수십 개의 제한된 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인(차선)을 어떤 장비에 몇 개씩 분배해 줄 것인가가 메인보드 설계의 핵심이다. 딥러닝 서버에 GPU를 4개, 8개씩 꽂으면 차선이 모자라 병목이 터지기 때문에, 엔비디아(NVIDIA)는 아예 메인보드 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 버리고 지들끼리 1초에 900GB를 쏘는 <strong>NVLink(특수 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>)</strong>를 뚫어버리는 기행을 저지르고 있다.
 
@@ -164,12 +164,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [I/O 하드웨어 인터페이스 요소]
-    │
-    ▼
+    |
+    v
 [포트 (Port) / 버스 (Bus)]
-    │
-    ├──▶ [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    └──▶ [폴링 (Polling / Programmed I/O)]
+    |
+    +---> [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
+    +---> [폴링 (Polling / Programmed I/O)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -186,7 +186,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 446 / 800
 
-← **이전**: [445. I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/445_io_hardware_interface/)
-**다음**: [447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/447_memory_mapped_io_vs_isolated_io/) →
+<- **이전**: [445. I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/445_io_hardware_interface/)
+**다음**: [447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/447_memory_mapped_io_vs_isolated_io/) ->
 
 ---

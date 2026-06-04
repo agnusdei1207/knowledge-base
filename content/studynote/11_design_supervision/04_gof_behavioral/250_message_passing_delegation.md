@@ -30,9 +30,9 @@ tags = ["studynote-design-supervision"]
 위임 (Delegation) 은 "객체 A가 받은 요청을 처리하기 위해 객체 B에게 처리를 위임하는 것"이다. A는 요청의 존재를 알지만 **실제 처리 로직은 B에 있다**. 이는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Inheritance) 의 대안으로, 구성 (Composition) 을 통한 동작 확장을 가능하게 한다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 회사 대표가 법무 문제를 처리할 때 직접 법률 공부를 하는 대신 법무팀에 위임하는 것 — 대표는 "법무 처리해줘"라는 메시지만 보낸다.
@@ -42,36 +42,36 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [ 메시지 패싱 기본 구조 ]
-┌──────────┐   메시지(요청)   ┌──────────────┐
-│  Sender  │ ──────────────▶ │  Receiver    │
-│          │                 │              │
-│          │ ◀────────────── │  처리 후 응답 │
-└──────────┘   응답(결과)    └──────────────┘
++----------+   메시지(요청)   +--------------+
+|  Sender  | ---------------> |  Receiver    |
+|          |                 |              |
+|          | <--------------- |  처리 후 응답 |
++----------+   응답(결과)    +--------------+
 
 [ 위임 체인 구조 ]
-┌──────────┐   위임   ┌─────────────┐   위임   ┌──────────────┐
-│  Client  │ ───────▶ │  Handler A  │ ───────▶ │  Delegate B  │
-│          │          │ (책임 일부) │          │ (실제 처리)  │
-└──────────┘          └─────────────┘          └──────────────┘
-                              ▲
-                              │ 책임 분산 (Responsibility Distribution)
++----------+   위임   +-------------+   위임   +--------------+
+|  Client  | --------> |  Handler A  | --------> |  Delegate B  |
+|          |          | (책임 일부) |          | (실제 처리)  |
++----------+          +-------------+          +--------------+
+                              ^
+                              | 책임 분산 (Responsibility Distribution)
 ```
 
 ```
-┌────────────────────────────────────────────────────────┐
-│  class PrinterManager {                                │
-│    private PrintJob job;          // 구성              │
-│    private PrintQueue queue;      // 위임 대상         │
-│    private PrintDevice device;    // 위임 대상         │
-│                                                        │
-│    void print(Document doc) {                          │
-│      job = new PrintJob(doc);                          │
-│      queue.enqueue(job);          // 큐잉 위임         │
-│      device.execute(queue.next()); // 실행 위임        │
-│    }                                                   │
-│  }                                                     │
-│  // PrinterManager는 조율만, 실제 처리는 위임          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  class PrinterManager {                                |
+|    private PrintJob job;          // 구성              |
+|    private PrintQueue queue;      // 위임 대상         |
+|    private PrintDevice device;    // 위임 대상         |
+|                                                        |
+|    void print(Document doc) {                          |
+|      job = new PrintJob(doc);                          |
+|      queue.enqueue(job);          // 큐잉 위임         |
+|      device.execute(queue.next()); // 실행 위임        |
+|    }                                                   |
+|  }                                                     |
+|  // PrinterManager는 조율만, 실제 처리는 위임          |
++--------------------------------------------------------+
 ```
 
 메서드가 다른 클래스의 데이터에 집착 (Feature Envy 스멜) 하면, 그 메서드를 해당 클래스로 이동 (Move Method) 하거나, 해당 클래스 객체에게 위임하도록 재구성한다.
@@ -116,9 +116,9 @@ GoF (Gang of Four) 의 『[디자인 패턴](/knowledge-base/studynote/04_softwa
 ```
 [ 동기 메시지 패싱 ]           [ 비동기 메시지 패싱 (EDA) ]
 OrderService                  OrderService
-  → PaymentService.pay()        → Kafka.publish(OrderCreated)
-  → InventoryService.reserve()    ← PaymentService 구독·처리
-                                  ← InventoryService 구독·처리
+  -> PaymentService.pay()        -> Kafka.publish(OrderCreated)
+  -> InventoryService.reserve()    <- PaymentService 구독·처리
+                                  <- InventoryService 구독·처리
 ```
 
 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/) ([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern) 은 메시지를 처리할 수 있는 핸들러를 체인으로 연결해 적합한 핸들러에게 위임하는 구조다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 미들웨어 체인, 예외 처리 체인, 로깅 파이프라인 등에 활용된다.
@@ -166,7 +166,7 @@ OrderService                  OrderService
 | 연관 개념 | [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | 위임을 통해 달성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-객체 협력 → 메시지 패싱과 위임 → actor/event message
+객체 협력 -> 메시지 패싱과 위임 -> actor/event message
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 숙제할 때 수학은 수학 선생님, 과학은 과학 선생님, 글짓기는 국어 선생님께 각각 도움을 청하는 것이 위임이다.
@@ -179,7 +179,7 @@ OrderService                  OrderService
 
 **진행 상황**: 311 / 530
 
-← **이전**: [249. 레거시 설계 부채와 ADR (Legacy Design Debt & Architecture Decision Record)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/249_legacy_design_debt_adr/)
-**다음**: [251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/251_secure_coding_sql_xss_csrf/) →
+<- **이전**: [249. 레거시 설계 부채와 ADR (Legacy Design Debt & Architecture Decision Record)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/249_legacy_design_debt_adr/)
+**다음**: [251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/251_secure_coding_sql_xss_csrf/) ->
 
 ---

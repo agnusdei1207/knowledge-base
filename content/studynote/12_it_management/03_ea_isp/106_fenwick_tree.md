@@ -35,25 +35,25 @@ tags = ["it_management"]
 핵심 로직은 `최하위 비트 (Last Set Bit)`를 추출하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산 `idx & (-idx)`다. 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 관리하는 구간의 길이는 바로 이 최하위 1비트가 나타내는 값(예: 2, 4, 8)과 같다. 업데이트를 할 때는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 더해가며 위로 올라가고, 합을 구할 때는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 빼가며 아래로 내려온다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             [펜윅 트리의 2진수 기반 구간 관리 원리]            │
-├──────────────────────────────────────────────────────────────┤
-│ * 인덱스의 마지막 1비트가 커버하는 구간(길이)을 결정함             │
-│                                                              │
-│ [인덱스 8 (1000₂)] ─▶ 커버 길이: 8 ─▶ 범위: arr[1] ~ arr[8]의 합│
-│     │                                                        │
-│     ├─ [인덱스 4 (0100₂)] ─▶ 길이: 4 ─▶ 범위: arr[1]~arr[4]    │
-│     │     │                                                  │
-│     │     ├─ [인덱스 2 (0010₂)] ─▶ 범위: arr[1]~arr[2]        │
-│     │     │    ├─ [인덱스 1 (0001₂)]: 범위 arr[1]             │
-│     │     │                                                  │
-│     │     ├─ [인덱스 3 (0011₂)] ─▶ 범위: arr[3]               │
-│                                                              │
-│ [값 업데이트 예시: 인덱스 3에 값 추가 시 변경되는 노드]            │
-│ 1) idx = 3 (0011₂) ─▶ 트리[3] 업데이트                        │
-│ 2) idx = 3 + (3 & -3) = 4 (0100₂) ─▶ 트리[4] 업데이트         │
-│ 3) idx = 4 + (4 & -4) = 8 (1000₂) ─▶ 트리[8] 업데이트         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             [펜윅 트리의 2진수 기반 구간 관리 원리]            |
++--------------------------------------------------------------+
+| * 인덱스의 마지막 1비트가 커버하는 구간(길이)을 결정함             |
+|                                                              |
+| [인덱스 8 (1000₂)] --> 커버 길이: 8 --> 범위: arr[1] ~ arr[8]의 합|
+|     |                                                        |
+|     +- [인덱스 4 (0100₂)] --> 길이: 4 --> 범위: arr[1]~arr[4]    |
+|     |     |                                                  |
+|     |     +- [인덱스 2 (0010₂)] --> 범위: arr[1]~arr[2]        |
+|     |     |    +- [인덱스 1 (0001₂)]: 범위 arr[1]             |
+|     |     |                                                  |
+|     |     +- [인덱스 3 (0011₂)] --> 범위: arr[3]               |
+|                                                              |
+| [값 업데이트 예시: 인덱스 3에 값 추가 시 변경되는 노드]            |
+| 1) idx = 3 (0011₂) --> 트리[3] 업데이트                        |
+| 2) idx = 3 + (3 & -3) = 4 (0100₂) --> 트리[4] 업데이트         |
+| 3) idx = 4 + (4 & -4) = 8 (1000₂) --> 트리[8] 업데이트         |
++--------------------------------------------------------------+
 ```
 
 위 구조에서 볼 수 있듯, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 3번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하면 3번, 4번, 8번 등 상위 노드만 징검다리 건너듯 점프($O(\log N)$)하며 업데이트하여 연산량을 최소화한다.
@@ -117,14 +117,14 @@ tags = ["it_management"]
 
 ```text
 배열 기반 순차 탐색 (업데이트 O(1), 구간합 O(N))
-    │
-    ▼
+    |
+    v
 단순 누적 합 배열 (업데이트 O(N), 구간합 O(1))
-    │
-    ▼
+    |
+    v
 균형의 달성: 세그먼트 트리 (업데이트 O(log N), 쿼리 O(log N) / 고비용)
-    │
-    ▼
+    |
+    v
 메모리 및 속도 극대화: 펜윅 트리 / BIT (비트 연산으로 O(log N) 최적화)
 ```
 
@@ -140,7 +140,7 @@ tags = ["it_management"]
 
 **진행 상황**: 195 / 587
 
-← **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)
-**다음**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) →
+<- **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)
+**다음**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) ->
 
 ---

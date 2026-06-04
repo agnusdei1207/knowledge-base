@@ -29,15 +29,15 @@ tags = ["studynote-bigdata"]
 배경:
   데이터 사일로 (Data Silo):
   HR DB | CRM DB | IoT | S3 레이크 | ERP
-  → 각각 분리, 연결 어려움
+  -> 각각 분리, 연결 어려움
 
   데이터 엔지니어: 각 연결 수동 구축
-  → 파이프라인 수백 개 → 유지보수 지옥
+  -> 파이프라인 수백 개 -> 유지보수 지옥
 
 데이터 패브릭 접근:
   메타데이터 레이어:
-  모든 데이터 소스 → 메타데이터 수집
-  → 자동 관계 발견, 계보 추적
+  모든 데이터 소스 -> 메타데이터 수집
+  -> 자동 관계 발견, 계보 추적
 
   AI 추천:
   "이 쿼리에 필요한 데이터가 여기 있습니다"
@@ -52,7 +52,7 @@ tags = ["studynote-bigdata"]
   패브릭: 기술 자동화 중심
   메시: 조직 도메인 중심
   공통: 분산 데이터 문제 해결
-  → 상호 보완 가능 (메시 + 패브릭)
+  -> 상호 보완 가능 (메시 + 패브릭)
 ```
 
 > 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 스마트 번역기 — 각나라 말([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)을 자동으로 이해하고 연결. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(언어 사전)가 AI로 학습해 자동 통역!
@@ -83,27 +83,27 @@ tags = ["studynote-bigdata"]
 
   예:
   사용자가 "매출" 검색
-  → AI: "매출 테이블과 함께 자주 사용되는:
+  -> AI: "매출 테이블과 함께 자주 사용되는:
          제품 테이블, 지역 테이블 추천"
 
 데이터 계보 (Data Lineage):
   데이터가 어디서 왔는지 자동 추적
 
-  Source DB → ETL → Data Lake → Report
+  Source DB -> ETL -> Data Lake -> Report
 
   영향 분석:
   "Source DB의 컬럼 변경 시
-   어떤 리포트가 영향 받나?" → 자동 계산
+   어떤 리포트가 영향 받나?" -> 자동 계산
 
   컴플라이언스:
   GDPR: "이 개인정보는 어디서 왔나?"
-  → 계보로 자동 증명
+  -> 계보로 자동 증명
 
 메타데이터 그래프:
   지식 그래프 (Knowledge Graph) 형태
   개체 (테이블, 컬럼, 파이프라인)
   관계 (변환, 참조, 파생)
-  → 복잡한 데이터 관계 시각화
+  -> 복잡한 데이터 관계 시각화
 ```
 
 > 📢 **섹션 요약 비유**: 능동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사서 — 도서관 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 대한 기록([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))을 AI가 자동 업데이트. "이 책 보면 저 책도 봐요" 자동 추천!
@@ -133,7 +133,7 @@ tags = ["studynote-bigdata"]
 계층 3 — 통합 (Integration):
   ETL/ELT 오케스트레이션
   데이터 가상화 (Data Virtualization)
-    → 물리적 이동 없이 쿼리
+    -> 물리적 이동 없이 쿼리
   API 레이어
 
 계층 4 — 거버넌스:
@@ -170,8 +170,8 @@ tags = ["studynote-bigdata"]
 
   비유:
   여러 은행 계좌를 앱 하나로 조회
-  → 실제 돈은 각 은행에 있지만
-  → 잔액은 앱에서 통합 표시
+  -> 실제 돈은 각 은행에 있지만
+  -> 잔액은 앱에서 통합 표시
 
 구조:
   가상화 레이어 (Logical Layer):
@@ -179,9 +179,9 @@ tags = ["studynote-bigdata"]
     SQL 인터페이스
 
   소스들:
-    Oracle DB ←→
-    S3 Data Lake ←→ 가상화 레이어 → 사용자
-    Salesforce API ←→
+    Oracle DB <-->
+    S3 Data Lake <--> 가상화 레이어 -> 사용자
+    Salesforce API <-->
 
 장점:
   데이터 중복 없음 (저장 비용 절감)
@@ -218,10 +218,10 @@ tags = ["studynote-bigdata"]
   은행·증권·보험 3개 계열사
   각자 데이터 플랫폼 (사일로)
   고객 360도 뷰 불가
-  마케팅팀: "고객 데이터 통합해줘" → 수개월 대기
+  마케팅팀: "고객 데이터 통합해줘" -> 수개월 대기
 
 문제:
-  수동 데이터 요청 → 데이터팀 병목
+  수동 데이터 요청 -> 데이터팀 병목
   데이터 파이프라인 300개 운영 (중복 다수)
   계열사 간 고객 식별 불일치 (동명이인 처리)
 
@@ -229,7 +229,7 @@ tags = ["studynote-bigdata"]
 
 1. 메타데이터 통합:
    Microsoft Purview 도입
-   3개 계열사 DB 스캔 → 메타데이터 자동 수집
+   3개 계열사 DB 스캔 -> 메타데이터 자동 수집
    데이터 계보 자동 구축
 
 2. 데이터 가상화:
@@ -247,8 +247,8 @@ tags = ["studynote-bigdata"]
    품질 이슈 자동 알림
 
 결과 (1년):
-  데이터 요청 처리 시간: 3개월 → 3일
-  데이터 파이프라인: 300개 → 150개 (중복 제거)
+  데이터 요청 처리 시간: 3개월 -> 3일
+  데이터 파이프라인: 300개 -> 150개 (중복 제거)
   고객 360도 뷰 달성 (3계열사 통합)
   마케팅 캠페인 대상 정확도: +35%
   데이터 관련 컴플라이언스 위반: 0건 (계보 추적)
@@ -321,7 +321,7 @@ LLM 기반 자연어 데이터 질의
 
 **진행 상황**: 257 / 262
 
-← **이전**: [044. 데이터 메시 — Data Mesh](/knowledge-base/studynote/16_bigdata/13_intro_trends/256_data_mesh/)
-**다음**: [046. 데이터 레이크하우스 — Data Lakehouse](/knowledge-base/studynote/16_bigdata/13_intro_trends/258_data_lakehouse/) →
+<- **이전**: [044. 데이터 메시 — Data Mesh](/knowledge-base/studynote/16_bigdata/13_intro_trends/256_data_mesh/)
+**다음**: [046. 데이터 레이크하우스 — Data Lakehouse](/knowledge-base/studynote/16_bigdata/13_intro_trends/258_data_lakehouse/) ->
 
 ---

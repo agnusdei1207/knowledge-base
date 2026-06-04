@@ -37,24 +37,24 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>별 위협 수준</strong>:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              양자 위협 분류                                   │
-│                                                             │
-│  공개키 암호 (비대칭키)        대칭키 암호                    │
-│  ┌──────────────────────┐   ┌──────────────────────┐       │
-│  │ RSA-2048/4096        │   │ AES-128              │       │
-│  │ ECC P-256/P-384      │   │ → 그로버: 64비트 수준  │       │
-│  │ → 쇼어: 완전 붕괴     │   │ AES-256              │       │
-│  │   (다항 시간 공격)    │   │ → 그로버: 128비트 수준 │       │
-│  └──────────────────────┘   └──────────────────────┘       │
-│  해결: PQC 표준으로 교체      해결: 키 길이 2배 (AES-256 유지)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              양자 위협 분류                                   |
+|                                                             |
+|  공개키 암호 (비대칭키)        대칭키 암호                    |
+|  +----------------------+   +----------------------+       |
+|  | RSA-2048/4096        |   | AES-128              |       |
+|  | ECC P-256/P-384      |   | -> 그로버: 64비트 수준  |       |
+|  | -> 쇼어: 완전 붕괴     |   | AES-256              |       |
+|  |   (다항 시간 공격)    |   | -> 그로버: 128비트 수준 |       |
+|  +----------------------+   +----------------------+       |
+|  해결: PQC 표준으로 교체      해결: 키 길이 2배 (AES-256 유지)|
++-------------------------------------------------------------+
 ```
 
 | 항목 | 내용 |
 |:---|:---|
-| 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 소인수분해/이산 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 O(log³N)으로 해결 → [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 붕괴 |
-| 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 비정렬 검색을 O(√N)으로 → 대칭키 키 공간 제곱근 감소 |
+| 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 소인수분해/이산 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 O(log³N)으로 해결 -> [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 붕괴 |
+| 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 비정렬 검색을 O(√N)으로 -> 대칭키 키 공간 제곱근 감소 |
 | NISQ (Noisy Intermediate-Scale [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | 현재 수준(수백~수천 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)), 오류율 높아 실용 공격 불가 |
 | 암호화 관련 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 해독에 약 400만 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 필요(현재 1,000개 수준) |
 
@@ -102,7 +102,7 @@ tags = ["studynote-ict-convergence"]
 
 양자 컴퓨팅은 2030년대 실용화가 예상되지만, 암호 전환은 수년이 걸리므로 지금 시작해야 한다. "Crypto-Agility([암호 민첩성](/knowledge-base/studynote/09_security/19_ai_advanced_security/988_crypto_agility/))" — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쉽게 교체할 수 있는 아키텍처 설계가 핵심이다.
 
-- **📢 섹션 요약 비유**: 암호 체계 전환은 자동차 연료 전환(내연기관→전기차)처럼 — 당장 필요 없어도 인프라와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 지금 바꾸지 않으면 나중엔 전환 비용이 폭발적으로 커진다.
+- **📢 섹션 요약 비유**: 암호 체계 전환은 자동차 연료 전환(내연기관->전기차)처럼 — 당장 필요 없어도 인프라와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 지금 바꾸지 않으면 나중엔 전환 비용이 폭발적으로 커진다.
 
 ---
 
@@ -119,7 +119,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[소인수분해 · 이산 로그] → [양자 컴퓨팅과 암호 보안 위협] → [암호화 · 지속 인증]
+[소인수분해 · 이산 로그] -> [양자 컴퓨팅과 암호 보안 위협] -> [암호화 · 지속 인증]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 508 / 552
 
-← **이전**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/)
-**다음**: [509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/509_cxl_chiplet_memory_pooling_ucie/) →
+<- **이전**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/)
+**다음**: [509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/509_cxl_chiplet_memory_pooling_ucie/) ->
 
 ---

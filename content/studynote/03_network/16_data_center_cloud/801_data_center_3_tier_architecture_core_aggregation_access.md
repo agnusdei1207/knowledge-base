@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
+    |
+    v
 [데이터센터 3-Tier 아키텍처]
-    │
-    └──▶ [데이터센터 Spine-Leaf 아키텍처]
+    |
+    +---> [데이터센터 Spine-Leaf 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 3-Tier 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -60,11 +60,11 @@ tags = ["studynote-network"]
 
 ```text
 [주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
+    |
+    v
 [데이터센터 3-Tier 아키텍처]
-    │
-    └──▶ [데이터센터 Spine-Leaf 아키텍처]
+    |
+    +---> [데이터센터 Spine-Leaf 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 3-Tier 아키텍처는 과거의 '수직적 피라미드 군대 조직'입니다. 이병(서버)이 바로 옆 소대에 있는 이병(다른 서버)에게 말을 걸고 싶어도 마음대로 다가갈 수 없습니다. 무조건 자기 소대장(Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 보고하고, 소대장은 중대장(Aggregation [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 보고서를 올립니다. 중대장이 그걸 읽어보고 옆 중대 소대장에게 서류를 내려보내야 비로소 옆 소대 이병에게 말이 전달됩니다. 외부의 적(North-South 인터넷 사용자)과 싸울 때는 지휘 체계가 훌륭하지만, 정작 내부 이병들끼리 협업(East-West 트래픽)해서 일해야 하는 클라우드 시대에는 모든 보고서가 중대장(Aggregation) 책상에 쌓여 업무가 마비(병목)되는 낡은 관료제 시스템입니다.
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 데이터센터 3-Tier 아키텍처]
-    │
-    ├──▶ [확장 A: 데이터센터 Spine-Leaf 아키텍처]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 데이터센터 Spine-Leaf 아키텍처]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 3-Tier 아키텍처는 주파수 집성 기술 고급 모델 연대 전방위 고…에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 Spine-Leaf 아키텍처와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 922 / 1120
 
-← **이전**: [800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/800_comp_coordinated_multi_point_cell_interference/)
-**다음**: [802. 데이터센터 Spine-Leaf 아키텍처](/knowledge-base/studynote/03_network/16_data_center_cloud/802_spine_leaf_architecture_data_center_east_west/) →
+<- **이전**: [800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/800_comp_coordinated_multi_point_cell_interference/)
+**다음**: [802. 데이터센터 Spine-Leaf 아키텍처](/knowledge-base/studynote/03_network/16_data_center_cloud/802_spine_leaf_architecture_data_center_east_west/) ->
 
 ---

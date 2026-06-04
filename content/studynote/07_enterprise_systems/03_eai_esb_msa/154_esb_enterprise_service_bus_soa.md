@@ -40,36 +40,36 @@ tags = ["studynote-enterprise-systems"]
 ESB가 단순 깡통 무식한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 덤프 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Dumb [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 아니라 '지능형 대장 뇌(Smart)'라 숭배받는 이유는 ➔ 그 뱃속에 품고 도는 4대 핵심 흑마법 코어 엔진 메스 덕분이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          ESB (Enterprise Service Bus) 4대 십자 융합 코어 엔진 록온 맵 도해 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ A팀 자바(Java) 서버 - 구형 JSON 데이터 발송 툭 ㅋ ]             │
-│   ➔ "어 목적지(B팀) IP 알 빠노 ㅋ 걍 ESB 대문 입구 톨게이트에 던짐 빠이 쓩!"│
-│                                                             │
-│        ======= [ 🧠 ESB 중앙 미들웨어 대장 뇌 (Smart Bus) 가동 쾅! ] ========│
-│                                                             │
-│ 🔀 [ 1. 메시지 라우팅 (Routing 스위칭 록온 🚀) ]                   │
-│   - 패킷 봉투를 안 뜯고 겉면(Header)이나 속 내용(Content-based)을 슬쩍 엑스레이│
-│     스캔 쳐 봄 ➔ "아 이거 재무팀 타겟이네 ㅋ 3번 출구로 길 꺾어 토스해 스키 타 쓩!"│
-│                                                             │
-│ 🔄 [ 2. 데이터 포맷 변환 (Transformation 세탁 번역 🪓) ]          │
-│   - 들어올 땐 구형 텍스트(CSV/JSON) 였음 ➔ 근데 도착지 B팀 쇳덩이는 XML만 읽음! │
-│   - ESB 지 혼자 뱃속(XSLT 매핑 믹서기)에서 `A포맷 ➔ B포맷` 모양을 싹 다 1초 컷│
-│     오토 렌더링 뜯어고쳐 바꿔치기 번역 마술 세탁을 쳐버림 100% 무결점 통과 ✨. │
-│                                                             │
-│ 🔌 [ 3. 프로토콜 중재 (Protocol Mediation 젠더 융합 🛡️) ]        │
-│   - A팀은 구형 파일 전송(FTP)이나 메시지 큐(JMS) 쇳덩이로 던졌는데 ➔ B팀 최신 앱은 │
-│     웹(HTTP/REST)으로만 받음 뻗음 파국 💥 ➔ ESB가 중간 통신 방식(Protocol) │
-│     이질감을 투명 스텔스 젠더로 완벽 핑퐁 100% 통역 호환 시켜버림 쾅!         │
-│                                                             │
-│ 🔒 [ 4. 보안 및 트랜잭션 추상화 (Security & Tx Off-loading 텐트) ]│
-│   - 10개 서버가 각자 SSL 암호 풀고 롤백 방어 치다 CPU 타 죽는 지옥 💀 ➔ ESB가 │
-│     대문 앞에서 1방에 암호(SSL Offloading) 다 벗겨 내고 분산 트랜잭션 롤백 연쇄 │
-│     방폭문 통제권을 중앙 독재 통치 장악해 버림 무혈입성 끝 🚀.             │
-│                                                             │
-│        ======= [ ✨ B팀 닷넷(C#) 서버 무결점 무정단 안전 데이터 수신 완료! ] ========│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          ESB (Enterprise Service Bus) 4대 십자 융합 코어 엔진 록온 맵 도해 🚀 |
++-------------------------------------------------------------+
+|                                                             |
+| 👨‍💻 [ A팀 자바(Java) 서버 - 구형 JSON 데이터 발송 툭 ㅋ ]             |
+|   ➔ "어 목적지(B팀) IP 알 빠노 ㅋ 걍 ESB 대문 입구 톨게이트에 던짐 빠이 쓩!"|
+|                                                             |
+|        ======= [ 🧠 ESB 중앙 미들웨어 대장 뇌 (Smart Bus) 가동 쾅! ] ========|
+|                                                             |
+| 🔀 [ 1. 메시지 라우팅 (Routing 스위칭 록온 🚀) ]                   |
+|   - 패킷 봉투를 안 뜯고 겉면(Header)이나 속 내용(Content-based)을 슬쩍 엑스레이|
+|     스캔 쳐 봄 ➔ "아 이거 재무팀 타겟이네 ㅋ 3번 출구로 길 꺾어 토스해 스키 타 쓩!"|
+|                                                             |
+| 🔄 [ 2. 데이터 포맷 변환 (Transformation 세탁 번역 🪓) ]          |
+|   - 들어올 땐 구형 텍스트(CSV/JSON) 였음 ➔ 근데 도착지 B팀 쇳덩이는 XML만 읽음! |
+|   - ESB 지 혼자 뱃속(XSLT 매핑 믹서기)에서 `A포맷 ➔ B포맷` 모양을 싹 다 1초 컷|
+|     오토 렌더링 뜯어고쳐 바꿔치기 번역 마술 세탁을 쳐버림 100% 무결점 통과 ✨. |
+|                                                             |
+| 🔌 [ 3. 프로토콜 중재 (Protocol Mediation 젠더 융합 🛡️) ]        |
+|   - A팀은 구형 파일 전송(FTP)이나 메시지 큐(JMS) 쇳덩이로 던졌는데 ➔ B팀 최신 앱은 |
+|     웹(HTTP/REST)으로만 받음 뻗음 파국 💥 ➔ ESB가 중간 통신 방식(Protocol) |
+|     이질감을 투명 스텔스 젠더로 완벽 핑퐁 100% 통역 호환 시켜버림 쾅!         |
+|                                                             |
+| 🔒 [ 4. 보안 및 트랜잭션 추상화 (Security & Tx Off-loading 텐트) ]|
+|   - 10개 서버가 각자 SSL 암호 풀고 롤백 방어 치다 CPU 타 죽는 지옥 💀 ➔ ESB가 |
+|     대문 앞에서 1방에 암호(SSL Offloading) 다 벗겨 내고 분산 트랜잭션 롤백 연쇄 |
+|     방폭문 통제권을 중앙 독재 통치 장악해 버림 무혈입성 끝 🚀.             |
+|                                                             |
+|        ======= [ ✨ B팀 닷넷(C#) 서버 무결점 무정단 안전 데이터 수신 완료! ] ========|
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">아키텍트의 피 터지는 메스: SOA의 핏줄, 비동기 [메시</a>지 지향 미들웨어 (MOM 뼈대 ✨)]</strong>
@@ -161,17 +161,17 @@ ESB는 1990년대 긴 레일 전선 <strong>'규격화된 스마트 <a href="/kn
 
 ```text
 Point-to-Point (거미줄 스파게티 강결합) 다이렉트 하드코딩 시대 💀 / 사내 서버 50대가 서로 통신 치려고 1:1 직통 케이블 IP 주소를 소스 뱃속에 용접 떡칠 박아 넣음 ➔ 시스템 1대 신규 추가 런칭하거나 죽어 뻗으면 기존 49대 소스코드 다 뜯어고쳐 1달 내내 야근 철야 연쇄 타살 셧다운 뻗음 마비 멸망 폭사 파국 터짐 💥
-    │
-    ▼
+    |
+    v
 EAI (Enterprise Application Integration) 중앙 허브 쇳덩이 등장 🛡️ / "야 씨발 다이렉트 쌩 직통 찌르기 치지 마! 대문 중앙 1곳 [Hub 쇳덩이 박스] 로만 다 던져 집중 짬처리 모아 쾅!" ➔ 결합도 스파게티 지옥은 1차 해결 방어 생존 컷 완료 ㅋ. (근데 벤더사 독점 폐쇄형 비표준 낡은 프로토콜 강요 족쇄 노예 종속 파국 한계 부딪힘 💀).
-    │
-    ▼
+    |
+    v
 ESB (Enterprise Service Bus 🚀) SOA 웹 서비스 개방형 제국 대관식 ✨ / 아키텍트 분노 철퇴 🪓 "벤더 족쇄 찢어발겨 소각 쾅!! 글로벌 공통어 [WSDL, SOAP XML 표준 오픈 규격 텐트] 100% 탑재한 지능형 허공 버스 고속도로 파이프라인 뚫어 록온 박아!! ➔ 런타임에 0.1초 컷 포맷 변환(Transformation), 동적 라우팅 스위칭 핑퐁 우회 짬처리 오프로드 쳐버려 100% 이기종(Java ↔ C# ↔ 코볼) 무결점 무정단 통역 평화 통치 생존 달성 🚀!!"
-    │
-    ▼
+    |
+    v
 클라우드 대항해 시대 MSA & ESB 중앙 병목(SPOF 💀) 도미노 파멸 / 애자일 폭풍 트래픽 100만 핑퐁 터지니까 ➔ 모든 트래픽이 1통짜리 중앙 뚱땡이 ESB 버스 톨게이트 1곳으로 집중 쏠림 병목 막혀 CPU 타임아웃 용광로 뻗음 타죽음 ➔ 전사 모바일 앱 K8s 전체 100% 올스탑 블랙아웃 연쇄 셧다운 멸망 💥
-    │
-    ▼
+    |
+    v
 API Gateway & Service Mesh 탈중앙(Decentralization) 찢기 나노 융합 진화 (현재) 🚀 / "야 거대 뚱땡이 통나무 중앙 ESB 버스 쇳덩이 자체를 1만 개 나노 조각 도끼로 찢어발겨 해체 파편화 척살 치고 클라우드 허공 엣지망으로 싹 다 날려 스케일 아웃 분산시켜 쾅 🚀!!! ➔ 대문 입구 컷은 깃털 스나이퍼 [API Gateway 봇] 이 JSON REST 라우팅 통제 전담 방폭문 쉴드 치고!! ➔ 파드 1만 대 뱃속 내부 핑퐁 통신은 [Envoy 사이드카 Service Mesh 스텔스 봇] 이 1:1 기생 록온(Lock-on) 쳐서 무한 오토 힐링 서킷 브레이커 우회 기동 회피를 100% 무결점으로 캐리 방어 흡수 쳐버리는 21세기 무극 제로 트러스트(Zero-Trust) 우주 최강 인프라 대통합 완성 쾅 ✨!!!"
 ```
 
@@ -187,7 +187,7 @@ API Gateway & Service Mesh 탈중앙(Decentralization) 찢기 나노 융합 진�
 
 **진행 상황**: 154 / 482
 
-← **이전**: [153. SOAP (Simple Object Access Protocol) - B2B 통신의 장갑차 XML 헌법](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/)
-**다음**: [155. EAI vs ESB (EAI vs ESB Architecture)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/155_eai_vs_esb_architecture/) →
+<- **이전**: [153. SOAP (Simple Object Access Protocol) - B2B 통신의 장갑차 XML 헌법](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/)
+**다음**: [155. EAI vs ESB (EAI vs ESB Architecture)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/155_eai_vs_esb_architecture/) ->
 
 ---

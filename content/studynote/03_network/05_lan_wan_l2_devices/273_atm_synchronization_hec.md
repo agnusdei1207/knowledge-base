@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [ATM]
-    │
-    ▼
+    |
+    v
 [ATM 동기화]
-    │
-    └──▶ [VPI / VCI]
+    |
+    +---> [VPI / VCI]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>는 포장지에 시작 표시가 없는 대신, </strong>바코드(HEC)의 수학 공식을 풀어서 포장지의 모서리 위치를 역추적해 내는 고도의 두뇌 플레이([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**입니다.
@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 수신기가 전원을 막 켰을 때는 어디가 셀의 시작인지 전혀 모르는 막막한 상태다. 수신기는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하나씩 움직여가며(Sliding Window) 5바이트 블록을 잡아 HEC 공식을 돌려본다.
 
 1. **HUNT (탐색 상태)**:
-   - [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하나씩 옆으로 밀어가며 `앞 4바이트 ──▶ 5번째 바이트(HEC)` 공식이 맞아떨어지는지 무한 반복 계산한다.
+   - [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하나씩 옆으로 밀어가며 `앞 4바이트 ---> 5번째 바이트(HEC)` 공식이 맞아떨어지는지 무한 반복 계산한다.
    - 우연히 공식이 딱 맞아떨어지는 5바이트를 발견하면, "어? 여기가 셀 헤더인가?" 하고 다음 상태로 넘어간다.
 2. **PRESYNC (가동기 상태)**:
    - 우연의 일치일 수도 있으므로 검증을 시작한다. 방금 찾은 헤더 끝부분부터 **정확히 53바이트(셀 1개 크기)를 건너뛰어** 그다음 헤더 위치를 잡고 다시 HEC 공식을 돌려본다.
@@ -57,20 +57,20 @@ tags = ["studynote-network"]
    - 만약 선로 노이즈로 인해 HEC가 알파 번(통상 7번) 연속으로 실패하면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 깨졌다고 판단하고, 즉시 다시 1단계 HUNT(탐색) 상태로 추락한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ATM 수신기의 HEC 셀 델리니에이션(동기화)        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ HUNT ] ── (우연히 1번 맞음) ──▶ [ PRESYNC ]                 │
- │      ▲                             │   │                    │
- │      │(에러 발생, 못 찾음)            │   │(연속 6번 성공!)      │
- │      └─────────────────────────────┘   │                    │
- │              (연속 7번 에러 발생!)        ▼                    │
- │              ◀───────────────────── [ SYNC ]                 │
- │                                    (초고속 데이터 스위칭 가동!) │
- │                                                             │
- │   * 53바이트라는 '고정 길이'가 보장되기에 가능한 마법의 알고리즘이다.  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ATM 수신기의 HEC 셀 델리니에이션(동기화)        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ HUNT ] -- (우연히 1번 맞음) ---> [ PRESYNC ]                 |
+ |      ^                             |   |                    |
+ |      |(에러 발생, 못 찾음)            |   |(연속 6번 성공!)      |
+ |      +-----------------------------+   |                    |
+ |              (연속 7번 에러 발생!)        v                    |
+ |              <---------------------- [ SYNC ]                 |
+ |                                    (초고속 데이터 스위칭 가동!) |
+ |                                                             |
+ |   * 53바이트라는 '고정 길이'가 보장되기에 가능한 마법의 알고리즘이다.  |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> HEC 기반 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>는 라디오 주파수를 맞출 때, 지지직거리는 잡음 속에서 다이얼을 0.1Mhz씩 미세하게 돌리다가(</strong>HUNT<strong>), DJ의 목소리가 어렴풋이 들리면 잠시 멈추고 계속 선명하게 들리는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>한 뒤(</strong>PRESYNC**), 확실하다 싶으면 음악을 감상(**SYNC**)하는 과정과 완벽히 일치합니다.
@@ -131,12 +131,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ATM]
-    │
-    ▼
+    |
+    v
 [현재 개념: ATM 동기화]
-    │
-    ├──▶ [확장 A: VPI / VCI]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: VPI / VCI]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 ATM에서 출발해 현재 메커니즘을 정교화하고, 이후 VPI / VCI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 394 / 1120
 
-← **이전**: [272. ATM (Asynchronous Transfer Mode)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)
-**다음**: [274. VPI / VCI (Virtual Path/Channel Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/274_vpi_vci_virtual_path_channel_identifier/) →
+<- **이전**: [272. ATM (Asynchronous Transfer Mode)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)
+**다음**: [274. VPI / VCI (Virtual Path/Channel Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/274_vpi_vci_virtual_path_channel_identifier/) ->
 
 ---

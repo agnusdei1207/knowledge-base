@@ -28,15 +28,15 @@ tags = ["studynote-algorithm"]
 아래 그림은 프림이 "한 번에 한 정점씩" 트리를 키우는 모습을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          Prim keeps one growing tree and a frontier of edges         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Start S = {A}                                                        │
-│ frontier : A-B(4), A-C(2), A-D(7)                                    │
-│ pick min : A-C(2) -> S = {A,C}                                       │
-│ frontier : A-B(4), C-D(3), C-E(6)                                    │
-│ pick min : C-D(3) -> S = {A,C,D}                                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          Prim keeps one growing tree and a frontier of edges         |
++----------------------------------------------------------------------+
+| Start S = {A}                                                        |
+| frontier : A-B(4), A-C(2), A-D(7)                                    |
+| pick min : A-C(2) -> S = {A,C}                                       |
+| frontier : A-B(4), C-D(3), C-E(6)                                    |
+| pick min : C-D(3) -> S = {A,C,D}                                     |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 "현재 가장 싼 간선"이 아니라 <strong>현재 트리 밖으로 나가는 간선 중 가장 싼 것</strong>이라는 점이다. 그래야 사이클을 만들지 않으면서 전체 비용 최소 조건을 유지할 수 있다.
@@ -61,15 +61,15 @@ tags = ["studynote-algorithm"]
 이 과정을 정당화하는 이론이 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 현재 트리 정점 집합 `S` 와 나머지 정점 집합 `V-S` 를 가르는 컷이 있을 때, 그 컷을 가로지르는 가장 작은 간선은 어떤 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 에도 안전하게 포함될 수 있다. 프림은 매 단계마다 바로 이 "안전한 간선"을 하나씩 추가하는 방식이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Safe edge = cheapest edge crossing the cut             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Tree S = {A,C,D}                                                     │
-│ crossing edges : A-B(5), D-E(4), C-F(6)                              │
-│                                                                      │
-│ cheapest crossing edge = D-E(4)                                      │
-│ -> add E to the tree, keep MST property                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               Safe edge = cheapest edge crossing the cut             |
++----------------------------------------------------------------------+
+| Tree S = {A,C,D}                                                     |
+| crossing edges : A-B(5), D-E(4), C-F(6)                              |
+|                                                                      |
+| cheapest crossing edge = D-E(4)                                      |
+| -> add E to the tree, keep MST property                              |
++----------------------------------------------------------------------+
 ```
 
 자료구조에 따라 성능도 달라진다. 인접 행렬을 쓰면 구현은 단순하지만 `O(V^2)`가 된다. 인접 리스트 + 이진 힙 기반 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 쓰면 보통 `O(E log V)`이고, 피보나치 힙 (Fibonacci [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 을 쓰면 이론적으로 `O(E + V log V)`까지 내려간다. 실무와 코딩 테스트에서는 대개 인접 리스트 + 이진 힙 조합이 가장 균형이 좋다.
@@ -158,14 +158,14 @@ tags = ["studynote-algorithm"]
 
 ```text
 Weighted undirected graph
-    │
-    ▼
+    |
+    v
 MST (Minimum Spanning Tree)
-    │
-    ├─ edge sorting + Union-Find -> Kruskal
-    └─ frontier minimum + priority queue -> Prim
-    │
-    ▼
+    |
+    +- edge sorting + Union-Find -> Kruskal
+    +- frontier minimum + priority queue -> Prim
+    |
+    v
 Network design, clustering, infrastructure spanning
 ```
 
@@ -183,7 +183,7 @@ Network design, clustering, infrastructure spanning
 
 **진행 상황**: 171 / 175
 
-← **이전**: [08. 벨만-포드 (Bellman-Ford)](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)
-**다음**: [172. 이분 매칭 (Bipartite Matching)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) →
+<- **이전**: [08. 벨만-포드 (Bellman-Ford)](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)
+**다음**: [172. 이분 매칭 (Bipartite Matching)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) ->
 
 ---

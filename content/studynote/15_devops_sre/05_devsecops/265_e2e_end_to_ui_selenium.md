@@ -26,9 +26,9 @@ E2E ([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_tr
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Specification        │──▶│ Execution Layer      │──▶│ Feedback Gate        │──▶│ Learning Loop        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Specification        |--->| Execution Layer      |--->| Feedback Gate        |--->| Learning Loop        |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 E2E 테스트 / UI 테스트가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ E2E 테스트 / UI 테스트의 핵심 원리는 구성 요소를 나열하는 �
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Specification        │──▶│ Execution Layer      │──▶│ Feedback Gate        │──▶│ Learning Loop        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Specification        |--->| Execution Layer      |--->| Feedback Gate        |--->| Learning Loop        |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ E2E 테스트 / UI 테스트를 잘 적용하면 변경 회귀를 빠르게 드�
 
 ```text
 [UI Automation]
-    │
-    ▼
+    |
+    v
 [E2E 테스트 / UI 테스트]
-    │
-    ├──▶ [Critical User Journey]
-    ├──▶ [수동 QA와 대형 E2E 중심 검증]
-    └──▶ [E2E (End-to-End) 테스트 / UI 테스트]
+    |
+    +---> [Critical User Journey]
+    +---> [수동 QA와 대형 E2E 중심 검증]
+    +---> [E2E (End-to-End) 테스트 / UI 테스트]
 ```
 
 이 흐름도는 E2E 테스트 / UI 테스트가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ E2E 테스트 / UI 테스트를 잘 적용하면 변경 회귀를 빠르게 드�
 
 **진행 상황**: 265 / 373
 
-← **이전**: [264. 통합 테스트 (Integration Test) DB 연동 모듈 조립망 결함 탐지 (Testcontainers 활용 격리 컨테이너](/knowledge-base/studynote/15_devops_sre/05_devsecops/264_integration_test_db_testcontainers/)
-**다음**: [266. 계약 테스트 (Contract Testing / Pact)](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/) →
+<- **이전**: [264. 통합 테스트 (Integration Test) DB 연동 모듈 조립망 결함 탐지 (Testcontainers 활용 격리 컨테이너](/knowledge-base/studynote/15_devops_sre/05_devsecops/264_integration_test_db_testcontainers/)
+**다음**: [266. 계약 테스트 (Contract Testing / Pact)](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/) ->
 
 ---

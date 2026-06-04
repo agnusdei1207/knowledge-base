@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [불필요한 재전송 해결 방안]
-    │
-    ▼
+    |
+    v
 [TCP Keep-Alive 타이머]
-    │
-    └──▶ [영 윈도우 탐색]
+    |
+    +---> [영 윈도우 탐색]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 킵얼라이브는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>이라는 피도 눈물도 없는 저승사자에게서 살아남기 위한 </strong>"생존 본능의 발버둥"**입니다. 저승사자는 움직임이 없는 시체([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 귀신같이 찾아내 낫으로 베어버리므로, 살기 위해선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없더라도 5분마다 헛기침(Keep-Alive)이라도 내서 자기가 살아있음을 증명해야 합니다.
@@ -56,24 +56,24 @@ tags = ["studynote-network"]
 - 상대방 컴퓨터는 "어? 너 아까 1000번까지 불렀잖아. 왜 갑자기 지나간 999번을 부르고 지랄이야? 1000번 내놔 임마!"라며 <strong>화가 나서 즉각 <code>ACK 1000</code> (나 살아있음!) 영수증을 반사적으로 쏘게 된다</strong>. 이 꼼수를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신 없이 상대방의 생사만 귀신같이 캐내는 것이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AWS/클라우드 환경에서의 Keep-Alive 실무 튜닝        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: AWS 클라우드의 로드밸런서(ELB)를 거치는 웬앱 ]             │
- │                                                             │
- │   * 아마존 ELB(로드밸런서)의 가차 없는 룰:                          │
- │     "내 앞을 지나는 놈들, 60초(Idle Timeout) 동안 대화 없으면 무조건 컷!" │
- │                                                             │
- │   * 리눅스 기본 설정(2시간)의 대참사:                             │
- │     웹서버 왈: "난 2시간 동안 입 닫고 기다릴게~"                    │
- │     ELB 왈: "60초 지났네? 너네 접속 끊어버려! (세션 강제 종료)"         │
- │     웹서버: "어? 왜 갑자기 연결이 끊겼지?? (연결 끊김 장애 폭주)"       │
- │                                                             │
- │   ▶ "이 장애를 막기 위해, 리눅스 커널의 keepalive_time 값을 2시간에서  │
- │      강제로 40초나 50초로 대폭 줄여서(Tuning), ELB가 썰어버리기 전에   │
- │      미리 헛기침(Keep-alive)을 하도록 무조건 멱살을 잡아야 한다!"     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                AWS/클라우드 환경에서의 Keep-Alive 실무 튜닝        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황: AWS 클라우드의 로드밸런서(ELB)를 거치는 웬앱 ]             |
+ |                                                             |
+ |   * 아마존 ELB(로드밸런서)의 가차 없는 룰:                          |
+ |     "내 앞을 지나는 놈들, 60초(Idle Timeout) 동안 대화 없으면 무조건 컷!" |
+ |                                                             |
+ |   * 리눅스 기본 설정(2시간)의 대참사:                             |
+ |     웹서버 왈: "난 2시간 동안 입 닫고 기다릴게~"                    |
+ |     ELB 왈: "60초 지났네? 너네 접속 끊어버려! (세션 강제 종료)"         |
+ |     웹서버: "어? 왜 갑자기 연결이 끊겼지?? (연결 끊김 장애 폭주)"       |
+ |                                                             |
+ |   -> "이 장애를 막기 위해, 리눅스 커널의 keepalive_time 값을 2시간에서  |
+ |      강제로 40초나 50초로 대폭 줄여서(Tuning), ELB가 썰어버리기 전에   |
+ |      미리 헛기침(Keep-alive)을 하도록 무조건 멱살을 잡아야 한다!"     |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 애플리케이션 계층(L7)의 Keep-Alive
@@ -138,12 +138,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 불필요한 재전송 해결 방안]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP Keep-Alive 타이머]
-    │
-    ├──▶ [확장 A: 영 윈도우 탐색]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 영 윈도우 탐색]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머는 [불필요한 재전송](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) 해결 방안에서 출발해 현재 메커니즘을 정교화하고, 이후 [영 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) 탐색와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 565 / 1120
 
-← **이전**: [443. 불필요한 재전송 (Spurious Retransmission) 해결 방안](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/)
-**다음**: [445. 영 윈도우 (Zero Window) 탐색](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) →
+<- **이전**: [443. 불필요한 재전송 (Spurious Retransmission) 해결 방안](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/)
+**다음**: [445. 영 윈도우 (Zero Window) 탐색](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) ->
 
 ---

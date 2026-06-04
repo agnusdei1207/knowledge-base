@@ -30,22 +30,22 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                O-RAN 기능 분할 구조                              │
-├──────────────────────────────────────────────────────────────────┤
-│  [O-CU: Centralized Unit]                                        │
-│  PDCP/RRC 레이어 처리, 코어 연결                                  │
-│         │ F1 인터페이스                                           │
-│  [O-DU: Distributed Unit]                                        │
-│  RLC/MAC 레이어 처리, 실시간 스케줄링                             │
-│         │ Open Fronthaul (eCPRI, Split 7-2x)                     │
-│  [O-RU: Radio Unit]                                              │
-│  물리 레이어 하위부, 안테나 신호 처리                             │
-│         │                                                        │
-│  [RIC: RAN Intelligent Controller]                               │
-│  Near-RT RIC: xApp (ms단위 최적화)                               │
-│  Non-RT RIC: rApp (초단위 정책, ML 학습)                         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                O-RAN 기능 분할 구조                              |
++------------------------------------------------------------------+
+|  [O-CU: Centralized Unit]                                        |
+|  PDCP/RRC 레이어 처리, 코어 연결                                  |
+|         | F1 인터페이스                                           |
+|  [O-DU: Distributed Unit]                                        |
+|  RLC/MAC 레이어 처리, 실시간 스케줄링                             |
+|         | Open Fronthaul (eCPRI, Split 7-2x)                     |
+|  [O-RU: Radio Unit]                                              |
+|  물리 레이어 하위부, 안테나 신호 처리                             |
+|         |                                                        |
+|  [RIC: RAN Intelligent Controller]                               |
+|  Near-RT RIC: xApp (ms단위 최적화)                               |
+|  Non-RT RIC: rApp (초단위 정책, ML 학습)                         |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소       | 기능                           | 레이턴시 요건     |
@@ -85,8 +85,8 @@ tags = ["studynote-devops-sre"]
 5. 보안: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/).WG11 보안 사양 준수, xApp 격리 및 접근 제어
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- eCPRI 링크에 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사용 → 타임 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류로 기지국 다운
-- xApp 격리 없이 공유 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에 배포 → 보안 사고
+- eCPRI 링크에 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사용 -> 타임 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류로 기지국 다운
+- xApp 격리 없이 공유 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에 배포 -> 보안 사고
 
 - 📢 섹션 요약 비유: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 도입은 레고 조립과 같다. 각 블록(O-RU/DU/CU)이 표준 연결부를 가져야 다양한 벤더 블록을 조합할 수 있다.
 
@@ -116,20 +116,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 전통 D-RAN (단일 벤더 독점)
-    │
-    ▼
+    |
+    v
 CPRI 기반 C-RAN (중앙화 RAN)
-    │
-    ▼
+    |
+    v
 O-RAN Alliance — 개방형 인터페이스 표준화
-    │
-    ▼
+    |
+    v
 O-RU / O-DU / O-CU 기능 분리 + eCPRI Open Fronthaul
-    │
-    ▼
+    |
+    v
 RIC (xApp/rApp) — AI 기반 무선 자원 최적화
-    │
-    ▼
+    |
+    v
 AI-native O-RAN — Self-Optimizing Network (미래)
 ```
 
@@ -145,7 +145,7 @@ AI-native O-RAN — Self-Optimizing Network (미래)
 
 **진행 상황**: 362 / 373
 
-← **이전**: [361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected](/knowledge-base/studynote/15_devops_sre/05_devsecops/361_architecture/)
-**다음**: [363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay](/knowledge-base/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/) →
+<- **이전**: [361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected](/knowledge-base/studynote/15_devops_sre/05_devsecops/361_architecture/)
+**다음**: [363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay](/knowledge-base/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/) ->
 
 ---

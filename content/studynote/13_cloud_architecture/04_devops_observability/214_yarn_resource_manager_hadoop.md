@@ -34,30 +34,30 @@ YARN은 이 두 문제를 동시에 해결했다. 리소스 관리를 처리 엔
 ### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 아키텍처
 
 ```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                     YARN 아키텍처                             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  클라이언트: spark-submit / hadoop jar                        │
-  │       │ 애플리케이션 제출                                     │
-  │       ▼                                                      │
-  │  ┌───────────────────────────────────────────────────────┐  │
-  │  │   ResourceManager (마스터, 전체 클러스터 관리)           │  │
-  │  │                                                        │  │
-  │  │   Scheduler ←─── 자원 할당 결정                        │  │
-  │  │   ApplicationsManager ←─── AM 생명주기 관리            │  │
-  │  └─────────────────────────┬─────────────────────────────┘  │
-  │                             │ 자원 협상                      │
-  │     ┌───────────────────────┼──────────────────────┐        │
-  │     ▼                       ▼                      ▼        │
-  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-  │  │  NodeManager │  │  NodeManager │  │  NodeManager │      │
-  │  │  (노드1)     │  │  (노드2)     │  │  (노드3)     │      │
-  │  │  Container:  │  │  Container:  │  │  Container:  │      │
-  │  │  [AM]        │  │  [Task1]     │  │  [Task2]     │      │
-  │  │  [Task3]     │  │  [Task4]     │  │  [Task5]     │      │
-  │  └──────────────┘  └──────────────┘  └──────────────┘      │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                     YARN 아키텍처                             |
+  +-------------------------------------------------------------+
+  |                                                              |
+  |  클라이언트: spark-submit / hadoop jar                        |
+  |       | 애플리케이션 제출                                     |
+  |       v                                                      |
+  |  +-------------------------------------------------------+  |
+  |  |   ResourceManager (마스터, 전체 클러스터 관리)           |  |
+  |  |                                                        |  |
+  |  |   Scheduler <---- 자원 할당 결정                        |  |
+  |  |   ApplicationsManager <---- AM 생명주기 관리            |  |
+  |  +-------------------------+-----------------------------+  |
+  |                             | 자원 협상                      |
+  |     +-----------------------+----------------------+        |
+  |     v                       v                      v        |
+  |  +--------------+  +--------------+  +--------------+      |
+  |  |  NodeManager |  |  NodeManager |  |  NodeManager |      |
+  |  |  (노드1)     |  |  (노드2)     |  |  (노드3)     |      |
+  |  |  Container:  |  |  Container:  |  |  Container:  |      |
+  |  |  [AM]        |  |  [Task1]     |  |  [Task2]     |      |
+  |  |  [Task3]     |  |  [Task4]     |  |  [Task5]     |      |
+  |  +--------------+  +--------------+  +--------------+      |
+  +-------------------------------------------------------------+
 
   ApplicationMaster (AM): 각 애플리케이션별로 생성
                           자신의 애플리케이션 태스크 스케줄링
@@ -187,14 +187,14 @@ YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_h
 
 ```text
 Hadoop 1.0: JobTracker (MapReduce 전용)
-    │
-    ▼
+    |
+    v
 YARN: ResourceManager + NodeManager (범용 리소스 관리)
-    ├─► ApplicationMaster: 앱별 독립 관리
-    └─► Capacity/Fair Scheduler: 멀티테넌트 리소스 배분
-    │
-    ▼
-K8s on Hadoop · Spark on K8s → 클라우드 통합 관리
+    +-► ApplicationMaster: 앱별 독립 관리
+    +-► Capacity/Fair Scheduler: 멀티테넌트 리소스 배분
+    |
+    v
+K8s on Hadoop · Spark on K8s -> 클라우드 통합 관리
 ```
 2. ResourceManager는 교장선생님처럼 전체 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 결정하고, NodeManager는 각 선생님처럼 운동장 상황을 보고해.
 3. [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x에서는 운동장 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 담당(JobTracker)이 너무 많은 일을 혼자 해서 학교가 무너질 뻔했어([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). YARN으로 역할을 나눠서 해결했어.
@@ -205,7 +205,7 @@ K8s on Hadoop · Spark on K8s → 클라우드 통합 관리
 
 **진행 상황**: 213 / 371
 
-← **이전**: [213. 맵리듀스 (MapReduce)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/)
-**다음**: [215. 아파치 스파크 (Apache Spark)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/) →
+<- **이전**: [213. 맵리듀스 (MapReduce)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/)
+**다음**: [215. 아파치 스파크 (Apache Spark)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/) ->
 
 ---

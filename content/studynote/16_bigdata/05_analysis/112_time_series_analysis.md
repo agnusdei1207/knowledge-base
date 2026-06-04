@@ -31,23 +31,23 @@ tags = ["studynote-bigdata"]
 ### 시계열 분해 (Time Series Decomposition)
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    시계열 성분 분해                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)              │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────────┐ │
-│  │ T(t): 장기 추세        /──────────────────                     │ │
-│  │                      /                                         │ │
-│  │ S(t): 계절성   /\/\/\/\/\/\/\/\/\/\/\/\/\/\                     │ │
-│  │                                                                │ │
-│  │ R(t): 잔차    ⌇⌇⌇⌇ (예측 불가능한 노이즈)                       │ │
-│  └─────────────────────────────────────────────────────────────────┘ │
-│                                                                      │
-│  ADF 검정 (Augmented Dickey-Fuller Test) → 정상성 (Stationarity) 확인│
-│  비정상 → d차 차분 (Differencing) → 정상 시계열로 변환              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    시계열 성분 분해                                   |
++----------------------------------------------------------------------+
+|                                                                      |
+|  원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)              |
+|                                                                      |
+|  +-----------------------------------------------------------------+ |
+|  | T(t): 장기 추세        /------------------                     | |
+|  |                      /                                         | |
+|  | S(t): 계절성   /\/\/\/\/\/\/\/\/\/\/\/\/\/\                     | |
+|  |                                                                | |
+|  | R(t): 잔차    ⌇⌇⌇⌇ (예측 불가능한 노이즈)                       | |
+|  +-----------------------------------------------------------------+ |
+|                                                                      |
+|  ADF 검정 (Augmented Dickey-Fuller Test) -> 정상성 (Stationarity) 확인|
+|  비정상 -> d차 차분 (Differencing) -> 정상 시계열로 변환              |
++----------------------------------------------------------------------+
 ```
 
 ### 주요 모델 비교
@@ -86,10 +86,10 @@ tags = ["studynote-bigdata"]
 
 ### 적용 시나리오
 
-1. **리테일 수요 예측**: 주별·월별 SKU 단위 수요 → SARIMA/Prophet으로 재고 최적화
-2. **서버 용량 계획**: 시간당 트래픽 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 예측 → 오토스케일링 사전 준비
-3. **에너지 수요 예측**: 기온·요일·계절 고려 → Temporal Fusion Transformer로 발전소 가동 계획
-4. <strong>금융 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 주가 변동성 (Volatility) 예측 → GARCH 모델 ([ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 확장)
+1. **리테일 수요 예측**: 주별·월별 SKU 단위 수요 -> SARIMA/Prophet으로 재고 최적화
+2. **서버 용량 계획**: 시간당 트래픽 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 예측 -> 오토스케일링 사전 준비
+3. **에너지 수요 예측**: 기온·요일·계절 고려 -> Temporal Fusion Transformer로 발전소 가동 계획
+4. <strong>금융 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 주가 변동성 (Volatility) 예측 -> GARCH 모델 ([ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 확장)
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -135,17 +135,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [시계열 데이터 (Time Series Data) — 시간 순서로 기록된 연속적 관측값]
-    │
-    ▼
+    |
+    v
 [정상성 (Stationarity) — 평균·분산이 시간에 무관한 통계적 특성, 분석 전제 조건]
-    │
-    ▼
+    |
+    v
 [ARIMA (AutoRegressive Integrated Moving Average) — 전통적 선형 시계열 예측 모델]
-    │
-    ▼
+    |
+    v
 [LSTM / Transformer — 딥러닝 기반 비선형 장기 의존성 포착]
-    │
-    ▼
+    |
+    v
 [Prophet / NeuralProphet — 추세·계절성 분해 기반 실무 시계열 예측 프레임워크]
 ```
 
@@ -162,7 +162,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 112 / 262
 
-← **이전**: [108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)
-**다음**: [110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석](/knowledge-base/studynote/16_bigdata/05_analysis/113_spatial_analysis/) →
+<- **이전**: [108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)
+**다음**: [110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석](/knowledge-base/studynote/16_bigdata/05_analysis/113_spatial_analysis/) ->
 
 ---

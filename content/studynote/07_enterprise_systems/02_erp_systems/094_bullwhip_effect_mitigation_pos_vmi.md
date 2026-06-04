@@ -35,23 +35,23 @@ tags = ["studynote-enterprise-systems"]
 2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (공급자 주도형 재고 관리)</strong>: 소매점(을)이 발주를 넣는 기존 방식을 뒤집어, 제조사(갑)가 소매점의 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 알아서 물건을 채워주는 방식이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)        │
-├──────────────────────────────────────────────────────────────┤
-│ [ 전통적 방식: 정보 단절과 지연 ]                            │
-│  소비자 ─(10개)─▶ 소매점 ─(15개 발주)─▶ 도매상 ─(30개 발주)─▶ 공장 │
-│    ▲               │                 │               │       │
-│    └───────────────┴─────────────────┴───────────────┘       │
-│                각자 창고에 안전 재고를 몰래 쌓음                   │
-│                                                              │
-│ [ VMI 및 실시간 정보 공유 (EDI / POS 연동) ]                 │
-│  소비자 ─(10개 구매)─▶ 소매점 (발주 안 함, 판매 데이터만 전송)       │
-│                        │                                     │
-│                        ▼ [POS 실시간 데이터]                 │
-│                 ┌────────────────┐                           │
-│                 │   SCM 통합 서버  │◀──────────────[공장]     │
-│                 └────────────────┘     (10개 소진 확인 후 즉시 생산/배송) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)        |
++--------------------------------------------------------------+
+| [ 전통적 방식: 정보 단절과 지연 ]                            |
+|  소비자 -(10개)--> 소매점 -(15개 발주)--> 도매상 -(30개 발주)--> 공장 |
+|    ^               |                 |               |       |
+|    +---------------+-----------------+---------------+       |
+|                각자 창고에 안전 재고를 몰래 쌓음                   |
+|                                                              |
+| [ VMI 및 실시간 정보 공유 (EDI / POS 연동) ]                 |
+|  소비자 -(10개 구매)--> 소매점 (발주 안 함, 판매 데이터만 전송)       |
+|                        |                                     |
+|                        v [POS 실시간 데이터]                 |
+|                 +----------------+                           |
+|                 |   SCM 통합 서버  |<---------------[공장]     |
+|                 +----------------+     (10개 소진 확인 후 즉시 생산/배송) |
++--------------------------------------------------------------+
 ```
 
 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 체제에서는 공장이 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통제하므로, 각 유통 단계에서 발생하는 과장된 주문(뻥튀기)이 원천 차단된다. [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)(주문부터 도착까지의 시간)이 짧아지면 가수요가 사라져 채찍의 진폭 자체가 작아진다.
@@ -117,17 +117,17 @@ SCM을 통한 투명한 정보 공유와 VMI의 도입은 [공급망](/knowledge
 
 ```text
 전통적 조달 체계 (서면 발주, 정보 단절)
-    │
-    ▼
+    |
+    v
 채찍 효과 (Bullwhip Effect) 및 악성 재고 발생
-    │
-    ▼
+    |
+    v
 POS 데이터 실시간 공유 (Information Sharing, EDI 도입)
-    │
-    ▼
+    |
+    v
 VMI (공급자 주도형 재고 관리) 체계로 패러다임 전환
-    │
-    ▼
+    |
+    v
 CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장
 ```
 
@@ -143,7 +143,7 @@ CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장
 
 **진행 상황**: 94 / 482
 
-← **이전**: [93. 불황 효과 / 채찍 효과 (Bullwhip Effect) - 하류(소비자)의 작은 수요 변동이 상류(제조업체)로 갈수록 정보 왜곡으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/)
-**다음**: [95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/) →
+<- **이전**: [93. 불황 효과 / 채찍 효과 (Bullwhip Effect) - 하류(소비자)의 작은 수요 변동이 상류(제조업체)로 갈수록 정보 왜곡으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/)
+**다음**: [95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/) ->
 
 ---

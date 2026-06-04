@@ -19,15 +19,15 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-결정 트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이진(Binary) 질문으로 반복 분할하여 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. "나이 < 30인가? → 예/아니오"처럼 분할할 때 어떤 기준으로 가장 좋은 질문을 고르는가가 핵심이다. 무작위로 고르면 트리가 깊어지고 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))이 발생한다. 분할 후 각 그룹이 얼마나 순수한지(한 클래스만 모였는지)를 측정하는 지표가 [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)와 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)다.
+결정 트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이진(Binary) 질문으로 반복 분할하여 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. "나이 < 30인가? -> 예/아니오"처럼 분할할 때 어떤 기준으로 가장 좋은 질문을 고르는가가 핵심이다. 무작위로 고르면 트리가 깊어지고 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))이 발생한다. 분할 후 각 그룹이 얼마나 순수한지(한 클래스만 모였는지)를 측정하는 지표가 [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)와 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 결정 트리 분할은 "사탕통 정리"다. 빨간 사탕과 파란 사탕이 섞인 통을 나눌 때, "모양으로 나눌까? 색으로 나눌까?" 중 각 통이 가장 한 가지 색으로만 가득 차는(순수한) 방법을 찾는 것이 [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)다.
@@ -37,29 +37,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│         분할 기준 수식 비교                               │
-├──────────────────────────────────────────────────────────┤
-│  지니 불순도 (Gini Impurity):                            │
-│  Gini(t) = 1 - Σ pᵢ²                                   │
-│  → 완전 순수: Gini=0,  2클래스 균등: Gini=0.5           │
-│                                                          │
-│  엔트로피 (Entropy):                                     │
-│  H(t) = -Σ pᵢ · log₂(pᵢ)                              │
-│  → 완전 순수: H=0,  2클래스 균등: H=1.0 (bits)         │
-│                                                          │
-│  정보 획득량 (Information Gain):                         │
-│  IG(D,A) = H(D) - Σ |Dᵥ|/|D| · H(Dᵥ)                 │
-│                                                          │
-│  예) [30 양성, 70 음성] 노드:                           │
-│  Gini = 1 - (0.3² + 0.7²) = 1 - 0.58 = 0.42           │
-│  H    = -(0.3·log₂0.3 + 0.7·log₂0.7) ≈ 0.881          │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         분할 기준 수식 비교                               |
++----------------------------------------------------------+
+|  지니 불순도 (Gini Impurity):                            |
+|  Gini(t) = 1 - Σ pᵢ^                                   |
+|  -> 완전 순수: Gini=0,  2클래스 균등: Gini=0.5           |
+|                                                          |
+|  엔트로피 (Entropy):                                     |
+|  H(t) = -Σ pᵢ · log₂(pᵢ)                              |
+|  -> 완전 순수: H=0,  2클래스 균등: H=1.0 (bits)         |
+|                                                          |
+|  정보 획득량 (Information Gain):                         |
+|  IG(D,A) = H(D) - Σ |Dᵥ|/|D| · H(Dᵥ)                 |
+|                                                          |
+|  예) [30 양성, 70 음성] 노드:                           |
+|  Gini = 1 - (0.3^ + 0.7^) = 1 - 0.58 = 0.42           |
+|  H    = -(0.3·log₂0.3 + 0.7·log₂0.7) ≈ 0.881          |
++----------------------------------------------------------+
 ```
 
 | 지표 | 수식 | 범위 | 사용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 |:---|:---|:---|:---|
-| [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/) | 1 - Σpᵢ² | [0, 1-1/K] | CART |
+| [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/) | 1 - Σpᵢ^ | [0, 1-1/K] | CART |
 | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | -Σpᵢ·log₂pᵢ | [0, log₂K] | ID3, C4.5 |
 | 정보 획득량 | H(부모) - 가중 H(자식) | [0, H(부모)] | ID3, C4.5 |
 | 획득 비율 (GR) | IG / H(A) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 IG | C4.5 |
@@ -110,7 +110,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)] → [최적화·운영 자동화]
+[데이터 전처리] -> [지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 351 / 420
 
-← **이전**: [350. 라플라스 스무딩 (Laplace Smoothing)](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)
-**다음**: [352. 퍼셉트론 (Perceptron)](/knowledge-base/studynote/10_ai/05_data_science_ml/352_perceptron_linear_separability/) →
+<- **이전**: [350. 라플라스 스무딩 (Laplace Smoothing)](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)
+**다음**: [352. 퍼셉트론 (Perceptron)](/knowledge-base/studynote/10_ai/05_data_science_ml/352_perceptron_linear_separability/) ->
 
 ---

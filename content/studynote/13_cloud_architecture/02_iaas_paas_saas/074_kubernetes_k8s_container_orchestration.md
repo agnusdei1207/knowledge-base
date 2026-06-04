@@ -31,9 +31,9 @@ tags = ["studynote-cloud"]
 
 ```text
 Pod
-  ↓ Service
-  ↓ Deployment
-  ↓ Cluster
+  v Service
+  v Deployment
+  v Cluster
 ```
 
 | 구성 | 의미 |
@@ -104,9 +104,9 @@ Pod
 
 ```text
 Pod
-  ↓
+  v
 Service
-  ↓
+  v
 Deployment
 ```
 
@@ -116,9 +116,9 @@ Deployment
 
 ```text
 Container Runtime
-  ↓
+  v
 Kubernetes
-  ↓
+  v
 Orchestration Platform
 ```
 
@@ -136,7 +136,7 @@ Orchestration Platform
 
 **진행 상황**: 73 / 371
 
-← **이전**: [73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)
-**다음**: [75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) →
+<- **이전**: [73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)
+**다음**: [75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) ->
 
 ---

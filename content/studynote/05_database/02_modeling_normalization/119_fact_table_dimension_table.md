@@ -19,20 +19,20 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    팩트 테이블 구조                                    │
-├───────────────────────────────────────────────────────┤
-│  FACT_매출                                            │
-│  ┌─────────┬─────────┬─────────┬──────┬──────┐       │
-│  │ 날짜KEY  │ 상품KEY  │ 고객KEY  │ 매출액│ 수량 │       │
-│  ├─────────┼─────────┼─────────┼──────┼──────┤       │
-│  │ 20240101│ P001    │ C100    │30000 │  2   │       │
-│  │ 20240101│ P002    │ C101    │15000 │  1   │       │
-│  └─────────┴─────────┴─────────┴──────┴──────┘       │
-│  FK(날짜KEY) → DIM_날짜                               │
-│  FK(상품KEY) → DIM_상품                               │
-│  FK(고객KEY) → DIM_고객                               │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    팩트 테이블 구조                                    |
++-------------------------------------------------------+
+|  FACT_매출                                            |
+|  +---------+---------+---------+------+------+       |
+|  | 날짜KEY  | 상품KEY  | 고객KEY  | 매출액| 수량 |       |
+|  +---------+---------+---------+------+------+       |
+|  | 20240101| P001    | C100    |30000 |  2   |       |
+|  | 20240101| P002    | C101    |15000 |  1   |       |
+|  +---------+---------+---------+------+------+       |
+|  FK(날짜KEY) -> DIM_날짜                               |
+|  FK(상품KEY) -> DIM_상품                               |
+|  FK(고객KEY) -> DIM_고객                               |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 팩트는 "무슨 일이 일어났는가(숫자)"이고, 디멘전은 "그 일의 맥락(누가·언제·어디서·무엇을)"이다.
@@ -47,7 +47,7 @@ tags = ["studynote-database"]
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong> | 이벤트 발생 시마다 1행 | 주문·클릭 |
 | <strong>Periodic <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 정해진 주기로 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 월말 재고·잔액 |
-| <strong>Accumulating <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 프로세스 전체 추적 | 주문→배송→반품 |
+| <strong>Accumulating <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 프로세스 전체 추적 | 주문->배송->반품 |
 
 ### [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) ([Slowly Changing Dimension](/knowledge-base/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/)) 유형
 
@@ -57,7 +57,7 @@ tags = ["studynote-database"]
 | **Type 2** | 새 행 + 유효기간 | **보존** |
 | **Type 3** | 이전/현재 컬럼 | 제한적 |
 
-- **📢 섹션 요약 비유**: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 "이사 기록"이다. 서울→부산 이사 시 서울 행(만료)과 부산 행(현재)을 모두 유지한다.
+- **📢 섹션 요약 비유**: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 "이사 기록"이다. 서울->부산 이사 시 서울 행(만료)과 부산 행(현재)을 모두 유지한다.
 
 ---
 
@@ -100,17 +100,17 @@ tags = ["studynote-database"]
 
 ```text
 [ER 모델 3NF (OLTP)]
-    │
-    ▼
+    |
+    v
 [Kimball 차원 모델링 (1996) — 팩트/디멘전 분리]
-    │
-    ▼
+    |
+    v
 [SCD Type 2 (이력 보존 표준)]
-    │
-    ▼
+    |
+    v
 [클라우드 DW (BigQuery, 2010s) — 스타 스키마 최적화]
-    │
-    ▼
+    |
+    v
 [현재: dbt + 팩트/디멘전 자동 생성]
 ```
 
@@ -125,7 +125,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 119 / 600
 
-← **이전**: [118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/)
-**다음**: [120. 데이터 역공학 (Data Reverse 엔진ering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/) →
+<- **이전**: [118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/)
+**다음**: [120. 데이터 역공학 (Data Reverse 엔진ering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/) ->
 
 ---

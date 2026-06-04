@@ -31,12 +31,12 @@ tags = ["studynote-ai"]
 이 지옥을 끝내기 위해 [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/)([랭체인](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/)) 창립자들이 만든 궁극의 관측 장비가 바로 <strong>LangSmith(랭스미스)</strong>다. LLM이 생각을 시작해서 대답을 뱉어낼 때까지 거치는 모든 중간 과정(검색, 툴 사용, 프롬프트 조립)을 트리(Tree) 구조로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여, "정확히 어느 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 사고가 터졌는지"를 백일하에 드러내는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 전용 디버깅 엑스레이(X-Ray)가 탄생한 것이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 웹 버그 잡기가 고장 난 시계의 톱니바퀴 하나를 찾는 것이라면, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 버그 잡기는 "요리사([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 왜 짠맛 나는 케이크를 만들었는지" 그 심리 상태를 추리하는 독심술이다. LangSmith는 요리사의 머리에 CCTV를 달아서, "아, 요리사가 3분 전에 설탕통에 소금을 잘못 넣은 걸 봤고, 오븐 온도 맞출 때 딴생각을 했구나!"라고 요리 과정 전체를 초 단위 비디오로 돌려보게 해주는 완벽한 주방 감시 카메라다.
@@ -48,30 +48,30 @@ tags = ["studynote-ai"]
 LangSmith는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 애플리케이션의 실행 흐름(Trace)을 캡처하여, 트리 형태의 시각적 대시보드로 뿌려주는 관측 아키텍처를 가진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           LangSmith의 LLM 파이프라인 관측(Observability) 아키텍처 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [유저 입력]: "2024년 1분기 매출 보고서 요약해 줘"                   │
-│                                                              │
-│  [1. LangSmith Trace (추적 트리 생성) - 실시간 로깅 발동]            │
-│   ▼ [Chain 시작] "Report_Summarizer" (총 3.2초 소요, $0.05 발생)  │
-│      │                                                       │
-│      ├─▶ [Tool 실행] "Vector_DB_Search" (1.5초)                │
-│      │    * 입력: "2024 1분기 매출"                             │
-│      │    * 출력: (여기서 2023년 문서를 잘못 가져온 걸 발견!! 🚨)       │
-│      │                                                       │
-│      ├─▶ [Prompt 템플릿 조립] (0.01초)                          │
-│      │    * 조합된 텍스트: "너는 회계사야. 다음 문서를 요약해: [2023년 문서]" │
-│      │                                                       │
-│      └─▶ [LLM API 호출] "GPT-4" (1.7초)                        │
-│           * 입력 토큰: 1,500 / 출력 토큰: 300                     │
-│           * 출력: "2024년 1분기 매출은 작년(2023)과 같습니다." (환각 발생)│
-│                                                              │
-│  [2. 개발자의 대시보드 디버깅 (Root Cause Analysis)]               │
-│   * 개발자: "아! GPT-4가 멍청한 게 아니라, 두 번째 스텝인 Vector DB 검색기가 │
-│            2023년 문서를 잘못 긁어온 게 근본 원인(Root Cause)이었네!"      │
-│   ─▶ 즉시 Vector DB 검색 필터만 고치면 버그 완벽 해결!                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           LangSmith의 LLM 파이프라인 관측(Observability) 아키텍처 도해     |
++--------------------------------------------------------------+
+|  [유저 입력]: "2024년 1분기 매출 보고서 요약해 줘"                   |
+|                                                              |
+|  [1. LangSmith Trace (추적 트리 생성) - 실시간 로깅 발동]            |
+|   v [Chain 시작] "Report_Summarizer" (총 3.2초 소요, $0.05 발생)  |
+|      |                                                       |
+|      +--> [Tool 실행] "Vector_DB_Search" (1.5초)                |
+|      |    * 입력: "2024 1분기 매출"                             |
+|      |    * 출력: (여기서 2023년 문서를 잘못 가져온 걸 발견!! 🚨)       |
+|      |                                                       |
+|      +--> [Prompt 템플릿 조립] (0.01초)                          |
+|      |    * 조합된 텍스트: "너는 회계사야. 다음 문서를 요약해: [2023년 문서]" |
+|      |                                                       |
+|      +--> [LLM API 호출] "GPT-4" (1.7초)                        |
+|           * 입력 토큰: 1,500 / 출력 토큰: 300                     |
+|           * 출력: "2024년 1분기 매출은 작년(2023)과 같습니다." (환각 발생)|
+|                                                              |
+|  [2. 개발자의 대시보드 디버깅 (Root Cause Analysis)]               |
+|   * 개발자: "아! GPT-4가 멍청한 게 아니라, 두 번째 스텝인 Vector DB 검색기가 |
+|            2023년 문서를 잘못 긁어온 게 근본 원인(Root Cause)이었네!"      |
+|   --> 즉시 Vector DB 검색 필터만 고치면 버그 완벽 해결!                 |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (Trace와 Span)**:
@@ -143,7 +143,7 @@ LangSmith는 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_converg
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -158,7 +158,7 @@ LangSmith는 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_converg
 
 **진행 상황**: 219 / 420
 
-← **이전**: [218. RAG 고도화 기법 (Advanced RAG)](/knowledge-base/studynote/10_ai/03_llm_nlp/218_rag_advanced_techniques/)
-**다음**: [220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)](/knowledge-base/studynote/10_ai/03_llm_nlp/220_dspy_prompt_optimization/) →
+<- **이전**: [218. RAG 고도화 기법 (Advanced RAG)](/knowledge-base/studynote/10_ai/03_llm_nlp/218_rag_advanced_techniques/)
+**다음**: [220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)](/knowledge-base/studynote/10_ai/03_llm_nlp/220_dspy_prompt_optimization/) ->
 
 ---

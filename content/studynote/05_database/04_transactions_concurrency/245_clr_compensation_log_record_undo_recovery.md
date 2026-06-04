@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 Compensation Log Record (CLR)은 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 수행 시 남기는 보상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (중복 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 방지)에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 Compensation Log Record를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ Compensation Log Record는 결국 "언제 보고, 어디에서 적용하고, 무
 | 운영 주의 | `LSN`·`데이터베이스 교착 상태 처리 기법`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 Compensation Log Record를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ Compensation Log Record를 올바르게 적용하면 구조를 단순화하고, 
 
 ```text
 [LSN]
-    │
-    ▼
+    |
+    v
 [Compensation Log Record]
-    │
-    ├──▶ [데이터베이스 교착 상태 처리 기법]
-    └──▶ [교착 상태 탐지 대기 그래프]
+    |
+    +---> [데이터베이스 교착 상태 처리 기법]
+    +---> [교착 상태 탐지 대기 그래프]
 ```
 
 LSN에서 출발한 논점이 Compensation Log Record에서 핵심 판단으로 모이고, 이후 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리 기법·[교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ LSN에서 출발한 논점이 Compensation Log Record에서 핵심 판단으로 
 
 **진행 상황**: 245 / 600
 
-← **이전**: [244. LSN (Log Sequence Number)](/knowledge-base/studynote/05_database/04_transactions_concurrency/244_lsn_log_sequence_number_recovery_tracking/)
-**다음**: [246. 데이터베이스 교착 상태 처리 기법 (Deadlock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/246_deadlock_prevention_wait_die_wound_wait/) →
+<- **이전**: [244. LSN (Log Sequence Number)](/knowledge-base/studynote/05_database/04_transactions_concurrency/244_lsn_log_sequence_number_recovery_tracking/)
+**다음**: [246. 데이터베이스 교착 상태 처리 기법 (Deadlock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/246_deadlock_prevention_wait_die_wound_wait/) ->
 
 ---

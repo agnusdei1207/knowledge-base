@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 안정 정렬(Stable Sort)은 동일한 키를 가진 원소들의 상대적 순서를 정렬 전후로 보존하는 성질이며, 이는 기능적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미론의 문제다.
-> 2. **가치**: 다중 기준 정렬(성 → 이름 순), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 조인 후 정렬, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)의 올바른 동작에 있어 안정성이 결과의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 보장하는 핵심 조건이다.
+> 2. **가치**: 다중 기준 정렬(성 -> 이름 순), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 조인 후 정렬, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)의 올바른 동작에 있어 안정성이 결과의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 보장하는 핵심 조건이다.
 > 3. **판단 포인트**: 키 외 부가 정보가 있는 레코드를 정렬할 때는 안정 정렬을 선택해야 하며, 불안정 정렬 사용 시 다중 키 정렬 결과가 의도와 달라질 수 있다.
 
 ---
@@ -43,18 +43,18 @@ tags = ["studynote-algorithm"]
 입력 레코드: [(Bob, 3등급), (Alice, 3등급), (Charlie, 1등급)]
           (이름, 성적 등급)  정렬 기준: 성적 등급
 
-── 안정 정렬 결과 ─────────────────────────────────
+-- 안정 정렬 결과 ---------------------------------
 입력 인덱스 순서 유지:
 [(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)]
-                      ↑ Bob이 Alice보다 먼저 → 입력 순서 보존 ✅
+                      ^ Bob이 Alice보다 먼저 -> 입력 순서 보존 ✅
 
-── 불안정 정렬 결과 ───────────────────────────────
+-- 불안정 정렬 결과 -------------------------------
 임의 순서 가능:
 [(Charlie, 1등급), (Alice, 3등급), (Bob, 3등급)]
-                      ↑ Alice가 Bob보다 먼저 → 순서 역전 ⚠️
+                      ^ Alice가 Bob보다 먼저 -> 순서 역전 ⚠️
   또는
 [(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)]
-  → 운 좋게 맞을 수도 있지만 보장 없음
+  -> 운 좋게 맞을 수도 있지만 보장 없음
 ```
 
 ### 왜 불안정 정렬이 발생하나? ([선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) 예시)
@@ -64,10 +64,10 @@ tags = ["studynote-algorithm"]
 
 선택 정렬 1단계:
 최솟값 A를 찾아 B₁과 교환:
-  [A, B₁, B₂] → [A, B₂, B₁] ← B₁, B₂ 순서 역전!
-     ↑ B₂가 B₁보다 앞으로
+  [A, B₁, B₂] -> [A, B₂, B₁] <- B₁, B₂ 순서 역전!
+     ^ B₂가 B₁보다 앞으로
 
-선택 정렬은 교환(Swap) 연산이 키 외 순서를 파괴함 → 불안정
+선택 정렬은 교환(Swap) 연산이 키 외 순서를 파괴함 -> 불안정
 ```
 
 ### 안정 정렬이 보장되는 이유 ([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) 예시)
@@ -77,7 +77,7 @@ tags = ["studynote-algorithm"]
 
 삽입 정렬:
   A를 앞으로 이동 시 B₁을 만나면 이미 B₁ < A이므로 중단
-  → B₁과 B₂의 상대 위치는 절대 바뀌지 않음 ✅
+  -> B₁과 B₂의 상대 위치는 절대 바뀌지 않음 ✅
 
 원칙: "같은 키는 더 앞에 있는 원소를 이기지 못한다"
 ```
@@ -100,9 +100,9 @@ tags = ["studynote-algorithm"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 시간(평균) | 공간 | 안정 | 제자리 |
 |:---|:---:|:---:|:---:|:---:|
-| [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) | O(n²) | O(1) | ✅ | ✅ |
-| [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) | O(n²) | O(1) | ❌ | ✅ |
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | O(n²) | O(1) | ✅ | ✅ |
+| [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) | O(n^) | O(1) | ✅ | ✅ |
+| [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) | O(n^) | O(1) | ❌ | ✅ |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | O(n^) | O(1) | ✅ | ✅ |
 | 병합 정렬 | O(n log n) | O(n) | ✅ | ❌ |
 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(log n) | ❌ | ✅ |
 | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | O(1) | ❌ | ✅ |
@@ -115,7 +115,7 @@ tags = ["studynote-algorithm"]
 
 ```
 방법 1: 원래 인덱스를 보조 키로 추가
-  (key, index) 쌍으로 정렬 → 같은 key는 index 순
+  (key, index) 쌍으로 정렬 -> 같은 key는 index 순
   공간: O(n) 추가, 시간: 정렬 복잡도 유지
 
 방법 2: 안정 래퍼(Stable Wrapper) 패턴
@@ -131,31 +131,31 @@ tags = ["studynote-algorithm"]
 ### 실무 시나리오
 
 **시나리오 1 — 전자상거래 상품 정렬**: 먼저 카테고리순, 같은 카테고리 내 가격 낮은 순
-→ 가격으로 먼저 정렬(안정 정렬) → 카테고리로 정렬
-→ 같은 카테고리 내 가격 순서 보존 ✅
+-> 가격으로 먼저 정렬(안정 정렬) -> 카테고리로 정렬
+-> 같은 카테고리 내 가격 순서 보존 ✅
 
 <strong>시나리오 2 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> ORDER BY 다중 컬럼</strong>: `ORDER BY grade ASC, name ASC`
-→ name으로 먼저 안정 정렬 → grade로 안정 정렬
-→ 최종: grade 순 정렬, 같은 grade는 name 순 ✅
+-> name으로 먼저 안정 정렬 -> grade로 안정 정렬
+-> 최종: grade 순 정렬, 같은 grade는 name 순 ✅
 
 <strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a> 내부</strong>: 십의 자리 정렬 후 백의 자리 정렬 시
-→ 반드시 안정 정렬이어야 십의 자리 결과가 보존됨
+-> 반드시 안정 정렬이어야 십의 자리 결과가 보존됨
 
 ### 기술사 선택 가이드
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  정렬 알고리즘 선택 의사결정 트리                     │
-│                                                      │
-│  동일 키 원소의 순서가 중요한가?                     │
-│    │ Yes → 안정 정렬 필수                            │
-│    │       → 병합 정렬, Timsort, 삽입 정렬 선택      │
-│    │ No  → 불안정 정렬도 가능                        │
-│             → Introsort, 힙 정렬 검토                │
-│                                                      │
-│  다중 키 정렬인가?                                   │
-│    → 반드시 안정 정렬 사용할 것                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  정렬 알고리즘 선택 의사결정 트리                     |
+|                                                      |
+|  동일 키 원소의 순서가 중요한가?                     |
+|    | Yes -> 안정 정렬 필수                            |
+|    |       -> 병합 정렬, Timsort, 삽입 정렬 선택      |
+|    | No  -> 불안정 정렬도 가능                        |
+|             -> Introsort, 힙 정렬 검토                |
+|                                                      |
+|  다중 키 정렬인가?                                   |
+|    -> 반드시 안정 정렬 사용할 것                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 정렬 안정성은 법정 증거 보전과 같다. 원본 증거(입력 순서)가 정렬 과정에서 훼손되면, 법정(다중 키 정렬, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))에서 판결이 잘못된다.
@@ -183,28 +183,28 @@ tags = ["studynote-algorithm"]
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | → 대표 안정 정렬 | 분할정복 기반, O(n log n) |
-| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | → 안정성 요구 | 서브루틴 안정성 필수 |
-| 다중 키 정렬 | → 적용 필요 | 여러 기준 정렬에서 핵심 |
-| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | → 불안정 예시 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교환으로 순서 파괴 |
-| [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) | → 대표 안정 정렬 | Python/Java 기본 안정 정렬 |
+| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 대표 안정 정렬 | 분할정복 기반, O(n log n) |
+| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | -> 안정성 요구 | 서브루틴 안정성 필수 |
+| 다중 키 정렬 | -> 적용 필요 | 여러 기준 정렬에서 핵심 |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | -> 불안정 예시 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교환으로 순서 파괴 |
+| [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) | -> 대표 안정 정렬 | Python/Java 기본 안정 정렬 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [정렬 안정성 (Sort Stability) — 동일 키를 가진 요소의 원본 순서 보존]
-    │
-    ▼
+    |
+    v
 [안정 정렬 — 버블·삽입·병합 정렬 (Stable Sort), 원본 순서 유지 보장]
-    │
-    ▼
+    |
+    v
 [불안정 정렬 — 퀵·힙·선택 정렬 (Unstable Sort), 원본 순서 미보장]
-    │
-    ▼
+    |
+    v
 [다중 키 정렬 — 우선순위 낮은 키 먼저 안정 정렬로 복합 키 정렬 구현]
-    │
-    ▼
+    |
+    v
 [Tim Sort — 안정 정렬 + 실세계 데이터 최적화, Python·Java 기본 정렬]
 ```
 
@@ -223,7 +223,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 21 / 175
 
-← **이전**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)
-**다음**: [15. 버블 정렬 (Bubble Sort) — O(n²), 안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) →
+<- **이전**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)
+**다음**: [15. 버블 정렬 (Bubble Sort) — O(n^), 안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) ->
 
 ---

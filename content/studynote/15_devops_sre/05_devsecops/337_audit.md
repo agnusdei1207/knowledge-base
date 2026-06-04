@@ -143,7 +143,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 337 / 373
 
-← **이전**: [336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/)
-**다음**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/) →
+<- **이전**: [336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/)
+**다음**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/) ->
 
 ---

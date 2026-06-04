@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 ```text
 메타버스 4유형 (ASF, 2007):
   증강현실(AR) | 라이프로깅 | 미러월드 | 가상세계
-  → 현재: 모두 융합된 통합 메타버스로 수렴
+  -> 현재: 모두 융합된 통합 메타버스로 수렴
 ```
 
 - **📢 섹션 요약 비유**: [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)는 <strong>디지털 지구</strong>이다. 아바타로 출근하고, 쇼핑하고, 공연을 보는 평행 세계.
@@ -47,9 +47,9 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Second Life (2003)] → [Roblox·Fortnite (2017~)]
-    → [메타버스 붐 (2021)] → [공간 컴퓨팅 (2024)]
-    → [현재: AI NPC + 메타버스 — 지능형 가상 세계]
+[Second Life (2003)] -> [Roblox·Fortnite (2017~)]
+    -> [메타버스 붐 (2021)] -> [공간 컴퓨팅 (2024)]
+    -> [현재: AI NPC + 메타버스 — 지능형 가상 세계]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 134 / 552
 
-← **이전**: [133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/133_volumetric_video_hologram/)
-**다음**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/) →
+<- **이전**: [133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/133_volumetric_video_hologram/)
+**다음**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/) ->
 
 ---

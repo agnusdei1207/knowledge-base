@@ -36,11 +36,11 @@ K-Means는 크게 두 단계를 반복한다.
 
 ```text
 초기 중심점 선택
-   ↓
+   v
 가까운 중심점에 할당
-   ↓
+   v
 군집 평균으로 중심점 이동
-   ↓
+   v
 변화가 거의 없을 때까지 반복
 ```
 
@@ -97,11 +97,11 @@ K-Means는 단순하고 빠르지만, 모든 상황에 맞지는 않는다.
 
 ```text
 데이터 입력
-   ↓
+   v
 초기 중심점
-   ↓
+   v
 할당 / 평균 이동 반복
-   ↓
+   v
 K개 군집 완성
 ```
 
@@ -109,11 +109,11 @@ K개 군집 완성
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) → 라벨 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색
-2. 반복 할당과 재계산 → 중심점 수렴
-3. K-Means++ → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 안정화
-4. K-Medoids / Mini-Batch → 변형과 확장
-5. 군집 평가 지표 → Elbow, Silhouette로 품질 점검
+1. [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) -> 라벨 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색
+2. 반복 할당과 재계산 -> 중심점 수렴
+3. K-Means++ -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 안정화
+4. K-Medoids / Mini-Batch -> 변형과 확장
+5. 군집 평가 지표 -> Elbow, Silhouette로 품질 점검
 
 ---
 
@@ -129,7 +129,7 @@ K-Means는 친구들을 비슷한 무리끼리 자동으로 모아 주는 거예
 
 **진행 상황**: 57 / 420
 
-← **이전**: [56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른](/knowledge-base/studynote/10_ai/01_ai_basics/056_knn_k_nearest_neighbors_lazy_learning/)
-**다음**: [58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델](/knowledge-base/studynote/10_ai/01_ai_basics/058_svm_support_vector_machine_margin_hyperplane/) →
+<- **이전**: [56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른](/knowledge-base/studynote/10_ai/01_ai_basics/056_knn_k_nearest_neighbors_lazy_learning/)
+**다음**: [58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델](/knowledge-base/studynote/10_ai/01_ai_basics/058_svm_support_vector_machine_margin_hyperplane/) ->
 
 ---

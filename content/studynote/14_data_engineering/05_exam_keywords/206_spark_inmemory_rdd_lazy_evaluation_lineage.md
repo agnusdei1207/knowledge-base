@@ -33,19 +33,19 @@ tags = ["studynote-data-engineering"]
 
 ```
 K-Means 100 이터레이션 성능 비교
-┌──────────────────────────────────────────────────────┐
-│  MapReduce:                                          │
-│  이터레이션 1: [HDFS 읽기] → 처리 → [HDFS 쓰기]      │
-│  이터레이션 2: [HDFS 읽기] → 처리 → [HDFS 쓰기]      │
-│  ...100회 반복: 총 200회 HDFS I/O → 시간: ~110분      │
-│                                                      │
-│  Spark:                                              │
-│  이터레이션 1: [HDFS 읽기] → RDD 처리 → [RAM 캐시]   │
-│  이터레이션 2: [RAM 읽기] → RDD 처리 → [RAM 캐시]    │
-│  ...100회 반복: 1회 HDFS I/O, 나머지 메모리 → ~5분   │
-│                                                      │
-│  성능 차이: 약 22배 빠름                               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  MapReduce:                                          |
+|  이터레이션 1: [HDFS 읽기] -> 처리 -> [HDFS 쓰기]      |
+|  이터레이션 2: [HDFS 읽기] -> 처리 -> [HDFS 쓰기]      |
+|  ...100회 반복: 총 200회 HDFS I/O -> 시간: ~110분      |
+|                                                      |
+|  Spark:                                              |
+|  이터레이션 1: [HDFS 읽기] -> RDD 처리 -> [RAM 캐시]   |
+|  이터레이션 2: [RAM 읽기] -> RDD 처리 -> [RAM 캐시]    |
+|  ...100회 반복: 1회 HDFS I/O, 나머지 메모리 -> ~5분   |
+|                                                      |
+|  성능 차이: 약 22배 빠름                               |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Spark는 "100번 시험 문제를 풀 때, MapReduce는 매번 교과서를 꺼냈다 넣었다 하고, Spark는 교과서를 책상 위에 펼쳐놓고 바로바로 참조하는 것"이다. 첫 번에는 시간이 비슷하지만, 반복할수록 격차가 벌어진다.
@@ -60,24 +60,24 @@ RDD는 Spark의 근본 [추상화](/knowledge-base/studynote/04_software_enginee
 
 ```
 RDD 3대 특성
-┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │  Resilient (내결함성)                                  │  │
-│  │  → 파티션 손실 시 Lineage로 재계산 가능               │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │  Distributed (분산)                                   │  │
-│  │  → 파티션 단위로 여러 Executor에 분산 저장·처리       │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │  Dataset (데이터셋)                                    │  │
-│  │  → 불변(Immutable) 레코드의 컬렉션                    │  │
-│  │  → 변환 시 새 RDD 생성 (원본 수정 안 됨)              │  │
-│  └──────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                                                             |
+|  +------------------------------------------------------+  |
+|  |  Resilient (내결함성)                                  |  |
+|  |  -> 파티션 손실 시 Lineage로 재계산 가능               |  |
+|  +------------------------------------------------------+  |
+|                                                             |
+|  +------------------------------------------------------+  |
+|  |  Distributed (분산)                                   |  |
+|  |  -> 파티션 단위로 여러 Executor에 분산 저장·처리       |  |
+|  +------------------------------------------------------+  |
+|                                                             |
+|  +------------------------------------------------------+  |
+|  |  Dataset (데이터셋)                                    |  |
+|  |  -> 불변(Immutable) 레코드의 컬렉션                    |  |
+|  |  -> 변환 시 새 RDD 생성 (원본 수정 안 됨)              |  |
+|  +------------------------------------------------------+  |
++-------------------------------------------------------------+
 ```
 
 ### [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))
@@ -86,17 +86,17 @@ Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 �
 
 ```
 지연 평가 동작 방식
-┌─────────────────────────────────────────────────────────────┐
-│  코드:                                                      │
-│  val rdd1 = sc.textFile("hdfs://data")    ← RDD 생성        │
-│  val rdd2 = rdd1.filter(_.contains("error"))  ← Transformation│
-│  val rdd3 = rdd2.map(_.split(","))            ← Transformation│
-│  val result = rdd3.count()                    ← Action ✅   │
-│                                                             │
-│  실제 실행 시점: count() 호출 시에만 전체 DAG 실행          │
-│  최적화: Spark가 filter + map 파이프라인을 한번에 처리       │
-│          (Pipeline Fusion으로 중간 RDD 물리화 없음)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  코드:                                                      |
+|  val rdd1 = sc.textFile("hdfs://data")    <- RDD 생성        |
+|  val rdd2 = rdd1.filter(_.contains("error"))  <- Transformation|
+|  val rdd3 = rdd2.map(_.split(","))            <- Transformation|
+|  val result = rdd3.count()                    <- Action ✅   |
+|                                                             |
+|  실제 실행 시점: count() 호출 시에만 전체 DAG 실행          |
+|  최적화: Spark가 filter + map 파이프라인을 한번에 처리       |
+|          (Pipeline Fusion으로 중간 RDD 물리화 없음)          |
++-------------------------------------------------------------+
 ```
 
 | 구분 | 설명 | 즉시 실행? | 예시 |
@@ -108,21 +108,21 @@ Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 �
 
 ```
 DAG 스케줄러 처리 흐름
-┌─────────────────────────────────────────────────────────────┐
-│  논리적 DAG (RDD 계보):                                     │
-│                                                             │
-│  textFile ──▶ filter ──▶ map ──▶ groupBy ──▶ reduce        │
-│                                     │                       │
-│                              (셔플 발생)                    │
-│                                                             │
-│  물리적 실행 계획 (Stage 분리):                              │
-│                                                             │
-│  Stage 1: textFile → filter → map   (파이프라인 가능)       │
-│                                     │                       │
-│                              [셔플 경계]                    │
-│                                     │                       │
-│  Stage 2: groupBy → reduce          (셔플 후 실행)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  논리적 DAG (RDD 계보):                                     |
+|                                                             |
+|  textFile ---> filter ---> map ---> groupBy ---> reduce        |
+|                                     |                       |
+|                              (셔플 발생)                    |
+|                                                             |
+|  물리적 실행 계획 (Stage 분리):                              |
+|                                                             |
+|  Stage 1: textFile -> filter -> map   (파이프라인 가능)       |
+|                                     |                       |
+|                              [셔플 경계]                    |
+|                                     |                       |
+|  Stage 2: groupBy -> reduce          (셔플 후 실행)          |
++-------------------------------------------------------------+
 ```
 
 **Stage 분리 기준**: 셔플이 필요한 Wide Transformation (groupBy, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), sortBy 등)이 Stage 경계를 형성한다.
@@ -138,29 +138,29 @@ DAG 스케줄러 처리 흐름
 
 ```
 Lineage 복구 메커니즘
-┌─────────────────────────────────────────────────────────────┐
-│  초기 상태:                                                  │
-│  HDFS → rdd1 → rdd2 → rdd3 (파티션 0,1,2,3)                │
-│                                                             │
-│  장애: rdd3의 파티션 2 손실                                  │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │  ❌ 기존 복제 방식: 복제본 필요 (디스크/메모리 2~3배)   │  │
-│  │  ✅ Lineage 방식: 계보를 따라 파티션 2만 재계산        │  │
-│  │     HDFS 파티션 2 → rdd1_p2 → rdd2_p2 → rdd3_p2      │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                             │
-│  장점: 메모리 복제 오버헤드 없음                             │
-│  단점: 긴 Lineage의 재계산 비용 → 주기적 체크포인팅 권장    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  초기 상태:                                                  |
+|  HDFS -> rdd1 -> rdd2 -> rdd3 (파티션 0,1,2,3)                |
+|                                                             |
+|  장애: rdd3의 파티션 2 손실                                  |
+|  +------------------------------------------------------+  |
+|  |  ❌ 기존 복제 방식: 복제본 필요 (디스크/메모리 2~3배)   |  |
+|  |  ✅ Lineage 방식: 계보를 따라 파티션 2만 재계산        |  |
+|  |     HDFS 파티션 2 -> rdd1_p2 -> rdd2_p2 -> rdd3_p2      |  |
+|  +------------------------------------------------------+  |
+|                                                             |
+|  장점: 메모리 복제 오버헤드 없음                             |
+|  단점: 긴 Lineage의 재계산 비용 -> 주기적 체크포인팅 권장    |
++-------------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "요리 레시피 최적화 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"다. 재료 씻기→썰기→볶기를 각각 따로 실행하지 않고, "한 번에 씻으면서 썰고 바로 볶는" 파이프라인으로 최적화한다. 셔플이 필요한 단계에서만 재료를 교환(Stage 경계)한다.
+📢 **섹션 요약 비유**: [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "요리 레시피 최적화 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"다. 재료 씻기->썰기->볶기를 각각 따로 실행하지 않고, "한 번에 씻으면서 썰고 바로 볶는" 파이프라인으로 최적화한다. 셔플이 필요한 단계에서만 재료를 교환(Stage 경계)한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Spark [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 발전: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) → DataFrame → Dataset
+### Spark [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 발전: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) -> DataFrame -> Dataset
 
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 등장 | 특징 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|
@@ -176,22 +176,22 @@ Spark SQL의 Catalyst [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/
 
 ```
 Catalyst 최적화 파이프라인
-┌──────────────────────────────────────────────────────────────┐
-│  SQL/DataFrame 코드                                          │
-│          ↓                                                   │
-│  Unresolved Logical Plan  (파싱)                             │
-│          ↓                                                   │
-│  Resolved Logical Plan    (카탈로그 메타데이터 바인딩)         │
-│          ↓                                                   │
-│  Optimized Logical Plan   (Catalyst 룰 기반 최적화)           │
-│          │ 예: Predicate Pushdown, Column Pruning             │
-│          ↓                                                   │
-│  Physical Plan(s)         (여러 물리 실행 계획 생성)           │
-│          ↓                                                   │
-│  Selected Physical Plan   (비용 기반 최적 계획 선택)           │
-│          ↓                                                   │
-│  코드 생성 (Tungsten 엔진)  → JVM 바이트코드 최적화            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  SQL/DataFrame 코드                                          |
+|          v                                                   |
+|  Unresolved Logical Plan  (파싱)                             |
+|          v                                                   |
+|  Resolved Logical Plan    (카탈로그 메타데이터 바인딩)         |
+|          v                                                   |
+|  Optimized Logical Plan   (Catalyst 룰 기반 최적화)           |
+|          | 예: Predicate Pushdown, Column Pruning             |
+|          v                                                   |
+|  Physical Plan(s)         (여러 물리 실행 계획 생성)           |
+|          v                                                   |
+|  Selected Physical Plan   (비용 기반 최적 계획 선택)           |
+|          v                                                   |
+|  코드 생성 (Tungsten 엔진)  -> JVM 바이트코드 최적화            |
++--------------------------------------------------------------+
 ```
 
 | 최적화 기법 | 설명 | 효과 |
@@ -201,7 +201,7 @@ Catalyst 최적화 파이프라인
 | [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Reordering | 작은 테이블을 앞에 배치 | 중간 결과 크기 최소화 |
 | Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 작은 테이블을 모든 노드에 브로드캐스트 | 셔플 제거 |
 
-📢 **섹션 요약 비유**: Catalyst [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "여행 경로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화"다. 출발지→목적지를 말하면(SQL 코드), AI가 가장 빠른 환승 경로를 계산([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)→물리 계획 최적화)해서 최단 시간 루트([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))를 선택한다.
+📢 **섹션 요약 비유**: Catalyst [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "여행 경로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화"다. 출발지->목적지를 말하면(SQL 코드), AI가 가장 빠른 환승 경로를 계산([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)->물리 계획 최적화)해서 최단 시간 루트([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))를 선택한다.
 
 ---
 
@@ -211,13 +211,13 @@ Catalyst 최적화 파이프라인
 
 ```
 캐싱 저장 수준 (Storage Level)
-┌────────────────────────────────────────────────────────────┐
-│  MEMORY_ONLY      : RAM만 사용, 부족 시 파티션 버림         │
-│  MEMORY_AND_DISK  : RAM 우선, 넘치면 디스크 (권장)          │
-│  DISK_ONLY        : 디스크만 (장기 캐시)                    │
-│  MEMORY_ONLY_SER  : 직렬화해서 RAM에 저장 (메모리 절약)     │
-│  OFF_HEAP         : JVM 밖 메모리 (GC 영향 없음)             │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  MEMORY_ONLY      : RAM만 사용, 부족 시 파티션 버림         |
+|  MEMORY_AND_DISK  : RAM 우선, 넘치면 디스크 (권장)          |
+|  DISK_ONLY        : 디스크만 (장기 캐시)                    |
+|  MEMORY_ONLY_SER  : 직렬화해서 RAM에 저장 (메모리 절약)     |
+|  OFF_HEAP         : JVM 밖 메모리 (GC 영향 없음)             |
++------------------------------------------------------------+
 ```
 
 ### 실무 시나리오: 이커머스 실시간 추천 엔진
@@ -230,7 +230,7 @@ Catalyst 최적화 파이프라인
 | 모델 학습 | Spark ML ([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | K-Means 반복 학습 (메모리 효율) |
 | 서빙 | SparkSQL + [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | 추천 결과 캐시 |
 
-**결과**: [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 기반 대비 모델 학습 시간 1시간 → 5분 (12배 향상)
+**결과**: [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 기반 대비 모델 학습 시간 1시간 -> 5분 (12배 향상)
 
 ### 기술사 논술 핵심 포인트
 
@@ -287,17 +287,17 @@ Apache Spark는 인메모리 [RDD](/knowledge-base/studynote/13_cloud_architectu
 
 ```text
 MapReduce (디스크 기반, 느림)
-    │
-    ▼
+    |
+    v
 Spark RDD: 인메모리 · Lazy Evaluation · Lineage 복구
-    │
-    ▼
+    |
+    v
 DataFrame / Dataset API: 스키마 기반 · Catalyst 최적화
-    │
-    ▼
+    |
+    v
 Spark SQL · Structured Streaming · MLlib
-    │
-    ▼
+    |
+    v
 Photon (Databricks) · Spark Connect (원격 실행)
 ```
 2. [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 "쇼핑 목록을 다 적은 다음 한 번에 효율적으로 쇼핑하는 것"이에요. 중간에 불필요한 물건을 AI가 목록에서 지워줘요.
@@ -309,7 +309,7 @@ Photon (Databricks) · Spark Connect (원격 실행)
 
 **진행 상황**: 206 / 258
 
-← **이전**: [205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/)
-**다음**: [207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/207_data_lake_schema_on_read_raw_storage/) →
+<- **이전**: [205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/)
+**다음**: [207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/207_data_lake_schema_on_read_raw_storage/) ->
 
 ---

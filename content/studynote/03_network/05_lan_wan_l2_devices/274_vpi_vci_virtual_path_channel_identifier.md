@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [ATM 동기화]
-    │
-    ▼
+    |
+    v
 [VPI / VCI]
-    │
-    └──▶ [AAL]
+    |
+    +---> [AAL]
 ```
 
 - **📢 섹션 요약 비유**: <strong> VPI/VCI는 우체국의 택배 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 시스템입니다. 개별 택배 상자(VCI)를 부산행이라는 </strong>"커다란 철제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(VPI)"** 안에 몽땅 때려 넣은 뒤, 중간 우편집중국들은 상자 주소는 안 보고 오직 컨베이어 벨트 위의 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(VPI)'만 쿨하게 목적지별로 넘겨버립니다.
@@ -47,23 +47,23 @@ tags = ["studynote-network"]
 - <strong>VC <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (엣지 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 통신사 망의 끝자락, 사용자 쪽에 붙은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다. 이들은 커다란 튜브(VPI)를 풀어서 그 안에 들어있는 개별 실가닥(VCI) 번호들을 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 각각의 사용자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 쪽으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                VPI 다발(Bundle)을 이용한 스위칭 예시              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 사용자 A ] ── VCI 10 ──┐                                 │
- │   [ 사용자 B ] ── VCI 11 ──┼──▶ [ VPI 5 번으로 묶음! ]          │
- │   [ 사용자 C ] ── VCI 12 ──┘        │                       │
- │                                     ▼                       │
- │   [ ATM 코어 스위치 ] "오 VPI 5번이군! 무조건 광주 지사로 던져!"       │
- │                     (VCI 번호가 뭔지는 까보지도 않음)             │
- │                                     │                       │
- │                                     ▼                       │
- │   [ 광주 엣지 스위치 ] "도착했군. VPI 5 껍질 풀고 개별 VCI 배달!"     │
- │                     ┌── VCI 10 ──▶ [ 수신자 A ]              │
- │                     ├── VCI 11 ──▶ [ 수신자 B ]              │
- │                     └── VCI 12 ──▶ [ 수신자 C ]              │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                VPI 다발(Bundle)을 이용한 스위칭 예시              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 사용자 A ] -- VCI 10 --+                                 |
+ |   [ 사용자 B ] -- VCI 11 --+---> [ VPI 5 번으로 묶음! ]          |
+ |   [ 사용자 C ] -- VCI 12 --+        |                       |
+ |                                     v                       |
+ |   [ ATM 코어 스위치 ] "오 VPI 5번이군! 무조건 광주 지사로 던져!"       |
+ |                     (VCI 번호가 뭔지는 까보지도 않음)             |
+ |                                     |                       |
+ |                                     v                       |
+ |   [ 광주 엣지 스위치 ] "도착했군. VPI 5 껍질 풀고 개별 VCI 배달!"     |
+ |                     +-- VCI 10 ---> [ 수신자 A ]              |
+ |                     +-- VCI 11 ---> [ 수신자 B ]              |
+ |                     +-- VCI 12 ---> [ 수신자 C ]              |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 셀 헤더(5바이트)에서의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 할당 (UNI vs NNI)
@@ -129,12 +129,12 @@ VPI / VCI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ```text
 [선행 개념: ATM 동기화]
-    │
-    ▼
+    |
+    v
 [현재 개념: VPI / VCI]
-    │
-    ├──▶ [확장 A: AAL]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: AAL]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 VPI / VCI는 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AAL와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ VPI / VCI는 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/27
 
 **진행 상황**: 395 / 1120
 
-← **이전**: [273. ATM 동기화 (셀 헤더의 HEC 사용)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/273_atm_synchronization_hec/)
-**다음**: [275. AAL (ATM Adaptation Layer)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/) →
+<- **이전**: [273. ATM 동기화 (셀 헤더의 HEC 사용)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/273_atm_synchronization_hec/)
+**다음**: [275. AAL (ATM Adaptation Layer)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/) ->
 
 ---

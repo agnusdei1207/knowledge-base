@@ -26,25 +26,25 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 주차장의 장애인 전용석 공간(상호 배제). 그 자리는 무조건 한 차만 주차해야 한다는 강행 규정이 있으므로 차 두 대가 동시에 머리를 밀어 넣으면 오지도 가지도 못하는 데드락의 1차 조건이 성립한다. 넓은 잔디밭(공유 구역)에선 결코 생기지 않는다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│         상호 배제(Mutual Exclusion)의 양면의 얼굴             │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [동기화(Synchronization) 관점]  ◀▶  [데드락(Deadlock) 관점]  │
-│                                                               │
-│  "누군가 변수 A를 쓸 때,             "A를 독점하고 있으니     │
-│  다른 놈이 건드리면 데이터가        B를 쥔 타 스레드가        │
-│  오염되니 안전하게 락을 걸자"       영원히 기다리게 만든다"   │
-│             (수호자)                            (원흉)        │
-│                                                               │
-│  [Read-Only 파일] - 공유 가능 자원 (Sharable)                 │
-│  → 100명이 붙어도 다같이 읽음. 상호 배제 불성립.              │
-│  → 데드락 가능성 = 0%                                         │
-│                                                               │
-│  [테이블 Update Lock] - 비공유 자원 (Non-sharable)            │
-│  → 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.         │
-│  → 나머지 2, 3, 4조건만 완성되면 데드락 폭발!                 │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|         상호 배제(Mutual Exclusion)의 양면의 얼굴             |
++---------------------------------------------------------------+
+|                                                               |
+|  [동기화(Synchronization) 관점]  <-->  [데드락(Deadlock) 관점]  |
+|                                                               |
+|  "누군가 변수 A를 쓸 때,             "A를 독점하고 있으니     |
+|  다른 놈이 건드리면 데이터가        B를 쥔 타 스레드가        |
+|  오염되니 안전하게 락을 걸자"       영원히 기다리게 만든다"   |
+|             (수호자)                            (원흉)        |
+|                                                               |
+|  [Read-Only 파일] - 공유 가능 자원 (Sharable)                 |
+|  -> 100명이 붙어도 다같이 읽음. 상호 배제 불성립.              |
+|  -> 데드락 가능성 = 0%                                         |
+|                                                               |
+|  [테이블 Update Lock] - 비공유 자원 (Non-sharable)            |
+|  -> 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.         |
+|  -> 나머지 2, 3, 4조건만 완성되면 데드락 폭발!                 |
++---------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 상호 배제는 안전 금고 열쇠 — 금고를 나 혼자 열고 쓰니 도둑맞지 않아 좋지만([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 열쇠를 들고 낮잠 자면 뒷사람 일정이 올스톱 되는(교착 악몽) 양날의 검입니다.
@@ -62,7 +62,7 @@ tags = ["studynote-operating-system"]
 - 콘솔에 두 프로세스가 동시 `printf` 텍스트 혼선 (에러 출력)
 - 은행 잔고 +50, -30 덮어쓰기 파괴 (금융 사고)
 
-→ 결론적으로 <strong>하드웨어 디바이스와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 근본적 태생 제약</strong>에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 <strong>절대 불가능</strong>하다.
+-> 결론적으로 <strong>하드웨어 디바이스와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 근본적 태생 제약</strong>에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 <strong>절대 불가능</strong>하다.
 
 **📢 섹션 요약 비유**: 데드락 1번 조건을 부정하는 건, 화장실을 칸막이 없이 다 같이 투명 통유리로 쓰라는 것 — 데드락은 없어지겠지만 큰일(정합성 혼돈)이 발생해 아무도 사용할 수 없습니다.
 
@@ -88,7 +88,7 @@ tags = ["studynote-operating-system"]
 2. <strong>트랜잭셔널 분리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴)</strong>: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음.
+- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음.
 
 **📢 섹션 요약 비유**: 불변 객체에 락을 거는 것은, 박물관 유리벽 속 미술품을 구경하는데 한 번에 한 명만 복도에 들어오라는 지나친 통제 — 구경(읽기)만 하는 곳은 상호 배제가 필요악도 아닙니다.
 
@@ -121,12 +121,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
-    │
-    ▼
+    |
+    v
 [상호 배제 (Mutual Exclusion)]
-    │
-    ├──▶ [점유하며 대기 (Hold-and-Wait)]
-    └──▶ [비선점 (No Preemption)]
+    |
+    +---> [점유하며 대기 (Hold-and-Wait)]
+    +---> [비선점 (No Preemption)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -143,7 +143,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 283 / 800
 
-← **이전**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)
-**다음**: [284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) →
+<- **이전**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)
+**다음**: [284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ->
 
 ---

@@ -40,20 +40,20 @@ tags = ["studynote-algorithm"]
 
 ```
 원본 데이터
-     │
-     ▼ 1단계: 사전 기반 (Dictionary) 중복 제거
+     |
+     v 1단계: 사전 기반 (Dictionary) 중복 제거
   LZ77 (슬라이딩 윈도우)
   LZ78/LZW (동적 사전)
-     │
-     ▼ 2단계: 엔트로피 코딩 (Entropy Coding)
-  허프만 코딩 (Huffman)          ← 심볼 빈도 기반
-  산술 부호화 (Arithmetic)       ← 구간 기반, 엔트로피 근접
-  ANS (Asymmetric Numeral System) ← 고속, zstd 채택
-     │
-     ▼ 최종 형식
-  DEFLATE (LZ77 + 허프만) → ZIP, gzip, PNG
-  Brotli (LZ + 허프만 + 컨텍스트 모델) → HTTPS 압축
-  Zstandard (LZ + ANS + 사전) → 고속 서버 압축
+     |
+     v 2단계: 엔트로피 코딩 (Entropy Coding)
+  허프만 코딩 (Huffman)          <- 심볼 빈도 기반
+  산술 부호화 (Arithmetic)       <- 구간 기반, 엔트로피 근접
+  ANS (Asymmetric Numeral System) <- 고속, zstd 채택
+     |
+     v 최종 형식
+  DEFLATE (LZ77 + 허프만) -> ZIP, gzip, PNG
+  Brotli (LZ + 허프만 + 컨텍스트 모델) -> HTTPS 압축
+  Zstandard (LZ + ANS + 사전) -> 고속 서버 압축
 ```
 
 ### LZ77 슬라이딩 윈도우
@@ -61,11 +61,11 @@ tags = ["studynote-algorithm"]
 ```
 탐색 버퍼(Search Buffer)  미리보기 버퍼(Lookahead Buffer)
 [a b c a b c a b][c a b c d ...]
-          ↑
+          ^
      슬라이딩 윈도우
 
 'cabcd' 인코딩:
-  'c'  → (5, 3, 'd')   (5칸 앞에서 3글자 'cab' + 다음 문자 'd')
+  'c'  -> (5, 3, 'd')   (5칸 앞에서 3글자 'cab' + 다음 문자 'd')
 ```
 
 반복 패턴을 (오프셋, 길이, 다음 문자) 삼중 쌍으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/).
@@ -74,30 +74,30 @@ tags = ["studynote-algorithm"]
 
 ```
 원본 이미지 (RGB)
-     │
-     ▼ 색공간 변환 (YCbCr)
-     │  Y(밝기), Cb(청색차), Cr(적색차)
-     │  색차 서브샘플링 (4:2:0) → 색상 정보 1/2 감소
-     │
-     ▼ 8×8 블록 분할
-     │
-     ▼ DCT (Discrete Cosine Transform, 이산 코사인 변환)
-     │  공간 도메인 → 주파수 도메인
-     │  저주파(중요) vs 고주파(덜 중요) 분리
-     │
-     ▼ 양자화 (Quantization) ← 손실 발생 지점
-     │  고주파 계수 → 0으로 반올림 (정도 조절)
-     │
-     ▼ 지그재그 스캔 + RLE
-     │
-     ▼ 허프만 코딩
-     │
-     ▼ JPEG 파일
+     |
+     v 색공간 변환 (YCbCr)
+     |  Y(밝기), Cb(청색차), Cr(적색차)
+     |  색차 서브샘플링 (4:2:0) -> 색상 정보 1/2 감소
+     |
+     v 8×8 블록 분할
+     |
+     v DCT (Discrete Cosine Transform, 이산 코사인 변환)
+     |  공간 도메인 -> 주파수 도메인
+     |  저주파(중요) vs 고주파(덜 중요) 분리
+     |
+     v 양자화 (Quantization) <- 손실 발생 지점
+     |  고주파 계수 -> 0으로 반올림 (정도 조절)
+     |
+     v 지그재그 스캔 + RLE
+     |
+     v 허프만 코딩
+     |
+     v JPEG 파일
 ```
 
 ### 웨이블릿 변환과 JPEG 2000
 
-DCT는 8×8 블록 경계에서 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 발생 ("블록 현상") → **웨이블릿 변환 (Wavelet Transform)** 으로 해결:
+DCT는 8×8 블록 경계에서 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 발생 ("블록 현상") -> **웨이블릿 변환 (Wavelet Transform)** 으로 해결:
 
 - 전체 이미지를 다해상도 (Multi-Resolution) 로 분해
 - JPEG 2000, 의료 영상 (DICOM), 디지털 시네마 (DCP) 채택
@@ -144,19 +144,19 @@ B-프레임 (Bidirectional): 앞뒤 프레임 참조
 
 ```
 원본 x
-  │
-  ▼ 인코더 신경망 f_a
+  |
+  v 인코더 신경망 f_a
 잠재 표현 y
-  │
-  ▼ 양자화 (정수화)
+  |
+  v 양자화 (정수화)
 ŷ
-  │
-  ▼ 엔트로피 모델 p(ŷ) → 산술 부호화
+  |
+  v 엔트로피 모델 p(ŷ) -> 산술 부호화
 비트스트림
-  │
-  ▼ 산술 복호화 → 역양자화
-  │
-  ▼ 디코더 신경망 f_s
+  |
+  v 산술 복호화 -> 역양자화
+  |
+  v 디코더 신경망 f_s
 복원 x̂
 ```
 
@@ -200,9 +200,9 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 <strong>디지털 인프라 비용과 사용자 경험</strong>을 직결하는 핵심 기술이다.
 
 2023년 기준 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 경쟁 구도:
-- **이미지**: JPEG → WebP → AVIF (AV1 기반)
-- **동영상**: H.264 → H.265 → AV1 → VVC (H.266)
-- **범용 무손실**: gzip → Brotli → Zstandard
+- **이미지**: JPEG -> WebP -> AVIF (AV1 기반)
+- **동영상**: H.264 -> H.265 -> AV1 -> VVC (H.266)
+- **범용 무손실**: gzip -> Brotli -> Zstandard
 
 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 전통 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 "고정 수식" 한계를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습한 "유연한 표현"으로 대체하며, 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 이미 최고 성능을 보이고 있다.
 
@@ -228,21 +228,21 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 ```text
 [중복 데이터 (Redundancy) — 압축 전 대상]
-    │
-    ▼
+    |
+    v
 [무손실 압축 (Lossless) — 통계 중복 제거]
-    │
-    ▼
+    |
+    v
 [LZ77 / 허프만 / DEFLATE — 범용 문자열·파일 압축]
-    │
-    ├─▶ [손실 압축 (Lossy) — 지각적 불필요 정보 제거]
-    │           │
-    │           ▼
-    │       [DCT / 웨이블릿 / 모션 보상 — 이미지·동영상 압축]
-    │
-    └─▶ [신경망 압축 (Learned Compression) — 데이터 기반 표현 학습]
-                │
-                ▼
+    |
+    +--> [손실 압축 (Lossy) — 지각적 불필요 정보 제거]
+    |           |
+    |           v
+    |       [DCT / 웨이블릿 / 모션 보상 — 이미지·동영상 압축]
+    |
+    +--> [신경망 압축 (Learned Compression) — 데이터 기반 표현 학습]
+                |
+                v
             [AV1 / VVC / AI 코덱 — 차세대 멀티미디어 압축]
 ```
 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술은 중복 제거에서 출발해 손실·무손실을 분화했고, 이제는 학습 기반 표현으로 차세대 코덱까지 확장되고 있다.
@@ -259,7 +259,7 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 **진행 상황**: 159 / 175
 
-← **이전**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/)
-**다음**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/) →
+<- **이전**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/)
+**다음**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/) ->
 
 ---

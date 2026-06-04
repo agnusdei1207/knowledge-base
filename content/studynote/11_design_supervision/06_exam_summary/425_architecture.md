@@ -23,12 +23,12 @@ tags = ["studynote-design-supervision"]
 감리·설계 관점에서 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 미학이 아니라 통제 장치다. 책임 경계, 명명 규칙, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약, 예외 처리, 배포 원칙이 일관되어야 설계 검토와 품질 판정 기준도 흔들리지 않는다. 결국 이 개념은 "기능이 많으냐"보다 "같은 설계 언어를 쓰느냐"를 묻는 기준이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Requirement ──▶ Principle ──▶ Structure ──▶ Code/Operation   │
-├──────────────────────────────────────────────────────────────┤
-│ 기능 요구      설계 원칙        책임/경계        구현·배포 규칙   │
-│        └────────────── 일관성 붕괴 시 유지보수 비용 급증 ───────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Requirement ---> Principle ---> Structure ---> Code/Operation   |
++--------------------------------------------------------------+
+| 기능 요구      설계 원칙        책임/경계        구현·배포 규칙   |
+|        +-------------- 일관성 붕괴 시 유지보수 비용 급증 -------+ |
++--------------------------------------------------------------+
 ```
 
 이 그림은 요구사항이 직접 코드로 가는 것이 아니라, 중간의 설계 원칙과 구조 결정을 거쳐야만 일관된 결과가 나온다는 점을 보여 준다.
@@ -48,13 +48,13 @@ tags = ["studynote-design-supervision"]
 | [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)·리뷰 | 설계 결정 배경과 예외를 기록하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 문서와 코드가 같은 원칙을 따르는지 확인해야 한다 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Chief Architect / Architecture Board                         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. Principle 정의 ─▶ 2. ADR 기록 ─▶ 3. Design Review         │
-│        │                    │                    │            │
-│        └──────────▶ 팀별 구현/테스트/배포 규칙 통일 ◀─────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Chief Architect / Architecture Board                         |
++--------------------------------------------------------------+
+| 1. Principle 정의 --> 2. ADR 기록 --> 3. Design Review         |
+|        |                    |                    |            |
+|        +-----------> 팀별 구현/테스트/배포 규칙 통일 <----------+ |
++--------------------------------------------------------------+
 ```
 
 핵심은 개별 팀의 창의성을 막는 것이 아니라, <strong>변하지 않아야 할 축과 바꿔도 되는 축을 분리</strong>하는 데 있다. 예를 들어 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규약은 통일하되 내부 구현 기술은 팀별 선택을 허용할 수 있다. 이처럼 통일의 범위를 잘 정해야 과도한 중앙집권도, 무분별한 파편화도 피할 수 있다.
@@ -82,7 +82,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)을 "수석 아키텍트의 감각"으로만 두면 오래 유지되지 않는다. 반드시 아키텍처 원칙 문서, [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)), 설계 리뷰, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 규칙, 배포 파이프라인의 품질 게이트까지 연결해야 한다. 기술사 답안에서는 <strong>원칙 → 구조 → <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 수단</strong> 순으로 쓰면 채점 포인트가 명확하다.
+실무에서는 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)을 "수석 아키텍트의 감각"으로만 두면 오래 유지되지 않는다. 반드시 아키텍처 원칙 문서, [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)), 설계 리뷰, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 규칙, 배포 파이프라인의 품질 게이트까지 연결해야 한다. 기술사 답안에서는 <strong>원칙 -> 구조 -> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 수단</strong> 순으로 쓰면 채점 포인트가 명확하다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -125,17 +125,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 요구사항 복잡화
-    │
-    ▼
+    |
+    v
 설계 원칙 정의
-    │
-    ▼
+    |
+    v
 개념적 무결성 확보
-    │
-    ├──▶ ADR / Review / Standards
-    └──▶ 일관된 코드 · 테스트 · 운영
-              │
-              ▼
+    |
+    +---> ADR / Review / Standards
+    +---> 일관된 코드 · 테스트 · 운영
+              |
+              v
 장기 유지보수성 향상
 ```
 
@@ -153,7 +153,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 503 / 530
 
-← **이전**: [424. 결함 허용·페일세이프·페일오버 이중화 (Fault Tolerance, Fail-Safe & Failover Redundancy)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/424_process/)
-**다음**: [426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/426_liss_mece/) →
+<- **이전**: [424. 결함 허용·페일세이프·페일오버 이중화 (Fault Tolerance, Fail-Safe & Failover Redundancy)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/424_process/)
+**다음**: [426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/426_liss_mece/) ->
 
 ---

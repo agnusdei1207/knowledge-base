@@ -19,23 +19,23 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)와 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)의 결합은 "흐름의 고정"과 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 변형"을 동시에 해결하는 객체지향 설계 방식이다. 상위 클래스는 `open → create → process → close` 같은 절차를 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 고정하고, 하위 클래스는 중간의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 단계를 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)로 재정의해 자신에게 맞는 객체를 제공한다. 즉, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대는 재사용하고 제품 선택만 확장하는 구조다.
+[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)와 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)의 결합은 "흐름의 고정"과 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 변형"을 동시에 해결하는 객체지향 설계 방식이다. 상위 클래스는 `open -> create -> process -> close` 같은 절차를 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 고정하고, 하위 클래스는 중간의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 단계를 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)로 재정의해 자신에게 맞는 객체를 제공한다. 즉, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대는 재사용하고 제품 선택만 확장하는 구조다.
 
 이런 결합이 필요한 이유는 많은 실무 로직이 "순서는 같지만 다루는 객체가 다르다"는 특징을 갖기 때문이다. 예를 들어 보고서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 메시지 발송, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변환, 배치 적재는 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·처리·정리라는 큰 순서가 비슷하다. 이때 각 경우마다 전체 절차를 복사하면 중복이 커지고, 반대로 모든 분기를 조건문으로 몰아넣으면 상위 로직이 비대해진다.
 
 아래 그림은 왜 두 패턴을 함께 쓰는지 직관적으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         같은 절차, 다른 산출물이라는 문제를 해결하는 구조      │
-├──────────────────────────────────────────────────────────────┤
-│ 공통 흐름: validate ─▶ create product ─▶ execute ─▶ cleanup │
-│                                                              │
-│ 변하는 부분:                create product                    │
-│   PDF면 PdfDocument, SMS면 SmsSender, DB면 OracleSession      │
-│                                                              │
-│ 해결: 흐름은 Template Method, 생성은 Factory Method로 분리     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         같은 절차, 다른 산출물이라는 문제를 해결하는 구조      |
++--------------------------------------------------------------+
+| 공통 흐름: validate --> create product --> execute --> cleanup |
+|                                                              |
+| 변하는 부분:                create product                    |
+|   PDF면 PdfDocument, SMS면 SmsSender, DB면 OracleSession      |
+|                                                              |
+| 해결: 흐름은 Template Method, 생성은 Factory Method로 분리     |
++--------------------------------------------------------------+
 ```
 
 이 구조는 [할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) ([Hollywood Principle](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)), 즉 "Don't [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you"와도 맞닿아 있다. 하위 클래스가 절차 전체를 주도하지 않고, 상위 클래스가 정한 시점에만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점을 열어 준다는 점에서 제어 역전 (IoC, Inversion of Control)의 전형적 형태다.
@@ -51,24 +51,24 @@ tags = ["studynote-design-supervision"]
 아래 구조도는 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 안에 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)가 어떻게 들어가는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              AbstractProcessor (상위 클래스)                 │
-├──────────────────────────────────────────────────────────────┤
-│ template run()                                              │
-│   1. validate()          ── 공통 단계                        │
-│   2. createProduct()     ── Factory Method                  │
-│   3. process(product)    ── 추상/훅 단계                    │
-│   4. audit()             ── 공통 단계                        │
-│   5. cleanup()           ── 공통 단계                        │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-             ┌─────────────────┴─────────────────┐
-             ▼                                   ▼
-┌──────────────────────────┐       ┌──────────────────────────┐
-│ PdfProcessor             │       │ SmsProcessor             │
-│ createProduct() -> PDF   │       │ createProduct() -> SMS   │
-│ process(product)         │       │ process(product)         │
-└──────────────────────────┘       └──────────────────────────┘
++--------------------------------------------------------------+
+|              AbstractProcessor (상위 클래스)                 |
++--------------------------------------------------------------+
+| template run()                                              |
+|   1. validate()          -- 공통 단계                        |
+|   2. createProduct()     -- Factory Method                  |
+|   3. process(product)    -- 추상/훅 단계                    |
+|   4. audit()             -- 공통 단계                        |
+|   5. cleanup()           -- 공통 단계                        |
++------------------------------+-------------------------------+
+                               |
+             +-----------------+-----------------+
+             v                                   v
++--------------------------+       +--------------------------+
+| PdfProcessor             |       | SmsProcessor             |
+| createProduct() -> PDF   |       | createProduct() -> SMS   |
+| process(product)         |       | process(product)         |
++--------------------------+       +--------------------------+
 ```
 
 | 지점 | 누가 책임지는가 | 의미 |
@@ -106,7 +106,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 이 조합이 잘 맞는 대표 사례는 "처리 파이프라인은 같지만 채널별 자원만 다른" 시스템이다. 예를 들어 알림 플랫폼이 `요청 검증 → 발송 객체 생성 → 발송 실행 → 결과 감사 → 정리` 흐름을 공통으로 갖고, 이메일·문자·푸시마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 발송 객체와 처리 세부가 다르다고 하자. 이때 상위 클래스는 재시도, 로깅, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통일하고, 하위 클래스는 `EmailSender`, `SmsSender`, `PushSender` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 책임지면 된다.
+실무에서 이 조합이 잘 맞는 대표 사례는 "처리 파이프라인은 같지만 채널별 자원만 다른" 시스템이다. 예를 들어 알림 플랫폼이 `요청 검증 -> 발송 객체 생성 -> 발송 실행 -> 결과 감사 -> 정리` 흐름을 공통으로 갖고, 이메일·문자·푸시마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 발송 객체와 처리 세부가 다르다고 하자. 이때 상위 클래스는 재시도, 로깅, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통일하고, 하위 클래스는 `EmailSender`, `SmsSender`, `PushSender` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 책임지면 된다.
 
 중요한 판단 포인트는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 깊이와 변화 방향이다. 변형이 두세 종류이고 실행 순서가 장기간 안정적이라면 이 조합이 매우 깔끔하다. 하지만 고객별 규칙, 국가별 규칙, 채널별 규칙이 한꺼번에 늘어나면 하위 클래스가 폭증하고, 상위 클래스 변경이 연쇄 영향을 주는 취약한 기반 클래스 (Fragile Base Class) 문제가 나타날 수 있다.
 
@@ -155,20 +155,20 @@ tags = ["studynote-design-supervision"]
 
 ```text
 중복된 절차 로직 발견
-    │
-    ▼
+    |
+    v
 Template Method로 공통 흐름 고정
-    │
-    ▼
+    |
+    v
 생성 지점 분리 필요
-    │
-    ▼
+    |
+    v
 Factory Method 결합
-    │
-    ▼
+    |
+    v
 제품군 확장 시 Abstract Factory · DI
-    │
-    ▼
+    |
+    v
 동적 정책 전환 시 Strategy 중심 구조
 ```
 
@@ -176,7 +176,7 @@ Factory Method 결합
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 선생님은 "준비하기 → 만들기 → 검사하기 → 정리하기" 순서를 항상 똑같이 정해 둬요.
+1. 선생님은 "준비하기 -> 만들기 -> 검사하기 -> 정리하기" 순서를 항상 똑같이 정해 둬요.
 2. 그런데 만들기 시간에 종이비행기를 만들지, 종이배를 만들지는 반마다 달라요.
 3. 순서는 선생님이 지키게 하고, 무엇을 만들지는 각 반이 정하게 한 것이 이 패턴 조합이에요.
 
@@ -186,7 +186,7 @@ Factory Method 결합
 
 **진행 상황**: 224 / 530
 
-← **이전**: [167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/167_abstract_factory_factory_derivation/)
-**다음**: [169. 정적 팩토리 메서드 (Static Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/169_static_factory_method/) →
+<- **이전**: [167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/167_abstract_factory_factory_derivation/)
+**다음**: [169. 정적 팩토리 메서드 (Static Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/169_static_factory_method/) ->
 
 ---

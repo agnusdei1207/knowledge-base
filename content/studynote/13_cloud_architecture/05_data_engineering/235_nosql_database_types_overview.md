@@ -24,26 +24,26 @@ NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/stud
 
 ```
 [NoSQL 4가지 유형 분류]
-┌────────────────────────────────────────────────────────────┐
-│              NoSQL 데이터베이스 분류                         │
-│                                                            │
-│  ┌──────────────┐    ┌──────────────┐                      │
-│  │ Key-Value    │    │  Document    │                      │
-│  │ Redis        │    │  MongoDB     │                      │
-│  │ DynamoDB     │    │  Elasticsearch│                     │
-│  │             │    │              │                      │
-│  │ 밀리초 캐시  │    │  유연한 JSON  │                      │
-│  │ 세션 관리    │    │  스키마리스   │                      │
-│  └──────────────┘    └──────────────┘                      │
-│  ┌──────────────┐    ┌──────────────┐                      │
-│  │ Wide-Column  │    │    Graph     │                      │
-│  │ Cassandra    │    │  Neo4j       │                      │
-│  │ HBase        │    │  Amazon Neptune│                    │
-│  │             │    │              │                      │
-│  │ 시계열 쓰기  │    │ 관계 탐색    │                      │
-│  │ 페타바이트   │    │ 추천 엔진    │                      │
-│  └──────────────┘    └──────────────┘                      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              NoSQL 데이터베이스 분류                         |
+|                                                            |
+|  +--------------+    +--------------+                      |
+|  | Key-Value    |    |  Document    |                      |
+|  | Redis        |    |  MongoDB     |                      |
+|  | DynamoDB     |    |  Elasticsearch|                     |
+|  |             |    |              |                      |
+|  | 밀리초 캐시  |    |  유연한 JSON  |                      |
+|  | 세션 관리    |    |  스키마리스   |                      |
+|  +--------------+    +--------------+                      |
+|  +--------------+    +--------------+                      |
+|  | Wide-Column  |    |    Graph     |                      |
+|  | Cassandra    |    |  Neo4j       |                      |
+|  | HBase        |    |  Amazon Neptune|                    |
+|  |             |    |              |                      |
+|  | 시계열 쓰기  |    | 관계 탐색    |                      |
+|  | 페타바이트   |    | 추천 엔진    |                      |
+|  +--------------+    +--------------+                      |
++------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 4가지 유형은 4가지 전문 음식점이다. 키-값(패스트푸드, 빠름), 도큐먼트(뷔페, 다양함), 와이드컬럼(대형 식당, 대용량), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(코스요리, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 복잡도)다. 모든 음식을 파는 곳(RDBMS)보다 전문점이 특정 음식에선 훨씬 낫다.
@@ -87,8 +87,8 @@ NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/stud
 ```
 구조: {행키: {열패밀리: {열: 값}}}
 Row Key: "sensor:IoT-001:2024-01-15:00:00"
- └── cf_data: {temp: 23.5, humidity: 60.2}
- └── cf_meta: {firmware: "v2.1", location: "서울"}
+ +-- cf_data: {temp: 23.5, humidity: 60.2}
+ +-- cf_meta: {firmware: "v2.1", location: "서울"}
 
 장점: 시계열 대용량 쓰기, 열 동적 추가
 단점: 설계 복잡, 집계 쿼리 어려움
@@ -147,31 +147,31 @@ Row Key: "sensor:IoT-001:2024-01-15:00:00"
 ```
 [NoSQL 선택 결정 트리]
 Q1: 밀리초 단위 조회 + 단순 key 기반 액세스?
-  → YES: Key-Value (Redis/DynamoDB)
+  -> YES: Key-Value (Redis/DynamoDB)
 
 Q2: 유연한 JSON 구조, 복잡한 문서 쿼리?
-  → YES: Document (MongoDB/Elasticsearch)
+  -> YES: Document (MongoDB/Elasticsearch)
 
 Q3: 초당 수십만 건 시계열 쓰기 + 행 키 기반?
-  → YES: Wide-Column (Cassandra/HBase)
+  -> YES: Wide-Column (Cassandra/HBase)
 
 Q4: 다중 홉 관계 탐색 (친구의 친구, 추천)?
-  → YES: Graph (Neo4j/Neptune)
+  -> YES: Graph (Neo4j/Neptune)
 
 Q5: 강력한 JOIN + ACID 필수?
-  → RDBMS (PostgreSQL/MySQL)
+  -> RDBMS (PostgreSQL/MySQL)
 ```
 
 ### [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))
 
 ```
 [현대 전자상거래 플랫폼 예시]
-사용자 세션·장바구니  ──▶  Redis (Key-Value, 밀리초 응답)
-상품 카탈로그·리뷰    ──▶  MongoDB (Document, 유연한 구조)
-주문·결제 내역        ──▶  PostgreSQL (RDBMS, ACID 필수)
-검색 인덱스           ──▶  Elasticsearch (Document, 전문 검색)
-추천 엔진            ──▶  Neo4j (Graph, 관계 탐색)
-클릭스트림 로그       ──▶  Cassandra (Wide-Column, 대용량 쓰기)
+사용자 세션·장바구니  --->  Redis (Key-Value, 밀리초 응답)
+상품 카탈로그·리뷰    --->  MongoDB (Document, 유연한 구조)
+주문·결제 내역        --->  PostgreSQL (RDBMS, ACID 필수)
+검색 인덱스           --->  Elasticsearch (Document, 전문 검색)
+추천 엔진            --->  Neo4j (Graph, 관계 탐색)
+클릭스트림 로그       --->  Cassandra (Wide-Column, 대용량 쓰기)
 ```
 
 **기술사 핵심 판단**: 단일 DB 만능주의를 탈피하고, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 액세스 패턴을 먼저 분석한 뒤, 각 패턴에 최적화된 DB를 선택"하는 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 제안한다.
@@ -222,13 +222,13 @@ Q5: 강력한 JOIN + ACID 필수?
 
 ```text
 RDBMS: SQL · ACID · 정규화 (수직 확장 한계)
-    │
-    ▼
+    |
+    v
 NoSQL: 수평 확장 · 유연한 스키마 · 최종 일관성
-    ├─► Key-Value: Redis · DynamoDB
-    ├─► Document: MongoDB · Elasticsearch
-    ├─► Wide-Column: Cassandra · HBase
-    └─► Graph: Neo4j · Neptune
+    +-► Key-Value: Redis · DynamoDB
+    +-► Document: MongoDB · Elasticsearch
+    +-► Wide-Column: Cassandra · HBase
+    +-► Graph: Neo4j · Neptune
 ```
 2. RDBMS가 만능 도구라면, NoSQL은 각자 한 가지를 잘하는 전문 도구다. 볼트를 조이는 데는 스패너(Key-Value)가, 나무를 자르는 데는 톱(Wide-Column)이 더 낫다.
 3. 현대 앱들은 여러 종류의 NoSQL을 함께 쓴다. 로그인([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)), 상품 정보([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)), 친구 추천(Neo4j)처럼 각 기능에 맞는 DB를 고르는 것이 스마트한 방법이다.
@@ -239,7 +239,7 @@ NoSQL: 수평 확장 · 유연한 스키마 · 최종 일관성
 
 **진행 상황**: 234 / 371
 
-← **이전**: [234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/)
-**다음**: [236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/236_key_value_store_redis_dynamodb/) →
+<- **이전**: [234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/)
+**다음**: [236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/236_key_value_store_redis_dynamodb/) ->
 
 ---

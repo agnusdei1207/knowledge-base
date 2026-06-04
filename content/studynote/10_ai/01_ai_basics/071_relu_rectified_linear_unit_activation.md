@@ -30,7 +30,7 @@ tags = ["ai"]
 
 ```text
 x
-  ↓ ReLU
+  v ReLU
 max(0, x)
 ```
 
@@ -102,11 +102,11 @@ ReLU는 학습 속도와 안정성을 높여 현대 신경망의 표준이 되�
 
 ```text
 Input
-  ↓
+  v
 ReLU
-  ↓
+  v
 Hidden Layer
-  ↓
+  v
 Deep Learning
 ```
 
@@ -116,11 +116,11 @@ Deep Learning
 
 ```text
 Sigmoid
-  ↓
+  v
 tanh
-  ↓
+  v
 ReLU
-  ↓
+  v
 Leaky ReLU
 ```
 
@@ -138,7 +138,7 @@ ReLU는 그런 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_de
 
 **진행 상황**: 71 / 420
 
-← **이전**: [70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)
-**다음**: [72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에](/knowledge-base/studynote/10_ai/01_ai_basics/072_leaky_relu_elu_dying_relu_solution/) →
+<- **이전**: [70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)
+**다음**: [72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에](/knowledge-base/studynote/10_ai/01_ai_basics/072_leaky_relu_elu_dying_relu_solution/) ->
 
 ---

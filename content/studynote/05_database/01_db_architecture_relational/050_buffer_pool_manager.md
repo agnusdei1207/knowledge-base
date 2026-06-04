@@ -23,20 +23,20 @@ tags = ["DBMS", "InnoDB", "LRU", "WAL", "buffer pool", "clock algorithm", "dirty
 
 ```
 SQL 쿼리
-   ↓
+   v
 버퍼 풀 (Buffer Pool, 메모리)
-   ├── 페이지 테이블 (page table): page_id → frame_id
-   ├── free list: 빈 프레임 목록
-   ├── LRU list: Young(Hot) | Old(Cold) 영역
-   └── flush list: 더티 페이지 목록
+   +-- 페이지 테이블 (page table): page_id -> frame_id
+   +-- free list: 빈 프레임 목록
+   +-- LRU list: Young(Hot) | Old(Cold) 영역
+   +-- flush list: 더티 페이지 목록
    ↕  (miss 시 디스크 I/O)
 데이터 파일 (.ibd)
 ```
 
 ### 1.2 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 요청 흐름
 
-1. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 page_id 조회 → <strong>히트(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">hit</a>)</strong>: 프레임 반환
-2. **미스(miss)**: free list에서 프레임 확보 → 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로드 → [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트 삽입
+1. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 page_id 조회 -> <strong>히트(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">hit</a>)</strong>: 프레임 반환
+2. **미스(miss)**: free list에서 프레임 확보 -> 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로드 -> [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트 삽입
 
 📢 **섹션 요약 비유**: 버퍼 풀은 사서가 자주 빌리는 책을 책상 서랍(메모리)에 모아두는 것 — 서랍에 없으면 서고(디스크)에서 꺼내온다.
 
@@ -47,11 +47,11 @@ SQL 쿼리
 ### 2.1 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))
 
 ```
-접근 순서: A B C D → A 참조
+접근 순서: A B C D -> A 참조
 
 LRU 리스트 (왼쪽=MRU, 오른쪽=LRU):
 초기:  [D, C, B, A]
-A 참조: [A, D, C, B]  ← A가 앞으로 이동
+A 참조: [A, D, C, B]  <- A가 앞으로 이동
 교체 필요 시: B (가장 오른쪽) 교체
 ```
 
@@ -60,7 +60,7 @@ A 참조: [A, D, C, B]  ← A가 앞으로 이동
 ```
 Young 영역 (5/8)    | Old 영역 (3/8)
 [최근 접근 페이지]  | [새로 로드된 페이지]
-                    ↑ midpoint
+                    ^ midpoint
 ```
 
 - 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 Old 영역으로 삽입 (풀 스캔 오염 방지)
@@ -70,8 +70,8 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 
 ```
 프레임을 원형으로 배치, reference bit 사용:
-[A:1] → [B:0] → [C:1] → [D:0] ...
-       ↑ clock hand
+[A:1] -> [B:0] -> [C:1] -> [D:0] ...
+       ^ clock hand
 ```
 
 - [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접근 시 [reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) = 1
@@ -86,11 +86,11 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 ### 3.1 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리
 
 ```
-페이지 읽기 → 수정 → dirty bit = 1 → flush list 등록
-                               ↓
+페이지 읽기 -> 수정 -> dirty bit = 1 -> flush list 등록
+                               v
                        체크포인트 발생 시
                        또는 free list 부족 시
-                               ↓
+                               v
                        디스크 플러시 (write)
 ```
 
@@ -120,11 +120,11 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 
 ```
 크래시 발생
-    ↓
+    v
 InnoDB 재시작
-    ↓
-리두 로그 분석(Analysis) → 리두(Redo) → 언두(Undo)
-    ↓
+    v
+리두 로그 분석(Analysis) -> 리두(Redo) -> 언두(Undo)
+    v
 버퍼 풀 정상 복구
 ```
 
@@ -141,7 +141,7 @@ InnoDB 재시작
 | innodb_buffer_pool_size          | 128MB   | 버퍼 풀 총 크기 (서버 RAM의 70~80% 권장) |
 | innodb_buffer_pool_instances     | 8       | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 접근을 위한 인스턴스 수  |
 | innodb_old_blocks_pct            | 37%     | Old 영역 비율                 |
-| innodb_old_blocks_time           | 1000ms  | Old→Young 승격 대기 시간      |
+| innodb_old_blocks_time           | 1000ms  | Old->Young 승격 대기 시간      |
 | innodb_page_cleaners             | 4       | 플러시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수               |
 
 ### 5.2 히트율 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
@@ -161,18 +161,18 @@ SHOW STATUS LIKE 'Innodb_buffer_pool%';
 
 ```
 버퍼 풀 매니저
-├── 페이지 교체 정책
-│   ├── LRU
-│   ├── InnoDB Young/Old LRU
-│   └── Clock 알고리즘
-├── 더티 페이지 관리
-│   ├── 체크포인트
-│   ├── WAL (Write-Ahead Log)
-│   └── 크래시 복구 (Redo/Undo)
-└── 튜닝 포인트
-    ├── 버퍼 풀 크기
-    ├── 인스턴스 수
-    └── 히트율 모니터링
++-- 페이지 교체 정책
+|   +-- LRU
+|   +-- InnoDB Young/Old LRU
+|   +-- Clock 알고리즘
++-- 더티 페이지 관리
+|   +-- 체크포인트
+|   +-- WAL (Write-Ahead Log)
+|   +-- 크래시 복구 (Redo/Undo)
++-- 튜닝 포인트
+    +-- 버퍼 풀 크기
+    +-- 인스턴스 수
+    +-- 히트율 모니터링
 ```
 
 ---
@@ -181,17 +181,17 @@ SHOW STATUS LIKE 'Innodb_buffer_pool%';
 
 ```
 초기 DBMS: 더블 버퍼링 (1970s)
-     │  LRU 알고리즘 도입
-     ▼
+     |  LRU 알고리즘 도입
+     v
 전통적 버퍼 매니저 (STEAL/NO-FORCE + WAL)
-     │  풀 스캔 오염 문제
-     ▼
+     |  풀 스캔 오염 문제
+     v
 InnoDB Young/Old LRU (MySQL 5.x)
-     │  대용량 메모리 대응
-     ▼
+     |  대용량 메모리 대응
+     v
 멀티 인스턴스 버퍼 풀 (MySQL 5.5+)
-     │  NVM/PMEM 등장
-     ▼
+     |  NVM/PMEM 등장
+     v
 영속 버퍼 풀 (Persistent Buffer Pool, MySQL 5.7+)
 재시작 후 워밍업 없이 히트율 유지
 ```
@@ -212,7 +212,7 @@ InnoDB Young/Old LRU (MySQL 5.x)
 
 **진행 상황**: 50 / 600
 
-← **이전**: [049. 스토리지 엔진 — InnoDB vs MyISAM](/knowledge-base/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/)
-**다음**: [51. 로깅 엔진 (Logging 엔진)](/knowledge-base/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/) →
+<- **이전**: [049. 스토리지 엔진 — InnoDB vs MyISAM](/knowledge-base/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/)
+**다음**: [51. 로깅 엔진 (Logging 엔진)](/knowledge-base/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/) ->
 
 ---

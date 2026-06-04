@@ -38,15 +38,15 @@ tags = ["studynote-ai"]
 | [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) | 최종 출력을 총합이 1이 되는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값으로 변환 | 클래스 간 상대적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 명확화 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           FC Layer 데이터 처리 흐름: 추출에서 판결까지        │
-├──────────────────────────────────────────────────────────────┤
-│ [특징 맵 7x7x512] ─▶ (Flatten) ─▶ [1차원 벡터 25,088개]       │
-│                                           │                  │
-│  과적합 방지(Dropout) ◀─ (Dense Layer 가중치 곱합) ─▶ [은닉층]│
-│                                           │                  │
-│ [최종 확률 출력] ◀─ (Softmax 함수) ─────────┘                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           FC Layer 데이터 처리 흐름: 추출에서 판결까지        |
++--------------------------------------------------------------+
+| [특징 맵 7x7x512] --> (Flatten) --> [1차원 벡터 25,088개]       |
+|                                           |                  |
+|  과적합 방지(Dropout) <-- (Dense Layer 가중치 곱합) --> [은닉층]|
+|                                           |                  |
+| [최종 확률 출력] <-- (Softmax 함수) ---------+                  |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) Layer가 2차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 평탄화하고 수많은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))로 연결하여 최종 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 도출하는지 보여준다. Dense Layer 구간에서 노드 간 결합으로 인해 파라미터 수가 급증하며, 이는 연산의 병목이자 과적합의 주요 원인이 된다.
@@ -111,21 +111,21 @@ tags = ["studynote-ai"]
 
 ```text
 합성곱 특징 추출 (Conv Layer)
-    │
-    ▼
+    |
+    v
 평탄화 연산 (Flatten) · 공간 정보 상실
-    │
-    ▼
+    |
+    v
 완전 연결 층 (FC Layer) · Dense · 과적합 위협
-    │
-    ▼
+    |
+    v
 드롭아웃 (Dropout) 도입 및 정규화
-    │
-    ▼
+    |
+    v
 전역 평균 풀링 (GAP) · 완전 합성곱 신경망 (FCN)으로의 진화
 ```
 
-이 흐름도는 "특징 융합 → 병목 발생 → 규제 기법 적용 → 아키텍처 개선"으로 이어지는 완전 연결 층의 한계 극복 과정을 보여준다.
+이 흐름도는 "특징 융합 -> 병목 발생 -> 규제 기법 적용 -> 아키텍처 개선"으로 이어지는 완전 연결 층의 한계 극복 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 102 / 420
 
-← **이전**: [101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)
-**다음**: [103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet/) →
+<- **이전**: [101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)
+**다음**: [103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet/) ->
 
 ---

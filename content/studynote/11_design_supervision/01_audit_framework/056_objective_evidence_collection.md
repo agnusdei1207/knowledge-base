@@ -32,9 +32,9 @@ tags = ["studynote-design-supervision"]
 감리에서 쓰는 증거는 한 가지가 아니다. 보통은 문서, 관찰, 면담, 테스트를 함께 본다.
 
 ```text
-문서 검토 ── 관찰 ── 면담 ── 직접 테스트
-    │            │        │           │
-    └──────────── 신뢰도와 재현성 비교 ────────────┘
+문서 검토 -- 관찰 -- 면담 -- 직접 테스트
+    |            |        |           |
+    +------------ 신뢰도와 재현성 비교 ------------+
 ```
 
 - **문서**: 정책서, 설계서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 승인 기록
@@ -97,11 +97,11 @@ tags = ["studynote-design-supervision"]
 
 ```text
 감리 의견
-   ↓
+   v
 문서 / 관찰 / 면담 / 테스트
-   ↓
+   v
 원본성 / 무결성 / 재현성
-   ↓
+   v
 객관적 결론
 ```
 
@@ -109,11 +109,11 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 주관적 소견 중심 감리 → 증거 기반 감리로 전환
-2. 문서와 관찰 중심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 직접 테스트와 재현성 강화
-3. 디지털 기록의 확대 → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 캡처의 중요성 증가
-4. [chain of custody](/knowledge-base/studynote/09_security/13_secops_ir_forensics/664_chain_of_custody/)(증거 인계 추적) → 증거 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 관리 강화
-5. 디지털 포렌식과 자동 분석 → 감리 증거 수집의 고도화
+1. 주관적 소견 중심 감리 -> 증거 기반 감리로 전환
+2. 문서와 관찰 중심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 직접 테스트와 재현성 강화
+3. 디지털 기록의 확대 -> [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 캡처의 중요성 증가
+4. [chain of custody](/knowledge-base/studynote/09_security/13_secops_ir_forensics/664_chain_of_custody/)(증거 인계 추적) -> 증거 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 관리 강화
+5. 디지털 포렌식과 자동 분석 -> 감리 증거 수집의 고도화
 
 ---
 
@@ -129,7 +129,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 84 / 530
 
-← **이전**: [56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_hardware_sizing_verification/)
-**다음**: [57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_data_migration_success_verification/) →
+<- **이전**: [56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_hardware_sizing_verification/)
+**다음**: [57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_data_migration_success_verification/) ->
 
 ---

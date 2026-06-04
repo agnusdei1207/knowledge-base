@@ -31,13 +31,13 @@ tags = ["studynote-design"]
 
 ```text
 Event
-  ↓
+  v
 Audit Log
-  ↓
+  v
 WORM Storage
-  ↓
+  v
 Retention / Access Control
-  ↓
+  v
 Audit Evidence
 ```
 
@@ -111,11 +111,11 @@ Audit Evidence
 
 ```text
 Event
-  ↓
+  v
 Audit Trail
-  ↓
+  v
 WORM Storage
-  ↓
+  v
 Compliance Evidence
 ```
 
@@ -125,11 +125,11 @@ Compliance Evidence
 
 ```text
 Log
-  ↓
+  v
 Audit Trail
-  ↓
+  v
 WORM
-  ↓
+  v
 Compliance
 ```
 
@@ -147,7 +147,7 @@ Compliance
 
 **진행 상황**: 99 / 530
 
-← **이전**: [64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_rbac_audit/)
-**다음**: [66. 비밀번호 암호화 저장 방식 (단방향 해시 및 솔팅) 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/066_password_encryption_hash_salt_audit/) →
+<- **이전**: [64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_rbac_audit/)
+**다음**: [66. 비밀번호 암호화 저장 방식 (단방향 해시 및 솔팅) 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/066_password_encryption_hash_salt_audit/) ->
 
 ---

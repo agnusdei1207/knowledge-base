@@ -58,28 +58,28 @@ tags = ["studynote-operating-system"]
 엣지 장비는 라즈베리 파이(ARM), 인텔 NUC(x86), [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) 등 하드웨어가 천차만별이다. 우분투를 깔면 안 돌아가는 경우가 태반이다. 따라서 엔지니어가 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 루트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 요리해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Yocto Project 기반 엣지 OS 빌드 파이프라인             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. 레시피(Recipes) 작성]                                           │
-  │   - BSP (Board Support Package): "이 보드는 ARM Cortex-A53 칩이야"  │
-  │   - Kernel: "USB 마우스, 블루투스 드라이버 다 빼고 카메라만 넣어!"        │
-  │   - Rootfs: "Systemd 빼고 가벼운 SysVinit 넣고, Python도 빼!"         │
-  │                                                                   │
-  │  [2. BitBake (빌드 엔진)]                                           │
-  │   - 크로스 컴파일러(Cross-Compiler)를 이용해 x86 서버에서 ARM용 코드를     │
-  │     소스코드부터 100% 새로 컴파일 (수 시간 ~ 수십 시간 소요).             │
-  │                                                                   │
-  │  [3. 이미지 산출물 생성]                                              │
-  │   ┌───────────────────────────────────────────────────────────┐   │
-  │   │  boot.img (부트로더 + 커널 zImage) - 약 5MB                  │   │
-  │   │  rootfs.ext4 (명령어 + K3s 바이너리) - 약 50MB                │   │
-  │   └───────────────────────────────────────────────────────────┘   │
-  │                                                                   │
-  │  [4. 플래싱 및 1초 부팅]                                              │
-  │   - 산출물을 SD카드나 eMMC에 굽고 전원을 켜면, 로고도 없이 1초 만에 쉘이 뜸! │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Yocto Project 기반 엣지 OS 빌드 파이프라인             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [1. 레시피(Recipes) 작성]                                           |
+  |   - BSP (Board Support Package): "이 보드는 ARM Cortex-A53 칩이야"  |
+  |   - Kernel: "USB 마우스, 블루투스 드라이버 다 빼고 카메라만 넣어!"        |
+  |   - Rootfs: "Systemd 빼고 가벼운 SysVinit 넣고, Python도 빼!"         |
+  |                                                                   |
+  |  [2. BitBake (빌드 엔진)]                                           |
+  |   - 크로스 컴파일러(Cross-Compiler)를 이용해 x86 서버에서 ARM용 코드를     |
+  |     소스코드부터 100% 새로 컴파일 (수 시간 ~ 수십 시간 소요).             |
+  |                                                                   |
+  |  [3. 이미지 산출물 생성]                                              |
+  |   +-----------------------------------------------------------+   |
+  |   |  boot.img (부트로더 + 커널 zImage) - 약 5MB                  |   |
+  |   |  rootfs.ext4 (명령어 + K3s 바이너리) - 약 50MB                |   |
+  |   +-----------------------------------------------------------+   |
+  |                                                                   |
+  |  [4. 플래싱 및 1초 부팅]                                              |
+  |   - 산출물을 SD카드나 eMMC에 굽고 전원을 켜면, 로고도 없이 1초 만에 쉘이 뜸! |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 우분투나 데비안 같은 배포판은 "이 폰을 누가 어떤 부품을 꽂아 쓸지 모르니 일단 드라이버 10만 개를 다 넣어두자"는 철학이다. 그래서 부팅 시 하드웨어를 스캔(udev)하느라 시간이 다 간다. 엣지 OS는 하드웨어가 고정되어 있으므로, Yocto 같은 툴을 이용해 <strong>"내 장비에 없는 부품의 드라이버 코드는 아예 컴파일 단계에서 삭제"</strong>해 버린다(Tailor-made). 그 결과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기가 5MB 수준으로 줄어들며, [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 램으로 올리는 시간이 0.1초 단위로 단축된다.
@@ -134,25 +134,25 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엣지 컴퓨팅 OS 인프라 설계 의사결정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [수백 대의 원격 하드웨어(IoT/엣지)에 배포할 운영체제 선정]                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      하드웨어 스펙이 극도로 제약되어 있는가? (RAM 512MB 이하, ARM 칩셋)      │
-  │          ├─ 예 ─────▶ [Yocto Project / Buildroot 기반 커스텀 빌드]    │
-  │          │            (개발 난이도 극상, 엔지니어 갈아 넣어야 함)          │
-  │          └─ 아니오 (RAM 2GB 이상, 인텔 x86 또는 라즈베리파이 4 이상)      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      중앙 클라우드(K8s)와 연동하여 컨테이너를 원격으로 쏘고 관리할 것인가?    │
-  │          ├─ 예 ─────▶ [K3s가 내장된 k3OS 또는 Ubuntu Core + MicroK8s]│
-  │          │            (운영 편의성 극대화, OTA 및 GitOps 배포 가능)       │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 단순 펌웨어 형태의 Alpine Linux + Docker 배포    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 엣지 컴퓨팅 OS 인프라 설계 의사결정 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [수백 대의 원격 하드웨어(IoT/엣지)에 배포할 운영체제 선정]                |
+  |                |                                                  |
+  |                v                                                  |
+  |      하드웨어 스펙이 극도로 제약되어 있는가? (RAM 512MB 이하, ARM 칩셋)      |
+  |          +- 예 ------> [Yocto Project / Buildroot 기반 커스텀 빌드]    |
+  |          |            (개발 난이도 극상, 엔지니어 갈아 넣어야 함)          |
+  |          +- 아니오 (RAM 2GB 이상, 인텔 x86 또는 라즈베리파이 4 이상)      |
+  |                |                                                  |
+  |                v                                                  |
+  |      중앙 클라우드(K8s)와 연동하여 컨테이너를 원격으로 쏘고 관리할 것인가?    |
+  |          +- 예 ------> [K3s가 내장된 k3OS 또는 Ubuntu Core + MicroK8s]|
+  |          |            (운영 편의성 극대화, OTA 및 GitOps 배포 가능)       |
+  |          |                                                        |
+  |          +- 아니오 ---> 단순 펌웨어 형태의 Alpine Linux + Docker 배포    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "엣지 환경에 그냥 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 깔아서 쓰면 안 되나?"라는 질문은 현장의 참혹함을 모르는 소리다. 전국에 흩어진 1만 대의 공유킥보드 컴퓨터에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 깔았는데 10대가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉으로 죽었다고 치자. 직원이 트럭을 타고 10곳을 돌며 USB를 꽂고 포맷해야 한다(Truck roll 비용). 엣지 OS 아키텍처 설계의 1원칙은 성능이 아니라 <strong>"원격에서 완벽하게 초기화하고(Self-healing), 해킹 당해도(Read-only) 부팅만 껐다 켜면 복구되는 불변성(Immutability)"</strong>을 OS 가장 밑바닥에 심는 것이다.
@@ -199,12 +199,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
-    │
-    ▼
+    |
+    v
 [엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망) (Edge Computing OS Linux)]
-    │
-    ├──▶ [리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
-    └──▶ [CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
+    |
+    +---> [리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
+    +---> [CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -221,7 +221,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 653 / 800
 
-← **이전**: [652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리](/knowledge-base/studynote/02_operating_system/10_security/652_mobile_os_low_memory_killer_lmk/)
-**다음**: [654. 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) →
+<- **이전**: [652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리](/knowledge-base/studynote/02_operating_system/10_security/652_mobile_os_low_memory_killer_lmk/)
+**다음**: [654. 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) ->
 
 ---

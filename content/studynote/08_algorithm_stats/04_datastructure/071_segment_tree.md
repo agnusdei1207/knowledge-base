@@ -64,17 +64,17 @@ Leaf [0] (3)  Leaf [1] (4)  Leaf [2] (6)  Leaf [3] (7)
 
 ```text
 [배열 구간 쿼리 — 단순 순회 O(N) 한계]
-    │
-    ▼
+    |
+    v
 [세그먼트 트리 (Segment Tree) — 전처리 O(N), 구간 쿼리 O(log N)]
-    │
-    ▼
+    |
+    v
 [Lazy Propagation — 구간 업데이트도 O(log N)으로 최적화]
-    │
-    ▼
+    |
+    v
 [펜윅 트리 (Fenwick Tree·BIT) — 누적 합 특화, 더 간결한 구현]
-    │
-    ▼
+    |
+    v
 [2D 세그먼트 트리·메르지 소트 트리 — 다차원·복합 쿼리 확장]
 ```
 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 구간 합·최솟값 같은 구간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 O(log N)에 처리하며, [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Propagation과 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)로 발전해 경쟁 프로그래밍의 핵심 자료구조가 되었다.
@@ -90,7 +90,7 @@ Leaf [0] (3)  Leaf [1] (4)  Leaf [2] (6)  Leaf [3] (7)
 
 **진행 상황**: 71 / 175
 
-← **이전**: [18. 그래프 (Graph) — 방향/무방향, 가중/비가중](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
-**다음**: [펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/072_fenwick_tree/) →
+<- **이전**: [18. 그래프 (Graph) — 방향/무방향, 가중/비가중](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
+**다음**: [펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/072_fenwick_tree/) ->
 
 ---

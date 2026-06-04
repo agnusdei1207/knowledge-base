@@ -29,14 +29,14 @@ VISA: 24,000 TPS (평균)
 
 확장성 제약 원인:
   전체 노드 검증:
-  모든 풀노드 → 모든 트랜잭션 검증
-  → 전체 네트워크 용량 = 가장 느린 노드 속도
+  모든 풀노드 -> 모든 트랜잭션 검증
+  -> 전체 네트워크 용량 = 가장 느린 노드 속도
 
   트릴레마 (Trilemma):
   탈중앙화 (Decentralization)
   보안 (Security)
   확장성 (Scalability)
-  → 셋 중 둘만 달성 가능?
+  -> 셋 중 둘만 달성 가능?
 
   비트코인: 탈중앙화 + 보안 (확장성 희생)
   EOS: 보안 + 확장성 (21개 BP로 탈중앙화 희생)
@@ -64,43 +64,43 @@ VISA: 24,000 TPS (평균)
 
 네트워크 분할:
   전체 네트워크 (N개 노드)
-  ↓ K개 샤드로 분할
+  v K개 샤드로 분할
   샤드 1: 노드 1~N/K, 트랜잭션 A-F
   샤드 2: 노드 N/K+1~2N/K, 트랜잭션 G-M
   ...
   샤드 K: 마지막 노드들, 트랜잭션 ...
 
   각 샤드: 독립 합의, 독립 블록 생성
-  → 병렬 처리 → TPS × K
+  -> 병렬 처리 -> TPS × K
 
 샤딩 유형:
 
 1. 네트워크 샤딩 (Network Sharding):
    노드를 샤드로 분할
-   → 각 샤드만 통신
+   -> 각 샤드만 통신
 
 2. 트랜잭션 샤딩 (Transaction Sharding):
    트랜잭션을 샤드로 배분
-   동일 계정의 TX → 동일 샤드
+   동일 계정의 TX -> 동일 샤드
 
 3. 상태 샤딩 (State Sharding):
    블록체인 상태(계정 잔액 등)를 분할
    각 샤드가 일부 상태만 보유
-   → 가장 어렵지만 가장 효과적
+   -> 가장 어렵지만 가장 효과적
 
 크로스 샤드 통신 (Cross-Shard):
-  샤드 A의 Alice → 샤드 B의 Bob 전송
+  샤드 A의 Alice -> 샤드 B의 Bob 전송
 
   문제: 서로 다른 샤드 = 서로 다른 합의
 
   해결 방법:
   1. 2단계 커밋 (2-Phase Commit):
-     잠금 → 커밋 (느림)
+     잠금 -> 커밋 (느림)
 
   2. 영수증 기반 (Receipt-Based):
      샤드 A: 소각 영수증 생성
      샤드 B: 영수증 확인 후 발행
-     → Ethereum 초기 샤딩 계획
+     -> Ethereum 초기 샤딩 계획
 ```
 
 > 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 은행 지점 분리 — 전국 거래를 본점(단일 체인) 하나에서 처리하다가, 지역별 지점(샤드)이 독립적으로 처리. 지점 간 송금(크로스샤드)만 복잡!
@@ -120,7 +120,7 @@ VISA: 24,000 TPS (평균)
   단일 샤드 공격: 샤드 검증자의 51% 필요
   전체 네트워크의 51%/10 = 5.1%
 
-  → 공격 비용 10× 감소!
+  -> 공격 비용 10× 감소!
 
 완화 방법:
 
@@ -130,17 +130,17 @@ VISA: 24,000 TPS (평균)
    VDF (Verifiable Delay Function):
    조작 불가능한 랜덤성 생성 (Ethereum 사용)
 
-   재배정 빈도 ↑ → 보안 ↑ but 오버헤드 ↑
+   재배정 빈도 ^ -> 보안 ^ but 오버헤드 ^
 
 2. 충분한 샤드 크기:
    샤드당 최소 검증자 수 유지
 
    Ethereum 목표: 샤드당 128명 검증자
-   → 통계적으로 1% 공격 현실적 불가
+   -> 통계적으로 1% 공격 현실적 불가
 
 3. 크로스링크 (Crosslink):
    비콘 체인이 각 샤드 상태 주기적 확인
-   → 샤드 조작 탐지
+   -> 샤드 조작 탐지
 
 Ethereum 2.0 (PoS + 샤딩):
   PoS 검증자: 스테이킹 32 ETH
@@ -194,7 +194,7 @@ KZG 약속 (KZG Commitments):
   일부 샘플링으로 가용성 확인 (DAS)
 ```
 
-> 📢 **섹션 요약 비유**: Danksharding은 창고(이더리움)→배송 네트워크 전환 — 이더리움이 직접 배달(실행) 대신, 배달부(L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 위탁 + 창고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)만 집중. 효율 폭발!
+> 📢 **섹션 요약 비유**: Danksharding은 창고(이더리움)->배송 네트워크 전환 — 이더리움이 직접 배달(실행) 대신, 배달부(L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 위탁 + 창고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)만 집중. 효율 폭발!
 
 ---
 
@@ -209,8 +209,8 @@ Zilliqa — 퍼블릭 블록체인 샤딩 구현:
 
 아키텍처:
   DS Committee (Directory Service):
-  → 새 에포크마다 샤드 구성 결정
-  → PoW로 DS 위원회 선정
+  -> 새 에포크마다 샤드 구성 결정
+  -> PoW로 DS 위원회 선정
 
   샤드 노드:
   트랜잭션 샤딩 처리
@@ -221,8 +221,8 @@ Zilliqa — 퍼블릭 블록체인 샤딩 구현:
 
 성능:
   2,400개 노드 기준:
-  샤드 4개 → TPS 2,828
-  샤드 6개 → TPS ~2,488 (일부 오버헤드)
+  샤드 4개 -> TPS 2,828
+  샤드 6개 -> TPS ~2,488 (일부 오버헤드)
 
   이론: 샤드 × 500 TPS
 
@@ -271,7 +271,7 @@ Zilliqa — 퍼블릭 블록체인 샤딩 구현:
 
 ```
 [블록체인 확장성 문제 부각 (2017)]
-CryptoKitties → 이더리움 네트워크 마비
+CryptoKitties -> 이더리움 네트워크 마비
 TPS 한계 주목
       |
       v
@@ -298,7 +298,7 @@ PeerDAS, 1,600만 TPS (L2 포함)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 — 슈퍼마켓에 계산원 1명(단일 체인) → 계산대 10개(10개 샤드)로 동시에 계산. TPS 10배!
+1. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 — 슈퍼마켓에 계산원 1명(단일 체인) -> 계산대 10개(10개 샤드)로 동시에 계산. TPS 10배!
 2. 1% 공격 위험 — 소규모 그룹(샤드)은 더 쉽게 공격당해요. 주기적 랜덤 배치(셔플)로 공격자가 누구와 한 팀인지 모르게!
 3. Ethereum의 선택 — 직접 실행 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)이 실행하고 이더리움은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장만. Blob [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 수수료 100배 절감!
 
@@ -308,7 +308,7 @@ PeerDAS, 1,600만 TPS (L2 포함)
 
 **진행 상황**: 46 / 552
 
-← **이전**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)
-**다음**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/) →
+<- **이전**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)
+**다음**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/) ->
 
 ---

@@ -39,28 +39,28 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│            자율주행 센서 퓨전 아키텍처                      │
-├──────────────────────────────────────────────────────────┤
-│  [센서 계층]                                               │
-│  카메라(객체 인식) + LiDAR(3D 거리) + Radar(속도/원거리)   │
-│                           + 초음파(근거리 주차)            │
-│     │                                                    │
-│     ▼  원시 데이터(Raw Data)                               │
-│  [전처리 계층]  점군 필터링, 이미지 보정, 노이즈 제거         │
-│     │                                                    │
-│     ▼  센서 퓨전                                           │
-│  [퓨전 계층]                                               │
-│  ┌──────────────────────────────────────────┐            │
-│  │ 칼만 필터(Kalman Filter) / 딥러닝 퓨전     │            │
-│  │ 다중 센서 데이터 통합 → 통합 환경 인식     │            │
-│  └──────────────────────────────────────────┘            │
-│     │                                                    │
-│     ▼  HD Map + 위치 추정(GNSS + SLAM)                    │
-│  [판단·계획 계층]  경로 계획 / 행동 결정                    │
-│     ▼                                                    │
-│  [제어 계층]  조향·가속·제동 명령                           │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            자율주행 센서 퓨전 아키텍처                      |
++----------------------------------------------------------+
+|  [센서 계층]                                               |
+|  카메라(객체 인식) + LiDAR(3D 거리) + Radar(속도/원거리)   |
+|                           + 초음파(근거리 주차)            |
+|     |                                                    |
+|     v  원시 데이터(Raw Data)                               |
+|  [전처리 계층]  점군 필터링, 이미지 보정, 노이즈 제거         |
+|     |                                                    |
+|     v  센서 퓨전                                           |
+|  [퓨전 계층]                                               |
+|  +------------------------------------------+            |
+|  | 칼만 필터(Kalman Filter) / 딥러닝 퓨전     |            |
+|  | 다중 센서 데이터 통합 -> 통합 환경 인식     |            |
+|  +------------------------------------------+            |
+|     |                                                    |
+|     v  HD Map + 위치 추정(GNSS + SLAM)                    |
+|  [판단·계획 계층]  경로 계획 / 행동 결정                    |
+|     v                                                    |
+|  [제어 계층]  조향·가속·제동 명령                           |
++----------------------------------------------------------+
 ```
 
 ### 핵심 센서 특성 비교
@@ -105,11 +105,11 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 핵심**
 
-1. 레벨 2→3 전환 핵심 과제: 시스템 모니터링 책임 전환 → **법적 책임 소재** 명확화 필요.
+1. 레벨 2->3 전환 핵심 과제: 시스템 모니터링 책임 전환 -> **법적 책임 소재** 명확화 필요.
 2. ODD 확장이 레벨 4 실현의 핵심 과제.
 3. 사이버보안: 센서 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)(GPS [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/), [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) 기만) 공격 대응 필수.
 
-- **📢 섹션 요약 비유**: 레벨 2→3 전환의 어려움은 자동 항법을 켜고 조종사가 잠들어도 되는가의 법적 책임 문제다. 기술은 가능해도, 사고 시 항공사(제조사)가 책임지는 법 체계가 완비되어야 한다.
+- **📢 섹션 요약 비유**: 레벨 2->3 전환의 어려움은 자동 항법을 켜고 조종사가 잠들어도 되는가의 법적 책임 문제다. 기술은 가능해도, 사고 시 항공사(제조사)가 책임지는 법 체계가 완비되어야 한다.
 
 ---
 
@@ -134,7 +134,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[0~5단계 · ODD] → [자율주행 SAE 레벨과 센서 퓨전] → [고정밀 지도 · SLAM]
+[0~5단계 · ODD] -> [자율주행 SAE 레벨과 센서 퓨전] -> [고정밀 지도 · SLAM]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 493 / 552
 
-← **이전**: [492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/492_metaverse_xr_slam_spatial_mapping/)
-**다음**: [494. V2X 차량 통신과 C-V2X 5G 연계 (V2X Vehicle Communication and C-V2X 5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/494_v2x_c_v2x_5g_vehicle_communication/) →
+<- **이전**: [492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/492_metaverse_xr_slam_spatial_mapping/)
+**다음**: [494. V2X 차량 통신과 C-V2X 5G 연계 (V2X Vehicle Communication and C-V2X 5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/494_v2x_c_v2x_5g_vehicle_communication/) ->
 
 ---

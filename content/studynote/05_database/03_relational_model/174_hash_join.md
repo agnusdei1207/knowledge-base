@@ -31,7 +31,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-해시 조인은 보통 <strong>Build Phase → Probe Phase → Spill 대응</strong>의 세 관점으로 이해하면 된다. 여기서 Build Input 은 더 작은 쪽, Probe Input 은 더 큰 쪽으로 잡는 것이 기본 원칙이다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과가 같다고 해서 키가 반드시 같은 것은 아니므로, 버킷 안에서는 최종 키 비교를 한 번 더 수행한다.
+해시 조인은 보통 <strong>Build Phase -> Probe Phase -> Spill 대응</strong>의 세 관점으로 이해하면 된다. 여기서 Build Input 은 더 작은 쪽, Probe Input 은 더 큰 쪽으로 잡는 것이 기본 원칙이다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과가 같다고 해서 키가 반드시 같은 것은 아니므로, 버킷 안에서는 최종 키 비교를 한 번 더 수행한다.
 
 | 단계 | 엔진이 하는 일 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 | 주요 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | :--- | :--- | :--- | :--- |
@@ -42,20 +42,20 @@ tags = ["studynote-database"]
 아래 구조는 해시 조인의 핵심 흐름을 보여 준다. 이 그림에서 중요한 점은 "해시 값 일치"가 곧 "조인 성공"이 아니라, <strong>같은 버킷으로 모은 뒤 실제 키를 다시 비교한다</strong>는 사실이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Hash Join: build once, probe many                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Build input (small)                                                │
-│   row -> hash(join_key) -> bucket[7] -> keep key + payload         │
-│   row -> hash(join_key) -> bucket[2] -> keep key + payload         │
-│                                                                    │
-│ Probe input (large)                                                │
-│   row -> hash(join_key) -> same bucket -> compare real key -> join │
-│                                                                    │
-│ If hash area overflows:                                            │
-│   partition build/probe inputs -> reload one partition at a time   │
-│   -> rehash -> probe again                                         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                Hash Join: build once, probe many                   |
++--------------------------------------------------------------------+
+| Build input (small)                                                |
+|   row -> hash(join_key) -> bucket[7] -> keep key + payload         |
+|   row -> hash(join_key) -> bucket[2] -> keep key + payload         |
+|                                                                    |
+| Probe input (large)                                                |
+|   row -> hash(join_key) -> same bucket -> compare real key -> join |
+|                                                                    |
+| If hash area overflows:                                            |
+|   partition build/probe inputs -> reload one partition at a time   |
+|   -> rehash -> probe again                                         |
++--------------------------------------------------------------------+
 ```
 
 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 볼 때는 Build 쪽이 정말 작은지, 그리고 불필요한 컬럼이 제거되어 있는지를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)에서 조인 키와 필요한 소수 컬럼만 먼저 읽으면, 같은 행 수여도 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 폭이 줄어 메모리 적재성이 좋아진다. 반대로 `SELECT *` 성격으로 넓은 행을 그대로 Build 하면 해시 조인의 장점이 쉽게 사라진다.
@@ -142,22 +142,22 @@ tags = ["studynote-database"]
 
 ```text
 Large equality join requirement
-            │
-            ▼
+            |
+            v
 Choose smaller build input
-            │
-            ▼
+            |
+            v
 Build in-memory hash buckets
-            │
-            ▼
+            |
+            v
 Probe large scan against buckets
-            │
-            ├───────────────► if memory overflow -> partition and rehash
-            ▼
+            |
+            +---------------► if memory overflow -> partition and rehash
+            v
 Parallel hash join / Bloom filter optimization
 ```
 
-이 흐름은 "대량 동등 조인 필요 → 작은 입력 해시화 → 큰 입력 탐색 → 메모리 초과 대응 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화"로 이어지는 해시 조인의 사고 순서를 보여 준다.
+이 흐름은 "대량 동등 조인 필요 -> 작은 입력 해시화 -> 큰 입력 탐색 -> 메모리 초과 대응 -> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화"로 이어지는 해시 조인의 사고 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ Parallel hash join / Bloom filter optimization
 
 **진행 상황**: 174 / 600
 
-← **이전**: [173. 소트 머지 조인 (Sort Merge Join)](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)
-**다음**: [175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner](/knowledge-base/studynote/05_database/03_relational_model/175_driving_vs_driven_table/) →
+<- **이전**: [173. 소트 머지 조인 (Sort Merge Join)](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)
+**다음**: [175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner](/knowledge-base/studynote/05_database/03_relational_model/175_driving_vs_driven_table/) ->
 
 ---

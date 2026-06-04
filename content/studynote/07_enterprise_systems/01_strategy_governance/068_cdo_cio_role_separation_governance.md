@@ -29,9 +29,9 @@ tags = ["enterprise_systems"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-Data Strategy → CDO
-IT Operations → CIO
-  ↓
+Data Strategy -> CDO
+IT Operations -> CIO
+  v
 Collaboration
 ```
 
@@ -102,11 +102,11 @@ CDO는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 CDO
-  ↓
+  v
 Data Governance
-  ↓
+  v
 CIO
-  ↓
+  v
 IT Operations
 ```
 
@@ -116,11 +116,11 @@ IT Operations
 
 ```text
 Data Strategy
-  ↓
+  v
 CDO
-  ↓
+  v
 CIO
-  ↓
+  v
 Governance Model
 ```
 
@@ -138,7 +138,7 @@ CDO와 CIO는 그런 [관계](/knowledge-base/studynote/05_database/02_modeling_
 
 **진행 상황**: 68 / 482
 
-← **이전**: [67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)
-**다음**: [69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/069_metadata_data_catalog/) →
+<- **이전**: [67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)
+**다음**: [69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/069_metadata_data_catalog/) ->
 
 ---

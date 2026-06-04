@@ -44,23 +44,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 플런더버그가 소프트웨어 요청을 전기적 fault로 바꾸는 흐름을 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Plundervolt attack path                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Privileged software                                                │
-│   │ write undervolt request (MSR / overclocking mailbox)           │
-│   ▼                                                                │
-│ Power control lowers core voltage for a short window               │
-│   │                                                                │
-│   ▼                                                                │
-│ SGX enclave keeps executing crypto instructions                    │
-│   │                                                                │
-│   ├─ timing margin preserved ──▶ correct result                    │
-│   └─ timing margin collapses ─▶ faulty result                      │
-│                                   │                                │
-│                                   ▼                                │
-│                    DFA reconstructs secret material                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Plundervolt attack path                                            |
++--------------------------------------------------------------------+
+| Privileged software                                                |
+|   | write undervolt request (MSR / overclocking mailbox)           |
+|   v                                                                |
+| Power control lowers core voltage for a short window               |
+|   |                                                                |
+|   v                                                                |
+| SGX enclave keeps executing crypto instructions                    |
+|   |                                                                |
+|   +- timing margin preserved ---> correct result                    |
+|   +- timing margin collapses --> faulty result                      |
+|                                   |                                |
+|                                   v                                |
+|                    DFA reconstructs secret material                |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 공격 목표가 "재부팅"이 아니라 "조용한 오계산"이라는 것이다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 너무 크게 낮추면 시스템이 멈추거나 리셋되어 실패하고, 너무 약하면 영향이 없다. 그래서 공격자는 엔클레이브 내부 특정 연산 구간에 맞춰 짧고 얕은 undervolt를 반복하며, 정상 결과와 fault 결과를 함께 수집해 비밀 키를 추론한다.
@@ -133,18 +133,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전력 최적화용 DVFS 인터페이스
-            │
-            ▼
+            |
+            v
 소프트웨어 언더볼팅 제어
-            │
-            ▼
+            |
+            v
 플런더버그 (Plundervolt)
 : SGX 연산 fault 유도
-            │
-            ▼
+            |
+            v
 DFA 기반 키 복원 위험
-            │
-            ▼
+            |
+            v
 마이크로코드 잠금 + 전력 제어 보안화
 ```
 
@@ -162,7 +162,7 @@ DFA 기반 키 복원 위험
 
 **진행 상황**: 770 / 803
 
-← **이전**: [768. SGAxe 및 CrossTalk 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/768_sgaxe_crosstalk/)
-**다음**: [770. PACMAN 공격 (ARM PAC 우회)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/770_pacman_attack/) →
+<- **이전**: [768. SGAxe 및 CrossTalk 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/768_sgaxe_crosstalk/)
+**다음**: [770. PACMAN 공격 (ARM PAC 우회)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/770_pacman_attack/) ->
 
 ---

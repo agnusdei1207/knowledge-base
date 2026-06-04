@@ -48,31 +48,31 @@ dₘₒₐₑₗ : 임베딩 차원 (예: 512)
 i가 작을수록 고주파(빠른 변화), i가 클수록 저주파(느린 변화):
 
 ```
-i=0: sin(pos / 10000⁰) = sin(pos)         ← 주기 2π ≈ 6.28
-i=128: sin(pos / 10000^(256/512))          ← 주기 ≈ 2π × 100
-i=255: sin(pos / 10000^(510/512))          ← 주기 ≈ 2π × 10000
+i=0: sin(pos / 10000⁰) = sin(pos)         <- 주기 2π ≈ 6.28
+i=128: sin(pos / 10000^(256/512))          <- 주기 ≈ 2π × 100
+i=255: sin(pos / 10000^(510/512))          <- 주기 ≈ 2π × 10000
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  PE 행렬 (pos × dₘₒₐₑₗ)                              │
-│                                                      │
-│  pos=0  [sin₀,  cos₀,  sin₁,  cos₁, ...]            │
-│  pos=1  [sin₁,  cos₁,  sin₁', cos₁'...]             │
-│  pos=2  [sin₂,  cos₂,  ...]                          │
-│  ...                                                 │
-│                                                      │
-│  낮은 차원: 고주파 (미세 위치 구분)                    │
-│  높은 차원: 저주파 (대략적 위치 구분)                  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  PE 행렬 (pos × dₘₒₐₑₗ)                              |
+|                                                      |
+|  pos=0  [sin₀,  cos₀,  sin₁,  cos₁, ...]            |
+|  pos=1  [sin₁,  cos₁,  sin₁', cos₁'...]             |
+|  pos=2  [sin₂,  cos₂,  ...]                          |
+|  ...                                                 |
+|                                                      |
+|  낮은 차원: 고주파 (미세 위치 구분)                    |
+|  높은 차원: 저주파 (대략적 위치 구분)                  |
++------------------------------------------------------+
 ```
 
 ### 상대 위치 표현 (내적 성질)
 
 ```
 PE(pos) · PE(pos+k) = f(k)  (pos에 독립적)
-→ 두 위치의 내적이 상대 거리 k에만 의존
-→ 어텐션 스코어에 상대 위치 정보 암묵적 반영
+-> 두 위치의 내적이 상대 거리 k에만 의존
+-> 어텐션 스코어에 상대 위치 정보 암묵적 반영
 ```
 
 | PE 방식 | 외삽 | 학습 파라미터 | 상대 위치 | 채택 모델 |
@@ -91,7 +91,7 @@ PE(pos) · PE(pos+k) = f(k)  (pos에 독립적)
 RoPE (Rotary Position [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)/키 벡터를 회전 행렬로 변환해 상대 위치를 정확히 반영:
 ```
 RoPE: q' = q · R(pos_q), k' = k · R(pos_k)
-q'·k' = q · R(pos_q - pos_k) · kᵀ  ← 상대 위치만 의존
+q'·k' = q · R(pos_q - pos_k) · kᵀ  <- 상대 위치만 의존
 ```
 
 ALiBi는 어텐션 스코어에 거리에 비례한 패널티를 직접 더함:
@@ -105,8 +105,8 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base: 512 위치까지 학습 PE (Learned) → 512 초과 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
-- LLaMA 2: RoPE → 4096→32768 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 외삽 가능
+- [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base: 512 위치까지 학습 PE (Learned) -> 512 초과 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- LLaMA 2: RoPE -> 4096->32768 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 외삽 가능
 - RoPE의 NTK-aware [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/): 기반 값 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)000을 늘려 외삽 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 기술사 포인트: 삼각함수 PE의 주파수 해석 + 상대 위치 내적 성질 + RoPE 외삽 장점을 연결해 설명하면 고득점 가능.
@@ -137,7 +137,7 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 **진행 상황**: 382 / 420
 
-← **이전**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/)
-**다음**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/) →
+<- **이전**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/)
+**다음**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/) ->
 
 ---

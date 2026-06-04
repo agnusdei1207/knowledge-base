@@ -18,14 +18,14 @@ tags = ["studynote-design-supervision"]
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 "이 클래스가 왜 존재하는가"에 대한 답을 얼마나 선명하게 해 주는지를 측정한다. 하나의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 계산, 저장, 출력, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 통계 같은 이질적 책임이 섞이면 수정 이유가 많아지고 장애 분석이 어려워진다. 그래서 아키텍처 설계에서는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부의 책임 집중도를 먼저 높여야 전체 구조도 건강해진다.
 
 ```text
-┌───────────────────────┐      ┌───────────────────────┐
-│ 낮은 응집도           │      │ 높은 응집도           │
-├───────────────────────┤      ├───────────────────────┤
-│ 주문 계산             │      │ 주문 금액 계산         │
-│ 이메일 발송           │      │ 할인 적용             │
-│ 로그 파일 삭제        │      │ 가격 검증             │
-│ 사용자 권한 확인      │      │ 세 항목이 한 목적 공유 │
-└───────────────────────┘      └───────────────────────┘
++-----------------------+      +-----------------------+
+| 낮은 응집도           |      | 높은 응집도           |
++-----------------------+      +-----------------------+
+| 주문 계산             |      | 주문 금액 계산         |
+| 이메일 발송           |      | 할인 적용             |
+| 로그 파일 삭제        |      | 가격 검증             |
+| 사용자 권한 확인      |      | 세 항목이 한 목적 공유 |
++-----------------------+      +-----------------------+
 ```
 
 높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 단순히 "짧은 클래스"를 의미하지 않는다. 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 행위가 한곳에 모여 있고, 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 존재 이유가 하나로 설명될 수 있는 상태를 뜻한다.
@@ -35,10 +35,10 @@ tags = ["studynote-design-supervision"]
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분해의 기준이 된다. 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드를 함께 두고, 관련 없는 책임은 밖으로 밀어낼수록 기능적 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)에 가까워진다.
 
 ```text
-┌──────────────┐      분리       ┌──────────────┐  ┌──────────────┐
-│ God Class    │──────────────▶│ PricingSvc   │  │ MailSender   │
-│ 계산/저장/통지│               │ 금액·할인·검증│  │ 발송 책임만   │
-└──────────────┘               └──────────────┘  └──────────────┘
++--------------+      분리       +--------------+  +--------------+
+| God Class    |--------------->| PricingSvc   |  | MailSender   |
+| 계산/저장/통지|               | 금액·할인·검증|  | 발송 책임만   |
++--------------+               +--------------+  +--------------+
 ```
 
 | 응집 수준 | 의미 | 설계 판단 |
@@ -92,17 +92,17 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 기능 혼재와 God Class 증가
-    │
-    ▼
+    |
+    v
 변경 이유 다중화와 테스트 복잡화
-    │
-    ▼
+    |
+    v
 응집도 중심 책임 재분해
-    │
-    ▼
+    |
+    v
 SRP·모듈화·경계 명확화
-    │
-    ▼
+    |
+    v
 유지보수성과 재사용성 향상
 ```
 
@@ -117,7 +117,7 @@ SRP·모듈화·경계 명확화
 
 **진행 상황**: 167 / 530
 
-← **이전**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/)
-**다음**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/) →
+<- **이전**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/)
+**다음**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/) ->
 
 ---

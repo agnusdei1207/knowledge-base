@@ -35,26 +35,26 @@ tags = ["studynote-cloud-architecture"]
 ```
 4 Golden Signals
 
-┌─────────────────────────────────────────────┐
-│  1. Latency (지연 시간)                      │
-│     요청 처리에 걸린 시간                    │
-│     ⚠️ 성공 요청 지연 ≠ 오류 요청 지연 구분  │
-│     측정: p50, p95, p99 레이턴시             │
-├─────────────────────────────────────────────┤
-│  2. Traffic (트래픽)                         │
-│     서비스가 받는 요청/처리 수요             │
-│     측정: RPS(초당 요청 수), TPS, DAU        │
-├─────────────────────────────────────────────┤
-│  3. Errors (에러)                            │
-│     실패한 요청의 비율                       │
-│     ⚠️ 명시적(5xx) + 암묵적(잘못된 응답) 포함│
-│     측정: 에러율(%), 에러 건수               │
-├─────────────────────────────────────────────┤
-│  4. Saturation (포화도)                      │
-│     서비스가 얼마나 "가득 찼는가"            │
-│     ⚠️ 100% 전에 성능 저하 시작              │
-│     측정: CPU %, 메모리 %, 큐 길이, 연결 수  │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  1. Latency (지연 시간)                      |
+|     요청 처리에 걸린 시간                    |
+|     ⚠️ 성공 요청 지연 ≠ 오류 요청 지연 구분  |
+|     측정: p50, p95, p99 레이턴시             |
++---------------------------------------------+
+|  2. Traffic (트래픽)                         |
+|     서비스가 받는 요청/처리 수요             |
+|     측정: RPS(초당 요청 수), TPS, DAU        |
++---------------------------------------------+
+|  3. Errors (에러)                            |
+|     실패한 요청의 비율                       |
+|     ⚠️ 명시적(5xx) + 암묵적(잘못된 응답) 포함|
+|     측정: 에러율(%), 에러 건수               |
++---------------------------------------------+
+|  4. Saturation (포화도)                      |
+|     서비스가 얼마나 "가득 찼는가"            |
+|     ⚠️ 100% 전에 성능 저하 시작              |
+|     측정: CPU %, 메모리 %, 큐 길이, 연결 수  |
++---------------------------------------------+
 ```
 
 | 시그널 | 핵심 질문 | PromQL 예시 | 알람 기준 |
@@ -146,12 +146,12 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 4 Golden Signals (Google SRE)
-    ├─► Latency: 응답 시간 (p50, p99)
-    ├─► Traffic: 요청량 (QPS, TPS)
-    ├─► Errors: 오류율 (5xx, 비즈니스 에러)
-    └─► Saturation: 리소스 포화도 (CPU, Mem, Disk)
-    │
-    ▼
+    +-► Latency: 응답 시간 (p50, p99)
+    +-► Traffic: 요청량 (QPS, TPS)
+    +-► Errors: 오류율 (5xx, 비즈니스 에러)
+    +-► Saturation: 리소스 포화도 (CPU, Mem, Disk)
+    |
+    v
 USE Method (Utilization · Saturation · Errors)
 RED Method (Rate · Errors · Duration)
 ```
@@ -164,7 +164,7 @@ RED Method (Rate · Errors · Duration)
 
 **진행 상황**: 185 / 371
 
-← **이전**: [185. 메트릭 (Metrics - Prometheus, Grafana)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/185_metrics_prometheus_grafana/)
-**다음**: [187. 로그 및 ELK Stack (Logs, Centralized Logging)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/187_logging_elk_stack_centralized/) →
+<- **이전**: [185. 메트릭 (Metrics - Prometheus, Grafana)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/185_metrics_prometheus_grafana/)
+**다음**: [187. 로그 및 ELK Stack (Logs, Centralized Logging)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/187_logging_elk_stack_centralized/) ->
 
 ---

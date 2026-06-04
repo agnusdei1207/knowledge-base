@@ -39,30 +39,30 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 ```
         애플리케이션 / 분석 / AI·ML 소비자
-              │          │          │
-              ▼          ▼          ▼
-┌──────────────────────────────────────────────────┐
-│           Unified Data Access Layer              │
-│        (통합 데이터 접근 레이어)                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Data Virtualization Engine               │  │
-│  │   (데이터 가상화 엔진, 물리 이동 없이 쿼리) │  │
-│  └────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Intelligent Metadata Layer               │  │
-│  │   (AI 기반 메타데이터 자동 탐색·분류·추천)  │  │
-│  └────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Federated Governance & Security          │  │
-│  │   (접근제어·마스킹·감사 로그 통합 관리)     │  │
-│  └────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────┘
-          │         │         │         │
-          ▼         ▼         ▼         ▼
-    ┌──────┐   ┌──────┐  ┌──────┐  ┌──────┐
-    │Oracle│   │ S3   │  │Kafka │  │SAP   │
-    │ DB   │   │Lake  │  │Stream│  │ERP   │
-    └──────┘   └──────┘  └──────┘  └──────┘
+              |          |          |
+              v          v          v
++--------------------------------------------------+
+|           Unified Data Access Layer              |
+|        (통합 데이터 접근 레이어)                  |
+|  +--------------------------------------------+  |
+|  |   Data Virtualization Engine               |  |
+|  |   (데이터 가상화 엔진, 물리 이동 없이 쿼리) |  |
+|  +--------------------------------------------+  |
+|  +--------------------------------------------+  |
+|  |   Intelligent Metadata Layer               |  |
+|  |   (AI 기반 메타데이터 자동 탐색·분류·추천)  |  |
+|  +--------------------------------------------+  |
+|  +--------------------------------------------+  |
+|  |   Federated Governance & Security          |  |
+|  |   (접근제어·마스킹·감사 로그 통합 관리)     |  |
+|  +--------------------------------------------+  |
++--------------------------------------------------+
+          |         |         |         |
+          v         v         v         v
+    +------+   +------+  +------+  +------+
+    |Oracle|   | S3   |  |Kafka |  |SAP   |
+    | DB   |   |Lake  |  |Stream|  |ERP   |
+    +------+   +------+  +------+  +------+
      온프레미스    AWS       이벤트    SaaS
 ```
 
@@ -80,25 +80,25 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 ```
 데이터 소스 연결
-      │
-      ▼
-┌─────────────────────────────────────┐
-│  Metadata Crawler (자동 탐색 봇)    │
-│  - 스키마 자동 감지                  │
-│  - PII (개인식별정보) 자동 태그      │
-│  - 데이터 분류 (민감도 레벨)         │
-└─────────────────────────────────────┘
-      │
-      ▼
-┌─────────────────────────────────────┐
-│  Active Metadata Engine             │
-│  - 사용 패턴 학습 → 연관 데이터 추천 │
-│  - 품질 이상 자동 감지               │
-│  - 리니지 자동 생성                  │
-└─────────────────────────────────────┘
-      │
-      ▼
-   데이터 소비자에게 "검색 → 이해 → 신뢰" 경험 제공
+      |
+      v
++-------------------------------------+
+|  Metadata Crawler (자동 탐색 봇)    |
+|  - 스키마 자동 감지                  |
+|  - PII (개인식별정보) 자동 태그      |
+|  - 데이터 분류 (민감도 레벨)         |
++-------------------------------------+
+      |
+      v
++-------------------------------------+
+|  Active Metadata Engine             |
+|  - 사용 패턴 학습 -> 연관 데이터 추천 |
+|  - 품질 이상 자동 감지               |
+|  - 리니지 자동 생성                  |
++-------------------------------------+
+      |
+      v
+   데이터 소비자에게 "검색 -> 이해 -> 신뢰" 경험 제공
 ```
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 엔진은 "도서관 사서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"다. 새 책이 들어오면 자동으로 제목·저자·장르를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, 이 책을 좋아하는 독자에게 추천까지 한다.
@@ -137,10 +137,10 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 **시나리오: 금융그룹 멀티클라우드 통합**
 
 ```
-온프레미스 Oracle ERP ─┐
-AWS S3 데이터 레이크   ─┤  Data Fabric Layer  ─→  통합 BI·AI 분석
-Azure Synapse DW      ─┤  (Denodo + Atlan)
-GCP BigQuery          ─┘
+온프레미스 Oracle ERP -+
+AWS S3 데이터 레이크   -+  Data Fabric Layer  -->  통합 BI·AI 분석
+Azure Synapse DW      -+  (Denodo + Atlan)
+GCP BigQuery          -+
 ```
 
 | 단계 | 작업 | 기술 |
@@ -173,8 +173,8 @@ GCP BigQuery          ─┘
 | 영역 | 기대 효과 |
 |:---|:---|
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | 이기종 소스 단일 인터페이스 접근 |
-| [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 비용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 제거 → 30~50% 파이프라인 감소 |
-| 거버넌스 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 컴플라이언스 대응 속도 80% 향상 |
+| [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 비용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 제거 -> 30~50% 파이프라인 감소 |
+| 거버넌스 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 컴플라이언스 대응 속도 80% 향상 |
 | 시간 절감 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색·이해 시간 70% 단축 |
 
 기술사 시험에서 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 <strong>"능동 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>)와 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/">데이터 가상화</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/">Data Virtualization</a>)가 핵심 차별점"</strong> 임을 중심으로 설명해야 한다.
@@ -208,14 +208,14 @@ GCP BigQuery          ─┘
 
 ```text
 데이터 사일로 (시스템 간 단절)
-    │
-    ▼
+    |
+    v
 Data Fabric: 메타데이터 기반 통합 · 가상화
-    ├─► 메타데이터 자동 수집 · AI 기반 추천
-    ├─► 데이터 가상화: 물리 이동 없이 접근
-    └─► 통합 거버넌스 · 보안 정책
-    │
-    ▼
+    +-► 메타데이터 자동 수집 · AI 기반 추천
+    +-► 데이터 가상화: 물리 이동 없이 접근
+    +-► 통합 거버넌스 · 보안 정책
+    |
+    v
 Data Mesh와 상호 보완 관계
 ```
 2. 앱이 새 책을 자동으로 인식하고 장르·내용을 AI가 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 주는 것이 능동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기능이다.
@@ -227,7 +227,7 @@ Data Mesh와 상호 보완 관계
 
 **진행 상황**: 223 / 258
 
-← **이전**: [222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/222_data_mesh_distributed_ownership_data_product/)
-**다음**: [224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/224_data_lineage_flow_catalog_tagging/) →
+<- **이전**: [222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/222_data_mesh_distributed_ownership_data_product/)
+**다음**: [224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/224_data_lineage_flow_catalog_tagging/) ->
 
 ---

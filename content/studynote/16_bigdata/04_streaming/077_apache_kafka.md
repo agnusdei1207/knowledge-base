@@ -40,36 +40,36 @@ LinkedIn은 2010년경 수십 개의 [마이크로서비스](/knowledge-base/stu
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                  [ Apache Kafka 아키텍처 ]                       │
-│                                                                 │
-│  [Producer] ─── 씀 -> [Topic: 주문 정보] ── 씀 -> [Consumer]     │
-│       │                    │                    │               │
-│       │                    │Partition 0: [msg0][msg1][msg2]...  │
-│       │                    │Partition 1: [msg0][msg1][msg2]...  │
-│       │                    │Partition 2: [msg0][msg1][msg2]...  │
-│       │                    │                    │               │
-│       │                    ▼                    ▼               │
-│       │            ┌─────────────────────────────┐               │
-│       │            │      Broker 1/2/3...         │               │
-│       │            │  각 브로커가 Partition 보유   │               │
-│       │            │ ISR (In-Sync Replica) 관리    │               │
-│       │            └─────────────────────────────┘               │
-│       │                                                           │
-│  [ ZooKeeper / KRaft (Kafka 3.3+) ]                              │
-│    ├─ 브로커 활성 상태 관리 (누가 컨트롤러?)                     │
-│    ├─ 토픽/파티션 메타데이터 관리                                 │
-│    └─ 리더 선출 (Leader Election)                                 │
-│                                                                 │
-│  [디스크 기록 구조: Append-only Log]                             │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  오프셋 0  │  오프셋 1  │  오프셋 2  │  오프셋 3  │ ... │    │
-│  │  [msg A]  │  [msg B]  │  [msg C]  │  [msg D]  │     │    │
-│  │           │           │           │           │     │    │
-│  │  Sequential Write → 디스크 I/O 병목 완전 제거!           │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  [ Apache Kafka 아키텍처 ]                       |
+|                                                                 |
+|  [Producer] --- 씀 -> [Topic: 주문 정보] -- 씀 -> [Consumer]     |
+|       |                    |                    |               |
+|       |                    |Partition 0: [msg0][msg1][msg2]...  |
+|       |                    |Partition 1: [msg0][msg1][msg2]...  |
+|       |                    |Partition 2: [msg0][msg1][msg2]...  |
+|       |                    |                    |               |
+|       |                    v                    v               |
+|       |            +-----------------------------+               |
+|       |            |      Broker 1/2/3...         |               |
+|       |            |  각 브로커가 Partition 보유   |               |
+|       |            | ISR (In-Sync Replica) 관리    |               |
+|       |            +-----------------------------+               |
+|       |                                                           |
+|  [ ZooKeeper / KRaft (Kafka 3.3+) ]                              |
+|    +- 브로커 활성 상태 관리 (누가 컨트롤러?)                     |
+|    +- 토픽/파티션 메타데이터 관리                                 |
+|    +- 리더 선출 (Leader Election)                                 |
+|                                                                 |
+|  [디스크 기록 구조: Append-only Log]                             |
+|  +----------------------------------------------------------+    |
+|  |  오프셋 0  |  오프셋 1  |  오프셋 2  |  오프셋 3  | ... |    |
+|  |  [msg A]  |  [msg B]  |  [msg C]  |  [msg D]  |     |    |
+|  |           |           |           |           |     |    |
+|  |  Sequential Write -> 디스크 I/O 병목 완전 제거!           |    |
+|  +----------------------------------------------------------+    |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 ### 1. Kafka의 핵심 개념: Topic, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), Offset
@@ -118,10 +118,10 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 순서 요구</strong> | 순서 보장이 필수 (예: 금융 거래) → 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 필수 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 키별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 고려 |
-| **내구성 요구 수준** | 장애 시 절대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 불가 → acks=all + min.insync.replicas=2 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실 허용 수준에 따라 acks 조절 |
-| **리텐션 기간** | Replay 필요 (예: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) → 긴 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) | 일회성 처리면 짧은 Retention으로 스토리지 절약 |
-| **컨슈머 독립성** | 다수의 독립적인 컨슈머가동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | 하나의 컨슈머만 필요 → RabbitMQ 고려 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 순서 요구</strong> | 순서 보장이 필수 (예: 금융 거래) -> 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 필수 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 키별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 고려 |
+| **내구성 요구 수준** | 장애 시 절대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 불가 -> acks=all + min.insync.replicas=2 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실 허용 수준에 따라 acks 조절 |
+| **리텐션 기간** | Replay 필요 (예: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) -> 긴 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) | 일회성 처리면 짧은 Retention으로 스토리지 절약 |
+| **컨슈머 독립성** | 다수의 독립적인 컨슈머가동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | 하나의 컨슈머만 필요 -> RabbitMQ 고려 |
 
 *(추가 실무 적용 가이드 - [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Topic 설계 Best Practices)*
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 수 결정</strong>: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 컨슈머 수의 상한을 결정합니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 동시 컨슈머 수로 설계하되, 향후확전을 고려하여 여백을 둡니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가 후에는 키와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 매핑이 변경될 수 있어 주의가 필요합니다.
@@ -170,14 +170,14 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 ```text
 [전통적 MOM]
-    │
-    ▼
+    |
+    v
 [Pub/Sub]
-    │
-    ▼
+    |
+    v
 [Append-only Log]
-    │
-    ▼
+    |
+    v
 [KRaft/Serverless Kafka]
 ```
 
@@ -197,7 +197,7 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 **진행 상황**: 77 / 262
 
-← **이전**: [01. Apache Flink - 상태 기반 스트리밍처리의 완성형](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/)
-**다음**: [03. Kafka Hadoop Integration](/knowledge-base/studynote/16_bigdata/04_streaming/078_kafka_hadoop_integration/) →
+<- **이전**: [01. Apache Flink - 상태 기반 스트리밍처리의 완성형](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/)
+**다음**: [03. Kafka Hadoop Integration](/knowledge-base/studynote/16_bigdata/04_streaming/078_kafka_hadoop_integration/) ->
 
 ---

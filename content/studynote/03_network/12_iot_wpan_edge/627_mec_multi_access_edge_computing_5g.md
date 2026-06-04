@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [엣지 컴퓨팅]
-    │
-    ▼
+    |
+    v
 [MEC]
-    │
-    └──▶ [스마트 그리드]
+    |
+    +---> [스마트 그리드]
 ```
 
 - **📢 섹션 요약 비유**: MEC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [엣지 컴퓨팅]
-    │
-    ▼
+    |
+    v
 [MEC]
-    │
-    └──▶ [스마트 그리드]
+    |
+    +---> [스마트 그리드]
 ```
 
 - **📢 섹션 요약 비유**: MEC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -108,12 +108,12 @@ MEC는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ```text
 [선행 개념: 엣지 컴퓨팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: MEC]
-    │
-    ├──▶ [확장 A: 스마트 그리드]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 스마트 그리드]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 MEC는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -130,7 +130,7 @@ MEC는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security
 
 **진행 상황**: 748 / 1120
 
-← **이전**: [626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/626_edge_computing_fog_computing_iot/)
-**다음**: [628. 스마트 그리드 (Smart Grid 파워 네트워크 통신 인프라)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/628_smart_grid_ict_power_network/) →
+<- **이전**: [626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/626_edge_computing_fog_computing_iot/)
+**다음**: [628. 스마트 그리드 (Smart Grid 파워 네트워크 통신 인프라)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/628_smart_grid_ict_power_network/) ->
 
 ---

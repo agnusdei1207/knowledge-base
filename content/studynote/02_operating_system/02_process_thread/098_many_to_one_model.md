@@ -32,25 +32,25 @@ tags = ["studynote-operating-system"]
 이 모델의 내부는 사용자 공간의 스케줄러가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 속이며 시분할을 구현하는 방식으로 작동한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  다대일 모델의 아키텍처와 블로킹 한계                │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 공간 (User Space)]                                     │
-│   ┌──────┐   ┌──────┐   ┌──────┐                             │
-│   │ ULT 1│   │ ULT 2│   │ ULT 3│                             │
-│   └──┬───┘   └──┬───┘   └──┬───┘                             │
-│      └──────────┼──────────┘                                 │
-│          [스레드 라이브러리 스케줄러]                             │
-│                 │ (모든 스위칭은 여기서 발생)                     │
-│ ────────────────┼─────────────────────────────────────────── │
-│ [커널 공간 (Kernel Space)]                                     │
-│                 ▼                                            │
-│            ┌─────────┐                                       │
-│            │  KLT 1  │ (단일 커널 스레드)                       │
-│            └────┬────┘                                       │
-│                 ▼                                            │
-│             [CPU Core 0]   [CPU Core 1] (유휴 상태)            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  다대일 모델의 아키텍처와 블로킹 한계                |
++--------------------------------------------------------------+
+| [사용자 공간 (User Space)]                                     |
+|   +------+   +------+   +------+                             |
+|   | ULT 1|   | ULT 2|   | ULT 3|                             |
+|   +--+---+   +--+---+   +--+---+                             |
+|      +----------+----------+                                 |
+|          [스레드 라이브러리 스케줄러]                             |
+|                 | (모든 스위칭은 여기서 발생)                     |
+| ----------------+------------------------------------------- |
+| [커널 공간 (Kernel Space)]                                     |
+|                 v                                            |
+|            +---------+                                       |
+|            |  KLT 1  | (단일 커널 스레드)                       |
+|            +----+----+                                       |
+|                 v                                            |
+|             [CPU Core 0]   [CPU Core 1] (유휴 상태)            |
++--------------------------------------------------------------+
 ```
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 라이브러리는 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 사용자 공간에 두고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태를 자체적으로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 복원한다. 문제는 하나의 ULT가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기와 같은 블로킹 시스템 콜 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 호출할 때다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스 안에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 여러 개인지 모르기 때문에 KLT 자체를 대기 큐로 던져버린다. 결국 나머지 ULT들까지 모조리 실행 권한을 잃게 된다.
@@ -65,7 +65,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 다대일 (Many-to-One) 모델 | [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) ([One-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)) 모델 |
 |:---|:---|:---|
-| **매핑 구조** | 다수의 ULT ──▶ 1개의 KLT | 1개의 ULT ──▶ 1개의 KLT |
+| **매핑 구조** | 다수의 ULT ---> 1개의 KLT | 1개의 ULT ---> 1개의 KLT |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/">문맥 교환 비용</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입이 없어 극도로 빠름 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))으로 인해 오버헤드 큼 |
 | **블로킹 영향** | 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블로킹 = 프로세스 전체 중단 | 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 중단, 나머지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 정상 실행 |
 | **멀티코어 (Multi-core) 활용**| KLT가 1개이므로 코어를 1개만 사용 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 불가) | 코어 수만큼 KLT가 분산되어 진정한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 달성 |
@@ -116,17 +116,17 @@ OS 레벨의 다대일 모델은 멀티코어의 이점을 버리고 시스템�
 
 ```text
 순차적 프로세스 실행 (동시성 부재)
-    │
-    ▼
+    |
+    v
 다대일 (Many-to-One) 스레드 모델 (초경량 동시성 획득, 블로킹 취약)
-    │
-    ▼
+    |
+    v
 일대일 (One-to-One) 스레드 모델 (커널 스레드 매핑, 멀티코어 활용)
-    │
-    ▼
+    |
+    v
 다대다 (Many-to-Many) 스레드 모델 (스레드 풀과 LWP 계층 도입)
-    │
-    ▼
+    |
+    v
 언어 레벨의 코루틴 / 가상 스레드 (비동기 I/O 기반 다대다 진화)
 ```
 
@@ -142,7 +142,7 @@ OS 레벨의 다대일 모델은 멀티코어의 이점을 버리고 시스템�
 
 **진행 상황**: 98 / 800
 
-← **이전**: [97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리](/knowledge-base/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/)
-**다음**: [99. 일대일 (One-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) →
+<- **이전**: [97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리](/knowledge-base/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/)
+**다음**: [99. 일대일 (One-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) ->
 
 ---

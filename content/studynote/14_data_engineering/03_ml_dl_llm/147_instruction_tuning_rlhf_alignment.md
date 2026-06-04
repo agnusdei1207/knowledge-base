@@ -41,26 +41,26 @@ LLM의 사전 학습(Pretraining)은 웹·책·코드 등 방대한 텍스트에
 LLM 정렬 파이프라인
 
   ① 사전 학습 (Pretraining)
-  ┌────────────────────────────────────────────────────────┐
-  │  대규모 텍스트 코퍼스 (1T+ 토큰)                         │
-  │  목표: 다음 토큰 예측 (Language Modeling)                │
-  │  결과: 베이스 모델 (Base Model) — 텍스트 자동완성         │
-  └────────────────────────────────────────────────────────┘
-              │
+  +--------------------------------------------------------+
+  |  대규모 텍스트 코퍼스 (1T+ 토큰)                         |
+  |  목표: 다음 토큰 예측 (Language Modeling)                |
+  |  결과: 베이스 모델 (Base Model) — 텍스트 자동완성         |
+  +--------------------------------------------------------+
+              |
   ② 인스트럭션 튜닝 (Instruction Tuning / SFT)
-  ┌────────────────────────────────────────────────────────┐
-  │  포맷: [Instruction] + [Input] → [Output]              │
-  │  데이터: 수천~수만 개 (고품질 인간 작성 응답)              │
-  │  결과: 지시 따르기 모델 (Instruction-Following Model)   │
-  └────────────────────────────────────────────────────────┘
-              │
+  +--------------------------------------------------------+
+  |  포맷: [Instruction] + [Input] -> [Output]              |
+  |  데이터: 수천~수만 개 (고품질 인간 작성 응답)              |
+  |  결과: 지시 따르기 모델 (Instruction-Following Model)   |
+  +--------------------------------------------------------+
+              |
   ③ RLHF (Reinforcement Learning from Human Feedback)
-  ┌────────────────────────────────────────────────────────┐
-  │  Step 1: 여러 응답 생성 → 사람 평가자가 순위 매김         │
-  │  Step 2: 보상 모델(Reward Model) 학습 — 선호 예측        │
-  │  Step 3: PPO 강화학습으로 LLM 정책 최적화               │
-  │  결과: 유용하고 해롭지 않은 응답 (HHH: Helpful, Harmless, Honest) │
-  └────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------+
+  |  Step 1: 여러 응답 생성 -> 사람 평가자가 순위 매김         |
+  |  Step 2: 보상 모델(Reward Model) 학습 — 선호 예측        |
+  |  Step 3: PPO 강화학습으로 LLM 정책 최적화               |
+  |  결과: 유용하고 해롭지 않은 응답 (HHH: Helpful, Harmless, Honest) |
+  +--------------------------------------------------------+
 ```
 
 ### 2. 인스트럭션 튜닝 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식
@@ -76,20 +76,20 @@ LLM 정렬 파이프라인
 ### 3. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 보상 모델 학습 과정
 
 ```text
-사람 피드백 수집 → 보상 모델 학습 → PPO 최적화
+사람 피드백 수집 -> 보상 모델 학습 -> PPO 최적화
 
-  동일 프롬프트 → LLM이 응답 A, B, C 생성
-       │
-       ▼
+  동일 프롬프트 -> LLM이 응답 A, B, C 생성
+       |
+       v
   사람 평가자: A > C > B (선호 순위)
-       │
-       ▼
+       |
+       v
   보상 모델 (RM): "A는 높은 점수, B는 낮은 점수" 학습
-       │
-       ▼
+       |
+       v
   PPO 알고리즘: RM 점수를 보상으로 LLM 정책 업데이트
-       │
-       ▼
+       |
+       v
   결과: 사람이 선호하는 응답을 더 자주 생성
 ```
 
@@ -104,7 +104,7 @@ LLM 정렬 파이프라인
 | 기법 | 방법 | 비용 | 결과 |
 |:---|:---|:---|:---|
 | <strong>SFT (Supervised <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a>)</strong> | [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Output 쌍으로 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) | 중간 | 지시 따르기 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a></strong> | 사람 선호 → 보상 모델 → [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습 | 높음 | 선호·안전 정렬 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a></strong> | 사람 선호 -> 보상 모델 -> [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습 | 높음 | 선호·안전 정렬 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>)</strong> | RLHF를 보상 모델 없이 직접 최적화 | 낮음 | RLHF와 유사 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a> (RL from <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Feedback)</strong> | 사람 대신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 평가자 사용 | 낮음 | [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) (Claude) |
 
@@ -134,10 +134,10 @@ LLM 정렬 파이프라인
 
 ### 기술사 시험 핵심 포인트
 
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> 3단계</strong>: SFT → 보상 모델 학습 → [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> 3단계</strong>: SFT -> 보상 모델 학습 -> [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습
 2. **HHH 원칙**: Helpful(유용), Harmless(무해), Honest(정직) — Anthropic이 정의
-3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a></strong>: RLHF의 보상 모델 없이 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 직접 최적화 → 2023년 이후 주류
-4. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a>(CAI)</strong>: AI가 스스로 응답을 비판·수정 → RLAIF의 대표 사례
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a></strong>: RLHF의 보상 모델 없이 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 직접 최적화 -> 2023년 이후 주류
+4. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a>(CAI)</strong>: AI가 스스로 응답을 비판·수정 -> RLAIF의 대표 사례
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -175,20 +175,20 @@ LLM 정렬 파이프라인
 
 ```text
 LLM 사전 학습 (Pretraining) — 텍스트 자동완성
-    │
-    ▼
+    |
+    v
 SFT (인스트럭션 튜닝) — Instruction-Output 파인튜닝
-    │
-    ▼
-RLHF — 사람 피드백 → 보상 모델 → PPO 강화학습
-    │
-    ├─► DPO (Direct Preference Optimization) — 단순화
-    ├─► RLAIF (AI 피드백 강화학습)
-    │
-    ▼
+    |
+    v
+RLHF — 사람 피드백 -> 보상 모델 -> PPO 강화학습
+    |
+    +-► DPO (Direct Preference Optimization) — 단순화
+    +-► RLAIF (AI 피드백 강화학습)
+    |
+    v
 HHH 정렬 (Helpful, Harmless, Honest)
-    │
-    ▼
+    |
+    v
 Self-Play / 자율 정렬 (미래)
 ```
 
@@ -204,7 +204,7 @@ Self-Play / 자율 정렬 (미래)
 
 **진행 상황**: 147 / 258
 
-← **이전**: [146. 양자화 & QLoRA - 모델 압축과 효율적 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/146_quantization_qlora_model_compression/)
-**다음**: [148. RLHF (인간 피드백 기반 강화학습) - 인간 피드백 정렬](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) →
+<- **이전**: [146. 양자화 & QLoRA - 모델 압축과 효율적 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/146_quantization_qlora_model_compression/)
+**다음**: [148. RLHF (인간 피드백 기반 강화학습) - 인간 피드백 정렬](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) ->
 
 ---

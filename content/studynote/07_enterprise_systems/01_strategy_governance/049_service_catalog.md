@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 > **핵심 인사이트**
 > 1. [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)([Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/))는 IT 조직이 제공하는 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리의 핵심 인터페이스 — [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) v4에서 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.
 > 2. [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) vs [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 구분이 핵심 — [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 관점의 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기획 중·운영 중·폐기 중)를 포함하는 반면, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 현재 운영 중이며 고객이 요청 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 포함한다.
-> 3. 클라우드 시대의 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 AWS [Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·Backstage처럼 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)·개발자 플랫폼으로 진화 — 신청→승인→자동 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)의 셀프서비스 워크플로우가 IT 운영 효율화의 핵심이다.
+> 3. 클라우드 시대의 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 AWS [Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·Backstage처럼 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)·개발자 플랫폼으로 진화 — 신청->승인->자동 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)의 셀프서비스 워크플로우가 IT 운영 효율화의 핵심이다.
 
 ---
 
@@ -29,11 +29,11 @@ tags = ["studynote-enterprise-systems"]
 서비스 포트폴리오 vs 서비스 카탈로그:
 
 서비스 포트폴리오 (전략):
-  ┌─────────────────────┐
-  │ 서비스 파이프라인    │ ← 기획 중
-  │ 서비스 카탈로그      │ ← 운영 중 (고객 접점)
-  │ 폐기된 서비스        │ ← 단종
-  └─────────────────────┘
+  +---------------------+
+  | 서비스 파이프라인    | <- 기획 중
+  | 서비스 카탈로그      | <- 운영 중 (고객 접점)
+  | 폐기된 서비스        | <- 단종
+  +---------------------+
 
 서비스 카탈로그 구성:
 
@@ -51,7 +51,7 @@ tags = ["studynote-enterprise-systems"]
   내부 IT팀 대상 서비스 구성
   의존성, 인프라, 서포트 팀
 
-  예: 노트북 지급 → 자산 관리 DB + HR 시스템 연동
+  예: 노트북 지급 -> 자산 관리 DB + HR 시스템 연동
 ```
 
 > 📢 **섹션 요약 비유**: [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) = 레스토랑 메뉴판 — 메뉴판([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 내부용. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 전체 음식점 사업 계획!
@@ -115,7 +115,7 @@ IT 셀프서비스 포털:
 
 기능:
   브라우저/모바일로 서비스 신청
-  상태 추적 (제출 → 승인 → 처리 → 완료)
+  상태 추적 (제출 -> 승인 -> 처리 -> 완료)
   승인 워크플로우 자동화
   자동 프로비저닝 (가능한 경우)
   지식베이스 연동 (FAQ, 해결 방법)
@@ -131,11 +131,11 @@ ServiceNow:
 
   예:
   "직원 온보딩" 단일 요청
-  → 노트북 준비 (IT)
-  → 계정 생성 (AD/SSO)
-  → 사무용 소프트웨어 설치 (IT)
-  → 사무실 접근 카드 (보안팀)
-  → 자동 병렬 처리
+  -> 노트북 준비 (IT)
+  -> 계정 생성 (AD/SSO)
+  -> 사무용 소프트웨어 설치 (IT)
+  -> 사무실 접근 카드 (보안팀)
+  -> 자동 병렬 처리
 
 Jira Service Management:
   ITSM + Atlassian 생태계 통합
@@ -164,7 +164,7 @@ AWS Service Catalog:
 
   역할:
   IT 관리자: 포트폴리오(승인된 제품 집합) 정의
-  개발자/사용자: 카탈로그에서 선택 → 배포
+  개발자/사용자: 카탈로그에서 선택 -> 배포
 
   제어:
   IAM 권한 없어도 카탈로그를 통해 제한적 배포 가능
@@ -173,8 +173,8 @@ AWS Service Catalog:
   예:
   포트폴리오: "개발팀 인프라"
   제품: "웹 서버 스택" (CloudFormation 템플릿)
-  → 개발자: 스택 선택 → 파라미터 입력 → 배포
-  → IT: 표준 보안/비용 설정 자동 적용
+  -> 개발자: 스택 선택 -> 파라미터 입력 -> 배포
+  -> IT: 표준 보안/비용 설정 자동 적용
 
 Backstage (Spotify 오픈소스):
   개발자 플랫폼 포털
@@ -185,7 +185,7 @@ Backstage (Spotify 오픈소스):
 
   Self-Service Template:
   "새 마이크로서비스 생성"
-  → GitHub 레포 + CI/CD + 모니터링 자동 설정
+  -> GitHub 레포 + CI/CD + 모니터링 자동 설정
 
   사용: Spotify, Zalando, 1,000+ 기업
 
@@ -222,8 +222,8 @@ TO-BE ServiceNow 구축:
 
 2. 자동화 워크플로우:
    비밀번호 재설정: 완전 자동 (2분, 0 인력)
-   VPN 승인: 매니저 자동 알림 → 1클릭 승인
-   노트북 신청: 자산 DB 연동 → 자동 배정
+   VPN 승인: 매니저 자동 알림 -> 1클릭 승인
+   노트북 신청: 자산 DB 연동 -> 자동 배정
 
 3. 승인 워크플로우:
    $5,000 이하: 매니저 1단계 승인
@@ -231,14 +231,14 @@ TO-BE ServiceNow 구축:
    $50,000+: 매니저 + IT + CFO
 
 결과 (6개월 후):
-  셀프서비스 처리율: 0% → 67%
-  평균 처리 시간: 3.2일 → 0.8일
-  직원 만족도: 62% → 89%
-  헬프데스크: 12명 → 6명 (재배치)
+  셀프서비스 처리율: 0% -> 67%
+  평균 처리 시간: 3.2일 -> 0.8일
+  직원 만족도: 62% -> 89%
+  헬프데스크: 12명 -> 6명 (재배치)
   연간 비용 절감: 약 2억원
 ```
 
-> 📢 **섹션 요약 비유**: [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 구축 = 편의점 자동화 — 직원 주문(IT 요청)을 자동 키오스크(ServiceNow)로. 처리 시간 3.2일→0.8일. 헬프데스크 절반으로. 직원 만족 89%!
+> 📢 **섹션 요약 비유**: [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 구축 = 편의점 자동화 — 직원 주문(IT 요청)을 자동 키오스크(ServiceNow)로. 처리 시간 3.2일->0.8일. 헬프데스크 절반으로. 직원 만족 89%!
 
 ---
 
@@ -305,7 +305,7 @@ IaC 기반 자동 프로비저닝
 
 **진행 상황**: 49 / 482
 
-← **이전**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/)
-**다음**: [CMDB — 구성 관리 데이터베이스 (Configuration Management Database)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/050_cmdb_configuration_management_database/) →
+<- **이전**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/)
+**다음**: [CMDB — 구성 관리 데이터베이스 (Configuration Management Database)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/050_cmdb_configuration_management_database/) ->
 
 ---

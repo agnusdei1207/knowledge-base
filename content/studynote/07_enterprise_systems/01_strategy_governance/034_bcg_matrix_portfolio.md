@@ -21,17 +21,17 @@ tags = ["studynote-enterprise"]
 ```
          시장 성장률 (Market Growth Rate)
          높음            낮음
-         ┌───────────────┬──────────────┐
-상대     │               │              │
-시장     │  ★ Star       │ Cash Cow 💰  │
-점유율   │  (고성장·강점)  │ (저성장·강점) │
-높음     │               │              │
-         ├───────────────┼──────────────┤
-상대     │               │              │
-시장     │  Question Mark│   Dog 🐕     │
-점유율   │  (고성장·약점) │ (저성장·약점) │
-낮음     │               │              │
-         └───────────────┴──────────────┘
+         +---------------+--------------+
+상대     |               |              |
+시장     |  ★ Star       | Cash Cow 💰  |
+점유율   |  (고성장·강점)  | (저성장·강점) |
+높음     |               |              |
+         +---------------+--------------+
+상대     |               |              |
+시장     |  Question Mark|   Dog 🐕     |
+점유율   |  (고성장·약점) | (저성장·약점) |
+낮음     |               |              |
+         +---------------+--------------+
 ```
 
 ### 각 영역 특성 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -51,19 +51,19 @@ tags = ["studynote-enterprise"]
 
 ```
 삼성전자 사업부 (가상 예시):
-  ┌────────────────────┬─────────────────────┐
-  │ Star               │ Cash Cow            │
-  │ AI 반도체·HBM      │ 메모리(D-RAM) 주력  │
-  ├────────────────────┼─────────────────────┤
-  │ Question Mark      │ Dog                 │
-  │ 자율주행 센서       │ PC용 기계식 HDD     │
-  └────────────────────┴─────────────────────┘
+  +--------------------+---------------------+
+  | Star               | Cash Cow            |
+  | AI 반도체·HBM      | 메모리(D-RAM) 주력  |
+  +--------------------+---------------------+
+  | Question Mark      | Dog                 |
+  | 자율주행 센서       | PC용 기계식 HDD     |
+  +--------------------+---------------------+
 ```
 
 **분석 절차**:
 1. 각 사업부 매출·성장률·시장 점유율 계산
 2. 버블 크기 = 매출 규모 (버블 차트)
-3. 현금 흐름 방향 결정 (Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) → Star/QM)
+3. 현금 흐름 방향 결정 (Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) -> Star/QM)
 
 📢 **섹션 요약 비유**: IT 기업의 BCG [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 과수원이다 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Star)는 새로 심는 나무, 기존 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 열매 수확, 신사업(QM)은 접붙이기 시도, 구형 제품(Dog)은 뽑아내기.
 
@@ -94,8 +94,8 @@ Ansoff 성장 전략 매트릭스:
 ```
 
 **BCG + Ansoff 연계 활용**:
-- Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 수익 → Star/QM 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 투자
-- Dog 철수 자원 → 신시장 진입(Ansoff 다각화)
+- Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 수익 -> Star/QM 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 투자
+- Dog 철수 자원 -> 신시장 진입(Ansoff 다각화)
 
 📢 **섹션 요약 비유**: Ansoff 매트릭스는 식당 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다 — 단골 메뉴·단골 손님(시장 침투), 새 메뉴 추가(제품 개발), 다른 지역 출점(시장 개발), 완전 다른 사업(다각화) 순으로 위험이 커진다.
 
@@ -105,9 +105,9 @@ Ansoff 성장 전략 매트릭스:
 
 ```
 전통 BCG 한계:
-  고정된 시장 경계 → 디지털 플랫폼으로 경계 붕괴
-  2년 주기 검토 → 월 단위 시장 변화 → 분기 검토 필요
-  물리적 자산 중심 → 데이터·네트워크 효과 중심
+  고정된 시장 경계 -> 디지털 플랫폼으로 경계 붕괴
+  2년 주기 검토 -> 월 단위 시장 변화 -> 분기 검토 필요
+  물리적 자산 중심 -> 데이터·네트워크 효과 중심
 
 현대 포트폴리오 관리 보완:
   ① Three Horizons 모델:
@@ -124,18 +124,18 @@ Ansoff 성장 전략 매트릭스:
 
 ```
 BCG 매트릭스 / 포트폴리오 전략
-├── BCG 매트릭스 4분면
-│   ├── Star (고성장·강점)
-│   ├── Cash Cow (저성장·강점)
-│   ├── Question Mark (고성장·약점)
-│   └── Dog (저성장·약점)
-├── 보완 프레임워크
-│   ├── GE-McKinsey 매트릭스 (9셀)
-│   ├── Ansoff 매트릭스 (성장 전략)
-│   └── Three Horizons 모델
-└── 연계 전략 도구
-    ├── Porter 5 Forces (산업 매력도)
-    └── SWOT → TOWS 전략
++-- BCG 매트릭스 4분면
+|   +-- Star (고성장·강점)
+|   +-- Cash Cow (저성장·강점)
+|   +-- Question Mark (고성장·약점)
+|   +-- Dog (저성장·약점)
++-- 보완 프레임워크
+|   +-- GE-McKinsey 매트릭스 (9셀)
+|   +-- Ansoff 매트릭스 (성장 전략)
+|   +-- Three Horizons 모델
++-- 연계 전략 도구
+    +-- Porter 5 Forces (산업 매력도)
+    +-- SWOT -> TOWS 전략
 ```
 
 ---
@@ -143,23 +143,23 @@ BCG 매트릭스 / 포트폴리오 전략
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              BCG 매트릭스 발전 흐름                              │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1970년       │ BCG 매트릭스 개발  │ Bruce Henderson, BCG 컨설팅  │
-│ 1971년       │ GE-McKinsey 매트릭스 │ GE 사업부 전략 분석 도구   │
-│ 1957년       │ Ansoff 매트릭스    │ Igor Ansoff, 성장 전략 모델  │
-│ 2000년대     │ Three Horizons     │ McKinsey 장기 성장 프레임워크│
-│ 2010년대     │ 디지털 포트폴리오  │ 플랫폼·데이터 기반 전략      │
-│ 2020년대     │ AI 포트폴리오      │ AI 사업부 전략 분류 적용      │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              BCG 매트릭스 발전 흐름                              |
++--------------+--------------------+-----------------------------+
+| 1970년       | BCG 매트릭스 개발  | Bruce Henderson, BCG 컨설팅  |
+| 1971년       | GE-McKinsey 매트릭스 | GE 사업부 전략 분석 도구   |
+| 1957년       | Ansoff 매트릭스    | Igor Ansoff, 성장 전략 모델  |
+| 2000년대     | Three Horizons     | McKinsey 장기 성장 프레임워크|
+| 2010년대     | 디지털 포트폴리오  | 플랫폼·데이터 기반 전략      |
+| 2020년대     | AI 포트폴리오      | AI 사업부 전략 분류 적용      |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-BCG 4분면 → 포트폴리오 현금 흐름 → 투자 배분 결정
-    ↓               ↓                    ↓
+BCG 4분면 -> 포트폴리오 현금 흐름 -> 투자 배분 결정
+    v               v                    v
 Star/QM 투자    Cash Cow 수확      Dog 철수
-    ↓
-Ansoff 성장 전략 + Three Horizons → 동적 포트폴리오
+    v
+Ansoff 성장 전략 + Three Horizons -> 동적 포트폴리오
 ```
 
 ---
@@ -176,7 +176,7 @@ Ansoff 성장 전략 + Three Horizons → 동적 포트폴리오
 
 **진행 상황**: 34 / 482
 
-← **이전**: [맥킨지 7S 모델 (McKinsey 7S Model)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/)
-**다음**: [035. 롱테일 이론 (Long Tail Theory)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/) →
+<- **이전**: [맥킨지 7S 모델 (McKinsey 7S Model)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/)
+**다음**: [035. 롱테일 이론 (Long Tail Theory)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/) ->
 
 ---

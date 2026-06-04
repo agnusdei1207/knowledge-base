@@ -34,20 +34,20 @@ tags = ["studynote-it-management"]
 핵심 구성 요소는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/">서비스 카탈로그</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/">Service Catalog</a>)</strong>, <strong>지식 기반 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/">Knowledge Base</a>)</strong>, 그리고 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 자동화 엔진 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a> 엔진)</strong>이다. 사용자가 포털에서 요구사항을 클릭하면, 이는 즉시 티켓으로 변환되고 사전에 정의된 결재 및 실행 스크립트가 백그라운드에서 동작한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          셀프 서비스 포털의 Zero-Touch 자동화 워크플로          │
-├─────────────────────────────────────────────────────────────┤
-│  [사용자] "새 노트북 및 VPN 신청" 장바구니 담기 (Service Catalog) │
-│     │                                                       │
-│     ▼ (클릭)                                                │
-│  [포털 엔진] ─▶ 자동 결재 상신 (부서장 확인)                  │
-│     │                                                       │
-│     ▼ (승인 완료)                                           │
-│  [오케스트레이션 엔진] ─▶ AD (Active Directory) 권한 부여 스크립트 │
-│     │               ─▶ 자산 관리 DB (CMDB) 최신화           │
-│     ▼                                                       │
-│  [완료 통보] 1분 만에 "VPN 접속이 승인/할당되었습니다"          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          셀프 서비스 포털의 Zero-Touch 자동화 워크플로          |
++-------------------------------------------------------------+
+|  [사용자] "새 노트북 및 VPN 신청" 장바구니 담기 (Service Catalog) |
+|     |                                                       |
+|     v (클릭)                                                |
+|  [포털 엔진] --> 자동 결재 상신 (부서장 확인)                  |
+|     |                                                       |
+|     v (승인 완료)                                           |
+|  [오케스트레이션 엔진] --> AD (Active Directory) 권한 부여 스크립트 |
+|     |               --> 자산 관리 DB (CMDB) 최신화           |
+|     v                                                       |
+|  [완료 통보] 1분 만에 "VPN 접속이 승인/할당되었습니다"          |
++-------------------------------------------------------------+
 ```
 
 가장 이상적인 형태는 IT 직원의 수동 개입이 전혀 없는 Zero-Touch 방식이다. 또한 지식 기반(FAQ) 시스템은 사용자가 증상을 검색할 때 해결책(문서)을 먼저 제시하여 티켓 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체를 방지([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Deflection)하는 필터 역할을 수행한다.
@@ -109,18 +109,18 @@ tags = ["studynote-it-management"]
 
 ```text
 전통적 L1 헬프데스크 (전화/이메일 의존)
-    │
-    ▼
+    |
+    v
 단순 웹 기반 헬프데스크 게시판 (티켓 시스템)
-    │
-    ▼
+    |
+    v
 셀프 서비스 포털 (Self-Service Portal)
 (서비스 카탈로그 + 런북 자동화 결합)
-    │
-    ▼
+    |
+    v
 Shift-Left 전략 · 지식 기반(KB) 연동 자가 해결
-    │
-    ▼
+    |
+    v
 AI 기반 가상 에이전트 (Virtual Agent) 및 초자동화
 ```
 
@@ -138,7 +138,7 @@ AI 기반 가상 에이전트 (Virtual Agent) 및 초자동화
 
 **진행 상황**: 180 / 587
 
-← **이전**: [98. 셀프 서비스 포털 (Self-Service Portal)](/knowledge-base/studynote/12_it_management/02_itsm_itil/098_self_service_portal/)
-**다음**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm/) →
+<- **이전**: [98. 셀프 서비스 포털 (Self-Service Portal)](/knowledge-base/studynote/12_it_management/02_itsm_itil/098_self_service_portal/)
+**다음**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm/) ->
 
 ---

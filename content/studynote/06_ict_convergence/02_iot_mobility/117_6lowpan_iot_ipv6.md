@@ -19,18 +19,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    6LoWPAN 헤더 압축                                  │
-├───────────────────────────────────────────────────────┤
-│  [IPv6 헤더: 40바이트]                                │
-│   + UDP 헤더: 8바이트 = 48바이트                      │
-│   802.15.4 MTU: 127바이트                             │
-│   → 페이로드: 127 - 48 - MAC헤더 ≈ 50바이트뿐!      │
-│                                                       │
-│  [6LoWPAN 압축 후]                                    │
-│   IPv6+UDP 헤더: 2~7바이트로 압축                     │
-│   → 페이로드: 100바이트 이상 확보!                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    6LoWPAN 헤더 압축                                  |
++-------------------------------------------------------+
+|  [IPv6 헤더: 40바이트]                                |
+|   + UDP 헤더: 8바이트 = 48바이트                      |
+|   802.15.4 MTU: 127바이트                             |
+|   -> 페이로드: 127 - 48 - MAC헤더 ≈ 50바이트뿐!      |
+|                                                       |
+|  [6LoWPAN 압축 후]                                    |
+|   IPv6+UDP 헤더: 2~7바이트로 압축                     |
+|   -> 페이로드: 100바이트 이상 확보!                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 편지(40바이트 봉투)를 작은 엽서(127바이트 MTU)에 넣으려면 봉투를 접어야 한다. 6LoWPAN이 그 "접기 기술"이다.
@@ -43,10 +43,10 @@ tags = ["studynote-ict-convergence"]
 
 | 기능 | 설명 |
 |:---|:---|
-| <strong>헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> (IPHC)</strong> | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40B → 2~7B [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) 생략) |
-| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)</strong> | 1280B [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷 → 127B 조각으로 분할 |
+| <strong>헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> (IPHC)</strong> | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40B -> 2~7B [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) 생략) |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)</strong> | 1280B [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷 -> 127B 조각으로 분할 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | 802.15.4 L2 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 포워딩 |
-| **NHC** | Next Header [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 8B → 2B) |
+| **NHC** | Next Header [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 8B -> 2B) |
 
 - **📢 섹션 요약 비유**: 6LoWPAN은 이사할 때 큰 가구([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷)를 분해([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))하고 포장 줄이기([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))해서 작은 차(802.15.4 프레임)에 실는 기술이다.
 
@@ -91,17 +91,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC]
-    │
-    ▼
+    |
+    v
 [6LoWPAN RFC 4944 (2007) — IPv6 over 802.15.4 표준]
-    │
-    ▼
+    |
+    v
 [IPHC RFC 6282 (2011) — 헤더 압축 개선]
-    │
-    ▼
+    |
+    v
 [Thread 1.0 (2015) — 6LoWPAN + IPv6 메시 네트워크]
-    │
-    ▼
+    |
+    v
 [현재: Matter + Thread — 6LoWPAN 기반 스마트 홈 인프라]
 ```
 
@@ -116,7 +116,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 117 / 552
 
-← **이전**: [116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/116_matter_smart_home_standard/)
-**다음**: [118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/118_mqtt_protocol/) →
+<- **이전**: [116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/116_matter_smart_home_standard/)
+**다음**: [118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/118_mqtt_protocol/) ->
 
 ---

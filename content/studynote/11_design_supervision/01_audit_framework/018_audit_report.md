@@ -32,9 +32,9 @@ tags = ["design_supervision"]
 ```text
 [원천 데이터]                  [분석 및 구조화]                  [최종 산출물: 감리 보고서]
 
-- 수천 줄의 로그 ------\                                       ┌─ 1. 총평 (경영진/발주자 용)
-- 100여 개 툴 탐지결과 ---> ( MECE 논리 트리 기반 필터링 ) ====> ├─ 2. 분야별 결과 (PM/PL 용)
-- 면담 회의록 ---------/     (중복 제거, 근본 원인 도출)         └─ 3. 시정조치 권고 (개발자 용)
+- 수천 줄의 로그 ------\                                       +- 1. 총평 (경영진/발주자 용)
+- 100여 개 툴 탐지결과 ---> ( MECE 논리 트리 기반 필터링 ) ====> +- 2. 분야별 결과 (PM/PL 용)
+- 면담 회의록 ---------/     (중복 제거, 근본 원인 도출)         +- 3. 시정조치 권고 (개발자 용)
 ```
 
 이 흐름의 핵심은 보고서의 각 파트가 읽는 대상(Target Audience)의 눈높이에 맞춰 다르게 작성된다는 점입니다. 발주자 대표는 총평만 읽어도 상황을 파악해야 하고, 실무 개발자는 시정조치 권고 사항을 보고 코드를 수정할 수 있어야 합니다.
@@ -70,7 +70,7 @@ tags = ["design_supervision"]
    - 구체적 조치: "해당 비밀번호 컬럼 저장 시 Bcrypt 또는 SHA-256 이상의 알고리즘과 솔트(Salt)를 적용하여 암호화 로직을 수정할 것을 권고함."
 ```
 
-이 구조도의 핵심은 문제 지적(②)에서 멈추지 않고, 명확한 기준(법규/표준)을 바탕으로 구체적인 Action Item(③)을 제시한다는 점입니다. 이 3단계 연결 고리(현황→문제점→권고)가 끊어지면, 사업자는 무엇을 수정해야 할지 몰라 혼란에 빠집니다. 권고 사항은 모호해서는 안 되며, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한(Testable) 형태로 기술되어야 합니다.
+이 구조도의 핵심은 문제 지적(②)에서 멈추지 않고, 명확한 기준(법규/표준)을 바탕으로 구체적인 Action Item(③)을 제시한다는 점입니다. 이 3단계 연결 고리(현황->문제점->권고)가 끊어지면, 사업자는 무엇을 수정해야 할지 몰라 혼란에 빠집니다. 권고 사항은 모호해서는 안 되며, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한(Testable) 형태로 기술되어야 합니다.
 
 > 📢 **섹션 요약 비유**: 감리 보고서의 작성 구조는 완벽한 재판 판결문과 같습니다. "피고인이 언제 어디서 무엇을 했고(현황), 그것이 어떤 법을 어겼으며(문제점), 따라서 징역 몇 년에 처한다(권고/조치)"라는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 한 치의 틈 없이 연결되어야 합니다.
 
@@ -108,12 +108,12 @@ tags = ["design_supervision"]
 ```text
 [감리 보고서 품질 검증 플로우]
 
-(개별 감리원 작성) ──> [교차 리뷰(Peer Review)] ──> [총괄 감리원 검토]
-                              │                           │ (MECE 위배, 톤앤매너, 강제성 조율)
-                     (서로 다른 영역 간 충돌 확인)        │
-                     (예: 응용-성능 양호 vs DB-쿼리 엉망) │
-                                                          ▼
-                                            [감리법인 심의실 최종 승인(QA)] ──> 발행
+(개별 감리원 작성) --> [교차 리뷰(Peer Review)] --> [총괄 감리원 검토]
+                              |                           | (MECE 위배, 톤앤매너, 강제성 조율)
+                     (서로 다른 영역 간 충돌 확인)        |
+                     (예: 응용-성능 양호 vs DB-쿼리 엉망) |
+                                                          v
+                                            [감리법인 심의실 최종 승인(QA)] --> 발행
 ```
 
 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 플로우의 핵심은 개별 감리원의 주관적 판단이 감리 법인의 공식적인(객관적인) 목소리로 정제되는 과정입니다. 영역 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 충돌이 보고서 내에 존재하면 감리의 신뢰성은 바닥에 떨어집니다.
@@ -154,18 +154,18 @@ tags = ["design_supervision"]
 
 ```text
 [감리 계획 수립 — 범위·일정·체크리스트 확정]
-    │
-    ▼
+    |
+    v
 [현장 감리 수행 — 문서 검토, 인터뷰, 산출물 확인]
-    │
-    ▼
+    |
+    v
 [결과 분석 — 지적 사항 분류 (중결함·경결함·권고)]
-    │
-    ▼
+    |
+    v
 [감리 보고서 (Audit Report) — 총평·분야별 결과·시정 조치 권고]
-    │
-    ▼
-[시정 조치 이행 → 이행 점검 → 차기 감리 환류]
+    |
+    v
+[시정 조치 이행 -> 이행 점검 -> 차기 감리 환류]
 ```
 감리 보고서는 감리 수행의 최종 결과물로, 중결함·경결함·권고 사항을 구분하여 발주기관과 사업자가 합의·이행해야 할 공식 문서다.
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -179,7 +179,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 19 / 530
 
-← **이전**: [17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)
-**다음**: [19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) →
+<- **이전**: [17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)
+**다음**: [19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) ->
 
 ---

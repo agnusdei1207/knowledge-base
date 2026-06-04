@@ -36,16 +36,16 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)와 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E의 차이를 스펙트럼 관점에서 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Spectrum expansion from Wi-Fi 6 to Wi-Fi 6E                       │
-├────────────────────────────────────────────────────────────────────┤
-│ 2.4 GHz : long reach, narrow channels, legacy/IoT crowding        │
-│ 5   GHz : wider channels, but radar limits and AP congestion      │
-│ 6   GHz : new clean band, easier 80/160 MHz allocation            │
-│                                                                    │
-│ Wi-Fi 6  = better scheduling on existing roads                    │
-│ Wi-Fi 6E = same scheduling + new road opened at 6 GHz             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Spectrum expansion from Wi-Fi 6 to Wi-Fi 6E                       |
++--------------------------------------------------------------------+
+| 2.4 GHz : long reach, narrow channels, legacy/IoT crowding        |
+| 5   GHz : wider channels, but radar limits and AP congestion      |
+| 6   GHz : new clean band, easier 80/160 MHz allocation            |
+|                                                                    |
+| Wi-Fi 6  = better scheduling on existing roads                    |
+| Wi-Fi 6E = same scheduling + new road opened at 6 GHz             |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 포인트는 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E가 "더 빠른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"보다 "더 좋은 주파수 자원"에 기대는 기술이라는 점이다. 전체 6GHz 폭은 국가별 개방 범위가 다르지만, 최대 약 1.2GHz에 이르는 넓은 스펙트럼을 통해 다수의 80MHz·160MHz 채널을 더 여유 있게 구성할 수 있다. 또한 6GHz 대역에서는 보안 강화를 위해 [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) (Wi‑Fi Protected Access 3) 사용이 사실상 기본 전제로 다뤄진다.
@@ -130,16 +130,16 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 Wi-Fi 5
-    │
-    ▼
+    |
+    v
 Wi-Fi 6
   (efficiency on 2.4/5 GHz)
-    │
-    ▼
+    |
+    v
 Wi-Fi 6E
   (same efficiency + 6 GHz expansion)
-    │
-    ▼
+    |
+    v
 Wi-Fi 7
   (320 MHz + MLO on 2.4/5/6 GHz)
 ```
@@ -158,7 +158,7 @@ Wi-Fi 7
 
 **진행 상황**: 158 / 552
 
-← **이전**: [157. 와이파이 6 (Wi-Fi 6 / IEEE 802.11ax) - OFDMA 및 양방향 MU-MIMO 도입, 밀집 지역 통신 지연](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)
-**다음**: [159. 와이파이 7 (IEEE 802.11be) - 320MHz 초광대역폭, 4K-QAM, MLO(Multi-Link Operation:](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/159_wifi_7_802_11be/) →
+<- **이전**: [157. 와이파이 6 (Wi-Fi 6 / IEEE 802.11ax) - OFDMA 및 양방향 MU-MIMO 도입, 밀집 지역 통신 지연](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)
+**다음**: [159. 와이파이 7 (IEEE 802.11be) - 320MHz 초광대역폭, 4K-QAM, MLO(Multi-Link Operation:](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/159_wifi_7_802_11be/) ->
 
 ---

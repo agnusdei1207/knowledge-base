@@ -43,19 +43,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 하드와이어드 제어가 메모리 조회 없이 입력 조건을 곧바로 제어선으로 바꾸는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                하드와이어드 제어의 신호 생성 흐름                           │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ [입력]                    [제어 로직]                     [출력]             │
-│ IR Opcode ───────┐                                                        │
-│ 현재 상태 ─────┐ │   ┌──────────────────────────────┐      ┌─────────────┐ │
-│ 조건 플래그 ─┐ │ └──▶│ 디코더 + FSM + 조합 논리     │─────▶│ RegWrite    │ │
-│             ▼ ▼ ▼    │                              │─────▶│ MemRead     │ │
-│         조건 조합 ──▶│  opcode, state, flag를       │─────▶│ MemWrite    │ │
-│                    │  직접 게이트로 결합            │─────▶│ ALUControl  │ │
-│                    └──────────────────────────────┘      │ PCSelect    │ │
-│                                                          └─────────────┘ │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                하드와이어드 제어의 신호 생성 흐름                           |
++------------------------------------------------------------------------------+
+| [입력]                    [제어 로직]                     [출력]             |
+| IR Opcode -------+                                                        |
+| 현재 상태 -----+ |   +------------------------------+      +-------------+ |
+| 조건 플래그 -+ | +--->| 디코더 + FSM + 조합 논리     |------>| RegWrite    | |
+|             v v v    |                              |------>| MemRead     | |
+|         조건 조합 --->|  opcode, state, flag를       |------>| MemWrite    | |
+|                    |  직접 게이트로 결합            |------>| ALUControl  | |
+|                    +------------------------------+      | PCSelect    | |
+|                                                          +-------------+ |
++------------------------------------------------------------------------------+
 ```
 
 이 구조에서는 [제어 메모리](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) 접근 시간이 사라지는 대신, 게이트 수와 배선 길이가 곧 속도 한계가 된다. 예를 들어 `Load` 명령의 메모리 읽기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 `Load 명령 검출 AND 실행 단계 AND 예외 없음` 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 바로 구현할 수 있다. 하지만 명령 종류가 많고 분기 조건, 예외 조건, 파이프라인 제어가 복잡해질수록 식이 길어지고 게이트 단계도 깊어져 오히려 타이밍을 해치게 된다.
@@ -137,17 +137,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 초기 단순 명령 제어
-    │
-    ▼
+    |
+    v
 하드와이어드 제어 (Hardwired Control)
-    │
-    ├─▶ 빠른 디코딩 · 짧은 제어 지연
-    │        │
-    │        └─▶ RISC (Reduced Instruction Set Computer) · 파이프라이닝
-    │
-    └─▶ 복잡도 증가 한계
-             │
-             ▼
+    |
+    +--> 빠른 디코딩 · 짧은 제어 지연
+    |        |
+    |        +--> RISC (Reduced Instruction Set Computer) · 파이프라이닝
+    |
+    +--> 복잡도 증가 한계
+             |
+             v
 마이크로프로그래밍 · 하이브리드 제어 구조
 ```
 
@@ -165,7 +165,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 214 / 803
 
-← **이전**: [213. 마이크로 오퍼레이션 (Micro-operation)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)
-**다음**: [215. 마이크로프로그래밍 (Microprogrammed Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/215_microprogrammed_control/) →
+<- **이전**: [213. 마이크로 오퍼레이션 (Micro-operation)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)
+**다음**: [215. 마이크로프로그래밍 (Microprogrammed Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/215_microprogrammed_control/) ->
 
 ---

@@ -42,18 +42,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 시간에 따라 고장률이 어떻게 달라지는지 보여 준다. 중간 평탄 구간만 떼어 보면 지수분포나 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 모델이 잘 맞지만, 전체 생애를 한 식으로 설명하기는 어렵다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             Bathtub Curve: hazard rate h(t) over lifetime           │
-├──────────────────────────────────────────────────────────────────────┤
-│ h(t)                                                                 │
-│  ▲                                                                   │
-│  │  \                                                                │
-│  │   \                                                               │
-│  │    \______________________________                         /       │
-│  │                                   \_______________________/        │
-│  └──────────────────────────────────────────────────────────────▶ time │
-│     early failure               useful life                  wear-out  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             Bathtub Curve: hazard rate h(t) over lifetime           |
++----------------------------------------------------------------------+
+| h(t)                                                                 |
+|  ^                                                                   |
+|  |  \                                                                |
+|  |   \                                                               |
+|  |    \______________________________                         /       |
+|  |                                   \_______________________/        |
+|  +---------------------------------------------------------------> time |
+|     early failure               useful life                  wear-out  |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 기술적 포인트는 <strong>배스터브 곡선 자체가 단일 분포가 아니라는 점</strong>이다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)·중기·말기 구간을 별도로 피팅하거나, Weibull Distribution을 구간별로 나눠 적용하는 경우가 많다. 그래서 "장비의 MTBF가 높다"는 말은 주로 우발 고장기의 평균적 특성을 뜻할 뿐, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이나 말기 마모를 자동으로 설명해 주지 않는다.
@@ -133,20 +133,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 manufacturing variation
-    │
-    ▼
+    |
+    v
 early failure / DFR
 : burn-in · screening
-    │
-    ▼
+    |
+    v
 useful life / CFR
 : MTBF · exponential model · redundancy
-    │
-    ▼
+    |
+    v
 wear-out / IFR
 : preventive replacement · predictive maintenance
-    │
-    ▼
+    |
+    v
 life testing · warranty planning · asset renewal
 ```
 
@@ -162,7 +162,7 @@ life testing · warranty planning · asset renewal
 
 **진행 상황**: 757 / 803
 
-← **이전**: [755. 마르코프 모델 (Markov Model) 신뢰성 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)
-**다음**: [757. 초기 고장기, 우발 고장기, 마모 고장기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/757_failure_stages/) →
+<- **이전**: [755. 마르코프 모델 (Markov Model) 신뢰성 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)
+**다음**: [757. 초기 고장기, 우발 고장기, 마모 고장기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/757_failure_stages/) ->
 
 ---

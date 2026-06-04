@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 신경망의 출력층에서 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 각 클래스의 점수(logit)를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환한다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 ∂L/∂zᵢ를 계산해야 하는데, sᵢ = exp(zᵢ)/Σexp(zⱼ)에서 sᵢ는 모든 zⱼ에 의존하므로 단순 도함수가 아닌 야코비안 행렬 ∂sᵢ/∂zⱼ (i×j 행렬)이 필요하다. 이를 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 결합하면 아름답게 단순화된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)의 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "팀 점수 배분 게임의 미분"이다. 한 선수의 점수(zᵢ)가 오르면 자신의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 오르고 다른 선수의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 내려간다(상호의존). 이 복잡한 의존성을 야코비안 행렬로 한 번에 처리한다.
@@ -37,26 +37,26 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│         소프트맥스 야코비안 유도                          │
-├──────────────────────────────────────────────────────────┤
-│  sᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)                            │
-│                                                          │
-│  Case 1: i = j (대각 원소)                               │
-│  ∂sᵢ/∂zᵢ = sᵢ(1 - sᵢ)                                 │
-│                                                          │
-│  Case 2: i ≠ j (비대각 원소)                             │
-│  ∂sᵢ/∂zⱼ = -sᵢ · sⱼ                                   │
-│                                                          │
-│  야코비안 행렬: J = diag(s) - s·sᵀ                      │
-│                                                          │
-│  CE + Softmax 결합 미분:                                 │
-│  L = -Σᵢ yᵢ log(sᵢ)                                    │
-│  ∂L/∂zᵢ = sᵢ - yᵢ = ŷᵢ - yᵢ  ← 극도로 단순!          │
-│                                                          │
-│  수치 안정성 트릭:                                       │
-│  softmax(z) = softmax(z - max(z))  (값 동일, 안정적)   │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         소프트맥스 야코비안 유도                          |
++----------------------------------------------------------+
+|  sᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)                            |
+|                                                          |
+|  Case 1: i = j (대각 원소)                               |
+|  ∂sᵢ/∂zᵢ = sᵢ(1 - sᵢ)                                 |
+|                                                          |
+|  Case 2: i ≠ j (비대각 원소)                             |
+|  ∂sᵢ/∂zⱼ = -sᵢ · sⱼ                                   |
+|                                                          |
+|  야코비안 행렬: J = diag(s) - s·sᵀ                      |
+|                                                          |
+|  CE + Softmax 결합 미분:                                 |
+|  L = -Σᵢ yᵢ log(sᵢ)                                    |
+|  ∂L/∂zᵢ = sᵢ - yᵢ = ŷᵢ - yᵢ  <- 극도로 단순!          |
+|                                                          |
+|  수치 안정성 트릭:                                       |
+|  softmax(z) = softmax(z - max(z))  (값 동일, 안정적)   |
++----------------------------------------------------------+
 ```
 
 | 미분 케이스 | 수식 | 의미 |
@@ -79,7 +79,7 @@ tags = ["studynote-ai"]
 | [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) [Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
 | 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
-- **📢 섹션 요약 비유**: log-sum-exp 트릭은 "온도계 범위 조정"이다. 섭씨 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)00°C를 섭씨로 재면 온도계가 터지지만(오버플로), 기준점(max)을 0°C로 맞추면 -0.3°C ~0°C 범위에서 안전하게 계산된다.
+- **📢 섹션 요약 비유**: log-sum-exp 트릭은 "온도계 범위 조정"이다. 섭씨 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)00+C를 섭씨로 재면 온도계가 터지지만(오버플로), 기준점(max)을 0+C로 맞추면 -0.3+C ~0+C 범위에서 안전하게 계산된다.
 
 ---
 
@@ -111,12 +111,12 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [소프트맥스 역전파 (Softmax Backpropagation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [소프트맥스 역전파 (Softmax Backpropagation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 "점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 바꿔주는 마법"이에요. 예: [3, 1, 0.5] → [0.7, 0.2, 0.1]
+1. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 "점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 바꿔주는 마법"이에요. 예: [3, 1, 0.5] -> [0.7, 0.2, 0.1]
 2. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 때는 "예측 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) - 정답"만 계산하면 되어서 아주 간단해요!
 3. 단, 큰 숫자가 들어오면 컴퓨터가 폭발(오버플로)할 수 있어서 최대값을 빼는 안전 장치가 필요해요.
 
@@ -126,7 +126,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 363 / 420
 
-← **이전**: [362. ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)](/knowledge-base/studynote/10_ai/05_data_science_ml/362_roc_auc_math/)
-**다음**: [364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)](/knowledge-base/studynote/10_ai/05_data_science_ml/364_adagrad_rmsprop/) →
+<- **이전**: [362. ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)](/knowledge-base/studynote/10_ai/05_data_science_ml/362_roc_auc_math/)
+**다음**: [364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)](/knowledge-base/studynote/10_ai/05_data_science_ml/364_adagrad_rmsprop/) ->
 
 ---

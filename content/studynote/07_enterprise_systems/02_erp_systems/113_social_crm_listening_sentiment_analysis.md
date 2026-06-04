@@ -21,23 +21,23 @@ tags = ["studynote-enterprise-systems"]
 고객이 트위터에 "○○ 배송 최악"이라고 올린 글을 방치하면, 수천 명에게 바이럴되어 브랜드 이미지가 훼손된다. 소셜 CRM은 이 글을 <strong>10초 이내에 감지</strong>하고, 상담원에게 자동 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하여 DM으로 즉시 대응한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    소셜 CRM 프로세스 흐름                              │
-├───────────────────────────────────────────────────────┤
-│  1. 소셜 리스닝 (수집)                                │
-│     Twitter·인스타·커뮤니티에서 브랜드 언급 실시간 수집│
-│                 │                                     │
-│  2. 감성 분석 (분류)                                  │
-│     AI가 긍정·부정·중립 자동 분류                     │
-│     "배송 최악" → 부정 😡 | "포장 예쁨" → 긍정 😊   │
-│                 │                                     │
-│  3. 자동 라우팅 (대응)                                │
-│     부정 → CS팀 즉시 DM 대응                         │
-│     긍정 → 마케팅팀 리포스트/감사                     │
-│                 │                                     │
-│  4. 인사이트 피드백                                   │
-│     "배송 불만 30% 증가" → 물류 개선 의사결정         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    소셜 CRM 프로세스 흐름                              |
++-------------------------------------------------------+
+|  1. 소셜 리스닝 (수집)                                |
+|     Twitter·인스타·커뮤니티에서 브랜드 언급 실시간 수집|
+|                 |                                     |
+|  2. 감성 분석 (분류)                                  |
+|     AI가 긍정·부정·중립 자동 분류                     |
+|     "배송 최악" -> 부정 😡 | "포장 예쁨" -> 긍정 😊   |
+|                 |                                     |
+|  3. 자동 라우팅 (대응)                                |
+|     부정 -> CS팀 즉시 DM 대응                         |
+|     긍정 -> 마케팅팀 리포스트/감사                     |
+|                 |                                     |
+|  4. 인사이트 피드백                                   |
+|     "배송 불만 30% 증가" -> 물류 개선 의사결정         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 소셜 CRM은 거리를 돌아다니며 "우리 가게 욕하는 사람"을 실시간으로 찾아내고, 즉시 달려가 사과하는 <strong>브랜드 경비대</strong>다.
@@ -74,11 +74,11 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 효과
-- **위기 관리**: 부정 글 바이럴 전에 즉시 대응 → 브랜드 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 80% 감소.
-- **제품 개선**: "○○ 기능이 불편"이라는 UGC 500건 → R&D 우선순위에 반영.
+- **위기 관리**: 부정 글 바이럴 전에 즉시 대응 -> 브랜드 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 80% 감소.
+- **제품 개선**: "○○ 기능이 불편"이라는 UGC 500건 -> R&D 우선순위에 반영.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **리스닝만 하고 대응 안 함**: 불만을 감지하고도 방치 → 더 큰 바이럴 폭발.
+- **리스닝만 하고 대응 안 함**: 불만을 감지하고도 방치 -> 더 큰 바이럴 폭발.
 
 ---
 
@@ -102,17 +102,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [브랜드 모니터링 (2000s) — 뉴스 클리핑 수동 수집]
-    │
-    ▼
+    |
+    v
 [소셜 리스닝 도구 (2010s) — Twitter/Facebook API 연동]
-    │
-    ▼
+    |
+    v
 [NLP 감성 분석 (2015~) — ML 기반 자동 분류]
-    │
-    ▼
+    |
+    v
 [소셜 CRM 플랫폼 (Sprinklr, 2018~) — 리스닝+대응+분석 통합]
-    │
-    ▼
+    |
+    v
 [현재: GenAI 소셜 CRM — AI 자동 답변·위기 감지·인사이트 요약]
 ```
 
@@ -127,7 +127,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 113 / 482
 
-← **이전**: [112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/112_collaborative_crm_omnichannel/)
-**다음**: [114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/114_ai_based_crm_salesforce_einstein/) →
+<- **이전**: [112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/112_collaborative_crm_omnichannel/)
+**다음**: [114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/114_ai_based_crm_salesforce_einstein/) ->
 
 ---

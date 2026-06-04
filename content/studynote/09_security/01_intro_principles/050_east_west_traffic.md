@@ -23,11 +23,11 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 [외부 인터넷]
-      ↕  ← 노스-사우스 (North-South): 외부 ↔ 내부
+      ↕  <- 노스-사우스 (North-South): 외부 ↔ 내부
 [경계 방화벽 / DMZ]
       ↕
 [내부 데이터센터]
-  서버A ↔ 서버B ↔ 서버C  ← 이스트-웨스트 (East-West): 내부 간
+  서버A ↔ 서버B ↔ 서버C  <- 이스트-웨스트 (East-West): 내부 간
 ```
 
 ### 1.2 현대 트래픽 비율
@@ -48,16 +48,16 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 ### 2.1 공격 흐름
 
 ```
-1. 초기 침투: 이메일 피싱 → 워크스테이션 감염
+1. 초기 침투: 이메일 피싱 -> 워크스테이션 감염
 2. 자격증명 탈취: Mimikatz 등으로 크리덴셜 수집
-3. 측면 이동: 내부 서버 A → B → C (이스트-웨스트 악용)
+3. 측면 이동: 내부 서버 A -> B -> C (이스트-웨스트 악용)
 4. 목표 달성: DB 서버 접근, 랜섬웨어 배포
 ```
 
 ### 2.2 전통적 경계 보안의 한계
 
-- [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 기반 격리: 같은 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 내 통신 허용 → 세분화 부족
-- 내부 신뢰 가정: "내부 = 안전" 가정 → 신뢰 경계 붕괴
+- [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 기반 격리: 같은 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 내 통신 허용 -> 세분화 부족
+- 내부 신뢰 가정: "내부 = 안전" 가정 -> 신뢰 경계 붕괴
 - 평탄한(flat) 네트워크: 감염 노드에서 전체 네트워크 접근 가능
 
 📢 **섹션 요약 비유**: 사무실 출입카드(경계 보안)만 있고 내부 방 잠금이 없으면 — 카드 훔친 사람이 모든 서랍을 뒤진다.
@@ -70,8 +70,8 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 전통적 VLAN 구조:       마이크로 세그먼테이션:
-[웹 서버][앱 서버][DB]   [웹 서버] ← 정책 → [앱 서버] ← 정책 → [DB]
-     └──── VLAN ────┘         허용 트래픽만 명시적 허가
+[웹 서버][앱 서버][DB]   [웹 서버] <- 정책 -> [앱 서버] <- 정책 -> [DB]
+     +---- VLAN ----+         허용 트래픽만 명시적 허가
           (내부 자유 통신)
 ```
 
@@ -93,8 +93,8 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 ### 4.1 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙 적용
 
 ```
-1. 명시적 검증: 모든 요청 → 신원(ID) + 장치 상태 + 위치 검증
-2. 최소 권한: 서비스 A → DB 특정 테이블만 접근 허용
+1. 명시적 검증: 모든 요청 -> 신원(ID) + 장치 상태 + 위치 검증
+2. 최소 권한: 서비스 A -> DB 특정 테이블만 접근 허용
 3. 침해 가정: 내부 트래픽도 항상 암호화(mTLS)
 ```
 
@@ -103,9 +103,9 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 양방향 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):
 
 ```
-서비스 A ──[인증서 제시]──▶ 서비스 B
-         ◀──[인증서 검증]──
-         ──[암호화 통신]──▶
+서비스 A --[인증서 제시]---> 서비스 B
+         <---[인증서 검증]--
+         --[암호화 통신]--->
 ```
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd)가 mTLS를 자동 관리.
@@ -120,9 +120,9 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 흐름:
-서버 A → 서버 B (허용)
-서버 B → 서버 C (비정상 포트/시간)
-             ↓
+서버 A -> 서버 B (허용)
+서버 B -> 서버 C (비정상 포트/시간)
+             v
          SIEM/NDR에서 탐지
          (Network Detection & Response)
 ```
@@ -134,7 +134,7 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔        | 짧은 시간 다수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근            |
 | 비정상 시간대    | 새벽 3시 DB 대량 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)              |
 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 이상      | 내부 서버 간 수 GB 전송            |
-| 측면 이동 패턴  | A→B→C 순차 접근 ([Pass-the-Hash](/knowledge-base/studynote/09_security/12_identity_threat_advanced/592_pth/))   |
+| 측면 이동 패턴  | A->B->C 순차 접근 ([Pass-the-Hash](/knowledge-base/studynote/09_security/12_identity_threat_advanced/592_pth/))   |
 
 📢 **섹션 요약 비유**: 복도 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(NDR)로 사람이 이상하게 여러 방을 돌아다니는지 감시 — 비정상 패턴을 자동으로 잡아낸다.
 
@@ -144,20 +144,20 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 이스트-웨스트 트래픽 보안
-├── 위협
-│   ├── 측면 이동 (Lateral Movement)
-│   └── 내부 신뢰 붕괴
-├── 제어 기술
-│   ├── 마이크로 세그먼테이션
-│   ├── Zero Trust (mTLS)
-│   └── SDN/eBPF 정책
-├── 모니터링
-│   ├── NDR (Network Detection & Response)
-│   └── SIEM 연동
-└── 플랫폼
-    ├── VMware NSX
-    ├── Cisco ACI
-    └── Kubernetes (Cilium, Calico)
++-- 위협
+|   +-- 측면 이동 (Lateral Movement)
+|   +-- 내부 신뢰 붕괴
++-- 제어 기술
+|   +-- 마이크로 세그먼테이션
+|   +-- Zero Trust (mTLS)
+|   +-- SDN/eBPF 정책
++-- 모니터링
+|   +-- NDR (Network Detection & Response)
+|   +-- SIEM 연동
++-- 플랫폼
+    +-- VMware NSX
+    +-- Cisco ACI
+    +-- Kubernetes (Cilium, Calico)
 ```
 
 ---
@@ -166,17 +166,17 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 경계 방화벽 중심 보안 (1990s~2000s)
-     │  클라우드/MSA 확산
-     ▼
+     |  클라우드/MSA 확산
+     v
 VLAN 기반 내부 분리 (부분적 이스트-웨스트 통제)
-     │  측면 이동 공격 증가
-     ▼
+     |  측면 이동 공격 증가
+     v
 마이크로 세그먼테이션 (VMware NSX, 2013~)
-     │  ID 기반 접근 통제
-     ▼
+     |  ID 기반 접근 통제
+     v
 Zero Trust + 서비스 메시 (Istio + mTLS, 2017~)
-     │  eBPF 기반 커널 수준 정책
-     ▼
+     |  eBPF 기반 커널 수준 정책
+     v
 Cloud-Native Zero Trust (2020s~)
 ```
 
@@ -196,7 +196,7 @@ Cloud-Native Zero Trust (2020s~)
 
 **진행 상황**: 50 / 1108
 
-← **이전**: [049. 마이크로 세그먼테이션 — Micro-Segmentation](/knowledge-base/studynote/09_security/01_intro_principles/049_micro_segmentation/)
-**다음**: [051. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/) →
+<- **이전**: [049. 마이크로 세그먼테이션 — Micro-Segmentation](/knowledge-base/studynote/09_security/01_intro_principles/049_micro_segmentation/)
+**다음**: [051. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/) ->
 
 ---

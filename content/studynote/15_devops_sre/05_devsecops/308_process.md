@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터·워커 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [출시 직전 수동 보안 점검]
-    │
-    ▼
+    |
+    v
 [쿠버네티스 마스터·워커 컴포넌트]
-    │
-    ├──▶ [쿠버네티스 마스터·워커 컴포넌트 (Kubernetes Control Plane and Worker)]
-    ├──▶ [Observability]
-    └──▶ [Scalability]
+    |
+    +---> [쿠버네티스 마스터·워커 컴포넌트 (Kubernetes Control Plane and Worker)]
+    +---> [Observability]
+    +---> [Scalability]
 ```
 
 이 흐름도는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터·워커 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 308 / 373
 
-← **이전**: [307. 네임스페이스와 cgroups (Namespaces and cgroups)](/knowledge-base/studynote/15_devops_sre/05_devsecops/307_cgroups/)
-**다음**: [309. 포드·레플리카셋·디플로이먼트 (Pod, ReplicaSet, Deployment)](/knowledge-base/studynote/15_devops_sre/05_devsecops/309_process/) →
+<- **이전**: [307. 네임스페이스와 cgroups (Namespaces and cgroups)](/knowledge-base/studynote/15_devops_sre/05_devsecops/307_cgroups/)
+**다음**: [309. 포드·레플리카셋·디플로이먼트 (Pod, ReplicaSet, Deployment)](/knowledge-base/studynote/15_devops_sre/05_devsecops/309_process/) ->
 
 ---

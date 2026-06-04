@@ -12,34 +12,34 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 프로덕션 환경에 <strong>의도적으로 장애(서버 종료·<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/">네트워크 지연</a>·디스크 고장)를 주입</strong>하여, 시스템의 복원력(Resilience)을 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 기반 규율이다.
 > 2. **가치**: "장애는 반드시 온다"는 전제 하에, <strong>Game Day(장애 훈련)</strong>를 통해 모니터링·오토스케일링·[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 등 방어 메커니즘이 **실제로 작동하는지** [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 금요일 오후 5시에 서버가 죽어도 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되는 시스템이 목표다.
-> 3. **판단 포인트**: Netflix [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)(인스턴스 랜덤 종료)에서 시작하여, <strong>Litmus·Gremlin·Chaos <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a></strong>가 K8s 네이티브 카오스 도구로 진화했으며, 실험은 반드시 <strong>정상 상태 가설(<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/">Steady State Hypothesis</a>) → 주입 → 관찰 → <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>의 과학적 방법론을 따른다.
+> 3. **판단 포인트**: Netflix [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)(인스턴스 랜덤 종료)에서 시작하여, <strong>Litmus·Gremlin·Chaos <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a></strong>가 K8s 네이티브 카오스 도구로 진화했으며, 실험은 반드시 <strong>정상 상태 가설(<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/">Steady State Hypothesis</a>) -> 주입 -> 관찰 -> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>의 과학적 방법론을 따른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 100개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그물망처럼 연결된 환경에서, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 죽으면 B→C→D가 연쇄 장애를 일으키는가?"를 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면, <strong>실제 장애 시 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간)이 수시간</strong>으로 폭발한다.
+[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 100개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그물망처럼 연결된 환경에서, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 죽으면 B->C->D가 연쇄 장애를 일으키는가?"를 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면, <strong>실제 장애 시 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간)이 수시간</strong>으로 폭발한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    카오스 엔지니어링 실험 사이클                        │
-├───────────────────────────────────────────────────────┤
-│  1. 정상 상태 정의 (Steady State)                     │
-│     "주문 API 응답 시간 < 200ms, 에러율 < 0.1%"      │
-│                 │                                     │
-│  2. 가설 수립                                         │
-│     "결제 서비스 1대 종료해도 정상 상태 유지"          │
-│                 │                                     │
-│  3. 장애 주입 (Fault Injection)                       │
-│     Chaos Monkey가 결제 서비스 Pod 1개 Kill           │
-│                 │                                     │
-│  4. 관찰 및 검증                                      │
-│     Grafana에서 응답 시간·에러율 모니터링              │
-│     → 200ms 이하 유지? ✅ 통과 / ❌ 개선 필요         │
-│                 │                                     │
-│  5. 개선 후 반복                                      │
-│     서킷 브레이커 미작동 발견 → 설정 수정 → 재실험    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    카오스 엔지니어링 실험 사이클                        |
++-------------------------------------------------------+
+|  1. 정상 상태 정의 (Steady State)                     |
+|     "주문 API 응답 시간 < 200ms, 에러율 < 0.1%"      |
+|                 |                                     |
+|  2. 가설 수립                                         |
+|     "결제 서비스 1대 종료해도 정상 상태 유지"          |
+|                 |                                     |
+|  3. 장애 주입 (Fault Injection)                       |
+|     Chaos Monkey가 결제 서비스 Pod 1개 Kill           |
+|                 |                                     |
+|  4. 관찰 및 검증                                      |
+|     Grafana에서 응답 시간·에러율 모니터링              |
+|     -> 200ms 이하 유지? ✅ 통과 / ❌ 개선 필요         |
+|                 |                                     |
+|  5. 개선 후 반복                                      |
+|     서킷 브레이커 미작동 발견 -> 설정 수정 -> 재실험    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 건물(시스템)에 인공 지진을 일으켜 내진 설계가 진짜 작동하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong>내진 테스트</strong>다.
@@ -60,7 +60,7 @@ tags = ["studynote-software-engineering"]
 
 ### 폭발 반경 (Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)) 관리
 
-카오스 실험은 반드시 <strong>소규모 → 확대</strong>로 진행한다. Dev → Staging → [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)(프로덕션 5%) → 전체.
+카오스 실험은 반드시 <strong>소규모 -> 확대</strong>로 진행한다. Dev -> Staging -> [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)(프로덕션 5%) -> 전체.
 
 - **📢 섹션 요약 비유**: 소방 훈련에서 처음에는 작은 불(Dev)을 끄는 연습을 하고, 자신감이 생기면 큰 불(프로덕션)로 확대하는 것이다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-software-engineering"]
 4. **사후 분석**: 실험 결과 문서화, 발견된 취약점 이슈 등록.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Game Day 없이 프로덕션 카오스**: 관찰 도구·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획 없이 장애 주입 → 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 유발.
+- **Game Day 없이 프로덕션 카오스**: 관찰 도구·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획 없이 장애 주입 -> 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 유발.
 
 ---
 
@@ -116,17 +116,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [Netflix Chaos Monkey (2011) — 인스턴스 랜덤 Kill]
-    │
-    ▼
+    |
+    v
 [Principles of Chaos Engineering (2014) — 방법론 체계화]
-    │
-    ▼
+    |
+    v
 [Gremlin SaaS (2016~) — 상용 카오스 플랫폼]
-    │
-    ▼
+    |
+    v
 [Litmus / Chaos Mesh (2020~) — K8s 네이티브 CNCF]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 자동 카오스 — 자율 장애 탐색·자동 복원]
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 113 / 973
 
-← **이전**: [112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)
-**다음**: [114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/114_feature_flag_toggle_deployment/) →
+<- **이전**: [112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)
+**다음**: [114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/114_feature_flag_toggle_deployment/) ->
 
 ---

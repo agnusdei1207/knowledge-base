@@ -32,9 +32,9 @@ tags = ["network"]
 
 ```text
 장비
-  ↓ Push
+  v Push
 Collector
-  ↓
+  v
 저장 / 시각화 / 분석
 ```
 
@@ -87,11 +87,11 @@ Collector
 
 ```text
 장비 상태
-   ↓ Push
+   v Push
 Collector
-   ↓
+   v
 실시간 저장 / 분석
-   ↓
+   v
 마이크로버스트 탐지 / 자동화
 ```
 
@@ -99,11 +99,11 @@ Collector
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) → 주기적 상태 조회
-2. Push 기반 스트리밍 → 실시간 가시성 확보
-3. YANG + Protobuf → 모델과 전송의 분리
-4. 마이크로버스트 탐지 → 짧은 폭주 대응
-5. [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) / 자동 관제 → 관측과 자동화의 결합
+1. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) -> 주기적 상태 조회
+2. Push 기반 스트리밍 -> 실시간 가시성 확보
+3. YANG + Protobuf -> 모델과 전송의 분리
+4. 마이크로버스트 탐지 -> 짧은 폭주 대응
+5. [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) / 자동 관제 -> 관측과 자동화의 결합
 
 ---
 
@@ -119,7 +119,7 @@ Collector
 
 **진행 상황**: 163 / 1120
 
-← **이전**: [1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1057_netconf_yang_network_configuration_modeling/)
-**다음**: [1059. 디지털 트윈 및 관제 시스템 연동](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1059_digital_twin_network_management_simulation/) →
+<- **이전**: [1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1057_netconf_yang_network_configuration_modeling/)
+**다음**: [1059. 디지털 트윈 및 관제 시스템 연동](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1059_digital_twin_network_management_simulation/) ->
 
 ---

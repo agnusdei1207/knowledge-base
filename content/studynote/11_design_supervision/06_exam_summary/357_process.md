@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 리스코프 치환 원칙 ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/), [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))은 하위 타입이 상위 타입을 대체해도 기대한 계약이 깨지지 않게 하는 설계 원칙이다. [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 재사용 수단으로만 쓰면 자식 클래스가 부모의 약속을 몰래 바꿔 버리는 문제가 생긴다. 이 개념이 필요한 이유는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)과 다형성에서 계약 일관성을 지키는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 다형성을 믿고 호출한 코드가 런타임에서 예외나 잘못된 결과를 만든다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Change   │──▶│    LSP     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Change   |--->|    LSP     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Reason  │──▶│ Boundary │──▶│   LSP    │──▶│   Test   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Reason  |--->| Boundary |--->|   LSP    |--->|   Test   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 합성 우선 | 리스코프 치환 원칙 ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/), [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[코드 재사용 상속] → LSP 검증] → [계약 중심 타입 설계]
+[코드 재사용 상속] -> LSP 검증] -> [계약 중심 타입 설계]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리스코프 치환 원칙 ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/), [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))은 같은 규칙으로 놀 수 있는 팀원만 같은 유니폼을 입히는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 435 / 530
 
-← **이전**: [356. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)
-**다음**: [358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/) →
+<- **이전**: [356. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)
+**다음**: [358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/) ->
 
 ---

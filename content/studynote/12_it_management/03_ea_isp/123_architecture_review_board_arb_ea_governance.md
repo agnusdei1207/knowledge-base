@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))와 현업 부서의 반란:, ARB ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)의 소집:, 사전 리뷰 (아키텍처 타당성 검토): 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [아키텍처 검토 위원회](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) (ARB, [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | 영업팀이 가져온 기안서를 펴고 심문한다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [아키텍처 검토 위원회 (ARB, Architecture Review Board)]
-    │
-    ├──▶ [ARB (Architecture Review Board)의 소집:]
-    └──▶ [사전 리뷰 (아키텍처 타당성 검토):]
+    |
+    +---> [ARB (Architecture Review Board)의 소집:]
+    +---> [사전 리뷰 (아키텍처 타당성 검토):]
 ```
 
 이 흐름은 선행 요구를 기준으로 [아키텍처 검토 위원회](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) (ARB, [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)를 정착시키고, 이후 ARB ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)의 소집:와 사전 리뷰 (아키텍처 타당성 검토): 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 230 / 587
 
-← **이전**: [123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/)
-**다음**: [124. EA 관리 시스템 (EAMS)](/knowledge-base/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/) →
+<- **이전**: [123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/)
+**다음**: [124. EA 관리 시스템 (EAMS)](/knowledge-base/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/) ->
 
 ---

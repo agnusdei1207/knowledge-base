@@ -118,7 +118,7 @@ LeSS (Large Scale Scrum):
 
 ```
 상황:
-  5,000명 SI 기업 → 애자일 전환 2년차
+  5,000명 SI 기업 -> 애자일 전환 2년차
   기존: PMP 중심 워터폴 PMO
   문제: 팀별로 제각각 스크럼 도입, 효과 미흡
 
@@ -134,9 +134,9 @@ LeSS (Large Scale Scrum):
   + OKR 연계 스프린트 목표 설정 지원
 
   1년 성과:
-  + 출시 빈도: 분기 → 격주 (8배 향상)
+  + 출시 빈도: 분기 -> 격주 (8배 향상)
   + 결함률: 23% 감소
-  + 팀 만족도: 3.2 → 4.1 (5점 만점)
+  + 팀 만족도: 3.2 -> 4.1 (5점 만점)
 ```
 
 > 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)을 조율.
@@ -148,8 +148,8 @@ LeSS (Large Scale Scrum):
 ```
 애자일 PMO
 +-- 전통 PMO 대비 전환
-|   +-- 감시자 → 촉진자
-|   +-- 계획 준수 → 가치 전달
+|   +-- 감시자 -> 촉진자
+|   +-- 계획 준수 -> 가치 전달
 +-- 핵심 기능
 |   +-- 전략 정렬 (OKR 연계)
 |   +-- 장애물 제거
@@ -206,7 +206,7 @@ OKR + Flow Metrics 통합 대시보드
 
 **진행 상황**: 37 / 373
 
-← **이전**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)
-**다음**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/) →
+<- **이전**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)
+**다음**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/) ->
 
 ---

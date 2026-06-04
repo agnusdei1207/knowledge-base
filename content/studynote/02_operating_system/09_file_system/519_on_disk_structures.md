@@ -32,27 +32,27 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 디스크를 `ext4` 나 `NTFS` 로 포맷(Format)할 때 텅 빈 쓰레기 깡통을 어떻게 구획별로 칼질해 인프라를 짜는지 ASCII로 분해하면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 1개의 디스크 파티션(Volume)이 포맷될 때 생기는 4대 구획표    │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │     [ 디스크 물리적 첫 섹터 0번지 출발 ──▶ 끝자리 바닥 1TB 지점 ]            │
-  │                                                                              │
-  │  1️⃣ [ 부트 제어 블록 (Boot Control Block) ]                                 │
-  │     - 윈도우 부팅, Linux GRUB 실행 코드가 파티션 최상단에 은신! 타격 로드.   │
-  │                                                                              │
-  │  2️⃣ [ 볼륨 제어 블록 / 슈퍼블록 (Volume Control / Superblock) ]             │
-  │     - "이 파티션은 1TB며, 블록 크기는 4KB고 빈 공간은 Array 5번에 있다!"     │
-  │                                                                              │
-  │  3️⃣ [ 디렉터리 구조 (Directory Structure) ]                                 │
-  │     - "A 방에는 파일 B, 파일 C가 들어있다" (파일 이름과 ID 매핑 구조)        │
-  │                                                                              │
-  │  4️⃣ [ FCB 장부 (File Control Block / 리눅스 Inode Table) ]                  │
-  │     - (파일 인덱스표 1,000만 개 공간). "파일 C는 소유자 Root, 크기 1G"       │
-  │                                                                              │
-  │  5️⃣ [ 실제 데이터 블록들 (Data Blocks 광활한 빈 우주) ]                     │
-  │     - "영화.mp4", "보고서.docx" 의 알맹이 0101 데이터들이 우르르 채워짐.     │
-  └──────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------+
+  |                 1개의 디스크 파티션(Volume)이 포맷될 때 생기는 4대 구획표    |
+  +------------------------------------------------------------------------------+
+  |                                                                              |
+  |     [ 디스크 물리적 첫 섹터 0번지 출발 ---> 끝자리 바닥 1TB 지점 ]            |
+  |                                                                              |
+  |  1️⃣ [ 부트 제어 블록 (Boot Control Block) ]                                 |
+  |     - 윈도우 부팅, Linux GRUB 실행 코드가 파티션 최상단에 은신! 타격 로드.   |
+  |                                                                              |
+  |  2️⃣ [ 볼륨 제어 블록 / 슈퍼블록 (Volume Control / Superblock) ]             |
+  |     - "이 파티션은 1TB며, 블록 크기는 4KB고 빈 공간은 Array 5번에 있다!"     |
+  |                                                                              |
+  |  3️⃣ [ 디렉터리 구조 (Directory Structure) ]                                 |
+  |     - "A 방에는 파일 B, 파일 C가 들어있다" (파일 이름과 ID 매핑 구조)        |
+  |                                                                              |
+  |  4️⃣ [ FCB 장부 (File Control Block / 리눅스 Inode Table) ]                  |
+  |     - (파일 인덱스표 1,000만 개 공간). "파일 C는 소유자 Root, 크기 1G"       |
+  |                                                                              |
+  |  5️⃣ [ 실제 데이터 블록들 (Data Blocks 광활한 빈 우주) ]                     |
+  |     - "영화.mp4", "보고서.docx" 의 알맹이 0101 데이터들이 우르르 채워짐.     |
+  +------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자들은 1TB 디스크를 사면 내가 1TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빵빵하게 다 쓸 수 있을 거라 착각한다. 하지만 포맷(Format)을 누르는 순간 1~4번의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(장부표) I/O 집 주소가 미리 거대하게 선점 구축 타격을 당한다. 특히 4번의 `FCB(아이노드 테이블)` 구역은 나중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1,000만 개가 생길 것에 대비해 디스크 용량의 1~2% 정도를 미리 깡통으로 뜯어내 장부 칸으로 낭비(Overhead 확보)해 둔다. 이것이 1TB 외장 하드를 샀는데 포맷하고 꽂아보면 내 컴퓨터에서는 왜 "사용 가능 용량: 931GB" 로 손해를 보는 증발 오차가 렌더되는지(물리 진폭 계산 1024 오차 외에도) 그 가장 강력한 구조적 뼈대 이유 중 하나다.
@@ -82,9 +82,9 @@ tags = ["studynote-operating-system"]
 ### 3. 디스크 On-Disk vs 메모리 In-Memory 융합
 컴퓨터를 켜면, 이 깡통 철도면에 새겨진 On-Disk 정보 4개가 시스템 RAM으로 빨려 들어가(Parsing) 이전 과목인 "518장. 인메모리 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 4대 객체" 로 마왕처럼 둔갑 렌더 부활한다!
 
-- **On-Disk 볼륨 제어 블록** ──▶ (램 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 부하 복사) ──▶ **In-Memory 슈퍼블록 객체**
-- **On-Disk FCB(아이노드표)** ──▶ ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열 때 램으로 상승) ──▶ **In-Memory 아이노드 객체**
-- <strong>On-Disk <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 구조표</strong> ──▶ (ls 칠 때 경로 포팅) ──▶ **In-Memory Dentry (덴트리) 캐시 객체**
+- **On-Disk 볼륨 제어 블록** ---> (램 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 부하 복사) ---> **In-Memory 슈퍼블록 객체**
+- **On-Disk FCB(아이노드표)** ---> ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열 때 램으로 상승) ---> **In-Memory 아이노드 객체**
+- <strong>On-Disk <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 구조표</strong> ---> (ls 칠 때 경로 포팅) ---> **In-Memory Dentry (덴트리) 캐시 객체**
 이것이 "죽어있는 쇳덩어리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(디스크)가 살아서 발동하는 동적 프로세스 생명체(메모리 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))" 로 재탄생하는 위대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 영혼 스왑 톱니바퀴의 궁극이다.
 
 - **📢 섹션 요약 비유**: 이 디스크 On-Disk 구획 장부와 Memory 램 객체의 상승 관계는, 관공서의 **"먼지 쌓인 지하 보관 문서(디스크)를 업무 책상(메모리) 위로 퍼 올리기"** 와 같습니다! 평소에 새벽(컴 끄기)엔 지하 문서창고 쇠 책장(하드디스크 On-Disk)에 "아파트 대장 원본(슈퍼블록)" 과 "철수집 호구조사표 원본(FCB)" 이 딱딱 자물쇠 잠겨 각인 영구 보관돼 있습니다! 공무원이 아침 출근(부팅 [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))해서, 그 지하 무거운 장부를 복사 떠갖고 자기 책상 위(RAM 메모리 518 객체 공간)에 활짝 펼쳐놓고 연필로 슥삭슥삭 실시간 작업 I/O를 칩니다!! 퇴근(Unmount 종료)할 땐 책상의 최신 내용들을 다시 지하 쇠 책장에 덮어씌워 보존(Sync 캐시 반영 록)하고 퇴근하는 이 절대 뼈대 보존 S/W 마스킹 투하랍니다!
@@ -151,12 +151,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [VFS 객체]
-    │
-    ▼
+    |
+    v
 [디스크 상의 구조 (On Disk Structures)]
-    │
-    ├──▶ [메모리 내의 구조]
-    └──▶ [열린 파일 테이블 (Open File Table)]
+    |
+    +---> [메모리 내의 구조]
+    +---> [열린 파일 테이블 (Open File Table)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -173,7 +173,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 519 / 800
 
-← **이전**: [518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/)
-**다음**: [520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별](/knowledge-base/studynote/02_operating_system/09_file_system/520_in_memory_structures/) →
+<- **이전**: [518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/)
+**다음**: [520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별](/knowledge-base/studynote/02_operating_system/09_file_system/520_in_memory_structures/) ->
 
 ---

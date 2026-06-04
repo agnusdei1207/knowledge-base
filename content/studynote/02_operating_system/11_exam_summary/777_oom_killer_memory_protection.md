@@ -35,29 +35,29 @@ tags = ["studynote-operating-system"]
   - 메모리 용량이 부족했던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스 시절, 효율적인 램 사용을 위해 도입된 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 및 오버커밋'의 부작용을 막기 위한 불가피한 최후의 안전장치로 설계되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 메모리 오버커밋 파산과 OOM 킬러 발동 메커니즘           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 오버커밋(Overcommit) 뻥대출의 평화로운 시기 ]                 │
-  │  물리 RAM: 10GB                                              │
-  │   - App A `malloc(5GB)` 요청 -> 커널: "OK!" (실제 사용 1GB)    │
-  │   - App B `malloc(8GB)` 요청 -> 커널: "OK!" (실제 사용 2GB)    │
-  │   - App C `malloc(5GB)` 요청 -> 커널: "OK!" (실제 사용 1GB)    │
-  │   ※ 장부상 18GB 대출이지만, 실제 램은 4GB만 써서 평화로움.             │
-  │                                                             │
-  │  [ 2. 뱅크런(실제 쓰기 폭주) 발생! ]                              │
-  │   - App B가 갑자기 8GB를 꽉꽉 채워 쓰기(Write) 시작함 (페이지 폴트)     │
-  │   - 남은 물리 RAM 0바이트, Swap 공간 0바이트 도달!                  │
-  │   - 시스템 멈춤(Hang) 발생. 마우스 클릭도 안 먹힘.                    │
-  │                                                             │
-  │  [ 3. OOM Killer 사형 집행 ⚡ ]                                 │
-  │   - 커널: "더 이상 줄 메모리가 없다. 킬러 호출!"                      │
-  │   - 점수 계산: App B가 제일 뚱뚱하군. (OOM Score 1위)               │
-  │   - OOM Killer가 App B에게 강제 사형 선고 (`SIGKILL -9` 발송)      │
-  │   - App B는 즉사하고 8GB 메모리를 허공에 툭 떨어뜨림.                 │
-  │   - 시스템이 8GB를 줍고 다시 정상적으로 숨을 쉬기 시작함. 🚀             │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 메모리 오버커밋 파산과 OOM 킬러 발동 메커니즘           |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 오버커밋(Overcommit) 뻥대출의 평화로운 시기 ]                 |
+  |  물리 RAM: 10GB                                              |
+  |   - App A `malloc(5GB)` 요청 -> 커널: "OK!" (실제 사용 1GB)    |
+  |   - App B `malloc(8GB)` 요청 -> 커널: "OK!" (실제 사용 2GB)    |
+  |   - App C `malloc(5GB)` 요청 -> 커널: "OK!" (실제 사용 1GB)    |
+  |   ※ 장부상 18GB 대출이지만, 실제 램은 4GB만 써서 평화로움.             |
+  |                                                             |
+  |  [ 2. 뱅크런(실제 쓰기 폭주) 발생! ]                              |
+  |   - App B가 갑자기 8GB를 꽉꽉 채워 쓰기(Write) 시작함 (페이지 폴트)     |
+  |   - 남은 물리 RAM 0바이트, Swap 공간 0바이트 도달!                  |
+  |   - 시스템 멈춤(Hang) 발생. 마우스 클릭도 안 먹힘.                    |
+  |                                                             |
+  |  [ 3. OOM Killer 사형 집행 ⚡ ]                                 |
+  |   - 커널: "더 이상 줄 메모리가 없다. 킬러 호출!"                      |
+  |   - 점수 계산: App B가 제일 뚱뚱하군. (OOM Score 1위)               |
+  |   - OOM Killer가 App B에게 강제 사형 선고 (`SIGKILL -9` 발송)      |
+  |   - App B는 즉사하고 8GB 메모리를 허공에 툭 떨어뜨림.                 |
+  |   - 시스템이 8GB를 줍고 다시 정상적으로 숨을 쉬기 시작함. 🚀             |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 메커니즘은 리눅스 엔지니어를 가장 고통스럽게 만드는 딜레마다. 개발자는 아무 잘못이 없다(단지 `malloc`을 했을 뿐이다). 그러나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 사기극(오버커밋)이 한계에 부딪혔을 때, 그 책임과 죽음은 고스란히 응용 프로그램(App B)이 뒤집어쓴다. [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 자비가 없어서 프로그램이 데이터를 파일에 저장할 시간조차 주지 않고 하드웨어 레벨에서 목을 쳐버린다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(dmesg)를 보면 `Out of memory: Kill process 1234 (java) score 850 or sacrifice child`라는 섬뜩한 문구가 남으며 서버가 겨우 생명줄을 이어가게 된다.
@@ -84,25 +84,25 @@ tags = ["studynote-operating-system"]
 과거 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 호스트 전체 램이 바닥나야 터지는 '국가적 재난'이었다. 하지만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 시대가 오면서, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))에 의한 <strong>국지적(Local) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러</strong> 메커니즘이 더 자주 발동된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 호스트 OOM vs 컨테이너(cgroups) OOM 의 차이 공간      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 호스트 전체 램: 64GB ]                                            │
-  │                                                                   │
-  │   ┌── Cgroup A (웹 서버) ──┐        ┌── Cgroup B (DB 서버) ──┐      │
-  │   │ Limit: 2GB (상한선)    │        │ Limit: 제한 없음         │      │
-  │   │ 현재 사용량: 1.9GB       │        │ 현재 사용량: 20GB        │      │
-  │   │                      │        │                      │      │
-  │   │ 🚨 웹이 2GB를 넘기려 함! │        │ 🟢 램 여유 넘침 (안전함)   │      │
-  │   │ -> [ Local OOM 발동 ]  │        │                      │      │
-  │   │ 웹 컨테이너만 칼같이 Kill!│        │ DB는 전혀 영향 안 받음!   │      │
-  │   └──────────────────────┘        └──────────────────────┘      │
-  │                                                                   │
-  │   ※ 핵심: 호스트 전체 램이 40GB나 남아돌아도, Cgroup A가 자기 자신에게       │
-  │          할당된 리밋(Limit) 2GB를 뚫는 순간 해당 박스 안에서만 OOM 킬러가  │
-  │          터져 그 컨테이너를 가차 없이 암살한다. (격리의 미학)                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 호스트 OOM vs 컨테이너(cgroups) OOM 의 차이 공간      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 호스트 전체 램: 64GB ]                                            |
+  |                                                                   |
+  |   +-- Cgroup A (웹 서버) --+        +-- Cgroup B (DB 서버) --+      |
+  |   | Limit: 2GB (상한선)    |        | Limit: 제한 없음         |      |
+  |   | 현재 사용량: 1.9GB       |        | 현재 사용량: 20GB        |      |
+  |   |                      |        |                      |      |
+  |   | 🚨 웹이 2GB를 넘기려 함! |        | 🟢 램 여유 넘침 (안전함)   |      |
+  |   | -> [ Local OOM 발동 ]  |        |                      |      |
+  |   | 웹 컨테이너만 칼같이 Kill!|        | DB는 전혀 영향 안 받음!   |      |
+  |   +----------------------+        +----------------------+      |
+  |                                                                   |
+  |   ※ 핵심: 호스트 전체 램이 40GB나 남아돌아도, Cgroup A가 자기 자신에게       |
+  |          할당된 리밋(Limit) 2GB를 뚫는 순간 해당 박스 안에서만 OOM 킬러가  |
+  |          터져 그 컨테이너를 가차 없이 암살한다. (격리의 미학)                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)를 다루는 개발자들이 맨날 보는 `OOMKilled` 에러의 실체다. 물리 램이 남아돌아도 죽는다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 컨트롤러(memcg)는 각 Cgroup 마다 독립적인 장부를 쓴다. A 그룹이 선을 넘으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 전체 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 아니라, 해당 Cgroup 내부 명단만 모아놓고 자체 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 점수를 매겨 그 방 안의 죄수 하나만 죽이고 상황을 종료한다. 이것이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)(Leak)가 전체 서버 노드를 뻗게 만드는 참사를 막는 가장 강력한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/))이다.
@@ -145,28 +145,28 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (JVM <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 인지 옵션)</strong>: 가상 공간과 물리 공간의 인지 부조화를 잡아줘야 한다. JVM 옵션에 `-XX:+UseContainerSupport`와 `-XX:MaxRAMPercentage=75`를 강제로 먹여서, JVM이 호스트가 아닌 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 할당된 2GB만을 자신의 우주로 인식하도록 교정해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 OOM (Out Of Memory) 장애 대응 아키텍트 결정 트리           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서버에서 프로세스가 아무 에러 로그 없이 실종되었다! ]                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      `dmesg -T | grep -i oom` 명령어로 커널 메시지를 깐다.                 │
-  │          ├─ 안 나옴 ──▶ OOM 킬러 아님. 앱 자체 버그나 Segfault임.          │
-  │          │                                                        │
-  │          └─ 나옴! ──▶ 🚨 [ OOM Killer 사살 로그 발견! 범인 색출 시작 ]      │
-  │                │                                                  │
-  │                ▼ [아키텍트의 3단계 복구 설계]                            │
-  │      1. 희생자가 진짜 범인인가? (억울한 죽음 방어)                           │
-  │         - 중요 DB면 `oom_score_adj=-1000` 으로 면책특권 부여.             │
-  │      2. 진짜 범인(메모리 누수 앱)이 누구인가?                               │
-  │         - 커널 파라미터 `vm.panic_on_oom=1` 켜는 건 미친 짓(전체 죽음).      │
-  │         - 앱 코드를 분석해 Malloc 해제 누락(Leak) 로직을 패치해야 함.         │
-  │      3. 구조적 해결 (Swap vs Scale-out)                               │
-  │         - 영세기업: Swap 파일(가상메모리)을 열어 디스크 속도로 고통받으며 연명.│
-  │         - 클라우드: HPA 연동하여 램 70% 찰 때 서버 대수를 늘려버림(Scale Out)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 OOM (Out Of Memory) 장애 대응 아키텍트 결정 트리           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서버에서 프로세스가 아무 에러 로그 없이 실종되었다! ]                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      `dmesg -T | grep -i oom` 명령어로 커널 메시지를 깐다.                 |
+  |          +- 안 나옴 ---> OOM 킬러 아님. 앱 자체 버그나 Segfault임.          |
+  |          |                                                        |
+  |          +- 나옴! ---> 🚨 [ OOM Killer 사살 로그 발견! 범인 색출 시작 ]      |
+  |                |                                                  |
+  |                v [아키텍트의 3단계 복구 설계]                            |
+  |      1. 희생자가 진짜 범인인가? (억울한 죽음 방어)                           |
+  |         - 중요 DB면 `oom_score_adj=-1000` 으로 면책특권 부여.             |
+  |      2. 진짜 범인(메모리 누수 앱)이 누구인가?                               |
+  |         - 커널 파라미터 `vm.panic_on_oom=1` 켜는 건 미친 짓(전체 죽음).      |
+  |         - 앱 코드를 분석해 Malloc 해제 누락(Leak) 로직을 패치해야 함.         |
+  |      3. 구조적 해결 (Swap vs Scale-out)                               |
+  |         - 영세기업: Swap 파일(가상메모리)을 열어 디스크 속도로 고통받으며 연명.|
+  |         - 클라우드: HPA 연동하여 램 70% 찰 때 서버 대수를 늘려버림(Scale Out)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "프로세스가 아무 유언(Exception Log)도 없이 갑자기 사라졌어요!" 백엔드 개발자들의 가장 흔한 비명이다. 프로세스는 절대 스스로 흔적 없이 사라지지 않는다. `try-catch`로 잡히지 않는 유일한 죽음은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 쏘는 `SIGKILL (-9)` 뿐이며, 그 배후에는 100% [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 있다. 아키텍트는 죽은 놈(Victim)을 살려내는 데 집착하지 말고, 왜 물리 램이 끝까지 차올랐는지 전체 시스템의 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)(Pool) 파이프라인을 점검하는 거시적 안목을 가져야 한다.
@@ -215,12 +215,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [클라우드 컴퓨팅 OS 자원 풀링]
-    │
-    ▼
+    |
+    v
 [OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)]
-    │
-    ├──▶ [프로세스 친화성 (Affinity) 스케줄링]
-    └──▶ [부하 균등화 (Load Balancing) 큐 이주]
+    |
+    +---> [프로세스 친화성 (Affinity) 스케줄링]
+    +---> [부하 균등화 (Load Balancing) 큐 이주]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -237,7 +237,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 777 / 800
 
-← **이전**: [776. 클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/776_cloud_computing_resource_pooling/)
-**다음**: [778. 프로세스 친화성 (Affinity) 스케줄링](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) →
+<- **이전**: [776. 클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/776_cloud_computing_resource_pooling/)
+**다음**: [778. 프로세스 친화성 (Affinity) 스케줄링](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) ->
 
 ---

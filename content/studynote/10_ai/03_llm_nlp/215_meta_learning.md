@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 철학 덕분에, AI는 이제 새로운 질병 엑스레이나 희귀한 로봇 부품 사진이 겨우 5장밖에 없어도, 단 3초 만에 뇌를 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)해 90% 이상의 정확도를 뿜어내는 '퓨샷 러닝(Few-Shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))'의 절대 신으로 거듭났다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 일반 딥러닝은 운전면허 학원에서 '강남역 코스'만 매일 1,000번 반복해서 외운 초보 운전자다. 강남역은 눈 감고도 돌지만, 부산에 떨어뜨리면 10분 만에 사고가 난다. [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/)은 카레이서 훈련이다. 비포장도로, 눈길, 진흙탕 등 매일 완전히 다른 코스(수만 개의 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))에 던져놓고 '운전의 본질(핸들링과 브레이크)'을 뼈에 새긴다. 이 카레이서는 태어나서 처음 가본 뉴욕 한복판에 떨어뜨려도 딱 3분(Few-shot)만 차를 몰아보면 완벽히 적응해서 질주해 버린다.
@@ -44,27 +44,27 @@ tags = ["studynote-ai"]
 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) 천하를 통일한 가장 아름다운 수식인 첼시 핀(Chelsea Finn) 교수의 <strong>MAML (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/390_maml_meta_learning/">Model-Agnostic Meta-Learning</a>)</strong> 아키텍처는 '미분(Gradient)'을 두 번 때리는 이중 루프 구조를 가진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           MAML (메타 러닝)의 황금 초기값 찾기 2중 루프 아키텍처 도해      │
-├──────────────────────────────────────────────────────────────┤
-│  [목표]: 수만 가지 퀘스트(Task)에 1초 만에 적응하는 만능 뇌(θ) 가중치 만들기 │
-│                                                              │
-│  [1. 안쪽 루프 (Inner Loop) - 가상 모의고사 훈련]                 │
-│   * 퀘스트 A (사과/배 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 ─▶ θ_A │
-│   * 퀘스트 B (개/고양이 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 ─▶ θ_B │
-│   * 퀘스트 C (차/비행기 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 ─▶ θ_C │
-│   (※ 진짜 뇌(θ)를 고치는 게 아니라 머릿속으로 상상 시뮬레이션만 한 거임!)      │
-│                                                              │
-│  [2. 바깥쪽 루프 (Outer Loop / Meta-Update) - 황금 영점 조절!]   │
-│   * 심사: "야! 상상으로 만든 θ_A, θ_B, θ_C로 진짜 시험 쳐보니까 오차(Loss)가 어때?"│
-│   * 마법 발동 (Meta-Gradient): 퀘스트 A, B, C를 모두 망치지 않고,       │
-│     어떤 퀘스트든 '한 발짝만 움직이면 바로 정답 계곡 바닥으로 떨어질 수 있는'   │
-│     절묘한 정중앙 낙하 지점(Optimal Initial Weight)을 계산해서 진짜 뇌(θ)를 수정함!│
-│                                                              │
-│  [3. 실전 배포 (Testing)]                                        │
-│   * 외계인 사진 딱 3장만 보여줌 ─▶ 이미 뇌(θ)가 완벽한 명당자리에 서 있으므로,│
-│     단 한 번의 미분(업데이트)만으로 100점짜리 외계인 판독 뇌로 순간 진화 완료!    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           MAML (메타 러닝)의 황금 초기값 찾기 2중 루프 아키텍처 도해      |
++--------------------------------------------------------------+
+|  [목표]: 수만 가지 퀘스트(Task)에 1초 만에 적응하는 만능 뇌(θ) 가중치 만들기 |
+|                                                              |
+|  [1. 안쪽 루프 (Inner Loop) - 가상 모의고사 훈련]                 |
+|   * 퀘스트 A (사과/배 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 --> θ_A |
+|   * 퀘스트 B (개/고양이 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 --> θ_B |
+|   * 퀘스트 C (차/비행기 구분): 뇌(θ)를 복사해서 딱 3장만 보고 1보 전진해 봄 --> θ_C |
+|   (※ 진짜 뇌(θ)를 고치는 게 아니라 머릿속으로 상상 시뮬레이션만 한 거임!)      |
+|                                                              |
+|  [2. 바깥쪽 루프 (Outer Loop / Meta-Update) - 황금 영점 조절!]   |
+|   * 심사: "야! 상상으로 만든 θ_A, θ_B, θ_C로 진짜 시험 쳐보니까 오차(Loss)가 어때?"|
+|   * 마법 발동 (Meta-Gradient): 퀘스트 A, B, C를 모두 망치지 않고,       |
+|     어떤 퀘스트든 '한 발짝만 움직이면 바로 정답 계곡 바닥으로 떨어질 수 있는'   |
+|     절묘한 정중앙 낙하 지점(Optimal Initial Weight)을 계산해서 진짜 뇌(θ)를 수정함!|
+|                                                              |
+|  [3. 실전 배포 (Testing)]                                        |
+|   * 외계인 사진 딱 3장만 보여줌 --> 이미 뇌(θ)가 완벽한 명당자리에 서 있으므로,|
+|     단 한 번의 미분(업데이트)만으로 100점짜리 외계인 판독 뇌로 순간 진화 완료!    |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (빠른 적응을 위한 최적의 출발점)**:
@@ -136,7 +136,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [메타 러닝 (Meta Learning / Learning to Learn)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [메타 러닝 (Meta Learning / Learning to Learn)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -151,7 +151,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 215 / 420
 
-← **이전**: [214. 액티브 러닝 (Active Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/)
-**다음**: [216. 자율 에이전트 오토지피티 (AutoGPT)](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/) →
+<- **이전**: [214. 액티브 러닝 (Active Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/)
+**다음**: [216. 자율 에이전트 오토지피티 (AutoGPT)](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/) ->
 
 ---

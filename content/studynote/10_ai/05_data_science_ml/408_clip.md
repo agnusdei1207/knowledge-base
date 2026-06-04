@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **범용성**: 사물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)뿐만 아니라 이미지 검색, 스타일 변환, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 모델의 가이드 등 다양한 분야에 적용 가능
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CLIP은 이름표가 붙은 물건만 외우는 것이 아니라, "털이 복슬복슬하고 귀가 쫑긋한 동물"이라는 설명을 듣고 처음 보는 동물을 찾아내는 똑똑한 탐정과 같다.
@@ -53,17 +53,17 @@ CLIP은 두 개의 독립적인 [인코더](/knowledge-base/studynote/01_compute
 ```text
 [ CLIP 대조 학습 프로세스 ]
 
-   1. 텍스트 입력 ──▶ [ Text Encoder ] ──▶ [ T1, T2, ..., Tn ] (Vectors)
-                                                    │
-   2. 이미지 입력 ──▶ [ Image Encoder ] ──▶ [ I1, I2, ..., In ] (Vectors)
-                                                    │
-   3. 유사도 행렬 계산 (Cosine Similarity Matrix)   │
-           T1      T2      T3  ...                 ▼
-      ┌───────┬───────┬───────┐            [ Similarity Space ]
-   I1 │ (I1,T1)│ (I1,T2)│ (I1,T3)│          * (I_i, T_i) ──▶ Maximize
-      ├───────┼───────┼───────┤          * (I_i, T_j) ──▶ Minimize
-   I2 │ (I2,T1)│ (I2,T2)│ (I2,T3)│
-      └───────┴───────┴───────┘
+   1. 텍스트 입력 ---> [ Text Encoder ] ---> [ T1, T2, ..., Tn ] (Vectors)
+                                                    |
+   2. 이미지 입력 ---> [ Image Encoder ] ---> [ I1, I2, ..., In ] (Vectors)
+                                                    |
+   3. 유사도 행렬 계산 (Cosine Similarity Matrix)   |
+           T1      T2      T3  ...                 v
+      +-------+-------+-------+            [ Similarity Space ]
+   I1 | (I1,T1)| (I1,T2)| (I1,T3)|          * (I_i, T_i) ---> Maximize
+      +-------+-------+-------+          * (I_i, T_j) ---> Minimize
+   I2 | (I2,T1)| (I2,T2)| (I2,T3)|
+      +-------+-------+-------+
 ```
 
 <strong>제로샷 추론(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-shot Inference)</strong>:
@@ -124,7 +124,7 @@ CLIP의 등장은 컴퓨터 비전의 패러다임을 '[분류](/knowledge-base/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [CLIP (Contrastive Language-Image Pre-training)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [CLIP (Contrastive Language-Image Pre-training)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ CLIP의 등장은 컴퓨터 비전의 패러다임을 '[분류](/knowledge-base/
 
 **진행 상황**: 408 / 420
 
-← **이전**: [407. 코사인 어닐링 (Cosine Annealing Scheduler)](/knowledge-base/studynote/10_ai/05_data_science_ml/407_cosine_annealing/)
-**다음**: [409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)](/knowledge-base/studynote/10_ai/05_data_science_ml/409_kmeans_elbow_silhouette/) →
+<- **이전**: [407. 코사인 어닐링 (Cosine Annealing Scheduler)](/knowledge-base/studynote/10_ai/05_data_science_ml/407_cosine_annealing/)
+**다음**: [409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)](/knowledge-base/studynote/10_ai/05_data_science_ml/409_kmeans_elbow_silhouette/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
+    |
+    v
 [지향성 안테나 MAC 제어]
-    │
-    └──▶ [스마트 헬스케어 BAN]
+    |
+    +---> [스마트 헬스케어 BAN]
 ```
 
 - **📢 섹션 요약 비유**: 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
+    |
+    v
 [지향성 안테나 MAC 제어]
-    │
-    └──▶ [스마트 헬스케어 BAN]
+    |
+    +---> [스마트 헬스케어 BAN]
 ```
 
 - **📢 섹션 요약 비유**: 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 지향성 안테나 MAC 제어]
-    │
-    ├──▶ [확장 A: 스마트 헬스케어 BAN]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 스마트 헬스케어 BAN]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어는 오픈API 클라우드 망 연동 / MaaS에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트 헬스케어 BAN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1047 / 1120
 
-← **이전**: [925. 오픈API와 MaaS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/925_maas_mobility_as_a_service_openapi_cloud_integration/)
-**다음**: [927. 무선 인체 통신망 (WBAN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) →
+<- **이전**: [925. 오픈API와 MaaS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/925_maas_mobility_as_a_service_openapi_cloud_integration/)
+**다음**: [927. 무선 인체 통신망 (WBAN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) ->
 
 ---

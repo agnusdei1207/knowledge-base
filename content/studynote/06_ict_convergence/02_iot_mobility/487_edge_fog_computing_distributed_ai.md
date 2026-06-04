@@ -34,19 +34,19 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│       클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처        │
-├──────────────────────────────────────────────────────────┤
-│  [클라우드 계층]  대규모 학습·장기 저장·글로벌 정책 관리          │
-│       │  WAN / 인터넷 (지연 50~200ms)                     │
-│  [포그 계층]    지역 집계·전처리·정책 실행                      │
-│  (포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)               │
-│       │  LAN / 5G 백홀 (지연 5~20ms)                     │
-│  [엣지 계층]    실시간 추론·제어·필터링                         │
-│  (엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)       │
-│       │  직접 연결 (지연 < 1ms)                            │
-│  [디바이스]     센서·액추에이터 (데이터 생성)                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|       클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처        |
++----------------------------------------------------------+
+|  [클라우드 계층]  대규모 학습·장기 저장·글로벌 정책 관리          |
+|       |  WAN / 인터넷 (지연 50~200ms)                     |
+|  [포그 계층]    지역 집계·전처리·정책 실행                      |
+|  (포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)               |
+|       |  LAN / 5G 백홀 (지연 5~20ms)                     |
+|  [엣지 계층]    실시간 추론·제어·필터링                         |
+|  (엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)       |
+|       |  직접 연결 (지연 < 1ms)                            |
+|  [디바이스]     센서·액추에이터 (데이터 생성)                    |
++----------------------------------------------------------+
 ```
 
 ### 엣지 vs 포그 vs 클라우드 비교
@@ -92,10 +92,10 @@ tags = ["studynote-ict-convergence"]
 
 **엣지·포그 설계 결정 기준**
 
-1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구</strong> < 10ms → 반드시 엣지 처리. 클라우드 불가.
-2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민감도</strong> 높음(의료·생체) → 엣지·포그 내 처리, 클라우드 전송 최소화.
-3. **모델 크기** > 1GB → 클라우드 학습 후 경량화하여 엣지 배포.
-4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> → 포그에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·필터링 후 클라우드로 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구</strong> < 10ms -> 반드시 엣지 처리. 클라우드 불가.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민감도</strong> 높음(의료·생체) -> 엣지·포그 내 처리, 클라우드 전송 최소화.
+3. **모델 크기** > 1GB -> 클라우드 학습 후 경량화하여 엣지 배포.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> -> 포그에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·필터링 후 클라우드로 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송.
 
 **보안 고려사항**: 엣지 노드는 물리 접근이 쉬워 탬퍼링(Tampering) 위험. [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)), [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)) 필수.
 
@@ -124,7 +124,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[5G · ETSI] → [엣지 · 포그 컴퓨팅과 분산 AI 처리] → [ARM TrustZone · 엣지 보안 격리 실행]
+[5G · ETSI] -> [엣지 · 포그 컴퓨팅과 분산 AI 처리] -> [ARM TrustZone · 엣지 보안 격리 실행]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 487 / 552
 
-← **이전**: [486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/486_iot_sensor_network_comprehensive/)
-**다음**: [488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/488_lpwan_lora_nb_iot_licensed_unlicensed/) →
+<- **이전**: [486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/486_iot_sensor_network_comprehensive/)
+**다음**: [488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/488_lpwan_lora_nb_iot_licensed_unlicensed/) ->
 
 ---

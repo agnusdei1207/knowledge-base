@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 주소 변환이 빠르게 끝나는 경우와 길어지는 경우가 어디서 갈리는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            가상 주소 접근 시 TLB Hit / Miss 분기 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 가상 주소 생성                                                 │
-│        │                                                             │
-│        ▼                                                             │
-│ MMU가 TLB 조회                                                       │
-│   ├─ Hit  ───────────────▶ 물리 주소 즉시 획득 ─▶ 캐시/메모리 접근   │
-│   │                                                                  │
-│   └─ Miss ─▶ 페이지 테이블 워크 (Page Table Walk)                    │
-│                │                                                     │
-│                ├─ 유효한 매핑 발견 ─▶ TLB 채움 ─▶ 재시도             │
-│                │                                                     │
-│                └─ 매핑 무효 / 부재 ─▶ 페이지 폴트 ─▶ 운영체제 개입   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            가상 주소 접근 시 TLB Hit / Miss 분기 흐름               |
++----------------------------------------------------------------------+
+| CPU가 가상 주소 생성                                                 |
+|        |                                                             |
+|        v                                                             |
+| MMU가 TLB 조회                                                       |
+|   +- Hit  ----------------> 물리 주소 즉시 획득 --> 캐시/메모리 접근   |
+|   |                                                                  |
+|   +- Miss --> 페이지 테이블 워크 (Page Table Walk)                    |
+|                |                                                     |
+|                +- 유효한 매핑 발견 --> TLB 채움 --> 재시도             |
+|                |                                                     |
+|                +- 매핑 무효 / 부재 --> 페이지 폴트 --> 운영체제 개입   |
++----------------------------------------------------------------------+
 ```
 
 핵심은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 곧장 디스크 접근을 뜻하지 않는다는 점이다. 대부분의 미스는 메모리 안의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 추가로 읽는 선에서 끝나지만, 매핑 자체가 없거나 현재 메모리에 올라오지 않은 경우에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입하는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)로 확대된다. 그래서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경고", [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 "실행 경로 변경"에 가깝다.
@@ -65,22 +65,22 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 아래 그림은 같은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스라도 결과가 어떻게 갈리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                TLB Miss 이후의 두 갈래 처리                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ TLB Miss                                                             │
-│   │                                                                  │
-│   ▼                                                                  │
-│ 페이지 테이블 워크                                                   │
-│   │                                                                  │
-│   ├─ PTE가 유효함 (Present=1)                                        │
-│   │      └─ Soft Miss: TLB만 비어 있었음                             │
-│   │         └─ TLB 갱신 후 명령 재실행                               │
-│   │                                                                  │
-│   └─ PTE가 무효 / 부재 (Present=0 등)                                │
-│          └─ Hard Miss 성격의 페이지 폴트                             │
-│             └─ 운영체제가 페이지 적재 또는 예외 처리                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                TLB Miss 이후의 두 갈래 처리                         |
++----------------------------------------------------------------------+
+| TLB Miss                                                             |
+|   |                                                                  |
+|   v                                                                  |
+| 페이지 테이블 워크                                                   |
+|   |                                                                  |
+|   +- PTE가 유효함 (Present=1)                                        |
+|   |      +- Soft Miss: TLB만 비어 있었음                             |
+|   |         +- TLB 갱신 후 명령 재실행                               |
+|   |                                                                  |
+|   +- PTE가 무효 / 부재 (Present=0 등)                                |
+|          +- Hard Miss 성격의 페이지 폴트                             |
+|             +- 운영체제가 페이지 적재 또는 예외 처리                 |
++----------------------------------------------------------------------+
 ```
 
 즉, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트는 번역 정보가 이미 전면에 배치된 상태이고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 그 정보를 재구성해야 하는 상태다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 히트율에 좌우되지만, 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 미스의 종류에 더 크게 좌우된다. 메모리 안에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾는 미스와 저장장치에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 불러와야 하는 폴트는 비용 차이가 몇 자릿수 이상 벌어진다.
@@ -164,25 +164,25 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 
 ```text
 가상 메모리 (Virtual Memory)
-    │
-    ▼
+    |
+    v
 페이지 테이블 (Page Table)
-    │
-    ▼
+    |
+    v
 TLB (Translation Lookaside Buffer)
-    │
-    ├─▶ TLB Hit: 주소 변환 지연 은닉
-    │
-    └─▶ TLB Miss
-            │
-            ├─▶ Page Table Walk
-            │       └─▶ ASID / PCID · Huge Page 최적화
-            │
-            └─▶ Page Fault
-                    └─▶ 운영체제 스와핑 · 가상화 이중 번역 대응
+    |
+    +--> TLB Hit: 주소 변환 지연 은닉
+    |
+    +--> TLB Miss
+            |
+            +--> Page Table Walk
+            |       +--> ASID / PCID · Huge Page 최적화
+            |
+            +--> Page Fault
+                    +--> 운영체제 스와핑 · 가상화 이중 번역 대응
 ```
 
-이 흐름은 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 도입 → 번역 비용 발생 → TLB로 가속 → 미스 원인별 최적화"라는 연결 구조를 보여준다.
+이 흐름은 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 도입 -> 번역 비용 발생 -> TLB로 가속 -> 미스 원인별 최적화"라는 연결 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -196,7 +196,7 @@ TLB (Translation Lookaside Buffer)
 
 **진행 상황**: 292 / 803
 
-← **이전**: [291. TLB (Translation Lookaside Buffer)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)
-**다음**: [293. 세그멘테이션 (Segmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/293_segmentation/) →
+<- **이전**: [291. TLB (Translation Lookaside Buffer)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)
+**다음**: [293. 세그멘테이션 (Segmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/293_segmentation/) ->
 
 ---

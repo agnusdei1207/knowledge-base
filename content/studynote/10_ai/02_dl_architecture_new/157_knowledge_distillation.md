@@ -36,17 +36,17 @@ tags = ["studynote-ai"]
 아래 그림은 같은 입력을 교사와 학생이 동시에 보고, 학생이 두 종류의 목표를 함께 학습하는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Distillation pipeline: one input, two learning signals              │
-├──────────────────────────────────────────────────────────────────────┤
-│ input x ─┬─▶ Teacher ─▶ logits z_t ─▶ Softmax(T) ─▶ q_t             │
-│          │                                                           │
-│          └─▶ Student ─▶ logits z_s ─▶ Softmax(T) ─▶ q_s             │
-│                                   └─▶ Softmax(1) ─▶ y_hat           │
-│                                                                      │
-│ Loss = α·CE(y, y_hat) + (1-α)·KL(q_t || q_s)                         │
-│        hard label fitting      teacher distribution matching         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Distillation pipeline: one input, two learning signals              |
++----------------------------------------------------------------------+
+| input x -+--> Teacher --> logits z_t --> Softmax(T) --> q_t             |
+|          |                                                           |
+|          +--> Student --> logits z_s --> Softmax(T) --> q_s             |
+|                                   +--> Softmax(1) --> y_hat           |
+|                                                                      |
+| Loss = α·CE(y, y_hat) + (1-α)·KL(q_t || q_s)                         |
+|        hard label fitting      teacher distribution matching         |
++----------------------------------------------------------------------+
 ```
 
 여기서 온도는 매우 중요하다. [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 함수의 온도 T를 높이면 정답 이외의 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)도 더 평평하게 드러나서, 학생이 교사의 "헷갈림 구조"를 볼 수 있다. 이 정보는 흔히 다크 지식 (Dark Knowledge)이라 부르며, 예를 들어 고양이 사진에서 "개와는 조금 비슷하지만 자동차와는 거의 무관하다"는 식의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전달한다.
@@ -136,22 +136,22 @@ tags = ["studynote-ai"]
 
 ```text
 Large Teacher Model
-       │
-       ▼
+       |
+       v
 Soft Target + Dark Knowledge
-       │
-       ▼
+       |
+       v
 Knowledge Distillation
-       │
-       ├──▶ Self-Distillation
-       ├──▶ Feature Distillation
-       └──▶ Multi-Teacher Distillation
-       │
-       ▼
+       |
+       +---> Self-Distillation
+       +---> Feature Distillation
+       +---> Multi-Teacher Distillation
+       |
+       v
 Edge AI / On-device Inference / Low-latency Service
 ```
 
-이 흐름은 "대형 모델의 지식 확보 → 분포 전달 → 경량 학생 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 배포 최적화"로 이어지는 확장 경로를 보여준다.
+이 흐름은 "대형 모델의 지식 확보 -> 분포 전달 -> 경량 학생 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 배포 최적화"로 이어지는 확장 경로를 보여준다.
 
 ### 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ Edge AI / On-device Inference / Low-latency Service
 
 **진행 상황**: 157 / 420
 
-← **이전**: [156. RLAIF (AI 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/156_rlaif/)
-**다음**: [158. 양자화 (Quantization)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/158_quantization/) →
+<- **이전**: [156. RLAIF (AI 피드백 기반 강화학습)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/156_rlaif/)
+**다음**: [158. 양자화 (Quantization)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/158_quantization/) ->
 
 ---

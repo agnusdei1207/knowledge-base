@@ -25,16 +25,16 @@ tags = ["studynote-bigdata"]
 
 ```
 배치 처리만 사용:
-  → 정확하고 완전하지만 지연 시간이 수 시간
-  → 사기 탐지·실시간 추천에 부적합
+  -> 정확하고 완전하지만 지연 시간이 수 시간
+  -> 사기 탐지·실시간 추천에 부적합
 
 실시간 처리만 사용:
-  → 빠르지만 시스템 장애나 버그 시 데이터 손실·오류
-  → 전체 히스토리 재처리 불가 (대량 데이터)
-  → 복잡한 집계(예: 전체 기간 통계)는 처리 불가
+  -> 빠르지만 시스템 장애나 버그 시 데이터 손실·오류
+  -> 전체 히스토리 재처리 불가 (대량 데이터)
+  -> 복잡한 집계(예: 전체 기간 통계)는 처리 불가
 
 Lambda Architecture의 해결책:
-  → 두 방식을 병렬 운영하여 각각의 장점을 취함
+  -> 두 방식을 병렬 운영하여 각각의 장점을 취함
 ```
 
 ### 2. 3개 레이어의 역할
@@ -56,34 +56,34 @@ Lambda Architecture의 해결책:
 
 ```
 원본 데이터 스트림
-     │
-     ├──────────────────────────────────────────┐
-     │ 모든 데이터 (과거 + 현재)                │
-     ▼                                          ▼
-┌─────────────────────┐              ┌──────────────────────┐
-│  Batch Layer         │              │  Speed Layer          │
-│                      │              │                       │
-│  • 전체 데이터 재처리 │              │  • 최근 데이터만 처리  │
-│  • 주기적 실행       │              │  • 실시간 증분 처리    │
-│    (예: 매 시간)     │              │  • 근사치 뷰 생성      │
-│  • 정확한 배치 뷰    │              │                       │
-│                      │              │  Flink / Storm        │
-│  Hadoop / Spark      │              │  Spark Streaming      │
-└──────────┬───────────┘              └──────────┬────────────┘
-           │                                     │
-           │ 배치 뷰 (정확, 낮은 신선도)          │ 실시간 뷰 (근사, 높은 신선도)
-           └──────────────────┬──────────────────┘
-                              ▼
-                   ┌──────────────────┐
-                   │  Serving Layer   │
-                   │                  │
-                   │  배치 뷰 + 실시간 뷰 병합│
-                   │  쿼리 API 제공   │
-                   │                  │
-                   │  Cassandra / HBase│
-                   │  Elasticsearch   │
-                   └──────────────────┘
-                              │
+     |
+     +------------------------------------------+
+     | 모든 데이터 (과거 + 현재)                |
+     v                                          v
++---------------------+              +----------------------+
+|  Batch Layer         |              |  Speed Layer          |
+|                      |              |                       |
+|  • 전체 데이터 재처리 |              |  • 최근 데이터만 처리  |
+|  • 주기적 실행       |              |  • 실시간 증분 처리    |
+|    (예: 매 시간)     |              |  • 근사치 뷰 생성      |
+|  • 정확한 배치 뷰    |              |                       |
+|                      |              |  Flink / Storm        |
+|  Hadoop / Spark      |              |  Spark Streaming      |
++----------+-----------+              +----------+------------+
+           |                                     |
+           | 배치 뷰 (정확, 낮은 신선도)          | 실시간 뷰 (근사, 높은 신선도)
+           +------------------+------------------+
+                              v
+                   +------------------+
+                   |  Serving Layer   |
+                   |                  |
+                   |  배치 뷰 + 실시간 뷰 병합|
+                   |  쿼리 API 제공   |
+                   |                  |
+                   |  Cassandra / HBase|
+                   |  Elasticsearch   |
+                   +------------------+
+                              |
                        사용자/서비스 쿼리
 ```
 
@@ -98,9 +98,9 @@ Serving Layer:
   3. 병합: 100,000 + 5,000 = 105,000원 (표시)
 
 6시간 후 배치 작업 완료:
-  → 오늘 정확한 합계 6,000원으로 확정
-  → 배치 뷰: 106,000원으로 업데이트
-  → 실시간 뷰: 오늘 추가분만 다시 계산
+  -> 오늘 정확한 합계 6,000원으로 확정
+  -> 배치 뷰: 106,000원으로 업데이트
+  -> 실시간 뷰: 오늘 추가분만 다시 계산
 ```
 
 ### 3. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 장단점
@@ -134,12 +134,12 @@ Serving Layer:
 
 ```
 Lambda의 현대적 재해석:
-  Batch Layer → Delta Lake / Iceberg (ACID 배치)
-  Speed Layer → Structured Streaming (마이크로배치)
-  Serving → 동일 Delta Lake 테이블 쿼리
+  Batch Layer -> Delta Lake / Iceberg (ACID 배치)
+  Speed Layer -> Structured Streaming (마이크로배치)
+  Serving -> 동일 Delta Lake 테이블 쿼리
 
-→ 코드 통일: 모두 Spark API 사용
-→ 스토리지 통일: 모두 같은 Delta Lake 테이블
+-> 코드 통일: 모두 Spark API 사용
+-> 스토리지 통일: 모두 같은 Delta Lake 테이블
 ```
 
 **📢 섹션 요약 비유**
@@ -160,7 +160,7 @@ Lambda의 현대적 재해석:
 ### 2. 전환 고려 시점
 
 ```
-Lambda → Kappa 전환 검토 시점:
+Lambda -> Kappa 전환 검토 시점:
   1. 배치 코드와 실시간 코드 유지보수 비용이 개발팀 부담의 30% 이상
   2. 비즈니스 로직 변경이 잦아 이중화 유지가 힘들 때
   3. Kafka 보존 기간을 전체 히스토리로 유지할 수 있을 때
@@ -178,7 +178,7 @@ Lambda → Kappa 전환 검토 시점:
 | 효과 | 설명 |
 |:---|:---|
 | 정확도 + 저지연 동시 달성 | 배치 정확도 + 실시간 속도 병행 |
-| 장애 복원력 | 실시간 오류 → 배치로 재처리하여 보정 |
+| 장애 복원력 | 실시간 오류 -> 배치로 재처리하여 보정 |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 패턴 | 트위터, Netflix 등 대형 플랫폼에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ### 2. 결론
@@ -204,17 +204,17 @@ Lambda → Kappa 전환 검토 시점:
 
 ```text
 [배치 vs 실시간 처리 딜레마 — 정확성(배치) vs 실시간성(스트리밍) 충돌]
-    │
-    ▼
+    |
+    v
 [람다 아키텍처 (Lambda Architecture) — Batch Layer + Speed Layer + Serving Layer 3계층]
-    │
-    ▼
+    |
+    v
 [카파 아키텍처 (Kappa Architecture) — 스트리밍 단일 파이프라인으로 배치 레이어 제거]
-    │
-    ▼
+    |
+    v
 [Delta Lake / Apache Iceberg — ACID 트랜잭션 지원 오픈 테이블 포맷]
-    │
-    ▼
+    |
+    v
 [Lakehouse 아키텍처 — 데이터 레이크 + 데이터 웨어하우스 통합]
 ```
 배치와 스트리밍의 결합을 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처가 해결했고, 복잡성 문제를 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)가 단순화했으며, 최종적으로 Lakehouse가 ACID와 대규모 분석을 통합했다.
@@ -229,7 +229,7 @@ Lambda → Kappa 전환 검토 시점:
 
 **진행 상황**: 95 / 262
 
-← **이전**: [19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징](/knowledge-base/studynote/16_bigdata/04_streaming/094_apache_pulsar/)
-**다음**: [21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) →
+<- **이전**: [19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징](/knowledge-base/studynote/16_bigdata/04_streaming/094_apache_pulsar/)
+**다음**: [21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) ->
 
 ---

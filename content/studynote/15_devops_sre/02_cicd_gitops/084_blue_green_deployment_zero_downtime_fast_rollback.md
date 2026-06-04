@@ -24,11 +24,11 @@ tags = ["studynote-devops"]
 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)가 필요한 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속 열려 있는 시대에는 잠깐의 점검도 장애로 보이기 때문이다. 특히 결제, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 배포 중단 시간이 곧 사용자 불만과 매출 손실로 이어진다.
 
 ```text
-Users ──> LB (Load Balancer) ──> Blue (live)
-                              └──> Green (staged)
+Users --> LB (Load Balancer) --> Blue (live)
+                              +--> Green (staged)
 
-switch: Blue → Green
-rollback: Green → Blue
+switch: Blue -> Green
+rollback: Green -> Blue
 ```
 
 - **📢 섹션 요약 비유**: 같은 교실 두 개를 미리 준비해 두고, 수업 중에 학생만 조용히 옮기는 것과 같다.
@@ -122,15 +122,15 @@ rollback: Green → Blue
 
 ```text
 Green 환경 준비
-  │
-  ▼
+  |
+  v
 배포 / 스모크 테스트
-  │
-  ▼
+  |
+  v
 LB 트래픽 스위치
-  │
-  ▼
-모니터링 → 필요 시 즉시 롤백
+  |
+  v
+모니터링 -> 필요 시 즉시 롤백
 ```
 
 흐름의 핵심은 '새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 문제 없음을 먼저 증명한 뒤' 전환하는 것이다.
@@ -147,7 +147,7 @@ LB 트래픽 스위치
 
 **진행 상황**: 84 / 373
 
-← **이전**: [83. 롤링 배포 (Rolling Update) - K8s 기본 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/)
-**다음**: [85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/085_canary_release_progressive_delivery_weight_routing/) →
+<- **이전**: [83. 롤링 배포 (Rolling Update) - K8s 기본 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/)
+**다음**: [85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/085_canary_release_progressive_delivery_weight_routing/) ->
 
 ---

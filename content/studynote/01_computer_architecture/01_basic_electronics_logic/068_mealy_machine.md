@@ -31,9 +31,9 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Input + State
-  ↓
+  v
 Transition
-  ↓
+  v
 Output
 ```
 
@@ -100,11 +100,11 @@ Mealy Machine은 빠른 반응이 필요한 시스템에서 효율적이다. 단
 
 ```text
 State + Input
-  ↓
+  v
 Mealy Machine
-  ↓
+  v
 Output
-  ↓
+  v
 Sequential Control
 ```
 
@@ -114,11 +114,11 @@ Sequential Control
 
 ```text
 FSM
-  ↓
+  v
 Mealy Machine
-  ↓
+  v
 Moore Machine
-  ↓
+  v
 Control Logic
 ```
 
@@ -136,7 +136,7 @@ Control Logic
 
 **진행 상황**: 68 / 803
 
-← **이전**: [67. 무어 머신 (Moore Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/)
-**다음**: [69. FPGA (Field Programmable Gate Array)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/) →
+<- **이전**: [67. 무어 머신 (Moore Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/)
+**다음**: [69. FPGA (Field Programmable Gate Array)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/) ->
 
 ---

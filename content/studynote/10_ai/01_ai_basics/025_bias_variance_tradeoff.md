@@ -10,7 +10,7 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 트레이드오프는 모델의 총 예측 오차(Total Error)가 편향²(Bias²) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) + 노이즈(Noise)로 분해됨을 나타내는 원리로, 모델 복잡도(Complexity)를 늘리면 편향은 낮아지지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 높아지는 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 존재한다.
+> 1. **본질**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 트레이드오프는 모델의 총 예측 오차(Total Error)가 편향^(Bias^) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) + 노이즈(Noise)로 분해됨을 나타내는 원리로, 모델 복잡도(Complexity)를 늘리면 편향은 낮아지지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 높아지는 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 존재한다.
 > 2. **가치**: 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))은 높은 편향의 증상이고, 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))은 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 증상이다. 이 두 극단 사이에서 최적 모델 복잡도를 찾는 것이 ML(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 모델 튜닝의 핵심 문제이며, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)), [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)), [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))이 이 트레이드오프를 관리하는 주요 도구다.
 > 3. **판단 포인트**: 딥러닝의 "이중 강하(Double Descent)" 현상은 충분히 큰 모델이 과적합 구간을 지나 다시 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상되는 것을 보여주어, 전통적 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) 이론에 의문을 제기한다. 현대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 과적합 없는 대규모화가 이 현상의 실증적 증거다.
 
@@ -19,18 +19,18 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           편향-분산 분해 (Bias-Variance Decomposition)       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  총 오차  =  편향²      +  분산         +  노이즈           │
-│            (모델의      (데이터 변동에   (줄일 수           │
-│             체계적 오류) 대한 민감도)     없는 본질 오차)    │
-│                                                            │
-│  고편향(High Bias)   → 과소적합 → 훈련/테스트 오차 모두 높음│
-│  고분산(High Variance)→ 과적합  → 훈련 낮고 테스트 높음     │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           편향-분산 분해 (Bias-Variance Decomposition)       |
++------------------------------------------------------------+
+|                                                            |
+|  총 오차  =  편향^      +  분산         +  노이즈           |
+|            (모델의      (데이터 변동에   (줄일 수           |
+|             체계적 오류) 대한 민감도)     없는 본질 오차)    |
+|                                                            |
+|  고편향(High Bias)   -> 과소적합 -> 훈련/테스트 오차 모두 높음|
+|  고분산(High Variance)-> 과적합  -> 훈련 낮고 테스트 높음     |
+|                                                            |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 편향은 양궁에서 활의 정렬이 잘못된 것(항상 같은 방향으로 빗나감)이고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 실력이 불안정한 것(때로는 맞고 때로는 크게 빗나감)이다. 최고의 궁수(모델)는 편향도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)도 낮아야 한다.
@@ -43,18 +43,18 @@ tags = ["studynote-ai"]
 
 ```text
 오차
- │
- │\           /
- │ \         /  ← 총 오차 (U자형 곡선)
- │  \       /
- │   \  ★ /  ← 최적 복잡도
- │    \/
- │─────────────────────── 모델 복잡도
-  단순      ↑         복잡
+ |
+ |\           /
+ | \         /  <- 총 오차 (U자형 곡선)
+ |  \       /
+ |   \  ★ /  <- 최적 복잡도
+ |    \/
+ |----------------------- 모델 복잡도
+  단순      ^         복잡
          최적점
 
-── 편향²: 복잡도↑ → 감소
-── 분산: 복잡도↑ → 증가
+-- 편향^: 복잡도^ -> 감소
+-- 분산: 복잡도^ -> 증가
 ```
 
 ### 트레이드오프 관리 기법
@@ -76,23 +76,23 @@ tags = ["studynote-ai"]
 
 | 증상 | 원인 | 진단 | 처방 |
 |:---|:---|:---|:---|
-| **과소적합** | 높은 편향 | 훈련/테스트 오차 모두 높음 | 모델 복잡도↑, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가, 더 긴 훈련 |
-| **과적합** | 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 훈련 오차↓ 테스트 오차↑ | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **과소적합** | 높은 편향 | 훈련/테스트 오차 모두 높음 | 모델 복잡도^, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가, 더 긴 훈련 |
+| **과적합** | 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 훈련 오차v 테스트 오차^ | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **적정 적합** | 최적 균형 | 훈련≈테스트 오차 (둘 다 낮음) | 현재 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 유지 |
 
 ### 이중 강하 (Double Descent) 현상
 
 ```text
-오차  ┤
-      │\     /
-      │ \   /
-      │  \ /  ← 전통 U자 곡선 (과적합 구간)
-      │   │
-      │   │\    ← 이중 강하: 매우 큰 모델에서
-      │   │ \     다시 오차 감소
-      │   │  \___
-      └──────────── 모델 파라미터 수
-             ↑ 보간점(Interpolation Threshold)
+오차  +
+      |\     /
+      | \   /
+      |  \ /  <- 전통 U자 곡선 (과적합 구간)
+      |   |
+      |   |\    <- 이중 강하: 매우 큰 모델에서
+      |   | \     다시 오차 감소
+      |   |  \___
+      +------------ 모델 파라미터 수
+             ^ 보간점(Interpolation Threshold)
 ```
 
 - **📢 섹션 요약 비유**: 이중 강하는 더 많이 공부(모델 크기 증가)할수록 처음엔 과부하로 성적이 떨어지지만, 계속 공부하면 오히려 성적이 더 좋아지는 현상이다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 같은 대형 모델이 이를 보여준다.
@@ -115,7 +115,7 @@ for alpha in alphas:
     cv_scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
     print(f"alpha={alpha:.3f}: CV MSE = {-cv_scores.mean():.4f} (±{cv_scores.std():.4f})")
 
-# alpha가 클수록 정규화 강도↑ → 분산↓ 편향↑
+# alpha가 클수록 정규화 강도^ -> 분산v 편향^
 # 최적 alpha를 교차 검증으로 선택
 ```
 
@@ -154,17 +154,17 @@ for alpha in alphas:
 
 ```text
 [편향-분산 트레이드오프 이론 — 통계학 기반]
-    │
-    ▼
+    |
+    v
 [정규화 (Ridge/Lasso/Dropout) — 분산 통제]
-    │
-    ▼
+    |
+    v
 [앙상블 (배깅/부스팅) — 편향·분산 동시 개선]
-    │
-    ▼
+    |
+    v
 [교차 검증 + HPO — 자동 최적점 탐색]
-    │
-    ▼
+    |
+    v
 [Double Descent — 초대규모 모델의 새 패러다임]
 ```
 
@@ -180,7 +180,7 @@ for alpha in alphas:
 
 **진행 상황**: 25 / 420
 
-← **이전**: [24. 학습 패러다임 3종 — 지도·비지도·강화학습](/knowledge-base/studynote/10_ai/01_ai_basics/024_learning_paradigms/)
-**다음**: [26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단](/knowledge-base/studynote/10_ai/01_ai_basics/026_overfitting_underfitting/) →
+<- **이전**: [24. 학습 패러다임 3종 — 지도·비지도·강화학습](/knowledge-base/studynote/10_ai/01_ai_basics/024_learning_paradigms/)
+**다음**: [26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단](/knowledge-base/studynote/10_ai/01_ai_basics/026_overfitting_underfitting/) ->
 
 ---

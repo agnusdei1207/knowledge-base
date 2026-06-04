@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a> I/O 전용 구역의 탄생</strong>: OS는 아예 하드디스크 한구석의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 통째로 썰어서 "여기는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(디렉토리 구조) 싹 무시하고, 내가 직접 디스크 블록 번호(Sector)로 꽂아서 읽고 쓴다!"라며 독립된 무법지대(스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))를 선포했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        스왑 공간(Swap Space)을 활용한 생명 연장의 시각화            │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ 상황: 16GB RAM이 100% 꽉 찬 절망적인 상태 ]                       │
-│                                                                     │
-│  [ 물리 RAM (16GB) ]                                                │
-│  [크롬 활성탭][카톡][엑셀][크롬 잠든 탭 4GB] ◀ (빈 구멍 0개)        │
-│                                                                     │
-│ ▶ 위기: 게임 '롤(LoL)'이 3GB 램을 요구하며 실행을 시도함!           │
-│                                                                     │
-│                    ↓↓ OS 스와퍼(kswapd) 긴급 출동 ↓↓                │
-│                                                                     │
-│  [ 1. Swap-Out (대피) ]                                             │
-│  OS: "오래 잠들어 있던 [크롬 탭 4GB] 조각들을 끄집어내라!"          │
-│  램에서 ──▶ [ 디스크의 Swap Partition / pagefile.sys ]에 묻음.      │
-│                                                                     │
-│  [ 2. 램 공간 확보 완료 ]                                           │
-│  [크롬 활성탭][카톡][엑셀][ ▒ 빈 램 4GB 확보 ▒ ]                    │
-│                                                                     │
-│  [ 3. Swap-In (새로운 데이터 적재) ]                                │
-│  OS: "생성된 빈 램 4GB 구역에 롤(LoL) 데이터를 꽂아 넣어라!"        │
-│  ✅ 결과: RAM은 16GB지만, 19GB어치의 프로그램이 사이좋게 실행됨!    │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|        스왑 공간(Swap Space)을 활용한 생명 연장의 시각화            |
++---------------------------------------------------------------------+
+|                                                                     |
+| [ 상황: 16GB RAM이 100% 꽉 찬 절망적인 상태 ]                       |
+|                                                                     |
+|  [ 물리 RAM (16GB) ]                                                |
+|  [크롬 활성탭][카톡][엑셀][크롬 잠든 탭 4GB] <- (빈 구멍 0개)        |
+|                                                                     |
+| -> 위기: 게임 '롤(LoL)'이 3GB 램을 요구하며 실행을 시도함!           |
+|                                                                     |
+|                    vv OS 스와퍼(kswapd) 긴급 출동 vv                |
+|                                                                     |
+|  [ 1. Swap-Out (대피) ]                                             |
+|  OS: "오래 잠들어 있던 [크롬 탭 4GB] 조각들을 끄집어내라!"          |
+|  램에서 ---> [ 디스크의 Swap Partition / pagefile.sys ]에 묻음.      |
+|                                                                     |
+|  [ 2. 램 공간 확보 완료 ]                                           |
+|  [크롬 활성탭][카톡][엑셀][ ▒ 빈 램 4GB 확보 ▒ ]                    |
+|                                                                     |
+|  [ 3. Swap-In (새로운 데이터 적재) ]                                |
+|  OS: "생성된 빈 램 4GB 구역에 롤(LoL) 데이터를 꽂아 넣어라!"        |
+|  ✅ 결과: RAM은 16GB지만, 19GB어치의 프로그램이 사이좋게 실행됨!    |
++---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 스왑 과정은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 우아함 이면에 감춰진 가장 처절한 노가다 현장이다. OS는 백그라운드 데몬(kswapd 등)을 띄워 놓고, 램 잔고가 줄어들 기미가 보이면 미리미리 안 쓰는 조각들을 스왑 공간으로 밀어버린다. 만약 이 밀어내는 속도보다 게임이 램을 집어삼키는 속도가 더 빠르면, 그제야 화면이 뚝뚝 끊기는(STW) [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Reclaim)을 체감하게 되는 것이다.
 
@@ -107,13 +107,13 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 - 이 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)는 램에서 그냥 지우면 내 로그인 정보가 날아간다. <strong>이 갈 곳 없는 힙/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들의 유일한 피난처가 바로 스왑 공간(Swap Space)이다.</strong>
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 메모리 종류│ 디스크 원본 파일│ 램 쫓겨날 때 조치 │ 스왑 파티션 소모 │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 코드(Text)│ 존재함 (exe) │ 그냥 쿨하게 버림  │ 안 씀 (0%)           │
-│ 힙 (Heap)│ 없음 (동적 생성)│ 스왑 파티션에 기록│ 엄청나게 소모함    │
-│ 스택(Stack)│ 없음 (동적 생성)│ 스왑 파티션에 기록│ 엄청나게 소모함  │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
++----------+------------+------------+--------------------------------+
+| 메모리 종류| 디스크 원본 파일| 램 쫓겨날 때 조치 | 스왑 파티션 소모 |
++----------+------------+------------+--------------------------------+
+| 코드(Text)| 존재함 (exe) | 그냥 쿨하게 버림  | 안 씀 (0%)           |
+| 힙 (Heap)| 없음 (동적 생성)| 스왑 파티션에 기록| 엄청나게 소모함    |
+| 스택(Stack)| 없음 (동적 생성)| 스왑 파티션에 기록| 엄청나게 소모함  |
++----------+------------+------------+--------------------------------+
 ```
 **[매트릭스 해설]** 초보 개발자들은 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 모든 메모리를 다 받아주는 줄 알지만, 실제로는 힙과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이라는 '[익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)' 전용 고시원이다. 코드 영역은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)로 분류되어 스왑 없이도 알아서 잘 쫓겨났다 잘 돌아온다.
 
@@ -175,12 +175,12 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 
 ```text
 [페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
-    │
-    ▼
+    |
+    v
 [스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
-    │
-    ├──▶ [익명 메모리 (Anonymous Memory)]
-    └──▶ [파일 지원 메모리 (File-backed Memory)]
+    |
+    +---> [익명 메모리 (Anonymous Memory)]
+    +---> [파일 지원 메모리 (File-backed Memory)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -197,7 +197,7 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 
 **진행 상황**: 390 / 800
 
-← **이전**: [389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)
-**다음**: [391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) →
+<- **이전**: [389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)
+**다음**: [391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) ->
 
 ---

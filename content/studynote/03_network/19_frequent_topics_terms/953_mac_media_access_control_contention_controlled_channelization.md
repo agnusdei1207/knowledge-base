@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [은닉 단말 문제]
-    │
-    ▼
+    |
+    v
 [매체 접근 제어]
-    │
-    └──▶ [확산 스펙트럼]
+    |
+    +---> [확산 스펙트럼]
 ```
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -62,11 +62,11 @@ tags = ["studynote-network"]
 
 ```text
 [은닉 단말 문제]
-    │
-    ▼
+    |
+    v
 [매체 접근 제어]
-    │
-    └──▶ [확산 스펙트럼]
+    |
+    +---> [확산 스펙트럼]
 ```
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -131,12 +131,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 은닉 단말 문제]
-    │
-    ▼
+    |
+    v
 [현재 개념: 매체 접근 제어]
-    │
-    ├──▶ [확장 A: 확산 스펙트럼]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 확산 스펙트럼]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제에서 출발해 현재 메커니즘을 정교화하고, 이후 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1074 / 1120
 
-← **이전**: [952. 은닉 단말 (Hidden Terminal) 문제 (CSMA/CA RTS/CTS)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/)
-**다음**: [954. 확산 스펙트럼 (Spread Spectrum)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) →
+<- **이전**: [952. 은닉 단말 (Hidden Terminal) 문제 (CSMA/CA RTS/CTS)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/)
+**다음**: [954. 확산 스펙트럼 (Spread Spectrum)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) ->
 
 ---

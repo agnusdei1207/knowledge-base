@@ -37,18 +37,18 @@ tags = ["studynote-data-engineering"]
 
 ```
 모델 학습 (Cloud)
-    │
-    ▼
+    |
+    v
 모델 변환/최적화
  (ONNX / TensorRT / TFLite / OpenVINO)
-    │
-    ▼
+    |
+    v
 패키징 (Docker Edge Runtime / OCI)
-    │
-    ▼
+    |
+    v
 배포망 (OTA Update / Edge Orchestration)
-    │
-    ▼
+    |
+    v
 엣지 디바이스에서 추론 실행
 ```
 
@@ -64,22 +64,22 @@ ONNX는 Microsoft와 Facebook이 공동 개발한 <strong>프레임워크 독립
 
 ```
 PyTorch 모델 (.pth)
-    │ torch.onnx.export()
-    ▼
-┌─────────────────────┐
-│   ONNX 모델 (.onnx) │
-│   - 연산자 그래프    │
-│   - 가중치(Weight)  │
-│   - 입출력 명세      │
-└──────────┬──────────┘
-           │
-    ┌──────┴────────────────────────┐
-    │                               │
-    ▼                               ▼
+    | torch.onnx.export()
+    v
++---------------------+
+|   ONNX 모델 (.onnx) |
+|   - 연산자 그래프    |
+|   - 가중치(Weight)  |
+|   - 입출력 명세      |
++----------+----------+
+           |
+    +------+------------------------+
+    |                               |
+    v                               v
 ONNX Runtime             TensorRT 변환
 (CPU/GPU 범용 추론)        (NVIDIA GPU 최적화)
-    │                               │
-    ▼                               ▼
+    |                               |
+    v                               v
 Intel OpenVINO           .engine 파일
 ARM NN                   최고 성능 추론
 TFLite (변환)
@@ -100,26 +100,26 @@ TensorRT는 NVIDIA가 개발한 고성능 딥러닝 추론 라이브러리로, O
 
 ```
 ONNX 모델 입력
-    │
-    ▼
-┌───────────────────────────────────────┐
-│         TensorRT 최적화 단계           │
-│                                       │
-│  1. 레이어 융합 (Layer Fusion)         │
-│     Conv + BN + ReLU → 단일 커널       │
-│                                       │
-│  2. 정밀도 캘리브레이션 (Calibration)  │
-│     FP32 → FP16 / INT8 양자화         │
-│     대표 데이터셋으로 임계값 결정       │
-│                                       │
-│  3. 커널 자동 선택 (Kernel Autotuning) │
-│     GPU 아키텍처별 최적 커널 선택       │
-│                                       │
-│  4. 메모리 최적화 (Memory Optimizer)   │
-│     텐서 메모리 재사용, 레이아웃 최적화 │
-└───────────────────────┬───────────────┘
-                        │
-                        ▼
+    |
+    v
++---------------------------------------+
+|         TensorRT 최적화 단계           |
+|                                       |
+|  1. 레이어 융합 (Layer Fusion)         |
+|     Conv + BN + ReLU -> 단일 커널       |
+|                                       |
+|  2. 정밀도 캘리브레이션 (Calibration)  |
+|     FP32 -> FP16 / INT8 양자화         |
+|     대표 데이터셋으로 임계값 결정       |
+|                                       |
+|  3. 커널 자동 선택 (Kernel Autotuning) |
+|     GPU 아키텍처별 최적 커널 선택       |
+|                                       |
+|  4. 메모리 최적화 (Memory Optimizer)   |
+|     텐서 메모리 재사용, 레이아웃 최적화 |
++-----------------------+---------------+
+                        |
+                        v
               .engine 파일 생성
               (특정 GPU에 최적화)
 ```
@@ -136,23 +136,23 @@ ONNX 모델 입력
 ### 2.3 모델 경량화 기법
 
 ```
-┌─────────────────────────────────────────────────┐
-│              모델 경량화 4대 기법                  │
-│                                                 │
-│  ┌───────────────┐  ┌───────────────┐           │
-│  │ 양자화        │  │ 가지치기       │           │
-│  │(Quantization)│  │(Pruning)      │           │
-│  │ FP32 → INT8  │  │ 불필요 뉴런    │           │
-│  │ 연산 정밀도 감소│  │ 가중치 제거  │           │
-│  └───────────────┘  └───────────────┘           │
-│                                                 │
-│  ┌───────────────┐  ┌───────────────┐           │
-│  │ 지식 증류     │  │ 아키텍처 탐색  │           │
-│  │(Distillation) │  │(NAS)          │           │
-│  │ 큰 모델 → 작은│  │ 경량 모델 자동 │           │
-│  │ 모델로 지식전달│  │ 설계          │           │
-│  └───────────────┘  └───────────────┘           │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|              모델 경량화 4대 기법                  |
+|                                                 |
+|  +---------------+  +---------------+           |
+|  | 양자화        |  | 가지치기       |           |
+|  |(Quantization)|  |(Pruning)      |           |
+|  | FP32 -> INT8  |  | 불필요 뉴런    |           |
+|  | 연산 정밀도 감소|  | 가중치 제거  |           |
+|  +---------------+  +---------------+           |
+|                                                 |
+|  +---------------+  +---------------+           |
+|  | 지식 증류     |  | 아키텍처 탐색  |           |
+|  |(Distillation) |  |(NAS)          |           |
+|  | 큰 모델 -> 작은|  | 경량 모델 자동 |           |
+|  | 모델로 지식전달|  | 설계          |           |
+|  +---------------+  +---------------+           |
++-------------------------------------------------+
 ```
 
 ### 2.4 주요 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포 런타임
@@ -175,34 +175,34 @@ ONNX 모델 입력
 ### 3.1 모델 배포망 전체 아키텍처
 
 ```
-┌────────────────────────────────────────────────────────┐
-│                   엣지 AI 배포망                         │
-│                                                        │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │              클라우드 (Model Registry)            │   │
-│  │  MLflow / DVC / Vertex AI Model Registry         │   │
-│  │  학습된 모델 버전 관리 + A/B 테스트               │   │
-│  └──────────────────────┬──────────────────────────┘   │
-│                         │ OTA(Over-the-Air) 배포        │
-│                ┌────────┴────────┐                     │
-│                │                 │                     │
-│   ┌────────────▼────┐  ┌────────▼──────────┐          │
-│   │  엣지 게이트웨이 │  │  엣지 게이트웨이   │          │
-│   │ (공장 서버)      │  │ (자동차 ECU)       │          │
-│   │ ONNX Runtime    │  │ TensorRT Engine   │          │
-│   └────────┬────────┘  └────────┬──────────┘          │
-│            │                    │                      │
-│   ┌────────▼────┐      ┌────────▼────┐                │
-│   │ IoT 센서    │      │ 카메라 모듈  │                │
-│   │ TFLite      │      │ OpenVINO    │                │
-│   └─────────────┘      └─────────────┘                │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                   엣지 AI 배포망                         |
+|                                                        |
+|  +-------------------------------------------------+   |
+|  |              클라우드 (Model Registry)            |   |
+|  |  MLflow / DVC / Vertex AI Model Registry         |   |
+|  |  학습된 모델 버전 관리 + A/B 테스트               |   |
+|  +----------------------+--------------------------+   |
+|                         | OTA(Over-the-Air) 배포        |
+|                +--------+--------+                     |
+|                |                 |                     |
+|   +------------v----+  +--------v----------+          |
+|   |  엣지 게이트웨이 |  |  엣지 게이트웨이   |          |
+|   | (공장 서버)      |  | (자동차 ECU)       |          |
+|   | ONNX Runtime    |  | TensorRT Engine   |          |
+|   +--------+--------+  +--------+----------+          |
+|            |                    |                      |
+|   +--------v----+      +--------v----+                |
+|   | IoT 센서    |      | 카메라 모듈  |                |
+|   | TFLite      |      | OpenVINO    |                |
+|   +-------------+      +-------------+                |
++--------------------------------------------------------+
 ```
 
-### 3.2 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화 흐름 (PyTorch → TensorRT)
+### 3.2 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화 흐름 (PyTorch -> TensorRT)
 
 ```python
-# 1. PyTorch 모델 → ONNX 변환
+# 1. PyTorch 모델 -> ONNX 변환
 import torch
 model = MyModel().eval()
 dummy_input = torch.randn(1, 3, 224, 224)
@@ -211,7 +211,7 @@ torch.onnx.export(model, dummy_input, "model.onnx",
                   input_names=["input"],
                   output_names=["output"])
 
-# 2. ONNX → TensorRT 변환 (trtexec 사용)
+# 2. ONNX -> TensorRT 변환 (trtexec 사용)
 # trtexec --onnx=model.onnx --saveEngine=model.engine \
 #         --fp16 --workspace=4096
 
@@ -241,18 +241,18 @@ import numpy as np
 추론 배포 위치 결정
 
 지연 요구사항 < 10ms?
-├─ YES → 엣지 추론 필수
-│         (자율주행, 로봇 제어, 실시간 QA)
-└─ NO  → 네트워크 연결 안정적?
-          ├─ YES → 클라우드 추론 고려
-          │         (비용 효율, 최신 모델)
-          └─ NO  → 엣지 추론 필요
++- YES -> 엣지 추론 필수
+|         (자율주행, 로봇 제어, 실시간 QA)
++- NO  -> 네트워크 연결 안정적?
+          +- YES -> 클라우드 추론 고려
+          |         (비용 효율, 최신 모델)
+          +- NO  -> 엣지 추론 필요
                     (공장 자동화, 원격지)
 
 프라이버시 민감 데이터?
-├─ YES → 엣지 추론 강력 권장
-│         (의료 영상, 금융 데이터)
-└─ NO  → 비용/성능 기준으로 선택
++- YES -> 엣지 추론 강력 권장
+|         (의료 영상, 금융 데이터)
++- NO  -> 비용/성능 기준으로 선택
 ```
 
 ### 4.2 TensorRT 최적화 실전 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -269,16 +269,16 @@ import numpy as np
 ### 4.3 실무 사례: 제조업 품질 검사
 
 ```
-[카메라 → 엣지 서버 → 불량 탐지]
+[카메라 -> 엣지 서버 -> 불량 탐지]
 
 카메라 (30fps, 4K)
-    │ 이미지 스트림
-    ▼
+    | 이미지 스트림
+    v
 NVIDIA Jetson AGX Xavier
-  ├─ TensorRT Engine (YOLOv8-nano INT8)
-  ├─ 추론 시간: 5ms/장
-  ├─ 정확도: FP32 대비 99.2% 유지
-  └─ 전력: 30W (클라우드 대비 1/100)
+  +- TensorRT Engine (YOLOv8-nano INT8)
+  +- 추론 시간: 5ms/장
+  +- 정확도: FP32 대비 99.2% 유지
+  +- 전력: 30W (클라우드 대비 1/100)
 
 결과: 불량품 즉시 라인 제거 (100ms 이내 판단)
 클라우드 업로드: 불량 케이스 샘플만 (데이터 90% 절감)
@@ -313,24 +313,24 @@ NVIDIA Jetson AGX Xavier
 
 ```
 엣지 AI 기술 발전 방향
-┌─────────────────────────────────────────┐
-│                                         │
-│  현재: 모델 경량화 + 하드웨어 가속        │
-│  ↓                                      │
-│  단기: 연합 학습(Federated Learning)     │
-│       엣지에서 분산 학습                  │
-│  ↓                                      │
-│  중기: 엣지 클라우드 협력 추론            │
-│       (부분 추론 분산)                    │
-│  ↓                                      │
-│  장기: 자율 엣지 AI 에이전트              │
-│       (학습 + 추론 + 자가 업데이트)       │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+|                                         |
+|  현재: 모델 경량화 + 하드웨어 가속        |
+|  v                                      |
+|  단기: 연합 학습(Federated Learning)     |
+|       엣지에서 분산 학습                  |
+|  v                                      |
+|  중기: 엣지 클라우드 협력 추론            |
+|       (부분 추론 분산)                    |
+|  v                                      |
+|  장기: 자율 엣지 AI 에이전트              |
+|       (학습 + 추론 + 자가 업데이트)       |
++-----------------------------------------+
 ```
 
 ### 5.3 결론 요약
 
-ONNX는 딥러닝 모델의 이식성을 보장하는 표준 포맷이고, TensorRT는 NVIDIA GPU에서의 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어내는 컴파일러다. 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용, 프라이버시의 균형점을 찾는 엔지니어링 최적화 문제이며, 기술사 관점에서는 <strong>하드웨어 선택 → 모델 최적화 → 배포망 설계 → 보안 강화</strong>의 4단계 프레임워크로 접근해야 한다.
+ONNX는 딥러닝 모델의 이식성을 보장하는 표준 포맷이고, TensorRT는 NVIDIA GPU에서의 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어내는 컴파일러다. 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용, 프라이버시의 균형점을 찾는 엔지니어링 최적화 문제이며, 기술사 관점에서는 <strong>하드웨어 선택 -> 모델 최적화 -> 배포망 설계 -> 보안 강화</strong>의 4단계 프레임워크로 접근해야 한다.
 
 📢 **섹션 요약 비유**: 엣지 AI는 대형 병원의 전문 장비(클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 작은 의료 가방(엣지 디바이스)에 압축하는 기술이다. 작아진 만큼 빠르고 어디서나 쓸 수 있으며, 환자 정보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 병원 밖으로 나가지 않아 안전하다.
 
@@ -342,9 +342,9 @@ ONNX는 딥러닝 모델의 이식성을 보장하는 표준 포맷이고, Tenso
 |:---|:---|:---|
 | 포맷 표준 | ONNX (Open Neural Network Exchange) | 프레임워크 독립적 모델 교환 포맷 |
 | 추론 엔진 | TensorRT | NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 최적화 컴파일러 |
-| 경량화 | [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32→INT8 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소로 속도 향상 |
+| 경량화 | [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32->INT8 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소로 속도 향상 |
 | 경량화 | [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 불필요 뉴런 제거 |
-| 경량화 | [Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 대형 모델 → 소형 모델 지식 전달 |
+| 경량화 | [Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 대형 모델 -> 소형 모델 지식 전달 |
 | 런타임 | ONNX Runtime | 크로스플랫폼 범용 추론 런타임 |
 | 런타임 | TFLite | Google 초경량 모바일 런타임 |
 | 배포 | OTA ([Over-the-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) | 무선 모델 업데이트 |
@@ -358,20 +358,20 @@ ONNX는 딥러닝 모델의 이식성을 보장하는 표준 포맷이고, Tenso
 
 ```text
 클라우드 전용 추론 (지연 · 대역폭 비용)
-    │
-    ▼
+    |
+    v
 엣지 AI: 디바이스에서 직접 추론
-    ├─► 모델 변환: ONNX · TensorRT · TFLite
-    ├─► 경량화: 양자화 (INT8) · 프루닝 · 지식 증류
-    └─► 직렬화: FlatBuffers · Protocol Buffers
-    │
-    ▼
+    +-► 모델 변환: ONNX · TensorRT · TFLite
+    +-► 경량화: 양자화 (INT8) · 프루닝 · 지식 증류
+    +-► 직렬화: FlatBuffers · Protocol Buffers
+    |
+    v
 엣지 디바이스
-    ├─► NVIDIA Jetson · Google Coral TPU
-    ├─► 스마트폰 NPU · 라즈베리파이
-    └─► WebAssembly (WASM) 추론
-    │
-    ▼
+    +-► NVIDIA Jetson · Google Coral TPU
+    +-► 스마트폰 NPU · 라즈베리파이
+    +-► WebAssembly (WASM) 추론
+    |
+    v
 OTA 모델 업데이트 · 엣지-클라우드 연방 학습
 ```
 2. ONNX는 여러 나라 음식 레시피를 하나의 표준 레시피 책으로 만드는 거예요. 어느 주방(디바이스)에서도 같은 책으로 요리(추론)할 수 있어요.
@@ -383,7 +383,7 @@ OTA 모델 업데이트 · 엣지-클라우드 연방 학습
 
 **진행 상황**: 192 / 258
 
-← **이전**: [191. 람다/카파 아키텍처 재현 (Event Sourcing Replay - Lambda/Kappa Architecture)](/knowledge-base/studynote/14_data_engineering/04_mlops/191_event_sourcing_replay_lambda_kappa/)
-**다음**: [193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론](/knowledge-base/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/) →
+<- **이전**: [191. 람다/카파 아키텍처 재현 (Event Sourcing Replay - Lambda/Kappa Architecture)](/knowledge-base/studynote/14_data_engineering/04_mlops/191_event_sourcing_replay_lambda_kappa/)
+**다음**: [193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론](/knowledge-base/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/) ->
 
 ---

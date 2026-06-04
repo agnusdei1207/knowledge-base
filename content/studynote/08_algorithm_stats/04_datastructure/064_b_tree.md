@@ -60,17 +60,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [이진 탐색 트리 (BST, Binary Search Tree) — 기본 탐색 구조]
-    │
-    ▼
+    |
+    v
 [B-트리 (B-Tree) — 다중 키 균형 트리]
-    │
-    ▼
+    |
+    v
 [B+ 트리 (B+ Tree) — 리프 연결 리스트 중심]
-    │
-    ▼
+    |
+    v
 [B* 트리 (B* Tree) — 노드 점유율 최적화]
-    │
-    ▼
+    |
+    v
 [데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색]
 ```
 
@@ -87,7 +87,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 64 / 175
 
-← **이전**: [레드-블랙 트리 (Red-Black Tree, RBT)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)
-**다음**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/065_b_plus_tree/) →
+<- **이전**: [레드-블랙 트리 (Red-Black Tree, RBT)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)
+**다음**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/065_b_plus_tree/) ->
 
 ---

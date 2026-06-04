@@ -27,10 +27,10 @@ class Counter {
 }
 
 // 2개 스레드가 동시에 increment():
-// Thread A: count 읽기(0) → Thread B: count 읽기(0)
-//           +1 계산(1)    →            +1 계산(1)
-//           저장(1)       →            저장(1)
-// 결과: 2여야 하는데 1이 됨 → Race Condition (경쟁 조건)
+// Thread A: count 읽기(0) -> Thread B: count 읽기(0)
+//           +1 계산(1)    ->            +1 계산(1)
+//           저장(1)       ->            저장(1)
+// 결과: 2여야 하는데 1이 됨 -> Race Condition (경쟁 조건)
 ```
 
 ```java
@@ -41,15 +41,15 @@ class SynchronizedCounter {
     public synchronized void increment() { count++; }  // Monitor Lock 자동 적용
     public synchronized int get() { return count; }
 }
-// → 단 하나의 스레드만 메서드에 진입 가능 → Race Condition 없음
+// -> 단 하나의 스레드만 메서드에 진입 가능 -> Race Condition 없음
 ```
 
 Hoare(1974)가 제안한 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 개념을 Java(1995)가 언어 수준으로 통합했다. C++, Python에서는 별도 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`std::mutex`, `threading.Lock`) 필요하지만, Java는 모든 객체가 기본적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 내장한다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 화장실 잠금장치([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) — 한 번에 한 사람만 들어갈 수 있고, 나올 때 잠금이 자동으로 해제된다. 들어가려는 다른 사람들은 밖에서 대기한다.
@@ -58,49 +58,49 @@ Hoare(1974)가 제안한 [Monitor](/knowledge-base/studynote/02_operating_system
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-  ┌──────────────────────────────────────────────────────────┐
-  │                   Monitor Object                         │
-  │                                                          │
-  │  1. Mutual Exclusion (상호 배제)                         │
-  │     → 한 번에 하나의 스레드만 synchronized 메서드 실행   │
-  │                                                          │
-  │  2. Entry Set (진입 대기열)                              │
-  │     → synchronized 진입을 위해 대기하는 스레드 집합      │
-  │     → 락 해제 시 Entry Set에서 하나가 진입              │
-  │                                                          │
-  │  3. Wait Set (조건 대기열)                               │
-  │     → wait() 호출 후 대기 중인 스레드 집합               │
-  │     → notify()/notifyAll()로 재활성화                   │
-  │                                                          │
-  │  4. Condition Variable (조건 변수)                       │
-  │     → wait()/notify() 기반 조건 동기화                  │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |                   Monitor Object                         |
+  |                                                          |
+  |  1. Mutual Exclusion (상호 배제)                         |
+  |     -> 한 번에 하나의 스레드만 synchronized 메서드 실행   |
+  |                                                          |
+  |  2. Entry Set (진입 대기열)                              |
+  |     -> synchronized 진입을 위해 대기하는 스레드 집합      |
+  |     -> 락 해제 시 Entry Set에서 하나가 진입              |
+  |                                                          |
+  |  3. Wait Set (조건 대기열)                               |
+  |     -> wait() 호출 후 대기 중인 스레드 집합               |
+  |     -> notify()/notifyAll()로 재활성화                   |
+  |                                                          |
+  |  4. Condition Variable (조건 변수)                       |
+  |     -> wait()/notify() 기반 조건 동기화                  |
+  +----------------------------------------------------------+
 ```
 
 ```
                      진입 시도
-                         │
-              ┌──────────▼──────────┐
-              │  Entry Set (대기)   │
-              │  Thread B, Thread C │
-              └──────────┬──────────┘
-                         │ 락 획득
-                         ▼
-  ┌──────────────────────────────────────┐
-  │  Monitor Object (실행 중: Thread A)  │
-  │                                      │
-  │  Thread A가 wait() 호출              │
-  │           │                          │
-  │           ▼                          │
-  │  ┌────────────────────┐              │
-  │  │  Wait Set (대기)   │              │
-  │  │  Thread A          │◄─ notify() ─┐│
-  │  └────────────────────┘             ││
-  │                                     ││
-  └─────────────────────────────────────┘│
-                                         │
+                         |
+              +----------v----------+
+              |  Entry Set (대기)   |
+              |  Thread B, Thread C |
+              +----------+----------+
+                         | 락 획득
+                         v
+  +--------------------------------------+
+  |  Monitor Object (실행 중: Thread A)  |
+  |                                      |
+  |  Thread A가 wait() 호출              |
+  |           |                          |
+  |           v                          |
+  |  +--------------------+              |
+  |  |  Wait Set (대기)   |              |
+  |  |  Thread A          |◄- notify() -+|
+  |  +--------------------+             ||
+  |                                     ||
+  +-------------------------------------+|
+                                         |
                           notify()/notifyAll() 호출 시
-                          → Wait Set → Entry Set으로 이동
+                          -> Wait Set -> Entry Set으로 이동
 ```
 
 ```java
@@ -190,9 +190,9 @@ public class MonitorCounter {
 ```
   ❌ 흔한 실수들:
   1. notify() vs notifyAll()
-     - notify(): Wait Set에서 임의 1개만 깨움 → 특정 조건 대기 스레드 미깨움 위험
-     - notifyAll(): 모두 깨움 → 안전하지만 오버헤드
-     → 일반적으로 notifyAll() 권장
+     - notify(): Wait Set에서 임의 1개만 깨움 -> 특정 조건 대기 스레드 미깨움 위험
+     - notifyAll(): 모두 깨움 -> 안전하지만 오버헤드
+     -> 일반적으로 notifyAll() 권장
 
   2. wait()를 if가 아닌 while 안에서 사용
      - Spurious Wakeup(허위 깨움): notify 없이 깨어나는 경우
@@ -248,7 +248,7 @@ public class MonitorCounter {
 | 연관 개념 | [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) | Monitor와 비교되는 카운팅 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
-임계구역 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 객체 패턴 → Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)
+임계구역 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 객체 패턴 -> Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 화장실에는 잠금장치가 있어서 한 명만 들어갈 수 있어요([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)).
@@ -261,7 +261,7 @@ public class MonitorCounter {
 
 **진행 상황**: 271 / 530
 
-← **이전**: [209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/)
-**다음**: [211. 액티브 오브젝트 패턴 (Active Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/) →
+<- **이전**: [209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/)
+**다음**: [211. 액티브 오브젝트 패턴 (Active Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/) ->
 
 ---

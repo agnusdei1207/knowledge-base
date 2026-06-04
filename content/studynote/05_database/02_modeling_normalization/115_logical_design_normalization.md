@@ -1,5 +1,5 @@
 +++
-title = "115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석"
+title = "115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD->릴레이션 변환·FD 분석"
 date = 2026-04-19
 
 [taxonomies]
@@ -11,34 +11,34 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 개념 설계(ERD)를 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>(테이블·PK·FK)</strong>로 변환한 후, <strong>함수 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(FD) 분석을 통해 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a>)</strong>를 수행하여 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 제거하는 단계다.
-> 2. **가치**: ERD의 엔터티·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 체계적 규칙(1:N→FK, M:N→교차 테이블)에 따라 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 변환하고, FD 분석으로 부분·이행·[결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 이상 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 식별하여 분해한다.
-> 3. **판단 포인트**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 각 단계([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)→[2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)→[3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)→[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/))에서 <strong>제거되는 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> 유형</strong>을 정확히 구분하고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 완료 후 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a>·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/">종속성 보존</a></strong> 조건을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+> 2. **가치**: ERD의 엔터티·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 체계적 규칙(1:N->FK, M:N->교차 테이블)에 따라 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 변환하고, FD 분석으로 부분·이행·[결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 이상 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 식별하여 분해한다.
+> 3. **판단 포인트**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 각 단계([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)->[2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)->[3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)->[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/))에서 <strong>제거되는 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> 유형</strong>을 정확히 구분하고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 완료 후 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a>·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/">종속성 보존</a></strong> 조건을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    논리 설계 흐름                                      │
-├───────────────────────────────────────────────────────┤
-│  [ERD]                                                │
-│   엔터티(고객, 주문, 상품) + 관계(구매, 포함)         │
-│      │                                                │
-│      ▼ 변환 규칙 적용                                 │
-│  [릴레이션 스키마]                                    │
-│   고객(고객ID PK, 이름, 주소)                         │
-│   주문(주문ID PK, 고객ID FK, 날짜)                    │
-│   주문상세(주문ID PK, 상품ID PK FK, 수량)             │
-│      │                                                │
-│      ▼ FD 분석 + 정규화                               │
-│  [정규화된 스키마]                                    │
-│   부분FD 제거(2NF), 이행FD 제거(3NF),                │
-│   결정자 조건(BCNF) → 갱신 이상 없음                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    논리 설계 흐름                                      |
++-------------------------------------------------------+
+|  [ERD]                                                |
+|   엔터티(고객, 주문, 상품) + 관계(구매, 포함)         |
+|      |                                                |
+|      v 변환 규칙 적용                                 |
+|  [릴레이션 스키마]                                    |
+|   고객(고객ID PK, 이름, 주소)                         |
+|   주문(주문ID PK, 고객ID FK, 날짜)                    |
+|   주문상세(주문ID PK, 상품ID PK FK, 수량)             |
+|      |                                                |
+|      v FD 분석 + 정규화                               |
+|  [정규화된 스키마]                                    |
+|   부분FD 제거(2NF), 이행FD 제거(3NF),                |
+|   결정자 조건(BCNF) -> 갱신 이상 없음                 |
++-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: ERD→[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환은 한국어→영어 번역이고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 번역된 영어 문장의 문법 검사([갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 제거)이다.
+- **📢 섹션 요약 비유**: ERD->[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환은 한국어->영어 번역이고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 번역된 영어 문장의 문법 검사([갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 제거)이다.
 
 ---
 
@@ -49,11 +49,11 @@ tags = ["studynote-database"]
 | 정규형 | 제거 대상 | 조건 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/">1NF</a></strong> | 반복 그룹, 비원자값 | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 원자값 |
-| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a></strong> | 부분 함수 종속 | 기본키 일부 → 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
-| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a></strong> | 이행 함수 종속 | A→B→C에서 A→C 제거 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a></strong> | 부분 함수 종속 | 기본키 일부 -> 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a></strong> | 이행 함수 종속 | A->B->C에서 A->C 제거 |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a></strong> | [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건 위반 | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키 |
 
-### ERD→[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환 규칙
+### ERD->[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환 규칙
 
 | ERD 요소 | [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환 |
 |:---|:---|
@@ -81,8 +81,8 @@ tags = ["studynote-database"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 기술사 답안 핵심
-1. FD 분석: "주문ID → 고객ID, 날짜" (완전 FD [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)).
-2. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/): "고객ID → 이름, 주소"가 이행 FD인 경우 분해.
+1. FD 분석: "주문ID -> 고객ID, 날짜" (완전 FD [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)).
+2. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/): "고객ID -> 이름, 주소"가 이행 FD인 경우 분해.
 3. [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 분해 후 자연 조인으로 원본 복원 가능 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 ---
@@ -106,18 +106,18 @@ tags = ["studynote-database"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ER 모델 (Chen, 1976) — 개념 설계→논리 설계 변환 기초]
-    │
-    ▼
+[ER 모델 (Chen, 1976) — 개념 설계->논리 설계 변환 기초]
+    |
+    v
 [정규화 이론 (Codd, 1970s) — 1NF~3NF 체계 확립]
-    │
-    ▼
+    |
+    v
 [BCNF (1974) — 결정자 조건 강화]
-    │
-    ▼
+    |
+    v
 [자동 정규화 도구 (2000s) — CASE 도구 내장]
-    │
-    ▼
+    |
+    v
 [현재: AI FD 자동 탐지 — 데이터에서 종속성 자동 추출]
 ```
 
@@ -132,7 +132,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 115 / 600
 
-← **이전**: [114. 데이터베이스 설계 단계 (Database Design Phases) - 개념·논리·물리 3단계 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/114_database_design_phases/)
-**다음**: [116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/) →
+<- **이전**: [114. 데이터베이스 설계 단계 (Database Design Phases) - 개념·논리·물리 3단계 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/114_database_design_phases/)
+**다음**: [116. 매핑 규칙 (ERD->릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/) ->
 
 ---

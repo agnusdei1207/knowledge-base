@@ -29,10 +29,10 @@ tags = ["design_supervision"]
 
 ```text
 [실지 감사]        [사업자 조치]              [조치 결과 확인 (Follow-up)]      [최종 결과]
-지적 사항 발급 ──> 코드/DB 수정 ──> (제출) ──> ① 조치 결과서 검토 ──(Pass)──> [적합] (인수)
+지적 사항 발급 --> 코드/DB 수정 --> (제출) --> ① 조치 결과서 검토 --(Pass)--> [적합] (인수)
 (보고서 확정)      재테스트 수행               ② 실제 시스템 교차 검증
-                                               ③ 회귀 결함 여부 확인 ──(Fail)──> [부적합] (재조치)
-                                                        ▲
+                                               ③ 회귀 결함 여부 확인 --(Fail)--> [부적합] (재조치)
+                                                        ^
                                               형식적 조치 필터링 (병목 지점)
 ```
 
@@ -56,17 +56,17 @@ tags = ["design_supervision"]
 
 ```text
 [감리 지적] ID: AUDIT-01 "XSS 취약점 조치 필요"
-     │
-     ▼
+     |
+     v
 [사업자 (Developer)]
   1. 소스 수정 (Filter 적용)
-  2. Git Commit: "Fix: XSS Vulnerability (Ref: AUDIT-01)" ───> [Git Repository]
+  2. Git Commit: "Fix: XSS Vulnerability (Ref: AUDIT-01)" ---> [Git Repository]
   3. 조치 결과서 작성 (커밋 해시코드 첨부)                       (버전 N -> N+1)
-     │                                                               │
-     ▼                                                               │
-[감리원 (Auditor)]                                                   │
-  1. 조치 결과서의 커밋 해시(Hash) 확인                              │
-  2. Git Diff 명령어 수행 <──────────────────────────────────────────┘
+     |                                                               |
+     v                                                               |
+[감리원 (Auditor)]                                                   |
+  1. 조치 결과서의 커밋 해시(Hash) 확인                              |
+  2. Git Diff 명령어 수행 <------------------------------------------+
      -> 진짜 Filter 로직이 들어갔는지 소스코드 라인 바이 라인(Line-by-Line) 확인
   3. 테스트 서버 접속 후 공격 스크립트 주입 (재현 테스트)
   4. 방어 확인 시 -> [적합] 판정
@@ -112,16 +112,16 @@ tags = ["design_supervision"]
 ```text
 [시정 조치 결과 최종 판정 트리]
 각 지적 사항별 조치 내역 접수
-       │
-       ▼
+       |
+       v
 [조치 결과가 당초 요구된 품질 수준을 충족하는가?]
-  ├─ (Yes) ──> [다른 모듈에 사이드 이펙트를 유발하지 않았는가?]
-  │              ├─ (Yes) ──> 판정: [적합] (문제 없음)
-  │              └─ (No)  ──> 판정: [부적합] (회귀 결함 발생, 원복 및 재조치 지시)
-  │
-  └─ (No) ───> [대체 방안(Workaround)으로 목표 성능/보안이 확보되었는가?]
-                 ├─ (Yes) ──> 판정: [적합] (단, 대체 조치 내역 및 잔여 리스크 한계 명시)
-                 └─ (No)  ──> 판정: [부적합] (핵심 요건 미달, 재조치 지시)
+  +- (Yes) --> [다른 모듈에 사이드 이펙트를 유발하지 않았는가?]
+  |              +- (Yes) --> 판정: [적합] (문제 없음)
+  |              +- (No)  --> 판정: [부적합] (회귀 결함 발생, 원복 및 재조치 지시)
+  |
+  +- (No) ---> [대체 방안(Workaround)으로 목표 성능/보안이 확보되었는가?]
+                 +- (Yes) --> 판정: [적합] (단, 대체 조치 내역 및 잔여 리스크 한계 명시)
+                 +- (No)  --> 판정: [부적합] (핵심 요건 미달, 재조치 지시)
 ```
 
 이 의사결정 트리는 감리인이 시간 압박 속에서도 원칙(Principle)과 유연성(Flexibility)을 잃지 않고 공학적 판정을 내리도록 돕는 기준이 됩니다.
@@ -160,17 +160,17 @@ tags = ["design_supervision"]
 
 ```text
 [감리 수행 — 문제점·위험 항목 발굴]
-    │
-    ▼
+    |
+    v
 [감리 보고서 — 필수 시정 조치(권고·통보) 목록 공식 확정]
-    │
-    ▼
+    |
+    v
 [시정 조치 이행 — 발주자·사업자 개선 적용]
-    │
-    ▼
+    |
+    v
 [회귀 테스트 (Regression Testing) — 조치로 인한 부작용 검증]
-    │
-    ▼
+    |
+    v
 [조치 결과 확인 (Follow-up Action Verification) — 감리 완료 및 기준선 갱신]
 ```
 [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에서 도출된 시정 조치 목록을 이행하고, [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 부작용을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 감리 완료를 공식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 표준 프로세스다.
@@ -186,7 +186,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 22 / 530
 
-← **이전**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/)
-**다음**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) →
+<- **이전**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/)
+**다음**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) ->
 
 ---

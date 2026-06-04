@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **PTBR의 탄생**: 결국 거대한 테이블은 속도가 좀 느리더라도 넓은 메인 메모리(RAM)로 방출하고, CPU 안에는 오직 그 테이블의 "시작 위치"를 가리키는 포인터인 PTBR 단 하나만 남겨두는 타협 아키텍처가 현대의 표준이 되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        PTBR을 통한 컨텍스트 스위칭(Context Switch)의 위력                │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 1. 카카오톡 실행 중 ]                                                  │
-│   ┌────────────┐               [ 물리 램 (RAM) ]                         │
-│   │ PTBR 레지스터 │ ────포인터──▶ 0x1000 번지: [카톡 페이지 테이블]      │
-│   │ 0x1000 번지  │                 │                                     │
-│   └────────────┘                 ▼                                       │
-│   (MMU는 0x1000으로 가서 매핑 시작)     카톡의 실제 데이터 접근          │
-│                                                                          │
-│              ↓↓ CPU 스케줄러: 엑셀로 화면 전환! ↓↓                       │
-│                                                                          │
-│ [ 2. 엑셀 실행 (0.001초 만에 전환 완료) ]                                │
-│   ┌────────────┐               [ 물리 램 (RAM) ]                         │
-│   │ PTBR 레지스터 │ ──┐          0x1000 번지: [카톡 페이지 테이블]       │
-│   │ 0x8000 번지  │ ─┼─포인터──▶ 0x8000 번지: [엑셀 페이지 테이블]        │
-│   └────────────┘ │                 │                                     │
-│   (* OS가 이 값 1개만 바꿈!)             ▼                               │
-│   (MMU는 즉시 엑셀 장부로 눈을 돌림)     엑셀의 실제 데이터 접근         │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|        PTBR을 통한 컨텍스트 스위칭(Context Switch)의 위력                |
++--------------------------------------------------------------------------+
+|                                                                          |
+| [ 1. 카카오톡 실행 중 ]                                                  |
+|   +------------+               [ 물리 램 (RAM) ]                         |
+|   | PTBR 레지스터 | ----포인터---> 0x1000 번지: [카톡 페이지 테이블]      |
+|   | 0x1000 번지  |                 |                                     |
+|   +------------+                 v                                       |
+|   (MMU는 0x1000으로 가서 매핑 시작)     카톡의 실제 데이터 접근          |
+|                                                                          |
+|              vv CPU 스케줄러: 엑셀로 화면 전환! vv                       |
+|                                                                          |
+| [ 2. 엑셀 실행 (0.001초 만에 전환 완료) ]                                |
+|   +------------+               [ 물리 램 (RAM) ]                         |
+|   | PTBR 레지스터 | --+          0x1000 번지: [카톡 페이지 테이블]       |
+|   | 0x8000 번지  | -+-포인터---> 0x8000 번지: [엑셀 페이지 테이블]        |
+|   +------------+ |                 |                                     |
+|   (* OS가 이 값 1개만 바꿈!)             v                               |
+|   (MMU는 즉시 엑셀 장부로 눈을 돌림)     엑셀의 실제 데이터 접근         |
++--------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 구조는 현대 다중 프로그래밍의 척추와 같다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전체(수 MB)를 갱신하지 않고, 오직 CPU 코어 내부의 PTBR [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(보통 64비트, 8Byte) 단 하나만 덮어쓰면 '우주'가 바뀐다. 하드웨어적 관점에서 보면, 가상 주소 공간의 전환은 본질적으로 PTBR [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값의 교체 연산에 다름아니다. (여기에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시가 동반된다.)
 
@@ -63,27 +63,27 @@ tags = ["studynote-operating-system"]
 CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟는 정밀한 순서도다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              PTBR과 PTLR이 방어하고 번역하는 2단계 게이트              │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ CPU 요청 ] 논리 주소 (페이지 P, 오프셋 D)                            │
-│      │                                                                 │
-│      ▼ 1차 방어선 (PTLR)                                               │
-│ ┌─────────────────┐                                                    │
-│ │ P가 PTLR보다 작은가?│ ──(아니오!)──▶ [ 운영체제 함정(Trap) 발생 ]    │
-│ └────────┬────────┘             (Segmentation Fault 즉시 사살)         │
-│          │ (네! 정상 범위입니다)                                       │
-│          ▼                                                             │
-│      ▼ 2차 번역 (PTBR)                                                 │
-│ ┌──────────────────────────┐                                           │
-│ │ PTBR 시작 주소 + (P * PTE크기) │ ──▶ (램에 있는 페이지 테이블 접근)  │
-│ └──────────────────────────┘                                           │
-│          │                                                             │
-│          ▼                                                             │
-│ [ 물리 메모리 (RAM) ] 에서 해당 엔트리(프레임 번호 f)를 읽어옴.        │
-│ 최종 물리 주소: 프레임 f + 오프셋 D 조합하여 실제 데이터 로드!         │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|              PTBR과 PTLR이 방어하고 번역하는 2단계 게이트              |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ CPU 요청 ] 논리 주소 (페이지 P, 오프셋 D)                            |
+|      |                                                                 |
+|      v 1차 방어선 (PTLR)                                               |
+| +-----------------+                                                    |
+| | P가 PTLR보다 작은가?| --(아니오!)---> [ 운영체제 함정(Trap) 발생 ]    |
+| +--------+--------+             (Segmentation Fault 즉시 사살)         |
+|          | (네! 정상 범위입니다)                                       |
+|          v                                                             |
+|      v 2차 번역 (PTBR)                                                 |
+| +--------------------------+                                           |
+| | PTBR 시작 주소 + (P * PTE크기) | ---> (램에 있는 페이지 테이블 접근)  |
+| +--------------------------+                                           |
+|          |                                                             |
+|          v                                                             |
+| [ 물리 메모리 (RAM) ] 에서 해당 엔트리(프레임 번호 f)를 읽어옴.        |
+| 최종 물리 주소: 프레임 f + 오프셋 D 조합하여 실제 데이터 로드!         |
++------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -95,8 +95,8 @@ CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟
 ### 구조적 페널티: 메모리 2번 접근의 저주
 
 이 아키텍처는 치명적인 구조적 모순을 품고 있다.
-- 과거 ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)): `CPU 논리 주소 + 베이스 레지스터` → **램 1번 읽음 끝!** (속도 빠름)
-- 현재 ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)): `PTBR 주소 찾아가서` → <strong>램의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>을 1번 읽음</strong> (장부 읽기) → 알아낸 진짜 주소로 **램을 1번 더 읽음** ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기).
+- 과거 ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)): `CPU 논리 주소 + 베이스 레지스터` -> **램 1번 읽음 끝!** (속도 빠름)
+- 현재 ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)): `PTBR 주소 찾아가서` -> <strong>램의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>을 1번 읽음</strong> (장부 읽기) -> 알아낸 진짜 주소로 **램을 1번 더 읽음** ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기).
 - 즉, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트 가져오기 위해 램(메모리)에 <strong>무조건 2번 방문</strong>해야 하는 끔찍한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 반토막(Access Penalty)이 발생했다. CPU 속도는 페라리인데, 장부 읽으러 자전거(RAM [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 타고 두 번이나 왔다 갔다 해야 하는 꼴이다. (이를 구원하기 위해 TLB라는 캐시가 곧바로 투입된다.)
 
 - **📢 섹션 요약 비유**: 옛날엔 도서관 사서에게 "과학책 줘" 하면 창고(RAM)에 가서 바로 1번 만에 가져왔는데, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 바뀐 뒤엔 사서가 창고에 1번 가서 색인 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 뒤져 위치를 알아낸 뒤, 다시 창고에 2번째로 들어가서 책을 가져오는 2배의 헛고생을 하게 된 상황입니다.
@@ -122,12 +122,12 @@ CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟
 - **PTLR (현재)**: "이 프로세스가 가진 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))의 줄 수(엔트리 수)가 총 100줄인데, 네가 101번째 줄([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 달라고 하네?"라며 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 개수(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>를 비교하여 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트를 낸다. 추상화의 레벨이 한 단계 올라간 것이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 레지스터 종류│ 번역의 주체   │ 가리키는 대상 │ 런타임 지연  │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ Base Reg │ 하드웨어 가산기│ 실제 데이터   │ 없음 (1 Clock)  │
-│ PTBR     │ 램 안의 장부  │ 페이지 장부   │ 심각 (RAM 접근)  │
-└──────────┴────────────┴────────────┴────────────────────────┘
++----------+------------+------------+------------------------+
+| 레지스터 종류| 번역의 주체   | 가리키는 대상 | 런타임 지연  |
++----------+------------+------------+------------------------+
+| Base Reg | 하드웨어 가산기| 실제 데이터   | 없음 (1 Clock)  |
+| PTBR     | 램 안의 장부  | 페이지 장부   | 심각 (RAM 접근)  |
++----------+------------+------------+------------------------+
 ```
 **[매트릭스 해설]** 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))의 유연성을 얻은 대신 PTBR은 램 의존성이라는 무거운 족쇄를 찼다. 만약 램의 속도가 느려지면 시스템 전체의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 속도가 연쇄적으로 반토막 나는 아키텍처다. 그래서 현대 인텔/AMD CPU는 이 PTBR(x86에서는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)라 부름) 기반의 접근을 보조하기 위해 칩셋 내부에 수천억 원짜리 연구비를 부어 만든 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 계층을 반드시 덧대어 설계한다.
 
@@ -187,12 +187,12 @@ PTBR과 PTLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_
 
 ```text
 [페이지 테이블 (Page Table)]
-    │
-    ▼
+    |
+    v
 [PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
-    │
-    ├──▶ [페이징의 메모리 보호]
-    └──▶ [페이징에서의 공유 페이지 (Shared Pages)]
+    |
+    +---> [페이징의 메모리 보호]
+    +---> [페이징에서의 공유 페이지 (Shared Pages)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -209,7 +209,7 @@ PTBR과 PTLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_
 
 **진행 상황**: 354 / 800
 
-← **이전**: [353. 페이지 테이블 (Page Table) - 페이지 번호를 프레임 번호로 매핑](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)
-**다음**: [355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/) →
+<- **이전**: [353. 페이지 테이블 (Page Table) - 페이지 번호를 프레임 번호로 매핑](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)
+**다음**: [355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/) ->
 
 ---

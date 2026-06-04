@@ -24,26 +24,26 @@ tags = ["studynote-it-management"]
 특히 **전자금융감독규정(금융권), 공공부문 EA(Enterprise Architecture) 표준 v3.1, 개인정보보호법(PIPA)·GDPR, ESG 공시(SASB/ISSB)** 등 다중 규제 환경에서는 **Three Lines Model(3LoM: 1st-사업부, 2nd-리스크/컴플라이언스, 3rd-내부감사)**을 IT 거버넌스에 내재화해야 합니다. 한국정보통신기술협회(TTA)의 **IT 거버넌스 인증제도(KS X ISO/IEC 38500 인증)**가 2021년 도입되어, 공공기관은 **연간 1회 이상 거버넌스 진단** 의무화가 추진되고 있어 실무 적용성이 높아졌습니다.
 
 ```text
-    ┌──────────────────────────────────────────────────────────────┐
-    │         이사회 (Board of Directors) — 최종 책임(E&O)         │
-    │                    │                                         │
-    │       ┌────────────▼────────────┐                            │
-    │       │ IT Steering Committee    │  ← 전략·투자·우선순위 결정 │
-    │       │ (CISO, CIO, CDO, CEO)   │                            │
-    │       └────────────┬────────────┘                            │
-    │                    │                                         │
-    │   ┌────────┬───────▼────────┬──────────┐                     │
-    │   │ 1st LoM│     2nd LoM     │  3rd LoM │                     │
-    │   │ 사업부  │ 리스크/컴플라이언스│ 내부감사  │                  │
-    │   │        │  GRC/PMO/EA팀    │  /IA     │                   │
-    │   └────┬───┴────────┬────────┴─────┬────┘                    │
-    │        │            │              │                         │
-    │   ┌────▼────┐  ┌────▼────┐   ┌────▼────┐                     │
-    │   │  ITIL 4 │  │ COBIT   │   │ ISO     │                     │
-    │   │ 서비스  │  │ 2019    │   │ 38500   │                     │
-    │   │ 운영    │  │ 통제/감사│   │ 원칙/거버│                    │
-    │   └─────────┘  └─────────┘   └─────────┘                     │
-    └──────────────────────────────────────────────────────────────┘
+    +--------------------------------------------------------------+
+    |         이사회 (Board of Directors) — 최종 책임(E&O)         |
+    |                    |                                         |
+    |       +------------v------------+                            |
+    |       | IT Steering Committee    |  <- 전략·투자·우선순위 결정 |
+    |       | (CISO, CIO, CDO, CEO)   |                            |
+    |       +------------+------------+                            |
+    |                    |                                         |
+    |   +--------+-------v--------+----------+                     |
+    |   | 1st LoM|     2nd LoM     |  3rd LoM |                     |
+    |   | 사업부  | 리스크/컴플라이언스| 내부감사  |                  |
+    |   |        |  GRC/PMO/EA팀    |  /IA     |                   |
+    |   +----+---+--------+--------+-----+----+                    |
+    |        |            |              |                         |
+    |   +----v----+  +----v----+   +----v----+                     |
+    |   |  ITIL 4 |  | COBIT   |   | ISO     |                     |
+    |   | 서비스  |  | 2019    |   | 38500   |                     |
+    |   | 운영    |  | 통제/감사|   | 원칙/거버|                    |
+    |   +---------+  +---------+   +---------+                     |
+    +--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IT 거버넌스는 마치 **여러 악기가 연주하는 오케스트라의 지휘자**와 같습니다. COBIT은 **악보(설계도)**, ITIL 4는 **악기별 연주법(서비스 운영)**, ISO 38500은 **지휘 원칙**, 3LoM은 **각 악기 섹션의 리더십**에 해당하며, 이사회가 **청중(수익성·규제·신뢰)** 앞에서 조화를 책임지는 구조입니다.
@@ -52,25 +52,25 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-COBIT 2019는 **Governance System**(40개 목표 중 EDM 5개)와 **Management System**(35개 목표)을 **Cascade(연쇄) 메커니즘**으로 연결합니다. **엔터프라이즈 목표 13개 → IT 관련 목표 13개 → 프로세스 목표 → 컴포넌트 목표(실무지표)**로 4단계 분해되며, 각 단계는 **N:M 매트릭스**로 추적 가능합니다. 핵심 원리는 **"Stakeholder Needs → Enterprise Goals → Alignment Goals → Lifecycle"**의 가치 흐름(Value Chain)이며, **6단계 Governance System Workflow(요구사항 분석 → 컴포넌트 선택 → 아키텍처 설계 → 우선순위 결정 → 구현 계획 → 운영 검토)**로 구현됩니다.
+COBIT 2019는 **Governance System**(40개 목표 중 EDM 5개)와 **Management System**(35개 목표)을 **Cascade(연쇄) 메커니즘**으로 연결합니다. **엔터프라이즈 목표 13개 -> IT 관련 목표 13개 -> 프로세스 목표 -> 컴포넌트 목표(실무지표)**로 4단계 분해되며, 각 단계는 **N:M 매트릭스**로 추적 가능합니다. 핵심 원리는 **"Stakeholder Needs -> Enterprise Goals -> Alignment Goals -> Lifecycle"**의 가치 흐름(Value Chain)이며, **6단계 Governance System Workflow(요구사항 분석 -> 컴포넌트 선택 -> 아키텍처 설계 -> 우선순위 결정 -> 구현 계획 -> 운영 검토)**로 구현됩니다.
 
 ```text
-   [Stakeholder Needs] ──► (책임·전략·성능·규제·자본·시장)
-            │
-            ▼
-   [Enterprise Goals] ── 13개 (재무 6, 고객 5, 내부 5, 학습 3)
-            │  Cascade
-            ▼
-   [Alignment Goals] ── 13개 (IT전략 4, 가치 4, 리스크 4, 자원 4)
-            │  (1:N 매핑)
-            ▼
-   [Process Goals] ── 40개 (EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 5)
-            │  (1:N)
-            ▼
-   [Component Level] ── 프로세스/구조/문화/정책/스킬/정보
-            │  (Activity, Metric: KGI/KPI)
-            ▼
-   [Capability Level] ── 0~5 (ISO 15504 PAM 기반, PA 1.1~5.5)
+   [Stakeholder Needs] --► (책임·전략·성능·규제·자본·시장)
+            |
+            v
+   [Enterprise Goals] -- 13개 (재무 6, 고객 5, 내부 5, 학습 3)
+            |  Cascade
+            v
+   [Alignment Goals] -- 13개 (IT전략 4, 가치 4, 리스크 4, 자원 4)
+            |  (1:N 매핑)
+            v
+   [Process Goals] -- 40개 (EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 5)
+            |  (1:N)
+            v
+   [Component Level] -- 프로세스/구조/문화/정책/스킬/정보
+            |  (Activity, Metric: KGI/KPI)
+            v
+   [Capability Level] -- 0~5 (ISO 15504 PAM 기반, PA 1.1~5.5)
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -85,7 +85,7 @@ COBIT 2019는 **Governance System**(40개 목표 중 EDM 5개)와 **Management S
 
 **핵심 알고리즘/원리 — Capability Level Assessment (ISO 15504 PAM)**
 
-Process Attribute(PA)는 **0(Incomplete) ~ 5(Optimizing)**의 6단계 척도이며, **PA 1.1(Process Purpose) → PA 2.1~2.2(Performance Mgmt) → PA 3.1~3.2(Work Product Mgmt) → PA 4.1~4.2(Measurement) → PA 5.1~5.2(Innovation)** 순으로 **NPLF(Nine Process Level Framework)** 평가합니다. 예: **APO12(리스크 관리)** 목표 Capability 4 달성을 위해 **AHP(Analytic Hierarchy Process)** 기반 **위험도 = 확률(1~5) × 영향도(1~5) × 통제효율(역수)** 매트릭스를 활용해 연간 200개 이상 리스크를 정량 평가합니다.
+Process Attribute(PA)는 **0(Incomplete) ~ 5(Optimizing)**의 6단계 척도이며, **PA 1.1(Process Purpose) -> PA 2.1~2.2(Performance Mgmt) -> PA 3.1~3.2(Work Product Mgmt) -> PA 4.1~4.2(Measurement) -> PA 5.1~5.2(Innovation)** 순으로 **NPLF(Nine Process Level Framework)** 평가합니다. 예: **APO12(리스크 관리)** 목표 Capability 4 달성을 위해 **AHP(Analytic Hierarchy Process)** 기반 **위험도 = 확률(1~5) × 영향도(1~5) × 통제효율(역수)** 매트릭스를 활용해 연간 200개 이상 리스크를 정량 평가합니다.
 
 **Cascade of Goals 핵심 공식:**
 ```
@@ -97,7 +97,7 @@ Secondary 관계(○): 1:N 부분 기여
 
 **진행 상황**: 533 / 800
 
-← **이전**: [532. IT 경영 관리 핵심 토픽 532번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/532_it_management_core_topic_532_exam_summary/)
-**다음**: [534. IT 경영 관리 핵심 토픽 534번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/534_it_management_core_topic_534_exam_summary/) →
+<- **이전**: [532. IT 경영 관리 핵심 토픽 532번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/532_it_management_core_topic_532_exam_summary/)
+**다음**: [534. IT 경영 관리 핵심 토픽 534번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/534_it_management_core_topic_534_exam_summary/) ->
 
 ---

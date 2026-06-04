@@ -26,16 +26,16 @@ tags = ["studynote-database"]
 아래 그림은 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 <strong>업무 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 축을 그대로 저장 경계로 고정</strong>한다는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Business code becomes a physical boundary                          │
-├────────────────────────────────────────────────────────────────────┤
-│ region = SEOUL      -> P_CAPITAL                                   │
-│ region = BUSAN      -> P_SOUTH                                     │
-│ region = GANGWON    -> P_EAST                                      │
-│ region = others     -> P_DEFAULT                                   │
-│                                                                    │
-│ effect: query, archive, access policy follow the same code axis    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Business code becomes a physical boundary                          |
++--------------------------------------------------------------------+
+| region = SEOUL      -> P_CAPITAL                                   |
+| region = BUSAN      -> P_SOUTH                                     |
+| region = GANGWON    -> P_EAST                                      |
+| region = others     -> P_DEFAULT                                   |
+|                                                                    |
+| effect: query, archive, access policy follow the same code axis    |
++--------------------------------------------------------------------+
 ```
 
 핵심은 이 구조가 단순한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 아니라는 점이다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 삭제, 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 대상으로 한 통계 수집과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리가 가능해지므로, 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 운영 거버넌스 수단이 되기도 한다.
@@ -65,20 +65,20 @@ PARTITION BY LIST (region_code) (
 아래 그림은 입력 시점과 조회 시점에 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 어떻게 동작하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Insert routing in list partitioning                                │
-├────────────────────────────────────────────────────────────────────┤
-│ incoming row                                                       │
-│    │                                                               │
-│    ▼                                                               │
-│ read partition key = region_code                                   │
-│    │                                                               │
-│    ├─ value in explicit list? ─ Yes ─▶ target partition            │
-│    │                                                               │
-│    └─ No ─▶ P_DEFAULT or insert error                              │
-│                                                                    │
-│ query region_code = 'BUSAN' -> prune all unrelated partitions      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Insert routing in list partitioning                                |
++--------------------------------------------------------------------+
+| incoming row                                                       |
+|    |                                                               |
+|    v                                                               |
+| read partition key = region_code                                   |
+|    |                                                               |
+|    +- value in explicit list? - Yes --> target partition            |
+|    |                                                               |
+|    +- No --> P_DEFAULT or insert error                              |
+|                                                                    |
+| query region_code = 'BUSAN' -> prune all unrelated partitions      |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -170,17 +170,17 @@ PARTITION BY LIST (region_code) (
 
 ```text
 업무 코드 분리 필요
-        │
-        ▼
+        |
+        v
 명시적 값 목록 설계
-        │
-        ▼
+        |
+        v
 리스트 파티셔닝 (List Partitioning)
-        │
-        ├──────────────► 동등 조건 프루닝
-        ├──────────────► 지역별/채널별 독립 관리
-        ├──────────────► DEFAULT 파티션 운영
-        └──────────────► Range + List / List + Hash 확장
+        |
+        +--------------► 동등 조건 프루닝
+        +--------------► 지역별/채널별 독립 관리
+        +--------------► DEFAULT 파티션 운영
+        +--------------► Range + List / List + Hash 확장
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -195,7 +195,7 @@ PARTITION BY LIST (region_code) (
 
 **진행 상황**: 182 / 600
 
-← **이전**: [181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/)
-**다음**: [183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)](/knowledge-base/studynote/05_database/03_relational_model/183_composite_partitioning/) →
+<- **이전**: [181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/)
+**다음**: [183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)](/knowledge-base/studynote/05_database/03_relational_model/183_composite_partitioning/) ->
 
 ---

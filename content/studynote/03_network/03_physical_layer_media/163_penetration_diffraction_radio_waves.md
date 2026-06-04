@@ -45,20 +45,20 @@ tags = ["studynote-network"]
 아래 그림은 같은 장애물을 만났을 때 전파가 어떻게 달라지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              radio wave response at an obstacle                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Tx ─────────────▶ █████ obstacle █████ ─────────────▶ Rx                   │
-│                     │            │                                          │
-│                     │            └─ penetration path                        │
-│                     │                 (passes through with attenuation)     │
-│                     │                                                       │
-│                     └────────────── diffraction path                        │
-│                                      (bends around edge to shadow area)    │
-│                                                                             │
-│ Low frequency  : more diffraction, often better indoor penetration          │
-│ High frequency : less diffraction, larger penetration loss, more dead zone  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              radio wave response at an obstacle                            |
++----------------------------------------------------------------------------+
+| Tx --------------> █████ obstacle █████ --------------> Rx                   |
+|                     |            |                                          |
+|                     |            +- penetration path                        |
+|                     |                 (passes through with attenuation)     |
+|                     |                                                       |
+|                     +-------------- diffraction path                        |
+|                                      (bends around edge to shadow area)    |
+|                                                                             |
+| Low frequency  : more diffraction, often better indoor penetration          |
+| High frequency : less diffraction, larger penetration loss, more dead zone  |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 전파가 장애물을 만났을 때 단 하나의 경로만 택하지 않는다는 점이다. 일부는 반사되고, 일부는 통과하며, 일부는 모서리를 돌아간다. 다만 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 좌우하는 주된 경로가 주파수에 따라 달라지기 때문에, 저주파망은 넓은 커버리지에 강하고 고주파망은 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 대신 촘촘한 기지국과 빔 제어가 필요하다.
@@ -134,17 +134,17 @@ tags = ["studynote-network"]
 
 ```text
 저대역 장거리 커버리지
-        │
-        ▼
+        |
+        v
 회절 · 건물 침투 활용
-        │
-        ▼
+        |
+        v
 중대역에서 커버리지 / 용량 균형
-        │
-        ▼
+        |
+        v
 고대역 · mmWave에서 대용량 확보
-        │
-        ▼
+        |
+        v
 소형 셀 · 빔포밍 · 중계기로 차폐 보완
 ```
 
@@ -162,7 +162,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 284 / 1120
 
-← **이전**: [162. 직선 가시거리 통신 (LOS, Line-of-Sight)](/knowledge-base/studynote/03_network/03_physical_layer_media/162_los_line_of_sight_communication/)
-**다음**: [164. 산란 (Scattering) / 반사 (Reflection)](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) →
+<- **이전**: [162. 직선 가시거리 통신 (LOS, Line-of-Sight)](/knowledge-base/studynote/03_network/03_physical_layer_media/162_los_line_of_sight_communication/)
+**다음**: [164. 산란 (Scattering) / 반사 (Reflection)](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) ->
 
 ---

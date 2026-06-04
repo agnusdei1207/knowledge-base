@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. **스왑(Swap) 공간의 탄생**: OS는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 없는 '익명(Anonymous)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 램에서 쫓아낼 때 임시로 묻어두기 위해, 디스크 구석에 이름 없는 무덤인 '[스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)'을 파놓고 여기에만 강제로 밀어 넣기로 합의했다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        가상 주소 공간의 메모리 성격(익명 vs 파일) 완벽 분해        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 4GB 가상 주소 공간 ]             [ 생성 기원 및 쫓겨날 위치 ]    │
-│ ┌──────────────────┐                                               │
-│ │ 스택 (Stack)     │ ──▶ 함수 지역변수. (익명 메모리)              │
-│ │                  │       [쫓겨날 때: 스왑 파티션으로 피난]       │
-│ ├──────────────────┤                                               │
-│ │ 힙 (Heap)        │ ──▶ malloc 동적할당. (익명 메모리)            │
-│ │                  │       [쫓겨날 때: 스왑 파티션으로 피난]       │
-│ ├──────────────────┤                                               │
-│ │ BSS (초기화안됨)   │ ──▶ 전역 변수. (초기엔 파일, 나중엔 익명)   │
-│ │ Data (초기화됨)    │                                             │
-│ ├──────────────────┤                                               │
-│ │ Code / Text      │ ──▶ 프로그램 명령어. (파일 지원 메모리)       │
-│ └──────────────────┘       [쫓겨날 때: 그냥 쿨하게 삭제됨!]        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        가상 주소 공간의 메모리 성격(익명 vs 파일) 완벽 분해        |
++--------------------------------------------------------------------+
+|                                                                    |
+| [ 4GB 가상 주소 공간 ]             [ 생성 기원 및 쫓겨날 위치 ]    |
+| +------------------+                                               |
+| | 스택 (Stack)     | ---> 함수 지역변수. (익명 메모리)              |
+| |                  |       [쫓겨날 때: 스왑 파티션으로 피난]       |
+| +------------------+                                               |
+| | 힙 (Heap)        | ---> malloc 동적할당. (익명 메모리)            |
+| |                  |       [쫓겨날 때: 스왑 파티션으로 피난]       |
+| +------------------+                                               |
+| | BSS (초기화안됨)   | ---> 전역 변수. (초기엔 파일, 나중엔 익명)   |
+| | Data (초기화됨)    |                                             |
+| +------------------+                                               |
+| | Code / Text      | ---> 프로그램 명령어. (파일 지원 메모리)       |
+| +------------------+       [쫓겨날 때: 그냥 쿨하게 삭제됨!]        |
++--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보 개발자가 가장 많이 착각하는 것이 "램이 모자라면 모든 프로그램이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 간다"는 것이다. 틀렸다. 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 영역은 디스크에 `.exe` 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있기 때문에, 램이 모자라면 OS는 그냥 램에서 삭제(Drop)해 버린다. 나중에 필요하면 `.exe`에서 다시 읽어오면 되기 때문이다. <strong>스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 도망가는 녀석들은 오직 갈 곳 없는 고아들, 즉 '익명 메모리(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>/힙)'뿐이다.</strong>
 
@@ -100,13 +100,13 @@ tags = ["studynote-operating-system"]
 하지만 **익명 메모리가 램에 꽉 차면 지옥이 시작된다.** 익명 메모리는 무조건 스왑 디스크에 'Write([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))'를 한 번 하고 쫓아내야 하므로, 램을 비우는 과정 자체가 끔찍한 디스크 I/O 병목을 유발한다. "[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 고갈)이 발생했다"는 것은 곧 이 "익명 메모리가 램과 스왑을 100% 점령했다"는 뜻과 완벽히 동의어다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 램 100% 시 │ Clean 파일 │ Dirty 파일 │ 익명 메모리(Heap)     │
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ OS의 조치  │ 그냥 즉시 삭제│ 파일에 덮어씀│ **스왑에 덮어씀**│
-│ 소요 시간  │ 0 초 (최상) │ 8 ms (느림) │ 8 ms (느림)         │
-│ 생존 우선권│ 가장 먼저 죽음│ 중간        │ 가장 늦게 쫓겨남  │
-└──────────┴────────────┴────────────┴─────────────────────────┘
++----------+------------+------------+-------------------------+
+| 램 100% 시 | Clean 파일 | Dirty 파일 | 익명 메모리(Heap)     |
++----------+------------+------------+-------------------------+
+| OS의 조치  | 그냥 즉시 삭제| 파일에 덮어씀| **스왑에 덮어씀**|
+| 소요 시간  | 0 초 (최상) | 8 ms (느림) | 8 ms (느림)         |
+| 생존 우선권| 가장 먼저 죽음| 중간        | 가장 늦게 쫓겨남  |
++----------+------------+------------+-------------------------+
 ```
 **[매트릭스 해설]** 운영체제는 램이 부족할 때 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(코드) 캐시를 가장 먼저 죽인다. 왜냐하면 다시 읽어오면 되니까 잃을 게 없기 때문이다. 하지만 힙(익명 메모리)은 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)으로 내쫓는 비용이 너무 비싸기 때문에 웬만하면 램에 오래 살려둔다. 이 OS의 편애 정책을 `Swappiness` 파라미터로 조절한다.
 
@@ -165,12 +165,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
-    │
-    ▼
+    |
+    v
 [익명 메모리 (Anonymous Memory)]
-    │
-    ├──▶ [파일 지원 메모리 (File-backed Memory)]
-    └──▶ [쓰기 시 복사 (COW, Copy-on-Write)]
+    |
+    +---> [파일 지원 메모리 (File-backed Memory)]
+    +---> [쓰기 시 복사 (COW, Copy-on-Write)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -187,7 +187,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 391 / 800
 
-← **이전**: [390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)
-**다음**: [392. 파일 지원 메모리 (File-backed Memory) - 실행 파일, 공유 라이브러리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/) →
+<- **이전**: [390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)
+**다음**: [392. 파일 지원 메모리 (File-backed Memory) - 실행 파일, 공유 라이브러리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/) ->
 
 ---

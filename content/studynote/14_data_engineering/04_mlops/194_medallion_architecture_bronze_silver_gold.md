@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 메달리온 아키텍처(Medallion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Bronze) → 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Silver) → 비즈니스 집계(Gold) 3계층으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 점진적으로 향상하는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 설계 패턴이다.
+> 1. **본질**: 메달리온 아키텍처(Medallion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Bronze) -> 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Silver) -> 비즈니스 집계(Gold) 3계층으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 점진적으로 향상하는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 설계 패턴이다.
 > 2. **가치**: Delta Lake의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), Time Travel, [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution 기능과 결합하여 신뢰할 수 있는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 구성하고, 계층별 접근 권한 분리로 보안과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성한다.
 > 3. **판단 포인트**: [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) DM([스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)) 대비 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성과 원본 보존이 강점이며, 빠르게 변하는 비즈니스 요구에 민첩하게 대응한다.
 
@@ -35,27 +35,27 @@ Databricks가 정의한 메달리온 아키텍처는 전통적 [데이터 웨어
 ```
 외부 데이터 소스
 (운영 DB, 로그, API, 스트림)
-        │
-        ▼
-┌───────────────────┐
-│   BRONZE 레이어    │  ← 원시 데이터 그대로 적재
-│   (동메달)         │    스키마 없음, 이력 보존
-└────────┬──────────┘
-         │ 정제/검증 ETL
-         ▼
-┌───────────────────┐
-│   SILVER 레이어    │  ← 정제·표준화 데이터
-│   (은메달)         │    PII 마스킹, 중복 제거
-└────────┬──────────┘
-         │ 집계/비즈니스 로직
-         ▼
-┌───────────────────┐
-│    GOLD 레이어     │  ← 비즈니스 집계 데이터
-│   (금메달)         │    Feature Store, 대시보드
-└───────────────────┘
+        |
+        v
++-------------------+
+|   BRONZE 레이어    |  <- 원시 데이터 그대로 적재
+|   (동메달)         |    스키마 없음, 이력 보존
++--------+----------+
+         | 정제/검증 ETL
+         v
++-------------------+
+|   SILVER 레이어    |  <- 정제·표준화 데이터
+|   (은메달)         |    PII 마스킹, 중복 제거
++--------+----------+
+         | 집계/비즈니스 로직
+         v
++-------------------+
+|    GOLD 레이어     |  <- 비즈니스 집계 데이터
+|   (금메달)         |    Feature Store, 대시보드
++-------------------+
 ```
 
-📢 **섹션 요약 비유**: 메달리온 아키텍처는 원석(Bronze) → 세공(Silver) → 완성 보석(Gold)으로 가공하는 보석 제작 과정이다. 각 단계에서 가치가 더해지지만, 원석은 항상 보존된다.
+📢 **섹션 요약 비유**: 메달리온 아키텍처는 원석(Bronze) -> 세공(Silver) -> 완성 보석(Gold)으로 가공하는 보석 제작 과정이다. 각 단계에서 가치가 더해지지만, 원석은 항상 보존된다.
 
 ---
 
@@ -94,7 +94,7 @@ Bronze [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 | 처리 항목 | 상세 내용 |
 |:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 캐스팅 | 문자열 → 날짜, 정수 등 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 캐스팅 | 문자열 -> 날짜, 정수 등 |
 | 결측값 처리 | NULL 처리, 기본값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | 중복 제거 | deduplicate by primary [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) |
 | PII 마스킹 | 이메일, 전화번호 해시화 |
@@ -137,24 +137,24 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 ### 2.4 Delta Lake와의 결합
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              Delta Lake 핵심 기능                         │
-│                                                         │
-│  ┌──────────────────┐  ┌──────────────────────────────┐ │
-│  │ ACID 트랜잭션     │  │ Time Travel (시간 여행)        │ │
-│  │                  │  │                              │ │
-│  │ 동시 읽기/쓰기    │  │ DESCRIBE HISTORY orders;     │ │
-│  │ 충돌 없는 업데이트│  │ SELECT * FROM orders         │ │
-│  │ Commit Log 기반  │  │ VERSION AS OF 5;             │ │
-│  └──────────────────┘  └──────────────────────────────┘ │
-│                                                         │
-│  ┌──────────────────┐  ┌──────────────────────────────┐ │
-│  │ Schema Evolution  │  │ Z-Ordering (클러스터링)        │ │
-│  │                  │  │                              │ │
-│  │ 컬럼 추가 자동 반영│  │ 쿼리 성능 최적화              │ │
-│  │ 하위 호환성 유지  │  │ 데이터 스킵핑                 │ │
-│  └──────────────────┘  └──────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              Delta Lake 핵심 기능                         |
+|                                                         |
+|  +------------------+  +------------------------------+ |
+|  | ACID 트랜잭션     |  | Time Travel (시간 여행)        | |
+|  |                  |  |                              | |
+|  | 동시 읽기/쓰기    |  | DESCRIBE HISTORY orders;     | |
+|  | 충돌 없는 업데이트|  | SELECT * FROM orders         | |
+|  | Commit Log 기반  |  | VERSION AS OF 5;             | |
+|  +------------------+  +------------------------------+ |
+|                                                         |
+|  +------------------+  +------------------------------+ |
+|  | Schema Evolution  |  | Z-Ordering (클러스터링)        | |
+|  |                  |  |                              | |
+|  | 컬럼 추가 자동 반영|  | 쿼리 성능 최적화              | |
+|  | 하위 호환성 유지  |  | 데이터 스킵핑                 | |
+|  +------------------+  +------------------------------+ |
++---------------------------------------------------------+
 ```
 
 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기능 | 메달리온 활용 |
@@ -163,7 +163,7 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | Time Travel | Silver 재처리 시 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 조회 |
 | [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution | Gold 새 컬럼 추가 무중단 |
 | OPTIMIZE/VACUUM | 소파일 병합, 만료 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정리 |
-| Change [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Feed | Bronze → Silver 증분 처리 |
+| Change [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Feed | Bronze -> Silver 증분 처리 |
 
 📢 **섹션 요약 비유**: Delta Lake는 메달리온 공장의 안전 설비다. 제품([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 동시에 여러 라인에서 처리되어도 충돌이 없고(ACID), 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 되돌아갈 수 있는 타임머신(Time Travel)도 제공한다.
 
@@ -188,26 +188,26 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 ```
 데이터 접근 권한 계층화
 
-╔══════════════════════════════════════════╗
-║  GOLD          (비즈니스 사용자, 분석가)  ║
-║  ─ 최종 집계 데이터 조회                 ║
-║  ─ BI 도구 (Tableau, Power BI) 연결     ║
-╠══════════════════════════════════════════╣
-║  SILVER         (데이터 분석가, 데이터팀) ║
-║  ─ 정제된 데이터 분석                    ║
-║  ─ 머신러닝 피처 엔지니어링              ║
-╠══════════════════════════════════════════╣
-║  BRONZE          (데이터 엔지니어만)      ║
-║  ─ 원시 데이터 접근                     ║
-║  ─ 재처리 및 디버깅                     ║
-╚══════════════════════════════════════════╝
++------------------------------------------+
+|  GOLD          (비즈니스 사용자, 분석가)  |
+|  - 최종 집계 데이터 조회                 |
+|  - BI 도구 (Tableau, Power BI) 연결     |
++------------------------------------------+
+|  SILVER         (데이터 분석가, 데이터팀) |
+|  - 정제된 데이터 분석                    |
+|  - 머신러닝 피처 엔지니어링              |
++------------------------------------------+
+|  BRONZE          (데이터 엔지니어만)      |
+|  - 원시 데이터 접근                     |
+|  - 재처리 및 디버깅                     |
++------------------------------------------+
 ```
 
 ### 3.3 실시간 스트림 처리와 메달리온 결합
 
 | 계층 | 스트리밍 처리 방식 |
 |:---|:---|
-| Bronze | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/Kinesis → Delta Streaming Writer |
+| Bronze | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/Kinesis -> Delta Streaming Writer |
 | Silver | [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) + Trigger.Once |
 | Gold | Micro-batch 집계 (5분~1시간 윈도우) |
 
@@ -221,27 +221,27 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```
 단계 1: Bronze 구성 (1주)
-  ├─ 소스 시스템별 Kafka 토픽 연결
-  ├─ Delta Lake 테이블 생성
-  └─ Auto Loader로 자동 적재 설정
+  +- 소스 시스템별 Kafka 토픽 연결
+  +- Delta Lake 테이블 생성
+  +- Auto Loader로 자동 적재 설정
 
 단계 2: Silver 구성 (2~4주)
-  ├─ 데이터 품질 규칙 정의
-  ├─ PII 마스킹 정책 적용
-  └─ Great Expectations 데이터 검증
+  +- 데이터 품질 규칙 정의
+  +- PII 마스킹 정책 적용
+  +- Great Expectations 데이터 검증
 
 단계 3: Gold 구성 (지속적)
-  ├─ 비즈니스 지표 정의 (KPI)
-  ├─ dbt 모델로 변환 로직 관리
-  └─ BI 도구 연결
+  +- 비즈니스 지표 정의 (KPI)
+  +- dbt 모델로 변환 로직 관리
+  +- BI 도구 연결
 ```
 
 ### 4.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 도구
 
 | 도구 | 계층 | 기능 |
 |:---|:---|:---|
-| Great Expectations | Bronze→Silver | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙 |
-| dbt Tests | Silver→Gold | SQL 기반 테스트 |
+| Great Expectations | Bronze->Silver | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙 |
+| dbt Tests | Silver->Gold | SQL 기반 테스트 |
 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) Constraints | Bronze | 제약 조건 강제 |
 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) (Delta Live Tables) | 전체 | 선언적 파이프라인 |
 
@@ -251,30 +251,30 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 [주문 이벤트 발생]
 
     Kafka Topic: order-events
-         │
-         ▼
+         |
+         v
     BRONZE: orders_raw
-    ┌─────────────────────────────────────┐
-    │ order_id, raw_json, ingested_at,    │
-    │ source_system, partition, offset    │
-    │ (변환 없음, 장기 보존)               │
-    └────────────────┬────────────────────┘
-                     │ Spark Streaming
-                     ▼
+    +-------------------------------------+
+    | order_id, raw_json, ingested_at,    |
+    | source_system, partition, offset    |
+    | (변환 없음, 장기 보존)               |
+    +----------------+--------------------+
+                     | Spark Streaming
+                     v
     SILVER: orders_cleaned
-    ┌─────────────────────────────────────┐
-    │ order_id, user_id_hash, amount,     │
-    │ status, created_at(timestamp),      │
-    │ (중복 제거, PII 해시, 타입 변환)     │
-    └────────────────┬────────────────────┘
-                     │ dbt 모델
-                     ▼
+    +-------------------------------------+
+    | order_id, user_id_hash, amount,     |
+    | status, created_at(timestamp),      |
+    | (중복 제거, PII 해시, 타입 변환)     |
+    +----------------+--------------------+
+                     | dbt 모델
+                     v
     GOLD: daily_order_summary
-    ┌─────────────────────────────────────┐
-    │ date, total_orders, total_revenue,  │
-    │ avg_order_value, cancellation_rate  │
-    │ (일별 KPI 집계)                     │
-    └─────────────────────────────────────┘
+    +-------------------------------------+
+    | date, total_orders, total_revenue,  |
+    | avg_order_value, cancellation_rate  |
+    | (일별 KPI 집계)                     |
+    +-------------------------------------+
 ```
 
 ### 4.4 기술사 논술 핵심 판단 기준
@@ -296,7 +296,7 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 향상 | Bronze → Gold 오류율 95% 감소 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 향상 | Bronze -> Gold 오류율 95% 감소 |
 | 재처리 용이성 | Bronze 원본으로 언제든 재처리 |
 | 거버넌스 강화 | 계층별 접근 권한으로 보안 강화 |
 | 개발 생산성 | dbt 모듈화로 변환 로직 재사용 |
@@ -308,12 +308,12 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 메달리온 데이터로 ML 파이프라인 구성
 
 GOLD 레이어 피처 데이터
-    │
-    ▼
+    |
+    v
 Feature Store (Databricks / Feast)
-    │
-    ├──→ 모델 학습 (MLflow 추적)
-    └──→ 온라인 서빙 (Redis 조회)
+    |
+    +---> 모델 학습 (MLflow 추적)
+    +---> 온라인 서빙 (Redis 조회)
          실시간 예측 API
 ```
 
@@ -336,28 +336,28 @@ Feature Store (Databricks / Feast)
 | 비교 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-Satellite 이력 관리 |
 | 플랫폼 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | 메달리온 표준 구현 환경 |
 | 품질 관리 | Great Expectations | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프레임워크 |
-| 변환 관리 | dbt | SQL 기반 Silver→Gold 변환 |
+| 변환 관리 | dbt | SQL 기반 Silver->Gold 변환 |
 | 실시간 처리 | Delta Live Tables ([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/)) | 선언적 스트리밍 파이프라인 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 메달리온 아키텍처는 원석(Bronze) → 다듬기(Silver) → 완성 보석(Gold) 순으로 보석을 만드는 과정이에요. 각 단계에서 더 예쁘고 가치 있어지죠.
+1. 메달리온 아키텍처는 원석(Bronze) -> 다듬기(Silver) -> 완성 보석(Gold) 순으로 보석을 만드는 과정이에요. 각 단계에서 더 예쁘고 가치 있어지죠.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 Raw 데이터 수집 (CSV · JSON · 로그)
-    │
-    ▼
+    |
+    v
 Bronze 계층: 원시 데이터 그대로 적재 (append-only)
-    │
-    ▼
+    |
+    v
 Silver 계층: 정제 · 스키마 적용 · 중복 제거 · 조인
-    │
-    ▼
+    |
+    v
 Gold 계층: 비즈니스 KPI · 집계 테이블 · ML 피처
-    │
-    ▼
+    |
+    v
 소비: BI 대시보드 · ML 파이프라인 · Ad-hoc 분석
 ```
 2. Bronze는 마치 창고에 쌓아둔 재료 상자예요. 버리지 않고 다 보관해서, 나중에 "아, 이게 필요했구나!" 할 때 꺼낼 수 있어요.
@@ -369,7 +369,7 @@ Gold 계층: 비즈니스 KPI · 집계 테이블 · ML 피처
 
 **진행 상황**: 194 / 258
 
-← **이전**: [193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론](/knowledge-base/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/)
-**다음**: [195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) →
+<- **이전**: [193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론](/knowledge-base/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/)
+**다음**: [195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) ->
 
 ---

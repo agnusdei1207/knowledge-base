@@ -26,15 +26,15 @@ tags = ["studynote-algorithm"]
 아래 예시는 왜 탐욕 선택만으로는 부족한지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Greedy can miss the global best matching               │
-├──────────────────────────────────────────────────────────────────────┤
-│ U1 -> V1, V2                                                         │
-│ U2 -> V1                                                             │
-│                                                                      │
-│ greedy pick U1-V1  -> U2 unmatched  (1 match)                        │
-│ better: U1-V2, U2-V1 -> 2 matches                                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               Greedy can miss the global best matching               |
++----------------------------------------------------------------------+
+| U1 -> V1, V2                                                         |
+| U2 -> V1                                                             |
+|                                                                      |
+| greedy pick U1-V1  -> U2 unmatched  (1 match)                        |
+| better: U1-V2, U2-V1 -> 2 matches                                    |
++----------------------------------------------------------------------+
 ```
 
 즉 이분 매칭의 본질은 "지금 비어 있는 자리 하나 찾기"가 아니라, <strong>이미 잡힌 짝을 흔들어 더 많은 짝을 만들 수 있는지</strong>를 보는 데 있다. 이 재배치 개념이 바로 증대 경로로 이어진다.
@@ -60,14 +60,14 @@ tags = ["studynote-algorithm"]
 아래 그림은 증대 경로를 따라 매칭 상태를 뒤집는 과정을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Augmenting path flips the matching                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ before : U1 == V1      U2 free      V2 free                          │
-│ edges  : U2 -- V1, U1 -- V2                                           │
-│ path   : U2 -- V1 == U1 -- V2                                         │
-│ after  : U2 == V1      U1 == V2                                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Augmenting path flips the matching                   |
++----------------------------------------------------------------------+
+| before : U1 == V1      U2 free      V2 free                          |
+| edges  : U2 -- V1, U1 -- V2                                           |
+| path   : U2 -- V1 == U1 -- V2                                         |
+| after  : U2 == V1      U1 == V2                                       |
++----------------------------------------------------------------------+
 ```
 
 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭은 흔히 `O(VE)` 정도로 이해하며, 코딩 테스트와 중간 규모 배정 문제에서 많이 쓰인다. 더 큰 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 Hopcroft-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search) 으로 여러 최단 증대 경로를 한꺼번에 찾고, [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search) 으로 확장해 `O(E√V)`까지 줄여 준다.
@@ -105,19 +105,19 @@ tags = ["studynote-algorithm"]
 아래 결정 흐름은 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할지 빠르게 정리해 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Which matching formulation should you use?              │
-├──────────────────────────────────────────────────────────────────────┤
-│ graph bipartite?                                                     │
-│        ├─ no  -> general matching / different formulation            │
-│        └─ yes                                                         │
-│ need only maximum count?                                             │
-│        ├─ yes -> DFS matching or Hopcroft-Karp                       │
-│        └─ no                                                          │
-│ cost/weight important?                                               │
-│        ├─ yes -> Hungarian / Min-Cost Max-Flow                       │
-│        └─ online arrival? -> online matching / approximation         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              Which matching formulation should you use?              |
++----------------------------------------------------------------------+
+| graph bipartite?                                                     |
+|        +- no  -> general matching / different formulation            |
+|        +- yes                                                         |
+| need only maximum count?                                             |
+|        +- yes -> DFS matching or Hopcroft-Karp                       |
+|        +- no                                                          |
+| cost/weight important?                                               |
+|        +- yes -> Hungarian / Min-Cost Max-Flow                       |
+|        +- online arrival? -> online matching / approximation         |
++----------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -169,19 +169,19 @@ tags = ["studynote-algorithm"]
 
 ```text
 Bipartite graph check
-    │
-    ▼
+    |
+    v
 Matching representation
-    │
-    ▼
+    |
+    v
 Augmenting path search
-    │
-    ▼
+    |
+    v
 Maximum matching
-    │
-    ├─ Kőnig / Hall theory
-    ├─ Hopcroft-Karp scaling
-    └─ Hungarian / Min-Cost extensions
+    |
+    +- Kőnig / Hall theory
+    +- Hopcroft-Karp scaling
+    +- Hungarian / Min-Cost extensions
 ```
 
 이 흐름은 이분 구조 판정에서 출발해, 증대 경로 기반 최대 매칭으로 확장되고, 이후 이론과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·대규모 처리 문제로 이어지는 발전 방향을 보여 준다.
@@ -198,7 +198,7 @@ Maximum matching
 
 **진행 상황**: 172 / 175
 
-← **이전**: [171. 프림 알고리즘 (Prim's Algorithm)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/)
-**다음**: [합병 정렬 (Merge Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/173_merge_sort/) →
+<- **이전**: [171. 프림 알고리즘 (Prim's Algorithm)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/)
+**다음**: [합병 정렬 (Merge Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/173_merge_sort/) ->
 
 ---

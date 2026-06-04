@@ -137,21 +137,21 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 목 객체 (Mock Object) 기반 격리 테스트 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 **진행 상황**: 399 / 973
 
-← **이전**: [398. 단위 테스트 프레임워크 (JUnit, pytest, NUnit 등)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/)
-**다음**: [400. 통합 테스트 (Integration Test) - 모듈 간 인터페이스 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) →
+<- **이전**: [398. 단위 테스트 프레임워크 (JUnit, pytest, NUnit 등)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/)
+**다음**: [400. 통합 테스트 (Integration Test) - 모듈 간 인터페이스 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) ->
 
 ---

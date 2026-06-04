@@ -28,19 +28,19 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)형 관제와 플랫폼형 관제의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          City operations: silo centers versus shared platform        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Legacy                                                               │
-│ CCTV   -> safety center                                               │
-│ signals -> traffic center      each domain keeps its own IDs/events   │
-│ sensors -> env center                                                 │
-│                                                                      │
-│ Smart City Platform                                                  │
-│ devices -> ingestion -> city data hub -> analytics -> command/apps   │
-│                           │                    │                      │
-│                           └─ shared time / geo / asset context       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          City operations: silo centers versus shared platform        |
++----------------------------------------------------------------------+
+| Legacy                                                               |
+| CCTV   -> safety center                                               |
+| signals -> traffic center      each domain keeps its own IDs/events   |
+| sensors -> env center                                                 |
+|                                                                      |
+| Smart City Platform                                                  |
+| devices -> ingestion -> city data hub -> analytics -> command/apps   |
+|                           |                    |                      |
+|                           +- shared time / geo / asset context       |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모은다"가 아니라, <strong>서로 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 같은 문맥으로 해석하게 만든다</strong>는 데 있다. 도시 운영에서 문맥이란 위치, 시간, 시설물 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 사건 유형, 권한 범위를 의미한다.
@@ -51,7 +51,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스마트 시티 플랫폼의 핵심은 "수집"보다 "상황 이해와 제어"에 있다. 실무적으로는 보통 <strong>현장/엣지 계층 → 통신 계층 → 수집/연계 계층 → 도시 <a href="/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/">데이터 허브</a> 계층 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>/거버넌스 계층</strong>으로 나뉜다. 여기서 가장 중요한 것은 중간의 도시 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)가 단순 저장소가 아니라, 사건을 표준화된 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 바꾸는 변환기라는 점이다.
+스마트 시티 플랫폼의 핵심은 "수집"보다 "상황 이해와 제어"에 있다. 실무적으로는 보통 <strong>현장/엣지 계층 -> 통신 계층 -> 수집/연계 계층 -> 도시 <a href="/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/">데이터 허브</a> 계층 -> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>/거버넌스 계층</strong>으로 나뉜다. 여기서 가장 중요한 것은 중간의 도시 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)가 단순 저장소가 아니라, 사건을 표준화된 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 바꾸는 변환기라는 점이다.
 
 | 계층 | 주요 구성 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -68,19 +68,19 @@ tags = ["studynote-ict-convergence"]
 아래 구조는 스마트 시티 플랫폼이 단순 수집이 아니라 폐루프 제어라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Smart city platform is a closed operational loop          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Field devices -> Edge filter -> Event broker -> City data hub        │
-│                                         │                            │
-│                                         ├─ time series / GIS         │
-│                                         ├─ digital twin / AI         │
-│                                         └─ rules / workflow          │
-│                                              │                       │
-│                                  operator UI / open API / alerts     │
-│                                              │                       │
-│                         signal control / dispatch / citizen service   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Smart city platform is a closed operational loop          |
++----------------------------------------------------------------------+
+| Field devices -> Edge filter -> Event broker -> City data hub        |
+|                                         |                            |
+|                                         +- time series / GIS         |
+|                                         +- digital twin / AI         |
+|                                         +- rules / workflow          |
+|                                              |                       |
+|                                  operator UI / open API / alerts     |
+|                                              |                       |
+|                         signal control / dispatch / citizen service   |
++----------------------------------------------------------------------+
 ```
 
 여기서 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 과 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 부가 기능이 아니라, 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "예측 가능한 운영 정보"로 바꾸는 핵심 확장 계층이다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 는 패턴을 찾고, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 그 패턴이 공간 위에서 어떤 결과를 낼지 시뮬레이션한다.
@@ -172,17 +172,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 Urban sensors and legacy systems
-    │
-    ▼
+    |
+    v
 Shared context model + event integration
-    │
-    ├─ traffic
-    ├─ safety
-    ├─ environment
-    ├─ energy
-    └─ citizen services / open APIs
-    │
-    ▼
+    |
+    +- traffic
+    +- safety
+    +- environment
+    +- energy
+    +- citizen services / open APIs
+    |
+    v
 Digital twin, AI analytics, closed-loop city operations
 ```
 
@@ -200,7 +200,7 @@ Digital twin, AI analytics, closed-loop city operations
 
 **진행 상황**: 171 / 552
 
-← **이전**: [170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/170_private_5g_network/)
-**다음**: [172. 마스 (MaaS, Mobility as a Service)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/) →
+<- **이전**: [170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/170_private_5g_network/)
+**다음**: [172. 마스 (MaaS, Mobility as a Service)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/) ->
 
 ---

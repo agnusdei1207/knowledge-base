@@ -39,19 +39,19 @@ FDMA 시스템은 [대역폭](/knowledge-base/studynote/01_computer_architecture
 | [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) (Band-Pass Filter) | 수신기에서 자신에게 할당된 특정 주파수 대역의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 통과시키고 나머지는 차단 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          FDMA의 주파수 자원 분할 및 간섭 방지 구조          │
-├─────────────────────────────────────────────────────────────┤
-│ 전력                                                        │
-│  ▲                                                          │
-│  │  [User 1]      [User 2]      [User 3]      [User 4]      │
-│  │ ┌────────┐    ┌────────┐    ┌────────┐    ┌────────┐     │
-│  │ │ 채널 1 │ GB │ 채널 2 │ GB │ 채널 3 │ GB │ 채널 4 │     │
-│  │ └────────┘    └────────┘    └────────┘    └────────┘     │
-│  └─────────────────────────────────────────────────────▶ 주파수(f)
-│                                                             │
-│  * GB = Guard Band (인접 채널 간섭/ACI 방지용 완충 지대)    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          FDMA의 주파수 자원 분할 및 간섭 방지 구조          |
++-------------------------------------------------------------+
+| 전력                                                        |
+|  ^                                                          |
+|  |  [User 1]      [User 2]      [User 3]      [User 4]      |
+|  | +--------+    +--------+    +--------+    +--------+     |
+|  | | 채널 1 | GB | 채널 2 | GB | 채널 3 | GB | 채널 4 |     |
+|  | +--------+    +--------+    +--------+    +--------+     |
+|  +------------------------------------------------------> 주파수(f)
+|                                                             |
+|  * GB = Guard Band (인접 채널 간섭/ACI 방지용 완충 지대)    |
++-------------------------------------------------------------+
 ```
 
 위 아키텍처에서 보이듯, 필터의 차단 특성이 완벽한 수직이 아니기 때문에 `ACI (Adjacent Channel Interference, 인접 채널 간섭)`를 방지하려면 반드시 Guard Band가 필요하며, 이 공간은 누구도 통신할 수 없는 데드존이 된다.
@@ -112,17 +112,17 @@ FDMA는 다수의 통신자가 충돌 없이 무선 자원을 공유하는 가�
 
 ```text
 아날로그 음성 신호 전송 요구 (1G)
-    │
-    ▼
+    |
+    v
 FDMA (주파수를 물리적인 채널로 고정 분할, ACI 방지용 Guard Band 도입)
-    │
-    ▼
+    |
+    v
 디지털화 및 주파수 효율 한계 도달
-    │
-    ▼
+    |
+    v
 TDMA / CDMA (시간이나 코드를 통한 자원 공유 방식 등장 - 2G/3G)
-    │
-    ▼
+    |
+    v
 OFDMA (직교성을 통한 Guard Band 제거 및 부반송파 분배로 효율 극대화 - 4G/5G)
 ```
 
@@ -138,7 +138,7 @@ OFDMA (직교성을 통한 Guard Band 제거 및 부반송파 분배로 효율 �
 
 **진행 상황**: 88 / 1120
 
-← **이전**: [87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)
-**다음**: [89. TDMA (Time Division Multiple Access) - 슬롯 할당](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) →
+<- **이전**: [87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)
+**다음**: [89. TDMA (Time Division Multiple Access) - 슬롯 할당](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) ->
 
 ---

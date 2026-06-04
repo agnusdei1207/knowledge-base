@@ -24,16 +24,16 @@ tags = ["studynote-data-engineering"]
 
 ```
 기존 방식 (수동 재학습)              CT 방식 (자동 재학습)
-┌──────────────────────────┐       ┌──────────────────────────────┐
-│ 데이터 과학자가 수동으로  │       │  트리거 감지                  │
-│ 성능 저하 인지            │       │  (일정/데이터/성능)            │
-│         ↓                │       │          ↓                    │
-│ 재학습 스크립트 실행      │  →    │  파이프라인 자동 실행          │
-│         ↓                │       │  데이터 검증 → 학습 → 평가    │
-│ 수동 모델 평가 및 배포    │       │          ↓                    │
-│ 수주 소요                 │       │  자동 배포 또는 알람           │
-└──────────────────────────┘       │  수시간 소요                  │
-                                   └──────────────────────────────┘
++--------------------------+       +------------------------------+
+| 데이터 과학자가 수동으로  |       |  트리거 감지                  |
+| 성능 저하 인지            |       |  (일정/데이터/성능)            |
+|         v                |       |          v                    |
+| 재학습 스크립트 실행      |  ->    |  파이프라인 자동 실행          |
+|         v                |       |  데이터 검증 -> 학습 -> 평가    |
+| 수동 모델 평가 및 배포    |       |          v                    |
+| 수주 소요                 |       |  자동 배포 또는 알람           |
++--------------------------+       |  수시간 소요                  |
+                                   +------------------------------+
 ```
 
 ### 1.2 CT가 필요한 이유
@@ -63,19 +63,19 @@ tags = ["studynote-data-engineering"]
 ### 2.2 CT 파이프라인 상세 구성
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      CT 파이프라인 전체 흐름                         │
-├──────────┬──────────┬──────────┬──────────┬──────────┬─────────────┤
-│  트리거  │  데이터  │  피처    │  모델    │  모델    │   자동      │
-│  감지    │  검증    │  엔지니  │  학습    │  평가    │   배포      │
-│          │          │  어링    │          │          │             │
-├──────────┼──────────┼──────────┼──────────┼──────────┼─────────────┤
-│ Schedule │ 스키마   │ 피처     │ 분산     │ 정확도   │ 통과 →     │
-│ Data     │ 검증     │ 계산     │ 학습     │ F1-Score │ 모델 레지   │
-│ Perf     │ 이상값   │ 정규화   │ HPO      │ 드리프트 │ 스트리 등록 │
-│ Trigger  │ 체크     │ 인코딩   │ 교차검증 │ 비교     │ → 카나리   │
-└──────────┴──────────┴──────────┴──────────┴──────────┴─────────────┘
-                                                           실패 →
++---------------------------------------------------------------------+
+|                      CT 파이프라인 전체 흐름                         |
++----------+----------+----------+----------+----------+-------------+
+|  트리거  |  데이터  |  피처    |  모델    |  모델    |   자동      |
+|  감지    |  검증    |  엔지니  |  학습    |  평가    |   배포      |
+|          |          |  어링    |          |          |             |
++----------+----------+----------+----------+----------+-------------+
+| Schedule | 스키마   | 피처     | 분산     | 정확도   | 통과 ->     |
+| Data     | 검증     | 계산     | 학습     | F1-Score | 모델 레지   |
+| Perf     | 이상값   | 정규화   | HPO      | 드리프트 | 스트리 등록 |
+| Trigger  | 체크     | 인코딩   | 교차검증 | 비교     | -> 카나리   |
++----------+----------+----------+----------+----------+-------------+
+                                                           실패 ->
                                                            알람 발송
 ```
 
@@ -110,40 +110,40 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 #### 단계 3: 모델 학습 (Model [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                모델 학습 전략 비교                   │
-├───────────────────┬─────────────────────────────────┤
-│  전체 재학습      │  전체 데이터로 처음부터 학습     │
-│  (Full Retraining)│  고비용, 높은 정확도             │
-├───────────────────┼─────────────────────────────────┤
-│  증분 학습        │  새 데이터만으로 기존 모델 업데이 │
-│  (Incremental)    │  저비용, 점진적 성능 개선        │
-├───────────────────┼─────────────────────────────────┤
-│  앙상블 업데이트  │  새 모델 추가, 가중치 재조정     │
-│  (Ensemble Update)│  안정성 높음, 복잡성 증가        │
-└───────────────────┴─────────────────────────────────┘
++-----------------------------------------------------+
+|                모델 학습 전략 비교                   |
++-------------------+---------------------------------+
+|  전체 재학습      |  전체 데이터로 처음부터 학습     |
+|  (Full Retraining)|  고비용, 높은 정확도             |
++-------------------+---------------------------------+
+|  증분 학습        |  새 데이터만으로 기존 모델 업데이 |
+|  (Incremental)    |  저비용, 점진적 성능 개선        |
++-------------------+---------------------------------+
+|  앙상블 업데이트  |  새 모델 추가, 가중치 재조정     |
+|  (Ensemble Update)|  안정성 높음, 복잡성 증가        |
++-------------------+---------------------------------+
 ```
 
 #### 단계 4: 모델 평가 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 게이트 (Evaluation Gate)
 
 ```
 신규 모델 학습 완료
-        │
-        ▼
-  ┌─────────────────────────────┐
-  │  자동 평가 게이트 (Gate)     │
-  │                             │
-  │  ① 정확도 > 기준 (예: 90%) │
-  │  ② F1-Score 개선 여부       │
-  │  ③ 현재 프로덕션 모델 대비  │
-  │     성능 향상 확인           │
-  │  ④ 지연시간 SLA 충족        │
-  │  ⑤ 공정성 메트릭 체크       │
-  └─────────────────────────────┘
-        │              │
-    통과 ▼          실패 ▼
+        |
+        v
+  +-----------------------------+
+  |  자동 평가 게이트 (Gate)     |
+  |                             |
+  |  ① 정확도 > 기준 (예: 90%) |
+  |  ② F1-Score 개선 여부       |
+  |  ③ 현재 프로덕션 모델 대비  |
+  |     성능 향상 확인           |
+  |  ④ 지연시간 SLA 충족        |
+  |  ⑤ 공정성 메트릭 체크       |
+  +-----------------------------+
+        |              |
+    통과 v          실패 v
   레지스트리 등록   알람 + 원인 분석
-  → 카나리 배포     → 데이터팀 통보
+  -> 카나리 배포     -> 데이터팀 통보
 ```
 
 ### 2.4 재학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 상세 비교
@@ -178,19 +178,19 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 이전 학습 데이터: [고양이, 개, 자동차]
 새 학습 데이터:   [비행기, 배]
-                        ↓
+                        v
 증분 학습 후: 비행기·배는 잘 분류,
               고양이·개·자동차 성능 급락 (Forgetting!)
 
 해결 방법:
-┌────────────────────────────────────────────────┐
-│  ① Replay Buffer: 이전 데이터 샘플 보존         │
-│  ② EWC (Elastic Weight Consolidation):         │
-│     중요 가중치에 페널티 부여                    │
-│  ③ Progressive Neural Networks:               │
-│     새 태스크에 별도 컬럼 추가                   │
-│  ④ 전체 재학습 주기 병행                        │
-└────────────────────────────────────────────────┘
++------------------------------------------------+
+|  ① Replay Buffer: 이전 데이터 샘플 보존         |
+|  ② EWC (Elastic Weight Consolidation):         |
+|     중요 가중치에 페널티 부여                    |
+|  ③ Progressive Neural Networks:               |
+|     새 태스크에 별도 컬럼 추가                   |
+|  ④ 전체 재학습 주기 병행                        |
++------------------------------------------------+
 ```
 
 ### 3.3 CT vs 기존 배치 모델 업데이트 비교
@@ -213,15 +213,15 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 ```
 모델 성능
-  ↑
-  │     ····················· 이상적 성능 유지선
-  │  ╲     ╱╲     ╱╲
-  │   ╲   ╱  ╲   ╱  ╲
-  │    ╲ ╱    ╲ ╱    ╲···(성능 저하 시작)
-  │     ╳      ╳
-  │    재학습  재학습
-  └─────────────────────────────→ 시간
-    ↑                  ↑
+  ^
+  |     ····················· 이상적 성능 유지선
+  |  ╲     ╱╲     ╱╲
+  |   ╲   ╱  ╲   ╱  ╲
+  |    ╲ ╱    ╲ ╱    ╲···(성능 저하 시작)
+  |     ╳      ╳
+  |    재학습  재학습
+  +------------------------------> 시간
+    ^                  ^
   너무 자주 재학습      너무 늦은 재학습
   (비용 낭비)           (성능 저하 노출)
 ```
@@ -303,17 +303,17 @@ def ct_pipeline(data_path: str, threshold: float = 0.90):
 ### 5.2 CT 설계 시 고려사항
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  CT 설계 체크리스트                       │
-├─────────────────────────────────────────────────────────┤
-│  □ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)        │
-│  □ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)       │
-│  □ 평가 게이트 기준 설정 (절대값 + 상대값 조합)          │
-│  □ 실패 시 롤백 전략 (이전 버전 유지)                    │
-│  □ 재학습 비용 예산 설정 (GPU 사용량 알람)               │
-│  □ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)     │
-│  □ 피처 스토어 연동 (훈련/서빙 일관성 보장)              │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                  CT 설계 체크리스트                       |
++---------------------------------------------------------+
+|  □ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)        |
+|  □ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)       |
+|  □ 평가 게이트 기준 설정 (절대값 + 상대값 조합)          |
+|  □ 실패 시 롤백 전략 (이전 버전 유지)                    |
+|  □ 재학습 비용 예산 설정 (GPU 사용량 알람)               |
+|  □ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)     |
+|  □ 피처 스토어 연동 (훈련/서빙 일관성 보장)              |
++---------------------------------------------------------+
 ```
 
 ### 5.3 결론
@@ -330,7 +330,7 @@ CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_c
 |:---|:---|:---|
 | 상위 개념 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | CT는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 세 번째 축 |
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) | 입력 분포 변화가 CT 발동 조건 |
-| [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 → CT 발동 |
+| [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 -> CT 발동 |
 | 구성요소 | [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) | 재학습 시 최신 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 제공 |
 | 구성요소 | [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([Model Registry](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)) | CT 결과 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등록 |
 | 도구 | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) Pipelines | CT 파이프라인 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) |
@@ -350,23 +350,23 @@ CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_c
 
 ```text
 수동 모델 재학습 (분기별 배치)
-    │
-    ▼
+    |
+    v
 CT 트리거 도입
-    ├─► 일정 기반 (cron) — 주기적 재학습
-    ├─► 데이터 기반 — 드리프트 감지 시 발동
-    └─► 성능 기반 — 정확도 임계값 하락 시 발동
-    │
-    ▼
+    +-► 일정 기반 (cron) — 주기적 재학습
+    +-► 데이터 기반 — 드리프트 감지 시 발동
+    +-► 성능 기반 — 정확도 임계값 하락 시 발동
+    |
+    v
 자동 재학습 파이프라인 (Kubeflow · Airflow)
-    ├─► 데이터 검증 → 피처 추출 → 학습
-    └─► 평가 게이트 (성능 · SLA · 공정성)
-    │
-    ▼
-자동 배포 (카나리 → A/B → 전체)
-    │
-    ▼
-지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)
+    +-► 데이터 검증 -> 피처 추출 -> 학습
+    +-► 평가 게이트 (성능 · SLA · 공정성)
+    |
+    v
+자동 배포 (카나리 -> A/B -> 전체)
+    |
+    v
+지속 모니터링 -> 드리프트 재감지 -> CT 재발동 (순환)
 ```
 
 ---
@@ -375,7 +375,7 @@ CT 트리거 도입
 
 **진행 상황**: 162 / 258
 
-← **이전**: [161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/161_mlops_machine_learning_operations/)
-**다음**: [163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) →
+<- **이전**: [161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/161_mlops_machine_learning_operations/)
+**다음**: [163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ->
 
 ---

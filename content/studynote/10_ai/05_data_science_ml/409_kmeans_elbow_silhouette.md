@@ -24,13 +24,13 @@ K-Means는 대표적인 [비지도 학습](/knowledge-base/studynote/14_data_eng
 이 문제 때문에 실무에서는 "K-Means를 돌리는 것"보다 "K를 합리적으로 고르는 것"이 더 중요하다. 엘보우 기법은 K를 늘릴수록 감소하는 이너시아 (Inertia)의 기울기 변화를 보고 적정 분할 지점을 찾고, 실루엣 스코어는 각 샘플이 자기 군집에 얼마나 잘 속하고 다른 군집과는 얼마나 잘 떨어졌는지를 수치화한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          K-Means의 핵심 질문: "K를 몇으로 둘 것인가?"        │
-├──────────────────────────────────────────────────────────────┤
-│ K가 너무 작음  ──▶ 서로 다른 집단이 한 군집에 섞임           │
-│ K가 너무 큼    ──▶ 의미 없는 작은 군집이 과도하게 생성됨     │
-│ 적정 K         ──▶ 비슷한 점은 잘 뭉치고, 다른 군집은 분리됨 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          K-Means의 핵심 질문: "K를 몇으로 둘 것인가?"        |
++--------------------------------------------------------------+
+| K가 너무 작음  ---> 서로 다른 집단이 한 군집에 섞임           |
+| K가 너무 큼    ---> 의미 없는 작은 군집이 과도하게 생성됨     |
+| 적정 K         ---> 비슷한 점은 잘 뭉치고, 다른 군집은 분리됨 |
++--------------------------------------------------------------+
 ```
 
 즉 두 지표는 단순 통계 기교가 아니라, [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) 결과를 <strong>설명 가능한 구조</strong>로 바꾸는 의사결정 도구다.
@@ -45,7 +45,7 @@ K-Means는 대표적인 [비지도 학습](/knowledge-base/studynote/14_data_eng
 
 | 지표 | 핵심 수식 | 보는 대상 | 해석 포인트 |
 |:---|:---|:---|:---|
-| 엘보우 기법 | `Inertia = ΣΣ ||x - μ_k||²` | 군집 내부 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | K 증가에 따른 감소 폭이 급격히 둔화되는 지점 |
+| 엘보우 기법 | `Inertia = ΣΣ ||x - μ_k||^` | 군집 내부 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | K 증가에 따른 감소 폭이 급격히 둔화되는 지점 |
 | 실루엣 스코어 | `s(i) = (b(i)-a(i))/max(a(i), b(i))` | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) + 분리도 | 1에 가까울수록 좋은 분리, 0은 경계, 음수는 잘못 배정 |
 
 ### 1. 엘보우 기법
@@ -54,14 +54,14 @@ K를 1, 2, 3, ... 순서로 늘려가며 이너시아를 계산하면, 보통 �
 
 ```text
 이너시아 (Inertia)
-    ▲
-    │ ●
-    │  ╲
-    │   ●
-    │    ╲
-    │     ●  ← 엘보우 지점
-    │      ╲────●────●
-    └────────────────────▶ K
+    ^
+    | ●
+    |  ╲
+    |   ●
+    |    ╲
+    |     ●  <- 엘보우 지점
+    |      ╲----●----●
+    +---------------------> K
        1    2    3    4   5
 ```
 
@@ -87,14 +87,14 @@ K를 1, 2, 3, ... 순서로 늘려가며 이너시아를 계산하면, 보통 �
 ### 3. 함께 쓰는 이유
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│     K 탐색 절차: Elbow로 후보 압축 → Silhouette로 정량 검증   │
-├──────────────────────────────────────────────────────────────┤
-│ 1. K=2~10 반복 학습                                          │
-│ 2. Inertia 곡선 확인 → 꺾이는 후보 K 2~3개 선택              │
-│ 3. 후보 K들의 Silhouette 비교                                │
-│ 4. 가장 해석 가능하고 운영 가능한 K 최종 선택                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|     K 탐색 절차: Elbow로 후보 압축 -> Silhouette로 정량 검증   |
++--------------------------------------------------------------+
+| 1. K=2~10 반복 학습                                          |
+| 2. Inertia 곡선 확인 -> 꺾이는 후보 K 2~3개 선택              |
+| 3. 후보 K들의 Silhouette 비교                                |
+| 4. 가장 해석 가능하고 운영 가능한 K 최종 선택                |
++--------------------------------------------------------------+
 ```
 
 실무에서는 엘보우로 후보를 좁히고, 실루엣으로 정량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤, 마지막에는 비즈니스 해석 가능성까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방식이 가장 안정적이다.
@@ -173,7 +173,7 @@ K-Means는 본질적으로 구형 (Spherical) 군집과 평균 중심에 잘 맞
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [K-Means 최적 K 선택 (Kmeans Elbow Silhouette)] → [최적화·운영 자동화]
+[데이터 전처리] -> [K-Means 최적 K 선택 (Kmeans Elbow Silhouette)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -188,7 +188,7 @@ K-Means는 본질적으로 구형 (Spherical) 군집과 평균 중심에 잘 맞
 
 **진행 상황**: 409 / 420
 
-← **이전**: [408. CLIP (Contrastive Language-Image Pre-training)](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)
-**다음**: [410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)](/knowledge-base/studynote/10_ai/05_data_science_ml/410_aic_bic_model_selection/) →
+<- **이전**: [408. CLIP (Contrastive Language-Image Pre-training)](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)
+**다음**: [410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)](/knowledge-base/studynote/10_ai/05_data_science_ml/410_aic_bic_model_selection/) ->
 
 ---

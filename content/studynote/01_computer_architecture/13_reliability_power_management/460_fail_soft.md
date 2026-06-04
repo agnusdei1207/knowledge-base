@@ -43,21 +43,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 페일 소프트의 핵심 흐름을 보여준다. 중요한 점은 고장을 "숨기는" 것이 아니라, 고장을 드러내되 전체 붕괴로 번지지 않게 경계를 끊는 데 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Fail-Soft 동작 흐름: 고장 확산을 끊고 계속 운전       │
-├──────────────────────────────────────────────────────────────────────┤
-│ 정상 상태   ──▶   오류 감지   ──▶   결함 격리   ──▶   자원 재구성      │
-│              센서/ECC/타임아웃      코어·뱅크·모듈 제외   우회 경로 선택 │
-│                                                                    │
-│                                      ┌───────────────────────────┐   │
-│                                      │ 성능/품질 저하 모드 진입 │   │
-│                                      │ - 주파수 하향            │   │
-│                                      │ - 비핵심 기능 비활성화   │   │
-│                                      │ - 응답 시간 증가 허용    │   │
-│                                      └─────────────┬─────────────┘   │
-│                                                    ▼                 │
-│                                         핵심 서비스 계속 제공        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                Fail-Soft 동작 흐름: 고장 확산을 끊고 계속 운전       |
++----------------------------------------------------------------------+
+| 정상 상태   --->   오류 감지   --->   결함 격리   --->   자원 재구성      |
+|              센서/ECC/타임아웃      코어·뱅크·모듈 제외   우회 경로 선택 |
+|                                                                    |
+|                                      +---------------------------+   |
+|                                      | 성능/품질 저하 모드 진입 |   |
+|                                      | - 주파수 하향            |   |
+|                                      | - 비핵심 기능 비활성화   |   |
+|                                      | - 응답 시간 증가 허용    |   |
+|                                      +-------------+-------------+   |
+|                                                    v                 |
+|                                         핵심 서비스 계속 제공        |
++----------------------------------------------------------------------+
 ```
 
 하드웨어 관점에서는 열 폭주가 감지되면 동적 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 및 주파수 조절 ([DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)로 주파수를 낮춰 시스템을 살리는 경우가 대표적이다. 소프트웨어 관점에서는 응답이 느린 부가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 끊고 기본값만 반환하는 우아한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 (Graceful Degradation)가 같은 철학이다. 즉 페일 소프트의 원리는 "정상 모드 유지"가 아니라 "핵심 기능 생존"에 최적화되어 있다.
@@ -139,24 +139,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 정지 중심 보호
-    │
-    ▼
+    |
+    v
 페일 세이프 (Fail-Safe)
-    │
-    ├──────────────▶ 안전 최우선 시스템
-    │
-    ▼
+    |
+    +---------------> 안전 최우선 시스템
+    |
+    v
 부분 오류 감지 · 격리
-    │
-    ▼
+    |
+    v
 페일 소프트 (Fail-Soft)
-    │
-    ├──────────────▶ ECC · 코어 오프라인 · 저전력 모드
-    │
-    ▼
+    |
+    +---------------> ECC · 코어 오프라인 · 저전력 모드
+    |
+    v
 우아한 성능 저하 (Graceful Degradation)
-    │
-    ▼
+    |
+    v
 적응형 자원 재구성 · 자율 복구형 시스템
 ```
 
@@ -174,7 +174,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 461 / 803
 
-← **이전**: [459. 페일 세이프 (Fail-Safe)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)
-**다음**: [461. 워치독 타이머 (Watchdog Timer)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/) →
+<- **이전**: [459. 페일 세이프 (Fail-Safe)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)
+**다음**: [461. 워치독 타이머 (Watchdog Timer)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/) ->
 
 ---

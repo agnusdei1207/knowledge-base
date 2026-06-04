@@ -44,29 +44,29 @@ tags = ["studynote-it-management"]
 아래 그림은 콜드 사이트에서 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 어디에서 소비되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Cold site recovery chain                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary site                                                        │
-│   App / DB / Files                                                  │
-│      │ backup                                                       │
-│      ▼                                                              │
-│ Off-site backup vault                                               │
-│   tape / object storage / immutable copy                            │
-│      │                                                              │
-│      ▼                                                              │
-│ Cold site facility                                                  │
-│   racks + power + cooling + network only                            │
-│                                                                      │
-│ Disaster declared                                                   │
-│   -> procure hardware                                               │
-│   -> install OS / middleware                                        │
-│   -> restore data                                                   │
-│   -> validate security / DNS / VPN                                  │
-│   -> resume service                                                 │
-│                                                                      │
-│ Bottlenecks: supplier SLA / restore bandwidth / runbook quality     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Cold site recovery chain                                            |
++----------------------------------------------------------------------+
+| Primary site                                                        |
+|   App / DB / Files                                                  |
+|      | backup                                                       |
+|      v                                                              |
+| Off-site backup vault                                               |
+|   tape / object storage / immutable copy                            |
+|      |                                                              |
+|      v                                                              |
+| Cold site facility                                                  |
+|   racks + power + cooling + network only                            |
+|                                                                      |
+| Disaster declared                                                   |
+|   -> procure hardware                                               |
+|   -> install OS / middleware                                        |
+|   -> restore data                                                   |
+|   -> validate security / DNS / VPN                                  |
+|   -> resume service                                                 |
+|                                                                      |
+| Bottlenecks: supplier SLA / restore bandwidth / runbook quality     |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 마지막 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시점에 의해 결정되고, [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))는 조달·설치·복원 시간이 합쳐져 결정된다. 그래서 콜드 사이트는 같은 시설이라도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기와 공급 계약 조건에 따라 품질이 크게 달라진다. 시설은 같아 보여도 준비 수준은 전혀 다를 수 있다.
@@ -157,17 +157,17 @@ tags = ["studynote-it-management"]
 
 ```text
 Business Impact Analysis
-    │
-    ▼
+    |
+    v
 RTO / RPO 등급화
-    │
-    ├─ 짧은 복구 필요 -> Hot / Warm Site
-    └─ 긴 복구 허용 -> Cold Site
-    │
-    ▼
+    |
+    +- 짧은 복구 필요 -> Hot / Warm Site
+    +- 긴 복구 허용 -> Cold Site
+    |
+    v
 Off-site backup + supplier contract + runbook
-    │
-    ▼
+    |
+    v
 Restore drill and cloud backup-restore evolution
 ```
 
@@ -185,7 +185,7 @@ Restore drill and cloud backup-restore evolution
 
 **진행 상황**: 295 / 587
 
-← **이전**: [180. 웜 사이트 (Warm Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)
-**다음**: [182. 망분리 (Network Separation) 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) →
+<- **이전**: [180. 웜 사이트 (Warm Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)
+**다음**: [182. 망분리 (Network Separation) 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) ->
 
 ---

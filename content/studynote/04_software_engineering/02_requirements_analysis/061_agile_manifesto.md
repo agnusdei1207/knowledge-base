@@ -30,13 +30,13 @@ tags = ["software_engineering"]
 
 ```text
 Waterfall
-   ↓
+   v
 문서 중심 계획
-   ↓
+   v
 작동하는 소프트웨어
-   ↓
+   v
 짧은 피드백 루프
-   ↓
+   v
 지속적 학습과 개선
 ```
 
@@ -106,13 +106,13 @@ Waterfall
 
 ```text
 Waterfall 문제
-   ↓
+   v
 Agile Manifesto
-   ↓
+   v
 Scrum / Kanban / XP
-   ↓
+   v
 CI/CD
-   ↓
+   v
 DevOps
 ```
 
@@ -122,11 +122,11 @@ DevOps
 
 ```text
 중량급 개발
-   ↓
+   v
 애자일 선언문
-   ↓
+   v
 반복적/점진적 개발
-   ↓
+   v
 지속적 통합/배포
 ```
 
@@ -144,7 +144,7 @@ DevOps
 
 **진행 상황**: 61 / 973
 
-← **이전**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/)
-**다음**: [62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) →
+<- **이전**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/)
+**다음**: [62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ->
 
 ---

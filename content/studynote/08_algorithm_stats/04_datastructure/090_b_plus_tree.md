@@ -29,13 +29,13 @@ tags = ["studynote-algorithm"]
 ```
 B+트리 구조:
 
-내부 노드: [ 17 ]  ← 라우팅 키만
+내부 노드: [ 17 ]  <- 라우팅 키만
            /    \
      [ 5, 12 ]  [ 24, 30 ]
 
 리프 노드 (체인):
-[1,3] → [5,9] → [12,15] → [17,20] → [24,27] → [30,35]
-  ↑ 실제 데이터(또는 Row Pointer) 저장 + 연결 포인터
+[1,3] -> [5,9] -> [12,15] -> [17,20] -> [24,27] -> [30,35]
+  ^ 실제 데이터(또는 Row Pointer) 저장 + 연결 포인터
 ```
 
 📢 **섹션 요약 비유**: B+트리는 색인 카드 + 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분리 시스템이다 — 색인(내부 노드)은 위치만 알려주고, 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(리프)은 순서대로 서랍에 연결되어 있다.
@@ -48,7 +48,7 @@ B+트리 구조:
 
 ```
 SELECT * WHERE age BETWEEN 20 AND 30:
-  B-트리: 트리를 중위 순회 → 불연속 디스크 I/O 다수
+  B-트리: 트리를 중위 순회 -> 불연속 디스크 I/O 다수
 ```
 
 ### B+트리 범위 검색
@@ -56,8 +56,8 @@ SELECT * WHERE age BETWEEN 20 AND 30:
 ```
 SELECT * WHERE age BETWEEN 20 AND 30:
   1. age=20 리프 노드까지 트리 하강 O(log n)
-  2. 리프 체인 → → → age=30까지 순차 스캔 O(k)
-  총: O(log n + k)  ← 매우 효율적
+  2. 리프 체인 -> -> -> age=30까지 순차 스캔 O(k)
+  총: O(log n + k)  <- 매우 효율적
 ```
 
 ```python
@@ -86,29 +86,29 @@ def range_search(root, low, high):
 
 ```
 InnoDB B+트리 리프 노드:
-┌──────────────────────────────────────┐
-│  PK  │      실제 행 데이터 (Row)      │
-│  1   │  name="Alice", age=25, ...    │
-│  2   │  name="Bob",   age=30, ...    │
-│  3   │  name="Carol", age=28, ...    │
-└──────────────────────────────────────┘
++--------------------------------------+
+|  PK  |      실제 행 데이터 (Row)      |
+|  1   |  name="Alice", age=25, ...    |
+|  2   |  name="Bob",   age=30, ...    |
+|  3   |  name="Carol", age=28, ...    |
++--------------------------------------+
 ```
 
 ### 세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Secondary [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))
 
 ```
 세컨더리 B+트리 리프 노드:
-┌───────────────────────────┐
-│  인덱스 키 │  PK 값       │
-│  age=25   │  PK=1        │  → 클러스터 인덱스에서 row 찾기
-│  age=28   │  PK=3        │
-│  age=30   │  PK=2        │
-└───────────────────────────┘
++---------------------------+
+|  인덱스 키 |  PK 값       |
+|  age=25   |  PK=1        |  -> 클러스터 인덱스에서 row 찾기
+|  age=28   |  PK=3        |
+|  age=30   |  PK=2        |
++---------------------------+
 ```
 
 **이중 조회 (Double Lookup) 문제**: 세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 후 PK로 클러스터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 재탐색 필요
 
-→ <strong>커버링 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> (Covering <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>: [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 포함해 이중 조회 방지
+-> <strong>커버링 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> (Covering <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>: [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 포함해 이중 조회 방지
 
 📢 **섹션 요약 비유**: 이중 조회는 책에서 목차(세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾고, 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 다시 내용을 읽는 것이다. 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 목차에 요약이 다 있어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 안 넘겨도 되는 것이다.
 
@@ -123,7 +123,7 @@ InnoDB B+트리 리프 노드:
   분할 전: [10, 20, 30, 40, 50] (가득 참)
   삽입 값: 25
   분할 후: [10, 20] | [25, 30, 40, 50]
-           부모에 25(복사) 올라감  ← B-트리와 차이: B+트리는 복사(copy), B-트리는 이동(move)
+           부모에 25(복사) 올라감  <- B-트리와 차이: B+트리는 복사(copy), B-트리는 이동(move)
 ```
 
 ### 삭제 — 내부 노드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 키 유지
@@ -132,7 +132,7 @@ InnoDB B+트리 리프 노드:
 B+트리 특성:
   리프의 키를 삭제해도 내부 노드의 더미 키는 유지 가능
   (라우팅 역할만 하므로)
-  → B-트리보다 삭제 처리가 단순
+  -> B-트리보다 삭제 처리가 단순
 ```
 
 📢 **섹션 요약 비유**: B+트리 삽입 분할에서 키를 복사하는 것은 사원증 복사본을 본사(부모)에 보내는 것이다 — B-트리는 원본을 보내지만 B+트리는 복사본을 보내 리프에도 남겨둔다.
@@ -146,8 +146,8 @@ B+트리 특성:
 ```
 MySQL InnoDB 페이지: 16KB 기본
   내부 노드 키: ~6 bytes + 포인터 6 bytes = 12 bytes
-  → 내부 노드 키 수: 16384 / 12 ≈ 1365개
-  → 높이 3 트리에 최대: 1365² × (16384/행크기) ≈ 수천만 행
+  -> 내부 노드 키 수: 16384 / 12 ≈ 1365개
+  -> 높이 3 트리에 최대: 1365^ × (16384/행크기) ≈ 수천만 행
 ```
 
 ### 현대 DB에서의 적용
@@ -167,22 +167,22 @@ MySQL InnoDB 페이지: 16KB 기본
 
 ```
 B+트리 (B+-Tree)
-├── B-트리와의 차이
-│   ├── 데이터: 리프에만
-│   └── 리프 연결 리스트 (Range Scan 최적화)
-├── 인덱스 유형
-│   ├── 클러스터 인덱스 (Clustered)
-│   │   └── InnoDB: 리프에 실제 행 저장
-│   └── 세컨더리 인덱스
-│       └── 리프에 PK 값 저장 → 이중 조회
-├── 최적화 기법
-│   ├── 커버링 인덱스 (이중 조회 방지)
-│   ├── 복합 인덱스 (Composite)
-│   └── 인덱스 선두 컬럼 규칙
-└── 실제 사용
-    ├── MySQL InnoDB
-    ├── PostgreSQL
-    └── Oracle / DB2
++-- B-트리와의 차이
+|   +-- 데이터: 리프에만
+|   +-- 리프 연결 리스트 (Range Scan 최적화)
++-- 인덱스 유형
+|   +-- 클러스터 인덱스 (Clustered)
+|   |   +-- InnoDB: 리프에 실제 행 저장
+|   +-- 세컨더리 인덱스
+|       +-- 리프에 PK 값 저장 -> 이중 조회
++-- 최적화 기법
+|   +-- 커버링 인덱스 (이중 조회 방지)
+|   +-- 복합 인덱스 (Composite)
+|   +-- 인덱스 선두 컬럼 규칙
++-- 실제 사용
+    +-- MySQL InnoDB
+    +-- PostgreSQL
+    +-- Oracle / DB2
 ```
 
 ---
@@ -190,22 +190,22 @@ B+트리 (B+-Tree)
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   B+트리 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1976년       │ B+트리 개념 정립   │ Knuth, 리프 체인 아이디어   │
-│ 1980년대     │ DB 인덱스 표준화   │ IBM DB2·Oracle 채택         │
-│ 2000년대     │ MySQL InnoDB       │ 클러스터 B+트리, 범용화     │
-│ 2010년대     │ SSD 최적화         │ 순차 vs 랜덤 I/O 재분석     │
-│ 2020년대     │ NVMe·인메모리 DB   │ 페이지 크기 조정, Bε-트리  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                   B+트리 발전 흐름                               |
++--------------+--------------------+-----------------------------+
+| 1976년       | B+트리 개념 정립   | Knuth, 리프 체인 아이디어   |
+| 1980년대     | DB 인덱스 표준화   | IBM DB2·Oracle 채택         |
+| 2000년대     | MySQL InnoDB       | 클러스터 B+트리, 범용화     |
+| 2010년대     | SSD 최적화         | 순차 vs 랜덤 I/O 재분석     |
+| 2020년대     | NVMe·인메모리 DB   | 페이지 크기 조정, Bε-트리  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-B-트리 → B+트리(리프 체인) → 범위 스캔 O(k)
-  ↓              ↓                   ↓
+B-트리 -> B+트리(리프 체인) -> 범위 스캔 O(k)
+  v              v                   v
 디스크 최적화  데이터=리프만      ORDER BY 최적화
-  ↓
-클러스터 인덱스 → 커버링 인덱스 → 쿼리 최적화
+  v
+클러스터 인덱스 -> 커버링 인덱스 -> 쿼리 최적화
 ```
 
 ---
@@ -222,7 +222,7 @@ B-트리 → B+트리(리프 체인) → 범위 스캔 O(k)
 
 **진행 상황**: 90 / 175
 
-← **이전**: [31. Red-Black 트리 — STL·JVM의 표준 균형 BST](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/089_rb_tree/)
-**다음**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/091_b_tree/) →
+<- **이전**: [31. Red-Black 트리 — STL·JVM의 표준 균형 BST](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/089_rb_tree/)
+**다음**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/091_b_tree/) ->
 
 ---

@@ -38,18 +38,18 @@ tags = ["database"]
 | **존재성 (Existence)** | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값은 `NULL`일 수 없음 | 개체의 존재 자체를 증명해야 함 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  식별자 선택의 단계적 필터링               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 속성 수집: [사번, 주민번호, 이름, 부서명, 이메일, 입사일] │
-│      │                                                       │
-│ 2. 유일성/존재성 확인 ─▶ (이름, 부서명, 입사일 탈락)      │
-│      │                                                       │
-│ 3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일} │
-│      │                                                       │
-│ 4. 불변성/보안성 검토 ─▶ 주 식별자(Primary Identifier) 선정: {사번}    │
-│                         (주민번호는 보안, 이메일은 변경 가능성으로 탈락) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  식별자 선택의 단계적 필터링               |
++--------------------------------------------------------------+
+| 1. 속성 수집: [사번, 주민번호, 이름, 부서명, 이메일, 입사일] |
+|      |                                                       |
+| 2. 유일성/존재성 확인 --> (이름, 부서명, 입사일 탈락)      |
+|      |                                                       |
+| 3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일} |
+|      |                                                       |
+| 4. 불변성/보안성 검토 --> 주 식별자(Primary Identifier) 선정: {사번}    |
+|                         (주민번호는 보안, 이메일은 변경 가능성으로 탈락) |
++--------------------------------------------------------------+
 ```
 이 흐름에서 도출된 다양한 후보 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 중에서 비즈니스 목적에 가장 부합하는 단 하나를 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 선택하고, 나머지는 보조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Alternate Identifier)가 된다.
 
@@ -118,17 +118,17 @@ tags = ["database"]
 
 ```text
 개체와 속성 정의 (Entity & Attribute)
-    │
-    ▼
+    |
+    v
 후보 식별자 도출 (Candidate Identifier)
-    │
-    ▼
+    |
+    v
 주 식별자 선정 (Primary Identifier) · 4가지 요건 검증
-    │
-    ▼
+    |
+    v
 인조 식별자 (Surrogate) 도입 판단 및 복합 키 해소
-    │
-    ▼
+    |
+    v
 물리 모델링 매핑: 기본 키 (PK) 및 참조 무결성 (FK) 정의
 ```
 
@@ -144,7 +144,7 @@ tags = ["database"]
 
 **진행 상황**: 88 / 600
 
-← **이전**: [87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)](/knowledge-base/studynote/05_database/02_modeling_normalization/087_identifying_vs_non_identifying_relationship/)
-**다음**: [89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) →
+<- **이전**: [87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)](/knowledge-base/studynote/05_database/02_modeling_normalization/087_identifying_vs_non_identifying_relationship/)
+**다음**: [89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) ->
 
 ---

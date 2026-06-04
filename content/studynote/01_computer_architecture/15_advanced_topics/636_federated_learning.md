@@ -44,20 +44,20 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)이 왜 "모델 교환 루프"로 이해되어야 하는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Federated learning round: train locally, aggregate globally                  │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Global model on server                                                       │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Selected clients -> local train -> masked updates                            │
-│    ├-> Client A                                                              │
-│    ├-> Client B                                                              │
-│    └-> Client C                                                              │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Secure aggregation -> weighted average -> new global model                   │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Federated learning round: train locally, aggregate globally                  |
++------------------------------------------------------------------------------+
+| Global model on server                                                       |
+|          |                                                                   |
+|          v                                                                   |
+| Selected clients -> local train -> masked updates                            |
+|    +-> Client A                                                              |
+|    +-> Client B                                                              |
+|    +-> Client C                                                              |
+|          |                                                                   |
+|          v                                                                   |
+| Secure aggregation -> weighted average -> new global model                   |
++------------------------------------------------------------------------------+
 ```
 
 현실에서는 이 루프가 깔끔하게만 돌지 않는다. 어떤 기기는 와이파이(Wi-Fi)와 충전 상태에서만 참여하고, 어떤 기관은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 완전히 다르며, 일부 참여자는 중간에 이탈한다. 그래서 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심은 수학적 평균 자체보다 "누가 언제 얼마나 신뢰할 수 있게 참여하는가"를 제어하는 시스템 설계에 있다.
@@ -131,20 +131,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Centralized learning
-    │
-    ▼
+    |
+    v
 Privacy · data sovereignty pressure
-    │
-    ▼
+    |
+    v
 Federated Learning + FedAvg
-    │
-    ▼
+    |
+    v
 Secure Aggregation + Differential Privacy
-    │
-    ▼
+    |
+    v
 Cross-device / Cross-silo federation
-    │
-    ▼
+    |
+    v
 Personalized Federated Learning · Hierarchical Federated Learning · Edge AI ecosystem
 ```
 
@@ -162,7 +162,7 @@ Personalized Federated Learning · Hierarchical Federated Learning · Edge AI ec
 
 **진행 상황**: 637 / 803
 
-← **이전**: [635. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)
-**다음**: [637. TinyML 하드웨어 제약](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/637_tinyml_hardware/) →
+<- **이전**: [635. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)
+**다음**: [637. TinyML 하드웨어 제약](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/637_tinyml_hardware/) ->
 
 ---

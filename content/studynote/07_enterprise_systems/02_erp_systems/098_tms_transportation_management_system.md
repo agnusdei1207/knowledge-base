@@ -31,29 +31,29 @@ TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_s
 TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 동작하며, VRP (Vehicle [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Problem)와 적재 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 시스템의 두뇌 역할을 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                TMS (운송 관리 시스템) 프로세스 아키텍처        │
-├──────────────────────────────────────────────────────────────┤
-│  [ 입력 데이터 ]                                              │
-│  - WMS 출고 오더, 차량 제원(적재량), 교통 상황 API, 배송 기한 │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌──────────────────────── TMS Core ───────────────────────┐ │
-│  │ 1. 라우팅 & 배차 (Routing & Dispatching)                │ │
-│  │    : VRP 알고리즘 ─▶ 최단 거리, 최소 요금 경로 도출         │ │
-│  │    : 3D 적재 테트리스 (LIFO 하차 순서 고려)               │ │
-│  │                                                         │ │
-│  │ 2. 가시성 및 실시간 관제 (Visibility & Tracking)         │ │
-│  │    : GPS / 모바일 App 연동 ─▶ 트럭 실시간 위치 모니터링   │ │
-│  │                                                         │ │
-│  │ 3. 운임 정산 (Freight Settlement)                       │ │
-│  │    : 운송 거리, 유류 할증료, 톨게이트 비용 자동 계산      │ │
-│  └─────────────────────────────────────────────────────────┘ │
-│         │                                                    │
-│         ▼                                                    │
-│  [ 출력 및 결과 ]                                             │
-│  최적 배차 지시서, 고객 실시간 배송조회, 협력사 자동 대금 지급 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                TMS (운송 관리 시스템) 프로세스 아키텍처        |
++--------------------------------------------------------------+
+|  [ 입력 데이터 ]                                              |
+|  - WMS 출고 오더, 차량 제원(적재량), 교통 상황 API, 배송 기한 |
+|         |                                                    |
+|         v                                                    |
+|  +------------------------ TMS Core -----------------------+ |
+|  | 1. 라우팅 & 배차 (Routing & Dispatching)                | |
+|  |    : VRP 알고리즘 --> 최단 거리, 최소 요금 경로 도출         | |
+|  |    : 3D 적재 테트리스 (LIFO 하차 순서 고려)               | |
+|  |                                                         | |
+|  | 2. 가시성 및 실시간 관제 (Visibility & Tracking)         | |
+|  |    : GPS / 모바일 App 연동 --> 트럭 실시간 위치 모니터링   | |
+|  |                                                         | |
+|  | 3. 운임 정산 (Freight Settlement)                       | |
+|  |    : 운송 거리, 유류 할증료, 톨게이트 비용 자동 계산      | |
+|  +---------------------------------------------------------+ |
+|         |                                                    |
+|         v                                                    |
+|  [ 출력 및 결과 ]                                             |
+|  최적 배차 지시서, 고객 실시간 배송조회, 협력사 자동 대금 지급 |
++--------------------------------------------------------------+
 ```
 
 가장 핵심이 되는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 및 배차</strong>는 차량의 최대 중량/부피 한계, 운전자의 법정 근로 시간, 고객의 수령 가능 시간 (Time Window) 등 수많은 제약 조건을 만족하면서 전체 비용 함수를 최소화하는 복잡한 수리계획법 모델을 푼다. 또한 하차 지점이 여러 곳일 경우, 마지막 목적지 물건을 트럭 가장 안쪽에, 첫 목적지 물건을 문 앞에 싣도록 지시하는 3D 적재 최적화(테트리스) 기능도 함께 작동한다.
@@ -117,17 +117,17 @@ TMS 도입의 가장 큰 기대효과는 <strong>운송비 절감</strong>과 <s
 
 ```text
 수기 배차 및 엑셀 기반 정산 (비효율의 극치)
-    │
-    ▼
+    |
+    v
 기본형 TMS : 고정 경로 배차 및 요율표 기반 자동 정산
-    │
-    ▼
+    |
+    v
 최적화 TMS : VRP 알고리즘, 3D 적재 테트리스, GPS 가시성 확보
-    │
-    ▼
+    |
+    v
 AI 및 클라우드 TMS : 실시간 동적 경로 변경, 기상 정보 반영
-    │
-    ▼
+    |
+    v
 지속가능 TMS (Green Logistics) : 탄소 배출량 최소화 라우팅
 ```
 
@@ -143,7 +143,7 @@ AI 및 클라우드 TMS : 실시간 동적 경로 변경, 기상 정보 반영
 
 **진행 상황**: 98 / 482
 
-← **이전**: [97. WMS (Warehouse Management System) - 창고 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)
-**다음**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) →
+<- **이전**: [97. WMS (Warehouse Management System) - 창고 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)
+**다음**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) ->
 
 ---

@@ -26,30 +26,30 @@ tags = ["studynote-operating-system"]
 OS가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 호출할 때 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 얼마나 가볍고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 떨어지는지 차이를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 SAN (Storage Area Network) 블록 다이렉트 통신 계층도               │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │   [ 앱 서버 (Windows / Linux) 클라이언트 ]                                         │
-  │      ┌───────────────────────────┐                                                 │
-  │      │ DB 어플리케이션 구동 중 쿼리 폭주│                                          │
-  │      ├───────────────────────────┤                                                 │
-  │      │ 로컬 OS 파일시스템 (NTFS, XFS)│ ◀──(OS는 자기가 파일관리자라고 착각함)      │
-  │      ├───────────────────────────┤              (Fibre Channel 광망)               │
-  │      │ HBA (Host Bus Adapter 광카드) │ ──(SCSI 블록명령)──▶ ▣ 광 스위치            │
-  │      └───────────────────────────┘                      │                          │
-  │                                                         │                          │
-  │   [ 거대 SAN 스토리지 어레이 어플라이언스 ]                       ▼                │
-  │      ┌───────────────────────────────────────────────────────┐                     │
-  │      │ 1️⃣ 광 포트 수신 (이더넷 TCP 헤더 같은 쓰레기 껍데기 없음. 걍 직통명령)│    │
-  │      │ 2️⃣ SAN 스토리지 컨트롤러 (캐시 매니저만 치고 블록 덩어리째 냅다 패스!) │   │
-  │      │    [경고] NAS처럼 저 안의 파일이 뭔지 해석 신경 끄기. 걍 빈 상자임! │       │
-  │      │ 3️⃣ 수백 개의 물리 디스크 군락 (LUN 배정 번호에 맞춰서 우당탕 쓰기작렬)│    │
-  │      └───────────────────────────────────────────────────────┘                     │
-  │                                                                                    │
-  │  * 결과: NAS에서는 4단계를 포장 뜯느라 허덕이던 과정을 모두 생략하고,              │
-  │         디스크 암(Arm)을 긁는 행위 그 자체(SCSI명령)만을 스위치로 날려버림!        │
-  └────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------+
+  |                 SAN (Storage Area Network) 블록 다이렉트 통신 계층도               |
+  +------------------------------------------------------------------------------------+
+  |                                                                                    |
+  |   [ 앱 서버 (Windows / Linux) 클라이언트 ]                                         |
+  |      +---------------------------+                                                 |
+  |      | DB 어플리케이션 구동 중 쿼리 폭주|                                          |
+  |      +---------------------------+                                                 |
+  |      | 로컬 OS 파일시스템 (NTFS, XFS)| <---(OS는 자기가 파일관리자라고 착각함)      |
+  |      +---------------------------+              (Fibre Channel 광망)               |
+  |      | HBA (Host Bus Adapter 광카드) | --(SCSI 블록명령)---> ▣ 광 스위치            |
+  |      +---------------------------+                      |                          |
+  |                                                         |                          |
+  |   [ 거대 SAN 스토리지 어레이 어플라이언스 ]                       v                |
+  |      +-------------------------------------------------------+                     |
+  |      | 1️⃣ 광 포트 수신 (이더넷 TCP 헤더 같은 쓰레기 껍데기 없음. 걍 직통명령)|    |
+  |      | 2️⃣ SAN 스토리지 컨트롤러 (캐시 매니저만 치고 블록 덩어리째 냅다 패스!) |   |
+  |      |    [경고] NAS처럼 저 안의 파일이 뭔지 해석 신경 끄기. 걍 빈 상자임! |       |
+  |      | 3️⃣ 수백 개의 물리 디스크 군락 (LUN 배정 번호에 맞춰서 우당탕 쓰기작렬)|    |
+  |      +-------------------------------------------------------+                     |
+  |                                                                                    |
+  |  * 결과: NAS에서는 4단계를 포장 뜯느라 허덕이던 과정을 모두 생략하고,              |
+  |         디스크 암(Arm)을 긁는 행위 그 자체(SCSI명령)만을 스위치로 날려버림!        |
+  +------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 앞 단원 NAS와 이 SAN을 완벽하게 가르는 단 하나의 키워드는 <strong>"누가 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>/Folder) 개념을 이해/관리하는가?"</strong> 이다. 그림에서 보듯 거대한 수천만 원짜리 스토리지 본체 깡통은 자기 뱃속에 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 윈도우 OS 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 알 길이 전혀 없다 (해석 안 함). 해석은 오직 선 끝에 달린 접속 호스트(앱 서버)의 OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 패널에서만 관리하고, 스토리지 본체는 그저 "몇 번 섹터 블록에 이거 박아, 지워" 하는 무식하고 솔직한 입출력 블록(Block) I/O 임무만을 대리할 뿐이다. 머리(연산)를 비우고 육체(디스크 컨트롤)만 작동하니까 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 그딴 늪 없이 미친 듯한 극한의 0 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 무결점 직통 I/O 스피드가 창출 파산된다.
@@ -149,12 +149,12 @@ SAN (Storage Area Network)은 스토리지와 입출력 경로 최적화을 이�
 
 ```text
 [NAS (Network Attached Storage)]
-    │
-    ▼
+    |
+    v
 [SAN (Storage Area Network)]
-    │
-    ├──▶ [오브젝트 스토리지 (Object Storage)]
-    └──▶ [장치 드라이버 (Device Driver) 커널 인터페이스 구현]
+    |
+    +---> [오브젝트 스토리지 (Object Storage)]
+    +---> [장치 드라이버 (Device Driver) 커널 인터페이스 구현]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -171,7 +171,7 @@ SAN (Storage Area Network)은 스토리지와 입출력 경로 최적화을 이�
 
 **진행 상황**: 493 / 800
 
-← **이전**: [492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)
-**다음**: [494. 오브젝트 스토리지 (Object Storage) - 플랫 네임스페이스, REST API 기반 클라우드 (Amazon S3)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) →
+<- **이전**: [492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)
+**다음**: [494. 오브젝트 스토리지 (Object Storage) - 플랫 네임스페이스, REST API 기반 클라우드 (Amazon S3)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) ->
 
 ---

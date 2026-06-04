@@ -62,7 +62,7 @@ tags = ["studynote-network"]
       -------------------[내부 구리선 (Center Core)]
 
 [BNC 커넥터 결착 방식: Bayonet (총검) 마운트]
-[케이블 단] ──(+)──▶ [BNC 수 커넥터]  ====>  [BNC 암 커넥터 (장비 측)]
+[케이블 단] --(+)---> [BNC 수 커넥터]  ====>  [BNC 암 커넥터 (장비 측)]
                    (핀 돌출부)                (걸쇠 핀 홈)
                                     "Push & Twist (누르고 돌림)"
 ```
@@ -102,19 +102,19 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 ```text
 [영상/데이터 전송 요구사항 분석]
-            │
-            ├─▶ (카메라와 NVR(녹화기) 거리가 100m 이내인가?) ── Yes ──▶ [UTP 케이블 + IP 카메라 구축 (PoE 활용)]
-            │
+            |
+            +--> (카메라와 NVR(녹화기) 거리가 100m 이내인가?) -- Yes ---> [UTP 케이블 + IP 카메라 구축 (PoE 활용)]
+            |
             No
-            │
-            ▼
+            |
+            v
 [장거리 전송 및 예산 조건]
-            │
-            ├─▶ (거리가 300m 수준이며 IP 장비 교체 예산이 부족한가?) ── Yes ──▶ [동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라]
-            │
+            |
+            +--> (거리가 300m 수준이며 IP 장비 교체 예산이 부족한가?) -- Yes ---> [동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라]
+            |
             No (거리가 500m 이상이거나 초고대역폭 필요)
-            │
-            ▼
+            |
+            v
      [광케이블(Fiber) 및 광 컨버터 포설로 전환]
 ```
 *이 흐름의 핵심은 동축 케이블이 과거의 레거시(Legacy) 기술로 치부될 수 있으나, IP 기반 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 네트워크가 100m 거리 제한에 걸리는 현장에서는 추가적인 리피터 스위치나 광컨버터 없이 직결할 수 있는 가성비 높은 대안이 된다는 점이다. 실무에서는 아파트나 대형 공장의 구형 아날로그 선로(동축)를 걷어내는 공사비가 너무 크기 때문에, 선로를 유지한 채 양단 장비만 바꾸어 HD급 영상을 전송하는 EoC ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) over Coax) 기술을 적용하는 것이 비용 효율적이다.*
@@ -163,12 +163,12 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 ```text
 [선행 개념: UTP 카테고리]
-    │
-    ▼
+    |
+    v
 [현재 개념: 동축 케이블]
-    │
-    ├──▶ [확장 A: 광섬유 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 광섬유 케이블]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 동축 케이블는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -185,7 +185,7 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 **진행 상황**: 248 / 1120
 
-← **이전**: [126. UTP 카테고리 (Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8)](/knowledge-base/studynote/03_network/03_physical_layer_media/126_utp_category/)
-**다음**: [128. 광섬유 케이블 (Optical Fiber Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/) →
+<- **이전**: [126. UTP 카테고리 (Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8)](/knowledge-base/studynote/03_network/03_physical_layer_media/126_utp_category/)
+**다음**: [128. 광섬유 케이블 (Optical Fiber Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/) ->
 
 ---

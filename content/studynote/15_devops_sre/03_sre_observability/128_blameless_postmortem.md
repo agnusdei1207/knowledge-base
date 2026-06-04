@@ -19,18 +19,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Blameless Postmortem 구조                          │
-├───────────────────────────────────────────────────────┤
-│  1. 장애 요약: 무엇이 언제 발생했는가               │
-│  2. 영향: 사용자 수·다운타임·매출 손실              │
-│  3. 타임라인: 분 단위 이벤트 기록                    │
-│  4. 근본 원인: 5 Whys 분석                           │
-│  5. Action Items: 재발 방지 조치 (담당자·기한)       │
-│  6. 교훈: 잘한 점·개선할 점                          │
-│                                                       │
-│  원칙: 사람이 아닌 시스템·프로세스를 개선한다        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Blameless Postmortem 구조                          |
++-------------------------------------------------------+
+|  1. 장애 요약: 무엇이 언제 발생했는가               |
+|  2. 영향: 사용자 수·다운타임·매출 손실              |
+|  3. 타임라인: 분 단위 이벤트 기록                    |
+|  4. 근본 원인: 5 Whys 분석                           |
+|  5. Action Items: 재발 방지 조치 (담당자·기한)       |
+|  6. 교훈: 잘한 점·개선할 점                          |
+|                                                       |
+|  원칙: 사람이 아닌 시스템·프로세스를 개선한다        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Blameless Postmortem은 항공 사고 조사처럼 <strong>"조종사가 나쁘다"가 아니라 "계기판 설계가 혼동을 유발했다"</strong>를 찾는 것이다.
@@ -49,9 +49,9 @@ tags = ["studynote-devops-sre"]
 | **Why 4** | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 검토 누락 |
 | **Why 5** | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 리뷰 프로세스 부재</strong> |
 
-→ Action Item: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 도입.
+-> Action Item: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 도입.
 
-- **📢 섹션 요약 비유**: 5 Whys는 의사가 "왜 열이 나?"→"왜 감염?"→"왜 면역력 저하?"로 <strong>근본 원인을 파는 진단법</strong>이다.
+- **📢 섹션 요약 비유**: 5 Whys는 의사가 "왜 열이 나?"->"왜 감염?"->"왜 면역력 저하?"로 <strong>근본 원인을 파는 진단법</strong>이다.
 
 ---
 
@@ -93,19 +93,19 @@ Blameless Postmortem은 <strong><a href="/knowledge-base/studynote/04_software_e
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[장애 → 범인 찾기 (전통, ~2010s)]
-    │
-    ▼
+[장애 -> 범인 찾기 (전통, ~2010s)]
+    |
+    v
 [Blameless Postmortem (Google SRE, 2003~2016)]
-    │
-    ▼
+    |
+    v
 [Postmortem 템플릿 표준화 (2018~)]
-    │
-    ▼
+    |
+    v
 [자동 Postmortem 생성 (Incident.io, 2022~)]
-    │
-    ▼
-[현재: AI Postmortem — 로그 분석→근본 원인·Action 자동 추천]
+    |
+    v
+[현재: AI Postmortem — 로그 분석->근본 원인·Action 자동 추천]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -119,7 +119,7 @@ Blameless Postmortem은 <strong><a href="/knowledge-base/studynote/04_software_e
 
 **진행 상황**: 128 / 373
 
-← **이전**: [127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계](/knowledge-base/studynote/15_devops_sre/03_sre_observability/127_on_call_management/)
-**다음**: [129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/129_observability_vs_monitoring/) →
+<- **이전**: [127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계](/knowledge-base/studynote/15_devops_sre/03_sre_observability/127_on_call_management/)
+**다음**: [129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/129_observability_vs_monitoring/) ->
 
 ---

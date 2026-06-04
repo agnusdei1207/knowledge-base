@@ -22,11 +22,11 @@ tags = ["studynote-ict-convergence"]
 롤업 (Rollup) 작동 원리:
 
 [사용자 트랜잭션] x 수천 개
-      ↓ L2 Sequencer에서 수집
+      v L2 Sequencer에서 수집
 [L2에서 실행 및 상태 업데이트]
-      ↓ 압축·묶음 처리
+      v 압축·묶음 처리
 [압축된 배치 데이터]
-      ↓ L1 스마트 컨트랙트에 제출
+      v L1 스마트 컨트랙트에 제출
 [L1 이더리움 메인넷]
   - 데이터 가용성 보장
   - 스테이트 루트 기록
@@ -35,7 +35,7 @@ tags = ["studynote-ict-convergence"]
 
 롤업의 핵심 이점:
   가스비: L1 대비 10~100배 저렴
-  TPS: 이더리움 15 TPS → 롤업 1,000~10,000 TPS
+  TPS: 이더리움 15 TPS -> 롤업 1,000~10,000 TPS
   보안: L1 이더리움 보안 상속
 
 L1 vs L2 vs 사이드체인:
@@ -87,7 +87,7 @@ ZK Rollup:
 데이터 가용성 (Data Availability):
 
 방식 1: On-chain DA (완전 롤업):
-  모든 L2 트랜잭션 데이터 → L1 calldata 게시
+  모든 L2 트랜잭션 데이터 -> L1 calldata 게시
   안전: L1 보안 = 데이터 가용성 완전 보장
   단점: L1 calldata 비용 높음
 
@@ -101,7 +101,7 @@ EIP-4844 (Proto-Danksharding):
   이더리움 칸쿤 업그레이드 (2024년 3월)
   "blob" 데이터 타입 추가
   롤업 calldata 비용 10~100배 감소
-  → L2 가스비 대폭 하락
+  -> L2 가스비 대폭 하락
 
 궁극적 목표: Full Danksharding
   이더리움 L1 = DA Layer 최적화
@@ -169,7 +169,7 @@ Arbitrum 선택 이유:
   프론트엔드 L2 RPC 연결 변경
 
 결과 (3개월 후):
-  가스비: $30 → $0.10~$0.30 (99% 감소)
+  가스비: $30 -> $0.10~$0.30 (99% 감소)
   TPS: 300~500 TPS 처리 가능
   일일 거래량: 3배 증가
   사용자 수: 2.5배 증가
@@ -179,7 +179,7 @@ Arbitrum 선택 이유:
   브릿지 보안 리스크 별도 관리 필요
 ```
 
-> 📢 **섹션 요약 비유**: DEX L2 마이그레이션은 고속도로 개통 — L1 국도(비싸고 느림) → L2 고속도로(싸고 빠름)로 이전하니 교통량 급증.
+> 📢 **섹션 요약 비유**: DEX L2 마이그레이션은 고속도로 개통 — L1 국도(비싸고 느림) -> L2 고속도로(싸고 빠름)로 이전하니 교통량 급증.
 
 ---
 
@@ -238,7 +238,7 @@ Blob 데이터로 L2 가스비 급감
 
 **진행 상황**: 42 / 552
 
-← **이전**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/)
-**다음**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/) →
+<- **이전**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/)
+**다음**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/) ->
 
 ---

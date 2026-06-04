@@ -26,11 +26,11 @@ tags = ["studynote-data-engineering"]
 시간 단계별 펼침 (Unrolled Through Time)
 
      x_0        x_1        x_2        x_3
-      │          │          │          │
-      ↓          ↓          ↓          ↓
-h_0→[RNN]→ h_1→[RNN]→ h_2→[RNN]→ h_3→[RNN]→ h_4
-      │          │          │          │
-      ↓          ↓          ↓          ↓
+      |          |          |          |
+      v          v          v          v
+h_0->[RNN]-> h_1->[RNN]-> h_2->[RNN]-> h_3->[RNN]-> h_4
+      |          |          |          |
+      v          v          v          v
      y_0        y_1        y_2        y_3
 
 h_t = tanh(W_h · h_{t-1} + W_x · x_t + b)
@@ -44,7 +44,7 @@ y_t = W_y · h_t
 |:---|:---|
 | 순환 연결 | 이전 상태 h_{t-1}을 현재 입력에 결합 |
 | 가변 길이 처리 | 임의 길이의 시퀀스 처리 가능 |
-| 파라미터 공유 | 모든 시간 스텝 동일 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) → 효율적 |
+| 파라미터 공유 | 모든 시간 스텝 동일 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) -> 효율적 |
 
 📢 **섹션 요약 비유**: RNN은 일기를 매일 쓰는 것과 같다. 오늘 일기를 쓸 때 어제 일기를 참고하고, 어제는 그 전날을 참고한다. 하지만 너무 오래된 일기는 기억이 흐릿해지는 문제가 있다.
 
@@ -57,13 +57,13 @@ y_t = W_y · h_t
 [BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)([Backpropagation Through Time](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)) 과정에서 기울기는 시간 스텝을 거슬러 올라가며 반복 곱셈된다.
 
 ```
-∂L/∂h_0 = ∂L/∂h_T · Π(t=1→T) ∂h_t/∂h_{t-1}
+∂L/∂h_0 = ∂L/∂h_T · Π(t=1->T) ∂h_t/∂h_{t-1}
 
 각 항: ∂h_t/∂h_{t-1} = diag(tanh'(...)) · W_h
 
 T가 크면:
-  │W_h│ < 1 → 지수적 감소 → 기울기 소실 (장기 의존성 학습 불가)
-  │W_h│ > 1 → 지수적 증가 → 기울기 폭발 (발산)
+  |W_h| < 1 -> 지수적 감소 -> 기울기 소실 (장기 의존성 학습 불가)
+  |W_h| > 1 -> 지수적 증가 -> 기울기 폭발 (발산)
 ```
 
 ### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)) 구조
@@ -71,16 +71,16 @@ T가 크면:
 ```
 LSTM 셀 내부 구조
                      셀 상태 C_t (고속도로)
-  C_{t-1} ─────────────────────────────────→ C_t
-              │           │           │
+  C_{t-1} ----------------------------------> C_t
+              |           |           |
              [×]         [+]         [×]
-              │           │           │
+              |           |           |
           [망각 게이트]  [입력 게이트]  [출력 게이트]
-              │           │           │
-  h_{t-1} ──→┤←── x_t ──→┤←── x_t ──→┤
-  x_t ───────┘           │           │
-                     [후보값 C̃_t]     │
-                                      ↓
+              |           |           |
+  h_{t-1} --->+<--- x_t --->+<--- x_t --->+
+  x_t -------+           |           |
+                     [후보값 C̃_t]     |
+                                      v
                                    h_t (은닉 상태 출력)
 ```
 
@@ -101,7 +101,7 @@ h_t = o_t ⊙ tanh(C_t)
 
 ⊙: 원소별 곱(Element-wise Product), σ: [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
 
-**핵심**: 셀 상태 C_t는 덧셈(+)으로만 갱신 → 기울기가 1로 흐름 → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 극복
+**핵심**: 셀 상태 C_t는 덧셈(+)으로만 갱신 -> 기울기가 1로 흐름 -> [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 극복
 
 📢 **섹션 요약 비유**: LSTM은 세 개의 밸브가 달린 수도관과 같다. 망각 밸브는 오래된 물을 빼고, 입력 밸브는 새 물을 넣고, 출력 밸브는 지금 사용할 물을 조절한다. 관 자체(셀 상태)는 병목없이 흘러 오래된 정보도 보존된다.
 
@@ -113,9 +113,9 @@ h_t = o_t ⊙ tanh(C_t)
 
 ```
 GRU 구조 (게이트 2개)
-  h_{t-1} ──┬──→ [리셋 게이트 r_t] ──→ [후보 h̃_t]
-             │                                  │
-             └──→ [업데이트 게이트 z_t] ──→  h_t
+  h_{t-1} --+---> [리셋 게이트 r_t] ---> [후보 h̃_t]
+             |                                  |
+             +---> [업데이트 게이트 z_t] --->  h_t
                                          = (1-z_t)⊙h_{t-1} + z_t⊙h̃_t
 ```
 
@@ -147,15 +147,15 @@ GRU 구조 (게이트 2개)
 
 ```
 시계열 데이터 전처리
-       ↓
+       v
 [슬라이딩 윈도우 생성]
-       ↓
+       v
 [LSTM 입력: (batch, timesteps, features)]
-       ↓
+       v
 [LSTM Layer(s) + Dropout]
-       ↓
+       v
 [Dense Output Layer]
-       ↓
+       v
 [역정규화 후 예측값 출력]
 ```
 
@@ -174,7 +174,7 @@ GRU 구조 (게이트 2개)
 ```python
 # LSTM 언어 모델 구조 예시
 model = Sequential([
-    Embedding(vocab_size, 128),         # 토큰 → 벡터
+    Embedding(vocab_size, 128),         # 토큰 -> 벡터
     LSTM(256, return_sequences=True),   # 첫 번째 LSTM 층
     Dropout(0.3),
     LSTM(128),                           # 두 번째 LSTM 층
@@ -188,15 +188,15 @@ model = Sequential([
 
 ## Ⅴ. 기대효과 및 결론
 
-### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) → [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전환 배경
+### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) -> [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전환 배경
 
 ```
 LSTM의 한계               Transformer의 해결
-─────────────────         ──────────────────────
-순차 처리 (병렬 불가)  →  전체 시퀀스 병렬 처리
-거리 비례 정보 감쇠    →  어텐션으로 직접 연결
-O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
-최대 길이 제한         →  상대적으로 긴 컨텍스트
+-----------------         ----------------------
+순차 처리 (병렬 불가)  ->  전체 시퀀스 병렬 처리
+거리 비례 정보 감쇠    ->  어텐션으로 직접 연결
+O(n^) 시간 복잡도      ->  O(n^)이지만 병렬화됨
+최대 길이 제한         ->  상대적으로 긴 컨텍스트
 
 현재: NLP는 Transformer가 주류
 시계열: LSTM/GRU 여전히 실무 활용
@@ -204,7 +204,7 @@ O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
 
 ### 기술사 시험 핵심 포인트
 
-1. <strong>RNN <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 원인</strong>: BPTT에서 기울기 반복 곱셈 → 지수 감소
+1. <strong>RNN <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 원인</strong>: BPTT에서 기울기 반복 곱셈 -> 지수 감소
 2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> 3개 게이트</strong>: 망각(f)·입력(i)·출력(o) 게이트 수식 기술
 3. **셀 상태 갱신**: `C_t = f_t⊙C_{t-1} + i_t⊙C̃_t` (덧셈 = 기울기 보존)
 4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a> vs <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> 차이: 게이트 수, 상태 수, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
@@ -233,15 +233,15 @@ O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
 
 ```text
 MLP (순서 무시)
-    │
-    ▼
+    |
+    v
 RNN: 순차 입력 처리 + 은닉 상태 전달
-    │ 장기 의존성 문제 (기울기 소실)
-    ▼
-LSTM: Forget · Input · Output Gate → 장기 기억
-    │
-    ▼
-GRU (간소화 LSTM) → Transformer (병렬화)
+    | 장기 의존성 문제 (기울기 소실)
+    v
+LSTM: Forget · Input · Output Gate -> 장기 기억
+    |
+    v
+GRU (간소화 LSTM) -> Transformer (병렬화)
 ```
 2. LSTM의 세 개 게이트는 "무엇을 잊을까(망각)", "무엇을 새로 기억할까(입력)", "무엇을 지금 말할까(출력)"를 결정하는 세 명의 기억 관리자야.
 3. GRU는 LSTM보다 관리자가 한 명 적어서 더 빠르게 일하는데, 결과는 거의 비슷해서 바쁠 때 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 좋아.
@@ -252,7 +252,7 @@ GRU (간소화 LSTM) → Transformer (병렬화)
 
 **진행 상황**: 244 / 258
 
-← **이전**: [243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)
-**다음**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) →
+<- **이전**: [243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)
+**다음**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) ->
 
 ---

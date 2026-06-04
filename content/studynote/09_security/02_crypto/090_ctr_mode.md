@@ -40,25 +40,25 @@ CTR 모드의 핵심 발상의 전환은 "평문을 암호화 기계([AES](/know
 | **XOR 연산** | 평문 덮어쓰기 (암복호화 동일) | `평문 ⊕ 키 스트림 = 암호문`, `암호문 ⊕ 키 스트림 = 평문` |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       CTR 모드의 초고속 병렬 암호화/복호화 다이어그램        │
-├──────────────────────────────────────────────────────────────┤
-│ [코어 1]                     [코어 2]                        │
-│ Nonce + Counter=1            Nonce + Counter=2               │
-│        │                            │                        │
-│        ▼                            ▼                        │
-│  ┌───────────┐                ┌───────────┐                  │
-│  │ 암호화(AES)│                │ 암호화(AES)│                  │
-│  └───────────┘                └───────────┘                  │
-│        │ (난수 스트림 1)            │ (난수 스트림 2)        │
-│        ▼                            ▼                        │
-│  [ 평문 블록 1 ] ──▶ XOR ⊕    [ 평문 블록 2 ] ──▶ XOR ⊕      │
-│                     │                           │            │
-│                     ▼                           ▼            │
-│               [ 암호문 블록 1 ]           [ 암호문 블록 2 ]  │
-│                                                              │
-│ * 핵심: 블록 간 연결 고리가 끊어져 완벽한 독립/동시 실행 가능│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       CTR 모드의 초고속 병렬 암호화/복호화 다이어그램        |
++--------------------------------------------------------------+
+| [코어 1]                     [코어 2]                        |
+| Nonce + Counter=1            Nonce + Counter=2               |
+|        |                            |                        |
+|        v                            v                        |
+|  +-----------+                +-----------+                  |
+|  | 암호화(AES)|                | 암호화(AES)|                  |
+|  +-----------+                +-----------+                  |
+|        | (난수 스트림 1)            | (난수 스트림 2)        |
+|        v                            v                        |
+|  [ 평문 블록 1 ] ---> XOR ⊕    [ 평문 블록 2 ] ---> XOR ⊕      |
+|                     |                           |            |
+|                     v                           v            |
+|               [ 암호문 블록 1 ]           [ 암호문 블록 2 ]  |
+|                                                              |
+| * 핵심: 블록 간 연결 고리가 끊어져 완벽한 독립/동시 실행 가능|
++--------------------------------------------------------------+
 ```
 
 이 그림의 하드웨어적 위력은 복호화 칩(Inverse [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))을 아예 만들 필요가 없다는 데 있다. 암호화할 때나 복호화할 때나 '[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 칩' 하나만 돌려서 난수를 뽑아 XOR만 하면 되므로, 하드웨어 면적이 극단적으로 줄어든다.
@@ -122,17 +122,17 @@ CTR 모드는 암호학에서 블록 간의 구속구(체인)를 끊어내고 �
 
 ```text
 직렬 블록 암호 한계 (CBC 모드의 병목 현상)
-    │
-    ▼
+    |
+    v
 발상의 전환 (평문 대신 카운터를 암호화하여 난수 생성)
-    │
-    ▼
+    |
+    v
 CTR (Counter) 모드 탄생 (초고속 병렬 처리 + 패딩 제거)
-    │
-    ▼
+    |
+    v
 Nonce 재사용 위험성 대두 및 무결성 검증 필요성
-    │
-    ▼
+    |
+    v
 GCM (Galois/Counter Mode) 완성을 통한 TLS 표준 장악
 ```
 
@@ -150,7 +150,7 @@ GCM (Galois/Counter Mode) 완성을 통한 TLS 표준 장악
 
 **진행 상황**: 90 / 1108
 
-← **이전**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)
-**다음**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/knowledge-base/studynote/09_security/02_crypto/091_gcm_mode/) →
+<- **이전**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)
+**다음**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/knowledge-base/studynote/09_security/02_crypto/091_gcm_mode/) ->
 
 ---

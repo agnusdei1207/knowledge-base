@@ -21,14 +21,14 @@ tags = ["studynote-devops-sre"]
 ```text
 리드 타임 vs 사이클 타임:
 
-요청 ────────────────────────── 배포
- │                                 │
- │<──────── Lead Time ──────────>│
-           │<── Cycle Time ────>│
-           │                    │
+요청 -------------------------- 배포
+ |                                 |
+ |<-------- Lead Time ---------->|
+           |<-- Cycle Time ---->|
+           |                    |
           개발 시작            배포
 
-차이 = 대기 시간 (요청 접수 → 개발 시작)
+차이 = 대기 시간 (요청 접수 -> 개발 시작)
 ```
 
 - **📢 섹션 요약 비유**: [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) vs 사이클 타임은 피자 주문과 요리 시간이다. 주문에서 수령까지([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))에는 주문 대기(리드-사이클 차이)와 실제 요리 시간(사이클 타임)이 포함된다.
@@ -50,14 +50,14 @@ tags = ["studynote-devops-sre"]
 
 ```text
 배치 크기 축소:
-  Before: 2주마다 100개 변경 → 리드 타임 2주+
-  After:  매일 5~10개 변경  → 리드 타임 1일 미만
+  Before: 2주마다 100개 변경 -> 리드 타임 2주+
+  After:  매일 5~10개 변경  -> 리드 타임 1일 미만
 
 핵심 단계별 최적화:
   요청 대기:   자동 티켓 생성, 스프린트 즉시 배정
   개발:        Feature Flag, Trunk-based Development
   코드 리뷰:   소규모 PR, AI 코드 리뷰
-  CI 파이프라인: 병렬화, 캐싱으로 10분 → 5분
+  CI 파이프라인: 병렬화, 캐싱으로 10분 -> 5분
   배포 승인:   자동화 테스트 통과 시 자동 배포 (CD)
 ```
 
@@ -69,7 +69,7 @@ tags = ["studynote-devops-sre"]
 
 | 비교 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) | 사이클 타임 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) |
 |:---|:---|:---|:---|
-| 측정 범위 | 요청→배포 (전체) | 개발→배포 | 단위 시간 완료 수 |
+| 측정 범위 | 요청->배포 (전체) | 개발->배포 | 단위 시간 완료 수 |
 | 고객 관점 | 직접적 (대기 경험) | 간접적 | 생산성 지표 |
 | 개선 포인트 | 대기 제거 | 개발 속도 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
 
@@ -83,19 +83,19 @@ tags = ["studynote-devops-sre"]
 
 ```text
 JIRA:
-  생성 시간 → 완료 시간 = 리드 타임 자동 계산
-  사이클 타임 보고서: "In Progress" → "Done"
+  생성 시간 -> 완료 시간 = 리드 타임 자동 계산
+  사이클 타임 보고서: "In Progress" -> "Done"
 
 GitHub Insights:
-  PR 생성 → 머지: 사이클 타임 일부
+  PR 생성 -> 머지: 사이클 타임 일부
 
 LinearB / Swarmia:
   Git 이벤트 + JIRA를 통합 분석
   DORA 메트릭 자동 대시보드
 
 배포 추적:
-  ArgoCD → 배포 시점 기록
-  Feature Flag → 기능 릴리즈 시점
+  ArgoCD -> 배포 시점 기록
+  Feature Flag -> 기능 릴리즈 시점
 ```
 
 ### Little's Law 적용
@@ -108,8 +108,8 @@ LinearB / Swarmia:
   처리량 = 4개/일
   리드 타임 = 20/4 = 5일
 
-  WIP 감소(10개) → 리드 타임 = 10/4 = 2.5일
-  → WIP 제한이 리드 타임 단축의 가장 확실한 방법!
+  WIP 감소(10개) -> 리드 타임 = 10/4 = 2.5일
+  -> WIP 제한이 리드 타임 단축의 가장 확실한 방법!
 ```
 
 - **📢 섹션 요약 비유**: 리틀의 법칙은 줄 서기 대기 이론이다. 계산대([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 같아도 줄(WIP)이 짧으면 결제 대기 시간([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))이 줄어든다. 한 번에 너무 많은 일을 시작하면 모든 일이 늦어진다.
@@ -120,9 +120,9 @@ LinearB / Swarmia:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **고객 가치** | 빠른 기능 전달 → 경쟁 우위 |
-| **품질** | 소규모 변경 → [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 쉬움·버그 감소 |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 빠른 피드백 → 높은 만족도 |
+| **고객 가치** | 빠른 기능 전달 -> 경쟁 우위 |
+| **품질** | 소규모 변경 -> [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 쉬움·버그 감소 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 빠른 피드백 -> 높은 만족도 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)(GitHub Copilot for [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))·자동화 테스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포 의사결정이 사이클 타임 단축의 새로운 레버가 되고 있다. AI가 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시간을 시간 단위에서 분 단위로 단축하면 Elite 팀의 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 1시간 미만 목표가 대부분의 팀에게 현실이 될 수 있다.
 
@@ -144,17 +144,17 @@ LinearB / Swarmia:
 
 ```text
 [전통 폭포수 — 리드 타임 수개월, 배치 크기 대규모]
-    │
-    ▼
+    |
+    v
 [애자일 스프린트 — 2주 배치, 리드 타임 수주]
-    │
-    ▼
+    |
+    v
 [Continuous Delivery — 소규모 자주 배포, 리드 타임 일]
-    │
-    ▼
+    |
+    v
 [DORA Elite — 리드 타임 1시간 미만, 자동화 CD]
-    │
-    ▼
+    |
+    v
 [AI 지원 DevOps — AI 리뷰·테스트로 사이클 타임 분 단위]
 ```
 
@@ -170,7 +170,7 @@ LinearB / Swarmia:
 
 **진행 상황**: 31 / 373
 
-← **이전**: [30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)
-**다음**: [콘웨이의 법칙 (Conway's Law)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/032_conways_law/) →
+<- **이전**: [30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)
+**다음**: [콘웨이의 법칙 (Conway's Law)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/032_conways_law/) ->
 
 ---

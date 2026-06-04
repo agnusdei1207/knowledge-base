@@ -28,25 +28,25 @@ tags = ["studynote-operating-system"]
   3. **재앙의 부활**: 찢어놓은 조각들조차 크기가 제각각이었기 때문에, 결국 <strong>각 조각 단위(세그먼트 단위)로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>가 또다시 발생</strong>했다. 근본적인 '크기의 획일화'가 없이는 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 막을 수 없다는 공학적 진리가 증명된 셈이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│        세그멘테이션 환경에서의 외부 단편화 발생 시뮬레이션       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│ [ 프로세스들의 세그먼트 적재 상태 ]                              │
-│                                                                  │
-│ 물리 램 ┌─────────┬──────────┬────────┬─────────┐                │
-│        │ Seg_A1  │ ▒ 빈공간 ▒ │ Seg_B1 │▒ 빈공간 ▒│              │
-│        │ (10MB)  │   (5MB)  │ (15MB) │  (8MB) │                  │
-│        └─────────┴──────────┴────────┴─────────┘                 │
-│ ▶ 남은 공간 총합 = 5MB + 8MB = 13MB                              │
-│                                                                  │
-│ [ 새로운 세그먼트의 등장 ]                                       │
-│ 프로세스 C의 "데이터 세그먼트(10MB)"가 램에 올라오려 함.         │
-│                                                                  │
-│ [ 할당기의 절망 ]                                                │
-│ "전체 공간은 13MB나 남았는데, 10MB짜리 덩어리가 들어갈 '연속된'  │
-│  빈방이 하나도 없다. 적재 실패 (OOM Error)!"                     │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|        세그멘테이션 환경에서의 외부 단편화 발생 시뮬레이션       |
++------------------------------------------------------------------+
+|                                                                  |
+| [ 프로세스들의 세그먼트 적재 상태 ]                              |
+|                                                                  |
+| 물리 램 +---------+----------+--------+---------+                |
+|        | Seg_A1  | ▒ 빈공간 ▒ | Seg_B1 |▒ 빈공간 ▒|              |
+|        | (10MB)  |   (5MB)  | (15MB) |  (8MB) |                  |
+|        +---------+----------+--------+---------+                 |
+| -> 남은 공간 총합 = 5MB + 8MB = 13MB                              |
+|                                                                  |
+| [ 새로운 세그먼트의 등장 ]                                       |
+| 프로세스 C의 "데이터 세그먼트(10MB)"가 램에 올라오려 함.         |
+|                                                                  |
+| [ 할당기의 절망 ]                                                |
+| "전체 공간은 13MB나 남았는데, 10MB짜리 덩어리가 들어갈 '연속된'  |
+|  빈방이 하나도 없다. 적재 실패 (OOM Error)!"                     |
++------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가변 분할의 저주가 100% 동일하게 재현되었다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 찢었을 뿐, 결국 '하나의 세그먼트는 물리 메모리상에서 무조건 연속되어야 한다'는 치명적 제약을 가지고 있기 때문이다. 10MB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 세그먼트는 반드시 10MB의 연속된 물리 프레임을 요구하며, 빈 공간이 찢어져 있으면 단 1바이트도 들어갈 수 없다.
 
@@ -73,22 +73,22 @@ tags = ["studynote-operating-system"]
 First-fit을 쓰든 Best-fit을 쓰든 결국 메모리가 찢어져서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 발생한다. 이때 시스템이 죽는 것을 막을 유일한 물리적 해결책은 <strong>'메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)'</strong>뿐이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              외부 단편화 해소를 위한 압축 (Compaction) 오버헤드           │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 1. 파편화 상태 ] [Seg1(10M)][빈 5M][Seg2(15M)][빈 8M]                   │
-│                                                                           │
-│ [ 2. OS의 압축 발동 (시스템 전체 멈춤 - Stop The World) ]                 │
-│   - Seg2(15M)의 데이터를 물리적으로 5MB 앞쪽으로 긁어서 복사(Memcpy)      │
-│                                                                           │
-│ [ 3. 세그먼트 테이블(STBR) 폭풍 업데이트 ]                                │
-│   - Seg2의 Base 주소가 바뀌었으므로 장부 값도 동기화 갱신!                │
-│                                                                           │
-│ [ 4. 압축 완료 ] [Seg1(10M)][Seg2(15M)][ 거대한 빈 공간 13M ]             │
-│                                                                           │
-│ ⚠ 치명상: 15MB를 램에서 복사하는 수백만 클럭 동안 CPU는 마비 상태.        │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|              외부 단편화 해소를 위한 압축 (Compaction) 오버헤드           |
++---------------------------------------------------------------------------+
+|                                                                           |
+| [ 1. 파편화 상태 ] [Seg1(10M)][빈 5M][Seg2(15M)][빈 8M]                   |
+|                                                                           |
+| [ 2. OS의 압축 발동 (시스템 전체 멈춤 - Stop The World) ]                 |
+|   - Seg2(15M)의 데이터를 물리적으로 5MB 앞쪽으로 긁어서 복사(Memcpy)      |
+|                                                                           |
+| [ 3. 세그먼트 테이블(STBR) 폭풍 업데이트 ]                                |
+|   - Seg2의 Base 주소가 바뀌었으므로 장부 값도 동기화 갱신!                |
+|                                                                           |
+| [ 4. 압축 완료 ] [Seg1(10M)][Seg2(15M)][ 거대한 빈 공간 13M ]             |
+|                                                                           |
+| ⚠ 치명상: 15MB를 램에서 복사하는 수백만 클럭 동안 CPU는 마비 상태.        |
++---------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 과거의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 프로세스 통짜 덩어리를 옮겼다면, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에서의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 수많은 프로세스의 조각조각(세그먼트)들을 하나하나 테트리스 하듯 밀어 붙여야 한다. 이 과정에서 발생하는 램 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모와, 수많은 프로세스의 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) `Base` 값을 갱신해야 하는 작업은 현대의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 컴퓨팅 환경에서는 도저히 용납할 수 없는 끔찍한 오버헤드([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 낳는다.
@@ -116,12 +116,12 @@ First-fit을 쓰든 Best-fit을 쓰든 결국 메모리가 찢어져서 [OOM](/k
 | **해결 비용** | 해결 안 하고 그냥 버림 (비용 0) | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>) 필수 (시스템 마비)</strong> |
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 아키텍처   │ 조각의 크기   │ 보안 및 공유  │ 단편화 처리 비용 │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ 페이징     │ 4KB 고정    │ 까다로움     │ 없음 (최강의 효율)  │
-│ 세그멘테이션│ 의미 단위 가변│ 직관적 완벽함 │ ☠️ 압축 지옥 ☠️ │
-└──────────┴────────────┴────────────┴──────────────────────────┘
++----------+------------+------------+--------------------------+
+| 아키텍처   | 조각의 크기   | 보안 및 공유  | 단편화 처리 비용 |
++----------+------------+------------+--------------------------+
+| 페이징     | 4KB 고정    | 까다로움     | 없음 (최강의 효율)  |
+| 세그멘테이션| 의미 단위 가변| 직관적 완벽함 | ☠️ 압축 지옥 ☠️ |
++----------+------------+------------+--------------------------+
 ```
 **[매트릭스 해설]** 왜 현대 운영체제가 낭만([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))을 버리고 톱니바퀴([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))를 택했는지 완벽하게 설명하는 지표다. 33%의 램을 허공에 날리고, 그걸 살려보겠다고 시스템을 수 초씩 멈추는([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 아키텍처는 서버 시장에서 살아남을 수 없었다. 결국 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이라는 위대한 개념을 무너뜨린 1등 공신이다.
 
@@ -176,12 +176,12 @@ C++ 게임 서버 개발자들은 이 [외부 단편화](/knowledge-base/studyno
 
 ```text
 [세그먼트 테이블 (Segment Table)]
-    │
-    ▼
+    |
+    v
 [세그멘테이션과 외부 단편화 (가변 크기이므로 재발생) (Segmentation External Fragmentation)]
-    │
-    ├──▶ [세그멘테이션 기반 페이징 (Paged Segmentation)]
-    └──▶ [커널 메모리 할당 방식 (kmalloc, vmalloc)]
+    |
+    +---> [세그멘테이션 기반 페이징 (Paged Segmentation)]
+    +---> [커널 메모리 할당 방식 (kmalloc, vmalloc)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -198,7 +198,7 @@ C++ 게임 서버 개발자들은 이 [외부 단편화](/knowledge-base/studyno
 
 **진행 상황**: 366 / 800
 
-← **이전**: [365. 세그먼트 테이블 (Segment Table) - 기준(Base) 주소와 한계(Limit) 길이](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)
-**다음**: [367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) →
+<- **이전**: [365. 세그먼트 테이블 (Segment Table) - 기준(Base) 주소와 한계(Limit) 길이](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)
+**다음**: [367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) ->
 
 ---

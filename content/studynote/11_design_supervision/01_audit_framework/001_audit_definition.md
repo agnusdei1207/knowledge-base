@@ -28,19 +28,19 @@ tags = ["design_supervision"]
 다음 다이어그램은 정보화 사업에서 감리가 부재할 때 발생하는 정보 비대칭성과 위험 증폭의 구조를 보여준다. 감리라는 필터가 없을 때, 사업자의 숨겨진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 그대로 발주자의 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 직결된다.
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│ [감리 부재 시 리스크 전파 매커니즘]                     │
-│                                                         │
-│  [사업자 (Auditee)]            [발주자 (Client)]        │
-│  ┌──────────────┐              ┌──────────────┐         │
-│  │ 기술적 복잡성  │  (블랙박스)  │ 요구사항 불일치│         │
-│  │ 숨겨진 결함    ├─ 결함 전파 ─>│ 예산 초과/지연 │         │
-│  │ 아키텍처 한계  │              │ 비즈니스 중단  │         │
-│  └──────┬───────┘              └──────┬───────┘         │
-│         │                               │                │
-│         ▼                               ▼                │
-│  [운영 단계 장애 발생] =======> [대규모 손실 / 소송]    │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+| [감리 부재 시 리스크 전파 매커니즘]                     |
+|                                                         |
+|  [사업자 (Auditee)]            [발주자 (Client)]        |
+|  +--------------+              +--------------+         |
+|  | 기술적 복잡성  |  (블랙박스)  | 요구사항 불일치|         |
+|  | 숨겨진 결함    +- 결함 전파 ->| 예산 초과/지연 |         |
+|  | 아키텍처 한계  |              | 비즈니스 중단  |         |
+|  +------+-------+              +------+-------+         |
+|         |                               |                |
+|         v                               v                |
+|  [운영 단계 장애 발생] =======> [대규모 손실 / 소송]    |
++---------------------------------------------------------+
 ```
 
 이 도식의 핵심은 감리가 개입하지 않은 프로젝트는 본질적으로 블랙박스(Black Box) 상태에 놓인다는 점이다. 발주자는 기술적 전문성이 부족하여 사업자의 진척 보고를 그대로 수용할 수밖에 없고, 이는 종반부 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 단계에서 대규모 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 폭발로 이어진다. 따라서 프로젝트 규모가 클수록, 내부 아키텍처가 복잡할수록 감리의 독립적 시야각이 절대적으로 요구된다.
@@ -63,13 +63,13 @@ tags = ["design_supervision"]
 
 ```text
 [감리 계획 수립]
-   ↓ (과업내용서, 제안서 기준 Baseline 설정)
+   v (과업내용서, 제안서 기준 Baseline 설정)
 [현장 실지 감리] => (문서 검토, 인터뷰, 소스코드 정적 분석, DB 튜닝 검사)
-   ↓
+   v
 [결함/개선점 도출] --(상충점 조율/Exit Meeting)--> [감리 보고서 초안 발행]
-   ↓
+   v
 [피감리인 조치] => (소스 수정, 설계 보완, 인프라 증설)
-   ↓
+   v
 [시정 조치 확인] --(증빙 데이터 기반 재테스트)--> [최종 적합/부적합 판정]
 ```
 
@@ -95,16 +95,16 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 이 비교 표는 각 주체가 품질을 바라보는 스탠스의 차이를 극명하게 보여준다. 감리 조직은 사법부처럼 독립적으로 판결을 내리는 반면, PMO는 행정부처럼 프로젝트를 직접 끌고 나가고, QA는 실무 부서로서 버그를 잡는다.
 
 ```text
-┌──────────────── 품질 통제 3중 방어선 아키텍처 ──────────────┐
-│                                                           │
-│  [제3선: 독립적 보증] ====> 정보시스템 감리법인 (Auditor) │
-│       ▲ (감사/지적)                                       │
-│       │                                                   │
-│  [제2선: 관리적 통제] ====> 발주처 및 PMO (Management)    │
-│       ▲ (보고/승인)                                       │
-│       │                                                   │
-│  [제1선: 실무적 수행] ====> 사업자 개발팀 & QA (Maker)    │
-└───────────────────────────────────────────────────────────┘
++---------------- 품질 통제 3중 방어선 아키텍처 --------------+
+|                                                           |
+|  [제3선: 독립적 보증] ====> 정보시스템 감리법인 (Auditor) |
+|       ^ (감사/지적)                                       |
+|       |                                                   |
+|  [제2선: 관리적 통제] ====> 발주처 및 PMO (Management)    |
+|       ^ (보고/승인)                                       |
+|       |                                                   |
+|  [제1선: 실무적 수행] ====> 사업자 개발팀 & QA (Maker)    |
++-----------------------------------------------------------+
 ```
 
 이 3중 방어선 도식은 금융권의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 모델을 IT 정보화 사업에 매핑한 것이다. 1선(사업자 QA)이 무너지면 2선([PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))이 막고, 2선마저 놓친 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 3선(감리)이 잡아내야 한다. 어느 한 계층이라도 무력화되면 프로젝트는 재앙을 맞이한다. 실무에서는 특히 1선인 사업자의 자체 QA를 감리가 얼마나 신뢰할 수 있느냐에 따라 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 감리의 밀도가 결정된다.
@@ -127,17 +127,17 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 ```text
 [감리 결함 발견]
-   │
-   ├─ (YES) 시스템 오픈에 치명적인가? (보안, 결제 오류 등)
-   │    └───> [필수 조치 (Major)] => 조치 완료 전 오픈 불가 (Go/No-Go 통제)
-   │
-   └─ (NO) 유지보수 단계에서 수정 가능한가? (단순 UI, 비핵심 기능)
-        │
-        ├─ (YES) 일정 내 조치 가능한가?
-        │    └───> [일반 조치] => 종료 감리 전까지 수정 확인
-        │
-        └─ (NO) 시간/비용 부족
-             └───> [권고 사항 (Minor) / 베이스라인 이관] => 향후 고도화 예산 반영 권고
+   |
+   +- (YES) 시스템 오픈에 치명적인가? (보안, 결제 오류 등)
+   |    +---> [필수 조치 (Major)] => 조치 완료 전 오픈 불가 (Go/No-Go 통제)
+   |
+   +- (NO) 유지보수 단계에서 수정 가능한가? (단순 UI, 비핵심 기능)
+        |
+        +- (YES) 일정 내 조치 가능한가?
+        |    +---> [일반 조치] => 종료 감리 전까지 수정 확인
+        |
+        +- (NO) 시간/비용 부족
+             +---> [권고 사항 (Minor) / 베이스라인 이관] => 향후 고도화 예산 반영 권고
 ```
 
 이 의사결정 트리의 핵심은 감리인이 모든 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 동일한 가중치로 취급하지 않는다는 것이다. 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Major)은 시스템 오픈을 막는 강력한 제동 장치가 되며, 사소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Minor)은 비즈니스 적시성(Time-to-Market)을 고려하여 이관된다.
@@ -174,14 +174,14 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 ```text
 [ISACA / CISA]
-    │
-    ▼
+    |
+    v
 [ITA / EA (Enterprise Architecture)]
-    │
-    ▼
+    |
+    v
 [기능점수 (Function Point)]
-    │
-    ▼
+    |
+    v
 [베이스라인 (Baseline)]
 ```
 
@@ -198,8 +198,8 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 **진행 상황**: 1 / 530
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 감리의 3대 목적 - 효과성(Effectiveness, 목적 달성 여부), 효율성(Efficiency, 자원 최적화), 안전성/보안성(Security/Safeguard,](/knowledge-base/studynote/11_design_supervision/01_audit_framework/002_audit_3_purposes/) →
+**다음**: [2. 감리의 3대 목적 - 효과성(Effectiveness, 목적 달성 여부), 효율성(Efficiency, 자원 최적화), 안전성/보안성(Security/Safeguard,](/knowledge-base/studynote/11_design_supervision/01_audit_framework/002_audit_3_purposes/) ->
 
 ---

@@ -42,22 +42,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 패키지 C-State가 단순히 "모든 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)"만으로 끝나지 않고, 언코어와 플랫폼 제약까지 확인한 뒤에야 진입한다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               패키지 C-State 진입의 의사결정 흐름                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core 0 idle ─┐                                                      │
-│ Core 1 idle ─┼─▶ PCU 집계 ─▶ 언코어 트래픽 확인 ─▶ 지연 조건 확인   │
-│ Core N idle ─┘                       │                    │          │
-│                                      │ no                 │ no       │
-│                                      ▼                    ▼          │
-│                               얕은 상태 유지        깊은 상태 보류   │
-│                                      │ yes                           │
-│                                      ▼                               │
-│                   LLC 정리 · Fabric 정지 · 전압 강하 · 레일 차단    │
-│                                      │                               │
-│                                      ▼                               │
-│                           Deep Package C-State 진입                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               패키지 C-State 진입의 의사결정 흐름                   |
++----------------------------------------------------------------------+
+| Core 0 idle -+                                                      |
+| Core 1 idle -+--> PCU 집계 --> 언코어 트래픽 확인 --> 지연 조건 확인   |
+| Core N idle -+                       |                    |          |
+|                                      | no                 | no       |
+|                                      v                    v          |
+|                               얕은 상태 유지        깊은 상태 보류   |
+|                                      | yes                           |
+|                                      v                               |
+|                   LLC 정리 · Fabric 정지 · 전압 강하 · 레일 차단    |
+|                                      |                               |
+|                                      v                               |
+|                           Deep Package C-State 진입                  |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 패키지 C-State가 코어 idle의 합이 아니라는 점이다. 패키지 전체가 깊게 잠들려면, 공유 자원과 외부 장치까지 함께 잠잠해야 한다.
@@ -130,17 +130,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 코어 단위 idle 제어
-    │
-    ▼
+    |
+    v
 언코어 전력 누수 인식
-    │
-    ▼
+    |
+    v
 패키지 C-State 도입
-    │
-    ▼
+    |
+    v
 장치 링크 절전 · 메모리 self-refresh 연계
-    │
-    ▼
+    |
+    v
 S0ix 기반 플랫폼 저전력 유휴 최적화
 ```
 
@@ -158,7 +158,7 @@ S0ix 기반 플랫폼 저전력 유휴 최적화
 
 **진행 상황**: 722 / 803
 
-← **이전**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/)
-**다음**: [722. 코어 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/) →
+<- **이전**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/)
+**다음**: [722. 코어 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/) ->
 
 ---

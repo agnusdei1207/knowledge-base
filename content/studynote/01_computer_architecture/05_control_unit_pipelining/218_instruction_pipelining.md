@@ -24,17 +24,17 @@ tags = ["studynote-computer-architecture"]
 이 개념이 필요한 이유는 비파이프라인 구조가 하드웨어를 심하게 놀리기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오는 동안 산술논리연산장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 쉬고, 연산하는 동안 메모리 접근 회로는 기다린다. 이렇게 자원이 번갈아 놀면 클럭을 높여도 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상승이 제한되므로, 각 하드웨어 블록을 동시에 일하게 만드는 구조적 해법이 필요해졌다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      비파이프라인 vs 파이프라인의 차이: "하나씩" vs "겹쳐서"       │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ 비파이프라인                 │ 파이프라인                            │
-│ 명령어 1: IF→ID→EX→MEM→WB    │ 명령어 1: IF→ID→EX→MEM→WB             │
-│ 명령어 2:           대기      │ 명령어 2:    IF→ID→EX→MEM→WB          │
-│ 명령어 3:                 대기 │ 명령어 3:       IF→ID→EX→MEM→WB       │
-│                              │ 명령어 4:          IF→ID→EX→MEM→WB    │
-├──────────────────────────────┴───────────────────────────────────────┤
-│ 같은 5단계라도 겹쳐 흘려보내면, 파이프가 채워진 뒤에는 매 클럭 결과가 나옴 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      비파이프라인 vs 파이프라인의 차이: "하나씩" vs "겹쳐서"       |
++------------------------------+---------------------------------------+
+| 비파이프라인                 | 파이프라인                            |
+| 명령어 1: IF->ID->EX->MEM->WB    | 명령어 1: IF->ID->EX->MEM->WB             |
+| 명령어 2:           대기      | 명령어 2:    IF->ID->EX->MEM->WB          |
+| 명령어 3:                 대기 | 명령어 3:       IF->ID->EX->MEM->WB       |
+|                              | 명령어 4:          IF->ID->EX->MEM->WB    |
++------------------------------+---------------------------------------+
+| 같은 5단계라도 겹쳐 흘려보내면, 파이프가 채워진 뒤에는 매 클럭 결과가 나옴 |
++----------------------------------------------------------------------+
 ```
 
 이 그림이 보여주는 포인트는 파이프라이닝이 계산 공식을 바꾸는 기술이 아니라, 유휴 시간을 줄이는 스케줄링 구조라는 점이다. 따라서 파이프라인을 이해할 때는 먼저 "왜 한 부품이 놀고 있었는가"를 봐야 하고, 그 다음 "어떻게 동시에 돌리게 했는가"를 봐야 한다.
@@ -58,18 +58,18 @@ tags = ["studynote-computer-architecture"]
 아래 시공간 도표는 파이프라인이 차오른 뒤 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 클럭에 서로 다른 단계를 동시에 수행함을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 5단 파이프라인 시공간 중첩 (Space-Time)              │
-├──────────┬────────┬────────┬────────┬────────┬────────┬─────────────┤
-│ 명령어   │ C1     │ C2     │ C3     │ C4     │ C5     │ C6          │
-├──────────┼────────┼────────┼────────┼────────┼────────┼─────────────┤
-│ I1       │ IF     │ ID     │ EX     │ MEM    │ WB     │ 완료        │
-│ I2       │        │ IF     │ ID     │ EX     │ MEM    │ WB          │
-│ I3       │        │        │ IF     │ ID     │ EX     │ MEM         │
-│ I4       │        │        │        │ IF     │ ID     │ EX          │
-├──────────┴────────┴────────┴────────┴────────┴────────┴─────────────┤
-│ C5 시점: 서로 다른 4개 명령어가 각기 다른 단계에서 동시에 흐르고 있음   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 5단 파이프라인 시공간 중첩 (Space-Time)              |
++----------+--------+--------+--------+--------+--------+-------------+
+| 명령어   | C1     | C2     | C3     | C4     | C5     | C6          |
++----------+--------+--------+--------+--------+--------+-------------+
+| I1       | IF     | ID     | EX     | MEM    | WB     | 완료        |
+| I2       |        | IF     | ID     | EX     | MEM    | WB          |
+| I3       |        |        | IF     | ID     | EX     | MEM         |
+| I4       |        |        |        | IF     | ID     | EX          |
++----------+--------+--------+--------+--------+--------+-------------+
+| C5 시점: 서로 다른 4개 명령어가 각기 다른 단계에서 동시에 흐르고 있음   |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 이론적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `총 시간 ≈ 파이프라인 채움 시간 + (명령어 수 - 1) × 클럭 주기`로 이해할 수 있다. 즉 첫 결과는 늦게 나오지만, 파이프가 찬 뒤에는 이상적으로 매 클럭마다 결과가 하나씩 나온다. 다만 실제 클럭 주기는 가장 느린 단계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드에 의해 결정되므로, 단계를 잘게 나누기만 해서는 충분하지 않고 각 단계의 균형이 함께 맞아야 한다.
@@ -152,23 +152,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차 실행 (Sequential Execution)
-        │
-        ▼
+        |
+        v
 명령어 파이프라이닝 (Instruction Pipelining)
-        │
-        ├─▶ 파이프라인 단계 분할
-        ├─▶ 파이프라인 레지스터
-        └─▶ 해저드 관리
-               │
-               ├─▶ 데이터 포워딩 (Data Forwarding)
-               ├─▶ 스톨 / 버블 / 플러시
-               └─▶ 분기 예측 (Branch Prediction)
-                        │
-                        ▼
+        |
+        +--> 파이프라인 단계 분할
+        +--> 파이프라인 레지스터
+        +--> 해저드 관리
+               |
+               +--> 데이터 포워딩 (Data Forwarding)
+               +--> 스톨 / 버블 / 플러시
+               +--> 분기 예측 (Branch Prediction)
+                        |
+                        v
 슈퍼스칼라 · 비순차 실행 · 고성능 마이크로아키텍처
 ```
 
-이 흐름도는 "분업 구조 도입 → 충돌 문제 발생 → 충돌 완화 기술 추가 → 더 넓고 더 똑똑한 실행 구조로 확장"이라는 발전 맥락을 보여준다.
+이 흐름도는 "분업 구조 도입 -> 충돌 문제 발생 -> 충돌 완화 기술 추가 -> 더 넓고 더 똑똑한 실행 구조로 확장"이라는 발전 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 218 / 803
 
-← **이전**: [217. 마이크로명령어 (Microinstruction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)
-**다음**: [219. 파이프라인 단계 (IF, ID, EX, MEM, WB)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/) →
+<- **이전**: [217. 마이크로명령어 (Microinstruction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)
+**다음**: [219. 파이프라인 단계 (IF, ID, EX, MEM, WB)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/) ->
 
 ---

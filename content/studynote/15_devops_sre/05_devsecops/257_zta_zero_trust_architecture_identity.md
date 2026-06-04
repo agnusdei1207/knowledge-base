@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Identity]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 아키텍처]
-    │
-    ├──▶ [mTLS]
-    ├──▶ [Least Privilege]
-    └──▶ [출시 직전 수동 보안 점검]
+    |
+    +---> [mTLS]
+    +---> [Least Privilege]
+    +---> [출시 직전 수동 보안 점검]
 ```
 
 이 흐름도는 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 257 / 373
 
-← **이전**: [256. CNAPP (Cloud-Native Application Protection Platform)](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/)
-**다음**: [258. 정책 애즈 코드 (Policy as Code / OPA Gatekeeper)](/knowledge-base/studynote/15_devops_sre/05_devsecops/258_policy_as_code_opa_gatekeeper/) →
+<- **이전**: [256. CNAPP (Cloud-Native Application Protection Platform)](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/)
+**다음**: [258. 정책 애즈 코드 (Policy as Code / OPA Gatekeeper)](/knowledge-base/studynote/15_devops_sre/05_devsecops/258_policy_as_code_opa_gatekeeper/) ->
 
 ---

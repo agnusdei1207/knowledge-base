@@ -26,33 +26,33 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 디스크를 바라보는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))와 실제 백엔드(물리 레이어) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매핑 차이를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────┐
-  │                 단일 디스크 vs RAID 스토리지 추상화 모델                   │
-  ├────────────────────────────────────────────────────────────────────────────┤
-  │                                                                            │
-  │ [과거: 단일 SLED 방식의 한계 (SPOF)]                                       │
-  │                                                                            │
-  │   운영체제 View:   /dev/sda  (드라이브 1개)                                │
-  │                        │                                                   │
-  │   물리 매핑:    ┌───────────────┐     고장(Crash) 발생 시!                 │
-  │                 │ A B C D E F G │  ──▶ 데이터 100% 자비 없이 유실          │
-  │                 └───────────────┘                                          │
-  │                                                                            │
-  │ [미래: RAID 어레이 기반 가상화 스토리지]                                   │
-  │                                                                            │
-  │   운영체제 View:   /dev/md0  (RAID 거대 가상 볼륨 1개)                     │
-  │              (어? 하나인 줄 알았는데 엄청 빠르고 안 부서지네?)             │
-  │                        │ ◀─── (H/W 컨트롤러 또는 S/W mdadm 드라이버)       │
-  │                        ▼   (분산 및 패리티 계산)                           │
-  │                                                                            │
-  │   물리 매핑:    ┌────────┐    ┌────────┐    ┌────────┐                     │
-  │                 │ 디스크 1│    │ 디스크 2│    │ 디스크 3│   (디스크2       │
-  │                 │(Data A)│    │(Data B)│    │(Parity)│   장애 시)          │
-  │                 │(Data C)│    │(Data D)│    │(Parity)│ ─▶ 패리티로         │
-  │                 └────────┘    └─ 💥 ───┘    └────────┘   즉시 복원!        │
-  │                                                                            │
-  │  추상화 결론: 여러 디스크의 I/O를 묶어 하나처럼 취급하지만 무적의 불사조.  │
-  └────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------+
+  |                 단일 디스크 vs RAID 스토리지 추상화 모델                   |
+  +----------------------------------------------------------------------------+
+  |                                                                            |
+  | [과거: 단일 SLED 방식의 한계 (SPOF)]                                       |
+  |                                                                            |
+  |   운영체제 View:   /dev/sda  (드라이브 1개)                                |
+  |                        |                                                   |
+  |   물리 매핑:    +---------------+     고장(Crash) 발생 시!                 |
+  |                 | A B C D E F G |  ---> 데이터 100% 자비 없이 유실          |
+  |                 +---------------+                                          |
+  |                                                                            |
+  | [미래: RAID 어레이 기반 가상화 스토리지]                                   |
+  |                                                                            |
+  |   운영체제 View:   /dev/md0  (RAID 거대 가상 볼륨 1개)                     |
+  |              (어? 하나인 줄 알았는데 엄청 빠르고 안 부서지네?)             |
+  |                        | <---- (H/W 컨트롤러 또는 S/W mdadm 드라이버)       |
+  |                        v   (분산 및 패리티 계산)                           |
+  |                                                                            |
+  |   물리 매핑:    +--------+    +--------+    +--------+                     |
+  |                 | 디스크 1|    | 디스크 2|    | 디스크 3|   (디스크2       |
+  |                 |(Data A)|    |(Data B)|    |(Parity)|   장애 시)          |
+  |                 |(Data C)|    |(Data D)|    |(Parity)| --> 패리티로         |
+  |                 +--------+    +- 💥 ---+    +--------+   즉시 복원!        |
+  |                                                                            |
+  |  추상화 결론: 여러 디스크의 I/O를 묶어 하나처럼 취급하지만 무적의 불사조.  |
+  +----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단일 드라이브 아키텍처의 한계는 드라이브 기계적 마모로 인한 스핀들 모터 고장 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살릴 수단이 전무하다는 것이다. 어플리케이션(DB 등)은 이를 통제할 수 없다. 이를 보완하는 RAID 시스템은 디스크들과 호스트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중간에 'RAID 컨트롤러'(또는 OS의 소프웨어 RAID [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), LVM 등)를 배치한다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 컨트롤러가 래핑해준 단일 가상 드라이브(`/dev/md0` 등) 하나만을 보게 되며 명령의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 에러 정정(Error Correction) 연산 등 백그라운드의 복잡한 매커니즘은 철저히 투명(Transparent)하게 숨겨진다. 디스크 2가 물리적으로 불에 타 고장나더라도, 어레이 전체는 디스크 1과 3의 계산 기록을 바탕으로 끊김 없이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속 제공(Degraded Mode)한다.
@@ -80,34 +80,34 @@ RAID 레벨(Level)을 이해하기 위한 근본이 되는 세 가지 S/W-H/W �
 RAID 로직(패리티 계산, I/O [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 결정)을 누가 처리(Compute)하느냐에 따라 병목의 주체가 하드웨어인지 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) CPU 인지로 갈라진다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 차이와 비용 관리 트레이드 오프 아키텍처다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────┐
-  │                 하드웨어 RAID vs 소프트웨어 RAID 구조 비교                          │
-  ├─────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                     │
-  │ [Hardware RAID 컨트롤러 아키텍처]                                                   │
-  │                                                                                     │
-  │    [ Host CPU & OS ]  ── (완전 통과. CPU 점유율 0%)                                 │
-  │            │                                                                        │
-  │            ▼      (단일 가상 스토리지 볼륨 /dev/sda로만 인식됨)                     │
-  │    [ RAID Controller Card (HBA) ] ◀─ 자체 전담 프로세서 탑재!                       │
-  │      ├─ [ DDR Cache RAM ] (BBU 배터리 백업 탑재: 정전 시 캐시 보호)                 │
-  │      └─ [ XOR ASIC Engine ] (패리티 폭풍 연산 칩셋 내장)                            │
-  │            │                 │                 │                                    │
-  │         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]                            │
-  │                                                                                     │
-  │ [Software RAID 아키텍처 (예: mdadm, ZFS, Windows Storage Spaces)]                   │
-  │                                                                                     │
-  │    [ Host CPU & OS ]                                                                │
-  │        └─ [ Kernel RAID Driver 계층 ] ◀─ 호스트 CPU 코어가 연산 몫!                 │
-  │            │ (패리티 연산 및 소프트웨어 드라이버 캐시)                              │
-  │            ▼                                                                        │
-  │    [ 일반 메인보드 SATA / SAS 단자 ]   (단순 I/O 바이패스)                          │
-  │            │                 │                 │                                    │
-  │         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]                            │
-  │                                                                                     │
-  │ H/W RAID: 높은 자본 투입 초고속 기업형 튜닝. 패리티 I/O 비용 오프로딩(Offloading).  │
-  │ S/W RAID: CPU 파워가 잉여로운 현대 서버에서 경제성 및 유연성, 하드웨어 종속성 탈피. │
-  └─────────────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------------+
+  |                 하드웨어 RAID vs 소프트웨어 RAID 구조 비교                          |
+  +-------------------------------------------------------------------------------------+
+  |                                                                                     |
+  | [Hardware RAID 컨트롤러 아키텍처]                                                   |
+  |                                                                                     |
+  |    [ Host CPU & OS ]  -- (완전 통과. CPU 점유율 0%)                                 |
+  |            |                                                                        |
+  |            v      (단일 가상 스토리지 볼륨 /dev/sda로만 인식됨)                     |
+  |    [ RAID Controller Card (HBA) ] <-- 자체 전담 프로세서 탑재!                       |
+  |      +- [ DDR Cache RAM ] (BBU 배터리 백업 탑재: 정전 시 캐시 보호)                 |
+  |      +- [ XOR ASIC Engine ] (패리티 폭풍 연산 칩셋 내장)                            |
+  |            |                 |                 |                                    |
+  |         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]                            |
+  |                                                                                     |
+  | [Software RAID 아키텍처 (예: mdadm, ZFS, Windows Storage Spaces)]                   |
+  |                                                                                     |
+  |    [ Host CPU & OS ]                                                                |
+  |        +- [ Kernel RAID Driver 계층 ] <-- 호스트 CPU 코어가 연산 몫!                 |
+  |            | (패리티 연산 및 소프트웨어 드라이버 캐시)                              |
+  |            v                                                                        |
+  |    [ 일반 메인보드 SATA / SAS 단자 ]   (단순 I/O 바이패스)                          |
+  |            |                 |                 |                                    |
+  |         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]                            |
+  |                                                                                     |
+  | H/W RAID: 높은 자본 투입 초고속 기업형 튜닝. 패리티 I/O 비용 오프로딩(Offloading).  |
+  | S/W RAID: CPU 파워가 잉여로운 현대 서버에서 경제성 및 유연성, 하드웨어 종속성 탈피. |
+  +-------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** H/W 방식은 고가의 RAID [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(Application-Specific Integrated Circuit) 칩과 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(Battery [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) Unit) 배터리를 탑재해, 막대한 대역폭의 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴 (패리티 XOR 계산) 부하를 호스트 CPU로부터 완벽하게 격리(Offload)시킨다. 이는 과거 서버 시스템에서 무조건적인 표준이었으나 RAID 카드 자체의 고장 시([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 레이어 전이) 동일한 메이커 카드를 구하지 못하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살리지 못하는 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 문제가 컸다. 현대식 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 노드는 강력한 멀티코어 파워를 활용해 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 소프트웨어 계층 스토리지 관리(리눅스의 `mdadm`, 강력한 차세대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 `ZFS`, `Btrfs`)로 S/W RAID를 운영하는 소프트웨어 정의 스토리지 (Software-Defined Storage, [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 패러다임이 메가 트렌드로 정착했다.
@@ -158,33 +158,33 @@ RAID 3, 4, 5, 6 의 [신뢰성](/knowledge-base/studynote/04_software_engineerin
 위 각 상황별 RAID 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구별(Level)을 위한 기술사적 선택 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 분기표는 다음과 같다. (개별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 모델은 484, 485~ [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 각각의 심화 레벨 분석에서 상세 서술된다.)
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────┐
-  │         업무 요구사항 목적 맞춤형 RAID 레벨(Level) 아키텍처 트리           │
-  ├────────────────────────────────────────────────────────────────────────────┤
-  │                                                                            │
-  │   [데이터 중요도 (Failure Tolerance 필요도) 파악]                          │
-  │                │                                                           │
-  │                ▼                                                           │
-  │      장애 허용 안 됨? (사라지면 회사 위험, 데이터 날아감 즉결)             │
-  │          ├─ [ 아니오 (캐시, 렌더팜 임시 등) ] ────▶ RAID 0 (속도 제왕)     │
-  │          │                                                                 │
-  │          └─ [ 예, 절대 안정성 보장! ]                                      │
-  │                │                                                           │
-  │                ▼                                                           │
-  │      예산 상의 용량 제약(Capacity Overhead)과 디스크 구매력?               │
-  │          ├─ [ 여유 넉넉: 50% 버려도 된다 ] ──▶ RAID 1 (미러링 안정 갑)     │
-  │          │    └ (돈이 엄청나게 넘친다! 성능+안정) ─▶ RAID 10 (1+0)         │
-  │          │                                                                 │
-  │          └─ [ 예산 부족, 60% 이상은 저장공간으로 건져야! ]                 │
-  │                │                                                           │
-  │                ▼                                                           │
-  │         디스크 개당 용량과 컨트롤러 I/O 패리티 연산 성능?                  │
-  │          ├─ 1~2TB 저용량 / 쓰기 지연 크게 신경 안 씀 ──▶ RAID 5            │
-  │          │                                                                 │
-  │          └─ 10TB 이상 초초고용량 / 디스크 리빌딩 중 URE 파괴 위험 경계 ──┐ │
-  │                                           ▼                                │
-  │                              최후의 보루망 RAID 6 (디스크 2개 동포용)      │
-  └────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------+
+  |         업무 요구사항 목적 맞춤형 RAID 레벨(Level) 아키텍처 트리           |
+  +----------------------------------------------------------------------------+
+  |                                                                            |
+  |   [데이터 중요도 (Failure Tolerance 필요도) 파악]                          |
+  |                |                                                           |
+  |                v                                                           |
+  |      장애 허용 안 됨? (사라지면 회사 위험, 데이터 날아감 즉결)             |
+  |          +- [ 아니오 (캐시, 렌더팜 임시 등) ] -----> RAID 0 (속도 제왕)     |
+  |          |                                                                 |
+  |          +- [ 예, 절대 안정성 보장! ]                                      |
+  |                |                                                           |
+  |                v                                                           |
+  |      예산 상의 용량 제약(Capacity Overhead)과 디스크 구매력?               |
+  |          +- [ 여유 넉넉: 50% 버려도 된다 ] ---> RAID 1 (미러링 안정 갑)     |
+  |          |    + (돈이 엄청나게 넘친다! 성능+안정) --> RAID 10 (1+0)         |
+  |          |                                                                 |
+  |          +- [ 예산 부족, 60% 이상은 저장공간으로 건져야! ]                 |
+  |                |                                                           |
+  |                v                                                           |
+  |         디스크 개당 용량과 컨트롤러 I/O 패리티 연산 성능?                  |
+  |          +- 1~2TB 저용량 / 쓰기 지연 크게 신경 안 씀 ---> RAID 5            |
+  |          |                                                                 |
+  |          +- 10TB 이상 초초고용량 / 디스크 리빌딩 중 URE 파괴 위험 경계 --+ |
+  |                                           v                                |
+  |                              최후의 보루망 RAID 6 (디스크 2개 동포용)      |
+  +----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단순히 "무엇이 가장 좋다"는 철학은 IT 아키텍처 세계에 없다. 오직 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) ([총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/), Total Cost of Ownership)와 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) (목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) 목표에 끼워 맞춰진다. 예를 들어 RAID 0은 "안전빵"이 전혀 없으나 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) (고성능 컴퓨팅) 임시 버퍼에서는 절대 포기할 수 없는 진리의 옵션이 되며, RAID 5는 기업 입문용에서 가장 흔하게 쓰이지만 디스크 집적도 한계(대용량 시대 긴 재구축 시간)가 임계점을 넘으며 디스크 두 개 분량의 에러를 방어하는 RAID 6로 사내 표준 패러다임이 세대교체되고 있는 것이 현대 인프라 튜닝의 핵심 지적 통찰 지점이다.
@@ -236,12 +236,12 @@ RAID 3, 4, 5, 6 의 [신뢰성](/knowledge-base/studynote/04_software_engineerin
 
 ```text
 [NVMe (Non-Volatile Memory Express)]
-    │
-    ▼
+    |
+    v
 [RAID (Redundant Array of Independent Disks)]
-    │
-    ├──▶ [RAID 0 (스트라이핑, Striping)]
-    └──▶ [RAID 1 (미러링, Mirroring)]
+    |
+    +---> [RAID 0 (스트라이핑, Striping)]
+    +---> [RAID 1 (미러링, Mirroring)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -258,7 +258,7 @@ RAID 3, 4, 5, 6 의 [신뢰성](/knowledge-base/studynote/04_software_engineerin
 
 **진행 상황**: 483 / 800
 
-← **이전**: [482. NVMe (Non-Volatile Memory Express) - PCIe 버스 기반 고속 플래시 프로토콜 (다중/깊은 큐 지원)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)
-**다음**: [484. RAID 0 (스트라이핑, Striping) (RAID 0 Striping)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) →
+<- **이전**: [482. NVMe (Non-Volatile Memory Express) - PCIe 버스 기반 고속 플래시 프로토콜 (다중/깊은 큐 지원)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)
+**다음**: [484. RAID 0 (스트라이핑, Striping) (RAID 0 Striping)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) ->
 
 ---

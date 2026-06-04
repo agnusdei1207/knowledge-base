@@ -30,20 +30,20 @@ tags = ["database"]
 ```text
 [종속성의 늪: 파일 시스템의 연쇄 붕괴]
 변경 발생: "고객 파일에 '이메일' 칼럼 추가"
-   │
-   ├─> (Crash) 영업 App: 바이트 오프셋 밀림 현상 발생 -> 코드 수정
-   ├─> (Crash) 배송 App: 파일 읽기 에러 발생 -> 코드 수정
-   └─> (Crash) 정산 App: 배열 파싱 오류 -> 코드 수정
+   |
+   +-> (Crash) 영업 App: 바이트 오프셋 밀림 현상 발생 -> 코드 수정
+   +-> (Crash) 배송 App: 파일 읽기 에러 발생 -> 코드 수정
+   +-> (Crash) 정산 App: 배열 파싱 오류 -> 코드 수정
    => 작은 데이터 변경이 전사 시스템 마비 유발!
 
 [데이터 독립성: DBMS의 방어막 구조]
 변경 발생: "고객 테이블에 '이메일' 칼럼 추가"
-   │
-   ├─> DBMS Engine: 내부 매핑(Mapping) 정보만 업데이트
-   │
-   ├─> 영업 App: (기존 SELECT 이름, 전화번호 FROM 고객) -> 정상 작동!
-   ├─> 배송 App: (기존 SELECT 주소 FROM 고객) -> 정상 작동!
-   └─> 정산 App: 새로운 '이메일' 칼럼 무시 -> 정상 작동!
+   |
+   +-> DBMS Engine: 내부 매핑(Mapping) 정보만 업데이트
+   |
+   +-> 영업 App: (기존 SELECT 이름, 전화번호 FROM 고객) -> 정상 작동!
+   +-> 배송 App: (기존 SELECT 주소 FROM 고객) -> 정상 작동!
+   +-> 정산 App: 새로운 '이메일' 칼럼 무시 -> 정상 작동!
 ```
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립성이 왜 필수적인지 극명하게 보여줍니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 작은 변화가 모든 상위 시스템에 장애를 전파(Crash)하지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 환경에서는 DBMS가 '방어막(매핑 레이어)' 역할을 수행하여 기존 애플리케이션의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 영향을 주지 않습니다. 실무에서는 이 방어막 덕분에 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중에도 칼럼을 추가하거나 디스크를 SSD로 교체하는 등의 마이그레이션 작업이 가능해집니다.
 
@@ -65,24 +65,24 @@ tags = ["database"]
 이 두 독립성이 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 계층을 통해 어떻게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막을 형성하는지 아래 다이어그램으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있습니다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [ Application A ]         [ Application B ]            │
-│  (외부 스키마: View A)       (외부 스키마: View B)      │
-└─────────┬───────────────────────┬──────────────────────┘
-          │ (1) 논리적 독립성 보장 구역 (External/Conceptual Mapping)
-          │     - 테이블 통합/분리 시 여기서 뷰 정의만 변경하여 대응
-┌─────────▼───────────────────────▼──────────────────────┐
-│                  [ 개념 스키마 ]                       │
-│        (전체 조직의 통합된 논리적 데이터 구조)         │
-│          Entity: Employee (Name, Dept, Salary)         │
-└─────────────────────────┬──────────────────────────────┘
-                          │ (2) 물리적 독립성 보장 구역 (Conceptual/Internal Mapping)
-                          │     - 스토리지 위치, 인덱싱 변경 시 여기서 경로만 재설정
-┌─────────────────────────▼──────────────────────────────┐
-│                  [ 내부 스키마 ]                       │
-│         (디스크 파일, B-Tree 인덱스, 클러스터링)       │
-│      File Path: /dev/sdb1, Block Size: 8KB             │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [ Application A ]         [ Application B ]            |
+|  (외부 스키마: View A)       (외부 스키마: View B)      |
++---------+-----------------------+----------------------+
+          | (1) 논리적 독립성 보장 구역 (External/Conceptual Mapping)
+          |     - 테이블 통합/분리 시 여기서 뷰 정의만 변경하여 대응
++---------v-----------------------v----------------------+
+|                  [ 개념 스키마 ]                       |
+|        (전체 조직의 통합된 논리적 데이터 구조)         |
+|          Entity: Employee (Name, Dept, Salary)         |
++-------------------------+------------------------------+
+                          | (2) 물리적 독립성 보장 구역 (Conceptual/Internal Mapping)
+                          |     - 스토리지 위치, 인덱싱 변경 시 여기서 경로만 재설정
++-------------------------v------------------------------+
+|                  [ 내부 스키마 ]                       |
+|         (디스크 파일, B-Tree 인덱스, 클러스터링)       |
+|      File Path: /dev/sdb1, Block Size: 8KB             |
++--------------------------------------------------------+
 ```
 이 구조도의 핵심은 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 계층의 존재입니다. 만약 전체 조직의 테이블([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)) 구조가 완전히 뜯어고쳐져도, (1)번 구역에서 SQL [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 매핑만 다시 맞춰주면 애플리케이션 코드는 단 한 줄도 수정할 필요가 없습니다. 마찬가지로, HDD에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD로 하드웨어를 교체하여 저장 방식이 바뀌어도, (2)번 구역이 변경된 물리적 주소를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)에 전달하므로 위쪽 레이어는 알 필요가 없습니다. 실무에서는 물리적 독립성([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 변경)은 쉽게 달성되지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 독립성은 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 변경의 파급력이 커서 완벽한 달성이 상대적으로 더 어렵습니다.
 
@@ -134,10 +134,10 @@ tags = ["database"]
 ```text
 [물리적 독립성의 사이드 이펙트와 의사결정]
 변경: DBA가 [성별] 칼럼에 비트맵 인덱스 추가
-   │
-   ├─> (독립성 보장) 애플리케이션 코드는 수정 필요 없음. SQL은 그대로 동작.
-   │
-   └─> (성능 부작용) 옵티마이저가 엉뚱한 인덱스를 타게 되어 CPU 100% 치솟음.
+   |
+   +-> (독립성 보장) 애플리케이션 코드는 수정 필요 없음. SQL은 그대로 동작.
+   |
+   +-> (성능 부작용) 옵티마이저가 엉뚱한 인덱스를 타게 되어 CPU 100% 치솟음.
        => DBA 판단: 물리적 독립성은 "코드 오류를 막을 뿐, 성능 무결성을 보장하지 않는다."
        => 조치 방안: 힌트(Hint)를 통한 실행 계획 고정, 통계 정보 재수집
 ```
@@ -178,17 +178,17 @@ tags = ["database"]
 
 ```text
 [3단계 스키마 (3-Level Schema)]
-    │
-    ▼
+    |
+    v
 [뷰 (View)]
-    │
-    ▼
+    |
+    v
 [사상 (Mapping)]
-    │
-    ▼
+    |
+    v
 [객체 관계 매핑 (ORM)]
-    │
-    ▼
+    |
+    v
 [실행 계획 (Execution Plan)]
 ```
 
@@ -205,7 +205,7 @@ tags = ["database"]
 
 **진행 상황**: 4 / 600
 
-← **이전**: [3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/)
-**다음**: [5. 스키마 (Schema) - 데이터베이스의 논리적 구조와 제약 조건에 대한 명세](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) →
+<- **이전**: [3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/)
+**다음**: [5. 스키마 (Schema) - 데이터베이스의 논리적 구조와 제약 조건에 대한 명세](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) ->
 
 ---

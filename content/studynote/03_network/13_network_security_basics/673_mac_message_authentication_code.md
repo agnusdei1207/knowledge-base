@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    ▼
+    |
+    v
 [MAC 변수 및 기능]
-    │
-    └──▶ [HMAC 통신 기반 IPsec 등 활용 구조]
+    |
+    +---> [HMAC 통신 기반 IPsec 등 활용 구조]
 ```
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    ▼
+    |
+    v
 [MAC 변수 및 기능]
-    │
-    └──▶ [HMAC 통신 기반 IPsec 등 활용 구조]
+    |
+    +---> [HMAC 통신 기반 IPsec 등 활용 구조]
 ```
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_netw
 
 ```text
 [선행 개념: 무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MAC 변수 및 기능]
-    │
-    ├──▶ [확장 A: HMAC 통신 기반 IPsec 등 활용 구조]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: HMAC 통신 기반 IPsec 등 활용 구조]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 MAC 변수 및 기능는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…에서 출발해 현재 메커니즘을 정교화하고, 이후 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ MAC 변수 및 기능는 [무결성](/knowledge-base/studynote/09_security/01_in
 
 **진행 상황**: 794 / 1120
 
-← **이전**: [672. 무결성 및 출처 인증용 서명 데이터 코드 제어](/knowledge-base/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/)
-**다음**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) →
+<- **이전**: [672. 무결성 및 출처 인증용 서명 데이터 코드 제어](/knowledge-base/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/)
+**다음**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ->
 
 ---

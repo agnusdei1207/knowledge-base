@@ -51,16 +51,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 센서 값이 단순 숫자가 아니라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결된 관리 루프라는 점을 보여준다.
 
 ```text
-┌──────────────┐   analog   ┌────────────────┐   register   ┌──────────────┐
-│ Temp / Volt  ├──────────▶ │ Sensor IC /    ├────────────▶ │ BMC Poller   │
-│ Fan / Power  │            │ ADC / VR Ctrl  │              │ + Thresholds │
-└──────┬───────┘            └────────────────┘              └──────┬───────┘
-       │                                                            │
-       │                                                            ├──▶ Fan Curve
-       │                                                            ├──▶ Alert / SEL
-       │                                                            ├──▶ Throttle
-       │                                                            └──▶ Power-off
-       ▼
++--------------+   analog   +----------------+   register   +--------------+
+| Temp / Volt  +-----------> | Sensor IC /    +-------------> | BMC Poller   |
+| Fan / Power  |            | ADC / VR Ctrl  |              | + Thresholds |
++------+-------+            +----------------+              +------+-------+
+       |                                                            |
+       |                                                            +---> Fan Curve
+       |                                                            +---> Alert / SEL
+       |                                                            +---> Throttle
+       |                                                            +---> Power-off
+       v
   Physical State
 ```
 
@@ -140,18 +140,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Physical Sensors
-      │
-      ▼
+      |
+      v
 ADC + Sensor Registers
-      │
-      ▼
+      |
+      v
 BMC Polling / Threshold Engine
-      │
-      ├──▶ Fan / Power Protection
-      ├──▶ SEL / Alerting
-      └──▶ Telemetry Export
-      │
-      ▼
+      |
+      +---> Fan / Power Protection
+      +---> SEL / Alerting
+      +---> Telemetry Export
+      |
+      v
 Observability + Predictive Maintenance
 ```
 
@@ -169,7 +169,7 @@ Observability + Predictive Maintenance
 
 **진행 상황**: 716 / 803
 
-← **이전**: [714. 원격 미디어 마운트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/714_virtual_media_mount/)
-**다음**: [716. PCIe AER (Advanced Error Reporting)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/716_pcie_aer/) →
+<- **이전**: [714. 원격 미디어 마운트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/714_virtual_media_mount/)
+**다음**: [716. PCIe AER (Advanced Error Reporting)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/716_pcie_aer/) ->
 
 ---

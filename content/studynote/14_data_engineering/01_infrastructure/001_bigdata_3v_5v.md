@@ -27,10 +27,10 @@ tags = ["data_engineering"]
 [기존 시스템과 빅데이터의 한계 직면 (문제 배경도)]
 ```text
 [전통적 RDBMS 환경]                   [빅데이터 패러다임 도래]
-Client → [Web/App] → [RDBMS (TB)]       IoT / SNS / Log → [초당 수백만 이벤트]
-           ↑             |                       ↓ (한계 직면)
+Client -> [Web/App] -> [RDBMS (TB)]       IoT / SNS / Log -> [초당 수백만 이벤트]
+           ^             |                       v (한계 직면)
       (정형/수직확장)  (병목 발생)            [? 어떻게 저장/처리할 것인가 ?]
-                                                 ↓ (분산 아키텍처 도입)
+                                                 v (분산 아키텍처 도입)
                                         Volume   : Scale-out 저장소 (HDFS/S3)
                                         Velocity : 스트림 처리 (Kafka/Flink)
                                         Variety  : 스키마-온-리드 (Data Lake)
@@ -53,10 +53,10 @@ Client → [Web/App] → [RDBMS (TB)]       IoT / SNS / Log → [초당 수백�
 [5V 기반 빅데이터 처리 아키텍처 구조도]
 ```text
 [Sources]         [Ingestion]        [Storage]           [Processing]         [Serving]
-IoT/Sensors  ──>  Apache Kafka  ──>  Data Lake       ──> Apache Spark    ──>  BI / ML Models
+IoT/Sensors  -->  Apache Kafka  -->  Data Lake       --> Apache Spark    -->  BI / ML Models
 (Volume)          (버퍼링/실시간)      (Volume/Variety)     (대규모 병렬 처리)      (Veracity/Value)
-                    │                  │                   │                    │
-                    └─ 실시간 스트림 ─┴─ 비정형 데이터 ──┴─ 데이터 정제 ───┴─ 비즈니스 가치
+                    |                  |                   |                    |
+                    +- 실시간 스트림 -+- 비정형 데이터 --+- 데이터 정제 ---+- 비즈니스 가치
 ```
 이 그림은 5V가 실제 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 단계별로 어떻게 매핑되는지 보여준다. 유입 단계에서는 Kafka가 Velocity를 감당하고 버퍼 역할을 하며, Storage에서는 [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3)가 저비용으로 막대한 Volume과 Variety를 수용한다. Processing 단계에서는 Spark를 통해 불확실한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Veracity)를 정제하고 분석하여, 최종적으로 Serving 단계에서 가치(Value)를 제공한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름은 각 계층의 병목을 해결하기 위해 철저히 분리된 컴포넌트로 구성된다.
 
@@ -99,13 +99,13 @@ Data (Variety) => [ Data Lake (Volume) ] => [ 분산 쿼리 엔진 (Spark/Trino)
 [데이터 늪 방지를 위한 실무 운영 의사결정 플로우]
 ```text
 [데이터 수집 요청]
-       ↓
-(Value 분석) 이 데이터가 실질적인 비즈니스 KPI에 기여하는가? ──(No)──> [Drop (수집 거부)]
-       ↓ (Yes)
+       v
+(Value 분석) 이 데이터가 실질적인 비즈니스 KPI에 기여하는가? --(No)--> [Drop (수집 거부)]
+       v (Yes)
 (Velocity 분석) 실시간 처리가 필수인가?
-   ├─(Yes)─> [Kafka + Flink 파이프라인] => 실시간 대시보드
-   └─(No)──> [Airflow + Spark Batch]    => Data Lake 적재
-       ↓
+   +-(Yes)-> [Kafka + Flink 파이프라인] => 실시간 대시보드
+   +-(No)--> [Airflow + Spark Batch]    => Data Lake 적재
+       v
 (Veracity 보장) Cataloging & 리니지 추적 연동
 ```
 이 의사결정 트리는 무작정 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 5V 관점에서 수용하는 안티패턴을 방지하기 위한 실무적 가이드다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 처리할 필요는 없으며, 분석 가치가 불명확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무분별하게 적재하는 것을 수집 단계에서 차단해야 컴퓨팅 리소스를 방어할 수 있다. 실무에서는 이러한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 반드시 파이프라인 앞단에 위치해야 한다.
@@ -117,8 +117,8 @@ Data (Variety) => [ Data Lake (Volume) ] => [ 분산 쿼리 엔진 (Spark/Trino)
 
 | 관점 | 기대 효과 (Before & After) | 정량 지표 |
 |:---|:---|:---|
-| 인프라 비용 | 고가의 스토리지 어플라이언스 → 종량제 클라우드 객체 스토리지 | 스토리지 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 60% 이상 절감 |
-| 비즈니스 | 월 단위 사후 분석 보고서 → 초 단위 실시간 개인화 추천 | 캠페인 반응률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 및 매출 향상 |
+| 인프라 비용 | 고가의 스토리지 어플라이언스 -> 종량제 클라우드 객체 스토리지 | 스토리지 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 60% 이상 절감 |
+| 비즈니스 | 월 단위 사후 분석 보고서 -> 초 단위 실시간 개인화 추천 | 캠페인 반응률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 및 매출 향상 |
 
 미래에는 이 5V 특성 위에 AI가 결합되면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 이동시키지 않고도 논리적으로 융합하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">데이터 패브릭</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a>)</strong> 사상이 표준이 될 것이다. 또한, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))의 등장으로 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Variety)의 활용 가치가 극대화됨에 따라, 진실성(Veracity)을 확보하기 위한 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 품질 관리 체계의 중요성은 더욱 커질 것이다.
 
@@ -137,14 +137,14 @@ Data (Variety) => [ Data Lake (Volume) ] => [ 분산 쿼리 엔진 (Spark/Trino)
 
 ```text
 [하둡 생태계 (Hadoop Ecosystem)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake)]
-    │
-    ▼
+    |
+    v
 [스parks (Apache Spark)]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 (Data Governance)]
 ```
 
@@ -161,8 +161,8 @@ Data (Variety) => [ Data Lake (Volume) ] => [ 분산 쿼리 엔진 (Spark/Trino)
 
 **진행 상황**: 1 / 258
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) →
+**다음**: [2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) ->
 
 ---

@@ -21,10 +21,10 @@ tags = ["studynote-algorithm"]
 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/))는 <strong>William Pugh(1990)</strong>가 제안한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 자료구조다.
 
 ```
-레벨 3: HEAD ──────────────────────── 25 ──────────── NULL
-레벨 2: HEAD ──────── 10 ──────────── 25 ──── 40 ───── NULL
-레벨 1: HEAD ── 5 ── 10 ── 15 ────── 25 ── 35 ── 40 ── NULL
-레벨 0: HEAD ── 5 ── 10 ── 15 ── 20 ── 25 ── 30 ── 35 ── 40 ── NULL
+레벨 3: HEAD ------------------------ 25 ------------ NULL
+레벨 2: HEAD -------- 10 ------------ 25 ---- 40 ----- NULL
+레벨 1: HEAD -- 5 -- 10 -- 15 ------ 25 -- 35 -- 40 -- NULL
+레벨 0: HEAD -- 5 -- 10 -- 15 -- 20 -- 25 -- 30 -- 35 -- 40 -- NULL
             (기본 연결 리스트)
 ```
 
@@ -61,9 +61,9 @@ def search(skip_list, target):
 
 ```
 15를 검색:
-레벨 3: HEAD → (25 초과 → 하강)
-레벨 2: HEAD → 10 → (25 초과 → 하강)
-레벨 1: HEAD → 10 → 15 발견 → 레벨 0 확인 → ✓
+레벨 3: HEAD -> (25 초과 -> 하강)
+레벨 2: HEAD -> 10 -> (25 초과 -> 하강)
+레벨 1: HEAD -> 10 -> 15 발견 -> 레벨 0 확인 -> ✓
 비교 횟수: 4회 (전체 9개 노드 중 44%)
 ```
 
@@ -116,7 +116,7 @@ def search(skip_list, target):
 |-----------|------------|--------------|--------------|
 | 균형 방식  | 결정적 (회전) | 결정적 (회전+색) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적       |
 | 구현 복잡도 | 높음        | 매우 높음      | 낮음          |
-| 메모리     | 낮음        | 낮음           | 높음 (포인터↑) |
+| 메모리     | 낮음        | 낮음           | 높음 (포인터^) |
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리  | 어려움      | 어려움         | 유리 (LF 가능)|
 
 📢 **섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 "근사치 균형"이다 — AVL처럼 완벽한 균형이 아니라 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 균형에 가깝게 만들어, 복잡한 회전 없이 비슷한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
@@ -128,20 +128,20 @@ def search(skip_list, target):
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ZADD/ZRANGE 구현
 
 ```
-ZADD scores 90 "Alice"    → 스킵 리스트에 (key=Alice, score=90) 삽입
+ZADD scores 90 "Alice"    -> 스킵 리스트에 (key=Alice, score=90) 삽입
 ZADD scores 85 "Bob"
 ZADD scores 95 "Carol"
 
 ZRANGE scores 0 -1 WITHSCORES
-  → ["Bob" 85, "Alice" 90, "Carol" 95]  // O(k+log n)
+  -> ["Bob" 85, "Alice" 90, "Carol" 95]  // O(k+log n)
 
 ZRANGEBYSCORE scores 85 95
-  → ["Bob", "Alice", "Carol"]           // 범위 검색
+  -> ["Bob", "Alice", "Carol"]           // 범위 검색
 ```
 
 <strong>Redis가 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/">스킵 리스트</a>를 선택한 이유</strong>:
 1. 범위 검색이 O(k+log n)으로 효율적
-2. 구현 단순 → 유지보수 용이
+2. 구현 단순 -> 유지보수 용이
 3. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능성 ([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 확장)
 
 📢 **섹션 요약 비유**: Redis의 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 게임 리더보드와 같다 — 점수(score) 기준으로 정렬되어 있고, "90점~95점 사이 플레이어"처럼 범위 조회가 빠르다.
@@ -152,20 +152,20 @@ ZRANGEBYSCORE scores 85 95
 
 ```
 스킵 리스트 (Skip List)
-├── 구조
-│   ├── 다중 레벨 연결 리스트
-│   └── 확률적 높이 결정 (동전 던지기)
-├── 연산
-│   ├── 탐색 O(log n) 평균
-│   ├── 삽입 O(log n) 평균
-│   └── 삭제 O(log n) 평균
-├── 비교 대상
-│   ├── AVL 트리 (결정적 균형)
-│   └── 레드-블랙 트리 (결정적)
-└── 실제 사용
-    ├── Redis Sorted Set (zset)
-    ├── LevelDB MemTable
-    └── Lock-free 동시성 자료구조
++-- 구조
+|   +-- 다중 레벨 연결 리스트
+|   +-- 확률적 높이 결정 (동전 던지기)
++-- 연산
+|   +-- 탐색 O(log n) 평균
+|   +-- 삽입 O(log n) 평균
+|   +-- 삭제 O(log n) 평균
++-- 비교 대상
+|   +-- AVL 트리 (결정적 균형)
+|   +-- 레드-블랙 트리 (결정적)
++-- 실제 사용
+    +-- Redis Sorted Set (zset)
+    +-- LevelDB MemTable
+    +-- Lock-free 동시성 자료구조
 ```
 
 ---
@@ -173,22 +173,22 @@ ZRANGEBYSCORE scores 85 95
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                스킵 리스트 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년       │ Pugh 논문 발표     │ "Skip Lists: A Probabilistic"│
-│ 2006년       │ Redis Sorted Set   │ 실제 프로덕션 적용 표준화   │
-│ 2010년대     │ LevelDB / RocksDB  │ MemTable 구현에 사용         │
-│ 2013년       │ Lock-free 스킵 리스트 │ 동시성 데이터 구조 연구  │
-│ 2020년대     │ 분산 인덱스        │ Cassandra 파티션 인덱스       │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                스킵 리스트 발전 흐름                             |
++--------------+--------------------+-----------------------------+
+| 1990년       | Pugh 논문 발표     | "Skip Lists: A Probabilistic"|
+| 2006년       | Redis Sorted Set   | 실제 프로덕션 적용 표준화   |
+| 2010년대     | LevelDB / RocksDB  | MemTable 구현에 사용         |
+| 2013년       | Lock-free 스킵 리스트 | 동시성 데이터 구조 연구  |
+| 2020년대     | 분산 인덱스        | Cassandra 파티션 인덱스       |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-연결 리스트 → 다중 레벨 → 스킵 리스트 → Redis Sorted Set
-    ↓               ↓             ↓
+연결 리스트 -> 다중 레벨 -> 스킵 리스트 -> Redis Sorted Set
+    v               v             v
 O(n) 탐색      O(log n) 평균  ZADD/ZRANGE
-    ↓
-AVL/RB 트리와 성능 동등 → 병렬 처리 우위
+    v
+AVL/RB 트리와 성능 동등 -> 병렬 처리 우위
 ```
 
 ---
@@ -205,7 +205,7 @@ AVL/RB 트리와 성능 동등 → 병렬 처리 우위
 
 **진행 상황**: 93 / 175
 
-← **이전**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/)
-**다음**: [KMP (Knuth-Morris-Pratt) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) →
+<- **이전**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/)
+**다음**: [KMP (Knuth-Morris-Pratt) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) ->
 
 ---

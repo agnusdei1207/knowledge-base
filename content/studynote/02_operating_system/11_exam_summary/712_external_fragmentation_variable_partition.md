@@ -48,25 +48,25 @@ tags = ["studynote-operating-system"]
 프로세스 A, B, C, D가 들어오고 나가는 과정을 통해 구멍(Hole)이 어떻게 생기는지 살펴본다. (전체 메모리 100MB)
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 가변 분할 환경의 외부 단편화 생성 타임라인            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [ T=1. 초기 할당 ]                                                 │
-  │   [ A (20MB) ] [ B (30MB) ] [ C (20MB) ] [ 빈 공간 (30MB) ]      │
-  │                                                                   │
-  │  [ T=2. 프로세스 B 종료 (해제) ]                                     │
-  │   [ A (20MB) ] [ 빈 공간 (30MB) ] [ C (20MB) ] [ 빈 공간 (30MB) ] │
-  │                                                                   │
-  │  [ T=3. 새로운 프로세스 D (10MB) 도착 및 할당 (First-Fit) ]         │
-  │   [ A (20MB) ] [ D (10MB) ] [ 빈 공간 (20MB) ] [ C (20MB) ]       │
-  │                             [ 빈 공간 (30MB) ]                    │
-  │                                                                   │
-  │  [ T=4. 거대 프로세스 E (40MB) 가 도착했다! ]                        │
-  │   - 현재 남은 메모리 총합: 20MB + 30MB = 50MB (용량은 충분함!)        │
-  │   - 하지만 E는 40MB짜리 연속된 덩어리가 필요하다.                        │
-  │   - 20MB 구멍이나 30MB 구멍 어디에도 들어갈 수 없다.                    │
-  │   ★ 결론: E는 메모리 할당을 받지 못하고 거절당함 (External Fragmentation) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 가변 분할 환경의 외부 단편화 생성 타임라인            |
+  +-------------------------------------------------------------------+
+  |  [ T=1. 초기 할당 ]                                                 |
+  |   [ A (20MB) ] [ B (30MB) ] [ C (20MB) ] [ 빈 공간 (30MB) ]      |
+  |                                                                   |
+  |  [ T=2. 프로세스 B 종료 (해제) ]                                     |
+  |   [ A (20MB) ] [ 빈 공간 (30MB) ] [ C (20MB) ] [ 빈 공간 (30MB) ] |
+  |                                                                   |
+  |  [ T=3. 새로운 프로세스 D (10MB) 도착 및 할당 (First-Fit) ]         |
+  |   [ A (20MB) ] [ D (10MB) ] [ 빈 공간 (20MB) ] [ C (20MB) ]       |
+  |                             [ 빈 공간 (30MB) ]                    |
+  |                                                                   |
+  |  [ T=4. 거대 프로세스 E (40MB) 가 도착했다! ]                        |
+  |   - 현재 남은 메모리 총합: 20MB + 30MB = 50MB (용량은 충분함!)        |
+  |   - 하지만 E는 40MB짜리 연속된 덩어리가 필요하다.                        |
+  |   - 20MB 구멍이나 30MB 구멍 어디에도 들어갈 수 없다.                    |
+  |   ★ 결론: E는 메모리 할당을 받지 못하고 거절당함 (External Fragmentation) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 가변 분할 시스템에서 OS는 빈 공간들의 시작 주소와 크기를 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(Free List)로 관리한다. E 프로세스가 40MB를 달라고 할 때, OS가 이 리스트를 끝까지 뒤져봐도 조건에 맞는 덩어리가 없으면 즉시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 에러를 뱉는다. 물리적인 용량이 남았음에도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 사용할 수 없는 이 상태가 컴퓨터 구조 역사상 가장 뼈아픈 낭비였다.
@@ -124,27 +124,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 애플리케이션 메모리 파편화(Fragmentation) 대응 플로우      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [C/C++ 서버나 DB가 장기 구동될수록 메모리 사용량이 비정상적으로 증가함]        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      1. Valgrind 등의 툴로 "메모리 누수(Memory Leak)" 여부를 확인한다.     │
-  │         - `free()`를 빼먹은 누수인가? -> 소스코드 로직 버그. 수정 필요.     │
-  │         - 누수는 0바이트인데 OS 메모리는 계속 차는가?                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      2. [메모리 할당기의 외부 단편화(Fragmentation) 확진]               │
-  │         - 원인: glibc의 기본 `malloc`이 작은 객체의 잦은 생성/삭제에 취약함.│
-  │                │                                                  │
-  │                ▼                                                  │
-  │      3. [메모리 할당기(Allocator) 아키텍처 교체]                         │
-  │         대책: 파편화 방지에 특화된 [jemalloc] (FaceBook 개발) 이나       │
-  │               [tcmalloc] (Google 개발) 라이브러리로 링크를 교체하여      │
-  │               할당 알고리즘 자체를 업그레이드 (성능 20% 상승 효과)          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 애플리케이션 메모리 파편화(Fragmentation) 대응 플로우      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [C/C++ 서버나 DB가 장기 구동될수록 메모리 사용량이 비정상적으로 증가함]        |
+  |                |                                                  |
+  |                v                                                  |
+  |      1. Valgrind 등의 툴로 "메모리 누수(Memory Leak)" 여부를 확인한다.     |
+  |         - `free()`를 빼먹은 누수인가? -> 소스코드 로직 버그. 수정 필요.     |
+  |         - 누수는 0바이트인데 OS 메모리는 계속 차는가?                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      2. [메모리 할당기의 외부 단편화(Fragmentation) 확진]               |
+  |         - 원인: glibc의 기본 `malloc`이 작은 객체의 잦은 생성/삭제에 취약함.|
+  |                |                                                  |
+  |                v                                                  |
+  |      3. [메모리 할당기(Allocator) 아키텍처 교체]                         |
+  |         대책: 파편화 방지에 특화된 [jemalloc] (FaceBook 개발) 이나       |
+  |               [tcmalloc] (Google 개발) 라이브러리로 링크를 교체하여      |
+  |               할당 알고리즘 자체를 업그레이드 (성능 20% 상승 효과)          |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 앱을 띄울 때 램에 할당하는 방식은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기술 덕분에 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 완전히 멸종되었다. 하지만, <strong>"앱 내부에서(User Space) 힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 메모리를 쪼개 쓰는 방식"은 여전히 가변 분할의 저주를 받고 있다.</strong> 아키텍트는 OS 수준의 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 어플리케이션 수준의 힙 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 명확히 구분하고 대처해야 한다.
@@ -190,12 +190,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [논리 주소 물리 주소 변환 MMU]
-    │
-    ▼
+    |
+    v
 [외부 단편화 가변 분할 (External Fragmentation Variable Partition)]
-    │
-    ├──▶ [내부 단편화 고정/페이징]
-    └──▶ [동적 할당 First/Best/Worst Fit]
+    |
+    +---> [내부 단편화 고정/페이징]
+    +---> [동적 할당 First/Best/Worst Fit]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -212,7 +212,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 712 / 800
 
-← **이전**: [711. 논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)](/knowledge-base/studynote/02_operating_system/11_exam_summary/711_logical_physical_address_translation_mmu/)
-**다음**: [713. 내부 단편화 고정/페이징 (Internal Fragmentation Fixed Paging)](/knowledge-base/studynote/02_operating_system/11_exam_summary/713_internal_fragmentation_fixed_paging/) →
+<- **이전**: [711. 논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)](/knowledge-base/studynote/02_operating_system/11_exam_summary/711_logical_physical_address_translation_mmu/)
+**다음**: [713. 내부 단편화 고정/페이징 (Internal Fragmentation Fixed Paging)](/knowledge-base/studynote/02_operating_system/11_exam_summary/713_internal_fragmentation_fixed_paging/) ->
 
 ---

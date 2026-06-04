@@ -19,15 +19,15 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│              SPACE 5차원 프레임워크                      │
-├────────────────────────────────────────────────────────┤
-│ S - Satisfaction & Wellbeing  : 직무 만족·번아웃 방지   │
-│ P - Performance               : 결과물 품질·신뢰성      │
-│ A - Activity                  : 코드·배포·리뷰 활동     │
-│ C - Communication & Collaboration : 협업·지식 공유     │
-│ E - Efficiency & Flow         : 방해 최소화, 집중 시간  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|              SPACE 5차원 프레임워크                      |
++--------------------------------------------------------+
+| S - Satisfaction & Wellbeing  : 직무 만족·번아웃 방지   |
+| P - Performance               : 결과물 품질·신뢰성      |
+| A - Activity                  : 코드·배포·리뷰 활동     |
+| C - Communication & Collaboration : 협업·지식 공유     |
+| E - Efficiency & Flow         : 방해 최소화, 집중 시간  |
++--------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SPACE는 운동선수 종합 체력 검진이다. 심폐 지구력(활동량)만 재는 게 아니라 정신 건강(만족도), 시합 결과(성과), 팀 협력(협업), 집중력(흐름) 다섯 가지를 모두 측정한다.
@@ -50,11 +50,11 @@ tags = ["studynote-devops-sre"]
 
 ```text
 ❌ 잘못된 사용: 커밋 수 = 생산성
-   → 작은 커밋을 많이 쪼개거나, 불필요한 코드 추가 유발
+   -> 작은 커밋을 많이 쪼개거나, 불필요한 코드 추가 유발
 
 ✅ 올바른 사용: Activity를 다른 4차원과 함께 해석
-   → Activity 높은데 Satisfaction 낮음 → 번아웃 위험 신호
-   → Activity 낮은데 Performance 높음 → 효율적 고품질 개발
+   -> Activity 높은데 Satisfaction 낮음 -> 번아웃 위험 신호
+   -> Activity 낮은데 Performance 높음 -> 효율적 고품질 개발
 ```
 
 - **📢 섹션 요약 비유**: Activity만 측정하는 건 선생님이 칠판 필기 횟수로 수업 품질을 평가하는 것이다. 칠판을 많이 써도 학생이 이해 못하면([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), 선생님이 지쳐있으면(Satisfaction) 좋은 수업이 아니다.
@@ -78,7 +78,7 @@ tags = ["studynote-devops-sre"]
 ### 엔지니어링 리더십 활용
 1. **Efficiency & Flow**: 회의 최소화, 딥 워크 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간 블록.
 2. **Communication**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 2일 내 처리 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
-3. **Satisfaction**: 분기별 eNPS 조사 → 번아웃 조기 감지.
+3. **Satisfaction**: 분기별 eNPS 조사 -> 번아웃 조기 감지.
 
 ### GenAI 도구 도입 효과 측정
 - GitHub Copilot 도입 전후 SPACE 비교:
@@ -118,17 +118,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 [Activity 단일 지표 — 커밋·PR 수 기반 생산성]
-    │
-    ▼
+    |
+    v
 [DORA Metrics — 4지표 기반 팀 성과 측정]
-    │
-    ▼
+    |
+    v
 [SPACE 프레임워크 — 5차원 개발자 생산성 측정]
-    │
-    ▼
+    |
+    v
 [GenAI 도구 통합 SPACE — AI 협력 효과 정량화]
-    │
-    ▼
+    |
+    v
 [SPACE 2.0 — AI+인간 협력 생산성 새 정의]
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 27 / 373
 
-← **이전**: [26. MTTR (Mean Time to Recover) — 평균 복구 시간](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/)
-**다음**: [28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/) →
+<- **이전**: [26. MTTR (Mean Time to Recover) — 평균 복구 시간](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/)
+**다음**: [28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/) ->
 
 ---

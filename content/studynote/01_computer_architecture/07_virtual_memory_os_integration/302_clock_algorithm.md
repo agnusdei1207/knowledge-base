@@ -28,23 +28,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [클럭 알고리즘](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/)이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 어떻게 원형으로 훑으면서 교체 대상을 고르는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               클럭 알고리즘의 기본 관점: 원형 순회 + 참조 비트 검사       │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│                  ┌──────┐      ┌──────┐      ┌──────┐                     │
-│                  │ P0,R=1│ ───▶ │ P1,R=0│ ───▶ │ P2,R=1│                    │
-│                  └──────┘      └──────┘      └──────┘                     │
-│                      ▲                                   │                │
-│                      │                                   ▼                │
-│                  ┌──────┐ ◀─── ┌──────┐ ◀─── ┌──────┐                     │
-│                  │ P5,R=1│      │ P4,R=0│      │ P3,R=1│                    │
-│                  └──────┘      └──────┘      └──────┘                     │
-│                                                                            │
-│  Clock Hand ─▶ P0 검사: R=1 이면 0으로 낮추고 통과                        │
-│                 P1 검사: R=0 이면 교체 후보로 선택                         │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               클럭 알고리즘의 기본 관점: 원형 순회 + 참조 비트 검사       |
++----------------------------------------------------------------------------+
+|                                                                            |
+|                  +------+      +------+      +------+                     |
+|                  | P0,R=1| ----> | P1,R=0| ----> | P2,R=1|                    |
+|                  +------+      +------+      +------+                     |
+|                      ^                                   |                |
+|                      |                                   v                |
+|                  +------+ <---- +------+ <---- +------+                     |
+|                  | P5,R=1|      | P4,R=0|      | P3,R=1|                    |
+|                  +------+      +------+      +------+                     |
+|                                                                            |
+|  Clock Hand --> P0 검사: R=1 이면 0으로 낮추고 통과                        |
+|                 P1 검사: R=0 이면 교체 후보로 선택                         |
+|                                                                            |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 포인터가 처음 만난 `R=0` [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 선택한다는 점이다. 즉, 순차적으로 줄을 세워 최하위를 찾는 것이 아니라, "최근에 다시 호출받지 못한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"를 순회 중 발견하는 즉시 교체한다. 덕분에 구현은 단순하면서도 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)이 어느 정도 반영된다.
@@ -69,22 +69,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 교체 판단에서 어떻게 "즉시 교체"와 "기회 부여"로 갈라지는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 참조 비트 기반 교체 흐름: 1이면 유예, 0이면 교체          │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  페이지 부재 발생                                                          │
-│         │                                                                  │
-│         ▼                                                                  │
-│  Clock Hand가 현재 프레임 확인                                             │
-│         │                                                                  │
-│         ▼                                                                  │
-│   참조 비트 = 1 ?                                                          │
-│      ├─ 예 ─▶ 참조 비트 0으로 초기화 ─▶ 다음 프레임으로 이동               │
-│      │                                                                     │
-│      └─ 아니오 ─▶ 희생 페이지 선택 ─▶ 새 페이지 적재 ─▶ 포인터 전진        │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 참조 비트 기반 교체 흐름: 1이면 유예, 0이면 교체          |
++----------------------------------------------------------------------------+
+|                                                                            |
+|  페이지 부재 발생                                                          |
+|         |                                                                  |
+|         v                                                                  |
+|  Clock Hand가 현재 프레임 확인                                             |
+|         |                                                                  |
+|         v                                                                  |
+|   참조 비트 = 1 ?                                                          |
+|      +- 예 --> 참조 비트 0으로 초기화 --> 다음 프레임으로 이동               |
+|      |                                                                     |
+|      +- 아니오 --> 희생 페이지 선택 --> 새 페이지 적재 --> 포인터 전진        |
+|                                                                            |
++----------------------------------------------------------------------------+
 ```
 
 중요한 트레이드오프는 탐색 길이와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 효과 사이에 있다. 메모리 압박이 약할 때는 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 최근에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되어 `R=1` 상태이므로 포인터가 여러 칸을 지나가며 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 반대로 메모리 압박이 심할수록 한 바퀴 안에 `R=0` [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 빨리 만나게 되고, 그만큼 교체가 공격적으로 일어난다. 즉, [클럭 알고리즘](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/)은 워크로드의 최근 사용 패턴에 따라 자동으로 완급이 조절되는 구조다.
@@ -162,24 +162,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 FIFO (First-In First-Out)
-    │
-    ▼
+    |
+    v
 LRU (Least Recently Used)
-    │
-    ├── 정확하지만 구현 비용 큼
-    ▼
+    |
+    +-- 정확하지만 구현 비용 큼
+    v
 클럭 알고리즘 (Clock Algorithm)
-    │
-    ├── 참조 비트 (Reference Bit) 기반 2차 기회
-    ▼
+    |
+    +-- 참조 비트 (Reference Bit) 기반 2차 기회
+    v
 Enhanced Clock
-    │
-    ├── 더티 비트 (Dirty Bit) 반영
-    ▼
+    |
+    +-- 더티 비트 (Dirty Bit) 반영
+    v
 Active / Inactive List · Clock Sweep · 현대 페이지 회수 정책
 ```
 
-이 흐름은 "순서 기반 단순 교체 → 최근성 중시 → 최근성의 저비용 근사 → 교체 비용까지 반영 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 발전하는 방향을 보여준다.
+이 흐름은 "순서 기반 단순 교체 -> 최근성 중시 -> 최근성의 저비용 근사 -> 교체 비용까지 반영 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -193,7 +193,7 @@ Active / Inactive List · Clock Sweep · 현대 페이지 회수 정책
 
 **진행 상황**: 302 / 803
 
-← **이전**: [301. OPT (최적 교체)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/)
-**다음**: [303. NUR (Not Used Recently)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/) →
+<- **이전**: [301. OPT (최적 교체)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/)
+**다음**: [303. NUR (Not Used Recently)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/) ->
 
 ---

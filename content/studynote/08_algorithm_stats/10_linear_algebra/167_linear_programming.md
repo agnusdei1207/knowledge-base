@@ -56,21 +56,21 @@ s.t.      6x₁ + 4x₂ ≤ 24
           x₁, x₂ ≥ 0
 
 x₂
- 6 ┤         C(0,3)
-   │        /
- 3 ┤       /  D(3,1.5)
-   │      / ╱
-   │     /╱
- 0 └────B(4,0)──────► x₁
+ 6 +         C(0,3)
+   |        /
+ 3 +       /  D(3,1.5)
+   |      / ╱
+   |     /╱
+ 0 +----B(4,0)------► x₁
   O(0,0)    4
 
 꼭짓점:  O(0,0): 목적값=0
          B(4,0): 목적값=20
-         D(3,1.5): 목적값=21 ← 최적!
+         D(3,1.5): 목적값=21 <- 최적!
          C(0,3): 목적값=12
 ```
 
-심플렉스법: O → B → D (꼭짓점을 따라 이동하며 목적값 증가).
+심플렉스법: O -> B -> D (꼭짓점을 따라 이동하며 목적값 증가).
 
 ### 심플렉스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/) Method)
 
@@ -79,7 +79,7 @@ x₂
 2. 인접 꼭짓점 중 목적값 향상 방향 선택 (피벗 열 선택)
 3. 비율 테스트로 피벗 행 결정 (가능성 유지)
 4. 기저 교환 (Pivot)
-5. 향상 가능한 인접 꼭짓점 없으면 → 최적해
+5. 향상 가능한 인접 꼭짓점 없으면 -> 최적해
 ```
 
 **복잡도**:
@@ -92,9 +92,9 @@ x₂
 
 ```
 min f(x) s.t. hⱼ(x) ≤ 0
-→ min_{t} f(x) - (1/t)Σⱼ log(-hⱼ(x))   (Logarithmic Barrier)
+-> min_{t} f(x) - (1/t)Σⱼ log(-hⱼ(x))   (Logarithmic Barrier)
 
-t → ∞ 이면 원 문제에 수렴
+t -> ∞ 이면 원 문제에 수렴
 ```
 
 카마르카 (Karmarkar) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (1984): 최초 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 LP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
@@ -144,7 +144,7 @@ s.t. Σⱼ xᵢⱼ - Σⱼ xⱼᵢ = bᵢ  ∀i  (유량 보존)
      0 ≤ xᵢⱼ ≤ uᵢⱼ            ∀(i,j) (용량 제약)
 ```
 
-네트워크 LP의 계수 행렬 A는 완전 단모듈 (Totally Unimodular) → LP 해가 자동으로 정수!
+네트워크 LP의 계수 행렬 A는 완전 단모듈 (Totally Unimodular) -> LP 해가 자동으로 정수!
 
 ### LP 완화와 정수 계획법
 
@@ -155,8 +155,8 @@ s.t. Ax ≤ b            s.t. Ax ≤ b
      x ∈ {0,1}ⁿ              0 ≤ x ≤ 1  (정수 제약 완화)
 
 LP 완화 목적값 ≤ IP 최적값 (하한 경계)
-LP 해가 정수 → IP 최적해 발견!
-LP 해가 비정수 → 분기 한정법 적용
+LP 해가 정수 -> IP 최적해 발견!
+LP 해가 비정수 -> 분기 한정법 적용
 ```
 
 📢 **섹션 요약 비유**: LP 완화는 "일단 분수도 허용"이다 — 정수만 허용하는 어려운 문제를 분수도 허용하는 쉬운 LP로 먼저 풀어 하한 경계를 얻는다.
@@ -175,8 +175,8 @@ s.t. 2xA + xB  ≤ 100   (원자재)
      xA  + 2xB ≤ 80    (노동력)
      xA, xB ≥ 0
 
-꼭짓점 평가 → 최적 생산량 결정
-듀얼 변수 → 원자재/노동력 단위당 잠재 가치
+꼭짓점 평가 -> 최적 생산량 결정
+듀얼 변수 -> 원자재/노동력 단위당 잠재 가치
 ```
 
 ### LP 솔버 도구
@@ -191,9 +191,9 @@ s.t. 2xA + xB  ≤ 100   (원자재)
 
 ### 기술사 판단 포인트
 
-1. **"LP의 최적해는 왜 항상 꼭짓점에?"** → 목적 함수가 선형 → 기울기 방향으로 가면 반드시 가능 영역 경계(꼭짓점)에서 최적
-2. **"심플렉스 최악 경우는?"** → 지수 시간 (Klee-Minty 예시), 실용적으로는 빠름
-3. **"LP 쌍대의 Shadow Price 의미는?"** → 해당 제약을 1단위 완화할 때 목적 함수 증가량
+1. **"LP의 최적해는 왜 항상 꼭짓점에?"** -> 목적 함수가 선형 -> 기울기 방향으로 가면 반드시 가능 영역 경계(꼭짓점)에서 최적
+2. **"심플렉스 최악 경우는?"** -> 지수 시간 (Klee-Minty 예시), 실용적으로는 빠름
+3. **"LP 쌍대의 Shadow Price 의미는?"** -> 해당 제약을 1단위 완화할 때 목적 함수 증가량
 
 📢 **섹션 요약 비유**: LP 솔버의 Shadow Price는 "자원의 경매 가격"이다 — 제약 자원(노동력, 원자재) 한 단위를 추가로 구입할 때 얼마까지 낼 의향이 있는지를 수치로 보여준다.
 
@@ -223,7 +223,7 @@ LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항�
 | 심플렉스 | 꼭짓점 이동 | 실용 LP 솔버 |
 | 내점법 | 내부 통과, [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) | 대규모 LP |
 | LP 쌍대 | min bᵀy, Aᵀy≥c | Shadow Price, [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) |
-| LP 완화 | 정수 → 연속 | 분기 한정법 기반 |
+| LP 완화 | 정수 -> 연속 | 분기 한정법 기반 |
 
 ---
 
@@ -231,17 +231,17 @@ LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항�
 
 ```text
 [선형 계획법 (LP, Linear Programming) — 목적함수 + 제약조건]
-    │
-    ▼
+    |
+    v
 [심플렉스 법 (Simplex Method) — 꼭짓점 탐색]
-    │
-    ▼
+    |
+    v
 [내점법 (Interior Point Method) — 다항 시간 알고리즘]
-    │
-    ▼
+    |
+    v
 [정수 계획법 (ILP) / 분기 한정법 (Branch & Bound)]
-    │
-    ▼
+    |
+    v
 [SVM / 포트폴리오 최적화 — 산업 응용]
 ```
 
@@ -259,7 +259,7 @@ LP 최적화 이론이 단순 선형 문제에서 정수 계획과 [머신러닝
 
 **진행 상황**: 167 / 175
 
-← **이전**: [7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)
-**다음**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/) →
+<- **이전**: [7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)
+**다음**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/) ->
 
 ---

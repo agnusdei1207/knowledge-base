@@ -19,18 +19,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    CoAP vs HTTP vs MQTT                               │
-├───────────────────────────────────────────────────────┤
-│  [HTTP]        [CoAP]         [MQTT]                  │
-│   TCP           UDP            TCP                    │
-│   헤더: 수백B    헤더: 4B       헤더: 2B               │
-│   Req/Res       Req/Res        Pub/Sub                │
-│   무거움         경량 RESTful   경량 이벤트            │
-│                                                       │
-│  CoAP = "IoT의 HTTP" (RESTful, UDP 경량화)           │
-│  MQTT = "IoT의 메시징" (Pub/Sub, TCP 경량화)         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    CoAP vs HTTP vs MQTT                               |
++-------------------------------------------------------+
+|  [HTTP]        [CoAP]         [MQTT]                  |
+|   TCP           UDP            TCP                    |
+|   헤더: 수백B    헤더: 4B       헤더: 2B               |
+|   Req/Res       Req/Res        Pub/Sub                |
+|   무거움         경량 RESTful   경량 이벤트            |
+|                                                       |
+|  CoAP = "IoT의 HTTP" (RESTful, UDP 경량화)           |
+|  MQTT = "IoT의 메시징" (Pub/Sub, TCP 경량화)         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: HTTP는 대형 트럭, MQTT는 오토바이 택배, CoAP은 자전거 택배다. 자전거(CoAP)는 작은 골목(제약 디바이스)도 다닐 수 있고, 택배(RESTful) 서비스도 한다.
@@ -57,7 +57,7 @@ tags = ["studynote-ict-convergence"]
 | **헤더** | 4B | 2B |
 | **적합** | **리소스 조회·제어** | 이벤트·센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-- **📢 섹션 요약 비유**: CoAP은 전화(요청→응답)이고, MQTT는 라디오 방송(구독·수신)이다.
+- **📢 섹션 요약 비유**: CoAP은 전화(요청->응답)이고, MQTT는 라디오 방송(구독·수신)이다.
 
 ---
 
@@ -100,17 +100,17 @@ CoAP은 <strong>IoT의 RESTful 표준</strong>으로서 웹 서비스와의 자�
 
 ```text
 [HTTP (웹 표준, 1991~)]
-    │
-    ▼
+    |
+    v
 [CoAP RFC 7252 (2014) — IoT용 경량 RESTful]
-    │
-    ▼
+    |
+    v
 [LwM2M (2015~) — CoAP 기반 디바이스 관리]
-    │
-    ▼
+    |
+    v
 [CoAP over TCP (RFC 8323, 2018) — NAT 환경 대응]
-    │
-    ▼
+    |
+    v
 [현재: CoAP + MQTT + Matter — IoT 프로토콜 생태계]
 ```
 
@@ -125,7 +125,7 @@ CoAP은 <strong>IoT의 RESTful 표준</strong>으로서 웹 서비스와의 자�
 
 **진행 상황**: 120 / 552
 
-← **이전**: [119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/119_mqtt_qos_levels/)
-**다음**: [121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) →
+<- **이전**: [119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/119_mqtt_qos_levels/)
+**다음**: [121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) ->
 
 ---

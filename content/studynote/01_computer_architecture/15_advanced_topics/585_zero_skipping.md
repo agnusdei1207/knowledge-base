@@ -26,14 +26,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 0도 "공짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아닌지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│  0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Memory -> Interconnect -> Register File -> MAC Array -> Writeback         │
-│   0            0                0               0              0           │
-│                                                                            │
-│ 수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|  0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다      |
++----------------------------------------------------------------------------+
+| Memory -> Interconnect -> Register File -> MAC Array -> Writeback         |
+|   0            0                0               0              0           |
+|                                                                            |
+| 수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.        |
++----------------------------------------------------------------------------+
 ```
 
 따라서 zero-skipping의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률을 높이는 데만 있지 않다. 더 중요한 목표는 <strong>유효하지 않은 값이 하드웨어 자원을 점유하는 시간 자체를 줄이는 것</strong>이다. 이 관점이 있어야 왜 메모리와 연산 파이프라인 양쪽에서 동시에 zero-skipping을 고민하는지 이해할 수 있다.
@@ -53,23 +53,23 @@ zero-skipping은 보통 두 지점에서 구현된다. 첫째는 <strong>저장�
 | 곱셈기 / [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 0 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) lane을 스킵 | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 감소, 실행 슬롯 확보 | 감지기 지연이 임계 경로를 늘리면 안 됨 |
 | 구조적 희소성 엔진 | 정해진 마스크 규칙만 발행 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스케줄링이 단순해짐 | 형식 변환 비용과 정확도 제약 존재 |
 
-아래 그림은 zero-skipping이 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 하나가 아니라, <strong>감지 → 표시 → 스케줄링 → 회로 비활성화</strong>의 연속 구조임을 보여 준다.
+아래 그림은 zero-skipping이 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 하나가 아니라, <strong>감지 -> 표시 -> 스케줄링 -> 회로 비활성화</strong>의 연속 구조임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Zero-skipping data path: detect -> mark -> schedule            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Input Value / Cache Line]                                                │
-│          │                                                                │
-│          ▼                                                                │
-│ [Zero Detector] ---> [Z-bit / Mask] ---> [Sparse Scheduler]              │
-│      │                               │                    │               │
-│      ├─ all-zero block --------------┘                    ├─ lane gate    │
-│      └─ non-zero data ----------------------------------->└─ real issue   │
-│                                                             │             │
-│                                                             ▼             │
-│                                                   [Accumulator / Writeback]│
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            Zero-skipping data path: detect -> mark -> schedule            |
++----------------------------------------------------------------------------+
+| [Input Value / Cache Line]                                                |
+|          |                                                                |
+|          v                                                                |
+| [Zero Detector] ---> [Z-bit / Mask] ---> [Sparse Scheduler]              |
+|      |                               |                    |               |
+|      +- all-zero block --------------+                    +- lane gate    |
+|      +- non-zero data ----------------------------------->+- real issue   |
+|                                                             |             |
+|                                                             v             |
+|                                                   [Accumulator / Writeback]|
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 감지 입도다. 원소 단위로 건너뛰면 가장 공격적이지만, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)와 선택기 수가 많아진다. 반대로 블록 단위로만 건너뛰면 회로는 단순하지만, 블록 안에 0이 아닌 값이 조금만 섞여 있어도 전체 블록을 그대로 처리해야 한다. 그래서 실제 설계는 원소·벡터 lane·타일 중 어디까지를 "한 번에 0으로 볼 것인가"를 워크로드에 맞춰 정한다.
@@ -149,20 +149,20 @@ zero-skipping이 잘 맞아떨어지면 얻는 이득은 분명하다. 첫째, 0
 
 ```text
 밀집 데이터 실행
-    │
-    ▼
+    |
+    v
 가지치기 · ReLU로 zero 증가
-    │
-    ▼
+    |
+    v
 압축 포맷 · 마스크 메타데이터
-    │
-    ▼
+    |
+    v
 Zero Detector · Z-bit · lane skipping
-    │
-    ▼
+    |
+    v
 구조적 희소성 기반 가속기
-    │
-    ▼
+    |
+    v
 적응형 sparsity-aware 메모리/연산 공동 최적화
 ```
 
@@ -180,7 +180,7 @@ Zero Detector · Z-bit · lane skipping
 
 **진행 상황**: 585 / 803
 
-← **이전**: [584. 딥러닝 텐서 희소성 인코더 (Tensor Sparsity Encoder)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/584_tensor_sparsity/)
-**다음**: [586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/586_fpu_multiplier_pipeline/) →
+<- **이전**: [584. 딥러닝 텐서 희소성 인코더 (Tensor Sparsity Encoder)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/584_tensor_sparsity/)
+**다음**: [586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/586_fpu_multiplier_pipeline/) ->
 
 ---

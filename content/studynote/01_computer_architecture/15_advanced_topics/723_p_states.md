@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 P-State는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태로, 코어가 잠든 상태가 아니라 실제로 일하는 C0 안에서 "얼마나 세게 달릴지"를 정한다. 같은 웹 브라우징이라도 어떤 순간은 가벼운 스크롤이고, 어떤 순간은 복잡한 자바스크립트 실행이므로, 매 순간 항상 최고 클럭으로 동작하면 전력과 발열을 불필요하게 낭비하게 된다.
 
-이 조절이 중요한 이유는 동적 소비전력이 대략 `P ≈ C × V² × f`에 비례하기 때문이다. [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) `f`만 높아져도 전력은 늘고, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) `V`가 함께 올라가면 증가 폭은 더 가파르다. 그래서 P-State는 단순한 속도 조절이 아니라, 활동 중인 CPU의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·열 균형을 실시간으로 맞추는 핵심 수단이다.
+이 조절이 중요한 이유는 동적 소비전력이 대략 `P ≈ C × V^ × f`에 비례하기 때문이다. [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) `f`만 높아져도 전력은 늘고, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) `V`가 함께 올라가면 증가 폭은 더 가파르다. 그래서 P-State는 단순한 속도 조절이 아니라, 활동 중인 CPU의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·열 균형을 실시간으로 맞추는 핵심 수단이다.
 
 - **📢 섹션 요약 비유**: 자동차가 도로 상황과 오르막 여부에 따라 같은 주행 중에도 기어를 바꾸듯, P-State는 CPU가 멈추지 않은 채 달리는 강도를 계속 조절하는 변속기 역할을 한다.
 
@@ -43,19 +43,19 @@ P-State는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_arch
 아래 그림은 현대 P-State 제어가 단순히 "OS가 MHz를 선택"하는 수준을 넘어, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 센서 피드백을 합쳐 폐루프 형태로 동작함을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  P-State 제어의 폐루프 구조                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 부하 증가 / 반응성 요구 상승                                         │
-│              │                                                       │
-│              ▼                                                       │
-│   OS 정책 또는 HWP/CPPC 힌트 ─▶ 성능 요청값 생성                     │
-│              │                                                       │
-│              ▼                                                       │
-│   전압 조정 ─▶ 배수/클럭 조정 ─▶ 코어 성능 변화                      │
-│              ▲                         │                              │
-│              └──── 온도 · 전력 · 전류 피드백 ────────────────────────┘
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  P-State 제어의 폐루프 구조                         |
++----------------------------------------------------------------------+
+| 부하 증가 / 반응성 요구 상승                                         |
+|              |                                                       |
+|              v                                                       |
+|   OS 정책 또는 HWP/CPPC 힌트 --> 성능 요청값 생성                     |
+|              |                                                       |
+|              v                                                       |
+|   전압 조정 --> 배수/클럭 조정 --> 코어 성능 변화                      |
+|              ^                         |                              |
+|              +---- 온도 · 전력 · 전류 피드백 ------------------------+
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 P-State가 고정 단계표가 아니라, 센서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 맞물린 능동형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어라는 점이다. 같은 P0 요청이라도 열 여유, 전력 한도, 코어 수에 따라 실제 동작은 달라질 수 있다.
@@ -128,17 +128,17 @@ P-State의 기대효과는 CPU가 "일할 때도 똑똑하게" 전력을 쓰게 
 
 ```text
 고정 클럭 CPU
-    │
-    ▼
+    |
+    v
 ACPI P-State 표 기반 제어
-    │
-    ▼
+    |
+    v
 DVFS 기반 전압·주파수 연동
-    │
-    ▼
+    |
+    v
 HWP / CPPC 기반 하드웨어 자율 제어
-    │
-    ▼
+    |
+    v
 워크로드 인지형 per-core 성능 최적화
 ```
 
@@ -156,7 +156,7 @@ HWP / CPPC 기반 하드웨어 자율 제어
 
 **진행 상황**: 724 / 803
 
-← **이전**: [722. 코어 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/)
-**다음**: [724. T-States (Throttling States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/724_t_states/) →
+<- **이전**: [722. 코어 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/)
+**다음**: [724. T-States (Throttling States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/724_t_states/) ->
 
 ---

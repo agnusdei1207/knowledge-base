@@ -30,12 +30,12 @@ tags = ["studynote-network"]
 
 ```text
 [10BASE-T / 100BASE-TX 핀 배열 (T568B 기준)]
-Pin 1: 흰주 (Tx +)  ─┐ 송신
-Pin 2: 주황 (Tx -)  ─┘
-Pin 3: 흰녹 (Rx +)  ─┐ 수신
+Pin 1: 흰주 (Tx +)  -+ 송신
+Pin 2: 주황 (Tx -)  -+
+Pin 3: 흰녹 (Rx +)  -+ 수신
 Pin 4: 파랑 (사용 안 함)
 Pin 5: 흰파 (사용 안 함)
-Pin 6: 녹색 (Rx -)  ─┘ 수신
+Pin 6: 녹색 (Rx -)  -+ 수신
 Pin 7: 흰갈 (사용 안 함)
 Pin 8: 갈색 (사용 안 함)
 ```
@@ -59,11 +59,11 @@ Pin 8: 갈색 (사용 안 함)
 
 ```text
 [이더넷 물리 계층 표준]
-    │
-    ▼
+    |
+    v
 [10BASE-T, 100BASE-TX]
-    │
-    └──▶ [1000BASE-T]
+    |
+    +---> [1000BASE-T]
 ```
 
 - **📢 섹션 요약 비유**: 10BASE-T, 100BASE-TX의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -133,12 +133,12 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 ```text
 [선행 개념: 이더넷 물리 계층 표준]
-    │
-    ▼
+    |
+    v
 [현재 개념: 10BASE-T, 100BASE-TX]
-    │
-    ├──▶ [확장 A: 1000BASE-T]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 1000BASE-T]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 10BASE-T, 100BASE-TX는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 1000BASE-T와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 **진행 상황**: 259 / 1120
 
-← **이전**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/)
-**다음**: [139. 1000BASE-T (Gigabit Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) →
+<- **이전**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/)
+**다음**: [139. 1000BASE-T (Gigabit Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) ->
 
 ---

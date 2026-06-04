@@ -23,11 +23,11 @@ BPO (Business Process Outsourcing):
 
 비즈니스 프로세스 종류:
   핵심 프로세스 (Core): 경쟁 우위의 원천
-    → 내재화 (아웃소싱 금지)
+    -> 내재화 (아웃소싱 금지)
     예: Apple의 제품 디자인, 삼성의 반도체 설계
 
   비핵심 프로세스 (Non-core): 보조적 기능
-    → BPO 적합
+    -> BPO 적합
     예: 급여 처리, 회계 장부, 고객 콜센터
 
 BPO 분류 (기능별):
@@ -52,10 +52,10 @@ BPO 위치 분류:
     단점: 비용 높음
 
   니어쇼어 (Nearshore): 인접국
-    예: 미국→멕시코, 독일→폴란드
+    예: 미국->멕시코, 독일->폴란드
 
   오프쇼어 (Offshore): 원격국
-    예: 미국→인도, 한국→필리핀
+    예: 미국->인도, 한국->필리핀
     장점: 비용 최저
     단점: 시간대, 언어, 데이터 규제
 ```
@@ -72,10 +72,10 @@ BPO 결정 매트릭스:
 아웃소싱 여부 결정:
   전략적 중요도 (높음/낮음) × 내부 역량 (높음/낮음)
 
-  낮음×낮음 → 즉시 아웃소싱 적합
-  낮음×높음 → 아웃소싱 고려 (비용 분석)
-  높음×낮음 → 선택적 아웃소싱 + 역량 개발
-  높음×높음 → 내재화 유지
+  낮음×낮음 -> 즉시 아웃소싱 적합
+  낮음×높음 -> 아웃소싱 고려 (비용 분석)
+  높음×낮음 -> 선택적 아웃소싱 + 역량 개발
+  높음×높음 -> 내재화 유지
 
 아웃소싱 계약 유형:
   FTE (Full-Time Equivalent): 인력 기반
@@ -119,7 +119,7 @@ RPA 정의:
   소프트웨어 로봇이 반복적 규칙 기반 작업 자동화
   사람의 GUI 조작을 모방
 
-  예: 인보이스 스캔 → 회계 시스템 입력 → 이메일 발송
+  예: 인보이스 스캔 -> 회계 시스템 입력 -> 이메일 발송
 
 BPO + RPA 진화:
   1세대 BPO:
@@ -149,7 +149,7 @@ ITO vs BPO vs KPO:
     고급 지식 작업 (리서치, 분석, 의료 진단)
     예: 특허 분석, 금융 리서치, 임상 데이터 분석
 
-  BPO → KPO: AI가 단순 업무 자동화 후
+  BPO -> KPO: AI가 단순 업무 자동화 후
   고부가가치 지식 업무로 이동 추세
 ```
 
@@ -168,7 +168,7 @@ BPO 전환 프로세스:
    Make vs Buy 의사결정
 
 2. 벤더 선정 (3~4개월):
-   RFI → RFP → 제안서 평가
+   RFI -> RFP -> 제안서 평가
    Due Diligence (재정, 보안, SLA 이력)
    계약 협상 (SLA, 위약금, 데이터 권리)
 
@@ -216,7 +216,7 @@ BPO 전환 프로세스:
 BPO 결정:
   전략적 중요도: 낮음 (회계는 표준 업무)
   내부 역량: 중간 (오류율 높음)
-  → BPO 적합 판단
+  -> BPO 적합 판단
 
 벤더: 글로벌 BPO 업체 (Accenture/IBM/Wipro 등)
 
@@ -236,8 +236,8 @@ BPO 결정:
 
 전환 후 2년 결과:
   비용: 연간 15억 절감 (인건비 30% + 오류 재처리 비용)
-  품질: 결산 5일 → 3일, 오류율 2% → 0.1%
-  집중: F&A 내부 인력 → 전략 재무 분석으로 재배치
+  품질: 결산 5일 -> 3일, 오류율 2% -> 0.1%
+  집중: F&A 내부 인력 -> 전략 재무 분석으로 재배치
 
 교훈:
   초기 지식 이전 3개월이 가장 중요
@@ -310,7 +310,7 @@ BPO의 고부가가치화
 
 **진행 상황**: 80 / 587
 
-← **이전**: [44. BPO (Business Process Outsourcing)](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)
-**다음**: [045. 클라우드 MSP — Cloud Managed Service Provider](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_cloud_managed_service_provider/) →
+<- **이전**: [44. BPO (Business Process Outsourcing)](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)
+**다음**: [045. 클라우드 MSP — Cloud Managed Service Provider](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_cloud_managed_service_provider/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: 베이즈 룰(Bayes Rule)은 P(θ|X) = P(X|θ)·P(θ)/P(X)로, 사전 지식(Prior)과 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Likelihood)를 결합해 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior)을 갱신하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 추론의 핵심 엔진이다.
 > 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적은 상황에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 사전 지식을 Prior로 주입해 불확실성을 정량화하는 베이즈 추론은 의료 진단, 스팸 필터, 강화학습 등에서 빛을 발한다.
-> 3. **판단 포인트**: MAP(Maximum A Posteriori, 최대 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 추정은 [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation)에 사전 분포 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 더한 것과 동치이며, 가우시안 Prior → L2, 라플라스 Prior → L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)다.
+> 3. **판단 포인트**: MAP(Maximum A Posteriori, 최대 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 추정은 [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation)에 사전 분포 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 더한 것과 동치이며, 가우시안 Prior -> L2, 라플라스 Prior -> L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 스팸 메일 필터를 만들 때 "이 메일에 '무료'라는 단어가 있다면 스팸일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 얼마인가?"를 계산하려면 베이즈 룰이 필요하다. 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Prior) P(스팸)=0.3, 우도 P('무료'|스팸)=0.8, 증거 P('무료')=0.4를 알면 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P(스팸|'무료')=0.8×0.3/0.4=0.6을 정확히 계산할 수 있다. 베이즈 추론(Bayesian Inference)은 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때마다 Prior를 업데이트하여 점점 정교해지는 적응형 학습의 토대다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 베이즈 룰은 "의사의 진단 업데이트"다. 처음엔 증상 없이 "암 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1%(Prior)"로 시작하지만, 혈액 검사 결과(Likelihood)가 양성이 나오면 "지금은 암 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 15%(Posterior)"로 즉각 업데이트한다. 새 증거가 쌓일수록 진단이 정교해지는 원리다.
@@ -37,24 +37,24 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────┐
-│           베이즈 룰 (Bayes Rule) 구조                 │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│  P(θ|X) =  P(X|θ) · P(θ)                           │
-│            ─────────────                             │
-│                P(X)                                  │
-│                                                      │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐           │
-│  │  Prior   │  │Likelihood│  │Posterior │           │
-│  │  P(θ)    │  │ P(X|θ)   │  │ P(θ|X)   │           │
-│  │사전 믿음 │  │데이터 적합│  │갱신된 믿음│          │
-│  └──────────┘  └──────────┘  └──────────┘           │
-│       ↑              ↑             ↑                 │
-│   도메인 지식    관측 데이터    최종 추정              │
-│                                                      │
-│  P(X) = Σ P(X|θ)·P(θ) dθ  (주변 우도, 정규화 상수) │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|           베이즈 룰 (Bayes Rule) 구조                 |
++------------------------------------------------------+
+|                                                      |
+|  P(θ|X) =  P(X|θ) · P(θ)                           |
+|            -------------                             |
+|                P(X)                                  |
+|                                                      |
+|  +----------+  +----------+  +----------+           |
+|  |  Prior   |  |Likelihood|  |Posterior |           |
+|  |  P(θ)    |  | P(X|θ)   |  | P(θ|X)   |           |
+|  |사전 믿음 |  |데이터 적합|  |갱신된 믿음|          |
+|  +----------+  +----------+  +----------+           |
+|       ^              ^             ^                 |
+|   도메인 지식    관측 데이터    최종 추정              |
+|                                                      |
+|  P(X) = Σ P(X|θ)·P(θ) dθ  (주변 우도, 정규화 상수) |
++------------------------------------------------------+
 ```
 
 | 항목 | 기호 | 의미 |
@@ -110,7 +110,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [우도와 사후 확률 (Likelihood & Posterior)] → [최적화·운영 자동화]
+[데이터 전처리] -> [우도와 사후 확률 (Likelihood & Posterior)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 349 / 420
 
-← **이전**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/10_ai/05_data_science_ml/348_mle/)
-**다음**: [350. 라플라스 스무딩 (Laplace Smoothing)](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/) →
+<- **이전**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/10_ai/05_data_science_ml/348_mle/)
+**다음**: [350. 라플라스 스무딩 (Laplace Smoothing)](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/) ->
 
 ---

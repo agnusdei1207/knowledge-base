@@ -32,21 +32,21 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              NIST SP 800-207 Zero Trust 구조                    │
-├──────────────────────────────────────────────────────────────────┤
-│  [주체: 사용자/기기/서비스]                                      │
-│         │                                                        │
-│  [PEP: Policy Enforcement Point]                                │
-│  접근 요청 중간자, 정책 집행                                     │
-│         │                                                        │
-│  [PE: Policy Engine + PA: Policy Administrator]                 │
-│  PDP (Policy Decision Point)                                    │
-│  신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정    │
-│         │                                                        │
-│  [보호 자원: 앱/API/데이터/서비스]                               │
-│  마이크로세그멘테이션으로 자원 간 격리                           │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              NIST SP 800-207 Zero Trust 구조                    |
++------------------------------------------------------------------+
+|  [주체: 사용자/기기/서비스]                                      |
+|         |                                                        |
+|  [PEP: Policy Enforcement Point]                                |
+|  접근 요청 중간자, 정책 집행                                     |
+|         |                                                        |
+|  [PE: Policy Engine + PA: Policy Administrator]                 |
+|  PDP (Policy Decision Point)                                    |
+|  신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정    |
+|         |                                                        |
+|  [보호 자원: 앱/API/데이터/서비스]                               |
+|  마이크로세그멘테이션으로 자원 간 격리                           |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소          | 역할                                               | 구현 예시               |
@@ -98,9 +98,9 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 - 비용 최적화: 단계별 도입, 신원·[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 먼저, [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 이후, [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 통합 마지막
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 선언 후 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 미적용 → 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없는 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust는 허울뿐
-- [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 도입 후 레거시 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 병행 장기 유지 → 공격 경로 이중 노출
-- 마이크로세그멘테이션 과도 분할 → 운영 복잡도 폭증, 합법 트래픽 차단 빈번
+- [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 선언 후 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 미적용 -> 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없는 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust는 허울뿐
+- [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 도입 후 레거시 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 병행 장기 유지 -> 공격 경로 이중 노출
+- 마이크로세그멘테이션 과도 분할 -> 운영 복잡도 폭증, 합법 트래픽 차단 빈번
 
 - 📢 섹션 요약 비유: [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust를 도입하면서 MFA를 안 하는 것은 은행 금고에 최신 잠금장치를 달았는데 열쇠를 공개된 곳에 두는 것과 같다. 도구보다 원칙(신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))이 먼저다.
 
@@ -133,24 +133,24 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ```text
 경계 기반 보안 (방화벽 내부 신뢰)
-    │
-    ▼
+    |
+    v
 VPN (원격 접근 터널)
-    │
-    ▼
+    |
+    v
 ZTNA (사용자-앱 단위 최소 접근)
-    │
-    ▼
+    |
+    v
 NIST SP 800-207 ZTA (PEP/PDP/PE/PA)
-    │
-    ▼
+    |
+    v
 SASE (ZTNA+CASB+SWG+FWaaS 통합)
-    │
-    ▼
+    |
+    v
 AI 기반 적응형 Zero Trust (동적 리스크 점수)
 ```
 
-흐름은 "경계 신뢰 → 터널 기반 원격 접근 → 앱 단위 접근 제어 → 아키텍처 표준화 → 클라우드 통합 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 적응형"으로 진화한다.
+흐름은 "경계 신뢰 -> 터널 기반 원격 접근 -> 앱 단위 접근 제어 -> 아키텍처 표준화 -> 클라우드 통합 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 적응형"으로 진화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ AI 기반 적응형 Zero Trust (동적 리스크 점수)
 
 **진행 상황**: 372 / 373
 
-← **이전**: [371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/371_process/)
-**다음**: [400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/400_devops/) →
+<- **이전**: [371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/371_process/)
+**다음**: [400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/400_devops/) ->
 
 ---

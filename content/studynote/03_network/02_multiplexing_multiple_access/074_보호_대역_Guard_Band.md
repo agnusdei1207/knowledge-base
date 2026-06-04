@@ -101,9 +101,9 @@ Guard Band는 통신 안정성을 높인다.
 
 ```text
 Channel A
-  ↓
+  v
 Guard Band
-  ↓
+  v
 Channel B
 ```
 
@@ -113,9 +113,9 @@ Channel B
 
 ```text
 FDM
-  ↓
+  v
 Guard Band
-  ↓
+  v
 Interference Reduction
 ```
 
@@ -133,7 +133,7 @@ Interference Reduction
 
 **진행 상황**: 74 / 1120
 
-← **이전**: [73. 주파수 분할 다중화 (FDM, Frequency Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/)
-**다음**: [75. 시분할 다중화 (TDM, Time Division Multiplexing) (타임디비전 멀티플렉싱)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) →
+<- **이전**: [73. 주파수 분할 다중화 (FDM, Frequency Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/)
+**다음**: [75. 시분할 다중화 (TDM, Time Division Multiplexing) (타임디비전 멀티플렉싱)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) ->
 
 ---

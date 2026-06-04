@@ -42,8 +42,8 @@ QC (Quality Control, 품질 통제):
     - 버그 리포팅 및 추적
 
 핵심 구분:
-  QA: 프로세스를 옳게 → 제품이 자연히 좋아짐
-  QC: 제품을 직접 검사 → 결함 있는 제품 걸러냄
+  QA: 프로세스를 옳게 -> 제품이 자연히 좋아짐
+  QC: 제품을 직접 검사 -> 결함 있는 제품 걸러냄
 
 비유:
   QA: 공장 제조 공정 설계 및 감독
@@ -107,7 +107,7 @@ CMMI (Capability Maturity Model Integration):
 1. 정적 테스팅 (Static Testing):
    코드 실행 없이 검토
    인스펙션 (Fagan Inspection):
-     계획 → 개요 → 준비 → 회의 → 재작업 → 추적
+     계획 -> 개요 -> 준비 -> 회의 -> 재작업 -> 추적
    워크스루 (Walkthrough): 비공식적 리뷰
    코드 리뷰 (Code Review): 동료 검토
 
@@ -123,7 +123,7 @@ CMMI (Capability Maturity Model Integration):
    경험 기반: 탐색적 테스팅
 
 4. 결함 관리:
-   결함 발견 → 분류 → 수정 → 재테스트 → 종료
+   결함 발견 -> 분류 -> 수정 -> 재테스트 -> 종료
    도구: Jira, Bugzilla, Azure DevOps
 
 5. 품질 메트릭:
@@ -145,7 +145,7 @@ CMMI (Capability Maturity Model Integration):
 
 ```
 Shift-Left 원칙:
-  전통: 개발 완료 → QC(테스팅) 시작
+  전통: 개발 완료 -> QC(테스팅) 시작
   Shift-Left: 요구사항 단계부터 QA/QC 통합
 
 결함 수정 비용 증가 법칙 (IBM 연구):
@@ -157,11 +157,11 @@ Shift-Left 원칙:
 
 DevOps 품질 통합:
 
-  개발자 → 코드 작성 + 단위 테스트 (TDD)
+  개발자 -> 코드 작성 + 단위 테스트 (TDD)
   CI 파이프라인:
-    커밋 → 자동 빌드 → 단위 테스트 → 정적 분석
+    커밋 -> 자동 빌드 -> 단위 테스트 -> 정적 분석
   CD 파이프라인:
-    통합 테스트 → 보안 스캔 → 성능 테스트 → 배포
+    통합 테스트 -> 보안 스캔 -> 성능 테스트 -> 배포
 
 TDD (Test-Driven Development):
   Red: 실패하는 테스트 먼저 작성
@@ -173,11 +173,11 @@ TDD (Test-Driven Development):
   보안 취약점: Snyk, SAST (Static Application Security Testing)
   코드 커버리지: JaCoCo (Java), Istanbul (JavaScript)
   품질 게이트 (Quality Gate):
-    커버리지 < 80% → CI 빌드 실패
-    Critical 취약점 존재 → 배포 차단
+    커버리지 < 80% -> CI 빌드 실패
+    Critical 취약점 존재 -> 배포 차단
 ```
 
-> 📢 **섹션 요약 비유**: Shift-Left은 교통사고 예방의 진화 — 사고 후 구급차(QC) → 신호등과 도로 설계 개선(QA) → 자동 긴급 브레이크(자동화 테스트)로 진화.
+> 📢 **섹션 요약 비유**: Shift-Left은 교통사고 예방의 진화 — 사고 후 구급차(QC) -> 신호등과 도로 설계 개선(QA) -> 자동 긴급 브레이크(자동화 테스트)로 진화.
 
 ---
 
@@ -206,7 +206,7 @@ SQAP (Software Quality Assurance Plan) 필수 항목:
 
 공공 SW 품질 문제 사례:
   건강보험 시스템 오류 (데이터 이관 QC 부실)
-  → 대규모 환불 처리 비용 발생
+  -> 대규모 환불 처리 비용 발생
 
   원인: QA(이관 프로세스 감사) 미흡
   교훈: 단순 기능 테스트(QC)만으로는 부족
@@ -258,7 +258,7 @@ NATO SW 공학 컨퍼런스 (품질 위기)
       |
       v
 [CMMI 프로세스 성숙도 (1991)]
-SEI CMM → CMMI
+SEI CMM -> CMMI
 프로세스 기반 품질 체계화
       |
       v
@@ -291,7 +291,7 @@ AI 테스트 케이스 생성
 
 **진행 상황**: 43 / 973
 
-← **이전**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)
-**다음**: [044. 소프트웨어 비용 산정 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/) →
+<- **이전**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)
+**다음**: [044. 소프트웨어 비용 산정 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/) ->
 
 ---

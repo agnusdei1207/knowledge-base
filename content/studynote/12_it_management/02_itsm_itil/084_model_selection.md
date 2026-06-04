@@ -26,11 +26,11 @@ tags = ["it_management"]
 
 ```text
 데이터
-  ├─ train      : 학습
-  ├─ validation : 선택
-  └─ test       : 최종 확인
-      │
-      ▼
+  +- train      : 학습
+  +- validation : 선택
+  +- test       : 최종 확인
+      |
+      v
 후보 모델과 하이퍼파라미터 비교
 ```
 
@@ -124,15 +124,15 @@ tags = ["it_management"]
 
 ```text
 후보 모델 생성
-  │
-  ▼
+  |
+  v
 검증 / 교차 검증
-  │
-  ▼
+  |
+  v
 최종 후보 선택
-  │
-  ▼
-테스트 확인 → 배포 → 모니터링
+  |
+  v
+테스트 확인 -> 배포 -> 모니터링
 ```
 
 흐름의 핵심은 '학습'보다 '선택'과 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'을 분리하는 것이다.
@@ -149,7 +149,7 @@ tags = ["it_management"]
 
 **진행 상황**: 151 / 587
 
-← **이전**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)
-**다음**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/) →
+<- **이전**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)
+**다음**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/) ->
 
 ---

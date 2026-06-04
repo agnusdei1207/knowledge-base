@@ -45,27 +45,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 ISA가 실제 실리콘 동작으로 바뀌는 계층과, 마이크로아키텍처 내부에서 병목이 생기는 위치를 압축해서 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        ISA contract  ->  Microarchitecture organization  ->  Silicon      │
-├────────────────────────────────────────────────────────────────────────────┤
-│  ISA: ADD, LOAD, BRANCH                                                   │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Frontend   : Fetch -> Decode -> Rename                                   │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Execution  : Scheduler -> ALU / FPU / LSU                                │
-│      │                           │       │                                 │
-│      │                           │       └-> Load/Store Unit               │
-│      │                           └-> Integer / Floating pipelines          │
-│      ▼                                                                     │
-│  Memory     : L1 -> L2 -> L3 -> Memory                                    │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Commit     : retire in architectural order                               │
-│                                                                            │
-│  Main bottlenecks: branch miss | cache miss | dependency | narrow width   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        ISA contract  ->  Microarchitecture organization  ->  Silicon      |
++----------------------------------------------------------------------------+
+|  ISA: ADD, LOAD, BRANCH                                                   |
+|      |                                                                     |
+|      v                                                                     |
+|  Frontend   : Fetch -> Decode -> Rename                                   |
+|      |                                                                     |
+|      v                                                                     |
+|  Execution  : Scheduler -> ALU / FPU / LSU                                |
+|      |                           |       |                                 |
+|      |                           |       +-> Load/Store Unit               |
+|      |                           +-> Integer / Floating pipelines          |
+|      v                                                                     |
+|  Memory     : L1 -> L2 -> L3 -> Memory                                    |
+|      |                                                                     |
+|      v                                                                     |
+|  Commit     : retire in architectural order                               |
+|                                                                            |
+|  Main bottlenecks: branch miss | cache miss | dependency | narrow width   |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 설계 변수는 세 가지다. 첫째, <strong>얼마나 많이 동시에 처리할 것인가</strong>다. 이는 발행 폭, 실행 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 캐시 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 같은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 문제다. 둘째, <strong>얼마나 깊게 쪼갤 것인가</strong>다. 파이프라인을 깊게 하면 클럭을 올리기 쉽지만, 분기 실패나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존이 터질 때 손실도 커진다. 셋째, <strong>어떤 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 숨길 것인가</strong>다. 캐시 미스는 프리패치와 캐시 구조로, 분기 불확실성은 예측기로, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 간 의존성은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍으로 완화한다.
@@ -147,22 +147,22 @@ ISA와 마이크로아키텍처는 자주 혼동되지만 초점이 다르다. I
 
 ```text
 Single-cycle design
-        │
-        ▼
+        |
+        v
 Multi-cycle control
-        │
-        ▼
+        |
+        v
 Pipeline organization
-        │
-        ├──────────────► Hazard handling
-        │                 (stall, forwarding, prediction)
-        ▼
+        |
+        +--------------► Hazard handling
+        |                 (stall, forwarding, prediction)
+        v
 Superscalar issue
-        │
-        ▼
+        |
+        v
 Out-of-Order execution
-        │
-        ▼
+        |
+        v
 Heterogeneous cores + domain-specific accelerators
 ```
 
@@ -180,7 +180,7 @@ Heterogeneous cores + domain-specific accelerators
 
 **진행 상황**: 204 / 803
 
-← **이전**: [203. SIMD 명령어 확장 (AVX, NEON)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/203_simd_avx_neon/)
-**다음**: [205. 데이터패스 (Datapath)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) →
+<- **이전**: [203. SIMD 명령어 확장 (AVX, NEON)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/203_simd_avx_neon/)
+**다음**: [205. 데이터패스 (Datapath)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) ->
 
 ---

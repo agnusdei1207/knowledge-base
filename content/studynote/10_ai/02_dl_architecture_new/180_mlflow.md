@@ -45,26 +45,26 @@ MLflow의 중심 구성은 Tracking, Projects, Models, Model Registry다. Tracki
 아래 그림은 일반적인 MLflow 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MLflow lifecycle                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training code / notebook                                             │
-│   │                                                                  │
-│   ├─ log_param / log_metric / log_artifact                           │
-│   ▼                                                                  │
-│ MLflow Tracking Server                                               │
-│   ├─ Backend Store  -> run metadata, tags, metrics history           │
-│   └─ Artifact Store -> model file, plots, checkpoints                │
-│                                                                      │
-│ Best run selected                                                    │
-│   ▼                                                                  │
-│ Model Registry                                                       │
-│   ├─ versioning                                                      │
-│   ├─ stage or alias promotion                                        │
-│   └─ approval / rollback history                                     │
-│                                                                      │
-│ Serving pipeline / deployment                                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| MLflow lifecycle                                                     |
++----------------------------------------------------------------------+
+| Training code / notebook                                             |
+|   |                                                                  |
+|   +- log_param / log_metric / log_artifact                           |
+|   v                                                                  |
+| MLflow Tracking Server                                               |
+|   +- Backend Store  -> run metadata, tags, metrics history           |
+|   +- Artifact Store -> model file, plots, checkpoints                |
+|                                                                      |
+| Best run selected                                                    |
+|   v                                                                  |
+| Model Registry                                                       |
+|   +- versioning                                                      |
+|   +- stage or alias promotion                                        |
+|   +- approval / rollback history                                     |
+|                                                                      |
+| Serving pipeline / deployment                                        |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 "실험의 모든 변경점을 Run 단위로 기록하고, 배포 대상은 [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 단위로 관리한다"는 분리다. Tracking은 수많은 시도를 빠르게 비교하게 해 주고, Registry는 그중 어떤 모델을 조직이 공식적으로 채택했는지 보여 준다. 그래서 MLflow는 연구용 노트와 운영용 등기부를 함께 제공하는 셈이다.
@@ -86,7 +86,7 @@ MLflow는 Kubeflow나 Apache Airflow와 자주 비교되지만, 사실 초점이
 | 약점 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 자체는 약함 | 설치·운영 복잡도 높음 | [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)·실험 추적은 제한적 |
 | 적합한 조직 | 실험이 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 | 플랫폼 성숙도가 높은 대규모 조직 | [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 중심 조직 |
 
-실무에서는 셋을 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)보다 역할 분담으로 두는 편이 맞다. 예를 들어 [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 또는 Airflow가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집→전처리→학습→[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 실행하고, 각 단계의 학습 코드가 MLflow에 결과를 기록할 수 있다. 이렇게 하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화와 실험 추적을 동시에 확보할 수 있다.
+실무에서는 셋을 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)보다 역할 분담으로 두는 편이 맞다. 예를 들어 [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 또는 Airflow가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집->전처리->학습->[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 실행하고, 각 단계의 학습 코드가 MLflow에 결과를 기록할 수 있다. 이렇게 하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화와 실험 추적을 동시에 확보할 수 있다.
 
 또 MLflow는 [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), Model Monitoring, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))와도 연결된다. 좋은 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 남기는 것만으로는 충분하지 않기 때문이다. 어떤 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 세트를 썼는지, 운영 중 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하는 없는지, 승인된 모델이 실제로 어느 환경에 배포됐는지까지 이어져야 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 체계가 완성된다.
 
@@ -153,18 +153,18 @@ MLflow의 가장 큰 효과는 모델 개발을 "개인의 감"에서 "조직의
 
 ```text
 Notebook-based ad hoc experiments
-        │
-        ▼
+        |
+        v
 Central experiment tracking
-        │
-        ├─ params / metrics / artifacts
-        ├─ code and environment capture
-        └─ reproducible run history
-        │
-        ▼
+        |
+        +- params / metrics / artifacts
+        +- code and environment capture
+        +- reproducible run history
+        |
+        v
 Model Registry and promotion governance
-        │
-        ▼
+        |
+        v
 Serving, monitoring, and retraining loops in MLOps
 ```
 
@@ -182,7 +182,7 @@ Serving, monitoring, and retraining loops in MLOps
 
 **진행 상황**: 180 / 420
 
-← **이전**: [179. 쿠브플로우 (Kubeflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/179_kubeflow/)
-**다음**: [181. 데이터 파이프라인 전처리 (Apache Airflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/181_apache_airflow/) →
+<- **이전**: [179. 쿠브플로우 (Kubeflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/179_kubeflow/)
+**다음**: [181. 데이터 파이프라인 전처리 (Apache Airflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/181_apache_airflow/) ->
 
 ---

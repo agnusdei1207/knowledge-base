@@ -133,12 +133,12 @@ NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles
 
 ```text
 [강제적 접근 제어 (MAC, Mandatory Access Control)]
-    │
-    ▼
+    |
+    v
 [벨-라파둘라 모델 (Bell-LaPadula)]
-    │
-    ├──▶ [비바 모델 (Biba Model)]
-    └──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
+    |
+    +---> [비바 모델 (Biba Model)]
+    +---> [리눅스 보안 모듈 (LSM, Linux Security Modules)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles
 
 **진행 상황**: 580 / 800
 
-← **이전**: [579. 강제적 접근 제어 (MAC, Mandatory Access Control) - 시스템/보안 관리자가 등급 라벨 기반 강제 통제](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/)
-**다음**: [581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)](/knowledge-base/studynote/02_operating_system/10_security/581_biba_model/) →
+<- **이전**: [579. 강제적 접근 제어 (MAC, Mandatory Access Control) - 시스템/보안 관리자가 등급 라벨 기반 강제 통제](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/)
+**다음**: [581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)](/knowledge-base/studynote/02_operating_system/10_security/581_biba_model/) ->
 
 ---

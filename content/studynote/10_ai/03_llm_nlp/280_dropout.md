@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - 다양한 서브 네트워크의 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 드롭아웃은 팀 과제에서 매번 팀원 일부를 랜덤으로 결석시키는 방법이다. 항상 한 팀원에게 의존하지 못하게 되면, 모든 팀원이 스스로 문제를 해결할 능력을 키우게 된다.
@@ -47,15 +47,15 @@ tags = ["studynote-ai"]
 학습 시 (Training Mode):
 입력층  은닉층(p=0.5로 50% 비활성화)  출력층
   ○      ○                              ○
-  ○  →   ✕  (비활성화)    →           ○
+  ○  ->   ✕  (비활성화)    ->           ○
   ○      ○                              ○
-  ○  →   ✕  (비활성화)    →
+  ○  ->   ✕  (비활성화)    ->
   ○      ○
 
 추론/테스트 시 (Inference Mode):
 입력층  은닉층(전체 활성화 + 스케일)  출력층
   ○      ○ × (1-p)                     ○
-  ○  →   ○ × (1-p)         →          ○
+  ○  ->   ○ × (1-p)         ->          ○
   ○      ○ × (1-p)                     ○
 ```
 
@@ -65,9 +65,9 @@ tags = ["studynote-ai"]
 
 ```
 학습 시:  마스크 m ~ Bernoulli(1-p)
-           y = (x * m) / (1-p)   ← 살아남은 뉴런 스케일 업
+           y = (x * m) / (1-p)   <- 살아남은 뉴런 스케일 업
 
-테스트 시: y = x                 ← 그대로 사용 (스케일 불필요)
+테스트 시: y = x                 <- 그대로 사용 (스케일 불필요)
 ```
 
 ### 드롭아웃 비율 선택
@@ -82,15 +82,15 @@ tags = ["studynote-ai"]
 ### [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과 해석
 
 ```
-n개 뉴런에 드롭아웃 p=0.5 적용 →  2^n 가지 서브 네트워크
-예) 1000개 뉴런 → 2^1000 가지 서브 네트워크를 암묵적으로 평균화
-┌──────────────────────────────────────────────┐
-│  서브 네트워크 1:  ○ ✕ ○ ✕ ○ → 가중치 공유 │
-│  서브 네트워크 2:  ✕ ○ ✕ ○ ○ → 가중치 공유 │
-│  서브 네트워크 3:  ○ ○ ✕ ✕ ○ → 가중치 공유 │
-│         ...       모두 가중치를 공유하므로    │
-│  결과: 2^n 모델의 기하 평균 ≈ 앙상블 효과   │
-└──────────────────────────────────────────────┘
+n개 뉴런에 드롭아웃 p=0.5 적용 ->  2^n 가지 서브 네트워크
+예) 1000개 뉴런 -> 2^1000 가지 서브 네트워크를 암묵적으로 평균화
++----------------------------------------------+
+|  서브 네트워크 1:  ○ ✕ ○ ✕ ○ -> 가중치 공유 |
+|  서브 네트워크 2:  ✕ ○ ✕ ○ ○ -> 가중치 공유 |
+|  서브 네트워크 3:  ○ ○ ✕ ✕ ○ -> 가중치 공유 |
+|         ...       모두 가중치를 공유하므로    |
+|  결과: 2^n 모델의 기하 평균 ≈ 앙상블 효과   |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 드롭아웃으로 훈련된 네트워크는 수십억 개의 서로 다른 전문가 위원회를 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 공유하며 동시에 훈련한 것과 같다. 테스트 시엔 모든 전문가가 함께 투표([앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))해 최종 결정을 내린다.
@@ -116,13 +116,13 @@ CNN에서 일반 Dropout은 개별 픽셀에 적용되므로 효과가 약하다
 ```
 일반 Dropout:  채널 내 개별 픽셀 무작위 제거
 Spatial Dropout: 채널(Feature Map) 전체 무작위 제거
-→ 이미지의 공간 상관성을 유지하면서 더 효과적인 규제
+-> 이미지의 공간 상관성을 유지하면서 더 효과적인 규제
 ```
 
 ### 몬테카를로 드롭아웃(MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))
 
 추론 시에도 드롭아웃을 활성화해 <strong>여러 번 예측하고 평균과 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 구하는</strong> 불확실성 추정 기법:
-- 예측 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 → 모델이 불확실한 상황
+- 예측 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 -> 모델이 불확실한 상황
 - 의료 진단, 자율주행 등 안전-critical 시스템에서 중요
 
 - **📢 섹션 요약 비유**: MC Dropout은 의사가 진단할 때 한 번만 보는 것이 아니라 여러 각도에서 반복해서 살피는 것과 같다. 진단이 매번 크게 달라지면([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 크면) "더 검사가 필요하다"고 판단하는 것이다.
@@ -133,23 +133,23 @@ Spatial Dropout: 채널(Feature Map) 전체 무작위 제거
 
 ### 기술사 시험 판단 포인트
 
-1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 효과</strong>: n개 뉴런, p=0.5 → 2^n 서브 네트워크 암묵적 평균
-2. <strong>Inverted <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong>: 학습 시 1/(1-p) [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) → 테스트 시 보정 불필요
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 효과</strong>: n개 뉴런, p=0.5 -> 2^n 서브 네트워크 암묵적 평균
+2. <strong>Inverted <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong>: 학습 시 1/(1-p) [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) -> 테스트 시 보정 불필요
 3. **BN과의 상호작용**: BN이 이미 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 제공하므로 드롭아웃 효과가 감소할 수 있음
 4. <strong>MC <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong>: 추론 시 드롭아웃 활성화로 불확실성 추정
 
 ### 드롭아웃 사용 가이드
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  적용 권장:  FC 레이어 (p=0.5)                      │
-│             큰 모델, 적은 데이터                     │
-│             과적합이 심한 경우                       │
-├─────────────────────────────────────────────────────┤
-│  주의 필요:  Batch Norm과 함께 사용 시 p 낮춰야      │
-│             너무 작은 네트워크 (표현력 부족 위험)    │
-│             RNN/LSTM (시퀀스 방향이 아닌 수직 방향만)│
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  적용 권장:  FC 레이어 (p=0.5)                      |
+|             큰 모델, 적은 데이터                     |
+|             과적합이 심한 경우                       |
++-----------------------------------------------------+
+|  주의 필요:  Batch Norm과 함께 사용 시 p 낮춰야      |
+|             너무 작은 네트워크 (표현력 부족 위험)    |
+|             RNN/LSTM (시퀀스 방향이 아닌 수직 방향만)|
++-----------------------------------------------------+
 ```
 
 ### 최신 트렌드
@@ -191,7 +191,7 @@ Spatial Dropout: 채널(Feature Map) 전체 무작위 제거
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [드롭아웃 (Dropout)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [드롭아웃 (Dropout)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -206,7 +206,7 @@ Spatial Dropout: 채널(Feature Map) 전체 무작위 제거
 
 **진행 상황**: 280 / 420
 
-← **이전**: [279. L1/L2 규제 (Regularization)](/knowledge-base/studynote/10_ai/03_llm_nlp/279_l1_l2_regularization/)
-**다음**: [281. 조기 종료 (Early Stopping)](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) →
+<- **이전**: [279. L1/L2 규제 (Regularization)](/knowledge-base/studynote/10_ai/03_llm_nlp/279_l1_l2_regularization/)
+**다음**: [281. 조기 종료 (Early Stopping)](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ->
 
 ---

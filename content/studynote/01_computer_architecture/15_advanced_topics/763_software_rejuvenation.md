@@ -40,17 +40,17 @@ tags = ["studynote-computer-architecture"]
 | OS 재부팅 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 테이블, 드라이버 상태 | 중간 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 누수, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 이상 |
 | HW 리부트(Cold/Warm Reboot) | OS 상태 + 일부 디바이스 초기화, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)/[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 재초기화 | 가장 큼 | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치 응답 정지(Hang), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 꼬임, 노드 전체 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) |
 
-실제 운영 흐름은 보통 <strong>모니터링 → <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 판단 → 트래픽 드레인 → 재시작/리부트 → 워밍업 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 재투입</strong>으로 이뤄진다.
+실제 운영 흐름은 보통 <strong>모니터링 -> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 판단 -> 트래픽 드레인 -> 재시작/리부트 -> 워밍업 -> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 재투입</strong>으로 이뤄진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Monitor -> Trigger -> Drain -> Rejuvenate -> Warm-up -> Rejoin    │
-│                  │                                                 │
-│                  ├─ App restart                                    │
-│                  ├─ Container / VM recycle                         │
-│                  ├─ OS reboot                                      │
-│                  └─ HW reboot                                      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Monitor -> Trigger -> Drain -> Rejuvenate -> Warm-up -> Rejoin    |
+|                  |                                                 |
+|                  +- App restart                                    |
+|                  +- Container / VM recycle                         |
+|                  +- OS reboot                                      |
+|                  +- HW reboot                                      |
++--------------------------------------------------------------------+
 ```
 
 여기서 HW 리부트는 단순한 "껐다 켠다"가 아니라, 소프트웨어 계층만으로는 제거되지 않는 상태를 비우는 가장 깊은 회춘 단계다. 예를 들어 사용자 프로세스 재시작으로는 해결되지 않는 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 이상, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 장치 응답 불능, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 누적 오류는 OS 재부팅이나 물리 노드 리셋이 필요할 수 있다. 다만 비용이 큰 만큼, 먼저 얕은 회춘으로 해결 가능한지 판단하는 것이 원칙이다.
@@ -131,18 +131,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 장기 실행 서비스
-    │
-    ▼
+    |
+    v
 소프트웨어 노화 관측
-    │
-    ▼
+    |
+    v
 임계치/예측 기반 회춘 트리거
-    │
-    ├── 프로세스 재시작
-    ├── 컨테이너·VM 교체
-    ├── OS 재부팅
-    └── HW 리부트
-    ▼
+    |
+    +-- 프로세스 재시작
+    +-- 컨테이너·VM 교체
+    +-- OS 재부팅
+    +-- HW 리부트
+    v
 롤링 운영 · 자가 치유(Self-healing) 인프라
 ```
 
@@ -158,7 +158,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 764 / 803
 
-← **이전**: [762. 가속 수명 시험 (ALT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)
-**다음**: [764. 마이크로아키텍처 데이터 샘플링 (MDS) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/) →
+<- **이전**: [762. 가속 수명 시험 (ALT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)
+**다음**: [764. 마이크로아키텍처 데이터 샘플링 (MDS) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/) ->
 
 ---

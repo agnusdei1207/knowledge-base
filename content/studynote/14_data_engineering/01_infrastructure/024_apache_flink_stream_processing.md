@@ -21,22 +21,22 @@ tags = ["studynote-data-engineering"]
 Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진으로, 2014년 Apache 프로젝트로 편입되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        Spark Streaming(마이크로배치) vs Flink(네이티브)          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Spark Streaming]                                           │
-│  스트림 → [배치1(1초)] → 처리 → [배치2(1초)] → 처리 ...         │
-│  지연: 0.5초~수초 (배치 크기에 비례)                             │
-│                                                              │
-│  [Apache Flink]                                              │
-│  스트림 → 이벤트1 → 처리(즉시) → 이벤트2 → 처리(즉시) ...        │
-│  지연: 1ms~10ms (이벤트 도착 즉시 처리)                          │
-│                                                              │
-│  핵심 차이:                                                    │
-│  Flink = 실시간 개별 이벤트 처리                                 │
-│  Spark Streaming = 짧은 배치의 연속                             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        Spark Streaming(마이크로배치) vs Flink(네이티브)          |
++--------------------------------------------------------------+
+|                                                              |
+|  [Spark Streaming]                                           |
+|  스트림 -> [배치1(1초)] -> 처리 -> [배치2(1초)] -> 처리 ...         |
+|  지연: 0.5초~수초 (배치 크기에 비례)                             |
+|                                                              |
+|  [Apache Flink]                                              |
+|  스트림 -> 이벤트1 -> 처리(즉시) -> 이벤트2 -> 처리(즉시) ...        |
+|  지연: 1ms~10ms (이벤트 도착 즉시 처리)                          |
+|                                                              |
+|  핵심 차이:                                                    |
+|  Flink = 실시간 개별 이벤트 처리                                 |
+|  Spark Streaming = 짧은 배치의 연속                             |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Spark Streaming은 1초마다 우편물을 배달하는 집배원이고, Flink는 편지가 오자마자 즉각 배달하는 퀵서비스다. 둘 다 빠르지만 긴급 편지에는 퀵서비스가 필요하다.
@@ -49,12 +49,12 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 
 ```text
 [DataStream API / Table API / SQL]
-              │
-              ▼
+              |
+              v
 [JobManager — 작업 스케줄링, 체크포인트 조율]
-              │
-         ┌────┴────┐
-         ▼         ▼
+              |
+         +----+----+
+         v         v
 [TaskManager1]  [TaskManager2]
 [Task:Slot1~4]  [Task:Slot1~4]
 ```
@@ -66,8 +66,8 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
                               (늦게 도착한 이벤트)
 
 워터마크 = "현재 시각 - 최대 지연 허용(2초)"
-→ 워터마크 12:00:01 = "12:00:03 이전 이벤트 모두 도착 가정"
-→ 12:00:00~12:00:02 윈도우 닫기 → 집계 실행
+-> 워터마크 12:00:01 = "12:00:03 이전 이벤트 모두 도착 가정"
+-> 12:00:00~12:00:02 윈도우 닫기 -> 집계 실행
 ```
 
 - **📢 섹션 요약 비유**: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 기차역의 출발 기준선이다. "마지막 탑승 기준 2분 후 출발"처럼, 지정 시간이 지나면 늦게 오는 승객(이벤트)을 기다리지 않고 집계(출발)한다.
@@ -98,7 +98,7 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 2. <strong>Flink <a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a> 패턴</strong>: 5분 내 동일 카드 다른 국가 3회 이상 거래.
 3. **상태 저장**: RocksDB Backend로 카드별 거래 이력 유지.
 4. <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a></strong>: 허용 이벤트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 30초 ([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 고려).
-5. **결과**: 이상 패턴 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) < 50ms → 즉각 차단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출.
+5. **결과**: 이상 패턴 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) < 50ms -> 즉각 차단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - Flink 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 크기를 무한히 늘리는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 영구 보관 불필요한 상태를 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(Time-to-Live) 없이 관리하면 TaskManager 메모리 고갈로 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 장애가 발생한다. 상태 만료([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))와 RocksDB 상태 백엔드 조합이 필수다.
@@ -115,7 +115,7 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 | **정확한 집계** | 이벤트 시간 + [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 기반 |
 | **고장 내성** | Exactly-once 체크포인트 |
 
-Flink는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)·Hudi·[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 등 오픈 테이블 포맷과의 Streaming Sink 통합이 강화되어 스트림→[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 실시간 적재 파이프라인의 표준으로 자리 잡고 있으며, Flink SQL의 발전으로 SQL 한 줄로 복잡한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 표현하는 방향으로 진화하고 있다.
+Flink는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)·Hudi·[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 등 오픈 테이블 포맷과의 Streaming Sink 통합이 강화되어 스트림->[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 실시간 적재 파이프라인의 표준으로 자리 잡고 있으며, Flink SQL의 발전으로 SQL 한 줄로 복잡한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 표현하는 방향으로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: Apache Flink는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인의 심장 박동이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 심장(Flink)에 닿는 즉시 처리되어 온몸(시스템)으로 퍼져나가며, 심장이 멈추지 않도록 체크포인트(제세동기)가 항상 대기하고 있다.
 
@@ -135,18 +135,18 @@ Flink는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_
 
 ```text
 [Spark Streaming — 마이크로 배치 기반 스트림 처리]
-    │
-    ▼
+    |
+    v
 [Apache Flink — 네이티브 스트리밍, 이벤트 시간, 워터마크]
-    │
-    ▼
+    |
+    v
 [Flink CEP — 복합 이벤트 패턴 탐지]
-    │
-    ▼
+    |
+    v
 [Flink SQL — 선언적 스트림 처리]
-    │
-    ▼
-[Flink + Lakehouse — 실시간 스트림→Delta/Iceberg 적재]
+    |
+    v
+[Flink + Lakehouse — 실시간 스트림->Delta/Iceberg 적재]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -161,7 +161,7 @@ Flink는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_
 
 **진행 상황**: 24 / 258
 
-← **이전**: [23. 지연 평가 (Lazy Evaluation)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)
-**다음**: [25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/) →
+<- **이전**: [23. 지연 평가 (Lazy Evaluation)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)
+**다음**: [25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [DTP / VTP]
-    │
-    ▼
+    |
+    v
 [ISL]
-    │
-    └──▶ [Native VLAN]
+    |
+    +---> [Native VLAN]
 ```
 
 - **📢 섹션 요약 비유**: <strong> ISL은 국제 표준(802.1Q)이라는 "돼지코 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>"가 나오기 전에 썼던, 시스코 장비에만 꽂을 수 있는 </strong>"110V 전용 구형 플러그"**입니다.
@@ -46,29 +46,29 @@ tags = ["studynote-network"]
 - **ISL 방식 (캡슐화)**: 원본 프레임을 절대 건드리지 않고, 그 바깥에다 무려 <strong>26바이트 크기의 거대한 ISL 헤더</strong>를 씌우고, 꼬리에도 독자적인 <strong>4바이트 ISL FCS</strong>를 덧붙인다 (오버헤드 총 30바이트).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IEEE 802.1Q와 Cisco ISL 구조 비교              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 오리지널 이더넷 프레임 ]                                     │
- │   [ 목적지 | 출발지 | Type |     Payload     | FCS ]        │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ IEEE 802.1Q ] : 내부 삽입 (Internal Tagging)              │
- │   [ 목적지 | 출발지 | TAG(4B) | Type | Payload | FCS(재계산)]   │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ Cisco ISL ] : 전체 캡슐화 (Double Encapsulation)           │
- │   ┌─────┐ ┌─────────────────────────────────────────┐ ┌───┐ │
- │   │ ISL │ │ 목적지 | 출발지 | Type | Payload | FCS  │ │ISL│ │
- │   │헤더 │ │ (원본 프레임을 하나도 건드리지 않고 그대로 넣음)   │ │FCS│ │
- │   │(26B)│ └─────────────────────────────────────────┘ │(4B)││
- │   └─────┘                                             └───┘ │
- │   (총 30바이트의 쓸데없는 추가 오버헤드 발생!)                       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IEEE 802.1Q와 Cisco ISL 구조 비교              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 오리지널 이더넷 프레임 ]                                     |
+ |   [ 목적지 | 출발지 | Type |     Payload     | FCS ]        |
+ |                                                             |
+ | ----------------------------------------------------------- |
+ |                                                             |
+ |   [ IEEE 802.1Q ] : 내부 삽입 (Internal Tagging)              |
+ |   [ 목적지 | 출발지 | TAG(4B) | Type | Payload | FCS(재계산)]   |
+ |                                                             |
+ | ----------------------------------------------------------- |
+ |                                                             |
+ |   [ Cisco ISL ] : 전체 캡슐화 (Double Encapsulation)           |
+ |   +-----+ +-----------------------------------------+ +---+ |
+ |   | ISL | | 목적지 | 출발지 | Type | Payload | FCS  | |ISL| |
+ |   |헤더 | | (원본 프레임을 하나도 건드리지 않고 그대로 넣음)   | |FCS| |
+ |   |(26B)| +-----------------------------------------+ |(4B)||
+ |   +-----+                                             +---+ |
+ |   (총 30바이트의 쓸데없는 추가 오버헤드 발생!)                       |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. ISL의 구조적 한계와 소멸
@@ -134,12 +134,12 @@ ISL는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: DTP / VTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: ISL]
-    │
-    ├──▶ [확장 A: Native VLAN]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: Native VLAN]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 ISL는 [DTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/) / VTP에서 출발해 현재 메커니즘을 정교화하고, 이후 Native VLAN와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ ISL는 [DTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_
 
 **진행 상황**: 370 / 1120
 
-← **이전**: [248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/)
-**다음**: [250. Native VLAN (언태그드 트래픽 처리용)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/250_native_vlan_untagged_traffic/) →
+<- **이전**: [248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/)
+**다음**: [250. Native VLAN (언태그드 트래픽 처리용)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/250_native_vlan_untagged_traffic/) ->
 
 ---

@@ -19,17 +19,17 @@ tags = ["studynote-security"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│         위험 3요소 관계도                                 │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  [위협] ───────► [취약점] ───────► [자산 피해]            │
-│  (Threat)       (Vulnerability)   (Asset Impact)        │
-│                                                         │
-│  위험 = 위협 발생 가능성 × 취약점 × 자산 가치             │
-│                                                         │
-│  예: 랜섬웨어(위협) + 패치 미적용(취약점) → 데이터 암호화  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|         위험 3요소 관계도                                 |
++---------------------------------------------------------+
+|                                                         |
+|  [위협] -------► [취약점] -------► [자산 피해]            |
+|  (Threat)       (Vulnerability)   (Asset Impact)        |
+|                                                         |
+|  위험 = 위협 발생 가능성 × 취약점 × 자산 가치             |
+|                                                         |
+|  예: 랜섬웨어(위협) + 패치 미적용(취약점) -> 데이터 암호화  |
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 집 안전 점검이다. 도둑(위협)이 침입할 수 있는 열린 창문(취약점)을 찾아내고, 그 창문 근처에 귀중품(자산)이 있는지 확인하는 것이다.
@@ -118,17 +118,17 @@ E - Elevation of Privilege (권한 상승)
 
 ```text
 [자산·위협·취약점 목록화 — 위험 식별 기본 활동]
-    │
-    ▼
+    |
+    v
 [STRIDE / OWASP — 체계적 위협 분류 모델]
-    │
-    ▼
+    |
+    v
 [자동화 스캔 (Nessus, OpenVAS) — 기술적 취약점 자동 탐지]
-    │
-    ▼
+    |
+    v
 [ISMS-P / ISO 27001 — 위험 관리 체계 인증]
-    │
-    ▼
+    |
+    v
 [AI 위협 인텔리전스 — 실시간 신규 위협 자동 식별]
 ```
 
@@ -144,7 +144,7 @@ E - Elevation of Privilege (권한 상승)
 
 **진행 상황**: 27 / 1108
 
-← **이전**: [26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계](/knowledge-base/studynote/09_security/01_intro_principles/026_risk_management_process/)
-**다음**: [28. 정량적 위험 분석 (Quantitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) →
+<- **이전**: [26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계](/knowledge-base/studynote/09_security/01_intro_principles/026_risk_management_process/)
+**다음**: [28. 정량적 위험 분석 (Quantitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) ->
 
 ---

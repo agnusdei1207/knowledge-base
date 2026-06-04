@@ -21,20 +21,20 @@ tags = ["studynote-enterprise-systems"]
 
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) ([Strategy Map](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/))는 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard)의 창시자 로버트 캐플란과 데이비드 노튼이 2001년 제안한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 프레임워크다. 기존 BSC는 4대 관점의 지표를 단순 나열한 대시보드에 그쳤으나, 현장 직원들은 개별 KPI의 달성에만 매몰되어 지표 간의 유기적 인과관계를 이해하지 못하는 문제가 반복됐다.
 
-<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">전략 체계도</a>가 등장한 이유</strong>: 조직의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 일련의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 가설이다. "직원 교육 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 향상 → 고객 재구매 증가 → 이익 극대화"라는 인과 사슬을 눈에 보이는 흐름으로 명세화하지 않으면, 부서별 최적화가 전사 목표와 충돌하는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 발생한다. [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 분절된 숫자 나열에서 벗어나 무형자산이 어떻게 유형의 재무 가치로 전환되는지를 증명하는 인과 지도(Causal Map) 역할을 한다.
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">전략 체계도</a>가 등장한 이유</strong>: 조직의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 일련의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 가설이다. "직원 교육 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 향상 -> 고객 재구매 증가 -> 이익 극대화"라는 인과 사슬을 눈에 보이는 흐름으로 명세화하지 않으면, 부서별 최적화가 전사 목표와 충돌하는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 발생한다. [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 분절된 숫자 나열에서 벗어나 무형자산이 어떻게 유형의 재무 가치로 전환되는지를 증명하는 인과 지도(Causal Map) 역할을 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│      [과거: 단절된 KPI 목록]  vs  [전략 체계도: 인과 지도]      │
-├──────────────────────────┬──────────────────────────────────────┤
-│  1. IT 시스템 업그레이드  │  [재무]  매출 증대 ◀─── 원가 절감   │
-│  2. 고객 클레임 감소      │            ▲                ▲        │
-│  3. 매출 10% 증가         │  [고객]  재구매율 향상               │
-│  4. 불량률 5% 감소        │            ▲                ▲        │
-│                           │  [과정]  불량률 감소  빠른 응대      │
-│  (우선순위 불명확)        │            ▲                ▲        │
-│                           │  [학습]  직원 교육    IT 고도화      │
-└──────────────────────────┴──────────────────────────────────────┘
++-----------------------------------------------------------------+
+|      [과거: 단절된 KPI 목록]  vs  [전략 체계도: 인과 지도]      |
++--------------------------+--------------------------------------+
+|  1. IT 시스템 업그레이드  |  [재무]  매출 증대 <---- 원가 절감   |
+|  2. 고객 클레임 감소      |            ^                ^        |
+|  3. 매출 10% 증가         |  [고객]  재구매율 향상               |
+|  4. 불량률 5% 감소        |            ^                ^        |
+|                           |  [과정]  불량률 감소  빠른 응대      |
+|  (우선순위 불명확)        |            ^                ^        |
+|                           |  [학습]  직원 교육    IT 고도화      |
++--------------------------+--------------------------------------+
 ```
 
 이 흐름의 본질은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 스토리텔링(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Storytelling)</strong>이다. 두꺼운 기획서를 읽지 않아도 한 장의 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)만으로 기업이 원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지, 고객 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지를 즉각 판단할 수 있다. 신규 IT 프로젝트나 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))을 시작할 때, 해당 이니셔티브가 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) 상의 어떤 화살표를 강화하는지 좌표를 먼저 찍고 출발해야 투자 정당성이 성립된다.
@@ -45,7 +45,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 아키텍처는 <strong>하향식으로 설계되고(Design <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/">Top-Down</a>) 상향식으로 실행된다(Execute <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>)</strong>. 경영진이 최상단 재무 목표를 먼저 확정한 뒤, 그 목표를 달성하기 위해 필요한 고객 가치 → 핵심 프로세스 → 무형자산(IT/인재)을 역순으로 도출하는 방식이다.
+[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 아키텍처는 <strong>하향식으로 설계되고(Design <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/">Top-Down</a>) 상향식으로 실행된다(Execute <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>)</strong>. 경영진이 최상단 재무 목표를 먼저 확정한 뒤, 그 목표를 달성하기 위해 필요한 고객 가치 -> 핵심 프로세스 -> 무형자산(IT/인재)을 역순으로 도출하는 방식이다.
 
 | 관점 (Perspective) | 인과 역할 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 가설 예시 | 비유 |
 |:---|:---|:---|:---|
@@ -57,23 +57,23 @@ tags = ["studynote-enterprise-systems"]
 이 4단계를 관통하는 핵심 원리는 <strong>무형자산의 정렬 (Alignment of Intangible Assets)</strong>이다. IT 시스템, 인적 역량, 조직 문화라는 무형자산이 핵심 프로세스와 수직으로 정렬될 때만 재무 성과로 전환된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│  [ 재무 관점 ]       생산성 전략              매출 성장 전략        │
-│                  ┌─── 원가 절감 ───┐      ┌── 신규 시장 진입 ──┐   │
-│                  │                 ▼      ▼                   │   │
-│                  └──────────▶ [ 기업 가치 극대화 ] ◀───────────┘   │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 고객 관점 ]          ┌──────▶ [ 고객 충성도 ] ◀──────┐          │
-│                         │               ▲               │          │
-│                   (낮은 가격)      (빠른 납기)     (고품질 차별화) │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 프로세스 관점 ]       ▲               ▲               ▲         │
-│                  [공정 혁신/최적화] [SCM 물류 고도화] [R&D/신제품]  │
-│                          ▲               ▲               ▲         │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 학습/성장 관점 ]      │               │               │         │
-│                  [조직 문화/역량]  [IT 정보 자본]    [인적 자본]    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|  [ 재무 관점 ]       생산성 전략              매출 성장 전략        |
+|                  +--- 원가 절감 ---+      +-- 신규 시장 진입 --+   |
+|                  |                 v      v                   |   |
+|                  +-----------> [ 기업 가치 극대화 ] <------------+   |
++--------------------------------------------------------------------+
+|  [ 고객 관점 ]          +-------> [ 고객 충성도 ] <-------+          |
+|                         |               ^               |          |
+|                   (낮은 가격)      (빠른 납기)     (고품질 차별화) |
++--------------------------------------------------------------------+
+|  [ 프로세스 관점 ]       ^               ^               ^         |
+|                  [공정 혁신/최적화] [SCM 물류 고도화] [R&D/신제품]  |
+|                          ^               ^               ^         |
++--------------------------------------------------------------------+
+|  [ 학습/성장 관점 ]      |               |               |         |
+|                  [조직 문화/역량]  [IT 정보 자본]    [인적 자본]    |
++--------------------------------------------------------------------+
 ```
 
 다이어그램의 핵심은 <strong>고아 목표(Orphan Objective) 검출</strong>이다. 모든 화살표는 궁극적으로 최상단 '기업 가치 극대화'로 수렴해야 한다. 위로 연결되지 않는 목표가 발견되면, 해당 목표를 위한 투자는 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 무관한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 예산 낭비임을 즉시 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있다. 특히 IT 자본(정보 시스템)이 어떤 프로세스를 지원하는지 명확히 연결되어야 IT 투자 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)의 타당성이 성립된다.
@@ -96,20 +96,20 @@ tags = ["studynote-enterprise-systems"]
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 IT 시스템과 강결합될 때 진정한 위력을 발휘한다. 각 박스(목표)는 뒷단의 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))와 연결되어, CEO가 대시보드에서 '매출 하락(재무)' 경고등을 클릭하면 시스템이 인과 사슬을 역추적하여 근본 원인인 '물류 시스템 장애(학습/성장)'를 드릴다운(Drill-down)으로 보여주는 BI (Business Intelligence) 아키텍처로 진화한다.
 
 ```text
-┌──────────────────────────┐     ┌─────────────────────────────┐
-│  [경영진 Strategy Map UI] │     │     [뒷단 데이터 아키텍처]  │
-├──────────────────────────┤     ├─────────────────────────────┤
-│ 🔴 [재무: 이익 하락]     │◀────│  결산 데이터 (ERP FI)       │
-│         │ 원인 추적      │     │                             │
-│         ▼                │     │                             │
-│ 🟡 [고객: 반품률 증가]   │◀────│  고객 불만 로그 (CRM/CDP)   │
-│         │ 원인 추적      │     │                             │
-│         ▼                │     │                             │
-│ 🔴 [과정: 조립 불량]     │◀────│  공장 센서 로그 (MES/IoT)   │
-│   ★ 근본 원인 식별!      │     │                             │
-│         ▼                │     │                             │
-│ 🟢 [학습: IT 가동률]     │◀────│  서버 모니터링 (ITSM)       │
-└──────────────────────────┘     └─────────────────────────────┘
++--------------------------+     +-----------------------------+
+|  [경영진 Strategy Map UI] |     |     [뒷단 데이터 아키텍처]  |
++--------------------------+     +-----------------------------+
+| 🔴 [재무: 이익 하락]     |<-----|  결산 데이터 (ERP FI)       |
+|         | 원인 추적      |     |                             |
+|         v                |     |                             |
+| 🟡 [고객: 반품률 증가]   |<-----|  고객 불만 로그 (CRM/CDP)   |
+|         | 원인 추적      |     |                             |
+|         v                |     |                             |
+| 🔴 [과정: 조립 불량]     |<-----|  공장 센서 로그 (MES/IoT)   |
+|   ★ 근본 원인 식별!      |     |                             |
+|         v                |     |                             |
+| 🟢 [학습: IT 가동률]     |<-----|  서버 모니터링 (ITSM)       |
++--------------------------+     +-----------------------------+
 ```
 
 이 분석의 핵심은 <strong>추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>이다. 실적 하락 발생 시 부서 간 책임 핑퐁을 막고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 인과 사슬을 역추적하여 루트 코즈 (Root Cause)를 확정한다. 이는 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서를 넘어 지능형 기업 통제 시스템의 뼈대가 된다.
@@ -133,23 +133,23 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
   [1단계: 가치 제안 선택]
-   → 원가 우위인가? 고객 차별화인가?
-   → 기본 화살표 방향 결정
-          │
-          ▼
+   -> 원가 우위인가? 고객 차별화인가?
+   -> 기본 화살표 방향 결정
+          |
+          v
   [2단계: 핵심 프로세스 집중]
-   → 선택한 가치 창출을 위해 어떤 20% 프로세스에
+   -> 선택한 가치 창출을 위해 어떤 20% 프로세스에
      자원 80%를 집중할 것인가? (파레토 원칙 적용)
-          │
-          ▼
+          |
+          v
   [3단계: IT/인적 자원 정렬]
-   → 핵심 프로세스 혁신을 위해 어떤 기술(AI, 클라우드)과
+   -> 핵심 프로세스 혁신을 위해 어떤 기술(AI, 클라우드)과
      교육 프로그램이 필요한가?
-          │
-          ▼
+          |
+          v
   [4단계: 고아(Orphan) 목표 검증]
-   → 위쪽 화살표와 연결되지 않는 독자 목표 식별
-   → 해당 목표 예산 삭감 또는 전략 재편
+   -> 위쪽 화살표와 연결되지 않는 독자 목표 식별
+   -> 해당 목표 예산 삭감 또는 전략 재편
 ```
 
 기술사 답안 작성 시 <strong>캐스케이딩 (Cascading)</strong>을 반드시 언급해야 한다. 전사 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)를 부서·팀·개인 수준의 하위 체계도로 세분화하여, 최하위 개인의 목표가 최상위 재무 목표와 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 연결되도록 계층화하는 것이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행력을 담보하는 핵심 운영 기법이다.
@@ -158,7 +158,7 @@ tags = ["studynote-enterprise-systems"]
 |:---|:---|
 | 관점당 목표 수 | 3~5개 이내 (과다 시 핵심 선별 필요) |
 | 고아 목표 존재 여부 | 상위 화살표 미연결 목표 즉시 제거 |
-| IT 투자 정렬 여부 | IT 자본 → 프로세스 → 고객 → 재무 연결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| IT 투자 정렬 여부 | IT 자본 -> 프로세스 -> 고객 -> 재무 연결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 시차 반영 여부 | 선행 지표(Leading)와 후행 지표(Lagging) 균형 |
 | 캐스케이딩 완성도 | 부서·개인 수준까지 분해된 하위 맵 존재 여부 |
 
@@ -199,26 +199,26 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [BSC 4대 관점 지표 나열 (1992)]
-          │
-          ▼
+          |
+          v
 [전략 체계도 — 인과관계 시각화 (2001, Kaplan & Norton)]
-          │
-          ▼
+          |
+          v
 [캐스케이딩 — 부서/개인 수준 분해 실행]
-          │
-          ▼
+          |
+          v
 [BI/DW 연동 — 실시간 지표 자동 갱신]
-          │
-          ▼
+          |
+          v
 [디지털 트윈 + AI — What-if 동적 시뮬레이션 전략 맵]
 ```
 
 BSC의 정적 지표 나열에서 출발하여, [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)로 인과관계를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고, IT 시스템과 연동된 실시간 대시보드로 진화한 뒤, 최종적으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시뮬레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도구로 발전하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. "시험에서 1등 하기"라는 목표를 이루려면 무엇부터 해야 할지 막막할 때, [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 "일찍 자기 → 수업 집중 → 숙제 완료 → 시험 1등"처럼 행동들이 꼬리에 꼬리를 물고 이어지는 흐름을 그림으로 그려준 지도예요.
+1. "시험에서 1등 하기"라는 목표를 이루려면 무엇부터 해야 할지 막막할 때, [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 "일찍 자기 -> 수업 집중 -> 숙제 완료 -> 시험 1등"처럼 행동들이 꼬리에 꼬리를 물고 이어지는 흐름을 그림으로 그려준 지도예요.
 2. 이 지도가 있으면 중간에 하나를 빼먹었을 때 왜 1등을 못 하는지 누구나 쉽게 알 수 있어요.
-3. 회사도 마찬가지로, 직원 교육(뿌리) → 일 잘하기(줄기) → 손님 만족(꽃) → 돈 벌기(열매)라는 연결 고리를 한 장 그림으로 모든 직원이 함께 볼 수 있게 만든 것이 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)랍니다.
+3. 회사도 마찬가지로, 직원 교육(뿌리) -> 일 잘하기(줄기) -> 손님 만족(꽃) -> 돈 벌기(열매)라는 연결 고리를 한 장 그림으로 모든 직원이 함께 볼 수 있게 만든 것이 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)랍니다.
 
 ---
 
@@ -226,7 +226,7 @@ BSC의 정적 지표 나열에서 출발하여, [전략 체계도](/knowledge-ba
 
 **진행 상황**: 23 / 482
 
-← **이전**: [22. BSC (Balanced Scorecard, 균형 성과 기록표) - 재무, 고객, 내부 프로세스, 학습과 성장 4가지 관점의 균형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/022_bsc_balanced_scorecard/)
-**다음**: [24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/024_okr_objectives_and_key_results/) →
+<- **이전**: [22. BSC (Balanced Scorecard, 균형 성과 기록표) - 재무, 고객, 내부 프로세스, 학습과 성장 4가지 관점의 균형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/022_bsc_balanced_scorecard/)
+**다음**: [24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/024_okr_objectives_and_key_results/) ->
 
 ---

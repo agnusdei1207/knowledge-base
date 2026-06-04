@@ -43,37 +43,37 @@ tags = ["studynote-data-engineering"]
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) ([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 구조
 
 ```
-                    ┌─────────────────┐
-                    │  DimDate (날짜)  │
-                    │  date_key (PK)  │
-                    │  year, month    │
-                    │  quarter, day   │
-                    └────────┬────────┘
-                             │
-┌───────────────┐            │             ┌────────────────┐
-│ DimCustomer   │            │             │  DimProduct    │
-│ (고객 차원)    │            │             │  (제품 차원)   │
-│ customer_key  ├────────────┤             │  product_key   │
-│ customer_name │            │             │  product_name  │
-│ city, region  │     ┌──────▼──────┐      │  category      │
-│ segment       │     │FactSales    │      │  brand, price  │
-└───────────────┘     │ (판매 팩트)  │      └────────────────┘
-          ┌───────────┤ date_key(FK)├──────────────┐
-          │           │ cust_key(FK)│               │
-          │           │ prod_key(FK)│               │
-          │           │ store_key(FK│               │
-          │           │ sales_amt   │               │
-          │           │ quantity    │               │
-          │           │ discount    │               │
-          │           └─────────────┘               │
-          │                   │                     │
-          │           ┌───────▼───────┐             │
-          │           │  DimStore     │             │
-          │           │  (매장 차원)  │             │
-          └───────────┤  store_key    ├─────────────┘
-                      │  store_name   │
-                      │  city, region │
-                      └───────────────┘
+                    +-----------------+
+                    |  DimDate (날짜)  |
+                    |  date_key (PK)  |
+                    |  year, month    |
+                    |  quarter, day   |
+                    +--------+--------+
+                             |
++---------------+            |             +----------------+
+| DimCustomer   |            |             |  DimProduct    |
+| (고객 차원)    |            |             |  (제품 차원)   |
+| customer_key  +------------+             |  product_key   |
+| customer_name |            |             |  product_name  |
+| city, region  |     +------v------+      |  category      |
+| segment       |     |FactSales    |      |  brand, price  |
++---------------+     | (판매 팩트)  |      +----------------+
+          +-----------+ date_key(FK)+--------------+
+          |           | cust_key(FK)|               |
+          |           | prod_key(FK)|               |
+          |           | store_key(FK|               |
+          |           | sales_amt   |               |
+          |           | quantity    |               |
+          |           | discount    |               |
+          |           +-------------+               |
+          |                   |                     |
+          |           +-------v-------+             |
+          |           |  DimStore     |             |
+          |           |  (매장 차원)  |             |
+          +-----------+  store_key    +-------------+
+                      |  store_name   |
+                      |  city, region |
+                      +---------------+
 ```
 
 ### 마트 유형 비교
@@ -108,8 +108,8 @@ tags = ["studynote-data-engineering"]
 
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) vs [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/)
 
-- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a></strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 비정규화 → 조인 수 최소화, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/)
-- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/">Snowflake Schema</a>)</strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → 저장 공간 절약, 유지보수 용이
+- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a></strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 비정규화 -> 조인 수 최소화, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/)
+- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/">Snowflake Schema</a>)</strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> 저장 공간 절약, 유지보수 용이
 
 📢 **섹션 요약 비유**: Inmon은 **먼저 도시 전체 설계도 그리기**, Kimball은 <strong>각 동네부터 빠르게 개발하기</strong>다. 어느 쪽이 맞다기보다 상황에 따라 다르다.
 
@@ -127,7 +127,7 @@ tags = ["studynote-data-engineering"]
 
 ### 기술사 판단 포인트
 
-1. **마트 증식 위험**: 독립형 마트 남용 시 "분석 스파게티" 발생 → 콘포밍 차원으로 통제
+1. **마트 증식 위험**: 독립형 마트 남용 시 "분석 스파게티" 발생 -> 콘포밍 차원으로 통제
 2. <strong>클라우드 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 연계</strong>: [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·BigQuery에서 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 기본
 3. **실시간 마트**: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) + 스트리밍으로 준실시간 마트 구축 가능
 
@@ -144,7 +144,7 @@ tags = ["studynote-data-engineering"]
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 속도 향상 | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 대비 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 향상 |
 | 비즈니스 사용자 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | SQL/BI 도구로 독립적 분석 가능 |
 | 부서 특화 분석 환경 | 판매·재무·HR 각 최적화된 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) |
-| 의사결정 속도 개선 | 임원 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 수일 → 실시간 |
+| 의사결정 속도 개선 | 임원 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 수일 -> 실시간 |
 
 ### 결론
 
@@ -175,16 +175,16 @@ tags = ["studynote-data-engineering"]
 
 ```text
 OLTP (운영 시스템)
-    │
-    ▼
+    |
+    v
 Data Warehouse (전사 통합 저장소)
-    │
-    ▼
+    |
+    v
 Data Mart (부서별 서브셋)
-    ├─► 종속형: DW에서 추출 (Top-Down, Inmon)
-    └─► 독립형: 직접 구축 (Bottom-Up, Kimball)
-    │
-    ▼
+    +-► 종속형: DW에서 추출 (Top-Down, Inmon)
+    +-► 독립형: 직접 구축 (Bottom-Up, Kimball)
+    |
+    v
 Star Schema · Kimball 차원 모델링
 ```
 2. [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>별 모양 조직도</strong>야. 가운데 별(팩트)이 "우리가 분석할 것"이고, 주변 행성들(차원)이 "어떤 각도에서 볼지"를 나타내.
@@ -196,7 +196,7 @@ Star Schema · Kimball 차원 모델링
 
 **진행 상황**: 209 / 258
 
-← **이전**: [208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)
-**다음**: [210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) →
+<- **이전**: [208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)
+**다음**: [210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) ->
 
 ---

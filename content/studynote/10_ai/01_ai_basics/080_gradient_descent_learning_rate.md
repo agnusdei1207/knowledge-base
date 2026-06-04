@@ -32,28 +32,28 @@ tags = ["studynote-ai"]
 학습률 $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$ (알파)는 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) 공식의 한가운데서 곱셈의 승수(Multiplier)로 폭군처럼 군림한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           학습률(Learning Rate)에 따른 파멸과 수렴 아키텍처        │
-├────────────────────────────────────────────────────────┤
-│   [ 업데이트 공식 ]                                      │
-│   W_new  =  W_old - ( α × ∂L / ∂W )                    │
-│   새로운 가중치 = 옛날 가중치 - ( 학습률 × 발밑의 경사도 )          │
-│                                                        │
-│   [ 1. 학습률이 너무 클 때 ( α = 10.0 ) ➔ Overshooting! ]  │
-│      \           /   🔴 ➔ (건너편으로 튕겨 나감!)            │
-│       \  🔴 ➔ ➔/➔ ➔ ↗                                 │
-│        \      /                                        │
-│                                                        │
-│   [ 2. 학습률이 너무 작을 때 ( α = 0.0001 ) ➔ 수렴 지연 ]    │
-│      \ 🔴                                              │
-│       \ ↘ 🔴                                           │
-│        \  ↘ 🔴 (언제 바닥까지 가냐...)                     │
-│                                                        │
-│   [ 3. 적절한 학습률 ( α = 0.01 ) ➔ 안정적 수렴 ]           │
-│      \ 🔴                                              │
-│       \  ↘ 🔴                                          │
-│        \     ↘ 🔴 (바닥 안착!)                          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           학습률(Learning Rate)에 따른 파멸과 수렴 아키텍처        |
++--------------------------------------------------------+
+|   [ 업데이트 공식 ]                                      |
+|   W_new  =  W_old - ( α × ∂L / ∂W )                    |
+|   새로운 가중치 = 옛날 가중치 - ( 학습률 × 발밑의 경사도 )          |
+|                                                        |
+|   [ 1. 학습률이 너무 클 때 ( α = 10.0 ) ➔ Overshooting! ]  |
+|      \           /   🔴 ➔ (건너편으로 튕겨 나감!)            |
+|       \  🔴 ➔ ➔/➔ ➔ ↗                                 |
+|        \      /                                        |
+|                                                        |
+|   [ 2. 학습률이 너무 작을 때 ( α = 0.0001 ) ➔ 수렴 지연 ]    |
+|      \ 🔴                                              |
+|       \ ↘ 🔴                                           |
+|        \  ↘ 🔴 (언제 바닥까지 가냐...)                     |
+|                                                        |
+|   [ 3. 적절한 학습률 ( α = 0.01 ) ➔ 안정적 수렴 ]           |
+|      \ 🔴                                              |
+|       \  ↘ 🔴                                          |
+|        \     ↘ 🔴 (바닥 안착!)                          |
++--------------------------------------------------------+
 ```
 
 수식에서 보듯, 미분값(경사)이 아무리 정확해도 $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$(학습률)가 너무 크면 빼기(-) 연산의 폭발로 다음 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(W_new)가 엉뚱한 곳으로 널뛰기한다. 그래서 화면의 오차(Loss) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 줄어들지 않고 `NaN (Not a Number)`을 뱉어버리는 순간, 아키텍트들은 욕을 하며 학습을 강제 종료하고 학습률 다이얼을 줄인 뒤 1주일짜리 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 학습을 처음부터 다시 돌려야 한다.
@@ -115,21 +115,21 @@ tags = ["studynote-ai"]
 
 ```text
 오차 함수 미분을 통한 경사 하강법(Gradient Descent)의 최초 수식 정립
-    │
-    ▼
+    |
+    v
 수동 학습률 설정의 딜레마 직면 (크면 폭발하고, 작으면 멈춤)
-    │
-    ▼
+    |
+    v
 학습 도중 강제로 보폭을 줄여버리는 Step Decay 등 수동 스케줄링(Scheduler) 도입
-    │
-    ▼
+    |
+    v
 가중치 변수마다 각자의 보폭을 쇳덩어리 수식으로 조절하는 지능형 옵티마이저(AdaGrad, RMSProp) 발명
-    │
-    ▼
+    |
+    v
 관성(Momentum)과 지능형 보폭 조절을 융합한 Adam 옵티마이저 + Warm-up 기법으로 천하통일
 ```
 
-이 흐름도는 "고정된 폭군(학습률) → 시간에 따른 강제 삭감(Decay) → 각 변수별 맞춤형 자율 제어(Adaptive)"로 이어지는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 튜닝 공학의 눈물겨운 발전 궤적을 보여준다.
+이 흐름도는 "고정된 폭군(학습률) -> 시간에 따른 강제 삭감(Decay) -> 각 변수별 맞춤형 자율 제어(Adaptive)"로 이어지는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 튜닝 공학의 눈물겨운 발전 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 80 / 420
 
-← **이전**: [079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/079_optimizer_gradient_descent/)
-**다음**: [81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/081_stochastic_gradient_descent_sgd/) →
+<- **이전**: [079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/079_optimizer_gradient_descent/)
+**다음**: [81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/081_stochastic_gradient_descent_sgd/) ->
 
 ---

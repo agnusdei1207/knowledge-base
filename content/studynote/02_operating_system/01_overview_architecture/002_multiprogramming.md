@@ -31,19 +31,19 @@ tags = ["studynote-operating-system"]
 이 그래프는 단일 프로그래밍과 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 CPU의 유휴 시간 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time) 차이를 시각적으로 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              Uni-programming vs Multiprogramming                   │
-├────────────────────────────────────────────────────────────────────┤
-│ [Uni-programming]                                                  │
-│ CPU : [ Job A ] [  Wait I/O  ] [ Job A ] [  Wait I/O  ]            │
-│ I/O :           [ I/O Operation ]       [ I/O Operation ]          │
-│        (CPU 노는 중...)                                            │
-│                                                                    │
-│ [Multiprogramming]                                                 │
-│ CPU : [ Job A ] [ Job B ] [ Job C ] [ Job A ] [ Job B ]            │
-│ I/O :           [ Job A I/O ]       [ Job B I/O ]                  │
-│        (CPU가 쉴 틈 없이 작업 전환!)                               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              Uni-programming vs Multiprogramming                   |
++--------------------------------------------------------------------+
+| [Uni-programming]                                                  |
+| CPU : [ Job A ] [  Wait I/O  ] [ Job A ] [  Wait I/O  ]            |
+| I/O :           [ I/O Operation ]       [ I/O Operation ]          |
+|        (CPU 노는 중...)                                            |
+|                                                                    |
+| [Multiprogramming]                                                 |
+| CPU : [ Job A ] [ Job B ] [ Job C ] [ Job A ] [ Job B ]            |
+| I/O :           [ Job A I/O ]       [ Job B I/O ]                  |
+|        (CPU가 쉴 틈 없이 작업 전환!)                               |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단일 프로그래밍 (Uni-programming) 방식에서는 Job A가 I/O 작업을 수행하는 동안 CPU는 아무런 연산을 하지 못하고 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))로 대기하게 된다. 이는 시스템 전체 처리 효율을 급격히 떨어뜨리는 원인이 된다. 반면 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 Job A가 I/O 대기에 들어가는 즉시 준비 상태에 있는 Job B나 Job C로 CPU 제어권을 넘긴다. 결과적으로 CPU는 연속적으로 작업을 처리할 수 있게 되며, 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다. 이러한 작업 전환 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 메커니즘은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 의해 관리되며, 메모리에 여러 작업을 동시에 유지할 수 있는 기술적 전제가 필요하다.
@@ -71,24 +71,24 @@ tags = ["studynote-operating-system"]
 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)을 지원하기 위해서는 메모리가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역과 여러 사용자의 프로그램 영역으로 분할되어야 한다. 각 프로그램은 서로의 영역을 침범하지 않도록 엄격하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되어야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│               Multiprogramming Memory Layout                    │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌─────────────────────────────────────────────────────────┐     │
-│ │ 운영체제 (Operating System - Kernel Area)               │     │
-│ ├─────────────────────────────────────────────────────────┤     │
-│ │ 사용자 작업 1 (Job 1) - [ 실행 중 / 대기 ]                │   │
-│ ├─────────────────────────────────────────────────────────┤     │
-│ │ 사용자 작업 2 (Job 2) - [ 준비 상태 ]                     │   │
-│ ├─────────────────────────────────────────────────────────┤     │
-│ │ 사용자 작업 3 (Job 3) - [ I/O 대기 중 ]                  │    │
-│ ├─────────────────────────────────────────────────────────┤     │
-│ │ ...                                                     │     │
-│ └─────────────────────────────────────────────────────────┘     │
-│                                                                 │
-│  ※ 핵심: 메모리 보호 레지스터 (Base / Limit Register)           │
-│    작업 n이 작업 m의 영역을 침범하는 것을 하드웨어적으로 감시   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|               Multiprogramming Memory Layout                    |
++-----------------------------------------------------------------+
+| +---------------------------------------------------------+     |
+| | 운영체제 (Operating System - Kernel Area)               |     |
+| +---------------------------------------------------------+     |
+| | 사용자 작업 1 (Job 1) - [ 실행 중 / 대기 ]                |   |
+| +---------------------------------------------------------+     |
+| | 사용자 작업 2 (Job 2) - [ 준비 상태 ]                     |   |
+| +---------------------------------------------------------+     |
+| | 사용자 작업 3 (Job 3) - [ I/O 대기 중 ]                  |    |
+| +---------------------------------------------------------+     |
+| | ...                                                     |     |
+| +---------------------------------------------------------+     |
+|                                                                 |
+|  ※ 핵심: 메모리 보호 레지스터 (Base / Limit Register)           |
+|    작업 n이 작업 m의 영역을 침범하는 것을 하드웨어적으로 감시   |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 가장 큰 기술적 도전은 메모리에 여러 작업을 안전하게 상주시키는 것이다. 이 도식은 메모리가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역과 다수의 사용자 작업 영역으로 나뉘어 있음을 보여준다. 각 작업은 고정 분할 (Fixed [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 또는 가변 분할 (Variable [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 방식으로 할당된다. 이때 가장 중요한 것은 보안과 안정성이다. 특정 작업이 오류를 일으켜 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역이나 다른 작업의 메모리를 덮어쓰지 못하도록 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) ([Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))와 리미트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Limit Register](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/))를 사용하여 접근 범위를 제한한다. 만약 허용 범위를 벗어난 접근이 발생하면 CPU는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 발생시켜 해당 프로세스를 강제 종료한다. 이러한 메모리 관리 체계는 후대의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술로 진화하는 토대가 되었다.
@@ -101,16 +101,16 @@ tags = ["studynote-operating-system"]
 
 ```text
        [생성]
-          ↓
-  ┌──▶ [준비] (Ready) ◀───────────────┐
-  │       │                           │
-  │   (디스패치)                   (타임아웃 - 시분할인 경우)
-  │       ↓                           │
-  │    [실행] (Running) ──────────────┘
-  │                                   │
-  │   (I/O 요청)
-  │       ↓
-  └─── [대기] (Wait / Block)
+          v
+  +---> [준비] (Ready) <----------------+
+  |       |                           |
+  |   (디스패치)                   (타임아웃 - 시분할인 경우)
+  |       v                           |
+  |    [실행] (Running) --------------+
+  |                                   |
+  |   (I/O 요청)
+  |       v
+  +--- [대기] (Wait / Block)
 ```
 
 **[다이어그램 해설]** [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 동적 메커니즘은 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 전이로 설명된다. 프로그램이 메모리에 적재되면 '준비 (Ready)' 상태가 되어 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 대기한다. CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 중 하나를 선택하면 '실행 (Running)' 상태가 된다. [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 핵심 포인트는 실행 중인 프로세스가 I/O 요청을 하면 즉시 '대기 (Wait)' 상태로 빠지고, CPU 제어권을 다른 '준비' 상태 프로세스에게 넘겨준다는 점이다. I/O 작업이 완료되면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 다시 '준비' 상태로 돌아와 차례를 기다린다. 이 과정이 반복됨으로써 CPU는 유휴 시간 없이 계속해서 유효한 연산을 수행할 수 있게 된다.
@@ -197,17 +197,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 [컨텍스트 스위칭 (Context Switching)]
-    │
-    ▼
+    |
+    v
 [스케줄링 (Scheduling)]
-    │
-    ▼
+    |
+    v
 [스래싱 (Thrashing)]
-    │
-    ▼
+    |
+    v
 [인터럽트 (Interrupt)]
-    │
-    ▼
+    |
+    v
 [메모리 보호 (Memory Protection)]
 ```
 
@@ -224,7 +224,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 2 / 800
 
-← **이전**: [1. 운영체제 (Operating System)의 목적 - 자원 관리, 편의성, 성능 향상](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)
-**다음**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) →
+<- **이전**: [1. 운영체제 (Operating System)의 목적 - 자원 관리, 편의성, 성능 향상](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)
+**다음**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) ->
 
 ---

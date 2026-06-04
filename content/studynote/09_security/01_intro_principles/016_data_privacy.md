@@ -26,15 +26,15 @@ tags = ["security"]
 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">데이터 생명주기 및 [보호</a> 한계점 도식]</strong>
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수집되어 폐기되기까지의 흐름 속에서, 전통적인 경계 기반 보안이 왜 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출을 막지 못하는지를 보여준다.
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Data Lifecycle in Cloud Era                 │
-├─────────┬─────────┬─────────┬─────────┬─────────┬─────────┤
-│ 수집    │ 저장    │ 처리    │ 공유    │ 아카이빙│ 폐기    │
-│(Ingest) │(Store)  │(Process)│(Share)  │(Archive)│(Destroy)│
-├─────────┴─────────┴─────────┴─────────┴─────────┴─────────┤
-│ ⚠️ 위험: 암호화 해제   ⚠️ 위험: 과도한 권한  ⚠️ 위험: 외부 유출 │
-│      (In-Memory)        (Privilege)       (Cross-Border)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 Data Lifecycle in Cloud Era                 |
++---------+---------+---------+---------+---------+---------+
+| 수집    | 저장    | 처리    | 공유    | 아카이빙| 폐기    |
+|(Ingest) |(Store)  |(Process)|(Share)  |(Archive)|(Destroy)|
++---------+---------+---------+---------+---------+---------+
+| ⚠️ 위험: 암호화 해제   ⚠️ 위험: 과도한 권한  ⚠️ 위험: 외부 유출 |
+|      (In-Memory)        (Privilege)       (Cross-Border)|
++-------------------------------------------------------------+
 ```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '저장' 상태일 때는 암호화로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되지만, '처리'나 '공유' 상태로 전환될 때 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보가 평문으로 노출된다는 점이다. 따라서 전통적인 [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/) ([Transparent Data Encryption](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/))만으로는 내부자에 의한 권한 남용이나 API를 통한 대량 유출을 막을 수 없다. 실무에서는 이러한 처리 단계의 취약점을 보완하기 위해 가명화, [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/), 또는 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))와 같은 실행 환경 격리가 반드시 동반되어야 한다.
 
@@ -58,15 +58,15 @@ tags = ["security"]
 이 흐름도는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비식별화 파이프라인을 거쳐 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 안전하게 변환되거나 토큰으로 치환되는 메커니즘을 명확하게 보여준다.
 ```text
 [Client/App] => (1. 원본 데이터 전송: 주민번호, 카드번호)
-     │
-     ▼
+     |
+     v
 [ Tokenization Server / De-ID Engine ]
-     │
-     ├─ (2a. 결제/운영) => Vault에 원본 저장, Token 반환 (예: 4929-XXXX-XXXX-1234)
-     │
-     └─ (2b. 분석/AI) => [ K-익명성 검증기 ] -> 식별자 삭제, 속성 일반화
-                               │
-                               ▼
+     |
+     +- (2a. 결제/운영) => Vault에 원본 저장, Token 반환 (예: 4929-XXXX-XXXX-1234)
+     |
+     +- (2b. 분석/AI) => [ K-익명성 검증기 ] -> 식별자 삭제, 속성 일반화
+                               |
+                               v
 [ Database / Data Lake ] <= (3. 안전한 데이터만 적재됨)
 ```
 이 흐름의 핵심은 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비즈니스 로직(App)이나 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 웨어하우스로 넘어가기 전, 전용 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)/비식별화 서버에서 '분리'된다는 점이다. 따라서 하위 시스템이 해킹당하더라도 공격자가 탈취하는 것은 역산 불가능한 토큰이나 통계적으로 뭉뚱그려진 가명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐이다. 이 때문에 분석가나 외부 파트너에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유용성을 유지하면서도 법적 책임을 최소화할 수 있다.
@@ -94,14 +94,14 @@ tags = ["security"]
 **[데이터 통제 아키텍처 비교 매트릭스]**
 이 다이어그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치(엔드포인트, 네트워크, 클라우드)에 따라 어떤 통제 기법이 필요한지를 입체적으로 보여준다.
 ```text
-┌─────────────────┬───────────────────┬───────────────────┐
-│     영역        │  주요 위협 (위험) │  적용 보안 솔루션 │
-├─────────────────┼───────────────────┼───────────────────┤
-│ Endpoint (PC)   │ USB 복사, 화면캡처│ Endpoint DLP, DRM │
-│ Network (망)    │ 이메일/웹 업로드  │ Network DLP, Proxy│
-│ Cloud (SaaS)    │ 과도한 공유 링크  │ CASB, API 모니터  │
-│ Database (DB)   │ SQL 인젝션, 덤프  │ TDE, Tokenization │
-└─────────────────┴───────────────────┴───────────────────┘
++-----------------+-------------------+-------------------+
+|     영역        |  주요 위협 (위험) |  적용 보안 솔루션 |
++-----------------+-------------------+-------------------+
+| Endpoint (PC)   | USB 복사, 화면캡처| Endpoint DLP, DRM |
+| Network (망)    | 이메일/웹 업로드  | Network DLP, Proxy|
+| Cloud (SaaS)    | 과도한 공유 링크  | CASB, API 모니터  |
+| Database (DB)   | SQL 인젝션, 덤프  | TDE, Tokenization |
++-----------------+-------------------+-------------------+
 ```
 이 구조의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 머무는 모든 단계에서 단일 솔루션으로는 완벽한 통제가 불가능하다는 점이다. 네트워크 DLP는 USB를 통한 물리적 유출을 잡지 못하며, 엔드포인트 DLP는 승인된 API를 통한 클라우드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 인지하지 못한다. 반면 CASB는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 워크플로우를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하지만 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 장비 제어권이 없다. 실무에서는 이들을 통합하여 중앙 집중식 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Unified [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 관리하는 것이 컴플라이언스 준수의 핵심이다.
 
@@ -161,17 +161,17 @@ tags = ["security"]
 
 ```text
 [경계 보안 (Perimeter Security) — 방화벽 기반 외부 차단, 내부 평문 무방비]
-    │
-    ▼
+    |
+    v
 [데이터 암호화 (TDE / 전송 암호화) — 저장·전송 중 데이터 보호, 처리 시 복호화 필요]
-    │
-    ▼
+    |
+    v
 [비식별화 (k-익명성 / l-다양성) — 통계적 재식별 방지, 분석 목적 가명 정보 생성]
-    │
-    ▼
+    |
+    v
 [토큰화 / DLP — 원본 데이터 격리 및 반출 차단, 컴플라이언스 아키텍처 표준화]
-    │
-    ▼
+    |
+    v
 [PET (동형 암호 / 차분 프라이버시) — 암호화 상태 그대로 연산, AI 학습 시 개인 정보 수학적 보호]
 ```
 이 흐름은 외부 경계만 지키던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보안 관점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 방향으로 진화하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 대규모 학습 요건에 맞춰 복호화 없이 분석이 가능한 차세대 프라이버시 강화 기술로 수렴하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 패러다임의 발전을 보여준다.
@@ -188,7 +188,7 @@ tags = ["security"]
 
 **진행 상황**: 16 / 1108
 
-← **이전**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，이비 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/)
-**다음**: [17. 보안 프레임워크 및 컴플라이언스 (Security Framework & Compliance)](/knowledge-base/studynote/09_security/01_intro_principles/017_security_framework_compliance/) →
+<- **이전**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，이비 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/)
+**다음**: [17. 보안 프레임워크 및 컴플라이언스 (Security Framework & Compliance)](/knowledge-base/studynote/09_security/01_intro_principles/017_security_framework_compliance/) ->
 
 ---

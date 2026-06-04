@@ -67,17 +67,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [HDFS 아키텍처 (NameNode 메타데이터 + DataNode 블록)]
-    │
-    ▼
-[작은 파일 문제 (NameNode 메모리 폭증 → 성능 병목)]
-    │
-    ▼
+    |
+    v
+[작은 파일 문제 (NameNode 메모리 폭증 -> 성능 병목)]
+    |
+    v
 [HAR / Sequence File / CombineFileInputFormat — 단기 완화]
-    │
-    ▼
+    |
+    v
 [Apache Ozone (차세대 객체 스토리지 — 수십억 파일 지원)]
-    │
-    ▼
+    |
+    v
 [Delta Lake / Apache Iceberg Compaction — 현대적 자동 해결]
 ```
 HDFS의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제는 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 힙 메모리 한계에서 비롯되며, 단기 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법에서 Apache Ozone, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg의 자동 Compaction까지 세대별 해결책이 존재한다.
@@ -93,7 +93,7 @@ HDFS의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 **진행 상황**: 43 / 262
 
-← **이전**: [Cloudera CDP (Cloudera Data Platform)](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/)
-**다음**: [아파치 스톰 (Apache Storm) 및 실시간 분산 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/) →
+<- **이전**: [Cloudera CDP (Cloudera Data Platform)](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/)
+**다음**: [아파치 스톰 (Apache Storm) 및 실시간 분산 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/) ->
 
 ---

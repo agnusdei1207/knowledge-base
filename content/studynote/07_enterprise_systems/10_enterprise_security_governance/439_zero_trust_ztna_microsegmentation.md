@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     제로 트러스트 ZTNA …의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [제로 트러스트 ZTNA …] ─────▶ [제로 트러스트 ZTNA …] ─────▶ [보안 거버넌스]                  │
-│      │                           │                           │
-│      └────────▶ [사후 대응만으로는 신뢰성…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     제로 트러스트 ZTNA …의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [제로 트러스트 ZTNA …] ------> [제로 트러스트 ZTNA …] ------> [보안 거버넌스]                  |
+|      |                           |                           |
+|      +---------> [사후 대응만으로는 신뢰성…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)이 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [제로 트러스트 ZTNA …] ─────▶ [Zero Trust] ─────▶ [ZTNA]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [제로 트러스트 ZTNA …] ------> [Zero Trust] ------> [ZTNA]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ tags = ["studynote-enterprise"]
 
 ```text
 [제로 트러스트 ZTNA … 정리]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 ZTNA … 적용]
-    │
-    ├──▶ [Zero Trust 최적화]
-    └──▶ [지속적 컴플라이언스 확장]
+    |
+    +---> [Zero Trust 최적화]
+    +---> [지속적 컴플라이언스 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 439 / 482
 
-← **이전**: [438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/438_mlops_drift_detection_retraining/)
-**다음**: [440. SASE SD-WAN 클라우드 보안 (SASE: Secure Access Service Edge)](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/440_sase_sdwan_cloud_security/) →
+<- **이전**: [438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/438_mlops_drift_detection_retraining/)
+**다음**: [440. SASE SD-WAN 클라우드 보안 (SASE: Secure Access Service Edge)](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/440_sase_sdwan_cloud_security/) ->
 
 ---

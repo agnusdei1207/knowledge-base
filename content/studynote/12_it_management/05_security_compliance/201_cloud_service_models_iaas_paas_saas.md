@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 ([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/), [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)) 엔터프라이즈 도입 전략이 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략]
-    │
-    ├──▶ [PaaS]
-    └──▶ [SaaS]
+    |
+    +---> [PaaS]
+    +---> [SaaS]
 ```
 
 이 흐름은 선행 요구를 기준으로 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 ([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/), [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)) 엔터프라이즈 도입 전략을 정착시키고, 이후 PaaS와 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 315 / 587
 
-← **이전**: [200. 정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)](/knowledge-base/studynote/12_it_management/05_security_compliance/200_cisa_cissp_certifications/)
-**다음**: [202. 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) →
+<- **이전**: [200. 정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)](/knowledge-base/studynote/12_it_management/05_security_compliance/200_cisa_cissp_certifications/)
+**다음**: [202. 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ->
 
 ---

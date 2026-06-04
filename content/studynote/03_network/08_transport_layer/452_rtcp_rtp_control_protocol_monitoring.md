@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [RTP]
-    │
-    ▼
+    |
+    v
 [RTCP]
-    │
-    └──▶ [XTP]
+    |
+    +---> [XTP]
 ```
 
 - **📢 섹션 요약 비유**: ** RTCP는 온라인 게임의 **"우측 상단 핑(Ping)과 FPS 표시기"**입니다. 내 총알([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 얼마나 빨리 나가는지 화면 구석에 계속 숫자로 띄워주어, 내가 게임 옵션(화질)을 타협할지 계속 진행할지를 판단하게 해주는 핵심 참고 자료입니다.
@@ -60,26 +60,26 @@ RTP와 RTCP는 실과 바늘이다. 통신이 시작되면 무조건 같이 열�
 5. **APP**: 개발자가 맘대로 만들어 쓰는 특수 기능용 엽서.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RTP와 RTCP의 실시간 대역폭 핑퐁 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 넷플릭스 서버 ]                            [ 스마트폰 ]        │
- │                                                             │
- │   (RTP) "4K 쥑이는 화질 발사!!!" ──────────(1Gbps)─────────▶ │
- │                                                             │
- │   * 스마트폰 상황: 지하실로 들어가서 전파가 구려짐. 패킷 막 터져 나감!  │
- │                                                             │
- │   (RTCP) ◀─── "국장님! 지금 패킷 20%가 증발했습니다 ㅠㅠ (RR)" ──  │
- │                                                             │
- │   * 서버의 판단 (Adaptive Bitrate):                           │
- │     "헐 길 막혔네? 야, 당장 4K 멈추고 720p로 화질 낮춰서 쏴!!"       │
- │                                                             │
- │   (RTP) "720p 찰흙 화질 발사!" ───────────(10Mbps)─────────▶ │
- │                                                             │
- │   ▶ "이 RTCP의 조언 덕분에, 우리는 지하실에 들어가도 영상이 아예      │
- │      멈추지 않고, 화질만 살짝 구려진 채로 방송을 계속 볼 수 있다!"      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RTP와 RTCP의 실시간 대역폭 핑퐁 도식             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 넷플릭스 서버 ]                            [ 스마트폰 ]        |
+ |                                                             |
+ |   (RTP) "4K 쥑이는 화질 발사!!!" ----------(1Gbps)----------> |
+ |                                                             |
+ |   * 스마트폰 상황: 지하실로 들어가서 전파가 구려짐. 패킷 막 터져 나감!  |
+ |                                                             |
+ |   (RTCP) <---- "국장님! 지금 패킷 20%가 증발했습니다 ㅠㅠ (RR)" --  |
+ |                                                             |
+ |   * 서버의 판단 (Adaptive Bitrate):                           |
+ |     "헐 길 막혔네? 야, 당장 4K 멈추고 720p로 화질 낮춰서 쏴!!"       |
+ |                                                             |
+ |   (RTP) "720p 찰흙 화질 발사!" -----------(10Mbps)----------> |
+ |                                                             |
+ |   -> "이 RTCP의 조언 덕분에, 우리는 지하실에 들어가도 영상이 아예      |
+ |      멈추지 않고, 화질만 살짝 구려진 채로 방송을 계속 볼 수 있다!"      |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** RTCP는 배달앱의 **"실시간 평점 리뷰"**입니다. 배달원([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 음식을 무작정 쏟아부을 때, 손님(시청자)은 계속해서 "음식이 늦어요, 다 식었어요(Jitter)"라고 1점짜리 리뷰([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))를 남깁니다. 사장님(서버)은 리뷰를 보고 배달 방식을 오토바이에서 퀵으로 바꾸거나(화질 조절) 대처 방안을 마련합니다.
@@ -140,12 +140,12 @@ RTCP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ```text
 [선행 개념: RTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: RTCP]
-    │
-    ├──▶ [확장 A: XTP]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: XTP]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 RTCP는 RTP에서 출발해 현재 메커니즘을 정교화하고, 이후 XTP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ RTCP는 RTP에서 출발해 현재 메커니즘을 정교화하고, 이후 XTP�
 
 **진행 상황**: 573 / 1120
 
-← **이전**: [451. RTP (Real-time Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)
-**다음**: [453. XTP (Xpress Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/453_xtp_xpress_transport_protocol/) →
+<- **이전**: [451. RTP (Real-time Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)
+**다음**: [453. XTP (Xpress Transport Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/453_xtp_xpress_transport_protocol/) ->
 
 ---

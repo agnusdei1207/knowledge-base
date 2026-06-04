@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [제로 트러스트 보안]
-    │
-    ▼
+    |
+    v
 [마이크로 세그멘테이션]
-    │
-    └──▶ [SASE]
+    |
+    +---> [SASE]
 ```
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [제로 트러스트 보안]
-    │
-    ▼
+    |
+    v
 [마이크로 세그멘테이션]
-    │
-    └──▶ [SASE]
+    |
+    +---> [SASE]
 ```
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 제로 트러스트 보안]
-    │
-    ▼
+    |
+    v
 [현재 개념: 마이크로 세그멘테이션]
-    │
-    ├──▶ [확장 A: SASE]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SASE]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 마이크로 세그멘테이션는 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SASE와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 860 / 1120
 
-← **이전**: [738. 제로 트러스트 보안 (Zero Trust Architecture, 내부망도 검증, 최소 권한 원칙 지속 검토 적용 프레임워크](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)
-**다음**: [740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) →
+<- **이전**: [738. 제로 트러스트 보안 (Zero Trust Architecture, 내부망도 검증, 최소 권한 원칙 지속 검토 적용 프레임워크](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)
+**다음**: [740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) ->
 
 ---

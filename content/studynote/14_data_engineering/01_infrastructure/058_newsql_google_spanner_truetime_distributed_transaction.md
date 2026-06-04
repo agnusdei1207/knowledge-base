@@ -47,11 +47,11 @@ Google Spanner는 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stat
 
 ```text
 클라이언트 요청
-   ↓
+   v
 분산 노드
-   ↓
+   v
 TrueTime 기반 순서 결정
-   ↓
+   v
 트랜잭션 커밋
 ```
 
@@ -93,11 +93,11 @@ NewSQL은 강력하지만 만능은 아니다.
 
 ```text
 RDBMS / NoSQL 딜레마
-   ↓
+   v
 NewSQL
-   ↓
+   v
 TrueTime / 합의 / 샤딩
-   ↓
+   v
 분산 트랜잭션
 ```
 
@@ -105,11 +105,11 @@ TrueTime / 합의 / 샤딩
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 전통 RDBMS → 강한 정합성, 낮은 확장성
-2. [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) → 높은 확장성, 약한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)
-3. NewSQL → 둘의 장점 결합 시도
-4. Spanner / TrueTime → 글로벌 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해법
-5. [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 아키텍처 → 현대 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반
+1. 전통 RDBMS -> 강한 정합성, 낮은 확장성
+2. [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) -> 높은 확장성, 약한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)
+3. NewSQL -> 둘의 장점 결합 시도
+4. Spanner / TrueTime -> 글로벌 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해법
+5. [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 아키텍처 -> 현대 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반
 
 ---
 
@@ -125,7 +125,7 @@ NewSQL은 여러 장난감 상자를 한꺼번에 관리하면서도 하나의 �
 
 **진행 상황**: 58 / 258
 
-← **이전**: [57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)
-**다음**: [59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색](/knowledge-base/studynote/14_data_engineering/01_infrastructure/059_bloom_filter_false_positive_disk_io/) →
+<- **이전**: [57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)
+**다음**: [59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색](/knowledge-base/studynote/14_data_engineering/01_infrastructure/059_bloom_filter_false_positive_disk_io/) ->
 
 ---

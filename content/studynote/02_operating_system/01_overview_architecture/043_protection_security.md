@@ -35,9 +35,9 @@ tags = ["studynote-operating-system"]
   보안 (Security) ⊃ 보호 (Protection)
 
   외부 위협 방어 (보안)
-        ↓
+        v
   내부 접근 제어 (보호)
-        ↓
+        v
   하드웨어 격리 (링 구조, MMU)
 
 OS 보안 요구사항 (CIA):
@@ -112,12 +112,12 @@ Ring 3 — 사용자 모드 (User Mode):
   일반 응용 프로그램
 
 권한 이동:
-  Ring 3 → Ring 0:
+  Ring 3 -> Ring 0:
     시스템 콜 (INT, SYSCALL 명령어)
     예외 처리 (Exception Handler)
     인터럽트 (Interrupt)
 
-  Ring 0 → Ring 3:
+  Ring 0 -> Ring 3:
     IRET, SYSRET 명령어
     스케줄러에 의한 사용자 프로세스 복귀
 
@@ -132,7 +132,7 @@ Ring 3 — 사용자 모드 (User Mode):
   Intel VT-x: VMX root/non-root 모드
 ```
 
-> 📢 **섹션 요약 비유**: 링 구조는 군대 계급 — Ring 0은 사령관(모든 명령 가능), Ring 3은 일반 병사(기본 임무만). 계급 외 명령 실행 → 즉시 처벌(예외 발생).
+> 📢 **섹션 요약 비유**: 링 구조는 군대 계급 — Ring 0은 사령관(모든 명령 가능), Ring 3은 일반 병사(기본 임무만). 계급 외 명령 실행 -> 즉시 처벌(예외 발생).
 
 ---
 
@@ -149,7 +149,7 @@ OS 보안 위협 분류:
 
 권한 상승 공격:
   버퍼 오버플로우: 스택 리턴 주소 덮어쓰기
-  → 셸코드 실행 → Root 권한 탈취
+  -> 셸코드 실행 -> Root 권한 탈취
   대응: ASLR(주소 공간 레이아웃 랜덤화), DEP(데이터 실행 방지), Stack Canary
 
 레이스 컨디션 (Race Condition):
@@ -159,7 +159,7 @@ OS 보안 위협 분류:
 
 사이드 채널 공격:
   Spectre, Meltdown (2018):
-    CPU 투기적 실행 → 캐시 타이밍 측정 → 비밀 데이터 추출
+    CPU 투기적 실행 -> 캐시 타이밍 측정 -> 비밀 데이터 추출
   대응: OS 패치, KPTI(Kernel Page Table Isolation)
 
 보안 메커니즘:
@@ -181,7 +181,7 @@ Linux 강제 접근 제어 (MAC) 구현:
 DAC (Discretionary Access Control) 한계:
   파일 소유자가 권한 부여 결정
   root 계정 탈취 시 모든 파일 접근 가능
-  → Linux 전통 rwx 권한의 한계
+  -> Linux 전통 rwx 권한의 한계
 
 MAC (Mandatory Access Control):
   시스템 정책이 모든 접근 제어
@@ -210,9 +210,9 @@ AppArmor (Ubuntu/SUSE):
 
 실무 적용:
   웹서버(Apache/Nginx)에 SELinux 프로파일 적용
-  → 웹 디렉토리 외 파일 접근 자동 차단
-  → 명령 실행(system()) 차단
-  → 취약점 악용 시 피해 최소화 (컨테인먼트)
+  -> 웹 디렉토리 외 파일 접근 자동 차단
+  -> 명령 실행(system()) 차단
+  -> 취약점 악용 시 피해 최소화 (컨테인먼트)
 ```
 
 > 📢 **섹션 요약 비유**: SELinux는 회사 보안 시스템 — 팀장(root)도 다른 팀 서버실에 못 들어가는 것처럼, 역할(Role)과 유형(Type)으로 최소 권한 강제.
@@ -252,7 +252,7 @@ DAC: rwx + 소유자/그룹/기타
       v
 [보안 확장 (1980s~90s)]
 Orange Book (TCSEC): 보안 등급화
-NSA: B3급 OS 연구 → SELinux 기반
+NSA: B3급 OS 연구 -> SELinux 기반
       |
       v
 [Linux 보안 (2000s)]
@@ -280,7 +280,7 @@ eBPF: 커널 내 보안 프로그램 실행
 
 **진행 상황**: 43 / 800
 
-← **이전**: [042. 회계 및 로깅 (Accounting and Logging)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/)
-**다음**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) →
+<- **이전**: [042. 회계 및 로깅 (Accounting and Logging)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/)
+**다음**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) ->
 
 ---

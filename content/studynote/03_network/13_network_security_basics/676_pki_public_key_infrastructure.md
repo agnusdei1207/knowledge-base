@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [전자서명 생성/검증 프로세스 개요]
-    │
-    ▼
+    |
+    v
 [공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    └──▶ [인증국, 등록기관, 저장소 체계]
+    |
+    +---> [인증국, 등록기관, 저장소 체계]
 ```
 
 - **📢 섹션 요약 비유**: 공개키 기반 구조 아키텍처 보안 증명 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [전자서명 생성/검증 프로세스 개요]
-    │
-    ▼
+    |
+    v
 [공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    └──▶ [인증국, 등록기관, 저장소 체계]
+    |
+    +---> [인증국, 등록기관, 저장소 체계]
 ```
 
 - **📢 섹션 요약 비유**: 공개키 기반 구조 아키텍처 보안 증명 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ PKI는 피라미드 다단계처럼 꼬리에 꼬리를 무는 보증 시스템�
 
 ```text
 [선행 개념: 전자서명 생성/검증 프로세스 개요]
-    │
-    ▼
+    |
+    v
 [현재 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ├──▶ [확장 A: 인증국, 등록기관, 저장소 체계]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 인증국, 등록기관, 저장소 체계]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 공개키 기반 구조 아키텍처 보안 증명 시스템는 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [인증국](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/), 등록기관, 저장소 체계와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ PKI는 피라미드 다단계처럼 꼬리에 꼬리를 무는 보증 시스템�
 
 **진행 상황**: 797 / 1120
 
-← **이전**: [675. 전자서명 (Digital Signature) 생성/검증 프로세스 개요 (비대칭키 활용 체계의 무결성 보증)](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)
-**다음**: [677. 인증국 (CA, Certificate Authority), 등록기관 (RA, Registration Authority), 저장소](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/) →
+<- **이전**: [675. 전자서명 (Digital Signature) 생성/검증 프로세스 개요 (비대칭키 활용 체계의 무결성 보증)](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)
+**다음**: [677. 인증국 (CA, Certificate Authority), 등록기관 (RA, Registration Authority), 저장소](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/) ->
 
 ---

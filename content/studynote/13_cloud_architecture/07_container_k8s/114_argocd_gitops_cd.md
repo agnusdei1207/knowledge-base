@@ -19,18 +19,18 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Push 기반 CD vs Pull 기반 GitOps (Argo CD)         │
-├───────────────────────────────────────────────────────┤
-│  [Push: Jenkins]                                      │
-│   개발자 → Git Push → Jenkins → kubectl apply → K8s  │
-│   Jenkins에 클러스터 kubeconfig 필요 (보안 위험)      │
-│                                                       │
-│  [Pull: Argo CD]                                      │
-│   개발자 → Git Push → (끝)                            │
-│   Argo CD (클러스터 내부) → Git 감시 → 자동 Sync     │
-│   Jenkins에 클러스터 권한 불필요 (보안 강화)          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Push 기반 CD vs Pull 기반 GitOps (Argo CD)         |
++-------------------------------------------------------+
+|  [Push: Jenkins]                                      |
+|   개발자 -> Git Push -> Jenkins -> kubectl apply -> K8s  |
+|   Jenkins에 클러스터 kubeconfig 필요 (보안 위험)      |
+|                                                       |
+|  [Pull: Argo CD]                                      |
+|   개발자 -> Git Push -> (끝)                            |
+|   Argo CD (클러스터 내부) -> Git 감시 -> 자동 Sync     |
+|   Jenkins에 클러스터 권한 불필요 (보안 강화)          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Push CD는 택배([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 집까지 직접 배달하는 것이고, Pull CD(Argo CD)는 집 앞 우편함(Git)에 넣으면 집주인(클러스터)이 스스로 가져가는 것이다.
@@ -44,7 +44,7 @@ tags = ["studynote-cloud-architecture"]
 | 개념 | 설명 |
 |:---|:---|
 | **Application** | Git 레포 경로 + 타겟 클러스터/[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 매핑 |
-| **Sync** | Git 상태 → K8s 클러스터 적용 |
+| **Sync** | Git 상태 -> K8s 클러스터 적용 |
 | **Diff** | Git vs 클러스터 상태 차이 감지 |
 | **Health** | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 건강 상태 모니터링 |
 | **Prune** | Git에서 삭제된 리소스를 클러스터에서도 삭제 |
@@ -75,7 +75,7 @@ tags = ["studynote-cloud-architecture"]
 3. **Argo Rollouts**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·블루/그린 배포 선언적 관리.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/">kubectl</a> apply 수동 실행 병행</strong>: Git과 클러스터 상태 불일치 → [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 원칙 파괴.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/">kubectl</a> apply 수동 실행 병행</strong>: Git과 클러스터 상태 불일치 -> [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 원칙 파괴.
 
 ---
 
@@ -85,7 +85,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|:---|
 | 클러스터 권한 노출 | CI에 kubeconfig | **클러스터 내부만** | 보안 강화 |
 | 상태 드리프트 감지 | 불가 | **실시간 Diff** | 즉시 감지 |
-| [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 파이프라인 재실행 | **Git Revert → 자동 Sync** | 30초 |
+| [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 파이프라인 재실행 | **Git Revert -> 자동 Sync** | 30초 |
 
 Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·Argo Workflows([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 통합으로 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 전체를 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 패러다임</strong>으로 통합하는 방향으로 진화하고 있다.
 
@@ -105,17 +105,17 @@ Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_eng
 
 ```text
 [Jenkins CD (2010s) — Push 기반 파이프라인 배포]
-    │
-    ▼
+    |
+    v
 [GitOps 개념 (2017, Weaveworks) — Git = 단일 진실 원천]
-    │
-    ▼
+    |
+    v
 [Argo CD v1 (2018) — K8s Pull 기반 CD]
-    │
-    ▼
+    |
+    v
 [CNCF Graduated (2022) — 생태계 표준화]
-    │
-    ▼
+    |
+    v
 [현재: Argo CD + Argo Workflows — CI/CD 전체 GitOps 통합]
 ```
 
@@ -130,7 +130,7 @@ Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_eng
 
 **진행 상황**: 113 / 371
 
-← **이전**: [113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/113_kubeflow_mlops_orchestration/)
-**다음**: [115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/115_terraform_infrastructure_provisioning/) →
+<- **이전**: [113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/113_kubeflow_mlops_orchestration/)
+**다음**: [115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/115_terraform_infrastructure_provisioning/) ->
 
 ---

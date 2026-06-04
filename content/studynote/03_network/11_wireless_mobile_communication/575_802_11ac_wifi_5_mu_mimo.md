@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [11n]
-    │
-    ▼
+    |
+    v
 [11ac]
-    │
-    └──▶ [11ax]
+    |
+    +---> [11ax]
 ```
 
 - **📢 섹션 요약 비유**: 11ac는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [11n]
-    │
-    ▼
+    |
+    v
 [11ac]
-    │
-    └──▶ [11ax]
+    |
+    +---> [11ax]
 ```
 
 - **📢 섹션 요약 비유**: 11ac의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 11n]
-    │
-    ▼
+    |
+    v
 [현재 개념: 11ac]
-    │
-    ├──▶ [확장 A: 11ax]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 11ax]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 11ac는 11n에서 출발해 현재 메커니즘을 정교화하고, 이후 11ax와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 696 / 1120
 
-← **이전**: [574. 11n (Wi-Fi 4)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)
-**다음**: [576. 11ax (Wi-Fi 6)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) →
+<- **이전**: [574. 11n (Wi-Fi 4)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)
+**다음**: [576. 11ax (Wi-Fi 6)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) ->
 
 ---

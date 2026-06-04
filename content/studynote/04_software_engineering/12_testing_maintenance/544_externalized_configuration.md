@@ -73,21 +73,21 @@ String dbUrl;
 - [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server는 이 금고들과 연동되어, 안전하게 암호화된 상태로 값을 전달하는 통로 역할만 수행한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           외부화된 구성 관리 (Config Server) 아키텍처 시각화             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 🐙 GitHub / Git ] <─── (설정 파일 저장: prod.yml)           │
-│          │                                                   │
-│          ▼                                                   │
-│  [ ⚙️ Config Server ] ◀─── (설정 동기화)                       │
-│          │                                                   │
-│   ┌──────┴────────┬──────────────┐ (런타임 주입)               │
-│   ▼               ▼              ▼                           │
-│ [주문서비스]     [결제서비스]     [상품서비스]                   │
-│                                                              │
-│ ★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           외부화된 구성 관리 (Config Server) 아키텍처 시각화             |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 🐙 GitHub / Git ] <--- (설정 파일 저장: prod.yml)           |
+|          |                                                   |
+|          v                                                   |
+|  [ ⚙️ Config Server ] <---- (설정 동기화)                       |
+|          |                                                   |
+|   +------+--------+--------------+ (런타임 주입)               |
+|   v               v              v                           |
+| [주문서비스]     [결제서비스]     [상품서비스]                   |
+|                                                              |
+| ★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!      |
++--------------------------------------------------------------+
 ```
 
 ---
@@ -152,21 +152,21 @@ String dbUrl;
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 외부화된 구성 관리 (Externalized Configuration) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -180,7 +180,7 @@ String dbUrl;
 
 **진행 상황**: 680 / 973
 
-← **이전**: [544. 외부화된 구성 관리 (Externalized Configuration) - Config Server (Spring Cloud](/knowledge-base/studynote/04_software_engineering/11_testing_validation/544_externalized_configuration/)
-**다음**: [545. 서비스 메시 (Service Mesh) - 애플리케이션 외부(인프라 계층)에서 통신 제어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/545_service_mesh/) →
+<- **이전**: [544. 외부화된 구성 관리 (Externalized Configuration) - Config Server (Spring Cloud](/knowledge-base/studynote/04_software_engineering/11_testing_validation/544_externalized_configuration/)
+**다음**: [545. 서비스 메시 (Service Mesh) - 애플리케이션 외부(인프라 계층)에서 통신 제어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/545_service_mesh/) ->
 
 ---

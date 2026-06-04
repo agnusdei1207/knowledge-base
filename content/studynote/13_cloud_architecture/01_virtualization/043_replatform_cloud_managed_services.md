@@ -21,8 +21,8 @@ tags = ["studynote-cloud-architecture"]
 ```
 6R 전략 내 Re-platform 위치:
 
-Retire → Retain → Rehost → Re-platform → Repurchase → Re-architect
-                   (리프트앤시프트)     ↑           (SaaS 전환)   (클라우드 네이티브)
+Retire -> Retain -> Rehost -> Re-platform -> Repurchase -> Re-architect
+                   (리프트앤시프트)     ^           (SaaS 전환)   (클라우드 네이티브)
                                        오늘 주제
 
 Re-platform 특징:
@@ -31,10 +31,10 @@ Re-platform 특징:
   클라우드 관리형 서비스 활용
 
   변경 범위:
-    ✓ DB 엔진 → 클라우드 관리형 DB (RDS, Cloud SQL)
-    ✓ 앱 서버 → 컨테이너 (ECS, EKS, Cloud Run)
-    ✓ 캐시 → 관리형 Redis (ElastiCache, Memorystore)
-    ✓ 메시지 큐 → 관리형 (SQS, Pub/Sub)
+    ✓ DB 엔진 -> 클라우드 관리형 DB (RDS, Cloud SQL)
+    ✓ 앱 서버 -> 컨테이너 (ECS, EKS, Cloud Run)
+    ✓ 캐시 -> 관리형 Redis (ElastiCache, Memorystore)
+    ✓ 메시지 큐 -> 관리형 (SQS, Pub/Sub)
     ✗ 앱 비즈니스 로직 변경 없음
     ✗ 마이크로서비스 분리 없음 (Re-architect 영역)
 
@@ -58,10 +58,10 @@ Rehost vs Re-platform vs Re-architect:
 ```
 Re-platform 주요 패턴:
 
-1. DB 서버 → 관리형 DB 서비스:
-   온프레미스 MySQL → AWS RDS for MySQL
-   온프레미스 PostgreSQL → Amazon RDS for PostgreSQL
-   Oracle → AWS Aurora PostgreSQL (Oracle 탈피)
+1. DB 서버 -> 관리형 DB 서비스:
+   온프레미스 MySQL -> AWS RDS for MySQL
+   온프레미스 PostgreSQL -> Amazon RDS for PostgreSQL
+   Oracle -> AWS Aurora PostgreSQL (Oracle 탈피)
 
    획득 이점:
      자동 백업 + Point-in-Time Recovery
@@ -69,8 +69,8 @@ Re-platform 주요 패턴:
      보안 패치 자동 적용
      성능 인사이트 (DBA 작업 80% 감소)
 
-2. 앱 서버 → 컨테이너 서비스:
-   VM(Apache Tomcat) → AWS ECS/EKS
+2. 앱 서버 -> 컨테이너 서비스:
+   VM(Apache Tomcat) -> AWS ECS/EKS
 
    코드 변경: Dockerfile 작성만 필요
    획득 이점:
@@ -78,15 +78,15 @@ Re-platform 주요 패턴:
      블루/그린 배포
      컨테이너 오케스트레이션
 
-3. 자체 Elasticsearch → OpenSearch Service:
+3. 자체 Elasticsearch -> OpenSearch Service:
    운영 부담 제거
    자동 확장, 백업
 
-4. Nginx + 자체 SSL → ALB (Application Load Balancer):
+4. Nginx + 자체 SSL -> ALB (Application Load Balancer):
    SSL 인증서 자동 갱신 (ACM)
    WAF 통합
 
-5. 자체 Kafka → MSK (Managed Streaming for Kafka):
+5. 자체 Kafka -> MSK (Managed Streaming for Kafka):
    Kafka 운영 복잡성 제거
    Auto Scaling, 모니터링 통합
 
@@ -103,17 +103,17 @@ Re-platform 시 주의:
 ## Ⅲ. RDS 마이그레이션 상세
 
 ```
-온프레미스 DB → RDS 마이그레이션:
+온프레미스 DB -> RDS 마이그레이션:
 
 전략 선택:
   1. 기존 방식 + RDS로 이전
-     mysqldump → S3 → RDS 복원
+     mysqldump -> S3 -> RDS 복원
      다운타임: 데이터 크기에 따라 수 시간
 
   2. AWS DMS (Database Migration Service):
      지속적 복제 (Change Data Capture)
      다운타임 최소화 (수분 컷오버)
-     이기종 DB 마이그레이션 지원 (Oracle → Aurora)
+     이기종 DB 마이그레이션 지원 (Oracle -> Aurora)
 
 DMS 마이그레이션 단계:
   1. 소스 DB 연결 설정
@@ -135,7 +135,7 @@ RDS 최적화:
 
   읽기 복제본:
     읽기 쿼리를 Read Replica로 분산
-    → Primary 부하 감소 50~80%
+    -> Primary 부하 감소 50~80%
 
 비용 비교:
   온프레미스: EC2(DB) = $500/월 + DBA 인건비 $5,000/월
@@ -150,7 +150,7 @@ RDS 최적화:
 ## Ⅳ. EKS/ECS [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화
 
 ```
-VM 앱 → EKS/ECS 컨테이너화:
+VM 앱 -> EKS/ECS 컨테이너화:
 
 ECS vs EKS 선택:
 
@@ -179,7 +179,7 @@ Re-platform 컨테이너화 단계:
 
   4. ECS Service 생성:
      Desired Count: 3 (최소 인스턴스)
-     Auto Scaling: CPU 70% 이상 → 스케일 아웃
+     Auto Scaling: CPU 70% 이상 -> 스케일 아웃
 
   5. ALB (Application Load Balancer) 연동
 
@@ -188,7 +188,7 @@ Re-platform 컨테이너화 단계:
 Fargate 활용:
   EC2 서버 관리 없이 컨테이너 실행
   = Serverless Container
-  추가 Re-platform: EC2 기반 ECS → Fargate 이전
+  추가 Re-platform: EC2 기반 ECS -> Fargate 이전
   서버 패치, 용량 관리 부담 제거
 ```
 
@@ -202,29 +202,29 @@ Fargate 활용:
 이커머스 플랫폼 Re-platform 사례:
 
 현황 (Rehost 완료 후):
-  EC2: 온프레미스 VM → AWS EC2 이전 완료 (Rehost)
-  RDS: 자체 MySQL → 자체 운영 MySQL on EC2 (아직 비최적)
+  EC2: 온프레미스 VM -> AWS EC2 이전 완료 (Rehost)
+  RDS: 자체 MySQL -> 자체 운영 MySQL on EC2 (아직 비최적)
   문제: DB 패치/백업 수동, 고가용성 없음
 
 Re-platform 목표:
-  MySQL on EC2 → RDS for MySQL (Multi-AZ)
-  Apache Tomcat on EC2 → ECS Fargate
-  Nginx → ALB + WAF
-  Redis on EC2 → ElastiCache
+  MySQL on EC2 -> RDS for MySQL (Multi-AZ)
+  Apache Tomcat on EC2 -> ECS Fargate
+  Nginx -> ALB + WAF
+  Redis on EC2 -> ElastiCache
 
 단계별 실행:
 
   Week 1-2: RDS 마이그레이션
-    DMS 설정 → 지속 복제 → 피크 시간 외 컷오버
+    DMS 설정 -> 지속 복제 -> 피크 시간 외 컷오버
     다운타임: 15분
 
-  Week 3-4: Redis → ElastiCache
-    설정 변경: redis://old-host → cluster-endpoint
+  Week 3-4: Redis -> ElastiCache
+    설정 변경: redis://old-host -> cluster-endpoint
     코드 변경: 없음 (Redis 클라이언트 호환)
 
-  Week 5-8: Tomcat → ECS Fargate
-    Dockerfile 작성 → 테스트 → 스테이징 → 운영
-    ALB 생성 → ECS Service 연결
+  Week 5-8: Tomcat -> ECS Fargate
+    Dockerfile 작성 -> 테스트 -> 스테이징 -> 운영
+    ALB 생성 -> ECS Service 연결
 
   Week 9-10: WAF 적용
     OWASP Top 10 규칙 활성화
@@ -233,10 +233,10 @@ Re-platform 목표:
     RDS Performance Insights, CloudWatch 대시보드
 
 결과:
-  가용성: 99.5% → 99.95% (멀티 AZ RDS)
-  DB 관리 시간: DBA 40시간/월 → 5시간/월
-  인프라 비용: $8,000/월 → $5,500/월 (-31%)
-  스케일링: 수동 → 오토스케일링 (트래픽 5배 급증 자동 대응)
+  가용성: 99.5% -> 99.95% (멀티 AZ RDS)
+  DB 관리 시간: DBA 40시간/월 -> 5시간/월
+  인프라 비용: $8,000/월 -> $5,500/월 (-31%)
+  스케일링: 수동 -> 오토스케일링 (트래픽 5배 급증 자동 대응)
 ```
 
 > 📢 **섹션 요약 비유**: Re-platform은 집 수리 공정표 — 전기(DB), 수도(캐시), 방화([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 공사를 순서대로 하나씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/). 동시에 다 하면 집에서 못 살아요.
@@ -248,12 +248,12 @@ Re-platform 목표:
 ```
 Re-platform
 +-- 6R 위치
-|   +-- Rehost → Re-platform → Re-architect
+|   +-- Rehost -> Re-platform -> Re-architect
 +-- 주요 패턴
-|   +-- DB → RDS (DMS 마이그레이션)
-|   +-- 앱 서버 → ECS/EKS
-|   +-- Redis → ElastiCache
-|   +-- Nginx → ALB + WAF
+|   +-- DB -> RDS (DMS 마이그레이션)
+|   +-- 앱 서버 -> ECS/EKS
+|   +-- Redis -> ElastiCache
+|   +-- Nginx -> ALB + WAF
 +-- 도구
 |   +-- AWS DMS, SCT
 |   +-- ECS Fargate, EKS
@@ -308,7 +308,7 @@ FinOps + 지속적 최적화
 
 **진행 상황**: 42 / 371
 
-← **이전**: [042. Rehost — Lift & Shift 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/)
-**다음**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/) →
+<- **이전**: [042. Rehost — Lift & Shift 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/)
+**다음**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/) ->
 
 ---

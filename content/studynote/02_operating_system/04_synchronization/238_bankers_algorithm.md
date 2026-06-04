@@ -27,19 +27,19 @@ tags = ["studynote-operating-system"]
 ```text
   [은행원 알고리즘의 동작 철학 (대출 심사 과정)]
 
-  [ 고객(프로세스)의 대출 요청 ] ─▶ "OS 은행님, 저 메모리 2GB만 땡겨주세요!"
-               │
-           ▼
+  [ 고객(프로세스)의 대출 요청 ] --> "OS 은행님, 저 메모리 2GB만 땡겨주세요!"
+               |
+           v
   [ OS 심사역의 가상 시뮬레이션 ]
    1. 일단 2GB를 빌려줬다고 '가짜 장부'에 적는다.
    2. 남은 은행 잔고로 다른 고객 B를 풀대출(Max) 해줄 수 있나? (검증)
    3. B가 돈 벌어서 다 갚으면 그 돈으로 C를 살릴 수 있나? (검증)
-               │
-       ┌───┴───┐
+               |
+       +---+---+
      [Yes]   [No]
-       │       │
-       ▼       ▼
-  [승인/할당]  [거절/대기] ─▶ "고객님, 지금 대출 나가면 저희 파산(Unsafe)합니다.
+       |       |
+       v       v
+  [승인/할당]  [거절/대기] --> "고객님, 지금 대출 나가면 저희 파산(Unsafe)합니다.
                             다른 분이 돈 갚을 때까지 대기실에서 주무세요(Sleep)!"
 ```
 **[다이어그램 해설]** 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 절대 모험을 하지 않는다. "내가 가진 모든 자원을 풀로 당겨 써도 안전하게 회수할 수 있는가?"라는 최악의 시나리오(Worst-case Scenario)를 매번 가정한다. 이 극단적인 보수성 덕분에 100% 데드락 면역력을 갖지만, 반대로 엄청난 기회비용(대기 시간)을 초래한다.
@@ -73,8 +73,8 @@ tags = ["studynote-operating-system"]
 **[상황] P1이 자원 (1, 0, 2)를 추가로 요청했다!**
 
 **Step 1. 기본 검사**
-- `요청 (1,0,2) <= P1의 Need (1,2,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ─▶ 통과 (지 분수 안에서 요구함)
-- `요청 (1,0,2) <= Available (3,3,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ─▶ 통과 (은행에 돈 있음)
+- `요청 (1,0,2) <= P1의 Need (1,2,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? --> 통과 (지 분수 안에서 요구함)
+- `요청 (1,0,2) <= Available (3,3,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? --> 통과 (은행에 돈 있음)
 
 **Step 2. 가짜 장부 작성 (임시 할당)**
 - Available 깎기: (3,3,2) - (1,0,2) = **(2,3,0)**
@@ -83,12 +83,12 @@ tags = ["studynote-operating-system"]
 
 <strong>Step 3. <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>) <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Safety <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>
 현재 은행 잔고는 <strong>(2, 3, 0)</strong>이다. 이 돈으로 누구의 빚(Need)을 청산해 줄 수 있나?
-- P0의 Need (7,4,3) ─▶ 🚨 잔고(2,3,0) 부족. 패스.
-- **P1의 Need (0,2,0)** ─▶ ✅ 잔고(2,3,0)로 충분히 덮음!
+- P0의 Need (7,4,3) --> 🚨 잔고(2,3,0) 부족. 패스.
+- **P1의 Need (0,2,0)** --> ✅ 잔고(2,3,0)로 충분히 덮음!
   - P1을 살려주면, P1은 일을 끝내고 할당받았던 <strong>(3,0,2)</strong>를 반납한다.
   - 새 잔고: (2,3,0) + (3,0,2) = **(5, 3, 2)**
-- 바뀐 잔고 <strong>(5,3,2)</strong>로 P2의 Need (6,0,0) 커버 가능? ─▶ 🚨 A자원이 5라서 부족(6). 패스.
-- 바뀐 잔고 <strong>(5,3,2)</strong>로 P0의 Need (7,4,3) 커버 가능? ─▶ 🚨 A자원이 5라서 부족(7). 패스.
+- 바뀐 잔고 <strong>(5,3,2)</strong>로 P2의 Need (6,0,0) 커버 가능? --> 🚨 A자원이 5라서 부족(6). 패스.
+- 바뀐 잔고 <strong>(5,3,2)</strong>로 P0의 Need (7,4,3) 커버 가능? --> 🚨 A자원이 5라서 부족(7). 패스.
 - 더 이상 살릴 수 있는 놈이 없다. **안전 순서열 구축 실패!**
 
 **Step 4. 결론 도출**
@@ -129,24 +129,24 @@ tags = ["studynote-operating-system"]
    - **실무 조치**: 이런 폐쇄망 시스템에서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 비현실적 전제 조건(Max를 알아야 함)이 완벽히 해결된다. 따라서 RTOS 설계자들은 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 단계나 런타임 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모듈에 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 변형하여 탑재해, 예상치 못한 센서 오작동으로 인한 데드락 파국을 실시간으로 회피한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────┐
-  │     개발자의 동시성 버그(데드락) 대처 실무 설계 프레임워크                  │
-  ├─────────────────────────────────────────────────────────────────────────────┤
-  │                                                                             │
-  │   [요구사항: 사내 ERP 시스템의 동시성 결제 모듈을 개발하라]                 │
-  │                                                                             │
-  │   [ ❌ 주니어의 착각 ]                                                      │
-  │     - "OS 시간에 은행원 알고리즘 배웠어! 내가 코드로 구현해서               │
-  │        안전 상태일 때만 락을 주게끔 짱짱하게 짜야지!"                       │
-  │     ▶ 결과: 로직 복잡도 폭발, 속도 1/1000 토막. 해고 사유.                  │
-  │                                                                             │
-  │   [ ✅ 시니어 아키텍트의 정답 (예방 + 롤백의 조화) ]                        │
-  │     1. 은행원 알고리즘 같은 이상주의는 머릿속에서 지워버린다.               │
-  │     2. 코드 리뷰 단계에서 무조건 Lock Ordering(계층화)을 강제한다.          │
-  │     3. 혹시 꼬일 걸 대비해 `tryLock(3sec)` 타임아웃을 건다.                 │
-  │     4. 타임아웃이 터지면 에러 로그를 남기고 즉시 트랜잭션을 롤백(Retry)한다.│
-  │     ▶ 결과: 오버헤드 0, 시스템 안정성 99.99% 달성.                          │
-  └─────────────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------------+
+  |     개발자의 동시성 버그(데드락) 대처 실무 설계 프레임워크                  |
+  +-----------------------------------------------------------------------------+
+  |                                                                             |
+  |   [요구사항: 사내 ERP 시스템의 동시성 결제 모듈을 개발하라]                 |
+  |                                                                             |
+  |   [ ❌ 주니어의 착각 ]                                                      |
+  |     - "OS 시간에 은행원 알고리즘 배웠어! 내가 코드로 구현해서               |
+  |        안전 상태일 때만 락을 주게끔 짱짱하게 짜야지!"                       |
+  |     -> 결과: 로직 복잡도 폭발, 속도 1/1000 토막. 해고 사유.                  |
+  |                                                                             |
+  |   [ ✅ 시니어 아키텍트의 정답 (예방 + 롤백의 조화) ]                        |
+  |     1. 은행원 알고리즘 같은 이상주의는 머릿속에서 지워버린다.               |
+  |     2. 코드 리뷰 단계에서 무조건 Lock Ordering(계층화)을 강제한다.          |
+  |     3. 혹시 꼬일 걸 대비해 `tryLock(3sec)` 타임아웃을 건다.                 |
+  |     4. 타임아웃이 터지면 에러 로그를 남기고 즉시 트랜잭션을 롤백(Retry)한다.|
+  |     -> 결과: 오버헤드 0, 시스템 안정성 99.99% 달성.                          |
+  +-----------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 컴퓨터 공학도들이 실무에 와서 가장 멘붕을 겪는 지점이다. 교과서의 위대한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 실무 코드에 짜 넣으려다가 퍼포먼스 리뷰에서 혹평을 받는다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>"OS가 데드락을 어떻게 수학적으로 이해하고 있는가"</strong>를 훈련하는 두뇌 체조용이지, 애플리케이션 백엔드에서 구현할 라이브러리가 절대 아님을 깨닫는 것이 아키텍트로의 성장이다.
 
@@ -180,12 +180,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [블로킹 세마포어]
-    │
-    ▼
+    |
+    v
 [은행원 알고리즘 (Banker's Algorithm)]
-    │
-    ├──▶ [조건 변수 (Condition Variable)]
-    └──▶ [모니터 시그널 의미론]
+    |
+    +---> [조건 변수 (Condition Variable)]
+    +---> [모니터 시그널 의미론]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -202,7 +202,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 238 / 800
 
-← **이전**: [237. 불안전 상태 (Unsafe State)](/knowledge-base/studynote/02_operating_system/04_synchronization/237_unsafe_state/)
-**다음**: [239. 자원 할당 그래프 (Resource Allocation Graph, RAG)](/knowledge-base/studynote/02_operating_system/04_synchronization/239_resource_allocation_graph/) →
+<- **이전**: [237. 불안전 상태 (Unsafe State)](/knowledge-base/studynote/02_operating_system/04_synchronization/237_unsafe_state/)
+**다음**: [239. 자원 할당 그래프 (Resource Allocation Graph, RAG)](/knowledge-base/studynote/02_operating_system/04_synchronization/239_resource_allocation_graph/) ->
 
 ---

@@ -23,28 +23,28 @@ tags = ["studynote-computer-architecture"]
 
 이 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치가 없으면 문제는 두 방향으로 폭발한다. 첫째, 실수로 잘못된 포인터를 따라간 프로그램이 다른 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 구조를 덮어쓸 수 있다. 둘째, 악의적 코드가 비밀번호, [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 같은 민감 영역을 읽거나 실행해 권한 상승으로 이어질 수 있다. 즉 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 옵션이 아니라, 멀티태스킹과 보안 운영의 출발점이다.
 
-아래 그림은 메모리 접근이 단순히 “주소→[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)”로 끝나지 않고, 중간에 권한 판정 계층을 반드시 거친다는 점을 보여준다.
+아래 그림은 메모리 접근이 단순히 “주소->[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)”로 끝나지 않고, 중간에 권한 판정 계층을 반드시 거친다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            메모리 보호의 본질: 접근 전에 반드시 자격 심사           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 사용자 프로세스                                                     │
-│   load / store / fetch 요청                                         │
-│            │                                                         │
-│            ▼                                                         │
-│   가상 주소 (Virtual Address) + 접근 종류 (R / W / X)               │
-│            │                                                         │
-│            ▼                                                         │
-│ MMU (Memory Management Unit)                                         │
-│   ├─ 주소 변환 가능? ──────────────── 아니오 ─▶ 예외 처리            │
-│   ├─ 현재 모드 권한 적합? ─────────── 아니오 ─▶ 보호 위반            │
-│   └─ 페이지 권한 비트 일치? ──────── 아니오 ─▶ Segmentation Fault    │
-│            │                                                         │
-│            예                                                        │
-│            ▼                                                         │
-│ 물리 메모리 (Physical Memory) 접근 허용                             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            메모리 보호의 본질: 접근 전에 반드시 자격 심사           |
++----------------------------------------------------------------------+
+| 사용자 프로세스                                                     |
+|   load / store / fetch 요청                                         |
+|            |                                                         |
+|            v                                                         |
+|   가상 주소 (Virtual Address) + 접근 종류 (R / W / X)               |
+|            |                                                         |
+|            v                                                         |
+| MMU (Memory Management Unit)                                         |
+|   +- 주소 변환 가능? ---------------- 아니오 --> 예외 처리            |
+|   +- 현재 모드 권한 적합? ----------- 아니오 --> 보호 위반            |
+|   +- 페이지 권한 비트 일치? -------- 아니오 --> Segmentation Fault    |
+|            |                                                         |
+|            예                                                        |
+|            v                                                         |
+| 물리 메모리 (Physical Memory) 접근 허용                             |
++----------------------------------------------------------------------+
 ```
 
 중요한 점은, 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 메모리 부족 문제를 해결하는 기능이 아니라 <strong>잘못된 접근의 파급 범위를 국소화</strong>하는 기능이라는 사실이다. 프로그램 하나는 죽을 수 있어도 시스템 전체는 살아남게 만드는 것이 목표다.
@@ -74,27 +74,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 한 번의 메모리 접근이 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 실행 모드를 어떻게 함께 통과하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                페이지 기반 메모리 보호의 판정 흐름                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 명령 수행                                                     │
-│   │                                                                  │
-│   ├─ 명령 인출(Execute)                                              │
-│   ├─ 데이터 읽기(Read)                                               │
-│   └─ 데이터 쓰기(Write)                                              │
-│            │                                                         │
-│            ▼                                                         │
-│ TLB 조회 ── 적중 ─▶ 권한 확인 ── 통과 ─▶ 메모리 접근 허용            │
-│   │                                                                  │
-│   └─ 실패                                                            │
-│       ▼                                                              │
-│   PTE 조회                                                           │
-│   ├─ Present = 0          ─▶ Page Fault                              │
-│   ├─ User = 0, 사용자 모드 ─▶ Protection Fault                       │
-│   ├─ Write = 0, 쓰기 시도 ─▶ Protection Fault                        │
-│   ├─ Execute = 0, 실행 시도 ─▶ NX Fault                              │
-│   └─ 조건 충족              ─▶ TLB 갱신 후 접근 허용                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                페이지 기반 메모리 보호의 판정 흐름                  |
++----------------------------------------------------------------------+
+| CPU가 명령 수행                                                     |
+|   |                                                                  |
+|   +- 명령 인출(Execute)                                              |
+|   +- 데이터 읽기(Read)                                               |
+|   +- 데이터 쓰기(Write)                                              |
+|            |                                                         |
+|            v                                                         |
+| TLB 조회 -- 적중 --> 권한 확인 -- 통과 --> 메모리 접근 허용            |
+|   |                                                                  |
+|   +- 실패                                                            |
+|       v                                                              |
+|   PTE 조회                                                           |
+|   +- Present = 0          --> Page Fault                              |
+|   +- User = 0, 사용자 모드 --> Protection Fault                       |
+|   +- Write = 0, 쓰기 시도 --> Protection Fault                        |
+|   +- Execute = 0, 실행 시도 --> NX Fault                              |
+|   +- 조건 충족              --> TLB 갱신 후 접근 허용                 |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 구분은 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong> 와 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 위반 (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Fault)</strong> 이 다르다는 점이다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 “해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 아직 메모리에 없다”는 상태 문제라면, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반은 “메모리에 있더라도 네가 그렇게 접근할 권한이 없다”는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다. 두 예외를 구분해야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 적재할지, 프로세스를 종료할지 올바르게 결정할 수 있다.
@@ -195,20 +195,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Base / Limit Register
-        │
-        ▼
+        |
+        v
 세그멘테이션 (Segmentation)
-        │
-        ▼
+        |
+        v
 페이징 (Paging) + PTE (Page Table Entry) 권한 비트
-        │
-        ▼
+        |
+        v
 사용자 / 커널 모드 분리 + MMU (Memory Management Unit)
-        │
-        ▼
+        |
+        v
 NX (No-eXecute) · W^X 정책 · 가드 페이지 (Guard Page)
-        │
-        ▼
+        |
+        v
 ASLR (Address Space Layout Randomization) · 샌드박싱 · 하드웨어 격리 강화
 ```
 
@@ -226,7 +226,7 @@ ASLR (Address Space Layout Randomization) · 샌드박싱 · 하드웨어 격리
 
 **진행 상황**: 307 / 803
 
-← **이전**: [306. PFF (Page Fault Frequency)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)
-**다음**: [307. 페이지 크기 (Page Size)의 트레이드오프](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_page_size/) →
+<- **이전**: [306. PFF (Page Fault Frequency)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)
+**다음**: [307. 페이지 크기 (Page Size)의 트레이드오프](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_page_size/) ->
 
 ---

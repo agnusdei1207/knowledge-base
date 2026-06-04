@@ -26,27 +26,27 @@ tags = ["studynote-security"]
 아래 그림은 고정형 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 관리와 동적 서브도메인 환경 사이의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why wildcard certificates became necessary                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Fixed host list                                                      │
-│   api.example.com                                                    │
-│   admin.example.com                                                  │
-│   files.example.com                                                  │
-│        │                                                             │
-│        └─ SAN list can explicitly enumerate names                    │
-│                                                                      │
-│ Growing host list                                                    │
-│   tenant1.example.com                                                │
-│   tenant2.example.com                                                │
-│   tenant3.example.com                                                │
-│   ... more every week                                                │
-│        │                                                             │
-│        └─ Reissuing explicit SAN list becomes operational overhead   │
-│                                                                      │
-│ Answer: one wildcard entry *.example.com                             │
-│        -> valid for one-label subdomains under the same base domain  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why wildcard certificates became necessary                           |
++----------------------------------------------------------------------+
+| Fixed host list                                                      |
+|   api.example.com                                                    |
+|   admin.example.com                                                  |
+|   files.example.com                                                  |
+|        |                                                             |
+|        +- SAN list can explicitly enumerate names                    |
+|                                                                      |
+| Growing host list                                                    |
+|   tenant1.example.com                                                |
+|   tenant2.example.com                                                |
+|   tenant3.example.com                                                |
+|   ... more every week                                                |
+|        |                                                             |
+|        +- Reissuing explicit SAN list becomes operational overhead   |
+|                                                                      |
+| Answer: one wildcard entry *.example.com                             |
+|        -> valid for one-label subdomains under the same base domain  |
++----------------------------------------------------------------------+
 ```
 
 즉 와일드카드는 "더 강한 인증서"가 아니라 "더 넓은 이름 집합을 더 적은 문서로 다루는 인증서"다. 필요성의 핵심은 보안 등급 상승이 아니라 운영 자동화와 확장성에 있다.
@@ -62,26 +62,26 @@ tags = ["studynote-security"]
 또한 발급 단계에서는 단순 문자열 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 선행된다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)는 신청자가 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 실제로 제어하는지 확인해야 하며, ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 자동화에서는 와일드카드 발급 시 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)-01 챌린지가 대표적으로 사용된다. 즉 편리해 보여도 발급 근거는 여전히 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통제권 위에 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Wildcard issuance and hostname validation                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CSR (Certificate Signing Request) / ACME request                     │
-│   SAN = *.example.com                                                │
-│        │                                                             │
-│        ├─ CA verifies DNS control                                    │
-│        │    └─ ACME wildcard issuance commonly uses DNS-01           │
-│        ▼                                                             │
-│ Issued certificate + private key                                     │
-│        │                                                             │
-│ Client connects to https://api.example.com                           │
-│        │                                                             │
-│ Server sends certificate                                             │
-│        ▼                                                             │
-│ Hostname matcher                                                     │
-│   ├─ api.example.com      -> match                                   │
-│   ├─ example.com          -> no match                                │
-│   └─ dev.api.example.com  -> no match                                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Wildcard issuance and hostname validation                            |
++----------------------------------------------------------------------+
+| CSR (Certificate Signing Request) / ACME request                     |
+|   SAN = *.example.com                                                |
+|        |                                                             |
+|        +- CA verifies DNS control                                    |
+|        |    +- ACME wildcard issuance commonly uses DNS-01           |
+|        v                                                             |
+| Issued certificate + private key                                     |
+|        |                                                             |
+| Client connects to https://api.example.com                           |
+|        |                                                             |
+| Server sends certificate                                             |
+|        v                                                             |
+| Hostname matcher                                                     |
+|   +- api.example.com      -> match                                   |
+|   +- example.com          -> no match                                |
+|   +- dev.api.example.com  -> no match                                |
++----------------------------------------------------------------------+
 ```
 
 | 인증서 이름 | 일치 예 | 불일치 예 | 이유 |
@@ -171,21 +171,21 @@ tags = ["studynote-security"]
 
 ```text
 단일 호스트 인증서
-    │
-    ▼
+    |
+    v
 SAN (Subject Alternative Name) 기반 다중 이름 관리
-    │
-    ▼
+    |
+    v
 와일드카드 패턴 (*.example.com)
-    │
-    ├─ 동적 서브도메인 운영
-    ├─ 인그레스 / 멀티테넌트 플랫폼
-    └─ 개인키 노출 반경 확대
-    │
-    ▼
+    |
+    +- 동적 서브도메인 운영
+    +- 인그레스 / 멀티테넌트 플랫폼
+    +- 개인키 노출 반경 확대
+    |
+    v
 ACME + DNS 자동화
-    │
-    ▼
+    |
+    v
 인증서 분리 전략 + 키 격리 설계
 ```
 
@@ -203,7 +203,7 @@ ACME + DNS 자동화
 
 **진행 상황**: 228 / 1108
 
-← **이전**: [174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/)
-**다음**: [176. EV (Extended Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/176_ev_extended_validation_certificate/) →
+<- **이전**: [174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/)
+**다음**: [176. EV (Extended Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/176_ev_extended_validation_certificate/) ->
 
 ---

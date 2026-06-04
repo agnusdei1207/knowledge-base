@@ -24,7 +24,7 @@ tags = ["studynote-operating-system"]
 
 ### 필요성
 - 서버 프로세스가 24/7 실행되면 누적 누수가 GB 단위로 증가
-- 결국 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 프로세스를 강제 종료 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애
+- 결국 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 프로세스를 강제 종료 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애
 - 재현이 어려워 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)·동적 탐지 도구 필수
 
 ### 등장 배경
@@ -33,22 +33,22 @@ tags = ["studynote-operating-system"]
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak (2019+)</strong>: 프로덕션 안전 실시간 탐지
 
 ```text
-┌───────────── 메모리 누수 진행 과정 ─────────────┐
-│                                                  │
-│  시간 T0: 프로세스 시작, RSS = 100MB             │
-│     ↓                                            │
-│  시간 T1: 매 요청마다 1KB 누수                    │
-│     ↓                                            │
-│  시간 T2: 100만 요청 후, RSS = 100MB + 1GB       │
-│     ↓                                            │
-│  시간 T3: OOM Killer 동작!                       │
-│     → dmesg: "Out of memory: Killed process"     │
-│     → 서비스 다운타임 발생                        │
-│                                                  │
-│  ──────────────────────────────────               │
-│  Valgrind/ASan → 개발 단계에서 조기 발견          │
-│  eBPF memleak → 운영 중 실시간 탐지               │
-└──────────────────────────────────────────────────┘
++------------- 메모리 누수 진행 과정 -------------+
+|                                                  |
+|  시간 T0: 프로세스 시작, RSS = 100MB             |
+|     v                                            |
+|  시간 T1: 매 요청마다 1KB 누수                    |
+|     v                                            |
+|  시간 T2: 100만 요청 후, RSS = 100MB + 1GB       |
+|     v                                            |
+|  시간 T3: OOM Killer 동작!                       |
+|     -> dmesg: "Out of memory: Killed process"     |
+|     -> 서비스 다운타임 발생                        |
+|                                                  |
+|  ----------------------------------               |
+|  Valgrind/ASan -> 개발 단계에서 조기 발견          |
+|  eBPF memleak -> 운영 중 실시간 탐지               |
++--------------------------------------------------+
 ```
 
 **[해설]** 메모리 누수는 점진적으로 진행되므로 단기 테스트에서는 발견되지 않는다. 따라서 개발 단계의 정밀 검사와 운영 단계의 실시간 모니터링이 모두 필요하다.
@@ -72,35 +72,35 @@ tags = ["studynote-operating-system"]
 ### Valgrind Memcheck 아키텍처
 
 ```text
-┌─────────────── Valgrind 구조 ───────────────────┐
-│                                                  │
-│  ┌──────────────┐                               │
-│  │ 응용 프로그램  │                               │
-│  │ (바이너리 코드) │                               │
-│  └──────┬───────┘                               │
-│         │                                        │
-│  ┌──────▼───────────────────────┐               │
-│  │   Valgrind 핵심 (VEX/IR)     │               │
-│  │  바이너리 → 중간 표현(IR)     │               │
-│  │  → 계측 코드 삽입             │               │
-│  │  → 시뮬레이션 실행            │               │
-│  └──────┬───────────────────────┘               │
-│         │                                        │
-│  ┌──────▼──────┐  ┌──────────────┐              │
-│  │ Memcheck    │  │ Shadow Memory│              │
-│  │ (툴)        │  │ (V/A 비트)   │              │
-│  │             │  │              │              │
-│  │ malloc 추적 │  │ 할당된 주소   │              │
-│  │ free 검증   │  │ 해제된 주소   │              │
-│  │ 접근 검사   │  │ 초기화 상태   │              │
-│  └─────────────┘  └──────────────┘              │
-│                                                  │
-│  출력: LEAK SUMMARY                              │
-│  definitely lost: 1,024 bytes in 1 blocks        │
-│  indirectly lost: 512 bytes in 2 blocks          │
-│  possibly lost: 0 bytes in 0 blocks              │
-│  still reachable: 4,096 bytes in 3 blocks        │
-└──────────────────────────────────────────────────┘
++--------------- Valgrind 구조 -------------------+
+|                                                  |
+|  +--------------+                               |
+|  | 응용 프로그램  |                               |
+|  | (바이너리 코드) |                               |
+|  +------+-------+                               |
+|         |                                        |
+|  +------v-----------------------+               |
+|  |   Valgrind 핵심 (VEX/IR)     |               |
+|  |  바이너리 -> 중간 표현(IR)     |               |
+|  |  -> 계측 코드 삽입             |               |
+|  |  -> 시뮬레이션 실행            |               |
+|  +------+-----------------------+               |
+|         |                                        |
+|  +------v------+  +--------------+              |
+|  | Memcheck    |  | Shadow Memory|              |
+|  | (툴)        |  | (V/A 비트)   |              |
+|  |             |  |              |              |
+|  | malloc 추적 |  | 할당된 주소   |              |
+|  | free 검증   |  | 해제된 주소   |              |
+|  | 접근 검사   |  | 초기화 상태   |              |
+|  +-------------+  +--------------+              |
+|                                                  |
+|  출력: LEAK SUMMARY                              |
+|  definitely lost: 1,024 bytes in 1 blocks        |
+|  indirectly lost: 512 bytes in 2 blocks          |
+|  possibly lost: 0 bytes in 0 blocks              |
+|  still reachable: 4,096 bytes in 3 blocks        |
++--------------------------------------------------+
 ```
 
 **[해설]** Valgrind는 프로그램의 모든 메모리 접근을 중간 표현([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))으로 변환하여 Shadow Memory와 비교 검증한다. malloc은 기록하고 free는 검증하여 프로그램 종료 시 미해제 블록을 리포트한다.
@@ -108,25 +108,25 @@ tags = ["studynote-operating-system"]
 ### AddressSanitizer 원리
 
 ```text
-┌─────────── ASan 메모리 레이아웃 ──────────┐
-│                                           │
-│  [할당 영역] [Red Zone] [할당 영역]       │
-│   64 bytes    32 bytes    64 bytes        │
-│       ↑                        ↑          │
-│       │  할당 추적용             │         │
-│       │  Shadow Memory에 기록     │        │
-│                                           │
-│  Shadow Memory:                           │
-│  0 = 접근 가능                            │
-│  음수 = Red Zone (접근 시 에러)            │
-│  양수 = 부분 할당 영역 경계                 │
-│                                           │
-│  접근 패턴:                               │
-│  char *p = malloc(64);                    │
-│  p[64] = 'x';  → Red Zone 접근! 에러!     │
-│  free(p);                                 │
-│  p[0] = 'y';  → use-after-free! 에러!     │
-└───────────────────────────────────────────┘
++----------- ASan 메모리 레이아웃 ----------+
+|                                           |
+|  [할당 영역] [Red Zone] [할당 영역]       |
+|   64 bytes    32 bytes    64 bytes        |
+|       ^                        ^          |
+|       |  할당 추적용             |         |
+|       |  Shadow Memory에 기록     |        |
+|                                           |
+|  Shadow Memory:                           |
+|  0 = 접근 가능                            |
+|  음수 = Red Zone (접근 시 에러)            |
+|  양수 = 부분 할당 영역 경계                 |
+|                                           |
+|  접근 패턴:                               |
+|  char *p = malloc(64);                    |
+|  p[64] = 'x';  -> Red Zone 접근! 에러!     |
+|  free(p);                                 |
+|  p[0] = 'y';  -> use-after-free! 에러!     |
++-------------------------------------------+
 ```
 
 **[해설]** ASan은 컴파일 시 모든 malloc/free를 계측하고, 각 할당 영역 주변에 Red Zone(접근 금지 영역)을 배치한다. Shadow Memory로 모든 접근을 검증하여 버그를 실시간 탐지한다.
@@ -161,23 +161,23 @@ tags = ["studynote-operating-system"]
 ```bash
 valgrind --leak-check=full --show-leak-kinds=all ./myserver
 ```
-→ 종료 시 LEAK SUMMARY에서 definitely lost 추적
+-> 종료 시 LEAK SUMMARY에서 definitely lost 추적
 
 <strong>시나리오 2: <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD에 ASan 통합</strong>
 ```bash
 gcc -fsanitize=address -g -O1 test.c && ./a.out
 ```
-→ 런타임에 즉시 오류 보고
+-> 런타임에 즉시 오류 보고
 
 <strong>시나리오 3: 프로덕션 <a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong>
 ```bash
 bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 ```
-→ 실시간 할당 추적
+-> 실시간 할당 추적
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Valgrind를 프로덕션에서 실행**: 20~50x [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 → 불가
-- **누수 무시**: "메모리 많으니까" → 장애 위험 누적
+- **Valgrind를 프로덕션에서 실행**: 20~50x [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 -> 불가
+- **누수 무시**: "메모리 많으니까" -> 장애 위험 누적
 
 - **📢 섹션 요약 비유**: 건강 검진(Valgrind)은 병원에서만 받고, 일상 운동(ASan)은 매일 하고, 스마트워치([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))는 항상 착용하는 것처럼, 단계별 도구를 상황에 맞게 활용해야 합니다.
 
@@ -208,12 +208,12 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 
 ```text
 [CPU 유휴 (Idle) 대기 루프 최적화]
-    │
-    ▼
+    |
+    v
 [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    │
-    ├──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-    └──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
+    |
+    +---> [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
+    +---> [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -232,7 +232,7 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 
 **진행 상황**: 612 / 800
 
-← **이전**: [611. CPU 유휴 (Idle) 대기 루프 최적화](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)
-**다음**: [613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) →
+<- **이전**: [611. CPU 유휴 (Idle) 대기 루프 최적화](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)
+**다음**: [613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) ->
 
 ---

@@ -31,9 +31,9 @@ tags = ["studynote-security"]
 
 ```text
 Threat Surface
-  ↓
+  v
 STRIDE Categories
-  ↓
+  v
 Mitigation Ideas
 ```
 
@@ -103,11 +103,11 @@ STRIDE를 쓰면 설계 리뷰가 빠지고, 공격 범주가 빠짐없이 정�
 
 ```text
 Data Flow
-  ↓
+  v
 STRIDE
-  ↓
+  v
 Mitigations
-  ↓
+  v
 Secure Design
 ```
 
@@ -117,11 +117,11 @@ Secure Design
 
 ```text
 Threat Modeling
-  ↓
+  v
 STRIDE
-  ↓
+  v
 DREAD
-  ↓
+  v
 Security Review
 ```
 
@@ -139,7 +139,7 @@ STRIDE는 그런 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysi
 
 **진행 상황**: 65 / 1108
 
-← **이전**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/)
-**다음**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/) →
+<- **이전**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/)
+**다음**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/) ->
 
 ---

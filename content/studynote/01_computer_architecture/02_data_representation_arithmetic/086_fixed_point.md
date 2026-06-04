@@ -34,9 +34,9 @@ tags = ["studynote-computer-architecture"]
 | scale factor | 실제값 변환 배수 | 값 = 저장값 / 2^n |
 | rounding | 근사 방식 | truncation, round, saturation |
 
-┌──────── 정수부 ────────┬──────── 소수부 ────────┐
-│ 00010110               │ 10100000               │
-└────────────────────────┴────────────────────────┘
++-------- 정수부 --------+-------- 소수부 --------+
+| 00010110               | 10100000               |
++------------------------+------------------------+
              binary point
 - **📢 섹션 요약 비유**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 범위는 서로 바꿔야 한다.
 
@@ -87,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-범위 파악 → Qm.n 선택 → 스케일 변환 → 연산 수행 → 오버플로 검증 → 출력 복원
+범위 파악 -> Qm.n 선택 -> 스케일 변환 -> 연산 수행 -> 오버플로 검증 -> 출력 복원
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -102,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 86 / 803
 
-← **이전**: [85. 2의 보수 (2's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/085_twos_complement/)
-**다음**: [87. 부동소수점 (Floating Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) →
+<- **이전**: [85. 2의 보수 (2's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/085_twos_complement/)
+**다음**: [87. 부동소수점 (Floating Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ->
 
 ---

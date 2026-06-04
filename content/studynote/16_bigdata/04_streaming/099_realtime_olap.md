@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) (Real-time [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/), [Online Analytical Processing](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/))은 스트리밍으로 유입되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수초~수 밀리초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 즉시 컬럼형(Columnar) 스토어에 적재하고 서브초(Sub-second) 내에 집계·분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리하는 분석 아키텍처로, Apache Druid·Apache Pinot·ClickHouse가 대표 구현체다.
-> 2. **가치**: 기존 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) Batch 적재 → 야간 집계)은 T+1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 분석 가능하지만, 실시간 OLAP는 방금 발생한 이벤트(T+수초)를 즉시 분석하여 실시간 사용자 행동 분석·광고 성과 실시간 대시보드·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 같은 즉각적인 비즈니스 인사이트를 제공한다.
+> 2. **가치**: 기존 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) Batch 적재 -> 야간 집계)은 T+1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 분석 가능하지만, 실시간 OLAP는 방금 발생한 이벤트(T+수초)를 즉시 분석하여 실시간 사용자 행동 분석·광고 성과 실시간 대시보드·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 같은 즉각적인 비즈니스 인사이트를 제공한다.
 > 3. **판단 포인트**: 실시간 OLAP은 "최신성(Freshness)"과 "[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"을 동시에 달성하는 도구이지만, 완전한 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 복잡한 JOIN은 지원이 제한적이다. 이벤트 기반 집계·필터·분석에 최적화되어 있으며, 복잡한 다단계 JOIN이 필요하면 전통적 DW가 적합하다.
 
 ---
@@ -21,17 +21,17 @@ tags = ["studynote-bigdata"]
 기존 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)(배치 기반 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재부터 분석까지 T+1(다음 날)이 표준이었다. 실시간 마케팅·운영·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 T+1 분석은 너무 늦다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          기존 OLAP vs 실시간 OLAP 비교                         │
-├──────────────────────────┬───────────────────────────────────┤
-│    기존 OLAP (배치)        │    실시간 OLAP                    │
-├──────────────────────────┼───────────────────────────────────┤
-│  배치 ETL → T+1 적재       │  스트리밍 직접 적재, T+수초         │
-│  야간 집계 (수 시간)        │  서브초(< 1초) 쿼리 응답           │
-│  Snowflake, Redshift      │  Druid, Pinot, ClickHouse         │
-│  복잡한 JOIN 지원           │  JOIN 제한, 사전 집계 최적화        │
-│  정확한 ACID               │  Eventually Consistent            │
-└──────────────────────────┴───────────────────────────────────┘
++--------------------------------------------------------------+
+|          기존 OLAP vs 실시간 OLAP 비교                         |
++--------------------------+-----------------------------------+
+|    기존 OLAP (배치)        |    실시간 OLAP                    |
++--------------------------+-----------------------------------+
+|  배치 ETL -> T+1 적재       |  스트리밍 직접 적재, T+수초         |
+|  야간 집계 (수 시간)        |  서브초(< 1초) 쿼리 응답           |
+|  Snowflake, Redshift      |  Druid, Pinot, ClickHouse         |
+|  복잡한 JOIN 지원           |  JOIN 제한, 사전 집계 최적화        |
+|  정확한 ACID               |  Eventually Consistent            |
++--------------------------+-----------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 OLAP는 신문(어제 뉴스 집계), 실시간 OLAP는 실시간 뉴스 스트리밍이다. 어제 주가보다 지금 주가를 보고 싶은 트레이더에게는 실시간이 필수다.
@@ -43,15 +43,15 @@ tags = ["studynote-bigdata"]
 ### Apache Druid 아키텍처
 
 ```text
-[이벤트 소스] → Kafka → [실시간 인제스션 노드]
-                              │ (실시간 분할·인덱싱)
-                              ▼
+[이벤트 소스] -> Kafka -> [실시간 인제스션 노드]
+                              | (실시간 분할·인덱싱)
+                              v
                     [히스토리컬 노드 (Parquet+인덱스 저장)]
-                              │
+                              |
                     [쿼리 노드 (서브초 집계 처리)]
-                              │
+                              |
                     [브로커 (쿼리 라우팅)]
-                              │
+                              |
                     [대시보드 / API]
 ```
 
@@ -91,7 +91,7 @@ tags = ["studynote-bigdata"]
 2. **적재**: Druid 실시간 인제스션 (세그먼트 1분 단위 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).
 3. **사전 집계**: 광고ID × 시간별 클릭/노출/[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 저장.
 4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>: `SELECT ad_id, SUM(clicks), SUM(impressions), AVG(ctr) FROM events WHERE ts > NOW() - INTERVAL '1' HOUR GROUP BY ad_id`
-5. **결과**: 200ms 내 응답 → 광고 입찰 실시간 최적화 가능.
+5. **결과**: 200ms 내 응답 -> 광고 입찰 실시간 최적화 가능.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 실시간 OLAP로 복잡한 다단계 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하려는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). Druid/Pinot는 Star [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 단순한 사실 테이블([Fact Table](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)) 집계에 최적화되어 있고, 복잡한 JOIN은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 유발한다. JOIN이 많은 분석은 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)/[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 같은 전통 DW가 적합하다.
@@ -128,17 +128,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [배치 OLAP — T+1 적재, 야간 집계, DW]
-    │
-    ▼
+    |
+    v
 [실시간 OLAP — 스트리밍 즉시 적재, 서브초 쿼리]
-    │
-    ▼
+    |
+    v
 [Druid/Pinot/ClickHouse — 실시간 OLAP 3대 엔진]
-    │
-    ▼
+    |
+    v
 [람다/카파 아키텍처 통합 — 배치+실시간 유니파이]
-    │
-    ▼
+    |
+    v
 [Real-time Lakehouse — Iceberg+Delta+실시간 OLAP]
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 99 / 262
 
-← **이전**: [23. CEP (Complex Event Processing) — 복합 이벤트 처리](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)
-**다음**: [기술 통계 (Descriptive Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/) →
+<- **이전**: [23. CEP (Complex Event Processing) — 복합 이벤트 처리](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)
+**다음**: [기술 통계 (Descriptive Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/) ->
 
 ---

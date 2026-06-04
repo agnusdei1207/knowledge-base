@@ -32,26 +32,26 @@ tags = ["studynote-operating-system"]
 프로그램이 프로세스가 되는 물리적 아키텍처는 메모리 할당(Allocation)으로 시작된다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           프로그램 ➔ 프로세스 변환의 물리적 메모리 아키텍처       │
-├────────────────────────────────────────────────────────┤
-│   [ 하드 디스크 (HDD/SSD) ]                             │
-│      죽은 파일: `game.exe` (100MB)                       │
-│        │                                               │
-│        ▼ (더블클릭! ──▶ OS의 Loader 작동)                 │
-│ ═══════════════════════════════════════════════════════│
-│   [ 메인 메모리 (RAM) - 살아있는 프로세스 공간 생성 ]           │
-│                                                        │
-│     [ 프로세스 제어 블록 (PCB) ] ──▶ 커널 영역에 주민등록증 생성 │
-│      - PID: 4092, 상태: Running                         │
-│     ---------------------------------------------------│
-│     [ Stack 영역 ] ──▶ 지역 변수, 함수 호출 기록 (위에서 ⬇) │
-│          ( 빈 공간 - 동적 확장/축소)                      │
-│     [ Heap 영역 ]  ──▶ 동적 메모리 할당 (malloc) (아래서 ⬆) │
-│     ---------------------------------------------------│
-│     [ Data 영역 ]  ──▶ 전역 변수, 정적(Static) 변수        │
-│     [ Text (Code) 영역 ] ──▶ 기계어 명령어(`game.exe` 본체) │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           프로그램 ➔ 프로세스 변환의 물리적 메모리 아키텍처       |
++--------------------------------------------------------+
+|   [ 하드 디스크 (HDD/SSD) ]                             |
+|      죽은 파일: `game.exe` (100MB)                       |
+|        |                                               |
+|        v (더블클릭! ---> OS의 Loader 작동)                 |
+| -------------------------------------------------------|
+|   [ 메인 메모리 (RAM) - 살아있는 프로세스 공간 생성 ]           |
+|                                                        |
+|     [ 프로세스 제어 블록 (PCB) ] ---> 커널 영역에 주민등록증 생성 |
+|      - PID: 4092, 상태: Running                         |
+|     ---------------------------------------------------|
+|     [ Stack 영역 ] ---> 지역 변수, 함수 호출 기록 (위에서 ⬇) |
+|          ( 빈 공간 - 동적 확장/축소)                      |
+|     [ Heap 영역 ]  ---> 동적 메모리 할당 (malloc) (아래서 ⬆) |
+|     ---------------------------------------------------|
+|     [ Data 영역 ]  ---> 전역 변수, 정적(Static) 변수        |
+|     [ Text (Code) 영역 ] ---> 기계어 명령어(`game.exe` 본체) |
++--------------------------------------------------------+
 ```
 
 디스크에 있던 코드는 그대로 메모리의 Text 구역에 복사된다. 하지만 프로세스가 되면서 새로 생기는 가장 중요한 공간은 <strong>Stack과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a></strong>이다. 이 공간이 있어야 비로소 데이터를 저장하고 함수를 호출하며 생명 활동(실행)을 할 수 있다.
@@ -113,22 +113,22 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-초창기 일괄 처리 시스템 (Batch Processing) ──▶ 한 번에 하나의 프로그램만 순차 실행
-    │
-    ▼
+초창기 일괄 처리 시스템 (Batch Processing) ---> 한 번에 하나의 프로그램만 순차 실행
+    |
+    v
 다중 프로그래밍 (Multiprogramming) 필요성 대두 (CPU가 노는 시간을 줄이자!)
-    │
-    ▼
-디스크의 프로그램과 메모리 위의 실행 상태를 분리 ──▶ '프로세스(Process)' 개념 탄생
-    │
-    ▼
+    |
+    v
+디스크의 프로그램과 메모리 위의 실행 상태를 분리 ---> '프로세스(Process)' 개념 탄생
+    |
+    v
 프로세스 관리를 위한 PCB 도입 및 시분할(Time-Sharing) 스케줄링 알고리즘 발전
-    │
-    ▼
-프로세스 생성의 무거움 극복 ──▶ 메모리를 공유하는 경량 프로세스인 '스레드(Thread)'로 진화
+    |
+    v
+프로세스 생성의 무거움 극복 ---> 메모리를 공유하는 경량 프로세스인 '스레드(Thread)'로 진화
 ```
 
-이 흐름도는 "정적 코드의 순차 실행 → 동적 생명체(프로세스)로의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 및 다중 제어 → 시스템 자원 절약을 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 분할"이라는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 실행 단위의 역사적 진화를 보여준다.
+이 흐름도는 "정적 코드의 순차 실행 -> 동적 생명체(프로세스)로의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 및 다중 제어 -> 시스템 자원 절약을 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 분할"이라는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 실행 단위의 역사적 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 **진행 상황**: 81 / 800
 
-← **이전**: [080. seccomp (Secure Computing Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/)
-**다음**: [82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) →
+<- **이전**: [080. seccomp (Secure Computing Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/)
+**다음**: [82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) ->
 
 ---

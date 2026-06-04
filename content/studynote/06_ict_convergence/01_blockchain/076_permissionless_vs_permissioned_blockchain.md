@@ -24,10 +24,10 @@ Permissionless는 비트코인(Bitcoin)과 이더리움(Ethereum)처럼 누구�
 
 ```text
 Permissionless
-누구나 참여 ─▶ 공개 검증 ─▶ 분산 합의 ─▶ 블록 추가
+누구나 참여 --> 공개 검증 --> 분산 합의 --> 블록 추가
 
 Permissioned
-신원 확인 ─▶ 허가된 노드 ─▶ 제한 합의 ─▶ 블록 추가
+신원 확인 --> 허가된 노드 --> 제한 합의 --> 블록 추가
 ```
 
 이 차이는 단순한 접근 권한이 아니라, 시스템이 신뢰를 만드는 방법의 차이다.
@@ -116,16 +116,16 @@ Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을
 
 ```text
 공개 원장
-    │
-    ▼
+    |
+    v
 Permissionless(개방/검열저항)
-    │
-    ├─ PoW / PoS
-    │
-    ▼
+    |
+    +- PoW / PoS
+    |
+    v
 Permissioned(통제/성능)
-    │
-    └─ BFT / 멤버십 서비스 / KYC
+    |
+    +- BFT / 멤버십 서비스 / KYC
 ```
 
 이 흐름은 "참여 문턱"이 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거버넌스를 결정한다는 점을 보여준다. 앞으로는 공개성과 통제의 중간 지대인 컨소시엄 구조가 실무에서 더 자주 쓰인다.
@@ -142,7 +142,7 @@ Permissioned(통제/성능)
 
 **진행 상황**: 76 / 552
 
-← **이전**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/)
-**다음**: [77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado](/knowledge-base/studynote/06_ict_convergence/01_blockchain/077_crypto_mixing_tumbler_tornado_cash/) →
+<- **이전**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/)
+**다음**: [77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado](/knowledge-base/studynote/06_ict_convergence/01_blockchain/077_crypto_mixing_tumbler_tornado_cash/) ->
 
 ---

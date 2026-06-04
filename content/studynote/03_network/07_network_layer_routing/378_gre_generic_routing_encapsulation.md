@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [터널링 메커니즘 개요]
-    │
-    ▼
+    |
+    v
 [GRE]
-    │
-    └──▶ [L2TP]
+    |
+    +---> [L2TP]
 ```
 
 - **📢 섹션 요약 비유**: ** GRE는 자동차 겉면에 씌우는 **"위장막"**입니다. 내 차가 트럭이든 버스든 덮어씌워서 그냥 '승용차'인 척 톨게이트를 무사통과하게 해주지만, 방탄 기능(암호화)은 전혀 없어서 돌멩이(해킹)를 던지면 그대로 유리가 박살 나는 얇은 천에 불과합니다.
@@ -57,22 +57,22 @@ GRE는 편하지만 암호화가 없어서 보안 감사에 걸리면 즉각 징
 - 결과적으로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)도 완벽히 돌고, 해커가 훔쳐봐도 내용물이 100% 암호화된 완벽한 사내망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))이 완성된다. 현대 기업망 Site-to-Site VPN의 표준 교과서 설정이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                GRE over IPsec 패킷 캡슐화 4단 콤보               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 완벽 포장된 VPN 패킷의 단면도 ]                                │
- │                                                             │
- │   [ 뉴 공인 IP ] ◀─ 인터넷 통과용 배달 봉투                         │
- │     └── [ IPsec (ESP) 헤더 ] ◀─ 암호화 자물쇠 (여기서부터 안 보임!)│
- │             └── [ GRE 헤더 ] ◀─ 멀티캐스트를 유니캐스트로 포장  │
- │                     └── [ 오리지널 OSPF 패킷 ] ◀─ 내 소중한 정보│
- │                             └── [ ESP 암호화 꼬리표 ]           │
- │                                                             │
- │   ▶ 단점: 포장지 두께(오버헤드)만 거의 50~70바이트에 달해           │
- │           MTU 블랙홀(패킷 잘림 현상)이 미친 듯이 발생하므로           │
- │           라우터 터널 인터페이스에 tcp mss 1360 세팅 필수!!        │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                GRE over IPsec 패킷 캡슐화 4단 콤보               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 완벽 포장된 VPN 패킷의 단면도 ]                                |
+ |                                                             |
+ |   [ 뉴 공인 IP ] <-- 인터넷 통과용 배달 봉투                         |
+ |     +-- [ IPsec (ESP) 헤더 ] <-- 암호화 자물쇠 (여기서부터 안 보임!)|
+ |             +-- [ GRE 헤더 ] <-- 멀티캐스트를 유니캐스트로 포장  |
+ |                     +-- [ 오리지널 OSPF 패킷 ] <-- 내 소중한 정보|
+ |                             +-- [ ESP 암호화 꼬리표 ]           |
+ |                                                             |
+ |   -> 단점: 포장지 두께(오버헤드)만 거의 50~70바이트에 달해           |
+ |           MTU 블랙홀(패킷 잘림 현상)이 미친 듯이 발생하므로           |
+ |           라우터 터널 인터페이스에 tcp mss 1360 세팅 필수!!        |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> GRE over IPsec은 부서진 유리컵(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)을 배송하는 완벽한 꼼수입니다. 컵을 먼저 </strong>"뽁뽁이(GRE)"**로 칭칭 감아서 유니캐스트 모양으로 둥글게(배송 가능하게) 만든 다음, 그걸 도둑이 절대 못 여는 **"강철 금고([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))"**에 넣어서 안전하게 택배로 쏘는 이중 포장술의 극치입니다.
@@ -133,12 +133,12 @@ GRE는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ```text
 [선행 개념: 터널링 메커니즘 개요]
-    │
-    ▼
+    |
+    v
 [현재 개념: GRE]
-    │
-    ├──▶ [확장 A: L2TP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: L2TP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 GRE는 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 메커니즘 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 L2TP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ GRE는 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 **진행 상황**: 499 / 1120
 
-← **이전**: [377. 터널링 (Tunneling) 메커니즘 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)
-**다음**: [379. L2TP (Layer 2 Tunneling Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/379_l2tp_layer_2_tunneling_protocol/) →
+<- **이전**: [377. 터널링 (Tunneling) 메커니즘 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)
+**다음**: [379. L2TP (Layer 2 Tunneling Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/379_l2tp_layer_2_tunneling_protocol/) ->
 
 ---

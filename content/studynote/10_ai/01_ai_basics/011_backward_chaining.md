@@ -24,13 +24,13 @@ tags = ["ai"]
 
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많을 때 목표 지향적 탐색이 왜 자원을 덜 소모하는지를 보여주는 개념적 대조도이다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [전향 추론: 데이터 주도]                                │
-│ Data(A, B, C...) → Rule 평가 폭발 → 무관한 결론들 생성  │
-│                                                        │
-│ [후향 추론: 목표 주도]                                  │
-│ Goal(X) 설정 → X를 위한 조건 Rule 추적 → 필요 Data만 요청│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [전향 추론: 데이터 주도]                                |
+| Data(A, B, C...) -> Rule 평가 폭발 -> 무관한 결론들 생성  |
+|                                                        |
+| [후향 추론: 목표 주도]                                  |
+| Goal(X) 설정 -> X를 위한 조건 Rule 추적 -> 필요 Data만 요청|
++--------------------------------------------------------+
 ```
 이 흐름의 핵심은 출발점의 차이다. [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 입력된 모든 사실에서 파생될 수 있는 모든 가지를 탐색하지만, 후향 추론은 오직 '목표'와 연결된 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 경로만 활성화한다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용이 비싸거나, 가능한 결론의 수가 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 적을 때 압도적인 효율을 발휘한다.
 
@@ -53,16 +53,16 @@ tags = ["ai"]
 다음은 후향 추론 엔진이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 작업 메모리를 이용해 가설을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 나가는 순차 흐름도이다.
 ```text
 [초기 상태: Goal(Z) 검증 요청]
-   ↓
+   v
 [Rule Base 검색] : THEN 절에 Z가 있는 규칙 R1 (IF X AND Y THEN Z) 발견
-   ↓
+   v
 [Sub-Goal 분할] : X와 Y를 새로운 목표로 Goal Stack에 Push
-   ↓
+   v
 [작업 메모리 확인] : X가 작업 메모리에 있는가?
-   ├─ (Yes) -> X 증명 완료. 다음 목표 Y 검사.
-   └─ (No)  -> X를 결과로 갖는 다른 Rule 검색
+   +- (Yes) -> X 증명 완료. 다음 목표 Y 검사.
+   +- (No)  -> X를 결과로 갖는 다른 Rule 검색
                  또는 사용자에게 질의 (Ask User)
-   ↓
+   v
 [Backtracking] : 만약 X를 증명할 수 없으면 이전 분기점으로 회귀하여 다른 규칙 탐색
 ```
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계가 철저히 하향식([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))으로 이루어지며, 작업 메모리(Working Memory)가 단기 캐시 역할을 하여 중복 질문을 방지한다는 점이다. 특히, 특정 하위 목표를 증명할 수 없게 되면 즉시 해당 경로를 폐기하고 다른 대안 규칙으로 되돌아가는 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 메커니즘이 필수적으로 동작한다. 이로 인해 메모리 오버헤드가 적고 불필요한 추론 가지가 조기에 차단된다.
@@ -85,11 +85,11 @@ tags = ["ai"]
 다음은 두 추론 방식의 [상태 공간 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) 구조의 차이를 보여주는 비교도이다.
 ```text
 [전향 추론: 팬-아웃(Fan-out) 구조]         [후향 추론: 팬-인(Fan-in) 구조]
-  Fact 1 ─┐                              Goal ─┬─ SubGoal 1 ─ Fact A
-          ├─> Rule 1 ─┐                        └─ SubGoal 2 ─ Fact B
-  Fact 2 ─┘           ├─> 결론(다수)                (필요한 사실만 선택적 탐색)
-                      │
-  Fact 3 ───> Rule 2 ─┘
+  Fact 1 -+                              Goal -+- SubGoal 1 - Fact A
+          +-> Rule 1 -+                        +- SubGoal 2 - Fact B
+  Fact 2 -+           +-> 결론(다수)                (필요한 사실만 선택적 탐색)
+                      |
+  Fact 3 ---> Rule 2 -+
 ```
 이 방식의 핵심 차이는 분기 방향이다. [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사실들이 조합되어 수많은 파생 결과를 낳는 구조(팬아웃)이므로 설계 플래닝 등에 유리하다. 반면 후향 추론은 단일 결론에서 시작해 소수의 필수 원인으로 좁혀 들어가는 [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/)([Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/)) 구조이므로 진단과 디버깅에 압도적으로 유리하다. 실무에서는 두 방식을 혼합한 하이브리드 추론 엔진을 구축하여, 중요 이벤트는 전향적으로 감지하고 원인 분석은 후향적으로 수행하기도 한다.
 
@@ -103,12 +103,12 @@ tags = ["ai"]
 <strong>실무 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">Decision Tree</a>)</strong>
 ```text
 [문제 정의]
-   ↓
+   v
 [Q1. 가능한 결과(결론)의 수가 초기 데이터의 수보다 적은가?]
- ├── (No) -> 전향 추론 도입 고려 (예: 모든 조건에 따른 시스템 제어)
- └── (Yes) -> [Q2. 사용자에게 질의응답을 통해 데이터를 점진적으로 얻을 수 있는가?]
-       ├── (No) -> 초기 일괄 배치 처리, 하이브리드 엔진 검토
-       └── (Yes) -> 후향 추론 최적 적용 대상 (도입 확정)
+ +-- (No) -> 전향 추론 도입 고려 (예: 모든 조건에 따른 시스템 제어)
+ +-- (Yes) -> [Q2. 사용자에게 질의응답을 통해 데이터를 점진적으로 얻을 수 있는가?]
+       +-- (No) -> 초기 일괄 배치 처리, 하이브리드 엔진 검토
+       +-- (Yes) -> 후향 추론 최적 적용 대상 (도입 확정)
 ```
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용'과 '결론의 수렴성'이다. 만약 모든 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간으로 수집되는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 환경이라면 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)이 맞다. 하지만 사용자가 직접 증상을 입력해야 하는 헬스케어 챗봇이나 헬프데스크 시스템에서는, 쓸데없는 질문을 피하기 위해 반드시 후향 추론을 채택해야 한다.
 
@@ -149,17 +149,17 @@ tags = ["ai"]
 
 ```text
 [목표 설정 (Goal Setting) — 도달하고자 하는 결론 명시]
-    │
-    ▼
+    |
+    v
 [후향 추론 엔진 (Backward Chaining Engine) — 목표를 하위 목표로 재귀 분해]
-    │
-    ▼
+    |
+    v
 [규칙 베이스 (Knowledge Base / Rule Base) — 조건-결론 규칙 저장소 조회]
-    │
-    ▼
+    |
+    v
 [전향 추론 (Forward Chaining) — 데이터 주도 보완 또는 하이브리드 적용]
-    │
-    ▼
+    |
+    v
 [뉴로-심볼릭 AI (Neuro-Symbolic AI) — LLM 직관을 심볼릭 역추론으로 검증]
 ```
 
@@ -177,7 +177,7 @@ tags = ["ai"]
 
 **진행 상황**: 11 / 420
 
-← **이전**: [10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)
-**다음**: [12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) →
+<- **이전**: [10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)
+**다음**: [12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ->
 
 ---

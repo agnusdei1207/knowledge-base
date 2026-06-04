@@ -39,14 +39,14 @@ tags = ["14_data_engineering", "education", "study"]
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Serving)</strong> | 최종 분석 및 BI 도구를 위한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           데이터 흐름: 추출부터 서비스까지의 파이프라인      │
-├──────────────────────────────────────────────────────────────┤
-│ [Source DB] ─CDC─▶ [Kafka] ─▶ [Spark 연산] ─▶ [Cloud DW]   │
-│ (Raw Data)       (실시간 수집)  (ETL 정제)      (BI/AI 연동)│
-│                                                             │
-│ * 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           데이터 흐름: 추출부터 서비스까지의 파이프라인      |
++--------------------------------------------------------------+
+| [Source DB] -CDC--> [Kafka] --> [Spark 연산] --> [Cloud DW]   |
+| (Raw Data)       (실시간 수집)  (ETL 정제)      (BI/AI 연동)|
+|                                                             |
+| * 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능        |
++--------------------------------------------------------------+
 ```
 
 최근에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 목적지까지 옮겨서 변환([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))하는 대신, 값싼 클라우드 스토리지에 무조건 적재(Load)한 뒤 강력한 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 연산력을 빌려 변환(Transform)하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 아키텍처가 대세로 자리 잡았다.
@@ -111,21 +111,21 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 
 ```text
 온프레미스 RDBMS (단일 서버 한계)
-    │
-    ▼
+    |
+    v
 하둡 (Hadoop) 기반 데이터 레이크 (저비용 분산 저장)
-    │
-    ▼
+    |
+    v
 클라우드 데이터 웨어하우스 (Snowflake, BigQuery) + ELT
-    │
-    ▼
+    |
+    v
 데이터 레이크하우스 (Data Lakehouse) (오픈 테이블 포맷 융합)
-    │
-    ▼
+    |
+    v
 데이터 메시 (Data Mesh) (중앙 집중형에서 분산/도메인 오너십으로 진화)
 ```
 
-이 흐름도는 "단일 저장 → 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 → 연산 분리 및 클라우드화 → 구조 융합 → 조직 및 아키텍처 혁신"으로 개념이 발전하는 과정을 보여준다.
+이 흐름도는 "단일 저장 -> 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 -> 연산 분리 및 클라우드화 -> 구조 융합 -> 조직 및 아키텍처 혁신"으로 개념이 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 
 **진행 상황**: 95 / 258
 
-← **이전**: [ROC-AUC: 분류 모델의 종합 변별력 측정표](/knowledge-base/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/)
-**다음**: [불균형 데이터 증강 (Oversampling) - SMOTE](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) →
+<- **이전**: [ROC-AUC: 분류 모델의 종합 변별력 측정표](/knowledge-base/studynote/14_data_engineering/02_math_mining/094_roc_curve_auc_classification_performance/)
+**다음**: [불균형 데이터 증강 (Oversampling) - SMOTE](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))은 일정 시간이 지나면 결국 동기화됨 ([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 특징, BASE 특성)에 초점을 맞춘 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 지연과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·지연시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Coordinator -> Current concept -> Replica result   │
-├──────────────────────────────────────────────────────────────┤
-│ Network delay -> rule -> consistency outcome                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Coordinator -> Current concept -> Replica result   |
++--------------------------------------------------------------+
+| Network delay -> rule -> consistency outcome                 |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `PACELC 정리`·`BASE 속성`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Prepare -> sync -> current concept -> final decision         │
-├──────────────────────────────────────────────────────────────┤
-│ Local success -> global agreement -> atomicity               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Prepare -> sync -> current concept -> final decision         |
++--------------------------------------------------------------+
+| Local success -> global agreement -> atomicity               |
++--------------------------------------------------------------+
 ```
 
 핵심은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [PACELC 정리]
-    │
-    ▼
+    |
+    v
 [결과적 일관성]
-    │
-    ├──▶ [BASE 속성]
-    └──▶ [벡터 시계 / 타임스탬프]
+    |
+    +---> [BASE 속성]
+    +---> [벡터 시계 / 타임스탬프]
 ```
 
 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리에서 출발한 논점이 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)에서 핵심 판단으로 모이고, 이후 BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·[벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/) / 타임스탬프 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 256 / 600
 
-← **이전**: [255. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/05_database/04_transactions_concurrency/255_pacelc_theorem/)
-**다음**: [257. BASE 속성 (BASE Properties)](/knowledge-base/studynote/05_database/04_transactions_concurrency/257_base_properties/) →
+<- **이전**: [255. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/05_database/04_transactions_concurrency/255_pacelc_theorem/)
+**다음**: [257. BASE 속성 (BASE Properties)](/knowledge-base/studynote/05_database/04_transactions_concurrency/257_base_properties/) ->
 
 ---

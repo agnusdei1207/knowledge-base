@@ -32,16 +32,16 @@ tags = ["studynote-software-engineering"]
 다음은 ISO/IEC/IEEE 29119 소의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ISO/IEC/IEEE 29119 소                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  ISO/IEC/IEEE 29119 소                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 ISO/IEC/IEEE 29119 소가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -134,21 +134,21 @@ ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -162,7 +162,7 @@ ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립
 
 **진행 상황**: 952 / 973
 
-← **이전**: [778. 소프트웨어 테스트 성숙도 모델 (TMMi)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/)
-**다음**: [780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) →
+<- **이전**: [778. 소프트웨어 테스트 성숙도 모델 (TMMi)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/)
+**다음**: [780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ->
 
 ---

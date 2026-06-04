@@ -36,28 +36,28 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 애플리케이션이 확장 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실제로 활용하는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             ISA 확장이 실제 성능으로 이어지는 전체 경로            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 응용 프로그램                                                       │
-│      │                                                               │
-│      ▼                                                               │
-│ 컴파일러 / 라이브러리                                                │
-│  - intrinsic, auto-vectorization, 암호화 라이브러리 호출            │
-│      │                                                               │
-│      ▼                                                               │
-│ 명령어 디코더                                                        │
-│  - 기본 ISA 인가? ────────────────┐                                  │
-│  - 확장 명령어 인가? ───────┐     │                                  │
-│                            │     │                                  │
-│                            ▼     ▼                                  │
-│                    확장 실행 유닛   기본 실행 유닛                   │
-│                 (벡터, 암호화, 가상화)  (산술·메모리 연산)          │
-│                            │     │                                  │
-│                            └──┬──┘                                  │
-│                               ▼                                     │
-│                         결과 레지스터 저장                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             ISA 확장이 실제 성능으로 이어지는 전체 경로            |
++----------------------------------------------------------------------+
+| 응용 프로그램                                                       |
+|      |                                                               |
+|      v                                                               |
+| 컴파일러 / 라이브러리                                                |
+|  - intrinsic, auto-vectorization, 암호화 라이브러리 호출            |
+|      |                                                               |
+|      v                                                               |
+| 명령어 디코더                                                        |
+|  - 기본 ISA 인가? ----------------+                                  |
+|  - 확장 명령어 인가? -------+     |                                  |
+|                            |     |                                  |
+|                            v     v                                  |
+|                    확장 실행 유닛   기본 실행 유닛                   |
+|                 (벡터, 암호화, 가상화)  (산술·메모리 연산)          |
+|                            |     |                                  |
+|                            +--+--+                                  |
+|                               v                                     |
+|                         결과 레지스터 저장                           |
++----------------------------------------------------------------------+
 ```
 
 핵심은 <strong>반복적인 소프트웨어 절차를 더 넓은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 폭, 더 적은 분기, 더 짧은 실행 경로로 치환</strong>하는 데 있다. 예를 들어 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 확장은 128비트, 256비트, 512비트 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 이용해 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 연산하고, 암호화 확장은 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 한 라운드 같은 고정 패턴을 전용 회로로 실행한다. 이 방식은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 줄여 디코드 부담을 낮추고, 같은 작업당 에너지 소비도 줄이는 효과가 있다.
@@ -145,25 +145,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 기본 ISA의 범용 처리
-    │
-    ▼
+    |
+    v
 멀티미디어 확장 등장
 (MMX (MultiMedia eXtensions), SSE 계열)
-    │
-    ▼
+    |
+    v
 벡터 폭 확대·암호화 확장
 (AVX, NEON, AES-NI)
-    │
-    ▼
+    |
+    v
 가상화·보안·행렬 연산 확장
 (가상화, 제어 흐름 보호, 행렬 가속)
-    │
-    ▼
+    |
+    v
 모듈형·도메인 특화 확장 생태계
 (RISC-V Vector Extension, 사용자 정의 확장)
 ```
 
-이 흐름은 "범용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 보완 → 반복 작업 가속 → 보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 통합 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화"로 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장의 진화 방향을 보여준다.
+이 흐름은 "범용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 보완 -> 반복 작업 가속 -> 보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 통합 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화"로 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장의 진화 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -177,7 +177,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 202 / 803
 
-← **이전**: [201. MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/)
-**다음**: [203. SIMD 명령어 확장 (AVX, NEON)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/203_simd_avx_neon/) →
+<- **이전**: [201. MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/)
+**다음**: [203. SIMD 명령어 확장 (AVX, NEON)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/203_simd_avx_neon/) ->
 
 ---

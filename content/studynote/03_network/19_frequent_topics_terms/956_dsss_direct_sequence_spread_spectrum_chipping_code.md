@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [FHSS]
-    │
-    ▼
+    |
+    v
 [DSSS]
-    │
-    └──▶ [코드 분할 다중 접속]
+    |
+    +---> [코드 분할 다중 접속]
 ```
 
 - **📢 섹션 요약 비유**: DSSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [FHSS]
-    │
-    ▼
+    |
+    v
 [DSSS]
-    │
-    └──▶ [코드 분할 다중 접속]
+    |
+    +---> [코드 분할 다중 접속]
 ```
 
 - **📢 섹션 요약 비유**: DSSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ DSSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ```text
 [선행 개념: FHSS]
-    │
-    ▼
+    |
+    v
 [현재 개념: DSSS]
-    │
-    ├──▶ [확장 A: 코드 분할 다중 접속]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 코드 분할 다중 접속]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 DSSS는 FHSS에서 출발해 현재 메커니즘을 정교화하고, 이후 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ DSSS는 FHSS에서 출발해 현재 메커니즘을 정교화하고, 이후 코�
 
 **진행 상황**: 1077 / 1120
 
-← **이전**: [955. FHSS (주파수 도약)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/)
-**다음**: [957. 코드 분할 다중 접속 (CDMA)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) →
+<- **이전**: [955. FHSS (주파수 도약)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/)
+**다음**: [957. 코드 분할 다중 접속 (CDMA)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ->
 
 ---

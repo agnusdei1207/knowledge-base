@@ -36,22 +36,22 @@ Firebase를 기준으로 보면 BaaS의 핵심은 클라이언트가 관리형 �
 아래 그림은 Firebase형 BaaS에서 책임이 어떻게 재배치되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Firebase-style BaaS architecture                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Web / iOS / Android app                                             │
-│        │ SDK / HTTPS / WebSocket                                    │
-│        ▼                                                            │
-│ Firebase BaaS                                                       │
-│   ├─ Authentication                                                 │
-│   ├─ Firestore / Realtime DB                                        │
-│   ├─ Cloud Storage                                                  │
-│   ├─ Cloud Functions                                                │
-│   └─ Firebase Cloud Messaging                                       │
-│        │                                                            │
-│        ▼                                                            │
-│ Security Rules + Access Control + Auto Scaling + Analytics                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Firebase-style BaaS architecture                                   |
++--------------------------------------------------------------------+
+| Web / iOS / Android app                                             |
+|        | SDK / HTTPS / WebSocket                                    |
+|        v                                                            |
+| Firebase BaaS                                                       |
+|   +- Authentication                                                 |
+|   +- Firestore / Realtime DB                                        |
+|   +- Cloud Storage                                                  |
+|   +- Cloud Functions                                                |
+|   +- Firebase Cloud Messaging                                       |
+|        |                                                            |
+|        v                                                            |
+| Security Rules + Access Control + Auto Scaling + Analytics                     |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -146,16 +146,16 @@ BaaS를 잘 활용하면 작은 팀도 큰 제품처럼 보이는 [서비스](/k
 
 ```text
 모바일 앱 공통 백엔드 반복 개발
-        │
-        ▼
+        |
+        v
 BaaS (Backend as a Service)
-        │
-        ├──────────────► Auth · DB · Storage · Push 통합
-        ├──────────────► Firebase형 실시간 동기화
-        ▼
+        |
+        +--------------► Auth · DB · Storage · Push 통합
+        +--------------► Firebase형 실시간 동기화
+        v
 Cloud Functions 기반 서버리스 보완
-        │
-        ▼
+        |
+        v
 오픈소스 BaaS · 탈출 전략 · 조합형 백엔드
 ```
 
@@ -173,7 +173,7 @@ Cloud Functions 기반 서버리스 보완
 
 **진행 상황**: 186 / 552
 
-← **이전**: [185. SaaS (Software as a Service) - 완제품 소프트웨어 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)
-**다음**: [187. FaaS (Function as a Service / Serverless)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/187_faas_function_as_a_service_serverless/) →
+<- **이전**: [185. SaaS (Software as a Service) - 완제품 소프트웨어 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)
+**다음**: [187. FaaS (Function as a Service / Serverless)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/187_faas_function_as_a_service_serverless/) ->
 
 ---

@@ -34,33 +34,33 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 전통적 2칩 구조에서 데이터가 어떤 계층을 거치는지 보여준다. 특히 저장장치나 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 요청은 사우스브리지를 거쳐 노스브리지 또는 CPU 쪽으로 올라가므로, "어디에 연결되었는가"가 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경로를 의미한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         전통적 Northbridge / Southbridge 데이터 경로 구조           │
-├──────────────────────────────────────────────────────────────────────┤
-│  CPU (Central Processing Unit)                                      │
-│            │                                                        │
-│            │ FSB (Front Side Bus)                                   │
-│            ▼                                                        │
-│  ┌──────────────────────────┐                                       │
-│  │ 노스브리지 (Northbridge) │  = 고속 경로 제어                    │
-│  │ ㆍ메모리 컨트롤러        │                                       │
-│  │ ㆍ그래픽 인터페이스      │                                       │
-│  └───────────┬──────────────┘                                       │
-│              │                           ┌──────────────────────────────┐ │
-│              ├──────────────▶ DRAM       │ AGP (Accelerated Graphics    │ │
-│              │                           │ Port) / PCI Express Graphics │ │
-│              │                           └──────────────────────────────┘ │
-│              │                                                        │
-│              │ 칩셋 내부 링크                                         │
-│              ▼                                                        │
-│  ┌──────────────────────────┐                                       │
-│  │ 사우스브리지             │  = 저속 · 다종 장치 집선               │
-│  │ (Southbridge / ICH)      │                                       │
-│  └──────┬─────────┬─────────┴──────────────┬──────────────────────┐ │
-│         │         │                        │                      │ │
-│         ▼         ▼                        ▼                      ▼ │
-│      SATA       USB                     PCI                  BIOS ROM│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|         전통적 Northbridge / Southbridge 데이터 경로 구조           |
++----------------------------------------------------------------------+
+|  CPU (Central Processing Unit)                                      |
+|            |                                                        |
+|            | FSB (Front Side Bus)                                   |
+|            v                                                        |
+|  +--------------------------+                                       |
+|  | 노스브리지 (Northbridge) |  = 고속 경로 제어                    |
+|  | ㆍ메모리 컨트롤러        |                                       |
+|  | ㆍ그래픽 인터페이스      |                                       |
+|  +-----------+--------------+                                       |
+|              |                           +------------------------------+ |
+|              +---------------> DRAM       | AGP (Accelerated Graphics    | |
+|              |                           | Port) / PCI Express Graphics | |
+|              |                           +------------------------------+ |
+|              |                                                        |
+|              | 칩셋 내부 링크                                         |
+|              v                                                        |
+|  +--------------------------+                                       |
+|  | 사우스브리지             |  = 저속 · 다종 장치 집선               |
+|  | (Southbridge / ICH)      |                                       |
+|  +------+---------+---------+--------------+----------------------+ |
+|         |         |                        |                      | |
+|         v         v                        v                      v |
+|      SATA       USB                     PCI                  BIOS ROM|
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 주된 역할 | 병목/설계 포인트 |
@@ -69,7 +69,7 @@ tags = ["studynote-computer-architecture"]
 | 사우스브리지 (Southbridge) | 저장장치, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), 오디오, BIOS 등 주변장치 통합 | 다양한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수용, 집선 링크 포화 |
 | 칩셋 내부 링크 | 두 칩 간 트래픽 전달 | 여러 I/O 요청이 몰릴 때 공유 병목 발생 |
 
-중요한 점은 노스브리지가 단순 중계기가 아니라는 사실이다. 과거에는 메모리 컨트롤러가 이 칩에 있었기 때문에 CPU가 메모리를 읽으려면 CPU → 노스브리지 → [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 순서를 거쳐야 했다. 따라서 노스브리지의 위치와 품질은 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 그래픽 응답성, 전체 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 영향을 주었다. 반대로 사우스브리지는 속도보다 호환성과 집선 능력이 중요했기 때문에, 많은 종류의 주변장치를 하나의 관리 단위로 묶는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할이 핵심이었다.
+중요한 점은 노스브리지가 단순 중계기가 아니라는 사실이다. 과거에는 메모리 컨트롤러가 이 칩에 있었기 때문에 CPU가 메모리를 읽으려면 CPU -> 노스브리지 -> [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 순서를 거쳐야 했다. 따라서 노스브리지의 위치와 품질은 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 그래픽 응답성, 전체 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 영향을 주었다. 반대로 사우스브리지는 속도보다 호환성과 집선 능력이 중요했기 때문에, 많은 종류의 주변장치를 하나의 관리 단위로 묶는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할이 핵심이었다.
 
 - **📢 섹션 요약 비유**: 노스브리지는 응급실과 수술실을 바로 잇는 핵심 복도이고, 사우스브리지는 접수·검사·서류를 처리하는 종합 안내센터와 같다. 생명과 직결된 이동은 짧고 빠르게, 다양한 민원은 한곳에서 정리해 올려야 병원이 제대로 굴러간다.
 
@@ -142,20 +142,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 공유 버스 중심 설계
-        │
-        ▼
+        |
+        v
 노스브리지 / 사우스브리지 분리
-        │
-        ├─ 고속 경로: CPU ↔ 메모리 ↔ 그래픽
-        └─ 저속 경로: USB · SATA · PCI · BIOS
-        │
-        ▼
+        |
+        +- 고속 경로: CPU ↔ 메모리 ↔ 그래픽
+        +- 저속 경로: USB · SATA · PCI · BIOS
+        |
+        v
 메모리 컨트롤러의 CPU 통합 (IMC)
-        │
-        ▼
+        |
+        v
 CPU 직결 PCIe + PCH 허브 구조
-        │
-        ▼
+        |
+        v
 SoC · 온칩 인터커넥트 · NoC 확장
 ```
 
@@ -173,7 +173,7 @@ SoC · 온칩 인터커넥트 · NoC 확장
 
 **진행 상황**: 365 / 803
 
-← **이전**: [363. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/363_roce/)
-**다음**: [365. 프론트 사이드 버스 (FSB)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/) →
+<- **이전**: [363. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/363_roce/)
+**다음**: [365. 프론트 사이드 버스 (FSB)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/) ->
 
 ---

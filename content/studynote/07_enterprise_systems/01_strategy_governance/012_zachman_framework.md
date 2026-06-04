@@ -28,14 +28,14 @@ tags = ["enterprise_systems"]
 이 매트릭스 구조의 가장 큰 의의는 상위 계층의 추상적 개념이 하위 계층으로 내려갈수록 물리적이고 구체적인 제약사항으로 어떻게 형상화되는지 투명하게 보여준다는 점이다. 즉, 시스템이 실패했을 때 코드가 잘못된 것인지, 설계가 잘못된 것인지, 애초에 비즈니스 목표 정의가 잘못된 것인지를 체계적으로 역추적할 수 있는 척추 역할을 창출한다.
 
 ```text
-┌───────────────── [잭맨 프레임워크의 문제 해결 철학] ─────────────────┐
-│ [현업 부서/경영진] "고객 이탈을 막기 위해 실시간 추천 기능을 넣자!"│
-│         │ (추상적 목표, 파편화된 요구사항)                         │
-│         ▼                                                          │
-│ [간극/혼란 발생] ──▶ 데이터는 어디서? 알고리즘은? 서버 부하는?   │
-│         ▼                                                          │
-│ [IT 부서/개발자] "NoSQL DB에 캐시를 붙여 API 응답을 50ms로 맞추자!"│
-└────────────────────────────────────────────────────────────────────┘
++----------------- [잭맨 프레임워크의 문제 해결 철학] -----------------+
+| [현업 부서/경영진] "고객 이탈을 막기 위해 실시간 추천 기능을 넣자!"|
+|         | (추상적 목표, 파편화된 요구사항)                         |
+|         v                                                          |
+| [간극/혼란 발생] ---> 데이터는 어디서? 알고리즘은? 서버 부하는?   |
+|         v                                                          |
+| [IT 부서/개발자] "NoSQL DB에 캐시를 붙여 API 응답을 50ms로 맞추자!"|
++--------------------------------------------------------------------+
 ```
 *해설: 이 다이어그램은 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 등장하기 전의 전형적인 '소통 단절' 현상을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 경영진(Planner/Owner)과 개발자([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 사이에는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 매개체가 없기 때문에, 요구사항은 시스템에 제대로 반영되지 못하거나 엉뚱한 결과물로 산출된다. [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 이 중간 간극을 메우기 위해 Designer 관점의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델을 강제한다.*
 
@@ -65,24 +65,24 @@ tags = ["enterprise_systems"]
 6. **Why (Motivation)**: 이 시스템이 왜 필요한가? (비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 규칙)
 
 ```text
-┌──────────────┬─────────┬─────────┬──────────┬──────────┬─────────┬─────────┐
-│ 관점(Row) \  │ What    │ How     │ Where    │ Who      │ When    │ Why     │
-│ 6하원칙(Col) │ (Data)  │ (Func)  │ (Network)│ (People) │ (Time)  │ (Motiv) │
-├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
-│ 1. Planner   │ 주 데이터│ 핵심업무│ 사업위치 │ 핵심부서 │ 일정/주기│ 사업목표│
-├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
-│ 2. Owner     │ 비즈니스│ 프로세스│ 물류망/  │ 조직도/  │ 이벤트  │ 비즈니스│
-│              │ 개념ERD │ 흐름도  │ 분산모델 │ 역할(R&R)│ 응답시간│ 계획/규정│
-├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
-│ 3. Designer  │ 논리ERD │ 앱/아키 │ 분산아키 │ UI/접근  │ 상태전이│ 비즈니스│
-│              │ (정규화)│ 텍처구조│ 텍처/망  │ 권한(ACL)│ 타이밍도│ 룰 엔진 │
-├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
-│ 4. Builder   │ 물리DB  │ 시스템  │ 시스템/  │ 보안/인증│ 제어/   │ 기술표준│
-│              │ 스키마  │ 설계도  │ HW노드   │ 아키텍처 │ 통신주기│ 제약사항│
-├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
-│ 5. Implement │ DDL/    │ 소스코드│ 서브넷/  │ IAM/AD   │ 스케줄러│ 알고리즘│
-│              │ 테이블  │ 클래스  │ IP할당   │ 계정할당 │ 인터럽트│ 코드규칙│
-└──────────────┴─────────┴─────────┴──────────┴──────────┴─────────┴─────────┘
++--------------+---------+---------+----------+----------+---------+---------+
+| 관점(Row) \  | What    | How     | Where    | Who      | When    | Why     |
+| 6하원칙(Col) | (Data)  | (Func)  | (Network)| (People) | (Time)  | (Motiv) |
++--------------+---------+---------+----------+----------+---------+---------+
+| 1. Planner   | 주 데이터| 핵심업무| 사업위치 | 핵심부서 | 일정/주기| 사업목표|
++--------------+---------+---------+----------+----------+---------+---------+
+| 2. Owner     | 비즈니스| 프로세스| 물류망/  | 조직도/  | 이벤트  | 비즈니스|
+|              | 개념ERD | 흐름도  | 분산모델 | 역할(R&R)| 응답시간| 계획/규정|
++--------------+---------+---------+----------+----------+---------+---------+
+| 3. Designer  | 논리ERD | 앱/아키 | 분산아키 | UI/접근  | 상태전이| 비즈니스|
+|              | (정규화)| 텍처구조| 텍처/망  | 권한(ACL)| 타이밍도| 룰 엔진 |
++--------------+---------+---------+----------+----------+---------+---------+
+| 4. Builder   | 물리DB  | 시스템  | 시스템/  | 보안/인증| 제어/   | 기술표준|
+|              | 스키마  | 설계도  | HW노드   | 아키텍처 | 통신주기| 제약사항|
++--------------+---------+---------+----------+----------+---------+---------+
+| 5. Implement | DDL/    | 소스코드| 서브넷/  | IAM/AD   | 스케줄러| 알고리즘|
+|              | 테이블  | 클래스  | IP할당   | 계정할당 | 인터럽트| 코드규칙|
++--------------+---------+---------+----------+----------+---------+---------+
 ```
 *해설: 이 6x6 매트릭스의 핵심 규칙은 각 셀이 고유해야 한다는 점(Mutually Exclusive)과 36개 셀을 모두 합치면 기업의 전체 아키텍처가 빠짐없이 묘사된다는 점(Collectively Exhaustive)이다. 또한, 각 열(Column)은 하위 행으로 내려갈수록 기본 개념은 변하지 않되 표현의 구체성과 도구만 달라지는 수직적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Vertical Integration)을 유지해야 한다.*
 
@@ -109,12 +109,12 @@ tags = ["enterprise_systems"]
 [프레임워크 간 융합 시너지 맵]
 
   [TOGAF ADM] (행동/프로세스)      [Zachman Framework] (저장/분류)
-  Phase B: 비즈니스 아키텍처 ───▶ Row 1~2, 전체 Column 채우기
-  Phase C: 데이터/앱 아키텍처 ─▶ Row 3 (Designer) 영역 산출물 저장
-  Phase D: 기술 아키텍처 ──────▶ Row 4 (Builder) 물리 구조 매핑
-         │                               │
-         ▼ 검증                          ▼ 정합성 확인
-  "다음 단계로 넘어갈 수 있는가?" ◀── "셀에 빈칸이나 모순(모호성)이 없는가?"
+  Phase B: 비즈니스 아키텍처 ----> Row 1~2, 전체 Column 채우기
+  Phase C: 데이터/앱 아키텍처 --> Row 3 (Designer) 영역 산출물 저장
+  Phase D: 기술 아키텍처 -------> Row 4 (Builder) 물리 구조 매핑
+         |                               |
+         v 검증                          v 정합성 확인
+  "다음 단계로 넘어갈 수 있는가?" <--- "셀에 빈칸이나 모순(모호성)이 없는가?"
 ```
 *해설: 이 흐름은 동적인 프로세스([TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/))와 정적인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계([Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/))가 어떻게 상호작용하는지 보여준다. 행동이 결과를 낳고, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 그 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 생명주기가 단단해진다. 특히 시스템 변경 시, 잭맨 매트릭스의 한 셀이 바뀌면 같은 행의 다른 열(수평적 영향)과 위아래 행(수직적 영향)을 추적해 영향도 분석(Impact Analysis)을 완벽하게 수행할 수 있다.*
 
@@ -136,15 +136,15 @@ tags = ["enterprise_systems"]
 [실무 의사결정 트리: 잭맨 프레임워크 도입 전략]
 
 [프로젝트 특성 분석]
-         │
-         ▼
+         |
+         v
 [규모/복잡도 검토] 레거시를 전면 개편하는 대규모 차세대 시스템인가?
-   ├─ (Yes) ──▶ [규제/보안 검토] 금융/공공 등 완벽한 추적성과 감사가 필요한가?
-   │              ├─ (Yes) ─▶ 잭맨 36개 셀 전면 도입 (도구 자동화 EAMS 필수)
-   │              └─ (No) ──▶ Designer/Builder(3,4행) 중심의 핵심 셀만 약식 도입
-   │
-   └─ (No) ───▶ 단일 MSA 서비스 구축이나 애자일 소규모 피처 개발인가?
-                  └─▶ 잭맨 구조 대신 빠른 배포 중심의 CI/CD 문서화 대체 (도입 보류)
+   +- (Yes) ---> [규제/보안 검토] 금융/공공 등 완벽한 추적성과 감사가 필요한가?
+   |              +- (Yes) --> 잭맨 36개 셀 전면 도입 (도구 자동화 EAMS 필수)
+   |              +- (No) ---> Designer/Builder(3,4행) 중심의 핵심 셀만 약식 도입
+   |
+   +- (No) ----> 단일 MSA 서비스 구축이나 애자일 소규모 피처 개발인가?
+                  +--> 잭맨 구조 대신 빠른 배포 중심의 CI/CD 문서화 대체 (도입 보류)
 ```
 *해설: 이 트리는 모든 프로젝트에 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 적합하지 않음을 시사한다. 복잡도와 규제 요구가 극도로 높을 때 그 진가를 발휘하지만, 속도가 생명인 가벼운 프로젝트에서는 과도한 문서화 오버헤드가 배포 병목으로 작용한다. 상황에 따른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 뺄셈이 기술사적 실무 역량이다.*
 
@@ -179,17 +179,17 @@ tags = ["enterprise_systems"]
 
 ```text
 [잭맨 프레임워크 (Zachman Framework) — 1987년 6×6 매트릭스]
-    │
-    ▼
+    |
+    v
 [전사 아키텍처 (EA, Enterprise Architecture) — 조직 전체 구조를 정립]
-    │
-    ▼
+    |
+    v
 [TOGAF (The Open Group Architecture Framework) — 실행 방법론과 거버넌스 제공]
-    │
-    ▼
+    |
+    v
 [연방 엔터프라이즈 아키텍처 (FEAF, Federal Enterprise Architecture) — 정부 표준]
-    │
-    ▼
+    |
+    v
 [AI 기반 역공학 (AI-driven Reverse Engineering) — 시스템을 자동 분석해 아키텍처 추출]
 ```
 
@@ -206,7 +206,7 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 12 / 482
 
-← **이전**: [11. EA 구성요소 (BA: 비즈니스, DA: 데이터, AA: 애플리케이션, TA: 기술 아키텍처) + SA (보안 아키텍처)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/011_ea_components/)
-**다음**: [13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/013_togaf_framework/) →
+<- **이전**: [11. EA 구성요소 (BA: 비즈니스, DA: 데이터, AA: 애플리케이션, TA: 기술 아키텍처) + SA (보안 아키텍처)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/011_ea_components/)
+**다음**: [13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/013_togaf_framework/) ->
 
 ---

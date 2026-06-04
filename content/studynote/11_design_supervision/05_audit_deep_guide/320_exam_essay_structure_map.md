@@ -22,17 +22,17 @@ IT 감리 논술 답안 구조 맵는 답안 구조를 빠르게 세우는 메�
 특히 IT 감리 논술 답안 구조 맵은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 문제 해석     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 구조 배치     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 판단 문장     │
-└──────────────┘
++--------------+
+| 문제 해석     |
++------+-------+
+       |
++------v-------+
+| 구조 배치     |
++------+-------+
+       |
++------v-------+
+| 판단 문장     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 발표 전에 목차를 먼저 세우는 것과 같다.
@@ -49,9 +49,9 @@ IT 감리 논술 답안 구조 맵의 핵심 원리는 정의와 필요성로 �
 | 결론 판단 | 기술사 판단 문장를 채택 조건과 리스크로 마무리한다. | 기술사 답안은 판단 문장으로 닫아야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 서론 키워드  │ 본론 구조    │ 결론 판단    │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 서론 키워드  | 본론 구조    | 결론 판단    |
++------------+------------+------------+
 ```
 
 또한 IT 감리 논술 답안 구조 맵은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ IT 감리 논술 답안 구조 맵를 제대로 적용하면 [기준선](/knowle
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 정의와 필요성, 비교와 사례, 기술사 판단 문장, 답안 구조화
-[키워드 암기] → [구조화된 답안] → [사례 기반 고도화]
+[키워드 암기] -> [구조화된 답안] -> [사례 기반 고도화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. IT 감리 논술 답안 구조 맵은 시험 답안의 목차를 먼저 그리는 것과 같아요.
@@ -117,7 +117,7 @@ IT 감리 논술 답안 구조 맵를 제대로 적용하면 [기준선](/knowle
 
 **진행 상황**: 397 / 530
 
-← **이전**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/)
-**다음**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/320_summary/) →
+<- **이전**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/)
+**다음**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/320_summary/) ->
 
 ---

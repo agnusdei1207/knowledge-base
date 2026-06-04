@@ -19,15 +19,15 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│      정보시스템 감리 5대 영역 (행안부 기준)                  │
-├──────────────────────────────────────────────────────────┤
-│ 1. 사업관리 영역      │ 프로젝트 계획·진도·품질 관리         │
-│ 2. 응용시스템 영역 ★  │ 기능·요구사항·인터페이스 품질        │
-│ 3. 데이터 영역        │ DB 설계·품질·표준화                  │
-│ 4. 아키텍처 영역      │ HW/SW/NW 구성 적절성                 │
-│ 5. 보안 영역          │ 정보보호 통제 적용 여부               │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|      정보시스템 감리 5대 영역 (행안부 기준)                  |
++----------------------------------------------------------+
+| 1. 사업관리 영역      | 프로젝트 계획·진도·품질 관리         |
+| 2. 응용시스템 영역 ★  | 기능·요구사항·인터페이스 품질        |
+| 3. 데이터 영역        | DB 설계·품질·표준화                  |
+| 4. 아키텍처 영역      | HW/SW/NW 구성 적절성                 |
+| 5. 보안 영역          | 정보보호 통제 적용 여부               |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 응용 시스템 감리는 자동차 품질 검사에서 '기능 테스트'에 해당한다. 엔진(인프라)이 잘 만들어져도 핸들(UI/UX)이 이상하거나 브레이크(오류 처리)가 작동 안 하면 합격이 안 된다.
@@ -39,25 +39,25 @@ tags = ["studynote-design-supervision"]
 ### 응용 시스템 감리 주요 점검 항목
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│             응용 시스템 감리 체크리스트                     │
-├──────────────────────────────────────────────────────────┤
-│ □ 요구사항 추적         : RTM 기준 구현 완전성 확인         │
-│ □ 입출력 데이터 정확성  : 업무 규칙 준수, 유효성 검증       │
-│ □ 인터페이스 표준       : IF 명세서 준수, 오류 처리 여부     │
-│ □ 배치 처리             : 처리 순서, 오류 시 재처리 여부     │
-│ □ 접근 통제             : 권한별 기능 제어 구현 여부         │
-│ □ 감사 추적             : 주요 업무 로그 기록 여부           │
-│ □ 사용성                : 화면 표준, 사용자 가이드           │
-│ □ 성능                  : 응답 시간 목표값 충족 여부         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|             응용 시스템 감리 체크리스트                     |
++----------------------------------------------------------+
+| □ 요구사항 추적         : RTM 기준 구현 완전성 확인         |
+| □ 입출력 데이터 정확성  : 업무 규칙 준수, 유효성 검증       |
+| □ 인터페이스 표준       : IF 명세서 준수, 오류 처리 여부     |
+| □ 배치 처리             : 처리 순서, 오류 시 재처리 여부     |
+| □ 접근 통제             : 권한별 기능 제어 구현 여부         |
+| □ 감사 추적             : 주요 업무 로그 기록 여부           |
+| □ 사용성                : 화면 표준, 사용자 가이드           |
+| □ 성능                  : 응답 시간 목표값 충족 여부         |
++----------------------------------------------------------+
 ```
 
 ### 인터페이스 감리 포인트
 
 ```text
-시스템 A ──[IF 명세서]──> 시스템 B
-                │
+시스템 A --[IF 명세서]--> 시스템 B
+                |
 감리 점검:
   - 연계 데이터 형식 일치 여부
   - 오류 발생 시 재처리 메커니즘
@@ -77,17 +77,17 @@ tags = ["studynote-design-supervision"]
 | **중간 감리** | 구현 진도 대비 품질, 주요 기능 동작 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **준공 감리** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 완전성, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 결과, 운영 이관 준비 |
 
-- **📢 섹션 요약 비유**: 감리 3단계는 건물 건축의 설계 심의(착수) → 철근 검사(중간) → 준공 검사(준공)이다. 단계마다 다른 시각으로 품질을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+- **📢 섹션 요약 비유**: 감리 3단계는 건물 건축의 설계 심의(착수) -> 철근 검사(중간) -> 준공 검사(준공)이다. 단계마다 다른 시각으로 품질을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 감리 발견사항 처리 프로세스
-1. 현장 점검 → 미흡 항목 발견 → 감리보고서 초안 작성.
-2. 발주처·사업자와 결과 협의 → 조치 필요 항목(Action Item) 확정.
-3. 사업자 조치 이행 → 증빙 제출 → 감리법인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-4. 미이행 항목은 최종 감리보고서에 기록 → 대가 지급에 영향.
+1. 현장 점검 -> 미흡 항목 발견 -> 감리보고서 초안 작성.
+2. 발주처·사업자와 결과 협의 -> 조치 필요 항목(Action Item) 확정.
+3. 사업자 조치 이행 -> 증빙 제출 -> 감리법인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+4. 미이행 항목은 최종 감리보고서에 기록 -> 대가 지급에 영향.
 
 ### 자동화 감리 도구
 - [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/): 코드 품질·보안 취약점 자동 탐지.
@@ -126,17 +126,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [수동 코드 리뷰 — 전통적 품질 검토]
-    │
-    ▼
+    |
+    v
 [정보시스템 감리 도입 — 5대 영역 체계화]
-    │
-    ▼
+    |
+    v
 [자동화 도구 (SonarQube, JMeter) — 정량적 품질 측정]
-    │
-    ▼
+    |
+    v
 [DevSecOps CI/CD 통합 — 개발 중 실시간 감리]
-    │
-    ▼
+    |
+    v
 [AI 기반 지능형 감리 — 패턴 기반 자동 결함 탐지]
 ```
 
@@ -152,7 +152,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 28 / 530
 
-← **이전**: [25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/)
-**다음**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/) →
+<- **이전**: [25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/)
+**다음**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/) ->
 
 ---

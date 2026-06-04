@@ -40,7 +40,7 @@ CSF 2.0 (2024.02):
 
 CSF 2.0 구조:
   핵심 (Core):
-  6개 기능 → 카테고리 → 세부 카테고리
+  6개 기능 -> 카테고리 -> 세부 카테고리
 
   계층 (Tiers): 1~4단계 성숙도
 
@@ -96,11 +96,11 @@ NIST CSF 2.0 6대 기능:
 
 시각화:
   [GV]
-  ┌──────────────────────────────┐
-  │   IDENTIFY → PROTECT        │
-  │        ↓         ↓          │
-  │   DETECT → RESPOND → RECOVER│
-  └──────────────────────────────┘
+  +------------------------------+
+  |   IDENTIFY -> PROTECT        |
+  |        v         v          |
+  |   DETECT -> RESPOND -> RECOVER|
+  +------------------------------+
   거버넌스가 모든 기능을 포괄
 ```
 
@@ -137,8 +137,8 @@ Tier 4 — 적응적 (Adaptive):
   모든 조직이 Tier 4 될 필요 없음
   비용-편익 분석으로 적절한 계층 선택
 
-  예: 소규모 의료기관 → Tier 2 목표
-  대형 금융기관 → Tier 3~4 목표
+  예: 소규모 의료기관 -> Tier 2 목표
+  대형 금융기관 -> Tier 3~4 목표
 
 계층 vs 성숙도:
   계층은 단계적 목표 아닌 현 상태 설명
@@ -166,9 +166,9 @@ ISO/IEC 27001:
 
 활용 이점:
   중복 평가 최소화
-  기존 ISO 27001 인증 활용 → CSF 갭 최소화
+  기존 ISO 27001 인증 활용 -> CSF 갭 최소화
 
-K-ISMS → ISMS-P → CSF 2.0 연계:
+K-ISMS -> ISMS-P -> CSF 2.0 연계:
   금융 CISO: CSF 2.0 기반 보안 전략 수립
   기존 ISMS-P 관리 항목 CSF 카테고리 매핑
   중복 작업 제거, 글로벌 커뮤니케이션 향상
@@ -182,7 +182,7 @@ K-ISMS → ISMS-P → CSF 2.0 연계:
   - 공급망 리스크 모니터링
 
   배경: SolarWinds 공급망 공격 (2020)
-  → 미 정부 기관 18,000개 영향
+  -> 미 정부 기관 18,000개 영향
 ```
 
 > 📢 **섹션 요약 비유**: CSF와 국내 표준 매핑은 공통 교과서 — ISO 27001도 배우고, ISMS-P도 배우지만, [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 지도로 보면 "이건 PROTECT, 저건 IDENTIFY" 한눈에 정리!
@@ -222,7 +222,7 @@ K-ISMS → ISMS-P → CSF 2.0 연계:
   4순위: RESPOND — 플레이북 작성
 
 결과:
-  공급망 보안 평가 점수: 45 → 78점
+  공급망 보안 평가 점수: 45 -> 78점
   완성차 고객사 보안 요구사항 충족
   사이버보험 가입 가능 (이전: 거부)
 ```
@@ -282,7 +282,7 @@ GOVERN 기능 추가
 
 1. CSF는 보안 체력 진단표 — 우리 회사가 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 탐지, 대응, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 얼마나 잘 하는지 점수 매기고 개선해요!
 2. GOVERN은 새로 추가된 "대장 역할" — 보안을 경영진이 직접 챙기고 책임지는 체계. 기술만이 아닌 경영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로!
-3. Tier는 운전 레벨 — 초보(Tier 1)→기본(Tier 2)→안전(Tier 3)→전문가(Tier 4). 필요한 레벨까지만 올리면 돼요!
+3. Tier는 운전 레벨 — 초보(Tier 1)->기본(Tier 2)->안전(Tier 3)->전문가(Tier 4). 필요한 레벨까지만 올리면 돼요!
 
 ---
 
@@ -290,7 +290,7 @@ GOVERN 기능 추가
 
 **진행 상황**: 45 / 1108
 
-← **이전**: [044. TOGAF — 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/09_security/01_intro_principles/044_togaf/)
-**다음**: [046. 제로 트러스트 — Zero Trust Security](/knowledge-base/studynote/09_security/01_intro_principles/046_zero_trust/) →
+<- **이전**: [044. TOGAF — 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/09_security/01_intro_principles/044_togaf/)
+**다음**: [046. 제로 트러스트 — Zero Trust Security](/knowledge-base/studynote/09_security/01_intro_principles/046_zero_trust/) ->
 
 ---

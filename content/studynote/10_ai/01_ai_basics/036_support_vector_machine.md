@@ -32,7 +32,7 @@ tags = ["studynote-ai"]
        (서포트 벡터)
 
 마진 = 2/||w|| 을 최대화 하는 w, b 찾기
-<=> ||w||² 최소화 (이차 계획법, QP)
+<=> ||w||^ 최소화 (이차 계획법, QP)
 ```
 
 | 개념         | 설명                               |
@@ -53,7 +53,7 @@ tags = ["studynote-ai"]
   -> 일부 오분류 허용
 
 목적함수:
-  min 0.5||w||² + C * sum(ξi)
+  min 0.5||w||^ + C * sum(ξi)
 
   C: 규제 파라미터
   C 크면: 오분류 최소화 (과적합 위험)
@@ -75,7 +75,7 @@ tags = ["studynote-ai"]
 1차원 데이터: XOR 문제 (선형 분리 불가)
   x=1: ●  x=2: ○  x=3: ●  x=4: ○
 
-고차원 변환: φ(x) = (x, x²)
+고차원 변환: φ(x) = (x, x^)
   (1,1): ●  (2,4): ○  (3,9): ●  (4,16): ○
   -> 2차원에서 선형 분리 가능!
 
@@ -84,7 +84,7 @@ tags = ["studynote-ai"]
 
 주요 커널:
   선형 커널:  K = xi·xj
-  RBF 커널:   K = exp(-γ||xi-xj||²)  (가우시안)
+  RBF 커널:   K = exp(-γ||xi-xj||^)  (가우시안)
   다항 커널:  K = (xi·xj + c)^d
 ```
 
@@ -186,7 +186,7 @@ One-Class SVM (이상 탐지)
 
 **진행 상황**: 36 / 420
 
-← **이전**: [035. XGBoost & LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/)
-**다음**: [037. SVM 커널 트릭 (Kernel Trick)](/knowledge-base/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/) →
+<- **이전**: [035. XGBoost & LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/)
+**다음**: [037. SVM 커널 트릭 (Kernel Trick)](/knowledge-base/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/) ->
 
 ---

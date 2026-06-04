@@ -36,9 +36,9 @@ tags = ["studynote-design-supervision"]
 | 보고서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | ≤ 30초 | 비동기 처리 권장 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 "음식 주문 후 첫 번째 요리가 나오는 시간"이고, TPS는 "주방에서 시간당 처리하는 주문 수"다. 손님(동시 사용자)이 많아질수록 두 지표 모두 악화된다.
@@ -47,46 +47,46 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│              성능 지표 상관관계 그래프                       │
-│                                                            │
-│  TPS                                                       │
-│   ▲                                                        │
-│   │      ╭──────────╮  ← 포화점 (Saturation Point)         │
-│   │    ╭─╯           ╰──────── TPS 하락 (과부하)            │
-│   │  ╭─╯                                                   │
-│   │ ─╯  (선형 증가 구간)                                    │
-│   └────────────────────────────────── 동시 사용자 수         │
-│                                                            │
-│  응답시간                                                   │
-│   ▲                                                        │
-│   │                          ╭──────────  (급격 증가)       │
-│   │                      ╭───╯                             │
-│   │ ─────────────────────╯  (허용 한계 초과)                │
-│   └────────────────────────────────── 동시 사용자 수         │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              성능 지표 상관관계 그래프                       |
+|                                                            |
+|  TPS                                                       |
+|   ^                                                        |
+|   |      +----------+  <- 포화점 (Saturation Point)         |
+|   |    +-+           +-------- TPS 하락 (과부하)            |
+|   |  +-+                                                   |
+|   | -+  (선형 증가 구간)                                    |
+|   +---------------------------------- 동시 사용자 수         |
+|                                                            |
+|  응답시간                                                   |
+|   ^                                                        |
+|   |                          +----------  (급격 증가)       |
+|   |                      +---+                             |
+|   | ---------------------+  (허용 한계 초과)                |
+|   +---------------------------------- 동시 사용자 수         |
++------------------------------------------------------------+
 ```
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  총 응답 시간 = 네트워크 지연 + 서버 처리 + DB 처리           │
-│                                                            │
-│  클라이언트              WAS                  DB            │
-│  ┌───────┐  요청(ms)  ┌───────┐  쿼리(ms) ┌───────┐        │
-│  │       │ ─────────► │       │ ─────────► │       │        │
-│  │       │            │       │            │       │        │
-│  │       │            │       │ ◄───────── │       │        │
-│  │       │ ◄───────── │       │  결과 반환  └───────┘        │
-│  └───────┘  응답(ms)  └───────┘                            │
-│                                                            │
-│  분석 포인트:                                               │
-│  ┌──────────────────────────────────┐                      │
-│  │ N/W 지연:  20ms  (허용 기준 < 50ms) │                    │
-│  │ WAS 처리: 150ms  (허용 기준 < 200ms) │                   │
-│  │ DB 처리:  830ms  ← 병목! (목표 < 100ms) │               │
-│  │ 총 응답:  1,000ms                  │                    │
-│  └──────────────────────────────────┘                      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  총 응답 시간 = 네트워크 지연 + 서버 처리 + DB 처리           |
+|                                                            |
+|  클라이언트              WAS                  DB            |
+|  +-------+  요청(ms)  +-------+  쿼리(ms) +-------+        |
+|  |       | ---------► |       | ---------► |       |        |
+|  |       |            |       |            |       |        |
+|  |       |            |       | ◄--------- |       |        |
+|  |       | ◄--------- |       |  결과 반환  +-------+        |
+|  +-------+  응답(ms)  +-------+                            |
+|                                                            |
+|  분석 포인트:                                               |
+|  +----------------------------------+                      |
+|  | N/W 지연:  20ms  (허용 기준 < 50ms) |                    |
+|  | WAS 처리: 150ms  (허용 기준 < 200ms) |                   |
+|  | DB 처리:  830ms  <- 병목! (목표 < 100ms) |               |
+|  | 총 응답:  1,000ms                  |                    |
+|  +----------------------------------+                      |
++------------------------------------------------------------+
 ```
 
 단순 평균(Average) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 실제 사용자 경험을 왜곡한다. 99%의 요청이 1초 이내이지만 1%가 30초라면 평균은 1.3초처럼 보이지만 실제로는 큰 문제다.
@@ -128,18 +128,18 @@ tags = ["studynote-design-supervision"]
 감리인은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표가 명확히 문서화되었는지 먼저 확인한다.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│           성능 목표 정의 체크리스트                           │
-│                                                             │
-│  □ 최대 동시 사용자 수: ____명                               │
-│  □ 목표 TPS: ____tps                                        │
-│  □ 허용 응답 시간 (P95): ____초                              │
-│  □ 목표 가용성: ____% (예: 99.9%)                            │
-│  □ 피크 부하 배수: ____배 (예: 평균의 3배)                   │
-│  □ 오류율 허용 기준: ____% 미만                              │
-│                                                             │
-│  ★ 목표 미정의 시: 감리 지적 사항 (성능 목표 부재)            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           성능 목표 정의 체크리스트                           |
+|                                                             |
+|  □ 최대 동시 사용자 수: ____명                               |
+|  □ 목표 TPS: ____tps                                        |
+|  □ 허용 응답 시간 (P95): ____초                              |
+|  □ 목표 가용성: ____% (예: 99.9%)                            |
+|  □ 피크 부하 배수: ____배 (예: 평균의 3배)                   |
+|  □ 오류율 허용 기준: ____% 미만                              |
+|                                                             |
+|  ★ 목표 미정의 시: 감리 지적 사항 (성능 목표 부재)            |
++-------------------------------------------------------------+
 ```
 
 | 상황 | 판단 | 조치 |
@@ -181,7 +181,7 @@ tags = ["studynote-design-supervision"]
 | 연관 개념 | [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) | 실시간 [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 지표 TPS/응답시간 → [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 지표
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 지표 TPS/응답시간 -> [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 지표
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. TPS는 "피자 가게에서 한 시간에 몇 판을 만들 수 있는지"이고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 "주문하고 피자를 받을 때까지 얼마나 기다리는지"야.
@@ -194,7 +194,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 317 / 530
 
-← **이전**: [255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/255_data_integrity_migration_audit/)
-**다음**: [257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/257_littles_law_performance_audit/) →
+<- **이전**: [255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/255_data_integrity_migration_audit/)
+**다음**: [257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/257_littles_law_performance_audit/) ->
 
 ---

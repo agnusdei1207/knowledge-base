@@ -29,19 +29,19 @@ tags = ["studynote-cloud-architecture"]
 테인트와 톨러레이션은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>, Value, Effect</strong>라는 세 가지 요소의 완벽한 일치(Match)를 통해 작동한다. 노드에 테인트를 설정하면, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 매니페스트(YAML)에 정의된 톨러레이션과 비교하여 스케줄링 여부를 결정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       테인트와 톨러레이션의 매칭 아키텍처 (Key-Value-Effect)        │
-├──────────────────────────────────────────────────────────────┤
-│ [일반 웹 파드] (Toleration 없음) ─▶ (스케줄링 거부!)             │
-│                                      │                       │
-│ [AI 전용 파드] (Toleration 장착) ─▶  ▼                       │
-│ ┌─────────────────────────┐      ┌─────────────────────────┐ │
-│ │ Toleration:             │ 일치 │ Node 2 (GPU 서버)       │ │
-│ │ key=gpu, value=true     │ ═══▶ │ Taint:                  │ │
-│ │ effect=NoSchedule       │      │ key=gpu, value=true     │ │
-│ └─────────────────────────┘      │ effect=NoSchedule       │ │
-│                                  └─────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       테인트와 톨러레이션의 매칭 아키텍처 (Key-Value-Effect)        |
++--------------------------------------------------------------+
+| [일반 웹 파드] (Toleration 없음) --> (스케줄링 거부!)             |
+|                                      |                       |
+| [AI 전용 파드] (Toleration 장착) -->  v                       |
+| +-------------------------+      +-------------------------+ |
+| | Toleration:             | 일치 | Node 2 (GPU 서버)       | |
+| | key=gpu, value=true     | ----> | Taint:                  | |
+| | effect=NoSchedule       |      | key=gpu, value=true     | |
+| +-------------------------+      | effect=NoSchedule       | |
+|                                  +-------------------------+ |
++--------------------------------------------------------------+
 ```
 이 구조에서 가장 중요한 것은 `Effect (효과)`다. 스케줄러가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 거부하는 강도를 결정하기 때문이다.
 
@@ -105,16 +105,16 @@ K8s에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 ```text
 노드 어피니티 (Node Affinity)
 (파드의 노드 선택)
-    │
-    ▼
+    |
+    v
 테인트와 톨러레이션 (Taint & Toleration)
 (노드의 파드 거부 및 예외 허용)
-    │
-    ▼
+    |
+    v
 전용 노드 (Dedicated Node) 풀 구성
 (고비용 자원 격리)
-    │
-    ▼
+    |
+    v
 자동 테인트 기반 축출 (Taint-based Eviction)
 (노드 장애 자동 감지 및 대피)
 ```
@@ -130,7 +130,7 @@ K8s에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 **진행 상황**: 105 / 371
 
-← **이전**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/)
-**다음**: [107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/) →
+<- **이전**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/)
+**다음**: [107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/) ->
 
 ---

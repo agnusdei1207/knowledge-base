@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 오프로딩이 필요한 이유를 보여준다. 핵심은 “CPU가 느려서”가 아니라 “CPU가 모든 종류의 일을 동시에 하도록 설계된 것이 아니기 때문”이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 범용 처리에서 분업 처리로 바뀌는 이유               │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ CPU 단독 처리         │ CPU + 가속기 오프로딩                       │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ 제어 로직             │ CPU  → 제어, 스케줄링, 예외 처리            │
-│ 그래픽 계산           │ GPU  → 벡터/행렬/픽셀 병렬 연산             │
-│ 암호화/패킷 처리      │ DPU  → 네트워크·스토리지 데이터 경로 처리   │
-│ AI 추론               │ NPU  → 저전력 추론·텐서 연산                │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ 결과: CPU 병목 심화   │ 결과: 역할 분리로 처리량·전력 효율 개선     │
-└───────────────────────┴──────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 범용 처리에서 분업 처리로 바뀌는 이유               |
++-----------------------+----------------------------------------------+
+| CPU 단독 처리         | CPU + 가속기 오프로딩                       |
++-----------------------+----------------------------------------------+
+| 제어 로직             | CPU  -> 제어, 스케줄링, 예외 처리            |
+| 그래픽 계산           | GPU  -> 벡터/행렬/픽셀 병렬 연산             |
+| 암호화/패킷 처리      | DPU  -> 네트워크·스토리지 데이터 경로 처리   |
+| AI 추론               | NPU  -> 저전력 추론·텐서 연산                |
++-----------------------+----------------------------------------------+
+| 결과: CPU 병목 심화   | 결과: 역할 분리로 처리량·전력 효율 개선     |
++-----------------------+----------------------------------------------+
 ```
 
 즉 오프로딩은 “빨라 보이는 칩을 추가하는 행위”가 아니라, 시스템에서 어떤 자원을 어떤 계층에 배치해야 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 최적화되는지를 다루는 설계 원칙이다.
@@ -62,15 +62,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 오프로딩에서 자주 놓치는 병목 위치를 보여준다. 계산 박스보다 앞뒤의 이동 경로가 더 길어지면 가속기 활용률은 낮아진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  오프로딩 성능은 전체 경로로 결정된다               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU 준비      PCIe/DMA 전송        가속기 실행        결과 동기화   │
-│ [Task 생성] ───────▶ [H→D Copy] ───────▶ [Kernel] ───────▶ [D→H Copy] │
-│    ▲                  ▲                  │                  │         │
-│    │                  │                  ▼                  ▼         │
-│ 호출 빈도 과다        전송 지연          병렬도 부족         대기·배리어 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  오프로딩 성능은 전체 경로로 결정된다               |
++----------------------------------------------------------------------+
+| CPU 준비      PCIe/DMA 전송        가속기 실행        결과 동기화   |
+| [Task 생성] --------> [H->D Copy] --------> [Kernel] --------> [D->H Copy] |
+|    ^                  ^                  |                  |         |
+|    |                  |                  v                  v         |
+| 호출 빈도 과다        전송 지연          병렬도 부족         대기·배리어 |
++----------------------------------------------------------------------+
 ```
 
 실무적으로는 다음 식을 기억하면 된다. <strong>총 소요시간 = 준비시간 + 전송시간 + 가속기 실행시간 + <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>시간</strong>이다. 오프로딩이 유리하려면 CPU 단독 실행시간보다 이 합이 충분히 작아야 하며, 특히 전송시간을 계산시간보다 작게 유지할 수 있어야 한다.
@@ -95,14 +95,14 @@ tags = ["studynote-computer-architecture"]
 여기서 한 단계 더 나아가면 동기식 오프로딩과 비동기식 오프로딩의 차이도 중요하다. 동기식은 구현이 단순하지만 CPU가 결과를 기다리며 쉬기 쉽다. 반면 비동기식은 복사, 계산, 후속 준비를 겹쳐 실행해 파이프라인 효율을 높이므로 실제 시스템에서 더 자주 쓰인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                동기식 vs 비동기식 오프로딩의 활용률 차이            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 동기식   : [복사 A] → [실행 A] → [회수 A] → [복사 B] → [실행 B]     │
-│ 비동기식 : [복사 A] → [실행 A + 복사 B] → [회수 A + 실행 B]         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 핵심 차이 : 비동기식은 버스와 가속기를 동시에 활용해 공회전을 줄임  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                동기식 vs 비동기식 오프로딩의 활용률 차이            |
++----------------------------------------------------------------------+
+| 동기식   : [복사 A] -> [실행 A] -> [회수 A] -> [복사 B] -> [실행 B]     |
+| 비동기식 : [복사 A] -> [실행 A + 복사 B] -> [회수 A + 실행 B]         |
++----------------------------------------------------------------------+
+| 핵심 차이 : 비동기식은 버스와 가속기를 동시에 활용해 공회전을 줄임  |
++----------------------------------------------------------------------+
 ```
 
 이 연결 구조는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 비동기 입출력, 네트워크의 제로카피, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템의 텐서 런타임 최적화와도 맞닿아 있다. 즉 오프로딩은 하드웨어 개념이지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 완성하는 것은 결국 소프트웨어 스케줄링과 메모리 전략이다.
@@ -115,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 오프로딩은 “가속기가 있는가”보다 “가속기로 넘길 만한 경제성이 있는가”를 먼저 따져야 한다. 예를 들어 초당 수백만 개 패킷을 처리하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 암호화나 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 처리를 DPU로 넘기면 CPU 코어를 애플리케이션에 돌릴 수 있어 효과가 크다. 반면 수 킬로바이트 수준의 작은 요청을 자주 처리하는 업무는 전송 오버헤드 때문에 CPU에서 끝내는 편이 낫다.
 
-[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론도 같은 원리다. 대형 배치 추론이나 영상 분석은 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 오프로딩 효과가 크지만, 짧은 제어 루프나 분기 많은 전처리 단계는 CPU가 더 적합하다. 따라서 실제 파이프라인은 “전처리 CPU → 핵심 텐서 연산 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) → 후처리 CPU”처럼 섞여 있는 경우가 많다.
+[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론도 같은 원리다. 대형 배치 추론이나 영상 분석은 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 오프로딩 효과가 크지만, 짧은 제어 루프나 분기 많은 전처리 단계는 CPU가 더 적합하다. 따라서 실제 파이프라인은 “전처리 CPU -> 핵심 텐서 연산 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) -> 후처리 CPU”처럼 섞여 있는 경우가 많다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -164,17 +164,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 범용 CPU 중심 처리
-        │
-        ▼
+        |
+        v
 GPU 기반 그래픽·과학계산 오프로딩
-        │
-        ▼
+        |
+        v
 DPU/SmartNIC 기반 네트워크·스토리지 오프로딩
-        │
-        ▼
+        |
+        v
 NPU 기반 엣지 AI 추론 오프로딩
-        │
-        ▼
+        |
+        v
 제로카피 · UMA · CXL 기반 저오버헤드 이기종 메모리 공유
 ```
 
@@ -192,7 +192,7 @@ NPU 기반 엣지 AI 추론 오프로딩
 
 **진행 상황**: 441 / 803
 
-← **이전**: [439. 이기종 컴퓨팅 (Heterogeneous Computing)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/)
-**다음**: [441. CXL (Compute Express Link)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) →
+<- **이전**: [439. 이기종 컴퓨팅 (Heterogeneous Computing)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/)
+**다음**: [441. CXL (Compute Express Link)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ->
 
 ---

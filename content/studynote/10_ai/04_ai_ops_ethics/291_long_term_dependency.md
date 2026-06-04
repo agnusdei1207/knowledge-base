@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 각 시점마다 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 100명이 줄지어 서서 귓속말 게임을 한다. 1번이 "오늘 고양이가 다쳤다"고 속삭이면, 100번에게 도착할 때쯤 "오늘 어쩌고 저쩌고..."로 변해 핵심 내용이 사라진다. 이게 바로 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이다. 귓속말이 전달될수록 작아지고 끝에는 들리지 않는다.
@@ -39,26 +39,26 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         기울기 소실 (Vanishing Gradient) 수학적 메커니즘            │
-├──────────────────────────────────────────────────────────────┤
-│  순전파 (Forward Pass):                                        │
-│  h_1 ──▶ h_2 ──▶ h_3 ──▶ ... ──▶ h_T  (시간 흐름 →)          │
-│                                                              │
-│  역전파 (Backward Pass / BPTT: Backpropagation Through Time): │
-│  ∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2)) │
-│           ────────────────────────────────────────────────   │
-│           T번 반복 곱셈 → |W_h × σ'| < 1이면 → 0에 수렴 (소실)  │
-│                         |W_h × σ'| > 1이면 → ∞로 폭발 (폭발)   │
-│                                                              │
-│  예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준               │
-│       0.3 × 0.3 × 0.3 × ... × 0.3  (100번) ≈ 10^(-52) ≈ 0   │
-│       → h_1의 기울기가 사실상 0 → h_1 가중치는 전혀 업데이트 안 됨!│
-│                                                              │
-│  해결책 계보:                                                   │
-│  RNN ──(소실 문제 발견)──▶ LSTM(1997) ──▶ GRU(2014)            │
-│       ──(구조 혁신)────▶ Transformer(2017) : 소실 문제 근본 해소  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         기울기 소실 (Vanishing Gradient) 수학적 메커니즘            |
++--------------------------------------------------------------+
+|  순전파 (Forward Pass):                                        |
+|  h_1 ---> h_2 ---> h_3 ---> ... ---> h_T  (시간 흐름 ->)          |
+|                                                              |
+|  역전파 (Backward Pass / BPTT: Backpropagation Through Time): |
+|  ∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2)) |
+|           ------------------------------------------------   |
+|           T번 반복 곱셈 -> |W_h × σ'| < 1이면 -> 0에 수렴 (소실)  |
+|                         |W_h × σ'| > 1이면 -> ∞로 폭발 (폭발)   |
+|                                                              |
+|  예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준               |
+|       0.3 × 0.3 × 0.3 × ... × 0.3  (100번) ≈ 10^(-52) ≈ 0   |
+|       -> h_1의 기울기가 사실상 0 -> h_1 가중치는 전혀 업데이트 안 됨!|
+|                                                              |
+|  해결책 계보:                                                   |
+|  RNN --(소실 문제 발견)---> LSTM(1997) ---> GRU(2014)            |
+|       --(구조 혁신)-----> Transformer(2017) : 소실 문제 근본 해소  |
++--------------------------------------------------------------+
 ```
 
 | 문제 | 원인 | 증상 | 해결책 |
@@ -91,7 +91,7 @@ tags = ["studynote-ai"]
 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 탐지 방법</strong>: 훈련 중 각 레이어의 기울기 norm을 로깅하여 앞쪽 레이어 기울기가 뒤쪽보다 수십 배 작으면 소실이 발생하고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. TensorBoard의 Gradient Histogram을 통해 시각적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능하다.
 
 <strong>실전 대응 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
-1. [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) 교체 (게이트 기반 메모리 도입)
+1. [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) -> [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) 교체 (게이트 기반 메모리 도입)
 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화([Weight Initialization](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 개선: Xavier, He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 3. [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 또는 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 적용
 4. Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/): `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
@@ -102,7 +102,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)는 딥러닝 역사에서 가장 중요한 병목 현상 중 하나였다. 이 문제의 발견과 해결 여정이 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)(1997) → [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)(2014) → [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(2017)로 이어지는 NLP 혁명의 로드맵을 그렸다. 오늘날 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 등 초거대 언어 모델이 수천 개 토큰에 걸친 맥락을 완벽히 이해하는 것은 [장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)를 Transformer의 Self-Attention으로 근본 해소한 결과다.
+[장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)는 딥러닝 역사에서 가장 중요한 병목 현상 중 하나였다. 이 문제의 발견과 해결 여정이 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)(1997) -> [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)(2014) -> [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(2017)로 이어지는 NLP 혁명의 로드맵을 그렸다. 오늘날 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 등 초거대 언어 모델이 수천 개 토큰에 걸친 맥락을 완벽히 이해하는 것은 [장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)를 Transformer의 Self-Attention으로 근본 해소한 결과다.
 
 - **📢 섹션 요약 비유**: [장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 "알츠하이머 병"이었다. 새로운 것을 배우면 오래된 기억이 지워지는 망각의 저주. LSTM은 복용하면 기억력이 좋아지는 특효약이었고, Transformer는 아예 뇌 구조 자체를 재설계해 "과거와 현재를 동시에 선명하게 기억하는 슈퍼 브레인"을 만든 혁명이었다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [장기 의존성 (Long-term Dependency)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [장기 의존성 (Long-term Dependency)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -136,7 +136,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 291 / 420
 
-← **이전**: [290. RNN (Recurrent Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/290_rnn_recurrent/)
-**다음**: [292. LSTM (Long Short-Term Memory)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) →
+<- **이전**: [290. RNN (Recurrent Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/290_rnn_recurrent/)
+**다음**: [292. LSTM (Long Short-Term Memory)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ->
 
 ---

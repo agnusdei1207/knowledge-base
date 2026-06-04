@@ -38,29 +38,29 @@ tags = ["studynote-algorithm"]
 | <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 인접한 두 문자열이 '앞에서부터 몇 글자나 똑같은지'를 저장한 보조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 시 불필요한 중복 비교를 건너뛰게 해줌. **O(M + log N)** |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           문자열 "banana$"의 서픽스 트리와 서픽스 배열 구조          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [접미사 생성 및 사전순 정렬]                                  │
-│   0: banana$                                                 │
-│   1: anana$     => [정렬] =>  1. a$       (인덱스 5)            │
-│   2: nana$                   2. ana$     (인덱스 3)            │
-│   3: ana$                    3. anana$   (인덱스 1)            │
-│   4: na$                     4. banana$  (인덱스 0)            │
-│   5: a$                      5. na$      (인덱스 4)            │
-│                              6. nana$    (인덱스 2)            │
-│                                                              │
-│ 2. [서픽스 배열(Suffix Array)] => [5, 3, 1, 0, 4, 2]         │
-│    -> 만약 "ana"를 검색하고 싶다면?                              │
-│    -> 배열이 정렬되어 있으므로 '이진 탐색'으로 "ana"로 시작하는 곳을 1초 만에 찾음.│
-│                                                              │
-│ 3. [서픽스 트리(Suffix Tree)]                                  │
-│          (루트)                                               │
-│         /   |   \                                            │
-│        a    b    n   <-- 첫 글자만 보고 길을 찾음                  │
-│      /  \   ...  ...                                         │
-│     $   na$                                                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           문자열 "banana$"의 서픽스 트리와 서픽스 배열 구조          |
++--------------------------------------------------------------+
+| 1. [접미사 생성 및 사전순 정렬]                                  |
+|   0: banana$                                                 |
+|   1: anana$     => [정렬] =>  1. a$       (인덱스 5)            |
+|   2: nana$                   2. ana$     (인덱스 3)            |
+|   3: ana$                    3. anana$   (인덱스 1)            |
+|   4: na$                     4. banana$  (인덱스 0)            |
+|   5: a$                      5. na$      (인덱스 4)            |
+|                              6. nana$    (인덱스 2)            |
+|                                                              |
+| 2. [서픽스 배열(Suffix Array)] => [5, 3, 1, 0, 4, 2]         |
+|    -> 만약 "ana"를 검색하고 싶다면?                              |
+|    -> 배열이 정렬되어 있으므로 '이진 탐색'으로 "ana"로 시작하는 곳을 1초 만에 찾음.|
+|                                                              |
+| 3. [서픽스 트리(Suffix Tree)]                                  |
+|          (루트)                                               |
+|         /   |   \                                            |
+|        a    b    n   <-- 첫 글자만 보고 길을 찾음                  |
+|      /  \   ...  ...                                         |
+|     $   na$                                                  |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 두 자료구조가 형태만 다를 뿐, 근본적으로 <strong>'정렬된 접미사'</strong>라는 동일한 재료를 사용함을 시사한다. 서픽스 트리가 가지를 따라 직관적으로 뻗어 나간다면, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리를 아끼기 위해 숫자([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))만 일렬로 세워둔 형태다.
@@ -126,17 +126,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 단순 문자열 비교 (Brute Force - O(N*M)의 끔찍한 시간 소요)
-    │
-    ▼
+    |
+    v
 단일 패턴 매칭 알고리즘 (KMP, Boyer-Moore - 텍스트는 그대로 두고 패턴을 똑똑하게 건너뜀)
-    │
-    ▼
+    |
+    v
 다중 패턴 및 대용량 검색 요구 폭발 (DNA 분석, 검색 엔진 - 매번 텍스트를 훑는 것 자체가 불가능해짐)
-    │
-    ▼
+    |
+    v
 서픽스 트리 (Suffix Tree) 발명 (모든 접미사를 트리로 압축하여 O(M) 달성, 그러나 메모리 낭비 극심)
-    │
-    ▼
+    |
+    v
 서픽스 배열 (Suffix Array) 및 LCP 도입 (메모리 문제를 해결한 궁극의 실무형 문자열 인덱싱 표준 완성)
 ```
 
@@ -152,7 +152,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 200 / 587
 
-← **이전**: [108. 이행 계획 수립](/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/)
-**다음**: [109. 정보시스템 마스터플랜 (ISMP)](/knowledge-base/studynote/12_it_management/03_ea_isp/109_hashmap_treemap/) →
+<- **이전**: [108. 이행 계획 수립](/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/)
+**다음**: [109. 정보시스템 마스터플랜 (ISMP)](/knowledge-base/studynote/12_it_management/03_ea_isp/109_hashmap_treemap/) ->
 
 ---

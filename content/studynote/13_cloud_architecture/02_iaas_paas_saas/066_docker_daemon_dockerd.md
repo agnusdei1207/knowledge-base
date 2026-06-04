@@ -31,13 +31,13 @@ Docker에서 사용자가 명령을 입력하면 그 뒤에서 실제로 처리�
 
 ```text
 CLI / API
-  ↓
+  v
 dockerd
-  ↓
+  v
 containerd
-  ↓
+  v
 runc
-  ↓
+  v
 Linux Kernel
 ```
 
@@ -111,11 +111,11 @@ dockerd를 이해하면 [Docker](/knowledge-base/studynote/02_operating_system/0
 
 ```text
 Docker CLI
-  ↓
+  v
 dockerd
-  ↓
+  v
 containerd / runc
-  ↓
+  v
 Container Lifecycle
 ```
 
@@ -125,11 +125,11 @@ Container Lifecycle
 
 ```text
 Docker Platform
-  ↓
+  v
 dockerd
-  ↓
+  v
 containerd
-  ↓
+  v
 Runtime Control
 ```
 
@@ -147,7 +147,7 @@ Runtime Control
 
 **진행 상황**: 65 / 371
 
-← **이전**: [65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/065_docker_container_platform/)
-**다음**: [67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) →
+<- **이전**: [65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/065_docker_container_platform/)
+**다음**: [67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) ->
 
 ---

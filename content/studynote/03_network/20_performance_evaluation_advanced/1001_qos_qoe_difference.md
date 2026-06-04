@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [클라우드 네이티브 네트워크]
-    │
-    ▼
+    |
+    v
 [QoS / QoE 차이 비교]
-    │
-    └──▶ [네트워크 지연]
+    |
+    +---> [네트워크 지연]
 ```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [클라우드 네이티브 네트워크]
-    │
-    ▼
+    |
+    v
 [QoS / QoE 차이 비교]
-    │
-    └──▶ [네트워크 지연]
+    |
+    +---> [네트워크 지연]
 ```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 ```text
 [선행 개념: 클라우드 네이티브 네트워크]
-    │
-    ▼
+    |
+    v
 [현재 개념: QoS / QoE 차이 비교]
-    │
-    ├──▶ [확장 A: 네트워크 지연]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 네트워크 지연]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 **진행 상황**: 101 / 1120
 
-← **이전**: [1000. 클라우드 네이티브 네트워크 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)
-**다음**: [1002. 네트워크 지연 (Rtt vs 단방향 Delay)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) →
+<- **이전**: [1000. 클라우드 네이티브 네트워크 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)
+**다음**: [1002. 네트워크 지연 (Rtt vs 단방향 Delay)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) ->
 
 ---

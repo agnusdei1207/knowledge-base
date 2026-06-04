@@ -33,32 +33,32 @@ tags = ["studynote-it-management"]
 **COBIT 2019의 등장과 감리의 발전**은 다음의 패러다임 전환을 가져왔다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│  AS-IS: 파편화된 IT 관리                                          │
-│                                                                  │
-│   재무팀 ──┐                                                    │
-│            ├──▶ [각각 다른 도구/표준] ──▶ 사일로 & 중복 투자       │
-│   마케팅팀─┤        • ISO 27001 (보안)                           │
-│            │        • ITIL (운영)                                │
-│   R&D팀  ──┘        • PMBOK (프로젝트)                            │
-│                                                                  │
-├──────────────────────────────────────────────────────────────────┤
-│  TO-BE: 통합 IT 거버넌스 (COBIT 2019 + 감리)                       │
-│                                                                  │
-│   [비즈니스 전략]                                                 │
-│        │                                                         │
-│        ▼                                                         │
-│   [거버넌스 시스템]                                                │
-│   EDM(5)  ─┐                                                    │
-│   APO(14) ─┤  ← Focus Area로 우선순위 결정                          │
-│   BAI(11) ─┤  ← 계층적 캐스케이드(Value → Alignment → Mgmt)         │
-│   DSS(6)  ─┤                                                    │
-│   MEA(4) ─┘                                                     │
-│        │                                                         │
-│        ▼                                                         │
-│   [정보시스템 감리] ← 외부 검증(국가·공공·민간)                       │
-│   사업감리 → 개발감리 → 이행감리 → 운영감리                          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|  AS-IS: 파편화된 IT 관리                                          |
+|                                                                  |
+|   재무팀 --+                                                    |
+|            +---> [각각 다른 도구/표준] ---> 사일로 & 중복 투자       |
+|   마케팅팀-+        • ISO 27001 (보안)                           |
+|            |        • ITIL (운영)                                |
+|   R&D팀  --+        • PMBOK (프로젝트)                            |
+|                                                                  |
++------------------------------------------------------------------+
+|  TO-BE: 통합 IT 거버넌스 (COBIT 2019 + 감리)                       |
+|                                                                  |
+|   [비즈니스 전략]                                                 |
+|        |                                                         |
+|        v                                                         |
+|   [거버넌스 시스템]                                                |
+|   EDM(5)  -+                                                    |
+|   APO(14) -+  <- Focus Area로 우선순위 결정                          |
+|   BAI(11) -+  <- 계층적 캐스케이드(Value -> Alignment -> Mgmt)         |
+|   DSS(6)  -+                                                    |
+|   MEA(4) -+                                                     |
+|        |                                                         |
+|        v                                                         |
+|   [정보시스템 감리] <- 외부 검증(국가·공공·민간)                       |
+|   사업감리 -> 개발감리 -> 이행감리 -> 운영감리                          |
++------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IT 거버넌스는 **"오케스트라 지휘자"**와 같다. 첼로, 바이올린, 트럼펫이 제각각 연주하면 불협화음이 발생하듯, 마케팅·재무·운영·보안 등 다양한 부서의 IT 활동이 통일된 지휘자(거버넌스) 없이 움직이면 조직 전체는 조화로운 가치를 만들어내지 못한다. COBIT 2019는 악보(관리목표)를, 감리는 외부 청중 평가(객관적 검증)에 해당한다.
@@ -69,36 +69,36 @@ tags = ["studynote-it-management"]
 
 ### 1. COBIT 2019의 캐스케이드(Cascade) 메커니즘
 
-COBIT 2019의 가장 핵심적인 원리는 **이해관계자 요구(Stakeholder Needs) → 가치 목표(Value Goals) → 정렬 목표(Alignment Goals) → 관리목표(Management Objectives)** 의 4단계 캐스케이드이다.
+COBIT 2019의 가장 핵심적인 원리는 **이해관계자 요구(Stakeholder Needs) -> 가치 목표(Value Goals) -> 정렬 목표(Alignment Goals) -> 관리목표(Management Objectives)** 의 4단계 캐스케이드이다.
 
 ```text
 [1단계: 이해관계자 니즈 파악]
     외부/내부 이해관계자(고객, 주주, 임직원, 감독기관, 사회)
-              │
-              ▼ (근본 원인 분석 - Root Cause Analysis)
+              |
+              v (근본 원인 분석 - Root Cause Analysis)
 [2단계: 13개 Value Goals 도출]
     • VG1: 효과적이고 매끄러운 서비스 제공 (Effective & Efficient)
     • VG3: 정보 및 처리 무결성 (Integrity)
     • VG5: 비용 최적화 (Cost Optimization)
     • VG11: 정보의 적절성 (Information Quality)
     ... (총 13개)
-              │
-              ▼ (Value ↔ Goal Mapping)
+              |
+              v (Value ↔ Goal Mapping)
 [3단계: 13개 Alignment Goals]
     • AG3: 의도된 혜택 실현 (Realized Benefits)
     • AG6: 의사결정의 투명성 (Transparency)
     • AG9: 시스템 정보의 품질 (Information Quality)
     ... (총 13개)
-              │
-              ▼ (연결 프로세스 선택)
+              |
+              v (연결 프로세스 선택)
 [4단계: 40개 관리목표 + 5개 도메인]
     EDM(5): Evaluate, Direct, Monitor
     APO(14): Align, Plan, Organize
     BAI(11): Build, Acquire, Implement
     DSS(6):  Deliver, Service, Support
     MEA(4):  Monitor, Evaluate, Assess
-              │
-              ▼
+              |
+              v
     [Component: 프로세스/구조/인플로우/정보/문화/스킬/서비스]
     [Focus Area: 40개 (DevOps, 사이버보안, 디지털윤리 등)]
 ```
@@ -111,8 +111,8 @@ COBIT 2019의 가장 핵심적인 원리는 **이해관계자 요구(Stakeholder
 | **Governance Framework (거버넌스 프레임워크)** | 조직의 설계 요소를 정의 | 비즈니스 목표, 위험 프로필, size, 역할, 조직구조 등 **6가지 설계 인자(Design Factors)** 기반 맞춤 구성 |
 | **Components (7개 구성요소)** | 거버넌스 시스템의 구성 단위 | 프로세스 / 조직구조 / 인플로우와 아웃플로우 / 정보 흐름 / 사람·스킬·역량 / 정책·절차 / 문화·윤리·행동 |
 | **Focus Areas (40개 중점영역)** | 특정 주제에 대한 가이드 제공 | 예: 사이버보안, DevOps, 클라우드, 디지털윤리, BCM, RPA, AI/ML, 데이터 거버넌스, BlockChain, 양자컴퓨팅 등 |
-| **Goals Cascade (목표 캐스케이드)** | 이해관계자 니즈에서 관리목표로 매핑 | Top-Down 방식으로 **VG → AG → MG** 연결. 13×13×40 = 약 6,760개 매핑 조합, 자동화 도구 활용 |
-| **정보시스템 감리 시스템** | 외부 객관적 검증 | **감리법인**(DTPM, 100여 개 등록) 선임 → **사업감리 → 개발감리 → 이행감리 → 운영감리**의 4단계 수행 |
+| **Goals Cascade (목표 캐스케이드)** | 이해관계자 니즈에서 관리목표로 매핑 | Top-Down 방식으로 **VG -> AG -> MG** 연결. 13×13×40 = 약 6,760개 매핑 조합, 자동화 도구 활용 |
+| **정보시스템 감리 시스템** | 외부 객관적 검증 | **감리법인**(DTPM, 100여 개 등록) 선임 -> **사업감리 -> 개발감리 -> 이행감리 -> 운영감리**의 4단계 수행 |
 | **감리 기준 (IS Audit Standards)** | 감리 수행의 객관적 근거 | 한국정보통신기술협회(TTA)의「정보시스템 감리 기준」, KISA 가이드, ISACA COBIT/ISACA 감리기준 병행 활용 |
 
 ### 3. COBIT 2019의 핵심 알고리즘 (Design Factor 적용)
@@ -121,31 +121,31 @@ COBIT 2019의 실무 적용에서 가장 중요한 것은 **6가지 설계 인�
 
 ```text
 [Design Factor 1: Enterprise Strategy]
-   Vision / Mission / Strategy → 각 조직의 전략적 방향 결정
-              │
+   Vision / Mission / Strategy -> 각 조직의 전략적 방향 결정
+              |
 [Design Factor 2: Enterprise Goals]
    13개 Enterprise Goals 중 우선순위 결정 (예: EG01 포트폴리오, EG05 고객서비스 등)
-              │
+              |
 [Design Factor 3: Risk Profile]
    • IT 관련 리스크: 사이버보안, 운영중단, 규제변화, 기술변화, 인재유출
    • 사업 리스크: 시장변동성, 경쟁, 공급망, ESG 리스크
-              │
+              |
 [Design Factor 4: I&T-Related Issues]
    현재 IT 운영에서 발견된 이슈 (예: 시스템 다운, 보안사고, 사용자 불만)
-              │
+              |
 [Design Factor 5: Threat Landscape]
    외부 위협 환경 (국가별, 산업별, 기술 트렌드별 위협 분석)
-              │
+              |
 [Design Factor 6: Compliance Requirements]
    규제 준수 요구사항 (개인정보보호법, 전자금융거래법, ISO 27001, GDPR, ESG 공시)
-              │
-              ▼
+              |
+              v
    [Importance Score (1~3) 가중치 부여]
-              │
-              ▼
+              |
+              v
    [40개 관리목표 중 우선순위 Target Level(0~100%) 산정]
-              │
-              ▼
+              |
+              v
    [실제 구현 로드맵 수립]
 ```
 
@@ -181,7 +181,7 @@ COBIT 2019의 실무 적용에서 가장 중요한 것은 **6가지 설계 인�
 
 **진행 상황**: 534 / 800
 
-← **이전**: [533. IT 경영 관리 핵심 토픽 533번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/533_it_management_core_topic_533_exam_summary/)
-**다음**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/) →
+<- **이전**: [533. IT 경영 관리 핵심 토픽 533번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/533_it_management_core_topic_533_exam_summary/)
+**다음**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/) ->
 
 ---

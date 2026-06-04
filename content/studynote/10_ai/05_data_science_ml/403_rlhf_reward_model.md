@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **정렬(Alignment) 달성**: AI가 인간의 도구로서 안전하고 유용하게 동작하도록 유도
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 보상 모델은 가수가 노래 연습을 할 때 옆에서 "이 부분은 감정이 부족해", "저 부분은 음정이 정확해"라고 채점해 주는 보컬 트레이너와 같다.
@@ -59,14 +59,14 @@ tags = ["studynote-ai"]
    - Score_A = RM(Prompt, A)
    - Score_B = RM(Prompt, B)
 4. 손실 함수 (Loss):
-   - Loss = -log(σ(Score_A - Score_B)) ◀── A의 점수가 B보다 높도록 학습
+   - Loss = -log(σ(Score_A - Score_B)) <--- A의 점수가 B보다 높도록 학습
 
-   ┌─────────────────────────────────────────────────┐
-   │ [Prompt] + [A] ──▶ [ Reward Model ] ──▶ Score A │
-   │                                                 │
-   │ [Prompt] + [B] ──▶ [ Reward Model ] ──▶ Score B │
-   └────────────────────────────────────────────┬────┘
-                                                ▼
+   +-------------------------------------------------+
+   | [Prompt] + [A] ---> [ Reward Model ] ---> Score A |
+   |                                                 |
+   | [Prompt] + [B] ---> [ Reward Model ] ---> Score B |
+   +--------------------------------------------+----+
+                                                v
                                       Optimize: Score A > Score B
 ```
 
@@ -128,7 +128,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [RLHF 보상 모델 (Reward Model)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [RLHF 보상 모델 (Reward Model)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -143,7 +143,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 403 / 420
 
-← **이전**: [402. TensorFlow.js (브라우저 딥러닝 서빙)](/knowledge-base/studynote/10_ai/05_data_science_ml/402_tensorflow_js/)
-**다음**: [404. QLoRA (Quantized LoRA)](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) →
+<- **이전**: [402. TensorFlow.js (브라우저 딥러닝 서빙)](/knowledge-base/studynote/10_ai/05_data_science_ml/402_tensorflow_js/)
+**다음**: [404. QLoRA (Quantized LoRA)](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [철도 통신망 LTE-R]
-    │
-    ▼
+    |
+    v
 [해상 통신망]
-    │
-    └──▶ [P2P]
+    |
+    +---> [P2P]
 ```
 
 - **📢 섹션 요약 비유**: 해상 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [철도 통신망 LTE-R]
-    │
-    ▼
+    |
+    v
 [해상 통신망]
-    │
-    └──▶ [P2P]
+    |
+    +---> [P2P]
 ```
 
 - **📢 섹션 요약 비유**: 해상 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 철도 통신망 LTE-R]
-    │
-    ▼
+    |
+    v
 [현재 개념: 해상 통신망]
-    │
-    ├──▶ [확장 A: P2P]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: P2P]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 해상 통신망는 [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R에서 출발해 현재 메커니즘을 정교화하고, 이후 P2P와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1036 / 1120
 
-← **이전**: [914. 철도 통신망 (LTE-R)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/)
-**다음**: [916. P2P (Peer-to-Peer)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) →
+<- **이전**: [914. 철도 통신망 (LTE-R)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/)
+**다음**: [916. P2P (Peer-to-Peer)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ->
 
 ---

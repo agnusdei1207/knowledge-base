@@ -28,31 +28,31 @@ tags = ["studynote-operating-system"]
   3. **Miss 처리 주체의 분기**: 미스가 났을 때 이걸 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 혼자서 조용히 램을 뒤져서 가져올지, 아니면 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 인터럽트를 걸어 소프트웨어적으로 처리할지 아키텍처 전쟁([CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) vs [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/))이 벌어졌다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│        TLB Hit와 TLB Miss의 운명을 가르는 런타임 흐름도         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│ [ CPU: "가상 주소 Page 10번 데이터 줘!" ]                       │
-│         │                                                       │
-│         ▼                                                       │
-│ [ TLB 하드웨어 검색 (병렬 비교) ]                               │
-│ "내 캐시 방 64개 중에 키값이 10번인 애 있어?"                   │
-│         │                                                       │
-│   ┌─────┴─────┐                                                 │
-│   ▼ (Yes)       ▼ (No)                                          │
-│ [ TLB Hit ]   [ TLB Miss ]                                      │
-│   │             │                                               │
-│   │             ▼                                               │
-│   │           [ 징벌(Penalty): Page Table Walk 발생 ]           │
-│   │             1. MMU가 무거운 걸음으로 RAM으로 걸어감         │
-│   │             2. RAM 안의 100만 줄짜리 페이지 테이블 뒤짐     │
-│   │             3. 10번 페이지 줄 발견! (프레임 5번이네)        │
-│   │             4. TLB로 돌아와 빈칸에 [10 -> 5] 업데이트       │
-│   │                (방 꽉 찼으면 LRU로 하나 쫓아내고 씀)        │
-│   │             │                                               │
-│   ▼             ▼                                               │
-│ [ 물리 프레임 주소 완성! RAM의 데이터 캐시(L1)로 쏜다 ]         │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|        TLB Hit와 TLB Miss의 운명을 가르는 런타임 흐름도         |
++-----------------------------------------------------------------+
+|                                                                 |
+| [ CPU: "가상 주소 Page 10번 데이터 줘!" ]                       |
+|         |                                                       |
+|         v                                                       |
+| [ TLB 하드웨어 검색 (병렬 비교) ]                               |
+| "내 캐시 방 64개 중에 키값이 10번인 애 있어?"                   |
+|         |                                                       |
+|   +-----+-----+                                                 |
+|   v (Yes)       v (No)                                          |
+| [ TLB Hit ]   [ TLB Miss ]                                      |
+|   |             |                                               |
+|   |             v                                               |
+|   |           [ 징벌(Penalty): Page Table Walk 발생 ]           |
+|   |             1. MMU가 무거운 걸음으로 RAM으로 걸어감         |
+|   |             2. RAM 안의 100만 줄짜리 페이지 테이블 뒤짐     |
+|   |             3. 10번 페이지 줄 발견! (프레임 5번이네)        |
+|   |             4. TLB로 돌아와 빈칸에 [10 -> 5] 업데이트       |
+|   |                (방 꽉 찼으면 LRU로 하나 쫓아내고 씀)        |
+|   |             |                                               |
+|   v             v                                               |
+| [ 물리 프레임 주소 완성! RAM의 데이터 캐시(L1)로 쏜다 ]         |
++-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Hit의 경로는 아무런 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 수직 하강하는 고속도로(1 클럭)다. 반면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss의 경로는 옆으로 빠져나가 험난한 램(RAM)의 바다를 뒤지고 와야 하는 가시밭길(수백 클럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이다. 이 Miss 경로를 한 번 탈 때마다 CPU는 뒤에 예약된 수많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파이프라인을 멈추고(Stall) 하염없이 장부를 기다려야 하는 엄청난 형벌을 받는다.
 
@@ -90,12 +90,12 @@ tags = ["studynote-operating-system"]
    - **단점**: 미스 날 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 실행([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))되어야 하므로 오버헤드가 크다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 처리 방식  │ 주체         │ 장부(Table) 규격│ 장점/단점     │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ HW Walk  │ MMU 회로    │ 하드웨어에 종속 │ 빠름 / 경직성    │
-│ SW Walk  │ OS 커널 코드 │ OS 마음대로 튜닝│ 느림 / 유연성   │
-└──────────┴────────────┴────────────┴────────────────────────┘
++----------+------------+------------+------------------------+
+| 처리 방식  | 주체         | 장부(Table) 규격| 장점/단점     |
++----------+------------+------------+------------------------+
+| HW Walk  | MMU 회로    | 하드웨어에 종속 | 빠름 / 경직성    |
+| SW Walk  | OS 커널 코드 | OS 마음대로 튜닝| 느림 / 유연성   |
++----------+------------+------------+------------------------+
 ```
 **[매트릭스 해설]** 오늘날 PC와 서버 시장을 장악한 인텔/AMD(x86)와 모바일을 장악한 ARM 모두 결국 <strong>하드웨어 기반의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Walk(HW Walk)</strong> 쪽으로 수렴했다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(속도)이 워낙 중요한 지점이다 보니, SW 예외 처리 비용을 감당하는 것보다 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정을 더 정밀하게 갈아 넣어 칩셋(HW) 안에서 조용히 해결하는 방식이 최종 승리한 것이다.
 
@@ -180,12 +180,12 @@ C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할
 
 ```text
 [TLB (Translation Look-aside Buffer)]
-    │
-    ▼
+    |
+    v
 [TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
-    │
-    ├──▶ [TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
-    └──▶ [ASID (Address-Space Identifier)]
+    |
+    +---> [TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
+    +---> [ASID (Address-Space Identifier)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -202,7 +202,7 @@ C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할
 
 **진행 상황**: 358 / 800
 
-← **이전**: [357. TLB (Translation Look-aside Buffer) - 주소 변환 캐시(SRAM 연관 메모리 하드웨어)](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)
-**다음**: [359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/) →
+<- **이전**: [357. TLB (Translation Look-aside Buffer) - 주소 변환 캐시(SRAM 연관 메모리 하드웨어)](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)
+**다음**: [359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/) ->
 
 ---

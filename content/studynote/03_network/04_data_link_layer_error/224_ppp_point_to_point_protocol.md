@@ -25,22 +25,22 @@ tags = ["studynote-network"]
 - **발전 과정**: SLIP의 대체재로 등장한 PPP는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조를 차용하되 제어 기능을 모듈화([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/), [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/))함으로써 인터넷 접속의 사실상 표준(De facto standard)이 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                 PPP의 3대 핵심 컴포넌트                 │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [네트워크 계층]  IP, IPX, AppleTalk 등 다양한 프로토콜 │
-  │        ▲               ▲               ▲                │
-  │  ──────┼───────────────┼───────────────┼──────────────  │
-  │        │ (1) NCP (Network Control Protocol) : 망 설정   │
-  │        └───────────────────────────────────┐            │
-  │  PPP                                       │            │
-  │  (2) LCP (Link Control Protocol) : 링크 설정 및 인증    │
-  │  ──────────────────────────────────────────┘            │
-  │  (3) HDLC 기반 프레이밍 (Framing)                       │
-  │  ─────────────────────────────────────────────────────  │
-  │  [물리 계층] 모뎀(비동기), ISDN/전용선(동기), 이더넷    │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |                 PPP의 3대 핵심 컴포넌트                 |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  [네트워크 계층]  IP, IPX, AppleTalk 등 다양한 프로토콜 |
+  |        ^               ^               ^                |
+  |  ------+---------------+---------------+--------------  |
+  |        | (1) NCP (Network Control Protocol) : 망 설정   |
+  |        +-----------------------------------+            |
+  |  PPP                                       |            |
+  |  (2) LCP (Link Control Protocol) : 링크 설정 및 인증    |
+  |  ------------------------------------------+            |
+  |  (3) HDLC 기반 프레이밍 (Framing)                       |
+  |  -----------------------------------------------------  |
+  |  [물리 계층] 모뎀(비동기), ISDN/전용선(동기), 이더넷    |
+  +---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PPP는 단순히 두 도시를 잇는 아스팔트 도로([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))가 아니라, 그 도로 위에 톨게이트([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))와 차선 분배기([NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))까지 모두 갖춘 완벽한 턴키(Turn-key) 방식의 민자 고속도로 시스템입니다.
@@ -60,11 +60,11 @@ tags = ["studynote-network"]
 
 ```text
 [LAPD]
-    │
-    ▼
+    |
+    v
 [PPP]
-    │
-    └──▶ [LCP]
+    |
+    +---> [LCP]
 ```
 
 - **📢 섹션 요약 비유**: PPP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -76,24 +76,24 @@ tags = ["studynote-network"]
 PPP의 가장 강력한 특징은 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흘려보내는 것이 아니라, 명확한 단계를 거쳐 링크를 수립한다는 점이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │                  PPP 세션 수립 단계 (Phases)                  │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [Dead] ──(물리적 연결 감지)──▶ [Establish]                 │
-  │                                    │  LCP 옵션 협상 (MTU 등)  │
-  │                                    ▼                          │
-  │         ┌──(성공)── [Authenticate] (선택적)                   │
-  │         │               PAP 또는 CHAP을 통한 신원 확인        │
-  │         ▼                                                     │
-  │    [Network] ◀──(성공)── IPCP를 통한 동적 IP 및 DNS 할당     │
-  │         │                                                     │
-  │         ▼ (NCP 완료)                                          │
-  │     [Open] ──▶ 실제 인터넷(IP 패킷) 데이터 송수신 시작        │
-  │         │                                                     │
-  │         ▼ (연결 종료 요청 또는 물리적 끊김)                   │
-  │    [Terminate] ──▶ [Dead]                                     │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |                  PPP 세션 수립 단계 (Phases)                  |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |  [Dead] --(물리적 연결 감지)---> [Establish]                 |
+  |                                    |  LCP 옵션 협상 (MTU 등)  |
+  |                                    v                          |
+  |         +--(성공)-- [Authenticate] (선택적)                   |
+  |         |               PAP 또는 CHAP을 통한 신원 확인        |
+  |         v                                                     |
+  |    [Network] <---(성공)-- IPCP를 통한 동적 IP 및 DNS 할당     |
+  |         |                                                     |
+  |         v (NCP 완료)                                          |
+  |     [Open] ---> 실제 인터넷(IP 패킷) 데이터 송수신 시작        |
+  |         |                                                     |
+  |         v (연결 종료 요청 또는 물리적 끊김)                   |
+  |    [Terminate] ---> [Dead]                                     |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 사용자가 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)으로 전화를 걸면 먼저 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 단계(Establish)에서 기본 통신 규칙을 정한다. 이후 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단계(Authenticate)에서 ID/Password를 검증하고, 성공하면 [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/)(Network) 단계로 넘어가 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(통신사)로부터 IP 주소를 동적으로 받아온다. 이 모든 과정이 끝나야만 비로소 '인터넷 연결됨(Open)' 상태가 되어 웹 서핑이 가능해진다. 하나라도 실패하면 연결은 즉시 종료된다.
@@ -124,7 +124,7 @@ PPP는 HDLC의 프레임 구조를 빌려왔으나, 무거운 오류 [복구](/k
 ADSL이나 [VDSL](/knowledge-base/studynote/03_network/03_physical_layer_media/148_adsl_vdsl_gfast/) 같은 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷이 보급되던 2000년대 초반, 통신사(KT, SKT 등)는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))이라는 훌륭한 LAN 기술을 가정까지 끌고 왔다. 하지만 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 근본적으로 브로드캐스트 망이라 '누가 접속했는지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하고 요금을 과금하는' 기능이 없었다. 그래서 통신사들은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 PPP를 캡슐화하여 넣는 <strong>PPPoE (PPP over <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong> 기술을 도입했다.
 
 - **도입의 당위성**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 싼 가격과 빠른 속도를 유지하면서도, 기존 전화선 시절 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 통신사들이 쓰던 PPP의 강력한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버 연동) 및 IP 통제 관리 시스템을 그대로 재활용할 수 있는 완벽한 비즈니스적 판단이었다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 현대의 모바일([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))이나 순수 광랜(FTTH) 환경에서는 DHCP와 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) 같은 다른 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기술이 발전하면서, 굳이 MTU를 깎아먹는([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 1500바이트 → PPPoE 1492바이트) PPPoE를 쓸 이유가 사라지고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 현대의 모바일([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))이나 순수 광랜(FTTH) 환경에서는 DHCP와 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) 같은 다른 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기술이 발전하면서, 굳이 MTU를 깎아먹는([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 1500바이트 -> PPPoE 1492바이트) PPPoE를 쓸 이유가 사라지고 있다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -162,12 +162,12 @@ ADSL이나 [VDSL](/knowledge-base/studynote/03_network/03_physical_layer_media/1
 
 ```text
 [선행 개념: LAPD]
-    │
-    ▼
+    |
+    v
 [현재 개념: PPP]
-    │
-    ├──▶ [확장 A: LCP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: LCP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 PPP는 LAPD에서 출발해 현재 메커니즘을 정교화하고, 이후 LCP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -184,7 +184,7 @@ PPP는 LAPD에서 출발해 현재 메커니즘을 정교화하고, 이후 LCP�
 
 **진행 상황**: 345 / 1120
 
-← **이전**: [223. LAPD (Link Access Procedure on the D channel)](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/)
-**다음**: [225. LCP (Link Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) →
+<- **이전**: [223. LAPD (Link Access Procedure on the D channel)](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/)
+**다음**: [225. LCP (Link Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) ->
 
 ---

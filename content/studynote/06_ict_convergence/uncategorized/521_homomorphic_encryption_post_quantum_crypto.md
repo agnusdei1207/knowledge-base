@@ -32,15 +32,15 @@ tags = ["studynote-ict-convergence"]
 ### [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)(HE) 동작 구조
 
 ```
-평문 m ──[HE 암호화]──> 암호문 c
-                              │
-                         ┌────▼────────────────────────┐
-                         │   클라우드 연산 서버          │
-                         │   Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂) │
-                         │   (원문 비노출)               │
-                         └────────────┬────────────────┘
-                                      │
-암호문 결과 ──[HE 복호화]──> 평문 결과
+평문 m --[HE 암호화]--> 암호문 c
+                              |
+                         +----v------------------------+
+                         |   클라우드 연산 서버          |
+                         |   Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂) |
+                         |   (원문 비노출)               |
+                         +------------+----------------+
+                                      |
+암호문 결과 --[HE 복호화]--> 평문 결과
 ```
 
 | 방식 | 특징 | 표준 구현 |
@@ -68,7 +68,7 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 | 핵심 목적 | 연산 중 프라이버시 보존 | 양자 해독 저항성 확보 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용 | 평문 대비 100~1000배 연산 오버헤드 | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 대비 키·서명 크기 2~10배 증가 |
 | 적용 계층 | 응용([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리) | 전송·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) |
-| 성숙도 | 연구→PoC 단계 | NIST 표준 확정, 상용화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) |
+| 성숙도 | 연구->PoC 단계 | NIST 표준 확정, 상용화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) |
 | 주요 위협 | 구현 복잡도, 처리 속도 | 마이그레이션 비용, 키 크기 |
 
 두 기술은 계층이 다르므로 <strong>동시 적용</strong>이 필요하다. 예: PQC로 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서, 서버 측 추론은 HE로 수행.
@@ -79,7 +79,7 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>금융 <a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> + HE</strong>: 여러 금융사의 암호화된 거래 내역을 서버가 복호화 없이 신용 점수 모델에 투입 → [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수.
+<strong>금융 <a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> + HE</strong>: 여러 금융사의 암호화된 거래 내역을 서버가 복호화 없이 신용 점수 모델에 투입 -> [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수.
 
 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 마이그레이션 로드맵</strong>:
 1. 2024: NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준 확정
@@ -88,7 +88,7 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 
 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong>: 기밀 유지 기간이 10년 이상인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(국가 기밀, 의료 기록)는 즉시 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 우선순위 최상위로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 
-기술사 논술에서는 <strong>"현재 위협(<a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a>) → 기술 원리(격자/해시 문제) → 마이그레이션 비용 → 하이브리드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>"</strong> 흐름으로 논거를 구성한다.
+기술사 논술에서는 <strong>"현재 위협(<a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a>) -> 기술 원리(격자/해시 문제) -> 마이그레이션 비용 -> 하이브리드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>"</strong> 흐름으로 논거를 구성한다.
 
 - **📢 섹션 요약 비유**: 오래된 자물쇠를 당장 바꾸기 어려우면 새 자물쇠를 기존 자물쇠 옆에 함께 달아 이중 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(하이브리드)하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -117,7 +117,7 @@ HE 상용화가 완성되면 의료·금융 클라우드에서 원시 [데이터
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[FHE · CKKS] → [동형 암호 · 양자 내성 암호 전환] → [암호 계층 재설계 · 양자 내성 VPN]
+[FHE · CKKS] -> [동형 암호 · 양자 내성 암호 전환] -> [암호 계층 재설계 · 양자 내성 VPN]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -132,7 +132,7 @@ HE 상용화가 완성되면 의료·금융 클라우드에서 원시 [데이터
 
 **진행 상황**: 521 / 552
 
-← **이전**: [520. 데이터 마이닝 KDD 프로세스와 연관 규칙 (Data Mining KDD Process Association Rules)](/knowledge-base/studynote/06_ict_convergence/05_data_science/520_data_mining_kdd_process_association_rules/)
-**다음**: [522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)](/knowledge-base/studynote/06_ict_convergence/uncategorized/522_dark_data_clean_room_mydata/) →
+<- **이전**: [520. 데이터 마이닝 KDD 프로세스와 연관 규칙 (Data Mining KDD Process Association Rules)](/knowledge-base/studynote/06_ict_convergence/05_data_science/520_data_mining_kdd_process_association_rules/)
+**다음**: [522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)](/knowledge-base/studynote/06_ict_convergence/uncategorized/522_dark_data_clean_room_mydata/) ->
 
 ---

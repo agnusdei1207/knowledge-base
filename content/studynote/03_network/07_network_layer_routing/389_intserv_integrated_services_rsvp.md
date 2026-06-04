@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [QoS]
-    │
-    ▼
+    |
+    v
 [IntServ]
-    │
-    └──▶ [DiffServ]
+    |
+    +---> [DiffServ]
 ```
 
 - **📢 섹션 요약 비유**: ** IntServ는 KTX 열차표를 끊을 때, 내가 앉을 4호 차 15번 좌석(10Mbps)을 서울부터 부산까지 가는 내내 **"오직 나만 앉을 수 있게 100% 비워두는 절대 예약제"**입니다. 내 자리는 완벽히 보장되지만, 기차 회사(라우터)는 내가 타든 안 타든 그 자리를 절대 남에게 못 파니 극도의 자원 낭비가 발생합니다.
@@ -51,22 +51,22 @@ IntServ는 혼자서 굴러가지 않고 반드시 RSVP(Resource Reservation [Pr
 4. 드디어 A가 실시간 영상을 부드럽게 쏘기 시작한다!
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IntServ (RSVP)의 자원 예약 과정 시각화            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A ]                                            [ 서버 B ] │
- │     │ 1. "나 길 좀 쓸게" (Path 엽서)                          │
- │     ├──────▶ [ 라우터 1 ] ──────▶ [ 라우터 2 ] ──────▶     │
- │     │                                                       │
- │     │ 2. "오냐! 10Mbps 치 공간 예약해라!!" (Resv 엽서)          │
- │     ◀────── [ 라우터 1 ] ◀────── [ 라우터 2 ] ◀──────     │
- │                (10M 버퍼 할당!)      (10M 버퍼 할당!)             │
- │                                                             │
- │     3. 실제 영상 데이터 초광속 논스톱 전송 개시!!!                  │
- │                                                             │
- │   ▶ "라우터 1과 2는 이 예약 정보(장부)를 유지하기 위해 계속 CPU를 씀"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IntServ (RSVP)의 자원 예약 과정 시각화            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC A ]                                            [ 서버 B ] |
+ |     | 1. "나 길 좀 쓸게" (Path 엽서)                          |
+ |     +-------> [ 라우터 1 ] -------> [ 라우터 2 ] ------->     |
+ |     |                                                       |
+ |     | 2. "오냐! 10Mbps 치 공간 예약해라!!" (Resv 엽서)          |
+ |     <------- [ 라우터 1 ] <------- [ 라우터 2 ] <-------     |
+ |                (10M 버퍼 할당!)      (10M 버퍼 할당!)             |
+ |                                                             |
+ |     3. 실제 영상 데이터 초광속 논스톱 전송 개시!!!                  |
+ |                                                             |
+ |   -> "라우터 1과 2는 이 예약 정보(장부)를 유지하기 위해 계속 CPU를 씀"|
+ +-------------------------------------------------------------+
 ```
 
 ### 2. IntServ가 멸망한 3대 이유 (Stateful의 비극)
@@ -133,12 +133,12 @@ IntServ는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ```text
 [선행 개념: QoS]
-    │
-    ▼
+    |
+    v
 [현재 개념: IntServ]
-    │
-    ├──▶ [확장 A: DiffServ]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: DiffServ]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 IntServ는 QoS에서 출발해 현재 메커니즘을 정교화하고, 이후 DiffServ와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ IntServ는 QoS에서 출발해 현재 메커니즘을 정교화하고, 이후 Di
 
 **진행 상황**: 510 / 1120
 
-← **이전**: [388. QoS (Quality of Service)](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)
-**다음**: [390. DiffServ (Differentiated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) →
+<- **이전**: [388. QoS (Quality of Service)](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)
+**다음**: [390. DiffServ (Differentiated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) ->
 
 ---

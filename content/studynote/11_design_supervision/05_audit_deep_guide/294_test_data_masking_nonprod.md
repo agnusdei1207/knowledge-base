@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/) 마스킹([Test Data Masking](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용이 확대되면서 수집보다 최소화, 추적성, 파기까지 포함한 프라이버시 관리가 핵심이 되었다. 특히 비식별화가 기준선으로 정리되지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소는 사람 의존 절차로 흩어지고, 최종적으로 접근 제한이 남지 않아 의사결정이 감각에 의존하게 된다. 통제가 약하면 과도한 이용, 비인가 노출, 법규 위반이 빠르게 발생한다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 비식별화 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 데이터 축소 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 접근 제한 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 비식별화 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 데이터 축소 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 접근 제한 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 비운영 환경 테스트데이터 마스킹 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 접근 제한을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 비식별화, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소, 접근 제한은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[비식별화] → [비운영 환경 테스트데이터 마스킹 감리] → [프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))]
+[비식별화] -> [비운영 환경 테스트데이터 마스킹 감리] -> [프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 비식별화는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 355 / 530
 
-← **이전**: [293. PIA 조치 추적성 감리 (PIA Remediation Traceability Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/293_pia_remediation_traceability/)
-**다음**: [295. 배치 윈도우 병목 감리 (Batch Window Bottleneck Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/295_batch_window_bottleneck_audit/) →
+<- **이전**: [293. PIA 조치 추적성 감리 (PIA Remediation Traceability Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/293_pia_remediation_traceability/)
+**다음**: [295. 배치 윈도우 병목 감리 (Batch Window Bottleneck Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/295_batch_window_bottleneck_audit/) ->
 
 ---

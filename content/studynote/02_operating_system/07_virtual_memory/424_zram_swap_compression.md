@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong>CPU <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 비약적 발전</strong>: ARM 코어가 너무 좋아져서 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산을 하는 데 걸리는 0.001초의 딜레이가 플래시 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(10초)보다 1만 배 유리하다는 손익분기점을 돌파함.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        일반 스와핑(HDD) vs ZRAM(압축 스와핑)의 아키텍처 시각화         │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: 램(RAM) 100% 포화. 크롬 탭(4GB)을 쫓아내야 함 ]                │
-│                                                                        │
-│ ▶ 1. 과거 데스크탑의 일반 스와핑 (I/O 병목 지옥)                       │
-│  램에서 4GB 데이터를 꺼냄 ──▶ 하드디스크/SSD 파티션에 물리적으로 씀    │
-│  💥 결과: 디스크 I/O 발생으로 수백 밀리초 렉 유발. 스토리지 수명 감소. │
-│                                                                        │
-│ ▶ 2. 최신 모바일의 ZRAM (인메모리 압축 흑마술)                         │
-│  램 안에 1GB짜리 가짜 스왑 파티션(ZRAM)을 만들어둠.                    │
-│                                                                        │
-│  크롬 4GB 데이터를 꺼냄 ──▶ [ ⚡ CPU가 초고속으로 압축 (LZ4) ] ──┐     │
-│                                                         │              │
-│  [ 물리 램 내부의 ZRAM 구역 (1GB) ] ◀── 압축되어 1GB로 쪼그라든 ──┘    │
-│                                      데이터가 쏙 들어감!               │
-│                                                                        │
-│  ✅ 결과: 디스크 건드린 적 없음 0회! 버려질 뻔한 크롬 4GB가            │
-│          램의 1GB 공간만 차지하며 좀비처럼 램 안에 살아남음!           │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        일반 스와핑(HDD) vs ZRAM(압축 스와핑)의 아키텍처 시각화         |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상황: 램(RAM) 100% 포화. 크롬 탭(4GB)을 쫓아내야 함 ]                |
+|                                                                        |
+| -> 1. 과거 데스크탑의 일반 스와핑 (I/O 병목 지옥)                       |
+|  램에서 4GB 데이터를 꺼냄 ---> 하드디스크/SSD 파티션에 물리적으로 씀    |
+|  💥 결과: 디스크 I/O 발생으로 수백 밀리초 렉 유발. 스토리지 수명 감소. |
+|                                                                        |
+| -> 2. 최신 모바일의 ZRAM (인메모리 압축 흑마술)                         |
+|  램 안에 1GB짜리 가짜 스왑 파티션(ZRAM)을 만들어둠.                    |
+|                                                                        |
+|  크롬 4GB 데이터를 꺼냄 ---> [ ⚡ CPU가 초고속으로 압축 (LZ4) ] --+     |
+|                                                         |              |
+|  [ 물리 램 내부의 ZRAM 구역 (1GB) ] <--- 압축되어 1GB로 쪼그라든 --+    |
+|                                      데이터가 쏙 들어감!               |
+|                                                                        |
+|  ✅ 결과: 디스크 건드린 적 없음 0회! 버려질 뻔한 크롬 4GB가            |
+|          램의 1GB 공간만 차지하며 좀비처럼 램 안에 살아남음!           |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 아키텍처의 본질은 전형적인 <strong>"공간(Space)을 얻기 위해 CPU 연산력(Compute)을 지불한다"</strong>는 공학적 트레이드오프(Trade-off)다. CPU는 놀고 있고 램만 쪼들리는 현대 모바일 생태계의 불균형을, CPU의 멱살을 잡고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 노가다를 시킴으로써 램 용량 확장으로 치환해 버리는 완벽한 밸런싱 기술이다.
 
@@ -103,12 +103,12 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 - **ZCACHE**: 스왑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 일반 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)까지 모조리 다 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 극단적 캐시 기술. (너무 불안정해서 사장됨).
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────────┐
-│ 기술 종류  │ 진짜 디스크 유무│ 역할 위치    │ 안드로이드 탑재 여부 │
-├──────────┼────────────┼────────────┼───────────────────────────────┤
-│ ZRAM     │ 없음 (램 안에서 끝)│ 독립된 블록 장치│ 🟢 100% 필수 탑재│
-│ ZSWAP    │ 있음 (방파제 역할)│ 스왑 파이프라인 │ 🟡 일부 서버 사용 │
-└──────────┴────────────┴────────────┴───────────────────────────────┘
++----------+------------+------------+-------------------------------+
+| 기술 종류  | 진짜 디스크 유무| 역할 위치    | 안드로이드 탑재 여부 |
++----------+------------+------------+-------------------------------+
+| ZRAM     | 없음 (램 안에서 끝)| 독립된 블록 장치| 🟢 100% 필수 탑재|
+| ZSWAP    | 있음 (방파제 역할)| 스왑 파이프라인 | 🟡 일부 서버 사용 |
++----------+------------+------------+-------------------------------+
 ```
 **[매트릭스 해설]** "디스크가 아예 없는 모바일 환경"에서는 ZRAM이 신이다. 램을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 용량을 2배로 뻥튀기하는 것 외엔 살길이 없다. 반면 "스왑 디스크가 빵빵하게 꽂힌 엔터프라이즈 서버"에서는 ZSWAP을 써서, 일단 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 버티다가 한계가 오면 스왑 디스크로 안전하게 이관하는 2중 안전장치를 택한다.
 
@@ -168,12 +168,12 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ```text
 [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
-    │
-    ▼
+    |
+    v
 [ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)]
-    │
-    ├──▶ [OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
-    └──▶ [NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
+    |
+    +---> [OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
+    +---> [NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -190,7 +190,7 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 **진행 상황**: 424 / 800
 
-← **이전**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/)
-**다음**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) →
+<- **이전**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/)
+**다음**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ->
 
 ---

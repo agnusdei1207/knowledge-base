@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 역사상 가장 정확도가 높고 상업적으로 대성공을 거둔 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong>이다. 선생님(인간 라벨러)이 정답(지도, Supervise)을 떠먹여 주면, 기계가 새로운 미지의 사진이 들어왔을 때 귀신같이 정답을 찍어 맞추는 궁극의 예측 공장이 탄생한 것이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 '수능 1타 강사의 주입식 교육'이다. 강사(인간)가 1만 개의 수학 문제([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 밑에 빨간펜으로 완벽한 정답과 해설(라벨)을 꽉꽉 채워 적어서 학생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게 던져준다. 학생은 문제와 정답을 번갈아 보며 "아! 루트가 나오면 이렇게 푸는구나" 하고 패턴을 뇌에 각인시킨다. 나중에 수능(새로운 실전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 처음 보는 숫자가 나와도, 외워둔 패턴을 적용해 번개처럼 정답을 적어내는 가장 확실하고 무식한 엘리트 양성 코스다.
@@ -45,26 +45,26 @@ tags = ["studynote-ai"]
 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 문제집을 푸는 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))과, 모르는 문제를 찍어 맞추는 실전(Inference) 단계로 아키텍처가 칼같이 분리되며, 도출하는 정답의 모양에 따라 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>와 **회귀** 두 갈래로 나뉜다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           지도 학습 (Supervised Learning) 훈련 및 예측 아키텍처 도해       │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 학습 단계 (Training Phase) - 빨간펜 선생님의 주입식 교육]          │
-│   * 입력(Input $X$): [고양이 사진, 강아지 사진, 참새 사진 ... 10만 장]      │
-│   * 정답(Label $Y$): ["고양이", "강아지", "참새" ... 사람이 직접 달아준 이름표]│
-│   * 모델(Model $f(x)$): GPU가 밤새도록 $X$와 $Y$의 오차(Loss)를 줄이는     │
-│                        수학 방정식 $Y = f(X)$의 가중치 선을 예쁘게 깎아냄!   │
-│                                                              │
-│  [2. 예측/추론 단계 (Inference Phase) - 수능 실전 모의고사]            │
-│   * 실전 입력(New $X$): 어제 태어난 낯선 길고양이 사진 (정답표 $Y$ 없음!)     │
-│   * 완성된 모델 통과: 훈련된 $f(x)$ 방정식에 낯선 사진을 쓱 던져 넣음.        │
-│   * ─▶ [최종 출력]: "이 사진은 98% 확률로 [고양이]입니다!" 판독 완료!        │
-│                                                              │
-│  [★ 지도 학습의 두 가지 거대한 목적지 (Output의 형태)]                   │
-│   ① 분류 (Classification): 정답이 딱딱 끊어지는 '이름표(Category)'일 때.   │
-│      - 예: 메일이 [스팸]이냐 [정상]이냐? / 엑스레이가 [암]이냐 [정상]이냐?   │
-│   ② 회귀 (Regression): 정답이 쭉 이어지는 '연속된 숫자(Number)'일 때.     │
-│      - 예: 이 아파트 3달 뒤 [가격]은 얼마? / 내일 강남구 [온도]는 몇 도?     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           지도 학습 (Supervised Learning) 훈련 및 예측 아키텍처 도해       |
++--------------------------------------------------------------+
+|  [1. 학습 단계 (Training Phase) - 빨간펜 선생님의 주입식 교육]          |
+|   * 입력(Input $X$): [고양이 사진, 강아지 사진, 참새 사진 ... 10만 장]      |
+|   * 정답(Label $Y$): ["고양이", "강아지", "참새" ... 사람이 직접 달아준 이름표]|
+|   * 모델(Model $f(x)$): GPU가 밤새도록 $X$와 $Y$의 오차(Loss)를 줄이는     |
+|                        수학 방정식 $Y = f(X)$의 가중치 선을 예쁘게 깎아냄!   |
+|                                                              |
+|  [2. 예측/추론 단계 (Inference Phase) - 수능 실전 모의고사]            |
+|   * 실전 입력(New $X$): 어제 태어난 낯선 길고양이 사진 (정답표 $Y$ 없음!)     |
+|   * 완성된 모델 통과: 훈련된 $f(x)$ 방정식에 낯선 사진을 쓱 던져 넣음.        |
+|   * --> [최종 출력]: "이 사진은 98% 확률로 [고양이]입니다!" 판독 완료!        |
+|                                                              |
+|  [★ 지도 학습의 두 가지 거대한 목적지 (Output의 형태)]                   |
+|   ① 분류 (Classification): 정답이 딱딱 끊어지는 '이름표(Category)'일 때.   |
+|      - 예: 메일이 [스팸]이냐 [정상]이냐? / 엑스레이가 [암]이냐 [정상]이냐?   |
+|   ② 회귀 (Regression): 정답이 쭉 이어지는 '연속된 숫자(Number)'일 때.     |
+|      - 예: 이 아파트 3달 뒤 [가격]은 얼마? / 내일 강남구 [온도]는 몇 도?     |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (오차 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)</strong>:
@@ -138,7 +138,7 @@ B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [지도 학습 (Supervised Learning) : 분류와 회귀] → [최적화·운영 자동화]
+[데이터 전처리] -> [지도 학습 (Supervised Learning) : 분류와 회귀] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 
 
 **진행 상황**: 242 / 420
 
-← **이전**: [241. 머신러닝 (경험 기반 학습) 기초](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)
-**다음**: [243. 비지도 학습 (군집화, 연관성, 차원 축소)](/knowledge-base/studynote/10_ai/03_llm_nlp/243_unsupervised_learning/) →
+<- **이전**: [241. 머신러닝 (경험 기반 학습) 기초](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)
+**다음**: [243. 비지도 학습 (군집화, 연관성, 차원 축소)](/knowledge-base/studynote/10_ai/03_llm_nlp/243_unsupervised_learning/) ->
 
 ---

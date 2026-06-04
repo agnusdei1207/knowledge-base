@@ -19,18 +19,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Docs-as-Code 파이프라인                             │
-├───────────────────────────────────────────────────────┤
-│  1. 개발자: docs/ 디렉터리에 .md 파일 수정            │
-│  2. PR 생성 → CI 실행:                                │
-│     - markdownlint (마크다운 문법 검증)                │
-│     - Vale (영어 문체·용어 일관성)                     │
-│     - linkchecker (깨진 링크 탐지)                     │
-│  3. 리뷰어 Approve → 머지                             │
-│  4. CD: MkDocs build → GitHub Pages 자동 배포         │
-│  5. 결과: docs.example.com 자동 업데이트              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Docs-as-Code 파이프라인                             |
++-------------------------------------------------------+
+|  1. 개발자: docs/ 디렉터리에 .md 파일 수정            |
+|  2. PR 생성 -> CI 실행:                                |
+|     - markdownlint (마크다운 문법 검증)                |
+|     - Vale (영어 문체·용어 일관성)                     |
+|     - linkchecker (깨진 링크 탐지)                     |
+|  3. 리뷰어 Approve -> 머지                             |
+|  4. CD: MkDocs build -> GitHub Pages 자동 배포         |
+|  5. 결과: docs.example.com 자동 업데이트              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 코드와 문서를 같은 공장(Git)에서 만들어, 코드가 바뀌면 설명서(문서)도 함께 바뀌는 시스템이다.
@@ -108,18 +108,18 @@ Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_a
 
 ```text
 [Wiki/Confluence (2000s) — 코드와 문서 분리]
-    │
-    ▼
+    |
+    v
 [Docs-as-Code 개념 (2015~) — Git으로 문서 관리]
-    │
-    ▼
+    |
+    v
 [MkDocs Material / Docusaurus (2018~) — 아름다운 문서 사이트]
-    │
-    ▼
+    |
+    v
 [Vale + CI 통합 (2020~) — 문서 품질 자동 검증]
-    │
-    ▼
-[현재: GenAI 문서 자동 생성 — 코드 변경 → 문서 자동 업데이트]
+    |
+    v
+[현재: GenAI 문서 자동 생성 — 코드 변경 -> 문서 자동 업데이트]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -133,7 +133,7 @@ Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_a
 
 **진행 상황**: 117 / 373
 
-← **이전**: [116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/116_infrastructure_drift_detection/)
-**다음**: [118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/) →
+<- **이전**: [116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/116_infrastructure_drift_detection/)
+**다음**: [118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/) ->
 
 ---

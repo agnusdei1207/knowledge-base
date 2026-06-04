@@ -28,17 +28,17 @@ tags = ["studynote-database"]
 이 그림은 NL Join이 왜 선택적 조회에서 강한지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Small filtered outer rows can justify repeated lookups        │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL : Orders JOIN Customers ON customer_id                           │
-│                                                                      │
-│ Orders after filter (order_id = :id) -> 1 row                        │
-│        │                                                             │
-│        └─ probe Customers by indexed customer_id                     │
-│                                                                      │
-│ point: do not build/sort the whole world for one selective lookup    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Small filtered outer rows can justify repeated lookups        |
++----------------------------------------------------------------------+
+| SQL : Orders JOIN Customers ON customer_id                           |
+|                                                                      |
+| Orders after filter (order_id = :id) -> 1 row                        |
+|        |                                                             |
+|        +- probe Customers by indexed customer_id                     |
+|                                                                      |
+| point: do not build/sort the whole world for one selective lookup    |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "두 테이블을 모두 넓게 훑는 것"이 아니라, <strong>필요한 키만 들고 후행 집합을 찌르는 것</strong>이다. 그래서 NL Join은 대량 분석보다 온라인 조회에서 더 자주 빛난다.
@@ -65,16 +65,16 @@ NL Join의 핵심 구성은 선행 테이블 (Driving Table), 후행 테이블 (
 아래 그림은 NL Join의 병목이 어디에서 생기는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         NL Join = outer loop + repeated inner access path            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Outer row O1 ----┐                                                   │
-│ Outer row O2 ----┼--> inner index probe -> rowid lookup -> join row │
-│ Outer row O3 ----┘                                                   │
-│                                                                      │
-│ Cost ≈ outer access + (outer rows × inner probe cost)               │
-│ Hotspot = repeated inner probes / random I/O                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|         NL Join = outer loop + repeated inner access path            |
++----------------------------------------------------------------------+
+| Outer row O1 ----+                                                   |
+| Outer row O2 ----+--> inner index probe -> rowid lookup -> join row |
+| Outer row O3 ----+                                                   |
+|                                                                      |
+| Cost ≈ outer access + (outer rows × inner probe cost)               |
+| Hotspot = repeated inner probes / random I/O                         |
++----------------------------------------------------------------------+
 ```
 
 즉 NL Join은 메모리를 크게 쓰지 않는 대신, 후행 탐색을 여러 번 반복한다. 그래서 메모리 친화적인 대신 I/O 패턴에는 매우 민감한 조인이다.
@@ -113,16 +113,16 @@ Driving Table과 Driven Table의 구분도 여기서 중요해진다. 같은 SQL
 아래 결정 흐름은 NL Join을 현실적으로 검토하는 순서를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 When is NL Join a realistic choice?                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ outer rows after filter small?                                       │
-│        ├─ no  -> consider Hash Join / Sort Merge Join                │
-│        └─ yes                                                         │
-│             inner access path indexed?                               │
-│                 ├─ no  -> repeated scan risk                         │
-│                 └─ yes -> NL Join strong candidate                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 When is NL Join a realistic choice?                  |
++----------------------------------------------------------------------+
+| outer rows after filter small?                                       |
+|        +- no  -> consider Hash Join / Sort Merge Join                |
+|        +- yes                                                         |
+|             inner access path indexed?                               |
+|                 +- no  -> repeated scan risk                         |
+|                 +- yes -> NL Join strong candidate                   |
++----------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -173,18 +173,18 @@ NL Join을 올바르게 사용하면 준비 비용이 낮고, 메모리 사용�
 
 ```text
 Logical Join
-    │
-    ▼
+    |
+    v
 Filter Selectivity / Cardinality Estimate
-    │
-    ▼
+    |
+    v
 Driving Table Selection
-    │
-    ▼
+    |
+    v
 Indexed Probe on Driven Table
-    │
-    ├─ efficient repeated lookup -> NL Join fit
-    └─ excessive repeated I/O    -> Hash / Sort Merge reconsider
+    |
+    +- efficient repeated lookup -> NL Join fit
+    +- excessive repeated I/O    -> Hash / Sort Merge reconsider
 ```
 
 이 흐름은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조인이 작은 외부 집합과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 액세스 조건을 만나 물리적으로 NL Join으로 구체화되는 과정을 보여 준다.
@@ -201,7 +201,7 @@ Indexed Probe on Driven Table
 
 **진행 상황**: 172 / 600
 
-← **이전**: [171. 옵티마이저 조인 기법 3가지](/knowledge-base/studynote/05_database/03_relational_model/171_optimizer_join_methods/)
-**다음**: [173. 소트 머지 조인 (Sort Merge Join)](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) →
+<- **이전**: [171. 옵티마이저 조인 기법 3가지](/knowledge-base/studynote/05_database/03_relational_model/171_optimizer_join_methods/)
+**다음**: [173. 소트 머지 조인 (Sort Merge Join)](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) ->
 
 ---

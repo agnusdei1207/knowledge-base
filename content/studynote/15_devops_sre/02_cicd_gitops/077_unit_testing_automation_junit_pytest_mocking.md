@@ -28,7 +28,7 @@ tags = ["studynote-devops"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-자동화된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 보통 `테스트 러너 → 픽스처 → 실행 → 어설션 → 리포트 → CI 게이트` 순서로 돌아간다. 핵심은 외부 요인을 끊고, 결과를 빠르게 판정하고, 실패 시 바로 멈추게 하는 것이다.
+자동화된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 보통 `테스트 러너 -> 픽스처 -> 실행 -> 어설션 -> 리포트 -> CI 게이트` 순서로 돌아간다. 핵심은 외부 요인을 끊고, 결과를 빠르게 판정하고, 실패 시 바로 멈추게 하는 것이다.
 
 | 요소 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -40,17 +40,17 @@ tags = ["studynote-devops"]
 
 ```text
 코드 변경
-   │
-   ▼
+   |
+   v
 테스트 러너
-   │
-   ├─▶ Fixture 준비
-   │
-   ├─▶ Mock 주입
-   │
-   ├─▶ AAA (Arrange-Act-Assert)
-   │
-   └─▶ 실패 시 CI 차단
+   |
+   +--> Fixture 준비
+   |
+   +--> Mock 주입
+   |
+   +--> AAA (Arrange-Act-Assert)
+   |
+   +--> 실패 시 CI 차단
 ```
 
 JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, Pytest는 fixture와 parametrize로 파이썬스러운 유연함을 준다. Mocking은 "진짜"를 흉내 내는 도구가 아니라, 테스트가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 할 한 가지 행동만 남기기 위한 절연 장치다.
@@ -111,17 +111,17 @@ JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, P
 
 ```text
 수동 확인
-    │
-    ▼
+    |
+    v
 단위 테스트(Unit Test)
-    │
-    ▼
+    |
+    v
 Mocking · Fixture · AAA (Arrange-Act-Assert)
-    │
-    ▼
+    |
+    v
 CI (Continuous Integration) 게이트
-    │
-    ▼
+    |
+    v
 빠른 회귀 방지와 안전한 리팩토링
 ```
 
@@ -137,7 +137,7 @@ CI (Continuous Integration) 게이트
 
 **진행 상황**: 77 / 373
 
-← **이전**: [76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/076_artifact_repository_nexus_jfrog_ecr/)
-**다음**: [78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/) →
+<- **이전**: [76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/076_artifact_repository_nexus_jfrog_ecr/)
+**다음**: [78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/) ->
 
 ---

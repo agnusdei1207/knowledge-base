@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [사물 통신]
-    │
-    ▼
+    |
+    v
 [센서 네트워크 / 싱크 노드 구성]
-    │
-    └──▶ [WPAN]
+    |
+    +---> [WPAN]
 ```
 
 - **📢 섹션 요약 비유**: [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [사물 통신]
-    │
-    ▼
+    |
+    v
 [센서 네트워크 / 싱크 노드 구성]
-    │
-    └──▶ [WPAN]
+    |
+    +---> [WPAN]
 ```
 
 - **📢 섹션 요약 비유**: [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -111,12 +111,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 사물 통신]
-    │
-    ▼
+    |
+    v
 [현재 개념: 센서 네트워크 / 싱크 노드 구성]
-    │
-    ├──▶ [확장 A: WPAN]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: WPAN]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성는 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)에서 출발해 현재 메커니즘을 정교화하고, 이후 WPAN와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -133,7 +133,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 724 / 1120
 
-← **이전**: [602. 사물 통신 (M2M)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)
-**다음**: [604. WPAN (Wireless Personal Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) →
+<- **이전**: [602. 사물 통신 (M2M)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)
+**다음**: [604. WPAN (Wireless Personal Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) ->
 
 ---

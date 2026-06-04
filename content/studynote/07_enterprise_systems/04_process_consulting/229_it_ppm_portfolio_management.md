@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT PPM은 보통 <strong>수요 수집 → 평가 → 예산 버킷 배분 → 용량 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> → 정기 재조정</strong>의 루프로 움직인다. 여기서 중요한 것은 예산만 보는 것이 아니라, 병목 인력과 기술 제약까지 같이 보는 것이다.
+IT PPM은 보통 <strong>수요 수집 -> 평가 -> 예산 버킷 배분 -> 용량 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> -> 정기 재조정</strong>의 루프로 움직인다. 여기서 중요한 것은 예산만 보는 것이 아니라, 병목 인력과 기술 제약까지 같이 보는 것이다.
 
 | 예산 버킷 | 목적 | 대표 대상 | 핵심 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | 일반적 판단 |
 | :-- | :-- | :-- | :-- | :-- |
@@ -44,27 +44,27 @@ IT PPM은 보통 <strong>수요 수집 → 평가 → 예산 버킷 배분 → �
 아래 그림은 수요를 어떻게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 의사결정으로 바꾸는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ IT PPM decision cycle                                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Demand intake                                                        │
-│   -> candidate projects / mandatory work / ideas                     │
-│                                                                      │
-│ Scoring                                                              │
-│   -> strategic fit / ROI / risk / compliance / dependency            │
-│                                                                      │
-│ Bucket balance                                                       │
-│   -> Run / Grow / Transform allocation                               │
-│                                                                      │
-│ Capacity gate                                                        │
-│   -> budget / architect / DBA / security reviewer availability       │
-│                                                                      │
-│ Decision                                                             │
-│   -> fund / defer / pilot / stop                                     │
-│                                                                      │
-│ Quarterly review                                                     │
-│   -> rebalance by market and delivery result                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| IT PPM decision cycle                                                |
++----------------------------------------------------------------------+
+| Demand intake                                                        |
+|   -> candidate projects / mandatory work / ideas                     |
+|                                                                      |
+| Scoring                                                              |
+|   -> strategic fit / ROI / risk / compliance / dependency            |
+|                                                                      |
+| Bucket balance                                                       |
+|   -> Run / Grow / Transform allocation                               |
+|                                                                      |
+| Capacity gate                                                        |
+|   -> budget / architect / DBA / security reviewer availability       |
+|                                                                      |
+| Decision                                                             |
+|   -> fund / defer / pilot / stop                                     |
+|                                                                      |
+| Quarterly review                                                     |
+|   -> rebalance by market and delivery result                         |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 단계는 <strong>Capacity gate</strong>다. 예산이 있다고 해서 곧바로 착수할 수 있는 것이 아니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리자, 보안 검토자, 아키텍트처럼 희소한 자원이 부족하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 따라서 PPM은 프로젝트 승인 체계이면서 동시에 조직 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 조절 장치다.
@@ -145,17 +145,17 @@ IT PPM이 정착하면 중복 투자가 줄고, 우선순위 결정 근거가 �
 
 ```text
 Project-by-project approval
-        │
-        ▼
+        |
+        v
 Portfolio visibility and scoring
-        │
-        ▼
+        |
+        v
 Run / Grow / Transform budget split
-        │
-        ▼
+        |
+        v
 Capacity-based prioritization and stop gate
-        │
-        ▼
+        |
+        v
 Lean PPM and value-stream funding
 ```
 
@@ -173,7 +173,7 @@ Lean PPM and value-stream funding
 
 **진행 상황**: 229 / 482
 
-← **이전**: [228. IT 서비스 카탈로그 (IT Service Catalog)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/228_it_service_catalog/)
-**다음**: [230. 바이모달 IT (Bimodal IT)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/230_bimodal_it_gartner/) →
+<- **이전**: [228. IT 서비스 카탈로그 (IT Service Catalog)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/228_it_service_catalog/)
+**다음**: [230. 바이모달 IT (Bimodal IT)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/230_bimodal_it_gartner/) ->
 
 ---

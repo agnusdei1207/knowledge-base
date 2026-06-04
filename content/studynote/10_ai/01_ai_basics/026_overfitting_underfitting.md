@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))은 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 학습하여 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락하는 현상이고, 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))은 모델이 너무 단순하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴조차 포착하지 못하는 현상이다. 둘 다 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 일반화(Generalization)를 방해한다.
-> 2. **가치**: 과적합은 훈련 오차↓ [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차↑로 진단하고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(L1/L2), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation), [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))로 대응한다. 과소적합은 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두↑로 진단하고, 모델 복잡도 증가, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링, 훈련 시간 연장으로 대응한다.
+> 2. **가치**: 과적합은 훈련 오차v [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차^로 진단하고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(L1/L2), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation), [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))로 대응한다. 과소적합은 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두^로 진단하고, 모델 복잡도 증가, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링, 훈련 시간 연장으로 대응한다.
 > 3. **판단 포인트**: 과적합과 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)는 같은 현상의 다른 표현이다. 과적합 = 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(High [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), 과소적합 = 높은 편향(High [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)). 학습 곡선([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 분석이 현재 모델이 어느 쪽 문제인지 시각적으로 진단하는 가장 유효한 도구다.
 
 ---
@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│        과소적합 vs 적정 적합 vs 과적합                       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  과소적합               적정 적합            과적합          │
-│  (Underfitting)        (Just Right)        (Overfitting)   │
-│                                                            │
-│  훈련 오차: 높음        훈련 오차: 낮음      훈련 오차: 매우↓ │
-│  검증 오차: 높음        검증 오차: 낮음      검증 오차: 높음  │
-│                                                            │
-│  선형 모델로           중간 복잡도          10차 다항식으로  │
-│  복잡한 패턴 학습      곡선 학습            노이즈까지 학습   │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|        과소적합 vs 적정 적합 vs 과적합                       |
++------------------------------------------------------------+
+|                                                            |
+|  과소적합               적정 적합            과적합          |
+|  (Underfitting)        (Just Right)        (Overfitting)   |
+|                                                            |
+|  훈련 오차: 높음        훈련 오차: 낮음      훈련 오차: 매우v |
+|  검증 오차: 높음        검증 오차: 낮음      검증 오차: 높음  |
+|                                                            |
+|  선형 모델로           중간 복잡도          10차 다항식으로  |
+|  복잡한 패턴 학습      곡선 학습            노이즈까지 학습   |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 과소적합은 5문제 연습하고 100문제 시험보는 것(준비 부족), 과적합은 교과서 문제 답을 다 외웠지만 새 문제는 못 푸는 것(암기 과잉)이다. 진정한 학습은 원리를 이해해서 새 문제도 풀 수 있어야 한다.
@@ -44,11 +44,11 @@ tags = ["studynote-ai"]
 
 ```text
 과소적합:                     과적합:
-오차│                         오차│
-   │─────── 훈련 오차          │   ────── 훈련 오차
-   │─────── 검증 오차          │
-   │(두 선이 높게 수렴)         │  ──────── 검증 오차
-   └──────────────────         └──────────────────
+오차|                         오차|
+   |------- 훈련 오차          |   ------ 훈련 오차
+   |------- 검증 오차          |
+   |(두 선이 높게 수렴)         |  -------- 검증 오차
+   +------------------         +------------------
      훈련 데이터 크기              훈련 데이터 크기
 ```
 
@@ -79,8 +79,8 @@ early_stopping = tf.keras.callbacks.EarlyStopping(
 | 증상 | 과소적합 | 과적합 |
 |:---|:---|:---|
 | <strong>편향-<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 높은 편향 | 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **학습 곡선** | 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두 높음 | 훈련↓ [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)↑ 큰 갭 |
-| **해결 방향** | 모델 복잡도↑, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 |
+| **학습 곡선** | 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두 높음 | 훈련v [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)^ 큰 갭 |
+| **해결 방향** | 모델 복잡도^, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 |
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation)
 ```python
@@ -90,7 +90,7 @@ data_augmentation = tf.keras.Sequential([
     tf.keras.layers.RandomRotation(0.2),
     tf.keras.layers.RandomZoom(0.2),
 ])
-# 제한된 훈련 데이터를 다양한 변형으로 가상 확대 → 과적합 감소
+# 제한된 훈련 데이터를 다양한 변형으로 가상 확대 -> 과적합 감소
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강은 같은 사진을 뒤집고, 회전하고, 확대해서 여러 각도에서 공부하는 것이다. 실제로 다양한 사진을 구하지 않아도, 있는 사진을 다양하게 변형하여 더 풍부한 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만든다.
@@ -103,16 +103,16 @@ data_augmentation = tf.keras.Sequential([
 
 ```text
 1. 베이스라인 모델 훈련
-       │
-       ▼
+       |
+       v
 2. 학습 곡선 분석
-   과소적합? → 모델 복잡도↑, 피처 엔지니어링, 에포크↑
-   과적합? → 정규화, 드롭아웃, 데이터 증강, 조기 종료
-       │
-       ▼
+   과소적합? -> 모델 복잡도^, 피처 엔지니어링, 에포크^
+   과적합? -> 정규화, 드롭아웃, 데이터 증강, 조기 종료
+       |
+       v
 3. 교차 검증(K-Fold)으로 일반화 성능 검증
-       │
-       ▼
+       |
+       v
 4. 테스트 세트로 최종 평가 (딱 한 번만)
 ```
 
@@ -151,17 +151,17 @@ data_augmentation = tf.keras.Sequential([
 
 ```text
 [과소적합 — 모델 너무 단순, 패턴 포착 실패]
-    │
-    ▼
+    |
+    v
 [과적합 — 모델 너무 복잡, 노이즈까지 학습]
-    │
-    ▼
+    |
+    v
 [정규화/드롭아웃/조기 종료 — 과적합 방지]
-    │
-    ▼
+    |
+    v
 [교차 검증 — 일반화 성능 객관적 측정]
-    │
-    ▼
+    |
+    v
 [전이학습 — 사전 훈련으로 과소적합 방지]
 ```
 
@@ -177,7 +177,7 @@ data_augmentation = tf.keras.Sequential([
 
 **진행 상황**: 26 / 420
 
-← **이전**: [25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)](/knowledge-base/studynote/10_ai/01_ai_basics/025_bias_variance_tradeoff/)
-**다음**: [27. 규제화 기법 (Regularization Techniques) — 과적합 방지 핵심 전략](/knowledge-base/studynote/10_ai/01_ai_basics/027_regularization_techniques/) →
+<- **이전**: [25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)](/knowledge-base/studynote/10_ai/01_ai_basics/025_bias_variance_tradeoff/)
+**다음**: [27. 규제화 기법 (Regularization Techniques) — 과적합 방지 핵심 전략](/knowledge-base/studynote/10_ai/01_ai_basics/027_regularization_techniques/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
+    |
+    v
 [퍼시스턴트 토폴로지]
-    │
-    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    |
+    +---> [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
 ```
 
 - **📢 섹션 요약 비유**: 퍼시스턴트 토폴로지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
+    |
+    v
 [퍼시스턴트 토폴로지]
-    │
-    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    |
+    +---> [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
 ```
 
 - **📢 섹션 요약 비유**: 기존 정적 토폴로지 지도(엑셀)는 벽에 붙여놓은 '종이 세계지도'입니다. 국가의 국경선이 100년 동안 안 바뀔 때는 쓸만하지만, 매일 밤 국경이 수천 번씩 바뀌는 춘추전국시대(클라우드)에는 종이 지도를 보며 길을 찾는 건 자살 행위입니다. <strong>퍼시스턴트 토폴로지 관리</strong>는 하늘에 떠 있는 전능한 '타임머신 위성 레이더망([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)'입니다. 적군([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 텐트를 100개 치고 길(가상 랜선)을 낼 때마다, 레이더가 0.1초 만에 사진을 찍어 완벽한 3D 입체 그물망 지도로 만들어 영구히 하드디스크에 저장합니다. 관리자는 언제든 다이얼을 돌려 "어제 3시에 얘네들 텐트 어떻게 쳐놨었지?" 라며 1초의 오차도 없이 과거의 복잡한 그물망 진형을 100% 되살려내 분석(가시성 확보)할 수 있는 궁극의 작전 통제 지도입니다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 퍼시스턴트 토폴로지]
-    │
-    ├──▶ [확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 퍼시스턴트 토폴로지는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기…에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1025 / 1120
 
-← **이전**: [903. 디지털 트윈 병목 검증](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/903_digital_twin_bottleneck_simulation_what_if/)
-**다음**: [905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/905_hls_http_live_streaming_m3u8_adaptive_bitrate/) →
+<- **이전**: [903. 디지털 트윈 병목 검증](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/903_digital_twin_bottleneck_simulation_what_if/)
+**다음**: [905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/905_hls_http_live_streaming_m3u8_adaptive_bitrate/) ->
 
 ---

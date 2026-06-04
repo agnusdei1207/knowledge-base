@@ -34,25 +34,25 @@ tags = ["studynote-design"]
 | [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) | [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 직렬화 비용 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 처리량과 응답시간 | 큐 길이, 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-┌─────────┐ request ┌──────────────────┐
-│ [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)  │───────▶│   [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A      │
-└─────────┘        │  ┌────────────┐  │
-                   │  │ [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) │  │
-                   │  └──┬────┬────┘  │
-                   │     │    │       │
-                   │   ┌─▼┐ ┌─▼┐      │
-                   │   │T1│ │T2│      │
-                   │   └─┬┘ └─┬┘      │
-                   │     │ [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)      │
-                   │  ┌──▼────────┐  │
-                   │  │ Shared    │  │
-                   │  │ [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)     │  │
-                   │  └──┬────────┘  │
-                   └─────┼───────────┘
-                         ▼
-                   ┌──────────┐
-                   │[Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)  │
-                   └──────────┘
++---------+ request +------------------+
+| [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)  |-------->|   [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A      |
++---------+        |  +------------+  |
+                   |  | [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |  |
+                   |  +--+----+----+  |
+                   |     |    |       |
+                   |   +-v+ +-v+      |
+                   |   |T1| |T2|      |
+                   |   +-++ +-++      |
+                   |     | [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)      |
+                   |  +--v--------+  |
+                   |  | Shared    |  |
+                   |  | [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)     |  |
+                   |  +--+--------+  |
+                   +-----+-----------+
+                         v
+                   +----------+
+                   |[Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)  |
+                   +----------+
 - **📢 섹션 요약 비유**: 누가 동시에 움직이고 어디서 막히는지 보는 지도다.
 
 ---
@@ -102,7 +102,7 @@ tags = ["studynote-design"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-요구사항 → 동시성 시나리오 → 프로세스/스레드 분해 → IPC·동기화 설계 → 부하 테스트 → 병목 분석
+요구사항 -> 동시성 시나리오 -> 프로세스/스레드 분해 -> IPC·동기화 설계 -> 부하 테스트 -> 병목 분석
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -117,7 +117,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 129 / 530
 
-← **이전**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/)
-**다음**: [87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/) →
+<- **이전**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/)
+**다음**: [87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/) ->
 
 ---

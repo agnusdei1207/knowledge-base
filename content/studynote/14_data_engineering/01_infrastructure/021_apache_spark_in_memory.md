@@ -40,31 +40,31 @@ tags = ["studynote-data-engineering"]
 스파크는 독립적으로 자원을 관리할 수도 있지만, 주로 YARN이나 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 같은 클러스터 매니저 위에서 동작합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ Apache Spark 런타임 아키텍처 ]                │
-│                                                             │
-│       [ Driver Program ] (마스터 역할, 사용자 코드 실행)      │
-│       ┌─────────────────────────────────────┐               │
-│       │ 1. SparkContext (클러스터 연결 진입점)│               │
-│       │ 2. DAG Scheduler (논리적 실행 계획)   │               │
-│       │ 3. Task Scheduler (물리적 작업 분배)  │               │
-│       └──────────────────┬──────────────────┘               │
-│                          │ (Task 할당)                      │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│          [ Cluster Manager ] (YARN, K8s, Mesos)             │
-│            (CPU/Memory 물리적 자원 협상 및 할당)              │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│         ┌────────────────▼────────────────┐                 │
-│         │                                 │                 │
-│ [ Worker Node 1 ]                 [ Worker Node 2 ]         │
-│ ┌───────────────┐                 ┌───────────────┐         │
-│ │ Executor      │                 │ Executor      │         │
-│ │ ├─ Task (스레드)│  <==> 통신 <==> │ ├─ Task (스레드)│         │
-│ │ ├─ Task (스레드)│    (Shuffle)    │ ├─ Task (스레드)│         │
-│ │ └─ Cache (RAM)│                 │ └─ Cache (RAM)│         │
-│ └───────────────┘                 └───────────────┘         │
-│    (데이터 부분 처리)                   (데이터 부분 처리)           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ Apache Spark 런타임 아키텍처 ]                |
+|                                                             |
+|       [ Driver Program ] (마스터 역할, 사용자 코드 실행)      |
+|       +-------------------------------------+               |
+|       | 1. SparkContext (클러스터 연결 진입점)|               |
+|       | 2. DAG Scheduler (논리적 실행 계획)   |               |
+|       | 3. Task Scheduler (물리적 작업 분배)  |               |
+|       +------------------+------------------+               |
+|                          | (Task 할당)                      |
+| - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - |
+|          [ Cluster Manager ] (YARN, K8s, Mesos)             |
+|            (CPU/Memory 물리적 자원 협상 및 할당)              |
+| - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - |
+|         +----------------v----------------+                 |
+|         |                                 |                 |
+| [ Worker Node 1 ]                 [ Worker Node 2 ]         |
+| +---------------+                 +---------------+         |
+| | Executor      |                 | Executor      |         |
+| | +- Task (스레드)|  <==> 통신 <==> | +- Task (스레드)|         |
+| | +- Task (스레드)|    (Shuffle)    | +- Task (스레드)|         |
+| | +- Cache (RAM)|                 | +- Cache (RAM)|         |
+| +---------------+                 +---------------+         |
+|    (데이터 부분 처리)                   (데이터 부분 처리)           |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -156,17 +156,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 [Hadoop MapReduce (디스크 기반 2단계 배치 — 느림)]
-    │
-    ▼
+    |
+    v
 [Apache Spark (인메모리 DAG — 100배 고속)]
-    │
-    ▼
-[RDD → DataFrame → Dataset (API 진화 — 타입 안전성)]
-    │
-    ▼
+    |
+    v
+[RDD -> DataFrame -> Dataset (API 진화 — 타입 안전성)]
+    |
+    v
 [Structured Streaming (실시간 스트림 통합 처리)]
-    │
-    ▼
+    |
+    v
 [Apache Flink (순수 스트림 중심 — 이벤트 시간 정확성)]
 ```
 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce의 디스크 기반 병목을 인메모리 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 실행으로 극복한 Spark는 배치에서 실시간 스트리밍까지 통합하며, 순수 스트림 처리의 극한은 Apache Flink로 진화했다.
@@ -186,7 +186,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 21 / 258
 
-← **이전**: [20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)
-**다음**: [22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼](/knowledge-base/studynote/14_data_engineering/01_infrastructure/022_apache_kafka/) →
+<- **이전**: [20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)
+**다음**: [22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼](/knowledge-base/studynote/14_data_engineering/01_infrastructure/022_apache_kafka/) ->
 
 ---

@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [EIGRP]
-    │
-    ▼
+    |
+    v
 [EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    └──▶ [OSPF]
+    |
+    +---> [OSPF]
 ```
 
 - **📢 섹션 요약 비유**: ** EIGRP의 이러한 특징들은 낭비를 극도로 혐오하는 **"짠돌이 구두쇠"**의 철학과 같습니다. 내 입([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 아프게 쓸데없는 말을 하지 않고, 놀고 있는 뒷방 늙은이(2등 경로)까지 알뜰하게 부려 먹어 트래픽 처리량을 한계치까지 쥐어짜 냅니다.
@@ -62,19 +62,19 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 - 경로 2는 25점이므로 기준 점수 30점 안에 들어와서 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>에 합류</strong>하게 된다!
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Variance를 이용한 Unequal Cost 분산 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ]                                     [ 목적지 ] │
- │        │ ── (경로 A: 10점, 1등) ──▶ (패킷 5개 보냄) ──▶         │
- │        │ ── (경로 B: 20점, 2등) ──▶ (패킷 2개 보냄) ──▶         │
- │        └── (경로 C: 40점, 3등) ──▶ (탈락, 안 보냄)   ──▶         │
- │                                                             │
- │   * 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)            │
- │   * 결과: 20점 이하인 A길과 B길을 모두 사용한다!                    │
- │   * 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Variance를 이용한 Unequal Cost 분산 도식           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 라우터 ]                                     [ 목적지 ] |
+ |        | -- (경로 A: 10점, 1등) ---> (패킷 5개 보냄) --->         |
+ |        | -- (경로 B: 20점, 2등) ---> (패킷 2개 보냄) --->         |
+ |        +-- (경로 C: 40점, 3등) ---> (탈락, 안 보냄)   --->         |
+ |                                                             |
+ |   * 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)            |
+ |   * 결과: 20점 이하인 A길과 B길을 모두 사용한다!                    |
+ |   * 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> 명령어는 사장님의 </strong>"성과급 융통성(커트라인 완화)"**입니다. 원래는 90점 맞은 1등 직원(Successor)에게만 보너스를 몰아주다가, 사장님이 `variance 1.5`를 때리면 "1등 점수(90점)의 1.5배 이내로 들어온 직원들(Feasible Successor)에게도 성적에 비례해서 보너스를 나눠줘라!"라며 놀고 있던 직원들을 열일하게 만듭니다.
@@ -135,12 +135,12 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 
 ```text
 [선행 개념: EIGRP]
-    │
-    ▼
+    |
+    v
 [현재 개념: EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    ├──▶ [확장 A: OSPF]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: OSPF]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…는 EIGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPF와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 
 **진행 상황**: 477 / 1120
 
-← **이전**: [355. EIGRP (Enhanced IGRP)](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/)
-**다음**: [357. OSPF (Open Shortest Path First)](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) →
+<- **이전**: [355. EIGRP (Enhanced IGRP)](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/)
+**다음**: [357. OSPF (Open Shortest Path First)](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ->
 
 ---

@@ -19,18 +19,18 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    기울기 소실/폭발 메커니즘                            │
-├───────────────────────────────────────────────────────┤
-│  역전파 시 기울기 = ∂L/∂h₁ = ∂L/∂h_T × ∏(∂h_t/∂h_{t-1})│
-│                              = ∂L/∂h_T × W_h^T        │
-│                                                       │
-│  |W_h| < 1 → W_h^100 ≈ 0       (기울기 소실 📉)     │
-│  |W_h| > 1 → W_h^100 ≈ ∞       (기울기 폭발 📈)     │
-│                                                       │
-│  결과: T=100일 때 h₁의 영향이 h₁₀₀에 도달 못 함      │
-│  → "100단어 전 주어를 현재 동사와 연결 불가능"        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    기울기 소실/폭발 메커니즘                            |
++-------------------------------------------------------+
+|  역전파 시 기울기 = ∂L/∂h₁ = ∂L/∂h_T × ∏(∂h_t/∂h_{t-1})|
+|                              = ∂L/∂h_T × W_h^T        |
+|                                                       |
+|  |W_h| < 1 -> W_h^100 ≈ 0       (기울기 소실 📉)     |
+|  |W_h| > 1 -> W_h^100 ≈ ∞       (기울기 폭발 📈)     |
+|                                                       |
+|  결과: T=100일 때 h₁의 영향이 h₁₀₀에 도달 못 함      |
+|  -> "100단어 전 주어를 현재 동사와 연결 불가능"        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 100명이 릴레이로 소문을 전달하면, 마지막 사람은 원래 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 거의 기억 못 한다(소실). 또는 과장이 반복되어 완전히 다른 이야기가 된다(폭발).
@@ -100,17 +100,17 @@ Cell State는 행렬 곱셈이 아닌 <strong>원소별 곱(Hadamard Product)</s
 
 ```text
 [바닐라 RNN (1986) — 장기 의존성 실패 발견]
-    │
-    ▼
+    |
+    v
 [LSTM (1997, Hochreiter) — Cell State로 기울기 보호]
-    │
-    ▼
+    |
+    v
 [GRU (2014) — LSTM 간소화, 여전히 순차적]
-    │
-    ▼
+    |
+    v
 [Transformer (2017) — Self-Attention, O(1) 경로]
-    │
-    ▼
+    |
+    v
 [Mamba / RWKV (2023~) — 선형 복잡도 시퀀스 모델]
 ```
 
@@ -125,7 +125,7 @@ Cell State는 행렬 곱셈이 아닌 <strong>원소별 곱(Hadamard Product)</s
 
 **진행 상황**: 113 / 420
 
-← **이전**: [112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/112_hidden_state_recurrent_loop_context_memory/)
-**다음**: [114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) →
+<- **이전**: [112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/112_hidden_state_recurrent_loop_context_memory/)
+**다음**: [114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) ->
 
 ---

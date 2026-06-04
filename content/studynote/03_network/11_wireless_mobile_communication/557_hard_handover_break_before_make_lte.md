@@ -32,11 +32,11 @@ tags = ["studynote-network"]
 
 ```text
 [핸드오버 / 핸드오프 종류 개념]
-    │
-    ▼
+    |
+    v
 [하드 핸드오버]
-    │
-    └──▶ [소프트 핸드오버]
+    |
+    +---> [소프트 핸드오버]
 ```
 
 - **📢 섹션 요약 비유**: 앞 기차에서 발을 완전히 떼고(Break) 허공을 뛰어넘어 뒷 기차에 착지(Make)하는 기술입니다. 과거에는 뛰다가 떨어지는 사람이 많았지만, 지금은 두 기차 사이를 엄청나게 가깝게 붙여(X2 인터페이스) 누구도 떨어지지 않게 만든 셈입니다.
@@ -50,33 +50,33 @@ tags = ["studynote-network"]
 하드 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 가장 중요한 특징은 물리적으로 연결이 존재하지 않는 <strong>절체 시간(Interruption Time)</strong>이 반드시 존재한다는 점이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         하드 핸드오버의 'Break-before-make' 원리              │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   단말 (UE)              서빙 기지국 (S-eNB)       타겟 기지국 (T-eNB)│
-  │      │                         │                        │   │
-  │      │ 1. Measurement Report   │                        │   │
-  │      │────────────────────────▶│ 2. HO Decision         │   │
-  │      │                         │                        │   │
-  │      │                         │ 3. HO Request          │   │
-  │      │                         │───────────────────────▶│   │
-  │      │                         │ 4. HO Request Ack      │   │
-  │      │                         │◀───────────────────────│   │
-  │      │ 5. HO Command           │                        │   │
-  │      │◀────────────────────────│                        │   │
-  │    ──┴──                     ──┴──                    ──┴── │
-  │   [Break] 기존 연결 해제       [데이터 포워딩 시작]            │
-  │   (공백기)                      │======================▶│   │
-  │    ──┬──                     ──┬──                    ──┬── │
-  │      │ 6. Random Access (동기화)│                        │   │
-  │      │─────────────────────────┼───────────────────────▶│   │
-  │      │ 7. HO Complete          │                        │   │
-  │   [Make] 새 연결 확립          │                        │   │
-  │                                                             │
-  │  ※ 공백기 (Interruption Time): 보통 20ms ~ 50ms 소요.         │
-  │     이 기간 동안 코어망에서 서빙 기지국으로 내려온 패킷은 공중에서 분해됨. │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         하드 핸드오버의 'Break-before-make' 원리              |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   단말 (UE)              서빙 기지국 (S-eNB)       타겟 기지국 (T-eNB)|
+  |      |                         |                        |   |
+  |      | 1. Measurement Report   |                        |   |
+  |      |------------------------->| 2. HO Decision         |   |
+  |      |                         |                        |   |
+  |      |                         | 3. HO Request          |   |
+  |      |                         |------------------------>|   |
+  |      |                         | 4. HO Request Ack      |   |
+  |      |                         |<------------------------|   |
+  |      | 5. HO Command           |                        |   |
+  |      |<-------------------------|                        |   |
+  |    --+--                     --+--                    --+-- |
+  |   [Break] 기존 연결 해제       [데이터 포워딩 시작]            |
+  |   (공백기)                      |======================->|   |
+  |    --+--                     --+--                    --+-- |
+  |      | 6. Random Access (동기화)|                        |   |
+  |      |-------------------------+------------------------>|   |
+  |      | 7. HO Complete          |                        |   |
+  |   [Make] 새 연결 확립          |                        |   |
+  |                                                             |
+  |  ※ 공백기 (Interruption Time): 보통 20ms ~ 50ms 소요.         |
+  |     이 기간 동안 코어망에서 서빙 기지국으로 내려온 패킷은 공중에서 분해됨. |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단말기가 5번 `HO Command`를 받는 순간, 단말기는 지체 없이 서빙 기지국과의 통신을 끊는다(`Break`). 이때부터 타겟 기지국과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Random Access)를 마치고 `HO Complete`를 보낼 때까지 단말기는 인터넷 세상에서 완전히 사라진 상태(공백기)가 된다. 이 찰나의 공백기 동안 외부에서 단말로 전송되던 IP 패킷들은 갈 곳을 잃고 드랍(Drop)될 위기에 처한다. 과거 아날로그 시대에는 이 공백기가 길어 통화가 끊어졌으나, LTE에서는 이 시간을 평균 20~50ms 수준으로 압축했다.
@@ -105,7 +105,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|
 | **접속 방식** | **Break-before-make** (끊고 잡기) | **Make-before-break** (잡고 끊기) |
 | **통신망 표준** | 1G, 2G, <strong>4G (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>), <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> (NR)</strong> | 3G ([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/), CDMA2000) |
-| **주파수 효율성** | 한 순간에 1개 채널만 점유 → **자원 효율 극대화** | 일시적으로 2~3개 채널 점유 → 자원 낭비 심함 |
+| **주파수 효율성** | 한 순간에 1개 채널만 점유 -> **자원 효율 극대화** | 일시적으로 2~3개 채널 점유 -> 자원 낭비 심함 |
 | **핑퐁 효과 대응** | 히스테리시스 및 타이머 튜닝 필수 | 여러 기지국을 묶는 '[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Set'으로 자연스럽게 해결 |
 | **HW/SW 복잡도** | 단말기 구조 단순 (수신기 1개) | [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/) 등 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 합성기(Combiner) 필수, 복잡함 |
 | **절체 시간 (패킷 드랍)**| 존재함 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Forwarding으로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 보완) | 물리적 절체 시간이 아예 없음 (0ms) |
@@ -179,12 +179,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 핸드오버 / 핸드오프 종류 개념]
-    │
-    ▼
+    |
+    v
 [현재 개념: 하드 핸드오버]
-    │
-    ├──▶ [확장 A: 소프트 핸드오버]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 소프트 핸드오버]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 하드 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) / 핸드오프 종류 개념에서 출발해 현재 메커니즘을 정교화하고, 이후 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -201,7 +201,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 678 / 1120
 
-← **이전**: [556. 핸드오버 (Handover) / 핸드오프 (Handoff) 종류 개념](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)
-**다음**: [558. 소프트 핸드오버 (Soft Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) →
+<- **이전**: [556. 핸드오버 (Handover) / 핸드오프 (Handoff) 종류 개념](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)
+**다음**: [558. 소프트 핸드오버 (Soft Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) ->
 
 ---

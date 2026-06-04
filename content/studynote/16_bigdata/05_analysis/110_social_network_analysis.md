@@ -29,21 +29,21 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                SNA 분석 구조 및 주요 개념                         │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   노드 A ──────── 노드 B ──────── 노드 D                         │
-│      │ \              │                                          │
-│      │  \             │          중심성 지표:                    │
-│      │   \            │          A: Degree=3 (연결 많음)         │
-│   노드 C   \──── 노드 E          B: Betweenness 높음 (다리 역할) │
-│               \                  E: Eigenvector 높음 (영향력)    │
-│                노드 F                                            │
-│                                                                  │
-├──────────────────────────────────────────────────────────────────┤
-│  커뮤니티 탐지:  {A,B,C} ←→ {D,E,F} (모듈러리티 최적화)         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                SNA 분석 구조 및 주요 개념                         |
++------------------------------------------------------------------+
+|                                                                  |
+|   노드 A -------- 노드 B -------- 노드 D                         |
+|      | \              |                                          |
+|      |  \             |          중심성 지표:                    |
+|      |   \            |          A: Degree=3 (연결 많음)         |
+|   노드 C   \---- 노드 E          B: Betweenness 높음 (다리 역할) |
+|               \                  E: Eigenvector 높음 (영향력)    |
+|                노드 F                                            |
+|                                                                  |
++------------------------------------------------------------------+
+|  커뮤니티 탐지:  {A,B,C} <--> {D,E,F} (모듈러리티 최적화)         |
++------------------------------------------------------------------+
 ```
 
 ### 핵심 중심성 지표
@@ -60,7 +60,7 @@ tags = ["studynote-bigdata"]
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 원리 | 복잡도 | 특징 |
 |:---|:---|:---|:---|
 | **Louvain** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러리티 (Modularity) 최적화 | O(n log n) | 대규모 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 실용적, 계층적 |
-| **Girvan-Newman** | 매개 중심성 높은 엣지 순차 제거 | O(m²n) | 계층적 분해, 대규모에 느림 |
+| **Girvan-Newman** | 매개 중심성 높은 엣지 순차 제거 | O(m^n) | 계층적 분해, 대규모에 느림 |
 | **Label Propagation** | 이웃 레이블 다수결 전파 | O(n+m) | 가장 빠름, 비결정적 |
 | <strong>Spectral <a href="/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/">Clustering</a></strong> | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 라플라시안 고유벡터 | O(n³) | 수학적으로 정교, 소규모 |
 
@@ -138,17 +138,17 @@ SNA는 개인이 아닌 [관계](/knowledge-base/studynote/05_database/02_modeli
 
 ```text
 [네트워크 그래프 구성 (Network Graph) — 노드(행위자)와 엣지(관계) 모델링]
-    │
-    ▼
+    |
+    v
 [중심성 분석 (Centrality Analysis) — 연결·매개·근접 중심성으로 핵심 노드 탐지]
-    │
-    ▼
+    |
+    v
 [커뮤니티 탐지 (Community Detection) — Louvain·Girvan-Newman으로 그룹 식별]
-    │
-    ▼
+    |
+    v
 [영향력 확산 모델 (Diffusion Model) — SIR·IC 모델로 정보·전파 시뮬레이션]
-    │
-    ▼
+    |
+    v
 [그래프 머신러닝 (GNN — Graph Neural Network) — 관계 구조 학습으로 추천·예측]
 ```
 
@@ -165,7 +165,7 @@ SNA는 개인이 아닌 [관계](/knowledge-base/studynote/05_database/02_modeli
 
 **진행 상황**: 110 / 262
 
-← **이전**: [106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/)
-**다음**: [108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/) →
+<- **이전**: [106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/)
+**다음**: [108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/) ->
 
 ---

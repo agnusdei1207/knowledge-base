@@ -30,11 +30,11 @@ RAD(Rapid Application Development) 모델은 전통적인 폭포수 모델이 �
 이 도식은 일반적인 개발 모델과 RAD 모델의 공정 병렬화 및 시간 단축 효과를 시각화합니다.
 
 [전통적 순차 모델 (장기 지연)]
-분석(1달) ─▶ 설계(1달) ─▶ 개발(2달) ─▶ 테스트(1달) ==> 총 5개월
+분석(1달) --> 설계(1달) --> 개발(2달) --> 테스트(1달) ==> 총 5개월
 
 [RAD 모델의 병렬 및 도구 가속 (60~90일)]
-팀 A (결제): [JAD 요구분석] ─▶ [CASE 도구 기반 컴포넌트 조립/생성] ─▶ 통합/테스트
-팀 B (회원): [JAD 요구분석] ─▶ [CASE 도구 기반 컴포넌트 조립/생성] ─▶ 통합/테스트
+팀 A (결제): [JAD 요구분석] --> [CASE 도구 기반 컴포넌트 조립/생성] --> 통합/테스트
+팀 B (회원): [JAD 요구분석] --> [CASE 도구 기반 컴포넌트 조립/생성] --> 통합/테스트
 (시간 압축: 병렬 개발 + 코드 자동 생성 도구 활용 + 타임박싱 제어)
 ```
 이 도식에서 핵심은 RAD가 단순히 개발자들을 야근시켜 속도를 내는 것이 아니라, 시스템 범위를 독립적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나누어 여러 팀이 '병렬적'으로 작업하며, 인간의 코딩 타이핑 시간을 'CASE 도구'로 대체한다는 점입니다. 이런 배치는 물리적인 개발 리드 타임을 극적으로 축소시키기 때문이며, 따라서 프로젝트의 규모가 너무 커서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화가 불가능하거나, 복잡한 커스텀 알고리즘을 짜야 하는 환경에서는 RAD 방식을 사용할 수 없습니다.
@@ -57,12 +57,12 @@ RAD 모델은 고속 진행을 위해 표준화된 4단계의 아키텍처 생�
 ```text
 이 아키텍처 흐름도는 RAD 모델에서 JAD와 컴포넌트 재사용이 어떻게 결합하여 속도를 내는지 보여줍니다.
 
-[Business User] ──(협업/결정)──▶ [JAD (Joint App Design) Workshop]
-                                          │ (신속한 타임박싱 합의)
-                                          ▼
-[기존 컴포넌트] ──(재사용)──▶ [사용자 설계 & 데이터 모델링 (UI Prototype)]
-                                          │
-[CASE / 코드생성기] ──(가속화)──▶ [시스템 구축 (Construction)] ──▶ [통합 & 운영 전환]
+[Business User] --(협업/결정)---> [JAD (Joint App Design) Workshop]
+                                          | (신속한 타임박싱 합의)
+                                          v
+[기존 컴포넌트] --(재사용)---> [사용자 설계 & 데이터 모델링 (UI Prototype)]
+                                          |
+[CASE / 코드생성기] --(가속화)---> [시스템 구축 (Construction)] ---> [통합 & 운영 전환]
 ```
 이 흐름의 핵심은 JAD 워크숍과 CASE 도구의 강력한 결합입니다. JAD는 기획서가 결재 라인을 오가며 낭비되는 시간을 없애버리고, 그 자리에서 의사결정권자가 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 보며 도장을 찍게 만듭니다. 이후 구축 단계에서는 개발자가 밑바닥 로직을 짜는 대신, 이미 검증된 사내 라이브러리나 상용 프레임워크의 코드를 끌어다 붙입니다. 따라서 기술적 성숙도가 낮거나 고도의 튜닝이 필요한 코어 백엔드 시스템(C 코어 엔진 등)에는 RAD를 적용하면 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 장애를 유발할 수 있습니다.
 
@@ -84,13 +84,13 @@ RAD는 훌륭한 고속 개발 방법론이지만 만능은 아닙니다. 요구
 ```text
 이 매트릭스는 프로젝트 기술 스택과 요구 제약에 따라 RAD 적용 여부를 결정하는 트레이드오프를 보여줍니다.
 
-┌────────────────┬───────────────────────────────┬───────────────────────────────┐
-│ 프로젝트 특성  │ RAD 적용 시 장점              │ RAD 적용 시 치명적 단점 (위험)│
-├────────────────┼───────────────────────────────┼───────────────────────────────┤
-│ 컴포넌트 재사용│ 기존 자산 활용으로 개발 공수 0│ 신규 아키텍처나 모듈 생성 불가│
-│ 성능 요구사항  │ 표준화된 범용 성능 즉시 확보  │ 극미한 레이턴시 튜닝 절대 불가│
-│ 시스템 통합    │ 고립된 업무 앱 개발에 최적    │ 복잡한 레거시 이기종 통합 실패│
-└────────────────┴───────────────────────────────┴───────────────────────────────┘
++----------------+-------------------------------+-------------------------------+
+| 프로젝트 특성  | RAD 적용 시 장점              | RAD 적용 시 치명적 단점 (위험)|
++----------------+-------------------------------+-------------------------------+
+| 컴포넌트 재사용| 기존 자산 활용으로 개발 공수 0| 신규 아키텍처나 모듈 생성 불가|
+| 성능 요구사항  | 표준화된 범용 성능 즉시 확보  | 극미한 레이턴시 튜닝 절대 불가|
+| 시스템 통합    | 고립된 업무 앱 개발에 최적    | 복잡한 레거시 이기종 통합 실패|
++----------------+-------------------------------+-------------------------------+
 ```
 이 비교표의 핵심은 RAD가 '속도'를 위해 '고도의 맞춤화(Customization)'와 '최적화된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))'을 희생한다는 점입니다. 코드 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 만들어낸 코드는 사람이 작성한 것보다 무겁고 비효율적일 때가 많습니다. 사내 인트라넷 게시판, 간단한 CRUD 기반의 관리자 백오피스, 이벤트성 랜딩 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 구축에는 RAD가 최고의 효율을 내지만, 초당 수만 건의 트랜잭션을 처리하는 금융 코어 뱅킹이나 자율주행 알고리즘에 RAD를 도입하는 것은 자살 행위입니다.
 
@@ -106,14 +106,14 @@ RAD는 훌륭한 고속 개발 방법론이지만 만능은 아닙니다. 요구
 이 의사결정 트리는 실무 프로젝트 착수 시 RAD 적용 가능성을 판단하는 체크 플로우입니다.
 
 [신규 프로젝트 착수]
-        │
-        ├─▶ 시스템을 독립적인 여러 컴포넌트로 나눌 수 있는가? (No ─▶ 도입 불가)
-        │     Yes
-        ├─▶ 팀 내에 화면 빌더/프레임워크(CASE) 전문가가 있는가? (No ─▶ 도입 불가)
-        │     Yes
-        ├─▶ 비즈니스 의사결정자가 워크숍(JAD)에 풀타임 참석 가능한가? (No ─▶ 도입 불가)
-        │     Yes
-        └─▶ [RAD 방법론 채택] ──▶ [60일 이내 초고속 시스템 오픈]
+        |
+        +--> 시스템을 독립적인 여러 컴포넌트로 나눌 수 있는가? (No --> 도입 불가)
+        |     Yes
+        +--> 팀 내에 화면 빌더/프레임워크(CASE) 전문가가 있는가? (No --> 도입 불가)
+        |     Yes
+        +--> 비즈니스 의사결정자가 워크숍(JAD)에 풀타임 참석 가능한가? (No --> 도입 불가)
+        |     Yes
+        +--> [RAD 방법론 채택] ---> [60일 이내 초고속 시스템 오픈]
 ```
 <strong>실무 판단 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 방지</strong>
 1. **타임박싱(Timeboxing)의 엄수**: RAD의 생명은 시간입니다. 60일로 정해진 기한 내에 기능을 다 구현하지 못할 것 같으면 기한을 늘리는 것이 아니라 '우선순위가 낮은 기능을 빼버려야(Drop)' 합니다. 일정 지연을 허용하는 순간 RAD는 무너집니다.
@@ -152,17 +152,17 @@ RAD 모델은 소프트웨어 공학에서 '도구에 의한 자동화'와 '인�
 
 ```text
 [전통 폭포수 모델 — 긴 요구 분석/개발 주기]
-    │
-    ▼
+    |
+    v
 [RAD 등장(타임박싱) — 짧은 반복 주기 도입]
-    │
-    ▼
+    |
+    v
 [JAD 세션 — 사용자·개발자 공동 설계]
-    │
-    ▼
+    |
+    v
 [프로토타이핑 반복 — 빠른 피드백 수집]
-    │
-    ▼
+    |
+    v
 [로우코드/노코드(LCNC) 진화]
 ```
 
@@ -179,7 +179,7 @@ RAD는 폭포수의 긴 개발 주기를 줄이기 위해 타임박싱과 공동
 
 **진행 상황**: 9 / 973
 
-← **이전**: [8. 반복적/점진적 모델 (Iterative and Incremental Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/)
-**다음**: [10. 진화적 프로세스 모델 (Evolutionary Process Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/) →
+<- **이전**: [8. 반복적/점진적 모델 (Iterative and Incremental Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/)
+**다음**: [10. 진화적 프로세스 모델 (Evolutionary Process Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/) ->
 
 ---

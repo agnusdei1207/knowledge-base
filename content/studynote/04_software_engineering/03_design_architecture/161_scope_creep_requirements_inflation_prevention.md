@@ -45,20 +45,20 @@ tags = ["studynote-software-engineering"]
 아래 그림은 통제되지 않은 작은 변경이 어떻게 프로젝트 문제로 번지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 how an informal request becomes scope creep                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Approved baseline                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ "Just one more feature"                                                   │
-│      │                                                                     │
-│      ├─ no CCB review                                                      │
-│      ├─ no schedule / cost revision                                        │
-│      └─ no RTM update                                                      │
-│      ▼                                                                     │
-│ Hidden design change ─▶ retest ─▶ rework ─▶ delay / budget overrun         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 how an informal request becomes scope creep                |
++----------------------------------------------------------------------------+
+| Approved baseline                                                          |
+|      |                                                                     |
+|      v                                                                     |
+| "Just one more feature"                                                   |
+|      |                                                                     |
+|      +- no CCB review                                                      |
+|      +- no schedule / cost revision                                        |
+|      +- no RTM update                                                      |
+|      v                                                                     |
+| Hidden design change --> retest --> rework --> delay / budget overrun         |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 요구 추가가 기능 하나로 끝나지 않는다는 점이다. 요구사항 추적 매트릭스인 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))이 갱신되지 않으면 설계와 테스트가 뒤따르지 못하고, 일정과 비용 조정이 없으면 프로젝트는 겉보기 계획만 유지한 채 실제 부채를 쌓게 된다. 결국 범위 크리프는 기능 추가 문제가 아니라 관리 체계의 불일치 문제다.
@@ -133,13 +133,13 @@ tags = ["studynote-software-engineering"]
 
 ```text
 요구사항 정의
-      │
-      ▼
+      |
+      v
 베이스라인 설정
-      │
-      ├── 공식 변경 요청 + 영향도 분석 ─▶ 통제된 범위 조정
-      │
-      └── 비공식 추가 요구 누적 ─▶ 범위 크리프 ─▶ 지연 / 재작업 / 분쟁
+      |
+      +-- 공식 변경 요청 + 영향도 분석 --> 통제된 범위 조정
+      |
+      +-- 비공식 추가 요구 누적 --> 범위 크리프 --> 지연 / 재작업 / 분쟁
 ```
 
 이 흐름은 같은 추가 요구라도 승인과 재계획이 있으면 변경 관리가 되고, 없으면 범위 크리프로 변한다는 점을 보여 준다.
@@ -156,7 +156,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 161 / 973
 
-← **이전**: [160. 형상 통제 위원회 (CCB) 요구사항 변경 심사](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)
-**다음**: [162. 골드 플래팅 (Gold Plating) - 요구사항에 없는 기능 임의 추가 (안티패턴)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/) →
+<- **이전**: [160. 형상 통제 위원회 (CCB) 요구사항 변경 심사](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)
+**다음**: [162. 골드 플래팅 (Gold Plating) - 요구사항에 없는 기능 임의 추가 (안티패턴)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/) ->
 
 ---

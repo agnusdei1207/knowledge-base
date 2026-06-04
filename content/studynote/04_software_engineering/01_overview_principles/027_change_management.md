@@ -19,22 +19,22 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│          변경 관리 프로세스 흐름                       │
-├──────────────────────────────────────────────────────┤
-│ 1. 변경 요청(RFC)                                    │
-│    ↓                                                 │
-│ 2. 영향 분석 (Impact Assessment)                     │
-│    ↓                                                 │
-│ 3. 변경 승인 (CAB: Change Advisory Board)            │
-│    ↓                                                 │
-│ 4. 변경 구현 (Implementation)                        │
-│    ↓                                                 │
-│ 5. 검토 및 종료 (PIR: Post-Implementation Review)    │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|          변경 관리 프로세스 흐름                       |
++------------------------------------------------------+
+| 1. 변경 요청(RFC)                                    |
+|    v                                                 |
+| 2. 영향 분석 (Impact Assessment)                     |
+|    v                                                 |
+| 3. 변경 승인 (CAB: Change Advisory Board)            |
+|    v                                                 |
+| 4. 변경 구현 (Implementation)                        |
+|    v                                                 |
+| 5. 검토 및 종료 (PIR: Post-Implementation Review)    |
++------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토→허가→시공→검수 단계를 반드시 거친다.
+- **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토->허가->시공->검수 단계를 반드시 거친다.
 
 ---
 
@@ -78,12 +78,12 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### DevOps에서 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 자동화
-- [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/): Git 커밋이 변경 요청 → [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰가 [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) 역할 → [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 자동 배포.
-- [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/): 코드 배포와 기능 활성화 분리 → 긴급 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지원.
+- [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/): Git 커밋이 변경 요청 -> [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰가 [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) 역할 -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 자동 배포.
+- [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/): 코드 배포와 기능 활성화 분리 -> 긴급 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지원.
 
 ### [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) 관리
 - Elite 조직: 배포 후 장애 비율 < 5%.
-- 변경 실패 시 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 + PIR → 재발 방지 루프.
+- 변경 실패 시 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 + PIR -> 재발 방지 루프.
 
 - **📢 섹션 요약 비유**: GitOps는 디지털 법원 기록 시스템이다. 모든 변경이 Git에 기록되고(증거 보존), PR은 판사 검토([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통과는 법원 허가(승인)다.
 
@@ -117,23 +117,23 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [수동 변경 — 비공식 변경, 추적 불가]
-    │
-    ▼
+    |
+    v
 [ITSM 변경 관리 — CAB 중심 공식 프로세스]
-    │
-    ▼
+    |
+    v
 [Agile 변경 관리 — 스프린트 내 변경 통합]
-    │
-    ▼
+    |
+    v
 [DevOps/GitOps — CI/CD 기반 자동화 변경 관리]
-    │
-    ▼
+    |
+    v
 [AI 위험 예측 — 변경 실패율 자동 예측·경보]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 공사 허가 과정이에요! 마음대로 벽을 허물면 건물이 무너지니까(장애 발생), 반드시 설계→검토→허가→시공→검수 단계를 거쳐요.
+1. [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 공사 허가 과정이에요! 마음대로 벽을 허물면 건물이 무너지니까(장애 발생), 반드시 설계->검토->허가->시공->검수 단계를 거쳐요.
 2. DevOps에서는 Git에 모든 변경이 기록되고, 자동 테스트가 허가 역할을 해줘요!
 3. AI는 과거 변경 기록을 학습해서 "이 변경은 장애가 날 것 같아요"라고 미리 경고해주기도 한답니다!
 
@@ -143,7 +143,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 27 / 973
 
-← **이전**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/)
-**다음**: [28. 소프트웨어 리엔지니어링 (Software Reengineering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/) →
+<- **이전**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/)
+**다음**: [28. 소프트웨어 리엔지니어링 (Software Reengineering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/) ->
 
 ---

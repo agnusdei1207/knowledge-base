@@ -44,18 +44,18 @@ LC/NC 플랫폼은 보통 디자이너, [메타데이터](/knowledge-base/studyn
 아래 구조는 시각적 설계가 곧바로 업무 실행으로 이어지되, 그 사이에 공통 통제 계층이 꼭 들어가야 함을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     Metadata-driven low-code platform                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Designer UI -> App / Flow Metadata -> Runtime Engine -> Connectors       │
-│      │                  │                    │               │            │
-│      │                  │                    │               └-> ERP/CRM  │
-│      │                  │                    └-> Auth / Log / Monitor     │
-│      └-> Forms / Rules  └-> Versioned deploy                              │
-│                              │                                             │
-│                              ▼                                             │
-│                 Governance / policy / approval pipeline                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                     Metadata-driven low-code platform                     |
++----------------------------------------------------------------------------+
+| Designer UI -> App / Flow Metadata -> Runtime Engine -> Connectors       |
+|      |                  |                    |               |            |
+|      |                  |                    |               +-> ERP/CRM  |
+|      |                  |                    +-> Auth / Log / Monitor     |
+|      +-> Forms / Rules  +-> Versioned deploy                              |
+|                              |                                             |
+|                              v                                             |
+|                 Governance / policy / approval pipeline                    |
++----------------------------------------------------------------------------+
 ```
 
 노코드 (No-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 정해진 블록 안에서 빠르게 결과를 만드는 데 강하고, 로우코드 (Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 필요한 부분에 스크립트나 확장 코드를 붙여 복잡한 요구를 수용하는 데 강하다. 따라서 LC/NC의 설계 포인트는 "코드가 있나 없나"보다, 플랫폼이 어느 수준까지 표준 기능으로 흡수하고 어디부터 전문 개발자 확장이 필요한가를 경계 짓는 데 있다.
@@ -129,17 +129,17 @@ LC/NC를 잘 적용하면 장꼬리 업무 자동화의 처리 속도가 빨라�
 
 ```text
 수기 엑셀 · 이메일 업무
-    │
-    ▼
+    |
+    v
 시각적 폼 · 간단한 자동화 블록
-    │
-    ▼
+    |
+    v
 노코드 워크플로우
-    │
-    ▼
+    |
+    v
 로우코드 확장 · API 연계
-    │
-    ▼
+    |
+    v
 CoE 기반 엔터프라이즈 자동화 거버넌스
 ```
 
@@ -157,7 +157,7 @@ CoE 기반 엔터프라이즈 자동화 거버넌스
 
 **진행 상황**: 200 / 482
 
-← **이전**: [199. BPM (Business Process Management) 및 오케스트레이터 모델](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)
-**다음**: [201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/201_enterprise_backup_cloud_storage_tiering/) →
+<- **이전**: [199. BPM (Business Process Management) 및 오케스트레이터 모델](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)
+**다음**: [201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/201_enterprise_backup_cloud_storage_tiering/) ->
 
 ---

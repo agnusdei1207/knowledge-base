@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 충실도는 **Lo-Fi(종이 스케치)·Mid-Fi(와이어프레임)·Hi-Fi(인터랙티브 목업)** 3단계로 구분되며, 프로젝트 단계·목적에 따라 적절한 수준을 선택한다.
 > 2. **가치**: 초기에 Hi-Fi를 만들면 <strong>수정 비용이 크고 피드백이 디자인에 매몰</strong>되므로, Lo-Fi로 시작하여 점진적으로 충실도를 높이는 것이 효율적이다.
-> 3. **판단 포인트**: Lo-Fi(5분 제작, 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))→Mid-Fi(Figma 와이어프레임)→Hi-Fi(Figma 인터랙티브, 실제와 유사)의 순서로 진행한다.
+> 3. **판단 포인트**: Lo-Fi(5분 제작, 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))->Mid-Fi(Figma 와이어프레임)->Hi-Fi(Figma 인터랙티브, 실제와 유사)의 순서로 진행한다.
 
 ---
 
@@ -47,9 +47,9 @@ tags = ["studynote-software-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[종이 프로토타입 (~2005)] → [Balsamiq (Lo-Fi, 2008)]
-    → [Sketch (Mid-Fi, 2010)] → [Figma (Hi-Fi, 2016)]
-    → [현재: AI 프로토타입 — 스케치→코드 자동 생성]
+[종이 프로토타입 (~2005)] -> [Balsamiq (Lo-Fi, 2008)]
+    -> [Sketch (Mid-Fi, 2010)] -> [Figma (Hi-Fi, 2016)]
+    -> [현재: AI 프로토타입 — 스케치->코드 자동 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 139 / 973
 
-← **이전**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/knowledge-base/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/)
-**다음**: [140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/140_shadowing_observation_technique/) →
+<- **이전**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/knowledge-base/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/)
+**다음**: [140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/140_shadowing_observation_technique/) ->
 
 ---

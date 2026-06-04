@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [IntServ]
-    │
-    ▼
+    |
+    v
 [DiffServ]
-    │
-    └──▶ [우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
+    |
+    +---> [우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
 ```
 
 - **📢 섹션 요약 비유**: ** DiffServ는 공항 보안 검색대의 **"비즈니스 클래스 전용 라인"**입니다. 검색대 직원(라우터)은 오직 탑승권에 찍힌 '퍼스트(EF)', '비즈니스(AF)', '이코노미(BE)' 글자만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 즉각 줄을 세우므로(PHB), 대기 줄이 아무리 길어도 VIP 승객은 절대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 겪지 않고 통과할 수 있습니다.
@@ -67,21 +67,21 @@ $2^6 = 64$ 가지의 신분(등급)을 부여할 수 있다.
    - 오직 **VoIP(인터넷 전화), 화상 회의(Zoom)** 같이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 0.1초라도 발생하면 끊어지는 목소리/실시간 영상 패킷에만 이 거룩한 황족 스티커를 붙여준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DiffServ 환경에서의 라우터 대기열(Queue) 갈라치기   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수만 개의 패킷이 라우터로 쏟아져 들어옴!! ]                     │
- │      │                                                      │
- │      ▼ (분류기: DSCP 스티커 확인!)                              │
- │                                                             │
- │   ▶ 스티커가 EF(46)네? ──▶ [ 황족 전용 VIP 큐 ] ── (무조건 최우선 처리!)│
- │                                                             │
- │   ▶ 스티커가 AF31 이네? ──▶ [ 우등생 전용 2번 큐 ] ── (VIP 없으면 처리) │
- │                                                             │
- │   ▶ 스티커가 BE(0) 이네?  ──▶ [ 흙수저 전용 3번 큐 ] ── (남는 시간에 처리) │
- │                      (큐 꽉 차면 가차 없이 1순위로 패킷 버림-Drop)│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                DiffServ 환경에서의 라우터 대기열(Queue) 갈라치기   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 수만 개의 패킷이 라우터로 쏟아져 들어옴!! ]                     |
+ |      |                                                      |
+ |      v (분류기: DSCP 스티커 확인!)                              |
+ |                                                             |
+ |   -> 스티커가 EF(46)네? ---> [ 황족 전용 VIP 큐 ] -- (무조건 최우선 처리!)|
+ |                                                             |
+ |   -> 스티커가 AF31 이네? ---> [ 우등생 전용 2번 큐 ] -- (VIP 없으면 처리) |
+ |                                                             |
+ |   -> 스티커가 BE(0) 이네?  ---> [ 흙수저 전용 3번 큐 ] -- (남는 시간에 처리) |
+ |                      (큐 꽉 차면 가차 없이 1순위로 패킷 버림-Drop)|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. DiffServ의 훌륭한 장점 (확장성)
@@ -145,12 +145,12 @@ DiffServ는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_ro
 
 ```text
 [선행 개념: IntServ]
-    │
-    ▼
+    |
+    v
 [현재 개념: DiffServ]
-    │
-    ├──▶ [확장 A: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 DiffServ는 IntServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ DiffServ는 IntServ에서 출발해 현재 메커니즘을 정교화하고, 이�
 
 **진행 상황**: 511 / 1120
 
-← **이전**: [389. IntServ (Integrated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/)
-**다음**: [391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) →
+<- **이전**: [389. IntServ (Integrated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/)
+**다음**: [391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) ->
 
 ---

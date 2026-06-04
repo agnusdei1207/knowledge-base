@@ -30,38 +30,38 @@ tags = ["studynote-network"]
 전통적인 방식과 싱크홀 적용 시의 통신 흐름 차이를 시각화하면, 악성코드가 목적지를 찾지 못하고 갇히게 되는 원리를 명확히 이해할 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         일반 DNS 응답 vs DNS 싱크홀 응답 통신 흐름 차이             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [상황 1: DNS 싱크홀 미적용 시 (감염 상태)]                           │
-  │                                                               │
-  │  좀비 PC                 ISP DNS 서버               C&C 서버      │
-  │     │                       │                       │         │
-  │     │ 1. "bad-site.com IP?" │                       │         │
-  │     ├──────────────────────▶│                       │         │
-  │     │                       │ (실제 IP 조회)          │         │
-  │     │ 2. "IP: 203.0.113.5"  │                       │         │
-  │     │◀──────────────────────┤                       │         │
-  │     │                       │                       │         │
-  │     │ 3. 악성명령 수신 및 데이터 유출 접속 (203.0.113.5)  │         │
-  │     ├───────────────────────────────────────────────▶│         │
-  │                                                               │
-  │  [상황 2: DNS 싱크홀 적용 시 (차단 상태)]                             │
-  │                                                               │
-  │  좀비 PC                 Sinkhole DNS             Sinkhole IP   │
-  │     │                       │                       │ (안내웹) │
-  │     │ 1. "bad-site.com IP?" │                       │         │
-  │     ├──────────────────────▶│ [블랙리스트 매칭!]      │         │
-  │     │                       │                       │         │
-  │     │ 2. "IP: 192.168.100.1"│ (가짜 IP 응답)          │         │
-  │     │◀──────────────────────┤                       │         │
-  │     │                       │                       │         │
-  │     │ 3. 악성 통신 시도 (안전한 Sinkhole 서버로 갇힘)    │         │
-  │     ├───────────────────────────────────────────────▶│         │
-  │     │                                                 │         │
-  │     │                                   [감염 PC 로그 수집 & 차단] │
-  └───────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         일반 DNS 응답 vs DNS 싱크홀 응답 통신 흐름 차이             |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |  [상황 1: DNS 싱크홀 미적용 시 (감염 상태)]                           |
+  |                                                               |
+  |  좀비 PC                 ISP DNS 서버               C&C 서버      |
+  |     |                       |                       |         |
+  |     | 1. "bad-site.com IP?" |                       |         |
+  |     +----------------------->|                       |         |
+  |     |                       | (실제 IP 조회)          |         |
+  |     | 2. "IP: 203.0.113.5"  |                       |         |
+  |     |<-----------------------+                       |         |
+  |     |                       |                       |         |
+  |     | 3. 악성명령 수신 및 데이터 유출 접속 (203.0.113.5)  |         |
+  |     +------------------------------------------------>|         |
+  |                                                               |
+  |  [상황 2: DNS 싱크홀 적용 시 (차단 상태)]                             |
+  |                                                               |
+  |  좀비 PC                 Sinkhole DNS             Sinkhole IP   |
+  |     |                       |                       | (안내웹) |
+  |     | 1. "bad-site.com IP?" |                       |         |
+  |     +----------------------->| [블랙리스트 매칭!]      |         |
+  |     |                       |                       |         |
+  |     | 2. "IP: 192.168.100.1"| (가짜 IP 응답)          |         |
+  |     |<-----------------------+                       |         |
+  |     |                       |                       |         |
+  |     | 3. 악성 통신 시도 (안전한 Sinkhole 서버로 갇힘)    |         |
+  |     +------------------------------------------------>|         |
+  |     |                                                 |         |
+  |     |                                   [감염 PC 로그 수집 & 차단] |
+  +-----------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상황 1에서 감염된 좀비 PC는 외부의 정상 DNS를 통해 실제 C&C ([Command & Control](/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/)) 서버의 IP 주소를 획득하고, 직접 통신을 개시하여 악성 페이로드를 다운로드하거나 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유출한다. 반면 상황 2에서는 기업 내부나 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Internet [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/))에 구축된 Sinkhole DNS가 질의를 중간에서 검사한다. 블랙리스트에 등록된 `bad-site.com` 질의가 인입되면, 실제 해커의 IP 대신 안전한 내부 격리망 IP(Sinkhole IP)를 반환한다. 그 결과, 좀비 PC는 해커 서버가 아닌 싱크홀 서버로 접속하게 되며, 싱크홀 서버는 이 접속 시도를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남겨 보안팀에 "이 내부 PC가 감염되었다"는 경고(Alert)를 보낸다. 즉, 방어벽 역할과 조기 경보 레이더 역할을 동시에 수행한다.
@@ -88,32 +88,32 @@ tags = ["studynote-network"]
 
 ```text
 [내부 클라이언트 (좀비 PC)]
-      │
-      │ 1. DNS Query (UDP 53) - "qname: c2-domain.com"
-      ▼
-[내부 DNS 서버 (Sinkhole 적용)] ◀══ [블랙리스트 동기화] ══ KISA / 상용 CTI
-      │
-      ├─▶ 정상 도메인? ──▶ (외부 Root DNS로 포워딩 및 정상 IP 응답)
-      │
-      ▼ (악성 도메인 매치 발생)
-      │ 2. 가짜 IP 응답 (Sinkhole IP: 10.0.99.99)
-      │
+      |
+      | 1. DNS Query (UDP 53) - "qname: c2-domain.com"
+      v
+[내부 DNS 서버 (Sinkhole 적용)] <--- [블랙리스트 동기화] -- KISA / 상용 CTI
+      |
+      +--> 정상 도메인? ---> (외부 Root DNS로 포워딩 및 정상 IP 응답)
+      |
+      v (악성 도메인 매치 발생)
+      | 2. 가짜 IP 응답 (Sinkhole IP: 10.0.99.99)
+      |
 [내부 클라이언트 (좀비 PC)]
-      │
-      │ 3. HTTP GET / HTTPs ClientHello 등 악성 통신 시도 (TCP 80/443/etc)
-      ▼
+      |
+      | 3. HTTP GET / HTTPs ClientHello 등 악성 통신 시도 (TCP 80/443/etc)
+      v
 [Sinkhole 서버 (10.0.99.99)]
-      │
-      ├─▶ ① 80/443 포트: "차단 안내 페이지" 렌더링 (일반 사용자 오접속 시)
-      ├─▶ ② 봇넷 통신 캡처: 페이로드, HTTP 헤더, User-Agent 분석
-      │
-      ▼ 4. 접속 로그 (Source IP, Domain, Timestamp) 생성
-      │
+      |
+      +--> ① 80/443 포트: "차단 안내 페이지" 렌더링 (일반 사용자 오접속 시)
+      +--> ② 봇넷 통신 캡처: 페이로드, HTTP 헤더, User-Agent 분석
+      |
+      v 4. 접속 로그 (Source IP, Domain, Timestamp) 생성
+      |
 [SIEM (보안 정보 이벤트 관리)]
-      │
-      ▼ 5. 상관 분석 및 보안 관제 알람 발생 "Host 192.168.1.50 감염 확실시"
-      │
-[NAC / 방화벽 연동] ──▶ 6. 해당 좀비 PC 내부망에서 자동 논리적 격리 (Quarantine)
+      |
+      v 5. 상관 분석 및 보안 관제 알람 발생 "Host 192.168.1.50 감염 확실시"
+      |
+[NAC / 방화벽 연동] ---> 6. 해당 좀비 PC 내부망에서 자동 논리적 격리 (Quarantine)
 ```
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀이 단순한 '차단 벽'이 아니라 능동적인 '함정 수사' 도구라는 점이다. 내부 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 KISA (Korea Internet & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Agency) 등의 외부 기관으로부터 지속적으로 블랙리스트 (Blacklist)를 업데이트받는다. 감염된 클라이언트가 C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 질의할 때, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 외부로 나가는 것을 막고 사내 격리망에 있는 Sinkhole 서버의 IP ([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.99.99)를 던져준다. 이후 악성코드는 해당 IP가 실제 C&C 서버인 줄 알고 접속을 시도한다. Sinkhole 서버는 이 패킷을 버리지 않고 철저히 기록 (Source IP, 목적 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 등)하여 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))으로 보낸다. 보안 관리자는 이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 통해 "어떤 내부 PC가", "어떤 악성코드 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)에", "언제 감염되었는지" 정확히 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, [NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) ([Network Access Control](/knowledge-base/studynote/09_security/05_web_app_security/226_nac_network_access_control_ieee_802_1x/))를 통해 즉각 망 분리 조치를 취할 수 있다. 이는 인바운드 방어가 뚫린 상황에서 아웃바운드 통제를 통해 치명적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출(Exfiltration)을 막는 마지막 저지선 역할을 한다.
@@ -165,25 +165,25 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 최근 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 브라우저 단에서 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) ([DNS over HTTPS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))가 도입되면서, 기업 내부의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀이 우회되는 심각한 구조적 한계가 발생하고 있다. 이를 시각화하여 구조적 차이를 이해해야 한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │         일반 DNS (Cleartext) vs DoH (DNS over HTTPS) 우회        │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │ [1. 일반 DNS 환경: 싱크홀 정상 작동]                                   │
-  │                                                                  │
-  │ 좀비 PC (Malware) ── (UDP 53, 평문) ──▶ 내부 DNS Sinkhole ──▶ 차단 │
-  │ (평문 질의로 인해 내부 DNS가 목적지 도메인을 읽고 변조 가능)                │
-  │                                                                  │
-  │ [2. DoH 적용 환경: 싱크홀 우회 및 무력화]                               │
-  │                                                                  │
-  │ 좀비 PC (Malware) ── (TCP 443, 암호화) ──▶ 외부 DoH 서버 (8.8.8.8)  │
-  │ (내부 DNS 무시)        HTTPS 터널링        │ (정상 IP 반환)          │
-  │                        │                ▼                       │
-  │                        │            실제 C&C 서버               │
-  │                        └──────────▶ (악성 통신 성공)             │
-  │                                                                  │
-  │ ⚠ DoH 패킷은 방화벽에서 일반 HTTPS 웹 서핑과 구분이 불가능하여 통과됨.   │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |         일반 DNS (Cleartext) vs DoH (DNS over HTTPS) 우회        |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  | [1. 일반 DNS 환경: 싱크홀 정상 작동]                                   |
+  |                                                                  |
+  | 좀비 PC (Malware) -- (UDP 53, 평문) ---> 내부 DNS Sinkhole ---> 차단 |
+  | (평문 질의로 인해 내부 DNS가 목적지 도메인을 읽고 변조 가능)                |
+  |                                                                  |
+  | [2. DoH 적용 환경: 싱크홀 우회 및 무력화]                               |
+  |                                                                  |
+  | 좀비 PC (Malware) -- (TCP 443, 암호화) ---> 외부 DoH 서버 (8.8.8.8)  |
+  | (내부 DNS 무시)        HTTPS 터널링        | (정상 IP 반환)          |
+  |                        |                v                       |
+  |                        |            실제 C&C 서버               |
+  |                        +-----------> (악성 통신 성공)             |
+  |                                                                  |
+  | ⚠ DoH 패킷은 방화벽에서 일반 HTTPS 웹 서핑과 구분이 불가능하여 통과됨.   |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적인 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 53 기반의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 평문 (Cleartext)이므로 중간에 위치한 사내 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 패킷을 열어보고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 가로챌 수 있다 (싱크홀링 작동). 그러나 악성코드가 자체적으로 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) ([DNS over HTTPS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/)) 클라이언트를 내장하여 외부 공개 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) 서버 (예: Google 8.8.8.8, Cloudflare 1.1.1.1)로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 443 암호화 통신을 시도하면, 사내 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 아예 질의를 받지 못한다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 입장에서도 이 트래픽은 암호화된 정상 웹([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 트래픽으로 보여 차단할 수 없다. 이러한 "싱크홀 우회 (Bypass)" 문제가 대두되면서, 현대 보안 구조에서는 엔드포인트 단의 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response) 에이전트가 로컬 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의를 후킹하여 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) 시도 자체를 차단하거나 통제해야만 싱크홀의 실효성을 유지할 수 있다.
@@ -201,34 +201,34 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 실무에서 오탐 방지와 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 관리를 위한 싱크홀 룰 적용 프로세스를 흐름도로 살펴보면 화이트리스트 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 왜 필수적인지 명확해진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │             DNS 싱크홀 룰 적용 및 예외 처리 의사결정 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [신규 도메인 접속 요청 인입: "api.aws-service.com"]                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      화이트리스트(Whitelist)에 존재하는가? (Top 1M, 사내도메인)         │
-  │          ├─ 예 ─────▶ [Sinkhole 검사 패스 (Bypass) → 정상 응답]     │
-  │          │                                                        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      KISA/CTI 블랙리스트 (RPZ)에 존재하는가?                          │
-  │          ├─ 예 ─────▶ [Sinkhole IP (10.0.0.99) 응답 및 로그 기록]  │
-  │          │                     │                                  │
-  │          │                     └─▶ [SIEM 알람: "감염 호스트 격리"]  │
-  │          │                                                        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      DGA (머신러닝 알고리즘) 의심 도메인인가? (ex: qwezxcasd.com)     │
-  │          ├─ 예 ─────▶ [Sinkhole IP 응답 또는 그레이리스트 보류]      │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [외부 DNS 포워딩 → 정상 IP 반환]              │
-  │                                                                   │
-  │  핵심 판단: 강력한 블랙리스트 도입 전, 오탐을 막을 화이트리스트가 선결 조건! │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |             DNS 싱크홀 룰 적용 및 예외 처리 의사결정 플로우          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [신규 도메인 접속 요청 인입: "api.aws-service.com"]                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      화이트리스트(Whitelist)에 존재하는가? (Top 1M, 사내도메인)         |
+  |          +- 예 ------> [Sinkhole 검사 패스 (Bypass) -> 정상 응답]     |
+  |          |                                                        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      KISA/CTI 블랙리스트 (RPZ)에 존재하는가?                          |
+  |          +- 예 ------> [Sinkhole IP (10.0.0.99) 응답 및 로그 기록]  |
+  |          |                     |                                  |
+  |          |                     +--> [SIEM 알람: "감염 호스트 격리"]  |
+  |          |                                                        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      DGA (머신러닝 알고리즘) 의심 도메인인가? (ex: qwezxcasd.com)     |
+  |          +- 예 ------> [Sinkhole IP 응답 또는 그레이리스트 보류]      |
+  |          |                                                        |
+  |          +- 아니오 ---> [외부 DNS 포워딩 -> 정상 IP 반환]              |
+  |                                                                   |
+  |  핵심 판단: 강력한 블랙리스트 도입 전, 오탐을 막을 화이트리스트가 선결 조건! |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기업망에 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀을 도입할 때 발생하는 가장 큰 운영 리스크는 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 차단 (False Positive)이다. 이를 방지하기 위해 질의가 인입되면 블랙리스트보다 화이트리스트 (Whitelist)를 먼저 검사한다. 사내 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이나 마이크로소프트, 구글 등 글로벌 주요 인프라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 실수로 KISA나 상용 CTI 블랙리스트에 오염되어 내려오더라도, 화이트리스트 정책이 우선순위를 가져 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마비를 막는다. 최근에는 인간이 만든 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단어가 아닌 랜덤 문자열의 조합인 DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 판별하는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 파이프라인에 추가되어, 블랙리스트에 아직 없는 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) ([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/)) 악성 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)도 선제적으로 차단하는 그레이리스트 (Greylist) 기법이 병행 사용된다.
@@ -265,22 +265,22 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 싱크홀 기술은 네트워크 보안의 패러다임을 "공격 트래픽 차단"에서 "공격자의 인프라 연결 고리 절단"으로 바꾼 훌륭한 아이디어다. 암호화 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))이 지배하는 미래 통신 환경에서는 네트워크 중간 지점의 가시성이 점점 떨어지므로, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀의 위치가 중앙 집중형 서버에서 개별 엔드포인트(Host-based)로 이동하며 진화할 것이다. 설계자는 "어떻게 막을 것인가"보다 "차단된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 감염 자산을 얼마나 빨리 찾아내어 치료할 것인가"라는 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) ([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/)) 관점에서 시스템을 설계해야 기술사적 가치를 인정받을 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │            DNS Sinkhole 방어 체계의 진화 로드맵 (2015~2030)         │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [1세대: 2010s]    [2세대: 2020s]      [3세대: 2030+]               │
-  │   정적 블랙리스트  ──▶ CTI 동적 연동 ──▶  AI 기반 예측 방어            │
-  │   (KISA 룰 수동)     (STIX/TAXII)       (Zero-day DGA 싱크홀)       │
-  │                                                                  │
-  │         │                 │                  │                   │
-  │         ▼                 ▼                  ▼                   │
-  │  방어 위치:        방어 위치:          방어 위치:                  │
-  │  ISP / 기업 관문    내부 전용 DNS       엔드포인트 EDR 통합          │
-  │  (DoH에 취약)      (SIEM/NAC 연동)     (DoH/DoT 커널단 통제)         │
-  │                                                                  │
-  │  결론: 단순 룩업 우회 기법에서 '능동형 침해 자산 탐지 엔진'으로 진화 중  │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |            DNS Sinkhole 방어 체계의 진화 로드맵 (2015~2030)         |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [1세대: 2010s]    [2세대: 2020s]      [3세대: 2030+]               |
+  |   정적 블랙리스트  ---> CTI 동적 연동 --->  AI 기반 예측 방어            |
+  |   (KISA 룰 수동)     (STIX/TAXII)       (Zero-day DGA 싱크홀)       |
+  |                                                                  |
+  |         |                 |                  |                   |
+  |         v                 v                  v                   |
+  |  방어 위치:        방어 위치:          방어 위치:                  |
+  |  ISP / 기업 관문    내부 전용 DNS       엔드포인트 EDR 통합          |
+  |  (DoH에 취약)      (SIEM/NAC 연동)     (DoH/DoT 커널단 통제)         |
+  |                                                                  |
+  |  결론: 단순 룩업 우회 기법에서 '능동형 침해 자산 탐지 엔진'으로 진화 중  |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 과거 1세대 싱크홀은 국가나 ISP가 주기적으로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 목록을 텍스트로 업데이트하여 방어하는 소극적 차단막이었다. 2세대에 이르러 상용 CTI 인텔리전스와 API로 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되고, 차단 시 내부 SIEM과 연동하여 감염 자산을 즉시 찾아내는 능동적 관제 체계로 발전했다. 다가오는 3세대에서는 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/)([DNS over HTTPS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/)) 보급으로 인해 네트워크 경로 중간에서의 싱크홀링이 무력화되는 한계를 극복하기 위해, AI가 미지의 DGA [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 실시간으로 추론해 차단하고, 그 방어 위치 자체가 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 에이전트에 통합되어 엔드포인트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준에서 싱크홀링이 발생하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 마이크로 싱크홀 구조로 패러다임이 이동할 것이다.
@@ -302,12 +302,12 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 
 ```text
 [선행 개념: RPKI (Resource Public Ke…]
-    │
-    ▼
+    |
+    v
 [현재 개념: DNS 싱크홀]
-    │
-    ├──▶ [확장 A: 하이브리드 암호 시스템]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 하이브리드 암호 시스템]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀는 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…에서 출발해 현재 메커니즘을 정교화하고, 이후 [하이브리드 암호 시스템](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -324,7 +324,7 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 
 **진행 상황**: 1057 / 1120
 
-← **이전**: [935. RPKI (Resource Public Key Infrastructure](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/935_rpki_bgp_hijacking_prevention/)
-**다음**: [937. 하이브리드 암호 시스템](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/) →
+<- **이전**: [935. RPKI (Resource Public Key Infrastructure](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/935_rpki_bgp_hijacking_prevention/)
+**다음**: [937. 하이브리드 암호 시스템](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/) ->
 
 ---

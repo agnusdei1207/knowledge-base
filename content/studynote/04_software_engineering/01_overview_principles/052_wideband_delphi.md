@@ -32,15 +32,15 @@ tags = ["studynote-software-engineering"]
 와이드밴드 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)의 핵심은 "설명은 공개, 숫자는 익명"이다. 먼저 킥오프 미팅에서 범위와 제약을 맞추고, 각자 추정치를 낸 뒤, 극단값이 왜 그렇게 나왔는지 공개 토론한다. 그 다음 다시 익명 재투표를 반복한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               와이드밴드 델파이의 반복 구조                  │
-├──────────────────────────────────────────────────────────────┤
-│ 킥오프 미팅 → 1차 익명 산정 → 결과 공유 → 공개 토론         │
-│                    │                         │              │
-│                    └──────────── 재산정 ──────┘              │
-│                                                              │
-│ 수렴 조건: 범위 축소, 중앙값 안정화, 주요 가정 합의          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               와이드밴드 델파이의 반복 구조                  |
++--------------------------------------------------------------+
+| 킥오프 미팅 -> 1차 익명 산정 -> 결과 공유 -> 공개 토론         |
+|                    |                         |              |
+|                    +------------ 재산정 ------+              |
+|                                                              |
+| 수렴 조건: 범위 축소, 중앙값 안정화, 주요 가정 합의          |
++--------------------------------------------------------------+
 ```
 
 | 단계 | 목적 | 산출물 |
@@ -120,14 +120,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 전통 델파이 (Delphi Method)
-    │
-    ▼
+    |
+    v
 와이드밴드 델파이
-    │
-    ▼
+    |
+    v
 Planning Poker
-    │
-    ▼
+    |
+    v
 WBS · 스토리 포인트 · 리스크 조정
 ```
 
@@ -145,7 +145,7 @@ WBS · 스토리 포인트 · 리스크 조정
 
 **진행 상황**: 52 / 973
 
-← **이전**: [51. 델파이 기법 (Delphi Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)
-**다음**: [053. 백파이어링 기법 (Backfiring Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/) →
+<- **이전**: [51. 델파이 기법 (Delphi Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)
+**다음**: [053. 백파이어링 기법 (Backfiring Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/) ->
 
 ---

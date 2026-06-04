@@ -33,11 +33,11 @@ PbD는 보통 7대 원칙으로 설명한다. 설계, 기본값, 생명주기, �
 
 ```text
 설계 단계
-   ↓
+   v
 데이터 최소화
-   ↓
+   v
 기본값 보호
-   ↓
+   v
 생명주기 보안
 ```
 
@@ -106,11 +106,11 @@ PbD는 규제 대응을 넘어서 고객 신뢰를 만드는 구조다. [초기]
 
 ```text
 데이터 최소화
-   ↓
+   v
 Privacy by Design
-   ↓
+   v
 기본값 프라이버시
-   ↓
+   v
 생명주기 보호
 ```
 
@@ -120,11 +120,11 @@ Privacy by Design
 
 ```text
 사후 보안
-   ↓
+   v
 Security by Design
-   ↓
+   v
 Privacy by Design
-   ↓
+   v
 GDPR / 기본값 프라이버시
 ```
 
@@ -142,7 +142,7 @@ Privacy by Design은 비밀을 처음부터 잘 지키는 노트예요.
 
 **진행 상황**: 60 / 1108
 
-← **이전**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/)
-**다음**: [61. Secure by Default (기본값 안전)](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/) →
+<- **이전**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/)
+**다음**: [61. Secure by Default (기본값 안전)](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/) ->
 
 ---

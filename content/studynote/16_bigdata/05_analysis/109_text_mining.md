@@ -29,29 +29,29 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                텍스트 마이닝 전체 파이프라인                        │
-├────────────────────────────────────────────────────────────────────┤
-│  [원시 텍스트] "오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"  │
-│          │                                                          │
-│          ▼                                                          │
-│  [1단계: 전처리 (Preprocessing)]                                    │
-│   형태소 분석 → 품사 태깅 → 불용어 제거 → 정규화/소문자화           │
-│   KoNLPy(Okt/Mecab) / NLTK / spaCy                                 │
-│          │                                                          │
-│          ▼                                                          │
-│  [2단계: 특성 추출 (Feature Extraction)]                            │
-│   ┌──────────────┬────────────────┬──────────────────────────┐     │
-│   │  Bag-of-Words│   TF-IDF       │  Word2Vec / BERT          │     │
-│   │  단어 빈도   │  중요도 가중치 │  의미적 임베딩 벡터       │     │
-│   └──────────────┴────────────────┴──────────────────────────┘     │
-│          │                                                          │
-│          ▼                                                          │
-│  [3단계: 분석 태스크]                                               │
-│   ┌──────────┬──────────┬──────────┬──────────┬──────────────┐     │
-│   │  분류    │  군집화  │  요약    │  NER     │  감성 분석   │     │
-│   └──────────┴──────────┴──────────┴──────────┴──────────────┘     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                텍스트 마이닝 전체 파이프라인                        |
++--------------------------------------------------------------------+
+|  [원시 텍스트] "오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"  |
+|          |                                                          |
+|          v                                                          |
+|  [1단계: 전처리 (Preprocessing)]                                    |
+|   형태소 분석 -> 품사 태깅 -> 불용어 제거 -> 정규화/소문자화           |
+|   KoNLPy(Okt/Mecab) / NLTK / spaCy                                 |
+|          |                                                          |
+|          v                                                          |
+|  [2단계: 특성 추출 (Feature Extraction)]                            |
+|   +--------------+----------------+--------------------------+     |
+|   |  Bag-of-Words|   TF-IDF       |  Word2Vec / BERT          |     |
+|   |  단어 빈도   |  중요도 가중치 |  의미적 임베딩 벡터       |     |
+|   +--------------+----------------+--------------------------+     |
+|          |                                                          |
+|          v                                                          |
+|  [3단계: 분석 태스크]                                               |
+|   +----------+----------+----------+----------+--------------+     |
+|   |  분류    |  군집화  |  요약    |  NER     |  감성 분석   |     |
+|   +----------+----------+----------+----------+--------------+     |
++--------------------------------------------------------------------+
 ```
 
 ### 텍스트 표현 방법 진화
@@ -112,7 +112,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 3. [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 사용 시 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 파인튜닝 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분한가? (최소 수천~수만 건)
 4. 대용량 텍스트의 경우 Spark NLP를 활용한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 고려했는가?
 
-- **📢 섹션 요약 비유**: 텍스트 마이닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 요리 레시피와 같다. 재료(전처리) → 조리법(특성 추출) → 요리(모델 적용)의 순서가 중요하고, 어떤 단계도 건너뛸 수 없다. 재료가 나쁘면 아무리 좋은 요리사도 맛있는 음식을 만들 수 없다.
+- **📢 섹션 요약 비유**: 텍스트 마이닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 요리 레시피와 같다. 재료(전처리) -> 조리법(특성 추출) -> 요리(모델 적용)의 순서가 중요하고, 어떤 단계도 건너뛸 수 없다. 재료가 나쁘면 아무리 좋은 요리사도 맛있는 음식을 만들 수 없다.
 
 ---
 
@@ -148,23 +148,23 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 ```text
 [비정형 텍스트 (Unstructured Text) — 원시 자연어 데이터]
-    │
-    ▼
+    |
+    v
 [전처리 (Preprocessing) — 토큰화·불용어 제거·정규화]
-    │
-    ▼
+    |
+    v
 [TF-IDF / BoW — 텍스트 수치 벡터화]
-    │
-    ▼
+    |
+    v
 [NLP (자연어 처리) — 형태소 분석·개체명 인식·감성 분석]
-    │
-    ▼
+    |
+    v
 [워드 임베딩 (Word Embedding) — Word2Vec·GloVe 의미 벡터화]
-    │
-    ▼
+    |
+    v
 [LLM 기반 텍스트 분석 — BERT·GPT 사전학습 모델 응용]
 ```
-텍스트 마이닝은 규칙 기반 전처리에서 출발해 통계적 벡터화 → 딥러닝 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전하며 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 가치화의 핵심 기술이 되었다.
+텍스트 마이닝은 규칙 기반 전처리에서 출발해 통계적 벡터화 -> 딥러닝 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) -> [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전하며 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 가치화의 핵심 기술이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 텍스트 마이닝은 컴퓨터가 글을 읽고 "여기서 중요한 게 뭔지" 스스로 알아내는 거예요.
@@ -177,7 +177,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 **진행 상황**: 109 / 262
 
-← **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍부정 감정 자동 분류](/knowledge-base/studynote/16_bigdata/05_analysis/108_sentiment_analysis/)
-**다음**: [107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지](/knowledge-base/studynote/16_bigdata/05_analysis/110_social_network_analysis/) →
+<- **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍부정 감정 자동 분류](/knowledge-base/studynote/16_bigdata/05_analysis/108_sentiment_analysis/)
+**다음**: [107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지](/knowledge-base/studynote/16_bigdata/05_analysis/110_social_network_analysis/) ->
 
 ---

@@ -36,19 +36,19 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────┐
-│              AI 공격 분류                            │
-│                                                     │
-│  훈련 단계                     추론 단계             │
-│  ┌──────────────────┐         ┌──────────────────┐  │
-│  │  포이즈닝 공격    │         │  이베이전 공격    │  │
-│  │ (Poisoning)      │         │ (Evasion)        │  │
-│  │                  │         │                  │  │
-│  │ ·악성 샘플 삽입  │         │ ·FGSM 노이즈     │  │
-│  │ ·백도어(Backdoor)│         │ ·PGD 반복 공격   │  │
-│  │ ·클린-라벨 공격  │         │ ·C&W 공격        │  │
-│  └──────────────────┘         └──────────────────┘  │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|              AI 공격 분류                            |
+|                                                     |
+|  훈련 단계                     추론 단계             |
+|  +------------------+         +------------------+  |
+|  |  포이즈닝 공격    |         |  이베이전 공격    |  |
+|  | (Poisoning)      |         | (Evasion)        |  |
+|  |                  |         |                  |  |
+|  | ·악성 샘플 삽입  |         | ·FGSM 노이즈     |  |
+|  | ·백도어(Backdoor)|         | ·PGD 반복 공격   |  |
+|  | ·클린-라벨 공격  |         | ·C&W 공격        |  |
+|  +------------------+         +------------------+  |
++-----------------------------------------------------+
 ```
 
 **포이즈닝 공격(Poisoning Attack)**
@@ -97,14 +97,14 @@ tags = ["studynote-ict-convergence"]
 
 <strong>고위험 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 적용</strong>
 
-- **자율주행**: STOP 표지판에 물리적 스티커 부착 → 인식 오류 → 사고 위험
-- **악성코드 탐지**: 악성코드에 정상 코드 패턴 삽입 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탐지기 우회(블랙박스 이베이전)
+- **자율주행**: STOP 표지판에 물리적 스티커 부착 -> 인식 오류 -> 사고 위험
+- **악성코드 탐지**: 악성코드에 정상 코드 패턴 삽입 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탐지기 우회(블랙박스 이베이전)
 - <strong><a href="/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/">생체 인증</a></strong>: 얼굴 인식기에 적대적 안경 착용으로 잠금 해제
 
 **기술사 판단 포인트**
 
-1. **보안 수준별 방어 선택**: 금융·군사 → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어(Certified Defense) 도입 고려
-2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/">적대적 훈련</a> 비용</strong>: 훈련 시간 3~10배 증가 → 모델 업데이트 주기와 하드웨어 계획 수립
+1. **보안 수준별 방어 선택**: 금융·군사 -> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어(Certified Defense) 도입 고려
+2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/">적대적 훈련</a> 비용</strong>: 훈련 시간 3~10배 증가 -> 모델 업데이트 주기와 하드웨어 계획 수립
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a></strong>: 사전 훈련 모델(Pre-trained Model) 도입 시 포이즈닝 여부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 필요
 4. **평가 기준**: ANSI/IEEE [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안 프레임워크에서 Robustness Accuracy 및 Certified [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 측정
 
@@ -133,7 +133,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[이베이전 공격 · 기울기 부호 기반 1회 공격] → [적대적 공격: 포이즈닝과 이베이전] → [방어 · 수학적 강건성 보증]
+[이베이전 공격 · 기울기 부호 기반 1회 공격] -> [적대적 공격: 포이즈닝과 이베이전] -> [방어 · 수학적 강건성 보증]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 470 / 552
 
-← **이전**: [469. XAI, LIME, SHAP: 국소/전역 기여도 해석 (XAI LIME SHAP Local Global Attribution)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/469_xai_lime_shap_local_global_attribution/)
-**다음**: [471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/) →
+<- **이전**: [469. XAI, LIME, SHAP: 국소/전역 기여도 해석 (XAI LIME SHAP Local Global Attribution)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/469_xai_lime_shap_local_global_attribution/)
+**다음**: [471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/) ->
 
 ---

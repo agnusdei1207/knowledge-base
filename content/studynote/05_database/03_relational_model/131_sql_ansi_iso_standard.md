@@ -58,10 +58,10 @@ SQL 표준은 <strong>50년간 진화하며 여전히 <a href="/knowledge-base/s
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[SQL-86 (최초 표준)] → [SQL-92 (서브쿼리·JOIN)]
-    → [SQL:1999 (CTE·OLAP)] → [SQL:2003 (Window)]
-    → [SQL:2016 (JSON)] → [SQL:2023 (그래프)]
-    → [현재: Text-to-SQL — 자연어→SQL 자동 변환]
+[SQL-86 (최초 표준)] -> [SQL-92 (서브쿼리·JOIN)]
+    -> [SQL:1999 (CTE·OLAP)] -> [SQL:2003 (Window)]
+    -> [SQL:2016 (JSON)] -> [SQL:2023 (그래프)]
+    -> [현재: Text-to-SQL — 자연어->SQL 자동 변환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ SQL 표준은 <strong>50년간 진화하며 여전히 <a href="/knowledge-base/s
 
 **진행 상황**: 131 / 600
 
-← **이전**: [130. ERD 표기법 비교 (IE·Barker·IDEF1X)](/knowledge-base/studynote/05_database/02_modeling_normalization/130_erd_notation_ie_barker_idef1x/)
-**다음**: [132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF](/knowledge-base/studynote/05_database/03_relational_model/132_sql_join_types_overview/) →
+<- **이전**: [130. ERD 표기법 비교 (IE·Barker·IDEF1X)](/knowledge-base/studynote/05_database/02_modeling_normalization/130_erd_notation_ie_barker_idef1x/)
+**다음**: [132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF](/knowledge-base/studynote/05_database/03_relational_model/132_sql_join_types_overview/) ->
 
 ---

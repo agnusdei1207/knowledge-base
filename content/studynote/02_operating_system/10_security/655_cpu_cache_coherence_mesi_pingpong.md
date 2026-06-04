@@ -62,29 +62,29 @@ tags = ["studynote-operating-system"]
 4개의 코어가 전통적인 `spin_lock()`을 수행할 때 하드웨어에서 일어나는 일이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 멀티코어 환경의 캐시라인 핑퐁 (Cacheline Bouncing)         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: Core 1이 락을 쥐고 있음]                                      │
-  │   - Core 1 캐시: [Lock=1] (상태: Modified)                          │
-  │   - Core 2,3,4는 `while(lock == 1)` 도는 중                         │
-  │   - Core 1이 락을 쥔 상태에서, Core 2,3,4가 락 값을 읽기 위해 버스 요청을 하면│
-  │     Core 1은 락 값을 RAM에 쓰고 (S 상태로 변경), 2,3,4가 S 상태로 가져감.    │
-  │   - 현재 Core 1,2,3,4 모두 [Lock=1] (상태: Shared)                   │
-  │                                                                   │
-  │  [상황 2: Core 1이 락을 해제함 (Unlock)]                              │
-  │   - Core 1: `lock = 0` 실행 (Write 발생!)                           │
-  │   - MESI 프로토콜: "Core 1이 데이터를 수정했으니, Core 2,3,4의 캐시를 무효화(I)시켜라!"│
-  │   - Core 2, 3, 4의 캐시 라인이 모두 [Invalid] 로 강제 강등됨.            │
-  │                                                                   │
-  │  [상황 3: 핑퐁의 대폭발 (Thundering Herd)]                            │
-  │   - Core 2, 3, 4는 무한 루프를 돌고 있었으므로, 캐시가 Invalid가 되자마자     │
-  │     동시에 새로운 락 값을 얻으려 RAM(또는 L3)으로 Read 요청을 미친 듯이 발사함. │
-  │   - 이 엄청난 동시 다발적 버스 트래픽이 "핑퐁(Ping-pong)"을 유발.          │
-  │   - 운 좋게 Core 2가 `lock=0`을 보고 `CAS(1)`을 성공시키면 Core 2가 (M) 획득. │
-  │   - 그 순간 방금 값을 읽어갔던 Core 3, 4의 캐시는 또다시 (I)로 강등됨!        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 멀티코어 환경의 캐시라인 핑퐁 (Cacheline Bouncing)         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: Core 1이 락을 쥐고 있음]                                      |
+  |   - Core 1 캐시: [Lock=1] (상태: Modified)                          |
+  |   - Core 2,3,4는 `while(lock == 1)` 도는 중                         |
+  |   - Core 1이 락을 쥔 상태에서, Core 2,3,4가 락 값을 읽기 위해 버스 요청을 하면|
+  |     Core 1은 락 값을 RAM에 쓰고 (S 상태로 변경), 2,3,4가 S 상태로 가져감.    |
+  |   - 현재 Core 1,2,3,4 모두 [Lock=1] (상태: Shared)                   |
+  |                                                                   |
+  |  [상황 2: Core 1이 락을 해제함 (Unlock)]                              |
+  |   - Core 1: `lock = 0` 실행 (Write 발생!)                           |
+  |   - MESI 프로토콜: "Core 1이 데이터를 수정했으니, Core 2,3,4의 캐시를 무효화(I)시켜라!"|
+  |   - Core 2, 3, 4의 캐시 라인이 모두 [Invalid] 로 강제 강등됨.            |
+  |                                                                   |
+  |  [상황 3: 핑퐁의 대폭발 (Thundering Herd)]                            |
+  |   - Core 2, 3, 4는 무한 루프를 돌고 있었으므로, 캐시가 Invalid가 되자마자     |
+  |     동시에 새로운 락 값을 얻으려 RAM(또는 L3)으로 Read 요청을 미친 듯이 발사함. |
+  |   - 이 엄청난 동시 다발적 버스 트래픽이 "핑퐁(Ping-pong)"을 유발.          |
+  |   - 운 좋게 Core 2가 `lock=0`을 보고 `CAS(1)`을 성공시키면 Core 2가 (M) 획득. |
+  |   - 그 순간 방금 값을 읽어갔던 Core 3, 4의 캐시는 또다시 (I)로 강등됨!        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 변수가 하나(Global Variable)이기 때문에 발생하는 참사다. 락을 푸는(Unlock) 단 한 번의 Write 동작이, 다른 모든 코어의 캐시를 박살 내고(Invalidate), 이 코어들이 좀비처럼 일제히 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 튀어나오게 만든다. 코어가 64개, 128개로 늘어나면 이 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메시지(Snoop Message) 처리로 인해 CPU 내부 링 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 메쉬([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 네트워크가 100% 포화되어, 정작 유효한 연산은 하나도 못하는 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 붕괴(Scalability Collapse)에 빠진다.
@@ -139,22 +139,22 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 멀티코어 캐시 병목 (Contention) 회피 설계 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [CPU 코어를 늘렸는데도 시스템 전체 처리량(Throughput)이 오르지 않음]         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      profiling 툴(perf c2c)로 Cacheline Bouncing(핑퐁) 현상이 잡히는가? │
-  │          ├─ 예 ─────▶ [병목 지점이 락(Mutex/Spinlock) 변수인가?]       │
-  │          │             ├─ 예: 락의 단위를 쪼개라(Lock Striping) 거나, │
-  │          │             │      분산 큐 기반 구조로 재설계              │
-  │          │             └─ 아니오: 데이터 구조의 False Sharing 임.      │
-  │          │                        구조체에 Cacheline Padding 적용    │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 시스템 콜 오버헤드나 디스크 I/O 병목 의심           │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 멀티코어 캐시 병목 (Contention) 회피 설계 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [CPU 코어를 늘렸는데도 시스템 전체 처리량(Throughput)이 오르지 않음]         |
+  |                |                                                  |
+  |                v                                                  |
+  |      profiling 툴(perf c2c)로 Cacheline Bouncing(핑퐁) 현상이 잡히는가? |
+  |          +- 예 ------> [병목 지점이 락(Mutex/Spinlock) 변수인가?]       |
+  |          |             +- 예: 락의 단위를 쪼개라(Lock Striping) 거나, |
+  |          |             |      분산 큐 기반 구조로 재설계              |
+  |          |             +- 아니오: 데이터 구조의 False Sharing 임.      |
+  |          |                        구조체에 Cacheline Padding 적용    |
+  |          |                                                        |
+  |          +- 아니오 ---> 시스템 콜 오버헤드나 디스크 I/O 병목 의심           |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 구간을 짧게 가져가라"는 원칙만으로는 캐시 핑퐁을 막을 수 없다. 락 구간이 1나노초라도, 100개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 그 락 변수를 건드리면 하드웨어 레벨의 대재앙이 터진다. 기술사는 아예 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간의 공유 변수(Shared [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 자체를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬(Thread-Local Storage) 변수로 쪼개어 각자 작업하게 한 뒤, 마지막에 합치는(Map-Reduce) 방향으로 소프트웨어 아키텍처의 패러다임을 전환해야 한다.
@@ -201,12 +201,12 @@ CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_mul
 
 ```text
 [리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
-    │
-    ▼
+    |
+    v
 [CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
-    │
-    ├──▶ [하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례]
-    └──▶ [가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
+    |
+    +---> [하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례]
+    +---> [가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -223,7 +223,7 @@ CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_mul
 
 **진행 상황**: 655 / 800
 
-← **이전**: [654. 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/)
-**다음**: [656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory](/knowledge-base/studynote/02_operating_system/10_security/656_hardware_transactional_memory_htm/) →
+<- **이전**: [654. 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/)
+**다음**: [656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory](/knowledge-base/studynote/02_operating_system/10_security/656_hardware_transactional_memory_htm/) ->
 
 ---

@@ -28,15 +28,15 @@ tags = ["data_engineering"]
 이 도식은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.0의 병목 구조가 YARN의 위임형 아키텍처로 진화하며 얻은 확장의 자유를 시각화한 것입니다.
 ```text
 [과거: 하둡 1.0 (JobTracker 중앙 독재 병목)]
-                ┌─> Task (Map)
- [JobTracker] ──┼─> Task (Reduce)   ==> 수만 개의 태스크를 혼자 감시하다가
- (자원+스케줄링)  └─> Task (Map)         메모리 터지고 병목 발생! 💥
+                +-> Task (Map)
+ [JobTracker] --+-> Task (Reduce)   ==> 수만 개의 태스크를 혼자 감시하다가
+ (자원+스케줄링)  +-> Task (Map)         메모리 터지고 병목 발생! 💥
 
 [혁신: 하둡 2.0 YARN (권한 위임 분산 구조)]
  [ResourceManager] (중앙: 난 전체 CPU/RAM 양만 관리할게. 태스크 감시는 안해!)
-         │
-         ├──(자원 협상)──> [ApplicationMaster A (스파크 전담 현장 소장)] ---> Worker 제어
-         └──(자원 협상)──> [ApplicationMaster B (Hive 전담 현장 소장)]  ---> Worker 제어
+         |
+         +--(자원 협상)--> [ApplicationMaster A (스파크 전담 현장 소장)] ---> Worker 제어
+         +--(자원 협상)--> [ApplicationMaster B (Hive 전담 현장 소장)]  ---> Worker 제어
 ```
 이 흐름의 핵심은 '권한의 하방 위임'입니다. 수만 개의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 추적이라는 엄청난 오버헤드를 중앙 마스터에서 떼어내어, 클러스터의 임의 노드에 동적으로 뜨는 `ApplicationMaster`들에게 떠넘겼습니다. 따라서 YARN 클러스터는 노드가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대를 넘어가도 중앙 마스터가 터지지 않는 진정한 무한 확장의 지위를 얻어냈습니다. 실무에서는 이 구조 변화 덕분에 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 클러스터 전체가 뻗는 대재앙이 사라졌습니다.
 
@@ -57,22 +57,22 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 
 이 다이어그램은 사용자가 스파크(Spark) 잡을 YARN에 제출했을 때 벌어지는 아키텍처 내부의 5단계 동적 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 시퀀스를 보여줍니다.
 ```text
-┌──────────────── YARN Application Execution Flow ────────────────┐
-│                                                                 │
-│ [Client] ──1. Job 제출 (Spark 앱)──> [ResourceManager]              │
-│                                       (전체 큐/자원 확인)             │
-│                                            │                    │
-│                    2. 첫 컨테이너 띄워라 명령 │                    │
-│                                            ▼                    │
-│ [NodeManager 1] <────────────────── [ApplicationMaster 생성]       │
-│                                            │ (스파크 잡의 대장)      │
-│     ▲                   3. 나 컨테이너 100개 필요해! 자원 협상 요청 │
-│     │                           (Resource Negotiation)          │
-│     │ 5. Task 실행 명령                        ▼                    │
-│ [NodeManager 2~N] <──4. 컨테이너 할당 티켓 발급── [ResourceManager] │
-│      │                                                          │
-│  [Container] ─ (그 안에서 Spark Executor가 메모리를 잡고 연산 시작)  │
-└─────────────────────────────────────────────────────────────────┘
++---------------- YARN Application Execution Flow ----------------+
+|                                                                 |
+| [Client] --1. Job 제출 (Spark 앱)--> [ResourceManager]              |
+|                                       (전체 큐/자원 확인)             |
+|                                            |                    |
+|                    2. 첫 컨테이너 띄워라 명령 |                    |
+|                                            v                    |
+| [NodeManager 1] <------------------ [ApplicationMaster 생성]       |
+|                                            | (스파크 잡의 대장)      |
+|     ^                   3. 나 컨테이너 100개 필요해! 자원 협상 요청 |
+|     |                           (Resource Negotiation)          |
+|     | 5. Task 실행 명령                        v                    |
+| [NodeManager 2~N] <--4. 컨테이너 할당 티켓 발급-- [ResourceManager] |
+|      |                                                          |
+|  [Container] - (그 안에서 Spark Executor가 메모리를 잡고 연산 시작)  |
++-----------------------------------------------------------------+
 ```
 이 도식에서 가장 놀라운 점은 ApplicationMaster(AM)의 존재 방식입니다. AM은 고정된 마스터 서버에 뜨지 않고, 워커 노드(NodeManager) 중 자원이 남는 아무 곳의 첫 번째 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 동적으로 스폰(Spawn)됩니다. 만약 AM이 띄워진 노드의 하드웨어가 죽어버리면, RM은 이를 감지하고 다른 노드에 새 AM을 띄워 처음부터 다시 복구시킵니다. 따라서 이 배치는 특정 마스터 노드의 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 한계를 극복하고, 클러스터 자원을 극도로 탄력적으로 유동화하는 결과를 낳습니다.
 
@@ -134,16 +134,16 @@ A 방식(YARN)은 철저히 '[하둡](/knowledge-base/studynote/03_network/16_da
 이 흐름도는 실무에서 클러스터 자원 고갈 시 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 선점(Preemption) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 플로우를 보여줍니다.
 ```text
 [상황: VIP 부서(A큐)가 급하게 스파크 잡 제출] -> 클러스터 자원 0% 남음
-       │
-       ├─ RM 스케줄러: "A큐의 최소 보장 자원이 지켜지지 않고 있다!" 판단
-       │
-       ├─ (희생양 탐색) 현재 할당량을 초과해서 막 쓰고 있는 B부서 컨테이너 색출
-       │
-       ├─ (경고 1차) B부서의 ApplicationMaster에게 "15초 안에 자원 반납해" 시그널 전송
-       │
-       └─ (강제 킬) 안 뱉으면 NodeManager에게 OS kill(-9) 명령 하달 -> 자원 회수
-                 │
-                 └──> 회수한 자원을 VIP A큐에 즉시 할당하여 서비스 지연 방지
+       |
+       +- RM 스케줄러: "A큐의 최소 보장 자원이 지켜지지 않고 있다!" 판단
+       |
+       +- (희생양 탐색) 현재 할당량을 초과해서 막 쓰고 있는 B부서 컨테이너 색출
+       |
+       +- (경고 1차) B부서의 ApplicationMaster에게 "15초 안에 자원 반납해" 시그널 전송
+       |
+       +- (강제 킬) 안 뱉으면 NodeManager에게 OS kill(-9) 명령 하달 -> 자원 회수
+                 |
+                 +--> 회수한 자원을 VIP A큐에 즉시 할당하여 서비스 지연 방지
 ```
 이 흐름의 핵심은 제한된 자원 하에서 '공평함(Fairness)'을 수리적으로 강제한다는 점입니다. 이 선점 기능이 없으면 무거운 배치 잡 하나가 끝날 때까지 전체 클러스터가 먹통이 되는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠집니다. 따라서 실무 관리자는 큐의 깊이(Depth)와 우선순위 가중치를 어떻게 세팅하느냐에 따라 클러스터의 투자 대비 효용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 2배 이상 끌어올릴 수 있습니다.
 
@@ -177,17 +177,17 @@ YARN의 도입은 [하둡](/knowledge-base/studynote/03_network/16_data_center_c
 
 ```text
 [MapReduce v1 (MRv1) — JobTracker 단일 장애점, 자원 관리·실행 혼재]
-    │
-    ▼
+    |
+    v
 [YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리]
-    │
-    ▼
+    |
+    v
 [ApplicationMaster — 각 잡(Job)별 독립 실행 조율자, 컨테이너 요청/관리]
-    │
-    ▼
+    |
+    v
 [Capacity / Fair Scheduler — 다중 테넌트 자원 큐 관리]
-    │
-    ▼
+    |
+    v
 [Apache Spark on YARN — 인메모리 엔진이 YARN 자원 풀 위에서 MR 대체]
 ```
 MRv1의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)과 자원 비효율을 YARN이 역할 분리로 해결했으며, ApplicationMaster 모델로 Spark 등 다양한 프레임워크를 통합하는 범용 클러스터 OS로 진화했다.
@@ -203,7 +203,7 @@ MRv1의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13
 
 **진행 상황**: 20 / 258
 
-← **이전**: [19. 데이터 지역성 (Data Locality) - 연산 코드를 데이터가 이미 존재하는 노드로 전송하여 네트워크 전송 오버헤드 최소화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)
-**다음**: [21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/021_apache_spark_in_memory/) →
+<- **이전**: [19. 데이터 지역성 (Data Locality) - 연산 코드를 데이터가 이미 존재하는 노드로 전송하여 네트워크 전송 오버헤드 최소화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)
+**다음**: [21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/021_apache_spark_in_memory/) ->
 
 ---

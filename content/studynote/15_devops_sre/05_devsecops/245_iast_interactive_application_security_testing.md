@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 상호작용형 애플리케이션 보안 테스트가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Code Analysis]
-    │
-    ▼
+    |
+    v
 [상호작용형 애플리케이션 보안 테스트]
-    │
-    ├──▶ [Rule Set]
-    ├──▶ [CI Gate]
-    └──▶ [Runtime Scan]
+    |
+    +---> [Rule Set]
+    +---> [CI Gate]
+    +---> [Runtime Scan]
 ```
 
 이 흐름도는 상호작용형 애플리케이션 보안 테스트가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 245 / 373
 
-← **이전**: [244. 동적 애플리케이션 보안 테스트 (DAST, Dynamic Application Security Testing)](/knowledge-base/studynote/15_devops_sre/05_devsecops/244_dast_dynamic_application_security_testing/)
-**다음**: [246. 소프트웨어 구성 분석 (SCA, Software Composition Analysis)](/knowledge-base/studynote/15_devops_sre/05_devsecops/246_sca_software_composition_analysis_cve/) →
+<- **이전**: [244. 동적 애플리케이션 보안 테스트 (DAST, Dynamic Application Security Testing)](/knowledge-base/studynote/15_devops_sre/05_devsecops/244_dast_dynamic_application_security_testing/)
+**다음**: [246. 소프트웨어 구성 분석 (SCA, Software Composition Analysis)](/knowledge-base/studynote/15_devops_sre/05_devsecops/246_sca_software_composition_analysis_cve/) ->
 
 ---

@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 적재 전 변환 vs [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 클라우드 내부 변환를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ ETL 적재 전 변환 vs ELT 클라우드 내부 변환가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어               │
-├──────────────────────────────────────────────────────────────┤
-│ Source ─▶ Ingest ─▶ Store/Meta ─▶ Compute ─▶ Consume              │
-│   │         │           │              │           │               │
-│   └────── 규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌 ──────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| ETL 적재 전 변환 vs ELT 클라우드 내부 변환가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어               |
++--------------------------------------------------------------+
+| Source --> Ingest --> Store/Meta --> Compute --> Consume              |
+|   |         |           |              |           |               |
+|   +------ 규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌 ------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 적재 전 변환 vs [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 클라우드 내부 변환가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | 활용 계층 | 분석·ML·서빙으로 소비 | BI, [feature store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ ETL 적재 전 변환 vs ELT 클라우드 내부 변환 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| ETL 적재 전 변환 vs ELT 클라우드 내부 변환 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 적재 전 변환 vs [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 클라우드 내부 변환는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[배치 중심 사일로] → [ETL 적재 전 변환 vs ELT 클라우드 내부 변환] → [실시간·거버넌스 결합 플랫폼]
+[배치 중심 사일로] -> [ETL 적재 전 변환 vs ELT 클라우드 내부 변환] -> [실시간·거버넌스 결합 플랫폼]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 313 / 371
 
-← **이전**: [313. 데이터 레이크하우스 델타 레이크 트랜잭션 지원 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/313_process/)
-**다음**: [315. 카프카 분산 메시징 Pub/Sub 파티션 컨슈머 그룹 (Pub/Sub)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/315_pub_sub/) →
+<- **이전**: [313. 데이터 레이크하우스 델타 레이크 트랜잭션 지원 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/313_process/)
+**다음**: [315. 카프카 분산 메시징 Pub/Sub 파티션 컨슈머 그룹 (Pub/Sub)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/315_pub_sub/) ->
 
 ---

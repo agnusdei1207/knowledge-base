@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴 ([Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/))은 부분과 전체를 동일한 인터페이스로 다뤄 트리 구조를 일관되게 처리하는 구조 패턴이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, UI [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)처럼 개별 객체와 묶음 객체를 같은 방식으로 다루고 싶은 경우가 많다. 이 개념이 필요한 이유는 부분-전체 관계를 같은 계약으로 다루는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 클라이언트가 leaf와 container를 구분하는 분기문으로 가득 차게 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Compst   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Compst   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Compst  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Compst  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 | [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴 ([Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[leaf/[container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 분기 처리] → [컴포지트 패턴] → [재귀적 일관 처리]
+[leaf/[container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 분기 처리] -> [컴포지트 패턴] -> [재귀적 일관 처리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴 ([Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/))은 작은 상자와 큰 상자를 모두 같은 방법으로 열어 보는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 463 / 530
 
-← **이전**: [384. 브리지 패턴 (Bridge Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)
-**다음**: [386. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/386_decorator_pattern_summary/) →
+<- **이전**: [384. 브리지 패턴 (Bridge Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)
+**다음**: [386. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/386_decorator_pattern_summary/) ->
 
 ---

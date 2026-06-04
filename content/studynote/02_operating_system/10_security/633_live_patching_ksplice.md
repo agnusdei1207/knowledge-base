@@ -53,37 +53,37 @@ tags = ["studynote-operating-system"]
 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)의 핵심은 구버전 함수(Old Function)가 호출될 때, 강제로 신버전 함수([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Function)로 점프(Redirect) 시키는 것이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 커널 라이브 패칭 (Livepatch) 동작 원리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 패치 전 (Old Function 실행)]                              │
-  │   Application ──▶ sys_read() ──▶ vfs_read() [취약점 존재 함수]       │
-  │                                                                   │
-  │   vfs_read 메모리 주소:                                             │
-  │   0xff...00  [NOP (5 bytes)]  ◀ 컴파일러가 남겨둔 빈 공간 (fentry)  │
-  │   0xff...05  push   %rbp      ◀ 실제 구버전 함수 코드 시작           │
-  │   0xff...06  mov    %rsp,%rbp                                     │
-  │   ... (취약한 로직 실행) ...                                        │
-  │                                                                   │
-  │                                                                   │
-  │  [상황 2: 패치 모듈 로드 및 JMP 삽입 (Hot-patching)]                 │
-  │   1. 새로운 vfs_read_NEW() 함수가 포함된 커널 모듈 적재.               │
-  │   2. 커널의 ftrace 인프라가 vfs_read의 첫머리 NOP를 [JMP] 명령으로 덮어씀.│
-  │                                                                   │
-  │  [상황 3: 패치 후 (New Function 우회 실행)]                          │
-  │   Application ──▶ sys_read() ──▶ vfs_read() 호출 시도               │
-  │                                                                   │
-  │   vfs_read 메모리 주소:                                             │
-  │   0xff...00  [JMP vfs_read_NEW] ────┐ ◀ ftrace가 삽입한 점프 명령   │
-  │   0xff...05  push   %rbp            │ (이 아래 구버전 코드는 영원히   │
-  │   0xff...06  mov    %rsp,%rbp       │  실행되지 않고 버려짐)         │
-  │                                     │                             │
-  │   vfs_read_NEW 메모리 주소 (새 모듈):   │                             │
-  │   0xaa...00  push   %rbp      ◀────┘ ◀ 안전한 신버전 함수 실행 시작 │
-  │   0xaa...01  mov    %rsp,%rbp                                     │
-  │   ... (안전한 로직 실행 후 원래 Application으로 정상 Return) ...       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 리눅스 커널 라이브 패칭 (Livepatch) 동작 원리          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 패치 전 (Old Function 실행)]                              |
+  |   Application ---> sys_read() ---> vfs_read() [취약점 존재 함수]       |
+  |                                                                   |
+  |   vfs_read 메모리 주소:                                             |
+  |   0xff...00  [NOP (5 bytes)]  <- 컴파일러가 남겨둔 빈 공간 (fentry)  |
+  |   0xff...05  push   %rbp      <- 실제 구버전 함수 코드 시작           |
+  |   0xff...06  mov    %rsp,%rbp                                     |
+  |   ... (취약한 로직 실행) ...                                        |
+  |                                                                   |
+  |                                                                   |
+  |  [상황 2: 패치 모듈 로드 및 JMP 삽입 (Hot-patching)]                 |
+  |   1. 새로운 vfs_read_NEW() 함수가 포함된 커널 모듈 적재.               |
+  |   2. 커널의 ftrace 인프라가 vfs_read의 첫머리 NOP를 [JMP] 명령으로 덮어씀.|
+  |                                                                   |
+  |  [상황 3: 패치 후 (New Function 우회 실행)]                          |
+  |   Application ---> sys_read() ---> vfs_read() 호출 시도               |
+  |                                                                   |
+  |   vfs_read 메모리 주소:                                             |
+  |   0xff...00  [JMP vfs_read_NEW] ----+ <- ftrace가 삽입한 점프 명령   |
+  |   0xff...05  push   %rbp            | (이 아래 구버전 코드는 영원히   |
+  |   0xff...06  mov    %rsp,%rbp       |  실행되지 않고 버려짐)         |
+  |                                     |                             |
+  |   vfs_read_NEW 메모리 주소 (새 모듈):   |                             |
+  |   0xaa...00  push   %rbp      <-----+ <- 안전한 신버전 함수 실행 시작 |
+  |   0xaa...01  mov    %rsp,%rbp                                     |
+  |   ... (안전한 로직 실행 후 원래 Application으로 정상 Return) ...       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 빌드할 때 GCC 컴파일러 옵션(`-pg` 및 `-mfentry`)을 주면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 수십만 개 함수 첫머리에 아무 일도 하지 않는 5바이트짜리 공백(NOP, No [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))이 생긴다. 평소에는 그냥 무시하고 지나가므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 없다. 보안 취약점이 발견되어 라이브 패치 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 삽입하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 5바이트 공백을 `JMP(점프)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 실시간(Runtime)에 덮어쓴다. 이후 앱이 구버전 함수를 부르면, 구버전 함수 안으로 들어오자마자 점프 명령을 타고 신버전 함수로 튕겨 나간다. 신버전 함수가 무사히 처리를 끝내고 결과를 반환하면, 앱은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패치된 사실조차 모른 채 안전한 결괏값을 받게 된다.
@@ -136,27 +136,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 무정전 커널 패치(Live Patching) 도입 의사결정 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [신규 커널 취약점(CVE) 경보 발생 및 패치 권고 접수]                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 패치가 커널 핵심 데이터 구조체(Struct)의 변경을 동반하는가?        │
-  │          ├─ 예 ─────▶ [라이브 패치 불가]                            │
-  │          │            (전통적인 롤링 리부트 스케줄링)                  │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      시스템이 밀리초(ms) 단위의 지터(Jitter)에도 극도로 민감한 환경인가?     │
-  │      (예: 초단타 주식 거래망, 실시간 공장 제어망)                         │
-  │          ├─ 예 ─────▶ [kpatch(Stop-machine) 적용 시 주의 요망]      │
-  │          │            (패치 순간 10~40ms 시스템 정지 발생 가능)         │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [OS 벤더의 공식 라이브 패치 서비스 자동화 적용]     │
-  │                         (Ubuntu Livepatch, RHEL kpatch 자동화)    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 무정전 커널 패치(Live Patching) 도입 의사결정 플로우         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [신규 커널 취약점(CVE) 경보 발생 및 패치 권고 접수]                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      해당 패치가 커널 핵심 데이터 구조체(Struct)의 변경을 동반하는가?        |
+  |          +- 예 ------> [라이브 패치 불가]                            |
+  |          |            (전통적인 롤링 리부트 스케줄링)                  |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      시스템이 밀리초(ms) 단위의 지터(Jitter)에도 극도로 민감한 환경인가?     |
+  |      (예: 초단타 주식 거래망, 실시간 공장 제어망)                         |
+  |          +- 예 ------> [kpatch(Stop-machine) 적용 시 주의 요망]      |
+  |          |            (패치 순간 10~40ms 시스템 정지 발생 가능)         |
+  |          |                                                        |
+  |          +- 아니오 ---> [OS 벤더의 공식 라이브 패치 서비스 자동화 적용]     |
+  |                         (Ubuntu Livepatch, RHEL kpatch 자동화)    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 라이브 패치에도 만능은 없다. 보안팀은 모든 패치를 무정전으로 하길 원하지만, 엔지니어는 이것이 '코드를 우회하는 땜질'임을 명심해야 한다. 가장 좋은 실무 프랙티스는 평소(주중)에는 라이브 패치로 즉각적인 해킹 방어를 수행하고, 정기 점검일(주말/월말)에 서버를 리부트하여 디스크의 영구적인 새 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 부팅시켜 누적된 땜질(Patch [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))들을 깨끗이 청소하는 하이브리드 운영이다.
@@ -203,12 +203,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
-    │
-    ▼
+    |
+    v
 [무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]
-    │
-    ├──▶ [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘]
-    └──▶ [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
+    |
+    +---> [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘]
+    +---> [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -225,7 +225,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 633 / 800
 
-← **이전**: [632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)
-**다음**: [634. 병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)](/knowledge-base/studynote/02_operating_system/10_security/634_lock_free_stack_queue/) →
+<- **이전**: [632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)
+**다음**: [634. 병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)](/knowledge-base/studynote/02_operating_system/10_security/634_lock_free_stack_queue/) ->
 
 ---

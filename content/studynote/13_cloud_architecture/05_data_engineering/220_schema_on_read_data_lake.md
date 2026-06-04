@@ -29,14 +29,14 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 전통 DW (Schema-on-Write)          데이터 레이크 (Schema-on-Read)
-┌────────────────────────┐          ┌──────────────────────────────┐
-│  소스 데이터             │          │  소스 데이터                   │
-│   ↓ ETL 변환            │          │   ↓ 원시 그대로 저장            │
-│   ↓ 스키마 검증          │          │  S3/ADLS (Parquet/JSON/CSV)  │
-│   ↓ 정제·로드            │          │                              │
-│  구조화 테이블            │          │  읽을 때 ──▶ Spark/Athena가   │
-│  (빠른 쿼리)             │          │             스키마 해석         │
-└────────────────────────┘          └──────────────────────────────┘
++------------------------+          +------------------------------+
+|  소스 데이터             |          |  소스 데이터                   |
+|   v ETL 변환            |          |   v 원시 그대로 저장            |
+|   v 스키마 검증          |          |  S3/ADLS (Parquet/JSON/CSV)  |
+|   v 정제·로드            |          |                              |
+|  구조화 테이블            |          |  읽을 때 ---> Spark/Athena가   |
+|  (빠른 쿼리)             |          |             스키마 해석         |
++------------------------+          +------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 박물관 수장고와 같다. 유물을 발굴하면 바로 저장하고, 나중에 역사학자·고고학자·미술사가가 각자의 시각으로 의미를 부여하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 일단 원형 그대로 보존하고 필요할 때 해석한다.
@@ -48,28 +48,28 @@ tags = ["studynote-cloud-architecture"]
 ### [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        데이터 수집 계층                           │
-│  IoT/로그/DB CDC/API  ──▶  Kafka/Kinesis  ──▶  S3 (원시 적재)  │
-└────────────────────────────────┬────────────────────────────────┘
-                                 │ 원시 파일 (JSON/CSV/Parquet)
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    레이크 스토리지 (Zone 구조)                     │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
-│  │  Bronze Zone │  │  Silver Zone │  │     Gold Zone        │  │
-│  │  (원시 원본)  │  │  (정제·조인)  │  │  (집계·분석 전용)    │  │
-│  │  스키마 없음  │  │  스키마 추론  │  │  스키마 확정         │  │
-│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
-└────────────────────────────────┬────────────────────────────────┘
-                                 │
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    쿼리/분석 계층 (스키마 부여)                    │
-│  Apache Spark ─── 스키마 추론(inferSchema) / 명시적 StructType  │
-│  AWS Athena   ─── CREATE EXTERNAL TABLE (on S3)                │
-│  Presto/Trino ─── 연방 쿼리, 런타임 스키마 적용                   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                        데이터 수집 계층                           |
+|  IoT/로그/DB CDC/API  --->  Kafka/Kinesis  --->  S3 (원시 적재)  |
++--------------------------------+--------------------------------+
+                                 | 원시 파일 (JSON/CSV/Parquet)
+                                 v
++-----------------------------------------------------------------+
+|                    레이크 스토리지 (Zone 구조)                     |
+|  +--------------+  +--------------+  +----------------------+  |
+|  |  Bronze Zone |  |  Silver Zone |  |     Gold Zone        |  |
+|  |  (원시 원본)  |  |  (정제·조인)  |  |  (집계·분석 전용)    |  |
+|  |  스키마 없음  |  |  스키마 추론  |  |  스키마 확정         |  |
+|  +--------------+  +--------------+  +----------------------+  |
++--------------------------------+--------------------------------+
+                                 |
+                                 v
++-----------------------------------------------------------------+
+|                    쿼리/분석 계층 (스키마 부여)                    |
+|  Apache Spark --- 스키마 추론(inferSchema) / 명시적 StructType  |
+|  AWS Athena   --- CREATE EXTERNAL TABLE (on S3)                |
+|  Presto/Trino --- 연방 쿼리, 런타임 스키마 적용                   |
++-----------------------------------------------------------------+
 ```
 
 ### 핵심 기술 구성 요소
@@ -130,7 +130,7 @@ tags = ["studynote-cloud-architecture"]
 [해결] 거버넌스 4대 원칙
 1. 메타데이터 자동 크롤링 (Glue Crawler)
 2. 데이터 카탈로그 태깅 (분류/민감도/오너)
-3. Zone 분리 (Bronze → Silver → Gold)
+3. Zone 분리 (Bronze -> Silver -> Gold)
 4. 데이터 품질 규칙 자동화 (Great Expectations, dbt tests)
 ```
 
@@ -138,14 +138,14 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 사용자 행동 로그 (100GB/일, JSON 비정형)
-        ↓
-Kinesis Data Firehose → S3 Bronze (원시 저장, 15분 파티셔닝)
-        ↓
-AWS Glue ETL Job (야간) → S3 Silver (Parquet 변환, 파티션 키: date/category)
-        ↓
-Athena 쿼리 → 상품별 전환율 분석 (스키마: 읽을 때 Parquet 컬럼 파악)
-        ↓
-SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
+        v
+Kinesis Data Firehose -> S3 Bronze (원시 저장, 15분 파티셔닝)
+        v
+AWS Glue ETL Job (야간) -> S3 Silver (Parquet 변환, 파티션 키: date/category)
+        v
+Athena 쿼리 -> 상품별 전환율 분석 (스키마: 읽을 때 Parquet 컬럼 파악)
+        v
+SageMaker (ML) -> 추천 모델 학습 (Bronze 원시 피처 활용)
 ```
 
 **기술사 핵심 판단**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 "먼저 수집, 나중 결정"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이므로, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> 도입 시 반드시 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a>와 Zone <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>을 동시 설계</strong>해야 실패하지 않는다.
@@ -169,10 +169,10 @@ SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
 
 | 한계 | 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 보장 어려움</strong> | 오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 그대로 저장 → Silver/Gold 정제 필수 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 보장 어려움</strong> | 오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 그대로 저장 -> Silver/Gold 정제 필수 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 불안정</strong> | Full Scan 발생, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·포맷 최적화 필요 |
 | **거버넌스 비용** | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)·태깅·오너십 관리에 지속적 노력 필요 |
-| **보안 복잡성** | 원시 PII 포함 가능성 → 컬럼 단위 마스킹 필요 |
+| **보안 복잡성** | 원시 PII 포함 가능성 -> 컬럼 단위 마스킹 필요 |
 
 📢 **섹션 요약 비유**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 강력하지만 정리하지 않은 도서관과 같다. 모든 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 있지만, 도서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)·거버넌스)이 없으면 원하는 책을 찾는 데 더 많은 시간이 걸릴 수 있다.
 
@@ -196,13 +196,13 @@ SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
 
 ```text
 Schema-on-Write: 저장 전 스키마 강제 (DW)
-    │
-    ▼
-Schema-on-Read: 저장 시 원시 형태 → 읽을 때 스키마 적용
-    ├─► Data Lake: S3 + Parquet/JSON
-    └─► 유연성 ↑ · 분석 속도 ↓ (트레이드오프)
-    │
-    ▼
+    |
+    v
+Schema-on-Read: 저장 시 원시 형태 -> 읽을 때 스키마 적용
+    +-► Data Lake: S3 + Parquet/JSON
+    +-► 유연성 ^ · 분석 속도 v (트레이드오프)
+    |
+    v
 Lakehouse: 두 방식의 장점 통합
 ```
 2. 마치 레고 블록을 일단 다 사두고, 만들고 싶은 게 생겼을 때 조립하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 일단 쌓아두고 분석할 때 모양을 만든다.
@@ -214,7 +214,7 @@ Lakehouse: 두 방식의 장점 통합
 
 **진행 상황**: 219 / 371
 
-← **이전**: [219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/219_data_lake/)
-**다음**: [221. 데이터 웨어하우스 (Data Warehouse / DW)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/221_data_warehouse_olap_sql/) →
+<- **이전**: [219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/219_data_lake/)
+**다음**: [221. 데이터 웨어하우스 (Data Warehouse / DW)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/221_data_warehouse_olap_sql/) ->
 
 ---

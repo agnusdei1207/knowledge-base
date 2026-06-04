@@ -86,11 +86,11 @@ tags = ["studynote-design-supervision"]
 
 ```text
 독립성
-   ↓
+   v
 이해상충 제거
-   ↓
+   v
 객관적 판단
-   ↓
+   v
 감리 신뢰성
 ```
 
@@ -98,11 +98,11 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 이해상충 관리 → 감리 신뢰의 기초
-2. 마음의 독립성 → 실제 판단의 공정성
-3. 외형의 독립성 → 대외 신뢰 확보
-4. 역할 분리와 회피 → 위험 회피 장치
-5. 증거 중심 감리 → 객관성 강화
+1. 이해상충 관리 -> 감리 신뢰의 기초
+2. 마음의 독립성 -> 실제 판단의 공정성
+3. 외형의 독립성 -> 대외 신뢰 확보
+4. 역할 분리와 회피 -> 위험 회피 장치
+5. 증거 중심 감리 -> 객관성 강화
 
 ---
 
@@ -118,7 +118,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 87 / 530
 
-← **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_sampling_audit_technique/)
-**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/) →
+<- **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_sampling_audit_technique/)
+**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/) ->
 
 ---

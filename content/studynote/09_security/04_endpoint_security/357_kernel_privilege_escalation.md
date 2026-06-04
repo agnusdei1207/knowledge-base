@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))는 인증서·[엔드포인트 보안](/knowledge-base/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 커널 권한 상승가 필요한가                                            │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 커널 권한 상승로 통제·판단 ────┘             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 커널 권한 상승가 필요한가                                            |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- 커널 권한 상승로 통제·판단 ----+             |
++--------------------------------------------------------------+
 ```
 
-이 그림은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 규칙 없이 각자 공부하는 반을 공통 시간표와 평가표로 정리하는 학사 운영 체계와 같다.
 
@@ -47,12 +47,12 @@ tags = ["studynote-security"]
 | 개선 | 부족한 통제를 재평가하고 우선순위를 조정하는 단계 | 형식적 준수보다 위험 감소 효과를 봐야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
-├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 운영 사이클                                                  |
++--------------------------------------------------------------+
+| 기준 수립 -► 통제 적용 -► 증적 수집 -► 점검·개선            |
+|              +-------- 책임·보고 체계 --------+             |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [규정·책임 요구]
-    │
-    ▼
+    |
+    v
 [커널 권한 상승 (Kernel Privilege Escalation)]
-    │
-    ├──▶ [감사 자동화]
-    └──▶ [성숙도 향상]
+    |
+    +---> [감사 자동화]
+    +---> [성숙도 향상]
 ```
 
 이 흐름도는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 411 / 1108
 
-← **이전**: [356. 권한 상승 (Local Privilege Escalation)](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)
-**다음**: [358. 제로데이 취약점 (Zero-Day Vulnerability)](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/) →
+<- **이전**: [356. 권한 상승 (Local Privilege Escalation)](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)
+**다음**: [358. 제로데이 취약점 (Zero-Day Vulnerability)](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/) ->
 
 ---

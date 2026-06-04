@@ -28,20 +28,20 @@ tags = ["studynote-operating-system"]
   3. **동적 재배치 (Dynamic Relocation)의 도입**: MMU와 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하드웨어가 도입되면서, 프로그램은 실행 중에도 물리 메모리의 어느 위치로든 자유롭게 이동할 수 있게 되었고, CPU는 단지 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)만 다루면 되도록 추상화되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│     베이스 레지스터가 없는 환경 vs 있는 환경의 차이             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│ [베이스 레지스터가 없는 절대 주소 환경]                         │
-│ 컴파일된 코드: JMP 5000 (무조건 물리 5000번지로 이동)           │
-│ 문제점: 5000번지에 다른 프로그램이 있으면 실행 불가!            │
-│                                                                 │
-│ [베이스 레지스터를 활용한 동적 재배치 환경]                     │
-│ 컴파일된 코드: JMP 100 (논리 주소 100번지로 이동)               │
-│ 베이스 레지스터 값: 14000 (운영체제가 문맥 교환 시 설정)        │
-│ MMU의 변환: 100 (논리) + 14000 (베이스) = 14100 (물리)          │
-│ 장점: 프로세스는 자신이 0번지부터 시작한다고 착각함!            │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|     베이스 레지스터가 없는 환경 vs 있는 환경의 차이             |
++-----------------------------------------------------------------+
+|                                                                 |
+| [베이스 레지스터가 없는 절대 주소 환경]                         |
+| 컴파일된 코드: JMP 5000 (무조건 물리 5000번지로 이동)           |
+| 문제점: 5000번지에 다른 프로그램이 있으면 실행 불가!            |
+|                                                                 |
+| [베이스 레지스터를 활용한 동적 재배치 환경]                     |
+| 컴파일된 코드: JMP 100 (논리 주소 100번지로 이동)               |
+| 베이스 레지스터 값: 14000 (운영체제가 문맥 교환 시 설정)        |
+| MMU의 변환: 100 (논리) + 14000 (베이스) = 14100 (물리)          |
+| 장점: 프로세스는 자신이 0번지부터 시작한다고 착각함!            |
++-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 다이어그램은 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 도입이 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 왜 필수적인지를 보여준다. 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 없다면 컴파일된 바이너리는 고정된 위치에 종속되어 재사용성과 메모리 배치 유연성이 떨어진다. 반면, 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통해 덧셈 연산을 하드웨어로 수행하면, 소프트웨어 변경 없이 프로세스를 메모리의 어느 공간이든 빈 곳에 적재하여 실행할 수 있다.
 
@@ -68,32 +68,32 @@ tags = ["studynote-operating-system"]
 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하며 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 발생시키면, 이 주소는 즉시 MMU로 전달된다. [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부의 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(또는 재배치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))가 가진 값과 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 하드웨어 가산기에 의해 즉각적으로 더해져 최종 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)가 완성된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              베이스 레지스터 기반 동적 주소 변환                   │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│                   [ CPU (Central Processing Unit) ]                │
-│                               │                                    │
-│                               ▼ 논리 주소 (예: 346)                │
-│  ┌────────────────────────────┼────────────────────────────┐       │
-│  │ MMU                        │                            │       │
-│  │                            ▼                            │       │
-│  │                     ┌────────────┐                      │       │
-│  │     베이스 레지스터 ──▶│  가산기 (+)  │                      │  │
-│  │  (예: 14000)        └────────────┘                      │       │
-│  │                            │                            │       │
-│  └────────────────────────────┼────────────────────────────┘       │
-│                               ▼ 물리 주소 (예: 14346)              │
-│                               │                                    │
-│             ┌─────────────────▼─────────────────┐                  │
-│             │ 물리 메모리 (Physical Memory)       │                │
-│             │                                   │                  │
-│             │ 14000: [프로세스 A 시작]          │                  │
-│             │        ...                        │                  │
-│             │ 14346: [요청된 데이터 또는 명령어]│                  │
-│             │        ...                        │                  │
-│             └───────────────────────────────────┘                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              베이스 레지스터 기반 동적 주소 변환                   |
++--------------------------------------------------------------------+
+|                                                                    |
+|                   [ CPU (Central Processing Unit) ]                |
+|                               |                                    |
+|                               v 논리 주소 (예: 346)                |
+|  +----------------------------+----------------------------+       |
+|  | MMU                        |                            |       |
+|  |                            v                            |       |
+|  |                     +------------+                      |       |
+|  |     베이스 레지스터 --->|  가산기 (+)  |                      |  |
+|  |  (예: 14000)        +------------+                      |       |
+|  |                            |                            |       |
+|  +----------------------------+----------------------------+       |
+|                               v 물리 주소 (예: 14346)              |
+|                               |                                    |
+|             +-----------------v-----------------+                  |
+|             | 물리 메모리 (Physical Memory)       |                |
+|             |                                   |                  |
+|             | 14000: [프로세스 A 시작]          |                  |
+|             |        ...                        |                  |
+|             | 14346: [요청된 데이터 또는 명령어]|                  |
+|             |        ...                        |                  |
+|             +-----------------------------------+                  |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도의 핵심은 주소 변환이 순수하게 '하드웨어' 영역([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에서 이루어진다는 점이다. 소프트웨어([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 매번 주소를 더한다면 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 발생하지만, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내의 가산기(Adder)를 통해 메모리 접근마다 1클럭 사이클 내에 실시간 변환이 완료된다. CPU는 14000번지의 존재를 전혀 모르며, 오직 346번지에 접근한다고 생각한다. 이는 프로세스 간 완벽한 공간적 격리를 달성하는 첫걸음이다.
@@ -133,13 +133,13 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 | **주소 변환 방식** | 단순 덧셈 연산 1회 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 매핑 및 오프셋 결합 (테이블 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 발생) |
 
 ```text
-┌──────────┬─────────────────────────┬───────────────────────────────────┐
-│ 항목     │ 베이스 레지스터 (연속 할당)│ PTBR (페이징 기반 할당)        │
-├──────────┼─────────────────────────┼───────────────────────────────────┤
-│ 지연     │ 극도로 낮음 (단순 덧셈)    │ 메모리 참조 1회 추가 (TLB 필요)│
-│ 확장성   │ 외부 단편화 문제로 최악    │ 물리 메모리 파편화 완벽 해결   │
-│ 일관성   │ 메모리 통째로 스와핑 필요  │ 페이지 단위 스와핑으로 효율적  │
-└──────────┴─────────────────────────┴───────────────────────────────────┘
++----------+-------------------------+-----------------------------------+
+| 항목     | 베이스 레지스터 (연속 할당)| PTBR (페이징 기반 할당)        |
++----------+-------------------------+-----------------------------------+
+| 지연     | 극도로 낮음 (단순 덧셈)    | 메모리 참조 1회 추가 (TLB 필요)|
+| 확장성   | 외부 단편화 문제로 최악    | 물리 메모리 파편화 완벽 해결   |
+| 일관성   | 메모리 통째로 스와핑 필요  | 페이지 단위 스와핑으로 효율적  |
++----------+-------------------------+-----------------------------------+
 ```
 **[매트릭스 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식은 하드웨어 연산이 단순하여 속도는 가장 빠르지만, 프로세스 전체가 메모리의 연속된 공간에 있어야 하므로 메모리 파편화([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 문제가 극심했다. 반면, 현대의 PTBR은 메모리 접근을 한 번 더 해야 하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 부담(TLB를 통해 극복)을 감수하더라도, 프로세스를 조각내어 물리 메모리 곳곳에 흩뿌려 배치할 수 있는 압도적인 공간 관리 효율성(확장성)을 제공한다.
 
@@ -163,16 +163,16 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 ```text
 [CPU 논리 주소 요청]
-        │
-        ▼
-[논리 주소 < 한계 레지스터?] ──(No)──▶ [Traps to OS (Addressing Error/Segfault)]
-        │
+        |
+        v
+[논리 주소 < 한계 레지스터?] --(No)---> [Traps to OS (Addressing Error/Segfault)]
+        |
       (Yes)
-        │
-        ▼
+        |
+        v
 [논리 주소 + 베이스 레지스터]
-        │
-        ▼
+        |
+        v
 [물리 메모리 접근 승인]
 ```
 **[흐름도 해설]** 이 플로우는 실무 시스템에서 메모리 격리를 구현하는 필수적인 방어 로직이다. 주소를 더하기 전에 먼저 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 프로그램의 합법적인 크기([한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/))를 벗어나지 않았는지 검사한다. 이 조건문 분기 하나가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨의 샌드박싱과 보안 격리를 보장하는 물리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 역할을 하며, 이를 위반하면 즉시 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) 인터럽트가 발생해 프로세스가 강제 종료된다.
@@ -217,12 +217,12 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 ```text
 [MMU (Memory-Management Unit)]
-    │
-    ▼
+    |
+    v
 [베이스 레지스터 (Base/Relocation Register)]
-    │
-    ├──▶ [한계 레지스터 (Limit Register)]
-    └──▶ [동적 적재 (Dynamic Loading)]
+    |
+    +---> [한계 레지스터 (Limit Register)]
+    +---> [동적 적재 (Dynamic Loading)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -239,7 +239,7 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 **진행 상황**: 329 / 800
 
-← **이전**: [328. MMU (Memory-Management Unit) - 논리 주소를 물리 주소로 동적 변환하는 하드웨어](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)
-**다음**: [330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) →
+<- **이전**: [328. MMU (Memory-Management Unit) - 논리 주소를 물리 주소로 동적 변환하는 하드웨어](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)
+**다음**: [330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) ->
 
 ---

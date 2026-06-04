@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 필요한 이유는 제어 유닛이 다뤄야 할 경우의 수가 매우 많기 때문이다. [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 조건 분기, 메모리 접근, 예외 처리까지 모두 조합 논리만으로 풀면 회로가 커지고 수정이 어려워진다. 마이크로명령어는 이런 복잡한 제어를 잘게 쪼개 저장해 두어, 제어 규칙을 회로의 고정 배선이 아니라 읽고 실행할 수 있는 내부 절차로 바꾼다.
 
-특히 한 개의 기계어 명령이 여러 내부 단계로 분해된다는 점이 핵심이다. 예를 들어 메모리 피연산자를 더하는 명령은 `주소 계산 → 메모리 읽기 → ALU 덧셈 → 결과 기록`처럼 여러 마이크로명령어 시퀀스로 수행된다. 따라서 마이크로명령어는 CPU가 복잡한 일을 실수 없이 순서대로 처리하게 만드는 “내부 단계의 문법”이라고 볼 수 있다.
+특히 한 개의 기계어 명령이 여러 내부 단계로 분해된다는 점이 핵심이다. 예를 들어 메모리 피연산자를 더하는 명령은 `주소 계산 -> 메모리 읽기 -> ALU 덧셈 -> 결과 기록`처럼 여러 마이크로명령어 시퀀스로 수행된다. 따라서 마이크로명령어는 CPU가 복잡한 일을 실수 없이 순서대로 처리하게 만드는 “내부 단계의 문법”이라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 마이크로명령어는 요리 레시피 전체가 아니라 “지금 팬을 달구고, 다음엔 재료를 넣어라”처럼 한 동작씩 적힌 조리 지시 카드와 같다. 메뉴 이름만으로는 요리가 안 되지만, 이런 작은 카드가 이어지면 복잡한 요리도 정확히 완성된다.
 
@@ -43,31 +43,31 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 마이크로명령어 한 줄로 바뀐 뒤 실제로 어떤 경로를 거쳐 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 되는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                마이크로명령어가 제어 신호가 되는 흐름                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 제어 주소 레지스터 (Control Address Register, CAR)                        │
-│                    │                                                       │
-│                    ▼                                                       │
-│           ┌──────────────────────┐                                         │
-│           │ Control Memory       │                                         │
-│           └──────────┬───────────┘                                         │
-│                      │ 읽기                                                 │
-│                      ▼                                                       │
-│           ┌──────────────────────┐                                         │
-│           │ 마이크로명령어 레지스터│                                        │
-│           │ (Microinstruction    │                                        │
-│           │  Register, MIR)      │                                        │
-│           └───────┬─────────┬────┘                                         │
-│                   │         │                                              │
-│                   │         └──────────────▶ 다음 주소 계산                 │
-│                   │                            (분기/순차/예외)             │
-│                   │                                                        │
-│                   └───────────────────────▶ Datapath 제어선                │
-│                                            ├─ ALU 제어                     │
-│                                            ├─ Register File 제어           │
-│                                            └─ Memory/Bus 제어              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                마이크로명령어가 제어 신호가 되는 흐름                      |
++----------------------------------------------------------------------------+
+| 제어 주소 레지스터 (Control Address Register, CAR)                        |
+|                    |                                                       |
+|                    v                                                       |
+|           +----------------------+                                         |
+|           | Control Memory       |                                         |
+|           +----------+-----------+                                         |
+|                      | 읽기                                                 |
+|                      v                                                       |
+|           +----------------------+                                         |
+|           | 마이크로명령어 레지스터|                                        |
+|           | (Microinstruction    |                                        |
+|           |  Register, MIR)      |                                        |
+|           +-------+---------+----+                                         |
+|                   |         |                                              |
+|                   |         +---------------> 다음 주소 계산                 |
+|                   |                            (분기/순차/예외)             |
+|                   |                                                        |
+|                   +------------------------> Datapath 제어선                |
+|                                            +- ALU 제어                     |
+|                                            +- Register File 제어           |
+|                                            +- Memory/Bus 제어              |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 마이크로명령어 한 줄이 단일 마이크로연산 ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)) 하나와 항상 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 대응하지는 않는다는 사실이다. 수평형 마이크로명령어라면 한 줄 안에서 `R1 출력`, `ALU 덧셈`, `R3 적재` 같은 여러 동작을 동시에 켤 수 있다. 반대로 수직형은 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 압축해서 저장하므로 해독기 ([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))를 거쳐야 하고, 동시에 줄 수 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조합이 제한된다.
@@ -156,22 +156,22 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 하드와이어드 제어의 복잡도 증가
-            │
-            ▼
+            |
+            v
 마이크로프로그래밍 (Microprogrammed Control)
-            │
-            ▼
+            |
+            v
 제어 메모리 (Control Memory)
-            │
-            ▼
+            |
+            v
 마이크로명령어 (Microinstruction)
-            │
-            ├────────▶ 수평형 (Horizontal) · 수직형 (Vertical) 형식 분화
-            │
-            ▼
+            |
+            +---------> 수평형 (Horizontal) · 수직형 (Vertical) 형식 분화
+            |
+            v
 마이크로코드 (Microcode) 패치 · WCS (Writable Control Store)
-            │
-            ▼
+            |
+            v
 현대 하이브리드 제어 · 빠른 경로 직접 제어 + 복잡 경로 마이크로코드
 ```
 
@@ -189,7 +189,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 217 / 803
 
-← **이전**: [216. 제어 메모리 (Control Memory)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/)
-**다음**: [218. 명령어 파이프라이닝 (Instruction Pipelining)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/218_instruction_pipelining/) →
+<- **이전**: [216. 제어 메모리 (Control Memory)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/)
+**다음**: [218. 명령어 파이프라이닝 (Instruction Pipelining)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/218_instruction_pipelining/) ->
 
 ---

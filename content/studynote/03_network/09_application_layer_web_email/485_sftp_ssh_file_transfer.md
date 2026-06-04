@@ -31,27 +31,27 @@ tags = ["studynote-network"]
   3. **리눅스 내장 생태계**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영의 위대한 산물인 `OpenSSH` 패키지에 SFTP 서버(`sftp-server`) 서브시스템이 기본 탑재되면서, 관리자가 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 데몬(vsftpd 등)을 따로 설치할 필요 없이 리눅스만 깔면 즉시 무결점 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 서버가 가동되는 축복이 열렸다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          고전 FTP (Multi-Port) vs SFTP (Single-Port) 아키텍처 비교     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ ❌ 버려진 고전: FTP / FTPS ] - 방화벽 타공 지옥                   │
-│                                                             │
-│ Client ──(명령어 평문/암호화)──▶ [포트 21 방화벽 허용] ─── 서버    │
-│                                                             │
-│ Client ──(짐 덩어리 전송 채널)──▶ [포트 50000 방화벽 허용] ─ 서버    │
-│ Client ──(짐 덩어리 전송 채널)──▶ [포트 50001 방화벽 허용] ─ 서버    │
-│ (※ 수천 개의 랜덤 데이터 포트를 통째로 인바운드 허용해야 함)              │
-│                                                             │
-│ [ ✅ 현대의 지배자: SFTP ] - 단일 터널 캡슐화 (Multiplexing)        │
-│                                                             │
-│                  === 거대한 SSH 암호화 장갑 터널 ===               │
-│               ┌──────────────────────────────┐              │
-│ Client ────▶ │  [명령 패킷: rm -rf /log]      │ ──▶ 서버       │
-│  (FileZilla)  │  [파일 패킷: 0x1A2B3C 바이너리]   │   (OpenSSH)   │
-│               └──────────────────────────────┘              │
-│                 [포트 22 방화벽 1개 허용] ◀─ 🌟 인프라의 평화!     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          고전 FTP (Multi-Port) vs SFTP (Single-Port) 아키텍처 비교     |
++-------------------------------------------------------------+
+|                                                             |
+| [ ❌ 버려진 고전: FTP / FTPS ] - 방화벽 타공 지옥                   |
+|                                                             |
+| Client --(명령어 평문/암호화)---> [포트 21 방화벽 허용] --- 서버    |
+|                                                             |
+| Client --(짐 덩어리 전송 채널)---> [포트 50000 방화벽 허용] - 서버    |
+| Client --(짐 덩어리 전송 채널)---> [포트 50001 방화벽 허용] - 서버    |
+| (※ 수천 개의 랜덤 데이터 포트를 통째로 인바운드 허용해야 함)              |
+|                                                             |
+| [ ✅ 현대의 지배자: SFTP ] - 단일 터널 캡슐화 (Multiplexing)        |
+|                                                             |
+|                  === 거대한 SSH 암호화 장갑 터널 ===               |
+|               +------------------------------+              |
+| Client -----> |  [명령 패킷: rm -rf /log]      | ---> 서버       |
+|  (FileZilla)  |  [파일 패킷: 0x1A2B3C 바이너리]   |   (OpenSSH)   |
+|               +------------------------------+              |
+|                 [포트 22 방화벽 1개 허용] <-- 🌟 인프라의 평화!     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 인프라(AWS 등) 시대에 SFTP가 사실상 표준(De facto)이 된 가장 강력한 아키텍처적 무기를 보여준다. 하단 SFTP 다이어그램에서 클라이언트와 서버 사이의 물리적 연결([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))은 오직 22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나뿐이다. 이 강력한 암호화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 내부에서, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록을 보는 제어(Control) 메시지와 1GB짜리 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 메시지가 섞여서 논리적 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 스트림으로 흘러간다. 인프라 엔지니어 입장에서는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)에서 골치 아프게 여러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 뚫을 필요 없이 딱 22번 하나만 열면 모든 것이 종결되는 극한의 우아함을 누리게 된다.
@@ -81,28 +81,28 @@ SFTP는 밑단에서 모든 복잡한 보안(핸드셰이크, 키 교환, [인�
 2. <strong>SFTP (원격 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 매니저)</strong>: 다운로드/업로드(이어받기 완벽 지원)는 물론, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이름 변경, 소유자 변경(chown), 폴더 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [심볼릭 링크](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/) 제어까지 원격지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 대한 거의 완벽한 POSIX 제어권을 제공한다. FileZilla 같은 GUI 툴들이 뒤에서 쓰는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 100% SFTP다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SFTP 인증 메커니즘: Password vs Public Key           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ ❌ 패스워드 방식의 치명적 약점 ]                                │
-│ 서버: 비밀번호 대시오!                                          │
-│ 봇(Bot): root / 1234 ➔ 실패! (초당 1000번씩 사전 대입 공격)        │
-│ 🌟 결과: 암호화 터널이 무색하게, 브루트포스(Brute-force) 공격에 의해    │
-│ 서버 CPU가 낭비되고 비밀번호가 짧으면 뚫려버림.                       │
-│                                                             │
-│ [ ✅ 모범 아키텍처: RSA / ED25519 공개키(Public Key) 기반 인증 ]   │
-│ 1. 클라이언트가 자물쇠(공개키, id_rsa.pub)와 열쇠(개인키) 쌍을 만듦.  │
-│ 2. 클라이언트가 자물쇠를 서버 관리자에게 주어 ~/.ssh/authorized_keys 에 등록│
-│                                                             │
-│ SFTP 접속 시도!                                              │
-│ 서버: "이 랜덤 난수 박스를 내가 가진 네 자물쇠(공개키)로 잠가서 줄게."   │
-│ 클라이언트: "나한테만 있는 비밀 열쇠(개인키)로 열어서 난수를 돌려줄게!"    │
-│ 서버: "오, 진짜 네가 맞구나. 터널 오픈!" (비밀번호 입력 1도 없음)         │
-│                                                             │
-│ 🌟 결과: 아무리 중국/러시아 봇들이 접속을 시도해도 애초에 개인키 파일이     │
-│ 없으면 인증 단계(Challenge) 자체를 시도할 수 없어 원천 차단됨.          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SFTP 인증 메커니즘: Password vs Public Key           |
++-------------------------------------------------------------+
+|                                                             |
+| [ ❌ 패스워드 방식의 치명적 약점 ]                                |
+| 서버: 비밀번호 대시오!                                          |
+| 봇(Bot): root / 1234 ➔ 실패! (초당 1000번씩 사전 대입 공격)        |
+| 🌟 결과: 암호화 터널이 무색하게, 브루트포스(Brute-force) 공격에 의해    |
+| 서버 CPU가 낭비되고 비밀번호가 짧으면 뚫려버림.                       |
+|                                                             |
+| [ ✅ 모범 아키텍처: RSA / ED25519 공개키(Public Key) 기반 인증 ]   |
+| 1. 클라이언트가 자물쇠(공개키, id_rsa.pub)와 열쇠(개인키) 쌍을 만듦.  |
+| 2. 클라이언트가 자물쇠를 서버 관리자에게 주어 ~/.ssh/authorized_keys 에 등록|
+|                                                             |
+| SFTP 접속 시도!                                              |
+| 서버: "이 랜덤 난수 박스를 내가 가진 네 자물쇠(공개키)로 잠가서 줄게."   |
+| 클라이언트: "나한테만 있는 비밀 열쇠(개인키)로 열어서 난수를 돌려줄게!"    |
+| 서버: "오, 진짜 네가 맞구나. 터널 오픈!" (비밀번호 입력 1도 없음)         |
+|                                                             |
+| 🌟 결과: 아무리 중국/러시아 봇들이 접속을 시도해도 애초에 개인키 파일이     |
+| 없으면 인증 단계(Challenge) 자체를 시도할 수 없어 원천 차단됨.          |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 아무리 SFTP [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 튼튼해도 입구 컷([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))에서 털리면 의미가 없다. 실무 클라우드(AWS EC2)에서는 리눅스 장비를 만들 때 아예 패스워드 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 기능(`PasswordAuthentication no`) 자체를 원천 봉쇄하고, 오직 AWS가 발급해 준 `.pem` 이나 `.ppk` (개인키 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 가진 자만 SFTP에 붙을 수 있도록 비대칭키 아키텍처를 강제한다. 이는 비밀번호가 털릴 위험을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0%로 만들며, 인프라 자동화 봇([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 등)이 사람 개입 없이 스크립트로 안전하게 SFTP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 서버로 밀어 넣을 수 있는 무인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 기둥이 된다.
@@ -146,30 +146,30 @@ Match Group sftp_users
    - **판단**: SFTP는 강력한 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널에 '기생'하는 구조 탓에, 암호화/복호화 과정([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-GCM 등)에서 막대한 시스템 CPU 연산(오버헤드)을 소모한다. 특히 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 한계 탓에 CPU 코어가 아무리 많아도 단일 전송 속도의 임계점에 갇힌다. 내부망([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 내부, 폐쇄망 등 패킷 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 위험이 0%인 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/))에서 단순 속도가 생명이라면, 보안 검열을 거치는 SFTP 대신 `rsync`나 Netcat(`nc`), 아예 암호화가 빠진 `tar | ssh(치프퍼 튜닝) ` 같은 우회로를 타는 아키텍처적 유연성이 필요하다. 보안을 얻은 대가로 극강의 퍼포먼스(최고 속도)는 어느 정도 포기해야 하는 트레이드오프다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 클라우드 네이티브의 진화 (AWS Transfer Family) │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [문제: 전통적 EC2 서버에 구축한 SFTP의 한계]                       │
-  │ Client ──▶ [ AWS EC2 (sshd) + EBS 디스크 (500GB) ]           │
-  │ ❌ 디스크 꽉 차면 터짐. EC2 다운되면 접속 불가(SPOF).                 │
-  │ ❌ 서버 보안 패치, OS 업그레이드 전부 엔지니어가 챙겨야 함.             │
-  │                                                             │
-  │ [해결: 클라우드 완전 관리형 서버리스 SFTP 아키텍처]                  │
-  │                   ┌──────────────────────────────┐          │
-  │                   │      AWS Transfer Family     │          │
-  │ Client ──(포트 22)─▶│ (서버 껍데기만 있음. 무한 스케일링)│ ──(IAM 역할)│
-  │                   └──────────────────────────────┘          │
-  │                                  │ 내부 연결                  │
-  │                                  ▼                          │
-  │                       [ 🚀 AWS S3 버킷 ]                      │
-  │                  (용량 무제한, 내구성 99.999999999%)          │
-  │                                                             │
-  │ ✅ 판단: 껍데기는 SFTP(포트 22)를 열어주어 옛날 협력사(Client)의   │
-  │ 오래된 접속 프로그램은 그대로 호환시켜 주고, 실제 파일이 꽂히는 뒷단은│
-  │ 거대한 오브젝트 스토리지(S3)로 박아버려 용량과 인프라 관리의 족쇄를    │
-  │ 영원히 끊어버리는 궁극의 모던 아키텍처 패턴!                       │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 클라우드 네이티브의 진화 (AWS Transfer Family) |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [문제: 전통적 EC2 서버에 구축한 SFTP의 한계]                       |
+  | Client ---> [ AWS EC2 (sshd) + EBS 디스크 (500GB) ]           |
+  | ❌ 디스크 꽉 차면 터짐. EC2 다운되면 접속 불가(SPOF).                 |
+  | ❌ 서버 보안 패치, OS 업그레이드 전부 엔지니어가 챙겨야 함.             |
+  |                                                             |
+  | [해결: 클라우드 완전 관리형 서버리스 SFTP 아키텍처]                  |
+  |                   +------------------------------+          |
+  |                   |      AWS Transfer Family     |          |
+  | Client --(포트 22)-->| (서버 껍데기만 있음. 무한 스케일링)| --(IAM 역할)|
+  |                   +------------------------------+          |
+  |                                  | 내부 연결                  |
+  |                                  v                          |
+  |                       [ 🚀 AWS S3 버킷 ]                      |
+  |                  (용량 무제한, 내구성 99.999999999%)          |
+  |                                                             |
+  | ✅ 판단: 껍데기는 SFTP(포트 22)를 열어주어 옛날 협력사(Client)의   |
+  | 오래된 접속 프로그램은 그대로 호환시켜 주고, 실제 파일이 꽂히는 뒷단은|
+  | 거대한 오브젝트 스토리지(S3)로 박아버려 용량과 인프라 관리의 족쇄를    |
+  | 영원히 끊어버리는 궁극의 모던 아키텍처 패턴!                       |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 엔터프라이즈 환경에서 "SFTP 서버 좀 하나 만들어주세요"라는 요청이 오면 리눅스(CentOS)를 깔고 `vsftpd`나 `sshd`를 세팅하는 시대는 지났다. 백엔드가 S3([오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/))로 진화하면서 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기반의 SFTP는 아키텍처의 암덩어리([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))가 되었다. 클라우드 벤더(AWS, Azure)들은 앞단 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 전통적인 SFTP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 22번을 흉내 내어 클라이언트를 속이고, 뒷단에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 들어오는 즉시 S3 버킷의 오브젝트로 변환해 꽂아버리는 [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Managed SFTP 브리지를 내놓았다. 이를 통해 보안 규정 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 무한 용량, 이벤트 기반([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 트리거라는 세 마리 토끼를 단숨에 잡았다.
@@ -220,12 +220,12 @@ SFTP는 "안전한 껍데기([SSH](/knowledge-base/studynote/03_network/10_appli
 
 ```text
 [선행 개념: TFTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: SFTP]
-    │
-    ├──▶ [확장 A: FTPS]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: FTPS]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 SFTP는 TFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 FTPS와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -242,7 +242,7 @@ SFTP는 TFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 FTPS
 
 **진행 상황**: 606 / 1120
 
-← **이전**: [484. TFTP (Trivial FTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/)
-**다음**: [486. FTPS (FTP over SSL/TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/) →
+<- **이전**: [484. TFTP (Trivial FTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/)
+**다음**: [486. FTPS (FTP over SSL/TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/) ->
 
 ---

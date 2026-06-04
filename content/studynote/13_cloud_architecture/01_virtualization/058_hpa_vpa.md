@@ -35,7 +35,7 @@ tags = ["cloud_architecture"]
 
 ```text
 트래픽 증가
-   ↓
+   v
 HPA: 파드 수 증가
 VPA: 파드당 리소스 조정
 ```
@@ -52,11 +52,11 @@ VPA: 파드당 리소스 조정
 
 ```text
 HPA / VPA
-   ↓
+   v
 파드 증가 또는 리소스 증대
-   ↓
+   v
 Cluster Autoscaler
-   ↓
+   v
 노드 확장
 ```
 
@@ -99,11 +99,11 @@ HPA는 사용자 수나 CPU 사용률처럼 수평 확장에 적합하고, VPA�
 
 ```text
 트래픽 / 자원 사용량
-   ↓
+   v
 HPA / VPA
-   ↓
+   v
 Cluster Autoscaler
-   ↓
+   v
 자동 확장
 ```
 
@@ -111,11 +111,11 @@ Cluster Autoscaler
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 용량 계획 → 비용과 장애 위험 증가
-2. [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) → [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 자동 조절
-3. [VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) → [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 자원 자동 조정
-4. Cluster Autoscaler → 노드 확장 연동
-5. 다층 오토스케일링 → 클라우드 운영 최적화
+1. 수동 용량 계획 -> 비용과 장애 위험 증가
+2. [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) -> [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 자동 조절
+3. [VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) -> [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 자원 자동 조정
+4. Cluster Autoscaler -> 노드 확장 연동
+5. 다층 오토스케일링 -> 클라우드 운영 최적화
 
 ---
 
@@ -131,7 +131,7 @@ Cluster Autoscaler
 
 **진행 상황**: 57 / 371
 
-← **이전**: [57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/057_operator_pattern/)
-**다음**: [59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/) →
+<- **이전**: [57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/057_operator_pattern/)
+**다음**: [59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/) ->
 
 ---

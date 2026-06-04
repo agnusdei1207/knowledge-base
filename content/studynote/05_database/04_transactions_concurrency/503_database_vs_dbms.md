@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 지연과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·지연시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Coordinator -> Current concept -> Replica result   │
-├──────────────────────────────────────────────────────────────┤
-│ Network delay -> rule -> consistency outcome                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Coordinator -> Current concept -> Replica result   |
++--------------------------------------------------------------+
+| Network delay -> rule -> consistency outcome                 |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `데이터 리니지 흐름 추적 무결성 감사 구조`·`데이터베이스 백업 핫 덤프 콜드 덤프`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Prepare -> sync -> current concept -> final decision         │
-├──────────────────────────────────────────────────────────────┤
-│ Local success -> global agreement -> atomicity               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Prepare -> sync -> current concept -> final decision         |
++--------------------------------------------------------------+
+| Local success -> global agreement -> atomicity               |
++--------------------------------------------------------------+
 ```
 
 핵심은 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [데이터 리니지 흐름 추적 무결성 감사 구조]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 품질 메타 카탈로그 통제 관리]
-    │
-    ├──▶ [데이터베이스 백업 핫 덤프 콜드 덤프]
-    └──▶ [트랜잭션 장애 미디어 장애 복구 범위]
+    |
+    +---> [데이터베이스 백업 핫 덤프 콜드 덤프]
+    +---> [트랜잭션 장애 미디어 장애 복구 범위]
 ```
 
 [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) 흐름 추적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 구조에서 출발한 논점이 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리에서 핵심 판단으로 모이고, 이후 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 핫 덤프 콜드 덤프·[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 장애 미디어 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 범위 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 503 / 600
 
-← **이전**: [502. 데이터 리니지 흐름 추적 무결성 감사 구조 (DBMS)](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)
-**다음**: [504. 데이터베이스 백업 핫 덤프 콜드 덤프 (Data Independence)](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/) →
+<- **이전**: [502. 데이터 리니지 흐름 추적 무결성 감사 구조 (DBMS)](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)
+**다음**: [504. 데이터베이스 백업 핫 덤프 콜드 덤프 (Data Independence)](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/) ->
 
 ---

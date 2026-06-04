@@ -30,10 +30,10 @@ tags = ["studynote-operating-system"]
    (시스템에 4개의 프로세스가 존재한다고 가정 -> 목표 할당량 = 25% 씩)
 
    [프로세스별 실제 쓴 CPU 비율 측정 (모니터링)]
-   P1 (30%) : 약속(25%)보다 많이 씀 (이득 봄)   ─▶ CPU 할당 정지! 강제 대기
-   P2 (26%) : 약속(25%)보다 조금 많이 씀        ─▶ 우선순위 대폭 하락
-   P3 (25%) : 딱 정량만큼 씀                   ─▶ 정상 유지
-   P4 (19%) : 🚨 약속(25%)보다 적게 씀 (손해 봄) ─▶ 최우선 VIP 배정! 집중 할당!
+   P1 (30%) : 약속(25%)보다 많이 씀 (이득 봄)   --> CPU 할당 정지! 강제 대기
+   P2 (26%) : 약속(25%)보다 조금 많이 씀        --> 우선순위 대폭 하락
+   P3 (25%) : 딱 정량만큼 씀                   --> 정상 유지
+   P4 (19%) : 🚨 약속(25%)보다 적게 씀 (손해 봄) --> 최우선 VIP 배정! 집중 할당!
 
    >> 스케줄러는 이 격차를 0으로 만들기 위해, 항상 '가장 손해 본(비율이 낮은)'
       P4에게 CPU를 밀어주어 모든 프로세스가 25% 선으로 수렴하도록 강제한다.
@@ -57,26 +57,26 @@ tags = ["studynote-operating-system"]
 4. **스케줄링 결정**: 큐에 있는 모든 프로세스의 Ratio를 계산한 후, <strong>Ratio 값이 가장 작은 (가장 손해를 보고 있는) 프로세스에게 즉시 CPU를 할당</strong>한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         보장 스케줄링 비율(Ratio) 계산 및 대상 선택 시뮬레이션       │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [상황] 프로세스 수 N = 3 (각자 33.3%의 권리를 가짐)                 │
-  │        시스템 경과 시간(T_elapsed) = 300 ms                          │
-  │        >> 각 프로세스의 당연한 권리 시간(T_entitled) = 100 ms        │
-  │                                                                      │
-  │  [프로세스별 계좌 분석 (장부 검사)]                                  │
-  │  ▶ P1 실제 쓴 시간: 150ms                                            │
-  │     Ratio = 150 / 100 = 1.5 (권리보다 50%나 더 씀. 완전 흑자!)       │
-  │  ▶ P2 실제 쓴 시간:  90ms                                            │
-  │     Ratio = 90 / 100  = 0.9 (권리보다 살짝 적게 씀. 소폭 적자)       │
-  │  ▶ P3 실제 쓴 시간:  60ms                                            │
-  │     Ratio = 60 / 100  = 0.6 (권리에 턱없이 모자람. 극심한 피해!)     │
-  │                                                                      │
-  │  ✅ 커널의 칼같은 결정:                                              │
-  │  Ratio가 0.6으로 가장 불쌍한 P3를 무조건 선택하여 CPU에 강제 투입!   │
-  │  P3의 비율이 0.9가 넘어 1.0에 도달할 때까지 계속 P3를 실행시킨다.    │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |         보장 스케줄링 비율(Ratio) 계산 및 대상 선택 시뮬레이션       |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [상황] 프로세스 수 N = 3 (각자 33.3%의 권리를 가짐)                 |
+  |        시스템 경과 시간(T_elapsed) = 300 ms                          |
+  |        >> 각 프로세스의 당연한 권리 시간(T_entitled) = 100 ms        |
+  |                                                                      |
+  |  [프로세스별 계좌 분석 (장부 검사)]                                  |
+  |  -> P1 실제 쓴 시간: 150ms                                            |
+  |     Ratio = 150 / 100 = 1.5 (권리보다 50%나 더 씀. 완전 흑자!)       |
+  |  -> P2 실제 쓴 시간:  90ms                                            |
+  |     Ratio = 90 / 100  = 0.9 (권리보다 살짝 적게 씀. 소폭 적자)       |
+  |  -> P3 실제 쓴 시간:  60ms                                            |
+  |     Ratio = 60 / 100  = 0.6 (권리에 턱없이 모자람. 극심한 피해!)     |
+  |                                                                      |
+  |  ✅ 커널의 칼같은 결정:                                              |
+  |  Ratio가 0.6으로 가장 불쌍한 P3를 무조건 선택하여 CPU에 강제 투입!   |
+  |  P3의 비율이 0.9가 넘어 1.0에 도달할 때까지 계속 P3를 실행시킨다.    |
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** Ratio(비율)가 1.0이라는 것은 시스템이 약속한 $\frac{1}{N}$을 정확히 챙겨 먹었다는 뜻이다. 1.0을 넘으면 혜택을 본 것이고, 1.0 미만이면 시스템으로부터 착취당한 상태다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 유일한 임무는 모든 프로세스의 Ratio가 1.0에 평형을 이루도록 제일 비율이 낮은 놈의 멱살을 잡아 끌어올리는 것뿐이다.
 
@@ -113,24 +113,24 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>/도커의 CPU <a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">Quota</a> 제한 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 보장)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 수준을 넘어 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 인프라 환경에서 보장 스케줄링은 부활했다. Cgroups를 통해 특정 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 `cpu-quota`와 `cpu-period`를 부여하면, 다른 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 100개가 뜨든 말든 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 무조건 설정된 20%의 물리적 CPU 사이클을 '보장(Guarantee)' 받는다. 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자(AWS, GCP)가 고객에게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) SLA를 수치로 약속할 수 있는 물리적 근간이 바로 이 철학이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────┐
-  │     클라우드 Cgroups 기반의 계층적 보장(Guarantee) 아키텍처     │
-  ├─────────────────────────────────────────────────────────────────┤
-  │                                                                 │
-  │   [물리 노드 전체 CPU: 100%]                                    │
-  │         │                                                       │
-  │         ├─▶ [ 테넌트 A (결제 서비스) ] : 최소 50% CPU 보장!     │
-  │         │    └─ 내부 Pod 1: 30% 보장                            │
-  │         │    └─ 내부 Pod 2: 20% 보장                            │
-  │         │                                                       │
-  │         ├─▶ [ 테넌트 B (로그 분석) ]   : 최소 30% CPU 보장!     │
-  │         │                                                       │
-  │         └─▶ [ 시스템 데몬 (Kubelet) ] : 잔여 20% CPU 보장!      │
-  │                                                                 │
-  │   🚨 핵심 판단: B나 C가 갑자기 폭주하더라도, 리눅스 스케줄러는  │
-  │      어카운팅 장부를 실시간 감시하여 A가 선점한 '50% 보장량'을  │
-  │      절대 침범당하지 않게 칼같이(Throttle) 방어해 낸다.         │
-  └─────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------+
+  |     클라우드 Cgroups 기반의 계층적 보장(Guarantee) 아키텍처     |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  |   [물리 노드 전체 CPU: 100%]                                    |
+  |         |                                                       |
+  |         +--> [ 테넌트 A (결제 서비스) ] : 최소 50% CPU 보장!     |
+  |         |    +- 내부 Pod 1: 30% 보장                            |
+  |         |    +- 내부 Pod 2: 20% 보장                            |
+  |         |                                                       |
+  |         +--> [ 테넌트 B (로그 분석) ]   : 최소 30% CPU 보장!     |
+  |         |                                                       |
+  |         +--> [ 시스템 데몬 (Kubelet) ] : 잔여 20% CPU 보장!      |
+  |                                                                 |
+  |   🚨 핵심 판단: B나 C가 갑자기 폭주하더라도, 리눅스 스케줄러는  |
+  |      어카운팅 장부를 실시간 감시하여 A가 선점한 '50% 보장량'을  |
+  |      절대 침범당하지 않게 칼같이(Throttle) 방어해 낸다.         |
+  +-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 보장 스케줄링의 철학은 개별 쓰레드 1단계를 넘어, 유저 그룹/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 그룹을 묶어 거대한 컴퓨팅 파이를 쪼개는 <strong>계층적 스케줄링(Hierarchical Scheduling)</strong>으로 진화했다. 과거에는 $1/N$이라는 멍청한 평등을 보장했다면, 지금은 돈 낸 액수에 따라 $50%, 30%$ 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 곱해 그 비율만큼을 한 치의 오차 없이 '보장(Guarantee)'하는 자본주의적 분배 로직으로 아키텍처가 업그레이드되었다.
 
@@ -163,12 +163,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [HRN (Highest Response Ratio Next) 스케줄링]
-    │
-    ▼
+    |
+    v
 [보장 스케줄링 (Guaranteed Scheduling)]
-    │
-    ├──▶ [복권 스케줄링 (Lottery Scheduling)]
-    └──▶ [공평 몫 스케줄링 (Fair-share Scheduling)]
+    |
+    +---> [복권 스케줄링 (Lottery Scheduling)]
+    +---> [공평 몫 스케줄링 (Fair-share Scheduling)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -185,7 +185,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 188 / 800
 
-← **이전**: [187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/)
-**다음**: [189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/) →
+<- **이전**: [187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/)
+**다음**: [189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/) ->
 
 ---

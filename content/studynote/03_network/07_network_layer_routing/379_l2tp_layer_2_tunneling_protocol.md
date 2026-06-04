@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [GRE]
-    │
-    ▼
+    |
+    v
 [L2TP]
-    │
-    └──▶ [IPSec 메커니즘]
+    |
+    +---> [IPSec 메커니즘]
 ```
 
 - **📢 섹션 요약 비유**: <strong> L2TP는 부산에 있는 내 컴퓨터의 랜 구멍과, 서울 본사에 있는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 사이를 </strong>가상의 400km짜리 투명 랜선(L2 Tunnel)**으로 다이렉트로 이어버리는 기적의 케이블 연장술입니다.
@@ -55,21 +55,21 @@ L2TP는 이름에 L2가 들어가는 만큼, 2계층 [프로토콜](/knowledge-b
 - **LNS (L2TP Network Server)**: 본사 쪽(터널 출구)이다. 본사 입구에 버티고 서서 LAC이 던진 터널 캡슐을 까서 내용물을 회사 내부에 뿌려주는 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 게이트웨이([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/라우터) 장비다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                L2TP/IPsec VPN의 원격 접속 캡슐화 구조              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 직원 노트북 (집) ] ════════════════════════▶ [ 본사 방화벽 ] │
- │                                                             │
- │   [ 4단 포장 구조 ]                                            │
- │   1. 겉 IP 헤더 (목적지: 본사 공인 IP)                            │
- │     2. IPsec (ESP) 헤더 ──▶ 여기서부터 암호화! 절대 못 열어봄!     │
- │       3. L2TP (UDP 1701) 헤더 ──▶ 터널 식별자                   │
- │         4. PPP 프레임 ──▶ 아이디, 비밀번호, 사내 데이터가 들었음!      │
- │                                                             │
- │   ▶ 결과: 해커가 인터넷에서 중간에 낚아채도, IPsec이라는 티타늄 금고에  │
- │           갇혀 있어 1번 IP 헤더 외에는 어떤 정보도 훔쳐볼 수 없다.       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                L2TP/IPsec VPN의 원격 접속 캡슐화 구조              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 직원 노트북 (집) ] -------------------------> [ 본사 방화벽 ] |
+ |                                                             |
+ |   [ 4단 포장 구조 ]                                            |
+ |   1. 겉 IP 헤더 (목적지: 본사 공인 IP)                            |
+ |     2. IPsec (ESP) 헤더 ---> 여기서부터 암호화! 절대 못 열어봄!     |
+ |       3. L2TP (UDP 1701) 헤더 ---> 터널 식별자                   |
+ |         4. PPP 프레임 ---> 아이디, 비밀번호, 사내 데이터가 들었음!      |
+ |                                                             |
+ |   -> 결과: 해커가 인터넷에서 중간에 낚아채도, IPsec이라는 티타늄 금고에  |
+ |           갇혀 있어 1번 IP 헤더 외에는 어떤 정보도 훔쳐볼 수 없다.       |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 왜 하필 PPTP가 아니고 L2TP인가?
@@ -134,12 +134,12 @@ L2TP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: GRE]
-    │
-    ▼
+    |
+    v
 [현재 개념: L2TP]
-    │
-    ├──▶ [확장 A: IPSec 메커니즘]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: IPSec 메커니즘]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 L2TP는 GRE에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 메커니즘와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ L2TP는 GRE에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSe
 
 **진행 상황**: 500 / 1120
 
-← **이전**: [378. GRE (Generic Routing Encapsulation)](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/)
-**다음**: [380. IPSec (IP Security Framework) 메커니즘](/knowledge-base/studynote/03_network/07_network_layer_routing/380_ipsec_ip_security_framework/) →
+<- **이전**: [378. GRE (Generic Routing Encapsulation)](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/)
+**다음**: [380. IPSec (IP Security Framework) 메커니즘](/knowledge-base/studynote/03_network/07_network_layer_routing/380_ipsec_ip_security_framework/) ->
 
 ---

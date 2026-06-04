@@ -24,22 +24,22 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 두 자료구조의 차이를 이해하지 못하면, 정렬이 필요한 작업에 HashMap을 쓰다가 O(n log n) 정렬을 매번 수행하거나, 단순 조회에 TreeMap을 써서 불필요하게 O(log n) 비용을 지불하게 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          HashMap vs TreeMap 내부 구조 대비                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [HashMap]                [TreeMap]                      │
-│  Key → hash(Key) → 배열 인덱스    Key → 레드-블랙 트리 삽입  │
-│                                                          │
-│  배열: [null][K2:V2][K1:V1]...    트리:      K3           │
-│         해시 충돌 체인 가능                         ╱    ╲   │
-│                                                K1      K5  │
-│  장점: 단건 O(1)                              ╱  ╲         │
-│  단점: 순서 없음                             K0   K2        │
-│                                                          │
-│                           장점: 정렬 유지, 범위 조회 O(log n)│
-│                           단점: 단건 O(log n)             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          HashMap vs TreeMap 내부 구조 대비                 |
++----------------------------------------------------------+
+|                                                          |
+|  [HashMap]                [TreeMap]                      |
+|  Key -> hash(Key) -> 배열 인덱스    Key -> 레드-블랙 트리 삽입  |
+|                                                          |
+|  배열: [null][K2:V2][K1:V1]...    트리:      K3           |
+|         해시 충돌 체인 가능                         ╱    ╲   |
+|                                                K1      K5  |
+|  장점: 단건 O(1)                              ╱  ╲         |
+|  단점: 순서 없음                             K0   K2        |
+|                                                          |
+|                           장점: 정렬 유지, 범위 조회 O(log n)|
+|                           단점: 단건 O(log n)             |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: HashMap은 물건을 라벨(해시)로 창고 선반에 바로 꽂는 방식이라 찾기 빠르지만 선반이 뒤죽박죽이다. TreeMap은 물건을 크기 순서로 정렬해서 꽂아두는 방식이라 찾는 데 한 단계 더 걸리지만, "이 크기보다 큰 물건 전부 가져와"가 즉시 가능하다.
@@ -52,29 +52,29 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 | 구성 요소 | 역할 | 상세 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a></strong> | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 변환 | hashCode() % [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)크기 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a></strong> | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) -> [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 변환 | hashCode() % [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)크기 |
 | **로드 팩터 (Load Factor)** | 리해싱 임계값 | 기본 0.75 (75% 찰 때 크기 2배 확장) |
 | **충돌 해결** | 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 키 처리 | 체이닝(LinkedList) 또는 오픈 어드레싱 |
-| **Java 8+ 최적화** | 긴 체인 트리 변환 | 8개 초과 시 TreeMap으로 변환 (O(n)→O(log n)) |
+| **Java 8+ 최적화** | 긴 체인 트리 변환 | 8개 초과 시 TreeMap으로 변환 (O(n)->O(log n)) |
 
 ### TreeMap 핵심 메커니즘 ([레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/))
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         레드-블랙 트리 속성 (Self-Balancing BST)           │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  1. 모든 노드는 빨간색(R) 또는 검은색(B)                   │
-│  2. 루트 노드는 항상 검은색                                 │
-│  3. 빨간 노드의 자식은 항상 검은색                          │
-│  4. 모든 리프까지의 검은색 노드 수 동일                      │
-│                                                          │
-│        [B:50]                                            │
-│       ╱      ╲                                           │
-│   [R:30]     [R:70]     ← 삽입/삭제 후 회전으로 균형 유지    │
-│   ╱    ╲                                                 │
-│ [B:20] [B:40]                                            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         레드-블랙 트리 속성 (Self-Balancing BST)           |
++----------------------------------------------------------+
+|                                                          |
+|  1. 모든 노드는 빨간색(R) 또는 검은색(B)                   |
+|  2. 루트 노드는 항상 검은색                                 |
+|  3. 빨간 노드의 자식은 항상 검은색                          |
+|  4. 모든 리프까지의 검은색 노드 수 동일                      |
+|                                                          |
+|        [B:50]                                            |
+|       ╱      ╲                                           |
+|   [R:30]     [R:70]     <- 삽입/삭제 후 회전으로 균형 유지    |
+|   ╱    ╲                                                 |
+| [B:20] [B:40]                                            |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 도서관 사서가 매번 책을 꽂은 뒤 왼쪽-오른쪽 균형을 맞추는 것과 같다. 불균형해질 때마다 빨간-검정 색 규칙으로 즉시 재배치하여 항상 O(log n)을 보장한다.
@@ -100,14 +100,14 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 ### 실무 시나리오: 실시간 순위표 vs 이벤트 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
 
-**HashMap 적합**: 수백만 사용자의 포인트를 userId → point로 실시간 업데이트하는 게임 순위표 집계. 단건 갱신 빈도가 압도적으로 높으므로 O(1) HashMap이 최적.
+**HashMap 적합**: 수백만 사용자의 포인트를 userId -> point로 실시간 업데이트하는 게임 순위표 집계. 단건 갱신 빈도가 압도적으로 높으므로 O(1) HashMap이 최적.
 
 **TreeMap 적합**: 이벤트 발생 시각(long)을 키로 하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/). `pollFirstEntry()`로 가장 이른 이벤트를 O(log n)으로 꺼내고, 특정 시간 범위의 이벤트를 `subMap(from, to)`으로 O(log n + k)에 추출.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - 충돌 집중(Hash Skew) 발생 시 hashCode() 재정의로 균등 분배 확보.
 - TreeMap의 [Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 지정 시 null 안전성과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(equals와 일치) 보장.
-- 멀티스레드 환경: HashMap → ConcurrentHashMap, TreeMap → ConcurrentSkipListMap.
+- 멀티스레드 환경: HashMap -> ConcurrentHashMap, TreeMap -> ConcurrentSkipListMap.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 정렬된 결과가 필요한 경우에 HashMap을 쓰고 나중에 매번 정렬하는 코드. O(n log n) 정렬이 반복 발생하여 TreeMap의 O(log n) 삽입 비용보다 훨씬 비싸진다.
@@ -144,17 +144,17 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 ```text
 [배열 — O(1) 인덱스 접근, 키 제약]
-    │
-    ▼
+    |
+    v
 [해시 테이블 (HashMap) — O(1) 키-값 접근]
-    │
-    ▼
+    |
+    v
 [균형 이진 탐색 트리 (TreeMap) — O(log n) 정렬 유지]
-    │
-    ▼
+    |
+    v
 [Java 8 LinkedHashMap + 복합 활용 — 삽입 순서 + O(1)]
-    │
-    ▼
+    |
+    v
 [ConcurrentHashMap / Skip List — 분산/병렬 환경 확장]
 ```
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(1) 접근에서 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), 균형 트리로 진화하며, 멀티스레드와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 ConcurrentHashMap/SkipList로 확장된다.
@@ -171,7 +171,7 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 **진행 상황**: 75 / 175
 
-← **이전**: [22. 서픽스 트리/배열 (Suffix Tree/Array) — 문자열 분석](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/074_suffix_tree_array/)
-**다음**: [24. 스킵 리스트 (Skip List) — 확률적 균형 탐색 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/076_skip_list/) →
+<- **이전**: [22. 서픽스 트리/배열 (Suffix Tree/Array) — 문자열 분석](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/074_suffix_tree_array/)
+**다음**: [24. 스킵 리스트 (Skip List) — 확률적 균형 탐색 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/076_skip_list/) ->
 
 ---

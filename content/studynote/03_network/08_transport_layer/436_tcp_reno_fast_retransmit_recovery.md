@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP Tahoe 모델]
-    │
-    ▼
+    |
+    v
 [TCP Reno 모델]
-    │
-    └──▶ [TCP NewReno / SACK]
+    |
+    +---> [TCP NewReno / SACK]
 ```
 
 - **📢 섹션 요약 비유**: ** Reno의 등장은 네트워크 롤러코스터에 **"안전망"**을 깔아준 것입니다. 롤러코스터가 바닥(CWND=1)까지 곤두박질치는 끔찍한 승차감을 없애고, 중간 허공(절반 수위)에서 튕겨 올라가게 만들어 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 멀미를 느끼지 않게 부드러운 톱니바퀴 주행을 완성했습니다.
@@ -61,24 +61,24 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 6. 결국 레노의 '[빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 스스로를 깎아 먹다가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))을 맞고 바닥(CWND=1)으로 꼬라박는 비극이 발생한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Reno의 다중 유실에 의한 자멸 시나리오           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   * 송신자가 패킷 1, 2, 3, 4, 5를 발사함. (창문 크기 5)            │
- │   * 재수 없게 바다에서 2번, 4번 2개가 유실됨!                        │
- │                                                             │
- │   [ 1라운드 징징거림 ]                                          │
- │   - 수신자: "2번 내놔! 2번 내놔! 2번 내놔!" (3 Dup-ACK)         │
- │   - Reno 왈: "오케이 2번 다시 쏜다. 속도는 절반(1/2)으로 깎음!"      │
- │                                                             │
- │   [ 2라운드 징징거림 ] (방금 전 송신된 2번이 도착한 직후)              │
- │   - 수신자: "2번 잘 받았고, 아까 안 온 4번 내놔! 4번 내놔!" (3 Dup) │
- │   - Reno 왈: "헐... 또 사고 났네? 속도 또 절반(1/4)으로 깎음!!"     │
- │                                                             │
- │   ▶ "한 번의 사고(같은 창문)로 터진 건데, Reno는 사고가 2번 난 줄 알고│
- │      과잉 대응을 하여 자기 속도를 스스로 갉아먹는 치명적 바보짓을 한다." │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP Reno의 다중 유실에 의한 자멸 시나리오           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   * 송신자가 패킷 1, 2, 3, 4, 5를 발사함. (창문 크기 5)            |
+ |   * 재수 없게 바다에서 2번, 4번 2개가 유실됨!                        |
+ |                                                             |
+ |   [ 1라운드 징징거림 ]                                          |
+ |   - 수신자: "2번 내놔! 2번 내놔! 2번 내놔!" (3 Dup-ACK)         |
+ |   - Reno 왈: "오케이 2번 다시 쏜다. 속도는 절반(1/2)으로 깎음!"      |
+ |                                                             |
+ |   [ 2라운드 징징거림 ] (방금 전 송신된 2번이 도착한 직후)              |
+ |   - 수신자: "2번 잘 받았고, 아까 안 온 4번 내놔! 4번 내놔!" (3 Dup) |
+ |   - Reno 왈: "헐... 또 사고 났네? 속도 또 절반(1/4)으로 깎음!!"     |
+ |                                                             |
+ |   -> "한 번의 사고(같은 창문)로 터진 건데, Reno는 사고가 2번 난 줄 알고|
+ |      과잉 대응을 하여 자기 속도를 스스로 갉아먹는 치명적 바보짓을 한다." |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 해결책을 향한 갈망
@@ -143,12 +143,12 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 
 ```text
 [선행 개념: TCP Tahoe 모델]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP Reno 모델]
-    │
-    ├──▶ [확장 A: TCP NewReno / SACK]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP NewReno / SACK]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno 모델는 [TCP Tahoe](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) NewReno / SACK와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 
 **진행 상황**: 557 / 1120
 
-← **이전**: [435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/)
-**다음**: [437. TCP NewReno / SACK (선택적 확인응답 옵션, 블록 다중유실 회복)](/knowledge-base/studynote/03_network/08_transport_layer/437_tcp_newreno_sack_selective_acknowledgment/) →
+<- **이전**: [435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/)
+**다음**: [437. TCP NewReno / SACK (선택적 확인응답 옵션, 블록 다중유실 회복)](/knowledge-base/studynote/03_network/08_transport_layer/437_tcp_newreno_sack_selective_acknowledgment/) ->
 
 ---

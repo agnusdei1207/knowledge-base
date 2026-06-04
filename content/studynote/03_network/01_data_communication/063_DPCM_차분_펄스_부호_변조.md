@@ -32,21 +32,21 @@ tags = ["network"]
 
 ```text
 Input Sample
-  ↓
+  v
 Predictor
-  ↓
+  v
 Subtractor
-  ↓
+  v
 Quantizer
-  ↓
+  v
 Encoder
-  ↓
+  v
 Channel
-  ↓
+  v
 Decoder
-  ↓
+  v
 Adder
-  ↑
+  ^
 Feedback
 ```
 
@@ -115,11 +115,11 @@ DPCM은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread
 
 ```text
 PCM
-  ↓
+  v
 Predictive Coding
-  ↓
+  v
 DPCM
-  ↓
+  v
 ADPCM
 ```
 
@@ -129,11 +129,11 @@ ADPCM
 
 ```text
 Pulse Code Modulation
-  ↓
+  v
 Differential PCM
-  ↓
+  v
 Adaptive Differential PCM
-  ↓
+  v
 Predictive Compression
 ```
 
@@ -151,7 +151,7 @@ DPCM은 그런 식으로 소리를 보내는 방법이에요.
 
 **진행 상황**: 63 / 1120
 
-← **이전**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/)
-**다음**: [64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) →
+<- **이전**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/)
+**다음**: [64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) ->
 
 ---

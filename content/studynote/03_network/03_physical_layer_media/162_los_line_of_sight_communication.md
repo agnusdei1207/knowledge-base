@@ -45,19 +45,19 @@ LOS의 핵심은 단순한 직선 하나가 아니라, 직접 경로 주변의 �
 아래 그림은 LOS가 "보이는 직선"보다 넓은 개념임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     LOS path + Fresnel clearance                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Tower A                                                     Tower B       │
-│   │\                                                         /│           │
-│   │ \________________ direct path ___________________________/ │           │
-│   │  \                                                   /    │           │
-│   │   \            1st Fresnel zone                     /     │           │
-│   │    \______________________________________________/      │           │
-│   │                 ^ obstacle enters here => extra loss      │           │
-│___│_________________|_______________________________ _________│___________│
-│                     ground / earth curvature                               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                     LOS path + Fresnel clearance                          |
++----------------------------------------------------------------------------+
+| Tower A                                                     Tower B       |
+|   |\                                                         /|           |
+|   | \________________ direct path ___________________________/ |           |
+|   |  \                                                   /    |           |
+|   |   \            1st Fresnel zone                     /     |           |
+|   |    \______________________________________________/      |           |
+|   |                 ^ obstacle enters here => extra loss      |           |
+|___|_________________|_______________________________ _________|___________|
+|                     ground / earth curvature                               |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 장애물이 직접 경로를 완전히 가리지 않아도 손실이 커질 수 있다는 점이다. 프레넬 존을 침범하면 회절 손실과 다중 경로 왜곡이 증가하므로, 실제 링크 품질은 급격히 나빠질 수 있다. 그래서 실무에서는 단순히 "보인다"가 아니라, "프레넬 존까지 충분히 비어 있다"를 기준으로 본다.
@@ -133,17 +133,17 @@ LOS를 올바르게 확보하면 고주파 무선 링크의 예측 가능성이 
 
 ```text
 고주파 전파의 직진성 강화
-        │
-        ▼
+        |
+        v
 LOS (Line-of-Sight) 확보 필요
-        │
-        ▼
+        |
+        v
 프레넬 존 · 전파적 지평선 계산
-        │
-        ▼
+        |
+        v
 마이크로파 백홀 · 위성 링크 · 5G mmWave
-        │
-        ▼
+        |
+        v
 빔포밍 · 소형 셀 · NLOS 보완 기술로 확장
 ```
 
@@ -161,7 +161,7 @@ LOS (Line-of-Sight) 확보 필요
 
 **진행 상황**: 283 / 1120
 
-← **이전**: [161. 전리층 반사 / 대류권 산란](/knowledge-base/studynote/03_network/03_physical_layer_media/161_ionospheric_reflection_tropospheric_scatter/)
-**다음**: [163. 투과율 (Penetration) / 회절 (Diffraction)](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) →
+<- **이전**: [161. 전리층 반사 / 대류권 산란](/knowledge-base/studynote/03_network/03_physical_layer_media/161_ionospheric_reflection_tropospheric_scatter/)
+**다음**: [163. 투과율 (Penetration) / 회절 (Diffraction)](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) ->
 
 ---

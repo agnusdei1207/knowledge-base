@@ -81,7 +81,7 @@ tags = ["studynote-bigdata"]
 
 ```
 ★     : 어떤 형식이든 오픈 라이선스
-★★    : 기계 판독 가능 구조화 형식 (xls → csv)
+★★    : 기계 판독 가능 구조화 형식 (xls -> csv)
 ★★★   : 비독점 형식 (csv, json)
 ★★★★  : RDF URI 사용 (연결 데이터)
 ★★★★★ : 다른 데이터와 링크 (Linked Open Data)
@@ -97,16 +97,16 @@ tags = ["studynote-bigdata"]
 
 ```
 공공 교통 데이터 파이프라인:
-  버스 GPS → 실시간 수집 → Apache Kafka
-                                ↓
+  버스 GPS -> 실시간 수집 -> Apache Kafka
+                                v
                          실시간 처리 (Flink)
-                                ↓
+                                v
                      배차 최적화·혼잡 예측 알림
 ```
 
 ### 의료 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용
 
-- **건강보험공단 빅데이터**: 2억 건 이상 진료 내역 → 질병 예측 모델
+- **건강보험공단 빅데이터**: 2억 건 이상 진료 내역 -> 질병 예측 모델
 - <strong>DUR (Drug Utilization <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a>)</strong>: 처방 안전성 실시간 점검
 - **국가암데이터**: 암 발생·생존율 분석, 조기 발견 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발
 
@@ -115,7 +115,7 @@ tags = ["studynote-bigdata"]
 ```
 복지 사각지대 발굴:
   전기·수도 단수 데이터 + 건강보험 미납 + 복지 수급 여부
-  → AI 고위험군 예측 → 담당자 선제 방문
+  -> AI 고위험군 예측 -> 담당자 선제 방문
 ```
 
 📢 **섹션 요약 비유**: 복지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매칭은 동네 이장이 어려운 이웃을 찾는 것이다 — 전기가 끊기고 연락이 안 되면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 먼저 찾아가는 능동적 복지를 AI로 구현한다.
@@ -138,10 +138,10 @@ tags = ["studynote-bigdata"]
 
 | 기법          | 방법                          | 적용 예시              |
 |------------|-------------------------------|----------------------|
-| 가명처리    | 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보를 가명으로 대체  | 이름 → 홍XX           |
-| 총계처리    | 합계·평균으로 개인 정보 제거    | 개별 소득 → 연령대 평균 |
-| [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)   | k명 이상의 동일 특성 보장       | 주민등록→5세 단위 집계  |
-| 범주화      | 정확한 값을 범위로 대체         | 나이 25→20대           |
+| 가명처리    | 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보를 가명으로 대체  | 이름 -> 홍XX           |
+| 총계처리    | 합계·평균으로 개인 정보 제거    | 개별 소득 -> 연령대 평균 |
+| [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)   | k명 이상의 동일 특성 보장       | 주민등록->5세 단위 집계  |
+| 범주화      | 정확한 값을 범위로 대체         | 나이 25->20대           |
 
 📢 **섹션 요약 비유**: 비식별화는 사진 속 얼굴 모자이크 처리다 — 모자이크 후에도 사진의 내용([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치)은 유지되지만, 누가 누구인지(개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))는 알 수 없다.
 
@@ -151,20 +151,20 @@ tags = ["studynote-bigdata"]
 
 ```
 공공 빅데이터 (Public Big Data)
-├── 개방 플랫폼
-│   ├── 공공데이터포털 (data.go.kr)
-│   ├── 국가통계포털 (KOSIS)
-│   └── 건강보험공단 빅데이터
-├── 국제 표준
-│   ├── FAIR 원칙 (Findable·Accessible·Interoperable·Reusable)
-│   └── 5성급 공공 데이터 (Tim Berners-Lee)
-├── 활용 분야
-│   ├── 스마트시티 (교통·환경)
-│   ├── 의료·복지 혁신
-│   └── 창업·상권 분석
-└── 품질·보호
-    ├── 데이터 품질 5대 기준
-    └── 개인정보 비식별화 (k-익명성)
++-- 개방 플랫폼
+|   +-- 공공데이터포털 (data.go.kr)
+|   +-- 국가통계포털 (KOSIS)
+|   +-- 건강보험공단 빅데이터
++-- 국제 표준
+|   +-- FAIR 원칙 (Findable·Accessible·Interoperable·Reusable)
+|   +-- 5성급 공공 데이터 (Tim Berners-Lee)
++-- 활용 분야
+|   +-- 스마트시티 (교통·환경)
+|   +-- 의료·복지 혁신
+|   +-- 창업·상권 분석
++-- 품질·보호
+    +-- 데이터 품질 5대 기준
+    +-- 개인정보 비식별화 (k-익명성)
 ```
 
 ---
@@ -172,23 +172,23 @@ tags = ["studynote-bigdata"]
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│               공공 빅데이터 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2010년       │ 공공데이터법 제정  │ 미국 Data.gov 등장, 오픈 데이터│
-│ 2013년       │ 공공데이터법 (한국) │ data.go.kr 공식 운영         │
-│ 2016년       │ 데이터 경제 선언   │ EU 데이터 전략, 마이데이터 연계│
-│ 2020년       │ 데이터 3법 개정   │ 가명정보 처리·결합 허용       │
-│ 2022년       │ 디지털플랫폼정부  │ 공공데이터 API 고도화         │
-│ 2024~현재    │ AI 공공 데이터    │ AI 학습 공개 데이터 구축 확대  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|               공공 빅데이터 발전 흐름                            |
++--------------+--------------------+-----------------------------+
+| 2010년       | 공공데이터법 제정  | 미국 Data.gov 등장, 오픈 데이터|
+| 2013년       | 공공데이터법 (한국) | data.go.kr 공식 운영         |
+| 2016년       | 데이터 경제 선언   | EU 데이터 전략, 마이데이터 연계|
+| 2020년       | 데이터 3법 개정   | 가명정보 처리·결합 허용       |
+| 2022년       | 디지털플랫폼정부  | 공공데이터 API 고도화         |
+| 2024~현재    | AI 공공 데이터    | AI 학습 공개 데이터 구축 확대  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-공공 데이터 → data.go.kr → FAIR 원칙 → 민간 서비스
-    ↓              ↓            ↓           ↓
+공공 데이터 -> data.go.kr -> FAIR 원칙 -> 민간 서비스
+    v              v            v           v
 행정·의료·교통  API 개방     메타데이터    카카오맵·호갱노노
-    ↓
-비식별화 → 개인정보 보호 → 데이터 품질 → 신뢰성 확보
+    v
+비식별화 -> 개인정보 보호 -> 데이터 품질 -> 신뢰성 확보
 ```
 
 ---
@@ -205,7 +205,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 245 / 262
 
-← **이전**: [마이데이터 (MyData)](/knowledge-base/studynote/16_bigdata/13_intro_trends/244_mydata/)
-**다음**: [데이터바우처 사업 (Data Voucher Program)](/knowledge-base/studynote/16_bigdata/13_intro_trends/246_data_voucher/) →
+<- **이전**: [마이데이터 (MyData)](/knowledge-base/studynote/16_bigdata/13_intro_trends/244_mydata/)
+**다음**: [데이터바우처 사업 (Data Voucher Program)](/knowledge-base/studynote/16_bigdata/13_intro_trends/246_data_voucher/) ->
 
 ---

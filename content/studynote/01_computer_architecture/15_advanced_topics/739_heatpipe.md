@@ -44,15 +44,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 히트파이프가 CPU 근처의 열을 핀 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)까지 옮기는 선형 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│     Heatpipe moves heat from the base to the fin stack by phase change    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [CPU base] -> [Evaporator] ===== [Adiabatic pipe] ===== [Condenser + Fins]│
-│      ^             vapor  ------------------------------------>           │
-│      |             liquid <------------------------------------  wick     │
-│      |                                                                   │
-│   heat in                                                        heat out │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|     Heatpipe moves heat from the base to the fin stack by phase change    |
++----------------------------------------------------------------------------+
+| [CPU base] -> [Evaporator] ===== [Adiabatic pipe] ===== [Condenser + Fins]|
+|      ^             vapor  ------------------------------------>           |
+|      |             liquid <------------------------------------  wick     |
+|      |                                                                   |
+|   heat in                                                        heat out |
++----------------------------------------------------------------------------+
 ```
 
 따라서 히트파이프는 금속봉보다 가볍고, 열을 멀리 보내는 데 훨씬 유리한 구조를 제공한다.
@@ -127,17 +127,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Solid copper heat spread
-        │
-        ▼
+        |
+        v
 Single heatpipe transport
-        │
-        ▼
+        |
+        v
 Multi-heatpipe tower and laptop modules
-        │
-        ▼
+        |
+        v
 Vapor chamber base + heatpipe hybrid
-        │
-        ▼
+        |
+        v
 Loop heat pipe / advanced wick structures
 ```
 
@@ -155,7 +155,7 @@ Loop heat pipe / advanced wick structures
 
 **진행 상황**: 740 / 803
 
-← **이전**: [738. 베이퍼 체임버 (Vapor Chamber)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/)
-**다음**: [740. 서버 섀시 팬 핫스왑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/740_fan_hot_swap/) →
+<- **이전**: [738. 베이퍼 체임버 (Vapor Chamber)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/)
+**다음**: [740. 서버 섀시 팬 핫스왑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/740_fan_hot_swap/) ->
 
 ---

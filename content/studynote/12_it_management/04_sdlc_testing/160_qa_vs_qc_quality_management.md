@@ -34,17 +34,17 @@ QA와 QC의 가장 중요한 차이는 초점과 시점이다. QA는 프로세�
 아래 그림은 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle, 소프트웨어 개발 생명주기) 전반에서 QA와 QC가 어떻게 배치되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 QA and QC across SDLC: prevention + detection             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Requirements ─ Design ─ Build ─ Test ─ Release ─ Operate                 │
-│      │           │        │       │        │                              │
-│      └────── QA: standards, process, audit, training, review rules ─────┘ │
-│                      │        │       │                                     │
-│                      └── QC: inspection, test, defect measure, acceptance │
-│                                                                            │
-│ Feedback loop: QC data ──▶ root cause analysis ──▶ QA process improvement  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 QA and QC across SDLC: prevention + detection             |
++----------------------------------------------------------------------------+
+| Requirements - Design - Build - Test - Release - Operate                 |
+|      |           |        |       |        |                              |
+|      +------ QA: standards, process, audit, training, review rules -----+ |
+|                      |        |       |                                     |
+|                      +-- QC: inspection, test, defect measure, acceptance |
+|                                                                            |
+| Feedback loop: QC data ---> root cause analysis ---> QA process improvement  |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 QA와 QC가 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 순환 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라는 점이다. QA가 없으면 QC는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 뒤늦게 많이 잡게 되고, QC가 없으면 QA는 실제 품질 수준을 증명할 근거를 잃는다.
@@ -127,17 +127,17 @@ QA와 QC를 균형 있게 운영하면 [결함](/knowledge-base/studynote/04_sof
 
 ```text
 품질 목표 정의
-    │
-    ▼
+    |
+    v
 QA: 표준 · 절차 · 교육 · 감사
-    │
-    ▼
+    |
+    v
 QC: 리뷰 · 테스트 · 검수 · 결함 측정
-    │
-    ▼
+    |
+    v
 결함 데이터 · 고객 이슈 수집
-    │
-    ▼
+    |
+    v
 원인 분석 · 프로세스 개선 · 지속적 품질 향상
 ```
 
@@ -155,7 +155,7 @@ QC: 리뷰 · 테스트 · 검수 · 결함 측정
 
 **진행 상황**: 274 / 587
 
-← **이전**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)
-**다음**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) →
+<- **이전**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)
+**다음**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) ->
 
 ---

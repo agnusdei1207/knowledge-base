@@ -25,8 +25,8 @@ tags = ["it_management"]
 그래서 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 "한 번의 행운"을 "여러 번의 평균"으로 바꾸기 위해 쓰인다. 같은 모델이라도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트가 달라지면 점수가 달라지므로, 평균과 표준편차를 함께 보아야 모델의 안정성을 판단할 수 있다.
 
 ```text
-한 번 분할  →  운에 따라 점수 흔들림
-여러 번 분할 →  평균 + 표준편차로 안정성 판단
+한 번 분할  ->  운에 따라 점수 흔들림
+여러 번 분할 ->  평균 + 표준편차로 안정성 판단
 ```
 
 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 탐지에도 유용하다. 학습 점수는 높은데 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 점수가 낮으면, 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 과하게 맞춰졌다는 신호일 수 있다.
@@ -121,15 +121,15 @@ Stratified K-Fold는 클래스 비율을 각 폴드에 비슷하게 유지하는
 
 ```text
 Hold-out
-    │
-    ▼
+    |
+    v
 K-Fold Cross Validation
-    │
-    ├──────────────▶ Stratified K-Fold
-    │
-    ├──────────────▶ LOOCV (Leave-One-Out Cross Validation)
-    │
-    └──────────────▶ TimeSeriesSplit
+    |
+    +---------------> Stratified K-Fold
+    |
+    +---------------> LOOCV (Leave-One-Out Cross Validation)
+    |
+    +---------------> TimeSeriesSplit
 ```
 
 이 흐름은 "빠른 단일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성별 정교한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 발전하는 과정을 보여준다.
@@ -146,7 +146,7 @@ K-Fold Cross Validation
 
 **진행 상황**: 149 / 587
 
-← **이전**: [82. 릴리스 및 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_release_deployment_management/)
-**다음**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) →
+<- **이전**: [82. 릴리스 및 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_release_deployment_management/)
+**다음**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) ->
 
 ---

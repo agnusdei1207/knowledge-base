@@ -37,14 +37,14 @@ tags = ["network"]
 
 [송신 측: 스트림 분할]                 [무선 공간: 다중 경로 혼합]            [수신 측: 행렬 연산 복원]
 원본 데이터(X1, X2)
-  ├─▶ [Tx 1] ────(경로 h11)─────────▶ 혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 ──┐
-  │                ╲             /                                     ▼
-  │                  ╲         /                                  [ DSP Equalizer ]
-  │                    ╲     /     (수학적 행렬 연산 H)              (역행렬 H⁻¹ 곱셈)
-  │                      X                                          X1, X2로 완벽 분리!
-  │                    /   ╲                                           │
-  │                  /       ╲                                         ▼
-  └─▶ [Tx 2] ────(경로 h22)─────────▶ 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──┘
+  +--> [Tx 1] ----(경로 h11)----------> 혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 --+
+  |                ╲             /                                     v
+  |                  ╲         /                                  [ DSP Equalizer ]
+  |                    ╲     /     (수학적 행렬 연산 H)              (역행렬 H⁻¹ 곱셈)
+  |                      X                                          X1, X2로 완벽 분리!
+  |                    /   ╲                                           |
+  |                  /       ╲                                         v
+  +--> [Tx 2] ----(경로 h22)----------> 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 --+
 ```
 
 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착한 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등).
@@ -105,17 +105,17 @@ tags = ["network"]
 
 ```text
 SISO (Single-Input Single-Output) · 단일 경로 한계
-    │
-    ▼
+    |
+    v
 공간 다이버시티 (Spatial Diversity) · 안정성 확보 (동일 데이터 중복)
-    │
-    ▼
+    |
+    v
 공간 다중화 (Spatial Multiplexing) · 속도 혁명 (독립 데이터 분할)
-    │
-    ▼
+    |
+    v
 랭크 적응 (Rank Adaptation) · 환경에 따른 다중화 모드 동적 스위칭
-    │
-    ▼
+    |
+    v
 Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대 스트림
 ```
 
@@ -131,7 +131,7 @@ Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대
 
 **진행 상황**: 110 / 1120
 
-← **이전**: [1009. 백홀 (Backhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)
-**다음**: [1010. 미드홀 (Midhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/) →
+<- **이전**: [1009. 백홀 (Backhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)
+**다음**: [1010. 미드홀 (Midhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/) ->
 
 ---

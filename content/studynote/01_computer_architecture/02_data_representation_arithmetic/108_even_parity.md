@@ -31,30 +31,30 @@ tags = ["studynote-computer-architecture"]
 소프트웨어를 완전히 배제하고 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 쪼가리만으로 에러를 잡아내는 마법을 해부한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         The Hardware XOR Tree: 짝수 패리티 생성기의 본질             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ Payload: 4-Bits to Send -> B3 B2 B1 B0 ]                  │
-│  원본 데이터: 1 1 0 1  (1이 3개 -> 홀수. 짝수로 고쳐야 함!)            │
-│                                                              │
-│  [ The XOR Gate Magic ]                                      │
-│  XOR의 성질: 두 비트가 다를 때만 1을 뱉는다.                         │
-│  - 0 XOR 0 = 0 (짝수)  |  1 XOR 1 = 0 (짝수)                   │
-│  - 1 XOR 0 = 1 (홀수)  |  0 XOR 1 = 1 (홀수)                   │
-│                                                              │
-│  하드웨어 폭포 트리 (나노초 스케일):                               │
-│                                                              │
-│  B3 (1) ─┐                                                   │
-│          ├─ (XOR 1) ─▶ [0] ─┐                                │
-│  B2 (1) ─┘                   │                               │
-│                              ├─ (최종 XOR) ─▶ [1]            │
-│  B1 (0) ─┐                   │   결과 패리티 비트는 1 !!          │
-│          ├─ (XOR 2) ─▶ [1] ─┘                                │
-│  B0 (1) ─┘                                                   │
-│                                                              │
-│  전선으로 날아가는 최종 패킷:  [1] 1 1 0 1  (1의 총합 = 4. 완벽 짝수!) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         The Hardware XOR Tree: 짝수 패리티 생성기의 본질             |
++--------------------------------------------------------------+
+|                                                              |
+|  [ Payload: 4-Bits to Send -> B3 B2 B1 B0 ]                  |
+|  원본 데이터: 1 1 0 1  (1이 3개 -> 홀수. 짝수로 고쳐야 함!)            |
+|                                                              |
+|  [ The XOR Gate Magic ]                                      |
+|  XOR의 성질: 두 비트가 다를 때만 1을 뱉는다.                         |
+|  - 0 XOR 0 = 0 (짝수)  |  1 XOR 1 = 0 (짝수)                   |
+|  - 1 XOR 0 = 1 (홀수)  |  0 XOR 1 = 1 (홀수)                   |
+|                                                              |
+|  하드웨어 폭포 트리 (나노초 스케일):                               |
+|                                                              |
+|  B3 (1) -+                                                   |
+|          +- (XOR 1) --> [0] -+                                |
+|  B2 (1) -+                   |                               |
+|                              +- (최종 XOR) --> [1]            |
+|  B1 (0) -+                   |   결과 패리티 비트는 1 !!          |
+|          +- (XOR 2) --> [1] -+                                |
+|  B0 (1) -+                                                   |
+|                                                              |
+|  전선으로 날아가는 최종 패킷:  [1] 1 1 0 1  (1의 총합 = 4. 완벽 짝수!) |
++--------------------------------------------------------------+
 ```
 
 컴퓨터가 왜 '짝수(Even)'를 그토록 사랑했는지 보여주는 극적인 하드웨어 설계도다. XOR 게이트의 동작 속성을 보면 자기 자신이 이미 완벽한 <strong>'홀수 감별기'</strong>다. 두 개의 입력 중에 1이 1개(홀수)면 $1$을 뿜고, 1이 2개(짝수) 거나 0개(짝수)면 $0$을 뿜는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신망 선을 2가닥씩 묶어서 파동을 XOR 게이트에 물리면, 최종적으로 나무(Tree) 끝자락에서 떨어지는 결과물이 그 자체로 "짝수 패리티를 유지하기 위해 채워야 할 완벽한 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)값"이 된다. CPU [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산을 안 거치고 구리선 회로 박스를 관통만 해도 값이 채워지는 $0$ 클럭 릴레이 연산이다.
@@ -117,14 +117,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 초기 비동기 통신 (에러 검출 부재)
-    │
-    ▼
+    |
+    v
 홀/짝수 패리티 비트 (1비트 오류 검출, 하드웨어 XOR 트리)
-    │
-    ▼
+    |
+    v
 순환 중복 검사 (CRC) (블록 단위 버스트 에러 검출)
-    │
-    ▼
+    |
+    v
 해밍 코드 (Hamming Code) / ECC (오류 검출을 넘어선 1비트 교정)
 ```
 
@@ -140,7 +140,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 108 / 803
 
-← **이전**: [107. 패리티 비트 (Parity Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)
-**다음**: [109. 홀수 패리티 (Odd Parity)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/) →
+<- **이전**: [107. 패리티 비트 (Parity Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)
+**다음**: [109. 홀수 패리티 (Odd Parity)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/) ->
 
 ---

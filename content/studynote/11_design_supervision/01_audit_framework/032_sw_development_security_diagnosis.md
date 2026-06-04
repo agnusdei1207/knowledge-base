@@ -31,8 +31,8 @@ SW 개발 보안 진단은 <strong>소프트웨어 개발 생명주기(<a href="
 ### 보안 진단 범위
 
 ```
-요구사항 → 설계 → 구현 → 테스트 → 배포
-    ↓        ↓       ↓       ↓       ↓
+요구사항 -> 설계 -> 구현 -> 테스트 -> 배포
+    v        v       v       v       v
 위협 모델링  보안 설계  소스코드  침투 테스트  취약점 모니터링
               검토    정적 분석
 ```
@@ -58,9 +58,9 @@ SW 개발 보안 진단은 <strong>소프트웨어 개발 생명주기(<a href="
 ### [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) 연계
 
 ```
-A01 접근 제어 취약점    ── 행안부 #01~05 매핑
-A02 암호화 오류         ── 행안부 #11~15 매핑
-A03 인젝션              ── 행안부 #16~20 매핑
+A01 접근 제어 취약점    -- 행안부 #01~05 매핑
+A02 암호화 오류         -- 행안부 #11~15 매핑
+A03 인젝션              -- 행안부 #16~20 매핑
 ...
 ```
 
@@ -79,13 +79,13 @@ A03 인젝션              ── 행안부 #16~20 매핑
 
 ```
 CI/CD 파이프라인 통합:
-코드 커밋 → SAST 자동 스캔 → PR 차단 or 경고
-   ↓
-빌드 → SCA (종속성 취약점) → 빌드 차단
-   ↓
-스테이징 → DAST (API 퍼징) → 배포 차단
-   ↓
-프로덕션 → IAST + RASP (런타임 보호)
+코드 커밋 -> SAST 자동 스캔 -> PR 차단 or 경고
+   v
+빌드 -> SCA (종속성 취약점) -> 빌드 차단
+   v
+스테이징 -> DAST (API 퍼징) -> 배포 차단
+   v
+프로덕션 -> IAST + RASP (런타임 보호)
 ```
 
 📢 **섹션 요약 비유**: SAST는 출판 전 교정 교열이고, DAST는 책이 출판된 후 독자 반응 테스트다. IAST는 독서 중 독자 눈 움직임을 실시간 추적한다.
@@ -102,7 +102,7 @@ CI/CD 파이프라인 통합:
 3. 동적 분석 (DAST): 빌드 환경 침투 테스트
 4. 수동 코드 리뷰: 자동화 미탐지 로직 취약점
 5. 결과 분류: 위험도(Critical/High/Medium/Low) 분류
-6. 취약점 조치: 개발팀 수정 → 재진단
+6. 취약점 조치: 개발팀 수정 -> 재진단
 7. 결과 보고서: 취약점 현황·조치 결과·잔존 위험
 ```
 
@@ -124,8 +124,8 @@ CI/CD 파이프라인 통합:
 ```
 DevOps 파이프라인에 Security 통합:
 
-Plan → Code → Build → Test → Release → Deploy → Operate
-  ↓      ↓      ↓       ↓       ↓         ↓        ↓
+Plan -> Code -> Build -> Test -> Release -> Deploy -> Operate
+  v      v      v       v       v         v        v
 위협  SAST   SCA    DAST  서명   RASP    취약점
 모델링                         검증           모니터링
 ```
@@ -146,22 +146,22 @@ Plan → Code → Build → Test → Release → Deploy → Operate
 
 ```
 SW 개발 보안 진단
-├── 법적 근거
-│   ├── 전자정부법·행안부 가이드
-│   └── 43개 보안 약점 분류
-├── 진단 도구
-│   ├── SAST (정적 분석)
-│   ├── DAST (동적 분석)
-│   ├── IAST (계측 분석)
-│   └── SCA (오픈소스 분석)
-├── 기준
-│   ├── OWASP Top 10
-│   ├── CWE/CVE
-│   └── CVSS 위험도 점수
-└── 현대화
-    ├── DevSecOps 파이프라인 통합
-    ├── BSIMM / SAMM 성숙도 모델
-    └── RASP (런타임 자기 보호)
++-- 법적 근거
+|   +-- 전자정부법·행안부 가이드
+|   +-- 43개 보안 약점 분류
++-- 진단 도구
+|   +-- SAST (정적 분석)
+|   +-- DAST (동적 분석)
+|   +-- IAST (계측 분석)
+|   +-- SCA (오픈소스 분석)
++-- 기준
+|   +-- OWASP Top 10
+|   +-- CWE/CVE
+|   +-- CVSS 위험도 점수
++-- 현대화
+    +-- DevSecOps 파이프라인 통합
+    +-- BSIMM / SAMM 성숙도 모델
+    +-- RASP (런타임 자기 보호)
 ```
 
 ---
@@ -169,23 +169,23 @@ SW 개발 보안 진단
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│           SW 개발 보안 진단 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2000년대 초  │ 사후 침투 테스트   │ 운영 중 취약점 발견·패치     │
-│ 2004년       │ OWASP Top 10 등장  │ 웹 취약점 표준 분류          │
-│ 2010년대     │ SAST 도구 성숙      │ SonarQube·Checkmarx 도입    │
-│ 2015년       │ 행안부 가이드 v2.0 │ 공공 SW 개발 보안 의무화     │
-│ 2018년       │ DAST·IAST 통합     │ CI/CD 파이프라인 보안 게이트 │
-│ 2020년대     │ DevSecOps 표준화    │ 자동화·AI 취약점 탐지       │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|           SW 개발 보안 진단 발전 흐름                            |
++--------------+--------------------+-----------------------------+
+| 2000년대 초  | 사후 침투 테스트   | 운영 중 취약점 발견·패치     |
+| 2004년       | OWASP Top 10 등장  | 웹 취약점 표준 분류          |
+| 2010년대     | SAST 도구 성숙      | SonarQube·Checkmarx 도입    |
+| 2015년       | 행안부 가이드 v2.0 | 공공 SW 개발 보안 의무화     |
+| 2018년       | DAST·IAST 통합     | CI/CD 파이프라인 보안 게이트 |
+| 2020년대     | DevSecOps 표준화    | 자동화·AI 취약점 탐지       |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-SDLC → Secure SDLC → SAST/DAST → DevSecOps
-  ↓         ↓            ↓
+SDLC -> Secure SDLC -> SAST/DAST -> DevSecOps
+  v         v            v
 요구사항  위협 모델링  CI/CD 보안 게이트
-  ↓
-OWASP Top 10 → 43개 약점 → CVSS 점수 → 조치 우선순위
+  v
+OWASP Top 10 -> 43개 약점 -> CVSS 점수 -> 조치 우선순위
 ```
 
 ---
@@ -202,7 +202,7 @@ OWASP Top 10 → 43개 약점 → CVSS 점수 → 조치 우선순위
 
 **진행 상황**: 41 / 530
 
-← **이전**: [32. 감리 자동화 도구 (Audit Automation Tools)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/)
-**다음**: [33. 기능점수 검증 (Function Point Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/033_function_point_verification/) →
+<- **이전**: [32. 감리 자동화 도구 (Audit Automation Tools)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/)
+**다음**: [33. 기능점수 검증 (Function Point Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/033_function_point_verification/) ->
 
 ---

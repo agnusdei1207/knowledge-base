@@ -27,14 +27,14 @@ tags = ["bigdata"]
 이 도식은 데이터 통제권 패러다임이 기업 중심에서 정보 주체(개인) 중심으로 어떻게 이동했는지를 보여주는 문제 배경 시각화이다.
 
 [As-Is: 기업 독점형]
-개인 활동 ──> [A은행 DB] (접근 불가/고립)
-          ──> [B병원 DB] (종속성 심화)
+개인 활동 --> [A은행 DB] (접근 불가/고립)
+          --> [B병원 DB] (종속성 심화)
          (데이터 파편화 및 개인 소외)
 
 [To-Be: 마이데이터 아키텍처]
-[A은행] ──(전송 요구)─┐
-                     ↓
-[B병원] ──(API 전송)─> [정보 주체(개인) & 마이데이터 사업자] ──> 초개인화 서비스 혜택
+[A은행] --(전송 요구)-+
+                     v
+[B병원] --(API 전송)-> [정보 주체(개인) & 마이데이터 사업자] --> 초개인화 서비스 혜택
 ```
 이 도식의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제 권한의 헤게모니가 기업 내부에서 중앙의 사용자 중심으로 역전되었다는 점이다. 이런 배치는 정보 주체가 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 묶이지 않고 플랫폼 독립성을 획득하게 함을 의미하며, 따라서 시스템 전체의 혁신 동력은 단위 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기능보다는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 전송의 안전성에 의해 결정된다. 실무에서는 이러한 주도권 변화를 수용하기 위해 레거시 시스템을 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙에 맞춰 개방하는 작업이 선결되어야 한다.
 
@@ -59,16 +59,16 @@ tags = ["bigdata"]
 이 흐름도는 사용자가 전송 요구를 했을 때, OAuth 2.0 기반으로 어떻게 인증과 인가가 이루어지고 데이터가 안전하게 이동하는지 보여준다.
 
 [정보 주체]            [마이데이터 사업자]             [통합 인증 기관]               [정보 제공자 (은행)]
-     │                        │                              │                             │
-  ① 통합조회 요구 ─────────> │                              │                             │
-     │                        │ ── ② 통합 인증 및 인가 요청 ──> │                             │
-     │ <── ③ 인증/동의창 제공 ─ │ <───────── (리다이렉트) ───────┘                             │
-  ④ 본인인증 & 동의 ───────> │                              │                             │
-     │                        │ <── ⑤ Access Token 발급 ──────────┘                             │
-     │                        │                                                             │
-     │                        │ ── ⑥ Data 요청 (with Token) ─────────────────────────────> │
-     │                        │ <── ⑦ 표준 JSON Data 응답 ─────────────────────────────── │
-  ⑧ 융합 결과 뷰 제공 <────── ┘                                                             │
+     |                        |                              |                             |
+  ① 통합조회 요구 ---------> |                              |                             |
+     |                        | -- ② 통합 인증 및 인가 요청 --> |                             |
+     | <-- ③ 인증/동의창 제공 - | <--------- (리다이렉트) -------+                             |
+  ④ 본인인증 & 동의 -------> |                              |                             |
+     |                        | <-- ⑤ Access Token 발급 ----------+                             |
+     |                        |                                                             |
+     |                        | -- ⑥ Data 요청 (with Token) -----------------------------> |
+     |                        | <-- ⑦ 표준 JSON Data 응답 ------------------------------- |
+  ⑧ 융합 결과 뷰 제공 <------ +                                                             |
 ```
 이 흐름의 핵심은 마이데이터 사업자(수신자)가 고객의 ID/PW를 직접 수집하지 않는다는 점이다. 이런 배치는 크리덴셜(비밀번호) 유출로 인한 2차 피해를 근본적으로 차단하기 때문이며, 따라서 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 토큰의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도와 암호화 복호화([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 과정의 오버헤드에 크게 영향을 받는다. 실무에서는 이 지점의 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 토큰 만료 갱신([Refresh Token](/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/)) 로직의 예외 처리를 반드시 정밀하게 설계해야 한다.
 
@@ -107,10 +107,10 @@ tags = ["bigdata"]
 이 도식은 스크래핑 방식의 아키텍처 한계와 오픈 API 방식의 구조적 차이를 나타낸 대조 매트릭스이다.
 
 [스크래핑의 락 경합 및 병목 구조]
-마이데이터 앱 ─(ID/PW 전달)─> 스크래핑 서버 ─(무한 크롤링)─> [제공자 Web 서버] (과부하 발생!)
+마이데이터 앱 -(ID/PW 전달)-> 스크래핑 서버 -(무한 크롤링)-> [제공자 Web 서버] (과부하 발생!)
 
 [Open API의 토큰 기반 병렬 구조]
-마이데이터 앱 ─(Token 전달)─> [API Gateway (Rate Limit)] ─(경량 쿼리)─> [제공자 DB] (부하 통제 가능)
+마이데이터 앱 -(Token 전달)-> [API Gateway (Rate Limit)] -(경량 쿼리)-> [제공자 DB] (부하 통제 가능)
 ```
 이 구조 차이의 핵심은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway의 통제력 개입 여부이다. 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 방식은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 통해 속도 제한(Rate Limit)과 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 제어가 가능하다. 반면 스크래핑 방식은 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 고사하고 방어 메커니즘을 뚫기 위해 시스템 자원을 비정상적으로 낭비하며, 트래픽 변동이 큰 환경에서는 제공자 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 마비시킬 위험이 있다.
 
@@ -138,7 +138,7 @@ tags = ["bigdata"]
 이 도식은 마이데이터 인프라에서 장애 및 침해가 발생할 수 있는 취약 지점과 방어선을 보여준다.
 
 [모바일 App] ==(TLS)==> [API Gateway] => [Authorization Server] => [Microservices] => [DB]
-      ▲                       ▲                       ▲                                ▲
+      ^                       ^                       ^                                ^
     단말 해킹            DDoS / API Abuse     Token 탈취 / 재사용             동의 철회 데이터 잔류
   (난독화 대응)        (Rate Limit 방어)    (짧은 수명 / mTLS 방어)          (완전 파기 배치 적용)
 ```
@@ -168,7 +168,7 @@ tags = ["bigdata"]
 ```text
 마이데이터 시스템의 미래 진화 방향을 보여주는 로드맵 다이어그램이다.
 
-[1단계: 부문별 고립] ──> [2단계: 금융 중심 마이데이터] ──> [3단계: 이종 산업 연계] ──> [4단계: Web3 분산형 PDS]
+[1단계: 부문별 고립] --> [2단계: 금융 중심 마이데이터] --> [3단계: 이종 산업 연계] --> [4단계: Web3 분산형 PDS]
 (스크래핑/불안정)           (Open API/OAuth 정착)        (의료, 통신, 공공 융합)       (개인 로컬 저장/DID 결합)
 ```
 이 로드맵의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소의 중심축이 기업 서버(1~3단계)에서 궁극적으로 개인의 단말(4단계)로 이동한다는 점이다. 이는 중앙화된 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)([Honeypot](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/939_honeypot_deception/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 원천적으로 제거하기 위함이며, 따라서 향후 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 기술과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ID 기술이 마이데이터 아키텍처를 주도하게 될 것이다. 실무에서는 지금의 중앙형 마이데이터를 설계할 때부터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경을 고려해 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 강결합시키지 않아야 한다.
@@ -188,17 +188,17 @@ tags = ["bigdata"]
 
 ```text
 [개인정보 보호법 (Personal Data Protection Act) — 데이터 권리의 법적 기반]
-    │
-    ▼
+    |
+    v
 [마이데이터 (MyData) — 개인 데이터 주권]
-    │
-    ▼
+    |
+    v
 [오픈 API (Open API) — 데이터 이동 인터페이스]
-    │
-    ▼
+    |
+    v
 [개인 데이터 저장소 (PDS, Personal Data Store) — 사용자 중심 저장]
-    │
-    ▼
+    |
+    v
 [데이터 브로커리지 (Data Brokerage) — 동의 기반 공유]
 ```
 
@@ -215,7 +215,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 12 / 262
 
-← **이전**: [11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)
-**다음**: [13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책](/knowledge-base/studynote/16_bigdata/01_intro/013_public_bigdata/) →
+<- **이전**: [11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)
+**다음**: [13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책](/knowledge-base/studynote/16_bigdata/01_intro/013_public_bigdata/) ->
 
 ---

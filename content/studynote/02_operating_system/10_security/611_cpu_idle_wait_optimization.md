@@ -31,30 +31,30 @@ CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력�
 3. **cpuidle 프레임워크**: Linux 2.6.21+ 에서 idle governor 도입
 
 ```text
-┌───────────────── C-State 계층 ─────────────────┐
-│                                                 │
-│  C0  ──── 활성 (실행 중)                        │
-│  │     전력: 최대 ~ 200W (서버 기준)             │
-│  │                                               │
-│  C1  ──── HLT (클럭 정지)                       │
-│  │     웨이크업: ~10ns                           │
-│  │     전력 절감: ~10%                           │
-│  │                                               │
-│  C2  ──── Stop-Clock (전압 유지)                │
-│  │     웨이크업: ~100ns                          │
-│  │     전력 절감: ~40%                           │
-│  │                                               │
-│  C3  ──── Sleep (전압 저하)                     │
-│  │     웨이크업: ~1us                            │
-│  │     전력 절감: ~60%                           │
-│  │                                               │
-│  C6+ ──── Deep Sleep (전원 차단)                │
-│        웨이크업: ~10us ~ 100us                   │
-│        전력 절감: ~90%                           │
-│                                                 │
-│  핵심 트레이드오프:                              │
-│  깊은 C-State = 더 큰 절전 + 더 긴 복귀 지연     │
-└─────────────────────────────────────────────────┘
++----------------- C-State 계층 -----------------+
+|                                                 |
+|  C0  ---- 활성 (실행 중)                        |
+|  |     전력: 최대 ~ 200W (서버 기준)             |
+|  |                                               |
+|  C1  ---- HLT (클럭 정지)                       |
+|  |     웨이크업: ~10ns                           |
+|  |     전력 절감: ~10%                           |
+|  |                                               |
+|  C2  ---- Stop-Clock (전압 유지)                |
+|  |     웨이크업: ~100ns                          |
+|  |     전력 절감: ~40%                           |
+|  |                                               |
+|  C3  ---- Sleep (전압 저하)                     |
+|  |     웨이크업: ~1us                            |
+|  |     전력 절감: ~60%                           |
+|  |                                               |
+|  C6+ ---- Deep Sleep (전원 차단)                |
+|        웨이크업: ~10us ~ 100us                   |
+|        전력 절감: ~90%                           |
+|                                                 |
+|  핵심 트레이드오프:                              |
+|  깊은 C-State = 더 큰 절전 + 더 긴 복귀 지연     |
++-------------------------------------------------+
 ```
 
 **[해설]** C-State가 깊어질수록 전력 절감은 커지지만, 웨이크업 레이턴시도 증가한다. 이 트레이드오프를 관리하는 것이 idle governor의 핵심 역할이다.
@@ -69,7 +69,7 @@ CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력�
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **cpuidle 프레임워크** | idle 상태 관리 | governor 선택 → C-State 진입 | 자동 휴게 시스템 |
+| **cpuidle 프레임워크** | idle 상태 관리 | governor 선택 -> C-State 진입 | 자동 휴게 시스템 |
 | **menu governor** | 다음 idle 시간 예측 | 타이머 이벤트 기반 예측 | 휴게 시간 예측기 |
 | **teo governor** | 시간 기반 최적화 | 최근 idle 이력 분석 | 과거 경험 기반 판단 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/">tickless kernel</a></strong> | 불필요한 타이머 틱 제거 | NO_HZ_IDLE / NO_HZ_FULL | 불필요한 알람 끄기 |
@@ -78,39 +78,39 @@ CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력�
 ### idle 루프 흐름도
 
 ```text
-┌───────────────────────────────────────────────┐
-│          CPU Idle 루프 (schedule() → idle)     │
-│                                               │
-│  ┌─────────────┐                              │
-│  │ 실행 큐 비었나?│ ── No → 프로세스 스케줄    │
-│  └──────┬──────┘                              │
-│         │ Yes                                 │
-│         ▼                                     │
-│  ┌──────────────┐                             │
-│  │ idle governor │                             │
-│  │ 다음 wake까지 │                             │
-│  │ 시간 예측     │                             │
-│  └──────┬───────┘                             │
-│         │                                     │
-│         ▼                                     │
-│  ┌──────────────────────────────┐             │
-│  │ 예측 시간에 따라 C-State 선택  │             │
-│  │ < 100us  → C1 (HLT)         │             │
-│  │ < 1ms    → C2               │             │
-│  │ < 10ms   → C3               │             │
-│  │ > 10ms   → C6 (Deep Sleep)  │             │
-│  └──────────┬───────────────────┘             │
-│             │                                 │
-│             ▼                                 │
-│  ┌─────────────────┐                          │
-│  │ mwait /HLT 실행  │ → CPU 저전력 진입        │
-│  └────────┬────────┘                          │
-│           │ 인터럽트/이벤트 도착                │
-│           ▼                                    │
-│  ┌──────────────────┐                         │
-│  │ C0 복귀 → 스케줄  │                         │
-│  └──────────────────┘                         │
-└───────────────────────────────────────────────┘
++-----------------------------------------------+
+|          CPU Idle 루프 (schedule() -> idle)     |
+|                                               |
+|  +-------------+                              |
+|  | 실행 큐 비었나?| -- No -> 프로세스 스케줄    |
+|  +------+------+                              |
+|         | Yes                                 |
+|         v                                     |
+|  +--------------+                             |
+|  | idle governor |                             |
+|  | 다음 wake까지 |                             |
+|  | 시간 예측     |                             |
+|  +------+-------+                             |
+|         |                                     |
+|         v                                     |
+|  +------------------------------+             |
+|  | 예측 시간에 따라 C-State 선택  |             |
+|  | < 100us  -> C1 (HLT)         |             |
+|  | < 1ms    -> C2               |             |
+|  | < 10ms   -> C3               |             |
+|  | > 10ms   -> C6 (Deep Sleep)  |             |
+|  +----------+-------------------+             |
+|             |                                 |
+|             v                                 |
+|  +-----------------+                          |
+|  | mwait /HLT 실행  | -> CPU 저전력 진입        |
+|  +--------+--------+                          |
+|           | 인터럽트/이벤트 도착                |
+|           v                                    |
+|  +------------------+                         |
+|  | C0 복귀 -> 스케줄  |                         |
+|  +------------------+                         |
++-----------------------------------------------+
 ```
 
 **[해설]** idle governor가 다음 웨이크업까지의 예상 대기 시간을 기반으로 최적 C-State를 선택한다. 예측이 정확할수록 불필요한 깊은 수면(긴 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 피하면서도 최대 절전을 달성한다.
@@ -120,11 +120,11 @@ CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력�
 ```text
 기존 (HZ=1000):
   ...|tick|tick|tick|idle|tick|tick|...
-     매 1ms마다 깨어남 → C-State 진입 불가
+     매 1ms마다 깨어남 -> C-State 진입 불가
 
 Tickless (NO_HZ_IDLE):
   ...|tick|tick|idle.............|tick|...
-     idle 중 타이머 틱 중단 → 깊은 C-State 유지
+     idle 중 타이머 틱 중단 -> 깊은 C-State 유지
      다음 실제 이벤트까지만 수면
 ```
 
@@ -163,15 +163,15 @@ Tickless (NO_HZ_IDLE):
 ### 실무 시나리오
 
 **시나리오 1: 고빈도 트레이딩 서버**
-- `idle=poll`로 C-State 비활성화 → 레이턴시 최소화
+- `idle=poll`로 C-State 비활성화 -> 레이턴시 최소화
 - [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 증가 감수
 
 **시나리오 2: 모바일 디바이스**
-- teo governor + [tickless](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) → 배터리 수명 극대화
+- teo governor + [tickless](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) -> 배터리 수명 극대화
 - C6 적극 활용
 
 **시나리오 3: 일반 웹 서버**
-- menu governor 기본값 → 균형
+- menu governor 기본값 -> 균형
 - `cpupower idle-info`로 현재 C-State [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -207,12 +207,12 @@ Tickless (NO_HZ_IDLE):
 
 ```text
 [리틀의 법칙 (Little's Law)]
-    │
-    ▼
+    |
+    v
 [CPU 유휴 (Idle) 대기 루프 최적화]
-    │
-    ├──▶ [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    └──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
+    |
+    +---> [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
+    +---> [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -231,7 +231,7 @@ Tickless (NO_HZ_IDLE):
 
 **진행 상황**: 611 / 800
 
-← **이전**: [610. 리틀의 법칙 (Little's Law) - L = λW (대기 큐 성능 분석)](/knowledge-base/studynote/02_operating_system/10_security/610_littles_law/)
-**다음**: [612. 메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) →
+<- **이전**: [610. 리틀의 법칙 (Little's Law) - L = λW (대기 큐 성능 분석)](/knowledge-base/studynote/02_operating_system/10_security/610_littles_law/)
+**다음**: [612. 메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) ->
 
 ---

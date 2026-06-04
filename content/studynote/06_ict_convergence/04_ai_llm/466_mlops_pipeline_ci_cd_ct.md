@@ -34,24 +34,24 @@ tags = ["studynote-ict-convergence"]
 MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(지속적 학습)라는 심장을 하나 더 단 3-Step 파이프라인이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             [ MLOps의 3대 자동화 (CI / CD / CT) 파이프라인 ]    │
-├────────────────────────────────────────────────────────┤
-│ 1. CI (Continuous Integration, 지속적 통합)            │
-│    - 개발자가 새로운 AI 코드를 짜서 GitHub에 올림(Push)         │
-│    - 시스템이 "코드가 안 깨지나? 전처리는 잘 되나?" 자동으로 테스트함│
-│    - 즉, '코드와 데이터'를 안전하게 합치는(Integration) 단계    │
-│                                                        │
-│ 2. CT (Continuous Training, 지속적 학습) ⭐️ 머신러닝의 꽃 ⭐️ │
-│    - 데이터가 변했다는 알람(Data Drift)이 울림               │
-│    - 사람이 개입하지 않고, 시스템이 알아서 최신 데이터를 끌어와서  │
-│      AI 모델을 다시 학습시키고 99점(성능)이 나오는지 스스로 시험 봄│
-│                                                        │
-│ 3. CD (Continuous Deployment, 지속적 배포)             │
-│    - CT에서 99점을 받은 똑똑한 새 모델이 탄생함                 │
-│    - 서버가 멈추지 않게(무중단), 낡은 모델을 내리고 새 모델을    │
-│      API 형태로 부드럽게 갈아 끼워서(Deploy) 손님들에게 서비스함 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             [ MLOps의 3대 자동화 (CI / CD / CT) 파이프라인 ]    |
++--------------------------------------------------------+
+| 1. CI (Continuous Integration, 지속적 통합)            |
+|    - 개발자가 새로운 AI 코드를 짜서 GitHub에 올림(Push)         |
+|    - 시스템이 "코드가 안 깨지나? 전처리는 잘 되나?" 자동으로 테스트함|
+|    - 즉, '코드와 데이터'를 안전하게 합치는(Integration) 단계    |
+|                                                        |
+| 2. CT (Continuous Training, 지속적 학습) ⭐️ 머신러닝의 꽃 ⭐️ |
+|    - 데이터가 변했다는 알람(Data Drift)이 울림               |
+|    - 사람이 개입하지 않고, 시스템이 알아서 최신 데이터를 끌어와서  |
+|      AI 모델을 다시 학습시키고 99점(성능)이 나오는지 스스로 시험 봄|
+|                                                        |
+| 3. CD (Continuous Deployment, 지속적 배포)             |
+|    - CT에서 99점을 받은 똑똑한 새 모델이 탄생함                 |
+|    - 서버가 멈추지 않게(무중단), 낡은 모델을 내리고 새 모델을    |
+|      API 형태로 부드럽게 갈아 끼워서(Deploy) 손님들에게 서비스함 |
++--------------------------------------------------------+
 ```
 
 1. <strong>파이프라인 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 긁어오기 -> 전처리 -> 학습 -> 모델 평가 -> 배포라는 5개의 컨베이어 벨트 작업은 순서대로 맞물려 돌아가야 한다. 이 작업 순서를 스케줄링하고 앞선 작업이 끝나면 뒤의 작업을 자동으로 쳐주는 현장 소장이 필요한데, 이 역할을 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/">Apache Airflow</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/">Kubeflow</a>, <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a></strong> 같은 툴이 담당한다.
@@ -115,7 +115,7 @@ MLOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_r
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[인공지능 생태계 · 소프트웨어 공학] → [MLOps 파이프라인과 CI · CD] → [데이터 드리프트 · 카나리 배포]
+[인공지능 생태계 · 소프트웨어 공학] -> [MLOps 파이프라인과 CI · CD] -> [데이터 드리프트 · 카나리 배포]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -130,7 +130,7 @@ MLOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 **진행 상황**: 466 / 552
 
-← **이전**: [465. DQN (Deep Q-Network)과 경험 리플레이, 타겟 네트워크](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)
-**다음**: [467. 피처 스토어 (Feature Store)와 특징 변수 공유](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/467_feature_store_data_sharing/) →
+<- **이전**: [465. DQN (Deep Q-Network)과 경험 리플레이, 타겟 네트워크](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)
+**다음**: [467. 피처 스토어 (Feature Store)와 특징 변수 공유](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/467_feature_store_data_sharing/) ->
 
 ---

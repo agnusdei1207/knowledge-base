@@ -38,19 +38,19 @@ NodePort는 독립적으로 작동하는 것이 아니라, ClusterIP를 감싸�
 | **Kube-proxy** | 트래픽 릴레이 | iptables나 IPVS 규칙을 통해 트래픽을 최종 목적지([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) IP)로 전송 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       NodePort 트래픽 흐름: 외부 -> 노드 -> 프록시 -> 파드      │
-├──────────────────────────────────────────────────────────────┤
-│ [External Client]                                            │
-│        │ (1) http://Node-A-IP:31000                          │
-│        ▼                                                     │
-│ ┌─ Node A (Worker) ────────────────────────────────────────┐ │
-│ │  [eth0: 31000] ──(2) Kube-proxy (iptables) 가로챔         │ │
-│ │                        │                                 │ │
-│ │                        ▼ (3) 내부 ClusterIP 라우팅        │ │
-│ │                  [Pod: nginx]                            │ │
-│ └──────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       NodePort 트래픽 흐름: 외부 -> 노드 -> 프록시 -> 파드      |
++--------------------------------------------------------------+
+| [External Client]                                            |
+|        | (1) http://Node-A-IP:31000                          |
+|        v                                                     |
+| +- Node A (Worker) ----------------------------------------+ |
+| |  [eth0: 31000] --(2) Kube-proxy (iptables) 가로챔         | |
+| |                        |                                 | |
+| |                        v (3) 내부 ClusterIP 라우팅        | |
+| |                  [Pod: nginx]                            | |
+| +----------------------------------------------------------+ |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 현재 노드 A에 없더라도, Kube-proxy는 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) ([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/)) 계층을 통해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 존재하는 노드 B로 트래픽을 안전하게 건네준다. 즉, 클라이언트는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 실제 위치를 알 필요 없이 아무 노드나 찌르면 된다.
@@ -115,17 +115,17 @@ NodePort는 복잡한 외부 [컴포넌트](/knowledge-base/studynote/04_softwar
 
 ```text
 ClusterIP (내부 통신망)
-    │
-    ▼
+    |
+    v
 NodePort (워커 노드의 특정 물리 포트 외부 노출)
-    │
-    ▼
+    |
+    v
 LoadBalancer (클라우드 인프라 연동 및 포트 정규화)
-    │
-    ▼
+    |
+    v
 Ingress (L7 호스트/경로 기반 라우팅 및 SSL 종료)
-    │
-    ▼
+    |
+    v
 Gateway API (Ingress의 한계를 넘는 역할 기반 트래픽 라우팅 표준)
 ```
 
@@ -141,7 +141,7 @@ Gateway API (Ingress의 한계를 넘는 역할 기반 트래픽 라우팅 표�
 
 **진행 상황**: 91 / 371
 
-← **이전**: [91. ClusterIP - K8s 클러스터 내부 통신 전용 기본 서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/091_clusterip_kubernetes_internal_service_dns/)
-**다음**: [93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/093_loadbalancer_kubernetes_service_cloud_provider/) →
+<- **이전**: [91. ClusterIP - K8s 클러스터 내부 통신 전용 기본 서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/091_clusterip_kubernetes_internal_service_dns/)
+**다음**: [93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/093_loadbalancer_kubernetes_service_cloud_provider/) ->
 
 ---

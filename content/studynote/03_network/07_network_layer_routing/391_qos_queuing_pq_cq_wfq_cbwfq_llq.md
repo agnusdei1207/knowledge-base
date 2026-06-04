@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [DiffServ]
-    │
-    ▼
+    |
+    v
 [우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    └──▶ [트래픽 쉐이핑 / 폴리싱]
+    |
+    +---> [트래픽 쉐이핑 / 폴리싱]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 큐잉 알고리즘은 1차선 도로로 합쳐지는 병목 구간에서, 경찰관이 </strong>어떤 차(구급차 vs 화물차)에게 먼저 수신호를 보내 뚫어줄 것인지 판단하는 교통정리 룰**입니다.
@@ -70,20 +70,20 @@ tags = ["studynote-network"]
 - 단, 기아 현상(PQ의 단점)을 막기 위해 "음성 패킷이 새치기는 하되, 최대 30%까지만 새치기해라!"라고 <strong>폴리싱(제한)</strong>을 걸어두는 완벽한 밸런스를 맞췄다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                LLQ (Low Latency Queuing) 동작 구조               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수많은 트래픽 유입 ]                                          │
- │       │                                                     │
- │       ├─▶ [ Priority Queue (음성) ] ── (무조건 1빠따 새치기!) ───┐ │
- │       │                                                     │ │
- │       ├─▶ [ CBWFQ 1 (DB 트래픽, 40%) ] ── (라운드 로빈) ──────┤ │
- │       ├─▶ [ CBWFQ 2 (웹 트래픽, 20%) ] ── (라운드 로빈) ──────┤ │
- │       └─▶ [ Default Queue (나머지 찌꺼기) ] ─ (라운드 로빈) ─────┤ │
- │                                                             ▼ │
- │                                                       [ 출력 포트 ]│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                LLQ (Low Latency Queuing) 동작 구조               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 수많은 트래픽 유입 ]                                          |
+ |       |                                                     |
+ |       +--> [ Priority Queue (음성) ] -- (무조건 1빠따 새치기!) ---+ |
+ |       |                                                     | |
+ |       +--> [ CBWFQ 1 (DB 트래픽, 40%) ] -- (라운드 로빈) ------+ |
+ |       +--> [ CBWFQ 2 (웹 트래픽, 20%) ] -- (라운드 로빈) ------+ |
+ |       +--> [ Default Queue (나머지 찌꺼기) ] - (라운드 로빈) -----+ |
+ |                                                             v |
+ |                                                       [ 출력 포트 ]|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** LLQ는 현대 테마파크의 완벽한 줄서기 시스템입니다. 기본적으로 손님들은 돈 낸 만큼(CBWFQ 비율) 3대의 열차에 골고루 나눠 타지만, 휠체어를 탄 장애인(VoIP 패킷)이 오면 무조건 탑승 대기 줄을 무시하고 **0순위(PQ)로 열차에 태워 보내는 따뜻하고 효율적인 복지 시스템**입니다.
@@ -144,12 +144,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DiffServ]
-    │
-    ▼
+    |
+    v
 [현재 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ├──▶ [확장 A: 트래픽 쉐이핑 / 폴리싱]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 트래픽 쉐이핑 / 폴리싱]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 DiffServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -166,7 +166,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 512 / 1120
 
-← **이전**: [390. DiffServ (Differentiated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)
-**다음**: [392. 트래픽 쉐이핑 (Traffic Shaping) / 폴리싱 (Traffic Policing)](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) →
+<- **이전**: [390. DiffServ (Differentiated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)
+**다음**: [392. 트래픽 쉐이핑 (Traffic Shaping) / 폴리싱 (Traffic Policing)](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) ->
 
 ---

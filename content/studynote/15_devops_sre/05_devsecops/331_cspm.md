@@ -145,7 +145,7 @@ Capital One 같은 사고    Drift Detection               AI 기반 이상 탐�
 
 **진행 상황**: 331 / 373
 
-← **이전**: [330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access](/knowledge-base/studynote/11_design_supervision/06_exam_summary/330_process/)
-**다음**: [332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) →
+<- **이전**: [330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access](/knowledge-base/studynote/11_design_supervision/06_exam_summary/330_process/)
+**다음**: [332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) ->
 
 ---

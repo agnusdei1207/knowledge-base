@@ -26,14 +26,14 @@ tags = ["studynote-it-management"]
 다만 미러 사이트를 무조건 "완벽한 0"으로 이해하면 위험하다. 인프라가 같아도 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태, 메시지 큐, 외부 연계, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 절체가 준비되지 않으면 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전환은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될 수 있다. 그래서 미러 사이트의 본질은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 아니라 <strong>애플리케이션까지 포함한 업무 연속성 설계</strong>다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DR site spectrum                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cold  -> space only, rebuild later                                   │
-│ Warm  -> partial systems, delayed sync                               │
-│ Hot   -> ready systems, near-real-time recovery                      │
-│ Mirror-> same systems + synchronous state for near-zero continuity   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| DR site spectrum                                                     |
++----------------------------------------------------------------------+
+| Cold  -> space only, rebuild later                                   |
+| Warm  -> partial systems, delayed sync                               |
+| Hot   -> ready systems, near-real-time recovery                      |
+| Mirror-> same systems + synchronous state for near-zero continuity   |
++----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 미러 사이트는 여분 창고를 하나 더 두는 수준이 아니라, 본점에서 물건을 진열하는 순간 지점 진열대도 동시에 같은 모양이 되도록 맞춰 두는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 매장에 가깝다.
@@ -56,22 +56,22 @@ tags = ["studynote-it-management"]
 아래 그림은 미러 사이트의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 절체 판단 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Mirror site write path                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client / App                                                         │
-│    │ write request                                                   │
-│    ▼                                                                 │
-│ Primary DB / Storage                                                 │
-│    │                                                                 │
-│    ╠════ synchronous copy ════╗                                      │
-│    ▼                          ║                                      │
-│ Mirror DB / Storage           ║                                      │
-│    │                          ║                                      │
-│    ╚════ commit ack only after both sides are durable ═════════════╝ │
-│                                                                      │
-│ Witness / Quorum decides which site may serve traffic after failure  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Mirror site write path                                               |
++----------------------------------------------------------------------+
+| Client / App                                                         |
+|    | write request                                                   |
+|    v                                                                 |
+| Primary DB / Storage                                                 |
+|    |                                                                 |
+|    +---- synchronous copy ----+                                      |
+|    v                          |                                      |
+| Mirror DB / Storage           |                                      |
+|    |                          |                                      |
+|    +---- commit ack only after both sides are durable -------------+ |
+|                                                                      |
+| Witness / Quorum decides which site may serve traffic after failure  |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 운영 포인트는 두 가지다. 첫째, 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 RPO를 극단적으로 줄이는 대신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘린다. 둘째, 양쪽 센터가 서로 자신이 살아 있다고 착각하면 두 곳이 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 받는 Split-Brain이 발생할 수 있으므로, Witness나 Quorum 장치를 통한 판정 체계가 필요하다.
@@ -161,20 +161,20 @@ tags = ["studynote-it-management"]
 
 ```text
 BIA (Business Impact Analysis)
-    │
-    ▼
+    |
+    v
 RTO / RPO 극소화 요구
-    │
-    ▼
+    |
+    v
 동기 복제 · 동일 인프라 설계
-    │
-    ▼
+    |
+    v
 Mirror Site 구축
-    ├─ Witness / Quorum
-    ├─ 자동 Failover / Failback
-    └─ Metro 네트워크 저지연
-    │
-    ▼
+    +- Witness / Quorum
+    +- 자동 Failover / Failback
+    +- Metro 네트워크 저지연
+    |
+    v
 원격 백업 · 클라우드 DR · 다층 연속성 체계로 확장
 ```
 
@@ -192,7 +192,7 @@ Mirror Site 구축
 
 **진행 상황**: 292 / 587
 
-← **이전**: [177. RPO (Recovery Point Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)
-**다음**: [179. 핫 사이트 (Hot Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) →
+<- **이전**: [177. RPO (Recovery Point Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)
+**다음**: [179. 핫 사이트 (Hot Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) ->
 
 ---

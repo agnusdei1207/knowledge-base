@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Attention은 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 출력을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 <strong>모든 Hidden State에 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(Attention <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 부여하여 동적으로 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하는 메커니즘으로, 고정 [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)의 정보 병목을 해소한다.
-> 2. **가치**: "I love you" → "나는 너를 사랑해" 번역 시, "사랑해"를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 <strong>"love"에 높은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong>를 부여하여 해당 입력에 "주목(Attend)"한다. 이로써 긴 문장에서도 정보 손실 없이 정확한 번역이 가능해진다.
+> 2. **가치**: "I love you" -> "나는 너를 사랑해" 번역 시, "사랑해"를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 <strong>"love"에 높은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong>를 부여하여 해당 입력에 "주목(Attend)"한다. 이로써 긴 문장에서도 정보 손실 없이 정확한 번역이 가능해진다.
 > 3. **판단 포인트**: Bahdanau(Additive) Attention과 Luong(Multiplicative/[Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-product) Attention을 구분하고, [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))으로의 진화를 이해해야 한다.
 
 ---
@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Attention 동작 과정                                │
-├───────────────────────────────────────────────────────┤
-│  인코더: h₁(I), h₂(love), h₃(you)                   │
-│                                                       │
-│  디코더 t=3 ("사랑해" 생성):                          │
-│   1. s₃(디코더 상태)와 h₁,h₂,h₃ 유사도 계산         │
-│   2. e₃₁=score(s₃,h₁), e₃₂=score(s₃,h₂)...        │
-│   3. α = softmax([e₃₁, e₃₂, e₃₃])                  │
-│      = [0.1, 0.8, 0.1]  ← "love"에 집중!            │
-│   4. c₃ = 0.1·h₁ + 0.8·h₂ + 0.1·h₃ (가중 합)       │
-│   5. 출력 = f(s₃, c₃) → "사랑해"                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Attention 동작 과정                                |
++-------------------------------------------------------+
+|  인코더: h₁(I), h₂(love), h₃(you)                   |
+|                                                       |
+|  디코더 t=3 ("사랑해" 생성):                          |
+|   1. s₃(디코더 상태)와 h₁,h₂,h₃ 유사도 계산         |
+|   2. e₃₁=score(s₃,h₁), e₃₂=score(s₃,h₂)...        |
+|   3. α = softmax([e₃₁, e₃₂, e₃₃])                  |
+|      = [0.1, 0.8, 0.1]  <- "love"에 집중!            |
+|   4. c₃ = 0.1·h₁ + 0.8·h₂ + 0.1·h₃ (가중 합)       |
+|   5. 출력 = f(s₃, c₃) -> "사랑해"                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Attention은 시험 중 **전체 교과서를 보면서** 문제에 관련된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 **형광펜을 칠하는** 것이다. 관련 높은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)일수록 밝게 칠한다.
@@ -72,7 +72,7 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### Attention의 해석 가능성
-- Attention [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 "모델이 어디를 보고 판단했는지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능 → 설명 가능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 형태.
+- Attention [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 "모델이 어디를 보고 판단했는지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능 -> 설명 가능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 형태.
 
 ---
 
@@ -96,17 +96,17 @@ Attention은 <strong>현대 AI의 가장 중요한 단일 아이디어</strong>�
 
 ```text
 [Seq2Seq 고정 컨텍스트 벡터 (2014)]
-    │
-    ▼
+    |
+    v
 [Bahdanau Attention (2014) — Additive]
-    │
-    ▼
+    |
+    v
 [Luong Attention (2015) — Dot-product]
-    │
-    ▼
+    |
+    v
 [Self-Attention + Transformer (2017) — "Attention Is All You Need"]
-    │
-    ▼
+    |
+    v
 [현재: Flash Attention / Linear Attention — 효율적 Attention]
 ```
 
@@ -121,7 +121,7 @@ Attention은 <strong>현대 AI의 가장 중요한 단일 아이디어</strong>�
 
 **진행 상황**: 121 / 420
 
-← **이전**: [120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)
-**다음**: [122. Q·K·V 시스템 (Query·Key·Value) - Attention의 핵심 연산 구조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/122_qkv_system/) →
+<- **이전**: [120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)
+**다음**: [122. Q·K·V 시스템 (Query·Key·Value) - Attention의 핵심 연산 구조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/122_qkv_system/) ->
 
 ---

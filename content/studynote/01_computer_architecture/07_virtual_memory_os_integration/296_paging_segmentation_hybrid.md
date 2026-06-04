@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 혼용 ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)-[Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Hybrid)은 프로그램을 코드·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위로 먼저 나누고, 각 단위를 다시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 쪼개어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 직관성과 배치 효율을 함께 얻는 절충 구조다.
 > 2. **가치**: [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))이 잘하던 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·공유·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 설명력은 살리고, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))이 잘하던 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제거와 물리 메모리 활용도는 유지할 수 있다.
-> 3. **판단 포인트**: 장점은 분명하지만 주소 변환이 `세그먼트 → 페이지 → 프레임`으로 길어지므로, 실제 채택 여부는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 요구와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 가능성을 함께 봐야 한다.
+> 3. **판단 포인트**: 장점은 분명하지만 주소 변환이 `세그먼트 -> 페이지 -> 프레임`으로 길어지므로, 실제 채택 여부는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 요구와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 가능성을 함께 봐야 한다.
 
 ---
 
@@ -36,27 +36,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 혼용 구조가 왜 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 세그먼트에서, 배치는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서"라고 불리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 혼용 주소 변환: 논리 구획과 물리 배치를 분리                 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = [ Segment s | Page p | Offset d ]                               │
-│        │                                                                     │
-│        ▼                                                                     │
-│   Segment Table[s]                                                           │
-│   ┌──────────────────────────────────────────────┐                            │
-│   │ Limit / Permission / Page Table Base         │                            │
-│   └──────────────────────────────────────────────┘                            │
-│        │                                                                     │
-│        ├─ s 또는 d가 범위·권한 위반 ───────────────▶ Fault                    │
-│        ▼                                                                     │
-│   Page Table[p]                                                              │
-│   ┌──────────────────────────────────────────────┐                            │
-│   │ Frame Number / Present / Dirty / Accessed    │                            │
-│   └──────────────────────────────────────────────┘                            │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 물리 주소 = [ Frame Number | Offset d ]                                      │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                 혼용 주소 변환: 논리 구획과 물리 배치를 분리                 |
++------------------------------------------------------------------------------+
+| 논리 주소 = [ Segment s | Page p | Offset d ]                               |
+|        |                                                                     |
+|        v                                                                     |
+|   Segment Table[s]                                                           |
+|   +----------------------------------------------+                            |
+|   | Limit / Permission / Page Table Base         |                            |
+|   +----------------------------------------------+                            |
+|        |                                                                     |
+|        +- s 또는 d가 범위·권한 위반 ----------------> Fault                    |
+|        v                                                                     |
+|   Page Table[p]                                                              |
+|   +----------------------------------------------+                            |
+|   | Frame Number / Present / Dirty / Accessed    |                            |
+|   +----------------------------------------------+                            |
+|        |                                                                     |
+|        v                                                                     |
+| 물리 주소 = [ Frame Number | Offset d ]                                      |
++------------------------------------------------------------------------------+
 ```
 
 이 구조에서 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 "이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역이 존재하는가, 접근 권한이 맞는가"를 확인하는 앞단 관문이고, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 지금 어떤 프레임에 올라와 있는가"를 찾는 뒷단 매핑표다. 따라서 세그먼트는 의미와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 단위이고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 배치와 교체의 단위다. 이 역할 분리가 혼용 구조의 핵심이다.
@@ -146,25 +146,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 메모리 할당
-    │
-    ▼
+    |
+    v
 세그멘테이션 (Segmentation)
-    │
-    ├──▶ 보호·공유의 직관성 확보
-    │
-    └──▶ 외부 단편화 증가
-              │
-              ▼
+    |
+    +---> 보호·공유의 직관성 확보
+    |
+    +---> 외부 단편화 증가
+              |
+              v
 페이징 (Paging)
-    │
-    ▼
+    |
+    v
 페이징과 세그멘테이션 혼용
-    │
-    ├──▶ 논리 구역 보호 + 페이지 기반 배치
-    │
-    └──▶ 주소 변환 복잡도 증가
-              │
-              ▼
+    |
+    +---> 논리 구역 보호 + 페이지 기반 배치
+    |
+    +---> 주소 변환 복잡도 증가
+              |
+              v
 현대 다단계 페이징 중심 구조
 ```
 
@@ -182,7 +182,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 296 / 803
 
-← **이전**: [295. 외부 단편화 (External Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/295_external_fragmentation/)
-**다음**: [297. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/297_demand_paging/) →
+<- **이전**: [295. 외부 단편화 (External Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/295_external_fragmentation/)
+**다음**: [297. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/297_demand_paging/) ->
 
 ---

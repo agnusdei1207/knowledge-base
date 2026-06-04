@@ -25,14 +25,14 @@ tags = ["studynote-it-management"]
 
 ```text
 장애 발생
-  │
-  ▼
+  |
+  v
 초기 분류
-  ├─ 원인 미상 / 즉시 복구 필요 → 워크어라운드
-  │                                     │
-  │                                     ▼
-  │                               서비스 복구
-  └─ 근본 원인 분석 → Problem Management → Permanent Fix
+  +- 원인 미상 / 즉시 복구 필요 -> 워크어라운드
+  |                                     |
+  |                                     v
+  |                               서비스 복구
+  +- 근본 원인 분석 -> Problem Management -> Permanent Fix
 ```
 
 이 흐름이 없으면 운영자는 분석만 하다가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타이밍을 놓친다. 워크어라운드는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 분석의 시간을 분리해 준다.
@@ -122,15 +122,15 @@ tags = ["studynote-it-management"]
 
 ```text
 장애 발생
-    │
-    ▼
+    |
+    v
 인시던트 분류
-    │
-    ├─ 즉시 복구 → 워크어라운드
-    │                  │
-    │                  ▼
-    │              서비스 정상화
-    ▼
+    |
+    +- 즉시 복구 -> 워크어라운드
+    |                  |
+    |                  v
+    |              서비스 정상화
+    v
 문제 관리 / 원인 분석 / 영구 수정
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 136 / 587
 
-← **이전**: [76. 워크어라운드 (Workaround)](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround/)
-**다음**: [77. AdaBoost (Adaptive Boosting)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/) →
+<- **이전**: [76. 워크어라운드 (Workaround)](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround/)
+**다음**: [77. AdaBoost (Adaptive Boosting)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/) ->
 
 ---

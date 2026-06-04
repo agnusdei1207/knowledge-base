@@ -38,10 +38,10 @@ tags = ["enterprise_systems"]
 | 보고 체계 일원화 | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 집계 가능 | 권한과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 설계가 중요 |
 
 ```text
-[구매] ─┐
-[판매] ─┼──► [공통 마스터 데이터] ───► [ERP 코어] ───► [재무 보고]
-[생산] ─┤
-[인사] ─┘
+[구매] -+
+[판매] -+--► [공통 마스터 데이터] ---► [ERP 코어] ---► [재무 보고]
+[생산] -+
+[인사] -+
 ```
 
 이 구조의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 따로 노는 것이 아니라, 같은 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)을 공유한다는 점이다. 그래서 프로세스 변경이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경과 함께 관리되어야 한다.
@@ -109,14 +109,14 @@ ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_busine
     ### 📈 관련 키워드 및 발전 흐름도
 
     부서별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영
-    │
-    ▼
+    |
+    v
 통합 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)
-    │
-    ▼
+    |
+    v
 표준 프로세스 내재화
-    │
-    ▼
+    |
+    v
 fit-gap / [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) / 업그레이드 관리
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -131,7 +131,7 @@ fit-gap / [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_bus
 
 **진행 상황**: 87 / 482
 
-← **이전**: [86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/086_bpr_vs_erp_customization/)
-**다음**: [88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/088_cloud_saas_erp_2_tier_architecture/) →
+<- **이전**: [86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/086_bpr_vs_erp_customization/)
+**다음**: [88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/088_cloud_saas_erp_2_tier_architecture/) ->
 
 ---

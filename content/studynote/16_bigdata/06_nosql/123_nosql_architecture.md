@@ -77,14 +77,14 @@ tags = ["bigdata"]
 
 ```text
 [Key-Value]
-    │
-    ▼
+    |
+    v
 [Document]
-    │
-    ▼
+    |
+    v
 [Column-Family]
-    │
-    ▼
+    |
+    v
 [Graph]
 ```
 
@@ -101,7 +101,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 123 / 262
 
-← **이전**: [26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/)
-**다음**: [BASE 원칙 (Basically Available, Soft State, Eventual Consistency)](/knowledge-base/studynote/16_bigdata/06_nosql/124_base_principles_nosql/) →
+<- **이전**: [26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/)
+**다음**: [BASE 원칙 (Basically Available, Soft State, Eventual Consistency)](/knowledge-base/studynote/16_bigdata/06_nosql/124_base_principles_nosql/) ->
 
 ---

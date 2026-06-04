@@ -32,35 +32,35 @@ tags = ["studynote-software-engineering"]
 유스케이스 모델링에서 두 관계가 요구사항의 복잡성을 어떻게 제어하는지 시각화하면 다음과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────┐
-  │       단일 거대 유스케이스 vs Include/Extend를 통한 구조화        │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [Anti-Pattern: 분리되지 않은 복잡한 유스케이스]                    │
-  │  ┌──────────────────────────────────────────────┐         │
-  │  │ ( 덩치 큰 이체 시스템 )                          │         │
-  │  │  - 로그인 확인하기                              │         │
-  │  │  - 잔액 확인하기                                │         │
-  │  │  - 만약 한도 초과 시 마이너스 대출 로직 실행...        │         │
-  │  │  - 이체 수행하기                                │         │
-  │  │  - 만약 OTP 인증 실패 시 ARS 인증 로직 실행...        │         │
-  │  └──────────────────────────────────────────────┘         │
-  │     (핵심 로직과 예외, 공통 로직이 뒤섞여 분석 및 테스트 곤란)       │
-  │                                                           │
-  │  [Best-Practice: Include와 Extend로 분리된 구조]             │
-  │                                                           │
-  │                          <<include>>                      │
-  │                     ┌────────────────▶ ( 사용자 인증 )     │
-  │                     │      (필수)                         │
-  │     ┌──────┐        │                                     │
-  │     │ 고객 │ ───▶ ( 이체 수행 )                              │
-  │     └──────┘        ▲                                     │
-  │                     │      (선택/조건부)                     │
-  │                     │    <<extend>>                       │
-  │                     └───────────────── ( 한도 초과 대출 )  │
-  │                                                           │
-  │     (이체 수행이라는 본질적 가치만 남고, 부가 요소는 깔끔하게 분리됨) │
-  └───────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------+
+  |       단일 거대 유스케이스 vs Include/Extend를 통한 구조화        |
+  +-----------------------------------------------------------+
+  |                                                           |
+  |  [Anti-Pattern: 분리되지 않은 복잡한 유스케이스]                    |
+  |  +----------------------------------------------+         |
+  |  | ( 덩치 큰 이체 시스템 )                          |         |
+  |  |  - 로그인 확인하기                              |         |
+  |  |  - 잔액 확인하기                                |         |
+  |  |  - 만약 한도 초과 시 마이너스 대출 로직 실행...        |         |
+  |  |  - 이체 수행하기                                |         |
+  |  |  - 만약 OTP 인증 실패 시 ARS 인증 로직 실행...        |         |
+  |  +----------------------------------------------+         |
+  |     (핵심 로직과 예외, 공통 로직이 뒤섞여 분석 및 테스트 곤란)       |
+  |                                                           |
+  |  [Best-Practice: Include와 Extend로 분리된 구조]             |
+  |                                                           |
+  |                          <<include>>                      |
+  |                     +-----------------> ( 사용자 인증 )     |
+  |                     |      (필수)                         |
+  |     +------+        |                                     |
+  |     | 고객 | ----> ( 이체 수행 )                              |
+  |     +------+        ^                                     |
+  |                     |      (선택/조건부)                     |
+  |                     |    <<extend>>                       |
+  |                     +----------------- ( 한도 초과 대출 )  |
+  |                                                           |
+  |     (이체 수행이라는 본질적 가치만 남고, 부가 요소는 깔끔하게 분리됨) |
+  +-----------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 상단의 안티패턴에서는 비즈니스의 핵심인 '이체' 과정에 로그인이라는 필수 인프라 로직과 한도 초과라는 예외 로직이 스파게티처럼 섞여 있다. 하단의 구조화된 다이어그램은 화살표의 방향과 스테레오타입을 통해 이를 분리한다. `<<include>>` 화살표는 본체(이체)에서 공통 기능([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)) 쪽으로 향하며 "이체를 하려면 무조건 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 불러와야 한다"는 필수성을 의미한다. 반면 `<<extend>>` 화살표는 부가 기능(대출)에서 본체(이체) 쪽으로 향하며, "대출 로직은 특정 조건이 맞을 때 본체에 삽입되어 기능을 확장한다"는 선택적 의존성을 명확히 보여준다.
@@ -164,21 +164,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 유스케이스 포함(Include) 확장(Extend) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +192,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 842 / 973
 
-← **이전**: [669. DFD 자료 흐름도 4요소](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/669_structured_analysis_data_dictionary/)
-**다음**: [671. UML 클래스, 시퀀스, 액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/uncategorized/671_uml_diagrams_class_sequence/) →
+<- **이전**: [669. DFD 자료 흐름도 4요소](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/669_structured_analysis_data_dictionary/)
+**다음**: [671. UML 클래스, 시퀀스, 액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/uncategorized/671_uml_diagrams_class_sequence/) ->
 
 ---

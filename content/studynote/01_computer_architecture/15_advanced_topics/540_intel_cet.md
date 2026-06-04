@@ -40,21 +40,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 이후에도 제어권 탈취를 막는 하드웨어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 하드웨어 버퍼 오버플로우 방어의 이중 검증                                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CALL foo                                                                   │
-│   │                                                                        │
-│   ├─ 일반 스택          : return address 저장                              │
-│   └─ 보호 영역          : shadow stack 저장 또는 PAC 서명 부착            │
-│                                                                            │
-│ RET / indirect JMP                                                         │
-│   │                                                                        │
-│   ├─ 주소 불일치 · 서명 불일치 ───────────────▶ fault                      │
-│   └─ ENDBR / BTI landing pad 확인 ────────▶ 정상 target만 실행            │
-│                                                                            │
-│ 결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| 하드웨어 버퍼 오버플로우 방어의 이중 검증                                 |
++----------------------------------------------------------------------------+
+| CALL foo                                                                   |
+|   |                                                                        |
+|   +- 일반 스택          : return address 저장                              |
+|   +- 보호 영역          : shadow stack 저장 또는 PAC 서명 부착            |
+|                                                                            |
+| RET / indirect JMP                                                         |
+|   |                                                                        |
+|   +- 주소 불일치 · 서명 불일치 ----------------> fault                      |
+|   +- ENDBR / BTI landing pad 확인 ---------> 정상 target만 실행            |
+|                                                                            |
+| 결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움             |
++----------------------------------------------------------------------------+
 ```
 
 실제로는 프로세서만으로 끝나지 않는다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환 때 shadow [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) pointer나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 상태를 저장·복원해야 하고, 컴파일러는 함수 진입점과 간접 분기 대상에 필요한 표식을 삽입해야 한다. 즉 이 기술은 "하드웨어 기능 하나 추가"가 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>) + <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> + toolchain이 묶인 제어 흐름 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 체계</strong>다.
@@ -133,20 +133,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 스택 overwrite 기반 코드 실행 공격
-        │
-        ▼
+        |
+        v
 스택 카나리 · DEP · ASLR
-        │
-        ▼
+        |
+        v
 ROP (Return-Oriented Programming) · JOP (Jump-Oriented Programming) 등장
-        │
-        ▼
+        |
+        v
 소프트웨어 CFI (Control-Flow Integrity)
-        │
-        ▼
+        |
+        v
 Intel CET · ARM PAC/BTI
-        │
-        ▼
+        |
+        v
 Memory Tagging · capability 기반 메모리 보호 확장
 ```
 
@@ -164,7 +164,7 @@ Memory Tagging · capability 기반 메모리 보호 확장
 
 **진행 상황**: 540 / 803
 
-← **이전**: [539. 루프 타일링 (Loop Tiling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/)
-**다음**: [541. 스택 스매싱 프로텍터 (Stack Smashing Protector)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/541_stack_smashing_protector/) →
+<- **이전**: [539. 루프 타일링 (Loop Tiling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/)
+**다음**: [541. 스택 스매싱 프로텍터 (Stack Smashing Protector)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/541_stack_smashing_protector/) ->
 
 ---

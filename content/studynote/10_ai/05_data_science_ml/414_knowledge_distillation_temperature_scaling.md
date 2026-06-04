@@ -24,13 +24,13 @@ tags = ["studynote-ai"]
 핵심은 정답 레이블만 알려 주는 것이 아니라, 교사 모델의 "어느 클래스가 얼마나 비슷해 보이는지"를 함께 전달하는 것이다. 이 부드러운 정보가 학생 모델의 일반화를 돕는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  Teacher → Student Distillation              │
-├──────────────────────────────────────────────────────────────┤
-│ Teacher logits --Temperature--> soft targets --+             │
-│                                                │             │
-│ Ground truth labels ---------------------------+→ Student    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  Teacher -> Student Distillation              |
++--------------------------------------------------------------+
+| Teacher logits --Temperature--> soft targets --+             |
+|                                                |             |
+| Ground truth labels ---------------------------+-> Student    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 선생님이 "정답은 이거야"만 말하는 게 아니라, "이 답도 꽤 비슷해"까지 알려 주는 과외다.
@@ -51,11 +51,11 @@ tags = ["studynote-ai"]
 | <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/">Soft Target</a></strong> | 교사 분포 | 모호성/유사성 학습 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    Distillation Loss Concept                 │
-├──────────────────────────────────────────────────────────────┤
-│ L = α · KL(Teacher_T || Student_T) + (1-α) · CE(y, Student)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    Distillation Loss Concept                 |
++--------------------------------------------------------------+
+| L = α · KL(Teacher_T || Student_T) + (1-α) · CE(y, Student)  |
++--------------------------------------------------------------+
 ```
 
 보통 손실은 교사 분포와 학생 분포의 KL ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)) 또는 로짓 매칭과 하드 레이블의 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 섞어 사용한다. `T`가 높으면 부드러운 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를, 낮으면 원래 정답에 가까운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 강하게 준다.
@@ -124,7 +124,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [지식 증류 (Knowledge Distillation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [지식 증류 (Knowledge Distillation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 414 / 420
 
-← **이전**: [413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)](/knowledge-base/studynote/10_ai/05_data_science_ml/413_imitation_learning_behavior_cloning/)
-**다음**: [415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)](/knowledge-base/studynote/10_ai/05_data_science_ml/415_instance_normalization_group_normalization/) →
+<- **이전**: [413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)](/knowledge-base/studynote/10_ai/05_data_science_ml/413_imitation_learning_behavior_cloning/)
+**다음**: [415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)](/knowledge-base/studynote/10_ai/05_data_science_ml/415_instance_normalization_group_normalization/) ->
 
 ---

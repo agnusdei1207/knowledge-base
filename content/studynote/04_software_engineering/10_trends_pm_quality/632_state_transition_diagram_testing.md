@@ -33,7 +33,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **순서 의존적 버그의 폭발**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) GUI 시스템과 웹이 발전하면서 사용자가 뒤로가기, 새로고침, 창 닫기를 마음대로 누름에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬임 현상이 속출했다.
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> 상태 다이어그램의 차용</strong>: 객체지향 설계([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 Statechart Diagram이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계 도구로 차용되며 블랙박스 기법으로 정립되었다.
-  3. **N-Switch 커버리지로의 진화**: 단순히 A에서 B로 가는 것(0-Switch)을 넘어, "A→B→C로 갔다가 다시 A로 돌아오는" N번 연속된 상태 변화(N-Switch Coverage)까지 수학적으로 커버하는 고급 기법으로 고도화되었다.
+  3. **N-Switch 커버리지로의 진화**: 단순히 A에서 B로 가는 것(0-Switch)을 넘어, "A->B->C로 갔다가 다시 A로 돌아오는" N번 연속된 상태 변화(N-Switch Coverage)까지 수학적으로 커버하는 고급 기법으로 고도화되었다.
 
 - **📢 섹션 요약 비유**: 상태 전이 다이어그램은 롤플레잉 게임(RPG)에서 퀘스트 지도를 그리는 것과 같습니다. 유저가 "검을 먼저 줍고(상태 1), 마을 촌장에게 말을 걸어야만(이벤트)" 숨겨진 던전 문이 열리는데, 순서를 어기거나 엉뚱한 행동을 했을 때 게임이 튕기지 않고 안전하게 안내 메시지를 주는지 모든 갈림길을 걸어가 보는 꼼꼼한 모험입니다.
 
@@ -42,16 +42,16 @@ tags = ["studynote-software-engineering"]
 다음은 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transit의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  상태 전이 (State Transit                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  상태 전이 (State Transit                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transit가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -151,21 +151,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 상태 전이 (State Transition) 다이어그램 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -179,7 +179,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 798 / 973
 
-← **이전**: [631. 결정 테이블 (Decision Table) 논리 조합](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)
-**다음**: [633. 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/) →
+<- **이전**: [631. 결정 테이블 (Decision Table) 논리 조합](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)
+**다음**: [633. 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/633_pairwise_orthogonal_array_testing/) ->
 
 ---

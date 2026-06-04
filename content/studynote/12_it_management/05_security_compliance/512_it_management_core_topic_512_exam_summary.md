@@ -25,24 +25,24 @@ tags = ["studynote-it-management"]
 
 ```text
 [전략적 정렬 계층]        [거버넌스 계층]         [운영 관리 계층]      [성과 측정 계층]
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ 비즈니스 전략 │───▶│  COBIT 2019  │───▶│   ITIL 4     │───▶│  BSC / KPI  │
-│  (Vision)    │    │   거버넌스   │    │  SVS 운영    │    │   Balanced  │
-│              │    │   40개 관리목표│    │  34개 Practice│   │  Scorecard  │
-├──────────────┤    ├──────────────┤    ├──────────────┤    ├──────────────┤
-│ EA (TOGAF)   │    │  RACI 행렬  │    │  Incident    │    │ CSF/KPI/PI  │
-│ Zachman      │    │  Risk Mgmt  │    │  Problem     │    │  CSF 트리    │
-│ FEAF v2      │    │  Compliance │    │  Change      │    │  ROI/NPV    │
-│ DoDAF v2     │    │  APO/BAI    │    │  Service Desk│    │  TCO/TVO    │
-└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-        │                   │                   │                   │
-        └───────────────────┴───────────────────┴───────────────────┘
-                                │
-                    ┌───────────▼────────────┐
-                    │  정보시스템감리(IS Audit) │
-                    │  ISMS-P / PIMS / PCI-DSS│
-                    │  ESG-ICT / 클라우드보호법 │
-                    └────────────────────────┘
++--------------+    +--------------+    +--------------+    +--------------+
+| 비즈니스 전략 |---->|  COBIT 2019  |---->|   ITIL 4     |---->|  BSC / KPI  |
+|  (Vision)    |    |   거버넌스   |    |  SVS 운영    |    |   Balanced  |
+|              |    |   40개 관리목표|    |  34개 Practice|   |  Scorecard  |
++--------------+    +--------------+    +--------------+    +--------------+
+| EA (TOGAF)   |    |  RACI 행렬  |    |  Incident    |    | CSF/KPI/PI  |
+| Zachman      |    |  Risk Mgmt  |    |  Problem     |    |  CSF 트리    |
+| FEAF v2      |    |  Compliance |    |  Change      |    |  ROI/NPV    |
+| DoDAF v2     |    |  APO/BAI    |    |  Service Desk|    |  TCO/TVO    |
++--------------+    +--------------+    +--------------+    +--------------+
+        |                   |                   |                   |
+        +-------------------+-------------------+-------------------+
+                                |
+                    +-----------v------------+
+                    |  정보시스템감리(IS Audit) |
+                    |  ISMS-P / PIMS / PCI-DSS|
+                    |  ESG-ICT / 클라우드보호법 |
+                    +------------------------+
 ```
 
 ### 🏛️ IT 경영 패러다임의 진화
@@ -55,7 +55,7 @@ tags = ["studynote-it-management"]
 | 2010 | 클라우드·모바일 전환 | COBIT 5, ITIL 2011, BYOD, Agile | DevOps 통합 미흡 |
 | 2020~ | 디지털 전환(DX) | COBIT 2019, ITIL 4, SRE, FinOps, AIOps | 가치 측정·AI 거버넌스 부재 |
 
-- **📢 섹션 요약 비유**: IT 경영 관리는 **건축물의 도면(EA) → 감리(거버넌스) → 시공(서비스 운영) → 사용 후 평가(성과측정)**의 4단계가 동시에 돌아가는 **살아있는 빌딩 오퍼레이션 시스템**과 같습니다. 도면 없이 시공하면 무너지고, 감리 없이 운영하면 부패합니다.
+- **📢 섹션 요약 비유**: IT 경영 관리는 **건축물의 도면(EA) -> 감리(거버넌스) -> 시공(서비스 운영) -> 사용 후 평가(성과측정)**의 4단계가 동시에 돌아가는 **살아있는 빌딩 오퍼레이션 시스템**과 같습니다. 도면 없이 시공하면 무너지고, 감리 없이 운영하면 부패합니다.
 
 ---
 
@@ -65,48 +65,48 @@ tags = ["studynote-it-management"]
 
 ```text
 [이해관계자(Stakeholders) Needs]
-            │
-            ▼
-┌──────────────────────────────────────────────────────────┐
-│         거버넌스 시스템 (Governance System)               │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │ ① 거버넌스 목적 5대 원칙                          │    │
-│  │    - 이해관계자 가치 실현                          │    │
-│  │    - Holistic Approach (40목표 전체 조망)         │    │
-│  │    - Dynamic Governance System (요인별 설계)     │    │
-│  │    - 분리된 거버넌스 vs 관리 (Govern/Manage)     │    │
-│  │    - 의사결정, 조정, 통제 일원화                  │    │
-│  └──────────────────────────────────────────────────┘    │
-│            │                                              │
-│            ▼                                              │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │ 40개 관리목표 (Management Objectives) 5개 도메인 │    │
-│  │  EDM: Evaluate, Direct, Monitor (5개)           │    │
-│  │  APO: Align, Plan, Organize (14개)              │    │
-│  │  BAI: Build, Acquire, Implement (11개)          │    │
-│  │  DSS: Deliver, Service, Support (6개)            │    │
-│  │  MEA: Monitor, Evaluate, Assess (4개)            │    │
-│  └──────────────────────────────────────────────────┘    │
-│            │                                              │
-│            ▼                                              │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │ 7대 구성요소 (Components of Governance System)  │    │
-│  │  ① 프로세스  ② 조직구조  ③ 정보 흐름             │    │
-│  │  ④ 사람/역량  ⑤ 정책/원칙  ⑥ 문화/윤리           │    │
-│  │  ⑦ 서비스/인프라/애플리케이션 (SIA)              │    │
-│  └──────────────────────────────────────────────────┘    │
-│            │                                              │
-│            ▼                                              │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │ Focus Area (집중영역) : 사이버보안, DevOps,        │    │
-│  │  클라우드, RPA, ESG, 디지털윤리, AI 거버넌스     │    │
-│  └──────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────┘
-            │
-            ▼
+            |
+            v
++----------------------------------------------------------+
+|         거버넌스 시스템 (Governance System)               |
+|  +--------------------------------------------------+    |
+|  | ① 거버넌스 목적 5대 원칙                          |    |
+|  |    - 이해관계자 가치 실현                          |    |
+|  |    - Holistic Approach (40목표 전체 조망)         |    |
+|  |    - Dynamic Governance System (요인별 설계)     |    |
+|  |    - 분리된 거버넌스 vs 관리 (Govern/Manage)     |    |
+|  |    - 의사결정, 조정, 통제 일원화                  |    |
+|  +--------------------------------------------------+    |
+|            |                                              |
+|            v                                              |
+|  +--------------------------------------------------+    |
+|  | 40개 관리목표 (Management Objectives) 5개 도메인 |    |
+|  |  EDM: Evaluate, Direct, Monitor (5개)           |    |
+|  |  APO: Align, Plan, Organize (14개)              |    |
+|  |  BAI: Build, Acquire, Implement (11개)          |    |
+|  |  DSS: Deliver, Service, Support (6개)            |    |
+|  |  MEA: Monitor, Evaluate, Assess (4개)            |    |
+|  +--------------------------------------------------+    |
+|            |                                              |
+|            v                                              |
+|  +--------------------------------------------------+    |
+|  | 7대 구성요소 (Components of Governance System)  |    |
+|  |  ① 프로세스  ② 조직구조  ③ 정보 흐름             |    |
+|  |  ④ 사람/역량  ⑤ 정책/원칙  ⑥ 문화/윤리           |    |
+|  |  ⑦ 서비스/인프라/애플리케이션 (SIA)              |    |
+|  +--------------------------------------------------+    |
+|            |                                              |
+|            v                                              |
+|  +--------------------------------------------------+    |
+|  | Focus Area (집중영역) : 사이버보안, DevOps,        |    |
+|  |  클라우드, RPA, ESG, 디지털윤리, AI 거버넌스     |    |
+|  +--------------------------------------------------+    |
++----------------------------------------------------------+
+            |
+            v
 [ITIL 4 Service Value System (SVS)]
-   Opportunity/Demand → Value → Plan & Improve → Engage →
-   Design & Transition → Obtain/Build → Deliver & Support
+   Opportunity/Demand -> Value -> Plan & Improve -> Engage ->
+   Design & Transition -> Obtain/Build -> Deliver & Support
 ```
 
 ### 📋 핵심 구성요소 매트릭스
@@ -135,7 +135,7 @@ tags = ["studynote-it-management"]
    Level 5: Optimizing       (지속 개선, 예측 가능)
 
 목표 성숙도(Target) - 현재 성숙도(Current) = 갭(Gap)
-→ 갭 분석 후 우선순위 프로젝트 도출
+-> 갭 분석 후 우선순위 프로젝트 도출
 ```
 
 **② IT 투자 ROI / NPV 산정**
@@ -173,7 +173,7 @@ SLA 위반 패널티 = (계약 SLA - 실측치) × 서비스단가 × 패널티�
 |:---|:---|:---|:---|:---|
 | **주 목적** | IT 거버넌스 및 관리 프레임워크 | IT 서비스 운영 최적화 | IT 의사결정 거버넌스 표준 | 프로젝트 관리 지식체계 |
 | **개발 주체** | ISACA (미국감사통제협회) | AXELOS / PeopleCert | ISO/IEC JTC1 | PMI (미국) |
-| **대상** | 전체 IT (전략→운영) | 서비스 운영 레이어 | 이사회·경영진 | 프로젝트 매니저 |
+| **대상** | 전체 IT (전략->운영) | 서비스 운영 레이어 | 이사회·경영진 | 프로젝트 매니저 |
 | **구조** | 5도메인 / 40관리목표 / 7구성요소 | SVS / 34 Practice / 4D 모델 | 6원칙(책임, 전략, 취득, 성과, 준수, 인간행위) | 12원칙 / 8성능영역 |
 | **핵심 산출물** | Maturity Model, RACI, Design Factor | Value Stream, Service Value Chain | Governance Charter | Project Charter, WBS |
 | **측정 지표** | Process Capability (0~5) | SLA, KPI, CSAT | KPI/PRINCE2 | SPI, CPI, PV, EV |
@@ -184,7 +184,7 @@ SLA 위반 패널티 = (계약 SLA - 실측치) × 서비스단가 × 패널티�
 
 **진행 상황**: 512 / 800
 
-← **이전**: [511. IT 경영 관리 핵심 토픽 511번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/511_it_management_core_topic_511_exam_summary/)
-**다음**: [513. IT 경영 관리 핵심 토픽 513번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/513_it_management_core_topic_513_exam_summary/) →
+<- **이전**: [511. IT 경영 관리 핵심 토픽 511번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/511_it_management_core_topic_511_exam_summary/)
+**다음**: [513. IT 경영 관리 핵심 토픽 513번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/513_it_management_core_topic_513_exam_summary/) ->
 
 ---

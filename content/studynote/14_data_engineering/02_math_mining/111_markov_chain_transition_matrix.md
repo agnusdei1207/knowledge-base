@@ -21,24 +21,24 @@ tags = ["studynote-dataengineering"]
 "내일 날씨는 오늘 날씨에만 달려있다(어제·그저께 무관)"라는 단순한 가정이 놀라울 만큼 강력한 예측 모델을 만든다. Google PageRank는 "사용자가 현재 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 다음 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 넘어갈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 모델링하여 검색 순위를 결정한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      날씨 마르코프 체인 예시                            │
-├───────────────────────────────────────────────────────┤
-│              0.7                                      │
-│   ┌──────────────────┐                                │
-│   │                  ▼                                │
-│  [맑음] ─── 0.3 ──▶ [비]                              │
-│   ▲                  │                                │
-│   └──── 0.4 ─────────┘                                │
-│                  0.6                                  │
-│   ┌──────────────────┐                                │
-│   │                  ▼                                │
-│  전이행렬 P = | 0.7  0.3 |                            │
-│              | 0.4  0.6 |                             │
-│                                                       │
-│  정상분포: π = (4/7, 3/7) ≈ (57%, 43%)               │
-│  → 장기적으로 맑은 날이 57%, 비 오는 날이 43%         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      날씨 마르코프 체인 예시                            |
++-------------------------------------------------------+
+|              0.7                                      |
+|   +------------------+                                |
+|   |                  v                                |
+|  [맑음] --- 0.3 ---> [비]                              |
+|   ^                  |                                |
+|   +---- 0.4 ---------+                                |
+|                  0.6                                  |
+|   +------------------+                                |
+|   |                  v                                |
+|  전이행렬 P = | 0.7  0.3 |                            |
+|              | 0.4  0.6 |                             |
+|                                                       |
+|  정상분포: π = (4/7, 3/7) ≈ (57%, 43%)               |
+|  -> 장기적으로 맑은 날이 57%, 비 오는 날이 43%         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 "오늘이 맑으면 내일도 70% 맑다"는 규칙만으로 1년 치 날씨 비율을 예측하는 마법의 주사위다.
@@ -52,14 +52,14 @@ tags = ["studynote-dataengineering"]
 | 개념 | 정의 | 비유 |
 |:---|:---|:---|
 | <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> | 시스템이 취할 수 있는 값 | 날씨(맑음/비) |
-| <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong> | 상태 i → j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $P_{ij}$ | 주사위 눈금 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong> | 상태 i -> j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $P_{ij}$ | 주사위 눈금 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | **전이 행렬 (P)** | 모든 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 행렬로 정리 | 주사위 설계도 |
 | **정상 분포 (π)** | $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$, 장기 균형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 주사위를 무한 번 굴린 결과 |
 
 ### 수렴 조건
 1. **비주기적(Aperiodic)**: 상태로 돌아오는 주기가 고정되지 않음.
 2. **기약(Irreducible)**: 어느 상태에서든 다른 모든 상태로 도달 가능.
-3. **에르고딕(Ergodic)**: 비주기 + 기약 → 유일한 정상 분포로 수렴 보장.
+3. **에르고딕(Ergodic)**: 비주기 + 기약 -> 유일한 정상 분포로 수렴 보장.
 
 - **📢 섹션 요약 비유**: 전이 행렬은 보드게임 판의 이동 규칙이고, 정상 분포는 수만 번 게임 후 각 칸에 머무는 평균 비율이다.
 
@@ -79,12 +79,12 @@ tags = ["studynote-dataengineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 주요 응용
-1. **PageRank**: 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 간 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → 정상 분포 = 검색 순위.
+1. **PageRank**: 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 간 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) -> 정상 분포 = 검색 순위.
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/">MCMC</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/">Markov Chain</a> Monte Carlo)</strong>: 복잡한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 샘플링.
-3. **고객 이탈 예측**: 고객 상태(활성→휴면→이탈) 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델링.
+3. **고객 이탈 예측**: 고객 상태(활성->휴면->이탈) 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델링.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a> 위반 시 적용</strong>: 고객 행동이 1주일 전 행동에도 영향받는 경우 → 고차 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 또는 다른 모델 필요.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a> 위반 시 적용</strong>: 고객 행동이 1주일 전 행동에도 영향받는 경우 -> 고차 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 또는 다른 모델 필요.
 
 ---
 
@@ -109,17 +109,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [마르코프 체인 이론 (Markov, 1906) — 무기억성 확률 모델]
-    │
-    ▼
+    |
+    v
 [HMM (1960s~) — 은닉 상태 추론, 음성 인식]
-    │
-    ▼
-[MCMC (Metropolis, 1953→Hastings, 1970) — 베이지안 샘플링]
-    │
-    ▼
+    |
+    v
+[MCMC (Metropolis, 1953->Hastings, 1970) — 베이지안 샘플링]
+    |
+    v
 [PageRank (1998, Google) — 웹 검색 순위]
-    │
-    ▼
+    |
+    v
 [MDP + 강화학습 (2010s~) — AlphaGo, 로보틱스]
 ```
 
@@ -134,7 +134,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 111 / 258
 
-← **이전**: [110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)
-**다음**: [112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량](/knowledge-base/studynote/14_data_engineering/02_math_mining/112_robust_statistics_median_trimmed_mean/) →
+<- **이전**: [110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)
+**다음**: [112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량](/knowledge-base/studynote/14_data_engineering/02_math_mining/112_robust_statistics_median_trimmed_mean/) ->
 
 ---

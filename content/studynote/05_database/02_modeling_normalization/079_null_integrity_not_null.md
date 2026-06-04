@@ -34,21 +34,21 @@ NULL [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_i
 `NULL`이 무서운 이유는 이진법(True/False)으로 돌아가는 컴퓨터의 뇌 구조를 <strong>삼치 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>(True, False, Unknown)</strong>로 박살 내버리기 때문이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           NULL이 유발하는 블랙홀 연산 논리 (3-Valued Logic)  │
-├────────────────────────────────────────────────────────┤
-│   [ 산술 연산의 붕괴 ]                                   │
-│   100 + NULL = NULL   (미지의 값에 100을 더해도 미지수!) │
-│   NULL / 10  = NULL                                    │
-│                                                        │
-│   [ 논리/비교 연산의 붕괴 ]                              │
-│   NULL = NULL ──▶ False (또는 Unknown). 서로 같다고 할 수 없음! │
-│   NULL != 100 ──▶ Unknown (다르다고 확신할 수도 없음!)     │
-│                                                        │
-│ * 핵심 판별법: SQL에서 NULL을 찾으려면 절대 `WHERE col = NULL`을 │
-│   쓰면 안 된다. 무조건 특수 문법인 `IS NULL`을 써야만 데이터베이스 │
-│   엔진이 미지의 상태를 인식하고 검색해 준다.                    │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           NULL이 유발하는 블랙홀 연산 논리 (3-Valued Logic)  |
++--------------------------------------------------------+
+|   [ 산술 연산의 붕괴 ]                                   |
+|   100 + NULL = NULL   (미지의 값에 100을 더해도 미지수!) |
+|   NULL / 10  = NULL                                    |
+|                                                        |
+|   [ 논리/비교 연산의 붕괴 ]                              |
+|   NULL = NULL ---> False (또는 Unknown). 서로 같다고 할 수 없음! |
+|   NULL != 100 ---> Unknown (다르다고 확신할 수도 없음!)     |
+|                                                        |
+| * 핵심 판별법: SQL에서 NULL을 찾으려면 절대 `WHERE col = NULL`을 |
+|   쓰면 안 된다. 무조건 특수 문법인 `IS NULL`을 써야만 데이터베이스 |
+|   엔진이 미지의 상태를 인식하고 검색해 준다.                    |
++--------------------------------------------------------+
 ```
 
 `NOT NULL` 제약조건은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 `INSERT` 되거나 `UPDATE` 되는 순간, DB 엔진의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기가 작동하여 입력값이 없으면 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 자체를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))시켜버려 이 끔찍한 블랙홀 연산이 생기는 원인을 원천 봉쇄한다.
@@ -110,21 +110,21 @@ NULL [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_i
 
 ```text
 관계형 모델의 유연성 요구 (값이 없는 상태의 표현 필요성)
-    │
-    ▼
+    |
+    v
 NULL 마커(Marker) 도입 (공백이나 0과는 완전히 다른 '미지의 상태' 정의)
-    │
-    ▼
+    |
+    v
 NULL로 인한 삼치 논리(3-Valued Logic) 연산 붕괴 및 인덱스 누락 부작용 발생
-    │
-    ▼
-무결성 제어의 도입 ──▶ NOT NULL 제약조건을 통한 스키마 레벨 방어 체계 확립
-    │
-    ▼
+    |
+    v
+무결성 제어의 도입 ---> NOT NULL 제약조건을 통한 스키마 레벨 방어 체계 확립
+    |
+    v
 현대 DB 모델링의 룰 (최소한의 NULL 허용, DEFAULT 값 우선 전략 융합)
 ```
 
-이 흐름도는 "유연성을 위한 빈칸 허용 → 시스템 붕괴의 부작용 직면 → [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 레벨의 물리적 강제 방어벽(제약조건) 설치"로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 통제 아키텍처의 발전사를 보여준다.
+이 흐름도는 "유연성을 위한 빈칸 허용 -> 시스템 붕괴의 부작용 직면 -> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 레벨의 물리적 강제 방어벽(제약조건) 설치"로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 통제 아키텍처의 발전사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ NULL로 인한 삼치 논리(3-Valued Logic) 연산 붕괴 및 인덱스 누락 
 
 **진행 상황**: 79 / 600
 
-← **이전**: [78. 키 무결성 (Key Integrity)](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/)
-**다음**: [080. E-R 모델 (Entity-Relationship Model, 피터 첸)](/knowledge-base/studynote/05_database/02_modeling_normalization/080_er_model_entity_relationship_peter_chen/) →
+<- **이전**: [78. 키 무결성 (Key Integrity)](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/)
+**다음**: [080. E-R 모델 (Entity-Relationship Model, 피터 첸)](/knowledge-base/studynote/05_database/02_modeling_normalization/080_er_model_entity_relationship_peter_chen/) ->
 
 ---

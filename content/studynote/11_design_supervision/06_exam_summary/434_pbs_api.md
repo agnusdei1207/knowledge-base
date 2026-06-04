@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 이 구조가 필요한 이유는 시장 변화 속도 때문이다. 상품 조합, 채널 확장, 외부 제휴, 규제 변경이 잦은 환경에서는 모놀리식 패키지의 일괄 개편으로는 대응 속도가 나오지 않는다. 컴포저블 아키텍처는 주문, 결제, 추천, 배송, 정산 같은 업무 블록을 조합해 신속하게 새로운 프로세스를 구성하도록 돕는다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Web/App  │   │ Partner  │   │ Channel  │
-└────┬─────┘   └────┬─────┘   └────┬─────┘
-     └──────────┬───┴──────────────┘
-                ▼
-         ┌──────────────┐
-         │ API 조합 계층 │
-         └───┬────┬─────┘
-             │    │
-        ┌────▼┐ ┌─▼────┐ ┌────▼─┐
-        │ PBS1│ │ PBS2 │ │ PBS3 │
-        └─────┘ └──────┘ └──────┘
++----------+   +----------+   +----------+
+| Web/App  |   | Partner  |   | Channel  |
++----+-----+   +----+-----+   +----+-----+
+     +----------+---+--------------+
+                v
+         +--------------+
+         | API 조합 계층 |
+         +---+----+-----+
+             |    |
+        +----v+ +-v----+ +----v-+
+        | PBS1| | PBS2 | | PBS3 |
+        +-----+ +------+ +------+
 ```
 
 따라서 필요성의 핵심은 “변화 대응력”과 “업무 중심 분해”다. 기술사 답안에서는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선 설계, 조합형 업무 프로세스, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 완화를 함께 써야 논리적 완성도가 높다.
@@ -48,13 +48,13 @@ tags = ["studynote-design-supervision"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유 구조 | 각 PBS가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임지고 필요한 정보만 공유한다. | [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 중복 저장, 정합성 통제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 ```text
-┌──────────────── API Composition Layer ────────────────┐
-│ 인증 │ 라우팅 │ 오케스트레이션 │ 모니터링 │ 정책 적용 │
-└──────┬───────────┬──────────────┬───────────┬────────┘
-       │           │              │           │
-┌──────▼───┐ ┌─────▼────┐ ┌──────▼───┐ ┌─────▼────┐
-│ Order PBS│ │ Pay PBS  │ │ Ship PBS │ │ CRM PBS  │
-└──────────┘ └──────────┘ └──────────┘ └──────────┘
++---------------- API Composition Layer ----------------+
+| 인증 | 라우팅 | 오케스트레이션 | 모니터링 | 정책 적용 |
++------+-----------+--------------+-----------+--------+
+       |           |              |           |
++------v---+ +-----v----+ +------v---+ +-----v----+
+| Order PBS| | Pay PBS  | | Ship PBS | | CRM PBS  |
++----------+ +----------+ +----------+ +----------+
 ```
 
 설계 핵심은 “잘게 나누는 것”이 아니라 “비즈니스적으로 다시 조립 가능한 단위로 나누는 것”이다. 기술사 답안에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많다는 사실보다 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준화, 조합 계층, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계의 균형을 강조해야 한다.
@@ -101,13 +101,13 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 모놀리식 패키지 중심 업무 시스템
-    ↓
+    v
 서비스 분리와 API 공개
-    ↓
+    v
 업무 역량 단위 PBS 설계
-    ↓
+    v
 조합 계층 기반 채널 확장
-    ↓
+    v
 컴포저블 엔터프라이즈 운영
 ```
 
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 512 / 530
 
-← **이전**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/433_process/)
-**다음**: [435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/435_dora/) →
+<- **이전**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/433_process/)
+**다음**: [435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/435_dora/) ->
 
 ---

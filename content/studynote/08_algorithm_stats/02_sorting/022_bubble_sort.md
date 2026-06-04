@@ -1,5 +1,5 @@
 +++
-title = "15. 버블 정렬 (Bubble Sort) — O(n²), 안정, 제자리"
+title = "15. 버블 정렬 (Bubble Sort) — O(n^), 안정, 제자리"
 
 [taxonomies]
 tags = ["algorithm_stats"]
@@ -9,7 +9,7 @@ tags = ["algorithm_stats"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 버블 정렬(Bubble Sort)은 인접한 두 원소를 비교하고 교환하는 작업을 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝까지 반복하여, 가장 큰(또는 작은) 값을 끝으로 밀어내는 O(N²) 제자리(In-place) 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 1. **본질**: 버블 정렬(Bubble Sort)은 인접한 두 원소를 비교하고 교환하는 작업을 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝까지 반복하여, 가장 큰(또는 작은) 값을 끝으로 밀어내는 O(N^) 제자리(In-place) 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 면에서는 극도로 비효율적이지만, 코드가 직관적이고 안정 정렬(Stable Sort)의 특성을 가져 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대와 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 개념을 이해하는 교육적 기준점이 된다.
 > 3. **융합**: Swap 플래그를 활용한 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)(Early Exit) 기법을 융합하면, 이미 거의 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 대해서는 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 O(N) 수준으로 방어하는 최적화가 가능하다.
 
@@ -26,32 +26,32 @@ tags = ["algorithm_stats"]
 ```text
 [버블 정렬 1회전 (Pass 1) 메커니즘]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  배열: [ 5,  3,  8,  1,  2 ]                       │
-│                                                      │
-│  1단계: [ 5, 3 ] 비교 -> Swap! -> [ 3, 5, 8, 1, 2 ]
-│           5 > 3 _swap                          │
-│                                                      │
-│  2단계: [ 5, 8 ] 비교 -> 유지  -> [ 3, 5, 8, 1, 2 ]
-│           5 < 8  유지                          │
-│                                                      │
-│  3단계: [ 8, 1 ] 비교 -> Swap! -> [ 3, 5, 1, 8, 2 ]
-│           8 > 1 _swap                          │
-│                                                      │
-│  4단계: [ 8, 2 ] 비교 -> Swap! -> [ 3, 5, 1, 2, 8 ]
-│           8 > 2 _swap                          │
-│                                                      │
-│  결과: 가장 큰 수 '8'이 제자리(맨 우측 끝)로 확정됨. │
-│                                                      │
-│  관찰 포인트:                                        │
-│  - 1회의 전체 스캔(Pass)가 끝날 때마다               │
-│    가장 큰 원소가 반드시 제자리를 찾아 고정됨          │
-│  - 인접한 두 요소를 계속 비교하며                     │
-│    큰 값을 오른쪽으로 릴레이처럼 넘겨주기 때문         │
-│  - N개의 원소가 있다면 최대 N-1번 반복               │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  배열: [ 5,  3,  8,  1,  2 ]                       |
+|                                                      |
+|  1단계: [ 5, 3 ] 비교 -> Swap! -> [ 3, 5, 8, 1, 2 ]
+|           5 > 3 _swap                          |
+|                                                      |
+|  2단계: [ 5, 8 ] 비교 -> 유지  -> [ 3, 5, 8, 1, 2 ]
+|           5 < 8  유지                          |
+|                                                      |
+|  3단계: [ 8, 1 ] 비교 -> Swap! -> [ 3, 5, 1, 8, 2 ]
+|           8 > 1 _swap                          |
+|                                                      |
+|  4단계: [ 8, 2 ] 비교 -> Swap! -> [ 3, 5, 1, 2, 8 ]
+|           8 > 2 _swap                          |
+|                                                      |
+|  결과: 가장 큰 수 '8'이 제자리(맨 우측 끝)로 확정됨. |
+|                                                      |
+|  관찰 포인트:                                        |
+|  - 1회의 전체 스캔(Pass)가 끝날 때마다               |
+|    가장 큰 원소가 반드시 제자리를 찾아 고정됨          |
+|  - 인접한 두 요소를 계속 비교하며                     |
+|    큰 값을 오른쪽으로 릴레이처럼 넘겨주기 때문         |
+|  - N개의 원소가 있다면 최대 N-1번 반복               |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 1회의 전체 스캔(Pass)이 끝날 때마다 가장 큰 원소가 반드시 제자리를 찾아 고정된다는 점이 버블 정렬의 핵심 특성이다.
@@ -74,41 +74,41 @@ tags = ["algorithm_stats"]
 | **Swap Logic** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치 교환 | A[j] > A[j+1]일 때 임시 변수를 통해 값 교환 | 디스크/메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용 발생 |
 | <strong>Early Exit <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a></strong> | [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 최적화 | Inner Loop에서 한 번도 Swap이 없으면 탈출 | 최선 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 O(N)으로 개선 |
 
-**최적화된 버블 정렬 (Optimized Bubble Sort)** 원리는 다음과 같다. 기본 버블 정렬은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 이미 정렬되어 있어도 기계적으로 O(N²)번의 비교를 수행한다. 이를 개선하기 위해 `swapped`라는 boolean 변수를 도입한다. 안쪽 루프를 도는 동안 한 번이라도 교환이 일어났다면 `swapped = true`로 설정한다. 만약 안쪽 루프가 끝났는데 `swapped == false`라면, 이는 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 완벽히 정렬되었음을 의미하므로 바깥 루프를 즉시 `break`한다.
+**최적화된 버블 정렬 (Optimized Bubble Sort)** 원리는 다음과 같다. 기본 버블 정렬은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 이미 정렬되어 있어도 기계적으로 O(N^)번의 비교를 수행한다. 이를 개선하기 위해 `swapped`라는 boolean 변수를 도입한다. 안쪽 루프를 도는 동안 한 번이라도 교환이 일어났다면 `swapped = true`로 설정한다. 만약 안쪽 루프가 끝났는데 `swapped == false`라면, 이는 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 완벽히 정렬되었음을 의미하므로 바깥 루프를 즉시 `break`한다.
 
 ```text
 [최적화된 버블 정렬: 조기 종료]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [배열 [1, 2, 3, 5, 4] 입력 시 동작 비교]           │
-│                                                      │
-│  1. 기본 버블 정렬 (무지성 반복)                      │
-│  ────────────────────────────────────                │
-│  Pass 1: Swap 발생 (5와 4) -> [1, 2, 3, 4, 5]      │
-│  Pass 2: Swap 없음 (확인만 함)                       │
-│  Pass 3: Swap 없음 (확인만 함)                       │
-│  Pass 4: Swap 없음 (확인만 함)                       │
-│  -> 총 비교 연산 O(N²) 소요                         │
-│                                                      │
-│  2. 최적화된 버블 정렬 (Early Exit)                  │
-│  ────────────────────────────────────                │
-│  Pass 1: Swap 발생 (5와 4), swapped=true            │
-│          -> [1, 2, 3, 4, 5]                         │
-│  Pass 2: Swap 없음, swapped=false                   │
-│          -> "더 이상 바꿀 게 없군. 즉시 종료!" (break)  │
-│          -> O(N) 근접                               │
-│                                                      │
-│  핵심 통찰:                                          │
-│  - 플래그(Flag) 하나를 추가함으로써                   │
-│    최선의 경우(Best Case) 성능을 극적으로 단축        │
-│  - 교환 작업의 발생 여부가 전체 배열의                 │
-│    '정렬 상태 완료'를 입증하는 지표가 됨              │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [배열 [1, 2, 3, 5, 4] 입력 시 동작 비교]           |
+|                                                      |
+|  1. 기본 버블 정렬 (무지성 반복)                      |
+|  ------------------------------------                |
+|  Pass 1: Swap 발생 (5와 4) -> [1, 2, 3, 4, 5]      |
+|  Pass 2: Swap 없음 (확인만 함)                       |
+|  Pass 3: Swap 없음 (확인만 함)                       |
+|  Pass 4: Swap 없음 (확인만 함)                       |
+|  -> 총 비교 연산 O(N^) 소요                         |
+|                                                      |
+|  2. 최적화된 버블 정렬 (Early Exit)                  |
+|  ------------------------------------                |
+|  Pass 1: Swap 발생 (5와 4), swapped=true            |
+|          -> [1, 2, 3, 4, 5]                         |
+|  Pass 2: Swap 없음, swapped=false                   |
+|          -> "더 이상 바꿀 게 없군. 즉시 종료!" (break)  |
+|          -> O(N) 근접                               |
+|                                                      |
+|  핵심 통찰:                                          |
+|  - 플래그(Flag) 하나를 추가함으로써                   |
+|    최선의 경우(Best Case) 성능을 극적으로 단축        |
+|  - 교환 작업의 발생 여부가 전체 배열의                 |
+|    '정렬 상태 완료'를 입증하는 지표가 됨              |
+|                                                      |
++------------------------------------------------------+
 ```
 
-- **관찰**: [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 최적화는 이미 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 대해 버블 정렬의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 O(N²)에서 O(N)로 향상시킨다.
+- **관찰**: [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 최적화는 이미 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 대해 버블 정렬의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 O(N^)에서 O(N)로 향상시킨다.
 - **원인**: 교환 작업의 발생 여부가 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 '정렬 상태 완료'를 입증하는 지표가 되기 때문이다.
 - **결과**: 이 최적화는 부분 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 불필요한 비교 연산의 낭비를 제거한다.
 - **판단**: 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간 스트리밍으로 들어와 이미 거의 정렬된 상태(Nearly Sorted)를 유지하는 특수한 경우에는 이 최적화된 버블 정렬이 퀵 정렬보다 오버헤드가 적어 유리할 수 있다.
@@ -128,24 +128,24 @@ tags = ["algorithm_stats"]
 ```text
 [실무 정렬 알고리즘 의사결정 트리]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [데이터 정렬 요구사항 발생]                           │
-│            │                                          │
-│  [데이터 크기가 50개 이하인가?] ──(Yes)──> 삽입 정렬  │
-│            │ (No)                                    │
-│            ▼                                         │
-│  [추가 메모리 O(N) 사용 가능한가?] ──(No)──> 힙 정렬  │
-│            │ (Yes)                                   │
-│            ▼                                         │
-│  [안정성(Stable)이 필수인가?] ──(Yes)──> 합병/Timsort│
-│            │ (No)                                    │
-│            ▼                                         │
-│         퀵 정렬 (가장 범용적 우수)                     │
-│                                                      │
-│  * 버블 정렬은 이 의사결정 트리에 진입조차 하지 못함    │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [데이터 정렬 요구사항 발생]                           |
+|            |                                          |
+|  [데이터 크기가 50개 이하인가?] --(Yes)--> 삽입 정렬  |
+|            | (No)                                    |
+|            v                                         |
+|  [추가 메모리 O(N) 사용 가능한가?] --(No)--> 힙 정렬  |
+|            | (Yes)                                   |
+|            v                                         |
+|  [안정성(Stable)이 필수인가?] --(Yes)--> 합병/Timsort|
+|            | (No)                                    |
+|            v                                         |
+|         퀵 정렬 (가장 범용적 우수)                     |
+|                                                      |
+|  * 버블 정렬은 이 의사결정 트리에 진입조차 하지 못함    |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 버블 정렬은 자전거와 같습니다. 원리를 이해하고 균형 감각을 배우기에는 최고의 도구이지만, 고속도로(대규모 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 올라타는 순간 병목과 사고의 원인이 되므로 차(Quick/[Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))로 갈아타야 합니다.
@@ -177,52 +177,52 @@ tags = ["algorithm_stats"]
 ```text
 [버블 정렬 (Bubble Sort) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      버블 정렬 (Bubble Sort)          │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  핵심 특성     │  │   시간 복잡도   │  │   변형 알고리즘  │
-│  Properties   │  │  Time Complexity│ │  Variants   │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 안정 정렬     │  │ O(N²) 보통   │  │ 칵테일 셰이커  │
-│ Stable Sort   │  │ O(N) 최적   │  │ Comb Sort   │
-│ 제자리 정렬   │  │ (Early Exit) │  │ (개선된 거품)  │
-│ In-place Sort │  │              │  │              │
-│ 직관적 구조    │  │              │  │              │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      정렬 알고리즘 선택 기준              │
-         ├─────────────────────────────────┤
-         │ N ≤ 50: 삽입 정렬 (작은 데이터에 효율)  │
-         │ N > 50 + 안정성 필수: 합병/Timsort    │
-         │ N > 50 + 안정성 불필요: 퀵/힙 정렬     │
-         │ 버블 정렬: 교육용으로만 사용            │
-         └─────────────────────────────────┘
+         +---------------------------------+
+         |      버블 정렬 (Bubble Sort)          |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  핵심 특성     |  |   시간 복잡도   |  |   변형 알고리즘  |
+|  Properties   |  |  Time Complexity| |  Variants   |
++--------------+  +--------------+  +--------------+
+| 안정 정렬     |  | O(N^) 보통   |  | 칵테일 셰이커  |
+| Stable Sort   |  | O(N) 최적   |  | Comb Sort   |
+| 제자리 정렬   |  | (Early Exit) |  | (개선된 거품)  |
+| In-place Sort |  |              |  |              |
+| 직관적 구조    |  |              |  |              |
++--------------+  +--------------+  +--------------+
+      |                   |                    |
+      +-------------------+--------------------+
+                          |
+                          v
+         +---------------------------------+
+         |      정렬 알고리즘 선택 기준              |
+         +---------------------------------+
+         | N ≤ 50: 삽입 정렬 (작은 데이터에 효율)  |
+         | N > 50 + 안정성 필수: 합병/Timsort    |
+         | N > 50 + 안정성 불필요: 퀵/힙 정렬     |
+         | 버블 정렬: 교육용으로만 사용            |
+         +---------------------------------+
 ```
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [비교 기반 정렬 (Comparison-Based Sort) — 원소 간 비교로 순서를 결정하는 정렬 알고리즘의 공통 원리]
-    │
-    ▼
-[버블 정렬 (Bubble Sort) — 인접 원소 교환 반복, O(N²) 안정 제자리 정렬]
-    │
-    ▼
+    |
+    v
+[버블 정렬 (Bubble Sort) — 인접 원소 교환 반복, O(N^) 안정 제자리 정렬]
+    |
+    v
 [조기 종료 최적화 (Early Exit) — 교환 발생 여부 플래그로 이미 정렬된 배열 O(N) 방어]
-    │
-    ▼
-[삽입 정렬 (Insertion Sort) — 버블과 유사한 O(N²)이나 거의 정렬된 경우 실용적 성능]
-    │
-    ▼
+    |
+    v
+[삽입 정렬 (Insertion Sort) — 버블과 유사한 O(N^)이나 거의 정렬된 경우 실용적 성능]
+    |
+    v
 [팀소트 (TimSort) — Python·Java 내장 정렬, 삽입 정렬+병합 정렬 하이브리드로 실무 표준]
 ```
 
@@ -248,7 +248,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 22 / 175
 
-← **이전**: [14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/)
-**다음**: [15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/) →
+<- **이전**: [14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/)
+**다음**: [15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/) ->
 
 ---

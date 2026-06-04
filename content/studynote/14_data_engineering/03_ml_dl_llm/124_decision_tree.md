@@ -11,7 +11,7 @@ tags = ["studynote-dataengineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 의사결정 트리는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 값에 따라 데이터를 반복적으로 분할(Split)</strong>하여 트리 구조의 규칙을 학습하는 **해석 가능한(Interpretable)** [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·회귀 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: "나이 ≥ 30 → 소득 ≥ 5000만원 → 대출 승인"처럼 <strong>규칙이 인간이 읽을 수 있는 형태</strong>로 표현되어, 블랙박스 모델과 달리 <strong>의사결정 근거를 설명</strong>할 수 있다.
+> 2. **가치**: "나이 ≥ 30 -> 소득 ≥ 5000만원 -> 대출 승인"처럼 <strong>규칙이 인간이 읽을 수 있는 형태</strong>로 표현되어, 블랙박스 모델과 달리 <strong>의사결정 근거를 설명</strong>할 수 있다.
 > 3. **판단 포인트**: 깊은 트리는 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 위험이 크므로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)·최대 깊이 제한</strong>이 필요하며, [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)·XGBoost)로 단일 트리의 약점을 극복한다.
 
 ---
@@ -19,17 +19,17 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    의사결정 트리 예시 (대출 승인)                      │
-├───────────────────────────────────────────────────────┤
-│            [나이 ≥ 30?]                               │
-│           /          \                                │
-│         Yes          No                               │
-│    [소득 ≥ 5000?]     [학력 = 대졸?]                  │
-│     /      \          /       \                       │
-│   Yes      No       Yes      No                      │
-│  승인 ✅  거절 ❌   승인 ✅  거절 ❌                  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    의사결정 트리 예시 (대출 승인)                      |
++-------------------------------------------------------+
+|            [나이 ≥ 30?]                               |
+|           /          \                                |
+|         Yes          No                               |
+|    [소득 ≥ 5000?]     [학력 = 대졸?]                  |
+|     /      \          /       \                       |
+|   Yes      No       Yes      No                      |
+|  승인 ✅  거절 ❌   승인 ✅  거절 ❌                  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 의사결정 트리는 <strong>20 질문 게임</strong>이다. "나이가 30 이상?" "소득이 5000만원 이상?" 등 질문을 반복하여 답에 도달한다.
@@ -89,17 +89,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [ID3 (Quinlan, 1986) — 엔트로피 기반]
-    │
-    ▼
+    |
+    v
 [C4.5 (1993) — ID3 개선, 연속 변수 처리]
-    │
-    ▼
-[CART (Breiman, 1984→2001) — 지니, 회귀 트리]
-    │
-    ▼
+    |
+    v
+[CART (Breiman, 1984->2001) — 지니, 회귀 트리]
+    |
+    v
 [Random Forest (2001) — 배깅 앙상블]
-    │
-    ▼
+    |
+    v
 [현재: XGBoost / LightGBM — 부스팅 앙상블]
 ```
 
@@ -114,7 +114,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 124 / 258
 
-← **이전**: [123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/123_reinforcement_learning/)
-**다음**: [125. 앙상블 학습 (Ensemble Learning) - 여러 모델의 결합으로 성능 극대화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/) →
+<- **이전**: [123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/123_reinforcement_learning/)
+**다음**: [125. 앙상블 학습 (Ensemble Learning) - 여러 모델의 결합으로 성능 극대화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/) ->
 
 ---

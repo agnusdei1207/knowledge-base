@@ -42,24 +42,24 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 같은 메모리 접근이라도 왜 원인이 다르게 갈리는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 3C가 발생하는 위치와 이유                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  메모리 접근 흐름                                                   │
-│  CPU (Central Processing Unit)                                      │
-│    │                                                                │
-│    ├─▶ [처음 보는 블록] ───────────────▶ Compulsory Miss            │
-│    │        │                                                       │
-│    │        └─ 아직 캐시에 흔적이 없음                              │
-│    │                                                                │
-│    ├─▶ [워킹 셋 > 캐시 크기] ────────▶ Capacity Miss                │
-│    │        │                                                       │
-│    │        └─ 필요한 블록이 용량 한계로 이미 축출됨                │
-│    │                                                                │
-│    └─▶ [같은 인덱스에 주소 집중] ────▶ Conflict Miss                │
-│             │                                                       │
-│             └─ 다른 세트는 비어도 특정 세트 안에서만 계속 교체      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 3C가 발생하는 위치와 이유                           |
++----------------------------------------------------------------------+
+|  메모리 접근 흐름                                                   |
+|  CPU (Central Processing Unit)                                      |
+|    |                                                                |
+|    +--> [처음 보는 블록] ----------------> Compulsory Miss            |
+|    |        |                                                       |
+|    |        +- 아직 캐시에 흔적이 없음                              |
+|    |                                                                |
+|    +--> [워킹 셋 > 캐시 크기] ---------> Capacity Miss                |
+|    |        |                                                       |
+|    |        +- 필요한 블록이 용량 한계로 이미 축출됨                |
+|    |                                                                |
+|    +--> [같은 인덱스에 주소 집중] -----> Conflict Miss                |
+|             |                                                       |
+|             +- 다른 세트는 비어도 특정 세트 안에서만 계속 교체      |
++----------------------------------------------------------------------+
 ```
 
 <strong>Compulsory Miss</strong>는 처음 읽는 순간에는 피할 수 없는 미스다. 프로그램 시작 직후, 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음 순회할 때, 혹은 함수가 처음 호출되어 관련 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음 캐시에 올라올 때 나타난다. 이 경우 핵심은 "처음 읽는 비용을 어떻게 숨길 것인가"이며, 하드웨어 프리페처나 소프트웨어 프리페치가 주된 대응책이다.
@@ -146,25 +146,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 지역성 (Locality) 이해
-    │
-    ▼
+    |
+    v
 캐시 히트/미스 (Cache Hit/Miss)
-    │
-    ▼
+    |
+    v
 3C (Compulsory, Capacity, Conflict)
-    │
-    ├─▶ 프리페치 (Prefetch)          ─▶ Compulsory Miss 완화
-    ├─▶ 캐시 용량·타일링             ─▶ Capacity Miss 완화
-    └─▶ 세트 연관·데이터 재배치      ─▶ Conflict Miss 완화
-    │
-    ▼
+    |
+    +--> 프리페치 (Prefetch)          --> Compulsory Miss 완화
+    +--> 캐시 용량·타일링             --> Capacity Miss 완화
+    +--> 세트 연관·데이터 재배치      --> Conflict Miss 완화
+    |
+    v
 AMAT (Average Memory Access Time) 최적화
-    │
-    ▼
+    |
+    v
 멀티코어 확장: 4C · Coherence Miss
 ```
 
-이 흐름은 "지역성 이해 → 원인 분해 → 원인별 대응 → 시스템 전체 최적화"로 이어지는 학습 경로를 보여준다.
+이 흐름은 "지역성 이해 -> 원인 분해 -> 원인별 대응 -> 시스템 전체 최적화"로 이어지는 학습 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -178,7 +178,7 @@ AMAT (Average Memory Access Time) 최적화
 
 **진행 상황**: 270 / 803
 
-← **이전**: [269. 집합 연관 사상 (Set Associative Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/)
-**다음**: [271. 캐시 교체 알고리즘 (Replacement Policy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/) →
+<- **이전**: [269. 집합 연관 사상 (Set Associative Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/)
+**다음**: [271. 캐시 교체 알고리즘 (Replacement Policy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/) ->
 
 ---

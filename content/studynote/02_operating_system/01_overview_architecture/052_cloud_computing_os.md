@@ -32,17 +32,17 @@ tags = ["studynote-operating-system"]
 OS 관점에서 클라우드는 하드웨어 위에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 층을 올리고, 그 위에 격리된 실행 환경을 다수 제공하는 구조다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))는 VM을, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임은 프로세스 격리를, 오케스트레이터는 이 둘의 배치를 관리한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               OS 관점의 클라우드 추상화 계층                │
-├──────────────────────────────────────────────────────────────┤
-│ 애플리케이션 / 서비스 / API                                  │
-│          ▲                                                   │
-│ VM / Container / Serverless                                 │
-│          ▲                                                   │
-│ 하이퍼바이저 · 런타임 · 오케스트레이터                       │
-│          ▲                                                   │
-│ CPU · Memory · Disk · Network · Hardware                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               OS 관점의 클라우드 추상화 계층                |
++--------------------------------------------------------------+
+| 애플리케이션 / 서비스 / API                                  |
+|          ^                                                   |
+| VM / Container / Serverless                                 |
+|          ^                                                   |
+| 하이퍼바이저 · 런타임 · 오케스트레이터                       |
+|          ^                                                   |
+| CPU · Memory · Disk · Network · Hardware                    |
++--------------------------------------------------------------+
 ```
 
 | OS 메커니즘 | 클라우드에서의 역할 | 핵심 기술 |
@@ -123,17 +123,17 @@ OS 관점에서 클라우드는 하드웨어 위에 [가상화](/knowledge-base/
 
 ```text
 전통적 OS 자원 관리
-    │
-    ▼
+    |
+    v
 가상화 (Virtualization)
-    │
-    ▼
+    |
+    v
 VM (Virtual Machine) · 하이퍼바이저
-    │
-    ▼
+    |
+    v
 컨테이너 (Container) · 오케스트레이션
-    │
-    ▼
+    |
+    v
 클라우드 네이티브 · 서버리스
 ```
 
@@ -151,7 +151,7 @@ VM (Virtual Machine) · 하이퍼바이저
 
 **진행 상황**: 52 / 800
 
-← **이전**: [51. 그리드 컴퓨팅 (Grid Computing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/051_grid_computing/)
-**다음**: [53. 가상화 아키텍처 (Virtualization Architecture)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/) →
+<- **이전**: [51. 그리드 컴퓨팅 (Grid Computing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/051_grid_computing/)
+**다음**: [53. 가상화 아키텍처 (Virtualization Architecture)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-algorithm-stats"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 덱(Deque, Double-Ended [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))은 양쪽 끝에서 삽입·삭제가 모두 가능한 자료구조다. 큐([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(LIFO)의 기능을 모두 포함하는 슈퍼셋이다.
-> 2. **가치**: 슬라이딩 윈도우 최댓값/최솟값 문제에서 덱을 사용하면 O(n) 시간에 해결 가능하다(단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 O(n²)). 이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 또는 순환 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 구현하며 모든 연산이 O(1) 분할 상환이다.
+> 2. **가치**: 슬라이딩 윈도우 최댓값/최솟값 문제에서 덱을 사용하면 O(n) 시간에 해결 가능하다(단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 O(n^)). 이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 또는 순환 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 구현하며 모든 연산이 O(1) 분할 상환이다.
 > 3. **판단 포인트**: 덱의 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용은 "단조 덱(Monotonic Deque)"이다. 슬라이딩 윈도우에서 최대/최솟값 조회 시 덱의 양끝 관리로 O(n) 달성. LeetCode 239번 Sliding Window Maximum이 대표 문제다.
 
 ---
@@ -19,22 +19,22 @@ tags = ["studynote-algorithm-stats"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│               덱 자료구조 동작                            │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  앞(Front) 삽입/삭제  ←→  뒤(Rear) 삽입/삭제             │
-│                                                           │
-│  [← A | B | C | D →]                                     │
-│   앞(Front)          뒤(Rear)                             │
-│                                                           │
-│  push_front(X): [X | A | B | C | D]                      │
-│  push_back(Y):  [X | A | B | C | D | Y]                  │
-│  pop_front():   반환 X, [A | B | C | D | Y]              │
-│  pop_back():    반환 Y, [A | B | C | D]                   │
-│                                                           │
-│  모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               덱 자료구조 동작                            |
++----------------------------------------------------------+
+|                                                           |
+|  앞(Front) 삽입/삭제  <-->  뒤(Rear) 삽입/삭제             |
+|                                                           |
+|  [<- A | B | C | D ->]                                     |
+|   앞(Front)          뒤(Rear)                             |
+|                                                           |
+|  push_front(X): [X | A | B | C | D]                      |
+|  push_back(Y):  [X | A | B | C | D | Y]                  |
+|  pop_front():   반환 X, [A | B | C | D | Y]              |
+|  pop_back():    반환 Y, [A | B | C | D]                   |
+|                                                           |
+|  모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)         |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 덱은 양쪽에 문이 있는 버스다. 앞문·뒷문 어디서든 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 탑승·하차할 수 있어 상황에 따라 큐처럼 앞뒤로 사용하거나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 한쪽만 사용할 수 있다.
@@ -117,7 +117,7 @@ def maxSlidingWindow(nums, k):
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **슬라이딩 윈도우** | O(n²) → O(n) 최적화 |
+| **슬라이딩 윈도우** | O(n^) -> O(n) 최적화 |
 | **양방향 처리** | 큐+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기능 통합 |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 변형</strong> | 우선순위 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 0-1 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
 
@@ -141,24 +141,24 @@ def maxSlidingWindow(nums, k):
 
 ```text
 [스택·큐 — 단방향 자료구조]
-    │
-    ▼
+    |
+    v
 [덱 (Deque) — 양방향 삽입·삭제]
-    │
-    ▼
+    |
+    v
 [단조 덱 — 슬라이딩 윈도우 최적화]
-    │
-    ▼
+    |
+    v
 [0-1 BFS — 이진 가중치 최단 경로]
-    │
-    ▼
+    |
+    v
 [세그먼트 트리·스파스 테이블 — 구간 최솟값 고급 구조]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 덱은 양쪽 모두 출입 가능한 버스예요! 앞문·뒷문 어디서든 타고 내릴 수 있어요.
-2. 단조 덱을 쓰면 이동하는 창문 안의 최댓값을 매번 다시 계산하지 않아도 돼요 — O(n²)을 O(n)으로 줄이는 마법!
+2. 단조 덱을 쓰면 이동하는 창문 안의 최댓값을 매번 다시 계산하지 않아도 돼요 — O(n^)을 O(n)으로 줄이는 마법!
 3. Python의 collections.deque는 이 덱을 빠르게 구현해둔 도구로 코딩 테스트에서 자주 쓰인답니다!
 
 ---
@@ -167,7 +167,7 @@ def maxSlidingWindow(nums, k):
 
 **진행 상황**: 84 / 175
 
-← **이전**: [28. 우선순위 큐 (Priority Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)
-**다음**: [29. 세그먼트 트리 (Segment Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/) →
+<- **이전**: [28. 우선순위 큐 (Priority Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)
+**다음**: [29. 세그먼트 트리 (Segment Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/) ->
 
 ---

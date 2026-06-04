@@ -26,20 +26,20 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 아래 그림은 전통적인 핸드오프 구조와 현대적 책임 정렬 구조의 차이를 보여 준다. 핵심은 "운영을 누가 대신 해 주는가"가 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 소유권이 어디에 머무는가</strong>다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핸드오프 구조 vs 책임 정렬 구조                               │
-├──────────────────────────────────────────────────────────────┤
-│ 전통 구조                                                     │
-│ Dev Team ─▶ Ticket ─▶ Ops Team                                │
-│                         └─▶ Database / Security               │
-│   └─ 책임 분산 · 대기시간 증가 · 장애 원인 왕복               │
-│                                                              │
-│ 현대 구조                                                     │
-│ Stream Team ─▶ Build + Run 책임                              │
-│      │                                                       │
-│      ├─ Platform Team: 공통 실행 기반 제공                   │
-│      └─ SRE / Enabling: 신뢰성 기준·자동화 코칭              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 핸드오프 구조 vs 책임 정렬 구조                               |
++--------------------------------------------------------------+
+| 전통 구조                                                     |
+| Dev Team --> Ticket --> Ops Team                                |
+|                         +--> Database / Security               |
+|   +- 책임 분산 · 대기시간 증가 · 장애 원인 왕복               |
+|                                                              |
+| 현대 구조                                                     |
+| Stream Team --> Build + Run 책임                              |
+|      |                                                       |
+|      +- Platform Team: 공통 실행 기반 제공                   |
+|      +- SRE / Enabling: 신뢰성 기준·자동화 코칭              |
++--------------------------------------------------------------+
 ```
 
 이 때문에 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 토폴로지는 "운영팀을 없앨 것인가"가 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 자율성을 가지되 무질서에 빠지지 않게 하는 경계 설계가 된다. 특히 대규모 환경에서는 플랫폼과 SRE가 없으면 자율성이 곧 중복 투자와 품질 편차로 바뀌기 쉽다.
@@ -62,18 +62,18 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 아래 구조는 플랫폼 팀과 SRE가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀의 책임을 빼앗는 것이 아니라, 각 팀의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 낮추는 방식으로 결합되는 전형적 예시다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ DevOps / SRE 조직 토폴로지                                     │
-├──────────────────────────────────────────────────────────────┤
-│ Stream Team A ─┐                                              │
-│ Stream Team B ─┼─▶ Platform Team                              │
-│ Stream Team C ─┘       └─▶ CI/CD · Platform · Observability   │
-│       │                                                       │
-│       └──────────────▶ SRE / Enabling                         │
-│                        ├─ SLO · Error Budget                  │
-│                        ├─ Toil 자동화                         │
-│                        └─ Incident / Postmortem 코칭          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| DevOps / SRE 조직 토폴로지                                     |
++--------------------------------------------------------------+
+| Stream Team A -+                                              |
+| Stream Team B -+--> Platform Team                              |
+| Stream Team C -+       +--> CI/CD · Platform · Observability   |
+|       |                                                       |
+|       +---------------> SRE / Enabling                         |
+|                        +- SLO · Error Budget                  |
+|                        +- Toil 자동화                         |
+|                        +- Incident / Postmortem 코칭          |
++--------------------------------------------------------------+
 ```
 
 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 모델의 핵심은 50% 인바운드 한계다. 이는 보통 `온콜 + 티켓 + 수동 운영 / 전체 SRE 시간 ≤ 50%`라는 원칙으로 설명한다. 이 한계를 넘으면 SRE는 더 많은 일을 떠안는 대신, 반복 업무를 줄이는 자동화·플랫폼 개선에 우선순위를 둬야 한다. 즉 SRE를 "고급 운영팀"으로 쓰지 못하게 막는 제도적 장치다.
@@ -158,20 +158,20 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 
 ```text
 사일로 조직 · 핸드오프 운영
-    │
-    ▼
+    |
+    v
 서비스 팀 소유권 확대
-    │
-    ▼
+    |
+    v
 Platform Team · Golden Path 구축
-    │
-    ▼
+    |
+    v
 SRE 모델 도입 · Toil 측정
-    │
-    ▼
+    |
+    v
 50% 인바운드 한계 · Error Budget 운영
-    │
-    ▼
+    |
+    v
 빠른 배포 + 낮은 MTTR + 높은 자율성
 ```
 
@@ -189,7 +189,7 @@ SRE 모델 도입 · Toil 측정
 
 **진행 상황**: 180 / 373
 
-← **이전**: [179. 시계열 DB (Time-Series Database)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/179_timeseries_db_influxdb_tsdb/)
-**다음**: [181. SRE (Site Reliability 엔진ering) 임베디드 운영 모델 (Embedded Model)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/181_sre_embedded_model/) →
+<- **이전**: [179. 시계열 DB (Time-Series Database)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/179_timeseries_db_influxdb_tsdb/)
+**다음**: [181. SRE (Site Reliability 엔진ering) 임베디드 운영 모델 (Embedded Model)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/181_sre_embedded_model/) ->
 
 ---

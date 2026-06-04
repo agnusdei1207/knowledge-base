@@ -19,17 +19,17 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    ISA-95 계층 구조                                   │
-├───────────────────────────────────────────────────────┤
-│  Level 4: ERP (경영 계획·수요 예측·재무)              │
-│      ↕ 생산 계획·실적 피드백                          │
-│  Level 3: MES (실행·추적·품질·일정)                   │
-│      ↕ 제어 명령·센서 데이터                          │
-│  Level 2: SCADA (감시·제어)                           │
-│  Level 1: PLC (자동화 컨트롤러)                       │
-│  Level 0: 센서·액추에이터 (현장 설비)                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    ISA-95 계층 구조                                   |
++-------------------------------------------------------+
+|  Level 4: ERP (경영 계획·수요 예측·재무)              |
+|      ↕ 생산 계획·실적 피드백                          |
+|  Level 3: MES (실행·추적·품질·일정)                   |
+|      ↕ 제어 명령·센서 데이터                          |
+|  Level 2: SCADA (감시·제어)                           |
+|  Level 1: PLC (자동화 컨트롤러)                       |
+|  Level 0: 센서·액추에이터 (현장 설비)                 |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ERP는 회사 본사([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), MES는 공장 현장 관리자(실행), [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)/SCADA는 기계 운전사(제어)다.
@@ -65,9 +65,9 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)에서의 MES 진화
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 연동</strong>: 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 수집 → MES 대시보드.
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong>: 생산 라인의 가상 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) → 시뮬레이션.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 품질 예측</strong>: 불량 발생 전 예측 → 예방 조치.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 연동</strong>: 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 수집 -> MES 대시보드.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong>: 생산 라인의 가상 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) -> 시뮬레이션.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 품질 예측</strong>: 불량 발생 전 예측 -> 예방 조치.
 
 ---
 
@@ -97,17 +97,17 @@ MES는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 ```text
 [수동 생산 관리 (종이 작업지시, 1980s)]
-    │
-    ▼
+    |
+    v
 [MES 도입 (1990s) — MESA 11대 기능 정의]
-    │
-    ▼
+    |
+    v
 [ISA-95 표준화 (2000s) — ERP-MES 통합 인터페이스]
-    │
-    ▼
+    |
+    v
 [스마트 팩토리 (Industry 4.0, 2015~) — IoT+MES+AI]
-    │
-    ▼
+    |
+    v
 [현재: 클라우드 MES + 디지털 트윈 + AI 품질 예측]
 ```
 
@@ -122,7 +122,7 @@ MES는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 **진행 상황**: 119 / 482
 
-← **이전**: [118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/118_inbound_vs_outbound_marketing/)
-**다음**: [120. POP (Point of Production) - 생산 현장 실적 수집 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) →
+<- **이전**: [118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/118_inbound_vs_outbound_marketing/)
+**다음**: [120. POP (Point of Production) - 생산 현장 실적 수집 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) ->
 
 ---

@@ -20,15 +20,15 @@ tags = ["studynote-database"]
 
 ```text
 데이터 무결성 유형:
-  ┌─────────────────────────────────────────┐
-  │  개체 무결성:  기본키 ≠ NULL, 고유      │
-  │  참조 무결성:  외래키 → 부모 행 존재    │
-  │  도메인 무결성: 열 값이 허용 범위 내    │
-  │  사용자 정의:  비즈니스 규칙 제약       │
-  └─────────────────────────────────────────┘
+  +-----------------------------------------+
+  |  개체 무결성:  기본키 ≠ NULL, 고유      |
+  |  참조 무결성:  외래키 -> 부모 행 존재    |
+  |  도메인 무결성: 열 값이 허용 범위 내    |
+  |  사용자 정의:  비즈니스 규칙 제약       |
+  +-----------------------------------------+
 
 DB 보안 3A:
-  인증(Authentication) → 권한 부여(Authorization) → 감사(Audit)
+  인증(Authentication) -> 권한 부여(Authorization) -> 감사(Audit)
   "누구냐?"              "무엇을 할 수 있냐?"         "무엇을 했냐?"
 ```
 
@@ -140,20 +140,20 @@ DB 서버 레이어:
 
 ```text
 [파일 시스템 — 무결성·보안 미흡]
-    │
-    ▼
+    |
+    v
 [RDBMS 제약 조건 — 개체·참조·도메인 무결성]
-    │
-    ▼
+    |
+    v
 [RBAC·DAC·MAC — 접근 통제 모델 표준화]
-    │
-    ▼
+    |
+    v
 [암호화·감사 — 열 수준 암호화, 감사 로그]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 DB — 내부 사용자도 항상 검증]
-    │
-    ▼
+    |
+    v
 [데이터 메시 — 분산 도메인별 무결성·보안 자치]
 ```
 
@@ -169,7 +169,7 @@ DB 서버 레이어:
 
 **진행 상황**: 30 / 600
 
-← **이전**: [29. 파일 시스템의 문제점 (File System Problems)](/knowledge-base/studynote/05_database/01_db_architecture_relational/029_file_system_problems/)
-**다음**: [31. 클라이언트-서버 DBMS 아키텍처 — DB 접근 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/031_client_server_dbms_architecture/) →
+<- **이전**: [29. 파일 시스템의 문제점 (File System Problems)](/knowledge-base/studynote/05_database/01_db_architecture_relational/029_file_system_problems/)
+**다음**: [31. 클라이언트-서버 DBMS 아키텍처 — DB 접근 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/031_client_server_dbms_architecture/) ->
 
 ---

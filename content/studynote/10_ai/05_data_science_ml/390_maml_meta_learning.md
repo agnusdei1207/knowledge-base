@@ -26,12 +26,12 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 구분: 학습하는 방법을 학습 = <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/">메타 러닝</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> to Learn)</strong>
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MAML은 "어떤 운동이든 3번 연습하면 바로 잘하는 신체 기초 체력"을 기르는 훈련이다. 특정 운동을 잘하는 게 아니라 빠르게 배우는 능력 자체를 기른다.
@@ -45,7 +45,7 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 ```
 메타 학습 목표:
 θ* = argmin_θ Σ_{τᵢ} L_{τᵢ}(θ - α∇L_{τᵢ}(θ))
-                           ↑
+                           ^
                    태스크별 업데이트 후 파라미터
 ```
 
@@ -60,22 +60,22 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 ```
 3. 쿼리 셋 (Query Set)에서 평가: L_{τᵢ}(θ'ᵢ)
 4. 메타 파라미터 업데이트:
-   θ ← θ - β∇_θ Σᵢ L_{τᵢ}(θ'ᵢ)
+   θ <- θ - β∇_θ Σᵢ L_{τᵢ}(θ'ᵢ)
    (β: 메타 학습률)
-   → 2차 도함수 포함: ∂θ'ᵢ/∂θ = I - α∇²L_{τᵢ}(θ)
+   -> 2차 도함수 포함: ∂θ'ᵢ/∂θ = I - α∇^L_{τᵢ}(θ)
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  태스크 분포 p(τ)                                     │
-│  τ₁, τ₂, τ₃, ... (다양한 태스크)                     │
-│       ↓                                              │
-│  [내부 루프]: θ → θ'ᵢ (각 태스크 k스텝 적응)          │
-│       ↓                                              │
-│  [외부 루프]: θ ← θ - β∇Σ L(θ'ᵢ) (초기값 업데이트)   │
-│       ↓                                              │
-│  수렴 후: θ* = 모든 태스크에 빠르게 적응 가능한 초기값  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  태스크 분포 p(τ)                                     |
+|  τ₁, τ₂, τ₃, ... (다양한 태스크)                     |
+|       v                                              |
+|  [내부 루프]: θ -> θ'ᵢ (각 태스크 k스텝 적응)          |
+|       v                                              |
+|  [외부 루프]: θ <- θ - β∇Σ L(θ'ᵢ) (초기값 업데이트)   |
+|       v                                              |
+|  수렴 후: θ* = 모든 태스크에 빠르게 적응 가능한 초기값  |
++------------------------------------------------------+
 ```
 
 | 방법 | 2차 도함수 | 계산 비용 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
@@ -97,7 +97,7 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반 | 유사도 함수 학습 | ProtoNet, Matching Net |
 | 모델 기반 | 빠른 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | SNAIL, HyperNet |
 
-**N-way K-shot**: N개 클래스, 각 K개 예시 → K=1(1-shot), K=5(5-shot)
+**N-way K-shot**: N개 클래스, 각 K개 예시 -> K=1(1-shot), K=5(5-shot)
 
 - **📢 섹션 요약 비유**: MAML은 "만능 선수", ProtoNet은 "유사도 측정기", SNAIL은 "메모리가 있는 학습기"다. 각자 다른 방식으로 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 문제를 해결한다.
 
@@ -105,7 +105,7 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**강화학습 MAML**: RL² - 다양한 환경에서 빠른 적응 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습
+**강화학습 MAML**: RL^ - 다양한 환경에서 빠른 적응 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습
 **NLP MAML**: 새 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극히 적을 때
 **로봇 공학**: 다양한 물리적 환경에서 빠른 적응
 
@@ -137,7 +137,7 @@ MAML은 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digit
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [메타 러닝 MAML (Model-Agnostic Meta-Learning)] → [최적화·운영 자동화]
+[데이터 전처리] -> [메타 러닝 MAML (Model-Agnostic Meta-Learning)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ MAML은 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digit
 
 **진행 상황**: 390 / 420
 
-← **이전**: [389. 지식 증류 소프트 타겟 (Soft Target)](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)
-**다음**: [391. 디퓨전 역과정 (Reverse Diffusion Process)](/knowledge-base/studynote/10_ai/05_data_science_ml/391_diffusion_reverse_process/) →
+<- **이전**: [389. 지식 증류 소프트 타겟 (Soft Target)](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)
+**다음**: [391. 디퓨전 역과정 (Reverse Diffusion Process)](/knowledge-base/studynote/10_ai/05_data_science_ml/391_diffusion_reverse_process/) ->
 
 ---

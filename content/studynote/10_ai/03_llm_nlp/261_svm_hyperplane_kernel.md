@@ -22,7 +22,7 @@ tags = ["studynote-ai"]
 SVM은 Vapnik과 Cortes(1995)가 제안한 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, <strong>통계 학습 이론(Statistical <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Theory)</strong>에 기반한 가장 수학적으로 엄밀한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 중 하나다.
 
 **핵심 동기**: 두 클래스를 분리하는 초평면이 무수히 많을 때, 어느 것을 선택해야 하는가?
-→ <strong>마진(Margin)이 가장 큰 초평면</strong>을 선택하면 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 높다.
+-> <strong>마진(Margin)이 가장 큰 초평면</strong>을 선택하면 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 높다.
 
 SVM이 빛나는 상황:
 - 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (특성 수 >> 샘플 수)
@@ -38,12 +38,12 @@ SVM이 빛나는 상황:
 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 기본 없음 (Platt Scaling 별도) | 자연적 | 가능 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SVM은 "두 팀 사이에 경계선을 그을 때, 양쪽 팀원에서 가장 멀리 떨어진 선을 택하는 심판"이다. 이 선(최대 마진)이 가장 안전하고 공정한 경계다.
@@ -56,20 +56,20 @@ SVM이 빛나는 상황:
 
 ```
   2차원 예시:
-  ┌──────────────────────────────────────────┐
-  │                                          │
-  │   ○  ○                                   │
-  │  ○  ○  ●---서포트 벡터(Support Vector)  │
-  │           ‖  ← 마진(Margin)             │
-  │ ─────────────────────── 초평면          │
-  │           ‖                             │
-  │     ●---서포트 벡터        ● ●          │
-  │                             ●           │
-  │   클래스 -1               클래스 +1     │
-  └──────────────────────────────────────────┘
+  +------------------------------------------+
+  |                                          |
+  |   ○  ○                                   |
+  |  ○  ○  ●---서포트 벡터(Support Vector)  |
+  |           ‖  <- 마진(Margin)             |
+  | ----------------------- 초평면          |
+  |           ‖                             |
+  |     ●---서포트 벡터        ● ●          |
+  |                             ●           |
+  |   클래스 -1               클래스 +1     |
+  +------------------------------------------+
 
   초평면: w·x + b = 0
-  마진 = 2 / ‖w‖  → 마진 최대화 ≡ ‖w‖ 최소화
+  마진 = 2 / ‖w‖  -> 마진 최대화 ≡ ‖w‖ 최소화
 
   서포트 벡터: 마진 경계에 놓인 점 (결정에 참여하는 유일한 샘플)
 ```
@@ -78,19 +78,19 @@ SVM이 빛나는 상황:
 
 ```
   하드 마진 (Hard Margin): 완전 선형 분리 가능 가정
-  ┌────────────────────────────────────────┐
-  │ min  1/2 ‖w‖²                         │
-  │  s.t. y_i(w·x_i + b) ≥ 1  ∀i         │
-  │ (어떤 오분류도 허용하지 않음)          │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  | min  1/2 ‖w‖^                         |
+  |  s.t. y_i(w·x_i + b) ≥ 1  ∀i         |
+  | (어떤 오분류도 허용하지 않음)          |
+  +----------------------------------------+
 
   소프트 마진 (Soft Margin): 슬랙 변수 ξ 도입
-  ┌────────────────────────────────────────┐
-  │ min  1/2 ‖w‖² + C·Σξ_i               │
-  │  s.t. y_i(w·x_i + b) ≥ 1 - ξ_i       │
-  │       ξ_i ≥ 0                         │
-  │ C: 오분류 페널티 (클수록 엄격)         │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  | min  1/2 ‖w‖^ + C·Σξ_i               |
+  |  s.t. y_i(w·x_i + b) ≥ 1 - ξ_i       |
+  |       ξ_i ≥ 0                         |
+  | C: 오분류 페널티 (클수록 엄격)         |
+  +----------------------------------------+
 ```
 
 ### [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
@@ -99,13 +99,13 @@ SVM이 빛나는 상황:
 
 ```
   원본 공간 (비선형 분리)      고차원 공간 (선형 분리)
-  ┌─────────────────┐          ┌─────────────────────┐
-  │  ●   ○   ●      │  φ(x)   │        ─────        │
-  │ ○ ●●●● ○       │ ──────► │    ○   ─────   ○    │
-  │  ●   ○   ●      │          │  ●●●● ─────         │
-  └─────────────────┘          └─────────────────────┘
+  +-----------------+          +---------------------+
+  |  ●   ○   ●      |  φ(x)   |        -----        |
+  | ○ ●●●● ○       | ------► |    ○   -----   ○    |
+  |  ●   ○   ●      |          |  ●●●● -----         |
+  +-----------------+          +---------------------+
 
-  K(x_i, x_j) = φ(x_i)·φ(x_j)  ← 고차원 변환 없이 계산!
+  K(x_i, x_j) = φ(x_i)·φ(x_j)  <- 고차원 변환 없이 계산!
 ```
 
 ### 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수
@@ -114,7 +114,7 @@ SVM이 빛나는 상황:
 |:---|:---|:---|
 | 선형 (Linear) | K(x,x') = x·x' | 선형 분리 가능, 고차원 텍스트 |
 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | K(x,x') = (γx·x'+r)^d | 중간 복잡도 비선형 패턴 |
-| RBF/가우시안 (Radial Basis Function) | K(x,x') = exp(-γ‖x-x'‖²) | 가장 범용적, 기본값 |
+| RBF/가우시안 (Radial Basis Function) | K(x,x') = exp(-γ‖x-x'‖^) | 가장 범용적, 기본값 |
 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | K(x,x') = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(γx·x'+r) | 신경망 유사 경계 |
 
 - **📢 섹션 요약 비유**: [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 종이 위에 뒤섞인 콩과 쌀을 분리할 때, 종이를 3D로 구기면(고차원 변환) 층이 나뉘는 원리다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "구기는 과정을 수식으로 계산"하는 마법이다.
@@ -127,27 +127,27 @@ SVM이 빛나는 상황:
 
 ```
   C (소프트 마진 조절):
-  ┌────────────────────────────────────────┐
-  │ C 작음 → 마진 넓음 → 오분류 허용      │
-  │          → 과소적합(Underfitting) 위험 │
-  │                                        │
-  │ C 큼   → 마진 좁음 → 오분류 불허      │
-  │          → 과적합(Overfitting) 위험    │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  | C 작음 -> 마진 넓음 -> 오분류 허용      |
+  |          -> 과소적합(Underfitting) 위험 |
+  |                                        |
+  | C 큼   -> 마진 좁음 -> 오분류 불허      |
+  |          -> 과적합(Overfitting) 위험    |
+  +----------------------------------------+
 
   γ (RBF 커널 영향 범위):
-  ┌────────────────────────────────────────┐
-  │ γ 작음 → 넓은 영향 → 부드러운 경계   │
-  │          → 과소적합 위험              │
-  │ γ 큼   → 좁은 영향 → 복잡한 경계     │
-  │          → 과적합 위험                │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  | γ 작음 -> 넓은 영향 -> 부드러운 경계   |
+  |          -> 과소적합 위험              |
+  | γ 큼   -> 좁은 영향 -> 복잡한 경계     |
+  |          -> 과적합 위험                |
+  +----------------------------------------+
 ```
 
 | 지표 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 장점 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 단점 |
 |:---|:---|:---|
 | 고차원 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 강함 ([커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택이 어려움 |
-| 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 강함 | 대규모에서 느림 O(n²~n³) |
+| 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 강함 | 대규모에서 느림 O(n^~n³) |
 | 노이즈 내성 | 중간 | 노이즈가 많으면 서포트 벡터 불안정 |
 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 기본 없음 | Platt Scaling 별도 필요 |
 | 해석 가능성 | 낮음 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간) | 비선형 경계 해석 어려움 |
@@ -160,30 +160,30 @@ SVM이 빛나는 상황:
 
 ### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 적용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. **전처리 필수**: SVM은 특성 스케일에 민감 → `StandardScaler` 적용
+1. **전처리 필수**: SVM은 특성 스케일에 민감 -> `StandardScaler` 적용
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택</strong>: 기본적으로 RBF 사용, 선형 분리 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 Linear 고려
 3. **하이퍼파라미터 탐색**: Grid Search로 C, γ 조합 탐색
-4. <strong>대규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `LinearSVC` (SGD 기반) 사용 → O(n) 스케일
+4. <strong>대규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `LinearSVC` (SGD 기반) 사용 -> O(n) 스케일
 
 ### SVM의 현재 위치
 
 ```
   딥러닝 등장 이후 SVM의 포지셔닝:
-  ┌──────────────────────────────────────────────┐
-  │ 강점 유지 영역:                               │
-  │  - 소규모 고차원 데이터 (텍스트, 유전자)     │
-  │  - 데이터가 부족한 의료 진단                 │
-  │  - 이론적 근거가 필요한 규제 환경            │
-  │                                              │
-  │ 딥러닝에 밀린 영역:                          │
-  │  - 이미지 분류 (CNN이 월등)                  │
-  │  - 대규모 자연어 처리 (Transformer 우위)     │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  | 강점 유지 영역:                               |
+  |  - 소규모 고차원 데이터 (텍스트, 유전자)     |
+  |  - 데이터가 부족한 의료 진단                 |
+  |  - 이론적 근거가 필요한 규제 환경            |
+  |                                              |
+  | 딥러닝에 밀린 영역:                          |
+  |  - 이미지 분류 (CNN이 월등)                  |
+  |  - 대규모 자연어 처리 (Transformer 우위)     |
+  +----------------------------------------------+
 ```
 
 ### 기술사 답안 포인트
 
-- **"서포트 벡터가 중요한 이유"**: 결정 경계를 결정하는 것은 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아닌 경계면 샘플들뿐 → 메모리 효율적
+- **"서포트 벡터가 중요한 이유"**: 결정 경계를 결정하는 것은 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아닌 경계면 샘플들뿐 -> 메모리 효율적
 - <strong>"<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택 기준"</strong>: 특성 수가 샘플 수보다 많으면 Linear, 비선형 패턴이 있으면 RBF
 - **"SVM과 딥러닝 비교"**: 딥러닝은 특성 자동 추출, SVM은 이론적 보장이 강점
 
@@ -212,13 +212,13 @@ SVM을 올바르게 적용하면:
 | 서포트 벡터 ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector) | 마진 경계, 결정 샘플 / 경계를 결정하는 핵심 포인트 |
 | 마진 (Margin) | 2/‖w‖, 일반화 / 두 클래스 간 안전 거리 |
 | 슬랙 변수 ([Slack Variable](/knowledge-base/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/)) | ξ, 소프트 마진, C / 오분류 허용 메커니즘 |
-| [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) | RBF, [Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/), 내적 / 비선형 → 선형 변환 |
+| [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) | RBF, [Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/), 내적 / 비선형 -> 선형 변환 |
 | RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Radial Basis Function) | γ, 가우시안 / 가장 범용적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [SVM (Support Vector Machine)] → [최적화·운영 자동화]
+[데이터 전처리] -> [SVM (Support Vector Machine)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -233,7 +233,7 @@ SVM을 올바르게 적용하면:
 
 **진행 상황**: 261 / 420
 
-← **이전**: [260. 부스팅 (Boosting)](/knowledge-base/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/)
-**다음**: [262. K-NN (K-Nearest Neighbors)](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) →
+<- **이전**: [260. 부스팅 (Boosting)](/knowledge-base/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/)
+**다음**: [262. K-NN (K-Nearest Neighbors)](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) ->
 
 ---

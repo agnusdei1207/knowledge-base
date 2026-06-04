@@ -54,31 +54,31 @@ tags = ["studynote-operating-system"]
 CPU가 `Invalid` 상태의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찔렀을 때 일어나는 거대한 폭풍이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Page Fault (페이지 부재) 처리 메커니즘 6단계             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [ User Space ]                                                   │
-  │   1. CPU가 가상 주소 `0x1000`번지의 변수를 읽으라는 명령어 실행!             │
-  │                                                                   │
-  │  [ Hardware (MMU) ]                                               │
-  │   2. MMU가 페이지 테이블을 보니 해당 페이지가 `Invalid(i)` 상태임.        │
-  │      -> MMU가 즉시 CPU에 **[ Page Fault 인터럽트 (Trap 14) ]**를 쏨!!  │
-  │                                                                   │
-  │  [ Kernel Space (OS) ]                                            │
-  │   3. OS 진입: OS가 "이 접근이 불법(해킹)인지, 그냥 디스크에 있는 건지" 검사.  │
-  │      - 불법 접근이면 -> 프로세스 Kill (Segfault)                       │
-  │      - 합법이면 -> 디스크(Swap 공간)의 어디에 있는지 위치 파악.             │
-  │                                                                   │
-  │   4. 빈 프레임 확보: RAM에 남는 빈 프레임(Free Frame)을 하나 찾음.        │
-  │      (빈칸이 없으면 Page Replacement 알고리즘으로 누군가를 쫓아냄)          │
-  │                                                                   │
-  │   5. Disk I/O: 디스크 컨트롤러에 "그 페이지 읽어서 아까 찾은 빈 프레임에 넣어" │
-  │      라고 명령함. (이 동안 CPU는 다른 프로세스를 실행하며 놂)               │
-  │                                                                   │
-  │   6. 테이블 갱신 & 재시작: 디스크 읽기가 끝나면 인터럽트가 발생함.            │
-  │      OS가 페이지 테이블을 `Valid(v)`로 바꾸고, 아까 1번에서 실패했던        │
-  │      **그 명령어부터 다시(Restart) 실행**시킴! 이번엔 성공!               │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Page Fault (페이지 부재) 처리 메커니즘 6단계             |
+  +-------------------------------------------------------------------+
+  |  [ User Space ]                                                   |
+  |   1. CPU가 가상 주소 `0x1000`번지의 변수를 읽으라는 명령어 실행!             |
+  |                                                                   |
+  |  [ Hardware (MMU) ]                                               |
+  |   2. MMU가 페이지 테이블을 보니 해당 페이지가 `Invalid(i)` 상태임.        |
+  |      -> MMU가 즉시 CPU에 **[ Page Fault 인터럽트 (Trap 14) ]**를 쏨!!  |
+  |                                                                   |
+  |  [ Kernel Space (OS) ]                                            |
+  |   3. OS 진입: OS가 "이 접근이 불법(해킹)인지, 그냥 디스크에 있는 건지" 검사.  |
+  |      - 불법 접근이면 -> 프로세스 Kill (Segfault)                       |
+  |      - 합법이면 -> 디스크(Swap 공간)의 어디에 있는지 위치 파악.             |
+  |                                                                   |
+  |   4. 빈 프레임 확보: RAM에 남는 빈 프레임(Free Frame)을 하나 찾음.        |
+  |      (빈칸이 없으면 Page Replacement 알고리즘으로 누군가를 쫓아냄)          |
+  |                                                                   |
+  |   5. Disk I/O: 디스크 컨트롤러에 "그 페이지 읽어서 아까 찾은 빈 프레임에 넣어" |
+  |      라고 명령함. (이 동안 CPU는 다른 프로세스를 실행하며 놂)               |
+  |                                                                   |
+  |   6. 테이블 갱신 & 재시작: 디스크 읽기가 끝나면 인터럽트가 발생함.            |
+  |      OS가 페이지 테이블을 `Valid(v)`로 바꾸고, 아까 1번에서 실패했던        |
+  |      **그 명령어부터 다시(Restart) 실행**시킴! 이번엔 성공!               |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 핵심은 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 재시작 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Restart)"</strong>이다. CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하다가 멈추고 딴짓(디스크 I/O)을 한 뒤 돌아와서, 아까 에러가 났던 바로 그 줄의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 아무 일 없었다는 듯이 다시 실행한다. 유저 프로세스 입장에서는 자기가 멈췄다(Block) 깨어난 줄도 모르고 "조금 느리게 읽혔네?" 정도로 착각하게 만드는 완벽한 기만술이다.
@@ -124,27 +124,27 @@ CPU가 `Invalid` 상태의 [페이지](/knowledge-base/studynote/01_computer_arc
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 접근 성능(Page Fault) 최적화 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 모니터링: `sar -B` 또는 `vmstat` 명령어로 페이지 폴트 지속 확인]        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Minor Page Fault (디스크 I/O 없이 램 내에서 매핑만 새로 함)인가?       │
-  │          ├─ 예 ─────▶ [정상] 앱이 힙(Heap) 공간을 새로 할당받는 자연스러운 과정│
-  │          │                                                        │
-  │          └─ 아니오 (Major Page Fault : 디스크를 긁어오며 I/O Wait 폭발)  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Major Fault의 원인이 무엇인가?                                    │
-  │          ├─ [Case 1] 램(RAM) 자체가 부족해서 쫓겨났다 다시 들어옴을 반복     │
-  │          │    대책: Thrashing 상태. RAM 증설 또는 배치 프로세스 킬(Kill)  │
-  │          │                                                        │
-  │          └─ [Case 2] 앱 기동 시점의 자연스러운 요구 페이징 초기화 과정        │
-  │               대책: 앱 시작 시 메모리를 다 채워버리는(mmap MAP_POPULATE)  │
-  │                     플래그를 주어 런타임 지연(Latency Jitter)을 사전에 차단  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 접근 성능(Page Fault) 최적화 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버 모니터링: `sar -B` 또는 `vmstat` 명령어로 페이지 폴트 지속 확인]        |
+  |                |                                                  |
+  |                v                                                  |
+  |      Minor Page Fault (디스크 I/O 없이 램 내에서 매핑만 새로 함)인가?       |
+  |          +- 예 ------> [정상] 앱이 힙(Heap) 공간을 새로 할당받는 자연스러운 과정|
+  |          |                                                        |
+  |          +- 아니오 (Major Page Fault : 디스크를 긁어오며 I/O Wait 폭발)  |
+  |                |                                                  |
+  |                v                                                  |
+  |      Major Fault의 원인이 무엇인가?                                    |
+  |          +- [Case 1] 램(RAM) 자체가 부족해서 쫓겨났다 다시 들어옴을 반복     |
+  |          |    대책: Thrashing 상태. RAM 증설 또는 배치 프로세스 킬(Kill)  |
+  |          |                                                        |
+  |          +- [Case 2] 앱 기동 시점의 자연스러운 요구 페이징 초기화 과정        |
+  |               대책: 앱 시작 시 메모리를 다 채워버리는(mmap MAP_POPULATE)  |
+  |                     플래그를 주어 런타임 지연(Latency Jitter)을 사전에 차단  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)이 알아서 메모리를 아껴주니까 최고다"라는 것은 일반 PC에서나 통하는 얘기다. 0.001초의 멈춤도 용납하지 않는 증권사(HFT)나 고성능 게임 서버 아키텍트에게 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 '반드시 멸종시켜야 할 악마'다. 이들은 서버를 켤 때 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 일부러 수만 번 터뜨려서(Prefaulting) 모든 코드를 램에 못 박아두고(mlock) 서비스를 시작한다.
@@ -189,12 +189,12 @@ CPU가 `Invalid` 상태의 [페이지](/knowledge-base/studynote/01_computer_arc
 
 ```text
 [세그멘테이션 외부 단편화 재발]
-    │
-    ▼
+    |
+    v
 [요구 페이징 (Demand Paging)]
-    │
-    ├──▶ [페이지 폴트 (Page Fault) ISR]
-    └──▶ [유효/무효 비트 (Valid/Invalid)]
+    |
+    +---> [페이지 폴트 (Page Fault) ISR]
+    +---> [유효/무효 비트 (Valid/Invalid)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -211,7 +211,7 @@ CPU가 `Invalid` 상태의 [페이지](/knowledge-base/studynote/01_computer_arc
 
 **진행 상황**: 719 / 800
 
-← **이전**: [718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/718_segmentation_external_fragmentation/)
-**다음**: [720. 페이지 폴트 (Page Fault) ISR](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) →
+<- **이전**: [718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/718_segmentation_external_fragmentation/)
+**다음**: [720. 페이지 폴트 (Page Fault) ISR](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ->
 
 ---

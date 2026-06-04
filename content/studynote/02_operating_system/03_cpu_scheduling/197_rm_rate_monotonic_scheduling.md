@@ -28,9 +28,9 @@ tags = ["studynote-operating-system"]
   [RM 스케줄링의 우선순위 부여 메커니즘]
 
   [태스크 명세서]
-  ▶ 태스크 A: 주기(Period) = 20ms  (자주 함)
-  ▶ 태스크 B: 주기(Period) = 50ms  (보통)
-  ▶ 태스크 C: 주기(Period) = 100ms (가끔 함)
+  -> 태스크 A: 주기(Period) = 20ms  (자주 함)
+  -> 태스크 B: 주기(Period) = 50ms  (보통)
+  -> 태스크 C: 주기(Period) = 100ms (가끔 함)
 
   [RM 스케줄러의 강제 서열 정리 (배포 시 고정됨)]
   1순위 (VIP): 태스크 A (주기가 제일 짧으니까!)
@@ -53,29 +53,29 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 *(전제: 주기(P) = 데드라인(D)으로 가정)*
 
 **[시나리오 조건]**
-- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 1 (T1)</strong>: 주기 50, 실행 시간 20 ─▶ **우선순위 High (주기가 짧음)**
-- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 2 (T2)</strong>: 주기 100, 실행 시간 35 ─▶ **우선순위 Low (주기가 긺)**
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 1 (T1)</strong>: 주기 50, 실행 시간 20 --> **우선순위 High (주기가 짧음)**
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 2 (T2)</strong>: 주기 100, 실행 시간 35 --> **우선순위 Low (주기가 긺)**
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │         RM 스케줄링 기반의 완벽한 실시간 데드라인 방어 시뮬레이션  │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │  0        20         50        70       85       100 ms            │
-  │  │██ T1 ██│░░ T2 ░░░░│██ T1 ██│░░ T2 ░░│        │                  │
-  │  (T1 먼저)   (남은시간)  (T1 2주기) (T2 마저) (CPU휴식)            │
-  │                                                                    │
-  │  [시간별 추적]                                                     │
-  │  - 0ms: T1(High)과 T2(Low) 동시 도착. T1 선점 실행 (20ms 완료).    │
-  │  - 20ms: T1 끝남. 이제 T2가 실행 시작 (35ms 중 30ms 실행).         │
-  │  - 50ms: 🚨 T1의 두 번째 주기가 도래하여 도착!                     │
-  │          T2는 아직 5ms 남았지만, T1(VIP)이 왔으므로 강제 쫓겨남.   │
-  │  - 70ms: T1 두 번째 실행(20ms) 완료. 다시 T2가 CPU 복귀.           │
-  │  - 75ms: T2 마저 5ms 끝내고 총 35ms 완료!                          │
-  │                                                                    │
-  │  ✅ 결과: T1은 50ms, 100ms 데드라인 안에 여유롭게 완료!            │
-  │          T2 역시 100ms 데드라인이 오기 전인 75ms에 무사 완료!      │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |         RM 스케줄링 기반의 완벽한 실시간 데드라인 방어 시뮬레이션  |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |  0        20         50        70       85       100 ms            |
+  |  |██ T1 ██|░░ T2 ░░░░|██ T1 ██|░░ T2 ░░|        |                  |
+  |  (T1 먼저)   (남은시간)  (T1 2주기) (T2 마저) (CPU휴식)            |
+  |                                                                    |
+  |  [시간별 추적]                                                     |
+  |  - 0ms: T1(High)과 T2(Low) 동시 도착. T1 선점 실행 (20ms 완료).    |
+  |  - 20ms: T1 끝남. 이제 T2가 실행 시작 (35ms 중 30ms 실행).         |
+  |  - 50ms: 🚨 T1의 두 번째 주기가 도래하여 도착!                     |
+  |          T2는 아직 5ms 남았지만, T1(VIP)이 왔으므로 강제 쫓겨남.   |
+  |  - 70ms: T1 두 번째 실행(20ms) 완료. 다시 T2가 CPU 복귀.           |
+  |  - 75ms: T2 마저 5ms 끝내고 총 35ms 완료!                          |
+  |                                                                    |
+  |  ✅ 결과: T1은 50ms, 100ms 데드라인 안에 여유롭게 완료!            |
+  |          T2 역시 100ms 데드라인이 오기 전인 75ms에 무사 완료!      |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** T2 입장에서는 T1이 올 때마다 비켜줘야 하는 서러운 신세지만, 결국 T2의 마감 시간(100ms)이 오기 전인 75ms 시점에 무사히 자신의 작업을 완료했다. T1의 잦은 인터럽트를 다 받아주고도 시스템이 터지지 않은 것이다.
 
@@ -91,7 +91,7 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 | N = 1 | 1.0 (100%) |
 | N = 2 | 0.828 (82.8%) |
 | N = 3 | 0.779 (77.9%) |
-| N → $\infty$ | **0.693 (약 69.3%)** |
+| N -> $\infty$ | **0.693 (약 69.3%)** |
 
 **[해석]** 이것이 RM 스케줄링의 위대한 발견이자 뼈아픈 족쇄다. 시스템 설계자가 CPU를 70% 미만으로 널널하게 쓰도록 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 배치했다면, RM은 **무조건** 100% 데드라인 방어를 수학적으로 개런티한다. 하지만 CPU를 80%, 90%까지 쥐어짜려 든다면 RM은 가차 없이 데드라인을 펑크 내며 시스템을 붕괴시킨다.
 
@@ -129,24 +129,24 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 2. **리눅스 SCHED_FIFO와 RM의 매핑**: 현대 범용 리눅스에서 실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 띄울 때 사용하는 정책인 `SCHED_FIFO`나 `SCHED_RR`은 근본적으로 '정적 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)'이다. 즉, 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 RM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 흉내 내어 구축하고 싶다면, 주기적 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들의 주기를 계산한 다음, 주기가 짧은 데몬(프로세스)에게 `chrt` 명령어로 더 높은 우선순위(Priority 99)를 수동으로 매핑해 주면 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 RM처럼 동작하게 된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────┐
-  │     실시간 시스템(RTOS)의 수학적 승인 제어 (Admission Control)  │
-  ├─────────────────────────────────────────────────────────────────┤
-  │                                                                 │
-  │   [신규 기능 추가: 카메라 프레임 분석 (주기 30ms, 연산 10ms)]   │
-  │                                                                 │
-  │   1. 아키텍트의 수식 검증 (RM Bound 확인)                       │
-  │      기존 CPU 이용률: 55%                                       │
-  │      신규 태스크 이용률: (10 / 30) = 33%                        │
-  │      총합 이용률 = 88% ( 🚨 69.3% 한계선 돌파! )                │
-  │                                                                 │
-  │   2. 의사결정 분기 (Decision)                                   │
-  │      ├─▶ "안돼! 88%면 RM의 100% 방어선(69%)이 깨져!"            │
-  │      │   기능 배포 거부(Reject) 또는 CPU 클럭 강제 업그레이드.  │
-  │      │                                                          │
-  │      └─▶ "그래도 돌려보고 싶으면, 오버헤드 감수하고 EDF로 바꿔" │
-  │          (EDF는 이론상 100% 방어 가능. 단, 장애 시 도미노 위험) │
-  └─────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------+
+  |     실시간 시스템(RTOS)의 수학적 승인 제어 (Admission Control)  |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  |   [신규 기능 추가: 카메라 프레임 분석 (주기 30ms, 연산 10ms)]   |
+  |                                                                 |
+  |   1. 아키텍트의 수식 검증 (RM Bound 확인)                       |
+  |      기존 CPU 이용률: 55%                                       |
+  |      신규 태스크 이용률: (10 / 30) = 33%                        |
+  |      총합 이용률 = 88% ( 🚨 69.3% 한계선 돌파! )                |
+  |                                                                 |
+  |   2. 의사결정 분기 (Decision)                                   |
+  |      +--> "안돼! 88%면 RM의 100% 방어선(69%)이 깨져!"            |
+  |      |   기능 배포 거부(Reject) 또는 CPU 클럭 강제 업그레이드.  |
+  |      |                                                          |
+  |      +--> "그래도 돌려보고 싶으면, 오버헤드 감수하고 EDF로 바꿔" |
+  |          (EDF는 이론상 100% 방어 가능. 단, 장애 시 도미노 위험) |
+  +-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 일반 웹 개발(IT)과 임베디드 실시간 개발([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/))의 좁힐 수 없는 격차다. 웹 백엔드는 서버가 80% 차면 "조금 느려지겠네" 하고 넘기지만, 실시간 세계에서는 RM 공식 한계치인 69%를 넘기는 순간 그것을 명백한 '살인 무기(언제든 통제 불능이 될 수 있음)'로 간주하여 코드 배포 자체를 원천 봉쇄(Admission Fail)해 버린다.
 
@@ -179,12 +179,12 @@ RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오�
 
 ```text
 [부하 균등화 (Load Balancing)]
-    │
-    ▼
+    |
+    v
 [RM (Rate Monotonic) 스케줄링]
-    │
-    ├──▶ [멀티코어 스케줄링 (Multicore Scheduling)]
-    └──▶ [하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링]
+    |
+    +---> [멀티코어 스케줄링 (Multicore Scheduling)]
+    +---> [하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -201,7 +201,7 @@ RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오�
 
 **진행 상황**: 197 / 800
 
-← **이전**: [196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)
-**다음**: [198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/) →
+<- **이전**: [196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)
+**다음**: [198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/) ->
 
 ---

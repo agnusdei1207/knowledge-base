@@ -31,39 +31,39 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 마이크로 오퍼레이션을 다룬다는 말은 결국 "어느 시점에 어떤 자원을 연결하고, 어떤 값을 저장할지"를 정한다는 뜻이다. 가장 전통적인 표현 방식은 RTL ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level) 또는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 표기이며, `R1 ← R2`, `PC ← PC + 1`, `IR ← M[MAR]`처럼 쓴다. 여기서 중요한 것은 문장 자체보다, 이 문장이 특정 클럭 구간에서 활성화되는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 묶음이라는 점이다.
+[제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 마이크로 오퍼레이션을 다룬다는 말은 결국 "어느 시점에 어떤 자원을 연결하고, 어떤 값을 저장할지"를 정한다는 뜻이다. 가장 전통적인 표현 방식은 RTL ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level) 또는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 표기이며, `R1 <- R2`, `PC <- PC + 1`, `IR <- M[MAR]`처럼 쓴다. 여기서 중요한 것은 문장 자체보다, 이 문장이 특정 클럭 구간에서 활성화되는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 묶음이라는 점이다.
 
 ### 대표 유형
 
 | 유형 | 예시 | 실제 의미 | 병목 포인트 |
 | :--- | :--- | :--- | :--- |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 | `MAR ← PC` | 주소 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 현재 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 값 적재 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 충돌 여부 |
-| 산술 연산 | `AC ← AC + DR` | ALU에서 덧셈 후 누산기에 저장 | [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 | `R1 ← R1 AND R2` | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 처리 | 입력 선택 경로 |
-| [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) | `R1 ← shl R1` | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치 이동 | 시프터 자원 공유 |
-| 메모리 관련 | `DR ← M[MAR]` | 메모리 읽기 결과를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 저장 | 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 | `MAR <- PC` | 주소 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 현재 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 값 적재 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 충돌 여부 |
+| 산술 연산 | `AC <- AC + DR` | ALU에서 덧셈 후 누산기에 저장 | [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 | `R1 <- R1 AND R2` | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 처리 | 입력 선택 경로 |
+| [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) | `R1 <- shl R1` | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치 이동 | 시프터 자원 공유 |
+| 메모리 관련 | `DR <- M[MAR]` | 메모리 읽기 결과를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 저장 | 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
 아래 그림은 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 제어 스텝별 마이크로 오퍼레이션으로 쪼개지는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      명령어 실행을 실제 하드웨어 동작으로 바꾸는 제어 흐름         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R1, [1000]                                              │
-│                                                                      │
-│ T0  PC  ───────────────▶ MAR                                         │
-│ T1  M[MAR] ────────────▶ IR        ,  PC + 1 ───────────▶ PC         │
-│ T2  IR(address) ───────▶ MAR                                         │
-│ T3  M[MAR] ────────────▶ DR                                         │
-│ T4  R1 , DR ───────────▶ ALU(ADD) ────────────────▶ R1               │
-│                                                                      │
-│ 핵심: 명령어 1개 = 제어 시점 T0~T4에 배치된 여러 마이크로 오퍼레이션 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      명령어 실행을 실제 하드웨어 동작으로 바꾸는 제어 흐름         |
++----------------------------------------------------------------------+
+| 명령어: ADD R1, [1000]                                              |
+|                                                                      |
+| T0  PC  ----------------> MAR                                         |
+| T1  M[MAR] -------------> IR        ,  PC + 1 ------------> PC         |
+| T2  IR(address) --------> MAR                                         |
+| T3  M[MAR] -------------> DR                                         |
+| T4  R1 , DR ------------> ALU(ADD) -----------------> R1               |
+|                                                                      |
+| 핵심: 명령어 1개 = 제어 시점 T0~T4에 배치된 여러 마이크로 오퍼레이션 |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 한 번에 실행된다"는 착시를 깨는 데 있다. 실제 회로는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통째로 처리하지 않고, 시간축을 따라 주소 전송, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 적재, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기, 산술 연산처럼 쪼개진 단계별 행동을 수행한다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 분석할 때도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름만 볼 것이 아니라, 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 몇 개의 마이크로 오퍼레이션과 몇 번의 자원 점유를 유발하는지 살펴봐야 한다.
 
-또한 마이크로 오퍼레이션은 서로 완전히 독립적이지 않다. `DR ← M[MAR]`가 끝나기 전에는 `AC ← AC + DR`를 수행할 수 없으므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 생긴다. 반대로 서로 다른 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 쓰고 읽는 동작은 겹쳐 실행할 여지가 있어 파이프라인과 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올릴 수 있다.
+또한 마이크로 오퍼레이션은 서로 완전히 독립적이지 않다. `DR <- M[MAR]`가 끝나기 전에는 `AC <- AC + DR`를 수행할 수 없으므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 생긴다. 반대로 서로 다른 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 쓰고 읽는 동작은 겹쳐 실행할 여지가 있어 파이프라인과 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올릴 수 있다.
 
 - **📢 섹션 요약 비유**: 마이크로 오퍼레이션은 공장 생산 라인의 공정 카드와 같다. 제품 이름은 하나여도 실제 현장에서는 `부품 꺼내기`, `나사 조이기`, `검사하기`처럼 공정별 카드가 순서대로 돌아가야 완제품이 나온다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-computer-architecture"]
 | :--- | :--- | :--- | :--- |
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 계층 | `ADD R1, R2` | 프로그래머가 사용하는 기능 단위 |
 | 마이크로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Microinstruction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)) | [제어 메모리](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) 계층 | 특정 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴 | 여러 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 한 번에 지정 |
-| 마이크로 오퍼레이션 (Micro-operation) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 계층 | `R1 ← R1 + R2` | 실제 내부 동작 단위 |
+| 마이크로 오퍼레이션 (Micro-operation) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 계층 | `R1 <- R1 + R2` | 실제 내부 동작 단위 |
 | 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Control [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) | 회로 계층 | `LoadR1=1`, `ALUAdd=1` | 게이트와 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) 제어 |
 
 핵심 관계는 다음과 같다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 사용자 관점의 작업이고, 마이크로 오퍼레이션은 하드웨어 관점의 행동이며, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 그 행동을 일으키는 전기적 스위치다. 마이크로프로그램 제어에서는 하나의 마이크로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 여러 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 켜서 한 번의 마이크로 오퍼레이션 묶음을 만들고, [하드와이어드 제어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/)에서는 [제어 메모리](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) 없이 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 바로 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만든다.
@@ -86,14 +86,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 (Instruction)
-    │  해석
-    ▼
+    |  해석
+    v
 마이크로 오퍼레이션 (Micro-operation)
-    │  구체화
-    ▼
+    |  구체화
+    v
 제어 신호 (Control Signal)
-    │  전기적 활성화
-    ▼
+    |  전기적 활성화
+    v
 레지스터 · ALU · 버스 · 메모리 동작
 ```
 
@@ -156,21 +156,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 레지스터 전송 개념 정립
-    │
-    ▼
+    |
+    v
 마이크로 오퍼레이션 (Micro-operation)
-    │
-    ├──▶ 마이크로 명령어 (Microinstruction)
-    │        │
-    │        ▼
-    │   마이크로프로그램 제어 (Microprogrammed Control)
-    │
-    └──▶ 단순·표준화된 내부 동작 단위
-             │
-             ▼
+    |
+    +---> 마이크로 명령어 (Microinstruction)
+    |        |
+    |        v
+    |   마이크로프로그램 제어 (Microprogrammed Control)
+    |
+    +---> 단순·표준화된 내부 동작 단위
+             |
+             v
         파이프라이닝 (Pipelining) · 비순차 실행 (OoO)
-             │
-             ▼
+             |
+             v
         uOP 캐시 · 명령어 융합 · 현대 CISC 내부 RISC화
 ```
 
@@ -188,7 +188,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 213 / 803
 
-← **이전**: [212. 인터럽트 사이클 (Interrupt Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/)
-**다음**: [214. 하드와이어드 제어 (Hardwired Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/) →
+<- **이전**: [212. 인터럽트 사이클 (Interrupt Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/)
+**다음**: [214. 하드와이어드 제어 (Hardwired Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/) ->
 
 ---

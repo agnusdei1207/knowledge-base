@@ -37,9 +37,9 @@ Jenkins는 오래된 만큼 생태계가 넓다. 플러그인이 많고, [온프
 
 ```text
 Jenkins Controller
-   ↓
+   v
 Jenkins Agent
-   ↓
+   v
 Build / Test / Deploy
 ```
 
@@ -57,9 +57,9 @@ Buildkite는 에이전트가 실제 작업을 수행하고, 중앙 [서비스](/
 
 ```text
 Pipeline
-   ↓
+   v
 Buildkite Agent
-   ↓
+   v
 실제 빌드 / 테스트 실행
 ```
 
@@ -100,11 +100,11 @@ Buildkite Agent
 
 ```text
 코드 변경
-   ↓
+   v
 CI 도구
-   ↓
+   v
 빌드 / 테스트 / 배포
-   ↓
+   v
 피드백 / 반복 개선
 ```
 
@@ -112,11 +112,11 @@ CI 도구
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 빌드 서버 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동화
-2. [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) → 플러그인 중심의 표준화
-3. Buildkite → 에이전트 기반 클라우드 모델
-4. [Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) → 선언형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 확산
-5. 팀 규모와 운영 방식 → 도구 선택의 핵심 기준
+1. 수동 빌드 서버 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동화
+2. [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) -> 플러그인 중심의 표준화
+3. Buildkite -> 에이전트 기반 클라우드 모델
+4. [Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) -> 선언형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 확산
+5. 팀 규모와 운영 방식 -> 도구 선택의 핵심 기준
 
 ---
 
@@ -132,7 +132,7 @@ Buildkite는 여러 명의 작업자에게 일을 나눠 주는 배달 시스템
 
 **진행 상황**: 57 / 373
 
-← **이전**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/)
-**다음**: [58. 개발자 경험 (DX, Developer Experience) 향상 전략](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) →
+<- **이전**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/)
+**다음**: [58. 개발자 경험 (DX, Developer Experience) 향상 전략](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) ->
 
 ---

@@ -103,16 +103,16 @@ SQL 대응:
 집합 기반 관계 대수:
   관계 = 집합 (중복 없음)
   프로젝트 결과 = 집합
-  → 중복 튜플 자동 제거
+  -> 중복 튜플 자동 제거
 
 SQL과의 차이:
   SQL 기본: 중복 허용 (multiset/bag)
 
   SELECT Name, Dept FROM Employee
-  → 중복 포함 반환 가능
+  -> 중복 포함 반환 가능
 
   SELECT DISTINCT Name, Dept FROM Employee
-  → 중복 제거 (관계 대수 π와 동등)
+  -> 중복 제거 (관계 대수 π와 동등)
 
 중복 제거 비용:
   대용량 테이블에서 DISTINCT 비용 큼
@@ -188,7 +188,7 @@ SQL 대응:
   3. 조인 전 최대한 크기 줄이기
 
 RDBMS 옵티마이저 동작:
-  논리 계획 (관계 대수 식) → 변환 규칙 적용
+  논리 계획 (관계 대수 식) -> 변환 규칙 적용
   물리 계획 선택 (인덱스, 조인 알고리즘)
   비용 기반 최적화 (통계 기반 최소 비용)
 ```
@@ -226,7 +226,7 @@ RDBMS 옵티마이저 동작:
       |
       v
 [SQL 표준화 (SQL-86~SQL:2023)]
-관계 대수 → SQL 선언적 언어로 구현
+관계 대수 -> SQL 선언적 언어로 구현
 WHERE(σ), SELECT column(π)
       |
       v
@@ -254,7 +254,7 @@ Spark Catalyst, Flink, ClickHouse
 
 **진행 상황**: 42 / 600
 
-← **이전**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/knowledge-base/studynote/05_database/01_db_architecture_relational/041_select_operator/)
-**다음**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/knowledge-base/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/) →
+<- **이전**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/knowledge-base/studynote/05_database/01_db_architecture_relational/041_select_operator/)
+**다음**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/knowledge-base/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/) ->
 
 ---

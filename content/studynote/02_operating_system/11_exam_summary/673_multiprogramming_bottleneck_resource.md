@@ -68,30 +68,30 @@ tags = ["studynote-operating-system"]
 위의 공식대로라면 N을 100개, 1,000개로 무한히 늘리면 CPU 효율이 99.99%가 되어 완벽해진다. 하지만 여기에는 치명적인 물리적 장벽이 존재한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 다중 프로그래밍 정도(Degree)와 한계 자원 충돌            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [CPU 활용률을 높이려면 N을 늘려야 한다]                                 │
-  │   - 프로세스 1개당 필요한 메모리 공간이 1GB라고 가정.                      │
-  │                                                                   │
-  │  [상황: 물리 메모리(RAM)가 총 4GB인 컴퓨터]                              │
-  │   [ RAM 4GB ]                                                     │
-  │   ┌───────────────┐                                               │
-  │   │  OS Kernel    │ (500MB)                                       │
-  │   ├───────────────┤                                               │
-  │   │  Process 1    │ (1GB)                                         │
-  │   ├───────────────┤                                               │
-  │   │  Process 2    │ (1GB)                                         │
-  │   ├───────────────┤                                               │
-  │   │  Process 3    │ (1GB)                                         │
-  │   └───────────────┘                                               │
-  │   남은 공간: 500MB (더 이상 새로운 프로세스를 올릴 수 없음!)                 │
-  │                                                                   │
-  │  [결과: 한계 자원 도달]                                               │
-  │   - CPU는 아직 40%나 팽팽 놀고 있는데(I/O 대기 중),                     │
-  │     [물리 메모리]라는 병목(Bottleneck) 때문에 더 이상 N을 늘릴 수 없다.       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 다중 프로그래밍 정도(Degree)와 한계 자원 충돌            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [CPU 활용률을 높이려면 N을 늘려야 한다]                                 |
+  |   - 프로세스 1개당 필요한 메모리 공간이 1GB라고 가정.                      |
+  |                                                                   |
+  |  [상황: 물리 메모리(RAM)가 총 4GB인 컴퓨터]                              |
+  |   [ RAM 4GB ]                                                     |
+  |   +---------------+                                               |
+  |   |  OS Kernel    | (500MB)                                       |
+  |   +---------------+                                               |
+  |   |  Process 1    | (1GB)                                         |
+  |   +---------------+                                               |
+  |   |  Process 2    | (1GB)                                         |
+  |   +---------------+                                               |
+  |   |  Process 3    | (1GB)                                         |
+  |   +---------------+                                               |
+  |   남은 공간: 500MB (더 이상 새로운 프로세스를 올릴 수 없음!)                 |
+  |                                                                   |
+  |  [결과: 한계 자원 도달]                                               |
+  |   - CPU는 아직 40%나 팽팽 놀고 있는데(I/O 대기 중),                     |
+  |     [물리 메모리]라는 병목(Bottleneck) 때문에 더 이상 N을 늘릴 수 없다.       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 100% 다 뽑아먹고 싶은데, <strong>메모리(RAM)의 크기 제한</strong>이 그 발목을 잡는다. 다중 프로그래밍의 궁극적인 한계 자원([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) Resource)은 언제나 메모리였다. 이 한계를 부수기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들은 "어차피 프로세스 1GB 중에 지금 당장 실행에 필요한 코드는 10MB밖에 안 되잖아? 당장 안 쓰는 990MB는 디스크(Swap)에 던져두고 10MB씩만 메모리에 올리자!"라는 기상천외한 아이디어를 내놓았다. 이것이 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a>)</strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong> 기술의 탄생 배경이다.
@@ -138,28 +138,28 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템 병목(Bottleneck) 식별 및 아키텍처 튜닝 플로우        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 성능 모니터링: 처리량(Throughput)이 더 이상 오르지 않음]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      CPU 사용률은 20~30%로 낮은데, 디스크 I/O 대기(Wait)가 높은가?        │
-  │          ├─ 예 ─────▶ [I/O 병목 상태]                               │
-  │          │            대책 1: 다중 프로그래밍 정도(스레드 풀 크기)를 늘려서   │
-  │          │                   CPU를 더 일하게 만든다.                  │
-  │          │            대책 2: 디스크를 HDD에서 NVMe SSD로 교체한다.      │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스레드 풀이나 파드를 늘렸더니, CPU는 여전히 낮은데 메모리가 고갈(OOM)되는가?│
-  │          ├─ 예 ─────▶ [메모리 한계 자원(Memory Bottleneck) 봉착]      │
-  │          │            대책: 스케일 업(RAM 증설) 또는 비동기(Event-loop)  │
-  │          │                  논블로킹 I/O 아키텍처로 전면 개편             │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 시스템 콜 락(Lock) 경합 또는 네트워크 대역폭 병목 의심│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 시스템 병목(Bottleneck) 식별 및 아키텍처 튜닝 플로우        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버 성능 모니터링: 처리량(Throughput)이 더 이상 오르지 않음]              |
+  |                |                                                  |
+  |                v                                                  |
+  |      CPU 사용률은 20~30%로 낮은데, 디스크 I/O 대기(Wait)가 높은가?        |
+  |          +- 예 ------> [I/O 병목 상태]                               |
+  |          |            대책 1: 다중 프로그래밍 정도(스레드 풀 크기)를 늘려서   |
+  |          |                   CPU를 더 일하게 만든다.                  |
+  |          |            대책 2: 디스크를 HDD에서 NVMe SSD로 교체한다.      |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      스레드 풀이나 파드를 늘렸더니, CPU는 여전히 낮은데 메모리가 고갈(OOM)되는가?|
+  |          +- 예 ------> [메모리 한계 자원(Memory Bottleneck) 봉착]      |
+  |          |            대책: 스케일 업(RAM 증설) 또는 비동기(Event-loop)  |
+  |          |                  논블로킹 I/O 아키텍처로 전면 개편             |
+  |          |                                                        |
+  |          +- 아니오 ---> 시스템 콜 락(Lock) 경합 또는 네트워크 대역폭 병목 의심|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "CPU가 남으니까 프로그램을 더 돌리자"는 다중 프로그래밍의 1차원적 공식은 현대 시스템에서 먹히지 않는다. 프로그램을 더 올리는 순간, [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드와 캐시 미스(Cache Miss), 그리고 메모리 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 동시에 폭발하며 시스템이 역으로 느려지는 임계점(Knee Point)이 존재하기 때문이다.
@@ -206,12 +206,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [일괄 처리 시스템 (Batch Processing System) 성능 지표]
-    │
-    ▼
+    |
+    v
 [다중 프로그래밍 (Multiprogramming) 한계 자원]
-    │
-    ├──▶ [시분할 시스템 응답 시간 최적화]
-    └──▶ [멀티태스킹 (Multitasking) 용어]
+    |
+    +---> [시분할 시스템 응답 시간 최적화]
+    +---> [멀티태스킹 (Multitasking) 용어]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -228,7 +228,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 673 / 800
 
-← **이전**: [672. 일괄 처리 시스템 (Batch Processing System) 성능 지표](/knowledge-base/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/)
-**다음**: [674. 시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/674_time_sharing_response_time_optimization/) →
+<- **이전**: [672. 일괄 처리 시스템 (Batch Processing System) 성능 지표](/knowledge-base/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/)
+**다음**: [674. 시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/674_time_sharing_response_time_optimization/) ->
 
 ---

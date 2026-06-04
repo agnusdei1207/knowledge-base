@@ -26,11 +26,11 @@ tags = ["studynote-bigdata"]
 아래 그림은 플랫폼 선택을 흔드는 핵심 축을 정리한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   Five forces in platform selection                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ data volume │ latency │ concurrency │ governance │ team operations  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   Five forces in platform selection                 |
++----------------------------------------------------------------------+
+| data volume | latency | concurrency | governance | team operations  |
++----------------------------------------------------------------------+
 ```
 
 즉 플랫폼 선택은 기술 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교표 한 장으로 끝나지 않는다. 비즈니스 속도, 규제 강도, 조직 역량, 비용 방식이 동시에 교차하는 의사결정이다.
@@ -46,24 +46,24 @@ tags = ["studynote-bigdata"]
 아래 그림은 실무적으로 많이 쓰는 선택 흐름이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   Platform selection funnel                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) hard constraints: residency / security / SLA                     │
-│              │                                                       │
-│              ▼                                                       │
-│ 2) workload shape: batch / BI / streaming / ML                      │
-│              │                                                       │
-│              ▼                                                       │
-│ 3) shortlist platform family                                         │
-│    - self-managed cluster                                            │
-│    - managed cluster                                                 │
-│    - serverless warehouse                                            │
-│    - lakehouse platform                                              │
-│              │                                                       │
-│              ▼                                                       │
-│ 4) weighted score: cost + ops + fit + portability + performance     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   Platform selection funnel                         |
++----------------------------------------------------------------------+
+| 1) hard constraints: residency / security / SLA                     |
+|              |                                                       |
+|              v                                                       |
+| 2) workload shape: batch / BI / streaming / ML                      |
+|              |                                                       |
+|              v                                                       |
+| 3) shortlist platform family                                         |
+|    - self-managed cluster                                            |
+|    - managed cluster                                                 |
+|    - serverless warehouse                                            |
+|    - lakehouse platform                                              |
+|              |                                                       |
+|              v                                                       |
+| 4) weighted score: cost + ops + fit + portability + performance     |
++----------------------------------------------------------------------+
 ```
 
 | 플랫폼 패밀리 | 강점 | 약점 | 잘 맞는 상황 |
@@ -119,19 +119,19 @@ tags = ["studynote-bigdata"]
 아래 흐름은 현장에서 자주 쓰는 판단 순서다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Practical selection decision flow                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ strong regulation or residency lock?                                 │
-│   ├─ yes -> self-managed or hybrid first                             │
-│   └─ no                                                              │
-│        real-time under seconds?                                      │
-│        ├─ yes -> streaming-first + lakehouse consideration           │
-│        └─ no                                                         │
-│             SQL-heavy and small ops team?                            │
-│             ├─ yes -> serverless warehouse                           │
-│             └─ custom engines / heavy ML -> managed cluster/lakehouse│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Practical selection decision flow                  |
++----------------------------------------------------------------------+
+| strong regulation or residency lock?                                 |
+|   +- yes -> self-managed or hybrid first                             |
+|   +- no                                                              |
+|        real-time under seconds?                                      |
+|        +- yes -> streaming-first + lakehouse consideration           |
+|        +- no                                                         |
+|             SQL-heavy and small ops team?                            |
+|             +- yes -> serverless warehouse                           |
+|             +- custom engines / heavy ML -> managed cluster/lakehouse|
++----------------------------------------------------------------------+
 ```
 
 | 판단 항목 | 채택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 회피 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
@@ -179,17 +179,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 Hard constraints: regulation and SLA
-    │
-    ▼
+    |
+    v
 Workload classification: batch / BI / streaming / ML
-    │
-    ▼
+    |
+    v
 Platform-family comparison
-    │
-    ▼
+    |
+    v
 TCO + team-fit + portability evaluation
-    │
-    ▼
+    |
+    v
 Phased adoption with exit strategy
 ```
 
@@ -205,7 +205,7 @@ Phased adoption with exit strategy
 
 **진행 상황**: 175 / 262
 
-← **이전**: [174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화](/knowledge-base/studynote/16_bigdata/08_visualization/174_bigdata_visualization_challenges/)
-**다음**: [176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교](/knowledge-base/studynote/16_bigdata/09_platform/176_onpremise_vs_cloud/) →
+<- **이전**: [174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화](/knowledge-base/studynote/16_bigdata/08_visualization/174_bigdata_visualization_challenges/)
+**다음**: [176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교](/knowledge-base/studynote/16_bigdata/09_platform/176_onpremise_vs_cloud/) ->
 
 ---

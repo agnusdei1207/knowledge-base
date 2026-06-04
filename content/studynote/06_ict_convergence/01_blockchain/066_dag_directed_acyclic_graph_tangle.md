@@ -29,9 +29,9 @@ IOTA의 Tangle은 대표적인 예로, 각 [트랜잭션](/knowledge-base/studyn
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-Tx A → Tx B
+Tx A -> Tx B
   ↘   ↗
-   Tx C → Tx D
+   Tx C -> Tx D
 ```
 
 | 요소 | 역할 |
@@ -103,11 +103,11 @@ DAG는 높은 병렬성과 확장성을 노리는 [분산](/knowledge-base/study
 
 ```text
 Transaction
-  ↓
+  v
 DAG
-  ↓
+  v
 Tangle
-  ↓
+  v
 Distributed Ledger
 ```
 
@@ -117,11 +117,11 @@ Distributed Ledger
 
 ```text
 Blockchain
-  ↓
+  v
 DAG
-  ↓
+  v
 Tangle
-  ↓
+  v
 Scalable Ledger
 ```
 
@@ -139,7 +139,7 @@ DAG는 그런 그물망 같은 기록 방법이에요.
 
 **진행 상황**: 66 / 552
 
-← **이전**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)
-**다음**: [67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/067_51_percent_attack_double_spending/) →
+<- **이전**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)
+**다음**: [67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/067_51_percent_attack_double_spending/) ->
 
 ---

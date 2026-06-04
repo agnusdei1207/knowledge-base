@@ -40,39 +40,39 @@ tags = ["studynote-bigdata"]
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안 다층 방어 구조
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│               데이터 보안 거버넌스 다층 방어                  │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 1: 암호화 (Encryption)                               │
-│  ┌──────────────┬────────────────┬─────────────────────┐    │
-│  │  저장 암호화 │   전송 암호화  │   키 관리           │    │
-│  │  (At Rest)   │  (In Transit)  │   (Key Mgmt)        │    │
-│  │  AES-256-GCM │   TLS 1.3      │  HSM / AWS KMS      │    │
-│  └──────────────┴────────────────┴─────────────────────┘    │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 2: 접근 제어 (Access Control)                        │
-│  ┌───────────┬───────────────┬──────────────────────────┐   │
-│  │   RBAC    │     ABAC      │         ReBAC            │   │
-│  │ 역할 기반 │   속성 기반   │    관계 기반             │   │
-│  │ 접근 제어 │   접근 제어   │  (Google Zanzibar)       │   │
-│  └───────────┴───────────────┴──────────────────────────┘   │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 3: 데이터 마스킹 (Data Masking)                      │
-│  ┌──────────────────────┬──────────────────────────────┐    │
-│  │  정적 마스킹 (SDM)   │   동적 마스킹 (DDM)          │    │
-│  │  비프로덕션 복사본   │  쿼리 시점 역할별 마스킹     │    │
-│  │  에 마스킹 적용      │  (컬럼별 정책)               │    │
-│  └──────────────────────┴──────────────────────────────┘    │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 4: 감사 로그 (Audit Log)                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Who(누가) + When(언제) + What(무엇을) + How(어떻게) │   │
-│  │  불변 저장 (Immutable, Append-only, WORM Storage)    │   │
-│  └──────────────────────────────────────────────────────┘   │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 5: DLP (Data Loss Prevention)                       │
-│  정책 기반 데이터 반출 차단 (대량 export, 외부 전송 감지)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               데이터 보안 거버넌스 다층 방어                  |
++-------------------------------------------------------------+
+|  Layer 1: 암호화 (Encryption)                               |
+|  +--------------+----------------+---------------------+    |
+|  |  저장 암호화 |   전송 암호화  |   키 관리           |    |
+|  |  (At Rest)   |  (In Transit)  |   (Key Mgmt)        |    |
+|  |  AES-256-GCM |   TLS 1.3      |  HSM / AWS KMS      |    |
+|  +--------------+----------------+---------------------+    |
++-------------------------------------------------------------+
+|  Layer 2: 접근 제어 (Access Control)                        |
+|  +-----------+---------------+--------------------------+   |
+|  |   RBAC    |     ABAC      |         ReBAC            |   |
+|  | 역할 기반 |   속성 기반   |    관계 기반             |   |
+|  | 접근 제어 |   접근 제어   |  (Google Zanzibar)       |   |
+|  +-----------+---------------+--------------------------+   |
++-------------------------------------------------------------+
+|  Layer 3: 데이터 마스킹 (Data Masking)                      |
+|  +----------------------+------------------------------+    |
+|  |  정적 마스킹 (SDM)   |   동적 마스킹 (DDM)          |    |
+|  |  비프로덕션 복사본   |  쿼리 시점 역할별 마스킹     |    |
+|  |  에 마스킹 적용      |  (컬럼별 정책)               |    |
+|  +----------------------+------------------------------+    |
++-------------------------------------------------------------+
+|  Layer 4: 감사 로그 (Audit Log)                             |
+|  +------------------------------------------------------+   |
+|  |  Who(누가) + When(언제) + What(무엇을) + How(어떻게) |   |
+|  |  불변 저장 (Immutable, Append-only, WORM Storage)    |   |
+|  +------------------------------------------------------+   |
++-------------------------------------------------------------+
+|  Layer 5: DLP (Data Loss Prevention)                       |
+|  정책 기반 데이터 반출 차단 (대량 export, 외부 전송 감지)   |
++-------------------------------------------------------------+
 ```
 
 ### 접근 제어 모델 비교
@@ -90,13 +90,13 @@ tags = ["studynote-bigdata"]
                  신용카드번호 4532-1234-5678-9012
 
 SDM (정적 마스킹):  개발/테스트 환경용 복사본 생성 시 영구 치환
-                 → 851231-*******
-                 → 4532-****-****-9012
+                 -> 851231-*******
+                 -> 4532-****-****-9012
 
 DDM (동적 마스킹):  프로덕션 데이터 유지, 쿼리 시점에 역할별 표시 변경
-  일반 사용자:   → 85****-*******
-  고급 사용자:   → 851231-1234567 (완전 표시)
-  외부 파트너:   → ***-***-**** (완전 마스킹)
+  일반 사용자:   -> 85****-*******
+  고급 사용자:   -> 851231-1234567 (완전 표시)
+  외부 파트너:   -> ***-***-**** (완전 마스킹)
 ```
 
 **📢 섹션 요약 비유**: [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) vs ABAC는 <strong>건물 출입 카드 vs 지문+역할+시간 복합 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> 차이다. 출입 카드([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))는 카드만 있으면 들어갈 수 있지만, 복합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))은 누구인지, 어떤 용무인지, 몇 시인지 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
@@ -199,21 +199,21 @@ DDM (동적 마스킹):  프로덕션 데이터 유지, 쿼리 시점에 역할�
 
 ```text
 [데이터 분류 (Data Classification) — 민감도 수준별 데이터 목록화, 보안 정책의 출발점]
-    │
-    ▼
+    |
+    v
 [접근 제어 (RBAC·ABAC) — 역할·속성 기반 세분화 권한 관리, 최소 권한 원칙 적용]
-    │
-    ▼
+    |
+    v
 [암호화 (AES-256-GCM 저장·TLS 1.3 전송) + 데이터 마스킹 — 저장·전송·쿼리 시점 데이터 보호]
-    │
-    ▼
+    |
+    v
 [감사 로그 (Audit Log) + WORM 스토리지 — 불변 로그로 침해 사고 추적·규정 준수 증명]
-    │
-    ▼
+    |
+    v
 [Zero Trust + Unity Catalog — 컬럼·행 수준까지 보안을 통합 거버넌스]
 ```
 
-이 흐름은 [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/)를 출발점으로 접근 제어→암호화·[마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹→불변 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안의 계층을 쌓고, 최종적으로 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙과 Unity Catalog가 컬럼·행 수준까지 통합 거버넌스를 구현하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/)의 성숙 계보를 보여준다.
+이 흐름은 [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/)를 출발점으로 접근 제어->암호화·[마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹->불변 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안의 계층을 쌓고, 최종적으로 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙과 Unity Catalog가 컬럼·행 수준까지 통합 거버넌스를 구현하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/)의 성숙 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -227,7 +227,7 @@ DDM (동적 마스킹):  프로덕션 데이터 유지, 쿼리 시점에 역할�
 
 **진행 상황**: 205 / 262
 
-← **이전**: [198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성](/knowledge-base/studynote/16_bigdata/10_governance/204_mdm/)
-**다음**: [200. 개인정보보호법 빅데이터 특례 (PIPA Big Data Exception) — 가명처리 허용 데이터 3법](/knowledge-base/studynote/16_bigdata/10_governance/206_pipa_bigdata_exception/) →
+<- **이전**: [198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성](/knowledge-base/studynote/16_bigdata/10_governance/204_mdm/)
+**다음**: [200. 개인정보보호법 빅데이터 특례 (PIPA Big Data Exception) — 가명처리 허용 데이터 3법](/knowledge-base/studynote/16_bigdata/10_governance/206_pipa_bigdata_exception/) ->
 
 ---

@@ -35,9 +35,9 @@ tags = ["studynote-design-supervision"]
 | 2010~ | MVVM 대중화 | AngularJS, Knockout.js, 이후 모든 SPA 프레임워크 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: MVC가 "주방장이 요리도 하고 서빙도 하는" 구조라면, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM은 "요리사(Model)와 웨이터([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 완전히 분리하고 중간에 매니저를 둔" 구조다.
@@ -46,46 +46,46 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────┐
-│                    MVP 구조                          │
-│                                                     │
-│  ┌──────────┐  interface  ┌──────────────────────┐  │
-│  │   View   │◀────────────│     Presenter        │  │
-│  │(UI 컴포넌트│  직접 참조  │(프레젠테이션 로직 전담)│  │
-│  │ 수동 업데이)│────────────▶│                      │  │
-│  └──────────┘  이벤트 전달 └──────────┬───────────┘  │
-│                                      │ Model 조작   │
-│                              ┌───────▼───────────┐  │
-│                              │      Model        │  │
-│                              │ (데이터 + 비즈니스)  │  │
-│                              └───────────────────┘  │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|                    MVP 구조                          |
+|                                                     |
+|  +----------+  interface  +----------------------+  |
+|  |   View   |<-------------|     Presenter        |  |
+|  |(UI 컴포넌트|  직접 참조  |(프레젠테이션 로직 전담)|  |
+|  | 수동 업데이)|------------->|                      |  |
+|  +----------+  이벤트 전달 +----------+-----------+  |
+|                                      | Model 조작   |
+|                              +-------v-----------+  |
+|                              |      Model        |  |
+|                              | (데이터 + 비즈니스)  |  |
+|                              +-------------------+  |
++-----------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> 핵심</strong>: Presenter가 IView 인터페이스를 통해 View를 갱신한다. View는 수동적(Passive [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이며 스스로 아무것도 결정하지 않는다.
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                   MVVM 구조                           │
-│                                                      │
-│  ┌─────────┐    데이터 바인딩    ┌──────────────────┐ │
-│  │  View   │◀═══════════════════▶│   ViewModel      │ │
-│  │ (UI 템플) │  양방향 자동 동기화 │ (관찰 가능 상태)  │ │
-│  └─────────┘                    └────────┬─────────┘ │
-│  View는 ViewModel을                      │           │
-│  직접 알지 못함                    ┌──────▼─────────┐  │
-│  (바인딩 엔진이 연결)               │    Model       │  │
-│                                   │ (도메인 로직)    │  │
-│                                   └────────────────┘  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                   MVVM 구조                           |
+|                                                      |
+|  +---------+    데이터 바인딩    +------------------+ |
+|  |  View   |<--------------------->|   ViewModel      | |
+|  | (UI 템플) |  양방향 자동 동기화 | (관찰 가능 상태)  | |
+|  +---------+                    +--------+---------+ |
+|  View는 ViewModel을                      |           |
+|  직접 알지 못함                    +------v---------+  |
+|  (바인딩 엔진이 연결)               |    Model       |  |
+|                                   | (도메인 로직)    |  |
+|                                   +----------------+  |
++------------------------------------------------------+
 ```
 
 **MVVM 핵심**: ViewModel은 Observable (관찰 가능한) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 노출하고, 바인딩 엔진이 View를 자동으로 갱신한다. Presenter처럼 View를 직접 호출하지 않는다.
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) | MVVM |
 |:---|:---|:---|
-| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 업데이트 방식 | Presenter가 [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/).setText() 직접 호출 | ViewModel [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경 → 바인딩 엔진 자동 반영 |
-| 의존 방향 | Presenter → IView ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) | ViewModel ↔ [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) (양방향 가능) |
+| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 업데이트 방식 | Presenter가 [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/).setText() 직접 호출 | ViewModel [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경 -> 바인딩 엔진 자동 반영 |
+| 의존 방향 | Presenter -> IView ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) | ViewModel ↔ [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) (양방향 가능) |
 | 테스트 | Presenter [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 용이 | ViewModel [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 용이 |
 | 코드량 | 보일러플레이트 많음 | 바인딩으로 코드 간소화 |
 
@@ -96,7 +96,7 @@ tags = ["studynote-design-supervision"]
 ## Ⅲ. 비교 및 연결
 | 항목 | MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/)) | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Model-View-Presenter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/211_mvp_mvvm_architecture_frontend/)) | MVVM (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-ViewModel) |
 |:---|:---|:---|:---|
-| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) → 비즈니스 로직 | 직접 접근 가능 | 금지 (인터페이스만) | 금지 (바인딩만) |
+| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) -> 비즈니스 로직 | 직접 접근 가능 | 금지 (인터페이스만) | 금지 (바인딩만) |
 | 테스트 난이도 | 높음 ([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 의존) | 낮음 (인터페이스 목킹) | 낮음 (Observable [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
 | 학습 곡선 | 낮음 | 중간 | 중간~높음 |
 | 반응형 UI 지원 | 제한적 | 제한적 | 네이티브 지원 |
@@ -150,7 +150,7 @@ class LoginViewModel(val model: UserModel) {
 ## Ⅴ. 기대효과 및 결론
 두 패턴 모두 "[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) (뚱뚱한 뷰)" 안티 패턴을 해소한다. 선택 기준을 정리하면:
 
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> 선택: 바인딩 프레임워크가 없거나, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 교체(웹→앱)가 잦고, 엄격한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 필요한 경우
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> 선택: 바인딩 프레임워크가 없거나, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 교체(웹->앱)가 잦고, 엄격한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 필요한 경우
 - **MVVM** 선택: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반응형 UI, 선언적 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), 실시간 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필요한 현대 SPA (Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application) / 모바일
 
 기술사 관점에서는 **"왜 View와 비즈니스 로직을 분리하는가"** 라는 근본 질문에 답하는 것이 핵심이다. 분리를 통해 테스트 가능성, 재사용성, 유지보수성이 모두 향상된다.
@@ -172,7 +172,7 @@ class LoginViewModel(val model: UserModel) {
 | 연관 개념 | [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) | Presenter/ViewModel [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-MVC 분리 → [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩 → 선언형 UI 상태 관리
+MVC 분리 -> [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩 -> 선언형 UI 상태 관리
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MVP는 선생님(Presenter)이 학생([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))에게 직접 "이렇게 써"라고 지시하는 거야.
@@ -185,7 +185,7 @@ MVC 분리 → [MVP](/knowledge-base/studynote/12_it_management/01_governance_st
 
 **진행 상황**: 293 / 530
 
-← **이전**: [231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/231_domain_event_outbox_pattern/)
-**다음**: [233. 뷰헬퍼 커스텀 태그 패턴 (View Helper Custom Tag Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/233_view_helper_custom_tag/) →
+<- **이전**: [231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/231_domain_event_outbox_pattern/)
+**다음**: [233. 뷰헬퍼 커스텀 태그 패턴 (View Helper Custom Tag Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/233_view_helper_custom_tag/) ->
 
 ---

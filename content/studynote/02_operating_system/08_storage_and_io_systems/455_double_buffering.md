@@ -194,12 +194,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [버퍼링 (Buffering)]
-    │
-    ▼
+    |
+    v
 [이중 버퍼링 (Double Buffering)]
-    │
-    ├──▶ [캐싱 (Caching)]
-    └──▶ [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
+    |
+    +---> [캐싱 (Caching)]
+    +---> [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -216,7 +216,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 455 / 800
 
-← **이전**: [454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)
-**다음**: [456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) →
+<- **이전**: [454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)
+**다음**: [456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ->
 
 ---

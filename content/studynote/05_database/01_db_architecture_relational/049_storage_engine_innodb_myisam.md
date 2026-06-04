@@ -25,11 +25,11 @@ tags = ["studynote-database"]
 
 MySQL 아키텍처:
   클라이언트
-      ↓
+      v
   SQL 파서 / 옵티마이저 (공통)
-      ↓
+      v
   스토리지 엔진 API (공통 인터페이스)
-      ↓
+      v
   InnoDB | MyISAM | Memory | CSV | ...
 
 주요 스토리지 엔진:
@@ -82,7 +82,7 @@ InnoDB 핵심 특성:
 4. MVCC (Multi-Version Concurrency Control):
   읽기-쓰기 동시성 향상
   트랜잭션별 스냅샷 제공
-  → 읽기가 쓰기를 블로킹하지 않음
+  -> 읽기가 쓰기를 블로킹하지 않음
 
 5. 클러스터드 인덱스 (Clustered Index):
   PK 순서로 데이터 물리 저장
@@ -124,12 +124,12 @@ MyISAM 핵심 특성:
 
 2. 테이블 단위 잠금:
   INSERT/UPDATE/DELETE 시 테이블 전체 잠금
-  → 쓰기 중 읽기 불가 (반대도 가능)
-  → 동시 쓰기 성능 낮음
+  -> 쓰기 중 읽기 불가 (반대도 가능)
+  -> 동시 쓰기 성능 낮음
 
 3. 비클러스터드 인덱스:
   인덱스 파일(MYI)과 데이터 파일(MYD) 분리
-  인덱스 → 데이터 파일 포인터
+  인덱스 -> 데이터 파일 포인터
 
   장점: 유연한 인덱스 관리
 
@@ -197,7 +197,7 @@ MySQL 버전별 기본 엔진:
 ## Ⅴ. 실무 시나리오 — 마이그레이션 및 최적화
 
 ```
-MyISAM → InnoDB 마이그레이션:
+MyISAM -> InnoDB 마이그레이션:
 
 배경:
   레거시 MySQL 5.1 시스템
@@ -221,28 +221,28 @@ MyISAM → InnoDB 마이그레이션:
 
   대규모 테이블:
   pt-online-schema-change (Percona Toolkit)
-  → 무중단 변환 (쓰기 허용하며 복사)
+  -> 무중단 변환 (쓰기 허용하며 복사)
 
 4. innodb_buffer_pool 조정:
   SET GLOBAL innodb_buffer_pool_size = 8G;
 
 결과:
   Table crash: 0건 (자동 Redo Log 복구)
-  동시 쓰기 성능: +340% (테이블 → 행 잠금)
-  응답시간 P99: 120ms → 35ms
+  동시 쓰기 성능: +340% (테이블 -> 행 잠금)
+  응답시간 P99: 120ms -> 35ms
 
 InnoDB 추가 최적화:
   innodb_buffer_pool_instances = 8  (≥8GB일 때)
   innodb_log_file_size = 1G
-  innodb_flush_log_at_trx_commit = 2  (성능↑, 내구성↓)
+  innodb_flush_log_at_trx_commit = 2  (성능^, 내구성v)
   innodb_io_capacity = 2000  (SSD 기준)
 
   PK 설계:
-  UUID 대신 AUTO_INCREMENT → 순차 삽입
+  UUID 대신 AUTO_INCREMENT -> 순차 삽입
   UUID 필요 시: UUID_TO_BIN() 또는 ULIDv7
 ```
 
-> 📢 **섹션 요약 비유**: MyISAM→InnoDB 마이그레이션 = 구형 수동 금고→디지털 금고 교체 — 수동(MyISAM): 열쇠 분실 시 망가짐(크래시). 디지털(InnoDB): 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 동시 사용 가능. 마이그레이션 후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 3배+!
+> 📢 **섹션 요약 비유**: MyISAM->InnoDB 마이그레이션 = 구형 수동 금고->디지털 금고 교체 — 수동(MyISAM): 열쇠 분실 시 망가짐(크래시). 디지털(InnoDB): 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 동시 사용 가능. 마이그레이션 후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 3배+!
 
 ---
 
@@ -262,8 +262,8 @@ InnoDB 추가 최적화:
 |   +-- 빠른 COUNT(*)
 |   +-- 전문 검색 전통
 +-- 선택 기준
-    +-- OLTP → InnoDB
-    +-- 읽기 전용 → MyISAM (레거시)
+    +-- OLTP -> InnoDB
+    +-- 읽기 전용 -> MyISAM (레거시)
 ```
 
 ---
@@ -302,7 +302,7 @@ RocksDB: 대용량 쓰기 최적화
 
 1. InnoDB = 은행 금고 — 거래([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 안전하게. 개인 칸막이(행 잠금). 사고 나도 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/). 새 프로젝트 필수!
 2. MyISAM = 도서관 열람실 — 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 카드 목록([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 분리. 읽기 빠르고 COUNT 빠름. 수정 중엔 전체 입장 금지!
-3. 마이그레이션 = 구형→디지털 금고 교체 — ALTER TABLE ENGINE=InnoDB. 대규모는 pt-osc로 무중단. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 3배 향상!
+3. 마이그레이션 = 구형->디지털 금고 교체 — ALTER TABLE ENGINE=InnoDB. 대규모는 pt-osc로 무중단. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 3배 향상!
 
 ---
 
@@ -310,7 +310,7 @@ RocksDB: 대용량 쓰기 최적화
 
 **진행 상황**: 49 / 600
 
-← **이전**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/knowledge-base/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/)
-**다음**: [버퍼 풀 매니저 (Buffer Pool Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/) →
+<- **이전**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/knowledge-base/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/)
+**다음**: [버퍼 풀 매니저 (Buffer Pool Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/) ->
 
 ---

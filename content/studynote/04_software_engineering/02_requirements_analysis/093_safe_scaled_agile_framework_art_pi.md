@@ -31,21 +31,21 @@ SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requir
 SAFe의 아키텍처는 수백 명의 인원을 통제하기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Release Train)</strong>라는 강력한 [메타포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/)를 운영 심장부로 사용한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│              SAFe의 핵심 심장: ART (애자일 릴리즈 열차) 구조               │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│  [ PI (Program Increment) 기간: 보통 10주 (2주 x 5번의 스프린트) ]             │
-│                                                                       │
-│  (출발) PI 플래닝 (2박 3일 100명 전원 오프라인 합의)                         │
-│    │                                                                  │
-│    ├─▶ [스크럼 A팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)            │
-│    ├─▶ [스크럼 B팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)  ======▶ 1.0 │
-│    └─▶ [스크럼 C팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)  Release    │
-│                                                                       │
-│ * 핵심 규칙: 모든 팀은 "반드시" 같은 날에 스프린트를 시작하고 같은 날에 끝낸다.│
-│   누구는 2주, 누구는 3주 제멋대로 도는 것을 절대 금지함 (동기화 강제).        │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|              SAFe의 핵심 심장: ART (애자일 릴리즈 열차) 구조               |
++-----------------------------------------------------------------------+
+|                                                                       |
+|  [ PI (Program Increment) 기간: 보통 10주 (2주 x 5번의 스프린트) ]             |
+|                                                                       |
+|  (출발) PI 플래닝 (2박 3일 100명 전원 오프라인 합의)                         |
+|    |                                                                  |
+|    +--> [스크럼 A팀] S1 -- S2 -- S3 -- S4 -- S5 (통합/배포)            |
+|    +--> [스크럼 B팀] S1 -- S2 -- S3 -- S4 -- S5 (통합/배포)  ======-> 1.0 |
+|    +--> [스크럼 C팀] S1 -- S2 -- S3 -- S4 -- S5 (통합/배포)  Release    |
+|                                                                       |
+| * 핵심 규칙: 모든 팀은 "반드시" 같은 날에 스프린트를 시작하고 같은 날에 끝낸다.|
+|   누구는 2주, 누구는 3주 제멋대로 도는 것을 절대 금지함 (동기화 강제).        |
++-----------------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 릴리즈 열차)</strong>는 50명에서 125명의 인원(프론트, 백엔드, 테스터 등 10여 개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀)이 하나의 가상 기차에 탑승하는 구조다. 이 열차는 철저하게 정해진 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)(Cadence, 보통 10주)에 맞춰 출발하고 도착한다. 10개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀은 각자 편한 대로 일정을 잡지 못하고, 무조건 똑같이 월요일에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 시작해 금요일에 맞춰 끝내는 템포 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))를 강제받는다. 10주 뒤 열차가 멈춰 서면, 100명이 짠 모든 코드가 하나로 통합되어 거대한 배포(Release)가 터진다.
@@ -72,7 +72,7 @@ SAFe를 상징하는 시그니처 행사이자 순수 [애자일](/knowledge-bas
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-초거대 조직을 통제하기 위해 SAFe는 철저한 4개의 수직적 계층 구조(Portfolio → Large Solution → Program → Team)를 갖는다.
+초거대 조직을 통제하기 위해 SAFe는 철저한 4개의 수직적 계층 구조(Portfolio -> Large Solution -> Program -> Team)를 갖는다.
 
 1. **포트폴리오 계층 (경영진/회장님 레벨)**: 린 예산 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Budget)으로 1,000억 원의 전략적 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) (Strategic [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)) 방향을 꽂아 내린다.
 2. <strong>프로그램 계층 (<a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> 차장 레벨 / RTE)</strong>: 전략을 기능 (Feature) 단위로 썰어내어 10주짜리 열차([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))를 띄우고 진두지휘한다.
@@ -107,17 +107,17 @@ SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requir
 
 ```text
 단일 팀 단위의 순수 애자일 (Scrum) 한계 봉착
-    │
-    ▼
+    |
+    v
 대기업 도입을 위한 관료화 프레임워크 SAFe의 등장
-    │
-    ▼
-4계층 분리 통제 (포트폴리오 ─ 솔루션 ─ 프로그램 ─ 팀)
-    │
-    ▼
+    |
+    v
+4계층 분리 통제 (포트폴리오 - 솔루션 - 프로그램 - 팀)
+    |
+    v
 PI 플래닝 (PI Planning)을 통한 부서 간 의존성 사전 타협
-    │
-    ▼
+    |
+    v
 ART (Agile Release Train) 출항 · 수백 명의 템포 동기화 달성
 ```
 
@@ -133,7 +133,7 @@ ART (Agile Release Train) 출항 · 수백 명의 템포 동기화 달성
 
 **진행 상황**: 93 / 973
 
-← **이전**: [92. 대규모 애자일 (Scaled Agile) 프레임워크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)
-**다음**: [94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) →
+<- **이전**: [92. 대규모 애자일 (Scaled Agile) 프레임워크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)
+**다음**: [94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) ->
 
 ---

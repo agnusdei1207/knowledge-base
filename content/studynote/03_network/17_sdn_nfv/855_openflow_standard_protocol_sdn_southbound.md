@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [노스바운드 인터페이스]
-    │
-    ▼
+    |
+    v
 [OpenFlow]
-    │
-    └──▶ [OpenFlow Flow Table]
+    |
+    +---> [OpenFlow Flow Table]
 ```
 
 - **📢 섹션 요약 비유**: OpenFlow는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [노스바운드 인터페이스]
-    │
-    ▼
+    |
+    v
 [OpenFlow]
-    │
-    └──▶ [OpenFlow Flow Table]
+    |
+    +---> [OpenFlow Flow Table]
 ```
 
 - **📢 섹션 요약 비유**: OpenFlow의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 
 ```text
 [선행 개념: 노스바운드 인터페이스]
-    │
-    ▼
+    |
+    v
 [현재 개념: OpenFlow]
-    │
-    ├──▶ [확장 A: OpenFlow Flow Table]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: OpenFlow Flow Table]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 OpenFlow는 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)에서 출발해 현재 메커니즘을 정교화하고, 이후 OpenFlow Flow Table와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ OpenFlow는 [노스바운드 인터페이스](/knowledge-base/studynote/03_netwo
 
 **진행 상황**: 976 / 1120
 
-← **이전**: [854. 노스바운드 인터페이스 (NBI)](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)
-**다음**: [856. OpenFlow 플로우 테이블](/knowledge-base/studynote/03_network/17_sdn_nfv/856_openflow_flow_table_match_action_stats/) →
+<- **이전**: [854. 노스바운드 인터페이스 (NBI)](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)
+**다음**: [856. OpenFlow 플로우 테이블](/knowledge-base/studynote/03_network/17_sdn_nfv/856_openflow_flow_table_match_action_stats/) ->
 
 ---

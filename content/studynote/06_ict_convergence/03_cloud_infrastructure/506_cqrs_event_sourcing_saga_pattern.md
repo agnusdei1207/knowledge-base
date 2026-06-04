@@ -35,15 +35,15 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> + <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a> 구조</strong>:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  명령(Command) 흐름                                          │
-│  클라이언트 → Command Handler → 이벤트 발행 → Event Store    │
-│                                             ↓               │
-│                                     이벤트 브로커(Kafka)     │
-│                                             ↓               │
-│  조회(Query) 흐름                   Read Model 업데이트       │
-│  클라이언트 → Query Handler → Read DB(최적화 뷰) ←───────────┘
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  명령(Command) 흐름                                          |
+|  클라이언트 -> Command Handler -> 이벤트 발행 -> Event Store    |
+|                                             v               |
+|                                     이벤트 브로커(Kafka)     |
+|                                             v               |
+|  조회(Query) 흐름                   Read Model 업데이트       |
+|  클라이언트 -> Query Handler -> Read DB(최적화 뷰) <------------+
++-------------------------------------------------------------+
 ```
 
 | 패턴 | 핵심 개념 | 주요 이점 | 트레이드오프 |
@@ -90,9 +90,9 @@ tags = ["studynote-ict-convergence"]
 3. [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 코레오그래피 vs [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 장단점을 명확히 대비한다.
 
 **실무 시나리오**: 전자상거래 주문 처리 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 방식):
-1. 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 2. 결제 요청 → 3. 재고 차감 → 4. 배송 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-실패 시 보상: 배송 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 실패 → 재고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 결제 취소 → 주문 실패 처리
-→ 각 단계가 독립 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 전체 실패 없이 보상으로 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지
+1. 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 2. 결제 요청 -> 3. 재고 차감 -> 4. 배송 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+실패 시 보상: 배송 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 실패 -> 재고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 결제 취소 -> 주문 실패 처리
+-> 각 단계가 독립 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 전체 실패 없이 보상으로 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지
 
 - **📢 섹션 요약 비유**: [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 릴레이 경주다 — 한 주자가 넘어지면, 앞서 뛴 주자들이 되돌아와 경기를 취소(보상)한다. 전체 레이스는 멈추지 않는다.
 
@@ -125,7 +125,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[서비스 분리 · Database per Service] → [CQRS · 이벤트 소싱] → [BASE 속성 · 비동기 동기화]
+[서비스 분리 · Database per Service] -> [CQRS · 이벤트 소싱] -> [BASE 속성 · 비동기 동기화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 506 / 552
 
-← **이전**: [505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/505_microservices_api_gateway_service_mesh/)
-**다음**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/) →
+<- **이전**: [505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/505_microservices_api_gateway_service_mesh/)
+**다음**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/) ->
 
 ---

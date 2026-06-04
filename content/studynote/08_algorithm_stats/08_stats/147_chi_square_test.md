@@ -11,9 +11,9 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트
 
-> 카이제곱 검정(Chi-Square Test, χ²)은 범주형 변수(Categorical Variable)를 분석하는 핵심 도구로, "관측 빈도(Observed)와 기대 빈도(Expected)의 괴리"를 정량화해 귀무 가설을 검정한다.
+> 카이제곱 검정(Chi-Square Test, χ^)은 범주형 변수(Categorical Variable)를 분석하는 핵심 도구로, "관측 빈도(Observed)와 기대 빈도(Expected)의 괴리"를 정량화해 귀무 가설을 검정한다.
 > 독립성 검정([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) Test)은 분할표(Contingency Table)에서 두 변수가 독립인지를 확인하며, 자유도 df = (행-1)×(열-1)로 계산한다 — 이 수식이 "여유도(자유롭게 변할 수 있는 셀 수)"를 정확히 포착한다.
-> [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서 χ² 통계량은 특징 중요도 순위(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용되며, GWAS(Genome-Wide Association Study, 전장 유전체 연관 분석) 같은 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초다.
+> [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서 χ^ 통계량은 특징 중요도 순위(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용되며, GWAS(Genome-Wide Association Study, 전장 유전체 연관 분석) 같은 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초다.
 
 ---
 
@@ -22,22 +22,22 @@ tags = ["studynote-algorithm"]
 **카이제곱 통계량 (Chi-Square Statistic)**:
 
 ```
-χ² = Σ (O - E)² / E
+χ^ = Σ (O - E)^ / E
 
 O: 관측 빈도 (Observed Frequency)
 E: 기대 빈도 (Expected Frequency)
 ```
 
-- 차이가 클수록 χ² 값이 커짐
-- 귀무 가설이 참이면 χ² ~ χ²(df) (카이제곱 분포)
+- 차이가 클수록 χ^ 값이 커짐
+- 귀무 가설이 참이면 χ^ ~ χ^(df) (카이제곱 분포)
 - 항상 ≥ 0 (제곱이므로)
 
-**χ² 분포의 특성**:
-- 자유도 k의 χ² 분포 = k개의 독립 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 변수의 제곱합
+**χ^ 분포의 특성**:
+- 자유도 k의 χ^ 분포 = k개의 독립 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 변수의 제곱합
 - 평균 = df, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) = 2·df
-- 오른쪽 꼬리 검정(Right-Tailed Test): 충분히 큰 χ²가 기각 영역
+- 오른쪽 꼬리 검정(Right-Tailed Test): 충분히 큰 χ^가 기각 영역
 
-📢 **섹션 요약 비유**: χ² 통계량은 "기대 vs 현실의 차이 점수"다. 주사위를 600번 굴려서 기대대로 각 면이 100번씩 나왔다면 점수=0이지만, 한 면이 200번 나왔다면 점수가 치솟아 "이건 공정하지 않다"는 결론에 이른다.
+📢 **섹션 요약 비유**: χ^ 통계량은 "기대 vs 현실의 차이 점수"다. 주사위를 600번 굴려서 기대대로 각 면이 100번씩 나왔다면 점수=0이지만, 한 면이 200번 나왔다면 점수가 치솟아 "이건 공정하지 않다"는 결론에 이른다.
 
 ---
 
@@ -52,7 +52,7 @@ E: 기대 빈도 (Expected Frequency)
 
 **예시 — 주사위 공정성 검정**:
 
-| 면 | 관측(O) | 기대(E) | (O-E)² / E |
+| 면 | 관측(O) | 기대(E) | (O-E)^ / E |
 |:---:|:---:|:---:|:---:|
 | 1 | 88 | 100 | 1.44 |
 | 2 | 112 | 100 | 1.44 |
@@ -60,10 +60,10 @@ E: 기대 빈도 (Expected Frequency)
 | 4 | 105 | 100 | 0.25 |
 | 5 | 93 | 100 | 0.49 |
 | 6 | 106 | 100 | 0.36 |
-| **합계** | **600** | **600** | **χ²=4.14** |
+| **합계** | **600** | **600** | **χ^=4.14** |
 
-df = 6-1 = 5, 임계값 χ²(5, 0.05) = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07
-4.14 < [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07 → H₀ 채택 (주사위는 공정하다)
+df = 6-1 = 5, 임계값 χ^(5, 0.05) = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07
+4.14 < [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07 -> H₀ 채택 (주사위는 공정하다)
 
 📢 **섹션 요약 비유**: 적합도 검정은 "예상 vs 실제 출석 점검"과 같다. 한 반에서 예상 성적 분포(기대)와 실제 성적 분포(관측)를 비교해 "수업이 제대로 이루어졌는가"를 판단한다.
 
@@ -95,26 +95,26 @@ E_ij = (i행 합계 × j열 합계) / 전체 합계
 **2×2 분할표 예시**:
 
 ```
-┌────────────────────────────────────────────────┐
-│           분할표 (2×2 Contingency Table)         │
-├─────────────────┬──────────────┬───────────────┤
-│                 │  제품 선호 Y  │ 제품 비선호 N  │
-├─────────────────┼──────────────┼───────────────┤
-│   남성          │  O=45 E=40   │  O=15 E=20    │
-│   여성          │  O=35 E=40   │  O=25 E=20    │
-└─────────────────┴──────────────┴───────────────┘
++------------------------------------------------+
+|           분할표 (2×2 Contingency Table)         |
++-----------------+--------------+---------------+
+|                 |  제품 선호 Y  | 제품 비선호 N  |
++-----------------+--------------+---------------+
+|   남성          |  O=45 E=40   |  O=15 E=20    |
+|   여성          |  O=35 E=40   |  O=25 E=20    |
++-----------------+--------------+---------------+
 
-χ² = (45-40)²/40 + (15-20)²/20 + (35-40)²/40 + (25-20)²/20
+χ^ = (45-40)^/40 + (15-20)^/20 + (35-40)^/40 + (25-20)^/20
    = 0.625 + 1.25 + 0.625 + 1.25 = 3.75
 
 df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
-3.75 < 3.84 → 경계선상, 통계적으로 유의하지 않음
+3.75 < 3.84 -> 경계선상, 통계적으로 유의하지 않음
 ```
 
 **예이츠 보정 (Yates' Correction)**: 2×2 표 + 소표본(기대 빈도 < 5)일 때:
 
 ```
-χ²_Yates = Σ (|O - E| - 0.5)² / E
+χ^_Yates = Σ (|O - E| - 0.5)^ / E
 ```
 
 0.5를 빼서 과도한 1종 오류 방지.
@@ -140,15 +140,15 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 - 예이츠 보정
 
 ```
-┌─────────────────────────────────────────────────┐
-│         χ² 검정 적용 가이드                      │
-├──────────────┬──────────────────────────────────┤
-│  모든 E ≥ 5  │  χ² 검정 사용                   │
-├──────────────┼──────────────────────────────────┤
-│  일부 E < 5  │  예이츠 보정 or 범주 병합        │
-├──────────────┼──────────────────────────────────┤
-│  2×2 소표본  │  Fisher's Exact Test             │
-└──────────────┴──────────────────────────────────┘
++-------------------------------------------------+
+|         χ^ 검정 적용 가이드                      |
++--------------+----------------------------------+
+|  모든 E ≥ 5  |  χ^ 검정 사용                   |
++--------------+----------------------------------+
+|  일부 E < 5  |  예이츠 보정 or 범주 병합        |
++--------------+----------------------------------+
+|  2×2 소표본  |  Fisher's Exact Test             |
++--------------+----------------------------------+
 ```
 
 📢 **섹션 요약 비유**: "기대 빈도 ≥ 5" 조건은 "최소 5명 이상인 그룹만 통계 비교"와 같다. 단 1명짜리 그룹을 포함시키면 "1명 중 1명이 선호" = 100%가 나와 통계가 의미를 잃는다.
@@ -159,7 +159,7 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 
 <strong>특징 선택 (Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>) — ML</strong>:
 
-범주형 타겟(y)과 각 입력 특징(x_i)의 χ² 통계량을 계산해 높은 순으로 특징 선택:
+범주형 타겟(y)과 각 입력 특징(x_i)의 χ^ 통계량을 계산해 높은 순으로 특징 선택:
 
 ```python
 from sklearn.feature_selection import chi2, SelectKBest
@@ -169,14 +169,14 @@ X_new = selector.fit_transform(X, y)
 
 **GWAS (Genome-Wide Association Study, 전장 유전체 연관 분석)**:
 - 수백만 개의 SNP(Single Nucleotide Polymorphism) vs 질병 여부
-- 각 SNP에 대해 2×3 분할표(genotype: [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[Aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) × case/control) χ² 검정
+- 각 SNP에 대해 2×3 분할표(genotype: [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[Aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) × case/control) χ^ 검정
 - 다중 검정 보정 필수: Bonferroni 적용 시 p < 5×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁸ (≈ 0.05/백만)
 
 **마케팅 A/B 테스트**:
-- 두 광고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) × 클릭/비클릭 → 2×2 χ² 독립성 검정
+- 두 광고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) × 클릭/비클릭 -> 2×2 χ^ 독립성 검정
 - 전환율(Conversion Rate) 차이가 우연인지 검정
 
-📢 **섹션 요약 비유**: χ² 특징 선택은 "학생 성적과 관련 없는 정보 솎아내기"와 같다. "성별 × 성적 등급" χ² 통계량이 높다면 성별이 성적과 연관 있다는 뜻 — 모델에 포함할 가치가 있다.
+📢 **섹션 요약 비유**: χ^ 특징 선택은 "학생 성적과 관련 없는 정보 솎아내기"와 같다. "성별 × 성적 등급" χ^ 통계량이 높다면 성별이 성적과 연관 있다는 뜻 — 모델에 포함할 가치가 있다.
 
 ---
 
@@ -184,12 +184,12 @@ X_new = selector.fit_transform(X, y)
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| χ² 통계량 | χ² 분포 | 귀무 가설 하의 분포 |
+| χ^ 통계량 | χ^ 분포 | 귀무 가설 하의 분포 |
 | 적합도 검정 | 단일 범주형 변수 | 이론 분포와 비교 |
 | 독립성 검정 | 분할표 | 두 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 예이츠 보정 | 2×2 소표본 | 과소추정 보정 |
-| Fisher 정확 검정 | 소표본 2×2 | χ² 대안 |
-| ML 특징 선택 | χ² 통계량 | 중요도 순위화 |
+| Fisher 정확 검정 | 소표본 2×2 | χ^ 대안 |
+| ML 특징 선택 | χ^ 통계량 | 중요도 순위화 |
 
 ---
 
@@ -198,18 +198,18 @@ X_new = selector.fit_transform(X, y)
 
 ```text
 [기술 통계 (Descriptive Statistics) — 평균·분산·빈도 요약]
-    │
-    ▼
+    |
+    v
 [가설 검정 (Hypothesis Testing) — 귀무가설 H₀, 대립가설 H₁]
-    │
-    ▼
+    |
+    v
 [카이제곱 검정 (Chi-Square Test) — 범주형 변수 빈도, 관찰값 vs 기대값]
-    │
-    ▼
+    |
+    v
 [독립성 검정 (Independence Test) / 적합도 검정 (Goodness-of-Fit)]
-    │
-    ▼
-[p-값 해석 (p-value) → 유의수준 α와 비교 → 귀무가설 기각 여부 판정]
+    |
+    v
+[p-값 해석 (p-value) -> 유의수준 α와 비교 -> 귀무가설 기각 여부 판정]
 ```
 카이제곱 검정은 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 관찰 빈도와 기대 빈도 간 차이를 수치화하여, 독립성 및 분포 적합성을 검증하는 비모수 통계 기법이다.
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -224,7 +224,7 @@ X_new = selector.fit_transform(X, y)
 
 **진행 상황**: 147 / 175
 
-← **이전**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)
-**다음**: [19. t-검정 / F-검정 / ANOVA — 평균 비교 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/148_t_f_anova/) →
+<- **이전**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)
+**다음**: [19. t-검정 / F-검정 / ANOVA — 평균 비교 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/148_t_f_anova/) ->
 
 ---

@@ -34,25 +34,25 @@ BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [알고리즘](/k
 전통적인 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-2, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 처음부터 끝까지 순서대로([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로) 씹어 먹어야 한다. 반면 BLAKE3는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 청크(Chunk, 1KB)로 잘게 쪼갠다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        BLAKE3의 머클 트리 병렬 처리 구조 (SIMD 극대화)        │
-├──────────────────────────────────────────────────────────────┤
-│ [ 대용량 입력 파일 ]                                         │
-│   (청크 1)      (청크 2)      (청크 3)      (청크 4)         │
-│      │             │             │             │             │
-│ [코어1 해시]  [코어2 해시]  [코어3 해시]  [코어4 해시] ◀ 병렬│
-│      │             │             │             │             │
-│      ▼             ▼             ▼             ▼             │
-│     해시 A        해시 B        해시 C        해시 D         │
-│      │             │             │             │             │
-│      └─▶ (합성) ◀─┘             └─▶ (합성) ◀─┘             │
-│            ▼                           ▼                     │
-│          해시 AB                     해시 CD                 │
-│            │                           │                     │
-│            └───────▶ (최종 합성) ◀──────┘                     │
-│                            ▼                                 │
-│                 [ 최종 Root 해시 256bit ]                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        BLAKE3의 머클 트리 병렬 처리 구조 (SIMD 극대화)        |
++--------------------------------------------------------------+
+| [ 대용량 입력 파일 ]                                         |
+|   (청크 1)      (청크 2)      (청크 3)      (청크 4)         |
+|      |             |             |             |             |
+| [코어1 해시]  [코어2 해시]  [코어3 해시]  [코어4 해시] <- 병렬|
+|      |             |             |             |             |
+|      v             v             v             v             |
+|     해시 A        해시 B        해시 C        해시 D         |
+|      |             |             |             |             |
+|      +--> (합성) <--+             +--> (합성) <--+             |
+|            v                           v                     |
+|          해시 AB                     해시 CD                 |
+|            |                           |                     |
+|            +--------> (최종 합성) <-------+                     |
+|                            v                                 |
+|                 [ 최종 Root 해시 256bit ]                    |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램처럼, 시스템의 CPU 코어가 많으면 많을수록 여러 청크를 동시에 해싱하여 하나로 모은다. 여기에 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)(단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 다중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋까지 극한으로 활용하여, 기가비트 시대에 초당 수 GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갈아버리는 물리적 한계 돌파를 이뤄냈다.
@@ -113,17 +113,17 @@ BLAKE3를 도입하면 서버의 CPU 부하는 극적으로 줄어들고 [데이
 
 ```text
 MD5 / SHA-1 (빠르지만 뚫려버린 구시대 해시)
-    │
-    ▼
+    |
+    v
 SHA-2 (안전하지만 무겁고 직렬 처리의 한계)
-    │
-    ▼
+    |
+    v
 SHA-3 공모전 (BLAKE 알고리즘 결승 진출)
-    │
-    ▼
+    |
+    v
 BLAKE2 (보안성 유지 및 소프트웨어 최적화 달성)
-    │
-    ▼
+    |
+    v
 BLAKE3 (머클 트리 내장 및 SIMD 극대화로 초고속 병렬 해시 완성)
 ```
 
@@ -139,7 +139,7 @@ BLAKE3 (머클 트리 내장 및 SIMD 극대화로 초고속 병렬 해시 완�
 
 **진행 상황**: 153 / 1108
 
-← **이전**: [1029. Responsible Disclosure (책임 있는 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1029_responsible_disclosure/)
-**다음**: [1030. Coordinated Disclosure (협력적 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1030_coordinated_disclosure/) →
+<- **이전**: [1029. Responsible Disclosure (책임 있는 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1029_responsible_disclosure/)
+**다음**: [1030. Coordinated Disclosure (협력적 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1030_coordinated_disclosure/) ->
 
 ---

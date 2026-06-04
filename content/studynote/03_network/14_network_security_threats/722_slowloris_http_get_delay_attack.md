@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SLOW GET / SLOW POST 공격]
-    │
-    ▼
+    |
+    v
 [트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    └──▶ [랜섬웨어]
+    |
+    +---> [랜섬웨어]
 ```
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [SLOW GET / SLOW POST 공격]
-    │
-    ▼
+    |
+    v
 [트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    └──▶ [랜섬웨어]
+    |
+    +---> [랜섬웨어]
 ```
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SLOW GET / SLOW POST 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: 트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    ├──▶ [확장 A: 랜섬웨어]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 랜섬웨어]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 트래픽 혼잡공격 유도 및 캡챠 적용는 SLOW GET / SLOW POST 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 843 / 1120
 
-← **이전**: [721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/)
-**다음**: [723. RUDY (Slow HTTP POST 공격)](/knowledge-base/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) →
+<- **이전**: [721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/)
+**다음**: [723. RUDY (Slow HTTP POST 공격)](/knowledge-base/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) ->
 
 ---

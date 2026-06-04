@@ -202,7 +202,7 @@ CosmosDB, ArangoDB, YugabyteDB
 
 **진행 상황**: 35 / 258
 
-← **이전**: [ELT (Extract, Load, Transform) 현대 데이터 스택](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)
-**다음**: [036. 키-값 저장소 (Key-Value Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) →
+<- **이전**: [ELT (Extract, Load, Transform) 현대 데이터 스택](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)
+**다음**: [036. 키-값 저장소 (Key-Value Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) ->
 
 ---

@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 자율주행의 경우 더 명확하다. 브레이크 여부를 클라우드에 물어보고 100ms 후 답을 받으면 이미 사고다. <strong>엣지에서 1ms 내 결정</strong>이 생명을 구한다. 보안 카메라의 얼굴 인식도 영상을 클라우드로 보내면 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 — 디바이스에서 처리하면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 문제가 없다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) vs 클라우드 AI는 집 밖 vs 편의점의 차이다. 집에 있는 것(온디바이스)은 서버(편의점) 없이 즉시 사용 가능하지만 공간(메모리·연산)이 한정된다. 편의점(클라우드)은 모든 게 있지만 나갔다 와야 해서([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)) 긴급 상황에는 집에 있는 것만 사용할 수 있다.
@@ -39,29 +39,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         온디바이스 AI 시스템 스택 (스마트폰 기준)                     │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  애플리케이션 레이어 (Application Layer):                           │
-│  카메라 AI, 번역, 음성인식, 코드 완성, 이미지 생성                    │
-│              │                                                   │
-│  AI 런타임 프레임워크 (AI Runtime):                                  │
-│  TensorFlow Lite / CoreML / ONNX Runtime / MediaPipe            │
-│              │                                                   │
-│  경량화 모델 (Lightweight Model):                                  │
-│  양자화 (INT4/INT8) + 지식 증류 + 프루닝 적용                       │
-│  예: LLaMA 3.2 1B (INT4) → 700MB → 스마트폰 DRAM에 로드           │
-│              │                                                   │
-│  하드웨어 가속기 (NPU/DSP):                                         │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  Apple ANE (Apple Neural Engine): 38 TOPS (조 연산/초)  │    │
-│  │  퀄컴 Hexagon NPU: 75 TOPS                              │    │
-│  │  삼성 Exynos NPU: 34.4 TOPS                             │    │
-│  │  Google Tensor NPU: 51 TOPS                             │    │
-│  │  특징: INT8/INT4 행렬 곱셈 특화 병렬 처리                  │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         온디바이스 AI 시스템 스택 (스마트폰 기준)                     |
++------------------------------------------------------------------+
+|                                                                  |
+|  애플리케이션 레이어 (Application Layer):                           |
+|  카메라 AI, 번역, 음성인식, 코드 완성, 이미지 생성                    |
+|              |                                                   |
+|  AI 런타임 프레임워크 (AI Runtime):                                  |
+|  TensorFlow Lite / CoreML / ONNX Runtime / MediaPipe            |
+|              |                                                   |
+|  경량화 모델 (Lightweight Model):                                  |
+|  양자화 (INT4/INT8) + 지식 증류 + 프루닝 적용                       |
+|  예: LLaMA 3.2 1B (INT4) -> 700MB -> 스마트폰 DRAM에 로드           |
+|              |                                                   |
+|  하드웨어 가속기 (NPU/DSP):                                         |
+|  +---------------------------------------------------------+    |
+|  |  Apple ANE (Apple Neural Engine): 38 TOPS (조 연산/초)  |    |
+|  |  퀄컴 Hexagon NPU: 75 TOPS                              |    |
+|  |  삼성 Exynos NPU: 34.4 TOPS                             |    |
+|  |  Google Tensor NPU: 51 TOPS                             |    |
+|  |  특징: INT8/INT4 행렬 곱셈 특화 병렬 처리                  |    |
+|  +---------------------------------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 | 비교 항목 | 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
@@ -80,8 +80,8 @@ tags = ["studynote-ai"]
 ## Ⅲ. 비교 및 연결
 
 <strong>하이브리드 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (Hybrid <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) 아키텍처</strong>: 온디바이스와 클라우드를 상황에 따라 자동 전환하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
-- 짧은 텍스트·오프라인 상태·프라이버시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 온디바이스 처리
-- 복잡한 추론·인터넷 연결·대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 클라우드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
+- 짧은 텍스트·오프라인 상태·프라이버시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 온디바이스 처리
+- 복잡한 추론·인터넷 연결·대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 클라우드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
 
 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 Apple Intelligence·Galaxy [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·Google Pixel의 실제 구현 방식이다.
 
@@ -99,7 +99,7 @@ tags = ["studynote-ai"]
 
 <strong>온디바이스 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 배포 설계 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 1. <strong>타겟 하드웨어 TOPS(Tera Operations Per Second) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 모델 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 = 파라미터수 × 2 / TOPS
-2. **메모리 제약**: 스마트폰 평균 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 8~12GB → INT4 7B 모델 ≈ 3.5GB 가능
+2. **메모리 제약**: 스마트폰 평균 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 8~12GB -> INT4 7B 모델 ≈ 3.5GB 가능
 3. **배터리 최적화**: [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 사용 시 CPU 대비 전력 90% 절감 가능 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) [offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 필수)
 4. **프레임워크 선택**: iOS(CoreML+Metal), Android(TFLite+NNAPI), 크로스플랫폼(ONNX Runtime)
 5. <strong>모델 업데이트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: OTA([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 업데이트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 ([연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 연계 가능)
@@ -129,7 +129,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [온디바이스 AI (On-Device AI)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [온디바이스 AI (On-Device AI)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 329 / 420
 
-← **이전**: [328. 연합 학습 (Federated Learning)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/328_federated_learning/)
-**다음**: [330. AI 윤리 (AI Ethics)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/) →
+<- **이전**: [328. 연합 학습 (Federated Learning)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/328_federated_learning/)
+**다음**: [330. AI 윤리 (AI Ethics)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/) ->
 
 ---

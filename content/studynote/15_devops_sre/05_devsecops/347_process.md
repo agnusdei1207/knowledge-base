@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 방어는 입력을 정제하는 필터 하나로 끝나지 않는다. 안전한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 앱은 보통 `입력 분류 → 정책 적용 → 검색/도구 권한 확인 → 모델 실행 → 출력 검증 → 감사 로그`의 흐름을 갖는다. 핵심은 모델을 완전 신뢰하지 않고, 민감 행위는 별도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 승인하게 만드는 것이다.
+[프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 방어는 입력을 정제하는 필터 하나로 끝나지 않는다. 안전한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 앱은 보통 `입력 분류 -> 정책 적용 -> 검색/도구 권한 확인 -> 모델 실행 -> 출력 검증 -> 감사 로그`의 흐름을 갖는다. 핵심은 모델을 완전 신뢰하지 않고, 민감 행위는 별도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 승인하게 만드는 것이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | Output Validator | 민감 정보/금지 응답 차단 | [regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/) + [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) judge + rule 결합 |
 
 ```text
-┌──────────────┐   classify   ┌──────────────┐   authorize  ┌──────────────┐
-│ User Prompt  │ ───────────▶ │ Policy Layer │ ───────────▶ │ Tool Sandbox │
-└──────────────┘              └──────────────┘              └──────────────┘
-        │                              │                             │
-        │ suspicious                   │ context guard               │ result
-        ▼                              ▼                             ▼
-┌──────────────┐              ┌──────────────┐              ┌──────────────┐
-│ Alert / Log  │ ◀─────────── │ LLM Runtime  │ ───────────▶ │ Output Check │
-└──────────────┘              └──────────────┘              └──────────────┘
++--------------+   classify   +--------------+   authorize  +--------------+
+| User Prompt  | ------------> | Policy Layer | ------------> | Tool Sandbox |
++--------------+              +--------------+              +--------------+
+        |                              |                             |
+        | suspicious                   | context guard               | result
+        v                              v                             v
++--------------+              +--------------+              +--------------+
+| Alert / Log  | <------------ | LLM Runtime  | ------------> | Output Check |
++--------------+              +--------------+              +--------------+
 ```
 
 이 그림의 핵심은 모델이 직접 권한을 결정하지 않는다는 점이다. 예를 들어 시스템 프롬프트를 노출할지, 내부 문서를 검색할지, 셸 명령을 실행할지는 모델의 “판단”이 아니라 애플리케이션의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 권한 체계가 결정해야 한다. 또한 숨겨진 프롬프트를 길게 쓰는 것보다, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/명령 분리와 도구 권한 축소가 더 강한 방어가 된다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Prompt-only Chatbot
-   │
-   ▼
+   |
+   v
 RAG / Tool Use
-   │
-   ▼
+   |
+   v
 Prompt Injection Risk
-   │
-   ▼
+   |
+   v
 Policy Layer + Sandbox + Output Validation
 ```
 
-이 흐름은 “단순 대화 → 도구 연동 → 공격 표면 확대 → 심층 방어 설계”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안이 강화되는 방향을 보여준다.
+이 흐름은 “단순 대화 -> 도구 연동 -> 공격 표면 확대 -> 심층 방어 설계”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안이 강화되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Policy Layer + Sandbox + Output Validation
 
 **진행 상황**: 347 / 373
 
-← **이전**: [346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/)
-**다음**: [348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/348_finops_ri/) →
+<- **이전**: [346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/346_llm_rag_db/)
+**다음**: [348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/348_finops_ri/) ->
 
 ---

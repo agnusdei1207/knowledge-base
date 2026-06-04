@@ -43,24 +43,24 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 발급 폭의 제약을 받는 위치를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 명령어 흐름과 발급 폭 병목의 위치                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Fetch 4 ─▶ Decode 4 ─▶ Rename 4 ─▶ Dispatch 4 ─▶ Issue Queue                │
-│                                                       │                      │
-│                                                       │ ready 검사           │
-│                                                       ▼                      │
-│                                            ┌──────────────────────┐          │
-│                                            │ Wakeup / Select      │          │
-│                                            │ 최대 3개 선택 가능   │          │
-│                                            └─────────┬────────────┘          │
-│                                                      │                       │
-│                         ┌──────────────┬─────────────┴─────────────┐         │
-│                         ▼              ▼                           ▼         │
-│                      ALU Port 0     ALU Port 1                Load Port      │
-│                         │              │                           │         │
-│                         └─────── 이번 사이클 실제 Issue = 3 ───────┘         │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                 명령어 흐름과 발급 폭 병목의 위치                            |
++------------------------------------------------------------------------------+
+| Fetch 4 --> Decode 4 --> Rename 4 --> Dispatch 4 --> Issue Queue                |
+|                                                       |                      |
+|                                                       | ready 검사           |
+|                                                       v                      |
+|                                            +----------------------+          |
+|                                            | Wakeup / Select      |          |
+|                                            | 최대 3개 선택 가능   |          |
+|                                            +---------+------------+          |
+|                                                      |                       |
+|                         +--------------+-------------+-------------+         |
+|                         v              v                           v         |
+|                      ALU Port 0     ALU Port 1                Load Port      |
+|                         |              |                           |         |
+|                         +------- 이번 사이클 실제 Issue = 3 -------+         |
++------------------------------------------------------------------------------+
 ```
 
 이 구조에서 설계 난제는 웨이크업-셀렉트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. 예를 들어 6-wide 발급을 만들면 단지 선택선 6개를 더하는 것이 아니라, 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 준비되었는지 비교하고 서로 같은 자원을 요구하는지 판정하며, 결과를 각 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 연결하는 배선까지 함께 늘어난다. 그래서 발급 폭 증가는 보통 선형 이득보다 더 큰 회로 비용을 요구하며, 실제 상용 코어가 4~8-wide 부근에서 균형점을 찾는 이유도 여기에 있다.
@@ -135,23 +135,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 파이프라인
-    │
-    ▼
+    |
+    v
 수퍼스칼라 (Superscalar)
-    │
-    ├─▶ 디스패치 폭 (Dispatch Width)
-    │
-    ├─▶ 명령어 발급 폭 (Issue Width)
-    │        │
-    │        ├─▶ 비순차 실행 (Out-of-Order Execution, OoO)
-    │        ├─▶ 레지스터 리네이밍 (Register Renaming)
-    │        └─▶ 실행 포트 / 예약역 최적화
-    │
-    ▼
+    |
+    +--> 디스패치 폭 (Dispatch Width)
+    |
+    +--> 명령어 발급 폭 (Issue Width)
+    |        |
+    |        +--> 비순차 실행 (Out-of-Order Execution, OoO)
+    |        +--> 레지스터 리네이밍 (Register Renaming)
+    |        +--> 실행 포트 / 예약역 최적화
+    |
+    v
 높은 IPC (Instructions Per Cycle)와 전력-성능 균형 설계
 ```
 
-이 흐름은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 도입 → 발급 단계의 정교화 → 실효 폭을 높이기 위한 보조 기술"로 확장되는 구조를 보여준다.
+이 흐름은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 도입 -> 발급 단계의 정교화 -> 실효 폭을 높이기 위한 보조 기술"로 확장되는 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 237 / 803
 
-← **이전**: [236. 수퍼스칼라 (Superscalar)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)
-**다음**: [238. 비순차 실행 (Out-of-Order Execution, OoO)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) →
+<- **이전**: [236. 수퍼스칼라 (Superscalar)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)
+**다음**: [238. 비순차 실행 (Out-of-Order Execution, OoO)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [오손 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/205_dirty_read_uncommitted_dependency/) (Dirty Read) 고립 수준 회피은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [오손 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/205_dirty_read_uncommitted_dependency/) 고립 수준 회피를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `정규화의 역설 조인 비용 및 응답 지연 해결망 설계`·`Repeatable Read 의 팬텀 현상 MVCC 해결 유무`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [오손 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/205_dirty_read_uncommitted_dependency/) 고립 수준 회피를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [정규화의 역설 조인 비용 및 응답 지연 해결망 설계]
-    │
-    ▼
+    |
+    v
 [동시성 오손 읽기 고립 수준 회피]
-    │
-    ├──▶ [Repeatable Read 의 팬텀 현상 MVCC 해결 유무]
-    └──▶ [Serializable 성능 저하 임계 영역 데드락 방어]
+    |
+    +---> [Repeatable Read 의 팬텀 현상 MVCC 해결 유무]
+    +---> [Serializable 성능 저하 임계 영역 데드락 방어]
 ```
 
 정규화의 역설 조인 비용 및 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 해결망 설계에서 출발한 논점이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [오손 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/205_dirty_read_uncommitted_dependency/) 고립 수준 회피에서 핵심 판단으로 모이고, 이후 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 의 팬텀 현상 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 해결 유무·[Serializable](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 임계 영역 데드락 방어 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 528 / 600
 
-← **이전**: [527. 정규화의 역설 조인 비용 및 응답 지연 해결망 설계 (Second Normal Form)](/knowledge-base/studynote/05_database/04_transactions_concurrency/527_second_normal_form/)
-**다음**: [529. Repeatable Read 의 팬텀 현상 MVCC 해결 유무 (Bcnf)](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) →
+<- **이전**: [527. 정규화의 역설 조인 비용 및 응답 지연 해결망 설계 (Second Normal Form)](/knowledge-base/studynote/05_database/04_transactions_concurrency/527_second_normal_form/)
+**다음**: [529. Repeatable Read 의 팬텀 현상 MVCC 해결 유무 (Bcnf)](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) ->
 
 ---

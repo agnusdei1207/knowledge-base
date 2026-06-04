@@ -216,7 +216,7 @@ Optuna 최적화 + SHAP 피처 중요도
 
 **진행 상황**: 35 / 420
 
-← **이전**: [그래디언트 부스팅 (Gradient Boosting)](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/)
-**다음**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/knowledge-base/studynote/10_ai/01_ai_basics/036_support_vector_machine/) →
+<- **이전**: [그래디언트 부스팅 (Gradient Boosting)](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/)
+**다음**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/knowledge-base/studynote/10_ai/01_ai_basics/036_support_vector_machine/) ->
 
 ---

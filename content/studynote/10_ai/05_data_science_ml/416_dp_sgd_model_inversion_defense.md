@@ -24,15 +24,15 @@ tags = ["studynote-ai"]
 문제의 핵심은 학습 과정이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흔적을 남긴다는 점이다. 모델 파라미터와 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 심지어 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))에서 공유되는 기울기조차 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 자취를 품고 있다. 따라서 보안을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 접근 제어 수준에서만 생각하면 불충분하고, <strong>학습 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 자체가 정보 누출에 둔감하도록</strong> 설계되어야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          민감 정보 누출의 경로: 데이터가 학습 흔적을 남김      │
-├──────────────────────────────────────────────────────────────┤
-│ 훈련 데이터 → 기울기/파라미터 업데이트 → 학습된 모델          │
-│                                 │                            │
-│                                 └→ 출력 확률, gradient 공유    │
-│                                              │               │
-│                                              └→ 역산 공격 시도 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          민감 정보 누출의 경로: 데이터가 학습 흔적을 남김      |
++--------------------------------------------------------------+
+| 훈련 데이터 -> 기울기/파라미터 업데이트 -> 학습된 모델          |
+|                                 |                            |
+|                                 +-> 출력 확률, gradient 공유    |
+|                                              |               |
+|                                              +-> 역산 공격 시도 |
++--------------------------------------------------------------+
 ```
 
 이 그림이 말하는 것은 단순하다. 공격자는 원본 DB를 훔치지 않아도 된다. 모델이 남긴 업데이트 흔적만으로도 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 추정할 수 있다. DP-SGD는 바로 이 흔적의 세기를 통제하는 방패다.
@@ -61,19 +61,19 @@ $$
 | <strong>Privacy Budget <code>(ε, δ)</code></strong> | 누출 한계 추적       | 규제/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 근거      |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  DP-SGD 업데이트 파이프라인                 │
-├──────────────────────────────────────────────────────────────┤
-│ Mini-batch                                                   │
-│    │                                                         │
-│    ├─> sample gradients g1, g2, ... , gL                    │
-│    │                                                         │
-│    ├─> clip each gradient to norm C                          │
-│    │                                                         │
-│    ├─> sum clipped gradients + Gaussian noise                │
-│    │                                                         │
-│    └─> optimizer update + privacy accountant                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  DP-SGD 업데이트 파이프라인                 |
++--------------------------------------------------------------+
+| Mini-batch                                                   |
+|    |                                                         |
+|    +-> sample gradients g1, g2, ... , gL                    |
+|    |                                                         |
+|    +-> clip each gradient to norm C                          |
+|    |                                                         |
+|    +-> sum clipped gradients + Gaussian noise                |
+|    |                                                         |
+|    +-> optimizer update + privacy accountant                 |
++--------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 "완벽한 비밀"이 아니라 "영향력 상한"이다. 어떤 샘플 하나가 있어도 되고 없어도 되게 학습 결과를 흐리게 만들어, 공격자가 특정 개인 정보를 강하게 복원하지 못하게 한다. 즉, 정보 누출을 0으로 만드는 게 아니라 **정량 가능한 위험 상한** 안으로 밀어 넣는 것이다.
@@ -148,7 +148,7 @@ DP-SGD를 적용하면 민감 [데이터](/knowledge-base/studynote/05_database/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -163,7 +163,7 @@ DP-SGD를 적용하면 민감 [데이터](/knowledge-base/studynote/05_database/
 
 **진행 상황**: 416 / 420
 
-← **이전**: [415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)](/knowledge-base/studynote/10_ai/05_data_science_ml/415_instance_normalization_group_normalization/)
-**다음**: [417. BM25 정보 검색 모델 (Best Matching 25)](/knowledge-base/studynote/10_ai/05_data_science_ml/417_bm25_document_length_normalization/) →
+<- **이전**: [415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)](/knowledge-base/studynote/10_ai/05_data_science_ml/415_instance_normalization_group_normalization/)
+**다음**: [417. BM25 정보 검색 모델 (Best Matching 25)](/knowledge-base/studynote/10_ai/05_data_science_ml/417_bm25_document_length_normalization/) ->
 
 ---

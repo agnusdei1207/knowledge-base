@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [단편화 및 재조립]
-    │
-    ▼
+    |
+    v
 [패킷 캡슐화, MTU]
-    │
-    └──▶ [PMTU]
+    |
+    +---> [PMTU]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 네트워크 캡슐화는 회장님(응용 계층)의 편지를 비서(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)가 서류 봉투에 넣고, 우체국(IP)이 택배 상자에 포장한 뒤, 화물차(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)에 싣는 과정입니다. 이때 화물차가 실을 수 있는 </strong>"최대 상자 크기(MTU)"가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 화물차의 경우 1500 사이즈로 법제화**되어 있습니다.
@@ -55,23 +55,23 @@ tags = ["studynote-network"]
 - 만약 3계층에서 2000바이트짜리 IP 패킷이 내려오면, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드는 "내 뱃속(MTU 1500)에 안 들어가! 도로 가져가!"라며 뱉어낸다. 결국 IP 계층이 자기가 만든 패킷을 1500 크기에 맞게 여러 개로 칼질([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))해야만 한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                캡슐화와 MTU (Maximum Transmission Unit)        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ App (L7) ]                   [ Data (1460 Bytes) ]      │
- │                                            │                │
- │   [ TCP (L4) ]           [ TCP 헤더(20) ][ Data (1460) ]      │
- │                                            │                │
- │                 ┌───────────────── 알맹이 (MTU 1500 제한) ─────┐│
- │   [ IP (L3) ]   │ [ IP 헤더(20) ][ TCP 헤더(20) ][ Data ]   ││
- │                 └───────────────────────────────────────────┘│
- │                                            │                │
- │   [ MAC (L2) ]  [ MAC 헤더(14) ][ 1500 Bytes 알맹이 ][ FCS(4) ] │
- │                                                             │
- │   * 전체 이더넷 프레임 크기: 1518 Bytes                            │
- │   * L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                캡슐화와 MTU (Maximum Transmission Unit)        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ App (L7) ]                   [ Data (1460 Bytes) ]      |
+ |                                            |                |
+ |   [ TCP (L4) ]           [ TCP 헤더(20) ][ Data (1460) ]      |
+ |                                            |                |
+ |                 +----------------- 알맹이 (MTU 1500 제한) -----+|
+ |   [ IP (L3) ]   | [ IP 헤더(20) ][ TCP 헤더(20) ][ Data ]   ||
+ |                 +-------------------------------------------+|
+ |                                            |                |
+ |   [ MAC (L2) ]  [ MAC 헤더(14) ][ 1500 Bytes 알맹이 ][ FCS(4) ] |
+ |                                                             |
+ |   * 전체 이더넷 프레임 크기: 1518 Bytes                            |
+ |   * L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes     |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. MSS (Maximum [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Size)
@@ -136,12 +136,12 @@ MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_tr
 
 ```text
 [선행 개념: 단편화 및 재조립]
-    │
-    ▼
+    |
+    v
 [현재 개념: 패킷 캡슐화, MTU]
-    │
-    ├──▶ [확장 A: PMTU]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: PMTU]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 패킷 캡슐화, MTU는 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 및 재조립에서 출발해 현재 메커니즘을 정교화하고, 이후 PMTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_tr
 
 **진행 상황**: 413 / 1120
 
-← **이전**: [291. 단편화 (Fragmentation) 및 재조립 (Reassembly)](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)
-**다음**: [293. PMTU (Path MTU Discovery)](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) →
+<- **이전**: [291. 단편화 (Fragmentation) 및 재조립 (Reassembly)](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)
+**다음**: [293. PMTU (Path MTU Discovery)](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) ->
 
 ---

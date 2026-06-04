@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SQL text -> Planner -> Current concept -> Latency            │
-├──────────────────────────────────────────────────────────────┤
-│ Predicate -> path choice -> I/O cost                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SQL text -> Planner -> Current concept -> Latency            |
++--------------------------------------------------------------+
+| Predicate -> path choice -> I/O cost                         |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `인덱스의 단점`·`해시 인덱스`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Parse -> estimate -> current concept -> execute              │
-├──────────────────────────────────────────────────────────────┤
-│ Plan quality -> CPU/I/O balance -> response                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Parse -> estimate -> current concept -> execute              |
++--------------------------------------------------------------+
+| Plan quality -> CPU/I/O balance -> response                  |
++--------------------------------------------------------------+
 ```
 
 핵심은 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -114,12 +114,12 @@ tags = ["studynote-database"]
 
 ```text
 [인덱스의 단점]
-    │
-    ▼
+    |
+    v
 [B-Tree 인덱스 / B+Tree 인덱스]
-    │
-    ├──▶ [해시 인덱스]
-    └──▶ [비트맵 인덱스]
+    |
+    +---> [해시 인덱스]
+    +---> [비트맵 인덱스]
 ```
 
 [인덱스의 단점](/knowledge-base/studynote/05_database/03_relational_model/155_database_index_overhead_dml_performance_degradation/)에서 출발한 논점이 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 핵심 판단으로 모이고, 이후 [해시 인덱스](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/)·[비트맵 인덱스](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -136,7 +136,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 156 / 600
 
-← **이전**: [155. 인덱스의 단점 (Database Index Overhead DML Performance Degradation)](/knowledge-base/studynote/05_database/03_relational_model/155_database_index_overhead_dml_performance_degradation/)
-**다음**: [157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/) →
+<- **이전**: [155. 인덱스의 단점 (Database Index Overhead DML Performance Degradation)](/knowledge-base/studynote/05_database/03_relational_model/155_database_index_overhead_dml_performance_degradation/)
+**다음**: [157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/) ->
 
 ---

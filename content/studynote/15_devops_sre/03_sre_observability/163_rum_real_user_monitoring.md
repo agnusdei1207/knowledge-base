@@ -36,21 +36,21 @@ RUM의 기본 구조는 브라우저나 앱 안에 심어진 경량 수집기와
 아래 그림은 RUM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 분석되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     RUM 수집 아키텍처                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 실제 사용자 브라우저/앱                                             │
-│   ├─ 성능 API: Navigation / Resource / Paint / Event Timing         │
-│   ├─ 오류 수집: JS Error, API Fail, Crash                           │
-│   ├─ 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형          │
-│   └─ RUM SDK                                                         │
-│              │                                                       │
-│              ▼                                                       │
-│       Beacon/API 전송 ──▶ 수집 엔드포인트 ──▶ 저장/집계 파이프라인   │
-│                                              │                      │
-│                                              ▼                      │
-│                    대시보드 · 경보 · 세그먼트 분석 · APM 연계        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     RUM 수집 아키텍처                               |
++----------------------------------------------------------------------+
+| 실제 사용자 브라우저/앱                                             |
+|   +- 성능 API: Navigation / Resource / Paint / Event Timing         |
+|   +- 오류 수집: JS Error, API Fail, Crash                           |
+|   +- 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형          |
+|   +- RUM SDK                                                         |
+|              |                                                       |
+|              v                                                       |
+|       Beacon/API 전송 ---> 수집 엔드포인트 ---> 저장/집계 파이프라인   |
+|                                              |                      |
+|                                              v                      |
+|                    대시보드 · 경보 · 세그먼트 분석 · APM 연계        |
++----------------------------------------------------------------------+
 ```
 
 | 지표 | 의미 | 대표 기준 |
@@ -137,18 +137,18 @@ RUM을 도입하면 사용자 경험 문제를 추측이 아니라 측정으로 
 
 ```text
 서버 중심 모니터링
-    │
-    ▼
+    |
+    v
 브라우저 성능 API · 모바일 SDK 계측
-    │
-    ▼
+    |
+    v
 RUM (Real User Monitoring)
-    │
-    ├─ Core Web Vitals 측정
-    ├─ 오류율 · 세그먼트 분석
-    └─ 사용자 체감 SLI 도출
-    │
-    ▼
+    |
+    +- Core Web Vitals 측정
+    +- 오류율 · 세그먼트 분석
+    +- 사용자 체감 SLI 도출
+    |
+    v
 Synthetic Monitoring · APM · DEM 통합 관측성
 ```
 
@@ -166,7 +166,7 @@ Synthetic Monitoring · APM · DEM 통합 관측성
 
 **진행 상황**: 163 / 373
 
-← **이전**: [162. APM (Application Performance Management)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)
-**다음**: [164. 합성 모니터링 (Synthetic Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) →
+<- **이전**: [162. APM (Application Performance Management)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)
+**다음**: [164. 합성 모니터링 (Synthetic Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) ->
 
 ---

@@ -10,28 +10,28 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)([인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/))은 <strong>생물학적 뉴런을 모방</strong>하여 입력→[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 곱→[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)→출력의 구조를 컴퓨터로 구현한 것이며, MLP([다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))는 <strong>은닉층(Hidden Layer)이 1개 이상인 피드포워드 신경망</strong>이다.
+> 1. **본질**: [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)([인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/))은 <strong>생물학적 뉴런을 모방</strong>하여 입력->[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 곱->[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)->출력의 구조를 컴퓨터로 구현한 것이며, MLP([다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))는 <strong>은닉층(Hidden Layer)이 1개 이상인 피드포워드 신경망</strong>이다.
 > 2. **가치**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 XOR 문제를 풀 수 없는(선형 분리 불가) 근본 한계가 있었으나, <strong>은닉층 추가(MLP) + <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>로 비선형 문제를 해결하며 딥러닝의 기초가 되었다.
-> 3. **판단 포인트**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)→[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)), [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) 문제와 해결([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)·BatchNorm·[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))을 이해해야 한다.
+> 3. **판단 포인트**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)->[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)), [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) 문제와 해결([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)·BatchNorm·[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))을 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    MLP 구조                                           │
-├───────────────────────────────────────────────────────┤
-│  [입력층]    x₁, x₂, ..., xₙ                        │
-│     ↓ (가중치 W₁)                                     │
-│  [은닉층 1]  h₁ = σ(W₁·x + b₁)                      │
-│     ↓ (가중치 W₂)                                     │
-│  [은닉층 2]  h₂ = σ(W₂·h₁ + b₂)                     │
-│     ↓ (가중치 W₃)                                     │
-│  [출력층]    y = softmax(W₃·h₂ + b₃)                 │
-│                                                       │
-│  학습: 역전파 (Backpropagation)로 가중치 업데이트    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    MLP 구조                                           |
++-------------------------------------------------------+
+|  [입력층]    x₁, x₂, ..., xₙ                        |
+|     v (가중치 W₁)                                     |
+|  [은닉층 1]  h₁ = σ(W₁·x + b₁)                      |
+|     v (가중치 W₂)                                     |
+|  [은닉층 2]  h₂ = σ(W₂·h₁ + b₂)                     |
+|     v (가중치 W₃)                                     |
+|  [출력층]    y = softmax(W₃·h₂ + b₃)                 |
+|                                                       |
+|  학습: 역전파 (Backpropagation)로 가중치 업데이트    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MLP는 여러 층의 <strong>체(필터)</strong>이다. 입력이 여러 체를 통과하면서 점점 세밀하게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
@@ -91,17 +91,17 @@ MLP는 <strong>딥러닝의 가장 기본 빌딩 블록</strong>이며, Transfor
 
 ```text
 [퍼셉트론 (Rosenblatt, 1958)]
-    │
-    ▼
+    |
+    v
 [XOR 문제 (Minsky, 1969) — 인공지능 겨울]
-    │
-    ▼
+    |
+    v
 [MLP + 역전파 (Rumelhart, 1986)]
-    │
-    ▼
+    |
+    v
 [딥러닝 (Hinton, 2006~) — GPU·ReLU·데이터]
-    │
-    ▼
+    |
+    v
 [현재: MLP-Mixer / gMLP — MLP만으로 Vision 처리]
 ```
 
@@ -116,7 +116,7 @@ MLP는 <strong>딥러닝의 가장 기본 빌딩 블록</strong>이며, Transfor
 
 **진행 상황**: 128 / 258
 
-← **이전**: [127. Boosting (부스팅) - 순차적 오류 보정 앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)
-**다음**: [129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) →
+<- **이전**: [127. Boosting (부스팅) - 순차적 오류 보정 앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)
+**다음**: [129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) ->
 
 ---

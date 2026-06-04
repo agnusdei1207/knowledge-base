@@ -31,7 +31,7 @@ tags = ["studynote-security"]
 
 ```text
 Plaintext + Random Key
-  ↓
+  v
 Ciphertext
 ```
 
@@ -102,9 +102,9 @@ OTP는 암호학의 기준점을 제시한다.
 
 ```text
 Plaintext
-  ↓
+  v
 OTP
-  ↓
+  v
 Ciphertext
 ```
 
@@ -114,9 +114,9 @@ Ciphertext
 
 ```text
 Perfect Secrecy
-  ↓
+  v
 One-Time Pad
-  ↓
+  v
 Key Management
 ```
 
@@ -134,7 +134,7 @@ Key Management
 
 **진행 상황**: 74 / 1108
 
-← **이전**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/knowledge-base/studynote/09_security/02_crypto/073_enigma/)
-**다음**: [75. 현대 암호학 기본 가정 — computationally infeasible](/knowledge-base/studynote/09_security/02_crypto/075_computational_infeasibility/) →
+<- **이전**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/knowledge-base/studynote/09_security/02_crypto/073_enigma/)
+**다음**: [75. 현대 암호학 기본 가정 — computationally infeasible](/knowledge-base/studynote/09_security/02_crypto/075_computational_infeasibility/) ->
 
 ---

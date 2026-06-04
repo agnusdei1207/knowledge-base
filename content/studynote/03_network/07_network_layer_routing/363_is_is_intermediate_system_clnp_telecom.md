@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [OSPFv3]
-    │
-    ▼
+    |
+    v
 [IS-IS]
-    │
-    └──▶ [L1/L2 라우터, L1/L2 Area 체계…]
+    |
+    +---> [L1/L2 라우터, L1/L2 Area 체계…]
 ```
 
 - **📢 섹션 요약 비유**: ** OSPF가 승용차 전용으로 꽉 짜여진 **"고속도로 톨게이트"**라면, IS-IS는 승용차, 화물차, 탱크, 비행기까지 규격에 구애받지 않고 무엇이든 통과시킬 수 있게 아예 지붕을 열어젖힌 **"초거대 다목적 하이패스 터널"**입니다.
@@ -55,23 +55,23 @@ OSPF는 패킷을 보낼 때 2계층([이더넷](/knowledge-base/studynote/03_ne
 - **장점**: 라우터가 IP 헤더를 까보지 않고 L2 스위칭하듯 훅훅 처리하니까 무지막지하게 빠르다. 해커가 외부망에서 라우터의 IP를 공격(DDoS)하려 해도, IS-IS 제어 평면은 IP와 완전 분리되어 있어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 절대 흔들리지 않는 극강의 보안성을 갖는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                OSPF vs IS-IS 프로토콜 확장성(TLV) 차이           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: 1990년대, "우리 이제 IPv6도 지원해야 해!!" ]             │
- │                                                             │
- │   * OSPF 진영: "헐? 우리 LSA 엽서 봉투에 128비트 주소 적을 빈칸이     │
- │               없는데?! 아예 봉투(패킷) 구조를 싹 갈아엎고 버전 3      │
- │               (OSPFv3)로 새로 코딩하자!" (대공사 발생)           │
- │                                                             │
- │   * IS-IS 진영: "어, 그래? 그냥 기존 LSP 엽서 맨 밑에 빈칸(TLV) 하나  │
- │                붙여서 거기에 IPv6 주소 쓰라고 해!"                │
- │                ▶ 1초 만에 확장 끝. (Integrated IS-IS 탄생).   │
- │                                                             │
- │   * 결론: IS-IS의 TLV(Type-Length-Value) 레고 블록 구조는         │
- │          어떤 차세대 기술이 나와도 무한대로 덕지덕지 붙일 수 있다!     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                OSPF vs IS-IS 프로토콜 확장성(TLV) 차이           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황: 1990년대, "우리 이제 IPv6도 지원해야 해!!" ]             |
+ |                                                             |
+ |   * OSPF 진영: "헐? 우리 LSA 엽서 봉투에 128비트 주소 적을 빈칸이     |
+ |               없는데?! 아예 봉투(패킷) 구조를 싹 갈아엎고 버전 3      |
+ |               (OSPFv3)로 새로 코딩하자!" (대공사 발생)           |
+ |                                                             |
+ |   * IS-IS 진영: "어, 그래? 그냥 기존 LSP 엽서 맨 밑에 빈칸(TLV) 하나  |
+ |                붙여서 거기에 IPv6 주소 쓰라고 해!"                |
+ |                -> 1초 만에 확장 끝. (Integrated IS-IS 탄생).   |
+ |                                                             |
+ |   * 결론: IS-IS의 TLV(Type-Length-Value) 레고 블록 구조는         |
+ |          어떤 차세대 기술이 나와도 무한대로 덕지덕지 붙일 수 있다!     |
+ +-------------------------------------------------------------+
 ```
 
 IS-IS 패킷의 본문은 이 TLV 블록들의 연속이다.
@@ -137,12 +137,12 @@ IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ```text
 [선행 개념: OSPFv3]
-    │
-    ▼
+    |
+    v
 [현재 개념: IS-IS]
-    │
-    ├──▶ [확장 A: L1/L2 라우터, L1/L2 Area 체계…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: L1/L2 라우터, L1/L2 Area 체계…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L1/L2 라우터, L1/L2 Area 체계…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L
 
 **진행 상황**: 484 / 1120
 
-← **이전**: [362. OSPFv3 (IPv6 지원)](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/)
-**다음**: [364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP](/knowledge-base/studynote/03_network/07_network_layer_routing/364_is_is_l1_l2_router_area_system/) →
+<- **이전**: [362. OSPFv3 (IPv6 지원)](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/)
+**다음**: [364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP](/knowledge-base/studynote/03_network/07_network_layer_routing/364_is_is_l1_l2_router_area_system/) ->
 
 ---

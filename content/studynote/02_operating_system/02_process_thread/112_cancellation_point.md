@@ -22,36 +22,36 @@ tags = ["studynote-operating-system"]
 - **개념**: 취소 점은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 취소 요청을 처리하기 위해 검사하는 지점이다. 명시적 점점은 pthread_testcancel()이며, 암시적 점점은 블로킹 시스템 콜 내부에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 수행한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           취소 점점의 두 가지 종류                         │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  명시적 점점 (pthread_testcancel):                         │
-│  while (!done) {                                           │
-│      pthread_testcancel();  ◀── 명시적 검사 지점           │
-│      data = process_item();                                │
-│  }                                                         │
-│  특징: 개발자가 직접 삽입, 검사 주기 조절 가능             │
-│                                                            │
-│  암시적 점점 (POSIX 정의):                                 │
-│  data = read(fd, buf, size);  ◀── read()가 내부적으로      │
-│                              취소 플래그를 검사            │
-│  pthread_cond_wait(&cond, &mutex); ◀── cond_wait도 검사    │
-│  sem_wait(&sem);               ◀─ 세마포어도 검사          │
-│                                                            │
-│  POSIX 표준 취소 점점 목록:                                │
-│  accept(), aio_suspend(), clock_nanosleep(),               │
-│  close(), connect(), creat(), fcntl(),                     │
-│  fopen(), flock(), fsync(), msync(),                       │
-│  mq_receive(), mq_send(), msgrcv(), msgsnd(),              │
-│  nanosleep(), open(), pause(), poll(),                     │
-│  pread(), pwrite(), pthread_cond_timedwait(),              │
-│  pthread_cond_wait(), pthread_join(), pthread_mutex_lock(),│
-│  pthread_testcancel(), putc(), pthread_rwlock_*(),         │
-│  read(), recv(), recvfrom(), select(), sem_wait(),         │
-│  sigwait(), sigtimedwait(), sleep(), system(),             │
-│  wait(), waitpid(), write()                                │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           취소 점점의 두 가지 종류                         |
++------------------------------------------------------------+
+|                                                            |
+|  명시적 점점 (pthread_testcancel):                         |
+|  while (!done) {                                           |
+|      pthread_testcancel();  <--- 명시적 검사 지점           |
+|      data = process_item();                                |
+|  }                                                         |
+|  특징: 개발자가 직접 삽입, 검사 주기 조절 가능             |
+|                                                            |
+|  암시적 점점 (POSIX 정의):                                 |
+|  data = read(fd, buf, size);  <--- read()가 내부적으로      |
+|                              취소 플래그를 검사            |
+|  pthread_cond_wait(&cond, &mutex); <--- cond_wait도 검사    |
+|  sem_wait(&sem);               <-- 세마포어도 검사          |
+|                                                            |
+|  POSIX 표준 취소 점점 목록:                                |
+|  accept(), aio_suspend(), clock_nanosleep(),               |
+|  close(), connect(), creat(), fcntl(),                     |
+|  fopen(), flock(), fsync(), msync(),                       |
+|  mq_receive(), mq_send(), msgrcv(), msgsnd(),              |
+|  nanosleep(), open(), pause(), poll(),                     |
+|  pread(), pwrite(), pthread_cond_timedwait(),              |
+|  pthread_cond_wait(), pthread_join(), pthread_mutex_lock(),|
+|  pthread_testcancel(), putc(), pthread_rwlock_*(),         |
+|  read(), recv(), recvfrom(), select(), sem_wait(),         |
+|  sigwait(), sigtimedwait(), sleep(), system(),             |
+|  wait(), waitpid(), write()                                |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** POSIX는 수십 개의 블로킹 시스템 콜을 암시적 취소 점점으로 정의한다. 이 함수들이 블로킹되어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 진입할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 취소 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 검사하고 설정되어 있으면 EINTR을 반환하여 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 루프에서 탈출할 수 있게 한다. 이 설계 덕분에 개발자가 매 반복문마다 pthread_testcancel()을 삽입하지 않아도 취소가 가능하다. pthread_testcancel()은 CPU 집약적인 루프에서 취소 응답성을 높이고 싶을 때 추가로 사용한다.
@@ -65,24 +65,24 @@ tags = ["studynote-operating-system"]
 ### 취소 점점 내부 동작
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│  블로킹 시스템 콜 내부 취소 점점 검사 흐름              │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  ① 사용자 코드: read(fd, buf, size) 호출                │
-│     │                                                   │
-│  ② glibc 래퍼: read() → syscall(SYS_read, ...)          │
-│     │                                                   │
-│  ③ 커널 진입: sys_read() → 블로킹 전에                  │
-│     │   if (fatal_signal_pending(current))              │
-│     │     → EINTR 반환                                  │
-│     │   if (current->cancel_pending)                    │
-│     │     → 스레드 종료 (PTHREAD_CANCE)                 │
-│     │   else                                            │
-│     │     → 실제 블로킹 (슬립)                          │
-│                                                         │
-│  ④ 데이터 도착 → 루프 재개                              │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  블로킹 시스템 콜 내부 취소 점점 검사 흐름              |
++---------------------------------------------------------+
+|                                                         |
+|  ① 사용자 코드: read(fd, buf, size) 호출                |
+|     |                                                   |
+|  ② glibc 래퍼: read() -> syscall(SYS_read, ...)          |
+|     |                                                   |
+|  ③ 커널 진입: sys_read() -> 블로킹 전에                  |
+|     |   if (fatal_signal_pending(current))              |
+|     |     -> EINTR 반환                                  |
+|     |   if (current->cancel_pending)                    |
+|     |     -> 스레드 종료 (PTHREAD_CANCE)                 |
+|     |   else                                            |
+|     |     -> 실제 블로킹 (슬립)                          |
+|                                                         |
+|  ④ 데이터 도착 -> 루프 재개                              |
++---------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시스템 콜 진입 지점에서는 취소 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 시그널 펜딩(pending [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 검사한다. 취소 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 설정되어 있으면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 종료시키고, 펜딩된 시그널이 있으면 EINTR을 반환하여 사용자 공간에서 루프를 탈출하게 한다. 이 3단계 검사가 매 블로킹 시스템 콜에 공통으로 적용되어 있다.
@@ -132,12 +132,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스레드 취소 (Thread Cancellation)]
-    │
-    ▼
+    |
+    v
 [취소 점 (Cancellation Point)]
-    │
-    ├──▶ [스레드 로컬 저장소 (TLS, Thread-Local Storage)]
-    └──▶ [스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]
+    |
+    +---> [스레드 로컬 저장소 (TLS, Thread-Local Storage)]
+    +---> [스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 112 / 800
 
-← **이전**: [111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소](/knowledge-base/studynote/02_operating_system/02_process_thread/111_thread_cancellation/)
-**다음**: [113. 스레드 로컬 저장소 (TLS, Thread-Local Storage)](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) →
+<- **이전**: [111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소](/knowledge-base/studynote/02_operating_system/02_process_thread/111_thread_cancellation/)
+**다음**: [113. 스레드 로컬 저장소 (TLS, Thread-Local Storage)](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) ->
 
 ---

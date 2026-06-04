@@ -37,18 +37,18 @@ tags = ["studynote-data-engineering"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> | $TP / (TP + FN)$ | 실제 긍정인 것들 중 모델이 <strong>찾아낸 긍정</strong>의 비율 | 증가 (FN 감소) | 감소 (FN 증가) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            임계값 이동에 따른 예측 결과의 변화                │
-├──────────────────────────────────────────────────────────────┤
-│ 0.0          0.3          0.5          0.7          1.0  │
-│ ├─────────────┼────────────┼────────────┼─────────────┤  │
-│               ▲            ▲            ▲                │
-│       Threshold=0.3    Threshold=0.5  Threshold=0.7      │
-│      (관대한 긍정판정)    (기본 설정)    (엄격한 긍정판정)   │
-│                                                              │
-│ [임계값 0.3] -> 0.3 이상 모두 Positive 판정 (Recall 증가)  │
-│ [임계값 0.7] -> 0.7 이상만 확실히 Positive 판정(Precision증가)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            임계값 이동에 따른 예측 결과의 변화                |
++--------------------------------------------------------------+
+| 0.0          0.3          0.5          0.7          1.0  |
+| +-------------+------------+------------+-------------+  |
+|               ^            ^            ^                |
+|       Threshold=0.3    Threshold=0.5  Threshold=0.7      |
+|      (관대한 긍정판정)    (기본 설정)    (엄격한 긍정판정)   |
+|                                                              |
+| [임계값 0.3] -> 0.3 이상 모두 Positive 판정 (Recall 증가)  |
+| [임계값 0.7] -> 0.7 이상만 확실히 Positive 판정(Precision증가)|
++--------------------------------------------------------------+
 ```
 
 임계값을 낮추면 모델은 매우 긍정 판정을 남발하게 된다. 진짜 긍정(TP)을 많이 찾아서 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 오르지만, 가짜 긍정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))도 늘어나 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 박살 난다. 반대로 임계값을 높이면 모델은 "확실할 때만" 긍정이라고 말한다. 이 경우 가짜 긍정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))은 줄어 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 오르지만, 조금 애매한 진짜 긍정을 모두 음성(FN)으로 놓치게 되어 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 떨어진다.
@@ -114,17 +114,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 오차 행렬 (Confusion Matrix)의 이해
-    │
-    ▼
+    |
+    v
 정밀도 (Precision) vs 재현율 (Recall) 도출
-    │
-    ▼
+    |
+    v
 결정 임계값 (Threshold)의 변동에 따른 트레이드오프 발생
-    │
-    ▼
+    |
+    v
 PR Curve 및 F1 Score를 활용한 균형점 탐색
-    │
-    ▼
+    |
+    v
 Cost-sensitive Learning (비즈니스 리스크 기반 동적 임계값 적용)
 ```
 
@@ -140,7 +140,7 @@ Cost-sensitive Learning (비즈니스 리스크 기반 동적 임계값 적용)
 
 **진행 상황**: 91 / 258
 
-← **이전**: [분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score](/knowledge-base/studynote/14_data_engineering/02_math_mining/090_accuracy_precision_recall_f1_score/)
-**다음**: [재현율 (Recall / Sensitivity): 데이터의 실종을 막는 탐지 성능](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) →
+<- **이전**: [분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score](/knowledge-base/studynote/14_data_engineering/02_math_mining/090_accuracy_precision_recall_f1_score/)
+**다음**: [재현율 (Recall / Sensitivity): 데이터의 실종을 막는 탐지 성능](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ->
 
 ---

@@ -29,14 +29,14 @@ CDC는 이 모든 문제를 DB의 <strong><a href="/knowledge-base/studynote/05_
 ```
 [전통 ETL 방식]
 Batch 쿼리 (SELECT * WHERE updated > ?)
-운영 DB ──────────────────────────────▶ DW
-        ↑ DB 부하 발생, 매 시간/일 스캔
+운영 DB -------------------------------> DW
+        ^ DB 부하 발생, 매 시간/일 스캔
 
 [CDC 방식]
 트랜잭션 로그 (Binlog/Redo Log)
-운영 DB ──▶ Debezium ──▶ Kafka ──▶ DW/레이크
-        ↑ 로그 읽기 (읽기 전용, 최소 부하)
-        ↑ 밀리초 단위 실시간 전송
+운영 DB ---> Debezium ---> Kafka ---> DW/레이크
+        ^ 로그 읽기 (읽기 전용, 최소 부하)
+        ^ 밀리초 단위 실시간 전송
 ```
 
 📢 **섹션 요약 비유**: CDC는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 기록이다. 누군가 가게(DB)에 들어와 물건을 가져가거나(DELETE), 추가하거나(INSERT), 바꾸면(UPDATE), [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))가 자동으로 기록한다. 가게를 닫고 재고 조사(배치 스캔)를 하지 않아도 실시간으로 변화를 감지한다.
@@ -48,23 +48,23 @@ Batch 쿼리 (SELECT * WHERE updated > ?)
 ### Debezium 아키텍처
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                    CDC 파이프라인 (Debezium)                    │
-│                                                                │
-│  MySQL/PostgreSQL        Kafka Connect          Kafka Topic    │
-│  ┌──────────────┐        ┌───────────────┐      ┌──────────┐  │
-│  │  운영 DB     │  로그   │   Debezium    │  이벤트│ orders.  │  │
-│  │  Binlog/    │ ──────▶ │  Source       │ ────▶ │ public.  │  │
-│  │  WAL 읽기   │        │  Connector    │       │ orders   │  │
-│  │             │        │               │       └──────────┘  │
-│  │ INSERT/     │        │  변경 이벤트  │                     │
-│  │ UPDATE/     │        │  to JSON/Avro │  ┌────────────────┐ │
-│  │ DELETE      │        │               │  │ Kafka Sink     │ │
-│  └──────────────┘        └───────────────┘  │ Connector      │ │
-│                                             │ (S3/Snowflake/ │ │
-│                                             │  Elasticsearch)│ │
-│                                             └────────────────┘ │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                    CDC 파이프라인 (Debezium)                    |
+|                                                                |
+|  MySQL/PostgreSQL        Kafka Connect          Kafka Topic    |
+|  +--------------+        +---------------+      +----------+  |
+|  |  운영 DB     |  로그   |   Debezium    |  이벤트| orders.  |  |
+|  |  Binlog/    | -------> |  Source       | -----> | public.  |  |
+|  |  WAL 읽기   |        |  Connector    |       | orders   |  |
+|  |             |        |               |       +----------+  |
+|  | INSERT/     |        |  변경 이벤트  |                     |
+|  | UPDATE/     |        |  to JSON/Avro |  +----------------+ |
+|  | DELETE      |        |               |  | Kafka Sink     | |
+|  +--------------+        +---------------+  | Connector      | |
+|                                             | (S3/Snowflake/ | |
+|                                             |  Elasticsearch)| |
+|                                             +----------------+ |
++----------------------------------------------------------------+
 ```
 
 ### [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트 메시지 구조 (Debezium [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 예시)
@@ -123,11 +123,11 @@ Batch 쿼리 (SELECT * WHERE updated > ?)
 
 | 패턴 | 설명 | 사례 |
 |:---|:---|:---|
-| <strong>DB → <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a></strong> | 운영 DB 변경분 실시간 레이크 적재 | RDS → S3 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) |
-| <strong>DB → <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a></strong> | 운영 DB → [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | MySQL → [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) |
-| **DB → Cache** | DB 변경 시 캐시 즉시 무효화 | PostgreSQL → [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) DB 변경 → 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이벤트 발행 | Order DB → Email [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| <strong>DB → <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a></strong> | DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 검색 인덱싱 | MySQL → ES 전문 검색 |
+| <strong>DB -> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a></strong> | 운영 DB 변경분 실시간 레이크 적재 | RDS -> S3 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) |
+| <strong>DB -> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a></strong> | 운영 DB -> [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | MySQL -> [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) |
+| **DB -> Cache** | DB 변경 시 캐시 즉시 무효화 | PostgreSQL -> [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) DB 변경 -> 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이벤트 발행 | Order DB -> Email [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| <strong>DB -> <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a></strong> | DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 검색 인덱싱 | MySQL -> ES 전문 검색 |
 
 📢 **섹션 요약 비유**: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인은 실시간 번역가다. 한국어(MySQL 이벤트)를 즉시 영어([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))로 번역해서 전 세계 독자([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), 레이크, 캐시)에게 동시에 전달한다. 번역가는 원래 연설자(DB)의 연설을 방해하지 않는다.
 
@@ -183,7 +183,7 @@ GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE,
 
 | 효과 | 내용 |
 |:---|:---|
-| <strong>실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도</strong> | 배치 T+1일 → 밀리초 단위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)로 전환 |
+| <strong>실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도</strong> | 배치 T+1일 -> 밀리초 단위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)로 전환 |
 | **DB 부하 최소화** | 풀스캔 제거, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 읽기로 운영 DB [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | **완전한 변경 이력** | INSERT·UPDATE·DELETE 모두 캡처, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
 | <strong>이벤트 기반 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong> | DB 변경을 이벤트로 발행해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 결합 해소 |
@@ -221,13 +221,13 @@ GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE,
 
 ```text
 풀 스캔 동기화 (전체 복사, 비효율)
-    │
-    ▼
+    |
+    v
 CDC: 변경분만 캡처 (Log-based · Trigger-based)
-    ├─► Debezium: MySQL/PG WAL → Kafka 토픽
-    └─► Kafka Connect: Source/Sink 커넥터
-    │
-    ▼
+    +-► Debezium: MySQL/PG WAL -> Kafka 토픽
+    +-► Kafka Connect: Source/Sink 커넥터
+    |
+    v
 실시간 ETL · 이벤트 소싱 · CQRS 패턴 연동
 ```
 2. Debezium은 기록부를 읽는 비서다. 사서(DB)가 기록부에 쓰는 것을 지켜보다가, 새 내용이 생기면 즉시 공지 게시판([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 붙여준다.
@@ -239,7 +239,7 @@ CDC: 변경분만 캡처 (Log-based · Trigger-based)
 
 **진행 상황**: 231 / 371
 
-← **이전**: [231. 카프카 토픽 / 파티션 / 컨슈머 그룹](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/231_kafka_topic_partition_consumer_group/)
-**다음**: [233. 아파치 에어플로우 (Apache Airflow)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/233_apache_airflow_dag_orchestration/) →
+<- **이전**: [231. 카프카 토픽 / 파티션 / 컨슈머 그룹](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/231_kafka_topic_partition_consumer_group/)
+**다음**: [233. 아파치 에어플로우 (Apache Airflow)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/233_apache_airflow_dag_orchestration/) ->
 
 ---

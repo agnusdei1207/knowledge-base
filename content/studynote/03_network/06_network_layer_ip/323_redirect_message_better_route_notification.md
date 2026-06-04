@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [Echo Request/Reply / Sou…]
-    │
-    ▼
+    |
+    v
 [Redirect 메시지]
-    │
-    └──▶ [IPv6]
+    |
+    +---> [IPv6]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect는 내비게이션 없이 무작정 메인 도로로만 직진하려는 초보 운전자(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)에게, 동네 주민(라우터)이 </strong>"아이고 답답아, 저쪽 샛길로 빠지면 훨씬 빨리 가!"**라고 창문을 내리고 훈수를 두는 훌륭한 길라잡이 서비스입니다.
@@ -52,25 +52,25 @@ tags = ["studynote-network"]
 5. PC는 이 말을 듣고 자신의 메모리(내부 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 `10.x 망 = R2로 보냄`이라는 임시 메모를 적어두고, 다음 패킷부터는 똑똑하게 R2로 직행한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ICMP Redirect에 의한 경로 최적화 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC (192.168.0.100) ]                                    │
- │    게이트웨이: R1 (0.1)                                       │
- │       │                                                     │
- │       │ 1. 일단 멍청하게 R1로 던짐                              │
- │       ▼                                                     │
- │   [ 라우터 R1 (192.168.0.1) ] ── 2. R2로 전달 (V자 낭비) ──▶ [ 라우터 R2 ] │
- │       │                            (192.168.0.2)             │
- │       │ 3. ICMP Redirect 발송!                                │
- │       ▼ ("야! 다음부턴 R2로 다이렉트로 쏴라!")                    │
- │                                                             │
- │   [ PC ] "아항! 오케이 메모 완료!"                              │
- │       │                                                     │
- │       │ 4. 두 번째 패킷부터는 똑똑하게 R2로 다이렉트 전송!          │
- │       └───────────────────────────────────────────▶ │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ICMP Redirect에 의한 경로 최적화 도식             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC (192.168.0.100) ]                                    |
+ |    게이트웨이: R1 (0.1)                                       |
+ |       |                                                     |
+ |       | 1. 일단 멍청하게 R1로 던짐                              |
+ |       v                                                     |
+ |   [ 라우터 R1 (192.168.0.1) ] -- 2. R2로 전달 (V자 낭비) ---> [ 라우터 R2 ] |
+ |       |                            (192.168.0.2)             |
+ |       | 3. ICMP Redirect 발송!                                |
+ |       v ("야! 다음부턴 R2로 다이렉트로 쏴라!")                    |
+ |                                                             |
+ |   [ PC ] "아항! 오케이 메모 완료!"                              |
+ |       |                                                     |
+ |       | 4. 두 번째 패킷부터는 똑똑하게 R2로 다이렉트 전송!          |
+ |       +--------------------------------------------> |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 해커의 악용: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect 공격 (MITM)
@@ -135,12 +135,12 @@ Redirect 메시지는 네트워크 계층과 IP를 이해할 때 핵심 축을 �
 
 ```text
 [선행 개념: Echo Request/Reply / Sou…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Redirect 메시지]
-    │
-    ├──▶ [확장 A: IPv6]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IPv6]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 Redirect 메시지는 Echo Request/Reply / Sou…에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv6와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ Redirect 메시지는 Echo Request/Reply / Sou…에서 출발해 현재 메커�
 
 **진행 상황**: 444 / 1120
 
-← **이전**: [322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)](/knowledge-base/studynote/03_network/06_network_layer_ip/322_echo_request_reply_ping_source_quench/)
-**다음**: [324. IPv6 (Internet Protocol Version 6)](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) →
+<- **이전**: [322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)](/knowledge-base/studynote/03_network/06_network_layer_ip/322_echo_request_reply_ping_source_quench/)
+**다음**: [324. IPv6 (Internet Protocol Version 6)](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) ->
 
 ---

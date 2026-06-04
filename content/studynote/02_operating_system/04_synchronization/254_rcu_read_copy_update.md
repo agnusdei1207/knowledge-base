@@ -21,38 +21,38 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 자료구조([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블, 프로세스 목록, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 정보)는 읽기가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 수백 배 빈번하다. 전통적인 ReadWriteLock조차 읽기 측 오버헤드(원자적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 증감)가 존재하고, [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서 캐시라인 경합을 유발한다.
 
-RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프리 ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 복사→수정→포인터 교체→유예 기간(Grace Period) 후 원본 해제의 4단계로 처리한다.
+RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프리 ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 복사->수정->포인터 교체->유예 기간(Grace Period) 후 원본 해제의 4단계로 처리한다.
 
 **💡 비유**: 도서관에서 책을 빌려주는 방법 중 가장 혁신적인 방법 — 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 책이 나오면(저자), 기존 책을 빌려간 사람들(독자)이 모두 반납할 때까지 원본을 보존하고, 새 사람들에게는 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│            RCU 동작 원리: Read-Copy-Update 4단계              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  초기 상태:                                                   │
-│  ptr ──▶ [Data: A=1, B=2]                                     │
-│                                                               │
-│  ① READ 단계 (독자 = 락 없음):                                │
-│  rcu_read_lock()                 // 선점 방지만               │
-│  data = rcu_dereference(ptr)     // 현재 포인터 읽기          │
-│  use(data->A)                    // 안전하게 읽기 가능        │
-│  rcu_read_unlock()                                            │
-│                                                               │
-│  ② COPY 단계 (저자):                                          │
-│  new_data = kmalloc(sizeof(*ptr))                             │
-│  *new_data = *ptr               // 원본 복사                  │
-│  new_data->A = 99               // 복사본 수정                │
-│                                                               │
-│  ③ UPDATE 단계 (저자):                                        │
-│  rcu_assign_pointer(ptr, new_data) // 포인터 원자적 교체      │
-│  → 신규 독자는 new_data 읽음                                  │
-│  → 기존 독자는 여전히 old_data 읽음 (안전!)                   │
-│                                                               │
-│  ④ RECLAIM 단계:                                              │
-│  synchronize_rcu()              // Grace Period 대기          │
-│  kfree(old_data)                // 모든 기존 독자 완료 후 해제│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|            RCU 동작 원리: Read-Copy-Update 4단계              |
++---------------------------------------------------------------+
+|                                                               |
+|  초기 상태:                                                   |
+|  ptr ---> [Data: A=1, B=2]                                     |
+|                                                               |
+|  ① READ 단계 (독자 = 락 없음):                                |
+|  rcu_read_lock()                 // 선점 방지만               |
+|  data = rcu_dereference(ptr)     // 현재 포인터 읽기          |
+|  use(data->A)                    // 안전하게 읽기 가능        |
+|  rcu_read_unlock()                                            |
+|                                                               |
+|  ② COPY 단계 (저자):                                          |
+|  new_data = kmalloc(sizeof(*ptr))                             |
+|  *new_data = *ptr               // 원본 복사                  |
+|  new_data->A = 99               // 복사본 수정                |
+|                                                               |
+|  ③ UPDATE 단계 (저자):                                        |
+|  rcu_assign_pointer(ptr, new_data) // 포인터 원자적 교체      |
+|  -> 신규 독자는 new_data 읽음                                  |
+|  -> 기존 독자는 여전히 old_data 읽음 (안전!)                   |
+|                                                               |
+|  ④ RECLAIM 단계:                                              |
+|  synchronize_rcu()              // Grace Period 대기          |
+|  kfree(old_data)                // 모든 기존 독자 완료 후 해제|
++---------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: RCU는 고속도로 도로 공사와 같습니다 — 기존 차선(원본)을 유지한 채 새 차선(복사본)을 다 닦은 다음, 신호를 바꿔 새 차선으로 유도하고, 기존 차선의 차들이 모두 빠져나가면 기존 차선을 철거합니다.
@@ -66,27 +66,27 @@ RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프�
 Grace Period는 RCU의 가장 중요한 개념이다. 저자가 포인터를 교체한 후, 교체 시점에 실행 중이던 모든 독자가 rcu_read_unlock()을 완료할 때까지의 기간이다. 이 기간이 끝나야 원본을 안전하게 해제할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│            Grace Period 타이밍 다이어그램                      │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  시간 ──────────────────────────────────────────────────▶      │
-│                                                                │
-│  Writer: [복사수정] ─[포인터교체]─────[synchronize_rcu]──[해제]│
-│                          ↑                           ↑         │
-│                     새 ptr 공개                Grace Period 끝 │
-│                                                                │
-│  Reader1: ──[rcu_read_lock]──────────[rcu_read_unlock]         │
-│           (교체 전 시작, old_data 읽음)  (Grace Period 기여)   │
-│                                                                │
-│  Reader2:          ──[rcu_read_lock]─[rcu_read_unlock]         │
-│                    (교체 후 시작, new_data 읽음)               │
-│                                                                │
-│  Reader3:                 ──[rcu_read_lock]─────...            │
-│                           (교체 후 시작, new_data 읽음)        │
-│                                                                │
-│  Grace Period: Reader1 완료 → 해제 안전                        │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|            Grace Period 타이밍 다이어그램                      |
++----------------------------------------------------------------+
+|                                                                |
+|  시간 --------------------------------------------------->      |
+|                                                                |
+|  Writer: [복사수정] -[포인터교체]-----[synchronize_rcu]--[해제]|
+|                          ^                           ^         |
+|                     새 ptr 공개                Grace Period 끝 |
+|                                                                |
+|  Reader1: --[rcu_read_lock]----------[rcu_read_unlock]         |
+|           (교체 전 시작, old_data 읽음)  (Grace Period 기여)   |
+|                                                                |
+|  Reader2:          --[rcu_read_lock]-[rcu_read_unlock]         |
+|                    (교체 후 시작, new_data 읽음)               |
+|                                                                |
+|  Reader3:                 --[rcu_read_lock]-----...            |
+|                           (교체 후 시작, new_data 읽음)        |
+|                                                                |
+|  Grace Period: Reader1 완료 -> 해제 안전                        |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Grace Period의 핵심은 "교체 시점에 이미 읽고 있던 독자"가 모두 완료될 때까지만 기다리면 된다는 점이다. 교체 이후에 시작한 독자(Reader2, Reader3)는 이미 new_data를 읽으므로 Grace Period 계산에 포함되지 않는다. 리눅스는 각 CPU의 선점 포인트([context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 완료)를 Quiescent [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(정지점)로 사용하여, 모든 CPU가 최소 1번 Quiescent State를 통과하면 Grace Period가 완료다.
@@ -122,16 +122,16 @@ call_rcu(&old->rcu_head, free_callback);
 ### RCU vs ReadWriteLock 비교
 
 ```text
-┌──────────────────────┬──────────────────┬───────────────────────┐
-│ 항목                 │ ReadWriteLock    │ RCU                   │
-├──────────────────────┼──────────────────┼───────────────────────┤
-│ 독자 오버헤드        │ 원자적 카운터 증감│ 사실상 0 (선점 비활) │
-│ 독자-저자 차단       │ 있음 (쓰기 시)   │ 없음                  │
-│ 저자 대기            │ 독자 완료 시     │ Grace Period          │
-│ 데이터 일관성        │ 즉시 반영        │ 버전 분기 (일시적)    │
-│ 메모리 오버헤드      │ 낮음             │ 복사본 임시 유지      │
-│ 사용 적합성          │ 단순 R/W 분리    │ 읽기 집중 SMP 환경    │
-└──────────────────────┴──────────────────┴───────────────────────┘
++----------------------+------------------+-----------------------+
+| 항목                 | ReadWriteLock    | RCU                   |
++----------------------+------------------+-----------------------+
+| 독자 오버헤드        | 원자적 카운터 증감| 사실상 0 (선점 비활) |
+| 독자-저자 차단       | 있음 (쓰기 시)   | 없음                  |
+| 저자 대기            | 독자 완료 시     | Grace Period          |
+| 데이터 일관성        | 즉시 반영        | 버전 분기 (일시적)    |
+| 메모리 오버헤드      | 낮음             | 복사본 임시 유지      |
+| 사용 적합성          | 단순 R/W 분리    | 읽기 집중 SMP 환경    |
++----------------------+------------------+-----------------------+
 ```
 
 ### 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) RCU 적용 사례
@@ -150,8 +150,8 @@ call_rcu(&old->rcu_head, free_callback);
 2. <strong>공유 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 객체</strong>: 마이크로서비스가 공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 빈번히 읽고 관리자가 드물게 업데이트. RCU 패턴으로 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최대화.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Grace Period 전 해제**: `synchronize_rcu()` 없이 원본 해제 → 기존 독자가 해제된 메모리 접근 → [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/).
-- **rcu_read_lock 중 스케줄링**: `rcu_read_lock()` 구간에서 `schedule()` 호출 → RCU 규칙 위반 (해당 CPU가 Quiescent State로 진입하지 않아 Grace Period [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
+- **Grace Period 전 해제**: `synchronize_rcu()` 없이 원본 해제 -> 기존 독자가 해제된 메모리 접근 -> [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/).
+- **rcu_read_lock 중 스케줄링**: `rcu_read_lock()` 구간에서 `schedule()` 호출 -> RCU 규칙 위반 (해당 CPU가 Quiescent State로 진입하지 않아 Grace Period [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
 
 **📢 섹션 요약 비유**: Grace Period를 지키지 않은 RCU는 새 책을 출판했지만 도서관에서 구 책을 아직 읽고 있는 독자가 있는데 불태워버리는 것과 같습니다.
 
@@ -184,12 +184,12 @@ RCU는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195
 
 ```text
 [리눅스 동기화]
-    │
-    ▼
+    |
+    v
 [RCU (Read-Copy-Update)]
-    │
-    ├──▶ [SeqLock (순차 락)]
-    └──▶ [락-프리 (Lock-free) 자료구조]
+    |
+    +---> [SeqLock (순차 락)]
+    +---> [락-프리 (Lock-free) 자료구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -206,7 +206,7 @@ RCU는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195
 
 **진행 상황**: 254 / 800
 
-← **이전**: [253. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)
-**다음**: [255. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) →
+<- **이전**: [253. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)
+**다음**: [255. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ->
 
 ---

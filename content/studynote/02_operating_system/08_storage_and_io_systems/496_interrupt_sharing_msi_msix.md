@@ -26,34 +26,34 @@ tags = ["studynote-operating-system"]
 CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 어떻게 찢겨지고 가상화되었는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각 체계화하면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 인터럽트 전달 아키텍처의 혁명적 진화 스택도                    │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  [ 과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증) ]                │
-  │     ┌─────────┐   (IRQ 10번 구리 핀)    ┌──────────────────────────┐           │
-  │     │ 랜카드   ├───────────┬────────▶│ 😱 CPU 0번 (독박 코어)    │             │
-  │     └─────────┘           │          └──────────────────────────┘              │
-  │     ┌─────────┐           │     * CPU는 전기가 오면 통역 드라이버 두 개를      │
-  │     │ 그래픽 칩├───────────┘       모두 깨워서 "누가 불렀어?" 루프검사 해야함. │
-  │     └─────────┘                      (처리속도 개판망, 코어 확장불가)          │
-  │                                                                                │
-  │  =============================================================                 │
-  │                                                                                │
-  │  [ 현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포 ]                │
-  │     ┌─────────┐                                                                │
-  │     │ 최신 PCIe│ ──(이더넷 패킷처럼 메모리에 번호 씀)─▶ CPU 메모리 컨트롤러    │
-  │     │ 100G 칩 │                                                                │
-  │     │ (큐가 여러개 있음)                                                       │
-  │     │  ├─ Queue0 ── (MSI-X 메시지 0x01번) ──▶ 😎 CPU 코어 0 전담               │
-  │     │  ├─ Queue1 ── (MSI-X 메시지 0x02번) ──▶ 😎 CPU 코어 1 전담               │
-  │     │  └─ Queue2 ── (MSI-X 메시지 0x03번) ──▶ 😎 CPU 코어 2 전담               │
-  │     └─────────┘                                                                │
-  │                                                                                │
-  │  * 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,        │
-  │         메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출! │
-  │         (수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)    │
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 인터럽트 전달 아키텍처의 혁명적 진화 스택도                    |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |  [ 과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증) ]                |
+  |     +---------+   (IRQ 10번 구리 핀)    +--------------------------+           |
+  |     | 랜카드   +-----------+--------->| 😱 CPU 0번 (독박 코어)    |             |
+  |     +---------+           |          +--------------------------+              |
+  |     +---------+           |     * CPU는 전기가 오면 통역 드라이버 두 개를      |
+  |     | 그래픽 칩+-----------+       모두 깨워서 "누가 불렀어?" 루프검사 해야함. |
+  |     +---------+                      (처리속도 개판망, 코어 확장불가)          |
+  |                                                                                |
+  |  =============================================================                 |
+  |                                                                                |
+  |  [ 현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포 ]                |
+  |     +---------+                                                                |
+  |     | 최신 PCIe| --(이더넷 패킷처럼 메모리에 번호 씀)--> CPU 메모리 컨트롤러    |
+  |     | 100G 칩 |                                                                |
+  |     | (큐가 여러개 있음)                                                       |
+  |     |  +- Queue0 -- (MSI-X 메시지 0x01번) ---> 😎 CPU 코어 0 전담               |
+  |     |  +- Queue1 -- (MSI-X 메시지 0x02번) ---> 😎 CPU 코어 1 전담               |
+  |     |  +- Queue2 -- (MSI-X 메시지 0x03번) ---> 😎 CPU 코어 2 전담               |
+  |     +---------+                                                                |
+  |                                                                                |
+  |  * 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,        |
+  |         메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출! |
+  |         (수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)    |
+  +--------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 고전적인 방식은 "전선" 이라는 하드웨어 매체에 갇혀있어 확장성(Scalability)이 완전히 1차원적으로 붕괴해있었다. [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X는 그걸 소프트웨어적인 "메모리 맵 변수(Memory Mapped I/O 주소 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))" 구조로 변환했다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에 타고 있는 머신이 특정 주소(`0xFEE00000`)에 값을 패킷 데이터로 "Write" 쏴버린다. 그러면 이 메인보드 길목을 지키고 있던 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 매니저(IOAPIC 등)가 이를 낚아채 "어? 랜카드 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 2번에서 쏜 메시지네? 이건 OS가 CPU 3번 깨우라고 설정해뒀지!" 하고 지정된 코어의 잠을 다이렉트로 깨운다. 이 무결점 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 덕에 수백 개의 CPU 코어가 달린 서버에서 통신 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분배가 퍼즐처럼 끼워 맞춰 가능해진 것이다.
@@ -139,12 +139,12 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 
 ```text
 [장치 드라이버 (Device Driver) 커널 인터페이스 구현]
-    │
-    ▼
+    |
+    v
 [인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]
-    │
-    ├──▶ [SR-IOV (Single Root I/O Virtualization)]
-    └──▶ [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
+    |
+    +---> [SR-IOV (Single Root I/O Virtualization)]
+    +---> [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -161,7 +161,7 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 
 **진행 상황**: 496 / 800
 
-← **이전**: [495. 장치 드라이버 (Device Driver) 커널 인터페이스 구현](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/)
-**다음**: [497. SR-IOV (Single Root I/O Virtualization) - 가상 머신에 물리적 PCIe 장치 직접 매핑](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) →
+<- **이전**: [495. 장치 드라이버 (Device Driver) 커널 인터페이스 구현](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/)
+**다음**: [497. SR-IOV (Single Root I/O Virtualization) - 가상 머신에 물리적 PCIe 장치 직접 매핑](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) ->
 
 ---

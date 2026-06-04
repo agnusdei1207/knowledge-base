@@ -22,10 +22,10 @@ tags = ["cloud_architecture"]
 즉, Kube-proxy는 패킷을 직접 오래 들고 나르는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라, 노드 내부에 규칙을 심어 두고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 알아서 분배하게 만드는 설정자다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름은 고정되고, 뒤에 연결된 Pod만 바뀐다. 이것이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추상화의 핵심이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client → Service VIP → Kube-proxy 규칙 → Live Pod IP       │
-│ Pod가 바뀌어도 Service 주소는 그대로 유지                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Service VIP -> Kube-proxy 규칙 -> Live Pod IP       |
+| Pod가 바뀌어도 Service 주소는 그대로 유지                   |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 손님은 항상 같은 식당 간판만 보고 들어가지만, 내부 주방의 요리사 배치는 그날그날 바뀌는 구조다.
@@ -45,11 +45,11 @@ Kube-proxy는 보통 모든 워커 노드에 DaemonSet으로 배포된다. 그�
 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입도 함께 봐야 한다. ClusterIP는 클러스터 내부에서만 쓰는 안정된 VIP이고, NodePort는 모든 노드에 동일 포트를 열어 외부 진입을 허용한다. LoadBalancer는 클라우드 로드밸런서 뒤에서 노드나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 노출한다. 어떤 타입이든 최종 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 분배는 결국 Kube-proxy의 규칙을 따른다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│ Service/Endpoints 변경 ─► Kube-proxy Watch ─► 규칙 갱신       │
-├────────────────────────────────────────────────────────────────┤
-│ Packet ─► iptables/IPVS ─► DNAT ─► Backend Pod               │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+| Service/Endpoints 변경 -► Kube-proxy Watch -► 규칙 갱신       |
++----------------------------------------------------------------+
+| Packet -► iptables/IPVS -► DNAT -► Backend Pod               |
++----------------------------------------------------------------+
 ```
 
 핵심은 "Kube-proxy가 느린가"보다 "규칙이 얼마나 빨리 바뀌는가"다. 규칙이 늦으면 새로운 Pod가 떠도 트래픽이 따라오지 못하고, 규칙이 과도하면 성능이 떨어진다.
@@ -116,15 +116,15 @@ Kube-proxy는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaa
 
 ```text
 Service / Endpoints
-    │
-    ▼
+    |
+    v
 Kube-proxy Watch
-    │
-    ├────────► iptables
-    │
-    ├────────► IPVS (IP Virtual Server)
-    │
-    └────────► eBPF (Extended Berkeley Packet Filter)
+    |
+    +--------► iptables
+    |
+    +--------► IPVS (IP Virtual Server)
+    |
+    +--------► eBPF (Extended Berkeley Packet Filter)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ Kube-proxy Watch
 
 **진행 상황**: 82 / 371
 
-← **이전**: [82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)
-**다음**: [84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) →
+<- **이전**: [82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)
+**다음**: [84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) ->
 
 ---

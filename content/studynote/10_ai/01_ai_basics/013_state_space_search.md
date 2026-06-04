@@ -25,9 +25,9 @@ tags = ["ai"]
 ```text
 [현실 세계]                [상태 공간 그래프 추상화]
 로봇이 방 A에 있음  ====>    (Node S0: 로봇=A, 방=더러움) -- [Start]
-      ↓ (이동)                       │  (간선: Move_to_B)
+      v (이동)                       |  (간선: Move_to_B)
 로봇이 방 B로 감    ====>    (Node S1: 로봇=B, 방=더러움)
-      ↓ (청소)                       │  (간선: Vacuum)
+      v (청소)                       |  (간선: Vacuum)
 방 B가 깨끗해짐    ====>    (Node S2: 로봇=B, 방=깨끗함) -- [Goal]
 ```
 이 구조도의 핵심은 복잡한 다차원 현실을 컴퓨터가 연산 가능한 이산적(Discrete) 노드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))했다는 점이다. 이렇게 변환되면 어떤 문제든 'S0에서 S2로 가는 최단 경로를 찾는 수학 문제'로 치환되며, 이후에는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 기반의 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 등)을 일관되게 적용할 수 있게 된다.
@@ -51,11 +51,11 @@ tags = ["ai"]
 다음은 상태 공간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 탐색 트리(Search Tree)가 메모리 상에 확장(Expansion)되는 동적 과정을 보여주는 흐름도이다.
 ```text
 [그래프 모델] (무한 순환 가능)      [탐색 트리 확장 과정] (루프 방지 구조)
-   (S0) ───┐                            [ S0 ] (Root Node)
-  ↗   ↘    │                            /    \
-(S1) (S2)  │    == 전개(Expand) ==>  [ S1 ]  [ S2 ]
-  ↖   ↙    │                         /       /  \
-   (S3) <──┘                     (무시)    [S3] [S4] (목표 도달 시 중단)
+   (S0) ---+                            [ S0 ] (Root Node)
+  ↗   ↘    |                            /    \
+(S1) (S2)  |    == 전개(Expand) ==>  [ S1 ]  [ S2 ]
+  ↖   ↙    |                         /       /  \
+   (S3) <--+                     (무시)    [S3] [S4] (목표 도달 시 중단)
                              (S0 회귀 방지)
 ```
 이 흐름의 핵심은 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))'와 '탐색 트리(Tree)'의 차이다. 상태 공간 자체는 순환(Loop)이 존재하는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)일 수 있으나, 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 실행 메모리 상에 루트에서 뻗어나가는 순환 없는 트리 구조로 풀어낸다(Unrolling). 이때 S1에서 다시 S0로 돌아가는 불필요한 반복 전개를 막기 위해 '방문한 노드(Closed List / Explored Set)'를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 메모리 병목과 무한 루프를 방지하는 컷오프(Cut-off) 메커니즘이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화의 핵심으로 작용한다.
@@ -78,16 +78,16 @@ tags = ["ai"]
 다음은 문제의 복잡도에 따른 상태 공간의 폭발적 증가([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))를 보여주는 비용 함수 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)이다.
 ```text
 상태 수(Nodes)
-  ↑
-  │                                   * (바둑: 10^170, 탐색 불가 -> MCTS/딥러닝 도입)
-  │                                 /
-  │                                /
-  │                     * (체스: 10^47, 알파베타 가지치기 한계치)
-  │                   /
-  │       * (루빅스 큐브: 10^19, 휴리스틱 필수)
-  │     /
-  │ * (8-퍼즐: 10^5, 완전 탐색 가능)
-  └───────────────────────────────────────> 문제 차원 깊이(Depth)
+  ^
+  |                                   * (바둑: 10^170, 탐색 불가 -> MCTS/딥러닝 도입)
+  |                                 /
+  |                                /
+  |                     * (체스: 10^47, 알파베타 가지치기 한계치)
+  |                   /
+  |       * (루빅스 큐브: 10^19, 휴리스틱 필수)
+  |     /
+  | * (8-퍼즐: 10^5, 완전 탐색 가능)
+  +---------------------------------------> 문제 차원 깊이(Depth)
 ```
 이 차트의 핵심은 차원의 저주다. 깊이가 얕을 때는 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)으로도 노드를 전개할 수 있지만, 깊이가 증가하면 지수함수적으로 노드가 폭발한다. 실무적으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^10을 넘어서는 상태 공간은 모든 경로를 스캔하는 것이 불가능하다. 따라서 거대 상태 공간에서는 공간의 일부만 선택적으로 탐색하는 빔 서치(Beam Search)나, 무작위성을 부여한 몬테카를로 탐색([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))으로 탐색의 패러다임을 전환해야 한다.
 
@@ -101,14 +101,14 @@ tags = ["ai"]
 <strong>실무 의사결정 시나리오: 물류 창고 로봇 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>
 ```text
 [상태 추상화 수준 결정 플로우]
-   ↓
+   v
 [Q1. 로봇의 각도(연속적인 실수)까지 상태 노드에 포함시킬 것인가?]
- ├── (Yes) -> 연속 상태 공간 발생. 노드 무한대 폭발 -> 연속 최적화 제어(LQR)로 변경
- └── (No) -> 타일(Grid) 단위로 이산화(Discretization) 확정
-      ↓
+ +-- (Yes) -> 연속 상태 공간 발생. 노드 무한대 폭발 -> 연속 최적화 제어(LQR)로 변경
+ +-- (No) -> 타일(Grid) 단위로 이산화(Discretization) 확정
+      v
 [Q2. 동적 장애물(사람)이 존재하는가?]
- ├── (No) -> 정적 A* 상태 탐색 그래프 구축 후 캐싱
- └── (Yes) -> 실시간 D* (Dynamic A*) 적용 또는 탐색 트리 주기적 재계산 강제
+ +-- (No) -> 정적 A* 상태 탐색 그래프 구축 후 캐싱
+ +-- (Yes) -> 실시간 D* (Dynamic A*) 적용 또는 탐색 트리 주기적 재계산 강제
 ```
 이 시나리오의 핵심 판단 기준은 '디테일과 연산량의 트레이드오프'다. 상태를 정의할 때 불필요한 정보(로봇의 배터리 잔량, 미세 각도)를 포함시키면 노드 수가 수천만 배로 증가한다. 실무에서는 해결하고자 하는 문제에 꼭 필요한 '최소 충족 특성(Minimal Sufficient Features)'만 상태 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple)로 남겨 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 높이는 것이 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 예방하는 1원칙이다.
 
@@ -148,17 +148,17 @@ tags = ["ai"]
 
 ```text
 [문제 정형화 (Problem Formulation) — 초기 상태·전이·목표 정의]
-    │
-    ▼
+    |
+    v
 [상태 공간 (State Space) — 가능한 모든 상태의 집합과 전이 그래프]
-    │
-    ▼
+    |
+    v
 [맹목 탐색 (Blind Search) — BFS·DFS, 휴리스틱 없이 완전 탐색]
-    │
-    ▼
+    |
+    v
 [휴리스틱 탐색 (Heuristic Search) — A*, 추정 비용으로 유망 경로 우선]
-    │
-    ▼
+    |
+    v
 [MCTS + 딥러닝 (Deep RL) — 정책망·가치망으로 대규모 상태 공간 극복]
 ```
 
@@ -176,7 +176,7 @@ tags = ["ai"]
 
 **진행 상황**: 13 / 420
 
-← **이전**: [12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)
-**다음**: [14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/) →
+<- **이전**: [12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)
+**다음**: [14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/) ->
 
 ---

@@ -22,7 +22,7 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [배치 처리 개념]
-시간 ──▶ 00:00   01:00   02:00   03:00   04:00
+시간 ---> 00:00   01:00   02:00   03:00   04:00
 데이터   [누적]   [누적]   [누적]   [처리↗]  [완료]
                                    일괄 처리 (야간 배치)
 
@@ -34,9 +34,9 @@ tags = ["studynote-cloud-architecture"]
 ```
 
 **배치 처리가 필요한 이유:**
-- 은행 야간 이자 계산, 카드 정산 → 모든 거래 확정 후 일괄 처리
-- 추천 모델 학습 → 전일 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체로 배치 학습
-- [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) → 야간 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 갱신
+- 은행 야간 이자 계산, 카드 정산 -> 모든 거래 확정 후 일괄 처리
+- 추천 모델 학습 -> 전일 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체로 배치 학습
+- [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) -> 야간 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 갱신
 
 📢 **섹션 요약 비유**: 배치 처리는 빨래를 모아서 한 번에 세탁기에 돌리는 것이다. 한 벌씩 손빨래(실시간)하는 것보다 효율적이지만, 빨래가 다 모일 때까지 기다려야([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 한다.
 
@@ -47,22 +47,22 @@ tags = ["studynote-cloud-architecture"]
 ### [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 배치 처리 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                Apache Spark 배치 아키텍처                  │
-│                                                          │
-│  Input          Spark Core           Output              │
-│  S3/HDFS  ──▶  ┌──────────────┐  ──▶  S3/DW             │
-│  RDBMS    ──▶  │ Driver Program│                        │
-│  CSV/JSON ──▶  │  (DAG 계획)   │                        │
-│                └──────┬───────┘                         │
-│                       │ 작업 분배                         │
-│           ┌───────────┼───────────┐                      │
-│           ▼           ▼           ▼                      │
-│      Worker 1    Worker 2    Worker 3                    │
-│      (Executor)  (Executor)  (Executor)                  │
-│      파티션 1     파티션 2    파티션 3                     │
-│      병렬 처리    병렬 처리   병렬 처리                     │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                Apache Spark 배치 아키텍처                  |
+|                                                          |
+|  Input          Spark Core           Output              |
+|  S3/HDFS  --->  +--------------+  --->  S3/DW             |
+|  RDBMS    --->  | Driver Program|                        |
+|  CSV/JSON --->  |  (DAG 계획)   |                        |
+|                +------+-------+                         |
+|                       | 작업 분배                         |
+|           +-----------+-----------+                      |
+|           v           v           v                      |
+|      Worker 1    Worker 2    Worker 3                    |
+|      (Executor)  (Executor)  (Executor)                  |
+|      파티션 1     파티션 2    파티션 3                     |
+|      병렬 처리    병렬 처리   병렬 처리                     |
++----------------------------------------------------------+
 ```
 
 ### 배치 처리 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -70,7 +70,7 @@ tags = ["studynote-cloud-architecture"]
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 설명 | 효과 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 분할</strong> | 날짜/카테고리별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 | 전체 스캔 방지 |
-| **컬럼 지향 포맷** | [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC 사용 | 필요 열만 읽기, 압축률 ↑ |
+| **컬럼 지향 포맷** | [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC 사용 | 필요 열만 읽기, 압축률 ^ |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 푸시다운</strong> | WHERE 절 조건을 스토리지 레벨에서 필터링 | I/O 최소화 |
 | <strong>브로드캐스트 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 소형 테이블을 모든 Worker에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 셔플 비용 제거 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a></strong> | 반복 사용 중간 결과를 메모리 캐시 | 재계산 방지 |
@@ -81,12 +81,12 @@ tags = ["studynote-cloud-architecture"]
 ```
 [Lambda 아키텍처: 배치 + 실시간 혼합]
 
-소스 데이터 ──┬──▶ 배치 계층 (Spark/Hadoop) ──▶ 배치 뷰
-              │    (T+1일 처리, 높은 정확도)      │
-              │                                  │ 서빙 계층
-              └──▶ 스피드 계층 (Flink/Spark SS) ──▶ 실시간 뷰 ──▶ 최종 쿼리
-                   (즉시 처리, 임시 결과)          │ (쿼리 결합)
-                                                  │
+소스 데이터 --+---> 배치 계층 (Spark/Hadoop) ---> 배치 뷰
+              |    (T+1일 처리, 높은 정확도)      |
+              |                                  | 서빙 계층
+              +---> 스피드 계층 (Flink/Spark SS) ---> 실시간 뷰 ---> 최종 쿼리
+                   (즉시 처리, 임시 결과)          | (쿼리 결합)
+                                                  |
 배치 뷰: 모든 과거 데이터 정확한 집계
 실시간 뷰: 최근 수분 내 근사 집계
 ```
@@ -213,13 +213,13 @@ df_daily.write \
 
 ```text
 Batch Processing: 대량 데이터 일괄 처리
-    ├─► MapReduce → Spark (In-Memory)
-    └─► 스케줄링: Airflow · cron
-    │
-    ▼
+    +-► MapReduce -> Spark (In-Memory)
+    +-► 스케줄링: Airflow · cron
+    |
+    v
 Stream Processing: 실시간 이벤트 처리 (Kafka · Flink)
-    │
-    ▼
+    |
+    v
 Lambda / Kappa Architecture: 배치 + 스트림 통합
 ```
 2. 은행이 하루 이자를 계산할 때처럼, 모든 거래가 완전히 끝난 자정에 전체 계좌를 한꺼번에 계산하면 정확하고 빠르다.
@@ -231,7 +231,7 @@ Lambda / Kappa Architecture: 배치 + 스트림 통합
 
 **진행 상황**: 227 / 371
 
-← **이전**: [227. ELT (Extract, Load, Transform)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/227_elt_extract_load_transform_cloud/)
-**다음**: [229. 스트림 처리 (Stream Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) →
+<- **이전**: [227. ELT (Extract, Load, Transform)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/227_elt_extract_load_transform_cloud/)
+**다음**: [229. 스트림 처리 (Stream Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) ->
 
 ---

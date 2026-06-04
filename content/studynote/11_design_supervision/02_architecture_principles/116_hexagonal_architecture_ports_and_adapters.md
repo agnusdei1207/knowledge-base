@@ -24,27 +24,27 @@ tags = ["studynote-design-supervision"]
 계층형 아키텍처의 가장 큰 문제는 비즈니스 계층이 퍼시스턴스 계층(JPA 어노테이션, SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에 의존하여 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직을 단독으로 테스트할 수 없다는 점이다. 헥사고날은 이 의존성을 역전시켜 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 기술을 전혀 알지 못하게 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           헥사고날 아키텍처 구조 (개념도)                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [UI Adapter]     [REST API Adapter]     [Test Adapter]   │
-│        │                 │                     │           │
-│        └─────────────────┴─────────────────────┘           │
-│                          │                                  │
-│                   [입력 포트 (Inbound Port)]                 │
-│                          │                                  │
-│              ┌───────────▼───────────┐                     │
-│              │     도메인 (Domain)    │                     │
-│              │  비즈니스 로직·규칙    │                     │
-│              └───────────┬───────────┘                     │
-│                          │                                  │
-│                  [출력 포트 (Outbound Port)]                 │
-│                          │                                  │
-│        ┌─────────────────┴─────────────────────┐           │
-│        │                 │                     │           │
-│  [DB Adapter]   [Kafka Adapter]    [Email Adapter]         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           헥사고날 아키텍처 구조 (개념도)                    |
++-------------------------------------------------------------+
+|                                                             |
+|   [UI Adapter]     [REST API Adapter]     [Test Adapter]   |
+|        |                 |                     |           |
+|        +-----------------+---------------------+           |
+|                          |                                  |
+|                   [입력 포트 (Inbound Port)]                 |
+|                          |                                  |
+|              +-----------v-----------+                     |
+|              |     도메인 (Domain)    |                     |
+|              |  비즈니스 로직·규칙    |                     |
+|              +-----------+-----------+                     |
+|                          |                                  |
+|                  [출력 포트 (Outbound Port)]                 |
+|                          |                                  |
+|        +-----------------+---------------------+           |
+|        |                 |                     |           |
+|  [DB Adapter]   [Kafka Adapter]    [Email Adapter]         |
++-------------------------------------------------------------+
 ```
 
 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터페이스)만 정의하고, 실제 인프라(DB, 메시지 큐, 이메일 서버)는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 구현된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드에는 Spring, JPA, MySQL 같은 인프라 기술의 의존성이 전혀 없다.
@@ -66,15 +66,15 @@ tags = ["studynote-design-supervision"]
 | 출력 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구현을 실제 인프라로 연결 | JpaOrderRepository |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      의존성 방향: 항상 외부 → 도메인 방향                    │
-├─────────────────────────────────────────────────────────────┤
-│  입력 어댑터(Controller) ──▶ 입력포트(interface) ◀── 도메인  │
-│                                                             │
-│  도메인 ──▶ 출력포트(interface) ◀── 출력어댑터(JpaRepo)      │
-│                                                             │
-│  핵심: 도메인은 어댑터를 모른다. 어댑터가 도메인에 의존한다. │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      의존성 방향: 항상 외부 -> 도메인 방향                    |
++-------------------------------------------------------------+
+|  입력 어댑터(Controller) ---> 입력포트(interface) <--- 도메인  |
+|                                                             |
+|  도메인 ---> 출력포트(interface) <--- 출력어댑터(JpaRepo)      |
+|                                                             |
+|  핵심: 도메인은 어댑터를 모른다. 어댑터가 도메인에 의존한다. |
++-------------------------------------------------------------+
 ```
 
 DIP가 헥사고날의 핵심 원칙이다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 소유한 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터페이스)를 인프라 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 구현하므로 의존성이 역전된다. 이 구조 덕분에 테스트에서 실제 DB 대신 인메모리 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂아 순수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
@@ -89,7 +89,7 @@ DIP가 헥사고날의 핵심 원칙이다. [도메인](/knowledge-base/studynot
 | 비교 축 | A | B |
 |:---|:---|:---|
 | **중심 개념** | 기술 계층 분리 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리 |
-| **의존성 방향** | 위에서 아래 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) → 인프라) | 항상 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방향 (인프라 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) |
+| **의존성 방향** | 위에서 아래 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) -> 인프라) | 항상 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방향 (인프라 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) |
 | **DB 교체 영향** | 비즈니스 계층 수정 필요 | 출력 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)만 교체 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a></strong> | 인프라 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 필요 | 순수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)만 테스트 가능 |
 
@@ -106,7 +106,7 @@ DIP가 헥사고날의 핵심 원칙이다. [도메인](/knowledge-base/studynot
 1. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 클래스에 인프라 프레임워크(Spring, JPA, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))의 어노테이션이나 클래스가 없는가?
 2. 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 패키지에 정의된 인터페이스인가?
 3. 테스트에서 실제 DB 없이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는가?
-4. 새로운 UI 채널([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) → [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) 추가 시 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드 수정이 없는가?
+4. 새로운 UI 채널([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) -> [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) 추가 시 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드 수정이 없는가?
 5. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 교체 시 수정되는 코드가 출력 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 하나뿐인가?
 
 - **📢 섹션 요약 비유**: 좋은 식당은 홀 직원(입력 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))과 배달 플랫폼(다른 입력 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))이 바뀌어도 주방([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))의 레시피는 변하지 않는다. 주방장은 주문 방식을 신경 쓰지 않는다.
@@ -115,7 +115,7 @@ DIP가 헥사고날의 핵심 원칙이다. [도메인](/knowledge-base/studynot
 
 ## Ⅴ. 기대효과 및 결론
 
-[헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/)를 올바르게 적용하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 속도가 획기적으로 빨라진다. 실제 DB 연결 없이 인메모리 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 수천 건의 테스트를 초 단위로 실행할 수 있다. 인프라 기술 교체(관계형 DB → 문서 DB)도 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 교체로 국한되어 핵심 비즈니스 코드는 보호된다.
+[헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/)를 올바르게 적용하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 속도가 획기적으로 빨라진다. 실제 DB 연결 없이 인메모리 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 수천 건의 테스트를 초 단위로 실행할 수 있다. 인프라 기술 교체(관계형 DB -> 문서 DB)도 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 교체로 국한되어 핵심 비즈니스 코드는 보호된다.
 
 한계는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 복잡도와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 코드의 증가다. 작은 CRUD 중심 시스템에서는 오히려 오버엔지니어링이 될 수 있다. 비즈니스 규칙이 복잡하거나 인프라 기술을 자주 교체해야 하는 환경에서 그 가치가 극대화된다.
 
@@ -129,7 +129,7 @@ DIP가 헥사고날의 핵심 원칙이다. [도메인](/knowledge-base/studynot
 
 ### 📌 관련 개념 맵
 
-DIP 원칙] → [포트 앤 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 패턴] → [헥사고날 아키텍처] → DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리] → MSA 내부 구조]
+DIP 원칙] -> [포트 앤 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 패턴] -> [헥사고날 아키텍처] -> DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리] -> MSA 내부 구조]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -140,7 +140,7 @@ DIP 원칙] → [포트 앤 [어댑터](/knowledge-base/studynote/04_software_en
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[계층형 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-인프라 결합 문제] → [포트 앤 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 패턴] → [헥사고날 아키텍처] → [클린·어니언과 수렴] → DDD+헥사고날 결합] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 헥사고날 표준화]
+[계층형 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-인프라 결합 문제] -> [포트 앤 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 패턴] -> [헥사고날 아키텍처] -> [클린·어니언과 수렴] -> DDD+헥사고날 결합] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 헥사고날 표준화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ DIP 원칙] → [포트 앤 [어댑터](/knowledge-base/studynote/04_software_en
 
 **진행 상황**: 172 / 530
 
-← **이전**: [115. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/)
-**다음**: [117. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/117_clean_architecture/) →
+<- **이전**: [115. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/)
+**다음**: [117. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/117_clean_architecture/) ->
 
 ---

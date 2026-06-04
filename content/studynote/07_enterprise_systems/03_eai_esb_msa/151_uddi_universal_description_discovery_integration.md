@@ -54,30 +54,30 @@ UDDI가 엔터프라이즈의 신(God)으로 군림했던 단 한 가지 절대 
 "UDDI 엑셀 안에 대체 뭐 적혀있길래 코더가 긁어감?" 주니어 코더 뇌 정지를 부수는 거대 관료제 인덱싱 뼈대.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          UDDI 도서관 3단 계층화 트리 (Taxonomy) 분할 록온 도면         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🗂️ [ UDDI Registry (전사 공용 중앙 집권 대형 카탈로그 엑셀 장부 뇌 🧠) ]  │
-│                                                             │
-│ ⬜ [ 1단계: White Pages (백색 깡통 주소록 인명사전) ]               │
-│   - 팩트: 서비스 제공자(회사나 부서)의 껍데기 이름, 연락처를 무지성 나열한 전화번호부.│
-│   - 데이터: "이 서비스 만든 놈은 [재무팀 김 대리]고, 회사명은 삼성."          │
-│   - 한계: 아는 이름 핀셋 검색용으론 좋지만, 이름 모르면 1도 못 찾고 장님 뻗음 컷.│
-│                                                             │
-│ 🟨 [ 2단계: Yellow Pages (노란색 상호 카테고리 맵핑 쾌속 스키 타기 ✨) ] │
-│   - 팩트: 1만 개 서비스를 산업 표준 분류 코드(NAICS)나 업종 카테고리로 트리(Tree) │
-│     구조 예쁘게 찢어발겨 인덱싱(Indexing) 폴더로 묶어둔 쾌속 십자 검색 뇌.     │
-│   - 데이터: `[폴더: 금융_환율_조회]` ➔ 이 폴더 밑에 환율 관련 API 100개 몰빵 집합!│
-│   - 융합: 코더가 "이름은 모르겠고 대충 [결제] 관련된 거 줘!" 카테고리 클릭 트리 타서 │
-│     1초 컷 핀셋 타격 털어먹는(Find) 내비게이션 길잡이 🚀.                   │
-│                                                             │
-│ 🟩 [ 3단계: Green Pages (녹색 기술 쇳덩이 메뉴판 종착역 록온 쾅! 🩸) ] │
-│   - 팩트: 컴퓨터 기계(코드)가 런타임에 진짜 찌를 찐 목적지 **물리적 엔드포인트 URL │
-│     주소 링크 (Binding Template)**가 시멘트 락킹 박제된 절대 진리 코어 금고. │
-│   - 데이터: "야 이 API 찐 목적지 주소 `http://10.1.1.2/calc` 여기 박혀있음!│
-│     통신 규격 스펙은 저기 tModel 껍데기 `SOAP 1.2` 엑셀 링크 참조해 다운받아 쾅!!"│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          UDDI 도서관 3단 계층화 트리 (Taxonomy) 분할 록온 도면         |
++-------------------------------------------------------------+
+|                                                             |
+| 🗂️ [ UDDI Registry (전사 공용 중앙 집권 대형 카탈로그 엑셀 장부 뇌 🧠) ]  |
+|                                                             |
+| ⬜ [ 1단계: White Pages (백색 깡통 주소록 인명사전) ]               |
+|   - 팩트: 서비스 제공자(회사나 부서)의 껍데기 이름, 연락처를 무지성 나열한 전화번호부.|
+|   - 데이터: "이 서비스 만든 놈은 [재무팀 김 대리]고, 회사명은 삼성."          |
+|   - 한계: 아는 이름 핀셋 검색용으론 좋지만, 이름 모르면 1도 못 찾고 장님 뻗음 컷.|
+|                                                             |
+| 🟨 [ 2단계: Yellow Pages (노란색 상호 카테고리 맵핑 쾌속 스키 타기 ✨) ] |
+|   - 팩트: 1만 개 서비스를 산업 표준 분류 코드(NAICS)나 업종 카테고리로 트리(Tree) |
+|     구조 예쁘게 찢어발겨 인덱싱(Indexing) 폴더로 묶어둔 쾌속 십자 검색 뇌.     |
+|   - 데이터: `[폴더: 금융_환율_조회]` ➔ 이 폴더 밑에 환율 관련 API 100개 몰빵 집합!|
+|   - 융합: 코더가 "이름은 모르겠고 대충 [결제] 관련된 거 줘!" 카테고리 클릭 트리 타서 |
+|     1초 컷 핀셋 타격 털어먹는(Find) 내비게이션 길잡이 🚀.                   |
+|                                                             |
+| 🟩 [ 3단계: Green Pages (녹색 기술 쇳덩이 메뉴판 종착역 록온 쾅! 🩸) ] |
+|   - 팩트: 컴퓨터 기계(코드)가 런타임에 진짜 찌를 찐 목적지 **물리적 엔드포인트 URL |
+|     주소 링크 (Binding Template)**가 시멘트 락킹 박제된 절대 진리 코어 금고. |
+|   - 데이터: "야 이 API 찐 목적지 주소 `http://10.1.1.2/calc` 여기 박혀있음!|
+|     통신 규격 스펙은 저기 tModel 껍데기 `SOAP 1.2` 엑셀 링크 참조해 다운받아 쾅!!"|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** UDDI는 단순 `hosts.txt` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쓰레기랑 차원이 다르다. 1만 개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 진흙탕 속에서 내가 원하는 1개를 0.1초 컷으로 적발하려면 철저한 카테고리 인덱싱이 생명줄이다. 인간 개발자의 뇌피셜 검색 편의(Yellow)부터 시작해서 ➔ 기계가 0.001초 만에 파싱해 빼먹는 물리적 엔드포인트 URL 쇳덩이 팩트 주소(Green)까지 3단으로 십자 분할시켜 쑤셔 박아버린 2000년대 엔터프라이즈의 가장 오만하고 웅장한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제국 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)학(Taxonomy) 텐트 성벽이다.
@@ -149,17 +149,17 @@ UDDI(Universal Description, Discovery and Integration)는 1,000개의 [분산](/
 
 ```text
 모놀리식 / P2P 강결합 점대점 하드코딩 쇳덩이 지옥 💀 / 타 부서 서버 IP 바뀔 때마다 내 자바 소스 100군데 밤새 오타 수정하고 재배포 치다 동반 셧다운 타 죽음 폭파 💥
-    │
-    ▼
+    |
+    v
 SOA 3요소 트라이앵글 십자 융합 대관식 ✨ / IP 하드코딩 사살 찢기! "도서관(UDDI Registry)에 메뉴판 올리고(Publish), 실행 찰나에 주소 검색해(Find), 다이렉트 1:1로 꼽아라(Bind 핑퐁) 쾅!!" ➔ 동적 지연 바인딩(Late Binding) 무결점 회피 기동 록온 생존 달성 🚀
-    │
-    ▼
+    |
+    v
 XML SOAP 뚱뚱한 껍데기 CPU 파싱 랙 오버헤드 붕괴 + 퍼블릭 UDDI 무검증 타사 서버 종속(Hard Dependency) 해킹 타임아웃 신뢰성 멸망 파국 💀
-    │
-    ▼
+    |
+    v
 MSA 마이크로서비스 JSON REST API 깃털 1줄 나노 다이어트 다이내믹 찢기 칼질 🚀 (무거운 쇳덩이 폐기)
-    │
-    ▼
+    |
+    v
 K8s 클라우드 Service Discovery (유레카) + API Gateway 대통일 / "야 앱 코더야 넌 Find & Bind 핑퐁 로직 아예 소스 1줄도 짜지 마 ㅋ 인프라 앞단 껍데기(Proxy 봇)한테 통신망 라우팅 짬처리 싹 다 오프로딩(Off-load) 짬 시켜 100% 완벽 자율 융합 생존 방폭문 텐트 쳐버림 쾅!!"
 ```
 
@@ -175,7 +175,7 @@ K8s 클라우드 Service Discovery (유레카) + API Gateway 대통일 / "야 �
 
 **진행 상황**: 151 / 482
 
-← **이전**: [150. SOA 3요소 아키텍처 - 서비스 제공자(Provider), 요청자(Requester), 레지스트리(Registry)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)
-**다음**: [152. WSDL (Web Services Description Language) - B2B 통신망의 100% 무결점 강철 계약서 쇳덩이](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/) →
+<- **이전**: [150. SOA 3요소 아키텍처 - 서비스 제공자(Provider), 요청자(Requester), 레지스트리(Registry)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)
+**다음**: [152. WSDL (Web Services Description Language) - B2B 통신망의 100% 무결점 강철 계약서 쇳덩이](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/) ->
 
 ---

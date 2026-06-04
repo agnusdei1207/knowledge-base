@@ -21,10 +21,10 @@ tags = ["database"]
 키 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 릴레이션의 각 행이 하나의 키로 식별되고, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 관계가 실제 존재하는 값만 가리키도록 보장하는 규칙이다.
 이 규칙이 무너지면 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 여러 번 들어가거나, 부모가 사라졌는데 자식만 남는 문제가 생긴다. 그래서 정규화된 모델도 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 없으면 신뢰를 잃는다.
 ```text
-┌───────────────┐      FK      ┌───────────────┐
-│ Customer      │────────────▶│ Order         │
-│ PK customer_id│             │ PK order_id   │
-└───────────────┘             └───────────────┘
++---------------+      FK      +---------------+
+| Customer      |------------->| Order         |
+| PK customer_id|             | PK order_id   |
++---------------+             +---------------+
 ```
 
 - **📢 섹션 요약 비유**: 식별이 흐리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관계도 같이 흐려진다.
@@ -105,17 +105,17 @@ PK는 보통 NOT NULL과 UNIQUE를 동시에 만족해야 하고, FK는 삽입·
 
 ```text
 도메인 속성
-  │
-  ▼
+  |
+  v
 후보키 선택
-  │
-  ▼
+  |
+  v
 PK/UK 확정
-  │
-  ▼
+  |
+  v
 FK 연결
-  │
-  ▼
+  |
+  v
 정규화와 무결성 검증
 ```
 
@@ -131,7 +131,7 @@ FK 연결
 
 **진행 상황**: 78 / 600
 
-← **이전**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/knowledge-base/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/)
-**다음**: [079. NULL 무결성과 NOT NULL 제약조건](/knowledge-base/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/) →
+<- **이전**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/knowledge-base/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/)
+**다음**: [079. NULL 무결성과 NOT NULL 제약조건](/knowledge-base/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/) ->
 
 ---

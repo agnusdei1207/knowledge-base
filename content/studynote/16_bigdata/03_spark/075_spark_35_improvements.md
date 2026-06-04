@@ -21,16 +21,16 @@ tags = ["studynote-bigdata"]
 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 3.5는 Spark 3.x 시리즈의 주요 기능 업데이트로, 사용 편의성·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·SQL 표준 준수를 중점적으로 개선했다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          Spark 3.5 핵심 개선 영역                          │
-├──────────────────────────────────────────────────────────┤
-│  1. Spark Connect — 경량 원격 클라이언트 연결               │
-│  2. Python UDTF — 테이블 반환 Python 함수                  │
-│  3. ANSI SQL 강화 — 표준 SQL 호환성 확대                   │
-│  4. Structured Streaming — 상태 관리 고도화                │
-│  5. PySpark + PyArrow — 데이터 교환 성능 향상              │
-│  6. Spark SQL 함수 확장 — 300+ 신규 함수 추가              │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          Spark 3.5 핵심 개선 영역                          |
++----------------------------------------------------------+
+|  1. Spark Connect — 경량 원격 클라이언트 연결               |
+|  2. Python UDTF — 테이블 반환 Python 함수                  |
+|  3. ANSI SQL 강화 — 표준 SQL 호환성 확대                   |
+|  4. Structured Streaming — 상태 관리 고도화                |
+|  5. PySpark + PyArrow — 데이터 교환 성능 향상              |
+|  6. Spark SQL 함수 확장 — 300+ 신규 함수 추가              |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Spark 3.5는 자동차의 대형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다. 엔진(코어 처리) 튜닝, 내비게이션(SQL) 업그레이드, 원격 시동(Spark Connect), 연비 개선(PyArrow)이 동시에 이루어졌다.
@@ -43,12 +43,12 @@ tags = ["studynote-bigdata"]
 
 ```text
 [로컬 Python/Notebook 클라이언트]
-         │ gRPC 연결 (Protocol Buffers)
-         ▼
+         | gRPC 연결 (Protocol Buffers)
+         v
 [Spark Connect Server (클러스터)]
-         │
-         ▼
-[Spark 드라이버 → 익스큐터]
+         |
+         v
+[Spark 드라이버 -> 익스큐터]
 ```
 
 Spark Connect 이전: 드라이버 JVM에 직접 연결 (언어 의존성, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌).
@@ -57,7 +57,7 @@ Spark Connect 이후: 임의 언어 클라이언트에서 안정적 원격 접�
 ### Python UDTF (User-Defined Table Function)
 
 ```python
-# Spark 3.5: Python UDTF — 1행 → 여러 행 반환
+# Spark 3.5: Python UDTF — 1행 -> 여러 행 반환
 from pyspark.sql.functions import udtf
 
 @udtf(returnType="num: int, squared: int")
@@ -70,7 +70,7 @@ spark.udtf.register("squared", SquaredNumbers)
 spark.sql("SELECT * FROM squared(5)").show()
 ```
 
-- **📢 섹션 요약 비유**: UDTF는 마법 복사기다. 입력 1줄을 넣으면 여러 줄의 결과를 만들어낸다. 기존 UDF(1→1)와 달리 UDTF(1→n)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 확장(Explode)하는 함수다.
+- **📢 섹션 요약 비유**: UDTF는 마법 복사기다. 입력 1줄을 넣으면 여러 줄의 결과를 만들어낸다. 기존 UDF(1->1)와 달리 UDTF(1->n)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 확장(Explode)하는 함수다.
 
 ---
 
@@ -102,7 +102,7 @@ AQE (Adaptive Query Execution, [적응형 쿼리 실행](/knowledge-base/studyno
 5. **결과**: 로컬 Python 3.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) + 클러스터 Spark 3.5 독립적 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 가능.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- Spark 3.5로 업그레이드 시 ANSI 모드 변경으로 인한 기존 코드 동작 차이를 간과하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 예를 들어 Spark 3.4 이전에서 `1/0`이 Infinity 반환 → 3.5 ANSI 모드에서 ArithmeticException 발생. 마이그레이션 전 전체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)가 필수다.
+- Spark 3.5로 업그레이드 시 ANSI 모드 변경으로 인한 기존 코드 동작 차이를 간과하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 예를 들어 Spark 3.4 이전에서 `1/0`이 Infinity 반환 -> 3.5 ANSI 모드에서 ArithmeticException 발생. 마이그레이션 전 전체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)가 필수다.
 
 - **📢 섹션 요약 비유**: Spark [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드는 건물 리모델링이다. 구조([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))는 대부분 그대로지만, 전기 배선(ANSI 동작)이 바뀌어 기존 가전(코드)이 작동 안 할 수 있다.
 
@@ -114,7 +114,7 @@ AQE (Adaptive Query Execution, [적응형 쿼리 실행](/knowledge-base/studyno
 |:---|:---|
 | **개발 편의성** | Spark Connect로 원격 클라이언트 지원 |
 | <strong>Python <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | Python UDTF, PyArrow 통합 강화 |
-| **SQL 표준화** | ANSI 준수 → 타 DB 이식성 향상 |
+| **SQL 표준화** | ANSI 준수 -> 타 DB 이식성 향상 |
 
 Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표로 하며, DataFrame API와 Dataset API의 Python 통합 강화가 예정되어 있다. [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처([Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Iceberg)와의 더 긴밀한 통합도 예고되어 있다.
 
@@ -128,7 +128,7 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 |:---|:---|
 | **Spark Connect** | 경량 원격 클라이언트 연결; 개발 편의성 핵심 |
 | **AQE** | 런타임 적응형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화; Spark 3.0+ |
-| **Python UDTF** | 1행→다행 반환 Python 함수; 3.5 신규 |
+| **Python UDTF** | 1행->다행 반환 Python 함수; 3.5 신규 |
 | **ANSI SQL** | 표준 SQL 준수 강화; [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 이슈 주의 |
 | **Spark 4.0** | Python-first [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/); 차세대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 방향 |
 
@@ -136,17 +136,17 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 
 ```text
 [Spark 2.x — DataFrame API, SparkSQL 기반 확립]
-    │
-    ▼
+    |
+    v
 [Spark 3.0 — AQE, 동적 파티션 프루닝 도입]
-    │
-    ▼
+    |
+    v
 [Spark 3.4 — Spark Connect 프리뷰, ANSI 강화]
-    │
-    ▼
-[Spark 3.5 — Spark Connect GA, Python UDTF, Streaming↑]
-    │
-    ▼
+    |
+    v
+[Spark 3.5 — Spark Connect GA, Python UDTF, Streaming^]
+    |
+    v
 [Spark 4.0 — Python-first, Lakehouse 통합 강화]
 ```
 
@@ -162,7 +162,7 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 
 **진행 상황**: 75 / 262
 
-← **이전**: [23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)
-**다음**: [01. Apache Flink - 상태 기반 스트리밍처리의 완성형](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) →
+<- **이전**: [23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)
+**다음**: [01. Apache Flink - 상태 기반 스트리밍처리의 완성형](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) ->
 
 ---

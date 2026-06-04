@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ElGamal 및 DSA 시스템]
-    │
-    ▼
+    |
+    v
 [ECC]
-    │
-    └──▶ [ECDSA, Ed25519]
+    |
+    +---> [ECDSA, Ed25519]
 ```
 
 - **📢 섹션 요약 비유**: ECC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [ElGamal 및 DSA 시스템]
-    │
-    ▼
+    |
+    v
 [ECC]
-    │
-    └──▶ [ECDSA, Ed25519]
+    |
+    +---> [ECDSA, Ed25519]
 ```
 
 - **📢 섹션 요약 비유**: ECC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -105,12 +105,12 @@ ECC는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ```text
 [선행 개념: ElGamal 및 DSA 시스템]
-    │
-    ▼
+    |
+    v
 [현재 개념: ECC]
-    │
-    ├──▶ [확장 A: ECDSA, Ed25519]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: ECDSA, Ed25519]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 ECC는 ElGamal 및 DSA 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -127,7 +127,7 @@ ECC는 ElGamal 및 DSA 시스템에서 출발해 현재 메커니즘을 정교�
 
 **진행 상황**: 785 / 1120
 
-← **이전**: [663. ElGamal 및 DSA (디지털 서명용 특화) 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/663_elgamal_dsa_discrete_logarithm_digital_signature/)
-**다음**: [665. ECDSA, Ed25519 (고성능 차세대 공개키 디지털 전자서명 방식)](/knowledge-base/studynote/03_network/13_network_security_basics/665_ecdsa_ed25519_digital_signature_algorithm/) →
+<- **이전**: [663. ElGamal 및 DSA (디지털 서명용 특화) 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/663_elgamal_dsa_discrete_logarithm_digital_signature/)
+**다음**: [665. ECDSA, Ed25519 (고성능 차세대 공개키 디지털 전자서명 방식)](/knowledge-base/studynote/03_network/13_network_security_basics/665_ecdsa_ed25519_digital_signature_algorithm/) ->
 
 ---

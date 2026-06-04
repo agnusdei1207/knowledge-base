@@ -36,32 +36,32 @@ tags = ["studynote-cloud-architecture"]
 사용자 요청: "주문하기"
 
 Trace ID: trace-7f4a2b9c  (전체 요청 고유값)
-│
-├── Root Span (API Gateway)
-│   span_id: span-001
-│   parent_span_id: null
-│   시작: 14:32:01.000
-│   종료: 14:32:01.250
-│
-├── Child Span (Order Service)
-│   span_id: span-002
-│   parent_span_id: span-001
-│   시작: 14:32:01.010
-│   종료: 14:32:01.200
-│
-│   ├── Child Span (Inventory Service)
-│   │   span_id: span-003
-│   │   parent_span_id: span-002
-│   │   시작: 14:32:01.020
-│   │   종료: 14:32:01.080
-│   │
-│   └── Child Span (Payment Service)
-│       span_id: span-004
-│       parent_span_id: span-002
-│       시작: 14:32:01.090
-│       종료: 14:32:01.190
-│
-└── Child Span (Notification Service)
+|
++-- Root Span (API Gateway)
+|   span_id: span-001
+|   parent_span_id: null
+|   시작: 14:32:01.000
+|   종료: 14:32:01.250
+|
++-- Child Span (Order Service)
+|   span_id: span-002
+|   parent_span_id: span-001
+|   시작: 14:32:01.010
+|   종료: 14:32:01.200
+|
+|   +-- Child Span (Inventory Service)
+|   |   span_id: span-003
+|   |   parent_span_id: span-002
+|   |   시작: 14:32:01.020
+|   |   종료: 14:32:01.080
+|   |
+|   +-- Child Span (Payment Service)
+|       span_id: span-004
+|       parent_span_id: span-002
+|       시작: 14:32:01.090
+|       종료: 14:32:01.190
+|
++-- Child Span (Notification Service)
     span_id: span-005
     parent_span_id: span-001
     시작: 14:32:01.200
@@ -85,7 +85,7 @@ Trace ID: trace-7f4a2b9c  (전체 요청 고유값)
 ```
 HTTP 요청 헤더 예시:
 traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
-             ↑  ↑────────────────────────────  ↑──────────────  ↑
+             ^  ^----------------------------  ^--------------  ^
              버전  Trace ID (128bit/32hex)      Span ID(64bit/16hex) 플래그
 
 tracestate: vendor1=value1,vendor2=value2
@@ -170,11 +170,11 @@ Trace ID와 Span ID를 모든 [서비스](/knowledge-base/studynote/13_cloud_arc
 
 ```text
 Trace ID: 요청 고유 식별자 (전 서비스 전파)
-    │
-    ▼
+    |
+    v
 Span: 각 서비스 내 작업 단위 (parent-child 관계)
-    │
-    ▼
+    |
+    v
 Context Propagation: W3C Trace Context · B3 헤더
 ```
 2. Span ID는 각 구간(10km, 20km, 30km)에서 그 선수의 기록이에요.
@@ -186,7 +186,7 @@ Context Propagation: W3C Trace Context · B3 헤더
 
 **진행 상황**: 188 / 371
 
-← **이전**: [188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/188_distributed_tracing_opentelemetry/)
-**다음**: [190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/) →
+<- **이전**: [188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/188_distributed_tracing_opentelemetry/)
+**다음**: [190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/) ->
 
 ---

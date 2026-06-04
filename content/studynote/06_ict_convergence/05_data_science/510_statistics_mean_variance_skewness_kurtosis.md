@@ -41,17 +41,17 @@ tags = ["studynote-ict-convergence"]
 
 ```
 데이터 분포 요약
-┌──────────────────────────────────────────┐
-│  중심: Mean / Median / Mode              │
-├──────────────────────────────────────────┤
-│  산포: Range │ IQR │ Variance │ Std Dev  │
-├──────────────────────────────────────────┤
-│  형태: Skewness (비대칭) │ Kurtosis (꼬리)│
-└──────────────────────────────────────────┘
++------------------------------------------+
+|  중심: Mean / Median / Mode              |
++------------------------------------------+
+|  산포: Range | IQR | Variance | Std Dev  |
++------------------------------------------+
+|  형태: Skewness (비대칭) | Kurtosis (꼬리)|
++------------------------------------------+
 ```
 
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>, σ²)</strong>: σ² = Σ(xᵢ − μ)² / n — 편차 제곱합의 평균. 단위가 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 제곱이라 해석이 불편.
-- **표준편차 (Standard Deviation, σ)**: σ = √σ² — 원래 단위 복원. "평균에서 평균적으로 이만큼 떨어져 있다"는 직관.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>, σ^)</strong>: σ^ = Σ(xᵢ − μ)^ / n — 편차 제곱합의 평균. 단위가 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 제곱이라 해석이 불편.
+- **표준편차 (Standard Deviation, σ)**: σ = √σ^ — 원래 단위 복원. "평균에서 평균적으로 이만큼 떨어져 있다"는 직관.
 - **IQR (Interquartile Range)**: Q3 − Q1 — 이상값에 강건한 산포 척도. 박스플롯의 핵심.
 
 ### 분포 형태 척도
@@ -86,10 +86,10 @@ Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 **시나리오**: 전자상거래 구매 금액 분포 분석
 
-1. 평균 구매금액 58,000원, 중앙값 22,000원 → 우편향(Right-Skewed) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-2. [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) = 2.8 → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환(Log Transform) 적용 후 모델 학습.
-3. 첨도 = 5.1 (초과 첨도 2.1) → 고가 구매의 극단값이 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) 대상.
-4. IQR 기반 박스플롯으로 이상값(1.5·IQR 초과) 28건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 제거 or 보정.
+1. 평균 구매금액 58,000원, 중앙값 22,000원 -> 우편향(Right-Skewed) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+2. [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) = 2.8 -> [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환(Log Transform) 적용 후 모델 학습.
+3. 첨도 = 5.1 (초과 첨도 2.1) -> 고가 구매의 극단값이 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) 대상.
+4. IQR 기반 박스플롯으로 이상값(1.5·IQR 초과) 28건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 제거 or 보정.
 
 **기술사 판단 포인트**:
 - [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) |S| > 1: 변환 또는 비모수(Non-Parametric) 검정 전환 검토.
@@ -124,7 +124,7 @@ Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[이상값 탐지 · 편향 분석] → [통계 기초: 평균 · 분산] → [꼬리 리스크 · Fat Tail]
+[이상값 탐지 · 편향 분석] -> [통계 기초: 평균 · 분산] -> [꼬리 리스크 · Fat Tail]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 **진행 상황**: 510 / 552
 
-← **이전**: [509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/509_cxl_chiplet_memory_pooling_ucie/)
-**다음**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/knowledge-base/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/) →
+<- **이전**: [509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/509_cxl_chiplet_memory_pooling_ucie/)
+**다음**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/knowledge-base/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/) ->
 
 ---

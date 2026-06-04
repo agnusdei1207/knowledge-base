@@ -26,30 +26,30 @@ tags = ["studynote-operating-system"]
 `Parity (P)` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 식으로 촘촘히 엇갈려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Distributed)되어 모든 디스크에 배분되는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 5 분산 패리티 (Distributed Parity) 순환 매핑도          │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │   최소 디스크 3개 필요! (아래는 일반적인 4개 구성 디스크 어레이의 예)        │
-  │                                                                              │
-  │         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]      [ 디스크 4 ]   │
-  │ 스트라이프                                                                   │
-  │   1번줄:   Data A        Data B        Data C        [ P 1 ] ──(끝디스크부담)│
-  │   2번줄:   Data D        Data E        [ P 2 ]       Data F                  │
-  │   3번줄:   Data G        [ P 3 ]       Data H        Data I                  │
-  │   4번줄:   [ P 4 ]       Data J        Data K        Data L                  │
-  │                                                                              │
-  │   (※ P 번호 = 해당 줄에 배치된 Data들의 XOR 패리티 힌트 값 엑셀 합계용)      │
-  │                                                                              │
-  │   [ 💥 디스크 2 파손 시 복원 작동 ]                                          │
-  │     - 1번줄의 분실된 Data B = Data A ⊕ Data C ⊕ P 1 으로 즉각 연산 부활!     │
-  │     - 3번줄의 분실된 P 3 패리티값은? 안중요해걍 지우고 A ⊕ H ⊕ I 다시 쓰면됨!│
-  │                                                                              │
-  │   * 효과: 누구 하나 패리티 작성 전담을 강요받지 않으므로 I/O 병단 체증 소멸! │
-  └──────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------+
+  |                 RAID 5 분산 패리티 (Distributed Parity) 순환 매핑도          |
+  +------------------------------------------------------------------------------+
+  |                                                                              |
+  |   최소 디스크 3개 필요! (아래는 일반적인 4개 구성 디스크 어레이의 예)        |
+  |                                                                              |
+  |         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]      [ 디스크 4 ]   |
+  | 스트라이프                                                                   |
+  |   1번줄:   Data A        Data B        Data C        [ P 1 ] --(끝디스크부담)|
+  |   2번줄:   Data D        Data E        [ P 2 ]       Data F                  |
+  |   3번줄:   Data G        [ P 3 ]       Data H        Data I                  |
+  |   4번줄:   [ P 4 ]       Data J        Data K        Data L                  |
+  |                                                                              |
+  |   (※ P 번호 = 해당 줄에 배치된 Data들의 XOR 패리티 힌트 값 엑셀 합계용)      |
+  |                                                                              |
+  |   [ 💥 디스크 2 파손 시 복원 작동 ]                                          |
+  |     - 1번줄의 분실된 Data B = Data A ⊕ Data C ⊕ P 1 으로 즉각 연산 부활!     |
+  |     - 3번줄의 분실된 P 3 패리티값은? 안중요해걍 지우고 A ⊕ H ⊕ I 다시 쓰면됨!|
+  |                                                                              |
+  |   * 효과: 누구 하나 패리티 작성 전담을 강요받지 않으므로 I/O 병단 체증 소멸! |
+  +------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 그림에서 보면 맨 마지막의 패리티 블록(`[ P ]`) 열매 배치가 세로 일렬로 내려가지 않고, 대각선 파도 타기 형태로 4 → 3 → 2 → 1번 디스크로 계속 위치를 엇갈리며 순환(Rotate) 저장되는 것을 알 수 있다. 이 기하학적 엇갈림 구조 덕에 다양한 위치에서 무작위 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다발의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random [Write Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))가 들어와도, 이 디스크를 썼다가 저 디스크를 썼다가 IO를 산개시켜버리므로 특정 단 한 부분 디스크의 스핀들 축만 모터가 불타며 부하 병목에 걸리는(Spindle Contention) 비극(앞장에서 본 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명타)을 원천 차단시켰다. 디스크 1개가 터지더라도 동일한 XOR 복원 수학을 구동해 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 살려낸다.
+**[다이어그램 해설]** 그림에서 보면 맨 마지막의 패리티 블록(`[ P ]`) 열매 배치가 세로 일렬로 내려가지 않고, 대각선 파도 타기 형태로 4 -> 3 -> 2 -> 1번 디스크로 계속 위치를 엇갈리며 순환(Rotate) 저장되는 것을 알 수 있다. 이 기하학적 엇갈림 구조 덕에 다양한 위치에서 무작위 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다발의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random [Write Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))가 들어와도, 이 디스크를 썼다가 저 디스크를 썼다가 IO를 산개시켜버리므로 특정 단 한 부분 디스크의 스핀들 축만 모터가 불타며 부하 병목에 걸리는(Spindle Contention) 비극(앞장에서 본 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명타)을 원천 차단시켰다. 디스크 1개가 터지더라도 동일한 XOR 복원 수학을 구동해 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 살려낸다.
 
 - **📢 섹션 요약 비유**: 이 혁명적인 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 배치는 식당에서 설거지(패리티 수식 계산 잡일)라는 고통스러운 임무를 막내 1명만 죽어라 시켰다가 막내가 퇴사해버린([RAID 4](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/486_raid_4_dedicated_parity/) 체증) 실패를 반성하고, 전 직원이 요일마다 번갈아 가며 1/N씩 설거지 당번표를 엇갈려 차는 엄청나게 공평하고 병목 없고 건강한 식당 주방 로테이션 구조와 같습니다!
 
@@ -91,23 +91,23 @@ tags = ["studynote-operating-system"]
 바로 물리적 하드용량의 뻥튀기 비대화와 그에 따른 <strong>URE (Unrecoverable Read Error - <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 불가능 랜덤 에러 요율)</strong> 의 반란이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 대용량 HDD 시대, RAID 5의 무덤 재건축 (Rebuilding) 충격                 │
-  ├─────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                         │
-  │   [ 10년 전 (1TB HDD 8장 RAID 5 환경) ]                                                 │
-  │     1. 고장! ──▶ 2. 핫스왑 디스크 즉각 꼽음 ──▶ 3. 5시간 만에 전체 연산 1TB 리빌딩 완료 │
-  │        (남은 디스크가 견디는 물리적 수명 스트레스가 적어서 버텨줌! 오케이)              │
-  │                                                                                         │
-  │   [ 현재 (20TB 엔터프라이즈 HDD 8장 RAID 5 환경 설계) ]                                 │
-  │     1. 디스크 1장 픽 쓰러짐 (당장 데이터 손실은 없음. 휴 다행..)                        │
-  │     2. 담당자 땀 뻘뻘 흘리며 새 20TB 디스크 박아넣고 리빌딩 코맨드 가동                 │
-  │     3. 미친 듯한 읽기 CPU 부하 연산 개시 ──▶ 볼륨이 워낙 거대해 무려 일주일 넘게 돌림!  │
-  │     4. 💥 일주일 내내 가혹한 I/O 스트레스를 뚜드려 맞던 옆자리 '정상' 디스크가          │
-  │        수면부족(Mechanical Wear) 부하를 못견디고 툭 하고 URE 베드섹터 띄움 (추가 사망)  │
-  │     5. ☠️ RAID 5 어레이에서 2개가 죽었다? = 무결성 역산 소스코드 파괴 사망.             │
-  │        20TB 8장의 전체 데이터 영.원.히 증발 소거 퍼펑 아수라장.                         │
-  └─────────────────────────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------------------------+
+  |                 대용량 HDD 시대, RAID 5의 무덤 재건축 (Rebuilding) 충격                 |
+  +-----------------------------------------------------------------------------------------+
+  |                                                                                         |
+  |   [ 10년 전 (1TB HDD 8장 RAID 5 환경) ]                                                 |
+  |     1. 고장! ---> 2. 핫스왑 디스크 즉각 꼽음 ---> 3. 5시간 만에 전체 연산 1TB 리빌딩 완료 |
+  |        (남은 디스크가 견디는 물리적 수명 스트레스가 적어서 버텨줌! 오케이)              |
+  |                                                                                         |
+  |   [ 현재 (20TB 엔터프라이즈 HDD 8장 RAID 5 환경 설계) ]                                 |
+  |     1. 디스크 1장 픽 쓰러짐 (당장 데이터 손실은 없음. 휴 다행..)                        |
+  |     2. 담당자 땀 뻘뻘 흘리며 새 20TB 디스크 박아넣고 리빌딩 코맨드 가동                 |
+  |     3. 미친 듯한 읽기 CPU 부하 연산 개시 ---> 볼륨이 워낙 거대해 무려 일주일 넘게 돌림!  |
+  |     4. 💥 일주일 내내 가혹한 I/O 스트레스를 뚜드려 맞던 옆자리 '정상' 디스크가          |
+  |        수면부족(Mechanical Wear) 부하를 못견디고 툭 하고 URE 베드섹터 띄움 (추가 사망)  |
+  |     5. ☠️ RAID 5 어레이에서 2개가 죽었다? = 무결성 역산 소스코드 파괴 사망.             |
+  |        20TB 8장의 전체 데이터 영.원.히 증발 소거 퍼펑 아수라장.                         |
+  +-----------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단일 드라이브 용량이 16TB, 20TB 이상으로 커진 현대 구조체에서 기계의 속도 자체는 늘어나지 않았기에, 리빌딩 (살아남은 디스크 전부의 끝단 구석까지 풀 트래시 읽고 긁어내서 XOR 수학 계산하기) 소요 시간은 수십 시간을 넘어 며칠이 소요된다. 제조사가 보증하는 하드의 에러 방어선 URE 스펙은 통상 `10^14 비트(약 12.5TB)` 긁을 때 운 나쁘게 1비트쯤 읽기 실패 삑사리가 날 수 있다고 선언하는데, 20TB 꽉 막힌 거대 리빌딩을 돌리느라 어장 전체를 수일간 풀파워로 긁다 보면 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계법칙 상 매우 높은 리스크로 남아있는 디스크 중 한 개의 무작위 소자가 돌연사해 치명적 2차 폭발 사고가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 거의 명백하게 발동하게 되는 비극([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 재앙 한계점)이 터진다!
@@ -153,12 +153,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
-    │
-    ▼
+    |
+    v
 [RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)]
-    │
-    ├──▶ [RAID 6 (분산 이중 패리티)]
-    └──▶ [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
+    |
+    +---> [RAID 6 (분산 이중 패리티)]
+    +---> [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -175,7 +175,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 487 / 800
 
-← **이전**: [486. RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/486_raid_4_dedicated_parity/)
-**다음**: [488. RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) →
+<- **이전**: [486. RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/486_raid_4_dedicated_parity/)
+**다음**: [488. RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) ->
 
 ---

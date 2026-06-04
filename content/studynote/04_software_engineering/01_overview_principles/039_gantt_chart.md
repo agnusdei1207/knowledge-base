@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 간트 차트 기본 구조:
 
 작업(Task)    3월1일  3월8일  3월15일  3월22일  3월29일
-──────────────────────────────────────────────────────
+------------------------------------------------------
 요구사항 분석  [====]
 시스템 설계          [======]
 DB 설계              [====]
@@ -224,7 +224,7 @@ GitHub Copilot + 프로젝트 관리 통합
 
 **진행 상황**: 39 / 973
 
-← **이전**: [038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/038_pert/)
-**다음**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/) →
+<- **이전**: [038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/038_pert/)
+**다음**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/) ->
 
 ---

@@ -21,20 +21,20 @@ tags = ["studynote-dataengineering"]
 ML에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 '유사도'를 수치화하려면 거리 함수(Distance [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 필요하다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 유클리드를 쓰느냐 맨해튼을 쓰느냐에 따라 K-NN의 이웃이 달라지고, K-Means의 클러스터 형태가 바뀐다.
 
 ```text
-┌───────────────────────────────────────────────┐
-│    유클리드 vs 맨해튼 거리 시각화              │
-├───────────────────────────────────────────────┤
-│          (B)                                  │
-│           *                                   │
-│          /|                                   │
-│   Euclid/ | Manhattan                         │
-│   (직선)/ | (격자: 가로+세로)                  │
-│        /  |                                   │
-│   (A) *───┘                                   │
-│                                               │
-│  Euclid  = √((x2-x1)² + (y2-y1)²)           │
-│  Manhattan = |x2-x1| + |y2-y1|               │
-└───────────────────────────────────────────────┘
++-----------------------------------------------+
+|    유클리드 vs 맨해튼 거리 시각화              |
++-----------------------------------------------+
+|          (B)                                  |
+|           *                                   |
+|          /|                                   |
+|   Euclid/ | Manhattan                         |
+|   (직선)/ | (격자: 가로+세로)                  |
+|        /  |                                   |
+|   (A) *---+                                   |
+|                                               |
+|  Euclid  = √((x2-x1)^ + (y2-y1)^)           |
+|  Manhattan = |x2-x1| + |y2-y1|               |
++-----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 유클리드는 새가 하늘을 직선으로 날아가는 거리, 맨해튼은 택시가 도시 격자 도로를 따라 꺾어가는 거리다.
@@ -49,9 +49,9 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 
 | $p$ 값 | 이름 | 등고선 형태 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 |
 |:---|:---|:---|:---|
-| $p=1$ | 맨해튼 (L1) | 다이아몬드(◇) | **절대값 → 상대적으로 작음** |
-| $p=2$ | 유클리드 (L2) | 원(○) | **제곱 → 크게 증폭** |
-| $p→∞$ | 체비셰프 (L∞) | 정사각형(□) | 최대 차이만 반영 |
+| $p=1$ | 맨해튼 (L1) | 다이아몬드(◇) | **절대값 -> 상대적으로 작음** |
+| $p=2$ | 유클리드 (L2) | 원(○) | **제곱 -> 크게 증폭** |
+| $p->∞$ | 체비셰프 (L∞) | 정사각형(□) | 최대 차이만 반영 |
 
 ### [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감도 메커니즘
 
@@ -66,7 +66,7 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 | 비교 항목 | 유클리드 (L2) | 맨해튼 (L1) |
 |:---|:---|:---|
 | **기하학** | 최단 직선 | 격자형 이동 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong> | 제곱 → 매우 민감 | 절대값 → 상대적 강건 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong> | 제곱 -> 매우 민감 | 절대값 -> 상대적 강건 |
 | **차원의 저주** | 더 취약 | 고차원에서 구별력 유지 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 연결</strong> | Ridge (L2 [Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) | [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) (L1 [Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) |
 | **K-Means** | 표준 K-Means | K-Medians |
@@ -77,13 +77,13 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 선택 기준
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성</strong>: 연속·물리적 거리 → 유클리드 / 이산·독립 차원 → 맨해튼
-2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong>: [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 다수 → 맨해튼 (L1이 Robust)
-3. **고차원**: 차원 > 100 → 맨해튼 또는 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 검토
-4. **전제**: 두 거리 모두 **단위에 민감** → 표준화(StandardScaler) 또는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(MinMaxScaler) 필수
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성</strong>: 연속·물리적 거리 -> 유클리드 / 이산·독립 차원 -> 맨해튼
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong>: [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 다수 -> 맨해튼 (L1이 Robust)
+3. **고차원**: 차원 > 100 -> 맨해튼 또는 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 검토
+4. **전제**: 두 거리 모두 **단위에 민감** -> 표준화(StandardScaler) 또는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(MinMaxScaler) 필수
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 없이 거리 계산</strong>: 키(cm)와 체중(kg) 같은 이질 단위를 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 없이 유클리드 거리로 계산 → 큰 단위 변수가 거리를 지배.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 없이 거리 계산</strong>: 키(cm)와 체중(kg) 같은 이질 단위를 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 없이 유클리드 거리로 계산 -> 큰 단위 변수가 거리를 지배.
 
 ---
 
@@ -99,7 +99,7 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 |:---|:---|
 | **민코프스키 거리** | L1·L2를 일반화하는 상위 개념 ($p$ 파라미터) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/">K-NN</a></strong> | 거리 함수 선택이 이웃 결정에 직접 영향 |
-| **K-Means / K-Medians** | L2 → K-Means, L1 → K-Medians |
+| **K-Means / K-Medians** | L2 -> K-Means, L1 -> K-Medians |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a> (L1) / Ridge (L2)</strong> | 각각 맨해튼·유클리드 노름 기반 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 | **차원의 저주** | 고차원에서 거리 간 격차가 축소되는 현상 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/">코사인 유사도</a></strong> | 방향 기반 유사도, 벡터 크기 무시 |
@@ -108,17 +108,17 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 
 ```text
 [유클리드 거리 (피타고라스, BC) — 2차원 직선 거리]
-    │
-    ▼
+    |
+    v
 [민코프스키 거리 (19C) — p-노름 일반화]
-    │
-    ▼
+    |
+    v
 [맨해튼 거리 (Taxi Cab) — L1 노름, 이산 공간]
-    │
-    ▼
+    |
+    v
 [코사인 유사도·마할라노비스 — 방향·공분산 고려]
-    │
-    ▼
+    |
+    v
 [현재: Learned Distance (Metric Learning) — 신경망이 최적 거리 함수를 학습]
 ```
 
@@ -133,7 +133,7 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 
 **진행 상황**: 109 / 258
 
-← **이전**: [108. 지니 불순도 (Gini Impurity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)
-**다음**: [110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) →
+<- **이전**: [108. 지니 불순도 (Gini Impurity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)
+**다음**: [110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ->
 
 ---

@@ -19,16 +19,16 @@ tags = ["studynote-computer-architecture"]
 ## Ⅰ. 인코더 기본 구조
 
 ```
-2ⁿ → n 인코더 (2⁴ = 16 → 4):
+2ⁿ -> n 인코더 (2⁴ = 16 -> 4):
 
-입력 (16개 중 1개 활성) → 출력 (4비트)
-  0000 0000 0001 → 0000
-  0000 0000 0010 → 0001
-  0000 0000 0100 → 0010
+입력 (16개 중 1개 활성) -> 출력 (4비트)
+  0000 0000 0001 -> 0000
+  0000 0000 0010 -> 0001
+  0000 0000 0100 -> 0010
   ...
-  1000 0000 0000 0000 → 1111
+  1000 0000 0000 0000 -> 1111
 
-8 → 3 인코더 진리표 예시:
+8 -> 3 인코더 진리표 예시:
   I7 I6 I5 I4 I3 I2 I1 I0 | Y2 Y1 Y0
    0  0  0  0  0  0  0  1 |  0  0  0
    0  0  0  0  0  0  1  0 |  0  0  1
@@ -52,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 Priority Encoder:
   여러 입력 동시 활성 시 최고 우선순위만 처리
 
-74LS148 (8→3 우선순위 인코더) 동작:
+74LS148 (8->3 우선순위 인코더) 동작:
 
   입력 I7=1, I3=1 동시 활성:
     -> I7 우선 처리 -> 출력 = 111
@@ -77,7 +77,7 @@ GS (Group Select): 유효 입력 존재 표시
 ```
 비교:
   구분         인코더(Encoder)        디코더(Decoder)
-  방향         n → 2ⁿ 비트 입력      n비트 → 2ⁿ 출력
+  방향         n -> 2ⁿ 비트 입력      n비트 -> 2ⁿ 출력
   입력 수      2ⁿ개 입력선           n비트 코드
   출력 수      n비트 코드            2ⁿ개 출력선
   활성 입력    1개만                 n비트 코드 (전체)
@@ -91,7 +91,7 @@ GS (Group Select): 유효 입력 존재 표시
   키보드 --[인코더]--> 이진 코드 --[디코더]--> LED 표시
 ```
 
-> 📢 **섹션 요약 비유**: 인코더는 한국어→영어 번역기, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 영어→한국어 번역기 — 서로 반대 방향 변환기.
+> 📢 **섹션 요약 비유**: 인코더는 한국어->영어 번역기, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 영어->한국어 번역기 — 서로 반대 방향 변환기.
 
 ---
 
@@ -101,8 +101,8 @@ GS (Group Select): 유효 입력 존재 표시
 CPU 인터럽트 처리 (8259A PIC 구조):
 
   장치들         우선순위 인코더      CPU
-  IRQ0 (타이머)  ─────────────────>
-  IRQ1 (키보드)  ──> 8259A PIC ──>  INT 신호
+  IRQ0 (타이머)  ----------------->
+  IRQ1 (키보드)  --> 8259A PIC -->  INT 신호
   IRQ2 (계단식)       (우선순위       INTA 응답
   ...                 인코더 내장)
   IRQ7
@@ -127,15 +127,15 @@ CPU 인터럽트 처리 (8259A PIC 구조):
 아날로그 센서 데이터 디지털화:
 
   센서 출력    비교기(Comparator)   우선순위 인코더   MCU
-  0.0~0.5V  -> C0 활성화 ──────────────────────> 000
-  0.5~1.0V  -> C1 활성화 ──> 8→3 인코더 ──────> 001
+  0.0~0.5V  -> C0 활성화 ----------------------> 000
+  0.5~1.0V  -> C1 활성화 --> 8->3 인코더 ------> 001
   ...              (Flash ADC 구조)               ...
-  3.5~4.0V  -> C7 활성화 ──────────────────────> 111
+  3.5~4.0V  -> C7 활성화 ----------------------> 111
 
 Flash ADC 특징:
   - 2ⁿ-1개 비교기 사용
   - 단일 클럭 사이클로 변환 (초고속)
-  - 8비트: 255개 비교기 + 8→256 디코더 + 우선순위 인코더
+  - 8비트: 255개 비교기 + 8->256 디코더 + 우선순위 인코더
   - 단점: 하드웨어 비용 매우 높음
 
 활용: 오실로스코프, 레이더, 고속 통신 수신기
@@ -150,10 +150,10 @@ Flash ADC 특징:
 ```
 인코더 (Encoder)
 +-- 기본 유형
-|   +-- 일반 인코더 (2ⁿ → n)
+|   +-- 일반 인코더 (2ⁿ -> n)
 |   +-- 우선순위 인코더 (Priority Encoder)
 +-- 역관계
-|   +-- 디코더 (Decoder, n → 2ⁿ)
+|   +-- 디코더 (Decoder, n -> 2ⁿ)
 +-- 응용
 |   +-- 인터럽트 컨트롤러 (8259A PIC)
 |   +-- Flash ADC (고속 A/D 변환)
@@ -204,7 +204,7 @@ IoT 센서 인터페이스
 
 **진행 상황**: 40 / 803
 
-← **이전**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
-**다음**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) →
+<- **이전**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
+**다음**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) ->
 
 ---

@@ -217,7 +217,7 @@ EU AI 시스템 규제 강화
 
 **진행 상황**: 248 / 262
 
-← **이전**: [035. 오픈데이터 원칙 — FAIR](/knowledge-base/studynote/16_bigdata/13_intro_trends/247_open_data_fair/)
-**다음**: [037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/13_intro_trends/249_national_data_policy/) →
+<- **이전**: [035. 오픈데이터 원칙 — FAIR](/knowledge-base/studynote/16_bigdata/13_intro_trends/247_open_data_fair/)
+**다음**: [037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/13_intro_trends/249_national_data_policy/) ->
 
 ---

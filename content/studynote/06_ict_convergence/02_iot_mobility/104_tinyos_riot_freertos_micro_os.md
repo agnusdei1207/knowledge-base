@@ -36,23 +36,23 @@ tags = ["ict_convergence"]
 | **FreeRTOS** | [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 <strong>엄격한 시간 제약(Hard Real-Time)</strong>이 필요한 상업용 임베디드 장비 제어에 특화됨. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링           │
-├──────────────────────────────────────────────────────────────┤
-│ [ Active State (활성 상태) ]        [ Deep Sleep (대기 상태) ] │
-│                                                              │
-│      인터럽트 발생 (센서 감지) ──▶ 깨어남 (Wake-up)            │
-│                 │                      │                     │
-│                 ▼                      ▼                     │
-│      작업(Task) 큐에 등록 ──▶ CPU 실행 (데이터 전송)          │
-│                 │                      │                     │
-│                 └─────────── 작업 완료 ─┘                     │
-│                                        │                     │
-│                                        ▼                     │
-│                                 다시 수면 모드로 진입           │
-│ ──────────────────────────────────────────────────────────── │
-│ 배터리 소모: (High) 10mA       배터리 소모: (Low) 1μA 미만    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링           |
++--------------------------------------------------------------+
+| [ Active State (활성 상태) ]        [ Deep Sleep (대기 상태) ] |
+|                                                              |
+|      인터럽트 발생 (센서 감지) ---> 깨어남 (Wake-up)            |
+|                 |                      |                     |
+|                 v                      v                     |
+|      작업(Task) 큐에 등록 ---> CPU 실행 (데이터 전송)          |
+|                 |                      |                     |
+|                 +----------- 작업 완료 -+                     |
+|                                        |                     |
+|                                        v                     |
+|                                 다시 수면 모드로 진입           |
+| ------------------------------------------------------------ |
+| 배터리 소모: (High) 10mA       배터리 소모: (Low) 1μA 미만    |
++--------------------------------------------------------------+
 ```
 이 그림은 TinyOS 등에서 주로 사용하는 전력 관리 메커니즘을 보여준다. 시스템은 대부분의 시간을 초저전력 상태(Deep Sleep)로 보내며, 외부 환경의 변화(이벤트)가 감지되는 찰나의 순간에만 CPU를 가동해 작업을 처리하고 즉시 다시 잠든다.
 
@@ -115,18 +115,18 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ```text
 범용 OS (Linux, Windows) · 무거운 자원 요구
-    │
-    ▼
+    |
+    v
 임베디드 OS (Embedded Linux) · 커스텀 가능, 여전히 무거움
-    │
-    ▼ (본 문서)
+    |
+    v (본 문서)
 초소형 운영체제 (Micro OS) · 수 KB 램, 초저전력 구동
-    │ (분화)
-    ├─▶ TinyOS (이벤트 기반 전력 최적화)
-    ├─▶ RIOT (IoT 친화적 POSIX 지원)
-    └─▶ FreeRTOS (엄격한 실시간성 보장)
-    │
-    ▼
+    | (분화)
+    +--> TinyOS (이벤트 기반 전력 최적화)
+    +--> RIOT (IoT 친화적 POSIX 지원)
+    +--> FreeRTOS (엄격한 실시간성 보장)
+    |
+    v
 엣지 AI OS (TinyML 지원) · 초소형 기기 내 직접 AI 추론
 ```
 이 흐름도는 무거운 시스템 소프트웨어가 기기의 소형화에 맞춰 극도로 경량화되고, 다시 특수 목적에 맞게 분화 및 지능화되는 진화 과정을 보여준다.
@@ -142,7 +142,7 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 **진행 상황**: 104 / 552
 
-← **이전**: [센서 네트워크 (WSN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)
-**다음**: [105. 엣지 컴퓨팅 (Edge Computing) - 클라우드로 모든 데이터를 보내지 않고 디바이스 주변(엣지)에서 데이터를 실시간](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/105_edge_computing_zero_latency/) →
+<- **이전**: [센서 네트워크 (WSN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)
+**다음**: [105. 엣지 컴퓨팅 (Edge Computing) - 클라우드로 모든 데이터를 보내지 않고 디바이스 주변(엣지)에서 데이터를 실시간](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/105_edge_computing_zero_latency/) ->
 
 ---

@@ -22,7 +22,7 @@ tags = ["DID", "DeSoc", "NFT", "SBT", "Web3 identity", "non-transferable", "soul
 ### 1.1 배경과 제안
 
 - 2022년 Vitalik Buterin, E. Glen Weyl, Puja Ohlhaver의 논문 "Decentralized Society: Finding Web3's Soul"에서 제안
-- 기존 NFT의 문제: 모든 가치가 시장 가격(양도 가능성)에만 집중 → 사회적 신뢰, 자격 증명 표현 불가
+- 기존 NFT의 문제: 모든 가치가 시장 가격(양도 가능성)에만 집중 -> 사회적 신뢰, 자격 증명 표현 불가
 
 ### 1.2 SBT vs NFT 비교
 
@@ -43,20 +43,20 @@ tags = ["DID", "DeSoc", "NFT", "SBT", "Web3 identity", "non-transferable", "soul
 
 ```
 Soul (지갑/DID)
-├── 학력 SBT (발행: 대학)
-├── 직업 이력 SBT (발행: 회사)
-├── 의료 기록 SBT (발행: 병원)
-├── DAO 투표권 SBT (발행: DAO)
-└── 범죄 기록 SBT (발행: 법원)
++-- 학력 SBT (발행: 대학)
++-- 직업 이력 SBT (발행: 회사)
++-- 의료 기록 SBT (발행: 병원)
++-- DAO 투표권 SBT (발행: DAO)
++-- 범죄 기록 SBT (발행: 법원)
 ```
 
 각 SBT는 발행자(Issuer)와 수신자(Soul) 모두 서명.
 
 ### 2.2 DeSoc 시나리오
 
-- **담보 없는 대출**: Soul이 보유한 커뮤니티 SBT → 신용 평가 대체
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 투표 조작 방지</strong>: SBT 기반 고유 신원 → [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방지
-- <strong>학력 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: 대학이 발행한 학위 SBT → 위조 불가
+- **담보 없는 대출**: Soul이 보유한 커뮤니티 SBT -> 신용 평가 대체
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 투표 조작 방지</strong>: SBT 기반 고유 신원 -> [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방지
+- <strong>학력 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: 대학이 발행한 학위 SBT -> 위조 불가
 
 📢 **섹션 요약 비유**: Soul은 디지털 이력서 가방 — 학교, 회사, 병원이 각자 도장(SBT)을 찍어주는데 다른 사람에게 못 넘긴다.
 
@@ -75,15 +75,15 @@ interface IERC5192 {
 }
 ```
 
-ERC-721 기반에 `locked()` 함수 추가 → transferFrom 시 locked=true면 revert.
+ERC-721 기반에 `locked()` 함수 추가 -> transferFrom 시 locked=true면 revert.
 
 ### 3.2 발행 흐름
 
 ```
-발행자 → [서명 요청] → Soul 소유자
-                              ↓
-                      수락 서명 → 온체인 민팅
-                              ↓
+발행자 -> [서명 요청] -> Soul 소유자
+                              v
+                      수락 서명 -> 온체인 민팅
+                              v
                       Soul 지갑에 귀속 (양도 불가)
 ```
 
@@ -95,22 +95,22 @@ ERC-721 기반에 `locked()` 함수 추가 → transferFrom 시 locked=true면 r
 
 ### 4.1 온체인 공개 문제
 
-SBT가 퍼블릭 블록체인에 기록되면 누구나 해당 Soul의 모든 SBT를 볼 수 있다 → 프라이버시 침해.
+SBT가 퍼블릭 블록체인에 기록되면 누구나 해당 Soul의 모든 SBT를 볼 수 있다 -> 프라이버시 침해.
 
 ### 4.2 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 기반 프라이버시 SBT
 
 ```
 증명 시나리오:
-"나는 대학 졸업자다" → SBT 내용 공개 X
+"나는 대학 졸업자다" -> SBT 내용 공개 X
 ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
-         ↓
+         v
 검증자: 졸업 여부만 확인, 학교 이름·성적 모름
 ```
 
 ### 4.3 망각권(Right to Be Forgotten) 문제
 
 - 블록체인의 불변성 vs [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 망각권 충돌
-- 해결책: 오프체인에 SBT [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 + 온체인에 해시만 → 오프체인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불가 처리
+- 해결책: 오프체인에 SBT [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 + 온체인에 해시만 -> 오프체인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불가 처리
 
 📢 **섹션 요약 비유**: [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) SBT는 "나이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 시 생년월일 전체가 아닌 "성인 여부만" 보여주는 것 — 필요한 사실만 증명.
 
@@ -122,7 +122,7 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 | 프로젝트          | 내용                                     |
 |-----------------|------------------------------------------|
-| Gitcoin Passport | 온체인 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 시빌 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 투표        |
+| Gitcoin Passport | 온체인 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 시빌 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 투표        |
 | Binance BAB     | KYC 완료 증명 SBT (최초 대형 SBT 사례)  |
 | Lens [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)   | 팔로우, 포스트 등 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) SBT 기반  |
 
@@ -140,18 +140,18 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 ```
 SBT (Soulbound Token)
-├── 기반 기술
-│   ├── ERC-721 + EIP-5192
-│   ├── DID (Decentralized Identity)
-│   └── ZKP (Zero-Knowledge Proof)
-├── 활용
-│   ├── 학력/이력 증명
-│   ├── DAO 신원 증명
-│   └── 탈중앙 신용 평가
-└── 과제
-    ├── 프라이버시 (ZKP 결합)
-    ├── 망각권 (GDPR 충돌)
-    └── 지갑 복구
++-- 기반 기술
+|   +-- ERC-721 + EIP-5192
+|   +-- DID (Decentralized Identity)
+|   +-- ZKP (Zero-Knowledge Proof)
++-- 활용
+|   +-- 학력/이력 증명
+|   +-- DAO 신원 증명
+|   +-- 탈중앙 신용 평가
++-- 과제
+    +-- 프라이버시 (ZKP 결합)
+    +-- 망각권 (GDPR 충돌)
+    +-- 지갑 복구
 ```
 
 ---
@@ -160,17 +160,17 @@ SBT (Soulbound Token)
 
 ```
 NFT (2017~) — 양도 가능 자산 표현
-     │  신원·자격 표현 필요
-     ▼
+     |  신원·자격 표현 필요
+     v
 SBT 논문 — Buterin et al. (2022)
-     │  표준화 진행
-     ▼
+     |  표준화 진행
+     v
 EIP-5192 (최소 표준, 2022)
-     │  프라이버시 강화 요구
-     ▼
+     |  프라이버시 강화 요구
+     v
 ZKP SBT / 오프체인 SBT (현재 연구)
-     │  DeSoc 인프라
-     ▼
+     |  DeSoc 인프라
+     v
 Web3 탈중앙 신원 생태계 (미래)
 ```
 
@@ -190,7 +190,7 @@ Web3 탈중앙 신원 생태계 (미래)
 
 **진행 상황**: 50 / 552
 
-← **이전**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/knowledge-base/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/)
-**다음**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/) →
+<- **이전**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/knowledge-base/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/)
+**다음**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/) ->
 
 ---

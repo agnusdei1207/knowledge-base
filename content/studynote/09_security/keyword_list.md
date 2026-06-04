@@ -13,7 +13,7 @@ tags = ["studynote-security"]
 # 정보보안 (Information [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 키워드 목록
 
 정보통신기술사·컴퓨터응용시스템기술사 대비 보안 전 영역 기술사 수준 핵심 키워드
-> ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/">위협 모델링</a> → 아키텍처 설계 → 법적·제도적 대응</strong>까지 통합 서술을 요구함
+> ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/">위협 모델링</a> -> 아키텍처 설계 -> 법적·제도적 대응</strong>까지 통합 서술을 요구함
 
 ---
 
@@ -148,7 +148,7 @@ tags = ["studynote-security"]
 117. [확장 유클리드 알고리즘](/knowledge-base/studynote/09_security/03_network_security/117_extended_euclidean_algorithm/) — [모듈](/knowledge-base/studynote/09_security/03_network_security/117_extended_euclidean_algorithm/)로 역수 계산
 118. [CRT](/knowledge-base/studynote/09_security/03_network_security/118_crt_rsa/) (Chinese Remainder Theorem) — [RSA](/knowledge-base/studynote/09_security/03_network_security/118_crt_rsa/) 복호화 최적화
 119. [ECC](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)) — [타원곡선](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/) 이산 [로그](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/) 문제
-120. [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) — y² = x³ + ax + b 꼴의 곡선
+120. [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) — y^ = x³ + ax + b 꼴의 곡선
 121. [ECDLP](/knowledge-base/studynote/09_security/03_network_security/121_ecdlp/) (Elliptic Curve Discrete Log Problem) — [ECC](/knowledge-base/studynote/09_security/03_network_security/121_ecdlp/) 안전성 기반
 122. [secp256k1](/knowledge-base/studynote/09_security/03_network_security/122_secp256k1/) — Bitcoin에서 사용되는 곡선
 123. [P-256](/knowledge-base/studynote/09_security/03_network_security/123_p_256/) ([secp256r1](/knowledge-base/studynote/09_security/03_network_security/123_p_256/)) — NIST 권장 곡선
@@ -179,7 +179,7 @@ tags = ["studynote-security"]
 148. FALCON — 격자 기반 서명, 짧은 서명
 149. [SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+ — 해시 기반 서명, 양자 내성
 150. BIKE / HQC / Classic McEliece — 코드 기반 [PQC](/knowledge-base/studynote/09_security/03_network_security/150_code_based_pqc_bike_hqc/)
-151. [양자 컴퓨팅](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 위협 — Shor [알고리즘](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) ([RSA](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/)/[ECC](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 깨뜨림), [Grover](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) ([AES](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 128→64)
+151. [양자 컴퓨팅](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 위협 — Shor [알고리즘](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) ([RSA](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/)/[ECC](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 깨뜨림), [Grover](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) ([AES](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) 128->64)
 152. "Harvest Now, Decrypt Later" — 양자 위협 대응 [전략](/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/)
 153. .[crypto agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) — [알고리즘](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) 교체 능력, [PQC](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) 이전 준비
 154. 키 관리 생명주기 — [생성](/knowledge-base/studynote/09_security/03_network_security/154_key_management_lifecycle/)/분배/저장/사용/순환/폐기
@@ -213,7 +213,7 @@ tags = ["studynote-security"]
 177. [DV](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/) ([Domain Validation](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)) [인증](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)서 — [도메인](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/) [검증](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)만
 178. [OV](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/) ([Organization Validation](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/)) — 조직 [검증](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/)
 179. Self-signed [인증](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/)서 — 자체 발급 [인증](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/)서, 내부용
-180. [인증서 체인 검증](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) — Root [CA](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) → Intermediate [CA](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) → End Entity
+180. [인증서 체인 검증](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) — Root [CA](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) -> Intermediate [CA](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) -> End Entity
 181. 브릿지 [CA](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/) ([Bridge CA](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/)) — 교차 [인증](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/)
 182. [인증서 핀닝](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/) —이지 [인증](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)서 목록 하드코딩
 183. [HPKP](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) ([HTTP](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) Public [Key](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) Pinning) — deprecated, 동적 핀닝 권장
@@ -310,7 +310,7 @@ tags = ["studynote-security"]
 ## 6. [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 심화 — 55개
 
 266. MITM (Man-in-the-Middle) 공격 — 통신 경로 가로채기
-267. [SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/) — [HTTPS](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/)→[HTTP](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/) 강제 다운그레이드
+267. [SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/) — [HTTPS](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/)->[HTTP](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/) 강제 다운그레이드
 268. [HSTS](/knowledge-base/studynote/09_security/03_network_security/268_hsts/) ([HTTP](/knowledge-base/studynote/09_security/03_network_security/268_hsts/) Strict Transport [Security](/knowledge-base/studynote/09_security/03_network_security/268_hsts/)) — [HTTPS](/knowledge-base/studynote/09_security/03_network_security/268_hsts/) 강제 사용
 269. [HTTP](/knowledge-base/studynote/09_security/03_network_security/269_hpkp_deprecated/) Public [Key](/knowledge-base/studynote/09_security/03_network_security/269_hpkp_deprecated/) Pinning — deprecated (2018)
 270. [Cookie Hijacking](/knowledge-base/studynote/09_security/05_web_app_security/270_cookie_hijacking/) — [세션](/knowledge-base/studynote/09_security/05_web_app_security/270_cookie_hijacking/) [쿠키](/knowledge-base/studynote/09_security/05_web_app_security/270_cookie_hijacking/) 탈취
@@ -547,7 +547,7 @@ tags = ["studynote-security"]
 481. X-Frame-Options — frame [embedding](/knowledge-base/studynote/09_security/05_web_app_security/481_x_frame_options/) 차단
 482. [frame-ancestors](/knowledge-base/studynote/09_security/05_web_app_security/482_frame_ancestors/) — [CSP](/knowledge-base/studynote/09_security/05_web_app_security/482_frame_ancestors/) [버전](/knowledge-base/studynote/09_security/05_web_app_security/482_frame_ancestors/)의 [frame-ancestors](/knowledge-base/studynote/09_security/05_web_app_security/482_frame_ancestors/)
 483. [CORS Preflight](/knowledge-base/studynote/09_security/05_web_app_security/483_cors_preflight/) — OPTIONS 요청으로 사전 [검증](/knowledge-base/studynote/09_security/05_web_app_security/483_cors_preflight/)
-484. CORS 요청 흐름 — Origin 헤더 → 서버 허용/거부
+484. CORS 요청 흐름 — Origin 헤더 -> 서버 허용/거부
 485. [OWASP ZAP](/knowledge-base/studynote/09_security/05_web_app_security/485_owasp_zap/) — 웹 취약점 스캐너
 486. [Burp Suite](/knowledge-base/studynote/09_security/05_web_app_security/486_burp_suite/) — 웹 [프록시](/knowledge-base/studynote/09_security/05_web_app_security/486_burp_suite/),삼투 테스트 도구
 487. [SQLMap](/knowledge-base/studynote/09_security/05_web_app_security/487_sqlmap/) — SQL [인젝션](/knowledge-base/studynote/09_security/05_web_app_security/487_sqlmap/) 자동화 도구
@@ -733,7 +733,7 @@ tags = ["studynote-security"]
 652. [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) ([IR](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)) — NIST 6단계
 653. [IR](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/) 단계 — 준비/[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/)/[억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/)/[근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/)/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/)/[교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/653_ir_phases/)
 654. [IR](/knowledge-base/studynote/09_security/13_secops_ir_forensics/654_ir_preparation/) 준비 — 대응 계획, 팀 구성, 교육
-655. [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) — 모니터링/알람→초보 분석
+655. [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) — 모니터링/알람->초보 분석
 656. [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) ([Containment](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) — 단기([isolation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/))/장기(정상운영 복귀)
 657. [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) ([Eradication](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)) — 감염 원인 제거
 658. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) — 시스템 정상화, 운영 재개
@@ -1008,11 +1008,11 @@ tags = ["studynote-security"]
 902. Purdue 모델 — IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/902_purdue_model/) 네트워크 5단계분층
 903. Purdue 레벨 0~5 — Field/Level 1~2 ([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/903_purdue_levels/))/Level 3 ([DMZ](/knowledge-base/studynote/09_security/18_iot_ot_physical/903_purdue_levels/))/Level 4~5 (IT)
 904. [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) — 산업 사이버보안 표준
-905. [ISA](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/) 보안 레벨 — SL 0~4 (no [security](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/)→most secure)
+905. [ISA](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/) 보안 레벨 — SL 0~4 (no [security](/knowledge-base/studynote/09_security/18_iot_ot_physical/905_iec_62443_security_levels/)->most secure)
 906. [SL-CF](/knowledge-base/studynote/09_security/18_iot_ot_physical/906_sl_cf_capability/) ([Security Level Capability](/knowledge-base/studynote/09_security/18_iot_ot_physical/906_sl_cf_capability/)) — 시설 보안 수준
 907. [SL-TF](/knowledge-base/studynote/09_security/18_iot_ot_physical/907_sl_tf_target/) ([Security Level Target](/knowledge-base/studynote/09_security/18_iot_ot_physical/907_sl_tf_target/)) — 목표 보안 수준
 908. Zone/Conduit 모델 — 구역 분리+ conduits통제
-909. Zone 맵핑 — 자산 [분류](/knowledge-base/studynote/09_security/18_iot_ot_physical/909_zone_mapping/)→ [security](/knowledge-base/studynote/09_security/18_iot_ot_physical/909_zone_mapping/) level
+909. Zone 맵핑 — 자산 [분류](/knowledge-base/studynote/09_security/18_iot_ot_physical/909_zone_mapping/)-> [security](/knowledge-base/studynote/09_security/18_iot_ot_physical/909_zone_mapping/) level
 910. [NIST IR 8259](/knowledge-base/studynote/09_security/18_iot_ot_physical/910_nist_ir_8259/) — [IoT](/knowledge-base/studynote/09_security/18_iot_ot_physical/910_nist_ir_8259/) 보안기초
 911. [NIST IR 8259D](/knowledge-base/studynote/09_security/18_iot_ot_physical/911_nist_ir_8259d/) — [IoT](/knowledge-base/studynote/09_security/18_iot_ot_physical/911_nist_ir_8259d/) 제조 상arangement
 912. OWASP [IoT](/knowledge-base/studynote/09_security/18_iot_ot_physical/912_owasp_iot_top_10/) Top [10](/knowledge-base/studynote/09_security/18_iot_ot_physical/912_owasp_iot_top_10/) — 취약한 [펌웨어](/knowledge-base/studynote/09_security/18_iot_ot_physical/912_owasp_iot_top_10/)/기본 계정/불안전한 접구

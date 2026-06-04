@@ -40,20 +40,20 @@ tags = ["studynote-computer-architecture"]
 과거 알루미늄 배선 시절, 집적도가 높아져 선폭이 좁아지자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 발열 파괴가 일어났다. 파운드리 업계는 구리 다마신 공법을 도입해 GHz 시대를 열었으나, 10nm 노드 이하로 떨어지자 더 큰 절망벽에 부딪혔다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           나노 배선 폭 축소 시 구리 도체 병목 (Scattering) │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 과거: 충분히 넓은 도체 통로 ]    [ 10nm 이하: 좁아진 도체 통로 ]     │
-│   ┌─────────────────────┐       ┌─────────────┐            │
-│   │         (e-) ─▶     │       │ ◀ (e-) ─▶ │ (벽에 충돌)  │
-│   │  (e-) ─▶            │       │ ▼ ─▶ (e-)│ (산란 발생)  │
-│   └─────────────────────┘       └─────────────┘            │
-│   * 전자가 방해 없이 직진!       * 전자가 양옆 도체 벽에 계속 부딪힘!  │
-│                                                              │
-│  * 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,    │
-│    전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증. │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           나노 배선 폭 축소 시 구리 도체 병목 (Scattering) |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 과거: 충분히 넓은 도체 통로 ]    [ 10nm 이하: 좁아진 도체 통로 ]     |
+|   +---------------------+       +-------------+            |
+|   |         (e-) -->     |       | <- (e-) --> | (벽에 충돌)  |
+|   |  (e-) -->            |       | v --> (e-)| (산란 발생)  |
+|   +---------------------+       +-------------+            |
+|   * 전자가 방해 없이 직진!       * 전자가 양옆 도체 벽에 계속 부딪힘!  |
+|                                                              |
+|  * 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,    |
+|    전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증. |
++--------------------------------------------------------------+
 ```
 
 단면적($A$)이 줄어들면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)($R$)이 늘어난다는 옴의 법칙을 넘어, 양자역학적 전자 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) ([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 현상이 부활한 것이다. 자유 전자들이 앞으로 나아가지 못하고 좁은 구리 벽에 튕기며 열을 내는 바람에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)가 폭증하고 배선이 타버리는 물리적 병목이 발생했다.
@@ -121,17 +121,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [도체 이론 (자유 전자, Free Electron)]
-    │
-    ▼
+    |
+    v
 [구리 배선 (Copper Interconnect) — 다층 메탈]
-    │
-    ▼
+    |
+    v
 [나노 공정 스케일링 (전자 산란 / Scattering)]
-    │
-    ▼
+    |
+    v
 [신소재 적용 (코발트 Co / 루테늄 Ru)]
-    │
-    ▼
+    |
+    v
 [후면 전력망 BSPDN (Backside Power Delivery Network)]
 ```
 
@@ -149,7 +149,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 8 / 803
 
-← **이전**: [7. 인덕터 (Inductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)
-**다음**: [09. 반도체 (Semiconductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) →
+<- **이전**: [7. 인덕터 (Inductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)
+**다음**: [09. 반도체 (Semiconductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) ->
 
 ---

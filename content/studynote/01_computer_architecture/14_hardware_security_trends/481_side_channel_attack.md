@@ -26,23 +26,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 사이드 채널이 공식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 바깥에서 어떻게 비밀을 새게 만드는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Side-channel path: secret is hidden, but observables still move           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Secret key / secret data                                                   │
-│          │                                                                 │
-│          ▼                                                                 │
-│ Crypto / branch / memory access                                            │
-│          │                                                                 │
-│          ├─ execution time                                                 │
-│          ├─ power waveform                                                 │
-│          ├─ cache footprint                                                │
-│          └─ electromagnetic radiation                                      │
-│          ▼                                                                 │
-│ Measurement -> alignment -> statistics -> secret inference                 │
-│                                                                            │
-│ No API leak  ≠  No information leak                                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Side-channel path: secret is hidden, but observables still move           |
++----------------------------------------------------------------------------+
+| Secret key / secret data                                                   |
+|          |                                                                 |
+|          v                                                                 |
+| Crypto / branch / memory access                                            |
+|          |                                                                 |
+|          +- execution time                                                 |
+|          +- power waveform                                                 |
+|          +- cache footprint                                                |
+|          +- electromagnetic radiation                                      |
+|          v                                                                 |
+| Measurement -> alignment -> statistics -> secret inference                 |
+|                                                                            |
+| No API leak  ≠  No information leak                                        |
++----------------------------------------------------------------------------+
 ```
 
 결국 사이드 채널은 접근 제어를 정면으로 깨는 공격이 아니라, 시스템이 계산하면서 무심코 흘린 "그림자 정보"를 읽는 공격이다. 그래서 하드웨어 보안에서는 기능적 정답뿐 아니라, 그 정답을 계산하는 과정의 흔적까지 함께 설계해야 한다.
@@ -67,26 +67,26 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 비밀 값이 관측 신호로 바뀌고, 다시 통계 분석을 통해 비밀 추정으로 되돌아가는 전형적 누설 경로를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Leakage pipeline: tiny signal becomes useful after repetition             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Chosen input / trigger                                                     │
-│          │                                                                 │
-│          ▼                                                                 │
-│ Sensitive computation                                                      │
-│          │                                                                 │
-│          ├─ secret-dependent branch                                        │
-│          ├─ secret-dependent lookup                                        │
-│          └─ secret-dependent switching                                     │
-│          ▼                                                                 │
-│ Trace collection                                                           │
-│    ├─ time samples                                                         │
-│    ├─ power traces                                                         │
-│    ├─ cache hits                                                           │
-│    └─ electromagnetic traces                                               │
-│          ▼                                                                 │
-│ Alignment -> averaging -> correlation -> key / secret guess               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Leakage pipeline: tiny signal becomes useful after repetition             |
++----------------------------------------------------------------------------+
+| Chosen input / trigger                                                     |
+|          |                                                                 |
+|          v                                                                 |
+| Sensitive computation                                                      |
+|          |                                                                 |
+|          +- secret-dependent branch                                        |
+|          +- secret-dependent lookup                                        |
+|          +- secret-dependent switching                                     |
+|          v                                                                 |
+| Trace collection                                                           |
+|    +- time samples                                                         |
+|    +- power traces                                                         |
+|    +- cache hits                                                           |
+|    +- electromagnetic traces                                               |
+|          v                                                                 |
+| Alignment -> averaging -> correlation -> key / secret guess               |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 한 번의 측정이 아니라 "많은 측정의 평균화"에 있다. 한 번 보면 잡음뿐이지만, 수천~수백만 번 관측하면 비밀 비트가 미세하게 남긴 편향이 튀어나온다. 그래서 사이드 채널 방어는 단순 기능 테스트가 아니라, 반복 측정에도 유의미한 편향이 남지 않도록 구현을 설계하는 문제다.
@@ -164,18 +164,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 수학적 암호 안전성
-        │
-        ▼
+        |
+        v
 구현 수준 누설 발견
-        │
-        ├────────▶ 시간 차 · 전력 파형 · 전자기파
-        │
-        ▼
+        |
+        +---------> 시간 차 · 전력 파형 · 전자기파
+        |
+        v
 사이드 채널 공격 (Side-channel Attack)
-        │
-        ├────────▶ 상수 시간 구현 · 마스킹 · 차폐
-        │
-        └────────▶ 캐시 채널 · Transient Execution 분석
+        |
+        +---------> 상수 시간 구현 · 마스킹 · 차폐
+        |
+        +---------> 캐시 채널 · Transient Execution 분석
 ```
 
 이 흐름은 "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 안전한가"에서 "구현이 무엇을 흘리는가"로, 다시 "하드웨어 전체를 누설 관점에서 설계하는가"로 보안 초점이 확장된 과정을 보여 준다.
@@ -192,7 +192,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 481 / 803
 
-← **이전**: [480. Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)
-**다음**: [482. 멜트다운 (Meltdown)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) →
+<- **이전**: [480. Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)
+**다음**: [482. 멜트다운 (Meltdown)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ->
 
 ---

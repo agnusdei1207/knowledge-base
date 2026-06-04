@@ -71,13 +71,13 @@ KDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 Data Swamp
-   ↓
+   v
 정제 / 변환
-   ↓
+   v
 모델링
-   ↓
+   v
 평가
-   ↓
+   v
 비즈니스 가치
 ```
 
@@ -124,13 +124,13 @@ KDD와 CRISP-DM은 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```text
 Business Problem
-   ↓
+   v
 KDD / CRISP-DM
-   ↓
+   v
 Data Preparation
-   ↓
+   v
 Modeling / Evaluation
-   ↓
+   v
 Deployment
 ```
 
@@ -140,13 +140,13 @@ Deployment
 
 ```text
 데이터 정제
-   ↓
+   v
 KDD
-   ↓
+   v
 CRISP-DM
-   ↓
+   v
 모델링
-   ↓
+   v
 배포 / 모니터링
 ```
 
@@ -164,7 +164,7 @@ CRISP-DM
 
 **진행 상황**: 61 / 258
 
-← **이전**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/)
-**다음**: [62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) →
+<- **이전**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/)
+**다음**: [62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) ->
 
 ---

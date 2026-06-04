@@ -21,8 +21,8 @@ tags = ["studynote-ai"]
 ```text
 지도 학습: 데이터+라벨 필요 (비쌈)
 SSL: 데이터만 (무료), 라벨은 데이터 자체에서 생성
-  NLP: "나는 [MASK] 이다" → 학생 예측 (BERT)
-  Vision: 이미지 일부 가림 → 복원 (MAE)
+  NLP: "나는 [MASK] 이다" -> 학생 예측 (BERT)
+  Vision: 이미지 일부 가림 -> 복원 (MAE)
 ```
 
 - **📢 섹션 요약 비유**: SSL은 <strong>빈칸 채우기 시험</strong>이다. 선생님(라벨)이 정답을 알려주지 않아도 문장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 자체에서 정답을 유추한다.
@@ -58,10 +58,10 @@ SSL은 <strong>Foundation Model의 핵심 학습 패러다임</strong>이며, �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[지도 학습 (라벨 필수)] → [Word2Vec SSL (2013)]
-    → [BERT MLM / GPT CLM (2018)] → [SimCLR (2020, Vision SSL)]
-    → [CLIP (2021, 멀티모달)]
-    → [현재: DINO v2 / MAE — Vision SSL 표준]
+[지도 학습 (라벨 필수)] -> [Word2Vec SSL (2013)]
+    -> [BERT MLM / GPT CLM (2018)] -> [SimCLR (2020, Vision SSL)]
+    -> [CLIP (2021, 멀티모달)]
+    -> [현재: DINO v2 / MAE — Vision SSL 표준]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ SSL은 <strong>Foundation Model의 핵심 학습 패러다임</strong>이며, �
 
 **진행 상황**: 131 / 420
 
-← **이전**: [130. Foundation Model (파운데이션 모델) - 대규모 사전 학습 범용 AI 모델](/knowledge-base/studynote/10_ai/02_dl_architecture_new/130_foundation_model/)
-**다음**: [132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) →
+<- **이전**: [130. Foundation Model (파운데이션 모델) - 대규모 사전 학습 범용 AI 모델](/knowledge-base/studynote/10_ai/02_dl_architecture_new/130_foundation_model/)
+**다음**: [132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ->
 
 ---

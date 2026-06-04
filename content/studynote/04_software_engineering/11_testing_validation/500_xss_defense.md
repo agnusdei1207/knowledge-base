@@ -30,16 +30,16 @@ XSS는 사용자 입력이 HTML, JavaScript 문맥에 섞여 실행될 때 생�
 다음은 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)) 방의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  크로스 사이트 스크립팅 (XSS) 방                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  크로스 사이트 스크립팅 (XSS) 방                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)) 방가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -142,21 +142,21 @@ XSS를 막으면 [세션](/knowledge-base/studynote/02_operating_system/02_proce
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 크로스 사이트 스크립팅 (XSS) 방어 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +170,7 @@ XSS를 막으면 [세션](/knowledge-base/studynote/02_operating_system/02_proce
 
 **진행 상황**: 591 / 973
 
-← **이전**: [499. SQL 인젝션 방어 - Prepared Statement, ORM](/knowledge-base/studynote/04_software_engineering/11_testing_validation/499_sql_injection_defense_prepared_statement_orm/)
-**다음**: [500. 크로스 사이트 스크립팅 (XSS) 방어 - 입/출력값 인코딩, CSP(Content Security Policy) 헤더 설정](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) →
+<- **이전**: [499. SQL 인젝션 방어 - Prepared Statement, ORM](/knowledge-base/studynote/04_software_engineering/11_testing_validation/499_sql_injection_defense_prepared_statement_orm/)
+**다음**: [500. 크로스 사이트 스크립팅 (XSS) 방어 - 입/출력값 인코딩, CSP(Content Security Policy) 헤더 설정](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ->
 
 ---

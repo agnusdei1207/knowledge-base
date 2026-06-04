@@ -29,14 +29,14 @@ tags = ["ai"]
 
 ```text
 [전통적 소프트웨어 (Rule-based)]
-데이터 (Data) ────┐
-                  ├─> [ CPU / 연산기 ] ──> 정답 (Output)
-규칙 (Rules) ─────┘
+데이터 (Data) ----+
+                  +-> [ CPU / 연산기 ] --> 정답 (Output)
+규칙 (Rules) -----+
 
 [인공지능 소프트웨어 (Data-driven)]
-데이터 (Data) ────┐
-                  ├─> [ 머신러닝 알고리즘 ] ──> 학습된 모델 (Model/Rules)
-정답 (Output) ────┘
+데이터 (Data) ----+
+                  +-> [ 머신러닝 알고리즘 ] --> 학습된 모델 (Model/Rules)
+정답 (Output) ----+
 ```
 
 이 도식의 핵심은 컴퓨팅 아키텍처의 입력과 출력이 완전히 뒤바뀌었다는 점이다. 과거에는 인간이 짠 규칙(로직)이 입력되었다면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 패러다임에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 그에 매칭되는 정답을 입력하면 기계가 그 사이의 숨겨진 상관관계(모델, 즉 암묵적 규칙)를 출력으로 반환한다. 따라서 개발자는 로직을 디버깅하는 대신 모델이 훈련할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질과 편향성을 제어하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공학적 접근에 집중해야 하며, 이는 시스템 개발론 전체의 변화를 의미한다. 실무에서는 이러한 패러다임 이동 때문에 MLOps와 같은 새로운 운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필수적으로 요구된다.
@@ -60,23 +60,23 @@ tags = ["ai"]
 다음은 지능형 에이전트가 환경과 상호작용하며 자신을 강화하는 폐쇄 루프(Closed-loop) 아키텍처 구조도이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                   Environment (환경)                   │
-└──────┬─────────────────────────────────────────▲───────┘
-       │ 상태(State) & 보상(Reward)              │ 행동(Action)
-       ▼                                         │
-┌────────────────── Agent (지능형 에이전트) ──────────────┐
-│ ┌─────────┐   [Feature Tensor] ┌───────────────┐   │
-│ │ Sensors ├───────────────────>│ Inference     │   │
-│ └─────────┘                    │ Engine (Model)├───┼─┐
-│ ┌─────────┐   [Loss Gradient]  │ (Weights + b) │   │ │
-│ │ Learner │<───────────────────┤               │   │ │
-│ └─────────┘                    └───────────────┘   │ │
-│                                                    │ │
-│                                ┌───────────────┐   │ │
-│                                │ Actuators     │<──┼─┘
-│                                └───────────────┘   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                   Environment (환경)                   |
++------+-----------------------------------------^-------+
+       | 상태(State) & 보상(Reward)              | 행동(Action)
+       v                                         |
++------------------ Agent (지능형 에이전트) --------------+
+| +---------+   [Feature Tensor] +---------------+   |
+| | Sensors +------------------->| Inference     |   |
+| +---------+                    | Engine (Model)+---+-+
+| +---------+   [Loss Gradient]  | (Weights + b) |   | |
+| | Learner |<-------------------+               |   | |
+| +---------+                    +---------------+   | |
+|                                                    | |
+|                                +---------------+   | |
+|                                | Actuators     |<--+-+
+|                                +---------------+   |
++--------------------------------------------------------+
 ```
 
 이 그림의 핵심은 센서를 통해 들어온 환경의 상태 정보가 일방향으로 흘러 끝나는 것이 아니라, 행동(Action)을 통해 다시 환경을 변화시키고 그 결과가 학습기(Learner)로 회귀하는 순환 구조를 가진다는 점이다. 추론 엔진에 내장된 파라미터([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 무작위 상태이지만, 학습기의 손실 기울기(Loss Gradient) 피드백을 통해 점점 최적점으로 수렴한다. 따라서 이 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 짧고 측정되는 보상(Reward)이 정확할수록 에이전트의 지능은 기하급수적으로 고도화된다.
@@ -123,16 +123,16 @@ else:
 
 ```text
 [요구사항 및 데이터 분석]
-   │
-   ├─> 도메인 룰이 100% 명확하며 법적 감사/소명이 필수적인가?
-   │     └─(Yes)──> 💡 Rule-based / Expert System 도입 (금융 코어 원장)
-   │
-   └─(No)─> 데이터의 주된 형태가 RDB에 저장된 정형(Tabular) 데이터인가?
-         │
-         ├─(Yes)──> 💡 Machine Learning (XGBoost, Random Forest)
-         │          => 높은 해석력, 낮은 인프라 비용, 빠른 학습 사이클
-         │
-         └─(No, 비정형: 이미지, 텍스트, 음성)──> 💡 Deep Learning (CNN, Transformer)
+   |
+   +-> 도메인 룰이 100% 명확하며 법적 감사/소명이 필수적인가?
+   |     +-(Yes)--> 💡 Rule-based / Expert System 도입 (금융 코어 원장)
+   |
+   +-(No)-> 데이터의 주된 형태가 RDB에 저장된 정형(Tabular) 데이터인가?
+         |
+         +-(Yes)--> 💡 Machine Learning (XGBoost, Random Forest)
+         |          => 높은 해석력, 낮은 인프라 비용, 빠른 학습 사이클
+         |
+         +-(No, 비정형: 이미지, 텍스트, 음성)--> 💡 Deep Learning (CNN, Transformer)
                     => 높은 GPU 비용 감수, 블랙박스 위험 존재하나 최고 분류 성능 확보
 ```
 
@@ -157,13 +157,13 @@ else:
 
 ```text
 [ AI 운영의 치명적 안티패턴: 방치된 쇠락 ]
-(학습 완료 배포) ──> 정확도 95% 달성 (성공 선언)
-       ↓
-(시간 경과) ──────> 사용자 행동 패턴 및 시장 트렌드 급변 (Concept Drift 발생)
-       ↓
-(모니터링 부재) ──> 알람 없이 시스템은 계속 구동 (Silent Failure)
-       ↓
-(비즈니스 타격) ──> 예측 모델 오작동으로 인한 엉뚱한 추천 쇄도, 막대한 고객 이탈 초래
+(학습 완료 배포) --> 정확도 95% 달성 (성공 선언)
+       v
+(시간 경과) ------> 사용자 행동 패턴 및 시장 트렌드 급변 (Concept Drift 발생)
+       v
+(모니터링 부재) --> 알람 없이 시스템은 계속 구동 (Silent Failure)
+       v
+(비즈니스 타격) --> 예측 모델 오작동으로 인한 엉뚱한 추천 쇄도, 막대한 고객 이탈 초래
 ```
 
 이 장애 전파도는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 고장이 전통적 S/W처럼 '서버 다운'의 형태로 나타나지 않고, 인프라는 정상이지만 '지능이 서서히 멍청해지는' 침묵의 고장(Silent Failure) 형태로 나타남을 경고한다. 실무 엔지니어는 모델을 배포한 직후부터 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 분포(평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 훈련 시점과 틀어지는지를 K-S 통계량이나 PSI 지표로 추적하는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드를 구축해야 한다. 이를 방치하는 것은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트 실패의 1원인이다.
@@ -198,14 +198,14 @@ else:
 
 ```text
 [Machine Learning (머신러닝)]
-    │
-    ▼
+    |
+    v
 [Deep Learning (딥러닝)]
-    │
-    ▼
+    |
+    v
 [MLOps (머신러닝 운영)]
-    │
-    ▼
+    |
+    v
 [Turing Test (튜링 테스트)]
 ```
 
@@ -222,8 +222,8 @@ else:
 
 **진행 상황**: 1 / 420
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 튜링 테스트 (Turing Test) - 앨런 튜링 제안, 기계가 지능이 있는지를 판별하는 텍스트 대화 시험](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/) →
+**다음**: [2. 튜링 테스트 (Turing Test) - 앨런 튜링 제안, 기계가 지능이 있는지를 판별하는 텍스트 대화 시험](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/) ->
 
 ---

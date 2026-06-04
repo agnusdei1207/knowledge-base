@@ -75,13 +75,13 @@ tags = ["cloud_architecture"]
 
 ```text
 RDBMS (구조화 데이터만 저장)
-    │
-    ▼
+    |
+    v
 Data Lake: 비정형 + 정형 데이터 원시 저장
-    ├─► S3 · GCS · ADLS (오브젝트 스토리지)
-    └─► Schema-on-Read: 읽을 때 스키마 적용
-    │
-    ▼
+    +-► S3 · GCS · ADLS (오브젝트 스토리지)
+    +-► Schema-on-Read: 읽을 때 스키마 적용
+    |
+    v
 Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
 ```
 2. 예전에는 장난감 통, 책꽂이로 다 나눠야 했지만, 이제는 일단 상자에 다 넣어두고 나중에 놀고 싶을 때 꺼내서 정리하면 돼요.
@@ -93,7 +93,7 @@ Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
 
 **진행 상황**: 218 / 371
 
-← **이전**: [218. 스파크 스트리밍 / Structured Streaming](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/218_spark_streaming_realtime_processing/)
-**다음**: [220. 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/220_schema_on_read_data_lake/) →
+<- **이전**: [218. 스파크 스트리밍 / Structured Streaming](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/218_spark_streaming_realtime_processing/)
+**다음**: [220. 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/220_schema_on_read_data_lake/) ->
 
 ---

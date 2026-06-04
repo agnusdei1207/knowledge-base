@@ -41,20 +41,20 @@ tags = ["studynote-design"]
 | **응답 척도 (Measure)** | 응답이 달성해야 할 정량적 기준 | 99%의 결제 처리가 <strong>1.5초 이내</strong>에 완료될 것 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  품질 속성 시나리오 6요소 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│ [자극원] ────────▶ [자극] ────────▶ [대상 시스템]          │
-│ (누가)            (무엇을)          (어디에)                 │
-│                                      │                       │
-│  ▲                                   ▼                       │
-│  │                                [응답]                     │
-│ [환경]                            (어떻게 대처하는가)        │
-│ (어떤 상황에서)                      │                       │
-│                                      ▼                       │
-│                                   [응답 척도]                │
-│                                   (정확히 몇 초/몇 %인가)    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  품질 속성 시나리오 6요소 흐름               |
++--------------------------------------------------------------+
+| [자극원] ---------> [자극] ---------> [대상 시스템]          |
+| (누가)            (무엇을)          (어디에)                 |
+|                                      |                       |
+|  ^                                   v                       |
+|  |                                [응답]                     |
+| [환경]                            (어떻게 대처하는가)        |
+| (어떤 상황에서)                      |                       |
+|                                      v                       |
+|                                   [응답 척도]                |
+|                                   (정확히 몇 초/몇 %인가)    |
++--------------------------------------------------------------+
 ```
 
 이 뼈대에서 가장 중요한 것은 <strong>응답 척도(Response Measure)</strong>다. 시스템이 살아남았다는 것만으로는 부족하며, 그 생존의 성적표가 숫자로 증명되어야 한다.
@@ -119,19 +119,19 @@ tags = ["studynote-design"]
 
 ```text
 비기능적 요구사항 (모호한 형용사)
-    │
-    ▼
+    |
+    v
 품질 속성 시나리오 (6요소 구체화 및 정량화)
-    │
-    ├─────────┬─────────┐
-    ▼         ▼         ▼
+    |
+    +---------+---------+
+    v         v         v
  가용성 시나리오 성능 시나리오 보안성 시나리오
 (MTTR/장애복구) (TPS/응답시간) (침입차단율)
-    │         │         │
-    ▼         ▼         ▼
+    |         |         |
+    v         v         v
 ATAM 아키텍처 평가 (트레이드오프 분석)
-    │
-    ▼
+    |
+    v
 카오스 엔지니어링 및 자동화된 인프라 테스트 (Code화)
 ```
 
@@ -147,7 +147,7 @@ ATAM 아키텍처 평가 (트레이드오프 분석)
 
 **진행 상황**: 134 / 530
 
-← **이전**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/)
-**다음**: [92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/092_atam_architecture_tradeoff_analysis_method/) →
+<- **이전**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/)
+**다음**: [92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/092_atam_architecture_tradeoff_analysis_method/) ->
 
 ---

@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [SDN 데이터/컨트롤 플레인]
-    │
-    ▼
+    |
+    v
 [OpenFlow 프로토콜]
-    │
-    └──▶ [MEC]
+    |
+    +---> [MEC]
 ```
 
 - **📢 섹션 요약 비유**: 각기 다른 나라 말을 쓰던 수공업 장인들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게, 전 세계 공통의 설계도 전달 표준어([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/))를 제정하여 중앙 설계실(컨트롤러)에서 공장을 자동화한 것과 같다.
@@ -45,20 +45,20 @@ OpenFlow의 핵심 동작 원리는 <strong>플로우 테이블(Flow Table)</str
 3. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a> (통계)</strong>: 해당 룰에 매칭된 패킷 수나 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 등의 카운터를 누적한다.
 
 ```text
-┌───────────────── SDN Controller (ONOS, OpenDaylight) ─────────────────┐
-│                                                                       │
-└─────────────────────────────────┬─────────────────────────────────────┘
-                                  │ OpenFlow Protocol (Secure Channel)
-┌─────────────────────────────────▼─────────────────────────────────────┐
-│ [ OpenFlow Switch ]                                                   │
-│                                                                       │
-│  [ Flow Table 0 ]   ──(Miss)──▶  [ Flow Table 1 ]   ──(Miss)──▶ ...   │
-│  ┌───────┬────────┬───────┐      ┌───────┬────────┬───────┐           │
-│  │ Match │ Action │ Stats │      │ Match │ Action │ Stats │           │
-│  ├───────┼────────┼───────┤      ├───────┼────────┼───────┤           │
-│  │ IP=A  │ Port 2 │  150  │      │ MAC=B │  Drop  │   45  │           │
-│  └───────┴────────┴───────┘      └───────┴────────┴───────┘           │
-└───────────────────────────────────────────────────────────────────────┘
++----------------- SDN Controller (ONOS, OpenDaylight) -----------------+
+|                                                                       |
++---------------------------------+-------------------------------------+
+                                  | OpenFlow Protocol (Secure Channel)
++---------------------------------v-------------------------------------+
+| [ OpenFlow Switch ]                                                   |
+|                                                                       |
+|  [ Flow Table 0 ]   --(Miss)--->  [ Flow Table 1 ]   --(Miss)---> ...   |
+|  +-------+--------+-------+      +-------+--------+-------+           |
+|  | Match | Action | Stats |      | Match | Action | Stats |           |
+|  +-------+--------+-------+      +-------+--------+-------+           |
+|  | IP=A  | Port 2 |  150  |      | MAC=B |  Drop  |   45  |           |
+|  +-------+--------+-------+      +-------+--------+-------+           |
++-----------------------------------------------------------------------+
 ```
 
 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 도착했는데 플로우 테이블에 매칭되는 룰(Flow Entry)이 없다면(Table Miss), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷의 헤더만 떼어내어 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 채널([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 통해 컨트롤러에게 "이 패킷 어디로 보낼까요?"(Packet-In 메시지)라고 묻는다. 컨트롤러는 경로를 계산한 뒤 "앞으로 이 패킷은 2번 포트로 보내라"는 룰을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 기록(Flow-Mod 메시지)해준다.
@@ -126,12 +126,12 @@ OpenFlow는 벤더들이 수십 년간 쌓아온 하드웨어 독점의 성벽�
 
 ```text
 [선행 개념: SDN 데이터/컨트롤 플레인]
-    │
-    ▼
+    |
+    v
 [현재 개념: OpenFlow 프로토콜]
-    │
-    ├──▶ [확장 A: MEC]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: MEC]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ OpenFlow는 벤더들이 수십 년간 쌓아온 하드웨어 독점의 성벽�
 
 **진행 상황**: 1119 / 1120
 
-← **이전**: [997. SDN 데이터/컨트롤 플레인](/knowledge-base/studynote/03_network/17_sdn_nfv/997_sdn_data_control_plane/)
-**다음**: [999. MEC (모바일 엣지 컴퓨팅)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/) →
+<- **이전**: [997. SDN 데이터/컨트롤 플레인](/knowledge-base/studynote/03_network/17_sdn_nfv/997_sdn_data_control_plane/)
+**다음**: [999. MEC (모바일 엣지 컴퓨팅)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/) ->
 
 ---

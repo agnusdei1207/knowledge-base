@@ -43,19 +43,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 증상과 원인을 잇는 텔레메트리 경로를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Hardware telemetry closes the symptom-cause gap             │
-├──────────────────────────────────────────────────────────────┤
-│ PMU  ECC  SMART  PCIe  Fan/Power                            │
-│  │    │     │     │      │                                  │
-│  └────┴─────┴─────┴──────┘                                  │
-│              ▼                                               │
-│   in-band agent + out-of-band BMC collector                  │
-│              ▼                                               │
-│    time-aligned metrics / traces / alerts                    │
-│              ▼                                               │
-│    throttle analysis / fault isolation / prediction          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Hardware telemetry closes the symptom-cause gap             |
++--------------------------------------------------------------+
+| PMU  ECC  SMART  PCIe  Fan/Power                            |
+|  |    |     |     |      |                                  |
+|  +----+-----+-----+------+                                  |
+|              v                                               |
+|   in-band agent + out-of-band BMC collector                  |
+|              v                                               |
+|    time-aligned metrics / traces / alerts                    |
+|              v                                               |
+|    throttle analysis / fault isolation / prediction          |
++--------------------------------------------------------------+
 ```
 
 여기서 가장 자주 놓치는 요소는 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 라벨 설계다. CPU 온도 스파이크와 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 같은 시각에 일어난 사건인지, 아니면 서로 무관한지 판단하려면 장비 간 시계가 맞아야 한다. 또한 랙, 노드, 장치 세대, 작업 종류 같은 문맥 정보가 빠지면 숫자는 많아도 설명력은 급격히 떨어진다.
@@ -129,17 +129,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 생존 감시 · 임계치 알람
-    │
-    ▼
+    |
+    v
 시스템 메트릭 수집
-    │
-    ▼
+    |
+    v
 하드웨어 텔레메트리 통합
-    │
-    ▼
+    |
+    v
 소프트웨어 + 하드웨어 교차 상관 분석
-    │
-    ▼
+    |
+    v
 예측 운영 · 자율 최적화
 ```
 
@@ -157,7 +157,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 643 / 803
 
-← **이전**: [641. 데이터 레이크 (Data Lake) 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/)
-**다음**: [643. AIOps 기반 하드웨어 이상 탐지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/643_aiops_hardware/) →
+<- **이전**: [641. 데이터 레이크 (Data Lake) 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/)
+**다음**: [643. AIOps 기반 하드웨어 이상 탐지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/643_aiops_hardware/) ->
 
 ---

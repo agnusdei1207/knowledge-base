@@ -32,24 +32,24 @@ SOLID는 5가지 원칙([SRP](/knowledge-base/studynote/04_software_engineering/
 SOLID의 5가지 원칙은 각각 객체의 책임, 확장, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 인터페이스, 의존성에 대한 명확한 규칙을 정의한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [SOLID 5대 원칙의 메커니즘]                   │
-├──────────────────────────────────────────────────────────────┤
-│ 1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.  │
-│    [User] ──(분리)──▶ [UserAuthenticator], [UserRepository]  │
-│                                                              │
-│ 2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.    │
-│    [Payment] ──▶ [interface PayMethod] ◀── [Card], [Cash]    │
-│                                                              │
-│ 3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.│
-│    [Bird] ◀── [Penguin] (날기 기능 오버라이딩 시 계약 위반 발생)  │
-│                                                              │
-│ 4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.│
-│    [IWorker] ──(분리)──▶ [IEater], [IDuty]                   │
-│                                                              │
-│ 5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.│
-│    [Service] ──▶ (Interface) ◀── [Database MySQL]           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  [SOLID 5대 원칙의 메커니즘]                   |
++--------------------------------------------------------------+
+| 1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.  |
+|    [User] --(분리)---> [UserAuthenticator], [UserRepository]  |
+|                                                              |
+| 2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.    |
+|    [Payment] ---> [interface PayMethod] <--- [Card], [Cash]    |
+|                                                              |
+| 3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.|
+|    [Bird] <--- [Penguin] (날기 기능 오버라이딩 시 계약 위반 발생)  |
+|                                                              |
+| 4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.|
+|    [IWorker] --(분리)---> [IEater], [IDuty]                   |
+|                                                              |
+| 5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.|
+|    [Service] ---> (Interface) <--- [Database MySQL]           |
++--------------------------------------------------------------+
 ```
 
 SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변경 여파를 막는다. LSP는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 신뢰성을 보장하고, ISP는 비대한 인터페이스를 잘게 쪼갠다. 마지막으로 DIP는 이 모든 객체가 구체적인 클래스가 아닌 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존하도록 의존성의 화살표를 뒤집는다.
@@ -116,17 +116,17 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 ```text
 절차적 프로그래밍 · 스파게티 코드 방치
-    │
-    ▼
+    |
+    v
 객체 지향 프로그래밍 (OOP) · 캡슐화, 상속, 다형성 도입
-    │
-    ▼
+    |
+    v
 SOLID 설계 원칙 · 유지보수성과 확장성의 체계화
-    │
-    ▼
+    |
+    v
 디자인 패턴 (GoF) · 원칙에 기반한 정형화된 해결책
-    │
-    ▼
+    |
+    v
 클린 아키텍처 및 MSA · 분산 시스템과 모듈 경계로의 원칙 확장
 ```
 
@@ -142,7 +142,7 @@ SOLID 설계 원칙 · 유지보수성과 확장성의 체계화
 
 **진행 상황**: 145 / 530
 
-← **이전**: [101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/101_solid_object_oriented_design_principles/)
-**다음**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/) →
+<- **이전**: [101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/101_solid_object_oriented_design_principles/)
+**다음**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/) ->
 
 ---

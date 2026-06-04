@@ -48,9 +48,9 @@ RegTech는 <strong>금융 규제 준수의 필수 인프라</strong>이며, AI�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[수작업 규제 준수 (2000s)] → [RegTech 등장 (2015~)]
-    → [AI AML·eKYC (2018~)] → [SupTech (감독 기술)]
-    → [현재: AI RegTech — 규제 변경 자동 적용]
+[수작업 규제 준수 (2000s)] -> [RegTech 등장 (2015~)]
+    -> [AI AML·eKYC (2018~)] -> [SupTech (감독 기술)]
+    -> [현재: AI RegTech — 규제 변경 자동 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ RegTech는 <strong>금융 규제 준수의 필수 인프라</strong>이며, AI�
 
 **진행 상황**: 135 / 482
 
-← **이전**: [134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/134_esg_management_it_system_carbon_tracking/)
-**다음**: [136. PropTech (부동산 기술) - 디지털 부동산 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/136_proptech_property_technology_real_estate/) →
+<- **이전**: [134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/134_esg_management_it_system_carbon_tracking/)
+**다음**: [136. PropTech (부동산 기술) - 디지털 부동산 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/136_proptech_property_technology_real_estate/) ->
 
 ---

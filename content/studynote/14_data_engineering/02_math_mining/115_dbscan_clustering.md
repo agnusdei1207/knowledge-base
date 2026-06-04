@@ -19,21 +19,21 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    DBSCAN 핵심 개념                                   │
-├───────────────────────────────────────────────────────┤
-│  ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터          │
-│                                                       │
-│  Core Point: ε 안에 MinPts개 이상 이웃이 있는 점      │
-│  Border Point: Core의 ε 안에 있지만 자신은 Core 아닌  │
-│  Noise: Core도 Border도 아닌 점 → 이상치!            │
-│                                                       │
-│  [Core]─────[Core]─────[Core]   ← 클러스터 1         │
-│    │                     │                             │
-│  [Border]             [Border]                        │
-│                                                       │
-│                  · (Noise)                             │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    DBSCAN 핵심 개념                                   |
++-------------------------------------------------------+
+|  ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터          |
+|                                                       |
+|  Core Point: ε 안에 MinPts개 이상 이웃이 있는 점      |
+|  Border Point: Core의 ε 안에 있지만 자신은 Core 아닌  |
+|  Noise: Core도 Border도 아닌 점 -> 이상치!            |
+|                                                       |
+|  [Core]-----[Core]-----[Core]   <- 클러스터 1         |
+|    |                     |                             |
+|  [Border]             [Border]                        |
+|                                                       |
+|                  · (Noise)                             |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DBSCAN은 사람이 모인 곳(밀도 높은 영역)을 "파티(클러스터)"로 인식하고, 혼자 떨어진 사람은 "방관자(노이즈)"로 분류하는 알고리즘이다.
@@ -71,7 +71,7 @@ tags = ["studynote-dataengineering"]
 
 ### ε·MinPts [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
 - **ε**: k-distance 그래프의 "팔꿈치(elbow)" 지점.
-- **MinPts**: 일반적으로 `2 × 차원 수`. 2D → MinPts=4.
+- **MinPts**: 일반적으로 `2 × 차원 수`. 2D -> MinPts=4.
 
 ### 활용 시나리오
 1. **지리적 클러스터링**: GPS 좌표로 상점 밀집 지역 탐지.
@@ -99,17 +99,17 @@ DBSCAN은 K-Means가 실패하는 <strong>비구형·노이즈 혼재 <a href="/
 
 ```text
 [K-Means (1957) — 원형 클러스터, K 지정]
-    │
-    ▼
+    |
+    v
 [DBSCAN (1996, Ester & Kriegel) — 밀도 기반, 노이즈 분리]
-    │
-    ▼
+    |
+    v
 [OPTICS (1999) — 가변 밀도 대응]
-    │
-    ▼
+    |
+    v
 [HDBSCAN (2013) — 계층적 밀도 기반, ε 자동]
-    │
-    ▼
+    |
+    v
 [현재: 딥 클러스터링 — Autoencoder + DBSCAN 결합]
 ```
 
@@ -124,7 +124,7 @@ DBSCAN은 K-Means가 실패하는 <strong>비구형·노이즈 혼재 <a href="/
 
 **진행 상황**: 115 / 258
 
-← **이전**: [114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/)
-**다음**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/) →
+<- **이전**: [114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/)
+**다음**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/) ->
 
 ---

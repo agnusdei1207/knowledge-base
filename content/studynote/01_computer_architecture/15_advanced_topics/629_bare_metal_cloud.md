@@ -29,13 +29,13 @@ tags = ["studynote-computer-architecture"]
 물리 장치를 직접 제어할 수 없으면 특정 명령 집합, 특수 네트워크 카드, 로컬 엔브이엠이 ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 구성, 라이선스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 만족시키기 어렵다. 결국 기업은 "클라우드의 민첩성"과 "온프레미스의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)" 사이에서 이중 인프라를 운영하게 되고, 이는 비용과 운영 복잡도를 동시에 키운다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│     Why Bare Metal? : Cloud Speed + Physical Isolation      │
-├──────────────────────────────────────────────────────────────┤
-│ VM Cloud      : [Tenant A][Tenant B][Tenant C] -> Shared HW │
-│ Bare Metal    : [Tenant A] -> Dedicated Server              │
-│ Traditional DC: [Tenant A] -> Dedicated Server, Slow Setup  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|     Why Bare Metal? : Cloud Speed + Physical Isolation      |
++--------------------------------------------------------------+
+| VM Cloud      : [Tenant A][Tenant B][Tenant C] -> Shared HW |
+| Bare Metal    : [Tenant A] -> Dedicated Server              |
+| Traditional DC: [Tenant A] -> Dedicated Server, Slow Setup  |
++--------------------------------------------------------------+
 ```
 
 이 그림은 베어메탈이 "전용 서버" 그 자체가 아니라, 전용 서버를 클라우드식 속도로 제공하려는 절충안임을 보여준다.
@@ -61,15 +61,15 @@ tags = ["studynote-computer-architecture"]
 사용자가 서버 유형을 선택하면 제어 평면 (Control Plane)은 빈 노드를 찾고, 기본 입출력 시스템 (Basic Input/Output System, BIOS) 또는 통합 확장 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 인터페이스 (Unified Extensible [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface, [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)) 설정을 맞춘 뒤 네트워크 부팅을 수행한다. 이후 이미지가 설치되고, 키와 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 적용되면 고객이 직접 OS 수준에서 서버를 제어한다. 클라우드 사업자는 서버 위에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 두지 않아도, [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))·분리된 관리망으로 통제권을 유지한다.
 
 ```text
-┌──────────┐    ┌──────────────┐    ┌──────────┐    ┌─────────────┐
-│ User/API │ -> │ Control Plane│ -> │   BMC    │ -> │ Bare Server │
-└──────────┘    └──────┬───────┘    └────┬─────┘    └──────┬──────┘
-                       │                 │                 │
-                       │                 │                 ├─ PXE Boot
-                       │                 │                 ├─ OS Install
-                       │                 │                 └─ Tenant Access
-                       │                 │
-                       └─ Network / Billing / Monitoring Policies
++----------+    +--------------+    +----------+    +-------------+
+| User/API | -> | Control Plane| -> |   BMC    | -> | Bare Server |
++----------+    +------+-------+    +----+-----+    +------+------+
+                       |                 |                 |
+                       |                 |                 +- PXE Boot
+                       |                 |                 +- OS Install
+                       |                 |                 +- Tenant Access
+                       |                 |
+                       +- Network / Billing / Monitoring Policies
 ```
 
 이 흐름의 핵심은 관리 기능을 "서버 안"이 아니라 "서버 옆"으로 빼내는 것이다. 최근에는 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 또는 스마트 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Smart Network Interface Card, SmartNIC)가 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)·암호화·격리 기능을 대신 처리해, 메인 중앙 처리 장치 (Central Processing Unit, CPU)를 온전히 고객 워크로드에 내준다.
@@ -158,21 +158,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전통 전용 서버
-    │
-    ▼
+    |
+    v
 VM 클라우드와 하이퍼바이저 대중화
-    │
-    ▼
+    |
+    v
 성능 편차 · 장치 직결 한계 노출
-    │
-    ▼
+    |
+    v
 베어메탈 클라우드 자동화
-    │
-    ▼
+    |
+    v
 DPU 기반 격리 · 컴포저블 인프라
 ```
 
-이 흐름은 "수동 전용 서버 → 효율 중심 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 인식 → 자동화된 물리 서버 → 더 유연한 분리형 하드웨어"로 발전하는 방향을 보여준다.
+이 흐름은 "수동 전용 서버 -> 효율 중심 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 인식 -> 자동화된 물리 서버 -> 더 유연한 분리형 하드웨어"로 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -186,7 +186,7 @@ DPU 기반 격리 · 컴포저블 인프라
 
 **진행 상황**: 630 / 803
 
-← **이전**: [628. RTO (Recovery Time Objective)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/628_rto/)
-**다음**: [630. 하이퍼컨버지드 인프라 (HCI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/) →
+<- **이전**: [628. RTO (Recovery Time Objective)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/628_rto/)
+**다음**: [630. 하이퍼컨버지드 인프라 (HCI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/) ->
 
 ---

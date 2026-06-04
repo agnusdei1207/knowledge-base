@@ -22,12 +22,12 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [Kafka 이전: 직접 연결 지옥]          [Kafka 이후: 허브 토폴로지]
-서비스A ──▶ DB1                        서비스A ─┐
-서비스A ──▶ DB2                        서비스B ─┤─▶ Kafka ─┬─▶ DB1
-서비스B ──▶ DB1                        서비스C ─┘           ├─▶ DB2
-서비스B ──▶ DB3  (n×m 연결)                                 └─▶ Analytics
-서비스C ──▶ DB2
-→ 서비스 추가 시 연결 수 폭발           → 새 서비스는 Kafka만 연결
+서비스A ---> DB1                        서비스A -+
+서비스A ---> DB2                        서비스B -+--> Kafka -+--> DB1
+서비스B ---> DB1                        서비스C -+           +--> DB2
+서비스B ---> DB3  (n×m 연결)                                 +--> Analytics
+서비스C ---> DB2
+-> 서비스 추가 시 연결 수 폭발           -> 새 서비스는 Kafka만 연결
 ```
 
 **Kafka가 필요한 상황:**
@@ -45,24 +45,24 @@ tags = ["studynote-cloud-architecture"]
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 아키텍처
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                     Kafka 클러스터                              │
-│                                                                │
-│  Producer              Brokers (복수 서버)          Consumer   │
-│  ┌───────┐   write    ┌────────────────────┐  read ┌───────┐  │
-│  │ 앱A   │ ─────────▶ │ Broker 1 (Leader)  │ ────▶ │ 앱X   │  │
-│  │ 앱B   │            │ Topic: orders      │       │ 앱Y   │  │
-│  │ IoT   │            │  Partition 0 ──┐   │       │ ML   │  │
-│  └───────┘            │  Partition 1 ──┤   │       └───────┘  │
-│                       │  Partition 2 ──┘   │                  │
-│                       └────────────────────┘                  │
-│                       ┌────────────────────┐                  │
-│                       │ Broker 2 (Replica) │ ← 복제본 보관     │
-│                       │ Topic: orders      │                  │
-│                       └────────────────────┘                  │
-│                                                                │
-│  ZooKeeper (또는 KRaft): 클러스터 메타데이터 관리               │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                     Kafka 클러스터                              |
+|                                                                |
+|  Producer              Brokers (복수 서버)          Consumer   |
+|  +-------+   write    +--------------------+  read +-------+  |
+|  | 앱A   | ----------> | Broker 1 (Leader)  | -----> | 앱X   |  |
+|  | 앱B   |            | Topic: orders      |       | 앱Y   |  |
+|  | IoT   |            |  Partition 0 --+   |       | ML   |  |
+|  +-------+            |  Partition 1 --+   |       +-------+  |
+|                       |  Partition 2 --+   |                  |
+|                       +--------------------+                  |
+|                       +--------------------+                  |
+|                       | Broker 2 (Replica) | <- 복제본 보관     |
+|                       | Topic: orders      |                  |
+|                       +--------------------+                  |
+|                                                                |
+|  ZooKeeper (또는 KRaft): 클러스터 메타데이터 관리               |
++----------------------------------------------------------------+
 ```
 
 ### 핵심 구성 요소
@@ -82,16 +82,16 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 Topic: "user-events"  Replication Factor: 3
-┌─────────────────────────────────────────────┐
-│  Partition 0 (Broker 1 Leader)              │
-│  [0][1][2][3][4][5][6][7]... ← 오프셋 순서  │
-│                                             │
-│  Partition 1 (Broker 2 Leader)              │
-│  [0][1][2][3][4]...                         │
-│                                             │
-│  Partition 2 (Broker 3 Leader)              │
-│  [0][1][2][3][4][5]...                      │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  Partition 0 (Broker 1 Leader)              |
+|  [0][1][2][3][4][5][6][7]... <- 오프셋 순서  |
+|                                             |
+|  Partition 1 (Broker 2 Leader)              |
+|  [0][1][2][3][4]...                         |
+|                                             |
+|  Partition 2 (Broker 3 Leader)              |
+|  [0][1][2][3][4][5]...                      |
++---------------------------------------------+
 각 파티션은 순서 보장 / 파티션 간 순서 미보장
 메시지 보존: log.retention.hours 설정 (기본 168시간=7일)
 ```
@@ -121,7 +121,7 @@ Topic: "user-events"  Replication Factor: 3
 |:---|:---|:---|
 | <strong>이벤트 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong> | 다수 시스템 이벤트 중앙 집중 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 집계</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중앙 수집 | ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파이프라인 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> 파이프라인</strong> | DB 변경 이벤트 전달 | Debezium → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> 파이프라인</strong> | DB 변경 이벤트 전달 | Debezium -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">스트림 처리</a></strong> | Flink/Spark가 실시간 처리 | 실시간 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a></strong> | 상태 변경을 이벤트로 보관 | 주문 상태 변경 이력 |
 
@@ -201,14 +201,14 @@ Topic: "user-events"  Replication Factor: 3
 
 ```text
 Point-to-Point 메시징 (RabbitMQ)
-    │
-    ▼
+    |
+    v
 Kafka: 분산 로그 기반 Pub/Sub
-    ├─► Topic · Partition · Consumer Group
-    ├─► 영속성: 디스크 순차 쓰기 + 복제
-    └─► Connect · Streams · Schema Registry
-    │
-    ▼
+    +-► Topic · Partition · Consumer Group
+    +-► 영속성: 디스크 순차 쓰기 + 복제
+    +-► Connect · Streams · Schema Registry
+    |
+    v
 Event-Driven Architecture (EDA) + CDC
 ```
 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 유튜브 재생목록과 같다. 한 채널의 영상이 여러 재생목록에 나뉘어 있으면, 여러 친구가 각자 다른 재생목록을 동시에 볼 수 있어 더 빠르다([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리).
@@ -220,7 +220,7 @@ Event-Driven Architecture (EDA) + CDC
 
 **진행 상황**: 229 / 371
 
-← **이전**: [229. 스트림 처리 (Stream Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)
-**다음**: [231. 카프카 토픽 / 파티션 / 컨슈머 그룹](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/231_kafka_topic_partition_consumer_group/) →
+<- **이전**: [229. 스트림 처리 (Stream Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)
+**다음**: [231. 카프카 토픽 / 파티션 / 컨슈머 그룹](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/231_kafka_topic_partition_consumer_group/) ->
 
 ---

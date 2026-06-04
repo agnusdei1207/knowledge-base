@@ -29,7 +29,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 오류 경로는 보통 <strong>오류 감지 → 오류 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 상태 기록 → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 통지 → 격리 또는 중단</strong> 순서로 움직인다. 메모리 컨트롤러는 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 신드롬(Syndrome)을 계산해 1비트 오류처럼 교정 가능한 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하고, 2비트 이상처럼 교정 불가능한 경우는 오류 상태를 남긴다. 이때 CPU는 MCA bank의 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 오류 주소, 뱅크 번호, 오류 심각도, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 손상 여부를 기록한다.
+메모리 오류 경로는 보통 <strong>오류 감지 -> 오류 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> -> 상태 기록 -> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 통지 -> 격리 또는 중단</strong> 순서로 움직인다. 메모리 컨트롤러는 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 신드롬(Syndrome)을 계산해 1비트 오류처럼 교정 가능한 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하고, 2비트 이상처럼 교정 불가능한 경우는 오류 상태를 남긴다. 이때 CPU는 MCA bank의 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 오류 주소, 뱅크 번호, 오류 심각도, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 손상 여부를 기록한다.
 
 특히 x86 계열 서버에서는 `MCi_STATUS`, `MCi_ADDR`, `MCi_MISC` 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트가 핵심 역할을 한다. 교정 가능한 오류는 CMCI (Corrected Machine Check [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))나 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 기반 경로로 전달되고, 교정 불가능한 오류는 MCE (Machine Check Exception, `#MC`)를 통해 즉시 보고될 수 있다. 플랫폼이 메모리 포이즈닝을 지원하면, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 즉시 소비되지 않는 한 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 "독이 든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"로 표시해 뒤늦게 접근하는 시점에 격리·종료를 수행할 수 있다.
 
@@ -44,25 +44,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 메모리 MCA가 "오류를 발견하는 회로"가 아니라 "오류를 운영 가능한 사건으로 바꾸는 전달선"임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    메모리 MCA의 오류 전달 경로                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ DIMM 비트 뒤집힘                                                    │
-│     │                                                               │
-│     ▼                                                               │
-│ ECC 검사/신드롬 계산                                                │
-│     │                                                               │
-│     ├── 교정 가능(CE) ─────────▶ 데이터 수정 + CE 카운트 기록       │
-│     │                                                               │
-│     └── 교정 불가(UE) ─────────▶ 주소/상태를 MCA Bank에 기록        │
-│                                      │                               │
-│                                      ├── 포이즈닝 가능 ─▶ 페이지 격리│
-│                                      │                               │
-│                                      └── 즉시 치명적 ─▶ MCE (#MC)    │
-│                                                              │        │
-│                                                              ▼        │
-│                            OS: 로그 · 프로세스 종료 · 오프라인 · 패닉│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    메모리 MCA의 오류 전달 경로                      |
++----------------------------------------------------------------------+
+| DIMM 비트 뒤집힘                                                    |
+|     |                                                               |
+|     v                                                               |
+| ECC 검사/신드롬 계산                                                |
+|     |                                                               |
+|     +-- 교정 가능(CE) ----------> 데이터 수정 + CE 카운트 기록       |
+|     |                                                               |
+|     +-- 교정 불가(UE) ----------> 주소/상태를 MCA Bank에 기록        |
+|                                      |                               |
+|                                      +-- 포이즈닝 가능 --> 페이지 격리|
+|                                      |                               |
+|                                      +-- 즉시 치명적 --> MCE (#MC)    |
+|                                                              |        |
+|                                                              v        |
+|                            OS: 로그 · 프로세스 종료 · 오프라인 · 패닉|
++----------------------------------------------------------------------+
 ```
 
 메모리 MCA의 핵심은 "에러 자체를 없애는 기술"이 아니라, <strong>에러를 정밀하게 설명해 더 똑똑한 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 결정을 가능하게 하는 인터페이스</strong>라는 점이다. 그래서 같은 메모리 오류라도 어떤 주소에서 났고, CPU [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 손상되었는지, 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 소비되었는지에 따라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 대응이 달라진다.
@@ -138,17 +138,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 패리티 검사
-    │
-    ▼
+    |
+    v
 ECC 메모리
-    │
-    ▼
+    |
+    v
 MCA (오류 주소·심각도 구조화)
-    │
-    ▼
+    |
+    v
 EDAC · rasdaemon 기반 가시화
-    │
-    ▼
+    |
+    v
 Page Offlining · 예지 정비 · 대규모 RAS 자동화
 ```
 
@@ -166,7 +166,7 @@ Page Offlining · 예지 정비 · 대규모 RAS 자동화
 
 **진행 상황**: 718 / 803
 
-← **이전**: [716. PCIe AER (Advanced Error Reporting)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/716_pcie_aer/)
-**다음**: [718. EDAC (Error Detection and Correction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/718_edac/) →
+<- **이전**: [716. PCIe AER (Advanced Error Reporting)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/716_pcie_aer/)
+**다음**: [718. EDAC (Error Detection and Correction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/718_edac/) ->
 
 ---

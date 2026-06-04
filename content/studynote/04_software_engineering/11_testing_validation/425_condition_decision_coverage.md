@@ -25,9 +25,9 @@ tags = ["studynote-software-engineering"]
 
 ```text
 if (A and B)
- ├─ A = T/F 모두 확인
- ├─ B = T/F 모두 확인
- └─ 전체 결과도 T/F 모두 확인
+ +- A = T/F 모두 확인
+ +- B = T/F 모두 확인
+ +- 전체 결과도 T/F 모두 확인
 ```
 
 - **📢 섹션 요약 비유**: 부품 하나씩만 검사하면 조립 불량을 놓치고, 완제품만 보면 속 부품의 결함을 놓친다. 둘 다 봐야 한다.
@@ -137,21 +137,21 @@ TC-4: A=F, B=F -> Decision=F
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 조건/결정 커버리지 (Condition/Decision Coverage) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ TC-4: A=F, B=F -> Decision=F
 
 **진행 상황**: 441 / 973
 
-← **이전**: [424. 조건 커버리지 (Condition Coverage) - 분기문 내의 각 개별 조건식이 참/거짓을 한 번씩 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)
-**다음**: [425. 조건/결정 커버리지 (Condition/Decision Coverage) - 개별 조건과 전체 결정이 모두 참/거짓을 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/425_condition_decision_coverage/) →
+<- **이전**: [424. 조건 커버리지 (Condition Coverage) - 분기문 내의 각 개별 조건식이 참/거짓을 한 번씩 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)
+**다음**: [425. 조건/결정 커버리지 (Condition/Decision Coverage) - 개별 조건과 전체 결정이 모두 참/거짓을 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/425_condition_decision_coverage/) ->
 
 ---

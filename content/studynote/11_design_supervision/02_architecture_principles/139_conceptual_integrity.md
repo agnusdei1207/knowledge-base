@@ -24,19 +24,19 @@ tags = ["studynote-design-supervision"]
 실제로 많은 대형 프로젝트에서 팀이 커질수록, 각 팀이 자신만의 방식으로 설계하여 시스템 전체가 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 '패치워크(Patchwork) 아키텍처'가 된다. API는 팀마다 다른 명명 규칙을, 에러 처리는 팀마다 다른 방식을, [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)은 팀마다 다른 구조를 갖게 된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      개념 무결성 있는 시스템 vs 없는 시스템                  │
-├─────────────────────────────────────────────────────────────┤
-│  개념 무결성 있음                                           │
-│  - 모든 API가 REST 원칙 일관 적용                          │
-│  - 에러 응답 형식이 전체 시스템에서 동일                   │
-│  - 네이밍 컨벤션이 전체 코드베이스에서 일관                │
-│                                                             │
-│  개념 무결성 없음                                           │
-│  - 팀 A는 REST, 팀 B는 GraphQL, 팀 C는 SOAP 사용           │
-│  - 에러 형식이 팀마다 다름 ({error:...}, {message:...})     │
-│  - 변수명 규칙이 팀마다 다름 (camelCase vs snake_case)      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      개념 무결성 있는 시스템 vs 없는 시스템                  |
++-------------------------------------------------------------+
+|  개념 무결성 있음                                           |
+|  - 모든 API가 REST 원칙 일관 적용                          |
+|  - 에러 응답 형식이 전체 시스템에서 동일                   |
+|  - 네이밍 컨벤션이 전체 코드베이스에서 일관                |
+|                                                             |
+|  개념 무결성 없음                                           |
+|  - 팀 A는 REST, 팀 B는 GraphQL, 팀 C는 SOAP 사용           |
+|  - 에러 형식이 팀마다 다름 ({error:...}, {message:...})     |
+|  - 변수명 규칙이 팀마다 다름 (camelCase vs snake_case)      |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 교향곡은 한 명의 작곡가가 전체를 관통하는 주제(개념 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))로 작곡하기 때문에 아름답다. 100명이 각자 좋아하는 부분만 작곡하면 소음이 된다.
@@ -55,15 +55,15 @@ tags = ["studynote-design-supervision"]
 | 코딩 표준·린터 | 코드 수준 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | ESLint, Checkstyle, PMD |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           ADR (Architecture Decision Record) 구조           │
-├─────────────────────────────────────────────────────────────┤
-│  # ADR-001: REST API 응답 형식 표준                         │
-│  ## 상태: 채택                                              │
-│  ## 컨텍스트: 팀마다 다른 에러 응답 형식으로 클라이언트 혼란│
-│  ## 결정: 전체 시스템에서 RFC 7807 Problem Details 사용     │
-│  ## 결과: 클라이언트 코드 단순화, 일관된 에러 처리          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           ADR (Architecture Decision Record) 구조           |
++-------------------------------------------------------------+
+|  # ADR-001: REST API 응답 형식 표준                         |
+|  ## 상태: 채택                                              |
+|  ## 컨텍스트: 팀마다 다른 에러 응답 형식으로 클라이언트 혼란|
+|  ## 결정: 전체 시스템에서 RFC 7807 Problem Details 사용     |
+|  ## 결과: 클라이언트 코드 단순화, 일관된 에러 처리          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 법률 체계처럼, 헌법(아키텍처 원칙·[ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))이 있어야 모든 법률(코드)이 일관된 철학으로 만들어진다.
@@ -112,7 +112,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[맨먼스 미신(브룩스)] → [개념 무결성] → ADR·아키텍처 원칙] → [아키텍처 피트니스 함수] → Architecture [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)]
+[맨먼스 미신(브룩스)] -> [개념 무결성] -> ADR·아키텍처 원칙] -> [아키텍처 피트니스 함수] -> Architecture [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -123,7 +123,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[맨먼스 미신(1975)] → [개념 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 개념 정립] → ADR 문화 확산] → Architecture [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function] → Architecture [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)] → AI 자동 검증]
+[맨먼스 미신(1975)] -> [개념 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 개념 정립] -> ADR 문화 확산] -> Architecture [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function] -> Architecture [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)] -> AI 자동 검증]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 195 / 530
 
-← **이전**: [138. 아키텍처 리팩터링 (Architectural Refactoring)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/138_architectural_refactoring/)
-**다음**: [140. 설계 부채 (Design Debt / Technical Debt)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/) →
+<- **이전**: [138. 아키텍처 리팩터링 (Architectural Refactoring)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/138_architectural_refactoring/)
+**다음**: [140. 설계 부채 (Design Debt / Technical Debt)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/) ->
 
 ---

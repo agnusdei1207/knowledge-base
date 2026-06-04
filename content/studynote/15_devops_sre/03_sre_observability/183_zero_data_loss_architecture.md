@@ -26,12 +26,12 @@ tags = ["studynote-devops-sre"]
 아래 그림은 같은 장애라도 ACK 시점에 따라 결과가 완전히 달라짐을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ACK timing defines data loss                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Early ACK path : write -> primary ACK -> primary crash -> lost    │
-│ Safe ACK path  : write -> quorum durable -> ACK -> crash -> safe  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| ACK timing defines data loss                                       |
++--------------------------------------------------------------------+
+| Early ACK path : write -> primary ACK -> primary crash -> lost    |
+| Safe ACK path  : write -> quorum durable -> ACK -> crash -> safe  |
++--------------------------------------------------------------------+
 ```
 
 또한 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) = 0과 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전환이 느리면 고객 체감 중단은 여전히 크다. 따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 "무손실"과 "빠른 전환"을 분리해 설계하되, 우선순위는 <strong>잃지 않는 ACK 규칙</strong>에 둬야 한다.
@@ -56,15 +56,15 @@ tags = ["studynote-devops-sre"]
 아래 경로는 "무손실 ACK"가 어떤 순서를 따라야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Zero Data Loss write path                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ Client -> API -> WAL append -> quorum fsync -> commit index       │
-│                                 │                                  │
-│                                 ├-> ACK to client                 │
-│                                 ├-> replicated outbox / CDC feed  │
-│                                 └-> failover candidate eligible   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Zero Data Loss write path                                          |
++--------------------------------------------------------------------+
+| Client -> API -> WAL append -> quorum fsync -> commit index       |
+|                                 |                                  |
+|                                 +-> ACK to client                 |
+|                                 +-> replicated outbox / CDC feed  |
+|                                 +-> failover candidate eligible   |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 "리더가 기록했다"가 아니라 "페일오버 후에도 살아남는 상태로 기록되었다"는 점이다. 예를 들어 3노드 합의라면 보통 2노드 이상이 내구성 있게 기록한 뒤에만 커밋 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 올라간다. 이 원리가 있어야 리더 장애 후 새 리더가 커밋된 마지막 상태를 그대로 이어받을 수 있다.
@@ -152,20 +152,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 로컬 커밋 중심 저장
-    │
-    ▼
+    |
+    v
 WAL 기반 내구성 확보
-    │
-    ▼
+    |
+    v
 Quorum 복제 · 동기 ACK
-    │
-    ▼
+    |
+    v
 Failover / Fencing / Replay
-    │
-    ▼
+    |
+    v
 Outbox · CDC · End-to-End 무손실
-    │
-    ▼
+    |
+    v
 고객 신뢰 기반의 Zero Data Loss 운영
 ```
 
@@ -183,7 +183,7 @@ Outbox · CDC · End-to-End 무손실
 
 **진행 상황**: 183 / 373
 
-← **이전**: [182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영](/knowledge-base/studynote/15_devops_sre/03_sre_observability/182_status_page_public_sla/)
-**다음**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/) →
+<- **이전**: [182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영](/knowledge-base/studynote/15_devops_sre/03_sre_observability/182_status_page_public_sla/)
+**다음**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/) ->
 
 ---

@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 패턴 ([Mediator Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))은 여러 객체 간 상호작용을 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 객체 하나로 모아 직접 결합을 줄이는 행동 패턴이다. 동료 객체끼리 서로를 모두 참조하면 연결 수가 폭증하고 변경 영향도 예측하기 어려워진다. 이 개념이 필요한 이유는 객체 간 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 통신을 중앙 조정하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 객체 변경이 다른 모든 동료 객체의 코드 수정으로 번질 수 있다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│  Mediatr   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|  Mediatr   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Mediatr  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Mediatr  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | UI 대화상자 | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 패턴 ([Mediator Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[객체 간 직접 통신] → [중재자 패턴] → [중앙 조정 구조]
+[객체 간 직접 통신] -> [중재자 패턴] -> [중앙 조정 구조]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 패턴 ([Mediator Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))은 친구들끼리 모두에게 말하는 대신 반장이 대신 전달해 주는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 474 / 530
 
-← **이전**: [395. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)
-**다음**: [397. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/) →
+<- **이전**: [395. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)
+**다음**: [397. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/) ->
 
 ---

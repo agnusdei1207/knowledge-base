@@ -47,29 +47,29 @@ tags = ["studynote-algorithm"]
 
 ```
 초기 세대 (Population) 생성
-        │
-        ▼
-┌────────────────────────────────────────┐
-│  ① 적합도 평가 (Fitness Evaluation)   │
-│     각 염색체에 f(x) 계산              │
-│                                        │
-│  ② 선택 (Selection)                   │
-│     적합도 높은 개체 선택 (부모)        │
-│     토너먼트, 룰렛 휠, 엘리트 선택     │
-│                                        │
-│  ③ 교차 (Crossover)                   │
-│     두 부모 염색체를 섞어 자식 생성     │
-│     1점, 2점, 균등 교차               │
-│                                        │
-│  ④ 돌연변이 (Mutation)               │
-│     낮은 확률로 임의 유전자 변경       │
-│     탐색 다양성 유지                  │
-└────────────────────────────────────────┘
-        │
-        ▼
+        |
+        v
++----------------------------------------+
+|  ① 적합도 평가 (Fitness Evaluation)   |
+|     각 염색체에 f(x) 계산              |
+|                                        |
+|  ② 선택 (Selection)                   |
+|     적합도 높은 개체 선택 (부모)        |
+|     토너먼트, 룰렛 휠, 엘리트 선택     |
+|                                        |
+|  ③ 교차 (Crossover)                   |
+|     두 부모 염색체를 섞어 자식 생성     |
+|     1점, 2점, 균등 교차               |
+|                                        |
+|  ④ 돌연변이 (Mutation)               |
+|     낮은 확률로 임의 유전자 변경       |
+|     탐색 다양성 유지                  |
++----------------------------------------+
+        |
+        v
 수렴 조건 (최대 세대 또는 최적값 안정) 까지 반복
-        │
-        ▼
+        |
+        v
 최적 개체 = 해답
 ```
 
@@ -123,12 +123,12 @@ gBest: 전체 최적 위치
 ```
 탐색 공간 시각화:
 
-        gBest★            ← 전체 최적
-         ↑    ↑
-  pBest○ │   ○pBest     ← 각 입자의 개인 최적
-     ↗  │  ↗
-   ●    │  ●            ← 현재 위치 (입자들)
-  (v↗)  │  (v↗)
+        gBest★            <- 전체 최적
+         ^    ^
+  pBest○ |   ○pBest     <- 각 입자의 개인 최적
+     ↗  |  ↗
+   ●    |  ●            <- 현재 위치 (입자들)
+  (v↗)  |  (v↗)
 ```
 
 📢 **섹션 요약 비유**: PSO의 각 입자는 "목적지를 찾는 새떼 한 마리"다 — 개인 최선 경험(pBest)과 떼 전체의 최선 위치(gBest)를 참고하며 날아가, 결국 무리 전체가 최적 지점으로 수렴한다.
@@ -153,7 +153,7 @@ Wolpert & Macready (1997):
 
 "모든 가능한 문제에 대해 평균 성능을 비교하면, 모든 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 성능은 동일하다."
 
-→ 특정 문제 클래스에서 A가 B보다 나으면, 다른 문제 클래스에서는 B가 A보다 낫다.
+-> 특정 문제 클래스에서 A가 B보다 나으면, 다른 문제 클래스에서는 B가 A보다 낫다.
 
 실용적 함의: <strong>문제 구조를 이용한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 설계가 범용 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 항상 유리</strong>.
 
@@ -162,11 +162,11 @@ Wolpert & Macready (1997):
 현재 연속 공간 블랙박스 최적화의 황금 기준:
 
 ```
-다변수 정규분포 N(m, σ²·C)에서 샘플링
+다변수 정규분포 N(m, σ^·C)에서 샘플링
 적합도에 따라:
-  m (평균) 업데이트 → 탐색 방향
-  C (공분산) 업데이트 → 탐색 형태
-  σ (스텝 크기) 업데이트 → 탐색 크기
+  m (평균) 업데이트 -> 탐색 방향
+  C (공분산) 업데이트 -> 탐색 형태
+  σ (스텝 크기) 업데이트 -> 탐색 크기
 ```
 
 인구 개체 없이 분포 자체를 학습.
@@ -205,15 +205,15 @@ n = 100개 도시
 돌연변이: 두 위치 교환 (Swap Mutation)
 
 GA 결과: 최적해의 2~5% 이내
-정확해 알고리즘(Held-Karp): O(n²·2ⁿ) → n=100 불가능
-GA: O(pop × gen × n) → 실용적
+정확해 알고리즘(Held-Karp): O(n^·2ⁿ) -> n=100 불가능
+GA: O(pop × gen × n) -> 실용적
 ```
 
 ### 기술사 판단 포인트
 
-1. **"GA와 경사하강의 선택 기준은?"** → 미분 가능 연속 → 경사하강 / 불연속·조합·블랙박스 → GA/PSO
-2. **"공짜 점심 없음 정리의 실무 의미는?"** → 범용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으므로 문제 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 활용 필수
-3. **"PSO와 GA의 차이는?"** → PSO: 연속 탐색 공간에서 빠른 수렴 / GA: 이산 조합 문제에 더 적합
+1. **"GA와 경사하강의 선택 기준은?"** -> 미분 가능 연속 -> 경사하강 / 불연속·조합·블랙박스 -> GA/PSO
+2. **"공짜 점심 없음 정리의 실무 의미는?"** -> 범용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으므로 문제 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 활용 필수
+3. **"PSO와 GA의 차이는?"** -> PSO: 연속 탐색 공간에서 빠른 수렴 / GA: 이산 조합 문제에 더 적합
 
 📢 **섹션 요약 비유**: [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search)는 "AI가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구조를 설계"하는 것이다 — 인간이 수작업으로 설계하던 신경망 구조를 GA/RL로 자동 탐색해 더 효율적인 구조를 발견한다.
 
@@ -227,16 +227,16 @@ GA: O(pop × gen × n) → 실용적
 
 ```
 목적 함수가 미분 가능?
-  YES → 경사하강법 (Adam, L-BFGS)
-  NO  → 진화 알고리즘 / 시뮬레이티드 어닐링
+  YES -> 경사하강법 (Adam, L-BFGS)
+  NO  -> 진화 알고리즘 / 시뮬레이티드 어닐링
 
 연속 공간?
-  YES → PSO, CMA-ES, DE
-  NO  → GA (이진/순열 인코딩)
+  YES -> PSO, CMA-ES, DE
+  NO  -> GA (이진/순열 인코딩)
 
 전역 최적 중요?
-  이론적 보장 필요 → 볼록 최적화 (LP, QP)
-  근사 해 허용 → 진화 알고리즘
+  이론적 보장 필요 -> 볼록 최적화 (LP, QP)
+  근사 해 허용 -> 진화 알고리즘
 ```
 
 현대 응용: [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), 로봇 공학, 분자 설계 (신약 개발), [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 설계 모두에서 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 인간 전문가를 능가하는 해를 발견하고 있다.
@@ -262,18 +262,18 @@ GA: O(pop × gen × n) → 실용적
 
 ```text
 [브루트 포스 탐색 — 모든 해를 직접 확인]
-    │
-    ▼
+    |
+    v
 [메타휴리스틱 (Metaheuristic) — 구조 없이 좋은 해 탐색]
-    │
-    ▼
+    |
+    v
 [진화 알고리즘 — 선택·교차·돌연변이로 탐색]
-    │
-    ├─▶ [GA (Genetic Algorithm) — 조합 최적화 중심]
-    │
-    └─▶ [PSO (Particle Swarm Optimization) — 연속 공간 빠른 수렴]
-                │
-                ▼
+    |
+    +--> [GA (Genetic Algorithm) — 조합 최적화 중심]
+    |
+    +--> [PSO (Particle Swarm Optimization) — 연속 공간 빠른 수렴]
+                |
+                v
             [CMA-ES / NAS — 공학 설계·신경망 구조 최적화]
 ```
 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 브루트 포스와 경사 기반 최적화의 한계를 넘어, 조합 문제와 블랙박스 설계에 맞는 범용 탐색 틀로 발전했다.
@@ -290,7 +290,7 @@ GA: O(pop × gen × n) → 실용적
 
 **진행 상황**: 169 / 175
 
-← **이전**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/)
-**다음**: [08. 벨만-포드 (Bellman-Ford)](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) →
+<- **이전**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/)
+**다음**: [08. 벨만-포드 (Bellman-Ford)](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) ->
 
 ---

@@ -29,33 +29,33 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                감성 분석 처리 파이프라인                          │
-├──────────────────────────────────────────────────────────────────┤
-│  [텍스트 입력]                                                    │
-│   "배송이 느렸지만 품질은 정말 좋아요! 다음에도 살게요"           │
-│          │                                                        │
-│          ▼                                                        │
-│  [전처리 (Preprocessing)]                                         │
-│   형태소 분석 (KoNLPy/Mecab) → 불용어 제거 → 정규화              │
-│          │                                                        │
-│          ▼                                                        │
-│  [특성 추출 (Feature Extraction)]                                 │
-│   방법 A: TF-IDF 벡터 (전통 ML)                                  │
-│   방법 B: Word2Vec/FastText 임베딩                                │
-│   방법 C: BERT (Bidirectional Encoder Representations from        │
-│            Transformers) 컨텍스트 임베딩                          │
-│          │                                                        │
-│          ▼                                                        │
-│  [분류 모델]                                                      │
-│   사전 기반 ──────────▶ 감성 사전 점수 합산                      │
-│   전통 ML  ──────────▶ SVM / 로지스틱 회귀                       │
-│   딥러닝   ──────────▶ BERT Fine-tuning                          │
-│          │                                                        │
-│          ▼                                                        │
-│  [출력] 긍정 0.82 / 부정 0.08 / 중립 0.10                        │
-│  [ABSA] 배송:부정, 품질:긍정 (속성별 감성)                        │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                감성 분석 처리 파이프라인                          |
++------------------------------------------------------------------+
+|  [텍스트 입력]                                                    |
+|   "배송이 느렸지만 품질은 정말 좋아요! 다음에도 살게요"           |
+|          |                                                        |
+|          v                                                        |
+|  [전처리 (Preprocessing)]                                         |
+|   형태소 분석 (KoNLPy/Mecab) -> 불용어 제거 -> 정규화              |
+|          |                                                        |
+|          v                                                        |
+|  [특성 추출 (Feature Extraction)]                                 |
+|   방법 A: TF-IDF 벡터 (전통 ML)                                  |
+|   방법 B: Word2Vec/FastText 임베딩                                |
+|   방법 C: BERT (Bidirectional Encoder Representations from        |
+|            Transformers) 컨텍스트 임베딩                          |
+|          |                                                        |
+|          v                                                        |
+|  [분류 모델]                                                      |
+|   사전 기반 -----------> 감성 사전 점수 합산                      |
+|   전통 ML  -----------> SVM / 로지스틱 회귀                       |
+|   딥러닝   -----------> BERT Fine-tuning                          |
+|          |                                                        |
+|          v                                                        |
+|  [출력] 긍정 0.82 / 부정 0.08 / 중립 0.10                        |
+|  [ABSA] 배송:부정, 품질:긍정 (속성별 감성)                        |
++------------------------------------------------------------------+
 ```
 
 ### 방법론 비교
@@ -96,10 +96,10 @@ tags = ["studynote-bigdata"]
 
 ### 적용 시나리오
 
-1. **제품 리뷰 분석**: 신제품 출시 후 실시간 리뷰 감성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 → [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 발견
-2. **소셜 리스닝**: 브랜드 언급 트윗/게시글 실시간 감성 추적 → 위기 대응 시간 단축
+1. **제품 리뷰 분석**: 신제품 출시 후 실시간 리뷰 감성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 -> [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 발견
+2. **소셜 리스닝**: 브랜드 언급 트윗/게시글 실시간 감성 추적 -> 위기 대응 시간 단축
 3. **콜센터 통화 분석**: 상담 대화 감성 점수로 고객 만족도 자동 산출
-4. **금융 뉴스 감성**: 기업 관련 뉴스 감성 → 주가 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 활용
+4. **금융 뉴스 감성**: 기업 관련 뉴스 감성 -> 주가 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 활용
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,7 +119,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|
 | 실시간 여론 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 브랜드·제품·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 대한 실시간 감성 대시보드 |
 | 고객 만족도 자동화 | NPS (Net Promoter Score) 서베이 없이 VoC 측정 |
-| 제품 개선 사이클 단축 | 부정 리뷰 속 문제 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 개발팀 피드백 속도 |
+| 제품 개선 사이클 단축 | 부정 리뷰 속 문제 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 개발팀 피드백 속도 |
 | 위기 조기 감지 | 부정 감성 급증 시 즉각 알림으로 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 위기 대응 |
 | 경쟁 인텔리전스 | 경쟁사 리뷰 감성 비교로 포지셔닝 인사이트 도출 |
 
@@ -145,17 +145,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [텍스트 데이터 수집]
-    │
-    ▼
+    |
+    v
 [전처리(토크나이징/불용어)]
-    │
-    ▼
+    |
+    v
 [감성 분석(규칙 기반)]
-    │
-    ▼
+    |
+    v
 [머신러닝 분류기]
-    │
-    ▼
+    |
+    v
 [BERT/LLM 기반 감성 분석]
 ```
 
@@ -172,7 +172,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 108 / 262
 
-← **이전**: [104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매](/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)
-**다음**: [106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/) →
+<- **이전**: [104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매](/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)
+**다음**: [106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/) ->
 
 ---

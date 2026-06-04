@@ -39,23 +39,23 @@ tags = ["studynote-cloud-architecture"]
 | 릴리스 (Release) | 클러스터에 배포된 차트의 인스턴스 | [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추적하며 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))의 기준이 됨 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  헬름 (Helm) 렌더링 및 배포 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│  [Chart: 뼈대]                 [사용자 설정]                  │
-│  templates/*.yaml   +        values.yaml                   │
-│  {{ .Values.port }}            port: 8080                  │
-│           │                          │                     │
-│           └──────▶ [Helm Engine] ◀───┘                     │
-│                        (렌더링)                              │
-│                           │                                │
-│                           ▼                                │
-│                 완성된 매니페스트 (YAML)                      │
-│                    port: 8080                              │
-│                           │                                │
-│                           ▼                                │
-│               [Kubernetes API Server]                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  헬름 (Helm) 렌더링 및 배포 흐름                 |
++--------------------------------------------------------------+
+|  [Chart: 뼈대]                 [사용자 설정]                  |
+|  templates/*.yaml   +        values.yaml                   |
+|  {{ .Values.port }}            port: 8080                  |
+|           |                          |                     |
+|           +-------> [Helm Engine] <----+                     |
+|                        (렌더링)                              |
+|                           |                                |
+|                           v                                |
+|                 완성된 매니페스트 (YAML)                      |
+|                    port: 8080                              |
+|                           |                                |
+|                           v                                |
+|               [Kubernetes API Server]                      |
++--------------------------------------------------------------+
 ```
 
 이 구조 덕분에 소스 코드를 수정하지 않고도 `helm install my-app ./chart -f values-prod.yaml` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 운영 환경에 맞는 완벽한 배포본을 찍어낼 수 있다.
@@ -123,17 +123,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 수동 YAML 배포 (Manual Apply)
-    │
-    ▼
+    |
+    v
 템플릿 기반 배포 엔진 (Helm) · 커스터마이즈 (Kustomize)
-    │
-    ▼
+    |
+    v
 오픈소스 차트 공유 생태계 (Artifact Hub)
-    │
-    ▼
+    |
+    v
 자동화 파이프라인 결합 (CI/CD Integration)
-    │
-    ▼
+    |
+    v
 선언적 상태 동기화 (GitOps 연동 - ArgoCD / Flux)
 ```
 
@@ -149,7 +149,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 102 / 371
 
-← **이전**: [102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)
-**다음**: [104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/104_kubernetes_namespace_logical_cluster_isolation/) →
+<- **이전**: [102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)
+**다음**: [104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/104_kubernetes_namespace_logical_cluster_isolation/) ->
 
 ---

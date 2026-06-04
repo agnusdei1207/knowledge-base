@@ -28,18 +28,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 프로그램 순서와 관측 순서가 왜 달라질 수 있는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Program Order와 Observed Order가 달라지는 기본 구조          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core 0 program order : [Store data] ─────────────▶ [Store ready]    │
-│                                │                     │               │
-│                                │ store buffer        │ fast commit   │
-│                                ▼                     ▼               │
-│ Global visibility    : [data not visible yet]   [ready visible]     │
-│                                                          │           │
-│                                                          ▼           │
-│ Core 1 observes      : ready == true, but data == old value          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Program Order와 Observed Order가 달라지는 기본 구조          |
++----------------------------------------------------------------------+
+| Core 0 program order : [Store data] --------------> [Store ready]    |
+|                                |                     |               |
+|                                | store buffer        | fast commit   |
+|                                v                     v               |
+| Global visibility    : [data not visible yet]   [ready visible]     |
+|                                                          |           |
+|                                                          v           |
+| Core 1 observes      : ready == true, but data == old value          |
++----------------------------------------------------------------------+
 ```
 
 이 현상은 버그처럼 보이지만, 실제로는 하드웨어가 허용된 규칙 안에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 수행한 결과다. 그래서 멀티코어 프로그래밍은 "CPU가 재배치해도 무너지지 않는 코드"를 작성하거나, 필요 지점에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약을 명시적으로 추가하는 설계가 필수다.
@@ -59,26 +59,26 @@ tags = ["studynote-computer-architecture"]
 | [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) | 같은 주소의 최신 값을 각 코어가 일관되게 보도록 관리 | 개별 주소의 값은 맞춰 주지만, 여러 주소의 순서까지 보장하지는 않음 |
 | [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) | 특정 지점 전후의 재배치와 가시성 지연을 제한 | 필요한 순간에만 순서를 복원함 |
 
-핵심은 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 "무조건 순서 보장"이 아니라 "어떤 재배치가 합법인지"를 정의한다는 점이다. 예를 들어 강한 모델에서는 Store→Store 순서를 유지하지만, 약한 모델에서는 Store→Store조차 바뀔 수 있다. 따라서 하드웨어는 더 자유롭게 최적화할 수 있고, 대신 프로그래머는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지점을 더 엄격히 선언해야 한다.
+핵심은 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 "무조건 순서 보장"이 아니라 "어떤 재배치가 합법인지"를 정의한다는 점이다. 예를 들어 강한 모델에서는 Store->Store 순서를 유지하지만, 약한 모델에서는 Store->Store조차 바뀔 수 있다. 따라서 하드웨어는 더 자유롭게 최적화할 수 있고, 대신 프로그래머는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지점을 더 엄격히 선언해야 한다.
 
 아래 그림은 게시-구독(publish-subscribe) 패턴에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약이 들어가는 위치를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Publish-Subscribe에서 필요한 ordering boundary            │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Producer Core                 │ Consumer Core                        │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 1) payload = 42               │ 1) while (flag == 0) wait           │
-│ 2) release barrier            │ 2) acquire barrier                  │
-│ 3) flag = 1                   │ 3) read payload                     │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 의미: payload write가         │ 의미: flag를 본 이후의 read가       │
-│ flag write 뒤로 밀리지 않음   │ flag 확인 앞으로 당겨지지 않음      │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Publish-Subscribe에서 필요한 ordering boundary            |
++-------------------------------+--------------------------------------+
+| Producer Core                 | Consumer Core                        |
++-------------------------------+--------------------------------------+
+| 1) payload = 42               | 1) while (flag == 0) wait           |
+| 2) release barrier            | 2) acquire barrier                  |
+| 3) flag = 1                   | 3) read payload                     |
++-------------------------------+--------------------------------------+
+| 의미: payload write가         | 의미: flag를 본 이후의 read가       |
+| flag write 뒤로 밀리지 않음   | flag 확인 앞으로 당겨지지 않음      |
++-------------------------------+--------------------------------------+
 ```
 
-즉, 생산자 측의 Release와 소비자 측의 Acquire는 서로 맞물려 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 → 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측"의 인과 사슬을 만든다. 이 사슬이 없으면 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 살아 있어도, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 깨진다. 그래서 메모리 모델은 캐시 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령 사이를 이어 주는 중간 법칙으로 봐야 한다.
+즉, 생산자 측의 Release와 소비자 측의 Acquire는 서로 맞물려 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 -> 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측"의 인과 사슬을 만든다. 이 사슬이 없으면 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 살아 있어도, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 깨진다. 그래서 메모리 모델은 캐시 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령 사이를 이어 주는 중간 법칙으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 공장에서 제품을 상자에 넣기 전에 출고 도장을 먼저 찍으면 물류 시스템은 빨라 보여도 고객은 빈 상자를 받는다. [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)는 "포장 완료 후 출고"라는 작업 순서를 강제하는 검사대다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-computer-architecture"]
 | 모델 | 기본 아이디어 | 장점 | 부담 |
 | :-- | :-- | :-- | :-- |
 | [순차적 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/) ([Sequential Consistency](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/)) | 모든 메모리 연산이 하나의 전역 순서로 보임 | 사고하기 쉽고 디버깅이 단순함 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 제약이 큼 |
-| TSO (Total Store Order) | 대체로 강한 순서를 유지하되 일부 Store→Load 완화 허용 | x86 계열에서 비교적 직관적인 동작 제공 | 일부 락프리 코드에서는 여전히 Fence 필요 |
+| TSO (Total Store Order) | 대체로 강한 순서를 유지하되 일부 Store->Load 완화 허용 | x86 계열에서 비교적 직관적인 동작 제공 | 일부 락프리 코드에서는 여전히 Fence 필요 |
 | [완화된 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/) ([Relaxed Consistency](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/)) | 다양한 재배치를 넓게 허용 | 전력·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화에 유리 | ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine) 등에서 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담 증가 |
 
 이 개념은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)과 자주 혼동되지만 담당 범위가 다르다. MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜은 하나의 캐시 라인에 대해 최신 값이 무엇인지를 맞춘다. 하지만 `x = 1; y = 1;`처럼 두 주소를 순서 있게 기록했을 때, 다른 코어가 반드시 `x`를 먼저 보고 `y`를 나중에 본다고 보장하는 역할은 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델이 맡는다.
@@ -156,20 +156,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 비순차 실행 (Out-of-Order Execution)
-        │
-        ▼
+        |
+        v
 캐시 일관성 (Cache Coherence)
-        │
-        ▼
+        |
+        v
 메모리 일관성 모델 (Memory Consistency Model)
-        │
-        ├──────────────▶ 순차적 일관성 (Sequential Consistency)
-        │
-        ├──────────────▶ TSO (Total Store Order)
-        │
-        └──────────────▶ 완화된 일관성 (Relaxed Consistency)
-                                  │
-                                  ▼
+        |
+        +---------------> 순차적 일관성 (Sequential Consistency)
+        |
+        +---------------> TSO (Total Store Order)
+        |
+        +---------------> 완화된 일관성 (Relaxed Consistency)
+                                  |
+                                  v
 메모리 배리어 · 원자 연산 · 락프리 자료구조
 ```
 
@@ -185,7 +185,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 411 / 803
 
-← **이전**: [409. 거짓 공유 (False Sharing)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)
-**다음**: [411. 순차적 일관성 (Sequential Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/) →
+<- **이전**: [409. 거짓 공유 (False Sharing)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)
+**다음**: [411. 순차적 일관성 (Sequential Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/) ->
 
 ---

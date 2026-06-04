@@ -23,14 +23,14 @@ tags = ["software_engineering"]
 
 과거에는 요구사항이 명확하지 않은 상태에서 곧바로 코딩([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) and Fix)에 돌입하는 경우가 많았다. 이로 인해 후반부 테스트 단계나 운영 환경에서 치명적인 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되었고, 이를 수정하기 위한 재작업 비용이 기하급수적으로 증가했다. 이러한 구조적 한계를 극복하기 위해, SDLC는 '설계 없는 구현'을 방지하고 각 단계마다 명확한 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 설정하여 다음 단계로 넘어갈 수 있도록 통제하는 장치로써 반드시 필요해졌다.
 
-> 💡 **비유**: 건물을 지을 때 설계도면 없이 벽돌부터 쌓지 않고, 기획안 승인 → 조감도 작성 → 골조 공사 → 내부 인테리어 → 준공 검사의 순서를 엄격히 따르는 건설 공정과 같다.
+> 💡 **비유**: 건물을 지을 때 설계도면 없이 벽돌부터 쌓지 않고, 기획안 승인 -> 조감도 작성 -> 골조 공사 -> 내부 인테리어 -> 준공 검사의 순서를 엄격히 따르는 건설 공정과 같다.
 
 ```text
 [Code & Fix 방식의 한계 (SDLC 도입 전)]
 
-[요구 대충 파악] ──> [즉시 코딩] ──> [운영 중 장애 펑펑]
-                         │                ▲
-                         └─(수정/땜질)────┘
+[요구 대충 파악] --> [즉시 코딩] --> [운영 중 장애 펑펑]
+                         |                ^
+                         +-(수정/땜질)----+
             * 병목: 아키텍처 부재로 인한 수정 비용 무한 증식
 ```
 **[도식 설명]**
@@ -53,17 +53,17 @@ SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지�
 [SDLC의 선형적 데이터 흐름 및 검증 피드백 루프]
 
 [사용자]
-   │ (Needs)
-   ▼
-[요구 분석] ──(SRS 명세)──┐
-   ▲                      ▼
-   │(재분석)          [시스템 설계] ──(설계도)──┐
-   │                      ▲                     ▼
-   │                      │(재설계)          [구현/코딩] ──(코드)──┐
-   │                      │                     ▲                  ▼
-   └───────────(결함 피드백)────────────────────┴──────────[테스트/검증]
-                                                                   │ (패스)
-                                                                   ▼
+   | (Needs)
+   v
+[요구 분석] --(SRS 명세)--+
+   ^                      v
+   |(재분석)          [시스템 설계] --(설계도)--+
+   |                      ^                     v
+   |                      |(재설계)          [구현/코딩] --(코드)--+
+   |                      |                     ^                  v
+   +-----------(결함 피드백)--------------------+----------[테스트/검증]
+                                                                   | (패스)
+                                                                   v
                                                               [운영/유지보수]
 ```
 **[도식 설명]**
@@ -85,14 +85,14 @@ SDLC는 프로젝트의 특성(불확실성, 규모)에 따라 폭포수, 나선
 ```text
 [SDLC 모델 선택을 위한 트레이드오프 매트릭스]
 
-높음 ┌───────────────┬───────────────┐
-     │ 나선형 모델   │ 애자일 모델   │
-위험도│ (대규모/고위험)│ (스타트업/유연)│
-     ├───────────────┼───────────────┤
-     │ 폭포수 모델   │ 프로토타입    │
-낮음 │ (국방/공공/SI)│ (UI/UX 검증)  │
-     └───────────────┴───────────────┘
-      명확함 ◄── (요구사항) ──► 불명확함
+높음 +---------------+---------------+
+     | 나선형 모델   | 애자일 모델   |
+위험도| (대규모/고위험)| (스타트업/유연)|
+     +---------------+---------------+
+     | 폭포수 모델   | 프로토타입    |
+낮음 | (국방/공공/SI)| (UI/UX 검증)  |
+     +---------------+---------------+
+      명확함 ◄-- (요구사항) --► 불명확함
 ```
 **[도식 설명]**
 이 매트릭스는 프로젝트가 처한 상황(위험도와 요구사항의 명확성)에 따라 어떤 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 모델을 적용해야 하는지를 보여주는 의사결정 도구다. 요구사항이 명확하고 위험이 낮다면 고전적인 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)이 효율적이지만, 요구사항이 계속 변하고 기술적 위험이 높다면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이나 나선형 모델을 채택해야 한다. 실무에서 가장 큰 재앙은 우상단(요구 불명확, 위험 높음) 프로젝트에 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)을 강제 적용할 때 발생한다.
@@ -115,9 +115,9 @@ SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자
 ```text
 [보안이 융합된 실무 SSDLC (Secure SDLC) 흐름도]
 
-[요구 분석] ──> [설계] ──> [구현] ──> [테스트] ──> [운영]
-    │           │          │          │           │
-    ▼           ▼          ▼          ▼           ▼
+[요구 분석] --> [설계] --> [구현] --> [테스트] --> [운영]
+    |           |          |          |           |
+    v           v          v          v           v
 [위협분석]  [보안설계]  [시큐어코딩][모의해킹]  [취약점관제]
 (STRIDE)    (아키텍처)  (SAST)     (DAST)      (Patch)
 ```
@@ -152,17 +152,17 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 
 ```text
 [소프트웨어 공학 (Software Engineering)]
-    │
-    ▼
+    |
+    v
 [폭포수 모델 (Waterfall Model)]
-    │
-    ▼
+    |
+    v
 [애자일 방법론 (Agile)]
-    │
-    ▼
+    |
+    v
 [형상 관리 (Configuration Management)]
-    │
-    ▼
+    |
+    v
 [요구공학 (Requirements Engineering)]
 ```
 
@@ -179,7 +179,7 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 
 **진행 상황**: 3 / 973
 
-← **이전**: [2. 소프트웨어 위기 (Software Crisis) - 비용 초과, 일정 지연, 품질 저하](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)
-**다음**: [4. 폭포수 모델 (Waterfall Model) - 순차적, 문서 중심](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) →
+<- **이전**: [2. 소프트웨어 위기 (Software Crisis) - 비용 초과, 일정 지연, 품질 저하](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)
+**다음**: [4. 폭포수 모델 (Waterfall Model) - 순차적, 문서 중심](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) ->
 
 ---

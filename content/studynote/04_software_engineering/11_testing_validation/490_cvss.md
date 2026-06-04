@@ -30,16 +30,16 @@ CVSS는 취약점 대응 우선순위를 정할 때 가장 널리 쓰이는 점�
 다음은 [CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/) (Common Vulnera의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CVSS (Common Vulnera                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  CVSS (Common Vulnera                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/) (Common Vulnera가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -142,21 +142,21 @@ CVSS는 보안 의사결정을 더 일관되게 만든다. 다만 절대 기준�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 CVSS (Common Vulnerability Scoring System) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +170,7 @@ CVSS (Common Vulnerability Scoring System) 개념 정립
 
 **진행 상황**: 571 / 973
 
-← **이전**: [489. CVE (Common Vulnerabilities and Exposures) - 공개된 보안 취약점 목록](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/489_cve_vulnerabilities_exposures/)
-**다음**: [490. CVSS (Common Vulnerability Scoring System) - 취약점 위험도 평가 점수 (0~10)](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/490_cvss_vulnerability_scoring/) →
+<- **이전**: [489. CVE (Common Vulnerabilities and Exposures) - 공개된 보안 취약점 목록](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/489_cve_vulnerabilities_exposures/)
+**다음**: [490. CVSS (Common Vulnerability Scoring System) - 취약점 위험도 평가 점수 (0~10)](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/490_cvss_vulnerability_scoring/) ->
 
 ---

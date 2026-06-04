@@ -73,17 +73,17 @@ Suffix Tree (Visual):         Suffix Array (Ordered Indices):
 
 ```text
 [접미사 (Suffix) — 문자열의 모든 꼬리 부분]
-    │
-    ▼
+    |
+    v
 [접미사 트리 (Suffix Tree) — O(n) 구축 압축 트리]
-    │
-    ▼
+    |
+    v
 [접미사 배열 (Suffix Array) — 메모리 효율적인 정렬 배열]
-    │
-    ▼
+    |
+    v
 [LCP 배열 (Longest Common Prefix Array) — 인접 접미사 공통 접두사 길이]
-    │
-    ▼
+    |
+    v
 [버로우스-휠러 변환 (BWT, Burrows-Wheeler Transform) — 압축과 DNA 검색 응용]
 ```
 
@@ -100,7 +100,7 @@ Suffix Tree (Visual):         Suffix Array (Ordered Indices):
 
 **진행 상황**: 105 / 175
 
-← **이전**: [11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)
-**다음**: [001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/106_p_class/) →
+<- **이전**: [11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)
+**다음**: [001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/106_p_class/) ->
 
 ---

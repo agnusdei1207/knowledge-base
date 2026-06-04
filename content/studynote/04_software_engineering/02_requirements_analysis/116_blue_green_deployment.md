@@ -10,8 +10,8 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블루/그린 배포는 현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue→Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
-> 2. **가치**: 문제 발생 시 트래픽을 **Green→Blue로 즉시 되돌려** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.
+> 1. **본질**: 블루/그린 배포는 현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue->Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
+> 2. **가치**: 문제 발생 시 트래픽을 **Green->Blue로 즉시 되돌려** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.
 > 3. **판단 포인트**: 인프라 비용이 **2배(Blue+Green 동시 운영)** 필요하며, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 있을 때 <strong>양쪽 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>(Expand and Contract)</strong>을 보장해야 한다.
 
 ---
@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    블루/그린 배포 전환 흐름                             │
-├───────────────────────────────────────────────────────┤
-│  [Before] LB ──▶ Blue (v1) ← 100% 트래픽            │
-│                  Green (v2) ← 0% (대기, 테스트 중)    │
-│                                                       │
-│  [Switch] LB ──▶ Green (v2) ← 100% 트래픽 ✅         │
-│                  Blue (v1) ← 0% (대기, 롤백 대비)     │
-│                                                       │
-│  [Rollback] LB ──▶ Blue (v1) ← 100% (즉시 복원)     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    블루/그린 배포 전환 흐름                             |
++-------------------------------------------------------+
+|  [Before] LB ---> Blue (v1) <- 100% 트래픽            |
+|                  Green (v2) <- 0% (대기, 테스트 중)    |
+|                                                       |
+|  [Switch] LB ---> Green (v2) <- 100% 트래픽 ✅         |
+|                  Blue (v1) <- 0% (대기, 롤백 대비)     |
+|                                                       |
+|  [Rollback] LB ---> Blue (v1) <- 100% (즉시 복원)     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 블루/그린은 무대 2개가 있는 극장이다. 관객은 항상 1개 무대만 보고, 다른 무대에서 세트(신버전)를 준비한 후 조명을 순간 전환한다.
@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 
 | 비교 | 블루/그린 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
 |:---|:---|:---|
-| **전환** | 100% 한 번에 | 1%→100% 점진 |
+| **전환** | 100% 한 번에 | 1%->100% 점진 |
 | **비용** | 2배 인프라 | +α만 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 전환 전 테스트 | 실 트래픽 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 즉시 (LB 전환) | 즉시 (비율 0%) |
@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | 다운타임 | 분~시간 | **0** | 무중단 |
 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도 | 분 단위 | **초 단위** | 즉시 |
-| 테스트 | 스테이징 | **프로덕션급 Green** | 정확도 ↑ |
+| 테스트 | 스테이징 | **프로덕션급 Green** | 정확도 ^ |
 
 블루/그린은 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 플래그와 결합한 **Progressive Delivery** 체계의 구성 요소로 활용된다.
 
@@ -102,17 +102,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [수동 배포 (다운타임 발생, 2000s)]
-    │
-    ▼
+    |
+    v
 [블루/그린 배포 (2010s) — 무중단, 즉시 롤백]
-    │
-    ▼
+    |
+    v
 [카나리 배포 (2015~) — 점진적 트래픽 확대]
-    │
-    ▼
+    |
+    v
 [Progressive Delivery (2020~) — 카나리+피처플래그+ACA]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 자율 배포 — 메트릭 분석 자동 전환/롤백]
 ```
 
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 116 / 973
 
-← **이전**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)
-**다음**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) →
+<- **이전**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)
+**다음**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) ->
 
 ---

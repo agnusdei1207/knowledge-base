@@ -45,25 +45,25 @@ tags = ["studynote-operating-system"]
    - 사용자 입장에서는 아예 아무 일도 일어나지 않았던 것과 똑같아진다. (All or <strong>Nothing</strong>의 Nothing 달성)
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│           원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름        │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 트랜잭션 시작 (Begin) ]                                              │
-│         │                                                              │
-│         ▼                                                              │
-│    연산 1 수행 ──▶ (로그에 기록, 실제 데이터는 변경 안 함)             │
-│         │                                                              │
-│         ▼          💣 에러 발생! (시스템 다운 등)                      │
-│    연산 2 수행 ─────▶ [ Abort 발동 ] ──▶ (로그 폐기, 롤백) ──┐         │
-│         │                                                │             │
-│         ▼ (모두 성공 시)                                     ▼         │
-│ [ 트랜잭션 완료 (Commit) ]                              [ 원상 복구 ]  │
-│         │                                                │             │
-│         ▼                                                ▼             │
-│  (로그를 실제 데이터에 덮어씀)                           (Nothing)     │
-│       (All)                                                            │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|           원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름        |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 트랜잭션 시작 (Begin) ]                                              |
+|         |                                                              |
+|         v                                                              |
+|    연산 1 수행 ---> (로그에 기록, 실제 데이터는 변경 안 함)             |
+|         |                                                              |
+|         v          💣 에러 발생! (시스템 다운 등)                      |
+|    연산 2 수행 ------> [ Abort 발동 ] ---> (로그 폐기, 롤백) --+         |
+|         |                                                |             |
+|         v (모두 성공 시)                                     v         |
+| [ 트랜잭션 완료 (Commit) ]                              [ 원상 복구 ]  |
+|         |                                                |             |
+|         v                                                v             |
+|  (로그를 실제 데이터에 덮어씀)                           (Nothing)     |
+|       (All)                                                            |
++------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 핵심은 "작업을 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 공간([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등)에서 미리 연습해 본 뒤, 완벽하게 성공할 확신이 들 때만 진짜 데이터에 덮어쓰는 것"이다. 에러가 나면 그냥 연습장을 찢어버리면 그만이다. 이것이 원자성을 보장하는 가장 고전적이면서도 완벽한 기법인 '[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Log-based Recovery](/knowledge-base/studynote/05_database/04_transactions_concurrency/237_log_based_recovery_redo_undo_records/))'의 원리다.
@@ -114,12 +114,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [비관적 병행성 제어 (Pessimistic Concurrency Control)]
-    │
-    ▼
+    |
+    v
 [원자적 트랜잭션 (Atomic Transaction) 개념]
-    │
-    ├──▶ [소프트웨어 트랜잭셔널 메모리 (STM)]
-    └──▶ [하드웨어 트랜잭셔널 메모리 (HTM]
+    |
+    +---> [소프트웨어 트랜잭셔널 메모리 (STM)]
+    +---> [하드웨어 트랜잭셔널 메모리 (HTM]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -136,7 +136,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 267 / 800
 
-← **이전**: [266. 페이지 부재 빈도 (PFF, Page Fault Frequency)](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)
-**다음**: [268. 소프트웨어 트랜잭셔널 메모리 (STM)](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) →
+<- **이전**: [266. 페이지 부재 빈도 (PFF, Page Fault Frequency)](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)
+**다음**: [268. 소프트웨어 트랜잭셔널 메모리 (STM)](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) ->
 
 ---

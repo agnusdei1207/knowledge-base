@@ -133,12 +133,12 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ```text
 [보호 도메인 (Protection Domain)]
-    │
-    ▼
+    |
+    v
 [접근 제어 행렬 (Access Matrix)]
-    │
-    ├──▶ [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
-    └──▶ [접근 제어 목록 (ACL, Access Control List)]
+    |
+    +---> [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
+    +---> [접근 제어 목록 (ACL, Access Control List)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -157,7 +157,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 **진행 상황**: 573 / 800
 
-← **이전**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)
-**다음**: [574. 전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) →
+<- **이전**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)
+**다음**: [574. 전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ->
 
 ---

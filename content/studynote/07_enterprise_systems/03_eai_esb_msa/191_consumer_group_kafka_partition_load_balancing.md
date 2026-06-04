@@ -34,16 +34,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 기본적인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Kafka consumer group assignment                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Topic: orders                                                        │
-│   P0 -----------------------------> Consumer A                       │
-│   P1 -----------------------------> Consumer B                       │
-│   P2 -----------------------------> Consumer C                       │
-│                                                                      │
-│ If Consumer B fails -> rebalance -> P1 moves to A or C              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Kafka consumer group assignment                                      |
++----------------------------------------------------------------------+
+| Topic: orders                                                        |
+|   P0 -----------------------------> Consumer A                       |
+|   P1 -----------------------------> Consumer B                       |
+|   P2 -----------------------------> Consumer C                       |
+|                                                                      |
+| If Consumer B fails -> rebalance -> P1 moves to A or C              |
++----------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | 설계 포인트 |
@@ -126,17 +126,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 단일 컨슈머 병목과 Lag 증가
-        │
-        ▼
+        |
+        v
 토픽 파티션 분할
-        │
-        ▼
+        |
+        v
 Consumer Group 기반 병렬 소비
-        │
-        ▼
+        |
+        v
 Offset 관리 · Rebalancing · Lag 모니터링
-        │
-        ▼
+        |
+        v
 멱등성 · Exactly-Once Semantics 최적화
 ```
 
@@ -154,7 +154,7 @@ Offset 관리 · Rebalancing · Lag 모니터링
 
 **진행 상황**: 191 / 482
 
-← **이전**: [190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/190_event_driven_architecture_eda_pubsub/)
-**다음**: [192. gRPC - Protocol Buffers와 HTTP/2 기반 고성능 RPC](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/192_grpc_protocol_buffers_http2/) →
+<- **이전**: [190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/190_event_driven_architecture_eda_pubsub/)
+**다음**: [192. gRPC - Protocol Buffers와 HTTP/2 기반 고성능 RPC](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/192_grpc_protocol_buffers_http2/) ->
 
 ---

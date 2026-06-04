@@ -24,19 +24,19 @@ S3 같은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_sys
 
 ```
 [오브젝트 스토리지 기본 문제]
-Writer-1 ──▶ S3/data/ ◀── Writer-2  (동시 쓰기 충돌)
+Writer-1 ---> S3/data/ <--- Writer-2  (동시 쓰기 충돌)
 파이프라인 실패 후 S3에 불완전 Parquet 파일 잔류
 스키마 변경 시 이전 파일과 호환성 깨짐
 어제 실행 결과 재현 불가 (타임트래블 없음)
 
 [오픈 테이블 포맷 도입 후]
-┌──────────────────────────────────┐
-│   S3 Parquet 파일들              │
-│     + 트랜잭션 로그(_delta_log/) │  ← Delta Lake
-│     + 메타데이터 파일(metadata/) │  ← Iceberg
-│     + 타임라인 로그(.hoodie/)    │  ← Hudi
-└──────────────────────────────────┘
-       ↑ "이 레이어가 있으면 DB처럼 동작"
++----------------------------------+
+|   S3 Parquet 파일들              |
+|     + 트랜잭션 로그(_delta_log/) |  <- Delta Lake
+|     + 메타데이터 파일(metadata/) |  <- Iceberg
+|     + 타임라인 로그(.hoodie/)    |  <- Hudi
++----------------------------------+
+       ^ "이 레이어가 있으면 DB처럼 동작"
 ```
 
 📢 **섹션 요약 비유**: S3는 창고이고, 오픈 테이블 포맷은 창고에 설치한 재고 관리 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))이다. 창고 자체는 변하지 않지만, ERP가 있으면 어떤 물건이 언제 들어오고 나갔는지 추적하고, 실수로 잘못 입고된 물건을 되돌릴 수 있다.
@@ -48,20 +48,20 @@ Writer-1 ──▶ S3/data/ ◀── Writer-2  (동시 쓰기 충돌)
 ### [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 아키텍처
 
 ```
-┌────────────────────────────────────────────────────┐
-│               Delta Lake 구조                       │
-│                                                    │
-│  S3 버킷: s3://bucket/tables/orders/               │
-│  ├── _delta_log/                                   │
-│  │   ├── 00000000000000000000.json  ← 버전 0 (CREATE)│
-│  │   ├── 00000000000000000001.json  ← 버전 1 (INSERT)│
-│  │   ├── 00000000000000000002.json  ← 버전 2 (UPDATE)│
-│  │   └── 00000000000000000010.checkpoint.parquet  │
-│  ├── part-00000-xxx.snappy.parquet  ← 실제 데이터  │
-│  ├── part-00001-xxx.snappy.parquet                 │
-│  └── part-00002-xxx.snappy.parquet                 │
-└────────────────────────────────────────────────────┘
-         ↑ Delta Log가 ACID 트랜잭션 구현의 핵심
++----------------------------------------------------+
+|               Delta Lake 구조                       |
+|                                                    |
+|  S3 버킷: s3://bucket/tables/orders/               |
+|  +-- _delta_log/                                   |
+|  |   +-- 00000000000000000000.json  <- 버전 0 (CREATE)|
+|  |   +-- 00000000000000000001.json  <- 버전 1 (INSERT)|
+|  |   +-- 00000000000000000002.json  <- 버전 2 (UPDATE)|
+|  |   +-- 00000000000000000010.checkpoint.parquet  |
+|  +-- part-00000-xxx.snappy.parquet  <- 실제 데이터  |
+|  +-- part-00001-xxx.snappy.parquet                 |
+|  +-- part-00002-xxx.snappy.parquet                 |
++----------------------------------------------------+
+         ^ Delta Log가 ACID 트랜잭션 구현의 핵심
 ```
 
 ### 핵심 기능 상세
@@ -69,10 +69,10 @@ Writer-1 ──▶ S3/data/ ◀── Writer-2  (동시 쓰기 충돌)
 | 기능 | 구현 원리 |
 |:---|:---|
 | <strong>ACID <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> | Delta Log에 원자적 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 커밋. Optimistic [Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) Control로 [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌 감지 |
-| **타임트래블** | `VERSION AS OF N` 또는 `TIMESTAMP AS OF` → Delta Log의 특정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 재구성 |
+| **타임트래블** | `VERSION AS OF N` 또는 `TIMESTAMP AS OF` -> Delta Log의 특정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 재구성 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong> | 새 컬럼 추가(ADD COLUMN) 시 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 NULL로 읽기, 상위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지 |
 | **Upsert (MERGE)** | `MERGE INTO` SQL 구문으로 INSERT+UPDATE+DELETE 원자 처리 |
-| **Z-Ordering** | 다차원 클러스터링으로 자주 쿼리되는 컬럼 기준 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정렬 → Skip 효율 ↑ |
+| **Z-Ordering** | 다차원 클러스터링으로 자주 쿼리되는 컬럼 기준 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정렬 -> Skip 효율 ^ |
 | **OPTIMIZE + VACUUM** | 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 병합(OPTIMIZE), 오래된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 삭제(VACUUM) |
 
 ### Delta vs Iceberg vs Hudi 아키텍처 비교
@@ -80,10 +80,10 @@ Writer-1 ──▶ S3/data/ ◀── Writer-2  (동시 쓰기 충돌)
 ```
 [Delta Lake]          [Apache Iceberg]       [Apache Hudi]
 _delta_log/           metadata/              .hoodie/
-├─ 버전별 JSON        ├─ v1.metadata.json    ├─ 타임라인 파일
-│  커밋 로그          ├─ snap-xxx.avro       ├─ .commit
-│  (추가/삭제 파일)   │  (스냅샷)             ├─ .deltacommit
-└─ checkpoint        └─ manifest-xxx.avro   └─ .replacecommit
++- 버전별 JSON        +- v1.metadata.json    +- 타임라인 파일
+|  커밋 로그          +- snap-xxx.avro       +- .commit
+|  (추가/삭제 파일)   |  (스냅샷)             +- .deltacommit
++- checkpoint        +- manifest-xxx.avro   +- .replacecommit
 
 특화: Databricks 통합  특화: 멀티엔진 범용    특화: Upsert/CDC
 ```
@@ -168,17 +168,17 @@ WHEN NOT MATCHED THEN INSERT *;
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌·부분 실패 오염 제거, ACID 보장 |
 | <strong>규정 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 대응</strong> | 타임트래블로 특정 시점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재현 ([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Right to Erasure 포함) |
-| **운영 비용 절감** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)+레이크 이중 구조 → 단일 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)로 통합 |
+| **운영 비용 절감** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)+레이크 이중 구조 -> 단일 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)로 통합 |
 | **ML 파이프라인 안정성** | [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 모델 재현성 확보 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **Small Files 문제** | 스트리밍/빈번 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폭발 → OPTIMIZE 필수 |
+| **Small Files 문제** | 스트리밍/빈번 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폭발 -> OPTIMIZE 필수 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 오버헤드</strong> | Delta Log [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수천만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시 조회 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | **벤더 의존** | Delta Lake는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 라이선스 주도 (Iceberg로 중립화 가능) |
-| **학습 곡선** | [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)→[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 전환 시 [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)/MoR, Z-Ordering 개념 학습 필요 |
+| **학습 곡선** | [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)->[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 전환 시 [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)/MoR, Z-Ordering 개념 학습 필요 |
 
 📢 **섹션 요약 비유**: 오픈 테이블 포맷은 스마트폰 OS와 같다. 하드웨어(S3 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))는 그대로지만, OS(Delta/Iceberg/Hudi)가 있으면 앱(BI·ML·SQL)이 안정적으로 동작한다. OS 선택(포맷 선택)은 나중에 바꾸기 어려우니 신중하게 결정해야 한다.
 
@@ -202,12 +202,12 @@ WHEN NOT MATCHED THEN INSERT *;
 
 ```text
 Parquet/ORC 파일 (메타데이터 부재)
-    │
-    ▼
+    |
+    v
 오픈 테이블 포맷: 메타데이터 레이어 추가
-    ├─► Delta Lake: Databricks 주도 · Unity Catalog
-    ├─► Apache Iceberg: Netflix 주도 · 벤더 중립
-    └─► Apache Hudi: Uber 주도 · CDC 최적화
+    +-► Delta Lake: Databricks 주도 · Unity Catalog
+    +-► Apache Iceberg: Netflix 주도 · 벤더 중립
+    +-► Apache Hudi: Uber 주도 · CDC 최적화
 ```
 2. Delta Lake는 다이어리(일기장), Iceberg는 여러 도서관에서 읽을 수 있는 표준 교과서, Hudi는 실시간으로 내용이 바뀌는 뉴스 게시판과 같다.
 3. ACID는 은행 통장 잔액처럼 믿을 수 있어야 하는 규칙이다. 내가 1만원을 출금할 때 다른 사람도 동시에 1만원을 출금해서 잔액이 마이너스가 되는 일이 없도록 보호한다.
@@ -218,7 +218,7 @@ Parquet/ORC 파일 (메타데이터 부재)
 
 **진행 상황**: 224 / 371
 
-← **이전**: [224. 데이터 레이크하우스 (Data Lakehouse)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/224_data_lakehouse_delta_lake_databricks/)
-**다음**: [226. ETL (Extract, Transform, Load)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/226_etl_extract_transform_load/) →
+<- **이전**: [224. 데이터 레이크하우스 (Data Lakehouse)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/224_data_lakehouse_delta_lake_databricks/)
+**다음**: [226. ETL (Extract, Transform, Load)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/226_etl_extract_transform_load/) ->
 
 ---

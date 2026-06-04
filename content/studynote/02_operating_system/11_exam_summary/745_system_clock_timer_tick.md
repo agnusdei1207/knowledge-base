@@ -31,34 +31,34 @@ tags = ["studynote-operating-system"]
   - 이후 멀티코어 시대에 맞춰 코어별로 독립적인 로컬 APIC (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller) 타이머가 도입되어 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 스케줄링의 기초가 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 타이머 틱 기반 선점형 스케줄링 원리               │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [하드웨어 타이머 발진기 (100Hz = 10ms 마다 틱 발생)]            │
-  │      │     │     │     │     │     │     │     │            │
-  │      ▼     ▼     ▼     ▼     ▼     ▼     ▼     ▼            │
-  │   ---Tick--Tick--Tick--Tick--Tick--Tick--Tick--Tick---> 시간│
-  │                                                             │
-  │  [CPU 실행 흐름]                                             │
-  │   ┌────────┐┌─┐┌────────┐┌─┐┌────────┐┌─┐┌────────┐       │
-  │   │ Proc A ││K││ Proc A ││K││ Proc B ││K││ Proc B │       │
-  │   └────────┘└─┘└────────┘└─┘└────────┘└─┘└────────┘       │
-  │              ▲          ▲          ▲                     │
-  │              │          │          │                     │
-  │   [커널 동작(K)]        │          │                     │
-  │   1. Proc A 틱 카운트--  │          │                     │
-  │   2. 할당량 남음. 복귀   │          │                     │
-  │                       │          │                     │
-  │   [커널 동작(K)]        │          │                     │
-  │   1. Proc A 틱 카운트--  │          │                     │
-  │   2. 할당량(Quantum) 0! │          │                     │
-  │   3. 문맥 교환 실행(A->B) ┘          │                     │
-  │                                  │                     │
-  │   [커널 동작(K)]                   │                     │
-  │   1. Proc B 틱 카운트--             │                     │
-  │   2. 할당량 남음. 복귀              ┘                     │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 타이머 틱 기반 선점형 스케줄링 원리               |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [하드웨어 타이머 발진기 (100Hz = 10ms 마다 틱 발생)]            |
+  |      |     |     |     |     |     |     |     |            |
+  |      v     v     v     v     v     v     v     v            |
+  |   ---Tick--Tick--Tick--Tick--Tick--Tick--Tick--Tick---> 시간|
+  |                                                             |
+  |  [CPU 실행 흐름]                                             |
+  |   +--------++-++--------++-++--------++-++--------+       |
+  |   | Proc A ||K|| Proc A ||K|| Proc B ||K|| Proc B |       |
+  |   +--------++-++--------++-++--------++-++--------+       |
+  |              ^          ^          ^                     |
+  |              |          |          |                     |
+  |   [커널 동작(K)]        |          |                     |
+  |   1. Proc A 틱 카운트--  |          |                     |
+  |   2. 할당량 남음. 복귀   |          |                     |
+  |                       |          |                     |
+  |   [커널 동작(K)]        |          |                     |
+  |   1. Proc A 틱 카운트--  |          |                     |
+  |   2. 할당량(Quantum) 0! |          |                     |
+  |   3. 문맥 교환 실행(A->B) +          |                     |
+  |                                  |                     |
+  |   [커널 동작(K)]                   |                     |
+  |   1. Proc B 틱 카운트--             |                     |
+  |   2. 할당량 남음. 복귀              +                     |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 타이밍 다이어그램은 왜 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 하드웨어 타이머 없이는 멀티태스킹을 구현할 수 없는지 명확히 보여준다. 프로세스 A가 무한 루프를 돌고 있어도, 타이머 칩은 물리적으로 독립되어 있기 때문에 무조건 10ms마다 CPU의 실행을 중단시키고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(K)의 타이머 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))를 호출한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스 A의 남은 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)을 1씩 차감하며, [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)이 0이 되는 두 번째 틱에서 강제로 프로세스 B로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 단행한다. 이처럼 타이머 틱은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 시스템에 주기적으로 개입할 수 있는 유일한 '비상 통로'다.
@@ -85,40 +85,40 @@ tags = ["studynote-operating-system"]
 한 번의 틱 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생했을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 일어나는 일련의 작업을 분석하면, OS의 스케줄링과 메모리 관리가 어떻게 시간 축에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되는지 알 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 타이머 틱 인터럽트 핸들러의 실행 파이프라인             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [하드웨어] Timer Interrupt (IRQ 0) 발생                           │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [커널 진입] CPU 모드 변경 (User -> Kernel), 레지스터 스택 저장       │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [ 1. Jiffies 갱신 ]                                              │
-  │      - 시스템 전역 틱 카운터 증가 (`jiffies++`)                      │
-  │      - 현재 날짜와 시간(Wall Time) 업데이트 (RTC 동기화)               │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [ 2. 프로세스 CPU Accounting ]                                   │
-  │      - 현재 프로세스의 사용자/커널 모드 사용 시간(vruntime 등) 누적 계산 │
-  │      - 타임 슬라이스(Time Slice) 1 차감                             │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [ 3. 소프트 타이머(Timers) 검사 ]                                  │
-  │      - 만료된 커널 타이머 목록(네트워크 연결 타임아웃 등)이 있는지 확인     │
-  │      - 만료 시 해당 콜백(Callback) 함수를 큐에 넣음                     │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [ 4. 스케줄링 필요성 판단 (need_resched) ]                          │
-  │      - 타임 슬라이스가 0이 되었는가? -> YES                           │
-  │      - `TIF_NEED_RESCHED` 플래그를 1로 세팅                         │
-  │        │                                                          │
-  │        ▼                                                          │
-  │   [인터럽트 복귀 (Return from Interrupt)]                            │
-  │      - 복귀 직전 `need_resched` 플래그 확인 -> 스케줄러(schedule()) 호출 │
-  │      - 문맥 교환 발생! (Context Switch)                             │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 타이머 틱 인터럽트 핸들러의 실행 파이프라인             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [하드웨어] Timer Interrupt (IRQ 0) 발생                           |
+  |        |                                                          |
+  |        v                                                          |
+  |   [커널 진입] CPU 모드 변경 (User -> Kernel), 레지스터 스택 저장       |
+  |        |                                                          |
+  |        v                                                          |
+  |   [ 1. Jiffies 갱신 ]                                              |
+  |      - 시스템 전역 틱 카운터 증가 (`jiffies++`)                      |
+  |      - 현재 날짜와 시간(Wall Time) 업데이트 (RTC 동기화)               |
+  |        |                                                          |
+  |        v                                                          |
+  |   [ 2. 프로세스 CPU Accounting ]                                   |
+  |      - 현재 프로세스의 사용자/커널 모드 사용 시간(vruntime 등) 누적 계산 |
+  |      - 타임 슬라이스(Time Slice) 1 차감                             |
+  |        |                                                          |
+  |        v                                                          |
+  |   [ 3. 소프트 타이머(Timers) 검사 ]                                  |
+  |      - 만료된 커널 타이머 목록(네트워크 연결 타임아웃 등)이 있는지 확인     |
+  |      - 만료 시 해당 콜백(Callback) 함수를 큐에 넣음                     |
+  |        |                                                          |
+  |        v                                                          |
+  |   [ 4. 스케줄링 필요성 판단 (need_resched) ]                          |
+  |      - 타임 슬라이스가 0이 되었는가? -> YES                           |
+  |      - `TIF_NEED_RESCHED` 플래그를 1로 세팅                         |
+  |        |                                                          |
+  |        v                                                          |
+  |   [인터럽트 복귀 (Return from Interrupt)]                            |
+  |      - 복귀 직전 `need_resched` 플래그 확인 -> 스케줄러(schedule()) 호출 |
+  |      - 문맥 교환 발생! (Context Switch)                             |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초당 100번에서 1000번씩 호출되는 이 루틴은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 가장 바쁘고 중요한 파이프라인이다. 이 파이프라인이 너무 무거우면 시스템 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 깎인다([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Overhead). 1단계에서는 순수하게 시간을 관리하고, 2단계에서는 회계(Accounting)를 하며, 3단계에서는 예약된 이벤트를 처리한다. 마지막 4단계에서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 즉시 호출하지 않고 "스케줄링이 필요함"이라는 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 꽂아두는 점이 핵심이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)에서 무거운 스케줄링을 하지 않고, 사용자 모드로 복귀하기 직전의 안전한 순간에 깃발을 보고 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 실행하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 응답성을 보장한다.
@@ -145,29 +145,29 @@ tags = ["studynote-operating-system"]
 현대 모바일 기기(Android, iOS)와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 고정된 주기마다 틱이 발생하는 전통적 방식이 심각한 전력 누수와 가상머신 오버헤드를 일으켰다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 전통적 Tick 커널 vs 틱리스(Tickless) 커널 차이      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [전통적 커널 (Periodic Tick)]                                 │
-  │   - CPU가 할 일이 없어서 Idle(대기) 상태에 진입해도...              │
-  │                                                             │
-  │   CPU 0 : [Idle]──(Tick!)──[Idle]──(Tick!)──[Idle]──(Tick!) │
-  │                     ▲        ▲        ▲                     │
-  │                     └────────┴────────┴─ 의미 없이 깨어남 (전력 낭비) │
-  │                                                             │
-  │  [틱리스 커널 (Dynamic Tick / NO_HZ_IDLE)]                     │
-  │   - CPU가 유휴 상태에 들어가기 직전, 다음 예정된 타이머 이벤트 시간을 │
-  │     계산하여 APIC 타이머를 "동적"으로 재설정함.                      │
-  │                                                             │
-  │   CPU 0 : [Idle ────────────────────────── (Deep Sleep) ────] │
-  │                                                             │
-  │   ※ 틱을 꺼버림 -> 수 초 이상 깊은 수면(C-State) 유지 가능 -> 배터리 폭증 │
-  │                                                             │
-  │  [완전 틱리스 커널 (NO_HZ_FULL)]                               │
-  │   - 유휴 상태뿐만 아니라 1개의 CPU-bound 태스크만 돌 때도 틱을 끔.     │
-  │   - HPC(고성능 컴퓨팅)나 금융 트레이딩에서 인터럽트 간섭을 0으로 만듦.    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 전통적 Tick 커널 vs 틱리스(Tickless) 커널 차이      |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [전통적 커널 (Periodic Tick)]                                 |
+  |   - CPU가 할 일이 없어서 Idle(대기) 상태에 진입해도...              |
+  |                                                             |
+  |   CPU 0 : [Idle]--(Tick!)--[Idle]--(Tick!)--[Idle]--(Tick!) |
+  |                     ^        ^        ^                     |
+  |                     +--------+--------+- 의미 없이 깨어남 (전력 낭비) |
+  |                                                             |
+  |  [틱리스 커널 (Dynamic Tick / NO_HZ_IDLE)]                     |
+  |   - CPU가 유휴 상태에 들어가기 직전, 다음 예정된 타이머 이벤트 시간을 |
+  |     계산하여 APIC 타이머를 "동적"으로 재설정함.                      |
+  |                                                             |
+  |   CPU 0 : [Idle -------------------------- (Deep Sleep) ----] |
+  |                                                             |
+  |   ※ 틱을 꺼버림 -> 수 초 이상 깊은 수면(C-State) 유지 가능 -> 배터리 폭증 |
+  |                                                             |
+  |  [완전 틱리스 커널 (NO_HZ_FULL)]                               |
+  |   - 유휴 상태뿐만 아니라 1개의 CPU-bound 태스크만 돌 때도 틱을 끔.     |
+  |   - HPC(고성능 컴퓨팅)나 금융 트레이딩에서 인터럽트 간섭을 0으로 만듦.    |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 CPU가 쉴 때도 HZ [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(예: 1000Hz)에 따라 1ms마다 억지로 잠에서 깨어나 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리했다. 이는 스마트폰 배터리 광탈의 주범이었다. [틱리스 커널](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)(`CONFIG_NO_HZ`)은 CPU가 스케줄링할 작업이 없을 경우 주기적인 타이머를 아예 꺼버린다. 대신, 다음 번 네트워크 패킷이나 디스크 I/O가 예약된 정확한 미래 시점에만 알람을 맞춰두고 깊은 잠(Deep Sleep)에 빠진다. 이 동적 타이머 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 메커니즘 덕분에 스마트폰 화면을 끄고 있을 때 배터리가 며칠씩 유지될 수 있다.
@@ -231,12 +231,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [컨테이너 네임스페이스 격리]
-    │
-    ▼
+    |
+    v
 [시스템 클럭 타이머 틱 (System Clock Timer Tick)]
-    │
-    ├──▶ [I/O 직접 메모리 접근 (DMA)]
-    └──▶ [I/O 풀링 (Polling) 오버헤드]
+    |
+    +---> [I/O 직접 메모리 접근 (DMA)]
+    +---> [I/O 풀링 (Polling) 오버헤드]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -253,7 +253,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 745 / 800
 
-← **이전**: [744. 컨테이너 네임스페이스 격리 (Container Namespace Isolation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/744_container_namespace_isolation/)
-**다음**: [746. I/O 직접 메모리 접근 (DMA)](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) →
+<- **이전**: [744. 컨테이너 네임스페이스 격리 (Container Namespace Isolation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/744_container_namespace_isolation/)
+**다음**: [746. I/O 직접 메모리 접근 (DMA)](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ->
 
 ---

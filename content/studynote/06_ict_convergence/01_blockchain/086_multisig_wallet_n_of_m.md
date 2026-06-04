@@ -33,15 +33,15 @@ tags = ["ict_convergence"]
 | [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 승인 규칙 | 금액별 임계값 등 |
 | [recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 | 키 분실, 퇴사 대응 |
 
-┌──────────┐   sig1   ┌──────────────┐
-│ Signer A │─────────▶│ Threshold    │
-└──────────┘          │ verifier     │
-┌──────────┐   sig2   │  (2 of 3)    │──▶ Broadcast
-│ Signer B │─────────▶└─────┬────────┘
-└──────────┘                │
-┌──────────┐   sig3        │
-│ Signer C │───────────────┘
-└──────────┘
++----------+   sig1   +--------------+
+| Signer A |---------->| Threshold    |
++----------+          | verifier     |
++----------+   sig2   |  (2 of 3)    |---> Broadcast
+| Signer B |---------->+-----+--------+
++----------+                |
++----------+   sig3        |
+| Signer C |---------------+
++----------+
 - **📢 섹션 요약 비유**: 임계값과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 핵심이다.
 
 ---
@@ -91,7 +91,7 @@ tags = ["ict_convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-요청 → 서명 수집 → M개 이상 모였는지 검사 → 통과 시 전송 → 감사 로그 저장
+요청 -> 서명 수집 -> M개 이상 모였는지 검사 -> 통과 시 전송 -> 감사 로그 저장
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -106,7 +106,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 86 / 552
 
-← **이전**: [85. 가상자산 사업자 (VASP) 트래블 룰 (Travel Rule) - 자금 세탁 방지를 위해 가상자산 송/수신자 정보를 확인하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/085_travel_rule_vasp_fatf/)
-**다음**: [87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) →
+<- **이전**: [85. 가상자산 사업자 (VASP) 트래블 룰 (Travel Rule) - 자금 세탁 방지를 위해 가상자산 송/수신자 정보를 확인하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/085_travel_rule_vasp_fatf/)
+**다음**: [87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) ->
 
 ---

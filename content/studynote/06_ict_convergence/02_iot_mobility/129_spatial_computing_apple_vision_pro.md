@@ -19,17 +19,17 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    공간 컴퓨팅 구성                                   │
-├───────────────────────────────────────────────────────┤
-│  [입력] 눈 추적 · 손 제스처 · 음성                   │
-│  [환경] LiDAR · 카메라 → 3D 공간 인식               │
-│  [디스플레이] Micro-OLED · 패스스루 MR               │
-│  [콘텐츠] 가상 윈도우 · 3D 객체 · 몰입 환경         │
-│  [앵커] 가상 객체를 물리 공간에 고정                  │
-│                                                       │
-│  플랫폼: visionOS (SwiftUI + RealityKit)              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    공간 컴퓨팅 구성                                   |
++-------------------------------------------------------+
+|  [입력] 눈 추적 · 손 제스처 · 음성                   |
+|  [환경] LiDAR · 카메라 -> 3D 공간 인식               |
+|  [디스플레이] Micro-OLED · 패스스루 MR               |
+|  [콘텐츠] 가상 윈도우 · 3D 객체 · 몰입 환경         |
+|  [앵커] 가상 객체를 물리 공간에 고정                  |
+|                                                       |
+|  플랫폼: visionOS (SwiftUI + RealityKit)              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"공기 중에 화면이 떠 있는" 컴퓨터</strong>이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
@@ -73,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동</strong>시키는 차세대 인터페이스이며, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)→모바일 전환에 이은 3번째 패러다임 시프트이다.
+[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동</strong>시키는 차세대 인터페이스이며, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)->모바일 전환에 이은 3번째 패러다임 시프트이다.
 
 ---
 
@@ -91,17 +91,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [VR 헤드셋 (Oculus Rift, 2012~)]
-    │
-    ▼
+    |
+    v
 [AR 글래스 (Google Glass, 2013)]
-    │
-    ▼
+    |
+    v
 [MR (HoloLens, 2016~)]
-    │
-    ▼
+    |
+    v
 [공간 컴퓨팅 (Apple Vision Pro, 2024~)]
-    │
-    ▼
+    |
+    v
 [현재: AR 안경 경량화 — 일상 착용 공간 컴퓨팅]
 ```
 
@@ -116,7 +116,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 129 / 552
 
-← **이전**: [128. VR·AR·MR·XR & 공간 컴퓨팅 - 현실과 가상의 융합 기술 스펙트럼](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/128_vr_ar_mr_xr_spatial_computing/)
-**다음**: [130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/130_6dof_tracking_pitch_yaw_roll/) →
+<- **이전**: [128. VR·AR·MR·XR & 공간 컴퓨팅 - 현실과 가상의 융합 기술 스펙트럼](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/128_vr_ar_mr_xr_spatial_computing/)
+**다음**: [130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/130_6dof_tracking_pitch_yaw_roll/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
+    |
+    v
 [엣지 가상화]
-    │
-    └──▶ [SD-LAN]
+    |
+    +---> [SD-LAN]
 ```
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
+    |
+    v
 [엣지 가상화]
-    │
-    └──▶ [SD-LAN]
+    |
+    +---> [SD-LAN]
 ```
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 엣지 가상화]
-    │
-    ├──▶ [확장 A: SD-LAN]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: SD-LAN]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…에서 출발해 현재 메커니즘을 정교화하고, 이후 SD-LAN와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1007 / 1120
 
-← **이전**: [885. BGP-EVPN 스파인-리프 오버레이](/knowledge-base/studynote/03_network/17_sdn_nfv/885_bgp_evpn_routing_spine_leaf_overlay_sdn/)
-**다음**: [887. SD-LAN (소프트웨어 정의 랜)](/knowledge-base/studynote/03_network/17_sdn_nfv/887_sd_lan_software_defined_local_area_network_campus/) →
+<- **이전**: [885. BGP-EVPN 스파인-리프 오버레이](/knowledge-base/studynote/03_network/17_sdn_nfv/885_bgp_evpn_routing_spine_leaf_overlay_sdn/)
+**다음**: [887. SD-LAN (소프트웨어 정의 랜)](/knowledge-base/studynote/03_network/17_sdn_nfv/887_sd_lan_software_defined_local_area_network_campus/) ->
 
 ---

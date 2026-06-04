@@ -22,15 +22,15 @@ tags = ["studynote-design-supervision"]
 LMAX Exchange는 금융 거래처럼 마이크로초 단위 응답이 필요한 환경에서 전통적 큐의 병목을 극복하려고 Disruptor를 고안했다. 기존 `BlockingQueue`는 멀티스레드 안전성을 얻는 대신 락, [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/), 캐시 무효화 비용을 자주 치른다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                전통적 BlockingQueue의 성능 병목                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer ──▶ [ Lock ] ──▶ Queue ──▶ [ Lock ] ──▶ Consumer            │
-│              │                        │                               │
-│              ├── 대기                 ├── 대기                        │
-│              ├── 컨텍스트 스위칭      ├── 캐시 미스                   │
-│              └── 처리량 저하          └── 지연시간 증가                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                전통적 BlockingQueue의 성능 병목                      |
++----------------------------------------------------------------------+
+| Producer ---> [ Lock ] ---> Queue ---> [ Lock ] ---> Consumer            |
+|              |                        |                               |
+|              +-- 대기                 +-- 대기                        |
+|              +-- 컨텍스트 스위칭      +-- 캐시 미스                   |
+|              +-- 처리량 저하          +-- 지연시간 증가                |
++----------------------------------------------------------------------+
 ```
 
 특히 초당 수백만 이벤트를 처리해야 하는 환경에서는 정확하게 동작한다만으로는 부족하고, CPU 캐시 구조와 메모리 배치까지 고려한 설계가 필요하다. Disruptor는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 기반 링버퍼 + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/">Compare-And-Swap</a>) + 시퀀스 추적</strong>으로 푼다.
@@ -44,18 +44,18 @@ LMAX Exchange는 금융 거래처럼 마이크로초 단위 응답이 필요한 
 Disruptor의 핵심은 큐 그 자체보다 <strong>시퀀스 기반 협력 모델</strong>이다. Producer는 다음 시퀀스를 예약하고 이벤트를 채운 뒤 publish하며, Consumer는 자신의 시퀀스를 따라 읽는다. 이때 링버퍼는 고정 크기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이므로 메모리 지역성이 좋고, 이벤트 객체를 재사용해 GC 부담도 낮춘다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Disruptor의 시퀀스 기반 처리 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer ──CAS──▶ [Sequencer] ──reserve n──▶ [Ring Buffer Slot n]    │
-│                                        │                              │
-│                                        └──publish(n)──▶ Consumers     │
-│                                                                  │    │
-│ Consumer A ◀──── sequence A ─────────────────────────────────────┘    │
-│ Consumer B ◀──── sequence B ──────────────────────────────────────────│
-│                                                                      │
-│ Gating Sequence: 가장 느린 Consumer 위치를 기준으로 overwrite 방지    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Disruptor의 시퀀스 기반 처리 흐름                    |
++----------------------------------------------------------------------+
+| Producer --CAS---> [Sequencer] --reserve n---> [Ring Buffer Slot n]    |
+|                                        |                              |
+|                                        +--publish(n)---> Consumers     |
+|                                                                  |    |
+| Consumer A <----- sequence A -------------------------------------+    |
+| Consumer B <----- sequence B ------------------------------------------|
+|                                                                      |
+| Gating Sequence: 가장 느린 Consumer 위치를 기준으로 overwrite 방지    |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의미 |
@@ -145,19 +145,19 @@ Disruptor를 적절한 곳에 쓰면 초저지연, 높은 [처리량](/knowledge
 
 ```text
 락 기반 큐 병목
-    │
-    ▼
+    |
+    v
 시퀀스 기반 제어 필요
-    │
-    ▼
+    |
+    v
 LMAX Disruptor
-    │
-    ├──▶ Ring Buffer
-    ├──▶ CAS / Sequence
-    ├──▶ Wait Strategy
-    └──▶ False Sharing 회피
-            │
-            ▼
+    |
+    +---> Ring Buffer
+    +---> CAS / Sequence
+    +---> Wait Strategy
+    +---> False Sharing 회피
+            |
+            v
 초저지연 이벤트 처리 · 고처리량 · 낮은 GC 압력
 ```
 
@@ -175,7 +175,7 @@ LMAX Disruptor
 
 **진행 상황**: 245 / 530
 
-← **이전**: [187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/187_lmax_disruptor_architecture/)
-**다음**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/) →
+<- **이전**: [187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/187_lmax_disruptor_architecture/)
+**다음**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/) ->
 
 ---

@@ -34,11 +34,11 @@ DES는 한때 표준이었지만, 키 길이가 짧아져 오늘날의 공격 �
 | 라운드 함수 | 치환/전치 | 비선형성 제공 |
 | 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | 서브키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 매 라운드 다른 키 사용 |
 
-┌──────── L ────────┐       ┌─────────────┐
-│                   │──────▶│  F(R, K)    │
-└──────── R ────────┘       └────┬────────┘
-                                 │ XOR
-                                 ▼
++-------- L --------+       +-------------+
+|                   |------->|  F(R, K)    |
++-------- R --------+       +----+--------+
+                                 | XOR
+                                 v
                             R next = L xor F
 L next = R
 
@@ -92,7 +92,7 @@ DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-평문 분할 → 16라운드 Feistel → 암호문 생성 → 키 길이 56비트의 한계 확인 → AES로 전환
+평문 분할 -> 16라운드 Feistel -> 암호문 생성 -> 키 길이 56비트의 한계 확인 -> AES로 전환
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -107,7 +107,7 @@ DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오�
 
 **진행 상황**: 86 / 1108
 
-← **이전**: [085. AES 키 스케줄 — 라운드 키 생성](/knowledge-base/studynote/09_security/02_crypto/085_aes_key_schedule/)
-**다음**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/) →
+<- **이전**: [085. AES 키 스케줄 — 라운드 키 생성](/knowledge-base/studynote/09_security/02_crypto/085_aes_key_schedule/)
+**다음**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/) ->
 
 ---

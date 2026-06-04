@@ -199,12 +199,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
-    │
-    ▼
+    |
+    v
 [디스크 스케줄링 (Disk Scheduling) 목적]
-    │
-    ├──▶ [FCFS (First-Come, First-Served) 스케줄링]
-    └──▶ [SSTF (Shortest Seek Time First)]
+    |
+    +---> [FCFS (First-Come, First-Served) 스케줄링]
+    +---> [SSTF (Shortest Seek Time First)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -221,7 +221,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 468 / 800
 
-← **이전**: [467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)
-**다음**: [469. FCFS (First-Come, First-Served) 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/469_fcfs_disk_scheduling/) →
+<- **이전**: [467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)
+**다음**: [469. FCFS (First-Come, First-Served) 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/469_fcfs_disk_scheduling/) ->
 
 ---

@@ -51,27 +51,27 @@ tags = ["studynote-operating-system"]
 요청 큐: `[98, 183, 37, 122, 14, 124, 65, 67]`
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SCAN (엘리베이터) 알고리즘 이동 궤적 시뮬레이션         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 헤드 이동 방향: 50 ──▶ 199 ]                                     │
-  │                                                                   │
-  │   1. 현재 위치: 50                                                  │
-  │   2. 50보다 큰 요청들을 오름차순으로 스윕(Sweep)하며 처리!                │
-  │      50 ──▶ 65 ──▶ 67 ──▶ 98 ──▶ 122 ──▶ 124 ──▶ 183             │
-  │   3. 183을 처리하고 나서 더 이상 우측 요청이 없더라도,                       │
-  │      **디스크의 끝(199)까지 무식하게 계속 직진함!!** (이것이 SCAN의 특징)    │
-  │      183 ──▶ 199 (끝점 도달)                                         │
-  │                                                                   │
-  │  [ 199 도착! 이제 방향을 튼다: 199 ──▶ 0 ]                           │
-  │                                                                   │
-  │   4. 199에서 왼쪽으로 가면서 남은 요청(50보다 작았던 것들)을 처리!          │
-  │      199 ──▶ 37 ──▶ 14 (처리 완료)                                 │
-  │                                                                   │
-  │  ★ 총 이동 거리 (Total Head Movement):                              │
-  │     (199 - 50) + (199 - 14) = 149 + 185 = **334 실린더**           │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SCAN (엘리베이터) 알고리즘 이동 궤적 시뮬레이션         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 헤드 이동 방향: 50 ---> 199 ]                                     |
+  |                                                                   |
+  |   1. 현재 위치: 50                                                  |
+  |   2. 50보다 큰 요청들을 오름차순으로 스윕(Sweep)하며 처리!                |
+  |      50 ---> 65 ---> 67 ---> 98 ---> 122 ---> 124 ---> 183             |
+  |   3. 183을 처리하고 나서 더 이상 우측 요청이 없더라도,                       |
+  |      **디스크의 끝(199)까지 무식하게 계속 직진함!!** (이것이 SCAN의 특징)    |
+  |      183 ---> 199 (끝점 도달)                                         |
+  |                                                                   |
+  |  [ 199 도착! 이제 방향을 튼다: 199 ---> 0 ]                           |
+  |                                                                   |
+  |   4. 199에서 왼쪽으로 가면서 남은 요청(50보다 작았던 것들)을 처리!          |
+  |      199 ---> 37 ---> 14 (처리 완료)                                 |
+  |                                                                   |
+  |  ★ 총 이동 거리 (Total Head Movement):                              |
+  |     (199 - 50) + (199 - 14) = 149 + 185 = **334 실린더**           |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** SCAN은 자비가 없다. 헤드가 183번 요청을 처리했다고 돌아오지 않는다. 자기가 가던 방향의 '물리적인 끝(199번)'을 찍고(Touch) 나서야 비로소 후진 기어를 넣는다. 이 무식한 직진 본능 때문에 구현이 매우 단순해지고, 뒤에서 기다리던 14번 요청도 '언젠가는 100% 처리됨'이 수학적으로 완벽히 보장(기아 방지)된다.
@@ -124,27 +124,27 @@ SCAN의 "끝까지 무조건 간다"는 점을 보완한 것이 <strong>LOOK <a 
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 물리적 저장 매체에 따른 I/O 스케줄러(알고리즘) 선택        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 서버나 DB 인스턴스의 디스크 스케줄러(sysfs) 설정]                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      저장 장치가 회전하는 플래터와 헤드를 가진 HDD (Hard Disk) 인가?         │
-  │          ├─ 예 ─────▶ [이동 거리 최소화 알고리즘 (C-SCAN 등) 필수]     │
-  │          │            대책: `mq-deadline` 이나 `bfq` 스케줄러를 선택하여 │
-  │          │                  커널이 큐를 정렬(Elevator)하고 병합(Merge)하게 │
-  │          │                  만들어 물리적 탐색 시간(Seek Time)을 극한으로 방어│
-  │          └─ 아니오 (SSD, NVMe, USB 메모리 등 낸드 플래시 기반이다)       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [스케줄러 오버헤드 박살 내기 (Bypass)]                             │
-  │      - 대책: 스케줄러를 `none` 또는 `kyber` (단순 통제용)로 세팅.          │
-  │      - SSD는 무작위 접근(Random Access) 속도가 순차 접근과 똑같으므로,       │
-  │        OS는 정렬 따위 신경 끄고 최대한 많은 큐(Multi-queue)를 뚫어서        │
-  │        비동기로 마구 쏟아붓는 것이 압도적으로 빠르다.                       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 물리적 저장 매체에 따른 I/O 스케줄러(알고리즘) 선택        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 서버나 DB 인스턴스의 디스크 스케줄러(sysfs) 설정]                |
+  |                |                                                  |
+  |                v                                                  |
+  |      저장 장치가 회전하는 플래터와 헤드를 가진 HDD (Hard Disk) 인가?         |
+  |          +- 예 ------> [이동 거리 최소화 알고리즘 (C-SCAN 등) 필수]     |
+  |          |            대책: `mq-deadline` 이나 `bfq` 스케줄러를 선택하여 |
+  |          |                  커널이 큐를 정렬(Elevator)하고 병합(Merge)하게 |
+  |          |                  만들어 물리적 탐색 시간(Seek Time)을 극한으로 방어|
+  |          +- 아니오 (SSD, NVMe, USB 메모리 등 낸드 플래시 기반이다)       |
+  |                |                                                  |
+  |                v                                                  |
+  |      [스케줄러 오버헤드 박살 내기 (Bypass)]                             |
+  |      - 대책: 스케줄러를 `none` 또는 `kyber` (단순 통제용)로 세팅.          |
+  |      - SSD는 무작위 접근(Random Access) 속도가 순차 접근과 똑같으므로,       |
+  |        OS는 정렬 따위 신경 끄고 최대한 많은 큐(Multi-queue)를 뚫어서        |
+  |        비동기로 마구 쏟아붓는 것이 압도적으로 빠르다.                       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)(SCAN)은 구시대의 유물인가?" 절반만 맞다. 낸드 플래시 시대에 OS 단의 엘리베이터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 버려졌지만, 이 웅장한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 거대한 <strong>테이프 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>(LTO) 아카이빙 로봇</strong>이나, 하드웨어 <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 컨트롤러 칩셋 내부의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">Flash Translation Layer</a>) 웨어 레벨링 로직</strong>으로 숨어 들어가 여전히 1초에 수억 번씩 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬하며 살아 숨 쉬고 있다.
@@ -189,12 +189,12 @@ SCAN (엘리베이터) [알고리즘](/knowledge-base/studynote/08_algorithm_sta
 
 ```text
 [워킹 셋 (Working Set) 메모리]
-    │
-    ▼
+    |
+    v
 [디스크 스케줄링 SCAN 엘리베이터 (Disk Scheduling Scan Elevator)]
-    │
-    ├──▶ [C-SCAN 단방향 회전]
-    └──▶ [SSTF 기아 현상 (가운데 편중)]
+    |
+    +---> [C-SCAN 단방향 회전]
+    +---> [SSTF 기아 현상 (가운데 편중)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -211,7 +211,7 @@ SCAN (엘리베이터) [알고리즘](/knowledge-base/studynote/08_algorithm_sta
 
 **진행 상황**: 727 / 800
 
-← **이전**: [726. 워킹 셋 (Working Set) 메모리](/knowledge-base/studynote/02_operating_system/11_exam_summary/726_working_set_memory_locality/)
-**다음**: [728. C-SCAN 단방향 회전 (C Scan Circular Elevator)](/knowledge-base/studynote/02_operating_system/11_exam_summary/728_c_scan_circular_elevator/) →
+<- **이전**: [726. 워킹 셋 (Working Set) 메모리](/knowledge-base/studynote/02_operating_system/11_exam_summary/726_working_set_memory_locality/)
+**다음**: [728. C-SCAN 단방향 회전 (C Scan Circular Elevator)](/knowledge-base/studynote/02_operating_system/11_exam_summary/728_c_scan_circular_elevator/) ->
 
 ---

@@ -31,31 +31,31 @@ tags = ["studynote-operating-system"]
 10GB 영화를 복사하거나 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 구울 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 캐시(RAM) 이 이중으로 터지는 악몽을 어떻게 찢어 발기는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "OS 커널의 도움 따위 필요 없다. 우리는 디스크와 직접 이야기한다!"            │
-  ├──────────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                              │
-  │  🚨 [ 모델 A: 일반 파일 쓰기 (더블 카피 RAM 낭비 파단 늪!) ]                                 │
-  │     [ 유저 메모리 영역 ]               [ OS 커널 메모리 영역 ]                               │
-  │     (앱 byte[] 데이터) ==(1. 복사 CPU)==>  (커널 Page Cache 캐시)                            │
-  │                                                  │                                           │
-  │                                           (2. 디스크 Flush 저장 빔!)                         │
-  │                                                  ▼                                           │
-  │                                  [ 디스크 (HDD/SSD 철판 블록 스왑) ]                         │
-  │     => (단점): 10GB 파일 쓰면 커널 캐시 메모리까지 10GB 꽉 차서 램 터짐 OOM 랙!              │
-  │                                                                                              │
-  │  =========================▼===================================                               │
-  │                                                                                              │
-  │  🔥 [ 모델 B: Direct I/O (O_DIRECT 옵션 폭주 패스 록백!) ]                                   │
-  │     [ 유저 DB 전용 버퍼 풀 ]           [ OS 커널 (투명 벽 우회 발동!) ]                      │
-  │     (오라클 1GB 캐시 방) ==(다이렉트 스킵! OS는 껍데기 권한만 체크)=========┐                │
-  │               │                                                  │                           │
-  │               └──────────(DMA 하드웨어 통로 1방 타격!)──────────────┘                        │
-  │                                                  ▼                                           │
-  │                                  [ 디스크 (SSD 섹터 철판 블록 쾅!) ]                         │
-  │     => (장점): CPU는 복사 연산(Copy)에 관여 0%. 커널 메모리 터짐(OOM) 방어 스루풋!           │
-  │     => (장점): DB 전원 코드가 0.1초 만에 뽑혀도, 이미 디스크에 무결 꽂힘(데이터 생존율 100%).│
-  └──────────────────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------------------+
+  |                 "OS 커널의 도움 따위 필요 없다. 우리는 디스크와 직접 이야기한다!"            |
+  +----------------------------------------------------------------------------------------------+
+  |                                                                                              |
+  |  🚨 [ 모델 A: 일반 파일 쓰기 (더블 카피 RAM 낭비 파단 늪!) ]                                 |
+  |     [ 유저 메모리 영역 ]               [ OS 커널 메모리 영역 ]                               |
+  |     (앱 byte[] 데이터) ==(1. 복사 CPU)==>  (커널 Page Cache 캐시)                            |
+  |                                                  |                                           |
+  |                                           (2. 디스크 Flush 저장 빔!)                         |
+  |                                                  v                                           |
+  |                                  [ 디스크 (HDD/SSD 철판 블록 스왑) ]                         |
+  |     => (단점): 10GB 파일 쓰면 커널 캐시 메모리까지 10GB 꽉 차서 램 터짐 OOM 랙!              |
+  |                                                                                              |
+  |  =========================v===================================                               |
+  |                                                                                              |
+  |  🔥 [ 모델 B: Direct I/O (O_DIRECT 옵션 폭주 패스 록백!) ]                                   |
+  |     [ 유저 DB 전용 버퍼 풀 ]           [ OS 커널 (투명 벽 우회 발동!) ]                      |
+  |     (오라클 1GB 캐시 방) ==(다이렉트 스킵! OS는 껍데기 권한만 체크)=========+                |
+  |               |                                                  |                           |
+  |               +----------(DMA 하드웨어 통로 1방 타격!)--------------+                        |
+  |                                                  v                                           |
+  |                                  [ 디스크 (SSD 섹터 철판 블록 쾅!) ]                         |
+  |     => (장점): CPU는 복사 연산(Copy)에 관여 0%. 커널 메모리 터짐(OOM) 방어 스루풋!           |
+  |     => (장점): DB 전원 코드가 0.1초 만에 뽑혀도, 이미 디스크에 무결 꽂힘(데이터 생존율 100%).|
+  +----------------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 엔터프라이즈 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 스토리지 튜닝의 거시 핵 뼈대다. 일반적인 I/O는 `read()` 하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 친절하게 "다음에 또 읽을 거지? 내 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 띄워 놔 줄게" 라며 536장 연계 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)을 한다. 이 짓거리를 오라클([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))에 다가 해버리면 램 200GB가 "DB 자체 캐시 100G + [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 캐시 100G" 로 똑같은 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 2중 복사(Double-Buffering 병목 구조 붕괴) 되는 비참한 멸망을 맞이한다. `O_DIRECT` 깃발은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 "내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관하지 말고 튕겨내!" 라는 우회(Bypass) 렌더링 강제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 날려, 이 데들락 파단을 원천 절개 도출.
@@ -137,12 +137,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
-    │
-    ▼
+    |
+    v
 [Direct I/O (O_DIRECT)]
-    │
-    ├──▶ [mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]
-    └──▶ [파일 잠금 (File Locking)]
+    |
+    +---> [mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]
+    +---> [파일 잠금 (File Locking)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 565 / 800
 
-← **이전**: [564. 데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능](/knowledge-base/studynote/02_operating_system/09_file_system/564_bit_rot_btrfs_self_healing/)
-**다음**: [566. mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) →
+<- **이전**: [564. 데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능](/knowledge-base/studynote/02_operating_system/09_file_system/564_bit_rot_btrfs_self_healing/)
+**다음**: [566. mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) ->
 
 ---

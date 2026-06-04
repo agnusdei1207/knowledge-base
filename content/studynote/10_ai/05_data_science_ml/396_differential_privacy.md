@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 DP는 "이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함하든 포함하지 않든 출력이 거의 같다"를 수학적으로 보장한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 차분 프라이버시는 "설문조사 결과를 발표할 때 특정 한 명의 답변을 알아낼 수 없도록" 수학적으로 보장하는 기법이다.
@@ -54,39 +54,39 @@ P[M(D) ∈ S] ≤ e^ε · P[M(D') ∈ S] + δ
 ### 라플라스 메커니즘 (ε-DP 달성)
 
 ```
-쿼리 함수 f: D → ℝ의 전역 민감도:
+쿼리 함수 f: D -> ℝ의 전역 민감도:
 Δf = max_{D~D'} ||f(D) - f(D')||₁
 
 라플라스 메커니즘:
 M(D) = f(D) + Lap(Δf/ε)
-       ↑ 실제 답  ↑ 노이즈
+       ^ 실제 답  ^ 노이즈
 
 Lap(b): 평균=0, 스케일 b의 라플라스 분포
-→ ε이 클수록 노이즈 작음 (프라이버시 약함)
+-> ε이 클수록 노이즈 작음 (프라이버시 약함)
 ```
 
 ### 가우시안 메커니즘 ((ε,δ)-DP 달성)
 
 ```
-M(D) = f(D) + N(0, σ²I)
+M(D) = f(D) + N(0, σ^I)
 σ ≥ Δ₂f · √(2ln(1.25/δ)) / ε
 
 L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  프라이버시 예산 관리                                 │
-│                                                      │
-│  전체 예산 ε_total                                   │
-│  쿼리 1: ε₁ 소비 → 남은 예산 ε_total - ε₁           │
-│  쿼리 2: ε₂ 소비 → 남은 예산 ε_total - ε₁ - ε₂      │
-│  ...                                                 │
-│  예산 소진 → 더 이상 쿼리 불가                        │
-│                                                      │
-│  기본 합성 (Basic Composition): ε_total = Σεᵢ        │
-│  고급 합성: ε_total < Σεᵢ (모멘트 어카운턴트)         │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  프라이버시 예산 관리                                 |
+|                                                      |
+|  전체 예산 ε_total                                   |
+|  쿼리 1: ε₁ 소비 -> 남은 예산 ε_total - ε₁           |
+|  쿼리 2: ε₂ 소비 -> 남은 예산 ε_total - ε₁ - ε₂      |
+|  ...                                                 |
+|  예산 소진 -> 더 이상 쿼리 불가                        |
+|                                                      |
+|  기본 합성 (Basic Composition): ε_total = Σεᵢ        |
+|  고급 합성: ε_total < Σεᵢ (모멘트 어카운턴트)         |
++------------------------------------------------------+
 ```
 
 | 파라미터 | 범위 | 프라이버시 강도 | 노이즈 크기 |
@@ -153,7 +153,7 @@ L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [차분 프라이버시 (Differential Privacy)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [차분 프라이버시 (Differential Privacy)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -168,7 +168,7 @@ L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 
 **진행 상황**: 396 / 420
 
-← **이전**: [395. PPO (Proximal Policy Optimization)](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)
-**다음**: [397. 이상치 탐지 (Outlier Detection)](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) →
+<- **이전**: [395. PPO (Proximal Policy Optimization)](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)
+**다음**: [397. 이상치 탐지 (Outlier Detection)](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) ->
 
 ---

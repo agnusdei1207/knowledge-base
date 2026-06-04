@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이 모델이 무엇을 위해 태어났고, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련했으며, 어떤 치명적인 편향성(약점)을 가지고 있는지 개발자가 직접 양심 고백을 적어놓는 표준 문서화 양식, <strong>모델 스코어카드(Model Card)</strong>가 투명한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스의 절대 규범으로 탄생한 순간이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 옛날 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 다운로드는 시장 바닥에서 출처 모를 '만병통치약'을 사다 먹는 짓이었다. 배탈이 나도 따질 데가 없었다. 모델 스코어카드(Model Card) 도입은 이 약병 뒤에 <strong>식약처 공식 성분표와 '임산부 복용 절대 금지'라는 부작용 경고 라벨</strong>을 강제로 붙이게 만든 사건이다. 이제 약사(기업)는 이 라벨을 꼼꼼히 읽고 부작용이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야 손님(유저)에게 처방할 수 있게 된 완벽한 안전장치다.
@@ -45,28 +45,28 @@ tags = ["studynote-ai"]
 모델 카드는 단순한 줄글이 아니다. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 모델을 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Model Registry](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/))에 등록할 때 무조건 채워 넣어야 하는 <strong>정형화된 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/">메타데이터 카탈로그</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/301_metadata_catalog/">Metadata Catalog</a>) 아키텍처</strong>를 따른다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Hugging Face의 표준 Model Card 템플릿 아키텍처 도해         │
-├──────────────────────────────────────────────────────────────┤
-│  [1. Model Details (모델 호적 등본)]                             │
-│   * 개발자/소유자: OpenAI, Meta 등                               │
-│   * 모델 아키텍처: Transformer, Llama-3 8B (파라미터 크기, 라이선스 정책)│
-│   * 업데이트 날짜: 2024.04.17 (버전 관리 V2.1)                    │
-│                                                              │
-│  [2. Intended Use (사용 목적 및 절대 금지 조항 🚨)]                │
-│   * 권장 용도: 일반적인 챗봇 대화, 코딩 보조, 일상 요약               │
-│   * 금지 용도(Out-of-Scope): 의료 진단, 법적 판결, 무기 시스템 탑재,   │
-│                             얼굴 기반 신원 추적 (여기에 쓰면 소송당함!) │
-│                                                              │
-│  [3. Training Data (먹고 자란 밥상 - 영양 성분)]                    │
-│   * 데이터셋 출처: Wikipedia, Common Crawl, Reddit (총 15 Trillion 토큰)│
-│   * 데이터 전처리: 욕설, 개인정보(PII) 필터링 알고리즘 거침             │
-│                                                              │
-│  [4. Evaluation & Bias (성적표와 숨겨진 약점 양심 고백 📉)]         │
-│   * 객관적 성능: 수학(MMLU) 85점, 코딩(HumanEval) 70점 달성        │
-│   * 윤리적 편향(Bias) 경고: "이 모델은 영어(English) 이외의 언어에서는 환각이 │
-│                           20% 증가하며, 특정 정치적 성향 편향이 발견됨."  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Hugging Face의 표준 Model Card 템플릿 아키텍처 도해         |
++--------------------------------------------------------------+
+|  [1. Model Details (모델 호적 등본)]                             |
+|   * 개발자/소유자: OpenAI, Meta 등                               |
+|   * 모델 아키텍처: Transformer, Llama-3 8B (파라미터 크기, 라이선스 정책)|
+|   * 업데이트 날짜: 2024.04.17 (버전 관리 V2.1)                    |
+|                                                              |
+|  [2. Intended Use (사용 목적 및 절대 금지 조항 🚨)]                |
+|   * 권장 용도: 일반적인 챗봇 대화, 코딩 보조, 일상 요약               |
+|   * 금지 용도(Out-of-Scope): 의료 진단, 법적 판결, 무기 시스템 탑재,   |
+|                             얼굴 기반 신원 추적 (여기에 쓰면 소송당함!) |
+|                                                              |
+|  [3. Training Data (먹고 자란 밥상 - 영양 성분)]                    |
+|   * 데이터셋 출처: Wikipedia, Common Crawl, Reddit (총 15 Trillion 토큰)|
+|   * 데이터 전처리: 욕설, 개인정보(PII) 필터링 알고리즘 거침             |
+|                                                              |
+|  [4. Evaluation & Bias (성적표와 숨겨진 약점 양심 고백 📉)]         |
+|   * 객관적 성능: 수학(MMLU) 85점, 코딩(HumanEval) 70점 달성        |
+|   * 윤리적 편향(Bias) 경고: "이 모델은 영어(English) 이외의 언어에서는 환각이 |
+|                           20% 증가하며, 특정 정치적 성향 편향이 발견됨."  |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (투명성과 윤리의 강제 체계화)**:
@@ -139,7 +139,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [모델 스코어카드 (Model Card)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [모델 스코어카드 (Model Card)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 227 / 420
 
-← **이전**: [226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)](/knowledge-base/studynote/10_ai/03_llm_nlp/226_genai_legal_copyright_scraping/)
-**다음**: [228. 합성곱 (CNN) 1D, 2D, 3D 구조 확장](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) →
+<- **이전**: [226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)](/knowledge-base/studynote/10_ai/03_llm_nlp/226_genai_legal_copyright_scraping/)
+**다음**: [228. 합성곱 (CNN) 1D, 2D, 3D 구조 확장](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) ->
 
 ---

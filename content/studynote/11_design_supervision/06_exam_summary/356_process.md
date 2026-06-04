@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 개방-폐쇄 원칙 ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/), [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))은 기존 코드를 크게 수정하지 않고 확장으로 기능을 더하게 만드는 설계 원칙이다. 신규 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 들어올 때마다 조건문을 덧붙이면 안정된 코드까지 매번 건드리게 된다. 이 개념이 필요한 이유는 변화를 수정이 아니라 확장 지점으로 수용하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 새 기능 한 줄이 검증된 영역까지 흔들어 회귀 위험을 키운다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Change   │──▶│    OCP     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Change   |--->|    OCP     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Reason  │──▶│ Boundary │──▶│   OCP    │──▶│   Test   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Reason  |--->| Boundary |--->|   OCP    |--->|   Test   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | 개방-폐쇄 원칙 ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/), [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[조건문 확장] → OCP 적용] → [플러그인/[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구조]
+[조건문 확장] -> OCP 적용] -> [플러그인/[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구조]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 개방-폐쇄 원칙 ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/), [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))은 새 레일만 끼우면 장난감 기차가 더 달릴 수 있는 트랙처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 434 / 530
 
-← **이전**: [355. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)
-**다음**: [357. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/) →
+<- **이전**: [355. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)
+**다음**: [357. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/) ->
 
 ---

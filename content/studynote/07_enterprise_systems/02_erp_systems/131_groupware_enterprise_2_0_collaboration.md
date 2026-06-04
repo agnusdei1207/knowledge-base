@@ -21,7 +21,7 @@ tags = ["studynote-enterprise-systems"]
 ```text
 그룹웨어: 전자결재, 일정, 메일, 게시판 (수직)
 Enterprise 2.0: 위키, 블로그, SNS, 태깅 (수평)
-  → Digital Workplace = 통합 협업 플랫폼 + AI
+  -> Digital Workplace = 통합 협업 플랫폼 + AI
 ```
 
 - **📢 섹션 요약 비유**: 그룹웨어는 **우편함(공문 전달)**, Enterprise 2.0은 <strong>카톡 그룹채팅(실시간 소통)</strong>이다.
@@ -57,9 +57,9 @@ Digital Workplace는 <strong>그룹웨어+Enterprise 2.0+<a href="/knowledge-bas
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[전자결재 (1990s)] → [그룹웨어 (2000s)]
-    → [Enterprise 2.0 (2006~)] → [Slack/Teams (2014~)]
-    → [현재: AI + Digital Workplace — Copilot·Gemini 협업]
+[전자결재 (1990s)] -> [그룹웨어 (2000s)]
+    -> [Enterprise 2.0 (2006~)] -> [Slack/Teams (2014~)]
+    -> [현재: AI + Digital Workplace — Copilot·Gemini 협업]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -73,7 +73,7 @@ Digital Workplace는 <strong>그룹웨어+Enterprise 2.0+<a href="/knowledge-bas
 
 **진행 상황**: 131 / 482
 
-← **이전**: [130. SECI 모델 - 노나카의 조직 지식 창조 이론](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/130_seci_model_knowledge_creation/)
-**다음**: [132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/132_hris_e_hr_talent_management_system/) →
+<- **이전**: [130. SECI 모델 - 노나카의 조직 지식 창조 이론](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/130_seci_model_knowledge_creation/)
+**다음**: [132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/132_hris_e_hr_talent_management_system/) ->
 
 ---

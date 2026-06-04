@@ -32,7 +32,7 @@ ALE 계산:
     AV = 5억원, EF = 0.6, SLE = 3억원
     ALE = 3억 × 0.3 = 9천만원/년
 
-  → 1억원짜리 EDR+백업 솔루션 투자 타당 (절감 효과 있음)
+  -> 1억원짜리 EDR+백업 솔루션 투자 타당 (절감 효과 있음)
 ```
 
 - **📢 섹션 요약 비유**: ARO는 보험 통계표다. 같은 나이·건강 상태의 사람이 1년에 몇 번 병원에 입원하는지 통계 기반으로 추정하듯, ARO는 특정 보안 사고가 1년에 몇 번 발생하는지 추정한다.
@@ -56,10 +56,10 @@ ALE 계산:
 ```text
 외부 데이터:
   - Verizon DBIR (Data Breach Investigations Report)
-    → 산업별 침해 사고 유형·빈도 통계
+    -> 산업별 침해 사고 유형·빈도 통계
   - IC3 (Internet Crime Complaint Center, FBI)
-    → 사이버 범죄 신고 통계
-  - NIST NVD → CVE 취약점 활용 빈도
+    -> 사이버 범죄 신고 통계
+  - NIST NVD -> CVE 취약점 활용 빈도
 
 내부 데이터:
   - 자사 보안 사고 이력 (SIEM 로그)
@@ -126,7 +126,7 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 |:---|:---|
 | <strong>SLE·<a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | ARO를 활용한 정량적 위험 계산 |
 | **FAIR** | ARO 개념 확장한 현대 위험 분석 |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a></strong> | 취약점 악용 가능성 → ARO 추정 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a></strong> | 취약점 악용 가능성 -> ARO 추정 |
 | **Verizon DBIR** | ARO 추정 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 |
 | <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/925_tara/">TARA</a></strong> | 위협 에이전트 기반 ARO 분석 |
 
@@ -134,17 +134,17 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 ```text
 [위협 목록화 — 가능한 위협 유형 식별]
-    │
-    ▼
+    |
+    v
 [ARO 추정 — 통계·전문가 판단으로 연간 발생률]
-    │
-    ▼
+    |
+    v
 [SLE·ALE 계산 — 손실 기대값 정량화]
-    │
-    ▼
+    |
+    v
 [위험 등록부 — ALE 순위 기반 투자 우선순위]
-    │
-    ▼
+    |
+    v
 [동적 ARO — AI 위협 인텔리전스 실시간 업데이트]
 ```
 
@@ -160,7 +160,7 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 **진행 상황**: 31 / 1108
 
-← **이전**: [30. SLE·ALE — 단일·연간 손실 기대값](/knowledge-base/studynote/09_security/01_intro_principles/030_sle_single_loss_expectancy/)
-**다음**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) →
+<- **이전**: [30. SLE·ALE — 단일·연간 손실 기대값](/knowledge-base/studynote/09_security/01_intro_principles/030_sle_single_loss_expectancy/)
+**다음**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) ->
 
 ---

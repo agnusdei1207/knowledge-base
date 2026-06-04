@@ -31,13 +31,13 @@ tags = ["studynote-enterprise"]
 
 ```text
 App
-  ↓
+  v
 Container / K8s
-  ↓
+  v
 IaC / GitOps
-  ↓
+  v
 Open Standards
-  ↓
+  v
 Cloud A / Cloud B
 ```
 
@@ -112,11 +112,11 @@ Cloud A / Cloud B
 
 ```text
 Cloud Service
-  ↓
+  v
 Vendor Dependency
-  ↓
+  v
 Lock-in Risk
-  ↓
+  v
 Open Standard / IaC
 ```
 
@@ -126,11 +126,11 @@ Open Standard / IaC
 
 ```text
 Single Cloud
-  ↓
+  v
 Hybrid / Multi Cloud
-  ↓
+  v
 Container / K8s
-  ↓
+  v
 Portability Design
 ```
 
@@ -148,7 +148,7 @@ Portability Design
 
 **진행 상황**: 63 / 482
 
-← **이전**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/)
-**다음**: [64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/064_cloud_migration_6r_strategies/) →
+<- **이전**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/)
+**다음**: [64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/064_cloud_migration_6r_strategies/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 온도 (Temperature) 파라미터 T는 언어 모델의 로짓 (Logit) 분포를 재조정해 출력의 무작위성을 제어하며, T→0은 결정론적(그리디), T→∞는 균등 분포(완전 무작위)에 수렴한다.
+> 1. **본질**: 온도 (Temperature) 파라미터 T는 언어 모델의 로짓 (Logit) 분포를 재조정해 출력의 무작위성을 제어하며, T->0은 결정론적(그리디), T->∞는 균등 분포(완전 무작위)에 수렴한다.
 > 2. **가치**: 창의적 글쓰기에는 T=0.8~1.2, 사실 기반 답변에는 T=0.0~0.3을 사용하는 등 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 맞는 온도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응용의 품질을 결정한다.
 > 3. **판단 포인트**: 온도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 "뾰족함(sharpness)"을 조절하며, [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)/Top-P 샘플링과 함께 디코딩 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구성한다.
 
@@ -24,12 +24,12 @@ LLM은 각 토큰 위치에서 어휘 전체에 대한 로짓 벡터를 출력�
 온도 개념은 열역학에서 온도가 높을수록 입자 운동이 무질서해지는 것과 동일한 직관이다. 통계 역학의 볼츠만 분포 (Boltzmann Distribution)에서 유래했다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 온도는 주사위의 "공정함 조절기"다. 온도를 낮추면 가장 무거운 면이 항상 나오는 부정 주사위, 온도를 높이면 모든 면이 똑같이 나오는 공정 주사위가 된다.
@@ -52,25 +52,25 @@ T  : 온도 파라미터 (T > 0)
 ```
 원래 로짓: z = [3.0, 1.0, 0.5, -1.0]  (어휘 4개)
 
-T=0.1 (낮음):  P ≈ [0.998, 0.002, 0.000, 0.000]  ← 거의 결정론적
-T=1.0 (기본):  P ≈ [0.780, 0.105, 0.064, 0.051]  ← 표준
-T=2.0 (높음):  P ≈ [0.512, 0.236, 0.168, 0.084]  ← 다양성 증가
+T=0.1 (낮음):  P ≈ [0.998, 0.002, 0.000, 0.000]  <- 거의 결정론적
+T=1.0 (기본):  P ≈ [0.780, 0.105, 0.064, 0.051]  <- 표준
+T=2.0 (높음):  P ≈ [0.512, 0.236, 0.168, 0.084]  <- 다양성 증가
 
-┌──────────────────────────────────────────────────┐
-│  T=0.1  ███████████████████████████████▌         │
-│         ▌                                        │
-│  T=1.0  ████████████████▌                        │
-│              ██▌  █▌ █▌                          │
-│  T=2.0  ██████████▌                              │
-│              █████▌  ████▌  ██▌                  │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  T=0.1  ███████████████████████████████▌         |
+|         ▌                                        |
+|  T=1.0  ████████████████▌                        |
+|              ██▌  █▌ █▌                          |
+|  T=2.0  ██████████▌                              |
+|              █████▌  ████▌  ██▌                  |
++--------------------------------------------------+
 ```
 
 ### T=0 극한: 그리디 디코딩 (Greedy Decoding)
 
 ```
-T → 0: argmax P(xₜ | context) = argmax zᵢ
-→ 항상 가장 높은 로짓 토큰 선택 (결정론적)
+T -> 0: argmax P(xₜ | context) = argmax zᵢ
+-> 항상 가장 높은 로짓 토큰 선택 (결정론적)
 ```
 
 | T 범위 | 출력 특성 | 적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
@@ -89,7 +89,7 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 온도는 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/), Top-P와 함께 디코딩 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다:
 
 ```
-로짓 → [온도 적용] → [Top-K 필터] → [Top-P 필터] → 샘플링
+로짓 -> [온도 적용] -> [Top-K 필터] -> [Top-P 필터] -> 샘플링
 ```
 
 - 온도 적용 후 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)/P 적용: 분포 조정 후 저확률 토큰 제거
@@ -112,7 +112,7 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 **Hugging Face**: `do_sample=True`, `temperature=0.8`
 **온도와 반복 패널티 (Repetition Penalty)**: 높은 온도에서 반복 토큰 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 추가 필요
 
-기술사 포인트: 온도 수식(로짓/T 후 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))과 T→0/T→∞의 극한 동작을 수식으로 설명. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 권장 범위 제시.
+기술사 포인트: 온도 수식(로짓/T 후 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))과 T->0/T->∞의 극한 동작을 수식으로 설명. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 권장 범위 제시.
 
 - **📢 섹션 요약 비유**: 온도 튜닝은 조리 온도 조절과 같다. 너무 낮으면(낮은 T) 날것으로 먹는 수준, 너무 높으면(높은 T) 타버리는 수준이다.
 
@@ -131,7 +131,7 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 온도 (Temperature) | 로짓 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 무작위성 / 디코딩 분포 조절 |
-| 그리디 디코딩 | T→0, argmax / 결정론적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| 그리디 디코딩 | T->0, argmax / 결정론적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | 볼츠만 분포 | 통계 역학, 에너지 / 온도 개념 기원 |
 | [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링 | k 후보 필터 / 온도와 병행 |
 | Top-P 샘플링 | 누적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 임계값 / 핵 샘플링 |
@@ -140,7 +140,7 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [LLM 온도 (Temperature) 파라미터] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [LLM 온도 (Temperature) 파라미터] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -155,7 +155,7 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 
 **진행 상황**: 386 / 420
 
-← **이전**: [385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)](/knowledge-base/studynote/10_ai/05_data_science_ml/385_wordpiece_sentencepiece/)
-**다음**: [387. Top-K / Top-P (Nucleus Sampling)](/knowledge-base/studynote/10_ai/05_data_science_ml/387_topk_topp_sampling/) →
+<- **이전**: [385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)](/knowledge-base/studynote/10_ai/05_data_science_ml/385_wordpiece_sentencepiece/)
+**다음**: [387. Top-K / Top-P (Nucleus Sampling)](/knowledge-base/studynote/10_ai/05_data_science_ml/387_topk_topp_sampling/) ->
 
 ---

@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 기존 SSD와 오픈 채널 SSD의 책임 분리를 비교한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 기존 SSD와 오픈 채널 SSD의 책임 분리 차이                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 기존 SSD                                                                  │
-│ Host -> Logical Block -> Device FTL -> Flash Geometry                     │
-│                ▲                                                          │
-│                └─ 호스트는 내부 배치와 정리 시점을 잘 모른다               │
-│                                                                            │
-│ Open-Channel SSD                                                          │
-│ Host Application / File System -> Host FTL -> Physical Placement -> Flash │
-│                           ▲                                                │
-│                           └─ 배치, 정리, 마모 분산을 호스트가 결정          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 기존 SSD와 오픈 채널 SSD의 책임 분리 차이                  |
++----------------------------------------------------------------------------+
+| 기존 SSD                                                                  |
+| Host -> Logical Block -> Device FTL -> Flash Geometry                     |
+|                ^                                                          |
+|                +- 호스트는 내부 배치와 정리 시점을 잘 모른다               |
+|                                                                            |
+| Open-Channel SSD                                                          |
+| Host Application / File System -> Host FTL -> Physical Placement -> Flash |
+|                           ^                                                |
+|                           +- 배치, 정리, 마모 분산을 호스트가 결정          |
++----------------------------------------------------------------------------+
 ```
 
 이 구조가 필요한 이유는 단순한 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상보다 <strong>예측 가능성 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a></strong>에 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조 저장소, 대규모 분석 플랫폼처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 분명한 환경에서는, 장치가 임의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재배치하는 것보다 호스트가 직접 물리 배치를 통제하는 편이 더 안정적일 수 있다.
@@ -62,20 +62,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 호스트가 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 직접 다루는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 Host FTL이 플래시 병렬성과 정리 시점을 직접 제어한다             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host File System / Database                                                │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Host FTL -> PPA Allocation -> Channel 0 / Channel 1 / Channel 2 / ...     │
-│      │                                                                     │
-│      ├─ Hot data placement                                                 │
-│      ├─ GC scheduling                                                      │
-│      └─ Wear leveling                                                      │
-│                                                                            │
-│ Device는 최소한의 read/program/erase와 ECC를 수행한다.                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 Host FTL이 플래시 병렬성과 정리 시점을 직접 제어한다             |
++----------------------------------------------------------------------------+
+| Host File System / Database                                                |
+|      |                                                                     |
+|      v                                                                     |
+| Host FTL -> PPA Allocation -> Channel 0 / Channel 1 / Channel 2 / ...     |
+|      |                                                                     |
+|      +- Hot data placement                                                 |
+|      +- GC scheduling                                                      |
+|      +- Wear leveling                                                      |
+|                                                                            |
+| Device는 최소한의 read/program/erase와 ECC를 수행한다.                    |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 포인트는 open-channel이 "장치 기능이 적어서 단순하다"는 뜻이 아니라, <strong>복잡성이 장치에서 호스트로 이동했다</strong>는 뜻이라는 점이다. 하드웨어가 똑똑하지 않아진 만큼 소프트웨어가 훨씬 더 많은 책임을 져야 하며, 그 책임을 감당할 수 있을 때만 이 구조가 이점을 만든다.
@@ -156,17 +156,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 블랙박스 SSD + Device FTL
-            │
-            ▼
+            |
+            v
 host-managed flash 연구
-            │
-            ▼
+            |
+            v
 Open-Channel SSD
-            │
-            ▼
+            |
+            v
 애플리케이션 인지 배치 · Host FTL 최적화
-            │
-            ▼
+            |
+            v
 NVMe ZNS 표준화
 ```
 
@@ -184,7 +184,7 @@ NVMe ZNS 표준화
 
 **진행 상황**: 592 / 803
 
-← **이전**: [591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/)
-**다음**: [593. 존 스토리지 (Zoned Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/593_zoned_storage/) →
+<- **이전**: [591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/)
+**다음**: [593. 존 스토리지 (Zoned Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/593_zoned_storage/) ->
 
 ---

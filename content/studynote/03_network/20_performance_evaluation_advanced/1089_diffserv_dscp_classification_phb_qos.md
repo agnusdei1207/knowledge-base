@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ECN 징후 큐 통지]
-    │
-    ▼
+    |
+    v
 [DiffServ DSCP 분류 PHB]
-    │
-    └──▶ [RSVP 자원 예약 플로우]
+    |
+    +---> [RSVP 자원 예약 플로우]
 ```
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [ECN 징후 큐 통지]
-    │
-    ▼
+    |
+    v
 [DiffServ DSCP 분류 PHB]
-    │
-    └──▶ [RSVP 자원 예약 플로우]
+    |
+    +---> [RSVP 자원 예약 플로우]
 ```
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ECN 징후 큐 통지]
-    │
-    ▼
+    |
+    v
 [현재 개념: DiffServ DSCP 분류 PHB]
-    │
-    ├──▶ [확장 A: RSVP 자원 예약 플로우]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: RSVP 자원 예약 플로우]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 ECN 징후 큐 통지에서 출발해 현재 메커니즘을 정교화하고, 이후 RSVP 자원 예약 플로우와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 197 / 1120
 
-← **이전**: [1088. ECN 징후 큐 통지](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1088_ecn_explicit_congestion_notification_queue/)
-**다음**: [108. CSMA/CA (무선 LAN 충돌 회피)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) →
+<- **이전**: [1088. ECN 징후 큐 통지](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1088_ecn_explicit_congestion_notification_queue/)
+**다음**: [108. CSMA/CA (무선 LAN 충돌 회피)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/) ->
 
 ---

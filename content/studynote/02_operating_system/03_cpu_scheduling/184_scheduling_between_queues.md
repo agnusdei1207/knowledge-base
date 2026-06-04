@@ -26,17 +26,17 @@ tags = ["studynote-operating-system"]
 아래 그림은 큐 간 스케줄링이 큐 내부 스케줄링보다 상위 계층에서 동작한다는 점을 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Two-level scheduling                                              │
-├───────────────────────────────────────────────────────────────────┤
-│ Queue selector                                                    │
-│   ├─▶ Q0 : System      ─▶ local scheduler ─▶ process              │
-│   ├─▶ Q1 : Interactive ─▶ local scheduler ─▶ process              │
-│   └─▶ Q2 : Batch       ─▶ local scheduler ─▶ process              │
-│                                                                   │
-│ Global question : Which queue gets CPU now?                       │
-│ Local  question : Which process inside that queue runs next?      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Two-level scheduling                                              |
++-------------------------------------------------------------------+
+| Queue selector                                                    |
+|   +--> Q0 : System      --> local scheduler --> process              |
+|   +--> Q1 : Interactive --> local scheduler --> process              |
+|   +--> Q2 : Batch       --> local scheduler --> process              |
+|                                                                   |
+| Global question : Which queue gets CPU now?                       |
+| Local  question : Which process inside that queue runs next?      |
++-------------------------------------------------------------------+
 ```
 
 이 구조를 이해하면 다단계 큐가 단순한 줄 나누기가 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 등급을 CPU 시간에 반영하는 계층형 제어 모델</strong>이라는 사실이 보인다. 그래서 큐 간 스케줄링은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)성이 가장 강하게 드러나는 지점이다.
@@ -59,17 +59,17 @@ tags = ["studynote-operating-system"]
 시간 할당 방식은 이 문제를 막기 위해 CPU 전체 시간을 큐 단위로 자른다. 예를 들어 Q0에 80%, Q1에 20%를 주면, 긴 관점에서 CPU 사용량은 그 비율을 향하도록 동작한다. 그 안에서 Q0는 자기 큐의 RR로 80%를 다시 나누고, Q1도 자기 몫 안에서 자체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Queue scheduling timeline                                         │
-├───────────────────────────────────────────────────────────────────┤
-│ Case 1: Fixed priority                                            │
-│ CPU : Q0 | Q0 | Q0 | Q0 | Q0 | Q0 | Q0 | ...                     │
-│       Q1 and Q2 may wait forever if Q0 keeps receiving jobs       │
-│                                                                   │
-│ Case 2: Queue time slicing (Q0 80%, Q1 20%)                       │
-│ CPU : Q0 | Q0 | Q0 | Q0 | Q1 | Q0 | Q0 | Q0 | Q0 | Q1            │
-│       Lower queue latency grows, but starvation is prevented      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Queue scheduling timeline                                         |
++-------------------------------------------------------------------+
+| Case 1: Fixed priority                                            |
+| CPU : Q0 | Q0 | Q0 | Q0 | Q0 | Q0 | Q0 | ...                     |
+|       Q1 and Q2 may wait forever if Q0 keeps receiving jobs       |
+|                                                                   |
+| Case 2: Queue time slicing (Q0 80%, Q1 20%)                       |
+| CPU : Q0 | Q0 | Q0 | Q0 | Q1 | Q0 | Q0 | Q0 | Q0 | Q1            |
+|       Lower queue latency grows, but starvation is prevented      |
++-------------------------------------------------------------------+
 ```
 
 핵심은 큐 내부 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))과 큐 간 시간 할당을 혼동하지 않는 것이다. 전자는 **프로세스 간 분배**, 후자는 <strong>큐 간 분배</strong>다. 따라서 큐 간 스케줄링은 CPU 분배를 한 층 더 높은 수준에서 설계하는 메커니즘이다.
@@ -156,17 +156,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 Single ready queue limits
-        │
-        ▼
+        |
+        v
 Multilevel queue classification
-        │
-        ▼
+        |
+        v
 Scheduling between queues
-        │
-        ├──────────────▶ Fixed priority
-        ├──────────────▶ Queue time slicing / weighted share
-        ├──────────────▶ Starvation and aging concerns
-        └──────────────▶ MLFQ · QoS · cgroups isolation
+        |
+        +---------------> Fixed priority
+        +---------------> Queue time slicing / weighted share
+        +---------------> Starvation and aging concerns
+        +---------------> MLFQ · QoS · cgroups isolation
 ```
 
 이 흐름도는 단일 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)의 한계를 해결하려고 다단계 큐가 등장했고, 다시 큐 간 배분 문제를 낳아 고정 우선순위·시간 할당·피드백형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 발전하는 과정을 보여 준다.
@@ -183,7 +183,7 @@ Scheduling between queues
 
 **진행 상황**: 184 / 800
 
-← **이전**: [183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/183_multilevel_queue_scheduling/)
-**다음**: [185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/185_mlfq_scheduling/) →
+<- **이전**: [183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/183_multilevel_queue_scheduling/)
+**다음**: [185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/185_mlfq_scheduling/) ->
 
 ---

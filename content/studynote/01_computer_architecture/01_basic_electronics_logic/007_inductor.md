@@ -31,20 +31,20 @@ tags = ["studynote-computer-architecture"]
 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 하강시키는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/">VRM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a> Regulator <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)</strong>의 벅 컨버터 (Buck Converter)에서 인덕터는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 스위치와 결합하여 자기장 펌프질을 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         VRM 벅 컨버터 내 인덕터의 스위칭 평활화 도해       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 스위치 ON (충전) ]       V_in(12V) ─▶ (닫힘) ─▶          │
-│                                  인덕터 L (/////)           │
-│   자기장에 에너지 축적 중 ──▶                    ├── 부드럽게 상승 ─▶ 코어 │
-│                                                             │
-│  [ 스위치 OFF (방전) ]      V_in(차단) ─▶ (열림) ─▶          │
-│                                  인덕터 L (/////)           │
-│   자기장 붕괴하며 스스로 밀어냄 ─▶                 ├── 부족분 보충 ─▶ 코어 │
-│   (역기전력 e = L * di/dt)         ▲                      │
-│                                  │ (다이오드 환류)           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         VRM 벅 컨버터 내 인덕터의 스위칭 평활화 도해       |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 스위치 ON (충전) ]       V_in(12V) --> (닫힘) -->          |
+|                                  인덕터 L (/////)           |
+|   자기장에 에너지 축적 중 --->                    +-- 부드럽게 상승 --> 코어 |
+|                                                             |
+|  [ 스위치 OFF (방전) ]      V_in(차단) --> (열림) -->          |
+|                                  인덕터 L (/////)           |
+|   자기장 붕괴하며 스스로 밀어냄 -->                 +-- 부족분 보충 --> 코어 |
+|   (역기전력 e = L * di/dt)         ^                      |
+|                                  | (다이오드 환류)           |
++--------------------------------------------------------------+
 ```
 
 스위치가 눈 깜짝할 사이에 켜졌다 꺼지기를 수백만 번 반복할 때, 스위치가 꺼져 $0V$로 끊기는 빙하기 순간에 인덕터($L$)가 품어둔 자기장을 토해내며 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 방어한다. 이 관성의 힘이 없으면 CPU는 전기가 끊겨 즉사한다.
@@ -111,17 +111,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [전기 에너지 (Electrical Energy)]
-    │
-    ▼
+    |
+    v
 [인덕터 / 코일 (Inductor)]
-    │
-    ▼
+    |
+    v
 [자기장 에너지 저장 (Magnetic Field Storage)]
-    │
-    ▼
+    |
+    v
 [VRM 벅 컨버터 (Buck Converter)]
-    │
-    ▼
+    |
+    v
 [FIVR 통합 전압 레귤레이터 (Fully Integrated Voltage Regulator)]
 ```
 
@@ -139,7 +139,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 7 / 803
 
-← **이전**: [6. 정전용량 (Capacitance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)
-**다음**: [8. 도체 (Conductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) →
+<- **이전**: [6. 정전용량 (Capacitance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)
+**다음**: [8. 도체 (Conductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) ->
 
 ---

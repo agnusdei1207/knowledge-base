@@ -29,27 +29,27 @@ tags = ["studynote-database"]
 
 행 기반 저장 (Row Store):
   [1, Alice, 30, 5000] [2, Bob, 25, 6000] [3, Carol, 35, 4500]
-  → 한 행의 모든 컬럼이 연속 저장
-  → 행 삽입/조회 빠름 (OLTP 유리)
+  -> 한 행의 모든 컬럼이 연속 저장
+  -> 행 삽입/조회 빠름 (OLTP 유리)
 
 컬럼 기반 저장 (Column Store):
   ID: [1, 2, 3]
   Name: [Alice, Bob, Carol]
   Age: [30, 25, 35]
   Salary: [5000, 6000, 4500]
-  → 컬럼별로 연속 저장
-  → 컬럼 집계 빠름 (OLAP 유리)
+  -> 컬럼별로 연속 저장
+  -> 컬럼 집계 빠름 (OLAP 유리)
 
 쿼리 비교:
   SELECT AVG(Salary) FROM employees;
 
   행 기반: 모든 행의 모든 컬럼 읽기
-  → ID, Name, Age 불필요하지만 읽음
-  → I/O: 전체 테이블
+  -> ID, Name, Age 불필요하지만 읽음
+  -> I/O: 전체 테이블
 
   컬럼 기반: Salary 컬럼만 읽기
-  → ID, Name, Age 완전 건너뜀
-  → I/O: Salary 컬럼만 (예: 1/4 I/O)
+  -> ID, Name, Age 완전 건너뜀
+  -> I/O: Salary 컬럼만 (예: 1/4 I/O)
 
   1억 행, 100개 컬럼, 3개 컬럼 집계:
   행 기반: 100개 컬럼 I/O
@@ -75,7 +75,7 @@ tags = ["studynote-database"]
   예: 날짜 정렬 후 지역 코드
 
 2. 사전 인코딩 (Dictionary Encoding):
-  고유 값 → 정수 매핑
+  고유 값 -> 정수 매핑
 
   원본: [iPhone, Samsung, iPhone, LG, Samsung]
   사전: {iPhone:0, Samsung:1, LG:2}
@@ -87,8 +87,8 @@ tags = ["studynote-database"]
 3. 비트 패킹 (Bit Packing):
   작은 정수를 최소 비트로 저장
 
-  최댓값 < 16 → 4비트로 충분
-  (기본 int = 32비트) → 8× 압축
+  최댓값 < 16 -> 4비트로 충분
+  (기본 int = 32비트) -> 8× 압축
 
 4. 델타 인코딩 (Delta Encoding):
   연속 값의 차이를 저장
@@ -173,7 +173,7 @@ HTAP (Hybrid Transactional/Analytical Processing):
   OLAP: 컬럼 기반 (Redshift, BigQuery)
 
   이중 구조:
-  OLTP → ETL(수 시간) → OLAP
+  OLTP -> ETL(수 시간) -> OLAP
 
   문제: 분석 데이터 신선도 낮음 (수 시간 지연)
 
@@ -182,9 +182,9 @@ HTAP 솔루션:
 TiDB (PingCAP):
   TiKV (행 기반): OLTP
   TiFlash (컬럼 기반): 실시간 OLAP
-  동일 쿼리 → 최적 스토리지 자동 선택
+  동일 쿼리 -> 최적 스토리지 자동 선택
 
-  Raft 복제: TiKV → TiFlash 실시간 동기
+  Raft 복제: TiKV -> TiFlash 실시간 동기
   ETL 없이 HTAP 가능
 
 SingleStore (구 MemSQL):
@@ -200,10 +200,10 @@ MySQL HeatWave (Oracle):
   OLAP 쿼리 100× 가속
 
 한계:
-  행+컬럼 동시 저장 → 스토리지 2배 비용
+  행+컬럼 동시 저장 -> 스토리지 2배 비용
   쓰기 증폭 (두 저장 방식 모두 업데이트)
 
-  → 순수 OLAP 워크로드엔 컬럼 전용 DB 유리
+  -> 순수 OLAP 워크로드엔 컬럼 전용 DB 유리
 ```
 
 > 📢 **섹션 요약 비유**: HTAP는 하이브리드 자동차 — 도심([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))엔 전기모터(행 기반), 고속도로([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))엔 가솔린(컬럼 기반). 하나의 차에 두 동력. 편리하지만 무겁고 비싸요!
@@ -224,11 +224,11 @@ Redshift 적용:
 
 파티셔닝 (Sort Key):
   ORDER_DATE 기준 정렬
-  → 날짜 범위 쿼리 시 불필요한 블록 건너뜀
+  -> 날짜 범위 쿼리 시 불필요한 블록 건너뜀
 
 분산 키 (Dist Key):
   CUSTOMER_ID 기반 분산
-  → 고객별 집계 시 네트워크 셔플 최소화
+  -> 고객별 집계 시 네트워크 셔플 최소화
 
 인코딩:
   ORDER_DATE: AZ64 (날짜 최적)
@@ -250,7 +250,7 @@ Redshift 적용:
 
   Before (MySQL): 45분 (전체 테이블 스캔)
   After (Redshift): 8초
-  → 337× 가속 (Sort Key + 컬럼 저장)
+  -> 337× 가속 (Sort Key + 컬럼 저장)
 
 추가 최적화:
   Materialized View: 자주 쓰는 집계 사전 계산
@@ -258,7 +258,7 @@ Redshift 적용:
   Concurrency Scaling: 동시 쿼리 급증 시 자동 확장
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 Redshift 최적화 — 10억 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날짜별 정렬(Sort [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(7× 절감) + 컬럼 저장. "월별 매출"이 MySQL 45분 → Redshift 8초. 337배 빠름!
+> 📢 **섹션 요약 비유**: 이커머스 Redshift 최적화 — 10억 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날짜별 정렬(Sort [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(7× 절감) + 컬럼 저장. "월별 매출"이 MySQL 45분 -> Redshift 8초. 337배 빠름!
 
 ---
 
@@ -325,7 +325,7 @@ TiDB HTAP 통합
 
 **진행 상황**: 47 / 600
 
-← **이전**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/)
-**다음**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/knowledge-base/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/) →
+<- **이전**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/)
+**다음**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/knowledge-base/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/) ->
 
 ---

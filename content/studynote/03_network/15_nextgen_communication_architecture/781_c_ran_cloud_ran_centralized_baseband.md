@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [CP-OFDM]
-    │
-    ▼
+    |
+    v
 [C-RAN]
-    │
-    └──▶ [O-RAN]
+    |
+    +---> [O-RAN]
 ```
 
 - **📢 섹션 요약 비유**: C-RAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [CP-OFDM]
-    │
-    ▼
+    |
+    v
 [C-RAN]
-    │
-    └──▶ [O-RAN]
+    |
+    +---> [O-RAN]
 ```
 
 - **📢 섹션 요약 비유**: C-RAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
 
 ```text
 [선행 개념: CP-OFDM]
-    │
-    ▼
+    |
+    v
 [현재 개념: C-RAN]
-    │
-    ├──▶ [확장 A: O-RAN]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: O-RAN]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 O-RAN와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 
 
 **진행 상황**: 902 / 1120
 
-← **이전**: [780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/)
-**다음**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) →
+<- **이전**: [780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/)
+**다음**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) ->
 
 ---

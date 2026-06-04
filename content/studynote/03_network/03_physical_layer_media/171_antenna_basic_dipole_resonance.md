@@ -26,14 +26,14 @@ tags = ["studynote-network"]
 아래 그림은 안테나가 왜 "선로와 공간 사이의 변환기"로 불리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Guided wave -> free-space wave                              │
-├──────────────────────────────────────────────────────────────┤
-│ feeder current -> feed point -> accelerating charge         │
-│                 -> changing E/H fields -> radiation         │
-│ receive path is the reverse process                         │
-│ mismatch at feed point -> reflection back to feeder         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Guided wave -> free-space wave                              |
++--------------------------------------------------------------+
+| feeder current -> feed point -> accelerating charge         |
+|                 -> changing E/H fields -> radiation         |
+| receive path is the reverse process                         |
+| mismatch at feed point -> reflection back to feeder         |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 송신과 수신이 서로 대칭이라는 점이다. 그래서 같은 안테나는 대체로 송신 패턴과 수신 패턴이 동일한 상호성 (Reciprocity)을 가진다. 또한 정합이 나쁘면 전파가 약한 것이 아니라, 애초에 선로에서 공간으로 에너지가 잘 넘어가지 못하는 문제가 생긴다.
@@ -49,15 +49,15 @@ tags = ["studynote-network"]
 반파장 다이폴의 중요한 특징은 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 분포와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 분포가 다르다는 점이다. 급전점 중앙에서는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 가장 크고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 낮으며, 양 끝으로 갈수록 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 줄고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 커진다. 이 상태가 형성되면 안테나는 저장 에너지보다 방사 에너지를 더 효율적으로 다루게 되고, 자유공간 기준 급전점 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)도 약 73Ω 근처의 실수 성분 중심으로 나타난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Half-wave dipole at resonance                               │
-├──────────────────────────────────────────────────────────────┤
-│ end              center feed point              end         │
-│ V max               I max / V min               V max       │
-│  o====================||=========================o          │
-│  <-------------------- λ / 2 -------------------->          │
-│ current rises -> peak at center -> falls to zero           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Half-wave dipole at resonance                               |
++--------------------------------------------------------------+
+| end              center feed point              end         |
+| V max               I max / V min               V max       |
+|  o====================||=========================o          |
+|  <-------------------- λ / 2 -------------------->          |
+| current rises -> peak at center -> falls to zero           |
++--------------------------------------------------------------+
 ```
 
 이 그림은 왜 다이폴이 가운데에서 급전되는지를 설명한다. 중앙은 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 가장 큰 지점이라 선로 에너지를 방사체로 전달하기에 유리하고, 양 끝은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 커져 끝단 전계가 강해진다. 전송선로와 안테나 길이가 이 공진 상태에서 벗어나면 유도성 또는 용량성 리액턴스가 커져 방사가 비효율적이 된다.
@@ -98,15 +98,15 @@ tags = ["studynote-network"]
 실무에서는 먼저 목표 주파수와 사용 가능한 공간을 동시에 본다. 가장 이상적인 반파장 다이폴이 기구 설계에 들어갈 수 있으면 기준점으로 삼기 좋지만, 스마트폰·[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기처럼 공간이 부족하면 1/4파장 모노폴, 미앤더 라인, 적재형 안테나와 정합 회로를 조합해야 한다. 이때 작게 만드는 대가로 효율과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 줄 수 있음을 받아들여야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Antenna sizing questions                                    │
-├──────────────────────────────────────────────────────────────┤
-│ operating frequency fixed? -> compute λ = c / f             │
-│ enough physical length for λ/2 ?                            │
-│   ├─ yes -> dipole is the clean reference choice            │
-│   └─ no  -> shorter structure + matching network review     │
-│ check ground plane, enclosure, hand effect, bandwidth       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Antenna sizing questions                                    |
++--------------------------------------------------------------+
+| operating frequency fixed? -> compute λ = c / f             |
+| enough physical length for λ/2 ?                            |
+|   +- yes -> dipole is the clean reference choice            |
+|   +- no  -> shorter structure + matching network review     |
+| check ground plane, enclosure, hand effect, bandwidth       |
++--------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -156,16 +156,16 @@ tags = ["studynote-network"]
 
 ```text
 주파수 f 선택
-    │
-    ▼
+    |
+    v
 파장 λ = c / f 계산
-    │
-    ▼
+    |
+    v
 공진 길이 결정 (≈ λ/2 dipole, ≈ λ/4 monopole)
-    │
-    ├──────────────▶ 입력 임피던스 · 정합
-    ├──────────────▶ 방사 패턴 · 편파
-    ▼
+    |
+    +---------------> 입력 임피던스 · 정합
+    +---------------> 방사 패턴 · 편파
+    v
 커버리지 · 링크 버짓 · 배열 안테나 설계
 ```
 
@@ -183,7 +183,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 292 / 1120
 
-← **이전**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)
-**다음**: [172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/) →
+<- **이전**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)
+**다음**: [172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/) ->
 
 ---

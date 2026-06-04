@@ -28,27 +28,27 @@ DLT는 원장을 <strong>여러 노드에 <a href="/knowledge-base/studynote/08_
 ### [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
 ```
-┌─────────────────────────────────────────────┐
-│             DLT 분류                         │
-│                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │  블록체인(Blockchain)               │   │
-│  │  : 순차적 블록 연결, 해시 포인터     │   │
-│  │  예) Bitcoin, Ethereum              │   │
-│  └─────────────────────────────────────┘   │
-│                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │  DAG(Directed Acyclic Graph)        │   │
-│  │  : 트랜잭션이 직접 서로 검증        │   │
-│  │  예) IOTA Tangle, Nano              │   │
-│  └─────────────────────────────────────┘   │
-│                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │  HashGraph                          │   │
-│  │  : 가십 프로토콜 + 가상 투표        │   │
-│  │  예) Hedera Hashgraph               │   │
-│  └─────────────────────────────────────┘   │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|             DLT 분류                         |
+|                                             |
+|  +-------------------------------------+   |
+|  |  블록체인(Blockchain)               |   |
+|  |  : 순차적 블록 연결, 해시 포인터     |   |
+|  |  예) Bitcoin, Ethereum              |   |
+|  +-------------------------------------+   |
+|                                             |
+|  +-------------------------------------+   |
+|  |  DAG(Directed Acyclic Graph)        |   |
+|  |  : 트랜잭션이 직접 서로 검증        |   |
+|  |  예) IOTA Tangle, Nano              |   |
+|  +-------------------------------------+   |
+|                                             |
+|  +-------------------------------------+   |
+|  |  HashGraph                          |   |
+|  |  : 가십 프로토콜 + 가상 투표        |   |
+|  |  예) Hedera Hashgraph               |   |
+|  +-------------------------------------+   |
++---------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: — "중앙 은행 금고 하나에 모든 돈 장부가 있는 것 vs 전국 지점 모두가 동일한 장부 사본을 갖는 것이다.
@@ -81,9 +81,9 @@ DLT는 원장을 <strong>여러 노드에 <a href="/knowledge-base/studynote/08_
    A (Availability)    P (Partition Tolerance)
 ```
 
-- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a> 모델</strong>: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)([Practical BFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) 기반 [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) → [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 희생, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장
-- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 모델</strong>: 비트코인 → [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 최종성을 확률적으로 처리, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 유지
-- <strong>실질적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>: P([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance)는 필수 → CA는 단일 노드에만 해당
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a> 모델</strong>: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)([Practical BFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) 기반 [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) -> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 희생, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 모델</strong>: 비트코인 -> [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 최종성을 확률적으로 처리, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 유지
+- <strong>실질적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>: P([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance)는 필수 -> CA는 단일 노드에만 해당
 
 - **📢 섹션 요약 비유**: — "음식점 주방 메모판(중앙)을 없애고 모든 직원이 메모를 복사해 갖는 것. 한 명이 실수해도 나머지가 수정해 준다.
 
@@ -153,7 +153,7 @@ DLT는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [분산 원장 기술] → [허가형 DLT의 주요 합의 알고리즘]
+[관계 설명] -> [분산 원장 기술] -> [허가형 DLT의 주요 합의 알고리즘]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -168,7 +168,7 @@ DLT는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 
 **진행 상황**: 474 / 552
 
-← **이전**: [473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/)
-**다음**: [475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/475_pow_pos_proof_mechanisms_comparison/) →
+<- **이전**: [473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/)
+**다음**: [475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/475_pow_pos_proof_mechanisms_comparison/) ->
 
 ---

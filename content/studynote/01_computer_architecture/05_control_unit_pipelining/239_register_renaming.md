@@ -36,25 +36,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 새 목적 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 등장할 때 매핑이 어떻게 바뀌고, 언제 이전 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 해제되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│               리네이밍의 핵심 흐름: 이름은 유지, 저장 위치만 교체            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R1, R2, R3                                                      │
-│          │                                                                   │
-│          ▼                                                                   │
-│ RAT 조회: R2 -> P08, R3 -> P11, 기존 R1 -> P05                              │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Free List에서 새 PRF 할당: P19                                               │
-│          │                                                                   │
-│          ▼                                                                   │
-│ 리네임 결과: ADD P19, P08, P11                                               │
-│          │                                                                   │
-│          ├─ RAT 갱신: R1 -> P19                                               │
-│          └─ ROB 기록: "이전 R1 = P05, 새 R1 = P19"                          │
-│                                                                              │
-│ Commit 시점: 명령어가 안전하게 완료되면 P05 반환 -> Free List 복귀           │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|               리네이밍의 핵심 흐름: 이름은 유지, 저장 위치만 교체            |
++------------------------------------------------------------------------------+
+| 명령어: ADD R1, R2, R3                                                      |
+|          |                                                                   |
+|          v                                                                   |
+| RAT 조회: R2 -> P08, R3 -> P11, 기존 R1 -> P05                              |
+|          |                                                                   |
+|          v                                                                   |
+| Free List에서 새 PRF 할당: P19                                               |
+|          |                                                                   |
+|          v                                                                   |
+| 리네임 결과: ADD P19, P08, P11                                               |
+|          |                                                                   |
+|          +- RAT 갱신: R1 -> P19                                               |
+|          +- ROB 기록: "이전 R1 = P05, 새 R1 = P19"                          |
+|                                                                              |
+| Commit 시점: 명령어가 안전하게 완료되면 P05 반환 -> Free List 복귀           |
++------------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 <strong>소스는 현재 매핑을 읽고, 목적지는 새 물리 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>를 받는다는 점</strong>이다. 그래서 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/))와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/))는 이름 수준에서만 존재하던 충돌로 바뀌고, 실제 저장 위치가 달라지면서 사라진다. 반면 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))는 앞선 연산 결과 자체가 필요하므로 여전히 남는다. 즉 리네이밍은 모든 의존성을 없애는 기술이 아니라, <strong>가짜 의존성만 정밀하게 제거하는 기술</strong>이다.
@@ -141,29 +141,29 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 가시 레지스터 부족
-    │
-    ▼
+    |
+    v
 가짜 의존성 식별
 (WAR, WAW)
-    │
-    ▼
+    |
+    v
 레지스터 리네이밍
 (RAT + PRF + Free List)
-    │
-    ├──▶ 비순차 실행 (OoO)
-    │        │
-    │        ▼
-    │    예약역 · 다중 발행
-    │
-    ▼
+    |
+    +---> 비순차 실행 (OoO)
+    |        |
+    |        v
+    |    예약역 · 다중 발행
+    |
+    v
 재주문 버퍼 (ROB)
 기반 순차 커밋
-    │
-    ▼
+    |
+    v
 넓은 수퍼스칼라 · 추측 실행 · 전성비 최적화
 ```
 
-이 흐름은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족 인식 → 가짜 의존성 제거 → 동적 실행 확대 → 정확한 커밋 보장 → 고성능 코어 최적화"로 이어지는 발전 방향을 보여준다.
+이 흐름은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족 인식 -> 가짜 의존성 제거 -> 동적 실행 확대 -> 정확한 커밋 보장 -> 고성능 코어 최적화"로 이어지는 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -177,7 +177,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 239 / 803
 
-← **이전**: [238. 비순차 실행 (Out-of-Order Execution, OoO)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)
-**다음**: [240. 재주문 버퍼 (ROB, Reorder Buffer)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/) →
+<- **이전**: [238. 비순차 실행 (Out-of-Order Execution, OoO)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)
+**다음**: [240. 재주문 버퍼 (ROB, Reorder Buffer)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/) ->
 
 ---

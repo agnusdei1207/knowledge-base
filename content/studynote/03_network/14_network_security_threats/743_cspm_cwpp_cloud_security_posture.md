@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SWG]
-    │
-    ▼
+    |
+    v
 [CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    └──▶ [침해 사고 대응 체계 분석, 실시간 로그 수…]
+    |
+    +---> [침해 사고 대응 체계 분석, 실시간 로그 수…]
 ```
 
 - **📢 섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [SWG]
-    │
-    ▼
+    |
+    v
 [CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    └──▶ [침해 사고 대응 체계 분석, 실시간 로그 수…]
+    |
+    +---> [침해 사고 대응 체계 분석, 실시간 로그 수…]
 ```
 
 - **📢 섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ CSPM이 클라우드의 '껍데기([설정](/knowledge-base/studynote/15_devops_
 
 ```text
 [선행 개념: SWG]
-    │
-    ▼
+    |
+    v
 [현재 개념: CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ├──▶ [확장 A: 침해 사고 대응 체계 분석, 실시간 로그 수…]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 침해 사고 대응 체계 분석, 실시간 로그 수…]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…는 SWG에서 출발해 현재 메커니즘을 정교화하고, 이후 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ CSPM이 클라우드의 '껍데기([설정](/knowledge-base/studynote/15_devops_
 
 **진행 상황**: 864 / 1120
 
-← **이전**: [742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/)
-**다음**: [744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)](/knowledge-base/studynote/03_network/14_network_security_threats/744_incident_response_network_forensics_siem/) →
+<- **이전**: [742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/)
+**다음**: [744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)](/knowledge-base/studynote/03_network/14_network_security_threats/744_incident_response_network_forensics_siem/) ->
 
 ---

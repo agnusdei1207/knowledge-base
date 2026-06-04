@@ -23,11 +23,11 @@ tags = ["studynote-design-supervision"]
 요구사항이 모호한 초반에는 빠른 의사결정을 위해 간이법이 필요하고, 요구가 구체화되면 상세법이나 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 기반 산정으로 오차를 줄여야 한다. 감리 관점에서는 어떤 기법을 썼느냐보다 <strong>왜 그 시점에 그 기법이 적절했는가</strong>와 <strong>산정 근거가 재현 가능한가</strong>가 더 중요하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ RFP/초기 요구 ──▶ 간이 산정 ──▶ 상세 산정/FP ──▶ 계약·정산 검증 │
-├──────────────────────────────────────────────────────────────┤
-│ 빠른 예산 판단      오차 축소         객관적 근거 확보         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| RFP/초기 요구 ---> 간이 산정 ---> 상세 산정/FP ---> 계약·정산 검증 |
++--------------------------------------------------------------+
+| 빠른 예산 판단      오차 축소         객관적 근거 확보         |
++--------------------------------------------------------------+
 ```
 
 이 그림은 비용 산정이 한 번의 숫자 계산이 아니라, 요구사항 성숙도에 따라 단계적으로 정밀도를 높여 가는 과정임을 보여 준다.
@@ -38,7 +38,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-개발비 산정의 핵심은 <strong>규모(Size) → 생산성(Productivity) → 비용(Cost)</strong>의 연결이다. 특히 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))는 사용자 관점 기능 크기를 EI, EO, EQ, ILF, EIF 같은 항목으로 수량화해 기술 독립적인 규모 지표를 제공한다.
+개발비 산정의 핵심은 <strong>규모(Size) -> 생산성(Productivity) -> 비용(Cost)</strong>의 연결이다. 특히 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))는 사용자 관점 기능 크기를 EI, EO, EQ, ILF, EIF 같은 항목으로 수량화해 기술 독립적인 규모 지표를 제공한다.
 
 | 기법 | 특징 | 답안 포인트 |
 |:---|:---|:---|
@@ -47,13 +47,13 @@ tags = ["studynote-design-supervision"]
 | [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) | 사용자 기능 규모를 표준 항목으로 계량 | 계약·정산·감리에서 객관적 증빙에 유리 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Requirement                                                   │
-│    │                                                         │
-│    ├─ EI / EO / EQ / ILF / EIF 식별                          │
-│    ▼                                                         │
-│ UFP 산정 ──▶ VAF 보정 ──▶ FP 규모 확정 ──▶ 생산성·단가 적용   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Requirement                                                   |
+|    |                                                         |
+|    +- EI / EO / EQ / ILF / EIF 식별                          |
+|    v                                                         |
+| UFP 산정 ---> VAF 보정 ---> FP 규모 확정 ---> 생산성·단가 적용   |
++--------------------------------------------------------------+
 ```
 
 시험에서는 UFP(Unadjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)), VAF(Value Adjustment Factor), AFP(Adjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 용어를 한 번 정도 연결해 주면 답안이 풍부해진다. 다만 지나치게 계산식만 나열하지 말고, <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>는 요구를 숫자로 바꿔 계약과 정산의 공통 언어를 만든다</strong>는 점을 분명히 써야 한다.
@@ -124,17 +124,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 초기 요구 정의
-    │
-    ▼
+    |
+    v
 간이 산정
-    │
-    ▼
+    |
+    v
 상세 산정 / Function Point
-    │
-    ▼
+    |
+    v
 비용 · 일정 · 인력 계획 수립
-    │
-    ▼
+    |
+    v
 종료 후 정산 검증
 ```
 
@@ -152,7 +152,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 505 / 530
 
-← **이전**: [426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/426_liss_mece/)
-**다음**: [428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/428_process/) →
+<- **이전**: [426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/426_liss_mece/)
+**다음**: [428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/428_process/) ->
 
 ---

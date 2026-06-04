@@ -32,8 +32,8 @@ tags = ["studynote-cloud-architecture"]
 Deployment는 ReplicaSet을 통해 원하는 수의 Pod를 유지하고, Service는 label selector로 Pod를 묶어 안정적인 네트워크 엔드포인트를 제공한다.
 
 ```text
-Deployment → ReplicaSet → Pod
-Service ────────────────▶ Pod (via selector)
+Deployment -> ReplicaSet -> Pod
+Service -----------------> Pod (via selector)
 ```
 
 | 구성 요소 | 역할 | 포인트 |
@@ -112,17 +112,17 @@ Service와 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 
 ```text
 이미지 빌드
-    │
-    ▼
+    |
+    v
 Pod 생성
-    │
-    ▼
+    |
+    v
 Deployment / ReplicaSet
-    │
-    ▼
+    |
+    v
 Service / DNS
-    │
-    ▼
+    |
+    v
 Rolling Update / Autoscaling
 ```
 
@@ -140,7 +140,7 @@ Rolling Update / Autoscaling
 
 **진행 상황**: 52 / 371
 
-← **이전**: [52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/052_kubernetes_cluster_architecture/)
-**다음**: [54. ConfigMap과 Secret](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/054_configmap_secret/) →
+<- **이전**: [52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/052_kubernetes_cluster_architecture/)
+**다음**: [54. ConfigMap과 Secret](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/054_configmap_secret/) ->
 
 ---

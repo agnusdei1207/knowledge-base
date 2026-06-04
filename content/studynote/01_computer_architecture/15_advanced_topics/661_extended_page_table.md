@@ -24,15 +24,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 EPT가 왜 중요한지, 그리고 어떤 책임을 하드웨어로 넘겼는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                EPT가 해결한 문제: 소프트웨어 개입 없는 2차 변환           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ GVA ──▶ Guest Page Table ──▶ GPA ──▶ EPT ──▶ HPA ──▶ 실제 메모리          │
-│       (게스트 운영체제 관리)        (Hypervisor가 정의, MMU가 실행)       │
-│                                                                            │
-│ 기존 방식: GPA→HPA를 Hypervisor 코드가 계산                               │
-│ EPT 방식 : GPA→HPA를 MMU (Memory Management Unit)가 직접 계산             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                EPT가 해결한 문제: 소프트웨어 개입 없는 2차 변환           |
++----------------------------------------------------------------------------+
+| GVA ---> Guest Page Table ---> GPA ---> EPT ---> HPA ---> 실제 메모리          |
+|       (게스트 운영체제 관리)        (Hypervisor가 정의, MMU가 실행)       |
+|                                                                            |
+| 기존 방식: GPA->HPA를 Hypervisor 코드가 계산                               |
+| EPT 방식 : GPA->HPA를 MMU (Memory Management Unit)가 직접 계산             |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 역할 분리다. 게스트 운영체제는 원래 하던 대로 자신의 주소 공간만 관리하고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 실제 메모리를 어느 GPA에 연결할지만 정의한다. 그러면 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 두 장의 지도를 이어 읽어 최종 주소를 만든다. 결과적으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 본질은 유지하면서도, 주소 변환을 위해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 매번 호출되는 비효율을 줄일 수 있다.
@@ -43,14 +43,14 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EPT의 핵심 구성은 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), EPT 포인터 (Extended [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Pointer, EPTP), EPT 계층 엔트리, 그리고 이 결과를 기억하는 TLB로 나뉜다. 게스트 운영체제는 여전히 GVA→GPA 변환용 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 관리한다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 GPA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 관계를 담은 EPT를 만들고, 해당 루트 주소를 가상 머신 제어 구조 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure, [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/))에 있는 EPTP에 기록한다. 이후 중앙 처리 장치 (Central Processing Unit, CPU)는 주소 변환이 필요할 때 게스트 테이블과 EPT를 연쇄적으로 따라간다.
+EPT의 핵심 구성은 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), EPT 포인터 (Extended [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Pointer, EPTP), EPT 계층 엔트리, 그리고 이 결과를 기억하는 TLB로 나뉜다. 게스트 운영체제는 여전히 GVA->GPA 변환용 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 관리한다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 GPA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 관계를 담은 EPT를 만들고, 해당 루트 주소를 가상 머신 제어 구조 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure, [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/))에 있는 EPTP에 기록한다. 이후 중앙 처리 장치 (Central Processing Unit, CPU)는 주소 변환이 필요할 때 게스트 테이블과 EPT를 연쇄적으로 따라간다.
 
 | 구성요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 의미 |
 | :-- | :-- | :-- |
 | 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | GVA를 GPA로 변환 | 게스트 운영체제가 자유롭게 관리 |
 | EPTP | EPT 루트 주소 지정 | 가상 머신 전환 시 어떤 EPT를 쓸지 결정 |
 | EPT 엔트리 | GPA를 HPA와 권한으로 매핑 | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/실행 권한을 하드웨어가 즉시 검사 |
-| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) | GVA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 결과 캐시 | 긴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크 비용을 숨기는 핵심 |
+| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) | GVA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 결과 캐시 | 긴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크 비용을 숨기는 핵심 |
 | 대용량 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | 2 메비바이트, 1 기비바이트 단위 매핑 | 단계 수와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 함께 줄임 |
 
 주소 변환 흐름은 단순하지만 내부 비용은 결코 가볍지 않다. 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 각 단계를 읽기 위해서도 해당 테이블 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 GPA를 다시 EPT로 번역해야 하기 때문이다. 그래서 TLB가 비어 있고 4단계 테이블을 모두 따라가야 하는 최악의 경우에는 20회가 넘는 메모리 참조가 연쇄적으로 발생할 수 있다. EPT가 빠른 이유는 “워크가 짧아서”가 아니라, 이 긴 경로를 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입 없이 하드웨어가 직접 처리하고, 그 결과를 TLB가 재사용하기 때문이다.
@@ -63,12 +63,12 @@ EPT의 핵심 구성은 게스트 [페이지 테이블](/knowledge-base/studynot
 
 ## Ⅲ. 비교 및 연결
 
-EPT를 제대로 이해하려면 [그림자 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/) ([Shadow Page Table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/))과 [중첩 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ([Nested Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/), NPT)을 함께 봐야 한다. [그림자 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/)은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 GVA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 결과를 미리 합성해 두는 방식이라, 한 번 주소가 정리되면 단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크로 끝날 수 있다. 하지만 게스트가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 바꾸는 순간 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 다시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해야 하므로 유지 비용이 매우 크다. 반면 EPT와 NPT는 워크 자체는 길어도 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담을 하드웨어 설계로 바꾸어 대규모 클라우드에 더 적합한 구조를 만든다.
+EPT를 제대로 이해하려면 [그림자 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/) ([Shadow Page Table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/))과 [중첩 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ([Nested Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/), NPT)을 함께 봐야 한다. [그림자 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/)은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 GVA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 결과를 미리 합성해 두는 방식이라, 한 번 주소가 정리되면 단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크로 끝날 수 있다. 하지만 게스트가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 바꾸는 순간 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 다시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해야 하므로 유지 비용이 매우 크다. 반면 EPT와 NPT는 워크 자체는 길어도 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담을 하드웨어 설계로 바꾸어 대규모 클라우드에 더 적합한 구조를 만든다.
 
 | 비교 항목 | [그림자 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/) | EPT | NPT |
 | :-- | :-- | :-- | :-- |
 | 구현 주체 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 소프트웨어 | 인텔 프로세서 하드웨어 | Advanced Micro Devices (AMD) 플랫폼 하드웨어 |
-| 주소 변환 방식 | 합성된 GVA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 단일 테이블 | GVA→GPA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 2단계 | GVA→GPA→[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 2단계 |
+| 주소 변환 방식 | 합성된 GVA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 단일 테이블 | GVA->GPA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 2단계 | GVA->GPA->[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 2단계 |
 | 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 수정 | 자주 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 발생 | 게스트가 비교적 자유롭게 수정 | 게스트가 비교적 자유롭게 수정 |
 | 유지 복잡도 | 매우 높음 | 중간 | 중간 |
 | 대표 강점 | 강한 관찰성과 구형 CPU [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 범용 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 표준 | AMD 환경 최적화 |
@@ -124,17 +124,17 @@ EPT의 가장 큰 기대효과는 메모리 [가상화](/knowledge-base/studynot
 
 ```text
 그림자 페이지 테이블
-    │  (소프트웨어 합성)
-    ▼
+    |  (소프트웨어 합성)
+    v
 2차 주소 변환 하드웨어화
-    │
-    ▼
+    |
+    v
 EPT · NPT
-    │
-    ▼
+    |
+    v
 TLB 최적화 · 대용량 페이지 · VPID
-    │
-    ▼
+    |
+    v
 PML · IOMMU · 보안 감시형 메모리 가상화
 ```
 
@@ -152,7 +152,7 @@ PML · IOMMU · 보안 감시형 메모리 가상화
 
 **진행 상황**: 662 / 803
 
-← **이전**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/)
-**다음**: [662. 그림자 페이지 테이블 (Shadow Page Table)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/) →
+<- **이전**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/)
+**다음**: [662. 그림자 페이지 테이블 (Shadow Page Table)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/) ->
 
 ---

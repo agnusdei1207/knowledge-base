@@ -46,15 +46,15 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 단일 전송과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송의 차이를 시간축으로 압축해서 보여준다. 중요한 점은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 <strong>첫 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 비슷하게 늦을 수 있어도, 뒤의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들을 매우 싸게 가져온다</strong>는 사실이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                    단일 전송 vs 버스트 전송의 시간 사용                     │
-├──────────────┬───────────────────────────────────────────────────────────────┤
-│ 단일 전송    │ [주소/중재][대기][데이터1][주소/중재][대기][데이터2]...      │
-│ 버스트 전송  │ [주소/중재][대기][데이터1][데이터2][데이터3][데이터4]         │
-├──────────────┼───────────────────────────────────────────────────────────────┤
-│ 병목 위치    │ 준비 오버헤드가 데이터마다 반복                              │
-│ 개선 포인트  │ 준비 오버헤드를 첫 전송에 집중하고 이후는 연속 흘려보냄      │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                    단일 전송 vs 버스트 전송의 시간 사용                     |
++--------------+---------------------------------------------------------------+
+| 단일 전송    | [주소/중재][대기][데이터1][주소/중재][대기][데이터2]...      |
+| 버스트 전송  | [주소/중재][대기][데이터1][데이터2][데이터3][데이터4]         |
++--------------+---------------------------------------------------------------+
+| 병목 위치    | 준비 오버헤드가 데이터마다 반복                              |
+| 개선 포인트  | 준비 오버헤드를 첫 전송에 집중하고 이후는 연속 흘려보냄      |
++------------------------------------------------------------------------------+
 ```
 
 예를 들어 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 캐시 라인 64바이트를 채운다고 가정하면, 단일 전송은 8바이트씩 8번 요청해야 한다. 반면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 8의 전송이라면 첫 요청 후 8개의 워드를 연속으로 받아 한 번의 캐시 라인 필 (Fill)로 끝낼 수 있다. 그래서 메모리 계층에서는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 효율이 곧 캐시 미스 패널티를 줄이는 핵심 수단이 된다.
@@ -83,17 +83,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 데이터 존재
-    │
-    ▼
+    |
+    v
 공간적 지역성 (Spatial Locality)
-    │
-    ▼
+    |
+    v
 캐시 라인 단위 요청
-    │
-    ▼
+    |
+    v
 버스트 모드 전송
-    │
-    ▼
+    |
+    v
 유효 대역폭 증가 · 미스 패널티 완화
 ```
 
@@ -126,15 +126,15 @@ tags = ["studynote-computer-architecture"]
 - 캐시 라인·정렬 조건을 고려하지 않아 여러 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트로 쪼개지는 설계
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                    버스트 모드 적용 판단 체크                               │
-├──────────────────────┬───────────────────────────────────────────────────────┤
-│ 데이터 배치          │ 연속 주소인가, 아니면 산발적 접근인가?               │
-│ 전송 크기            │ 블록 단위 이득이 설정 비용보다 큰가?                 │
-│ 지연 허용치          │ 다른 마스터가 기다려도 괜찮은가?                     │
-│ 프로토콜 제약        │ 최대 Burst Length와 정렬 규칙을 만족하는가?         │
-│ 시스템 목표          │ 최고 처리량이 우선인가, 응답성 균형이 우선인가?      │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                    버스트 모드 적용 판단 체크                               |
++----------------------+-------------------------------------------------------+
+| 데이터 배치          | 연속 주소인가, 아니면 산발적 접근인가?               |
+| 전송 크기            | 블록 단위 이득이 설정 비용보다 큰가?                 |
+| 지연 허용치          | 다른 마스터가 기다려도 괜찮은가?                     |
+| 프로토콜 제약        | 최대 Burst Length와 정렬 규칙을 만족하는가?         |
+| 시스템 목표          | 최고 처리량이 우선인가, 응답성 균형이 우선인가?      |
++------------------------------------------------------------------------------+
 ```
 
 따라서 답안에서는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 빠르다"에서 멈추면 부족하다. <strong>연속성·<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·공정성의 교환 관계를 설명하고, 대용량 전송에는 채택하되 실시간 응답이 중요한 구간에서는 길이를 제어해야 한다</strong>고 말해야 설계 판단이 된다.
@@ -170,22 +170,22 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 전송 (Single Transfer)
-    │
-    ▼
+    |
+    v
 DMA (Direct Memory Access) · 블록 전송 요구
-    │
-    ▼
+    |
+    v
 버스트 모드 (Burst Mode)
-    │
-    ├──▶ 캐시 라인 필 (Cache Line Fill)
-    │
-    ├──▶ SDRAM / DDR (Double Data Rate) 연속 전송
-    │
-    ▼
+    |
+    +---> 캐시 라인 필 (Cache Line Fill)
+    |
+    +---> SDRAM / DDR (Double Data Rate) 연속 전송
+    |
+    v
 AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적화
 ```
 
-이 흐름은 "한 개씩 옮기기 → 블록으로 묶기 → 메모리/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 차원의 정교한 연속 전송"으로 개념이 발전하는 과정을 보여준다.
+이 흐름은 "한 개씩 옮기기 -> 블록으로 묶기 -> 메모리/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 차원의 정교한 연속 전송"으로 개념이 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -199,7 +199,7 @@ AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적�
 
 **진행 상황**: 321 / 803
 
-← **이전**: [319. 사이클 스틸링 (Cycle Stealing)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/319_cycle_stealing/)
-**다음**: [321. IOP (I/O Processor / Channel)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/321_iop_channel/) →
+<- **이전**: [319. 사이클 스틸링 (Cycle Stealing)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/319_cycle_stealing/)
+**다음**: [321. IOP (I/O Processor / Channel)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/321_iop_channel/) ->
 
 ---

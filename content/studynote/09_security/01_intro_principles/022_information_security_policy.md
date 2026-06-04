@@ -39,19 +39,19 @@ tags = ["studynote-security"]
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보안 문서 체계([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Hierarchy)의 최상단 꼭대기에 위치합니다. 하위로 내려갈수록 구체적이고 기술 종속적으로 변합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 정보보안 거버넌스 체계: 4계층 피라미드 구조 ]        │
-│                                                             │
-│                      /▲\         <-- 1. 정책 (Policy)        │
-│                     /   \            (Why/What, 경영진 승인) │
-│                    /_____\           [필수/강제, 변경 드묾]  │
-│                   /       \      <-- 2. 표준 (Standard)      │
-│                  /_________\         (How, 구체적 규격/하드웨어)│
-│                 /           \    <-- 3. 지침 (Guideline)     │
-│                /_____________\       (Recommendation, 권고사항)│
-│               /               \  <-- 4. 절차 (Procedure)     │
-│              /_________________\     (Step-by-Step, 매뉴얼)  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ 정보보안 거버넌스 체계: 4계층 피라미드 구조 ]        |
+|                                                             |
+|                      /^\         <-- 1. 정책 (Policy)        |
+|                     /   \            (Why/What, 경영진 승인) |
+|                    /_____\           [필수/강제, 변경 드묾]  |
+|                   /       \      <-- 2. 표준 (Standard)      |
+|                  /_________\         (How, 구체적 규격/하드웨어)|
+|                 /           \    <-- 3. 지침 (Guideline)     |
+|                /_____________\       (Recommendation, 권고사항)|
+|               /               \  <-- 4. 절차 (Procedure)     |
+|              /_________________\     (Step-by-Step, 매뉴얼)  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -138,7 +138,7 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/">보안 거버넌스</a> 체계</strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) → 표준(Standard) → 지침(Guideline) → 절차(Procedure)의 4계층 문서 피라미드 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/">보안 거버넌스</a> 체계</strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) -> 표준(Standard) -> 지침(Guideline) -> 절차(Procedure)의 4계층 문서 피라미드 |
 | **ISO/IEC 27001** | 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 필수 요건(Clause 5.2)으로 요구하는 국제 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 프레임워크 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a> (국내 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong> | [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 결합 보안 관리체계 — [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립을 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필수 항목으로 규정 |
 | <strong>최고정보보호책임자 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/">CISO</a>)</strong> | 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 실질적 오너(Owner)로 경영진의 보안 의지를 구현하는 역할 |
@@ -148,17 +148,17 @@ tags = ["studynote-security"]
 
 ```text
 [경영진 보안 의지 선언 — CISO / 이사회 승인]
-    │
-    ▼
+    |
+    v
 [정보보안 정책 (Policy) — 기술 중립적 최상위 선언]
-    │
-    ▼
+    |
+    v
 [표준·지침·절차 (Standard/Guideline/Procedure) — 구체화]
-    │
-    ▼
+    |
+    v
 [ISO 27001 / ISMS-P 인증 — 외부 검증 체계]
-    │
-    ▼
+    |
+    v
 [Zero Trust Architecture (ZTA) — 미래 정책 패러다임]
 ```
 경영진의 보안 의지가 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 선언되고, 하위 표준·절차로 구체화되며 ISO 27001로 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고, [ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/) 패러다임으로 진화하는 거버넌스 흐름이다.
@@ -178,7 +178,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 22 / 1108
 
-← **이전**: [21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨](/knowledge-base/studynote/09_security/01_intro_principles/021_psychological_acceptability_principle/)
-**다음**: [23. 정보보안 표준 및 지침 (Information Security Standard & Guideline)](/knowledge-base/studynote/09_security/01_intro_principles/023_information_security_standard_guideline/) →
+<- **이전**: [21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨](/knowledge-base/studynote/09_security/01_intro_principles/021_psychological_acceptability_principle/)
+**다음**: [23. 정보보안 표준 및 지침 (Information Security Standard & Guideline)](/knowledge-base/studynote/09_security/01_intro_principles/023_information_security_standard_guideline/) ->
 
 ---

@@ -30,25 +30,25 @@ tags = ["software_engineering"]
 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 문서가 법적 효력을 발휘하기 위해서는 형용사가 아닌 컴퓨터 모니터링 시스템으로 100% 추적(Tracking) 및 측정 가능한 명확한 수치([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 구성되어야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   SLA (Service Level Agreement) Core Architecture      │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ 1. 보증 지표 (Service Metrics)                                          │
-│    - 가용성 (Availability): 월간 서버 정상 접속 가능 시간 (예: 99.9%)          │
-│    - 응답 시간 (Latency): API 호출 시 2초 이내 응답 보장                    │
-│    - 복구 시간 (MTTR): 장애 인지 후 서비스 정상화까지 걸리는 한계 시간          │
-│                                                                        │
-│ 2. 예외 조항 (Exclusions)                                               │
-│    - 천재지변(지진), 사전 공지된 정기 점검, 고객측 코드 버그로 인한 장애는 무효!   │
-│                                                                        │
-│ 3. 재무적 패널티 (Financial Penalty / Service Credits)                  │
-│    [ 가용성 구간 ]        [ 보상 크레딧 (다음 달 요금 할인율) ]            │
-│    99.9% 이상          ▶  정상 (패널티 없음)                              │
-│    99.0% ~ 99.9% 미만  ▶  10% 환불                                      │
-│    95.0% ~ 99.0% 미만  ▶  30% 환불                                      │
-│    95.0% 미만          ▶  100% 전액 환불                                │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                   SLA (Service Level Agreement) Core Architecture      |
++------------------------------------------------------------------------+
+|                                                                        |
+| 1. 보증 지표 (Service Metrics)                                          |
+|    - 가용성 (Availability): 월간 서버 정상 접속 가능 시간 (예: 99.9%)          |
+|    - 응답 시간 (Latency): API 호출 시 2초 이내 응답 보장                    |
+|    - 복구 시간 (MTTR): 장애 인지 후 서비스 정상화까지 걸리는 한계 시간          |
+|                                                                        |
+| 2. 예외 조항 (Exclusions)                                               |
+|    - 천재지변(지진), 사전 공지된 정기 점검, 고객측 코드 버그로 인한 장애는 무효!   |
+|                                                                        |
+| 3. 재무적 패널티 (Financial Penalty / Service Credits)                  |
+|    [ 가용성 구간 ]        [ 보상 크레딧 (다음 달 요금 할인율) ]            |
+|    99.9% 이상          ->  정상 (패널티 없음)                              |
+|    99.0% ~ 99.9% 미만  ->  10% 환불                                      |
+|    95.0% ~ 99.0% 미만  ->  30% 환불                                      |
+|    95.0% 미만          ->  100% 전액 환불                                |
++------------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 핵심적인 원리는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 크레딧(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Credits)</strong>이라는 재무적 패널티 조항이다. SLA는 제공자가 목표를 미달했을 때 단순히 사과하는 것이 아니라, 다음 달 청구 요금에서 명시된 비율만큼의 금액을 강제로 할인해 주는 구조로 작동한다. 이 배상금(크레딧)은 벤더의 수익률을 직접 타격하므로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 인프라에 투자해야 할 가장 강력한 동기부여가 된다.
@@ -110,17 +110,17 @@ SLA는 추상적이고 감정적인 IT [서비스](/knowledge-base/studynote/13_
 
 ```text
 IT 서비스 아웃소싱 및 구두 약속
-    │ 장애 시 책임 공방 발생
-    ▼
+    | 장애 시 책임 공방 발생
+    v
 SLA (Service Level Agreement) 명문화
-    │ 가용성 지표(Uptime) 및 위약금(Penalty) 계약
-    ▼
+    | 가용성 지표(Uptime) 및 위약금(Penalty) 계약
+    v
 ITIL 및 ITSM 프레임워크 기반 관리
-    │
-    ▼
+    |
+    v
 SRE (Site Reliability Engineering) 체계 도입
-    │ SLI(측정) → SLO(목표) → SLA(계약) 트리오 완성
-    ▼
+    | SLI(측정) -> SLO(목표) -> SLA(계약) 트리오 완성
+    v
 Error Budget (에러 예산) 연동 자동화 릴리즈 통제
 ```
 
@@ -136,7 +136,7 @@ Error Budget (에러 예산) 연동 자동화 릴리즈 통제
 
 **진행 상황**: 103 / 973
 
-← **이전**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
-**다음**: [104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/104_toil_automation_sre/) →
+<- **이전**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
+**다음**: [104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/104_toil_automation_sre/) ->
 
 ---

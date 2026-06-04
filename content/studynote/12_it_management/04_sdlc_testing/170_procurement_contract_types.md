@@ -24,13 +24,13 @@ tags = ["studynote-it-management"]
 계약 방식이 중요한 이유는 인센티브가 달라지기 때문이다. 완전 고정가 계약에서는 공급자가 원가 절감 동기를 강하게 갖지만, 반대로 변경 요구를 방어하거나 품질 투자에 소극적일 유인도 생긴다. 실비정산 계약에서는 발주자가 비용 초과 위험을 더 많이 부담하는 대신, 탐색적 연구나 불확실한 개발을 무리하게 고정가로 묶지 않아도 된다. 즉 계약 유형은 법무 문서가 아니라 <strong>프로젝트 운영 메커니즘</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Contract type selection asks three questions                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) How stable is the scope?                                          │
-│ 2) Who absorbs cost / schedule / performance risk?                   │
-│ 3) How much buyer oversight is realistically available?              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Contract type selection asks three questions                         |
++----------------------------------------------------------------------+
+| 1) How stable is the scope?                                          |
+| 2) Who absorbs cost / schedule / performance risk?                   |
+| 3) How much buyer oversight is realistically available?              |
++----------------------------------------------------------------------+
 ```
 
 따라서 조달 계약의 첫 판단은 "가장 익숙한 계약이 무엇인가"가 아니라, "이 프로젝트의 불확실성을 누가 더 잘 통제할 수 있는가"여야 한다.
@@ -44,13 +44,13 @@ tags = ["studynote-it-management"]
 조달 계약은 크게 고정가 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), Fixed Price), 실비정산 (CR, Cost Reimbursable), 시간·자재 (T&M, Time and Material) 세 축으로 나뉜다. 핵심 차이는 가격이 고정되는 범위와, 비용 초과 시 어느 쪽이 더 큰 충격을 받는가에 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Scope certainty / risk allocation spectrum                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ seller risk high                                      buyer risk high│
-│ FFP ── FP-EPA ── FPIF ── T&M ── CPIF ── CPAF ── CPFF                │
-│ stable scope                                           unclear scope │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Scope certainty / risk allocation spectrum                           |
++----------------------------------------------------------------------+
+| seller risk high                                      buyer risk high|
+| FFP -- FP-EPA -- FPIF -- T&M -- CPIF -- CPAF -- CPFF                |
+| stable scope                                           unclear scope |
++----------------------------------------------------------------------+
 ```
 
 | 계약 유형 | 가격 메커니즘 | 적합한 상황 | 주의점 |
@@ -118,10 +118,10 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 ### 실무 선택 예시
 
-- **법규 준수형 시스템 구축**: 명확한 요구와 [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) → FFP
-- **장기 운영/헬프데스크**: 월별 티켓량 변동 큼 → T&M + NTE + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
-- <strong>연구개발·PoC (Proof of <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a>)</strong>: 결과보다 탐색이 중요 → CPFF
-- **원가 절감이 핵심인 대형 구축**: 비용 절감 동기 필요 → FPIF 또는 CPIF
+- **법규 준수형 시스템 구축**: 명확한 요구와 [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) -> FFP
+- **장기 운영/헬프데스크**: 월별 티켓량 변동 큼 -> T&M + NTE + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
+- <strong>연구개발·PoC (Proof of <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a>)</strong>: 결과보다 탐색이 중요 -> CPFF
+- **원가 절감이 핵심인 대형 구축**: 비용 절감 동기 필요 -> FPIF 또는 CPIF
 
 즉 계약 유형은 서류 분류가 아니라, 프로젝트 특성에 맞는 통제 장치를 조합하는 일이다. 발주자에게 필요한 것은 "가장 안전해 보이는 계약"이 아니라, <strong>현실의 불확실성을 감당하면서도 분쟁을 줄이는 계약</strong>이다.
 
@@ -156,19 +156,19 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 ```text
 Project uncertainty assessment
-            │
-            ▼
+            |
+            v
 Choose contract family
-   ┌────────┼─────────┐
-   ▼        ▼         ▼
+   +--------+---------+
+   v        v         v
  Fixed   T&M      Cost Reimbursable
- Price               │
-   │                 │
-   └──────┬──────────┘
-          ▼
+ Price               |
+   |                 |
+   +------+----------+
+          v
 Incentive design + governance + acceptance criteria
-          │
-          ▼
+          |
+          v
 Delivery / change control / operation management
 ```
 
@@ -186,7 +186,7 @@ Delivery / change control / operation management
 
 **진행 상황**: 284 / 587
 
-← **이전**: [169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/)
-**다음**: [171. 정보보호 및 개인정보보호 관리체계 (ISMS-P)](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) →
+<- **이전**: [169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/)
+**다음**: [171. 정보보호 및 개인정보보호 관리체계 (ISMS-P)](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) ->
 
 ---

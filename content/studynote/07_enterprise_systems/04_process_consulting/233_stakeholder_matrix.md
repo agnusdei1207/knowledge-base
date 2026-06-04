@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 범위·책임·의사결정 경계가 흐려지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 매트릭스는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     이해관계자 식별 매트릭스의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [이해관계자 식별 매트릭스] ─────▶ [이해관계자 식별 매트릭스] ─────▶ [프로세스 통제]                  │
-│      │                           │                           │
-│      └────────▶ [범위·책임·의사결정 경계…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     이해관계자 식별 매트릭스의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [이해관계자 식별 매트릭스] ------> [이해관계자 식별 매트릭스] ------> [프로세스 통제]                  |
+|      |                           |                           |
+|      +---------> [범위·책임·의사결정 경계…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 매트릭스가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [이해관계자 식별 매트릭스] ─────▶ [Stakeholder] ─────▶ [영향력-관심도 행렬 맵]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [이해관계자 식별 매트릭스] ------> [Stakeholder] ------> [영향력-관심도 행렬 맵]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 매트릭스는 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ tags = ["studynote-enterprise"]
 
 ```text
 [이해관계자 식별 매트릭스 정리]
-    │
-    ▼
+    |
+    v
 [이해관계자 식별 매트릭스 적용]
-    │
-    ├──▶ [Stakeholder 최적화]
-    └──▶ [PMO·거버넌스 자동화 확장]
+    |
+    +---> [Stakeholder 최적화]
+    +---> [PMO·거버넌스 자동화 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 233 / 482
 
-← **이전**: [232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/)
-**다음**: [234. 의사소통 관리 계획 수립 절차](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/234_communication_management_plan/) →
+<- **이전**: [232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/)
+**다음**: [234. 의사소통 관리 계획 수립 절차](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/234_communication_management_plan/) ->
 
 ---

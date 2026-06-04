@@ -31,13 +31,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-동적 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 보통 <strong>부하 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> → 메모리 관찰 → 증거 수집 → 원인 추적</strong> 순서로 진행된다. 먼저 장시간 또는 반복성 부하를 걸어 문제가 재현되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그다음 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 지표, GC [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 힙 덤프, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 통해 메모리 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 패턴을 본다. 이후 유지 객체의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 경로를 따라가며 실제 누수 지점을 찾는다.
+동적 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 보통 <strong>부하 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> -> 메모리 관찰 -> 증거 수집 -> 원인 추적</strong> 순서로 진행된다. 먼저 장시간 또는 반복성 부하를 걸어 문제가 재현되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그다음 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 지표, GC [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 힙 덤프, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 통해 메모리 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 패턴을 본다. 이후 유지 객체의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 경로를 따라가며 실제 누수 지점을 찾는다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 부하 인가     │──▶│ 메모리 상승    │──▶│ GC 후 회복 여부 │──▶│ 누수 원인 추적 │
-│ 장시간 반복    │   │ Heap / RSS 관찰│   │ 잔존 객체 분석   │   │ Heap Dump 분석 │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+   +--------------+
+| 부하 인가     |--->| 메모리 상승    |--->| GC 후 회복 여부 |--->| 누수 원인 추적 |
+| 장시간 반복    |   | Heap / RSS 관찰|   | 잔존 객체 분석   |   | Heap Dump 분석 |
++--------------+   +--------------+   +--------------+   +--------------+
 ```
 
 | 관찰 지표 | 의미 | 대표 증거 | 조치 방향 |
@@ -120,17 +120,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 단기 기능 시험 통과
-        │
-        ▼
+        |
+        v
 장시간 부하 · 내구성 시험 수행
-        │
-        ▼
+        |
+        v
 APM · GC 로그 · 힙 덤프 확보
-        │
-        ▼
+        |
+        v
 유지 객체·자원 누수 경로 추적
-        │
-        ▼
+        |
+        v
 코드 수정 · 회귀 검증 · 운영 기준 반영
 ```
 
@@ -148,7 +148,7 @@ APM · GC 로그 · 힙 덤프 확보
 
 **진행 상황**: 500 / 530
 
-← **이전**: [421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/421_process/)
-**다음**: [423. 모킹 프레임워크 기반 격리 테스트 (Mocking Framework Isolation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/423_architecture/) →
+<- **이전**: [421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/421_process/)
+**다음**: [423. 모킹 프레임워크 기반 격리 테스트 (Mocking Framework Isolation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/423_architecture/) ->
 
 ---

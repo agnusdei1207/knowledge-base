@@ -24,15 +24,15 @@ tags = ["studynote-ai"]
 - **계절성 (Seasonality)**: 일정 주기로 반복되는 패턴
 - **불규칙 변동 (Irregular)**: 예측 불가능한 노이즈
 
-비정상 시계열을 그대로 회귀 모델에 투입하면, 두 시계열이 실제로는 무관해도 높은 R²가 나타나는 허위 회귀 (Spurious Regression) 문제가 발생한다. 정상성 확보는 시계열 모델링의 첫 번째 단계다.
+비정상 시계열을 그대로 회귀 모델에 투입하면, 두 시계열이 실제로는 무관해도 높은 R^가 나타나는 허위 회귀 (Spurious Regression) 문제가 발생한다. 정상성 확보는 시계열 모델링의 첫 번째 단계다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 정상성은 "파도 높이가 매일 다른 해변(비정상)"과 "잔잔한 호수처럼 항상 일정한 물결(정상)"의 차이다. 예측하려면 일단 잔잔하게 만들어야 한다.
@@ -51,30 +51,30 @@ tags = ["studynote-ai"]
 **약정상성 (Weakly Stationary, 실무 사용)**:
 ```
 E[Xₜ] = μ (상수)
-Var(Xₜ) = σ² (상수)
+Var(Xₜ) = σ^ (상수)
 Cov(Xₜ, Xₜ₊h) = γ(h)  (시간 차이 h에만 의존)
 ```
 
 ### 비정상 시계열 처리 흐름
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  원시 시계열                                          │
-│       ↓                                              │
-│  [추세 제거]  로그변환, 1차 차분                      │
-│       ↓                                              │
-│  [계절성 제거]  계절 차분(lag=s), STL 분해            │
-│       ↓                                              │
-│  [정상성 검정]  ADF / KPSS                           │
-│       ↓                                              │
-│  정상 시계열 → ARMA 모델링                            │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  원시 시계열                                          |
+|       v                                              |
+|  [추세 제거]  로그변환, 1차 차분                      |
+|       v                                              |
+|  [계절성 제거]  계절 차분(lag=s), STL 분해            |
+|       v                                              |
+|  [정상성 검정]  ADF / KPSS                           |
+|       v                                              |
+|  정상 시계열 -> ARMA 모델링                            |
++------------------------------------------------------+
 ```
 
 ### 차분 (Differencing)
 
 **1차 차분**: ΔXₜ = Xₜ - Xₜ₋₁ (추세 제거)
-**2차 차분**: Δ²Xₜ = ΔXₜ - ΔXₜ₋₁ (강한 추세)
+**2차 차분**: Δ^Xₜ = ΔXₜ - ΔXₜ₋₁ (강한 추세)
 **계절 차분**: ΔₛXₜ = Xₜ - Xₜ₋ₛ (주기 s 계절성 제거)
 
 ### ADF 검정 (Augmented Dickey-Fuller Test)
@@ -88,13 +88,13 @@ H₀: γ = 0 (단위근 존재, 비정상)
 H₁: γ < 0 (정상)
 ```
 
-| 검정 | 귀무가설 | 기각 → | 채택 → |
+| 검정 | 귀무가설 | 기각 -> | 채택 -> |
 |:---|:---|:---|:---|
 | ADF | 비정상 (단위근) | 정상 | 비정상 |
 | KPSS | 정상 | 비정상 | 정상 |
 | [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) (Phillips-Perron) | 비정상 (단위근) | 정상 | 비정상 |
 
-두 검정 병행: ADF p < 0.05 & KPSS p > 0.05 → 정상성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+두 검정 병행: ADF p < 0.05 & KPSS p > 0.05 -> 정상성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 - **📢 섹션 요약 비유**: ADF는 "범인(단위근)이 없다고 주장하는 경찰", KPSS는 "범인이 있다고 주장하는 검사"다. 두 주장이 모두 정상성을 지지할 때만 믿을 수 있다.
 
@@ -108,7 +108,7 @@ H₁: γ < 0 (정상)
 | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | d 차수 결정 | SARIMA의 D 차수 | 전처리로 선행 |
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/">ARIMA</a>(p,d,q) 모델과 정상성</strong>:
-- d = 차분 횟수 → 정상화를 위한 통합(Integration) 차수
+- d = 차분 횟수 -> 정상화를 위한 통합(Integration) 차수
 - 정상화 후 AR(p) + MA(q) 구조 추정
 
 - **📢 섹션 요약 비유**: ARIMA에서 d는 "계단(비정상)을 몇 번 내려와야 평지(정상)에 도달하는지" 층수다.
@@ -117,12 +117,12 @@ H₁: γ < 0 (정상)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**주식 가격**: 전형적 비정상 (추세+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가) → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수익률 = log(Pₜ/Pₜ₋₁) 로 정상화
-**전력 수요**: 추세 + 주별·일별 계절성 → 차분 + 계절 차분 병행
+**주식 가격**: 전형적 비정상 (추세+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가) -> [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수익률 = log(Pₜ/Pₜ₋₁) 로 정상화
+**전력 수요**: 추세 + 주별·일별 계절성 -> 차분 + 계절 차분 병행
 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리</strong>: [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 주파수 성분 분석 후 계절성 분해
 
 기술사 판단 포인트:
-1. 차분 횟수(d)는 최소화 → 과차분(Overdifferencing)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가
+1. 차분 횟수(d)는 최소화 -> 과차분(Overdifferencing)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가
 2. ADF 단독 사용 금지, KPSS 병행
 3. ACF (자기상관함수)/PACF ([편자기상관함수](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/)) 플롯으로 모델 오더 결정
 
@@ -152,7 +152,7 @@ H₁: γ < 0 (정상)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [시계열 정상성 (Stationarity)] → [최적화·운영 자동화]
+[데이터 전처리] -> [시계열 정상성 (Stationarity)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -167,7 +167,7 @@ H₁: γ < 0 (정상)
 
 **진행 상황**: 377 / 420
 
-← **이전**: [376. 마르코프 체인 (Markov Chain)](/knowledge-base/studynote/10_ai/05_data_science_ml/376_markov_chain/)
-**다음**: [378. 동적 시간 워핑 (DTW, Dynamic Time Warping)](/knowledge-base/studynote/10_ai/05_data_science_ml/378_dtw/) →
+<- **이전**: [376. 마르코프 체인 (Markov Chain)](/knowledge-base/studynote/10_ai/05_data_science_ml/376_markov_chain/)
+**다음**: [378. 동적 시간 워핑 (DTW, Dynamic Time Warping)](/knowledge-base/studynote/10_ai/05_data_science_ml/378_dtw/) ->
 
 ---

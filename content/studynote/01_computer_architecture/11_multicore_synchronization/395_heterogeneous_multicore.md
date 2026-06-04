@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이기종 멀티코어의 핵심 원리는 <strong>작업 특성 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 적합한 코어 배치 → 필요한 경우 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 이동 → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 유지</strong>의 흐름으로 이해할 수 있다. 이동 가능한 CPU 코어들끼리는 보통 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))를 공유해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 옮겨도 프로그램 의미가 바뀌지 않게 설계한다. 반면 GPU나 NPU처럼 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 자체가 다른 가속기는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 마이그레이션보다는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 대상으로 다뤄진다.
+이기종 멀티코어의 핵심 원리는 <strong>작업 특성 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> -> 적합한 코어 배치 -> 필요한 경우 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 이동 -> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 유지</strong>의 흐름으로 이해할 수 있다. 이동 가능한 CPU 코어들끼리는 보통 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))를 공유해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 옮겨도 프로그램 의미가 바뀌지 않게 설계한다. 반면 GPU나 NPU처럼 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 자체가 다른 가속기는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 마이그레이션보다는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 대상으로 다뤄진다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -44,20 +44,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 이기종 멀티코어에서 “무슨 일을 어디에 보낼지”와 “공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디를 지나가는지”를 함께 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Heterogeneous Multi-core: workload-aware execution path      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Light / background work  ───────────────▶  E-Core cluster           │
-│ Latency-sensitive thread ───────────────▶  P-Core cluster           │
-│ Vector / graphics / AI   ───────────────▶  GPU / NPU accelerator    │
-│                                                                      │
-│                  ┌────────────────────────────────┐                  │
-│                  │ Shared LLC / Interconnect      │                  │
-│                  │ Cache Coherence / Memory Ctrl  │                  │
-│                  └────────────────────────────────┘                  │
-│                                                                      │
-│          OS Scheduler + HW Hints + DVFS coordination                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Heterogeneous Multi-core: workload-aware execution path      |
++----------------------------------------------------------------------+
+| Light / background work  ---------------->  E-Core cluster           |
+| Latency-sensitive thread ---------------->  P-Core cluster           |
+| Vector / graphics / AI   ---------------->  GPU / NPU accelerator    |
+|                                                                      |
+|                  +--------------------------------+                  |
+|                  | Shared LLC / Interconnect      |                  |
+|                  | Cache Coherence / Memory Ctrl  |                  |
+|                  +--------------------------------+                  |
+|                                                                      |
+|          OS Scheduler + HW Hints + DVFS coordination                 |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어와 효율 코어가 단순히 “빠른 코어 / 느린 코어”의 관계가 아니라는 점이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어는 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 높은 버스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리하고, 효율 코어는 긴 시간 지속되는 경량 작업을 적은 전력으로 처리하는 데 유리하다. 따라서 같은 10ms 작업이라도 사용자 입력을 즉시 처리해야 하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 P-Core로, 백그라운드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 E-Core로 보내는 편이 시스템 전체 품질에 더 낫다.
@@ -141,20 +141,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 코어 고클럭 경쟁
-        │
-        ▼
+        |
+        v
 전력 장벽 (Power Wall) · 열 장벽 (Thermal Wall)
-        │
-        ▼
+        |
+        v
 동종 멀티코어 (Homogeneous Multi-core)
-        │
-        ▼
+        |
+        v
 이기종 멀티코어 (Heterogeneous Multi-core)
-        │
-        ├──▶ big.LITTLE 아키텍처
-        ├──▶ P-Core / E-Core 하이브리드 CPU
-        ├──▶ GPU · NPU · DSP 오프로딩
-        ▼
+        |
+        +---> big.LITTLE 아키텍처
+        +---> P-Core / E-Core 하이브리드 CPU
+        +---> GPU · NPU · DSP 오프로딩
+        v
 통합 메모리 · 칩렛 · 도메인 특화 가속기 SoC
 ```
 
@@ -170,7 +170,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 396 / 803
 
-← **이전**: [394. CMP (Chip Multi-Processor)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)
-**다음**: [396. big.LITTLE 아키텍처](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/396_big_little_architecture/) →
+<- **이전**: [394. CMP (Chip Multi-Processor)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)
+**다음**: [396. big.LITTLE 아키텍처](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/396_big_little_architecture/) ->
 
 ---

@@ -31,25 +31,25 @@ DSL (Digital Subscriber Line) 기술은 수백만 가구에 이미 깔려 있는
 DSL의 발전은 '주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 확장'과 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 현상(Attenuation)'과의 싸움이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          DSL 기술 진화에 따른 속도와 거리의 트레이드오프          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ ADSL (Asymmetric DSL) ]                                   │
-│  대역폭: 약 1MHz 사용                                         │
-│  속도: 다운로드 8Mbps / 업로드 1Mbps                            │
-│  거리: 전화국에서 3~5km까지 지원 ─▶ 전국적인 초기 보급의 1등 공신 │
-│                                                             │
-│ [ VDSL (Very high-bit-rate DSL) ]                           │
-│  대역폭: 최대 30MHz 사용                                      │
-│  속도: 100Mbps 급 광랜 속도                                   │
-│  거리: 1km 이내 (보통 300~500m 한계) ─▶ 아파트 단지 지하실까지만 광!│
-│                                                             │
-│ [ G.fast ]                                                  │
-│  대역폭: 100MHz 초고주파 사용 + 벡터링(누화 억제 기술) 적용          │
-│  속도: 최대 1Gbps (기가급)                                    │
-│  거리: 100m 이내 극단적 짧음 ─▶ 오래된 건물 층간 배전반에서만 사용   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          DSL 기술 진화에 따른 속도와 거리의 트레이드오프          |
++-------------------------------------------------------------+
+|                                                             |
+| [ ADSL (Asymmetric DSL) ]                                   |
+|  대역폭: 약 1MHz 사용                                         |
+|  속도: 다운로드 8Mbps / 업로드 1Mbps                            |
+|  거리: 전화국에서 3~5km까지 지원 --> 전국적인 초기 보급의 1등 공신 |
+|                                                             |
+| [ VDSL (Very high-bit-rate DSL) ]                           |
+|  대역폭: 최대 30MHz 사용                                      |
+|  속도: 100Mbps 급 광랜 속도                                   |
+|  거리: 1km 이내 (보통 300~500m 한계) --> 아파트 단지 지하실까지만 광!|
+|                                                             |
+| [ G.fast ]                                                  |
+|  대역폭: 100MHz 초고주파 사용 + 벡터링(누화 억제 기술) 적용          |
+|  속도: 최대 1Gbps (기가급)                                    |
+|  거리: 100m 이내 극단적 짧음 --> 오래된 건물 층간 배전반에서만 사용   |
++-------------------------------------------------------------+
 ```
 
 높은 주파수를 쓸수록 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 나를 수 있다(샤논의 정리). 하지만 구리선에서 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 거리가 멀어질수록 에너지를 급격히 잃어버리는 치명적인 특성(감쇠)이 있다.
@@ -114,17 +114,17 @@ ADSL, VDSL, G.fast로 이어지는 디지털 가입자 회선 기술은 기존 �
 
 ```text
 다이얼업 모뎀 (Dial-up) / 음성 대역 56kbps 한계
-    │
-    ▼
+    |
+    v
 ADSL (Asymmetric DSL) / 주파수 분할 (FDM) 및 다운로드 비대칭 몰빵 (거리 5km)
-    │
-    ▼
+    |
+    v
 VDSL (Very high-bit-rate DSL) / 주파수 대역폭 확장, 속도 100M급 상승 (거리 1km 축소)
-    │
-    ▼
+    |
+    v
 G.fast / 100MHz 초고주파수 + 벡터링(Vectoring) 기술 (거리 100m, 기가급 1Gbps)
-    │
-    ▼
+    |
+    v
 FTTH (Fiber To The Home) / 구리선의 한계 극복, 광케이블 매체로 완전 전환
 ```
 
@@ -140,7 +140,7 @@ FTTH (Fiber To The Home) / 구리선의 한계 극복, 광케이블 매체로 �
 
 **진행 상황**: 269 / 1120
 
-← **이전**: [147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)
-**다음**: [149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) →
+<- **이전**: [147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)
+**다음**: [149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) ->
 
 ---

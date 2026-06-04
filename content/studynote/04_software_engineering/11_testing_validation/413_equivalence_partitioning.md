@@ -25,20 +25,20 @@ tags = ["studynote-software-engineering"]
 따라서 이 드넓은 땅덩어리를 "어차피 똑같이 대접받는 무리(동등 클래스, Equivalence Class)"로 칼 자르듯 잘라버립니다. 그리고 각 무리 구역의 아무 놈이나 등판시켜 1번만 쏘아보고 끝내는 초가성비 블랙박스 축지법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong> 기법입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  동등 분할의 클래스 분할 매직                     │
-├──────────────────────────────────────────────────────────────┤
-│ [요구사항] "시험 점수 0점~100점만 유효, 60점 이상 합격, 미만 불합격"  │
-│                                                              │
-│ 1. 유효 클래스 (Valid)                                        │
-│     - 60~100 구간 (합격)  ▶ 대푯값 파견: 85점 넣어보기! OK!       │
-│     - 0~59 구간 (불합격) ▶ 대푯값 파견: 30점 넣어보기! OK!       │
-│                                                              │
-│ 2. 무효 클래스 (Invalid) - 안 할 거 같지만 절대 빼먹으면 안 됨!     │
-│     - 음수 영역 (-무한대 ~ -1) ▶ 대푯값 파견: -5점 (에러팝업 잘 뜨나?)│
-│     - 초과 영역 (101 ~ 무한대) ▶ 대푯값 파견: 154점 (에러팝업 잘 뜨나?)│
-│     - 바보 영역 (문자열 등)    ▶ 대푯값 파견: "바보" (크래시 안 죽나?)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  동등 분할의 클래스 분할 매직                     |
++--------------------------------------------------------------+
+| [요구사항] "시험 점수 0점~100점만 유효, 60점 이상 합격, 미만 불합격"  |
+|                                                              |
+| 1. 유효 클래스 (Valid)                                        |
+|     - 60~100 구간 (합격)  -> 대푯값 파견: 85점 넣어보기! OK!       |
+|     - 0~59 구간 (불합격) -> 대푯값 파견: 30점 넣어보기! OK!       |
+|                                                              |
+| 2. 무효 클래스 (Invalid) - 안 할 거 같지만 절대 빼먹으면 안 됨!     |
+|     - 음수 영역 (-무한대 ~ -1) -> 대푯값 파견: -5점 (에러팝업 잘 뜨나?)|
+|     - 초과 영역 (101 ~ 무한대) -> 대푯값 파견: 154점 (에러팝업 잘 뜨나?)|
+|     - 바보 영역 (문자열 등)    -> 대푯값 파견: "바보" (크래시 안 죽나?)  |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 10만 명의 체육관 학생들을 일일이 키 재볼 시간이 없으니까, "초등부 반장 한 명, 중등부 반장 한 명, 고등부 반장 한 명 앞으로 나와!" 하고 그 3명의 반장 키만 재고 대충 그룹의 키 상태를 속기로 가늠하는 편법이자 마법입니다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 동등 분할 (Equivalence Partitioning) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 417 / 973
 
-← **이전**: [412. 블랙박스 테스트 (Black-box Test / 명세 기반 테스트)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/412_blackbox_testing/)
-**다음**: [413. 동등 분할 (Equivalence Partitioning) - 입력 영역을 유효/무효 클래스로 분할하여 대푯값 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/413_equivalence_partitioning/) →
+<- **이전**: [412. 블랙박스 테스트 (Black-box Test / 명세 기반 테스트)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/412_blackbox_testing/)
+**다음**: [413. 동등 분할 (Equivalence Partitioning) - 입력 영역을 유효/무효 클래스로 분할하여 대푯값 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/413_equivalence_partitioning/) ->
 
 ---

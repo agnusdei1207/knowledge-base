@@ -31,29 +31,29 @@ tags = ["studynote-operating-system"]
 프로세스 트리의 핵심은 `fork()`, `exec()`, `wait()`, `exit()`로 이어지는 4단계의 라이프사이클 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       부모-자식 프로세스의 생명주기 및 상태 전이 다이어그램  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ Parent Process ]             [ Child Process ]            │
-│  (PID: 100, PPID: 10)                                        │
-│          │                                                   │
-│          ├─ fork() ──────────▶ (복제 및 분기)                │
-│          │                     (PID: 101, PPID: 100)         │
-│          │                              │                    │
-│          │                              ├─ exec()            │
-│          │                              │  (새 프로그램 로드)│
-│          ▼                              ▼                    │
-│      wait() 대기                    실행 중 (Running)        │
-│    (수면 상태 진입)                     │                    │
-│          │                              ├─ exit(status)      │
-│          │                              ▼                    │
-│          │◀── SIGCHLD 시그널 ─── [ Zombie 상태 진입 ]        │
-│          │                       (메모리 해제, PCB 잔류)     │
-│          ▼                              │                    │
-│  상태 회수 및 자원 해제 ────────────────┘                    │
-│    (종료 상태 획득)               [ 프로세스 완전 소멸 ]     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       부모-자식 프로세스의 생명주기 및 상태 전이 다이어그램  |
++--------------------------------------------------------------+
+|                                                              |
+|  [ Parent Process ]             [ Child Process ]            |
+|  (PID: 100, PPID: 10)                                        |
+|          |                                                   |
+|          +- fork() -----------> (복제 및 분기)                |
+|          |                     (PID: 101, PPID: 100)         |
+|          |                              |                    |
+|          |                              +- exec()            |
+|          |                              |  (새 프로그램 로드)|
+|          v                              v                    |
+|      wait() 대기                    실행 중 (Running)        |
+|    (수면 상태 진입)                     |                    |
+|          |                              +- exit(status)      |
+|          |                              v                    |
+|          |<--- SIGCHLD 시그널 --- [ Zombie 상태 진입 ]        |
+|          |                       (메모리 해제, PCB 잔류)     |
+|          v                              |                    |
+|  상태 회수 및 자원 해제 ----------------+                    |
+|    (종료 상태 획득)               [ 프로세스 완전 소멸 ]     |
++--------------------------------------------------------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (<code>fork</code>)</strong>: 커널은 부모의 `task_struct`를 복사해 자식에게 할당한다. 이때 자원은 상속되나 주소 공간은 독립적으로 분리된다.
@@ -118,17 +118,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 단일 프로세스 시스템 (MS-DOS)
-    │
-    ▼
+    |
+    v
 부모-자식 프로세스 계층 (Unix fork/exec 모델 도입)
-    │
-    ▼
+    |
+    v
 멀티스레딩 (Multithreading, 프로세스 내 자원 공유 및 경량화)
-    │
-    ▼
+    |
+    v
 cgroup 및 Namespace (리눅스 커널의 자원 격리 기술)
-    │
-    ▼
+    |
+    v
 컨테이너 기반 독립 프로세스 트리 (Docker, Kubernetes)
 ```
 
@@ -144,7 +144,7 @@ cgroup 및 Namespace (리눅스 커널의 자원 격리 기술)
 
 **진행 상황**: 105 / 800
 
-← **이전**: [104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)
-**다음**: [106. Copy-on-Write (COW) - fork() 최적화 기법](/knowledge-base/studynote/02_operating_system/02_process_thread/106_copy_on_write/) →
+<- **이전**: [104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)
+**다음**: [106. Copy-on-Write (COW) - fork() 최적화 기법](/knowledge-base/studynote/02_operating_system/02_process_thread/106_copy_on_write/) ->
 
 ---

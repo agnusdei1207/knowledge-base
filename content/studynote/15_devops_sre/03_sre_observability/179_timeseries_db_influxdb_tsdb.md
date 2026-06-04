@@ -26,22 +26,22 @@ tags = ["studynote-devops-sre"]
 TSDB가 다루는 핵심 레코드는 대개 단순하다. 예를 들어 `http_requests_total{service="pay", region="ap"} @ 10:00:15 = 5321`처럼 시리즈 정의와 시간, 값만 있으면 된다. 대신 같은 시리즈가 시간순으로 매우 많이 쌓이므로, 엔진은 정교한 조인보다 빠른 append, 범위 스캔, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 보존 삭제에 최적화된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 메트릭이 TSDB를 거쳐 장기 보존으로 가는 흐름                   │
-├──────────────────────────────────────────────────────────────┤
-│ Exporter / Agent                                              │
-│    │ sample = {series, timestamp, value}                      │
-│    ▼                                                          │
-│ Ingest Buffer + WAL                                            │
-│    ▼                                                          │
-│ Hot Block / Recent Cache                                      │
-│    ▼                                                          │
-│ Compressed Block / Shard                                      │
-│    ▼                                                          │
-│ Rollup + Retention Tier                                       │
-│    ▼                                                          │
-│ Alert / Dashboard / Capacity Trend                            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 메트릭이 TSDB를 거쳐 장기 보존으로 가는 흐름                   |
++--------------------------------------------------------------+
+| Exporter / Agent                                              |
+|    | sample = {series, timestamp, value}                      |
+|    v                                                          |
+| Ingest Buffer + WAL                                            |
+|    v                                                          |
+| Hot Block / Recent Cache                                      |
+|    v                                                          |
+| Compressed Block / Shard                                      |
+|    v                                                          |
+| Rollup + Retention Tier                                       |
+|    v                                                          |
+| Alert / Dashboard / Capacity Trend                            |
++--------------------------------------------------------------+
 ```
 
 그래서 TSDB는 단순히 "시간 컬럼이 있는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)"가 아니다. 시간순 입력, 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 빠른 조회, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 요약 보존, 고카디널리티 제어를 함께 푸는 운영 저장소다. 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))에서 TSDB가 중요한 이유도 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 양보다 시간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 다루는 능력에 있다.
@@ -65,23 +65,23 @@ TSDB의 핵심 원리는 매우 단순하다. 최근 [데이터](/knowledge-base
 아래 그림은 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 차곡차곡 쌓였다가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 블록으로 굳고, 이후 더 긴 보존 계층으로 넘어가는 과정을 보여준다. 이 구조 덕분에 TSDB는 "최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 빠르게, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 싸게"라는 두 목표를 동시에 추구할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ TSDB 저장 엔진의 시간 계층                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Raw Sample (10s)                                              │
-│    │                                                          │
-│    ▼                                                          │
-│ Head / Cache + WAL                                            │
-│    │ flush / checkpoint                                       │
-│    ▼                                                          │
-│ Compressed Block / Shard                                      │
-│    │ compaction                                               │
-│    ▼                                                          │
-│ Long Block + Downsampled Series                               │
-│    │ retention policy                                         │
-│    ▼                                                          │
-│ Raw 삭제 · Rollup 유지                                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| TSDB 저장 엔진의 시간 계층                                    |
++--------------------------------------------------------------+
+| Raw Sample (10s)                                              |
+|    |                                                          |
+|    v                                                          |
+| Head / Cache + WAL                                            |
+|    | flush / checkpoint                                       |
+|    v                                                          |
+| Compressed Block / Shard                                      |
+|    | compaction                                               |
+|    v                                                          |
+| Long Block + Downsampled Series                               |
+|    | retention policy                                         |
+|    v                                                          |
+| Raw 삭제 · Rollup 유지                                         |
++--------------------------------------------------------------+
 ```
 
 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 되는 이유도 시계열의 특성 때문이다. 타임스탬프는 대체로 일정 간격이므로 Delta-of-Delta 방식으로 아주 작게 저장할 수 있고, 값은 이전 값과 비슷하게 움직여 XOR 기반 Gorilla 계열 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 먹는다. 값이 계속 같거나 완만하게 변하면 Run-Length Encoding이나 단순 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)도 효과적이다.
@@ -144,19 +144,19 @@ TSDB를 이해하려면 일반 DB와 [Prometheus](/knowledge-base/studynote/15_d
 기술사 답안에서는 "Prometheus냐 InfluxDB냐"보다 보존 기간, [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 카디널리티 관리, 장기 보존 계층 결합 여부를 함께 제시해야 설득력이 있다. 즉 TSDB 선택은 제품 비교보다 시간 해상도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 모델링 문제에 더 가깝다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ TSDB 선택의 실무 분기                                         │
-├──────────────────────────────────────────────────────────────┤
-│ 실시간 알림 중심? ──────── 예 ─▶ Prometheus TSDB 중심         │
-│            │                                                  │
-│            아니오                                              │
-│            ▼                                                  │
-│ 장기 센서·추세 보존 중심? ─ 예 ─▶ InfluxDB 계열 검토          │
-│            │                                                  │
-│            아니오                                              │
-│            ▼                                                  │
-│ 조인·정형 분석 비중 큼 ───▶ Warehouse / RDBMS 병행            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| TSDB 선택의 실무 분기                                         |
++--------------------------------------------------------------+
+| 실시간 알림 중심? -------- 예 --> Prometheus TSDB 중심         |
+|            |                                                  |
+|            아니오                                              |
+|            v                                                  |
+| 장기 센서·추세 보존 중심? - 예 --> InfluxDB 계열 검토          |
+|            |                                                  |
+|            아니오                                              |
+|            v                                                  |
+| 조인·정형 분석 비중 큼 ----> Warehouse / RDBMS 병행            |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: TSDB 선택은 냉장고를 고르는 일이 아니라, 신선식품 냉장고·장기 보관 냉동고·식자재 창고를 어떻게 나눌지 정하는 일과 같다. 어떤 음식을 얼마나 오래 보관할지에 따라 답이 달라진다.
@@ -191,17 +191,17 @@ TSDB를 올바르게 도입하면 [메트릭](/knowledge-base/studynote/03_netwo
 
 ```text
 Timestamped Sample
-    │
-    ▼
+    |
+    v
 Append Ingest + WAL
-    │
-    ▼
+    |
+    v
 Compressed Chunk / Block
-    │
-    ▼
+    |
+    v
 Retention + Rollup
-    │
-    ▼
+    |
+    v
 Alerting · Dashboard · Capacity Planning
 ```
 
@@ -219,7 +219,7 @@ Alerting · Dashboard · Capacity Planning
 
 **진행 상황**: 179 / 373
 
-← **이전**: [178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝](/knowledge-base/studynote/15_devops_sre/03_sre_observability/178_grafana_dashboard_as_code/)
-**다음**: [180. DevOps 조직 토폴로지와 SRE 팀 모델 (50% 인바운드 한계)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/180_devops_org_topology_sre_model/) →
+<- **이전**: [178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝](/knowledge-base/studynote/15_devops_sre/03_sre_observability/178_grafana_dashboard_as_code/)
+**다음**: [180. DevOps 조직 토폴로지와 SRE 팀 모델 (50% 인바운드 한계)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/180_devops_org_topology_sre_model/) ->
 
 ---

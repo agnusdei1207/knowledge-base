@@ -30,11 +30,11 @@ Timebox가 정해져 있어 범위가 흔들리지 않고, 팀은 짧은 주기 
 
 ```text
 Plan
-  ↓
+  v
 Do
-  ↓
+  v
 Check
-  ↓
+  v
 Adapt
 ```
 
@@ -109,11 +109,11 @@ Adapt
 
 ```text
 Backlog
-  ↓
+  v
 Sprint
-  ↓
+  v
 Increment
-  ↓
+  v
 Review / Retro
 ```
 
@@ -123,11 +123,11 @@ Review / Retro
 
 ```text
 Timebox
-  ↓
+  v
 Sprint
-  ↓
+  v
 Increment
-  ↓
+  v
 Continuous Improvement
 ```
 
@@ -145,7 +145,7 @@ Continuous Improvement
 
 **진행 상황**: 67 / 973
 
-← **이전**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)
-**다음**: [68. 스프린트 계획 회의 (Sprint Planning)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/) →
+<- **이전**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)
+**다음**: [68. 스프린트 계획 회의 (Sprint Planning)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/) ->
 
 ---

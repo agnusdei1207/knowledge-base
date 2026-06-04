@@ -31,25 +31,25 @@ tags = ["studynote-ict-convergence"]
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 3대 특성의 성능은 단순히 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파만 쏴서 달성되는 것이 아니라 정교한 클라우드 및 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 백엔드 기술이 융합되어 완성된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          5G 트라이앵글: 3대 초격차 요구사항의 융합 구조도                 │
-├─────────────────────────────────────────────────────────────┤
-│                      [ 🚀 1. eMBB (초고속/대용량) ]                │
-│         (Enhanced Mobile Broadband / 20Gbps 타겟)                  │
-│                  /\    "VR, 홀로그램 4K 스트리밍, 3D 맵 다운"             │
-│                 /  \   (핵심 기술: 28GHz 초고주파, 빔포밍 Massive MIMO)   │
-│                /    \                                               │
-│ ┌────────────┴──────┴────────────┬───────────────────┐│
-│ │ 🤖 2. uRLLC (초저지연/고신뢰)      │ 📡 3. mMTC (초연결/대량접속)││
-│ │  (Ultra-Reliable Low Latency)  │  (Massive Machine Type)  ││
-│ │  - 타겟: 1ms 응답 (1/1000초 컷)   │  - 타겟: 1km²당 100만 대 연결 ││
-│ │  - 용도: 자율주행 제어, 원격 수술    │  - 용도: 스마트팜, 수도 검침 센서││
-│ │  - 기술: MEC (모바일 엣지 컴퓨팅)   │  - 기술: 배터리 초절전, 무허가 접속││
-│ ├────────────────────────────────┼───────────────────┤│
-│ │  🌟 [ 코어 융합 뼈대: Network Slicing (네트워크 슬라이싱) 🔪 ] ││
-│ │  - 1개의 물리적 통신망을 3개의 독립된 가상망으로 찢어서 맞춤형 임대 서비스 ││
-│ └────────────────────────────────┴───────────────────┘│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          5G 트라이앵글: 3대 초격차 요구사항의 융합 구조도                 |
++-------------------------------------------------------------+
+|                      [ 🚀 1. eMBB (초고속/대용량) ]                |
+|         (Enhanced Mobile Broadband / 20Gbps 타겟)                  |
+|                  /\    "VR, 홀로그램 4K 스트리밍, 3D 맵 다운"             |
+|                 /  \   (핵심 기술: 28GHz 초고주파, 빔포밍 Massive MIMO)   |
+|                /    \                                               |
+| +------------+------+------------+-------------------+|
+| | 🤖 2. uRLLC (초저지연/고신뢰)      | 📡 3. mMTC (초연결/대량접속)||
+| |  (Ultra-Reliable Low Latency)  |  (Massive Machine Type)  ||
+| |  - 타겟: 1ms 응답 (1/1000초 컷)   |  - 타겟: 1km^당 100만 대 연결 ||
+| |  - 용도: 자율주행 제어, 원격 수술    |  - 용도: 스마트팜, 수도 검침 센서||
+| |  - 기술: MEC (모바일 엣지 컴퓨팅)   |  - 기술: 배터리 초절전, 무허가 접속||
+| +--------------------------------+-------------------+|
+| |  🌟 [ 코어 융합 뼈대: Network Slicing (네트워크 슬라이싱) 🔪 ] ||
+| |  - 1개의 물리적 통신망을 3개의 독립된 가상망으로 찢어서 맞춤형 임대 서비스 ||
+| +--------------------------------+-------------------+|
++-------------------------------------------------------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a> (Enhanced Mobile Broadband)</strong>: 속도를 20Gbps로 폭발시키기 위해 텅텅 빈 28GHz 초고주파 대역([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))을 도입했다. 전파가 직진성이 강해 잘 끊기는 단점은 수십 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 구멍에서 전파를 한 유저에게 레이저처럼 쏘는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 기술로 극복했다.
@@ -115,20 +115,20 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 4G (LTE) 모바일 브로드밴드 / 스마트폰 속도 및 모바일 B2C 중심 진화
-    │
-    ▼
+    |
+    v
 [5G 트라이앵글 3대 특성 융합]
- eMBB (초고속 대용량 20Gbps) ─▶ 28GHz 초고주파, Massive MIMO 빔포밍
- uRLLC (초저지연 고신뢰 1ms) ─▶ MEC (모바일 엣지 컴퓨팅) 시공간 지연 소각
- mMTC (초연결 IoT 대량 접속) ─▶ 저전력 Grant-free 접속 및 무허가 슬립 모드
-    │
-    ▼
+ eMBB (초고속 대용량 20Gbps) --> 28GHz 초고주파, Massive MIMO 빔포밍
+ uRLLC (초저지연 고신뢰 1ms) --> MEC (모바일 엣지 컴퓨팅) 시공간 지연 소각
+ mMTC (초연결 IoT 대량 접속) --> 저전력 Grant-free 접속 및 무허가 슬립 모드
+    |
+    v
 네트워크 슬라이싱 (Network Slicing) / 3대 특성을 한 망에서 가상 분리 독립 임대
-    │
-    ▼
+    |
+    v
 SBA (Service Based Architecture) / 5G 코어망의 웹 기반 마이크로서비스(MSA) 전환
-    │
-    ▼
+    |
+    v
 6G (초감각 하이퍼 커넥티비티) / 1Tbps 쾌속 및 원격 촉각/후각 데이터 무선 전송 시대 도래
 ```
 
@@ -144,7 +144,7 @@ SBA (Service Based Architecture) / 5G 코어망의 웹 기반 마이크로서비
 
 **진행 상황**: 148 / 552
 
-← **이전**: [147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)
-**다음**: [149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) →
+<- **이전**: [147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)
+**다음**: [149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ->
 
 ---

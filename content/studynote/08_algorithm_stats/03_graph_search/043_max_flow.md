@@ -13,7 +13,7 @@ tags = ["studynote-algorithm"]
 
 > 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))와 증가 경로 (Augmenting Path)를 이용해 해결한다.
 > 2. **가치**: Ford-Fulkerson, Edmonds-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) ([Bipartite Matching](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)), 프로젝트 선택 등 다양한 문제를 최대 유량 문제로 환원하여 해결한다.
-> 3. **판단 포인트**: Edmonds-Karp ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 기반 Ford-Fulkerson)는 O(VE²)으로 정수 용량에서 항상 종료하며, 최대 유량 = [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) (Max-Flow Min-Cut 정리)은 핵심 정리다.
+> 3. **판단 포인트**: Edmonds-Karp ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 기반 Ford-Fulkerson)는 O(VE^)으로 정수 용량에서 항상 종료하며, 최대 유량 = [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) (Max-Flow Min-Cut 정리)은 핵심 정리다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -22,8 +22,8 @@ tags = ["studynote-algorithm"]
 | 특성 | 내용 |
 |:---|:---|
 | Ford-Fulkerson 시간 | O(E × max_flow) |
-| Edmonds-Karp 시간 | O(VE²) |
-| Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(V²E) |
+| Edmonds-Karp 시간 | O(VE^) |
+| Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(V^E) |
 | 핵심 개념 | 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 증가 경로, 역방향 간선 |
 | 핵심 정리 | Max-Flow = Min-Cut |
 
@@ -41,7 +41,7 @@ tags = ["studynote-algorithm"]
 ### 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
 
 ```
-원본 간선 (u→v, 용량 c, 현재 흐름 f):
+원본 간선 (u->v, 용량 c, 현재 흐름 f):
   잔여 정방향 용량: c - f  (더 보낼 수 있는 양)
   잔여 역방향 용량: f      (취소할 수 있는 양)
 
@@ -51,19 +51,19 @@ tags = ["studynote-algorithm"]
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 증가 경로
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  원본 그래프 (용량):         잔여 그래프 (흐름 2 후):     │
-│  S──(10)→A──(8)→T           S──(8)→A──(6)→T             │
-│  S──(5)→B──(6)→T            S──(3)→B──(4)→T             │
-│  A──(4)→B                   A──(2)→B, B──(2)→A(역방향)  │
-│                                                          │
-│  증가 경로 탐색 (BFS):                                   │
-│  Path1: S→A→T  (용량=8) → 흐름 8 추가                   │
-│  Path2: S→B→T  (용량=5) → 흐름 5 추가                   │
-│  Path3: S→A→B→T (역방향 활용) → 추가 가능               │
-│                                                          │
-│  최대 유량 = 경로 탐색 불가 시점의 총 흐름               │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  원본 그래프 (용량):         잔여 그래프 (흐름 2 후):     |
+|  S--(10)->A--(8)->T           S--(8)->A--(6)->T             |
+|  S--(5)->B--(6)->T            S--(3)->B--(4)->T             |
+|  A--(4)->B                   A--(2)->B, B--(2)->A(역방향)  |
+|                                                          |
+|  증가 경로 탐색 (BFS):                                   |
+|  Path1: S->A->T  (용량=8) -> 흐름 8 추가                   |
+|  Path2: S->B->T  (용량=5) -> 흐름 5 추가                   |
+|  Path3: S->A->B->T (역방향 활용) -> 추가 가능               |
+|                                                          |
+|  최대 유량 = 경로 탐색 불가 시점의 총 흐름               |
++----------------------------------------------------------+
 ```
 
 ### Ford-Fulkerson vs Edmonds-Karp
@@ -76,15 +76,15 @@ Ford-Fulkerson:
 
 Edmonds-Karp:
   증가 경로를 BFS로 탐색 (최단 증가 경로)
-  항상 O(VE²)에 종료
-  시간: O(VE²)
+  항상 O(VE^)에 종료
+  시간: O(VE^)
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 경로 탐색 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 종료 보장 |
 |:---|:---:|:---:|:---:|
 | Ford-Fulkerson | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) | O(E × max_flow) | 정수 용량만 |
-| Edmonds-Karp | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(VE²) | 항상 |
-| Dinic's | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) + [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) | O(V²E) | 항상 |
+| Edmonds-Karp | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(VE^) | 항상 |
+| Dinic's | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) + [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) | O(V^E) | 항상 |
 
 📢 **섹션 요약 비유**: Ford-Fulkerson은 물길을 아무 방향으로나 찾고, Edmonds-Karp는 항상 가장 짧은 물길을 먼저 찾는다. 짧은 길을 우선하면 전체 탐색 횟수가 줄어든다.
 
@@ -97,17 +97,17 @@ Edmonds-Karp:
 ```
 최소 컷: 소스와 싱크를 분리하는 간선 집합 중 총 용량이 최소인 것
 Max-Flow = Min-Cut 용량
-→ 최대 유량 해로부터 최소 컷 도출 가능
+-> 최대 유량 해로부터 최소 컷 도출 가능
 ```
 
 ### [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) ([Bipartite Matching](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/))으로 환원
 
 ```
 이분 그래프: 좌측 집합 L, 우측 집합 R
-→ 소스 s에서 L의 모든 정점에 용량 1 간선
-→ R의 모든 정점에서 싱크 t로 용량 1 간선
-→ L-R 간 원래 간선은 용량 1
-→ 최대 유량 = 최대 매칭 수
+-> 소스 s에서 L의 모든 정점에 용량 1 간선
+-> R의 모든 정점에서 싱크 t로 용량 1 간선
+-> L-R 간 원래 간선은 용량 1
+-> 최대 유량 = 최대 매칭 수
 ```
 
 📢 **섹션 요약 비유**: [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)의 최대 유량 변환은 구직자와 회사 사이에 지원 가능한 경로만 있고, 각 사람은 한 회사에만 매칭될 수 있는 채용 네트워크를 만드는 것이다.
@@ -118,23 +118,23 @@ Max-Flow = Min-Cut 용량
 
 **시나리오 1**: [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) — 과목-교실 배정
 - 과목 집합과 교실 집합이 있을 때, 최대 몇 과목을 배정할 수 있는가?
-- 최대 유량으로 O(VE²) 해결
+- 최대 유량으로 O(VE^) 해결
 
 **시나리오 2**: 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분석
-- 서버 네트워크에서 소스([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))→싱크([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 최대 전송 가능 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)
-- Max-Flow = Min-Cut → 병목 링크([최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
+- 서버 네트워크에서 소스([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))->싱크([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 최대 전송 가능 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)
+- Max-Flow = Min-Cut -> 병목 링크([최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
 
 **시나리오 3**: 프로젝트 선택 문제
 - 각 프로젝트는 이익/비용이 있고 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 존재
-- 최대 이익 = 최대 유량 모델링으로 O(VE²) 해결
+- 최대 이익 = 최대 유량 모델링으로 O(VE^) 해결
 
 ### 기술사 판단 포인트
 
 | 상황 | 판단 |
 |:---|:---|
 | 정수 용량, 소규모 | Ford-Fulkerson |
-| 일반적인 경우 | Edmonds-Karp (O(VE²)) |
-| 대규모 고성능 | Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(V²E)) |
+| 일반적인 경우 | Edmonds-Karp (O(VE^)) |
+| 대규모 고성능 | Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(V^E)) |
 | [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) | 최대 유량으로 환원 |
 | 병목 링크 찾기 | Max-Flow 후 Min-Cut 계산 |
 
@@ -142,7 +142,7 @@ Max-Flow = Min-Cut 용량
 
 ## Ⅴ. 기대효과 및 결론
 
-최대 유량 (Max Flow) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 네트워크 최적화의 핵심 도구로, Ford-Fulkerson의 기본 아이디어를 Edmonds-Karp가 BFS로 개선하여 항상 O(VE²)에 종료를 보장한다. Max-Flow Min-Cut 정리는 네트워크 분석과 [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) 등 다양한 문제의 이론적 기반이다.
+최대 유량 (Max Flow) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 네트워크 최적화의 핵심 도구로, Ford-Fulkerson의 기본 아이디어를 Edmonds-Karp가 BFS로 개선하여 항상 O(VE^)에 종료를 보장한다. Max-Flow Min-Cut 정리는 네트워크 분석과 [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) 등 다양한 문제의 이론적 기반이다.
 
 **핵심 결론**: 유량, 매칭, 분리 문제는 모두 최대 유량으로 통합된다. 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 역방향 간선이 이 통합의 핵심 메커니즘이다.
 
@@ -153,10 +153,10 @@ Max-Flow = Min-Cut 용량
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 핵심 개념 | 남은 용량 + 역방향 간선 |
-| 증가 경로 (Augmenting Path) | 핵심 개념 | s→t 경로 탐색 |
+| 증가 경로 (Augmenting Path) | 핵심 개념 | s->t 경로 탐색 |
 | Max-Flow Min-Cut 정리 | 핵심 정리 | 최대 유량 = [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) |
 | [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) | 응용 | 최대 유량으로 환원 |
-| Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 확장 | O(V²E) 고성능 |
+| Dinic's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 확장 | O(V^E) 고성능 |
 | [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) (Min-Cut) | 연계 | 병목 간선 집합 |
 
 
@@ -164,17 +164,17 @@ Max-Flow = Min-Cut 용량
 
 ```text
 [DFS 기반 Ford-Fulkerson — 증가 경로 탐색, 무한 루프 위험(비정수 용량)]
-    │
-    ▼
-[BFS 기반 Edmonds-Karp — O(VE²) 다항 시간 보장, 최단 증가 경로 선택]
-    │
-    ▼
-[Dinic's Algorithm — 계층 그래프 + 차단 흐름, O(V²E) 고성능]
-    │
-    ▼
+    |
+    v
+[BFS 기반 Edmonds-Karp — O(VE^) 다항 시간 보장, 최단 증가 경로 선택]
+    |
+    v
+[Dinic's Algorithm — 계층 그래프 + 차단 흐름, O(V^E) 고성능]
+    |
+    v
 [Max-Flow Min-Cut 정리 — 최대 유량 = 최소 컷, 네트워크 병목 분석 기반]
-    │
-    ▼
+    |
+    v
 [이분 매칭 (Bipartite Matching) / 프로젝트 선택 — 최대 유량으로 환원하는 응용]
 ```
 이 흐름은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 유량 문제의 기초 아이디어(Ford-Fulkerson)가 수렴 보장의 결함을 극복하며 효율적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 정제되고, 그 결과물인 Max-Flow Min-Cut 정리가 매칭·분리·스케줄링 등 다양한 문제를 통합하는 이론적 기반으로 자리잡는 과정을 보여준다.
@@ -191,7 +191,7 @@ Max-Flow = Min-Cut 용량
 
 **진행 상황**: 43 / 175
 
-← **이전**: [14. 크루스칼 (Kruskal) — 간선 정렬 + Union-Find](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)
-**다음**: [19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) →
+<- **이전**: [14. 크루스칼 (Kruskal) — 간선 정렬 + Union-Find](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)
+**다음**: [19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) ->
 
 ---

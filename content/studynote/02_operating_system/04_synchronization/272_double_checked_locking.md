@@ -122,12 +122,12 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 
 ```text
 [스레드 풀 스케줄링 락 경합 (Work Stealing)]
-    │
-    ▼
+    |
+    v
 [더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
-    │
-    ├──▶ [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    └──▶ [임계 구역 크기 최소화 기법]
+    |
+    +---> [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
+    +---> [임계 구역 크기 최소화 기법]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -144,7 +144,7 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 
 **진행 상황**: 272 / 800
 
-← **이전**: [271. 스레드 풀 스케줄링 락 경합 (Work Stealing)](/knowledge-base/studynote/02_operating_system/04_synchronization/271_work_stealing/)
-**다음**: [273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/) →
+<- **이전**: [271. 스레드 풀 스케줄링 락 경합 (Work Stealing)](/knowledge-base/studynote/02_operating_system/04_synchronization/271_work_stealing/)
+**다음**: [273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/) ->
 
 ---

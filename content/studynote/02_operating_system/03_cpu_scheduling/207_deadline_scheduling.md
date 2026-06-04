@@ -30,12 +30,12 @@ tags = ["studynote-operating-system"]
   [ 기존 SCHED_FIFO의 파멸 시나리오 ]
   태스크 A (우선순위 90): 정상 실행 중
   태스크 B (우선순위 99): 갑자기 난입! 근데 버그 걸려서 무한 루프 돎! 💥
-  ▶ 결과: 스케줄러는 B가 99등이므로 절대 쫓아내지 못함. A는 데드라인 놓치고 시스템 완전 다운.
+  -> 결과: 스케줄러는 B가 99등이므로 절대 쫓아내지 못함. A는 데드라인 놓치고 시스템 완전 다운.
 
   [ 현대 SCHED_DEADLINE의 완벽 방어 시나리오 ]
   태스크 A (계약: 10ms 주기 중 2ms만 쓸게)
-  태스크 B (계약: 20ms 주기 중 5ms만 쓸게) ─▶ 🚨 B가 버그 걸려서 5ms 넘게 계속 쓰려 함!
-  ▶ 결과: 스케줄러(CBS)가 5ms를 넘기는 즉시 B의 목을 치고(Throttle) 다음 주기까지 강제 수면시킴!
+  태스크 B (계약: 20ms 주기 중 5ms만 쓸게) --> 🚨 B가 버그 걸려서 5ms 넘게 계속 쓰려 함!
+  -> 결과: 스케줄러(CBS)가 5ms를 넘기는 즉시 B의 목을 치고(Throttle) 다음 주기까지 강제 수면시킴!
            A는 약속대로 CPU를 받아 무사히 생존함.
 ```
 **[다이어그램 해설]** 데드라인 스케줄링의 가장 큰 무기는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 가진 "격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))" 능력이다. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 자신이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 맺은 계약(시간)을 어기려 하면, 스케줄러가 데드라인을 근거로 가차 없이 CPU를 압수한다. 이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Control) 덕분에 한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 폭주가 다른 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 데드라인을 망치는 끔찍한 나비효과를 원천 차단한다.
@@ -68,25 +68,25 @@ tags = ["studynote-operating-system"]
   - 데드라인이 미래로 밀렸으므로, EDF 큐(RB-Tree)에서 이 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 저 멀리 뒤로 쫓겨나 당분간 절대 실행되지 않는다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │         CBS를 통한 과부하(Overload) 억제 및 데드라인 방어 메커니즘 │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │  [계약 조건] T1: 주기 10ms, 실행(예산) 3ms / 데드라인 10ms         │
-  │                                                                    │
-  │  시간(ms) │ T1의 동작 (버그 발생 시나리오)                         │
-  │  ────────┼──────────────────────────────────────────────────       │
-  │     0    │ T1 도착. 예산 3ms 장전. (데드라인 10ms)                 │
-  │     0~3  │ T1이 3ms를 다 씀. (원래 끝나야 하는데 버그로 안 끝남!)  │
-  │     3    │ 🚨 예산 0! CBS 발동! ─▶ T1 강제 수면(Throttled).        │
-  │          │ T1의 데드라인을 다음 주기인 [20ms]로 강제 연장해 버림.  │
-  │     3~10 │ T1은 수면. 그 사이 다른 태스크들(T2, T3)이 무사히 실행! │
-  │    10    │ 다음 주기 10ms 도래. T1 예산 3ms 재장전(Replenished).   │
-  │    10~13 │ T1 다시 실행. 또 예산 다 쓰면 또 쫓겨남.                │
-  │                                                                    │
-  │  ✅ 결론: T1이 미쳐 날뛰어도 10ms라는 시간 동안 딱 3ms만 쓰도록    │
-  │          완벽히 철창(Bandwidth)에 가둬버렸다!                      │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |         CBS를 통한 과부하(Overload) 억제 및 데드라인 방어 메커니즘 |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |  [계약 조건] T1: 주기 10ms, 실행(예산) 3ms / 데드라인 10ms         |
+  |                                                                    |
+  |  시간(ms) | T1의 동작 (버그 발생 시나리오)                         |
+  |  --------+--------------------------------------------------       |
+  |     0    | T1 도착. 예산 3ms 장전. (데드라인 10ms)                 |
+  |     0~3  | T1이 3ms를 다 씀. (원래 끝나야 하는데 버그로 안 끝남!)  |
+  |     3    | 🚨 예산 0! CBS 발동! --> T1 강제 수면(Throttled).        |
+  |          | T1의 데드라인을 다음 주기인 [20ms]로 강제 연장해 버림.  |
+  |     3~10 | T1은 수면. 그 사이 다른 태스크들(T2, T3)이 무사히 실행! |
+  |    10    | 다음 주기 10ms 도래. T1 예산 3ms 재장전(Replenished).   |
+  |    10~13 | T1 다시 실행. 또 예산 다 쓰면 또 쫓겨남.                |
+  |                                                                    |
+  |  ✅ 결론: T1이 미쳐 날뛰어도 10ms라는 시간 동안 딱 3ms만 쓰도록    |
+  |          완벽히 철창(Bandwidth)에 가둬버렸다!                      |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 기존 EDF의 최악의 약점이었던 '도미노 현상(한 놈이 늦게 끝나면 뒤에 놈들이 다 같이 죽는 현상)'을 이 CBS가 완벽하게 파괴했다. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 계약한 예산을 초과하는 순간 스케줄러가 그 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 멱살을 잡고 트리의 꼴찌로 던져버림으로써, 이기적인 프로세스가 선량한 이웃들의 데드라인을 갉아먹는 행위를 원천 봉쇄한 것이다.
 
@@ -125,24 +125,24 @@ POSIX 표준이 정의한 리눅스 [커널](/knowledge-base/studynote/02_operat
    - **이유**: 기존 4개(12ms) + 신규 1개(3ms) = 총 15ms. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 데드라인 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 총 CPU 점유율 합계가 기본적으로 물리 코어의 <strong>95%</strong>를 넘지 못하도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터(`kernel.sched_rt_runtime_us`)로 막아두었다. (나머지 5%는 시스템이 죽지 않게 쉘이나 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 쓰도록 남겨둔 비상용 산소). 이처럼 <strong>"안 될 것 같으면 애초에 받지를 않는" 수학적 결벽증</strong>이 데드라인 스케줄링의 위엄이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     KVM/QEMU 가상 머신(VM)에 데드라인 스케줄링을 통한 vCPU 격리     │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ 물리 서버 코어 0번 (Host OS) ]                                  │
-  │   └─ SCHED_DEADLINE 큐 가동                                         │
-  │                                                                     │
-  │      ├─▶ VM_A의 vCPU 스레드 (Runtime=4ms, Period=10ms)              │
-  │      │   >> 호스트 OS가 VM_A에게 물리 코어의 딱 40%를 고정 배급!    │
-  │      │   >> VM_A 안에서 해커가 무한 루프를 돌려도, 물리 코어는      │
-  │      │      4ms 후 정확히 VM_A를 기절시키므로 서버 안전.            │
-  │      │                                                              │
-  │      └─▶ VM_B의 vCPU 스레드 (Runtime=2ms, Period=10ms)              │
-  │          >> 호스트 OS가 VM_B에게 물리 코어의 딱 20%를 고정 배급!    │
-  │                                                                     │
-  │   ✅ 효과: Cgroups 보다 훨씬 더 하드웨어에 가깝고 정밀한(마이크로초)│
-  │          가상머신 간 CPU 격리(Noisy Neighbor 원천 차단) 달성.       │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     KVM/QEMU 가상 머신(VM)에 데드라인 스케줄링을 통한 vCPU 격리     |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [ 물리 서버 코어 0번 (Host OS) ]                                  |
+  |   +- SCHED_DEADLINE 큐 가동                                         |
+  |                                                                     |
+  |      +--> VM_A의 vCPU 스레드 (Runtime=4ms, Period=10ms)              |
+  |      |   >> 호스트 OS가 VM_A에게 물리 코어의 딱 40%를 고정 배급!    |
+  |      |   >> VM_A 안에서 해커가 무한 루프를 돌려도, 물리 코어는      |
+  |      |      4ms 후 정확히 VM_A를 기절시키므로 서버 안전.            |
+  |      |                                                              |
+  |      +--> VM_B의 vCPU 스레드 (Runtime=2ms, Period=10ms)              |
+  |          >> 호스트 OS가 VM_B에게 물리 코어의 딱 20%를 고정 배급!    |
+  |                                                                     |
+  |   ✅ 효과: Cgroups 보다 훨씬 더 하드웨어에 가깝고 정밀한(마이크로초)|
+  |          가상머신 간 CPU 격리(Noisy Neighbor 원천 차단) 달성.       |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 데드라인 스케줄링은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 아니라 거대한 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 컨테이너의 목줄을 채우는 데 가장 완벽한 툴이다. 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))가 "당신 VM에 CPU 40% 성능을 보장합니다"라고 SLA를 팔았을 때, 그걸 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 1ns의 오차도 없이 집행(Enforcement)해 주는 행동 대장이 바로 `SCHED_DEADLINE`의 CBS 제어기다.
 
@@ -176,12 +176,12 @@ POSIX 표준이 정의한 리눅스 [커널](/knowledge-base/studynote/02_operat
 
 ```text
 [RM (Rate-Monotonic) 스케줄링]
-    │
-    ▼
+    |
+    v
 [EDF (Earliest Deadline First) 스케줄링]
-    │
-    ├──▶ [비례 배분 스케줄링 (Proportionate Share Scheduling)]
-    └──▶ [POSIX 스케줄링 API]
+    |
+    +---> [비례 배분 스케줄링 (Proportionate Share Scheduling)]
+    +---> [POSIX 스케줄링 API]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -198,7 +198,7 @@ POSIX 표준이 정의한 리눅스 [커널](/knowledge-base/studynote/02_operat
 
 **진행 상황**: 207 / 800
 
-← **이전**: [206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)
-**다음**: [208. 비례 배분 스케줄링 (Proportionate Share Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/) →
+<- **이전**: [206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)
+**다음**: [208. 비례 배분 스케줄링 (Proportionate Share Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/) ->
 
 ---

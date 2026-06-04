@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 데브섹옵스 (DevSecOps) 시프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데브섹옵스 (DevSecOps) 시프                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  데브섹옵스 (DevSecOps) 시프                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 데브섹옵스 (DevSecOps) 시프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -55,20 +55,20 @@ tags = ["studynote-software-engineering"]
 - **개념**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))를 시간순으로 나열했을 때 왼쪽부터 오른쪽으로 흐른다고 가정하자 (요구사항 -> 설계 -> 구현 -> 테스트 -> 배포). 여기서 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 검증을 가장 마지막(Right)에서 가장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(Left)로 옮긴다는 뜻의 은유적 표현이 '[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)'다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              비용 및 발견 시점에 따른 Shift-Left 비용 최적화           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   결함 수정 비용 ($)                                                │
-│   1000x │                                         🔴 (운영 중 해킹)│
-│    100x │                              🟠 (배포 직전 보안 검토)     │
-│     10x │                   🟡 (CI 테스트 중)                     │
-│      1x │       🟢 (IDE에서 코드 짤 때)                           │
-│         └─────────────────────────────────────────────────────  │
-│             설계/개발 (Left)  --->   빌드/테스트   --->   운영 (Right) │
-│                                                                 │
-│ * 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다. │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              비용 및 발견 시점에 따른 Shift-Left 비용 최적화           |
++-----------------------------------------------------------------+
+|                                                                 |
+|   결함 수정 비용 ($)                                                |
+|   1000x |                                         🔴 (운영 중 해킹)|
+|    100x |                              🟠 (배포 직전 보안 검토)     |
+|     10x |                   🟡 (CI 테스트 중)                     |
+|      1x |       🟢 (IDE에서 코드 짤 때)                           |
+|         +-----------------------------------------------------  |
+|             설계/개발 (Left)  --->   빌드/테스트   --->   운영 (Right) |
+|                                                                 |
+| * 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다. |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -118,25 +118,25 @@ DevSecOps는 구호가 아니라 실체적인 툴 체인(Tool-chain)의 결합�
 DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 암호화 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 등을 사람이 엑셀 문서로 관리하는 것이 아니라 전부 코드화([As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))하는 것이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          컴플라이언스 코드화(Compliance as Code) OPA 정책 검사      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [개발자 인프라 배포 요청 (Terraform)]                         │
-│     "S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"       │
-│               │                                             │
-│               ▼                                             │
-│   ┌───────────────────────────────────────────────┐         │
-│   │ OPA (Open Policy Agent) 보안 룰 엔진           │         │
-│   │ `deny if bucket.acl == "public-read"`         │         │
-│   └───────────┬───────────────────────────────────┘         │
-│               │                                             │
-│               ▼                                             │
-│   [ ❌ 배포 실패 (Pipeline Failed) ]                          │
-│   "보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."    │
-│                                                             │
-│ * 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          컴플라이언스 코드화(Compliance as Code) OPA 정책 검사      |
++-------------------------------------------------------------+
+|                                                             |
+|   [개발자 인프라 배포 요청 (Terraform)]                         |
+|     "S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"       |
+|               |                                             |
+|               v                                             |
+|   +-----------------------------------------------+         |
+|   | OPA (Open Policy Agent) 보안 룰 엔진           |         |
+|   | `deny if bucket.acl == "public-read"`         |         |
+|   +-----------+-----------------------------------+         |
+|               |                                             |
+|               v                                             |
+|   [ ❌ 배포 실패 (Pipeline Failed) ]                          |
+|   "보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."    |
+|                                                             |
+| * 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -190,21 +190,21 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 데브섹옵스 (DevSecOps) 시프트 레프트 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -218,7 +218,7 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 
 **진행 상황**: 821 / 973
 
-← **이전**: [652. 데브옵스 (DevOps) CALMS 문화](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)
-**다음**: [654. SRE SLI, SLO, SLA 에러 예산](/knowledge-base/studynote/04_software_engineering/uncategorized/654_sre_sli_slo_sla_error_budget/) →
+<- **이전**: [652. 데브옵스 (DevOps) CALMS 문화](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)
+**다음**: [654. SRE SLI, SLO, SLA 에러 예산](/knowledge-base/studynote/04_software_engineering/uncategorized/654_sre_sli_slo_sla_error_budget/) ->
 
 ---

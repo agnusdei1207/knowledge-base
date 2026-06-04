@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 이머전 쿨링이 "칩용 냉각기"가 아니라 "서버를 둘러싼 환경 재설계"인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Tank becomes the server's surrounding coolant                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Board]   [Board]   [Board]                                               │
-│    │         │         │                                                  │
-│    └------ heat into dielectric fluid ------> heat exchanger / condenser  │
-│                                                                            │
-│ 팬이 만드는 공기 통로 대신, 탱크 속 액체가 기본 냉각 환경이 된다.          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              Tank becomes the server's surrounding coolant                |
++----------------------------------------------------------------------------+
+| [Board]   [Board]   [Board]                                               |
+|    |         |         |                                                  |
+|    +------ heat into dielectric fluid ------> heat exchanger / condenser  |
+|                                                                            |
+| 팬이 만드는 공기 통로 대신, 탱크 속 액체가 기본 냉각 환경이 된다.          |
++----------------------------------------------------------------------------+
 ```
 
 따라서 이머전 쿨링의 핵심은 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니다. 더 본질적인 변화는 <strong>서버가 의존하는 주변 매질을 공기에서 액체로 바꾸어, 열·소음·먼지·공조 구조를 한꺼번에 다시 설계하는 것</strong>에 있다.
@@ -56,14 +56,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 단상과 이상의 열 이동 차이를 단순화한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Single-phase vs Two-phase immersion path                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Single-phase : Board -> Fluid warms -> Pump -> Heat Exchanger -> Tank     │
-│ Two-phase    : Board -> Fluid boils -> Vapor -> Condenser -> Tank         │
-│                                                                            │
-│ 차이는 '액체를 돌릴지'와 '끓여서 다시 응축시킬지'에 있다.                  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               Single-phase vs Two-phase immersion path                    |
++----------------------------------------------------------------------------+
+| Single-phase : Board -> Fluid warms -> Pump -> Heat Exchanger -> Tank     |
+| Two-phase    : Board -> Fluid boils -> Vapor -> Condenser -> Tank         |
+|                                                                            |
+| 차이는 '액체를 돌릴지'와 '끓여서 다시 응축시킬지'에 있다.                  |
++----------------------------------------------------------------------------+
 ```
 
 중요한 현실적 포인트는 일반 공랭 서버를 아무 준비 없이 그대로 담글 수 없다는 점이다. 팬은 보통 제거되거나 비활성화되고, 가스켓·케이블 피복·커넥터·윤활 재료처럼 액체와 접촉하는 부품의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 검증해야 한다. 즉 이머전 쿨링은 탱크만 사면 끝나는 설비 기술이 아니라, <strong>서버 하드웨어와 유체 화학이 함께 맞아야 완성되는 공동 설계</strong>다.
@@ -144,20 +144,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공랭 기반 서버실
-    │
-    ▼
+    |
+    v
 Liquid Cooling · Direct-to-Chip
-    │
-    ▼
+    |
+    v
 Single-phase Immersion Tank
-    │
-    ▼
+    |
+    v
 Two-phase Boiling / Condensation
-    │
-    ▼
+    |
+    v
 고밀도 AI 랙 · 팬리스 운영
-    │
-    ▼
+    |
+    v
 폐열 재활용형 액침 데이터센터
 ```
 
@@ -175,7 +175,7 @@ Two-phase Boiling / Condensation
 
 **진행 상황**: 602 / 803
 
-← **이전**: [601. 액체 냉각 시스템 (Liquid Cooling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/601_liquid_cooling/)
-**다음**: [603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/603_software_defined_accelerator/) →
+<- **이전**: [601. 액체 냉각 시스템 (Liquid Cooling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/601_liquid_cooling/)
+**다음**: [603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/603_software_defined_accelerator/) ->
 
 ---

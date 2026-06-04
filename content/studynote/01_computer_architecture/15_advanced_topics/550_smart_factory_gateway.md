@@ -43,17 +43,17 @@ tags = ["studynote-computer-architecture"]
 | 전원/열 설계 | 24V 산업 전원, 팬리스 섀시, 이중 입력 | 고온·먼지·진동 환경 지속 운전 |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ smart factory edge gateway HW                                             │
-├────────────── southbound OT ──────────────┬──────────── northbound IT ────┤
-│ RS-485 │ CAN │ DI/DO │ Industrial Eth.    │ OPC UA │ MQTT │ HTTPS / VPN   │
-├────────┴─────┴───────┴─────────────┬──────┴─────────┬─────────────────────┤
-│ Isolation PHY / Surge Protection   │ Protocol Model │ TLS / Firewall      │
-├────────────────────────────────────┼─────────────────┼─────────────────────┤
-│ Industrial CPU / NPU               │ Rules Engine   │ Store-and-Forward    │
-├────────────────────────────────────┴─────────────────┴─────────────────────┤
-│ TPM / Secure Boot · eMMC/SSD · Dual Power · Fanless Thermal Design        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| smart factory edge gateway HW                                             |
++-------------- southbound OT --------------+------------ northbound IT ----+
+| RS-485 | CAN | DI/DO | Industrial Eth.    | OPC UA | MQTT | HTTPS / VPN   |
++--------+-----+-------+-------------+------+---------+---------------------+
+| Isolation PHY / Surge Protection   | Protocol Model | TLS / Firewall      |
++------------------------------------+-----------------+---------------------+
+| Industrial CPU / NPU               | Rules Engine   | Store-and-Forward    |
++------------------------------------+-----------------+---------------------+
+| TPM / Secure Boot · eMMC/SSD · Dual Power · Fanless Thermal Design        |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 중요한 점은 남향과 북향이 단순히 포트만 다른 것이 아니라, 시간 특성과 보안 정책이 다르다는 사실이다. 남향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 설비 이벤트와 최대한 가깝게 받아야 하므로 타임스탬프와 손실 방지가 중요하고, 북향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 표준 정보모델과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·암호화가 중요하다. 따라서 좋은 게이트웨이는 라우터처럼 패킷만 넘기지 않고, 현장 이벤트를 "수집 가능한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"에서 "운영 가능한 정보"로 바꾸는 계층을 내부에 갖는다.
@@ -134,17 +134,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Isolated fieldbus islands
-        │
-        ▼
+        |
+        v
 Protocol converter boxes
-        │
-        ▼
+        |
+        v
 Industrial IoT gateway
-        │
-        ▼
+        |
+        v
 Edge analytics gateway with store-and-forward
-        │
-        ▼
+        |
+        v
 TSN + OPC UA PubSub based software-defined factory edge
 ```
 
@@ -162,7 +162,7 @@ TSN + OPC UA PubSub based software-defined factory edge
 
 **진행 상황**: 550 / 803
 
-← **이전**: [549. ADAS 센서 퓨전 가속기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/549_sensor_fusion_accelerator/)
-**다음**: [551. 비디오 코덱 하드웨어 가속 (H.265/AV1)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/551_video_codec_hardware/) →
+<- **이전**: [549. ADAS 센서 퓨전 가속기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/549_sensor_fusion_accelerator/)
+**다음**: [551. 비디오 코덱 하드웨어 가속 (H.265/AV1)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/551_video_codec_hardware/) ->
 
 ---

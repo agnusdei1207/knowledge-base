@@ -26,30 +26,30 @@ Wakelock은 Android가 리눅스 [커널](/knowledge-base/studynote/02_operating
 표준 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 전력 관리는 서버와 데스크톱 환경에 최적화되어 있었다. 서버는 24시간 가동이 기본이므로 CPU를 적극적으로 suspend할 필요가 없고, 데스크톱은 전원 코드가 연결되어 있어 전력 제약이 심하지 않다. 그러나 모바일 기기는 배터리라는 유한 에너지원으로 동작하며, 사용자는 "화면을 끄고 주머니에 넣어도 음악은 계속 재생되어야 하고, 전화는 걸려오면 바로 받을 수 있어야 하고, 메신저 알림도 실시간으로 와야 한다"는 모순적 요구를 가진다. 기존 리눅스의 `pm_suspend()`는 "모두 잠들거나 모두 깨어있거나"의 이진적(Binary) 접근만 제공했으나, Android는 **"CPU는 깨어있되 디스플레이는 끄고", "Wi-Fi는 켜두되 셀룰러는 끄고"** 같은 세밀한([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)) 제어가 필요했고, 이를 위해 Wakelock을 고안했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│      표준 Linux PM vs Android Wakelock 전력 관리 비교             │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [표준 리눅스 전력 관리]                                          │
-│                                                                  │
-│  CPU 활동 → (유휴 감지) → cpuidle → C1 → C2 → ... → Suspend   │
-│       │                              │                           │
-│       │   "아무도 안 쓰면 전체 잠든다"                            │
-│       └─── 문제: 모바일에서는 백그라운드 작업이 항상 존재 ────→ │
-│           음악 재생, GPS, PUSH 알림 등이 CPU Suspend와 충돌      │
-│                                                                  │
-│  ─────────────────────────────────────────────────────────────  │
-│                                                                  │
-│  [Android Wakelock 전력 관리]                                     │
-│                                                                  │
-│  App A: "음악 재생 중" ──→ PARTIAL_WAKE_LOCK (CPU 유지)         │
-│  App B: "GPS 추적 중"  ──→ PARTIAL_WAKE_LOCK (CPU 유지)         │
-│  System: "전화 대기"   ──→ FULL_WAKE_LOCK (CPU + Display)      │
-│                                                                  │
-│  → 활성 Wakelock이 하나라도 있으면 CPU Suspend 진입 불가        │
-│  → 모든 Wakelock이 해제되면 비로소 Suspend 진입                  │
-│  ※ 디스플레이, Wi-Fi 등은 독립적인 Wakelock으로 제어             │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|      표준 Linux PM vs Android Wakelock 전력 관리 비교             |
++------------------------------------------------------------------+
+|                                                                  |
+|  [표준 리눅스 전력 관리]                                          |
+|                                                                  |
+|  CPU 활동 -> (유휴 감지) -> cpuidle -> C1 -> C2 -> ... -> Suspend   |
+|       |                              |                           |
+|       |   "아무도 안 쓰면 전체 잠든다"                            |
+|       +--- 문제: 모바일에서는 백그라운드 작업이 항상 존재 -----> |
+|           음악 재생, GPS, PUSH 알림 등이 CPU Suspend와 충돌      |
+|                                                                  |
+|  -------------------------------------------------------------  |
+|                                                                  |
+|  [Android Wakelock 전력 관리]                                     |
+|                                                                  |
+|  App A: "음악 재생 중" ---> PARTIAL_WAKE_LOCK (CPU 유지)         |
+|  App B: "GPS 추적 중"  ---> PARTIAL_WAKE_LOCK (CPU 유지)         |
+|  System: "전화 대기"   ---> FULL_WAKE_LOCK (CPU + Display)      |
+|                                                                  |
+|  -> 활성 Wakelock이 하나라도 있으면 CPU Suspend 진입 불가        |
+|  -> 모든 Wakelock이 해제되면 비로소 Suspend 진입                  |
+|  ※ 디스플레이, Wi-Fi 등은 독립적인 Wakelock으로 제어             |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 비교도에서 핵심은 Wakelock이 <strong>"<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 카운팅(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> Counting) 기반의 전력 상태 게이트키퍼(Gatekeeper)"</strong> 역할을 한다는 점이다. 여러 앱이 각각 자신의 Wakelock을 획득(Hold)하고 있는 동안에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU Suspend를 시도하지 않으며, 마지막 Wakelock이 해제(Release)되는 순간에만 비로소 저전력 모드로 진입한다. 이는 운영체제의 [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)([Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/))과 유사한 개념으로, 자원(CPU)의 활성 상태를 여러 주체가 공유하여 관리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 모델이다.
@@ -76,42 +76,42 @@ Android는 용도에 따라 4가지 Wakelock 유형을 정의한다. [API](/know
 Wakelock은 크게 세 계층으로 나뉜다: (1) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 `wakelock` 드라이버, (2) [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer) 수준의 전력 인터페이스, (3) 프레임워크 수준의 `PowerManagerService`이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│          Wakelock 아키텍처 계층도 (Architecture Stack)            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [③ Application / Framework Layer]                               │
-│  ┌─────────────────────────────────────────────────────────┐     │
-│  │  App: PowerManager.newWakeLock()                        │     │
-│  │    ↓                                                     │     │
-│  │  PowerManagerService (시스템 서버)                       │     │
-│  │    - Wakelock 참조 카운트 관리                            │     │
-│  │    - ActivityManagerService와 연동하여                    │     │
-│  │      백그라운드 앱 Wakelock 제한 (Doze 모드)              │     │
-│  │    - 통계 수집 (Battery Stats)                           │     │
-│  └─────────────────────┬───────────────────────────────────┘     │
-│                        │ JNI / Sysfs                              │
-│                        ▼                                         │
-│  [② HAL / Kernel Interface Layer]                                │
-│  ┌─────────────────────────────────────────────────────────┐     │
-│  │  /sys/power/wake_lock (sysfs 인터페이스)                 │     │
-│  │  /sys/power/wake_unlock                                 │     │
-│  │    ↓                                                     │     │
-│  │  suspend_ops → PM 핵심 서브시스템과 연동                  │     │
-│  └─────────────────────┬───────────────────────────────────┘     │
-│                        │ Kernel API                              │
-│                        ▼                                         │
-│  [① Kernel PM Layer]                                             │
-│  ┌─────────────────────────────────────────────────────────┐     │
-│  │  wakelock.c (커널 드라이버)                              │     │
-│  │    - has_wake_lock() → 활성 Wakelock 존재 여부 확인      │     │
-│  │    - wake_lock() / wake_unlock()                         │     │
-│  │    - pm_suspend() 진입 차단 / 허용 결정                  │     │
-│  │    - expire 타이머 (timeout 기반 자동 해제)               │     │
-│  └─────────────────────────────────────────────────────────┘     │
-│                        ↓                                         │
-│  [Hardware: CPU C-States, DVFS, Clock Gating]                    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|          Wakelock 아키텍처 계층도 (Architecture Stack)            |
++------------------------------------------------------------------+
+|                                                                  |
+|  [③ Application / Framework Layer]                               |
+|  +---------------------------------------------------------+     |
+|  |  App: PowerManager.newWakeLock()                        |     |
+|  |    v                                                     |     |
+|  |  PowerManagerService (시스템 서버)                       |     |
+|  |    - Wakelock 참조 카운트 관리                            |     |
+|  |    - ActivityManagerService와 연동하여                    |     |
+|  |      백그라운드 앱 Wakelock 제한 (Doze 모드)              |     |
+|  |    - 통계 수집 (Battery Stats)                           |     |
+|  +---------------------+-----------------------------------+     |
+|                        | JNI / Sysfs                              |
+|                        v                                         |
+|  [② HAL / Kernel Interface Layer]                                |
+|  +---------------------------------------------------------+     |
+|  |  /sys/power/wake_lock (sysfs 인터페이스)                 |     |
+|  |  /sys/power/wake_unlock                                 |     |
+|  |    v                                                     |     |
+|  |  suspend_ops -> PM 핵심 서브시스템과 연동                  |     |
+|  +---------------------+-----------------------------------+     |
+|                        | Kernel API                              |
+|                        v                                         |
+|  [① Kernel PM Layer]                                             |
+|  +---------------------------------------------------------+     |
+|  |  wakelock.c (커널 드라이버)                              |     |
+|  |    - has_wake_lock() -> 활성 Wakelock 존재 여부 확인      |     |
+|  |    - wake_lock() / wake_unlock()                         |     |
+|  |    - pm_suspend() 진입 차단 / 허용 결정                  |     |
+|  |    - expire 타이머 (timeout 기반 자동 해제)               |     |
+|  +---------------------------------------------------------+     |
+|                        v                                         |
+|  [Hardware: CPU C-States, DVFS, Clock Gating]                    |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 계층도는 Wakelock이 단순한 API가 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-프레임워크에 걸친 3계층 아키텍처임을 보여준다. 앱이 `PowerManager.newWakeLock()`을 호출하면, 요청은 PowerManagerService를 거쳐 `/sys/power/wake_lock` sysfs 노드로 전달되고, 최종적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `wakelock.c` 드라이버가 `has_wake_lock()`을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 `pm_suspend()` 진입 여부를 결정한다. 따라서 Wakelock 문제를 디버깅할 때는 앱 코드, 프레임워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 세 계층 모두를 점검해야 한다.
@@ -119,43 +119,43 @@ Wakelock은 크게 세 계층으로 나뉜다: (1) [커널](/knowledge-base/stud
 ### Wakelock 동작 흐름
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│             Wakelock 획득-해제 생명주기 (Lifecycle)               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [App Process]                                                   │
-│    │                                                             │
-│    ├──① wl = pm.newWakeLock(PARTIAL_WAKE_LOCK, "MusicPlayback")│
-│    │                                                             │
-│    ├──② wl.acquire()  ──────────────────────────────┐          │
-│    │    │                                              │          │
-│    │    │    [PowerManagerService]                     │          │
-│    │    │    ├── Wakelock 등록 (mWakeLocks 리스트)     │          │
-│    │    │    ├── ref_count++                           │          │
-│    │    │    └── /sys/power/wake_lock에 "MusicPlayback"│          │
-│    │    │         기록                                │          │
-│    │    │                                              │          │
-│    │    │    [Kernel]                                  │          │
-│    │    │    └── has_wake_lock() = true                │          │
-│    │    │        → pm_suspend() 차단                   │          │
-│    │    │        → CPU 활성 상태 유지                   │          │
-│    │    │                                              │          │
-│    ├──③ ... 음악 재생 중 ...                          │          │
-│    │    │                                              │          │
-│    ├──④ wl.release()  ──────────────────────────────┘          │
-│    │    │                                                        │
-│    │    │    [PowerManagerService]                               │
-│    │    │    ├── ref_count--                                     │
-│    │    │    └── ref_count == 0 ?                                │
-│    │    │         ├── YES → /sys/power/wake_unlock               │
-│    │    │         │        → has_wake_lock() = false             │
-│    │    │         │        → pm_suspend() 진입 허용              │
-│    │    │         └── NO  → 다른 Wakelock 유지                   │
-│    │    │                                                        │
-│    └──⑤ (선택) wl.acquire(60000)  // timeout=60초 자동 해제     │
-│         └── 60초 후 커널 타이머가 자동 release                   │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             Wakelock 획득-해제 생명주기 (Lifecycle)               |
++------------------------------------------------------------------+
+|                                                                  |
+|  [App Process]                                                   |
+|    |                                                             |
+|    +--① wl = pm.newWakeLock(PARTIAL_WAKE_LOCK, "MusicPlayback")|
+|    |                                                             |
+|    +--② wl.acquire()  ------------------------------+          |
+|    |    |                                              |          |
+|    |    |    [PowerManagerService]                     |          |
+|    |    |    +-- Wakelock 등록 (mWakeLocks 리스트)     |          |
+|    |    |    +-- ref_count++                           |          |
+|    |    |    +-- /sys/power/wake_lock에 "MusicPlayback"|          |
+|    |    |         기록                                |          |
+|    |    |                                              |          |
+|    |    |    [Kernel]                                  |          |
+|    |    |    +-- has_wake_lock() = true                |          |
+|    |    |        -> pm_suspend() 차단                   |          |
+|    |    |        -> CPU 활성 상태 유지                   |          |
+|    |    |                                              |          |
+|    +--③ ... 음악 재생 중 ...                          |          |
+|    |    |                                              |          |
+|    +--④ wl.release()  ------------------------------+          |
+|    |    |                                                        |
+|    |    |    [PowerManagerService]                               |
+|    |    |    +-- ref_count--                                     |
+|    |    |    +-- ref_count == 0 ?                                |
+|    |    |         +-- YES -> /sys/power/wake_unlock               |
+|    |    |         |        -> has_wake_lock() = false             |
+|    |    |         |        -> pm_suspend() 진입 허용              |
+|    |    |         +-- NO  -> 다른 Wakelock 유지                   |
+|    |    |                                                        |
+|    +--⑤ (선택) wl.acquire(60000)  // timeout=60초 자동 해제     |
+|         +-- 60초 후 커널 타이머가 자동 release                   |
+|                                                                  |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도는 Wakelock의 핵심 동작인 획득(acquire)과 해제(release)가 세 계층에 걸쳐 어떻게 전파되는지를 보여준다. 특히 ④ 해제 단계에서 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 카운트(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> Count)가 0이 되는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>하는 것이 핵심이다. 하나의 Wakelock이라도 남아 있으면 CPU는 잠들지 못하므로, Wakelock 누수(Leak)는 곧 배터리 방전으로 직결된다. 따라서 [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 기반 자동 해제(⑤)를 활용하는 것이 안전한 패턴이다.
@@ -199,26 +199,26 @@ Android 6.0 ([API](/knowledge-base/studynote/02_operating_system/01_overview_arc
 | **WorkManager** | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 있는 백그라운드 작업 | Wakelock 대체 권장 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (권장) |
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│      전력 관리 계층간 상호작용 (Power Management Interaction)     │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [앱이 Wakelock 획득]                                           │
-│       ↓                                                          │
-│  [PowerManagerService] ──→ Wakelock 등록                       │
-│       ↓                   (Doze 모드면 무시 가능)               │
-│  [Kernel wakelock.c]                                            │
-│       ↓                                                          │
-│  has_wake_lock() == true ?                                       │
-│       ├── YES → cpuidle 차단, CPU 활성 유지                    │
-│       │         단, DVFS는 여전히 동작하여                      │
-│       │         주파수를 낮출 수는 있음                         │
-│       └── NO  → cpuidle 활성화                                  │
-│                 → C1 → C2 → ... → Suspend 순차 진입             │
-│                                                                  │
-│  ※ Wakelock은 "잠들지 마라"이지 "최고 속도로 돌아라"가 아님   │
-│     → Wakelock + DVFS 조합으로 전력 최적화 가능                 │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|      전력 관리 계층간 상호작용 (Power Management Interaction)     |
++------------------------------------------------------------------+
+|                                                                  |
+|  [앱이 Wakelock 획득]                                           |
+|       v                                                          |
+|  [PowerManagerService] ---> Wakelock 등록                       |
+|       v                   (Doze 모드면 무시 가능)               |
+|  [Kernel wakelock.c]                                            |
+|       v                                                          |
+|  has_wake_lock() == true ?                                       |
+|       +-- YES -> cpuidle 차단, CPU 활성 유지                    |
+|       |         단, DVFS는 여전히 동작하여                      |
+|       |         주파수를 낮출 수는 있음                         |
+|       +-- NO  -> cpuidle 활성화                                  |
+|                 -> C1 -> C2 -> ... -> Suspend 순차 진입             |
+|                                                                  |
+|  ※ Wakelock은 "잠들지 마라"이지 "최고 속도로 돌아라"가 아님   |
+|     -> Wakelock + DVFS 조합으로 전력 최적화 가능                 |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 상호작용도에서 중요한 점은 Wakelock과 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)가 <strong>독립적으로 동작</strong>한다는 것이다. Wakelock은 "CPU를 잠들지 않게만 할 뿐" 최고 클럭으로 구동하라는 의미가 아니다. 따라서 Wakelock을 획득한 상태에서도 cpufreq [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(예: `powersave`, `schedutil`)에 따라 CPU 주파수가 조절된다. 실무에서는 이 두 메커니즘을 조합하여 "CPU는 깨어있되 낮은 클럭으로 동작"시키는 것이 가장 효율적인 전력 관리 전략이다.
@@ -235,7 +235,7 @@ Android 6.0 ([API](/knowledge-base/studynote/02_operating_system/01_overview_arc
 - **현상**: 화면을 끄고 잤는데 아침에 배터리가 30% 이상 소모됨
 - **진단 도구**: `adb shell dumpsys batterystats`, `Battery Historian`
 - **일반적 원인**: 백그라운드 앱이 PARTIAL_WAKE_LOCK을 획득한 채 해제하지 않음 (Wakelock 누수)
-- **해결**: 해당 앱의 Wakelock 사용 패턴 분석 → Foreground Service로 전환 또는 WorkManager 사용 권장
+- **해결**: 해당 앱의 Wakelock 사용 패턴 분석 -> Foreground Service로 전환 또는 WorkManager 사용 권장
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 예시</strong>: `$ adb shell dumpsys power | grep "Wake Locks"`
 
 **시나리오 2: GPS 네비게이션 중 화면 꺼짐**
@@ -247,33 +247,33 @@ Android 6.0 ([API](/knowledge-base/studynote/02_operating_system/01_overview_arc
 <strong>시나리오 3: Doze 모드에서 긴급 알림 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>
 - **현상**: Doze 모드 진입 후 FCM (Firebase Cloud Messaging) 알림이 몇 시간씩 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨
 - **원인**: Doze가 네트워크 접근을 차단하여 일반 FCM 메시지가 즉시 전달되지 않음
-- **해결**: FCM High Priority 메시지 사용 → 시스템이 Doze를 일시적으로 해제하여 즉시 전달
+- **해결**: FCM High Priority 메시지 사용 -> 시스템이 Doze를 일시적으로 해제하여 즉시 전달
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│        Wakelock 디버깅 체크리스트 (Debugging Checklist)           │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  □ 1. Wakelock 누수 탐지                                        │
-│    □ $ adb shell dumpsys power | grep "Wake Locks"              │
-│    □ Battery Historian에서 Wakelock 지속 시간 시각화             │
-│    □ 특정 앱의 Wakelock hold 시간이 비정상적으로 긴지 확인       │
-│                                                                  │
-│  □ 2. 코드 패턴 점검                                             │
-│    □ acquire()와 release()가 반드시 쌍을 이루는가?              │
-│    □ try-finally 블록으로 release 보장하는가?                    │
-│    □ timeout 파라미터를 사용하는가? (안전망)                    │
-│                                                                  │
-│  □ 3. 대체 API 사용 검토                                         │
-│    □ WorkManager로 대체 가능한가? (권장)                        │
-│    □ Foreground Service로 전환하는 것이 더 적절한가?            │
-│    □ FLAG_KEEP_SCREEN_ON으로 충분한가? (화면 켜짐 유지 시)      │
-│                                                                  │
-│  □ 4. Doze 호환성 확인                                           │
-│    □ Doze 모드에서 Wakelock이 무시되어도 동작하는가?            │
-│    □ FCM High Priority 메시지를 사용하는가?                     │
-│    □ Maintenance Window 동안 작업을 수행하는가?                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|        Wakelock 디버깅 체크리스트 (Debugging Checklist)           |
++------------------------------------------------------------------+
+|                                                                  |
+|  □ 1. Wakelock 누수 탐지                                        |
+|    □ $ adb shell dumpsys power | grep "Wake Locks"              |
+|    □ Battery Historian에서 Wakelock 지속 시간 시각화             |
+|    □ 특정 앱의 Wakelock hold 시간이 비정상적으로 긴지 확인       |
+|                                                                  |
+|  □ 2. 코드 패턴 점검                                             |
+|    □ acquire()와 release()가 반드시 쌍을 이루는가?              |
+|    □ try-finally 블록으로 release 보장하는가?                    |
+|    □ timeout 파라미터를 사용하는가? (안전망)                    |
+|                                                                  |
+|  □ 3. 대체 API 사용 검토                                         |
+|    □ WorkManager로 대체 가능한가? (권장)                        |
+|    □ Foreground Service로 전환하는 것이 더 적절한가?            |
+|    □ FLAG_KEEP_SCREEN_ON으로 충분한가? (화면 켜짐 유지 시)      |
+|                                                                  |
+|  □ 4. Doze 호환성 확인                                           |
+|    □ Doze 모드에서 Wakelock이 무시되어도 동작하는가?            |
+|    □ FCM High Priority 메시지를 사용하는가?                     |
+|    □ Maintenance Window 동안 작업을 수행하는가?                  |
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 체크리스트는 Wakelock 관련 문제를 체계적으로 진단하기 위한 실무 가이드다. 가장 흔한 실수는 `acquire()` 후 예외(Exception) 발생 시 `release()`가 호출되지 않는 것이며, 이를 방지하려면 반드시 try-finally 블록을 사용해야 한다. 또한 Android 6.0+에서는 Doze 모드가 백그라운드 Wakelock을 무시하므로, Wakelock에 의존하는 백그라운드 작업은 WorkManager나 Foreground Service로 전환하는 것이 장기적인 해결책이다.
@@ -282,7 +282,7 @@ Android 6.0 ([API](/knowledge-base/studynote/02_operating_system/01_overview_arc
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 증상 | 올바른 접근 |
 |:---|:---|:---|
-| **Wakelock 누수** | acquire() 후 release() 누락 → 배터리 급소모 | try-finally로 release 보장, [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 사용 |
+| **Wakelock 누수** | acquire() 후 release() 누락 -> 배터리 급소모 | try-finally로 release 보장, [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 사용 |
 | **과도한 Wakelock** | 짧은 작업에 불필요한 Wakelock 획득 | WorkManager / JobScheduler로 대체 |
 | **FULL_WAKE_LOCK 사용** | 화면을 무한정 켜두어 배터리 소모 | FLAG_KEEP_SCREEN_ON 사용 |
 | **Doze 무시 시도** | 백그라운드에서 Wakelock으로 Doze 우회 | FCM High Priority + Maintenance Window 활용 |
@@ -301,7 +301,7 @@ Android 6.0 ([API](/knowledge-base/studynote/02_operating_system/01_overview_arc
 | **대기 전력 최적화** | Wakelock 정상 관리 시 대기 배터리 소모 최소화 | 대기 시간 200시간+ (정상 관리 시) vs 12시간 (누수 시) |
 | **사용자 경험 향상** | 백그라운드 작업 중단 방지 | 음악 재생 끊김율 0% (Wakelock 사용 시) |
 | **앱 품질 평가** | Google Play에서 Wakelock 오용 앱 경고 | Battery Optimized 뱃지 획득 가능 |
-| **시스템 안정성** | 과도한 Wakelock으로 인한 열 발생([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)) 방지 | 기기 온도 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)°C 감소 |
+| **시스템 안정성** | 과도한 Wakelock으로 인한 열 발생([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)) 방지 | 기기 온도 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+C 감소 |
 
 ### 미래 전망
 
@@ -331,12 +331,12 @@ Wakelock은 Android 전력 관리의 핵심 메커니즘이지만, 점진적으�
 
 ```text
 [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
-    │
-    ▼
+    |
+    v
 [안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]
-    │
-    ├──▶ [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
-    └──▶ [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
+    |
+    +---> [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
+    +---> [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -353,7 +353,7 @@ Wakelock은 Android 전력 관리의 핵심 메커니즘이지만, 점진적으�
 
 **진행 상황**: 620 / 800
 
-← **이전**: [619. 모바일 OS 특징 (Android vs iOS 아키텍처 비교)](/knowledge-base/studynote/02_operating_system/10_security/619_android_ios_architecture/)
-**다음**: [621. ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) →
+<- **이전**: [619. 모바일 OS 특징 (Android vs iOS 아키텍처 비교)](/knowledge-base/studynote/02_operating_system/10_security/619_android_ios_architecture/)
+**다음**: [621. ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) ->
 
 ---

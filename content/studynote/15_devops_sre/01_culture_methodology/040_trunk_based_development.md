@@ -246,7 +246,7 @@ TBD + 피처 플래그 = 현대 DevOps 표준
 
 **진행 상황**: 40 / 373
 
-← **이전**: [039. 피처 플래그 (Feature Flag / Feature Toggle)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/039_feature_flag/)
-**다음**: [041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/041_trunk_based_development_tbd/) →
+<- **이전**: [039. 피처 플래그 (Feature Flag / Feature Toggle)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/039_feature_flag/)
+**다음**: [041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/041_trunk_based_development_tbd/) ->
 
 ---

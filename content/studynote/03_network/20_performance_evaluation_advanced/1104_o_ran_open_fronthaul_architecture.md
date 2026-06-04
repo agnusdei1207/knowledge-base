@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [WDM 무손실 광 증폭]
-    │
-    ▼
+    |
+    v
 [O-RAN 프론트홀 개방 사양]
-    │
-    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
+    |
+    +---> [vCPE NFV 고객 구내 망 통합 전환]
 ```
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -61,11 +61,11 @@ tags = ["studynote-network"]
 
 ```text
 [WDM 무손실 광 증폭]
-    │
-    ▼
+    |
+    v
 [O-RAN 프론트홀 개방 사양]
-    │
-    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
+    |
+    +---> [vCPE NFV 고객 구내 망 통합 전환]
 ```
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: WDM 무손실 광 증폭]
-    │
-    ▼
+    |
+    v
 [현재 개념: O-RAN 프론트홀 개방 사양]
-    │
-    ├──▶ [확장 A: vCPE NFV 고객 구내 망 통합 전환]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: vCPE NFV 고객 구내 망 통합 전환]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양는 WDM 무손실 광 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 214 / 1120
 
-← **이전**: [1103. WDM 무손실 광 증폭](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1103_wdm_lossless_optical_amplification_edfa/)
-**다음**: [1105. vCPE NFV 고객 구내 망 통합 전환](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/) →
+<- **이전**: [1103. WDM 무손실 광 증폭](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1103_wdm_lossless_optical_amplification_edfa/)
+**다음**: [1105. vCPE NFV 고객 구내 망 통합 전환](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/) ->
 
 ---

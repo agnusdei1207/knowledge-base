@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 이미지 처리처럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부분을 자주 건너뛰며 읽는 작업에서 효과가 크다. 반대로 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잠깐 읽고 끝내는 단순 작업에서는 매핑 설정과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 관리 비용이 오히려 더 비쌀 수 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 만능 입출력 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 강점을 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템까지 확장하는 선택지</strong>로 이해해야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│            왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ 전통적 read()                                                               │
-│   디스크 ─▶ 페이지 캐시 ─▶ 사용자 버퍼 ─▶ 애플리케이션 해석                │
-│             (커널 관리)     (한 번 더 복사)                                 │
-│                                                                             │
-│ 메모리 맵 파일                                                              │
-│   디스크 ─▶ 페이지 캐시 ─▶ 가상 주소 공간에 매핑 ─▶ 애플리케이션 접근       │
-│             (커널 관리)       (포인터처럼 참조)                             │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|            왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환         |
++-----------------------------------------------------------------------------+
+| 전통적 read()                                                               |
+|   디스크 --> 페이지 캐시 --> 사용자 버퍼 --> 애플리케이션 해석                |
+|             (커널 관리)     (한 번 더 복사)                                 |
+|                                                                             |
+| 메모리 맵 파일                                                              |
+|   디스크 --> 페이지 캐시 --> 가상 주소 공간에 매핑 --> 애플리케이션 접근       |
+|             (커널 관리)       (포인터처럼 참조)                             |
++-----------------------------------------------------------------------------+
 ```
 
 이 그림의 포인트는 "디스크가 RAM으로 바뀐다"가 아니라, 응용 프로그램이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시를 주소 공간의 일부처럼 바라보게 된다</strong>는 데 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기술이면서 동시에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술이다.
@@ -54,37 +54,37 @@ tags = ["studynote-computer-architecture"]
 아래 다이어그램은 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 실제 처리 경로를 보여 준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Application                                                                  │
-│    │                                                                          │
-│    ├─ mmap(fd, offset, length)                                                │
-│    ▼                                                                          │
-│ Virtual Memory Area 생성                                                      │
-│    │                                                                          │
-│    ▼                                                                          │
-│ Page Table에 "파일과 연결된 주소 범위" 등록                                   │
-│    │                                                                          │
-│    ▼                                                                          │
-│ 첫 접근(load/store)                                                           │
-│    │                                                                          │
-│    ├─ page present ───────────────────────────────────────────────▶ 바로 접근  │
-│    │                                                                          │
-│    └─ page absent                                                             │
-│          │                                                                    │
-│          ▼                                                                    │
-│     Page Fault                                                                │
-│          │                                                                    │
-│          ▼                                                                    │
-│     OS Kernel이 파일 오프셋 확인                                               │
-│          │                                                                    │
-│          ▼                                                                    │
-│     Page Cache 적재 + Page Table 갱신                                          │
-│          │                                                                    │
-│          ▼                                                                    │
-│     명령 재시작 후 메모리처럼 접근                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                 메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중         |
++-----------------------------------------------------------------------------+
+| Application                                                                  |
+|    |                                                                          |
+|    +- mmap(fd, offset, length)                                                |
+|    v                                                                          |
+| Virtual Memory Area 생성                                                      |
+|    |                                                                          |
+|    v                                                                          |
+| Page Table에 "파일과 연결된 주소 범위" 등록                                   |
+|    |                                                                          |
+|    v                                                                          |
+| 첫 접근(load/store)                                                           |
+|    |                                                                          |
+|    +- page present ------------------------------------------------> 바로 접근  |
+|    |                                                                          |
+|    +- page absent                                                             |
+|          |                                                                    |
+|          v                                                                    |
+|     Page Fault                                                                |
+|          |                                                                    |
+|          v                                                                    |
+|     OS Kernel이 파일 오프셋 확인                                               |
+|          |                                                                    |
+|          v                                                                    |
+|     Page Cache 적재 + Page Table 갱신                                          |
+|          |                                                                    |
+|          v                                                                    |
+|     명령 재시작 후 메모리처럼 접근                                             |
++-----------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 의미 |
@@ -109,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 | :--- | :--- | :--- |
 | 프로그래밍 모델 | 명시적으로 버퍼를 채우고 비움 | 포인터/배열처럼 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | 시스템 콜 빈도 | 접근할수록 반복 증가 | 매핑 시 1회, 이후 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 중심 |
-| 복사 비용 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 → 사용자 버퍼 복사 필요 | 복사 최소화, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
+| 복사 비용 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 -> 사용자 버퍼 복사 필요 | 복사 최소화, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | 무작위 접근 | `lseek()` + `read()` 반복 부담 큼 | 주소 계산만으로 접근 가능 |
 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 예측 | 비교적 명시적 | [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 시 급격한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능 |
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 책임 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 경계가 분명 | 메모리 공유처럼 보이므로 더 주의 필요 |
@@ -184,21 +184,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 파일 시스템 버퍼 I/O
-    │
-    ▼
+    |
+    v
 페이지 캐시 (Page Cache) 공유
-    │
-    ▼
+    |
+    v
 메모리 맵 파일 (Memory-Mapped File)
-    │
-    ├─▶ 요구 페이징 (Demand Paging)
-    │
-    ├─▶ 공유 매핑 · IPC (Inter-Process Communication)
-    │
-    ▼
+    |
+    +--> 요구 페이징 (Demand Paging)
+    |
+    +--> 공유 매핑 · IPC (Inter-Process Communication)
+    |
+    v
 복사-쓰기 (Copy-on-Write) · 실행 파일 지연 로딩
-    │
-    ▼
+    |
+    v
 대용량 데이터베이스 · 분석 엔진 · 고성능 파일 접근
 ```
 
@@ -216,7 +216,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 309 / 803
 
-← **이전**: [307. 페이지 크기 (Page Size)의 트레이드오프](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_page_size/)
-**다음**: [309. 입출력 모듈 (I/O Module)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/309_io_controller/) →
+<- **이전**: [307. 페이지 크기 (Page Size)의 트레이드오프](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_page_size/)
+**다음**: [309. 입출력 모듈 (I/O Module)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/309_io_controller/) ->
 
 ---

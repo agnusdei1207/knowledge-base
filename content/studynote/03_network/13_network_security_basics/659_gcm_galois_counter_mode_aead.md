@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
+    |
+    v
 [GCM 모드]
-    │
-    └──▶ [비대칭키/공개키 암호화]
+    |
+    +---> [비대칭키/공개키 암호화]
 ```
 
 - **📢 섹션 요약 비유**: GCM 모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
+    |
+    v
 [GCM 모드]
-    │
-    └──▶ [비대칭키/공개키 암호화]
+    |
+    +---> [비대칭키/공개키 암호화]
 ```
 
 - **📢 섹션 요약 비유**: GCM 모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -111,12 +111,12 @@ GCM 모드는 [네트워크 보안](/knowledge-base/studynote/03_network/20_perf
 
 ```text
 [선행 개념: 블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
+    |
+    v
 [현재 개념: GCM 모드]
-    │
-    ├──▶ [확장 A: 비대칭키/공개키 암호화]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 비대칭키/공개키 암호화]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 GCM 모드는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…에서 출발해 현재 메커니즘을 정교화하고, 이후 비대칭키/공개키 암호화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -133,7 +133,7 @@ GCM 모드는 [블록 암호](/knowledge-base/studynote/03_network/13_network_se
 
 **진행 상황**: 780 / 1120
 
-← **이전**: [658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)](/knowledge-base/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/)
-**다음**: [660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)](/knowledge-base/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/) →
+<- **이전**: [658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)](/knowledge-base/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/)
+**다음**: [660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)](/knowledge-base/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/) ->
 
 ---

@@ -23,8 +23,8 @@ tags = ["studynote-bigdata"]
 
 이벤트 시간 기반 5분 윈도우를 계산할 때, 스트리밍 시스템은 "[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):00~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):05 윈도우의 모든 이벤트가 도착했다"고 언제 확신할 수 있는가?
 
-- 이 윈도우의 이벤트가 무한히 늦게 올 수 있다면 → 윈도우를 영원히 닫을 수 없음
-- 무조건 현재 시간 기준으로 닫으면 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 누락
+- 이 윈도우의 이벤트가 무한히 늦게 올 수 있다면 -> 윈도우를 영원히 닫을 수 없음
+- 무조건 현재 시간 기준으로 닫으면 -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 누락
 
 워터마크는 이 딜레마를 "허용 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)"을 명시적으로 선언함으로써 해결한다.
 
@@ -40,8 +40,8 @@ Watermark(t) = "이벤트 시간 t 이전에 발생한 모든 이벤트는 도�
   현재까지 본 최대 이벤트 시간: 10:05:30
   허용 지연 시간: 30초
   워터마크 = 10:05:00
-  → "10:05:00 이전 이벤트는 모두 도착했다고 가정"
-  → 10:00~10:05 윈도우 닫을 수 있음!
+  -> "10:05:00 이전 이벤트는 모두 도착했다고 가정"
+  -> 10:00~10:05 윈도우 닫을 수 있음!
 ```
 
 **📢 섹션 요약 비유**
@@ -55,9 +55,9 @@ Watermark(t) = "이벤트 시간 t 이전에 발생한 모든 이벤트는 도�
 
 ```
 이벤트 스트림:
-──────────────────────────────────────────────
+----------------------------------------------
   [이벤트 t=10:00] [이벤트 t=10:03] [이벤트 t=10:02] [이벤트 t=10:06]
-                                      ↑ 지연 이벤트
+                                      ^ 지연 이벤트
 WM 생성 (allowed_lateness = 30s):
   After t=10:00: WM = 09:59:30
   After t=10:03: WM = 10:02:30
@@ -65,9 +65,9 @@ WM 생성 (allowed_lateness = 30s):
   After t=10:06: WM = 10:05:30
 
 윈도우 10:00~10:05 닫히는 시점:
-  WM >= 10:05:00 일 때 → WM = 10:05:30 도달 시 닫힘
-  10:02 이벤트는 WM 10:02:30 때 이미 도착 → 윈도우에 포함됨 ✓
-──────────────────────────────────────────────
+  WM >= 10:05:00 일 때 -> WM = 10:05:30 도달 시 닫힘
+  10:02 이벤트는 WM 10:02:30 때 이미 도착 -> 윈도우에 포함됨 ✓
+----------------------------------------------
 ```
 
 ### 2. Flink에서 워터마크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방법
@@ -97,11 +97,11 @@ DataStream<Event> withWatermarks = stream
 
 ```
 Source 1 파티션 A: WM = 10:05:00
-Source 1 파티션 B: WM = 10:03:00   ← 이 파티션이 느림
+Source 1 파티션 B: WM = 10:03:00   <- 이 파티션이 느림
 Source 2:          WM = 10:06:00
 
 연산자가 받는 효과적 워터마크 = min(10:05, 10:03, 10:06) = 10:03:00
-→ 가장 느린 파티션이 전체 워터마크 진행을 막음 (Idle Source 문제)
+-> 가장 느린 파티션이 전체 워터마크 진행을 막음 (Idle Source 문제)
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a> Source 처리</strong>:
@@ -155,7 +155,7 @@ Step 1: 이벤트 지연 분포 측정 (최소 1주일 데이터)
   - P50 = 1초, P95 = 15초, P99 = 45초
 
 Step 2: 비즈니스 허용 지연(Latency SLA) 확인
-  - "1분 내에 집계 결과 필요" → 최대 워터마크 한계
+  - "1분 내에 집계 결과 필요" -> 최대 워터마크 한계
 
 Step 3: 워터마크 = min(Latency SLA - 윈도우크기, P99_지연)
   - P99 = 45초, Latency SLA = 2분, 윈도우 = 5분
@@ -171,7 +171,7 @@ Step 4: 모니터링
 - [ ] 이벤트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 분포 측정 (P95/P99 기준으로 워터마크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))
 - [ ] [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Source 처리 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (`withIdleness()`) — [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형 대비
 - [ ] 워터마크 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (대시보드 or Flink UI)
-- [ ] Side Output으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 수 추적 → [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이상 시 알림
+- [ ] Side Output으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 수 추적 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이상 시 알림
 - [ ] 다중 소스의 경우 가장 느린 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 처리
 
 **📢 섹션 요약 비유**
@@ -212,20 +212,20 @@ Step 4: 모니터링
 
 ```text
 [이벤트 시간 (Event Time) — 데이터 실제 발생 시각]
-    │
-    ▼
+    |
+    v
 [처리 시간 (Processing Time) — 시스템이 데이터를 수신한 시각]
-    │
-    ▼
+    |
+    v
 [지연 데이터 (Late Data) — 네트워크 지연으로 늦게 도착한 이벤트]
-    │
-    ▼
+    |
+    v
 [워터마크 (Watermark) — 지연 허용 임계값, 이후 데이터 무시]
-    │
-    ▼
+    |
+    v
 [윈도우 집계 (Window Aggregation) — 시간 범위별 스트리밍 집계]
-    │
-    ▼
+    |
+    v
 [상태 관리 (Stateful Processing) — 윈도우 상태 메모리 보관·정리]
 ```
 워터마크는 이벤트 시간 기반 스트리밍에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 허용 한계를 정의하며, [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 간의 트레이드오프를 제어하는 핵심 메커니즘이다.
@@ -240,7 +240,7 @@ Step 4: 모니터링
 
 **진행 상황**: 85 / 262
 
-← **이전**: [09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/)
-**다음**: [11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/) →
+<- **이전**: [09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/)
+**다음**: [11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/) ->
 
 ---

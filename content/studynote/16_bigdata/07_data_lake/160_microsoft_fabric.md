@@ -38,41 +38,41 @@ Microsoft Fabric은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│               Microsoft Fabric 아키텍처                           │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                Fabric 경험(Experience) 레이어              │    │
-│  │                                                          │    │
-│  │  Data       Data       Data      Power   Real-Time      │    │
-│  │  Engineering Factory   Science   BI      Analytics       │    │
-│  │  (Spark)    (Pipeline) (ML)      (Report)(Eventstream)  │    │
-│  └────────────────────┬────────────────────────────────────┘    │
-│                       │                                         │
-│  ┌────────────────────▼────────────────────────────────────┐    │
-│  │                OneLake (통합 스토리지)                    │    │
-│  │                                                          │    │
-│  │  ┌──────────────────────────────────────────────────┐   │    │
-│  │  │  조직 전체 단일 ADLS Gen2 인스턴스                  │   │    │
-│  │  │  workspace1/  workspace2/  workspace3/            │   │    │
-│  │  │  (테넌트당 하나)                                   │   │    │
-│  │  └──────────────────────────────────────────────────┘   │    │
-│  │                                                          │    │
-│  │  ┌───────────────┐   ┌─────────────────────────────┐   │    │
-│  │  │  Shortcuts    │   │  Delta Parquet 형식 (기본)   │   │    │
-│  │  │  (가상 링크)   │   │  Iceberg 지원 (2024~)       │   │    │
-│  │  │  AWS S3       │   │                             │   │    │
-│  │  │  GCS          │   │  OneCopy: 단일 물리 복사본   │   │    │
-│  │  │  Azure Blob   │   │  로 모든 서비스가 공유 접근  │   │    │
-│  │  └───────────────┘   └─────────────────────────────┘   │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  Fabric Capacity (SKU: F4~F2048)                           │  │
-│  │  - 단일 용량 단위로 모든 경험 레이어 컴퓨팅 공유            │  │
-│  └────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|               Microsoft Fabric 아키텍처                           |
++------------------------------------------------------------------+
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |                Fabric 경험(Experience) 레이어              |    |
+|  |                                                          |    |
+|  |  Data       Data       Data      Power   Real-Time      |    |
+|  |  Engineering Factory   Science   BI      Analytics       |    |
+|  |  (Spark)    (Pipeline) (ML)      (Report)(Eventstream)  |    |
+|  +--------------------+------------------------------------+    |
+|                       |                                         |
+|  +--------------------v------------------------------------+    |
+|  |                OneLake (통합 스토리지)                    |    |
+|  |                                                          |    |
+|  |  +--------------------------------------------------+   |    |
+|  |  |  조직 전체 단일 ADLS Gen2 인스턴스                  |   |    |
+|  |  |  workspace1/  workspace2/  workspace3/            |   |    |
+|  |  |  (테넌트당 하나)                                   |   |    |
+|  |  +--------------------------------------------------+   |    |
+|  |                                                          |    |
+|  |  +---------------+   +-----------------------------+   |    |
+|  |  |  Shortcuts    |   |  Delta Parquet 형식 (기본)   |   |    |
+|  |  |  (가상 링크)   |   |  Iceberg 지원 (2024~)       |   |    |
+|  |  |  AWS S3       |   |                             |   |    |
+|  |  |  GCS          |   |  OneCopy: 단일 물리 복사본   |   |    |
+|  |  |  Azure Blob   |   |  로 모든 서비스가 공유 접근  |   |    |
+|  |  +---------------+   +-----------------------------+   |    |
+|  +----------------------------------------------------------+    |
+|                                                                  |
+|  +------------------------------------------------------------+  |
+|  |  Fabric Capacity (SKU: F4~F2048)                           |  |
+|  |  - 단일 용량 단위로 모든 경험 레이어 컴퓨팅 공유            |  |
+|  +------------------------------------------------------------+  |
++------------------------------------------------------------------+
 ```
 
 **핵심 구성 요소 상세**
@@ -140,8 +140,8 @@ Microsoft Fabric은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08
 | 효과 | 내용 |
 |:---|:---|
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 해소 | OneLake로 부서별 중복 스토리지 통합 |
-| [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 절감 | 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 라이선스 → 단일 Fabric SKU |
-| 분석 속도 향상 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링→BI를 같은 플랫폼에서 즉시 연결 |
+| [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 절감 | 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 라이선스 -> 단일 Fabric SKU |
+| 분석 속도 향상 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링->BI를 같은 플랫폼에서 즉시 연결 |
 | 거버넌스 일원화 | Microsoft Purview 통합으로 OneLake 전체 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) |
 
 Microsoft Fabric은 2023년 [GA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)(General [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 이후 Microsoft 최대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 투자로 주목받고 있다. [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/) 기반 조직과 Azure 중심 기업에서 가장 빠른 도입 속도를 보이며, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)·Snowflake와의 3파전이 빅데이터 플랫폼 시장의 핵심 경쟁 구도를 형성한다. 기술사 시험에서는 **OneLake 원칙(조직당 단일 레이크)**, **Shortcuts 메커니즘**, <strong>Fabric SKU 과금 모델</strong>이 핵심 논점이다.
@@ -168,17 +168,17 @@ Microsoft Fabric은 2023년 [GA](/knowledge-base/studynote/08_algorithm_stats/10
 
 ```text
 [분산 데이터 웨어하우스 (Distributed DW) — 구조화 데이터, SQL 중심]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake) — 비정형·반정형 포함, 스키마 온 리드]
-    │
-    ▼
+    |
+    v
 [Azure Synapse Analytics — DW + Lake 통합, SQL + Spark 혼용]
-    │
-    ▼
+    |
+    v
 [Microsoft Fabric — OneLake 단일 저장소, 통합 SaaS 분석 플랫폼]
-    │
-    ▼
+    |
+    v
 [Lakehouse 아키텍처 (Delta Lake / OneLake) — ACID + 분석 통합 표준화]
 ```
 Microsoft Fabric은 OneLake라는 단일 저장소 위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링·과학·BI를 통합한 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 분석 플랫폼으로, [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 완성형이다.
@@ -193,7 +193,7 @@ Microsoft Fabric은 OneLake라는 단일 저장소 위에 [데이터](/knowledge
 
 **진행 상황**: 160 / 262
 
-← **이전**: [159. Snowflake on Data Lake — External Table과 Iceberg 지원](/knowledge-base/studynote/16_bigdata/07_data_lake/159_snowflake_data_lake/)
-**다음**: [161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율](/knowledge-base/studynote/16_bigdata/08_visualization/161_visualization_principles/) →
+<- **이전**: [159. Snowflake on Data Lake — External Table과 Iceberg 지원](/knowledge-base/studynote/16_bigdata/07_data_lake/159_snowflake_data_lake/)
+**다음**: [161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율](/knowledge-base/studynote/16_bigdata/08_visualization/161_visualization_principles/) ->
 
 ---

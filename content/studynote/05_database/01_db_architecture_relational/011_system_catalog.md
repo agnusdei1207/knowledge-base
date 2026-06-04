@@ -24,18 +24,18 @@ tags = ["database"]
 
 이 그림은 일반 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분리를 보여줍니다.
 ```text
-┌───────────────── DBMS Engine ──────────────────┐
-│                                                │
-│  [사용자 질의] SELECT * FROM Employee;         │
-│           ↓                                    │
-│  [ 질의 파서 / 옵티마이저 ] ──(메타데이터 참조)──┐ │
-│           ↓                                  ↓ │
-│  [ 사용자 데이터베이스 ]              [ 시스템 카탈로그 ]│
-│  - Employee Table                   - SYSTABLES  │
-│  - Order Table                      - SYSCOLUMNS │
-│  - Product Table                    - SYSINDEXES │
-│  (실제 비즈니스 데이터)               (메타 & 통계 정보)│
-└────────────────────────────────────────────────┘
++----------------- DBMS Engine ------------------+
+|                                                |
+|  [사용자 질의] SELECT * FROM Employee;         |
+|           v                                    |
+|  [ 질의 파서 / 옵티마이저 ] --(메타데이터 참조)--+ |
+|           v                                  v |
+|  [ 사용자 데이터베이스 ]              [ 시스템 카탈로그 ]|
+|  - Employee Table                   - SYSTABLES  |
+|  - Order Table                      - SYSCOLUMNS |
+|  - Product Table                    - SYSINDEXES |
+|  (실제 비즈니스 데이터)               (메타 & 통계 정보)|
++------------------------------------------------+
 ```
 이 도식의 핵심은 모든 사용자 질의 처리가 반드시 우측의 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 조회를 거쳐야만 좌측의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근할 수 있다는 점입니다. 따라서 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 영역에 I/O 병목이 생기면 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 마비됩니다. 실무에서는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 접근 속도를 극대화하기 위해 이를 메모리에 상주시키는 '딕셔너리 캐시(Dictionary Cache)' 계층을 반드시 운영합니다.
 
@@ -54,16 +54,16 @@ tags = ["database"]
 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))이 실행될 때 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 갱신되는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름은 다음과 같습니다.
 ```text
 1. [DBA의 명령] CREATE TABLE New_Emp (id INT, name VARCHAR);
-        ↓
+        v
 2. [DBMS 엔진 수신] 문법 검증 및 물리적 스토리지 블록 할당 수행
-        ↓
+        v
 3. [카탈로그 업데이트 (자동)]
    - SYSTABLES 에 'New_Emp' 레코드 1행 삽입
    - SYSCOLUMNS 에 'id', 'name' 레코드 2행 삽입
    - SYSAUTH 에 소유자 권한 부여 이력 삽입
-        ↓
+        v
 4. [캐시 동기화] 메모리의 Dictionary Cache 무효화(Invalidation) 및 최신화
-        ↓
+        v
 5. [완료] 이후부터 일반 사용자가 New_Emp 테이블 SELECT 가능
 ```
 이 흐름의 핵심은 사용자가 직접 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 갱신(INSERT/UPDATE)할 수 없다는 점입니다. 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 DBMS만이 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 명령문을 해석하여 스스로 갱신합니다. 만약 일반 사용자가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 수정할 수 있다면, 테이블의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정의와 디스크의 물리적 형태가 어긋나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체가 붕괴(Corruption)됩니다. 따라서 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 오직 `SELECT`만을 허용하는 [동적 성능 뷰](/knowledge-base/studynote/05_database/04_transactions_concurrency/582_dynamic_performance_views_v_dollar_dmv_monitoring/)(예: Oracle의 `USER_`, `ALL_`, `DBA_` 뷰) 형태로만 접근이 개방됩니다.
@@ -94,17 +94,17 @@ tags = ["database"]
 아래 트리는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 파싱할 때 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 어떻게 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는지 보여주는 의사결정 흐름입니다.
 ```text
 [쿼리 요청] SELECT * FROM Users WHERE age > 20;
-   ↓
+   v
 [1. 카탈로그 검증] (Dictionary Cache 스캔)
-   ├─> Users 테이블 존재? (O) / 권한 있음? (O)
-   ↓
+   +-> Users 테이블 존재? (O) / 권한 있음? (O)
+   v
 [2. 카탈로그 통계 확보]
-   ├─> age 인덱스 존재 여부 파악
-   └─> 테이블 총 레코드 수 및 age > 20의 분포도(Selectivity) 추출
-   ↓
+   +-> age 인덱스 존재 여부 파악
+   +-> 테이블 총 레코드 수 및 age > 20의 분포도(Selectivity) 추출
+   v
 [3. 실행 계획 산출]
-   ├─> 분포도가 10% 미만 ──> 인덱스 스캔 플랜 채택
-   └─> 분포도가 50% 이상 ──> 테이블 풀 스캔 플랜 채택
+   +-> 분포도가 10% 미만 --> 인덱스 스캔 플랜 채택
+   +-> 분포도가 50% 이상 --> 테이블 풀 스캔 플랜 채택
 ```
 이 흐름의 핵심은 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)(CBO)의 지능은 전적으로 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 통계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정확도에 의존한다는 점입니다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통계가 거짓말을 하면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 최악의 결정을 내립니다. "Garbage In, Garbage Out"의 원칙이 여기에도 적용됩니다.
 
@@ -134,17 +134,17 @@ tags = ["database"]
 
 ```text
 [데이터 정의 (DDL 실행) — 테이블·인덱스·뷰 생성]
-    │
-    ▼
+    |
+    v
 [시스템 카탈로그 갱신 (System Catalog Update) — 메타데이터 자동 등록]
-    │
-    ▼
+    |
+    v
 [쿼리 파싱 (Hard Parsing) — 카탈로그 조회로 객체·권한 검증]
-    │
-    ▼
+    |
+    v
 [옵티마이저 (Optimizer) — 통계 정보 기반 최적 실행 계획 수립]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 (Data Governance) — 카탈로그 메타데이터로 전사 자산 통제]
 ```
 
@@ -161,7 +161,7 @@ tags = ["database"]
 
 **진행 상황**: 11 / 600
 
-← **이전**: [10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)
-**다음**: [12. 메타데이터 (Metadata) - 데이터에 대한 데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) →
+<- **이전**: [10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)
+**다음**: [12. 메타데이터 (Metadata) - 데이터에 대한 데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) ->
 
 ---

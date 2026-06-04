@@ -62,28 +62,28 @@ C언어로 짜인 리눅스 [커널](/knowledge-base/studynote/02_operating_syst
 앱이 `read(fd, buf, 100)` 시스템 콜을 쳤을 때 VFS가 이를 분기하는 과정이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 VFS의 파일 읽기(Read) 시스템 콜 처리 파이프라인           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [ User Space ]                                                   │
-  │   - `read(fd, buf, 100);` 호출                                     │
-  │                                                                   │
-  │  ========================= [ System Call (Trap) ] ================│
-  │  [ Kernel Space - VFS 계층 ]                                       │
-  │   1. 커널의 `sys_read()`가 실행됨.                                    │
-  │   2. fd(파일 디스크립터)를 통해 현재 열린 [File 객체]를 찾음.               │
-  │   3. File 객체 안에는 [f_op (File Operations)]라는 함수 포인터 묶음이 있음.│
-  │                                                                   │
-  │   ★ VFS의 핵심 마술: `file->f_op->read(file, buf, 100);` 실행!       │
-  │                                                                   │
-  │  ========================= [ 실제 File System 계층 ] ===============│
-  │   - 만약 이 파일이 ext4 라면?  -> `f_op->read`는 `ext4_file_read()`로 연결됨! │
-  │   - 만약 이 파일이 FAT32 라면? -> `f_op->read`는 `fat_file_read()`로 연결됨!  │
-  │   - 만약 이 파일이 NFS 라면?   -> `f_op->read`는 `nfs_file_read()`로 연결됨!  │
-  │                                                                   │
-  │  [ Hardware / Network 계층 ]                                       │
-  │   - 각 FS 전용 드라이버가 디스크를 돌리거나 랜카드로 패킷을 쏴서 데이터를 가져옴. │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 VFS의 파일 읽기(Read) 시스템 콜 처리 파이프라인           |
+  +-------------------------------------------------------------------+
+  |  [ User Space ]                                                   |
+  |   - `read(fd, buf, 100);` 호출                                     |
+  |                                                                   |
+  |  ========================= [ System Call (Trap) ] ================|
+  |  [ Kernel Space - VFS 계층 ]                                       |
+  |   1. 커널의 `sys_read()`가 실행됨.                                    |
+  |   2. fd(파일 디스크립터)를 통해 현재 열린 [File 객체]를 찾음.               |
+  |   3. File 객체 안에는 [f_op (File Operations)]라는 함수 포인터 묶음이 있음.|
+  |                                                                   |
+  |   ★ VFS의 핵심 마술: `file->f_op->read(file, buf, 100);` 실행!       |
+  |                                                                   |
+  |  ========================= [ 실제 File System 계층 ] ===============|
+  |   - 만약 이 파일이 ext4 라면?  -> `f_op->read`는 `ext4_file_read()`로 연결됨! |
+  |   - 만약 이 파일이 FAT32 라면? -> `f_op->read`는 `fat_file_read()`로 연결됨!  |
+  |   - 만약 이 파일이 NFS 라면?   -> `f_op->read`는 `nfs_file_read()`로 연결됨!  |
+  |                                                                   |
+  |  [ Hardware / Network 계층 ]                                       |
+  |   - 각 FS 전용 드라이버가 디스크를 돌리거나 랜카드로 패킷을 쏴서 데이터를 가져옴. |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** VFS는 자기가 직접 디스크를 읽지 않는다. VFS의 `sys_read` 함수 안에는 `if (ext4) else if (fat)` 같은 지저분한 코드가 **단 한 줄도 없다**. 그저 현재 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 객체에 꽂혀있는 함수 포인터(`f_op->read`)를 실행할 뿐이다. 이것이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(예: zfs, btrfs)이 세상에 나와도 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 소스코드를 1바이트도 수정하지 않고 그대로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 끼워 넣을 수 있는 미친 확장성(Extensibility)의 비밀이다.
@@ -126,25 +126,25 @@ C언어로 짜인 리눅스 [커널](/knowledge-base/studynote/02_operating_syst
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 파일 I/O 시스템 콜 및 VFS 성능 병목 우회 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [고성능 데이터베이스나 인메모리 캐시 서버(Redis)를 설계/운영할 때]           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      애플리케이션이 파일이나 디스크를 직접(Direct) 세밀하게 컨트롤해야 하는가?   │
-  │          ├─ 예 (RDBMS) ─▶ [O_DIRECT 플래그 사용]                   │
-  │          │            대책: VFS의 혜택(페이지 캐시, 미리 읽기)을 강제로 끄고,  │
-  │          │                  앱이 디스크 하드웨어와 거의 직결로 통신하게 만듦.    │
-  │          └─ 아니오 (일반 앱)                                            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      VFS 계층에서 발생하는 컨텍스트 스위칭과 커널 락(Lock) 오버헤드가 버거운가?│
-  │          ├──▶ [Kernel Bypass (SPDK) 도입 검토]                      │
-  │          │    결론: VFS 자체를 아예 버려버림. 유저 스페이스에서 NVMe 드라이브와│
-  │          │          직접 폴링(Polling)으로 통신하여 VFS의 오버헤드를 0으로 만듦.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 파일 I/O 시스템 콜 및 VFS 성능 병목 우회 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [고성능 데이터베이스나 인메모리 캐시 서버(Redis)를 설계/운영할 때]           |
+  |                |                                                  |
+  |                v                                                  |
+  |      애플리케이션이 파일이나 디스크를 직접(Direct) 세밀하게 컨트롤해야 하는가?   |
+  |          +- 예 (RDBMS) --> [O_DIRECT 플래그 사용]                   |
+  |          |            대책: VFS의 혜택(페이지 캐시, 미리 읽기)을 강제로 끄고,  |
+  |          |                  앱이 디스크 하드웨어와 거의 직결로 통신하게 만듦.    |
+  |          +- 아니오 (일반 앱)                                            |
+  |                |                                                  |
+  |                v                                                  |
+  |      VFS 계층에서 발생하는 컨텍스트 스위칭과 커널 락(Lock) 오버헤드가 버거운가?|
+  |          +---> [Kernel Bypass (SPDK) 도입 검토]                      |
+  |          |    결론: VFS 자체를 아예 버려버림. 유저 스페이스에서 NVMe 드라이브와|
+  |          |          직접 폴링(Polling)으로 통신하여 VFS의 오버헤드를 0으로 만듦.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** VFS는 만능이지만, 만능이라는 말은 곧 "여러 계층(Layers)을 거치느라 무겁다"는 뜻이다. SSD가 나오기 전 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절에는 어차피 디스크가 너무 느려서 VFS의 소프트웨어 오버헤드는 티도 안 났다. 하지만 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 시대가 열리면서, 초당 100만 번의 I/O를 치려니 VFS의 객체(inode, dentry) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 치명적인 병목이 되어버렸다. 최고의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해서는 VFS의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 깨부수고 하드웨어로 내려가는 것이 현대의 극한 튜닝이다.
@@ -189,12 +189,12 @@ C언어로 짜인 리눅스 [커널](/knowledge-base/studynote/02_operating_syst
 
 ```text
 [하드 링크 / 심볼릭 링크 차이]
-    │
-    ▼
+    |
+    v
 [VFS 가상 파일 시스템 (VFS Virtual File System Abstraction)]
-    │
-    ├──▶ [버퍼 캐시 파일 입출력 지연]
-    └──▶ [접근 제어 목록 (ACL)]
+    |
+    +---> [버퍼 캐시 파일 입출력 지연]
+    +---> [접근 제어 목록 (ACL)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -211,7 +211,7 @@ C언어로 짜인 리눅스 [커널](/knowledge-base/studynote/02_operating_syst
 
 **진행 상황**: 737 / 800
 
-← **이전**: [736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)](/knowledge-base/studynote/02_operating_system/11_exam_summary/736_hard_link_vs_symbolic_link/)
-**다음**: [738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/) →
+<- **이전**: [736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)](/knowledge-base/studynote/02_operating_system/11_exam_summary/736_hard_link_vs_symbolic_link/)
+**다음**: [738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/738_buffer_cache_file_io_delayed_write/) ->
 
 ---

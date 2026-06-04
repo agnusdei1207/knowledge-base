@@ -31,25 +31,25 @@ tags = ["studynote-ict-convergence"]
 네트워크 슬라이싱은 단순한 트래픽 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))가 아니다. 물리적 인프라를 논리적 클라우드 봇으로 완전히 쪼개는 3단계 융합 아키텍처다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         네트워크 슬라이싱 3단 십자 융합 아키텍처: 단말부터 뇌까지 찢어라 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 📱 [ 1. 단말 (UE) - 신분증 제시 ]                             │
-│   - 테슬라: "내 칩셋은 [uRLLC 1번 슬라이스 VIP] 꼬리표 달았다 삐빅!" │
-│                                                             │
-│ 📡 [ 2. 기지국 (RAN) - 무선 허공 전파 찢기 새치기 ]              │
-│   - 기지국 뇌: "테슬라 놈 패킷 오면 유튜브 쏘던 전파 강제로 끊고! 테슬라부터 │
-│     무대기 1빠따로 하이패스 선점(Preemption) 전파 쏴버려 쾅!"        │
-│                                                             │
-│ ☁️ [ 3. 5G 코어망 (Core) - K8s 클라우드 영혼 분열 복제 ]          │
-│   🔪 [ Slice 1 (테슬라 전용방) ]                              │
-│     - K8s가 테슬라 전용 UPF(펌프) 컨테이너 봇을 테슬라 차 코앞 엣지(MEC)에 │
-│       유배 배치해서 1ms 우주 쾌속 응답 락킹 쓩!                 │
-│   🔪 [ Slice 2 (유튜브 공용방) ]                              │
-│     - 옆방 딴 컨테이너에 남남으로 격리 띄움. 이 방이 디도스 맞아 터져 죽어도 │
-│       테슬라 방은 뭔 일 났는지 1도 모른 채 무결점 100% 무정단 생존 🚀. │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         네트워크 슬라이싱 3단 십자 융합 아키텍처: 단말부터 뇌까지 찢어라 |
++-------------------------------------------------------------+
+|                                                             |
+| 📱 [ 1. 단말 (UE) - 신분증 제시 ]                             |
+|   - 테슬라: "내 칩셋은 [uRLLC 1번 슬라이스 VIP] 꼬리표 달았다 삐빅!" |
+|                                                             |
+| 📡 [ 2. 기지국 (RAN) - 무선 허공 전파 찢기 새치기 ]              |
+|   - 기지국 뇌: "테슬라 놈 패킷 오면 유튜브 쏘던 전파 강제로 끊고! 테슬라부터 |
+|     무대기 1빠따로 하이패스 선점(Preemption) 전파 쏴버려 쾅!"        |
+|                                                             |
+| ☁️ [ 3. 5G 코어망 (Core) - K8s 클라우드 영혼 분열 복제 ]          |
+|   🔪 [ Slice 1 (테슬라 전용방) ]                              |
+|     - K8s가 테슬라 전용 UPF(펌프) 컨테이너 봇을 테슬라 차 코앞 엣지(MEC)에 |
+|       유배 배치해서 1ms 우주 쾌속 응답 락킹 쓩!                 |
+|   🔪 [ Slice 2 (유튜브 공용방) ]                              |
+|     - 옆방 딴 컨테이너에 남남으로 격리 띄움. 이 방이 디도스 맞아 터져 죽어도 |
+|       테슬라 방은 뭔 일 났는지 1도 모른 채 무결점 100% 무정단 생존 🚀. |
++-------------------------------------------------------------+
 ```
 
 이 마법의 뒤에는 쇳덩이 장비를 클라우드 앱으로 치환하는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>)</strong>와 길 찾기 뇌를 중앙으로 뽑아 통치하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(소프트웨어 정의 네트워크)</strong> 쌍칼이 있다. K8s 클러스터 뇌(MANO 오케스트레이터)가 "로봇 제어용 지연시간 1ms 필수 락!"이라는 계약 조건([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 엑셀을 받으면, 1초 만에 최적의 위치([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지)에 가상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 펌프(UPF [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))를 허공에 뚝딱 띄워내 무선 전용망을 개통시켜 버리는 흑마법이다.
@@ -117,17 +117,17 @@ QoS는 길이 막히는 아수라장에서 결국 동반 붕괴(Cascading Failur
 
 ```text
 4G (LTE) 1통짜리 거대 파이프 / 넷플릭스 덤프트럭 놈들과 자율주행 앰뷸런스가 섞여 동반 타살 폭파 파국 💥
-    │
-    ▼
+    |
+    v
 QoS (서비스 우선순위) 꼼수 / 1통 파이프에서 새치기 튜닝 해줬으나, 파이프 막히면 답 없는 똥 방패
-    │
-    ▼
+    |
+    v
 5G SA 네트워크 슬라이싱 융합 (SBA 기반) / SDN과 NFV 칼날로 E2E 파이프를 가위로 100조각 완전 격리 분할 찢어 발김 🚀
-    │
-    ▼
+    |
+    v
 NaaS (Network as a Service) 과금 혁명 / 기업용 전용망 렌탈 클라우드 K8s 1초 컷 마우스 자동 렌더링 개통
-    │
-    ▼
+    |
+    v
 6G 자율 제어 통신망 (Autonomous Network) / AI 봇(NWDAF)이 24시간 실시간 슬라이스 크기 자가 호흡 밸런싱 스위칭 오토 튜닝
 ```
 
@@ -143,7 +143,7 @@ NaaS (Network as a Service) 과금 혁명 / 기업용 전용망 렌탈 클라우
 
 **진행 상황**: 149 / 552
 
-← **이전**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)
-**다음**: [150. 5G SA (Standalone) 아키텍처 - 100% 5G 전용 클라우드 코어](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) →
+<- **이전**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)
+**다음**: [150. 5G SA (Standalone) 아키텍처 - 100% 5G 전용 클라우드 코어](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) ->
 
 ---

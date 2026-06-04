@@ -27,18 +27,18 @@ tags = ["software_engineering"]
 아래 그림은 모호한 요구가 어떻게 단계별로 다른 시스템으로 분기되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ambiguity propagation                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ requirement: "lock account after 5 failures"                      │
-│        │                     │                     │               │
-│        ▼                     ▼                     ▼               │
-│  analyst view          developer view         tester view          │
-│  cumulative 5          consecutive 5          reset by session     │
-│        └─────────────────────┬─────────────────────┘               │
-│                              ▼                                     │
-│                 different design, code, and test oracles           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Ambiguity propagation                                              |
++--------------------------------------------------------------------+
+| requirement: "lock account after 5 failures"                      |
+|        |                     |                     |               |
+|        v                     v                     v               |
+|  analyst view          developer view         tester view          |
+|  cumulative 5          consecutive 5          reset by session     |
+|        +---------------------+---------------------+               |
+|                              v                                     |
+|                 different design, code, and test oracles           |
++--------------------------------------------------------------------+
 ```
 
 따라서 [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 언어는 단순한 문서 스타일이 아니라, 오해 비용을 어디까지 줄일 것인가에 대한 관리 전략이다. 시스템 위험이 커질수록 "편하게 쓴 문장"보다 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 표현"이 더 중요해진다.
@@ -64,16 +64,16 @@ tags = ["software_engineering"]
 아래 그림은 정형 명세가 요구를 어떤 구조로 묶는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Structure of a formal specification                                │
-├────────────────────────────────────────────────────────────────────┤
-│ state variables -> invariant -> allowed operations                 │
-│                                   │                                │
-│                                   ├─ precondition                  │
-│                                   ├─ state transition              │
-│                                   └─ postcondition                 │
-│ result: analyzable model before code exists                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Structure of a formal specification                                |
++--------------------------------------------------------------------+
+| state variables -> invariant -> allowed operations                 |
+|                                   |                                |
+|                                   +- precondition                  |
+|                                   +- state transition              |
+|                                   +- postcondition                 |
+| result: analyzable model before code exists                        |
++--------------------------------------------------------------------+
 ```
 
 즉 정형 언어의 힘은 "예쁘게 적는다"가 아니라, 명세를 분석 가능한 모델로 바꾸는 데 있다. 이 모델은 theorem proving, model checking, [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) derivation 같은 후속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동과도 자연스럽게 연결된다.
@@ -109,15 +109,15 @@ tags = ["software_engineering"]
 아래 판단 흐름은 어떤 수준의 명세 언어를 택할지 결정할 때 사용할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing the specification language                                │
-├────────────────────────────────────────────────────────────────────┤
-│ failure cost high or regulation strict?                            │
-│   ├─ yes -> formal core model (Z / VDM / proof-oriented review)    │
-│   └─ no                                                            │
-│        ├─ many teams need shared structure? -> semi-formal model   │
-│        └─ rapid discovery and change? -> informal text + examples  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Choosing the specification language                                |
++--------------------------------------------------------------------+
+| failure cost high or regulation strict?                            |
+|   +- yes -> formal core model (Z / VDM / proof-oriented review)    |
+|   +- no                                                            |
+|        +- many teams need shared structure? -> semi-formal model   |
+|        +- rapid discovery and change? -> informal text + examples  |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -167,17 +167,17 @@ tags = ["software_engineering"]
 
 ```text
 stakeholder need
-    │
-    ▼
+    |
+    v
 informal text and examples
-    │
-    ▼
+    |
+    v
 semi-formal models (UML / decision table)
-    │
-    ▼
+    |
+    v
 formal state + invariant + operation model
-    │
-    ▼
+    |
+    v
 verification / test derivation / auditability
 ```
 
@@ -195,7 +195,7 @@ verification / test derivation / auditability
 
 **진행 상황**: 175 / 973
 
-← **이전**: [174. 페어와이즈 (Pairwise) 우선순위 결정 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)
-**다음**: [176. 페트리 넷 (Petri Net) - 병행 시스템 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/) →
+<- **이전**: [174. 페어와이즈 (Pairwise) 우선순위 결정 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)
+**다음**: [176. 페트리 넷 (Petri Net) - 병행 시스템 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/) ->
 
 ---

@@ -22,7 +22,7 @@ tags = ["studynote-ai"]
 LoRA: W' = W + BA  (W: 동결, B·A: 학습)
   W: d×d (수십억 파라미터)
   B: d×r, A: r×d (r=8~64, 극소수)
-  → 학습 파라미터: 2dr (전체의 ~0.5%)
+  -> 학습 파라미터: 2dr (전체의 ~0.5%)
 ```
 
 - **📢 섹션 요약 비유**: LoRA는 <strong>건물(W)을 그대로 두고 간판(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/">BA</a>)만 바꾸는</strong> 것이다. 건물 전체를 리모델링하는 것보다 100배 빠르고 저렴하다.
@@ -48,9 +48,9 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Full Fine-tuning (2018)] → [Adapter (2019)]
-    → [LoRA (2021, Microsoft)] → [QLoRA (2023)]
-    → [DoRA (2024)] → [현재: LoRA+ · GaLore — 차세대]
+[Full Fine-tuning (2018)] -> [Adapter (2019)]
+    -> [LoRA (2021, Microsoft)] -> [QLoRA (2023)]
+    -> [DoRA (2024)] -> [현재: LoRA+ · GaLore — 차세대]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 **진행 상황**: 135 / 420
 
-← **이전**: [134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/134_peft/)
-**다음**: [136. Prompt Tuning - 소프트 프롬프트로 LLM 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/136_prompt_tuning/) →
+<- **이전**: [134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/134_peft/)
+**다음**: [136. Prompt Tuning - 소프트 프롬프트로 LLM 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/136_prompt_tuning/) ->
 
 ---

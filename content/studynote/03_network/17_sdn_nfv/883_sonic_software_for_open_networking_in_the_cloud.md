@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [화이트박스 OCP]
-    │
-    ▼
+    |
+    v
 [SONiC]
-    │
-    └──▶ [ONIE (Open Network Insta…]
+    |
+    +---> [ONIE (Open Network Insta…]
 ```
 
 - **📢 섹션 요약 비유**: SONiC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [화이트박스 OCP]
-    │
-    ▼
+    |
+    v
 [SONiC]
-    │
-    └──▶ [ONIE (Open Network Insta…]
+    |
+    +---> [ONIE (Open Network Insta…]
 ```
 
 - **📢 섹션 요약 비유**: SONiC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -110,12 +110,12 @@ SONiC는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_to
 
 ```text
 [선행 개념: 화이트박스 OCP]
-    │
-    ▼
+    |
+    v
 [현재 개념: SONiC]
-    │
-    ├──▶ [확장 A: ONIE (Open Network Insta…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: ONIE (Open Network Insta…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 SONiC는 화이트박스 OCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Insta…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -132,7 +132,7 @@ SONiC는 화이트박스 OCP에서 출발해 현재 메커니즘을 정교화하
 
 **진행 상황**: 1004 / 1120
 
-← **이전**: [882. OCP (오픈 컴퓨트 프로젝트)](/knowledge-base/studynote/03_network/17_sdn_nfv/882_ocp_open_compute_project_whitebox_hardware/)
-**다음**: [884. ONIE (오픈 네트워크 설치 환경)](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) →
+<- **이전**: [882. OCP (오픈 컴퓨트 프로젝트)](/knowledge-base/studynote/03_network/17_sdn_nfv/882_ocp_open_compute_project_whitebox_hardware/)
+**다음**: [884. ONIE (오픈 네트워크 설치 환경)](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) ->
 
 ---

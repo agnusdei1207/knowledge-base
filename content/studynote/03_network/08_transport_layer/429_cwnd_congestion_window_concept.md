@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 혼잡 제어]
-    │
-    ▼
+    |
+    v
 [혼잡 윈도우]
-    │
-    └──▶ [슬로우 스타트]
+    |
+    +---> [슬로우 스타트]
 ```
 
 - **📢 섹션 요약 비유**: ** CWND는 시각 장애인이 짚고 걷는 **"[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 지팡이의 길이"**입니다. 처음엔 짧게(1 MSS) 쥐고 걷다가, 앞이 뻥 뚫려있다는 감(ACK)이 오면 지팡이를 쭉 길게 뽑아(CWND 팽창) 보폭을 크게 넓혀 쾌속 질주를 시작합니다.
@@ -62,31 +62,31 @@ tags = ["studynote-network"]
 내 PC는 CWND 값을 어떻게 계산할까? 철저하게 <strong>상대방의 영수증(ACK)이 돌아오는 속도</strong>에 비례해서 숫자를 키운다. (이걸 Self-Clocking이라 부른다).
 
 - 시작: `CWND = 1` (상자 1개, 1460 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)). 택배 하나를 던진다.
-- 영수증 도착! "오! 1개 잘 갔네?" ──▶ `CWND = 2` (상자 2개 쏠 수 있음).
-- 2개 던짐. 영수증 2개 도착! "오 2개도 소화하네?" ──▶ `CWND = 4` (상자 4개 발사!).
-- 4개 던짐. 영수증 4개 도착! "길 완벽히 뚫림!!" ──▶ `CWND = 8`
+- 영수증 도착! "오! 1개 잘 갔네?" ---> `CWND = 2` (상자 2개 쏠 수 있음).
+- 2개 던짐. 영수증 2개 도착! "오 2개도 소화하네?" ---> `CWND = 4` (상자 4개 발사!).
+- 4개 던짐. 영수증 4개 도착! "길 완벽히 뚫림!!" ---> `CWND = 8`
 - 이런 식으로 ACK가 무사히 돌아올 때마다 내 CWND 창문은 풍선처럼 미친 듯이 팽창한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CWND 팽창과 수축의 드라마틱한 인생 그래프            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   CWND 크기 (패킷 개수)                                        │
- │   16 |           /|         /|                              │
- │   14 |         /  |       /  |                              │
- │   12 |       /    |     /    |                              │
- │   10 |     /      |   /      |                              │
- │    8 |   /        | /        |                              │
- │    4 | /          |          |                              │
- │    2 |/           |          |                              │
- │    1 *──(성장기)──* (절망)    * ──(다시 성장)                 │
- │                                                             │
- │   * 성장기: ACK가 제깍제깍 돌아와서 기분 좋게 CWND 창문을 마구 늘림.     │
- │   * 절망(Drop): 갑자기 영수증이 안 옴! "앗! 톨게이트 막혀서 다 터졌나 봐!"│
- │               ──▶ CWND 창문을 즉시 1로 박살 냄(수축).              │
- │   ▶ "이 CWND 크기를 늘리고 깎는 타이밍 기술이 곧 TCP의 혼잡 알고리즘이다!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                CWND 팽창과 수축의 드라마틱한 인생 그래프            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   CWND 크기 (패킷 개수)                                        |
+ |   16 |           /|         /|                              |
+ |   14 |         /  |       /  |                              |
+ |   12 |       /    |     /    |                              |
+ |   10 |     /      |   /      |                              |
+ |    8 |   /        | /        |                              |
+ |    4 | /          |          |                              |
+ |    2 |/           |          |                              |
+ |    1 *--(성장기)--* (절망)    * --(다시 성장)                 |
+ |                                                             |
+ |   * 성장기: ACK가 제깍제깍 돌아와서 기분 좋게 CWND 창문을 마구 늘림.     |
+ |   * 절망(Drop): 갑자기 영수증이 안 옴! "앗! 톨게이트 막혀서 다 터졌나 봐!"|
+ |               ---> CWND 창문을 즉시 1로 박살 냄(수축).              |
+ |   -> "이 CWND 크기를 늘리고 깎는 타이밍 기술이 곧 TCP의 혼잡 알고리즘이다!"|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 혼잡 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -143,12 +143,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: TCP 혼잡 제어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 혼잡 윈도우]
-    │
-    ├──▶ [확장 A: 슬로우 스타트]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 슬로우 스타트]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 혼잡 윈도우는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어에서 출발해 현재 메커니즘을 정교화하고, 이후 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 550 / 1120
 
-← **이전**: [428. TCP 혼잡 제어 (Congestion Control)](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)
-**다음**: [430. 슬로우 스타트 (Slow Start)](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) →
+<- **이전**: [428. TCP 혼잡 제어 (Congestion Control)](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)
+**다음**: [430. 슬로우 스타트 (Slow Start)](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) ->
 
 ---

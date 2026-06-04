@@ -31,27 +31,27 @@ tags = ["it_management"]
 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 핵심 아키텍처는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 버킷이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 들고 있는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>의 머리 (Head) 포인터</strong>만 들고 있다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  해시 테이블의 체인법 (Chaining) 구조          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Hash Function: key % 5]                                    │
-│                                                              │
-│  버킷 인덱스 (배열)          연결 리스트 (충돌된 데이터들 엮음)     │
-│  ┌─────┐                                                     │
-│  │  0  │──▶ [Key:A, Val:10] ──▶ [Key:F, Val:99] ──▶ Null   │
-│  ├─────┤                                                     │
-│  │  1  │──▶ Null (빈 버킷)                                  │
-│  ├─────┤                                                     │
-│  │  2  │──▶ [Key:C, Val:30] ──▶ Null                       │
-│  ├─────┤                                                     │
-│  │  3  │──▶ [Key:D, Val:40] ──▶ [Key:G, Val:77] ──▶ [Key:H]│
-│  ├─────┤                                                     │
-│  │  4  │──▶ [Key:E, Val:50] ──▶ Null                       │
-│  └─────┘                                                     │
-│                                                              │
-│  * 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  해시 테이블의 체인법 (Chaining) 구조          |
++--------------------------------------------------------------+
+|                                                              |
+|  [Hash Function: key % 5]                                    |
+|                                                              |
+|  버킷 인덱스 (배열)          연결 리스트 (충돌된 데이터들 엮음)     |
+|  +-----+                                                     |
+|  |  0  |---> [Key:A, Val:10] ---> [Key:F, Val:99] ---> Null   |
+|  +-----+                                                     |
+|  |  1  |---> Null (빈 버킷)                                  |
+|  +-----+                                                     |
+|  |  2  |---> [Key:C, Val:30] ---> Null                       |
+|  +-----+                                                     |
+|  |  3  |---> [Key:D, Val:40] ---> [Key:G, Val:77] ---> [Key:H]|
+|  +-----+                                                     |
+|  |  4  |---> [Key:E, Val:50] ---> Null                       |
+|  +-----+                                                     |
+|                                                              |
+|  * 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!) |
++--------------------------------------------------------------+
 ```
 
 검색이나 삭제를 할 때는 1차로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 찾아가고, 2차로 해당 인덱스에 매달린 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 순차 탐색(O(N))하여 일치하는 키를 찾아낸다.
@@ -114,17 +114,17 @@ tags = ["it_management"]
 
 ```text
 해시 테이블의 충돌 (Collision) 발생
-    │
-    ▼
+    |
+    v
 체인법 (Chaining) 도입 (연결 리스트로 묶음)
-    │
-    ▼
+    |
+    v
 임계치 초과 시 테이블 크기 2배 확장 및 재해싱 (Rehashing)
-    │
-    ▼
+    |
+    v
 보안 위협 (Hash DoS) 및 성능 저하 문제 직면
-    │
-    ▼
+    |
+    v
 데이터 8개 이상 충돌 시 O(log N) 탐색 보장을 위한 트리(Tree) 변환 아키텍처 결합
 ```
 
@@ -140,7 +140,7 @@ tags = ["it_management"]
 
 **진행 상황**: 190 / 587
 
-← **이전**: [103. 비즈니스 아키텍처 (BA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)
-**다음**: [104. 데이터 아키텍처 (DA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) →
+<- **이전**: [103. 비즈니스 아키텍처 (BA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)
+**다음**: [104. 데이터 아키텍처 (DA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) ->
 
 ---

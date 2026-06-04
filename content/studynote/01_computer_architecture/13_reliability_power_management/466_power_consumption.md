@@ -28,26 +28,26 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 전력 소모가 왜 시스템 전체의 병목이 되는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           전력 소모가 시스템 제약으로 번지는 흐름            │
-├──────────────────────────────────────────────────────────────┤
-│  더 많은 연산 요구                                            │
-│        │                                                      │
-│        ▼                                                      │
-│  스위칭 증가 / 전압·주파수 상승                               │
-│        │                                                      │
-│        ▼                                                      │
-│  칩 전력 증가                                                 │
-│        │                                                      │
-│  ┌─────┼───────────────┬───────────────────────────────┐      │
-│  ▼     ▼               ▼                               │      │
-│  발열  배터리 소모     전원부 부담                      │      │
-│  │     │               │                               │      │
-│  ▼     ▼               ▼                               │      │
-│  스로틀링  사용 시간 감소  냉각·패키지 비용 증가         │      │
-│        │               │                               │      │
-│        └─────── 시스템 성능/신뢰성 한계로 수렴 ─────────┘      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           전력 소모가 시스템 제약으로 번지는 흐름            |
++--------------------------------------------------------------+
+|  더 많은 연산 요구                                            |
+|        |                                                      |
+|        v                                                      |
+|  스위칭 증가 / 전압·주파수 상승                               |
+|        |                                                      |
+|        v                                                      |
+|  칩 전력 증가                                                 |
+|        |                                                      |
+|  +-----+---------------+-------------------------------+      |
+|  v     v               v                               |      |
+|  발열  배터리 소모     전원부 부담                      |      |
+|  |     |               |                               |      |
+|  v     v               v                               |      |
+|  스로틀링  사용 시간 감소  냉각·패키지 비용 증가         |      |
+|        |               |                               |      |
+|        +------- 시스템 성능/신뢰성 한계로 수렴 ---------+      |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 전력 소모가 단일 숫자가 아니라 연쇄 제약의 출발점이라는 점이다. 전력을 제어하지 못하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높여도 유지되지 않고, 배터리 기반 기기에서는 사용 시간이 급감하며, 서버에서는 랙 밀도와 냉각비가 먼저 한계에 도달한다.
@@ -66,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 실무적으로는 다음 식이 출발점이 된다.
 
 - `P_total = P_dynamic + P_static`
-- `P_dynamic ≈ α × C × V² × f`
+- `P_dynamic ≈ α × C × V^ × f`
 - `P_static ≈ V × I_leak`
 
 여기서 활동도 `α`는 실제로 스위칭하는 비율, `C`는 등가 커패시턴스, `V`는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), `f`는 클럭 주파수다. 이 식이 중요한 이유는 설계자가 줄일 수 있는 손잡이를 그대로 보여주기 때문이다. 불필요한 회로를 멈추면 `α`를 낮출 수 있고, 배선을 최적화하면 `C`를 줄일 수 있으며, 동적 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 및 주파수 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) ([DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)은 `V`와 `f`를 함께 조정한다.
@@ -75,24 +75,24 @@ tags = ["studynote-computer-architecture"]
 | :-- | :-- | :-- | :-- |
 | 활동도 `α` | 스위칭 비율 | 매 사이클 더 많은 로직이 움직임 | [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)) |
 | 커패시턴스 `C` | 충전해야 할 전하량 | 배선 길이·팬아웃 증가 | 배선/로직 최적화 |
-| [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) `V` | 스위칭 구동력 | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)에 `V²`로 반영 | 저전압 운용, [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) |
+| [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) `V` | 스위칭 구동력 | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)에 `V^`로 반영 | 저전압 운용, [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) |
 | 주파수 `f` | 초당 스위칭 횟수 | 더 자주 충전·방전 | 주파수 하향, 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) `I_leak` | 유휴 중 새는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | 미세 공정에서 급증 | 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) |
 
 아래 그림은 총 전력이 어떤 경로로 발생하는지 압축해서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                총 전력 = 움직일 때 + 멈춰 있을 때            │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 부하                                                     │
-│   │                                                          │
-│   ├─ 연산 많음 ──▶ 스위칭 증가 ──▶ α·C·V²·f 증가 ──▶ 동적 전력 │
-│   │                                                          │
-│   └─ 대기 상태 ──▶ 누설 전류 지속 ───────────────▶ 정적 전력   │
-│                                                              │
-│ 동적 전력 + 정적 전력 ──▶ 총 전력 ──▶ 열 발생 ──▶ 온도 상승    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                총 전력 = 움직일 때 + 멈춰 있을 때            |
++--------------------------------------------------------------+
+| 입력 부하                                                     |
+|   |                                                          |
+|   +- 연산 많음 ---> 스위칭 증가 ---> α·C·V^·f 증가 ---> 동적 전력 |
+|   |                                                          |
+|   +- 대기 상태 ---> 누설 전류 지속 ----------------> 정적 전력   |
+|                                                              |
+| 동적 전력 + 정적 전력 ---> 총 전력 ---> 열 발생 ---> 온도 상승    |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 특히 기억해야 할 것은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 영향력이다. 주파수는 선형으로, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 제곱으로 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)을 키운다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 조금 더 필요하다고 무심코 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 주파수를 함께 올리면 소비 전력과 발열은 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 더 가파르게 증가한다.
@@ -177,21 +177,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고클럭 중심 설계
-    │
-    ▼
+    |
+    v
 동적 전력 (Dynamic Power) 중심 분석
-    │
-    ├──▶ DVFS (Dynamic Voltage and Frequency Scaling)
-    │
-    ▼
+    |
+    +---> DVFS (Dynamic Voltage and Frequency Scaling)
+    |
+    v
 정적 전력 (Static Power)·누설 전류 중요성 확대
-    │
-    ├──▶ 파워 게이팅 (Power Gating)
-    │
-    ▼
+    |
+    +---> 파워 게이팅 (Power Gating)
+    |
+    v
 전력 벽 (Power Wall)과 멀티코어 전환
-    │
-    ▼
+    |
+    v
 성능 대 와트 비 중심의 시스템 최적화
 ```
 
@@ -209,7 +209,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 467 / 803
 
-← **이전**: [465. 락스텝 (Lockstep) 아키텍처](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)
-**다음**: [467. 동적 전력 (Dynamic Power)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) →
+<- **이전**: [465. 락스텝 (Lockstep) 아키텍처](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)
+**다음**: [467. 동적 전력 (Dynamic Power)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ->
 
 ---

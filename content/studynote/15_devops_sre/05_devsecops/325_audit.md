@@ -32,19 +32,19 @@ Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│               DevSecOps 파이프라인 보안 게이트               │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  계획    →  코드    →  빌드    →  테스트  →  배포  →  운영  │
-│   │          │          │          │         │        │    │
-│  위협       SAST       SCA       DAST      IaC      CSPM  │
-│  모델링   (정적 분석)  (의존성)  (동적 분석) 스캔   CWPP   │
-│  STRIDE   시크릿 탐지  CVE 스캔  API 퓨징  정책    모니터링 │
-│                                                            │
-│  ← ← ← ← ← Shift-Left (보안 조기 발견) ← ← ← ← ← ← ←   │
-│  → → → → → Shift-Right (프로덕션 보안 관찰) → → → → →    │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|               DevSecOps 파이프라인 보안 게이트               |
++------------------------------------------------------------+
+|                                                            |
+|  계획    ->  코드    ->  빌드    ->  테스트  ->  배포  ->  운영  |
+|   |          |          |          |         |        |    |
+|  위협       SAST       SCA       DAST      IaC      CSPM  |
+|  모델링   (정적 분석)  (의존성)  (동적 분석) 스캔   CWPP   |
+|  STRIDE   시크릿 탐지  CVE 스캔  API 퓨징  정책    모니터링 |
+|                                                            |
+|  <- <- <- <- <- Shift-Left (보안 조기 발견) <- <- <- <- <- <- <-   |
+|  -> -> -> -> -> Shift-Right (프로덕션 보안 관찰) -> -> -> -> ->    |
++------------------------------------------------------------+
 ```
 
 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 6가지 위협 범주의 두문자어다:
@@ -88,7 +88,7 @@ Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관�
 - **Level 1**: 수동 보안 검토
 - **Level 2**: CI에 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 통합
 - **Level 3**: [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/), [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 스캔 자동화
-- **Level 4**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) → 런타임 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화
+- **Level 4**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) -> 런타임 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화
 
 > 📢 **섹션 요약 비유**: 보안 게이트는 고속도로 톨게이트다. 모든 차를 정지시키면 교통이 막히고, 아무 차나 통과시키면 위험하다. 빠른 자동 검사 + 의심 차량만 정밀 검사가 이상적이다.
 
@@ -119,8 +119,8 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 
 ```text
 전통 보안 시대            DevSecOps 등장               자동화 성숙 시대
-─────────────────   ──────────────────────────   ────────────────────────
-출시 전 1회 검수   →  SAST/DAST CI 통합        →  전 파이프라인 보안 자동화
+-----------------   --------------------------   ------------------------
+출시 전 1회 검수   ->  SAST/DAST CI 통합        ->  전 파이프라인 보안 자동화
 보안팀 단독 책임       Security Champion 도입       AI 기반 취약점 예측
 수동 침투 테스트       위협 모델링 도구화              Policy as Code
                         STRIDE/PASTA 표준화             CNAPP 통합 보안
@@ -138,7 +138,7 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 
 **진행 상황**: 325 / 373
 
-← **이전**: [Chaos 엔진ering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/)
-**다음**: [326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/) →
+<- **이전**: [Chaos 엔진ering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/)
+**다음**: [326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/) ->
 
 ---

@@ -24,15 +24,15 @@ tags = ["studynote-algorithm"]
 단조 감소 스택 (Next Greater Element 찾기):
   배열: [2, 1, 4, 3, 5]
 
-  push 2 → [2]
-  push 1 → [2, 1]  (1 < 2이므로 그냥 push)
-  push 4 → 4 > 1: pop 1 → 1의 NGE=4
-           4 > 2: pop 2 → 2의 NGE=4
-           → [4]
-  push 3 → [4, 3]  (3 < 4이므로 그냥 push)
-  push 5 → 5 > 3: pop 3 → 3의 NGE=5
-           5 > 4: pop 4 → 4의 NGE=5
-           → [5]
+  push 2 -> [2]
+  push 1 -> [2, 1]  (1 < 2이므로 그냥 push)
+  push 4 -> 4 > 1: pop 1 -> 1의 NGE=4
+           4 > 2: pop 2 -> 2의 NGE=4
+           -> [4]
+  push 3 -> [4, 3]  (3 < 4이므로 그냥 push)
+  push 5 -> 5 > 3: pop 3 -> 3의 NGE=5
+           5 > 4: pop 4 -> 4의 NGE=5
+           -> [5]
 
   결과 NGE: [4, 4, 5, 5, -1]
 ```
@@ -50,12 +50,12 @@ def next_greater_element(nums):
     stack = []  # 인덱스 저장
 
     for i in range(n):
-        # 현재 값이 스택 top보다 크면 → pop하고 NGE 기록
+        # 현재 값이 스택 top보다 크면 -> pop하고 NGE 기록
         while stack and nums[i] > nums[stack[-1]]:
             idx = stack.pop()
             result[idx] = nums[i]
         stack.append(i)
-    # 스택에 남은 인덱스 → NGE 없음 (-1 그대로)
+    # 스택에 남은 인덱스 -> NGE 없음 (-1 그대로)
     return result
 
 # 예시
@@ -112,7 +112,7 @@ def sliding_window_max(nums, k):
         # 윈도우 범위 밖 원소 제거 (앞에서)
         while dq and dq[0] < i - k + 1:
             dq.popleft()
-        # 현재 값보다 작은 원소 제거 (뒤에서) → 단조 감소 유지
+        # 현재 값보다 작은 원소 제거 (뒤에서) -> 단조 감소 유지
         while dq and nums[dq[-1]] < nums[i]:
             dq.pop()
         dq.append(i)
@@ -151,17 +151,17 @@ def sliding_window_max(nums, k):
 
 ```
 단조 스택/큐
-├── 단조 스택 (Monotonic Stack)
-│   ├── 단조 증가 스택 (Next Smaller Element)
-│   └── 단조 감소 스택 (Next Greater Element)
-├── 주요 응용
-│   ├── NGE / NSE 찾기
-│   ├── 히스토그램 최대 직사각형 (LC 84)
-│   └── 빗물 트래핑 (LC 42)
-├── 단조 큐 (Monotonic Deque)
-│   └── 슬라이딩 윈도우 최대/최소 (LC 239)
-└── 복잡도
-    └── O(n) — 각 원소 최대 2회 처리
++-- 단조 스택 (Monotonic Stack)
+|   +-- 단조 증가 스택 (Next Smaller Element)
+|   +-- 단조 감소 스택 (Next Greater Element)
++-- 주요 응용
+|   +-- NGE / NSE 찾기
+|   +-- 히스토그램 최대 직사각형 (LC 84)
+|   +-- 빗물 트래핑 (LC 42)
++-- 단조 큐 (Monotonic Deque)
+|   +-- 슬라이딩 윈도우 최대/최소 (LC 239)
++-- 복잡도
+    +-- O(n) — 각 원소 최대 2회 처리
 ```
 
 ---
@@ -169,22 +169,22 @@ def sliding_window_max(nums, k):
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              단조 스택 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1980년대     │ 스택 자료구조 성숙  │ LIFO 기본 연산 정립          │
-│ 1990년대     │ 히스토그램 문제    │ Largest Rectangle 알고리즘   │
-│ 2000년대     │ 프로그래밍 대회    │ 코딩 인터뷰 핵심 패턴화      │
-│ 2010년대     │ LeetCode 보급      │ 단조 스택 유형 문제 체계화   │
-│ 2020년대     │ 슬라이딩 윈도우    │ 단조 큐 + DP 결합 문제 증가  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              단조 스택 발전 흐름                                 |
++--------------+--------------------+-----------------------------+
+| 1980년대     | 스택 자료구조 성숙  | LIFO 기본 연산 정립          |
+| 1990년대     | 히스토그램 문제    | Largest Rectangle 알고리즘   |
+| 2000년대     | 프로그래밍 대회    | 코딩 인터뷰 핵심 패턴화      |
+| 2010년대     | LeetCode 보급      | 단조 스택 유형 문제 체계화   |
+| 2020년대     | 슬라이딩 윈도우    | 단조 큐 + DP 결합 문제 증가  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-스택 → 단조 스택 → NGE/NSE → 히스토그램
-  ↓         ↓           ↓           ↓
+스택 -> 단조 스택 -> NGE/NSE -> 히스토그램
+  v         v           v           v
 LIFO   원소 단조성   가장 가까운  최대 면적
-  ↓
-단조 큐 → 슬라이딩 윈도우 최대 → O(n) 최적화
+  v
+단조 큐 -> 슬라이딩 윈도우 최대 -> O(n) 최적화
 ```
 
 ---
@@ -201,7 +201,7 @@ LIFO   원소 단조성   가장 가까운  최대 면적
 
 **진행 상황**: 92 / 175
 
-← **이전**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/091_b_tree/)
-**다음**: [스킵 리스트 (Skip List)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/093_skip_list/) →
+<- **이전**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/091_b_tree/)
+**다음**: [스킵 리스트 (Skip List)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/093_skip_list/) ->
 
 ---

@@ -26,19 +26,19 @@ Thunderbolt는 이 모순을 해결하기 위해 "외부 장치를 단순 주변
 이 섹션의 핵심은 Thunderbolt가 단순 고속 케이블이 아니라 "외부화된 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)"라는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│     Thunderbolt가 해결한 문제: 얇은 본체와 높은 확장성의 충돌      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 초박형 노트북                일반 외부 포트                 사용 요구 │
-│ ┌──────────────┐            ┌──────────────┐               ┌───────┐ │
-│ │ 내부 공간 협소 │ ───────▶ │ 포트 수 감소   │ ───────▶    │ 모니터 │ │
-│ │ 발열 여유 제한 │            │ 기능 분산      │               │ SSD   │ │
-│ └──────────────┘            └──────────────┘               │ LAN   │ │
-│          │                                                   │ 충전  │ │
-│          └──────────────────────┬────────────────────────────┴───────┘ │
-│                                 ▼                                      │
-│                  Thunderbolt: 하나의 링크로 통합                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|     Thunderbolt가 해결한 문제: 얇은 본체와 높은 확장성의 충돌      |
++----------------------------------------------------------------------+
+| 초박형 노트북                일반 외부 포트                 사용 요구 |
+| +--------------+            +--------------+               +-------+ |
+| | 내부 공간 협소 | --------> | 포트 수 감소   | -------->    | 모니터 | |
+| | 발열 여유 제한 |            | 기능 분산      |               | SSD   | |
+| +--------------+            +--------------+               | LAN   | |
+|          |                                                   | 충전  | |
+|          +----------------------+----------------------------+-------+ |
+|                                 v                                      |
+|                  Thunderbolt: 하나의 링크로 통합                        |
++----------------------------------------------------------------------+
 ```
 
 이 그림은 "얇아질수록 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 줄지만 요구 기능은 늘어나는" 구조적 충돌을 보여준다. Thunderbolt는 이 충돌을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수 증가가 아니라 링크 통합으로 풀었다.
@@ -64,31 +64,31 @@ Thunderbolt의 핵심 원리는 여러 [프로토콜](/knowledge-base/studynote/
 다음 그림은 Thunderbolt가 단순 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크가 아니라 여러 계층을 동시에 품는 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Thunderbolt의 터널링 구조                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host CPU/칩셋                                                       │
-│ ┌─────────────┐  ┌──────────────┐  ┌──────────────────────────────┐ │
-│ │ PCIe Root   │  │ DisplayPort  │  │ USB-PD Controller           │ │
-│ │ Complex     │  │ Source       │  │                              │ │
-│ └──────┬──────┘  └──────┬───────┘  └──────────────┬───────────────┘ │
-│        │                │                         │                 │
-│        ├────────────────┼──────────────┬──────────┤                 │
-│        ▼                ▼              ▼                            │
-│               ┌────────────────────────────────────┐                │
-│               │ Thunderbolt Controller             │                │
-│               │ - Tunneling / Flow Control         │                │
-│               │ - Link Training / Security         │                │
-│               └────────────────┬───────────────────┘                │
-│                                │                                    │
-│                      USB Type-C Cable / Link                         │
-│                                │                                    │
-│               ┌────────────────▼───────────────────┐                │
-│               │ Dock / Monitor / eGPU Controller  │                │
-│               └───────┬───────────────┬───────────┘                │
-│                       │               │                            │
-│                    PCIe Dev       Display Sink                Power │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Thunderbolt의 터널링 구조                        |
++----------------------------------------------------------------------+
+| Host CPU/칩셋                                                       |
+| +-------------+  +--------------+  +------------------------------+ |
+| | PCIe Root   |  | DisplayPort  |  | USB-PD Controller           | |
+| | Complex     |  | Source       |  |                              | |
+| +------+------+  +------+-------+  +--------------+---------------+ |
+|        |                |                         |                 |
+|        +----------------+--------------+----------+                 |
+|        v                v              v                            |
+|               +------------------------------------+                |
+|               | Thunderbolt Controller             |                |
+|               | - Tunneling / Flow Control         |                |
+|               | - Link Training / Security         |                |
+|               +----------------+-------------------+                |
+|                                |                                    |
+|                      USB Type-C Cable / Link                         |
+|                                |                                    |
+|               +----------------v-------------------+                |
+|               | Dock / Monitor / eGPU Controller  |                |
+|               +-------+---------------+-----------+                |
+|                       |               |                            |
+|                    PCIe Dev       Display Sink                Power |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 중요성은 "[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 바꾸지 않고 운반 방식만 통합"했다는 데 있다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 장치 드라이버는 기존 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)·DisplayPort 생태계를 상당 부분 재사용할 수 있다.
@@ -169,17 +169,17 @@ Thunderbolt의 가장 큰 효과는 휴대용 기기와 고성능 작업 환경 
 
 ```text
 내부 확장 버스의 외부화 요구
-        │
-        ▼
+        |
+        v
 PCIe (Peripheral Component Interconnect Express) 터널링
-        │
-        ▼
+        |
+        v
 DisplayPort 통합 · 단일 케이블 도킹
-        │
-        ▼
+        |
+        v
 Thunderbolt 3/4 + USB Type-C 대중화
-        │
-        ▼
+        |
+        v
 USB4 융합 · Thunderbolt 5 고대역폭 확장
 ```
 
@@ -197,7 +197,7 @@ USB4 융합 · Thunderbolt 5 고대역폭 확장
 
 **진행 상황**: 361 / 803
 
-← **이전**: [359. USB (Universal Serial Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)
-**다음**: [361. 인피니밴드 (InfiniBand)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) →
+<- **이전**: [359. USB (Universal Serial Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)
+**다음**: [361. 인피니밴드 (InfiniBand)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ->
 
 ---

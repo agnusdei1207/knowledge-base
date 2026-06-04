@@ -40,22 +40,22 @@ tags = ["studynote-bigdata"]
    여러 개의 약한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 결합하여 강력한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 만드는 기법이다. 트리를 병렬로 만드는 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))나 순차적으로 오차를 보완하는 LightGBM (Light [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) Machine)이 대표적이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 [ 주요 분류 알고리즘의 결정 경계 ]          │
-├─────────────────────────────────────────────────────────────┤
-│ 1. Logistic Regression      2. Decision Tree                │
-│       │   ●   ●             │ ┌───────┐ ┌───────┐         │
-│     ● │ ●   ●               │ │   ●   │ │ ●   ● │         │
-│  ─────┼──────── (선형)      │ └───────┘ └───────┘ (계단형)│
-│   ▲   │   ▲                 │   ▲   ┌───────┐             │
-│   ▲ ▲│                     │   ▲ ▲│   ▲   │             │
-│                                                             │
-│ 3. SVM (Kernel Trick)       4. Ensemble (Random Forest)     │
-│       │     ●               │    복수의 결정 트리가 다수결로  │
-│    ●  (  ●    )  (비선형)   │    투표하여 가장 안정적이고   │
-│   ▲ ▲  \   ●               │    복잡한 비선형 경계를 형성  │
-│   ▲   │   ▲                 │                               │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 [ 주요 분류 알고리즘의 결정 경계 ]          |
++-------------------------------------------------------------+
+| 1. Logistic Regression      2. Decision Tree                |
+|       |   ●   ●             | +-------+ +-------+         |
+|     ● | ●   ●               | |   ●   | | ●   ● |         |
+|  -----+-------- (선형)      | +-------+ +-------+ (계단형)|
+|   ^   |   ^                 |   ^   +-------+             |
+|   ^ ^|                     |   ^ ^|   ^   |             |
+|                                                             |
+| 3. SVM (Kernel Trick)       4. Ensemble (Random Forest)     |
+|       |     ●               |    복수의 결정 트리가 다수결로  |
+|    ●  (  ●    )  (비선형)   |    투표하여 가장 안정적이고   |
+|   ^ ^  \   ●               |    복잡한 비선형 경계를 형성  |
+|   ^   |   ^                 |                               |
++-------------------------------------------------------------+
 ```
 
 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 모델을 학습한 후에는 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))을 통해 예측값과 실제 정답을 교차 검증하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가한다.
@@ -118,17 +118,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 분류 (Classification) 방법론의 진화
-    │
-    ▼
+    |
+    v
 규칙 기반 분류 (인간이 직접 if-else 하드코딩)
-    │
-    ▼
+    |
+    v
 통계/수학적 기계 학습 (Logistic Regression, SVM, Decision Tree)
-    │
-    ▼
+    |
+    v
 앙상블 학습 (Random Forest, XGBoost, LightGBM - 다수결로 성능 극대화)
-    │
-    ▼
+    |
+    v
 딥러닝 기반 분류 & XAI (신경망 도입 및 SHAP을 통한 결과 설명력 확보)
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 197 / 587
 
-← **이전**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
-**다음**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) →
+<- **이전**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
+**다음**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) ->
 
 ---

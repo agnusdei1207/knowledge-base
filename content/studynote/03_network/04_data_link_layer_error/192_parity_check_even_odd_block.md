@@ -36,11 +36,11 @@ tags = ["studynote-network"]
 
 ```text
 [역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
+    |
+    v
 [패리티 검사]
-    │
-    └──▶ [검사합]
+    |
+    +---> [검사합]
 ```
 
 - **📢 섹션 요약 비유**: 패리티 검사는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -61,11 +61,11 @@ tags = ["studynote-network"]
 
 ```text
 [역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
+    |
+    v
 [패리티 검사]
-    │
-    └──▶ [검사합]
+    |
+    +---> [검사합]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 패리티 검사는 소풍 갈 때 선생님이 </strong>"우리 반은 무조건 짝수(30명)여야 출발한다!"**고 세는 것과 같습니다. 한 명이 도망가면(29명) 바로 눈치채지만, 2명이 동시에 도망가고 다른 반 학생 2명이 몰래 껴들어 오면(2비트 에러), 총원은 30명으로 유지되어 선생님이 전혀 눈치채지 못하고 출발해 버리는 허술한 출석 체크입니다. 이차원 패리티는 이를 가로세로 분단별로 두 번 세는 철저한 방식입니다.
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
+    |
+    v
 [현재 개념: 패리티 검사]
-    │
-    ├──▶ [확장 A: 검사합]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 검사합]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 패리티 검사는 역방향 에러 수정 / 자동 재전송 요청에서 출발해 현재 메커니즘을 정교화하고, 이후 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 313 / 1120
 
-← **이전**: [191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)](/knowledge-base/studynote/03_network/04_data_link_layer_error/191_arq_automatic_repeat_request_types/)
-**다음**: [193. 검사합 (Checksum)](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/) →
+<- **이전**: [191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)](/knowledge-base/studynote/03_network/04_data_link_layer_error/191_arq_automatic_repeat_request_types/)
+**다음**: [193. 검사합 (Checksum)](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/) ->
 
 ---

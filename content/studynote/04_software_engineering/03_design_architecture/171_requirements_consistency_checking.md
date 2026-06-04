@@ -26,14 +26,14 @@ tags = ["studynote-software-engineering"]
 아래 그림은 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구가 어떻게 같은 문서 안에서 충돌하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Multiple stakeholder inputs can collide                     │
-├──────────────────────────────────────────────────────────────┤
-│ marketing -> "signup < 1 min"                               │
-│ security  -> "video KYC required"                           │
-│ operations -> "manual approval in business hours"           │
-│ one SRS without reconciliation -> incompatible expectations │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Multiple stakeholder inputs can collide                     |
++--------------------------------------------------------------+
+| marketing -> "signup < 1 min"                               |
+| security  -> "video KYC required"                           |
+| operations -> "manual approval in business hours"           |
+| one SRS without reconciliation -> incompatible expectations |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 요구사항 충돌이 개발자의 구현 실수보다 더 앞선 단계에서 생긴다는 점이다. 여기서의 문제는 "누가 틀렸는가"가 아니라 "어떤 우선순위와 예외 규칙으로 조정할 것인가"다. 따라서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지이면서 동시에 의사결정 정리 활동이다.
@@ -57,16 +57,16 @@ tags = ["studynote-software-engineering"]
 아래 그림은 실무에서 많이 쓰는 기본 흐름이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Consistency checking pipeline                               │
-├──────────────────────────────────────────────────────────────┤
-│ glossary -> requirement IDs -> traceability matrix          │
-│                   │                                          │
-│                   ├─ logic / state / data checks            │
-│                   ├─ unit / range / timing checks           │
-│                   └─ interface / role conflict checks       │
-│ issue log -> resolution -> baseline update                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Consistency checking pipeline                               |
++--------------------------------------------------------------+
+| glossary -> requirement IDs -> traceability matrix          |
+|                   |                                          |
+|                   +- logic / state / data checks            |
+|                   +- unit / range / timing checks           |
+|                   +- interface / role conflict checks       |
+| issue log -> resolution -> baseline update                  |
++--------------------------------------------------------------+
 ```
 
 이 흐름에서 중요한 것은 발견만 하고 끝내지 않는다는 점이다. 충돌이 발견되면 우선순위, 예외 처리, 분리 설계, 문구 수정 중 하나로 해소해야 하며, 그 결과가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))에 다시 반영되어야 한다. 그렇지 않으면 같은 모순이 리뷰 때마다 반복된다.
@@ -101,18 +101,18 @@ tags = ["studynote-software-engineering"]
 실무에서는 프로젝트 특성에 맞는 검사 강도를 정해야 한다. 단순 웹 서비스라도 최소한 용어집, 요구사항 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/), 시나리오 기반 교차 검토는 필요하다. 반면 금융·의료·철도·항공처럼 규제와 안전이 중요한 시스템은 상태 모델, 인터페이스 계약, 정형 제약까지 동원해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ How much rigor is enough?                                   │
-├──────────────────────────────────────────────────────────────┤
-│ safety / legal risk high?                                   │
-│   ├─ yes -> model analysis + formal constraints             │
-│   └─ no                                                     │
-│       │                                                     │
-│       ▼                                                     │
-│ many teams or interfaces involved?                          │
-│   ├─ yes -> glossary, matrix, interface catalog mandatory   │
-│   └─ no  -> peer review + scenario walkthrough minimum      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| How much rigor is enough?                                   |
++--------------------------------------------------------------+
+| safety / legal risk high?                                   |
+|   +- yes -> model analysis + formal constraints             |
+|   +- no                                                     |
+|       |                                                     |
+|       v                                                     |
+| many teams or interfaces involved?                          |
+|   +- yes -> glossary, matrix, interface catalog mandatory   |
+|   +- no  -> peer review + scenario walkthrough minimum      |
++--------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -164,17 +164,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 이해관계자 요구 수집
-    │
-    ▼
+    |
+    v
 용어집 · 식별자 · 기준선 정리
-    │
-    ▼
+    |
+    v
 일관성 규칙 적용
-    │
-    ├──────────────▶ 논리 충돌
-    ├──────────────▶ 상태 · 시간 충돌
-    ├──────────────▶ 데이터 · 인터페이스 충돌
-    ▼
+    |
+    +---------------> 논리 충돌
+    +---------------> 상태 · 시간 충돌
+    +---------------> 데이터 · 인터페이스 충돌
+    v
 해소 결정 · 문서 갱신 · 설계/테스트 반영
 ```
 
@@ -192,7 +192,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 171 / 973
 
-← **이전**: [170. 도메인 분석 (Domain Analysis)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)
-**다음**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) →
+<- **이전**: [170. 도메인 분석 (Domain Analysis)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)
+**다음**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) ->
 
 ---

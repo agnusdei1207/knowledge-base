@@ -21,20 +21,20 @@ tags = ["studynote-devops-sre"]
 백엔드는 MSA로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 배포가 가능하지만, 프론트엔드는 여전히 하나의 거대 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) App)로 묶여있는 경우가 많다. 10개 팀이 1개 프론트엔드 repo에서 코드를 수정하면 <strong>머지 충돌·빌드 시간 폭발·배포 큐 대기</strong>가 발생한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    모놀리식 FE vs 마이크로 프론트엔드                   │
-├───────────────────────────────────────────────────────┤
-│  [모놀리식 FE]                                        │
-│   10팀 → 1개 Repo → 1개 빌드 → 1개 배포              │
-│   → 머지 충돌, 빌드 30분, 배포 큐 대기                │
-│                                                       │
-│  [마이크로 FE]                                        │
-│   팀 A: 검색 FE → 독립 Repo → 독립 배포              │
-│   팀 B: 결제 FE → 독립 Repo → 독립 배포              │
-│   팀 C: 상품 FE → 독립 Repo → 독립 배포              │
-│         ↓          ↓          ↓                       │
-│   Shell App (호스트)가 런타임에 합체                   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    모놀리식 FE vs 마이크로 프론트엔드                   |
++-------------------------------------------------------+
+|  [모놀리식 FE]                                        |
+|   10팀 -> 1개 Repo -> 1개 빌드 -> 1개 배포              |
+|   -> 머지 충돌, 빌드 30분, 배포 큐 대기                |
+|                                                       |
+|  [마이크로 FE]                                        |
+|   팀 A: 검색 FE -> 독립 Repo -> 독립 배포              |
+|   팀 B: 결제 FE -> 독립 Repo -> 독립 배포              |
+|   팀 C: 상품 FE -> 독립 Repo -> 독립 배포              |
+|         v          v          v                       |
+|   Shell App (호스트)가 런타임에 합체                   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 모놀리식 FE는 10명이 1개 도화지에 동시에 그림을 그리는 것이고, 마이크로 FE는 각자 캔버스에 그린 후 전시회([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) App)에서 합치는 것이다.
@@ -79,7 +79,7 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 3. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong>: [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) breaking change 시 Semantic [Versioning](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) 엄수.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **3팀 미만에서 마이크로 FE 도입**: 인프라 복잡도만 증가하고 배포 병목이 없음 → 모놀리식 유지가 효율적.
+- **3팀 미만에서 마이크로 FE 도입**: 인프라 복잡도만 증가하고 배포 병목이 없음 -> 모놀리식 유지가 효율적.
 
 ---
 
@@ -99,7 +99,7 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a>)</strong> | 백엔드 독립 배포 → 프론트엔드로 확장 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a>)</strong> | 백엔드 독립 배포 -> 프론트엔드로 확장 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/">Module Federation</a></strong> | Webpack 5 런타임 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 공유 기술 |
 | **Single-SPA** | 프레임워크 혼용 마이크로 FE 오케스트레이터 |
 | **Design System** | UX [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하는 공유 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
@@ -109,17 +109,17 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 ```text
 [모놀리식 SPA (2010s) — React/Angular 단일 앱]
-    │
-    ▼
+    |
+    v
 [iframe 기반 분리 (초기) — 완벽 격리, 나쁜 UX]
-    │
-    ▼
+    |
+    v
 [Single-SPA (2018~) — 라우팅 기반 FE 오케스트레이션]
-    │
-    ▼
+    |
+    v
 [Webpack Module Federation (2020) — 런타임 코드 공유]
-    │
-    ▼
+    |
+    v
 [현재: Vite Federation + SSR — 차세대 마이크로 FE 표준]
 ```
 
@@ -134,7 +134,7 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 **진행 상황**: 111 / 373
 
-← **이전**: [110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)
-**다음**: [112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/112_serverless_framework_deployment/) →
+<- **이전**: [110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)
+**다음**: [112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/112_serverless_framework_deployment/) ->
 
 ---

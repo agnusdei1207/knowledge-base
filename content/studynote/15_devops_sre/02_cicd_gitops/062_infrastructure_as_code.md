@@ -31,15 +31,15 @@ IaC는 이 문제를 코드와 [버전](/knowledge-base/studynote/03_network/06_
 
 ```text
 Git / HCL / YAML
-  ↓
+  v
 Plan
-  ↓
+  v
 Apply
-  ↓
+  v
 Provider
-  ↓
+  v
 Cloud API
-  ↓
+  v
 Resources
 ```
 
@@ -117,13 +117,13 @@ IaC가 자리 잡으면 환경 [생성](/knowledge-base/studynote/02_operating_s
 
 ```text
 Git
-  ↓
+  v
 IaC Code
-  ↓
+  v
 Plan / Apply
-  ↓
+  v
 State / Provider
-  ↓
+  v
 Cloud Resources
 ```
 
@@ -133,11 +133,11 @@ Cloud Resources
 
 ```text
 수동 운영
-  ↓
+  v
 스크립트 자동화
-  ↓
+  v
 IaC
-  ↓
+  v
 GitOps / Policy as Code
 ```
 
@@ -155,7 +155,7 @@ IaC는 컴퓨터 세상을 설계도로 관리하는 방법이에요.
 
 **진행 상황**: 62 / 373
 
-← **이전**: [61. Helm Charts (헬름 차트) - 쿠버네티스 패키징](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/)
-**다음**: [63. Terraform vs Ansible](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/063_terraform_ansible/) →
+<- **이전**: [61. Helm Charts (헬름 차트) - 쿠버네티스 패키징](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/)
+**다음**: [63. Terraform vs Ansible](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/063_terraform_ansible/) ->
 
 ---

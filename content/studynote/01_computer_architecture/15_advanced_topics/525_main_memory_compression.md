@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 "조금의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드"가 "큰 계층 이동 비용"보다 유리할 수 있는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Working Set = 96 GB, Physical DRAM = 64 GB                                │
-│                                                                            │
-│ [비압축] 64 GB DRAM ── 초과 32 GB ──▶ swap / 원격 메모리                   │
-│                                  │                                         │
-│                                  └─ page fault, I/O, 수백 ns ~ ms 비용     │
-│                                                                            │
-│ [압축]   64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용                         │
-│                                  │                                         │
-│                                  └─ 메타데이터 조회 + 해제 지연 수십 ns     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증              |
++----------------------------------------------------------------------------+
+| Working Set = 96 GB, Physical DRAM = 64 GB                                |
+|                                                                            |
+| [비압축] 64 GB DRAM -- 초과 32 GB ---> swap / 원격 메모리                   |
+|                                  |                                         |
+|                                  +- page fault, I/O, 수백 ns ~ ms 비용     |
+|                                                                            |
+| [압축]   64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용                         |
+|                                  |                                         |
+|                                  +- 메타데이터 조회 + 해제 지연 수십 ns     |
++----------------------------------------------------------------------------+
 ```
 
 물론 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1.5배로 잘 접히는 것은 아니다. 그러나 0 값이 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 유사한 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/), 희소 행렬처럼 규칙성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 커서 로컬 메모리에 더 오래 남을 수 있다. 반대로 이미 암호화되었거나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 작으므로, 결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 "무엇을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할지"를 똑똑하게 고르는 일이다.
@@ -49,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심 경로는 `분류 → 압축 → 배치 → 메타데이터 기록 → 필요 시 해제`로 정리된다. 구현 위치는 크게 두 가지다. 하나는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 풀을 관리하는 방식이고, 다른 하나는 메모리 컨트롤러나 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 하단에서 캐시라인 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 방식이다. 후자가 더 빠르지만 하드웨어 복잡도가 높고, 전자가 더 유연하지만 소프트웨어 개입 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다.
+메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심 경로는 `분류 -> 압축 -> 배치 -> 메타데이터 기록 -> 필요 시 해제`로 정리된다. 구현 위치는 크게 두 가지다. 하나는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 풀을 관리하는 방식이고, 다른 하나는 메모리 컨트롤러나 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 하단에서 캐시라인 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 방식이다. 후자가 더 빠르지만 하드웨어 복잡도가 높고, 전자가 더 유연하지만 소프트웨어 개입 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -70,22 +70,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 읽기 경로가 어디서 추가 비용을 내는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                메인 메모리 압축 경로: 빠른 경로와 느린 경로                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ LLC Miss / Writeback                                                      │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Compression Engine] ── 압축 가능? ──┬─ Yes ─▶ [Metadata: size / slot]    │
-│        │                             │                    │                │
-│        └────────────── No ───────────┘                    ▼                │
-│                                                  [Compressed DRAM Region]  │
-│                                                                            │
-│ Read Request ──────────────────────────────────────────────────────────────│
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Metadata Lookup] → [Fetch 16/32/48/64B] → [Decompress] → [64B Line 반환]  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                메인 메모리 압축 경로: 빠른 경로와 느린 경로                |
++----------------------------------------------------------------------------+
+| LLC Miss / Writeback                                                      |
+|        |                                                                  |
+|        v                                                                  |
+| [Compression Engine] -- 압축 가능? --+- Yes --> [Metadata: size / slot]    |
+|        |                             |                    |                |
+|        +-------------- No -----------+                    v                |
+|                                                  [Compressed DRAM Region]  |
+|                                                                            |
+| Read Request --------------------------------------------------------------|
+|        |                                                                   |
+|        v                                                                   |
+| [Metadata Lookup] -> [Fetch 16/32/48/64B] -> [Decompress] -> [64B Line 반환]  |
++----------------------------------------------------------------------------+
 ```
 
 여기서 어려운 지점은 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, <strong>빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술</strong>이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
@@ -166,20 +166,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 DRAM 증설 중심 메모리 운영
-        │
-        ▼
+        |
+        v
 메모리 벽 (Memory Wall) · 스왑 병목
-        │
-        ▼
+        |
+        v
 운영체제 기반 페이지 압축
-        │
-        ▼
+        |
+        v
 저지연 캐시라인 압축 (BDI · FPC)
-        │
-        ▼
+        |
+        v
 LCP · 메타데이터 최적화 · compaction 제어
-        │
-        ▼
+        |
+        v
 NUMA / CXL 연계 정책형 메인 메모리 압축
 ```
 
@@ -197,7 +197,7 @@ NUMA / CXL 연계 정책형 메인 메모리 압축
 
 **진행 상황**: 525 / 803
 
-← **이전**: [524. 스토리지 클래스 메모리 (SCM) 계층화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)
-**다음**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/) →
+<- **이전**: [524. 스토리지 클래스 메모리 (SCM) 계층화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)
+**다음**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/) ->
 
 ---

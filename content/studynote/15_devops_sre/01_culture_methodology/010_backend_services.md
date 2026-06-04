@@ -29,7 +29,7 @@ db_connection = mysql.connect("prod-db-server-01:3306", "admin", "password123")
 redis_client = redis.connect("localhost:6379")
 ```
 
-이렇게 하면 여러 문제점이 발생한다. 첫째, 개발 환경에서는 로컬 Redis를 사용하고 프로덕션에서는 관리 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터를 사용해야 할 때 코드를 수정해야 한다. 둘째, 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공업체를 변경（례여 MySQL → PostgreSQL）하려면 코드의 모든 관련 부분을 수정해야 한다. 셋째, 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 연결 정보가 코드에 노출되어 보안 문제가 발생할 수 있다.
+이렇게 하면 여러 문제점이 발생한다. 첫째, 개발 환경에서는 로컬 Redis를 사용하고 프로덕션에서는 관리 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터를 사용해야 할 때 코드를 수정해야 한다. 둘째, 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공업체를 변경（례여 MySQL -> PostgreSQL）하려면 코드의 모든 관련 부분을 수정해야 한다. 셋째, 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 연결 정보가 코드에 노출되어 보안 문제가 발생할 수 있다.
 
 12팩터 앱의 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙은 이러한 문제를 해결하기 위해"모든 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 네트워크로 연결된 자원으로 취급하라"고 명시한다. 즉, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)든 캐시든 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐든 모두"연결된 자원"이며, 타문へ의접속 정보는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))을 통해 관리되어야 한다. 이렇게 하면 코드는"어떤" 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 연결되는지 알 필요 없이, 단순히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 정의된 연결 대상에 연결하기만 하면 된다.
 
@@ -39,45 +39,45 @@ redis_client = redis.connect("localhost:6379")
 [백엔드 서비스 원칙: 모든 외부 자원을"연결된 자원"으로 취급]
 
 ❌ 전통적 접근: 서비스가您的位置를 코드에 하드코딩
-┌──────────────────────────────────────────────────────────────┐
-│  코드                                            │
-│  ┌──────────────────────────────────────────────┐         │
-│  │ MySQL = "mysql://prod-db:3306"  ← 하드코딩    │         │
-│  │ Redis = "redis://prod-cache:6379" ← 하드코딩  │         │
-│  └──────────────────────────────────────────────┘         │
-│           문제: 환경마다 코드 수정 필요, 유연성 없음         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  코드                                            |
+|  +----------------------------------------------+         |
+|  | MySQL = "mysql://prod-db:3306"  <- 하드코딩    |         |
+|  | Redis = "redis://prod-cache:6379" <- 하드코딩  |         |
+|  +----------------------------------------------+         |
+|           문제: 환경마다 코드 수정 필요, 유연성 없음         |
++--------------------------------------------------------------+
 
 ✓ 12팩터 접근: 모든 자원을"연결된 자원"으로 취급
-┌──────────────────────────────────────────────────────────────┐
-│                                                             │
-│     ┌─────────────┐         ┌─────────────┐                │
-│     │  Database   │         │   Redis     │                │
-│     │  (MySQL)    │         │  (Cache)    │                │
-│     └──────┬──────┘         └──────┬──────┘                │
-│            │    네트워크로 연결      │                        │
-│            │◀═══════════════════════▶│                       │
-│            │                        │                        │
-│     ┌──────┴──────┐         ┌──────┴──────┐                │
-│     │ 연결된 자원  │         │ 연결된 자원  │  ← 추상화!    │
-│     │ (Attached   │         │ (Attached   │                │
-│     │  Resource)  │         │  Resource)  │                │
-│     └─────────────┘         └─────────────┘                │
-│            │                        │                        │
-│            │    설정(환경 변수)에서 관리    │                        │
-│            ▼                        ▼                        │
-│     ┌──────────────────────────────────────────────┐        │
-│     │  DB_URL = mysql://${DB_HOST}:${DB_PORT}      │        │
-│     │  REDIS_URL = redis://${REDIS_HOST}:${REDIS}  │        │
-│     └──────────────────────────────────────────────┘        │
-│                                                             │
-│     장점: 동일한 코드, 환경별 다른 자원 연결 가능            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                                                             |
+|     +-------------+         +-------------+                |
+|     |  Database   |         |   Redis     |                |
+|     |  (MySQL)    |         |  (Cache)    |                |
+|     +------+------+         +------+------+                |
+|            |    네트워크로 연결      |                        |
+|            |<------------------------->|                       |
+|            |                        |                        |
+|     +------+------+         +------+------+                |
+|     | 연결된 자원  |         | 연결된 자원  |  <- 추상화!    |
+|     | (Attached   |         | (Attached   |                |
+|     |  Resource)  |         |  Resource)  |                |
+|     +-------------+         +-------------+                |
+|            |                        |                        |
+|            |    설정(환경 변수)에서 관리    |                        |
+|            v                        v                        |
+|     +----------------------------------------------+        |
+|     |  DB_URL = mysql://${DB_HOST}:${DB_PORT}      |        |
+|     |  REDIS_URL = redis://${REDIS_HOST}:${REDIS}  |        |
+|     +----------------------------------------------+        |
+|                                                             |
+|     장점: 동일한 코드, 환경별 다른 자원 연결 가능            |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가"앱의 일부"가 아니라"외부에서 연결하는 자원"이라는 개념적 구분이다. 물리적으로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버가 어디에 있든(로컬, 클라우드, [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)), 그것이 어떤 제공업체이든( AWS RDS, Azure SQL, [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) MySQL), 애플리케이션에게는 동일하게"연결된 자원"이며, 연결 문자열(Connection String)만으로 접근할 수 있다.
 
-> 📢 **섹션 요약 비유**: 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를"호텔의 외주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"에 비유할 수 있다. 호텔(애플리케이션)이 세탁소를 직접운영하지 않고(자체 DB운영) 외부 세탁소(백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 리용한다. 만약 세탁소 제공업체가 바뀌어도(로컬 → 클라우드), 호텔은 전화번호(연결 정보)만 바꾸면 되고, 세탁 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체(코드)의 변화는 필요하지 않다. 이것이 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙의 핵심이다.
+> 📢 **섹션 요약 비유**: 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를"호텔의 외주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"에 비유할 수 있다. 호텔(애플리케이션)이 세탁소를 직접운영하지 않고(자체 DB운영) 외부 세탁소(백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 리용한다. 만약 세탁소 제공업체가 바뀌어도(로컬 -> 클라우드), 호텔은 전화번호(연결 정보)만 바꾸면 되고, 세탁 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체(코드)의 변화는 필요하지 않다. 이것이 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙의 핵심이다.
 
 ---
 
@@ -98,57 +98,57 @@ redis_client = redis.connect("localhost:6379")
 아래는 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결의 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
 ```text
-[백엔드 서비스 연결: 설정 → 추상화 → 런타임 연결]
+[백엔드 서비스 연결: 설정 -> 추상화 -> 런타임 연결]
 
 1. 설정 (Configuration)
-┌──────────────────────────────────────────────────────────────┐
-│  환경 변수                                                   │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ DATABASE_URL=postgres://user:pass@db.example.com:5432│  │
-│  │ REDIS_URL=redis://redis.example.com:6379             │  │
-│  │ SMTP_HOST=smtp.sendgrid.net                          │  │
-│  │ SMTP_API_KEY=SG.xxxxxx                                │  │
-│  └──────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  환경 변수                                                   |
+|  +------------------------------------------------------+  |
+|  | DATABASE_URL=postgres://user:pass@db.example.com:5432|  |
+|  | REDIS_URL=redis://redis.example.com:6379             |  |
+|  | SMTP_HOST=smtp.sendgrid.net                          |  |
+|  | SMTP_API_KEY=SG.xxxxxx                                |  |
+|  +------------------------------------------------------+  |
++--------------------------------------------------------------+
 
 2. 추상화 레이어 (Application Code)
-┌──────────────────────────────────────────────────────────────┐
-│  코드 (백엔드 서비스에 직접アクセスしない)                      │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ class Database:                                       │  │
-│  │     def __init__(self, url):                        │  │
-│  │         self.connection = connect(url)  ← 추상화된 URL │  │
-│  │                                                     │  │
-│  │ class Cache:                                          │  │
-│  │     def __init__(self, url):                        │  │
-│  │         self.client = redis.from_url(url)  ← 추상화  │  │
-│  └──────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  코드 (백엔드 서비스에 직접アクセスしない)                      |
+|  +------------------------------------------------------+  |
+|  | class Database:                                       |  |
+|  |     def __init__(self, url):                        |  |
+|  |         self.connection = connect(url)  <- 추상화된 URL |  |
+|  |                                                     |  |
+|  | class Cache:                                          |  |
+|  |     def __init__(self, url):                        |  |
+|  |         self.client = redis.from_url(url)  <- 추상화  |  |
+|  +------------------------------------------------------+  |
++--------------------------------------------------------------+
 
 3. 런타임 연결 (Runtime Connection)
-┌──────────────────────────────────────────────────────────────┐
-│  애플리케이션 실행 시                                         │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  환경 변수에서 URL 읽기                              │   │
-│  │  db_url = os.environ.get("DATABASE_URL")           │   │
-│  │  redis_url = os.environ.get("REDIS_URL")           │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                         │                                  │
-│                         ▼                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  실제 연결 수립                                      │   │
-│  │  ┌──────────┐    ┌──────────┐    ┌──────────┐     │   │
-│  │  │ PostgreSQL│◀───│  앱      │───▶│  Redis   │     │   │
-│  │  │  Server  │    │ (Code)   │    │  Server  │     │   │
-│  │  └──────────┘    └──────────┘    └──────────┘     │   │
-│  │   AWS RDS           동일한 코드        Elasticache   │   │
-│  │   (Production)       어느 DB에든 연결     (Production)│   │
-│  └─────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  애플리케이션 실행 시                                         |
+|                                                             |
+|  +-----------------------------------------------------+   |
+|  |  환경 변수에서 URL 읽기                              |   |
+|  |  db_url = os.environ.get("DATABASE_URL")           |   |
+|  |  redis_url = os.environ.get("REDIS_URL")           |   |
+|  +-----------------------------------------------------+   |
+|                         |                                  |
+|                         v                                  |
+|  +-----------------------------------------------------+   |
+|  |  실제 연결 수립                                      |   |
+|  |  +----------+    +----------+    +----------+     |   |
+|  |  | PostgreSQL|<----|  앱      |---->|  Redis   |     |   |
+|  |  |  Server  |    | (Code)   |    |  Server  |     |   |
+|  |  +----------+    +----------+    +----------+     |   |
+|  |   AWS RDS           동일한 코드        Elasticache   |   |
+|  |   (Production)       어느 DB에든 연결     (Production)|   |
+|  +-----------------------------------------------------+   |
++--------------------------------------------------------------+
 ```
 
-> 📢 **섹션 요약 비유**: 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결은"전화 연결 시스템"과 같다. 먼저 전화 번호부([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에서 상대방 번호(DATABASE_URL)를 찾고, 그 번호로 전화를 건다(네트워크 연결). 만약 전화번호가 바뀌어도(예: 로컬 전화 → 인터넷 전화) 전화번호부만 업데이트하면 되고, 전화를 거는 방법(코드)은 변경할 필요가 없다. 이것이"연결된 자원" [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의위력이다.
+> 📢 **섹션 요약 비유**: 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결은"전화 연결 시스템"과 같다. 먼저 전화 번호부([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에서 상대방 번호(DATABASE_URL)를 찾고, 그 번호로 전화를 건다(네트워크 연결). 만약 전화번호가 바뀌어도(예: 로컬 전화 -> 인터넷 전화) 전화번호부만 업데이트하면 되고, 전화를 거는 방법(코드)은 변경할 필요가 없다. 이것이"연결된 자원" [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의위력이다.
 
 ---
 
@@ -170,33 +170,33 @@ redis_client = redis.connect("localhost:6379")
 [MSA에서의 백엔드 서비스 원칙 적용]
 
  monolith(모놀리스)
- ┌───────────────────────────────────────────────┐
- │  앱                                               │
- │  ┌─────────┐  ┌─────────┐  ┌─────────┐      │
- │  │ 주문 서비스│  │ 결제 서비스│  │ 배송 서비스│      │
- │  └────┬────┘  └────┬────┘  └────┬────┘      │
- │       │            │            │              │
- │  ┌────┴────────────┴────────────┴────┐      │
- │  │         공유 데이터베이스              │ ← 안티패턴!      │
- │  │    (서비스 간 결합 증가)              │      │
- │  └─────────────────────────────────────┘      │
- └───────────────────────────────────────────────┘
+ +-----------------------------------------------+
+ |  앱                                               |
+ |  +---------+  +---------+  +---------+      |
+ |  | 주문 서비스|  | 결제 서비스|  | 배송 서비스|      |
+ |  +----+----+  +----+----+  +----+----+      |
+ |       |            |            |              |
+ |  +----+------------+------------+----+      |
+ |  |         공유 데이터베이스              | <- 안티패턴!      |
+ |  |    (서비스 간 결합 증가)              |      |
+ |  +-------------------------------------+      |
+ +-----------------------------------------------+
 
  MSA (마이크로서비스)
- ┌───────────────────────────────────────────────┐
- │                                                 │
- │  ┌─────────┐  ┌─────────┐  ┌─────────┐      │
- │  │ 주문 서비스│  │ 결제 서비스│  │ 배송 서비스│      │
- │  └────┬────┘  └────┬────┘  └────┬────┘      │
- │       │            │            │              │
- │       ▼            ▼            ▼              │
- │  ┌─────────┐  ┌─────────┐  ┌─────────┐      │
- │  │ 주문 DB  │  │ 결제 DB  │  │ 배송 DB  │      │
- │  └─────────┘  └─────────┘  └─────────┘      │
- │  (각 서비스가 자신의 DB를"소유")              │
- │                                                 │
- │  서비스 간 통신: API 호출 (연결된 자원처럼)       │
- └───────────────────────────────────────────────┘
+ +-----------------------------------------------+
+ |                                                 |
+ |  +---------+  +---------+  +---------+      |
+ |  | 주문 서비스|  | 결제 서비스|  | 배송 서비스|      |
+ |  +----+----+  +----+----+  +----+----+      |
+ |       |            |            |              |
+ |       v            v            v              |
+ |  +---------+  +---------+  +---------+      |
+ |  | 주문 DB  |  | 결제 DB  |  | 배송 DB  |      |
+ |  +---------+  +---------+  +---------+      |
+ |  (각 서비스가 자신의 DB를"소유")              |
+ |                                                 |
+ |  서비스 간 통신: API 호출 (연결된 자원처럼)       |
+ +-----------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: MSA에서의 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙은"전문직 담당자제도"와 같다. 주문 담당자(주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 고객의 주문을 받지만 직접 결제를 처리하지 않고(직접 DB 접근 금지) 결제 담당자(결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에게 요청한다([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출). 결제 담당자는 자신의 결제 기록(결제 DB)만 관리한다. 만약 주문 담당자가 직접 결제 기록을 보려 한다면(공유 DB 접근) 업무 혼란이 발생한다.
@@ -225,11 +225,11 @@ Level 1: 환경 변수 (기본)
 
 Level 2: 시크릿 매니저 (권장)
   DATABASE_URL=postgres://vault:secret/data/db
-  → 런타임에 Vault에서 동적 자격증명 가져옴
+  -> 런타임에 Vault에서 동적 자격증명 가져옴
 
 Level 3: 동적 시크릿 (최고 보안)
   매 요청마다 새로운 일회성 자격증명 생성
-  → 기존 자격증명의 장기 유출 방지
+  -> 기존 자격증명의 장기 유출 방지
 ```
 
 > 📢 **섹션 요약 비유**: 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결 정보 관리는"호텔 금고 시스템"과 같다. Level 1은 금고 비밀번호를 종이에 적어두는 것(평문 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))으로, 누군가가 종이를 발견하면 위험하다. Level 2는 비밀번호를 은행 금고에예け고두고 필요할 때 출납증을받고 금고를 여는 것이며([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)), Level 3은 얼굴 인식으로 매번 새로운 임시 접근 권한을 받는 것이다(동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)).
@@ -268,23 +268,23 @@ Level 3: 동적 시크릿 (최고 보안)
 
 ```text
 [하드코딩 (Hardcoding) — 코드에 DB URL·비밀번호 직접 삽입]
-    │
-    ▼
+    |
+    v
 [환경 변수 분리 (Env Var) — 설정과 코드 분리, 12팩터 제3원칙]
-    │
-    ▼
+    |
+    v
 [백엔드 서비스 추상화 (Backing Service) — 첨부 자원으로 취급]
-    │
-    ▼
+    |
+    v
 [시크릿 매니저 (Secret Manager) — 동적 자격증명 안전 관리]
-    │
-    ▼
+    |
+    v
 [서비스 메시 (Service Mesh) — 사이드카 프록시로 서비스 간 통신 추상화]
-    │
-    ▼
+    |
+    v
 [서비스 디스커버리 (Service Discovery) — MSA 동적 엔드포인트 탐색]
 ```
-백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙은 하드코딩 배제에서 출발해 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 분리 → [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) → [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)로 이어지는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결의 진화 경로를 보여준다.
+백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 원칙은 하드코딩 배제에서 출발해 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 분리 -> [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) -> [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)로 이어지는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결의 진화 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -298,7 +298,7 @@ Level 3: 동적 시크릿 (최고 보안)
 
 **진행 상황**: 10 / 373
 
-← **이전**: [9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-**다음**: [11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/011_build_release_run/) →
+<- **이전**: [9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+**다음**: [11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/011_build_release_run/) ->
 
 ---

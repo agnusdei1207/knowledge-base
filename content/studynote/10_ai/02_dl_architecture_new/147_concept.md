@@ -39,19 +39,19 @@ LLM의 추론 능력 향상은 [프롬프트 엔지니어링](/knowledge-base/st
 ToT (Tree-of-Thought) 추론 구조
 
                 문제 (Root)
-                    │
-        ┌───────────┼───────────┐
-        │           │           │
+                    |
+        +-----------+-----------+
+        |           |           |
     사고1-A      사고1-B      사고1-C
-    (좋음↑)      (보통)       (나쁨↓ 폐기)
-        │           │
-    ┌───┴───┐   ┌───┴───┐
-    │       │   │       │
+    (좋음^)      (보통)       (나쁨v 폐기)
+        |           |
+    +---+---+   +---+---+
+    |       |   |       |
   2-AA   2-AB  2-BA   2-BB
-  (좋음↑) (폐기) (폐기) (좋음↑)
-    │                   │
+  (좋음^) (폐기) (폐기) (좋음^)
+    |                   |
   최종 답 A            최종 답 B
-          └──── 평가 → 더 좋은 답 선택 ────┘
+          +---- 평가 -> 더 좋은 답 선택 ----+
 ```
 
 ### 2. ToT 4단계 작동 메커니즘
@@ -68,15 +68,15 @@ ToT (Tree-of-Thought) 추론 구조
 ```text
 사고 구조 진화
 
-  Standard Prompt:  입력 → 출력
+  Standard Prompt:  입력 -> 출력
                     (단선, 추론 없음)
 
-  CoT (Chain):      입력 → 생각1 → 생각2 → 생각3 → 출력
+  CoT (Chain):      입력 -> 생각1 -> 생각2 -> 생각3 -> 출력
                     (순차 단선)
 
-  ToT (Tree):       입력 → [생각1-A, 생각1-B, 생각1-C]
-                              → [평가] → 유망한 경로만 확장
-                              → 최적 출력
+  ToT (Tree):       입력 -> [생각1-A, 생각1-B, 생각1-C]
+                              -> [평가] -> 유망한 경로만 확장
+                              -> 최적 출력
                     (분기·탐색·백트래킹)
 
   GoT (Graph):      임의 방향 그래프로 사고 연결
@@ -101,7 +101,7 @@ ToT (Tree-of-Thought) 추론 구조
 
 ### 연결 개념 흐름
 
-[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot → Few-Shot → [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) → SC (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) → ToT → GoT → ReAct (추론+행동) → Agentic Reasoning
+[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot -> Few-Shot -> [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) -> SC (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) -> ToT -> GoT -> ReAct (추론+행동) -> Agentic Reasoning
 
 - **📢 섹션 요약 비유**: 추론 기법의 진화는 **'혼자 문제 푸는 학생(Standard)'** 에서 <strong>'단계별 필기하는 학생(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>)'</strong>, **'여러 풀이법을 동시에 시도하는 학생(SC)'**, **'갈림길에서 두 팀을 나눠 탐색하는 팀(ToT)'** 으로 진화한 것입니다.
 
@@ -121,7 +121,7 @@ ToT (Tree-of-Thought) 추론 구조
 
 ### ToT 구현 시 고려사항
 
-1. **분기 수(k) 조절**: k가 클수록 정확도↑, 비용↑. 일반적으로 k=3~5
+1. **분기 수(k) 조절**: k가 클수록 정확도^, 비용^. 일반적으로 k=3~5
 2. **평가 기준 설계**: "이 사고가 얼마나 유망한가?"를 LLM에 물어보는 평가 프롬프트가 품질 결정
 3. **탐색 깊이 제한**: 무한 탐색 방지를 위한 depth limit [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필수
 4. **비용 관리**: 복잡한 ToT는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 기준 수십~수백 회 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 발생
@@ -162,25 +162,25 @@ ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, <strong>"LLM이 문
 
 ```text
 Standard Prompting (단순 QA)
-    │
-    ▼
+    |
+    v
 Few-Shot Prompting (예시 제공)
-    │
-    ▼
+    |
+    v
 CoT (Chain-of-Thought) — 단선 추론
-    │
-    ├─► SC (Self-Consistency) — 다중 CoT 다수결
-    │
-    ▼
+    |
+    +-► SC (Self-Consistency) — 다중 CoT 다수결
+    |
+    v
 ToT (Tree-of-Thought) — 분기·탐색·백트래킹
-    │
-    ▼
+    |
+    v
 GoT (Graph-of-Thought) — 그래프 구조 사고
-    │
-    ▼
+    |
+    v
 Agentic Reasoning (도구 사용 + 자율 탐색)
-    │
-    ▼
+    |
+    v
 LLM 내재화 추론 (o1, o3 계열 모델)
 ```
 
@@ -196,7 +196,7 @@ LLM 내재화 추론 (o1, o3 계열 모델)
 
 **진행 상황**: 147 / 420
 
-← **이전**: [146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)
-**다음**: [148. 할루시네이션 (Hallucination / 환각)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/148_hallucination/) →
+<- **이전**: [146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)
+**다음**: [148. 할루시네이션 (Hallucination / 환각)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/148_hallucination/) ->
 
 ---

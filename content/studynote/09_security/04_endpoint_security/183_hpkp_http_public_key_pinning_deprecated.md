@@ -43,24 +43,24 @@ HPKP의 동작은 간단하지만 운영상 매우 위험했다. 서버는 정�
 아래 그림은 HPKP의 정상 흐름과 실패 지점을 함께 보여 준다. 핵심은 브라우저가 최초 정상 접속 후 핀을 "배웠다"는 점이며, 이 기억을 서버가 강제로 지우기 어렵다는 데 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ HPKP runtime flow                                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) First valid HTTPS response                                       │
-│    Server -> Public-Key-Pins(primary pin + backup pin + max-age)    │
-│    Browser caches pinset for the host                               │
-│                                                                     │
-│ 2) Later connection                                                 │
-│    Presented cert chain -> extract SPKI hash                        │
-│              │                                                      │
-│              ├─ hash matches cached pinset -> allow                 │
-│              └─ hash mismatch               -> hard fail            │
-│                                                                     │
-│ 3) Operational failure cases                                        │
-│    - both pinned keys lost or rotated incorrectly                   │
-│    - attacker injects malicious long-lived pins                     │
-│    - cert/CDN change occurs before cache expiry                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| HPKP runtime flow                                                   |
++----------------------------------------------------------------------+
+| 1) First valid HTTPS response                                       |
+|    Server -> Public-Key-Pins(primary pin + backup pin + max-age)    |
+|    Browser caches pinset for the host                               |
+|                                                                     |
+| 2) Later connection                                                 |
+|    Presented cert chain -> extract SPKI hash                        |
+|              |                                                      |
+|              +- hash matches cached pinset -> allow                 |
+|              +- hash mismatch               -> hard fail            |
+|                                                                     |
+| 3) Operational failure cases                                        |
+|    - both pinned keys lost or rotated incorrectly                   |
+|    - attacker injects malicious long-lived pins                     |
+|    - cert/CDN change occurs before cache expiry                     |
++----------------------------------------------------------------------+
 ```
 
 여기서 가장 치명적인 메커니즘은 TOFU다. 최초 접속 시점이 안전하다고 가정해야 핀을 정상적으로 배울 수 있는데, 만약 그 시점 자체가 공격 환경이면 잘못된 핀을 저장할 수 있다. 또한 운영자가 현재 키와 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 키를 모두 잃으면 브라우저는 남은 `max-age` 동안 새로운 정상 인증서조차 거부한다. 이를 자살 핀닝(Suicide Pinning)이라 부른다.
@@ -149,20 +149,20 @@ HPKP가 남긴 가장 큰 유산은 "보안을 더 세게 걸면 무조건 좋�
 
 ```text
 공개 PKI 신뢰 모델
-    │
-    ▼
+    |
+    v
 CA 오발급 · 악성 Root CA 우려
-    │
-    ├─ 통제 가능한 클라이언트 -> 정적 인증서 핀닝
-    └─ 공개 웹 브라우저      -> HPKP 동적 핀닝 시도
-    │
-    ▼
+    |
+    +- 통제 가능한 클라이언트 -> 정적 인증서 핀닝
+    +- 공개 웹 브라우저      -> HPKP 동적 핀닝 시도
+    |
+    v
 TOFU · 자살 핀닝 · Ransom Pinning
-    │
-    ▼
+    |
+    v
 브라우저 지원 중단
-    │
-    ▼
+    |
+    v
 CT 모니터링 + CAA + HSTS + 자동 인증서 운영
 ```
 
@@ -180,7 +180,7 @@ CT 모니터링 + CAA + HSTS + 자동 인증서 운영
 
 **진행 상황**: 236 / 1108
 
-← **이전**: [182. 인증서 핀닝 (Certificate Pinning) — 이지 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)
-**다음**: [184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝](/knowledge-base/studynote/09_security/04_endpoint_security/184_certificate_patrol_telemetry_firefox_pinning/) →
+<- **이전**: [182. 인증서 핀닝 (Certificate Pinning) — 이지 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)
+**다음**: [184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝](/knowledge-base/studynote/09_security/04_endpoint_security/184_certificate_patrol_telemetry_firefox_pinning/) ->
 
 ---

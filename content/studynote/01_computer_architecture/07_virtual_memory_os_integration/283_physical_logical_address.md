@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 "프로세스가 보는 주소"와 "하드웨어가 접근하는 주소"가 다른 계층에 속한다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               주소 가상화의 핵심: 보는 주소와 찍히는 주소 분리      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로세스 A                                                          │
-│   load 0x0040  ─┐                                                   │
-│                 ├─▶ MMU (Memory Management Unit) ─▶ 물리 0x9A40     │
-│ store 0x1F20 ───┘                                                   │
-│                                                                      │
-│ 프로세스 B                                                          │
-│   load 0x0040  ─┐                                                   │
-│                 ├─▶ MMU (Memory Management Unit) ─▶ 물리 0x2C40     │
-│ store 0x1F20 ───┘                                                   │
-│                                                                      │
-│ 같은 논리 주소라도 프로세스가 다르면 다른 물리 주소로 번역될 수 있다 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               주소 가상화의 핵심: 보는 주소와 찍히는 주소 분리      |
++----------------------------------------------------------------------+
+| 프로세스 A                                                          |
+|   load 0x0040  -+                                                   |
+|                 +--> MMU (Memory Management Unit) --> 물리 0x9A40     |
+| store 0x1F20 ---+                                                   |
+|                                                                      |
+| 프로세스 B                                                          |
+|   load 0x0040  -+                                                   |
+|                 +--> MMU (Memory Management Unit) --> 물리 0x2C40     |
+| store 0x1F20 ---+                                                   |
+|                                                                      |
+| 같은 논리 주소라도 프로세스가 다르면 다른 물리 주소로 번역될 수 있다 |
++----------------------------------------------------------------------+
 ```
 
 중요한 점은 CPU (Central Processing Unit)가 직접 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 계산하지 않는다는 것이다. CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 요구하는 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)만 내보내고, 실제 배치 정보는 운영체제가 만든 매핑 자료와 MMU가 처리한다. 덕분에 프로그램은 이식성과 단순성을 얻고, 시스템은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 유연성을 얻는다.
@@ -58,7 +58,7 @@ tags = ["studynote-computer-architecture"]
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :-- | :-- | :-- |
 | CPU | [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 주소는 기본적으로 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) |
-| [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)→[물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 변환 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 접근 권한, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 존재 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)->[물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 변환 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 접근 권한, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 존재 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | 매핑 정보 보관 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호와 물리 프레임 번호 대응 |
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) | 최근 변환 결과 캐시 | 변환 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 관리 필요 |
 | RAM | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 최종 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 받아 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수행 |
@@ -66,33 +66,33 @@ tags = ["studynote-computer-architecture"]
 아래 흐름도는 주소 변환 과정에서 병목과 예외가 어디서 생기는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 논리 주소가 물리 주소가 되기까지의 경로             │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 논리 주소 생성                                                │
-│        │                                                            │
-│        ▼                                                            │
-│ 페이지 번호 + 오프셋 분리                                           │
-│        │                                                            │
-│        ▼                                                            │
-│ TLB 조회 ────────────────┬───────────────▶ 적중(Hit)                │
-│        │                 │                     │                     │
-│        │                 └───────────────▶ 미적중(Miss)             │
-│        │                                       │                     │
-│        │                                       ▼                     │
-│        │                              페이지 테이블 조회            │
-│        │                                       │                     │
-│        ▼                                       ▼                     │
-│ 권한 확인 / 존재 확인                    프레임 번호 획득            │
-│        │                                                            │
-│        ├─ 실패 ▶ 페이지 폴트 (Page Fault) / 보호 예외               │
-│        │                                                            │
-│        ▼                                                            │
-│ 물리 프레임 번호 + 오프셋 결합                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ RAM 접근                                                            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 논리 주소가 물리 주소가 되기까지의 경로             |
++----------------------------------------------------------------------+
+| CPU가 논리 주소 생성                                                |
+|        |                                                            |
+|        v                                                            |
+| 페이지 번호 + 오프셋 분리                                           |
+|        |                                                            |
+|        v                                                            |
+| TLB 조회 ----------------+----------------> 적중(Hit)                |
+|        |                 |                     |                     |
+|        |                 +----------------> 미적중(Miss)             |
+|        |                                       |                     |
+|        |                                       v                     |
+|        |                              페이지 테이블 조회            |
+|        |                                       |                     |
+|        v                                       v                     |
+| 권한 확인 / 존재 확인                    프레임 번호 획득            |
+|        |                                                            |
+|        +- 실패 -> 페이지 폴트 (Page Fault) / 보호 예외               |
+|        |                                                            |
+|        v                                                            |
+| 물리 프레임 번호 + 오프셋 결합                                      |
+|        |                                                            |
+|        v                                                            |
+| RAM 접근                                                            |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 4킬로바이트(KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는 시스템에서 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 하위 12비트는 오프셋으로 그대로 유지된다. 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 다른 물리 프레임으로 바뀌므로, 프로그램은 연속 공간처럼 보이는 메모리를 사용하면서도 운영체제는 실제 RAM을 떨어진 여러 프레임에 나누어 배치할 수 있다. 이것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연성, 그리고 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)의 기술적 출발점이다.
@@ -173,20 +173,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고정 물리 배치 중심 메모리 사용
-            │
-            ▼
+            |
+            v
 논리 주소 (Logical Address) / 물리 주소 (Physical Address) 분리
-            │
-            ▼
+            |
+            v
 MMU (Memory Management Unit) + 페이지 테이블 (Page Table)
-            │
-            ▼
+            |
+            v
 TLB (Translation Lookaside Buffer) 기반 고속 주소 변환
-            │
-            ▼
+            |
+            v
 가상 메모리 (Virtual Memory) · 페이지 폴트 (Page Fault) 처리
-            │
-            ▼
+            |
+            v
 ASLR (Address Space Layout Randomization) · 가상화 · 격리 강화
 ```
 
@@ -204,7 +204,7 @@ ASLR (Address Space Layout Randomization) · 가상화 · 격리 강화
 
 **진행 상황**: 283 / 803
 
-← **이전**: [282. 가상 메모리 (Virtual Memory)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/)
-**다음**: [284. MMU (Memory Management Unit)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/) →
+<- **이전**: [282. 가상 메모리 (Virtual Memory)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/)
+**다음**: [284. MMU (Memory Management Unit)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/) ->
 
 ---

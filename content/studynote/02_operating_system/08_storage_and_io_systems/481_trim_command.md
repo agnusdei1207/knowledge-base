@@ -26,33 +26,33 @@ tags = ["studynote-operating-system"]
 시스템 I/O에서 TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 적용되지 않았을 때와 적용되었을 때, [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 동작 차이를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │                 TRIM 명령어 유무에 따른 SSD 내부 동작 비교           │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │ [TRIM이 없을 때: 과거의 방식]                                        │
-  │ OS 명령: "파일 A 삭제 (LBA 1~2 삭제)"                                │
-  │ 1. OS: 파일 시스템 테이블에서 A만 제거 (실제 데이터는 SSD에 남음)    │
-  │ 2. FTL: LBA 1~2가 지워진 줄 모름. 여전히 '유효(Valid)'로 취급.       │
-  │ 3. GC 발생: 새로운 데이터를 쓰기 위해 여유 블록 필요.                │
-  │ 4. FTL 복사: (쓸모없는) 파일 A의 데이터를 계속 다른 블록으로 이동.   │
-  │                                                                      │
-  │    기존 블록 [ 파일 A (v) | 파일 B (v) | 빈 공간 ]                   │
-  │       이동 ─▶(A 복사)──▶ (B 복사) ──▶(시간/성능/수명 낭비)           │
-  │    새 블록   [ 파일 A (v) | 파일 B (v) |   ....  ]                   │
-  │                                                                      │
-  │ [TRIM이 있을 때: 현대의 매커니즘]                                    │
-  │ OS 명령: "파일 A 삭제" + "TRIM LBA 1~2"                              │
-  │ 1. OS: 실제 데이터 공간에 대해 TRIM 패킷을 컨트롤러에 전송.          │
-  │ 2. FTL: LBA 1~2를 '무효(Invalid)' 상태로 즉시 업데이트.              │
-  │ 3. GC 발생: 무효화된 데이터는 복사하지 않고 버림.                    │
-  │                                                                      │
-  │    기존 블록 [ 파일 A (x) | 파일 B (v) | 빈 공간 ]                   │
-  │       이동 ─▶(무시)     ─▶ (B 복사) ──▶(최적화 완료)                 │
-  │    새 블록   [ 파일 B (v) | 빈 공간    | 빈 공간   ]                 │
-  │                                                                      │
-  │ 결론: TRIM 패킷은 불필요한 GC 복사 오버헤드를 물리적으로 제거한다.   │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |                 TRIM 명령어 유무에 따른 SSD 내부 동작 비교           |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  | [TRIM이 없을 때: 과거의 방식]                                        |
+  | OS 명령: "파일 A 삭제 (LBA 1~2 삭제)"                                |
+  | 1. OS: 파일 시스템 테이블에서 A만 제거 (실제 데이터는 SSD에 남음)    |
+  | 2. FTL: LBA 1~2가 지워진 줄 모름. 여전히 '유효(Valid)'로 취급.       |
+  | 3. GC 발생: 새로운 데이터를 쓰기 위해 여유 블록 필요.                |
+  | 4. FTL 복사: (쓸모없는) 파일 A의 데이터를 계속 다른 블록으로 이동.   |
+  |                                                                      |
+  |    기존 블록 [ 파일 A (v) | 파일 B (v) | 빈 공간 ]                   |
+  |       이동 -->(A 복사)---> (B 복사) --->(시간/성능/수명 낭비)           |
+  |    새 블록   [ 파일 A (v) | 파일 B (v) |   ....  ]                   |
+  |                                                                      |
+  | [TRIM이 있을 때: 현대의 매커니즘]                                    |
+  | OS 명령: "파일 A 삭제" + "TRIM LBA 1~2"                              |
+  | 1. OS: 실제 데이터 공간에 대해 TRIM 패킷을 컨트롤러에 전송.          |
+  | 2. FTL: LBA 1~2를 '무효(Invalid)' 상태로 즉시 업데이트.              |
+  | 3. GC 발생: 무효화된 데이터는 복사하지 않고 버림.                    |
+  |                                                                      |
+  |    기존 블록 [ 파일 A (x) | 파일 B (v) | 빈 공간 ]                   |
+  |       이동 -->(무시)     --> (B 복사) --->(최적화 완료)                 |
+  |    새 블록   [ 파일 B (v) | 빈 공간    | 빈 공간   ]                 |
+  |                                                                      |
+  | 결론: TRIM 패킷은 불필요한 GC 복사 오버헤드를 물리적으로 제거한다.   |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** TRIM이 없는 환경에서 OS가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하면 SSD는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 변경만 인식할 뿐, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 섹터(LBA) 하단의 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(PBA)는 유효한(Valid) 상태로 간주한다. 따라서 여유 공간 확보를 위한 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 시, 실제로는 삭제된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸데없이 읽고 쓰는 '[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))'이 발생한다. 반면 TRIM이 적용되면 OS는 특정 LBA 범위가 더 이상 사용되지 않음을 하드웨어에 미리 고지한다. [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 맵핑 테이블에서 해당 주소가 즉시 '무효(Invalid)'로 마킹되므로, GC 수행 시 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들은 복사 생략(Skip) 대상이 되어 SSD의 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하가 현저히 감소한다.
@@ -83,36 +83,36 @@ TRIM은 하드웨어 단일 기능이 아니며, [운영체제](/knowledge-base/
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 TRIM 명령을 SSD에 전달하는 방식은 크게 '버리자마자 바로 알려주는 방식(Online)'과 '모아서 주기적으로 알려주는 방식(Periodic)' 두 가지로 나뉜다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────┐
-  │         Online TRIM vs Periodic TRIM 성능 및 동작 메커니즘               │
-  ├──────────────────────────────────────────────────────────────────────────┤
-  │                                                                          │
-  │ [Online TRIM / Discard 방식] (ext4 'discard' 마운트 옵션 등)             │
-  │                                                                          │
-  │  파일 삭제 발생 ──▶ 즉시 블록 레이어를 통해 TRIM 패킷 SSD로 전송         │
-  │                                                                          │
-  │  (장점) SSD가 항상 최신의 무효 상태를 인지, 안정적인 프리 블록 유지.     │
-  │  (단점) 삭제 시마다 소규모 I/O가 끼어들어 전체 시스템 병목 유발.         │
-  │         저급 컨트롤러에서는 멈칫거림(Micro-stuttering) 발생.             │
-  │                                                                          │
-  │ I/O: ─[Read]─[Write]─[TRIM]─[Read]─[TRIM]─[Write]──────────              │
-  │                      ↑작은 지연   ↑작은 지연                             │
-  │                                                                          │
-  │ [Periodic TRIM / fstrim 방식] (최신 리눅스 및 윈도우 기본 방식)          │
-  │                                                                          │
-  │  파일 삭제 발생 ──▶ OS 파일 시스템의 메타데이터만 변경 (디스크 전송 X)   │
-  │        ↓                                                                 │
-  │  주기적 타이머 (예: 매주 한 번, 특정 새벽 시간, OS idle 상태)            │
-  │        ↓                                                                 │
-  │  fstrim 데몬이 파일 시스템의 빈 공간(Free Space)을 스캔                  │
-  │        ↓                                                                 │
-  │  연속된 거대한 커맨드로 모아서(Batch) 한 번에 대형 TRIM 패킷 전송        │
-  │                                                                          │
-  │  (장점) 일상적인 I/O 퍼포먼스에 전혀 지장을 주지 않음 (오버헤드 제로).   │
-  │  (단점) 실행 전까지는 SSD가 무효 공간을 인지하지 못해 GC 부하 일시 증가. │
-  │                                                                          │
-  │ I/O: ─[Read]─[Write]─[Read]─[Write]───▶ (일주일 후) ──[대규모 TRIM]      │
-  └──────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------+
+  |         Online TRIM vs Periodic TRIM 성능 및 동작 메커니즘               |
+  +--------------------------------------------------------------------------+
+  |                                                                          |
+  | [Online TRIM / Discard 방식] (ext4 'discard' 마운트 옵션 등)             |
+  |                                                                          |
+  |  파일 삭제 발생 ---> 즉시 블록 레이어를 통해 TRIM 패킷 SSD로 전송         |
+  |                                                                          |
+  |  (장점) SSD가 항상 최신의 무효 상태를 인지, 안정적인 프리 블록 유지.     |
+  |  (단점) 삭제 시마다 소규모 I/O가 끼어들어 전체 시스템 병목 유발.         |
+  |         저급 컨트롤러에서는 멈칫거림(Micro-stuttering) 발생.             |
+  |                                                                          |
+  | I/O: -[Read]-[Write]-[TRIM]-[Read]-[TRIM]-[Write]----------              |
+  |                      ^작은 지연   ^작은 지연                             |
+  |                                                                          |
+  | [Periodic TRIM / fstrim 방식] (최신 리눅스 및 윈도우 기본 방식)          |
+  |                                                                          |
+  |  파일 삭제 발생 ---> OS 파일 시스템의 메타데이터만 변경 (디스크 전송 X)   |
+  |        v                                                                 |
+  |  주기적 타이머 (예: 매주 한 번, 특정 새벽 시간, OS idle 상태)            |
+  |        v                                                                 |
+  |  fstrim 데몬이 파일 시스템의 빈 공간(Free Space)을 스캔                  |
+  |        v                                                                 |
+  |  연속된 거대한 커맨드로 모아서(Batch) 한 번에 대형 TRIM 패킷 전송        |
+  |                                                                          |
+  |  (장점) 일상적인 I/O 퍼포먼스에 전혀 지장을 주지 않음 (오버헤드 제로).   |
+  |  (단점) 실행 전까지는 SSD가 무효 공간을 인지하지 못해 GC 부하 일시 증가. |
+  |                                                                          |
+  | I/O: -[Read]-[Write]-[Read]-[Write]----> (일주일 후) --[대규모 TRIM]      |
+  +--------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Online TRIM(디스카드)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 삭제되자마자 즉각적으로 `ATA DATA SET MANAGEMENT` 패킷을 컨트롤러에 전송한다. 이는 SSD가 프리 블록(Free Block) 풀을 넉넉하게 유지하는 데는 이상적이나, [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) 인터페이스 기반의 구형 시스템이나 무거운 삭제 연산 환경(수만 개의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 동시 삭제)에서는 블록 레이어의 큐를 점유하며 전체 I/O 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 초래한다. 이를 해결하기 위해 현대 OS(Linux의 `systemd fstrim.timer`, Windows의 저장소 최적화 예약)는 Periodic TRIM을 기본적으로 적용한다. OS가 CPU 유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 시간에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 전체 여유 비트맵(Free Bitmap)과 스토리지의 맵핑 상태를 대조하여, 누락된 LBA 목록을 거대한 덩어리로 묶어서 전송하는 방식이다. 이는 스토리지 I/O 방해를 최소화하면서도 플래시 수명을 연장하는 소프트웨어 엔지니어링의 정점이다.
@@ -127,7 +127,7 @@ TRIM은 하드웨어 단일 기능이 아니며, [운영체제](/knowledge-base/
 
 TRIM이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 최적화의 모든 것을 해결하는 것은 아니다. 각 메커니즘은 독립적이지만 서로 시너지를 발휘하는 상호 의존적 관계에 있다.
 
-| 구분 | TRIM (OS → [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 통신) | [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부) | [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부) |
+| 구분 | TRIM (OS -> [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 통신) | [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부) | [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부) |
 |:---|:---|:---|:---|
 | **주체** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) ([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 컨트롤러) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) ([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 컨트롤러) |
 | **목적** | '쓸모없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 위치 통보 | 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사 후 진짜 '삭제(블록 Erase)' | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 셀 간 닳는 속도 평준화 |
@@ -155,34 +155,34 @@ TRIM이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_s
 위와 같은 복잡한 시스템 계층에서 TRIM 지원 여부와 병목을 진단하기 위한 실무 엔지니어의 의사결정 트리는 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │         엔드투엔드(End-to-End) TRIM/Discard 파이프라인 진단 플로우           │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │   [OS 파일 시스템 층 (fstrim / mount option)]                                │
-  │                │ 해당 FS가 TRIM 지원? (ext4, xfs, btrfs: O)                  │
-  │                ▼                                                             │
-  │   [논리 볼륨 관리자 층 (LVM / mdadm RAID)]                                   │
-  │                │ lvm.conf (issue_discards = 1) 확인!                         │
-  │                ▼                                                             │
-  │   [암호화 계층 (LUKS / dm-crypt)]  (해당 시)                                 │
-  │                │ crypttab에 discard 옵션 설정 확인!                          │
-  │                │ ⚠ 주의: 암호화 환경 trim 허용 시, 빈 공간 유추 취약점       │
-  │                ▼                                                             │
-  │   [하이퍼바이저 / 스토리지 네트워킹 (KVM, iSCSI)]                            │
-  │                │ QEMU (discard=unmap), iSCSI (SBC 규격 UNMAP) 지원?          │
-  │                ▼                                                             │
-  │   [호스트 블록 디바이스 드라이버 계층]                                       │
-  │                │ cat /sys/block/sda/queue/discard_max_bytes 검사             │
-  │                ▼                                                             │
-  │   [물리적 레이어: HW RAID 컨트롤러 / 디스크 펌웨어]                          │
-  │                │ RAID 컨트롤러가 SATA TRIM 명령어 Pass-through 지원 여부     │
-  │                                                                              │
-  │   결론: 단 하나의 계층이라도 TRIM/UNMAP 명령어를 드롭하면, SSD 수명 단축!    │
-  └──────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------+
+  |         엔드투엔드(End-to-End) TRIM/Discard 파이프라인 진단 플로우           |
+  +------------------------------------------------------------------------------+
+  |                                                                              |
+  |   [OS 파일 시스템 층 (fstrim / mount option)]                                |
+  |                | 해당 FS가 TRIM 지원? (ext4, xfs, btrfs: O)                  |
+  |                v                                                             |
+  |   [논리 볼륨 관리자 층 (LVM / mdadm RAID)]                                   |
+  |                | lvm.conf (issue_discards = 1) 확인!                         |
+  |                v                                                             |
+  |   [암호화 계층 (LUKS / dm-crypt)]  (해당 시)                                 |
+  |                | crypttab에 discard 옵션 설정 확인!                          |
+  |                | ⚠ 주의: 암호화 환경 trim 허용 시, 빈 공간 유추 취약점       |
+  |                v                                                             |
+  |   [하이퍼바이저 / 스토리지 네트워킹 (KVM, iSCSI)]                            |
+  |                | QEMU (discard=unmap), iSCSI (SBC 규격 UNMAP) 지원?          |
+  |                v                                                             |
+  |   [호스트 블록 디바이스 드라이버 계층]                                       |
+  |                | cat /sys/block/sda/queue/discard_max_bytes 검사             |
+  |                v                                                             |
+  |   [물리적 레이어: HW RAID 컨트롤러 / 디스크 펌웨어]                          |
+  |                | RAID 컨트롤러가 SATA TRIM 명령어 Pass-through 지원 여부     |
+  |                                                                              |
+  |   결론: 단 하나의 계층이라도 TRIM/UNMAP 명령어를 드롭하면, SSD 수명 단축!    |
+  +------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 엔터프라이즈 서버 아키텍처에서 가장 간과하기 쉬운 점은 "OS가 명령을 내린다고 SSD가 무조건 받는 것이 아니다"라는 점이다. [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 → LVM → 암호화([LUKS](/knowledge-base/studynote/09_security/04_endpoint_security/399_luks_linux_unified_key_setup/)) → [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가상 블록 기기 계층 → 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 → [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)/[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 컨트롤러 → 최종 타겟 SSD로 이어지는 길고 복잡한 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 중 단 한 곳에서라도 TRIM(또는 SCSI의 UNMAP [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 패킷 호환성이 깨지면 스토리지 하단의 웨어 아웃(Wear-out)은 가속화된다. 따라서 설계 단계에서부터 모든 레이어의 `discard/unmap` 패스스루 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 점검해야 하며, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/보안 검토(예: LUKS에서의 사이드채널 보안 vs 수명 트레이드오프)도 필수적이다.
+**[다이어그램 해설]** 엔터프라이즈 서버 아키텍처에서 가장 간과하기 쉬운 점은 "OS가 명령을 내린다고 SSD가 무조건 받는 것이 아니다"라는 점이다. [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 -> LVM -> 암호화([LUKS](/knowledge-base/studynote/09_security/04_endpoint_security/399_luks_linux_unified_key_setup/)) -> [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가상 블록 기기 계층 -> 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 -> [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)/[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 컨트롤러 -> 최종 타겟 SSD로 이어지는 길고 복잡한 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 중 단 한 곳에서라도 TRIM(또는 SCSI의 UNMAP [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 패킷 호환성이 깨지면 스토리지 하단의 웨어 아웃(Wear-out)은 가속화된다. 따라서 설계 단계에서부터 모든 레이어의 `discard/unmap` 패스스루 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 점검해야 하며, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/보안 검토(예: LUKS에서의 사이드채널 보안 vs 수명 트레이드오프)도 필수적이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 사용 시, 컨트롤러가 TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 전달을 차단하지 않는(IT mode, HBA 지원 등) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 사용 중인가?
@@ -230,12 +230,12 @@ TRIM은 OS와 하드웨어 간의 단순 명세 추가가, 시스템 전반의 �
 
 ```text
 [쓰기 증폭 (Write Amplification) 현상]
-    │
-    ▼
+    |
+    v
 [TRIM 명령어 (Trim Command)]
-    │
-    ├──▶ [NVMe (Non-Volatile Memory Express)]
-    └──▶ [RAID (Redundant Array of Independent Disks)]
+    |
+    +---> [NVMe (Non-Volatile Memory Express)]
+    +---> [RAID (Redundant Array of Independent Disks)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -252,7 +252,7 @@ TRIM은 OS와 하드웨어 간의 단순 명세 추가가, 시스템 전반의 �
 
 **진행 상황**: 481 / 800
 
-← **이전**: [480. 쓰기 증폭 (Write Amplification) 현상](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)
-**다음**: [482. NVMe (Non-Volatile Memory Express) - PCIe 버스 기반 고속 플래시 프로토콜 (다중/깊은 큐 지원)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) →
+<- **이전**: [480. 쓰기 증폭 (Write Amplification) 현상](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)
+**다음**: [482. NVMe (Non-Volatile Memory Express) - PCIe 버스 기반 고속 플래시 프로토콜 (다중/깊은 큐 지원)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ->
 
 ---

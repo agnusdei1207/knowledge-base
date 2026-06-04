@@ -27,9 +27,9 @@ tags = ["database"]
 [External Level]  View A    View B    View C  (사용자 맞춤형 논리 구조)
                      \        |        /
                       \       |       /  <-- (외부/개념 사상)
-[Conceptual Level] ┌─────────────────────┐
-                   │ 개념 스키마 (통합)  │ (전사적 논리 구조, ERD, 제약조건)
-                   └─────────────────────┘
+[Conceptual Level] +---------------------+
+                   | 개념 스키마 (통합)  | (전사적 논리 구조, ERD, 제약조건)
+                   +---------------------+
                               |          <-- (개념/내부 사상)
 [Internal Level]   [ 내부 스키마 (인덱스, 스토리지) ]
 ```
@@ -51,14 +51,14 @@ tags = ["database"]
 개념적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(ERD)이 [릴레이션 스키마](/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/)로 변환되어 적용되는 흐름은 다음과 같습니다.
 ```text
 [요구사항 분석] 전사 업무 프로세스 도출
-   ↓
+   v
 [개념적 모델링] ER 다이어그램 (개체, 관계 식별)
-   ↓
+   v
 [논리적 모델링] 릴레이션 변환 및 정규화 (1NF -> 2NF -> 3NF)
    => EMPLOYEE(emp_id PK, dept_id FK, name)
-   ↓
+   v
 [DDL 생성] CREATE TABLE 문 작성 (개념 스키마 구체화)
-   ↓
+   v
 [무결성 검사] 데이터 딕셔너리 등록 및 Constraints 활성화
 ```
 이 흐름의 핵심은 물리적 스토리지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 화면 UI를 전혀 고려하지 않고, 오직 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 제거'와 '비즈니스 규칙 반영'에만 집중한다는 점입니다. 이 단계에서 수행되는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))는 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제거하여 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 방지하는 핵심 엔진입니다. 실무에서 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 간의 M:N([다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 해소하지 않고 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 구성하면, 추후 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산에서 치명적인 [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))가 발생합니다.
@@ -89,13 +89,13 @@ tags = ["database"]
 아래 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시의 충격 파급 경로를 나타냅니다.
 ```text
 [개념 스키마의 변경 (예: 단일 '주소' 컬럼을 '시/구/동'으로 분리)]
-   ↓
+   v
 [파급 1: 외부/개념 사상(Mapping) 확인]
-   ├─> 뷰 갱신으로 커버 가능? ──> (O) 애플리케이션 영향 없음 (논리적 독립성)
-   └─> 뷰로 대체 불가능? ──> (X) 애플리케이션 DTO 등 연쇄 수정 발생
-   ↓
+   +-> 뷰 갱신으로 커버 가능? --> (O) 애플리케이션 영향 없음 (논리적 독립성)
+   +-> 뷰로 대체 불가능? --> (X) 애플리케이션 DTO 등 연쇄 수정 발생
+   v
 [파급 2: 개념/내부 사상(Mapping) 확인]
-   └─> 새로운 컬럼들에 대한 스토리지 블록, 인덱스 물리 재구성 비용 발생
+   +-> 새로운 컬럼들에 대한 스토리지 블록, 인덱스 물리 재구성 비용 발생
 ```
 이 흐름은 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 변경이 상/하위 계층 모두에 거대한 파도를 일으킴을 시사합니다. 따라서 실무에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경(Alter Table)은 개발 단계에서 철저히 격리 통제되어야 하며, 운영 중의 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경은 반드시 다운타임과 애플리케이션 파급도 평가(Impact Analysis)를 선행해야 합니다.
 
@@ -125,17 +125,17 @@ tags = ["database"]
 
 ```text
 [요구사항 분석 (Requirements Analysis)]
-    │
-    ▼
+    |
+    v
 [개념 스키마 (Conceptual Schema) — ER 다이어그램]
-    │
-    ▼
+    |
+    v
 [논리 스키마 (Logical Schema) — 릴레이션 모델]
-    │
-    ▼
+    |
+    v
 [물리 스키마 (Physical Schema) — 인덱스, 스토리지]
-    │
-    ▼
+    |
+    v
 [데이터 독립성 (Data Independence) — ANSI/SPARC 3-Layer]
 ```
 
@@ -152,7 +152,7 @@ tags = ["database"]
 
 **진행 상황**: 8 / 600
 
-← **이전**: [7. 외부 스키마 (External Schema) - 사용자 관점, 서브 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)
-**다음**: [9. 내부 스키마 (Internal Schema) - 물리적 저장 장치 관점](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) →
+<- **이전**: [7. 외부 스키마 (External Schema) - 사용자 관점, 서브 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)
+**다음**: [9. 내부 스키마 (Internal Schema) - 물리적 저장 장치 관점](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) ->
 
 ---

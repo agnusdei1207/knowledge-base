@@ -29,22 +29,22 @@ tags = ["studynote-devops-sre"]
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드의 핵심 메커니즘은 <strong>작업 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Scheduling)</strong> 과 <strong>동적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Dynamic Scaling)</strong> 의 결합이다. 현대의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구들은 고정된 서버를 유지하지 않고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술을 활용해 빌드가 필요한 순간에만 워커를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Ephemeral)한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Kubernetes 기반 동적 분산 빌드 아키텍처                   │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ──(Webhook)──▶ [CI Master / Controller]     │
-│                                       │ (작업 분배 및 조율)      │
-│                                       ▼                      │
-│                ┌────────────────────────────────────┐        │
-│                │      Kubernetes Cluster (Node)     │        │
-│                │                                    │        │
-│ Task 분할 ──▶  │  [Pod Worker 1] ─▶ 단위 테스트 1~100  │        │
-│ (Matrix)       │  [Pod Worker 2] ─▶ 단위 테스트 101~200│        │
-│                │  [Pod Worker 3] ─▶ 정적 분석 (Lint)   │        │
-│                └────────────────────────────────────┘        │
-│                                       │                      │
-│ 빌드 완료 후 자동 소멸 (Ephemeral) ◀──┴──▶ [Artifact Storage]  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Kubernetes 기반 동적 분산 빌드 아키텍처                   |
++--------------------------------------------------------------+
+| [Git Repository] --(Webhook)---> [CI Master / Controller]     |
+|                                       | (작업 분배 및 조율)      |
+|                                       v                      |
+|                +------------------------------------+        |
+|                |      Kubernetes Cluster (Node)     |        |
+|                |                                    |        |
+| Task 분할 --->  |  [Pod Worker 1] --> 단위 테스트 1~100  |        |
+| (Matrix)       |  [Pod Worker 2] --> 단위 테스트 101~200|        |
+|                |  [Pod Worker 3] --> 정적 분석 (Lint)   |        |
+|                +------------------------------------+        |
+|                                       |                      |
+| 빌드 완료 후 자동 소멸 (Ephemeral) <---+---> [Artifact Storage]  |
++--------------------------------------------------------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 및 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>: 코드가 푸시되면 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터가 K8s API를 호출하여 필요한 워커 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 필요한 개수만큼 즉시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
@@ -108,16 +108,16 @@ tags = ["studynote-devops-sre"]
 ```text
 단일 CI 서버 (Scale-up)
 (Jenkins Master 독점 빌드, 병목 발생)
-    │
-    ▼
+    |
+    v
 마스터-워커 분리 (Master-Worker Architecture)
 (정적 워커 노드 할당, 자원 낭비 존재)
-    │
-    ▼
+    |
+    v
 동적 프로비저닝 기반 분산 빌드 (Dynamic Scaling)
 (K8s 기반 일회성 파드 생성 및 자동 삭제)
-    │
-    ▼
+    |
+    v
 서버리스 / 스팟 인스턴스 결합 (Serverless & Spot)
 (초저비용 무제한 수평 확장 파이프라인)
 ```
@@ -133,7 +133,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 106 / 373
 
-← **이전**: [빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/105_build_caching_optimization_docker_layer/)
-**다음**: [나이트 빌드: 예약된 크론(Cron) 기반의 정적/동적 정기 점검](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) →
+<- **이전**: [빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/105_build_caching_optimization_docker_layer/)
+**다음**: [나이트 빌드: 예약된 크론(Cron) 기반의 정적/동적 정기 점검](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) ->
 
 ---

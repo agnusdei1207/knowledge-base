@@ -232,7 +232,7 @@ L1 보안 + L2 처리량 분리 트렌드
 
 **진행 상황**: 39 / 552
 
-← **이전**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/)
-**다음**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/) →
+<- **이전**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/)
+**다음**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/) ->
 
 ---

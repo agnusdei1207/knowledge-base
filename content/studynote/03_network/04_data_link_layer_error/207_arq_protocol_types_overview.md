@@ -29,11 +29,11 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 
 ```text
 [Chase Combining / IR]
-    │
-    ▼
+    |
+    v
 [ARQ 프로토콜 종류]
-    │
-    └──▶ [정지-대기 ARQ]
+    |
+    +---> [정지-대기 ARQ]
 ```
 
 - **📢 섹션 요약 비유**: [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -58,11 +58,11 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 
 ```text
 [Chase Combining / IR]
-    │
-    ▼
+    |
+    v
 [ARQ 프로토콜 종류]
-    │
-    └──▶ [정지-대기 ARQ]
+    |
+    +---> [정지-대기 ARQ]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 진화는 </strong>'중국집 배달 방식의 진화'<strong>입니다. 철가방 하나에 짜장면 한 그릇만 배달하고 그릇을 찾아올 때까지 다음 배달을 안 나가는 것이 </strong>정지-대기<strong>, 짜장면 5그릇을 배달 갔는데 3번 그릇에 벌레가 나왔다고 4, 5번 그릇까지 몽땅 다 버리고 3~5번을 새로 요리해서 가져다주는 무식함이 </strong>Go-Back-N**, 딱 벌레가 나온 3번 그릇 한 그릇만 주방에서 새로 만들어서 다시 보내주는 스마트함이 **Selective Repeat**입니다.
@@ -123,12 +123,12 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 
 ```text
 [선행 개념: Chase Combining / IR]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARQ 프로토콜 종류]
-    │
-    ├──▶ [확장 A: 정지-대기 ARQ]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 정지-대기 ARQ]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류는 Chase Combining / IR에서 출발해 현재 메커니즘을 정교화하고, 이후 정지-대기 ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 
 **진행 상황**: 328 / 1120
 
-← **이전**: [206. Chase Combining / IR (Incremental Redundancy)](/knowledge-base/studynote/03_network/04_data_link_layer_error/206_chase_combining_vs_incremental_redundancy/)
-**다음**: [208. 정지-대기 ARQ (Stop-and-Wait ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/) →
+<- **이전**: [206. Chase Combining / IR (Incremental Redundancy)](/knowledge-base/studynote/03_network/04_data_link_layer_error/206_chase_combining_vs_incremental_redundancy/)
+**다음**: [208. 정지-대기 ARQ (Stop-and-Wait ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/) ->
 
 ---

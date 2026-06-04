@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
+    |
+    v
 [프라이빗 5G망]
-    │
-    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
+    |
+    +---> [5G LAN 스위치 대체 이더넷 투명 연계형…]
 ```
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
+    |
+    v
 [프라이빗 5G망]
-    │
-    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
+    |
+    +---> [5G LAN 스위치 대체 이더넷 투명 연계형…]
 ```
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 프라이빗 5G망]
-    │
-    ├──▶ [확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 프라이빗 5G망는 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 915 / 1120
 
-← **이전**: [793. 양자 인터넷 모듈 기반 네트워크 키 분배 안정성 QKD 적용 (양자 얽힘/복제 불가능 원리 광파장 탑재 보안 구간 해킹 원천](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/793_qkd_quantum_key_distribution_quantum_internet/)
-**다음**: [795. 5G LAN 스위치 대체 이더넷 투명 연계형 산업망 구축용 모델 브릿지 구성 기술 (L2 무결 연동 통신망 호환 제어망 융합](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/795_5g_lan_l2_ethernet_transparent_bridge/) →
+<- **이전**: [793. 양자 인터넷 모듈 기반 네트워크 키 분배 안정성 QKD 적용 (양자 얽힘/복제 불가능 원리 광파장 탑재 보안 구간 해킹 원천](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/793_qkd_quantum_key_distribution_quantum_internet/)
+**다음**: [795. 5G LAN 스위치 대체 이더넷 투명 연계형 산업망 구축용 모델 브릿지 구성 기술 (L2 무결 연동 통신망 호환 제어망 융합](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/795_5g_lan_l2_ethernet_transparent_bridge/) ->
 
 ---

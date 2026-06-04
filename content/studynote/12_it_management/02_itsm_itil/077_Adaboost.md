@@ -41,18 +41,18 @@ AdaBoost는 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_we
 
 ```text
 샘플 가중치 w1, w2, ... , wn
-         │
-         ▼
+         |
+         v
     약한 분류기 h1
-         │
-  오분류 샘플 가중치 ↑
-         │
-         ▼
+         |
+  오분류 샘플 가중치 ^
+         |
+         v
     약한 분류기 h2
-         │
-  오분류 샘플 가중치 ↑
-         │
-         ▼
+         |
+  오분류 샘플 가중치 ^
+         |
+         v
 최종 결합 sign(Σ αt ht(x))
 ```
 
@@ -114,17 +114,17 @@ AdaBoost는 간단한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/
 
 ```text
 약한 분류기
-    │
-    ▼
+    |
+    v
 샘플 가중치 조정
-    │
-    ▼
+    |
+    v
 오분류 샘플 집중
-    │
-    ▼
+    |
+    v
 약한 분류기 반복 결합
-    │
-    ▼
+    |
+    v
 강한 분류기 생성
 ```
 
@@ -140,7 +140,7 @@ AdaBoost는 간단한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/
 
 **진행 상황**: 137 / 587
 
-← **이전**: [76. 워크어라운드 (Workaround) - 서비스 재개 임시 우회 조치](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)
-**다음**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/) →
+<- **이전**: [76. 워크어라운드 (Workaround) - 서비스 재개 임시 우회 조치](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)
+**다음**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/) ->
 
 ---

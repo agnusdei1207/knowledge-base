@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [로컬 루프]
-    │
-    ▼
+    |
+    v
 [토큰 링]
-    │
-    └──▶ [FDDI]
+    |
+    +---> [FDDI]
 ```
 
 - **📢 섹션 요약 비유**: ** 토큰 제어 방식은 놀이공원의 **"회전목마 1인승"**과 같습니다. 줄을 서서 기다려야 하는 지루함은 있지만, 일단 타기만 하면 중간에 남과 부딪혀 튕겨 나갈(충돌) 확률이 완벽한 0%로 보장되는 가장 안전한 탑승물입니다.
@@ -50,20 +50,20 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 4. **토큰 반환 (Token Release)**: 한 바퀴를 빙 돌아 다시 송신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A에게 돌아오면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A는 자기가 띄운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무사히 배달되었음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파기한 뒤 다시 'Free Token'으로 만들어 옆 사람에게 넘겨준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                토큰 링(Token Ring)의 데이터 전송 흐름           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A ]  ── 2) 바쁜 토큰(A->C) ──▶ [ PC B ]              │
- │   1) 빈 토큰                                │ (나 아님, 패스!)  │
- │    가로챔                                  ▼                 │
- │      ▲                                                      │
- │      │                               [ PC C ] (내꺼네? 복사!)  │
- │      │                                 │                    │
- │   [ PC D ]  ◀── 3) ACK 달고 돌아옴 ──── ┘                    │
- │                                                             │
- │   4) PC A: "C가 잘 받았군! 이제 짐 치우고 다시 빈 토큰으로 굴려!"    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                토큰 링(Token Ring)의 데이터 전송 흐름           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC A ]  -- 2) 바쁜 토큰(A->C) ---> [ PC B ]              |
+ |   1) 빈 토큰                                | (나 아님, 패스!)  |
+ |    가로챔                                  v                 |
+ |      ^                                                      |
+ |      |                               [ PC C ] (내꺼네? 복사!)  |
+ |      |                                 |                    |
+ |   [ PC D ]  <--- 3) ACK 달고 돌아옴 ---- +                    |
+ |                                                             |
+ |   4) PC A: "C가 잘 받았군! 이제 짐 치우고 다시 빈 토큰으로 굴려!"    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 토큰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Token [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), IEEE 802.4)의 구조
@@ -133,12 +133,12 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 ```text
 [선행 개념: 로컬 루프]
-    │
-    ▼
+    |
+    v
 [현재 개념: 토큰 링]
-    │
-    ├──▶ [확장 A: FDDI]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: FDDI]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 토큰 링는 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FDDI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 **진행 상황**: 402 / 1120
 
-← **이전**: [280. 로컬 루프 (Local Loop, 가입자 선로)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)
-**다음**: [282. FDDI (Fiber Distributed Data Interface)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/) →
+<- **이전**: [280. 로컬 루프 (Local Loop, 가입자 선로)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)
+**다음**: [282. FDDI (Fiber Distributed Data Interface)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/) ->
 
 ---

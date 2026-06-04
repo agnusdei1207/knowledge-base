@@ -30,24 +30,24 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a>) 표준화</strong>: "드라이버야, 네가 키보드든 SSD든 상관 안 할 테니 나한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줄 땐 딱 2가지 폼(블록/문자)으로만 포장해서 올려라!"라며 OS가 인터페이스를 천하통일함.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        블록 장치(Block) vs 문자 장치(Character)의 동작 시각화             │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ ▶ 1. 블록 장치 (Block Device) - 랜덤 액세스의 낭만                        │
-│   [ 하드 디스크 (HDD) ]                                                   │
-│   블록 0 | 블록 1 | 블록 2 | ... | 블록 999                               │
-│     │        ▲                                │                           │
-│     └────────┴── (Seek & Read) ───────────────┘                           │
-│   ✅ OS의 지시: "블록 0번 읽은 다음에, 바로 블록 999번 긁어와!"           │
-│   ✅ 특징: 버퍼 캐시(Page Cache)에 임시 저장 후 파일로 예쁘게 조립됨.     │
-│                                                                           │
-│ ▶ 2. 문자 장치 (Character Device) - 순차적 스트림의 눈물                  │
-│   [ 키보드 (Keyboard) ]                                                   │
-│   입력 스트림: 'H' ──▶ 'E' ──▶ 'L' ──▶ 'L' ──▶ 'O'                        │
-│   💥 OS의 지시 불가: "야 키보드, 아까 입력한 'H' 다시 한번 줘봐!" (불가능)│
-│   ✅ 특징: 큐(Queue)나 파이프(Pipe)에 담겨서 들어온 순서대로 처리되고 끝. │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|        블록 장치(Block) vs 문자 장치(Character)의 동작 시각화             |
++---------------------------------------------------------------------------+
+|                                                                           |
+| -> 1. 블록 장치 (Block Device) - 랜덤 액세스의 낭만                        |
+|   [ 하드 디스크 (HDD) ]                                                   |
+|   블록 0 | 블록 1 | 블록 2 | ... | 블록 999                               |
+|     |        ^                                |                           |
+|     +--------+-- (Seek & Read) ---------------+                           |
+|   ✅ OS의 지시: "블록 0번 읽은 다음에, 바로 블록 999번 긁어와!"           |
+|   ✅ 특징: 버퍼 캐시(Page Cache)에 임시 저장 후 파일로 예쁘게 조립됨.     |
+|                                                                           |
+| -> 2. 문자 장치 (Character Device) - 순차적 스트림의 눈물                  |
+|   [ 키보드 (Keyboard) ]                                                   |
+|   입력 스트림: 'H' ---> 'E' ---> 'L' ---> 'L' ---> 'O'                        |
+|   💥 OS의 지시 불가: "야 키보드, 아까 입력한 'H' 다시 한번 줘봐!" (불가능)|
+|   ✅ 특징: 큐(Queue)나 파이프(Pipe)에 담겨서 들어온 순서대로 처리되고 끝. |
++---------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 <strong>'뒤로 가기(Rewind/Seek)'가 되느냐 마느냐</strong>다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 언제든 원하는 주소로 바늘(Head)을 옮길 수 있어서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4, NTFS)을 얹을 수 있다. 반면 [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 얹을 수 없고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하는 그 즉시([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 앱이 주워 먹지 않으면 영원히 증발해 버리는(Overrun) 야생의 특성을 지닌다.
 
@@ -102,13 +102,13 @@ OS는 편애를 심하게 한다. [블록 장치](/knowledge-base/studynote/02_o
 - 그래서 [네트워크 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/)는 `/dev` 밑에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 존재하지 않고, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)</strong>이라는 완전히 독립된 제3의 통신 인터페이스([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 계층을 부여받아 `ifconfig`나 `ip addr`로 관리되는 독자 노선을 걷게 되었다. (후속 키워드에서 상세 설명)
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 장치 종류  │ 데이터 단위   │ 주소(Seek)  │ OS 커널 인터페이스 │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ Block    │ 4KB 덩어리  │ 있음 (섹터)   │ VFS / 버퍼 캐시      │
-│ Character│ 1 Byte 흐름│ 없음        │ Line Discipline         │
-│ Network  │ Packet 덩어리│ 없음 (IP/MAC)│ Socket / TCP/IP      │
-└──────────┴────────────┴────────────┴──────────────────────────┘
++----------+------------+------------+--------------------------+
+| 장치 종류  | 데이터 단위   | 주소(Seek)  | OS 커널 인터페이스 |
++----------+------------+------------+--------------------------+
+| Block    | 4KB 덩어리  | 있음 (섹터)   | VFS / 버퍼 캐시      |
+| Character| 1 Byte 흐름| 없음        | Line Discipline         |
+| Network  | Packet 덩어리| 없음 (IP/MAC)| Socket / TCP/IP      |
++----------+------------+------------+--------------------------+
 ```
 **[매트릭스 해설]** 컴퓨터 하드웨어의 모든 통신은 이 3가지 템플릿 중 하나로 완벽하게 귀결된다. 어떤 기상천외한 하드웨어(예: 최신 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 가속기, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 칩셋)를 USB나 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 슬롯에 꽂아도, 드라이버 개발자는 이 3개 중 하나의 껍데기를 골라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 등록해야만 OS가 그 장비를 사람 취급해 준다.
 
@@ -165,12 +165,12 @@ I/O 장치의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_clas
 
 ```text
 [eBPF 기반 메모리 할당 트레이싱]
-    │
-    ▼
+    |
+    v
 [I/O 장치의 분류]
-    │
-    ├──▶ [블록 장치]
-    └──▶ [문자 장치]
+    |
+    +---> [블록 장치]
+    +---> [문자 장치]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -187,7 +187,7 @@ I/O 장치의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_clas
 
 **진행 상황**: 441 / 800
 
-← **이전**: [440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/440_ebpf_memory_tracing/)
-**다음**: [442. 블록 장치 (Block Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/) →
+<- **이전**: [440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/440_ebpf_memory_tracing/)
+**다음**: [442. 블록 장치 (Block Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/) ->
 
 ---

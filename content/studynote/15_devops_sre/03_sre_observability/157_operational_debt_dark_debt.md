@@ -36,18 +36,18 @@ tags = ["studynote-devops-sre"]
 아래 그림은 운영 부채가 어떻게 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)과 복원력 저하로 이어지는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Operational debt grows through repeated manual work                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Manual deploy ─┐                                                   │
-│ Hidden runbook ─┼─▶ Toil accumulation ─▶ Less engineering time     │
-│ Person-only know┘                         │                         │
-│                                           ▼                         │
-│                                    Weak automation                  │
-│                                           │                         │
-│                                           ▼                         │
-│                              Higher incident risk / slower recovery │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Operational debt grows through repeated manual work                 |
++----------------------------------------------------------------------+
+| Manual deploy -+                                                   |
+| Hidden runbook -+--> Toil accumulation --> Less engineering time     |
+| Person-only know+                         |                         |
+|                                           v                         |
+|                                    Weak automation                  |
+|                                           |                         |
+|                                           v                         |
+|                              Higher incident risk / slower recovery |
++----------------------------------------------------------------------+
 ```
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 예시 | 위험 |
@@ -138,20 +138,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Manual Work / Hidden Dependency
-           │
-           ▼
+           |
+           v
 Operational Debt
-           │
-           ├──▶ Toil Measurement
-           ├──▶ Runbook Standardization
-           ├──▶ Self-Service Automation
-           └──▶ Game Day / DR Drill
-           │
-           ▼
-Dark Debt Exposure → SPOF Removal → Faster Recovery
+           |
+           +---> Toil Measurement
+           +---> Runbook Standardization
+           +---> Self-Service Automation
+           +---> Game Day / DR Drill
+           |
+           v
+Dark Debt Exposure -> SPOF Removal -> Faster Recovery
 ```
 
-이 흐름은 "반복 수작업 인식 → 운영 부채 계량화 → 자동화·문서화 → 다크 데트 제거"로 이어지는 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 뼈대를 보여준다.
+이 흐름은 "반복 수작업 인식 -> 운영 부채 계량화 -> 자동화·문서화 -> 다크 데트 제거"로 이어지는 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 뼈대를 보여준다.
 
 ### 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ Dark Debt Exposure → SPOF Removal → Faster Recovery
 
 **진행 상황**: 157 / 373
 
-← **이전**: [156. 폴백 (Fallback) 메커니즘](/knowledge-base/studynote/15_devops_sre/03_sre_observability/156_fallback_mechanism_cache_degraded/)
-**다음**: [158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/158_mtbf_mttr_optimization/) →
+<- **이전**: [156. 폴백 (Fallback) 메커니즘](/knowledge-base/studynote/15_devops_sre/03_sre_observability/156_fallback_mechanism_cache_degraded/)
+**다음**: [158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/158_mtbf_mttr_optimization/) ->
 
 ---

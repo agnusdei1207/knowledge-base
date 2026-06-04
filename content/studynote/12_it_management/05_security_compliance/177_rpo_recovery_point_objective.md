@@ -43,17 +43,17 @@ RPO의 핵심 공식은 단순하다. <strong>실제 <a href="/knowledge-base/st
 아래 그림은 RPO가 타임라인에서 어떻게 계산되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ RPO timeline                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Transactions: 10:00 10:05 10:10 10:15 10:20 10:25                   │
-│ Snapshots:      B1          B2          B3                           │
-│ Disaster:                                   X at 10:27              │
-│ Recoverable point:                          B3 at 10:20             │
-│                                                                      │
-│ Actual data loss window = 10:27 - 10:20 = 7 minutes                 │
-│ RPO target means this gap must stay within the allowed limit         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| RPO timeline                                                         |
++----------------------------------------------------------------------+
+| Transactions: 10:00 10:05 10:10 10:15 10:20 10:25                   |
+| Snapshots:      B1          B2          B3                           |
+| Disaster:                                   X at 10:27              |
+| Recoverable point:                          B3 at 10:20             |
+|                                                                      |
+| Actual data loss window = 10:27 - 10:20 = 7 minutes                 |
+| RPO target means this gap must stay within the allowed limit         |
++----------------------------------------------------------------------+
 ```
 
 이 그림에서 핵심은 RPO가 장애 이후에 계산되는 <strong>실제 결과값</strong>이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 <strong>목표값</strong>이라는 점이다. 그래서 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한지와 그 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
@@ -140,21 +140,21 @@ RPO를 명확히 정의하면 조직은 "[데이터](/knowledge-base/studynote/0
 
 ```text
 업무 영향 분석
-    │
-    ▼
+    |
+    v
 데이터 등급 분류
-    │
-    ▼
+    |
+    v
 RPO 목표 설정
-    │
-    ├─ 0에 가까움  -> 동기 복제 · 미러 사이트
-    ├─ 짧음        -> 비동기 복제 · 로그 전송
-    └─ 김          -> 스냅샷 · 주기 백업
-    │
-    ▼
+    |
+    +- 0에 가까움  -> 동기 복제 · 미러 사이트
+    +- 짧음        -> 비동기 복제 · 로그 전송
+    +- 김          -> 스냅샷 · 주기 백업
+    |
+    v
 복구 테스트 · 시점 정합성 검증
-    │
-    ▼
+    |
+    v
 BCP (Business Continuity Planning) / DR 거버넌스 고도화
 ```
 
@@ -172,7 +172,7 @@ BCP (Business Continuity Planning) / DR 거버넌스 고도화
 
 **진행 상황**: 291 / 587
 
-← **이전**: [176. RTO (Recovery Time Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)
-**다음**: [178. 미러 사이트 (Mirror Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/) →
+<- **이전**: [176. RTO (Recovery Time Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)
+**다음**: [178. 미러 사이트 (Mirror Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/) ->
 
 ---

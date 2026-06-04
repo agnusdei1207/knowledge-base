@@ -43,27 +43,27 @@ tags = ["studynote-cloud"]
 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 기존의 Ring 0~3 체계를 놔둔 채, 이 전체를 두 개의 거대한 공간으로 다시 분할합니다. (VMX: [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions)
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 하드웨어 보조 가상화 (VMX) 권한 링 아키텍처 ]        │
-│                                                             │
-│       [ VMX Non-Root Mode (게스트 공간) ]                     │
-│       ┌─────────────────────────────────────┐               │
-│       │ Ring 3: Guest Application (앱)      │               │
-│       │ Ring 0: Guest OS (VM의 커널)        │<-- 게스트 OS가  │
-│       └─────────────────────────────────────┘    자신이 최고  │
-│              │ (명령 실행)                       권한자라고   │
-│              ▼                                  착각하게 함   │
-│   ========= VM Exit (제어권 전환 트랩) ============          │
-│              │                                              │
-│              ▼                                              │
-│       [ VMX Root Mode (호스트/하이퍼바이저 공간) ]             │
-│       ┌─────────────────────────────────────┐               │
-│       │ Ring 0: Hypervisor (VMM, 호스트)    │<-- 진짜 최고   │
-│       └─────────────────────────────────────┘    하드웨어 통제│
-│              │                                   권한을 가짐  │
-│              ▼                                              │
-│     [ Physical Hardware (CPU, Memory, I/O) ]                │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ 하드웨어 보조 가상화 (VMX) 권한 링 아키텍처 ]        |
+|                                                             |
+|       [ VMX Non-Root Mode (게스트 공간) ]                     |
+|       +-------------------------------------+               |
+|       | Ring 3: Guest Application (앱)      |               |
+|       | Ring 0: Guest OS (VM의 커널)        |<-- 게스트 OS가  |
+|       +-------------------------------------+    자신이 최고  |
+|              | (명령 실행)                       권한자라고   |
+|              v                                  착각하게 함   |
+|   ========= VM Exit (제어권 전환 트랩) ============          |
+|              |                                              |
+|              v                                              |
+|       [ VMX Root Mode (호스트/하이퍼바이저 공간) ]             |
+|       +-------------------------------------+               |
+|       | Ring 0: Hypervisor (VMM, 호스트)    |<-- 진짜 최고   |
+|       +-------------------------------------+    하드웨어 통제|
+|              |                                   권한을 가짐  |
+|              v                                              |
+|     [ Physical Hardware (CPU, Memory, I/O) ]                |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -147,17 +147,17 @@ CPU가 하드웨어적으로 [가상화](/knowledge-base/studynote/13_cloud_arch
 
 ```text
 [전가상화 (Full Virtualization — 이진 변환, 소프트웨어 에뮬레이션)]
-    │
-    ▼
+    |
+    v
 [반가상화 (Paravirtualization — Guest OS 수정, 하이퍼콜)]
-    │
-    ▼
+    |
+    v
 [하드웨어 보조 가상화 (HW-assisted — Intel VT-x / AMD-V)]
-    │
-    ▼
+    |
+    v
 [SR-IOV / VT-d (I/O 디바이스 직접 접근 — PCIe 가상화)]
-    │
-    ▼
+    |
+    v
 [Firecracker MicroVM (컨테이너 + VM 보안 — FaaS 기반)]
 ```
 소프트웨어 에뮬레이션의 오버헤드를 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)(VT-x)가 CPU 레벨에서 해결했고, SR-IOV는 I/O까지 직접 접근을 제공하며, Firecracker는 이를 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 초경량 MicroVM으로 완성했다.
@@ -177,7 +177,7 @@ CPU가 하드웨어적으로 [가상화](/knowledge-base/studynote/13_cloud_arch
 
 **진행 상황**: 20 / 371
 
-← **이전**: [20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/020_para_virtualization/)
-**다음**: [22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) →
+<- **이전**: [20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/020_para_virtualization/)
+**다음**: [22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) ->
 
 ---

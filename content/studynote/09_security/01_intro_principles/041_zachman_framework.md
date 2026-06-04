@@ -150,7 +150,7 @@ EA 4대 도메인 (TOGAF):
 ```
 정보화 전략 계획(ISP) 자크만 매핑:
 
-ISP 핵심 산출물 → 자크만 셀 매핑:
+ISP 핵심 산출물 -> 자크만 셀 매핑:
 
 비즈니스 현황 분석:
   Row1×Why: 비즈니스 목표/전략
@@ -241,7 +241,7 @@ EA 법제화 (전자정부법)
 
 **진행 상황**: 41 / 1108
 
-← **이전**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/)
-**다음**: [042. SABSA (Sherwood Applied Business Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/) →
+<- **이전**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/)
+**다음**: [042. SABSA (Sherwood Applied Business Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/) ->
 
 ---

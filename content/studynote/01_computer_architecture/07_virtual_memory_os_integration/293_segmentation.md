@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이 "같은 크기로 자르는 방식"이 아니라 "역할별로 다른 크기를 허용하는 방식"임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          논리 구조 중심 분할: 세그먼트마다 의미와 길이가 다름            │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 논리 주소 공간                │ 물리 메모리 배치                           │
-├───────────────────────────────┼────────────────────────────────────────────┤
-│ Segment 0 : Code   (24 KB)    │ [ Code   24 KB ]                           │
-│ Segment 1 : Data   (10 KB)    │ [ Free    6 KB ]  ← 작은 빈틈              │
-│ Segment 2 : Heap   (18 KB)    │ [ Data   10 KB ]                           │
-│ Segment 3 : Stack   (8 KB)    │ [ Heap   18 KB ]                           │
-│                               │ [ Free    4 KB ]                           │
-│                               │ [ Stack   8 KB ]                           │
-└───────────────────────────────┴────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          논리 구조 중심 분할: 세그먼트마다 의미와 길이가 다름            |
++-------------------------------+--------------------------------------------+
+| 논리 주소 공간                | 물리 메모리 배치                           |
++-------------------------------+--------------------------------------------+
+| Segment 0 : Code   (24 KB)    | [ Code   24 KB ]                           |
+| Segment 1 : Data   (10 KB)    | [ Free    6 KB ]  <- 작은 빈틈              |
+| Segment 2 : Heap   (18 KB)    | [ Data   10 KB ]                           |
+| Segment 3 : Stack   (8 KB)    | [ Heap   18 KB ]                           |
+|                               | [ Free    4 KB ]                           |
+|                               | [ Stack   8 KB ]                           |
++-------------------------------+--------------------------------------------+
 ```
 
 핵심은 프로그램의 구조와 메모리 관리 단위가 서로 대응된다는 점이다. 대신 물리 메모리에서는 세그먼트 크기가 제각각이라 빈틈이 남기 쉬우며, 이 빈틈이 누적되면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 문제가 나타난다.
@@ -61,24 +61,24 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 세그먼트 테이블을 이용한 주소 변환 흐름을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          세그먼트 주소 변환: 선택 → 검사 → 실제 주소 계산                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = (s, d)                                                        │
-│      │                                                                    │
-│      ├─ s = Segment Number ────────┐                                      │
-│      │                             ▼                                      │
-│      │                    ┌────────────────────────────┐                   │
-│      │                    │ Segment Table Entry[s]     │                   │
-│      │                    │ Base  = 40,000             │                   │
-│      │                    │ Limit = 8,192              │                   │
-│      │                    │ Perm  = Read / Write       │                   │
-│      │                    └────────────────────────────┘                   │
-│      │                             │                                      │
-│      └─ d = Offset ────────────────┼─ d < Limit ? ── No ─▶ Fault          │
-│                                    │                                      │
-│                                    └─ Yes ──────────▶ Physical = Base + d │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          세그먼트 주소 변환: 선택 -> 검사 -> 실제 주소 계산                |
++----------------------------------------------------------------------------+
+| 논리 주소 = (s, d)                                                        |
+|      |                                                                    |
+|      +- s = Segment Number --------+                                      |
+|      |                             v                                      |
+|      |                    +----------------------------+                   |
+|      |                    | Segment Table Entry[s]     |                   |
+|      |                    | Base  = 40,000             |                   |
+|      |                    | Limit = 8,192              |                   |
+|      |                    | Perm  = Read / Write       |                   |
+|      |                    +----------------------------+                   |
+|      |                             |                                      |
+|      +- d = Offset ----------------+- d < Limit ? -- No --> Fault          |
+|                                    |                                      |
+|                                    +- Yes -----------> Physical = Base + d |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 단순하다. 코드 세그먼트는 실행 가능하지만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 금지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트는 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트는 자동 확장 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 줄 수 있다. 반면 세그먼트 길이가 고정되지 않으므로 새 세그먼트를 넣거나 기존 세그먼트를 키울 때 연속 공간을 찾아야 하고, 이것이 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용과 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 부른다.
@@ -161,21 +161,21 @@ x86 계열도 이런 흐름을 보여준다. 32비트 환경에서는 세그먼�
 
 ```text
 연속 메모리 할당
-    │
-    ▼
+    |
+    v
 세그멘테이션 (Segmentation)
-    │
-    ├─ 보호·공유 강화
-    │
-    └─ 외부 단편화 심화
-           │
-           ▼
+    |
+    +- 보호·공유 강화
+    |
+    +- 외부 단편화 심화
+           |
+           v
 페이징 (Paging) 결합
-    │
-    ▼
+    |
+    v
 현대 평면 주소 공간 + 페이지 기반 가상 메모리
-    │
-    ▼
+    |
+    v
 제한적 세그먼트 활용 (FS/GS, TLS, 보호 모델 이해)
 ```
 
@@ -193,7 +193,7 @@ x86 계열도 이런 흐름을 보여준다. 32비트 환경에서는 세그먼�
 
 **진행 상황**: 293 / 803
 
-← **이전**: [292. TLB 히트와 미스 (TLB Hit & Miss)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/292_tlb_hit_miss/)
-**다음**: [294. 세그먼트 테이블 (Segment Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/294_segment_table/) →
+<- **이전**: [292. TLB 히트와 미스 (TLB Hit & Miss)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/292_tlb_hit_miss/)
+**다음**: [294. 세그먼트 테이블 (Segment Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/294_segment_table/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 프로파일링(Profiling)은 프로그램 실행 중 함수별 CPU 시간·호출 횟수·호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 수집하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(핫스팟, Hotspot)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법이며, Gprof(GNU Profiler)는 컴파일러 계측(-pg [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))과 OS 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Sigprof)를 결합하여 동작한다.
 > 2. **가치**: Gprof의 호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석으로 "전체 실행 시간의 80%를 차지하는 핵심 함수 2~3개"를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있어, 최적화 투자 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))를 극대화하는 80/20 법칙 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 가능하다.
-> 3. **융합**: Gprof(정적 프로파일링) → perf(동적 샘플링) → [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(#615, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱)로 이어지는 프로파일링 진화의 출발점이며, [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)(#609) 체계의 핵심 구성요소다.
+> 3. **융합**: Gprof(정적 프로파일링) -> perf(동적 샘플링) -> [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(#615, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱)로 이어지는 프로파일링 진화의 출발점이며, [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)(#609) 체계의 핵심 구성요소다.
 
 ---
 
@@ -31,28 +31,28 @@ Gprof(GNU Profiler)는 GCC 컴파일러와 연동하여 프로그램의 [함수 
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 (2019+)</strong>: 동적 트레이싱으로 진화
 
 ```text
-┌────────── 프로파일링 도구 진화 ──────────┐
-│                                           │
-│  gprof (1982)                             │
-│  ├─ 컴파일러 계측 (-pg)                   │
-│  ├─ 타이머 기반 샘플링                    │
-│  └─ 호출 그래프 생성                      │
-│                                           │
-│  perf (2009)                              │
-│  ├─ 하드웨어 성능 카운터 (PMU)            │
-│  ├─ 동적 계측 (kprobes/uprobes)           │
-│  └─ 샘플링 + 트레이싱                    │
-│                                           │
-│  eBPF/bpftrace (2019+)                    │
-│  ├─ 커널 안전 훅                          │
-│  ├─ 실시간 동적 트레이싱                  │
-│  └─ 프로덕션 배포 가능                   │
-└───────────────────────────────────────────┘
++---------- 프로파일링 도구 진화 ----------+
+|                                           |
+|  gprof (1982)                             |
+|  +- 컴파일러 계측 (-pg)                   |
+|  +- 타이머 기반 샘플링                    |
+|  +- 호출 그래프 생성                      |
+|                                           |
+|  perf (2009)                              |
+|  +- 하드웨어 성능 카운터 (PMU)            |
+|  +- 동적 계측 (kprobes/uprobes)           |
+|  +- 샘플링 + 트레이싱                    |
+|                                           |
+|  eBPF/bpftrace (2019+)                    |
+|  +- 커널 안전 훅                          |
+|  +- 실시간 동적 트레이싱                  |
+|  +- 프로덕션 배포 가능                   |
++-------------------------------------------+
 ```
 
-**[해설]** gprof → perf → eBPF로 이어지는 진화는 "정적 계측 → 동적 샘플링 → 실시간 트레이싱"으로 프로파일링의 범위와 정밀도가 확장되는 과정이다.
+**[해설]** gprof -> perf -> eBPF로 이어지는 진화는 "정적 계측 -> 동적 샘플링 -> 실시간 트레이싱"으로 프로파일링의 범위와 정밀도가 확장되는 과정이다.
 
-- **📢 섹션 요약 비유**: 병원 진단 도구가 청진기(gprof) → X선(perf) → MRI([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))로 발전한 것처럼, 프로파일링도 점점 더 정밀해지고 있습니다.
+- **📢 섹션 요약 비유**: 병원 진단 도구가 청진기(gprof) -> X선(perf) -> MRI([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))로 발전한 것처럼, 프로파일링도 점점 더 정밀해지고 있습니다.
 
 ---
 
@@ -69,32 +69,32 @@ Gprof(GNU Profiler)는 GCC 컴파일러와 연동하여 프로그램의 [함수 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 후킹 원리
 
 ```text
-┌──────────── Gprof 내부 동작 ────────────┐
-│                                         │
-│  응용 프로그램 ( -pg 컴파일 )            │
-│                                         │
-│  main() {                               │
-│    monstartup();  ← gmon 초기화         │
-│    ...                                  │
-│    foo() {                              │
-│      mcount(foo, caller); ← 계측 호출   │
-│      ...                                │
-│      bar() {                            │
-│        mcount(bar, foo);  ← 계측 호출   │
-│        ...                              │
-│      }                                  │
-│    }                                    │
-│    _mcleanup();  ← gmon.out 생성        │
-│  }                                      │
-│                                         │
-│  커널 SIGPROF 핸들러:                    │
-│  ┌──────────────────────────────┐       │
-│  │ 100Hz 타이머 인터럽트         │       │
-│  │ → PC(프로그램 카운터) 기록    │       │
-│  │ → 호출 스택 샘플링           │       │
-│  │ → gmon.out에 누적            │       │
-│  └──────────────────────────────┘       │
-└─────────────────────────────────────────┘
++------------ Gprof 내부 동작 ------------+
+|                                         |
+|  응용 프로그램 ( -pg 컴파일 )            |
+|                                         |
+|  main() {                               |
+|    monstartup();  <- gmon 초기화         |
+|    ...                                  |
+|    foo() {                              |
+|      mcount(foo, caller); <- 계측 호출   |
+|      ...                                |
+|      bar() {                            |
+|        mcount(bar, foo);  <- 계측 호출   |
+|        ...                              |
+|      }                                  |
+|    }                                    |
+|    _mcleanup();  <- gmon.out 생성        |
+|  }                                      |
+|                                         |
+|  커널 SIGPROF 핸들러:                    |
+|  +------------------------------+       |
+|  | 100Hz 타이머 인터럽트         |       |
+|  | -> PC(프로그램 카운터) 기록    |       |
+|  | -> 호출 스택 샘플링           |       |
+|  | -> gmon.out에 누적            |       |
+|  +------------------------------+       |
++-----------------------------------------+
 ```
 
 **[해설]** `-pg` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 각 함수 시작에 `mcount()` 호출을 삽입하여 호출 관계를 추적한다. 동시에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 100Hz SIGPROF 시그널을 보내 현재 PC를 샘플링하여 함수별 시간 분포를 측정한다.
@@ -118,7 +118,7 @@ index %time    self  children  called     name
                 0.30    0.00   5000/5000     sort_array [3]
                 0.15    0.00    500/500      read_input [4]
 
-→ 최적화 대상: process_data (90% 시간)
+-> 최적화 대상: process_data (90% 시간)
 ```
 
 **[해설]** Flat profile은 함수별 자체 시간을, [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) graph는 호출 관계와 자식 시간 포함 총 시간을 보여준다. process_data가 전체의 90%를 차지하므로 이 함수를 최우선 최적화해야 한다.
@@ -196,12 +196,12 @@ bpftrace -e 'profile:hz:99 { @[ustack] = count(); }'
 
 ```text
 [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    │
-    ▼
+    |
+    v
 [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-    │
-    ├──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
-    └──▶ [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
+    |
+    +---> [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
+    +---> [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -220,7 +220,7 @@ bpftrace -e 'profile:hz:99 { @[ustack] = count(); }'
 
 **진행 상황**: 613 / 800
 
-← **이전**: [612. 메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)
-**다음**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) →
+<- **이전**: [612. 메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)
+**다음**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) ->
 
 ---

@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Multi-Head Attention                               │
-├───────────────────────────────────────────────────────┤
-│  입력 X (d_model=512)                                 │
-│  ├── Head 1: Q₁K₁V₁ (d_k=64) → Attn₁               │
-│  ├── Head 2: Q₂K₂V₂ (d_k=64) → Attn₂               │
-│  ├── ...                                              │
-│  └── Head 8: Q₈K₈V₈ (d_k=64) → Attn₈               │
-│                                                       │
-│  Concat(Attn₁, ..., Attn₈) → W_O → 출력 (512)       │
-│                                                       │
-│  각 헤드: 다른 관점 (문법·의미·위치 등)              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Multi-Head Attention                               |
++-------------------------------------------------------+
+|  입력 X (d_model=512)                                 |
+|  +-- Head 1: Q₁K₁V₁ (d_k=64) -> Attn₁               |
+|  +-- Head 2: Q₂K₂V₂ (d_k=64) -> Attn₂               |
+|  +-- ...                                              |
+|  +-- Head 8: Q₈K₈V₈ (d_k=64) -> Attn₈               |
+|                                                       |
+|  Concat(Attn₁, ..., Attn₈) -> W_O -> 출력 (512)       |
+|                                                       |
+|  각 헤드: 다른 관점 (문법·의미·위치 등)              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 단일 Attention은 1명의 감독관이 감시하는 것이고, Multi-Head는 <strong>8명의 전문가가 각자 다른 관점(문법·의미·위치)</strong>으로 동시에 분석하는 것이다.
@@ -51,7 +51,7 @@ tags = ["studynote-ai"]
 ### GQA (Grouped Query Attention)
 - 최신 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(Llama 2)에서는 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)·Value 헤드를 공유하여 **메모리·속도 최적화**.
 
-- **📢 섹션 요약 비유**: MHA는 8명이 각자 카메라를 가진 것이고, GQA는 8명이 4대 카메라를 공유하는 것이다 (효율↑).
+- **📢 섹션 요약 비유**: MHA는 8명이 각자 카메라를 가진 것이고, GQA는 8명이 4대 카메라를 공유하는 것이다 (효율^).
 
 ---
 
@@ -70,7 +70,7 @@ tags = ["studynote-ai"]
 ### 헤드 수 선택
 - [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)-base: h=8, d_k=64.
 - [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)-large: h=16, d_k=64.
-- 헤드 수↑ → 다양한 관점, 단 d_k↓ → 개별 헤드 용량 감소.
+- 헤드 수^ -> 다양한 관점, 단 d_kv -> 개별 헤드 용량 감소.
 
 ---
 
@@ -94,17 +94,17 @@ Multi-Head Attention은 <strong>Transformer의 표현력을 결정</strong>하�
 
 ```text
 [단일 Head Attention (Bahdanau, 2014)]
-    │
-    ▼
+    |
+    v
 [Multi-Head Attention (Transformer, 2017)]
-    │
-    ▼
+    |
+    v
 [MQA — Multi-Query Attention (2019)]
-    │
-    ▼
+    |
+    v
 [GQA — Grouped Query Attention (Llama 2, 2023)]
-    │
-    ▼
+    |
+    v
 [현재: Efficient MHA — Flash Attention + GQA 조합]
 ```
 
@@ -119,7 +119,7 @@ Multi-Head Attention은 <strong>Transformer의 표현력을 결정</strong>하�
 
 **진행 상황**: 125 / 420
 
-← **이전**: [124. Self-Attention (자기 주의 메커니즘) - 시퀀스 내 모든 위치 상호 참조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)
-**다음**: [126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/126_positional_encoding/) →
+<- **이전**: [124. Self-Attention (자기 주의 메커니즘) - 시퀀스 내 모든 위치 상호 참조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)
+**다음**: [126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/126_positional_encoding/) ->
 
 ---

@@ -46,16 +46,16 @@ tags = ["studynote-computer-architecture"]
 이 그림은 루프 프리패처가 패턴을 배우고 앞질러 가는 과정을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Load PC = L1 : A[0] -> A[1] -> A[2] -> A[3]                                │
-│                  Δ=+64B   Δ=+64B   Δ=+64B                                  │
-│                         confidence up                                        │
-│                                                                            │
-│ Demand   : A[i] ------ A[i+1] ------ A[i+2] ------ A[i+3]                 │
-│ Prefetch :        A[i+2] ------ A[i+3] ------ A[i+4] ------ A[i+5]        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다    |
++----------------------------------------------------------------------------+
+| Load PC = L1 : A[0] -> A[1] -> A[2] -> A[3]                                |
+|                  Δ=+64B   Δ=+64B   Δ=+64B                                  |
+|                         confidence up                                        |
+|                                                                            |
+| Demand   : A[i] ------ A[i+1] ------ A[i+2] ------ A[i+3]                 |
+| Prefetch :        A[i+2] ------ A[i+3] ------ A[i+4] ------ A[i+5]        |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 친구가 계단을 두 칸씩 오르는 걸 몇 번 보면, 다음에도 같은 간격으로 올라갈 거라 짐작할 수 있다. 루프 프리패처는 그 짐작을 메모리 요청으로 바꾸는 친구다.
@@ -133,20 +133,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Next-Line Prefetch
-        │
-        ▼
+        |
+        v
 Stream Prefetch
-        │
-        ▼
+        |
+        v
 PC-Based Stride / Loop Prefetch
-        │
-        ▼
+        |
+        v
 Adaptive Degree · Distance Control
-        │
-        ▼
+        |
+        v
 Software Hint + Hardware Hybrid
-        │
-        ▼
+        |
+        v
 Irregular Pattern 대응 Adaptive Prefetch
 ```
 
@@ -164,7 +164,7 @@ Irregular Pattern 대응 Adaptive Prefetch
 
 **진행 상황**: 572 / 803
 
-← **이전**: [571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/571_instruction_prefetch_buffer/)
-**다음**: [573. 스트림 프리패처 (Stream Prefetcher)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/573_stream_prefetcher/) →
+<- **이전**: [571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/571_instruction_prefetch_buffer/)
+**다음**: [573. 스트림 프리패처 (Stream Prefetcher)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/573_stream_prefetcher/) ->
 
 ---

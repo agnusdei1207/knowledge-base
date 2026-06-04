@@ -11,29 +11,29 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Circuit Breaker는 <strong>원격 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 호출 실패가 임계치를 초과하면 자동으로 회로를 열어(Open) 호출을 차단</strong>하고, 일정 시간 후 반 열림(Half-Open)으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 시도하는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복원력(Resilience) 패턴이다.
-> 2. **가치**: [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 없이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B가 장애이면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 <strong>타임아웃까지 대기→<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 고갈→A도 장애(Cascading Failure)</strong>가 발생하지만, Circuit Breaker가 <strong>즉시 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 응답</strong>을 반환하여 장애 전파를 차단한다.
-> 3. **판단 포인트**: Closed(정상)→Open(차단)→Half-Open([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시도)의 3가지 상태를 이해하고, Hystrix(Netflix, 레거시)→Resilience4j(Java 표준)→[Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))의 구현 진화를 파악해야 한다.
+> 2. **가치**: [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 없이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B가 장애이면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 <strong>타임아웃까지 대기-><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 고갈->A도 장애(Cascading Failure)</strong>가 발생하지만, Circuit Breaker가 <strong>즉시 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 응답</strong>을 반환하여 장애 전파를 차단한다.
+> 3. **판단 포인트**: Closed(정상)->Open(차단)->Half-Open([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시도)의 3가지 상태를 이해하고, Hystrix(Netflix, 레거시)->Resilience4j(Java 표준)->[Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))의 구현 진화를 파악해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Circuit Breaker 상태 전이                          │
-├───────────────────────────────────────────────────────┤
-│  [Closed — 정상]                                      │
-│   모든 요청 통과, 실패 카운트                        │
-│   실패 > 임계치 → Open                               │
-│                                                       │
-│  [Open — 차단]                                        │
-│   모든 요청 즉시 거부, Fallback 반환                 │
-│   타이머 만료 → Half-Open                            │
-│                                                       │
-│  [Half-Open — 복구 시도]                              │
-│   일부 요청 통과하여 테스트                           │
-│   성공 → Closed / 실패 → Open                       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Circuit Breaker 상태 전이                          |
++-------------------------------------------------------+
+|  [Closed — 정상]                                      |
+|   모든 요청 통과, 실패 카운트                        |
+|   실패 > 임계치 -> Open                               |
+|                                                       |
+|  [Open — 차단]                                        |
+|   모든 요청 즉시 거부, Fallback 반환                 |
+|   타이머 만료 -> Half-Open                            |
+|                                                       |
+|  [Half-Open — 복구 시도]                              |
+|   일부 요청 통과하여 테스트                           |
+|   성공 -> Closed / 실패 -> Open                       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Circuit Breaker는 전기의 <strong>차단기(브레이커)</strong>이다. 과전류(장애)가 흐르면 자동으로 차단하여 화재(Cascading Failure)를 방지한다.
@@ -97,17 +97,17 @@ Circuit Breaker는 <strong><a href="/knowledge-base/studynote/01_computer_archit
 
 ```text
 [직접 호출 (장애 전파, ~2010s)]
-    │
-    ▼
+    |
+    v
 [Hystrix (Netflix, 2012~) — 최초 CB 라이브러리]
-    │
-    ▼
+    |
+    v
 [Resilience4j (2018~) — Hystrix 대체, Java 표준]
-    │
-    ▼
+    |
+    v
 [서비스 메시 CB (Istio/Envoy, 2018~) — 코드 무관]
-    │
-    ▼
+    |
+    v
 [현재: 자동 CB 튜닝 — AI가 임계치 자동 조정]
 ```
 
@@ -122,7 +122,7 @@ Circuit Breaker는 <strong><a href="/knowledge-base/studynote/01_computer_archit
 
 **진행 상황**: 127 / 371
 
-← **이전**: [127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/127_service_discovery/)
-**다음**: [129. Fallback 패턴 - MSA 장애 시 대체 응답 전략](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) →
+<- **이전**: [127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/127_service_discovery/)
+**다음**: [129. Fallback 패턴 - MSA 장애 시 대체 응답 전략](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) ->
 
 ---

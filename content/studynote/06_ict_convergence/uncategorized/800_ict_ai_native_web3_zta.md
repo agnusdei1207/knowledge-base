@@ -24,9 +24,9 @@ tags = ["studynote-ict-convergence"]
 반대로 이런 구조가 없으면 검토는 형식만 남고, 숫자와 문서와 현장이 서로 어긋난다. 그래서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식은 단순 설명이 아니라, 실제 운영에서 판단선을 세우는 도구로 읽어야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 이 그림은 입력이 결과로 바로 가는 것이 아니라, 중간의 기준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거치며 의미가 바뀐다는 점을 보여준다.
@@ -37,7 +37,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 주제의 핵심은 요구사항 → 구성 요소 → 운영 결과의 흐름을 끊김 없이 이어 주는 것이다. 최신 ICT 융합 메가트렌드 ([AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/), Web3, [ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/), [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 구조 프레임워크 총합 망 완성에서 가장 먼저 봐야 할 것은 구성 요소가 아니라 경계다. 무엇을 입력으로 받고, 무엇을 처리하며, 무엇을 증거로 남기는지 정리해야 전체 구조가 보인다.
+이 주제의 핵심은 요구사항 -> 구성 요소 -> 운영 결과의 흐름을 끊김 없이 이어 주는 것이다. 최신 ICT 융합 메가트렌드 ([AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/), Web3, [ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/), [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 구조 프레임워크 총합 망 완성에서 가장 먼저 봐야 할 것은 구성 요소가 아니라 경계다. 무엇을 입력으로 받고, 무엇을 처리하며, 무엇을 증거로 남기는지 정리해야 전체 구조가 보인다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
@@ -46,9 +46,9 @@ tags = ["studynote-ict-convergence"]
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/))과(와) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 이 흐름을 보강하는 대표 축이다. 하나는 기준을 넓히는 관점이고, 다른 하나는 실행을 좁히는 관점이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -115,7 +115,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[신기술 융합과 적용 시나리오과 연결되는 핵심 축] → [최신 ICT 융합 메가트렌드 구조 프레임워크 총합 망 완성] → [신기술 융합과 적용 시나리오과 연결되는 핵심 축]
+[신기술 융합과 적용 시나리오과 연결되는 핵심 축] -> [최신 ICT 융합 메가트렌드 구조 프레임워크 총합 망 완성] -> [신기술 융합과 적용 시나리오과 연결되는 핵심 축]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -130,7 +130,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 552 / 552
 
-← **이전**: [551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)](/knowledge-base/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/)
+<- **이전**: [551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)](/knowledge-base/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/)
 
 ✅ **마지막 글입니다.**
 

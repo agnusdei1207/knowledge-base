@@ -20,10 +20,10 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 Hub-and-Spoke:
-  시스템 A → Hub → 시스템 B
-  시스템 C → Hub → 시스템 D
+  시스템 A -> Hub -> 시스템 B
+  시스템 C -> Hub -> 시스템 D
   Hub: 메시지 변환 + 라우팅 + 로깅
-  → N개 시스템 = N개 연결 (vs P2P의 N(N-1)/2)
+  -> N개 시스템 = N개 연결 (vs P2P의 N(N-1)/2)
 ```
 
 - **📢 섹션 요약 비유**: Hub는 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 공항</strong>이다. 모든 비행기(시스템)가 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 경유하여 목적지로 간다.
@@ -49,10 +49,10 @@ Hub-and-Spoke:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[P2P (스파게티)] → [Hub-and-Spoke (2000s)]
-    → [ESB (2005~, SPOF 해소)]
-    → [iPaaS (클라우드, 2015~)]
-    → [현재: 이벤트 기반 통합 (Kafka)]
+[P2P (스파게티)] -> [Hub-and-Spoke (2000s)]
+    -> [ESB (2005~, SPOF 해소)]
+    -> [iPaaS (클라우드, 2015~)]
+    -> [현재: 이벤트 기반 통합 (Kafka)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Hub-and-Spoke:
 
 **진행 상황**: 143 / 482
 
-← **이전**: [142. P2P 통합 (Point-to-Point) - 스파게티 통합의 문제](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)
-**다음**: [144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) →
+<- **이전**: [142. P2P 통합 (Point-to-Point) - 스파게티 통합의 문제](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)
+**다음**: [144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/) ->
 
 ---

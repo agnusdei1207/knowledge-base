@@ -28,28 +28,28 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Fault의 일상화</strong>: 원래는 '진짜 불법 에러'를 잡으려던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 기술을, '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문' 벨로 용도를 확장([Overloading](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/))하여 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 심장 박동으로 삼았다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        에러(SegFault)인가 정상(Page Fault)인가? 운명의 갈림길         │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ CPU 명령 ] "LOAD 5번 페이지의 10번째 데이터!"                       │
-│                                                                       │
-│ ▶ 1. MMU(하드웨어)의 1차 검문                                         │
-│   페이지 테이블 5번 줄 확인 -> V/I 비트가 'I(Invalid)'네?             │
-│   💥 무조건 CPU 정지! OS에게 트랩(Trap) 발사!                         │
-│                                                                       │
-│ ▶ 2. OS(운영체제) 커널의 2차 정밀 심사 (Page Fault Handler)           │
-│   OS가 프로세스의 진짜 메모리 소유권 장부(VMA 등)를 뜯어봄.           │
-│                                                                       │
-│   갈래길 A ☠️: "이 자식, 5번 페이지를 할당받은 적이 아예 없잖아!"     │
-│              -> 이건 해킹이거나 버그다! Segmentation Fault!           │
-│              -> 프로세스 즉시 척살 (Core Dump)                        │
-│                                                                       │
-│   갈래길 B 🟢: "아~ 할당은 해줬는데 내가 램이 좁아서 스왑(디스크)에   │
-│              쫓아내 놨던 애구나. 내 실수 쏘리."                       │
-│              -> 이것이 진짜 'Page Fault'의 정상 처리 루트!            │
-│              -> 디스크로 달려가 데이터를 램으로 퍼 나름.              │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        에러(SegFault)인가 정상(Page Fault)인가? 운명의 갈림길         |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ CPU 명령 ] "LOAD 5번 페이지의 10번째 데이터!"                       |
+|                                                                       |
+| -> 1. MMU(하드웨어)의 1차 검문                                         |
+|   페이지 테이블 5번 줄 확인 -> V/I 비트가 'I(Invalid)'네?             |
+|   💥 무조건 CPU 정지! OS에게 트랩(Trap) 발사!                         |
+|                                                                       |
+| -> 2. OS(운영체제) 커널의 2차 정밀 심사 (Page Fault Handler)           |
+|   OS가 프로세스의 진짜 메모리 소유권 장부(VMA 등)를 뜯어봄.           |
+|                                                                       |
+|   갈래길 A ☠️: "이 자식, 5번 페이지를 할당받은 적이 아예 없잖아!"     |
+|              -> 이건 해킹이거나 버그다! Segmentation Fault!           |
+|              -> 프로세스 즉시 척살 (Core Dump)                        |
+|                                                                       |
+|   갈래길 B 🟢: "아~ 할당은 해줬는데 내가 램이 좁아서 스왑(디스크)에   |
+|              쫓아내 놨던 애구나. 내 실수 쏘리."                       |
+|              -> 이것이 진짜 'Page Fault'의 정상 처리 루트!            |
+|              -> 디스크로 달려가 데이터를 램으로 퍼 나름.              |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보자들이 가장 많이 헷갈리는 부분이다. 윈도우 블루스크린이나 앱이 뻗는 건 'SegFault(불법)'이고, 우리가 말하는 '[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault'는 컴퓨터가 숨 쉬듯 초당 수백 번씩 정상적으로 일어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문이다. 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 멍청해서 둘을 구분 못 하고 무조건 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 터뜨리지만, 똑똑한 소프트웨어(OS)가 그걸 받아보고 "죽일 놈"과 "밥 줄 놈"을 가려내는 완벽한 협업 시스템이다.
 
@@ -108,12 +108,12 @@ CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전�
 - ⚠ **치명적 한계**: 만약 `A`의 값이 이미 절반쯤 더해진 상태에서 폴트가 터졌다면? 다시 처음부터 덮어쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살 난다! 그래서 인텔과 ARM 등 CPU 하드웨어 설계자들은, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 중간에 폴트가 터져도 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태를 완벽하게 이전으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Roll-back)시킬 수 있는 어마어마하게 복잡한 회로 설계를 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 안에 쑤셔 넣어야만 했다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 하드웨어 엔지니어들의 뼈와 살을 깎아 만든 마법이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 트랩 발생 시│ CPU 레지스터 │ 복구 난이도  │ OS의 역할       │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ 시스템 콜  │ 깔끔히 저장됨 │ 아주 쉬움   │ 부탁 들어주기    │
-│ 페이지 폴트│ 멱살 잡히듯 멈춤│ ☠️ 지옥 수준 │ 디스크 퍼오기 │
-└──────────┴────────────┴────────────┴────────────────────────┘
++----------+------------+------------+------------------------+
+| 트랩 발생 시| CPU 레지스터 | 복구 난이도  | OS의 역할       |
++----------+------------+------------+------------------------+
+| 시스템 콜  | 깔끔히 저장됨 | 아주 쉬움   | 부탁 들어주기    |
+| 페이지 폴트| 멱살 잡히듯 멈춤| ☠️ 지옥 수준 | 디스크 퍼오기 |
++----------+------------+------------+------------------------+
 ```
 **[매트릭스 해설]** [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 예고 없이 뒤통수를 치는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)다. 언제 터질지 모르기 때문에, 하드웨어는 매 클럭마다 상태를 백업할 준비를 하고 있어야 한다. 이 하드웨어 복원 회로([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Logic)가 완벽하지 않았다면 현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체계는 성립조차 할 수 없었을 것이다.
 
@@ -173,12 +173,12 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 ```text
 [유효-무효 비트 (Valid-Invalid Bit)]
-    │
-    ▼
+    |
+    v
 [페이지 부재 (Page Fault)]
-    │
-    ├──▶ [페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]
-    └──▶ [페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
+    |
+    +---> [페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]
+    +---> [페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -195,7 +195,7 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 **진행 상황**: 387 / 800
 
-← **이전**: [386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)
-**다음**: [388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/388_page_fault_handling_6_steps/) →
+<- **이전**: [386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)
+**다음**: [388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/388_page_fault_handling_6_steps/) ->
 
 ---

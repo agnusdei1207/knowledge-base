@@ -35,7 +35,7 @@ TCN은 CNN의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430
 | 인과 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Causal Conv) | 현재 시점은 과거만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누설 방지) |
 | 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Dilated Conv) | 필터 사이에 간격(dilation)을 두어 수용 영역 확장 |
 | 팽창률 (Dilation Rate) | 레이어마다 2배 증가 (1,2,4,8,16,...) |
-| 수용 영역 (Receptive Field) | L개 레이어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) k, 최대 dilation d → RF=(k-1)×d_max+1 |
+| 수용 영역 (Receptive Field) | L개 레이어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) k, 최대 dilation d -> RF=(k-1)×d_max+1 |
 | 잔차 연결 (Residual Connection) | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 방지, 깊은 TCN 학습 |
 
 ```
@@ -44,38 +44,38 @@ TCN은 CNN의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430
 입력 시계열: t₁ t₂ t₃ t₄ t₅ t₆ t₇ t₈
 
 Layer 1 (dilation=1):
-  │ │ │ │ │ │ │ │
-  o o o o o o o o  ← 커널 크기 3, 매 1칸
+  | | | | | | | |
+  o o o o o o o o  <- 커널 크기 3, 매 1칸
 
 Layer 2 (dilation=2):
-  │   │   │   │
-  o   o   o   o  ← 매 2칸 건너뜀
+  |   |   |   |
+  o   o   o   o  <- 매 2칸 건너뜀
 
 Layer 3 (dilation=4):
-  │       │
-  o       o  ← 매 4칸 건너뜀
+  |       |
+  o       o  <- 매 4칸 건너뜀
 
 수용 영역: (3-1)×4 + 1 = 9 타임스텝
 3개 레이어만으로 9 타임스텝 역사 참조!
 
 [TCN 전체 구조]
 입력 시퀀스
-     │
-┌────▼────────────────────────────┐
-│  Dilated Causal Conv (d=1)       │
-│  + 배치 정규화 + ReLU            │
-└────────────────────────────────┘
-     │
-┌────▼────────────────────────────┐
-│  Dilated Causal Conv (d=2)       │
-└────────────────────────────────┘
-     │
-┌────▼────────────────────────────┐
-│  Dilated Causal Conv (d=4)       │
-└────────────────────────────────┘
-     │
+     |
++----v----------------------------+
+|  Dilated Causal Conv (d=1)       |
+|  + 배치 정규화 + ReLU            |
++--------------------------------+
+     |
++----v----------------------------+
+|  Dilated Causal Conv (d=2)       |
++--------------------------------+
+     |
++----v----------------------------+
+|  Dilated Causal Conv (d=4)       |
++--------------------------------+
+     |
    Residual Block 반복
-     │
+     |
    예측 출력
 ```
 
@@ -87,7 +87,7 @@ Layer 3 (dilation=4):
 | Autoformer ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) | 자동 상관 기반 어텐션 | 주기 패턴 |
 | PatchTST (2023) | 시계열을 패치로 분할 | 장기 예측, [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) |
 | iTransformer (2024) | 변수 축으로 어텐션 | 다변량 시계열 |
-| TimesNet (2023) | 1D → 2D 시간 이미지 변환 | 복잡 패턴 |
+| TimesNet (2023) | 1D -> 2D 시간 이미지 변환 | 복잡 패턴 |
 
 📢 **섹션 요약 비유**: 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 과거를 보는 창문 크기가 레이어마다 2배씩 커지는 망원경이다. 적은 층으로도 수백 타임스텝 전을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한다.
 
@@ -153,23 +153,23 @@ TCN과 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywo
 
 ```text
 통계 모델: ARIMA · SARIMA · Prophet
-    │
-    ▼
+    |
+    v
 RNN / LSTM / GRU — 순차적 시계열 처리
-    │
-    ▼
+    |
+    v
 TCN (Temporal Convolutional Network)
-    ├─► 인과적 합성곱 (미래 정보 차단)
-    ├─► 팽창 합성곱 (Dilated Convolution) — 수용 영역 확장
-    └─► 잔차 연결 (Residual Connection)
-    │
-    ▼
+    +-► 인과적 합성곱 (미래 정보 차단)
+    +-► 팽창 합성곱 (Dilated Convolution) — 수용 영역 확장
+    +-► 잔차 연결 (Residual Connection)
+    |
+    v
 Transformer 기반 시계열
-    ├─► Informer (희소 Attention)
-    ├─► Autoformer (자기상관 분해)
-    └─► PatchTST (패치 기반)
-    │
-    ▼
+    +-► Informer (희소 Attention)
+    +-► Autoformer (자기상관 분해)
+    +-► PatchTST (패치 기반)
+    |
+    v
 Foundation Model for Time Series (TimesFM, Chronos)
 ```
 
@@ -179,7 +179,7 @@ Foundation Model for Time Series (TimesFM, Chronos)
 
 **진행 상황**: 157 / 258
 
-← **이전**: [156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/156_recommendation_system_deepfm_collaborative_filtering/)
-**다음**: [158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) →
+<- **이전**: [156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/156_recommendation_system_deepfm_collaborative_filtering/)
+**다음**: [158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) ->
 
 ---

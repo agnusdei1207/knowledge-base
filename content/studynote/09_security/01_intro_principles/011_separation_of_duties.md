@@ -29,12 +29,12 @@ tags = ["security"]
 
 ```text
 [기존 구조의 한계: 단일 권한 독점]
-┌───────────────────────────────────────────────┐
-│              Super User (Admin)               │
-│  [개발] ───> [배포] ───> [DB 접근] ───> [로그 삭제] │
-│   └────────────────▲──────────────────────────┘
-│                    │ 부정이 발생해도 감지 및 통제 불가 (Human SPOF)
-└────────────────────┴──────────────────────────┘
++-----------------------------------------------+
+|              Super User (Admin)               |
+|  [개발] ---> [배포] ---> [DB 접근] ---> [로그 삭제] |
+|   +----------------^--------------------------+
+|                    | 부정이 발생해도 감지 및 통제 불가 (Human SPOF)
++--------------------+--------------------------+
 ```
 
 이 다이어그램은 권한 분리가 없는 환경에서 단일 사용자가 모든 생명주기를 통제할 때 발생하는 위험을 보여준다. 이런 배치는 권한 남용뿐만 아니라 공격자에게 '매력적인 단일 타겟'을 제공하기 때문이며, 따라서 관리자 계정 침해는 곧바로 시스템 전체의 장악과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 삭제를 통한 증거 인멸로 이어진다. 실무에서는 이러한 수퍼유저 패턴을 강력하게 제한해야 한다.
@@ -59,15 +59,15 @@ tags = ["security"]
 [직무 분리(SoD)를 적용한 권한 통제 워크플로우]
 
        (요청)              (승인/거절)             (실행/반영)
-[Developer] ─────────> [Security/Manager] ─────────> [CI/CD System] ──> [Production]
-      │                        │                           │                 ▲
-      │                        │                           │                 │
-      ├────────────────────────┼───────────────────────────┤(감사/로깅)       │
-      ▼                        ▼                           ▼                 │
-┌──────────────────────────────────────────────────────────────────┐         │
-│                        Audit Log & SIEM                          │◀────────┘
-└──────────────────────────────┬───────────────────────────────────┘
-                               │(모니터링)
+[Developer] ---------> [Security/Manager] ---------> [CI/CD System] --> [Production]
+      |                        |                           |                 ^
+      |                        |                           |                 |
+      +------------------------+---------------------------+(감사/로깅)       |
+      v                        v                           v                 |
++------------------------------------------------------------------+         |
+|                        Audit Log & SIEM                          |<---------+
++------------------------------+-----------------------------------+
+                               |(모니터링)
                          [Auditor / SOC]
 ```
 
@@ -93,15 +93,15 @@ tags = ["security"]
 ```text
 [권한 제어 모델의 2차원 매트릭스]
 
-        강 ↑
-   (SoD)   │    [ 관료적 병목 ]       [ 이상적인 보안 상태 ]
-   역할    │  - 안전하지만 느림         - 분할된 최소 권한
-   분리    │  - 생산성 저하 우려        - JIT/결재 시스템 자동화
-   수준    │
-        약 │    [ 최고 위험 구역 ]      [ 타겟팅 위험 구역 ]
-           │  - Super User 존재         - 한 명이 넓은 영역 커버
-           │  - 내부자 위협/해킹 취약   - 권한 탈취 시 파급력 큼
-           └───────────────────────────────────────────────→
+        강 ^
+   (SoD)   |    [ 관료적 병목 ]       [ 이상적인 보안 상태 ]
+   역할    |  - 안전하지만 느림         - 분할된 최소 권한
+   분리    |  - 생산성 저하 우려        - JIT/결재 시스템 자동화
+   수준    |
+        약 |    [ 최고 위험 구역 ]      [ 타겟팅 위험 구역 ]
+           |  - Super User 존재         - 한 명이 넓은 영역 커버
+           |  - 내부자 위협/해킹 취약   - 권한 탈취 시 파급력 큼
+           +------------------------------------------------>
              약                   권한 범위 제한 (PoLP)  강
 ```
 
@@ -128,16 +128,16 @@ tags = ["security"]
 ```text
 [직무 분리 예외 상황(Break-Glass) 운영 플로우]
 
-[장애 발생] ──> 일반 프로세스로는 시간 내 복구 불가 (SoD 병목)
-                  │
-                  ▼
-[Firecall 계정] ──> 물리적 금고/Vault에서 초특권(Super Admin) 계정 인출
-                  │ (알람 즉시 SOC 및 CISO 전송)
-                  ▼
-[장애 조치] ──> 신속한 시스템 복구 실행
-                  │
-                  ▼
-[사후 감사] ──> 사용된 세션 전체 비디오 녹화 및 키스트로크 로깅 분석
+[장애 발생] --> 일반 프로세스로는 시간 내 복구 불가 (SoD 병목)
+                  |
+                  v
+[Firecall 계정] --> 물리적 금고/Vault에서 초특권(Super Admin) 계정 인출
+                  | (알람 즉시 SOC 및 CISO 전송)
+                  v
+[장애 조치] --> 신속한 시스템 복구 실행
+                  |
+                  v
+[사후 감사] --> 사용된 세션 전체 비디오 녹화 및 키스트로크 로깅 분석
                 정당성 검토 후 비밀번호 즉시 로테이션 (비활성화)
 ```
 
@@ -175,21 +175,21 @@ tags = ["security"]
 
 ```text
 [최소 권한 원칙 (Principle of Least Privilege) — 필요 최소한의 권한만 부여]
-    │
-    ▼
+    |
+    v
 [직무 분리 (Separation of Duties) — 단일 주체의 완전한 권한 집중 차단]
-    │
-    ▼
+    |
+    v
 [2인 통제 (Two-Person Integrity) — 핵심 작업에 2명 이상의 승인 요구]
-    │
-    ▼
+    |
+    v
 [역할 기반 접근 통제 (RBAC — Role-Based Access Control) — 직무 분리 자동화]
-    │
-    ▼
+    |
+    v
 [내부 감사 (Internal Audit) / SOX 준수 — 직무 분리 통제 적정성 정기 검증]
 ```
 
-이 흐름은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에서 출발해 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)→2인 통제→[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)→[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임워크로 이어지는 내부 통제 체계 진화를 나타낸다.
+이 흐름은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에서 출발해 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)->2인 통제->[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)->[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임워크로 이어지는 내부 통제 체계 진화를 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 게임에서 최종 보스 방을 열려면 '빨간 열쇠'와 '파란 열쇠'가 모두 필요해요.
@@ -202,7 +202,7 @@ tags = ["security"]
 
 **진행 상황**: 11 / 1108
 
-← **이전**: [10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)
-**다음**: [12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/) →
+<- **이전**: [10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)
+**다음**: [12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/) ->
 
 ---

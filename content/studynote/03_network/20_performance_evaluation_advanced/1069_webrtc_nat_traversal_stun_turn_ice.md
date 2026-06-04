@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [gRPC / 프로토콜 버퍼 직렬화]
-    │
-    ▼
+    |
+    v
 [WebRTC NAT 횡단]
-    │
-    └──▶ [CDN 엣지 노드 분산]
+    |
+    +---> [CDN 엣지 노드 분산]
 ```
 
 - **📢 섹션 요약 비유**: [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -60,11 +60,11 @@ STUN과 TURN을 조종하는 똑똑한 사령관입니다.
 
 ```text
 [gRPC / 프로토콜 버퍼 직렬화]
-    │
-    ▼
+    |
+    v
 [WebRTC NAT 횡단]
-    │
-    └──▶ [CDN 엣지 노드 분산]
+    |
+    +---> [CDN 엣지 노드 분산]
 ```
 
 - **📢 섹션 요약 비유**: [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ STUN과 TURN을 조종하는 똑똑한 사령관입니다.
 
 ```text
 [선행 개념: gRPC / 프로토콜 버퍼 직렬화]
-    │
-    ▼
+    |
+    v
 [현재 개념: WebRTC NAT 횡단]
-    │
-    ├──▶ [확장 A: CDN 엣지 노드 분산]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: CDN 엣지 노드 분산]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단는 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화에서 출발해 현재 메커니즘을 정교화하고, 이후 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ STUN과 TURN을 조종하는 똑똑한 사령관입니다.
 
 **진행 상황**: 175 / 1120
 
-← **이전**: [1068. gRPC / 프로토콜 버퍼 직렬화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1068_grpc_protocol_buffers_serialization_rpc/)
-**다음**: [106. CSMA/CD (Collision Detection) - 유선 이더넷, 충돌 감지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/) →
+<- **이전**: [1068. gRPC / 프로토콜 버퍼 직렬화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1068_grpc_protocol_buffers_serialization_rpc/)
+**다음**: [106. CSMA/CD (Collision Detection) - 유선 이더넷, 충돌 감지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/) ->
 
 ---

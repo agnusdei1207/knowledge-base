@@ -32,7 +32,7 @@ tags = ["studynote-security"]
 예방 통제는 사람, 네트워크, 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 물리 환경에 걸쳐 적용된다. 위협이 시스템에 닿기 전에 경로를 차단하는 것이 핵심이다.
 
 ```text
-Threat → Preventive Control → Block / Limit
+Threat -> Preventive Control -> Block / Limit
 ```
 
 | 영역 | 예시 | 목적 |
@@ -113,17 +113,17 @@ Threat → Preventive Control → Block / Limit
 
 ```text
 위협 인지
-    │
-    ▼
+    |
+    v
 예방 통제
-    │
-    ▼
+    |
+    v
 탐지 통제
-    │
-    ▼
+    |
+    v
 교정 통제
-    │
-    ▼
+    |
+    v
 지속 개선
 ```
 
@@ -141,7 +141,7 @@ Threat → Preventive Control → Block / Limit
 
 **진행 상황**: 53 / 1108
 
-← **이전**: [52. 위험 완화 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/052_risk_mitigation/)
-**다음**: [54. 탐지 통제 (Detective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/) →
+<- **이전**: [52. 위험 완화 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/052_risk_mitigation/)
+**다음**: [54. 탐지 통제 (Detective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/) ->
 
 ---

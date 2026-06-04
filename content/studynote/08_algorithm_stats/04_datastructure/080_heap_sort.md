@@ -10,8 +10,8 @@ tags = ["studynote-algorithm-stats"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 힙 정렬([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) Sort)은 최대 힙(Max-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 이용하여 배열을 정렬하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, Heapify(힙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) → Extract-Max(루트 추출) 반복의 2단계로 O(n log n) [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)와 O(1) 추가 공간을 달성하는 제자리(In-place) 비교 정렬이다.
-> 2. **가치**: 힙 정렬의 핵심 가치는 최악·평균·최선 모두 O(n log n)을 보장하는 유일한 제자리 정렬이라는 점이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 최악 O(n²), 병합 정렬은 O(n) 추가 공간이 필요하다. 따라서 메모리 제약 + 최악 케이스 보장이 요구되는 환경에 적합하다.
+> 1. **본질**: 힙 정렬([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) Sort)은 최대 힙(Max-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 이용하여 배열을 정렬하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, Heapify(힙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) -> Extract-Max(루트 추출) 반복의 2단계로 O(n log n) [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)와 O(1) 추가 공간을 달성하는 제자리(In-place) 비교 정렬이다.
+> 2. **가치**: 힙 정렬의 핵심 가치는 최악·평균·최선 모두 O(n log n)을 보장하는 유일한 제자리 정렬이라는 점이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 최악 O(n^), 병합 정렬은 O(n) 추가 공간이 필요하다. 따라서 메모리 제약 + 최악 케이스 보장이 요구되는 환경에 적합하다.
 > 3. **판단 포인트**: 실무에서 힙 정렬은 캐시 지역성(Cache Locality)이 낮아 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 느린 경우가 많다. 힙의 임의 접근 패턴(Random Access)이 CPU 캐시 미스를 유발하기 때문이다. 이런 이유로 실제 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 정렬(Python [TimSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), Java Dual-Pivot QuickSort)에서는 힙 정렬을 단독으로 거의 사용하지 않는다.
 
 ---
@@ -22,13 +22,13 @@ tags = ["studynote-algorithm-stats"]
 힙 정렬 2단계:
 
 1단계: Build Max-Heap (O(n))
-  [3,1,6,5,2,4] → 힙화 → [6,5,4,3,2,1]
+  [3,1,6,5,2,4] -> 힙화 -> [6,5,4,3,2,1]
                                 (최대 힙)
 
 2단계: Extract-Max 반복 (n-1번, 각 O(log n))
-  [6,5,4,3,2,1] → 6 추출·말단 교환 → Heapify
-  → [5,3,4,1,2|6] → 5 추출... 반복
-  → 정렬 완료: [1,2,3,4,5,6]
+  [6,5,4,3,2,1] -> 6 추출·말단 교환 -> Heapify
+  -> [5,3,4,1,2|6] -> 5 추출... 반복
+  -> 정렬 완료: [1,2,3,4,5,6]
 ```
 
 - **📢 섹션 요약 비유**: 힙 정렬은 사장을 반복 해고하는 인사 시스템이다. 회사(힙)에서 가장 능력 있는 사람(최대값)을 계속 뽑아 정렬된 명단에 추가하고, 남은 직원 중 새로운 사장을 선출하는 과정을 반복한다.
@@ -70,7 +70,7 @@ Heapify(i):
 
 | 비교 | 힙 정렬 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | 병합 정렬 |
 |:---|:---|:---|:---|
-| 최악 시간 | O(n log n) | O(n²) | O(n log n) |
+| 최악 시간 | O(n log n) | O(n^) | O(n log n) |
 | 평균 시간 | O(n log n) | O(n log n) | O(n log n) |
 | 공간 | O(1) | O(log n) | O(n) |
 | 캐시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮음 | 높음 | 중간 |
@@ -85,7 +85,7 @@ Heapify(i):
 ### 힙 정렬의 실제 사용처
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a> 구현</strong>: 힙 정렬의 핵심 자료구조인 힙이 직접 활용.
 - **K번째 최댓값 탐색**: 힙을 이용해 O(n + k log n)으로 효율적 해결.
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">IntroSort</a></strong>: C++ STL std::sort. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 깊어지면 힙 정렬로 전환 → O(n log n) 최악 보장.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">IntroSort</a></strong>: C++ STL std::sort. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 깊어지면 힙 정렬로 전환 -> O(n log n) 최악 보장.
 
 ### [IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) (하이브리드)
 ```text
@@ -126,18 +126,18 @@ IntroSort = QuickSort + HeapSort + InsertionSort
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[선택 정렬 — O(n²) 기본 선택 기반 정렬]
-    │
-    ▼
+[선택 정렬 — O(n^) 기본 선택 기반 정렬]
+    |
+    v
 [힙 자료구조 — O(log n) 최대·최소값 추출]
-    │
-    ▼
+    |
+    v
 [힙 정렬 — O(n log n) 제자리 정렬]
-    │
-    ▼
+    |
+    v
 [IntroSort — 힙+퀵+삽입 하이브리드 최적화]
-    │
-    ▼
+    |
+    v
 [우선순위 큐 응용 — 스케줄러, 다익스트라, A*]
 ```
 
@@ -153,7 +153,7 @@ IntroSort = QuickSort + HeapSort + InsertionSort
 
 **진행 상황**: 80 / 175
 
-← **이전**: [26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/)
-**다음**: [27. 스파스 테이블 (Sparse Table) — 정적 RMQ 최적 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/081_sparse_table/) →
+<- **이전**: [26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/)
+**다음**: [27. 스파스 테이블 (Sparse Table) — 정적 RMQ 최적 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/081_sparse_table/) ->
 
 ---

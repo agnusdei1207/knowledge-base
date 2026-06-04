@@ -25,8 +25,8 @@ Nexus와 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ```text
 build -> store -> scan -> promote -> deploy
-            │          │
-            ├─ Nexus   └─ Docker Registry
+            |          |
+            +- Nexus   +- Docker Registry
 ```
 
 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쌓는 것이 아니라, 재현과 승격이 가능하게 만드는 데 있다.
@@ -106,17 +106,17 @@ Nexus Repository Manager는 여러 패키지 형식의 local, [proxy](/knowledge
 
 ```text
 build
-  │
-  ▼
+  |
+  v
 store
-  │
-  ▼
+  |
+  v
 scan
-  │
-  ▼
+  |
+  v
 promote
-  │
-  ▼
+  |
+  v
 deploy
 ```
 
@@ -132,7 +132,7 @@ deploy
 
 **진행 상황**: 75 / 373
 
-← **이전**: [74. GitLab CI/CD - 파이프라인 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/074_gitlab_ci_cd_pipeline_automation/)
-**다음**: [76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/076_artifact_repository_nexus_jfrog_ecr/) →
+<- **이전**: [74. GitLab CI/CD - 파이프라인 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/074_gitlab_ci_cd_pipeline_automation/)
+**다음**: [76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/076_artifact_repository_nexus_jfrog_ecr/) ->
 
 ---

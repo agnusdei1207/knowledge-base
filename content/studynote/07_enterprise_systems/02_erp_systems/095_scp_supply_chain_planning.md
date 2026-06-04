@@ -33,20 +33,20 @@ SCP는 시간의 흐름을 거슬러 올라가며 미래를 예측하고 자원�
 | **운송 계획 (Transportation Planning)** | 창고에서 매장까지 트럭이 이동하는 최단 거리 경로 최적화 ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 시뮬레이션) | 유류비 절감 및 납기 시간 준수 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SCP (공급망 계획) 모듈 아키텍처             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [시장 정보/과거 데이터] ──▶ 1. 수요 계획 (몇 개 팔릴까?) │
-│                                      │                       │
-│  [공장 CAPA/제약 조건] ───▶ 2. 생산 계획 (어디서 만들까?) │
-│                                      │                       │
-│  [창고 용량/재고 현황] ───▶ 3. 유통 계획 (어디에 쌓을까?) │
-│                                      │                       │
-│  [도로망/납기 정보] ──────▶ 4. 운송 계획 (어떻게 보낼까?) │
-│                                                              │
-│  ★ 도출된 마스터 플랜 ────▶ [ SCE (실행: 창고, 트럭 시스템) ]  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  SCP (공급망 계획) 모듈 아키텍처             |
++--------------------------------------------------------------+
+|                                                              |
+|  [시장 정보/과거 데이터] ---> 1. 수요 계획 (몇 개 팔릴까?) |
+|                                      |                       |
+|  [공장 CAPA/제약 조건] ----> 2. 생산 계획 (어디서 만들까?) |
+|                                      |                       |
+|  [창고 용량/재고 현황] ----> 3. 유통 계획 (어디에 쌓을까?) |
+|                                      |                       |
+|  [도로망/납기 정보] -------> 4. 운송 계획 (어떻게 보낼까?) |
+|                                                              |
+|  ★ 도출된 마스터 플랜 -----> [ SCE (실행: 창고, 트럭 시스템) ]  |
++--------------------------------------------------------------+
 ```
 이 그림은 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력받아 가장 불확실한 '수요'를 먼저 확정 짓고, 이를 기준으로 생산, 유통, 운송 순으로 계획이 폭포수처럼 구체화되는 흐름을 보여준다.
 
@@ -100,17 +100,17 @@ SCP의 정밀한 계획은 채찍 효과 ([Bullwhip Effect](/knowledge-base/stud
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 MRP (자재 소요 계획, 내부 공장 중심)
-    │
-    ▼
+    |
+    v
 ERP (전사적 자원 관리, 기업 내부 전체 통합)
-    │
-    ▼
+    |
+    v
 SCM 도입 및 SCP (수요/생산 계획 알고리즘 고도화)
-    │
-    ▼
+    |
+    v
 S&OP (부서 간 합의) 및 SCE (실행 시스템 연동)
-    │
-    ▼
+    |
+    v
 AI 기반 자율형 공급망 (Cognitive SCM & Digital Twin)
 ```
 이 흐름도는 단위 공장 내부의 단순 자재 계산([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))에서 시작해 기업 전체([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)/[SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/))로 시야가 넓어지고, 최종적으로 AI가 결합한 자율 예측망으로 진화하는 과정을 보여준다.
@@ -126,7 +126,7 @@ AI 기반 자율형 공급망 (Cognitive SCM & Digital Twin)
 
 **진행 상황**: 95 / 482
 
-← **이전**: [94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/094_bullwhip_effect_mitigation_pos_vmi/)
-**다음**: [96. SCE (Supply Chain Execution) - 공급망 실행 (주문 처리, 물류/창고 제어)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/096_sce_supply_chain_execution_oms/) →
+<- **이전**: [94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/094_bullwhip_effect_mitigation_pos_vmi/)
+**다음**: [96. SCE (Supply Chain Execution) - 공급망 실행 (주문 처리, 물류/창고 제어)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/096_sce_supply_chain_execution_oms/) ->
 
 ---

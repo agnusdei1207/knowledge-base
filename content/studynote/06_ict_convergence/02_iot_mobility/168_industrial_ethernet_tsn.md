@@ -44,14 +44,14 @@ TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institut
 아래 그림은 TSN이 시간 슬롯을 어떻게 쓰는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    TSN gate schedule over one cycle                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Time slot      0~125us      125~250us      250~500us                │
-│ Queue gate     Control open  Safety open    Best-effort open         │
-│ Traffic class  Motion Ctrl   Alarm / Sync   Video / HMI / Logs       │
-│ Result         No contention Deterministic  Shared bandwidth use      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    TSN gate schedule over one cycle                  |
++----------------------------------------------------------------------+
+| Time slot      0~125us      125~250us      250~500us                |
+| Queue gate     Control open  Safety open    Best-effort open         |
+| Traffic class  Motion Ctrl   Alarm / Sync   Video / HMI / Logs       |
+| Result         No contention Deterministic  Shared bandwidth use      |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 종단 장치가 같은 시간을 보고 있어야 한다는 점이다. 그래야 어떤 큐를 언제 열지, 어떤 프레임을 선점할지, 어떤 경로로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할지 계산이 맞아 떨어진다. 즉 TSN은 단일 장비의 성능보다 <strong>전체 네트워크가 같은 시계를 보며 같은 시간표로 움직이는가</strong>가 더 중요하다.
@@ -136,19 +136,19 @@ TSN을 올바르게 적용하면 제어 트래픽의 [지연](/knowledge-base/st
 
 ```text
 필드버스 · 전용 제어망
-    │
-    ▼
+    |
+    v
 산업용 이더넷
-    │
-    ▼
+    |
+    v
 TSN (Time-Sensitive Networking)
-    │
-    ├─ 시간 동기화
-    ├─ 예약 스케줄링
-    ├─ 프레임 선점
-    └─ 경로 이중화
-    │
-    ▼
+    |
+    +- 시간 동기화
+    +- 예약 스케줄링
+    +- 프레임 선점
+    +- 경로 이중화
+    |
+    v
 IT/OT 통합 제어망 · 스마트 팩토리 · 차량용 이더넷
 ```
 
@@ -166,7 +166,7 @@ IT/OT 통합 제어망 · 스마트 팩토리 · 차량용 이더넷
 
 **진행 상황**: 168 / 552
 
-← **이전**: [167. CPS (Cyber-Physical System / 가상물리시스템) - 컴퓨팅 연산 체계(Cyber)가 물리(Physical)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)
-**다음**: [169. OPC UA - 스마트 팩토리 산업 자동화 표준 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/169_opc_ua_industrial_automation/) →
+<- **이전**: [167. CPS (Cyber-Physical System / 가상물리시스템) - 컴퓨팅 연산 체계(Cyber)가 물리(Physical)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)
+**다음**: [169. OPC UA - 스마트 팩토리 산업 자동화 표준 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/169_opc_ua_industrial_automation/) ->
 
 ---

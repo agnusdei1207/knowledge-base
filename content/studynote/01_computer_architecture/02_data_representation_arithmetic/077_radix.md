@@ -17,7 +17,7 @@ tags = ["studynote-computer-architecture"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-기수는 위치 값 기수법(Positional Notation)에서 각 자리의 가중치를 결정하는 기준이다. 예를 들어 `123₁₀`은 `1×10² + 2×10¹ + 3×10⁰`으로 읽힌다. 숫자의 "형태"보다 "자리값"이 더 중요하다는 뜻이다.
+기수는 위치 값 기수법(Positional Notation)에서 각 자리의 가중치를 결정하는 기준이다. 예를 들어 `123₁₀`은 `1×10^ + 2×10¹ + 3×10⁰`으로 읽힌다. 숫자의 "형태"보다 "자리값"이 더 중요하다는 뜻이다.
 
 컴퓨터는 스위치가 0과 1만 안정적으로 다루기 때문에 2진수가 기본이고, 사람은 10진수에 익숙하다. 그래서 8진수와 16진수 같은 보조 표기가 필요해졌다. 기수는 단순한 표기법이 아니라, 인간 친화성과 기계 친화성 사이의 타협점이다.
 
@@ -37,11 +37,11 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 16진수  A   3   F
-        │   │   │
-자리값 16² 16¹ 16⁰
-        │   │   │
+        |   |   |
+자리값 16^ 16¹ 16⁰
+        |   |   |
 2진수  1010 0011 1111
-        └───┴───┴───┘
+        +---+---+---+
          A    3    F
 ```
 
@@ -96,14 +96,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 자연수 세기
-    │
-    ▼
+    |
+    v
 자리값을 가진 숫자 체계
-    │
-    ▼
+    |
+    v
 2진수 / 8진수 / 10진수 / 16진수
-    │
-    ▼
+    |
+    v
 메모리 주소 · 비트 마스크 · 디버깅 덤프
 ```
 
@@ -119,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 77 / 803
 
-← **이전**: [76. 더블 워드 (Double Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/)
-**다음**: [78. 진법 변환 (2진수, 8진수, 10진수, 16진수)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/078_numeral_systems/) →
+<- **이전**: [76. 더블 워드 (Double Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/)
+**다음**: [78. 진법 변환 (2진수, 8진수, 10진수, 16진수)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/078_numeral_systems/) ->
 
 ---

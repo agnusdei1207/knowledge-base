@@ -26,27 +26,27 @@ HTM은 이 모순을 해결한다. "일단 락 없이 동시에 실행(Optimisti
 **💡 비유**: HTM은 자율 계산대 — 줄 서서 한 명씩 결제([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))하는 대신, 각자 물건을 스캔하고 나가다가 혹시 중복 바코드가 찍혔을 때만 경보를 울려 다시 스캔([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하게 한다. 평소엔 멈춤 없이 통과!
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         전통적 락(Lock) vs 하드웨어 트랜잭셔널 메모리(HTM)     │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [전통적 Lock 기반 (Coarse-grained)]                           │
-│  스레드 A: Lock(X) → X.a 수정 → Unlock(X)                      │
-│  스레드 B: 대기(Wait)             → Lock(X) → X.b 수정         │
-│  → 변수 X 안의 a와 b는 위치가 달라도 동시 수정 불가!           │
-│                                                                │
-│  [HTM 기반 실행 (Intel TSX)]                                   │
-│  스레드 A: XBEGIN → X.a 수정 → XEND (Commit!)                  │
-│  스레드 B: XBEGIN → X.b 수정 → XEND (Commit!)                  │
-│  → 충돌 없음! L1 캐시가 서로 겹치지 않음을 하드웨어가 증명     │
-│  → 락 없이 완벽한 병렬 실행 성공                               │
-│                                                                │
-│  [HTM 충돌 발생 시]                                            │
-│  스레드 A: XBEGIN → X.a 수정                                   │
-│  스레드 B: XBEGIN → X.a 수정 (충돌감지: 캐시 Invalidated)      │
-│  → 스레드 B 연산 무효화 (Abort) 후 Fallback 코드(전통적 Lock   │
-│    또는 재시도) 실행                                           │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         전통적 락(Lock) vs 하드웨어 트랜잭셔널 메모리(HTM)     |
++----------------------------------------------------------------+
+|                                                                |
+|  [전통적 Lock 기반 (Coarse-grained)]                           |
+|  스레드 A: Lock(X) -> X.a 수정 -> Unlock(X)                      |
+|  스레드 B: 대기(Wait)             -> Lock(X) -> X.b 수정         |
+|  -> 변수 X 안의 a와 b는 위치가 달라도 동시 수정 불가!           |
+|                                                                |
+|  [HTM 기반 실행 (Intel TSX)]                                   |
+|  스레드 A: XBEGIN -> X.a 수정 -> XEND (Commit!)                  |
+|  스레드 B: XBEGIN -> X.b 수정 -> XEND (Commit!)                  |
+|  -> 충돌 없음! L1 캐시가 서로 겹치지 않음을 하드웨어가 증명     |
+|  -> 락 없이 완벽한 병렬 실행 성공                               |
+|                                                                |
+|  [HTM 충돌 발생 시]                                            |
+|  스레드 A: XBEGIN -> X.a 수정                                   |
+|  스레드 B: XBEGIN -> X.a 수정 (충돌감지: 캐시 Invalidated)      |
+|  -> 스레드 B 연산 무효화 (Abort) 후 Fallback 코드(전통적 Lock   |
+|    또는 재시도) 실행                                           |
++----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: HTM은 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 불편함을 없애주는 마법의 공간 — 각자 마음대로 메모리 일기장을 쓰다가, 우연히 같은 줄을 쓰려고 할 때만 한 명의 글을 지우고 다시 쓰게 만듭니다.
@@ -76,7 +76,7 @@ Intel TSX는 코어의 <strong>L1 <a href="/knowledge-base/studynote/05_database
 | 제어 방식 | 비관적 (충돌을 미리 방지) | 낙관적 (SW로 추적/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) | 낙관적 (HW로 추적/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) |
 | 오버헤드 | 락 획득/해제 (경합 시 급증) | 모든 연산마다 로깅 발생 | 거의 없음 (CPU 네이티브 속도) |
 | 병렬성 | 락 단위에 종속 (Coarse는 낮음) | 매우 높음 | 매우 높음 |
-| 한계/약점 | 데드락, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), 확장성↓ | CPU/메모리 오버헤드 큼 | 용량 제한 (L1 캐시), 잦은 Abort |
+| 한계/약점 | 데드락, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), 확장성v | CPU/메모리 오버헤드 큼 | 용량 제한 (L1 캐시), 잦은 Abort |
 
 **📢 섹션 요약 비유**: Lock은 교차로 신호등(대기 길어짐), STM은 보행자 관제센터(모든 걸 감시해 느림), HTM은 스마트 로터리(멈춤 없이 돌다가 위험할 때만 브레이크)입니다.
 
@@ -123,12 +123,12 @@ HTM은 락 오버헤드라는 소프트웨어계의 오랜 난제를 하드웨�
 
 ```text
 [소프트웨어 트랜잭셔널 메모리 (STM)]
-    │
-    ▼
+    |
+    v
 [하드웨어 트랜잭셔널 메모리 (HTM]
-    │
-    ├──▶ [락 엘리전 (Lock Elision)]
-    └──▶ [스레드 풀 스케줄링 락 경합 (Work Stealing)]
+    |
+    +---> [락 엘리전 (Lock Elision)]
+    +---> [스레드 풀 스케줄링 락 경합 (Work Stealing)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -145,7 +145,7 @@ HTM은 락 오버헤드라는 소프트웨어계의 오랜 난제를 하드웨�
 
 **진행 상황**: 269 / 800
 
-← **이전**: [268. 소프트웨어 트랜잭셔널 메모리 (STM)](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)
-**다음**: [270. 락 엘리전 (Lock Elision) - 하드웨어 지원 락 우회](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/) →
+<- **이전**: [268. 소프트웨어 트랜잭셔널 메모리 (STM)](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)
+**다음**: [270. 락 엘리전 (Lock Elision) - 하드웨어 지원 락 우회](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/) ->
 
 ---

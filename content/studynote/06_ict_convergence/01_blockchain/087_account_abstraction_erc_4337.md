@@ -28,7 +28,7 @@ ERC-4337 (Ethereum Request for Comments 4337)은 [프로토콜](/knowledge-base/
 
     ## Ⅱ. 아키텍처 및 핵심 원리
 
-    핵심 경로는 `UserOperation` → `Bundler` → `EntryPoint` → [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 지갑 → 실행 순서로 흐른다. Bundler는 여러 UserOperation을 묶어 메모리풀에 올리고, EntryPoint는 표준 진입점에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 실행을 중재한다.
+    핵심 경로는 `UserOperation` -> `Bundler` -> `EntryPoint` -> [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 지갑 -> 실행 순서로 흐른다. Bundler는 여러 UserOperation을 묶어 메모리풀에 올리고, EntryPoint는 표준 진입점에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 실행을 중재한다.
 
 | 구성요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -40,20 +40,20 @@ ERC-4337 (Ethereum Request for Comments 4337)은 [프로토콜](/knowledge-base/
 
 ```text
 사용자 의도
-   │
-   ▼
+   |
+   v
 UserOperation
-   │
-   ▼
-Bundler ──────────────┐
-   │                  │ 여러 요청을 묶어 전송
-   ▼                  │
-EntryPoint ───► 검증 ─┤
-   │                  │
-   ├──► Paymaster ────┘
-   │
-   ▼
-Smart Contract Wallet ──► execute()
+   |
+   v
+Bundler --------------+
+   |                  | 여러 요청을 묶어 전송
+   v                  |
+EntryPoint ---► 검증 -+
+   |                  |
+   +--► Paymaster ----+
+   |
+   v
+Smart Contract Wallet --► execute()
 ```
 
 이 구조에서 중요한 점은 지갑이 서명을 확인하는 것에 그치지 않고, 누구에게 비용을 맡길지와 어떤 조건에서 실행할지까지 판단한다는 것이다.
@@ -123,17 +123,17 @@ ERC-4337은 ERC-2771 같은 메타트랜잭션보다 표준화된 실행 경로�
     ### 📈 관련 키워드 및 발전 흐름도
 
     개인키 중심 [EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/)
-    │
-    ▼
+    |
+    v
 메타트랜잭션과 relayer
-    │
-    ▼
+    |
+    v
 ERC-4337 UserOperation
-    │
-    ▼
+    |
+    v
 Bundler / EntryPoint / Paymaster
-    │
-    ▼
+    |
+    v
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 지갑
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ Bundler / EntryPoint / Paymaster
 
 **진행 상황**: 87 / 552
 
-← **이전**: [86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑](/knowledge-base/studynote/06_ict_convergence/01_blockchain/086_multisig_wallet_n_of_m/)
-**다음**: [88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) →
+<- **이전**: [86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑](/knowledge-base/studynote/06_ict_convergence/01_blockchain/086_multisig_wallet_n_of_m/)
+**다음**: [88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) ->
 
 ---

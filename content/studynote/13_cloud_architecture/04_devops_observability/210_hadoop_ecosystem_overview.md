@@ -13,7 +13,7 @@ tags = ["studynote-cloud-architecture"]
 
 > 1. **본질**: 빅데이터의 본질은 기존 RDBMS가 처리하기 어려운 대규모·고속·다양한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하여 새로운 비즈니스 인사이트를 추출하는 것이며, 3V([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)·Velocity·Variety)가 정의의 핵심이다.
 > 2. **가치**: 클라우드 환경에서 빅데이터는 저장([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))·처리(Spark/EMR)·분석(Athena/[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/))을 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 조합하여 인프라 운영 부담 없이 구현 가능해졌다.
-> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치(Value)는 3V 중 어느 하나가 충족되어도 자동으로 생기지 않는다. 비즈니스 질문 정의 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 → 처리 → 분석 → 인사이트 액션의 전 과정이 유기적으로 연결될 때만 실질적 가치가 발생한다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치(Value)는 3V 중 어느 하나가 충족되어도 자동으로 생기지 않는다. 비즈니스 질문 정의 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 -> 처리 -> 분석 -> 인사이트 액션의 전 과정이 유기적으로 연결될 때만 실질적 가치가 발생한다.
 
 ---
 
@@ -44,21 +44,21 @@ tags = ["studynote-cloud-architecture"]
 ### 클라우드 빅데이터 아키텍처 ([람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/))
 
 ```
-  ┌─────────────────────────────────────────────────────────┐
-  │               Lambda Architecture                        │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                          │
-  │  데이터 소스 → Kafka/Kinesis → ┬──→ 배치 레이어           │
-  │                                │    (HDFS/S3 + Spark)   │
-  │                                │    대규모 정확한 처리     │
-  │                                │         │               │
-  │                                ├──→ 스피드 레이어         │
-  │                                │    (Spark Streaming)   │
-  │                                │    실시간 근사 처리       │
-  │                                │         │               │
-  │                                └─────────┼──→ 서빙 레이어 │
-  │                                          │    (쿼리 API)  │
-  └──────────────────────────────────────────┴───────────────┘
+  +---------------------------------------------------------+
+  |               Lambda Architecture                        |
+  +---------------------------------------------------------+
+  |                                                          |
+  |  데이터 소스 -> Kafka/Kinesis -> +---> 배치 레이어           |
+  |                                |    (HDFS/S3 + Spark)   |
+  |                                |    대규모 정확한 처리     |
+  |                                |         |               |
+  |                                +---> 스피드 레이어         |
+  |                                |    (Spark Streaming)   |
+  |                                |    실시간 근사 처리       |
+  |                                |         |               |
+  |                                +---------+---> 서빙 레이어 |
+  |                                          |    (쿼리 API)  |
+  +------------------------------------------+---------------+
 ```
 
 ### 주요 빅데이터 처리 패러다임
@@ -103,11 +103,11 @@ tags = ["studynote-cloud-architecture"]
 <strong>현대 클라우드 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a> 진화</strong>:
 ```
 1세대 (하둡): HDFS + MapReduce (온프레미스)
-    ↓
+    v
 2세대 (스파크): 메모리 기반 고속 처리, 하둡 위에서 실행
-    ↓
+    v
 3세대 (클라우드 네이티브): S3 + EMR/Glue + Athena 서버리스
-    ↓
+    v
 4세대 (데이터 메시/레이크하우스): Delta Lake, Databricks Lakehouse
 ```
 
@@ -118,7 +118,7 @@ tags = ["studynote-cloud-architecture"]
 
 **기술사 판단 포인트**:
 - 빅데이터 프로젝트의 70%가 실패하는 이유: 기술 문제가 아니라 "어떤 비즈니스 질문에 답할 것인가"가 명확하지 않기 때문
-- 3V를 모두 갖췄더라도 Veracity([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)가 낮으면 분석 결과를 신뢰할 수 없음 → "Garbage In, Garbage Out"
+- 3V를 모두 갖췄더라도 Veracity([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)가 낮으면 분석 결과를 신뢰할 수 없음 -> "Garbage In, Garbage Out"
 - 클라우드 환경에서는 컴퓨팅과 스토리지 분리(S3 + EMR)가 비용 최적화의 핵심
 
 📢 **섹션 요약 비유**: 빅데이터 프로젝트 실패는 도서관에 책을 수백만 권 갖다 놓은 후 "그래서 뭘 찾을 건지" 모르는 상황과 같다. 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 올바른 질문이 먼저다.
@@ -159,14 +159,14 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 단일 서버 처리 한계 (데이터 폭증)
-    │
-    ▼
+    |
+    v
 Hadoop Ecosystem: 분산 저장 + 분산 처리
-    ├─► HDFS: 분산 파일 시스템
-    ├─► MapReduce → Spark: 분산 연산
-    └─► YARN: 클러스터 리소스 관리
-    │
-    ▼
+    +-► HDFS: 분산 파일 시스템
+    +-► MapReduce -> Spark: 분산 연산
+    +-► YARN: 클러스터 리소스 관리
+    |
+    v
 클라우드 네이티브: S3 + Spark on K8s · Databricks
 ```
 2. 이걸 혼자(RDBMS) 처리하기는 불가능해서 수백 명이 분업([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리)해야 해.
@@ -178,7 +178,7 @@ Hadoop Ecosystem: 분산 저장 + 분산 처리
 
 **진행 상황**: 209 / 371
 
-← **이전**: [209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/209_resilience_reliability_redundancy/)
-**다음**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/) →
+<- **이전**: [209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/209_resilience_reliability_redundancy/)
+**다음**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/) ->
 
 ---

@@ -28,17 +28,17 @@ tags = ["studynote-enterprise"]
 아래 그림은 샤시가 왜 "중복 제거 이상의 의미"를 가지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Without chassis vs with chassis                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Service A : biz + log + trace + config + health                   │
-│ Service B : biz + log + trace + config + health                   │
-│ Service C : biz + log + trace + config + health                   │
-│                                                                    │
-│ With chassis :                                                     │
-│   shared chassis -> log / metrics / tracing / config / health     │
-│   each service  -> business capability only                       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Without chassis vs with chassis                                   |
++--------------------------------------------------------------------+
+| Service A : biz + log + trace + config + health                   |
+| Service B : biz + log + trace + config + health                   |
+| Service C : biz + log + trace + config + health                   |
+|                                                                    |
+| With chassis :                                                     |
+|   shared chassis -> log / metrics / tracing / config / health     |
+|   each service  -> business capability only                       |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 가치는 단순한 코드 절감이 아니다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들 때마다 같은 방식으로 관측과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 기본 보안을 확보할 수 있으므로, 운영팀 입장에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘어도 관리 방식이 크게 흔들리지 않는다.
@@ -52,22 +52,22 @@ tags = ["studynote-enterprise"]
 샤시는 보통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 스타터 패키지, 내부 프레임워크 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 안에 포함된다. 그래서 요청 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), 예외, 애플리케이션 생명주기에 직접 접근할 수 있다. 이 점이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)나 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)처럼 프로세스 밖에서 동작하는 방식과 가장 크게 다른 부분이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ In-process composition of a chassis                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Business endpoint / domain logic                                  │
-│        │                                                          │
-│        ▼                                                          │
-│ Chassis layer                                                     │
-│   ├─ bootstrapping & dependency wiring                            │
-│   ├─ structured logging / metrics / trace context                 │
-│   ├─ config binding / secrets integration                         │
-│   ├─ resilience policy / client wrapper                           │
-│   └─ health check / graceful shutdown                             │
-│        │                                                          │
-│        ▼                                                          │
-│ Language runtime + framework + platform SDK                       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| In-process composition of a chassis                               |
++--------------------------------------------------------------------+
+| Business endpoint / domain logic                                  |
+|        |                                                          |
+|        v                                                          |
+| Chassis layer                                                     |
+|   +- bootstrapping & dependency wiring                            |
+|   +- structured logging / metrics / trace context                 |
+|   +- config binding / secrets integration                         |
+|   +- resilience policy / client wrapper                           |
+|   +- health check / graceful shutdown                             |
+|        |                                                          |
+|        v                                                          |
+| Language runtime + framework + platform SDK                       |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -115,23 +115,23 @@ tags = ["studynote-enterprise"]
 아래 흐름은 어떤 공통 기능을 샤시에 둘지 판단하는 기준을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Decide where a common concern should live                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Need request context / exception / framework hook?                │
-│        ├─ Yes ─▶ Chassis                                           │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Is it mostly network policy or traffic control?                   │
-│        ├─ Yes ─▶ Sidecar / Service Mesh                           │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Is it only for project creation once?                             │
-│        ├─ Yes ─▶ Template / Scaffold                              │
-│        └─ No  ─▶ Reconsider platform boundary                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Decide where a common concern should live                         |
++--------------------------------------------------------------------+
+| Need request context / exception / framework hook?                |
+|        +- Yes --> Chassis                                           |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Is it mostly network policy or traffic control?                   |
+|        +- Yes --> Sidecar / Service Mesh                           |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Is it only for project creation once?                             |
+|        +- Yes --> Template / Scaffold                              |
+|        +- No  --> Reconsider platform boundary                     |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -183,17 +183,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 서비스 수 증가
-      │
-      ▼
+      |
+      v
 보일러플레이트 중복 · 운영 표준 불일치
-      │
-      ▼
+      |
+      v
 마이크로서비스 샤시 (Microservice Chassis)
-      │
-      ├──────────────► 로깅 · 메트릭 · 분산 추적 표준화
-      ├──────────────► 설정 · 헬스 체크 · 예외 처리 공통화
-      ├──────────────► 서비스 부트스트랩 단축
-      └──────────────► 사이드카 · 서비스 메시와 역할 분담
+      |
+      +--------------► 로깅 · 메트릭 · 분산 추적 표준화
+      +--------------► 설정 · 헬스 체크 · 예외 처리 공통화
+      +--------------► 서비스 부트스트랩 단축
+      +--------------► 사이드카 · 서비스 메시와 역할 분담
 ```
 
 이 흐름은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수 증가가 공통 코드 표준화를 요구하고, 이후에는 샤시와 외부 플랫폼을 조합하는 방향으로 성숙해 가는 과정을 보여 준다.
@@ -210,7 +210,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 183 / 482
 
-← **이전**: [182. 사이드카 패턴 (Sidecar Pattern) - MSA 프록시 컨테이너](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)
-**다음**: [184. 외부화된 설정 서버 (Externalized Configuration Server)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/184_externalized_configuration_server/) →
+<- **이전**: [182. 사이드카 패턴 (Sidecar Pattern) - MSA 프록시 컨테이너](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)
+**다음**: [184. 외부화된 설정 서버 (Externalized Configuration Server)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/184_externalized_configuration_server/) ->
 
 ---

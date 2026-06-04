@@ -31,13 +31,13 @@ tags = ["bigdata"]
 [클라우드 환경에서의 데이터 관할권 충돌 문제]
 
    [국가 A (예: 유럽/한국)]                [국가 B (예: 미국)]
-┌─────────────────────────┐         ┌─────────────────────────┐
-│  ┌───────────────────┐  │         │  ┌───────────────────┐  │
-│  │ A국 시민의 데이터 │  │         │  │   Cloud Provider  │  │
-│  │ (EU GDPR 보호 대상)│===(저장)===>│  │   (본사가 B국)    │  │
-│  └───────────────────┘  │         │  └────────┬──────────┘  │
-└─────────────────────────┘         └───────────┼─────────────┘
-          ▲                                     ▼
++-------------------------+         +-------------------------+
+|  +-------------------+  |         |  +-------------------+  |
+|  | A국 시민의 데이터 |  |         |  |   Cloud Provider  |  |
+|  | (EU GDPR 보호 대상)|===(저장)===>|  |   (본사가 B국)    |  |
+|  +-------------------+  |         |  +--------+----------+  |
++-------------------------+         +-----------+-------------+
+          ^                                     v
  [국가 A 규제: "데이터 국외 반출 금지"]       [국가 B 규제 (CLOUD Act):
                                         "자국 기업이 보유한 데이터 열람 요구 가능"]
                      ======> [충돌 지점 (딜레마)] <======
@@ -70,14 +70,14 @@ tags = ["bigdata"]
 [HYOK (Hold Your Own Key) 기반의 데이터 주권 아키텍처]
 
 [고객 환경 (On-Premise, 자국 영토)]             [Public Cloud (타국 리전)]
-┌───────────────────────────────┐           ┌────────────────────────┐
-│ 1. 민감 데이터 (Plain Text)     │           │                        │
-│ 2. 로컬 HSM에서 암호화 (KMS)    │──(전송)──>│ 3. 암호화된 데이터 저장  │
-│    (Master Key 직접 소유)       │   ▲       │    (Cipher Text)       │
-│                               │   │       │                        │
-│ 5. 암호화된 상태로 데이터 반환  │<──(요청)──┤ 4. 클라우드 내 연산 불가 │
-│ 6. 로컬에서 복호화 및 활용      │           │    (CSP는 열쇠가 없음)  │
-└───────────────────────────────┘           └────────────────────────┘
++-------------------------------+           +------------------------+
+| 1. 민감 데이터 (Plain Text)     |           |                        |
+| 2. 로컬 HSM에서 암호화 (KMS)    |--(전송)-->| 3. 암호화된 데이터 저장  |
+|    (Master Key 직접 소유)       |   ^       |    (Cipher Text)       |
+|                               |   |       |                        |
+| 5. 암호화된 상태로 데이터 반환  |<--(요청)--+ 4. 클라우드 내 연산 불가 |
+| 6. 로컬에서 복호화 및 활용      |           |    (CSP는 열쇠가 없음)  |
++-------------------------------+           +------------------------+
 ```
 
 이 흐름의 핵심은 제어 평면(Control Plane)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) 중 <strong>암호화 제어권</strong>을 철저히 사용자(자국) 쪽에 남겨둔다는 점이다. 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))가 스토리지 인프라는 제공하지만, Master Key에 접근할 수 없으므로 외국 수사기관이 서버를 압수수색하더라도 무의미한 난수 덩어리(Cipher Text)만 얻게 된다. 이는 기술적으로 법적 관할권 충돌을 해결하는 가장 강력한 수단 중 하나다.
@@ -123,17 +123,17 @@ tags = ["bigdata"]
 ```text
 [글로벌 데이터 주권 대응 아키텍처 설계 플로우]
                      [User Request]
-                           │
+                           |
              [Geo-DNS / Load Balancer] (접속 국가 식별)
-              /            │             \
+              /            |             \
       (EU 사용자)       (US 사용자)       (CN 사용자)
-          ▼                ▼                 ▼
+          v                v                 v
   [EU 리전 (GDPR)]   [US 리전 (자유)]    [CN 리전 (물리격리)]
   - DB 물리적 위치   - 통합 분석 허용     - 로컬 사업자망 필수
   - HYOK 암호화                       - 소스코드 검열 대비망
-          │                │                 │
-          └────────(통계적/비식별 데이터만)───────┘
-                           ▼
+          |                |                 |
+          +--------(통계적/비식별 데이터만)-------+
+                           v
                   [Global Data Lake]
 ```
 
@@ -172,17 +172,17 @@ tags = ["bigdata"]
 
 ```text
 [개인정보 규정 (GDPR / CCPA) — 데이터 보호 법제화, 국경 초월 적용]
-    │
-    ▼
+    |
+    v
 [데이터 현지화 (Data Localization) — 자국 데이터 자국 서버 보관 의무]
-    │
-    ▼
+    |
+    v
 [데이터 주권 (Data Sovereignty) — 국가 관할권, 데이터 흐름 통제 권한]
-    │
-    ▼
+    |
+    v
 [멀티 리전 아키텍처 (Multi-region) — 국가별 클라우드 리전 분리 배포]
-    │
-    ▼
+    |
+    v
 [데이터 레지던시 (Data Residency) / 소버린 클라우드 (Sovereign Cloud)]
 ```
 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)은 국가가 자국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 관할권을 주장하는 개념으로, 클라우드 아키텍처는 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)과 소버린 클라우드로 이에 대응한다.
@@ -197,7 +197,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 18 / 262
 
-← **이전**: [17. 국가 데이터 정책 — 데이터기본법, 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/01_intro/017_national_data_policy/)
-**다음**: [19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성](/knowledge-base/studynote/16_bigdata/01_intro/019_data_de_identification/) →
+<- **이전**: [17. 국가 데이터 정책 — 데이터기본법, 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/01_intro/017_national_data_policy/)
+**다음**: [19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성](/knowledge-base/studynote/16_bigdata/01_intro/019_data_de_identification/) ->
 
 ---

@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a></strong>는 이 두 문제를 중앙화된 특징 저장소로 해결한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 회사 공용 식재료 창고다. 마케팅팀·영업팀·고객서비스팀이 각각 "이번 달 고객 구매 통계"가 필요할 때, 각자 원재료를 사서 따로 요리하는 대신, 공용 창고([피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))에서 이미 손질된 재료를 바로 가져다 쓴다. 재료가 신선하고(최신 특징), 모두 같은 것을 쓴다([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장).
@@ -41,34 +41,34 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         피처 스토어 (Feature Store) 이중 스토어 아키텍처              │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 소스 (원천 데이터)                                           │
-│  ├── 실시간 이벤트 스트림 (Kafka, Flink)                            │
-│  └── 배치 데이터 (S3, BigQuery, Hive)                              │
-│              │                                                   │
-│  피처 파이프라인 (Feature Pipeline)                                 │
-│  원천 데이터 → 특징 계산 로직 → 피처 스토어                           │
-│              │                                                   │
-│  ┌───────────┴──────────────────────────────────────┐            │
-│  │                 피처 스토어 (Feature Store)        │            │
-│  │  ┌────────────────────────────────────────────┐  │            │
-│  │  │  오프라인 스토어 (Offline Store)              │  │            │
-│  │  │  - 학습용 과거 데이터 (포인트-인-타임 조회)     │  │            │
-│  │  │  - 대용량 배치 저장 (S3, BigQuery)           │  │            │
-│  │  │  - 특징 히스토리 추적                         │  │            │
-│  │  ├────────────────────────────────────────────┤  │            │
-│  │  │  온라인 스토어 (Online Store)                 │  │            │
-│  │  │  - 실시간 추론용 최신 특징값                   │  │            │
-│  │  │  - 저지연 저장소 (Redis, DynamoDB)            │  │            │
-│  │  │  - 포인트 룩업: 수 ms 내 응답                  │  │            │
-│  │  └────────────────────────────────────────────┘  │            │
-│  └───────────────────────────────────────────────────┘            │
-│              │                            │                      │
-│  ML 학습       (오프라인 배치 조회)          추론 (온라인 실시간 조회)  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         피처 스토어 (Feature Store) 이중 스토어 아키텍처              |
++------------------------------------------------------------------+
+|                                                                  |
+|  데이터 소스 (원천 데이터)                                           |
+|  +-- 실시간 이벤트 스트림 (Kafka, Flink)                            |
+|  +-- 배치 데이터 (S3, BigQuery, Hive)                              |
+|              |                                                   |
+|  피처 파이프라인 (Feature Pipeline)                                 |
+|  원천 데이터 -> 특징 계산 로직 -> 피처 스토어                           |
+|              |                                                   |
+|  +-----------+--------------------------------------+            |
+|  |                 피처 스토어 (Feature Store)        |            |
+|  |  +--------------------------------------------+  |            |
+|  |  |  오프라인 스토어 (Offline Store)              |  |            |
+|  |  |  - 학습용 과거 데이터 (포인트-인-타임 조회)     |  |            |
+|  |  |  - 대용량 배치 저장 (S3, BigQuery)           |  |            |
+|  |  |  - 특징 히스토리 추적                         |  |            |
+|  |  +--------------------------------------------+  |            |
+|  |  |  온라인 스토어 (Online Store)                 |  |            |
+|  |  |  - 실시간 추론용 최신 특징값                   |  |            |
+|  |  |  - 저지연 저장소 (Redis, DynamoDB)            |  |            |
+|  |  |  - 포인트 룩업: 수 ms 내 응답                  |  |            |
+|  |  +--------------------------------------------+  |            |
+|  +---------------------------------------------------+            |
+|              |                            |                      |
+|  ML 학습       (오프라인 배치 조회)          추론 (온라인 실시간 조회)  |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 저장소 예 | 특징 | 사용 시점 |
@@ -132,7 +132,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [피처 스토어 (Feature Store)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [피처 스토어 (Feature Store)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 323 / 420
 
-← **이전**: [322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/322_data_concept_drift/)
-**다음**: [324. 모델 레지스트리 (Model Registry)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/324_model_registry/) →
+<- **이전**: [322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/322_data_concept_drift/)
+**다음**: [324. 모델 레지스트리 (Model Registry)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/324_model_registry/) ->
 
 ---

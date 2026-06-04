@@ -32,33 +32,33 @@ tags = ["studynote-design-supervision"]
 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 패턴의 뼈대는 클라이언트가 복잡한 하위 클래스의 이름을 몰라도, 인터페이스에 뚫린 `clone()` [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나만 누르면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 튀어나오는 다형성 캡슐화에 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          프로토타입 패턴의 다형성 복제(Clone) 십자 융합 아키텍처 도해 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ 클라이언트 (Client) ]                                 │
-│   - "야 나 이 객체 이름(Class) 뭔지 모르겠고 관심도 없음 ㅋ        │
-│      걍 니 뱃속 복제 버튼(clone) 누를 테니까 쌍둥이 1마리 뱉어내!"   │
-│            │                                                │
-│            ▼ (의존성 단절 쉴드 🛡️)                             │
-│ ┌────────────────────────┐                                  │
-│ │ 🧬 Prototype (Interface) │ ◀── 복제 헌법 (ex. Cloneable) │
-│ │ + clone(): Prototype     │                                  │
-│ └────────────────────────┘                                  │
-│            ▲                                                │
-│            ├── (구현 / Overriding)                          │
-│            │                                                │
-│ ┌────────────────────────┐      ┌────────────────────────┐  │
-│ │ 🐉 ConcretePrototype_A │      │ 🦇 ConcretePrototype_B │  │
-│ │ (오크 몬스터 원본)       │      │ (드래곤 몬스터 원본)     │  │
-│ ├────────────────────────┤      ├────────────────────────┤  │
-│ │ - hp=100, weapon="도끼"│      │ - hp=900, weapon="불"  │  │
-│ │ + clone() {            │      │ + clone() {            │  │
-│ │   return copy(this);   │      │   return copy(this);   │  │
-│ │ }                      │      │ }                      │  │
-│ └────────────────────────┘      └────────────────────────┘  │
-│  🚀 1방 컷 메모리 딥 카피 복제      🚀 1방 컷 메모리 딥 카피 복제 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          프로토타입 패턴의 다형성 복제(Clone) 십자 융합 아키텍처 도해 |
++-------------------------------------------------------------+
+|                                                             |
+| 👨‍💻 [ 클라이언트 (Client) ]                                 |
+|   - "야 나 이 객체 이름(Class) 뭔지 모르겠고 관심도 없음 ㅋ        |
+|      걍 니 뱃속 복제 버튼(clone) 누를 테니까 쌍둥이 1마리 뱉어내!"   |
+|            |                                                |
+|            v (의존성 단절 쉴드 🛡️)                             |
+| +------------------------+                                  |
+| | 🧬 Prototype (Interface) | <--- 복제 헌법 (ex. Cloneable) |
+| | + clone(): Prototype     |                                  |
+| +------------------------+                                  |
+|            ^                                                |
+|            +-- (구현 / Overriding)                          |
+|            |                                                |
+| +------------------------+      +------------------------+  |
+| | 🐉 ConcretePrototype_A |      | 🦇 ConcretePrototype_B |  |
+| | (오크 몬스터 원본)       |      | (드래곤 몬스터 원본)     |  |
+| +------------------------+      +------------------------+  |
+| | - hp=100, weapon="도끼"|      | - hp=900, weapon="불"  |  |
+| | + clone() {            |      | + clone() {            |  |
+| |   return copy(this);   |      |   return copy(this);   |  |
+| | }                      |      | }                      |  |
+| +------------------------+      +------------------------+  |
+|  🚀 1방 컷 메모리 딥 카피 복제      🚀 1방 컷 메모리 딥 카피 복제 |
++-------------------------------------------------------------+
 ```
 
 **핵심 작동 메커니즘**:
@@ -135,17 +135,17 @@ DB를 찌르고 네트워크 파싱을 쳐야만 태어나는 거대한 환경 [
 
 ```text
 무지성 new 연산자 강결합 떡칠 / DB 찌르고 파싱하는 10시간짜리 초기화 랙(Overhead) 객체를 매번 새로 창조해 CPU 타 죽음 폭발 💥
-    │
-    ▼
+    |
+    v
 팩토리(Factory) 패턴 도입 / 생성 로직을 캡슐화했으나, 몬스터 종류가 100개면 공장(Class) 클래스도 100개 만들어야 하는 클래스 팽창(Class Explosion) 지옥 늪 💀
-    │
-    ▼
+    |
+    v
 프로토타입 (Prototype) 흑마법 강림 ✨ / 클래스 새로 안 파고! 걍 원본 객체 배 갈라서 메모리 복사(Clone)로 1초 만에 도장 무한 찍어내 펌핑 쾌속 혁명!
-    │
-    ▼
+    |
+    v
 얕은 복사(Shallow Copy) 연쇄 타살 파국 터짐 💥 ➔ 아키텍트 딥 카피(Deep Copy) 수술로 완벽 이혼 격리 생존 방벽 록온 쉴드 🛡️
-    │
-    ▼
+    |
+    v
 모던 생태계 융합 / 자바의 낡은 Cloneable 버리고 복사 생성자(Copy Constructor) 통제 및 Spring 프레임워크 @Scope("prototype") 자가 증식 자동화 펌핑으로 100% 대통일 완료
 ```
 
@@ -161,7 +161,7 @@ DB를 찌르고 네트워크 파싱을 쳐야만 태어나는 거대한 환경 [
 
 **진행 상황**: 205 / 530
 
-← **이전**: [148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/)
-**다음**: [150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/150_structural_patterns_purpose/) →
+<- **이전**: [148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/)
+**다음**: [150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/150_structural_patterns_purpose/) ->
 
 ---

@@ -36,16 +36,16 @@ tags = ["studynote-cloud-architecture"]
 3. **바인딩 (Binding)**: K8s 컨트롤러가 PVC의 요구 조건(용량, 모드 등)을 만족하는 PV를 찾아 1:1로 연결한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          PV와 PVC의 바인딩 및 파드 마운트 아키텍처        │
-├─────────────────────────────────────────────────────────────┤
-│  [ Infra Admin ]                  [ Developer ]             │
-│   물리 스토리지 ──▶ 생성 ──▶ PV ◀── 바인딩 ──▶ PVC        │
-│   (NFS, EBS 등)     (공급)                 (수요)       │
-│                                                 │           │
-│                                                 ▼           │
-│                                           Pod (마운트)      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          PV와 PVC의 바인딩 및 파드 마운트 아키텍처        |
++-------------------------------------------------------------+
+|  [ Infra Admin ]                  [ Developer ]             |
+|   물리 스토리지 ---> 생성 ---> PV <--- 바인딩 ---> PVC        |
+|   (NFS, EBS 등)     (공급)                 (수요)       |
+|                                                 |           |
+|                                                 v           |
+|                                           Pod (마운트)      |
++-------------------------------------------------------------+
 ```
 
 이 구조는 개발자가 AWS EBS나 NFS의 복잡한 연결 방식을 몰라도, K8s 표준 인터페이스인 PVC만으로 스토리지 자원을 할당받을 수 있게 하는 핵심 메커니즘이다.
@@ -113,14 +113,14 @@ PV와 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_v
 
 ```text
 기본 Volume (emptyDir, hostPath)
-    │ 파드 생명주기 종속성 극복
-    ▼
+    | 파드 생명주기 종속성 극복
+    v
 정적 PV (Persistent Volume) / PVC
-    │ 인프라 관리자 사전 생성의 비효율성 극복
-    ▼
+    | 인프라 관리자 사전 생성의 비효율성 극복
+    v
 StorageClass 기반 동적 프로비저닝 (Dynamic Provisioning)
-    │ 클라우드 스토리지 API 연동 추상화
-    ▼
+    | 클라우드 스토리지 API 연동 추상화
+    v
 CSI (Container Storage Interface)
 ```
 
@@ -138,7 +138,7 @@ CSI (Container Storage Interface)
 
 **진행 상황**: 97 / 371
 
-← **이전**: [97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/097_ca_cluster_autoscaler_kubernetes_node_scaling/)
-**다음**: [99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/) →
+<- **이전**: [97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/097_ca_cluster_autoscaler_kubernetes_node_scaling/)
+**다음**: [99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/) ->
 
 ---

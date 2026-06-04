@@ -28,29 +28,29 @@ tags = ["studynote-operating-system"]
   3. **Greedy(탐욕)의 한계 봉착**: 당장 눈앞의 이익만 쫓다가 전체 생태계(구석진 곳의 기아)가 박살 나는 부작용이 터짐.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화                │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124        │
-│ [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                           │
-│                                                                        │
-│ ▶ SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"      │
-│                                                                        │
-│   14   37     53     98    122 124        183                          │
-│   │    │      [시작]  │      │  │          │                           │
-│   │    │◀──────┘      │      │  │          │                           │
-│   │◀───┘              │      │  │          │                           │
-│   └───────────────────▶①    │  │          │                            │
-│                          └──────▶②  │          │                       │
-│                                 └──▶③          │                       │
-│                                        └──────────▶④                   │
-│                                                                        │
-│ ✅ 총 헤드 이동 거리 연산:                                             │
-│ 53에서 37(16) -> 14(23) -> 98(84) -> 122(24) -> 124(2) -> 183(59)      │
-│ = 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!                    │
-│ (앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)│
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화                |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124        |
+| [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                           |
+|                                                                        |
+| -> SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"      |
+|                                                                        |
+|   14   37     53     98    122 124        183                          |
+|   |    |      [시작]  |      |  |          |                           |
+|   |    |<-------+      |      |  |          |                           |
+|   |<----+              |      |  |          |                           |
+|   +-------------------->①    |  |          |                            |
+|                          +------->②  |          |                       |
+|                                 +--->③          |                       |
+|                                        +----------->④                   |
+|                                                                        |
+| ✅ 총 헤드 이동 거리 연산:                                             |
+| 53에서 37(16) -> 14(23) -> 98(84) -> 122(24) -> 124(2) -> 183(59)      |
+| = 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!                    |
+| (앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)|
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 Z자 없는 스무스한 동선을 보라. 53에서 출발한 바늘은 왼쪽으로 살짝 꺾어 가까운 37과 14를 쓱쓱 주워 담은 뒤, 방향을 틀어 오른쪽의 98, 122, 124, 183을 도미노처럼 차례대로 부수며 나아간다. 이동 거리 579가 208로 줄었다는 것은, 디스크의 모터가 헛도는 시간을 3분의 1로 압축하여 남는 시간에 유저의 파일을 3배 더 많이 퍼 나를 수 있게 되었다는 위대한 공학적 승리다.
 
@@ -103,12 +103,12 @@ FCFS는 큐에 넣고 빼기만 하면 되서 오버헤드가 $O(1)$ 이었다. 
 - 즉, <strong>SSTF처럼 특정 요청이 로또에 당첨된 듯 빠르거나, 재수 없게 평생 갇히는 복불복(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>) 시스템은 범용 윈도우/리눅스 OS에서 절대로 채택할 수 없는 최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>이다. OS의 미덕은 "모두가 적당히 1초 안에 켜지는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Low [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))"이기 때문이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 스케줄러   │ I/O 평균 속도│ I/O 속도 편차│ 유저의 체감 반응         │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ FCFS     │ 🔴 겁나 느림 │ 🟢 아주 일정함│ 🐢 느린데 적응은 됨       │
-│ SSTF     │ 🚀 우주 최강 │ ☠️ 극악의 널뛰기│ 💥 화면 멈춰서 컴터 부숨│
-└──────────┴────────────┴────────────┴────────────────────────────────┘
++----------+------------+------------+--------------------------------+
+| 스케줄러   | I/O 평균 속도| I/O 속도 편차| 유저의 체감 반응         |
++----------+------------+------------+--------------------------------+
+| FCFS     | 🔴 겁나 느림 | 🟢 아주 일정함| 🐢 느린데 적응은 됨       |
+| SSTF     | 🚀 우주 최강 | ☠️ 극악의 널뛰기| 💥 화면 멈춰서 컴터 부숨|
++----------+------------+------------+--------------------------------+
 ```
 **[매트릭스 해설]** 극단적인 효율 추구(SSTF)는 결국 시스템의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))를 무너뜨린다. 구석에 박힌 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 코어 파일이 SSTF 늪에 빠져 램에 안 올라오면, OS 전체가 뻗어버리는 데드락 스크류가 터질 수 있다. 공학자들은 이 둘의 장점만 섞은 궁극의 합의점을 갈망하게 되었다.
 
@@ -171,12 +171,12 @@ SSTF (Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_stor
 
 ```text
 [FCFS (First-Come, First-Served) 스케줄링]
-    │
-    ▼
+    |
+    v
 [SSTF (Shortest Seek Time First)]
-    │
-    ├──▶ [SCAN 스케줄링 (엘리베이터 알고리즘)]
-    └──▶ [C-SCAN (Circular SCAN)]
+    |
+    +---> [SCAN 스케줄링 (엘리베이터 알고리즘)]
+    +---> [C-SCAN (Circular SCAN)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ SSTF (Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_stor
 
 **진행 상황**: 470 / 800
 
-← **이전**: [469. FCFS (First-Come, First-Served) 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/469_fcfs_disk_scheduling/)
-**다음**: [471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/) →
+<- **이전**: [469. FCFS (First-Come, First-Served) 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/469_fcfs_disk_scheduling/)
+**다음**: [471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/) ->
 
 ---

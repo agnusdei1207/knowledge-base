@@ -33,37 +33,37 @@ tags = ["studynote-operating-system"]
 System V IPC의 세 가지 메커니즘과 그 관계를 개요 다이어그램으로 시각화하면, 각 메커니즘의 역할과 상호 의존성이 명확해진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │              System V IPC 세 가지 메커니즘 개요                       │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  ┌──────────────────────────────────────────────────────────┐         │
-  │  │                   System V IPC 패밀리                     │        │
-  │  │                                                           │        │
-  │  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │         │
-  │  │  │ 공유 메모리    │  │  세마포어     │  │ 메시지 큐     │    │     │
-  │  │  │ (Shared Mem) │  │ (Semaphore)  │  │ (Msg Queue)  │    │         │
-  │  │  │              │  │              │  │              │    │         │
-  │  │  │ 목적:        │  │ 목적:        │  │ 목적:        │    │         │
-  │  │  │ 고속 데이터   │  │ 동기화 및    │  │ 구조화된     │    │        │
-  │  │  │ 공유          │  │ 상호 배제    │  │ 메시지 전달   │    │       │
-  │  │  │              │  │              │  │              │    │         │
-  │  │  │ shmget()     │  │ semget()     │  │ msgget()     │    │         │
-  │  │  │ shmat()      │  │ semop()      │  │ msgsnd()     │    │         │
-  │  │  │ shmdt()      │  │ semctl()     │  │ msgrcv()     │    │         │
-  │  │  │ shmctl()     │  │              │  │ msgctl()     │    │         │
-  │  │  └──────┬───────┘  └──────┬───────┘  └──────────────┘    │         │
-  │  │         │                 │                                │       │
-  │  │         └─────보완──────┘                                │         │
-  │  │          공유 메모리 접근 시 세마포어로 동기화 필수           │    │
-  │  └──────────────────────────────────────────────────────────┘         │
-  │                                                                       │
-  │  [공통 특징]                                                          │
-  │  - 식별자: ftok(path, proj_id)로 생성한 key_t로 식별                  │
-  │  - 영속성: 프로세스 종료 후에도 커널에 존재 (명시적 삭제 필요)        │
-  │  - 관리: ipcs (조회) / ipcrm (삭제) 명령어                            │
-  │  - 보안: IPC_CREAT | IPC_EXCL 플래그와 파일 권한 모드                 │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |              System V IPC 세 가지 메커니즘 개요                       |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |  +----------------------------------------------------------+         |
+  |  |                   System V IPC 패밀리                     |        |
+  |  |                                                           |        |
+  |  |  +--------------+  +--------------+  +--------------+    |         |
+  |  |  | 공유 메모리    |  |  세마포어     |  | 메시지 큐     |    |     |
+  |  |  | (Shared Mem) |  | (Semaphore)  |  | (Msg Queue)  |    |         |
+  |  |  |              |  |              |  |              |    |         |
+  |  |  | 목적:        |  | 목적:        |  | 목적:        |    |         |
+  |  |  | 고속 데이터   |  | 동기화 및    |  | 구조화된     |    |        |
+  |  |  | 공유          |  | 상호 배제    |  | 메시지 전달   |    |       |
+  |  |  |              |  |              |  |              |    |         |
+  |  |  | shmget()     |  | semget()     |  | msgget()     |    |         |
+  |  |  | shmat()      |  | semop()      |  | msgsnd()     |    |         |
+  |  |  | shmdt()      |  | semctl()     |  | msgrcv()     |    |         |
+  |  |  | shmctl()     |  |              |  | msgctl()     |    |         |
+  |  |  +------+-------+  +------+-------+  +--------------+    |         |
+  |  |         |                 |                                |       |
+  |  |         +-----보완------+                                |         |
+  |  |          공유 메모리 접근 시 세마포어로 동기화 필수           |    |
+  |  +----------------------------------------------------------+         |
+  |                                                                       |
+  |  [공통 특징]                                                          |
+  |  - 식별자: ftok(path, proj_id)로 생성한 key_t로 식별                  |
+  |  - 영속성: 프로세스 종료 후에도 커널에 존재 (명시적 삭제 필요)        |
+  |  - 관리: ipcs (조회) / ipcrm (삭제) 명령어                            |
+  |  - 보안: IPC_CREAT | IPC_EXCL 플래그와 파일 권한 모드                 |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** System V IPC의 세 가지 메커니즘은 각각 독립적인 목적을 가지면서도 상호 보완적으로 설계되었다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 빠르게 교환할 수 있는 수단이지만, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 전혀 제공하지 않으므로 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)와 반드시 함께 사용되어야 한다. [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 기능 없이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만을 담당하며, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 접근 시의 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 방지한다. 메시지 큐는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기능을 내장하고 있어 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 없이도 안전하게 사용할 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 오버헤드가 있어 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)보다 성능이 떨어진다. 세 메커니즘은 모두 `ftok()`로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로에서 키를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 객체에 접근하는 공통 패턴을 따르며, [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 후에도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 남아있어 명시적 삭제 (`ipcrm`)이 필요한 영속성을 가진다.
@@ -89,48 +89,48 @@ System V IPC의 세 가지 메커니즘과 그 관계를 개요 다이어그램�
 System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 사용, 삭제까지의 전체 수명 주기를 시각화하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 지속성의 특성이 명확해진다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │           System V 공유 메모리 수명 주기 (Lifecycle)                    │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [1. 키 생성]                                                           │
-  │  key_t key = ftok("/tmp/myapp", 'A');                                   │
-  │  // /tmp/myapp 파일의 i-node 번호 + 'A' 로 고유 key_t 반환              │
-  │                                                                         │
-  │  [2. 공유 메모리 생성/확보]                                             │
-  │  int shmid = shmget(key, 4096, IPC_CREAT | 0666);                       │
-  │  // 커널에 4096바이트 shm 세그먼트 생성, shmid 반환                     │
-  │                                                                         │
-  │  ┌────────────────────────────────────────────────────────────┐         │
-  │  │  Process A (Server)          KERNEL                       │          │
-  │  │  ┌──────────────┐         ┌──────────────┐               │           │
-  │  │  │ Virtual Addr │────────▶│ shm segment  │  shmid=12345  │           │
-  │  │  │ 0x7f0000     │  shmat()│ (4096 bytes) │               │           │
-  │  │  │              │◀────────│              │               │           │
-  │  │  │  data[0..N]  │         └──────┬───────┘               │           │
-  │  │  └──────────────┘                │                        │          │
-  │  └──────────────────────────────────┤────────────────────────┘          │
-  │                                     │                                   │
-  │  ┌──────────────────────────────────┤────────────────────────┐          │
-  │  │  Process B (Client)              │                        │          │
-  │  │  ┌──────────────┐                ▼                        │          │
-  │  │  │ Virtual Addr │────────▶ [동일 shm segment]           │            │
-  │  │  │ 0x7f5000     │  shmat()   (같은 물리 메모리)           │          │
-  │  │  │              │◀────────│                            │             │
-  │  │  │  data[0..N]  │         │ A의 쓰기가 B에 즉시 보임      │          │
-  │  │  └──────────────┘         │                            │             │
-  │  └────────────────────────────────────────────────────────────┘         │
-  │                                                                         │
-  │  [3. 분리 (shmat 반대)]                                                 │
-  │  shmdt(addr);  // 가상 주소 매핑 해제 (shm 세그먼트은 유지됨!)          │
-  │                                                                         │
-  │  [4. 삭제 (명시적)]                                                     │
-  │  shmctl(shmid, IPC_RMID, NULL);  // 커널에서 shm 세그먼트 삭제          │
-  │  // 또는: ipcrm -m 12345                                                │
-  │                                                                         │
-  │  주의: 모든 프로세스가 shmdt()해도 shm 세그먼트은 사라지지 않음!        │
-  │     반드시 shmctl(IPC_RMID)으로 명시적 삭제 필요                        │
-  └─────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------+
+  |           System V 공유 메모리 수명 주기 (Lifecycle)                    |
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |  [1. 키 생성]                                                           |
+  |  key_t key = ftok("/tmp/myapp", 'A');                                   |
+  |  // /tmp/myapp 파일의 i-node 번호 + 'A' 로 고유 key_t 반환              |
+  |                                                                         |
+  |  [2. 공유 메모리 생성/확보]                                             |
+  |  int shmid = shmget(key, 4096, IPC_CREAT | 0666);                       |
+  |  // 커널에 4096바이트 shm 세그먼트 생성, shmid 반환                     |
+  |                                                                         |
+  |  +------------------------------------------------------------+         |
+  |  |  Process A (Server)          KERNEL                       |          |
+  |  |  +--------------+         +--------------+               |           |
+  |  |  | Virtual Addr |--------->| shm segment  |  shmid=12345  |           |
+  |  |  | 0x7f0000     |  shmat()| (4096 bytes) |               |           |
+  |  |  |              |<---------|              |               |           |
+  |  |  |  data[0..N]  |         +------+-------+               |           |
+  |  |  +--------------+                |                        |          |
+  |  +----------------------------------+------------------------+          |
+  |                                     |                                   |
+  |  +----------------------------------+------------------------+          |
+  |  |  Process B (Client)              |                        |          |
+  |  |  +--------------+                v                        |          |
+  |  |  | Virtual Addr |---------> [동일 shm segment]           |            |
+  |  |  | 0x7f5000     |  shmat()   (같은 물리 메모리)           |          |
+  |  |  |              |<---------|                            |             |
+  |  |  |  data[0..N]  |         | A의 쓰기가 B에 즉시 보임      |          |
+  |  |  +--------------+         |                            |             |
+  |  +------------------------------------------------------------+         |
+  |                                                                         |
+  |  [3. 분리 (shmat 반대)]                                                 |
+  |  shmdt(addr);  // 가상 주소 매핑 해제 (shm 세그먼트은 유지됨!)          |
+  |                                                                         |
+  |  [4. 삭제 (명시적)]                                                     |
+  |  shmctl(shmid, IPC_RMID, NULL);  // 커널에서 shm 세그먼트 삭제          |
+  |  // 또는: ipcrm -m 12345                                                |
+  |                                                                         |
+  |  주의: 모든 프로세스가 shmdt()해도 shm 세그먼트은 사라지지 않음!        |
+  |     반드시 shmctl(IPC_RMID)으로 명시적 삭제 필요                        |
+  +-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 수명 주기는 프로세스와 완전히 독립적으로 관리된다는 점이 가장 중요한 특징이다.  `shmget()`으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 shm 세그먼트는, 모든 프로세스가 `shmdt()`로 연결을 해제하더라도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 그대로 남아있다.  이것이 System V IPC의 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 지속성 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Persistence)"이며, 프로세스가 비정상 종료해도 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유지된다는 장점이지만, 명시적으로 삭제하지 않으면 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))로 이어진다는 단점이기도 하다.  두 프로세스가 각자 `shmat()`로 shm 세그먼트를 자신의 가상 주소 공간에 매핑하면, 서로 다른 가상 주소가 동일 물리 메모리를 가리키게 되어 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 구현된다.  이때 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 `semget()`으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 집합의 `semop()` 연산 (P 연산으로 대기, V 연산으로 해제)으로 보장해야 한다.  메시지 큐는 `msgsnd()`/`msgrcv()`로 타입 (mtype) 필드를 기준으로 메시지를 송수신하며, 내부적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 큐잉과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 관리하므로 별도의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 불필요하다.
@@ -138,43 +138,43 @@ System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_pro
 System V [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 P/V 연산이 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 접근 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 어떻게 활용되는지를 프로세스 간 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 패턴으로 시각화한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │       System V 세마포어 기반 공유 메모리 동기화 패턴                  │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [초기화: 서버 프로세스]                                              │
-  │  int semid = semget(key, 1, IPC_CREAT | 0666);                        │
-  │  semctl(semid, 0, SETVAL, 1);  // 세마포어 값 = 1 (락 해제 상태)      │
-  │                                                                       │
-  │  [임계 구역 진입/이탈 패턴]                                           │
-  │                                                                       │
-  │  Process A                     Process B                              │
-  │  ┌─────────────────┐          ┌─────────────────┐                     │
-  │  │ P 연산 (semop)   │          │                 │                    │
-  │  │ sem=-1, block   │          │                 │                     │
-  │  │ sem=0 으로 진입  │──────┐  │                 │                     │
-  │  │                  │      │  │ P 연산 (semop)  │                     │
-  │  │ [공유 메모리에    │      │  │ sem=-1, block   │                    │
-  │  │  데이터 쓰기]     │      │  │ sem=-1 로 대기!  │                   │
-  │  │                  │      │  │ (블로킹됨)       │                    │
-  │  │ V 연산 (semop)   │      │  │                 │                     │
-  │  │ sem=+1, wakeup  │──────┘  │ sem=0 으로 진입  │                     │
-  │  │                  │          │ [공유 메모리에   │                   │
-  │  │                  │          │  데이터 쓰기]    │                   │
-  │  │                  │          │ V 연산 (semop)  │                    │
-  │  │                  │          │ sem=+1          │                    │
-  │  └─────────────────┘          └─────────────────┘                     │
-  │                                                                       │
-  │  sembuf 구조체:                                                       │
-  │  struct sembuf {                                                      │
-  │      short sem_num;  // 세마포어 집합 내 인덱스                       │
-  │      short sem_op;   // 연산값: 음수=P(대기), 양수=V(신호)            │
-  │      short sem_flg;  // IPC_NOWAIT, SEM_UNDO 등 플래그                │
-  │  };                                                                   │
-  │                                                                       │
-  │  SEM_UNDO: 프로세스 비정상 종료 시 자동으로 세마포어 복구             │
-  │  (데드락 방지 핵심 기능)                                              │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |       System V 세마포어 기반 공유 메모리 동기화 패턴                  |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |  [초기화: 서버 프로세스]                                              |
+  |  int semid = semget(key, 1, IPC_CREAT | 0666);                        |
+  |  semctl(semid, 0, SETVAL, 1);  // 세마포어 값 = 1 (락 해제 상태)      |
+  |                                                                       |
+  |  [임계 구역 진입/이탈 패턴]                                           |
+  |                                                                       |
+  |  Process A                     Process B                              |
+  |  +-----------------+          +-----------------+                     |
+  |  | P 연산 (semop)   |          |                 |                    |
+  |  | sem=-1, block   |          |                 |                     |
+  |  | sem=0 으로 진입  |------+  |                 |                     |
+  |  |                  |      |  | P 연산 (semop)  |                     |
+  |  | [공유 메모리에    |      |  | sem=-1, block   |                    |
+  |  |  데이터 쓰기]     |      |  | sem=-1 로 대기!  |                   |
+  |  |                  |      |  | (블로킹됨)       |                    |
+  |  | V 연산 (semop)   |      |  |                 |                     |
+  |  | sem=+1, wakeup  |------+  | sem=0 으로 진입  |                     |
+  |  |                  |          | [공유 메모리에   |                   |
+  |  |                  |          |  데이터 쓰기]    |                   |
+  |  |                  |          | V 연산 (semop)  |                    |
+  |  |                  |          | sem=+1          |                    |
+  |  +-----------------+          +-----------------+                     |
+  |                                                                       |
+  |  sembuf 구조체:                                                       |
+  |  struct sembuf {                                                      |
+  |      short sem_num;  // 세마포어 집합 내 인덱스                       |
+  |      short sem_op;   // 연산값: 음수=P(대기), 양수=V(신호)            |
+  |      short sem_flg;  // IPC_NOWAIT, SEM_UNDO 등 플래그                |
+  |  };                                                                   |
+  |                                                                       |
+  |  SEM_UNDO: 프로세스 비정상 종료 시 자동으로 세마포어 복구             |
+  |  (데드락 방지 핵심 기능)                                              |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** System V [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 `semop()` 연산은 원자적 (Atomic)으로 수행된다.  [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A가 P 연산 (sem_op = -1)을 호출하면, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 값이 1에서 0으로 감소하여 A가 임계 구역에 진입한다.  이후 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) B가 P 연산을 호출하면, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 값이 이미 0이므로 B는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 의해 블로킹 (Sleep)된다.  [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A가 V 연산 (sem_op = +1)을 호출하면 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 값이 1로 복원되고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 대기 중이던 B를 깨워 (Wakeup) 임계 구역에 진입시킨다.  `SEM_UNDO` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 프로세스가 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 점유한 상태에서 비정상 종료할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 해당 프로세스가 수행한 모든 P 연산을 롤백하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 복구하는 안전장치다.  이 기능이 없으면 점유한 프로세스가 크래시한 후 다른 프로세스가 영원히 대기하는 데드락이 발생한다.
@@ -214,41 +214,41 @@ System V [세마포어](/knowledge-base/studynote/02_operating_system/04_synchro
 System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 전체 메커니즘의 관리와 관찰을 `ipcs` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 출력 형태로 시각화하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 남아있는 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 객체의 실제 관리 방법이 명확해진다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │            ipcs 명령어로 확인하는 System V IPC 객체 상태             │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  $ ipcs -a                                                           │
-  │                                                                      │
-  │  ------ Shared Memory Segments --------                              │
-  │  key        shmid      owner  perms  bytes  nattch  status           │
-  │  0x4a001234 32769      appusr  666    4096   2       attached        │
-  │  0x4a005678 32770      dbusr   660    104857600  5  attached         │
-  │                                          ^^^^^^^^^                   │
-  │                                     (PostgreSQL shared_buffers)      │
-  │                                                                      │
-  │  ------ Semaphore Arrays --------                                    │
-  │  key        semid      owner  perms  nsems                           │
-  │  0x4a001234 65537      appusr  666    1                              │
-  │  0x4a009abc 65538      dbusr   660    17                             │
-  │                                   ^^                                 │
-  │                          (PostgreSQL: 17개 세마포어 집합)            │
-  │                                                                      │
-  │  ------ Message Queues --------                                      │
-  │  key        msqid      owner  perms  used-bytes  messages            │
-  │  0x4a00def0 131073     appusr  666    1024        3                  │
-  │                                                                      │
-  │  [정리 명령어]                                                       │
-  │  ipcrm -m 32769     # shared memory 삭제                             │
-  │  ipcrm -s 65537     # semaphore 삭제                                 │
-  │  ipcrm -q 131073    # message queue 삭제                             │
-  │  ipcrm --all        # 현재 사용자의 모든 IPC 객체 삭제               │
-  │                                                                      │
-  │  [커널 파라미터 확인]                                                │
-  │  cat /proc/sys/kernel/shmmax   # 최대 공유 메모리 크기               │
-  │  cat /proc/sys/kernel/msgmax   # 최대 메시지 크기                    │
-  │  cat /proc/sys/kernel/sem      # 세마포어 제한 (4개 값)              │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |            ipcs 명령어로 확인하는 System V IPC 객체 상태             |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  $ ipcs -a                                                           |
+  |                                                                      |
+  |  ------ Shared Memory Segments --------                              |
+  |  key        shmid      owner  perms  bytes  nattch  status           |
+  |  0x4a001234 32769      appusr  666    4096   2       attached        |
+  |  0x4a005678 32770      dbusr   660    104857600  5  attached         |
+  |                                          ^^^^^^^^^                   |
+  |                                     (PostgreSQL shared_buffers)      |
+  |                                                                      |
+  |  ------ Semaphore Arrays --------                                    |
+  |  key        semid      owner  perms  nsems                           |
+  |  0x4a001234 65537      appusr  666    1                              |
+  |  0x4a009abc 65538      dbusr   660    17                             |
+  |                                   ^^                                 |
+  |                          (PostgreSQL: 17개 세마포어 집합)            |
+  |                                                                      |
+  |  ------ Message Queues --------                                      |
+  |  key        msqid      owner  perms  used-bytes  messages            |
+  |  0x4a00def0 131073     appusr  666    1024        3                  |
+  |                                                                      |
+  |  [정리 명령어]                                                       |
+  |  ipcrm -m 32769     # shared memory 삭제                             |
+  |  ipcrm -s 65537     # semaphore 삭제                                 |
+  |  ipcrm -q 131073    # message queue 삭제                             |
+  |  ipcrm --all        # 현재 사용자의 모든 IPC 객체 삭제               |
+  |                                                                      |
+  |  [커널 파라미터 확인]                                                |
+  |  cat /proc/sys/kernel/shmmax   # 최대 공유 메모리 크기               |
+  |  cat /proc/sys/kernel/msgmax   # 최대 메시지 크기                    |
+  |  cat /proc/sys/kernel/sem      # 세마포어 제한 (4개 값)              |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** `ipcs -a` 명령은 현재 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 존재하는 모든 System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 객체의 실시간 상태를 표시한다.  [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 섹션에서 `bytes`는 shm 세그먼트의 크기를, `nattch`는 현재 연결된 프로세스 수를 보여준다.  PostgreSQL과 같은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 수백 MB의 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 세그먼트와 다수의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 집합을 사용하는 System V IPC의 대표적인 소비자다.  [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) Arrays의 `nsems`는 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 집합 내의 개별 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 수를 나타내며, PostgreSQL은 버퍼 풀 락, WAL (Write-Ahead Log) 락, 경량 잠금 (Lightweight [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 등을 위해 수십 개의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 사용한다.  `ipcrm` 명령으로 사용하지 않는 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 객체를 명시적으로 삭제해야 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)를 방지할 수 있다.  운영 체제 재부팅 시 모든 System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 객체는 자동으로 소멸한다.
@@ -270,37 +270,37 @@ System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/1
 System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 도입 시 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 플로우를 시각화하면, 흔히 발생하는 실무 문제를 체계적으로 예방할 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │           System V IPC 안전성 검증 의사결정 플로우                        │
-  ├───────────────────────────────────────────────────────────────────────────┤
-  │                                                                           │
-  │  [System V IPC 사용 요구사항]                                             │
-  │         │                                                                 │
-  │         ▼                                                                 │
-  │  커널 파라미터가 요구 크기를 수용하는가?                                  │
-  │     ├─ 아니오 ──▶ [sysctl.conf 수정 필요]                                 │
-  │     │             shmmax >= 공유 메모리 크기                              │
-  │     │             shmall >= 전체 shm 합계                                 │
-  │     │             msgmax >= 최대 메시지 크기                              │
-  │     │             sem = (SEMMSL, SEMMNS, SEMOPM, SEMMNI)                  │
-  │     │                                                                     │
-  │     └─ 예 ──▶ 공유 메모리 접근에 세마포어 동기화가 적용되었는가?          │
-  │                    ├─ 아니오 ──▶ [데이터 경쟁 위험]                       │
-  │                    │             semget() + semop() 적용                  │
-  │                    │                                                      │
-  │                    └─ 예 ──▶ semop()에 SEM_UNDO 플래그가 설정되었는가?    │
-  │                               ├─ 아니오 ──▶ [데드락 위험]                 │
-  │                               │             SEM_UNDO 반드시 설정          │
-  │                               │                                           │
-  │                               └─ 예 ──▶ 프로세스 종료 시 IPC 정리가       │
-  │                                          보장되는가?                      │
-  │                                          ├─ 아니오 ──▶ [메모리 누수]      │
-  │                                          │             atexit()           │
-  │                                          │               또는 시그널      │
-  │                                          │               핸들러에서       │
-  │                                          │               shmctl(IPC_RMID) │
-  │                                          └─ 예 ──▶ [안전]                 │
-  └───────────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------------+
+  |           System V IPC 안전성 검증 의사결정 플로우                        |
+  +---------------------------------------------------------------------------+
+  |                                                                           |
+  |  [System V IPC 사용 요구사항]                                             |
+  |         |                                                                 |
+  |         v                                                                 |
+  |  커널 파라미터가 요구 크기를 수용하는가?                                  |
+  |     +- 아니오 ---> [sysctl.conf 수정 필요]                                 |
+  |     |             shmmax >= 공유 메모리 크기                              |
+  |     |             shmall >= 전체 shm 합계                                 |
+  |     |             msgmax >= 최대 메시지 크기                              |
+  |     |             sem = (SEMMSL, SEMMNS, SEMOPM, SEMMNI)                  |
+  |     |                                                                     |
+  |     +- 예 ---> 공유 메모리 접근에 세마포어 동기화가 적용되었는가?          |
+  |                    +- 아니오 ---> [데이터 경쟁 위험]                       |
+  |                    |             semget() + semop() 적용                  |
+  |                    |                                                      |
+  |                    +- 예 ---> semop()에 SEM_UNDO 플래그가 설정되었는가?    |
+  |                               +- 아니오 ---> [데드락 위험]                 |
+  |                               |             SEM_UNDO 반드시 설정          |
+  |                               |                                           |
+  |                               +- 예 ---> 프로세스 종료 시 IPC 정리가       |
+  |                                          보장되는가?                      |
+  |                                          +- 아니오 ---> [메모리 누수]      |
+  |                                          |             atexit()           |
+  |                                          |               또는 시그널      |
+  |                                          |               핸들러에서       |
+  |                                          |               shmctl(IPC_RMID) |
+  |                                          +- 예 ---> [안전]                 |
+  +---------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** System V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 도입 시 가장 빈번한 실무 문제 세 가지를 순차적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 플로우다.  첫째, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 문제다.  Linux에서 `kernel.shmmax` 기본값은 32MB로, 대용량 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에는 절대적으로 부족하다.  배포 전 반드시 `sysctl` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.  둘째, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락 문제다.  [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 없이 접근하면 간헐적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상이 발생하며, 이는 부하 테스트에서만 재현되는 가장 잡기 어려운 버그 중 하나다.  셋째, 정리 누락 문제다.  System V IPC는 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/)와 무관하게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 영구 존재하므로, `atexit()` 핸들러나 SIGTERM/SIGINT 핸들러에서 반드시 `shmctl(IPC_RMID)`, `semctl(IPC_RMID)`, `msgctl(IPC_RMID)`을 호출해야 한다.  이 세 가지를 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 System V IPC의 대부분의 실무 문제를 예방할 수 있다.
@@ -355,12 +355,12 @@ System V IPC는 1980년대에 설계되었음에도 불구하고, 오늘날에�
 
 ```text
 [메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
-    │
-    ▼
+    |
+    v
 [시스템 V IPC (System V IPC)]
-    │
-    ├──▶ [POSIX IPC]
-    └──▶ [D-Bus (Desktop Bus)]
+    |
+    +---> [POSIX IPC]
+    +---> [D-Bus (Desktop Bus)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -377,7 +377,7 @@ System V IPC는 1980년대에 설계되었음에도 불구하고, 오늘날에�
 
 **진행 상황**: 132 / 800
 
-← **이전**: [131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)
-**다음**: [133. POSIX IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/133_posix_ipc/) →
+<- **이전**: [131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)
+**다음**: [133. POSIX IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/133_posix_ipc/) ->
 
 ---

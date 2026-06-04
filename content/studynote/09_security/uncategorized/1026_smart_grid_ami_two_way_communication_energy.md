@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)는 보안 확장 개념에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 지능형 전력망 양방향 정보 교환 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 스마트 미터기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 에너지 제어 보안 통신망 체계 모델가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 스마트 그리드 통신 인프라망가 필요한가                                     │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 스마트 그리드 통신 인프라망로 통제·판단 ────┘      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 스마트 그리드 통신 인프라망가 필요한가                                     |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- 스마트 그리드 통신 인프라망로 통제·판단 ----+      |
++--------------------------------------------------------------+
 ```
 
-이 그림은 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 복잡한 도시 지도를 구역별로 나눠 보면 길을 찾기 쉬워지는 것과 같다.
 
@@ -47,12 +47,12 @@ tags = ["studynote-security"]
 | 운영 포인트 | [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 핵심 동작 구조                                               |
++--------------------------------------------------------------+
+| 입력/요청 -► 검증·판단 -► 적용·변환 -► 기록·피드백          |
+|              +-------- 정책·키·상태 관리 -------+           |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [복잡한 문제 구조화 필요]
-    │
-    ▼
+    |
+    v
 [스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)]
-    │
-    ├──▶ [구성 요소 세분화]
-    └──▶ [실무 로드맵 적용]
+    |
+    +---> [구성 요소 세분화]
+    +---> [실무 로드맵 적용]
 ```
 
 이 흐름도는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 146 / 1108
 
-← **이전**: [1026. 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1026_breach_attack_simulation/)
-**다음**: [1027. 사이버 보험 (Cyber Insurance)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) →
+<- **이전**: [1026. 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1026_breach_attack_simulation/)
+**다음**: [1027. 사이버 보험 (Cyber Insurance)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) ->
 
 ---

@@ -26,33 +26,33 @@ tags = ["studynote-it-management"]
 기존 COBIT 5(2012)에서는 프로세스 중심의 5개 도메인(EDM, APO, BAI, DSS, MEA)이었으나, COBIT 2019부터는 ① 40개의 Governance/Management Objectives, ② 7가지 컴포넌트(원칙/정책/프레임워크/문화/인적자원/정보/서비스/구조/기술), ③ Focus Area(예: 사이버보안, DevOps, 위험) 단위 맞춤형 설계로 전환되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            통합 IT 거버넌스 패러다임 (Enterprise View)                │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   ┌─────────────────── 전략 계층(Strategy) ─────────────────────┐   │
-│   │  BSC/OKR · 이사회 KPI · ISO/IEC 38500 · 코비트 EDM 5대목표  │   │
-│   └─────────────────────────┬────────────────────────────────────┘   │
-│                             │ Cascade of Goals                       │
-│   ┌─────────────────────── 설계 계층(Design) ───────────────────┐   │
-│   │  TOGAF ADM · EA Repository(ArchiMate) · 용어/원칙/표준      │   │
-│   └─────────────────────────┬────────────────────────────────────┘   │
-│                             │ Architecture Contract                  │
-│   ┌─────────────────────── 구축·운영 계층(Build·Run) ────────────┐   │
-│   │  ITIL 4 SVS · 34개 Practice · DevOps/CI/CD · AIOps            │   │
-│   └─────────────────────────┬────────────────────────────────────┘   │
-│                             │ SLA/OLA/UC                            │
-│   ┌─────────────────────── 통제 계층(Control) ──────────────────┐   │
-│   │  COBIT 2019 · 40 Gov/Mgt Objectives · NIST CSF · ISMS-P    │   │
-│   └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
-│   ┌─────────────── 외부 정합성(External Alignment) ─────────────┐   │
-│   │  GDPR/PIPA · PCI-DSS · ESG · K-IFRS · DORA/NIS2/AI Act     │   │
-│   └─────────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            통합 IT 거버넌스 패러다임 (Enterprise View)                |
++----------------------------------------------------------------------+
+|                                                                      |
+|   +------------------- 전략 계층(Strategy) ---------------------+   |
+|   |  BSC/OKR · 이사회 KPI · ISO/IEC 38500 · 코비트 EDM 5대목표  |   |
+|   +-------------------------+------------------------------------+   |
+|                             | Cascade of Goals                       |
+|   +----------------------- 설계 계층(Design) -------------------+   |
+|   |  TOGAF ADM · EA Repository(ArchiMate) · 용어/원칙/표준      |   |
+|   +-------------------------+------------------------------------+   |
+|                             | Architecture Contract                  |
+|   +----------------------- 구축·운영 계층(Build·Run) ------------+   |
+|   |  ITIL 4 SVS · 34개 Practice · DevOps/CI/CD · AIOps            |   |
+|   +-------------------------+------------------------------------+   |
+|                             | SLA/OLA/UC                            |
+|   +----------------------- 통제 계층(Control) ------------------+   |
+|   |  COBIT 2019 · 40 Gov/Mgt Objectives · NIST CSF · ISMS-P    |   |
+|   +-------------------------------------------------------------+   |
+|                                                                      |
+|   +--------------- 외부 정합성(External Alignment) -------------+   |
+|   |  GDPR/PIPA · PCI-DSS · ESG · K-IFRS · DORA/NIS2/AI Act     |   |
+|   +-------------------------------------------------------------+   |
++----------------------------------------------------------------------+
 ```
 
-종래의 COBIT 5(프로세스 → 목표 → 메트릭 → maturity level의 단방향 구조)와 달리, COBIT 2019 이후의 거버넌스는 **양방향 피드백(Governance ↔ Management) + Focus Area별 맞춤형**으로 작동하며, 이는 디지털 전환(AI, 클라우드, 데이터) 시나리오에 따라 거버넌스 체계를 재구성할 수 있게 한다. 즉, "One-Size-Fits-All" 거버넌스에서 "Composable Governance"로 패러다임이 이동했다.
+종래의 COBIT 5(프로세스 -> 목표 -> 메트릭 -> maturity level의 단방향 구조)와 달리, COBIT 2019 이후의 거버넌스는 **양방향 피드백(Governance ↔ Management) + Focus Area별 맞춤형**으로 작동하며, 이는 디지털 전환(AI, 클라우드, 데이터) 시나리오에 따라 거버넌스 체계를 재구성할 수 있게 한다. 즉, "One-Size-Fits-All" 거버넌스에서 "Composable Governance"로 패러다임이 이동했다.
 
 - **📢 섹션 요약 비유**: 거버넌스는 마치 **도시의 종합 계획**(토지이용·교통·환경·재정)이 한 장의 도면 위에서 조정되는 것과 같다. 빌딩 하나(시스템)를 잘 세우는 것보다, 도시 전체의 조화(엔터프라이즈 정합)를 설계하는 것이 핵심이다.
 
@@ -63,68 +63,68 @@ tags = ["studynote-it-management"]
 ### 1. COBIT 2019의 6단계 거버넌스 시스템(Governance System Design Workflow)
 
 ```text
-[1단계] 경영 문제·동기 식별 ──▶ [2단계] 비전·전략·도전과제 정렬
-       │                                       │
-       ▼                                       ▼
-[3단계] 거버넌스 시스템 설계 ◀─── 정렬된 목표
-       │   (Scope, Components, Focus Areas)
-       ▼
+[1단계] 경영 문제·동기 식별 ---> [2단계] 비전·전략·도전과제 정렬
+       |                                       |
+       v                                       v
+[3단계] 거버넌스 시스템 설계 <---- 정렬된 목표
+       |   (Scope, Components, Focus Areas)
+       v
 [4단계] 거버넌스 목표 연결(Goal Cascade)
-       │   Enterprise Goal → Alignment Goal → Mgmt Goal
-       ▼
+       |   Enterprise Goal -> Alignment Goal -> Mgmt Goal
+       v
 [5단계] 관리/거버넌스 목표 선정(40개 중 우선순위)
-       │   Primary/Secondary, Rating: 0~100
-       ▼
+       |   Primary/Secondary, Rating: 0~100
+       v
 [6단계] 컴포넌트별 상세화 + KPI 설정
-           │
-           ▼
+           |
+           v
        구현/모니터링
 ```
 
 **핵심 메커니즘 – 목표 계단식(Cascade of Goals)**
 
-- **엔터프라이즈 목표 13개** → **정렬 목표(Alignment) 13개** → **거버넌스/관리 목표 40개**로 분해
+- **엔터프라이즈 목표 13개** -> **정렬 목표(Alignment) 13개** -> **거버넌스/관리 목표 40개**로 분해
 - 각 단계는 **라커(Likert) 스케일 매핑**(0=Not, 1=Initial, 2=Managed, 3=Defined, 4=Quantitative, 5=Optimized)으로 우선순위 산정
-- 예시: EG01 *재무 포트폴리오의 경쟁 우위* → AG11 *IT 거버넌스 프레임워크* → MGD02 *관리 시스템에 대한 책임·의사결정·역할 정의* → EDM(evaluate, direct, monitor) 5대 활동
+- 예시: EG01 *재무 포트폴리오의 경쟁 우위* -> AG11 *IT 거버넌스 프레임워크* -> MGD02 *관리 시스템에 대한 책임·의사결정·역할 정의* -> EDM(evaluate, direct, monitor) 5대 활동
 
 ### 2. ITIL 4 Service Value System (SVS) 7개 구성요소
 
 ```text
         Opportunity/Demand (외부)
-              │
-              ▼
-   ┌─────────────────────────┐
-   │   ITIL SVS 핵심      │ ◀─── Guiding Principles(7개 원칙)
-   │  ┌────────────────┐    │       • Focus on value
-   │  │ Service Value  │    │       • Start where you are
-   │  │   Chain(6활동) │    │       • Progress iteratively
-   │  │ Plan→Engage→   │    │       • Collaborate & promote visibility
-   │  │ Design→Obtain→ │    │       • Think and work holistically
-   │  │ Deliver→Improve│    │       • Keep it simple & practical
-   │  └────────────────┘    │       • Optimize & automate
-   └─────────────────────────┘
-              │
-              ▼
-        Value(가치) ───▶ Customer/공급자/소유자
-              ▲
-              │
-   ┌─────────────────────────┐
-   │  Practices (34개)      │
-   │  • General Mgmt(15)    │
-   │  • Service Mgmt(17)    │
-   │  • Technical Mgmt(3)   │
-   └─────────────────────────┘
-              │
-   ┌─────────────────────────┐
-   │  Continual Improvement │ ◀─── 7-step CI Model
-   └─────────────────────────┘
+              |
+              v
+   +-------------------------+
+   |   ITIL SVS 핵심      | <---- Guiding Principles(7개 원칙)
+   |  +----------------+    |       • Focus on value
+   |  | Service Value  |    |       • Start where you are
+   |  |   Chain(6활동) |    |       • Progress iteratively
+   |  | Plan->Engage->   |    |       • Collaborate & promote visibility
+   |  | Design->Obtain-> |    |       • Think and work holistically
+   |  | Deliver->Improve|    |       • Keep it simple & practical
+   |  +----------------+    |       • Optimize & automate
+   +-------------------------+
+              |
+              v
+        Value(가치) ----> Customer/공급자/소유자
+              ^
+              |
+   +-------------------------+
+   |  Practices (34개)      |
+   |  • General Mgmt(15)    |
+   |  • Service Mgmt(17)    |
+   |  • Technical Mgmt(3)   |
+   +-------------------------+
+              |
+   +-------------------------+
+   |  Continual Improvement | <---- 7-step CI Model
+   +-------------------------+
 ```
 
 ### 3. 거버넌스/관리 목표 40개 중 핵심 매핑 사례
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **EDM(EDM01~05)** | 이사회 거버넌스 5대 활동 | Evaluate(현황평가) → Direct(방향결정) → Monitor(성과모니터링); 예: EDM04 *Resource Optimization*(BSC 연계) |
+| **EDM(EDM01~05)** | 이사회 거버넌스 5대 활동 | Evaluate(현황평가) -> Direct(방향결정) -> Monitor(성과모니터링); 예: EDM04 *Resource Optimization*(BSC 연계) |
 | **APO(APO01~14)** | Align-Plan-Organize | 전략-수요-예산-포트폴리오 정렬; APO05 *Portfolio Mgmt*는 Stage-Gate + BCG Matrix 활용 |
 | **BAI(BAI01~11)** | Build-Acquire-Implement | 프로그램/프로젝트 관리 + 변경관리; BAI03 *Manage Solutions*는 ArchiMate 모델로 영향도 분석 |
 | **DSS(DSS01~06)** | Deliver-Service-Support | 운영 SLA/OLA, Incident/Problem/Request Fulfilment; DSS02 *Service Requests*의 90% 표준화 목표 |
@@ -135,7 +135,7 @@ tags = ["studynote-it-management"]
 
 **주요 메트릭 및 알고리즘**
 
-- **CMMI 성숙도 모델(5단계)**: Initial(0~30점) → Managed(31~60) → Defined(61~80) → Quantitatively Managed(81~90) → Optimizing(91~100)
+- **CMMI 성숙도 모델(5단계)**: Initial(0~30점) -> Managed(31~60) -> Defined(61~80) -> Quantitatively Managed(81~90) -> Optimizing(91~100)
 - **가치 흐름 매핑(VSM)**: Lead Time = Process Time + Wait Time; ITIL SVS Value Chain의 6개 활동별 Lead Time 측정
 - **BSC 4 관점 가중치**: 재무 25% / 고객 25% / 내부 프로세스 30% / 학습성장 20% (대형 SI 표준안)
 - **리스크 정량화**: NPV-at-Risk(95% VaR) = Σ(연간 ALE × 발생확률 × 영향도)
@@ -167,12 +167,12 @@ tags = ["studynote-it-management"]
 - **BSC 4 관점 ↔ COBIT 40 목표 ↔ KPI**: 13개 Enterprise Goal 각각을 4 관점에 매핑, 각 목표당 1~4개의 Lead Indicator + 1개의 Lag Indicator 설정
 
 ```text
-   [전략 의도] ───  ISO/IEC 38500 6
+   [전략 의도] ---  ISO/IEC 38500 6
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 686 / 800
 
-← **이전**: [685. IT 경영 관리 핵심 토픽 685번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/685_it_management_core_topic_685_exam_summary/)
-**다음**: [687. IT 경영 관리 핵심 토픽 687번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/687_it_management_core_topic_687_exam_summary/) →
+<- **이전**: [685. IT 경영 관리 핵심 토픽 685번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/685_it_management_core_topic_685_exam_summary/)
+**다음**: [687. IT 경영 관리 핵심 토픽 687번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/687_it_management_core_topic_687_exam_summary/) ->
 
 ---

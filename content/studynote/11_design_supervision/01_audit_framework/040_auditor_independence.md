@@ -241,7 +241,7 @@ KISA AI 감리 프레임워크 개발 중
 
 **진행 상황**: 56 / 530
 
-← **이전**: [039. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/039_sampling_audit_technique/)
-**다음**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/) →
+<- **이전**: [039. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/039_sampling_audit_technique/)
+**다음**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/) ->
 
 ---

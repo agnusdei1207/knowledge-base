@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 운영 체계 인수인계 매뉴얼 완전성 점검은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 기준선 확정   │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 수행·조율     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 검증·종결     │
-└──────────────┘
++--------------+
+| 기준선 확정   |
++------+-------+
+       |
++------v-------+
+| 수행·조율     |
++------+-------+
+       |
++------v-------+
+| 검증·종결     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 공사 전에 도면과 공정표를 먼저 맞춰 보는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·종결 | 권한·계정 인계 목록를 통해 인터뷰·문서·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. | 지적사항은 종료 조건까지 닫혀야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 계획·범위   │ 수행·협의   │ 증빙·종결   │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 계획·범위   | 수행·협의   | 증빙·종결   |
++------------+------------+------------+
 ```
 
 또한 운영 체계 인수인계 매뉴얼 완전성 점검은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 운영 절차서, 장애 대응 연락망, 권한·계정 인계 목록, 시정 조치 추적
-[개인 의존 운영] → [문서 표준화 인수인계] → [지식베이스 자동 최신화]
+[개인 의존 운영] -> [문서 표준화 인수인계] -> [지식베이스 자동 최신화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운영 체계 인수인계 매뉴얼 완전성 점검은 숙제 계획표와 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장을 같이 챙기는 것과 같아요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 387 / 530
 
-← **이전**: [314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/314_iot_tamper_resistance/)
-**다음**: [315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/315_operations_handover_manual/) →
+<- **이전**: [314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/314_iot_tamper_resistance/)
+**다음**: [315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/315_operations_handover_manual/) ->
 
 ---

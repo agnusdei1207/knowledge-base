@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [클라크 해결책]
-    │
-    ▼
+    |
+    v
 [지연된 ACK]
-    │
-    └──▶ [TCP 혼잡 제어]
+    |
+    +---> [TCP 혼잡 제어]
 ```
 
 - **📢 섹션 요약 비유**: ** Delayed ACK는 택배 기사님에게 건네는 **"음료수 얹어주기([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))"<strong>입니다. 빈 손(빈 패킷)으로 "잘 받았어요(ACK)" 하고 인사만 하러 나가는 게 아까우니, 기왕 나갈 거 5초만 기다렸다가 </strong>집에 있는 박카스(진짜 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하나 들고나가면서 "잘 받았어요"라는 인사까지 1석 2조로 끝내는 센스**입니다.
@@ -43,9 +43,9 @@ tags = ["studynote-network"]
 
 ### 1. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK의 발동 조건 3가지
 수신자 OS는 맘대로 평생 기다리지 않는다. 아래 3가지 중 하나라도 충족되면 즉시 ACK를 발사한다.
-1. <strong>버티기 한계 도달 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Expiration)</strong>: 패킷을 받고 0.2초(200ms)가 지났는데도 다음 패킷이 안 온다. "아, 더 이상 올 게 없나 보네. 그냥 영수증 쏘자!" ──▶ `빈 ACK 발송`
-2. **2개 패킷 연속 수신 (2 Packets Rule)**: 기다리는 중에 패킷이 하나 더 들어와서 **보류 중인 영수증이 2개가 쌓였다**. "야 2개 찼으면 많이 참았다. 더 참으면 상대방이 화낸다!" ──▶ `즉시 누적 ACK 발송`
-3. <strong>내가 보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 생김 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>: 기다리는 중에 마침 내 앱(크롬)에서 구글로 쏠 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려왔다. "오예! 나가는 택배 박스 겉면에 ACK 도장 슬쩍 찍어(Piggyback)!!" ──▶ `데이터 + ACK 동시 발송`
+1. <strong>버티기 한계 도달 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Expiration)</strong>: 패킷을 받고 0.2초(200ms)가 지났는데도 다음 패킷이 안 온다. "아, 더 이상 올 게 없나 보네. 그냥 영수증 쏘자!" ---> `빈 ACK 발송`
+2. **2개 패킷 연속 수신 (2 Packets Rule)**: 기다리는 중에 패킷이 하나 더 들어와서 **보류 중인 영수증이 2개가 쌓였다**. "야 2개 찼으면 많이 참았다. 더 참으면 상대방이 화낸다!" ---> `즉시 누적 ACK 발송`
+3. <strong>내가 보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 생김 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>: 기다리는 중에 마침 내 앱(크롬)에서 구글로 쏠 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려왔다. "오예! 나가는 택배 박스 겉면에 ACK 도장 슬쩍 찍어(Piggyback)!!" ---> `데이터 + ACK 동시 발송`
 
 ### 2. 환장의 콜라보: Nagle vs Delayed ACK의 충돌 (지옥의 200ms)
 이론상 완벽한 이 두 최적화 꼼수가 실전에서 만나면 서로 뒷목을 잡는 대참사가 터진다.
@@ -60,24 +60,24 @@ tags = ["studynote-network"]
 5. **결과**: 서버가 0.2초를 꽉 채우고 타이머가 만료되어 마지못해 ACK를 쏴줄 때까지 **내 게임 화면은 0.2초 동안 완벽하게 렉(멈춤)에 걸린다**. 이것이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반 게임이 느려지는 가장 치명적인 이유다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Nagle과 Delayed ACK의 데드락(Deadlock) 핑퐁         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (Nagle ON) ]                       [ 서버 (Delay ON) ]│
- │   1. 1바이트 쏨! ──────────────────────────────▶             │
- │                                             2. "0.2초 숨 참기 시작!"│
- │   3. 또 1바이트 생김.                                           │
- │      "아까 거 ACK 안 왔으니 출발 금지!"                            │
- │                                                             │
- │   ... (서로 멀뚱멀뚱 쳐다보며 0.2초간 통신 완전 정지) ...                │
- │                                                             │
- │                                             4. "어휴 0.2초 지났다." │
- │   6. 두 번째 바이트 출발!! ◀───────── (ACK 도착) ── 5. ACK 발사!    │
- │                                                             │
- │   ▶ "이 0.2초 렉을 혐오하는 게임/금융 개발자들은 양쪽 다 기능을 끄도록 │
- │      소켓 코딩 (TCP_NODELAY, TCP_QUICKACK)을 강제로 박아버린다!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Nagle과 Delayed ACK의 데드락(Deadlock) 핑퐁         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC (Nagle ON) ]                       [ 서버 (Delay ON) ]|
+ |   1. 1바이트 쏨! ------------------------------->             |
+ |                                             2. "0.2초 숨 참기 시작!"|
+ |   3. 또 1바이트 생김.                                           |
+ |      "아까 거 ACK 안 왔으니 출발 금지!"                            |
+ |                                                             |
+ |   ... (서로 멀뚱멀뚱 쳐다보며 0.2초간 통신 완전 정지) ...                |
+ |                                                             |
+ |                                             4. "어휴 0.2초 지났다." |
+ |   6. 두 번째 바이트 출발!! <---------- (ACK 도착) -- 5. ACK 발사!    |
+ |                                                             |
+ |   -> "이 0.2초 렉을 혐오하는 게임/금융 개발자들은 양쪽 다 기능을 끄도록 |
+ |      소켓 코딩 (TCP_NODELAY, TCP_QUICKACK)을 강제로 박아버린다!"|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** Delayed ACK와 Nagle의 만남은 **"지독한 자존심 싸움"**입니다. 남자가 "네가 카톡 읽음 표시(ACK) 띄울 때까지 나 두 번째 카톡 안 보낼 거야(Nagle)" 하고 버티고, 여자는 "네가 카톡 두 개 연속으로 보내기 전까진 절대 읽음(Delay ACK) 안 띄울 거야" 하고 버티다가, 결국 여자가 2시간 뒤에 마지못해 1 표시를 지울 때까지 완벽하게 소통이 단절되는 환장의 커플입니다.
@@ -138,12 +138,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 클라크 해결책]
-    │
-    ▼
+    |
+    v
 [현재 개념: 지연된 ACK]
-    │
-    ├──▶ [확장 A: TCP 혼잡 제어]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP 혼잡 제어]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK는 클라크 해결책에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 548 / 1120
 
-← **이전**: [426. 클라크 해결책 (Clark's Solution)](/knowledge-base/studynote/03_network/08_transport_layer/426_clarks_solution_silly_window_syndrome_receiver/)
-**다음**: [428. TCP 혼잡 제어 (Congestion Control)](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/) →
+<- **이전**: [426. 클라크 해결책 (Clark's Solution)](/knowledge-base/studynote/03_network/08_transport_layer/426_clarks_solution_silly_window_syndrome_receiver/)
+**다음**: [428. TCP 혼잡 제어 (Congestion Control)](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/) ->
 
 ---

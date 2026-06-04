@@ -31,30 +31,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Call/Return의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 저장 → 목적지 이동 → 작업 수행 → 저장된 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 복원</strong>의 4단계다. 저장 위치는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리일 수도 있고, 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Link [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), LR) 같은 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수도 있다. 어느 방식을 쓰든 중요한 것은 복귀 주소가 중첩 호출 순서와 정확히 맞아야 한다는 점이다.
+Call/Return의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 저장 -> 목적지 이동 -> 작업 수행 -> 저장된 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 복원</strong>의 4단계다. 저장 위치는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리일 수도 있고, 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Link [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), LR) 같은 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수도 있다. 어느 방식을 쓰든 중요한 것은 복귀 주소가 중첩 호출 순서와 정확히 맞아야 한다는 점이다.
 
 아래 그림은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 호출에서 주소가 어떻게 왕복하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Caller 코드                                                                │
-│ 0x100: LOAD R1, A                                                           │
-│ 0x104: CALL 0x500   ───────────────┐                                        │
-│ 0x108: ADD  R2, R3   ◀─────────────┼── Return이 복귀하면 여기서 재개         │
-│                                     │                                        │
-│ Stack 메모리                        │  1) CALL 시 0x108 저장                 │
-│ ┌──────────────────────────────┐    │                                        │
-│ │ ...                          │    │                                        │
-│ │ 0x108  ← Top of Stack        │◀───┘                                        │
-│ └──────────────────────────────┘                                             │
-│                                                                              │
-│ Callee 코드                                                                  │
-│ 0x500: PUSH FP / SAVE REGS / ...                                             │
-│        ... 작업 수행 ...                                                      │
-│ 0x520: RET ──────────────── POP 0x108 ───────────────▶ PC = 0x108            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"        |
++----------------------------------------------------------------------------+
+| Caller 코드                                                                |
+| 0x100: LOAD R1, A                                                           |
+| 0x104: CALL 0x500   ---------------+                                        |
+| 0x108: ADD  R2, R3   <--------------+-- Return이 복귀하면 여기서 재개         |
+|                                     |                                        |
+| Stack 메모리                        |  1) CALL 시 0x108 저장                 |
+| +------------------------------+    |                                        |
+| | ...                          |    |                                        |
+| | 0x108  <- Top of Stack        |<----+                                        |
+| +------------------------------+                                             |
+|                                                                              |
+| Callee 코드                                                                  |
+| 0x500: PUSH FP / SAVE REGS / ...                                             |
+|        ... 작업 수행 ...                                                      |
+| 0x520: RET ---------------- POP 0x108 ----------------> PC = 0x108            |
++----------------------------------------------------------------------------+
 ```
 
 이 그림이 말하는 핵심은 Return이 "목적지를 계산"하는 것이 아니라 <strong>미리 저장해 둔 복귀 주소를 꺼내는 것</strong>이라는 점이다. 따라서 Call/Return은 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)이면서 동시에 상태 보존 메커니즘이기도 하다.
@@ -160,20 +160,20 @@ Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나
 
 ```text
 단순 분기 (Jump)
-    │
-    ▼
+    |
+    v
 서브루틴 호출 (Call) · 복귀 주소 (Return Address)
-    │
-    ▼
+    |
+    v
 스택 프레임 (Stack Frame) · 호출 규약 (Calling Convention)
-    │
-    ▼
+    |
+    v
 링크 레지스터 (Link Register) · leaf function 최적화
-    │
-    ▼
+    |
+    v
 복귀 주소 스택 (Return Address Stack, RAS) · 분기 예측
-    │
-    ▼
+    |
+    v
 스택 보호 기법 · CFI (Control-Flow Integrity) · ROP 방어
 ```
 
@@ -191,7 +191,7 @@ Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나
 
 **진행 상황**: 189 / 803
 
-← **이전**: [188. 무조건 분기 (Unconditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/188_unconditional_branch/)
-**다음**: [190. 스택 머신 (Stack Machine)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/190_stack_machine/) →
+<- **이전**: [188. 무조건 분기 (Unconditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/188_unconditional_branch/)
+**다음**: [190. 스택 머신 (Stack Machine)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/190_stack_machine/) ->
 
 ---

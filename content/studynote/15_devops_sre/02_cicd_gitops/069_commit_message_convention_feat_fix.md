@@ -104,11 +104,11 @@ type(scope): subject
 
 ```text
 Commit
-  ↓
+  v
 Commit Convention
-  ↓
+  v
 Release Notes
-  ↓
+  v
 Traceable History
 ```
 
@@ -118,11 +118,11 @@ Traceable History
 
 ```text
 feat / fix / docs
-  ↓
+  v
 Commit Convention
-  ↓
+  v
 Changelog
-  ↓
+  v
 Automation
 ```
 
@@ -140,7 +140,7 @@ Automation
 
 **진행 상황**: 69 / 373
 
-← **이전**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/)
-**다음**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/) →
+<- **이전**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/)
+**다음**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/) ->
 
 ---

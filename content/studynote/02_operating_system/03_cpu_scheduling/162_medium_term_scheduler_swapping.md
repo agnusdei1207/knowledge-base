@@ -45,21 +45,21 @@ tags = ["studynote-operating-system"]
 아래 그림은 중기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 개입하는 위치를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 medium-term scheduling with swapping                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Ready ───────▶ Running ───────▶ Waiting                                   │
-│   ▲              │                  │                                     │
-│   │              │                  │                                     │
-│   │         preempt / exit          │ I/O wait                            │
-│   │              │                  │                                     │
-│   │              ▼                  ▼                                     │
-│   │       Ready Suspended ◀──── Waiting Suspended                         │
-│   │              ▲                  ▲                                     │
-│   └──── swap in ─┴──── swap out ────┘                                     │
-│                                                                            │
-│ Memory pressure rises  ─────────▶  some processes lose resident memory     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 medium-term scheduling with swapping                      |
++----------------------------------------------------------------------------+
+| Ready --------> Running --------> Waiting                                   |
+|   ^              |                  |                                     |
+|   |              |                  |                                     |
+|   |         preempt / exit          | I/O wait                            |
+|   |              |                  |                                     |
+|   |              v                  v                                     |
+|   |       Ready Suspended <----- Waiting Suspended                         |
+|   |              ^                  ^                                     |
+|   +---- swap in -+---- swap out ----+                                     |
+|                                                                            |
+| Memory pressure rises  ---------->  some processes lose resident memory     |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 보류 상태가 단순 대기가 아니라 "메모리 상주권을 잃은 상태"라는 것이다. Waiting 상태의 프로세스는 어차피 CPU를 바로 쓰지 못하므로 스와프 아웃 후보가 되기 쉽다. 반대로 Swap In은 디스크에서 다시 읽어 와야 하므로 느리기 때문에, 중기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 자주 개입할수록 오히려 시스템을 더 느리게 만들 수 있다.
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 | :--- | :--- | :--- | :--- |
 | 주요 자원 | 전체 시스템 부하 | 메모리 상주 집합 | CPU 시간 |
 | 개입 시점 | 작업 진입 시 | 메모리 압박 시 | 매우 자주 |
-| 대표 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → Ready | Ready/Waiting ↔ Suspended | Ready → Running |
+| 대표 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> Ready | Ready/Waiting ↔ Suspended | Ready -> Running |
 | 핵심 목적 | 적정 작업 수 유지 | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 완화 | 응답성과 공정성 확보 |
 
 또한 전통적 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)과 현대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 기반 회수는 목적은 같지만 단위가 다르다. 전통적 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 전체를 내보내므로 개념이 분명하지만 비용이 크고, 현대 가상 메모리에서는 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)), [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 사실상 중기 스케줄링의 역할 일부를 흡수한다. 즉 오늘날 중기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 하나의 명확한 모듈이라기보다, 메모리 압박에 대응하는 여러 정책의 묶음으로 이해하는 편이 정확하다.
@@ -135,17 +135,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 다중 프로그래밍 증가
-        │
-        ▼
+        |
+        v
 메모리 압박 · 스래싱 징후
-        │
-        ▼
+        |
+        v
 중기 스케줄러의 스와핑 (Swapping)
-        │
-        ▼
+        |
+        v
 페이지 단위 회수 · 요구 페이징
-        │
-        ▼
+        |
+        v
 ZRAM · 메모리 압축 · OOM 정책으로 현대화
 ```
 
@@ -163,7 +163,7 @@ ZRAM · 메모리 압축 · OOM 정책으로 현대화
 
 **진행 상황**: 162 / 800
 
-← **이전**: [161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)
-**다음**: [163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) →
+<- **이전**: [161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)
+**다음**: [163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) ->
 
 ---

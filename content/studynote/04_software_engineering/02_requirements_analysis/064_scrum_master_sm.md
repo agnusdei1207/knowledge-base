@@ -30,11 +30,11 @@ tags = ["software_engineering"]
 
 ```text
 Team
-  ↓
+  v
 Scrum Events
-  ↓
+  v
 Impediment Removal
-  ↓
+  v
 Continuous Improvement
 ```
 
@@ -101,11 +101,11 @@ SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 
 
 ```text
 Scrum Team
-  ↓
+  v
 Scrum Master
-  ↓
+  v
 Impediment Removal
-  ↓
+  v
 Team Improvement
 ```
 
@@ -115,11 +115,11 @@ Team Improvement
 
 ```text
 애자일 팀
-  ↓
+  v
 스크럼 이벤트
-  ↓
+  v
 서번트 리더십
-  ↓
+  v
 지속적 개선
 ```
 
@@ -137,7 +137,7 @@ Team Improvement
 
 **진행 상황**: 64 / 973
 
-← **이전**: [63. 제품 책임자 (Product Owner, PO)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)
-**다음**: [65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) →
+<- **이전**: [63. 제품 책임자 (Product Owner, PO)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)
+**다음**: [65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) ->
 
 ---

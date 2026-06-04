@@ -36,22 +36,22 @@ tags = ["studynote-security"]
 아래 그림은 일반 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의와 Stapling 방식의 차이를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ OCSP vs OCSP Stapling                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ A. Direct OCSP                                                     │
-│ Client -> Server : ClientHello                                     │
-│ Client <- Server : Certificate                                     │
-│ Client -> CA     : OCSP request                                    │
-│ Client <- CA     : signed status response                          │
-│ Client -> Server : continue handshake                              │
-│                                                                    │
-│ B. OCSP Stapling                                                   │
-│ Server <-> CA    : periodically fetch signed OCSP response         │
-│ Client -> Server : ClientHello + status_request                    │
-│ Client <- Server : Certificate + stapled OCSP response             │
-│ Client            verifies CA signature and freshness locally      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| OCSP vs OCSP Stapling                                              |
++--------------------------------------------------------------------+
+| A. Direct OCSP                                                     |
+| Client -> Server : ClientHello                                     |
+| Client <- Server : Certificate                                     |
+| Client -> CA     : OCSP request                                    |
+| Client <- CA     : signed status response                          |
+| Client -> Server : continue handshake                              |
+|                                                                    |
+| B. OCSP Stapling                                                   |
+| Server <-> CA    : periodically fetch signed OCSP response         |
+| Client -> Server : ClientHello + status_request                    |
+| Client <- Server : Certificate + stapled OCSP response             |
+| Client            verifies CA signature and freshness locally      |
++--------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | 운영 포인트 |
@@ -140,16 +140,16 @@ tags = ["studynote-security"]
 
 ```text
 CRL 대용량 목록 배포
-        │
-        ▼
+        |
+        v
 OCSP (Online Certificate Status Protocol)
-        │
-        ▼
+        |
+        v
 OCSP Stapling
-        │
-        ├──────────────► 핸드셰이크 지연 감소
-        ├──────────────► 프라이버시 개선
-        ▼
+        |
+        +--------------► 핸드셰이크 지연 감소
+        +--------------► 프라이버시 개선
+        v
 Must-Staple · CT · 짧은 수명 인증서
 ```
 
@@ -167,7 +167,7 @@ Must-Staple · CT · 짧은 수명 인증서
 
 **진행 상황**: 239 / 1108
 
-← **이전**: [185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)](/knowledge-base/studynote/09_security/04_endpoint_security/185_dynamic_pinning_ct_log_based/)
-**다음**: [187. mTLS (Mutual TLS)](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/) →
+<- **이전**: [185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)](/knowledge-base/studynote/09_security/04_endpoint_security/185_dynamic_pinning_ct_log_based/)
+**다음**: [187. mTLS (Mutual TLS)](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/) ->
 
 ---

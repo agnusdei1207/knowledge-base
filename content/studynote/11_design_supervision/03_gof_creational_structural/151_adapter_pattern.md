@@ -37,34 +37,34 @@ tags = ["studynote-design-supervision"]
 [어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/)의 뼈대는 남의 쇳덩이 객체를 내가 어떻게 감싸 안아 번역할 것인가(위임 Delegation)에 있다. [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠을 박살 내는 '객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 도해다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          어댑터 패턴(객체 합성 방식 Object Adapter) 십자 융합 록온 도해 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ Client (우리 최신 시스템) ]                              │
-│   - 팩트: 나는 `Target` 규격 헌법만 알면 됨. 다른 더러운 놈 알 바 아님 ㅋ. │
-│   - 호출: `target.request();` 찌르기 툭 핑!                    │
-│            │                                                │
-│            ▼ (오직 인터페이스만 찌름)                              │
-│ ┌────────────────────────┐                                  │
-│ │ 🎯 Target (표준 인터페이스)│ ◀── 클라이언트가 원하는 완벽한 대문 규격 │
-│ │ + request()            │                                  │
-│ └────────────────────────┘                                  │
-│            ▲                                                │
-│            ├── (구현 Implements 락킹)                        │
-│            │                                                │
-│ ┌────────────────────────┐      ┌────────────────────────┐  │
-│ │ 🔌 Adapter (중간 번역 젠더)│  위임  │ 🦖 Adaptee (낡은 레거시 봇)│  │
-│ │ - adaptee: Adaptee     │ ──▶ │ + specificRequest()    │  │
-│ │ + request() {          │ (품음)│                        │  │
-│ │   adaptee.specificReq()│      │                        │  │
-│ │ }                      │      │                        │  │
-│ └────────────────────────┘      └────────────────────────┘  │
-│ 🌟 아키텍트 극딜: 낡은 로봇(Adaptee) 소스를 수정하지 않는다! 걍 뱃속에 변수   │
-│ 포인터(Composition)로 스윽 품어버리고! 밖에서 새 규격(`request`)으로 찌르면 │
-│ 어댑터 새끼가 몰래 안에서 낡은 규격(`specificReq`)으로 텍스트 번역 우회 핑퐁  │
-│ 짬처리를 다 대신해 쳐주는 완벽한 의존성 단절(Decoupling) 쉴드 방폭문이다 쾅!! │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          어댑터 패턴(객체 합성 방식 Object Adapter) 십자 융합 록온 도해 🚀 |
++-------------------------------------------------------------+
+|                                                             |
+| 👨‍💻 [ Client (우리 최신 시스템) ]                              |
+|   - 팩트: 나는 `Target` 규격 헌법만 알면 됨. 다른 더러운 놈 알 바 아님 ㅋ. |
+|   - 호출: `target.request();` 찌르기 툭 핑!                    |
+|            |                                                |
+|            v (오직 인터페이스만 찌름)                              |
+| +------------------------+                                  |
+| | 🎯 Target (표준 인터페이스)| <--- 클라이언트가 원하는 완벽한 대문 규격 |
+| | + request()            |                                  |
+| +------------------------+                                  |
+|            ^                                                |
+|            +-- (구현 Implements 락킹)                        |
+|            |                                                |
+| +------------------------+      +------------------------+  |
+| | 🔌 Adapter (중간 번역 젠더)|  위임  | 🦖 Adaptee (낡은 레거시 봇)|  |
+| | - adaptee: Adaptee     | ---> | + specificRequest()    |  |
+| | + request() {          | (품음)|                        |  |
+| |   adaptee.specificReq()|      |                        |  |
+| | }                      |      |                        |  |
+| +------------------------+      +------------------------+  |
+| 🌟 아키텍트 극딜: 낡은 로봇(Adaptee) 소스를 수정하지 않는다! 걍 뱃속에 변수   |
+| 포인터(Composition)로 스윽 품어버리고! 밖에서 새 규격(`request`)으로 찌르면 |
+| 어댑터 새끼가 몰래 안에서 낡은 규격(`specificReq`)으로 텍스트 번역 우회 핑퐁  |
+| 짬처리를 다 대신해 쳐주는 완벽한 의존성 단절(Decoupling) 쉴드 방폭문이다 쾅!! |
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">아키텍트의 피 터지는 메스: 클래스(Class) [어댑터</a> vs 객체(Object) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 딜레마]</strong>
@@ -152,17 +152,17 @@ GoF 아키텍트 대장들은 이를 철저히 도륙 낸다. <strong>"야!! 내
 
 ```text
 절대 수정 불가능 낡은 쇳덩이 레거시 코드 / M&A로 남의 회사 구형 코드 가져왔는데 우리 회사 규격이랑 1도 안 맞고 파라미터 개판 파국 터짐 💥
-    │
-    ▼
+    |
+    v
 무지성 하드코딩 상속(Inheritance) 떡칠 시도 💀 / 구형 코드를 직접 상속받거나 원본 소스 열어서 타자 쳐 수정 ➔ 1줄 고쳤더니 딴 부서 100군데 시뻘겋게 연쇄 컴파일 에러 폭사 동반 타죽음 뻗음
-    │
-    ▼
+    |
+    v
 객체 어댑터(Object Adapter) 십자 융합 록온 발동 🚀 / 원본 소스 절대 손대지 마 철통 락(Lock)! ➔ 걍 뱃속 포인터(Composition)로 낡은 놈 스윽 감싸 안고, 겉 껍데기는 우리 최신 표준 규격으로 젠더 변환 핑퐁 짬처리 때리는 투명 쉴드 강림 ✨
-    │
-    ▼
+    |
+    v
 프레임워크 대통일 표준화 (JDBC, 로깅 봇) / 1만 개 이기종 DB 쇳덩이 파편화 지옥을 ➔ 이 어댑터 인터페이스 껍데기 1개로 전 우주 자바 코더들의 소스 코드 100% 무결점 결합 파괴 디커플링 완성!
-    │
-    ▼
+    |
+    v
 MSA 안티 코럽션 레이어(ACL) 방폭문 도약 (현재) / 객체 1개 감싸는 코딩 팁을 넘어 ➔ 타 부서 낡은 서버망 트래픽이 내 서버망으로 오염 전염되지 못하게 대문 앞 [사이드카 프록시 어댑터 봇] 단위로 차원 팽창 스케일 업 하여 거대 인프라 분산망 영구 수호 방벽 텐트로 승격 🚀
 ```
 
@@ -178,7 +178,7 @@ MSA 안티 코럽션 레이어(ACL) 방폭문 도약 (현재) / 객체 1개 감�
 
 **진행 상황**: 207 / 530
 
-← **이전**: [150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/150_structural_patterns_purpose/)
-**다음**: [152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/152_object_vs_class_adapter/) →
+<- **이전**: [150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/150_structural_patterns_purpose/)
+**다음**: [152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/152_object_vs_class_adapter/) ->
 
 ---

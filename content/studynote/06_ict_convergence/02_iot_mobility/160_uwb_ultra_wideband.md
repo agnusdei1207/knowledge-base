@@ -36,19 +36,19 @@ UWB의 핵심 원리는 비행 시간 (ToF, Time of Flight) 측정이다. 송신
 아래 그림은 대표적인 UWB 거리 측정 흐름을 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                UWB 양방향 거리 측정 개념                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Initiator (Phone/Tag)                    Responder (Car/Anchor)    │
-│   t1: Poll  --------------------------->                           │
-│                               <---------  t2,t3: Response          │
-│   t4: Final --------------------------->                           │
-│                                                                    │
-│ Round-trip time - device reply delay = propagation time            │
-│ distance ≈ c × ToF / 2                                             │
-│                                                                    │
-│ Multiple anchors + AoA/TDoA => 2D/3D position estimation           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                UWB 양방향 거리 측정 개념                           |
++--------------------------------------------------------------------+
+| Initiator (Phone/Tag)                    Responder (Car/Anchor)    |
+|   t1: Poll  --------------------------->                           |
+|                               <---------  t2,t3: Response          |
+|   t4: Final --------------------------->                           |
+|                                                                    |
+| Round-trip time - device reply delay = propagation time            |
+| distance ≈ c × ToF / 2                                             |
+|                                                                    |
+| Multiple anchors + AoA/TDoA => 2D/3D position estimation           |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 UWB가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기보다 <strong>시간 정보</strong>를 더 중요한 판단 근거로 삼는다는 점이다. 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 덕분에 시간 해상도가 높아지고, 반사파가 많아도 첫 도착 경로를 구분하기 쉬워진다. 그래서 복잡한 실내 환경에서도 BLE보다 안정적인 정밀 측정이 가능하다.
@@ -132,18 +132,18 @@ UWB의 기대효과는 명확하다. 실내에서도 높은 거리 [정밀도](/
 
 ```text
 RSSI 기반 근접 추정
-    │
-    ▼
+    |
+    v
 Wi-Fi RTT · BLE 비콘
-    │
-    ▼
+    |
+    v
 UWB 정밀 거리 측정
-    │
-    ├─ TWR
-    ├─ AoA / TDoA
-    └─ 센티미터급 위치 추정
-    │
-    ▼
+    |
+    +- TWR
+    +- AoA / TDoA
+    +- 센티미터급 위치 추정
+    |
+    v
 디지털 키 · 스마트 태그 · 산업용 RTLS
 ```
 
@@ -161,7 +161,7 @@ UWB 정밀 거리 측정
 
 **진행 상황**: 160 / 552
 
-← **이전**: [159. 와이파이 7 (IEEE 802.11be) - 320MHz 초광대역폭, 4K-QAM, MLO(Multi-Link Operation:](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/159_wifi_7_802_11be/)
-**다음**: [161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) →
+<- **이전**: [159. 와이파이 7 (IEEE 802.11be) - 320MHz 초광대역폭, 4K-QAM, MLO(Multi-Link Operation:](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/159_wifi_7_802_11be/)
+**다음**: [161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) ->
 
 ---

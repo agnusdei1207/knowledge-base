@@ -23,17 +23,17 @@ tags = ["bigdata"]
 
 ```text
 배치 처리 (Hadoop MapReduce)
-    │
-    ▼
+    |
+    v
 마이크로 배치 (Spark Streaming)
-    │
-    ▼
+    |
+    v
 진정한 스트리밍 (Apache Flink, Apache Storm)
-    │
-    ├─► Apache Kafka — 분산 메시지 큐 (영속성 스트림)
-    ├─► Exactly-Once 시맨틱
-    └─► Watermark 기반 이벤트 시간 처리
-    │
-    ▼
+    |
+    +-► Apache Kafka — 분산 메시지 큐 (영속성 스트림)
+    +-► Exactly-Once 시맨틱
+    +-► Watermark 기반 이벤트 시간 처리
+    |
+    v
 카파 아키텍처 (배치 제거, 스트림 단일화)
 ```

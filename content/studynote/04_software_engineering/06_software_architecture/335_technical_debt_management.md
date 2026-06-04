@@ -34,16 +34,16 @@ tags = ["studynote-software-engineering"]
 다음은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) (Technical Deb의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  기술 부채 (Technical Deb                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  기술 부채 (Technical Deb                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) (Technical Deb가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 기술 부채 (Technical Debt)의 관리 및 상환 전략 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 335 / 973
 
-← **이전**: [334. 클린 코드 (Clean Code) 원칙 - 의미 있는 이름, 작고 단일 역할의 함수, 주석의 최소화](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/)
-**다음**: [336. 라이브러리 (Library) vs 프레임워크 (Framework) - 제어의 역전 (IoC, Inversion of Control)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) →
+<- **이전**: [334. 클린 코드 (Clean Code) 원칙 - 의미 있는 이름, 작고 단일 역할의 함수, 주석의 최소화](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/)
+**다음**: [336. 라이브러리 (Library) vs 프레임워크 (Framework) - 제어의 역전 (IoC, Inversion of Control)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) ->
 
 ---

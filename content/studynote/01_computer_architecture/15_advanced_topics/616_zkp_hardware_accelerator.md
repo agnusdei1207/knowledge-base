@@ -34,19 +34,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 전형적인 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 프로버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      ZKP accelerator: proving pipeline around math + memory flow    │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Host Scheduler ] -> [ Witness Buffer ] -> [ NTT Array ]           │
-│        │                            │            │                  │
-│        │                            ▼            ▼                  │
-│        │                     [ Scratchpad SRAM ] [ HBM Banks ]      │
-│        │                            │            │                  │
-│        └──────────────────────────> [ MSM Array ] -> [ Hash/Commit ]│
-│                                                     │                │
-│                                                     ▼                │
-│                                              [ Proof Assembler ]     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      ZKP accelerator: proving pipeline around math + memory flow    |
++----------------------------------------------------------------------+
+| [ Host Scheduler ] -> [ Witness Buffer ] -> [ NTT Array ]           |
+|        |                            |            |                  |
+|        |                            v            v                  |
+|        |                     [ Scratchpad SRAM ] [ HBM Banks ]      |
+|        |                            |            |                  |
+|        +--------------------------> [ MSM Array ] -> [ Hash/Commit ]|
+|                                                     |                |
+|                                                     v                |
+|                                              [ Proof Assembler ]     |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -128,17 +128,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 영지식 증명 이론
-    │
-    ▼
+    |
+    v
 다항식 약속 · 타원곡선 기반 증명
-    │
-    ▼
+    |
+    v
 NTT · MSM · 대규모 버퍼 병목
-    │
-    ▼
+    |
+    v
 GPU/FPGA/ASIC 기반 ZKP 가속 반도체
-    │
-    ▼
+    |
+    v
 ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산
 ```
 
@@ -154,7 +154,7 @@ ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산
 
 **진행 상황**: 616 / 803
 
-← **이전**: [615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/615_smart_contract_coprocessor/)
-**다음**: [617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) →
+<- **이전**: [615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/615_smart_contract_coprocessor/)
+**다음**: [617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) ->
 
 ---

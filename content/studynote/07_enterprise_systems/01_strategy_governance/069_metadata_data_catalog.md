@@ -30,11 +30,11 @@ tags = ["enterprise_systems"]
 
 ```text
 Data Assets
-  ↓
+  v
 Metadata Collection
-  ↓
+  v
 Data Catalog
-  ↓
+  v
 Search / Governance
 ```
 
@@ -107,11 +107,11 @@ Search / Governance
 
 ```text
 Metadata
-  ↓
+  v
 Data Catalog
-  ↓
+  v
 Search / Lineage
-  ↓
+  v
 Data Governance
 ```
 
@@ -121,11 +121,11 @@ Data Governance
 
 ```text
 Metadata
-  ↓
+  v
 Data Catalog
-  ↓
+  v
 Data Discovery
-  ↓
+  v
 Data Governance
 ```
 
@@ -143,7 +143,7 @@ Data Governance
 
 **진행 상황**: 69 / 482
 
-← **이전**: [68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/)
-**다음**: [70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/070_master_data_management_mdm_ssot/) →
+<- **이전**: [68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/)
+**다음**: [70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/070_master_data_management_mdm_ssot/) ->
 
 ---

@@ -22,8 +22,8 @@ tags = ["studynote-cloud-architecture"]
 로드 밸런서 역할:
 
   클라이언트들
-  │ │ │ │
-  ▼ ▼ ▼ ▼
+  | | | |
+  v v v v
   [로드 밸런서]
   /    |    서버A  서버B  서버C
 (CPU 40%) (CPU 30%) (CPU 70%)
@@ -49,7 +49,7 @@ tags = ["studynote-cloud-architecture"]
 | **Round Robin** | 순서대로 균등 분배 | 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 동일 |
 | **Weighted Round Robin** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 비례 분배 | 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 |
 | **Least Connections** | 최소 연결 수 서버 선택 | 처리 시간 차이 |
-| **IP Hash** | 클라이언트 IP→서버 고정 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| **IP Hash** | 클라이언트 IP->서버 고정 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **Random** | 무작위 선택 | 단순 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | <strong>Least <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a></strong> | 최소 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 서버 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
 
@@ -64,7 +64,7 @@ L4 (Transport Layer):
 
 L7 (Application Layer):
   - HTTP 헤더·URL·쿠키 기반 분산
-  - Path-based Routing: /api → API 서버, /web → 웹 서버
+  - Path-based Routing: /api -> API 서버, /web -> 웹 서버
   - Header-based: User-Agent별 모바일/PC 서버 분리
   - 예: AWS ALB, Nginx, Traefik
 ```
@@ -112,14 +112,14 @@ GLB (Gateway Load Balancer):
 
 ```text
 헬스 체크 엔드포인트:
-  GET /health → HTTP 200 응답 → 정상
-  GET /health → HTTP 500 / 타임아웃 → 이상
+  GET /health -> HTTP 200 응답 -> 정상
+  GET /health -> HTTP 500 / 타임아웃 -> 이상
 
 설정 파라미터:
   interval:           30초마다 체크
   timeout:            5초 응답 대기
-  healthy_threshold:  2회 연속 성공 → 정상
-  unhealthy_threshold: 3회 연속 실패 → 제외
+  healthy_threshold:  2회 연속 성공 -> 정상
+  unhealthy_threshold: 3회 연속 실패 -> 제외
 ```
 
 - **📢 섹션 요약 비유**: 헬스 체크는 의사 정기 검진이다. 30초마다 혈압([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 200)을 측정하고, 3번 연속 이상(500 오류)이면 환자(서버)를 격리(트래픽 제외)하여 다른 환자(클라이언트)에게 영향이 없게 한다.
@@ -154,17 +154,17 @@ GLB (Gateway Load Balancer):
 
 ```text
 [DNS 로드 밸런싱 — 단순 DNS 기반 분산]
-    │
-    ▼
+    |
+    v
 [L4/L7 로드 밸런서 — TCP/HTTP 지능 분산]
-    │
-    ▼
+    |
+    v
 [API 게이트웨이 — MSA 진입점 통합 LB]
-    │
-    ▼
+    |
+    v
 [서비스 메시 (Istio) — 사이드카 기반 서비스 간 LB]
-    │
-    ▼
+    |
+    v
 [eBPF LB — 커널 레벨 초고성능 패킷 처리]
 ```
 
@@ -180,7 +180,7 @@ GLB (Gateway Load Balancer):
 
 **진행 상황**: 30 / 371
 
-← **이전**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)
-**다음**: [블록·파일·오브젝트 스토리지 (Block / File / Object Storage)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/032_block_file_object_storage/) →
+<- **이전**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)
+**다음**: [블록·파일·오브젝트 스토리지 (Block / File / Object Storage)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/032_block_file_object_storage/) ->
 
 ---

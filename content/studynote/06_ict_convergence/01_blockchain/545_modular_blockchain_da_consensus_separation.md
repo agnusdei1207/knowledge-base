@@ -34,33 +34,33 @@ tags = ["studynote-ict-convergence"]
 ### [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) 4계층 구조
 
 ```
-┌────────────────────────────────────────────────────────┐
-│              모듈러 블록체인 계층 구조                   │
-│                                                        │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  실행 계층 (Execution Layer)                     │  │
-│  │  스마트 컨트랙트 실행, 상태 전이                  │  │
-│  │  예: Rollup (Arbitrum, zkSync), Sovereign Rollup│  │
-│  └─────────────────────────────────────────────────┘  │
-│                        │                               │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  정산 계층 (Settlement Layer)                    │  │
-│  │  실행 결과 최종 확정, Fraud/Validity Proof 검증  │  │
-│  │  예: Ethereum L1                                │  │
-│  └─────────────────────────────────────────────────┘  │
-│                        │                               │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  합의 계층 (Consensus Layer)                     │  │
-│  │  트랜잭션 순서 합의, 체인 선택 규칙               │  │
-│  │  예: Ethereum Beacon Chain, Tendermint           │  │
-│  └─────────────────────────────────────────────────┘  │
-│                        │                               │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  데이터 가용성 계층 (DA Layer)                   │  │
-│  │  트랜잭션 데이터 공개·가용성 보장                 │  │
-│  │  예: Celestia, EIP-4844 Blob, Avail             │  │
-│  └─────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|              모듈러 블록체인 계층 구조                   |
+|                                                        |
+|  +-------------------------------------------------+  |
+|  |  실행 계층 (Execution Layer)                     |  |
+|  |  스마트 컨트랙트 실행, 상태 전이                  |  |
+|  |  예: Rollup (Arbitrum, zkSync), Sovereign Rollup|  |
+|  +-------------------------------------------------+  |
+|                        |                               |
+|  +-------------------------------------------------+  |
+|  |  정산 계층 (Settlement Layer)                    |  |
+|  |  실행 결과 최종 확정, Fraud/Validity Proof 검증  |  |
+|  |  예: Ethereum L1                                |  |
+|  +-------------------------------------------------+  |
+|                        |                               |
+|  +-------------------------------------------------+  |
+|  |  합의 계층 (Consensus Layer)                     |  |
+|  |  트랜잭션 순서 합의, 체인 선택 규칙               |  |
+|  |  예: Ethereum Beacon Chain, Tendermint           |  |
+|  +-------------------------------------------------+  |
+|                        |                               |
+|  +-------------------------------------------------+  |
+|  |  데이터 가용성 계층 (DA Layer)                   |  |
+|  |  트랜잭션 데이터 공개·가용성 보장                 |  |
+|  |  예: Celestia, EIP-4844 Blob, Avail             |  |
+|  +-------------------------------------------------+  |
++--------------------------------------------------------+
 ```
 
 ### 핵심 모듈러 프로젝트 비교
@@ -93,17 +93,17 @@ tags = ["studynote-ict-convergence"]
 
 ```
 ETH 스테이커 (32 ETH)
-    │ 이더리움 보안 확보
-    ▼
+    | 이더리움 보안 확보
+    v
 EigenLayer에 재스테이킹 등록
-    │ 동일 ETH로 추가 보안 서비스 제공
-    ▼
+    | 동일 ETH로 추가 보안 서비스 제공
+    v
 AVS (Actively Validated Service)
-    ├ 오라클 네트워크 (Chainlink 대안)
-    ├ 브릿지 보안
-    └ DA 레이어 보안 (EigenDA)
-    │ 추가 보상(수수료) 수령
-    ▼
+    + 오라클 네트워크 (Chainlink 대안)
+    + 브릿지 보안
+    + DA 레이어 보안 (EigenDA)
+    | 추가 보상(수수료) 수령
+    v
 슬래싱 위험: 두 프로토콜 동시 위반 시
 ```
 
@@ -115,17 +115,17 @@ AVS (Actively Validated Service)
 
 ### [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)) 문제 이해
 
-[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 문제: 블록 생산자가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공개하지 않아도 블록 헤더만 공개 시 다른 노드가 내용 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 → 사기 증명(Fraud Proof) 불가 → 보안 붕괴
+[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 문제: 블록 생산자가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공개하지 않아도 블록 헤더만 공개 시 다른 노드가 내용 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 -> 사기 증명(Fraud Proof) 불가 -> 보안 붕괴
 
 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 해결책:
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/">DAS</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)</strong>: 무작위 샘플 조회로 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 2. <strong>KZG <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a> 커밋</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일부 없어도 나머지로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능 증명
-3. <strong>이레이저 코딩(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/">Erasure Coding</a>)</strong>: 원본 2배 확장 저장 → 50%만 있어도 복원
+3. <strong>이레이저 코딩(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/">Erasure Coding</a>)</strong>: 원본 2배 확장 저장 -> 50%만 있어도 복원
 
 ### 기술사 핵심 판단
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">롤업</a> + <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a> 레이어 선택</strong>: zkSync → 이더리움 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) / Celestia [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 선택 가능
-2. <strong>EigenLayer <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 재스테이킹 집중화 → 단일 슬래싱 이벤트가 다수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 동시 위협
-3. **Danksharding 완성 시**: 이더리움이 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어 전문화 → Celestia와 경쟁 구도
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">롤업</a> + <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a> 레이어 선택</strong>: zkSync -> 이더리움 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) / Celestia [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 선택 가능
+2. <strong>EigenLayer <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 재스테이킹 집중화 -> 단일 슬래싱 이벤트가 다수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 동시 위협
+3. **Danksharding 완성 시**: 이더리움이 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어 전문화 -> Celestia와 경쟁 구도
 4. **계층 간 통신**: 크로스 레이어 메시지 패싱([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 보안 취약점 주의
 
 - **📢 섹션 요약 비유**: — "[모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 — 빠르고 유연해지지만, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 실패 가능성도 생긴다.
@@ -160,7 +160,7 @@ AVS (Actively Validated Service)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [모듈러 블록체인과 데이터 가용성 계층] → [DA 계층의 핵심 기술]
+[관계 설명] -> [모듈러 블록체인과 데이터 가용성 계층] -> [DA 계층의 핵심 기술]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -175,7 +175,7 @@ AVS (Actively Validated Service)
 
 **진행 상황**: 545 / 552
 
-← **이전**: [544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/544_web3_decentralized_platform_economy/)
-**다음**: [546. 데이터 패브릭과 분산 데이터 메시 (Data Fabric and Distributed Data Mesh)](/knowledge-base/studynote/06_ict_convergence/05_data_science/546_data_fabric_distributed_data_mesh/) →
+<- **이전**: [544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/544_web3_decentralized_platform_economy/)
+**다음**: [546. 데이터 패브릭과 분산 데이터 메시 (Data Fabric and Distributed Data Mesh)](/knowledge-base/studynote/06_ict_convergence/05_data_science/546_data_fabric_distributed_data_mesh/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-devops-sre"]
 
 > 1. **본질**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), DB)에서 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 역추적은 단일 SQL의 평균 시간만 보는 일이 아니라, 요청 트레이스·샤드별 실행 스팬·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜을 연결해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디서 누적되는지 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 복원하는 작업이다.
 > 2. **가치**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)만으로는 "느리다"까지만 보이지만, 트레이스와 플랜을 결합하면 "어느 샤드에서 어떤 연산자가 왜 오래 걸렸는가"까지 내려갈 수 있어 장애 대응 속도가 크게 빨라진다.
-> 3. **판단 포인트**: 진단 순서는 `쿼리 fingerprint 확인 → 샤드별 시간 편차 확인 → 실제 실행 계획과 추정치 비교 → 잠금·네트워크·통계 상태 점검`이 가장 재현 가능하다.
+> 3. **판단 포인트**: 진단 순서는 `쿼리 fingerprint 확인 -> 샤드별 시간 편차 확인 -> 실제 실행 계획과 추정치 비교 -> 잠금·네트워크·통계 상태 점검`이 가장 재현 가능하다.
 
 ---
 
@@ -26,15 +26,15 @@ tags = ["studynote-devops-sre"]
 [Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 훼손의 전형적 원인이다. P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나가 연결 풀 고갈, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 폭증으로 연쇄 전파되기 때문이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB에서는 "DB만 본다"가 아니라 요청 단위의 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 관찰이 필수다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다      │
-├──────────────────────────────────────────────────────────────┤
-│ Client ─▶ API ─▶ SQL Router ─▶ Shard A                      │
-│                            ├▶ Shard B                       │
-│                            └▶ Shard C ─▶ Merge / Sort       │
-│                                                              │
-│ 어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다      |
++--------------------------------------------------------------+
+| Client --> API --> SQL Router --> Shard A                      |
+|                            +-> Shard B                       |
+|                            +-> Shard C --> Merge / Sort       |
+|                                                              |
+| 어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남         |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 추적은 택배가 늦었을 때 "도착이 늦다"만 보는 것이 아니라, 물류센터·간선차량·지역배송 중 어디서 막혔는지 배송 이력을 따라가는 일과 같다.
@@ -56,14 +56,14 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Request Trace ID: 9f2c...
-┌──────────────────────────────────────────────────────────────┐
-│ API Span (35 ms)                                             │
-│  └─ SQL Router Span (910 ms)                                 │
-│      ├─ Shard-01 Span (42 ms)  : Index Range Scan            │
-│      ├─ Shard-02 Span (51 ms)  : Index Range Scan            │
-│      ├─ Shard-03 Span (781 ms) : Table Scan   ◀ bottleneck   │
-│      └─ Merge Sort Span (36 ms)                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| API Span (35 ms)                                             |
+|  +- SQL Router Span (910 ms)                                 |
+|      +- Shard-01 Span (42 ms)  : Index Range Scan            |
+|      +- Shard-02 Span (51 ms)  : Index Range Scan            |
+|      +- Shard-03 Span (781 ms) : Table Scan   <- bottleneck   |
+|      +- Merge Sort Span (36 ms)                              |
++--------------------------------------------------------------+
 
 Plan Hash: a13b...
 Query Fingerprint: SELECT * FROM orders WHERE user_id = ?
@@ -123,7 +123,7 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 - SQL 원문을 그대로 수집해 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)·[민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)를 노출하는 경우
 - [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스를 서로 다른 보존기간으로 두어 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)이 불가능한 경우
 
-기술사 답안에서는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝"만 적기보다, <strong>관측 → <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a> → 원인 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 구조 조치</strong>의 흐름을 보여 주는 편이 좋다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제는 SQL 한 줄보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 호출 구조가 더 큰 원인인 경우가 많기 때문이다.
+기술사 답안에서는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝"만 적기보다, <strong>관측 -> <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a> -> 원인 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> -> 구조 조치</strong>의 흐름을 보여 주는 편이 좋다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제는 SQL 한 줄보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 호출 구조가 더 큰 원인인 경우가 많기 때문이다.
 
 - **📢 섹션 요약 비유**: 좋은 운영자는 막힌 고속도로에서 차를 더 세게 몰라고 하지 않는다. 어느 톨게이트와 어느 차선이 병목인지 먼저 찾아야 우회로와 차선 확장을 올바르게 결정할 수 있다.
 
@@ -156,17 +156,17 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 
 ```text
 슬로우 쿼리 로그 수집
-    │
-    ▼
+    |
+    v
 Query Fingerprint 정규화
-    │
-    ▼
+    |
+    v
 Trace ID 기반 요청 상관 분석
-    │
-    ▼
+    |
+    v
 샤드별 실행 계획 비교 · Plan Hash 관리
-    │
-    ▼
+    |
+    v
 Adaptive Sampling · 자동 튜닝 연계
 ```
 
@@ -184,7 +184,7 @@ Adaptive Sampling · 자동 튜닝 연계
 
 **진행 상황**: 176 / 373
 
-← **이전**: [175. 시스템 경계 완충지대 텔레메트리 (Buffer/Queue Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/175_buffer_queue_telemetry/)
-**다음**: [177. 서버리스 옵저버빌리티 (Serverless Observability) - AWS X-Ray](/knowledge-base/studynote/15_devops_sre/03_sre_observability/177_serverless_observability_xray/) →
+<- **이전**: [175. 시스템 경계 완충지대 텔레메트리 (Buffer/Queue Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/175_buffer_queue_telemetry/)
+**다음**: [177. 서버리스 옵저버빌리티 (Serverless Observability) - AWS X-Ray](/knowledge-base/studynote/15_devops_sre/03_sre_observability/177_serverless_observability_xray/) ->
 
 ---

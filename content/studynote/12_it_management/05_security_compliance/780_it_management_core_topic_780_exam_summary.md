@@ -12,8 +12,8 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT경영관리는 COBIT 2019(거버넌스·관리목표 40개), ITIL 4(Service Value System 34개 실무 권고), ISO/IEC 38500(6원칙), PMBOK 7(8개 성과영역) 등 글로벌 프레임워크를 기반으로 IT 전략-거버넌스-포트폴리오-서비스-프로젝트-운영-리스크를 End-to-End로 정렬(Alignment)하는 경영체계임.
-> 2. **가치**: McKinsey 2023 보고 기준 잘 정렬된 IT조직은 EBITDA 마진 11%p, Time-to-Market 60% 단축, IT 예산 대비 Business Value ROI 평균 4.2배 달성하며, 미성숙 조직 대비 감사 지적사항 73% 감소 및 보안사고 복구시간(MTTR) 4.1시간 → 47분으로 단축.
-> 3. **판단 포인트**: 중앙집권(CoE) vs 분권(BU별 IT), Build vs Buy vs Borrow(클라우드 SaaS), Agile@Scale(Spotify 모델 vs SAFe), Zero Trust vs 경계보안, CapEx→OpEx 전환 시 SLA·TCO·Exit Clause 설계, 그리고 BSC 4관점(재무/고객/내부/학습성장) 지표 간 인과관계(Cause-Effect Chain) 검증이 핵심 Trade-off.
+> 2. **가치**: McKinsey 2023 보고 기준 잘 정렬된 IT조직은 EBITDA 마진 11%p, Time-to-Market 60% 단축, IT 예산 대비 Business Value ROI 평균 4.2배 달성하며, 미성숙 조직 대비 감사 지적사항 73% 감소 및 보안사고 복구시간(MTTR) 4.1시간 -> 47분으로 단축.
+> 3. **판단 포인트**: 중앙집권(CoE) vs 분권(BU별 IT), Build vs Buy vs Borrow(클라우드 SaaS), Agile@Scale(Spotify 모델 vs SAFe), Zero Trust vs 경계보안, CapEx->OpEx 전환 시 SLA·TCO·Exit Clause 설계, 그리고 BSC 4관점(재무/고객/내부/학습성장) 지표 간 인과관계(Cause-Effect Chain) 검증이 핵심 Trade-off.
 
 ---
 
@@ -24,22 +24,22 @@ tags = ["studynote-it-management"]
 특히 클라우드 전환, 생성형 AI(LLM), SaaS 확산으로 IT자산의 경계가 사라지면서, **"누가, 무엇을, 어떤 권한으로, 어떤 데이터를, 어떻게 통제하는가"**라는 거버넌스 문제가 CFO·CDO·CISO·CIO 4-CXO 협업 이슈로 격상되었습니다. 이에 780번 시험은 단순 암기형이 아닌, **주어진 시나리오에서 최적의 프레임워크(COBIT vs ITIL vs ISO38500)를 선택·통합하고, 정량적 KPI·ROI·TCO를 산출하여 경영진에게 보고하는 능력**을 평가합니다.
 
 ```text
-[ IT경영관리 5대 영역 통합 프레임워크 (상위→하위) ]
+[ IT경영관리 5대 영역 통합 프레임워크 (상위->하위) ]
 
-┌──────────────────────────────────────────────────────────────┐
-│  Tier 1: 전략(Strategy) ─ BSC, IT전략맵, 중장기 로드맵       │
-│           ↓ (Strategy↔IT Alignment)                          │
-│  Tier 2: 거버넌스(Governance) ─ COBIT 2019, ISO 38500       │
-│           ↓ (Portfolio Prioritization)                       │
-│  Tier 3: 포트폴리오(Portfolio) ─ Portfolio Mgmt, BOB(Best  │
-│           of Breed), Build/Buy/Borrow 의사결정               │
-│           ↓ (Program/Project Authorization)                  │
-│  Tier 4: 실행(Delivery) ─ PMBOK/PRINCE2/SAFe, ITIL 4        │
-│           ↓ (Operational Integration)                        │
-│  Tier 5: 운영·서비스·리스크 ─ ITSM, SLA, ISO 27001, BCP/DR  │
-└──────────────────────────────────────────────────────────────┘
-       ↑ 모든 Tier에서 측정·개선:  KPI Tree, PDCA, Audit
-       ↑ ESG·AI 윤리·정보보호는 Cross-cutting Concern
++--------------------------------------------------------------+
+|  Tier 1: 전략(Strategy) - BSC, IT전략맵, 중장기 로드맵       |
+|           v (Strategy↔IT Alignment)                          |
+|  Tier 2: 거버넌스(Governance) - COBIT 2019, ISO 38500       |
+|           v (Portfolio Prioritization)                       |
+|  Tier 3: 포트폴리오(Portfolio) - Portfolio Mgmt, BOB(Best  |
+|           of Breed), Build/Buy/Borrow 의사결정               |
+|           v (Program/Project Authorization)                  |
+|  Tier 4: 실행(Delivery) - PMBOK/PRINCE2/SAFe, ITIL 4        |
+|           v (Operational Integration)                        |
+|  Tier 5: 운영·서비스·리스크 - ITSM, SLA, ISO 27001, BCP/DR  |
++--------------------------------------------------------------+
+       ^ 모든 Tier에서 측정·개선:  KPI Tree, PDCA, Audit
+       ^ ESG·AI 윤리·정보보호는 Cross-cutting Concern
 ```
 
 기존 패러다임(1960~1990 EDP 시대)은 **"프로젝트 성공 = 예산·일정·범위(Success Triangle) 3대 제약 충족"**이었습니다. 그러나 현대(2020~)는 **"프로젝트 성공 = Benefits Realization(실질적 사업가치 실현) + 사용자 채택(Adoption) + 운영안정성"**으로 정의되며, PMBOK 7th(2021)는 "Project = Temporary endeavor to deliver value"로 재정의, **Value Delivery Focus**가 절대 원칙이 되었습니다.
@@ -52,7 +52,7 @@ tags = ["studynote-it-management"]
 
 ### 1. COBIT 2019 (Control Objectives for Information and Related Technologies)
 
-COBIT 2019는 **거버넌스 시스템(5개 영역, 40개 Governance/Management Objective)**과 **핵심 모델(Principles, Goals Cascade, Components, Focus Areas, Design Factors)**로 구성된 프레임워크입니다. **Goals Cascade** 메커니즘은 Stakeholder Needs → Enterprise Goals(13개) → Alignment Goals(13개) → Management Objectives(40개)로 흘러내려가며, 각 단계는 1:N 매핑이 아닌 **다대다(M:N)** 관계입니다.
+COBIT 2019는 **거버넌스 시스템(5개 영역, 40개 Governance/Management Objective)**과 **핵심 모델(Principles, Goals Cascade, Components, Focus Areas, Design Factors)**로 구성된 프레임워크입니다. **Goals Cascade** 메커니즘은 Stakeholder Needs -> Enterprise Goals(13개) -> Alignment Goals(13개) -> Management Objectives(40개)로 흘러내려가며, 각 단계는 1:N 매핑이 아닌 **다대다(M:N)** 관계입니다.
 
 ### 2. ITIL 4 (Information Technology Infrastructure Library)
 
@@ -63,28 +63,28 @@ ITIL 4는 2019년 출시되어 **Service Value System(SVS)** 중심으로 재설
 ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior)**을 이사회/경영진이 IT 의사결정에 적용하도록 요구하는 상위 표준이며, COBIT이 IT관리체계 상세화를, ITIL이 운영 Best Practice를, ISO 38500이 거버넌스 원칙을 담당하는 **3-Layer GRC(Governance, Risk, Compliance)** 구조입니다.
 
 ```text
-[ IT 거버넌스 의사결정 흐름도 (Evaluate→Direct→Monitor) ]
+[ IT 거버넌스 의사결정 흐름도 (Evaluate->Direct->Monitor) ]
 
    Board / Executive Management
-   ┌──────────────────────────────────┐
-   │ ① Evaluate: IT 투자안 평가      │←── BSC, IT Strategy Map
-   │ ② Direct:  전략·정책 결정        │←── COBIT Goals Cascade
-   │ ③ Monitor: 성과·리스크 감독      │←── KPI Dashboard
-   └──────────────────────────────────┘
+   +----------------------------------+
+   | ① Evaluate: IT 투자안 평가      |<--- BSC, IT Strategy Map
+   | ② Direct:  전략·정책 결정        |<--- COBIT Goals Cascade
+   | ③ Monitor: 성과·리스크 감독      |<--- KPI Dashboard
+   +----------------------------------+
               ↕ (ISO 38500 6원칙 적용)
-   ┌──────────────────────────────────┐
-   │  IT Steering Committee (ISC)     │←── CIO + 사업부서 CFO
-   │  · Portfolio Prioritization      │←── NPV, IRR, VOI
-   │  · Architecture Review Board     │←── EA 4-Layer
-   │  · Change Advisory Board (CAB)   │←── ITIL Change Mgmt
-   └──────────────────────────────────┘
+   +----------------------------------+
+   |  IT Steering Committee (ISC)     |<--- CIO + 사업부서 CFO
+   |  · Portfolio Prioritization      |<--- NPV, IRR, VOI
+   |  · Architecture Review Board     |<--- EA 4-Layer
+   |  · Change Advisory Board (CAB)   |<--- ITIL Change Mgmt
+   +----------------------------------+
               ↕ (Segregation of Duty)
-   ┌──────────────────────────────────┐
-   │  Operating Layer (PMO, SMO)      │←── PMBOK, PRINCE2
-   │  · Program Manager               │←── Benefits Realization
-   │  · Service Manager               │←── SLA/SLO/SLI
-   │  · Risk & Compliance Officer     │←── ISO 27001, 27701
-   └──────────────────────────────────┘
+   +----------------------------------+
+   |  Operating Layer (PMO, SMO)      |<--- PMBOK, PRINCE2
+   |  · Program Manager               |<--- Benefits Realization
+   |  · Service Manager               |<--- SLA/SLO/SLI
+   |  · Risk & Compliance Officer     |<--- ISO 27001, 27701
+   +----------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -93,7 +93,7 @@ ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Confo
 | **IT Steering Committee (ISC)** | 전략-사업-IT 정렬 중재, 포트폴리오 우선순위 결정 | 분기별 회의, PMO 보고 기반. Magic Quadrant(Gartner), Wave(Forrester) 등 외부 벤치마크 활용 |
 | **Enterprise Architecture (EA)** | 업무·정보·시스템·기술 4계층 청사진 | TOGAF ADM(Architecture Development Method) 8 Phase, Zachman Framework 6×6 매트릭스, FEAF( Federal EA) |
 | **PMO / Program Mgmt Office** | 프로젝트·프로그램 통합관리 | PMBOK 7th(8 Performance Domain: Stakeholder, Team, Development Approach, Planning, Project Work, Delivery, Measurement, Uncertainty), PRINCE2(7 Principle, 7 Process, 7 Theme) |
-| **IT Service Mgmt (ITSM)** | 운영·서비스 안정성, 사용자 경험 | ITIL 4 SVS(Value→Organization→People→Partners→Value Stream→Value), 34 Practice 중 Incident, Problem, Change, Service Level, Service Request 등 |
+| **IT Service Mgmt (ITSM)** | 운영·서비스 안정성, 사용자 경험 | ITIL 4 SVS(Value->Organization->People->Partners->Value Stream->Value), 34 Practice 중 Incident, Problem, Change, Service Level, Service Request 등 |
 | **정보보호·리스크 거버넌스** | 사이버 리스크, 컴플라이언스, BCP | ISO 27001:2022(Annex A 93 통제항목), ISO 27701(프라이버시), ISO 31000(리스크), NIST CSF 2.0(Gov/Identify/Protect/Detect/Respond/Recover 6 Function) |
 | **BSC (Balanced Scorecard)** | 전략 KPI 모니터링 | 4관점(재무/고객/내부/학습성장) 인과관계(Lead-Lag Indicator). Strategy Map으로 시각화, OKR과 혼용 가능 |
 | **Portfolio Management** | IT 투자 의사결정 | Build vs Buy vs Borrow, NPV/IRR/Payback, Scoring Model(가중치 합산), Stage-Gate(Fuzzy Front End) |
@@ -106,13 +106,13 @@ ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Confo
 4. **NPV (Net Present Value)** = Σ (CFₜ / (1+r)ᵗ) − Initial Investment
 5. **IT-Alignment Index (Henderson & Venkatraman)** = 전략 적합성 × IT 기능 통합성 × 기능적·전략적 통합 4관점
 6. **MTTR / MTBF / SLA 가용성** = MTBF / (MTBF + MTTR) × 100
-7. **CMMI/CMMI v2.0 Level 1~5** = Initial → Managed → Defined → Quantitatively Managed → Optimizing
+7. **CMMI/CMMI v2.0 Level 1~5** = Initial -> Managed -> Defined -> Quantitatively Managed -> Optimizing
 
 ### 핵심 메커니즘: Goals Cascade & RACI
 
-- **COBIT 2019 Goals Cascade**: Stakeholder Driver → Enterprise Goal(13) → Alignment Goal(13) → Management Objective(40) → Component Variants
+- **COBIT 2019 Goals Cascade**: Stakeholder Driver -> Enterprise Goal(13) -> Alignment Goal(13) -> Management Objective(40) -> Component Variants
 - **RACI Matrix**: Responsible(수행) / Accountable(책임, 단 1명) / Consulted(자문) / Informed(통보) — Segregation of Duty 관점에서 R≠A 원칙 준수
-- **Stage-Gate Process**: Idea → Scoping → Business Case → Development → Testing → Launch → Post-Implementation Review(PIR)
+- **Stage-Gate Process**: Idea -> Scoping -> Business Case -> Development -> Testing -> Launch -> Post-Implementation Review(PIR)
 
 - **📢 섹션 요약 비유**: **COBIT은 헌법, ITIL은 판례, ISO 38500은 기본권 선언**과 같습니다. COBIT이 "어떤 통제 목표 40개를 달성해야 하는지" 정의하면, ITIL은 "Incident 발생 시 4단계(ITIL 4 Incident Practice)로 해결하라"는 실무 매뉴얼을, ISO 38500은 "이사회가 6원칙으로 책임져라"는 최상위 원칙을 제공합니다.
 
@@ -130,7 +130,7 @@ ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Confo
 | **핵심 산출물** | 40개 Mgmt Objective, Maturity Model | SVS, 34개 Practice | 6원칙, 평가 모델 | 8개 Performance Domain |
 | **측정/평가** | Process Assessment Model(PAM) ISO 33000 기반 | Maturity 1~5, KPI | IT Score Card | Earned Value Mgmt(EVM), SPI/CPI |
 | **연계 표준** | ISO 27001, NIST CSF, COSO ERM | ISO 20000, DevOps | ISO 27001, 27014 | PRINCE2, SAFe, ISO 21500 |
-| **업데이트 주기** | 2019, 5년 주기 | 2019(Foundation→MP→SL→Managing Professional→Master) | 2015, 안정적 | 2021(6th→7th 전환, Process→Principle 중심) |
+| **업데이트 주기** | 2019, 5년 주기 | 2019(Foundation->MP->SL->Managing Professional->Master) | 2015, 안정적 | 2021(6th->7th 전환, Process->Principle 중심) |
 
 ### 2. 프로젝트 관리 vs 프로그램 vs 포트폴리오 비교
 
@@ -162,7 +162,7 @@ ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Confo
 
 **진행 상황**: 780 / 800
 
-← **이전**: [779. IT 경영 관리 핵심 토픽 779번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/779_it_management_core_topic_779_exam_summary/)
-**다음**: [781. IT 경영 관리 핵심 토픽 781번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/781_it_management_core_topic_781_exam_summary/) →
+<- **이전**: [779. IT 경영 관리 핵심 토픽 779번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/779_it_management_core_topic_779_exam_summary/)
+**다음**: [781. IT 경영 관리 핵심 토픽 781번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/781_it_management_core_topic_781_exam_summary/) ->
 
 ---

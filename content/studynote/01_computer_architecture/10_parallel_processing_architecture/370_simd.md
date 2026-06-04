@@ -26,17 +26,17 @@ SIMD (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04
 아래 그림은 왜 SIMD가 필요한지, SISD와 비교해 직관적으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          같은 덧셈 4회를 처리하는 방식의 차이                │
-├──────────────────────────────┬───────────────────────────────┤
-│ SISD                         │ SIMD                          │
-│ Add A0,B0                    │ Vector Add A0~A3, B0~B3      │
-│ Add A1,B1                    │ ├─ Lane0: A0+B0              │
-│ Add A2,B2                    │ ├─ Lane1: A1+B1              │
-│ Add A3,B3                    │ ├─ Lane2: A2+B2              │
-│ 명령 4회 인출·해독           │ └─ Lane3: A3+B3              │
-│ 데이터 4개 순차 처리         │ 명령 1회 인출·해독           │
-└──────────────────────────────┴───────────────────────────────┘
++--------------------------------------------------------------+
+|          같은 덧셈 4회를 처리하는 방식의 차이                |
++------------------------------+-------------------------------+
+| SISD                         | SIMD                          |
+| Add A0,B0                    | Vector Add A0~A3, B0~B3      |
+| Add A1,B1                    | +- Lane0: A0+B0              |
+| Add A2,B2                    | +- Lane1: A1+B1              |
+| Add A3,B3                    | +- Lane2: A2+B2              |
+| 명령 4회 인출·해독           | +- Lane3: A3+B3              |
+| 데이터 4개 순차 처리         | 명령 1회 인출·해독           |
++------------------------------+-------------------------------+
 ```
 
 중요한 점은 SIMD가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))보다 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 개선하는 데 강하다는 것이다. 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 응답 시간을 극단적으로 줄이는 구조라기보다, 같은 계산을 묶어서 전체 작업 완료 시간을 줄이는 구조에 가깝다. 그래서 SIMD는 범용 제어 로직이 복잡한 프로그램 전체를 대체하기보다, 반복 연산이 몰린 구간을 가속하는 용도로 가장 큰 효과를 낸다.
@@ -60,23 +60,23 @@ SIMD를 구현하려면 하나의 [제어 유닛](/knowledge-base/studynote/01_c
 이 그림은 SIMD 내부에서 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 퍼지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SIMD 데이터 경로와 실행 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│                 Vector Instruction Decode                    │
-│                            │                                 │
-│                            ▼                                 │
-│                    [ Control Unit ]                          │
-│                            │ broadcast                       │
-│        ┌──────────────┬────┴────┬──────────────┐             │
-│        ▼              ▼         ▼              ▼             │
-│    [ Lane 0 ]     [ Lane 1 ] [ Lane 2 ]     [ Lane 3 ]      │
-│      A0,B0          A1,B1      A2,B2          A3,B3          │
-│        │              │         │              │             │
-│        └──────┬───────┴────┬────┴───────┬──────┘             │
-│               ▼            ▼            ▼                    │
-│            Result0      Result1      Result2 ...            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 SIMD 데이터 경로와 실행 구조                 |
++--------------------------------------------------------------+
+|                 Vector Instruction Decode                    |
+|                            |                                 |
+|                            v                                 |
+|                    [ Control Unit ]                          |
+|                            | broadcast                       |
+|        +--------------+----+----+--------------+             |
+|        v              v         v              v             |
+|    [ Lane 0 ]     [ Lane 1 ] [ Lane 2 ]     [ Lane 3 ]      |
+|      A0,B0          A1,B1      A2,B2          A3,B3          |
+|        |              |         |              |             |
+|        +------+-------+----+----+-------+------+             |
+|               v            v            v                    |
+|            Result0      Result1      Result2 ...            |
++--------------------------------------------------------------+
 ```
 
 SIMD 효율을 결정하는 첫 번째 조건은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치</strong>다. 같은 속성끼리 연속적으로 모여 있으면 한 번의 로드로 여러 값을 가져올 수 있지만, 구조체가 뒤섞인 메모리 배치에서는 필요한 값만 골라 모으느라 추가 셔플과 로드가 늘어난다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화에서는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 구조체 (AoS, [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures)보다 구조체의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), Structure of Arrays)이 더 유리한 경우가 많다.
@@ -163,22 +163,22 @@ SIMD의 가장 큰 효과는 제어 오버헤드를 줄이면서 같은 시간�
 
 ```text
 SISD (Single Instruction Single Data)
-    │  순차 처리의 기본 모델
-    ▼
+    |  순차 처리의 기본 모델
+    v
 SIMD (Single Instruction Multiple Data)
-    │  반복 계산의 데이터 병렬화
-    ▼
+    |  반복 계산의 데이터 병렬화
+    v
 벡터 확장 명령어
-SSE → AVX → AVX-512
-    │  범용 CPU 내부 가속
-    ▼
+SSE -> AVX -> AVX-512
+    |  범용 CPU 내부 가속
+    v
 GPU · SIMT (Single Instruction Multiple Threads)
-    │  대규모 데이터 병렬 실행
-    ▼
+    |  대규모 데이터 병렬 실행
+    v
 SVE · 텐서/행렬 가속기
 ```
 
-이 흐름은 "순차 처리 → 벡터 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 범용 CPU 확장 → 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 → 행렬 중심 확장"으로 SIMD 계열 기술이 넓어지는 방향을 보여준다.
+이 흐름은 "순차 처리 -> 벡터 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 -> 범용 CPU 확장 -> 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 -> 행렬 중심 확장"으로 SIMD 계열 기술이 넓어지는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +192,7 @@ SVE · 텐서/행렬 가속기
 
 **진행 상황**: 371 / 803
 
-← **이전**: [369. SISD (단일 명령어 단일 데이터)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/)
-**다음**: [371. MISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/371_misd/) →
+<- **이전**: [369. SISD (단일 명령어 단일 데이터)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/)
+**다음**: [371. MISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/371_misd/) ->
 
 ---

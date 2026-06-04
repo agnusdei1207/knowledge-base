@@ -76,11 +76,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [확률 분포: Normal, t, Chi-square, F-distribution]
-    │
-    ▼
+    |
+    v
 [검정 기법: t-test, ANOVA, Regression, Correlation]
-    │
-    ▼
+    |
+    v
 [핵심 지표: Confidence Level (95%), Standard Error, p-value]
 ```
 
@@ -97,7 +97,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 101 / 262
 
-← **이전**: [기술 통계 (Descriptive Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)
-**다음**: [탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/102_eda_exploratory_data_analysis/) →
+<- **이전**: [기술 통계 (Descriptive Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)
+**다음**: [탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/102_eda_exploratory_data_analysis/) ->
 
 ---

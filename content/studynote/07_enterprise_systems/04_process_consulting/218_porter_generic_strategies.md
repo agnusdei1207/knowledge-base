@@ -42,21 +42,21 @@ tags = ["studynote-enterprise"]
 아래 매트릭스는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 고객 범위와 우위 원천의 조합이라는 점을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Porter's Generic Strategies matrix                                │
-├────────────────────────────────────────────────────────────────────┤
-│                      Advantage Source                             │
-│                 Cost                              Differentiation  │
-│ Broad Scope   ┌────────────────────┬───────────────────────────┐  │
-│               │ Cost Leadership    │ Differentiation           │  │
-│               │ scale, automation  │ brand, UX, innovation     │  │
-│               ├────────────────────┼───────────────────────────┤  │
-│ Narrow Scope  │ Cost Focus         │ Differentiation Focus     │  │
-│               │ local efficiency   │ niche expertise, trust    │  │
-│               └────────────────────┴───────────────────────────┘  │
-│                                                                    │
-│ Center risk: Stuck in the Middle = cost structure ↑, identity ↓    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Porter's Generic Strategies matrix                                |
++--------------------------------------------------------------------+
+|                      Advantage Source                             |
+|                 Cost                              Differentiation  |
+| Broad Scope   +--------------------+---------------------------+  |
+|               | Cost Leadership    | Differentiation           |  |
+|               | scale, automation  | brand, UX, innovation     |  |
+|               +--------------------+---------------------------+  |
+| Narrow Scope  | Cost Focus         | Differentiation Focus     |  |
+|               | local efficiency   | niche expertise, trust    |  |
+|               +--------------------+---------------------------+  |
+|                                                                    |
+| Center risk: Stuck in the Middle = cost structure ^, identity v    |
++--------------------------------------------------------------------+
 ```
 
 이 구조가 말하는 바는 단순하다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 제품 한 줄 설명이 아니라 비용 구조와 조직 역량의 방향을 고정하는 선택이다. 따라서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라지면 아키텍처, 운영지표, 채용기준, 파트너십까지 함께 달라져야 한다.
@@ -128,17 +128,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Industry Competition
-    │
-    ▼
+    |
+    v
 Cost Leadership / Differentiation / Focus
-    │
-    ▼
+    |
+    v
 Value Chain Alignment
-    │
-    ▼
+    |
+    v
 Cloud Scale · Premium UX · Vertical SaaS
-    │
-    ▼
+    |
+    v
 Strategic Repositioning and Blue Ocean
 ```
 
@@ -156,7 +156,7 @@ Strategic Repositioning and Blue Ocean
 
 **진행 상황**: 218 / 482
 
-← **이전**: [217. 로직 트리 (Logic Tree) 구조 분해 프레임워크](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/217_logic_tree_framework/)
-**다음**: [219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) →
+<- **이전**: [217. 로직 트리 (Logic Tree) 구조 분해 프레임워크](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/217_logic_tree_framework/)
+**다음**: [219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) ->
 
 ---

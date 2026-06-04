@@ -21,8 +21,8 @@ tags = ["studynote-enterprise-systems"]
 ```text
 ESG = E(환경) + S(사회) + G(지배구조)
 IT 역할:
-  탄소 데이터 수집 (IoT·ERP) → 분석 → 보고서 자동 생성
-  공급망 ESG 모니터링 → 리스크 조기 감지
+  탄소 데이터 수집 (IoT·ERP) -> 분석 -> 보고서 자동 생성
+  공급망 ESG 모니터링 -> 리스크 조기 감지
 ```
 
 - **📢 섹션 요약 비유**: ESG IT 시스템은 기업의 <strong>건강검진 시스템</strong>이다. 환경·사회·지배구조의 건강 상태를 수치로 측정한다.
@@ -48,10 +48,10 @@ ESG IT 시스템은 <strong>규제 대응과 기업 가치 향상의 핵심 인�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[CSR 보고서 (2000s)] → [ESG 투자 확대 (2015~)]
-    → [EU CSRD·SEC 기후 공시 (2023~)]
-    → [ESG IT 시스템 (SAP·Persefoni)]
-    → [현재: AI ESG — 탄소 예측·리스크 자동 분석]
+[CSR 보고서 (2000s)] -> [ESG 투자 확대 (2015~)]
+    -> [EU CSRD·SEC 기후 공시 (2023~)]
+    -> [ESG IT 시스템 (SAP·Persefoni)]
+    -> [현재: AI ESG — 탄소 예측·리스크 자동 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ ESG IT 시스템은 <strong>규제 대응과 기업 가치 향상의 핵심 인�
 
 **진행 상황**: 134 / 482
 
-← **이전**: [133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)
-**다음**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/) →
+<- **이전**: [133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)
+**다음**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/) ->
 
 ---

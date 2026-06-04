@@ -260,7 +260,7 @@ Apple/Google 적용 (2014~)
 
 **진행 상황**: 251 / 262
 
-← **이전**: [038. 데이터 주권 (Data Sovereignty)](/knowledge-base/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/)
-**다음**: [040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)](/knowledge-base/studynote/16_bigdata/13_intro_trends/252_data_structured_ratio/) →
+<- **이전**: [038. 데이터 주권 (Data Sovereignty)](/knowledge-base/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/)
+**다음**: [040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)](/knowledge-base/studynote/16_bigdata/13_intro_trends/252_data_structured_ratio/) ->
 
 ---

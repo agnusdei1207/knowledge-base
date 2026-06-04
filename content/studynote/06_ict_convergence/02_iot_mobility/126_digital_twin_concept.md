@@ -19,18 +19,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    디지털 트윈 아키텍처                               │
-├───────────────────────────────────────────────────────┤
-│  [물리 세계]              [디지털 트윈]               │
-│  공장 설비 ──IoT 센서──▶  가상 공장 모델             │
-│  온도·진동·전류           3D 시각화                   │
-│                           시뮬레이션                   │
-│                           AI 예측 (고장 예측)          │
-│                     ◀── 최적화 결과 반영              │
-│                                                       │
-│  양방향: 물리→디지털(데이터), 디지털→물리(제어)     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    디지털 트윈 아키텍처                               |
++-------------------------------------------------------+
+|  [물리 세계]              [디지털 트윈]               |
+|  공장 설비 --IoT 센서--->  가상 공장 모델             |
+|  온도·진동·전류           3D 시각화                   |
+|                           시뮬레이션                   |
+|                           AI 예측 (고장 예측)          |
+|                     <--- 최적화 결과 반영              |
+|                                                       |
+|  양방향: 물리->디지털(데이터), 디지털->물리(제어)     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 디지털 트윈은 건물의 <strong>미니어처(축소 모형)</strong>에 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
@@ -93,17 +93,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [CAD/CAE 시뮬레이션 (1990s)]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 개념 (NASA, 2010)]
-    │
-    ▼
+    |
+    v
 [GE Predix + 산업용 디지털 트윈 (2015~)]
-    │
-    ▼
+    |
+    v
 [Azure/AWS 디지털 트윈 PaaS (2020~)]
-    │
-    ▼
+    |
+    v
 [현재: AI + 디지털 트윈 — 자율 최적화·예측 정비]
 ```
 
@@ -118,7 +118,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 126 / 552
 
-← **이전**: [125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/)
-**다음**: [127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/) →
+<- **이전**: [125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/)
+**다음**: [127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/) ->
 
 ---

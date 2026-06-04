@@ -37,17 +37,17 @@ tags = ["database"]
 | 101 | 김철수 | **수학과** | NW | 네트워크 | *(수정 누락으로 인한 불일치!)*
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  갱신 이상 발생 메커니즘 (데이터 불일치)             │
-├──────────────────────────────────────────────────────────────┤
-│ [DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)]                 │
-│                                                              │
-│ 튜플 1: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
-│ 튜플 2: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
-│ 튜플 3: 김철수, 컴퓨터 ─(누락!)──▶ 김철수, 컴퓨터 (X) 모순 발생!   │
-│                                                              │
-│ 결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  갱신 이상 발생 메커니즘 (데이터 불일치)             |
++--------------------------------------------------------------+
+| [DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)]                 |
+|                                                              |
+| 튜플 1: 김철수, 컴퓨터 -(UPDATE)--> 김철수, 수학과 (O)             |
+| 튜플 2: 김철수, 컴퓨터 -(UPDATE)--> 김철수, 수학과 (O)             |
+| 튜플 3: 김철수, 컴퓨터 -(누락!)---> 김철수, 컴퓨터 (X) 모순 발생!   |
+|                                                              |
+| 결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴         |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 중복된 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완벽하게 제어하지 못할 때 갱신 이상이 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 파괴하는지 보여준다. 애플리케이션 쿼리문만으로는 이 구조적 취약점을 근본적으로 해결하기 어렵다.
@@ -108,17 +108,17 @@ tags = ["database"]
 
 ```text
 비정규화 테이블 (데이터 짬뽕)
-    │
-    ▼
+    |
+    v
 데이터 중복 (Redundancy) 발생
-    │
-    ▼
+    |
+    v
 이상 현상 (Anomaly: 갱신, 삽입, 삭제)
-    │
-    ▼
+    |
+    v
 함수적 종속성 (Functional Dependency) 분석
-    │
-    ▼
+    |
+    v
 정규화 (1NF ➔ 2NF ➔ 3NF ➔ BCNF) 도입
 ```
 
@@ -136,7 +136,7 @@ tags = ["database"]
 
 **진행 상황**: 93 / 600
 
-← **이전**: [92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)
-**다음**: [94. 함수적 종속성 (Functional Dependency, FD)](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) →
+<- **이전**: [92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)
+**다음**: [94. 함수적 종속성 (Functional Dependency, FD)](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) ->
 
 ---

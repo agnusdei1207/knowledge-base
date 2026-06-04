@@ -44,17 +44,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 서멀이 왜 "금속 대체재"가 아니라 "공기 제거재"인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      TIM fills microscopic voids so the interface is not dominated by air │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Heatsink base   /\    /\      /\                                           │
-│                 ||air||air||air|   -> poor contact, high interface Rth    │
-│ IHS surface     \/____\/______\/                                           │
-│                                                                            │
-│ Heatsink base   /\    /\      /\                                           │
-│                 ||TIM||TIM||TIM|   -> thin filler, lower interface Rth    │
-│ IHS surface     \/____\/______\/                                           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      TIM fills microscopic voids so the interface is not dominated by air |
++----------------------------------------------------------------------------+
+| Heatsink base   /\    /\      /\                                           |
+|                 ||air||air||air|   -> poor contact, high interface Rth    |
+| IHS surface     \/____\/______\/                                           |
+|                                                                            |
+| Heatsink base   /\    /\      /\                                           |
+|                 ||TIM||TIM||TIM|   -> thin filler, lower interface Rth    |
+| IHS surface     \/____\/______\/                                           |
++----------------------------------------------------------------------------+
 ```
 
 결국 좋은 서멀 도포는 "많이 바르기"가 아니라 "공기 포켓 없이 얇고 균일하게 퍼지기"를 목표로 해야 한다.
@@ -129,17 +129,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Bare metal contact
-        │
-        ▼
+        |
+        v
 Thermal Paste as TIM
-        │
-        ▼
+        |
+        v
 High durability / high conductivity paste
-        │
-        ▼
+        |
+        v
 Phase-change TIM and advanced interface control
-        │
-        ▼
+        |
+        v
 Liquid metal / package-level solder for high heat flux
 ```
 
@@ -157,7 +157,7 @@ Liquid metal / package-level solder for high heat flux
 
 **진행 상황**: 738 / 803
 
-← **이전**: [736. 히트스프레더 (IHS, Integrated Heat Spreader)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/736_ihs_integrated_heat_spreader/)
-**다음**: [738. 베이퍼 체임버 (Vapor Chamber)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/) →
+<- **이전**: [736. 히트스프레더 (IHS, Integrated Heat Spreader)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/736_ihs_integrated_heat_spreader/)
+**다음**: [738. 베이퍼 체임버 (Vapor Chamber)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/) ->
 
 ---

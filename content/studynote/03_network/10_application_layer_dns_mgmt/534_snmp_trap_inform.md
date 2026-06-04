@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [SNMP 명령]
-    │
-    ▼
+    |
+    v
 [SNMP Trap]
-    │
-    └──▶ [Syslog]
+    |
+    +---> [Syslog]
 ```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [SNMP 명령]
-    │
-    ▼
+    |
+    v
 [SNMP Trap]
-    │
-    └──▶ [Syslog]
+    |
+    +---> [Syslog]
 ```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SNMP 명령]
-    │
-    ▼
+    |
+    v
 [현재 개념: SNMP Trap]
-    │
-    ├──▶ [확장 A: Syslog]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: Syslog]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap는 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령에서 출발해 현재 메커니즘을 정교화하고, 이후 Syslog와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 655 / 1120
 
-← **이전**: [533. SNMP 명령](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/533_snmp_commands_get_set_trap/)
-**다음**: [535. Syslog (시스템 로그 프로토콜)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/) →
+<- **이전**: [533. SNMP 명령](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/533_snmp_commands_get_set_trap/)
+**다음**: [535. Syslog (시스템 로그 프로토콜)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/) ->
 
 ---

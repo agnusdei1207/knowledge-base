@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    ▼
+    |
+    v
 [스마트 시티 센싱 시스템]
-    │
-    └──▶ [드론 통신 지연시간 관리 및 보안 C2 링크]
+    |
+    +---> [드론 통신 지연시간 관리 및 보안 C2 링크]
 ```
 
 - **📢 섹션 요약 비유**: [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    ▼
+    |
+    v
 [스마트 시티 센싱 시스템]
-    │
-    └──▶ [드론 통신 지연시간 관리 및 보안 C2 링크]
+    |
+    +---> [드론 통신 지연시간 관리 및 보안 C2 링크]
 ```
 
 - **📢 섹션 요약 비유**: [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IIoT 트래픽 관리 한계/QoS 이슈]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스마트 시티 센싱 시스템]
-    │
-    ├──▶ [확장 A: 드론 통신 지연시간 관리 및 보안 C2 링크]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 드론 통신 지연시간 관리 및 보안 C2 링크]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템는 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈에서 출발해 현재 메커니즘을 정교화하고, 이후 드론 통신 지연시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 759 / 1120
 
-← **이전**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/)
-**다음**: [639. 드론 통신 지연시간 관리 및 보안 C2 링크 (Command & Control)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/) →
+<- **이전**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/)
+**다음**: [639. 드론 통신 지연시간 관리 및 보안 C2 링크 (Command & Control)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/) ->
 
 ---

@@ -122,26 +122,26 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메시지 큐 / Task 처리 시스템 설계 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [Kafka, RabbitMQ 등을 이용한 백그라운드 태스크 처리 아키텍처 구축]         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      큐에 들어오는 작업들의 처리 시간(Burst Time) 편차가 매우 큰가?           │
-  │      (어떤 건 0.1초, 어떤 건 1시간 걸린다)                             │
-  │          ├─ 예 ─────▶ [단일 FCFS 큐 사용 절대 금지 (호위 효과 터짐!)]  │
-  │          │            대책: [우선순위 큐 분리 패턴] 도입                │
-  │          │            무거운 작업 전용 큐와 가벼운 작업 전용 큐를 물리적으로 나누고, │
-  │          │            각각 다른 워커(Worker) 스레드를 할당하여 격리시킴.  │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      모든 작업의 처리 시간이 비슷하고(균일), 순서 보장이 생명인가?             │
-  │          ├─ 예 ─────▶ [단일 FCFS 큐 사용 적합]                     │
-  │          │            (호위 효과 위험이 없으므로, 구조가 단순한 FCFS가 최고 성능)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메시지 큐 / Task 처리 시스템 설계 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [Kafka, RabbitMQ 등을 이용한 백그라운드 태스크 처리 아키텍처 구축]         |
+  |                |                                                  |
+  |                v                                                  |
+  |      큐에 들어오는 작업들의 처리 시간(Burst Time) 편차가 매우 큰가?           |
+  |      (어떤 건 0.1초, 어떤 건 1시간 걸린다)                             |
+  |          +- 예 ------> [단일 FCFS 큐 사용 절대 금지 (호위 효과 터짐!)]  |
+  |          |            대책: [우선순위 큐 분리 패턴] 도입                |
+  |          |            무거운 작업 전용 큐와 가벼운 작업 전용 큐를 물리적으로 나누고, |
+  |          |            각각 다른 워커(Worker) 스레드를 할당하여 격리시킴.  |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      모든 작업의 처리 시간이 비슷하고(균일), 순서 보장이 생명인가?             |
+  |          +- 예 ------> [단일 FCFS 큐 사용 적합]                     |
+  |          |            (호위 효과 위험이 없으므로, 구조가 단순한 FCFS가 최고 성능)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)는 OS 교과서에만 있는 죽은 이론이 아니다. 현재 여러분이 짜고 있는 AWS SQS나 Celery 워커 큐에서도 매일 발생하고 있는 아키텍처 병목이다. 무거운 작업(Heavy Job) 1개가 큐를 막았을 때 큐 전체가 멈춰버린다면, 그것은 당신의 시스템이 FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)에 무방비하게 노출되어 있다는 증거다.
@@ -187,12 +187,12 @@ FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_sch
 
 ```text
 [선점 / 비선점 스케줄링 차이]
-    │
-    ▼
+    |
+    v
 [FCFS 호위 효과 (Convoy Effect)]
-    │
-    ├──▶ [SJF 기아 (Starvation) 발생]
-    └──▶ [라운드 로빈 시간 할당량 (Quantum)]
+    |
+    +---> [SJF 기아 (Starvation) 발생]
+    +---> [라운드 로빈 시간 할당량 (Quantum)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -209,7 +209,7 @@ FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_sch
 
 **진행 상황**: 688 / 800
 
-← **이전**: [687. 선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/687_preemptive_vs_non_preemptive_scheduling/)
-**다음**: [689. SJF 기아 (Starvation) 발생](/knowledge-base/studynote/02_operating_system/11_exam_summary/689_sjf_starvation_and_aging/) →
+<- **이전**: [687. 선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/687_preemptive_vs_non_preemptive_scheduling/)
+**다음**: [689. SJF 기아 (Starvation) 발생](/knowledge-base/studynote/02_operating_system/11_exam_summary/689_sjf_starvation_and_aging/) ->
 
 ---

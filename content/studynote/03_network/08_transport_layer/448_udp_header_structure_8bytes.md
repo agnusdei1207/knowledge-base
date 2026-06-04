@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [SCTP]
-    │
-    ▼
+    |
+    v
 [UDP 헤더 구조]
-    │
-    └──▶ [브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    |
+    +---> [브로드캐스트 / 멀티캐스트 전송은 UDP만…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 헤더 구조는 F1 레이싱카의 운전석입니다. 빨리 달리기 위해 에어컨, 카오디오, 조수석(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>, 혼잡 제어 필드)을 모조리 다 떼어내 버리고, 오직 차를 굴러가게 할 </strong>핸들과 액셀([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)) 단 두 개만 달아놓은 뼈대만 앙상한 스피드 머신**입니다.
@@ -50,22 +50,22 @@ tags = ["studynote-network"]
 4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>, 16비트)</strong>: 가다가 비트가 0에서 1로 깨졌는지 수학적으로 검사하는 유일한 에러 방어막.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                초경량 UDP 8바이트 헤더 구조 시각화              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0                   15 16                 31 (Bits)       │
- │   +-----------------------+-----------------------+         │
- │   | Source Port (16)      | Destination Port (16) |  <-- 4B │
- │   +-----------------------+-----------------------+         │
- │   | Length (16)           | Checksum (16)         |  <-- 4B │
- │   +-----------------------+-----------------------+         │
- │   | Data (Payload)...                             |         │
- │   +-----------------------------------------------+         │
- │                                                             │
- │   ▶ "이게 끝이다! 시퀀스 번호(Seq)? 없다! 수신 확인(ACK)? 없다!    │
- │      플래그 비트? 없다! 윈도우 사이즈? 없다! 그래서 미치도록 빠르다!"   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                초경량 UDP 8바이트 헤더 구조 시각화              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   0                   15 16                 31 (Bits)       |
+ |   +-----------------------+-----------------------+         |
+ |   | Source Port (16)      | Destination Port (16) |  <-- 4B |
+ |   +-----------------------+-----------------------+         |
+ |   | Length (16)           | Checksum (16)         |  <-- 4B |
+ |   +-----------------------+-----------------------+         |
+ |   | Data (Payload)...                             |         |
+ |   +-----------------------------------------------+         |
+ |                                                             |
+ |   -> "이게 끝이다! 시퀀스 번호(Seq)? 없다! 수신 확인(ACK)? 없다!    |
+ |      플래그 비트? 없다! 윈도우 사이즈? 없다! 그래서 미치도록 빠르다!"   |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 가상 헤더와 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)의 생략 ([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 한정 꼼수)
@@ -133,12 +133,12 @@ UDP도 TCP와 마찬가지로, [체크섬](/knowledge-base/studynote/01_computer
 
 ```text
 [선행 개념: SCTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: UDP 헤더 구조]
-    │
-    ├──▶ [확장 A: 브로드캐스트 / 멀티캐스트 전송은 UDP만…]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조는 SCTP에서 출발해 현재 메커니즘을 정교화하고, 이후 브로드캐스트 / [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ UDP도 TCP와 마찬가지로, [체크섬](/knowledge-base/studynote/01_computer
 
 **진행 상황**: 569 / 1120
 
-← **이전**: [447. SCTP (Stream Control Transmission Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/)
-**다음**: [449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능](/knowledge-base/studynote/03_network/08_transport_layer/449_broadcast_multicast_udp_only/) →
+<- **이전**: [447. SCTP (Stream Control Transmission Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/)
+**다음**: [449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능](/knowledge-base/studynote/03_network/08_transport_layer/449_broadcast_multicast_udp_only/) ->
 
 ---

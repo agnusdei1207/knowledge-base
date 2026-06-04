@@ -27,17 +27,17 @@ tags = ["database"]
 이 그림은 RBO가 "현재 교통량"이 아니라 "도로 등급표"만 보고 경로를 정하는 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│               RBO decision path: syntax first                   │
-├──────────────────────────────────────────────────────────────────┤
-│ SQL parse                                                       │
-│    │                                                            │
-│    ├─ check ROWID / UNIQUE / INDEX existence                    │
-│    │                                                            │
-│    ├─ apply fixed rank order                                    │
-│    │                                                            │
-│    └─ choose access path without table statistics               │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|               RBO decision path: syntax first                   |
++------------------------------------------------------------------+
+| SQL parse                                                       |
+|    |                                                            |
+|    +- check ROWID / UNIQUE / INDEX existence                    |
+|    |                                                            |
+|    +- apply fixed rank order                                    |
+|    |                                                            |
+|    +- choose access path without table statistics               |
++------------------------------------------------------------------+
 ```
 
 즉 RBO는 "빠르게 계산하는 똑똑함"보다 "항상 같은 규칙으로 판단하는 단순함"에 최적화된 설계였다. 문제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커지고 분포가 달라질수록, 이 단순함이 곧 맹목성으로 바뀐다는 점이다.
@@ -48,7 +48,7 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RBO의 입력은 주로 SQL 문법 구조와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 존재 여부다. 테이블에 10건이 있든 1억 건이 있든, 조건절에 어떤 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 탈 수 있는지가 더 중요하다. 그래서 결정 과정은 "통계 수집 → 비용 비교"가 아니라 "후보 경로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 규칙 순위 적용"으로 매우 짧다.
+RBO의 입력은 주로 SQL 문법 구조와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 존재 여부다. 테이블에 10건이 있든 1억 건이 있든, 조건절에 어떤 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 탈 수 있는지가 더 중요하다. 그래서 결정 과정은 "통계 수집 -> 비용 비교"가 아니라 "후보 경로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 규칙 순위 적용"으로 매우 짧다.
 
 | 판단 요소 | RBO에서 보는 것 | RBO가 놓치는 것 |
 | :-------- | :-------------- | :-------------- |
@@ -61,17 +61,17 @@ RBO의 입력은 주로 SQL 문법 구조와 [인덱스](/knowledge-base/studyno
 아래 그림은 RBO가 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)보다 규칙 서열을 우선하기 때문에 생기는 구조적 한계를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│             Example: rank wins over actual volume               │
-├──────────────────────────────────────────────────────────────────┤
-│ Query: WHERE order_date >= '2025-01-01'                         │
-│ Matching rows: 9000000 / 10000000                               │
-│ Index on order_date exists?  YES                                │
-│                                                                  │
-│ RBO thought: "Index rank > Full scan rank"                      │
-│ Actual effect: millions of index probes + table lookups         │
-│ Better choice in many cases: sequential full table scan         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             Example: rank wins over actual volume               |
++------------------------------------------------------------------+
+| Query: WHERE order_date >= '2025-01-01'                         |
+| Matching rows: 9000000 / 10000000                               |
+| Index on order_date exists?  YES                                |
+|                                                                  |
+| RBO thought: "Index rank > Full scan rank"                      |
+| Actual effect: millions of index probes + table lookups         |
+| Better choice in many cases: sequential full table scan         |
++------------------------------------------------------------------+
 ```
 
 이 때문에 과거에는 개발자가 SQL 문장 순서, [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/), 표현식 변형으로 RBO를 사실상 "유도"하는 일이 많았다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 똑똑해서 맡기는 구조가 아니라, 개발자가 규칙집을 이해하고 그 위에서 우회로를 만드는 구조였던 셈이다.
@@ -147,17 +147,17 @@ RBO가 남긴 가장 큰 유산은 [옵티마이저](/knowledge-base/studynote/0
 
 ```text
 규칙 우선 접근
-    │
-    ▼
+    |
+    v
 RBO (Rule-Based Optimizer)
-    │
-    ▼
+    |
+    v
 인덱스 우선 규칙 · 고정 실행 계획
-    │
-    ▼
+    |
+    v
 통계 수집 · 선택도 · 카디널리티
-    │
-    ▼
+    |
+    v
 CBO (Cost-Based Optimizer) · 현대 SQL 튜닝
 ```
 
@@ -175,7 +175,7 @@ CBO (Cost-Based Optimizer) · 현대 SQL 튜닝
 
 **진행 상황**: 164 / 600
 
-← **이전**: [163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)
-**다음**: [165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) →
+<- **이전**: [163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)
+**다음**: [165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) ->
 
 ---

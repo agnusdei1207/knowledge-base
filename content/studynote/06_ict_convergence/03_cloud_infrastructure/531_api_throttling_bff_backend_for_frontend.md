@@ -36,16 +36,16 @@ tags = ["studynote-ict-convergence"]
 
 ```
 [토큰 버킷 (Token Bucket)]
-버킷에 토큰이 채워짐 → 요청마다 토큰 소비
-버킷이 비면 요청 거부 → 버스트(순간 폭주) 허용
+버킷에 토큰이 채워짐 -> 요청마다 토큰 소비
+버킷이 비면 요청 거부 -> 버스트(순간 폭주) 허용
 
 [리키 버킷 (Leaky Bucket)]
-큐에 요청을 쌓음 → 일정 속도로 처리
-큐가 가득 차면 거부 → 균일한 출력 속도 보장
+큐에 요청을 쌓음 -> 일정 속도로 처리
+큐가 가득 차면 거부 -> 균일한 출력 속도 보장
 
 [슬라이딩 윈도 (Sliding Window)]
 최근 N초 요청 수를 실시간 집계
-고정 윈도의 경계 문제 해결 → 정확한 제한
+고정 윈도의 경계 문제 해결 -> 정확한 제한
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 버스트 허용 | 구현 복잡도 | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 적합 사례 |
@@ -59,15 +59,15 @@ tags = ["studynote-ict-convergence"]
 
 ```
 클라이언트        BFF 계층               마이크로서비스
-┌────────┐     ┌────────────┐
-│ 모바일  │────→│ Mobile BFF │─┐
-└────────┘     └────────────┘ │  ┌──────────────┐
-┌────────┐     ┌────────────┐ ├─→│ 주문 서비스   │
-│  웹    │────→│  Web BFF   │─┤  ├──────────────┤
-└────────┘     └────────────┘ ├─→│ 사용자 서비스 │
-┌────────┐     ┌────────────┐ │  ├──────────────┤
-│  IoT   │────→│  IoT BFF   │─┘  │ 상품 서비스   │
-└────────┘     └────────────┘    └──────────────┘
++--------+     +------------+
+| 모바일  |----->| Mobile BFF |-+
++--------+     +------------+ |  +--------------+
++--------+     +------------+ +-->| 주문 서비스   |
+|  웹    |----->|  Web BFF   |-+  +--------------+
++--------+     +------------+ +-->| 사용자 서비스 |
++--------+     +------------+ |  +--------------+
+|  IoT   |----->|  IoT BFF   |-+  | 상품 서비스   |
++--------+     +------------+    +--------------+
 ```
 
 각 BFF는 해당 클라이언트에 최적화된 집계(Aggregation), 변환(Transformation), 필터링(Filtering)을 담당한다.
@@ -137,7 +137,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[인증 · 인가] → [API 스로틀링과 BFF 백엔드 포 프론트엔드] → [Rate Limiting · WAF]
+[인증 · 인가] -> [API 스로틀링과 BFF 백엔드 포 프론트엔드] -> [Rate Limiting · WAF]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 531 / 552
 
-← **이전**: [530. 지식 그래프 기반 검색 증강 생성 (GraphRAG)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/)
-**다음**: [532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/532_dpo_direct_preference_optimization/) →
+<- **이전**: [530. 지식 그래프 기반 검색 증강 생성 (GraphRAG)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/)
+**다음**: [532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/532_dpo_direct_preference_optimization/) ->
 
 ---

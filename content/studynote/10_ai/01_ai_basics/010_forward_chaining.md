@@ -29,12 +29,12 @@ tags = ["ai"]
 이 도식은 데이터(Fact)에서 출발하여 규칙(Rule)을 거쳐 새로운 결론을 연쇄적으로 만들어내는 전향 추론의 흐름을 보여준다.
 
 [데이터/증거 수집]              [지식 베이스의 규칙 (Rules)]           [새로운 결론 도출]
-  Fact 1: 기침을 한다    ┐
-                         ├─ Rule 1: IF (기침 AND 콧물) THEN (감기) ──> 새 Fact A: 감기
-  Fact 2: 콧물이 난다    ┘                                               │
-                                                                         │
-  Fact 3: 열이 높다    ──┼─ Rule 2: IF (감기 AND 열) THEN (독감) ────────┘
-                                                                         │
+  Fact 1: 기침을 한다    +
+                         +- Rule 1: IF (기침 AND 콧물) THEN (감기) --> 새 Fact A: 감기
+  Fact 2: 콧물이 난다    +                                               |
+                                                                         |
+  Fact 3: 열이 높다    --+- Rule 2: IF (감기 AND 열) THEN (독감) --------+
+                                                                         |
                                                                      (최종 결론)
                                                                  새 Fact B: 독감
 ```
@@ -66,21 +66,21 @@ tags = ["ai"]
 이 흐름도는 전향 추론 엔진이 작업 메모리(Working Memory)를 업데이트하며 순환하는 내부 큐(Queue)와 병목 구조를 시각화한 것이다.
 
          [새로운 외부 Data 유입]
-                  │
-                  ▼ (Insert)
-┌──────────────────────────────────────────┐
-│          Working Memory (작업 메모리)    │<──────┐
-│  [Fact 1] [Fact 2] [Fact 3 (New)]        │       │
-└────────────┬─────────────────────────────┘       │
-             │                                     │
-             ▼ (병목: 수만 개의 규칙과 비교 연산)  │
-      [[ Match 단계 (Rete Network) ]]              │
-             │                                     │
-             ▼ (Conflict Set: [Rule A, Rule C])    │ (새로운 중간 결론 Update)
-      [[ Resolve 단계 (우선순위 평가) ]]           │
-             │                                     │
-             ▼ (Rule C 선택됨)                     │
-      [[ Act 단계 (THEN 절 실행) ]] ───────────────┘
+                  |
+                  v (Insert)
++------------------------------------------+
+|          Working Memory (작업 메모리)    |<------+
+|  [Fact 1] [Fact 2] [Fact 3 (New)]        |       |
++------------+-----------------------------+       |
+             |                                     |
+             v (병목: 수만 개의 규칙과 비교 연산)  |
+      [[ Match 단계 (Rete Network) ]]              |
+             |                                     |
+             v (Conflict Set: [Rule A, Rule C])    | (새로운 중간 결론 Update)
+      [[ Resolve 단계 (우선순위 평가) ]]           |
+             |                                     |
+             v (Rule C 선택됨)                     |
+      [[ Act 단계 (THEN 절 실행) ]] ---------------+
 ```
 이 도식의 핵심은 매 사이클마다 Act 단계에서 생산된 결과물이 다시 Working Memory로 피드백되어 다음 사이클의 입력으로 사용된다는 점이다. 이런 루프(Loop) 형태의 배치는 시스템이 주어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고갈될 때까지 연쇄 폭발을 일으키며 숨겨진 지식을 모두 추출하게 만든다. 실무에서는 Rule C의 실행이 Fact를 변경하지 않고 무한히 자기 자신을 호출하는 '무한 루프 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))' 상태에 빠지는 것이 가장 큰 장애 원인이 되므로, 한 번 실행된 규칙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합은 다시 실행하지 않도록(No-Loop [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 강제해야 한다.
 
@@ -105,9 +105,9 @@ tags = ["ai"]
 
 [전향 추론: Broad Search (넓게 퍼짐)]      [후향 추론: Narrow Search (좁게 파고듦)]
 
-Fact A ──> Rule 1 ──> Fact C ──> 결론 1     Fact C (필요!) <── Rule 1 <── [가설: 결론 1이 맞나?]
-Fact B ──> Rule 2 ──> Fact D ──> 결론 2             ↑(Fact C가 없네? 구해야지)
-  ↑        (목표 없이 가능한 모든          Fact A (존재확인) ──> Rule 매칭 (증명 완료!)
+Fact A --> Rule 1 --> Fact C --> 결론 1     Fact C (필요!) <-- Rule 1 <-- [가설: 결론 1이 맞나?]
+Fact B --> Rule 2 --> Fact D --> 결론 2             ^(Fact C가 없네? 구해야지)
+  ^        (목표 없이 가능한 모든          Fact A (존재확인) --> Rule 매칭 (증명 완료!)
 (데이터)    결과를 맹목적으로 파생시킴)                   (오직 목표와 연결된 경로만 연산함)
 ```
 이 비교도의 핵심은 연산 자원의 활용 방식이다. [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)(왼쪽)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 입력되면 그것이 어떤 결론으로 이어질지 모르기 때문에 그물망처럼 탐색 공간이 무한히 넓어진다(연산 낭비 발생 가능성). 반면 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(오른쪽)은 타겟 지점이 명확하므로 드릴처럼 한 우물만 파고든다. 실무 아키텍처에서는 이 둘의 장점을 섞어, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 '의심되는 가설군([전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))'을 몇 개로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤, 그 가설이 맞는지 사용자에게 필수적인 질문만 역으로 던져 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는([후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) **양방향 하이브리드 추론** 모델을 주로 채택한다.
@@ -132,16 +132,16 @@ Fact B ──> Rule 2 ──> Fact D ──> 결론 2             ↑(Fact C가 
 이 의사결정 트리는 실시간 이벤트 처리 시스템에서 전향 추론 엔진을 안전하게 도입하고 운영하기 위한 실무 판단 플로우를 보여준다.
 
 [실시간 룰 엔진 아키텍처 설계]
-         │
+         |
 [질문: 규칙의 IF 조건에 '시간(Time)' 흐름이 포함되는가?]
-  ├─(No) ──> 일반 Rete 알고리즘 적용 (단순 조건 매칭)
-  │
-  └─(Yes) ─> "최근 5분 이내에 오류가 3번 발생하면..." (시간 윈도우 필요)
-               │
-               ▼
+  +-(No) --> 일반 Rete 알고리즘 적용 (단순 조건 매칭)
+  |
+  +-(Yes) -> "최근 5분 이내에 오류가 3번 발생하면..." (시간 윈도우 필요)
+               |
+               v
        [Complex Event Processing (CEP) 모드 활성화 판단]
-         ├─ 메모리 관리: Sliding Window 적용 (과거 5분 이전 데이터 자동 폐기)
-         └─ 이벤트 순서: 타임스탬프 기준 정렬 및 인과관계 매칭 최적화
+         +- 메모리 관리: Sliding Window 적용 (과거 5분 이전 데이터 자동 폐기)
+         +- 이벤트 순서: 타임스탬프 기준 정렬 및 인과관계 매칭 최적화
 ```
 이 트리의 핵심은 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)이 단순히 정적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 것을 넘어, 실무에서는 '시간 축' 위에서 벌어지는 이벤트(사건)들의 순서와 타이밍을 매칭하는 [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)(복합 이벤트 처리) 시스템으로 격상되어야 한다는 점이다. 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 메모리에 남아있으면 잘못된 규칙 발동을 유발한다. 따라서 시스템 아키텍트는 룰 엔진 외부력인 Kafka나 Flink 같은 스트림 프로세서와 연동하여 시간 만료된 Fact를 엔진에서 강제로 쳐내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클 관리를 반드시 설계에 포함해야 한다.
 
@@ -175,20 +175,20 @@ Fact B ──> Rule 2 ──> Fact D ──> 결론 2             ↑(Fact C가 
 
 ```text
 [사실 데이터베이스 (Fact Base) — 알려진 사실 초기 상태]
-    │
-    ▼
+    |
+    v
 [전향 추론 (Forward Chaining) — 사실에서 결론 방향으로 추론]
-    │
-    ▼
+    |
+    v
 [후향 추론 (Backward Chaining) — 목표에서 사실 방향으로 검증]
-    │
-    ▼
+    |
+    v
 [전문가 시스템 (Expert System) — 규칙 기반 추론 엔진 탑재]
-    │
-    ▼
+    |
+    v
 [지식 그래프 (Knowledge Graph) — 사실·관계의 그래프 구조화]
-    │
-    ▼
+    |
+    v
 [LLM + RAG — 지식 검색 결합 대형 언어 모델 추론]
 ```
 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 규칙 기반 [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)의 핵심 추론 방향으로, 사실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 결론을 도출하며 현대 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)·[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 시스템으로 진화했다.
@@ -204,7 +204,7 @@ Fact B ──> Rule 2 ──> Fact D ──> 결론 2             ↑(Fact C가 
 
 **진행 상황**: 10 / 420
 
-← **이전**: [9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)](/knowledge-base/studynote/10_ai/01_ai_basics/009_expert_system/)
-**다음**: [11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) →
+<- **이전**: [9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)](/knowledge-base/studynote/10_ai/01_ai_basics/009_expert_system/)
+**다음**: [11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) ->
 
 ---

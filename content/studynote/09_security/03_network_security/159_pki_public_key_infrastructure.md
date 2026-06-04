@@ -36,22 +36,22 @@ PKI의 핵심 구성은 [인증](/knowledge-base/studynote/04_software_engineeri
 아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 흐름을 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 PKI의 발급·검증 신뢰 사슬                         │
-├────────────────────────────────────────────────────────────────────┤
-│ [발급 단계]                                                       │
-│ Subject(서버/사용자) -> RA 신원 확인 -> CA 서명 -> 인증서 발급    │
-│                                                                    │
-│ [검증 단계]                                                       │
-│ Client <- 서버 인증서 제시                                         │
-│   │                                                                │
-│   ├─ 인증서 유효기간 확인                                          │
-│   ├─ 서명자 CA 확인                                                │
-│   ├─ Root CA 신뢰 저장소와 체인 검증                              │
-│   └─ CRL/OCSP로 폐기 여부 확인                                    │
-│                                                                    │
-│ 결과: "키를 받음"이 아니라 "키의 주인을 검증함"                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 PKI의 발급·검증 신뢰 사슬                         |
++--------------------------------------------------------------------+
+| [발급 단계]                                                       |
+| Subject(서버/사용자) -> RA 신원 확인 -> CA 서명 -> 인증서 발급    |
+|                                                                    |
+| [검증 단계]                                                       |
+| Client <- 서버 인증서 제시                                         |
+|   |                                                                |
+|   +- 인증서 유효기간 확인                                          |
+|   +- 서명자 CA 확인                                                |
+|   +- Root CA 신뢰 저장소와 체인 검증                              |
+|   +- CRL/OCSP로 폐기 여부 확인                                    |
+|                                                                    |
+| 결과: "키를 받음"이 아니라 "키의 주인을 검증함"                 |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 사용자가 서버의 공개키를 그냥 받는 것이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 경로 (Certificate Chain)를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다는 점이다. 루트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 공개키는 운영체제나 브라우저의 신뢰 저장소에 미리 탑재되어 있고, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 그 아래에서 실제 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급한다. 사용자는 이 사슬 전체가 끊기지 않고, 유효기간과 폐기 상태까지 문제가 없을 때만 신뢰를 부여한다.
@@ -136,18 +136,18 @@ PKI의 가장 큰 효과는 서로 처음 만나는 주체들 사이에 신뢰�
 
 ```text
 공개키 암호 도입
-    │
-    ▼
+    |
+    v
 공개키 진위 문제 발생
-    │
-    ▼
+    |
+    v
 PKI 구축
-    ├─ CA/RA 운영
-    ├─ X.509 인증서 발급
-    ├─ 체인 검증
-    └─ CRL/OCSP 폐기 확인
-    │
-    ▼
+    +- CA/RA 운영
+    +- X.509 인증서 발급
+    +- 체인 검증
+    +- CRL/OCSP 폐기 확인
+    |
+    v
 HTTPS · 전자서명 · VPN · 기기 인증 확산
 ```
 
@@ -165,7 +165,7 @@ HTTPS · 전자서명 · VPN · 기기 인증 확산
 
 **진행 상황**: 212 / 1108
 
-← **이전**: [158. TPM (Trusted Platform Module) — 플랫폼 키 저장, 원격 증명](/knowledge-base/studynote/09_security/03_network_security/158_tpm_trusted_platform_module/)
-**다음**: [160. CA (Certification Authority) — 인증서 발급/관리](/knowledge-base/studynote/09_security/03_network_security/160_ca_certification_authority/) →
+<- **이전**: [158. TPM (Trusted Platform Module) — 플랫폼 키 저장, 원격 증명](/knowledge-base/studynote/09_security/03_network_security/158_tpm_trusted_platform_module/)
+**다음**: [160. CA (Certification Authority) — 인증서 발급/관리](/knowledge-base/studynote/09_security/03_network_security/160_ca_certification_authority/) ->
 
 ---

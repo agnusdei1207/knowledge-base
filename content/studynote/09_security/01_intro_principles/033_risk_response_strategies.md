@@ -12,7 +12,7 @@ tags = ["studynote-security"]
 > **핵심 인사이트 3줄**
 > 1. 위험 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept) 4가지로, 위험의 크기·비용·조직 특성에 따라 최적 조합을 선택한다.
 > 2. [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))은 대응 후에도 남는 위험으로, 최고 경영진([CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)·이사회)의 명시적 수용 승인이 필요한 핵심 거버넌스 포인트다.
-> 3. NIST RMF·ISO 31000·ISO 27005 기반의 지속적 위험 관리 사이클([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)→분석→평가→대응→모니터링)이 정보보안 거버넌스의 표준 프레임워크다.
+> 3. NIST RMF·ISO 31000·ISO 27005 기반의 지속적 위험 관리 사이클([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)->분석->평가->대응->모니터링)이 정보보안 거버넌스의 표준 프레임워크다.
 
 ---
 
@@ -22,11 +22,11 @@ tags = ["studynote-security"]
 
 ```
 위험 평가 (위험 = 위협 × 취약점 × 자산 가치)
-         ↓
-    ┌────┴────┐
-    │ 높은 위험│
-    └────┬────┘
-         ↓
+         v
+    +----+----+
+    | 높은 위험|
+    +----+----+
+         v
   [회피] [전가] [완화] [수용]
 ```
 
@@ -49,11 +49,11 @@ tags = ["studynote-security"]
 
 ```
 외부 인터넷
-   ↓ [방화벽·DDoS 방어] — 예방
-   ↓ [WAF·IDS/IPS] — 탐지
-   ↓ [네트워크 세그먼테이션] — 격리
-   ↓ [엔드포인트 EDR] — 탐지·대응
-   ↓ [데이터 암호화·DLP] — 완화
+   v [방화벽·DDoS 방어] — 예방
+   v [WAF·IDS/IPS] — 탐지
+   v [네트워크 세그먼테이션] — 격리
+   v [엔드포인트 EDR] — 탐지·대응
+   v [데이터 암호화·DLP] — 완화
    데이터 자산
 ```
 
@@ -74,11 +74,11 @@ tags = ["studynote-security"]
 ```
 총 위험 (Inherent Risk)
    - 통제 적용
-   ──────────────────
+   ------------------
    잔여 위험 (Residual Risk)
    ≤ 위험 허용 기준 (Risk Appetite)?
-      YES → 경영진 수용 승인 문서화
-      NO  → 추가 통제 적용 → 재평가
+      YES -> 경영진 수용 승인 문서화
+      NO  -> 추가 통제 적용 -> 재평가
 ```
 
 ### 위험 허용 기준 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite vs [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Tolerance)
@@ -121,16 +121,16 @@ tags = ["studynote-security"]
 ## Ⅴ. NIST RMF 기반 위험 관리 사이클
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              NIST 위험 관리 프레임워크 (RMF)              │
-│                                                          │
-│  1. Categorize (분류) — 시스템·데이터 분류               │
-│  2. Select (선택) — 보안 통제 선택                       │
-│  3. Implement (구현) — 통제 적용                         │
-│  4. Assess (평가) — 통제 효과성 평가                     │
-│  5. Authorize (승인) — ATO(Authorization to Operate)    │
-│  6. Monitor (모니터링) — 지속적 위험 모니터링             │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              NIST 위험 관리 프레임워크 (RMF)              |
+|                                                          |
+|  1. Categorize (분류) — 시스템·데이터 분류               |
+|  2. Select (선택) — 보안 통제 선택                       |
+|  3. Implement (구현) — 통제 적용                         |
+|  4. Assess (평가) — 통제 효과성 평가                     |
+|  5. Authorize (승인) — ATO(Authorization to Operate)    |
+|  6. Monitor (모니터링) — 지속적 위험 모니터링             |
++---------------------------------------------------------+
 ```
 
 ### 주요 위험 관리 표준
@@ -142,7 +142,7 @@ tags = ["studynote-security"]
 | NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-30 | IT 위험 평가 지침            |
 | FAIR         | [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 모델           |
 
-📢 **섹션 요약 비유**: NIST RMF는 자동차 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정이다 — 설계([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))→사양 결정(선택)→조립(구현)→안전 테스트(평가)→출고 승인(ATO)→사후 리콜 모니터링.
+📢 **섹션 요약 비유**: NIST RMF는 자동차 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정이다 — 설계([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))->사양 결정(선택)->조립(구현)->안전 테스트(평가)->출고 승인(ATO)->사후 리콜 모니터링.
 
 ---
 
@@ -150,21 +150,21 @@ tags = ["studynote-security"]
 
 ```
 위험 대응 전략 (Risk Response Strategies)
-├── 4대 전략
-│   ├── 회피 (Avoid) — 원인 제거
-│   ├── 전가 (Transfer) — 보험·아웃소싱
-│   ├── 완화 (Mitigate) — 통제 적용
-│   └── 수용 (Accept) — 잔여 위험 인정
-├── 완화 수단
-│   ├── 예방적·탐지적·교정적 통제
-│   └── 심층 방어 (Defense in Depth)
-├── 잔여 위험 관리
-│   ├── Risk Appetite / Tolerance
-│   └── 경영진 수용 승인 (ATO)
-└── 표준 프레임워크
-    ├── NIST RMF
-    ├── ISO 27005
-    └── FAIR 모델
++-- 4대 전략
+|   +-- 회피 (Avoid) — 원인 제거
+|   +-- 전가 (Transfer) — 보험·아웃소싱
+|   +-- 완화 (Mitigate) — 통제 적용
+|   +-- 수용 (Accept) — 잔여 위험 인정
++-- 완화 수단
+|   +-- 예방적·탐지적·교정적 통제
+|   +-- 심층 방어 (Defense in Depth)
++-- 잔여 위험 관리
+|   +-- Risk Appetite / Tolerance
+|   +-- 경영진 수용 승인 (ATO)
++-- 표준 프레임워크
+    +-- NIST RMF
+    +-- ISO 27005
+    +-- FAIR 모델
 ```
 
 ---
@@ -172,23 +172,23 @@ tags = ["studynote-security"]
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              위험 대응 전략 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ BS7799·ISMS 초기   │ 정보보안 위험 관리 개념화    │
-│ 2001년       │ ISO 17799         │ 정보보안 위험 관리 국제 표준  │
-│ 2005년       │ ISO 27001/27005   │ ISMS + 위험 관리 세분화       │
-│ 2010년       │ NIST RMF 출판     │ 미국 연방 정부 위험 관리 표준 │
-│ 2018년       │ GDPR + 사이버 보험│ 법적 의무 + 위험 전가 급성장  │
-│ 2020년대     │ FAIR + AI 위험    │ 정량적 분석·AI 리스크 추가   │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              위험 대응 전략 발전 흐름                            |
++--------------+--------------------+-----------------------------+
+| 1990년대     | BS7799·ISMS 초기   | 정보보안 위험 관리 개념화    |
+| 2001년       | ISO 17799         | 정보보안 위험 관리 국제 표준  |
+| 2005년       | ISO 27001/27005   | ISMS + 위험 관리 세분화       |
+| 2010년       | NIST RMF 출판     | 미국 연방 정부 위험 관리 표준 |
+| 2018년       | GDPR + 사이버 보험| 법적 의무 + 위험 전가 급성장  |
+| 2020년대     | FAIR + AI 위험    | 정량적 분석·AI 리스크 추가   |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-위험 식별 → 위험 분석 → 위험 평가 → 위험 대응 → 모니터링
-    ↓           ↓           ↓            ↓
+위험 식별 -> 위험 분석 -> 위험 평가 -> 위험 대응 -> 모니터링
+    v           v           v            v
 자산 목록    ALE 계산    허용 기준    4대 전략 선택
-    ↓
-잔여 위험 → 경영진 수용 승인 → ISMS 인증
+    v
+잔여 위험 -> 경영진 수용 승인 -> ISMS 인증
 ```
 
 ---
@@ -205,7 +205,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 33 / 1108
 
-← **이전**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)
-**다음**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/knowledge-base/studynote/09_security/01_intro_principles/034_risk_avoidance/) →
+<- **이전**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)
+**다음**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/knowledge-base/studynote/09_security/01_intro_principles/034_risk_avoidance/) ->
 
 ---

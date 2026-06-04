@@ -25,28 +25,28 @@ tags = ["studynote-software-engineering"]
 이를 해결하기 위해 테스터 2단계 각성인 <strong>결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)</strong>가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  구문 커버리지 vs 결정 커버리지의 차이            │
-├──────────────────────────────────────────────────────────────┤
-│ [원시 코드]                                                    │
-│  1: int check(int age) {                                     │
-│  2:     if (age >= 18) {                                     │
-│  3:         grant_access();  // 통과!                        │
-│  4:     }                                                    │
-│  5:     return 0;                                            │
-│  6: }                                                        │
-│                                                              │
-│ [구문 커버리지의 오만]                                           │
-│   - 입력: age = 20                                           │
-│   - 흐름: 1 -> 2(참) -> 3 -> 5 -> 6                        │
-│   ▶ 모든 줄 실행! (100% 성공!) => 하지만 18 미만 상황을 아예 무시.  │
-│                                                              │
-│ [결정 커버리지의 집요함]                                         │
-│   - 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)           │
-│   - 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)         │
-│   ▶ 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함! │
-│   ▶ 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  구문 커버리지 vs 결정 커버리지의 차이            |
++--------------------------------------------------------------+
+| [원시 코드]                                                    |
+|  1: int check(int age) {                                     |
+|  2:     if (age >= 18) {                                     |
+|  3:         grant_access();  // 통과!                        |
+|  4:     }                                                    |
+|  5:     return 0;                                            |
+|  6: }                                                        |
+|                                                              |
+| [구문 커버리지의 오만]                                           |
+|   - 입력: age = 20                                           |
+|   - 흐름: 1 -> 2(참) -> 3 -> 5 -> 6                        |
+|   -> 모든 줄 실행! (100% 성공!) => 하지만 18 미만 상황을 아예 무시.  |
+|                                                              |
+| [결정 커버리지의 집요함]                                         |
+|   - 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)           |
+|   - 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)         |
+|   -> 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함! |
+|   -> 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 건물에 화재가 났을 때 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 "탈출구 하나로 나가는 시뮬레이션 한 번 돌려보고 전원이 탈출했으니 건물 안전 100점!"이라고 한다면, 분기 커버리지는 "만약 저쪽 출구가 불에 타서 막혔을 때(False), 반대편 비상계단으로 도망가는 방법(Else)도 다 훈련해 봐야 안전 100점이다!"라고 혹독하게 양방향 대비를 시키는 훈련 대장입니다.
@@ -147,21 +147,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 437 / 973
 
-← **이전**: [422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)
-**다음**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) →
+<- **이전**: [422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)
+**다음**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) ->
 
 ---

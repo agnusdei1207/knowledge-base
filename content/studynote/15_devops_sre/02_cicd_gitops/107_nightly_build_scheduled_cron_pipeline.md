@@ -40,17 +40,17 @@ tags = ["studynote-devops-sre"]
 | **4. Report & Alert** | 결과 리포팅 | 다음 날 아침 실패 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 요약본 발송 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       주간(Day) CI와 야간(Night) 파이프라인의 이중 구조        │
-├──────────────────────────────────────────────────────────────┤
-│ [Day Time] 개발자 커밋 발생 (빈도 높음)                      │
-│   ├─▶ 캐시 기반 빠른 빌드 ─▶ 단위 테스트 ─▶ 결과 피드백 (5분)   │
-│                                                              │
-│ [Night Time] 정해진 시각 트리거 (빈도 낮음)                  │
-│   ├─▶ 기존 캐시 완전 파기 (Clean)                            │
-│   ├─▶ 100% 클린 빌드 ─▶ E2E/부하/보안 테스트 (수 시간 소요)  │
-│   └─▶ Morning Report ─▶ 출근 후 데일리 스크럼의 최우선 안건    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       주간(Day) CI와 야간(Night) 파이프라인의 이중 구조        |
++--------------------------------------------------------------+
+| [Day Time] 개발자 커밋 발생 (빈도 높음)                      |
+|   +--> 캐시 기반 빠른 빌드 --> 단위 테스트 --> 결과 피드백 (5분)   |
+|                                                              |
+| [Night Time] 정해진 시각 트리거 (빈도 낮음)                  |
+|   +--> 기존 캐시 완전 파기 (Clean)                            |
+|   +--> 100% 클린 빌드 --> E2E/부하/보안 테스트 (수 시간 소요)  |
+|   +--> Morning Report --> 출근 후 데일리 스크럼의 최우선 안건    |
++--------------------------------------------------------------+
 ```
 
 이 구조를 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Degradation) 추이나 간헐적(Flaky) 테스트 실패를 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 분석하여 시스템의 근본적인 퇴보를 감시할 수 있다.
@@ -111,17 +111,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Continuous Integration (기본 CI 개념 도입)
-    │
-    ▼
+    |
+    v
 Fast Feedback Cycle (캐시를 활용한 빠른 주간 검증)
-    │
-    ▼
+    |
+    v
 Nightly Build (시간 분리형 전수 회귀/무거운 검증)
-    │
-    ▼
+    |
+    v
 Automated Regression & Security Scan (보안, 부하 통합)
-    │
-    ▼
+    |
+    v
 Self-Healing CI & Predictive Analysis (결과 분석 및 자동 대응)
 ```
 
@@ -137,7 +137,7 @@ Self-Healing CI & Predictive Analysis (결과 분석 및 자동 대응)
 
 **진행 상황**: 107 / 373
 
-← **이전**: [분산 빌드: 워커 노드 스케일링을 통한 빌드 병렬화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/106_distributed_build_worker_nodes_scaling/)
-**다음**: [108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/) →
+<- **이전**: [분산 빌드: 워커 노드 스케일링을 통한 빌드 병렬화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/106_distributed_build_worker_nodes_scaling/)
+**다음**: [108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/) ->
 
 ---

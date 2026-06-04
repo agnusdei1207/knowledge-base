@@ -23,7 +23,7 @@ UAM 생태계:
   eVTOL: 전기 수직이착륙기 (Joby·현대 SA-2)
   버티포트: 도심 이착륙장 (빌딩 옥상)
   UTM: 무인 항공 교통 관리 시스템
-  운항: 초기 유인 → 점진적 자율 비행
+  운항: 초기 유인 -> 점진적 자율 비행
 ```
 
 - **📢 섹션 요약 비유**: UAM은 <strong>하늘을 나는 택시</strong>이다. 차가 막히면 하늘로 날아간다.
@@ -49,10 +49,10 @@ UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowle
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[헬리콥터 (기존)] → [드론 (2015~)]
-    → [eVTOL 개발 (Joby·Lilium, 2018~)]
-    → [현대 SA-2 (2022)] → [FAA 인증 진행]
-    → [현재: 2025~2028 상용화 목표]
+[헬리콥터 (기존)] -> [드론 (2015~)]
+    -> [eVTOL 개발 (Joby·Lilium, 2018~)]
+    -> [현대 SA-2 (2022)] -> [FAA 인증 진행]
+    -> [현재: 2025~2028 상용화 목표]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowle
 
 **진행 상황**: 145 / 552
 
-← **이전**: [144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)
-**다음**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/) →
+<- **이전**: [144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)
+**다음**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/) ->
 
 ---

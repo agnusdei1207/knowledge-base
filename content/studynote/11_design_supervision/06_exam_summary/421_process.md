@@ -31,13 +31,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-사이클로매틱 복잡도는 보통 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 계산하며, 실무적으로는 “결정점 수 + 1”로 이해해도 충분하다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구는 소스 코드를 읽어 분기 구조를 식별하고, 함수·메서드·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 복잡도를 산출한 뒤, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 여부를 품질 게이트로 연결한다. 즉 <strong>측정 → 판정 → 조치</strong>가 핵심 메커니즘이다.
+사이클로매틱 복잡도는 보통 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 계산하며, 실무적으로는 “결정점 수 + 1”로 이해해도 충분하다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구는 소스 코드를 읽어 분기 구조를 식별하고, 함수·메서드·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 복잡도를 산출한 뒤, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 여부를 품질 게이트로 연결한다. 즉 <strong>측정 -> 판정 -> 조치</strong>가 핵심 메커니즘이다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 소스 코드     │──▶│ CFG 생성      │──▶│ 복잡도 계산   │──▶│ 임계치 판정   │
-│ if / for / case│   │ 경로·분기 모델 │   │ M 값 산출     │   │ 리팩토링 여부 │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+   +--------------+
+| 소스 코드     |--->| CFG 생성      |--->| 복잡도 계산   |--->| 임계치 판정   |
+| if / for / case|   | 경로·분기 모델 |   | M 값 산출     |   | 리팩토링 여부 |
++--------------+   +--------------+   +--------------+   +--------------+
 ```
 
 복잡도는 보통 `M = E - N + 2P`로 표현한다. 여기서 `E`는 간선 수, `N`은 노드 수, `P`는 연결 요소 수다. 시험에서는 수식을 길게 전개하기보다 “독립 경로 수를 나타내며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 최소 수와 밀접하다”는 의미를 정확히 쓰는 편이 실전적이다.
@@ -121,17 +121,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 코드 리뷰 경험칙
-      │
-      ▼
+      |
+      v
 정적 분석 자동 측정
-      │
-      ▼
+      |
+      v
 사이클로매틱 복잡도 임계치 관리
-      │
-      ▼
+      |
+      v
 리팩토링 · 테스트 보강 · CI 품질 게이트
-      │
-      ▼
+      |
+      v
 유지보수성 향상 · 장애 예방 · 설계 단순화
 ```
 
@@ -149,7 +149,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 499 / 530
 
-← **이전**: [420. 페어와이즈·직교배열 기반 조합 축소 (Pairwise & Orthogonal Array Reduction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/420_process/)
-**다음**: [422. 동적 성능 메모리 누수 진단 (Dynamic Performance Memory Leak Diagnostics)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/422_audit/) →
+<- **이전**: [420. 페어와이즈·직교배열 기반 조합 축소 (Pairwise & Orthogonal Array Reduction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/420_process/)
+**다음**: [422. 동적 성능 메모리 누수 진단 (Dynamic Performance Memory Leak Diagnostics)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/422_audit/) ->
 
 ---

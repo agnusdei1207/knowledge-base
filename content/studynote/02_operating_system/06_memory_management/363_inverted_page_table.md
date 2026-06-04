@@ -28,26 +28,26 @@ tags = ["studynote-operating-system"]
   3. **극단적 램 다이어트 성공**: 16GB 램을 4KB로 쪼개면 4백만 개의 프레임이 나온다. 장부 한 줄이 8바이트면 <strong>장부 크기는 영원히 32MB로 고정</strong>된다. 프로세스가 1만 개 떠도 장부 크기는 1바이트도 늘어나지 않는다!
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│        정방향 페이지 테이블 vs 역 페이지 테이블 구조 비교         │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 기존: 프로세스 중심 (Forward Page Table) ]                      │
-│  - 프로세스 A의 장부: [페이지 0 -> 프레임 5], [페이지 1 -> Fr 2]  │
-│  - 프로세스 B의 장부: [페이지 0 -> 프레임 9], [페이지 1 -> Fr 7]  │
-│  (※ 단점: 프로세스 100개면 장부도 100개! 메모리 낭비 극심)        │
-│                                                                   │
-│ [ 혁신: 물리 프레임 중심 (Inverted Page Table) ]                  │
-│  - 시스템 전체에 단 1개의 전역 장부만 존재!                       │
-│  ┌────────────┬───────┬────────┐                                  │
-│  │ (Index) Fr │ PID  │  Page  │                                   │
-│  ├────────────┼───────┼────────┤                                  │
-│  │ 프레임 0번  │ ---  │ 비어있음 │                                │
-│  │ 프레임 1번  │ P_B  │  Pg 1  │ ◀ "B의 1번 페이지가 여기 있네!"  │
-│  │ 프레임 2번  │ P_A  │  Pg 0  │ ◀ "A의 0번 페이지가 여깄네!"     │
-│  │ ...        │ ...  │  ...   │                                   │
-│  └────────────┴───────┴────────┘                                  │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|        정방향 페이지 테이블 vs 역 페이지 테이블 구조 비교         |
++-------------------------------------------------------------------+
+|                                                                   |
+| [ 기존: 프로세스 중심 (Forward Page Table) ]                      |
+|  - 프로세스 A의 장부: [페이지 0 -> 프레임 5], [페이지 1 -> Fr 2]  |
+|  - 프로세스 B의 장부: [페이지 0 -> 프레임 9], [페이지 1 -> Fr 7]  |
+|  (※ 단점: 프로세스 100개면 장부도 100개! 메모리 낭비 극심)        |
+|                                                                   |
+| [ 혁신: 물리 프레임 중심 (Inverted Page Table) ]                  |
+|  - 시스템 전체에 단 1개의 전역 장부만 존재!                       |
+|  +------------+-------+--------+                                  |
+|  | (Index) Fr | PID  |  Page  |                                   |
+|  +------------+-------+--------+                                  |
+|  | 프레임 0번  | ---  | 비어있음 |                                |
+|  | 프레임 1번  | P_B  |  Pg 1  | <- "B의 1번 페이지가 여기 있네!"  |
+|  | 프레임 2번  | P_A  |  Pg 0  | <- "A의 0번 페이지가 여깄네!"     |
+|  | ...        | ...  |  ...   |                                   |
+|  +------------+-------+--------+                                  |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 테이블의 구조를 잘 보면, 우리가 알고 싶은 '정답(프레임 번호)'이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 인덱스로 들어가 버렸다. 그리고 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 '내용물'에는 가상 주소(PID, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))가 들어가 있다. 테이블의 길이가 프로세스의 가상 주소 크기가 아닌, <strong>실제 꽂혀있는 램의 크기</strong>에 완벽히 종속되므로 램 공간 절약에 있어서는 범접할 수 없는 궁극의 아키텍처다.
 
@@ -71,26 +71,26 @@ tags = ["studynote-operating-system"]
 이 미친 탐색 오버헤드를 막기 위해 하드웨어 설계자들은 앞서 배운 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">해시 페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">Hashed Page Table</a>)</strong> 논리를 긴급 투입했다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│              해시를 융합한 역 페이지 테이블의 탐색 흐름도             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ CPU 요청 ] "PID: A, Page: 3번 프레임 어딨어?"                       │
-│         │                                                             │
-│         ▼                                                             │
-│ [ 하드웨어 해시 함수 ] Hash(A, 3) = 인덱스 105 도출!                  │
-│         │                                                             │
-│         ▼                                                             │
-│ [ 해시 앵커 테이블 (Hash Anchor Table) ]                              │
-│ 인덱스 105에 가보니 ──▶ [ 역 테이블의 프레임 8번을 가리키는 포인터! ] │
-│         │                                                             │
-│         ▼ (체이닝 탐색)                                               │
-│ [ 역 페이지 테이블 (Inverted Page Table) ]                            │
-│ 프레임 8번 줄: [ PID: A | Page: 3 ] ◀ (일치 확인! 빙고!)              │
-│         │                                                             │
-│         ▼                                                             │
-│ 8번 프레임으로 램(RAM) 실제 데이터 접근!                              │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|              해시를 융합한 역 페이지 테이블의 탐색 흐름도             |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ CPU 요청 ] "PID: A, Page: 3번 프레임 어딨어?"                       |
+|         |                                                             |
+|         v                                                             |
+| [ 하드웨어 해시 함수 ] Hash(A, 3) = 인덱스 105 도출!                  |
+|         |                                                             |
+|         v                                                             |
+| [ 해시 앵커 테이블 (Hash Anchor Table) ]                              |
+| 인덱스 105에 가보니 ---> [ 역 테이블의 프레임 8번을 가리키는 포인터! ] |
+|         |                                                             |
+|         v (체이닝 탐색)                                               |
+| [ 역 페이지 테이블 (Inverted Page Table) ]                            |
+| 프레임 8번 줄: [ PID: A | Page: 3 ] <- (일치 확인! 빙고!)              |
+|         |                                                             |
+|         v                                                             |
+| 8번 프레임으로 램(RAM) 실제 데이터 접근!                              |
++-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** $O(N)$의 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) 지옥을 탈출하기 위해 램에 작은 '해시 앵커(포인터) 테이블'을 하나 더 두었다. CPU가 던진 (PID, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 조합을 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 돌려 단 1~2번의 램 접근만으로 역 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 정확한 줄(프레임 번호)에 랜딩하게 만드는 정교한 하드웨어 마술이다.
@@ -119,12 +119,12 @@ tags = ["studynote-operating-system"]
 - 결과: 이 문제를 우회하기 위해 OS는 공유 코드를 쓸 때마다 장부를 더럽게 꼬아놓거나 별도의 예외 장부를 만들어야 해서 오버헤드가 산으로 간다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 페이지 매핑│ 1:N (공유)  │ N:1 (일반)  │ 1:1 (역 테이블)         │
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ 특징       │ 다수 앱이 1개 램│ 1개 앱이 다수 램│ 1프레임당 1앱만 │
-│ 공유 난이도│ 매우 직관적  │ 직관적      │ ☠️ 구조적 불가능       │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
++----------+------------+------------+-----------------------------+
+| 페이지 매핑| 1:N (공유)  | N:1 (일반)  | 1:1 (역 테이블)         |
++----------+------------+------------+-----------------------------+
+| 특징       | 다수 앱이 1개 램| 1개 앱이 다수 램| 1프레임당 1앱만 |
+| 공유 난이도| 매우 직관적  | 직관적      | ☠️ 구조적 불가능       |
++----------+------------+------------+-----------------------------+
 ```
 **[매트릭스 해설]** 테이블의 주어([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))를 가상 주소에서 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꾼 대가다. 공간 절약의 정점을 찍었지만, 다중 프로그래밍의 핵심인 '코드 공유'를 스스로 걷어찬 꼴이 되어 범용 OS(윈도우/리눅스)의 메인스트림([x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/))에 안착하는 데 실패했다.
 
@@ -182,12 +182,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [해시 페이지 테이블 (Hashed Page Table)]
-    │
-    ▼
+    |
+    v
 [역 페이지 테이블 (Inverted Page Table)]
-    │
-    ├──▶ [세그멘테이션 (Segmentation)]
-    └──▶ [세그먼트 테이블 (Segment Table)]
+    |
+    +---> [세그멘테이션 (Segmentation)]
+    +---> [세그먼트 테이블 (Segment Table)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -204,7 +204,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 363 / 800
 
-← **이전**: [362. 해시 페이지 테이블 (Hashed Page Table) - 주소 공간이 64비트 이상일 때 사용](/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/)
-**다음**: [364. 세그멘테이션 (Segmentation) - 사용자 관점의 가변 크기 논리적 단위(함수, 객체) 분할](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) →
+<- **이전**: [362. 해시 페이지 테이블 (Hashed Page Table) - 주소 공간이 64비트 이상일 때 사용](/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/)
+**다음**: [364. 세그멘테이션 (Segmentation) - 사용자 관점의 가변 크기 논리적 단위(함수, 객체) 분할](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ->
 
 ---

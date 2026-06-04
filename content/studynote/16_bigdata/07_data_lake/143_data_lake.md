@@ -80,14 +80,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Data Warehouse]
-    │
-    ▼
+    |
+    v
 [Data Lake]
-    │
-    ▼
+    |
+    v
 [Schema-on-Read]
-    │
-    ▼
+    |
+    v
 [Lakehouse]
 ```
 
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 143 / 262
 
-← **이전**: [142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조](/knowledge-base/studynote/16_bigdata/06_nosql/142_schemaless_design_patterns/)
-**다음**: [데이터 늪 (Data Swamp)](/knowledge-base/studynote/16_bigdata/07_data_lake/144_data_swamp/) →
+<- **이전**: [142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조](/knowledge-base/studynote/16_bigdata/06_nosql/142_schemaless_design_patterns/)
+**다음**: [데이터 늪 (Data Swamp)](/knowledge-base/studynote/16_bigdata/07_data_lake/144_data_swamp/) ->
 
 ---

@@ -43,32 +43,32 @@ tags = ["studynote-data-engineering"]
 ### [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 따른 DB 유형
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    CAP 트라이앵글                        │
-│                                                         │
-│                    ┌─────────────┐                     │
-│                    │ Consistency │                     │
-│                    │     (C)     │                     │
-│                    └──────┬──────┘                     │
-│                           │                            │
-│          CA               │              CP            │
-│   ┌──────────────┐        │      ┌──────────────┐     │
-│   │ Traditional  │        │      │  MongoDB     │     │
-│   │ RDBMS        │        │      │  HBase       │     │
-│   │ (단일 서버)  │        │      │  Zookeeper   │     │
-│   └──────────────┘        │      └──────────────┘     │
-│                           │                            │
-│   ┌─────────┐─────────────┴──────────────┬─────────┐  │
-│   │Availab  │                            │Partition│  │
-│   │ility(A) │                            │ Tol.(P) │  │
-│   └─────────┘                            └─────────┘  │
-│                     AP                                 │
-│              ┌──────────────┐                         │
-│              │  Cassandra   │                         │
-│              │  DynamoDB    │                         │
-│              │  CouchDB     │                         │
-│              └──────────────┘                         │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                    CAP 트라이앵글                        |
+|                                                         |
+|                    +-------------+                     |
+|                    | Consistency |                     |
+|                    |     (C)     |                     |
+|                    +------+------+                     |
+|                           |                            |
+|          CA               |              CP            |
+|   +--------------+        |      +--------------+     |
+|   | Traditional  |        |      |  MongoDB     |     |
+|   | RDBMS        |        |      |  HBase       |     |
+|   | (단일 서버)  |        |      |  Zookeeper   |     |
+|   +--------------+        |      +--------------+     |
+|                           |                            |
+|   +---------+-------------+--------------+---------+  |
+|   |Availab  |                            |Partition|  |
+|   |ility(A) |                            | Tol.(P) |  |
+|   +---------+                            +---------+  |
+|                     AP                                 |
+|              +--------------+                         |
+|              |  Cassandra   |                         |
+|              |  DynamoDB    |                         |
+|              |  CouchDB     |                         |
+|              +--------------+                         |
++---------------------------------------------------------+
 ```
 
 ### [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리 (Extended [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/))
@@ -77,8 +77,8 @@ tags = ["studynote-data-engineering"]
 
 ```
 PACELC 표기법:
-P → [A 또는 C]  (파티션 발생 시)
-E → [L 또는 C]  (정상 시)
+P -> [A 또는 C]  (파티션 발생 시)
+E -> [L 또는 C]  (정상 시)
 
 예시:
 Cassandra: PA/EL (파티션 시 가용성 우선, 정상 시 지연 우선)
@@ -104,7 +104,7 @@ DynamoDB:  PA/EL (기본, 설정 변경 가능)
 ### CAP의 한계와 오해
 
 **한계:**
-1. "2개만 선택" 표현이 오해를 유발 → 실제로는 P는 필수, C와 A의 **정도(degree)** 조절
+1. "2개만 선택" 표현이 오해를 유발 -> 실제로는 P는 필수, C와 A의 **정도(degree)** 조절
 2. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 0/1이 아닌 스펙트럼 (Tunable [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))
 3. 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 빈도가 낮을 때는 C+A에 근접 가능
 
@@ -143,11 +143,11 @@ Cassandra의 예:
 ```
 쓰기 일관성: QUORUM (과반수 노드 확인)
 읽기 일관성: QUORUM (과반수 노드에서 읽기)
-→ 강한 일관성 달성
+-> 강한 일관성 달성
 
 쓰기 일관성: ONE (1개 노드 확인)
 읽기 일관성: ONE
-→ 최고 성능, 결과적 일관성
+-> 최고 성능, 결과적 일관성
 ```
 
 📢 **섹션 요약 비유**: Tunable Consistency는 <strong>자동차 서스펜션 조절</strong>과 같다. 고속도로([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))냐 비포장도로(안정성)냐에 따라 세팅을 바꿀 수 있다.
@@ -193,15 +193,15 @@ Cassandra의 예:
 
 ```text
 CAP 정리: C(일관성) · A(가용성) · P(파티션 내성) — 3개 동시 불가
-    │
-    ▼
+    |
+    v
 CP 시스템: HBase · ZooKeeper (일관성 우선)
 AP 시스템: Cassandra · DynamoDB (가용성 우선)
-    │
-    ▼
+    |
+    v
 PACELC: 정상 시 Latency vs Consistency 트레이드오프 추가
-    │
-    ▼
+    |
+    v
 Tunable Consistency: 워크로드별 일관성 수준 조절
 ```
 2. CAP은 이 두 개를 <strong>동시에 완벽하게 할 수는 없다</strong>는 수학적 증명이야.
@@ -213,7 +213,7 @@ Tunable Consistency: 워크로드별 일관성 수준 조절
 
 **진행 상황**: 219 / 258
 
-← **이전**: [218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/)
-**다음**: [220. NoSQL 유형 비교: 키-값·도큐먼트·Wide-Column·그래프 (NoSQL Types Comparison)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/220_nosql_types_keyvalue_document_wide_column_graph/) →
+<- **이전**: [218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/)
+**다음**: [220. NoSQL 유형 비교: 키-값·도큐먼트·Wide-Column·그래프 (NoSQL Types Comparison)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/220_nosql_types_keyvalue_document_wide_column_graph/) ->
 
 ---

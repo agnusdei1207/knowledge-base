@@ -37,12 +37,12 @@ C0는 실행 중 상태이고, C1은 아주 짧은 멈춤, C3는 캐시를 더 �
 
 ```text
 활동(C0)
-   │
-   ├─ 짧은 유휴 ─▶ C1
-   │
-   └─ 긴 유휴 ────▶ C3 ───▶ C6/C10
-                          │
-                          └─ wake latency 증가, 전력 감소
+   |
+   +- 짧은 유휴 --> C1
+   |
+   +- 긴 유휴 -----> C3 ----> C6/C10
+                          |
+                          +- wake latency 증가, 전력 감소
 ```
 
 깊은 상태는 전력에는 좋지만, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 자주 오는 서버나 실시간성 중요한 장치에서는 오히려 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘릴 수 있다. 그래서 C-state는 "얼마나 오래 놀고 있을지"를 기준으로 선택된다.
@@ -96,17 +96,17 @@ C-state 튜닝은 "무조건 깊게"가 답이 아니다. 측정한 뒤 [지연]
 
 ```text
 부하 감소 감지
-    │
-    ▼
-C0 → C1 → C3 → C6/C10
-    │
-    ▼
+    |
+    v
+C0 -> C1 -> C3 -> C6/C10
+    |
+    v
 전력 감소 / 발열 감소
-    │
-    ▼
+    |
+    v
 인터럽트 발생 시 복귀
-    │
-    ▼
+    |
+    v
 응답성 vs 절전 균형
 ```
 
@@ -122,7 +122,7 @@ C0 → C1 → C3 → C6/C10
 
 **진행 상황**: 77 / 800
 
-← **이전**: [76. 시스템 전원 상태 (S-States, S0~S5)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/076_s_states/)
-**다음**: [78. 프로세서 성능 상태 (P-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/078_p_states/) →
+<- **이전**: [76. 시스템 전원 상태 (S-States, S0~S5)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/076_s_states/)
+**다음**: [78. 프로세서 성능 상태 (P-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/078_p_states/) ->
 
 ---

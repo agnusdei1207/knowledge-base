@@ -33,24 +33,24 @@ Massive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_acc
 Massive MIMO는 하드웨어 집적 기술과 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/))의 거대한 행렬 연산이 결합된 아키텍처다. 기지국의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수가 단말기 수보다 압도적으로 많아질 때 채널 경화 (Channel Hardening)라는 통계적 평탄화 현상이 발생하여 수신기 설계가 단순해진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Massive MIMO의 3D 빔포밍 및 송수신 아키텍처        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ AAS (Active Antenna System) 패널 ]                         │
-│  ■ ■ ■ ■ ■ ■ ■ ■    ─▶ [ 위상/진폭 미세 조절 ]               │
-│  ■ ■ ■ ■ ■ ■ ■ ■                                             │
-│  ■ ■ ■ ■ ■ ■ ■ ■    ─▶ (DSP 프론트홀 고속 연산)              │
-│  ■ ■ ■ ■ ■ ■ ■ ■                                             │
-│                                                              │
-│ [ 3D 공간 정밀 타격 ]                                        │
-│  기지국 ════════════════════▶ [ 단말 A ] (지상 보행자)        │
-│          ↘                                                  │
-│            ↘══════════════▶ [ 단말 B ] (15층 사무실)        │
-│                                                              │
-│ ※ TDD (Time Division Duplex) 환경 필수: 상향 파이롯트로        │
-│    하향 채널을 유추하여 피드백 오버헤드 폭증을 차단           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Massive MIMO의 3D 빔포밍 및 송수신 아키텍처        |
++--------------------------------------------------------------+
+|                                                              |
+| [ AAS (Active Antenna System) 패널 ]                         |
+|  ■ ■ ■ ■ ■ ■ ■ ■    --> [ 위상/진폭 미세 조절 ]               |
+|  ■ ■ ■ ■ ■ ■ ■ ■                                             |
+|  ■ ■ ■ ■ ■ ■ ■ ■    --> (DSP 프론트홀 고속 연산)              |
+|  ■ ■ ■ ■ ■ ■ ■ ■                                             |
+|                                                              |
+| [ 3D 공간 정밀 타격 ]                                        |
+|  기지국 ---------------------> [ 단말 A ] (지상 보행자)        |
+|          ↘                                                  |
+|            ↘---------------> [ 단말 B ] (15층 사무실)        |
+|                                                              |
+| ※ TDD (Time Division Duplex) 환경 필수: 상향 파이롯트로        |
+|    하향 채널을 유추하여 피드백 오버헤드 폭증을 차단           |
++--------------------------------------------------------------+
 ```
 
 가장 중요한 메커니즘은 3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)(3D [Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))이다. 수평축(Azimuth)뿐만 아니라 수직축(Elevation)의 전파 위상까지 DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)가 정밀하게 계산하여 조절한다. 이를 통해 고층 빌딩과 지상의 사용자에게 동일한 주파수를 동시에 할당하면서도 상호 간섭을 0으로 만드는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 매트릭스(Precoding)를 형성해 낸다. [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할) 환경에서는 단말이 보내야 할 채널 상태 피드백 량이 폭증하므로, 주로 전파의 가역성을 활용할 수 있는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)(시분할) 주파수 대역에서 Massive MIMO가 그 진가를 발휘한다.
@@ -114,17 +114,17 @@ Massive MIMO는 한정된 주파수 도로 위에서 '공간'이라는 새로운
 
 ```text
 MIMO (2x2, 4x4) 도입 · 평면적 공간 다중화
-    │
-    ▼
+    |
+    v
 고주파수(mmWave) 대역 필요성 증대 · 심각한 전파 감쇠 한계 직면
-    │
-    ▼
+    |
+    v
 AAS (Active Antenna System) 및 집적도 향상 · RF 일체형 장비 등장
-    │
-    ▼
+    |
+    v
 Massive MIMO (64T64R 등) · 3D 빔포밍을 통한 Array Gain으로 도달거리 복원
-    │
-    ▼
+    |
+    v
 Cell-Free Massive MIMO · 안테나 분산형 6G 아키텍처로 진화
 ```
 
@@ -140,7 +140,7 @@ Cell-Free Massive MIMO · 안테나 분산형 6G 아키텍처로 진화
 
 **진행 상황**: 99 / 1120
 
-← **이전**: [98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/)
-**다음**: [1000. 클라우드 네이티브 네트워크 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) →
+<- **이전**: [98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/)
+**다음**: [1000. 클라우드 네이티브 네트워크 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) ->
 
 ---

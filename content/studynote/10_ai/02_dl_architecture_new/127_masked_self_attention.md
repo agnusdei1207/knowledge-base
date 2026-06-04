@@ -19,25 +19,25 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Masked Self-Attention                              │
-├───────────────────────────────────────────────────────┤
-│  입력: "I love you <EOS>"                             │
-│                                                       │
-│  Attention Matrix (마스킹 전):                        │
-│       I    love  you  <EOS>                           │
-│  I  [ 0.5  0.3   0.1  0.1 ]                          │
-│  love[ 0.2  0.4   0.3  0.1 ]                         │
-│  you [ 0.1  0.2   0.5  0.2 ]                         │
-│                                                       │
-│  Causal Mask (하삼각):                                │
-│       I    love  you  <EOS>                           │
-│  I  [ ✓    ✗     ✗    ✗   ]                          │
-│  love[ ✓    ✓     ✗    ✗   ]                         │
-│  you [ ✓    ✓     ✓    ✗   ]                         │
-│                                                       │
-│  "love" 예측 시 "I"만 참조 (미래 차단!)              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Masked Self-Attention                              |
++-------------------------------------------------------+
+|  입력: "I love you <EOS>"                             |
+|                                                       |
+|  Attention Matrix (마스킹 전):                        |
+|       I    love  you  <EOS>                           |
+|  I  [ 0.5  0.3   0.1  0.1 ]                          |
+|  love[ 0.2  0.4   0.3  0.1 ]                         |
+|  you [ 0.1  0.2   0.5  0.2 ]                         |
+|                                                       |
+|  Causal Mask (하삼각):                                |
+|       I    love  you  <EOS>                           |
+|  I  [ ✓    ✗     ✗    ✗   ]                          |
+|  love[ ✓    ✓     ✗    ✗   ]                         |
+|  you [ ✓    ✓     ✓    ✗   ]                         |
+|                                                       |
+|  "love" 예측 시 "I"만 참조 (미래 차단!)              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Masked Self-Attention은 시험에서 <strong>다음 문제의 답을 못 보게 가리는 것</strong>이다. 답을 보면 실력 측정이 안 되니까.
@@ -52,7 +52,7 @@ tags = ["studynote-ai"]
 |:---|:---|:---|
 | **Self** | 없음 | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)) |
 | **Masked Self** | **하삼각** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>)</strong> |
-| **Cross** | 없음 | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)→[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
+| **Cross** | 없음 | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)->[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 
 - **📢 섹션 요약 비유**: Self는 책 전체를 보고 이해, Masked는 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 보고 다음 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 예측.
 
@@ -62,7 +62,7 @@ tags = ["studynote-ai"]
 
 | 비교 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) (Self) | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) (Masked Self) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong> | 양방향 | **왼→오만** |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong> | 양방향 | **왼->오만** |
 | **학습** | [MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) (빈칸) | **다음 토큰 예측** |
 | **용도** | 이해·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> |
 
@@ -96,17 +96,17 @@ Masked Self-Attention은 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_
 
 ```text
 [Self-Attention (Transformer, 2017)]
-    │
-    ▼
+    |
+    v
 [Masked Self-Attention (GPT-1, 2018)]
-    │
-    ▼
+    |
+    v
 [KV Cache 최적화 (2020~)]
-    │
-    ▼
+    |
+    v
 [Sliding Window Attention (Mistral, 2023)]
-    │
-    ▼
+    |
+    v
 [현재: Sparse + Masked — 효율적 긴 시퀀스 생성]
 ```
 
@@ -121,7 +121,7 @@ Masked Self-Attention은 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_
 
 **진행 상황**: 127 / 420
 
-← **이전**: [126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/126_positional_encoding/)
-**다음**: [128. Cross-Attention - 인코더→디코더 참조 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/128_cross_attention/) →
+<- **이전**: [126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/126_positional_encoding/)
+**다음**: [128. Cross-Attention - 인코더->디코더 참조 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/128_cross_attention/) ->
 
 ---

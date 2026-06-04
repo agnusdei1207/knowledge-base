@@ -33,7 +33,7 @@ tags = ["studynote-bigdata"]
   WHERE event_type = 'purchase'
   GROUP BY user_id, TUMBLE(event_time, INTERVAL '5' MINUTE)
 
-  → 동일한 로직을 SQL 한 줄로!
+  -> 동일한 로직을 SQL 한 줄로!
 ```
 
 ### 2. 3대 스트리밍 SQL 엔진 개요
@@ -193,7 +193,7 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 - [ ] 이벤트 시간 필드와 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의
 - [ ] 윈도우 유형 (TUMBLE/HOP/[SESSION](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 비즈니스 요구에 맞게 선택
 - [ ] 스트림-테이블 조인 시 테이블 갱신 주기와 조인 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검토
-- [ ] Exactly-Once 필요 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → Flink SQL + [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)
+- [ ] Exactly-Once 필요 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> Flink SQL + [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)
 - [ ] NULL 및 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 명확화
 
 **📢 섹션 요약 비유**
@@ -235,17 +235,17 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ```text
 [정적 배치 SQL — 저장된 테이블 대상 질의]
-    │
-    ▼
+    |
+    v
 [스트리밍 SQL — 흐르는 스트림에 SQL 적용]
-    │
-    ▼
+    |
+    v
 [Window 연산 (TUMBLE·HOP·SESSION) — 시간 구간 집계]
-    │
-    ▼
+    |
+    v
 [Watermark — 이벤트 지연 허용 및 집계 완료 트리거]
-    │
-    ▼
+    |
+    v
 [ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준]
 ```
 정적 SQL 문법을 흐르는 스트림에 적용하고, 창(Window)과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))로 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 처리하며, ksqlDB와 Flink SQL이 각각 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)·범용 스트리밍 표준으로 자리잡는 흐름이다.
@@ -260,7 +260,7 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 **진행 상황**: 97 / 262
 
-← **이전**: [21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)
-**다음**: [23. CEP (Complex Event Processing) — 복합 이벤트 처리](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) →
+<- **이전**: [21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)
+**다음**: [23. CEP (Complex Event Processing) — 복합 이벤트 처리](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) ->
 
 ---

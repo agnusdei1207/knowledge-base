@@ -44,25 +44,25 @@ BIA의 핵심 산출물은 MTPD (Maximum Tolerable Period of Disruption), [RTO](
 아래 그림은 BIA가 단순 조사서가 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표를 산출하는 의사결정 흐름임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ BIA flow: impact -> tolerance -> recovery target -> DR tier         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Business process outage                                             │
-│        │                                                             │
-│        ├─> Impact by time                                            │
-│        │    - revenue loss                                           │
-│        │    - legal penalty                                          │
-│        │    - customer trust                                         │
-│        │                                                             │
-│        ├─> MTPD                                                      │
-│        │                                                             │
-│        ├─> Recovery target                                           │
-│        │    - RTO < MTPD                                             │
-│        │    - RPO by data loss tolerance                             │
-│        │                                                             │
-│        └─> DR tier selection                                         │
-│             Hot site / Warm site / Cold site                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| BIA flow: impact -> tolerance -> recovery target -> DR tier         |
++----------------------------------------------------------------------+
+| Business process outage                                             |
+|        |                                                             |
+|        +-> Impact by time                                            |
+|        |    - revenue loss                                           |
+|        |    - legal penalty                                          |
+|        |    - customer trust                                         |
+|        |                                                             |
+|        +-> MTPD                                                      |
+|        |                                                             |
+|        +-> Recovery target                                           |
+|        |    - RTO < MTPD                                             |
+|        |    - RPO by data loss tolerance                             |
+|        |                                                             |
+|        +-> DR tier selection                                         |
+|             Hot site / Warm site / Cold site                         |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 카드 승인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 MTPD가 2시간이면, RTO는 30분~1시간 수준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되어야 의미가 있다. 또 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 5분만 유실되어도 정산 문제가 생긴다면 RPO는 5분 이하가 되어야 하며, 이는 비동기 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 아닌 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 저지연 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 전송을 요구한다. 즉 BIA는 숫자를 적는 문서가 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용과 아키텍처 수준을 정당화하는 근거 문서다.
@@ -124,21 +124,21 @@ BIA가 잘 정리되면 [복구](/knowledge-base/studynote/09_security/13_secops
 
 ```text
 Asset inventory
-        │
-        ▼
+        |
+        v
 Risk analysis
-        │
-        ▼
+        |
+        v
 BIA (impact by time)
-        │
-        ▼
+        |
+        v
 MTPD / RTO / RPO
-        │
-        ▼
+        |
+        v
 DR tiering and recovery drill
 ```
 
-이 흐름은 "자산 파악 → 위험 인식 → 업무 영향 분석 → 목표 수치화 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계 운영"으로 이어지는 엔터프라이즈 복원력 설계 순서를 보여준다.
+이 흐름은 "자산 파악 -> 위험 인식 -> 업무 영향 분석 -> 목표 수치화 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계 운영"으로 이어지는 엔터프라이즈 복원력 설계 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +152,7 @@ DR tiering and recovery drill
 
 **진행 상황**: 212 / 482
 
-← **이전**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/)
-**다음**: [213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/) →
+<- **이전**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/)
+**다음**: [213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/) ->
 
 ---

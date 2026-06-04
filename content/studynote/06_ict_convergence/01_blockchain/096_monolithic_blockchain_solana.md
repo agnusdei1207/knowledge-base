@@ -37,24 +37,24 @@ tags = ["ict_convergence"]
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>)</strong> | 거대한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각 고사양 노드가 직접 저장 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유지 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       모놀리식 블록체인 아키텍처의 직렬/병렬 처리 메커니즘   │
-├──────────────────────────────────────────────────────────────┤
-│ [ User Transaction ] ─▶ 10만 건 폭주                         │
-│                                                              │
-│       ┌────────── 단일 레이어 (Layer 1) 노드 ──────────┐       │
-│       │                                                │       │
-│       │ 1. PoH (Proof of History) 기반 타임스탬프 각인 │       │
-│       │    (노드 간 합의 지연 제거)                    │       │
-│       │                                                │       │
-│       │ 2. 다중 컨트랙트 병렬 실행 (Sealevel 엔진)     │       │
-│       │    [Tx 1] [Tx 2] [Tx 3] ... 동시 연산          │       │
-│       │                                                │       │
-│       │ 3. 전체 블록 데이터 직접 저장 (DA)             │       │
-│       └────────────────────────────────────────────────┘       │
-│                                                              │
-│ [ Result ] ─▶ 초고속 블록 생성 (단일 지연시간)               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       모놀리식 블록체인 아키텍처의 직렬/병렬 처리 메커니즘   |
++--------------------------------------------------------------+
+| [ User Transaction ] --> 10만 건 폭주                         |
+|                                                              |
+|       +---------- 단일 레이어 (Layer 1) 노드 ----------+       |
+|       |                                                |       |
+|       | 1. PoH (Proof of History) 기반 타임스탬프 각인 |       |
+|       |    (노드 간 합의 지연 제거)                    |       |
+|       |                                                |       |
+|       | 2. 다중 컨트랙트 병렬 실행 (Sealevel 엔진)     |       |
+|       |    [Tx 1] [Tx 2] [Tx 3] ... 동시 연산          |       |
+|       |                                                |       |
+|       | 3. 전체 블록 데이터 직접 저장 (DA)             |       |
+|       +------------------------------------------------+       |
+|                                                              |
+| [ Result ] --> 초고속 블록 생성 (단일 지연시간)               |
++--------------------------------------------------------------+
 ```
 
 이 그림은 분업 없이 한 거대한 노드가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고유 합의 알고리즘을 무기로 세 가지 역할을 한 방에 꿰뚫어 처리하는 모놀리식의 강력함을 보여준다.
@@ -120,18 +120,18 @@ tags = ["ict_convergence"]
 
 ```text
 비트코인 / 이더리움 1.0 (초기 모놀리식)
-    │
-    ▼
+    |
+    v
 확장성 한계 직면 (낮은 TPS, 높은 가스비)
-    │
-    ▼
+    |
+    v
 모놀리식의 극대화 (Solana, Aptos)
 (고성능 노드 + 병렬 실행 + PoH 합의 도입)
-    │
-    ▼
+    |
+    v
 초고속 TPS 달성 및 유동성 통합 유지
-    │
-    ▼
+    |
+    v
 모듈러 체인(L2 롤업)과의 생태계 주도권 경쟁
 ```
 
@@ -147,7 +147,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 96 / 552
 
-← **이전**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)
-**다음**: [97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) →
+<- **이전**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)
+**다음**: [97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) ->
 
 ---

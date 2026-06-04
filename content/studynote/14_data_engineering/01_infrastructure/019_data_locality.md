@@ -34,8 +34,8 @@ tags = ["data_engineering"]
   (데이터 복사에만 3시간 소요, 스위치 마비)
 
 [혁신: 연산 코드 이동 (Data Locality)]
-  ┌── [네트워크 대역폭 사용량: 거의 0 (코드 1MB 전송)] ──┐
-  │                                                   │
+  +-- [네트워크 대역폭 사용량: 거의 0 (코드 1MB 전송)] --+
+  |                                                   |
 [코드(Map)] ---> [서버 1 (디스크: Data A)] (로컬에서 즉시 연산)
 [코드(Map)] ---> [서버 2 (디스크: Data B)] (로컬에서 즉시 연산)
 [코드(Map)] ---> [서버 3 (디스크: Data C)] (로컬에서 즉시 연산)
@@ -60,24 +60,24 @@ tags = ["data_engineering"]
 
 이 구조도는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 맵(Map) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 할당할 때 지역성 등급(Node -> Rack -> Off)에 따라 의사결정을 내리고 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))하는 상태 전이를 보여줍니다.
 ```text
-┌──────────────── Data Locality Scheduling Flow ────────────────┐
-│                                                               │
-│ [YARN 스케줄러]: "Block A 처리를 위해 태스크를 띄워야 한다."        │
-│    │                                                          │
-│    ▼                                                          │
-│ [1단계: Node Local 검토]                                       │
-│ 블록 A가 Node 1에 있음 -> Node 1의 CPU 남는가?                     │
-│ ├── (YES) ──> Node 1에 Task 할당 (🌟 최상의 성능, 네트워크 0)      │
-│ └── (NO)  ──> 2단계로 강등 (Node 1이 너무 바쁨)                  │
-│                                                               │
-│ [2단계: Rack Local 검토]                                       │
-│ Node 1과 같은 Rack 1에 있는 Node 2의 CPU 남는가?                 │
-│ ├── (YES) ──> Node 2에 Task 할당 (👍 양호, 랙 스위치 1회 통신)    │
-│ └── (NO)  ──> 3단계로 강등 (Rack 1 전체가 바쁨)                  │
-│                                                               │
-│ [3단계: Off Rack (Any Node)]                                  │
-│ 아무 랙이나 빈 노드(Node 3)에 할당 (❌ 최악, 코어 네트워크 병목 발생)  │
-└───────────────────────────────────────────────────────────────┘
++---------------- Data Locality Scheduling Flow ----------------+
+|                                                               |
+| [YARN 스케줄러]: "Block A 처리를 위해 태스크를 띄워야 한다."        |
+|    |                                                          |
+|    v                                                          |
+| [1단계: Node Local 검토]                                       |
+| 블록 A가 Node 1에 있음 -> Node 1의 CPU 남는가?                     |
+| +-- (YES) --> Node 1에 Task 할당 (🌟 최상의 성능, 네트워크 0)      |
+| +-- (NO)  --> 2단계로 강등 (Node 1이 너무 바쁨)                  |
+|                                                               |
+| [2단계: Rack Local 검토]                                       |
+| Node 1과 같은 Rack 1에 있는 Node 2의 CPU 남는가?                 |
+| +-- (YES) --> Node 2에 Task 할당 (👍 양호, 랙 스위치 1회 통신)    |
+| +-- (NO)  --> 3단계로 강등 (Rack 1 전체가 바쁨)                  |
+|                                                               |
+| [3단계: Off Rack (Any Node)]                                  |
+| 아무 랙이나 빈 노드(Node 3)에 할당 (❌ 최악, 코어 네트워크 병목 발생)  |
++---------------------------------------------------------------+
 ```
 이 도식의 핵심은 시스템이 무조건 기다리지 않고 딜레이 스케줄링(Delay Scheduling)이라는 기법을 통해 타협한다는 점입니다. Node Local 자원이 당장 없으면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 약 3초 정도를 대기(Delay)해 봅니다. 기다렸는데도 로컬 노드 자원이 안 나면 그제야 어쩔 수 없이 Rack Local로 넘겨 네트워크 비용을 지불하더라도 병렬성을 희생하지 않는 쪽을 택합니다. 따라서 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)가 여기서 빛을 발합니다. 블록이 3곳의 노드에 흩어져 있으므로, 3군데의 로컬 노드 중 하나는 비어있을 확률이 기하급수적으로 올라가 최상의 지역성을 획득하기 쉬워집니다.
 
@@ -98,19 +98,19 @@ tags = ["data_engineering"]
 
 이 비교 매트릭스 도식은 최근 클라우드 환경에서 파괴된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성을 복원하기 위한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Distributed Cache) 아키텍처의 부상을 보여줍니다.
 ```text
-┌── 클라우드 시대 지역성 상실의 문제 ──┐
-│ [Spark Worker Node] (EC2, 메모리만 있음) │
-│          ▲ (매번 S3에서 네트워크로 다운로드) │
-│ [Amazon S3] (무한 스토리지)           │
-│ => 네트워크 지연 발생, 쿼리 속도 저하!  │
-└────────────────────────────────────┘
-                  ▼ 해결 (지역성 복원)
-┌── 분산 데이터 가상화 캐싱 (Alluxio/JuiceFS) ──┐
-│ [Spark Node] -- [Alluxio Local SSD Cache] │
-│          ▲ (한 번만 가져와 로컬에 킵)        │
-│ [Amazon S3]                               │
-│ => 다시 메모리/로컬 SSD 수준의 데이터 지역성 획득! │
-└───────────────────────────────────────────┘
++-- 클라우드 시대 지역성 상실의 문제 --+
+| [Spark Worker Node] (EC2, 메모리만 있음) |
+|          ^ (매번 S3에서 네트워크로 다운로드) |
+| [Amazon S3] (무한 스토리지)           |
+| => 네트워크 지연 발생, 쿼리 속도 저하!  |
++------------------------------------+
+                  v 해결 (지역성 복원)
++-- 분산 데이터 가상화 캐싱 (Alluxio/JuiceFS) --+
+| [Spark Node] -- [Alluxio Local SSD Cache] |
+|          ^ (한 번만 가져와 로컬에 킵)        |
+| [Amazon S3]                               |
+| => 다시 메모리/로컬 SSD 수준의 데이터 지역성 획득! |
++-------------------------------------------+
 ```
 A 방식(전통 클라우드)은 컴퓨팅 노드를 자유롭게 껐다 켤 수 있는 유연성을 얻은 대신 네트워크 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 무거운 세금을 냅니다. 이를 극복하기 위해 B 방식(Alluxio 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 레이어)이 도입되었습니다. 워커 노드의 로컬 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD에 자주 읽히는 S3 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지능적으로 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 가상의 "Node Local" 상태를 강제로 만들어내는 것입니다. 실무에서는 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축 시 스토리지-컴퓨팅 분리로 얻는 비용 절감액과 지역성 파괴로 인한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 면밀히 저울질하여 중간 캐시 레이어를 도입하게 됩니다.
 
@@ -137,18 +137,18 @@ A 방식(전통 클라우드)은 컴퓨팅 노드를 자유롭게 껐다 켤 수
 이 의사결정 플로우 트리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 지역성 지표를 모니터링하고 튜닝하는 절차를 보여줍니다.
 ```text
 [배치 처리 성능 심각한 저하 감지]
-       │
-       ├─ Spark UI/YARN 로그 확인 -> Locality Level 검사
-       │
-       ├─ (NODE_LOCAL이 80% 이상인가?)
-       │     └── YES: 지역성 문제 아님. CPU 로직 자체나 DB 병목 의심
-       │
-       └─ (ANY, OFF_RACK 비율이 비정상적으로 높은가?)
-             ├── (클러스터 전체 CPU가 100% 풀방인가?)
-             │     └── 대응: 자원 부족. 노드 증설이 답
-             │
-             └── (CPU는 남는데 지역성이 깨지는가?)
-                   └── 대응: 데이터 쏠림 의심. HDFS 밸런서 실행 및 Delay Scheduling 3초로 상향 튜닝
+       |
+       +- Spark UI/YARN 로그 확인 -> Locality Level 검사
+       |
+       +- (NODE_LOCAL이 80% 이상인가?)
+       |     +-- YES: 지역성 문제 아님. CPU 로직 자체나 DB 병목 의심
+       |
+       +- (ANY, OFF_RACK 비율이 비정상적으로 높은가?)
+             +-- (클러스터 전체 CPU가 100% 풀방인가?)
+             |     +-- 대응: 자원 부족. 노드 증설이 답
+             |
+             +-- (CPU는 남는데 지역성이 깨지는가?)
+                   +-- 대응: 데이터 쏠림 의심. HDFS 밸런서 실행 및 Delay Scheduling 3초로 상향 튜닝
 ```
 이 흐름의 핵심은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 느림 원인을 맹목적인 코드 튜닝에서 찾는 것이 아니라, "내 코드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 방(Node)에 제대로 배정받았는가"라는 인프라 스케줄링 관점에서 접근한다는 점입니다. 이 지표를 볼 줄 아는 엔지니어와 모르는 엔지니어의 트러블슈팅 소요 시간은 극명하게 갈립니다.
 
@@ -182,17 +182,17 @@ A 방식(전통 클라우드)은 컴퓨팅 노드를 자유롭게 껐다 켤 수
 
 ```text
 [HDFS 블록 저장 — 데이터를 여러 노드에 분산·복제]
-    │
-    ▼
+    |
+    v
 [데이터 지역성 (Data Locality) — 계산을 데이터 위치로 이동]
-    │
-    ▼
-[YARN 스케줄링 — 로컬 → 랙 로컬 → 글로벌 순서로 컨테이너 배치]
-    │
-    ▼
-[Spark 데이터 지역성 — PROCESS_LOCAL → NODE_LOCAL → RACK_LOCAL 우선순위]
-    │
-    ▼
+    |
+    v
+[YARN 스케줄링 — 로컬 -> 랙 로컬 -> 글로벌 순서로 컨테이너 배치]
+    |
+    v
+[Spark 데이터 지역성 — PROCESS_LOCAL -> NODE_LOCAL -> RACK_LOCAL 우선순위]
+    |
+    v
 [RDMA·NVMe-oF — 초고속 네트워크로 지역성 의존도 완화]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성 원칙은 네트워크 병목을 피하기 위해 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치로 이동시키며, YARN과 Spark의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이를 단계적으로 최적화한다.
@@ -208,7 +208,7 @@ A 방식(전통 클라우드)은 컴퓨팅 노드를 자유롭게 껐다 켤 수
 
 **진행 상황**: 19 / 258
 
-← **이전**: [18. 맵리듀스 (MapReduce) - 디스크 I/O 기반 분산 병렬 연산 프레임워크 (Map: 매핑/필터링 -> Shuffle:](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)
-**다음**: [20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) →
+<- **이전**: [18. 맵리듀스 (MapReduce) - 디스크 I/O 기반 분산 병렬 연산 프레임워크 (Map: 매핑/필터링 -> Shuffle:](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)
+**다음**: [20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) ->
 
 ---

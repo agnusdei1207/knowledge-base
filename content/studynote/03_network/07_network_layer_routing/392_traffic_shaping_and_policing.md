@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ▼
+    |
+    v
 [트래픽 쉐이핑 / 폴리싱]
-    │
-    └──▶ [Leaky Bucket / Token Buc…]
+    |
+    +---> [Leaky Bucket / Token Buc…]
 ```
 
 - **📢 섹션 요약 비유**: ** 폴리싱이 용량을 초과한 쓰레기를 가위로 무참히 잘라내 버리는 **"잔인한 재단사"**라면, 쉐이핑은 초과한 물을 댐에 담아두었다가 수위가 낮아질 때 조금씩 흘려보내는 **"현명한 수자원 공사"**입니다.
@@ -58,22 +58,22 @@ tags = ["studynote-network"]
 - **버퍼 터짐(Tail Drop)**: 댐(버퍼)도 크기의 한계가 있다. 트래픽이 댐 수용량을 넘어서 끝없이 밀려오면 결국 댐이 터지면서 패킷이 뒤에서부터 우수수 떨어져 죽는다(Tail Drop).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Shaping과 Policing의 실무 적용 위치               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 회사 (계약 100M) ]                    [ 통신사 (ISP) ]     │
- │                                                             │
- │   (내부 1G) -> [내 라우터] ======== 100M선 ========> [통신사 라우터] │
- │                                                             │
- │   1) 내 라우터의 "나가는(Outbound)" 방향:                         │
- │      ▶ **Shaping 적용**: 1G로 들어온 걸 100M에 맞게 부드럽게 깎아서  │
- │                        내보내야 통신사한테 패킷을 안 썰림.           │
- │                                                             │
- │   2) 통신사 라우터의 "들어오는(Inbound)" 방향:                     │
- │      ▶ **Policing 적용**: 고객이 미쳐서 100M 넘게 쏘면 통신사 망이    │
- │                         다치니까 가차 없이 모가지를 썰어버림 (Drop). │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Shaping과 Policing의 실무 적용 위치               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 회사 (계약 100M) ]                    [ 통신사 (ISP) ]     |
+ |                                                             |
+ |   (내부 1G) -> [내 라우터] ======== 100M선 ========> [통신사 라우터] |
+ |                                                             |
+ |   1) 내 라우터의 "나가는(Outbound)" 방향:                         |
+ |      -> **Shaping 적용**: 1G로 들어온 걸 100M에 맞게 부드럽게 깎아서  |
+ |                        내보내야 통신사한테 패킷을 안 썰림.           |
+ |                                                             |
+ |   2) 통신사 라우터의 "들어오는(Inbound)" 방향:                     |
+ |      -> **Policing 적용**: 고객이 미쳐서 100M 넘게 쏘면 통신사 망이    |
+ |                         다치니까 가차 없이 모가지를 썰어버림 (Drop). |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 실무에서 쉐이핑과 폴리싱은 창과 방패입니다. 고객사(내 라우터)는 패킷이 통신사 방패에 부딪혀 깨지는 걸 막기 위해 **"쉐이핑"<strong>이라는 쿠션으로 패킷을 예쁘게 다듬어 던지고, 통신사(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)는 계약을 어기고 들어오는 과도한 트래픽을 막기 위해 </strong>"폴리싱"**이라는 칼을 들고 입구에서 대기합니다.
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 트래픽 쉐이핑 / 폴리싱]
-    │
-    ├──▶ [확장 A: Leaky Bucket / Token Buc…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: Leaky Bucket / Token Buc…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 트래픽 쉐이핑 / 폴리싱는 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…에서 출발해 현재 메커니즘을 정교화하고, 이후 Leaky Bucket / Token Buc…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 513 / 1120
 
-← **이전**: [391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/)
-**다음**: [393. Leaky Bucket / Token Bucket](/knowledge-base/studynote/03_network/07_network_layer_routing/393_leaky_bucket_token_bucket/) →
+<- **이전**: [391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/)
+**다음**: [393. Leaky Bucket / Token Bucket](/knowledge-base/studynote/03_network/07_network_layer_routing/393_leaky_bucket_token_bucket/) ->
 
 ---

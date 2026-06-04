@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트 라우팅]
-    │
-    ▼
+    |
+    v
 [RP, RPF 멀티캐스트 루프 방지]
-    │
-    └──▶ [VRF]
+    |
+    +---> [VRF]
 ```
 
 - **📢 섹션 요약 비유**: ** RP는 모든 혈관이 모이는 **"심장(Heart)"**이며, RPF는 혈액이 거꾸로 역류하여 혈관이 터지는 것을 막아주는 완벽한 1방향 **"판막(Valve)"**입니다. 이 두 기관이 없으면 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 몸통은 단 1분도 살지 못하고 심장마비로 즉사합니다.
@@ -54,25 +54,25 @@ tags = ["studynote-network"]
 1. 라우터는 영상([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP)을 일단 킵해두고, <strong>출발지 IP(<code>10.1.1.1</code>)를 가지고 자신의 유니캐스트 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> 지도)을 펴서 거꾸로(Reverse) 검색을 때려본다</strong>.
 2. "내 지도([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))를 보니까, 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1 방송국으로 갈 때는 <strong>1번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 나가는 게 제일 빠르네!"
 3. **RPF 검사 (일치 여부 판단)**: "어? 내가 OSPF로 갈 때 쓰는 제일 빠른 길(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이랑, 지금 영상이 굴러 들어온 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 완벽히 똑같네? 오케이! 넌 빙빙 돌지 않고 똑바로 최단 거리로 날아온 진짜 찐 패킷이다! 통과 (RPF Success)!"
-4. **RPF 실패 (Drop)**: 만약 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도는 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 제일 빠른데, 영상이 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 기어들어 왔다? "너 이 새끼, 1번으로 안 오고 왜 2번으로 뺑 돌아왔어! 너 어디서 핑퐁(루프) 돌다가 굴러들어온 복제품 찌꺼기 패킷이지! 쓰레기통으로 가라!" ──▶ **즉시 패킷 폐기 (RPF Failure Drop)**.
+4. **RPF 실패 (Drop)**: 만약 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도는 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 제일 빠른데, 영상이 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 기어들어 왔다? "너 이 새끼, 1번으로 안 오고 왜 2번으로 뺑 돌아왔어! 너 어디서 핑퐁(루프) 돌다가 굴러들어온 복제품 찌꺼기 패킷이지! 쓰레기통으로 가라!" ---> **즉시 패킷 폐기 (RPF Failure Drop)**.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RPF (역방향 경로 포워딩) 루프 방어 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 방송국 (10.1.1.1) ]                                        │
- │        │ (정문 1번 포트) ◀── (OSPF 지도로 보면 이쪽이 최단거리!) │
- │        ▼                                                     │
- │     [ 라우터 ] ──── (뒷문 2번 포트) ◀── (어딘가서 뺑뺑 돌다 들어온 패킷)│
- │                                                             │
- │   * 1번 포트로 들어온 패킷:                                      │
- │     "OSPF 지도(1번) == 들어온 포트(1번)" ──▶ 합격! 영상 시청자에게 복사!│
- │                                                             │
- │   * 2번 포트로 들어온 패킷:                                      │
- │     "OSPF 지도(1번) != 들어온 포트(2번)" ──▶ 불합격! 복제된 루프 패킷! │
- │     (만약 이걸 통과시켰으면 스위치로 복사되면서 망이 뻗었을 것이다).   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RPF (역방향 경로 포워딩) 루프 방어 시각화           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 방송국 (10.1.1.1) ]                                        |
+ |        | (정문 1번 포트) <--- (OSPF 지도로 보면 이쪽이 최단거리!) |
+ |        v                                                     |
+ |     [ 라우터 ] ---- (뒷문 2번 포트) <--- (어딘가서 뺑뺑 돌다 들어온 패킷)|
+ |                                                             |
+ |   * 1번 포트로 들어온 패킷:                                      |
+ |     "OSPF 지도(1번) == 들어온 포트(1번)" ---> 합격! 영상 시청자에게 복사!|
+ |                                                             |
+ |   * 2번 포트로 들어온 패킷:                                      |
+ |     "OSPF 지도(1번) != 들어온 포트(2번)" ---> 불합격! 복제된 루프 패킷! |
+ |     (만약 이걸 통과시켰으면 스위치로 복사되면서 망이 뻗었을 것이다).   |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -130,12 +130,12 @@ RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 
 ```text
 [선행 개념: 멀티캐스트 라우팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: RP, RPF 멀티캐스트 루프 방지]
-    │
-    ├──▶ [확장 A: VRF]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: VRF]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지는 [멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VRF와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 
 **진행 상황**: 491 / 1120
 
-← **이전**: [369. 멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)
-**다음**: [371. VRF (Virtual Routing and Forwarding)](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/) →
+<- **이전**: [369. 멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)
+**다음**: [371. VRF (Virtual Routing and Forwarding)](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/) ->
 
 ---

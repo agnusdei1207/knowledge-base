@@ -53,39 +53,39 @@ tags = ["studynote-operating-system"]
 ### 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Build Time) 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Runtime) 프로세스
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 커널 모듈 서명 및 런타임 검증 아키텍처                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. Build Time: 모듈 서명 과정 (보안/빌드 서버)]                         │
-  │   원본 모듈 (driver.ko)                                             │
-  │         │                                                         │
-  │         ▼ (SHA-256 해싱)                                           │
-  │      [ 해시값 ] ◀─── (개인키로 암호화 - sign-file 툴) ── [ Private Key ]│
-  │         │                                                         │
-  │         ▼                                                         │
-  │   서명된 모듈 (driver.ko + Signature Block 부착)                     │
-  │                                                                   │
-  │ ================================================================= │
-  │                                                                   │
-  │  [2. Runtime: 모듈 적재 및 검증 (운영 서버)]                             │
-  │   해커 또는 관리자가 `insmod driver.ko` 실행 (Root 권한)               │
-  │         │                                                         │
-  │  [Linux Kernel (Ring 0)]                                          │
-  │         ▼                                                         │
-  │   ① 모듈 파일 끝에서 Signature Block 분리                             │
-  │                                                                   │
-  │   ② 커널 내부 System Keyring에서 [ Public Key ] 꺼내기                │
-  │                                                                   │
-  │   ③ Public Key로 서명을 복호화 ──▶ [ 원본 해시값 A ] 도출             │
-  │                                                                   │
-  │   ④ 현재 로드하려는 파일의 해시 계산 ──▶ [ 현재 해시값 B ] 도출           │
-  │                                                                   │
-  │   ⑤ 비교 ( A == B ? )                                              │
-  │      ├─ YES: 서명 유효! 커널 메모리에 모듈 적재 및 실행 (Init_module)    │
-  │      └─ NO : "Required key not available" 또는 "Invalid signature" │
-  │              적재 거부 (EPERM 반환) 및 해커 침투 차단!                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 커널 모듈 서명 및 런타임 검증 아키텍처                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [1. Build Time: 모듈 서명 과정 (보안/빌드 서버)]                         |
+  |   원본 모듈 (driver.ko)                                             |
+  |         |                                                         |
+  |         v (SHA-256 해싱)                                           |
+  |      [ 해시값 ] <---- (개인키로 암호화 - sign-file 툴) -- [ Private Key ]|
+  |         |                                                         |
+  |         v                                                         |
+  |   서명된 모듈 (driver.ko + Signature Block 부착)                     |
+  |                                                                   |
+  | ================================================================= |
+  |                                                                   |
+  |  [2. Runtime: 모듈 적재 및 검증 (운영 서버)]                             |
+  |   해커 또는 관리자가 `insmod driver.ko` 실행 (Root 권한)               |
+  |         |                                                         |
+  |  [Linux Kernel (Ring 0)]                                          |
+  |         v                                                         |
+  |   ① 모듈 파일 끝에서 Signature Block 분리                             |
+  |                                                                   |
+  |   ② 커널 내부 System Keyring에서 [ Public Key ] 꺼내기                |
+  |                                                                   |
+  |   ③ Public Key로 서명을 복호화 ---> [ 원본 해시값 A ] 도출             |
+  |                                                                   |
+  |   ④ 현재 로드하려는 파일의 해시 계산 ---> [ 현재 해시값 B ] 도출           |
+  |                                                                   |
+  |   ⑤ 비교 ( A == B ? )                                              |
+  |      +- YES: 서명 유효! 커널 메모리에 모듈 적재 및 실행 (Init_module)    |
+  |      +- NO : "Required key not available" 또는 "Invalid signature" |
+  |              적재 거부 (EPERM 반환) 및 해커 침투 차단!                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 컴파일할 때 `CONFIG_MODULE_SIG=y`를 주면, 빌드 시스템이 자동으로 임시 `certs/signing_key.pem`(개인키)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들(`.ko`)을 서명한 뒤, 그 쌍이 되는 공개키를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지(bzImage) 안에 박아 넣는다(builtin). 운영 서버에서 해커가 자기 컴퓨터에서 만든 악성 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 가져와 `insmod`를 치면, 그 악성 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에는 이 서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 들어있는 공개키로 풀 수 있는 서명이 없으므로(개인키가 다르니까) 100% [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 실패하여 적재가 거부된다. 즉, 코드를 짜는 자와 코드를 실행하는 자 사이의 완벽한 신뢰 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 이루어진다.
@@ -144,26 +144,26 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 커널 무결성 통제 및 서명 정책 설계 플로우                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [보안 요구사항이 높은 프라이빗 클라우드 / 금융망 노드 구축]                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서드파티 커널 모듈(GPU 드라이버, 상용 백신 등) 사용이 필수적인가?        │
-  │          ├─ 예 ─────▶ [Machine Owner Key (MOK) 인프라 구축 필수]      │
-  │          │            (사내 빌드 서버에서 자동 서명 후 MOK 배포 체계 마련) │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      커널 파라미터 `module.sig_enforce=1` (강제 차단 모드) 활성화       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      더 강력한 제어가 필요한가? (Root의 커널 메모리 수정조차 막고 싶을 때)   │
-  │          ├──▶ [Kernel Lockdown = Integrity / Confidentiality 적용] │
-  │          │    (/dev/mem, kexec, bpf 등 커널을 엿볼 수 있는 모든 통로 봉쇄)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 커널 무결성 통제 및 서명 정책 설계 플로우                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [보안 요구사항이 높은 프라이빗 클라우드 / 금융망 노드 구축]                 |
+  |                |                                                  |
+  |                v                                                  |
+  |      서드파티 커널 모듈(GPU 드라이버, 상용 백신 등) 사용이 필수적인가?        |
+  |          +- 예 ------> [Machine Owner Key (MOK) 인프라 구축 필수]      |
+  |          |            (사내 빌드 서버에서 자동 서명 후 MOK 배포 체계 마련) |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      커널 파라미터 `module.sig_enforce=1` (강제 차단 모드) 활성화       |
+  |                |                                                  |
+  |                v                                                  |
+  |      더 강력한 제어가 필요한가? (Root의 커널 메모리 수정조차 막고 싶을 때)   |
+  |          +---> [Kernel Lockdown = Integrity / Confidentiality 적용] |
+  |          |    (/dev/mem, kexec, bpf 등 커널을 엿볼 수 있는 모든 통로 봉쇄)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "Root 권한을 뺏기면 끝이다"라는 말은 옛말이 되었다. [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Signature와 [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Lockdown이 완벽히 세팅된 서버에서는 해커가 Root를 탈취해도 할 수 있는 게 거의 없다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 올릴 수도 없고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 조작할 수도 없다. 다만 이 철벽 방어를 치면 합법적인 시스템 관리자나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 도구(SystemTap 등)조차 동작하지 않으므로, 보안과 운영 편의성 간의 극단적인 트레이드오프를 감수해야 한다.
@@ -210,12 +210,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
-    │
-    ▼
+    |
+    v
 [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
-    │
-    ├──▶ [리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
-    └──▶ [NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계]
+    |
+    +---> [리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
+    +---> [NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -232,7 +232,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 645 / 800
 
-← **이전**: [644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)](/knowledge-base/studynote/02_operating_system/10_security/644_microservice_resource_limits_cgroups/)
-**다음**: [646. 리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가](/knowledge-base/studynote/02_operating_system/10_security/646_syscall_table_hooking_expansion/) →
+<- **이전**: [644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)](/knowledge-base/studynote/02_operating_system/10_security/644_microservice_resource_limits_cgroups/)
+**다음**: [646. 리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가](/knowledge-base/studynote/02_operating_system/10_security/646_syscall_table_hooking_expansion/) ->
 
 ---

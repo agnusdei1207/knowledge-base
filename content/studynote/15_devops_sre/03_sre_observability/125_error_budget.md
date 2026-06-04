@@ -19,19 +19,19 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Error Budget 계산 및 의사결정                      │
-├───────────────────────────────────────────────────────┤
-│  SLO = 99.9% (30일 기준)                              │
-│  Error Budget = 0.1% = 43.2분                        │
-│                                                       │
-│  [이번 달 장애 10분 발생]                             │
-│   남은 Budget = 33.2분 → 배포 계속 OK ✅             │
-│                                                       │
-│  [이번 달 장애 50분 발생]                             │
-│   남은 Budget = -6.8분 → Budget 소진!                │
-│   → Release Freeze! 안정화 집중 🚨                   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Error Budget 계산 및 의사결정                      |
++-------------------------------------------------------+
+|  SLO = 99.9% (30일 기준)                              |
+|  Error Budget = 0.1% = 43.2분                        |
+|                                                       |
+|  [이번 달 장애 10분 발생]                             |
+|   남은 Budget = 33.2분 -> 배포 계속 OK ✅             |
+|                                                       |
+|  [이번 달 장애 50분 발생]                             |
+|   남은 Budget = -6.8분 -> Budget 소진!                |
+|   -> Release Freeze! 안정화 집중 🚨                   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Error Budget은 <strong>매월 주어지는 용돈(43분)</strong>이다. 장애가 나면 용돈이 줄고, 다 쓰면 <strong>새 장난감(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>) 구매 금지(Release Freeze)</strong>.
@@ -96,17 +96,17 @@ Error Budget은 <strong>SRE의 가장 혁신적 도구</strong>이며, 개발팀
 
 ```text
 [100% 가용성 목표 (전통, 비현실적)]
-    │
-    ▼
+    |
+    v
 [Error Budget 개념 (Google SRE, 2003~)]
-    │
-    ▼
+    |
+    v
 [SRE Book 공개 (2016) — Error Budget 대중화]
-    │
-    ▼
+    |
+    v
 [Burn Rate Alert (2020~) — 소진 속도 알림]
-    │
-    ▼
+    |
+    v
 [현재: AI Error Budget — 자동 Budget 추천·정책 실행]
 ```
 
@@ -121,7 +121,7 @@ Error Budget은 <strong>SRE의 가장 혁신적 도구</strong>이며, 개발팀
 
 **진행 상황**: 125 / 373
 
-← **이전**: [124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임](/knowledge-base/studynote/15_devops_sre/03_sre_observability/124_sla_service_level_agreement/)
-**다음**: [126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업](/knowledge-base/studynote/15_devops_sre/03_sre_observability/126_toil_sre/) →
+<- **이전**: [124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임](/knowledge-base/studynote/15_devops_sre/03_sre_observability/124_sla_service_level_agreement/)
+**다음**: [126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업](/knowledge-base/studynote/15_devops_sre/03_sre_observability/126_toil_sre/) ->
 
 ---

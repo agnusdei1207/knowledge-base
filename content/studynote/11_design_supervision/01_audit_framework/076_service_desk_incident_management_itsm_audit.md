@@ -25,15 +25,15 @@ tags = ["studynote-design"]
 
 ```text
 사용자
-  │
-  ▼
+  |
+  v
 서비스 데스크(SPOC)
-  │ 티켓 생성
-  ▼
-분류/우선순위 ─▶ L1 복구 ─▶ L2/L3 분석
-  │                    │
-  └──────────────┬─────┘
-                 ▼
+  | 티켓 생성
+  v
+분류/우선순위 --> L1 복구 --> L2/L3 분석
+  |                    |
+  +--------------+-----+
+                 v
               종료/지식화
 ```
 
@@ -132,17 +132,17 @@ tags = ["studynote-design"]
 
 ```text
 전화/이메일 분산 접수
-    │
-    ▼
+    |
+    v
 서비스 데스크(SPOC)
-    │
-    ▼
+    |
+    v
 티켓팅 / 우선순위 / 에스컬레이션
-    │
-    ▼
-인시던트 복구 → 문제 관리 → KEDB
-    │
-    ▼
+    |
+    v
+인시던트 복구 -> 문제 관리 -> KEDB
+    |
+    v
 SLA 준수와 감사 추적
 ```
 
@@ -160,7 +160,7 @@ SLA 준수와 감사 추적
 
 **진행 상황**: 117 / 530
 
-← **이전**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/)
-**다음**: [77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_audit/) →
+<- **이전**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/)
+**다음**: [77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_audit/) ->
 
 ---

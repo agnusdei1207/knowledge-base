@@ -21,19 +21,19 @@ tags = ["studynote-cloud-architecture"]
 단일 K8s 클러스터는 공식 권고 최대 5,000 노드다. 이를 넘기면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server의 Watch/List 트래픽이 폭주하여 마스터가 과부하된다. 또한 1개 클러스터에 모든 워크로드를 집중하면 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장애·네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 <strong>폭발 반경(Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>)</strong>이 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확대된다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│     싱글 클러스터 vs 멀티 클러스터 연합 비교            │
-├───────────────────────────────────────────────────────┤
-│  [싱글 클러스터]           [멀티 클러스터 + Federation] │
-│  ┌──────────┐             ┌──────────────────┐        │
-│  │ Master 1 │             │ Federation CP    │        │
-│  │ 5000노드 │             │ (중앙 사령부)     │        │
-│  │ 전체서비스│             └──┬─────┬─────┬──┘        │
-│  └──────────┘                │     │     │            │
-│  장애 시 100% 마비          ▼     ▼     ▼            │
-│                          서울500 도쿄500 AWS500       │
-│                          장애 시 1/3만 영향           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|     싱글 클러스터 vs 멀티 클러스터 연합 비교            |
++-------------------------------------------------------+
+|  [싱글 클러스터]           [멀티 클러스터 + Federation] |
+|  +----------+             +------------------+        |
+|  | Master 1 |             | Federation CP    |        |
+|  | 5000노드 |             | (중앙 사령부)     |        |
+|  | 전체서비스|             +--+-----+-----+--+        |
+|  +----------+                |     |     |            |
+|  장애 시 100% 마비          v     v     v            |
+|                          서울500 도쿄500 AWS500       |
+|                          장애 시 1/3만 영향           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 5,000개 마을을 황제 1명이 다스리면 황제 과로사 시 제국 멸망. 10개 주로 쪼개고 영주를 세우면 서울 영주가 쓰러져도 부산·도쿄는 무사하다.
@@ -64,7 +64,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|:---|
 | <strong>K8s <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 호환</strong> | 별도 CRD 필요 | **100% 호환** | Virtual [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) |
 | **동적 스케줄링** | 제한적 | **CPU/메모리 기반** | 제한적 |
-| **커뮤니티** | 중단됨 | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Sandbox→Incubating | 소규모 |
+| **커뮤니티** | 중단됨 | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Sandbox->Incubating | 소규모 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a></strong> | 수동 | **자동** | 제한적 |
 
 ---
@@ -72,14 +72,14 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 클라우드 버스팅 시나리오
-[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) K8s(100대)가 블랙프라이데이에 포화 → [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) CP가 AWS EKS 예비 클러스터로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 400개 즉시 확장 → 폭풍 후 AWS [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 종료하여 비용 절감.
+[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) K8s(100대)가 블랙프라이데이에 포화 -> [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) CP가 AWS EKS 예비 클러스터로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 400개 즉시 확장 -> 폭풍 후 AWS [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 종료하여 비용 절감.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 클러스터 간 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)(Cross-Region [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 측정 및 Placement에 반영했는가?
 2. 멀티 클러스터 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Multi-Cluster) 또는 Submariner로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 통신을 구성했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **무분별한 클러스터 분할**: 팀당 1개 클러스터를 만들어 100개 → 운영 오버헤드 폭발.
+- **무분별한 클러스터 분할**: 팀당 1개 클러스터를 만들어 100개 -> 운영 오버헤드 폭발.
 
 ---
 
@@ -110,14 +110,14 @@ Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/19
 
 ```text
 [싱글 K8s 클러스터 (2015~) — 5,000 노드 한계]
-    │
-    ▼
+    |
+    v
 [Kubefed v1/v2 (2018~) — 실패, 복잡한 CRD 문법]
-    │
-    ▼
+    |
+    v
 [Karmada (2021~) — K8s API 100% 호환, CNCF 프로젝트]
-    │
-    ▼
+    |
+    v
 [현재: OCM + Karmada + 위성 Edge K3s — 전지구 멀티 클러스터]
 ```
 
@@ -132,7 +132,7 @@ Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/19
 
 **진행 상황**: 108 / 371
 
-← **이전**: [108. K8s 프로브(Probes) 생명주기 관리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/108_kubernetes_probes_liveness_readiness_startup_health_check/)
-**다음**: [110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) →
+<- **이전**: [108. K8s 프로브(Probes) 생명주기 관리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/108_kubernetes_probes_liveness_readiness_startup_health_check/)
+**다음**: [110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) ->
 
 ---

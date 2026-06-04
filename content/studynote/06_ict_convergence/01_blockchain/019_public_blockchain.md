@@ -27,19 +27,19 @@ tags = ["ict_convergence"]
 
 이 그림은 기존 중앙 통제형 네트워크와 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 위상 구조 차이를 명확히 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [기존 구조 한계: 중앙 서버 의존형 (Client-Server)]     │
-│       Client A ──┐             ┌── Client C            │
-│                  ↓             ↓                       │
-│              [ 중앙 데이터베이스 (은행) ]              │
-│  ※ 중앙 DB 장애, 해킹, 관리자 조작 시 전체 시스템 마비│
-├────────────────────────────────────────────────────────┤
-│ [퍼블릭 블록체인: P2P 무허가형 분산 원장]              │
-│       Node A ←───────→ Node B ←───────→ Node C        │
-│         ↕      (누구나 접속/탈퇴 자유)      ↕          │
-│       Node D ←───────→ Node E ←───────→ Node F        │
-│  ※ 특정 노드가 파괴되어도 전체 네트워크는 100% 정상 가동│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [기존 구조 한계: 중앙 서버 의존형 (Client-Server)]     |
+|       Client A --+             +-- Client C            |
+|                  v             v                       |
+|              [ 중앙 데이터베이스 (은행) ]              |
+|  ※ 중앙 DB 장애, 해킹, 관리자 조작 시 전체 시스템 마비|
++--------------------------------------------------------+
+| [퍼블릭 블록체인: P2P 무허가형 분산 원장]              |
+|       Node A <---------> Node B <---------> Node C        |
+|         ↕      (누구나 접속/탈퇴 자유)      ↕          |
+|       Node D <---------> Node E <---------> Node F        |
+|  ※ 특정 노드가 파괴되어도 전체 네트워크는 100% 정상 가동|
++--------------------------------------------------------+
 ```
 이 도식의 핵심은 시스템의 생존성이 특정 서버나 기업에 의존하지 않는다는 점이다. 이런 배치는 권력이 단일 노드에 집중되지 않게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키기 때문이며, 따라서 외부의 물리적 공격이나 법적 규제로 네트워크 전체를 정지시키는 검열(Censorship)이 불가능하다. 실무에서는 이처럼 완벽한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 시스템을 유지하기 위해, 익명의 노드들이 자신의 자원(전기, 지분)을 소모하여 합의에 참여하도록 유도하는 강력한 코인 보상 메커니즘([Token Economy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/))이 필수적으로 결합되어야만 한다.
 
@@ -65,17 +65,17 @@ tags = ["ict_convergence"]
 [퍼블릭 블록체인 트랜잭션 전파 및 검증 흐름도]
 
 [사용자 A 지갑] --(1. 송금 서명 후 전파)--> [인접 노드들]
-                                             │
-   ┌─────────────────────────────────────────┘
-   │ (2. Gossip 알고리즘을 통해 전 세계 수만 개 노드로 브로드캐스트)
-   ↓
+                                             |
+   +-----------------------------------------+
+   | (2. Gossip 알고리즘을 통해 전 세계 수만 개 노드로 브로드캐스트)
+   v
 [각 노드의 Mempool (대기열)] --(3. 트랜잭션 유효성 1차 검증)--> [유효한 Tx만 적재]
-   │
-   └─ (4. 채굴자/검증자 노드가 Mempool에서 수수료가 높은 Tx들을 모아 블록 생성 시도)
-   │
+   |
+   +- (4. 채굴자/검증자 노드가 Mempool에서 수수료가 높은 Tx들을 모아 블록 생성 시도)
+   |
 [새 블록 생성 (PoW 해시 도출 완료)] --(5. 블록 전파)--> [전체 네트워크]
-   │
-   └─ (6. 모든 Full Node들이 새 블록을 검증하고, 이상 없으면 원장에 추가 확정)
+   |
+   +- (6. 모든 Full Node들이 새 블록을 검증하고, 이상 없으면 원장에 추가 확정)
 ```
 이 흐름의 핵심은 거래를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 자, 전파하는 자, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자, 블록을 만드는 자 모두가 서로 누군지 모르는 익명의 상태에서 각자의 경제적 이익(수수료/보상)을 위해 기계적으로 움직인다는 점이다. 이런 배치는 중앙의 관리자 개입 없이도 시스템이 자체적으로 굴러가게 만들기 때문이며, 따라서 네트워크는 365일 24시간 중단 없이 완전 자율적으로 동작한다. 실무에서는 수많은 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 브로드캐스트되는 데 물리적 시간이 소요되므로, 초당 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)이 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/) 대비 구조적으로 매우 낮게 제한되는 병목을 감수해야 한다.
 
@@ -85,12 +85,12 @@ tags = ["ict_convergence"]
 [퍼블릭 블록체인의 트릴레마 구조도]
 
           [Decentralization (탈중앙화)]
-                  ▲
+                  ^
                  / \
    퍼블릭 포지션 /   \
  (비트코인,이더)/_____\
                /       \
-[Security] ───/─────────\─── [Scalability (확장성/성능)]
+[Security] ---/---------\--- [Scalability (확장성/성능)]
 (보안성)                     (프라이빗 블록체인 포지션)
 
 ※ 퍼블릭 체인은 누구나 참여하는 '탈중앙화'와 공격을 막는 '보안성'을
@@ -117,19 +117,19 @@ tags = ["ict_convergence"]
 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 익명 노드 간의 합의를 이끌어내기 위해 엄청난 시간과 자원(합의 오버헤드)을 쏟아붓는다. 이는 비효율적으로 보이지만, 그 대가로 '국경 없는 가치 이전'과 '중앙 검열 회피'라는 전에 없던 혁신 가치를 창출한다. 반면 프라이빗 체인은 이를 포기하고 B2B [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확장에 집중한다.
 
 ```text
-┌─────────── [블록체인 네트워크 개방성 매트릭스] ───────────┐
-│                                                           │
-│  [Read 권한 누구나]            [Read 권한 통제]           │
-│         ▲                            ▲                    │
-│   Public Blockchain           Consortium Blockchain       │
-│  (Bitcoin, Ethereum)         (Klaytn 기업노드, R3 Corda)  │
-│ ────────┼────────────────────────────┼─────────────────── │
-│         │                            │                    │
-│   (존재하기 어려움)            Private Blockchain         │
-│                              (Hyperledger, CBDC 내부망)   │
-│         └────────────────────────────┴                    │
-│  [Write 권한 누구나]           [Write 권한 통제 (인가 노드만)]│
-└───────────────────────────────────────────────────────────┘
++----------- [블록체인 네트워크 개방성 매트릭스] -----------+
+|                                                           |
+|  [Read 권한 누구나]            [Read 권한 통제]           |
+|         ^                            ^                    |
+|   Public Blockchain           Consortium Blockchain       |
+|  (Bitcoin, Ethereum)         (Klaytn 기업노드, R3 Corda)  |
+| --------+----------------------------+------------------- |
+|         |                            |                    |
+|   (존재하기 어려움)            Private Blockchain         |
+|                              (Hyperledger, CBDC 내부망)   |
+|         +----------------------------+                    |
+|  [Write 권한 누구나]           [Write 권한 통제 (인가 노드만)]|
++-----------------------------------------------------------+
 ```
 이 비교 매트릭스의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 읽는 권한을 대중에게 주느냐 특정 집단에게 주느냐에 따라 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 형태가 3단계로 분화된다는 점이다. 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 좌측 상단에 위치하며, 국가의 통제력이 미치지 않는 독자적 경제 생태계([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/))를 구성하는 핵심 엔진이다. 이 공간에서는 코드([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 곧 법(Law)으로 작용한다.
 
@@ -163,7 +163,7 @@ tags = ["ict_convergence"]
 
 [권장 아키텍처: 하이브리드 체인 분리]
 [사용자 사진 업로드(5MB)] => [IPFS / AWS S3 등 외부 스토리지 저장]
-                            ↓ (해시값 SHA-256 추출: 32Bytes)
+                            v (해시값 SHA-256 추출: 32Bytes)
                       [Public Blockchain] (해시값만 기록하여 무결성만 증명)
 ```
 이 그림은 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 높은 저장 비용([가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 병목)을 회피하기 위한 오프체인(Off-chain) 연동 구조를 보여준다. 이 도식에서 핵심은 무겁고 부피가 큰 '실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'는 바깥에 두고, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변조되지 않았음을 증명하는 가벼운 '해시 지문'만을 퍼블릭 체인에 올린다는 점이다. 실무에서는 이처럼 무거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 복잡한 연산은 모두 오프체인(L2 또는 클라우드)으로 빼고, 퍼블릭 체인은 오직 최종적인 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 자산 이동의 신뢰 앵커(Trust Anchor) 역할로만 사용해야 시스템 파산을 막을 수 있다.
@@ -199,14 +199,14 @@ tags = ["ict_convergence"]
 
 ```text
 [비트코인 (Bitcoin) — PoW 합의, 최초 퍼블릭 블록체인]
-    │
-    ▼
+    |
+    v
 [이더리움 (Ethereum) — 스마트 컨트랙트·PoS 전환]
-    │
-    ▼
+    |
+    v
 [Layer 2 (Rollup·Plasma) — 처리량 확장, 수수료 절감]
-    │
-    ▼
+    |
+    v
 [크로스체인 (Cross-Chain) — 서로 다른 퍼블릭 체인 간 자산 이동]
 ```
 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 [무허가형](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/)·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 원칙 위에서 합의 메커니즘을 PoW에서 PoS로, 확장성을 Layer 2로 진화시켜왔다.
@@ -222,7 +222,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 19 / 552
 
-← **이전**: [18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/018_post_proof_of_space_and_time/)
-**다음**: [20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/) →
+<- **이전**: [18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/018_post_proof_of_space_and_time/)
+**다음**: [20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/) ->
 
 ---

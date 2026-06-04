@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [NTP 증폭]
-    │
-    ▼
+    |
+    v
 [DNS 증폭]
-    │
-    └──▶ [Memcached 증폭 서버 공격 방어 미흡]
+    |
+    +---> [Memcached 증폭 서버 공격 방어 미흡]
 ```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [NTP 증폭]
-    │
-    ▼
+    |
+    v
 [DNS 증폭]
-    │
-    └──▶ [Memcached 증폭 서버 공격 방어 미흡]
+    |
+    +---> [Memcached 증폭 서버 공격 방어 미흡]
 ```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NTP 증폭]
-    │
-    ▼
+    |
+    v
 [현재 개념: DNS 증폭]
-    │
-    ├──▶ [확장 A: Memcached 증폭 서버 공격 방어 미흡]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: Memcached 증폭 서버 공격 방어 미흡]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭는 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 Memcached 증폭 서버 공격 방어 미흡와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 840 / 1120
 
-← **이전**: [718. NTP 증폭 (monlist 모니터 목록 명령 악용/수백배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/718_ntp_amplification_monlist/)
-**다음**: [720. Memcached 증폭 서버 공격 방어 미흡 (5만배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/720_memcached_amplification_attack/) →
+<- **이전**: [718. NTP 증폭 (monlist 모니터 목록 명령 악용/수백배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/718_ntp_amplification_monlist/)
+**다음**: [720. Memcached 증폭 서버 공격 방어 미흡 (5만배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/720_memcached_amplification_attack/) ->
 
 ---

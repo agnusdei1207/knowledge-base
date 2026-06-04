@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 문제를 먼저 겨냥하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다       │
-├──────────────────────────────────────────────────────────────────────┤
-│ TLB entries = 2,048 가정                                             │
-│                                                                      │
-│ 4KB page   : 2,048 × 4KB   =      8MB                                │
-│ 2MB page   : 2,048 × 2MB   =      4GB                                │
-│ 1GB page   : 2,048 × 1GB   =      2TB                                │
-│                                                                      │
-│ 메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다         │
-│ → 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다       |
++----------------------------------------------------------------------+
+| TLB entries = 2,048 가정                                             |
+|                                                                      |
+| 4KB page   : 2,048 × 4KB   =      8MB                                |
+| 2MB page   : 2,048 × 2MB   =      4GB                                |
+| 1GB page   : 2,048 × 1GB   =      2TB                                |
+|                                                                      |
+| 메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다         |
+| -> 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다            |
++----------------------------------------------------------------------+
 ```
 
 즉 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 메모리를 더 많이 만드는 기술이 아니라, <strong>주소 변환의 관리 단위를 굵게 만들어 번역 비용을 줄이는 기술</strong>이다. 이 관점을 잡아야 이후의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 메모리 파편화 이슈가 하나로 묶인다.
@@ -48,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)의 핵심은 번역 계층을 일부 건너뛰고, 한 번의 번역으로 더 많은 바이트를 대표하게 만드는 것이다. x86-64 4단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 기준으로 보면 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PML4 → PDPT → PD → PT → Frame` 경로를 따라가지만, 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PD` 엔트리에서 `PS (Page Size)` 비트를 세워 `PT` 단계를 건너뛴다. 1GB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PDPT` 단계에서 바로 큰 프레임을 가리켜 하위 테이블을 더 많이 생략한다.
+[거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)의 핵심은 번역 계층을 일부 건너뛰고, 한 번의 번역으로 더 많은 바이트를 대표하게 만드는 것이다. x86-64 4단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 기준으로 보면 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PML4 -> PDPT -> PD -> PT -> Frame` 경로를 따라가지만, 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PD` 엔트리에서 `PS (Page Size)` 비트를 세워 `PT` 단계를 건너뛴다. 1GB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 `PDPT` 단계에서 바로 큰 프레임을 가리켜 하위 테이블을 더 많이 생략한다.
 
 이 차이는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크 횟수와 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메모리 사용량을 동시에 바꾼다. 예를 들어 1GB 영역을 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 매핑하면 262,144개의 엔트리가 필요하지만, 2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)면 512개, 1GB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)면 사실상 1개 엔트리로 표현된다. 따라서 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 줄어든다"에 그치지 않고, **미스가 났을 때 뒤지는 장부 자체도 훨씬 얇아진다**.
 
@@ -136,20 +136,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 기본 4KB 페이지 중심 가상 메모리
-        │
-        ▼
+        |
+        v
 메모리 용량 증가 · TLB reach 한계
-        │
-        ▼
+        |
+        v
 거대 페이지 (2MB / 1GB)
-        │
-        ├─▶ THP (Transparent Huge Pages)
-        ├─▶ 명시적 HugeTLBfs 예약
-        │
-        ▼
+        |
+        +--> THP (Transparent Huge Pages)
+        +--> 명시적 HugeTLBfs 예약
+        |
+        v
 가상화 EPT / NPT 최적화
-        │
-        ▼
+        |
+        v
 혼합 페이지 크기 정책 · 티어드 메모리 · CXL 시대의 영역별 최적화
 ```
 
@@ -167,7 +167,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 517 / 803
 
-← **이전**: [516. 이종 컴퓨팅 메모리 공유 (Heterogeneous Memory Sharing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/516_heterogeneous_memory_sharing/)
-**다음**: [518. TLB 슈팅다운 (TLB Shootdown)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/518_tlb_shootdown/) →
+<- **이전**: [516. 이종 컴퓨팅 메모리 공유 (Heterogeneous Memory Sharing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/516_heterogeneous_memory_sharing/)
+**다음**: [518. TLB 슈팅다운 (TLB Shootdown)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/518_tlb_shootdown/) ->
 
 ---

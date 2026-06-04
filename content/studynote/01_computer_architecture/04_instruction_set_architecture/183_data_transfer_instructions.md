@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 연산 명령이 독립적으로 존재하는 것이 아니라, 전송 명령이 먼저 길을 열어 줘야 의미가 생긴다는 점을 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ 연산보다 먼저 필요한 것: 데이터의 자리 이동                      │
-├───────────────────────────────────────────────────────────────────┤
-│ Main Memory ── LOAD ──▶ Register ── ALU 연산 ──▶ Register        │
-│     ▲                                               │            │
-│     └──────────────────── STORE ────────────────────┘            │
-│                                                                   │
-│ Device Register ── IN / MMIO LOAD ─▶ Register                     │
-│ Register       ── OUT / MMIO STORE ─▶ Device Register             │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| 연산보다 먼저 필요한 것: 데이터의 자리 이동                      |
++-------------------------------------------------------------------+
+| Main Memory -- LOAD ---> Register -- ALU 연산 ---> Register        |
+|     ^                                               |            |
+|     +-------------------- STORE --------------------+            |
+|                                                                   |
+| Device Register -- IN / MMIO LOAD --> Register                     |
+| Register       -- OUT / MMIO STORE --> Device Register             |
++-------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 단순하다. <strong>연산은 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 근처에서 빠르게 일어나고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송은 멀리 있는 자원을 데려오는 물류 작업</strong>이다. 그래서 좋은 ISA는 어떤 명령이 계산이고 어떤 명령이 물류인지 경계를 분명하게 설계한다.
@@ -50,26 +50,26 @@ tags = ["studynote-computer-architecture"]
 
 | 전송 유형 | 대표 예시 | 실제 경로 | 주의할 점 |
 | :--- | :--- | :--- | :--- |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) → [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | `MOV R1, R2` | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부 | 가장 빠르지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수가 제한됨 |
-| 메모리 → [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | `LOAD R1, [A]` | 주소 생성기 → 캐시/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) → [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 캐시 미스 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증 |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) → 메모리 | `STORE [A], R1` | 주소 생성기 → 스토어 버퍼 → 캐시/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | 즉시 보이지 않을 수 있어 순서 제어 중요 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) -> [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | `MOV R1, R2` | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부 | 가장 빠르지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수가 제한됨 |
+| 메모리 -> [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | `LOAD R1, [A]` | 주소 생성기 -> 캐시/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) -> [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 캐시 미스 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) -> 메모리 | `STORE [A], R1` | 주소 생성기 -> 스토어 버퍼 -> 캐시/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | 즉시 보이지 않을 수 있어 순서 제어 중요 |
 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전송 | `PUSH`, `POP` | 메모리 접근 + [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 갱신 | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 규약과 직결 |
-| 장치 전송 | `IN`, `OUT`, MMIO | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)/[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) → 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 일반 메모리와 달리 부작용 가능 |
+| 장치 전송 | `IN`, `OUT`, MMIO | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)/[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) -> 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 일반 메모리와 달리 부작용 가능 |
 
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 통과하는 하드웨어 경로의 차이를 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ 데이터 전송 명령어의 실제 비용은 "어디를 지나가느냐"가 결정한다   │
-├───────────────────────────────────────────────────────────────────┤
-│ decode                                                            │
-│   ├─ Register → Register : Register File ─▶ Bypass ─▶ Writeback   │
-│   ├─ Memory   → Register : AGU ─▶ L1/L2/DRAM ─▶ Writeback         │
-│   ├─ Register → Memory   : AGU ─▶ Store Buffer ─▶ Cache/Bus       │
-│   └─ Register ↔ Device   : Interconnect ─▶ Device Register        │
-│                                                                   │
-│ latency 경향 : Register < L1 Cache < DRAM < External Device       │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| 데이터 전송 명령어의 실제 비용은 "어디를 지나가느냐"가 결정한다   |
++-------------------------------------------------------------------+
+| decode                                                            |
+|   +- Register -> Register : Register File --> Bypass --> Writeback   |
+|   +- Memory   -> Register : AGU --> L1/L2/DRAM --> Writeback         |
+|   +- Register -> Memory   : AGU --> Store Buffer --> Cache/Bus       |
+|   +- Register ↔ Device   : Interconnect --> Device Register        |
+|                                                                   |
+| latency 경향 : Register < L1 Cache < DRAM < External Device       |
++-------------------------------------------------------------------+
 ```
 
 이 그림이 말하는 바는 분명하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 이름이 아니라 경로가 비용을 만든다.</strong> 같은 "전송"이라도 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간 이동은 파이프라인 내부에서 끝나지만, 메모리 전송은 주소 생성기 (Address Generation Unit, AGU), 캐시, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 스토어 버퍼 같은 구조를 거친다. 그래서 현대 CPU는 로드-유즈 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (load-use [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), 스토어 포워딩, 프리페치 같은 메커니즘으로 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려 한다.
@@ -151,14 +151,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 폰 노이만 구조의 메모리-레지스터 분리
-        │
-        ▼
+        |
+        v
 기본 전송 명령어 (MOV, LOAD, STORE, PUSH, POP)
-        │
-        ├──────────────▶ 주소 지정 방식의 다양화
-        ├──────────────▶ RISC Load/Store 분리 철학
-        ├──────────────▶ 캐시 · 스토어 버퍼 · 프리페치로 지연 은닉
-        └──────────────▶ DMA · zero-copy · SIMD 전송 최적화
+        |
+        +---------------> 주소 지정 방식의 다양화
+        +---------------> RISC Load/Store 분리 철학
+        +---------------> 캐시 · 스토어 버퍼 · 프리페치로 지연 은닉
+        +---------------> DMA · zero-copy · SIMD 전송 최적화
 ```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 단순 복사 문법에서 출발해, 메모리 계층 최적화와 고성능 시스템 설계의 중심축으로 확장되는 과정을 보여 준다.
@@ -175,7 +175,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 183 / 803
 
-← **이전**: [182. PC 상대 주소 지정 (PC-Relative)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/)
-**다음**: [184. 산술 연산 명령어 (Arithmetic Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/184_arithmetic_instructions/) →
+<- **이전**: [182. PC 상대 주소 지정 (PC-Relative)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/)
+**다음**: [184. 산술 연산 명령어 (Arithmetic Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/184_arithmetic_instructions/) ->
 
 ---

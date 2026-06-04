@@ -31,32 +31,32 @@ tags = ["studynote-operating-system"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 때 왜 원본이 살아있으며, 그것이 어떻게 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 방어선으로 직결되는지 그 트리 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "원본을 지우는 자는 죽음뿐! 빈 공간에 복사 후 화살표만 돌려라!"  │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  ❌ [ 기존 덮어쓰기 FS : 1번 블록 제자리 지우개질 파괴 크래시 늪 ]               │
-  │     (유저: A문서 1쪽 고쳐!) -> [ 모터 징~ 1번 블록 위치 도달 ]                   │
-  │     [1번 블록: 철수] ──(덮어쓰기 얍)──▶ [1번 블록: 영희] (철수 데이터 영구 폭사!)│
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ COW (ZFS/Btrfs) : 복사본 투척 포인터 바꿔치기 타임머신 (Snapshot 빔) ]     │
-  │                                                                                  │
-  │     << 시간 T1: 수정 전 >>                                                       │
-  │     [루트(Root) 색인표] ────▶ [1번 블록: 진짜 원본 철수]                         │
-  │                                                                                  │
-  │     << 시간 T2: 수정 명령 "영희로 바꿔!" 발생 >>                                 │
-  │     ① [빈 2번 블록]에다가 '영희' 냅다 적기 (원본은 터치도 안 함 방파제!)         │
-  │     ② 다 적혔네? 그럼 [루트 색인표]의 화살표 방향을 2번으로 꺾어버려 스왑 록!    │
-  │                                                                                  │
-  │     [루트(Root) 색인표] ────▶ [2번 블록: 새버전 영희]  (유저는 이것만 보임)      │
-  │        (스냅샷 보존)    ───▶ [1번 블록: 원본 철수 생존!] (디스크에 영구 박제)    │
-  │                                                                                  │
-  │      🔥 [재앙 터짐: "앗 영희 버전 망했다 해킹당함 롤백 파이프 발동!!"]           │
-  │     ③ 관리자 "원상복구 1초 컷! 루트 화살표 뒤로 1칸 무르기 빔!"                  │
-  │     [루트(Root) 색인표] ────▶ [1번 블록: 원본 철수 컴백 복원] (광속 Recovery!)   │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 "원본을 지우는 자는 죽음뿐! 빈 공간에 복사 후 화살표만 돌려라!"  |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  ❌ [ 기존 덮어쓰기 FS : 1번 블록 제자리 지우개질 파괴 크래시 늪 ]               |
+  |     (유저: A문서 1쪽 고쳐!) -> [ 모터 징~ 1번 블록 위치 도달 ]                   |
+  |     [1번 블록: 철수] --(덮어쓰기 얍)---> [1번 블록: 영희] (철수 데이터 영구 폭사!)|
+  |                                                                                  |
+  |  =========================v===================================                   |
+  |                                                                                  |
+  |  ✅ [ COW (ZFS/Btrfs) : 복사본 투척 포인터 바꿔치기 타임머신 (Snapshot 빔) ]     |
+  |                                                                                  |
+  |     << 시간 T1: 수정 전 >>                                                       |
+  |     [루트(Root) 색인표] -----> [1번 블록: 진짜 원본 철수]                         |
+  |                                                                                  |
+  |     << 시간 T2: 수정 명령 "영희로 바꿔!" 발생 >>                                 |
+  |     ① [빈 2번 블록]에다가 '영희' 냅다 적기 (원본은 터치도 안 함 방파제!)         |
+  |     ② 다 적혔네? 그럼 [루트 색인표]의 화살표 방향을 2번으로 꺾어버려 스왑 록!    |
+  |                                                                                  |
+  |     [루트(Root) 색인표] -----> [2번 블록: 새버전 영희]  (유저는 이것만 보임)      |
+  |        (스냅샷 보존)    ----> [1번 블록: 원본 철수 생존!] (디스크에 영구 박제)    |
+  |                                                                                  |
+  |      🔥 [재앙 터짐: "앗 영희 버전 망했다 해킹당함 롤백 파이프 발동!!"]           |
+  |     ③ 관리자 "원상복구 1초 컷! 루트 화살표 뒤로 1칸 무르기 빔!"                  |
+  |     [루트(Root) 색인표] -----> [1번 블록: 원본 철수 컴백 복원] (광속 Recovery!)   |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 핵심 기전은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역이든 메타 영역이든, 변동이 생기면 무조건 Free List(디스크 빈 공간)를 긁어와 그 위치에 [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Block(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))을 안착시킨다는 강제 교리다. 그리고 맨 꼭대기 최상단 루트 포인터 뼈구조(Uberblock 혹은 Root Node)만 단 1번 원자적(Atomically 컷!)으로 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 가리키도록 스위칭 조작한다. 이 엄청난 결속 덕분에 정전이 나도 과거 렌더 트리는 우주 끝까지 망가지지 않으며([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 내성 99%), 언제든 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 앵커 포인터만 툭 쥐어주면 수천 GB의 잃어버린 시공간을 1초 만에 로드하는 기적의 아키텍처 트리 백본이다 도출.
@@ -137,12 +137,12 @@ COW (Copy-On-Write) [파일](/knowledge-base/studynote/02_operating_system/09_fi
 
 ```text
 [LFS (Log-structured File System)]
-    │
-    ▼
+    |
+    v
 [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
-    │
-    ├──▶ [NFS (Network File System)]
-    └──▶ [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
+    |
+    +---> [NFS (Network File System)]
+    +---> [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ COW (Copy-On-Write) [파일](/knowledge-base/studynote/02_operating_system/09_fi
 
 **진행 상황**: 542 / 800
 
-← **이전**: [541. LFS (Log-structured File System) - 모든 쓰기를 순차적 로그 형태로만 디스크에 기록 (플래시 메모리에](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)
-**다음**: [543. NFS (Network File System) - 원격 디렉터리 마운트 프로토콜 (상태 비저장, UDP/TCP 지원)](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) →
+<- **이전**: [541. LFS (Log-structured File System) - 모든 쓰기를 순차적 로그 형태로만 디스크에 기록 (플래시 메모리에](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)
+**다음**: [543. NFS (Network File System) - 원격 디렉터리 마운트 프로토콜 (상태 비저장, UDP/TCP 지원)](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) ->
 
 ---

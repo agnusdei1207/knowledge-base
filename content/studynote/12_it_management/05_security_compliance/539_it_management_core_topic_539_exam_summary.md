@@ -21,46 +21,46 @@ tags = ["studynote-it-management"]
 
 기존 IT 관리는 CIO 산하의 **전술적(Tactical) 운영조직**이 애플리케이션·인프라·보안·서비스를 **사일로(Silo)** 단위로 관리해 왔다. 그러나 디지털 트랜스포메이션, 클라우드 전환, GDPR·개인정보보호법 강화, AI·생성형 모델의 도입 등으로 **이사회 수준(Board-level)의 의사결정 단위**가 IT 리스크와 가치를 통합적으로 다뤄야 하는 요구가 폭증했다. 한국에서 2022년 개인정보보호법 개정, 2023년 클라우드 보안인증制度(CSAP) 강화, 2024년 AI 기본법 제정 추진으로 **IT 거버넌스는 법적 컴플라이언스의 핵심축**이 되었다.
 
-COBIT(Control Objectives for Information and Related Technologies)는 1996년 ISACA에서 발표된 이래 5개 메이저 버전(1996→1998 v2→2000 v3→2005 v4.5→2012 v5→**2019 v6**)을 거치며 단순 통제 프레임워크에서 **거버넌스 시스템 + 관리 시스템 + 설계 가이드라인**을 포괄하는 엔터프라이즈 거버넌스 프레임워크로 진화했다.
+COBIT(Control Objectives for Information and Related Technologies)는 1996년 ISACA에서 발표된 이래 5개 메이저 버전(1996->1998 v2->2000 v3->2005 v4.5->2012 v5->**2019 v6**)을 거치며 단순 통제 프레임워크에서 **거버넌스 시스템 + 관리 시스템 + 설계 가이드라인**을 포괄하는 엔터프라이즈 거버넌스 프레임워크로 진화했다.
 
 ```text
-            ┌──────────────────────────────────────────────────────┐
-            │      Business Strategy & Value Realization          │
-            │   (성장률, 시장점유율, EBITDA, ESG, 디지털전환 KPI) │
-            └─────────────────────┬────────────────────────────────┘
-                                  │ Alignment(정렬)
-                                  ▼
-   ┌──────────────────────────────────────────────────────────────────────┐
-   │              I&T GOVERNANCE SYSTEM (COBIT 2019 Core)                 │
-   │                                                                      │
-   │   ┌──────────────────┐         ┌──────────────────────┐              │
-   │   │ 5 Governance Obj │         │ 32 Management Obj    │              │
-   │   │  (EDM: 5ea)      │  ───▶   │ (PBRM: APO-BAI-DSS-  │              │
-   │   │                  │  Link   │  MEA)                │              │
-   │   └────────┬─────────┘         └──────────┬───────────┘              │
-   │            │                              │                          │
-   │            ▼                              ▼                          │
-   │   ┌──────────────────────────────────────────────────────┐          │
-   │   │          7 Components (Governance System)             │          │
-   │   │  ① 프로세스  ② 조직구조  ③ 정보흐름  ④ 사람/역량      │          │
-   │   │  ⑤ 정책/원칙  ⑥ 문화/윤리  ⑦ 서비스/인프라/앱         │          │
-   │   └──────────────────────────────────────────────────────┘          │
-   │                                                                      │
-   │   Design Factors (11개)  →  Focus Areas (5개)  →  Goal Cascade      │
-   │   위험기반 우선순위화  →  Capability Level (0~5)  →  Maturity Gap   │
-   └──────────────────────────────────────────────────────────────────────┘
-                                  │ Performance Mgmt
-                                  ▼
-   ┌──────────────────────────────────────────────────────────────────────┐
-   │      Outcomes: Value( Benefit, Risk, Resource Optimization)          │
-   └──────────────────────────────────────────────────────────────────────┘
+            +------------------------------------------------------+
+            |      Business Strategy & Value Realization          |
+            |   (성장률, 시장점유율, EBITDA, ESG, 디지털전환 KPI) |
+            +---------------------+--------------------------------+
+                                  | Alignment(정렬)
+                                  v
+   +----------------------------------------------------------------------+
+   |              I&T GOVERNANCE SYSTEM (COBIT 2019 Core)                 |
+   |                                                                      |
+   |   +------------------+         +----------------------+              |
+   |   | 5 Governance Obj |         | 32 Management Obj    |              |
+   |   |  (EDM: 5ea)      |  ---->   | (PBRM: APO-BAI-DSS-  |              |
+   |   |                  |  Link   |  MEA)                |              |
+   |   +--------+---------+         +----------+-----------+              |
+   |            |                              |                          |
+   |            v                              v                          |
+   |   +------------------------------------------------------+          |
+   |   |          7 Components (Governance System)             |          |
+   |   |  ① 프로세스  ② 조직구조  ③ 정보흐름  ④ 사람/역량      |          |
+   |   |  ⑤ 정책/원칙  ⑥ 문화/윤리  ⑦ 서비스/인프라/앱         |          |
+   |   +------------------------------------------------------+          |
+   |                                                                      |
+   |   Design Factors (11개)  ->  Focus Areas (5개)  ->  Goal Cascade      |
+   |   위험기반 우선순위화  ->  Capability Level (0~5)  ->  Maturity Gap   |
+   +----------------------------------------------------------------------+
+                                  | Performance Mgmt
+                                  v
+   +----------------------------------------------------------------------+
+   |      Outcomes: Value( Benefit, Risk, Resource Optimization)          |
+   +----------------------------------------------------------------------+
 ```
 
 **기존 vs 신규 패러다임 비교**
 
 | 항목 | 전통적 IT 운영(Pre-COBIT 2019) | COBIT 2019 기반 거버넌스 |
 | :--- | :--- | :--- |
-| 의사결정 주체 | CIO / IT 부서장 단독 | 이사회 → 경영진 → 운영의 3계층 |
+| 의사결정 주체 | CIO / IT 부서장 단독 | 이사회 -> 경영진 -> 운영의 3계층 |
 | 목표 기준 | IT KPI (가용성, 성능) | 비즈니스 목표 ↔ IT 목표 Goal Cascade |
 | 리스크 관리 | 부서별 개별 대응 | 통합 리스크 매트릭스 + 11개 Design Factor |
 | 컴플라이언스 | 사후 점검식 | 설계 단계부터 By-Design 내재화 |
@@ -74,51 +74,51 @@ COBIT(Control Objectives for Information and Related Technologies)는 1996년 IS
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-COBIT 2019의 아키텍처는 **Governance System(거버넌스 체계)** + **Governance Framework(프레임워크)** + **Components(구성요소)**의 3축으로 분리된다. 가장 중요한 구조는 **5단계 캐스케이드(Cascade)**이다: **Stakeholder Needs → Enterprise Goals → Alignment Goals → Governance/Management Objectives → Enablers(Components)**.
+COBIT 2019의 아키텍처는 **Governance System(거버넌스 체계)** + **Governance Framework(프레임워크)** + **Components(구성요소)**의 3축으로 분리된다. 가장 중요한 구조는 **5단계 캐스케이드(Cascade)**이다: **Stakeholder Needs -> Enterprise Goals -> Alignment Goals -> Governance/Management Objectives -> Enablers(Components)**.
 
 ```text
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  1. Stakeholder Needs  (이해관계자 요구)                            │
-   │     "이익, 위험, 자원, 최적화의 균형"                                │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  2. Enterprise Goals (13개 AG)                                      │
-   │     AG01: 포트폴리오 경쟁제품 서비스  AG05: 고객서비스 제공         │
-   │     AG08: 내부 비즈니스 프로세스 최적화  AG12: 디지털 변혁 관리     │
-   │     AG13: 정보기반 자산 활용 극대화                                   │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  3. Alignment Goals (13개 AG 연계)                                  │
-   │     AG01↔비즈니스 I&T 만족  AG05↔I&T 서비스 품질  AG12↔변혁 역량    │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  4. G&O Objectives (40개: EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 4)│
-   │     EDM01: 거버넌스 프레임워크 설정/유지                             │
-   │     EDM02: Benefit Delivery  EDM03: Risk Optimization              │
-   │     EDM04: Resource Optimization  EDM05: Stakeholder Transparency  │
-   │     APO12: Managed Risk  DSS02: Managed Service Requests & Incidents│
-   │     DSS04: Managed Continuity  DSS05: Managed Security Services    │
-   │     MEA01: Managed Performance & Conformance                        │
-   │     MEA03: Managed Compliance with External Requirements            │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  5. Components(7대 구성요소)가 Objective를 실현                       │
-   │     ① 프로세스  ② 조직구조  ③ 정보  ④ 사람/기술/역량               │
-   │     ⑤ 정책/원칙  ⑥ 문화/윤리/행동  ⑦ 서비스/인프라/애플리케이션    │
-   └────────────────────────────────────────────────────────────────────┘
+   +--------------------------------------------------------------------+
+   |  1. Stakeholder Needs  (이해관계자 요구)                            |
+   |     "이익, 위험, 자원, 최적화의 균형"                                |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  2. Enterprise Goals (13개 AG)                                      |
+   |     AG01: 포트폴리오 경쟁제품 서비스  AG05: 고객서비스 제공         |
+   |     AG08: 내부 비즈니스 프로세스 최적화  AG12: 디지털 변혁 관리     |
+   |     AG13: 정보기반 자산 활용 극대화                                   |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  3. Alignment Goals (13개 AG 연계)                                  |
+   |     AG01↔비즈니스 I&T 만족  AG05↔I&T 서비스 품질  AG12↔변혁 역량    |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  4. G&O Objectives (40개: EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 4)|
+   |     EDM01: 거버넌스 프레임워크 설정/유지                             |
+   |     EDM02: Benefit Delivery  EDM03: Risk Optimization              |
+   |     EDM04: Resource Optimization  EDM05: Stakeholder Transparency  |
+   |     APO12: Managed Risk  DSS02: Managed Service Requests & Incidents|
+   |     DSS04: Managed Continuity  DSS05: Managed Security Services    |
+   |     MEA01: Managed Performance & Conformance                        |
+   |     MEA03: Managed Compliance with External Requirements            |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  5. Components(7대 구성요소)가 Objective를 실현                       |
+   |     ① 프로세스  ② 조직구조  ③ 정보  ④ 사람/기술/역량               |
+   |     ⑤ 정책/원칙  ⑥ 문화/윤리/행동  ⑦ 서비스/인프라/애플리케이션    |
+   +--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **① 프로세스 (Process)** | 40개 목표별 **Practice 4~6개**, Activity 단계별 정의 | **PAM(Process Assessment Model)** 기반 **Capability Level 0~5** 측정 (Level 0: 불완전 → 1: 수행 → 2: 관리 → 3: 확립 → 4: 예측 → 5: 혁신). 예: APO12 위험관리 프로세스 = RA1 위험식별·분석 → RA2 위험프로파일 작성 → RA3 위험대응 계획 → RA4 위험통신·보고 |
+| **① 프로세스 (Process)** | 40개 목표별 **Practice 4~6개**, Activity 단계별 정의 | **PAM(Process Assessment Model)** 기반 **Capability Level 0~5** 측정 (Level 0: 불완전 -> 1: 수행 -> 2: 관리 -> 3: 확립 -> 4: 예측 -> 5: 혁신). 예: APO12 위험관리 프로세스 = RA1 위험식별·분석 -> RA2 위험프로파일 작성 -> RA3 위험대응 계획 -> RA4 위험통신·보고 |
 | **② 조직구조 (Organizational Structures)** | 의사결정권·책임·역할 정의 | **RACI 차트** 기반 Board, Audit Committee, CIO, CISO, CRO, Process Owner, Service Manager 책임 분배. **3 Lines of Defense** (1st: 운영라인, 2nd: 리스크/컴플라이언스, 3rd: 내부감사) 매핑 |
-| **③ 정보 (Information Flows)** | 거버넌스 데이터 흐름 | **Input → Process → Output** 메타모델. 예: EDM02 Benefit Delivery의 Input=Enterprise Goals/Investment Portfolio, Output=Benefit Realization Report, KPI Dashboard |
+| **③ 정보 (Information Flows)** | 거버넌스 데이터 흐름 | **Input -> Process -> Output** 메타모델. 예: EDM02 Benefit Delivery의 Input=Enterprise Goals/Investment Portfolio, Output=Benefit Realization Report, KPI Dashboard |
 | **④ 사람·기술·역량 (People, Skills, Competencies)** | BSC(Business Skills Continuum)와 **Skills & Capabilities Matrix** | COBIT 2019의 **7단계 Knowledge Area** (Governance/Management, Risk, Security, Audit, Quality 등). **SFIA 8** 또는 **e-CF(European e-Competence Framework)** 매핑으로 인력 스킬 매니페스트 작성 |
-| **⑤ 정책·원칙 (Policies and Frameworks)** | 조직 정책과 절차서 | **Policy Hierarchy**: Corporate Policy → IT Policy → Standard → Procedure → Guideline 5계층. 예: 정보보안정책 → 접근통제 표준 → DB 권한 부여 절차 |
+| **⑤ 정책·원칙 (Policies and Frameworks)** | 조직 정책과 절차서 | **Policy Hierarchy**: Corporate Policy -> IT Policy -> Standard -> Procedure -> Guideline 5계층. 예: 정보보안정책 -> 접근통제 표준 -> DB 권한 부여 절차 |
 | **⑥ 문화·윤리·행동 (Culture, Ethics, Behavior)** | 거버넌스 성숙도 결정의 **연성요인** | **Tone at the Top**, **Code of Ethics**, **Whistle-blowing System**. 동기부여·리더십·협업·공정성 측정: 조직문화 진단(OCAI 모델) 연동 |
 | **⑦ 서비스·인프라·앱 (Services, Infrastructure, Applications)** | 거버넌스 실현 기술 플랫폼 | GRC 도구(**Archer**, **ServiceNow GRC**, **SAP GRC**), ITSM(**Jira SM**, **ServiceNow**), 모니터링(**Splunk**, **Datadog**), IAM(**Okta**, **Keycloak**) 등 |
 
@@ -149,7 +149,7 @@ IT 거버넌스는 단일 프레임워크로 완성되지 않는다. **COBIT이 
 
 **진행 상황**: 539 / 800
 
-← **이전**: [538. IT 경영 관리 핵심 토픽 538번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/538_it_management_core_topic_538_exam_summary/)
-**다음**: [540. IT 경영 관리 핵심 토픽 540번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/540_it_management_core_topic_540_exam_summary/) →
+<- **이전**: [538. IT 경영 관리 핵심 토픽 538번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/538_it_management_core_topic_538_exam_summary/)
+**다음**: [540. IT 경영 관리 핵심 토픽 540번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/540_it_management_core_topic_540_exam_summary/) ->
 
 ---

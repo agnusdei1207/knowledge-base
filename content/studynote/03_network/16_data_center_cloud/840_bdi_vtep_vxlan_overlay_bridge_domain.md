@@ -26,11 +26,11 @@ VTEP은 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vx
 
 ```text
 [퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
+    |
+    v
 [BDI와 VTEP]
-    │
-    └──▶ [BUM 트래픽]
+    |
+    +---> [BUM 트래픽]
 ```
 
 - **📢 섹션 요약 비유**: BDI와 VTEP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ VTEP이 박스를 뜯고 나면, 알맹이 패킷(L2)을 만납니다. 근데 �
 
 ```text
 [퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
+    |
+    v
 [BDI와 VTEP]
-    │
-    └──▶ [BUM 트래픽]
+    |
+    +---> [BUM 트래픽]
 ```
 
 - **📢 섹션 요약 비유**: BDI와 VTEP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ BDI와 VTEP는 [데이터센터](/knowledge-base/studynote/03_network/16_data_ce
 
 ```text
 [선행 개념: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
+    |
+    v
 [현재 개념: BDI와 VTEP]
-    │
-    ├──▶ [확장 A: BUM 트래픽]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: BUM 트래픽]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 BDI와 VTEP는 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…에서 출발해 현재 메커니즘을 정교화하고, 이후 BUM 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ BDI와 VTEP는 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…�
 
 **진행 상황**: 961 / 1120
 
-← **이전**: [839. 하이브리드 / 멀티 클라우드 망 연동](/knowledge-base/studynote/03_network/16_data_center_cloud/839_hybrid_multi_cloud_interconnect_routing/)
-**다음**: [841. BUM 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/841_bum_traffic_broadcast_unknown_unicast_multicast/) →
+<- **이전**: [839. 하이브리드 / 멀티 클라우드 망 연동](/knowledge-base/studynote/03_network/16_data_center_cloud/839_hybrid_multi_cloud_interconnect_routing/)
+**다음**: [841. BUM 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/841_bum_traffic_broadcast_unknown_unicast_multicast/) ->
 
 ---

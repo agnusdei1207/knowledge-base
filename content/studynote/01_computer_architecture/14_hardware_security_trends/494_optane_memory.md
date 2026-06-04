@@ -24,16 +24,16 @@ tags = ["studynote-computer-architecture"]
 옵테인이 주목받은 이유는 "메모리처럼 가깝게 읽히면서 전원이 꺼져도 남는 계층"을 실제 제품으로 내놓았기 때문이다. 단순히 SSD를 조금 빠르게 만든 것이 아니라, 영구 메모리라는 새로운 프로그래밍 모델까지 함께 제시했다는 점에서 의미가 컸다. 즉 옵테인은 저장장치 개선이 아니라 메모리 계층 재설계 프로젝트에 가까웠다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 메모리-스토리지 간극을 메우려던 Optane의 위치               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ DRAM                      │ 수십 ns              │ 바이트 접근 │ 휘발성   │
-│ Optane Persistent Memory  │ 수백 ns ~ 1 μs 내외 │ 바이트 접근 │ 비휘발성 │
-│ Optane SSD                │ 수 μs ~ 수십 μs     │ 블록 접근   │ 비휘발성 │
-│ NAND SSD                  │ 수십 ~ 수백 μs      │ 블록 접근   │ 비휘발성 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 목표: "재기동은 빠르게, 용량은 크게, 복구는 단순하게"                       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 메모리-스토리지 간극을 메우려던 Optane의 위치               |
++----------------------------------------------------------------------------+
+| DRAM                      | 수십 ns              | 바이트 접근 | 휘발성   |
+| Optane Persistent Memory  | 수백 ns ~ 1 μs 내외 | 바이트 접근 | 비휘발성 |
+| Optane SSD                | 수 μs ~ 수십 μs     | 블록 접근   | 비휘발성 |
+| NAND SSD                  | 수십 ~ 수백 μs      | 블록 접근   | 비휘발성 |
++----------------------------------------------------------------------------+
+| 목표: "재기동은 빠르게, 용량은 크게, 복구는 단순하게"                       |
++----------------------------------------------------------------------------+
 ```
 
 이 그림이 보여 주는 핵심은 옵테인이 하나의 단일 장치가 아니라, 블록 스토리지와 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 주소형 메모리 사이를 동시에 겨냥했다는 점이다. 그래서 옵테인을 설명할 때는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 제품군과 DIMM 제품군을 구분해서 보는 습관이 필요하다.
@@ -55,17 +55,17 @@ tags = ["studynote-computer-architecture"]
 | Optane Persistent Memory - App [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Mode | DDR 슬롯 | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 주소 가능 영속 영역 | 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 기반 활용 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조·flush 전략이 바뀌어야 한다 |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Optane의 두 얼굴: 블록 장치와 영구 메모리                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application                                                                │
-│   ├─ 파일 I/O ─────────▶ NVMe Driver ───────────▶ Optane SSD               │
-│   │                                   └─ 초저지연 블록 접근                │
-│   │                                                                         │
-│   └─ Load/Store ─────▶ Memory Controller ─────▶ Optane Persistent Memory   │
-│                                        ├─ Memory Mode : DRAM 캐시 뒤 확장  │
-│                                        └─ App Direct : DAX 기반 영속 영역  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    Optane의 두 얼굴: 블록 장치와 영구 메모리                |
++----------------------------------------------------------------------------+
+| Application                                                                |
+|   +- 파일 I/O ----------> NVMe Driver ------------> Optane SSD               |
+|   |                                   +- 초저지연 블록 접근                |
+|   |                                                                         |
+|   +- Load/Store ------> Memory Controller ------> Optane Persistent Memory   |
+|                                        +- Memory Mode : DRAM 캐시 뒤 확장  |
+|                                        +- App Direct : DAX 기반 영속 영역  |
++----------------------------------------------------------------------------+
 ```
 
 결국 옵테인의 핵심 원리는 "같은 3D XPoint라도 어디에 매달고 어떻게 보이게 하느냐에 따라 성격이 완전히 달라진다"는 점이다. 스토리지로 쓰면 초저지연 SSD가 되고, 주소 공간에 연결하면 영구 메모리가 된다. 그래서 옵테인은 소자 기술만이 아니라 인터페이스 설계가 성패를 좌우한 사례다.
@@ -145,17 +145,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 DRAM / NAND 플래시 간극
-        │
-        ▼
+        |
+        v
 3D XPoint 기반 Optane 등장
-        │
-        ├────────▶ Optane SSD (초저지연 블록 장치)
-        └────────▶ Optane Persistent Memory (바이트 주소 영속 메모리)
-        │
-        ▼
+        |
+        +---------> Optane SSD (초저지연 블록 장치)
+        +---------> Optane Persistent Memory (바이트 주소 영속 메모리)
+        |
+        v
 DAX · PMDK · 영속 데이터 구조
-        │
-        ▼
+        |
+        v
 CXL 기반 메모리 티어링 · 차세대 SCM 논의
 ```
 
@@ -173,7 +173,7 @@ CXL 기반 메모리 티어링 · 차세대 SCM 논의
 
 **진행 상황**: 494 / 803
 
-← **이전**: [493. 차세대 비휘발성 메모리 (SCM: PRAM, MRAM, ReRAM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/493_scm_pram_mram/)
-**다음**: [495. HBM (High Bandwidth Memory)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) →
+<- **이전**: [493. 차세대 비휘발성 메모리 (SCM: PRAM, MRAM, ReRAM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/493_scm_pram_mram/)
+**다음**: [495. HBM (High Bandwidth Memory)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ->
 
 ---

@@ -48,11 +48,11 @@ tags = ["studynote-cloud-architecture"]
 Re-factor vs Re-architect:
   Re-factor:
     기존 기능 유지, 구현 방식 변경
-    예: 모놀리스 → Lambda + DynamoDB
+    예: 모놀리스 -> Lambda + DynamoDB
 
   Re-architect:
     기능 분리, 서비스 경계 재정의
-    예: 모놀리스 → 10개 마이크로서비스
+    예: 모놀리스 -> 10개 마이크로서비스
 
 투자 vs 가치:
   Rehost: 비용 20~30% 절감 (이전 비용 낮음)
@@ -80,7 +80,7 @@ MSA (Microservices Architecture) 원칙:
      서비스별 적합한 언어/DB 선택
 
   4. 장애 격리 (Fault Isolation):
-     서비스 A 장애 → 서비스 B 영향 최소화
+     서비스 A 장애 -> 서비스 B 영향 최소화
 
   5. 분산 데이터 (Decentralized Data):
      서비스별 독립적 DB
@@ -90,7 +90,7 @@ DDD (Domain-Driven Design) 기반 서비스 분리:
 
   이커머스 도메인 분리:
   모놀리스: 하나의 코드베이스
-    └── 사용자, 주문, 상품, 결제, 배송...
+    +-- 사용자, 주문, 상품, 결제, 배송...
 
   MSA:
     사용자 서비스 (User Service)
@@ -115,7 +115,7 @@ Two-Pizza Team:
   하나의 마이크로서비스 = 하나의 팀이 소유·운영
 ```
 
-> 📢 **섹션 요약 비유**: MSA는 레스토랑 → 푸드코트 전환 — 하나의 주방(모놀리스)에서 모든 요리를 만들다가, 각 음식별 전문점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리. 피자 가게가 파스타 가게와 독립적으로 운영.
+> 📢 **섹션 요약 비유**: MSA는 레스토랑 -> 푸드코트 전환 — 하나의 주방(모놀리스)에서 모든 요리를 만들다가, 각 음식별 전문점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리. 피자 가게가 파스타 가게와 독립적으로 운영.
 
 ---
 
@@ -124,25 +124,25 @@ Two-Pizza Team:
 ```
 Strangler Fig Pattern (교살 무화과 패턴):
   Martin Fowler 제안
-  모놀리스 → MSA 점진적 전환 전략
+  모놀리스 -> MSA 점진적 전환 전략
 
 이름 유래:
   교살 무화과나무: 기존 나무를 감으며 천천히 대체
-  → 기존 시스템을 유지하면서 새 시스템이 점진적 대체
+  -> 기존 시스템을 유지하면서 새 시스템이 점진적 대체
 
 전환 단계:
   Stage 1: API Gateway 도입
-    모든 트래픽 → API Gateway
+    모든 트래픽 -> API Gateway
     처음에는 모두 모놀리스로 라우팅
 
   Stage 2: 기능 분리 시작
     가장 독립적인 기능부터 추출
     알림 서비스: 모놀리스에서 분리 (낮은 의존성)
-    Gateway → 알림: 신규 서비스
-    Gateway → 나머지: 모놀리스
+    Gateway -> 알림: 신규 서비스
+    Gateway -> 나머지: 모놀리스
 
   Stage 3: 점진적 분리 계속
-    배송 → 상품 → 결제 순서로 분리
+    배송 -> 상품 -> 결제 순서로 분리
     각 분리 후 검증 (A/B 트래픽)
 
   Stage 4: 모놀리스 최소화
@@ -153,9 +153,9 @@ Strangler Fig Pattern (교살 무화과 패턴):
 
 Anti-Pattern (Big Bang):
   전체를 한번에 재설계
-  → 수개월~수년의 "개발 블랙홀"
-  → 서비스 중단 리스크
-  → 대부분 실패
+  -> 수개월~수년의 "개발 블랙홀"
+  -> 서비스 중단 리스크
+  -> 대부분 실패
 
 Strangler 장점:
   비즈니스 연속성 유지
@@ -175,9 +175,9 @@ Strangler 장점:
 1. Circuit Breaker (회로 차단기):
    연쇄 장애 방지
 
-   상태: Closed → Open → Half-Open
-   실패 임계값 초과 시 Open → 빠른 실패 반환
-   일정 시간 후 Half-Open → 재시도 허용
+   상태: Closed -> Open -> Half-Open
+   실패 임계값 초과 시 Open -> 빠른 실패 반환
+   일정 시간 후 Half-Open -> 재시도 허용
 
    도구: Resilience4j, Hystrix
 
@@ -220,7 +220,7 @@ Strangler 장점:
 ## Ⅴ. 실무 시나리오 — 이커머스 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환
 
 ```
-대형 이커머스 모놀리스 → MSA 전환:
+대형 이커머스 모놀리스 -> MSA 전환:
 
 배경:
   Java 모놀리스: 200만 라인 코드
@@ -232,29 +232,29 @@ Strangler 장점:
 Phase 1 (Q1): API Gateway 도입
   Kong Gateway 앞단 배치
   기존 모놀리스 유지
-  → 영향 없이 인프라 준비
+  -> 영향 없이 인프라 준비
 
 Phase 2 (Q2): 알림 서비스 분리
   이메일/SMS 발송 기능 추출
   모놀리스 코드 비활성화
-  Gateway에서 알림 요청 → 신규 서비스 라우팅
+  Gateway에서 알림 요청 -> 신규 서비스 라우팅
   A/B 테스트로 안전 검증
 
   기술: Python FastAPI + AWS SQS + Lambda
 
 Phase 3 (Q3~Q4): 상품/카탈로그 분리
-  가장 높은 조회 트래픽 → 독립 확장 필요
+  가장 높은 조회 트래픽 -> 독립 확장 필요
   기술: Go + Redis + Elasticsearch
 
   오토스케일링 효과:
   기존: 전체 모놀리스 스케일업 (비효율)
-  신규: 상품 서비스만 스케일 (20→200 인스턴스)
+  신규: 상품 서비스만 스케일 (20->200 인스턴스)
 
 Phase 4~6 (다음 해): 주문/결제/배송 분리
 
 결과 (2년 후):
-  배포 시간: 6시간 → 15분
-  장애 격리: 알림 장애 → 결제 영향 없음
+  배포 시간: 6시간 -> 15분
+  장애 격리: 알림 장애 -> 결제 영향 없음
   팀 자율성: 각 팀 독립 배포 주 3회 이상
   인프라 비용: 20% 절감 (세밀한 스케일링)
 
@@ -264,7 +264,7 @@ Phase 4~6 (다음 해): 주문/결제/배송 분리
   분산 트랜잭션: Saga 패턴으로 해결
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환은 대형마트 → 전문점 거리 — 모든 것 파는 대형마트(모놀리스)를 식료품점·전자제품점·의류점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리. 각 점포가 독립적으로 영업!
+> 📢 **섹션 요약 비유**: 이커머스 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환은 대형마트 -> 전문점 거리 — 모든 것 파는 대형마트(모놀리스)를 식료품점·전자제품점·의류점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리. 각 점포가 독립적으로 영업!
 
 ---
 
@@ -320,7 +320,7 @@ Lambda Function as a Service
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. MSA는 대형마트 → 전문점 거리 전환 — 하나의 큰 가게(모놀리스) 대신, 각 물건별 전문점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리해서 각자 독립 운영해요!
+1. MSA는 대형마트 -> 전문점 거리 전환 — 하나의 큰 가게(모놀리스) 대신, 각 물건별 전문점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리해서 각자 독립 운영해요!
 2. Strangler Fig는 점진적 집 수리 — 한꺼번에 헐고 짓는 대신(Big Bang), 사람이 살면서 방 하나씩 리모델링. 훨씬 안전해요.
 3. Circuit Breaker는 전기 차단기 — [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 하나가 망가졌을 때 전체로 퍼지지 않도록 "뚝!" 차단해서 시스템을 보호해요!
 
@@ -330,7 +330,7 @@ Lambda Function as a Service
 
 **진행 상황**: 43 / 371
 
-← **이전**: [043. Re-platform — 클라우드 관리형 서비스 전환](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/043_replatform_cloud_managed_services/)
-**다음**: [045. 클라우드 이전 전략 — Repurchase & SaaS Migration](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/045_migration_repurchase_saas/) →
+<- **이전**: [043. Re-platform — 클라우드 관리형 서비스 전환](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/043_replatform_cloud_managed_services/)
+**다음**: [045. 클라우드 이전 전략 — Repurchase & SaaS Migration](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/045_migration_repurchase_saas/) ->
 
 ---

@@ -37,22 +37,22 @@ tags = ["studynote-bigdata"]
 ### 3대 DQ 도구 비교
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                  데이터 품질 도구 3종 비교                      │
-├──────────────────┬─────────────────────┬───────────────────────┤
-│ Great Expectations│    AWS Deequ        │     Soda Core         │
-├──────────────────┼─────────────────────┼───────────────────────┤
-│ 언어: Python     │ 언어: Scala/Python  │ 언어: YAML (SodaCL)   │
-│ 실행: Pandas/    │ 실행: Apache Spark  │ 실행: 20+ 데이터소스  │
-│       SQLAlchemy │ (분산처리)          │  커넥터               │
-│ 접근: 코드 정의  │ 접근: 제약 검증     │ 접근: 선언형 YAML     │
-│ 강점: 표현력,    │ 강점: 대규모 데이터,│ 강점: 비기술자 친화,  │
-│  풍부한 기대값   │  Spark 네이티브     │  클라우드 통합        │
-│ 출력: Data Docs  │ 출력: 메트릭 저장소 │ 출력: Soda Cloud 대시 │
-│  (HTML 문서)     │  (S3/JDBC)          │  보드                 │
-│ 통합: Airflow,   │ 통합: EMR, Databricks│통합: dbt, Airflow,    │
-│  dbt, Prefect    │  Glue               │  GitHub Actions       │
-└──────────────────┴─────────────────────┴───────────────────────┘
++----------------------------------------------------------------+
+|                  데이터 품질 도구 3종 비교                      |
++------------------+---------------------+-----------------------+
+| Great Expectations|    AWS Deequ        |     Soda Core         |
++------------------+---------------------+-----------------------+
+| 언어: Python     | 언어: Scala/Python  | 언어: YAML (SodaCL)   |
+| 실행: Pandas/    | 실행: Apache Spark  | 실행: 20+ 데이터소스  |
+|       SQLAlchemy | (분산처리)          |  커넥터               |
+| 접근: 코드 정의  | 접근: 제약 검증     | 접근: 선언형 YAML     |
+| 강점: 표현력,    | 강점: 대규모 데이터,| 강점: 비기술자 친화,  |
+|  풍부한 기대값   |  Spark 네이티브     |  클라우드 통합        |
+| 출력: Data Docs  | 출력: 메트릭 저장소 | 출력: Soda Cloud 대시 |
+|  (HTML 문서)     |  (S3/JDBC)          |  보드                 |
+| 통합: Airflow,   | 통합: EMR, Databricks|통합: dbt, Airflow,    |
+|  dbt, Prefect    |  Glue               |  GitHub Actions       |
++------------------+---------------------+-----------------------+
 ```
 
 ### Great Expectations 핵심 개념
@@ -118,17 +118,17 @@ val verificationResult = VerificationSuite()
 
 ```
 [데이터 소스]
-     │
-     ▼ ← Great Expectations (원본 데이터 품질 체크)
+     |
+     v <- Great Expectations (원본 데이터 품질 체크)
 [Extract]
-     │
-     ▼ ← Deequ (대규모 변환 중 제약 검증)
+     |
+     v <- Deequ (대규모 변환 중 제약 검증)
 [Transform]
-     │
-     ▼ ← Soda Core (적재 후 목적지 데이터 검증)
+     |
+     v <- Soda Core (적재 후 목적지 데이터 검증)
 [Load/Publish]
-     │
-     ▼ ← Monte Carlo (프로덕션 데이터 이상 감지 상시 모니터링)
+     |
+     v <- Monte Carlo (프로덕션 데이터 이상 감지 상시 모니터링)
 [Analytics/ML]
 ```
 
@@ -215,17 +215,17 @@ DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_gove
 
 ```text
 [데이터 프로파일링 (Data Profiling) — 현황 파악]
-    │
-    ▼
+    |
+    v
 [데이터 정제 (Data Cleansing) — 오류 수정]
-    │
-    ▼
+    |
+    v
 [데이터 품질 규칙 (Data Quality Rule) — 자동 검증]
-    │
-    ▼
+    |
+    v
 [데이터 관측 가능성 (Data Observability) — 실시간 모니터링]
-    │
-    ▼
+    |
+    v
 [데이터 품질 SLA (Data Quality SLA) — 비즈니스 계약]
 ```
 
@@ -243,7 +243,7 @@ DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_gove
 
 **진행 상황**: 202 / 262
 
-← **이전**: [195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성](/knowledge-base/studynote/16_bigdata/10_governance/201_data_quality_dimensions/)
-**다음**: [197. 메타데이터 관리 (Metadata Management) — 비즈니스/기술/운영 메타데이터](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) →
+<- **이전**: [195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성](/knowledge-base/studynote/16_bigdata/10_governance/201_data_quality_dimensions/)
+**다음**: [197. 메타데이터 관리 (Metadata Management) — 비즈니스/기술/운영 메타데이터](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) ->
 
 ---

@@ -31,8 +31,8 @@ tags = ["studynote-enterprise"]
 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 원천 DB -> [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터 -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> 타겟 시스템([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), App) 순으로 흐른다.
 
 ```text
-[운영 DB (MySQL/Oracle)] ──▶ [CDC Engine (Debezium)] ──▶ [Kafka Topic] ──▶ [분석계/Application]
-          │                          │                      │                     │
+[운영 DB (MySQL/Oracle)] ---> [CDC Engine (Debezium)] ---> [Kafka Topic] ---> [분석계/Application]
+          |                          |                      |                     |
    (로그 기록: Binlog)          (변경 이벤트 추출)       (고속 분산 저장)        (실시간 활용)
 ```
 
@@ -102,17 +102,17 @@ tags = ["studynote-enterprise"]
 
 ```
 배치 ETL - 야간 처리, T+1 데이터 지연
-    │
-    ▼
+    |
+    v
 메시지 큐 (RabbitMQ) - 실시간 이벤트 전달
-    │
-    ▼
+    |
+    v
 Apache Kafka - 분산 로그 스트리밍 플랫폼
-    │
-    ▼
+    |
+    v
 CDC (Change Data Capture) - DB 변경 이벤트 캡처
-    │
-    ▼
+    |
+    v
 Kafka + Debezium + Flink 실시간 스트리밍 파이프라인
 ```
 
@@ -129,7 +129,7 @@ Kafka + Debezium + Flink 실시간 스트리밍 파이프라인
 
 **진행 상황**: 300 / 482
 
-← **이전**: [299. 스파크 RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/299_spark_rdd_resilient_distributed_dataset/)
-**다음**: [301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/301_kafka_topic_partition_consumer_group/) →
+<- **이전**: [299. 스파크 RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/299_spark_rdd_resilient_distributed_dataset/)
+**다음**: [301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/301_kafka_topic_partition_consumer_group/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 > **핵심 인사이트**
 > 1. [디자인 씽킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)([Design Thinking](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/))은 인간 중심(Human-Centered) 문제 해결 접근법으로, 기술 가능성(Feasibility)·사업 타당성(Viability)보다 사람의 요구(Desirability)를 먼저 이해하고, 빠른 프로토타이핑과 테스트로 해결책을 반복 개선한다.
-> 2. IDEO/Stanford d.school의 5단계(Empathize→Define→Ideate→[Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)→Test)는 선형 프로세스가 아닌 반복 루프 — 테스트 결과가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 공감 단계로 되돌아가는 것이 올바른 [디자인 씽킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)이다.
+> 2. IDEO/Stanford d.school의 5단계(Empathize->Define->Ideate->[Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)->Test)는 선형 프로세스가 아닌 반복 루프 — 테스트 결과가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 공감 단계로 되돌아가는 것이 올바른 [디자인 씽킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)이다.
 > 3. IT 제품 개발에서 [디자인 씽킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)의 실질적 가치는 '올바른 문제를 정의하는 것' — 개발팀이 생각한 문제와 사용자가 실제로 겪는 문제가 다른 경우(Product-Solution Fit 실패)를 방지하는 전략적 도구다.
 
 ---
@@ -146,7 +146,7 @@ HMW 아이디어:
   (Jakob Nielsen 연구)
 ```
 
-> 📢 **섹션 요약 비유**: 종이 집 설계도로 가족 의견 받기 → 모형으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 진짜 집 짓기 — 단계적으로 충실도 높이며 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소.
+> 📢 **섹션 요약 비유**: 종이 집 설계도로 가족 의견 받기 -> 모형으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 진짜 집 짓기 — 단계적으로 충실도 높이며 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소.
 
 ---
 
@@ -244,7 +244,7 @@ AI UX 디자인의 핵심 방법론으로
 
 **진행 상황**: 69 / 587
 
-← **이전**: [038. 피벗과 린 스타트업 (Pivot & Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_pivot_lean_startup/)
-**다음**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) →
+<- **이전**: [038. 피벗과 린 스타트업 (Pivot & Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_pivot_lean_startup/)
+**다음**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ->
 
 ---

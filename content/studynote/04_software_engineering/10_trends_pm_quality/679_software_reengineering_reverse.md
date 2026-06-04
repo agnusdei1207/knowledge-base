@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 재공학 역공학                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  소프트웨어 재공학 역공학                               |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -62,20 +62,20 @@ tags = ["studynote-software-engineering"]
 | <strong>4. 순공학 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Eng.)</strong> | 신규 구현 | 복원된 설계도를 바탕으로 새로운 요구사항을 추가하여 신규 시스템 개발 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  소프트웨어 재공학의 4단계 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [추상화 레벨]                                                │
-│    ▲           (2. 역공학)                  (4. 순공학)      │
-│    │    설계도 ─────────────▶ 변경된 설계도 ─────────┐        │
-│    │      ▲ (복원)                  (기능 추가)       │        │
-│    │      │                                         │ (구현) │
-│    ▼   소스코드 ──(3. 재구성)─▶ 구조 개선 코드       ▼        │
-│      (레거시 시스템)                             (신규 시스템) │
-│                                                              │
-│ └────────────── (1. 분석: 전체 상태 파악) ─────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  소프트웨어 재공학의 4단계 흐름              |
++--------------------------------------------------------------+
+|                                                              |
+| [추상화 레벨]                                                |
+|    ^           (2. 역공학)                  (4. 순공학)      |
+|    |    설계도 --------------> 변경된 설계도 ---------+        |
+|    |      ^ (복원)                  (기능 추가)       |        |
+|    |      |                                         | (구현) |
+|    v   소스코드 --(3. 재구성)--> 구조 개선 코드       v        |
+|      (레거시 시스템)                             (신규 시스템) |
+|                                                              |
+| +-------------- (1. 분석: 전체 상태 파악) -----------------+ |
++--------------------------------------------------------------+
 ```
 
 특히 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/">Reverse 엔진ering</a>)</strong>은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준에 따라 두 가지로 나뉜다.
@@ -156,21 +156,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 소프트웨어 재공학 역공학 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +184,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 852 / 973
 
-← **이전**: [678. SPICE 프로세스 역량 평가](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/678_spice_process_capability/)
-**다음**: [680. 역 콘웨이 전략 아키텍처에 맞춘 조직 구성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/680_reverse_conways_law_architecture/) →
+<- **이전**: [678. SPICE 프로세스 역량 평가](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/678_spice_process_capability/)
+**다음**: [680. 역 콘웨이 전략 아키텍처에 맞춘 조직 구성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/680_reverse_conways_law_architecture/) ->
 
 ---

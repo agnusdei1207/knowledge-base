@@ -36,34 +36,34 @@ tags = ["studynote-operating-system"]
   - 2008년 MIT 연구진의 Ksplice를 시작으로, Red Hat의 <strong>Kpatch</strong>와 SUSE의 <strong>kGraft</strong>가 경쟁하다 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.0(2015년)에서 이들의 장점만 모은 `Livepatch`라는 이름의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통합 표준 뼈대가 완성되어 엔터프라이즈 리눅스(RHEL, Ubuntu Livepatch)의 킬러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 상용화되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 라이브 패칭의 작동 원리 (Function Redirection)        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 패치 전: 버그가 있는 기존 함수 실행 ]                        │
-  │   메모리 주소 `0x1000`:                                         │
-  │   `vuln_func()` (버그 난 커널 함수)                             │
-  │   ├── 명령어 1 (push rbp)                                   │
-  │   ├── 명령어 2 (버그 취약점 로직) 💥  ◀ 해커의 먹잇감               │
-  │   └── 명령어 3 (ret)                                        │
-  │                                                             │
-  │  [ 2. 라이브 패치 모듈 (Kpatch) 메모리 적재 ]                     │
-  │   메모리 주소 `0x5000`:                                         │
-  │   `new_func()` (완벽하게 고쳐진 새 커널 함수)                    │
-  │   ├── 명령어 1 (버그 픽스 완료 로직) 🛡️                          │
-  │   └── 명령어 2 (ret)                                        │
-  │                                                             │
-  │  [ 3. 운명의 1바이트 덮어쓰기 (Hot-Patching) ]                     │
-  │   관리자가 패치 적용 버튼을 누르는 찰나의 순간!                          │
-  │   메모리 주소 `0x1000` (기존 버그 함수 시작점)의 첫 줄을 갈아엎음!         │
-  │                                                             │
-  │   `vuln_func()`:                                            │
-  │   ├── [ jmp 0x5000 ] 🚀 ◀ "명령어 1"을 찢고 강제 점프문으로 덮어씀!  │
-  │   ├── 명령어 2 (버그 로직 - 이제 영원히 도달할 수 없는 쓰레기가 됨)         │
-  │                                                             │
-  │  ▶ 결과: 어떤 프로그램이 기존 버그 함수를 호출해도, CPU는 시작하자마자       │
-  │          강제로 `0x5000` (안전한 새 함수)으로 튕겨 나감. 무중단 보안 수술 성공!│
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 라이브 패칭의 작동 원리 (Function Redirection)        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 패치 전: 버그가 있는 기존 함수 실행 ]                        |
+  |   메모리 주소 `0x1000`:                                         |
+  |   `vuln_func()` (버그 난 커널 함수)                             |
+  |   +-- 명령어 1 (push rbp)                                   |
+  |   +-- 명령어 2 (버그 취약점 로직) 💥  <- 해커의 먹잇감               |
+  |   +-- 명령어 3 (ret)                                        |
+  |                                                             |
+  |  [ 2. 라이브 패치 모듈 (Kpatch) 메모리 적재 ]                     |
+  |   메모리 주소 `0x5000`:                                         |
+  |   `new_func()` (완벽하게 고쳐진 새 커널 함수)                    |
+  |   +-- 명령어 1 (버그 픽스 완료 로직) 🛡️                          |
+  |   +-- 명령어 2 (ret)                                        |
+  |                                                             |
+  |  [ 3. 운명의 1바이트 덮어쓰기 (Hot-Patching) ]                     |
+  |   관리자가 패치 적용 버튼을 누르는 찰나의 순간!                          |
+  |   메모리 주소 `0x1000` (기존 버그 함수 시작점)의 첫 줄을 갈아엎음!         |
+  |                                                             |
+  |   `vuln_func()`:                                            |
+  |   +-- [ jmp 0x5000 ] 🚀 <- "명령어 1"을 찢고 강제 점프문으로 덮어씀!  |
+  |   +-- 명령어 2 (버그 로직 - 이제 영원히 도달할 수 없는 쓰레기가 됨)         |
+  |                                                             |
+  |  -> 결과: 어떤 프로그램이 기존 버그 함수를 호출해도, CPU는 시작하자마자       |
+  |          강제로 `0x5000` (안전한 새 함수)으로 튕겨 나감. 무중단 보안 수술 성공!|
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 라이브 패칭의 물리적 실체인 **트램펄린(Trampoline)** [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 메모리에 얹혀진 거대한 기계어(Assembly) 덩어리다. Kpatch 데몬은 버그가 있는 옛날 함수의 주소(예: `0x1000`)를 찾아내서, 첫 5바이트를 무식하게 `jmp <새 함수 주소>`라는 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 덮어써(Overwrite) 버린다. 이후 CPU가 옛날 함수를 실행하러 들어오면 입구에서 곧바로 스프링보드(트램펄린)를 밟고 저 멀리 떨어진 깨끗한 새 함수로 튕겨 날아간다. 서버 전원을 끄지 않고 오직 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 포인터 조작만으로 시간과 공간을 속이는 극한의 마법이다.
@@ -132,26 +132,26 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (수동 개입)**: 라이브 패치가 마법의 요술봉은 아니다. 아키텍트는 `dmesg`나 `/sys/kernel/livepatch/` [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 뒤져서 대체 어떤 불효자 프로세스(PID)가 그 함수 안에서 자고 있는지 색출해야 한다. 그 프로세스가 쓸데없는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기라면 과감히 `kill` 해서 쫓아내고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 진입 공간을 비워주어야 대기하던 라이브 패치가 "찰칵" 하고 메모리에 물리적으로 덮어씌워 진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 무중단 커널 보안 아키텍처 설계를 위한 결정 트리             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 중대한 커널 보안 취약점(CVE)이 발표되었다! 방어 스탠스는? ]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버를 5분 껐다 켜도 비즈니스 매출이나 평판에 아무 타격이 없는가?          │
-  │          ├─ 예 ─────▶ [ 고전적 재부팅 (Reboot) 패치 수행 ]             │
-  │          │             (가장 깔끔하고 메모리 찌꺼기도 안 남는 최고의 방법)       │
-  │          └─ 아니오 (초당 수천만 원이 결제되는 미션 크리티컬 서버다!)          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      발견된 버그가 커널의 핵심 자료구조(Struct) 형태 자체를 바꾸는 거대한 버그인가?│
-  │          ├─ 예 ─────▶ 🚨 [ 라이브 패치 불가! 로드밸런서 교체 전략(Blue/Green) ]│
-  │          │             (L4 스위치에서 트래픽을 예비 서버로 돌리고 강제 재부팅) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 🟢 [ Live Patching (Kpatch / kGraft) 투입! ]│
-  │                        (서버 멈춤 없이 램(RAM) 함수 포인터 덮어쓰기로 즉시 핫픽스)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 무중단 커널 보안 아키텍처 설계를 위한 결정 트리             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 중대한 커널 보안 취약점(CVE)이 발표되었다! 방어 스탠스는? ]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버를 5분 껐다 켜도 비즈니스 매출이나 평판에 아무 타격이 없는가?          |
+  |          +- 예 ------> [ 고전적 재부팅 (Reboot) 패치 수행 ]             |
+  |          |             (가장 깔끔하고 메모리 찌꺼기도 안 남는 최고의 방법)       |
+  |          +- 아니오 (초당 수천만 원이 결제되는 미션 크리티컬 서버다!)          |
+  |                |                                                  |
+  |                v                                                  |
+  |      발견된 버그가 커널의 핵심 자료구조(Struct) 형태 자체를 바꾸는 거대한 버그인가?|
+  |          +- 예 ------> 🚨 [ 라이브 패치 불가! 로드밸런서 교체 전략(Blue/Green) ]|
+  |          |             (L4 스위치에서 트래픽을 예비 서버로 돌리고 강제 재부팅) |
+  |          |                                                        |
+  |          +- 아니오 ---> 🟢 [ Live Patching (Kpatch / kGraft) 투입! ]|
+  |                        (서버 멈춤 없이 램(RAM) 함수 포인터 덮어쓰기로 즉시 핫픽스)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 라이브 패칭은 결코 공짜가 아니다(상용 리눅스 벤더의 비싼 유료 구독 모델인 경우가 많다). 무작정 모든 서버에 라이브 패칭을 도입하는 것은 오버엔지니어링이다. 무중단 [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)(K8s)나 로드밸런서 스위칭이 완벽하게 되어 있는 웹 프론트엔드 환경이라면 그냥 서버를 죽였다가 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 켜는 것([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/))이 100배 깔끔하다. 라이브 패칭이 절실한 곳은 끄는 순간 몇 시간 동안 메모리 캐시를 다시 데워야 하는 거대한 인메모리 DB(SAP HANA, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 물리 서버나, 가상머신을 수백 개 품고 있는 뚱뚱한 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 호스트 머신(Node)뿐이다.
@@ -200,12 +200,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [iOS 앱 샌드박싱 구조]
-    │
-    ▼
+    |
+    v
 [라이브 패칭 (Kpatch) 커널 정지 없는 보안]
-    │
-    ├──▶ [POSIX 스레드 (pthreads) 표준 API]
-    └──▶ [락 엘리전 하드웨어 트랜잭션 메모리 활용]
+    |
+    +---> [POSIX 스레드 (pthreads) 표준 API]
+    +---> [락 엘리전 하드웨어 트랜잭션 메모리 활용]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -222,7 +222,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 789 / 800
 
-← **이전**: [788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)](/knowledge-base/studynote/02_operating_system/11_exam_summary/788_ios_app_sandboxing_architecture/)
-**다음**: [790. POSIX 스레드 (pthreads) 표준 API](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) →
+<- **이전**: [788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)](/knowledge-base/studynote/02_operating_system/11_exam_summary/788_ios_app_sandboxing_architecture/)
+**다음**: [790. POSIX 스레드 (pthreads) 표준 API](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) ->
 
 ---

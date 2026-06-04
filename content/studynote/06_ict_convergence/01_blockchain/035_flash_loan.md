@@ -216,7 +216,7 @@ Flashbots, 샌드위치 공격, 거버넌스 공격
 
 **진행 상황**: 35 / 552
 
-← **이전**: [유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/034_uniswap_amm_automated_market_maker/)
-**다음**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/) →
+<- **이전**: [유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/034_uniswap_amm_automated_market_maker/)
+**다음**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/) ->
 
 ---

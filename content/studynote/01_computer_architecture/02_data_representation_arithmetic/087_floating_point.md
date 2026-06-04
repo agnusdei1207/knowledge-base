@@ -108,14 +108,14 @@ tags = ["studynote-computer-architecture"]
     ### 📈 관련 키워드 및 발전 흐름도
 
     실수 범위 요구
-    │
-    ▼
+    |
+    v
 부호 / 지수 / 가수 설계
-    │
-    ▼
+    |
+    v
 반올림과 특수값 처리
-    │
-    ▼
+    |
+    v
 오차 예산과 비교 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -130,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 87 / 803
 
-← **이전**: [86. 고정소수점 (Fixed Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/)
-**다음**: [88. IEEE 754 표준](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) →
+<- **이전**: [86. 고정소수점 (Fixed Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/)
+**다음**: [88. IEEE 754 표준](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) ->
 
 ---

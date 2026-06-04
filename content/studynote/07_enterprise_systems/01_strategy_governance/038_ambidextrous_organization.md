@@ -208,7 +208,7 @@ AI를 Mode 2가 아닌 전사 기본값으로
 
 **진행 상황**: 38 / 482
 
-← **이전**: [037. 파괴적 혁신 (Disruptive Innovation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/)
-**다음**: [039. BML 루프 심화 — 린 스타트업 측정 지표](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/039_lean_startup_bml_loop/) →
+<- **이전**: [037. 파괴적 혁신 (Disruptive Innovation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/)
+**다음**: [039. BML 루프 심화 — 린 스타트업 측정 지표](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/039_lean_startup_bml_loop/) ->
 
 ---

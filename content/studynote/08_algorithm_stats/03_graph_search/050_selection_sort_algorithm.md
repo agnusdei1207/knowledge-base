@@ -15,7 +15,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 정렬되지 않은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 전체 구간을 순회하며 '가장 작은 값(Min)'을 찾아낸 뒤, 이를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 맨 앞(정렬된 영역의 끝) 원소와 위치를 맞바꾸는(Swap) 직관적인 탐색-교환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)가 무조건 O(N²)으로 고정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 보이지만, 교환(Swap) 연산의 횟수가 최대 N-1번으로 매우 적어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산(Memory Write) 비용이 극단적으로 비싼 특수 환경에서는 의미를 가진다.
+> 2. **가치**: [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)가 무조건 O(N^)으로 고정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 보이지만, 교환(Swap) 연산의 횟수가 최대 N-1번으로 매우 적어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산(Memory Write) 비용이 극단적으로 비싼 특수 환경에서는 의미를 가진다.
 > 3. **융합**: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)의 '최솟값 탐색'이라는 단순한 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)(O(N)) 로직을 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) 기반의 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)(O(log N))로 업그레이드하면, 빅데이터 처리에 필수적인 '[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/))'이라는 강력한 아키텍처로 진화하게 된다.
 
 ---
@@ -27,7 +27,7 @@ tags = ["studynote-algorithm"]
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 정렬된 부분이 비어있으며, 정렬되지 않은 부분에서 가장 작은 원소를 '선택'하여 정렬되지 않은 부분의 첫 번째 원소와 자리를 바꾸며 정렬된 영역을 넓혀가는 방식입니다.
 
 ### 2. 왜 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)을 알아야 하는가? (Pain Point와 트레이드오프)
-거품 정렬([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/))은 최악의 경우 매 비교마다 교환(Swap)이 일어나 O(N²)의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 모두 발생시킵니다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([Flash Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/))나 EEPROM과 같이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 횟수에 수명 제약이 있고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 매우 느린' 하드웨어 환경에서는 이는 치명적입니다.
+거품 정렬([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/))은 최악의 경우 매 비교마다 교환(Swap)이 일어나 O(N^)의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 모두 발생시킵니다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([Flash Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/))나 EEPROM과 같이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 횟수에 수명 제약이 있고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 매우 느린' 하드웨어 환경에서는 이는 치명적입니다.
 - **필요성**: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 훑으며 오직 '[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)'만 기억해 두었다가, 1회전(Pass)이 끝날 때 단 한 번만 교환(Swap)을 수행합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태와 무관하게 <strong>이동(Swap) 횟수를 O(N)으로 완벽하게 통제</strong>할 수 있다는 점이 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 유일하고 가장 큰 존재 이유입니다.
 
 - **📢 섹션 요약 비유**: 거품 정렬이 "옆사람과 키를 재보며 매번 자리를 바꾸는 덜렁대는 줄서기"라면, [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 "줄 끝까지 쭉 스캔해서 가장 키가 작은 사람 딱 한 명만 끄집어내 맨 앞에 세우는 침착한 줄서기"입니다.
@@ -40,25 +40,25 @@ tags = ["studynote-algorithm"]
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기가 N일 때, 총 N-1번의 패스(Pass)를 거칩니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ 선택 정렬(Selection Sort) 동작 과정 - 오름차순 ]          │
-│                                                             │
-│ 초기 배열: [ 8, 5, 2, 6, 9, 3 ]                             │
-│                                                             │
-│ [ 1회전 (Pass 1) ] - 가장 작은 수 '2'를 탐색하여 1번째 원소와 스왑 │
-│   [ 8, 5, 2, 6, 9, 3 ]  ==> '2' 탐색 완료                       │
-│   [ 2*, 5, 8, 6, 9, 3 ] ==> 8과 2 스왑 (정렬된 영역: 2)         │
-│                                                             │
-│ [ 2회전 (Pass 2) ] - 두 번째로 작은 수 '3'을 탐색하여 2번째 원소와 스왑 │
-│   2* | [ 5, 8, 6, 9, 3 ] ==> '3' 탐색 완료                       │
-│   2* | [ 3*, 8, 6, 9, 5 ] ==> 5와 3 스왑 (정렬된 영역: 2, 3)       │
-│                                                             │
-│ [ 3회전 (Pass 3) ] - 세 번째로 작은 수 '5'를 탐색하여 3번째 원소와 스왑 │
-│   2*, 3* | [ 8, 6, 9, 5 ] ==> '5' 탐색 완료                     │
-│   2*, 3* | [ 5*, 6, 9, 8 ] ==> 8과 5 스왑                       │
-│                                                             │
-│ * 위 과정을 N-1번 반복. (이미 1~N-1이 정렬되면 마지막 원소는 자동 정렬됨) │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ 선택 정렬(Selection Sort) 동작 과정 - 오름차순 ]          |
+|                                                             |
+| 초기 배열: [ 8, 5, 2, 6, 9, 3 ]                             |
+|                                                             |
+| [ 1회전 (Pass 1) ] - 가장 작은 수 '2'를 탐색하여 1번째 원소와 스왑 |
+|   [ 8, 5, 2, 6, 9, 3 ]  ==> '2' 탐색 완료                       |
+|   [ 2*, 5, 8, 6, 9, 3 ] ==> 8과 2 스왑 (정렬된 영역: 2)         |
+|                                                             |
+| [ 2회전 (Pass 2) ] - 두 번째로 작은 수 '3'을 탐색하여 2번째 원소와 스왑 |
+|   2* | [ 5, 8, 6, 9, 3 ] ==> '3' 탐색 완료                       |
+|   2* | [ 3*, 8, 6, 9, 5 ] ==> 5와 3 스왑 (정렬된 영역: 2, 3)       |
+|                                                             |
+| [ 3회전 (Pass 3) ] - 세 번째로 작은 수 '5'를 탐색하여 3번째 원소와 스왑 |
+|   2*, 3* | [ 8, 6, 9, 5 ] ==> '5' 탐색 완료                     |
+|   2*, 3* | [ 5*, 6, 9, 8 ] ==> 8과 5 스왑                       |
+|                                                             |
+| * 위 과정을 N-1번 반복. (이미 1~N-1이 정렬되면 마지막 원소는 자동 정렬됨) |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림에서 볼 수 있듯, 1회전마다 무조건 정렬된 원소가 앞에서부터 1개씩 고정([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됩니다. 탐색 범위는 1회전 N, 2회전 N-1, 3회전 N-2... 형태로 점점 줄어듭니다.
@@ -76,12 +76,12 @@ tags = ["studynote-algorithm"]
 
 | 상황 (Case) | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 횟수 (탐색 / 교환) | 이유 및 해설 |
 | :--- | :--- | :--- | :--- |
-| **최악 (Worst)** | **O(N²)** | O(N²) / O(N) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 역순일 때. 탐색은 항상 N(N-1)/2 번, 교환은 최대 N-1번. |
-| **평균 (Average)**| **O(N²)** | O(N²) / O(N) | 무작위 분포. |
-| **최선 (Best)** | **O(N²)** | O(N²) / 0 | 이미 완벽히 정렬된 상태라도, 컴퓨터는 "이게 가장 작은지" 확인하기 위해 <strong>무조건 끝까지 스캔</strong>해야 하므로 탐색 비용이 줄어들지 않음. ([버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)은 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) O(N) 방어가 가능하지만 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 불가능) |
+| **최악 (Worst)** | **O(N^)** | O(N^) / O(N) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 역순일 때. 탐색은 항상 N(N-1)/2 번, 교환은 최대 N-1번. |
+| **평균 (Average)**| **O(N^)** | O(N^) / O(N) | 무작위 분포. |
+| **최선 (Best)** | **O(N^)** | O(N^) / 0 | 이미 완벽히 정렬된 상태라도, 컴퓨터는 "이게 가장 작은지" 확인하기 위해 <strong>무조건 끝까지 스캔</strong>해야 하므로 탐색 비용이 줄어들지 않음. ([버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)은 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) O(N) 방어가 가능하지만 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 불가능) |
 
-### 2. O(N²) 3대장 (버블 vs 선택 vs 삽입) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
-*   <strong>vs <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">버블 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">Bubble Sort</a>)</strong>: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)이 압도적으로 우수합니다. 둘 다 O(N²)의 탐색을 하지만, 무의미한 교환(Memory Write)을 하지 않기 때문입니다.
+### 2. O(N^) 3대장 (버블 vs 선택 vs 삽입) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
+*   <strong>vs <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">버블 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">Bubble Sort</a>)</strong>: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)이 압도적으로 우수합니다. 둘 다 O(N^)의 탐색을 하지만, 무의미한 교환(Memory Write)을 하지 않기 때문입니다.
 *   <strong>vs <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/">삽입 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/">Insertion Sort</a>)</strong>: 거의 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서는 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 O(N)으로 동작하여 압승을 거둡니다. 그러나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 꼬여있어 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뒤로 밀어내는(Shift) 연산을 미친 듯이 해야 하는 최악의 경우(역순)라면, 이동 횟수가 O(N)으로 고정된 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/">선택 정렬</a>이 오히려 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/">삽입 정렬</a>보다 미세하게 빠릅니다.</strong>
 
 - **📢 섹션 요약 비유**: [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 "우직한 바보"입니다. 책장이 이미 완벽히 ㄱㄴㄷ순으로 정리되어 있어도, 다음 책이 제일 빠른 게 맞는지 확인하기 위해 무조건 끝까지 걸어갔다 옵니다. 융통성(Best Case O(N))은 없지만 헛수고(교환)는 하지 않습니다.
@@ -119,10 +119,10 @@ tags = ["studynote-algorithm"]
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 *   <strong>비교 기반 정렬 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> (Comparison Sorts)</strong>
-    *   **O(N²) (단순 정렬)**: [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/">선택 정렬</a></strong>, [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)
+    *   **O(N^) (단순 정렬)**: [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/">선택 정렬</a></strong>, [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)
     *   **O(N log N) (고급 정렬)**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), 병합 정렬, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/">힙 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/">선택 정렬</a>의 진화형)</strong>
 *   <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/">선택 정렬</a>의 주요 특징</strong>
-    *   **Time**: 항상 O(N²) (Best, Avg, Worst 모두 동일)
+    *   **Time**: 항상 O(N^) (Best, Avg, Worst 모두 동일)
     *   **Space**: O(1) (In-place)
     *   <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/">Stability</a></strong>: 불안정 정렬 (Unstable)
     *   **Write Operations**: 최대 O(N) (최소 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산 보장)
@@ -143,17 +143,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [정렬되지 않은 배열 — 최솟값 탐색 (O(N) 선형)]
-    │
-    ▼
-[선택 정렬 (Selection Sort) — O(N²) 비교, O(N) 교환]
-    │
-    ▼
+    |
+    v
+[선택 정렬 (Selection Sort) — O(N^) 비교, O(N) 교환]
+    |
+    v
 [힙(Heap) 기반 최솟값 탐색 — O(log N)으로 가속]
-    │
-    ▼
+    |
+    v
 [힙 정렬 (Heap Sort) — O(N log N), In-place, 불안정]
-    │
-    ▼
+    |
+    v
 [우선순위 큐 (Priority Queue) — 운영체제 스케줄러·다익스트라]
 ```
 단순 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)으로 최솟값을 고르는 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)의 아이디어가 이진 힙으로 가속되어 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)이 탄생하고, [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 통해 OS 스케줄러와 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전반에 응용되는 진화 흐름이다.
@@ -173,7 +173,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 50 / 175
 
-← **이전**: [21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/)
-**다음**: [22. 외판원 문제 (TSP, Traveling Salesman Problem) — NP-hard, DP+비트마스크](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/051_tsp/) →
+<- **이전**: [21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/)
+**다음**: [22. 외판원 문제 (TSP, Traveling Salesman Problem) — NP-hard, DP+비트마스크](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/051_tsp/) ->
 
 ---

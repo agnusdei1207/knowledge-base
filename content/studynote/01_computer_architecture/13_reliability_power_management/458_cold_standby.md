@@ -36,21 +36,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 콜드 스탠바이의 정상 시점과 장애 시점이 어떻게 다른지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                콜드 스탠바이의 평시/장애시 동작 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 평상시                                                               │
-│ [Active 시스템] ── 서비스 제공 ──▶ 사용자                            │
-│        │                                                             │
-│        └── 백업/스냅샷 ──▶ [백업 저장소]                              │
-│                                   │                                  │
-│ [Standby 시스템] = 전원 OFF 또는 미기동 상태                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 장애 발생 후                                                          │
-│ [Active 장애]                                                         │
-│      ▼                                                                │
-│ [Standby 전원 ON] ─▶ OS/애플리케이션 기동 ─▶ 백업 복원 ─▶ 서비스 절체 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                콜드 스탠바이의 평시/장애시 동작 흐름               |
++----------------------------------------------------------------------+
+| 평상시                                                               |
+| [Active 시스템] -- 서비스 제공 ---> 사용자                            |
+|        |                                                             |
+|        +-- 백업/스냅샷 ---> [백업 저장소]                              |
+|                                   |                                  |
+| [Standby 시스템] = 전원 OFF 또는 미기동 상태                         |
++----------------------------------------------------------------------+
+| 장애 발생 후                                                          |
+| [Active 장애]                                                         |
+|      v                                                                |
+| [Standby 전원 ON] --> OS/애플리케이션 기동 --> 백업 복원 --> 서비스 절체 |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 두 지표는 RTO와 RPO다. RTO는 장애 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다시 열기까지 허용되는 최대 시간이고, RPO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 기준으로 잃어도 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위다. 콜드 스탠바이는 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 하지 않는 경우가 많기 때문에 RTO는 길어지고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기가 길수록 RPO도 커진다.
@@ -97,19 +97,19 @@ tags = ["studynote-computer-architecture"]
 아래 판단 흐름은 설계 단계에서 자주 쓰이는 질문 순서를 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 콜드 스탠바이 채택 판단 흐름                      │
-├────────────────────────────────────────────────────────────────────┤
-│ 1) 수시간 장애 허용 가능한가?                                     │
-│    ├─ 아니오 ─▶ Warm/Hot 검토                                     │
-│    └─ 예                                                           │
-│ 2) 최근 데이터 손실 허용 가능한가?                                │
-│    ├─ 아니오 ─▶ 실시간 복제 보강 또는 Warm 검토                   │
-│    └─ 예                                                           │
-│ 3) 복구 자동화/IaC/복원 훈련이 준비됐는가?                        │
-│    ├─ 아니오 ─▶ 실제 장애 시 복구 실패 위험 큼                    │
-│    └─ 예 ─▶ Cold Standby 채택 가능                                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 콜드 스탠바이 채택 판단 흐름                      |
++--------------------------------------------------------------------+
+| 1) 수시간 장애 허용 가능한가?                                     |
+|    +- 아니오 --> Warm/Hot 검토                                     |
+|    +- 예                                                           |
+| 2) 최근 데이터 손실 허용 가능한가?                                |
+|    +- 아니오 --> 실시간 복제 보강 또는 Warm 검토                   |
+|    +- 예                                                           |
+| 3) 복구 자동화/IaC/복원 훈련이 준비됐는가?                        |
+|    +- 아니오 --> 실제 장애 시 복구 실패 위험 큼                    |
+|    +- 예 --> Cold Standby 채택 가능                                |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -155,23 +155,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 정기 백업 중심 복구
-    │
-    ▼
+    |
+    v
 콜드 스탠바이 (Cold Standby)
-    │
-    ├─ 자동 설치/이미지 복구 ─▶ IaC 기반 콜드 복구 고도화
-    │
-    ▼
+    |
+    +- 자동 설치/이미지 복구 --> IaC 기반 콜드 복구 고도화
+    |
+    v
 웜 스탠바이 (Warm Standby)
-    │
-    ▼
+    |
+    v
 파일럿 라이트 (Pilot Light)
-    │
-    ▼
+    |
+    v
 핫 스탠바이 (Hot Standby) · 실시간 고가용성
 ```
 
-이 흐름은 “완전 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 자동화된 저비용 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 부분 상시 기동 → 즉시 절체”로 준비 수준이 진화하는 과정을 보여준다.
+이 흐름은 “완전 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 자동화된 저비용 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 부분 상시 기동 -> 즉시 절체”로 준비 수준이 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 459 / 803
 
-← **이전**: [457. 핫 스탠바이 (Hot Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)
-**다음**: [459. 페일 세이프 (Fail-Safe)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) →
+<- **이전**: [457. 핫 스탠바이 (Hot Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)
+**다음**: [459. 페일 세이프 (Fail-Safe)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ->
 
 ---

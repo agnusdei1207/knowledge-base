@@ -28,26 +28,26 @@ tags = ["studynote-operating-system"]
   3. **epoll/kqueue의 천하 통일**: 상태를 기억(Stateful)하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체를 만들어, O(1)에 가깝게 변동된 이벤트만 쏙쏙 낚아채는 현대 비동기 네트워크의 종결자가 등장.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        select (과거의 O(N) 삽질) vs epoll (현대의 O(1) 족집게) 시각화      │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│ [ 상황: 10,000개의 접속자 소켓 중, 3번과 9999번 소켓에만 패킷 도착! ]      │
-│                                                                            │
-│ ▶ 1. 낡은 `select()` 의 멍청한 동작                                        │
-│   앱: "OS야! 여기 소켓 1만 개 리스트 줄 테니까 누가 패킷 쐈는지 확인해 줘!"│
-│       (1만 개 배열 전체를 유저 공간에서 커널 공간으로 무겁게 복사 🐢)      │
-│   OS: (for문 1부터 10,000까지 돌면서 일일이 폴링 찌름. CPU 100% 파먹음)    │
-│   OS: "어 3번, 9999번 왔네. 자 1만 개 배열 다시 받아가!" (또 복사)         │
-│   앱: (유저 공간에서 다시 for문 1만 번 돌며 3번과 9999번을 찾아냄 ☠️)      │
-│                                                                            │
-│ ▶ 2. 구세주 `epoll_wait()` 의 천재적 동작                                  │
-│   앱: "OS야! 아까 등록해둔 애들 중에 변동된 애만 알려줘!"                  │
-│       (복사해서 넘기는 배열 없음. 0바이트 전송 🚀)                         │
-│   OS: (커널 이벤트 큐를 보니 3번, 9999번이 자기 발로 들어와 있음)          │
-│   OS: "자, 3번이랑 9999번 2개 왔어. 받아!" (달랑 2개짜리 리스트만 리턴)    │
-│   앱: (for문 딱 2번 돌고 빛의 속도로 일 처리 끝냄 🚀🚀)                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        select (과거의 O(N) 삽질) vs epoll (현대의 O(1) 족집게) 시각화      |
++----------------------------------------------------------------------------+
+|                                                                            |
+| [ 상황: 10,000개의 접속자 소켓 중, 3번과 9999번 소켓에만 패킷 도착! ]      |
+|                                                                            |
+| -> 1. 낡은 `select()` 의 멍청한 동작                                        |
+|   앱: "OS야! 여기 소켓 1만 개 리스트 줄 테니까 누가 패킷 쐈는지 확인해 줘!"|
+|       (1만 개 배열 전체를 유저 공간에서 커널 공간으로 무겁게 복사 🐢)      |
+|   OS: (for문 1부터 10,000까지 돌면서 일일이 폴링 찌름. CPU 100% 파먹음)    |
+|   OS: "어 3번, 9999번 왔네. 자 1만 개 배열 다시 받아가!" (또 복사)         |
+|   앱: (유저 공간에서 다시 for문 1만 번 돌며 3번과 9999번을 찾아냄 ☠️)      |
+|                                                                            |
+| -> 2. 구세주 `epoll_wait()` 의 천재적 동작                                  |
+|   앱: "OS야! 아까 등록해둔 애들 중에 변동된 애만 알려줘!"                  |
+|       (복사해서 넘기는 배열 없음. 0바이트 전송 🚀)                         |
+|   OS: (커널 이벤트 큐를 보니 3번, 9999번이 자기 발로 들어와 있음)          |
+|   OS: "자, 3번이랑 9999번 2개 왔어. 받아!" (달랑 2개짜리 리스트만 리턴)    |
+|   앱: (for문 딱 2번 돌고 빛의 속도로 일 처리 끝냄 🚀🚀)                    |
++----------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** `epoll`의 가장 위대한 혁신은 <strong>"무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)에서 상태 보존(Stateful)으로의 전환"</strong>이다. 기존 `select`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 바보라서 내가 1만 개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 감시하고 싶다는 걸 기억하지 못했다. 그래서 매번 1만 개 명단을 제출해야 했다. `epoll`은 처음에 `epoll_create`를 치면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 나만의 '거대한 관리 장부(R-B 트리)'를 영구적으로 파준다. 이후엔 굳이 1만 명을 다시 안 알려줘도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 알아서 감시하고, 변동 내역(Ready List)만 툭 던져주는 완벽한 위임형 스케줄러다.
 
@@ -105,13 +105,13 @@ tags = ["studynote-operating-system"]
 이 녀석은 속에는 IF문을 덕지덕지 발라 "Mac이면 `kqueue`, Linux면 `epoll`, Windows면 `IOCP`"를 호출하게 뚫어놓고, 바깥쪽 JS 개발자에게는 그저 달콤한 `setTimeout`이나 `http.createServer()` 같은 통일된 비동기 API만 노출시켰다. Node.js가 크로스 플랫폼(어디서나 도는) 비동기 제왕이 될 수 있었던 비밀은 이 밑바닥 I/O 멀티플렉싱 기술들을 하나로 엮어버린 갓-라이브러리(`libuv`) 덕분이다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 접속자 수  │ select()   │ epoll()    │ CPU 점유 상태       │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ 10명     │ 0.001초 컷  │ 0.001초 컷  │ 둘 다 아주 쾌적함   │
-│ 1,000명  │ 10 밀리초   │ 0.001초 컷  │ select가 헉헉댐     │
-│ 10,000명 │ ☠️ 서버 다운 │ 🚀 0.002초 컷│ epoll 압승의 무대 │
-└──────────┴────────────┴────────────┴───────────────────────┘
++----------+------------+------------+-----------------------+
+| 접속자 수  | select()   | epoll()    | CPU 점유 상태       |
++----------+------------+------------+-----------------------+
+| 10명     | 0.001초 컷  | 0.001초 컷  | 둘 다 아주 쾌적함   |
+| 1,000명  | 10 밀리초   | 0.001초 컷  | select가 헉헉댐     |
+| 10,000명 | ☠️ 서버 다운 | 🚀 0.002초 컷| epoll 압승의 무대 |
++----------+------------+------------+-----------------------+
 ```
 **[매트릭스 해설]** 가끔 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 테스트나 단순 학교 과제에서 "왜 나는 epoll 썼는데 select랑 속도 똑같음?" 하는 경우가 있다. 10개, 100개짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 $O(N)$으로 순회하는 건 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 덕분에 컴퓨터 입장에선 0초나 다름없기 때문이다. `epoll`의 R-B 트리 세팅 비용이 오히려 더 비쌀 수도 있다. 진정한 $O(1)$의 기적은 동시 접속자 수(N)가 1만 개(C10K)를 넘어가는 짐승 같은 환경에서만 그 잔인한 격차를 보여준다.
 
@@ -169,12 +169,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [I/O 완료 포트 (IOCP, I/O Completion Port)]
-    │
-    ▼
+    |
+    v
 [epoll / kqueue (Epoll Kqueue)]
-    │
-    ├──▶ [io_uring]
-    └──▶ [하드 디스크 드라이브 (HDD) 구조]
+    |
+    +---> [io_uring]
+    +---> [하드 디스크 드라이브 (HDD) 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -191,7 +191,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 463 / 800
 
-← **이전**: [462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/462_iocp_io_completion_port/)
-**다음**: [464. io_uring (I/O Uring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) →
+<- **이전**: [462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/462_iocp_io_completion_port/)
+**다음**: [464. io_uring (I/O Uring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) ->
 
 ---

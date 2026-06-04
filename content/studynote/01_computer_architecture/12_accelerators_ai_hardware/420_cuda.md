@@ -24,16 +24,16 @@ CUDA는 GPU를 범용 계산에 활용하기 위한 NVIDIA의 [병렬](/knowledg
 CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 함수를 작성하고, 런타임이 이를 GPU의 대규모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행 모델에 맞게 배치한다. 즉, 그래픽 파이프라인을 해킹하던 시대에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산답게 표현하는 시대"로 넘어간 것이다. 이 변화가 없었다면 오늘날 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 학습 프레임워크, [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 대규모 시뮬레이션은 지금만큼 빠르게 산업화되기 어려웠다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               CUDA가 필요한 이유: 그래픽 우회에서 직접 계산으로      │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ CUDA 이전             │ CUDA 이후                                     │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ 그래픽 API로 우회     │ 커널 함수로 직접 계산 표현                    │
-│ 픽셀/텍스처로 변환    │ 배열/텐서 그대로 전달                         │
-│ 셰이더 지식 필요      │ 병렬 스레드 모델 이해에 집중                  │
-│ 개발 난도 높음        │ 생산성과 최적화 기준이 명확                   │
-└───────────────────────┴──────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               CUDA가 필요한 이유: 그래픽 우회에서 직접 계산으로      |
++-----------------------+----------------------------------------------+
+| CUDA 이전             | CUDA 이후                                     |
++-----------------------+----------------------------------------------+
+| 그래픽 API로 우회     | 커널 함수로 직접 계산 표현                    |
+| 픽셀/텍스처로 변환    | 배열/텐서 그대로 전달                         |
+| 셰이더 지식 필요      | 병렬 스레드 모델 이해에 집중                  |
+| 개발 난도 높음        | 생산성과 최적화 기준이 명확                   |
++-----------------------+----------------------------------------------+
 ```
 
 이 그림은 CUDA가 단순한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 아니라 <strong>문제 표현 방식 자체를 바꾼 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>임을 보여준다. 덕분에 연구자는 연산 의미를 코드로 직접 쓰고, 시스템은 그 코드를 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어에 매핑하는 역할을 분담하게 되었다.
@@ -44,7 +44,7 @@ CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 매우 많은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 복제해 GPU에 뿌리는 것이다. 이때 실행 계층은 <strong>Grid → Block → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong>로 내려가고, 실제 하드웨어에서는 여러 Block이 [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))에 배치된다. [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서는 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음인 Warp가 스케줄링 기본 단위로 움직이며, 같은 명령 흐름을 공유하는 [SIMT](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) 방식으로 실행된다.
+CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 매우 많은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 복제해 GPU에 뿌리는 것이다. 이때 실행 계층은 <strong>Grid -> Block -> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong>로 내려가고, 실제 하드웨어에서는 여러 Block이 [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))에 배치된다. [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서는 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음인 Warp가 스케줄링 기본 단위로 움직이며, 같은 명령 흐름을 공유하는 [SIMT](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) 방식으로 실행된다.
 
 | 계층/요소 | 의미 | 실제 설계 포인트 |
 | :-- | :-- | :-- |
@@ -57,26 +57,26 @@ CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_syst
 아래 구조를 보면 CUDA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 왜 메모리 계층과 워프 동작에 민감한지 드러난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                CUDA 실행 구조와 메모리 계층의 대응                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host CPU                                                            │
-│   └─ Kernel Launch: <<<Grid, Block>>>                               │
-│        │                                                            │
-│        ▼                                                            │
-│ Device GPU                                                          │
-│   ├─ Grid                                                           │
-│   │   ├─ Block 0 ──┐                                                │
-│   │   ├─ Block 1 ──┼─> SM에 배치                                    │
-│   │   └─ Block N ──┘                                                │
-│   │                                                                 │
-│   └─ SM 내부                                                        │
-│       ├─ Warp 0 (32 Threads)                                        │
-│       ├─ Warp 1 (32 Threads)                                        │
-│       ├─ Registers : 스레드 전용                                    │
-│       ├─ Shared Memory : 블록 공유                                  │
-│       └─ Global Memory : 전체가 접근, 지연 큼                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                CUDA 실행 구조와 메모리 계층의 대응                  |
++----------------------------------------------------------------------+
+| Host CPU                                                            |
+|   +- Kernel Launch: <<<Grid, Block>>>                               |
+|        |                                                            |
+|        v                                                            |
+| Device GPU                                                          |
+|   +- Grid                                                           |
+|   |   +- Block 0 --+                                                |
+|   |   +- Block 1 --+-> SM에 배치                                    |
+|   |   +- Block N --+                                                |
+|   |                                                                 |
+|   +- SM 내부                                                        |
+|       +- Warp 0 (32 Threads)                                        |
+|       +- Warp 1 (32 Threads)                                        |
+|       +- Registers : 스레드 전용                                    |
+|       +- Shared Memory : 블록 공유                                  |
+|       +- Global Memory : 전체가 접근, 지연 큼                       |
++----------------------------------------------------------------------+
 ```
 
 실무 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 세 가지 원리로 압축된다. 첫째, 메모리 접근은 가능하면 연속적이어야 한다. 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 흩어진 주소를 읽으면 메모리 병목이 커지고, 반대로 Coalesced Access가 되면 대역폭을 잘 활용할 수 있다. 둘째, 같은 Block 안에서 반복 사용할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Shared Memory에 올려 재사용해야 한다. 셋째, Warp 내부 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 다른 분기를 타면 직렬화가 발생하므로 조건 분기를 최소화하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 바꿔야 한다.
@@ -162,21 +162,21 @@ CUDA의 가장 큰 효과는 [GPU](/knowledge-base/studynote/01_computer_archite
 
 ```text
 그래픽 셰이더 기반 GPGPU 실험
-            │
-            ▼
+            |
+            v
 CUDA (Compute Unified Device Architecture) 도입
-            │
-            ▼
+            |
+            v
 Kernel / Grid / Block / Warp 실행 모델 정착
-            │
-            ▼
+            |
+            v
 cuBLAS · cuDNN · NCCL 라이브러리 생태계 확장
-            │
-            ▼
+            |
+            v
 Tensor Core · 멀티 GPU · CUDA Graphs로 고도화
 ```
 
-이 흐름은 "우회적 활용 → 직접 프로그래밍 → 실행 모델 표준화 → 생태계 축적 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특화 가속"의 발전 경로를 보여준다.
+이 흐름은 "우회적 활용 -> 직접 프로그래밍 -> 실행 모델 표준화 -> 생태계 축적 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특화 가속"의 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -190,7 +190,7 @@ Tensor Core · 멀티 GPU · CUDA Graphs로 고도화
 
 **진행 상황**: 421 / 803
 
-← **이전**: [419. GPGPU (General-Purpose GPU)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/)
-**다음**: [421. 스트리밍 멀티프로세서 (SM)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) →
+<- **이전**: [419. GPGPU (General-Purpose GPU)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/)
+**다음**: [421. 스트리밍 멀티프로세서 (SM)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ->
 
 ---

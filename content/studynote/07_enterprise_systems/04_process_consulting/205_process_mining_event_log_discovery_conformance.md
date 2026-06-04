@@ -42,15 +42,15 @@ tags = ["studynote-enterprise"]
 아래 그림은 여러 시스템에서 추출한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 정제 과정을 거쳐 실제 프로세스 맵과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 변환되는 기본 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ ERP / CRM / Ticket System Logs                                      │
-│          │                                                           │
-│          ▼                                                           │
-│ Event Log (Case, Activity, Timestamp, Resource)                     │
-│          │                                                           │
-│          ▼                                                           │
-│ Discovery -> Variant Analysis -> Bottleneck / Rework Insight        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| ERP / CRM / Ticket System Logs                                      |
+|          |                                                           |
+|          v                                                           |
+| Event Log (Case, Activity, Timestamp, Resource)                     |
+|          |                                                           |
+|          v                                                           |
+| Discovery -> Variant Analysis -> Bottleneck / Rework Insight        |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 관찰된 이벤트 순서를 바탕으로 프로세스 모델을 추정하는 것이다. 이때 단순히 가장 많이 발생한 경로만 보면 예외 흐름이 사라지고, 모든 이벤트를 그대로 그리면 스파게티 맵이 된다. 그래서 필터링, 변형(Variant) 분석, 빈도·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 함께 사용해 "중요한 흐름"과 "문제 흐름"을 구분하는 것이 중요하다.
@@ -120,17 +120,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 ERP · CRM 이벤트 축적
-    │
-    ▼
+    |
+    v
 Event Log 정제
-    │
-    ▼
+    |
+    v
 Discovery · Variant Analysis
-    │
-    ▼
+    |
+    v
 Conformance Checking · Enhancement
-    │
-    ▼
+    |
+    v
 RPA · Digital Twin of Process
 ```
 
@@ -148,7 +148,7 @@ RPA · Digital Twin of Process
 
 **진행 상황**: 205 / 482
 
-← **이전**: [204. 워크플로우 관리 시스템 (Workflow Management System)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)
-**다음**: [206. 적합성 검사 (Conformance Checking)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/) →
+<- **이전**: [204. 워크플로우 관리 시스템 (Workflow Management System)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)
+**다음**: [206. 적합성 검사 (Conformance Checking)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/) ->
 
 ---

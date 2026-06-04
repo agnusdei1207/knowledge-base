@@ -28,51 +28,51 @@ tags = ["algorithm_stats"]
 ```text
 [백트래킹 (Backtracking) 작동 원리]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [상태 공간 트리 (State Space Tree)]                 │
-│  ────────────────────────────────────                │
-│                                                      │
-│                    .root                            │
-│                   / | \                            │
-│                 /   |   \                          │
-│               /     |     \                        │
-│            선택A   선택B    선택C                    │
-│            /|\     /|\     /|\                     │
-│           ...  ...   ...                           │
-│                                                      │
-│  [백트래킹 진행 과정]                                │
-│  ────────────────────────────────────                │
-│                                                      │
-│  1. 깊이 우선으로 탐색                              │
-│     root → A → A1 → A2 → ...                      │
-│                                                      │
-│  2. 더 이상 진행 불가 or 유망하지 않음              │
-│     → 직전 노드로 "되돌아간다" (Backtrack)          │
-│                                                      │
-│  3. 이전 노드에서 아직 시도 안 한 선택을 진행         │
-│     A2에서 실패 → A3 시도                          │
-│                                                      │
-│  [가지치기 (Pruning) 예시: N-Queens]               │
-│  ────────────────────────────────────                │
-│                                                      │
-│  8×8 체스판에 8개의 Queen 배치                      │
-│                                                      │
-│  Step 1: (0,0) Queen 배치                          │
-│  Step 2: (1,1) 배치 시도 → 공격 가능! → Backtrack │
-│  Step 2: (1,2) 배치 시도 → 공격 가능! → Backtrack │
-│  Step 2: (1,3) 배치 시도 → OK!                    │
-│  ...                                                │
-│                                                      │
-│  Queen이 서로 공격할 수 없는 조건:                    │
-│  - 같은 행에 없음                                   │
-│  - 같은 열에 없음                                   │
-│  - 같은 대각선에 없음 (|행차| ≠ |열차|)            │
-│                                                      │
-│  가지치기: 공격 가능한 위치는 탐색 자체를 건너뜀       │
-│  → 15 trillion 경우의 수 → 수천 번의 시도           │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [상태 공간 트리 (State Space Tree)]                 |
+|  ------------------------------------                |
+|                                                      |
+|                    .root                            |
+|                   / | \                            |
+|                 /   |   \                          |
+|               /     |     \                        |
+|            선택A   선택B    선택C                    |
+|            /|\     /|\     /|\                     |
+|           ...  ...   ...                           |
+|                                                      |
+|  [백트래킹 진행 과정]                                |
+|  ------------------------------------                |
+|                                                      |
+|  1. 깊이 우선으로 탐색                              |
+|     root -> A -> A1 -> A2 -> ...                      |
+|                                                      |
+|  2. 더 이상 진행 불가 or 유망하지 않음              |
+|     -> 직전 노드로 "되돌아간다" (Backtrack)          |
+|                                                      |
+|  3. 이전 노드에서 아직 시도 안 한 선택을 진행         |
+|     A2에서 실패 -> A3 시도                          |
+|                                                      |
+|  [가지치기 (Pruning) 예시: N-Queens]               |
+|  ------------------------------------                |
+|                                                      |
+|  8×8 체스판에 8개의 Queen 배치                      |
+|                                                      |
+|  Step 1: (0,0) Queen 배치                          |
+|  Step 2: (1,1) 배치 시도 -> 공격 가능! -> Backtrack |
+|  Step 2: (1,2) 배치 시도 -> 공격 가능! -> Backtrack |
+|  Step 2: (1,3) 배치 시도 -> OK!                    |
+|  ...                                                |
+|                                                      |
+|  Queen이 서로 공격할 수 없는 조건:                    |
+|  - 같은 행에 없음                                   |
+|  - 같은 열에 없음                                   |
+|  - 같은 대각선에 없음 (|행차| ≠ |열차|)            |
+|                                                      |
+|  가지치기: 공격 가능한 위치는 탐색 자체를 건너뜀       |
+|  -> 15 trillion 경우의 수 -> 수천 번의 시도           |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 백트래킹은 상태 공간 트리([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)를 깊이 우선으로 탐색하며, 각 노드에서 유망성(Promising) 검사를 수행한다.
@@ -93,51 +93,51 @@ tags = ["algorithm_stats"]
 ```text
 [백트래킹 알고리즘 구조]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [백트래킹 의사코드]                                 │
-│  ────────────────────                                │
-│  function backtrack(current_state, choices):         │
-│      if is_goal(current_state):                      │
-│          record_solution(current_state)              │
-│          return                                     │
-│                                                      │
-│      for choice in choices:                          │
-│          if is_promising(current_state, choice):    │
-│              make_move(current_state, choice)        │
-│              backtrack(new_state, remaining_choices)
-│              undo_move(current_state, choice)       │
-│                                                      │
-│  [3단계 구조]                                        │
-│  ────────────────────────────────────                │
-│  1. 유망성 검사 (Promising):                        │
-│     - 현재 상태 + 선택이 해로 이어질 가능성 있는가?   │
-│     - 예: N-Queens에서 Queen 공격 가능 여부 check    │
-│                                                      │
-│  2. 이동 (Move):                                    │
-│     - 선택을 적용하여 상태 업데이트                   │
-│     - 예: Queen을 해당 위치에 배치                   │
-│                                                      │
-│  3. 되돌리기 (Undo):                                │
-│     - 다음 선택 시도를 위해 이전 상태 복원            │
-│     - 예: Queen을 해당 위치에서 제거                 │
-│                                                      │
-│  [부분집합 합 문제 (Subset Sum) 적용]                │
-│  ────────────────────────────────────                │
-│  nums = [3, 34, 4, 12, 5, 2], target = 9          │
-│                                                      │
-│  backtrack(index, current_sum):                     │
-│      if current_sum == target: 정답!               │
-│      if current_sum > target: 가지치기! return      │
-│      if index == len(nums): return                  │
-│                                                      │
-│      // nums[index] 포함                              │
-│      backtrack(index + 1, current_sum + nums[index])│
-│                                                      │
-│      // nums[index] 미포함                            │
-│      backtrack(index + 1, current_sum)              │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [백트래킹 의사코드]                                 |
+|  --------------------                                |
+|  function backtrack(current_state, choices):         |
+|      if is_goal(current_state):                      |
+|          record_solution(current_state)              |
+|          return                                     |
+|                                                      |
+|      for choice in choices:                          |
+|          if is_promising(current_state, choice):    |
+|              make_move(current_state, choice)        |
+|              backtrack(new_state, remaining_choices)
+|              undo_move(current_state, choice)       |
+|                                                      |
+|  [3단계 구조]                                        |
+|  ------------------------------------                |
+|  1. 유망성 검사 (Promising):                        |
+|     - 현재 상태 + 선택이 해로 이어질 가능성 있는가?   |
+|     - 예: N-Queens에서 Queen 공격 가능 여부 check    |
+|                                                      |
+|  2. 이동 (Move):                                    |
+|     - 선택을 적용하여 상태 업데이트                   |
+|     - 예: Queen을 해당 위치에 배치                   |
+|                                                      |
+|  3. 되돌리기 (Undo):                                |
+|     - 다음 선택 시도를 위해 이전 상태 복원            |
+|     - 예: Queen을 해당 위치에서 제거                 |
+|                                                      |
+|  [부분집합 합 문제 (Subset Sum) 적용]                |
+|  ------------------------------------                |
+|  nums = [3, 34, 4, 12, 5, 2], target = 9          |
+|                                                      |
+|  backtrack(index, current_sum):                     |
+|      if current_sum == target: 정답!               |
+|      if current_sum > target: 가지치기! return      |
+|      if index == len(nums): return                  |
+|                                                      |
+|      // nums[index] 포함                              |
+|      backtrack(index + 1, current_sum + nums[index])|
+|                                                      |
+|      // nums[index] 미포함                            |
+|      backtrack(index + 1, current_sum)              |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 백트래킹의 핵심 효율은 `is_promising()` 함수의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)에 달려 있다.
@@ -158,39 +158,39 @@ tags = ["algorithm_stats"]
 ```text
 [실무 적용: 부분집합 생성]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [모든 부분집합 생성 - 백트래킹]                      │
-│  ────────────────────────────────────                │
-│  nums = [1, 2, 3]                                   │
-│                                                      │
-│  상태 공간 트리:                                      │
-│                      []                              │
-│                 /           \                        │
-│               [1]           []                      │
-│           /       \       /       \                  │
-│        [1,2]     [1]    [2]        []               │
-│        /   \     |       |         |                │
-│    [1,2,3] [1,2] [1,3] [1]    [2,3] [2]  [3] [] │
-│                                                      │
-│  백트래킹 코드:                                       │
-│  ────────────                                       │
-│  result = []                                        │
-│  def backtrack(index, path):                        │
-│      result.append(path[:])  // 현재 경로 = 부분집합  │
-│                                                      │
-│      for i in range(index, len(nums)):              │
-│          path.append(nums[i])                      │
-│          backtrack(i + 1, path)                     │
-│          path.pop()           // 되돌리기 (Undo)    │
-│                                                      │
-│  backtrack(0, [])                                   │
-│  // 결과: [], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]
-│                                                      │
-│  시간 복잡도: O(2^N) (모든 부분집합 생성)             │
-│  실제 탐색: 백트래킹으로 불필요한 하위 트리 pruning   │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [모든 부분집합 생성 - 백트래킹]                      |
+|  ------------------------------------                |
+|  nums = [1, 2, 3]                                   |
+|                                                      |
+|  상태 공간 트리:                                      |
+|                      []                              |
+|                 /           \                        |
+|               [1]           []                      |
+|           /       \       /       \                  |
+|        [1,2]     [1]    [2]        []               |
+|        /   \     |       |         |                |
+|    [1,2,3] [1,2] [1,3] [1]    [2,3] [2]  [3] [] |
+|                                                      |
+|  백트래킹 코드:                                       |
+|  ------------                                       |
+|  result = []                                        |
+|  def backtrack(index, path):                        |
+|      result.append(path[:])  // 현재 경로 = 부분집합  |
+|                                                      |
+|      for i in range(index, len(nums)):              |
+|          path.append(nums[i])                      |
+|          backtrack(i + 1, path)                     |
+|          path.pop()           // 되돌리기 (Undo)    |
+|                                                      |
+|  backtrack(0, [])                                   |
+|  // 결과: [], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]
+|                                                      |
+|  시간 복잡도: O(2^N) (모든 부분집합 생성)             |
+|  실제 탐색: 백트래킹으로 불필요한 하위 트리 pruning   |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 백트래킹은 전인격을 찾는정탐과 같습니다.혐의자 목록에서 한 명씩 배제해 가면서(유망성 검사),모살의 증거가 없으면([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 다음 용의자로 이동하고, 모든 증거가 맞으면(기저 사례 도달) 그 인물을 범인으로 확정합니다.
@@ -222,37 +222,37 @@ tags = ["algorithm_stats"]
 ```text
 [백트래킹 (Backtracking) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      백트래킹 (Backtracking)         │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  핵심 메커니즘  │  │   3단계 구조   │  │   대표 문제   │
-│  Mechanism   │  │  3-Phase     │  │   Problems   │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 상태 공간 트리  │  │ 1. Promising │  │ N-Queens    │
-│ 깊이 우선 탐색  │  │ 2. Move     │  │ 스도쿠       │
-│ 가지치기 (Prune│  │ 3. Undo     │  │ 부분집합 합   │
-│ 백트래킹 지점  │  │              │  │ 해밀턴 경로   │
-│              │  │              │  │ 조합 생성    │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      백트래킹 vs 브루트 포스          │
-         ├─────────────────────────────────┤
-         │ Brute Force: 모든 경우의 수 시도       │
-         │ Backtracking: 유망하지 않으면 가지치기 │
-         │                                          │
-         │ 시간 복잡도: O(Branch^Depth) worst-case  │
-         │ 실제 탐색: 가지치기 효율에 따라 크게 감소  │
-         │ 공간 복잡도: O(Depth) - 재귀 스택       │
-         └─────────────────────────────────┘
+         +---------------------------------+
+         |      백트래킹 (Backtracking)         |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  핵심 메커니즘  |  |   3단계 구조   |  |   대표 문제   |
+|  Mechanism   |  |  3-Phase     |  |   Problems   |
++--------------+  +--------------+  +--------------+
+| 상태 공간 트리  |  | 1. Promising |  | N-Queens    |
+| 깊이 우선 탐색  |  | 2. Move     |  | 스도쿠       |
+| 가지치기 (Prune|  | 3. Undo     |  | 부분집합 합   |
+| 백트래킹 지점  |  |              |  | 해밀턴 경로   |
+|              |  |              |  | 조합 생성    |
++--------------+  +--------------+  +--------------+
+      |                   |                    |
+      +-------------------+--------------------+
+                          |
+                          v
+         +---------------------------------+
+         |      백트래킹 vs 브루트 포스          |
+         +---------------------------------+
+         | Brute Force: 모든 경우의 수 시도       |
+         | Backtracking: 유망하지 않으면 가지치기 |
+         |                                          |
+         | 시간 복잡도: O(Branch^Depth) worst-case  |
+         | 실제 탐색: 가지치기 효율에 따라 크게 감소  |
+         | 공간 복잡도: O(Depth) - 재귀 스택       |
+         +---------------------------------+
 ```
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
@@ -266,20 +266,20 @@ tags = ["algorithm_stats"]
 
 ```text
 [브루트 포스 (Brute Force) — 모든 경우의 수 전수 탐색]
-    │
-    ▼
+    |
+    v
 [DFS (Depth-First Search) — 깊이 우선 재귀 탐색]
-    │
-    ▼
+    |
+    v
 [백트래킹 (Backtracking) — 유망성 판단 후 가지치기]
-    │
-    ▼
+    |
+    v
 [분기 한정법 (Branch & Bound) — 비용 경계 기반 최적화 탐색]
-    │
-    ▼
+    |
+    v
 [메모이제이션 (Memoization) — 중복 부분 문제 결과 재사용]
-    │
-    ▼
+    |
+    v
 [동적 프로그래밍 (Dynamic Programming) — 최적 부분 구조 완전 활용]
 ```
 백트래킹은 브루트 포스의 비효율을 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로 극복하며, 분기 한정법·DP로 이어지는 최적화 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 중간 다리 역할을 한다.
@@ -303,7 +303,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 10 / 175
 
-← **이전**: [9. 정보이론 (Information Theory)](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/)
-**다음**: [11. 분기 한정 (Branch and Bound) — 최적화 탐색](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) →
+<- **이전**: [9. 정보이론 (Information Theory)](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/)
+**다음**: [11. 분기 한정 (Branch and Bound) — 최적화 탐색](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) ->
 
 ---

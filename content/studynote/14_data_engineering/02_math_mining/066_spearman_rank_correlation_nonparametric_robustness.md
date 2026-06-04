@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Data
-  ↓
+  v
 Rank Transform
-  ↓
+  v
 Rank Differences
-  ↓
+  v
 Spearman ρ
 ```
 
@@ -108,11 +108,11 @@ Spearman은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mi
 
 ```text
 Rank
-  ↓
+  v
 Spearman ρ
-  ↓
+  v
 Monotonic Relationship
-  ↓
+  v
 Robust Analysis
 ```
 
@@ -122,11 +122,11 @@ Robust Analysis
 
 ```text
 Pearson
-  ↓
+  v
 Spearman
-  ↓
+  v
 Robust Statistics
-  ↓
+  v
 Nonparametric Analysis
 ```
 
@@ -144,7 +144,7 @@ Nonparametric Analysis
 
 **진행 상황**: 66 / 258
 
-← **이전**: [65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)
-**다음**: [67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) →
+<- **이전**: [65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)
+**다음**: [67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) ->
 
 ---

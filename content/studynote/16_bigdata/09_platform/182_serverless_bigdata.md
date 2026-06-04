@@ -28,13 +28,13 @@ tags = ["studynote-bigdata"]
 아래 그림은 전용 클러스터와 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 분석의 비용 구조 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Provisioned vs serverless analytics                                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Provisioned cluster : fixed nodes alive 24x7                            │
-│ Serverless query   : compute appears only when query arrives            │
-│ Result             : lower idle cost, but query efficiency matters      │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Provisioned vs serverless analytics                                     |
++--------------------------------------------------------------------------+
+| Provisioned cluster : fixed nodes alive 24x7                            |
+| Serverless query   : compute appears only when query arrives            |
+| Result             : lower idle cost, but query efficiency matters      |
++--------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)가 무조건 싸다는 뜻이 아니라, 유휴 비용을 줄이는 대신 개별 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 비효율이 바로 과금으로 드러난다는 점이다.
@@ -59,13 +59,13 @@ tags = ["studynote-bigdata"]
 아래 구조는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터 엔진의 공통 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Serverless query path                                                   │
-├──────────────────────────────────────────────────────────────────────────┤
-│ SQL -> planner -> catalog -> ephemeral compute -> storage scan         │
-│                    │                         │                           │
-│                    └─ partition metadata     └─ result + cost record    │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Serverless query path                                                   |
++--------------------------------------------------------------------------+
+| SQL -> planner -> catalog -> ephemeral compute -> storage scan         |
+|                    |                         |                           |
+|                    +- partition metadata     +- result + cost record    |
++--------------------------------------------------------------------------+
 ```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 특징은 과금 단위와 강한 사용 시나리오에서 갈린다.
@@ -168,18 +168,18 @@ tags = ["studynote-bigdata"]
 
 ```text
 Managed cluster analytics
-    │
-    ▼
+    |
+    v
 Serverless query engine
-    │
-    ├─ scan-based pricing
-    ├─ slot / RPU pricing
-    └─ lakehouse metadata optimization
-    │
-    ▼
+    |
+    +- scan-based pricing
+    +- slot / RPU pricing
+    +- lakehouse metadata optimization
+    |
+    v
 FinOps and governance guardrails
-    │
-    ▼
+    |
+    v
 Open table formats and intelligent query optimization
 ```
 
@@ -197,7 +197,7 @@ Open table formats and intelligent query optimization
 
 **진행 상황**: 182 / 262
 
-← **이전**: [181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks](/knowledge-base/studynote/16_bigdata/09_platform/181_multicloud_data_platform/)
-**다음**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/knowledge-base/studynote/16_bigdata/09_platform/183_data_orchestration/) →
+<- **이전**: [181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks](/knowledge-base/studynote/16_bigdata/09_platform/181_multicloud_data_platform/)
+**다음**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/knowledge-base/studynote/16_bigdata/09_platform/183_data_orchestration/) ->
 
 ---

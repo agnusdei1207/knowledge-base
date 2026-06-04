@@ -43,21 +43,21 @@ HMB는 장치가 임의로 시스템 메모리를 가져다 쓰는 기능이 아
 아래 그림은 HMB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     Host memory buffer path                 │
-├──────────────────────────────────────────────────────────────┤
-│ Host RAM                                                    │
-│  ┌──────────────────────────────┐                           │
-│  │ HMB area : mapping / metadata│                           │
-│  └───────────────┬──────────────┘                           │
-│                  │ PCIe + DMA                               │
-│                  ▼                                           │
-│            ┌────────────────┐                                │
-│            │ NVMe controller│                                │
-│            └───────┬────────┘                                │
-│                    ▼                                         │
-│               flash media                                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     Host memory buffer path                 |
++--------------------------------------------------------------+
+| Host RAM                                                    |
+|  +------------------------------+                           |
+|  | HMB area : mapping / metadata|                           |
+|  +---------------+--------------+                           |
+|                  | PCIe + DMA                               |
+|                  v                                           |
+|            +----------------+                                |
+|            | NVMe controller|                                |
+|            +-------+--------+                                |
+|                    v                                         |
+|               flash media                                    |
++--------------------------------------------------------------+
 ```
 
 중요한 점은 HMB가 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 보관하는 메모리가 아니라는 사실이다. 주된 목적은 매핑 테이블의 일부, 큐 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 작은 읽기 캐시처럼 "빠르게 다시 참고해야 하는 정보"를 담는 것이다. 따라서 전원이 꺼지면 사라져도 문제없는 정보 위주로 쓰이며, 대형 서버용 SSD의 온보드 DRAM을 그대로 대체하는 구조는 아니다.
@@ -133,17 +133,17 @@ HMB의 가장 큰 장점은 비용과 [성능](/knowledge-base/studynote/04_soft
 
 ```text
 원가 절감을 위한 DRAM 제거
-    │
-    ▼
+    |
+    v
 매핑 조회 지연 증가
-    │
-    ▼
+    |
+    v
 DRAM-less SSD 체감 성능 저하
-    │
-    ▼
+    |
+    v
 호스트 메모리 일부 대여
-    │
-    ▼
+    |
+    v
 HMB 기반 클라이언트 SSD 최적화
 ```
 
@@ -161,7 +161,7 @@ HMB 기반 클라이언트 SSD 최적화
 
 **진행 상황**: 705 / 803
 
-← **이전**: [703. ZNS (Zoned Namespace) SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)
-**다음**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/) →
+<- **이전**: [703. ZNS (Zoned Namespace) SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)
+**다음**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/) ->
 
 ---

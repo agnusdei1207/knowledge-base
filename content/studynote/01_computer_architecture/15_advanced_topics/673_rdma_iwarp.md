@@ -24,13 +24,13 @@ iWARP는 일반 IP 네트워크 위에서도 RDMA의 장점을 살리기 위해 
 RoCE는 매우 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제공하지만, 패킷 손실이 생기면 성능과 안정성이 급격히 흔들릴 수 있어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스위치에 PFC, Explicit Congestion Notification (ECN) 같은 세밀한 튜닝이 필요하다. iWARP는 이 문제를 "네트워크를 바꾸자"가 아니라 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 전송 계층을 활용하자"로 풀었다. 즉, 이미 널리 배치된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 메커니즘을 사용해 RDMA를 보다 운영 친화적으로 가져오려는 선택이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Goal: keep RDMA semantics without requiring lossless Ethernet               │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Socket I/O      -> portable, but copy + kernel overhead remain             │
-│ RoCE            -> very low latency, but fabric tuning is demanding        │
-│ iWARP           -> higher transport cost, easier on routed TCP/IP networks │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Goal: keep RDMA semantics without requiring lossless Ethernet               |
++------------------------------------------------------------------------------+
+| Socket I/O      -> portable, but copy + kernel overhead remain             |
+| RoCE            -> very low latency, but fabric tuning is demanding        |
+| iWARP           -> higher transport cost, easier on routed TCP/IP networks |
++------------------------------------------------------------------------------+
 ```
 
 핵심은 iWARP가 "인터넷 어디서나 RDMA를 공짜로 쓴다"는 마법이 아니라, 표준 IP 운영 절차 위에서 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 실현하려는 절충안이라는 점이다. 따라서 필요성은 속도 그 자체보다도, <strong>기존 네트워크 팀의 운영 모델을 크게 바꾸지 않고 RDMA를 도입하려는 요구</strong>에서 가장 선명하게 드러난다.
@@ -54,12 +54,12 @@ iWARP의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/
 이 구조에서 가장 중요한 것은 RNIC가 단순한 네트워크 카드가 아니라는 점이다. 송신 측 RNIC는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트화, 순서 제어, 재전송을 수행하고, 수신 측 RNIC는 재조립된 페이로드를 [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/) ([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))로 지정 버퍼에 바로 쓴다. 그래서 손실이 있는 네트워크에서도 애플리케이션은 비교적 안정적으로 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 완료 의미를 받을 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ App -> Verbs -> RDMAP -> DDP -> MPA -> TCP -> IP -> Ethernet               │
-│                                                                              │
-│ Ethernet -> IP -> TCP reassembly -> MPA -> DDP -> DMA write -> remote buf  │
-│                           handled largely by RNIC / TOE                     │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| App -> Verbs -> RDMAP -> DDP -> MPA -> TCP -> IP -> Ethernet               |
+|                                                                              |
+| Ethernet -> IP -> TCP reassembly -> MPA -> DDP -> DMA write -> remote buf  |
+|                           handled largely by RNIC / TOE                     |
++------------------------------------------------------------------------------+
 ```
 
 물론 대가도 있다. TCP의 상태 관리, 혼잡 제어, 순서 보장 덕분에 운영은 편해지지만, 패킷 손실 시 재전송과 정렬 비용이 더해져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 꼬리값이 커질 수 있다. 즉 iWARP의 원리는 <strong>네트워크를 무손실로 만들지 않는 대신, 전송 계층의 복잡성을 RNIC로 끌어안는 구조</strong>라고 정리할 수 있다.
@@ -144,16 +144,16 @@ iWARP의 가장 큰 기대효과는 [RDMA](/knowledge-base/studynote/02_operatin
 
 ```text
 복사 중심 TCP socket 입출력
-        │
-        ▼
+        |
+        v
 RDMA (Remote Direct Memory Access) 오프로딩
-        │
-        ├──────────────▶ RoCE (RDMA over Converged Ethernet) 저지연 패브릭
-        │
-        ▼
+        |
+        +---------------> RoCE (RDMA over Converged Ethernet) 저지연 패브릭
+        |
+        v
 iWARP (Internet Wide Area RDMA Protocol) on TCP/IP
-        │
-        ▼
+        |
+        v
 SMB Direct / NVMe-oF (NVMe over Fabrics) 같은 저지연 원격 스토리지 서비스
 ```
 
@@ -171,7 +171,7 @@ SMB Direct / NVMe-oF (NVMe over Fabrics) 같은 저지연 원격 스토리지 �
 
 **진행 상황**: 674 / 803
 
-← **이전**: [672. SPDK (Storage Performance Development Kit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/)
-**다음**: [674. 스토리지 티어링 (Storage Tiering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/) →
+<- **이전**: [672. SPDK (Storage Performance Development Kit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/)
+**다음**: [674. 스토리지 티어링 (Storage Tiering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/) ->
 
 ---

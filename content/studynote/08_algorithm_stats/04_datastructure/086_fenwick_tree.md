@@ -27,7 +27,7 @@ tags = ["studynote-algorithm-stats"]
 접근 비교:
   단순 배열:    업데이트 O(1) / 쿼리 O(N)
   누적 합:      업데이트 O(N) / 쿼리 O(1)
-  펜윅 트리:    업데이트 O(logN) / 쿼리 O(logN) ← 최적 균형
+  펜윅 트리:    업데이트 O(logN) / 쿼리 O(logN) <- 최적 균형
   세그먼트:     업데이트 O(logN) / 쿼리 O(logN) (더 범용)
 ```
 
@@ -123,8 +123,8 @@ class FenwickTree:
 
 ```text
 2D 범위 합 쿼리:
-  update(x, y, delta)  → O(log M × log N)
-  query(x1, y1, x2, y2) → O(log M × log N)
+  update(x, y, delta)  -> O(log M × log N)
+  query(x1, y1, x2, y2) -> O(log M × log N)
 
 응용: 2D 히트맵 누적, 행렬 부분 합
 ```
@@ -161,17 +161,17 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 ```text
 [누적 합 배열 — O(N) 업데이트 / O(1) 쿼리]
-    │
-    ▼
+    |
+    v
 [펜윅 트리 (BIT) — O(logN) 업데이트 / O(logN) 쿼리]
-    │
-    ▼
+    |
+    v
 [세그먼트 트리 — 범위 업데이트까지 지원]
-    │
-    ▼
+    |
+    v
 [2D BIT / 2D 세그먼트 — 다차원 범위 쿼리]
-    │
-    ▼
+    |
+    v
 [GPU Parallel Prefix Sum — 병렬 BIT 딥러닝 응용]
 ```
 
@@ -187,7 +187,7 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 **진행 상황**: 86 / 175
 
-← **이전**: [29. 세그먼트 트리 (Segment Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/)
-**다음**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) →
+<- **이전**: [29. 세그먼트 트리 (Segment Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/)
+**다음**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) ->
 
 ---

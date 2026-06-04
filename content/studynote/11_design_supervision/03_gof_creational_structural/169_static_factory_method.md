@@ -34,21 +34,21 @@ tags = ["studynote-design-supervision"]
 다음 그림은 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 감싸는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Static Factory Method: 생성 요청과 실제 생성 정책을 분리      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │ create / of / from / valueOf                                     │
-│   ▼                                                                  │
-│ Static Factory Method                                                 │
-│   ├─ 입력 검증                                                       │
-│   ├─ 캐시 조회                                                       │
-│   ├─ 구현 클래스 선택                                                │
-│   └─ 새 객체 생성 또는 기존 객체 반환                                │
-│            │                                                         │
-│            ├─▶ Interface Type 반환                                   │
-│            └─▶ Concrete Subtype 은닉                                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Static Factory Method: 생성 요청과 실제 생성 정책을 분리      |
++----------------------------------------------------------------------+
+| Client                                                               |
+|   | create / of / from / valueOf                                     |
+|   v                                                                  |
+| Static Factory Method                                                 |
+|   +- 입력 검증                                                       |
+|   +- 캐시 조회                                                       |
+|   +- 구현 클래스 선택                                                |
+|   +- 새 객체 생성 또는 기존 객체 반환                                |
+|            |                                                         |
+|            +--> Interface Type 반환                                   |
+|            +--> Concrete Subtype 은닉                                 |
++----------------------------------------------------------------------+
 ```
 
 대표적인 설계 효과는 아래와 같다.
@@ -137,15 +137,15 @@ tags = ["studynote-design-supervision"]
 
 ```text
 생성자 (Constructor)의 한계
-        │
-        ▼
+        |
+        v
 정적 팩토리 메서드 (Static Factory Method)
-        │
-        ├─▶ 캐싱 / 싱글턴 / 플라이웨이트
-        │
-        ├─▶ 인터페이스 반환 / 구현 은닉
-        │
-        └─▶ 서비스 제공자 프레임워크 / 확장형 API 설계
+        |
+        +--> 캐싱 / 싱글턴 / 플라이웨이트
+        |
+        +--> 인터페이스 반환 / 구현 은닉
+        |
+        +--> 서비스 제공자 프레임워크 / 확장형 API 설계
 ```
 
 이 흐름은 "단순 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"에서 출발해 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제"와 "구현 은닉"으로 설계 관심사가 확장되는 과정을 보여준다.
@@ -162,7 +162,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 225 / 530
 
-← **이전**: [168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/168_template_method_factory_method_combo/)
-**다음**: [170. 모듈 패턴 (Module Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/170_module_pattern/) →
+<- **이전**: [168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/168_template_method_factory_method_combo/)
+**다음**: [170. 모듈 패턴 (Module Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/170_module_pattern/) ->
 
 ---

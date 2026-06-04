@@ -35,22 +35,22 @@ tags = ["studynote-operating-system"]
   - 2001년 PaX 프로젝트(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 보안 패치)에서 처음 고안되었고, 2005년 리눅스 2.6, 2007년 윈도우 비스타에 기본 탑재되며 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 방지)와 함께 원격 코드 실행(RCE) 공격을 박멸하기 위한 가장 강력한 패러다임 시프트가 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 ASLR 적용 전후의 메모리 구조 변화 (Randomization)     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ ASLR 꺼짐 (구형 OS) - 매번 동일한 주소 ]                      │
-  │  실행 1차: [코드: 0x400000]...[힙: 0x600000].....[스택: 0x7FFFFFFF]│
-  │  실행 2차: [코드: 0x400000]...[힙: 0x600000].....[스택: 0x7FFFFFFF]│
-  │    ▶ 해커: "스택 주소가 0x7FFFFFFF군. 거기에 쉘코드를 넣고 쏴야지!" 🎯 100% 명중 │
-  │                                                             │
-  │  [ ASLR 켜짐 (현대 OS) - 매번 무작위로 뒤섞임 ]                    │
-  │  실행 1차: [코드: 0x54A000]......[힙: 0x82C000]..[스택: 0x7FFED1B4]│
-  │  실행 2차: [코드: 0x71F000].[힙: 0x9B1000].......[스택: 0x7FFC89A0]│
-  │  실행 3차: [코드: 0x4A2000].........[힙: 0x5D0000]...[스택: 0x7FFA42C]│
-  │    ▶ 해커: "어제 쐈던 0x7FFFFFFF로 쏴야지!"                         │
-  │    ▶ 결과: 해당 주소에 아무것도 없음 -> 🚨 Segmentation Fault (프로그램 다운) │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 ASLR 적용 전후의 메모리 구조 변화 (Randomization)     |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ ASLR 꺼짐 (구형 OS) - 매번 동일한 주소 ]                      |
+  |  실행 1차: [코드: 0x400000]...[힙: 0x600000].....[스택: 0x7FFFFFFF]|
+  |  실행 2차: [코드: 0x400000]...[힙: 0x600000].....[스택: 0x7FFFFFFF]|
+  |    -> 해커: "스택 주소가 0x7FFFFFFF군. 거기에 쉘코드를 넣고 쏴야지!" 🎯 100% 명중 |
+  |                                                             |
+  |  [ ASLR 켜짐 (현대 OS) - 매번 무작위로 뒤섞임 ]                    |
+  |  실행 1차: [코드: 0x54A000]......[힙: 0x82C000]..[스택: 0x7FFED1B4]|
+  |  실행 2차: [코드: 0x71F000].[힙: 0x9B1000].......[스택: 0x7FFC89A0]|
+  |  실행 3차: [코드: 0x4A2000].........[힙: 0x5D0000]...[스택: 0x7FFA42C]|
+  |    -> 해커: "어제 쐈던 0x7FFFFFFF로 쏴야지!"                         |
+  |    -> 결과: 해당 주소에 아무것도 없음 -> 🚨 Segmentation Fault (프로그램 다운) |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 메모리 지도의 '예측 불가능성(Unpredictability)'이 방어의 핵심임을 시각화한다. 해커의 공격 페이로드(Payload)에는 쉘코드의 위치를 가리키는 하드코딩된 '주소값(Pointer)'이 반드시 들어가야 한다. ASLR이 켜져 있으면, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스를 메모리에 적재(`execve`)할 때마다 보안 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 돌려 `0x1000` 단위([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))로 오프셋(Offset)을 더해 주소를 엉망으로 비틀어버린다. 해커가 옛날 주소로 점프를 시도하면, CPU는 허가되지 않은 텅 빈 메모리 공간으로 추락하게 되어 '세그먼테이션 폴트'를 내고 프로세스를 즉각 사살한다. 권한을 탈취당하는 것(Exploit)보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잠시 죽는 것(Crash)이 백만 배 안전하다.
@@ -76,24 +76,24 @@ tags = ["studynote-operating-system"]
 가장 치명적인 오해는 "OS에서 ASLR을 켜면 내 프로그램은 무조건 안전하다"는 것이다. OS가 섞어주고 싶어도, 컴파일러가 프로그램을 깡통으로 만들면 섞을 수가 없다. 이를 해결하는 것이 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/">PIE</a> (위치 독립 실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)</strong> 기술이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ASLR과 PIE 컴파일러 옵션의 시너지 구조               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 일반 컴파일 (No PIE) - gcc -no-pie ]                             │
-  │   - 바이너리 안에 "이 프로그램은 무조건 0x400000에 올라가야 해!" 라고 박혀있음. │
-  │   - OS의 ASLR: "힙이랑 스택은 섞어줄게. 근데 니 코드(.text)는 고집 부리니까   │
-  │                어쩔 수 없이 0x400000에 둔다."                        │
-  │   ▶ 해커 반격: "스택 주소는 바뀌었지만, 코드는 0x400000에 고정이네?         │
-  │               여기 있는 코드 조각을 모아 공격(ROP)하자!" (반쪽짜리 방어)      │
-  │                                                                   │
-  │   [ PIE 컴파일 적용 (현대 디폴트) - gcc -fPIE -pie ]                   │
-  │   - 바이너리 내 모든 점프 명령어가 절대 주소(`jmp 0x400010`)가 아닌,       │
-  │     현재 위치 기준 상대 주소(`jmp PC + 0x10`)로 유연하게 컴파일됨.        │
-  │   - OS의 ASLR: "오, 유연하네? 니 코드 전체를 0x9B1000으로 휙 던져버리마!"  │
-  │   ▶ 완벽 방어: 힙, 스택, 공유 라이브러리뿐만 아니라 프로그램 본체(Code/Data)의│
-  │              베이스 주소까지 완벽하게 난수화됨! 100% 예측 불가 달성.         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ASLR과 PIE 컴파일러 옵션의 시너지 구조               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 일반 컴파일 (No PIE) - gcc -no-pie ]                             |
+  |   - 바이너리 안에 "이 프로그램은 무조건 0x400000에 올라가야 해!" 라고 박혀있음. |
+  |   - OS의 ASLR: "힙이랑 스택은 섞어줄게. 근데 니 코드(.text)는 고집 부리니까   |
+  |                어쩔 수 없이 0x400000에 둔다."                        |
+  |   -> 해커 반격: "스택 주소는 바뀌었지만, 코드는 0x400000에 고정이네?         |
+  |               여기 있는 코드 조각을 모아 공격(ROP)하자!" (반쪽짜리 방어)      |
+  |                                                                   |
+  |   [ PIE 컴파일 적용 (현대 디폴트) - gcc -fPIE -pie ]                   |
+  |   - 바이너리 내 모든 점프 명령어가 절대 주소(`jmp 0x400010`)가 아닌,       |
+  |     현재 위치 기준 상대 주소(`jmp PC + 0x10`)로 유연하게 컴파일됨.        |
+  |   - OS의 ASLR: "오, 유연하네? 니 코드 전체를 0x9B1000으로 휙 던져버리마!"  |
+  |   -> 완벽 방어: 힙, 스택, 공유 라이브러리뿐만 아니라 프로그램 본체(Code/Data)의|
+  |              베이스 주소까지 완벽하게 난수화됨! 100% 예측 불가 달성.         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** ASLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 마법이고, PIE는 컴파일러의 마법이다. 둘이 합쳐져야 100% 방어막이 켜진다. 과거에는 프로그램의 `.text`(코드) 영역 위치를 알면 해커들이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 코드를 안 넣고 원래 있던 코드를 짜깁기하는 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)([Return-Oriented Programming](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)) 공격을 시전했다. 이를 막기 위해 컴파일러는 `fPIE` 옵션을 써서 프로그램 자체를 "어느 주소에 떨어져도 자기들끼리 오프셋으로 잘 돌아갈 수 있게(Position Independent)" 빌드해 버린다. 현대의 모든 리눅스 배포판(Ubuntu 등)은 패키지를 만들 때 이 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) 옵션을 100% 강제(Default)하여 OS의 ASLR이 프로그램 본체까지 완벽하게 공중 부양시키도록 설계했다.
@@ -134,28 +134,28 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (멀티프로세스 재분기 구조의 강점)**: ASLR의 맹점은 "한 번 부여된 베이스 주소는 프로세스가 죽기 전까지는 안 바뀐다"는 것이다. 만약 단일 거대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델(Node.js 등)이라면 주소가 털린 채로 영원히 돌아가니 다음 공격에 100% 당한다. 하지만 Nginx 같은 멀티 프로세스 모델에서는 마스터가 워커를 `fork` 하여 띄우므로, 워커 하나가 공격받아 죽거나(Crash), 정기적으로 워커를 갈아치우게(Reload) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면, 죽을 때마다 전혀 새로운 랜덤 주소([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))를 부여받고 환생한다. 해커가 어렵게 구한 옛날 주소는 휴지 조각이 된다. 아키텍처적 생명주기 관리가 보안을 극대화하는 사례다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 보호 및 컴파일 아키텍처 무결성 점검 체계         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서비스 배포 전, 바이너리 보호 기법(Mitigation) 체크리스트 ]           │
-  │   명령어 도구: `checksec --file=my_server_app`                       │
-  │                                                                   │
-  │   1. RELRO (Relocation Read-Only)                                 │
-  │      - Full RELRO 🟢 : GOT(Global Offset Table) 영역 쓰기 방지 완료    │
-  │                                                                   │
-  │   2. Stack Canary                                                 │
-  │      - Canary found 🟢 : 스택 오버플로우 1차 탐지 방패 정상 작동           │
-  │                                                                   │
-  │   3. NX (No-Execute / DEP)                                        │
-  │      - NX enabled 🟢 : 스택/힙에서 악성 쉘코드 실행 불가 상태             │
-  │                                                                   │
-  │   4. PIE (Position Independent Executable)                        │
-  │      - PIE enabled 🟢 : 코드 영역 베이스 무작위화 준비 완료 (ASLR과 결합) │
-  │                                                                   │
-  │   아키텍트 판정: 위 4가지 방어막(초록불)이 모두 켜져 있어야만 운영(Prod) 환경 │
-  │              배포를 승인한다. 하나라도 빠지면 RCE(원격코드실행) 위험 노출! │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 보호 및 컴파일 아키텍처 무결성 점검 체계         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서비스 배포 전, 바이너리 보호 기법(Mitigation) 체크리스트 ]           |
+  |   명령어 도구: `checksec --file=my_server_app`                       |
+  |                                                                   |
+  |   1. RELRO (Relocation Read-Only)                                 |
+  |      - Full RELRO 🟢 : GOT(Global Offset Table) 영역 쓰기 방지 완료    |
+  |                                                                   |
+  |   2. Stack Canary                                                 |
+  |      - Canary found 🟢 : 스택 오버플로우 1차 탐지 방패 정상 작동           |
+  |                                                                   |
+  |   3. NX (No-Execute / DEP)                                        |
+  |      - NX enabled 🟢 : 스택/힙에서 악성 쉘코드 실행 불가 상태             |
+  |                                                                   |
+  |   4. PIE (Position Independent Executable)                        |
+  |      - PIE enabled 🟢 : 코드 영역 베이스 무작위화 준비 완료 (ASLR과 결합) |
+  |                                                                   |
+  |   아키텍트 판정: 위 4가지 방어막(초록불)이 모두 켜져 있어야만 운영(Prod) 환경 |
+  |              배포를 승인한다. 하나라도 빠지면 RCE(원격코드실행) 위험 노출! |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 점검표는 백엔드 인프라 아키텍트의 최종 검문소(checksec)다. 개발자가 코드를 아무리 잘 짜도 100% 완벽할 순 없다([제로데이 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/)). 따라서 해커가 취약점을 찾아내더라도 그것을 무기(Exploit)로 바꾸지 못하도록 시스템 컴파일 타임에 4중 방패를 강제로 두르게 하는 것이다. 최근의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 파이프라인에는 빌드된 바이너리가 이 4가지 보안 플래그를 모두 가지고 있는지 검사하여 하나라도 실패하면 배포를 거부하는 자동화 장치가 기본으로 구축되어 있다.
@@ -204,12 +204,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [루트킷 탐지 무결성 스캔]
-    │
-    ▼
+    |
+    v
 [ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)]
-    │
-    ├──▶ [SELinux 보안 강제 접근 통제]
-    └──▶ [실시간 스케줄링 마감 시간 (Deadline)]
+    |
+    +---> [SELinux 보안 강제 접근 통제]
+    +---> [실시간 스케줄링 마감 시간 (Deadline)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -226,7 +226,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 764 / 800
 
-← **이전**: [763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)](/knowledge-base/studynote/02_operating_system/11_exam_summary/763_rootkit_detection_integrity_scan/)
-**다음**: [765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)](/knowledge-base/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/) →
+<- **이전**: [763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)](/knowledge-base/studynote/02_operating_system/11_exam_summary/763_rootkit_detection_integrity_scan/)
+**다음**: [765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)](/knowledge-base/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/) ->
 
 ---

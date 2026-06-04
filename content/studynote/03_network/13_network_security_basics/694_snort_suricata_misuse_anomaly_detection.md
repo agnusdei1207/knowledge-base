@@ -33,11 +33,11 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 ```text
 [NIDS 공격]
-    │
-    ▼
+    |
+    v
 [스노트, Suricata 와 오용 탐지 vs…]
-    │
-    └──▶ [IPS 차단 아키텍처]
+    |
+    +---> [IPS 차단 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 ```text
 [NIDS 공격]
-    │
-    ▼
+    |
+    v
 [스노트, Suricata 와 오용 탐지 vs…]
-    │
-    └──▶ [IPS 차단 아키텍처]
+    |
+    +---> [IPS 차단 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 오용 탐지는 공항의 '지명 수배자 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인식 카메라'입니다. 범죄자 명단(시그니처 DB)에 있는 얼굴과 똑같은 사람이 지나가면 100% 확률로 체포하지만, 명단에 없는 처음 보는 테러범은 유유히 빠져나갑니다. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 노련한 '공항 마약 탐지견'입니다. 평범해 보여도 유독 식은땀을 많이 흘리거나 안절부절못하는 이상한 낌새([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))를 보이면 일단 짖어서 잡아 세웁니다. 신종 마약범도 기가 막히게 잡지만, 가끔 그냥 배가 아파서 땀을 흘리는 일반 여행객(False Positive)에게도 짖어대는 피곤한 부작용이 있습니다.
@@ -124,12 +124,12 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 ```text
 [선행 개념: NIDS 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ├──▶ [확장 A: IPS 차단 아키텍처]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: IPS 차단 아키텍처]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 **진행 상황**: 815 / 1120
 
-← **이전**: [693. NIDS (Network Intrusion Detection System 분산 탐지) 공격](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)
-**다음**: [695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) →
+<- **이전**: [693. NIDS (Network Intrusion Detection System 분산 탐지) 공격](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)
+**다음**: [695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) ->
 
 ---

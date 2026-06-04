@@ -44,27 +44,27 @@ tags = ["studynote-enterprise"]
 아래 그림은 델파이의 반복 수렴 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Delphi loop: anonymous forecast refinement                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Expert panel selection                                              │
-│        │                                                             │
-│        ▼                                                             │
-│ Round 1: initial answers                                             │
-│        │                                                             │
-│        ▼                                                             │
-│ Facilitator summary                                                  │
-│   - median / spread                                                  │
-│   - anonymous reasons                                                │
-│        │                                                             │
-│        ▼                                                             │
-│ Round 2..N: revise answers                                           │
-│        │                                                             │
-│        └──────────────> convergence check ───────────────┐          │
-│                                                           │          │
-│                 no  <──────────────────────────────────────┘          │
-│                 yes -> consensus output                               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Delphi loop: anonymous forecast refinement                          |
++----------------------------------------------------------------------+
+| Expert panel selection                                              |
+|        |                                                             |
+|        v                                                             |
+| Round 1: initial answers                                             |
+|        |                                                             |
+|        v                                                             |
+| Facilitator summary                                                  |
+|   - median / spread                                                  |
+|   - anonymous reasons                                                |
+|        |                                                             |
+|        v                                                             |
+| Round 2..N: revise answers                                           |
+|        |                                                             |
+|        +--------------> convergence check ---------------+          |
+|                                                           |          |
+|                 no  <--------------------------------------+          |
+|                 yes -> consensus output                               |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자 역할이 매우 중요하다. [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자는 특정 답을 유도하면 안 되며, 상반된 견해를 공정하게 요약해 다시 전달해야 한다. 델파이의 힘은 전문가의 개별 직위를 제거한 상태에서, 반복 피드백을 통해 극단값을 줄이고 설명력 있는 근거를 남기는 데 있다.
@@ -126,21 +126,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 High uncertainty problem
-          │
-          ▼
+          |
+          v
 Expert panel design
-          │
-          ▼
+          |
+          v
 Anonymous multi-round survey
-          │
-          ▼
+          |
+          v
 Statistical and narrative feedback
-          │
-          ▼
+          |
+          v
 Consensus forecast and policy roadmap
 ```
 
-이 흐름은 "불확실성 인식 → 전문가 구성 → 익명 반복 → 피드백 정제 → 전망 합의"의 구조를 보여준다.
+이 흐름은 "불확실성 인식 -> 전문가 구성 -> 익명 반복 -> 피드백 정제 -> 전망 합의"의 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ Consensus forecast and policy roadmap
 
 **진행 상황**: 214 / 482
 
-← **이전**: [213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/)
-**다음**: [215. MECE (Mutually Exclusive, Collectively Exhaustive) - 이슈 트리 분석 원칙 (중복 없이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) →
+<- **이전**: [213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/)
+**다음**: [215. MECE (Mutually Exclusive, Collectively Exhaustive) - 이슈 트리 분석 원칙 (중복 없이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) ->
 
 ---

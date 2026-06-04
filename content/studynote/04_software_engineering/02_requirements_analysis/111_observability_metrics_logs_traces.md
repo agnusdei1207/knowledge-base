@@ -21,22 +21,22 @@ tags = ["studynote-software-engineering"]
 모놀리스 시대에는 서버 1대의 CPU·메모리만 보면 됐다. MSA에서는 100개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그물망처럼 호출하므로, "어디가 느린지" 찾는 것 자체가 난제다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│       Monitoring vs Observability                      │
-├───────────────────────────────────────────────────────┤
-│  [Monitoring]                [Observability]           │
-│   "CPU 80% 넘으면 알림"      "왜 느린지 추론"          │
-│   Known Unknowns 감시        Unknown Unknowns 진단    │
-│   대시보드 기반               탐색적 질의(Ad-hoc)      │
-│                                                       │
-│  3대 신호 (Three Pillars):                            │
-│   ┌─────────┐  ┌─────────┐  ┌─────────┐              │
-│   │ Metrics │  │  Logs   │  │ Traces  │              │
-│   │ (수치)  │  │(이벤트) │  │(경로)   │              │
-│   └────┬────┘  └────┬────┘  └────┬────┘              │
-│        └────────────┼────────────┘                    │
-│              Correlation (상관 연결)                   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|       Monitoring vs Observability                      |
++-------------------------------------------------------+
+|  [Monitoring]                [Observability]           |
+|   "CPU 80% 넘으면 알림"      "왜 느린지 추론"          |
+|   Known Unknowns 감시        Unknown Unknowns 진단    |
+|   대시보드 기반               탐색적 질의(Ad-hoc)      |
+|                                                       |
+|  3대 신호 (Three Pillars):                            |
+|   +---------+  +---------+  +---------+              |
+|   | Metrics |  |  Logs   |  | Traces  |              |
+|   | (수치)  |  |(이벤트) |  |(경로)   |              |
+|   +----+----+  +----+----+  +----+----+              |
+|        +------------+------------+                    |
+|              Correlation (상관 연결)                   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 모니터링은 체온계(38도 넘으면 알림), 관측 가능성은 MRI(왜 열이 나는지 내부를 투시)다.
@@ -93,7 +93,7 @@ CNCF가 주도하는 **벤더 중립 계측 표준**. SDK 하나로 [Metrics](/k
 | Unknown Unknowns | 감지 불가 | **탐색적 진단** | 신규 역량 |
 | [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) | 높음 (전용 에이전트) | **OTel로 중립** | 자유도 확보 |
 
-Observability는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Ops와 결합하여 "이상 징후 자동 감지 → 근본 원인 자동 추론 → 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"의 자율 운영(Autonomous Operations) 시대를 여는 핵심 기반이다.
+Observability는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Ops와 결합하여 "이상 징후 자동 감지 -> 근본 원인 자동 추론 -> 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"의 자율 운영(Autonomous Operations) 시대를 여는 핵심 기반이다.
 
 ---
 
@@ -111,17 +111,17 @@ Observability는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 
 ```text
 [서버 모니터링 (Nagios, 2000s) — 단일 서버 CPU/메모리 감시]
-    │
-    ▼
+    |
+    v
 [로그 중앙화 (ELK, 2010s) — 분산 로그 수집·검색]
-    │
-    ▼
+    |
+    v
 [분산 트레이싱 (Zipkin·Jaeger, 2015~) — MSA 요청 경로 추적]
-    │
-    ▼
+    |
+    v
 [OpenTelemetry 통합 (2019~) — Metrics·Logs·Traces 단일 SDK]
-    │
-    ▼
+    |
+    v
 [현재: AI Ops — 이상 탐지·근본 원인 자동 추론·자동 복구]
 ```
 
@@ -136,7 +136,7 @@ Observability는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 
 **진행 상황**: 111 / 973
 
-← **이전**: [110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)
-**다음**: [112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/) →
+<- **이전**: [110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)
+**다음**: [112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/) ->
 
 ---

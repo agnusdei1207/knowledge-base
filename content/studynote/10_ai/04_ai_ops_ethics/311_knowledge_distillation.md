@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 2015년 제프리 힌튼(Geoffrey Hinton)이 제안한 이 기법은 교사 모델의 <strong>소프트 레이블(클래스별 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 분포)</strong>을 학생 모델의 학습 타겟으로 활용한다. 예를 들어, 고양이 이미지에 대해 교사 모델이 "고양이 0.90, 개 0.07, 토끼 0.03"을 출력한다면, 이 분포가 "고양이와 개가 토끼보다 더 유사하다"는 다크 날리지(Dark Knowledge)를 담고 있다. 학생이 이 풍부한 정보를 학습하면 단순히 "1(고양이), 0(나머지)"를 학습하는 것보다 훨씬 깊은 표현을 익힌다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 박사 교수(교사 모델)가 직접 강의하는 대신, 교수의 사고 방식과 추론 과정(소프트 레이블)을 녹화한 영상으로 중학생(학생 모델)이 학습하는 것이다. 정답만 가르치는 것(하드 레이블)보다 "왜 이게 맞고 저건 왜 비슷한지"를 알려주는 것(소프트 레이블)이 훨씬 깊은 이해를 만든다.
@@ -39,36 +39,36 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         지식 증류 (Knowledge Distillation) 학습 구조                │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력 데이터 x                                                     │
-│      │                        │                                  │
-│      ▼                        ▼                                  │
-│  [교사 모델 (Teacher)]      [학생 모델 (Student)]                   │
-│  크고 복잡한 모델             작고 가벼운 모델                        │
-│  (동결, 학습 안 함)           (학습 진행 중)                         │
-│      │                        │                                  │
-│  소프트맥스 T=T_high          소프트맥스 T=T_high                   │
-│      │                        │                                  │
-│  소프트 레이블 p_T            소프트 레이블 q_T                      │
-│  [고양이:0.90, 개:0.07, ...]  [고양이:0.85, 개:0.09, ...]          │
-│      │                        │                                  │
-│      └───────▶ KL Divergence 손실 ◀────────┘                    │
-│                  L_distill = KL(p_T || q_T)                     │
-│                                                                  │
-│  정답 레이블 y                                                     │
-│      │                        │                                  │
-│      └───────▶ Cross-Entropy 손실 ◀────────┘                    │
-│                  L_CE = CrossEntropy(y, q)                      │
-│                                                                  │
-│  최종 손실: L = α × L_CE + (1-α) × L_distill                     │
-│  (α: 하이퍼파라미터, 보통 0.1~0.5)                                  │
-│                                                                  │
-│  온도(T) 효과: T가 클수록 소프트맥스 분포가 평활화                    │
-│  T=1: 표준 소프트맥스 | T=10: 모든 클래스 확률이 비슷해짐 (다크 날리지 강화)│
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         지식 증류 (Knowledge Distillation) 학습 구조                |
++------------------------------------------------------------------+
+|                                                                  |
+|  입력 데이터 x                                                     |
+|      |                        |                                  |
+|      v                        v                                  |
+|  [교사 모델 (Teacher)]      [학생 모델 (Student)]                   |
+|  크고 복잡한 모델             작고 가벼운 모델                        |
+|  (동결, 학습 안 함)           (학습 진행 중)                         |
+|      |                        |                                  |
+|  소프트맥스 T=T_high          소프트맥스 T=T_high                   |
+|      |                        |                                  |
+|  소프트 레이블 p_T            소프트 레이블 q_T                      |
+|  [고양이:0.90, 개:0.07, ...]  [고양이:0.85, 개:0.09, ...]          |
+|      |                        |                                  |
+|      +--------> KL Divergence 손실 <---------+                    |
+|                  L_distill = KL(p_T || q_T)                     |
+|                                                                  |
+|  정답 레이블 y                                                     |
+|      |                        |                                  |
+|      +--------> Cross-Entropy 손실 <---------+                    |
+|                  L_CE = CrossEntropy(y, q)                      |
+|                                                                  |
+|  최종 손실: L = α × L_CE + (1-α) × L_distill                     |
+|  (α: 하이퍼파라미터, 보통 0.1~0.5)                                  |
+|                                                                  |
+|  온도(T) 효과: T가 클수록 소프트맥스 분포가 평활화                    |
+|  T=1: 표준 소프트맥스 | T=10: 모든 클래스 확률이 비슷해짐 (다크 날리지 강화)|
++------------------------------------------------------------------+
 ```
 
 | 증류 유형 | 방법 | 특징 |
@@ -106,7 +106,7 @@ tags = ["studynote-ai"]
 | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 낮춤 | 즉시 적용 가능 | 일부 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 손실 |
 | [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 구조적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 가능 |
 
-실무에서는 세 기법을 조합하는 <strong>복합 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인(Distillation → <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a> → <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>이 최고 효율을 달성한다.
+실무에서는 세 기법을 조합하는 <strong>복합 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인(Distillation -> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a> -> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>이 최고 효율을 달성한다.
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·프루닝 삼총사는 맞춤 다이어트 플랜이다. 증류는 "부모(큰 모델) 유전자를 물려받아 태어날 때부터 효율적인 아이" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이고, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 "성인이 된 후 덜 정밀하게 먹기"이고, 프루닝은 "군살 잘라내기"다. 세 가지를 순서대로 하면 최강의 몸매([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/크기 비율) 달성이 가능하다.
 
@@ -114,7 +114,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 모델 경량화의 핵심 기법으로, 클라우드의 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4급)를 스마트폰·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기·엣지 서버에서 실행 가능한 소형 AI로 변환하는 핵심 기술이다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4o mini, [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) → DistilBERT처럼 초대형 모델의 지식이 소형 모델로 이식되어 AI의 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)과 응용 범위를 극적으로 확장한다. 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 더욱 핵심적인 역할을 할 것이다.
+[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 모델 경량화의 핵심 기법으로, 클라우드의 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4급)를 스마트폰·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기·엣지 서버에서 실행 가능한 소형 AI로 변환하는 핵심 기술이다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 -> [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4o mini, [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) -> DistilBERT처럼 초대형 모델의 지식이 소형 모델로 이식되어 AI의 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)과 응용 범위를 극적으로 확장한다. 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 더욱 핵심적인 역할을 할 것이다.
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 제다이 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 전수 의식이다. 오비완([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4)의 강력한 포스(지식)를 루크(소형 모델)에게 전수하는 것. 루크는 오비완만큼 크지 않지만, 핵심 지혜(다크 날리지)를 물려받아 적절한 상황에서 거의 동등한 힘을 발휘한다.
 
@@ -133,7 +133,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [지식 증류 (Knowledge Distillation)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [지식 증류 (Knowledge Distillation)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 311 / 420
 
-← **이전**: [310. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/310_cosine_similarity/)
-**다음**: [312. 모델 양자화 (Quantization)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/) →
+<- **이전**: [310. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/310_cosine_similarity/)
+**다음**: [312. 모델 양자화 (Quantization)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/) ->
 
 ---

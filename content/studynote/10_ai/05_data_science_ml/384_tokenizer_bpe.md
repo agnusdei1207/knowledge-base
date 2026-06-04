@@ -30,12 +30,12 @@ tags = ["studynote-ai"]
 BPE는 원래 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이었으나, Sennrich et al. (2016)이 NMT (Neural Machine Translation)에 도입했다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BPE는 "자주 등장하는 레고 블록 조합을 새로운 블록으로 묶어 보관하는 것"이다. 자주 쓰는 단어 조각은 하나의 토큰으로 만들어 효율화한다.
@@ -48,43 +48,43 @@ BPE는 원래 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09
 
 ```
 1. 초기화: 모든 단어를 문자 단위로 분리 + 단어 끝 표시 </w>
-   "low"  → l o w </w>
-   "lower"→ l o w e r </w>
-   "newer"→ n e w e r </w>
+   "low"  -> l o w </w>
+   "lower"-> l o w e r </w>
+   "newer"-> n e w e r </w>
 
 2. 빈도 계산: 인접 문자 쌍의 등장 빈도 계산
    (l,o): 3회,  (o,w): 3회,  (e,r): 2회, ...
 
 3. 가장 빈도 높은 쌍 병합:
-   병합 1: (l,o) → "lo"
-   병합 2: (lo,w) → "low"
-   병합 3: (e,r) → "er"
+   병합 1: (l,o) -> "lo"
+   병합 2: (lo,w) -> "low"
+   병합 3: (e,r) -> "er"
    ...
 
 4. 목표 어휘 크기에 도달할 때까지 반복
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  초기:  l o w </w>  /  l o w e r </w>                │
-│  병합1: lo w </w>   /  lo w e r </w>   (+lo)         │
-│  병합2: low </w>    /  low e r </w>    (+low)         │
-│  병합3: low </w>    /  low er </w>     (+er)          │
-│  결과 어휘: {l, o, w, e, r, </w>, lo, low, er, ...}  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  초기:  l o w </w>  /  l o w e r </w>                |
+|  병합1: lo w </w>   /  lo w e r </w>   (+lo)         |
+|  병합2: low </w>    /  low e r </w>    (+low)         |
+|  병합3: low </w>    /  low er </w>     (+er)          |
+|  결과 어휘: {l, o, w, e, r, </w>, lo, low, er, ...}  |
++------------------------------------------------------+
 ```
 
 ### BPE 인코딩 (적용)
 
 학습된 병합 규칙을 우선순위대로 새 텍스트에 적용:
 ```
-"lowest" → l o w e s t → lo w e s t → low e s t → low es t → low est
+"lowest" -> l o w e s t -> lo w e s t -> low e s t -> low es t -> low est
 ```
-→ OOV 단어도 알려진 서브워드로 분해 가능
+-> OOV 단어도 알려진 서브워드로 분해 가능
 
 ### [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)-level BPE
 
-[UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 기본 어휘로 사용 → 모든 [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/) 문자 처리 가능, OOV 완전 제거
+[UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 기본 어휘로 사용 -> 모든 [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/) 문자 처리 가능, OOV 완전 제거
 
 | 요소 | 역할 |
 |:---|:---|
@@ -118,10 +118,10 @@ BPE는 원래 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09
 - 한국어: 자소 분리 + BPE 조합으로 한글 형태소 특성 반영
 
 **토큰 길이와 비용**: 더 짧은 토큰 시퀀스 = 더 적은 컴퓨팅 비용
-- "unhappiness" → [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/): ["un", "##happy", "##ness"] (3토큰)
+- "unhappiness" -> [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/): ["un", "##happy", "##ness"] (3토큰)
 - [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2: ["un", "h", "app", "iness"] (4토큰 경우도 있음)
 
-기술사 포인트: BPE [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 3단계([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화→병합→적용)와 OOV 해결 원리를 명확히 설명.
+기술사 포인트: BPE [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 3단계([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화->병합->적용)와 OOV 해결 원리를 명확히 설명.
 
 - **📢 섹션 요약 비유**: 어휘 크기 선택은 "사전의 두께"다. 두꺼우면 표현력이 좋지만 외워야 할 단어가 많고, 얇으면 가볍지만 알 수 없는 단어가 늘어난다.
 
@@ -149,7 +149,7 @@ BPE는 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [토크나이저 BPE (Byte Pair Encoding)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [토크나이저 BPE (Byte Pair Encoding)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -164,7 +164,7 @@ BPE는 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_
 
 **진행 상황**: 384 / 420
 
-← **이전**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/)
-**다음**: [385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)](/knowledge-base/studynote/10_ai/05_data_science_ml/385_wordpiece_sentencepiece/) →
+<- **이전**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/)
+**다음**: [385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)](/knowledge-base/studynote/10_ai/05_data_science_ml/385_wordpiece_sentencepiece/) ->
 
 ---

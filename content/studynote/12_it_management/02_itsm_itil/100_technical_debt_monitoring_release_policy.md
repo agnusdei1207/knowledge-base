@@ -30,28 +30,28 @@ tags = ["studynote-it-management"]
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong> | 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 연동 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 허용 시간이 바닥나면 신규 배포를 즉각 멈추고 시스템 안정화 작업으로 강제 전환 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          Technical Debt Monitoring & Release Pipeline       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 개발자 Commit ] ──▶ [ CI Server (빌드 & 테스트) ]     │
-│                                 │                           │
-│                                 ▼                           │
-│                      ┌──────────────────────┐               │
-│                      │ SonarQube 정적 분석  │               │
-│                      │ - 복잡도 검사        │               │
-│                      │ - 기술 부채 일수 계산│               │
-│                      └──────────┬───────────┘               │
-│                                 │                           │
-│                                 ▼                           │
-│                 [ Quality Gate (릴리스 정책 검증) ]         │
-│                 /                               \           │
-│         [Pass: 빚 정상]                   [Fail: 한도 초과] │
-│              │                                  │           │
-│              ▼                                  ▼           │
-│      [운영 환경 Release]                  [배포 강제 중단]  │
-│                                           (리팩토링 지시)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          Technical Debt Monitoring & Release Pipeline       |
++-------------------------------------------------------------+
+|                                                             |
+|   [ 개발자 Commit ] ---> [ CI Server (빌드 & 테스트) ]     |
+|                                 |                           |
+|                                 v                           |
+|                      +----------------------+               |
+|                      | SonarQube 정적 분석  |               |
+|                      | - 복잡도 검사        |               |
+|                      | - 기술 부채 일수 계산|               |
+|                      +----------+-----------+               |
+|                                 |                           |
+|                                 v                           |
+|                 [ Quality Gate (릴리스 정책 검증) ]         |
+|                 /                               \           |
+|         [Pass: 빚 정상]                   [Fail: 한도 초과] |
+|              |                                  |           |
+|              v                                  v           |
+|      [운영 환경 Release]                  [배포 강제 중단]  |
+|                                           (리팩토링 지시)   |
++-------------------------------------------------------------+
 ```
 위 다이어그램은 코드가 병합될 때마다 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 기술 부채를 계산하고, 이 점수가 사전에 합의된 퀄리티 게이트의 기준을 통과하지 못하면 상용 환경으로의 배포(Release)가 기술적으로 차단되는 자동화된 파이프라인을 보여준다.
 
@@ -94,17 +94,17 @@ tags = ["studynote-it-management"]
 
 ```text
 개발 속도 우선주의 · 스파게티 코드 양산
-    │
-    ▼
+    |
+    v
 기술 부채 (Technical Debt) 개념화 · 이자(유지보수 비용) 발생 인지
-    │
-    ▼
+    |
+    v
 정적 분석 도구 도입 (SonarQube) · 부채의 정량화 및 지수화
-    │
-    ▼
+    |
+    v
 CI/CD Quality Gate 연동 · 부채 초과 시 릴리스 강제 차단 자동화
-    │
-    ▼
+    |
+    v
 SRE 연계 (Error Budget) · 데이터 기반의 비즈니스 타협 정책 확립
 ```
 
@@ -121,7 +121,7 @@ SRE 연계 (Error Budget) · 데이터 기반의 비즈니스 타협 정책 확�
 
 **진행 상황**: 183 / 587
 
-← **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)
-**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_release_policy/) →
+<- **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)
+**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_release_policy/) ->
 
 ---

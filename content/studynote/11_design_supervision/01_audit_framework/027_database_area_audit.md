@@ -19,17 +19,17 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│         DB 영역 감리 주요 점검 항목                   │
-├──────────────────────────────────────────────────────┤
-│ □ 데이터 모델 (ERD)    : 요구사항 반영, 정규화 수준  │
-│ □ 데이터 표준          : 도메인·코드·용어 표준 준수  │
-│ □ 무결성               : PK/FK/제약 조건 적용 여부  │
-│ □ 성능                 : 인덱스 설계, 실행 계획 분석│
-│ □ 보안                 : 개인정보 암호화, 접근 통제 │
-│ □ 가용성               : 백업·복구 정책, HA 구성    │
-│ □ 데이터 품질          : 중복·결측·오류 데이터 관리 │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|         DB 영역 감리 주요 점검 항목                   |
++------------------------------------------------------+
+| □ 데이터 모델 (ERD)    : 요구사항 반영, 정규화 수준  |
+| □ 데이터 표준          : 도메인·코드·용어 표준 준수  |
+| □ 무결성               : PK/FK/제약 조건 적용 여부  |
+| □ 성능                 : 인덱스 설계, 실행 계획 분석|
+| □ 보안                 : 개인정보 암호화, 접근 통제 |
+| □ 가용성               : 백업·복구 정책, HA 구성    |
+| □ 데이터 품질          : 중복·결측·오류 데이터 관리 |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DB 감리는 건물의 기초 공사 점검이다. 아무리 외관이 화려해도(응용 시스템) 기초(DB)가 부실하면 전체가 흔들린다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 오류는 사업 운영 오류로 직결된다.
@@ -55,7 +55,7 @@ tags = ["studynote-design-supervision"]
   - 바이오 정보: 별도 보호 조치
 
 감리 점검 방법:
-  - SELECT * FROM 테이블 WHERE 주민번호 = '원문' → 조회 가능 시 미암호화 적발
+  - SELECT * FROM 테이블 WHERE 주민번호 = '원문' -> 조회 가능 시 미암호화 적발
   - INFORMATION_SCHEMA로 컬럼 데이터타입·길이 확인
 ```
 
@@ -118,17 +118,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [수동 DB 점검 — ERD 리뷰, 쿼리 분석]
-    │
-    ▼
+    |
+    v
 [DB 영역 감리 체계화 — 5대 감리 영역 중 하나]
-    │
-    ▼
+    |
+    v
 [개인정보보호 강화 — 암호화 의무 확대]
-    │
-    ▼
+    |
+    v
 [자동화 도구 통합 — SonarQube, DAST, 실행계획]
-    │
-    ▼
+    |
+    v
 [AI DB 감리 — 이상 탐지 + 최적화 자동 추천]
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 30 / 530
 
-← **이전**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/)
-**다음**: [27. 사업 관리 영역 감리 (Project Management Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/027_pm_area_audit/) →
+<- **이전**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/)
+**다음**: [27. 사업 관리 영역 감리 (Project Management Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/027_pm_area_audit/) ->
 
 ---

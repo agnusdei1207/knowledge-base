@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
+    |
+    v
 [자율 주행 넷망]
-    │
-    └──▶ [AI 내재화]
+    |
+    +---> [AI 내재화]
 ```
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ```text
 [네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
+    |
+    v
 [자율 주행 넷망]
-    │
-    └──▶ [AI 내재화]
+    |
+    +---> [AI 내재화]
 ```
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ```text
 [선행 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 자율 주행 넷망]
-    │
-    ├──▶ [확장 A: AI 내재화]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: AI 내재화]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 자율 주행 넷망는 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…에서 출발해 현재 메커니즘을 정교화하고, 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 **진행 상황**: 912 / 1120
 
-← **이전**: [790. 네트워크 프로그래밍 모델 P4 지원 고정 하드웨어 규격 ASIC 탈피 자율망 라우팅 룰 적용 최적 커스텀 프로세싱 (초저지연](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/790_p4_programming_network_data_plane/)
-**다음**: [792. AI 내재화 (AI-Native)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/) →
+<- **이전**: [790. 네트워크 프로그래밍 모델 P4 지원 고정 하드웨어 규격 ASIC 탈피 자율망 라우팅 룰 적용 최적 커스텀 프로세싱 (초저지연](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/790_p4_programming_network_data_plane/)
+**다음**: [792. AI 내재화 (AI-Native)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/) ->
 
 ---

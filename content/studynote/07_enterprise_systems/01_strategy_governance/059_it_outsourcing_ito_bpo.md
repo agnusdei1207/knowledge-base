@@ -33,11 +33,11 @@ ITO는 서버 운영, 네트워크, 유지보수, 애플리케이션 운영 같�
 
 ```text
 핵심 역량
-   ↓
+   v
 내부 유지 / 외부 위탁 판단
-   ├─ ITO: IT 운영·개발
-   └─ BPO: 회계·인사·콜센터
-        ↓
+   +- ITO: IT 운영·개발
+   +- BPO: 회계·인사·콜센터
+        v
 SLA / KPI / 보안 / 정산
 ```
 
@@ -112,11 +112,11 @@ ITO와 BPO는 비용 절감만이 아니라, 자원을 [전략](/knowledge-base/
 
 ```text
 핵심 역량
-   ↓
+   v
 ITO / BPO 판단
-   ↓
+   v
 SLA / KPI / 보안
-   ↓
+   v
 벤더 관리 / 지식 이전
 ```
 
@@ -126,13 +126,13 @@ SLA / KPI / 보안
 
 ```text
 인하우스 운영
-   ↓
+   v
 ITO (IT Outsourcing)
-   ↓
+   v
 BPO (Business Process Outsourcing)
-   ↓
+   v
 SLA / Managed Service
-   ↓
+   v
 거버넌스와 벤더 전환 관리
 ```
 
@@ -150,7 +150,7 @@ BPO는 계산이나 안내 같은 업무까지 더 크게 맡기는 거예요.
 
 **진행 상황**: 59 / 482
 
-← **이전**: [58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)
-**다음**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/) →
+<- **이전**: [58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)
+**다음**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/) ->
 
 ---

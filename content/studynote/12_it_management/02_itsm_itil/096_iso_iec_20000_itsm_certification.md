@@ -32,23 +32,23 @@ IT 시스템이 기업의 비즈니스와 생존에 직결되면서, 서버가 �
 ISO 20000 체계는 경영 시스템의 기본인 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 엔진으로 삼고, 그 위에 14개 이상의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) 톱니바퀴들을 맞물려 돌린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│               ISO/IEC 20000의 PDCA 기반 핵심 프로세스 구조             │
-├────────────────────────────────────────────────────────────────────────┤
-│                           [ Plan (계획) ]                              │
-│                                  │                                     │
-│     ┌────────────────────────────▼───────────────────────────┐         │
-│     │                      [ Do (실행) ]                         │         │
-│     │                                                            │         │
-│     │ 1. 서비스 제공: SLA, 가용성, 용량, 정보보안, 예산/과금     │         │
-│     │ 2. 관계 관리  : 비즈니스 관계, 공급자 관리                 │         │
-│     │ 3. 해결 프로세스: 사고 관리(Incident), 문제 관리(Problem)  │         │
-│     │ 4. 통제 프로세스: 구성 관리(CI), 변경 관리, 릴리스 관리    │         │
-│     └────────────────────────────┬───────────────────────────┘         │
-│                                  │                                     │
-│  [ Act (개선) ] ◀───────────────┴─────────────── [ Check (점검) ] │
-│  (프로세스 최적화)                               (SLA 달성률 모니터링) │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|               ISO/IEC 20000의 PDCA 기반 핵심 프로세스 구조             |
++------------------------------------------------------------------------+
+|                           [ Plan (계획) ]                              |
+|                                  |                                     |
+|     +----------------------------v---------------------------+         |
+|     |                      [ Do (실행) ]                         |         |
+|     |                                                            |         |
+|     | 1. 서비스 제공: SLA, 가용성, 용량, 정보보안, 예산/과금     |         |
+|     | 2. 관계 관리  : 비즈니스 관계, 공급자 관리                 |         |
+|     | 3. 해결 프로세스: 사고 관리(Incident), 문제 관리(Problem)  |         |
+|     | 4. 통제 프로세스: 구성 관리(CI), 변경 관리, 릴리스 관리    |         |
+|     +----------------------------+---------------------------+         |
+|                                  |                                     |
+|  [ Act (개선) ] <----------------+--------------- [ Check (점검) ] |
+|  (프로세스 최적화)                               (SLA 달성률 모니터링) |
++------------------------------------------------------------------------+
 ```
 
 이 다이어그램은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈추지 않고 돌아가기 위한 4대 핵심 영역(제공, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 해결, 통제)을 보여준다. 사고가 나면 해결 프로세스가 작동하고, 서버를 증설할 때는 통제 프로세스의 승인을 받는다. 이 모든 행위는 기록되고 점검(Check)되어 다음 달의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 높이는(Act) 거름이 된다.
@@ -109,17 +109,17 @@ ISO/IEC 20000 [인증](/knowledge-base/studynote/04_software_engineering/05_devo
 
 ```text
 IT 운영의 태동 (주먹구구식 장애 처리)
-    │
-    ▼
+    |
+    v
 ITIL 등장 · 글로벌 베스트 프랙티스의 정립 (가이드라인)
-    │
-    ▼
+    |
+    v
 BS 15000 · 영국 국가 표준 제정 (심사 기준의 틀 마련)
-    │
-    ▼
+    |
+    v
 ISO/IEC 20000 · ITSM 국제 표준 인증 발효 (글로벌 잣대)
-    │
-    ▼
+    |
+    v
 통합 인증체계 진화 · ISO 27001(보안) 등과 연계 및 자동화 솔루션 융합
 ```
 
@@ -135,7 +135,7 @@ ISO/IEC 20000 · ITSM 국제 표준 인증 발효 (글로벌 잣대)
 
 **진행 상황**: 176 / 587
 
-← **이전**: [96. ISO/IEC 20000](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/)
-**다음**: [97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)](/knowledge-base/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/) →
+<- **이전**: [96. ISO/IEC 20000](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/)
+**다음**: [97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)](/knowledge-base/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/) ->
 
 ---

@@ -38,18 +38,18 @@ DRY는 단순히 복사하여 붙여넣기를 하지 말라는 구문(Syntax) �
    [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의서나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서에서 반복적인 보일러플레이트 코드를 자동 생성하는 것도 지식의 원천을 문서 하나로 모으는 DRY의 훌륭한 적용 사례다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 [ DRY Principle의 적용 구조 ]               │
-├─────────────────────────────────────────────────────────────┤
-│ [위반 상태 (WET)]                                           │
-│  Module A ──▶ (로직 X 복사본) ◀─ 변경 발생 시 둘 다 수정해야 함│
-│  Module B ──▶ (로직 X 복사본)                               │
-│                                                             │
-│ [DRY 적용 후]                                               │
-│  Module A ──▶ ┌────────────────┐                            │
-│               │ 공통 서비스 (X)│ ◀─ 변경 시 여기 1곳만 수정  │
-│  Module B ──▶ └────────────────┘                            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 [ DRY Principle의 적용 구조 ]               |
++-------------------------------------------------------------+
+| [위반 상태 (WET)]                                           |
+|  Module A ---> (로직 X 복사본) <-- 변경 발생 시 둘 다 수정해야 함|
+|  Module B ---> (로직 X 복사본)                               |
+|                                                             |
+| [DRY 적용 후]                                               |
+|  Module A ---> +----------------+                            |
+|               | 공통 서비스 (X)| <-- 변경 시 여기 1곳만 수정  |
+|  Module B ---> +----------------+                            |
++-------------------------------------------------------------+
 ```
 
 DRY 원칙이 제대로 적용된 시스템은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))가 높고 중복이 없기 때문에, 요구사항 변경에 따른 파급 효과가 한곳으로 제한된다.
@@ -113,17 +113,17 @@ DRY 원칙을 적절하게 준수하면 개발 생산성이 비약적으로 상�
 
 ```text
 소프트웨어 설계 원칙의 진화
-    │
-    ▼
+    |
+    v
 Spaghetti Code (무분별한 복사-붙여넣기, WET 상태 방치)
-    │
-    ▼
+    |
+    v
 DRY (Don't Repeat Yourself, 중복 제거와 SSOT 확보)
-    │
-    ▼
+    |
+    v
 Rule of Three & YAGNI (성급한 추상화 경계, 실용적 적용)
-    │
-    ▼
+    |
+    v
 MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허용)
 ```
 
@@ -139,7 +139,7 @@ MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허
 
 **진행 상황**: 157 / 530
 
-← **이전**: [107. 반복 금지 원칙 (DRY, Don't Repeat Yourself)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/107_dry_dont_repeat_yourself/)
-**다음**: [108. 단순성 유지 원칙 (KISS, Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/108_kiss_keep_it_simple_stupid/) →
+<- **이전**: [107. 반복 금지 원칙 (DRY, Don't Repeat Yourself)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/107_dry_dont_repeat_yourself/)
+**다음**: [108. 단순성 유지 원칙 (KISS, Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/108_kiss_keep_it_simple_stupid/) ->
 
 ---

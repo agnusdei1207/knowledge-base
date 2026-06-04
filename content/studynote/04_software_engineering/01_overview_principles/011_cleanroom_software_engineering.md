@@ -31,15 +31,15 @@ tags = ["software_engineering"]
 
 ```text
 [기존 디버깅 접근법]
-┌───────┐   ┌───────┐   ┌───────┐   ┌────────────┐
-│ 설계  │ → │ 코딩  │ → │ 테스트│ → │ 결함 발견/ │=> 비용 폭증
-└───────┘   └───────┘   └───────┘   │ 무한 디버깅│
-                                      └────────────┘
++-------+   +-------+   +-------+   +------------+
+| 설계  | -> | 코딩  | -> | 테스트| -> | 결함 발견/ |=> 비용 폭증
++-------+   +-------+   +-------+   | 무한 디버깅|
+                                      +------------+
 [클린룸 접근법]
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 박스 구조  │ → │ 수학적 증명│ → │ 통계적 사용│=> 무결점 달성
-│ 정형 명세  │   │ (컴파일 X) │   │ 테스팅     │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| 박스 구조  | -> | 수학적 증명| -> | 통계적 사용|=> 무결점 달성
+| 정형 명세  |   | (컴파일 X) |   | 테스팅     |
++------------+   +------------+   +------------+
 ```
 
 이 흐름도는 기존 방식이 코딩 후 테스트 단계에서 병목과 비용 폭증을 유발하는 반면, 클린룸 방식은 정형 명세와 증명 단계에서 대부분의 논리적 오류를 걸러낸다는 점을 보여준다. 따라서 개발자는 컴파일러에 의존하지 않고 리뷰와 증명에 시간을 쏟으며, 후반부 테스트는 디버깅이 아닌 '[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 측정'의 도구로만 사용된다. 실무에서는 이러한 접근이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용은 높지만 장기적인 유지보수 비용을 획기적으로 낮추는 결과를 낳는다.
@@ -70,21 +70,21 @@ tags = ["software_engineering"]
                    * 내부 상태 숨김, I/O 매핑만 존재
 
 ② State Box (상태 분해)
-   [Input] ======> ┌─────────────┐ ======> [Output]
-                   │ State Data  │
-                   │ Transition  │
-                   └─────────────┘
+   [Input] ======> +-------------+ ======> [Output]
+                   | State Data  |
+                   | Transition  |
+                   +-------------+
 
 ③ Clear Box (절차적 구현)
-   [Input] ======> ┌─────────────┐ ======> [Output]
-                   │ ┌───────┐   │
-                   │ │ Proc 1│   │
-                   │ └─┬─────┘   │
-                   │   │         │
-                   │ ┌─▼─────┐   │
-                   │ │ Proc 2│   │
-                   │ └───────┘   │
-                   └─────────────┘
+   [Input] ======> +-------------+ ======> [Output]
+                   | +-------+   |
+                   | | Proc 1|   |
+                   | +-+-----+   |
+                   |   |         |
+                   | +-v-----+   |
+                   | | Proc 2|   |
+                   | +-------+   |
+                   +-------------+
 ```
 
 이 도식의 핵심은 시스템을 설계할 때 처음부터 코드를 작성하는 것이 아니라, 입출력(블랙박스)에서 시작해 내부 상태(상태박스)를 정의하고, 마지막으로 제어 흐름(클리어박스)으로 점진적 정교화를 이룬다는 점이다. 이러한 배치는 설계 과정에서 필연적으로 발생하는 논리적 비약을 방지하며, 각 단계로 넘어갈 때마다 이전 단계와 수학적으로 동치(Equivalent)임을 증명할 수 있게 해준다. 따라서 클리어박스 단계에 도달하면, 개발자는 이 로직이 블랙박스의 요구사항을 100% 충족한다는 것을 확신할 수 있다.
@@ -94,12 +94,12 @@ tags = ["software_engineering"]
 ```text
 [통계적 품질 제어 기반 테스팅 흐름]
 
-[사용자 패턴 분석] ──> [확률 모델 생성] ──> [테스트 케이스 자동 생성]
-                              │                     │
-                              ▼                     ▼
+[사용자 패턴 분석] --> [확률 모델 생성] --> [테스트 케이스 자동 생성]
+                              |                     |
+                              v                     v
                       (마르코프 체인)         (실행 및 결과 측정)
-                                                    │
-                                                    ▼
+                                                    |
+                                                    v
                                           [신뢰성 한계 계산 (MTTF)]
 ```
 
@@ -130,15 +130,15 @@ tags = ["software_engineering"]
 
 ```text
 비용 (Cost)
-  │                                    / [Agile/Waterfall]
-  │                                   /  후반부 결함 발견 시 기하급수적 증가
-  │                                  /
-  │                                 /
-  │                                /
-  │[Cleanroom]                    /
-  │초기 증명 비용 높음 ────------/──────── [Cleanroom] 유지보수 비용 평탄
-  │                   /
-  └───────────────────────────────────────────────► 생명주기 (Phase)
+  |                                    / [Agile/Waterfall]
+  |                                   /  후반부 결함 발견 시 기하급수적 증가
+  |                                  /
+  |                                 /
+  |                                /
+  |[Cleanroom]                    /
+  |초기 증명 비용 높음 ----------/-------- [Cleanroom] 유지보수 비용 평탄
+  |                   /
+  +-----------------------------------------------► 생명주기 (Phase)
        요구분석    설계    구현    테스트    유지보수
 ```
 
@@ -163,12 +163,12 @@ tags = ["software_engineering"]
 [클린룸 방법론 도입 판단 트리]
 
 [질문 1] 결함이 생명이나 막대한 재산 피해를 유발하는가?
-   ├── (No) ──> [결론] 일반 Agile / DevOps 적용
-   └── (Yes) ──> [질문 2] 요구사항이 명확하고 변경 확률이 낮은가?
-                  ├── (No) ──> [결론] 나선형(Spiral) + 리스크 기반 테스트
-                  └── (Yes) ──> [질문 3] 팀에 정형 기법(수학적 증명) 역량이 있는가?
-                                 ├── (No) ──> [결론] V-모델 + 정적 분석 도구 도입
-                                 └── (Yes) ──> [결론] 클린룸 공학 전면 도입 (Box Structure)
+   +-- (No) --> [결론] 일반 Agile / DevOps 적용
+   +-- (Yes) --> [질문 2] 요구사항이 명확하고 변경 확률이 낮은가?
+                  +-- (No) --> [결론] 나선형(Spiral) + 리스크 기반 테스트
+                  +-- (Yes) --> [질문 3] 팀에 정형 기법(수학적 증명) 역량이 있는가?
+                                 +-- (No) --> [결론] V-모델 + 정적 분석 도구 도입
+                                 +-- (Yes) --> [결론] 클린룸 공학 전면 도입 (Box Structure)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 클린룸 적용의 '진입 장벽'이 매우 높다는 사실을 시각화한 것이다. 단순히 안정성이 필요하다고 해서 도입할 수 있는 것이 아니라, 요구사항의 불변성과 팀의 수학적 역량이 뒷받침되어야 한다. 실무에서는 전체 시스템을 클린룸으로 개발하기보다, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 코어 엔진이나 암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등 '크리티컬 코어(Critical Core)'에만 국한하여 부분 도입하는 하이브리드 전략을 주로 취한다.
@@ -206,17 +206,17 @@ tags = ["software_engineering"]
 
 ```text
 [정형 명세 (Formal Specification) — 수학 기반 요구사항 정의]
-    │
-    ▼
+    |
+    v
 [정확성 증명 (Correctness Proof) — 코드 동치성 수학 검증]
-    │
-    ▼
+    |
+    v
 [통계적 사용 테스팅 (Statistical Usage Testing) — 마르코프 체인 기반 시뮬레이션]
-    │
-    ▼
+    |
+    v
 [신뢰성 인증 (Reliability Certification) — MTTF/MTBF 정량 보증]
-    │
-    ▼
+    |
+    v
 [고신뢰성 시스템 배포 (High-Integrity Release) — 항공·의료·금융 미션 크리티컬 도메인 적용]
 ```
 
@@ -233,7 +233,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 11 / 973
 
-← **이전**: [10. 진화적 프로세스 모델 (Evolutionary Process Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/)
-**다음**: [12. 애자일 방법론 (Agile Methodology) 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/) →
+<- **이전**: [10. 진화적 프로세스 모델 (Evolutionary Process Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/010_evolutionary_process_model/)
+**다음**: [12. 애자일 방법론 (Agile Methodology) 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/) ->
 
 ---

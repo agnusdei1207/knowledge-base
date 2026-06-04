@@ -35,27 +35,27 @@ tags = ["studynote-operating-system"]
   - [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 거대 빅데이터 클러스터가 등장하면서, 수천 대의 노드 중 "누가 리더(마스터)를 할 것인가?"를 정하거나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하기 위한 100% 신뢰 가능한 제3의 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))가 필요해져 Yahoo! 에서 개발되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 단일 서버 락(Local) vs 분산 락(Distributed)의 구조 차이 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 전통적 Local Lock - RAM 내부 통제 ]                        │
-  │   ┌─── Server A ──────────────────────┐                     │
-  │   │  Thread 1 ─▶ [ Mutex (RAM) ] ◀─ Thread 2             │
-  │   └───────────────────────────────────┘                     │
-  │   ※ 문제: Server B가 켜지면 Server A의 Mutex를 볼 수 없음.          │
-  │                                                             │
-  │  [ 분산 락 (ZooKeeper 기반) - 네트워크 통제 ]                    │
-  │                 ┌─── ZooKeeper Cluster ───┐                 │
-  │                 │ ┌───┐   ┌───┐   ┌───┐ │                 │
-  │                 │ │ZK1│   │ZK2│   │ZK3│ │                 │
-  │                 │ └───┘   └───┘   └───┘ │                 │
-  │                 └─────────▲───────────┘                 │
-  │              "내가 먼저 락 만들었음!"│                            │
-  │   ┌─── Server A ───┐          │          ┌─── Server B ───┐ │
-  │   │   Process 1    │──────────┴──────────│   Process 2    │ │
-  │   └────────────────┘      (네트워크)       └────────────────┘ │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 단일 서버 락(Local) vs 분산 락(Distributed)의 구조 차이 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 전통적 Local Lock - RAM 내부 통제 ]                        |
+  |   +--- Server A ----------------------+                     |
+  |   |  Thread 1 --> [ Mutex (RAM) ] <-- Thread 2             |
+  |   +-----------------------------------+                     |
+  |   ※ 문제: Server B가 켜지면 Server A의 Mutex를 볼 수 없음.          |
+  |                                                             |
+  |  [ 분산 락 (ZooKeeper 기반) - 네트워크 통제 ]                    |
+  |                 +--- ZooKeeper Cluster ---+                 |
+  |                 | +---+   +---+   +---+ |                 |
+  |                 | |ZK1|   |ZK2|   |ZK3| |                 |
+  |                 | +---+   +---+   +---+ |                 |
+  |                 +---------^-----------+                 |
+  |              "내가 먼저 락 만들었음!"|                            |
+  |   +--- Server A ---+          |          +--- Server B ---+ |
+  |   |   Process 1    |----------+----------|   Process 2    | |
+  |   +----------------+      (네트워크)       +----------------+ |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림에서 가장 눈여겨볼 점은 주키퍼(ZooKeeper) 자체가 1대의 서버가 아니라 3대, 5대의 클러스터(홀수)로 구성되어 있다는 것이다. "자물쇠 보관함을 1개만 뒀다가 그 보관함에 불이 나면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 아파트 화장실을 영원히 못 쓰게 되지 않을까?" [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍트들은 이를 막기 위해 보관함 자체를 3개로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 두고, 3명 중 2명(과반수, Quorum)이 "A가 열쇠를 가져갔어"라고 합의(Consensus)해야만 진짜로 열쇠를 내어주는 극강의 복원력([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 부여했다.
@@ -78,32 +78,32 @@ tags = ["studynote-operating-system"]
 수천 대의 서버가 락을 잡기 위해 주키퍼에 몰려들 때 어떻게 부하를 막고 줄을 세우는가?
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ZooKeeper 순차적 임시 노드 기반의 분산 락 시퀀스         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 락(Lock)을 획득하기 위한 대기열 폴더: `/mylock` ]                  │
-  │                                                                   │
-  │   1. Server A, B, C가 동시에 `/mylock/req-` 라는 노드를 생성 시도!      │
-  │                                                                   │
-  │   2. 주키퍼가 순번표(Sequential)를 원자적으로 발급함:                     │
-  │      Server A: `/mylock/req-000001` 생성 성공!                       │
-  │      Server B: `/mylock/req-000002` 생성 성공!                       │
-  │      Server C: `/mylock/req-000003` 생성 성공!                       │
-  │                                                                   │
-  │   3. 락 획득 판단 👑:                                                │
-  │      - 자기가 만든 번호가 `/mylock` 폴더 안에서 가장 작은 번호인가?           │
-  │      - Server A: "내가 1번이네! 내가 Lock 획득!" ──▶ 작업 시작!         │
-  │                                                                   │
-  │   4. 줄 서기 (Watch 걸기) 👀:                                        │
-  │      - Server B: "난 2번이네. 내 앞번호인 1번 노드에 알람(Watch) 걸고 자야지."│
-  │      - Server C: "난 3번이네. 내 앞번호인 2번 노드에 알람(Watch) 걸고 자야지."│
-  │                                                                   │
-  │   5. 락 해제 (Unlock) 및 알람 발송 🔔:                               │
-  │      - Server A가 작업을 끝내고 `000001` 노드를 삭제함.                 │
-  │      - 주키퍼: "어? 1번 지워졌다!" -> 1번을 감시하던 Server B만 깨움!     │
-  │      - Server B: "오예! 내 앞놈이 갔네! 이제 내가 1빠다! Lock 획득!"      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ZooKeeper 순차적 임시 노드 기반의 분산 락 시퀀스         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 락(Lock)을 획득하기 위한 대기열 폴더: `/mylock` ]                  |
+  |                                                                   |
+  |   1. Server A, B, C가 동시에 `/mylock/req-` 라는 노드를 생성 시도!      |
+  |                                                                   |
+  |   2. 주키퍼가 순번표(Sequential)를 원자적으로 발급함:                     |
+  |      Server A: `/mylock/req-000001` 생성 성공!                       |
+  |      Server B: `/mylock/req-000002` 생성 성공!                       |
+  |      Server C: `/mylock/req-000003` 생성 성공!                       |
+  |                                                                   |
+  |   3. 락 획득 판단 👑:                                                |
+  |      - 자기가 만든 번호가 `/mylock` 폴더 안에서 가장 작은 번호인가?           |
+  |      - Server A: "내가 1번이네! 내가 Lock 획득!" ---> 작업 시작!         |
+  |                                                                   |
+  |   4. 줄 서기 (Watch 걸기) 👀:                                        |
+  |      - Server B: "난 2번이네. 내 앞번호인 1번 노드에 알람(Watch) 걸고 자야지."|
+  |      - Server C: "난 3번이네. 내 앞번호인 2번 노드에 알람(Watch) 걸고 자야지."|
+  |                                                                   |
+  |   5. 락 해제 (Unlock) 및 알람 발송 🔔:                               |
+  |      - Server A가 작업을 끝내고 `000001` 노드를 삭제함.                 |
+  |      - 주키퍼: "어? 1번 지워졌다!" -> 1번을 감시하던 Server B만 깨움!     |
+  |      - Server B: "오예! 내 앞놈이 갔네! 이제 내가 1빠다! Lock 획득!"      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초창기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 A가 락을 만들면, B~Z까지 1만 대의 서버가 전부 A만 감시(Watch)했다. A가 락을 풀고 죽는 순간, 1만 대의 서버가 동시에 "내가 락 잡을 거야!" 라며 주키퍼에게 1만 개의 트래픽 폭탄을 날리는 <strong>허드 이펙트(Herd Effect, 소떼 현상)</strong>가 터져 주키퍼가 뻗어버렸다. 위 다이어그램의 순차 노드 방식은 이 재앙을 막기 위해 "자기 바로 앞 번호의 뒷통수만 쳐다보고 기다려라"라고 줄을 세운 것이다. A가 빠지면 B만 깨어나고 C는 계속 잔다. 이 우아한 연결 리스트형 줄 서기 덕분에 주키퍼는 수만 대의 서버 트래픽을 평온하게 감당할 수 있다.
@@ -147,27 +147,27 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (하트비트 튜닝 및 Jute Max Buffer 조정)**: 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 잦은 환경이라면 주키퍼 서버의 `tickTime`을 늘리고 클라이언트의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 넉넉히(예: 10초 이상) 잡아줘야 한다. 또한 락 정보가 담긴 znode의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 크면 직렬화(Jute) 버퍼 병목으로 핑이 밀리므로, 락 노드 안에는 어떠한 뚱뚱한 페이로드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 저장하지 말고 순수하게 1바이트짜리 껍데기만 남겨 통신 오버헤드를 제로에 가깝게 최적화해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안전한 분산 락 시스템 설계를 위한 아키텍트 결정 트리           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 분산 서버 환경에서 상호 배제(Mutex)가 필요한 비즈니스 로직이다 ]        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      락이 뚫려서 2명이 동시에 접근했을 때 금전적 피해(결제 등)가 막심한가?       │
-  │          ├─ 예 ─────▶ 🚨 [ Redis(Redlock) 금지! ZooKeeper / etcd 강제! ]│
-  │          │             (비동기 복제의 데이터 유실 리스크를 절대 허용하면 안됨) │
-  │          │                                                        │
-  │          └─ 아니오 (크롤링 봇 중복 방지 등 약간 뚫려도 다시 하면 됨)         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      응답 속도가 1ms 이내로 극한의 초저지연을 필요로 하는가?                   │
-  │          ├─ 예 ─────▶ [ Redis 분산 락 (Lettuce / Redisson) 채택 ]   │
-  │          │             (RAM 기반 단일 스레드로 극강의 레이턴시 보장)       │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ RDBMS Named Lock (MySQL GET_LOCK) 타협 ]  │
-  │                        (새로운 인프라 도입이 부담스러울 때 DB 하나로 퉁치기) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안전한 분산 락 시스템 설계를 위한 아키텍트 결정 트리           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 분산 서버 환경에서 상호 배제(Mutex)가 필요한 비즈니스 로직이다 ]        |
+  |                |                                                  |
+  |                v                                                  |
+  |      락이 뚫려서 2명이 동시에 접근했을 때 금전적 피해(결제 등)가 막심한가?       |
+  |          +- 예 ------> 🚨 [ Redis(Redlock) 금지! ZooKeeper / etcd 강제! ]|
+  |          |             (비동기 복제의 데이터 유실 리스크를 절대 허용하면 안됨) |
+  |          |                                                        |
+  |          +- 아니오 (크롤링 봇 중복 방지 등 약간 뚫려도 다시 하면 됨)         |
+  |                |                                                  |
+  |                v                                                  |
+  |      응답 속도가 1ms 이내로 극한의 초저지연을 필요로 하는가?                   |
+  |          +- 예 ------> [ Redis 분산 락 (Lettuce / Redisson) 채택 ]   |
+  |          |             (RAM 기반 단일 스레드로 극강의 레이턴시 보장)       |
+  |          |                                                        |
+  |          +- 아니오 ---> [ RDBMS Named Lock (MySQL GET_LOCK) 타협 ]  |
+  |                        (새로운 인프라 도입이 부담스러울 때 DB 하나로 퉁치기) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락의 세계에서 "가장 빠르고 가장 안전한" 마법은 없다. 레디스는 빠르지만 과반수 합의를 포기하여 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split-brain) 발생 시 락이 터진다. 주키퍼는 매번 3대의 디스크에 fsync를 치고 과반수 투표를 받느라(ZAB [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 락을 얻는 데 수 밀리초가 걸려 레디스보다 느리지만, 지구가 멸망해도 락의 유일성(Uniqueness)을 지켜낸다. 아키텍트는 비즈니스 도메인이 '은행'인지 'SNS 좋아요 수'인지 정확히 파악하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 속도의 시소 게임을 선택해야 한다.
@@ -216,12 +216,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [유니커널 보안과 가벼운 부팅 특성 망 적용]
-    │
-    ▼
+    |
+    v
 [분산 락 주키퍼(ZooKeeper) 합의 동기화]
-    │
-    ├──▶ [람포트 타임스탬프 인과 관계 정렬]
-    └──▶ [시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성]
+    |
+    +---> [람포트 타임스탬프 인과 관계 정렬]
+    +---> [시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -238,7 +238,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 798 / 800
 
-← **이전**: [797. 유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)](/knowledge-base/studynote/02_operating_system/11_exam_summary/797_unikernel_security_fast_boot_edge/)
-**다음**: [799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)](/knowledge-base/studynote/02_operating_system/11_exam_summary/799_lamport_timestamp_happens_before_causality/) →
+<- **이전**: [797. 유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)](/knowledge-base/studynote/02_operating_system/11_exam_summary/797_unikernel_security_fast_boot_edge/)
+**다음**: [799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)](/knowledge-base/studynote/02_operating_system/11_exam_summary/799_lamport_timestamp_happens_before_causality/) ->
 
 ---

@@ -44,15 +44,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 진짜 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)가 "PSU 2개"가 아니라 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) + 급전 경로 + 결합 회로"의 조합임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          True redundancy requires module redundancy and path split         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Utility A -> UPS A -> PDU A -> PSU A --\                                 │
-│                                          +--> OR-ing bus --> Server load   │
-│ Utility B -> UPS B -> PDU B -> PSU B --/                                 │
-│                                                                            │
-│ If PSU A or Feed A fails, PSU B must still support the full server load.   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          True redundancy requires module redundancy and path split         |
++----------------------------------------------------------------------------+
+| Utility A -> UPS A -> PDU A -> PSU A --\                                 |
+|                                          +--> OR-ing bus --> Server load   |
+| Utility B -> UPS B -> PDU B -> PSU B --/                                 |
+|                                                                            |
+| If PSU A or Feed A fails, PSU B must still support the full server load.   |
++----------------------------------------------------------------------------+
 ```
 
 핫스왑 (Hot-swap) 구조가 붙으면 운영 중에도 고장 난 PSU를 뽑아 새 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 교체할 수 있다. 이때 시스템은 꺼지지 않고, 관리자는 경고 로그를 보고 장애 부품만 바꾸면 된다. 그래서 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 정비성을 동시에 높이는 인프라가 된다.
@@ -129,17 +129,17 @@ N+1은 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 ```text
 단일 PSU 기반 서버
-        │
-        ▼
+        |
+        v
 1+1 이중화 PSU
-        │
-        ▼
+        |
+        v
 A/B UPS · A/B PDU 분리 급전
-        │
-        ▼
+        |
+        v
 Hot-swap · PMBus 텔레메트리 기반 운영
-        │
-        ▼
+        |
+        v
 N+1 / N+N 전원 셸프와 랙 단위 전력 복원력
 ```
 
@@ -157,7 +157,7 @@ N+1 / N+N 전원 셸프와 랙 단위 전력 복원력
 
 **진행 상황**: 742 / 803
 
-← **이전**: [740. 서버 섀시 팬 핫스왑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/740_fan_hot_swap/)
-**다음**: [742. 전압 조정기 모듈 (VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) →
+<- **이전**: [740. 서버 섀시 팬 핫스왑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/740_fan_hot_swap/)
+**다음**: [742. 전압 조정기 모듈 (VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ->
 
 ---

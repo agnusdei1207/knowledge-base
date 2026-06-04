@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [이더넷 구조 및 원리]
-    │
-    ▼
+    |
+    v
 [MAC 주소]
-    │
-    └──▶ [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
+    |
+    +---> [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소는 공장에서 찍혀 나오는 </strong>"전자 기기의 지문"**입니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 지문 인식기는 이 지문을 보고 정확히 그 기기에게만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 택배를 건네줍니다.
@@ -44,22 +44,22 @@ tags = ["studynote-network"]
 IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 48비트(6바이트)는 정확히 절반으로 나뉘어 관리된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                      MAC 주소 48비트 구조                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   16진수 표기:   00 : 1A : 2B  :  3C : 4D : 5E                │
- │                 └───────────┘    └───────────┘                │
- │                    24 bit           24 bit                  │
- │                                                             │
- │   의미:       [OUI (제조사 번호)]   [NIC 특정 일련번호]           │
- │                                                             │
- │   - OUI (Organizationally Unique Identifier):               │
- │     IEEE가 애플, 인텔, 삼성 등 각 제조사에게 돈을 받고 할당함.    │
- │   - NIC Specific (UAA: Universally Administered Address):   │
- │     제조사가 생산 라인에서 1씩 증가시키며 찍어내는 고유 시리얼.   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                      MAC 주소 48비트 구조                   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   16진수 표기:   00 : 1A : 2B  :  3C : 4D : 5E                |
+ |                 +-----------+    +-----------+                |
+ |                    24 bit           24 bit                  |
+ |                                                             |
+ |   의미:       [OUI (제조사 번호)]   [NIC 특정 일련번호]           |
+ |                                                             |
+ |   - OUI (Organizationally Unique Identifier):               |
+ |     IEEE가 애플, 인텔, 삼성 등 각 제조사에게 돈을 받고 할당함.    |
+ |   - NIC Specific (UAA: Universally Administered Address):   |
+ |     제조사가 생산 라인에서 1씩 증가시키며 찍어내는 고유 시리얼.   |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 주소의 관리와 고갈 문제
@@ -129,12 +129,12 @@ IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_secur
 
 ```text
 [선행 개념: 이더넷 구조 및 원리]
-    │
-    ▼
+    |
+    v
 [현재 개념: MAC 주소]
-    │
-    ├──▶ [확장 A: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구조 및 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_secur
 
 **진행 상황**: 352 / 1120
 
-← **이전**: [230. 이더넷 (Ethernet) 구조 및 원리 (IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)
-**다음**: [232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/232_multicast_broadcast_mac_address/) →
+<- **이전**: [230. 이더넷 (Ethernet) 구조 및 원리 (IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)
+**다음**: [232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/232_multicast_broadcast_mac_address/) ->
 
 ---

@@ -21,25 +21,25 @@ tags = ["studynote-network"]
 
 - **개념**: LDAP (Lightweight [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) Access [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 무겁고 방대한 국제 통신 표준인 X.500 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 접근 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(DAP)을 IP 네트워크([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 환경에 맞게 다이어트시킨 경량화 표준이다. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 달리 복잡한 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)보다는 엄청나게 <strong>빠른 '읽기(Read)와 검색'</strong>에 극단적으로 최적화된 계층형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스토리지 규격이다.
 - **필요성**: 기업 규모가 커지면 한 직원이 사내 메일, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 메신저, 리눅스 서버, Wi-Fi 접속 등에 필요한 패스워드를 10개씩 외워야 하는 참사가 발생한다. 직원이 퇴사할 때 이 10군데의 계정을 일일이 지우지 못해 보안 구멍(Ghost Account)이 뚫린다. 따라서 전사 조직도와 계정을 한곳에 모아두고 모든 시스템이 그곳을 참조하게 만드는 거대한 '디지털 전화번호부'가 절실했다.
-- **등장 배경**: ① OSI 7계층 기반의 무겁고 복잡한 X.500 통신 규격의 한계 노출 → ② 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 대중화로 가볍고 빠른 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 조회 요구 증가 → ③ 1993년 미시간 대학에서 X.500의 뼈대만 남긴 경량 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) LDAP(v1) 개발 및 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준화 성공.
+- **등장 배경**: ① OSI 7계층 기반의 무겁고 복잡한 X.500 통신 규격의 한계 노출 -> ② 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 대중화로 가볍고 빠른 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 조회 요구 증가 -> ③ 1993년 미시간 대학에서 X.500의 뼈대만 남긴 경량 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) LDAP(v1) 개발 및 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준화 성공.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             사일로(Silo) 계정 구조 vs LDAP 중앙 통합 아키텍처     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 사일로(Silo) 구조] - 관리 지옥!                          │
-│   입사자 1명 ──▶ (메일 DB 생성), (VPN DB 생성), (Linux DB 생성)  │
-│   퇴사자 1명 ──▶ (메일만 삭제) ... VPN과 Linux엔 계정이 남아버림!    │
-│                                                             │
-│   [혁신: LDAP 통합 아키텍처] - Single Source of Truth           │
-│                    ┌────────────────────────────┐           │
-│   (VPN 인증) ──▶ │                            │           │
-│   (메일 인증) ──▶ │  LDAP Server (Directory)   │           │
-│   (사내 Wi-Fi)─▶ │   - 사용자 ID, 부서, 패스워드 │           │
-│                    └────────────────────────────┘           │
-│   => 입사/퇴사 시 중앙 LDAP 서버의 트리 구조 노드 딱 1개만 건드리면 끝. │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             사일로(Silo) 계정 구조 vs LDAP 중앙 통합 아키텍처     |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: 사일로(Silo) 구조] - 관리 지옥!                          |
+|   입사자 1명 ---> (메일 DB 생성), (VPN DB 생성), (Linux DB 생성)  |
+|   퇴사자 1명 ---> (메일만 삭제) ... VPN과 Linux엔 계정이 남아버림!    |
+|                                                             |
+|   [혁신: LDAP 통합 아키텍처] - Single Source of Truth           |
+|                    +----------------------------+           |
+|   (VPN 인증) ---> |                            |           |
+|   (메일 인증) ---> |  LDAP Server (Directory)   |           |
+|   (사내 Wi-Fi)--> |   - 사용자 ID, 부서, 패스워드 |           |
+|                    +----------------------------+           |
+|   => 입사/퇴사 시 중앙 LDAP 서버의 트리 구조 노드 딱 1개만 건드리면 끝. |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 기업의 IT 보안과 인프라 관리가 왜 LDAP 없이는 굴러가지 않는지를 직관적으로 보여준다. 각각의 애플리케이션(이메일, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), 와이파이, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 로직을 내부에 구현하지 않는다. 사용자가 아이디/비밀번호를 입력하면 애플리케이션은 이를 그대로 LDAP 서버로 던져 "바인드(Bind) 성공 여부"만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 이 구조 덕분에 보안 관리자는 직원의 퇴사나 직급 변경 시 중앙의 LDAP [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 하나만 변경하면 전사 수백 개 시스템의 권한이 1초 만에 동기화되는 마법을 부릴 수 있다.
@@ -67,29 +67,29 @@ LDAP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 어떤 시스템이 사원 '홍길동(Hong Gil Dong)'의 비밀번호가 맞는지 LDAP에 물어보려면, 일반적인 RDBMS처럼 `SELECT * FROM users WHERE name='Hong Gil Dong'` 이라고 하지 않는다. 대신 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 '[절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/)(DN)'를 가지고 찔러보는(Bind) 행위를 한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               LDAP DIT (Directory Information Tree) 구조      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│                     [ Root ]                                  │
-│                        │                                      │
-│               [ dc=brainscience ]                             │
-│                        │                                      │
-│                  [ dc=com ]                                   │
-│                 /          \                                  │
-│      [ ou=Sales ]          [ ou=Engineering ]                 │
-│         /      \                  │                           │
-│  [cn=Kim]  [cn=Lee]         [ cn=Hong Gil Dong ]              │
-│                             (uid=hgd, userPassword=****)      │
-│                                                               │
-│  ■ 홍길동의 절대 주소 (DN, Distinguished Name):                  │
-│    cn=Hong Gil Dong, ou=Engineering, dc=brainscience, dc=com  │
-│                                                               │
-│  ■ 인증(Bind) 동작 흐름:                                         │
-│   1. VPN 장비가 사용자에게 입력받은 ID(hgd)로 트리 안을 Search 함.  │
-│   2. DN을 찾아내면, 사용자가 입력한 패스워드로 해당 DN에 Bind(로그인) 시도│
-│   3. Bind 성공 ─▶ VPN "인증 완료, 통과!"                        │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               LDAP DIT (Directory Information Tree) 구조      |
++---------------------------------------------------------------+
+|                                                               |
+|                     [ Root ]                                  |
+|                        |                                      |
+|               [ dc=brainscience ]                             |
+|                        |                                      |
+|                  [ dc=com ]                                   |
+|                 /          \                                  |
+|      [ ou=Sales ]          [ ou=Engineering ]                 |
+|         /      \                  |                           |
+|  [cn=Kim]  [cn=Lee]         [ cn=Hong Gil Dong ]              |
+|                             (uid=hgd, userPassword=****)      |
+|                                                               |
+|  ■ 홍길동의 절대 주소 (DN, Distinguished Name):                  |
+|    cn=Hong Gil Dong, ou=Engineering, dc=brainscience, dc=com  |
+|                                                               |
+|  ■ 인증(Bind) 동작 흐름:                                         |
+|   1. VPN 장비가 사용자에게 입력받은 ID(hgd)로 트리 안을 Search 함.  |
+|   2. DN을 찾아내면, 사용자가 입력한 패스워드로 해당 DN에 Bind(로그인) 시도|
+|   3. Bind 성공 --> VPN "인증 완료, 통과!"                        |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** LDAP의 근본적인 철학은 계층성이다. RDBMS는 수백만 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이리저리 섞어서([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 복잡한 통계를 내는 데 뛰어나지만, 수천 명이 동시에 "내 패스워드가 맞아?"라고 묻는 단순 읽기/조회 작업에는 오히려 병목이 발생할 수 있다. LDAP 트리(DIT)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폴더와 똑같은 구조를 가져, 특정 부서(OU) 밑에 있는 사람(CN)을 최단 경로로 찾아간다. 이 트리 구조는 검색 속도를 극단적으로 높여주어, 초당 수만 건의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Bind) 요청을 가뿐히 처리하는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 계정 인프라의 심장 역할을 수행한다.
@@ -113,23 +113,23 @@ LDAP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 기업 내 애플리케이션(Jira, Confluence, 사내 메일 등)의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 창을 열어보면 100% 'LDAP/AD 연동' 메뉴가 존재한다. 만약 RDBMS로 계정을 관리한다면 앱마다 각 DB 벤더의 드라이버를 설치하고 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 새로 짜야 한다. 하지만 LDAP은 전 세계 공통의 규격([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이므로 앱 개발자는 단순히 "389번 포트로 `cn=admin,dc=...` 포맷으로 물어보면 답을 준다"는 것만 알면 된다. 범용성과 상호 운용성이 LDAP을 승리자로 만든 것이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               LDAP 포트 및 통신 보안 모델 (389 vs 636)              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [비보안 LDAP - TCP 389] ──▶ (해커의 스니핑 표적)                 │
-│   App ───── "패스워드: 1234" (평문 전송) ──────▶ LDAP 서버         │
-│   => 망 내부에 숨어든 해커가 임직원의 비밀번호를 모조리 탈취 가능!           │
-│                                                               │
-│   [보안 LDAPS - TCP 636] ──▶ (전체 암호화 터널)                    │
-│   App ───── [ SSL/TLS 암호화 터널 (인증서 기반) ] ────▶ LDAP 서버 │
-│   => 패킷이 가로채이더라도 안의 패스워드와 조직도 내용을 알 수 없음.         │
-│                                                               │
-│   [STARTTLS - TCP 389 재활용]                                  │
-│   App ─(389 평문)─ "나 보안통신 할래(STARTTLS)" ─▶ LDAP 서버        │
-│   App ◀─── "오케이, 지금부터 암호화하자" ──────── LDAP 서버        │
-│   App ───── [ TLS 암호화로 전환된 통신 ] ───────▶ LDAP 서버        │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               LDAP 포트 및 통신 보안 모델 (389 vs 636)              |
++---------------------------------------------------------------+
+|                                                               |
+|   [비보안 LDAP - TCP 389] ---> (해커의 스니핑 표적)                 |
+|   App ----- "패스워드: 1234" (평문 전송) -------> LDAP 서버         |
+|   => 망 내부에 숨어든 해커가 임직원의 비밀번호를 모조리 탈취 가능!           |
+|                                                               |
+|   [보안 LDAPS - TCP 636] ---> (전체 암호화 터널)                    |
+|   App ----- [ SSL/TLS 암호화 터널 (인증서 기반) ] -----> LDAP 서버 |
+|   => 패킷이 가로채이더라도 안의 패스워드와 조직도 내용을 알 수 없음.         |
+|                                                               |
+|   [STARTTLS - TCP 389 재활용]                                  |
+|   App -(389 평문)- "나 보안통신 할래(STARTTLS)" --> LDAP 서버        |
+|   App <---- "오케이, 지금부터 암호화하자" -------- LDAP 서버        |
+|   App ----- [ TLS 암호화로 전환된 통신 ] --------> LDAP 서버        |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기본 LDAP ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 389) 통신은 텍스트가 암호화되지 않은 평문(Cleartext)으로 날아간다. 사내망이라도 관리자의 비밀번호가 평문으로 흐르면 내부자 위협이나 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 스푸핑에 1초 만에 털리게 된다. 이를 방지하기 위해 HTTPS처럼 통신 전체에 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 암호화를 씌운 것이 [LDAPS](/knowledge-base/studynote/09_security/03_network_security/316_ldaps/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 636)이다. 혹은 기존 389번 포트를 유지한 채 통신 시작 직후에 암호화 터널로 업그레이드하는 `STARTTLS` 기법을 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))을 확보하는 것이 현대 인프라 설계의 필수 상식이다.
@@ -192,12 +192,12 @@ LDAP은 단순한 '연락처 목록'을 넘어, 네트워크 상의 '신뢰(Trus
 
 ```text
 [선행 개념: TACACS+]
-    │
-    ▼
+    |
+    v
 [현재 개념: LDAP]
-    │
-    ├──▶ [확장 A: AAA 보안 모델]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: AAA 보안 모델]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 LDAP는 [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+에서 출발해 현재 메커니즘을 정교화하고, 이후 AAA 보안 모델와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -214,7 +214,7 @@ LDAP는 [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_m
 
 **진행 상황**: 664 / 1120
 
-← **이전**: [542. TACACS+ (Terminal Access Controller Access Control System Plus)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)
-**다음**: [544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/544_aaa_security_model_auth_authz_acct/) →
+<- **이전**: [542. TACACS+ (Terminal Access Controller Access Control System Plus)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)
+**다음**: [544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/544_aaa_security_model_auth_authz_acct/) ->
 
 ---

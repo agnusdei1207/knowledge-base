@@ -31,24 +31,24 @@ tags = ["studynote-operating-system"]
 이 도식은 ASMP의 핵심인 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave) 토폴로지를 시각적으로 표현한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│           ASMP (Asymmetric Multiprocessing) Topology              │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│      ┌──────────────────┐            ┌──────────────────┐         │
-│      │  Master CPU      │            │  Slave CPU 1     │         │
-│      │  (OS 실행, 권한)  │            │  (User Task 1)   │        │
-│      └────────┬─────────┘            └────────┬─────────┘         │
-│               │                               │                   │
-│  ─────────────┴───────────────────────────────┴──────── [Bus]     │
-│               │                               │                   │
-│      ┌────────┴─────────┐            ┌────────┴─────────┐         │
-│      │  Slave CPU 2     │            │  Slave CPU n     │         │
-│      │  (User Task 2)   │            │  (User Task n)   │         │
-│      └──────────────────┘            └──────────────────┘         │
-│                                                                   │
-│  ※ 핵심: 오직 Master CPU만이 시스템 자원(I/O, RAM)을 직접 통제함  │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|           ASMP (Asymmetric Multiprocessing) Topology              |
++-------------------------------------------------------------------+
+|                                                                   |
+|      +------------------+            +------------------+         |
+|      |  Master CPU      |            |  Slave CPU 1     |         |
+|      |  (OS 실행, 권한)  |            |  (User Task 1)   |        |
+|      +--------+---------+            +--------+---------+         |
+|               |                               |                   |
+|  -------------+-------------------------------+-------- [Bus]     |
+|               |                               |                   |
+|      +--------+---------+            +--------+---------+         |
+|      |  Slave CPU 2     |            |  Slave CPU n     |         |
+|      |  (User Task 2)   |            |  (User Task n)   |         |
+|      +------------------+            +------------------+         |
+|                                                                   |
+|  ※ 핵심: 오직 Master CPU만이 시스템 자원(I/O, RAM)을 직접 통제함  |
++-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing) 시스템에서 Master CPU는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전독적으로 실행한다. 시스템의 모든 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 I/O 요청은 오직 Master에게만 전달된다. 반면 Slave CPU들은 마스터로부터 전달받은 사용자 프로세스나 스레드만을 실행하며, 만약 I/O가 필요하거나 시스템 서비스를 호출해야 할 경우 Master에게 요청을 보낸 뒤 결과를 기다려야 한다. 이러한 구조는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드를 줄여 설계 비용을 낮추지만, 모든 시스템 관리가 단일 CPU에 집중되므로 Master의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 시스템의 한계 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))를 결정짓는 결정적 요인이 된다.
@@ -76,13 +76,13 @@ tags = ["studynote-operating-system"]
 사용자 프로그램이 실행되어 I/O 요청을 하고 완료되기까지의 흐름은 반드시 마스터를 거쳐야 한다.
 
 ```text
-1. [사용자 요청] ──▶ [Master CPU] (스케줄링 결정)
-                         │
-2. [작업 할당] ────────▶ [Slave CPU] (연산 수행 중 I/O 발생)
-                         │
-3. [I/O 요청] ◀─────────┘ (Slave는 직접 I/O 못함!)
-                         │
-4. [Master 처리] ──▶ [I/O 장치 인터럽트 수신] ──▶ [결과 전달] ──▶ [Slave 재개]
+1. [사용자 요청] ---> [Master CPU] (스케줄링 결정)
+                         |
+2. [작업 할당] ---------> [Slave CPU] (연산 수행 중 I/O 발생)
+                         |
+3. [I/O 요청] <----------+ (Slave는 직접 I/O 못함!)
+                         |
+4. [Master 처리] ---> [I/O 장치 인터럽트 수신] ---> [결과 전달] ---> [Slave 재개]
 ```
 
 **[다이어그램 해설]** [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 환경에서 슬레이브 (Slave) 프로세서는 반쪽짜리 주권만을 가진다. 위 흐름도에서 보듯, 슬레이브에서 실행 중인 작업이 디스크 읽기나 네트워크 전송 같은 I/O를 필요로 하면, 슬레이브는 스스로 하드웨어를 제어할 수 없으므로 마스터 (Master)에게 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 형태의 요청을 보낸다. 마스터는 이 요청을 받아 대신 하드웨어를 조작하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리한 뒤 결과를 다시 슬레이브에게 넘겨준다. 이 과정에서 슬레이브는 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에 빠지게 되며, 많은 슬레이브가 동시에 마스터에게 요청을 보낼 경우 마스터의 작업 큐가 급격히 쌓이는 '마스터 병목 현상'이 발생한다. 따라서 ASMP는 슬레이브 수가 적거나, I/O 비중이 매우 낮은 연산 집약적 작업 환경에서 효율적이다.
@@ -94,11 +94,11 @@ tags = ["studynote-operating-system"]
 프로세서 수가 늘어남에 따라 마스터의 부하가 어떻게 임계치에 도달하는지 보여준다.
 
 ```text
-[Slave 1 Req] ──┐
-[Slave 2 Req] ──┼──▶ [ Master CPU ] ──▶ [ I/O 처리 / 스케줄링 ]
-[Slave 3 Req] ──┤          ▲
-[Slave 4 Req] ──┘      (과부하 발생!)
-                           │
+[Slave 1 Req] --+
+[Slave 2 Req] --+---> [ Master CPU ] ---> [ I/O 처리 / 스케줄링 ]
+[Slave 3 Req] --+          ^
+[Slave 4 Req] --+      (과부하 발생!)
+                           |
        [ Wait Queue ] : [Req 4][Req 3][Req 2] ...
        (슬레이브들은 마스터의 처리가 끝날 때까지 모두 정지 상태)
 ```
@@ -189,17 +189,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 [주종 관계 (Master-Slave)]
-    │
-    ▼
+    |
+    v
 [마스터 병목 (Master Bottleneck)]
-    │
-    ▼
+    |
+    v
 [SMP (Symmetric Multiprocessing)]
-    │
-    ▼
+    |
+    v
 [big.LITTLE]
-    │
-    ▼
+    |
+    v
 [커널 (Kernel)]
 ```
 
@@ -216,7 +216,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 5 / 800
 
-← **이전**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/)
-**다음**: [6. 대칭 다중 처리 (SMP, Symmetric Multiprocessing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/006_smp/) →
+<- **이전**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/)
+**다음**: [6. 대칭 다중 처리 (SMP, Symmetric Multiprocessing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/006_smp/) ->
 
 ---

@@ -30,9 +30,9 @@ tags = ["software_engineering"]
 
 ```text
 Values
-  ↓
+  v
 Practices
-  ↓
+  v
 High-quality Code
 ```
 
@@ -106,9 +106,9 @@ XP는 품질과 피드백 속도를 높인다.
 
 ```text
 Values
-  ↓
+  v
 XP Practices
-  ↓
+  v
 TDD / Pair Programming / CI
 ```
 
@@ -118,9 +118,9 @@ TDD / Pair Programming / CI
 
 ```text
 Agile
-  ↓
+  v
 XP
-  ↓
+  v
 TDD / CI / Pair Programming
 ```
 
@@ -138,7 +138,7 @@ XP는 그런 방법이에요.
 
 **진행 상황**: 73 / 973
 
-← **이전**: [72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)
-**다음**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/) →
+<- **이전**: [72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)
+**다음**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/) ->
 
 ---

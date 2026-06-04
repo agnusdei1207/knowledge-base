@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))는 선형 변환만 수행하므로 비선형 구조(매니폴드)를 잃어버린다. t-SNE와 UMAP은 비선형 매니폴드를 보존한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 지구 표면(3D 구면)을 세계 지도(2D 평면)로 펼칠 때 어딘가는 왜곡이 생긴다. t-SNE/UMAP은 이 왜곡을 최소화하며 지도를 만드는 방법이다.
@@ -42,23 +42,23 @@ tags = ["studynote-ai"]
 
 ```
 1단계 - 고차원 유사도 (가우시안 커널):
-   pⱼ|ᵢ = exp(-||xᵢ-xⱼ||² / 2σᵢ²) / Σk≠i exp(-||xᵢ-xₖ||² / 2σᵢ²)
+   pⱼ|ᵢ = exp(-||xᵢ-xⱼ||^ / 2σᵢ^) / Σk≠i exp(-||xᵢ-xₖ||^ / 2σᵢ^)
    pᵢⱼ = (pⱼ|ᵢ + pᵢ|ⱼ) / 2n   (대칭화)
 
 2단계 - 저차원 유사도 (t분포, 꼬리 두꺼움):
-   qᵢⱼ = (1 + ||yᵢ-yⱼ||²)⁻¹ / Σk≠l (1 + ||yₖ-yₗ||²)⁻¹
+   qᵢⱼ = (1 + ||yᵢ-yⱼ||^)⁻¹ / Σk≠l (1 + ||yₖ-yₗ||^)⁻¹
 
 3단계 - KL 다이버전스 최소화:
    L = KL(P||Q) = Σᵢⱼ pᵢⱼ log(pᵢⱼ / qᵢⱼ)
 ```
 
-**t분포의 역할**: 저차원에서 멀리 있는 점들 간에 더 작은 인력 → 클러스터 분리 강화
+**t분포의 역할**: 저차원에서 멀리 있는 점들 간에 더 작은 인력 -> 클러스터 분리 강화
 
 ### UMAP (McInnes et al., 2018)
 
 ```
 1단계 - 퍼지 토폴로지 그래프 구성:
-   각 데이터 포인트의 k-NN 그래프 → 가중치 w(uᵢ,uⱼ)
+   각 데이터 포인트의 k-NN 그래프 -> 가중치 w(uᵢ,uⱼ)
 
 2단계 - 저차원 임베딩 최적화:
    w_low(yᵢ,yⱼ) = (1 + a·||yᵢ-yⱼ||^(2b))⁻¹
@@ -68,22 +68,22 @@ tags = ["studynote-ai"]
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  고차원 임베딩 (BERT, ResNet 등)                      │
-│  [●●●] [○○○] [▲▲▲]  (3 클래스, 768차원)             │
-│       ↓ t-SNE / UMAP                                 │
-│  저차원 시각화 (2D)                                   │
-│                                                      │
-│  ●●●●                                                │
-│      ○○○                                             │
-│          ▲▲▲                                         │
-│  (클러스터 구조 시각화 성공)                           │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  고차원 임베딩 (BERT, ResNet 등)                      |
+|  [●●●] [○○○] [^^^]  (3 클래스, 768차원)             |
+|       v t-SNE / UMAP                                 |
+|  저차원 시각화 (2D)                                   |
+|                                                      |
+|  ●●●●                                                |
+|      ○○○                                             |
+|          ^^^                                         |
+|  (클러스터 구조 시각화 성공)                           |
++------------------------------------------------------+
 ```
 
 | 특성 | t-SNE | UMAP |
 |:---|:---|:---|
-| 속도 | 느림 O(n²) | 빠름 O(n log n) |
+| 속도 | 느림 O(n^) | 빠름 O(n log n) |
 | 전역 구조 보존 | 약함 | 강함 |
 | 지역 구조 보존 | 매우 강함 | 강함 |
 | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 | 불가 (재실행) | 가능 (변환 학습) |
@@ -111,7 +111,7 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 특성의 클러스터 구조 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a></strong>: 군집에서 벗어난 점 → 레이블 오류 또는 진짜 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a></strong>: 군집에서 벗어난 점 -> 레이블 오류 또는 진짜 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
 **클래스 분리도**: 클러스터 간 거리로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 가능성 예측
 **UMAP 권장 상황**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)만 건 이상, 전역 구조 분석, 빠른 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
@@ -143,7 +143,7 @@ t-SNE와 UMAP은 고차원 [데이터](/knowledge-base/studynote/05_database/01_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [t-SNE / UMAP (TSNE UMAP)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [t-SNE / UMAP (TSNE UMAP)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -158,7 +158,7 @@ t-SNE와 UMAP은 고차원 [데이터](/knowledge-base/studynote/05_database/01_
 
 **진행 상황**: 393 / 420
 
-← **이전**: [392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/)
-**다음**: [394. AutoML / Hyperopt (Automl Hyperopt TPE)](/knowledge-base/studynote/10_ai/05_data_science_ml/394_automl_hyperopt_tpe/) →
+<- **이전**: [392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/)
+**다음**: [394. AutoML / Hyperopt (Automl Hyperopt TPE)](/knowledge-base/studynote/10_ai/05_data_science_ml/394_automl_hyperopt_tpe/) ->
 
 ---

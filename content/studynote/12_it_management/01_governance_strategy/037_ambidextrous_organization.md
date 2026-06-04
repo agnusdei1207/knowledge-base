@@ -215,7 +215,7 @@ Mode 1/2 통합 플랫폼
 
 **진행 상황**: 65 / 587
 
-← **이전**: [36. MVP (Minimum Viable Product, 최소 존립 제품)](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp_minimum_viable_product/)
-**다음**: [37. 피벗 (Pivot)](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) →
+<- **이전**: [36. MVP (Minimum Viable Product, 최소 존립 제품)](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp_minimum_viable_product/)
+**다음**: [37. 피벗 (Pivot)](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ->
 
 ---

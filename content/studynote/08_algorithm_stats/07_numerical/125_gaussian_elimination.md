@@ -12,7 +12,7 @@ tags = ["studynote-algorithm-stats"]
 > **핵심 인사이트**
 > 1. 가우스 소거법(Gaussian Elimination)은 선형 연립 방정식 Ax=b를 O(n³) 시간에 풀거나 행렬을 행 사다리꼴로 변환하는 기본 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 정방행렬 n×n에서 n이 작으면 충분하지만 n이 크면 LU 분해·반복법과 비교해 효율을 따져야 한다.
 > 2. 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅(Partial Pivoting)이 수치 안정성(Numerical [Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))의 핵심 — [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 원소가 0에 가까울 때 나눗셈 오류로 수치 오차가 폭발하므로, 각 단계에서 절댓값이 가장 큰 원소를 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)으로 선택하는 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅이 실제 구현의 표준이다.
-> 3. 가우스 소거법의 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 해석이 수치 선형대수의 기반 — 소거 과정 자체가 A = LU 분해이며, 같은 A로 여러 b를 풀어야 할 때 LU 분해를 한 번 계산하고 전방대입·후방대입으로 O(n²)에 반복 풀이한다.
+> 3. 가우스 소거법의 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 해석이 수치 선형대수의 기반 — 소거 과정 자체가 A = LU 분해이며, 같은 A로 여러 b를 풀어야 할 때 LU 분해를 한 번 계산하고 전방대입·후방대입으로 O(n^)에 반복 풀이한다.
 
 ---
 
@@ -25,7 +25,7 @@ tags = ["studynote-algorithm-stats"]
   -2x + y + 2z = -3
 
 행렬 표현:
-  [ 2   1  -1 |  8 ]   ← 확대 행렬 [A|b]
+  [ 2   1  -1 |  8 ]   <- 확대 행렬 [A|b]
   [-3  -1   2 | -11]
   [-2   1   2 |  -3]
 
@@ -33,36 +33,36 @@ tags = ["studynote-algorithm-stats"]
   목표: 상삼각 행렬로 변환
 
 Step 1: pivot = A[0,0] = 2
-  R2 = R2 - (-3/2)×R1 → R2 = R2 + 1.5×R1
+  R2 = R2 - (-3/2)×R1 -> R2 = R2 + 1.5×R1
   [ 2   1   -1  |  8  ]
   [ 0   0.5  0.5 |  1  ]
   [-2   1    2  | -3  ]
 
-  R3 = R3 - (-2/2)×R1 → R3 = R3 + 1×R1
+  R3 = R3 - (-2/2)×R1 -> R3 = R3 + 1×R1
   [ 2   1   -1 |  8 ]
   [ 0   0.5  0.5 | 1 ]
   [ 0   2    1 |  5 ]
 
 Step 2: pivot = A[1,1] = 0.5
-  R3 = R3 - (2/0.5)×R2 → R3 = R3 - 4×R2
+  R3 = R3 - (2/0.5)×R2 -> R3 = R3 - 4×R2
   [ 2   1   -1 |  8 ]
   [ 0   0.5  0.5 | 1 ]
   [ 0   0   -1 |  1 ]
 
 후방 대입 (Back Substitution):
-  R3: -z = 1 → z = -1
-  R2: 0.5y + 0.5(-1) = 1 → y = 3
-  R1: 2x + 3 - (-1) = 8 → x = 2
+  R3: -z = 1 -> z = -1
+  R2: 0.5y + 0.5(-1) = 1 -> y = 3
+  R1: 2x + 3 - (-1) = 8 -> x = 2
 
   해: x = 2, y = 3, z = -1
 
 복잡도:
   전방 소거: O(n³/3)
-  후방 대입: O(n²/2)
+  후방 대입: O(n^/2)
   전체: O(n³)
 ```
 
-> 📢 **섹션 요약 비유**: 가우스 소거법 = 계단식 단서 제거 — 3개 방정식(단서)에서 변수 1개씩 제거. 위→아래로 소거해 삼각 형태. 아래→위로 답 역추적. 방정식 퍼즐 해결!
+> 📢 **섹션 요약 비유**: 가우스 소거법 = 계단식 단서 제거 — 3개 방정식(단서)에서 변수 1개씩 제거. 위->아래로 소거해 삼각 형태. 아래->위로 답 역추적. 방정식 퍼즐 해결!
 
 ---
 
@@ -76,24 +76,24 @@ Step 2: pivot = A[1,1] = 0.5
   [0   2   1 | 5]
   [1   3   2 | 8]
 
-  0으로 나누기 → 오류!
+  0으로 나누기 -> 오류!
 
 문제 2 - 피벗이 0에 가까운 작은 수:
   [0.0001  2   1 | 5]
   [1       3   2 | 8]
 
   배율 계수 = 1 / 0.0001 = 10000
-  부동소수점 연산 → 정밀도 손실 급증
+  부동소수점 연산 -> 정밀도 손실 급증
 
 부분 피벗팅 (Partial Pivoting):
   각 단계에서 현재 열에서 절댓값 가장 큰 원소를 피벗으로 선택
-  → 행 교환 (Pivoting)
+  -> 행 교환 (Pivoting)
 
 예:
   Step 1 (1열 피벗 선택):
-  [ 2   1  -1 |  8 ]  ← |2| = 2
-  [-3  -1   2 | -11]  ← |-3| = 3  ← 가장 큰 절댓값
-  [-2   1   2 | -3 ]  ← |-2| = 2
+  [ 2   1  -1 |  8 ]  <- |2| = 2
+  [-3  -1   2 | -11]  <- |-3| = 3  <- 가장 큰 절댓값
+  [-2   1   2 | -3 ]  <- |-2| = 2
 
   R1 ↔ R2:
   [-3  -1   2 | -11]
@@ -104,7 +104,7 @@ Step 2: pivot = A[1,1] = 0.5
   전체 부분행렬에서 가장 큰 원소 선택
   행+열 교환 모두 수행
   더 안정적이지만 O(n³) 추가 탐색 비용
-  → 실용적으로 부분 피벗팅이 표준
+  -> 실용적으로 부분 피벗팅이 표준
 
 Python 구현:
   import numpy as np
@@ -144,8 +144,8 @@ LU 분해 (LU Decomposition):
 
 연결:
   가우스 소거법 = LU 분해 과정
-  소거 계수 → L 행렬
-  최종 상삼각 → U 행렬
+  소거 계수 -> L 행렬
+  최종 상삼각 -> U 행렬
 
 예:
   A = [2   1  -1]
@@ -161,16 +161,16 @@ LU 분해 (LU Decomposition):
 LU 분해의 장점:
   같은 A로 여러 b 풀기:
 
-  Ax = b → LUx = b
+  Ax = b -> LUx = b
 
-  1. Ly = b: 전방 대입 O(n²)
-  2. Ux = y: 후방 대입 O(n²)
+  1. Ly = b: 전방 대입 O(n^)
+  2. Ux = y: 후방 대입 O(n^)
 
   n개의 다른 b에 대해:
   - 직접 소거: O(n³) × n번 = O(n⁴)
-  - LU 분해 1번 + n번 대입: O(n³) + n × O(n²) = O(n³)
+  - LU 분해 1번 + n번 대입: O(n³) + n × O(n^) = O(n³)
 
-  → 행렬 역행렬 계산 실제 구현
+  -> 행렬 역행렬 계산 실제 구현
 
 scipy.linalg 사용:
   from scipy.linalg import lu, solve
@@ -179,14 +179,14 @@ scipy.linalg 사용:
   x = solve(A, b)   # LU 분해 내부 사용
 ```
 
-> 📢 **섹션 요약 비유**: LU 분해 = 재사용 가능한 정리 노트 — 방정식 좌변(A)이 같고 우변(b)만 다르면, 한 번 LU로 분해해 두면 다른 b마다 빠르게 해결. 한 번 준비 → 무한 재사용!
+> 📢 **섹션 요약 비유**: LU 분해 = 재사용 가능한 정리 노트 — 방정식 좌변(A)이 같고 우변(b)만 다르면, 한 번 LU로 분해해 두면 다른 b마다 빠르게 해결. 한 번 준비 -> 무한 재사용!
 
 ---
 
 ## Ⅳ. 행렬식과 역행렬
 
 ```
-가우스 소거법 → 행렬식 계산:
+가우스 소거법 -> 행렬식 계산:
   U의 대각 원소 곱 = 행렬식 (피벗 교환 부호 고려)
 
   det(A) = (-1)^s × U[0,0] × U[1,1] × ... × U[n-1,n-1]
@@ -196,7 +196,7 @@ scipy.linalg 사용:
   A × A^(-1) = I
 
   방법:
-  [A|I] → 가우스-조던 소거 → [I|A^(-1)]
+  [A|I] -> 가우스-조던 소거 -> [I|A^(-1)]
 
   가우스-조던 소거:
   상삼각뿐 아니라 완전한 단위 행렬로 변환
@@ -236,7 +236,7 @@ scipy.linalg 사용:
 역변환 행렬 계산:
 
 배경:
-  3D 게임: 화면 좌표 → 월드 좌표 역변환
+  3D 게임: 화면 좌표 -> 월드 좌표 역변환
   카메라 행렬 M (4×4)이 주어질 때
   M^(-1) 계산 필요
 
@@ -249,7 +249,7 @@ scipy.linalg 사용:
   [0  0  0   1]
 
 역행렬 계산 (가우스-조던):
-  [A|I] → 소거 → [I|A^(-1)]
+  [A|I] -> 소거 -> [I|A^(-1)]
 
   역행렬:
   [1  0  0   3]   (역이동: +3)
@@ -266,14 +266,14 @@ OpenGL/DirectX:
 
 최적화:
   4×4 변환 행렬: 수학적 특수 구조
-  → 해석적 역행렬 공식 사용 (더 빠름)
-  → SIMD 명령으로 병렬 계산
+  -> 해석적 역행렬 공식 사용 (더 빠름)
+  -> SIMD 명령으로 병렬 계산
 
 대규모 연립 방정식:
   물리 시뮬레이션: 수천~수만 연립 방정식
 
-  직접법: 가우스 소거 O(n³) → n=10,000: 10^12 연산
-  반복법: 켤레 기울기법 O(n√κ) → 희소 행렬에 효율적
+  직접법: 가우스 소거 O(n³) -> n=10,000: 10^12 연산
+  반복법: 켤레 기울기법 O(n√κ) -> 희소 행렬에 효율적
 
   선택 기준:
   n < 1,000: 가우스 소거 충분
@@ -298,7 +298,7 @@ OpenGL/DirectX:
 |   +-- 행렬식 계산
 +-- 복잡도
 |   +-- O(n³): 소거
-|   +-- O(n²): 대입
+|   +-- O(n^): 대입
 +-- 응용
     +-- 선형 연립 방정식
     +-- 행렬 역행렬
@@ -341,7 +341,7 @@ CUDA cuBLAS
 
 1. 가우스 소거법 = 계단식 단서 제거 — 방정식 3개에서 변수 1개씩 소거. 삼각 형태 만들고 역추적으로 해 구함. O(n³)!
 2. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 = 강한 기준점 선택 — 약한 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(0에 가까운 수)은 오차 폭발. 절댓값 최대 원소로 교체. 수치 안정성의 핵심!
-3. LU 분해 = 재사용 노트 — A를 한 번 LU로 분해하면, 다른 b가 몇 개든 O(n²)에 해결. 역행렬보다 LU+대입이 빠르고 안정!
+3. LU 분해 = 재사용 노트 — A를 한 번 LU로 분해하면, 다른 b가 몇 개든 O(n^)에 해결. 역행렬보다 LU+대입이 빠르고 안정!
 
 ---
 
@@ -349,7 +349,7 @@ CUDA cuBLAS
 
 **진행 상황**: 125 / 175
 
-← **이전**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/)
-**다음**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) →
+<- **이전**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/)
+**다음**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) ->
 
 ---

@@ -63,21 +63,21 @@ v_t   = β·v_{t-1} + (1-β)·∇L(θ_t)
 각 파라미터별 최근 기울기 크기의 제곱 이동 평균으로 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 조정한다.
 
 ```
-s_t   = ρ·s_{t-1} + (1-ρ)·(∇L)²
+s_t   = ρ·s_{t-1} + (1-ρ)·(∇L)^
 θ_t+1 = θ_t - (η / √(s_t + ε)) · ∇L
 ```
 
-- 자주 업데이트되는 파라미터: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ↓
-- 드물게 업데이트되는 파라미터: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ↑
+- 자주 업데이트되는 파라미터: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) v
+- 드물게 업데이트되는 파라미터: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ^
 
 ### [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) ([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) — [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) + RMSProp
 
 ```
-m_t = β₁·m_{t-1} + (1-β₁)·∇L          ← 1차 모멘텀 (방향)
-v_t = β₂·v_{t-1} + (1-β₂)·(∇L)²       ← 2차 모멘텀 (크기)
+m_t = β₁·m_{t-1} + (1-β₁)·∇L          <- 1차 모멘텀 (방향)
+v_t = β₂·v_{t-1} + (1-β₂)·(∇L)^       <- 2차 모멘텀 (크기)
 
-m̂_t = m_t / (1 - β₁ᵗ)                  ← 편향 보정 (Bias Correction)
-v̂_t = v_t / (1 - β₂ᵗ)                  ← 편향 보정
+m̂_t = m_t / (1 - β₁ᵗ)                  <- 편향 보정 (Bias Correction)
+v̂_t = v_t / (1 - β₂ᵗ)                  <- 편향 보정
 
 θ_t+1 = θ_t - η · m̂_t / (√v̂_t + ε)
 ```
@@ -88,25 +88,25 @@ v̂_t = v_t / (1 - β₂ᵗ)                  ← 편향 보정
 
 ```
 손실 곡면 (Loss Landscape)
-     ┌─────────────────────────────────────────┐
-     │ ↘↘↘  SGD: 노이즈 많은 지그재그 경로  ↙↙ │
-     │  ↘──────────────────────────────→  글로벌 최솟값 │
-     │   모멘텀: 관성으로 진동 감소              │
-     │    ↘═══════════════════════→           │
-     │     Adam: 적응적, 빠르고 안정적 수렴     │
-     │      ↘━━━━━━━━━━━━━━━━━━━→ ★          │
-     └─────────────────────────────────────────┘
+     +-----------------------------------------+
+     | ↘↘↘  SGD: 노이즈 많은 지그재그 경로  ↙↙ |
+     |  ↘------------------------------->  글로벌 최솟값 |
+     |   모멘텀: 관성으로 진동 감소              |
+     |    ↘------------------------>           |
+     |     Adam: 적응적, 빠르고 안정적 수렴     |
+     |      ↘━━━━━━━━━━━━━━━━━━━-> ★          |
+     +-----------------------------------------+
 
 옵티마이저 성능 요약
-┌──────────────┬───────────┬───────────┬───────────┐
-│  옵티마이저  │  수렴속도 │  안정성   │  메모리   │
-├──────────────┼───────────┼───────────┼───────────┤
-│ SGD          │   느림    │   낮음    │   낮음    │
-│ SGD+Momentum │   중간    │   중간    │   낮음    │
-│ RMSProp      │   빠름    │   중간    │   중간    │
-│ Adam         │   빠름    │   높음    │   높음    │
-│ AdamW        │   빠름    │   최고    │   높음    │
-└──────────────┴───────────┴───────────┴───────────┘
++--------------+-----------+-----------+-----------+
+|  옵티마이저  |  수렴속도 |  안정성   |  메모리   |
++--------------+-----------+-----------+-----------+
+| SGD          |   느림    |   낮음    |   낮음    |
+| SGD+Momentum |   중간    |   중간    |   낮음    |
+| RMSProp      |   빠름    |   중간    |   중간    |
+| Adam         |   빠름    |   높음    |   높음    |
+| AdamW        |   빠름    |   최고    |   높음    |
++--------------+-----------+-----------+-----------+
 ```
 
 📢 **섹션 요약 비유**: Adam은 경험 많은 등산가다. [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)으로 발걸음의 방향 관성을 유지하고(어디로 가던 중이었는지 기억), RMSProp으로 가파른 곳은 조심스럽게 평탄한 곳은 빠르게 걷는다. 두 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 동시에 쓰니 대부분의 지형에서 최적이다.
@@ -128,11 +128,11 @@ v̂_t = v_t / (1 - β₂ᵗ)                  ← 편향 보정
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 배치 크기의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Linear Scaling Rule)
 
 ```
-배치 크기를 k배 키우면 → 학습률도 k배 증가 (선형 스케일링)
-이유: 기울기 추정 분산이 1/k 감소 → 더 큰 보폭 가능
+배치 크기를 k배 키우면 -> 학습률도 k배 증가 (선형 스케일링)
+이유: 기울기 추정 분산이 1/k 감소 -> 더 큰 보폭 가능
 ```
 
-**주의**: 매우 큰 배치(>8K)는 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 → Warm-up 필수
+**주의**: 매우 큰 배치(>8K)는 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 -> Warm-up 필수
 
 📢 **섹션 요약 비유**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링은 자동차 속도 조절과 같다. 처음 도로(Warm-up)는 천천히, 고속도로 구간은 빠르게, 복잡한 교차로(수렴 근처)에서는 다시 천천히 접근한다.
 
@@ -180,19 +180,19 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 ```
 Gradient Descent (1847)
-      ↓
+      v
 SGD (Stochastic GD) — 노이즈를 정규화 효과로 활용
-      ↓
+      v
 Momentum (1986) — Polyak, 관성 도입
-      ↓
+      v
 AdaGrad (2011) — 적응 학습률 최초
-      ↓
+      v
 RMSProp (2012) — Hinton, 이동 평균 도입
-      ↓
+      v
 Adam (2014) — Kingma & Ba, 모멘텀+RMSProp
-      ↓
+      v
 AdamW (2019) — Loshchilov, 가중치 감쇠 분리
-      ↓
+      v
 Lion (2023) — Google, 사인 기반 업데이트
 ```
 
@@ -226,15 +226,15 @@ Lion (2023) — Google, 사인 기반 업데이트
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-BGD (Batch GD) → 느림
-    │
-    ▼
-SGD → Mini-Batch SGD: 속도 + 안정성 균형
-    │
-    ▼
-모멘텀 → RMSprop → Adam (모멘텀 + 적응 학습률)
-    │
-    ▼
+BGD (Batch GD) -> 느림
+    |
+    v
+SGD -> Mini-Batch SGD: 속도 + 안정성 균형
+    |
+    v
+모멘텀 -> RMSprop -> Adam (모멘텀 + 적응 학습률)
+    |
+    v
 AdamW · LAMB · 스케줄러 (Cosine · Warmup)
 ```
 2. [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "어디로 가던 중이었지?"([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))와 "이 길이 얼마나 가파르지?"(RMSProp)를 동시에 기억하는 똑똑한 탐험가야.
@@ -246,7 +246,7 @@ AdamW · LAMB · 스케줄러 (Cosine · Warmup)
 
 **진행 상황**: 241 / 258
 
-← **이전**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)
-**다음**: [242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) →
+<- **이전**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)
+**다음**: [242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) ->
 
 ---

@@ -44,23 +44,23 @@ tags = ["studynote-operating-system"]
 아래 그림은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 프로세스 그룹, 터미널의 관계를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              session / terminal / process-group relationship               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Session SID=4100, controlling terminal=/dev/pts/3                         │
-│                                                                            │
-│ Shell PID=4100, PGID=4100                                                  │
-│      │                                                                     │
-│      ├── Foreground PGID=5200  [vim]                                       │
-│      │        ▲                                                            │
-│      │        └── terminal SIGINT, SIGTSTP go here                         │
-│      │                                                                     │
-│      └── Background PGID=5300 [find | sort]                                │
-│               ├── PID=5300                                                 │
-│               └── PID=5301                                                 │
-│                                                                            │
-│ kill(-5300, SIGTERM)  ──▶ send signal to whole background group            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              session / terminal / process-group relationship               |
++----------------------------------------------------------------------------+
+| Session SID=4100, controlling terminal=/dev/pts/3                         |
+|                                                                            |
+| Shell PID=4100, PGID=4100                                                  |
+|      |                                                                     |
+|      +-- Foreground PGID=5200  [vim]                                       |
+|      |        ^                                                            |
+|      |        +-- terminal SIGINT, SIGTSTP go here                         |
+|      |                                                                     |
+|      +-- Background PGID=5300 [find | sort]                                |
+|               +-- PID=5300                                                 |
+|               +-- PID=5301                                                 |
+|                                                                            |
+| kill(-5300, SIGTERM)  ---> send signal to whole background group            |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 터미널 시그널이 “현재 포그라운드 프로세스 그룹”으로 전달된다는 점이다. 셸은 `tcsetpgrp()`로 어느 그룹이 터미널을 받을지 바꾸고, `kill(-pgid, sig)`처럼 음수 PID를 사용해 그룹 전체에 시그널을 보낸다. 따라서 프로세스 그룹은 시그널링, 작업 제어, 파이프라인 관리가 만나는 접점이다.
@@ -132,17 +132,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 개별 프로세스 생성
-    │
-    ▼
+    |
+    v
 프로세스 그룹 (PGID) 형성
-    │
-    ├── 파이프라인 묶기
-    ├── 그룹 시그널 전달
-    │
-    ▼
+    |
+    +-- 파이프라인 묶기
+    +-- 그룹 시그널 전달
+    |
+    v
 포그라운드 / 백그라운드 작업 제어
-    │
-    ▼
+    |
+    v
 세션 (Session) · 제어 터미널 · 데몬화와 연결
 ```
 
@@ -160,7 +160,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 159 / 800
 
-← **이전**: [158. oom_score_adj - OOM 킬러 우선순위 조정](/knowledge-base/studynote/02_operating_system/02_process_thread/158_oom_score_adj/)
-**다음**: [160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) →
+<- **이전**: [158. oom_score_adj - OOM 킬러 우선순위 조정](/knowledge-base/studynote/02_operating_system/02_process_thread/158_oom_score_adj/)
+**다음**: [160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ->
 
 ---

@@ -21,31 +21,31 @@ tags = ["studynote-network"]
 
 - **개념**: Captive Portal(포획된 포털)은 사용자가 무선/유선 네트워크에 처음 접속했을 때 외부 인터넷으로 가는 길을 막아두고(Walled Garden, 벽으로 둘러싸인 정원), 관리자가 지정한 특정 웹페이지(포털)로 강제 접속(Redirect)시키는 네트워크 접속 제어 기술이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 결제, 약관 동의 후 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 열린다.
 - **필요성**: 공항이나 호텔에서 와이파이를 무료로 열어두면 지나가는 누구나 대역폭을 훔쳐 써서 인프라가 마비된다. 그렇다고 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 비밀번호를 걸면 리셉션 직원이 하루 종일 "비밀번호 뭐예요?"라는 질문에 시달려야 하고, 영수증 번호별로 돈을 내고 쓰게 할 방법도 없다. 즉, <strong>"비밀번호 없이 접속은 시켜주되, 웹 브라우저를 강제로 띄워 광고를 보거나 카드를 긁게 만드는 브라우저 레벨의 통제소"</strong>가 비즈니스적으로 절대 절실했다.
-- **등장 배경**: ① 스타벅스, 호텔 등 대형 공공 핫스팟(Public Hotspot)의 무선 과금 모델 및 법적 면책(약관 동의) 필요성 폭발 → ② 별도의 프로그램 설치 없이 모든 폰과 노트북에 깔려있는 '웹 브라우저'를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 도구로 활용하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Redirection 기법 고안 → ③ 모바일 기기의 급증으로, 접속하자마자 자동으로 팝업이 뜨는 OS 내장형 감지(CNA) 메커니즘으로의 진화.
+- **등장 배경**: ① 스타벅스, 호텔 등 대형 공공 핫스팟(Public Hotspot)의 무선 과금 모델 및 법적 면책(약관 동의) 필요성 폭발 -> ② 별도의 프로그램 설치 없이 모든 폰과 노트북에 깔려있는 '웹 브라우저'를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 도구로 활용하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Redirection 기법 고안 -> ③ 모바일 기기의 급증으로, 접속하자마자 자동으로 팝업이 뜨는 OS 내장형 감지(CNA) 메커니즘으로의 진화.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             캡티브 포털의 강제 납치(Redirection) 아키텍처 시각화      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1단계: 무방비 접속]                                          │
-│   스마트폰 ─(와이파이 클릭)─▶ [공유기/방화벽]                       │
-│   스마트폰: "나 www.naver.com 갈래! 페이지 줘!" (HTTP 요청 던짐)       │
-│                                                             │
-│   [2단계: 공유기의 얍삽한 가로채기 (Captive 발생)]                    │
-│   공유기/방화벽: "네이버? 어림없는 소리! 넌 아직 미인증 게스트(Guest)야!"  │
-│                 인터넷 선을 가위로 싹둑 자르고(Walled Garden 통제)    │
-│                 "네이버 대신, 우리 호텔 '약관 동의' 페이지로 가라!"      │
-│                 (HTTP 302 Redirect 폭격 발사!)                  │
-│                                                             │
-│   [3단계: 웹페이지 감금 및 해방]                                  │
-│   스마트폰 브라우저: (네이버가 아니라 호텔 인증 팝업이 강제로 뜸)          │
-│   사용자: [약관 동의] [1시간 무료 접속] 버튼 클릭!                     │
-│                                                             │
-│   [4단계: 방화벽 오픈 (인터넷 펑펑)]                                │
-│   RADIUS/컨트롤러: "오키 동의했네! 쟤 MAC 주소 방화벽 화이트리스트에 넣어!"│
-│   공유기/방화벽: "인터넷 게이트 오픈! 이제부터 네이버 가게 해줄게~ 슝~"    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             캡티브 포털의 강제 납치(Redirection) 아키텍처 시각화      |
++-------------------------------------------------------------+
+|                                                             |
+|   [1단계: 무방비 접속]                                          |
+|   스마트폰 -(와이파이 클릭)--> [공유기/방화벽]                       |
+|   스마트폰: "나 www.naver.com 갈래! 페이지 줘!" (HTTP 요청 던짐)       |
+|                                                             |
+|   [2단계: 공유기의 얍삽한 가로채기 (Captive 발생)]                    |
+|   공유기/방화벽: "네이버? 어림없는 소리! 넌 아직 미인증 게스트(Guest)야!"  |
+|                 인터넷 선을 가위로 싹둑 자르고(Walled Garden 통제)    |
+|                 "네이버 대신, 우리 호텔 '약관 동의' 페이지로 가라!"      |
+|                 (HTTP 302 Redirect 폭격 발사!)                  |
+|                                                             |
+|   [3단계: 웹페이지 감금 및 해방]                                  |
+|   스마트폰 브라우저: (네이버가 아니라 호텔 인증 팝업이 강제로 뜸)          |
+|   사용자: [약관 동의] [1시간 무료 접속] 버튼 클릭!                     |
+|                                                             |
+|   [4단계: 방화벽 오픈 (인터넷 펑펑)]                                |
+|   RADIUS/컨트롤러: "오키 동의했네! 쟤 MAC 주소 방화벽 화이트리스트에 넣어!"|
+|   공유기/방화벽: "인터넷 게이트 오픈! 이제부터 네이버 가게 해줄게~ 슝~"    |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 캡티브 포털은 고도의 암호화 기술([WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/))이 아니라, 일종의 **합법적인 네트워크 중간자(MITM) 낚시질** 아키텍처다. 폰은 공유기에 붙자마자 자신이 인터넷이 되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 애플이나 구글의 특정 사이트(예: `captive.apple.com`)로 찔러보기 패킷([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET)을 날린다. 공유기(또는 WLC)는 아직 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)되지 않은 폰의 이 패킷을 낚아채어, 무조건 공유기 안에 저장된 호텔 로고가 박힌 웹페이지 주소로 튕겨내 버린다([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 302 Redirect). 사용자가 그 화면에서 버튼을 누르면, 공유기가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))에서 해당 폰의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 '접속 허용(Allow)'으로 바꿔치기해 주면서 비로소 바깥세상(인터넷)으로 가는 문이 열린다.
@@ -84,26 +84,26 @@ tags = ["studynote-network"]
 | **3. PMS (호텔 객실) / 결제 (Billing) 연동**| 팝업창에 <strong>[객실 번호 + 투숙객 영문 성(Last Name)]</strong>을 쳐야 열리거나, 신용카드 결제 모듈을 띄움. | 고급 호텔(PMS 시스템 연동), 기내(비행기) 와이파이. 투숙객이 맞는지 사내 서버와 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하거나, **시간당 만 원씩 무선 통신 수익을 창출하는 캐시카우.** |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               호텔 PMS(객실 관리 시스템) 캡티브 포털 연동 시각화     │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [객실 투숙객]               [WLC (무선 컨트롤러)]            [호텔 PMS 서버]│
-│       │                           │                             │       │
-│       │ 1. 캡티브 화면에          │                             │       │
-│       │  [방번호: 1004, 성: Kim] 입력│                             │       │
-│       ├───────────────────────────▶│ 2. "야, PMS야. 1004호에     │       │
-│       │                           │    Kim 씨가 투숙 중인 거 맞냐?"│       │
-│       │                           ├────────(API 질의)─────────▶│       │
-│       │                           │                             │       │
-│       │                           │ 3. "어, 맞아. VVIP 회원이니까 │       │
-│       │                           │    속도 1Gbps 무제한으로 뚫어줘"│       │
-│       │ 4. "인증 성공! 인터넷 펑펑 써!"│◀───────(API 응답)──────────┤       │
-│       ◀───────────────────────────┤                             │       │
-│                                                               │       │
-│   => 결과: 캡티브 포털 화면은 단순한 공유기 기능이 아니라, 회사의 핵심 ERP,   │
-│            인사 DB, 카드 결제 시스템과 API로 통신하는 거대한 비즈니스 미들웨어!│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               호텔 PMS(객실 관리 시스템) 캡티브 포털 연동 시각화     |
++---------------------------------------------------------------+
+|                                                               |
+|   [객실 투숙객]               [WLC (무선 컨트롤러)]            [호텔 PMS 서버]|
+|       |                           |                             |       |
+|       | 1. 캡티브 화면에          |                             |       |
+|       |  [방번호: 1004, 성: Kim] 입력|                             |       |
+|       +---------------------------->| 2. "야, PMS야. 1004호에     |       |
+|       |                           |    Kim 씨가 투숙 중인 거 맞냐?"|       |
+|       |                           +--------(API 질의)---------->|       |
+|       |                           |                             |       |
+|       |                           | 3. "어, 맞아. VVIP 회원이니까 |       |
+|       |                           |    속도 1Gbps 무제한으로 뚫어줘"|       |
+|       | 4. "인증 성공! 인터넷 펑펑 써!"|<--------(API 응답)----------+       |
+|       <----------------------------+                             |       |
+|                                                               |       |
+|   => 결과: 캡티브 포털 화면은 단순한 공유기 기능이 아니라, 회사의 핵심 ERP,   |
+|            인사 DB, 카드 결제 시스템과 API로 통신하는 거대한 비즈니스 미들웨어!|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 엔터프라이즈 환경에서 캡티브 포털(Splash [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 공유기 속에 들어있는 단순한 웹 쪼가리가 아니다. 시스코나 아루바 같은 고급 무선 컨트롤러(WLC)는 캡티브 포털 화면에 입력된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뒷구멍으로 기업의 백엔드 서버(호텔 PMS, 결제 서버, 카카오톡 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 넘겨주는 거대한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 미들웨어 역할을 한다. 손님이 방 번호를 치면, WLC가 호텔 메인 서버로 질의를 던지고 투숙객이 맞는지 검증한다. 더 무서운 점은 응답([RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) CoA)을 받을 때 "이 손님은 돈을 안 냈으니 속도 5Mbps만 줘라" 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 칼질 옵션까지 동적으로 받아와 무선 대역폭을 통제하는 예술적인 과금 아키텍처를 구현한다는 점이다.
@@ -178,12 +178,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 1X 인증 및 EAP/RADIUS 체계]
-    │
-    ▼
+    |
+    v
 [현재 개념: 캡티브 포털]
-    │
-    ├──▶ [확장 A: 안테나 증폭 측정 지표: dBm 반값 전력각…]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 안테나 증폭 측정 지표: dBm 반값 전력각…]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 캡티브 포털는 [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -200,7 +200,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 706 / 1120
 
-← **이전**: [584. 1X (PNAC, Port Based Network Access Control) 인증 및 EAP/RADIUS 체계](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)
-**다음**: [586. 안테나 증폭 측정 지표: dBm 반값 전력각 등](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/586_antenna_gain_dbm_half_power_beam_width/) →
+<- **이전**: [584. 1X (PNAC, Port Based Network Access Control) 인증 및 EAP/RADIUS 체계](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)
+**다음**: [586. 안테나 증폭 측정 지표: dBm 반값 전력각 등](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/586_antenna_gain_dbm_half_power_beam_width/) ->
 
 ---

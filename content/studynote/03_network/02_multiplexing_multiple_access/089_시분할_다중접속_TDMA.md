@@ -33,20 +33,20 @@ tags = ["network"]
 TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 기지국 간의 정밀한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 전송 주기 관리를 요구한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            TDMA의 프레임, 버스트, 가드 타임 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐               │
-│ User1 │Burst│    │Burst│    │Burst│    │Burst│               │
-│ ──────┴──█──┴────┴──█──┴────┴──█──┴────┴──█──┴──────▶ 시간(t)│
-│          ▲ Guard Time (보호 시간)                            │
-│                                                              │
-│ [병목 지점]: 기지국에서 멀리 있는 단말기의 전파는 전파 지연       │
-│ (Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을 │
-│ 덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈     │
-│ 시간 마진을 두어 안전거리를 확보한다.                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            TDMA의 프레임, 버스트, 가드 타임 아키텍처           |
++--------------------------------------------------------------+
+|                                                              |
+|       +-----+    +-----+    +-----+    +-----+               |
+| User1 |Burst|    |Burst|    |Burst|    |Burst|               |
+| ------+--█--+----+--█--+----+--█--+----+--█--+-------> 시간(t)|
+|          ^ Guard Time (보호 시간)                            |
+|                                                              |
+| [병목 지점]: 기지국에서 멀리 있는 단말기의 전파는 전파 지연       |
+| (Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을 |
+| 덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈     |
+| 시간 마진을 두어 안전거리를 확보한다.                              |
++--------------------------------------------------------------+
 ```
 
 이 구조도의 핵심은 아날로그 FDMA가 주파수 사이의 가드 밴드 ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 낭비했다면, TDMA는 슬롯 사이의 가드 타임 (Guard Time)을 소모한다는 점이다. 단말기는 음성 데이터를 임시 메모리에 쌓아두었다가 자신의 타임 슬롯이 도래하면 전력 앰프를 켜고 풀파워로 데이터를 쏘아 보내는(Burst) '스토어 앤 포워드' 방식으로 동작한다.
@@ -109,17 +109,17 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 ```text
 아날로그 주파수 독점 (FDMA)의 대역폭 낭비
-    │
-    ▼
+    |
+    v
 디지털 음성 압축 및 시간 분할 도입 (TDMA)
-    │
-    ▼
+    |
+    v
 정밀 동기화 및 타이밍 보상 (Timing Advance) 제어
-    │
-    ▼
+    |
+    v
 셀룰러 망에서의 CDMA/OFDMA로의 진화 (3G/4G)
-    │
-    ▼
+    |
+    v
 특수망 생존성 확보: 무전기(TETRA) 및 초저전력 IoT 센서망 정착
 ```
 
@@ -137,7 +137,7 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 **진행 상황**: 89 / 1120
 
-← **이전**: [88. FDMA (Frequency Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)
-**다음**: [90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) →
+<- **이전**: [88. FDMA (Frequency Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)
+**다음**: [90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) ->
 
 ---

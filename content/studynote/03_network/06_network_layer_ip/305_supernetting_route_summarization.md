@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [서브네팅]
-    │
-    ▼
+    |
+    v
 [슈퍼네팅 / 경로 요약]
-    │
-    └──▶ [VLSM]
+    |
+    +---> [VLSM]
 ```
 
 - **📢 섹션 요약 비유**: ** 슈퍼네팅은 방대한 전화번호부입니다. **"02-111-xxxx부터 02-999-xxxx까지 수백만 줄을 일일이 적지 말고, 그냥 [02 = 서울] 이 한 줄만 수첩에 적어둬!"**라고 메모의 기술(요약)을 극한으로 끌어올린 것입니다.
@@ -52,24 +52,24 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 - **요약 결과**: <strong><code>192.168.0.0 /22</code></strong> 라는 단 한 줄짜리 거대한 슈퍼넷 주소가 탄생했다. 라우터는 이제 4줄을 외우는 대신 이 1줄만 외우면 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                경로 요약(Summarization)의 라우터 메모리 절약       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 요약 전 (멍청한 라우터) ]                                    │
- │   라우팅 테이블:                                              │
- │   - 192.168.0.0/24 ──▶ Port 1                            │
- │   - 192.168.1.0/24 ──▶ Port 1                            │
- │   - 192.168.2.0/24 ──▶ Port 1                            │
- │   - 192.168.3.0/24 ──▶ Port 1                            │
- │   (CPU 검색 부하 4배)                                         │
- │                                                             │
- │   [ 요약 후 (똑똑한 라우터) ]                                    │
- │   라우팅 테이블:                                              │
- │   - 192.168.0.0/22 ──▶ Port 1                            │
- │   (단 한 줄로 4개의 동네를 전부 커버함. 초광속 검색 완료!)            │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                경로 요약(Summarization)의 라우터 메모리 절약       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 요약 전 (멍청한 라우터) ]                                    |
+ |   라우팅 테이블:                                              |
+ |   - 192.168.0.0/24 ---> Port 1                            |
+ |   - 192.168.1.0/24 ---> Port 1                            |
+ |   - 192.168.2.0/24 ---> Port 1                            |
+ |   - 192.168.3.0/24 ---> Port 1                            |
+ |   (CPU 검색 부하 4배)                                         |
+ |                                                             |
+ |   [ 요약 후 (똑똑한 라우터) ]                                    |
+ |   라우팅 테이블:                                              |
+ |   - 192.168.0.0/22 ---> Port 1                            |
+ |   (단 한 줄로 4개의 동네를 전부 커버함. 초광속 검색 완료!)            |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 슈퍼네팅의 딜레마: 블랙홀 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Black Hole [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
@@ -138,12 +138,12 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 
 ```text
 [선행 개념: 서브네팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: 슈퍼네팅 / 경로 요약]
-    │
-    ├──▶ [확장 A: VLSM]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: VLSM]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 슈퍼네팅 / 경로 요약는 [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VLSM와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 
 **진행 상황**: 426 / 1120
 
-← **이전**: [304. 서브네팅 (Subnetting)](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)
-**다음**: [306. VLSM (Variable Length Subnet Mask)](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/) →
+<- **이전**: [304. 서브네팅 (Subnetting)](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)
+**다음**: [306. VLSM (Variable Length Subnet Mask)](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/) ->
 
 ---

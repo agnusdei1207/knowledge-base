@@ -29,7 +29,7 @@ RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 `문서 수집 → 청크 분할 → 임베딩 생성 → 벡터 DB 저장 → 질의 임베딩 → 검색/재랭킹 → LLM 생성`으로 구성된다. 최근에는 키워드 검색(BM25)과 벡터 검색을 결합한 [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/), Cross-[Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 재랭킹, 답변 후 근거 인용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 함께 쓰인다.
+[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 `문서 수집 -> 청크 분할 -> 임베딩 생성 -> 벡터 DB 저장 -> 질의 임베딩 -> 검색/재랭킹 -> LLM 생성`으로 구성된다. 최근에는 키워드 검색(BM25)과 벡터 검색을 결합한 [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/), Cross-[Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 재랭킹, 답변 후 근거 인용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 함께 쓰인다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해�
 | Generator [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | 검색된 문맥으로 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 인용, 거부 응답, 토큰 예산 |
 
 ```text
-┌──────────────┐   chunking   ┌──────────────┐   embed    ┌──────────────┐
-│ Source Docs  │ ───────────▶ │ Chunks       │ ─────────▶ │ Vector DB    │
-└──────────────┘              └──────────────┘            └──────────────┘
-        ▲                              ▲                           │
-        │ refresh                      │ metadata                  │ top-k
-        │                              │                           ▼
-┌──────────────┐   prompt + context ┌──────────────┐   rerank   ┌──────────────┐
-│ User Query   │ ─────────────────▶ │ Retriever    │ ─────────▶ │ LLM Answer   │
-└──────────────┘                    └──────────────┘            └──────────────┘
++--------------+   chunking   +--------------+   embed    +--------------+
+| Source Docs  | ------------> | Chunks       | ----------> | Vector DB    |
++--------------+              +--------------+            +--------------+
+        ^                              ^                           |
+        | refresh                      | metadata                  | top-k
+        |                              |                           v
++--------------+   prompt + context +--------------+   rerank   +--------------+
+| User Query   | ------------------> | Retriever    | ----------> | LLM Answer   |
++--------------+                    +--------------+            +--------------+
 ```
 
 핵심 원리는 “검색 품질이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질을 결정한다”는 점이다. 벡터 검색만으로는 정확한 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)나 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 놓칠 수 있으므로, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필터와 키워드 검색을 섞는 설계가 자주 쓰인다. 또한 근거가 부족할 때는 답변을 강하게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 대신 “모른다”고 말하게 만드는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어에 중요하다.
@@ -118,18 +118,18 @@ RAG를 잘 구축하면 모델 지식 최신성을 높이면서도 재학습 비
 
 ```text
 Prompt-only LLM
-   │
-   ▼
+   |
+   v
 Embedding + Vector Search
-   │
-   ▼
+   |
+   v
 Hybrid Retrieval + Re-ranking
-   │
-   ▼
+   |
+   v
 RAG with Evaluation / Citation / Guardrails
 ```
 
-이 흐름은 “기억 기반 답변 → 의미 검색 → 정밀 검색 → 근거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 운영”으로 발전하는 모습을 보여준다.
+이 흐름은 “기억 기반 답변 -> 의미 검색 -> 정밀 검색 -> 근거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 운영”으로 발전하는 모습을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ RAG with Evaluation / Citation / Guardrails
 
 **진행 상황**: 346 / 373
 
-← **이전**: [345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/345_mlops/)
-**다음**: [347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/) →
+<- **이전**: [345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/345_mlops/)
+**다음**: [347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/) ->
 
 ---

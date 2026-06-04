@@ -28,7 +28,7 @@ Red-Black Tree 5가지 규칙:
   5. 어떤 노드에서 리프까지의 경로에
      포함된 Black 노드 수는 동일 (Black Height)
 
-→ 5 규칙으로 트리 높이 ≤ 2 log₂(N+1) 보장
+-> 5 규칙으로 트리 높이 ≤ 2 log₂(N+1) 보장
 ```
 
 - **📢 섹션 요약 비유**: Red-Black 규칙은 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 규칙이다. "빨간불(Red) 뒤에는 반드시 초록불(Black)"처럼, Red 노드 뒤에는 반드시 Black 노드가 와야 한다는 규칙이 트리 균형을 유지한다.
@@ -40,16 +40,16 @@ Red-Black Tree 5가지 규칙:
 ### 삽입 후 규칙 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
 ```text
-새 노드 삽입 → 항상 Red로 삽입
-    │
-    ▼
+새 노드 삽입 -> 항상 Red로 삽입
+    |
+    v
 규칙 4 위반? (Red-Red 연속)
-    ├─ 삼촌이 Red → 재색칠(Recoloring)
-    │   부모·삼촌 → Black
-    │   조부모 → Red
-    │   (조부모로 이동하여 재확인)
-    │
-    └─ 삼촌이 Black → 회전+재색칠
+    +- 삼촌이 Red -> 재색칠(Recoloring)
+    |   부모·삼촌 -> Black
+    |   조부모 -> Red
+    |   (조부모로 이동하여 재확인)
+    |
+    +- 삼촌이 Black -> 회전+재색칠
         LL/LR/RL/RR 케이스별 처리
 ```
 
@@ -64,8 +64,8 @@ std::map<key, value> 내부:
   - K개 반환 조회
 
 예: std::map.lower_bound(key)
-    → O(log N)으로 key 이상의 첫 값 검색
-    → 정렬된 데이터 범위 검색에 최적
+    -> O(log N)으로 key 이상의 첫 값 검색
+    -> 정렬된 데이터 범위 검색에 최적
 ```
 
 - **📢 섹션 요약 비유**: RB Tree 재색칠은 빨간불 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 수리다. 빨간불 두 개가 연속(Red-Red 위반)이면, 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 초록(Black)으로 바꾸고 필요하면 교차로 구조(회전)도 변경한다.
@@ -147,17 +147,17 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([Immutable](
 
 ```text
 [BST — 이진 탐색, 최악 O(N)]
-    │
-    ▼
+    |
+    v
 [AVL — 엄격 균형, 읽기 최적화]
-    │
-    ▼
+    |
+    v
 [Red-Black — 유연 균형, 삽입/삭제 최적화]
-    │
-    ▼
+    |
+    v
 [Linux CFS / STL / JVM — 표준 라이브러리 채택]
-    │
-    ▼
+    |
+    v
 [Persistent RB — 함수형 불변 자료 구조]
 ```
 
@@ -173,7 +173,7 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([Immutable](
 
 **진행 상황**: 89 / 175
 
-← **이전**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/)
-**다음**: [B+트리 (B+-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/) →
+<- **이전**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/)
+**다음**: [B+트리 (B+-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/) ->
 
 ---

@@ -39,39 +39,39 @@ tags = ["studynote-it-management"]
 마이클 포터의 전통적인 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 모델은 5개의 주활동(Primary Activities)과 4개의 지원활동([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Activities)으로 구성된 화살표 모양의 다이어그램 아키텍처를 가집니다. 화살표 끝에 모이는 것이 바로 마진(Margin)입니다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│              [ 마이클 포터의 가치 사슬 (Value Chain) 아키텍처 ]               │
-│                                                                   │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [지원 활동 - Support Activities] (간접 가치 창출, 주활동 지원) │ │
-│ │ 1. 기업 인프라 (Firm Infrastructure): 재무, 기획, 법무, 경영진  │ │ ＼
-│ │ 2. 인적 자원 관리 (HR Management): 채용, 교육, 보상 체계         │ │  │
-│ │ 3. 기술 개발 (Technology Development): R&D, 제품/공정 IT 설계  │ │  │
-│ │ 4. 조달/구매 (Procurement): 원자재, 설비 구매 프로세스           │ │  │
-│ └───────────────────────────────────────────────────────────────┘ │ 이익
-│ ┌─────────┬─────────┬─────────┬─────────┬─────────┐             │(Margin)
-│ │ 입고물류 │ 운영/생산│ 출고물류 │ 마케팅& │ 서비스   │             │  │
-│ │(Inbound │(Operation│(Outbound│ 영업    │(Service) │             │  │
-│ │Logistics)│ )        │Logistics)│(M&S)    │          │             │ ／
-│ └─────────┴─────────┴─────────┴─────────┴─────────┘             │
-│   [주 활동 - Primary Activities] (제품의 물리적 생성 및 판매 과정)│
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|              [ 마이클 포터의 가치 사슬 (Value Chain) 아키텍처 ]               |
+|                                                                   |
+| +---------------------------------------------------------------+ |
+| | [지원 활동 - Support Activities] (간접 가치 창출, 주활동 지원) | |
+| | 1. 기업 인프라 (Firm Infrastructure): 재무, 기획, 법무, 경영진  | | ＼
+| | 2. 인적 자원 관리 (HR Management): 채용, 교육, 보상 체계         | |  |
+| | 3. 기술 개발 (Technology Development): R&D, 제품/공정 IT 설계  | |  |
+| | 4. 조달/구매 (Procurement): 원자재, 설비 구매 프로세스           | |  |
+| +---------------------------------------------------------------+ | 이익
+| +---------+---------+---------+---------+---------+             |(Margin)
+| | 입고물류 | 운영/생산| 출고물류 | 마케팅& | 서비스   |             |  |
+| |(Inbound |(Operation|(Outbound| 영업    |(Service) |             |  |
+| |Logistics)| )        |Logistics)|(M&S)    |          |             | ／
+| +---------+---------+---------+---------+---------+             |
+|   [주 활동 - Primary Activities] (제품의 물리적 생성 및 판매 과정)|
++-------------------------------------------------------------------+
 ```
 
 ### 1. 주활동 (Primary Activities) - 엔터프라이즈 시스템 연계
 제품의 가치가 물리적으로 생성되어 고객에게 전달되는 5단계입니다.
-*   **입고 물류 (Inbound Logistics)**: 원자재를 받아 창고에 저장하고 분배. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a>(창고관리), <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> 융합</strong>
-*   **운영/생산 (Operations)**: 원자재를 최종 완제품으로 가공. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>(생산모듈), <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/">MES</a>, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 융합</strong>
-*   **출고 물류 (Outbound Logistics)**: 완제품을 포장하여 도매상/고객에게 배송. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">TMS</a>(운송관리), <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> 융합</strong>
-*   **마케팅 및 영업 (Marketing & Sales)**: 고객이 제품을 인지하고 구매하도록 유도. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(고객관계관리) 융합</strong>
-*   <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: 제품 가치를 유지하기 위한 사후 관리(A/S), 환불. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>모듈) 융합</strong>
+*   **입고 물류 (Inbound Logistics)**: 원자재를 받아 창고에 저장하고 분배. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a>(창고관리), <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> 융합</strong>
+*   **운영/생산 (Operations)**: 원자재를 최종 완제품으로 가공. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>(생산모듈), <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/">MES</a>, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 융합</strong>
+*   **출고 물류 (Outbound Logistics)**: 완제품을 포장하여 도매상/고객에게 배송. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">TMS</a>(운송관리), <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> 융합</strong>
+*   **마케팅 및 영업 (Marketing & Sales)**: 고객이 제품을 인지하고 구매하도록 유도. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(고객관계관리) 융합</strong>
+*   <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: 제품 가치를 유지하기 위한 사후 관리(A/S), 환불. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>모듈) 융합</strong>
 
 ### 2. 지원 활동 ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Activities) - IT 인프라 연계
 주활동이 잘 돌아가도록 돕는 전사적 백그라운드 조직입니다. 이 부분의 고도화가 기업의 장기 경쟁력을 좌우합니다.
-*   **조달/구매 (Procurement)**: 부품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구매 플랫폼 체계. <strong>▶ e-Procurement, <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/">SRM</a>(공급사관계관리) 융합</strong>
-*   **기술 개발 (Tech Development)**: 제품 개선 R&D 및 정보 시스템 구축. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/">PLM</a>(제품수명주기관리) 융합</strong>
-*   **인적 자원 관리 (HRM)**: 역량 강화. **▶ e-HR, HRIS 융합**
-*   **기업 인프라 (Infrastructure)**: 전사적 관리. <strong>▶ <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>(재무/회계/기획), EIP(기업포털) 융합</strong>
+*   **조달/구매 (Procurement)**: 부품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구매 플랫폼 체계. <strong>-> e-Procurement, <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/">SRM</a>(공급사관계관리) 융합</strong>
+*   **기술 개발 (Tech Development)**: 제품 개선 R&D 및 정보 시스템 구축. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/">PLM</a>(제품수명주기관리) 융합</strong>
+*   **인적 자원 관리 (HRM)**: 역량 강화. **-> e-HR, HRIS 융합**
+*   **기업 인프라 (Infrastructure)**: 전사적 관리. <strong>-> <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>(재무/회계/기획), EIP(기업포털) 융합</strong>
 
 ---
 
@@ -145,7 +145,7 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **주활동 (Primary Activities)** | 입고물류→운영/생산→출고물류→마케팅&영업→[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 직접 고객 가치를 생성하는 5단계 사슬 |
+| **주활동 (Primary Activities)** | 입고물류->운영/생산->출고물류->마케팅&영업->[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 직접 고객 가치를 생성하는 5단계 사슬 |
 | <strong>지원활동 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Activities)</strong> | 기업 인프라·HR·기술개발·조달 — 주활동을 돕는 간접 가치 창출 활동 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">Enterprise Resource Planning</a>)</strong> | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 전 구간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단일 시스템으로 통합하여 가시성과 효율을 극대화하는 IT 백본 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)을 기업 경계 밖의 공급사·유통망까지 확장한 가치 시스템(Value System) 관리 도구 |
@@ -155,23 +155,23 @@ tags = ["studynote-it-management"]
 
 ```text
 [원자재 입고 (Inbound Logistics) — 공급망 시작]
-    │
-    ▼
+    |
+    v
 [주활동 5단계 (생산·물류·마케팅·서비스)]
-    │
-    ▼
+    |
+    v
 [지원활동 (HR·기술·조달·인프라) — 주활동 강화]
-    │
-    ▼
+    |
+    v
 [마진 (Margin) 창출 — 경쟁 우위 원천 규명]
-    │
-    ▼
-[ERP/SCM IT 융합 → 가치 시스템(Value System) 확장]
+    |
+    v
+[ERP/SCM IT 융합 -> 가치 시스템(Value System) 확장]
 ```
 원자재부터 최종 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 각 활동 구간의 부가가치와 비용을 규명하고, IT([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))로 융합·자동화하여 기업 경계를 넘어 가치 시스템 전체를 최적화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 레모네이드 가게를 분해하면 "레몬 사오기(입고) → 레모네이드 만들기(생산) → 배달하기(출고) → 광고하기(마케팅) → 맛 불만 해결([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))"처럼 돈을 버는 모든 단계예요.
+1. [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 레모네이드 가게를 분해하면 "레몬 사오기(입고) -> 레모네이드 만들기(생산) -> 배달하기(출고) -> 광고하기(마케팅) -> 맛 불만 해결([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))"처럼 돈을 버는 모든 단계예요.
 2. 이 단계들을 그림으로 그려보면 어디서 돈이 낭비되고, 어디서 가장 많은 가치가 만들어지는지 한눈에 보여요.
 3. ERP는 이 모든 단계를 하나의 컴퓨터 시스템으로 연결해서 레몬 재고가 얼마나 남았는지, 레모네이드가 얼마나 팔렸는지 실시간으로 알 수 있게 해준답니다!
 
@@ -185,7 +185,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 38 / 587
 
-← **이전**: [22. 가치 사슬 (Value Chain)](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain/)
-**다음**: [23. 5 Forces 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/) →
+<- **이전**: [22. 가치 사슬 (Value Chain)](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain/)
+**다음**: [23. 5 Forces 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/) ->
 
 ---

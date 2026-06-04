@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 ```
   Thread-Per-Connection 모델:
-  연결 10,000개 → 스레드 10,000개
-  → 스레드 스택 메모리: 10,000 × 1MB = 10GB!
-  → Context Switching (문맥 교환) 오버헤드 폭발
-  → OS 스레드 한계 도달
+  연결 10,000개 -> 스레드 10,000개
+  -> 스레드 스택 메모리: 10,000 × 1MB = 10GB!
+  -> Context Switching (문맥 교환) 오버헤드 폭발
+  -> OS 스레드 한계 도달
 ```
 
 ```
   Reactor 모델:
-  연결 10,000개 → 단일 이벤트 루프 + 소수의 스레드
-  → I/O 준비 완료된 연결만 처리 (select/epoll)
-  → Context Switching 최소화
-  → Node.js, Nginx가 이 모델로 수만 동시 연결 처리
+  연결 10,000개 -> 단일 이벤트 루프 + 소수의 스레드
+  -> I/O 준비 완료된 연결만 처리 (select/epoll)
+  -> Context Switching 최소화
+  -> Node.js, Nginx가 이 모델로 수만 동시 연결 처리
 ```
 
 | 기술 | OS | 특징 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
@@ -43,9 +43,9 @@ tags = ["studynote-design-supervision"]
 | `IOCP` | Windows | 완료 기반(Proactor) | O(1) |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 수박 밭 관리 — 1만 개 수박(연결)을 1만 명 농부([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 각각 지키는 게 아니라, 드론([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))이 날아다니며 익은 수박(준비된 I/O)만 수확 팀에게 알려준다.
@@ -54,27 +54,27 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-  ┌─────────────────────────────────────────────────────────┐
-  │  Reactor (= Dispatcher = Event Loop)                    │
-  │  → Synchronous Event Demultiplexer를 감시               │
-  │  → 이벤트 발생 시 Handle에 연결된 Event Handler 호출   │
-  └──────────────────────────────────────────────────────────┘
-           │ 이벤트 등록            │ 이벤트 발생 알림
-           ▼                        ▼
-  ┌────────────────┐    ┌───────────────────────────────────┐
-  │  Handle (FD)   │    │  Synchronous Event Demultiplexer  │
-  │  - 소켓        │    │  (select / epoll / kqueue)        │
-  │  - 파일 디스크 │    │  → I/O 준비 완료된 Handle 반환   │
-  │  - 파이프      │    └───────────────────────────────────┘
-  └────────────────┘
-           │
-           ▼
-  ┌────────────────────────────────────────────────────────┐
-  │  Event Handler (이벤트 핸들러)                         │
-  │  - AcceptEventHandler: 새 연결 수락                    │
-  │  - ReadEventHandler: 데이터 읽기                       │
-  │  - WriteEventHandler: 데이터 쓰기                      │
-  └────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |  Reactor (= Dispatcher = Event Loop)                    |
+  |  -> Synchronous Event Demultiplexer를 감시               |
+  |  -> 이벤트 발생 시 Handle에 연결된 Event Handler 호출   |
+  +----------------------------------------------------------+
+           | 이벤트 등록            | 이벤트 발생 알림
+           v                        v
+  +----------------+    +-----------------------------------+
+  |  Handle (FD)   |    |  Synchronous Event Demultiplexer  |
+  |  - 소켓        |    |  (select / epoll / kqueue)        |
+  |  - 파일 디스크 |    |  -> I/O 준비 완료된 Handle 반환   |
+  |  - 파이프      |    +-----------------------------------+
+  +----------------+
+           |
+           v
+  +--------------------------------------------------------+
+  |  Event Handler (이벤트 핸들러)                         |
+  |  - AcceptEventHandler: 새 연결 수락                    |
+  |  - ReadEventHandler: 데이터 읽기                       |
+  |  - WriteEventHandler: 데이터 쓰기                      |
+  +--------------------------------------------------------+
 ```
 
 ```
@@ -89,14 +89,14 @@ tags = ["studynote-design-supervision"]
          }
   }
 
-  ──────────────────────────────────────────────────
+  --------------------------------------------------
   시간 흐름:
 
   t=0  select() 대기 (CPU 반환)
-  t=5ms 소켓A 읽기 준비 → ReadHandler.handle(A)
-  t=5ms 소켓B 쓰기 준비 → WriteHandler.handle(B)
-  t=6ms 처리 완료 → select() 대기 재진입
-  t=10ms 소켓C 연결 요청 → AcceptHandler.handle(C)
+  t=5ms 소켓A 읽기 준비 -> ReadHandler.handle(A)
+  t=5ms 소켓B 쓰기 준비 -> WriteHandler.handle(B)
+  t=6ms 처리 완료 -> select() 대기 재진입
+  t=10ms 소켓C 연결 요청 -> AcceptHandler.handle(C)
   ...
 ```
 
@@ -104,21 +104,21 @@ tags = ["studynote-design-supervision"]
   Node.js I/O 처리 구조:
 
   JavaScript Code (단일 스레드)
-         │
-         │ fs.readFile(), http.get() 등 비동기 API 호출
-         ▼
-  ┌──────────────────────────────────────────────┐
-  │  libuv Event Loop (Reactor 구현)             │
-  │                                              │
-  │  ① Timers       → setTimeout, setInterval   │
-  │  ② I/O Pending  → 완료된 I/O 콜백           │
-  │  ③ Idle/Prepare → 내부 처리                  │
-  │  ④ Poll         → epoll로 새 I/O 이벤트 대기 │
-  │  ⑤ Check        → setImmediate              │
-  │  ⑥ Close        → 소켓 닫기 등              │
-  └──────────────────────────────────────────────┘
-         │
-         ▼ CPU 집중 작업 → Worker Thread Pool (libuv)
+         |
+         | fs.readFile(), http.get() 등 비동기 API 호출
+         v
+  +----------------------------------------------+
+  |  libuv Event Loop (Reactor 구현)             |
+  |                                              |
+  |  ① Timers       -> setTimeout, setInterval   |
+  |  ② I/O Pending  -> 완료된 I/O 콜백           |
+  |  ③ Idle/Prepare -> 내부 처리                  |
+  |  ④ Poll         -> epoll로 새 I/O 이벤트 대기 |
+  |  ⑤ Check        -> setImmediate              |
+  |  ⑥ Close        -> 소켓 닫기 등              |
+  +----------------------------------------------+
+         |
+         v CPU 집중 작업 -> Worker Thread Pool (libuv)
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -157,16 +157,16 @@ tags = ["studynote-design-supervision"]
 ```
   Netty = 고성능 비동기 네트워크 프레임워크 (Reactor 구현)
 
-  ┌─────────────────────────────────────────────────────────┐
-  │  Boss EventLoopGroup (연결 수락 전담)                   │
-  │  → 새 연결을 accept → Worker Group에 할당              │
-  └──────────────────────────┬──────────────────────────────┘
-                              │ 연결 등록
-  ┌───────────────────────────▼─────────────────────────────┐
-  │  Worker EventLoopGroup (I/O 처리 전담)                  │
-  │  → 각 Worker = 이벤트 루프 스레드                       │
-  │  → ChannelPipeline을 통해 Handler 체인 실행             │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |  Boss EventLoopGroup (연결 수락 전담)                   |
+  |  -> 새 연결을 accept -> Worker Group에 할당              |
+  +--------------------------+------------------------------+
+                              | 연결 등록
+  +---------------------------v-----------------------------+
+  |  Worker EventLoopGroup (I/O 처리 전담)                  |
+  |  -> 각 Worker = 이벤트 루프 스레드                       |
+  |  -> ChannelPipeline을 통해 Handler 체인 실행             |
+  +---------------------------------------------------------+
 
   // 코드 예시
   EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -190,10 +190,10 @@ tags = ["studynote-design-supervision"]
 
   부적합한 상황:
   ❌ CPU 집중 연산 (암호화, 이미지 처리)
-     → 이벤트 루프 블로킹 위험
-     → Worker Thread Pool 분리 필요
+     -> 이벤트 루프 블로킹 위험
+     -> Worker Thread Pool 분리 필요
   ❌ 복잡한 트랜잭션 처리
-     → Spring MVC의 Thread-Per-Request가 더 적합
+     -> Spring MVC의 Thread-Per-Request가 더 적합
 ```
 
 - <strong>I/O <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a></strong> ([select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/epoll) 메커니즘과 Reactor의 연관성 명시
@@ -219,7 +219,7 @@ tags = ["studynote-design-supervision"]
 | 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | epoll의 O(1) 이벤트 통지 |
 | 에너지 효율 | I/O 대기 중 CPU 반환 |
 
-- **블로킹 코드 금지**: [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 내 블로킹 작업 → 모든 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
+- **블로킹 코드 금지**: [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 내 블로킹 작업 -> 모든 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 - **CPU 집중 작업**: Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Pool로 반드시 오프로드
 - **콜백 지옥(Callback Hell)**: Promise/async-await/Reactive Streams로 해결
 
@@ -242,7 +242,7 @@ Reactor (리액터) 패턴은 현대 고성능 서버의 핵심 아키텍처다.
 | 연관 개념 | [Proactor Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/) | 완료 기반 비동기의 대안 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-이벤트 분리 → 리액터 패턴 → 논블로킹 서버
+이벤트 분리 -> 리액터 패턴 -> 논블로킹 서버
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 놀이공원에서 놀이기구(연결)가 만 개 있어도, 안내원([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))은 딱 한 명이에요.
@@ -255,7 +255,7 @@ Reactor (리액터) 패턴은 현대 고성능 서버의 핵심 아키텍처다.
 
 **진행 상황**: 273 / 530
 
-← **이전**: [211. 액티브 오브젝트 패턴 (Active Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/)
-**다음**: [213. 프로액터 패턴 (Proactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/) →
+<- **이전**: [211. 액티브 오브젝트 패턴 (Active Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/211_active_object_pattern/)
+**다음**: [213. 프로액터 패턴 (Proactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/) ->
 
 ---

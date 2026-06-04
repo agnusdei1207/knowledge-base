@@ -29,12 +29,12 @@ tags = ["studynote-ai"]
 4. <strong>최적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 복원</strong>: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 최솟값 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 저장해 복원
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 조기 종료는 마라톤 선수 코치가 "지금은 꾀병이 아니야, 더 뛰면 부상이다"라고 판단하고 훈련을 멈추는 것과 같다. 훈련 성적(훈련 손실)만 보지 않고, 실전 컨디션([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실)을 기준으로 최적 시점을 잡는다.
@@ -47,20 +47,20 @@ tags = ["studynote-ai"]
 
 ```
 손실(Loss)
-    │
-    │  ─── 훈련 손실 (계속 감소)
-높음│  ─ ─ 검증 손실 (최솟값 후 증가)
-    │
-    │  ────────────────────────────────
-    │     ╲  훈련 손실
-    │      ╲────────────────────────→ 계속 감소
-    │
-    │   ─ ─ ╲ ─ ─ ╲ ─ ─     검증 손실
-    │                 ╲ ─ ─ ╲──→ 증가 시작 (과적합!)
-낮음│              ↑ 최적 가중치 저장
-    │              ↑ Early Stopping 기준점
-    └─────────────────────────────────→ 에포크
-                  ↑ Patience=5 후 중단
+    |
+    |  --- 훈련 손실 (계속 감소)
+높음|  - - 검증 손실 (최솟값 후 증가)
+    |
+    |  --------------------------------
+    |     ╲  훈련 손실
+    |      ╲-------------------------> 계속 감소
+    |
+    |   - - ╲ - - ╲ - -     검증 손실
+    |                 ╲ - - ╲---> 증가 시작 (과적합!)
+낮음|              ^ 최적 가중치 저장
+    |              ^ Early Stopping 기준점
+    +----------------------------------> 에포크
+                  ^ Patience=5 후 중단
 ```
 
 ### 조기 종료 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
@@ -96,17 +96,17 @@ for epoch in range(max_epochs):
 ### [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 집합 분리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
-┌────────────────────────────────────────────────────────┐
-│          데이터셋 분리 전략                             │
-├───────────────────────┬────────────────────────────────┤
-│  Hold-out Validation  │  훈련:검증:테스트 = 8:1:1      │
-│                       │  단순, 빠름                    │
-│                       │  데이터 적으면 불안정           │
-├───────────────────────┼────────────────────────────────┤
-│  K-Fold CV            │  K번 교차 검증                 │
-│  (Cross-Validation)   │  신뢰도 높음                   │
-│                       │  계산 비용 K배                 │
-└───────────────────────┴────────────────────────────────┘
++--------------------------------------------------------+
+|          데이터셋 분리 전략                             |
++-----------------------+--------------------------------+
+|  Hold-out Validation  |  훈련:검증:테스트 = 8:1:1      |
+|                       |  단순, 빠름                    |
+|                       |  데이터 적으면 불안정           |
++-----------------------+--------------------------------+
+|  K-Fold CV            |  K번 교차 검증                 |
+|  (Cross-Validation)   |  신뢰도 높음                   |
+|                       |  계산 비용 K배                 |
++-----------------------+--------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Patience는 부모가 아이의 나쁜 행동을 참는 횟수와 같다. 5번(Patience=5) 참았는데 계속 나쁘면([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 개선 없음) 결단을 내리는 것이다. 너무 빨리 포기하면(낮은 Patience) 일시적 나빠짐을 과민반응하고, 너무 참으면 이미 늦게 된다.
@@ -204,7 +204,7 @@ PyTorch:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [조기 종료 (Early Stopping)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [조기 종료 (Early Stopping)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -219,7 +219,7 @@ PyTorch:
 
 **진행 상황**: 281 / 420
 
-← **이전**: [280. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)
-**다음**: [282. 배치 정규화 (Batch Normalization)](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) →
+<- **이전**: [280. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)
+**다음**: [282. 배치 정규화 (Batch Normalization)](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ->
 
 ---

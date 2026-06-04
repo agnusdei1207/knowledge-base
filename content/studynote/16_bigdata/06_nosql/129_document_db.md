@@ -63,59 +63,59 @@ tags = ["studynote-bigdata"]
 ### 문서 저장 구조 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 기준)
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              MongoDB 데이터 계층 구조                      │
-│                                                          │
-│  Database: shop_db                                       │
-│  │                                                       │
-│  ├── Collection: products  (테이블 개념)                  │
-│  │   ├── Document { _id: "prod_1", ... }                 │
-│  │   ├── Document { _id: "prod_2", ... }                 │
-│  │   └── Document { _id: "prod_3", specs:{...} }         │
-│  │                                                       │
-│  ├── Collection: users                                   │
-│  │   ├── Document { _id: ObjectId("..."), name:... }     │
-│  │   └── Document { _id: ObjectId("..."), ... }          │
-│  │                                                       │
-│  └── Collection: orders                                  │
-│      └── Document { items:[{...},{...}], total:... }     │
-│                                                          │
-│  * 컬렉션: 스키마 강제 없음 (각 문서가 다른 필드 가능)        │
-│  * _id: 기본 인덱스 (ObjectId = 12바이트 타임스탬프+랜덤)    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              MongoDB 데이터 계층 구조                      |
+|                                                          |
+|  Database: shop_db                                       |
+|  |                                                       |
+|  +-- Collection: products  (테이블 개념)                  |
+|  |   +-- Document { _id: "prod_1", ... }                 |
+|  |   +-- Document { _id: "prod_2", ... }                 |
+|  |   +-- Document { _id: "prod_3", specs:{...} }         |
+|  |                                                       |
+|  +-- Collection: users                                   |
+|  |   +-- Document { _id: ObjectId("..."), name:... }     |
+|  |   +-- Document { _id: ObjectId("..."), ... }          |
+|  |                                                       |
+|  +-- Collection: orders                                  |
+|      +-- Document { items:[{...},{...}], total:... }     |
+|                                                          |
+|  * 컬렉션: 스키마 강제 없음 (각 문서가 다른 필드 가능)        |
+|  * _id: 기본 인덱스 (ObjectId = 12바이트 타임스탬프+랜덤)    |
++----------------------------------------------------------+
 ```
 
 ### [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) vs [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Referencing)
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│              데이터 모델링 전략 비교                          │
-│                                                            │
-│  ■ 임베딩(Embedding) — 비정규화                              │
-│  ┌──────────────────────────────────┐                      │
-│  │ Order Document                   │                      │
-│  │  { orderId: 1001,                │                      │
-│  │    customer: { name:"홍길동",    │ ← 고객 정보 내장        │
-│  │                email:"..." },    │                      │
-│  │    items: [                      │                      │
-│  │      { sku:"A1", qty:2,          │ ← 상품 정보 내장        │
-│  │        price:9900 },             │                      │
-│  │      { sku:"B2", qty:1,          │                      │
-│  │        price:49900 }             │                      │
-│  │    ]                             │                      │
-│  │  }                               │                      │
-│  └──────────────────────────────────┘                      │
-│  장점: 단일 조회(1 I/O)   단점: 데이터 중복, 큰 문서           │
-│                                                            │
-│  ■ 참조(Referencing) — 정규화                               │
-│  ┌────────────┐    ┌───────────────────────┐               │
-│  │ Order      │    │ Customer              │               │
-│  │ { custId:  │──→ │ { _id: "cust_1",      │               │
-│  │   "cust_1" │    │   name: "홍길동" }     │               │
-│  │ }          │    └───────────────────────┘               │
-│  └────────────┘                                            │
-│  장점: 데이터 정규화, 갱신 단순  단점: 여러 번 조회 필요         │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              데이터 모델링 전략 비교                          |
+|                                                            |
+|  ■ 임베딩(Embedding) — 비정규화                              |
+|  +----------------------------------+                      |
+|  | Order Document                   |                      |
+|  |  { orderId: 1001,                |                      |
+|  |    customer: { name:"홍길동",    | <- 고객 정보 내장        |
+|  |                email:"..." },    |                      |
+|  |    items: [                      |                      |
+|  |      { sku:"A1", qty:2,          | <- 상품 정보 내장        |
+|  |        price:9900 },             |                      |
+|  |      { sku:"B2", qty:1,          |                      |
+|  |        price:49900 }             |                      |
+|  |    ]                             |                      |
+|  |  }                               |                      |
+|  +----------------------------------+                      |
+|  장점: 단일 조회(1 I/O)   단점: 데이터 중복, 큰 문서           |
+|                                                            |
+|  ■ 참조(Referencing) — 정규화                               |
+|  +------------+    +-----------------------+               |
+|  | Order      |    | Customer              |               |
+|  | { custId:  |---> | { _id: "cust_1",      |               |
+|  |   "cust_1" |    |   name: "홍길동" }     |               |
+|  | }          |    +-----------------------+               |
+|  +------------+                                            |
+|  장점: 데이터 정규화, 갱신 단순  단점: 여러 번 조회 필요         |
++------------------------------------------------------------+
 ```
 
 ### CouchDB [오프라인 우선](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
@@ -147,8 +147,8 @@ tags = ["studynote-bigdata"]
 ### Firestore 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
 ```text
-Mobile App ──→ Firestore ──→ 실시간 스냅샷 리스너
-                          ←── 변경 즉시 Push (WebSocket)
+Mobile App ---> Firestore ---> 실시간 스냅샷 리스너
+                          <--- 변경 즉시 Push (WebSocket)
 
 특징:
 - 오프라인 캐시: 인터넷 연결 끊겨도 로컬에서 읽기 가능
@@ -190,7 +190,7 @@ db.orders.aggregate([
 ```
 
 📢 **섹션 요약 비유**
-> Aggregation Pipeline은 공장 컨베이어 벨트와 같다. 원자재(문서)가 벨트를 타고 이동하면서 각 공정(필터→분해→집계→정렬)을 순서대로 거쳐 최종 제품(집계 결과)으로 완성된다. 단계마다 불필요한 재료를 걸러내어 최종 단계에서 처리해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양을 줄이는 것이 효율의 핵심이다.
+> Aggregation Pipeline은 공장 컨베이어 벨트와 같다. 원자재(문서)가 벨트를 타고 이동하면서 각 공정(필터->분해->집계->정렬)을 순서대로 거쳐 최종 제품(집계 결과)으로 완성된다. 단계마다 불필요한 재료를 걸러내어 최종 단계에서 처리해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양을 줄이는 것이 효율의 핵심이다.
 
 ---
 
@@ -228,20 +228,20 @@ db.orders.aggregate([
 
 ```text
 [관계형 DB]
-    │
-    ▼
+    |
+    v
 [NoSQL]
-    │
-    ▼
+    |
+    v
 [문서형 DB]
-    │
-    ▼
+    |
+    v
 [MongoDB]
-    │
-    ▼
+    |
+    v
 [Atlas]
-    │
-    ▼
+    |
+    v
 [Document API]
 ```
 
@@ -258,7 +258,7 @@ db.orders.aggregate([
 
 **진행 상황**: 129 / 262
 
-← **이전**: [128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버](/knowledge-base/studynote/16_bigdata/06_nosql/128_redis/)
-**다음**: [130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos](/knowledge-base/studynote/16_bigdata/06_nosql/130_mongodb_architecture/) →
+<- **이전**: [128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버](/knowledge-base/studynote/16_bigdata/06_nosql/128_redis/)
+**다음**: [130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos](/knowledge-base/studynote/16_bigdata/06_nosql/130_mongodb_architecture/) ->
 
 ---

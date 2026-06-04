@@ -33,29 +33,29 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────┐
-│           HashiCorp Vault 동적 시크릿 흐름           │
-├────────────────────────────────────────────────────┤
-│                                                    │
-│  애플리케이션 (Pod/Lambda)                           │
-│       │  1. Vault에 인증 (AppRole / K8s SA)         │
-│       ▼                                            │
-│  ┌─────────────────────┐                           │
-│  │  HashiCorp Vault     │                          │
-│  │  - Auth Engine       │                          │
-│  │  - Secrets Engine    │                          │
-│  │  - Audit Log         │                          │
-│  └──────────┬──────────┘                           │
-│             │  2. 동적 자격증명 발급 (TTL=1h)         │
-│             ▼                                      │
-│  ┌───────────────────────┐                         │
-│  │  PostgreSQL           │                         │
-│  │  (임시 계정 자동 생성) │                          │
-│  └───────────────────────┘                         │
-│             │  3. TTL 만료 시 자동 삭제              │
-│             ▼                                      │
-│  감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)         │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|           HashiCorp Vault 동적 시크릿 흐름           |
++----------------------------------------------------+
+|                                                    |
+|  애플리케이션 (Pod/Lambda)                           |
+|       |  1. Vault에 인증 (AppRole / K8s SA)         |
+|       v                                            |
+|  +---------------------+                           |
+|  |  HashiCorp Vault     |                          |
+|  |  - Auth Engine       |                          |
+|  |  - Secrets Engine    |                          |
+|  |  - Audit Log         |                          |
+|  +----------+----------+                           |
+|             |  2. 동적 자격증명 발급 (TTL=1h)         |
+|             v                                      |
+|  +-----------------------+                         |
+|  |  PostgreSQL           |                         |
+|  |  (임시 계정 자동 생성) |                          |
+|  +-----------------------+                         |
+|             |  3. TTL 만료 시 자동 삭제              |
+|             v                                      |
+|  감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)         |
++----------------------------------------------------+
 ```
 
 | 방식 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 수명 | 탈취 시 위험 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
@@ -128,8 +128,8 @@ tags = ["studynote-devops-sre"]
 
 ```text
 하드코딩 시대             환경변수 시대             동적 시크릿 시대
-──────────────────   ──────────────────────   ─────────────────────────
-API 키 소스 코드 삽입 → .env 파일, CI 변수  →  HashiCorp Vault
+------------------   ----------------------   -------------------------
+API 키 소스 코드 삽입 -> .env 파일, CI 변수  ->  HashiCorp Vault
 Git 유출 사고           컨테이너 인스펙션 위험     동적 시크릿 TTL
 수동 로테이션           수동 로테이션              자동 로테이션/폐기
                                                Secret Scanning CI
@@ -147,7 +147,7 @@ Git 유출 사고           컨테이너 인스펙션 위험     동적 시크�
 
 **진행 상황**: 329 / 373
 
-← **이전**: [328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense](/knowledge-base/studynote/15_devops_sre/05_devsecops/328_sbom/)
-**다음**: [330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access](/knowledge-base/studynote/11_design_supervision/06_exam_summary/330_process/) →
+<- **이전**: [328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense](/knowledge-base/studynote/15_devops_sre/05_devsecops/328_sbom/)
+**다음**: [330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access](/knowledge-base/studynote/11_design_supervision/06_exam_summary/330_process/) ->
 
 ---

@@ -26,14 +26,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 첫 패킷과 이후 패킷의 역할 분담이 어떻게 달라지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ First Packet:  VM -> Host vSwitch Classifier -> Rule Install -> NIC       │
-│ Later Packets: VM -> NIC/DPU eSwitch Flow Table -> Peer VM / Uplink       │
-│                                                                            │
-│ 핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다. │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다         |
++----------------------------------------------------------------------------+
+| First Packet:  VM -> Host vSwitch Classifier -> Rule Install -> NIC       |
+| Later Packets: VM -> NIC/DPU eSwitch Flow Table -> Peer VM / Uplink       |
+|                                                                            |
+| 핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다. |
++----------------------------------------------------------------------------+
 ```
 
 즉 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 SR-IOV처럼 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 완전히 우회해 버리는 개념과 다르다. 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가상 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 모델은 유지하되, 자주 반복되는 전달 규칙만 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 안쪽으로 밀어 넣는 것이 본질이다.
@@ -59,18 +59,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 miss와 hit가 갈리는 실제 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   vSwitch 오프로드의 slow path / fast path                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [VM / VF] ---- miss ----> [Host OVS Classifier] ---- install ----┐        │
-│     │                                                            │        │
-│     └--------------------------- hit ---------------------------->│        │
-│                                                                  ▼        │
-│                                                        [NIC eSwitch]      │
-│                                                          │        │        │
-│                                                          ▼        ▼        │
-│                                                     Peer VF    Uplink      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   vSwitch 오프로드의 slow path / fast path                  |
++----------------------------------------------------------------------------+
+| [VM / VF] ---- miss ----> [Host OVS Classifier] ---- install ----+        |
+|     |                                                            |        |
+|     +--------------------------- hit ---------------------------->|        |
+|                                                                  v        |
+|                                                        [NIC eSwitch]      |
+|                                                          |        |        |
+|                                                          v        v        |
+|                                                     Peer VF    Uplink      |
++----------------------------------------------------------------------------+
 ```
 
 결국 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "오프로드를 켰는가"보다 "얼마나 많은 패킷이 fast path에 머무는가"에 달려 있다. 규칙 설치가 느리거나, 지원하지 않는 action이 많아 miss가 자주 나면 하드웨어는 있어도 CPU 부하는 다시 올라간다.
@@ -150,17 +150,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Linux Bridge / 순수 소프트웨어 스위칭
-            │
-            ▼
+            |
+            v
 OVS 기반 가상 스위치
-            │
-            ▼
+            |
+            v
 DPDK 기반 소프트웨어 fast path
-            │
-            ▼
+            |
+            v
 NIC eSwitch 기반 vSwitch Offload
-            │
-            ▼
+            |
+            v
 DPU 기반 정책·서비스 통합 데이터 평면
 ```
 
@@ -178,7 +178,7 @@ DPU 기반 정책·서비스 통합 데이터 평면
 
 **진행 상황**: 590 / 803
 
-← **이전**: [589. IPsec (Internet Protocol Security) 오프로드 가속기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)
-**다음**: [591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/) →
+<- **이전**: [589. IPsec (Internet Protocol Security) 오프로드 가속기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)
+**다음**: [591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/) ->
 
 ---

@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) (Wasm) 프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  WebAssembly (Wasm) 프                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  WebAssembly (Wasm) 프                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) (Wasm) 프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -132,21 +132,21 @@ Wasm이 좋다고 해서 프론트엔드 전체를 Rust로 짜는 것은 미친 
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 WebAssembly (Wasm) 프론트 성능 가속 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -160,7 +160,7 @@ WebAssembly (Wasm) 프론트 성능 가속 개념 정립
 
 **진행 상황**: 874 / 973
 
-← **이전**: [700. 서버리스 FaaS 아키텍처 제약](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/700_serverless_faas_architecture_constraints/)
-**다음**: [702. PWA (Progressive Web App) 오프라인 워커](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) →
+<- **이전**: [700. 서버리스 FaaS 아키텍처 제약](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/700_serverless_faas_architecture_constraints/)
+**다음**: [702. PWA (Progressive Web App) 오프라인 워커](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) ->
 
 ---

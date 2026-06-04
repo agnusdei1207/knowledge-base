@@ -32,25 +32,25 @@ tags = ["studynote-design-supervision"]
 폭포수(Waterfall) 모델에서 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 절대 뒤로 역류하지 않는 쇳덩어리 자물쇠다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘      │
-├────────────────────────────────────────────────────────┤
-│  [ 1. 요구사항 분석 단계 종료 ]                           │
-│   - 산출물: 요구사항 정의서                               │
-│   - 🔒 기능 베이스라인 (Functional Baseline) 확정!        │
-│             │                                          │
-│             ▼ (추적성 검증: Traceability)               │
-│  [ 2. 설계 단계 종료 ]                                   │
-│   - 산출물: 시스템 아키텍처, 화면 설계서, DB ERD            │
-│   - 🔒 분배 베이스라인 (Allocated Baseline) 확정!         │
-│   * 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"    │
-│             │                                          │
-│             ▼ (추적성 검증: Traceability)               │
-│  [ 3. 구현(개발) 및 테스트 단계 종료 ]                     │
-│   - 산출물: 소스코드, 실행 파일 (.jar, .exe)               │
-│   - 🔒 제품 베이스라인 (Product Baseline) 확정!           │
-│   * 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘      |
++--------------------------------------------------------+
+|  [ 1. 요구사항 분석 단계 종료 ]                           |
+|   - 산출물: 요구사항 정의서                               |
+|   - 🔒 기능 베이스라인 (Functional Baseline) 확정!        |
+|             |                                          |
+|             v (추적성 검증: Traceability)               |
+|  [ 2. 설계 단계 종료 ]                                   |
+|   - 산출물: 시스템 아키텍처, 화면 설계서, DB ERD            |
+|   - 🔒 분배 베이스라인 (Allocated Baseline) 확정!         |
+|   * 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"    |
+|             |                                          |
+|             v (추적성 검증: Traceability)               |
+|  [ 3. 구현(개발) 및 테스트 단계 종료 ]                     |
+|   - 산출물: 소스코드, 실행 파일 (.jar, .exe)               |
+|   - 🔒 제품 베이스라인 (Product Baseline) 확정!           |
+|   * 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"|
++--------------------------------------------------------+
 ```
 
 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 기술은 <strong>추적성 매트릭스(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a> Matrix)</strong>다. 요구사항 ID `REQ-01`이, 설계서의 `DES-01`로, 소스코드의 `Login.java`로, 테스트 케이스의 `TC-01`로 이가 빠지지 않고 1:1로 연결되어 있는지 엑셀이나 Jira(지라) 쇳덩어리로 끈질기게 추적하는 것이 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 본질이다.
@@ -112,22 +112,22 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-초창기 무계획 개발 (Code & Fix) ──▶ 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산
-    │
-    ▼
-소프트웨어 공학의 도입 ──▶ 생명주기(SDLC) 단계 분리 및 문서화 시작
-    │
-    ▼
+초창기 무계획 개발 (Code & Fix) ---> 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산
+    |
+    v
+소프트웨어 공학의 도입 ---> 생명주기(SDLC) 단계 분리 및 문서화 시작
+    |
+    v
 단계별 산출물을 동결(Freeze)하는 형상 관리의 '베이스라인(Baseline)' 개념 확립
-    │
-    ▼
+    |
+    v
 일반 개발자 권한을 박탈하고 CCB(형상통제위원회)를 통한 강력한 변경 통제 프로세스 구축
-    │
-    ▼
+    |
+    v
 Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 자동 추적성(Traceability) 검증 실현
 ```
 
-이 흐름도는 "무한 수정의 재앙 → 쇳덩어리 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(동결) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 통제 위원회에 의한 프로세스 법치화 → 도구를 통한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자동화"라는 IT 프로젝트 형상 거버넌스의 발전을 보여준다.
+이 흐름도는 "무한 수정의 재앙 -> 쇳덩어리 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(동결) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 통제 위원회에 의한 프로세스 법치화 -> 도구를 통한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자동화"라는 IT 프로젝트 형상 거버넌스의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 
 
 **진행 상황**: 29 / 530
 
-← **이전**: [26. 응용 시스템 영역 감리 (Applications System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/)
-**다음**: [27. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/027_database_area_audit/) →
+<- **이전**: [26. 응용 시스템 영역 감리 (Applications System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/)
+**다음**: [27. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/027_database_area_audit/) ->
 
 ---

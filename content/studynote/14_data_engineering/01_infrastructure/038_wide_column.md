@@ -243,7 +243,7 @@ SQL 유사 문법으로 접근성 향상
 
 **진행 상황**: 38 / 258
 
-← **이전**: [037. 문서 저장소 (Document Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)
-**다음**: [039. 그래프 데이터베이스 (Graph Database)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/) →
+<- **이전**: [037. 문서 저장소 (Document Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)
+**다음**: [039. 그래프 데이터베이스 (Graph Database)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/) ->
 
 ---

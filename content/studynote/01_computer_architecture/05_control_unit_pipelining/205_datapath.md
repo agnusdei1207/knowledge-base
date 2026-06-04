@@ -36,17 +36,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 파이프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스가 무엇을 연결하는지 한눈에 보여준다. 중요한 점은 [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 계산 자체를 하지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스 안의 어느 길을 열지 지정한다는 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Datapath flow: fetch → read → execute → memory → writeback         │
-├──────────────────────────────────────────────────────────────────────┤
-│ PC ─▶ Instruction Memory ─▶ Stage Register ─▶ Register File         │
-│                                                │                     │
-│                                                ├──▶ Immediate Select │
-│                                                ▼                     │
-│                                         ALU / Address Calc           │
-│                                                │                     │
-│                         Data Memory or ALU Result ─▶ Write Back      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Datapath flow: fetch -> read -> execute -> memory -> writeback         |
++----------------------------------------------------------------------+
+| PC --> Instruction Memory --> Stage Register --> Register File         |
+|                                                |                     |
+|                                                +---> Immediate Select |
+|                                                v                     |
+|                                         ALU / Address Calc           |
+|                                                |                     |
+|                         Data Memory or ALU Result --> Write Back      |
++----------------------------------------------------------------------+
 ```
 
 이 흐름에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 두 가지다. 첫째, 어떤 자원이 한 사이클 안에 너무 많은 일을 맡아 임계 경로 (Critical Path)를 길게 만들지 않는가이다. 둘째, 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 동시에 흐를 때 같은 자원을 두고 충돌하지 않도록 단계와 버퍼를 적절히 나눴는가이다. 그래서 현대 CPU는 단일 거대 경로보다, 여러 짧은 단계로 분리된 파이프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스를 선호한다.
@@ -133,16 +133,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 사이클 Datapath
-        │
-        ▼
+        |
+        v
 다중 사이클 Datapath
-        │
-        ▼
+        |
+        v
 파이프라인 Datapath
-        │
-        ├──▶ 구조 해저드 대응: 자원 분리, 다중 포트
-        ├──▶ 데이터 해저드 대응: Forwarding, Stall
-        └──▶ 고성능 확장: Superscalar, Out-of-Order
+        |
+        +---> 구조 해저드 대응: 자원 분리, 다중 포트
+        +---> 데이터 해저드 대응: Forwarding, Stall
+        +---> 고성능 확장: Superscalar, Out-of-Order
 ```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스가 단순 실행 경로에서 출발해, 파이프라인 충돌을 다루고, 다시 다중 실행 구조로 확장되는 진화를 보여준다.
@@ -159,7 +159,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 205 / 803
 
-← **이전**: [204. 마이크로아키텍처 (Microarchitecture)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)
-**다음**: [206. 제어 유닛 (Control Unit)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) →
+<- **이전**: [204. 마이크로아키텍처 (Microarchitecture)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)
+**다음**: [206. 제어 유닛 (Control Unit)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ->
 
 ---

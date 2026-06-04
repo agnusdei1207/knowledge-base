@@ -38,25 +38,25 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 | **3. 최종 마감** | 연산 결과에 일회용 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 XOR하여 태그(Tag) 출력 | 재사용 방지 및 태그 암호화 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [인증키 H]               [인증키 H]              [인증키 H]       │
-│           │                       │                       │         │
-│           ▼                       ▼                       ▼         │
-│ 데이터1 ─▶( ✖ )───( ➕ )──▶ ( ✖ )───( ➕ )──▶ ( ✖ )───┐          │
-│                    ▲                       ▲               │         │
-│                    │                       │               │         │
-│                 데이터2                 데이터3              │         │
-│                                                            ▼         │
-│                                         (암호화된 일회용 난수 Nonce)    │
-│                                                            │         │
-│                                                            ▼         │
-│                                              ★ [ 최종 인증 태그 ] ★      │
-│                                                              │
-│ * 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화        |
++--------------------------------------------------------------+
+|                                                              |
+|       [인증키 H]               [인증키 H]              [인증키 H]       |
+|           |                       |                       |         |
+|           v                       v                       v         |
+| 데이터1 -->( ✖ )---( ➕ )---> ( ✖ )---( ➕ )---> ( ✖ )---+          |
+|                    ^                       ^               |         |
+|                    |                       |               |         |
+|                 데이터2                 데이터3              |         |
+|                                                            v         |
+|                                         (암호화된 일회용 난수 Nonce)    |
+|                                                            |         |
+|                                                            v         |
+|                                              ★ [ 최종 인증 태그 ] ★      |
+|                                                              |
+| * 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.    |
++--------------------------------------------------------------+
 ```
 
 이 방식이 무서운 속도를 내는 이유는 곱셈과 XOR 연산이 CPU가 가장 좋아하는 기본 동작이기 때문이다. 인텔과 AMD 같은 칩 제조사들은 이 갈루아 곱셈을 위한 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`PCLMULQDQ`)를 아예 CPU 안에 박아 넣었다. 덕분에 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 타는 것보다 물리적으로 압도적인 속도를 낸다.
@@ -120,14 +120,14 @@ GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/14
 
 ```text
 CBC-MAC / CMAC · 강력하지만 직렬 연산으로 인한 성능 병목 발생
-    │
-    ▼
+    |
+    v
 갈루아 체 연산 (Galois Field) · 다항식 수학 곱셈을 통한 병렬 처리 아이디어
-    │
-    ▼
+    |
+    v
 GMAC (Galois MAC) · 하드웨어 가속(CPU 명령어)을 받아 초고속 무결성 인증 획득
-    │
-    ▼
+    |
+    v
 GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래픽 장악 (TLS 1.3)
 ```
 
@@ -143,7 +143,7 @@ GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래
 
 **진행 상황**: 159 / 1108
 
-← **이전**: [105. CMAC (Cipher-based MAC) — 블록 암호 기반](/knowledge-base/studynote/09_security/02_crypto/105_cmac/)
-**다음**: [107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/) →
+<- **이전**: [105. CMAC (Cipher-based MAC) — 블록 암호 기반](/knowledge-base/studynote/09_security/02_crypto/105_cmac/)
+**다음**: [107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/) ->
 
 ---

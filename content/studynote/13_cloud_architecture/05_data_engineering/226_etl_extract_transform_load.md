@@ -22,23 +22,23 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 
 ```
 [ETL 흐름]
-┌──────────┐   Extract   ┌──────────────────┐   Load   ┌──────────┐
-│ 소스 DB   │ ──────────▶│   ETL 서버        │ ────────▶│ DW/Target│
-│ Oracle   │            │   (Staging Area)  │          │ Redshift │
-│ SAP ERP  │            │                  │          │ Snowflake│
-│ MySQL    │            │  ① 타입 변환       │          └──────────┘
-│ 플랫파일  │            │  ② NULL 처리      │
-└──────────┘            │  ③ 코드 매핑      │
-                        │  ④ 중복 제거      │
-                        │  ⑤ 비즈니스 규칙  │
-                        └──────────────────┘
++----------+   Extract   +------------------+   Load   +----------+
+| 소스 DB   | ----------->|   ETL 서버        | --------->| DW/Target|
+| Oracle   |            |   (Staging Area)  |          | Redshift |
+| SAP ERP  |            |                  |          | Snowflake|
+| MySQL    |            |  ① 타입 변환       |          +----------+
+| 플랫파일  |            |  ② NULL 처리      |
++----------+            |  ③ 코드 매핑      |
+                        |  ④ 중복 제거      |
+                        |  ⑤ 비즈니스 규칙  |
+                        +------------------+
                            변환 서버가 병목
 ```
 
 **필요성:**
 - 이기종 DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) + MySQL + Flat [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))
-- 코드 체계 통일 (A/B → 활성/비활성)
-- 타입 변환 (VARCHAR → DATE)
+- 코드 체계 통일 (A/B -> 활성/비활성)
+- 타입 변환 (VARCHAR -> DATE)
 - 비즈니스 규칙 적용 (순매출 = 총매출 - 반품)
 
 📢 **섹션 요약 비유**: ETL은 주문받은 재료(Extract)를 주방(Transform 서버)에서 손질·조리한 뒤 식탁([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 올리는 요식업 프로세스다. 식탁에는 항상 완성된 음식만 오르지만, 주방이 혼잡(병목)하면 전체 서비스가 느려진다.
@@ -51,36 +51,36 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 
 ```
 [Extract (추출)]
-┌──────────────────────────────────────────────┐
-│ 방법:                                         │
-│  - Full Extract: 전체 테이블 복사 (초기 적재)  │
-│  - Incremental: 변경분만 (타임스탬프/CDC)      │
-│                                              │
-│ 도전:                                         │
-│  - 소스 DB 부하 최소화 (야간 배치 선호)         │
-│  - 데이터 일관성 (스냅샷 시점 통일)             │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| 방법:                                         |
+|  - Full Extract: 전체 테이블 복사 (초기 적재)  |
+|  - Incremental: 변경분만 (타임스탬프/CDC)      |
+|                                              |
+| 도전:                                         |
+|  - 소스 DB 부하 최소화 (야간 배치 선호)         |
+|  - 데이터 일관성 (스냅샷 시점 통일)             |
++----------------------------------------------+
 
 [Transform (변환)]
-┌──────────────────────────────────────────────┐
-│  스테이징 영역 (ETL 서버 메모리/디스크)          │
-│  ┌─────────────┬─────────────────────────┐   │
-│  │ 데이터 품질  │ 중복 제거, NULL 대체      │   │
-│  │ 타입 변환   │ YYYYMMDD → DATE           │   │
-│  │ 코드 매핑   │ '01' → '활성'             │   │
-│  │ 집계 계산   │ 일별 매출 합산             │   │
-│  │ 비즈니스 룰 │ 순매출 계산               │   │
-│  └─────────────┴─────────────────────────┘   │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  스테이징 영역 (ETL 서버 메모리/디스크)          |
+|  +-------------+-------------------------+   |
+|  | 데이터 품질  | 중복 제거, NULL 대체      |   |
+|  | 타입 변환   | YYYYMMDD -> DATE           |   |
+|  | 코드 매핑   | '01' -> '활성'             |   |
+|  | 집계 계산   | 일별 매출 합산             |   |
+|  | 비즈니스 룰 | 순매출 계산               |   |
+|  +-------------+-------------------------+   |
++----------------------------------------------+
 
 [Load (적재)]
-┌──────────────────────────────────────────────┐
-│  Full Load: 기존 데이터 삭제 후 전체 재적재      │
-│  Incremental Load: 신규/변경분만 UPSERT         │
-│  Slowly Changing Dimension (SCD):             │
-│    - Type 1: 덮어쓰기                          │
-│    - Type 2: 이력 보존 (유효기간 컬럼 관리)      │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  Full Load: 기존 데이터 삭제 후 전체 재적재      |
+|  Incremental Load: 신규/변경분만 UPSERT         |
+|  Slowly Changing Dimension (SCD):             |
+|    - Type 1: 덮어쓰기                          |
+|    - Type 2: 이력 보존 (유효기간 컬럼 관리)      |
++----------------------------------------------+
 ```
 
 ### 주요 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 도구
@@ -104,7 +104,7 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 |:---|:---|:---|
 | **변환 위치** | 전용 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 (외부) | 타겟 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크 내부 |
 | <strong>적재 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 정제 완료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 원시([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **처리 순서** | Extract → Transform → Load | Extract → Load → Transform |
+| **처리 순서** | Extract -> Transform -> Load | Extract -> Load -> Transform |
 | **병목 지점** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크 컴퓨팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 저장 내용</strong> | 최종 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 | 원시+정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두 |
 | **비용 구조** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 비용 | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크 컴퓨팅 비용 |
@@ -194,12 +194,12 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-ETL: Extract → Transform → Load (DW 외부에서 변환)
-    │
-    ▼
-ELT: Extract → Load → Transform (DW 내부에서 변환)
-    │
-    ▼
+ETL: Extract -> Transform -> Load (DW 외부에서 변환)
+    |
+    v
+ELT: Extract -> Load -> Transform (DW 내부에서 변환)
+    |
+    v
 실시간 ETL: Kafka + Flink/Spark Streaming + CDC
 ```
 2. 식탁에는 항상 깨끗이 손질된 음식만 올라오지만, 주방이 작으면 손님이 몰릴 때 음식이 늦게 나오는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아지면 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버가 느려질 수 있다.
@@ -211,7 +211,7 @@ ELT: Extract → Load → Transform (DW 내부에서 변환)
 
 **진행 상황**: 225 / 371
 
-← **이전**: [225. 델타 레이크 / Apache Iceberg / Apache Hudi](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/225_delta_lake_apache_iceberg_hudi/)
-**다음**: [227. ELT (Extract, Load, Transform)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/227_elt_extract_load_transform_cloud/) →
+<- **이전**: [225. 델타 레이크 / Apache Iceberg / Apache Hudi](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/225_delta_lake_apache_iceberg_hudi/)
+**다음**: [227. ELT (Extract, Load, Transform)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/227_elt_extract_load_transform_cloud/) ->
 
 ---

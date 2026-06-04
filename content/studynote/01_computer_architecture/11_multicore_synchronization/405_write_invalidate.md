@@ -36,24 +36,24 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 여러 코어가 공유하던 캐시 라인에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 들어왔을 때, 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 어떻게 소유권을 재편하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│          Write-Invalidate의 기본 흐름: 공유본 폐기 후 작성자 단독화         │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 초기 상태                                                                    │
-│   Core 0 Cache          Core 1 Cache          Core 2 Cache                  │
-│   [X : S]               [X : S]               [X : S]                       │
-│        \\                  │                  //                            │
-│         \\                 │                 //                             │
-│          └────────────── Shared Interconnect ──────────────┘                │
-│                              │                                               │
-│                          [Memory X=v0]                                       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core 0가 X에 Write 수행                                                     │
-│   1) Core 0  ── Invalidate(X) ──▶ Interconnect                              │
-│   2) Core 1, Core 2 : [X : I] 로 전이                                       │
-│   3) Core 0 : [X : M] 획득 후 로컬 캐시에서 연속 수정                        │
-│   4) 다른 코어가 다시 읽을 때만 최신 데이터 재전송                           │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|          Write-Invalidate의 기본 흐름: 공유본 폐기 후 작성자 단독화         |
++------------------------------------------------------------------------------+
+| 초기 상태                                                                    |
+|   Core 0 Cache          Core 1 Cache          Core 2 Cache                  |
+|   [X : S]               [X : S]               [X : S]                       |
+|        \\                  |                  //                            |
+|         \\                 |                 //                             |
+|          +-------------- Shared Interconnect --------------+                |
+|                              |                                               |
+|                          [Memory X=v0]                                       |
++------------------------------------------------------------------------------+
+| Core 0가 X에 Write 수행                                                     |
+|   1) Core 0  -- Invalidate(X) ---> Interconnect                              |
+|   2) Core 1, Core 2 : [X : I] 로 전이                                       |
+|   3) Core 0 : [X : M] 획득 후 로컬 캐시에서 연속 수정                        |
+|   4) 다른 코어가 다시 읽을 때만 최신 데이터 재전송                           |
++------------------------------------------------------------------------------+
 ```
 
 이 방식의 효율은 "한 번 무효화하고 여러 번 로컬 수정"이 가능하다는 점에서 나온다. 예를 들어 코어 하나가 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 100번 증가시키더라도, 다른 캐시를 처음 한 번만 무효화하면 그 뒤의 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 자신의 캐시 안에서 진행할 수 있다. 반대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)-업데이트 ([Write-Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))라면 매 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)마다 값 변경이 계속 전파되어 불필요한 통신이 누적된다.
@@ -98,16 +98,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 대표적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴 패턴인 캐시 라인 핑퐁을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 캐시 라인 핑퐁: 번갈아 쓰기 때문에 생기는 손실               │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 시간 t0 : Core 0 writes A   ──▶ Core 0 [Line : M]   Core 1 [Line : I]       │
-│ 시간 t1 : Core 1 writes B   ──▶ Core 0 [Line : I]   Core 1 [Line : M]       │
-│ 시간 t2 : Core 0 writes A   ──▶ Core 0 [Line : M]   Core 1 [Line : I]       │
-│ 시간 t3 : Core 1 writes B   ──▶ Core 0 [Line : I]   Core 1 [Line : M]       │
-│                                                                              │
-│  A와 B가 논리적으로 달라도 같은 캐시 라인에 있으면 무효화가 계속 왕복한다.   │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                 캐시 라인 핑퐁: 번갈아 쓰기 때문에 생기는 손실               |
++------------------------------------------------------------------------------+
+| 시간 t0 : Core 0 writes A   ---> Core 0 [Line : M]   Core 1 [Line : I]       |
+| 시간 t1 : Core 1 writes B   ---> Core 0 [Line : I]   Core 1 [Line : M]       |
+| 시간 t2 : Core 0 writes A   ---> Core 0 [Line : M]   Core 1 [Line : I]       |
+| 시간 t3 : Core 1 writes B   ---> Core 0 [Line : I]   Core 1 [Line : M]       |
+|                                                                              |
+|  A와 B가 논리적으로 달라도 같은 캐시 라인에 있으면 무효화가 계속 왕복한다.   |
++------------------------------------------------------------------------------+
 ```
 
 ### 설계 판단 포인트
@@ -162,28 +162,28 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 메모리 병렬 처리
-        │
-        ▼
+        |
+        v
 캐시 일관성 (Cache Coherence)
-        │
-        ├─ 스누핑 프로토콜 (Snooping Protocol)
-        │        │
-        │        ▼
-        │   무효화 정책 (Write-Invalidate)
-        │        │
-        │        ├─ MESI (Modified, Exclusive, Shared, Invalid)
-        │        └─ MOESI (Modified, Owned, Exclusive, Shared, Invalid)
-        │
-        └─ 디렉터리 프로토콜 (Directory Protocol)
-                 │
-                 ▼
+        |
+        +- 스누핑 프로토콜 (Snooping Protocol)
+        |        |
+        |        v
+        |   무효화 정책 (Write-Invalidate)
+        |        |
+        |        +- MESI (Modified, Exclusive, Shared, Invalid)
+        |        +- MOESI (Modified, Owned, Exclusive, Shared, Invalid)
+        |
+        +- 디렉터리 프로토콜 (Directory Protocol)
+                 |
+                 v
       대규모 멀티소켓 · NUMA (Non-Uniform Memory Access) 확장
-                 │
-                 ▼
+                 |
+                 v
      거짓 공유 (False Sharing) · 메모리 일관성 모델 논의
 ```
 
-이 흐름은 "공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제 → [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 메커니즘 → 무효화 기반 구현 → 확장성과 부작용 관리"로 이어지는 학습 축을 보여준다.
+이 흐름은 "공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제 -> [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 메커니즘 -> 무효화 기반 구현 -> 확장성과 부작용 관리"로 이어지는 학습 축을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -197,7 +197,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 406 / 803
 
-← **이전**: [404. 디렉터리 기반 프로토콜 (Directory-based Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)
-**다음**: [406. 갱신 정책 (Write-Update)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/) →
+<- **이전**: [404. 디렉터리 기반 프로토콜 (Directory-based Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)
+**다음**: [406. 갱신 정책 (Write-Update)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/) ->
 
 ---

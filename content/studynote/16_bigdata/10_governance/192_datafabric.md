@@ -41,47 +41,47 @@ tags = ["studynote-bigdata"]
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 아키텍처는 크게 4개의 핵심 레이어로 구성되며, 각 레이어가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)를 중심으로 유기적으로 동작합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    [ 데이터 패브릭 (Data Fabric) 아키텍처 ]                     │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │                    [ 사용자 인터페이스 / 소비 계층 ]                      │    │
-│  │        Business Analyst ◀── Data Scientist ◀── Data Engineer         │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │              [ 데이터 통합 오케스트레이션 엔진 ]                            │    │
-│  │         자동 파이프라인 생성 + 스케줄링 + 모니터링                         │    │
-│  │              (강화 학습 기반 자동 설계)                                │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │    ★ 핵심: 메타데이터 지식 그래프 (Knowledge Graph) ★                  │    │
-│  │  ┌─────────────────────────────────────────────────────────────┐  │    │
-│  │  │  [노드]        [관계]           [속성]                        │  │    │
-│  │  │  고객 ─────叫做────▶ 사업자등록번호     (의미론적 동의어)           │  │    │
-│  │  │   │           │                                        │  │    │
-│  │  │   │           │                                        │  │    │
-│  │  │   ▼           ▼                                        │  │    │
-│  │  │  CRM_고객 ◀──같은실체──▶ 재무_고객    (자동 추론)               │  │    │
-│  │  │   │                                                    │  │    │
-│  │  │   │──출처──▶ Oracle ERP                                │  │    │
-│  │  │   │──변환──▶ SELECT AVG(salary)...                     │  │    │
-│  │  │   │──품질──▶ 99.2% complete                            │  │    │
-│  │  └─────────────────────────────────────────────────────────────┘  │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │                    [ 데이터源 연결 계층 ]                               │    │
-│  │   Oracle ERP │ Salesforce CRM │ S3 Data Lake │ Kafka │ Snowflake   │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|                    [ 데이터 패브릭 (Data Fabric) 아키텍처 ]                     |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |                    [ 사용자 인터페이스 / 소비 계층 ]                      |    |
+|  |        Business Analyst <--- Data Scientist <--- Data Engineer         |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |              [ 데이터 통합 오케스트레이션 엔진 ]                            |    |
+|  |         자동 파이프라인 생성 + 스케줄링 + 모니터링                         |    |
+|  |              (강화 학습 기반 자동 설계)                                |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |    ★ 핵심: 메타데이터 지식 그래프 (Knowledge Graph) ★                  |    |
+|  |  +-------------------------------------------------------------+  |    |
+|  |  |  [노드]        [관계]           [속성]                        |  |    |
+|  |  |  고객 -----叫做-----> 사업자등록번호     (의미론적 동의어)           |  |    |
+|  |  |   |           |                                        |  |    |
+|  |  |   |           |                                        |  |    |
+|  |  |   v           v                                        |  |    |
+|  |  |  CRM_고객 <---같은실체---> 재무_고객    (자동 추론)               |  |    |
+|  |  |   |                                                    |  |    |
+|  |  |   |--출처---> Oracle ERP                                |  |    |
+|  |  |   |--변환---> SELECT AVG(salary)...                     |  |    |
+|  |  |   |--품질---> 99.2% complete                            |  |    |
+|  |  +-------------------------------------------------------------+  |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |                    [ 데이터源 연결 계층 ]                               |    |
+|  |   Oracle ERP | Salesforce CRM | S3 Data Lake | Kafka | Snowflake   |    |
+|  +-----------------------------------------------------------------+    |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 자동 추론 (Automated Reasoning)
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를Ontology(온톨로지)로 모델링하고, 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 자동으로 결론을 도출하는추리 엔진입니다.
 - **동의어 추론**: "고객"과 "[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)"가Ontology에서 같은 개념으로 정의되면, CRM의 "[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)" 테이블과 재무의 "고객" 테이블이 자동으로 같은 실체로 인식됩니다.
-- **계보 추론**: "A 테이블 → B 뷰 → C [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mart"라는 변환 체인이 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)에 기록되면, C의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)품질적 문제의 root cause를 A에서부터 역추적할 수 있습니다.
+- **계보 추론**: "A 테이블 -> B 뷰 -> C [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mart"라는 변환 체인이 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)에 기록되면, C의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)품질적 문제의 root cause를 A에서부터 역추적할 수 있습니다.
 
 - **📢 섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)는 "위키피디아의 링크 구조"와 같습니다. '서울'이라는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 보면 '대한민국'의수도라는 정보가 연결되어 있고, '대한민국' [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 가면 '서울'이수도라는 정보가 상호 연결되어 있습니다. 이처럼 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)개념가 상호 연결된 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 구축해 놓으면, 새로운 질문([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에 시스템이 스스로 연결된 경로를 따라 답을 찾아가는 것입니다.
 
@@ -160,14 +160,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 사일로]
-    │
-    ▼
+    |
+    v
 [메타데이터 카탈로그]
-    │
-    ▼
+    |
+    v
 [지식 그래프]
-    │
-    ▼
+    |
+    v
 [데이터 패브릭]
 ```
 
@@ -188,7 +188,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 192 / 262
 
-← **이전**: [01. 데이터 메시 (Data Mesh) - 도메인 분권형 데이터 아키텍처 패러다임](/knowledge-base/studynote/16_bigdata/10_governance/191_datamesh/)
-**다음**: [03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브](/knowledge-base/studynote/16_bigdata/10_governance/193_datacatalog/) →
+<- **이전**: [01. 데이터 메시 (Data Mesh) - 도메인 분권형 데이터 아키텍처 패러다임](/knowledge-base/studynote/16_bigdata/10_governance/191_datamesh/)
+**다음**: [03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브](/knowledge-base/studynote/16_bigdata/10_governance/193_datacatalog/) ->
 
 ---

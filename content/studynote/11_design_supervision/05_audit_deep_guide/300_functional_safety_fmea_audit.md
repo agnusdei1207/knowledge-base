@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 기능안전과 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) 감리는 기능안전(Functional Safety) 확보를 위한 고장형태영향분석(Failure Mode and Effects Analysis, [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 자율주행·산업제어·의료기기처럼 소프트웨어 실패가 인명·재산 피해로 이어지는 분야에서 안전 분석이 필수화되었다. 특히 위험원 분석이 기준선으로 정리되지 않으면 심각도·발생도·검출도는 사람 의존 절차로 흩어지고, 최종적으로 안전 사례가 남지 않아 의사결정이 감각에 의존하게 된다. 위험원 분석이 약하면 작은 소프트웨어 오류도 치명적 사고로 확산될 수 있다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 위험원 분석 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 심각도·발생도·검출도 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 안전 사례 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 위험원 분석 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 심각도·발생도·검출도 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 안전 사례 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 기능안전과 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 안전 사례를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 위험원 분석, 심각도·발생도·검출도, 안전 사례는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: Safety Case 고도화(Safety Assurance)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[위험원 분석] → [기능안전과 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) 감리] → [Safety Case 고도화(Safety Assurance)]
+[위험원 분석] -> [기능안전과 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) 감리] -> [Safety Case 고도화(Safety Assurance)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 위험원 분석은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 361 / 530
 
-← **이전**: [299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/)
-**다음**: [301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/) →
+<- **이전**: [299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/)
+**다음**: [301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/) ->
 
 ---

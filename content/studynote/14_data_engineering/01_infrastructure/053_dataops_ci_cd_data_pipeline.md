@@ -32,7 +32,7 @@ DataOps는 이 문제를 해결하기 위해 등장했다. [데이터](/knowledg
 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 소스 수집부터 변환, 테스트, 배포, 모니터링까지 연결한다. 파이프라인 정의 자체도 코드로 관리하는 것이 핵심이다.
 
 ```text
-Source → Ingest → Transform → Test → Deploy → Monitor
+Source -> Ingest -> Transform -> Test -> Deploy -> Monitor
 ```
 
 | 단계 | 역할 | 예시 |
@@ -111,14 +111,14 @@ DataOps는 lineage와 [데이터 카탈로그](/knowledge-base/studynote/12_it_m
 
 ```text
 데이터 코드화
-    │
-    ▼
+    |
+    v
 CI (검증)
-    │
-    ▼
+    |
+    v
 CD (승격)
-    │
-    ▼
+    |
+    v
 품질/라인리지/모니터링
 ```
 
@@ -136,7 +136,7 @@ CD (승격)
 
 **진행 상황**: 53 / 258
 
-← **이전**: [52. 데이터 리니지 (Data Lineage)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/052_data_lineage_traceability_governance/)
-**다음**: [54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) →
+<- **이전**: [52. 데이터 리니지 (Data Lineage)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/052_data_lineage_traceability_governance/)
+**다음**: [54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) ->
 
 ---

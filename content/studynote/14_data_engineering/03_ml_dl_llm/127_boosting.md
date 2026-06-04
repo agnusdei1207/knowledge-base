@@ -12,24 +12,24 @@ tags = ["studynote-dataengineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Boosting은 <strong>이전 모델이 틀린 샘플에 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 높여 다음 모델이 집중 학습</strong>하는 순차적 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이며, 약한 학습기를 순서대로 결합하여 강한 학습기를 만든다.
 > 2. **가치**: Bagging이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 데 효과적이라면, Boosting은 <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)을 줄이는 데 탁월</strong>하여 더 정확한 모델을 만들며, XGBoost·LightGBM이 Kaggle 우승의 대부분을 차지한다.
-> 3. **판단 포인트**: [AdaBoost](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/)([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))→[Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/)(잔차)→XGBoost([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))→LightGBM(대용량)→CatBoost(범주형)의 발전을 이해해야 한다.
+> 3. **판단 포인트**: [AdaBoost](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/)([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))->[Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/)(잔차)->XGBoost([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))->LightGBM(대용량)->CatBoost(범주형)의 발전을 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Boosting 동작 원리                                 │
-├───────────────────────────────────────────────────────┤
-│  Round 1: 모델₁ 학습 → 오분류 샘플 가중치↑          │
-│  Round 2: 모델₂ 학습 (가중치 높은 샘플 집중)         │
-│  Round 3: 모델₃ 학습 (이전 오류 집중 보정)           │
-│  ...                                                  │
-│  Round N: 모델ₙ 학습                                 │
-│                                                       │
-│  최종: 모든 모델의 가중 합 → 강한 학습기             │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Boosting 동작 원리                                 |
++-------------------------------------------------------+
+|  Round 1: 모델₁ 학습 -> 오분류 샘플 가중치^          |
+|  Round 2: 모델₂ 학습 (가중치 높은 샘플 집중)         |
+|  Round 3: 모델₃ 학습 (이전 오류 집중 보정)           |
+|  ...                                                  |
+|  Round N: 모델ₙ 학습                                 |
+|                                                       |
+|  최종: 모든 모델의 가중 합 -> 강한 학습기             |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Boosting은 <strong>틀린 문제만 반복 연습</strong>하는 공부법이다. 1회차에서 틀린 문제를 2회차에서 집중적으로 풀면 점수가 올라간다.
@@ -57,7 +57,7 @@ tags = ["studynote-dataengineering"]
 | 비교 | [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) | Boosting |
 |:---|:---|:---|
 | **학습** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (독립) | **순차 (의존)** |
-| **효과** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)↓ | **편향↓** |
+| **효과** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)v | **편향v** |
 | **과적합** | 강건 | 위험 있음 |
 | **대표** | [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) | **XGBoost** |
 
@@ -96,17 +96,17 @@ Boosting은 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_in
 
 ```text
 [AdaBoost (Freund & Schapire, 1997)]
-    │
-    ▼
+    |
+    v
 [Gradient Boosting (Friedman, 2001)]
-    │
-    ▼
+    |
+    v
 [XGBoost (Chen, 2014) — Kaggle 혁명]
-    │
-    ▼
+    |
+    v
 [LightGBM (MS, 2017) / CatBoost (Yandex, 2017)]
-    │
-    ▼
+    |
+    v
 [현재: TabNet / AutoML — 딥러닝 vs 부스팅 융합]
 ```
 
@@ -121,7 +121,7 @@ Boosting은 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_in
 
 **진행 상황**: 127 / 258
 
-← **이전**: [126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/126_bagging_random_forest/)
-**다음**: [128. ANN & MLP (인공 신경망 & 다층 퍼셉트론) - 딥러닝의 기본 구조](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/128_ann_mlp/) →
+<- **이전**: [126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/126_bagging_random_forest/)
+**다음**: [128. ANN & MLP (인공 신경망 & 다층 퍼셉트론) - 딥러닝의 기본 구조](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/128_ann_mlp/) ->
 
 ---

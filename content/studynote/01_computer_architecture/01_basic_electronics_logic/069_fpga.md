@@ -31,9 +31,9 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Logic Blocks
-  ↓
+  v
 Programmable Interconnect
-  ↓
+  v
 Configured Hardware
 ```
 
@@ -106,11 +106,11 @@ FPGA는 빠른 개발과 맞춤형 [병렬](/knowledge-base/studynote/05_databas
 
 ```text
 FPGA
-  ↓
+  v
 LUT / Interconnect
-  ↓
+  v
 Reconfigurable Hardware
-  ↓
+  v
 Acceleration
 ```
 
@@ -120,11 +120,11 @@ Acceleration
 
 ```text
 Programmable Logic
-  ↓
+  v
 FPGA
-  ↓
+  v
 Hardware Acceleration
-  ↓
+  v
 Reconfigurable Computing
 ```
 
@@ -142,7 +142,7 @@ FPGA는 그런 특별한 칩이에요.
 
 **진행 상황**: 69 / 803
 
-← **이전**: [68. 밀리 머신 (Mealy Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/)
-**다음**: [70. ASIC (주문형 반도체)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) →
+<- **이전**: [68. 밀리 머신 (Mealy Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/)
+**다음**: [70. ASIC (주문형 반도체)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) ->
 
 ---

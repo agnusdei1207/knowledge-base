@@ -31,9 +31,9 @@ tags = ["studynote-design"]
 
 ```text
 Repo (Git/SVN)
-  ↓ commit
+  v commit
 CI Pipeline
-  ↓ build/test
+  v build/test
 Audit Trace
 ```
 
@@ -106,11 +106,11 @@ Audit Trace
 
 ```text
 Repository
-  ↓
+  v
 CI
-  ↓
+  v
 Traceability
-  ↓
+  v
 Audit
 ```
 
@@ -120,11 +120,11 @@ Audit
 
 ```text
 Version Control
-  ↓
+  v
 Git / SVN
-  ↓
+  v
 CI
-  ↓
+  v
 Audit Evidence
 ```
 
@@ -142,7 +142,7 @@ Audit Evidence
 
 **진행 상황**: 108 / 530
 
-← **이전**: [69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/)
-**다음**: [70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_svn_ci_audit/) →
+<- **이전**: [69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/)
+**다음**: [70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_svn_ci_audit/) ->
 
 ---

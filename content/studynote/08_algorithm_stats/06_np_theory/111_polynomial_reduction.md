@@ -25,7 +25,7 @@ tags = ["studynote-algorithm-stats"]
 또는: A ≤_m^p B (다항 시간 매핑 환산)
 
 정의:
-  다항 시간 함수 f: {0,1}* → {0,1}*가 존재하여
+  다항 시간 함수 f: {0,1}* -> {0,1}*가 존재하여
   모든 입력 x에 대해:
     x ∈ A  ⟺  f(x) ∈ B
 
@@ -37,14 +37,14 @@ tags = ["studynote-algorithm-stats"]
   변환 시간: 다항 시간 O(n^k)
 
 A ≤_p B의 복잡도 의미:
-  B가 P에 속하면 → A도 P에 속함
-  A가 NP-hard이면 → B도 NP-hard임
+  B가 P에 속하면 -> A도 P에 속함
+  A가 NP-hard이면 -> B도 NP-hard임
 
 방향 주의:
   A ≤_p B: B가 더 어렵거나 같음
   B ≤_p A: A가 더 어렵거나 같음
 
-  ≤_p는 "≤ (쉽다)" 방향 → A ≤_p B = "A는 B만큼 어렵지 않다"
+  ≤_p는 "≤ (쉽다)" 방향 -> A ≤_p B = "A는 B만큼 어렵지 않다"
   단, NP-완전 증명에서는 "B는 A만큼 어렵다 (NP-hard)"를 보이기 위해
   알려진 NP-hard A ≤_p B 방향으로 환산
 ```
@@ -63,20 +63,20 @@ SAT 정의:
   CNF (Conjunctive Normal Form) 수식이 주어졌을 때
   해당 수식을 참(True)으로 만드는 변수 할당이 존재하는가?
 
-  예: (x₁ ∨ ¬x₂ ∨ x₃) ∧ (¬x₁ ∨ x₂) ∧ (x₂ ∨ x₃)
-      x₁=T, x₂=T, x₃=F → 모든 절 참 → 충족 가능
+  예: (x₁ ∨ +x₂ ∨ x₃) ∧ (+x₁ ∨ x₂) ∧ (x₂ ∨ x₃)
+      x₁=T, x₂=T, x₃=F -> 모든 절 참 -> 충족 가능
 
 Cook-Levin 증명 핵심:
   모든 NP 문제 A를 SAT로 환산 가능:
 
   비결정론적 튜링 머신 M이 A를 다항 시간 해결
-  → M의 계산 과정 전체를 CNF 수식으로 인코딩
-  → 수식이 충족 가능 ⟺ M이 w를 수락
+  -> M의 계산 과정 전체를 CNF 수식으로 인코딩
+  -> 수식이 충족 가능 ⟺ M이 w를 수락
 
   따라서 모든 NP 문제 A ≤_p SAT
-  → SAT는 NP-hard
-  → SAT는 NP에 속함 (검증이 다항 시간)
-  → SAT는 NP-완전
+  -> SAT는 NP-hard
+  -> SAT는 NP에 속함 (검증이 다항 시간)
+  -> SAT는 NP-완전
 
 3-SAT:
   각 절이 정확히 3개의 리터럴로 구성된 SAT
@@ -100,18 +100,18 @@ Cook-Levin 증명 핵심:
   알려진 NP-완전 문제 Y에 대해
   Y ≤_p X를 보임 (Y를 X로 환산 가능)
 
-  → X가 Y만큼 어렵다 (NP-hard)
+  -> X가 Y만큼 어렵다 (NP-hard)
 
 NP-완전 증명 예시: 3-Color
 
 증명 대상: 그래프 G의 꼭짓점을 3가지 색으로 칠할 수 있는가? (3-Color)
 
 1단계: 3-Color ∈ NP
-  해 (각 꼭짓점 색 배정) 검증: O(E) → 다항 시간
+  해 (각 꼭짓점 색 배정) 검증: O(E) -> 다항 시간
 
 2단계: 3-SAT ≤_p 3-Color
   3-SAT 수식의 변수와 절을 그래프로 변환:
-    - 각 변수 xᵢ에 대해 xᵢ, ¬xᵢ 노드 + BASE 삼각형 추가
+    - 각 변수 xᵢ에 대해 xᵢ, +xᵢ 노드 + BASE 삼각형 추가
     - 각 절에 대해 OR-gadget 그래프 구성
     - 3-SAT가 충족 가능 ⟺ 그래프 3-색칠 가능
 
@@ -121,8 +121,8 @@ NP-완전 증명 예시: 3-Color
 
 환산 체인 예시:
   3-SAT ≤_p 3-Color ≤_p Clique ≤_p 독립 집합 ≤_p 정점 커버
-  → 이 체인의 모든 문제가 NP-완전
-  → 하나를 다항 시간에 풀면 모두 다항 시간에 풀림 (P=NP)
+  -> 이 체인의 모든 문제가 NP-완전
+  -> 하나를 다항 시간에 풀면 모두 다항 시간에 풀림 (P=NP)
 ```
 
 > 📢 **섹션 요약 비유**: NP-완전 증명은 자격증 인정 절차 — 새로운 자격증(X)이 어렵다는 걸 증명하려면 이미 어렵다고 인정된 자격증(Y)을 가진 사람이 자동으로 X도 딸 수 있음을 보이면 돼.
@@ -153,15 +153,15 @@ NP-완전 증명 예시: 3-Color
 
 문제 관계           | 환산 방향         | 결론
 -------------------+-------------------+----------------------------
-A가 B로 환산 (A≤_p B) | A → B         | B ≥ A의 난이도
-                   |                   | B 해결 → A 해결 가능
-                   |                   | A가 NP-hard → B도 NP-hard
-B가 A로 환산 (B≤_p A) | B → A         | A ≥ B의 난이도
-                   |                   | A 해결 → B 해결 가능
+A가 B로 환산 (A≤_p B) | A -> B         | B ≥ A의 난이도
+                   |                   | B 해결 -> A 해결 가능
+                   |                   | A가 NP-hard -> B도 NP-hard
+B가 A로 환산 (B≤_p A) | B -> A         | A ≥ B의 난이도
+                   |                   | A 해결 -> B 해결 가능
 
 NP-완전 증명 핵심:
   기존 NP-완전 Y ≤_p 신규 문제 X
-  → X가 Y 이상의 난이도 = NP-hard
+  -> X가 Y 이상의 난이도 = NP-hard
   + X ∈ NP 추가 증명
   = X는 NP-완전
 ```
@@ -184,8 +184,8 @@ NP-완전 증명:
 
 1단계: Scheduling ∈ NP
   해 (각 작업의 기계 배정 및 시작 시간) 주어짐
-  검증: 각 마감 기한과 기계 충돌 확인 → O(n*m) 다항 시간
-  → 맞음
+  검증: 각 마감 기한과 기계 충돌 확인 -> O(n*m) 다항 시간
+  -> 맞음
 
 2단계: Partition ≤_p Scheduling
   Partition: 집합 S를 두 부분집합으로 나눠 합이 같게 가능한가?
@@ -193,7 +193,7 @@ NP-완전 증명:
 
   환산 f:
     Partition 인스턴스 (a₁, ..., aₙ, W/2)
-    → Scheduling 인스턴스:
+    -> Scheduling 인스턴스:
       n개 작업, 처리시간 = aᵢ
       2개 기계, 각 기계의 마감 = W/2
 
@@ -204,16 +204,16 @@ NP-완전 증명:
 
 실용적 의미:
   스케줄링 문제가 NP-완전이므로:
-  → 다항 시간 완전 해: 불가능 (P≠NP 가정 시)
-  → 실용적 접근:
+  -> 다항 시간 완전 해: 불가능 (P≠NP 가정 시)
+  -> 실용적 접근:
     Greedy 알고리즘 (빠르지만 최적 보장 없음)
     분기 한정법 (Branch & Bound): 작은 n에서 정확
     유전 알고리즘: 대규모 근사해
 
 산업 적용 사례:
-  TSP: 물류 배송 경로 최적화 → 근사 알고리즘
-  배낭: 광고 예산 배분 → DP + 근사
-  스케줄링: 클라우드 작업 배치 → Bin Packing 근사
+  TSP: 물류 배송 경로 최적화 -> 근사 알고리즘
+  배낭: 광고 예산 배분 -> DP + 근사
+  스케줄링: 클라우드 작업 배치 -> Bin Packing 근사
 ```
 
 > 📢 **섹션 요약 비유**: NP-완전 증명의 의의는 의사 진단 — "이 병은 치료가 어렵다"는 걸 증명해야 무리한 치료 시도를 멈추고 증상 관리([근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))로 전환할 수 있어요.
@@ -234,7 +234,7 @@ NP-완전 증명:
 |   +-- NP-완전 증명 도구
 |   +-- Cook-Levin: SAT NP-완전
 +-- 환산 체인
-|   +-- 3-SAT → 3-Color → Clique → ...
+|   +-- 3-SAT -> 3-Color -> Clique -> ...
 ```
 
 ---
@@ -247,7 +247,7 @@ Turing 기계, 결정 불가능성
       |
       v
 [Cook-Levin 정리 (1971)]
-SAT NP-완전 증명 → 환산 기법 확립
+SAT NP-완전 증명 -> 환산 기법 확립
       |
       v
 [Karp의 21 NP-완전 문제 (1972)]
@@ -278,7 +278,7 @@ ETH 기반 알고리즘 하한 증명
 
 **진행 상황**: 111 / 175
 
-← **이전**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/)
-**다음**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/) →
+<- **이전**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/)
+**다음**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/) ->
 
 ---

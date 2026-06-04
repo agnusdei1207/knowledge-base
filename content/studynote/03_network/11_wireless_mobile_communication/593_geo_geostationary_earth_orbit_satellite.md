@@ -21,30 +21,30 @@ tags = ["studynote-network"]
 
 - **개념**: GEO 위성은 지구 적도면 위 35,786km의 고도 원궤도를 도는 인공위성이다. 이 궤도에서는 위성의 공전 주기가 약 24시간으로 지구의 자전 주기와 완벽히 일치한다. 지표면에 대한 상대 속도가 0이 되어 하늘에 고정된 붙박이 별처럼 작동한다. 한국의 통신 해양 기상 위성인 천리안, 무궁화 위성 등이 모두 이 GEO 궤도를 쓴다.
 - **필요성**: 1960년대 초창기 위성들은 고도가 낮아서 하루에 지구를 수십 바퀴씩 돌았다. 지상국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)들은 하늘을 빠르게 날아가는 위성을 쫓아가기 위해 레이더 모터를 미친 듯이 돌려야 했고(Tracking), 위성이 수평선 너머로 사라지면 몇 시간 동안 통신이 툭 끊겨버렸다. <strong>"<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>가 쫓아갈 필요도 없고, 단 1초도 연결이 끊기지 않으면서, 국가 전체의 집집마다 안정적으로 똑같은 TV 방송 전파를 하루 종일 뿌려줄 듬직한 우주의 중계탑"</strong>이 절실했다. (이 아이디어를 최초로 제안한 사람이 SF 소설가 아서 C. 클라크다).
-- **등장 배경**: ① 위성을 놓칠 때마다 발생하는 극심한 통신 단절([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 실패) 극복 요구 → ② 36,000km라는 고도를 맞추기 위한 로켓 추진체의 발달 → ③ [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 고정 설치만으로 DTH ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)-to-Home) 위성 방송 산업이 대폭발하며 글로벌 통신사들의 정지궤도 알박기(Slot 점유) 전쟁 개막.
+- **등장 배경**: ① 위성을 놓칠 때마다 발생하는 극심한 통신 단절([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 실패) 극복 요구 -> ② 36,000km라는 고도를 맞추기 위한 로켓 추진체의 발달 -> ③ [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 고정 설치만으로 DTH ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)-to-Home) 위성 방송 산업이 대폭발하며 글로벌 통신사들의 정지궤도 알박기(Slot 점유) 전쟁 개막.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             정지 궤도(GEO) 위성의 상대 속도 '0' 마법과 광역성 시각화    │
-├─────────────────────────────────────────────────────────────┤
-│   * 왜 35,800km 일까? 원심력(밖으로 튕기는 힘)과 지구 중력(당기는 힘)이 완벽한 │
-│     균형을 이루어 하루 딱 한 바퀴(24시간)를 도는 마법의 고도!                │
-│                                                             │
-│         [ 📡 정지 궤도 위성 (시속 11,000km로 비행 중!) ]             │
-│               /          | (고도 35,800km)     \                 │
-│              /           |                     \                │
-│             /            |                      \               │
-│            ▼            ▼                      ▼              │
-│   [🇺🇸 미국 땅] ───▶ [🇰🇷 한국 땅] ◀────────[🇮🇳 인도 땅]       │
-│                                                             │
-│   [마법 같은 현상: 동기화(Synchronization)]                        │
-│   지구가 1시간 동안 오른쪽으로 15도 돌 때, 우주에 떠 있는 위성도 정확히       │
-│   똑같이 15도를 돌아준다.                                          │
-│   => 결과 1 (고정): 한국 땅에서 올려다보면 위성이 우주에 못 박힌 듯 가만히 있음!│
-│                    아파트 베란다의 스카이라이프 안테나 방향을 한 번만 맞춰두면 됨!│
-│   => 결과 2 (광역): 위성이 워낙 높은 꼭대기에 있어서, 손전등 하나만 비춰도   │
-│                    지구 겉표면의 무려 1/3 (약 42%)을 한 방에 덮어버림!     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             정지 궤도(GEO) 위성의 상대 속도 '0' 마법과 광역성 시각화    |
++-------------------------------------------------------------+
+|   * 왜 35,800km 일까? 원심력(밖으로 튕기는 힘)과 지구 중력(당기는 힘)이 완벽한 |
+|     균형을 이루어 하루 딱 한 바퀴(24시간)를 도는 마법의 고도!                |
+|                                                             |
+|         [ 📡 정지 궤도 위성 (시속 11,000km로 비행 중!) ]             |
+|               /          | (고도 35,800km)     \                 |
+|              /           |                     \                |
+|             /            |                      \               |
+|            v            v                      v              |
+|   [🇺🇸 미국 땅] ----> [🇰🇷 한국 땅] <---------[🇮🇳 인도 땅]       |
+|                                                             |
+|   [마법 같은 현상: 동기화(Synchronization)]                        |
+|   지구가 1시간 동안 오른쪽으로 15도 돌 때, 우주에 떠 있는 위성도 정확히       |
+|   똑같이 15도를 돌아준다.                                          |
+|   => 결과 1 (고정): 한국 땅에서 올려다보면 위성이 우주에 못 박힌 듯 가만히 있음!|
+|                    아파트 베란다의 스카이라이프 안테나 방향을 한 번만 맞춰두면 됨!|
+|   => 결과 2 (광역): 위성이 워낙 높은 꼭대기에 있어서, 손전등 하나만 비춰도   |
+|                    지구 겉표면의 무려 1/3 (약 42%)을 한 방에 덮어버림!     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** GEO 아키텍처의 핵심 가치는 <strong>"<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 트래킹(추적) 비용의 극단적 소멸"</strong>이다. 만약 위성이 움직인다면 집집마다 달린 스카이라이프 접시에 수백만 원짜리 레이더 모터를 달아야 한다. GEO 위성은 36,000km에 떠서 지구와 완벽하게 2인 3각 춤을 춘다. 그래서 1만 원짜리 싸구려 쇳덩이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 베란다 난간에 대충 나사로 고정해 둬도 평생 전파가 들어온다. 또한 고도가 너무 높아서 시야각이 엄청나게 넓어, 태평양, 대서양, 인도양 위에 단 3대의 위성만 띄우면 지구의 북극/남극(사각지대)을 뺀 전 인류에게 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)망을 동시에 제공할 수 있는 미친 인프라 가성비를 자랑한다.
@@ -61,8 +61,8 @@ GEO 위성의 장점이 '높은 고도'라면, 그것은 동시에 이 아키텍
 
 | 통신 흐름 | 전파 이동 거리 | 편도 및 왕복(Ping) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 계산 |
 |:---|:---|:---|
-| **지구국 ─▶ 위성 (Uplink)** | 약 **36,000 km** | 빛의 속도로 날아가도 **약 0.12초 (120ms)** 소요 |
-| **위성 ─▶ 다른 지구 (Downlink)**| 약 **36,000 km** | 빔이 다시 내려오는 데 **약 0.12초 (120ms)** 소요 |
+| **지구국 --> 위성 (Uplink)** | 약 **36,000 km** | 빛의 속도로 날아가도 **약 0.12초 (120ms)** 소요 |
+| **위성 --> 다른 지구 (Downlink)**| 약 **36,000 km** | 빔이 다시 내려오는 데 **약 0.12초 (120ms)** 소요 |
 | <strong>통신 왕복 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>, 핑 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong> | 총 **144,000 km** 왕복 | 내가 말하고 대답을 듣기까지 **최소 0.5초 (500ms)** 이상 소요! |
 
 * **물리적 극복 불가 (Hardware Limitation)**: 기지국 장비가 아무리 좋아지고 광통신 레이저를 도입해도 36,000km라는 거리는 줄어들지 않는다. 즉, 500ms 딜레이는 신(God)도 극복할 수 없는 절대 상수다. 이 때문에 해외 뉴스 특파원 연결을 보면 아나운서가 질문하고 특파원이 "네..." 하고 대답하기까지 1~2초의 어색한 정적(Silence)이 항상 흐르는 이유가 바로 이 왕복 딜레이 때문이다.
@@ -85,25 +85,25 @@ GEO의 철학과, 이를 박살 내고 등장한 현대 모빌리티 위성의 �
 | **적용 비즈니스 융합** | **TV 방송(스카이라이프)**, 재난 백업망 | **내비게이션 (GPS, 위치 추적)**| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 글로벌 광대역 인터넷</strong>, 주식 단타 |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               GEO 위성의 치명적 단점: 극지방(북극/남극) 음영 지옥 시각화 │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│          [ 🛰️ GEO 위성 (오직 '적도' 하늘에만 떠 있음) ]             │
-│                 /          |           \                      │
-│                /           |            \                     │
-│               ▼            ▼             ▼                    │
-│   (북극 펭귄 🐧)    (적도 🌴)   (남극 쇄빙선 🚢)              │
-│       💥 전파 안 닿음!          초고속 쾌적!        💥 전파 빗겨감!    │
-│                                                               │
-│   * 공학적 원인: 위성이 적도 상공에만 있다 보니, 지구의 곡률(둥근 배때기)   │
-│                때문에 북극(위도 70도 이상) 지역에서는 안테나를 땅바닥과   │
-│                수평(0도)으로 뉘여도 전파가 땅에 막혀버린다 (가시선 LOS 실패).│
-│                                                               │
-│   => 결과: 북극해를 지나는 쇄빙선이나 시베리아 탐험대는 GEO 위성 전화를     │
-│            아예 쓸 수 없다. 결국 극지방 하늘을 세로로 썰고 도는 저궤도(LEO)│
-│            위성(이리듐, 스타링크)만이 극지방 인터넷의 유일한 구세주가 된다. │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               GEO 위성의 치명적 단점: 극지방(북극/남극) 음영 지옥 시각화 |
++---------------------------------------------------------------+
+|                                                               |
+|          [ 🛰️ GEO 위성 (오직 '적도' 하늘에만 떠 있음) ]             |
+|                 /          |           \                      |
+|                /           |            \                     |
+|               v            v             v                    |
+|   (북극 펭귄 🐧)    (적도 🌴)   (남극 쇄빙선 🚢)              |
+|       💥 전파 안 닿음!          초고속 쾌적!        💥 전파 빗겨감!    |
+|                                                               |
+|   * 공학적 원인: 위성이 적도 상공에만 있다 보니, 지구의 곡률(둥근 배때기)   |
+|                때문에 북극(위도 70도 이상) 지역에서는 안테나를 땅바닥과   |
+|                수평(0도)으로 뉘여도 전파가 땅에 막혀버린다 (가시선 LOS 실패).|
+|                                                               |
+|   => 결과: 북극해를 지나는 쇄빙선이나 시베리아 탐험대는 GEO 위성 전화를     |
+|            아예 쓸 수 없다. 결국 극지방 하늘을 세로로 썰고 도는 저궤도(LEO)|
+|            위성(이리듐, 스타링크)만이 극지방 인터넷의 유일한 구세주가 된다. |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** GEO 위성의 커버리지가 위대하긴 하지만, 완벽한 100%는 아니다. 둥근 지구의 배때기(적도) 위에만 위성을 띄울 수 있으므로, 위아래 꼭대기인 양극 지방(Polar Region)은 사실상 시야각에 들어오지 않는 맹점(Blind Spot)이다. 선박 통신용 위성인 인마샛(Inmarsat) 장비를 달고 북극해 항로를 지나가면 통신이 100% 끊긴다. 이런 극지방 음영을 부수기 위해 러시아나 유럽은 위성의 궤도를 길쭉한 타원형으로 미친 듯이 찌그러뜨려서 억지로 극지방 위를 오래 날게 만드는 마개조 궤도(Molniya 궤도)를 개발하기도 했다.
@@ -179,12 +179,12 @@ GEO의 철학과, 이를 박살 내고 등장한 현대 모빌리티 위성의 �
 
 ```text
 [선행 개념: 위성 통신 특징]
-    │
-    ▼
+    |
+    v
 [현재 개념: 정지 궤도 위성]
-    │
-    ├──▶ [확장 A: 중궤도 위성]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 중궤도 위성]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 정지 궤도 위성는 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [중궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -201,7 +201,7 @@ GEO의 철학과, 이를 박살 내고 등장한 현대 모빌리티 위성의 �
 
 **진행 상황**: 714 / 1120
 
-← **이전**: [592. 위성 통신 (Satellite Comm.) 특징](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)
-**다음**: [594. 중궤도 위성 (MEO) (GPS, 항법시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/) →
+<- **이전**: [592. 위성 통신 (Satellite Comm.) 특징](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)
+**다음**: [594. 중궤도 위성 (MEO) (GPS, 항법시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/) ->
 
 ---

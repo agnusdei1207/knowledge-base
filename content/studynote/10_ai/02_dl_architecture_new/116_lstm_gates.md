@@ -19,23 +19,23 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    LSTM 게이트별 정보 흐름                             │
-├───────────────────────────────────────────────────────┤
-│  [Forget Gate] f_t = σ(W_f · [h_{t-1}, x_t] + b_f)  │
-│  → C_{t-1}에서 얼마나 삭제할지 결정 (0~1)            │
-│                                                       │
-│  [Input Gate]  i_t = σ(W_i · [h_{t-1}, x_t] + b_i)   │
-│  → 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)        │
-│  C̃_t = tanh(W_c · [h_{t-1}, x_t] + b_c)            │
-│                                                       │
-│  [Cell State Update]                                  │
-│  C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t                  │
-│                                                       │
-│  [Output Gate] o_t = σ(W_o · [h_{t-1}, x_t] + b_o)   │
-│  → Cell State에서 얼마나 출력할지 결정 (0~1)          │
-│  h_t = o_t ⊙ tanh(C_t)                              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    LSTM 게이트별 정보 흐름                             |
++-------------------------------------------------------+
+|  [Forget Gate] f_t = σ(W_f · [h_{t-1}, x_t] + b_f)  |
+|  -> C_{t-1}에서 얼마나 삭제할지 결정 (0~1)            |
+|                                                       |
+|  [Input Gate]  i_t = σ(W_i · [h_{t-1}, x_t] + b_i)   |
+|  -> 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)        |
+|  C̃_t = tanh(W_c · [h_{t-1}, x_t] + b_c)            |
+|                                                       |
+|  [Cell State Update]                                  |
+|  C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t                  |
+|                                                       |
+|  [Output Gate] o_t = σ(W_o · [h_{t-1}, x_t] + b_o)   |
+|  -> Cell State에서 얼마나 출력할지 결정 (0~1)          |
+|  h_t = o_t ⊙ tanh(C_t)                              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 각 게이트는 댐의 수문이다. Forget은 하류 방류(삭제), Input은 상류 유입(추가), Output은 발전기(출력)에 보내는 물의 양을 조절한다.
@@ -76,8 +76,8 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 트릭
-- **Forget Gate 바이어스 = 1**: `nn.LSTM`에서 `forget_bias=1.0` → 학습 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기억 보존.
-- <strong>Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a></strong>: LSTM도 [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) 가능 → `clip_grad_norm_(model.parameters(), 1.0)`.
+- **Forget Gate 바이어스 = 1**: `nn.LSTM`에서 `forget_bias=1.0` -> 학습 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기억 보존.
+- <strong>Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a></strong>: LSTM도 [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) 가능 -> `clip_grad_norm_(model.parameters(), 1.0)`.
 
 ---
 
@@ -101,17 +101,17 @@ tags = ["studynote-ai"]
 
 ```text
 [LSTM 원본 (1997) — Forget Gate 없음, Input+Output만]
-    │
-    ▼
+    |
+    v
 [Forget Gate 추가 (2000, Gers) — 기억 삭제 기능]
-    │
-    ▼
+    |
+    v
 [Peephole Connection (2002) — C_{t-1} 직접 참조]
-    │
-    ▼
-[GRU (2014) — 3 Gate → 2 Gate 간소화]
-    │
-    ▼
+    |
+    v
+[GRU (2014) — 3 Gate -> 2 Gate 간소화]
+    |
+    v
 [현재: xLSTM (2024) — Exponential Gate + sLSTM + mLSTM]
 ```
 
@@ -126,7 +126,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 116 / 420
 
-← **이전**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/knowledge-base/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/)
-**다음**: [117. GRU (Gated Recurrent Unit) - LSTM 간소화·Reset Gate·Update Gate](/knowledge-base/studynote/10_ai/02_dl_architecture_new/117_gru/) →
+<- **이전**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/knowledge-base/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/)
+**다음**: [117. GRU (Gated Recurrent Unit) - LSTM 간소화·Reset Gate·Update Gate](/knowledge-base/studynote/10_ai/02_dl_architecture_new/117_gru/) ->
 
 ---

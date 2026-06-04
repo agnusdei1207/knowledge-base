@@ -19,10 +19,10 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-Metrics: "무엇이" — 에러율 5%↑
+Metrics: "무엇이" — 에러율 5%^
 Logs:    "왜" — NullPointerException at OrderService
-Traces:  "어디서" — Order→Payment→DB 3번째 구간에서 지연
-  → TraceID로 3가지를 연결 → 완전한 진단
+Traces:  "어디서" — Order->Payment->DB 3번째 구간에서 지연
+  -> TraceID로 3가지를 연결 -> 완전한 진단
 ```
 
 - **📢 섹션 요약 비유**: Metrics는 체온계(숫자), Logs는 의사 진료 기록(텍스트), Traces는 혈류 추적(경로). 셋 다 봐야 정확한 진단.
@@ -58,10 +58,10 @@ Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/0
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[메트릭만 (Nagios, 2000s)] → [로그 추가 (ELK, 2012~)]
-    → [트레이스 추가 (Jaeger, 2016~)]
-    → [3 Pillars 통합 (Grafana LGTM, 2020~)]
-    → [현재: Profiles (4th Pillar) — 코드 수준 성능 분석]
+[메트릭만 (Nagios, 2000s)] -> [로그 추가 (ELK, 2012~)]
+    -> [트레이스 추가 (Jaeger, 2016~)]
+    -> [3 Pillars 통합 (Grafana LGTM, 2020~)]
+    -> [현재: Profiles (4th Pillar) — 코드 수준 성능 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/0
 
 **진행 상황**: 131 / 373
 
-← **이전**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/)
-**다음**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/knowledge-base/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) →
+<- **이전**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/)
+**다음**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/knowledge-base/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) ->
 
 ---

@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 시간적 지역성이 있을 때와 없을 때 캐시가 왜 달라지는지를 시간 축으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        같은 주소 재사용 여부가 캐시 효율을 가르는 시간 축 비교       │
-├──────────────────────────────────────────────────────────────────────┤
-│ 시간 순서   t1      t2      t3      t4      t5      t6               │
-│                                                                      │
-│ 지역성 높음  A  ─▶   B  ─▶   A  ─▶   C  ─▶   A  ─▶   B               │
-│             │              │              │                          │
-│             └──── 최근 사용 데이터가 다시 호출됨 ─────┘              │
-│                                                                      │
-│ 지역성 낮음  A  ─▶   Q  ─▶   Z  ─▶   M  ─▶   R  ─▶   T               │
-│                                                                      │
-│ 결과         A를 남겨둘 가치 큼                남겨둬도 다시 안 옴     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        같은 주소 재사용 여부가 캐시 효율을 가르는 시간 축 비교       |
++----------------------------------------------------------------------+
+| 시간 순서   t1      t2      t3      t4      t5      t6               |
+|                                                                      |
+| 지역성 높음  A  -->   B  -->   A  -->   C  -->   A  -->   B               |
+|             |              |              |                          |
+|             +---- 최근 사용 데이터가 다시 호출됨 -----+              |
+|                                                                      |
+| 지역성 낮음  A  -->   Q  -->   Z  -->   M  -->   R  -->   T               |
+|                                                                      |
+| 결과         A를 남겨둘 가치 큼                남겨둬도 다시 안 옴     |
++----------------------------------------------------------------------+
 ```
 
 핵심은 캐시가 미래를 정확히 예언하지 못하더라도, "최근에 쓴 것은 또 쓸 가능성이 높다"는 경험 법칙 하나만으로도 합리적인 결정을 내릴 수 있다는 점이다. 이 성질이 약한 워크로드에서는 캐시 용량을 늘려도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 제한적이지만, 반복 재사용이 강한 워크로드에서는 작은 L1 캐시만으로도 큰 효과가 난다.
@@ -63,18 +63,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 시간적 지역성이 캐시 히트로 바뀌는 과정을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            최근성 기반 캐시 유지: 재참조가 빠르면 히트가 된다         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 접근 순서      1      2      3      4      5                         │
-│ 요청 주소      A      B      C      A      D                         │
-│                                                                      │
-│ 캐시 상태   [ A ]  [ A B ] [ A B C ] [ A B C ] [ A C D ]             │
-│                           (가득 참)    ▲                             │
-│                                         │                             │
-│ 4번째 접근 A  ──────────────────────────┘  → 재사용 간격 짧음 → HIT   │
-│ 5번째 접근 D  → 교체 필요 → 가장 오래된 B 축출                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            최근성 기반 캐시 유지: 재참조가 빠르면 히트가 된다         |
++----------------------------------------------------------------------+
+| 접근 순서      1      2      3      4      5                         |
+| 요청 주소      A      B      C      A      D                         |
+|                                                                      |
+| 캐시 상태   [ A ]  [ A B ] [ A B C ] [ A B C ] [ A C D ]             |
+|                           (가득 참)    ^                             |
+|                                         |                             |
+| 4번째 접근 A  --------------------------+  -> 재사용 간격 짧음 -> HIT   |
+| 5번째 접근 D  -> 교체 필요 -> 가장 오래된 B 축출                        |
++----------------------------------------------------------------------+
 ```
 
 이 메커니즘 때문에 같은 코드라도 루프를 잘게 나누어 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 안에 반복 사용하면 훨씬 빨라진다. 반대로 한 번 읽고 오래 돌아서 다시 오는 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 캐시 밖으로 밀려났을 가능성이 높다. 고성능 행렬 연산에서 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이나 타일링 (Tiling)을 쓰는 이유도 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 한 번에 훑는 대신, 작은 조각을 짧은 시간에 집중 재사용하여 시간적 지역성을 인위적으로 강화하려는 데 있다.
@@ -156,16 +156,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 참조의 지역성 (Locality of Reference)
-        │
-        ▼
+        |
+        v
 시간적 지역성 (Temporal Locality)
-        │
-        ├─▶ 최근성 기반 교체 정책
-        │      └─ LRU (Least Recently Used)
-        │
-        ├─▶ 작업 집합 (Working Set) · 스래싱 (Thrashing)
-        │
-        └─▶ 캐시 오염 제어 · RRIP (Re-Reference Interval Prediction)
+        |
+        +--> 최근성 기반 교체 정책
+        |      +- LRU (Least Recently Used)
+        |
+        +--> 작업 집합 (Working Set) · 스래싱 (Thrashing)
+        |
+        +--> 캐시 오염 제어 · RRIP (Re-Reference Interval Prediction)
 ```
 
 이 흐름은 단순한 경험 법칙이 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 메모리 관리, 현대 예측형 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 확장되는 경로를 보여준다.
@@ -182,7 +182,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 247 / 803
 
-← **이전**: [246. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/)
-**다음**: [248. 공간적 지역성 (Spatial Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) →
+<- **이전**: [246. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/)
+**다음**: [248. 공간적 지역성 (Spatial Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ->
 
 ---

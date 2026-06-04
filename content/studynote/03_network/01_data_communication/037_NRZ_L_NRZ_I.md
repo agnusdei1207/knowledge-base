@@ -203,7 +203,7 @@ AI 데이터센터 초고속 링크
 
 **진행 상황**: 37 / 1120
 
-← **이전**: [036. 단극성·극성·양극성 신호 (Unipolar / Polar / Bipolar)](/knowledge-base/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
-**다음**: [038. RZ — 복귀 제로 라인 코딩 (Return to Zero)](/knowledge-base/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) →
+<- **이전**: [036. 단극성·극성·양극성 신호 (Unipolar / Polar / Bipolar)](/knowledge-base/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
+**다음**: [038. RZ — 복귀 제로 라인 코딩 (Return to Zero)](/knowledge-base/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) ->
 
 ---

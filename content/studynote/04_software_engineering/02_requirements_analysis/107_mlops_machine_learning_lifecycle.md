@@ -30,24 +30,24 @@ MLOps는 기계 학습 모델의 개발, 배포, 운영 과정을 통합하여 [
 MLOps의 핵심은 소프트웨어 코드의 배포를 넘어 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 모델의 배포'를 통제하는 파이프라인에 있다. 특히 가장 중심이 되는 기어는 지속적 재학습 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 메커니즘이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           MLOps 파이프라인: CI/CD에 CT를 더한 생태계            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [1. 데이터 추출 & 피처 엔지니어링]                                │
-│   원시 데이터 ──▶ 피처 스토어 (Feature Store, 깔끔한 밥상)          │
-│                                                              │
-│  [2. 모델 훈련 및 검증 (CT, Continuous Training)]               │
-│   데이터 주입 ──▶ 하이퍼파라미터 튜닝 ──▶ 모델 파일(.pkl/.onnx) 생성  │
-│   ※ 핵심: 이 과정이 '자동 트리거'에 의해 스크립트로 굴러가야 함!        │
-│                                                              │
-│  [3. 지속적 통합 및 배포 (CI/CD)]                                │
-│   모델 도커 패키징 ──▶ 카나리/블루그린 배포 ──▶ 운영 서버(Serving)    │
-│                                                              │
-│  [4. 모니터링 및 성능 감시] ─────────┐                            │
-│   실시간 예측 오차율 감지 (Drift 감지) │                            │
-│   ──▶ 임계치(예: 정확도 80% 미만) 하락 시 ──▶ [2번의 CT 재가동 핑 쏘기!] │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           MLOps 파이프라인: CI/CD에 CT를 더한 생태계            |
++--------------------------------------------------------------+
+|                                                              |
+|  [1. 데이터 추출 & 피처 엔지니어링]                                |
+|   원시 데이터 ---> 피처 스토어 (Feature Store, 깔끔한 밥상)          |
+|                                                              |
+|  [2. 모델 훈련 및 검증 (CT, Continuous Training)]               |
+|   데이터 주입 ---> 하이퍼파라미터 튜닝 ---> 모델 파일(.pkl/.onnx) 생성  |
+|   ※ 핵심: 이 과정이 '자동 트리거'에 의해 스크립트로 굴러가야 함!        |
+|                                                              |
+|  [3. 지속적 통합 및 배포 (CI/CD)]                                |
+|   모델 도커 패키징 ---> 카나리/블루그린 배포 ---> 운영 서버(Serving)    |
+|                                                              |
+|  [4. 모니터링 및 성능 감시] ---------+                            |
+|   실시간 예측 오차율 감지 (Drift 감지) |                            |
+|   ---> 임계치(예: 정확도 80% 미만) 하락 시 ---> [2번의 CT 재가동 핑 쏘기!] |
++--------------------------------------------------------------+
 ```
 
 운영 중인 모델의 예측값이 실제 정답(Ground Truth)과 얼마나 틀려지는지를 실시간으로 모니터링하다가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘는 순간([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 포착), 모니터링 봇은 사람을 부르지 않고 곧바로 파이프라인의 1번 단계로 신호를 쏜다. 시스템은 알아서 최근 1주일 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌고 와 야간에 재학습을 빡세게 돌린 뒤 다음 날 아침 100% 똑똑해진 새 모델 컨테이너를 갈아 끼운다.
@@ -110,20 +110,20 @@ MLOps의 구축은 초기에 엄청난 플랫폼 세팅 비용과 러닝 커브�
 
 ```text
 개발과 운영의 결합 (소프트웨어)
-    │
-    ▼
+    |
+    v
 DevOps (CI/CD 파이프라인)
-    │
-    ▼
+    |
+    v
 데이터와 모델의 통제 필요성 대두
-    │
-    ▼
+    |
+    v
 MLOps 등장 (CT 추가, Model Drift 감시)
-    │
-    ▼
+    |
+    v
 거대 모델 및 생성형 AI 운영으로 확장
-    │
-    ▼
+    |
+    v
 LLMOps (프롬프트 관리, RAG 파이프라인 모니터링 결합)
 ```
 이 흐름도는 단순한 코드 배포 자동화에서 시작해 확률적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 유지보수로 진화하고, 궁극적으로 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 통제하는 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 생태계로 확장되는 과정을 보여준다.
@@ -140,7 +140,7 @@ LLMOps (프롬프트 관리, RAG 파이프라인 모니터링 결합)
 
 **진행 상황**: 107 / 973
 
-← **이전**: [106. FinOps - 클라우드 비용 최적화 및 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/106_finops_cloud_cost_optimization/)
-**다음**: [108. LLMOps (대규모 언어 모델 운영)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/108_llmops_large_language_model/) →
+<- **이전**: [106. FinOps - 클라우드 비용 최적화 및 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/106_finops_cloud_cost_optimization/)
+**다음**: [108. LLMOps (대규모 언어 모델 운영)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/108_llmops_large_language_model/) ->
 
 ---

@@ -44,24 +44,24 @@ tags = ["studynote-design-supervision"]
 아래 그림은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 실행 경로를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Lazy loading execution path                                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Service / Use case                                                   │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Order entity loaded                                                  │
-│   ├─ id, status, orderedAt   -> loaded now                           │
-│   └─ member, items           -> proxy / lazy collection              │
-│                                  │ first access                      │
-│                                  ▼                                   │
-│                       Persistence Context / Session                  │
-│                                  │ SQL / cache lookup                │
-│                                  ▼                                   │
-│                           DB or 2nd-level cache                      │
-│                                  │                                   │
-│                                  └─ real object initialized          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Lazy loading execution path                                          |
++----------------------------------------------------------------------+
+| Service / Use case                                                   |
+|    |                                                                 |
+|    v                                                                 |
+| Order entity loaded                                                  |
+|   +- id, status, orderedAt   -> loaded now                           |
+|   +- member, items           -> proxy / lazy collection              |
+|                                  | first access                      |
+|                                  v                                   |
+|                       Persistence Context / Session                  |
+|                                  | SQL / cache lookup                |
+|                                  v                                   |
+|                           DB or 2nd-level cache                      |
+|                                  |                                   |
+|                                  +- real object initialized          |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"이지 "무료"가 아니라는 점이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 가벼워지지만, 나중에 접근하는 순간 추가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 발생한다. 따라서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 품질은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기술 자체보다, 어떤 화면과 서비스가 어떤 시점에 어떤 연관을 실제로 읽는지 예측하고 설계했는가에 달려 있다.
@@ -148,19 +148,19 @@ tags = ["studynote-design-supervision"]
 
 ```text
 객체 그래프 확장
-    │
-    ▼
+    |
+    v
 즉시 로딩의 과다 JOIN / 메모리 증가
-    │
-    ▼
+    |
+    v
 Lazy Loading + Virtual Proxy 도입
-    │
-    ├─ first access -> 추가 SQL
-    ├─ transaction boundary 중요
-    ├─ N+1 -> fetch join / batch fetch
-    └─ API 응답 -> DTO projection 필요
-    │
-    ▼
+    |
+    +- first access -> 추가 SQL
+    +- transaction boundary 중요
+    +- N+1 -> fetch join / batch fetch
+    +- API 응답 -> DTO projection 필요
+    |
+    v
 유스케이스별 Fetch Plan 설계
 ```
 
@@ -178,7 +178,7 @@ Lazy Loading + Virtual Proxy 도입
 
 **진행 상황**: 238 / 530
 
-← **이전**: [181. 유닛 오브 워크 패턴 (Unit of Work Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/)
-**다음**: [183. 마스터-워커 패턴 (Master-Worker Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/183_master_worker_pattern/) →
+<- **이전**: [181. 유닛 오브 워크 패턴 (Unit of Work Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/)
+**다음**: [183. 마스터-워커 패턴 (Master-Worker Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/183_master_worker_pattern/) ->
 
 ---

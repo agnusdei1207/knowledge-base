@@ -31,33 +31,33 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 핵심 원리는 <strong>요청 → 승인 → 주소/명령 제시 → <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 → 종료 통지</strong>의 흐름이다. 마스터 후보가 여러 개라면 먼저 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)기 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)가 사용권을 정하고, 권한을 얻은 장치만 주소선과 제어선을 구동한다. 슬레이브는 자신에게 해당하는 주소를 감지한 뒤 읽기 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청에 응답한다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 핵심 원리는 <strong>요청 -> 승인 -> 주소/명령 제시 -> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 -> 종료 통지</strong>의 흐름이다. 마스터 후보가 여러 개라면 먼저 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)기 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)가 사용권을 정하고, 권한을 얻은 장치만 주소선과 제어선을 구동한다. 슬레이브는 자신에게 해당하는 주소를 감지한 뒤 읽기 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청에 응답한다.
 
 아래 그림은 멀티 마스터 환경에서 한 장치가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 획득해 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 전형적 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                버스 마스터의 전송 흐름: 개시 권한이 핵심                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [CPU]      [DMA]      [NIC]                                                │
-│   │          │          │                                                  │
-│   └────┬─────┴─────┬────┘  Bus Request                                     │
-│        ▼           ▼                                                       │
-│                 [Bus Arbiter]                                              │
-│                      │ Bus Grant                                           │
-│                      ▼                                                     │
-│             [Selected Bus Master]                                          │
-│                      │                                                     │
-│      Address + Read/Write Command on System Bus                            │
-│                      │                                                     │
-│        ┌─────────────┴─────────────┐                                       │
-│        ▼                           ▼                                       │
-│   [Main Memory]              [I/O Device]                                  │
-│        │                           │                                       │
-│        └──────────── Data Bus ─────┘                                       │
-│                                                                            │
-│ 핵심: 데이터가 흐른다고 모두 마스터가 아니라, 주소/명령을 먼저 내는 쪽이 마스터 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                버스 마스터의 전송 흐름: 개시 권한이 핵심                  |
++----------------------------------------------------------------------------+
+| [CPU]      [DMA]      [NIC]                                                |
+|   |          |          |                                                  |
+|   +----+-----+-----+----+  Bus Request                                     |
+|        v           v                                                       |
+|                 [Bus Arbiter]                                              |
+|                      | Bus Grant                                           |
+|                      v                                                     |
+|             [Selected Bus Master]                                          |
+|                      |                                                     |
+|      Address + Read/Write Command on System Bus                            |
+|                      |                                                     |
+|        +-------------+-------------+                                       |
+|        v                           v                                       |
+|   [Main Memory]              [I/O Device]                                  |
+|        |                           |                                       |
+|        +------------ Data Bus -----+                                       |
+|                                                                            |
+| 핵심: 데이터가 흐른다고 모두 마스터가 아니라, 주소/명령을 먼저 내는 쪽이 마스터 |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)보다 <strong>주소·제어 주도권</strong>이 더 본질적이라는 사실이다. 예를 들어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러가 메모리에 연속 블록을 기록할 때, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 외부 장치에서 들어오더라도 메모리 주소를 증가시키며 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 발행하는 주체는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러다. 그래서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생산자"가 아니라 "전송의 지휘자"라고 이해하는 것이 정확하다.
@@ -146,17 +146,17 @@ CPU만 마스터인 구조는 제어가 단순하다. 모든 전송이 CPU를 �
 
 ```text
 CPU 단독 전송 제어
-        │
-        ▼
+        |
+        v
 버스 마스터 (Bus Master) / 버스 슬레이브 (Bus Slave) 구분
-        │
-        ▼
+        |
+        v
 DMA (Direct Memory Access) 기반 CPU 오프로드
-        │
-        ▼
+        |
+        v
 멀티 마스터 + 버스 중재 (Bus Arbitration)
-        │
-        ▼
+        |
+        v
 PCIe (PCI Express) 장치 주도 전송 · Peer-to-Peer · IOMMU 보호
 ```
 
@@ -174,7 +174,7 @@ PCIe (PCI Express) 장치 주도 전송 · Peer-to-Peer · IOMMU 보호
 
 **진행 상황**: 351 / 803
 
-← **이전**: [349. 비동기식 버스 (Asynchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/349_asynchronous_bus/)
-**다음**: [351. 버스 중재 (Bus Arbitration)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/) →
+<- **이전**: [349. 비동기식 버스 (Asynchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/349_asynchronous_bus/)
+**다음**: [351. 버스 중재 (Bus Arbitration)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/) ->
 
 ---

@@ -31,9 +31,9 @@ tags = ["studynote-security"]
 
 ```text
 Users / APIs / Ports / Files / Privileges
-  ↓
+  v
 Attack Surface
-  ↓
+  v
 Reduction / Hardening
 ```
 
@@ -106,11 +106,11 @@ Reduction / Hardening
 
 ```text
 Exposure
-  ↓
+  v
 Attack Surface
-  ↓
+  v
 Hardening
-  ↓
+  v
 Security Posture
 ```
 
@@ -120,11 +120,11 @@ Security Posture
 
 ```text
 Threat Modeling
-  ↓
+  v
 Attack Surface
-  ↓
+  v
 Hardening
-  ↓
+  v
 Reduction
 ```
 
@@ -142,7 +142,7 @@ Reduction
 
 **진행 상황**: 67 / 1108
 
-← **이전**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/)
-**다음**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/) →
+<- **이전**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/)
+**다음**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/) ->
 
 ---

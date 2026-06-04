@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))은 외부 클라이언트 요청을 받아 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 속도 제한을 중앙 처리하는 단일 진입 계층이다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 클라이언트가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 직접 호출하면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙이 중복되고 외부 노출면이 커진다. 이 개념이 필요한 이유는 외부 진입 제어를 중앙화하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·모니터링·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 방식이 달라 외부 접점 통제가 어려워진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│   APIGW    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|   APIGW    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[서비스 직접 호출] → API 게이트웨이] → [엣지 중앙 통제]
+[서비스 직접 호출] -> API 게이트웨이] -> [엣지 중앙 통제]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))은 백화점 정문 안내 데스크에서 손님을 알맞은 가게로 보내는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 449 / 530
 
-← **이전**: [370. 마이크로서비스 아키텍처 (Microservice Architecture, MSA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/370_process/)
-**다음**: [372. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/) →
+<- **이전**: [370. 마이크로서비스 아키텍처 (Microservice Architecture, MSA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/370_process/)
+**다음**: [372. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/) ->
 
 ---

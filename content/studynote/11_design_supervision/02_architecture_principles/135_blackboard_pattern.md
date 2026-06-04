@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 예를 들어 음성 인식 시스템에서 '음소 전문가'가 음소를 블랙보드에 쓰면, '단어 전문가'가 이를 보고 단어를 추론하고, '문법 전문가'가 단어를 보고 문장을 구성한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              블랙보드 패턴 구조                               │
-├─────────────────────────────────────────────────────────────┤
-│                    [BLACKBOARD]                              │
-│               (공유 문제 해결 상태 공간)                     │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  부분 해결책 A │ 부분 해결책 B │ ... │ 최종 해결책   │   │
-│  └──────────────────────────────────────────────────────┘   │
-│       ↑ 읽기/쓰기         ↑ 읽기/쓰기                        │
-│  [KS1: 음소 전문가]   [KS2: 단어 전문가]   [KS3: 문법 전문가]│
-│                                                             │
-│                    [Control]                                │
-│           (어느 KS를 다음에 실행할지 결정)                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              블랙보드 패턴 구조                               |
++-------------------------------------------------------------+
+|                    [BLACKBOARD]                              |
+|               (공유 문제 해결 상태 공간)                     |
+|  +------------------------------------------------------+   |
+|  |  부분 해결책 A | 부분 해결책 B | ... | 최종 해결책   |   |
+|  +------------------------------------------------------+   |
+|       ^ 읽기/쓰기         ^ 읽기/쓰기                        |
+|  [KS1: 음소 전문가]   [KS2: 단어 전문가]   [KS3: 문법 전문가]|
+|                                                             |
+|                    [Control]                                |
+|           (어느 KS를 다음에 실행할지 결정)                  |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 교수님이 칠판에 수식을 쓰면 학생들(전문가)이 각자의 지식으로 다음 단계를 추가하고, 칠판 내용이 점점 완성되어 최종 답(해결책)에 도달하는 세미나 방식이다.
@@ -50,20 +50,20 @@ tags = ["studynote-design-supervision"]
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| Blackboard | 공유 문제 상태 저장 | 음소→단어→문장 계층 |
+| Blackboard | 공유 문제 상태 저장 | 음소->단어->문장 계층 |
 | Knowledge Source | 전문 영역 해결책 기여 | 음소 분석기, 단어 인식기 |
 | Control | KS 실행 순서 결정 | 활성화 조건 평가 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         블랙보드 패턴 vs 파이프-필터 패턴 비교               │
-├─────────────────────────────────────────────────────────────┤
-│  파이프-필터: 선형 순서 고정, 각 필터가 다음 필터에 전달     │
-│  A → B → C → D (순서 고정)                                  │
-│                                                             │
-│  블랙보드: 비선형 협력, KS가 공유 상태 읽고 기여             │
-│  KS1, KS2, KS3 모두 Blackboard 읽기/쓰기 (순서 동적 결정)  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         블랙보드 패턴 vs 파이프-필터 패턴 비교               |
++-------------------------------------------------------------+
+|  파이프-필터: 선형 순서 고정, 각 필터가 다음 필터에 전달     |
+|  A -> B -> C -> D (순서 고정)                                  |
+|                                                             |
+|  블랙보드: 비선형 협력, KS가 공유 상태 읽고 기여             |
+|  KS1, KS2, KS3 모두 Blackboard 읽기/쓰기 (순서 동적 결정)  |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 블랙보드는 회의실 화이트보드처럼 팀원들이 각자의 아이디어를 적고 서로의 것을 보면서 최종 해결책을 만들어가는 집단 지성 방식이다.
@@ -110,7 +110,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[HEARSAY 음성 인식 시스템(1970년대)] → [블랙보드 패턴 형식화] → AI·전문가 시스템] → [멀티에이전트 시스템] → LLM 멀티에이전트 협력]
+[HEARSAY 음성 인식 시스템(1970년대)] -> [블랙보드 패턴 형식화] -> AI·전문가 시스템] -> [멀티에이전트 시스템] -> LLM 멀티에이전트 협력]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -121,7 +121,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[단일 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계] → [블랙보드 패턴] → [전문가 시스템·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론] → [멀티에이전트 시스템] → LLM 멀티에이전트 협력 아키텍처]
+[단일 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계] -> [블랙보드 패턴] -> [전문가 시스템·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론] -> [멀티에이전트 시스템] -> LLM 멀티에이전트 협력 아키텍처]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 191 / 530
 
-← **이전**: [134. 파이프-필터 패턴 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/)
-**다음**: [136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/136_microkernel_plugin_architecture/) →
+<- **이전**: [134. 파이프-필터 패턴 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/)
+**다음**: [136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/136_microkernel_plugin_architecture/) ->
 
 ---

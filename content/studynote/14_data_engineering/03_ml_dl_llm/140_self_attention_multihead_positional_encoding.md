@@ -20,7 +20,7 @@ tags = ["studynote-dataengineering"]
 
 ```text
 Self-Attention: Q=K=V (같은 시퀀스에서 생성)
-Multi-Head: h개 Attention 병렬 → Concat → Linear
+Multi-Head: h개 Attention 병렬 -> Concat -> Linear
   d_k = d_model / h (예: 512/8 = 64)
 Positional Encoding:
   사인/코사인 (고정) 또는 RoPE (회전, LLM 표준)
@@ -49,10 +49,10 @@ Positional Encoding:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Sinusoidal PE (2017, 원본)] → [학습 PE (BERT)]
-    → [RoPE (2021, LLaMA 표준)]
-    → [ALiBi (2021, 학습 없이 위치)]
-    → [현재: YaRN — RoPE 확장 (긴 컨텍스트)]
+[Sinusoidal PE (2017, 원본)] -> [학습 PE (BERT)]
+    -> [RoPE (2021, LLaMA 표준)]
+    -> [ALiBi (2021, 학습 없이 위치)]
+    -> [현재: YaRN — RoPE 확장 (긴 컨텍스트)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Positional Encoding:
 
 **진행 상황**: 140 / 258
 
-← **이전**: [139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/139_transformer_architecture_self_attention/)
-**다음**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/) →
+<- **이전**: [139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/139_transformer_architecture_self_attention/)
+**다음**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/) ->
 
 ---

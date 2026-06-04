@@ -44,21 +44,21 @@ PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_system
 아래 그림은 CSR [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 PKCS#10 CSR generation and validation               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant system                                                    │
-│   1) Generate key pair                                              │
-│   2) Build CertificationRequestInfo                                 │
-│      - Subject DN                                                   │
-│      - SubjectPublicKeyInfo                                         │
-│      - Attributes (SAN, extension requests)                         │
-│   3) Sign request with private key                                  │
-│   4) Send CSR to CA / RA                                            │
-│                                                                     │
-│ CA / RA side                                                        │
-│   Verify signature -> verify identity/domain -> issue certificate   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 PKCS#10 CSR generation and validation               |
++----------------------------------------------------------------------+
+| Applicant system                                                    |
+|   1) Generate key pair                                              |
+|   2) Build CertificationRequestInfo                                 |
+|      - Subject DN                                                   |
+|      - SubjectPublicKeyInfo                                         |
+|      - Attributes (SAN, extension requests)                         |
+|   3) Sign request with private key                                  |
+|   4) Send CSR to CA / RA                                            |
+|                                                                     |
+| CA / RA side                                                        |
+|   Verify signature -> verify identity/domain -> issue certificate   |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 점은 CSR 안에 인증서가 들어 있는 것이 아니라는 사실이다. CSR은 아직 CA의 서명을 받지 않은 요청서이며, CA는 이 요청서를 검토한 뒤 별도의 X.509 인증서를 발급한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식은 보통 개인 정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메일 (PEM, Privacy-Enhanced Mail) 인코딩의 `-----BEGIN CERTIFICATE REQUEST-----` 형태나, DER (Distinguished Encoding Rules) 바이너리 형태로 저장된다.
@@ -144,21 +144,21 @@ PKCS#10을 표준대로 사용하면 다양한 CA와 도구가 상호 운용 가
 
 ```text
 키 쌍 생성
-    │
-    ▼
+    |
+    v
 PKCS#10 CSR 작성
-    │
-    ├─ Subject DN
-    ├─ Public Key
-    └─ SAN / Attributes + Signature
-    │
-    ▼
+    |
+    +- Subject DN
+    +- Public Key
+    +- SAN / Attributes + Signature
+    |
+    v
 CA / RA 검증
-    │
-    ▼
+    |
+    v
 X.509 인증서 발급
-    │
-    ▼
+    |
+    v
 배포 · 갱신 · 자동화 (ACME / PKCS#12 / TLS 운영)
 ```
 
@@ -176,7 +176,7 @@ X.509 인증서 발급
 
 **진행 상황**: 222 / 1108
 
-← **이전**: [168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/)
-**다음**: [170. PKCS#7 / CMS — 인증서 envelope 형식](/knowledge-base/studynote/09_security/04_endpoint_security/170_pkcs7_cms/) →
+<- **이전**: [168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/)
+**다음**: [170. PKCS#7 / CMS — 인증서 envelope 형식](/knowledge-base/studynote/09_security/04_endpoint_security/170_pkcs7_cms/) ->
 
 ---

@@ -21,14 +21,14 @@ tags = ["studynote-it-management"]
 기업은 내부 역량(강점·약점)만큼 외부 환경(기회·위협)에 의해 성패가 좌우된다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 전에 "우리 회사를 둘러싼 세계가 어떻게 변하고 있는가?"를 4가지 렌즈로 체계적으로 검토한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                  PEST 분석 4대 요소                          │
-├──────────────┬─────────────────────────────────────────────┤
-│ P (Political)│ 정부 규제, 세금 정책, 무역 협정, 정치 안정성   │
-│ E (Economic) │ GDP 성장률, 인플레이션, 환율, 실업률, 금리    │
-│ S (Social)   │ 인구 구조, 문화 트렌드, 소비자 행동, 교육 수준│
-│ T (Tech)     │ R&D 투자, 기술 혁신 속도, 자동화, AI 성숙도   │
-└──────────────┴─────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                  PEST 분석 4대 요소                          |
++--------------+---------------------------------------------+
+| P (Political)| 정부 규제, 세금 정책, 무역 협정, 정치 안정성   |
+| E (Economic) | GDP 성장률, 인플레이션, 환율, 실업률, 금리    |
+| S (Social)   | 인구 구조, 문화 트렌드, 소비자 행동, 교육 수준|
+| T (Tech)     | R&D 투자, 기술 혁신 속도, 자동화, AI 성숙도   |
++--------------+---------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 기업이 항해하는 바다(외부 환경)의 날씨(정치), 조류(경제), 해류 온도(사회), 선박 기술(기술)을 사전에 파악하는 해도 작성이다. 바다를 알아야 올바른 항로를 선택할 수 있다.
@@ -41,34 +41,34 @@ tags = ["studynote-it-management"]
 
 ```text
 P (정치적):
-  - EU AI Act 규제 강화 → AI 서비스 컴플라이언스 비용 증가
-  - 미-중 기술 디커플링 → 글로벌 공급망 위험
+  - EU AI Act 규제 강화 -> AI 서비스 컴플라이언스 비용 증가
+  - 미-중 기술 디커플링 -> 글로벌 공급망 위험
 
 E (경제적):
-  - 금리 인상 → IT 인프라 투자 심리 위축
-  - SaaS 구독 모델 성장 → 경기 변동 완충
+  - 금리 인상 -> IT 인프라 투자 심리 위축
+  - SaaS 구독 모델 성장 -> 경기 변동 완충
 
 S (사회적):
-  - 디지털 전환 가속 → 클라우드 수요 증가
-  - AI 일자리 불안 → 대중 수용성 관리 필요
+  - 디지털 전환 가속 -> 클라우드 수요 증가
+  - AI 일자리 불안 -> 대중 수용성 관리 필요
 
 T (기술적):
-  - 생성형 AI 확산 → 새 서비스 기회
-  - 양자 컴퓨팅 → 현재 암호화 위협 (5~10년 후)
+  - 생성형 AI 확산 -> 새 서비스 기회
+  - 양자 컴퓨팅 -> 현재 암호화 위협 (5~10년 후)
 ```
 
-### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) → SWOT 연결
+### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) -> SWOT 연결
 
 ```text
 PEST 분석
-   │
-   ├─ 기회 요소 → SWOT의 O (Opportunity)
-   └─ 위협 요소 → SWOT의 T (Threat)
-         │
-         ▼
+   |
+   +- 기회 요소 -> SWOT의 O (Opportunity)
+   +- 위협 요소 -> SWOT의 T (Threat)
+         |
+         v
    SWOT 분석 (내부 S·W + 외부 O·T)
-         │
-         ▼
+         |
+         v
    전략 도출 (SO, ST, WO, WT 전략)
 ```
 
@@ -85,17 +85,17 @@ PEST 분석
 | **Porter's 5 Forces** | 산업 내 경쟁 구조 | PEST의 맥락하에 적용 |
 | **SWOT** | 내부 S·W + 외부 O·T | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 결과 통합 |
 
-- **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/), Porter's 5 Forces, SWOT는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 3단계 렌즈다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)(망원경: 멀리 보기) → Porter 5 Forces(현미경: 산업 내 보기) → SWOT(거울: 우리 자신 보기) 순서로 분석한다.
+- **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/), Porter's 5 Forces, SWOT는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 3단계 렌즈다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)(망원경: 멀리 보기) -> Porter 5 Forces(현미경: 산업 내 보기) -> SWOT(거울: 우리 자신 보기) 순서로 분석한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 신규 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 런칭 전 PESTLE 분석
-1. **Legal(법률)**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 적합성 평가 의무화 → 출시 일정 6개월 추가.
-2. **Environmental(환경)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 탄소 발자국 규제 강화 → 재생에너지 전환 필요.
-3. **Political**: 미-중 기술 규제로 특정 국가 시장 진입 차단 → 지역별 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
-4. **Technological**: 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성숙으로 클라우드 의존도 감소 → 하이브리드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처 전환.
+1. **Legal(법률)**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 적합성 평가 의무화 -> 출시 일정 6개월 추가.
+2. **Environmental(환경)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 탄소 발자국 규제 강화 -> 재생에너지 전환 필요.
+3. **Political**: 미-중 기술 규제로 특정 국가 시장 진입 차단 -> 지역별 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
+4. **Technological**: 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성숙으로 클라우드 의존도 감소 -> 하이브리드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처 전환.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석을 한 번 수행하고 갱신하지 않는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("정적 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)"). 거시 환경은 지속적으로 변화하므로 연 1회 이상 재검토가 필요하다. ChatGPT 출시 후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) T 요소가 1년 만에 완전히 바뀐 것처럼, 기술 환경은 특히 빠르게 변한다.
@@ -132,17 +132,17 @@ PEST 분석
 
 ```text
 [PEST 분석 — 거시 환경 4요소 분석]
-    │
-    ▼
+    |
+    v
 [PESTLE 확장 — 법률·환경 요소 추가]
-    │
-    ▼
+    |
+    v
 [SWOT 통합 — 내부 역량과 외부 환경 결합]
-    │
-    ▼
+    |
+    v
 [동적 PEST — 실시간 환경 변화 모니터링]
-    │
-    ▼
+    |
+    v
 [AI 환경 스캐닝 — NLP 기반 자동 PEST 업데이트]
 ```
 
@@ -158,7 +158,7 @@ PEST 분석
 
 **진행 상황**: 44 / 587
 
-← **이전**: [25. PEST 분석 (거시 환경 분석)](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/)
-**다음**: [26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/) →
+<- **이전**: [25. PEST 분석 (거시 환경 분석)](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/)
+**다음**: [26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/) ->
 
 ---

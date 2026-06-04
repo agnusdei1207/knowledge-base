@@ -31,20 +31,20 @@ tags = ["studynote-ict-convergence"]
 
 ```
   애플리케이션 (마이크로서비스)
-       │
-       ├──[로그(Logs)]────────► Loki / Elasticsearch
-       │   구조화 이벤트, 에러 스택
-       ├──[메트릭(Metrics)]──► Prometheus / Datadog
-       │   CPU, RPS, 응답시간
-       └──[트레이스(Traces)]──► Jaeger / Zipkin / Tempo
+       |
+       +--[로그(Logs)]--------► Loki / Elasticsearch
+       |   구조화 이벤트, 에러 스택
+       +--[메트릭(Metrics)]--► Prometheus / Datadog
+       |   CPU, RPS, 응답시간
+       +--[트레이스(Traces)]--► Jaeger / Zipkin / Tempo
            요청 흐름, Span ID, TraceID
-                    │
-                    ▼
-         ┌─────────────────┐
-         │  OpenTelemetry  │   ← 통합 계측 표준
-         │  Collector      │
-         └────────┬────────┘
-                  ▼
+                    |
+                    v
+         +-----------------+
+         |  OpenTelemetry  |   <- 통합 계측 표준
+         |  Collector      |
+         +--------+--------+
+                  v
            Grafana Dashboard (통합 시각화)
 ```
 
@@ -83,9 +83,9 @@ tags = ["studynote-ict-convergence"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a> 도입 단계</strong>:
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 통합([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)+[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)+트레이스 → [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 통합([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)+[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)+트레이스 -> [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))
 2. 이상 감지 모델 학습(시계열 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest)
-3. 이벤트 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) → 노이즈 90% 감소, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time to [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 단축
+3. 이벤트 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) -> 노이즈 90% 감소, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time to [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 단축
 4. 자동 치유(Auto-Healing): k8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 자동화
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a> 표준화 이점</strong>: 벤더 락인([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 방지. 계측 코드를 한 번 작성하면 Jaeger·Datadog·[New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Relic 등 백엔드를 자유롭게 교체 가능.
@@ -119,7 +119,7 @@ AIOps는 IT 운영팀이 이벤트 홍수 속에서 진짜 장애를 빠르게 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[이상 감지 · RCA] → [AIOps · LLMOps] → [SLO · SLA]
+[이상 감지 · RCA] -> [AIOps · LLMOps] -> [SLO · SLA]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ AIOps는 IT 운영팀이 이벤트 홍수 속에서 진짜 장애를 빠르게 �
 
 **진행 상황**: 524 / 552
 
-← **이전**: [523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)](/knowledge-base/studynote/06_ict_convergence/uncategorized/523_dataops_feature_flag_citizen_developer/)
-**다음**: [525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)](/knowledge-base/studynote/06_ict_convergence/uncategorized/525_spatial_computing_micro_frontends_webassembly/) →
+<- **이전**: [523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)](/knowledge-base/studynote/06_ict_convergence/uncategorized/523_dataops_feature_flag_citizen_developer/)
+**다음**: [525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)](/knowledge-base/studynote/06_ict_convergence/uncategorized/525_spatial_computing_micro_frontends_webassembly/) ->
 
 ---

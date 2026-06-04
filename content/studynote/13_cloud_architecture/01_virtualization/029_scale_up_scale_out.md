@@ -19,21 +19,21 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         스케일 업 vs 스케일 아웃                          │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  스케일 업 (수직 확장):                                   │
-│  [작은 서버] → [큰 서버 (CPU×4, RAM×4)]                  │
-│  한 서버를 더 강하게                                      │
-│                                                           │
-│  스케일 아웃 (수평 확장):                                  │
-│           로드 밸런서                                     │
-│          /    |    \                                     │
-│       [서버1][서버2][서버3]  ← 더 추가 가능              │
-│  여러 서버로 부하 분산                                    │
-│                                                           │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         스케일 업 vs 스케일 아웃                          |
++----------------------------------------------------------+
+|                                                           |
+|  스케일 업 (수직 확장):                                   |
+|  [작은 서버] -> [큰 서버 (CPU×4, RAM×4)]                  |
+|  한 서버를 더 강하게                                      |
+|                                                           |
+|  스케일 아웃 (수평 확장):                                  |
+|           로드 밸런서                                     |
+|          /    |    \                                     |
+|       [서버1][서버2][서버3]  <- 더 추가 가능              |
+|  여러 서버로 부하 분산                                    |
+|                                                           |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원 한 명에게 전기 오토바이를 주는 것, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 것이다. 전기 오토바이([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))는 빠르지만 한계가 있고, 배달원 10명([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 한 명이 아프면 다른 9명이 계속 일한다.
@@ -57,12 +57,12 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 AWS Auto Scaling Group:
-  트래픽 급증 → CPU 70% 초과 → 인스턴스 자동 추가
-  트래픽 감소 → CPU 30% 미만 → 인스턴스 자동 제거
+  트래픽 급증 -> CPU 70% 초과 -> 인스턴스 자동 추가
+  트래픽 감소 -> CPU 30% 미만 -> 인스턴스 자동 제거
 
 Kubernetes HPA (Horizontal Pod Autoscaler):
   metrics: CPU utilization > 80%
-  → 파드 수 자동 증가 (최소 2 ~ 최대 10)
+  -> 파드 수 자동 증가 (최소 2 ~ 최대 10)
 ```
 
 - **📢 섹션 요약 비유**: Auto Scaling은 자동 주문 시스템이다. 점심 시간(트래픽 급증)에 자동으로 아르바이트생을 추가 채용하고, 저녁(트래픽 감소)에 자동으로 퇴근시킨다 — 항상 딱 필요한 만큼만 유지한다.
@@ -87,13 +87,13 @@ Kubernetes HPA (Horizontal Pod Autoscaler):
 
 ```text
 읽기 확장 (Read Replica):
-  마스터 DB → 읽기 전용 복제본 N개
-  읽기 트래픽 → Read Replica 분산
-  쓰기 트래픽 → 마스터만
+  마스터 DB -> 읽기 전용 복제본 N개
+  읽기 트래픽 -> Read Replica 분산
+  쓰기 트래픽 -> 마스터만
 
 쓰기 확장 (샤딩):
-  고객 ID % N → 각 샤드 DB로 분산
-  → 쓰기 성능 N배 향상, 관리 복잡도↑
+  고객 ID % N -> 각 샤드 DB로 분산
+  -> 쓰기 성능 N배 향상, 관리 복잡도^
 
 NewSQL (Google Spanner, TiDB):
   분산 SQL — 수평 확장 + ACID 보장
@@ -131,17 +131,17 @@ NewSQL (Google Spanner, TiDB):
 
 ```text
 [단일 서버 — 스케일 업 (수직 확장)]
-    │
-    ▼
+    |
+    v
 [로드 밸런서 + 다수 서버 — 수동 스케일 아웃]
-    │
-    ▼
+    |
+    v
 [Auto Scaling — 동적 수평 확장 자동화]
-    │
-    ▼
+    |
+    v
 [컨테이너 HPA — Kubernetes 기반 파드 Auto Scaling]
-    │
-    ▼
+    |
+    v
 [서버리스 — 요청 단위 즉시 확장 (Scale to Zero)]
 ```
 
@@ -157,7 +157,7 @@ NewSQL (Google Spanner, TiDB):
 
 **진행 상황**: 28 / 371
 
-← **이전**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/)
-**다음**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) →
+<- **이전**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/)
+**다음**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) ->
 
 ---

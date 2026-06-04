@@ -23,7 +23,7 @@ tags = ["it_management"]
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제는 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어느 클래스에 속하는가"를 빠르게 정하는 일이다. Naive Bayes는 단순하지만 강한 기준선으로 자주 쓰인다.
 IT 운영에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청, 장애 티켓, 문서 태깅처럼 라벨이 분명한 업무가 많다. 이런 곳에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 자동화의 첫 단계가 된다.
 ```text
-특징 → prior / likelihood → posterior → class label
+특징 -> prior / likelihood -> posterior -> class label
 P(class|features) ∝ P(class) × Π P(feature|class)
 ```
 
@@ -105,17 +105,17 @@ Naive Bayes는 복잡한 모델이 나오기 전에도 빠른 자동화를 가�
 
 ```text
 training data
-  │
-  ▼
+  |
+  v
 count features by class
-  │
-  ▼
+  |
+  v
 estimate prior / likelihood
-  │
-  ▼
+  |
+  v
 compute posterior
-  │
-  ▼
+  |
+  v
 route to class
 ```
 
@@ -131,7 +131,7 @@ route to class
 
 **진행 상황**: 139 / 587
 
-← **이전**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)
-**다음**: [78. KEDB (Known Error Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) →
+<- **이전**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)
+**다음**: [78. KEDB (Known Error Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) ->
 
 ---

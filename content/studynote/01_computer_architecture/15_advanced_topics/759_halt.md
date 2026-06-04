@@ -36,14 +36,14 @@ HALT는 보통 소수의 시제품에 대해 스트레스를 단계적으로 높
 아래 그림은 HALT가 찾고자 하는 설계 마진의 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     HALT margin discovery ladder                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Spec limit ──▶ Operational limit ──▶ Destruct limit                 │
-│ promised use    function stops        permanent damage begins       │
-│                                                                    │
-│ Goal: find weak link and push both limits outward by redesign      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     HALT margin discovery ladder                    |
++----------------------------------------------------------------------+
+| Spec limit ---> Operational limit ---> Destruct limit                 |
+| promised use    function stops        permanent damage begins       |
+|                                                                    |
+| Goal: find weak link and push both limits outward by redesign      |
++----------------------------------------------------------------------+
 ```
 
 HALT에서 자주 쓰는 자극과 그 목적은 다음과 같다.
@@ -131,18 +131,18 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 
 ```text
 설계 가설 · FMEA
-    │
-    ▼
+    |
+    v
 HALT (Highly Accelerated Life Test)
     : step stress · vibration · combined environment
-    │
-    ├──▶ weak link discovery
-    │     : connector · solder joint · thermal path
-    │
-    ├──▶ redesign
-    │     : mechanical reinforcement · derating · cooling fix
-    │
-    └──▶ production transition
+    |
+    +---> weak link discovery
+    |     : connector · solder joint · thermal path
+    |
+    +---> redesign
+    |     : mechanical reinforcement · derating · cooling fix
+    |
+    +---> production transition
           : qualification · HASS profile definition
 ```
 
@@ -158,7 +158,7 @@ HALT (Highly Accelerated Life Test)
 
 **진행 상황**: 760 / 803
 
-← **이전**: [758. 번인 (Burn-in) 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)
-**다음**: [760. HASS (Highly Accelerated Stress Screen)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/760_hass/) →
+<- **이전**: [758. 번인 (Burn-in) 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)
+**다음**: [760. HASS (Highly Accelerated Stress Screen)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/760_hass/) ->
 
 ---

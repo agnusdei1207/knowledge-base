@@ -31,7 +31,7 @@ zkEVM이 그 방향을 제시한다.
 
 ```text
 EVM Execution
-  ↓ zero-knowledge proof
+  v zero-knowledge proof
 Verification
 ```
 
@@ -102,9 +102,9 @@ zkEVM은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockcha
 
 ```text
 EVM
-  ↓
+  v
 zkEVM
-  ↓
+  v
 Zero-Knowledge Proof
 ```
 
@@ -114,9 +114,9 @@ Zero-Knowledge Proof
 
 ```text
 Rollup
-  ↓
+  v
 zkEVM
-  ↓
+  v
 Scalability / Privacy
 ```
 
@@ -134,7 +134,7 @@ zkEVM은 그런 기술이에요.
 
 **진행 상황**: 74 / 552
 
-← **이전**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)
-**다음**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/) →
+<- **이전**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)
+**다음**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/) ->
 
 ---

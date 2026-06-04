@@ -39,25 +39,25 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 무작정 그리는 것이 아니라, 반드시 상향식([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))의 강력한 인과관계(Cause and Effect) 화살표를 통해 4가지 계층을 관통해야 합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           [ 전략 체계도(Strategy Map) 핵심 구조 ]               │
-│                                                             │
-│ ┌─ [ 4. 재무 관점 (Financial Perspective) ] - 주주 가치 창출    │
-│ │   [ 생산성 향상 (원가 절감) ]     [ 수익 성장 (신규 시장) ]   │
-│ └───────────────────▲─────────────────────────▲───────────────┘ │
-│                     │                         │             │
-│ ┌─ [ 3. 고객 관점 (Customer Perspective) ] - 고객 가치 제안     │
-│ │   [ 저렴한 가격 / 빠른 납기 ]     [ 제품 품질 / 신뢰성 ]      │
-│ └─────────▲─────────▲─────────────────────────▲───────────────┘ │
-│           │         │                         │             │
-│ ┌─ [ 2. 내부 프로세스 관점 (Internal Process) ] - 가치 창출 핵심│
-│ │ [운영 관리]  [고객 관리]  [혁신 프로세스]  [규제 및 사회]     │
-│ └──────▲────────────▲──────────────▲────────────────▲────────┘ │
-│        │            │              │                │       │
-│ ┌─ [ 1. 학습과 성장 관점 (Learning & Growth) ] - 무형 자산 기반 │
-│ │  [ 인적 자본 (기술/역량) ]   [ 정보 자본 (IT 시스템) ]        │
-│ │               [ 조직 자본 (리더십/문화) ]                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           [ 전략 체계도(Strategy Map) 핵심 구조 ]               |
+|                                                             |
+| +- [ 4. 재무 관점 (Financial Perspective) ] - 주주 가치 창출    |
+| |   [ 생산성 향상 (원가 절감) ]     [ 수익 성장 (신규 시장) ]   |
+| +-------------------^-------------------------^---------------+ |
+|                     |                         |             |
+| +- [ 3. 고객 관점 (Customer Perspective) ] - 고객 가치 제안     |
+| |   [ 저렴한 가격 / 빠른 납기 ]     [ 제품 품질 / 신뢰성 ]      |
+| +---------^---------^-------------------------^---------------+ |
+|           |         |                         |             |
+| +- [ 2. 내부 프로세스 관점 (Internal Process) ] - 가치 창출 핵심|
+| | [운영 관리]  [고객 관리]  [혁신 프로세스]  [규제 및 사회]     |
+| +------^------------^--------------^----------------^--------+ |
+|        |            |              |                |       |
+| +- [ 1. 학습과 성장 관점 (Learning & Growth) ] - 무형 자산 기반 |
+| |  [ 인적 자본 (기술/역량) ]   [ 정보 자본 (IT 시스템) ]        |
+| |               [ 조직 자본 (리더십/문화) ]                    |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 아키텍처의 맨 아래 기초 공사인 <strong>학습과 성장(IT 인프라 구축, 개발자 교육)</strong>이 튼튼해야, 그 위층인 <strong>내부 프로세스(빠른 배포, 버그 감소)</strong>가 개선됩니다. 프로세스가 좋아지면 <strong>고객(빠른 응답속도, 만족도 상승)</strong>이 기뻐하고, 최종적으로 가장 위층인 **재무(매출 증가, 유지비 감소)** 목표가 달성되는 완벽한 인과 흐름(Cause-Effect Flow)을 화살표로 증명합니다.
@@ -140,24 +140,24 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 
 ```text
 [MBO (목표에 의한 관리 — 단순 재무 목표 중심)]
-    │
-    ▼
+    |
+    v
 [BSC (Balanced Scorecard — 재무·고객·프로세스·학습 4관점)]
-    │
-    ▼
+    |
+    v
 [전략 체계도 (Strategy Map — BSC의 인과관계 시각화)]
-    │
-    ▼
+    |
+    v
 [KPI 대시보드 연계 — 실시간 목표 달성 모니터링]
-    │
-    ▼
+    |
+    v
 [OKR (애자일 목표 관리) + AI 기반 동적 전략 조정]
 ```
 BSC는 단순 재무 지표의 한계를 극복해 4관점의 균형을 맞추며, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 각 관점 간의 인과관계를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)해 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비즈니스 목표와 일치하도록 연결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BSC는 축구팀을 평가할 때 "골 개수(재무)"만 보지 않고, 팬 만족도(고객)·훈련 방식(프로세스)·선수 성장(학습)까지 균형 있게 보는 성적표예요!
-2. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 "선수들이 체력을 키우면(학습) → 수비가 강해지고(프로세스) → 실점이 줄어 팬들이 좋아하고(고객) → 우승·수익이 올라간다(재무)" 처럼 원인과 결과를 그림으로 연결한 지도예요.
+2. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 "선수들이 체력을 키우면(학습) -> 수비가 강해지고(프로세스) -> 실점이 줄어 팬들이 좋아하고(고객) -> 우승·수익이 올라간다(재무)" 처럼 원인과 결과를 그림으로 연결한 지도예요.
 3. 이 지도가 있으면 IT 시스템 예산을 어디에 써야 회사 목표에 가장 도움이 되는지 한눈에 알 수 있답니다!
 
 ---
@@ -170,7 +170,7 @@ BSC는 단순 재무 지표의 한계를 극복해 4관점의 균형을 맞추�
 
 **진행 상황**: 36 / 587
 
-← **이전**: [21. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map/)
-**다음**: [22. 가치 사슬 (Value Chain)](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain/) →
+<- **이전**: [21. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map/)
+**다음**: [22. 가치 사슬 (Value Chain)](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain/) ->
 
 ---

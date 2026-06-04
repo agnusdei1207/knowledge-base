@@ -26,17 +26,17 @@ KV-SSD는 블록 주소 대신 key를 주고받는 저장장치다. 전통적인
 아래 그림은 기존 블록 경로와 KV-[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 경로를 비교한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Block path emulates key semantics, KV-SSD exposes them directly           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Traditional path                                                          │
-│ Application -> Key-Value Engine -> File System -> Block SSD -> Flash      │
-│                                                                            │
-│ KV-SSD path                                                               │
-│ Application / Key-Value Library -> PUT(GET, DELETE by key) -> KV-SSD -> Flash │
-│                                                                            │
-│ Fewer translation layers, but the application must speak the new API      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Block path emulates key semantics, KV-SSD exposes them directly           |
++----------------------------------------------------------------------------+
+| Traditional path                                                          |
+| Application -> Key-Value Engine -> File System -> Block SSD -> Flash      |
+|                                                                            |
+| KV-SSD path                                                               |
+| Application / Key-Value Library -> PUT(GET, DELETE by key) -> KV-SSD -> Flash |
+|                                                                            |
+| Fewer translation layers, but the application must speak the new API      |
++----------------------------------------------------------------------------+
 ```
 
 물론 KV-SSD가 모든 소프트웨어 레이어를 없애 주는 것은 아니다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 2차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), range query 같은 상위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 여전히 호스트가 맡는다. 그렇지만 “[블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)가 모르는 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 의미를 상위 소프트웨어가 억지로 여러 번 재현한다”는 중복은 줄일 수 있어, 특히 metadata-heavy 시스템에서 가치가 커진다.
@@ -61,16 +61,16 @@ KV-SSD의 내부 동작은 크게 [key](/knowledge-base/studynote/05_database/02
 아래 그림은 put과 get의 내부 흐름을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ KV-SSD data path: key lookup outside, flash management still inside       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PUT(key, value) -> Key Index Lookup -> Allocate Flash Space -> Write Value │
-│                                         │                                  │
-│                                         └-> Update key -> physical map     │
-│                                                                            │
-│ GET(key) -> Key Index Lookup -> Read Flash Pages -> Return value           │
-│ DELETE(key) -> Invalidate entry / mark obsolete                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| KV-SSD data path: key lookup outside, flash management still inside       |
++----------------------------------------------------------------------------+
+| PUT(key, value) -> Key Index Lookup -> Allocate Flash Space -> Write Value |
+|                                         |                                  |
+|                                         +-> Update key -> physical map     |
+|                                                                            |
+| GET(key) -> Key Index Lookup -> Read Flash Pages -> Return value           |
+| DELETE(key) -> Invalidate entry / mark obsolete                            |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 자주 오해되는 부분은 “KV-SSD면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 완전히 필요 없어지는가”이다. 실제로는 그렇지 않다. 장치가 key를 이해해도 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 전체를 이해하는 것은 아니며, 정렬 순서, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 범위 스캔은 상위 계층이 계속 맡는다. KV-SSD의 본질은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체를 SSD에 넣는 것이 아니라, <strong>블록 기반 저장장치가 강요하던 불필요한 주소 번역을 줄이는 것</strong>이다.
@@ -150,17 +150,17 @@ KV-SSD를 잘 적용하면 작은 객체가 많은 [서비스](/knowledge-base/s
 
 ```text
 Block I/O + Host-side KV Engine
-              │
-              ▼
+              |
+              v
 LSM-Tree · File System · Page Cache 중첩
-              │
-              ▼
+              |
+              v
 Device-level key command set
-              │
-              ▼
+              |
+              v
 KV-SSD
-              │
-              ▼
+              |
+              v
 Semantic Storage · Data-Centric Access
 ```
 
@@ -178,7 +178,7 @@ Semantic Storage · Data-Centric Access
 
 **진행 상황**: 594 / 803
 
-← **이전**: [593. 존 스토리지 (Zoned Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/593_zoned_storage/)
-**다음**: [595. 스마트 SSD (Smart Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/) →
+<- **이전**: [593. 존 스토리지 (Zoned Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/593_zoned_storage/)
+**다음**: [595. 스마트 SSD (Smart Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/) ->
 
 ---

@@ -32,16 +32,16 @@ tags = ["studynote-computer-architecture"]
 32비트는 크기(스케일)와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(디테일)를 동시에 잡기 위해 3개의 구역으로 분할된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            단정밀도 (FP32)의 비트 분할 황금비율 레이아웃           │
-├──────────────────────────────────────────────────────────────┤
-│  [31]    [30 <--- 8 bits ---> 23]    [22 <--- 23 bits ---> 0]│
-│  ┌───┐   ┌──────────────────────┐    ┌──────────────────────┐│
-│  │ S │   │   지수부 (Exponent)  │    │   가수부 (Mantissa)  ││
-│  └───┘   └──────────────────────┘    └──────────────────────┘│
-│  부호          스케일(배율) 결정           실제 유효 숫자(디테일)  │
-│ (+/-)     (우주의 크기인가, 먼지인가)       (얼마나 촘촘하게 쪼개는가) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            단정밀도 (FP32)의 비트 분할 황금비율 레이아웃           |
++--------------------------------------------------------------+
+|  [31]    [30 <--- 8 bits ---> 23]    [22 <--- 23 bits ---> 0]|
+|  +---+   +----------------------+    +----------------------+|
+|  | S |   |   지수부 (Exponent)  |    |   가수부 (Mantissa)  ||
+|  +---+   +----------------------+    +----------------------+|
+|  부호          스케일(배율) 결정           실제 유효 숫자(디테일)  |
+| (+/-)     (우주의 크기인가, 먼지인가)       (얼마나 촘촘하게 쪼개는가) |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 32개의 비트가 역할별로 어떻게 나뉘는지 보여준다. 지수부 8비트는 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) 127)을 빼서 원자 크기부터 태양계 크기까지의 스케일을 지원한다. 핵심은 23비트 가수부인데, 숨겨진 1비트 (Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 합쳐 24비트의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(10진수 약 1,677만)를 갖는다. 즉, FP32는 아무리 큰 숫자라도 앞 7자리까지만 완벽하게 기억하고 나머지 자잘한 숫자는 과감하게 0으로 뭉개버리거나 반올림해버리는 구조를 가진다.
@@ -103,17 +103,17 @@ FP32의 가장 큰 약점은 흡수 오차 (Absorption Error)다. 단정밀도�
 
 ```text
 부동소수점 표준화 필요성
-    │
-    ▼
+    |
+    v
 IEEE 754 제정 · FP32 (단정밀도) 탄생
-    │
-    ▼
+    |
+    v
 GPU 그래픽스 및 연산 최적화 (CUDA)
-    │
-    ▼
+    |
+    v
 메모리 대역폭 한계 및 흡수 오차 (Absorption Error) 부각
-    │
-    ▼
+    |
+    v
 AI 시대를 위한 경량화: FP16 · bfloat16 · INT8 양자화
 ```
 
@@ -131,7 +131,7 @@ AI 시대를 위한 경량화: FP16 · bfloat16 · INT8 양자화
 
 **진행 상황**: 89 / 803
 
-← **이전**: [88. IEEE 754 표준](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/)
-**다음**: [90. 배정밀도 (Double Precision, FP64)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) →
+<- **이전**: [88. IEEE 754 표준](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/)
+**다음**: [90. 배정밀도 (Double Precision, FP64)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) ->
 
 ---

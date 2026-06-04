@@ -10,8 +10,8 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> 1. [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Operations)는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙(자동화·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)을 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 개발→테스트→배포→운영 사이클을 자동화하는 방법론 — "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)"로, [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·품질·속도를 동시에 향상시킨다.
-> 2. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 DataOps의 핵심 실천 — 코드 변경처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 로직(dbt 모델) 변경도 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)→자동 테스트→스테이징→프로덕션 배포 워크플로우로 관리하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트 실패 시 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 가능해야 한다.
+> 1. [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Operations)는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙(자동화·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)을 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 개발->테스트->배포->운영 사이클을 자동화하는 방법론 — "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)"로, [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·품질·속도를 동시에 향상시킨다.
+> 2. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 DataOps의 핵심 실천 — 코드 변경처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 로직(dbt 모델) 변경도 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)->자동 테스트->스테이징->프로덕션 배포 워크플로우로 관리하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트 실패 시 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 가능해야 한다.
 > 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)) 확보가 DataOps의 궁극적 목표 — "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운타임([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Downtime)"([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정확하지 않거나 사용 불가한 시간)을 최소화하기 위해 [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)([Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/))와 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 내재화한다.
 
 ---
@@ -28,12 +28,12 @@ DataOps 없을 때:
   배포: 수동, 의존성 파악 어려움
   장애: 몇 시간 후 발견, 원인 불명
 
-  결과: 데이터 신뢰도 저하 → 분석팀 불신
+  결과: 데이터 신뢰도 저하 -> 분석팀 불신
 
 DevOps 원칙의 데이터 적용:
 
-DevOps → DataOps 매핑:
-  CI/CD: 파이프라인 코드 → 자동 테스트 → 배포
+DevOps -> DataOps 매핑:
+  CI/CD: 파이프라인 코드 -> 자동 테스트 -> 배포
   버전 관리: 변환 로직 (dbt 모델) Git 관리
   테스트: 데이터 품질 테스트 자동화
   모니터링: 파이프라인 + 데이터 품질 지표
@@ -42,17 +42,17 @@ DevOps → DataOps 매핑:
 DataOps 구성 요소:
 
   코드로서의 파이프라인:
-  Airflow DAG, dbt 모델 → Git 버전 관리
+  Airflow DAG, dbt 모델 -> Git 버전 관리
 
   데이터 CI/CD:
-  PR → 자동 품질 테스트 → 스테이징 → 프로덕션
+  PR -> 자동 품질 테스트 -> 스테이징 -> 프로덕션
 
   데이터 옵저버빌리티:
   파이프라인 지표, 데이터 품질 모니터링
   이상 탐지 + 알림
 ```
 
-> 📢 **섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장 자동화 — 소프트웨어 공장([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장도 자동화. 원자재(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 투입→품질 검사(테스트)→포장(변환)→배포. 수동 공장 대비 품질+속도!
+> 📢 **섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장 자동화 — 소프트웨어 공장([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장도 자동화. 원자재(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 투입->품질 검사(테스트)->포장(변환)->배포. 수동 공장 대비 품질+속도!
 
 ---
 
@@ -72,7 +72,7 @@ dbt (Data Build Tool) + Git + CI:
        (스테이징 환경에서)
      - lineage 영향 분석
   4. 리뷰어 코드 리뷰
-  5. Merge → 프로덕션 자동 배포
+  5. Merge -> 프로덕션 자동 배포
 
 dbt 테스트 예:
   # schema.yml
@@ -105,13 +105,13 @@ dbt 테스트 예:
     schema: prod_{{ env_var('DBT_SCHEMA') }}
 
 Airflow CI/CD:
-  GitHub Actions → DAG 유효성 검사 → 자동 배포
+  GitHub Actions -> DAG 유효성 검사 -> 자동 배포
 
   파이프라인 롤백:
   이전 DAG 버전으로 즉시 롤백 가능 (Git 기반)
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD = 자동화 품질 검사 라인 — dbt 모델(제조 설계) 변경 시 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)(품질 검사 요청) → 자동 테스트(공장 검사) → 통과 시만 배포(출하). 불량품(오류) 자동 차단!
+> 📢 **섹션 요약 비유**: [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD = 자동화 품질 검사 라인 — dbt 모델(제조 설계) 변경 시 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)(품질 검사 요청) -> 자동 테스트(공장 검사) -> 통과 시만 배포(출하). 불량품(오류) 자동 차단!
 
 ---
 
@@ -133,25 +133,25 @@ Airflow CI/CD:
   데이터 값의 통계적 분포가 정상인가?
 
   체크: 평균, 표준편차, min/max 추적
-  이상: 매출 평균이 갑자기 0이 됨 → 파이프라인 오류
+  이상: 매출 평균이 갑자기 0이 됨 -> 파이프라인 오류
 
 3. 볼륨 (Volume):
   데이터 행 수가 정상 범위인가?
 
   체크: 일별 행 수 변동
-  이상: 전날 100만 행 → 오늘 10 행 → 오류!
+  이상: 전날 100만 행 -> 오늘 10 행 -> 오류!
 
 4. 스키마 (Schema):
   데이터 구조가 변경되었는가?
 
   체크: 컬럼 추가/삭제/타입 변경 탐지
-  이상: 상위 서비스에서 컬럼 이름 변경 → 자동 탐지
+  이상: 상위 서비스에서 컬럼 이름 변경 -> 자동 탐지
 
 5. 계보 (Lineage):
   데이터가 어디서 왔고 어디에 쓰이는가?
 
   영향 분석:
-  orders 테이블 변경 → 어떤 하위 모델 영향받나?
+  orders 테이블 변경 -> 어떤 하위 모델 영향받나?
 
 도구:
   Monte Carlo: 상용 데이터 옵저버빌리티
@@ -184,7 +184,7 @@ Level 2 - 반자동:
   일부 품질 체크 자동화
 
 Level 3 - CI/CD 도입:
-  코드 변경 → 자동 테스트 → 배포
+  코드 변경 -> 자동 테스트 -> 배포
   스테이징 환경 분리
   데이터 품질 게이트
 
@@ -212,7 +212,7 @@ Level 5 - 완전 자동화:
   데이터 품질 점수: >95%
 ```
 
-> 📢 **섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 성숙도 = 공장 자동화 단계 — 수동(장인 공장)→반자동(기계 일부)→[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD(컨베이어 벨트)→[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)(품질 카메라)→완전 자동(자율 공장). 대부분 2단계, 목표는 3~4단계!
+> 📢 **섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 성숙도 = 공장 자동화 단계 — 수동(장인 공장)->반자동(기계 일부)->[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD(컨베이어 벨트)->[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)(품질 카메라)->완전 자동(자율 공장). 대부분 2단계, 목표는 3~4단계!
 
 ---
 
@@ -224,7 +224,7 @@ Level 5 - 완전 자동화:
 AS-IS (Level 1):
   데이터 파이프라인: 수동 Python 스크립트
   배포: 데이터 엔지니어 직접 서버 수정
-  장애 탐지: 분석팀이 이상 데이터 발견 → 슬랙 DM
+  장애 탐지: 분석팀이 이상 데이터 발견 -> 슬랙 DM
   평균 장애 탐지: 6시간
   월 장애 건수: 12건
 
@@ -241,26 +241,26 @@ TO-BE 목표: Level 3~4
 
 2. Airflow + 모니터링 (2개월):
   DAG 실행 현황 Grafana 대시보드
-  실패 DAG → PagerDuty 알림 (5분 내)
+  실패 DAG -> PagerDuty 알림 (5분 내)
 
-  효과: 장애 탐지 6시간 → 30분
+  효과: 장애 탐지 6시간 -> 30분
 
 3. 데이터 옵저버빌리티 (Monte Carlo, 2개월):
   신선도·볼륨·분포 자동 모니터링
-  이상 탐지 → Slack 자동 알림
+  이상 탐지 -> Slack 자동 알림
 
   효과: 데이터 이상 조기 탐지
   (파이프라인 오류 후 1시간 내 탐지)
 
 최종 결과:
-  파이프라인 성공률: 78% → 99.1%
-  월 장애 건수: 12건 → 2건
-  장애 탐지: 6시간 → 25분 (MTTD)
-  데이터 신뢰도 점수: 분석팀 62% → 91%
-  데이터 엔지니어 야간 호출: 월 8회 → 0회
+  파이프라인 성공률: 78% -> 99.1%
+  월 장애 건수: 12건 -> 2건
+  장애 탐지: 6시간 -> 25분 (MTTD)
+  데이터 신뢰도 점수: 분석팀 62% -> 91%
+  데이터 엔지니어 야간 호출: 월 8회 -> 0회
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = 공장 자동화 성과 — 수동 공장(Level 1)에서 컨베이어 벨트+품질 카메라(Level 3~4)로. 장애 탐지 6시간→25분. 야간 호출 월 8회→0회!
+> 📢 **섹션 요약 비유**: 이커머스 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = 공장 자동화 성과 — 수동 공장(Level 1)에서 컨베이어 벨트+품질 카메라(Level 3~4)로. 장애 탐지 6시간->25분. 야간 호출 월 8회->0회!
 
 ---
 
@@ -320,9 +320,9 @@ Monte Carlo, Metaplane
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장 자동화 — 소프트웨어 공장([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장도 자동화. 수동 스크립트→자동 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD. 품질+속도 동시 향상!
+1. [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장 자동화 — 소프트웨어 공장([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장도 자동화. 수동 스크립트->자동 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD. 품질+속도 동시 향상!
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD = 자동 품질 검사 — dbt 모델(설계) 변경 시 자동 테스트. 오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배포 차단. 수동 배포 대비 오류 70% 감소!
-3. [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) = 공장 품질 카메라 — 신선도·볼륨·분포 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 6시간→25분. 야간 호출 0회!
+3. [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) = 공장 품질 카메라 — 신선도·볼륨·분포 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 6시간->25분. 야간 호출 0회!
 
 ---
 
@@ -330,7 +330,7 @@ Monte Carlo, Metaplane
 
 **진행 상황**: 49 / 373
 
-← **이전**: [048. MLOps — 머신러닝 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/)
-**다음**: [BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/050_bizdevops_business_alignment/) →
+<- **이전**: [048. MLOps — 머신러닝 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/)
+**다음**: [BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/050_bizdevops_business_alignment/) ->
 
 ---

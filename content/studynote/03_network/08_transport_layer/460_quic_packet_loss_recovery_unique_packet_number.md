@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [FEC 기능 선택적 포함]
-    │
-    ▼
+    |
+    v
 [패킷 손실 복구 메커니즘 개선]
-    │
-    └──▶ [HTTP 상태 비저장, 연결형/비연결형 특징]
+    |
+    +---> [HTTP 상태 비저장, 연결형/비연결형 특징]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 패킷 번호와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 번호의 분리는 우편의 </strong>"운송장 번호"와 "편지 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호"의 분리**입니다. 편지 제1장([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset)이 유실되어 다시 보낼 때, 굳이 옛날 운송장 번호를 고집할 필요 없이 무조건 새로운 오늘 자 우체국 운송장 번호(Packet Number)를 발급받아 겉에 붙여 보내면 꼬일 일이 0%입니다.
@@ -58,23 +58,23 @@ tags = ["studynote-network"]
 - 즉, <strong>배송 시스템(Packet Number)과 조립 시스템(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> Offset)의 역할을 100% 디커플링(분리)</strong> 시킨 위대한 설계다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 재전송과 QUIC 재전송의 멘붕 차이 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP의 눈물겨운 재전송 (모호성 폭발) ]                      │
- │   보냄: (Seq=10) ───(지연)──────────────────────▶ 늦게 도착  │
- │   보냄: (Seq=10) ───(재전송함!)────────▶ 일찍 도착            │
- │                                                             │
- │   수신자: "10번 잘 받았어! (ACK 10)" ──▶ 송신자: "? 둘 중 누구 영수증임?"│
- │                                                             │
- │   [ 최첨단 QUIC의 우아한 재전송 (완벽 해소) ]                      │
- │   보냄: (PN=10, 알맹이=10) ───(지연)────────────▶ 늦게 도착  │
- │   보냄: (PN=11, 알맹이=10) ───(재전송함!)──▶ 일찍 도착          │
- │                                                             │
- │   수신자: "11번 박스 잘 받았어! (ACK 11)" ──▶ 송신자: "오! 11번 영수증이네!│
- │           아까 지연된 건 아직 안 왔고, 방금 재전송한 게 먼저 꽂혔구나!!"   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 재전송과 QUIC 재전송의 멘붕 차이 시각화           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 구형 TCP의 눈물겨운 재전송 (모호성 폭발) ]                      |
+ |   보냄: (Seq=10) ---(지연)-----------------------> 늦게 도착  |
+ |   보냄: (Seq=10) ---(재전송함!)---------> 일찍 도착            |
+ |                                                             |
+ |   수신자: "10번 잘 받았어! (ACK 10)" ---> 송신자: "? 둘 중 누구 영수증임?"|
+ |                                                             |
+ |   [ 최첨단 QUIC의 우아한 재전송 (완벽 해소) ]                      |
+ |   보냄: (PN=10, 알맹이=10) ---(지연)-------------> 늦게 도착  |
+ |   보냄: (PN=11, 알맹이=10) ---(재전송함!)---> 일찍 도착          |
+ |                                                             |
+ |   수신자: "11번 박스 잘 받았어! (ACK 11)" ---> 송신자: "오! 11번 영수증이네!|
+ |           아까 지연된 건 아직 안 왔고, 방금 재전송한 게 먼저 꽂혔구나!!"   |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 미친 용량의 넉넉한 ACK 블록 (ACK Frame)
@@ -140,12 +140,12 @@ TCP의 옵션 칸은 고작 40바이트 제한이라, 이빨 빠진 패킷을 �
 
 ```text
 [선행 개념: FEC 기능 선택적 포함]
-    │
-    ▼
+    |
+    v
 [현재 개념: 패킷 손실 복구 메커니즘 개선]
-    │
-    ├──▶ [확장 A: HTTP 상태 비저장, 연결형/비연결형 특징]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: HTTP 상태 비저장, 연결형/비연결형 특징]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선는 FEC 기능 선택적 포함에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ TCP의 옵션 칸은 고작 40바이트 제한이라, 이빨 빠진 패킷을 �
 
 **진행 상황**: 581 / 1120
 
-← **이전**: [459. FEC 기능 선택적 포함 (초기)](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)
-**다음**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) →
+<- **이전**: [459. FEC 기능 선택적 포함 (초기)](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)
+**다음**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ->
 
 ---

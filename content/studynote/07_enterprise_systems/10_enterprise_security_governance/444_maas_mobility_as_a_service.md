@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 MaaS 모빌리티 융합 통합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     MaaS 모빌리티 융합 …의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [MaaS 모빌리티 융합 …] ─────▶ [MaaS 모빌리티 융합 …] ─────▶ [보안 거버넌스]                  │
-│      │                           │                           │
-│      └────────▶ [사후 대응만으로는 신뢰성…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     MaaS 모빌리티 융합 …의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [MaaS 모빌리티 융합 …] ------> [MaaS 모빌리티 융합 …] ------> [보안 거버넌스]                  |
+|      |                           |                           |
+|      +---------> [사후 대응만으로는 신뢰성…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 MaaS 모빌리티 융합 통합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [MaaS 모빌리티 융합 …] ─────▶ [MaaS] ─────▶ [Mobility as a Servi…]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [MaaS 모빌리티 융합 …] ------> [MaaS] ------> [Mobility as a Servi…]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 MaaS 모빌리티 융합 통합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ MaaS 모빌리티 융합 통합 [서비스](/knowledge-base/studynote/13_cloud_a
 
 ```text
 [MaaS 모빌리티 융합 … 정리]
-    │
-    ▼
+    |
+    v
 [MaaS 모빌리티 융합 … 적용]
-    │
-    ├──▶ [MaaS 최적화]
-    └──▶ [지속적 컴플라이언스 확장]
+    |
+    +---> [MaaS 최적화]
+    +---> [지속적 컴플라이언스 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ MaaS 모빌리티 융합 통합 [서비스](/knowledge-base/studynote/13_cloud_a
 
 **진행 상황**: 444 / 482
 
-← **이전**: [443. 지능형 엣지 오프로딩 DPU SmartNIC (Data Processing Unit / Smart Network Interface](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/443_intelligent_edge_offloading_dpu/)
-**다음**: [445. C-ITS 협력 지능형 교통 시스템 (C-ITS, Cooperative Intelligent Transport System)](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/445_c_its_cooperative_transport/) →
+<- **이전**: [443. 지능형 엣지 오프로딩 DPU SmartNIC (Data Processing Unit / Smart Network Interface](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/443_intelligent_edge_offloading_dpu/)
+**다음**: [445. C-ITS 협력 지능형 교통 시스템 (C-ITS, Cooperative Intelligent Transport System)](/knowledge-base/studynote/07_enterprise_systems/10_enterprise_security_governance/445_c_its_cooperative_transport/) ->
 
 ---

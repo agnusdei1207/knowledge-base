@@ -30,25 +30,25 @@ tags = ["studynote-network"]
   2. <strong>SSL/<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 생태계의 성숙</strong>: 웹 브라우저에서 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)(443)가 대세가 되면서, 증명서(Certificate)와 비대칭키/대칭키 기반의 안전한 암호화 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술을 이메일 서버 데몬(Postfix, Dovecot)에도 쉽게 얹을 수 있게 되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          평문 통신(Plain Text) vs 보안 통신(SSL/TLS 캡슐화) 아키텍처        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ ❌ 위험한 과거: 일반 POP3 (포트 110) ]                         │
-│ 💻 (클라이언트) ─────────────── 와이파이 망 ───────────────▶ 🏢 (메일 서버) │
-│ "USER alice"       👀 해커(WireShark)가 봄: "USER alice"     │
-│ "PASS 1234!"       👀 해커가 가로챔: "아하! 비번은 1234! 털었다!" │
-│                                                             │
-│                                                             │
-│ [ ✅ 안전한 현대: POP3S (포트 995) 또는 STARTTLS (포트 110) ]       │
-│ 💻 (클라이언트) ════════════ SSL/TLS 암호화 터널 ════════════▶ 🏢 (메일 서버) │
-│                                                             │
-│ 1️⃣ (핸드셰이크) 서로 공개키를 교환하고 터널을 암호화할 '비밀 열쇠'를 만듦.   │
-│ 2️⃣ (진짜 통신 시작) "USER alice", "PASS 1234!" 입력            │
-│ 3️⃣ (터널 전송) ➔ ➔ ➔ #$%@!X*&^ ➔ ➔ ➔ (외계어로 변환되어 날아감)  │
-│                                                             │
-│ 👀 해커(WireShark)가 가로챔: "@#^&*!?! 무슨 말인지 하나도 모르겠네!"     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          평문 통신(Plain Text) vs 보안 통신(SSL/TLS 캡슐화) 아키텍처        |
++-------------------------------------------------------------+
+|                                                             |
+| [ ❌ 위험한 과거: 일반 POP3 (포트 110) ]                         |
+| 💻 (클라이언트) --------------- 와이파이 망 ----------------> 🏢 (메일 서버) |
+| "USER alice"       👀 해커(WireShark)가 봄: "USER alice"     |
+| "PASS 1234!"       👀 해커가 가로챔: "아하! 비번은 1234! 털었다!" |
+|                                                             |
+|                                                             |
+| [ ✅ 안전한 현대: POP3S (포트 995) 또는 STARTTLS (포트 110) ]       |
+| 💻 (클라이언트) ------------ SSL/TLS 암호화 터널 -------------> 🏢 (메일 서버) |
+|                                                             |
+| 1️⃣ (핸드셰이크) 서로 공개키를 교환하고 터널을 암호화할 '비밀 열쇠'를 만듦.   |
+| 2️⃣ (진짜 통신 시작) "USER alice", "PASS 1234!" 입력            |
+| 3️⃣ (터널 전송) ➔ ➔ ➔ #$%@!X*&^ ➔ ➔ ➔ (외계어로 변환되어 날아감)  |
+|                                                             |
+| 👀 해커(WireShark)가 가로챔: "@#^&*!?! 무슨 말인지 하나도 모르겠네!"     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 전송 계층 보안의 정수다. 어플리케이션 계층(L7)의 메일 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 문법)은 단 한 글자도 바뀌지 않았다. 여전히 `USER`, `PASS`, `RETR`을 쓴다. 단지 그 밑의 전송 계층(L4 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))과 L7 사이에 TLS라는 '보안 장갑'을 한 겹 더 끼워 넣은 것뿐이다. 클라이언트 앱과 메일 서버가 최초 연결 시 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 맺어 튼튼한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(터널)를 완성하고 나면, 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안으로 지나가는 이메일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 본문, 첨부파일 데이터는 모두 난수(Random) 쓰레기 값처럼 암호화되어 흐른다.
@@ -78,11 +78,11 @@ tags = ["studynote-network"]
 
 ```text
 [IMAP4]
-    │
-    ▼
+    |
+    v
 [SMTPS, POP3S, IMAPS]
-    │
-    └──▶ [MIME]
+    |
+    +---> [MIME]
 ```
 
 - **📢 섹션 요약 비유**: 암시적 TLS는 입구가 2개인 식당입니다. VIP(암호화) 손님은 아예 옆에 있는 빨간 문([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 995)으로 들어오라고 하는 거죠. 명시적 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(STARTTLS)는 식당 문([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 110)이 하나뿐인데, 평범하게 들어온 손님이 "저 VIP입니다(STARTTLS)"라고 여권(인증서)을 보여주면 그 자리에서 즉시 VIP 커튼(암호화 터널)을 쳐주는 유연한 방식입니다.
@@ -123,34 +123,34 @@ SMTPS, POP3S, IMAPS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
    - **판단**: STARTTLS의 치명적인 취약점인 '다운그레이드 공격(STRIP-[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))'이다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나(110, 143)로 평문과 암호화를 동시에 받으려다 터진 맹점이다. 이를 막으려면 메일 클라이언트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 "암호화 연결([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))이 실패하면 평문으로 재시도" 옵션을 해제하고, <strong>"반드시 암호화 연결만 사용"</strong>으로 박아두어, 만약 해커가 암호화 협상을 훼방 놓으면 접속 자체가 에러를 내며 튕기도록([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) 강제해야 한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: STARTTLS (명시적 암호화) 업그레이드 트랜잭션        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 포트 143 (IMAP) 접속 시 내부 통신 흐름 ]                        │
-  │                                                             │
-  │ 💻 (아웃룩)                                       🏢 (IMAP 서버) │
-  │    │                                                   │      │
-  │    │ 1. 안녕! (평문)                                     │      │
-  │    │──────────────────────────────────────────────────▶│      │
-  │    │ 2. 나 이런 거 할 줄 알아. STARTTLS도 지원해 (평문)         │      │
-  │    │◀──────────────────────────────────────────────────│      │
-  │    │                                                   │      │
-  │    │ 3. 그래? 그럼 우리 지금부터 암호화 터널로 업그레이드하자!         │      │
-  │    │    "STARTTLS" 명령어 전송 (평문)                       │      │
-  │    │──────────────────────────────────────────────────▶│      │
-  │    │ 4. OK! 지금부터 TLS 핸드셰이크 시작한다.                 │      │
-  │    │◀──────────────────────────────────────────────────│      │
-  │    │                                                   │      │
-  │  ==================== [ 🌟 터널링 스위치 ON! ] ================= │
-  │    │                                                   │      │
-  │    │ 5. (인증서 교환 및 암호화 키 생성 완료)                   │      │
-  │    │ 6. "LOGIN alice 1234" (🔥 100% 암호화된 쓰레기 텍스트로 날아감) │
-  │    │◀══════════════════════════════════════════════════▶│      │
-  │                                                             │
-  │ 🌟 결론: 옛날 143번 포트를 그대로 쓰면서도, 방화벽을 새로 안 뚫고도 통신의   │
-  │ 중간부터 암호화 모드로 둔갑(Upgrade)하는 가장 유연하고 똑똑한 아키텍처다.    │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: STARTTLS (명시적 암호화) 업그레이드 트랜잭션        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ 포트 143 (IMAP) 접속 시 내부 통신 흐름 ]                        |
+  |                                                             |
+  | 💻 (아웃룩)                                       🏢 (IMAP 서버) |
+  |    |                                                   |      |
+  |    | 1. 안녕! (평문)                                     |      |
+  |    |--------------------------------------------------->|      |
+  |    | 2. 나 이런 거 할 줄 알아. STARTTLS도 지원해 (평문)         |      |
+  |    |<---------------------------------------------------|      |
+  |    |                                                   |      |
+  |    | 3. 그래? 그럼 우리 지금부터 암호화 터널로 업그레이드하자!         |      |
+  |    |    "STARTTLS" 명령어 전송 (평문)                       |      |
+  |    |--------------------------------------------------->|      |
+  |    | 4. OK! 지금부터 TLS 핸드셰이크 시작한다.                 |      |
+  |    |<---------------------------------------------------|      |
+  |    |                                                   |      |
+  |  ==================== [ 🌟 터널링 스위치 ON! ] ================= |
+  |    |                                                   |      |
+  |    | 5. (인증서 교환 및 암호화 키 생성 완료)                   |      |
+  |    | 6. "LOGIN alice 1234" (🔥 100% 암호화된 쓰레기 텍스트로 날아감) |
+  |    |<---------------------------------------------------->|      |
+  |                                                             |
+  | 🌟 결론: 옛날 143번 포트를 그대로 쓰면서도, 방화벽을 새로 안 뚫고도 통신의   |
+  | 중간부터 암호화 모드로 둔갑(Upgrade)하는 가장 유연하고 똑똑한 아키텍처다.    |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** HTTP는 80번(평문)과 443번([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))이 완벽히 두 개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나뉘어 작동하지만, 이메일 통신은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리의 편의를 위해 하나의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 안에서 평문 ➔ 암호화로 스위칭(Switching)하는 <strong>STARTTLS</strong>라는 독특한 진화 트리를 탔다. 3번 과정 전까지는 와이파이 해커가 글씨를 볼 수 있지만, 가장 중요한 6번 아이디/비번 전송 직전에 완벽히 까만 커튼(터널)을 쳐버리기 때문에 해커는 닭 쫓던 개가 된다. 현재 전 세계 이메일 생태계의 90% 이상이 이 STARTTLS 방식을 기본 탑재하고 있다.
@@ -201,12 +201,12 @@ SMTPS, POP3S, IMAPS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
 
 ```text
 [선행 개념: IMAP4]
-    │
-    ▼
+    |
+    v
 [현재 개념: SMTPS, POP3S, IMAPS]
-    │
-    ├──▶ [확장 A: MIME]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: MIME]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 SMTPS, POP3S, IMAPS는 IMAP4에서 출발해 현재 메커니즘을 정교화하고, 이후 MIME와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -223,7 +223,7 @@ SMTPS, POP3S, IMAPS는 IMAP4에서 출발해 현재 메커니즘을 정교화하
 
 **진행 상황**: 612 / 1120
 
-← **이전**: [490. IMAP4 (Internet Message Access Protocol v4)](/knowledge-base/studynote/03_network/09_application_layer_web_email/490_imap4_internet_message_access_protocol/)
-**다음**: [492. MIME (Multipurpose Internet Mail Extensions)](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) →
+<- **이전**: [490. IMAP4 (Internet Message Access Protocol v4)](/knowledge-base/studynote/03_network/09_application_layer_web_email/490_imap4_internet_message_access_protocol/)
+**다음**: [492. MIME (Multipurpose Internet Mail Extensions)](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) ->
 
 ---

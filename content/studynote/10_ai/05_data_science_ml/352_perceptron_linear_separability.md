@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 1957년 Rosenblatt이 제안한 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 뇌의 뉴런을 수학적으로 모델링한 최초의 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. "입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 가중합이 임계값을 넘으면 발화(1), 아니면 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(0)"라는 단순한 규칙이 학습 가능한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 구현된다. AND, OR 같은 선형 분리 가능 문제는 완벽히 해결했지만, 1969년 Minsky와 Papert가 XOR 문제의 한계를 지적하며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울이 시작됐다. 이 한계 극복이 딥러닝 탄생의 직접적 동기다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 사탕과 초콜릿을 나누는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기"다. 테이블 위에 사탕과 초콜릿이 섞여있을 때, 직선 한 줄로 왼쪽엔 사탕, 오른쪽엔 초콜릿이 완벽히 갈리면 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 해결한다. 하지만 체커보드 패턴처럼 섞여있으면(XOR) 직선 하나론 절대 불가능하다.
@@ -37,23 +37,23 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────┐
-│           단층 퍼셉트론 (Single-Layer Perceptron)     │
-├──────────────────────────────────────────────────────┤
-│   x₁ ──w₁──┐                                        │
-│   x₂ ──w₂──┼──► [Σ wᵢxᵢ + b] ──► [Step fn] ──► ŷ  │
-│   x₃ ──w₃──┘                                        │
-│                                                      │
-│  출력: ŷ = 1 if w·x + b ≥ 0                         │
-│            0 otherwise                               │
-│                                                      │
-│  학습 규칙 (Perceptron Learning Rule):               │
-│  오차 δ = y - ŷ  (y: 실제, ŷ: 예측)                │
-│  wᵢ ← wᵢ + η·δ·xᵢ                                  │
-│  b  ← b  + η·δ                                      │
-│                                                      │
-│  결정 경계: w·x + b = 0 (초평면, Hyperplane)        │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|           단층 퍼셉트론 (Single-Layer Perceptron)     |
++------------------------------------------------------+
+|   x₁ --w₁--+                                        |
+|   x₂ --w₂--+--► [Σ wᵢxᵢ + b] --► [Step fn] --► ŷ  |
+|   x₃ --w₃--+                                        |
+|                                                      |
+|  출력: ŷ = 1 if w·x + b ≥ 0                         |
+|            0 otherwise                               |
+|                                                      |
+|  학습 규칙 (Perceptron Learning Rule):               |
+|  오차 δ = y - ŷ  (y: 실제, ŷ: 예측)                |
+|  wᵢ <- wᵢ + η·δ·xᵢ                                  |
+|  b  <- b  + η·δ                                      |
+|                                                      |
+|  결정 경계: w·x + b = 0 (초평면, Hyperplane)        |
++------------------------------------------------------+
 ```
 
 | 문제 유형 | 선형 분리 가능 | [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 해결 |
@@ -85,13 +85,13 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 
 현대 신경망의 뉴런 하나는 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 직계 후손이다. 선형 변환(w·x + b) 후 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 적용하는 구조는 동일하다. 차이는 Step 함수 대신 [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/ReLU를 사용해 미분 가능([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 가능)하게 만든 것이다. [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 진화형으로, 결정 경계를 찾을 때 마진(Margin)을 최대화하는 최적 초평면을 찾는다.
 
-- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)에서 딥러닝까지의 진화는 "자전거 → 자동차 → 비행기"다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(자전거)은 단순하지만 경사면(비선형 문제)을 못 오른다. MLP(자동차)는 엔진(비선형 활성화)을 달아 어디든 간다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(비행기)는 하늘(고차원 언어 공간)을 날아 다닌다.
+- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)에서 딥러닝까지의 진화는 "자전거 -> 자동차 -> 비행기"다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(자전거)은 단순하지만 경사면(비선형 문제)을 못 오른다. MLP(자동차)는 엔진(비선형 활성화)을 달아 어디든 간다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(비행기)는 하늘(고차원 언어 공간)을 날아 다닌다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순하지만 딥러닝의 철학적 원점이다. 학습 규칙(w ← w + η·δ·x)은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 전신이며, 선형 결정 경계의 한계가 비선형 활성화와 다층 구조를 필연적으로 요구했다. 기술사 시험에서 [퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) 조건(선형 분리 가능), XOR 한계, MLP로의 확장 경로를 설명하면 딥러닝 이해의 깊이를 보여줄 수 있다.
+[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순하지만 딥러닝의 철학적 원점이다. 학습 규칙(w <- w + η·δ·x)은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 전신이며, 선형 결정 경계의 한계가 비선형 활성화와 다층 구조를 필연적으로 요구했다. 기술사 시험에서 [퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) 조건(선형 분리 가능), XOR 한계, MLP로의 확장 경로를 설명하면 딥러닝 이해의 깊이를 보여줄 수 있다.
 
 - **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 AI의 "씨앗"이다. 이 작은 씨앗이 XOR 실패라는 시련을 겪으며 은닉층과 비선형성이라는 가지를 뻗어 GPT라는 거대한 나무로 자랐다. 씨앗의 구조를 이해해야 나무 전체가 보인다.
 
@@ -109,7 +109,7 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [퍼셉트론 (Perceptron)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [퍼셉트론 (Perceptron)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 
 **진행 상황**: 352 / 420
 
-← **이전**: [351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)](/knowledge-base/studynote/10_ai/05_data_science_ml/351_gini_entropy_information_gain/)
-**다음**: [353. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/) →
+<- **이전**: [351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)](/knowledge-base/studynote/10_ai/05_data_science_ml/351_gini_entropy_information_gain/)
+**다음**: [353. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/) ->
 
 ---

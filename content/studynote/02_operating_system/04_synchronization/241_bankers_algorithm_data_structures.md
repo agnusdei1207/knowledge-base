@@ -78,25 +78,25 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 - **핵심 공식**: `Need[i][j] = Max[i][j] - Allocation[i][j]`
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [ 시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함 ]          │
-  │                                                                        │
-  │   1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:                    │
-  │      Available = Available - Request;                                  │
-  │      Allocation[i] = Allocation[i] + Request;                          │
-  │      Need[i] = Need[i] - Request;                                      │
-  │      (※ Max 행렬은 변하지 않음. 불변의 계약서임)                       │
-  │                                                                        │
-  │   2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:                    │
-  │      Available = Available + Allocation[i];                            │
-  │      Allocation[i] = 0;                                                │
-  │      Need[i] = 0;                                                      │
-  │                                                                        │
-  │   ✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계! │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |         자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산       |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |   [ 시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함 ]          |
+  |                                                                        |
+  |   1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:                    |
+  |      Available = Available - Request;                                  |
+  |      Allocation[i] = Allocation[i] + Request;                          |
+  |      Need[i] = Need[i] - Request;                                      |
+  |      (※ Max 행렬은 변하지 않음. 불변의 계약서임)                       |
+  |                                                                        |
+  |   2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:                    |
+  |      Available = Available + Allocation[i];                            |
+  |      Allocation[i] = 0;                                                |
+  |      Need[i] = 0;                                                      |
+  |                                                                        |
+  |   ✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계! |
+  +------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이 4개의 구조체는 기업의 '대차대조표'입니다. 돈이 나가고 들어올 때마다 자산(Available), 부채(Allocation), 자본(Need)이 톱니바퀴처럼 한 번에 맞물려 돌아가야 장부에 빵꾸가 나지 않습니다.
@@ -112,8 +112,8 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 | 상황 (Need와 Available의 대결) | 해석 및 조치 |
 |:---|:---|
-| **`Need <= Available`** | "지금 은행 잔고로 쟤가 땡깡 부리는(Max) 걸 다 막을 수 있네!" ─▶ **합격**. 얘를 살려주면 나중에 갖고 있던 돈(Allocation)까지 뱉어내므로 잔고가 더 풍족해짐. |
-| **`Need > Available`** | "은행 잔고가 부족해서 쟤가 돈 내놓으라 하면 파산이네!" ─▶ **불합격**. 얘는 일단 제쳐두고, 잔고가 적어도 살릴 수 있는 다른 만만한 놈부터 찾아야 함. |
+| **`Need <= Available`** | "지금 은행 잔고로 쟤가 땡깡 부리는(Max) 걸 다 막을 수 있네!" --> **합격**. 얘를 살려주면 나중에 갖고 있던 돈(Allocation)까지 뱉어내므로 잔고가 더 풍족해짐. |
+| **`Need > Available`** | "은행 잔고가 부족해서 쟤가 돈 내놓으라 하면 파산이네!" --> **불합격**. 얘는 일단 제쳐두고, 잔고가 적어도 살릴 수 있는 다른 만만한 놈부터 찾아야 함. |
 
 만약 1,000명의 고객(N)이 있는데 단 한 명도 `Need <= Available`을 만족하지 못한다면? 그 순간 시스템은 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>로 확정되며, 아까 시뮬레이션용으로 빌려줬던 자원을 취소([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하고 대출을 거절하게 된다.
 
@@ -141,24 +141,24 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
    - **실무 결단**: 애초에 `Max`를 모르니 `Need`를 계산할 수 없고, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 시작도 못 한다. 따라서 개발자는 이 완벽한 예방 공식을 포기하고, `tryLock` 타임아웃이나 `Circuit Breaker(서킷 브레이커)` 같은 런타임 방어막(Reactive)에 의존하는 아키텍처를 짤 수밖에 없다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정   │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB ]        │
-  │                                                                  │
-  │   [ 1. 신규 파드 A 배포 요청 ]                                   │
-  │     ▶ Request(Alloc) = CPU 2, Mem 4G                             │
-  │     ▶ Limit(Max) = CPU 4, Mem 8G                                 │
-  │     ▶ 검증: Alloc(2,4) <= Available(4,8) 이므로 ✅ 배포 승인!    │
-  │     ▶ 갱신 후 Available = CPU 2, Mem 4G 남음.                    │
-  │                                                                  │
-  │   [ 2. 신규 파드 B 배포 요청 ]                                   │
-  │     ▶ Request(Alloc) = CPU 3, Mem 2G                             │
-  │     ▶ Limit(Max) = CPU 3, Mem 4G                                 │
-  │     ▶ 검증: Alloc의 CPU(3) > Available의 CPU(2) 🚨 초과!         │
-  │     ▶ 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.       │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정   |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [ 워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB ]        |
+  |                                                                  |
+  |   [ 1. 신규 파드 A 배포 요청 ]                                   |
+  |     -> Request(Alloc) = CPU 2, Mem 4G                             |
+  |     -> Limit(Max) = CPU 4, Mem 8G                                 |
+  |     -> 검증: Alloc(2,4) <= Available(4,8) 이므로 ✅ 배포 승인!    |
+  |     -> 갱신 후 Available = CPU 2, Mem 4G 남음.                    |
+  |                                                                  |
+  |   [ 2. 신규 파드 B 배포 요청 ]                                   |
+  |     -> Request(Alloc) = CPU 3, Mem 2G                             |
+  |     -> Limit(Max) = CPU 3, Mem 4G                                 |
+  |     -> 검증: Alloc의 CPU(3) > Available의 CPU(2) 🚨 초과!         |
+  |     -> 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.       |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 클라우드 엔지니어가 밥 먹듯이 짜는 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 `Request`와 `Limit`가 바로 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 `Allocation`과 `Max` 행렬의 클라우드 버전이다. 이 수치를 대충 "에라 모르겠다" 하고 빼놓고 배포하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 장부(행렬)를 못 써서 데드락(Node [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 터져버리므로, 이 값을 정교하게 산정하는 것이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 핵심 역량이다.
 
@@ -192,12 +192,12 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 ```text
 [모니터 시그널 의미론]
-    │
-    ▼
+    |
+    v
 [은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)]
-    │
-    ├──▶ [우선순위 역전 (Priority Inversion)]
-    └──▶ [우선순위 상속 (Priority Inheritance Protocol)]
+    |
+    +---> [우선순위 역전 (Priority Inversion)]
+    +---> [우선순위 상속 (Priority Inheritance Protocol)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -214,7 +214,7 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 **진행 상황**: 241 / 800
 
-← **이전**: [240. 타조 알고리즘 (Ostrich Algorithm)](/knowledge-base/studynote/02_operating_system/04_synchronization/240_ostrich_algorithm/)
-**다음**: [242. 교착 상태 탐지 (Deadlock Detection)](/knowledge-base/studynote/02_operating_system/04_synchronization/242_deadlock_detection/) →
+<- **이전**: [240. 타조 알고리즘 (Ostrich Algorithm)](/knowledge-base/studynote/02_operating_system/04_synchronization/240_ostrich_algorithm/)
+**다음**: [242. 교착 상태 탐지 (Deadlock Detection)](/knowledge-base/studynote/02_operating_system/04_synchronization/242_deadlock_detection/) ->
 
 ---

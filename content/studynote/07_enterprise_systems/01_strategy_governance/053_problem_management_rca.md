@@ -32,7 +32,7 @@ tags = ["studynote-enterprise-systems"]
 [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)의 흐름은 장애 접수에서 시작해 우회책을 찾고, 원인을 분석한 뒤, 알려진 오류를 기록하고, 영구 수정으로 이어진다.
 
 ```text
-Incident → Workaround → Problem Record → RCA → Known Error → Permanent Fix
+Incident -> Workaround -> Problem Record -> RCA -> Known Error -> Permanent Fix
 ```
 
 | 단계 | 역할 | 산출물 |
@@ -112,17 +112,17 @@ Problem Management는 KEDB를 통해 해결책과 우회책을 축적한다. 그
 
 ```text
 장애 발생
-    │
-    ▼
+    |
+    v
 즉시 복구
-    │
-    ▼
+    |
+    v
 문제 등록
-    │
-    ▼
+    |
+    v
 RCA / KEDB
-    │
-    ▼
+    |
+    v
 영구 수정 / 재발 방지
 ```
 
@@ -140,7 +140,7 @@ RCA / KEDB
 
 **진행 상황**: 53 / 482
 
-← **이전**: [52. 인시던트 관리 (Incident Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/052_incident_management/)
-**다음**: [54. 변경 관리와 CAB (Change Management CAB)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/054_change_management_cab/) →
+<- **이전**: [52. 인시던트 관리 (Incident Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/052_incident_management/)
+**다음**: [54. 변경 관리와 CAB (Change Management CAB)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/054_change_management_cab/) ->
 
 ---

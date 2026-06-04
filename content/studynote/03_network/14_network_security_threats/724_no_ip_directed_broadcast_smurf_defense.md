@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [랜섬웨어]
-    │
-    ▼
+    |
+    v
 [스머프 공격 방어를 위한 no ip dire…]
-    │
-    └──▶ [스키밍 공격]
+    |
+    +---> [스키밍 공격]
 ```
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [랜섬웨어]
-    │
-    ▼
+    |
+    v
 [스머프 공격 방어를 위한 no ip dire…]
-    │
-    └──▶ [스키밍 공격]
+    |
+    +---> [스키밍 공격]
 ```
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 랜섬웨어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스머프 공격 방어를 위한 no ip dire…]
-    │
-    ├──▶ [확장 A: 스키밍 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 스키밍 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 스머프 공격 방어를 위한 no ip dire…는 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 845 / 1120
 
-← **이전**: [723. RUDY (Slow HTTP POST 공격)](/knowledge-base/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/)
-**다음**: [725. 스키밍 (Skimming) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) →
+<- **이전**: [723. RUDY (Slow HTTP POST 공격)](/knowledge-base/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/)
+**다음**: [725. 스키밍 (Skimming) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) ->
 
 ---

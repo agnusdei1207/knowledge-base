@@ -60,38 +60,38 @@ tags = ["studynote-data-engineering"]
   R ≈ P × Q^T
 
   R: 평점 행렬 (N×M)
-  P: 사용자 잠재 벡터 (N×K)  ← 사용자 선호 임베딩
-  Q: 아이템 잠재 벡터 (M×K)  ← 아이템 속성 임베딩
+  P: 사용자 잠재 벡터 (N×K)  <- 사용자 선호 임베딩
+  Q: 아이템 잠재 벡터 (M×K)  <- 아이템 속성 임베딩
   K: 잠재 요인 수 (보통 50~300)
 
 최소화 목적 함수:
-  min Σ_{u,i} (r_ui - p_u · q_i)² + λ(||p_u||² + ||q_i||²)
+  min Σ_{u,i} (r_ui - p_u · q_i)^ + λ(||p_u||^ + ||q_i||^)
 
-  → SGD 또는 ALS (교대 최소 제곱)로 최적화
+  -> SGD 또는 ALS (교대 최소 제곱)로 최적화
 ```
 
 ### 2.2 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천 아키텍처 (Neo4j)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│          Neo4j 기반 추천 그래프 스키마                      │
-│                                                           │
-│  (User:사용자1) ──[RATED:5]──→ (Movie:영화A)             │
-│       │                              │                   │
-│  [SIMILAR_TO]                   [GENRE:액션]              │
-│       │                              │                   │
-│  (User:사용자2) ──[RATED:4]──→ (Movie:영화A)             │
-│       │                              │                   │
-│  [RATED:3]                      [DIRECTED_BY]            │
-│       │                              │                   │
-│  (Movie:영화C)              (Director:감독명)             │
-│                                                           │
-│  Cypher 쿼리 (2-hop 추천):                                │
-│  MATCH (u:User {id:'사용자1'})-[:RATED]→(m:Movie)         │
-│       ←[:RATED]-(other:User)-[:RATED]→(rec:Movie)        │
-│  WHERE NOT (u)-[:RATED]→(rec)                            │
-│  RETURN rec, COUNT(*) AS score ORDER BY score DESC        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          Neo4j 기반 추천 그래프 스키마                      |
+|                                                           |
+|  (User:사용자1) --[RATED:5]---> (Movie:영화A)             |
+|       |                              |                   |
+|  [SIMILAR_TO]                   [GENRE:액션]              |
+|       |                              |                   |
+|  (User:사용자2) --[RATED:4]---> (Movie:영화A)             |
+|       |                              |                   |
+|  [RATED:3]                      [DIRECTED_BY]            |
+|       |                              |                   |
+|  (Movie:영화C)              (Director:감독명)             |
+|                                                           |
+|  Cypher 쿼리 (2-hop 추천):                                |
+|  MATCH (u:User {id:'사용자1'})-[:RATED]->(m:Movie)         |
+|       <-[:RATED]-(other:User)-[:RATED]->(rec:Movie)        |
+|  WHERE NOT (u)-[:RATED]->(rec)                            |
+|  RETURN rec, COUNT(*) AS score ORDER BY score DESC        |
++----------------------------------------------------------+
 ```
 
 ### 2.3 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/), [Graph Neural Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) 기반 추천
@@ -109,7 +109,7 @@ GraphSAGE (Graph SAmple and aggreGatE) 추천:
   - W^k: 학습 가중치
 
 LightGCN 아키텍처:
-  - 변환·비선형성 제거 → 순수 그래프 컨볼루션
+  - 변환·비선형성 제거 -> 순수 그래프 컨볼루션
   - 추천 시스템 특화 설계
   - 경량화로 대규모 e-커머스 적용 용이
 ```
@@ -131,25 +131,25 @@ LightGCN 아키텍처:
 
 ```
 콜드 스타트 유형:
-┌────────────────────────────────────────────────────────┐
-│  유형 1: 신규 사용자 콜드 스타트                          │
-│    문제: 상호작용 기록 없음 → 협업 필터링 불가            │
-│    해결책:                                              │
-│    a) 온보딩 설문: 초기 선호도 수집 (5개 이상 선택)       │
-│    b) 인구통계 기반: 나이/성별/지역 유사 사용자 추천      │
-│    c) 인기도 기반: 글로벌 인기 아이템 우선 추천           │
-│    d) 지식 그래프: 외부 속성 기반 추천                   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  유형 1: 신규 사용자 콜드 스타트                          |
+|    문제: 상호작용 기록 없음 -> 협업 필터링 불가            |
+|    해결책:                                              |
+|    a) 온보딩 설문: 초기 선호도 수집 (5개 이상 선택)       |
+|    b) 인구통계 기반: 나이/성별/지역 유사 사용자 추천      |
+|    c) 인기도 기반: 글로벌 인기 아이템 우선 추천           |
+|    d) 지식 그래프: 외부 속성 기반 추천                   |
++--------------------------------------------------------+
 
-┌────────────────────────────────────────────────────────┐
-│  유형 2: 신규 아이템 콜드 스타트                          │
-│    문제: 평점 없는 신규 아이템 → 노출 기회 없음           │
-│    해결책:                                              │
-│    a) 콘텐츠 기반 (CBF): 유사 아이템과 속성 매칭          │
-│    b) 메타데이터 임베딩: 텍스트/이미지 속성 임베딩         │
-│    c) 랜덤 탐색(Exploration): ε-greedy로 일부 노출       │
-│    d) 그래프 연결: 카테고리/태그로 기존 그래프에 연결     │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  유형 2: 신규 아이템 콜드 스타트                          |
+|    문제: 평점 없는 신규 아이템 -> 노출 기회 없음           |
+|    해결책:                                              |
+|    a) 콘텐츠 기반 (CBF): 유사 아이템과 속성 매칭          |
+|    b) 메타데이터 임베딩: 텍스트/이미지 속성 임베딩         |
+|    c) 랜덤 탐색(Exploration): ε-greedy로 일부 노출       |
+|    d) 그래프 연결: 카테고리/태그로 기존 그래프에 연결     |
++--------------------------------------------------------+
 ```
 
 ### 3.2 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) vs 콘텐츠 기반 비교
@@ -194,26 +194,26 @@ LightGCN 아키텍처:
 ### 4.1 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│            실시간 추천 시스템 통합 아키텍처                  │
-│                                                           │
-│  이벤트 수집 레이어                                        │
-│  사용자 클릭/구매 → Kafka → Feature Store 업데이트         │
-│                                                           │
-│  배치 학습 레이어 (Batch)                                  │
-│  Spark + ALS 행렬 분해 → 임베딩 생성 (하루 1회)            │
-│  → GNN 학습 (LightGCN) → 모델 저장소                     │
-│                                                           │
-│  온라인 서빙 레이어                                        │
-│  사용자 요청 → 후보 생성 (ANN 검색, Faiss/HNSW)           │
-│           → 특성 추출 (Feature Store, Redis)              │
-│           → 랭킹 모델 (실시간 추론, ~10ms)                 │
-│           → 비즈니스 필터 (재고, 광고 정책)                 │
-│           → 최종 K개 추천 반환                             │
-│                                                           │
-│  온라인 업데이트 (Online)                                  │
-│  최근 상호작용 → 실시간 사용자 임베딩 업데이트 (EMA)         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            실시간 추천 시스템 통합 아키텍처                  |
+|                                                           |
+|  이벤트 수집 레이어                                        |
+|  사용자 클릭/구매 -> Kafka -> Feature Store 업데이트         |
+|                                                           |
+|  배치 학습 레이어 (Batch)                                  |
+|  Spark + ALS 행렬 분해 -> 임베딩 생성 (하루 1회)            |
+|  -> GNN 학습 (LightGCN) -> 모델 저장소                     |
+|                                                           |
+|  온라인 서빙 레이어                                        |
+|  사용자 요청 -> 후보 생성 (ANN 검색, Faiss/HNSW)           |
+|           -> 특성 추출 (Feature Store, Redis)              |
+|           -> 랭킹 모델 (실시간 추론, ~10ms)                 |
+|           -> 비즈니스 필터 (재고, 광고 정책)                 |
+|           -> 최종 K개 추천 반환                             |
+|                                                           |
+|  온라인 업데이트 (Online)                                  |
+|  최근 상호작용 -> 실시간 사용자 임베딩 업데이트 (EMA)         |
++----------------------------------------------------------+
 ```
 
 ### 4.2 근사 최근접 이웃 ([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색
@@ -298,19 +298,19 @@ LightGCN 아키텍처:
 
 ```text
 콘텐츠 기반 필터링 (아이템 특성 매칭)
-    │
-    ▼
+    |
+    v
 협업 필터링 (Collaborative Filtering)
-    ├─► 사용자 기반 CF: 유사 사용자 추천
-    ├─► 아이템 기반 CF: 유사 아이템 추천
-    └─► Matrix Factorization (SVD)
-    │
-    ▼
+    +-► 사용자 기반 CF: 유사 사용자 추천
+    +-► 아이템 기반 CF: 유사 아이템 추천
+    +-► Matrix Factorization (SVD)
+    |
+    v
 그래프 기반 추천
-    ├─► 그래프 DB (Neo4j): 관계 탐색 · 경로 분석
-    └─► GNN (Graph Neural Network): 임베딩 학습
-    │
-    ▼
+    +-► 그래프 DB (Neo4j): 관계 탐색 · 경로 분석
+    +-► GNN (Graph Neural Network): 임베딩 학습
+    |
+    v
 하이브리드 · Cold Start 해결: 메타 러닝 · Side Information
 ```
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">콜드 스타트 문제</a></strong>는 처음 도서관에 온 학생에게는 이전 대출 기록이 없어서 "비슷한 취향의 친구"를 찾을 수 없어 추천이 어렵다는 문제예요—이때는 학생이 좋아하는 과목이나 작가(콘텐츠 기반)를 물어보는 것이 해결책이에요.
@@ -322,7 +322,7 @@ LightGCN 아키텍처:
 
 **진행 상황**: 186 / 258
 
-← **이전**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
-**다음**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/) →
+<- **이전**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
+**다음**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/) ->
 
 ---

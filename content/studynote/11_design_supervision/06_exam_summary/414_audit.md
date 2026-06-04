@@ -20,9 +20,9 @@ tags = ["studynote-design-supervision"]
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 기반 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시스템에서는 요청이 늘면 먼저 큐 길이가 늘고, 이후 대기 시간이 길어지며, 마지막에는 타임아웃과 거부가 발생한다. 따라서 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자는 단순 “느리다”가 아니라 “유입 대비 처리 능력이 부족해 대기열이 증가한다”는 구조적 설명을 제시해야 한다. 이 점이 리틀의 법칙이 유용한 이유다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ 요청 유입 │──▶│ 대기 큐   │──▶│ 스레드풀  │──▶│ 응답 완료 │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+| 요청 유입 |--->| 대기 큐   |--->| 스레드풀  |--->| 응답 완료 |
++----------+   +----------+   +----------+   +----------+
 ```
 
 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)감사는 자원 사용률의 점검을 넘어, 대기 구조의 건전성을 확인하는 활동으로 봐야 한다. 이 관점을 서두에 쓰면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 답안의 방향이 잡힌다.
@@ -38,10 +38,10 @@ tags = ["studynote-design-supervision"]
 | W (평균 체류 시간) | 요청이 시스템에 머문 전체 시간 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간과 대기 시간을 구분해 해석해야 함 |
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 유입률 λ    │──▶│ 시스템 내 L  │──▶│ 체류시간 W   │
-└────────────┘   └────┬───────┘   └────┬───────┘
-                       └──────L = λW──────┘
++------------+   +------------+   +------------+
+| 유입률 λ    |--->| 시스템 내 L  |--->| 체류시간 W   |
++------------+   +----+-------+   +----+-------+
+                       +------L = λW------+
 ```
 
 핵심 원리는 첫째, 정상 상태에서만 평균 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 성립한다는 점이다. 둘째, 동일한 모집단을 측정해야 한다. 셋째, 평균값은 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨길 수 있으므로 백분위 응답시간과 함께 해석해야 한다. 따라서 리틀의 법칙은 만능 공식이 아니라, 대기 구조를 설명하는 1차 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임으로 활용하는 것이 적절하다.
@@ -57,7 +57,7 @@ tags = ["studynote-design-supervision"]
 | 한계 | 정상 상태와 평균값 가정 필요 | 대기 원인 설명은 약함 | 왜 느린지 원인 파악이 어려움 |
 | 적합 용도 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀, 큐, 연결 풀 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | 인프라 용량 점검 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 달성 여부 보고 |
 
-리틀의 법칙은 큐잉 이론 (Queueing Theory), 대기열 모델, 백프레셔 제어, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 튜닝과 직접 연결된다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 답안에서는 “공식 제시 → 측정 항목 정의 → 병목 해석 → 개선안” 흐름으로 정리하면 안정적이다.
+리틀의 법칙은 큐잉 이론 (Queueing Theory), 대기열 모델, 백프레셔 제어, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 튜닝과 직접 연결된다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 답안에서는 “공식 제시 -> 측정 항목 정의 -> 병목 해석 -> 개선안” 흐름으로 정리하면 안정적이다.
 - **📢 섹션 요약 비유**: 자동차 속도계만 보는 것과 도로 정체 길이까지 같이 보는 것은 교통 판단의 깊이가 다르다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
@@ -82,13 +82,13 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 장난감 미끄럼틀이 막히는 이유를 알려면 아이 수와 한 명이 타는 시간을 같이 봐야 한다.
 
 ### 📌 관련 개념 맵
-- 리틀의 법칙 → L = λW → 대기 구조 정량화
-- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) → 큐 길이·활성 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) → 포화 구간 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
-- 체류 시간 분석 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간·대기 시간 분리 → 개선 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- 모니터링 지표 → 오류율·백분위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) → 평균값 한계 보완
+- 리틀의 법칙 -> L = λW -> 대기 구조 정량화
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) -> 큐 길이·활성 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) -> 포화 구간 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
+- 체류 시간 분석 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간·대기 시간 분리 -> 개선 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- 모니터링 지표 -> 오류율·백분위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) -> 평균값 한계 보완
 
 ### 📈 관련 키워드 및 발전 흐름도
-자원 사용률 점검 → 응답시간 계측 → 큐 길이 관찰 → 리틀의 법칙 적용 → 병목 구조 해석 → 백프레셔·용량계획 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)감사 고도화
+자원 사용률 점검 -> 응답시간 계측 -> 큐 길이 관찰 -> 리틀의 법칙 적용 -> 병목 구조 해석 -> 백프레셔·용량계획 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)감사 고도화
 
 - 핵심 키워드: Little's Law, Queueing Theory, [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), Backpressure, TPS, Percentile [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)
 
@@ -103,7 +103,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 492 / 530
 
-← **이전**: [413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/413_management/)
-**다음**: [415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit](/knowledge-base/studynote/11_design_supervision/06_exam_summary/415_oat_opertional_uat_user/) →
+<- **이전**: [413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/413_management/)
+**다음**: [415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit](/knowledge-base/studynote/11_design_supervision/06_exam_summary/415_oat_opertional_uat_user/) ->
 
 ---

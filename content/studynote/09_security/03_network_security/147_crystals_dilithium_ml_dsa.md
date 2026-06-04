@@ -46,15 +46,15 @@ NIST는 2016년 [PQC](/knowledge-base/studynote/12_it_management/05_security_com
   격자 점: 모든 a·b1 + b·b2 (a, b ∈ 정수)
 
   어려운 문제:
-  ┌──────────────────────────────────────────────┐
-  │ SVP (Shortest Vector Problem):               │
-  │ 격자에서 가장 짧은 벡터 찾기                  │
-  │ → 고차원일수록 고전+양자 컴퓨터도 어려움       │
-  │                                              │
-  │ LWE (Learning With Errors):                  │
-  │ 선형 방정식에 노이즈를 추가 → 역산 불가능      │
-  │ → Dilithium의 보안 기반                       │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  | SVP (Shortest Vector Problem):               |
+  | 격자에서 가장 짧은 벡터 찾기                  |
+  | -> 고차원일수록 고전+양자 컴퓨터도 어려움       |
+  |                                              |
+  | LWE (Learning With Errors):                  |
+  | 선형 방정식에 노이즈를 추가 -> 역산 불가능      |
+  | -> Dilithium의 보안 기반                       |
+  +----------------------------------------------+
 ```
 
 CRYSTALS-Dilithium은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>-LWE(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> With Errors)</strong> 와 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>-SIS(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> Short Integer Solution)</strong> 문제의 어려움에 기반한다.
@@ -72,17 +72,17 @@ CRYSTALS-Dilithium은 <strong><a href="/knowledge-base/studynote/04_software_eng
 ### 3. Dilithium 서명 흐름
 
 ```text
-키 생성: (공개키 pk, 비밀키 sk) ← KeyGen()
-          │
-          │  sk: 랜덤 행렬 + 작은 다항식 벡터
-          │  pk: 행렬 A와 t = A·s1 + s2 (s1, s2 작은 벡터)
+키 생성: (공개키 pk, 비밀키 sk) <- KeyGen()
+          |
+          |  sk: 랜덤 행렬 + 작은 다항식 벡터
+          |  pk: 행렬 A와 t = A·s1 + s2 (s1, s2 작은 벡터)
 
-서명:     σ ← Sign(sk, 메시지 M)
-          │  반복: 랜덤 y 생성 → w = A·y → c = H(pk, M, w) → z = y + c·s1
-          │  조건: z, r0 = w - c·s2 의 크기가 임계값 이내이면 서명 완성
+서명:     σ <- Sign(sk, 메시지 M)
+          |  반복: 랜덤 y 생성 -> w = A·y -> c = H(pk, M, w) -> z = y + c·s1
+          |  조건: z, r0 = w - c·s2 의 크기가 임계값 이내이면 서명 완성
 
 검증:     Verify(pk, M, σ)
-          │  z 크기 확인 + w' = A·z - c·t 재계산 → H(pk, M, w') == c?
+          |  z 크기 확인 + w' = A·z - c·t 재계산 -> H(pk, M, w') == c?
 ```
 
 - **📢 섹션 요약 비유**: Dilithium 서명은 **'노이즈가 섞인 수학 퍼즐에 비밀열쇠로 도장 찍기'** 입니다. 도장(서명)을 찍으려면 비밀열쇠가 있어야 하고, 노이즈가 섞인 답이 올바른 범위 안에 들어오는지 확인합니다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)도 노이즈 퍼즐은 못 풀어냅니다.
@@ -102,7 +102,7 @@ CRYSTALS-Dilithium은 <strong><a href="/knowledge-base/studynote/04_software_eng
 
 ### 연결 개념 흐름
 
-[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 취약점([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)) → [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 필요성 → NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 → ML-DSA(Dilithium), [ML-KEM](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/)(Kyber), [SLH-DSA](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+) → 하이브리드 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(기존+[PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 병행) → 완전 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환
+[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 취약점([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)) -> [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 필요성 -> NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 -> ML-DSA(Dilithium), [ML-KEM](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/)(Kyber), [SLH-DSA](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+) -> 하이브리드 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(기존+[PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 병행) -> 완전 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환
 
 - **📢 섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 **'방탄 조끼 소재 선택'** 과 같습니다. ML-DSA(격자)는 무게(크기)는 좀 있지만 방탄 성능이 우수하고 착용이 쉽습니다. [SLH-DSA](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)(해시)는 신뢰성은 최고지만 너무 무겁습니다. FALCON은 가볍지만 제조(구현)가 까다롭습니다.
 
@@ -162,21 +162,21 @@ ML-DSA는 "더 좋은 서명이 아니라, 살아남기 위한 필수 서명"이
 
 ```text
 RSA / ECDSA (고전 암호 디지털 서명)
-    │
-    ▼
-양자 컴퓨터 위협 → Shor 알고리즘 → RSA/ECDSA 파괴 가능
-    │
-    ▼
+    |
+    v
+양자 컴퓨터 위협 -> Shor 알고리즘 -> RSA/ECDSA 파괴 가능
+    |
+    v
 NIST PQC 표준화 공모 (2016~2024)
-    │
-    ├─► ML-DSA (Dilithium) — 격자 기반 서명 [FIPS 204]
-    ├─► SLH-DSA (SPHINCS+) — 해시 기반 서명 [FIPS 205]
-    └─► FN-DSA (FALCON) — 격자(NTRU) 기반 서명
-    │
-    ▼
+    |
+    +-► ML-DSA (Dilithium) — 격자 기반 서명 [FIPS 204]
+    +-► SLH-DSA (SPHINCS+) — 해시 기반 서명 [FIPS 205]
+    +-► FN-DSA (FALCON) — 격자(NTRU) 기반 서명
+    |
+    v
 하이브리드 전환 (ECDSA + ML-DSA 병행)
-    │
-    ▼
+    |
+    v
 완전 PQC 전환 — TLS, PKI, 코드 서명, IoT
 ```
 
@@ -192,7 +192,7 @@ NIST PQC 표준화 공모 (2016~2024)
 
 **진행 상황**: 200 / 1108
 
-← **이전**: [146. ML-KEM (구 CRYSTALS-Kyber)](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/)
-**다음**: [148. FALCON — 격자 기반 서명, 짧은 서명](/knowledge-base/studynote/09_security/03_network_security/148_falcon_fn_dsa/) →
+<- **이전**: [146. ML-KEM (구 CRYSTALS-Kyber)](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/)
+**다음**: [148. FALCON — 격자 기반 서명, 짧은 서명](/knowledge-base/studynote/09_security/03_network_security/148_falcon_fn_dsa/) ->
 
 ---

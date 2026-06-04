@@ -53,36 +53,36 @@ tags = ["studynote-operating-system"]
 XNU의 가장 큰 특징은 논리적으로 분리된 Mach와 BSD가 <strong>동일한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 공간(Ring 0)</strong>에서 동작한다는 점이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 XNU 하이브리드 커널 아키텍처 (iOS / macOS)               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [유저 모드 (User Space - Ring 3)]                                │
-  │  ┌────────────┐   ┌────────────┐   ┌───────────────┐              │
-  │  │ iOS App A  │   │ iOS App B  │   │ System Daemon │              │
-  │  └─────┬──────┘   └─────┬──────┘   └───────┬───────┘              │
-  │        │(시스템 호출: POSIX 또는 Mach Trap) │                       │
-  │ ───────┼────────────────┼──────────────────┼───────────────────── │
-  │        ▼                ▼                  ▼                      │
-  │  [커널 모드 (Kernel Space - Ring 0) - 단일 주소 공간]             │
-  │  ┌──────────────────────────────────────────────────────────┐     │
-  │  │  BSD (Berkeley Software Distribution) 계층                 │     │
-  │  │  - POSIX 호환 API, 파일 시스템 (APFS), 네트워크 스택 (TCP/IP)  │     │
-  │  │  - 프로세스 (PID, signal) 관리                             │     │
-  │  │                                                          │     │
-  │  │   ↕ (내부 커널 함수 호출, IPC 오버헤드 없음!)                │     │
-  │  │                                                          │     │
-  │  │  Mach (마이크로커널 핵심)                                     │     │
-  │  │  - 스레드 스케줄링, 가상 메모리 관리 (VM), Mach Port (IPC)   │     │
-  │  └───────────────────────────┬──────────────────────────────┘     │
-  │                              │                                    │
-  │  ┌───────────────────────────▼──────────────────────────────┐     │
-  │  │  I/O Kit (디바이스 드라이버)                                    │     │
-  │  └───────────────────────────┬──────────────────────────────┘     │
-  │ ─────────────────────────────┼─────────────────────────────────── │
-  │                              ▼                                    │
-  │                        [ 하드웨어 ]                               │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 XNU 하이브리드 커널 아키텍처 (iOS / macOS)               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [유저 모드 (User Space - Ring 3)]                                |
+  |  +------------+   +------------+   +---------------+              |
+  |  | iOS App A  |   | iOS App B  |   | System Daemon |              |
+  |  +-----+------+   +-----+------+   +-------+-------+              |
+  |        |(시스템 호출: POSIX 또는 Mach Trap) |                       |
+  | -------+----------------+------------------+--------------------- |
+  |        v                v                  v                      |
+  |  [커널 모드 (Kernel Space - Ring 0) - 단일 주소 공간]             |
+  |  +----------------------------------------------------------+     |
+  |  |  BSD (Berkeley Software Distribution) 계층                 |     |
+  |  |  - POSIX 호환 API, 파일 시스템 (APFS), 네트워크 스택 (TCP/IP)  |     |
+  |  |  - 프로세스 (PID, signal) 관리                             |     |
+  |  |                                                          |     |
+  |  |   ↕ (내부 커널 함수 호출, IPC 오버헤드 없음!)                |     |
+  |  |                                                          |     |
+  |  |  Mach (마이크로커널 핵심)                                     |     |
+  |  |  - 스레드 스케줄링, 가상 메모리 관리 (VM), Mach Port (IPC)   |     |
+  |  +---------------------------+------------------------------+     |
+  |                              |                                    |
+  |  +---------------------------v------------------------------+     |
+  |  |  I/O Kit (디바이스 드라이버)                                    |     |
+  |  +---------------------------+------------------------------+     |
+  | -----------------------------+----------------------------------- |
+  |                              v                                    |
+  |                        [ 하드웨어 ]                               |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적인 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(예: Minix)에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 유저 모드 서버로 존재하여, 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 `앱 -> 커널 -> 파일 서버 -> 커널 -> 앱` 형태의 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 여러 번 발생한다. 반면 XNU는 Mach와 BSD, I/O Kit을 모두 링 0 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드)로 끌어내려 단일 주소 공간에 묶었다. 따라서 BSD가 Mach의 메모리 관리 기능을 호출할 때 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이 단순 함수 호출만으로 처리가 가능하여 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) 수준의 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다. 동시에 Mach [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반의 강력한 IPC와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 아키텍처는 그대로 유지하여 macOS/iOS 특유의 부드러운 멀티태스킹의 기반이 된다.
@@ -94,36 +94,36 @@ XNU의 가장 큰 특징은 논리적으로 분리된 Mach와 BSD가 <strong>동
 iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 격리하는 것을 넘어, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">시스템 호출</a> 훅(Hook)</strong>을 통해 앱의 모든 행위를 감시하고 차단하는 메커니즘이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 iOS 샌드박스 보안 검사 파이프라인 (MAC 기반)              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [iOS App (Sandboxed)]                                            │
-  │   - 고유 컨테이너 (Data, Library, tmp)에 갇힘                       │
-  │   - Entitlements (카메라 접근 권한, 위치 정보 권한 등) 소유           │
-  │          │                                                        │
-  │          │ 1. 시스템 호출 (예: open("/etc/passwd"))                 │
-  │          ▼                                                        │
-  │  ┌─────────────────────────────────────────────────────────────┐  │
-  │  │ [XNU 커널]                                                  │  │
-  │  │                                                             │  │
-  │  │  (BSD 계층)                                                 │  │
-  │  │  2. DAC 검사 (파일 소유자, rwx 권한) - 전통적 유닉스 보안         │  │
-  │  │      │ (통과 시)                                            │  │
-  │  │      ▼                                                      │  │
-  │  │  (TrustedBSD MAC 계층)                                      │  │
-  │  │  3. MAC Policy Hook (mac_vnode_check_open) 발생             │  │
-  │  │      │                                                      │  │
-  │  │      ├──▶ [Sandbox Kext (Seatbelt)] 가 개입                   │  │
-  │  │      │     - 앱의 Entitlements 프로필 확인                    │  │
-  │  │      │     - 요청된 경로가 앱의 컨테이너 내부인가?              │  │
-  │  │      │     - 아니라면 명시적 허용 권한이 있는가?                │  │
-  │  │      │                                                      │  │
-  │  │  4. 결과 반환                                               │  │
-  │  │      ├─ 허용 (Allow) ──▶ 파일 시스템(APFS) 접근 진행         │  │
-  │  │      └─ 거부 (Deny)  ──▶ EPERM 에러 반환 및 앱 크래시/로그     │  │
-  │  └─────────────────────────────────────────────────────────────┘  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 iOS 샌드박스 보안 검사 파이프라인 (MAC 기반)              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [iOS App (Sandboxed)]                                            |
+  |   - 고유 컨테이너 (Data, Library, tmp)에 갇힘                       |
+  |   - Entitlements (카메라 접근 권한, 위치 정보 권한 등) 소유           |
+  |          |                                                        |
+  |          | 1. 시스템 호출 (예: open("/etc/passwd"))                 |
+  |          v                                                        |
+  |  +-------------------------------------------------------------+  |
+  |  | [XNU 커널]                                                  |  |
+  |  |                                                             |  |
+  |  |  (BSD 계층)                                                 |  |
+  |  |  2. DAC 검사 (파일 소유자, rwx 권한) - 전통적 유닉스 보안         |  |
+  |  |      | (통과 시)                                            |  |
+  |  |      v                                                      |  |
+  |  |  (TrustedBSD MAC 계층)                                      |  |
+  |  |  3. MAC Policy Hook (mac_vnode_check_open) 발생             |  |
+  |  |      |                                                      |  |
+  |  |      +---> [Sandbox Kext (Seatbelt)] 가 개입                   |  |
+  |  |      |     - 앱의 Entitlements 프로필 확인                    |  |
+  |  |      |     - 요청된 경로가 앱의 컨테이너 내부인가?              |  |
+  |  |      |     - 아니라면 명시적 허용 권한이 있는가?                |  |
+  |  |      |                                                      |  |
+  |  |  4. 결과 반환                                               |  |
+  |  |      +- 허용 (Allow) ---> 파일 시스템(APFS) 접근 진행         |  |
+  |  |      +- 거부 (Deny)  ---> EPERM 에러 반환 및 앱 크래시/로그     |  |
+  |  +-------------------------------------------------------------+  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** iOS 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 자원에 접근하기 위해 시스템 콜을 호출하면, XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 BSD 계층에서 먼저 기본 유닉스 권한(DAC)을 검사한다. 이를 통과하더라도 TrustedBSD 프레임워크에 설정된 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 훅이 발동하여 Sandbox [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장(Seatbelt [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 제어권을 넘긴다. 샌드박스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 프로세스의 자격 증명(Entitlements)을 확인하여, 접근하려는 자원이 자신의 격리된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부인지, 혹은 사용자가 명시적으로 허용한 자원(예: 사진첩 접근 권한)인지를 검사한다. 권한이 없으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 즉각 `Operation not permitted (EPERM)`을 반환하여 원천 차단한다. 앱이 루트(Root) 권한을 얻더라도 샌드박스 룰은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 강제되므로 함부로 우회할 수 없다.
@@ -176,25 +176,25 @@ iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operat
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │              iOS 샌드박스 권한 및 IPC 병목 대응 플로우                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [앱 충돌 (Crash) 발생 - EPERM (Operation not permitted) 로그]       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      접근하려는 리소스가 앱의 컨테이너 내부인가?                       │
-  │          ├─ 예 ─────▶ 파일 경로 구성 오류 (NSHomeDirectory() 사용 확인) │
-  │          │                                                        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Entitlements (.plist) 에 명시된 권한인가?                        │
-  │          ├─ 예 ─────▶ 사용자 최초 프롬프트(권한 요청 대화상자)에서      │
-  │          │            '거부' 했는지 상태 체크 로직 추가             │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ Xcode에서 Capability 추가 및 재서명 (Signing)  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |              iOS 샌드박스 권한 및 IPC 병목 대응 플로우                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [앱 충돌 (Crash) 발생 - EPERM (Operation not permitted) 로그]       |
+  |                |                                                  |
+  |                v                                                  |
+  |      접근하려는 리소스가 앱의 컨테이너 내부인가?                       |
+  |          +- 예 ------> 파일 경로 구성 오류 (NSHomeDirectory() 사용 확인) |
+  |          |                                                        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      Entitlements (.plist) 에 명시된 권한인가?                        |
+  |          +- 예 ------> 사용자 최초 프롬프트(권한 요청 대화상자)에서      |
+  |          |            '거부' 했는지 상태 체크 로직 추가             |
+  |          |                                                        |
+  |          +- 아니오 ---> Xcode에서 Capability 추가 및 재서명 (Signing)  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** iOS 환경에서 앱이 갑자기 크래시되면서 `EXC_BAD_ACCESS` 또는 콘솔에 `deny file-read-data` 같은 Seatbelt 로그가 남는다면 100% 샌드박스 위반이다. 개발자는 절대 하드코딩된 [절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/)(`/var/mobile/...`)를 쓰지 말고, OS가 제공하는 샌드박스 상대 경로 API를 사용해야 하며, 외부 자원(카메라, 사진, 건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 반드시 Entitlement 명시와 사용자 동의 런타임 체크 로직의 이중 검증을 거쳐야 한다.
@@ -241,12 +241,12 @@ XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 ```text
 [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
-    │
-    ▼
+    |
+    v
 [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)]
-    │
-    ├──▶ [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
-    └──▶ [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
+    |
+    +---> [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
+    +---> [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -263,7 +263,7 @@ XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 **진행 상황**: 622 / 800
 
-← **이전**: [621. ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)
-**다음**: [623. 임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/623_embedded_rtos_priority_deadline/) →
+<- **이전**: [621. ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)
+**다음**: [623. 임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/623_embedded_rtos_priority_deadline/) ->
 
 ---

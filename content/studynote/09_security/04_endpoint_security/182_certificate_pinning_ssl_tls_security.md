@@ -42,26 +42,26 @@ tags = ["studynote-security"]
 아래 그림은 핀닝이 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 대체하는 것이 아니라, 마지막 신뢰 결정을 더 좁게 만드는 계층이라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ TLS session with certificate pinning                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client App                                                          │
-│   │ ClientHello / ServerHello                                       │
-│   ▼                                                                 │
-│ Server certificate chain                                            │
-│   │                                                                 │
-│   ├─ 1) OS / library validation                                     │
-│   │      - trusted CA chain                                         │
-│   │      - validity period                                          │
-│   │      - hostname match                                           │
-│   │                                                                 │
-│   └─ 2) App pin validation                                          │
-│          - leaf cert hash or SPKI hash                              │
-│          - compare with primary / backup pins                       │
-│                │                                                    │
-│         match ─┴─ allow secure session                              │
-│      mismatch ─── reject connection and raise alert                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| TLS session with certificate pinning                                |
++----------------------------------------------------------------------+
+| Client App                                                          |
+|   | ClientHello / ServerHello                                       |
+|   v                                                                 |
+| Server certificate chain                                            |
+|   |                                                                 |
+|   +- 1) OS / library validation                                     |
+|   |      - trusted CA chain                                         |
+|   |      - validity period                                          |
+|   |      - hostname match                                           |
+|   |                                                                 |
+|   +- 2) App pin validation                                          |
+|          - leaf cert hash or SPKI hash                              |
+|          - compare with primary / backup pins                       |
+|                |                                                    |
+|         match -+- allow secure session                              |
+|      mismatch --- reject connection and raise alert                 |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 설계 포인트는 두 가지다. 첫째, 핀은 한 개만 두지 말고 최소 2개 이상 둬야 한다. 현재 운영 키와 다음 교체 키를 함께 넣어 두어야 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신 시 전체 앱이 동시에 멈추는 일을 피할 수 있다. 둘째, 핀닝은 서버 진위를 더 좁게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이지, 앱 위변조나 메모리 후킹을 자동으로 막아 주는 기술은 아니다. 따라서 모바일 앱에서는 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 루팅·탈옥 탐지, 후킹 탐지와 함께 설계해야 실효성이 높아진다.
@@ -148,22 +148,22 @@ tags = ["studynote-security"]
 
 ```text
 공개 CA 신뢰 기반 TLS
-    │
-    ▼
+    |
+    v
 운영체제 체인 검증
-    │
-    ├─ 악성 Root CA 설치
-    ├─ 오발급 인증서
-    └─ 프록시형 MITM 위험
-    │
-    ▼
+    |
+    +- 악성 Root CA 설치
+    +- 오발급 인증서
+    +- 프록시형 MITM 위험
+    |
+    v
 Pinset(인증서 / SPKI / backup key) 추가 검증
-    │
-    ├─ mismatch -> 연결 차단
-    ├─ key rotation -> backup pin 필요
-    └─ app hardening -> 우회 저항성 강화
-    │
-    ▼
+    |
+    +- mismatch -> 연결 차단
+    +- key rotation -> backup pin 필요
+    +- app hardening -> 우회 저항성 강화
+    |
+    v
 모바일 고신뢰 채널 설계
 ```
 
@@ -181,7 +181,7 @@ Pinset(인증서 / SPKI / backup key) 추가 검증
 
 **진행 상황**: 235 / 1108
 
-← **이전**: [181. 브릿지 CA (Bridge CA) — 교차 인증](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/)
-**다음**: [183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) →
+<- **이전**: [181. 브릿지 CA (Bridge CA) — 교차 인증](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/)
+**다음**: [183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) ->
 
 ---

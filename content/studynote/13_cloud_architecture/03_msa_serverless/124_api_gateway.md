@@ -19,22 +19,22 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    API Gateway 아키텍처                               │
-├───────────────────────────────────────────────────────┤
-│  [Client] → api.example.com                           │
-│                │                                      │
-│           [API Gateway]                               │
-│            ├── 인증 (JWT 검증)                        │
-│            ├── Rate Limiting (100 req/s)              │
-│            ├── 라우팅 (/orders → Order Service)      │
-│            ├── 로깅·모니터링                          │
-│            └── 응답 캐시                              │
-│                │                                      │
-│    ┌───────────┼───────────┐                          │
-│    ▼           ▼           ▼                          │
-│  Order Svc  Payment Svc  User Svc                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    API Gateway 아키텍처                               |
++-------------------------------------------------------+
+|  [Client] -> api.example.com                           |
+|                |                                      |
+|           [API Gateway]                               |
+|            +-- 인증 (JWT 검증)                        |
+|            +-- Rate Limiting (100 req/s)              |
+|            +-- 라우팅 (/orders -> Order Service)      |
+|            +-- 로깅·모니터링                          |
+|            +-- 응답 캐시                              |
+|                |                                      |
+|    +-----------+-----------+                          |
+|    v           v           v                          |
+|  Order Svc  Payment Svc  User Svc                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 호텔 프런트 데스크다. 모든 손님(요청)이 프런트(Gateway)를 거치며, 프런트가 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))·방 배정([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))·보안([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))을 처리한다.
@@ -47,7 +47,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 기능 | 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | URL 패턴 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | URL 패턴 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> | [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)/OAuth2 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a></strong> | 과도한 요청 차단 |
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스 분배 |
@@ -96,17 +96,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 [로드 밸런서 (L4/L7, 2000s)]
-    │
-    ▼
+    |
+    v
 [API Gateway (Netflix Zuul, 2013~)]
-    │
-    ▼
+    |
+    v
 [Kong / Envoy (2015~) — 클라우드 네이티브 Gateway]
-    │
-    ▼
+    |
+    v
 [BFF Pattern (2016~) — 클라이언트별 Gateway]
-    │
-    ▼
+    |
+    v
 [현재: API Gateway + Service Mesh — 통합 네트워크 계층]
 ```
 
@@ -121,7 +121,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 123 / 371
 
-← **이전**: [123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/123_soa_vs_msa_comparison/)
-**다음**: [125. API Gateway 핵심 기능 - 라우팅·인증·Rate Limiting·변환 상세](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/125_api_gateway_functions/) →
+<- **이전**: [123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/123_soa_vs_msa_comparison/)
+**다음**: [125. API Gateway 핵심 기능 - 라우팅·인증·Rate Limiting·변환 상세](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/125_api_gateway_functions/) ->
 
 ---

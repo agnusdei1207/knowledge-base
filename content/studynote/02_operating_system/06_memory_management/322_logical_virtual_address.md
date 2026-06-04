@@ -31,21 +31,21 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 **💡 비유**: 현실 세계 아파트 동호수. 어떤 택배 기사(프로그램)든 항상 "나는 무조건 101호에 배달할 거야!"라고 외친다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소). 하지만 경비원([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석기-[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 그 택배를 받아서 몰래 "아 A회사 택배의 101호는 실제로는 강남구 삼성동 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로, B회사 택배의 101호는 부산 해운대 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로" 분류해서 대신 딱딱 꽂아주는 마술이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│         논리 주소 공간 (가짜 평행 우주)의 탄생 기믹             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ Process A (게임) ]            [ Process B (카톡) ]           │
-│  (CPU가 얘를 실행할 때 생성)       (CPU가 얘를 실행할 때 생성)  │
-│                                                                 │
-│  논리 주소 0번지 (시작)          논리 주소 0번지 (시작)         │
-│  논리 주소 120번지에 HP 저장     논리 주소 120번지에 톡 저장    │
-│  논리 주소 500번지 (끝)          논리 주소 300번지 (끝)         │
-│                                                                 │
-│  ▶ 둘 다 "내가 120번지의 주인이다"라고 똑같이 뻗댐.             │
-│  ▶ 논리 주소(Virtual) 세계에서는 둘 다 혼자 사는 독방이므로     │
-│     다른 놈을 침범할 일도, 충돌할 일도 0% 차단됨!               │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|         논리 주소 공간 (가짜 평행 우주)의 탄생 기믹             |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [ Process A (게임) ]            [ Process B (카톡) ]           |
+|  (CPU가 얘를 실행할 때 생성)       (CPU가 얘를 실행할 때 생성)  |
+|                                                                 |
+|  논리 주소 0번지 (시작)          논리 주소 0번지 (시작)         |
+|  논리 주소 120번지에 HP 저장     논리 주소 120번지에 톡 저장    |
+|  논리 주소 500번지 (끝)          논리 주소 300번지 (끝)         |
+|                                                                 |
+|  -> 둘 다 "내가 120번지의 주인이다"라고 똑같이 뻗댐.             |
+|  -> 논리 주소(Virtual) 세계에서는 둘 다 혼자 사는 독방이므로     |
+|     다른 놈을 침범할 일도, 충돌할 일도 0% 차단됨!               |
++-----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소는 누구나 방에 들어갈 때 자기가 "1번 손님"인 줄 아는 가상현실(VR) 고글입니다. 고글 안에서는 다 자기가 주인공이지만, 현실 세계([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))의 의자 배치는 직원이 몰래 겹치지 않게 다 벌려놓은 겁니다.
@@ -116,12 +116,12 @@ CPU가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/
 
 ```text
 [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-    │
-    ▼
+    |
+    v
 [논리 주소 (Logical/Virtual Address)]
-    │
-    ├──▶ [물리 주소 (Physical Address)]
-    └──▶ [주소 바인딩 (Address Binding) 3단계 시점]
+    |
+    +---> [물리 주소 (Physical Address)]
+    +---> [주소 바인딩 (Address Binding) 3단계 시점]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -138,7 +138,7 @@ CPU가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/
 
 **진행 상황**: 322 / 800
 
-← **이전**: [321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근](/knowledge-base/studynote/02_operating_system/06_memory_management/321_memory_hierarchy/)
-**다음**: [323. 물리 주소 (Physical Address) - 메모리 장치가 보는 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) →
+<- **이전**: [321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근](/knowledge-base/studynote/02_operating_system/06_memory_management/321_memory_hierarchy/)
+**다음**: [323. 물리 주소 (Physical Address) - 메모리 장치가 보는 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) ->
 
 ---

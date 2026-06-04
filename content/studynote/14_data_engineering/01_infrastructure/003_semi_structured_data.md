@@ -28,35 +28,35 @@ tags = ["data_engineering"]
 ```text
 [반정형 데이터 유형 매트릭스]
 
-┌─────────────────────────────────────────────────────────────────┐
-│  데이터 유형          구조 표현 방식          활용 분야          │
-├─────────────────────────────────────────────────────────────────┤
-│  JSON                키-값 쌍의 계층 구조      REST API, 설정 파일  │
-│  {                   (네스티드/중첩 구조)                       │
-│    "name": "홍길동",                                           │
-│    "age": 30,                                                  │
-│    "address": {                                                │
-│      "city": "서울",                                           │
-│      "district": "강남구"                                      │
-│    }                                                           │
-│  }                                                              │
-├─────────────────────────────────────────────────────────────────┤
-│  XML                태그( <tag> ) 기반 계층      웹 문서, 설정 파일  │
-│  <person>                                                        │
-│    <name>홍길동</name>                                         │
-│    <address>                                                   │
-│      <city>서울</city>                                         │
-│    </address>                                                  │
-│  </person>                                                     │
-├─────────────────────────────────────────────────────────────────┤
-│  CSV                컴마/탭 분리된 평면 테이블    로그, 내보내기 파일  │
-│  name,age,city                                                     │
-│  홍길동,30,서울                                                   │
-│  김철수,25,부산                                                   │
-├─────────────────────────────────────────────────────────────────┤
-│  로그 파일          타임스탬프 + 레벨 + 메시지     서버/앱 로그 분석   │
-│  2024-01-01 10:00:00 ERROR [Auth] Login failed for user: admin   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|  데이터 유형          구조 표현 방식          활용 분야          |
++-----------------------------------------------------------------+
+|  JSON                키-값 쌍의 계층 구조      REST API, 설정 파일  |
+|  {                   (네스티드/중첩 구조)                       |
+|    "name": "홍길동",                                           |
+|    "age": 30,                                                  |
+|    "address": {                                                |
+|      "city": "서울",                                           |
+|      "district": "강남구"                                      |
+|    }                                                           |
+|  }                                                              |
++-----------------------------------------------------------------+
+|  XML                태그( <tag> ) 기반 계층      웹 문서, 설정 파일  |
+|  <person>                                                        |
+|    <name>홍길동</name>                                         |
+|    <address>                                                   |
+|      <city>서울</city>                                         |
+|    </address>                                                  |
+|  </person>                                                     |
++-----------------------------------------------------------------+
+|  CSV                컴마/탭 분리된 평면 테이블    로그, 내보내기 파일  |
+|  name,age,city                                                     |
+|  홍길동,30,서울                                                   |
+|  김철수,25,부산                                                   |
++-----------------------------------------------------------------+
+|  로그 파일          타임스탬프 + 레벨 + 메시지     서버/앱 로그 분석   |
+|  2024-01-01 10:00:00 ERROR [Auth] Login failed for user: admin   |
++-----------------------------------------------------------------+
 ```
 이 도식은 대표적인 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형들의 구조적 특성을 비교한다. JSON은 키-값 쌍의 중첩( Nested ) 구조로 복잡한 계층을 표현할 수 있어 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) DB에최적. XML은 시작/종료 태그로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 감싸는Markup 언어로, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에력사적으로 많이 사용되었다. CSV는최간단적한 평면 구조로 스프레드시트 내보내기나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 활용된다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 반정형이라기보다는 비정형에 가깝지만, 정규식( Regular Expression )을리용하여 구조화할 수 있는 특성이 있다.
 
@@ -77,53 +77,53 @@ tags = ["data_engineering"]
 [반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 아키텍처]
 ```text
 [반정형 JSON 데이터의 수집에서 분석까지의 파이프라인]
-┌─────────────────────────────────────────────────────────────────────┐
-│  [데이터 소스 계층]                                                   │
-│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐        │
-│  │REST API   │  │IoT Sensors│  │Mobile App │  │Web Log    │        │
-│  │(JSON)     │  │(JSON)     │  │(JSON)     │  │(Log/CSV)  │        │
-│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘        │
-│        │              │              │              │               │
-│        └──────────────┴──────────────┴──────────────┘               │
-│                              │ (HTTP POST / MQTT / SDK)            │
-│                              ↓                                      │
-│  [수집 계층]  ─────────────────────────────────────────────          │
-│  ┌─────────────────────────────────────────────────────────┐        │
-│  │              Apache Kafka (토픽: user-events)            │        │
-│  │  ┌─────────┬─────────┬─────────┬─────────┬─────────┐  │        │
-│  │  │Partition│Partition│Partition│Partition│Partition│  │        │
-│  │  │   0     │   1     │   2     │   3     │   4     │  │        │
-│  │  └─────────┴─────────┴─────────┴─────────┴─────────┘  │        │
-│  └─────────────────────────────────────────────────────────┘        │
-│                              │                                     │
-│                              ↓ (Consumer Group 병렬 처리)            │
-│  [처리 계층]  ─────────────────────────────────────────────          │
-│  ┌─────────────────────────────────────────────────────────┐        │
-│  │           Apache Flink (반정형 JSON 파싱/변환)           │        │
-│  │                                                         │        │
-│  │  fromKafka("user-events")                               │        │
-│  │    .filter(x => x.eventType == "purchase")             │        │
-│  │    .keyBy(x => x.userId)                               │        │
-│  │    .window(TumblingEventTimeWindows.of(Time.minutes(5)))│        │
-│  │    .sum("amount")                                       │        │
-│  └─────────────────────────────────────────────────────────┘        │
-│                              │                                     │
-│                              ↓ (Parquet / ORC 압축 적재)             │
-│  [저장 계층]  ─────────────────────────────────────────────          │
-│  ┌─────────────────────────────────────────────────────────┐        │
-│  │              Data Lake (S3 / HDFS)                     │        │
-│  │  ┌─────────────────────────────────────────────────┐    │        │
-│  │  │  user-events/year=2024/month=01/day=15/        │    │        │
-│  │  │    part-00000.snappy.parquet (압축: 10:1)       │    │        │
-│  │  └─────────────────────────────────────────────────┘    │        │
-│  └─────────────────────────────────────────────────────────┘        │
-│                              │                                     │
-│                              ↓ (Trino Federated Query)              │
-│  [분석 계층]  ─────────────────────────────────────────────          │
-│  ┌─────────────────────────────────────────────────────────┐        │
-│  │              BI / ML Tools (Tableau, Jupyter)           │        │
-│  └─────────────────────────────────────────────────────────┘        │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|  [데이터 소스 계층]                                                   |
+|  +-----------+  +-----------+  +-----------+  +-----------+        |
+|  |REST API   |  |IoT Sensors|  |Mobile App |  |Web Log    |        |
+|  |(JSON)     |  |(JSON)     |  |(JSON)     |  |(Log/CSV)  |        |
+|  +-----+-----+  +-----+-----+  +-----+-----+  +-----+-----+        |
+|        |              |              |              |               |
+|        +--------------+--------------+--------------+               |
+|                              | (HTTP POST / MQTT / SDK)            |
+|                              v                                      |
+|  [수집 계층]  ---------------------------------------------          |
+|  +---------------------------------------------------------+        |
+|  |              Apache Kafka (토픽: user-events)            |        |
+|  |  +---------+---------+---------+---------+---------+  |        |
+|  |  |Partition|Partition|Partition|Partition|Partition|  |        |
+|  |  |   0     |   1     |   2     |   3     |   4     |  |        |
+|  |  +---------+---------+---------+---------+---------+  |        |
+|  +---------------------------------------------------------+        |
+|                              |                                     |
+|                              v (Consumer Group 병렬 처리)            |
+|  [처리 계층]  ---------------------------------------------          |
+|  +---------------------------------------------------------+        |
+|  |           Apache Flink (반정형 JSON 파싱/변환)           |        |
+|  |                                                         |        |
+|  |  fromKafka("user-events")                               |        |
+|  |    .filter(x => x.eventType == "purchase")             |        |
+|  |    .keyBy(x => x.userId)                               |        |
+|  |    .window(TumblingEventTimeWindows.of(Time.minutes(5)))|        |
+|  |    .sum("amount")                                       |        |
+|  +---------------------------------------------------------+        |
+|                              |                                     |
+|                              v (Parquet / ORC 압축 적재)             |
+|  [저장 계층]  ---------------------------------------------          |
+|  +---------------------------------------------------------+        |
+|  |              Data Lake (S3 / HDFS)                     |        |
+|  |  +-------------------------------------------------+    |        |
+|  |  |  user-events/year=2024/month=01/day=15/        |    |        |
+|  |  |    part-00000.snappy.parquet (압축: 10:1)       |    |        |
+|  |  +-------------------------------------------------+    |        |
+|  +---------------------------------------------------------+        |
+|                              |                                     |
+|                              v (Trino Federated Query)              |
+|  [분석 계층]  ---------------------------------------------          |
+|  +---------------------------------------------------------+        |
+|  |              BI / ML Tools (Tableau, Jupyter)           |        |
+|  +---------------------------------------------------------+        |
++---------------------------------------------------------------------+
 ```
 이 구조는 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서에서 발생하여 Kafka에 수집되고, Flink에서 실시간으로 파싱 및 윈도우 집계된 후, 최종적으로 Parquet형식에서Data Lake에 저장되어 분석되는전과정을 보여준다. 핵심적인리점은 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의령활성과[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의スケーラビリティ을 결합하여, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변화( [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution )에도 유연하게 대응할 수 있다는 것이다. Kafka에서Schema [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)( Avro/Protobuf )를 함께 활용하면, 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의スキーマ정합성も학보에서きる.
 
@@ -145,13 +145,13 @@ tags = ["data_engineering"]
 [반정형 JSON과 정형 RDBMS 테이블의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)비교]
 ```text
 [정형 RDBMS 테이블: 고객]
-┌─────────────────────────────────────────────────────────┐
-│  고객ID (PK)  │  이름      │  나이  │  도시      │ ...  │
-├───────────────┼─────────────┼───────┼─────────────┤      │
-│  1001         │  홍길동     │  30    │  서울      │      │
-│  1002         │  김철수     │  25    │  부산      │      │
-│  1003         │  이영희     │  28    │  인천      │      │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  고객ID (PK)  |  이름      |  나이  |  도시      | ...  |
++---------------+-------------+-------+-------------+      |
+|  1001         |  홍길동     |  30    |  서울      |      |
+|  1002         |  김철수     |  25    |  부산      |      |
+|  1003         |  이영희     |  28    |  인천      |      |
++---------------------------------------------------------+
    (모든 행이 동일한 Column 구조, 타입 강제)
 
 [반정형 JSON 문서: 고객 프로필]
@@ -193,21 +193,21 @@ tags = ["data_engineering"]
 [반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화( [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution ) 처리 전략]
 ```text
 [Schema Registry를 활용한 스키마 진화 처리]
-┌─────────────────────────────────────────────────────────────┐
-│  Schema Registry (Confluent)                                 │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │  Topic: user-events                                    │  │
-│  │  ┌─────────────────────────────────────────────────┐   │  │
-│  │  │  Schema v1 ( {"userId": "int", "name": "str"} )  │   │  │
-│  │  │  Schema v2 ( {"userId": "int", "name": "str",   │   │  │
-│  │  │              "email": "str"} ) ← 신규 필드 추가  │   │  │
-│  │  │  Schema v3 ( {"userId": "int", "age": "int",    │   │  │
-│  │  │              "name": "str"} ) ← 필드 순서 변경   │   │  │
-│  │  └─────────────────────────────────────────────────┘   │  │
-│  └───────────────────────────────────────────────────────┘  │
-│         │ Compatibility Mode: BACKWARD                      │
-│         │ (이전 버전 소비자가 신규 레코드 읽기 가능)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Schema Registry (Confluent)                                 |
+|  +-------------------------------------------------------+  |
+|  |  Topic: user-events                                    |  |
+|  |  +-------------------------------------------------+   |  |
+|  |  |  Schema v1 ( {"userId": "int", "name": "str"} )  |   |  |
+|  |  |  Schema v2 ( {"userId": "int", "name": "str",   |   |  |
+|  |  |              "email": "str"} ) <- 신규 필드 추가  |   |  |
+|  |  |  Schema v3 ( {"userId": "int", "age": "int",    |   |  |
+|  |  |              "name": "str"} ) <- 필드 순서 변경   |   |  |
+|  |  +-------------------------------------------------+   |  |
+|  +-------------------------------------------------------+  |
+|         | Compatibility Mode: BACKWARD                      |
+|         | (이전 버전 소비자가 신규 레코드 읽기 가능)          |
++-------------------------------------------------------------+
 ```
 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry를 활용하여 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화를 안전하게관리하는 방법을 보여준다. BACKWARD [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)모식하에서 신규 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)( v3 )의 레코드도 이전 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)( v1 )의 consumers가 읽을 수 있어, producers와 consumers의-deploy를 독립적으로 진행할 수 있다. 이는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 특히 중요한 패턴이다.
 
@@ -218,9 +218,9 @@ tags = ["data_engineering"]
 
 | 관점 | 기대 효과 (Before & After) | 정량 지표 |
 |:---|:---|:---|
-| 개발 생산성 | 고정 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 마이그레이션 → [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없이고속개발 | 기능 출시 시간 40% 단축 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 | 이기종 시스템 간CSV/텍스트 변환 → [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/REST로 직접연동 |.integration 시간 60% 절감 |
-| 실시간 분석 | 배치 중심 → 스트리밍 실시간 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) | 분석 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 95% 감소 |
+| 개발 생산성 | 고정 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 마이그레이션 -> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없이고속개발 | 기능 출시 시간 40% 단축 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 | 이기종 시스템 간CSV/텍스트 변환 -> [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/REST로 직접연동 |.integration 시간 60% 절감 |
+| 실시간 분석 | 배치 중심 -> 스트리밍 실시간 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) | 분석 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 95% 감소 |
 
 미래에는 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)를 통합 조회하는 [Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 기술이 더욱성숙하여, 사용자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 저장 위치나 형식을의식하지 않고도단일의 SQL로 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 수 있을 것이다. 또한, 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를AI가 자동으로 구조화하여정보를추출하는기술( Automated [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Inference )이 발전함에 따라, 현재의수동적な[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)정의 부담도 크게 줄어들 것이다.
 
@@ -240,20 +240,20 @@ tags = ["data_engineering"]
 
 ```text
 [JSON (JavaScript Object Notation)]
-    │
-    ▼
+    |
+    v
 [XML (Extensible Markup Language)]
-    │
-    ▼
+    |
+    v
 [NoSQL Document Database]
-    │
-    ▼
+    |
+    v
 [Schema Registry]
-    │
-    ▼
+    |
+    v
 [스키마 온 리드 (Schema-on-Read)]
-    │
-    ▼
+    |
+    v
 [Apache Kafka]
 ```
 
@@ -270,7 +270,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 3 / 258
 
-← **이전**: [2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)
-**다음**: [4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) →
+<- **이전**: [2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)
+**다음**: [4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) ->
 
 ---

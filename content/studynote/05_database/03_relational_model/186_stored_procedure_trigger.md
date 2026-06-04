@@ -38,25 +38,25 @@ tags = ["studynote-database"]
 아래 그림은 프로시저와 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가까이에서 어떻게 다른 방식으로 개입하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ DB-side program flow                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Application -> CALL proc_transfer(10000)                           │
-│                 │                                                  │
-│                 ▼                                                  │
-│            Stored Procedure                                        │
-│            ├─ validate account / balance                           │
-│            ├─ update source and target rows                        │
-│            ├─ insert ledger history                                │
-│            └─ COMMIT or ROLLBACK                                   │
-│                                                                    │
-│ INSERT / UPDATE / DELETE on table                                  │
-│                 │                                                  │
-│                 ▼                                                  │
-│            Trigger                                                 │
-│            ├─ BEFORE : normalize / reject bad data                 │
-│            └─ AFTER  : audit log / derived update                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| DB-side program flow                                               |
++--------------------------------------------------------------------+
+| Application -> CALL proc_transfer(10000)                           |
+|                 |                                                  |
+|                 v                                                  |
+|            Stored Procedure                                        |
+|            +- validate account / balance                           |
+|            +- update source and target rows                        |
+|            +- insert ledger history                                |
+|            +- COMMIT or ROLLBACK                                   |
+|                                                                    |
+| INSERT / UPDATE / DELETE on table                                  |
+|                 |                                                  |
+|                 v                                                  |
+|            Trigger                                                 |
+|            +- BEFORE : normalize / reject bad data                 |
+|            +- AFTER  : audit log / derived update                  |
++--------------------------------------------------------------------+
 ```
 
 | 구분 | 스토어드 프로시저 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
@@ -148,18 +148,18 @@ tags = ["studynote-database"]
 
 ```text
 반복 SQL과 공통 규칙 증가
-        │
-        ▼
+        |
+        v
 스토어드 프로시저 (Stored Procedure)
-        │
-        ├──────────────► 트랜잭션 절차 묶음
-        ├──────────────► 권한 캡슐화
-        ▼
+        |
+        +--------------► 트랜잭션 절차 묶음
+        +--------------► 권한 캡슐화
+        v
 트리거 (Trigger)
-        │
-        ├──────────────► BEFORE / AFTER 자동화
-        ├──────────────► 감사 로그 · 무결성 보조
-        ▼
+        |
+        +--------------► BEFORE / AFTER 자동화
+        +--------------► 감사 로그 · 무결성 보조
+        v
 CDC · 이벤트 기반 후처리 분리
 ```
 
@@ -177,7 +177,7 @@ CDC · 이벤트 기반 후처리 분리
 
 **진행 상황**: 186 / 600
 
-← **이전**: [185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/)
-**다음**: [187. 사용자 정의 함수 (UDF, User Defined Function)](/knowledge-base/studynote/05_database/03_relational_model/187_user_defined_function_udf/) →
+<- **이전**: [185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/)
+**다음**: [187. 사용자 정의 함수 (UDF, User Defined Function)](/knowledge-base/studynote/05_database/03_relational_model/187_user_defined_function_udf/) ->
 
 ---

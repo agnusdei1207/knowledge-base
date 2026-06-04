@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 회귀 테스트 (Regression T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  회귀 테스트 (Regression T                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  회귀 테스트 (Regression T                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 회귀 테스트 (Regression T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -55,22 +55,22 @@ tags = ["studynote-software-engineering"]
 회귀 테스트가 왜 필수적인지 이해하기 위해서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 전파(Propagation)되는지 그 내부 메커니즘을 분석해야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          소프트웨어 결함 전파 및 회귀(Regression) 메커니즘        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [모듈 A] (결함 발생) ──────(수정 작업)──────▶ [모듈 A']       │
-│      │                                        │             │
-│      │ (의존성)                                │ (의존성)      │
-│      ▼                                        ▼             │
-│   [모듈 B] (정상 동작) ───(기존 로직 유지)──▶ [모듈 B] (오류!)   │
-│      │                                        │             │
-│      ▼                                        ▼             │
-│   [모듈 C] (정상 동작) ───(기존 로직 유지)──▶ [모듈 C] (오류!)   │
-│                                                             │
-│   * 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던    │
-│           B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          소프트웨어 결함 전파 및 회귀(Regression) 메커니즘        |
++-------------------------------------------------------------+
+|                                                             |
+|   [모듈 A] (결함 발생) ------(수정 작업)-------> [모듈 A']       |
+|      |                                        |             |
+|      | (의존성)                                | (의존성)      |
+|      v                                        v             |
+|   [모듈 B] (정상 동작) ---(기존 로직 유지)---> [모듈 B] (오류!)   |
+|      |                                        |             |
+|      v                                        v             |
+|   [모듈 C] (정상 동작) ---(기존 로직 유지)---> [모듈 C] (오류!)   |
+|                                                             |
+|   * 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던    |
+|           B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생 |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -171,21 +171,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 회귀 테스트 (Regression Test) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -199,7 +199,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 412 / 973
 
-← **이전**: [410. 회귀 테스트 (Regression Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)
-**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/) →
+<- **이전**: [410. 회귀 테스트 (Regression Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)
+**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/) ->
 
 ---

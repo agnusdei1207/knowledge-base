@@ -46,21 +46,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 "이벤트 기반"이 아니라 "반복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기반"이라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Polling I/O Control Flow                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU                          System Bus           I/O Controller    │
-│ │                                │                     │            │
-│ ├─ 1) Write command ────────────▶│───────────────▶     │            │
-│ │                                │                     │ start work │
-│ ├─ 2) Read status  ◀────────────│◀───────────────     │            │
-│ │                                │                     │            │
-│ ├─ 3) Not ready   ── loop ──────▶│                     │ processing │
-│ │                                │                     │            │
-│ ├─ 4) Read status  ◀────────────│◀───────────────     │ ready = 1  │
-│ │                                │                     │            │
-│ └─ 5) Transfer data ────────────▶│───────────────▶     │ complete   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Polling I/O Control Flow                         |
++----------------------------------------------------------------------+
+| CPU                          System Bus           I/O Controller    |
+| |                                |                     |            |
+| +- 1) Write command ------------->|---------------->     |            |
+| |                                |                     | start work |
+| +- 2) Read status  <-------------|<----------------     |            |
+| |                                |                     |            |
+| +- 3) Not ready   -- loop ------->|                     | processing |
+| |                                |                     |            |
+| +- 4) Read status  <-------------|<----------------     | ready = 1  |
+| |                                |                     |            |
+| +- 5) Transfer data ------------->|---------------->     | complete   |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 포인트는 CPU가 장치 완료 신호를 "기다리는" 것이 아니라, 완료 여부를 "반복 조회"한다는 데 있다. 예를 들어 장치 준비 시간이 10μs이고 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 루프가 50ns마다 한 번 돈다면, CPU는 약 200번 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽은 뒤에야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮긴다. 준비 직후 즉시 반응할 가능성은 높지만, 그 10μs 동안 다른 작업은 사실상 못 한다.
@@ -147,19 +147,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 프로그램 제어 I/O (Programmed I/O)
-        │
-        ▼
+        |
+        v
 상태 레지스터 확인 · 폴링 (Polling)
-        │
-        ▼
+        |
+        v
 바쁜 대기 (Busy Waiting) 한계
-        │
-        ├──────────────▶ 인터럽트 구동 I/O (Interrupt-driven I/O)
-        │
-        ▼
+        |
+        +---------------> 인터럽트 구동 I/O (Interrupt-driven I/O)
+        |
+        v
 DMA (Direct Memory Access)
-        │
-        ▼
+        |
+        v
 하이브리드 폴링 (NAPI, DPDK)
 ```
 
@@ -177,7 +177,7 @@ DMA (Direct Memory Access)
 
 **진행 상황**: 314 / 803
 
-← **이전**: [312. 프로그램 제어 I/O (Programmed I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/312_programmed_io/)
-**다음**: [314. 인터럽트 구동 I/O (Interrupt-driven I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/314_interrupt_driven_io/) →
+<- **이전**: [312. 프로그램 제어 I/O (Programmed I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/312_programmed_io/)
+**다음**: [314. 인터럽트 구동 I/O (Interrupt-driven I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/314_interrupt_driven_io/) ->
 
 ---

@@ -22,7 +22,7 @@ tags = ["ai"]
 
 깊은 층은 입력에서 고수준 특징으로 가는 중간 표현을 단계적으로 만들어 준다.
 
-- **📢 섹션 요약 비유**: 사물을 한 번에 보는 대신, 스케치 → 색칠 → 완성본처럼 단계별로 그려 가는 과정이다.
+- **📢 섹션 요약 비유**: 사물을 한 번에 보는 대신, 스케치 -> 색칠 -> 완성본처럼 단계별로 그려 가는 과정이다.
 
 ---
 
@@ -30,13 +30,13 @@ tags = ["ai"]
 
 ```text
 Input
-  ↓
+  v
 Hidden Layer 1
-  ↓
+  v
 Hidden Layer 2
-  ↓
+  v
 ...
-  ↓
+  v
 Output
 ```
 
@@ -110,11 +110,11 @@ DNN은 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ```text
 MLP
-  ↓
+  v
 Deep Neural Network
-  ↓
+  v
 Representation Learning
-  ↓
+  v
 Backpropagation
 ```
 
@@ -124,11 +124,11 @@ Backpropagation
 
 ```text
 Perceptron
-  ↓
+  v
 MLP
-  ↓
+  v
 DNN
-  ↓
+  v
 Deep Learning
 ```
 
@@ -146,7 +146,7 @@ DNN은 그런 식으로 여러 층을 쌓아요.
 
 **진행 상황**: 65 / 420
 
-← **이전**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/knowledge-base/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/)
-**다음**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/knowledge-base/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/) →
+<- **이전**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/knowledge-base/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/)
+**다음**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/knowledge-base/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/) ->
 
 ---

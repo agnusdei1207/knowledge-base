@@ -21,9 +21,9 @@ tags = ["studynote-enterprise-systems"]
 대기업 IT 환경은 수십~수백 개의 시스템이 독립적으로 발전해 온 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 구조다. 영업팀은 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 재무팀은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 물류팀은 [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))를 각자 쓴다. 이 시스템들이 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하지 못하면 중복 입력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 업무 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다.
 
 통합은 세 수준에서 이루어진다:
-- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레벨</strong>: 각 DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공통 저장소로 통합 → [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)
-- **애플리케이션 레벨**: 시스템 간 기능 호출·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)([Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐
-- **프로세스 레벨**: 사람+시스템+규칙을 아우르는 업무 흐름 자동화 → [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레벨</strong>: 각 DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공통 저장소로 통합 -> [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)
+- **애플리케이션 레벨**: 시스템 간 기능 호출·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환 -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)([Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐
+- **프로세스 레벨**: 사람+시스템+규칙을 아우르는 업무 흐름 자동화 -> [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)
 
 - **📢 섹션 요약 비유**: 엔터프라이즈 통합은 **'도시 지하에 상하수도·전기·통신 케이블을 매설하는 인프라 공사'** 와 같습니다. 건물(시스템)마다 우물을 따로 파는([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 대신, 중앙 배관망(통합 미들웨어)으로 연결해 어느 건물에서나 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 흐르도록 만드는 것입니다.
 
@@ -36,23 +36,23 @@ tags = ["studynote-enterprise-systems"]
 ```text
 엔터프라이즈 통합 3계층
 
-  ┌──────────────────────────────────────────────────────┐
-  │  BPM (Business Process Management)                   │
-  │  사람 + 시스템 + 규칙 → 업무 프로세스 자동화            │
-  │  예: 구매 승인 → 발주 → 입고 → 정산 자동화              │
-  └──────────────────┬───────────────────────────────────┘
-                     │
-  ┌──────────────────▼───────────────────────────────────┐
-  │  애플리케이션 통합 (API / 메시지 / ESB)                │
-  │  시스템 A ←─ REST API / MQ ─→ 시스템 B               │
-  │  예: 주문 시스템 → 재고 확인 API → 배송 시스템          │
-  └──────────────────┬───────────────────────────────────┘
-                     │
-  ┌──────────────────▼───────────────────────────────────┐
-  │  데이터 통합 (ETL / ELT)                               │
-  │  Source DB ─► Extract ─► Transform ─► Load ─► DW     │
-  │  예: ERP·CRM 데이터 → 데이터 웨어하우스 적재            │
-  └──────────────────────────────────────────────────────┘
+  +------------------------------------------------------+
+  |  BPM (Business Process Management)                   |
+  |  사람 + 시스템 + 규칙 -> 업무 프로세스 자동화            |
+  |  예: 구매 승인 -> 발주 -> 입고 -> 정산 자동화              |
+  +------------------+-----------------------------------+
+                     |
+  +------------------v-----------------------------------+
+  |  애플리케이션 통합 (API / 메시지 / ESB)                |
+  |  시스템 A <-- REST API / MQ --> 시스템 B               |
+  |  예: 주문 시스템 -> 재고 확인 API -> 배송 시스템          |
+  +------------------+-----------------------------------+
+                     |
+  +------------------v-----------------------------------+
+  |  데이터 통합 (ETL / ELT)                               |
+  |  Source DB -► Extract -► Transform -► Load -► DW     |
+  |  예: ERP·CRM 데이터 -> 데이터 웨어하우스 적재            |
+  +------------------------------------------------------+
 ```
 
 ### 2. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load) 심화
@@ -64,9 +64,9 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 ETL 흐름
-  ERP DB  ─┐
-  CRM DB  ─┼─► Staging Area ─► Transform ─► DW / Data Mart
-  API 데이터┘   (원본 임시 저장)   (정제·변환)   (분석 최적화 저장)
+  ERP DB  -+
+  CRM DB  -+-► Staging Area -► Transform -► DW / Data Mart
+  API 데이터+   (원본 임시 저장)   (정제·변환)   (분석 최적화 저장)
 ```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a>(Extract-Load-Transform)</strong>: 클라우드 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))의 대규모 연산 능력을 활용해 적재 후 변환. ETL과 순서가 다름.
@@ -78,7 +78,7 @@ ETL 흐름
 | 통신 방식 | 동기(Sync), 요청-응답 | 비동기(Async), 발행-구독 |
 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | 강결합 (호출 시 수신자 가용 필요) | 약결합 (브로커 경유) |
 | 실시간성 | 즉시 응답 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능 |
-| 장애 전파 | 수신자 다운 → 호출자 실패 | 수신자 다운 시 큐에 보관 |
+| 장애 전파 | 수신자 다운 -> 호출자 실패 | 수신자 다운 시 큐에 보관 |
 | 적합 상황 | 즉시 응답 필요, 단순 조회 | 비동기 이벤트, 고가용성 필요 |
 | 도구 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) | RabbitMQ, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), AWS SQS |
 
@@ -94,15 +94,15 @@ ETL 흐름
 |:---|:---|:---|
 | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 야간 배치로 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 적재 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | 배치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화 |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ↔ [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 실시간 고객 정보 연동 | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 또는 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) | 즉시성 요구 |
-| 주문 → 재고 → 배송 연쇄 이벤트 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) | 비동기·높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) |
-| 구매 결재 → 발주 → 입고 → 정산 자동화 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) | 사람+시스템 복합 프로세스 |
+| 주문 -> 재고 -> 배송 연쇄 이벤트 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) | 비동기·높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) |
+| 구매 결재 -> 발주 -> 입고 -> 정산 자동화 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) | 사람+시스템 복합 프로세스 |
 
 ### [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) vs. [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) vs. [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)
 
 | 구분 | [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) | [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ([Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)) | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) |
 |:---|:---|:---|:---|
 | 시대 | 1990년대 | 2000년대 | 2010년대~ |
-| 구조 | [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/) → [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke | 중앙 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 진입점 |
+| 구조 | [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/) -> [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke | 중앙 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 진입점 |
 | 특징 | 독점 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) | XML/WS-* 기반 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/), 경량 |
 
 - **📢 섹션 요약 비유**: EAI는 **'전화 교환수가 직접 연결'**, ESB는 <strong>'PBX 교환기 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>'</strong>, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 **'클라우드 앱스토어 관문'** 입니다. 시대와 기술 복잡도에 따라 통합 방식이 진화했습니다.
@@ -117,24 +117,24 @@ ETL 흐름
 
 ```text
 BPM 구성 요소
-  ┌──────────────────────────────────────────┐
-  │  BPMN 모델 (Business Process Model & Notation)
-  │  ↓
-  │  BPMS (BPM Suite) — 프로세스 엔진 실행
-  │  ↓
-  │  사람 태스크 ─── 시스템 태스크 ─── 규칙 엔진
-  │         ↓               ↓              ↓
-  │  담당자 승인        API 호출        DR 결정
-  └──────────────────────────────────────────┘
+  +------------------------------------------+
+  |  BPMN 모델 (Business Process Model & Notation)
+  |  v
+  |  BPMS (BPM Suite) — 프로세스 엔진 실행
+  |  v
+  |  사람 태스크 --- 시스템 태스크 --- 규칙 엔진
+  |         v               v              v
+  |  담당자 승인        API 호출        DR 결정
+  +------------------------------------------+
 ```
 
 ### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- <strong>배치 대용량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동</strong> → [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Informatica, dbt, Airbyte)
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a> 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연동</strong> → [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)
-- <strong>즉시 응답 필요 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 통합</strong> → [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) / [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)
-- **비동기 이벤트 기반** → [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)
-- **복합 업무 프로세스 자동화** → [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) (Camunda, Activiti, IBM [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/))
+- <strong>배치 대용량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동</strong> -> [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Informatica, dbt, Airbyte)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a> 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연동</strong> -> [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)
+- <strong>즉시 응답 필요 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 통합</strong> -> [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) / [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)
+- **비동기 이벤트 기반** -> [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)
+- **복합 업무 프로세스 자동화** -> [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) (Camunda, Activiti, IBM [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/))
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -170,27 +170,27 @@ BPM 구성 요소
 
 ```text
 사일로(Silo) 시스템 난립
-    │
-    ▼
-Point-to-Point 통합 (스파게티) → 복잡도 폭발
-    │
-    ▼
-EAI → ESB (중앙 버스) → API Gateway (분산)
-    │
-    ├─► ETL → ELT → 실시간 CDC
-    ├─► REST API / gRPC / GraphQL
-    ├─► 메시지 큐 (Kafka, RabbitMQ)
-    │
-    ▼
+    |
+    v
+Point-to-Point 통합 (스파게티) -> 복잡도 폭발
+    |
+    v
+EAI -> ESB (중앙 버스) -> API Gateway (분산)
+    |
+    +-► ETL -> ELT -> 실시간 CDC
+    +-► REST API / gRPC / GraphQL
+    +-► 메시지 큐 (Kafka, RabbitMQ)
+    |
+    v
 BPM — 사람+시스템 복합 프로세스 자동화
-    │
-    ▼
+    |
+    v
 EDA (Event-Driven Architecture) / Data Mesh (차세대)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 회사에는 영업팀, 창고팀, 재무팀이 각자 다른 컴퓨터 프로그램(시스템)을 써요. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a></strong>은 각 팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아 하나의 큰 보고서로 만드는 것, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>는 팀끼리 실시간으로 연락하는 것, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">BPM</a></strong>은 "주문 → [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 배송 → 결제" 과정을 자동으로 처리하는 규칙이에요!
+1. 회사에는 영업팀, 창고팀, 재무팀이 각자 다른 컴퓨터 프로그램(시스템)을 써요. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a></strong>은 각 팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아 하나의 큰 보고서로 만드는 것, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>는 팀끼리 실시간으로 연락하는 것, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">BPM</a></strong>은 "주문 -> [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 배송 -> 결제" 과정을 자동으로 처리하는 규칙이에요!
 2. 예전에는 모든 팀이 직접 전화([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통합)를 걸었는데, 선이 너무 복잡해져서 지금은 <strong>교환기(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a>)</strong> 를 통해 체계적으로 연결해요.
 3. 세 가지가 모두 갖춰지면 **회사 전체가 하나의 로봇처럼** 움직여요 — 고객이 주문하면 자동으로 재고가 줄고, 배송이 시작되고, 영수증이 발행됩니다!
 
@@ -200,7 +200,7 @@ EDA (Event-Driven Architecture) / Data Mesh (차세대)
 
 **진행 상황**: 147 / 482
 
-← **이전**: [146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)
-**다음**: [148. SOA (Service Oriented Architecture) - 서비스 지향 아키텍처 (2000년대 후반 엔터프라이즈 표준)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/148_soa_service_oriented_architecture/) →
+<- **이전**: [146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)
+**다음**: [148. SOA (Service Oriented Architecture) - 서비스 지향 아키텍처 (2000년대 후반 엔터프라이즈 표준)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/148_soa_service_oriented_architecture/) ->
 
 ---

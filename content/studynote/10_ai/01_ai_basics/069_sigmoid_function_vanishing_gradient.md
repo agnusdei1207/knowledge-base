@@ -30,7 +30,7 @@ tags = ["ai"]
 
 ```text
 Input
-  ↓ sigmoid
+  v sigmoid
 0 ~ 1
 ```
 
@@ -102,11 +102,11 @@ Input
 
 ```text
 Input
-  ↓
+  v
 Sigmoid
-  ↓
+  v
 Probability-like Output
-  ↓
+  v
 Binary Classification
 ```
 
@@ -116,11 +116,11 @@ Binary Classification
 
 ```text
 Step Function
-  ↓
+  v
 Sigmoid
-  ↓
+  v
 Vanishing Gradient
-  ↓
+  v
 ReLU
 ```
 
@@ -138,7 +138,7 @@ ReLU
 
 **진행 상황**: 69 / 420
 
-← **이전**: [68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/)
-**다음**: [70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) →
+<- **이전**: [68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/)
+**다음**: [70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) ->
 
 ---

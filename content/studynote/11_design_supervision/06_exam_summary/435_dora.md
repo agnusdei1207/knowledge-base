@@ -20,11 +20,11 @@ tags = ["studynote-design-supervision"]
 감리와 기술사 관점에서 이 주제가 중요한 이유는 조직이 흔히 개발 생산성과 운영 품질을 따로 보고하기 때문이다. 그러나 배포가 느리면 가치 실현도 늦어지고, 반대로 자주 배포하더라도 실패율이 높으면 운영 위험이 커진다. 따라서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 개발, 테스트, 형상관리, 승인, 운영 배포를 하나의 가치 흐름으로 묶어 판단하게 해 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌────────────┐   ┌──────────┐   ┌──────────┐
-│ 요구 변화 │──▶│ 백로그   │──▶│ 개발·커밋 │──▶│ 빌드·테스트 │──▶│ 운영 배포 │──▶│ 고객 가치 │
-└──────────┘   └──────────┘   └──────────┘   └─────┬──────┘   └────┬─────┘   └──────────┘
-                                                    │                │
-                                                    └── 리드 타임 ───┘
++----------+   +----------+   +----------+   +------------+   +----------+   +----------+
+| 요구 변화 |--->| 백로그   |--->| 개발·커밋 |--->| 빌드·테스트 |--->| 운영 배포 |--->| 고객 가치 |
++----------+   +----------+   +----------+   +-----+------+   +----+-----+   +----------+
+                                                    |                |
+                                                    +-- 리드 타임 ---+
                                    배포 빈도 = 일정 기간 내 운영 반영 횟수
 ```
 
@@ -36,12 +36,12 @@ tags = ["studynote-design-supervision"]
 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 <strong>측정 경계의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌────────────┐   ┌──────────────┐
-│ Git Commit/PR│──▶│ CI 파이프라인 │──▶│ 배포 로그   │──▶│ 운영 반영 기록 │
-└──────┬───────┘   └──────┬───────┘   └─────┬──────┘   └──────┬───────┘
-       │                  │                 │                 │
-       └────────────── 리드 타임 산정 구간 ────────────────┘
-                                                     └── 기간별 배포 빈도 집계
++--------------+   +--------------+   +------------+   +--------------+
+| Git Commit/PR|--->| CI 파이프라인 |--->| 배포 로그   |--->| 운영 반영 기록 |
++------+-------+   +------+-------+   +-----+------+   +------+-------+
+       |                  |                 |                 |
+       +-------------- 리드 타임 산정 구간 ----------------+
+                                                     +-- 기간별 배포 빈도 집계
 ```
 
 | 측정 축 | 핵심 의미 | 감리·기술사 포인트 |
@@ -104,17 +104,17 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 형상관리·배포 이력 수집
-          │
-          ▼
+          |
+          v
 리드 타임·배포 빈도 측정
-          │
-          ▼
+          |
+          v
 병목 구간 식별
-          │
-          ▼
+          |
+          v
 자동화·작은 배치 배포 확대
-          │
-          ▼
+          |
+          v
 빠른 가치 전달 · 안정적 운영 개선
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 513 / 530
 
-← **이전**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/434_pbs_api/)
-**다음**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/436_management/) →
+<- **이전**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/434_pbs_api/)
+**다음**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/436_management/) ->
 
 ---

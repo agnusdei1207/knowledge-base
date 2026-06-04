@@ -29,15 +29,15 @@ tags = ["studynote-operating-system"]
 
   [시간 t1: 초기화 루프 구역]
   참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}
-  ▶ 워킹 셋 W(t1) = {1, 2, 3}  (크기 3)
-  ▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"
+  -> 워킹 셋 W(t1) = {1, 2, 3}  (크기 3)
+  -> OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"
 
   (시간이 흘러 다른 함수로 넘어감)
 
   [시간 t2: 무거운 DB 조회 구역]
   참조된 페이지: {7, 8, 9, 7, 10, 8, 11, 7}
-  ▶ 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)
-  ▶ OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"
+  -> 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)
+  -> OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"
 ```
 **[다이어그램 해설]** 워킹 셋은 고정되어 있지 않고, 프로그램이 실행되면서 계속 살아 숨 쉰다. 어떤 순간에는 {1,2,3}만 필요하다가 1초 뒤에는 {7,8,9,[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)}로 바뀐다. OS 스케줄러는 이 윈도우 창을 계속 슬라이딩하며 워킹 셋의 크기(WSS)를 추적하고, 프레임 배급량을 늘렸다 줄였다(Dynamic Allocation) 하는 예술적인 튜닝을 수행한다.
 
@@ -110,23 +110,23 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
    - **아키텍트 결단**: 로드밸런서(LB)에 파드를 연결하기 전, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Request)을 수천 번 쏴서 JVM의 주요 로직과 DB 커넥션 코드들을 **물리적 램 위(Working Set)에 완전히 안착시키는 웜업(Warm-up)** 단계를 강제해야 한다. 워킹 셋이 완성된 후에야 진짜 트래픽을 넣어야 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없는 안정적인 서비스가 가능하다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │     워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계                │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │   [장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤]│
-  │                │                                                              │
-  │                ▼ 운영체제의 백그라운드 메모리 정책 원리                       │
-  │   1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.     │
-  │   2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)    │
-  │   3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄) │
-  │                                                                               │
-  │                ▼ 아키텍트의 해결책 (Prepaging / 메모리 락킹)                  │
-  │   [ ✅ 선페이징 (Prepaging) 도입 ]                                            │
-  │     - 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에            │
-  │       쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에              │
-  │       부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.              │
-  └───────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------+
+  |     워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계                |
+  +-------------------------------------------------------------------------------+
+  |                                                                               |
+  |   [장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤]|
+  |                |                                                              |
+  |                v 운영체제의 백그라운드 메모리 정책 원리                       |
+  |   1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.     |
+  |   2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)    |
+  |   3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄) |
+  |                                                                               |
+  |                v 아키텍트의 해결책 (Prepaging / 메모리 락킹)                  |
+  |   [ ✅ 선페이징 (Prepaging) 도입 ]                                            |
+  |     - 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에            |
+  |       쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에              |
+  |       부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.              |
+  +-------------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 워킹 셋 이론은 "뺏을 때" 보다 "다시 돌려줄 때" 더 빛난다. 잠들었던 프로세스가 깨어날 때 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 1개씩 1개씩 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))으로 가져오면 100번의 디스크 암(Arm) 이동 지연이 발생한다. 하지만 "얘의 과거 워킹 셋은 이거이거였어"라고 기억해 두었다가 100개를 한 번의 디스크 암 움직임으로 뭉텅이로 퍼 올리면(선페이징) 속도는 수백 배 빨라진다.
 
@@ -160,12 +160,12 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 
 ```text
 [큐잉 스핀락 (MCS Lock / qspinlock)]
-    │
-    ▼
+    |
+    v
 [워킹 셋 (Working Set)]
-    │
-    ├──▶ [비관적 병행성 제어 (Pessimistic Concurrency Control)]
-    └──▶ [원자적 트랜잭션 (Atomic Transaction) 개념]
+    |
+    +---> [비관적 병행성 제어 (Pessimistic Concurrency Control)]
+    +---> [원자적 트랜잭션 (Atomic Transaction) 개념]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -182,7 +182,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 
 **진행 상황**: 265 / 800
 
-← **이전**: [264. 클럭 알고리즘 (Clock Algorithm / NUR)](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/)
-**다음**: [266. 페이지 부재 빈도 (PFF, Page Fault Frequency)](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/) →
+<- **이전**: [264. 클럭 알고리즘 (Clock Algorithm / NUR)](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/)
+**다음**: [266. 페이지 부재 빈도 (PFF, Page Fault Frequency)](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/) ->
 
 ---

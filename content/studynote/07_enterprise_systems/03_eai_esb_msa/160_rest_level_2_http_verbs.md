@@ -36,18 +36,18 @@ Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의�
 아래 그림은 Level 2가 자원과 메서드를 어떻게 결합하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              Level 2: 같은 리소스, 다른 HTTP 메서드               │
-├────────────────────────────────────────────────────────────────────┤
-│ /orders           GET    -> 주문 목록 조회                         │
-│ /orders           POST   -> 새 주문 생성                           │
-│ /orders/1001      GET    -> 주문 1건 조회                          │
-│ /orders/1001      PUT    -> 주문 전체 교체                         │
-│ /orders/1001      PATCH  -> 주문 일부 수정                         │
-│ /orders/1001      DELETE -> 주문 삭제                              │
-│                                                                    │
-│ 상태 코드: 200 OK / 201 Created / 204 No Content / 404 Not Found  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              Level 2: 같은 리소스, 다른 HTTP 메서드               |
++--------------------------------------------------------------------+
+| /orders           GET    -> 주문 목록 조회                         |
+| /orders           POST   -> 새 주문 생성                           |
+| /orders/1001      GET    -> 주문 1건 조회                          |
+| /orders/1001      PUT    -> 주문 전체 교체                         |
+| /orders/1001      PATCH  -> 주문 일부 수정                         |
+| /orders/1001      DELETE -> 주문 삭제                              |
+|                                                                    |
+| 상태 코드: 200 OK / 201 Created / 204 No Content / 404 Not Found  |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 URI가 아니라 <strong>메서드와 상태 코드 조합</strong>이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미를 완성한다는 점이다. 예를 들어 `GET`은 안전성 ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 기대할 수 있으므로 캐시와 재시도에 유리하다. `PUT`과 `DELETE`도 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 있어 네트워크 재전송 환경에서 관리가 쉽다. 반면 `POST`는 보통 멱등하지 않으므로 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
@@ -136,16 +136,16 @@ Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하�
 ```text
 Level 0
   (단일 endpoint + action 중심)
-    │
-    ▼
+    |
+    v
 Level 1
   (리소스별 URI 분리)
-    │
-    ▼
+    |
+    v
 Level 2
   (HTTP 메서드 · 상태 코드 정착)
-    │
-    ▼
+    |
+    v
 Level 3
   (HATEOAS 기반 상태 전이 안내)
 ```
@@ -164,7 +164,7 @@ Level 3
 
 **진행 상황**: 160 / 482
 
-← **이전**: [159. Level 1 - 리소스별 고유 URI 할당](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/159_rest_level_1_resources/)
-**다음**: [161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) →
+<- **이전**: [159. Level 1 - 리소스별 고유 URI 할당](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/159_rest_level_1_resources/)
+**다음**: [161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) ->
 
 ---

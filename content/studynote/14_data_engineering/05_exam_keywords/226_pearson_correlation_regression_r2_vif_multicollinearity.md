@@ -1,5 +1,5 @@
 +++
-title = "226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF"
+title = "226. 피어슨 상관 (Pearson Correlation) 회귀 R^ 결정계수 다중공선성 VIF"
 date = 2026-04-21
 
 [taxonomies]
@@ -11,8 +11,8 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 피어슨 상관계수(Pearson Correlation Coefficient)는 두 연속 변수 간 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도와 방향을 -1~+1로 나타내며, 단순선형회귀(Simple Linear Regression)는 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 예측 모델로 발전시킨다.
-> 2. **가치**: R²(R-Squared, 결정계수)는 모델이 종속변수 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 몇 %를 설명하는지 알려주며, VIF([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)팽창지수)는 다중회귀에서 독립변수 간 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 문제를 진단한다.
-> 3. **판단 포인트**: 높은 R²가 좋은 모델을 보장하지 않는다. 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))·다중공선성·이분산성을 함께 진단해야 실용적인 회귀 모델이 된다.
+> 2. **가치**: R^(R-Squared, 결정계수)는 모델이 종속변수 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 몇 %를 설명하는지 알려주며, VIF([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)팽창지수)는 다중회귀에서 독립변수 간 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 문제를 진단한다.
+> 3. **판단 포인트**: 높은 R^가 좋은 모델을 보장하지 않는다. 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))·다중공선성·이분산성을 함께 진단해야 실용적인 회귀 모델이 된다.
 
 ---
 
@@ -23,15 +23,15 @@ tags = ["studynote-data-engineering"]
 ### 분석 흐름
 
 ```
-① 상관 분석       → 두 변수가 관련 있는가? (피어슨 r)
-        ↓
-② 단순선형회귀    → X가 Y를 얼마나 설명하는가? (OLS)
-        ↓
-③ 다중회귀        → X₁, X₂, ..., Xₙ 복합 영향? (Multiple Regression)
-        ↓
-④ 모델 진단       → 다중공선성 VIF, 잔차 정규성, 이분산성 확인
-        ↓
-⑤ 해석 및 예측   → 계수 해석, 신뢰구간, 예측 구간
+① 상관 분석       -> 두 변수가 관련 있는가? (피어슨 r)
+        v
+② 단순선형회귀    -> X가 Y를 얼마나 설명하는가? (OLS)
+        v
+③ 다중회귀        -> X₁, X₂, ..., Xₙ 복합 영향? (Multiple Regression)
+        v
+④ 모델 진단       -> 다중공선성 VIF, 잔차 정규성, 이분산성 확인
+        v
+⑤ 해석 및 예측   -> 계수 해석, 신뢰구간, 예측 구간
 ```
 
 📢 **섹션 요약 비유**: 피어슨 상관은 "두 댄서가 얼마나 같이 움직이는지 보는 것"이고, 회귀는 "한 댄서의 동작으로 다른 댄서의 동작을 예측하는 공식"을 만드는 것이다.
@@ -44,8 +44,8 @@ tags = ["studynote-data-engineering"]
 
 ```
         Σ[(xᵢ - x̄)(yᵢ - ȳ)]
-r = ─────────────────────────────────────
-     √[Σ(xᵢ - x̄)²] × √[Σ(yᵢ - ȳ)²]
+r = -------------------------------------
+     √[Σ(xᵢ - x̄)^] × √[Σ(yᵢ - ȳ)^]
 
 범위: -1 ≤ r ≤ +1
 ```
@@ -66,41 +66,41 @@ r = ─────────────────────────�
 ```
 모델: ŷ = β₀ + β₁x + ε
 
-OLS 목표: Σ(yᵢ - ŷᵢ)² 를 최소화
+OLS 목표: Σ(yᵢ - ŷᵢ)^ 를 최소화
 
        Σ[(xᵢ - x̄)(yᵢ - ȳ)]
-β₁ = ──────────────────────  (기울기)
-           Σ(xᵢ - x̄)²
+β₁ = ----------------------  (기울기)
+           Σ(xᵢ - x̄)^
 
 β₀ = ȳ - β₁x̄               (절편)
 
 ε: 잔차 (Residual, 실제값 - 예측값)
 ```
 
-### 2-3. R² (R-Squared, 결정계수) 해석
+### 2-3. R^ (R-Squared, 결정계수) 해석
 
 ```
-       SSR (설명된 분산)         Σ(ŷᵢ - ȳ)²
-R² = ──────────────────── = ─────────────────────
-       SST (전체 분산)        Σ(yᵢ - ȳ)²
+       SSR (설명된 분산)         Σ(ŷᵢ - ȳ)^
+R^ = -------------------- = ---------------------
+       SST (전체 분산)        Σ(yᵢ - ȳ)^
 
-R² = 1 - SSE/SST  (SSE: 잔차 제곱합)
+R^ = 1 - SSE/SST  (SSE: 잔차 제곱합)
 
-범위: 0 ≤ R² ≤ 1
+범위: 0 ≤ R^ ≤ 1
 ```
 
-| R² 값 | 해석 | 주의사항 |
+| R^ 값 | 해석 | 주의사항 |
 |:---|:---|:---|
 | 0.9 이상 | 모델이 90%+ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설명 | 과적합 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요 |
 | 0.7 ~ 0.9 | 좋은 설명력 | 잔차 패턴 분석 필요 |
 | 0.5 ~ 0.7 | 보통 수준 | 변수 추가·변환 고려 |
 | 0.5 미만 | 설명력 낮음 | 모델 재검토 필요 |
 
-**Adjusted R² (조정 결정계수)**: 변수 추가로 인한 인위적 R² 상승을 방지. 변수 수 증가 페널티 적용.
+**Adjusted R^ (조정 결정계수)**: 변수 추가로 인한 인위적 R^ 상승을 방지. 변수 수 증가 페널티 적용.
 
 ```
-           (1 - R²)(n - 1)
-Adj R² = 1 - ────────────────
+           (1 - R^)(n - 1)
+Adj R^ = 1 - ----------------
                (n - k - 1)
 
 n: 표본 크기, k: 독립변수 수
@@ -112,18 +112,18 @@ n: 표본 크기, k: 독립변수 수
 
 ```
 VIF (Variance Inflation Factor, 분산팽창지수)
-──────────────────────────────────────────────
+----------------------------------------------
           1
-VIFⱼ = ─────────
-         1 - Rⱼ²
+VIFⱼ = ---------
+         1 - Rⱼ^
 
-Rⱼ²: j번째 독립변수를 나머지 변수로 회귀했을 때의 R²
+Rⱼ^: j번째 독립변수를 나머지 변수로 회귀했을 때의 R^
 
 VIF 판단 기준:
-VIF = 1        → 공선성 없음
-1 < VIF < 5    → 경미한 공선성 (허용 가능)
-5 ≤ VIF < 10   → 중간 공선성 (주의 필요)
-VIF ≥ 10       → 심각한 공선성 (변수 제거·변환 필요)
+VIF = 1        -> 공선성 없음
+1 < VIF < 5    -> 경미한 공선성 (허용 가능)
+5 ≤ VIF < 10   -> 중간 공선성 (주의 필요)
+VIF ≥ 10       -> 심각한 공선성 (변수 제거·변환 필요)
 ```
 
 | 다중공선성 진단 도구 | 설명 |
@@ -143,11 +143,11 @@ VIF ≥ 10       → 심각한 공선성 (변수 제거·변환 필요)
 
 ```
 회귀 모델 진단 4대 가정 (LINE)
-─────────────────────────────
-L: Linearity         (선형성) → 산점도, 잔차 vs 적합값 플롯
-I: Independence      (독립성) → 잔차 자기상관 없음, DW 검정
-N: Normality         (정규성) → 잔차 QQ 플롯, Shapiro-Wilk 검정
-E: Equal Variance    (등분산성) → Scale-Location 플롯, BP 검정
+-----------------------------
+L: Linearity         (선형성) -> 산점도, 잔차 vs 적합값 플롯
+I: Independence      (독립성) -> 잔차 자기상관 없음, DW 검정
+N: Normality         (정규성) -> 잔차 QQ 플롯, Shapiro-Wilk 검정
+E: Equal Variance    (등분산성) -> Scale-Location 플롯, BP 검정
 ```
 
 ### 3-2. 피어슨 vs 스피어만 상관
@@ -177,21 +177,21 @@ E: Equal Variance    (등분산성) → Scale-Location 플롯, BP 검정
 ### 4-1. 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 분석 시나리오
 
 ```
-[목표] TV 광고비·SNS 광고비·할인율 → 매출 예측
+[목표] TV 광고비·SNS 광고비·할인율 -> 매출 예측
 
 [데이터]
-TV 광고비(X₁), SNS 광고비(X₂), 할인율(X₃) → 매출(Y)
+TV 광고비(X₁), SNS 광고비(X₂), 할인율(X₃) -> 매출(Y)
 
 [VIF 진단 결과]
-TV 광고비 VIF = 2.1    ← 문제없음
-SNS 광고비 VIF = 8.7   ← 주의 (TV 광고비와 r=0.81)
-할인율 VIF = 1.3       ← 문제없음
+TV 광고비 VIF = 2.1    <- 문제없음
+SNS 광고비 VIF = 8.7   <- 주의 (TV 광고비와 r=0.81)
+할인율 VIF = 1.3       <- 문제없음
 
 [처리] SNS 광고비·TV 광고비 합계 변수 생성 또는 Ridge 회귀 적용
 
 [결과]
-R² = 0.84, Adj R² = 0.82
-계수 해석: TV 광고비 1억 원 증가 → 매출 3.2억 원 증가 (p < 0.001)
+R^ = 0.84, Adj R^ = 0.82
+계수 해석: TV 광고비 1억 원 증가 -> 매출 3.2억 원 증가 (p < 0.001)
 ```
 
 ### 4-2. 기술사 답안 작성 핵심 포인트
@@ -199,18 +199,18 @@ R² = 0.84, Adj R² = 0.82
 | 항목 | 설명 | 수식/기준 |
 |:---|:---|:---|
 | 피어슨 r | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도 | -1 ≤ r ≤ +1 |
-| R² | 설명된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 | 0~1 |
-| Adj R² | 변수 수 보정 R² | 변수 추가 페널티 |
+| R^ | 설명된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 | 0~1 |
+| Adj R^ | 변수 수 보정 R^ | 변수 추가 페널티 |
 | VIF | 다중공선성 진단 | ≥ 10이면 심각 |
 | OLS | 최소제곱법 | 잔차 제곱합 최소화 |
 
-📢 **섹션 요약 비유**: R²는 "기상 예보 정확도"다. R² = 0.85라면 "내일 날씨의 85%를 예측 모델로 설명할 수 있고, 15%는 우리가 모르는 요인"이라는 의미다.
+📢 **섹션 요약 비유**: R^는 "기상 예보 정확도"다. R^ = 0.85라면 "내일 날씨의 85%를 예측 모델로 설명할 수 있고, 15%는 우리가 모르는 요인"이라는 의미다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-피어슨 상관·회귀·R²·VIF는 통계적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초이자, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 해석의 기반이다. 이 개념들을 정확히 이해하면 블랙박스 모델의 특성 중요도 해석도 더 깊어진다.
+피어슨 상관·회귀·R^·VIF는 통계적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초이자, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 해석의 기반이다. 이 개념들을 정확히 이해하면 블랙박스 모델의 특성 중요도 해석도 더 깊어진다.
 
 ### 핵심 요약
 
@@ -218,13 +218,13 @@ R² = 0.84, Adj R² = 0.82
 |:---|:---|:---|
 | 피어슨 r | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | \|r\| > 0.7 강한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | OLS 회귀 | 예측 모델 수립 | 잔차 정규성·등분산성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| R² | 모델 설명력 | 목적에 따라 다름 |
-| Adj R² | 변수 수 보정 설명력 | R² 대신 다중회귀에서 사용 |
+| R^ | 모델 설명력 | 목적에 따라 다름 |
+| Adj R^ | 변수 수 보정 설명력 | R^ 대신 다중회귀에서 사용 |
 | VIF | 다중공선성 진단 | VIF ≥ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 경고 |
 
-기술사 시험에서 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 **"가정 검토(LINE) + 다중공선성 VIF + R² 한계 + 인과관계 오해 주의"** 를 4대 포인트로 서술해야 완성도 높은 답안이 된다.
+기술사 시험에서 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 **"가정 검토(LINE) + 다중공선성 VIF + R^ 한계 + 인과관계 오해 주의"** 를 4대 포인트로 서술해야 완성도 높은 답안이 된다.
 
-📢 **섹션 요약 비유**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 "과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 타임머신 설계도"다. 좋은 설계도(높은 R²)라도 설계 오류(다중공선성, 가정 위반)가 있으면 타임머신은 엉뚱한 곳으로 간다.
+📢 **섹션 요약 비유**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 "과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 타임머신 설계도"다. 좋은 설계도(높은 R^)라도 설계 오류(다중공선성, 가정 위반)가 있으면 타임머신은 엉뚱한 곳으로 간다.
 
 ---
 
@@ -234,8 +234,8 @@ R² = 0.84, Adj R² = 0.82
 |:---|:---|:---|
 | 핵심 | Pearson r (피어슨 상관계수) | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도 -1~+1 |
 | 핵심 | OLS (Ordinary Least Squares) | 최소제곱법 회귀 |
-| 핵심 | R² (결정계수) | 모델 설명력 |
-| 핵심 | Adjusted R² (조정 결정계수) | 변수 수 보정 설명력 |
+| 핵심 | R^ (결정계수) | 모델 설명력 |
+| 핵심 | Adjusted R^ (조정 결정계수) | 변수 수 보정 설명력 |
 | 진단 | VIF ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor) | 다중공선성 수치 |
 | 진단 | Residual Analysis (잔차 분석) | 모델 가정 검토 |
 | 비교 | Spearman Correlation (스피어만) | 비모수 단조 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
@@ -253,16 +253,16 @@ R² = 0.84, Adj R² = 0.82
 
 ```text
 상관 분석: Pearson r (-1 ~ +1)
-    │
-    ▼
-회귀 분석: 독립변수 → 종속변수 예측
-    ├─► 단순 선형 회귀: y = β₀ + β₁x
-    └─► 다중 회귀: y = β₀ + β₁x₁ + β₂x₂ + ...
-    │
-    ▼
-모델 평가: R² · VIF (다중공선성) · 잔차 분석
+    |
+    v
+회귀 분석: 독립변수 -> 종속변수 예측
+    +-► 단순 선형 회귀: y = β₀ + β₁x
+    +-► 다중 회귀: y = β₀ + β₁x₁ + β₂x₂ + ...
+    |
+    v
+모델 평가: R^ · VIF (다중공선성) · 잔차 분석
 ```
-2. R²는 "내 예측이 정답의 몇 %를 맞혔는지" 알려주는 점수표이고, VIF는 "두 선생님이 똑같은 내용을 가르쳐서 어느 선생님이 진짜 도움이 됐는지 모르겠다"는 문제를 찾아내는 것이다.
+2. R^는 "내 예측이 정답의 몇 %를 맞혔는지" 알려주는 점수표이고, VIF는 "두 선생님이 똑같은 내용을 가르쳐서 어느 선생님이 진짜 도움이 됐는지 모르겠다"는 문제를 찾아내는 것이다.
 3. [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 공식이지만, "아이스크림 잘 팔리면 익사 사고가 늘어나니 아이스크림 금지!"처럼 엉뚱한 인과관계로 착각하지 않도록 조심해야 한다.
 
 ---
@@ -271,7 +271,7 @@ R² = 0.84, Adj R² = 0.82
 
 **진행 상황**: 226 / 258
 
-← **이전**: [225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)
-**다음**: [227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) →
+<- **이전**: [225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)
+**다음**: [227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ->
 
 ---

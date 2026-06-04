@@ -32,7 +32,7 @@ tags = ["studynote-computer-architecture"]
 마스터는 클록의 한 구간에서 입력을 받고, 슬레이브는 반대 구간에서 출력을 반영한다. 그래서 전체적으로는 엣지에서만 바뀌는 것처럼 보인다.
 
 ```text
-Input → [Master Latch] → [Slave Latch] → Output
+Input -> [Master Latch] -> [Slave Latch] -> Output
            CLK               !CLK
 ```
 
@@ -111,11 +111,11 @@ Input → [Master Latch] → [Slave Latch] → Output
 
 ```text
 Latch
-    │
-    ▼
+    |
+    v
 Master-Slave
-    │
-    ▼
+    |
+    v
 Edge-Triggered Flip-Flop
 ```
 
@@ -133,7 +133,7 @@ Edge-Triggered Flip-Flop
 
 **진행 상황**: 56 / 803
 
-← **이전**: [55. T 플립플롭 (T Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/055_t_flip_flop/)
-**다음**: [57. 레지스터 (Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) →
+<- **이전**: [55. T 플립플롭 (T Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/055_t_flip_flop/)
+**다음**: [57. 레지스터 (Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ->
 
 ---

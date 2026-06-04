@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 공유 락 (Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / Read [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), S-[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 읽기 허용, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가에 초점을 맞춘 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 공유 락을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `락킹 기법`·`배타 락`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 공유 락을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [락킹 기법]
-    │
-    ▼
+    |
+    v
 [공유 락]
-    │
-    ├──▶ [배타 락]
-    └──▶ [2단계 락킹 프로토콜]
+    |
+    +---> [배타 락]
+    +---> [2단계 락킹 프로토콜]
 ```
 
 [락킹 기법](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)에서 출발한 논점이 공유 락에서 핵심 판단으로 모이고, 이후 [배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/)·[2단계 락킹 프로토콜](/knowledge-base/studynote/05_database/04_transactions_concurrency/216_two_phase_locking_protocol_2pl/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 214 / 600
 
-← **이전**: [213. 락킹 기법 (Locking)](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)
-**다음**: [215. 배타 락 (Exclusive Lock / Write Lock, X-Lock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/) →
+<- **이전**: [213. 락킹 기법 (Locking)](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)
+**다음**: [215. 배타 락 (Exclusive Lock / Write Lock, X-Lock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/) ->
 
 ---

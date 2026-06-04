@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [양방향 스마트 계량기]
-    │
-    ▼
+    |
+    v
 [홈넷/IoT 봇넷 방어 기법]
-    │
-    └──▶ [저전력/메모리 한계 환경 경량 대칭키 암호]
+    |
+    +---> [저전력/메모리 한계 환경 경량 대칭키 암호]
 ```
 
 - **📢 섹션 요약 비유**: 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [양방향 스마트 계량기]
-    │
-    ▼
+    |
+    v
 [홈넷/IoT 봇넷 방어 기법]
-    │
-    └──▶ [저전력/메모리 한계 환경 경량 대칭키 암호]
+    |
+    +---> [저전력/메모리 한계 환경 경량 대칭키 암호]
 ```
 
 - **📢 섹션 요약 비유**: 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 양방향 스마트 계량기]
-    │
-    ▼
+    |
+    v
 [현재 개념: 홈넷/IoT 봇넷 방어 기법]
-    │
-    ├──▶ [확장 A: 저전력/메모리 한계 환경 경량 대칭키 암호]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 저전력/메모리 한계 환경 경량 대칭키 암호]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법는 [양방향 스마트 계량기](/knowledge-base/studynote/03_network/12_iot_wpan_edge/648_smart_meter_two_way_communication_ami/)에서 출발해 현재 메커니즘을 정교화하고, 이후 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 770 / 1120
 
-← **이전**: [648. 양방향 스마트 계량기 (Smart Meter 통신 규격)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/648_smart_meter_two_way_communication_ami/)
-**다음**: [650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/650_lea_lightweight_encryption_algorithm_iot/) →
+<- **이전**: [648. 양방향 스마트 계량기 (Smart Meter 통신 규격)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/648_smart_meter_two_way_communication_ami/)
+**다음**: [650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/650_lea_lightweight_encryption_algorithm_iot/) ->
 
 ---

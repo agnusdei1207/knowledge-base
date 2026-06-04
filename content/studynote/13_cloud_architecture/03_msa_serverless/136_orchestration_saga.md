@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-오케스트레이터 → 주문 서비스: "주문 생성" → 성공
-오케스트레이터 → 결제 서비스: "결제 처리" → 실패
-오케스트레이터 → 주문 서비스: "주문 취소" (보상)
+오케스트레이터 -> 주문 서비스: "주문 생성" -> 성공
+오케스트레이터 -> 결제 서비스: "결제 처리" -> 실패
+오케스트레이터 -> 주문 서비스: "주문 취소" (보상)
 ```
 
 - **📢 섹션 요약 비유**: Orchestration은 <strong>교향곡 지휘자</strong>이다. 지휘자가 각 악기에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 연주를 조율한다.
@@ -47,9 +47,9 @@ tags = ["studynote-cloud-architecture"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[2PC (1990s)] → [Choreography Saga (2014~)]
-    → [Cadence (Uber, 2017)] → [Temporal (2020~ 오픈소스)]
-    → [현재: Durable Execution 표준화]
+[2PC (1990s)] -> [Choreography Saga (2014~)]
+    -> [Cadence (Uber, 2017)] -> [Temporal (2020~ 오픈소스)]
+    -> [현재: Durable Execution 표준화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 135 / 371
 
-← **이전**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/)
-**다음**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/) →
+<- **이전**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/)
+**다음**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/) ->
 
 ---

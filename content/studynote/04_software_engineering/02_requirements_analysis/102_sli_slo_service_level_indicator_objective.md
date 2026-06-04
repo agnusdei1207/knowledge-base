@@ -32,18 +32,18 @@ tags = ["software_engineering"]
    - 이 목표를 설정하는 순간 시스템이 허용 가능한 실패치, 즉 **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) = $100\% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)$** 가 자동으로 도출된다. 99.9%가 목표라면 0.1%의 요청은 실패해도 괜찮다는 여유 자금이 생긴 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        SLI 측정 파이프라인과 SLO 방어 메커니즘               │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 요청] ─▶ [로드밸런서/웹서버] ─▶ [Log / Metrics 수집]  │
-│                                            │                 │
-│ 1. SLI 계산: (성공 응답 99,950 / 전체 100,000) = 99.95%       │
-│                                            │                 │
-│ 2. SLO 비교: 사내 목표치 99.9% 와 대조        │                 │
-│    ▶ 결과: 99.95% > 99.9% (목표 달성 OK!)    ▼                 │
-│                                                              │
-│ 3. 에러 예산 연동: 잔여 예산이 넉넉하므로 신규 기능 배포 승인!     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        SLI 측정 파이프라인과 SLO 방어 메커니즘               |
++--------------------------------------------------------------+
+| [사용자 요청] --> [로드밸런서/웹서버] --> [Log / Metrics 수집]  |
+|                                            |                 |
+| 1. SLI 계산: (성공 응답 99,950 / 전체 100,000) = 99.95%       |
+|                                            |                 |
+| 2. SLO 비교: 사내 목표치 99.9% 와 대조        |                 |
+|    -> 결과: 99.95% > 99.9% (목표 달성 OK!)    v                 |
+|                                                              |
+| 3. 에러 예산 연동: 잔여 예산이 넉넉하므로 신규 기능 배포 승인!     |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 한 달 용돈([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 10만 원이다. 이번 주에 밥값이 9만 원(SLI 성공률)밖에 안 들었다면 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 지켰으니 남은 만 원으로 PC방(신규 기능 배포)을 갈 수 있는 권리가 생긴다.
@@ -88,19 +88,19 @@ SLI와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-모호한 운영 주관적 평가 ──▶ 개발 vs 운영 갈등 심화
-    │
-    ▼
+모호한 운영 주관적 평가 ---> 개발 vs 운영 갈등 심화
+    |
+    v
 SLI (서비스 수준 지표) 도입: "성공 응답 / 전체 요청" 객관화
-    │
-    ▼
+    |
+    v
 SLO (서비스 수준 목표) 설정: 사내 99.9% 타깃 수립
-    │
-    ▼
-에러 예산 (Error Budget) 창출 ──▶ 신규 배포 속도 제어
-    │
-    ▼
-SLA (서비스 수준 계약) ──▶ 비즈니스 위약금/보상 체계 연동
+    |
+    v
+에러 예산 (Error Budget) 창출 ---> 신규 배포 속도 제어
+    |
+    v
+SLA (서비스 수준 계약) ---> 비즈니스 위약금/보상 체계 연동
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -114,7 +114,7 @@ SLA (서비스 수준 계약) ──▶ 비즈니스 위약금/보상 체계 연
 
 **진행 상황**: 102 / 973
 
-← **이전**: [101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
-**다음**: [103. SLA (Service Level Agreement)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/103_sla_service_level_agreement_penalty/) →
+<- **이전**: [101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
+**다음**: [103. SLA (Service Level Agreement)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/103_sla_service_level_agreement_penalty/) ->
 
 ---

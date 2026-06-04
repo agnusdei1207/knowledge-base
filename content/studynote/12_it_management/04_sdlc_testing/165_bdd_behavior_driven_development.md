@@ -36,24 +36,24 @@ BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결
 아래 흐름은 BDD가 단순 문서 작성이 아니라 협업, 자동화, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 이어지는 구조임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  BDD Workflow                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. Discovery                                                     │
-│    Business + Dev + QA gather concrete examples                  │
-│                │                                                  │
-│                ▼                                                  │
-│ 2. Formulation                                                   │
-│    Feature / Scenario / Given-When-Then                          │
-│                │                                                  │
-│                ▼                                                  │
-│ 3. Automation                                                    │
-│    Gherkin ↔ Step Definitions ↔ Test Runner                      │
-│                │                                                  │
-│                ▼                                                  │
-│ 4. Validation                                                    │
-│    CI/CD run + report + living documentation                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  BDD Workflow                                     |
++--------------------------------------------------------------------+
+| 1. Discovery                                                     |
+|    Business + Dev + QA gather concrete examples                  |
+|                |                                                  |
+|                v                                                  |
+| 2. Formulation                                                   |
+|    Feature / Scenario / Given-When-Then                          |
+|                |                                                  |
+|                v                                                  |
+| 3. Automation                                                    |
+|    Gherkin ↔ Step Definitions ↔ Test Runner                      |
+|                |                                                  |
+|                v                                                  |
+| 4. Validation                                                    |
+|    CI/CD run + report + living documentation                     |
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 연결점은 Gherkin이다. 거킨 (Gherkin)은 BDD 시나리오를 표현하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어 (Domain-Specific Language, DSL)로, 비기술자도 읽을 수 있으면서 도구가 파싱할 수 있다. 아래 예시는 명세와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 문장 구조를 공유한다.
@@ -77,7 +77,7 @@ Feature: 송금 한도 검증
 | Then | 기대 결과 | 화면, 상태, 규칙 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 명확히 쓴다 |
 | Examples | 여러 입력 조합 | 시나리오 중복을 줄여 준다 |
 
-- **📢 섹션 요약 비유**: BDD는 요리책에서 "재료 준비(Given) → 조리 행동(When) → 완성 상태(Then)"를 적는 것과 같다. 레시피가 정확해야 누구가 요리해도 같은 맛이 난다.
+- **📢 섹션 요약 비유**: BDD는 요리책에서 "재료 준비(Given) -> 조리 행동(When) -> 완성 상태(Then)"를 적는 것과 같다. 레시피가 정확해야 누구가 요리해도 같은 맛이 난다.
 
 ---
 
@@ -151,18 +151,18 @@ BDD를 제대로 적용하면 요구사항과 테스트와 구현의 간격이 �
 
 ```text
 요구사항 모호성
-    │
-    ▼
+    |
+    v
 예시 기반 대화 (Example Conversation)
-    │
-    ▼
+    |
+    v
 BDD (Behavior Driven Development)
-    │
-    ├── Gherkin 시나리오
-    │
-    ├── Step Definition 자동화
-    │
-    ▼
+    |
+    +-- Gherkin 시나리오
+    |
+    +-- Step Definition 자동화
+    |
+    v
 CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
 ```
 
@@ -180,7 +180,7 @@ CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
 
 **진행 상황**: 279 / 587
 
-← **이전**: [164. TDD (Test Driven Development, 테스트 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)
-**다음**: [166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/) →
+<- **이전**: [164. TDD (Test Driven Development, 테스트 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)
+**다음**: [166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/) ->
 
 ---

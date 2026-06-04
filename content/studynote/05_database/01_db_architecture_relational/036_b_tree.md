@@ -89,7 +89,7 @@ B+Tree (Order 3) 삽입 예시:
 | 조건        | 동작          |
 |------------|--------------|
 | 노드 여유   | 직접 삽입     |
-| 노드 가득   | Split → 부모에 중간키 올림 |
+| 노드 가득   | Split -> 부모에 중간키 올림 |
 | 루트 분할   | 새 루트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)  |
 
 > 📢 **섹션 요약 비유**: 서랍이 꽉 차면 새 서랍을 만들고 절반씩 나눠 담는 것 — 항상 균형을 유지한다.
@@ -198,7 +198,7 @@ B+Tree 대안으로 등장
 
 **진행 상황**: 36 / 600
 
-← **이전**: [035. 블로킹 팩터 (Blocking Factor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/035_blocking_factor/)
-**다음**: [037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준](/knowledge-base/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/) →
+<- **이전**: [035. 블로킹 팩터 (Blocking Factor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/035_blocking_factor/)
+**다음**: [037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준](/knowledge-base/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/) ->
 
 ---

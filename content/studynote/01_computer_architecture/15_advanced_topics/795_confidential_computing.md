@@ -22,13 +22,13 @@ tags = ["studynote-computer-architecture"]
 기존 보안은 디스크의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 네트워크를 보호하는 데는 익숙했지만, 실제 계산 순간의 평문은 CPU와 메모리 안에 노출될 수밖에 없었다. 기밀 컴퓨팅은 이 마지막 빈틈을 메우려는 시도다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 "쉬고 있을 때"뿐 아니라 "일하고 있을 때"도 외부에서 보이지 않게 하려는 것이다. 그래서 이 기술은 단일 제품명이 아니라, 현대 클라우드가 신뢰를 재설계하는 큰 흐름으로 보는 편이 정확하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            Security across the full data lifecycle          │
-├──────────────────────────────────────────────────────────────┤
-│ Data at rest   -> disk encryption                           │
-│ Data in transit-> TLS                                       │
-│ Data in use    -> confidential computing / TEE              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            Security across the full data lifecycle          |
++--------------------------------------------------------------+
+| Data at rest   -> disk encryption                           |
+| Data in transit-> TLS                                       |
+| Data in use    -> confidential computing / TEE              |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 귀중품을 창고에 둘 때와 옮길 때만 잠그는 것이 아니라, 꺼내서 손보는 순간에도 불투명한 작업실 안에서 다루자는 생각과 같다.
@@ -47,14 +47,14 @@ tags = ["studynote-computer-architecture"]
 | [Remote Attestation](/knowledge-base/studynote/09_security/04_endpoint_security/396_remote_attestation/) | 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 키 릴리스 | 누가 측정값을 믿을 것인가 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Generic confidential-computing trust sequence       │
-├──────────────────────────────────────────────────────────────┤
-│ Create trusted domain -> measure code -> attest             │
-│                                            │                 │
-│                                            ▼                 │
-│                                 release secrets / process    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Generic confidential-computing trust sequence       |
++--------------------------------------------------------------+
+| Create trusted domain -> measure code -> attest             |
+|                                            |                 |
+|                                            v                 |
+|                                 release secrets / process    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 비밀 회의실을 만들고, 참석자 명단을 확인한 뒤에야 회의 자료를 나눠 주는 절차와 같다. 방만 있다고 회의 자료를 바로 줄 수는 없다.
@@ -104,15 +104,15 @@ TEE는 빠르지만 하드웨어 제조사와 구현 신뢰에 의존하고, [FH
 
 ```text
 [Measured Trusted Domain]
-    │
-    ▼
+    |
+    v
 [Remote Attestation]
-    │
-    ▼
+    |
+    v
 [Secret Release for Processing]
-    │
-    ├──▶ [Confidential VM / Enclave]
-    └──▶ [Protected Result Sharing]
+    |
+    +---> [Confidential VM / Enclave]
+    +---> [Protected Result Sharing]
 ```
 
 이 흐름은 기밀 컴퓨팅이 단순 격리에서 끝나지 않고, 측정과 증명 뒤에야 비밀을 주입하는 구조임을 보여준다. 즉 "격리"보다 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 격리"가 핵심이다.
@@ -129,7 +129,7 @@ TEE는 빠르지만 하드웨어 제조사와 구현 신뢰에 의존하고, [FH
 
 **진행 상황**: 796 / 803
 
-← **이전**: [794. AWS Nitro Enclaves (AWS Nitro Enclaves)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/794_aws_nitro_enclaves/)
-**다음**: [796. 메모리 암호화 (Memory Encryption)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) →
+<- **이전**: [794. AWS Nitro Enclaves (AWS Nitro Enclaves)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/794_aws_nitro_enclaves/)
+**다음**: [796. 메모리 암호화 (Memory Encryption)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) ->
 
 ---

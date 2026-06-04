@@ -26,17 +26,17 @@ tags = ["studynote-network"]
 이 그림은 하나의 심볼이 여러 경로로 찢어져 들어오며 시간축 꼬리를 만드는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             one symbol, many arrivals: delay spread         │
-├──────────────────────────────────────────────────────────────┤
-│ Tx symbol S0                                                 │
-│   ├─ direct path ───────────────▶ arrive at t0              │
-│   ├─ reflected path A ──────────▶ arrive at t0 + 0.6 μs     │
-│   └─ reflected path B ──────────▶ arrive at t0 + 1.4 μs     │
-│                                                              │
-│ next symbol S1 starts here ───────────────▶                 │
-│ if S0 tail overlaps S1, receiver sees mixed symbols = ISI    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             one symbol, many arrivals: delay spread         |
++--------------------------------------------------------------+
+| Tx symbol S0                                                 |
+|   +- direct path ----------------> arrive at t0              |
+|   +- reflected path A -----------> arrive at t0 + 0.6 μs     |
+|   +- reflected path B -----------> arrive at t0 + 1.4 μs     |
+|                                                              |
+| next symbol S1 starts here ---------------->                 |
+| if S0 tail overlaps S1, receiver sees mixed symbols = ISI    |
++--------------------------------------------------------------+
 ```
 
 즉 다중 경로 문제는 단순 감쇠가 아니라, 한 심볼이 시간축에서 늘어나 다음 심볼을 침범하는 구조적 왜곡 문제다. 그래서 무선 시스템은 평균 전력만 키우는 방식으로는 충분하지 않다.
@@ -135,18 +135,18 @@ ISI는 심볼 시간 `T_s`가 채널의 유효 [지연](/knowledge-base/studynot
 
 ```text
 반사 · 회절 · 산란
-    │
-    ▼
+    |
+    v
 다중 경로 (Multipath)
-    │
-    ▼
+    |
+    v
 지연 확산 (Delay Spread)
-    │
-    ├──────────────▶ 평탄 페이딩 (협대역)
-    │
-    └──────────────▶ 주파수 선택적 페이딩 (광대역)
-                              │
-                              ▼
+    |
+    +---------------> 평탄 페이딩 (협대역)
+    |
+    +---------------> 주파수 선택적 페이딩 (광대역)
+                              |
+                              v
 ISI · 등화기 · OFDM · CP 설계
 ```
 
@@ -164,7 +164,7 @@ ISI · 등화기 · OFDM · CP 설계
 
 **진행 상황**: 289 / 1120
 
-← **이전**: [167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)
-**다음**: [169. 도플러 효과 (Doppler Effect) / 고속 이동체 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) →
+<- **이전**: [167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)
+**다음**: [169. 도플러 효과 (Doppler Effect) / 고속 이동체 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ->
 
 ---

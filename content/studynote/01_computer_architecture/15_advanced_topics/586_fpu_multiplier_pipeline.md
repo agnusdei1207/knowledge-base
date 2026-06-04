@@ -26,14 +26,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈이 자연스럽게 파이프라인 구조를 요구하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│  한 번의 부동소수점 곱셈 안에 들어 있는 실제 일                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Unpack -> Sign combine -> Exponent add -> Significand multiply           │
-│        -> Normalize -> Round -> Exception flag                           │
-│                                                                            │
-│ 이 모든 단계를 한 사이클에 몰면 클럭이 내려가고, 나누면 throughput이 산다. │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|  한 번의 부동소수점 곱셈 안에 들어 있는 실제 일                           |
++----------------------------------------------------------------------------+
+| Unpack -> Sign combine -> Exponent add -> Significand multiply           |
+|        -> Normalize -> Round -> Exception flag                           |
+|                                                                            |
+| 이 모든 단계를 한 사이클에 몰면 클럭이 내려가고, 나누면 throughput이 산다. |
++----------------------------------------------------------------------------+
 ```
 
 따라서 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈기 파이프라인은 단순한 회로 분업이 아니라, 수학적 엄밀함을 실리콘 타이밍 제약에 맞게 재배치한 구조라고 보는 편이 정확하다.
@@ -57,19 +57,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 5단 파이프라인이 어떻게 채워지고, 왜 latency보다 throughput이 중요해지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│   Floating-Point multiplier pipeline: after fill, one result per cycle    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ S1 Unpack -> S2 Partial Product -> S3 Reduce -> S4 Normalize -> S5 Pack   │
-│                                                                            │
-│ Cycle n    : A:S1                                                          │
-│ Cycle n+1  : A:S2   B:S1                                                   │
-│ Cycle n+2  : A:S3   B:S2   C:S1                                            │
-│ Cycle n+3  : A:S4   B:S3   C:S2   D:S1                                     │
-│ Cycle n+4  : A:S5   B:S4   C:S3   D:S2   E:S1                              │
-│                                                                            │
-│ 파이프라인이 찬 뒤에는 매 사이클 결과 1개가 가능하다.                      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|   Floating-Point multiplier pipeline: after fill, one result per cycle    |
++----------------------------------------------------------------------------+
+| S1 Unpack -> S2 Partial Product -> S3 Reduce -> S4 Normalize -> S5 Pack   |
+|                                                                            |
+| Cycle n    : A:S1                                                          |
+| Cycle n+1  : A:S2   B:S1                                                   |
+| Cycle n+2  : A:S3   B:S2   C:S1                                            |
+| Cycle n+3  : A:S4   B:S3   C:S2   D:S1                                     |
+| Cycle n+4  : A:S5   B:S4   C:S3   D:S2   E:S1                              |
+|                                                                            |
+| 파이프라인이 찬 뒤에는 매 사이클 결과 1개가 가능하다.                      |
++----------------------------------------------------------------------------+
 ```
 
 실제 구현에서는 곱셈부보다 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 반올림이 더 까다로운 경우도 많다. 특히 선행 영 검출기 (Leading [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Detector)와 배럴 시프터는 지연과 배선 부담이 크고, 반올림 모드가 여러 개면 마지막 단계 제어가 무거워진다. 그래서 좋은 설계는 단순히 곱셈 트리만 빠르게 만드는 것이 아니라, 후단 포장 단계까지 균형 있게 잘라낸 설계다.
@@ -149,20 +149,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 정수 곱셈기 고속화
-    │
-    ▼
+    |
+    v
 IEEE 754 부동소수점 곱셈기
-    │
-    ▼
+    |
+    v
 Booth Encoding · Wallace/Dadda Reduction
-    │
-    ▼
+    |
+    v
 정규화 · 반올림 · 예외 처리 파이프라인 정교화
-    │
-    ▼
+    |
+    v
 FMA · SIMD 벡터 부동소수점 유닛
-    │
-    ▼
+    |
+    v
 혼합 정밀도 기반 텐서 파이프라인
 ```
 
@@ -180,7 +180,7 @@ FMA · SIMD 벡터 부동소수점 유닛
 
 **진행 상황**: 586 / 803
 
-← **이전**: [585. 영(Zero) 데이터 건너뛰기 로직 (Zero-skipping)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)
-**다음**: [587. 네트워크 인터페이스 카드 (NIC) 오프로딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) →
+<- **이전**: [585. 영(Zero) 데이터 건너뛰기 로직 (Zero-skipping)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)
+**다음**: [587. 네트워크 인터페이스 카드 (NIC) 오프로딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) ->
 
 ---

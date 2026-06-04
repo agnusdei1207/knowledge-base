@@ -22,9 +22,9 @@ tags = ["studynote-cloud-architecture"]
 K8s Pod:
   [메인 컨테이너: 비즈니스 로직]
   [사이드카 컨테이너: Envoy Proxy]
-    → 모든 인바운드/아웃바운드 트래픽 가로채기
-    → LB·재시도·mTLS·메트릭·트레이싱 처리
-    → iptables/ebpf로 투명 프록시
+    -> 모든 인바운드/아웃바운드 트래픽 가로채기
+    -> LB·재시도·mTLS·메트릭·트레이싱 처리
+    -> iptables/ebpf로 투명 프록시
 ```
 
 - **📢 섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 <strong>오토바이 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a></strong>이다. 운전자(메인)는 운전에 집중하고, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))가 짐(통신)을 처리한다.
@@ -50,10 +50,10 @@ K8s Pod:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[라이브러리 기반 (~2015)] → [사이드카 프록시 (Envoy, 2016)]
-    → [Istio/Linkerd 채택 (2017~)]
-    → [Ambient Mesh (사이드카 없는 Istio, 2022)]
-    → [현재: Cilium eBPF — 커널 레벨 프록시]
+[라이브러리 기반 (~2015)] -> [사이드카 프록시 (Envoy, 2016)]
+    -> [Istio/Linkerd 채택 (2017~)]
+    -> [Ambient Mesh (사이드카 없는 Istio, 2022)]
+    -> [현재: Cilium eBPF — 커널 레벨 프록시]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ K8s Pod:
 
 **진행 상황**: 144 / 371
 
-← **이전**: [144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/144_service_mesh/)
-**다음**: [146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/146_mtls_mutual_tls/) →
+<- **이전**: [144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/144_service_mesh/)
+**다음**: [146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/146_mtls_mutual_tls/) ->
 
 ---

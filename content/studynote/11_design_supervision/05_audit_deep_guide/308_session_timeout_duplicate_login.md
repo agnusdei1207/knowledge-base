@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지 감리는 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지(Duplicate Login Prevention) 보안 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 클라우드와 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 구조가 확대되면서 경계 보안보다 최소 권한, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 탐지·대응까지 포함한 보안 운영이 중요해졌다. 특히 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소가 기준선으로 정리되지 않으면 탈취 탐지는 사람 의존 절차로 흩어지고, 최종적으로 접속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 단일 취약점이 침해 사고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단, 법적 책임으로 확대된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 세션 저장소 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 탈취 탐지 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 접속 정책 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 세션 저장소 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 탈취 탐지 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 접속 정책 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 접속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소, 탈취 탐지, 접속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[세션 저장소] → [사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지 감리] → [제로 트러스트 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)]
+[세션 저장소] -> [사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지 감리] -> [제로 트러스트 운영([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Operations)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 375 / 530
 
-← **이전**: [308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/308_audit/)
-**다음**: [309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/309_cve_scanner_reporting_remediation/) →
+<- **이전**: [308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/308_audit/)
+**다음**: [309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/309_cve_scanner_reporting_remediation/) ->
 
 ---

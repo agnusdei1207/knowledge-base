@@ -19,19 +19,19 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    부트스트래핑 절차                                   │
-├───────────────────────────────────────────────────────┤
-│  원본 데이터: [3, 5, 7, 9, 11]  (n=5)                │
-│                                                       │
-│  리샘플 1: [5, 5, 9, 3, 11] → 평균=6.6              │
-│  리샘플 2: [7, 7, 3, 9, 5]  → 평균=6.2              │
-│  리샘플 3: [11, 3, 5, 5, 9] → 평균=6.6              │
-│  ... (B=1000회 반복)                                  │
-│                                                       │
-│  1000개 평균의 분포 → 2.5%=5.8, 97.5%=8.2            │
-│  → 95% 신뢰 구간: [5.8, 8.2]                        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    부트스트래핑 절차                                   |
++-------------------------------------------------------+
+|  원본 데이터: [3, 5, 7, 9, 11]  (n=5)                |
+|                                                       |
+|  리샘플 1: [5, 5, 9, 3, 11] -> 평균=6.6              |
+|  리샘플 2: [7, 7, 3, 9, 5]  -> 평균=6.2              |
+|  리샘플 3: [11, 3, 5, 5, 9] -> 평균=6.6              |
+|  ... (B=1000회 반복)                                  |
+|                                                       |
+|  1000개 평균의 분포 -> 2.5%=5.8, 97.5%=8.2            |
+|  -> 95% 신뢰 구간: [5.8, 8.2]                        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 부트스트래핑은 작은 시료(표본)를 <strong>섞어서 다시 뽑기</strong>를 수천 번 반복하여 전체 인구(모집단)의 특성을 추정하는 것이다.
@@ -41,8 +41,8 @@ tags = ["studynote-dataengineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 복원 추출이 핵심
-- **비복원 추출**: 매번 다른 원소 → 원본과 동일 → 의미 없음.
-- **복원 추출**: 같은 원소 중복 가능 → 다양한 리샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 변동성 추정.
+- **비복원 추출**: 매번 다른 원소 -> 원본과 동일 -> 의미 없음.
+- **복원 추출**: 같은 원소 중복 가능 -> 다양한 리샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 변동성 추정.
 
 ### 부트스트래핑 vs 전통 통계
 
@@ -95,17 +95,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [모수적 통계 (정규분포 가정, ~1979)]
-    │
-    ▼
+    |
+    v
 [부트스트래핑 (Efron, 1979) — 비모수 리샘플링]
-    │
-    ▼
+    |
+    v
 [Bagging (1996, Breiman) — ML에 부트스트랩 적용]
-    │
-    ▼
+    |
+    v
 [Random Forest (2001) — Bagging + Feature Sampling]
-    │
-    ▼
+    |
+    v
 [현재: Conformal Prediction — 불확실성 정량화]
 ```
 
@@ -120,7 +120,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 120 / 258
 
-← **이전**: [119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리](/knowledge-base/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/)
-**다음**: [121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) →
+<- **이전**: [119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리](/knowledge-base/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/)
+**다음**: [121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ->
 
 ---

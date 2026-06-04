@@ -26,28 +26,28 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 인기 맛집의 협소한 주문/결제 창구([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)). 손님이 창구 앞에서 메뉴를 한참 고르면 뒷사람은 무한 대기한다. 메뉴판을 밖에서 미리 보고, 창구에서는 결제만 10초 컷으로 끝내는 것이 크기 최소화의 핵심.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         임계 구역 크기화의 변화 비교                         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Anti-Pattern (거대한 임계 구역)]                           │
-│  lock.acquire();                                             │
-│  Data data = DB_Read();      // (❌) I/O 블로킹 발생!        │
-│  data.value += shared_var;   // (⭕) 유일한 공유 상태 변경   │
-│  Save_File(data);            // (❌) 느린 I/O 연산 수행!     │
-│  lock.release();                                             │
-│  → 전체 스레드가 DB와 파일 쓰기를 대기 (성능 붕괴)           │
-│                                                              │
-│  [Best Practice (최소화된 임계 구역)]                        │
-│  Data data = DB_Read();      // 락 외부 사전 준비!           │
-│  int snap_var;                                               │
-│  lock.acquire();             // ─────────────── 시작         │
-│  snap_var = shared_var;      // 공유 변수 스냅샷 복사        │
-│  shared_var++;               // 최소한의 상태 갱신           │
-│  lock.release();             // ─────────────── 끝 (수 ns)   │
-│  data.value += snap_var;     // 락 외부 지역변수 연산        │
-│  Save_File(data);            // 락 외부 사후 처리 저장       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         임계 구역 크기화의 변화 비교                         |
++--------------------------------------------------------------+
+|                                                              |
+|  [Anti-Pattern (거대한 임계 구역)]                           |
+|  lock.acquire();                                             |
+|  Data data = DB_Read();      // (❌) I/O 블로킹 발생!        |
+|  data.value += shared_var;   // (⭕) 유일한 공유 상태 변경   |
+|  Save_File(data);            // (❌) 느린 I/O 연산 수행!     |
+|  lock.release();                                             |
+|  -> 전체 스레드가 DB와 파일 쓰기를 대기 (성능 붕괴)           |
+|                                                              |
+|  [Best Practice (최소화된 임계 구역)]                        |
+|  Data data = DB_Read();      // 락 외부 사전 준비!           |
+|  int snap_var;                                               |
+|  lock.acquire();             // --------------- 시작         |
+|  snap_var = shared_var;      // 공유 변수 스냅샷 복사        |
+|  shared_var++;               // 최소한의 상태 갱신           |
+|  lock.release();             // --------------- 끝 (수 ns)   |
+|  data.value += snap_var;     // 락 외부 지역변수 연산        |
+|  Save_File(data);            // 락 외부 사후 처리 저장       |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 최소화는 공중화장실 매너 — 화장실 안([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에서는 딱 볼일만 보고, 손 씻거나 머리 빗는 건 밖으로 나와 세면대에서 해야 많은 사람이 줄 서지 않고 이용할 수 있습니다.
@@ -124,12 +124,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    │
-    ▼
+    |
+    v
 [임계 구역 크기 최소화 기법 (Critical Section Minimization)]
-    │
-    ├──▶ [락 경합 (Lock Contention) 모니터링 도구]
-    └──▶ [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
+    |
+    +---> [락 경합 (Lock Contention) 모니터링 도구]
+    +---> [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -146,7 +146,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 274 / 800
 
-← **이전**: [273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/)
-**다음**: [275. 락 경합 (Lock Contention) 모니터링 도구](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) →
+<- **이전**: [273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/)
+**다음**: [275. 락 경합 (Lock Contention) 모니터링 도구](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) ->
 
 ---

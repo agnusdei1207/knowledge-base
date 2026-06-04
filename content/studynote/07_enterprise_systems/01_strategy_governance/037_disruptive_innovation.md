@@ -214,7 +214,7 @@ LLM이 기존 소프트웨어 도구 대체 가속
 
 **진행 상황**: 37 / 482
 
-← **이전**: [036. 네트워크 효과 & 메칼프의 법칙](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/036_network_effect_metcalfes_law/)
-**다음**: [038. 양손잡이 조직 II — IT 전략 적용](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/) →
+<- **이전**: [036. 네트워크 효과 & 메칼프의 법칙](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/036_network_effect_metcalfes_law/)
+**다음**: [038. 양손잡이 조직 II — IT 전략 적용](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/) ->
 
 ---

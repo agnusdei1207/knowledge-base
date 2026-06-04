@@ -32,8 +32,8 @@ DB 연결은 생각보다 비싸다. 매 요청마다 새 연결을 만들면 [�
 풀은 사용 가능한 연결을 보관하고, 요청 시 빌려주고, 반납되면 다시 보관한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 없으면 죽은 연결을 계속 돌릴 수 있다.
 
 ```text
-App → Pool → DB Connection → DB
-        ↑          ↓
+App -> Pool -> DB Connection -> DB
+        ^          v
      borrow     return/validate
 ```
 
@@ -113,14 +113,14 @@ DBCP는 이런 풀 관리의 대표 구현 중 하나다. HikariCP 같은 다른
 
 ```text
 직접 연결
-    │
-    ▼
+    |
+    v
 커넥션 풀
-    │
-    ▼
+    |
+    v
 검증/재사용
-    │
-    ▼
+    |
+    v
 응답성/안정성 향상
 ```
 
@@ -138,7 +138,7 @@ DBCP는 이런 풀 관리의 대표 구현 중 하나다. HikariCP 같은 다른
 
 **진행 상황**: 55 / 600
 
-← **이전**: [54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/054_data_dictionary_catalog_manager/)
-**다음**: [56. 데이터 사전 캐시 (Data Dictionary Cache)](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/) →
+<- **이전**: [54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/054_data_dictionary_catalog_manager/)
+**다음**: [56. 데이터 사전 캐시 (Data Dictionary Cache)](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/) ->
 
 ---

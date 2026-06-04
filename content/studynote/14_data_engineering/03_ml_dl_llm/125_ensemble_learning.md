@@ -11,28 +11,28 @@ tags = ["studynote-dataengineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 학습은 <strong>여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)</strong>를 만드는 기법이며, [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)·[Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)·Stacking이 3대 전략이다.
-> 2. **가치**: 단일 의사결정 트리는 과적합되기 쉽지만, 100개 트리를 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))하면 <strong>과적합↓·정확도↑·안정성↑</strong>이 동시에 달성된다.
-> 3. **판단 포인트**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)↓)은 [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(순차, 편향↓)은 XGBoost/LightGBM이 대표이며, <strong>Kaggle 대회 우승 솔루션의 90%+가 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>이다.
+> 2. **가치**: 단일 의사결정 트리는 과적합되기 쉽지만, 100개 트리를 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))하면 <strong>과적합v·정확도^·안정성^</strong>이 동시에 달성된다.
+> 3. **판단 포인트**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)v)은 [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(순차, 편향v)은 XGBoost/LightGBM이 대표이며, <strong>Kaggle 대회 우승 솔루션의 90%+가 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    앙상블 3대 전략                                    │
-├───────────────────────────────────────────────────────┤
-│  [Bagging (병렬)]                                     │
-│   데이터 부트스트랩 → 독립 학습기 → 다수결/평균      │
-│   대표: Random Forest                                │
-│                                                       │
-│  [Boosting (순차)]                                    │
-│   이전 모델의 오류 집중 학습 → 가중 합               │
-│   대표: XGBoost, LightGBM, AdaBoost                  │
-│                                                       │
-│  [Stacking (적층)]                                    │
-│   기본 모델 예측 → 메타 모델이 최종 예측             │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    앙상블 3대 전략                                    |
++-------------------------------------------------------+
+|  [Bagging (병렬)]                                     |
+|   데이터 부트스트랩 -> 독립 학습기 -> 다수결/평균      |
+|   대표: Random Forest                                |
+|                                                       |
+|  [Boosting (순차)]                                    |
+|   이전 모델의 오류 집중 학습 -> 가중 합               |
+|   대표: XGBoost, LightGBM, AdaBoost                  |
+|                                                       |
+|  [Stacking (적층)]                                    |
+|   기본 모델 예측 -> 메타 모델이 최종 예측             |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Bagging은 100명에게 물어서 다수결, Boosting은 틀린 문제만 반복 연습, Stacking은 전문가 의견을 종합하는 편집장이다.
@@ -46,7 +46,7 @@ tags = ["studynote-dataengineering"]
 | 비교 | [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) | [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) |
 |:---|:---|:---|
 | **학습** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (독립) | **순차 (의존)** |
-| **효과** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)↓ | **편향↓** |
+| **효과** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)v | **편향v** |
 | **과적합** | 강함 | 위험 있음 |
 | **대표** | [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) | **XGBoost** |
 
@@ -87,8 +87,8 @@ tags = ["studynote-dataengineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">Bagging</a></strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)↓ ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">Boosting</a></strong> | 순차, 편향↓ (XGBoost) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">Bagging</a></strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)v ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">Boosting</a></strong> | 순차, 편향v (XGBoost) |
 | **Stacking** | 메타 모델 결합 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a></strong> | [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) + [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 랜덤화 |
 | **XGBoost** | [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) + [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
@@ -97,17 +97,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [단일 의사결정 트리 (1986)]
-    │
-    ▼
+    |
+    v
 [Bagging + Random Forest (Breiman, 2001)]
-    │
-    ▼
-[AdaBoost (1997) → Gradient Boosting (2001)]
-    │
-    ▼
+    |
+    v
+[AdaBoost (1997) -> Gradient Boosting (2001)]
+    |
+    v
 [XGBoost (2014) / LightGBM (2017)]
-    │
-    ▼
+    |
+    v
 [현재: AutoML — 최적 앙상블 자동 탐색]
 ```
 
@@ -122,7 +122,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 125 / 258
 
-← **이전**: [124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
-**다음**: [126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/126_bagging_random_forest/) →
+<- **이전**: [124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
+**다음**: [126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/126_bagging_random_forest/) ->
 
 ---

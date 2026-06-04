@@ -37,20 +37,20 @@ tags = ["studynote-design"]
 - **시스템 경계 (System Boundary)**: 개발할 시스템의 범위를 나타내는 큰 사각형 박스로, 유스케이스는 안에, 액터는 밖에 배치한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  유스케이스 다이어그램의 기본 구조           │
-├──────────────────────────────────────────────────────────────┤
-│               [온라인 쇼핑몰 시스템 (Boundary)]              │
-│                                                              │
-│      Actor           ┌──────────────────┐                    │
-│        O             │  (상품 검색하기) │                    │
-│       /|＼ ──────────▶ │                  │                    │
-│       / ＼           │                  │                    │
-│     고객             │  (상품 결제하기) │◀──────── O       │
-│                      │                  │       /|＼     │
-│                      └──────────────────┘       / ＼     │
-│                                                  외부 결제사 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  유스케이스 다이어그램의 기본 구조           |
++--------------------------------------------------------------+
+|               [온라인 쇼핑몰 시스템 (Boundary)]              |
+|                                                              |
+|      Actor           +------------------+                    |
+|        O             |  (상품 검색하기) |                    |
+|       /|＼ -----------> |                  |                    |
+|       / ＼           |                  |                    |
+|     고객             |  (상품 결제하기) |<--------- O       |
+|                      |                  |       /|＼     |
+|                      +------------------+       / ＼     |
+|                                                  외부 결제사 |
++--------------------------------------------------------------+
 ```
 
 이처럼 선(Association) 하나로 고객이 상품을 검색하고 결제하는 상호작용을 직관적으로 드러낸다. 코드나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블 구조는 이 도면에 들어오지 못한다.
@@ -65,8 +65,8 @@ tags = ["studynote-design"]
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 의미 | 화살표 방향 | 적용 시나리오 |
 | :--- | :--- | :--- | :--- |
-| **포함 (<<[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)>>)** | 필수적, 무조건 선행/호출되어야 하는 공통 기능 | 기준 ─▶ 포함되는 기능 | `[결제하기]` ─▶ `[본인 인증하기]` |
-| **확장 (<<extend>>)** | 선택적, 특정 조건 만족 시 추가되는 부가 기능 | 확장 기능 ─▶ 기준 | `[포인트 적립]` ─▶ `[결제하기]` |
+| **포함 (<<[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)>>)** | 필수적, 무조건 선행/호출되어야 하는 공통 기능 | 기준 --> 포함되는 기능 | `[결제하기]` --> `[본인 인증하기]` |
+| **확장 (<<extend>>)** | 선택적, 특정 조건 만족 시 추가되는 부가 기능 | 확장 기능 --> 기준 | `[포인트 적립]` --> `[결제하기]` |
 
 이러한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 시스템의 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))과 예외/부가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Extend)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하게 해준다. 이후 이 유스케이스 뷰를 바탕으로, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 클래스를 뽑아내고, 프로세스 뷰는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 상호작용을 설계하며, 배포 뷰는 물리적 서버 배치를 결정하게 된다. 즉, 4개의 뷰를 묶는 강력한 접착제 역할을 한다.
 
@@ -116,17 +116,17 @@ tags = ["studynote-design"]
 
 ```text
 비즈니스 요구사항 정의
-    │
-    ▼
+    |
+    v
 액터 (Actor) 및 유스케이스 (Use Case) 도출
-    │
-    ▼
+    |
+    v
 유스케이스 뷰 (+1 View) · 시스템 경계 (Boundary) 설정
-    │
-    ▼
+    |
+    v
 Include / Extend 관계를 통한 시나리오 정교화
-    │
-    ▼
+    |
+    v
 4대 기술 뷰 (논리, 프로세스, 구현, 물리) 검증 및 매핑
 ```
 
@@ -142,7 +142,7 @@ Include / Extend 관계를 통한 시나리오 정교화
 
 **진행 상황**: 132 / 530
 
-← **이전**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/)
-**다음**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/) →
+<- **이전**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/)
+**다음**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/) ->
 
 ---

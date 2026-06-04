@@ -23,14 +23,14 @@ Auto Scaling 작동 원리:
 
   CloudWatch 메트릭
   (CPU > 70% 5분)
-      │
-      ▼
+      |
+      v
   Auto Scaling Policy
   (스케일 아웃: +2 인스턴스)
-      │
-      ▼
+      |
+      v
   로드 밸런서 등록
-  → 트래픽 자동 분배
+  -> 트래픽 자동 분배
 
   메트릭 예시:
   - CPU 사용률
@@ -64,11 +64,11 @@ Auto Scaling Group:
   최대 인스턴스: 20
 
 Scale Out 정책:
-  CPU > 70% → 5분 유지 → +2 인스턴스
+  CPU > 70% -> 5분 유지 -> +2 인스턴스
   Cooldown: 300초 (스케일 후 대기)
 
 Scale In 정책:
-  CPU < 30% → 10분 유지 → -1 인스턴스
+  CPU < 30% -> 10분 유지 -> -1 인스턴스
   Scale-in Protection: 최소 2 유지
 ```
 
@@ -96,13 +96,13 @@ Scale In 정책:
 
 ```text
 HPA 작동:
-  메트릭 서버 → 파드 CPU/메모리 수집
-      │
-      ▼
+  메트릭 서버 -> 파드 CPU/메모리 수집
+      |
+      v
   HPA 컨트롤러:
     현재 CPU = 80%, 목표 = 50%
     원하는 파드 수 = 현재 파드 수 × (현재/목표)
-                   = 4 × (80/50) = 6.4 → 7 파드
+                   = 4 × (80/50) = 6.4 -> 7 파드
 
   스케일 업 속도: 최대 2배/분
   스케일 다운: 5분 안정화 윈도우 대기
@@ -112,9 +112,9 @@ HPA 작동:
 
 ```text
 문제: 스케일 인이 너무 빨리 발생
-  트래픽 증가 → 스케일 아웃 (+5 인스턴스)
-  트래픽 잠시 감소 → 빠른 스케일 인 (-5 인스턴스)
-  트래픽 재증가 → 인스턴스 부족 → 장애
+  트래픽 증가 -> 스케일 아웃 (+5 인스턴스)
+  트래픽 잠시 감소 -> 빠른 스케일 인 (-5 인스턴스)
+  트래픽 재증가 -> 인스턴스 부족 -> 장애
 
 해결: Cooldown 기간 증가 + Scale-in 임계값 강화
   스케일 아웃 Cooldown: 60초
@@ -133,7 +133,7 @@ HPA 작동:
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | 장애 시 자동 대체 인스턴스 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 부하 급증 자동 대응 |
 
-KEDA([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Event-Driven Autoscaling)는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 아닌 이벤트(SQS 메시지 수, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 랙)로 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 차세대 오토스케일러다. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)·이벤트 드리븐 아키텍처에서 0-to-1(0개 → 1개) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)까지 지원하여 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 오토스케일링을 실현한다.
+KEDA([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Event-Driven Autoscaling)는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 아닌 이벤트(SQS 메시지 수, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 랙)로 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 차세대 오토스케일러다. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)·이벤트 드리븐 아키텍처에서 0-to-1(0개 -> 1개) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)까지 지원하여 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 오토스케일링을 실현한다.
 
 - **📢 섹션 요약 비유**: KEDA는 주문서 쌓이는 것 보고 직원 부르는 시스템이다. CPU 측정(반응적)이 아니라, 주문서(이벤트) 수로 "지금 바빠지겠다"를 미리 예측해서 직원을 선제 배치한다.
 
@@ -147,24 +147,24 @@ KEDA([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_complia
 | **로드 밸런서** | 오토스케일링 인스턴스 트래픽 분배 |
 | **Cooldown** | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 후 안정화 대기 시간 |
 | **KEDA** | 이벤트 기반 [쿠버네티스 오토스케일링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/206_kubernetes_autoscaling_hpa_vpa_ca/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong> | 극단적 오토스케일링 (인스턴스 0→N) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong> | 극단적 오토스케일링 (인스턴스 0->N) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [수동 용량 계획 — 피크 트래픽 대비 과프로비저닝]
-    │
-    ▼
+    |
+    v
 [Auto Scaling — CPU/메모리 기반 자동 스케일 아웃/인]
-    │
-    ▼
+    |
+    v
 [예측적 스케일링 — ML 패턴 분석 사전 스케일]
-    │
-    ▼
+    |
+    v
 [Kubernetes HPA/VPA — 컨테이너 수평/수직 오토스케일]
-    │
-    ▼
-[KEDA — 이벤트 드리븐 0→N 서버리스 오토스케일]
+    |
+    v
+[KEDA — 이벤트 드리븐 0->N 서버리스 오토스케일]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -179,7 +179,7 @@ KEDA([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_complia
 
 **진행 상황**: 29 / 371
 
-← **이전**: [29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/029_scale_up_scale_out/)
-**다음**: [31. 로드 밸런서 — 트래픽 분산의 핵심 기술](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) →
+<- **이전**: [29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/029_scale_up_scale_out/)
+**다음**: [31. 로드 밸런서 — 트래픽 분산의 핵심 기술](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) ->
 
 ---

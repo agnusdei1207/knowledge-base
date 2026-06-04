@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 WORM이 왜 단순 복사본보다 강한지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Mutable copy vs immutable WORM                   │
-├─────────────────────────┬──────────────────────┬───────────────────┤
-│ Operation               │ Mutable storage      │ WORM storage      │
-├─────────────────────────┼──────────────────────┼───────────────────┤
-│ Write new record        │ allow                │ allow             │
-│ Overwrite old record    │ allow                │ deny              │
-│ Delete before retention │ allow                │ deny              │
-└─────────────────────────┴──────────────────────┴───────────────────┘
++--------------------------------------------------------------------+
+|                  Mutable copy vs immutable WORM                   |
++-------------------------+----------------------+-------------------+
+| Operation               | Mutable storage      | WORM storage      |
++-------------------------+----------------------+-------------------+
+| Write new record        | allow                | allow             |
+| Overwrite old record    | allow                | deny              |
+| Delete before retention | allow                | deny              |
++-------------------------+----------------------+-------------------+
 ```
 
 즉 WORM의 본질은 "저장 용량을 늘리는 기술"이 아니라, <strong>기록 이후의 변경 권한을 제거하는 통제 장치</strong>다. 그래서 WORM은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 보안, 컴플라이언스가 만나는 지점에서 가장 강한 의미를 가진다.
@@ -56,13 +56,13 @@ WORM은 크게 <strong>물리적 <a href="/knowledge-base/studynote/02_operating
 
 ```text
 Client
-  │  write new object
-  ▼
+  |  write new object
+  v
 Store object + retain-until date
-  │
-  ├── read request ───────────────▶ allow
-  ├── overwrite request (locked) ─▶ deny
-  └── delete request (locked) ────▶ deny
+  |
+  +-- read request ----------------> allow
+  +-- overwrite request (locked) --> deny
+  +-- delete request (locked) -----> deny
 ```
 
 여기서 중요한 점은 WORM이 <strong>새 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>까지 막는 것은 아니라는 것이다. 기존 기록을 바꾸지 못하게 막을 뿐, 필요하면 새로운 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추가로 기록할 수 있다. 그래서 WORM은 append-only 설계, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적과 자연스럽게 결합된다.
@@ -137,17 +137,17 @@ WORM을 올바르게 설계하면 [데이터](/knowledge-base/studynote/05_datab
 
 ```text
 Mutable storage
-    │
-    ▼
+    |
+    v
 Snapshot / versioning
-    │
-    ▼
+    |
+    v
 Backup copy
-    │
-    ▼
+    |
+    v
 Immutable backup / WORM retention
-    │
-    ▼
+    |
+    v
 Compliance archive / ransomware recovery vault
 ```
 
@@ -165,7 +165,7 @@ Compliance archive / ransomware recovery vault
 
 **진행 상황**: 694 / 803
 
-← **이전**: [692. 테이프 라이브러리 (Tape Library)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/)
-**다음**: [694. 광 디스크 주크박스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/694_optical_disc_jukebox/) →
+<- **이전**: [692. 테이프 라이브러리 (Tape Library)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/)
+**다음**: [694. 광 디스크 주크박스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/694_optical_disc_jukebox/) ->
 
 ---

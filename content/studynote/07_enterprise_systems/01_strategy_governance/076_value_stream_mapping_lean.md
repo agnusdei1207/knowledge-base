@@ -24,9 +24,9 @@ tags = ["studynote-enterprise"]
 소프트웨어 조직에서는 코딩보다 대기 시간이 더 길다. 개발이 1시간인데 보안 검토와 승인 대기가 2주라면, 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 사실상 2주다. VSM은 이 숨은 대기를 눈에 보이게 한다.
 
 ```text
-고객 요청 → 개발 → QA 대기 → 보안 승인 → 배포
-   │          │          │           │        │
-   └─ 가치 시간은 짧고, 대기 시간이 길다 ─────┘
+고객 요청 -> 개발 -> QA 대기 -> 보안 승인 -> 배포
+   |          |          |           |        |
+   +- 가치 시간은 짧고, 대기 시간이 길다 -----+
 ```
 
 이 그림처럼 VSM은 "일이 얼마나 빨리 끝났는가"보다 "고객이 얼마나 오래 기다렸는가"를 먼저 묻는다.
@@ -48,10 +48,10 @@ VSM은 프로세스 박스, 정보 흐름, 재공품(WIP, [Work In Progress](/kn
 
 ```text
 [현재 상태]
-요청 ─▶ 개발 ─▶ QA 대기 ─▶ 승인 대기 ─▶ 배포
- │        │         │           │
- │        └─ value ─┴───────────┘
- └─ wait time이 대부분
+요청 --> 개발 --> QA 대기 --> 승인 대기 --> 배포
+ |        |         |           |
+ |        +- value -+-----------+
+ +- wait time이 대부분
 ```
 
 VSM의 힘은 각 단계의 소요 시간을 숫자로 적는 데 있다. 숫자가 있어야 낭비를 논쟁이 아니라 사실로 바꿀 수 있다.
@@ -123,17 +123,17 @@ VSM을 쓰면 [리드 타임](/knowledge-base/studynote/04_software_engineering/
 
 ```text
 Toyota Production System
-    │
-    ▼
+    |
+    v
 Lean / Muda 제거
-    │
-    ▼
+    |
+    v
 Value Stream Mapping
-    │
-    ▼
+    |
+    v
 DevOps 파이프라인 진단
-    │
-    ▼
+    |
+    v
 Lead Time 단축 / Flow 개선
 ```
 
@@ -151,7 +151,7 @@ Lead Time 단축 / Flow 개선
 
 **진행 상황**: 76 / 482
 
-← **이전**: [75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/075_agile_pmo_project_management_office/)
-**다음**: [77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/077_enterprise_portal_eip/) →
+<- **이전**: [75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/075_agile_pmo_project_management_office/)
+**다음**: [77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/077_enterprise_portal_eip/) ->
 
 ---

@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 3. **A/B 테스팅**: 통계적으로 유의미한 규모로 두 모델을 비교
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 새 요리를 식당에 올리기 전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정이다. 섀도우는 주방에서 몰래 새 레시피로 맛을 보는 것(손님에게 안 냄), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 VIP 손님 3명에게 먼저 맛보게 하는 것, A/B는 절반 손님에게 기존 메뉴, 나머지 절반에게 새 메뉴를 내고 재방문율을 비교하는 것이다.
@@ -42,29 +42,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         점진적 배포 전략 3종 비교 아키텍처                            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① 섀도우 배포 (Shadow Deployment):                               │
-│  실제 트래픽 ─────▶ 현재 모델 (Champion) ─────▶ 사용자에게 응답 전송 │
-│              └────▶ 새 모델 (Shadow) ────────▶ 응답 로깅만 (미전송) │
-│  효과: 사용자 영향 0, 새 모델 성능/오류 완전 검증 가능               │
-│                                                                  │
-│  ② 카나리 배포 (Canary Release):                                   │
-│  실제 트래픽 ─────▶ 라우터 ──── 95% ────▶ 현재 모델 → 사용자        │
-│                          └── 5% ─────▶ 새 모델 → 사용자           │
-│  효과: 5%만 영향, 실제 사용자 반응 확인, 이상 시 즉시 롤백           │
-│                                                                  │
-│  ③ A/B 테스팅 (A/B Testing):                                      │
-│  사용자 그룹 A(50%) ────▶ 모델 A (현재)                            │
-│  사용자 그룹 B(50%) ────▶ 모델 B (새 모델)                         │
-│  → 두 그룹의 비즈니스 메트릭(CTR, 전환율, 매출) 통계 비교            │
-│  → 유의확률 p < 0.05이면 새 모델로 전환                            │
-│                                                                  │
-│  배포 단계 (Best Practice):                                       │
-│  섀도우(검증) → 카나리 1%(안전 확인) → 10% → 50% → 100%(전체 전환)  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         점진적 배포 전략 3종 비교 아키텍처                            |
++------------------------------------------------------------------+
+|                                                                  |
+|  ① 섀도우 배포 (Shadow Deployment):                               |
+|  실제 트래픽 ------> 현재 모델 (Champion) ------> 사용자에게 응답 전송 |
+|              +-----> 새 모델 (Shadow) ---------> 응답 로깅만 (미전송) |
+|  효과: 사용자 영향 0, 새 모델 성능/오류 완전 검증 가능               |
+|                                                                  |
+|  ② 카나리 배포 (Canary Release):                                   |
+|  실제 트래픽 ------> 라우터 ---- 95% -----> 현재 모델 -> 사용자        |
+|                          +-- 5% ------> 새 모델 -> 사용자           |
+|  효과: 5%만 영향, 실제 사용자 반응 확인, 이상 시 즉시 롤백           |
+|                                                                  |
+|  ③ A/B 테스팅 (A/B Testing):                                      |
+|  사용자 그룹 A(50%) -----> 모델 A (현재)                            |
+|  사용자 그룹 B(50%) -----> 모델 B (새 모델)                         |
+|  -> 두 그룹의 비즈니스 메트릭(CTR, 전환율, 매출) 통계 비교            |
+|  -> 유의확률 p < 0.05이면 새 모델로 전환                            |
+|                                                                  |
+|  배포 단계 (Best Practice):                                       |
+|  섀도우(검증) -> 카나리 1%(안전 확인) -> 10% -> 50% -> 100%(전체 전환)  |
++------------------------------------------------------------------+
 ```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 사용자 영향 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 | 적합 상황 |
@@ -108,7 +108,7 @@ tags = ["studynote-ai"]
 5. <strong>보조 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: 주요 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 외 에러율·레이턴시·사용자 불만 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 6. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a> 방지</strong>: p-값이 일찍 임계값 넘었다고 실험 중단 금지 (Peeking Problem)
 
-<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD와 연계</strong>: 새 모델 학습 → [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) 등록 → 자동 [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 자동 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) → 자동 A/B 테스팅 → 결과에 따라 자동 전체 배포/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 Level 2 MLOps의 표준 CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 구현이다.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD와 연계</strong>: 새 모델 학습 -> [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) 등록 -> 자동 [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 자동 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) -> 자동 A/B 테스팅 -> 결과에 따라 자동 전체 배포/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 Level 2 MLOps의 표준 CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 구현이다.
 
 - **📢 섹션 요약 비유**: Peeking Problem(조기 중단 오류)은 주식 시장 단타 매매 오류와 같다. "오늘 주가가 올랐으니(p<0.05) 내일도 오를 것"이라고 팔아버리면 실제 장기 트렌드를 놓친다. A/B 테스트도 초반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몇 건으로 "이미 유의미하다"고 판단해 중단하면 실제로는 우연한 변동일 수 있다. 미리 정한 샘플 크기를 채워야 결론을 낼 수 있다.
 
@@ -135,7 +135,7 @@ A/B 테스팅·섀도우·[카나리 배포](/knowledge-base/studynote/04_softwa
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [A/B 테스팅 / 섀도우 배포 (Shadow Deployment) / 카나리 (Canary)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [A/B 테스팅 / 섀도우 배포 (Shadow Deployment) / 카나리 (Canary)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ A/B 테스팅·섀도우·[카나리 배포](/knowledge-base/studynote/04_softwa
 
 **진행 상황**: 333 / 420
 
-← **이전**: [332. GNN (Graph Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/332_gnn/)
-**다음**: [334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/) →
+<- **이전**: [332. GNN (Graph Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/332_gnn/)
+**다음**: [334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/) ->
 
 ---

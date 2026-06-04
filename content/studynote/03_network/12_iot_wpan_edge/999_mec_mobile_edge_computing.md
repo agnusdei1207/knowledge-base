@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [OpenFlow 프로토콜]
-    │
-    ▼
+    |
+    v
 [MEC]
-    │
-    └──▶ [클라우드 네이티브 네트워크]
+    |
+    +---> [클라우드 네이티브 네트워크]
 ```
 
 - **📢 섹션 요약 비유**: 짜장면 배달을 시킬 때마다 서울 본점(중앙 클라우드)에서 만들어 배달 오면 다 불어버리니, 동네마다 지점([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 차려서 주문 즉시 동네에서 요리해 5분 만에 배달하는 전략이다.
@@ -41,23 +41,23 @@ tags = ["studynote-network"]
 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 아키텍처는 통신망의 사용자 평면(UPF: User Plane Function)과 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 노드를 밀착시키는 형태로 동작한다. ETSI [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 레퍼런스 모델에 따르면 크게 3단계로 나뉜다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                   [ Central Cloud ]                    │
-│   빅데이터 분석, 머신러닝 모델 학습 (Training)         │
-└────────────▲──────────────────────────────▲────────────┘
-             │ (요약된 메타데이터)           │
-             │                            │
-┌────────────▼──────────┐      ┌────────────▼──────────┐
-│     [ MEC Node 1 ]    │      │     [ MEC Node 2 ]    │
-│  (기지국 A 지역 위치) │      │  (기지국 B 지역 위치) │
-│ - 초저지연 연산(추론) │      │ - 로컬 캐싱 (CDN)     │
-│ - 로컬 트래픽 브레이크아웃│    │ - 프라이버시 필터링   │
-└────────────▲──────────┘      └────────────▲──────────┘
-             │                            │
-┌────────────▼──────────┐      ┌────────────▼──────────┐
-│      5G Base Station  │      │      5G Base Station  │
-└────────────▲──────────┘      └────────────▲──────────┘
-             │                            │
++--------------------------------------------------------+
+|                   [ Central Cloud ]                    |
+|   빅데이터 분석, 머신러닝 모델 학습 (Training)         |
++------------^------------------------------^------------+
+             | (요약된 메타데이터)           |
+             |                            |
++------------v----------+      +------------v----------+
+|     [ MEC Node 1 ]    |      |     [ MEC Node 2 ]    |
+|  (기지국 A 지역 위치) |      |  (기지국 B 지역 위치) |
+| - 초저지연 연산(추론) |      | - 로컬 캐싱 (CDN)     |
+| - 로컬 트래픽 브레이크아웃|    | - 프라이버시 필터링   |
++------------^----------+      +------------^----------+
+             |                            |
++------------v----------+      +------------v----------+
+|      5G Base Station  |      |      5G Base Station  |
++------------^----------+      +------------^----------+
+             |                            |
          [ 스마트카 ]                    [ 스마트팩토리 ]
 ```
 
@@ -131,12 +131,12 @@ MEC는 단순한 통신망을 넘어 5G를 진정한 '지능형 인프라'로 �
 
 ```text
 [선행 개념: OpenFlow 프로토콜]
-    │
-    ▼
+    |
+    v
 [현재 개념: MEC]
-    │
-    ├──▶ [확장 A: 클라우드 네이티브 네트워크]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 클라우드 네이티브 네트워크]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 MEC는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ MEC는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_s
 
 **진행 상황**: 1120 / 1120
 
-← **이전**: [998. OpenFlow 프로토콜](/knowledge-base/studynote/03_network/17_sdn_nfv/998_openflow_protocol/)
+<- **이전**: [998. OpenFlow 프로토콜](/knowledge-base/studynote/03_network/17_sdn_nfv/998_openflow_protocol/)
 
 ✅ **마지막 글입니다.**
 

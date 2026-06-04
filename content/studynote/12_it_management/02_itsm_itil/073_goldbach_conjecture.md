@@ -30,7 +30,7 @@ tags = ["it_management"]
 
 ```text
 Even Number
-  ↓
+  v
 Prime + Prime ?
 ```
 
@@ -101,9 +101,9 @@ Prime + Prime ?
 
 ```text
 Even Number
-  ↓
+  v
 Goldbach
-  ↓
+  v
 Prime Numbers
 ```
 
@@ -113,9 +113,9 @@ Prime Numbers
 
 ```text
 Prime Distribution
-  ↓
+  v
 Goldbach's Conjecture
-  ↓
+  v
 Number Theory
 ```
 
@@ -133,7 +133,7 @@ Number Theory
 
 **진행 상황**: 129 / 587
 
-← **이전**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_sieve_of_eratosthenes/)
-**다음**: [73. SPOC (Single Point of Contact)](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/) →
+<- **이전**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_sieve_of_eratosthenes/)
+**다음**: [73. SPOC (Single Point of Contact)](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/) ->
 
 ---

@@ -19,19 +19,19 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│           HDFS Federation + ViewFS 구조                │
-├───────────────────────────────────────────────────────┤
-│ 클라이언트 (ViewFS 설정 적용)                           │
-│   /user  → viewfs://cluster1/user                      │
-│   /data  → viewfs://cluster2/data                      │
-│   /tmp   → viewfs://cluster1/tmp                       │
-│                ↓                                       │
-│  NameNode-1 (cluster1): /user, /tmp 담당               │
-│  NameNode-2 (cluster2): /data 담당                     │
-│                ↓                                       │
-│  DataNode 풀 (공유) — 실제 블록 저장                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|           HDFS Federation + ViewFS 구조                |
++-------------------------------------------------------+
+| 클라이언트 (ViewFS 설정 적용)                           |
+|   /user  -> viewfs://cluster1/user                      |
+|   /data  -> viewfs://cluster2/data                      |
+|   /tmp   -> viewfs://cluster1/tmp                       |
+|                v                                       |
+|  NameNode-1 (cluster1): /user, /tmp 담당               |
+|  NameNode-2 (cluster2): /data 담당                     |
+|                v                                       |
+|  DataNode 풀 (공유) — 실제 블록 저장                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ViewFS는 여러 도서관([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))을 하나의 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)로 보여주는 시스템이다. "컴퓨터 책은 A도서관, 역사 책은 B도서관"에 있지만, 독자는 하나의 검색창에서 모두 찾을 수 있다.
@@ -85,12 +85,12 @@ tags = ["studynote-bigdata"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 대규모 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 설계
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 > 1억 개: 단일 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) JVM 힙 ~60GB 초과 → [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 분리 시점.
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 > 1억 개: 단일 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) JVM 힙 ~60GB 초과 -> [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 분리 시점.
 - 분리 기준: 팀별, 부서별, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성별(배치/실시간/아카이브) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분리.
 - ViewFS로 기존 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/Spark 잡 경로 변경 없이 전환.
 
 ### Ozone (차세대 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 스토리지)
-- [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS → Apache Ozone으로 진화. Ozone은 객체 스토리지 기반으로 수십 억 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 없이 처리한다.
+- [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS -> Apache Ozone으로 진화. Ozone은 객체 스토리지 기반으로 수십 억 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 없이 처리한다.
 
 - **📢 섹션 요약 비유**: Ozone은 HDFS의 한계를 넘는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 스토리지다. 기존 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템이 수십억 권을 관리할 수 없을 때, 전자 클라우드 도서관으로 업그레이드하는 것과 같다.
 
@@ -106,7 +106,7 @@ tags = ["studynote-bigdata"]
 
 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS는 RBF로 진화하고, 궁극적으로 Ozone의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 객체 스토리지로 대체되는 방향으로 발전 중이다.
 
-- **📢 섹션 요약 비유**: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 진화는 도서관의 발전이다. 수동 카드 목록(단일 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)) → 구청별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 목록([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)+ViewFS) → 클라우드 전자도서관(Ozone)으로 진화한다.
+- **📢 섹션 요약 비유**: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 진화는 도서관의 발전이다. 수동 카드 목록(단일 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)) -> 구청별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 목록([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)+ViewFS) -> 클라우드 전자도서관(Ozone)으로 진화한다.
 
 ---
 
@@ -124,17 +124,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [단일 NameNode HDFS — 수억 파일 한계]
-    │
-    ▼
+    |
+    v
 [HDFS Federation — 네임스페이스 수평 분할]
-    │
-    ▼
+    |
+    v
 [ViewFS — 클라이언트 측 통합 마운트 뷰]
-    │
-    ▼
+    |
+    v
 [RBF (Router-Based Federation) — 서버 측 통합 라우팅]
-    │
-    ▼
+    |
+    v
 [Apache Ozone — 객체 스토리지 기반 무제한 확장]
 ```
 
@@ -150,7 +150,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 48 / 262
 
-← **이전**: [25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/)
-**다음**: [27. 데이터 직렬화: Avro / Protobuf / Thrift](/knowledge-base/studynote/16_bigdata/02_hadoop/049_data_serialization_avro_protobuf_thrift/) →
+<- **이전**: [25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/)
+**다음**: [27. 데이터 직렬화: Avro / Protobuf / Thrift](/knowledge-base/studynote/16_bigdata/02_hadoop/049_data_serialization_avro_protobuf_thrift/) ->
 
 ---

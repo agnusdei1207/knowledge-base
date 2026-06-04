@@ -28,33 +28,33 @@ tags = ["studynote-operating-system"]
 스토리지 엔지니어([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))가 하드디스크의 물리 깡통을 как어떻게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 해체/조립하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 맵으로 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 물리 디스크의 연금술 : 파티션(분할)과 볼륨(통합) 렌더            │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  [ 1. 파티션 (Partition) : 1개의 하드를 쪼개 격벽 치기 (격리) ]                  │
-  │     가장 앞단 [MBR 표]                                                           │
-  │       |                                                                          │
-  │     [ 물리적 1TB SSD 하드디스크 한 개 덩어리 ]                                   │
-  │     ├───────────┬──────────────┬──────────────┤                                  │
-  │     │ 파티션 1  │ 파티션 2     │ 파티션 3     │   ◁ 논리 분할 빔                 │
-  │     │ (OS 공간) │ (유저 Data)  │ (Swap 램)  │                                    │
-  │     │  200GB   │   700GB     │  100GB      │                                     │
-  │     └───────────┴──────────────┴──────────────┘                                  │
-  │     => 💡 결과: 윈도우 탐색기에 각각 C:, D:, E: 드라이브로 3개가 뜸! 불변의 고정.│
-  │                                                                                  │
-  │  =============================================================                   │
-  │                                                                                  │
-  │  [ 2. 볼륨 (LVM Volume) : N개의 하드를 찰흙처럼 합체 + 동적 슬라이싱 ]           │
-  │     [물리HDD 1TB] + [물리HDD 2TB] = [거대한 3TB 가상 볼륨 수영장 무결!]          │
-  │         \             /                                                          │
-  │          [ VG (Volume Group) : 3TB 찰흙 덩어리 공구리 ]                          │
-  │                 │                                                                │
-  │         ┌───────┴───────┐   ◁ 사용자가 "오늘은 2.5TB 방 파줘!" 동적 록           │
-  │    [ 논리 볼륨 (LV 1: 2.5TB) ]  [ 논리 볼륨 (LV 2: 0.5TB) ]                      │
-  │     (Database 마운트 공간 렌더)     (Log 모니터링 공간 타격)                     │
-  │     => 💡 기적 완성: 1TB 하드 물리적 한계를 뚫고, 2.5TB짜리 거대 논리 방 생성!   │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 물리 디스크의 연금술 : 파티션(분할)과 볼륨(통합) 렌더            |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  [ 1. 파티션 (Partition) : 1개의 하드를 쪼개 격벽 치기 (격리) ]                  |
+  |     가장 앞단 [MBR 표]                                                           |
+  |       |                                                                          |
+  |     [ 물리적 1TB SSD 하드디스크 한 개 덩어리 ]                                   |
+  |     +-----------+--------------+--------------+                                  |
+  |     | 파티션 1  | 파티션 2     | 파티션 3     |   ◁ 논리 분할 빔                 |
+  |     | (OS 공간) | (유저 Data)  | (Swap 램)  |                                    |
+  |     |  200GB   |   700GB     |  100GB      |                                     |
+  |     +-----------+--------------+--------------+                                  |
+  |     => 💡 결과: 윈도우 탐색기에 각각 C:, D:, E: 드라이브로 3개가 뜸! 불변의 고정.|
+  |                                                                                  |
+  |  =============================================================                   |
+  |                                                                                  |
+  |  [ 2. 볼륨 (LVM Volume) : N개의 하드를 찰흙처럼 합체 + 동적 슬라이싱 ]           |
+  |     [물리HDD 1TB] + [물리HDD 2TB] = [거대한 3TB 가상 볼륨 수영장 무결!]          |
+  |         \             /                                                          |
+  |          [ VG (Volume Group) : 3TB 찰흙 덩어리 공구리 ]                          |
+  |                 |                                                                |
+  |         +-------+-------+   ◁ 사용자가 "오늘은 2.5TB 방 파줘!" 동적 록           |
+  |    [ 논리 볼륨 (LV 1: 2.5TB) ]  [ 논리 볼륨 (LV 2: 0.5TB) ]                      |
+  |     (Database 마운트 공간 렌더)     (Log 모니터링 공간 타격)                     |
+  |     => 💡 기적 완성: 1TB 하드 물리적 한계를 뚫고, 2.5TB짜리 거대 논리 방 생성!   |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적 파티션(fdisk)은 매우 경직된 정적(Static) 분할이다. 초반에 자를 때 700GB로 선을 그어버리면 나중에 용량이 꽉 찼을 때 파티션의 크기를 우측으로 늘리지 못하고 쩔쩔매며 폭파 멸망하는 갇힌 공간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 빠진다. 그러나 이 전통 관념을 완전히 개박살 낸 것이 리눅스 LVM(Logical [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) Manager)의 볼륨 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)다. 이 시스템은 여러 하드를 믹서기에 갈아 하나의 거대한 웅덩이([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) Group 찰흙 풀)로 만들고, 그 웅덩이에서 필요한 만큼 물을 퍼서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨(Logical [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) LV) 방을 동적으로 창조한다. 용량이 부족하면 내일 1TB 하드를 그냥 컴에 꽂고 웅덩이에 부어버리면 LV 방망이 실시간(무중단 Online)으로 쭉쭉 기적처럼 팽창 연장되는 현대 클라우드 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 스토리지의 핵 마스터 백본을 장악한다.
@@ -145,12 +145,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [일반 그래프 디렉터리 (순환 허용)]
-    │
-    ▼
+    |
+    v
 [파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
-    │
-    ├──▶ [MBR (Master Boot Record) vs GPT (GUID Partition Table)]
-    └──▶ [마운트 (Mount) 메커니즘]
+    |
+    +---> [MBR (Master Boot Record) vs GPT (GUID Partition Table)]
+    +---> [마운트 (Mount) 메커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -167,7 +167,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 514 / 800
 
-← **이전**: [513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)](/knowledge-base/studynote/02_operating_system/09_file_system/513_general_graph_directory/)
-**다음**: [515. MBR (Master Boot Record) vs GPT (GUID Partition Table)](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) →
+<- **이전**: [513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)](/knowledge-base/studynote/02_operating_system/09_file_system/513_general_graph_directory/)
+**다음**: [515. MBR (Master Boot Record) vs GPT (GUID Partition Table)](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) ->
 
 ---

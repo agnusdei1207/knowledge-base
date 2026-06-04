@@ -25,7 +25,7 @@ tags = ["devops_sre"]
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>의 어려움</strong>: 문제가 발생했을 때 이전 상태로 돌아가려면 여러 요소를 동시에 원복해야 한다.
 - **재현성의 부재**: 동일 환경에서의 재배포가 보장되지 않는다.
 
-12팩터 앱의 빌드, 릴리스, 실행 원칙은 이 세 단계를 엄격히 분리하고 각각을 독립적으로 관리할 것을 요구한다. 이렇게 하면 문제는"빌드에러 → 빌드만 다시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)오류 → 릴리스만 다시"로 특정할 수 있어 수정이 용이하다.
+12팩터 앱의 빌드, 릴리스, 실행 원칙은 이 세 단계를 엄격히 분리하고 각각을 독립적으로 관리할 것을 요구한다. 이렇게 하면 문제는"빌드에러 -> 빌드만 다시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)오류 -> 릴리스만 다시"로 특정할 수 있어 수정이 용이하다.
 
 아래 다이어그램은 전통적 혼재 방식과 세 단계 분리의 차이를 보여준다.
 
@@ -33,43 +33,43 @@ tags = ["devops_sre"]
 [단계 혼재 vs 단계 분리]
 
 ❌ 전통적 혼재 방식 (문제: 무엇이 무엇을 cause했는지 불분명)
-┌─────────────────────────────────────────────────────────────┐
-│  소스 코드 ──┬─── 빌드 ───┼─── 설정 ───┼─── 실행 ───▶ 실행 중인 앱
-│             │    │        │    │       │                     │
-│             │  코드 수정  │ 설정 수정 │ 런타임 수정          │
-│             │  (언제? 누가?)│ (어디에?)  │ (왜?)              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  소스 코드 --+--- 빌드 ---+--- 설정 ---+--- 실행 ----> 실행 중인 앱
+|             |    |        |    |       |                     |
+|             |  코드 수정  | 설정 수정 | 런타임 수정          |
+|             |  (언제? 누가?)| (어디에?)  | (왜?)              |
++-------------------------------------------------------------+
   문제: 각 단계의 변경 이력이 혼잡, 롤백 시 무엇을 롤백해야?
 
 ✓ 12팩터 방식 (세 단계 엄격 분리)
-┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│  [Stage 1: BUILD]                                           │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ 소스 코드 (Git Commit a1b2c3d)                       │   │
-│  │          │                                            │   │
-│  │          ▼                                            │   │
-│  │ 실행 가능한 아티팩트 (Docker Image: app:v1.2.3)      │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                        │                                   │
-│                        ▼                                   │
-│  [Stage 2: RELEASE]                                         │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ 아티팩트 (app:v1.2.3) + 설정 (production config)    │   │
-│  │          │                                            │   │
-│  │          ▼                                            │   │
-│  │ 배포 가능한 패키지 (Release v1.2.3-prod-20240405)   │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                        │                                   │
-│                        ▼                                   │
-│  [Stage 3: RUN]                                            │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ 런타임에서 실행 (컨테이너/프로세스)                          │   │
-│  │ - 특정 버전의 앱이 특정 설정으로 동작                     │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  장점: 각 단계가 독립적으로 추적/관리 가능                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                                                             |
+|  [Stage 1: BUILD]                                           |
+|  +-----------------------------------------------------+   |
+|  | 소스 코드 (Git Commit a1b2c3d)                       |   |
+|  |          |                                            |   |
+|  |          v                                            |   |
+|  | 실행 가능한 아티팩트 (Docker Image: app:v1.2.3)      |   |
+|  +-----------------------------------------------------+   |
+|                        |                                   |
+|                        v                                   |
+|  [Stage 2: RELEASE]                                         |
+|  +-----------------------------------------------------+   |
+|  | 아티팩트 (app:v1.2.3) + 설정 (production config)    |   |
+|  |          |                                            |   |
+|  |          v                                            |   |
+|  | 배포 가능한 패키지 (Release v1.2.3-prod-20240405)   |   |
+|  +-----------------------------------------------------+   |
+|                        |                                   |
+|                        v                                   |
+|  [Stage 3: RUN]                                            |
+|  +-----------------------------------------------------+   |
+|  | 런타임에서 실행 (컨테이너/프로세스)                          |   |
+|  | - 특정 버전의 앱이 특정 설정으로 동작                     |   |
+|  +-----------------------------------------------------+   |
+|                                                             |
+|  장점: 각 단계가 독립적으로 추적/관리 가능                    |
++-------------------------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: 빌드/릴리스/실행 분리는"음식의 조리 단계"와 같다. 요리(빌드)는 요리사가 하고, 플레이팅(릴리스)은 웨이터가 하며, 서빙(실행)은 호스트가 한다. 만약 맛([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))이 잘못되었으면 요리사는 플레이팅 담당자에게 돌아가서 새 음식을 요청할 수 있고(릴리스 재실행), 서빙 단계에서 문제가 있으면 호스트가 새로운 접시를 요청할 수 있다(재실행).
@@ -91,51 +91,51 @@ tags = ["devops_sre"]
 ```text
 [CI/CD 파이프라인에서의 빌드/릴리스/실행]
 
-┌─────────────────────────────────────────────────────────────────────┐
-│                        CI/CD 파이프라인                              │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  1. BUILD 단계                                                       │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │  Git Repository                    CI Pipeline                │  │
-│  │  ┌──────────────┐                  ┌──────────────────────┐   │  │
-│  │  │ Commit       │ ──WebHook 트리거─▶ │ 빌드 (Build)         │   │  │
-│  │  │ a1b2c3d      │                  │ - 의존성 설치         │   │  │
-│  │  │ (소스 코드)   │                  │ - 컴파일/번들링       │   │  │
-│  │  └──────────────┘                  │ - 테스트 실행         │   │  │
-│  │                                      │ = Docker Image       │   │  │
-│  │                                      │   app:a1b2c3d        │   │  │
-│  │                                      └──────────┬───────────┘  │  │
-│  └─────────────────────────────────────────────────┼──────────────┘  │
-│                                                      │                 │
-│                                                      ▼                 │
-│  2. RELEASE 단계                                                      │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                           CD Pipeline                          │  │
-│  │  ┌──────────────────────┐    ┌──────────────────────────┐   │  │
-│  │  │ 아티팩트 (Build)      │    │ 릴리스 (Release)          │   │  │
-│  │  │ app:a1b2c3d          │ +  │ - 환경 설정 injection   │   │  │
-│  │  └──────────────────────┘    │ - 버전 태그 생성          │   │  │
-│  │                               │ = Release a1b2c3d-prod   │   │  │
-│  │                               └──────────┬───────────┘   │  │
-│  └──────────────────────────────────────────────┼──────────────┘  │
-│                                                     │                 │
-│                                                     ▼                 │
-│  3. RUN 단계                                                           │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                        Kubernetes / Container Runtime          │  │
-│  │  ┌──────────────────────────────────────────────────────┐   │  │
-│  │  │  실행 (Run)                                           │   │  │
-│  │  │  - Release a1b2c3d-prod 이미지 가져옴                  │   │  │
-│  │  │  - 환경 변수/시크릿 주입                              │   │  │
-│  │  │  - 컨테이너 시작                                       │   │  │
-│  │  │  = 실행 중인 앱 (a1b2c3d, production 환경)             │   │  │
-│  │  └──────────────────────────────────────────────────────┘   │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|                        CI/CD 파이프라인                              |
++---------------------------------------------------------------------+
+|                                                                      |
+|  1. BUILD 단계                                                       |
+|  +---------------------------------------------------------------+  |
+|  |  Git Repository                    CI Pipeline                |  |
+|  |  +--------------+                  +----------------------+   |  |
+|  |  | Commit       | --WebHook 트리거--> | 빌드 (Build)         |   |  |
+|  |  | a1b2c3d      |                  | - 의존성 설치         |   |  |
+|  |  | (소스 코드)   |                  | - 컴파일/번들링       |   |  |
+|  |  +--------------+                  | - 테스트 실행         |   |  |
+|  |                                      | = Docker Image       |   |  |
+|  |                                      |   app:a1b2c3d        |   |  |
+|  |                                      +----------+-----------+  |  |
+|  +-------------------------------------------------+--------------+  |
+|                                                      |                 |
+|                                                      v                 |
+|  2. RELEASE 단계                                                      |
+|  +---------------------------------------------------------------+  |
+|  |                           CD Pipeline                          |  |
+|  |  +----------------------+    +--------------------------+   |  |
+|  |  | 아티팩트 (Build)      |    | 릴리스 (Release)          |   |  |
+|  |  | app:a1b2c3d          | +  | - 환경 설정 injection   |   |  |
+|  |  +----------------------+    | - 버전 태그 생성          |   |  |
+|  |                               | = Release a1b2c3d-prod   |   |  |
+|  |                               +----------+-----------+   |  |
+|  +----------------------------------------------+--------------+  |
+|                                                     |                 |
+|                                                     v                 |
+|  3. RUN 단계                                                           |
+|  +---------------------------------------------------------------+  |
+|  |                        Kubernetes / Container Runtime          |  |
+|  |  +------------------------------------------------------+   |  |
+|  |  |  실행 (Run)                                           |   |  |
+|  |  |  - Release a1b2c3d-prod 이미지 가져옴                  |   |  |
+|  |  |  - 환경 변수/시크릿 주입                              |   |  |
+|  |  |  - 컨테이너 시작                                       |   |  |
+|  |  |  = 실행 중인 앱 (a1b2c3d, production 환경)             |   |  |
+|  |  +------------------------------------------------------+   |  |
+|  +---------------------------------------------------------------+  |
++---------------------------------------------------------------------+
 ```
 
-> 📢 **섹션 요약 비유**: 빌드/릴리스/실행은"영화 제작의 단계"와 같다. 빌드는 촬영(소스 → 영상물)으로, 릴리스는 편집과 배급용 Master [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(영상물 + 자막/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)), 실행은 영화관 상영(Master → 스크린투영)과 같다. 만약 자막에 문제가 있으면([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제) 편집 단계만 다시 하고, 영화관 장비 문제면(실행 문제) 장비만 다시 조정하면 된다.
+> 📢 **섹션 요약 비유**: 빌드/릴리스/실행은"영화 제작의 단계"와 같다. 빌드는 촬영(소스 -> 영상물)으로, 릴리스는 편집과 배급용 Master [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(영상물 + 자막/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)), 실행은 영화관 상영(Master -> 스크린투영)과 같다. 만약 자막에 문제가 있으면([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제) 편집 단계만 다시 하고, 영화관 장비 문제면(실행 문제) 장비만 다시 조정하면 된다.
 
 ---
 
@@ -145,11 +145,11 @@ tags = ["devops_sre"]
 
 | 관련 개념 | 빌드/릴리스/실행 원칙과의 결합 | 시너지 효과 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 빌드 → Git Commit, 릴리스 → Git Tag, 실행 → ArgoCD Sync | 변경 이력 완벽 추적 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 빌드 -> Git Commit, 릴리스 -> Git Tag, 실행 -> ArgoCD Sync | 변경 이력 완벽 추적 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a></strong> | 빌드 = 코드 컴파일, 릴리스 = 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 실행 = 인프라 가동 | 인프라도 동일한 원칙 적용 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a></strong> | 빌드 = [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 빌드, 릴리스 = 이미지 + [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 실행 = [docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) run | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 불변성 보장 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | 각 단계가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 Stage로 구현 | 자동화된 빌드/릴리스/실행 |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/">롤링 배포</a></strong> | 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 빌드 → 새 릴리스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 점진적 실행 전환 | 무중단 업데이트 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/">롤링 배포</a></strong> | 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 빌드 -> 새 릴리스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 점진적 실행 전환 | 무중단 업데이트 |
 
 특히 GitOps와의 결합은 빌드/릴리스/실행 원칙의 추적 가능성을 완벽하게 한다. Git Repo의 커밋 히스토리가 빌드 이력이 되고, 릴리스 태그가 실행 환경을 결정하며, ArgoCD나 FluxCD가 실행 단계를 자동화한다.
 
@@ -157,26 +157,26 @@ tags = ["devops_sre"]
 [GitOps + 빌드/릴리스/실행의 결합]
 
 Git Repository
-┌─────────────────────────────────────────────────────────────┐
-│  Commit a1b2c3d: "버그 픽스 - 결제 API 오류 수정"              │
-│       │                                                      │
-│       ├──▶ CI Pipeline: Build (Docker Image: app:a1b2c3d)   │
-│       │                                                      │
-│       └──▶ Git Tag: v1.2.3-prod                                │
-│                   │                                           │
-│                   ▼                                           │
-│  ArgoCD / FluxCD (GitOps 에이전트)                              │
-│       │                                                       │
-│       ├── "v1.2.3-prod" 태그 감시                             │
-│       │                                                       │
-│       └──▶ Kubernetes: Run (app:a1b2c3d with prod 설정)       │
-│                                                             │
-│  모니터링/알람 ──▶ 문제 발견 ──▶ "v1.2.3-prod" 롤백 요청       │
-│       │                                                       │
-│       └──▶ Git Tag: v1.2.2-prod (이전 버전)로 변경            │
-│                   │                                           │
-│                   ▼                                           │
-│           ArgoCD가 이전 버전으로 Sync 실행                       │
++-------------------------------------------------------------+
+|  Commit a1b2c3d: "버그 픽스 - 결제 API 오류 수정"              |
+|       |                                                      |
+|       +---> CI Pipeline: Build (Docker Image: app:a1b2c3d)   |
+|       |                                                      |
+|       +---> Git Tag: v1.2.3-prod                                |
+|                   |                                           |
+|                   v                                           |
+|  ArgoCD / FluxCD (GitOps 에이전트)                              |
+|       |                                                       |
+|       +-- "v1.2.3-prod" 태그 감시                             |
+|       |                                                       |
+|       +---> Kubernetes: Run (app:a1b2c3d with prod 설정)       |
+|                                                             |
+|  모니터링/알람 ---> 문제 발견 ---> "v1.2.3-prod" 롤백 요청       |
+|       |                                                       |
+|       +---> Git Tag: v1.2.2-prod (이전 버전)로 변경            |
+|                   |                                           |
+|                   v                                           |
+|           ArgoCD가 이전 버전으로 Sync 실행                       |
 ```
 
 > 📢 **섹션 요약 비유**: 빌드/릴리스/실행과 GitOps의 결합은"음악 녹음과 음원 배포"에 비유할 수 있다. 녹음실(빌드)에서 음원을 녹음하고, 녹음 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 자막/음향 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(릴리스)을 추가하여 음원 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 완성하고, 음원 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 음악 스트리밍 플랫폼(실행)에 올려 청중이 들을 수 있게 한다. 만약 음원 자체에 문제가 있으면(빌드) 녹음실로 돌아가서 다시 녹음하고, 음원 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제면(릴리스) 편집실에서 수정하면 된다.
@@ -252,17 +252,17 @@ Git Repository
 
 ```text
 [소스 코드 커밋 (Source Code Commit) — 기능 완료 후 버전 관리 저장]
-    │
-    ▼
+    |
+    v
 [빌드 (Build) — 코드 컴파일·의존성 번들링, 불변 아티팩트 생성]
-    │
-    ▼
+    |
+    v
 [릴리스 (Release) — 환경별 설정 주입, 배포 가능한 단위로 패키징]
-    │
-    ▼
+    |
+    v
 [실행 (Run) — 컨테이너 런타임에서 멱등적 프로세스 실행]
-    │
-    ▼
+    |
+    v
 [불변 인프라 (Immutable Infrastructure) — 롤백 시 재빌드 없이 이전 릴리스로 즉시 전환]
 ```
 
@@ -280,7 +280,7 @@ Git Repository
 
 **진행 상황**: 11 / 373
 
-← **이전**: [10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/)
-**다음**: [12. 무상태 프로세스 (Stateless Processes) - 애플리케이션은 상태를 공유하지 않고 무상태로 실행되며, 상태는 DB](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/) →
+<- **이전**: [10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/)
+**다음**: [12. 무상태 프로세스 (Stateless Processes) - 애플리케이션은 상태를 공유하지 않고 무상태로 실행되며, 상태는 DB](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/) ->
 
 ---

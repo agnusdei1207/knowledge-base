@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **레이블 드리프트 (Label Drift)**: 출력 분포 변화 (P(Y) 변화)
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 드리프트 탐지는 "강이 계속 같은 물인지, 아니면 오염된 물이 들어왔는지" 수질 검사하는 것이다.
@@ -48,7 +48,7 @@ tags = ["studynote-ai"]
 D = max_x |F₁(x) - F₂(x)|
 
 귀무가설 H₀: 두 분포가 같음
-D > D_임계값 → H₀ 기각 → 분포 차이 존재 (드리프트)
+D > D_임계값 -> H₀ 기각 -> 분포 차이 존재 (드리프트)
 
 D_임계값(α=0.05): c(α) · √((n₁+n₂)/(n₁·n₂))
 c(0.05) = 1.358
@@ -74,16 +74,16 @@ Actual_i: 서비스 데이터의 구간 i 비율
 ### [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  [프로덕션 서비스] → 예측 로그 + 실제 레이블             │
-│         ↓                                                │
-│  [Feature Store] → 입력 분포 통계 저장                   │
-│         ↓                                                │
-│  [드리프트 탐지 서비스]                                   │
-│  매일/매주: K-S 검정, PSI 계산                           │
-│         ↓                                                │
-│  [알림/자동 재학습] → PSI > 0.25 시 트리거              │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  [프로덕션 서비스] -> 예측 로그 + 실제 레이블             |
+|         v                                                |
+|  [Feature Store] -> 입력 분포 통계 저장                   |
+|         v                                                |
+|  [드리프트 탐지 서비스]                                   |
+|  매일/매주: K-S 검정, PSI 계산                           |
+|         v                                                |
+|  [알림/자동 재학습] -> PSI > 0.25 시 트리거              |
++----------------------------------------------------------+
 ```
 
 **추가 드리프트 탐지 방법**:
@@ -102,7 +102,7 @@ Actual_i: 서비스 데이터의 구간 i 비율
 | K-S 검정 | 단변량 분포 | D 통계량 | 연속형 |
 | PSI | 단변량 분포 | PSI 지수 | 연속/범주 |
 | MMD | 다변량 분포 | 평균 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 거리 | 연속형 |
-| χ² 검정 | 범주형 분포 | χ² 통계량 | 범주형 |
+| χ^ 검정 | 범주형 분포 | χ^ 통계량 | 범주형 |
 | ADWIN | 개념 드리프트 | 슬라이딩 윈도우 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) |
 
 - **📢 섹션 요약 비유**: K-S는 "두 성적표 점수 분포를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 겹쳐서 가장 차이나는 지점 거리 측정", PSI는 "두 반 학생 성적 구간 분포 비율 차이 측정"이다.
@@ -127,7 +127,7 @@ Actual_i: 서비스 데이터의 구간 i 비율
 
 ## Ⅴ. 기대효과 및 결론
 
-MLOps에서 드리프트 탐지는 모델의 지속적 품질을 보장하는 핵심 운영 기능이다. K-S 검정의 통계적 엄밀성과 PSI의 직관적 해석 기준을 결합하면 실용적인 드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템을 구축할 수 있다. 자동화된 드리프트 탐지 → 재학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 ML 모델의 장기 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 담보한다.
+MLOps에서 드리프트 탐지는 모델의 지속적 품질을 보장하는 핵심 운영 기능이다. K-S 검정의 통계적 엄밀성과 PSI의 직관적 해석 기준을 결합하면 실용적인 드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템을 구축할 수 있다. 자동화된 드리프트 탐지 -> 재학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 ML 모델의 장기 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 담보한다.
 
 - **📢 섹션 요약 비유**: PSI > 0.25는 "오래된 지도로는 더 이상 길을 못 찾겠다"는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 새 지도(재학습된 모델)가 필요한 시점이다.
 
@@ -147,7 +147,7 @@ MLOps에서 드리프트 탐지는 모델의 지속적 품질을 보장하는 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [MLOps 드리프트 탐지 (Mlops Drift Detection)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [MLOps 드리프트 탐지 (Mlops Drift Detection)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -162,7 +162,7 @@ MLOps에서 드리프트 탐지는 모델의 지속적 품질을 보장하는 �
 
 **진행 상황**: 400 / 420
 
-← **이전**: [399. 액티브 러닝 (Active Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/399_active_learning_qbc/)
-**다음**: [401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)](/knowledge-base/studynote/10_ai/05_data_science_ml/401_smt_vs_nmt/) →
+<- **이전**: [399. 액티브 러닝 (Active Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/399_active_learning_qbc/)
+**다음**: [401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)](/knowledge-base/studynote/10_ai/05_data_science_ml/401_smt_vs_nmt/) ->
 
 ---

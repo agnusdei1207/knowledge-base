@@ -43,23 +43,23 @@ VFIO 구조의 중심에는 세 가지가 있다. 첫째는 장치를 격리 가
 아래 그림은 VFIO의 제어 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 함께 보여준다.
 
 ```text
-┌──────────────────── User process ────────────────────┐
-│ QEMU / DPDK app                                      │
-│  ├─ ioctl to VFIO                                    │
-│  ├─ mmap register region                             │
-│  └─ eventfd for interrupt                            │
-└──────────────────────────┬───────────────────────────┘
-                           │
-                           ▼
-┌──────────────────────── VFIO core ───────────────────┐
-│ group check -> container attach -> IOMMU map        │
-└──────────────────────────┬───────────────────────────┘
-                           │ programs translation
-                           ▼
-┌───────────────────────── IOMMU ──────────────────────┐
-│ device DMA allowed only for mapped pages             │
-└──────────────────────────┬───────────────────────────┘
-                           ▼
++-------------------- User process --------------------+
+| QEMU / DPDK app                                      |
+|  +- ioctl to VFIO                                    |
+|  +- mmap register region                             |
+|  +- eventfd for interrupt                            |
++--------------------------+---------------------------+
+                           |
+                           v
++------------------------ VFIO core -------------------+
+| group check -> container attach -> IOMMU map        |
++--------------------------+---------------------------+
+                           | programs translation
+                           v
++------------------------- IOMMU ----------------------+
+| device DMA allowed only for mapped pages             |
++--------------------------+---------------------------+
+                           v
                     Physical PCIe device
 ```
 
@@ -140,21 +140,21 @@ VFIO 프레임워크의 가장 큰 효과는 [성능](/knowledge-base/studynote/
 
 ```text
 단순 사용자 공간 장치 제어
-    │
-    ▼
+    |
+    v
 Legacy passthrough / UIO
-    │
-    ▼
+    |
+    v
 VFIO + IOMMU group
-    │
-    ▼
+    |
+    v
 SR-IOV VF 할당
-    │
-    ▼
+    |
+    v
 고성능 패스스루 + 장치 상태 관리 고도화
 ```
 
-이 흐름은 "직접 제어 욕구 → 안전한 격리 → 하드웨어 분할 → 운영 정교화"로 VFIO 생태계가 발전하는 방향을 보여준다.
+이 흐름은 "직접 제어 욕구 -> 안전한 격리 -> 하드웨어 분할 -> 운영 정교화"로 VFIO 생태계가 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +168,7 @@ SR-IOV VF 할당
 
 **진행 상황**: 667 / 803
 
-← **이전**: [665. Virtio 드라이버 모델](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/665_virtio_driver_model/)
-**다음**: [667. 컨테이너 런타임 (runc) HW 네임스페이스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) →
+<- **이전**: [665. Virtio 드라이버 모델](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/665_virtio_driver_model/)
+**다음**: [667. 컨테이너 런타임 (runc) HW 네임스페이스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) ->
 
 ---

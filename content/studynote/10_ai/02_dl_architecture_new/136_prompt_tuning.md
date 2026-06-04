@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 ```text
 Hard Prompt: 사람이 작성한 텍스트 프롬프트
 Soft Prompt: 학습 가능한 연속 벡터 (임베딩 공간)
-  모델 동결 → 프롬프트 벡터만 학습 → 파라미터 <0.01%
+  모델 동결 -> 프롬프트 벡터만 학습 -> 파라미터 <0.01%
 ```
 
 - **📢 섹션 요약 비유**: Prompt Tuning은 **자물쇠(모델)는 그대로 두고 열쇠(프롬프트)만 만드는** 것이다.
@@ -48,8 +48,8 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 
 ```text
 [Hard Prompt Engineering (2020)]
-    → [Prefix Tuning (2021)] → [Prompt Tuning (2021, Google)]
-    → [P-Tuning v2 (2022)] → [현재: LoRA+Prompt 하이브리드]
+    -> [Prefix Tuning (2021)] -> [Prompt Tuning (2021, Google)]
+    -> [P-Tuning v2 (2022)] -> [현재: LoRA+Prompt 하이브리드]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 
 **진행 상황**: 136 / 420
 
-← **이전**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/knowledge-base/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/)
-**다음**: [137. BERT (Bidirectional Encoder Representations from Transformers)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/137_bert/) →
+<- **이전**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/knowledge-base/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/)
+**다음**: [137. BERT (Bidirectional Encoder Representations from Transformers)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/137_bert/) ->
 
 ---

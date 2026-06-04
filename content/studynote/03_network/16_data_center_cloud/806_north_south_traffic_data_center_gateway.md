@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [Clos 네트워크]
-    │
-    ▼
+    |
+    v
 [North-South 트래픽]
-    │
-    └──▶ [East-West 트래픽]
+    |
+    +---> [East-West 트래픽]
 ```
 
 - **📢 섹션 요약 비유**: North-South 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [Clos 네트워크]
-    │
-    ▼
+    |
+    v
 [North-South 트래픽]
-    │
-    └──▶ [East-West 트래픽]
+    |
+    +---> [East-West 트래픽]
 ```
 
 - **📢 섹션 요약 비유**: North-South 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ North-South 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/
 
 ```text
 [선행 개념: Clos 네트워크]
-    │
-    ▼
+    |
+    v
 [현재 개념: North-South 트래픽]
-    │
-    ├──▶ [확장 A: East-West 트래픽]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: East-West 트래픽]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 North-South 트래픽는 Clos 네트워크에서 출발해 현재 메커니즘을 정교화하고, 이후 East-West 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ North-South 트래픽는 Clos 네트워크에서 출발해 현재 메커니즘�
 
 **진행 상황**: 927 / 1120
 
-← **이전**: [805. Clos 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/805_clos_network_non_blocking_multi_stage_switching/)
-**다음**: [807. East-West 트래픽 (데이터센터 내부 서버-서버/마이크로서비스 간 가상 통신 흐름)](/knowledge-base/studynote/03_network/16_data_center_cloud/807_east_west_traffic_data_center_microservice_spine_leaf/) →
+<- **이전**: [805. Clos 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/805_clos_network_non_blocking_multi_stage_switching/)
+**다음**: [807. East-West 트래픽 (데이터센터 내부 서버-서버/마이크로서비스 간 가상 통신 흐름)](/knowledge-base/studynote/03_network/16_data_center_cloud/807_east_west_traffic_data_center_microservice_spine_leaf/) ->
 
 ---

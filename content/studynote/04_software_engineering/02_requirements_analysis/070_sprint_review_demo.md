@@ -30,9 +30,9 @@ tags = ["software_engineering"]
 
 ```text
 Increment
-  ↓ demo
+  v demo
 Sprint Review
-  ↓
+  v
 Feedback / Validation
 ```
 
@@ -104,11 +104,11 @@ Feedback / Validation
 
 ```text
 Increment
-  ↓
+  v
 Sprint Review
-  ↓
+  v
 Feedback
-  ↓
+  v
 Backlog Update
 ```
 
@@ -118,11 +118,11 @@ Backlog Update
 
 ```text
 Demo
-  ↓
+  v
 Sprint Review
-  ↓
+  v
 Feedback
-  ↓
+  v
 Product Learning
 ```
 
@@ -140,7 +140,7 @@ Product Learning
 
 **진행 상황**: 70 / 973
 
-← **이전**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/)
-**다음**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/) →
+<- **이전**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/)
+**다음**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/) ->
 
 ---

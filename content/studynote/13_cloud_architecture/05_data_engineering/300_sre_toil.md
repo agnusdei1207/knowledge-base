@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 축소를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SRE 사이트 신뢰성 공학 에러 예산 토일 축소가 필요한 이유: 변경 속도와 안정성을 동시에 관리                   │
-├──────────────────────────────────────────────────────────────┤
-│ 계획/코드 ─▶ 자동화 파이프라인 ─▶ 배포/운영 ─▶ 피드백/개선         │
-│    │                  │                 │                 │         │
-│    └────────────── 반복 학습 루프를 짧게 유지 ───────────────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SRE 사이트 신뢰성 공학 에러 예산 토일 축소가 필요한 이유: 변경 속도와 안정성을 동시에 관리                   |
++--------------------------------------------------------------+
+| 계획/코드 --> 자동화 파이프라인 --> 배포/운영 --> 피드백/개선         |
+|    |                  |                 |                 |         |
+|    +-------------- 반복 학습 루프를 짧게 유지 -------------------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 축소가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | 피드백 계층 | 지표·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·회고로 개선 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/), [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SRE 사이트 신뢰성 공학 에러 예산 토일 축소 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SRE 사이트 신뢰성 공학 에러 예산 토일 축소 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 축소는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[수작업 배포] → [SRE 사이트 신뢰성 공학 에러 예산 토일 축소] → [측정 기반 지속 개선]
+[수작업 배포] -> [SRE 사이트 신뢰성 공학 에러 예산 토일 축소] -> [측정 기반 지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 299 / 371
 
-← **이전**: [299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/299_devsecops/)
-**다음**: [301. SLI SLO SLA 서비스 레벨 지표 목표 협약 (SLI SLO SLA)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/301_sli_slo_sla/) →
+<- **이전**: [299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/299_devsecops/)
+**다음**: [301. SLI SLO SLA 서비스 레벨 지표 목표 협약 (SLI SLO SLA)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/301_sli_slo_sla/) ->
 
 ---

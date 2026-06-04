@@ -24,13 +24,13 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```
 [Schema-on-Write 데이터 흐름]
-┌─────────┐    ┌─────────────────────────────┐    ┌──────────────┐
-│ 소스 DB  │ →  │       ETL 파이프라인           │ →  │  Data Warehouse │
-│         │    │  ① Extract  ② Transform       │    │  (스키마 정의   │
-│ ERP/CRM │    │  ③ Validate ④ Load            │    │   완벽한 테이블) │
-└─────────┘    │  - NULL 체크  - 타입 변환       │    └──────────────┘
-               │  - 중복 제거  - 도메인 코드 변환 │
-               └─────────────────────────────┘
++---------+    +-----------------------------+    +--------------+
+| 소스 DB  | ->  |       ETL 파이프라인           | ->  |  Data Warehouse |
+|         |    |  ① Extract  ② Transform       |    |  (스키마 정의   |
+| ERP/CRM |    |  ③ Validate ④ Load            |    |   완벽한 테이블) |
++---------+    |  - NULL 체크  - 타입 변환       |    +--------------+
+               |  - 중복 제거  - 도메인 코드 변환 |
+               +-----------------------------+
                    저장 전 모든 규칙 통과 강제
 ```
 
@@ -46,17 +46,17 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```
 소스 시스템                 ETL 서버                      DW 테이블
-┌──────────┐    Extract    ┌──────────────────┐  Load  ┌────────────────┐
-│ Oracle   │ ──────────▶  │  Staging Area     │ ─────▶ │ fact_sales     │
-│ MySQL    │              │  ┌─────────────┐  │        │ (컬럼 타입 고정) │
-│ SAP ERP  │    Transform │  │ 타입 변환     │  │        └────────────────┘
-└──────────┘              │  │ NULL 처리    │  │        ┌────────────────┐
-                          │  │ 중복 제거    │  │ ─────▶ │ dim_customer   │
-                          │  │ 코드 매핑   │  │        └────────────────┘
-                          │  │ 비즈니스 룰  │  │
-                          │  │ 검증         │  │   ← Reject 로그
-                          │  └─────────────┘  │   ← 실패 데이터 격리
-                          └──────────────────┘
++----------+    Extract    +------------------+  Load  +----------------+
+| Oracle   | ----------->  |  Staging Area     | ------> | fact_sales     |
+| MySQL    |              |  +-------------+  |        | (컬럼 타입 고정) |
+| SAP ERP  |    Transform |  | 타입 변환     |  |        +----------------+
++----------+              |  | NULL 처리    |  |        +----------------+
+                          |  | 중복 제거    |  | ------> | dim_customer   |
+                          |  | 코드 매핑   |  |        +----------------+
+                          |  | 비즈니스 룰  |  |
+                          |  | 검증         |  |   <- Reject 로그
+                          |  +-------------+  |   <- 실패 데이터 격리
+                          +------------------+
 ```
 
 ### [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형
@@ -96,7 +96,7 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 [현대적 전략: 레이크하우스]
 원시 데이터                        정제 데이터
 (Schema-on-Read)    Delta Lake    (Schema-on-Write)
-S3 Bronze Zone  ──▶  Silver Zone ──▶  Gold Zone
+S3 Bronze Zone  --->  Silver Zone --->  Gold Zone
 원시 JSON/CSV         ACID 보장         BI 분석용
 스키마 추론            스키마 진화         스키마 확정
 ```
@@ -113,18 +113,18 @@ Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/knowledge-base/
 
 ```
 스키마 변경 영향 범위
-┌──────────────────────────────────────────────────┐
-│ 스키마 변경 (예: orders 테이블에 신규 컬럼 추가)    │
-│                                                  │
-│ 영향받는 항목:                                    │
-│  ① ETL 추출 SQL 수정                              │
-│  ② Transform 매핑 로직 수정                       │
-│  ③ DW 테이블 DDL ALTER                           │
-│  ④ 파티셔닝 재설계 가능성                          │
-│  ⑤ BI 도구 데이터 모델 수정                        │
-│  ⑥ 하위 데이터 마트 ETL 수정                       │
-│  ⑦ 테스트·배포 사이클 전체                         │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+| 스키마 변경 (예: orders 테이블에 신규 컬럼 추가)    |
+|                                                  |
+| 영향받는 항목:                                    |
+|  ① ETL 추출 SQL 수정                              |
+|  ② Transform 매핑 로직 수정                       |
+|  ③ DW 테이블 DDL ALTER                           |
+|  ④ 파티셔닝 재설계 가능성                          |
+|  ⑤ BI 도구 데이터 모델 수정                        |
+|  ⑥ 하위 데이터 마트 ETL 수정                       |
+|  ⑦ 테스트·배포 사이클 전체                         |
++--------------------------------------------------+
 ```
 
 ### 실무 권장 패턴
@@ -183,11 +183,11 @@ Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/knowledge-base/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-Schema-on-Write: ETL → 스키마 검증 → DW 적재
-    ├─► 장점: 쿼리 성능 우수 · 데이터 품질 보장
-    └─► 단점: 스키마 변경 비용 높음
-    │
-    ▼
+Schema-on-Write: ETL -> 스키마 검증 -> DW 적재
+    +-► 장점: 쿼리 성능 우수 · 데이터 품질 보장
+    +-► 단점: 스키마 변경 비용 높음
+    |
+    v
 Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
 ```
 2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장될 수 있다.
@@ -199,7 +199,7 @@ Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
 
 **진행 상황**: 221 / 371
 
-← **이전**: [221. 데이터 웨어하우스 (Data Warehouse / DW)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/221_data_warehouse_olap_sql/)
-**다음**: [223. 데이터 마트 (Data Mart)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/223_data_mart_department_analytics/) →
+<- **이전**: [221. 데이터 웨어하우스 (Data Warehouse / DW)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/221_data_warehouse_olap_sql/)
+**다음**: [223. 데이터 마트 (Data Mart)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/223_data_mart_department_analytics/) ->
 
 ---

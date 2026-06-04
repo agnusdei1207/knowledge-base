@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [OTN]
-    │
-    ▼
+    |
+    v
 [OAM 망 결함 관리]
-    │
-    └──▶ [SDH]
+    |
+    +---> [SDH]
 ```
 
 - **📢 섹션 요약 비유**: OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 
 ```text
 [OTN]
-    │
-    ▼
+    |
+    v
 [OAM 망 결함 관리]
-    │
-    └──▶ [SDH]
+    |
+    +---> [SDH]
 ```
 
 - **📢 섹션 요약 비유**: OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 
 ```text
 [선행 개념: OTN]
-    │
-    ▼
+    |
+    v
 [현재 개념: OAM 망 결함 관리]
-    │
-    ├──▶ [확장 A: SDH]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: SDH]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 OTN에서 출발해 현재 메커니즘을 정교화하고, 이후 SDH와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 
 **진행 상황**: 1015 / 1120
 
-← **이전**: [893. OTN (광전송망)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/)
-**다음**: [895. SDH (동기식 디지털 위계)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) →
+<- **이전**: [893. OTN (광전송망)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/)
+**다음**: [895. SDH (동기식 디지털 위계)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) ->
 
 ---

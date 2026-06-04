@@ -41,17 +41,17 @@ GPT의 근간은 구글이 발표한 [트랜스포머](/knowledge-base/studynote
 | <strong>인간 피드백 강화학습 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a>)</strong> | 인간의 의도와 도덕성에 정렬(Alignment) | 인간이 선호하는 답변을 보상 모델로 만들어 강화학습 적용 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           GPT의 동작 원리: 자기회귀적 다음 단어 예측           │
-├──────────────────────────────────────────────────────────────┤
-│ [입력 프롬프트] "대한민국의 수도는"                           │
-│       │                                                      │
-│       ▼                                                      │
-│ [Transformer Decoder (Self-Attention)] ─▶ 예측: "서울"      │
-│       │                                                      │
-│       ▼ (예측된 단어를 다시 입력으로 재귀 피드백)              │
-│ [입력] "대한민국의 수도는 서울" ─────────▶ 예측: "이다."     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           GPT의 동작 원리: 자기회귀적 다음 단어 예측           |
++--------------------------------------------------------------+
+| [입력 프롬프트] "대한민국의 수도는"                           |
+|       |                                                      |
+|       v                                                      |
+| [Transformer Decoder (Self-Attention)] --> 예측: "서울"      |
+|       |                                                      |
+|       v (예측된 단어를 다시 입력으로 재귀 피드백)              |
+| [입력] "대한민국의 수도는 서울" ----------> 예측: "이다."     |
++--------------------------------------------------------------+
 ```
 
 특히 ChatGPT([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5 이상)의 혁신은 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)를 통해 "똑똑하지만 제멋대로인 예측기"를 "안전하고 예의 바르게 대답하는 비서"로 통제(Alignment)했다는 데 있다.
@@ -115,17 +115,17 @@ BERT가 문서를 완벽하게 독해(이해)하여 빈칸을 채우거나 [분�
 
 ```text
 RNN / LSTM (순차적 자연어 처리)
-    │
-    ▼
+    |
+    v
 트랜스포머 (Transformer) 구조 발표 (Self-Attention)
-    │
-    ▼
+    |
+    v
 GPT-1 / GPT-2 / GPT-3 (파라미터 폭발, Few-shot 가능)
-    │
-    ▼
+    |
+    v
 InstructGPT · ChatGPT (RLHF를 통한 인간 의도 정렬 완료)
-    │
-    ▼
+    |
+    v
 GPT-4 (멀티모달 통합) · AI Agent (자율 행동 에이전트)
 ```
 
@@ -143,7 +143,7 @@ GPT-4 (멀티모달 통합) · AI Agent (자율 행동 에이전트)
 
 **진행 상황**: 167 / 587
 
-← **이전**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)
-**다음**: [92. 가용성 관리 (Availability Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_availability_management/) →
+<- **이전**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)
+**다음**: [92. 가용성 관리 (Availability Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_availability_management/) ->
 
 ---

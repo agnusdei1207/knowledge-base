@@ -30,21 +30,21 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 길거리 교통정리. 사거리 교차로에 차단을 치고 신호등 없이 시계 방향 룰만 허용(예방)할 건지, 자율 주행으로 예측 경로를 짜서 진입(회피)할 건지, 엉키면 크레인으로 제일 앞에 나선 1대를 찍어버릴(선점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 건지의 선택 싸움.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│         교착 상태 처리의 3대 패러다임 스펙트럼                      │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  [안정성 / 패쇄성 극]                        [실용성 / 자유 극]     │
-│  ◀────────────────────────────────────────────────────────▶         │
-│                                                                     │
-│  1. 사전 예방/회피               2. 사후 탐지/복구        3. 무시   │
-│  (Prevention / Avoidance)    (Detection / Recovery) (Ostrich)       │
-│                                                                     │
-│  성능: ▼ 최하 (통제 철저)     중간 (감시 비용)        ▲ 최고        │
-│  발생: 아예 0% 원천 차단       터지면 희생양 킬        일단 방치    │
-│  환경: 우주선 컨트롤, RTOS     데이터베이스(RDBMS)     범용PC OS    │
-│  방법: Lock 위계설정, 뱅커스   WFG 사이클, 타임아웃    사람이 끔    │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|         교착 상태 처리의 3대 패러다임 스펙트럼                      |
++---------------------------------------------------------------------+
+|                                                                     |
+|  [안정성 / 패쇄성 극]                        [실용성 / 자유 극]     |
+|  <---------------------------------------------------------->         |
+|                                                                     |
+|  1. 사전 예방/회피               2. 사후 탐지/복구        3. 무시   |
+|  (Prevention / Avoidance)    (Detection / Recovery) (Ostrich)       |
+|                                                                     |
+|  성능: v 최하 (통제 철저)     중간 (감시 비용)        ^ 최고        |
+|  발생: 아예 0% 원천 차단       터지면 희생양 킬        일단 방치    |
+|  환경: 우주선 컨트롤, RTOS     데이터베이스(RDBMS)     범용PC OS    |
+|  방법: Lock 위계설정, 뱅커스   WFG 사이클, 타임아웃    사람이 끔    |
++---------------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 삼대장은 — 나쁜 음식 절대 금지(사전 예방), 병 나면 수술(사후 탐지), 귀찮으니까 평생 라면 먹다 아프면 그냥 체념하기(무시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)).
@@ -127,12 +127,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [다중 인스턴스 자원 환경]
-    │
-    ▼
+    |
+    v
 [교착 상태 처리 방법 3가지 (Deadlock Handling Methods)]
-    │
-    ├──▶ [타조 알고리즘 (Ostrich Algorithm)]
-    └──▶ [교착 상태 예방 (Deadlock Prevention)]
+    |
+    +---> [타조 알고리즘 (Ostrich Algorithm)]
+    +---> [교착 상태 예방 (Deadlock Prevention)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -149,7 +149,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 290 / 800
 
-← **이전**: [289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/)
-**다음**: [291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) →
+<- **이전**: [289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/)
+**다음**: [291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ->
 
 ---

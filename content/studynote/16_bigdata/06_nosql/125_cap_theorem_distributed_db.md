@@ -70,11 +70,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [상위 개념: 분산 시스템, NoSQL]
-    │
-    ▼
+    |
+    v
 [하위 개념: 일관성(C), 가용성(A), 파티션 감내(P)]
-    │
-    ▼
+    |
+    v
 [연관 개념: PACELC 정리, BASE 원칙, 합의 알고리즘 (Raft)]
 ```
 
@@ -92,7 +92,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 125 / 262
 
-← **이전**: [BASE 원칙 (Basically Available, Soft State, Eventual Consistency)](/knowledge-base/studynote/16_bigdata/06_nosql/124_base_principles_nosql/)
-**다음**: [PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/126_pacelc_theorem_extended_cap/) →
+<- **이전**: [BASE 원칙 (Basically Available, Soft State, Eventual Consistency)](/knowledge-base/studynote/16_bigdata/06_nosql/124_base_principles_nosql/)
+**다음**: [PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/126_pacelc_theorem_extended_cap/) ->
 
 ---

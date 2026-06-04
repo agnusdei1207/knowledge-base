@@ -177,7 +177,7 @@ CSPM, DevSecOps 통합
 
 **진행 상황**: 49 / 530
 
-← **이전**: [36. 감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_audit_quality_management/)
-**다음**: [037. 데이터 품질 진단 (Data Quality Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_data_quality_diagnosis/) →
+<- **이전**: [36. 감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_audit_quality_management/)
+**다음**: [037. 데이터 품질 진단 (Data Quality Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_data_quality_diagnosis/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트NIC 가속 오프로딩 시스템]
-    │
-    ▼
+    |
+    v
 [5G SA/NSA 아키텍처 비교망]
-    │
-    └──▶ [스몰 셀 조밀화 간섭 통제망]
+    |
+    +---> [스몰 셀 조밀화 간섭 통제망]
 ```
 
 - **📢 섹션 요약 비유**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트NIC 가속 오프로딩 시스템]
-    │
-    ▼
+    |
+    v
 [5G SA/NSA 아키텍처 비교망]
-    │
-    └──▶ [스몰 셀 조밀화 간섭 통제망]
+    |
+    +---> [스몰 셀 조밀화 간섭 통제망]
 ```
 
 - **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/">NSA</a>(비단독 모드)</strong>는 최새로운 유형의 고속 열차([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 샀는데, 기관차 엔진과 철도 선로는 낡은 <strong>'새마을호 디젤 엔진(4G 코어)'</strong>에다 묶어 놓은 짬뽕 꼼수입니다. 기차가 달릴 때 길 안내(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 낡은 디젤 엔진이 덜컹대며 다 하지만, 화물칸([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운로드)은 최새로운 유형의 객차와 옛날 객차를 같이 달아 짐을 빨리 실어 나릅니다. 속도는 빠르지만 옛날 엔진의 한계 때문에 KTX급 정밀 자율주행 통제는 불가능합니다. 반면 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(단독 모드)</strong>는 낡은 디젤 엔진과 구형 철로를 다 뜯어내고, 자기장으로 떠서 날아가는 <strong>'100% 최새로운 유형의 자기부상열차 엔진과 전용 레일(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a> 코어)'</strong>을 통째로 깔아버린 진정한 혁명입니다. 엔진 자체가 최첨단 클라우드 컴퓨터로 바뀌었기 때문에, 열차 선로를 가상으로 쪼개어 소방차 전용 레일([네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))을 만들어주는 마법이 비로소 가능해지는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라의 최종 종착역입니다.
@@ -136,12 +136,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스마트NIC 가속 오프로딩 시스템]
-    │
-    ▼
+    |
+    v
 [현재 개념: 5G SA/NSA 아키텍처 비교망]
-    │
-    ├──▶ [확장 A: 스몰 셀 조밀화 간섭 통제망]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 스몰 셀 조밀화 간섭 통제망]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망는 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 스몰 셀 조밀화 간섭 통제망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 224 / 1120
 
-← **이전**: [1112. 스마트NIC 가속 오프로딩 시스템](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/)
-**다음**: [1114. 스몰 셀 조밀화 간섭 통제망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1114_small_cell_densification_interference_management/) →
+<- **이전**: [1112. 스마트NIC 가속 오프로딩 시스템](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/)
+**다음**: [1114. 스몰 셀 조밀화 간섭 통제망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1114_small_cell_densification_interference_management/) ->
 
 ---

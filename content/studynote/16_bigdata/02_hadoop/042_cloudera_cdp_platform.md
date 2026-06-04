@@ -72,17 +72,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Cloudera CDH / Hortonworks HDP — 온프레미스 하둡 배포판 시대]
-    │
-    ▼
+    |
+    v
 [Cloudera + Hortonworks 합병 — 단일 엔터프라이즈 데이터 플랫폼 통합]
-    │
-    ▼
+    |
+    v
 [CDP (Cloudera Data Platform) — 하이브리드/멀티클라우드 데이터 플랫폼]
-    │
-    ▼
+    |
+    v
 [SDX (Shared Data Experience) — 거버넌스·보안·메타데이터 일관성 엔진]
-    │
-    ▼
+    |
+    v
 [Apache Ozone — HDFS 대체 오브젝트 스토리지, 페타바이트급 확장]
 ```
 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 배포판(CDH/HDP)을 CDP로 통합하고, SDX로 거버넌스를 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 제공하며 Apache Ozone으로 스토리지 확장성을 확보했다.
@@ -98,7 +98,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 42 / 262
 
-← **이전**: [아파치 암바리 (Apache Ambari)](/knowledge-base/studynote/16_bigdata/02_hadoop/041_apache_ambari_management/)
-**다음**: [HDFS Small File Problem (HDFS 작은 파일 문제)](/knowledge-base/studynote/16_bigdata/02_hadoop/043_hdfs_small_file_problem/) →
+<- **이전**: [아파치 암바리 (Apache Ambari)](/knowledge-base/studynote/16_bigdata/02_hadoop/041_apache_ambari_management/)
+**다음**: [HDFS Small File Problem (HDFS 작은 파일 문제)](/knowledge-base/studynote/16_bigdata/02_hadoop/043_hdfs_small_file_problem/) ->
 
 ---

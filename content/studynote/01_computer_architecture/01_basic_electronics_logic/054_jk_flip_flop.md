@@ -32,9 +32,9 @@ J-K [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_e
 J와 K 입력은 클록과 함께 내부 래치를 제어한다. J=1, K=1이면 현재 상태를 반전시키는 toggle이 일어난다.
 
 ```text
-J ─┐
-   ├─▶ Gating ──▶ Flip-Flop ──▶ Q
-K ─┘        ▲
+J -+
+   +--> Gating ---> Flip-Flop ---> Q
+K -+        ^
             CLK
 ```
 
@@ -114,14 +114,14 @@ J-K [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_e
 
 ```text
 S/R 플립플롭
-    │
-    ▼
+    |
+    v
 J-K 플립플롭
-    │
-    ▼
+    |
+    v
 Edge-triggered J-K
-    │
-    ▼
+    |
+    v
 카운터 / 제어회로
 ```
 
@@ -139,7 +139,7 @@ Edge-triggered J-K
 
 **진행 상황**: 54 / 803
 
-← **이전**: [53. D 플립플롭 (D Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/)
-**다음**: [55. T 플립플롭 (T Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/055_t_flip_flop/) →
+<- **이전**: [53. D 플립플롭 (D Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/)
+**다음**: [55. T 플립플롭 (T Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/055_t_flip_flop/) ->
 
 ---

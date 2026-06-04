@@ -24,15 +24,15 @@ tags = ["studynote-design-supervision"]
 이 문제를 줄이기 위해 즉시 실행 함수 표현식 (IIFE, Immediately Invoked Function Expression)과 클로저를 이용한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 널리 쓰였다. 핵심은 단순하다. 함수 하나를 경계로 private 영역을 만든 뒤, 필요한 메서드만 객체 형태로 반환한다. 그러면 외부는 "무엇을 할 수 있는가"만 알고, "안에서 어떻게 처리하는가"는 몰라도 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Global namespace vs module boundary                                  │
-├────────────────────────────┬─────────────────────────────────────────┤
-│ window.user                │ AppModule                              │
-│ window.config              │  ├─ private state                      │
-│ window.cache               │  ├─ private helpers                    │
-│ name collision risk        │  └─ public API only                    │
-│ implementation exposed     │ implementation hidden                  │
-└────────────────────────────┴─────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Global namespace vs module boundary                                  |
++----------------------------+-----------------------------------------+
+| window.user                | AppModule                              |
+| window.config              |  +- private state                      |
+| window.cache               |  +- private helpers                    |
+| name collision risk        |  +- public API only                    |
+| implementation exposed     | implementation hidden                  |
++----------------------------+-----------------------------------------+
 ```
 
 즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "코드를 예쁘게 묶는 취향"이 아니라, <strong>전역 노출 비용을 줄이고 변경 영향을 통제하기 위한 경계 설계</strong>에서 출발했다.
@@ -72,17 +72,17 @@ const cartModule = (() => {
 | closure | private 상태 지속 | 함수가 끝난 뒤에도 상태가 유지되는 핵심 메커니즘 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Runtime structure of Module Pattern                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ IIFE / factory execution                                             │
-│   ├─ private state       : data, cache, counters                     │
-│   ├─ private helpers     : validate, normalise, format               │
-│   └─ return public API object                                        │
-│                 │                                                    │
-│ Client call ----▼------------------------------------------------┐   │
-│ api.method() -> closure -> private state read/write -> result    │   │
-└───────────────────────────────────────────────────────────────────┴───┘
++----------------------------------------------------------------------+
+| Runtime structure of Module Pattern                                  |
++----------------------------------------------------------------------+
+| IIFE / factory execution                                             |
+|   +- private state       : data, cache, counters                     |
+|   +- private helpers     : validate, normalise, format               |
+|   +- return public API object                                        |
+|                 |                                                    |
+| Client call ----v------------------------------------------------+   |
+| api.method() -> closure -> private state read/write -> result    |   |
++-------------------------------------------------------------------+---+
 ```
 
 여기서 자주 놓치는 사실이 하나 있다. IIFE 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 보통 <strong>한 번 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>된 싱글턴</strong>이다. 만약 사용자별 인스턴스를 여러 개 만들어야 한다면, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴보다 팩터리 함수나 클래스가 더 적합할 수 있다. 반대로 "애플리케이션 전체에서 하나만 있어야 하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 채널"처럼 공유 상태가 자연스러운 경우에는 장점이 된다.
@@ -167,19 +167,19 @@ const cartModule = (() => {
 
 ```text
 Global variables
-      │
-      ▼
+      |
+      v
 Namespace object
-      │
-      ▼
+      |
+      v
 Module Pattern (IIFE + Closure)
-      │
-      ├─ CommonJS / AMD / UMD
-      │
-      ▼
+      |
+      +- CommonJS / AMD / UMD
+      |
+      v
 ECMAScript Module
-      │
-      ▼
+      |
+      v
 Modern closure-based hooks and service wrappers
 ```
 
@@ -197,7 +197,7 @@ Modern closure-based hooks and service wrappers
 
 **진행 상황**: 226 / 530
 
-← **이전**: [169. 정적 팩토리 메서드 (Static Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/169_static_factory_method/)
-**다음**: [171. MVC와 복합 디자인 패턴 (MVC Composite Design Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/171_mvc_composite_design_pattern/) →
+<- **이전**: [169. 정적 팩토리 메서드 (Static Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/169_static_factory_method/)
+**다음**: [171. MVC와 복합 디자인 패턴 (MVC Composite Design Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/171_mvc_composite_design_pattern/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 > **핵심 인사이트**
 > 1. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간의 계약적 품질 약속 — 단순한 기술 지표가 아니라 비즈니스 기대를 수치로 구체화한 계약이며, 미달 시 페널티(크레딧, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 해지)가 발생한다.
-> 2. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·SLI의 계층 구조 — [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(내부 목표)→[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(외부 계약) 순서로 엄격해지며, SLO는 SLA보다 여유 있게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 완충 지대를 확보하는 것이 실무 관행이다.
+> 2. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·SLI의 계층 구조 — [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(내부 목표)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(외부 계약) 순서로 엄격해지며, SLO는 SLA보다 여유 있게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 완충 지대를 확보하는 것이 실무 관행이다.
 > 3. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 퍼센트의 실질적 의미 이해 — "99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"이 연간 8.7시간 다운타임을 의미하는 반면, "99.99%"는 52분으로 10배 차이. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 협상 시 이 실질적 다운타임 허용량을 사업 임팩트와 연결해야 한다.
 
 ---
@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 ## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계층
 
 ```
-SLI → SLO → SLA 계층:
+SLI -> SLO -> SLA 계층:
 
 SLI (Service Level Indicator):
   실제 측정 가능한 서비스 특성 수치
@@ -54,11 +54,11 @@ SLA (Service Level Agreement):
   SLA = 99.9%
 
   완충 0.05% = 0.05%×30일×24시간 = 2.16시간/월
-  → 인시던트 탐지 + 대응 시간 확보
-  → 고객 계약 위반 없이 문제 해결 가능
+  -> 인시던트 탐지 + 대응 시간 확보
+  -> 고객 계약 위반 없이 문제 해결 가능
 ```
 
-> 📢 **섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)→SLA는 시험 기준 — [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(실제 점수), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(스스로 목표 90점), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(부모님과 약속 80점). 목표는 높게, 계약은 여유롭게!
+> 📢 **섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)->SLA는 시험 기준 — [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(실제 점수), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(스스로 목표 90점), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(부모님과 약속 80점). 목표는 높게, 계약은 여유롭게!
 
 ---
 
@@ -70,10 +70,10 @@ SLA (Service Level Agreement):
 가용성      월 다운타임    연간 다운타임
 99.0%   = 7.2시간     = 87.6시간
 99.5%   = 3.6시간     = 43.8시간
-99.9%   = 43.2분      = 8.7시간    ← 3 Nines
+99.9%   = 43.2분      = 8.7시간    <- 3 Nines
 99.95%  = 21.6분      = 4.4시간
-99.99%  = 4.32분      = 52.6분     ← 4 Nines
-99.999% = 25.9초      = 5.3분      ← 5 Nines
+99.99%  = 4.32분      = 52.6분     <- 4 Nines
+99.999% = 25.9초      = 5.3분      <- 5 Nines
 
 계산 공식:
   다운타임 = (1 - 가용성) × 측정 기간
@@ -98,7 +98,7 @@ SLA 구성 요소:
 
 정기 유지보수 처리:
   예약된 다운타임(Scheduled Maintenance)
-  = 사전 공지 → SLA 계산에서 제외
+  = 사전 공지 -> SLA 계산에서 제외
 
   예: AWS SLA는 "scheduled maintenance"
   사전 공지 후 다운타임 = SLA 적용 제외
@@ -143,7 +143,7 @@ SLA 구성 요소:
   SLA: 월 오류율 < 0.1%
 
 MTTR (Mean Time To Repair):
-  장애 발생 → 복구까지 평균 시간
+  장애 발생 -> 복구까지 평균 시간
   SLA: P1 장애 MTTR < 4시간
 
 MTBF (Mean Time Between Failures):
@@ -166,21 +166,21 @@ SLA 위반과 대응:
 Error Budget (오류 예산):
   SLO에서 파생된 허용 오류량
 
-  SLO = 99.9% → 오류 예산 = 0.1%
+  SLO = 99.9% -> 오류 예산 = 0.1%
   월 기준: 43.2분 허용 다운타임
 
   Error Budget 소진 추적:
   현재까지 사용: 30분 (70% 소진)
   남은 기간: 2주
-  → 새 배포 일시 중단? OR 계속?
+  -> 새 배포 일시 중단? OR 계속?
 
   SRE 원칙: 오류 예산 소진 시 기능 개발 중단
-  → 안정성 우선으로 전환
+  -> 안정성 우선으로 전환
 
 SLA 위반 절차:
 
 탐지:
-  모니터링 경보 → 인시던트 선언
+  모니터링 경보 -> 인시던트 선언
   SLA 영향 평가 (현재 다운타임 누적)
 
 커뮤니케이션:
@@ -194,13 +194,13 @@ SLA 위반 절차:
   재발 방지 계획
 
 페널티 구조 (일반 예):
-  가용성 < 99.9% → 10% 요금 크레딧
-  가용성 < 99.0% → 30% 크레딧
-  가용성 < 95.0% → 100% 크레딧
+  가용성 < 99.9% -> 10% 요금 크레딧
+  가용성 < 99.0% -> 30% 크레딧
+  가용성 < 95.0% -> 100% 크레딧
 
 계약 종료 조항:
-  연속 3회 SLA 위반 → 계약 해지 가능
-  → SLA 협상 시 이 조항 주의!
+  연속 3회 SLA 위반 -> 계약 해지 가능
+  -> SLA 협상 시 이 조항 주의!
 ```
 
 > 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반은 배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 — "1시간 내 배달 보장([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))" 못 지키면 쿠폰(크레딧). 계속 못 지키면 재계약 해지. 오류 예산은 남은 쿠폰 수!
@@ -240,7 +240,7 @@ SLA 협상 전략:
 제안 3: 계층화된 SLA
   핵심 기능 (발주, 생산): 99.99%
   보고서, 분석: 99.9%
-  → 비용 최적화
+  -> 비용 최적화
 
 최종 협의:
   핵심 ERP 모듈: 99.99%
@@ -308,7 +308,7 @@ SLO/SLI/Error Budget 정착
       |
       v
 [현재: 비즈니스 임팩트 SLA]
-가용성 → 수익 영향 연결
+가용성 -> 수익 영향 연결
 AI 이상 탐지 + 자동 SLA 보고
 ```
 
@@ -326,7 +326,7 @@ AI 이상 탐지 + 자동 SLA 보고
 
 **진행 상황**: 84 / 587
 
-← **이전**: [46. SLA (Service Level Agreement, 서비스 수준 협약서)](/knowledge-base/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement/)
-**다음**: [47. IT 컴플라이언스 (IT Compliance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance/) →
+<- **이전**: [46. SLA (Service Level Agreement, 서비스 수준 협약서)](/knowledge-base/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement/)
+**다음**: [47. IT 컴플라이언스 (IT Compliance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance/) ->
 
 ---

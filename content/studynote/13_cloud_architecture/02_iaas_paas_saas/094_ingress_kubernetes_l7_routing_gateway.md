@@ -38,23 +38,23 @@ tags = ["studynote-cloud-architecture"]
 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Termination | 인증서 해독 및 평문 변환 | 백엔드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 복호화 부하 제거 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Ingress L7 Routing Architecture                │
-├──────────────────────────────────────────────────────────────┤
-│ [Client] ─▶ (HTTPS) ─▶ [ External LoadBalancer ] (L4)      │
-│                               │                            │
-│ ┌─────────────────────────────▼──────────────────────────┐ │
-│ │                  Ingress Controller                    │ │
-│ │ (TLS Termination: 복호화 수행, HTTP로 변환)            │ │
-│ │                                                        │ │
-│ │  if Host == api.shop.com/order ──▶ [Service: Order]    │ │
-│ │  if Host == api.shop.com/pay   ──▶ [Service: Pay]      │ │
-│ └─────────────────────────────┬──────────────────────────┘ │
-│                               │ 트래픽 분배                │
-│             ┌─────────────────┴─────────────────┐          │
-│             ▼                                   ▼          │
-│   [ Order Pods ]                          [ Pay Pods ]     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Ingress L7 Routing Architecture                |
++--------------------------------------------------------------+
+| [Client] --> (HTTPS) --> [ External LoadBalancer ] (L4)      |
+|                               |                            |
+| +-----------------------------v--------------------------+ |
+| |                  Ingress Controller                    | |
+| | (TLS Termination: 복호화 수행, HTTP로 변환)            | |
+| |                                                        | |
+| |  if Host == api.shop.com/order ---> [Service: Order]    | |
+| |  if Host == api.shop.com/pay   ---> [Service: Pay]      | |
+| +-----------------------------+--------------------------+ |
+|                               | 트래픽 분배                |
+|             +-----------------+-----------------+          |
+|             v                                   v          |
+|   [ Order Pods ]                          [ Pay Pods ]     |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 외부에서 단일 진입점으로 들어온 암호화된 트래픽이 컨트롤러에서 복호화된 후, L7 정보(URL)를 바탕으로 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 나뉘는 병목 해소 과정을 보여준다.
@@ -120,21 +120,21 @@ NodePort나 LoadBalancer는 단순한 '[파이프](/knowledge-base/studynote/02_
 
 ```text
 NodePort / LoadBalancer (L4)
-    │
-    ▼
+    |
+    v
 Ingress Resource · Ingress Controller (L7 통합 라우팅)
-    │
-    ▼
+    |
+    v
 Cert-Manager 연동 (TLS 자동화) · SSL Termination
-    │
-    ▼
+    |
+    v
 Service Mesh (Istio Ingress Gateway)
-    │
-    ▼
+    |
+    v
 Gateway API (차세대 표준)
 ```
 
-이 흐름도는 "L4 단순 포워딩 → L7 URL 기반 통합 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) → [보안 자동화](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/) → K8s 네이티브 고급 게이트웨이"로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 체계가 진화하는 과정을 보여준다.
+이 흐름도는 "L4 단순 포워딩 -> L7 URL 기반 통합 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) -> [보안 자동화](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/) -> K8s 네이티브 고급 게이트웨이"로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 체계가 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ Gateway API (차세대 표준)
 
 **진행 상황**: 93 / 371
 
-← **이전**: [93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/093_loadbalancer_kubernetes_service_cloud_provider/)
-**다음**: [95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) →
+<- **이전**: [93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/093_loadbalancer_kubernetes_service_cloud_provider/)
+**다음**: [95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ->
 
 ---

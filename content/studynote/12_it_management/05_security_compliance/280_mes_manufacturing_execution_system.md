@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 책임 주체, 표준/정의, 운영 프로세스 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 공장 제조 실행 시스템이 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | 지표/환류 | 성과와 위험을 검증할 수 있는 증적과 판단 근거를 만든다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [MES 공장 제조 실행 시스템]
-    │
-    ├──▶ [표준/정의]
-    └──▶ [운영 프로세스]
+    |
+    +---> [표준/정의]
+    +---> [운영 프로세스]
 ```
 
 이 흐름은 선행 요구를 기준으로 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 공장 제조 실행 시스템을 정착시키고, 이후 표준/정의와 운영 프로세스 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 410 / 587
 
-← **이전**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/280_mes_manufacturing/)
-**다음**: [281. PLM / PDM 제품 수명 주기 BOM](/knowledge-base/studynote/12_it_management/05_security_compliance/281_plm_pdm_bom/) →
+<- **이전**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/280_mes_manufacturing/)
+**다음**: [281. PLM / PDM 제품 수명 주기 BOM](/knowledge-base/studynote/12_it_management/05_security_compliance/281_plm_pdm_bom/) ->
 
 ---

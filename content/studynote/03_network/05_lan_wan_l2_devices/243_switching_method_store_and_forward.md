@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [스위칭 방식]
-    │
-    ▼
+    |
+    v
 [스위칭 방식]
-    │
-    └──▶ [스위칭 방식]
+    |
+    +---> [스위칭 방식]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 택배 상자가 파손되었는지(에러) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하려면, 택배 박스가 컨베이어 벨트를 통해 </strong>"완전히 내 손에 다 들어와야만"** 박스 바닥(FCS)까지 돌려볼 수 있습니다. 컷스루처럼 박스 앞부분만 잡고 냅다 던져버리면 바닥이 찢어진 줄 모릅니다.
@@ -45,21 +45,21 @@ tags = ["studynote-network"]
 - 최소 크기인 64바이트가 안 되는 충돌 찌꺼기(Runt Frame)나 1518바이트를 넘는 비정상 프레임(Giant Frame)도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선에서 여과(Filtering)되어, 목적지 PC는 항상 "100% 정상적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 받을 수 있게 보호받는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                스토어 앤 포워드 (Store-and-forward)             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 전체 프레임 수신 (기다림의 시간 발생)                           │
- │   들어오는 중 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     │
- │                                                             │
- │   2. 스위치 버퍼 메모리에 전체 100% 로드 완료 (Store)               │
- │   스위치 내부 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     │
- │                   └─── 에러 검사(CRC) 진행 ───┘                 │
- │                                                             │
- │   3. 에러가 없으면 그제야 목적지 포트로 출발 (Forward)                 │
- │   나가는 중 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                스토어 앤 포워드 (Store-and-forward)             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. 전체 프레임 수신 (기다림의 시간 발생)                           |
+ |   들어오는 중 ---> [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     |
+ |                                                             |
+ |   2. 스위치 버퍼 메모리에 전체 100% 로드 완료 (Store)               |
+ |   스위치 내부 ---> [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     |
+ |                   +--- 에러 검사(CRC) 진행 ---+                 |
+ |                                                             |
+ |   3. 에러가 없으면 그제야 목적지 포트로 출발 (Forward)                 |
+ |   나가는 중 ---> [ FCS | Payload | 출발지 MAC | 목적지 MAC ]       |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 가변적 레이턴시 (Variable [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스위칭 방식]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스위칭 방식]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 스위칭 방식]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 스위칭 방식는 스위칭 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 스위칭 방식와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 364 / 1120
 
-← **이전**: [242. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/242_switching_method_cut_through/)
-**다음**: [244. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/244_switching_method_fragment_free/) →
+<- **이전**: [242. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/242_switching_method_cut_through/)
+**다음**: [244. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/244_switching_method_fragment_free/) ->
 
 ---

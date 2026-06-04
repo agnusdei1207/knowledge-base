@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [DMVPN]
-    │
-    ▼
+    |
+    v
 [WireGuard]
-    │
-    └──▶ [QoS]
+    |
+    +---> [QoS]
 ```
 
 - **📢 섹션 요약 비유**: <strong> WireGuard는 복잡한 코스 요리 전문점(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)을 밀어내고 등장한 </strong>"단일 메뉴 국밥집"**입니다. 짜장면, 짬뽕(다양한 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)) 다 버리고 무조건 "국밥 한 그릇(단일 최신 암호화)"만 팔기 때문에, 주방장(라우터)이 요리(패킷 처리)하는 속도가 타의 추종을 불허합니다.
@@ -55,25 +55,25 @@ WireGuard는 협상이라는 개념 자체가 아예 없다. (Crypto Agility의 
 - **나갈 때 (Outbound)**: 목적지가 `10.1.1.2`인 패킷을 쏴야 한다면? <strong>"아까 그 공개키(<code>abcde...</code>)로 묻지도 따지지도 않고 바로 암호화해서 던진다!"</strong>
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                WireGuard의 로밍(Roaming) 불사신 능력             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스마트폰 (재택근무) ]                                        │
- │   1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)                    │
- │      -> VPN 서버와 UDP로 짱짱하게 암호화 통신 중.                 │
- │                                                             │
- │   2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)     │
- │                                                             │
- │   * IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)│
- │                                                             │
- │   * WireGuard의 뇌구조:                                       │
- │     "IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...    │
- │      오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?     │
- │      그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"         │
- │                                                             │
- │   ▶ 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                WireGuard의 로밍(Roaming) 불사신 능력             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 스마트폰 (재택근무) ]                                        |
+ |   1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)                    |
+ |      -> VPN 서버와 UDP로 짱짱하게 암호화 통신 중.                 |
+ |                                                             |
+ |   2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)     |
+ |                                                             |
+ |   * IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)|
+ |                                                             |
+ |   * WireGuard의 뇌구조:                                       |
+ |     "IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...    |
+ |      오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?     |
+ |      그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"         |
+ |                                                             |
+ |   -> 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 동작 (무자비한 속도)
@@ -138,12 +138,12 @@ WireGuard는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_r
 
 ```text
 [선행 개념: DMVPN]
-    │
-    ▼
+    |
+    v
 [현재 개념: WireGuard]
-    │
-    ├──▶ [확장 A: QoS]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: QoS]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 WireGuard는 DMVPN에서 출발해 현재 메커니즘을 정교화하고, 이후 QoS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ WireGuard는 DMVPN에서 출발해 현재 메커니즘을 정교화하고, 이�
 
 **진행 상황**: 508 / 1120
 
-← **이전**: [386. DMVPN (Dynamic Multipoint VPN)](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/)
-**다음**: [388. QoS (Quality of Service)](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) →
+<- **이전**: [386. DMVPN (Dynamic Multipoint VPN)](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/)
+**다음**: [388. QoS (Quality of Service)](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ->
 
 ---

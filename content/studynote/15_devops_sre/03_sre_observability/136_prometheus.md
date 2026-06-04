@@ -19,9 +19,9 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-서비스 → /metrics 노출 → Prometheus (Pull, 15초 주기)
-  → TSDB 저장 → PromQL 조회 → Grafana 시각화
-  → Alertmanager → PagerDuty/Slack 알림
+서비스 -> /metrics 노출 -> Prometheus (Pull, 15초 주기)
+  -> TSDB 저장 -> PromQL 조회 -> Grafana 시각화
+  -> Alertmanager -> PagerDuty/Slack 알림
 ```
 
 - **📢 섹션 요약 비유**: Prometheus는 <strong>우편배달부(Pull)</strong>이다. 각 집([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 우편함(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))에서 편지([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 수거한다.
@@ -47,10 +47,10 @@ Prometheus는 <strong>K8s 환경의 <a href="/knowledge-base/studynote/03_networ
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Borgmon (Google 내부, 2000s)] → [Prometheus (SoundCloud, 2012)]
-    → [CNCF 졸업 (2018)] → [Thanos (2018, HA)]
-    → [Mimir (2022, Grafana Labs)]
-    → [현재: OTel Metrics → Prometheus 호환]
+[Borgmon (Google 내부, 2000s)] -> [Prometheus (SoundCloud, 2012)]
+    -> [CNCF 졸업 (2018)] -> [Thanos (2018, HA)]
+    -> [Mimir (2022, Grafana Labs)]
+    -> [현재: OTel Metrics -> Prometheus 호환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ Prometheus는 <strong>K8s 환경의 <a href="/knowledge-base/studynote/03_networ
 
 **진행 상황**: 136 / 373
 
-← **이전**: [135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/)
-**다음**: [137. Grafana - 통합 관측 가능성 시각화 플랫폼](/knowledge-base/studynote/15_devops_sre/03_sre_observability/137_grafana/) →
+<- **이전**: [135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/)
+**다음**: [137. Grafana - 통합 관측 가능성 시각화 플랫폼](/knowledge-base/studynote/15_devops_sre/03_sre_observability/137_grafana/) ->
 
 ---

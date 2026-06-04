@@ -30,7 +30,7 @@ tags = ["ai"]
 
 ```text
 Logits
-  ↓ softmax
+  v softmax
 Probabilities (sum=1)
 ```
 
@@ -101,11 +101,11 @@ Probabilities (sum=1)
 
 ```text
 Logits
-  ↓
+  v
 Softmax
-  ↓
+  v
 Probabilities
-  ↓
+  v
 Classification
 ```
 
@@ -115,9 +115,9 @@ Classification
 
 ```text
 Softmax
-  ↓
+  v
 Multiclass Classification
-  ↓
+  v
 Probability Output
 ```
 
@@ -135,7 +135,7 @@ Probability Output
 
 **진행 상황**: 73 / 420
 
-← **이전**: [72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에](/knowledge-base/studynote/10_ai/01_ai_basics/072_leaky_relu_elu_dying_relu_solution/)
-**다음**: [74. 순전파 (Forward Propagation) - 신경망 계산 흐름](/knowledge-base/studynote/10_ai/01_ai_basics/074_forward_propagation_neural_network/) →
+<- **이전**: [72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에](/knowledge-base/studynote/10_ai/01_ai_basics/072_leaky_relu_elu_dying_relu_solution/)
+**다음**: [74. 순전파 (Forward Propagation) - 신경망 계산 흐름](/knowledge-base/studynote/10_ai/01_ai_basics/074_forward_propagation_neural_network/) ->
 
 ---

@@ -28,17 +28,17 @@ C-ITS는 기존 지능형 교통 체계 (ITS, Intelligent Transport Systems) 를
 이 그림은 왜 "협력"이 필요한지, 센서 단독 인식과 C-ITS의 차이를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│             Why cooperation matters on the road                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Truck blocks line of sight                                         │
-│ [Car B] ---- truck ---- pedestrian                                 │
-│    │                                                                │
-│ sensor-only ADAS sees hazard too late                              │
-│                                                                    │
-│ with C-ITS: roadside unit / nearby car shares warning first        │
-│ [roadside unit or Car A] --> warning --> [Car B] before visibility │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|             Why cooperation matters on the road                    |
++--------------------------------------------------------------------+
+| Truck blocks line of sight                                         |
+| [Car B] ---- truck ---- pedestrian                                 |
+|    |                                                                |
+| sensor-only ADAS sees hazard too late                              |
+|                                                                    |
+| with C-ITS: roadside unit / nearby car shares warning first        |
+| [roadside unit or Car A] --> warning --> [Car B] before visibility |
++--------------------------------------------------------------------+
 ```
 
 즉 C-ITS의 출발점은 "차가 더 똑똑해진다"가 아니라 "도로 위 객체들이 서로의 눈이 된다"는 발상 전환이다. 이 점에서 C-ITS는 단순 통신망이 아니라 <strong>공유 인지(shared perception)를 위한 교통 인프라</strong>에 가깝다.
@@ -49,7 +49,7 @@ C-ITS는 기존 지능형 교통 체계 (ITS, Intelligent Transport Systems) 를
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-C-ITS는 보통 <strong>차량 탑재 장치 → 도로변 장치 → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>·관제 시스템 → 보안·운영 플랫폼</strong>의 계층으로 구성된다. 여기서 중요한 것은 모든 판단을 중앙에 몰지 않는다는 점이다. 급제동 경고나 교차로 경고처럼 시간 민감한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 현장 단에서 처리하고, 센터는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·통계·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 담당한다.
+C-ITS는 보통 <strong>차량 탑재 장치 -> 도로변 장치 -> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>·관제 시스템 -> 보안·운영 플랫폼</strong>의 계층으로 구성된다. 여기서 중요한 것은 모든 판단을 중앙에 몰지 않는다는 점이다. 급제동 경고나 교차로 경고처럼 시간 민감한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 현장 단에서 처리하고, 센터는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·통계·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 담당한다.
 
 | 구성 요소 | 역할 | 대표 정보 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -64,17 +64,17 @@ C-ITS 메시지는 주기적 안전 메시지와 이벤트 메시지로 나뉜�
 아래 구조는 C-ITS가 어떤 정보를 어디서 받아 어디에서 빠르게 처리하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Core C-ITS data and control loop                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Vehicle sensors / Controller Area Network -> OBU -> V2V / V2I      │
-│                                   │                                │
-│ Signal controller / precise map -> RSU -> SPaT / MAP               │
-│                                   │                                │
-│ Nearby vehicles receive warning / advisory within local loop        │
-│                                   │                                │
-│ Center collects stats, policies, certificates, device health        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                Core C-ITS data and control loop                    |
++--------------------------------------------------------------------+
+| Vehicle sensors / Controller Area Network -> OBU -> V2V / V2I      |
+|                                   |                                |
+| Signal controller / precise map -> RSU -> SPaT / MAP               |
+|                                   |                                |
+| Nearby vehicles receive warning / advisory within local loop        |
+|                                   |                                |
+| Center collects stats, policies, certificates, device health        |
++--------------------------------------------------------------------+
 ```
 
 여기서 핵심은 <strong>안전 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 폐루프를 현장에 가깝게 두는 것</strong>이다. 예를 들어 긴급 전자 제동 경고, 교차로 충돌 경고, 최적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 통과 속도 안내 (GLOSA, Green Light Optimal Speed Advisory) 는 수백 밀리초보다 훨씬 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 요구된다. 그래서 C-ITS는 센터 중심 시스템이라기보다, RSU와 OBU가 만드는 로컬 협력망에 가깝다.
@@ -162,21 +162,21 @@ C-ITS를 제대로 구현하면 교차로 충돌, 추돌, 공사 구간 접근, 
 
 ```text
 Road sensing by isolated vehicles
-            │
-            ▼
+            |
+            v
 V2X message sharing with roadside units
-            │
-            ▼
+            |
+            v
 Cooperative safety services at intersections
-            │
-            ▼
+            |
+            v
 Traffic flow optimization and signal cooperation
-            │
-            ▼
+            |
+            v
 Connected and automated mobility ecosystem
 ```
 
-이 흐름은 "차량 단독 인지 → 협력형 메시지 공유 → 안전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 흐름 최적화 → 연결형 자율 모빌리티"로 확장되는 방향을 보여 준다.
+이 흐름은 "차량 단독 인지 -> 협력형 메시지 공유 -> 안전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> 흐름 최적화 -> 연결형 자율 모빌리티"로 확장되는 방향을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -190,7 +190,7 @@ Connected and automated mobility ecosystem
 
 **진행 상황**: 173 / 552
 
-← **이전**: [172. 마스 (MaaS, Mobility as a Service)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)
-**다음**: [174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/) →
+<- **이전**: [172. 마스 (MaaS, Mobility as a Service)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)
+**다음**: [174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/) ->
 
 ---

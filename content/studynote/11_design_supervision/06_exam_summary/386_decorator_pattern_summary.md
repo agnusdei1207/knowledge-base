@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [데코레이터 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/) ([Decorator Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/))은 객체를 감싸며 기능을 동적으로 추가해 책임을 조합하는 구조 패턴이다. [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)만으로 기능 조합을 표현하면 조합 수만큼 하위 클래스가 늘어나는 문제가 생긴다. 이 개념이 필요한 이유는 기본 기능 위에 부가 책임을 유연하게 쌓는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 기능 추가 조합마다 새로운 클래스를 만들어야 해 구조가 비대해진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Decor    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Decor    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Decor   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Decor   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 책임 조합 | [데코레이터 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/) ([Decorator Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[상속 기반 기능 추가] → [데코레이터 패턴] → [런타임 책임 조합]
+[상속 기반 기능 추가] -> [데코레이터 패턴] -> [런타임 책임 조합]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데코레이터 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/) ([Decorator Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/))은 기본 케이크 위에 크림과 과일을 원하는 만큼 올리는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 464 / 530
 
-← **이전**: [385. 컴포지트 패턴 (Composite Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/385_composite_pattern_summary/)
-**다음**: [387. 퍼사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/387_facade_pattern_summary/) →
+<- **이전**: [385. 컴포지트 패턴 (Composite Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/385_composite_pattern_summary/)
+**다음**: [387. 퍼사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/387_facade_pattern_summary/) ->
 
 ---

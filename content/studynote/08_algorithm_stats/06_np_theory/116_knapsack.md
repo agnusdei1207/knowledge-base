@@ -23,20 +23,20 @@ tags = ["studynote-algorithm-stats"]
 
 0/1 배낭 (0-1 Knapsack):
   각 물건: 전체 선택(1) 또는 미선택(0)
-  → NP-완전 (다항 시간 알고리즘 미발견)
-  → DP로 의사다항 시간
+  -> NP-완전 (다항 시간 알고리즘 미발견)
+  -> DP로 의사다항 시간
 
 분수 배낭 (Fractional Knapsack):
   물건을 일부분만 선택 가능 (액체, 곡물 등)
-  → 그리디로 최적해 O(n log n)
+  -> 그리디로 최적해 O(n log n)
 
 복수 배낭 (Multiple Knapsack):
   배낭이 여러 개
-  → 더 복잡 (NP-하드)
+  -> 더 복잡 (NP-하드)
 
 경계 배낭 (Bounded Knapsack):
   물건별 최대 수량 제한
-  → DP 확장
+  -> DP 확장
 
 문제 정의 (0/1 배낭):
   물건 n개: 각 가치 v_i, 무게 w_i
@@ -50,7 +50,7 @@ tags = ["studynote-algorithm-stats"]
   물건: (v=60, w=10), (v=100, w=20), (v=120, w=30)
   배낭 용량: W=50
 
-  최적: 물건2 + 물건3 → 가치=220, 무게=50
+  최적: 물건2 + 물건3 -> 가치=220, 무게=50
 ```
 
 > 📢 **섹션 요약 비유**: 0/1 배낭은 여행 가방 싸기 — 무게 제한(용량)에 가장 소중한 물건(가치)을 선택. 물건은 반만 넣을 수 없어요! 분수 배낭은 주스를 반 병 넣을 수 있는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/).
@@ -86,11 +86,11 @@ tags = ["studynote-algorithm-stats"]
 추적 (어떤 물건?):
   dp[3][50]=220: C 선택 (220 > dp[2][50]=160)
   dp[2][20]=100: B 선택
-  → 물건 B, C 선택
+  -> 물건 B, C 선택
 
 시간/공간 복잡도:
   O(nW) 시간, O(nW) 공간
-  n=100, W=10^9 → 실용 불가
+  n=100, W=10^9 -> 실용 불가
 
   공간 최적화: O(W) (1차원 DP)
   dp[w] = max(dp[w], dp[w-w_i]+v_i)
@@ -100,7 +100,7 @@ tags = ["studynote-algorithm-stats"]
   O(nW): W가 n의 다항식이 아님
   (W는 입력 값이지 크기가 아님)
   입력 비트수 기준: O(n × 2^b) (b=W 비트수)
-  → 다항 시간이 아님!
+  -> 다항 시간이 아님!
 
   하지만 실용적 W에서는 효율적
 ```
@@ -116,7 +116,7 @@ tags = ["studynote-algorithm-stats"]
 
 핵심 아이디어:
   단위 무게당 가치 = v_i / w_i 로 정렬
-  → 높은 것부터 최대한 채우기
+  -> 높은 것부터 최대한 채우기
 
 예시:
   물건: A(v=60,w=10), B(v=100,w=20), C(v=120,w=30)
@@ -126,7 +126,7 @@ tags = ["studynote-algorithm-stats"]
   A 전체: 무게 10, 가치 60 (남은 W=40)
   B 전체: 무게 20, 가치 100 (남은 W=20)
   C 20/30: 무게 20, 가치 80 (남은 W=0)
-  → 총 가치: 240 (최적!)
+  -> 총 가치: 240 (최적!)
 
 증명:
   그리디 선택 = 전역 최적
@@ -135,11 +135,11 @@ tags = ["studynote-algorithm-stats"]
 시간 복잡도:
   정렬: O(n log n)
   탐욕 선택: O(n)
-  → O(n log n)
+  -> O(n log n)
 
 0/1 vs 분수:
-  0/1: 동일 예시 → 최적: 220 (B+C)
-  분수: 동일 예시 → 최적: 240 (A+B+C부분)
+  0/1: 동일 예시 -> 최적: 220 (B+C)
+  분수: 동일 예시 -> 최적: 240 (A+B+C부분)
 
   분수 ≥ 0/1 항상 성립
   (분수는 더 유연한 선택 가능)
@@ -161,11 +161,11 @@ FPTAS (Fully Polynomial-Time Approximation Scheme):
   원래 가치: v_i
   스케일 가치: v'_i = floor(v_i × n/ε/v_max)
 
-  복잡도: O(n² / ε)
-  ε=0.1 → 90% 근사
-  ε=0.01 → 99% 근사
+  복잡도: O(n^ / ε)
+  ε=0.1 -> 90% 근사
+  ε=0.01 -> 99% 근사
 
-  → 최적에 가까운 해를 다항 시간에!
+  -> 최적에 가까운 해를 다항 시간에!
 
 FPT (Fixed-Parameter Tractable):
   파라미터: 물건 수 n 고정
@@ -178,7 +178,7 @@ FPT (Fixed-Parameter Tractable):
 
   분기: 물건 선택/미선택 분기
   한정: 분수 배낭 상한값으로 가지치기
-  → 최적 경로만 탐색
+  -> 최적 경로만 탐색
 
 실용적 접근:
   n, W 작음: DP (정확)
@@ -205,16 +205,16 @@ FPT (Fixed-Parameter Tractable):
 
 접근:
   DP: W=128, n=100
-  O(100 × 128) = O(12,800) → 실용적!
+  O(100 × 128) = O(12,800) -> 실용적!
 
   빈 패킹 + 배낭의 혼합:
   여러 서버에 VM 분산 배치
-  → 복수 배낭 (NP-하드)
+  -> 복수 배낭 (NP-하드)
 
   실용 접근:
   First Fit Decreasing (FFD) 근사:
   CPU 요구량 높은 VM부터 첫 번째 들어가는 서버에 배치
-  → 최적의 약 11/9 × OPT + 6/9 보장
+  -> 최적의 약 11/9 × OPT + 6/9 보장
 
 자원 스케줄링:
   Kubernetes 스케줄러 = 배낭 변형
@@ -222,7 +222,7 @@ FPT (Fixed-Parameter Tractable):
   노드 가용 자원 = 배낭 용량
 
   Bin Packing + First Fit 전략
-  → 노드 수 최소화 + 자원 효율 최대화
+  -> 노드 수 최소화 + 자원 효율 최대화
 
 데이터 선택 문제:
   캐시 크기 제한 + 데이터 접근 빈도/크기
@@ -239,9 +239,9 @@ FPT (Fixed-Parameter Tractable):
 ```
 배낭 문제 (Knapsack)
 +-- 유형
-|   +-- 0/1 배낭 (NP-완전) → DP
-|   +-- 분수 배낭 → 그리디 O(n log n)
-|   +-- 복수/경계 배낭 → 확장 DP
+|   +-- 0/1 배낭 (NP-완전) -> DP
+|   +-- 분수 배낭 -> 그리디 O(n log n)
+|   +-- 복수/경계 배낭 -> 확장 DP
 +-- 풀이
 |   +-- DP: O(nW) 의사다항
 |   +-- 그리디 (분수 배낭만)
@@ -296,7 +296,7 @@ AI 하이퍼파라미터 탐색
 
 **진행 상황**: 116 / 175
 
-← **이전**: [010. TSP NP — 외판원 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/115_tsp_np/)
-**다음**: [012. NP 근사 알고리즘 — Approximation Algorithms for NP](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/117_approximation_np/) →
+<- **이전**: [010. TSP NP — 외판원 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/115_tsp_np/)
+**다음**: [012. NP 근사 알고리즘 — Approximation Algorithms for NP](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/117_approximation_np/) ->
 
 ---

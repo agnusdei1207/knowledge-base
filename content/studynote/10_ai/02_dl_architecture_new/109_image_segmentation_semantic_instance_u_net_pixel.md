@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)(YOLO)는 대각선 뱀에 네모 박스를 치면 80%가 배경 노이즈다. 자율주행차가 도로에 누운 사람을 박스로 치면 아스팔트까지 '사람'으로 오해하여 핸들을 잘못 꺾는다. <strong>"네모 박스 대신 뱀의 비늘 픽셀에만 형광펜을 칠하라"</strong>는 요구가 [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)의 출발점이다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Object Detection vs Image Segmentation 비교         │
-├───────────────────────────────────────────────────────┤
-│  [Bounding Box]         [Segmentation Mask]           │
-│  ┌──────────┐           ┌──────────┐                  │
-│  │ ■■■■■■■■ │           │    ██    │                  │
-│  │ ■ 뱀 ■■ │           │   ████   │   ← 뱀 픽셀만   │
-│  │ ■■■■■■■■ │           │  ██████  │      정밀 마스킹  │
-│  └──────────┘           └──────────┘                  │
-│  80% 배경 노이즈 포함    100% 객체 윤곽만 추출         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Object Detection vs Image Segmentation 비교         |
++-------------------------------------------------------+
+|  [Bounding Box]         [Segmentation Mask]           |
+|  +----------+           +----------+                  |
+|  | ■■■■■■■■ |           |    ██    |                  |
+|  | ■ 뱀 ■■ |           |   ████   |   <- 뱀 픽셀만   |
+|  | ■■■■■■■■ |           |  ██████  |      정밀 마스킹  |
+|  +----------+           +----------+                  |
+|  80% 배경 노이즈 포함    100% 객체 윤곽만 추출         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 지도에서 한강을 찾으라고 했을 때, 탐지는 서울 전체에 네모를 치고, 분할은 한강 물길만 파란색으로 정밀 색칠한다.
@@ -51,7 +51,7 @@ tags = ["studynote-ai"]
 
 ### U-Net: Skip Connection의 해상도 복원 마법
 
-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 해상도를 $1024→[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 경계선이 뭉개진다. U-Net은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전 고해상도 특징 맵을 <strong>Skip Connection으로 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에 직접 전달</strong>하여, 뭉개진 의미(엑기스)와 선명한 위치(디테일)를 합체시켜 1픽셀 오차 없는 경계를 복원한다.
+[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 해상도를 $1024->[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 경계선이 뭉개진다. U-Net은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전 고해상도 특징 맵을 <strong>Skip Connection으로 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에 직접 전달</strong>하여, 뭉개진 의미(엑기스)와 선명한 위치(디테일)를 합체시켜 1픽셀 오차 없는 경계를 복원한다.
 
 - **📢 섹션 요약 비유**: 구겨진 종이(저해상도)를 펼 때 선명한 복사본(Skip Connection)을 겹쳐 붙여 칼 같은 모서리를 살리는 복원술이다.
 
@@ -70,11 +70,11 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **의료 영상**: U-Net으로 MRI/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 암세포 경계를 픽셀 단위 추출 → 수술 범위 결정.
+1. **의료 영상**: U-Net으로 MRI/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 암세포 경계를 픽셀 단위 추출 -> 수술 범위 결정.
 2. **자율주행**: Panoptic Segmentation으로 차선·보행자·차량을 동시에 분리.
 3. **영상 편집**: Instance Segmentation으로 인물 누끼 자동 추출.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: Semantic Segmentation만으로 밀집 객체(주차장 차량) 개수를 파악하려는 시도 → Instance 필요.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: Semantic Segmentation만으로 밀집 객체(주차장 차량) 개수를 파악하려는 시도 -> Instance 필요.
 
 ---
 
@@ -104,17 +104,17 @@ tags = ["studynote-ai"]
 
 ```text
 [FCN (2015) — 최초의 End-to-End Semantic Segmentation]
-    │
-    ▼
+    |
+    v
 [U-Net (2015) — Skip Connection으로 의료 영상 정복]
-    │
-    ▼
+    |
+    v
 [Mask R-CNN (2017) — Instance Segmentation 확립]
-    │
-    ▼
+    |
+    v
 [DeepLab v3+ (2018) — Atrous Convolution + ASPP]
-    │
-    ▼
+    |
+    v
 [SAM (2023) — Segment Anything, 프롬프트 기반 범용 분할]
 ```
 
@@ -129,7 +129,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 109 / 420
 
-← **이전**: [108. YOLO와 SSD (1-Stage 객체 탐지)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/108_yolo_ssd_1_stage_object_detection_real_time/)
-**다음**: [110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계](/knowledge-base/studynote/10_ai/02_dl_architecture_new/110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn/) →
+<- **이전**: [108. YOLO와 SSD (1-Stage 객체 탐지)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/108_yolo_ssd_1_stage_object_detection_real_time/)
+**다음**: [110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계](/knowledge-base/studynote/10_ai/02_dl_architecture_new/110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn/) ->
 
 ---

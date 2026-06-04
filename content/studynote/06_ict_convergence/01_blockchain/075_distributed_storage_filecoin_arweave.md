@@ -24,9 +24,9 @@ tags = ["ict_convergence"]
 
 ```text
 Client -> Hash / Content Address -> Storage Network -> Proof -> Retrieval
-           │                         │                │
-           ├─ Filecoin market        └─ Arweave archive
-           └─ encryption first
+           |                         |                |
+           +- Filecoin market        +- Arweave archive
+           +- encryption first
 ```
 
 핵심은 저장을 믿는 것이 아니라, 저장을 증명하게 만드는 데 있다.
@@ -107,17 +107,17 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 
 ```text
 upload
-  │
-  ▼
+  |
+  v
 content hash
-  │
-  ▼
+  |
+  v
 replicate / store
-  │
-  ▼
+  |
+  v
 proof
-  │
-  ▼
+  |
+  v
 retrieval
 ```
 
@@ -133,7 +133,7 @@ retrieval
 
 **진행 상황**: 75 / 552
 
-← **이전**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)
-**다음**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/) →
+<- **이전**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)
+**다음**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/) ->
 
 ---

@@ -36,24 +36,24 @@ tags = ["studynote-design-supervision"]
 아래 그림은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 전달자가 아니라 "접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모이는 제어 지점"임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              프록시 패턴의 호출 흐름과 제어 지점                 │
-├──────────────────────────────────────────────────────────────────┤
-│ Client                                                           │
-│   │                                                              │
-│   ▼                                                              │
-│ Subject Interface                                                │
-│   │                                                              │
-│   ▼                                                              │
-│ Proxy ---------------------------------------------------------┐ │
-│   │ 1) 권한 확인                                              │ │
-│   │ 2) 캐시/로그 확인                                         │ │
-│   │ 3) 필요 시 Real Subject 생성                              │ │
-│   ▼                                                            │ │
-│ Real Subject                                                   │ │
-│   │                                                            │ │
-│   └────────────── 실제 업무 처리 결과 반환 ─────────────────────┘ │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              프록시 패턴의 호출 흐름과 제어 지점                 |
++------------------------------------------------------------------+
+| Client                                                           |
+|   |                                                              |
+|   v                                                              |
+| Subject Interface                                                |
+|   |                                                              |
+|   v                                                              |
+| Proxy ---------------------------------------------------------+ |
+|   | 1) 권한 확인                                              | |
+|   | 2) 캐시/로그 확인                                         | |
+|   | 3) 필요 시 Real Subject 생성                              | |
+|   v                                                            | |
+| Real Subject                                                   | |
+|   |                                                            | |
+|   +-------------- 실제 업무 처리 결과 반환 ---------------------+ |
++------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 설계 포인트는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 실제 객체를 "대체"하는 것이 아니라 "대표"한다는 점이다. 즉 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 책임은 본업을 새로 만드는 것이 아니라, 접근 조건을 조율하고 실제 객체 호출을 관리하는 데 있다.
@@ -148,18 +148,18 @@ tags = ["studynote-design-supervision"]
 
 ```text
 직접 접근의 한계
-    │
-    ▼
+    |
+    v
 추상 인터페이스 분리
-    │
-    ▼
+    |
+    v
 프록시 (Proxy) 패턴
-    │
-    ├─▶ 가상 프록시 (Virtual Proxy)
-    ├─▶ 보호 프록시 (Protection Proxy)
-    ├─▶ 원격 프록시 (Remote Proxy)
-    │
-    ▼
+    |
+    +--> 가상 프록시 (Virtual Proxy)
+    +--> 보호 프록시 (Protection Proxy)
+    +--> 원격 프록시 (Remote Proxy)
+    |
+    v
 AOP · ORM 지연 로딩 · 리버스 프록시 · 서비스 메시
 ```
 
@@ -177,7 +177,7 @@ AOP · ORM 지연 로딩 · 리버스 프록시 · 서비스 메시
 
 **진행 상황**: 214 / 530
 
-← **이전**: [157. 플라이웨이트 (Flyweight) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/157_flyweight_pattern/)
-**다음**: [159. 프록시 패턴 유형 (Proxy Pattern Types)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/159_proxy_pattern_types/) →
+<- **이전**: [157. 플라이웨이트 (Flyweight) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/157_flyweight_pattern/)
+**다음**: [159. 프록시 패턴 유형 (Proxy Pattern Types)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/159_proxy_pattern_types/) ->
 
 ---

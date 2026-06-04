@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 결정론적 PRNG (Pseudo Random Number Generator)만으로는 부족한지, 그리고 TRNG가 어느 지점에서 개입하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ PRNG alone vs. physical entropy                                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PRNG path                                                                   │
-│  seed -> algorithm -> repeatable sequence                                   │
-│                                                                            │
-│ TRNG path                                                                   │
-│  physical noise -> sampling -> fresh entropy bits                           │
-│                                                                            │
-│ Hybrid path                                                                 │
-│  TRNG seed -> secure expander -> high-speed cryptographic random stream     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| PRNG alone vs. physical entropy                                            |
++----------------------------------------------------------------------------+
+| PRNG path                                                                   |
+|  seed -> algorithm -> repeatable sequence                                   |
+|                                                                            |
+| TRNG path                                                                   |
+|  physical noise -> sampling -> fresh entropy bits                           |
+|                                                                            |
+| Hybrid path                                                                 |
+|  TRNG seed -> secure expander -> high-speed cryptographic random stream     |
++----------------------------------------------------------------------------+
 ```
 
 따라서 TRNG의 존재 이유는 "더 랜덤해 보이는 숫자"가 아니라 "공격자가 시작 상태를 알 수 없게 만드는 것"이다. 특히 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)), CPU (Central Processing Unit) 내장 보안 기능은 모두 이 첫 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 품질에 기대고 있다.
@@ -63,17 +63,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 현대 CPU나 보안 칩이 주로 사용하는 하드웨어 난수 파이프라인이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Typical hardware random pipeline                                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Noise source -> sampler -> conditioner -> health tests -> entropy pool     │
-│ (jitter,       (sampler /   (bias removal)   repetition /       -> DRBG    │
-│ thermal,        latch)                      adaptive tests)     / CSPRNG    │
-│ metastable)                                                                │
-│                                                                            │
-│ Raw analog noise is never the final output; it must be filtered and        │
-│ continuously monitored before software consumes it.                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Typical hardware random pipeline                                           |
++----------------------------------------------------------------------------+
+| Noise source -> sampler -> conditioner -> health tests -> entropy pool     |
+| (jitter,       (sampler /   (bias removal)   repetition /       -> DRBG    |
+| thermal,        latch)                      adaptive tests)     / CSPRNG    |
+| metastable)                                                                |
+|                                                                            |
+| Raw analog noise is never the final output; it must be filtered and        |
+| continuously monitored before software consumes it.                        |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 TRNG는 느린 물리 현상과 빠른 소프트웨어 요구를 동시에 맞춘다. 진짜 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 상대적으로 천천히 나오더라도, 일단 품질 좋은 seed가 확보되면 DRBG가 대량 난수를 공급할 수 있다. 그래서 현대 시스템은 "TRNG만" 또는 "PRNG만"이 아니라 두 계층을 결합한 혼합 구조가 기본이다.
@@ -150,20 +150,20 @@ TRNG를 다른 난수 기술과 비교하면 경계가 분명해진다. PRNG는 
 
 ```text
 소프트웨어 PRNG
-        │
-        ▼
+        |
+        v
 예측 가능한 seed 문제
-        │
-        ▼
+        |
+        v
 TRNG (True Random Number Generator)
-        │
-        ▼
+        |
+        v
 conditioning · health test · 엔트로피 추정
-        │
-        ▼
+        |
+        v
 DRBG / CSPRNG 재시드
-        │
-        ▼
+        |
+        v
 CPU · TPM · HSM 내장 난수 인프라
 ```
 
@@ -181,7 +181,7 @@ CPU · TPM · HSM 내장 난수 인프라
 
 **진행 상황**: 486 / 803
 
-← **이전**: [485. 물리적 복제 방지 기능 (PUF)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/)
-**다음**: [487. 루트 오브 트러스트 (Root of Trust)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) →
+<- **이전**: [485. 물리적 복제 방지 기능 (PUF)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/)
+**다음**: [487. 루트 오브 트러스트 (Root of Trust)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) ->
 
 ---

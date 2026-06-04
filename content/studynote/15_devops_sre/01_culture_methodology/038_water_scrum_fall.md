@@ -240,7 +240,7 @@ DORA 연구 (2013~)
 
 **진행 상황**: 38 / 373
 
-← **이전**: [037. 애자일 PMO (Agile PMO)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/)
-**다음**: [039. 피처 플래그 (Feature Flag / Feature Toggle)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/039_feature_flag/) →
+<- **이전**: [037. 애자일 PMO (Agile PMO)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/)
+**다음**: [039. 피처 플래그 (Feature Flag / Feature Toggle)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/039_feature_flag/) ->
 
 ---

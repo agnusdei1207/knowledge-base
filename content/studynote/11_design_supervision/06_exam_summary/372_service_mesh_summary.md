@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동서(East-West) 트래픽을 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 제어면으로 관리하는 인프라 계층이다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수가 많아질수록 재시도, [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), 추적, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 애플리케이션마다 구현하기 어려워졌다. 이 개념이 필요한 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 제어를 애플리케이션 밖으로 빼는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 제각각이어서 보안·관찰가능성·[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 누락된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    Mesh    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    Mesh    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[앱 내 통신 라이브러리] → [서비스 메시] → [정책 기반 트래픽 제어]
+[앱 내 통신 라이브러리] -> [서비스 메시] -> [정책 기반 트래픽 제어]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))은 교실 사이 복도를 선생님이 항상 지켜보며 규칙을 지키게 하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 450 / 530
 
-← **이전**: [371. API 게이트웨이 (API Gateway)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/371_api_gateway_summary/)
-**다음**: [373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/) →
+<- **이전**: [371. API 게이트웨이 (API Gateway)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/371_api_gateway_summary/)
+**다음**: [373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/) ->
 
 ---

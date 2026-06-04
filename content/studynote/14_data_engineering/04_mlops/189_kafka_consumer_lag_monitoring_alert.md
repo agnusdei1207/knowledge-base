@@ -23,23 +23,23 @@ tags = ["studynote-data-engineering"]
 
 ```
 Kafka 아키텍처:
-┌──────────────────────────────────────────────────────────┐
-│                  Kafka 클러스터                            │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │         Topic: orders (Partition 0~3)               │  │
-│  │  P0: [msg_1, msg_2, ..., msg_1000] ← LEO=1000      │  │
-│  │  P1: [msg_1, msg_2, ..., msg_800]  ← LEO=800       │  │
-│  │  P2: [msg_1, msg_2, ..., msg_900]  ← LEO=900       │  │
-│  │  P3: [msg_1, msg_2, ..., msg_950]  ← LEO=950       │  │
-│  └────────────────────────────────────────────────────┘  │
-│           ↑ Producer 삽입            ↓ Consumer 읽기       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                  Kafka 클러스터                            |
+|  +----------------------------------------------------+  |
+|  |         Topic: orders (Partition 0~3)               |  |
+|  |  P0: [msg_1, msg_2, ..., msg_1000] <- LEO=1000      |  |
+|  |  P1: [msg_1, msg_2, ..., msg_800]  <- LEO=800       |  |
+|  |  P2: [msg_1, msg_2, ..., msg_900]  <- LEO=900       |  |
+|  |  P3: [msg_1, msg_2, ..., msg_950]  <- LEO=950       |  |
+|  +----------------------------------------------------+  |
+|           ^ Producer 삽입            v Consumer 읽기       |
++----------------------------------------------------------+
 
 Consumer Group: order-processor
-  Consumer 0: P0 처리 중 (Offset=990) → Lag = 1000-990 = 10
-  Consumer 1: P1 처리 중 (Offset=750) → Lag = 800-750 = 50
-  Consumer 2: P2 처리 중 (Offset=890) → Lag = 900-890 = 10
-  Consumer 3: P3 처리 중 (Offset=900) → Lag = 950-900 = 50
+  Consumer 0: P0 처리 중 (Offset=990) -> Lag = 1000-990 = 10
+  Consumer 1: P1 처리 중 (Offset=750) -> Lag = 800-750 = 50
+  Consumer 2: P2 처리 중 (Offset=890) -> Lag = 900-890 = 10
+  Consumer 3: P3 처리 중 (Offset=900) -> Lag = 950-900 = 50
 
 Total Group Lag = 10 + 50 + 10 + 50 = 120
 ```
@@ -64,57 +64,57 @@ Total Group Lag = 10 + 50 + 10 + 50 = 120
 ### 2.1 [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) 모니터링 도구 비교
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│            Consumer Lag 모니터링 도구 생태계               │
-│                                                           │
-│  1. Kafka CLI (카프카 내장)                                │
-│     kafka-consumer-groups.sh                             │
-│     --describe --group order-processor                   │
-│     → 순간 Lag 값 확인, 트렌드 추적 불가                  │
-│                                                           │
-│  2. JMX (Java Management Extensions) 메트릭               │
-│     kafka.consumer:type=consumer-fetch-manager-metrics   │
-│     records-lag-max → 컨슈머별 최대 Lag                   │
-│     → Telegraf/JMX Exporter로 Prometheus 수집             │
-│                                                           │
-│  3. Burrow (LinkedIn 오픈소스)                            │
-│     → 컨슈머 그룹 상태: OK / WARNING / ERROR             │
-│     → Lag 증가 추세 기반 상태 판단 (단순 수치 아님)         │
-│     → REST API + 알림 지원                                │
-│                                                           │
-│  4. Kafka Cruise Control                                  │
-│     → 파티션 균형 자동 조정                                │
-│     → 리소스 활용률 기반 Lag 원인 분석                     │
-│                                                           │
-│  5. Confluent Control Center (유료)                        │
-│     → 완전한 Kafka 관리 UI + SLA 모니터링                  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            Consumer Lag 모니터링 도구 생태계               |
+|                                                           |
+|  1. Kafka CLI (카프카 내장)                                |
+|     kafka-consumer-groups.sh                             |
+|     --describe --group order-processor                   |
+|     -> 순간 Lag 값 확인, 트렌드 추적 불가                  |
+|                                                           |
+|  2. JMX (Java Management Extensions) 메트릭               |
+|     kafka.consumer:type=consumer-fetch-manager-metrics   |
+|     records-lag-max -> 컨슈머별 최대 Lag                   |
+|     -> Telegraf/JMX Exporter로 Prometheus 수집             |
+|                                                           |
+|  3. Burrow (LinkedIn 오픈소스)                            |
+|     -> 컨슈머 그룹 상태: OK / WARNING / ERROR             |
+|     -> Lag 증가 추세 기반 상태 판단 (단순 수치 아님)         |
+|     -> REST API + 알림 지원                                |
+|                                                           |
+|  4. Kafka Cruise Control                                  |
+|     -> 파티션 균형 자동 조정                                |
+|     -> 리소스 활용률 기반 Lag 원인 분석                     |
+|                                                           |
+|  5. Confluent Control Center (유료)                        |
+|     -> 완전한 Kafka 관리 UI + SLA 모니터링                  |
++----------------------------------------------------------+
 ```
 
 ### 2.2 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) + AlertManager 모니터링 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│          Consumer Lag 모니터링 파이프라인                   │
-│                                                           │
-│  Kafka 브로커                                             │
-│  JMX 메트릭 노출 (포트 9999)                              │
-│       ↓                                                  │
-│  Kafka JMX Exporter (kafka-exporter)                     │
-│  → kafka_consumergroup_lag{group, topic, partition}       │
-│       ↓ Prometheus 수집 (15초 간격 스크레이핑)             │
-│  Prometheus 저장소                                        │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │ 집계 쿼리:                                        │   │
-│  │ sum(kafka_consumergroup_lag{group="order-proc"})  │   │
-│  │   by (topic) > 1000  → 경보 트리거!               │   │
-│  └──────────────────────────────────────────────────┘   │
-│       ↓                                                  │
-│  AlertManager → Slack / PagerDuty / Email                │
-│       ↓ (선택적)                                         │
-│  Auto Scaling Hook → Kubernetes HPA 또는 AWS ASG         │
-│  → 컨슈머 파드 자동 스케일아웃                             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          Consumer Lag 모니터링 파이프라인                   |
+|                                                           |
+|  Kafka 브로커                                             |
+|  JMX 메트릭 노출 (포트 9999)                              |
+|       v                                                  |
+|  Kafka JMX Exporter (kafka-exporter)                     |
+|  -> kafka_consumergroup_lag{group, topic, partition}       |
+|       v Prometheus 수집 (15초 간격 스크레이핑)             |
+|  Prometheus 저장소                                        |
+|  +--------------------------------------------------+   |
+|  | 집계 쿼리:                                        |   |
+|  | sum(kafka_consumergroup_lag{group="order-proc"})  |   |
+|  |   by (topic) > 1000  -> 경보 트리거!               |   |
+|  +--------------------------------------------------+   |
+|       v                                                  |
+|  AlertManager -> Slack / PagerDuty / Email                |
+|       v (선택적)                                         |
+|  Auto Scaling Hook -> Kubernetes HPA 또는 AWS ASG         |
+|  -> 컨슈머 파드 자동 스케일아웃                             |
++----------------------------------------------------------+
 ```
 
 ### 2.3 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 경보 규칙 설계
@@ -176,28 +176,28 @@ groups:
 Lag 패턴 분석:
 
 패턴 1: 선형 증가 (지속적 상승)
-  ↑ Lag
-  │       /
-  │      /
-  │     /
-  └──────── 시간
+  ^ Lag
+  |       /
+  |      /
+  |     /
+  +-------- 시간
   원인: 처리 속도 < 생산 속도 (구조적 문제)
   대응: 컨슈머 스케일아웃 or 파티션 증가
 
 패턴 2: 계단식 증가 (주기적 상승 후 정체)
-  ↑ Lag
-  │  ┌──┐  ┌──┐
-  │──┘  └──┘  └──
-  └──────────── 시간
+  ^ Lag
+  |  +--+  +--+
+  |--+  +--+  +--
+  +------------ 시간
   원인: 주기적 배치 부하 (예: 매 시 정각)
   대응: 부하 분산 일정 조정
 
 패턴 3: 급등 후 정체 (장애)
-  ↑ Lag
-  │         ┌─────
-  │         │
-  │─────────┘
-  └──────────── 시간
+  ^ Lag
+  |         +-----
+  |         |
+  |---------+
+  +------------ 시간
   원인: 특정 시점 컨슈머 장애 or 외부 의존성 장애
   대응: 장애 컨슈머 재시작, 서킷 브레이커
 
@@ -215,25 +215,25 @@ Lag 패턴 분석:
 핵심 원칙: 컨슈머 수 ≤ 파티션 수
 
 파티션 4개, 컨슈머 4개 (최적):
-  C0 → P0
-  C1 → P1
-  C2 → P2
-  C3 → P3
-  → 모든 컨슈머가 활성화, 최대 병렬처리
+  C0 -> P0
+  C1 -> P1
+  C2 -> P2
+  C3 -> P3
+  -> 모든 컨슈머가 활성화, 최대 병렬처리
 
 파티션 4개, 컨슈머 6개 (낭비):
-  C0 → P0
-  C1 → P1
-  C2 → P2
-  C3 → P3
-  C4 → 유휴 (파티션 없음)
-  C5 → 유휴 (파티션 없음)
-  → C4, C5는 낭비! 컨슈머만 추가해도 Lag 해소 안 됨
+  C0 -> P0
+  C1 -> P1
+  C2 -> P2
+  C3 -> P3
+  C4 -> 유휴 (파티션 없음)
+  C5 -> 유휴 (파티션 없음)
+  -> C4, C5는 낭비! 컨슈머만 추가해도 Lag 해소 안 됨
 
 파티션 4개, 컨슈머 2개:
-  C0 → P0 + P2
-  C1 → P1 + P3
-  → 처리 가능하나 최대 처리량이 반으로 제한
+  C0 -> P0 + P2
+  C1 -> P1 + P3
+  -> 처리 가능하나 최대 처리량이 반으로 제한
 ```
 
 ### 3.3 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 연계 ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) KEDA)
@@ -271,19 +271,19 @@ spec:
 SLA 기반 Lag 임계값 설계:
 
   서비스 유형별 Lag SLA:
-  ┌──────────────────────────────────────────────────┐
-  │ 서비스 유형 │ Lag 임계값 │ 알림 지연 │ 자동 대응  │
-  ├──────────────────────────────────────────────────┤
-  │ 실시간 결제  │ 100개      │ 1분       │ 즉시 HPA  │
-  │ 주문 처리    │ 1,000개    │ 3분       │ 5분 내 HPA│
-  │ 로그 분석    │ 100,000개  │ 15분      │ 수동 확인 │
-  │ 배치 ETL    │ 제한 없음   │ 없음      │ 없음      │
-  └──────────────────────────────────────────────────┘
+  +--------------------------------------------------+
+  | 서비스 유형 | Lag 임계값 | 알림 지연 | 자동 대응  |
+  +--------------------------------------------------+
+  | 실시간 결제  | 100개      | 1분       | 즉시 HPA  |
+  | 주문 처리    | 1,000개    | 3분       | 5분 내 HPA|
+  | 로그 분석    | 100,000개  | 15분      | 수동 확인 |
+  | 배치 ETL    | 제한 없음   | 없음      | 없음      |
+  +--------------------------------------------------+
 
   Lag 계산:
   처리 지연 시간 = Lag / 초당 소비 속도
   예: Lag=10,000, 초당 1,000 메시지 처리
-  → 처리 지연 = 10초
+  -> 처리 지연 = 10초
 
   실시간 시스템 허용 지연 = 수 초
   배치 시스템 허용 지연 = 수 분~수 시간
@@ -300,7 +300,7 @@ SLA 기반 Lag 임계값 설계:
   안전 여유: × 1.5 ~ 2배 = 8~10개 파티션 권장
 
   주의: 파티션 수 늘리기는 쉽지만 줄이기는 어려움
-  → 처음부터 충분히 많게 설계 (나중에 추가 가능)
+  -> 처음부터 충분히 많게 설계 (나중에 추가 가능)
 ```
 
 ### 4.3 기술사 답안 핵심 포인트
@@ -308,7 +308,7 @@ SLA 기반 Lag 임계값 설계:
 ```
 Kafka Consumer Lag 모니터링 설계 시 필수 언급:
   ✓ Consumer Lag = LEO(Log End Offset) - Current Offset
-  ✓ 모니터링 스택: kafka-exporter → Prometheus → Grafana
+  ✓ 모니터링 스택: kafka-exporter -> Prometheus -> Grafana
   ✓ Burrow: Lag 수치 + 증가 추세 함께 분석
   ✓ AlertManager: 단계별 경보 (Warning/Critical)
   ✓ Auto Scaling: KEDA + Kubernetes HPA 연계
@@ -336,24 +336,24 @@ Kafka Consumer Lag 모니터링 설계 시 필수 언급:
 ### 5.2 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영 성숙도 모델
 
 ```
-┌──────────────────────────────────────────────────────┐
-│              Kafka 운영 성숙도 단계                    │
-│                                                      │
-│  Level 1: 기본 모니터링                               │
-│  → CLI로 Lag 수동 확인, 장애 후 대응                  │
-│                                                      │
-│  Level 2: 메트릭 수집                                 │
-│  → Prometheus + Grafana, 수동 경보 설정               │
-│                                                      │
-│  Level 3: 자동 경보                                   │
-│  → AlertManager, PagerDuty 연동, SLA 기반 임계값      │
-│                                                      │
-│  Level 4: 자동 복구                                   │
-│  → KEDA Auto Scaling, 장애 파티션 자동 재할당          │
-│                                                      │
-│  Level 5: 예측적 운영                                 │
-│  → ML 기반 Lag 예측, 사전 스케일아웃 (프로액티브)       │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|              Kafka 운영 성숙도 단계                    |
+|                                                      |
+|  Level 1: 기본 모니터링                               |
+|  -> CLI로 Lag 수동 확인, 장애 후 대응                  |
+|                                                      |
+|  Level 2: 메트릭 수집                                 |
+|  -> Prometheus + Grafana, 수동 경보 설정               |
+|                                                      |
+|  Level 3: 자동 경보                                   |
+|  -> AlertManager, PagerDuty 연동, SLA 기반 임계값      |
+|                                                      |
+|  Level 4: 자동 복구                                   |
+|  -> KEDA Auto Scaling, 장애 파티션 자동 재할당          |
+|                                                      |
+|  Level 5: 예측적 운영                                 |
+|  -> ML 기반 Lag 예측, 사전 스케일아웃 (프로액티브)       |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영 성숙도는 마치 공장 관리의 발전 단계와 같다. 처음엔 기계가 고장나야 알지만(Level 1), 나중엔 고장 예정을 미리 알고 부품을 교체하는(Level 5) 예측 정비 수준으로 발전한다.
@@ -382,21 +382,21 @@ Kafka Consumer Lag 모니터링 설계 시 필수 언급:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-Kafka Producer → Broker (Topic/Partition)
-    │
-    ▼
-Consumer Group → 파티션별 Offset 추적
-    │
-    ▼
+Kafka Producer -> Broker (Topic/Partition)
+    |
+    v
+Consumer Group -> 파티션별 Offset 추적
+    |
+    v
 Consumer Lag = Latest Offset - Consumer Offset
-    │
-    ▼
+    |
+    v
 모니터링 도구
-    ├─► Burrow (LinkedIn 오픈소스)
-    ├─► Kafka Lag Exporter → Prometheus → Grafana
-    └─► Confluent Control Center
-    │
-    ▼
+    +-► Burrow (LinkedIn 오픈소스)
+    +-► Kafka Lag Exporter -> Prometheus -> Grafana
+    +-► Confluent Control Center
+    |
+    v
 자동 대응: Consumer 스케일아웃 · 파티션 추가 · 경보
 ```
 2. <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/">Consumer Lag</a> 모니터링</strong>은 마치 음식점에서 주문 대기열 번호판을 관리자 핸드폰으로 실시간 전송하는 것처럼, [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 처리 지연을 자동으로 감지해서 경보를 보내는 시스템이에요.
@@ -408,7 +408,7 @@ Consumer Lag = Latest Offset - Consumer Offset
 
 **진행 상황**: 189 / 258
 
-← **이전**: [188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어](/knowledge-base/studynote/14_data_engineering/04_mlops/188_oom_memory_protection_gc_spark_spill/)
-**다음**: [190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) →
+<- **이전**: [188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어](/knowledge-base/studynote/14_data_engineering/04_mlops/188_oom_memory_protection_gc_spark_spill/)
+**다음**: [190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) ->
 
 ---

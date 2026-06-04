@@ -30,9 +30,9 @@ tags = ["ict_convergence"]
 
 ```text
 Majority Control
-  ↓
+  v
 Chain Reorganization
-  ↓
+  v
 Double Spending / Censorship
 ```
 
@@ -104,11 +104,11 @@ Double Spending / Censorship
 
 ```text
 Majority Control
-  ↓
+  v
 51% Attack
-  ↓
+  v
 Reorg / Double Spending
-  ↓
+  v
 Blockchain Security
 ```
 
@@ -118,11 +118,11 @@ Blockchain Security
 
 ```text
 Consensus
-  ↓
+  v
 51% Attack
-  ↓
+  v
 Finality Risk
-  ↓
+  v
 Mitigation
 ```
 
@@ -140,7 +140,7 @@ Mitigation
 
 **진행 상황**: 67 / 552
 
-← **이전**: [66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/)
-**다음**: [68. 이클립스 공격 (Eclipse Attack) - 특정 노드의 주변 P2P 연결을 악성 노드가 장악하여 네트워크를 고립시키고 허위](/knowledge-base/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/) →
+<- **이전**: [66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/)
+**다음**: [68. 이클립스 공격 (Eclipse Attack) - 특정 노드의 주변 P2P 연결을 악성 노드가 장악하여 네트워크를 고립시키고 허위](/knowledge-base/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/) ->
 
 ---

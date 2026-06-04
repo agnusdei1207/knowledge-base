@@ -46,14 +46,14 @@ D 래치([Data](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 ### 2.1 NAND 게이트 구현
 
 ```
-D ──┬──[NOT]──┐
-    │          ├── NAND ── S'──┐
-    └── EN ───┘                ├── SR 래치 → Q
-              EN ───┐          │
-    D ─────── NAND─ R'──────────┘
+D --+--[NOT]--+
+    |          +-- NAND -- S'--+
+    +-- EN ---+                +-- SR 래치 -> Q
+              EN ---+          |
+    D ------- NAND- R'----------+
 ```
 
-D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D→S, D'→R [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 자동 생성한다.
+D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D->S, D'->R [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 자동 생성한다.
 
 ### 2.2 투명성(Transparency)
 
@@ -61,8 +61,8 @@ EN=1 구간 동안 D가 변화하면 Q도 즉시 변화한다. 이를 **투명(t
 
 ```
 EN: ‾‾‾‾‾‾|_____|‾‾‾‾
-D:  0→1→0  (변화 중)
-Q:  EN=1 동안 D 추적 → EN=0이면 마지막 D값 유지
+D:  0->1->0  (변화 중)
+Q:  EN=1 동안 D 추적 -> EN=0이면 마지막 D값 유지
 ```
 
 📢 **섹션 요약 비유**: EN은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화 버튼 — 버튼 눌린 동안만 실시간 화면, 버튼 떼면 마지막 장면 고정.
@@ -83,10 +83,10 @@ Q:  EN=1 동안 D 추적 → EN=0이면 마지막 D값 유지
 ### 3.2 마스터-슬레이브 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
 
 ```
-D → [D 래치 M (EN=CLK)] → [D 래치 S (EN=CLK')] → Q
+D -> [D 래치 M (EN=CLK)] -> [D 래치 S (EN=CLK')] -> Q
 ```
 
-EN이 서로 반전된 두 D 래치를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 → CLK 상승 엣지에서만 Q 갱신.
+EN이 서로 반전된 두 D 래치를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 -> CLK 상승 엣지에서만 Q 갱신.
 
 📢 **섹션 요약 비유**: 래치는 문이 열린 동안 누구나 통과, [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 문이 열리는 찰나에만 통과 가능.
 
@@ -99,11 +99,11 @@ EN이 서로 반전된 두 D 래치를 [직렬](/knowledge-base/studynote/03_net
 N비트 데이터를 동시에 저장하기 위해 N개의 D 래치를 공통 EN [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 묶는다.
 
 ```
-EN ─────────────────────
-D0 → [D래치] → Q0
-D1 → [D래치] → Q1
+EN ---------------------
+D0 -> [D래치] -> Q0
+D1 -> [D래치] -> Q1
 ...
-Dn → [D래치] → Qn
+Dn -> [D래치] -> Qn
 ```
 
 ### 4.2 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -121,7 +121,7 @@ SRAM의 6T 셀은 SR 래치 기반이나, 어드레스 디코더가 EN 역할을
 ```verilog
 // 잘못된 코드 — 래치 생성
 always @(*) begin
-  if (sel) out = a;  // else 없음 → 래치 추론
+  if (sel) out = a;  // else 없음 -> 래치 추론
 end
 ```
 
@@ -135,7 +135,7 @@ end
 
 ### 5.2 타이밍 분석 시 주의
 
-EN 구간이 길면 D 입력의 글리치(glitch)가 Q에 직접 전달 → 셋업/홀드 타임 위반 위험.
+EN 구간이 길면 D 입력의 글리치(glitch)가 Q에 직접 전달 -> 셋업/홀드 타임 위반 위험.
 
 📢 **섹션 요약 비유**: 소음 많은 교실에서 선생님이 귀를 열고 있으면(EN=1) 아무 잡음도 Q 귀에 전달된다. 귀를 닫아야(EN=0) 조용해진다.
 
@@ -145,17 +145,17 @@ EN 구간이 길면 D 입력의 글리치(glitch)가 Q에 직접 전달 → 셋�
 
 ```
 D 래치
-├── 파생 소자
-│   ├── SR 래치 (기반)
-│   ├── D 플립플롭 (엣지 트리거)
-│   └── JK 플립플롭
-├── 응용
-│   ├── 병렬 레지스터
-│   ├── SRAM 셀
-│   └── 파이프라인 스테이지 버퍼
-└── 설계 주의
-    ├── 래치 추론 방지
-    └── 글리치 필터링
++-- 파생 소자
+|   +-- SR 래치 (기반)
+|   +-- D 플립플롭 (엣지 트리거)
+|   +-- JK 플립플롭
++-- 응용
+|   +-- 병렬 레지스터
+|   +-- SRAM 셀
+|   +-- 파이프라인 스테이지 버퍼
++-- 설계 주의
+    +-- 래치 추론 방지
+    +-- 글리치 필터링
 ```
 
 ---
@@ -164,18 +164,18 @@ D 래치
 
 ```
 SR 래치 (1950s)
-     │  금지 상태 문제
-     ▼
+     |  금지 상태 문제
+     v
 D 래치 (레벨 트리거)
-     │  투명성 제거 필요
-     ▼
+     |  투명성 제거 필요
+     v
 D 플립플롭 (엣지 트리거, 1960s)
-     │  N개 병렬 구성
-     ▼
+     |  N개 병렬 구성
+     v
 레지스터 파일 (Register File)
-     │  클록 도메인 설계
-     ▼
-동기 설계(Synchronous Design) → CDC(Clock Domain Crossing) 처리
+     |  클록 도메인 설계
+     v
+동기 설계(Synchronous Design) -> CDC(Clock Domain Crossing) 처리
 ```
 
 **핵심 키워드**: SR 래치, 투명 래치, 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 마스터-슬레이브, 래치 추론, 셋업/홀드 타임
@@ -194,7 +194,7 @@ D 플립플롭 (엣지 트리거, 1960s)
 
 **진행 상황**: 50 / 803
 
-← **이전**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/)
-**다음**: [51. 플립플롭 (Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) →
+<- **이전**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/)
+**다음**: [51. 플립플롭 (Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) ->
 
 ---

@@ -37,19 +37,19 @@ tags = ["studynote-ict-convergence"]
   이전 노드: 새 블록을 무효로 판단 (거부)
   새 노드: 이전 블록을 무효로 판단
 
-  과반수 미달 → 두 체인 영구 공존
+  과반수 미달 -> 두 체인 영구 공존
 
 하드 포크 유형:
 
 1. 합의 하드 포크 (Consensual):
-  커뮤니티 전체 동의 → 모두 업그레이드
+  커뮤니티 전체 동의 -> 모두 업그레이드
   이전 체인 사실상 소멸
 
-  예: 이더리움 Merge (PoW→PoS)
-  모든 노드 동의 → 단일 체인
+  예: 이더리움 Merge (PoW->PoS)
+  모든 노드 동의 -> 단일 체인
 
 2. 논쟁 하드 포크 (Contentious):
-  커뮤니티 분열 → 체인 분리
+  커뮤니티 분열 -> 체인 분리
 
   예: 비트코인 캐시 (BCH, 2017)
   비트코인에서 분리
@@ -74,11 +74,11 @@ tags = ["studynote-ict-convergence"]
 
   하드 포크 찬성파 (ETH):
   특정 블록에서 해킹 트랜잭션 되돌리기
-  → 오늘날 이더리움 (ETH)
+  -> 오늘날 이더리움 (ETH)
 
   하드 포크 반대파 (ETC):
   "블록체인은 불변이어야"
-  → 이더리움 클래식 (ETC, 포크 전 체인)
+  -> 이더리움 클래식 (ETC, 포크 전 체인)
 
   결과:
   ETH: 현재 시총 2위 (대부분 채택)
@@ -87,17 +87,17 @@ tags = ["studynote-ict-convergence"]
 2. 비트코인 캐시 (BCH, 2017):
   배경:
   비트코인 확장성 논쟁
-  "블록 크기 1MB → 8MB"
+  "블록 크기 1MB -> 8MB"
 
   찬성: 대형 블록으로 TPS 향상
   반대: "탈중앙화 저해"
 
   결과:
   BTC: 1MB 유지 (SegWit 채택)
-  BCH: 8MB 분리 → 이후 BSV 재분리
+  BCH: 8MB 분리 -> 이후 BSV 재분리
 
 3. 이더리움 Merge (2022):
-  PoW → PoS 전환
+  PoW -> PoS 전환
   합의 하드 포크 (전체 동의)
   ETHPOW: 소수 PoW 유지 체인 (시장 외면)
 
@@ -121,9 +121,9 @@ tags = ["studynote-ict-convergence"]
   A체인 트랜잭션이 B체인에도 유효!
 
   시나리오:
-  A(ETH): Alice → Bob 10 ETH 서명 전송
+  A(ETH): Alice -> Bob 10 ETH 서명 전송
   B(ETC): 동일 서명을 ETC 네트워크에 브로드캐스트
-  → Alice의 ETC도 Bob에게 이동! (의도 없이)
+  -> Alice의 ETC도 Bob에게 이동! (의도 없이)
 
 발생 조건:
   두 체인이 동일한 개인키, 주소 체계
@@ -138,7 +138,7 @@ tags = ["studynote-ict-convergence"]
   BSC: chainId = 56
 
   서명 = ECDSA(txData + chainId)
-  → 다른 체인에서 서명 무효
+  -> 다른 체인에서 서명 무효
 
 2. 리플레이 보호 (Replay Protection):
   새 블록에 고유 코인베이스 데이터 추가
@@ -149,7 +149,7 @@ tags = ["studynote-ict-convergence"]
   각 체인에서 별도 트랜잭션 발행 후 사용
 
 이더리움 ETC 분리 시:
-  EIP-155 없었음 → 초기 리플레이 공격 발생
+  EIP-155 없었음 -> 초기 리플레이 공격 발생
   이후 양 체인 모두 chainId 추가로 해결
 ```
 
@@ -169,33 +169,33 @@ tags = ["studynote-ict-convergence"]
   코어 개발자 + 채굴자 + 사용자 비공식 합의
 
   BIP 상태:
-  Draft → Accepted → Final/Rejected
+  Draft -> Accepted -> Final/Rejected
 
   채굴자 신호: "이 업그레이드 지지"
-  임계값(예: 95%) 달성 → 활성화
+  임계값(예: 95%) 달성 -> 활성화
 
 이더리움 거버넌스:
   EIP (Ethereum Improvement Proposal)
   이더리움 재단 + 클라이언트 팀 + 커뮤니티
 
   EIP 과정:
-  Draft → Review → Last Call → Final
+  Draft -> Review -> Last Call -> Final
   핵심 EIP: 하드 포크 포함 여부 결정
 
 DAO 기반 거버넌스 (DeFi):
   Compound, Uniswap:
-  토큰 보유자 → 온체인 투표
-  → 프로토콜 업그레이드 결정
+  토큰 보유자 -> 온체인 투표
+  -> 프로토콜 업그레이드 결정
 
   장점: 투명, 탈중앙
-  단점: 토큰 집중 → 실질적 중앙화
+  단점: 토큰 집중 -> 실질적 중앙화
   고래(Whale)가 과반수 토큰 보유 시 독점
 
 Polkadot 거버넌스:
   온체인 국민투표 시스템
   DOT 보유량 기반 투표권
   기술위원회(Technical Committee)
-  → 빠른 업그레이드 가능
+  -> 빠른 업그레이드 가능
 ```
 
 > 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스는 마을 회의 — 비트코인은 개발자+채굴자 비공식 합의(마을 원로 회의), 이더리움은 EIP 공식 과정, DeFi는 토큰 투표(주주총회). 모두 민주적이지만 방식이 달라요!
@@ -212,7 +212,7 @@ Polkadot 거버넌스:
   거래소: 10개 블록체인 지원
 
   이번 포크: 비트코인 X체인 논쟁 포크
-  X체인 → XA체인 + XB체인 분리 예정
+  X체인 -> XA체인 + XB체인 분리 예정
 
 대응 계획:
 
@@ -238,7 +238,7 @@ Polkadot 거버넌스:
   이후 각 체인 독립 운영
 
 사용자 지원:
-  XA 보유자 → XA + XB 동일 수량 에어드롭
+  XA 보유자 -> XA + XB 동일 수량 에어드롭
   (체인 분리 시점 스냅샷 기준)
 
 XB 지원 결정:
@@ -265,7 +265,7 @@ XB 지원 결정:
 +-- 사례
 |   +-- ETH vs ETC (DAO)
 |   +-- BTC vs BCH (블록 크기)
-|   +-- ETH Merge (PoW→PoS)
+|   +-- ETH Merge (PoW->PoS)
 +-- 보안 이슈
 |   +-- 리플레이 어택
 |   +-- EIP-155 (체인 ID)
@@ -319,7 +319,7 @@ PoS 전환 성공
 
 **진행 상황**: 47 / 552
 
-← **이전**: [046. 블록체인 샤딩 — Blockchain Sharding](/knowledge-base/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/)
-**다음**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/) →
+<- **이전**: [046. 블록체인 샤딩 — Blockchain Sharding](/knowledge-base/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/)
+**다음**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/) ->
 
 ---

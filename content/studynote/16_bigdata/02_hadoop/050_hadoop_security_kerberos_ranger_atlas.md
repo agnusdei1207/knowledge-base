@@ -19,28 +19,28 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           Hadoop 보안 3개 레이어                          │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  레이어 1: 인증 (Authentication)                          │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Kerberos KDC (Key Distribution Center)          │   │
-│  │  → TGT 티켓 발급 → 서비스 티켓으로 HDFS/YARN 접근│   │
-│  └──────────────────────────────────────────────────┘   │
-│                    ↓                                      │
-│  레이어 2: 권한 부여 (Authorization)                       │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Apache Ranger — 정책 기반 세밀한 접근 제어       │   │
-│  │  (DB·테이블·컬럼·행 레벨 정책)                   │   │
-│  └──────────────────────────────────────────────────┘   │
-│                    ↓                                      │
-│  레이어 3: 데이터 거버넌스 (Governance)                    │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Apache Atlas — 메타데이터·계보·분류·태그         │   │
-│  │  (개인정보 컬럼 자동 태그, 데이터 흐름 추적)      │   │
-│  └──────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           Hadoop 보안 3개 레이어                          |
++----------------------------------------------------------+
+|                                                           |
+|  레이어 1: 인증 (Authentication)                          |
+|  +--------------------------------------------------+   |
+|  |  Kerberos KDC (Key Distribution Center)          |   |
+|  |  -> TGT 티켓 발급 -> 서비스 티켓으로 HDFS/YARN 접근|   |
+|  +--------------------------------------------------+   |
+|                    v                                      |
+|  레이어 2: 권한 부여 (Authorization)                       |
+|  +--------------------------------------------------+   |
+|  |  Apache Ranger — 정책 기반 세밀한 접근 제어       |   |
+|  |  (DB·테이블·컬럼·행 레벨 정책)                   |   |
+|  +--------------------------------------------------+   |
+|                    v                                      |
+|  레이어 3: 데이터 거버넌스 (Governance)                    |
+|  +--------------------------------------------------+   |
+|  |  Apache Atlas — 메타데이터·계보·분류·태그         |   |
+|  |  (개인정보 컬럼 자동 태그, 데이터 흐름 추적)      |   |
+|  +--------------------------------------------------+   |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 보안은 회사 출입 관리 시스템이다. 출입 카드([Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) — 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 층별 권한(Ranger — 접근 가능 구역), 방문 기록부(Atlas — 어디서 어디로 이동했는지 추적) 3단계로 구성된다.
@@ -53,15 +53,15 @@ tags = ["studynote-bigdata"]
 
 ```text
 사용자     KDC(AS)           KDC(TGS)        서비스
-  │         │                  │               │
-  │ kinit   │                  │               │
-  │────────→│ TGT 발급         │               │
-  │←────────│                  │               │
-  │         │ TGT + 서비스 요청 │               │
-  │────────────────────────────→ 서비스 티켓 발급│
-  │←──────────────────────────────────────────│
-  │                                서비스 티켓으로 HDFS 접근│
-  │──────────────────────────────────────────→│
+  |         |                  |               |
+  | kinit   |                  |               |
+  |--------->| TGT 발급         |               |
+  |<---------|                  |               |
+  |         | TGT + 서비스 요청 |               |
+  |-----------------------------> 서비스 티켓 발급|
+  |<-------------------------------------------|
+  |                                서비스 티켓으로 HDFS 접근|
+  |------------------------------------------->|
 ```
 
 ### Apache Ranger 세밀한 접근 제어
@@ -98,14 +98,14 @@ tags = ["studynote-bigdata"]
 ### Apache Atlas [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 ([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))
 
 ```text
-데이터 소스 → ETL 변환 → DW 테이블 → 분석 보고서
+데이터 소스 -> ETL 변환 -> DW 테이블 -> 분석 보고서
 
 Atlas 자동 추적:
-  orders.csv → (Spark ETL) → sales_fact → (HiveQL) → monthly_report
+  orders.csv -> (Spark ETL) -> sales_fact -> (HiveQL) -> monthly_report
 
 규제 준수 활용:
   "이 개인정보 컬럼이 어느 다운스트림 테이블에 흘렀는가?"
-  → GDPR 데이터 파악, 개인정보 삭제 영향 범위 분석
+  -> GDPR 데이터 파악, 개인정보 삭제 영향 범위 분석
 ```
 
 ### 실무 배포 구성
@@ -114,8 +114,8 @@ HDP (Hortonworks Data Platform) / CDP (Cloudera Data Platform):
   Kerberos + Ranger + Atlas + Knox(게이트웨이) 번들 제공
 
 Knox Gateway:
-  → 외부에서 Hadoop 클러스터 접근 시 단일 진입점 (API Gateway)
-  → TLS 종단, SSO 통합
+  -> 외부에서 Hadoop 클러스터 접근 시 단일 진입점 (API Gateway)
+  -> TLS 종단, SSO 통합
 ```
 
 - **📢 섹션 요약 비유**: Apache Atlas [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 식품 이력 추적 시스템이다. 원재료(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 완제품(분석 보고서)까지 모든 가공 단계를 추적해서 "이 숫자가 어떤 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 왔나?" 역추적이 가능하다.
@@ -150,17 +150,17 @@ Knox Gateway:
 
 ```text
 [Simple Security Mode — 인증 없는 초기 Hadoop]
-    │
-    ▼
+    |
+    v
 [Kerberos 통합 — 네트워크 신원 인증]
-    │
-    ▼
+    |
+    v
 [Apache Ranger — 정책 기반 세밀한 접근 제어]
-    │
-    ▼
+    |
+    v
 [Apache Atlas — 데이터 거버넌스·계보 추적]
-    │
-    ▼
+    |
+    v
 [Unity Catalog/LakeFormation — 클라우드 통합 거버넌스]
 ```
 
@@ -176,7 +176,7 @@ Knox Gateway:
 
 **진행 상황**: 50 / 262
 
-← **이전**: [27. 데이터 직렬화: Avro / Protobuf / Thrift](/knowledge-base/studynote/16_bigdata/02_hadoop/049_data_serialization_avro_protobuf_thrift/)
-**다음**: [29. Apache Oozie — Hadoop 워크플로 스케줄러](/knowledge-base/studynote/16_bigdata/02_hadoop/051_apache_oozie/) →
+<- **이전**: [27. 데이터 직렬화: Avro / Protobuf / Thrift](/knowledge-base/studynote/16_bigdata/02_hadoop/049_data_serialization_avro_protobuf_thrift/)
+**다음**: [29. Apache Oozie — Hadoop 워크플로 스케줄러](/knowledge-base/studynote/16_bigdata/02_hadoop/051_apache_oozie/) ->
 
 ---

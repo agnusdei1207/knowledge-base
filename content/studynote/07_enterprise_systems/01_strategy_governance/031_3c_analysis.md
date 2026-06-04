@@ -45,7 +45,7 @@ tags = ["studynote-enterprise-systems"]
 | **Competitor** | 경쟁사 강점·약점, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 시장 점유율, 차별화 |
 | **Company** | 핵심 역량, 자원, 약점, 브랜드, 재무 현황 |
 
-### 3C → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 실제 예시
+### 3C -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 실제 예시
 
 ```text
 시나리오: B2B SaaS 스타트업 신규 시장 진출
@@ -62,7 +62,7 @@ Company:
   - AI 기반 자동화 기술 보유
   - 빠른 구현 경험
 
-→ 전략: 중소기업 특화 경량 AI-ERP
+-> 전략: 중소기업 특화 경량 AI-ERP
          (저가+빠른 도입+AI 자동화 차별화)
 ```
 
@@ -139,24 +139,24 @@ Company:
 
 ```text
 [3C 분석 — 고객·경쟁자·자사 전략 삼각형]
-    │
-    ▼
+    |
+    v
 [SWOT 연계 — 내외부 요인 통합 분석]
-    │
-    ▼
+    |
+    v
 [STP — 세분화·타깃팅·포지셔닝 전략 수립]
-    │
-    ▼
+    |
+    v
 [4P (마케팅 믹스) — 제품·가격·유통·촉진 실행]
-    │
-    ▼
+    |
+    v
 [4C 확장 — 커뮤니티·채널 디지털 시대 진화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 3C 분석은 삼각 측량이에요 — 고객·경쟁자·자사 세 관점에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위치를 찾아요!
-2. 고객이 원하는데 경쟁자가 못 하고 내가 잘할 수 있는 것 → 그게 최고의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요!
+2. 고객이 원하는데 경쟁자가 못 하고 내가 잘할 수 있는 것 -> 그게 최고의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요!
 3. 현대에는 커뮤니티와 채널도 중요해서 4C로 확장되고 있어요!
 
 ---
@@ -165,7 +165,7 @@ Company:
 
 **진행 상황**: 31 / 482
 
-← **이전**: [30. SWOT 분석 — 전략 수립의 4분면 프레임워크](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/030_swot_analysis/)
-**다음**: [PEST / STEEP 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/) →
+<- **이전**: [30. SWOT 분석 — 전략 수립의 4분면 프레임워크](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/030_swot_analysis/)
+**다음**: [PEST / STEEP 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/) ->
 
 ---

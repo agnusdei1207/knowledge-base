@@ -32,36 +32,36 @@ tags = ["studynote-operating-system"]
 유저가 1번 블록에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `A`를 어떻게 수정하길래 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 수명이 복원 방어가 되는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "제발 한 놈만 패지 마라! 1번 방 치지 말고 차라리 맨 끝 999번 방에 써!"   │
-  ├──────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                          │
-  │  🚨 [ 상황 1: 기존 EXT4 늪 구조 (한 놈만 조지기 멸망 랙!) ]                              │
-  │     => 유저가 "A" 의 값을 무한 번 덮어쓴다!                                              │
-  │     => 플래시 방 [1번 칸] -> 지우개 싹싹(Erase) -> "A" 다시 씀                           │
-  │     => 플래시 방 [1번 칸] -> 또 지우개(Erase) -> "A" 다시 씀                             │
-  │     => (한 달 뒤) 플래시 방 [1번 칸] 반도체 타서 펑 골로 감(수명 끝 사망 쾅!)            │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  🔥 [ 상황 2: 삼성 F2FS (무한 뒤에 꼬리 물기 로그 렌더 스왑!) ]                          │
-  │     => 동일한 유저가 "A"의 값을 수정 저장(Save) 누름!                                    │
-  │     => 커널 F2FS 봇: "야 1번 방 치우지마. X 표시만(Invalid) 때리고 비워 둬!"             │
-  │                                                                                          │
-  │     [ 플래시 메모리 물리 방 배치도 록백 ]                                                │
-  │     [1 방] [2 방] [3 방] ... [999 방] [1000 방 맨끝 빈 공터 컷]                          │
-  │       X     정상   정상         빈칸      <-- "A"의 새 값은 무조건 999번에 매핑!         │
-  │     => (한 달 뒤 유저가 100만 번 수정을 눌렀다!)                                         │
-  │     => 1~1000 번 방까지 단 한 명도 지우개 빵(Erase 타격)을 안 맞고, 골고루               │
-  │        한 번씩 쓰이기만 했음. 수명 10,000배 향상! 무결 마스킹 렌더링 통달!               │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  ✅ [ GC 악마의 청소 십자 포화 (Garbage Collection 극한 폭파 랙) ]                       │
-  │     => (1년 뒤 1000번 방 끝까지 다 썼어 꽉 찬 디스크 Full 터짐!)                         │
-  │     => 쓰레기봇(GC) 출동: 에이 ㅆㅂ.. 앞에 처 박혀 쌓인 (X 표시 난 쓰레기 방)수십만 개를 │
-  │     밤새 고압 전기로 싹 다 일괄 청소(Erase) 빔 발싸! -> 스마트폰 일시 정지(프리징) 사망. │
-  └──────────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------------+
+  |                 "제발 한 놈만 패지 마라! 1번 방 치지 말고 차라리 맨 끝 999번 방에 써!"   |
+  +------------------------------------------------------------------------------------------+
+  |                                                                                          |
+  |  🚨 [ 상황 1: 기존 EXT4 늪 구조 (한 놈만 조지기 멸망 랙!) ]                              |
+  |     => 유저가 "A" 의 값을 무한 번 덮어쓴다!                                              |
+  |     => 플래시 방 [1번 칸] -> 지우개 싹싹(Erase) -> "A" 다시 씀                           |
+  |     => 플래시 방 [1번 칸] -> 또 지우개(Erase) -> "A" 다시 씀                             |
+  |     => (한 달 뒤) 플래시 방 [1번 칸] 반도체 타서 펑 골로 감(수명 끝 사망 쾅!)            |
+  |                                                                                          |
+  |  =========================v===================================                           |
+  |                                                                                          |
+  |  🔥 [ 상황 2: 삼성 F2FS (무한 뒤에 꼬리 물기 로그 렌더 스왑!) ]                          |
+  |     => 동일한 유저가 "A"의 값을 수정 저장(Save) 누름!                                    |
+  |     => 커널 F2FS 봇: "야 1번 방 치우지마. X 표시만(Invalid) 때리고 비워 둬!"             |
+  |                                                                                          |
+  |     [ 플래시 메모리 물리 방 배치도 록백 ]                                                |
+  |     [1 방] [2 방] [3 방] ... [999 방] [1000 방 맨끝 빈 공터 컷]                          |
+  |       X     정상   정상         빈칸      <-- "A"의 새 값은 무조건 999번에 매핑!         |
+  |     => (한 달 뒤 유저가 100만 번 수정을 눌렀다!)                                         |
+  |     => 1~1000 번 방까지 단 한 명도 지우개 빵(Erase 타격)을 안 맞고, 골고루               |
+  |        한 번씩 쓰이기만 했음. 수명 10,000배 향상! 무결 마스킹 렌더링 통달!               |
+  |                                                                                          |
+  |  =========================v===================================                           |
+  |                                                                                          |
+  |  ✅ [ GC 악마의 청소 십자 포화 (Garbage Collection 극한 폭파 랙) ]                       |
+  |     => (1년 뒤 1000번 방 끝까지 다 썼어 꽉 찬 디스크 Full 터짐!)                         |
+  |     => 쓰레기봇(GC) 출동: 에이 ㅆㅂ.. 앞에 처 박혀 쌓인 (X 표시 난 쓰레기 방)수십만 개를 |
+  |     밤새 고압 전기로 싹 다 일괄 청소(Erase) 빔 발싸! -> 스마트폰 일시 정지(프리징) 사망. |
+  +------------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)의 구원자인 [LFS](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)([Log-structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)) 계열 F2FS 아키텍처다. 플래시는 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 처럼 바늘(Head) 이동 시간([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 팩터가 없기 때문에 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 앞 뒤로 찢어져 저장됨)" 가 아무런 오버헤드가 되지 않는다. 이 원리를 악용하여 무조건 빈 공간을 향해 통째로 "순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Append 563 빔)" 로 갈아버리는 기적. 이로서 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))의 수명 방어 ([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) 529장) 짐을 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 차원으로 통일시켜 뽑아주는 쾌거를 이루어냈다 도출.
@@ -143,12 +143,12 @@ F2FS 와 그 위에서 굴러가는 [데이터베이스](/knowledge-base/studyno
 
 ```text
 [무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
-    │
-    ▼
+    |
+    v
 [플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
-    │
-    ├──▶ [데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
-    └──▶ [Direct I/O (O_DIRECT)]
+    |
+    +---> [데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
+    +---> [Direct I/O (O_DIRECT)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -165,7 +165,7 @@ F2FS 와 그 위에서 굴러가는 [데이터베이스](/knowledge-base/studyno
 
 **진행 상황**: 563 / 800
 
-← **이전**: [562. 무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)](/knowledge-base/studynote/02_operating_system/09_file_system/562_dm_verity_integrity_filesystem/)
-**다음**: [564. 데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능](/knowledge-base/studynote/02_operating_system/09_file_system/564_bit_rot_btrfs_self_healing/) →
+<- **이전**: [562. 무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)](/knowledge-base/studynote/02_operating_system/09_file_system/562_dm_verity_integrity_filesystem/)
+**다음**: [564. 데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능](/knowledge-base/studynote/02_operating_system/09_file_system/564_bit_rot_btrfs_self_healing/) ->
 
 ---

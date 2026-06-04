@@ -43,21 +43,21 @@ CNN은 특징을 추출하는 '[합성곱](/knowledge-base/studynote/10_ai/03_ll
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/">풀링 층</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling Layer</a>)</strong> | [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) 등을 통해 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기(해상도)를 반으로 줄여, 계산량을 압축하고 미세한 위치 변화에 강건해지도록 만든다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  합성곱 (Convolution) 연산의 과정             │
-├──────────────────────────────────────────────────────────────┤
-│  [입력 이미지 (5x5)]         [필터 (3x3)]       [특성 맵 (3x3)] │
-│  ┌─┬─┬─┬─┬─┐                                                   │
-│  │1│1│1│0│0│          ┌─┬─┬─┐               ┌─┬─┬─┐          │
-│  ├─┼─┼─┼─┼─┤          │1│0│1│               │4│3│4│          │
-│  │0│1│1│1│0│   (X)    ├─┼─┼─┤     ───▶      ├─┼─┼─┤          │
-│  ├─┼─┼─┼─┼─┤          │0│1│0│               │2│4│3│          │
-│  │0│0│1│1│1│          ├─┼─┼─┤               ├─┼─┼─┤          │
-│  ├─┼─┼─┼─┼─┤          │1│0│1│               │2│3│4│          │
-│  │0│0│1│1│0│          └─┴─┴─┘               └─┴─┴─┘          │
-│  └─┴─┴─┴─┴─┘                                                   │
-│  * 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  합성곱 (Convolution) 연산의 과정             |
++--------------------------------------------------------------+
+|  [입력 이미지 (5x5)]         [필터 (3x3)]       [특성 맵 (3x3)] |
+|  +-+-+-+-+-+                                                   |
+|  |1|1|1|0|0|          +-+-+-+               +-+-+-+          |
+|  +-+-+-+-+-+          |1|0|1|               |4|3|4|          |
+|  |0|1|1|1|0|   (X)    +-+-+-+     ---->      +-+-+-+          |
+|  +-+-+-+-+-+          |0|1|0|               |2|4|3|          |
+|  |0|0|1|1|1|          +-+-+-+               +-+-+-+          |
+|  +-+-+-+-+-+          |1|0|1|               |2|3|4|          |
+|  |0|0|1|1|0|          +-+-+-+               +-+-+-+          |
+|  +-+-+-+-+-+                                                   |
+|  * 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움           |
++--------------------------------------------------------------+
 ```
 
 얕은 층에서는 선, 윤곽 등 단순한 특징을 잡고, 층이 깊어질수록 눈, 코, 귀처럼 복잡한 추상적 패턴을 조합해 나가는 계층적 학습 구조를 가진다.
@@ -125,17 +125,17 @@ CNN은 이미지 처리 기술의 패러다임을 사람이 일일이 특징 수
 
 ```text
 이미지 플래트닝 (Flattening) 문제점 대두
-    │
-    ▼
+    |
+    v
 CNN (합성곱, 풀링) · 가중치 공유 (Weight Sharing)
-    │
-    ▼
+    |
+    v
 LeNet (초기 구조) · AlexNet (GPU 도입 딥러닝 부흥)
-    │
-    ▼
+    |
+    v
 VGG (깊이 심화) · ResNet (잔차 연결로 초심층 학습)
-    │
-    ▼
+    |
+    v
 YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)
 ```
 
@@ -151,7 +151,7 @@ YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)
 
 **진행 상황**: 161 / 587
 
-← **이전**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)
-**다음**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) →
+<- **이전**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)
+**다음**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) ->
 
 ---

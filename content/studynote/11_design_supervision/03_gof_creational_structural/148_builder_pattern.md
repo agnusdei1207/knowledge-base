@@ -33,26 +33,26 @@ tags = ["studynote-design-supervision"]
 GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 조립 지휘자(Director)와 실제 조립공([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 철저히 분리된 구조다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          GoF 전통적 빌더 패턴의 아키텍처 (Director & Builder)        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       +----------------+            +------------------+    │
-│       │   Director     │ o─────────▶│     Builder      │    │
-│       +----------------+            +------------------+    │
-│       │ + Construct()  │            │ + BuildPartA()   │    │
-│       +----------------+            │ + BuildPartB()   │    │
-│               │                     │ + GetResult()    │    │
-│               │                     +------------------+    │
-│               │                               ▲             │
-│               │                     +---------┴---------+   │
-│               │                     │  ConcreteBuilder  │   │
-│               │                     +-------------------+   │
-│               └────────────────────▶│ + BuildPartA()    │   │
-│                                     │ + BuildPartB()    │   │
-│                                     │ + GetResult()     │   │
-│                                     +-------------------+   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          GoF 전통적 빌더 패턴의 아키텍처 (Director & Builder)        |
++-------------------------------------------------------------+
+|                                                             |
+|       +----------------+            +------------------+    |
+|       |   Director     | o---------->|     Builder      |    |
+|       +----------------+            +------------------+    |
+|       | + Construct()  |            | + BuildPartA()   |    |
+|       +----------------+            | + BuildPartB()   |    |
+|               |                     | + GetResult()    |    |
+|               |                     +------------------+    |
+|               |                               ^             |
+|               |                     +---------+---------+   |
+|               |                     |  ConcreteBuilder  |   |
+|               |                     +-------------------+   |
+|               +--------------------->| + BuildPartA()    |   |
+|                                     | + BuildPartB()    |   |
+|                                     | + GetResult()     |   |
+|                                     +-------------------+   |
++-------------------------------------------------------------+
 ```
 
 **주요 역할**:
@@ -124,17 +124,17 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 
 ```text
 텔레스코핑 생성자 (Telescoping Constructor) / 매개변수 조합별로 생성자를 수십 개 만듦 (코드 중복 지옥)
-    │
-    ▼
+    |
+    v
 자바빈즈 패턴 (JavaBeans Pattern) / 기본 생성자로 만들고 Setter로 값을 넣음 (불변성 깨짐, 런타임 붕괴 위험)
-    │
-    ▼
+    |
+    v
 GoF 빌더 패턴 (Builder Pattern) / Director와 Builder를 분리해 안전하게 단계별 조립
-    │
-    ▼
+    |
+    v
 이펙티브 자바 스타일 빌더 (Static Inner Class Builder) / Director 생략, 체이닝으로 심플하게 압축
-    │
-    ▼
+    |
+    v
 Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴파일 타임에 자동 생성 (현대 자바 생태계 표준화)
 ```
 
@@ -150,7 +150,7 @@ Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴
 
 **진행 상황**: 204 / 530
 
-← **이전**: [147. 추상 팩토리 (Abstract Factory) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/)
-**다음**: [149. 프로토타입 패턴 (Prototype Pattern) - 객체 복제를 통한 생성 최적화](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/) →
+<- **이전**: [147. 추상 팩토리 (Abstract Factory) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/)
+**다음**: [149. 프로토타입 패턴 (Prototype Pattern) - 객체 복제를 통한 생성 최적화](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/) ->
 
 ---

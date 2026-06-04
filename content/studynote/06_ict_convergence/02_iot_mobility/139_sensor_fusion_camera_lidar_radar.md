@@ -47,9 +47,9 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[단일 센서 (카메라, 2010s)] → [LiDAR + 카메라 퓨전 (2015)]
-    → [Tesla Camera Only (2021)] → [BEV Fusion (2022)]
-    → [현재: Transformer 기반 통합 퓨전]
+[단일 센서 (카메라, 2010s)] -> [LiDAR + 카메라 퓨전 (2015)]
+    -> [Tesla Camera Only (2021)] -> [BEV Fusion (2022)]
+    -> [현재: Transformer 기반 통합 퓨전]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 139 / 552
 
-← **이전**: [138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/138_autonomous_vehicle_level_4_high_automation/)
-**다음**: [140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) →
+<- **이전**: [138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/138_autonomous_vehicle_level_4_high_automation/)
+**다음**: [140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) ->
 
 ---

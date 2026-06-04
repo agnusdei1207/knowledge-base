@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [eBPF 커널 네트워킹 후킹 시스템]
-    │
-    └──▶ [P4 네트워크 프로그래밍 모델 플로우]
+    |
+    +---> [P4 네트워크 프로그래밍 모델 플로우]
 ```
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [eBPF 커널 네트워킹 후킹 시스템]
-    │
-    └──▶ [P4 네트워크 프로그래밍 모델 플로우]
+    |
+    +---> [P4 네트워크 프로그래밍 모델 플로우]
 ```
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [현재 개념: eBPF 커널 네트워킹 후킹 시스템]
-    │
-    ├──▶ [확장 A: P4 네트워크 프로그래밍 모델 플로우]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: P4 네트워크 프로그래밍 모델 플로우]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 149 / 1120
 
-← **이전**: [1044. 마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)
-**다음**: [1046. P4 네트워크 프로그래밍 모델 플로우](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1046_p4_programming_protocol_independent_packet_processors/) →
+<- **이전**: [1044. 마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)
+**다음**: [1046. P4 네트워크 프로그래밍 모델 플로우](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1046_p4_programming_protocol_independent_packet_processors/) ->
 
 ---

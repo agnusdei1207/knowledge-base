@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 예측 실패가 단순 오답이 아니라, "잘못된 경로를 일정 시간 진짜로 달린 뒤 되돌아오는 일"이라는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Wrong-path work must be flushed and refilled             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ cycle 0 : branch fetched, predictor says TAKEN                            │
-│ cycle 1 : wrong-path instructions enter decode / rename                   │
-│ cycle 2 : wrong-path ops occupy ROB / Issue Queue / Load-Store Queue      │
-│ cycle 3 : branch executes, actual = NOT-TAKEN                             │
-│ cycle 4 : flush wrong-path state, redirect fetch PC                        │
-│ cycle 5~ : fetch correct path, decode again, backend refills               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   Wrong-path work must be flushed and refilled             |
++----------------------------------------------------------------------------+
+| cycle 0 : branch fetched, predictor says TAKEN                            |
+| cycle 1 : wrong-path instructions enter decode / rename                   |
+| cycle 2 : wrong-path ops occupy ROB / Issue Queue / Load-Store Queue      |
+| cycle 3 : branch executes, actual = NOT-TAKEN                             |
+| cycle 4 : flush wrong-path state, redirect fetch PC                        |
+| cycle 5~ : fetch correct path, decode again, backend refills               |
++----------------------------------------------------------------------------+
 ```
 
 즉 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 "분기 하나를 다시 계산하는 시간"이 아니라, <strong>잘못된 투기 실행을 정리하고 올바른 경로로 파이프라인을 다시 채우는 전체 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong>이라고 봐야 한다.
@@ -133,24 +133,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 No branch prediction
-      │
-      ▼
+      |
+      v
 Static prediction
-      │
-      ▼
+      |
+      v
 Dynamic Branch History Table (BHT) / BTB predictors
-      │
-      ▼
+      |
+      v
 Deep pipeline + speculative OoO
-      │
-      ▼
+      |
+      v
 High misprediction penalty awareness
-      │
-      ▼
+      |
+      v
 Tagged Geometric History Length (TAGE) / perceptron / branchless mitigation
 ```
 
-이 흐름은 "예측 부재 → 동적 예측 도입 → 깊은 파이프라인으로 인한 페널티 확대 → 더 정교한 예측과 소프트웨어 완화"로 이어진 진화를 요약한다.
+이 흐름은 "예측 부재 -> 동적 예측 도입 -> 깊은 파이프라인으로 인한 페널티 확대 -> 더 정교한 예측과 소프트웨어 완화"로 이어진 진화를 요약한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ Tagged Geometric History Length (TAGE) / perceptron / branchless mitigation
 
 **진행 상황**: 503 / 803
 
-← **이전**: [502. 비순차 실행 윈도우 (Out-of-Order Execution Window)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/502_ooo_window/)
-**다음**: [504. 캐시 웨이 예측 (Cache Way Prediction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/504_cache_way_prediction/) →
+<- **이전**: [502. 비순차 실행 윈도우 (Out-of-Order Execution Window)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/502_ooo_window/)
+**다음**: [504. 캐시 웨이 예측 (Cache Way Prediction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/504_cache_way_prediction/) ->
 
 ---

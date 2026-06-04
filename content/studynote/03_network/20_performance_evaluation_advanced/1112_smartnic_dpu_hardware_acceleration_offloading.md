@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DPDK 패킷 바이패스]
-    │
-    ▼
+    |
+    v
 [스마트NIC 가속 오프로딩 시스템]
-    │
-    └──▶ [5G SA/NSA 아키텍처 비교망]
+    |
+    +---> [5G SA/NSA 아키텍처 비교망]
 ```
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [DPDK 패킷 바이패스]
-    │
-    ▼
+    |
+    v
 [스마트NIC 가속 오프로딩 시스템]
-    │
-    └──▶ [5G SA/NSA 아키텍처 비교망]
+    |
+    +---> [5G SA/NSA 아키텍처 비교망]
 ```
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DPDK 패킷 바이패스]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스마트NIC 가속 오프로딩 시스템]
-    │
-    ├──▶ [확장 A: 5G SA/NSA 아키텍처 비교망]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 5G SA/NSA 아키텍처 비교망]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 223 / 1120
 
-← **이전**: [1111. DPDK 패킷 바이패스](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1111_dpdk_data_plane_development_kit_kernel_bypass/)
-**다음**: [1113. 5G SA/NSA 아키텍처 비교망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1113_5g_sa_nsa_standalone_non_standalone_architecture/) →
+<- **이전**: [1111. DPDK 패킷 바이패스](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1111_dpdk_data_plane_development_kit_kernel_bypass/)
+**다음**: [1113. 5G SA/NSA 아키텍처 비교망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1113_5g_sa_nsa_standalone_non_standalone_architecture/) ->
 
 ---

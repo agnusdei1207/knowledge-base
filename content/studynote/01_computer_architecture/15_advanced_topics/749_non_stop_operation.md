@@ -31,24 +31,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무정전 운영의 핵심 메커니즘은 <strong>중복 실행 → 비교/투표 → <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 격리 → 상태 재동기화</strong>의 연쇄다. 가장 엄격한 형태는 두 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 같은 순서로 실행하는 <strong>이중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Dual Modular Redundancy, DMR)</strong> 또는 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 다수결을 수행하는 <strong>삼중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Triple Modular Redundancy, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/">TMR</a>)</strong> 이다. 여기에 오류 정정 코드 (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 메모리, 이중 전원 경로, 중복 인터커넥트, 핫스왑 부품이 결합되면 단일 고장이 전체 중단으로 번지지 않는다.
+무정전 운영의 핵심 메커니즘은 <strong>중복 실행 -> 비교/투표 -> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 격리 -> 상태 재동기화</strong>의 연쇄다. 가장 엄격한 형태는 두 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 같은 순서로 실행하는 <strong>이중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Dual Modular Redundancy, DMR)</strong> 또는 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 다수결을 수행하는 <strong>삼중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Triple Modular Redundancy, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/">TMR</a>)</strong> 이다. 여기에 오류 정정 코드 (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 메모리, 이중 전원 경로, 중복 인터커넥트, 핫스왑 부품이 결합되면 단일 고장이 전체 중단으로 번지지 않는다.
 
 아래 그림은 Non-Stop 아키텍처가 "예비 장비를 세워 둔다" 수준을 넘어, <strong>실행 상태를 동시에 유지하고 문제 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>만 떼어내는 방식</strong>임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Non-Stop path: duplicate, compare, isolate, resync           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Input stream                                                        │
-│    │                                                                 │
-│    ├──▶ CPU-A + Mem-A + I/O-A ──┐                                    │
-│    │                            ├──▶ compare / vote ──▶ output       │
-│    └──▶ CPU-B + Mem-B + I/O-B ──┘                                    │
-│                     │                                                 │
-│                     ├── fault detected ──▶ isolate bad module         │
-│                     │                                                 │
-│                     └── spare or hot-swap module ─▶ state resync      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Non-Stop path: duplicate, compare, isolate, resync           |
++----------------------------------------------------------------------+
+| Input stream                                                        |
+|    |                                                                 |
+|    +---> CPU-A + Mem-A + I/O-A --+                                    |
+|    |                            +---> compare / vote ---> output       |
+|    +---> CPU-B + Mem-B + I/O-B --+                                    |
+|                     |                                                 |
+|                     +-- fault detected ---> isolate bad module         |
+|                     |                                                 |
+|                     +-- spare or hot-swap module --> state resync      |
++----------------------------------------------------------------------+
 ```
 
 이때 중요한 것은 <strong>공유 자원의 최소화</strong>다. CPU만 두 개이고 메모리 컨트롤러나 전원 백플레인이 하나라면 숨은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 남는다. 그래서 고신뢰성 장비는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위를 크게 잡아 프로세서, 메모리, I/O 경로, 전원 공급을 묶어서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나, 최소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파를 막는 격리 경계를 분명히 둔다.
@@ -138,23 +138,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 서버 + 수동 복구
-    │
-    ▼
+    |
+    v
 고가용성 (High Availability, HA)
 : 장애 감지 후 전환
-    │
-    ▼
+    |
+    v
 결함 허용 (Fault Tolerance, FT)
 : 중복 실행 · 상태 보존
-    │
-    ▼
+    |
+    v
 무정전 운영 (Non-Stop Operation) 아키텍처
 : lockstep · mirrored I/O · hot swap
-    │
-    ├──▶ 결함 주입 테스트 (Fault Injection Test)
-    │     : 실제 무중단 동작 검증
-    │
-    └──▶ FMEA / FTA 기반 신뢰성 설계
+    |
+    +---> 결함 주입 테스트 (Fault Injection Test)
+    |     : 실제 무중단 동작 검증
+    |
+    +---> FMEA / FTA 기반 신뢰성 설계
           : SPOF 제거 · 공통 원인 장애 분석
 ```
 
@@ -170,7 +170,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 750 / 803
 
-← **이전**: [748. 과열 보호 (OTP, Over Temperature Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/)
-**다음**: [750. 결함 주입 테스트 (Fault Injection Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) →
+<- **이전**: [748. 과열 보호 (OTP, Over Temperature Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/)
+**다음**: [750. 결함 주입 테스트 (Fault Injection Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) ->
 
 ---

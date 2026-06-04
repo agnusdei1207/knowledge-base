@@ -19,17 +19,17 @@ tags = ["studynote-computer-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│     2변수 A, B의 최소항(m) · 최대항(M) 전체 목록           │
-├────┬───┬───┬────────────────┬────────────────────────────┤
-│ 행 │ A │ B │ Minterm (mi)   │ Maxterm (Mi)               │
-├────┼───┼───┼────────────────┼────────────────────────────┤
-│  0 │ 0 │ 0 │ m0 = A'B'      │ M0 = A + B                 │
-│  1 │ 0 │ 1 │ m1 = A'B       │ M1 = A + B'                │
-│  2 │ 1 │ 0 │ m2 = AB'       │ M2 = A'+ B                 │
-│  3 │ 1 │ 1 │ m3 = AB        │ M3 = A'+ B'                │
-└────┴───┴───┴────────────────┴────────────────────────────┘
-  mi = 1이 되는 조합 하나만  │  Mi = 0이 되는 조합 하나만
++----------------------------------------------------------+
+|     2변수 A, B의 최소항(m) · 최대항(M) 전체 목록           |
++----+---+---+----------------+----------------------------+
+| 행 | A | B | Minterm (mi)   | Maxterm (Mi)               |
++----+---+---+----------------+----------------------------+
+|  0 | 0 | 0 | m0 = A'B'      | M0 = A + B                 |
+|  1 | 0 | 1 | m1 = A'B       | M1 = A + B'                |
+|  2 | 1 | 0 | m2 = AB'       | M2 = A'+ B                 |
+|  3 | 1 | 1 | m3 = AB        | M3 = A'+ B'                |
++----+---+---+----------------+----------------------------+
+  mi = 1이 되는 조합 하나만  |  Mi = 0이 되는 조합 하나만
 ```
 
 - **📢 섹션 요약 비유**: 최소항은 자물쇠 잠금 코드다. 3자리 코드(A,B,C)에서 오직 '101' 조합에서만 자물쇠(AND)가 열린다. 최대항은 반대로 오직 '010' 조합에서만 잠금(OR=0)된다.
@@ -44,13 +44,13 @@ tags = ["studynote-computer-architecture"]
 진리표: F(A,B,C)
 A B C | F
 0 0 0 | 0
-0 0 1 | 1  ← m1
+0 0 1 | 1  <- m1
 0 1 0 | 0
-0 1 1 | 1  ← m3
+0 1 1 | 1  <- m3
 1 0 0 | 0
-1 0 1 | 1  ← m5
+1 0 1 | 1  <- m5
 1 1 0 | 0
-1 1 1 | 1  ← m7
+1 1 1 | 1  <- m7
 
 SOP = Σm(1,3,5,7) = A'B'C + A'BC + AB'C + ABC = C
 POS = ΠM(0,2,4,6) = (A+B+C)(A+B'+C)(A'+B+C)(A'+B'+C) = C
@@ -60,8 +60,8 @@ POS = ΠM(0,2,4,6) = (A+B+C)(A+B'+C)(A'+B+C)(A'+B'+C) = C
 
 ```text
 mi 와 Mi는 드모르간 법칙으로 서로 보수:
-m0 = A'B' →  보수 취하면  → A + B = M0
-m1 = A'B  →  보수 취하면  → A + B' = M1
+m0 = A'B' ->  보수 취하면  -> A + B = M0
+m1 = A'B  ->  보수 취하면  -> A + B' = M1
 
 F = Σm(1,3) = ΠM(0,2)
 즉, SOP에 포함된 Minterm 번호와
@@ -78,7 +78,7 @@ F = Σm(1,3) = ΠM(0,2)
 |:---|:---|:---|
 | **구성 단위** | 최소항 AND로 묶음 | 최대항 OR로 묶음 |
 | **F=1 조건** | 포함된 최소항이 1일 때 | 모든 최대항이 1일 때 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a></strong> | AND → OR (2단) | OR → AND (2단) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a></strong> | AND -> OR (2단) | OR -> AND (2단) |
 | **최적화 도구** | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (1 묶기) | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (0 묶기) |
 
 - **📢 섹션 요약 비유**: SOP는 "이 재료들이 있으면 요리 완성(OR/합)", POS는 "이 재료들이 하나라도 빠지면 요리 실패(AND/곱)"이다. 결과는 같지만 레시피 작성 방식이 다르다.
@@ -133,17 +133,17 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 
 ```text
 [진리표 — 입출력 완전 정의]
-    │
-    ▼
+    |
+    v
 [최소항/최대항 — SOP/POS 표준형 변환]
-    │
-    ▼
+    |
+    v
 [카르노 맵 — 최소항 그룹화로 간소화]
-    │
-    ▼
+    |
+    v
 [논리 게이트 회로 — AND/OR/NOT 구현]
-    │
-    ▼
+    |
+    v
 [EDA 논리 합성 — 자동 최적화 회로 생성]
 ```
 
@@ -159,7 +159,7 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 
 **진행 상황**: 26 / 803
 
-← **이전**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)
-**다음**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) →
+<- **이전**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)
+**다음**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) ->
 
 ---

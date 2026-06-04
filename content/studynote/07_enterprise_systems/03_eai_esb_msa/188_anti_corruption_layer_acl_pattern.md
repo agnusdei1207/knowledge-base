@@ -34,16 +34,16 @@ ACL은 보통 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture
 아래 그림은 ACL이 의미 체계를 어떻게 격리하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Domain protection with ACL                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ New Service -> Canonical Model -> ACL -> Legacy API / DB            │
-│                   ▲                │                                  │
-│                   │                ├─ request mapping                │
-│                   │                ├─ response mapping               │
-│                   │                └─ error / code translation       │
-│                   └──── domain purity preserved                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Domain protection with ACL                                           |
++----------------------------------------------------------------------+
+| New Service -> Canonical Model -> ACL -> Legacy API / DB            |
+|                   ^                |                                  |
+|                   |                +- request mapping                |
+|                   |                +- response mapping               |
+|                   |                +- error / code translation       |
+|                   +---- domain purity preserved                      |
++----------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | 설계 포인트 |
@@ -127,17 +127,17 @@ ACL이 잘 설계되면 신규 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ```text
 레거시 직접 연동의 의미 오염
-        │
-        ▼
+        |
+        v
 어댑터 / 퍼사드 기반 인터페이스 정리
-        │
-        ▼
+        |
+        v
 ACL을 통한 도메인 번역 계층 도입
-        │
-        ▼
+        |
+        v
 계약 테스트 · 표준 모델 정착
-        │
-        ▼
+        |
+        v
 레거시 교체 시 경계만 유지하고 뒤편 교체
 ```
 
@@ -155,7 +155,7 @@ ACL을 통한 도메인 번역 계층 도입
 
 **진행 상황**: 188 / 482
 
-← **이전**: [187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/187_strangler_fig_pattern_msa_migration/)
-**다음**: [189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/189_multi_tenant_database_architecture_saas/) →
+<- **이전**: [187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/187_strangler_fig_pattern_msa_migration/)
+**다음**: [189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/189_multi_tenant_database_architecture_saas/) ->
 
 ---

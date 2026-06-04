@@ -32,18 +32,18 @@ tags = ["studynote-operating-system"]
 이 도식은 애플리케이션이 복잡한 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 직접 다루지 않고, 표준 API와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 통해 어떻게 일관된 인터페이스를 제공받는지 시여한다.
 
 ```text
-  ┌──────────────────────────────┐
-  │      User Application        │
-  └──────────────┬───────────────┘
-                 │ (1) Standard API Call (e.g., fopen)
-  ┌──────────────▼───────────────┐
-  │    POSIX / Win32 Library     │ ◀── 추상화 계층 (Abstraction Layer)
-  └──────────────┬───────────────┘
-                 │ (2) Internal System Call (Trap)
-  ┌──────────────▼───────────────┐
-  │      Operating System        │
-  │  [Linux]  [FreeBSD]  [macOS] │ ◀── 서로 다른 내부 구현
-  └──────────────────────────────┘
+  +------------------------------+
+  |      User Application        |
+  +--------------+---------------+
+                 | (1) Standard API Call (e.g., fopen)
+  +--------------v---------------+
+  |    POSIX / Win32 Library     | <--- 추상화 계층 (Abstraction Layer)
+  +--------------+---------------+
+                 | (2) Internal System Call (Trap)
+  +--------------v---------------+
+  |      Operating System        |
+  |  [Linux]  [FreeBSD]  [macOS] | <--- 서로 다른 내부 구현
+  +------------------------------+
 ```
 
 **[다이어그램 해설]** 개발자는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 복잡한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 번호나 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 규약을 알 필요가 없다. 단지 `fopen()`이라는 POSIX 표준 API를 호출할 뿐이다. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 계층 (예: `libc`)은 이 요청을 받아 리눅스 환경이라면 리눅스의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 번호로 변환하고, BSD 환경이라면 해당 환경에 맞는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 변환하여 처리한다. 이 구조의 핵심은 "상위 계층은 하위 계층의 변화에 무관하다"는 캡슐화와 정보 은닉에 있다. 결과적으로 API는 애플리케이션과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 사이의 거대한 방화벽이자 번역기 역할을 수행하여 개발 생산성을 극대화한다.
@@ -68,15 +68,15 @@ tags = ["studynote-operating-system"]
 POSIX가 다루는 기술 영역은 단순히 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 넘어 프로세스 관리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 셸 환경 등을 포괄한다. 이 다이어그램은 POSIX.1부터 확장 규격까지의 범위를 보여준다.
 
 ```text
- ┌───────────────────────────────────────────────────────────┐
- │                  POSIX Standard (IEEE 1003)               │
- ├──────────────────┬──────────────────┬─────────────────────┤
- │  [POSIX.1]       │  [POSIX.2]       │ [Extended POSIX]    │
- │  - System Inter. │  - Shell & Utils │ - Threads (pthreads)│
- │  - File I/O      │  - Command Line  │ - Real-time Ext.    │
- │  - Signals       │  - Scripting     │ - Network (Sockets) │
- └────────┬─────────┴────────┬─────────┴────────┬────────────┘
-          │                  │                               │
+ +-----------------------------------------------------------+
+ |                  POSIX Standard (IEEE 1003)               |
+ +------------------+------------------+---------------------+
+ |  [POSIX.1]       |  [POSIX.2]       | [Extended POSIX]    |
+ |  - System Inter. |  - Shell & Utils | - Threads (pthreads)|
+ |  - File I/O      |  - Command Line  | - Real-time Ext.    |
+ |  - Signals       |  - Scripting     | - Network (Sockets) |
+ +--------+---------+--------+---------+--------+------------+
+          |                  |                               |
    [C Library API]    [Shell Interface]   [System Services]
 ```
 
@@ -133,16 +133,16 @@ int main() {
 
 ```text
     [User APIs]             [System Calls]
-  ┌─────────────┐         ┌─────────────────┐
-  │   printf()  │──┐   ┌──▶│    write()     │ (N:1)
-  │   puts()    │──┴───┘   └────────────────┘
-  │   fprintf() │──┐       ┌────────────────┐
-  └─────────────┘  └──▶───▶│    open()      │ (1:1)
-                           └────────────────┘
-  ┌─────────────┐          ┌────────────────┐
-  │   malloc()  │─────▶────│    brk()       │ (1:N)
-  └─────────────┘     └────│    mmap()      │
-                           └────────────────┘
+  +-------------+         +-----------------+
+  |   printf()  |--+   +--->|    write()     | (N:1)
+  |   puts()    |--+---+   +----------------+
+  |   fprintf() |--+       +----------------+
+  +-------------+  +--->---->|    open()      | (1:1)
+                           +----------------+
+  +-------------+          +----------------+
+  |   malloc()  |------>----|    brk()       | (1:N)
+  +-------------+     +----|    mmap()      |
+                           +----------------+
 ```
 
 **[다이어그램 해설]** API와 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)은 반드시 1:1로 대응하지 않는다. ① **N:1 매핑**: `printf()`, `puts()`, `fprintf()` 등 다양한 출력 API는 결국 내부적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 화면에 쓰는 `write()`라는 하나의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)로 수렴한다. 이는 사용자 편의를 위해 다양한 인터페이스를 제공하면서도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 단순하게 유지하는 전략이다. ② **1:N 매핑**: 메모리 할당 API인 `malloc()`은 요청 크기에 따라 작은 메모리는 `brk()`를, 큰 메모리는 `mmap()` [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 사용하는 등 내부적으로 복잡한 판단 로직을 가진다. 이러한 유연성 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 내부 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 로직을 API 사용자 몰래 변경할 수 있으며, 이는 시스템 진화의 핵심 동력이 된다.
@@ -173,17 +173,17 @@ int main() {
 
 ```text
  [OS Specific Task?]
-                │
-    ┌─────┴─────┐
+                |
+    +-----+-----+
   [No]        [Yes]
-    │           │
-    ▼           ▼
+    |           |
+    v           v
 [Use POSIX API] [Create Abstraction Layer]
-    │           │ (e.g., #ifdef __LINUX__)
-    │           ▼
-    └──────▶ [Unified Application Code]
-                │
-                ▼
+    |           | (e.g., #ifdef __LINUX__)
+    |           v
+    +-------> [Unified Application Code]
+                |
+                v
       [Compile for Target OS]
 ```
 
@@ -233,17 +233,17 @@ int main() {
 
 ```text
 [시스템 호출 (System Call) — 커널 기능을 사용자 공간에 노출]
-    │
-    ▼
+    |
+    v
 [POSIX (Portable Operating System Interface) — 유닉스 계열 표준 API 규격]
-    │
-    ▼
+    |
+    v
 [표준 C 라이브러리 (libc) — POSIX 래핑, 언어 수준 이식성 보장]
-    │
-    ▼
+    |
+    v
 [컨테이너 런타임 (Container Runtime) — POSIX 네임스페이스·cgroups 추상화]
-    │
-    ▼
+    |
+    v
 [클라우드 네이티브 API (REST/gRPC) — 플랫폼 독립 분산 인터페이스로 진화]
 ```
 
@@ -263,7 +263,7 @@ int main() {
 
 **진행 상황**: 14 / 800
 
-← **이전**: [13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)
-**다음**: [15. ABI (Application Binary Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/) →
+<- **이전**: [13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)
+**다음**: [15. ABI (Application Binary Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/) ->
 
 ---

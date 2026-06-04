@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-엣지 아키텍처는 보통 `디바이스/센서 → 엣지 노드 → 리전/클라우드`의 계층으로 구성된다. 엣지 노드는 필터링, 추론, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 로컬 제어를 수행하고, 중앙 클라우드는 장기 저장, 모델 업데이트, 전역 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 담당한다.
+엣지 아키텍처는 보통 `디바이스/센서 -> 엣지 노드 -> 리전/클라우드`의 계층으로 구성된다. 엣지 노드는 필터링, 추론, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 로컬 제어를 수행하고, 중앙 클라우드는 장기 저장, 모델 업데이트, 전역 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 담당한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | Sync Layer | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [offline-first](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/), conflict handling |
 
 ```text
-┌──────────────┐   telemetry   ┌──────────────┐   summarized  ┌──────────────┐
-│ Devices      │ ───────────▶ │ Edge Node    │ ─────────────▶ │ Cloud Core   │
-└──────────────┘              └──────────────┘                └──────────────┘
-        │                              │                               │
-        │ local event                  │ local infer / cache           │ model update
-        ▼                              ▼                               ▼
-┌──────────────┐              ┌──────────────┐                ┌──────────────┐
-│ Actuator     │ ◀─────────── │ Local Policy │ ◀───────────── │ Control Plane│
-└──────────────┘              └──────────────┘                └──────────────┘
++--------------+   telemetry   +--------------+   summarized  +--------------+
+| Devices      | ------------> | Edge Node    | --------------> | Cloud Core   |
++--------------+              +--------------+                +--------------+
+        |                              |                               |
+        | local event                  | local infer / cache           | model update
+        v                              v                               v
++--------------+              +--------------+                +--------------+
+| Actuator     | <------------ | Local Policy | <-------------- | Control Plane|
++--------------+              +--------------+                +--------------+
 ```
 
 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 보내지 않고, 가치가 높은 요약·이상징후·집계만 올리는 것이다. 또한 연결이 끊겨도 최소 기능은 유지하는 [Offline-first](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) 설계가 중요하다. 엣지 노드가 많아질수록 소프트웨어 배포와 보안 패치도 중앙에서 통제할 수 있어야 한다.
@@ -119,18 +119,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Centralized Cloud Processing
-   │
-   ▼
+   |
+   v
 CDN / Caching at the Edge
-   │
-   ▼
+   |
+   v
 Edge Compute / Local Inference
-   │
-   ▼
+   |
+   v
 Autonomous Edge + Cloud Coordination
 ```
 
-이 흐름은 “중앙 처리 → 콘텐츠 캐시 → 현장 연산 → 자율 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영”으로 엣지 개념이 확장되는 방향을 보여준다.
+이 흐름은 “중앙 처리 -> 콘텐츠 캐시 -> 현장 연산 -> 자율 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영”으로 엣지 개념이 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -144,7 +144,7 @@ Autonomous Edge + Cloud Coordination
 
 **진행 상황**: 350 / 373
 
-← **이전**: [349. 하이브리드 멀티 클라우드 록인 회피 (Hybrid Multi-Cloud)](/knowledge-base/studynote/15_devops_sre/05_devsecops/349_process/)
-**다음**: [351. 양자 컴퓨팅 쇼어 알고리즘·양자 내성 암호 적용 (Quantum Computing and Post-Quantum Cryptography)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/351_process/) →
+<- **이전**: [349. 하이브리드 멀티 클라우드 록인 회피 (Hybrid Multi-Cloud)](/knowledge-base/studynote/15_devops_sre/05_devsecops/349_process/)
+**다음**: [351. 양자 컴퓨팅 쇼어 알고리즘·양자 내성 암호 적용 (Quantum Computing and Post-Quantum Cryptography)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/351_process/) ->
 
 ---

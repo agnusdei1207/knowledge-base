@@ -10,7 +10,7 @@ tags = ["math-mining", "studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색 (Association Rule Mining)은 거래 데이터에서 X → Y 형태의 동시 발생 패턴을 찾아내는 규칙 기반 마이닝이다.
+- **본질**: [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색 (Association Rule Mining)은 거래 데이터에서 X -> Y 형태의 동시 발생 패턴을 찾아내는 규칙 기반 마이닝이다.
 - **가치**: [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)), [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))를 함께 봐야 빈도·신뢰·우연 초과 여부를 분리해서 판단할 수 있다.
 - **판단 포인트**: Apriori 알고리즘은 해석성과 단순성이 강점이지만 후보 집합 폭발이 커서, 데이터가 크면 FP-Growth (Frequent Pattern Growth)로 넘어가야 한다.
 
@@ -23,11 +23,11 @@ tags = ["math-mining", "studynote-data-engineering"]
 이 기법이 필요한 이유는 추천과 진열이 직관만으로는 부족하기 때문이다. 어떤 상품을 가까이 두어야 하는지, 어떤 묶음 쿠폰을 설계해야 하는지, 어떤 장애 경보가 함께 뜨는지 같은 문제는 거래 단위의 관계를 찾아야 풀린다. 여기서 중요한 점은 연관이 곧 인과는 아니라는 사실이다. 규칙은 "같이 나타난다"를 말할 뿐, "원인"을 말하지 않는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 거래 데이터 → 빈발 항목 집합 → 연관 규칙 → 추천/진열         │
-├──────────────────────────────────────────────────────────────┤
-│ T1 {빵, 우유}  T2 {빵, 계란}  T3 {우유, 기저귀}              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 거래 데이터 -> 빈발 항목 집합 -> 연관 규칙 -> 추천/진열         |
++--------------------------------------------------------------+
+| T1 {빵, 우유}  T2 {빵, 계란}  T3 {우유, 기저귀}              |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 영수증 더미를 쌓아 놓고 "무엇이 같이 자주 나왔는가"를 찾는 마트 탐정이다.
@@ -36,7 +36,7 @@ tags = ["math-mining", "studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)의 형태는 X → Y다. 여기서 X가 나오면 Y가 얼마나 자주 따라오는지를 지표로 평가한다. 기본 지표는 세 가지다. [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))는 함께 등장한 전체 빈도, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))는 X가 있을 때 Y가 따라올 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/), [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))는 Y의 원래 인기와 비교해 규칙이 얼마나 우연을 넘어서는지를 본다.
+[연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)의 형태는 X -> Y다. 여기서 X가 나오면 Y가 얼마나 자주 따라오는지를 지표로 평가한다. 기본 지표는 세 가지다. [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))는 함께 등장한 전체 빈도, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))는 X가 있을 때 Y가 따라올 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/), [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))는 Y의 원래 인기와 비교해 규칙이 얼마나 우연을 넘어서는지를 본다.
 
 | 지표 | 수식 | 해석 |
 | :--- | :--- | :--- |
@@ -47,10 +47,10 @@ tags = ["math-mining", "studynote-data-engineering"]
 Apriori 알고리즘은 빈발하지 않은 집합의 상위 집합은 빈발할 수 없다는 Apriori 원리를 쓴다. 그래서 작은 집합부터 시작해 후보를 만들고, [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)를 통과한 것만 다음 단계로 넘긴다. 이 방식은 반복 스캔이 많아도 해석이 쉽고, 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 설명하기 좋다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│ L1 빈발  ─►  C2 후보 생성  ─►  지지도 검사  ─►  L2 빈발         │
-│   │                      └── 비빈발 item 제거 → 상위집합 차단   │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+| L1 빈발  -►  C2 후보 생성  -►  지지도 검사  -►  L2 빈발         |
+|   |                      +-- 비빈발 item 제거 -> 상위집합 차단   |
++----------------------------------------------------------------+
 ```
 
 최소 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) (Min [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))와 최소 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) (Min [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))는 규칙의 문턱값이다. [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)는 "너무 희귀한 조합"을 거르고, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 "방향성이 약한 규칙"을 거른다. [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)는 거기서 한 번 더 걸러, 그냥 많이 팔리는 상품이 섞인 착시를 줄인다. 계산 복잡도는 최악의 경우 O(2^N)에 가깝다.
@@ -113,17 +113,17 @@ Apriori와 FP-Growth (Frequent Pattern Growth)는 같은 목표를 향하지만,
 
 ```text
 거래 데이터
-    │
-    ▼
+    |
+    v
 빈발 항목 집합
-    │
-    ▼
+    |
+    v
 Apriori / FP-Growth
-    │
-    ▼
-연관 규칙 (X → Y)
-    │
-    ▼
+    |
+    v
+연관 규칙 (X -> Y)
+    |
+    v
 진열 최적화 · 번들 추천 · 교차 판매
 ```
 
@@ -139,7 +139,7 @@ Apriori / FP-Growth
 
 **진행 상황**: 83 / 258
 
-← **이전**: [82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/)
-**다음**: [84. 지지도 (Support) - 연관 규칙 평가 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) →
+<- **이전**: [82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/)
+**다음**: [84. 지지도 (Support) - 연관 규칙 평가 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: VRAM (Video RAM) 부족은 대형 모델 학습의 핵심 병목이며, [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Redundancy [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태·그래디언트·파라미터를 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간에 분할해 중복 저장을 제거함으로써 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한계를 돌파한다.
 > 2. **가치**: [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 3 적용 시 N개 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용 시 메모리 소비를 이론적으로 1/N 수준으로 줄여, 수백억 파라미터 모델을 소규모 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터로 학습 가능하게 한다.
-> 3. **판단 포인트**: 기술사 답안에서는 "Stage 1→2→3 순으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 범위가 확대되고 통신 오버헤드도 증가한다"는 트레이드오프를 반드시 언급해야 한다.
+> 3. **판단 포인트**: 기술사 답안에서는 "Stage 1->2->3 순으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 범위가 확대되고 통신 오버헤드도 증가한다"는 트레이드오프를 반드시 언급해야 한다.
 
 ---
 
@@ -34,16 +34,16 @@ tags = ["studynote-ai"]
 
 ### 기존 해법의 한계
 
-- <strong>DDP (Distributed <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Parallel)</strong>: 각 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가 전체 모델 사본을 보유 → VRAM 절감 없음
+- <strong>DDP (Distributed <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Parallel)</strong>: 각 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가 전체 모델 사본을 보유 -> VRAM 절감 없음
 - <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 (Tensor/<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a> Parallelism)</strong>: 구현 복잡도 높고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 버블 발생
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: VRAM 부족 문제는 "10명이 같은 두꺼운 교재를 각자 다 사서 들고 다니는" DDP 방식의 낭비와 같다. [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 는 "교재를 10등분해서 한 명이 한 챕터씩만 들고 다니되, 필요할 때 빌려 쓰는" 도서관 방식이다.
@@ -55,48 +55,48 @@ tags = ["studynote-ai"]
 ### [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 1 / 2 / 3 분할 범위
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│           ZeRO (Zero Redundancy Optimizer) Stage 비교           │
-├────────────┬──────────────┬──────────────┬──────────────────────┤
-│  구성 요소  │   Stage 1    │   Stage 2    │       Stage 3        │
-├────────────┼──────────────┼──────────────┼──────────────────────┤
-│ 옵티마이저  │  분할(Shard) │  분할(Shard) │    분할(Shard)       │
-│   상태     │              │              │                      │
-├────────────┼──────────────┼──────────────┼──────────────────────┤
-│ 그래디언트  │    각 GPU    │  분할(Shard) │    분할(Shard)       │
-│            │   전체 보유  │              │                      │
-├────────────┼──────────────┼──────────────┼──────────────────────┤
-│  파라미터  │    각 GPU    │   각 GPU     │    분할(Shard)       │
-│            │   전체 보유  │  전체 보유   │                      │
-├────────────┼──────────────┼──────────────┼──────────────────────┤
-│ 메모리 절감 │    ~4x       │    ~8x       │    ~Nx (N=GPU수)     │
-├────────────┼──────────────┼──────────────┼──────────────────────┤
-│ 통신 비용  │   적음        │   보통        │    높음              │
-└────────────┴──────────────┴──────────────┴──────────────────────┘
++-----------------------------------------------------------------+
+|           ZeRO (Zero Redundancy Optimizer) Stage 비교           |
++------------+--------------+--------------+----------------------+
+|  구성 요소  |   Stage 1    |   Stage 2    |       Stage 3        |
++------------+--------------+--------------+----------------------+
+| 옵티마이저  |  분할(Shard) |  분할(Shard) |    분할(Shard)       |
+|   상태     |              |              |                      |
++------------+--------------+--------------+----------------------+
+| 그래디언트  |    각 GPU    |  분할(Shard) |    분할(Shard)       |
+|            |   전체 보유  |              |                      |
++------------+--------------+--------------+----------------------+
+|  파라미터  |    각 GPU    |   각 GPU     |    분할(Shard)       |
+|            |   전체 보유  |  전체 보유   |                      |
++------------+--------------+--------------+----------------------+
+| 메모리 절감 |    ~4x       |    ~8x       |    ~Nx (N=GPU수)     |
++------------+--------------+--------------+----------------------+
+| 통신 비용  |   적음        |   보통        |    높음              |
++------------+--------------+--------------+----------------------+
 ```
 
 ### DeepSpeed [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 동작 흐름
 
 ```
   Forward Pass (순전파)
-  ┌──────────────────────────────────────────────┐
-  │  GPU-0      GPU-1      GPU-2      GPU-3      │
-  │  P[0..k]   P[k..2k]  P[2k..3k]  P[3k..N]  │  ← Stage 3: 파라미터 분할
-  │     │           │          │           │     │
-  │     └───────────┴──────────┴───────────┘     │
-  │          All-Gather (파라미터 수집)            │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  |  GPU-0      GPU-1      GPU-2      GPU-3      |
+  |  P[0..k]   P[k..2k]  P[2k..3k]  P[3k..N]  |  <- Stage 3: 파라미터 분할
+  |     |           |          |           |     |
+  |     +-----------+----------+-----------+     |
+  |          All-Gather (파라미터 수집)            |
+  +----------------------------------------------+
   Backward Pass (역전파)
-  ┌──────────────────────────────────────────────┐
-  │  각 GPU 에서 로컬 그래디언트 계산              │
-  │  Reduce-Scatter (그래디언트 집계 + 분산)       │
-  │  각 GPU 는 자신의 파라미터 샤드만 업데이트     │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  |  각 GPU 에서 로컬 그래디언트 계산              |
+  |  Reduce-Scatter (그래디언트 집계 + 분산)       |
+  |  각 GPU 는 자신의 파라미터 샤드만 업데이트     |
+  +----------------------------------------------+
 ```
 
 ### [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Offload 와 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Infinity
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>-Offload</strong>: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태·그래디언트를 CPU RAM 으로 오프로드 → 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대형 모델 학습 가능
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>-Offload</strong>: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태·그래디언트를 CPU RAM 으로 오프로드 -> 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대형 모델 학습 가능
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>-Infinity</strong>: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 까지 오프로드 확장, 수조 파라미터 모델 지원
 
 | 요소 | 역할 |
@@ -145,7 +145,7 @@ tags = ["studynote-ai"]
 
 ### 실무 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **Stage 선택**: 모델 크기와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수에 따라 Stage 1→2→3 순차 시도
+1. **Stage 선택**: 모델 크기와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수에 따라 Stage 1->2->3 순차 시도
 2. <strong>Gradient <a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">Checkpointing</a> 병행</strong>: 활성화 메모리를 추가 절감 (시간 ~30% 증가)
 3. <strong>Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a> (FP16/BF16)</strong>: VRAM 절반 수준으로 감소, [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 가속
 4. **overlap_comm**: 통신과 연산을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인화해 레이턴시 숨기기
@@ -164,7 +164,7 @@ tags = ["studynote-ai"]
 ## Ⅴ. 기대효과 및 결론
 
 - **비용 절감**: 소규모 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터로 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 급 모델 학습 가능
-- **확장성**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수 증가에 비례한 메모리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → 선형 확장
+- **확장성**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수 증가에 비례한 메모리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) -> 선형 확장
 - **생태계**: HuggingFace Accelerate, PyTorch FSDP 에 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 아이디어 통합
 - **한계**: All-Gather 통신이 빈번해 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목 가능성 존재
 
@@ -188,7 +188,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -203,7 +203,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 334 / 420
 
-← **이전**: [333. A/B 테스팅 / 섀도우 배포 (Shadow Deployment) / 카나리 (Canary)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/333_ab_shadow_canary/)
-**다음**: [335. 오토인코더 (Autoencoder)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) →
+<- **이전**: [333. A/B 테스팅 / 섀도우 배포 (Shadow Deployment) / 카나리 (Canary)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/333_ab_shadow_canary/)
+**다음**: [335. 오토인코더 (Autoencoder)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) ->
 
 ---

@@ -39,42 +39,42 @@ tags = ["studynote-bigdata"]
 ### 에너지 빅데이터 통합 플랫폼
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                에너지 빅데이터 플랫폼                              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 수집                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
-│  │ AMI      │ │ 기상 데이터│ │ SCADA    │ │ 발전사 데이터     │   │
-│  │ 스마트   │ │ (기온/풍속 │ │ (그리드  │ │ (발전량 실적/     │   │
-│  │ 미터     │ │  일사량)   │ │  상태)   │ │  계획)           │   │
-│  └─────┬────┘ └─────┬────┘ └─────┬────┘ └────────┬─────────┘   │
-│        └────────────┴────────────┴─────────────────┘            │
-│                               │                                  │
-│                               ▼                                  │
-│               ┌──────────────────────────┐                      │
-│               │ 에너지 빅데이터 플랫폼    │                      │
-│               │ (한전 AMI + 에너지 플랫폼)│                      │
-│               └──────────────┬───────────┘                      │
-│                              │                                   │
-│            ┌─────────────────┼───────────────────┐              │
-│            ▼                 ▼                   ▼              │
-│  ┌──────────────┐  ┌──────────────────┐  ┌───────────────┐     │
-│  │ 수요 예측    │  │ 신재생 출력 예측  │  │ 이상 탐지      │     │
-│  │ (LSTM)       │  │ (기상 ML 모델)   │  │ (전력 손실/     │     │
-│  │              │  │                  │  │  절도 탐지)    │     │
-│  └──────────────┘  └──────────────────┘  └───────────────┘     │
-│            │                 │                   │              │
-│            └─────────────────┴───────────────────┘              │
-│                              │                                   │
-│                              ▼                                   │
-│               ┌──────────────────────────┐                      │
-│               │ EMS (에너지 관리 시스템)  │                      │
-│               │ - 발전 스케줄 최적화      │                      │
-│               │ - ESS 충방전 제어         │                      │
-│               │ - DR 프로그램 실행        │                      │
-│               └──────────────────────────┘                      │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                에너지 빅데이터 플랫폼                              |
++-----------------------------------------------------------------+
+|                                                                  |
+|  데이터 수집                                                      |
+|  +----------+ +----------+ +----------+ +------------------+   |
+|  | AMI      | | 기상 데이터| | SCADA    | | 발전사 데이터     |   |
+|  | 스마트   | | (기온/풍속 | | (그리드  | | (발전량 실적/     |   |
+|  | 미터     | |  일사량)   | |  상태)   | |  계획)           |   |
+|  +-----+----+ +-----+----+ +-----+----+ +--------+---------+   |
+|        +------------+------------+-----------------+            |
+|                               |                                  |
+|                               v                                  |
+|               +--------------------------+                      |
+|               | 에너지 빅데이터 플랫폼    |                      |
+|               | (한전 AMI + 에너지 플랫폼)|                      |
+|               +--------------+-----------+                      |
+|                              |                                   |
+|            +-----------------+-------------------+              |
+|            v                 v                   v              |
+|  +--------------+  +------------------+  +---------------+     |
+|  | 수요 예측    |  | 신재생 출력 예측  |  | 이상 탐지      |     |
+|  | (LSTM)       |  | (기상 ML 모델)   |  | (전력 손실/     |     |
+|  |              |  |                  |  |  절도 탐지)    |     |
+|  +--------------+  +------------------+  +---------------+     |
+|            |                 |                   |              |
+|            +-----------------+-------------------+              |
+|                              |                                   |
+|                              v                                   |
+|               +--------------------------+                      |
+|               | EMS (에너지 관리 시스템)  |                      |
+|               | - 발전 스케줄 최적화      |                      |
+|               | - ESS 충방전 제어         |                      |
+|               | - DR 프로그램 실행        |                      |
+|               +--------------------------+                      |
++-----------------------------------------------------------------+
 ```
 
 ### 전력 수요 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
@@ -89,7 +89,7 @@ tags = ["studynote-bigdata"]
 ### 스마트미터 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)
 
 ```
-정상 패턴:   07시~09시 ▲ / 12시~13시 ▲ / 18시~21시 ▲
+정상 패턴:   07시~09시 ^ / 12시~13시 ^ / 18시~21시 ^
 이상 신호:
   - 야간 과소비 (전기 절도 의심)
   - 급격한 소비 감소 (독거노인 고립 위험)
@@ -108,7 +108,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | 가격 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) | 피크 시간대 높은 전력 단가 | 실시간 가격 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제공 |
 | 인센티브 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) | 절감 참여 시 보상 | 절감량 정확 측정 (M&V) |
-| 자동 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 스마트미터 → 가전 자동 제어 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) + 스마트미터 통합 |
+| 자동 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 스마트미터 -> 가전 자동 제어 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) + 스마트미터 통합 |
 
 ### 신재생에너지 예측 정확도 영향 요인
 
@@ -140,9 +140,9 @@ tags = ["studynote-bigdata"]
 | 산업통상자원부 | 전력시장 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 |
 
 **기술사 핵심 판단**:
-- **ISO 50001**: 에너지 관리 시스템 국제 표준 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 에너지 경영의 프레임워크.
-- **사이버 보안**: 전력 인프라([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)는 [ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 보안 취약점이 국가 안보 위험 → [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 분리 설계 필수.
-- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong>: 스마트미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴 노출 → 집계 단위 제한, 동의 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 참여.
+- **ISO 50001**: 에너지 관리 시스템 국제 표준 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 에너지 경영의 프레임워크.
+- **사이버 보안**: 전력 인프라([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)는 [ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 보안 취약점이 국가 안보 위험 -> [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 분리 설계 필수.
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong>: 스마트미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴 노출 -> 집계 단위 제한, 동의 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 참여.
 
 > 📢 **섹션 요약 비유**: 에너지 빅데이터의 설계 원칙은 "전기를 안정적으로 공급하면서도, 내 전기 사용 패턴이 누군가에게 감시당하지 않아야 한다"는 것이다. 안전과 프라이버시가 동시에 필요하다.
 
@@ -177,17 +177,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [스마트 미터 (Smart Meter) — 전력·가스 사용량 실시간 측정 및 디지털 전송]
-    │
-    ▼
+    |
+    v
 [에너지 빅데이터 (Energy Big Data) — AMI·SCADA·기상 데이터 대규모 수집·분석]
-    │
-    ▼
+    |
+    v
 [수요 예측 (Load Forecasting) — 머신러닝으로 전력 수요 패턴 예측, 공급 최적화]
-    │
-    ▼
+    |
+    v
 [에너지 거래 플랫폼 (P2P Energy Trading) — 재생에너지 잉여분 블록체인 기반 직거래]
-    │
-    ▼
+    |
+    v
 [탄소 중립 최적화 (Carbon Neutral Optimization) — 빅데이터 분석으로 ESG 목표 달성]
 ```
 
@@ -205,7 +205,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 226 / 262
 
-← **이전**: [220. 통신 빅데이터 (Telecom Big Data) — 네트워크장애예측/고객이탈분석/QoE최적화](/knowledge-base/studynote/16_bigdata/11_industry/225_telecom_bigdata/)
-**다음**: [222. 보험 빅데이터 (보험료 산정, 사기 탐지, 언더라이팅 자동화)](/knowledge-base/studynote/16_bigdata/11_industry/227_management/) →
+<- **이전**: [220. 통신 빅데이터 (Telecom Big Data) — 네트워크장애예측/고객이탈분석/QoE최적화](/knowledge-base/studynote/16_bigdata/11_industry/225_telecom_bigdata/)
+**다음**: [222. 보험 빅데이터 (보험료 산정, 사기 탐지, 언더라이팅 자동화)](/knowledge-base/studynote/16_bigdata/11_industry/227_management/) ->
 
 ---

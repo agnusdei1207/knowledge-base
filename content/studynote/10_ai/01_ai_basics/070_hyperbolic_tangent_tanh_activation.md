@@ -30,7 +30,7 @@ tags = ["ai"]
 
 ```text
 Input
-  ↓ tanh
+  v tanh
 -1 ~ 1
 ```
 
@@ -102,11 +102,11 @@ tanh는 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid
 
 ```text
 Input
-  ↓
+  v
 tanh
-  ↓
+  v
 Zero-centered Output
-  ↓
+  v
 Hidden Layer
 ```
 
@@ -116,11 +116,11 @@ Hidden Layer
 
 ```text
 Sigmoid
-  ↓
+  v
 tanh
-  ↓
+  v
 ReLU
-  ↓
+  v
 Deep Learning
 ```
 
@@ -138,7 +138,7 @@ tanh는 그런 부드러운 함수예요.
 
 **진행 상황**: 70 / 420
 
-← **이전**: [69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)
-**다음**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/knowledge-base/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/) →
+<- **이전**: [69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)
+**다음**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/knowledge-base/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/) ->
 
 ---

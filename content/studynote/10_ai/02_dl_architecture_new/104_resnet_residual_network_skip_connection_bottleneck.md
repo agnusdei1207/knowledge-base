@@ -31,26 +31,26 @@ tags = ["studynote-ai"]
 ResNet의 핵심 원리는 기존의 네트워크가 $H(x)$라는 최적의 함수를 직접 학습하려 했던 것과 달리, 출력과 입력의 차이인 $F(x) = H(x) - x$ 즉, '잔차(Residual)'를 학습하도록 구조를 바꾼 것이다. 최종 출력은 $F(x) + x$가 되며, 여기서 $x$는 아무런 변형 없이 전달되는 스킵 커넥션 (Skip Connection)이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  잔차 블록 (Residual Block)                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       입력 x ─────────────────────────┐                      │
-│         │                             │ (Skip Connection)    │
-│         ▼                             │                      │
-│    [ 가중치 층 (Weight Layer) ]       │                      │
-│         │                             │                      │
-│         ▼                             │                      │
-│    [ ReLU 활성화 (Activation) ]       │                      │
-│         │                             │                      │
-│         ▼                             │                      │
-│    [ 가중치 층 (Weight Layer) ]       │                      │
-│         │                             │                      │
-│         ▼                             ▼                      │
-│      F(x)  ────────── (+) ────────▶ F(x) + x                 │
-│         (잔차)      더하기(Add)     (최종 출력)              │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  잔차 블록 (Residual Block)                  |
++--------------------------------------------------------------+
+|                                                              |
+|       입력 x -------------------------+                      |
+|         |                             | (Skip Connection)    |
+|         v                             |                      |
+|    [ 가중치 층 (Weight Layer) ]       |                      |
+|         |                             |                      |
+|         v                             |                      |
+|    [ ReLU 활성화 (Activation) ]       |                      |
+|         |                             |                      |
+|         v                             |                      |
+|    [ 가중치 층 (Weight Layer) ]       |                      |
+|         |                             |                      |
+|         v                             v                      |
+|      F(x)  ---------- (+) ---------> F(x) + x                 |
+|         (잔차)      더하기(Add)     (최종 출력)              |
+|                                                              |
++--------------------------------------------------------------+
 ```
 
 이 구조 덕분에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 층이 학습해야 할 양이 줄어들고, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 과정에서 미분을 수행할 때 $x$에 대한 미분값 1이 항상 유지되어 오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 앞단까지 강력하게 전달된다. 또한, 152층 이상의 깊은 네트워크에서는 연산량을 줄이기 위해 $1 \times 1$ [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)을 앞뒤로 배치하여 차원을 축소했다가 다시 늘리는 보틀넥 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구조를 적용한다.
@@ -111,17 +111,17 @@ ResNet의 도입으로 딥러닝 모델은 수백 층 이상으로 깊어질 수
 
 ```text
 망의 깊이 한계 도달 (기울기 소실)
-    │
-    ▼
+    |
+    v
 CNN (Convolutional Neural Network) · VGGNet (단순 깊이 증가)
-    │
-    ▼
+    |
+    v
 ResNet (Residual Network) · 스킵 커넥션 (Skip Connection) 도입
-    │
-    ▼
+    |
+    v
 보틀넥 (Bottleneck) 아키텍처 · 파라미터 최적화
-    │
-    ▼
+    |
+    v
 DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)
 ```
 
@@ -137,7 +137,7 @@ DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)
 
 **진행 상황**: 104 / 420
 
-← **이전**: [103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet/)
-**다음**: [105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/) →
+<- **이전**: [103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet/)
+**다음**: [105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/) ->
 
 ---

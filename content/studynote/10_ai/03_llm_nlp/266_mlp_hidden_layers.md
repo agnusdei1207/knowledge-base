@@ -28,14 +28,14 @@ tags = ["studynote-ai"]
 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)에 층을 아무리 쌓아도, 선형 변환(Linear Transformation)의 합성은 여전히 선형 변환이다:
 
 ```
-W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂) = Wx + b  ← 여전히 선형!
+W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂) = Wx + b  <- 여전히 선형!
 ```
 
 <strong>비선형 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>(Non-linear <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">Activation Function</a>)</strong>를 각 층에 삽입함으로써 이 한계를 극복한다:
 
 ```
-h = σ(W₁x + b₁)   ← 비선형 변환
-y = σ(W₂h + b₂)   ← 비선형 함수 합성
+h = σ(W₁x + b₁)   <- 비선형 변환
+y = σ(W₂h + b₂)   <- 비선형 함수 합성
 ```
 
 이제 결정 경계(Decision Boundary)가 직선이 아닌 복잡한 곡선 형태를 가질 수 있다.
@@ -49,42 +49,42 @@ y = σ(W₂h + b₂)   ← 비선형 함수 합성
 ### MLP 3층 구조
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│               다층 퍼셉트론 (MLP) 아키텍처                        │
-│                                                                  │
-│   입력층          은닉층 1          은닉층 2         출력층         │
-│  (Input)        (Hidden 1)        (Hidden 2)      (Output)       │
-│                                                                  │
-│   x₁ ─────┐                                                      │
-│           ├──► [h₁₁]──┐                                          │
-│   x₂ ─────┤    [h₁₂]──┼──► [h₂₁]──┐                            │
-│           ├──► [h₁₃]──┤    [h₂₂]──┼──► [ŷ₁]                    │
-│   x₃ ─────┘    [h₁₄]──┘    [h₂₃]──┘    [ŷ₂]                    │
-│                                                                  │
-│   각 층 연산:  z = Wx + b   →   a = f(z)  (f: 활성화 함수)        │
-│                                                                  │
-│   ┌──────────────────────────────────────────────────────────┐  │
-│   │ 완전 연결층 (FCL, Fully Connected Layer):                 │  │
-│   │ 이전 층의 모든 뉴런과 다음 층의 모든 뉴런이 연결됨         │  │
-│   └──────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|               다층 퍼셉트론 (MLP) 아키텍처                        |
+|                                                                  |
+|   입력층          은닉층 1          은닉층 2         출력층         |
+|  (Input)        (Hidden 1)        (Hidden 2)      (Output)       |
+|                                                                  |
+|   x₁ -----+                                                      |
+|           +--► [h₁₁]--+                                          |
+|   x₂ -----+    [h₁₂]--+--► [h₂₁]--+                            |
+|           +--► [h₁₃]--+    [h₂₂]--+--► [ŷ₁]                    |
+|   x₃ -----+    [h₁₄]--+    [h₂₃]--+    [ŷ₂]                    |
+|                                                                  |
+|   각 층 연산:  z = Wx + b   ->   a = f(z)  (f: 활성화 함수)        |
+|                                                                  |
+|   +----------------------------------------------------------+  |
+|   | 완전 연결층 (FCL, Fully Connected Layer):                 |  |
+|   | 이전 층의 모든 뉴런과 다음 층의 모든 뉴런이 연결됨         |  |
+|   +----------------------------------------------------------+  |
++------------------------------------------------------------------+
 ```
 
 ### XOR 문제 MLP 해결 과정
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  MLP로 XOR 해결                               │
-│                                                              │
-│  은닉층 뉴런 1: AND 역할 (w₁=1, w₂=1, b=-1.5)               │
-│  은닉층 뉴런 2: OR 역할  (w₁=1, w₂=1, b=-0.5)               │
-│  출력층 뉴런:  NAND(h₁, h₂) → XOR = OR AND NAND(AND)         │
-│                                                              │
-│  입력 (0,0) → h₁=0, h₂=0 → 출력 0 ✓                         │
-│  입력 (0,1) → h₁=0, h₂=1 → 출력 1 ✓                         │
-│  입력 (1,0) → h₁=0, h₂=1 → 출력 1 ✓                         │
-│  입력 (1,1) → h₁=1, h₂=1 → 출력 0 ✓                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  MLP로 XOR 해결                               |
+|                                                              |
+|  은닉층 뉴런 1: AND 역할 (w₁=1, w₂=1, b=-1.5)               |
+|  은닉층 뉴런 2: OR 역할  (w₁=1, w₂=1, b=-0.5)               |
+|  출력층 뉴런:  NAND(h₁, h₂) -> XOR = OR AND NAND(AND)         |
+|                                                              |
+|  입력 (0,0) -> h₁=0, h₂=0 -> 출력 0 ✓                         |
+|  입력 (0,1) -> h₁=0, h₂=1 -> 출력 1 ✓                         |
+|  입력 (1,0) -> h₁=0, h₂=1 -> 출력 1 ✓                         |
+|  입력 (1,1) -> h₁=1, h₂=1 -> 출력 0 ✓                         |
++--------------------------------------------------------------+
 ```
 
 ### 유니버설 근사 정리 (Universal Approximation Theorem)
@@ -93,7 +93,7 @@ y = σ(W₂h + b₂)   ← 비선형 함수 합성
 
 > "하나의 은닉층과 충분히 많은 수의 뉴런을 가진 MLP는 임의의 연속 함수를 임의의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 근사할 수 있다."
 
-이 정리는 MLP가 <strong>이론적으로 모든 함수를 표현 가능</strong>함을 보장하지만, 실제로 얼마나 많은 뉴런이 필요한지는 명시하지 않는다 → 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 넓이(Width) 대신 깊이(Depth)를 선택한다.
+이 정리는 MLP가 <strong>이론적으로 모든 함수를 표현 가능</strong>함을 보장하지만, 실제로 얼마나 많은 뉴런이 필요한지는 명시하지 않는다 -> 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 넓이(Width) 대신 깊이(Depth)를 선택한다.
 
 ### 층 깊이와 표현 능력
 
@@ -132,21 +132,21 @@ MLP의 핵심 구성 요소인 FCL은 [CNN](/knowledge-base/studynote/14_data_en
 
 ### 기술사 시험 핵심 논점
 
-1. <strong>비선형 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>의 필수성</strong>: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 없이 층을 쌓는 것은 행렬 곱만 반복하여 여전히 선형 → 비선형성이 MLP의 핵심
-2. **유니버설 근사 정리 한계**: 이론적으로 가능하지만 노드 수가 지수적으로 늘어날 수 있음 → 깊이가 효율적 해결책
-3. <strong>완전 연결층 vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>층</strong>: FCL은 모든 연결 → 파라미터 폭증, CNN은 국소 수용야(Local Receptive Field) → 파라미터 효율
-4. <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>) 방지</strong>: MLP가 깊어질수록 과적합 위험 → [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 필요
+1. <strong>비선형 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>의 필수성</strong>: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 없이 층을 쌓는 것은 행렬 곱만 반복하여 여전히 선형 -> 비선형성이 MLP의 핵심
+2. **유니버설 근사 정리 한계**: 이론적으로 가능하지만 노드 수가 지수적으로 늘어날 수 있음 -> 깊이가 효율적 해결책
+3. <strong>완전 연결층 vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>층</strong>: FCL은 모든 연결 -> 파라미터 폭증, CNN은 국소 수용야(Local Receptive Field) -> 파라미터 효율
+4. <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>) 방지</strong>: MLP가 깊어질수록 과적합 위험 -> [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 필요
 
 ### 실무 시나리오: [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 예측
 
 ```
 [입력: 나이, 소득, 신용점수, 부채비율]
-          ↓
-[은닉층 1: 64 노드, ReLU]  ← 조합적 특징 추출
-          ↓
-[은닉층 2: 32 노드, ReLU]  ← 고차 특징 추출
-          ↓
-[출력층: 1 노드, Sigmoid]  ← 대출 승인 확률 0~1
+          v
+[은닉층 1: 64 노드, ReLU]  <- 조합적 특징 추출
+          v
+[은닉층 2: 32 노드, ReLU]  <- 고차 특징 추출
+          v
+[출력층: 1 노드, Sigmoid]  <- 대출 승인 확률 0~1
 ```
 
 - **📢 섹션 요약 비유**: MLP 설계는 요리 레시피 — 재료(입력)를 어떤 조리 과정(은닉층)에 얼마나 거치게 할지 설계하고, 최종 완성도(출력)를 평가해 레시피를 업데이트([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))한다.
@@ -186,7 +186,7 @@ MLP는 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_sing
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [다층 퍼셉트론 (MLP, Multi-Layer Perceptron)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [다층 퍼셉트론 (MLP, Multi-Layer Perceptron)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -201,7 +201,7 @@ MLP는 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_sing
 
 **진행 상황**: 266 / 420
 
-← **이전**: [265. 단층 퍼셉트론 (Single-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)
-**다음**: [267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) →
+<- **이전**: [265. 단층 퍼셉트론 (Single-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)
+**다음**: [267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ->
 
 ---

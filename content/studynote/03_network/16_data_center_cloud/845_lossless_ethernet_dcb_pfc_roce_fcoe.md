@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
+    |
+    v
 [무손실 이더넷]
-    │
-    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
+    |
+    +---> [DPDK 커널 우회 사용자 공간 고속 패킷…]
 ```
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -58,11 +58,11 @@ tags = ["studynote-network"]
 
 ```text
 [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
+    |
+    v
 [무손실 이더넷]
-    │
-    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
+    |
+    +---> [DPDK 커널 우회 사용자 공간 고속 패킷…]
 ```
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 무손실 이더넷]
-    │
-    ├──▶ [확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)는 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 966 / 1120
 
-← **이전**: [844. 하이퍼바이저와 가상 스위치](/knowledge-base/studynote/03_network/16_data_center_cloud/844_vswitch_virtual_switch_hypervisor_bottleneck_sriov/)
-**다음**: [846. DPDK (데이터 평면 커널 우회)](/knowledge-base/studynote/03_network/16_data_center_cloud/846_dpdk_data_plane_development_kit_kernel_bypass_polling/) →
+<- **이전**: [844. 하이퍼바이저와 가상 스위치](/knowledge-base/studynote/03_network/16_data_center_cloud/844_vswitch_virtual_switch_hypervisor_bottleneck_sriov/)
+**다음**: [846. DPDK (데이터 평면 커널 우회)](/knowledge-base/studynote/03_network/16_data_center_cloud/846_dpdk_data_plane_development_kit_kernel_bypass_polling/) ->
 
 ---

@@ -38,18 +38,18 @@ tags = ["studynote-cloud-architecture"]
 | **RoleBinding** (연결) | 주체(Subject)와 역할(Role)을 결합 | "ServiceAccount A에게 Role B를 부여하라" |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  K8s RBAC 권한 부여 메커니즘                 │
-├──────────────────────────────────────────────────────────────┤
-│  [Subject]                         [Role]                    │
-│ ServiceAccount (Pod 신분증)        API Resources (Pod, SVC)  │
-│       │                              ▲    Verbs (Get, List)  │
-│       │                              │                       │
-│       └────────▶ [RoleBinding] ──────┘                       │
-│                 (둘을 연결하는 결재 서류)                      │
-│                                                              │
-│ API Server: "요청이 들어왔다. Binding을 확인해 허용/차단 판정!"│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  K8s RBAC 권한 부여 메커니즘                 |
++--------------------------------------------------------------+
+|  [Subject]                         [Role]                    |
+| ServiceAccount (Pod 신분증)        API Resources (Pod, SVC)  |
+|       |                              ^    Verbs (Get, List)  |
+|       |                              |                       |
+|       +---------> [RoleBinding] ------+                       |
+|                 (둘을 연결하는 결재 서류)                      |
+|                                                              |
+| API Server: "요청이 들어왔다. Binding을 확인해 허용/차단 판정!"|
++--------------------------------------------------------------+
 ```
 
 이 그림이 보여주듯, 권한(Role)과 신분증(ServiceAccount)은 완전히 독립적으로 존재하며, RoleBinding을 통해서만 결합된다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄울 때 `spec.serviceAccountName`을 명시하면 해당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 지정된 신분증을 지니게 되고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버는 RoleBinding을 조회하여 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 요청을 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))하거나 거부(403 Forbidden)한다.
@@ -115,21 +115,21 @@ RBAC와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 ```text
 기본 제공 마스터키의 남용 (보안 취약점)
-    │
-    ▼
+    |
+    v
 ServiceAccount (기계용 신분증 분리)
-    │
-    ▼
+    |
+    v
 RBAC (Role-Based Access Control 도입)
-    │
-    ▼
+    |
+    v
 최소 권한의 원칙 (Least Privilege) 적용
-    │
-    ▼
+    |
+    v
 네트워크 정책(NetworkPolicy)과 결합한 입체적 방어망 구성
 ```
 
-이 흐름도는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 부재 → 신분증 도입 → 권한 세분화 → 최적화 → 다계층 보안 방어"로 발전하는 K8s 클러스터 내부 보안의 진화를 보여준다.
+이 흐름도는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 부재 -> 신분증 도입 -> 권한 세분화 -> 최적화 -> 다계층 보안 방어"로 발전하는 K8s 클러스터 내부 보안의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ RBAC (Role-Based Access Control 도입)
 
 **진행 상황**: 100 / 371
 
-← **이전**: [100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/)
-**다음**: [102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/) →
+<- **이전**: [100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/)
+**다음**: [102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/) ->
 
 ---

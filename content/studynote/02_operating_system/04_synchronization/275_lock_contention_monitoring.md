@@ -100,12 +100,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [임계 구역 크기 최소화 기법]
-    │
-    ▼
+    |
+    v
 [락 경합 (Lock Contention) 모니터링 도구]
-    │
-    ├──▶ [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-    └──▶ [세마포어를 이용한 순서 제어 (Ordering)]
+    |
+    +---> [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
+    +---> [세마포어를 이용한 순서 제어 (Ordering)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -122,7 +122,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 275 / 800
 
-← **이전**: [274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)](/knowledge-base/studynote/02_operating_system/04_synchronization/274_critical_section_minimization/)
-**다음**: [276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) →
+<- **이전**: [274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)](/knowledge-base/studynote/02_operating_system/04_synchronization/274_critical_section_minimization/)
+**다음**: [276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) ->
 
 ---

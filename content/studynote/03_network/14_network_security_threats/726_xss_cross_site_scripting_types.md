@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [스키밍 공격]
-    │
-    ▼
+    |
+    v
 [XSS 개요와 3대 기법]
-    │
-    └──▶ [SQL 인젝션]
+    |
+    +---> [SQL 인젝션]
 ```
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [스키밍 공격]
-    │
-    ▼
+    |
+    v
 [XSS 개요와 3대 기법]
-    │
-    └──▶ [SQL 인젝션]
+    |
+    +---> [SQL 인젝션]
 ```
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ XSS 개요와 3대 기법은 [네트워크 보안](/knowledge-base/studynote/03_
 
 ```text
 [선행 개념: 스키밍 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: XSS 개요와 3대 기법]
-    │
-    ├──▶ [확장 A: SQL 인젝션]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SQL 인젝션]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 XSS 개요와 3대 기법는 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ XSS 개요와 3대 기법는 [스키밍](/knowledge-base/studynote/03_network/14
 
 **진행 상황**: 847 / 1120
 
-← **이전**: [725. 스키밍 (Skimming) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/)
-**다음**: [727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단](/knowledge-base/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/) →
+<- **이전**: [725. 스키밍 (Skimming) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/)
+**다음**: [727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단](/knowledge-base/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/) ->
 
 ---

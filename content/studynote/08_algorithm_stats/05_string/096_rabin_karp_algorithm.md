@@ -68,11 +68,11 @@ H = (c1 * d^(m-1) + c2 * d^(m-2) + ... + cm * d^0) mod q
 
 ```text
 [상위 개념: 문자열 탐색, 해시 함수]
-    │
-    ▼
+    |
+    v
 [하위 개념: Rolling Hash, Fingerprinting]
-    │
-    ▼
+    |
+    v
 [융합 응용: Bloom Filter (공간 효율적 필터링)]
 ```
 
@@ -89,7 +89,7 @@ H = (c1 * d^(m-1) + c2 * d^(m-2) + ... + cm * d^0) mod q
 
 **진행 상황**: 96 / 175
 
-← **이전**: [보이어-무어 (Boyer-Moore) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)
-**다음**: [4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열](/knowledge-base/studynote/08_algorithm_stats/05_string/097_z_algorithm/) →
+<- **이전**: [보이어-무어 (Boyer-Moore) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)
+**다음**: [4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열](/knowledge-base/studynote/08_algorithm_stats/05_string/097_z_algorithm/) ->
 
 ---

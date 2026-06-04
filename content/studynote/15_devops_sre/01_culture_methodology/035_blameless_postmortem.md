@@ -200,7 +200,7 @@ Incident.io, Blameless.com 등 SaaS 도구
 
 **진행 상황**: 35 / 373
 
-← **이전**: [DevOps 토폴로지 (DevOps Topology)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)
-**다음**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/) →
+<- **이전**: [DevOps 토폴로지 (DevOps Topology)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)
+**다음**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/) ->
 
 ---

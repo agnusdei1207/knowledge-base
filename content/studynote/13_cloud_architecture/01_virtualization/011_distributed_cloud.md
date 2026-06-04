@@ -28,20 +28,20 @@ tags = ["cloud_architecture"]
 아래 다이어그램은 기존 하이브리드 아키텍처의 파편화 한계와 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 통합적 구조를 비교하여 왜 이 기술이 필요한지 보여준다.
 
 ```text
-┌───────────────── 기존 하이브리드 클라우드의 한계 ────────────────┐
-│ [Public Cloud / 퍼블릭 클라우드]           [On-Premise / Edge]             │
-│ AWS Console      <--?--> VMware / 자체 인프라 관리 도구         │
-│ (관리 주체: CSP)          (관리 주체: 고객사 IT팀)              │
-│  * 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택  │
-├───────────────── 분산 클라우드의 통일된 제어 평면 ───────────────┤
-│                     [CSP Central Control Plane / CSP 중앙 제어 평면]          │
-│                 (예: AWS Outposts, GCP Anthos, Azure Arc)│
-│                              │                           │
-│      +───────────────────────+──────────────────────+    │
-│      ↓                       ↓                      ↓    │
-│ [Public Region / 퍼블릭 리전]     [Local/Edge Zone]       [On-Premise / 온프레미스] │
-│ (동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)      │
-└──────────────────────────────────────────────────────────┘
++----------------- 기존 하이브리드 클라우드의 한계 ----------------+
+| [Public Cloud / 퍼블릭 클라우드]           [On-Premise / Edge]             |
+| AWS Console      <--?--> VMware / 자체 인프라 관리 도구         |
+| (관리 주체: CSP)          (관리 주체: 고객사 IT팀)              |
+|  * 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택  |
++----------------- 분산 클라우드의 통일된 제어 평면 ---------------+
+|                     [CSP Central Control Plane / CSP 중앙 제어 평면]          |
+|                 (예: AWS Outposts, GCP Anthos, Azure Arc)|
+|                              |                           |
+|      +-----------------------+----------------------+    |
+|      v                       v                      v    |
+| [Public Region / 퍼블릭 리전]     [Local/Edge Zone]       [On-Premise / 온프레미스] |
+| (동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)      |
++----------------------------------------------------------+
 ```
 
 이 도식의 핵심은 관리 주체와 제어 인터페이스의 일원화 여부이다. 기존 하이브리드 구조는 두 개의 이질적인 시스템을 네트워크로 이어 붙인 형태라 보안 사각지대가 생겼다. [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 CSP의 제어 평면이 고객사의 물리적 공간까지 거미줄처럼 확장되어 동일한 API와 콘솔로 리소스를 투명하게 관리한다. 실무에서는 이러한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 단일화를 가능하게 하여 소프트웨어 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 극적으로 단축시킨다.
@@ -70,20 +70,20 @@ tags = ["cloud_architecture"]
 
 ```text
 [CSP Central Region (Public Cloud)]
- ┌─────────────────────────────────────────────┐
- │ 1. Policy & Config YAML (GitOps Repo)       │
- │ 2. Global Control Plane & Identity (IAM)    │
- └───────┬──────────────────────────────┬──────┘
-         │ (Tether: mTLS Sync)          │
-         ↓ 제어 신호 (Control Plane)      ↓
+ +---------------------------------------------+
+ | 1. Policy & Config YAML (GitOps Repo)       |
+ | 2. Global Control Plane & Identity (IAM)    |
+ +-------+------------------------------+------+
+         | (Tether: mTLS Sync)          |
+         v 제어 신호 (Control Plane)      v
 [Customer On-Premise / 온프레미스]            [Telco 5G Edge / 통신사 5G 엣지]
- ┌───────────────┐              ┌───────────────┐
- │ Local Agent   │<--Sync--     │ Local Agent   │
- │ K8s Cluster   │              │ K8s Cluster   │
- │ GPU / Storage │              │ AI Inference  │
- └───────┬───────┘              └───────┬───────┘
-         │ 데이터 흐름 (Data Plane)       │ 초저지연 데이터
-         ▼                              ▼
+ +---------------+              +---------------+
+ | Local Agent   |<--Sync--     | Local Agent   |
+ | K8s Cluster   |              | K8s Cluster   |
+ | GPU / Storage |              | AI Inference  |
+ +-------+-------+              +-------+-------+
+         | 데이터 흐름 (Data Plane)       | 초저지연 데이터
+         v                              v
    [Factory IoT Data / 공장 IoT 데이터]             [Autonomous Car / 자율주행차]
 ```
 
@@ -99,15 +99,15 @@ tags = ["cloud_architecture"]
 
 #### 퍼블릭 vs 하이브리드 vs [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 트레이드오프
 
-┌──────────────┬───────────────┬────────────────┬──────────────────┐
-│ 항목         │ [Public Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)  │ [Hybrid Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)   │ [Distributed Cloud](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)│
-├──────────────┼───────────────┼────────────────┼──────────────────┤
-│ 인프라 위치  │ CSP의 메가 센터│ [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) + 고객사 센터│ CSP가 지정/제공하는 모든 곳 │
-│ 관리 도구    │ 단일 콘솔      │ 벤더별 개별 콘솔 │ [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 통합 단일 콘솔 │
-│ 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)  │ 매우 높음      │ 낮음 (파편화됨)  │ 매우 높음 (100% 일치)│
-│ [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)    │ 중간 ~ 높음    │ 환경에 따라 편차 │ 물리적 인접으로 매우 낮음 │
-│ 인프라 책임  │ [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 주도       │ 고객 비중 높음   │ 하드웨어까지 CSP가 일괄 책임 │
-└──────────────┴───────────────┴────────────────┴──────────────────┘
++--------------+---------------+----------------+------------------+
+| 항목         | [Public Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)  | [Hybrid Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)   | [Distributed Cloud](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)|
++--------------+---------------+----------------+------------------+
+| 인프라 위치  | CSP의 메가 센터| [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) + 고객사 센터| CSP가 지정/제공하는 모든 곳 |
+| 관리 도구    | 단일 콘솔      | 벤더별 개별 콘솔 | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 통합 단일 콘솔 |
+| 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)  | 매우 높음      | 낮음 (파편화됨)  | 매우 높음 (100% 일치)|
+| [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)    | 중간 ~ 높음    | 환경에 따라 편차 | 물리적 인접으로 매우 낮음 |
+| 인프라 책임  | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 주도       | 고객 비중 높음   | 하드웨어까지 CSP가 일괄 책임 |
++--------------+---------------+----------------+------------------+
 
 이 매트릭스에서 판단의 핵심 포인트는 인프라 책임과 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이다. 하이브리드 클라우드는 물리적 자원 통합에는 성공했으나, 패치 관리와 플랫폼 구성의 부담을 오롯이 고객이 짊어져야 했다. 반면 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 물리적 위치만 고객사로 들어왔을 뿐, 하드웨어 랙(Rack) 설치부터 OS 패치, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)까지 모든 라이프사이클을 CSP가 매니지드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태로 대행한다.
 
@@ -131,16 +131,16 @@ tags = ["cloud_architecture"]
 
 ```text
 [신규 워크로드 아키텍처 설계 요청]
-         │
+         |
 [데이터의 국외 반출 금지 등 강력한 보안 규제가 존재하는가?]
- ├─ (Yes) ──> [On-Premise 전용 분산 노드 (Outposts) 배치 결정]
- │
- └─ (No) ──> [초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)]
-              ├─ (Yes) ──> [5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정]
-              │
-              └─ (No) ──> [대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?]
-                           ├─ (Yes) ──> [Local Zone 수준 분산 노드에 배치]
-                           └─ (No)  ──> [중앙 Public Region 기본 배치 (가장 저렴)]
+ +- (Yes) --> [On-Premise 전용 분산 노드 (Outposts) 배치 결정]
+ |
+ +- (No) --> [초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)]
+              +- (Yes) --> [5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정]
+              |
+              +- (No) --> [대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?]
+                           +- (Yes) --> [Local Zone 수준 분산 노드에 배치]
+                           +- (No)  --> [중앙 Public Region 기본 배치 (가장 저렴)]
 ```
 
 이 의사결정 트리는 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)가 무조건적인 정답이 아니라, 철저하게 규제와 레이턴시의 임계치를 넘어설 때만 사용하는 프리미엄 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)임을 보여준다. 따라서 실무 아키텍트는 엣지와 중앙 중 어디에 애플리케이션을 둘지 결정할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락인 비용을 반드시 정량 계산해야 한다.
@@ -177,17 +177,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [퍼블릭 클라우드 (Public Cloud) — 중앙 집중형 리소스 제공]
-    │
-    ▼
+    |
+    v
 [하이브리드 클라우드 (Hybrid Cloud) — 온프레미스와 퍼블릭 클라우드 연계]
-    │
-    ▼
+    |
+    v
 [멀티 클라우드 (Multi-Cloud) — 복수 CSP 동시 사용으로 벤더 종속 탈피]
-    │
-    ▼
+    |
+    v
 [분산 클라우드 (Distributed Cloud) — 에지 위치까지 클라우드 서비스 분산 배포]
-    │
-    ▼
+    |
+    v
 [엣지 컴퓨팅 (Edge Computing) — 물리적 근접성으로 지연 최소화·데이터 현지 처리]
 ```
 
@@ -204,7 +204,7 @@ tags = ["cloud_architecture"]
 
 **진행 상황**: 10 / 371
 
-← **이전**: [10. 멀티 클라우드 (Multi-Cloud) - 특정 벤더 종속(Lock-in) 회피 및 가용성 극대화를 위해 2개 이상의 퍼블릭 클라우드(AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/010_multi_cloud/)
-**다음**: [12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/012_edge_computing/) →
+<- **이전**: [10. 멀티 클라우드 (Multi-Cloud) - 특정 벤더 종속(Lock-in) 회피 및 가용성 극대화를 위해 2개 이상의 퍼블릭 클라우드(AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/010_multi_cloud/)
+**다음**: [12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/012_edge_computing/) ->
 
 ---

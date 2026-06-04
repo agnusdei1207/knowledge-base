@@ -10,18 +10,18 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) Decoder는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> Decoder에서 Masked <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>(Causal Mask)을 사용</strong>하여 왼→오 방향으로만 문맥을 참조하며 다음 토큰을 예측(CLM)하는 자기회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
+> 1. **본질**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) Decoder는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> Decoder에서 Masked <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>(Causal Mask)을 사용</strong>하여 왼->오 방향으로만 문맥을 참조하며 다음 토큰을 예측(CLM)하는 자기회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
 > 2. **가치**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(양방향)는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가이지만, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/))는 <strong>토큰을 하나씩 순차 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하여 텍스트·코드·대화를 자연스럽게 만들어낸다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)·[Top-k](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)·Top-p로 다양성을 제어한다.
-> 3. **판단 포인트**: KV Cache로 이전 토큰의 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)·Value를 재사용하여 <strong>추론 속도를 O(n²)→O(n)으로 최적화</strong>하며, Speculative Decoding이 추가 가속 기법이다.
+> 3. **판단 포인트**: KV Cache로 이전 토큰의 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)·Value를 재사용하여 <strong>추론 속도를 O(n^)->O(n)으로 최적화</strong>하며, Speculative Decoding이 추가 가속 기법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-GPT 생성: "나는" → "학교에" → "갔다" (순차)
+GPT 생성: "나는" -> "학교에" -> "갔다" (순차)
 Causal Mask: 미래 토큰 참조 차단
-KV Cache: 이전 K,V 재사용 → 추론 가속
+KV Cache: 이전 K,V 재사용 -> 추론 가속
 디코딩 전략: Greedy | Top-k | Top-p (Nucleus)
 ```
 
@@ -48,10 +48,10 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[GPT-1 (2018)] → [GPT-2 (2019)] → [GPT-3 (2020)]
-    → [KV Cache 최적화 (2021~)]
-    → [Speculative Decoding (2023)]
-    → [현재: Medusa/Eagle — 다중 토큰 동시 생성]
+[GPT-1 (2018)] -> [GPT-2 (2019)] -> [GPT-3 (2020)]
+    -> [KV Cache 최적화 (2021~)]
+    -> [Speculative Decoding (2023)]
+    -> [현재: Medusa/Eagle — 다중 토큰 동시 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 
 **진행 상황**: 142 / 258
 
-← **이전**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/)
-**다음**: [143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/143_foundation_model_llm_pretraining/) →
+<- **이전**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/)
+**다음**: [143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/143_foundation_model_llm_pretraining/) ->
 
 ---

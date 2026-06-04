@@ -34,27 +34,27 @@ tags = ["studynote-operating-system"]
   - 2013년 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a></strong>가 이 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 Cgroups라는 어려운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술을 누구나 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉬운 랩퍼(Wrapper) 툴로 포장해 출시하면서 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 혁명이 시작됨.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 네임스페이스 적용 전후의 프로세스 시야 차이           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [적용 전: Global 전역 공간]                                    │
-  │  호스트 OS: PID 1(init), PID 2, PID 100(App), PID 200(DB)   │
-  │   - App이 `ps` 명령어를 치면 1~200번까지 모든 프로세스가 다 보임.    │
-  │   - App이 실수로 PID 200을 죽일 수 있음. (상호 간섭 심각)          │
-  │                                                             │
-  │  [적용 후: Namespace 로 격리된 공간]                             │
-  │   ┌───────── 호스트 커널 (실제 PID 관리) ──────────┐             │
-  │   │   실제 PID: 1000        실제 PID: 2000     │             │
-  │   │  ┌────────────────┐ ┌────────────────┐ │             │
-  │   │  │ Namespace A    │ │ Namespace B    │ │             │
-  │   │  │ 가상 PID: 1 (App)│ │ 가상 PID: 1 (DB) │ │             │
-  │   │  └────────────────┘ └────────────────┘ │             │
-  │   └────────────────────────────────────────┘             │
-  │                                                             │
-  │   결과: A공간의 App은 자기가 시스템의 첫 번째 프로세스(PID 1)인 줄 앎. │
-  │        밖의 호스트 프로세스나 B공간의 DB는 아예 존재 자체를 인식 못 함. │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 네임스페이스 적용 전후의 프로세스 시야 차이           |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [적용 전: Global 전역 공간]                                    |
+  |  호스트 OS: PID 1(init), PID 2, PID 100(App), PID 200(DB)   |
+  |   - App이 `ps` 명령어를 치면 1~200번까지 모든 프로세스가 다 보임.    |
+  |   - App이 실수로 PID 200을 죽일 수 있음. (상호 간섭 심각)          |
+  |                                                             |
+  |  [적용 후: Namespace 로 격리된 공간]                             |
+  |   +--------- 호스트 커널 (실제 PID 관리) ----------+             |
+  |   |   실제 PID: 1000        실제 PID: 2000     |             |
+  |   |  +----------------+ +----------------+ |             |
+  |   |  | Namespace A    | | Namespace B    | |             |
+  |   |  | 가상 PID: 1 (App)| | 가상 PID: 1 (DB) | |             |
+  |   |  +----------------+ +----------------+ |             |
+  |   +----------------------------------------+             |
+  |                                                             |
+  |   결과: A공간의 App은 자기가 시스템의 첫 번째 프로세스(PID 1)인 줄 앎. |
+  |        밖의 호스트 프로세스나 B공간의 DB는 아예 존재 자체를 인식 못 함. |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 PID [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 환상(Illusion)을 보여준다. 호스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 입장에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A의 프로세스가 PID 1000번, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B의 프로세스가 PID 2000번인 평범한 프로세스일 뿐이다. 그러나 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)라는 가상 안경을 씌워놓았기 때문에, 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부에서 `ps`를 치면 자신을 PID 1번(전지전능한 init 프로세스)으로 보게 된다. 이 [격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 덕분에 개발자는 다른 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 존재를 전혀 신경 쓰지 않고 무결점의 독립 환경에서 앱을 짤 수 있게 되었다.
@@ -83,26 +83,26 @@ tags = ["studynote-operating-system"]
 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))에서 `docker run` 명령어를 치면, 마법이 일어나는 것이 아니라 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 특정 시스템 콜 API가 호출될 뿐이다. 핵심은 C언어의 `clone()` 함수다. 프로세스를 생성할 때 특별한 깃발(Flags)을 꽂아주는 것이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 네임스페이스 격리를 통한 컨테이너 생성 매커니즘             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [일반적인 프로세스 생성]                                             │
-  │   fork() 호출 -> 호스트의 부모 프로세스와 환경(네트워크, 파일) 100% 공유    │
-  │                                                                   │
-  │   [컨테이너 프로세스 생성 (Docker 동작 원리)]                            │
-  │   clone(child_func, stack,                                        │
-  │         CLONE_NEWPID | CLONE_NEWNET | CLONE_NEWNS |               │
-  │         CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWUSER, arg);        │
-  │             ▲                                                     │
-  │             │ 6개의 "격리 파티션 쳐라!" 라는 커널 플래그 전달               │
-  │                                                                   │
-  │   [커널의 내부 처리]                                                  │
-  │    1. VFS 마운트 테이블 새로 생성 (Mount NS)                          │
-  │    2. 가상 네트워크 인터페이스(veth) 쌍 생성 후 할당 (Net NS)              │
-  │    3. PID 맵핑 테이블 생성 (PID NS)                                   │
-  │    4. 새로운 격리 환경 안에서 child_func (/bin/sh 또는 앱) 실행!           │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 네임스페이스 격리를 통한 컨테이너 생성 매커니즘             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [일반적인 프로세스 생성]                                             |
+  |   fork() 호출 -> 호스트의 부모 프로세스와 환경(네트워크, 파일) 100% 공유    |
+  |                                                                   |
+  |   [컨테이너 프로세스 생성 (Docker 동작 원리)]                            |
+  |   clone(child_func, stack,                                        |
+  |         CLONE_NEWPID | CLONE_NEWNET | CLONE_NEWNS |               |
+  |         CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWUSER, arg);        |
+  |             ^                                                     |
+  |             | 6개의 "격리 파티션 쳐라!" 라는 커널 플래그 전달               |
+  |                                                                   |
+  |   [커널의 내부 처리]                                                  |
+  |    1. VFS 마운트 테이블 새로 생성 (Mount NS)                          |
+  |    2. 가상 네트워크 인터페이스(veth) 쌍 생성 후 할당 (Net NS)              |
+  |    3. PID 맵핑 테이블 생성 (PID NS)                                   |
+  |    4. 새로운 격리 환경 안에서 child_func (/bin/sh 또는 앱) 실행!           |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진은 겉포장지일 뿐, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리의 실제 일꾼은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `clone()` 시스템 콜이다. `CLONE_NEW...` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)들을 인자로 넘기면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 프로세스 전용으로 완전히 빈 백지상태의 자원 관리 테이블(네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 트리 등)을 램 메모리 상에 새로 찍어낸다. 이것이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 방식과 결정적으로 다른 점이다. 거대한 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체를 통째로 로딩할 필요 없이, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 자원 관리 꼬리표(Table)만 하나 추가하기 때문에 0.1초 만에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 켜지는 초경량성을 확보하게 된다.
@@ -128,26 +128,26 @@ tags = ["studynote-operating-system"]
 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 완벽한 '가상 머신'처럼 착각하게 만들려면, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 하나로는 부족하다. 리눅스의 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">Cgroups</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>)</strong>라는 기능이 짝궁으로 붙어야 비로소 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 완성된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         현대 컨테이너 아키텍처의 양대 기둥: Namespace + Cgroups │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │     [ Namespace (격리) ]        [ Cgroups (통제) ]      │
-  │     "무엇을 볼 수 있는가?"         "얼마나 쓸 수 있는가?"      │
-  │            │                          │                 │
-  │            ▼                          ▼                 │
-  │     - 파일, 네트워크 분리         - CPU 사용량 30% 제한    │
-  │     - PID, 사용자 분리           - RAM 최대 1GB 제한      │
-  │     - IPC 메모리 차단            - 디스크 I/O 속도 통제     │
-  │            │                          │                 │
-  │            └─────────┬────────────────┘                 │
-  │                      ▼                                  │
-  │             🚀 안전하고 통제된 [컨테이너] 완성                 │
-  │                                                         │
-  │ ※ Namespace만 있고 Cgroups가 없다면?                       │
-  │    -> 컨테이너 안의 앱이 무한루프 버그에 빠지면, 호스트 CPU의    │
-  │       100%를 독식해버려 옆 컨테이너와 시스템 전체가 죽어버림!     │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         현대 컨테이너 아키텍처의 양대 기둥: Namespace + Cgroups |
+  +---------------------------------------------------------+
+  |                                                         |
+  |     [ Namespace (격리) ]        [ Cgroups (통제) ]      |
+  |     "무엇을 볼 수 있는가?"         "얼마나 쓸 수 있는가?"      |
+  |            |                          |                 |
+  |            v                          v                 |
+  |     - 파일, 네트워크 분리         - CPU 사용량 30% 제한    |
+  |     - PID, 사용자 분리           - RAM 최대 1GB 제한      |
+  |     - IPC 메모리 차단            - 디스크 I/O 속도 통제     |
+  |            |                          |                 |
+  |            +---------+----------------+                 |
+  |                      v                                  |
+  |             🚀 안전하고 통제된 [컨테이너] 완성                 |
+  |                                                         |
+  | ※ Namespace만 있고 Cgroups가 없다면?                       |
+  |    -> 컨테이너 안의 앱이 무한루프 버그에 빠지면, 호스트 CPU의    |
+  |       100%를 독식해버려 옆 컨테이너와 시스템 전체가 죽어버림!     |
+  +---------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 논리적인 눈가리개일 뿐, 물리적인 자원(CPU 클럭, 램 용량)의 한도를 정해주지는 못한다. 만약 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)만으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들면, 어느 한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))나 디도스(DDoS) 공격이 발생할 때 호스트 시스템 전체의 체력이 고갈되는 '시끄러운 이웃(Noisy Neighbor)' 사태가 벌어진다. Cgroups는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러와 메모리 관리자 레벨에서 특정 프로세스 트리의 자원 상한선을 칼같이 잘라버리는 역할을 한다. Docker나 Kubernetes는 이 두 가지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술의 톱니바퀴를 정교하게 엮어놓은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구다.
@@ -168,27 +168,27 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">Namespace</a> 공유 기법)</strong>: 격리가 원칙이지만, 예외적으로 효율을 위해 벽을 허물 수 있다. 쿠버네티스의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)) 개념이 바로 이것이다. [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 내부에 배치된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들은 <strong>Network <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>를 서로 공유(Share)</strong>하도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설정이 조정된다. 따라서 밖으로 나갈 필요 없이 `localhost(127.0.0.1)` 루프백 주소와 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 통해 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 통신할 수 있는 유연한 아키텍처가 실현된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Kubernetes Pod 내부의 네임스페이스 공유 구조              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ Kubernetes Pod 단위 격리 벽 ]                                     │
-  │   ┌───────────────────────────────────────────────────────────┐   │
-  │   │  Network NS (공유): 192.168.1.10, localhost               │   │
-  │   │  IPC NS (공유): System V Shared Memory 영역               │   │
-  │   │                                                           │   │
-  │   │     [컨테이너 A (Web)]            [컨테이너 B (DB)]             │   │
-  │   │   - PID NS: 분리됨                - PID NS: 분리됨             │   │
-  │   │   - Mount NS: 분리됨              - Mount NS: 분리됨           │   │
-  │   │     (내부에서 포트 8080 엶)        (내부에서 포트 3306 엶)        │   │
-  │   │           │                          │                    │   │
-  │   │           └────── localhost 통신 ─────┘                    │   │
-  │   │                 (네트워크 스택 공유)                         │   │
-  │   └───────────────────────────────────────────────────────────┘   │
-  │                                                                   │
-  │   결과: 파일이나 프로세스 트리(Mount/PID)는 안전하게 격리하면서도,           │
-  │        효율적인 통신을 위해 네트워크(NET/IPC) 장벽만 선택적으로 허물어냄.     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Kubernetes Pod 내부의 네임스페이스 공유 구조              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ Kubernetes Pod 단위 격리 벽 ]                                     |
+  |   +-----------------------------------------------------------+   |
+  |   |  Network NS (공유): 192.168.1.10, localhost               |   |
+  |   |  IPC NS (공유): System V Shared Memory 영역               |   |
+  |   |                                                           |   |
+  |   |     [컨테이너 A (Web)]            [컨테이너 B (DB)]             |   |
+  |   |   - PID NS: 분리됨                - PID NS: 분리됨             |   |
+  |   |   - Mount NS: 분리됨              - Mount NS: 분리됨           |   |
+  |   |     (내부에서 포트 8080 엶)        (내부에서 포트 3306 엶)        |   |
+  |   |           |                          |                    |   |
+  |   |           +------ localhost 통신 -----+                    |   |
+  |   |                 (네트워크 스택 공유)                         |   |
+  |   +-----------------------------------------------------------+   |
+  |                                                                   |
+  |   결과: 파일이나 프로세스 트리(Mount/PID)는 안전하게 격리하면서도,           |
+  |        효율적인 통신을 위해 네트워크(NET/IPC) 장벽만 선택적으로 허물어냄.     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)는 1컨테이너 = 1앱 철학으로 모든 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 완벽히 격리하지만, 쿠버네티스는 Pod라는 더 큰 봉투를 도입했다. 위 그림처럼 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에 있는 두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 동일한 IP 주소를 가지며 `localhost`로 통신한다. 이는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 6개로 쪼개져 있는 모듈형 구조이기 때문에 가능한 마법이다. "PID와 Mount는 찢고, Net과 IPC는 합쳐라"라는 식의 선택적 레고 블록 조립이 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계의 극한의 유연성을 제공한다.
@@ -238,12 +238,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [가상화 하이퍼바이저]
-    │
-    ▼
+    |
+    v
 [컨테이너 네임스페이스 격리 (Container Namespace Isolation)]
-    │
-    ├──▶ [시스템 클럭 타이머 틱]
-    └──▶ [I/O 직접 메모리 접근 (DMA)]
+    |
+    +---> [시스템 클럭 타이머 틱]
+    +---> [I/O 직접 메모리 접근 (DMA)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -260,7 +260,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 744 / 800
 
-← **이전**: [743. 가상화 하이퍼바이저 (Virtualization Hypervisor)](/knowledge-base/studynote/02_operating_system/11_exam_summary/743_virtualization_hypervisor/)
-**다음**: [745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)](/knowledge-base/studynote/02_operating_system/11_exam_summary/745_system_clock_timer_tick/) →
+<- **이전**: [743. 가상화 하이퍼바이저 (Virtualization Hypervisor)](/knowledge-base/studynote/02_operating_system/11_exam_summary/743_virtualization_hypervisor/)
+**다음**: [745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)](/knowledge-base/studynote/02_operating_system/11_exam_summary/745_system_clock_timer_tick/) ->
 
 ---

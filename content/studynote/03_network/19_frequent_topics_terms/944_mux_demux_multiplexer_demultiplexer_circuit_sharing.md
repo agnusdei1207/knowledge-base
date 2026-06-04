@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [펄스부호변조]
-    │
-    ▼
+    |
+    v
 [다중화기 / 역다중화기]
-    │
-    └──▶ [직교주파수분할다중접속]
+    |
+    +---> [직교주파수분할다중접속]
 ```
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [펄스부호변조]
-    │
-    ▼
+    |
+    v
 [다중화기 / 역다중화기]
-    │
-    └──▶ [직교주파수분할다중접속]
+    |
+    +---> [직교주파수분할다중접속]
 ```
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 펄스부호변조]
-    │
-    ▼
+    |
+    v
 [현재 개념: 다중화기 / 역다중화기]
-    │
-    ├──▶ [확장 A: 직교주파수분할다중접속]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 직교주파수분할다중접속]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1065 / 1120
 
-← **이전**: [943. 펄스부호변조 (PCM)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)
-**다음**: [945. 직교주파수분할다중접속 (OFDMA)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) →
+<- **이전**: [943. 펄스부호변조 (PCM)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)
+**다음**: [945. 직교주파수분할다중접속 (OFDMA)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) ->
 
 ---

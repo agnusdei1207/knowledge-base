@@ -41,11 +41,11 @@ tags = ["math-mining", "studynote-data-engineering"]
 
 ```text
 root
- ├─ f:4 ─ a:3 ─ c:2
- │        └─ m:2
- └─ c:3 ─ b:2 ─ p:1
+ +- f:4 - a:3 - c:2
+ |        +- m:2
+ +- c:3 - b:2 - p:1
 
-Header Table: f → a → c → m → b → p
+Header Table: f -> a -> c -> m -> b -> p
 ```
 
 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 같은 접두사를 공유하는 거래를 한 노드 경로로 묶는 데 있다. 그래서 트리는 단순 저장소가 아니라 탐색 공간 자체를 줄이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 된다.
@@ -113,17 +113,17 @@ FP-Growth는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/10
     ### 📈 관련 키워드 및 발전 흐름도
 
     거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
-    │
-    ▼
+    |
+    v
 항목 빈도 집계 / [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)
-    │
-    ▼
+    |
+    v
 FP-tree 구성
-    │
-    ▼
+    |
+    v
 조건부 패턴 베이스
-    │
-    ▼
+    |
+    v
 빈발 항목집합과 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ FP-tree 구성
 
 **진행 상황**: 87 / 258
 
-← **이전**: [86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)
-**다음**: [88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/088_k_fold_cross_validation_overfitting_generalization/) →
+<- **이전**: [86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)
+**다음**: [88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/088_k_fold_cross_validation_overfitting_generalization/) ->
 
 ---

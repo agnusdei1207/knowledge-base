@@ -13,27 +13,27 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) ([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)) 패턴은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Microservice) 환경에서 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체 시스템으로 전파되는 연쇄 장애(Cascading Failure)를 차단하기 위해, 전기 차단기처럼 장애 감지 시 호출을 즉시 차단하고 자가 치유(Self-Healing)를 시도하는 패턴이다.
 > 2. **가치**: [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)까지 기다리며 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 소모하는 대신 즉시 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) ([폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)) 응답을 반환하여, 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 격리하고 호출자를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
-> 3. **판단 포인트**: 세 가지 상태(Closed → Open → Half-Open)의 전이 조건인 **실패율 임계값(Failure Rate Threshold)** 과 **대기 시간(Wait Duration)** 이 핵심 튜닝 파라미터다.
+> 3. **판단 포인트**: 세 가지 상태(Closed -> Open -> Half-Open)의 전이 조건인 **실패율 임계값(Failure Rate Threshold)** 과 **대기 시간(Wait Duration)** 이 핵심 튜닝 파라미터다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 ```
 마이크로서비스 의존 관계:
-  서비스 A → 서비스 B → 서비스 C (장애 발생!)
+  서비스 A -> 서비스 B -> 서비스 C (장애 발생!)
 
 장애 전파:
   1. 서비스 C 응답 지연 (10초 타임아웃)
   2. 서비스 B의 스레드가 C를 기다리며 블록
   3. 서비스 A의 요청이 밀리며 B의 스레드 풀 고갈
-  4. 서비스 A 전체 응답 불가 → 서비스 A도 장애
+  4. 서비스 A 전체 응답 불가 -> 서비스 A도 장애
   5. 도미노처럼 전체 시스템 다운
 ```
 
 [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 없는 시스템의 치명적 문제:
 - 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 호출하며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자원을 낭비
 - 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 업스트림으로 전파
-- 단일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 → 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운
+- 단일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 -> 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운
 
 전기 차단기([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))에서 이름을 가져왔다:
 - 정상: [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(요청)가 흐름 (Closed)
@@ -41,36 +41,36 @@ tags = ["studynote-design-supervision"]
 - [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 테스트: 소량 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 허용 (Half-Open)
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: Circuit Breaker는 집의 전기 차단기 — 과전류(장애)가 발생하면 즉시 회로를 차단(Open)해서 집 전체가 불타는 것을 막고, 안전해지면 다시 연결(Half-Open → Closed)한다.
+- **📢 섹션 요약 비유**: Circuit Breaker는 집의 전기 차단기 — 과전류(장애)가 발생하면 즉시 회로를 차단(Open)해서 집 전체가 불타는 것을 막고, 안전해지면 다시 연결(Half-Open -> Closed)한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌──────────────────────────────────────────────────────────────┐
-│           Circuit Breaker State Machine                      │
-│                                                              │
-│  ┌───────────┐                         ┌───────────────┐     │
-│  │  CLOSED   │  실패율 > 임계값(50%)    │     OPEN      │     │
-│  │ (정상 운영)│────────────────────────▶│  (호출 차단)   │     │
-│  │           │  (예: 10번 중 5번 실패)  │               │     │
-│  └─────┬─────┘                         └──────┬────────┘     │
-│        │                                      │              │
-│        │ 성공률 > 임계값(90%)                   │ 대기시간 경과  │
-│        │ 충분한 시도 횟수                       │ (예: 60초)    │
-│        │                                      ▼              │
-│        │                              ┌───────────────┐      │
-│        └──────────────────────────────│  HALF-OPEN    │      │
-│                                       │ (탐색/테스트)  │      │
-│                                       │               │      │
-│                                       │ 실패 시 → OPEN │      │
-│                                       └───────────────┘      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Circuit Breaker State Machine                      |
+|                                                              |
+|  +-----------+                         +---------------+     |
+|  |  CLOSED   |  실패율 > 임계값(50%)    |     OPEN      |     |
+|  | (정상 운영)|------------------------->|  (호출 차단)   |     |
+|  |           |  (예: 10번 중 5번 실패)  |               |     |
+|  +-----+-----+                         +------+--------+     |
+|        |                                      |              |
+|        | 성공률 > 임계값(90%)                   | 대기시간 경과  |
+|        | 충분한 시도 횟수                       | (예: 60초)    |
+|        |                                      v              |
+|        |                              +---------------+      |
+|        +------------------------------|  HALF-OPEN    |      |
+|                                       | (탐색/테스트)  |      |
+|                                       |               |      |
+|                                       | 실패 시 -> OPEN |      |
+|                                       +---------------+      |
++--------------------------------------------------------------+
 ```
 
 | 파라미터 | 설명 | 기본값 |
@@ -169,7 +169,7 @@ public class OrderService {
 | 실패율 (Failure Rate) | 최근 N번 중 실패 비율 | 30% 경고, 50% 차단 |
 | 슬로우콜 비율 | 기준 시간 초과 비율 | 20% 경고 |
 | 호출 차단 수 | Open 상태에서 거부된 요청 수 | 급증 시 즉시 알람 |
-| [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 횟수 | OPEN/HALF-OPEN 전환 빈도 | 반복 전환 → 근본 원인 조사 |
+| [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 횟수 | OPEN/HALF-OPEN 전환 빈도 | 반복 전환 -> 근본 원인 조사 |
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -215,7 +215,7 @@ public class OrderService {
 | 연관 개념 | Exponential Backoff | Retry와 함께 사용하는 지수 백오프 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)·retry → [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 패턴 → resilience [orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)
+[timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)·retry -> [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 패턴 -> resilience [orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Circuit Breaker는 집 전기 차단기 — 너무 많은 전기(장애 요청)가 흐르면 차단기가 내려가서(Open) 집 전체가 불타는 것을 막아줘.
@@ -228,7 +228,7 @@ public class OrderService {
 
 **진행 상황**: 284 / 530
 
-← **이전**: [222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/)
-**다음**: [224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/224_exponential_backoff_retry/) →
+<- **이전**: [222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/222_mocking_unit_test_stub/)
+**다음**: [224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/224_exponential_backoff_retry/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [NDP]
-    │
-    ▼
+    |
+    v
 [라우터 구조 판단]
-    │
-    └──▶ [CEF 물리적 포워딩 / 하드웨어 스위칭]
+    |
+    +---> [CEF 물리적 포워딩 / 하드웨어 스위칭]
 ```
 
 - **📢 섹션 요약 비유**: ** RIB가 모든 철학과 논리가 담긴 두꺼운 **"수학의 정석(원본)"**이라면, FIB는 내일 수능을 치기 위해 꼭 필요한 공식만 형광펜으로 칠해 얇게 압축해 놓은 **"비법 요약 노트(복사본)"**입니다. 실제 시험(포워딩)장에선 비법 노트만 봅니다.
@@ -54,24 +54,24 @@ tags = ["studynote-network"]
   2. 라인 카드로 패킷이 훅 들어오면, 라인 카드에 달린 칩셋은 중앙 CPU를 괴롭히지 않고, 자기 라인 카드에 있는 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 메모리만 쓱 보고 즉시 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 패킷을 쏴버린다. (CPU 개입 0%)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                라우터의 평면 분리 아키텍처 도식                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 제어 평면 (Control Plane) - CPU ]                         │
- │     [ OSPF ] [ BGP ] [ Static ]                             │
- │         ↘      ↓      ↙                                   │
- │      [ RIB (라우팅 테이블) 작성 ] ──▶ (초당 수십 번 느리게 갱신)    │
- │                │                                            │
- │ ───────────────┼──── (고속 다운로드) ────────────────────────── │
- │                ▼                                            │
- │   [ 데이터 평면 (Data Plane) - 라인 카드 하드웨어 ]                │
- │         [ FIB (고속 포워딩 테이블) ]                             │
- │                ▲                                            │
- │                │ (CPU 거치지 않고 직접 통신!)                    │
- │    패킷 In ────┴──────────────────────▶ 패킷 Out             │
- │   (초당 수백만 개)                                              │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                라우터의 평면 분리 아키텍처 도식                  |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 제어 평면 (Control Plane) - CPU ]                         |
+ |     [ OSPF ] [ BGP ] [ Static ]                             |
+ |         ↘      v      ↙                                   |
+ |      [ RIB (라우팅 테이블) 작성 ] ---> (초당 수십 번 느리게 갱신)    |
+ |                |                                            |
+ | ---------------+---- (고속 다운로드) -------------------------- |
+ |                v                                            |
+ |   [ 데이터 평면 (Data Plane) - 라인 카드 하드웨어 ]                |
+ |         [ FIB (고속 포워딩 테이블) ]                             |
+ |                ^                                            |
+ |                | (CPU 거치지 않고 직접 통신!)                    |
+ |    패킷 In ----+-----------------------> 패킷 Out             |
+ |   (초당 수백만 개)                                              |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 스위칭 발전의 3단계 역사
@@ -137,12 +137,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NDP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 라우터 구조 판단]
-    │
-    ├──▶ [확장 A: CEF 물리적 포워딩 / 하드웨어 스위칭]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: CEF 물리적 포워딩 / 하드웨어 스위칭]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 라우터 구조 판단는 NDP에서 출발해 현재 메커니즘을 정교화하고, 이후 [CEF](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) 물리적 포워딩 / 하드웨어 스위칭와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 458 / 1120
 
-← **이전**: [336. NDP (Neighbor Discovery Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/)
-**다음**: [338. CEF (Cisco Express Forwarding) 물리적 포워딩 / 하드웨어 스위칭 (ASIC)](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) →
+<- **이전**: [336. NDP (Neighbor Discovery Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/)
+**다음**: [338. CEF (Cisco Express Forwarding) 물리적 포워딩 / 하드웨어 스위칭 (ASIC)](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) ->
 
 ---

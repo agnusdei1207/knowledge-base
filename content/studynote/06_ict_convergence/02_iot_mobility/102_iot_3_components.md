@@ -32,19 +32,19 @@ tags = ["studynote-ict-convergence"]
 IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 획득(Sense)하고, 전달(Connect)하며, 처리(Think)하는 선형적인 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 구조다. 각 구성 요소는 물리적 세계의 신호를 사이버 세계의 서비스로 변환하는 각 단계의 부담을 나눠 가진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          IoT 3-Component Core Architecture: 데이터 흐름       │
-├──────────────────────────────────────────────────────────────┤
-│ [Physical World]       [Communication]        [Cyber World]  │
-│                                                              │
-│  ( Component 1 )        ( Component 2 )       ( Component 3 )│
-│  [   Device    ]        [   Network   ]       [  Platform   ]│
-│  +-------------+        +-------------+       +-------------+│
-│  │ · Sensing   │───────▶│ · Routing   │──────▶│ · Analytics ││
-│  │ · Actuating │◀───────│ · Gateway   │◀──────│ · AI/Control││
-│  +-------------+        +-------------+       +-------------+│
-│   센서/MCU/RTOS         5G/LPWAN/MQTT         AWS/Azure/AI   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          IoT 3-Component Core Architecture: 데이터 흐름       |
++--------------------------------------------------------------+
+| [Physical World]       [Communication]        [Cyber World]  |
+|                                                              |
+|  ( Component 1 )        ( Component 2 )       ( Component 3 )|
+|  [   Device    ]        [   Network   ]       [  Platform   ]|
+|  +-------------+        +-------------+       +-------------+|
+|  | · Sensing   |-------->| · Routing   |------->| · Analytics ||
+|  | · Actuating |<--------| · Gateway   |<-------| · AI/Control||
+|  +-------------+        +-------------+       +-------------+|
+|   센서/MCU/RTOS         5G/LPWAN/MQTT         AWS/Azure/AI   |
++--------------------------------------------------------------+
 ```
 
 - **디바이스 (Device)**: 스마트 센서와 액추에이터(Actuator)로 구성되며 임베디드 OS가 탑재된다. 주변 환경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들이고 플랫폼의 명령을 물리적 동작으로 수행한다.
@@ -106,17 +106,17 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ```text
 단순 사물 통신 (M2M)
-    │
-    ▼
+    |
+    v
 IoT 3대 구성 요소 확립 (Device - Network - Platform)
-    │
-    ▼
+    |
+    v
 경량화 프로토콜 (MQTT) 및 저전력 통신망 (LPWAN) 적용
-    │
-    ▼
+    |
+    v
 엣지 컴퓨팅 (Edge Computing) 확산 및 트래픽 분산
-    │
-    ▼
+    |
+    v
 지능형 사물인터넷 (AIoT) 및 디지털 트윈 (Digital Twin) 융합
 ```
 
@@ -132,7 +132,7 @@ IoT 3대 구성 요소 확립 (Device - Network - Platform)
 
 **진행 상황**: 102 / 552
 
-← **이전**: [사물인터넷 (IoT) 개념](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)
-**다음**: [센서 네트워크 (WSN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) →
+<- **이전**: [사물인터넷 (IoT) 개념](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)
+**다음**: [센서 네트워크 (WSN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) ->
 
 ---

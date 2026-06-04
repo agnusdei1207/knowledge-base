@@ -43,27 +43,27 @@ MESI는 캐시 라인마다 4개의 안정 상태를 둔다. `Modified`는 이 �
 이 그림은 구현에서 가장 중요한 대표 전이들을 압축해 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               MESI 상태 전이의 핵심: local + snoop 이벤트            │
-├──────────────────────────────────────────────────────────────────────┤
-│ I --PrRd / BusRd--------------▶ E or S                               │
-│ I --PrWr / BusRdX-------------▶ M                                    │
-│                                                                      │
-│ E --PrWr----------------------▶ M   (silent upgrade)                 │
-│ E --snoop BusRd--------------▶ S                                     │
-│ E --snoop BusRdX-------------▶ I                                     │
-│                                                                      │
-│ S --PrWr / BusUpgr-----------▶ M                                     │
-│ S --snoop BusUpgr, BusRdX----▶ I                                     │
-│                                                                      │
-│ M --snoop BusRd--------------▶ S + data supply / write-back          │
-│ M --snoop BusRdX-------------▶ I + data supply / write-back          │
-│                                                                      │
-│ M,E,S --evict----------------▶ I   (M only needs write-back)         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               MESI 상태 전이의 핵심: local + snoop 이벤트            |
++----------------------------------------------------------------------+
+| I --PrRd / BusRd---------------> E or S                               |
+| I --PrWr / BusRdX--------------> M                                    |
+|                                                                      |
+| E --PrWr-----------------------> M   (silent upgrade)                 |
+| E --snoop BusRd---------------> S                                     |
+| E --snoop BusRdX--------------> I                                     |
+|                                                                      |
+| S --PrWr / BusUpgr------------> M                                     |
+| S --snoop BusUpgr, BusRdX-----> I                                     |
+|                                                                      |
+| M --snoop BusRd---------------> S + data supply / write-back          |
+| M --snoop BusRdX--------------> I + data supply / write-back          |
+|                                                                      |
+| M,E,S --evict-----------------> I   (M only needs write-back)         |
++----------------------------------------------------------------------+
 ```
 
-여기서 가장 중요한 최적화는 `E → M` 전이다. 이 라인을 가진 코어가 자신뿐이라면, 다른 누구도 무효화할 필요가 없으므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 업그레이드 없이 바로 수정할 수 있다. 반면 `S → M`은 공유자들을 무효화해야 하므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트랜잭션이 필요하다. 즉 `Exclusive` 상태는 "조용한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"를 가능하게 만드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태다.
+여기서 가장 중요한 최적화는 `E -> M` 전이다. 이 라인을 가진 코어가 자신뿐이라면, 다른 누구도 무효화할 필요가 없으므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 업그레이드 없이 바로 수정할 수 있다. 반면 `S -> M`은 공유자들을 무효화해야 하므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트랜잭션이 필요하다. 즉 `Exclusive` 상태는 "조용한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"를 가능하게 만드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태다.
 
 또 다른 핵심은 `M` 상태의 책임이다. `M` 상태인 라인을 다른 코어가 읽으려 하면, 현재 보유자가 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급하거나 메모리에 반영해야 한다. 그래서 MESI의 상태 전이도는 단순한 색깔표가 아니라, <strong>누가 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 책임지는가</strong>를 표현하는 실행 규칙이다.
 
@@ -100,7 +100,7 @@ MESI를 제대로 이해하려면 [MSI](/knowledge-base/studynote/01_computer_ar
 
 1. 읽기 위주 공유인지, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁 위주 공유인지 구분했는가?
 2. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 HITM, invalidate, cache-to-cache transfer가 비정상적으로 높지 않은가?
-3. 구조체 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 샤딩으로 `S → M` 업그레이드 빈도를 줄일 수 있는가?
+3. 구조체 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 샤딩으로 `S -> M` 업그레이드 빈도를 줄일 수 있는가?
 4. 코어 수가 큰 시스템이라면 브로드캐스트형 MESI만으로 충분한지, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 변형이 필요한지 검토했는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -109,7 +109,7 @@ MESI를 제대로 이해하려면 [MSI](/knowledge-base/studynote/01_computer_ar
 - [false sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) 가능성을 무시한 촘촘한 구조체 배치
 - MESI가 있으니 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치는 신경 쓰지 않아도 된다고 보는 판단
 
-기술사 답안에서는 상태 이름만 열거하는 것으로 끝내면 안 된다. 더 좋은 답은 `E → M`이 왜 빠른지, `S → M`이 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 요구하는지, `M` 상태가 왜 최신본 책임자인지를 함께 설명하는 것이다.
+기술사 답안에서는 상태 이름만 열거하는 것으로 끝내면 안 된다. 더 좋은 답은 `E -> M`이 왜 빠른지, `S -> M`이 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 요구하는지, `M` 상태가 왜 최신본 책임자인지를 함께 설명하는 것이다.
 
 - **📢 섹션 요약 비유**: MESI 튜닝은 칠판 하나를 여러 학생이 돌려 쓰는 교실을 정리하는 일과 같다. 누가 칠판 분필을 쥐고 있는지 관리하지 않으면, 수업 내용보다 분필 빼앗는 시간이 더 길어진다.
 
@@ -132,7 +132,7 @@ MESI 상태 전이도를 정확히 이해하면, 멀티코어 [캐시 일관성]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) | MESI 상태 전이도가 해결하려는 상위 목표다. |
-| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 무효화 ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)) | `S → M`, `M → I` 전이와 직접 연결되는 기본 정책이다. |
+| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 무효화 ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)) | `S -> M`, `M -> I` 전이와 직접 연결되는 기본 정책이다. |
 | [스누핑 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/) ([Snooping Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/)) | MESI 상태 변화가 브로드캐스트로 전달되는 대표 구현 방식이다. |
 | MOESI / MESIF | MESI의 부족한 부분을 다른 방향으로 확장한 상태 기계다. |
 | [false sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) | 불필요한 상태 전이를 폭증시키는 대표 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제다. |
@@ -142,20 +142,20 @@ MESI 상태 전이도를 정확히 이해하면, 멀티코어 [캐시 일관성]
 
 ```text
 MSI (Modified, Shared, Invalid)
-        │
-        ▼
+        |
+        v
 MESI (Modified, Exclusive, Shared, Invalid)
-        │
-        ├─▶ silent E → M upgrade
-        ├─▶ write-invalidate 최적화
-        │
-        ▼
+        |
+        +--> silent E -> M upgrade
+        +--> write-invalidate 최적화
+        |
+        v
 MOESI / MESIF
-        │
-        ├─▶ dirty data 공유 최적화
-        ├─▶ shared 응답 대표자 지정
-        │
-        ▼
+        |
+        +--> dirty data 공유 최적화
+        +--> shared 응답 대표자 지정
+        |
+        v
 디렉터리 기반 MESI 변형 · many-core coherence 확장
 ```
 
@@ -173,7 +173,7 @@ MOESI / MESIF
 
 **진행 상황**: 512 / 803
 
-← **이전**: [511. 디렉터리 캐시 (Directory Cache)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/511_directory_cache/)
-**다음**: [513. 트랜잭셔널 메모리 (Hardware Transactional Memory, HTM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) →
+<- **이전**: [511. 디렉터리 캐시 (Directory Cache)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/511_directory_cache/)
+**다음**: [513. 트랜잭셔널 메모리 (Hardware Transactional Memory, HTM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) ->
 
 ---

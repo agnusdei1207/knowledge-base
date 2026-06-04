@@ -23,16 +23,16 @@ tags = ["studynote-devops-sre"]
 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) (PersistentVolumeClaim)는 사용자가 필요한 용량·접근 모드를 선언하는 요청 오브젝트다.
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                  스토리지 바인딩 흐름                │
-│                                                      │
-│  개발자                관리자                        │
-│  PVC 생성  ──Binding──▶  PV 매칭                    │
-│  (10Gi 요청)             (10Gi NFS)                  │
-│      │                                              │
-│      ▼                                              │
-│   파드에서 volumeMounts로 사용                       │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                  스토리지 바인딩 흐름                |
+|                                                      |
+|  개발자                관리자                        |
+|  PVC 생성  --Binding--->  PV 매칭                    |
+|  (10Gi 요청)             (10Gi NFS)                  |
+|      |                                              |
+|      v                                              |
+|   파드에서 volumeMounts로 사용                       |
++------------------------------------------------------+
 ```
 
 접근 모드:
@@ -90,7 +90,7 @@ volumeClaimTemplates:
         storage: 5Gi
 ```
 
-[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) `db-0` → [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) `data-db-0`, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) `db-1` → [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) `data-db-1` 식으로 각 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 독립 볼륨을 가진다.
+[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) `db-0` -> [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) `data-db-0`, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) `db-1` -> [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) `data-db-1` 식으로 각 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 독립 볼륨을 가진다.
 
 > 📢 **Ⅲ 섹션 요약 비유**
 > StatefulSet은 기숙사 — 각 학생([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))이 자기 방([PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/))을 갖는 구조다.
@@ -103,9 +103,9 @@ volumeClaimTemplates:
 
 ```
 파드
- │
- ▼
-kubelet ──▶ CSI Driver ──▶ 스토리지 백엔드
+ |
+ v
+kubelet ---> CSI Driver ---> 스토리지 백엔드
              (AWS EBS, GCP PD, Ceph 등)
 ```
 
@@ -134,10 +134,10 @@ kubelet ──▶ CSI Driver ──▶ 스토리지 백엔드
 
 ```
 Persistent Storage
-    ├── PV + PVC → 정적 프로비저닝
-    ├── StorageClass → 동적 프로비저닝
-    ├── CSI Driver → 외부 스토리지 연동
-    └── StatefulSet volumeClaimTemplates → 파드별 독립 볼륨
+    +-- PV + PVC -> 정적 프로비저닝
+    +-- StorageClass -> 동적 프로비저닝
+    +-- CSI Driver -> 외부 스토리지 연동
+    +-- StatefulSet volumeClaimTemplates -> 파드별 독립 볼륨
 ```
 
 > 🧒 **어린이 비유**
@@ -149,7 +149,7 @@ Persistent Storage
 
 **진행 상황**: 314 / 373
 
-← **이전**: [HPA CA Autoscaling](/knowledge-base/studynote/15_devops_sre/05_devsecops/313_hpa_ca/)
-**다음**: [Helm Package Manager](/knowledge-base/studynote/15_devops_sre/05_devsecops/315_process/) →
+<- **이전**: [HPA CA Autoscaling](/knowledge-base/studynote/15_devops_sre/05_devsecops/313_hpa_ca/)
+**다음**: [Helm Package Manager](/knowledge-base/studynote/15_devops_sre/05_devsecops/315_process/) ->
 
 ---

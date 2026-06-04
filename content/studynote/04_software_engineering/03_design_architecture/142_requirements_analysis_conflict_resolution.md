@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 
 ```text
 MoSCoW: Must(필수) > Should(중요) > Could(선택) > Won't(제외)
-AHP: 쌍대 비교 → 가중치 산출 → 정량적 우선순위
+AHP: 쌍대 비교 -> 가중치 산출 -> 정량적 우선순위
 Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 ```
 
@@ -47,9 +47,9 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 협상 (~2000s)] → [MoSCoW (DSDM, 1994)]
-    → [AHP (Saaty, 1980)] → [Kano 모델 (1984)]
-    → [현재: AI 요구 충돌 탐지 — 자동 상충 분석]
+[비공식 협상 (~2000s)] -> [MoSCoW (DSDM, 1994)]
+    -> [AHP (Saaty, 1980)] -> [Kano 모델 (1984)]
+    -> [현재: AI 요구 충돌 탐지 — 자동 상충 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 
 **진행 상황**: 142 / 973
 
-← **이전**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/)
-**다음**: [143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) →
+<- **이전**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/)
+**다음**: [143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) ->
 
 ---

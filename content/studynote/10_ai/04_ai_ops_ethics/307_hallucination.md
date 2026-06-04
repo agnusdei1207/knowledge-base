@@ -24,12 +24,12 @@ ChatGPT에게 "세종대왕이 맥북으로 한글을 창제했나요?"라고 �
 LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 없는 정보나 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 모순된 상황에서도 "가장 그럴듯한 다음 토큰"을 계속 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 특성이 있다. 즉, 모델 구조상 "모른다"는 응답보다 "아는 척"이 손실(Loss)이 더 낮게 나오는 경향이 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LLM의 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 자신감 넘치는 학생이 시험 답을 모르면서도 "그럴싸한 답"을 당당히 써내는 것이다. 채점자(사용자)는 정답처럼 보여서 바로 믿어버린다. 진짜 문제는 학생이 거짓말하는 게 아니라, 본인도 모른다는 것을 모른다는 것이다.
@@ -39,31 +39,31 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         할루시네이션 발생 원인 및 유형 분류                            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [할루시네이션 유형]                                                 │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ 1. 사실 오류 (Factual Hallucination)                     │    │
-│  │    "아인슈타인은 1921년 노벨 문학상을 받았다" (→ 물리학상)    │    │
-│  │                                                         │    │
-│  │ 2. 소스 없는 인용 (Citation Fabrication)                  │    │
-│  │    없는 논문·책·URL을 실제처럼 인용                          │    │
-│  │                                                         │    │
-│  │ 3. 지식 커트오프 오류 (Knowledge Cutoff)                   │    │
-│  │    학습 이후 발생한 사건을 모르면서도 아는 척 생성             │    │
-│  │                                                         │    │
-│  │ 4. 논리 불일치 (Logical Inconsistency)                    │    │
-│  │    동일 대화 내에서 이전 답과 모순된 답 생성                   │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  [근본 원인]                                                       │
-│  LLM 학습 목표: P(next token | context) 최대화                    │
-│  → 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성               │
-│  → 학습 데이터의 오류·편향·누락이 그대로 학습됨                       │
-│  → 드문 사실은 학습 데이터 부족으로 잘못 기억                         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         할루시네이션 발생 원인 및 유형 분류                            |
++------------------------------------------------------------------+
+|                                                                  |
+|  [할루시네이션 유형]                                                 |
+|  +---------------------------------------------------------+    |
+|  | 1. 사실 오류 (Factual Hallucination)                     |    |
+|  |    "아인슈타인은 1921년 노벨 문학상을 받았다" (-> 물리학상)    |    |
+|  |                                                         |    |
+|  | 2. 소스 없는 인용 (Citation Fabrication)                  |    |
+|  |    없는 논문·책·URL을 실제처럼 인용                          |    |
+|  |                                                         |    |
+|  | 3. 지식 커트오프 오류 (Knowledge Cutoff)                   |    |
+|  |    학습 이후 발생한 사건을 모르면서도 아는 척 생성             |    |
+|  |                                                         |    |
+|  | 4. 논리 불일치 (Logical Inconsistency)                    |    |
+|  |    동일 대화 내에서 이전 답과 모순된 답 생성                   |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  [근본 원인]                                                       |
+|  LLM 학습 목표: P(next token | context) 최대화                    |
+|  -> 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성               |
+|  -> 학습 데이터의 오류·편향·누락이 그대로 학습됨                       |
+|  -> 드문 사실은 학습 데이터 부족으로 잘못 기억                         |
++------------------------------------------------------------------+
 ```
 
 | 완화 기법 | 방법 | 효과 |
@@ -127,7 +127,7 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [할루시네이션 (Hallucination)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [할루시네이션 (Hallucination)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -142,7 +142,7 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 **진행 상황**: 307 / 420
 
-← **이전**: [306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)
-**다음**: [308. RAG (Retrieval-Augmented Generation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/308_rag/) →
+<- **이전**: [306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)
+**다음**: [308. RAG (Retrieval-Augmented Generation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/308_rag/) ->
 
 ---

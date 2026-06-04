@@ -31,28 +31,28 @@ tags = ["studynote-network"]
   3. <strong>Google의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> 실험</strong>: 구글은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수정 없이 유저 스페이스에서 수정 가능한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에 혼잡 제어와 암호화를 직접 구현한 QUIC을 만들어 크롬 브라우저와 구글 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간에 실험했고, 그 탁월한 성능이 증명되어 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3로 진화하게 되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        HTTP 프로토콜 스택의 진화 (HTTP/2 vs HTTP/3)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│      [HTTP/2 스택]                 [HTTP/3 스택]              │
-│                                                             │
-│ ┌─────────────────────┐       ┌─────────────────────┐       │
-│ │   HTTP/2 Semantics  │       │   HTTP/3 Semantics  │       │
-│ ├─────────────────────┤       ├─────────────────────┤       │
-│ │ TLS 1.2 / TLS 1.3   │       │ QPACK (헤더 압축)     │       │
-│ ├─────────────────────┤       ├─────────────────────┤       │
-│ │         TCP         │       │        QUIC         │       │
-│ │ (혼잡제어, 순서보장)  │       │ (혼잡제어, TLS 1.3) │       │
-│ ├─────────────────────┤       ├─────────────────────┤       │
-│ │         IP          │       │         UDP         │       │
-│ ├─────────────────────┤       ├─────────────────────┤       │
-│ │     Link Layer      │       │         IP          │       │
-│ └─────────────────────┘       └─────────────────────┘       │
-│                                                             │
-│ ⚠️ HTTP/2는 TCP/TLS/HTTP가      ✅ HTTP/3는 QUIC이 전송,      │
-│ 분리되어 연결 지연이 길다.         암호화, 스트림을 통합 관리한다. │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        HTTP 프로토콜 스택의 진화 (HTTP/2 vs HTTP/3)           |
++-------------------------------------------------------------+
+|                                                             |
+|      [HTTP/2 스택]                 [HTTP/3 스택]              |
+|                                                             |
+| +---------------------+       +---------------------+       |
+| |   HTTP/2 Semantics  |       |   HTTP/3 Semantics  |       |
+| +---------------------+       +---------------------+       |
+| | TLS 1.2 / TLS 1.3   |       | QPACK (헤더 압축)     |       |
+| +---------------------+       +---------------------+       |
+| |         TCP         |       |        QUIC         |       |
+| | (혼잡제어, 순서보장)  |       | (혼잡제어, TLS 1.3) |       |
+| +---------------------+       +---------------------+       |
+| |         IP          |       |         UDP         |       |
+| +---------------------+       +---------------------+       |
+| |     Link Layer      |       |         IP          |       |
+| +---------------------+       +---------------------+       |
+|                                                             |
+| ⚠️ HTTP/2는 TCP/TLS/HTTP가      ✅ HTTP/3는 QUIC이 전송,      |
+| 분리되어 연결 지연이 길다.         암호화, 스트림을 통합 관리한다. |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 아키텍처는 전송 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 TCP에 온전히 의존하고, 보안은 그 위에 얹힌 TLS에 의존했다. 이 수직적 분리 때문에 연결을 맺을 때마다 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-way Handshake와 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake가 직렬로 발생하여 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 레이턴시가 길었다. 반면 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 스택에서는 UDP라는 빈 껍데기 위에 QUIC이라는 거대한 사용자 공간(User-space) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 올렸다. [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 내부에 혼잡 제어, 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [다중 스트림](/knowledge-base/studynote/02_operating_system/09_file_system/560_multi_stream_file_fork_ads/) 관리, 그리고 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 암호화가 모두 내장(통합)되어 있어, 구조적 유연성과 연결 속도의 혁신을 동시에 달성했다.
@@ -78,31 +78,31 @@ tags = ["studynote-network"]
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 멀티플렉싱은 TCP라는 하나의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에서 이뤄졌다. 패킷 A, B, C가 있을 때 A가 유실되면, TCP는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 위해 A를 재전송받을 때까지 이미 잘 도착한 B, C를 브라우저([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))로 올려보내지 않는다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3는 스트림의 순서 보장 역할을 QUIC으로 넘겨 스트림 간의 독립성을 물리적으로 보장한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              TCP HOL Blocking vs QUIC 독립 스트림                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│ [HTTP/2 over TCP] - 패킷 #2 유실 상황                             │
-│                                                                 │
-│  서버 ───▶ [패킷 1: HTML] ───▶ 성공!                             │
-│  서버 ───▶ [패킷 2: CSS ] ───▶ 💥유실 (Drop)                      │
-│  서버 ───▶ [패킷 3: JS  ] ───▶ 성공 (그러나 TCP 버퍼에 갇힘)       │
-│                                                                 │
-│  TCP 수신 버퍼: [ HTML(1) ] [  비어있음(2)  ] [  JS(3)  ]        │
-│  애플리케이션:  HTML만 렌더링. JS는 도착했어도 CSS(2) 재전송 올때까지 │
-│                절대 읽을 수 없음! (TCP HOL Blocking 발생)          │
-│                                                                 │
-│ [HTTP/3 over QUIC] - 패킷 #2 유실 상황                            │
-│                                                                 │
-│  서버 ───▶ [패킷 1: HTML(Stream A)] ───▶ 성공!                    │
-│  서버 ───▶ [패킷 2: CSS (Stream B)] ───▶ 💥유실 (Drop)            │
-│  서버 ───▶ [패킷 3: JS  (Stream C)] ───▶ 성공!                    │
-│                                                                 │
-│  QUIC 수신 버퍼:                                                 │
-│  Stream A: [ HTML(1) ] ──▶ 브라우저에 즉시 전달!                   │
-│  Stream B: [ 비어있음 ]  ──▶ CSS 재전송 대기                       │
-│  Stream C: [  JS(3)  ] ──▶ 브라우저에 즉시 전달! (블로킹 없음)      │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              TCP HOL Blocking vs QUIC 독립 스트림                 |
++-----------------------------------------------------------------+
+|                                                                 |
+| [HTTP/2 over TCP] - 패킷 #2 유실 상황                             |
+|                                                                 |
+|  서버 ----> [패킷 1: HTML] ----> 성공!                             |
+|  서버 ----> [패킷 2: CSS ] ----> 💥유실 (Drop)                      |
+|  서버 ----> [패킷 3: JS  ] ----> 성공 (그러나 TCP 버퍼에 갇힘)       |
+|                                                                 |
+|  TCP 수신 버퍼: [ HTML(1) ] [  비어있음(2)  ] [  JS(3)  ]        |
+|  애플리케이션:  HTML만 렌더링. JS는 도착했어도 CSS(2) 재전송 올때까지 |
+|                절대 읽을 수 없음! (TCP HOL Blocking 발생)          |
+|                                                                 |
+| [HTTP/3 over QUIC] - 패킷 #2 유실 상황                            |
+|                                                                 |
+|  서버 ----> [패킷 1: HTML(Stream A)] ----> 성공!                    |
+|  서버 ----> [패킷 2: CSS (Stream B)] ----> 💥유실 (Drop)            |
+|  서버 ----> [패킷 3: JS  (Stream C)] ----> 성공!                    |
+|                                                                 |
+|  QUIC 수신 버퍼:                                                 |
+|  Stream A: [ HTML(1) ] ---> 브라우저에 즉시 전달!                   |
+|  Stream B: [ 비어있음 ]  ---> CSS 재전송 대기                       |
+|  Stream C: [  JS(3)  ] ---> 브라우저에 즉시 전달! (블로킹 없음)      |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 환경에서는 3개의 패킷이 각각 다른 자원(HTML, [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/), JS)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담고 있더라도, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 입장에서는 그저 하나의 거대한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림일 뿐이다. 따라서 중간(패킷 2)이 비어있으면 뒤따라온 패킷 3을 상위로 올려보내지 못하고 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))한다. 하단의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 환경에서는 QUIC이 스트림별로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 관리한다. 스트림 B의 패킷이 유실되더라도 스트림 C는 스트림 B의 상태와 무관하게 즉각 애플리케이션 계층(브라우저)으로 전달된다. 이 차이가 모바일 네트워크처럼 패킷 유실이 흔한 환경에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3가 극적인 속도 향상을 보여주는 근본 원리다.
@@ -143,28 +143,28 @@ QUIC은 연결을 식별하기 위해 IP 주소가 아닌 64비트의 <strong>Co
    - **판단**: 많은 레거시 기업 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 통신사 장비들은 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 트래픽을 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 우회 공격이나 DDoS로 오인하여 차단(Drop)하거나 대역폭을 극단적으로 제한(Throttling)한다. 실무에서는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3를 도입할 때 반드시 `Alt-Svc` (Alternative Services) 헤더를 통해 브라우저가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 접속 실패 시 즉각 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))할 수 있는 하이브리드 아키텍처를 강제해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: Alt-Svc 헤더를 통한 HTTP/3 폴백 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │ [Client Browser]                           [Web Server / CDN]       │
-  │        │                                           │              │
-  │        │ 1. 최초 접속 시도: HTTP/1.1 또는 HTTP/2 (TCP) │              │
-  │        │──────────────────────────────────────────▶│              │
-  │        │                                           │              │
-  │        │ 2. 응답 헤더: 200 OK                      │              │
-  │        │    Alt-Svc: h3=":443"; ma=2592000         │              │
-  │        │◀──────────────────────────────────────────│              │
-  │        │ (의미: "우리 서버 HTTP/3 지원하니까 다음번엔 UDP로 와!")     │
-  │        │                                           │              │
-  │        │ 3. 백그라운드에서 UDP 443 핑 테스트 (연결 시도) │              │
-  │        ├─────────▶ [방화벽에 의해 UDP 차단!] ───── X │              │
-  │        │                                           │              │
-  │        │ 4. UDP 실패 인지 ──▶ HTTP/2 (TCP) 세션 무중단 유지         │
-  │        │──────────────────────────────────────────▶│              │
-  │                                                                   │
-  │  ※ 판단: UDP가 막힌 환경(기업망 등)을 대비해 반드시 TCP 폴백 지원!    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         실무 아키텍처: Alt-Svc 헤더를 통한 HTTP/3 폴백 플로우         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  | [Client Browser]                           [Web Server / CDN]       |
+  |        |                                           |              |
+  |        | 1. 최초 접속 시도: HTTP/1.1 또는 HTTP/2 (TCP) |              |
+  |        |------------------------------------------->|              |
+  |        |                                           |              |
+  |        | 2. 응답 헤더: 200 OK                      |              |
+  |        |    Alt-Svc: h3=":443"; ma=2592000         |              |
+  |        |<-------------------------------------------|              |
+  |        | (의미: "우리 서버 HTTP/3 지원하니까 다음번엔 UDP로 와!")     |
+  |        |                                           |              |
+  |        | 3. 백그라운드에서 UDP 443 핑 테스트 (연결 시도) |              |
+  |        +----------> [방화벽에 의해 UDP 차단!] ----- X |              |
+  |        |                                           |              |
+  |        | 4. UDP 실패 인지 ---> HTTP/2 (TCP) 세션 무중단 유지         |
+  |        |------------------------------------------->|              |
+  |                                                                   |
+  |  ※ 판단: UDP가 막힌 환경(기업망 등)을 대비해 반드시 TCP 폴백 지원!    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 브라우저는 처음에 서버가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3를 지원하는지 알 수 없으므로 무조건 검증된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2)로 최초 연결을 맺는다. 서버는 응답에 `Alt-Svc` (Alternative Services) 헤더를 포함시켜 "[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 443에서 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)(h3) 대기 중"임을 알린다. 브라우저는 이를 캐싱하고 병렬로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 접속을 시도한다. 성공하면 다음 요청부터는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3로 통신을 넘기고([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Upgrade), 만약 사내 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 등에 의해 UDP가 막혀있다면 조용히 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 계속 사용한다. 이 메커니즘 덕분에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 도입은 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 완벽히 보장하면서 점진적으로 이루어질 수 있다.
@@ -216,12 +216,12 @@ TCP가 쌓아 올린 견고한 성을 부수고 등장한 [HTTP](/knowledge-base
 
 ```text
 [선행 개념: HTTP/2 서버 푸시]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP/3 특징]
-    │
-    ├──▶ [확장 A: HTTPS]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTPS]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 특징는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 서버 푸시에서 출발해 현재 메커니즘을 정교화하고, 이후 HTTPS와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -238,7 +238,7 @@ TCP가 쌓아 올린 견고한 성을 부수고 등장한 [HTTP](/knowledge-base
 
 **진행 상황**: 591 / 1120
 
-← **이전**: [469. HTTP/2 서버 푸시 (Server Push)](/knowledge-base/studynote/03_network/09_application_layer_web_email/469_http2_server_push/)
-**다음**: [471. HTTPS (HTTP over TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) →
+<- **이전**: [469. HTTP/2 서버 푸시 (Server Push)](/knowledge-base/studynote/03_network/09_application_layer_web_email/469_http2_server_push/)
+**다음**: [471. HTTPS (HTTP over TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) ->
 
 ---

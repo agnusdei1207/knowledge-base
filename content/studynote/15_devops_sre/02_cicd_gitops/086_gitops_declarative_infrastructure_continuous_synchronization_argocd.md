@@ -34,12 +34,12 @@ GitOps는 배포 명령이 아니라 원하는 상태 선언을 중심에 둔다
 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 클러스터 | 실제 실행 환경 | 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 | [Argo CD](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/) | 대표적인 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구 | 싱크와 헬스 체크 |
 
-┌──────────┐ commit ┌───────────────┐ sync ┌───────────────┐
-│   Git    │──────▶│   [Argo CD](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/)     │─────▶│ [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)    │
-│  repo    │       │ controller    │      │ cluster       │
-└────┬─────┘       └──────┬────────┘      └──────┬────────┘
-     │ drift detect          │ actual [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)          │
-     └──────────────────────◀─┴───────────────────────┘
++----------+ commit +---------------+ sync +---------------+
+|   Git    |------->|   [Argo CD](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/)     |------>| [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)    |
+|  repo    |       | controller    |      | cluster       |
++----+-----+       +------+--------+      +------+--------+
+     | drift detect          | actual [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)          |
+     +----------------------<--+-----------------------+
 - **📢 섹션 요약 비유**: 기준과 실제를 계속 비교하는 로봇이 핵심이다.
 
 ---
@@ -89,7 +89,7 @@ GitOps는 사람의 실수 자체를 없애기보다, 실수가 생겨도 다시
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-코드 커밋 → PR 리뷰 → 머지 → 동기화 → 드리프트 감지 → 실제 상태 재조정
+코드 커밋 -> PR 리뷰 -> 머지 -> 동기화 -> 드리프트 감지 -> 실제 상태 재조정
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -104,7 +104,7 @@ GitOps는 사람의 실수 자체를 없애기보다, 실수가 생겨도 다시
 
 **진행 상황**: 86 / 373
 
-← **이전**: [85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/085_canary_release_progressive_delivery_weight_routing/)
-**다음**: [87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) →
+<- **이전**: [85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/085_canary_release_progressive_delivery_weight_routing/)
+**다음**: [87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) ->
 
 ---

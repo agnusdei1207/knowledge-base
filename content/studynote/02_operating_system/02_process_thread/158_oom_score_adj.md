@@ -44,21 +44,21 @@ tags = ["studynote-operating-system"]
 아래 그림은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 판단에 `oom_score_adj`가 개입하는 지점을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 OOM selection path with policy override                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ memory pressure                                                            │
-│      │                                                                     │
-│      ├── reclaim / compact / swap try                                      │
-│      └── still allocation failure                                          │
-│              ▼                                                             │
-│      kernel badness heuristic ──▶ oom_score                                │
-│                                   +                                        │
-│                          admin policy ──▶ oom_score_adj                    │
-│                                   │                                        │
-│                                   ▼                                        │
-│                        victim chosen and SIGKILL issued                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 OOM selection path with policy override                    |
++----------------------------------------------------------------------------+
+| memory pressure                                                            |
+|      |                                                                     |
+|      +-- reclaim / compact / swap try                                      |
+|      +-- still allocation failure                                          |
+|              v                                                             |
+|      kernel badness heuristic ---> oom_score                                |
+|                                   +                                        |
+|                          admin policy ---> oom_score_adj                    |
+|                                   |                                        |
+|                                   v                                        |
+|                        victim chosen and SIGKILL issued                     |
++----------------------------------------------------------------------------+
 ```
 
 실무적으로 기억할 점은 세 가지다. 첫째, `oom_score_adj`는 프로세스 단위 값이며 자식 프로세스에 상속될 수 있어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트리 전체에 영향을 준다. 둘째, 직접 `/proc`에 쓴 값은 프로세스가 재시작되면 사라지므로 지속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 `systemd`나 오케스트레이터에서 관리하는 편이 낫다. 셋째, `-1000`은 강력하지만 남용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 실제 위기 때 선택할 후보를 잃어 더 큰 장애를 만들 수 있다.
@@ -131,17 +131,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 메모리 압박
-    │
-    ▼
+    |
+    v
 페이지 회수 · 스왑 · 압축 시도
-    │
-    ▼
+    |
+    v
 OOM Killer 진입
-    │
-    ▼
+    |
+    v
 oom_score + oom_score_adj
-    │
-    ▼
+    |
+    v
 cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설계
 ```
 
@@ -159,7 +159,7 @@ cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설�
 
 **진행 상황**: 158 / 800
 
-← **이전**: [157. OOM (Out Of Memory) Killer 프로세스 종료 정책](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)
-**다음**: [159. 프로세스 그룹 (Process Group)](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) →
+<- **이전**: [157. OOM (Out Of Memory) Killer 프로세스 종료 정책](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)
+**다음**: [159. 프로세스 그룹 (Process Group)](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) ->
 
 ---

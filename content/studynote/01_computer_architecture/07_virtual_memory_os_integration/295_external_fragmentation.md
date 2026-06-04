@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 "메모리 부족"이 아니라 "배치 실패" 문제임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        총 여유 공간은 충분하지만 연속 공간이 부족한 상태     │
-├──────────────────────────────────────────────────────────────┤
-│ 낮은 주소                                                    │
-│ ┌──────┬─────┬──────┬─────┬────────┬─────┬──────────────┐    │
-│ │ OS   │ P1  │ Hole │ P2  │  Hole  │ P3  │    Hole      │    │
-│ └──────┴─────┴──────┴─────┴────────┴─────┴──────────────┘    │
-│          8KB            12KB                    20KB         │
-│                                                              │
-│ 총 여유 공간 = 40KB, 그러나 가장 큰 연속 Hole = 20KB         │
-│ ⇒ 24KB 요청은 실패                                            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        총 여유 공간은 충분하지만 연속 공간이 부족한 상태     |
++--------------------------------------------------------------+
+| 낮은 주소                                                    |
+| +------+-----+------+-----+--------+-----+--------------+    |
+| | OS   | P1  | Hole | P2  |  Hole  | P3  |    Hole      |    |
+| +------+-----+------+-----+--------+-----+--------------+    |
+|          8KB            12KB                    20KB         |
+|                                                              |
+| 총 여유 공간 = 40KB, 그러나 가장 큰 연속 Hole = 20KB         |
+| ⇒ 24KB 요청은 실패                                            |
++--------------------------------------------------------------+
 ```
 
 이 현상을 이해해야 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))가 왜 필요한지, 그리고 왜 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 연속 물리 배치보다 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연속성을 더 중시하는지 자연스럽게 연결된다.
@@ -48,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 `할당 → 해제 → 재할당`이 반복될수록 심해진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 빈 공간 목록을 관리하면서 요청 크기에 맞는 구역을 찾고, 해제 시 인접 빈 공간을 합치며, 필요하면 전체 메모리를 재배열하려고 시도한다. 즉 문제의 본질은 저장 용량보다 <strong>배치 정책과 재정리 비용</strong>에 있다.
+[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 `할당 -> 해제 -> 재할당`이 반복될수록 심해진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 빈 공간 목록을 관리하면서 요청 크기에 맞는 구역을 찾고, 해제 시 인접 빈 공간을 합치며, 필요하면 전체 메모리를 재배열하려고 시도한다. 즉 문제의 본질은 저장 용량보다 <strong>배치 정책과 재정리 비용</strong>에 있다.
 
 | 메커니즘 | 동작 방식 | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 미치는 영향 |
 | :--- | :--- | :--- |
@@ -61,28 +61,28 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 누적되는 전형적인 과정을 나타낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              가변 분할 환경의 단편화 누적 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 초기                                                     │
-│    [----------------------------- Free --------------------] │
-│                                                              │
-│ 2) A 20KB, B 10KB, C 15KB 할당                               │
-│    [ AAAAAAAAAAAAAAAAAAAA | BBBBBBBBBB | CCCCCCCCCCCCCCC ]   │
-│                                                              │
-│ 3) B 해제                                                    │
-│    [ AAAAAAAAAAAAAAAAAAAA |    10KB Hole   | CCCCCCCCCCCCCCC ]│
-│                                                              │
-│ 4) D 6KB 할당                                                │
-│    [ AAAAAAAAAAAAAAAAAAAA | DDDDDD | 4KB | CCCCCCCCCCCCCCC ] │
-│                                                              │
-│ 5) A 해제                                                    │
-│    [      20KB Hole      | DDDDDD | 4KB | CCCCCCCCCCCCCCC ]  │
-│                                                              │
-│ 6) E 22KB 요청                                               │
-│    총 여유 공간은 24KB이지만, 연속 구역 최대값은 20KB        │
-│    ⇒ 할당 실패                                               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              가변 분할 환경의 단편화 누적 흐름               |
++--------------------------------------------------------------+
+| 1) 초기                                                     |
+|    [----------------------------- Free --------------------] |
+|                                                              |
+| 2) A 20KB, B 10KB, C 15KB 할당                               |
+|    [ AAAAAAAAAAAAAAAAAAAA | BBBBBBBBBB | CCCCCCCCCCCCCCC ]   |
+|                                                              |
+| 3) B 해제                                                    |
+|    [ AAAAAAAAAAAAAAAAAAAA |    10KB Hole   | CCCCCCCCCCCCCCC ]|
+|                                                              |
+| 4) D 6KB 할당                                                |
+|    [ AAAAAAAAAAAAAAAAAAAA | DDDDDD | 4KB | CCCCCCCCCCCCCCC ] |
+|                                                              |
+| 5) A 해제                                                    |
+|    [      20KB Hole      | DDDDDD | 4KB | CCCCCCCCCCCCCCC ]  |
+|                                                              |
+| 6) E 22KB 요청                                               |
+|    총 여유 공간은 24KB이지만, 연속 구역 최대값은 20KB        |
+|    ⇒ 할당 실패                                               |
++--------------------------------------------------------------+
 ```
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 까다로운 지점은 주소 재배치다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 수행하면 프로세스가 참조하던 물리 주소를 모두 옮겨야 하므로, 동적 재배치 하드웨어나 재배치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 없이는 안전한 수행이 어렵다. 그래서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 단순한 메모리 관리자 문제를 넘어 하드웨어 지원과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 함께 얽힌 통합 설계 이슈가 된다.
@@ -168,23 +168,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 메모리 할당
-    │
-    ▼
+    |
+    v
 가변 분할 · 외부 단편화 (External Fragmentation)
-    │
-    ├─▶ 병합 (Coalescing) · 압축 (Compaction)
-    │
-    ▼
+    |
+    +--> 병합 (Coalescing) · 압축 (Compaction)
+    |
+    v
 세그멘테이션 (Segmentation)의 한계
-    │
-    ▼
+    |
+    v
 페이징 (Paging) · 가상 메모리 (Virtual Memory)
-    │
-    ▼
+    |
+    v
 버디 시스템 (Buddy System) · Huge Page · DMA 연속 버퍼 관리
 ```
 
-이 흐름은 "[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 구조적 문제 인식 → 완화 기법 → [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 중심 전환 → 현대 물리 메모리 관리 고도화"로 이어지는 진화를 보여준다.
+이 흐름은 "[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 구조적 문제 인식 -> 완화 기법 -> [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 중심 전환 -> 현대 물리 메모리 관리 고도화"로 이어지는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +198,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 295 / 803
 
-← **이전**: [294. 세그먼트 테이블 (Segment Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/294_segment_table/)
-**다음**: [296. 페이징과 세그멘테이션 혼용 (Paging-Segmentation Hybrid)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/296_paging_segmentation_hybrid/) →
+<- **이전**: [294. 세그먼트 테이블 (Segment Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/294_segment_table/)
+**다음**: [296. 페이징과 세그멘테이션 혼용 (Paging-Segmentation Hybrid)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/296_paging_segmentation_hybrid/) ->
 
 ---

@@ -38,7 +38,7 @@ NP-완전 (NP-Complete):
 의미:
   NP-완전 문제 하나를 다항시간에 풀면
   모든 NP 문제를 다항시간에 풀 수 있음
-  → P = NP 증명!
+  -> P = NP 증명!
 
 현재 상태:
   P = NP 인지 P ≠ NP 인지 미증명
@@ -65,7 +65,7 @@ SAT 문제:
   질문: 참으로 만드는 변수 값 조합이 있는가?
 
   예: (x1 OR x2) AND (NOT x1 OR x3)
-  → x1=F, x2=T, x3=T: (T) AND (T) = T ✓
+  -> x1=F, x2=T, x3=T: (T) AND (T) = T ✓
 
 3-SAT:
   SAT의 특수 형태 (각 절 변수 3개)
@@ -73,7 +73,7 @@ SAT 문제:
 
 다항시간 환산 (Polynomial Reduction):
   문제 A ≤_p 문제 B:
-  A의 인스턴스 → 다항시간 변환 → B의 인스턴스
+  A의 인스턴스 -> 다항시간 변환 -> B의 인스턴스
   B를 풀면 A도 풀림
 
 Karp의 21개 NP-완전 문제 (1972):
@@ -143,12 +143,12 @@ NP-완전 문제 실용적 해법:
 
 3. FPT (Fixed Parameter Tractable):
    특정 파라미터 고정 시 다항시간 가능
-   예: 정점 커버 (k=파라미터) → O(2^k * n)
+   예: 정점 커버 (k=파라미터) -> O(2^k * n)
    k가 작으면 실용적
 
 4. 특수 구조 활용:
-   평면 그래프 → 채색 4색 (상수시간)
-   트리 구조 → 많은 NP-완전 문제 다항시간 해결
+   평면 그래프 -> 채색 4색 (상수시간)
+   트리 구조 -> 많은 NP-완전 문제 다항시간 해결
 
 5. 확률적 알고리즘:
    Monte Carlo: 높은 확률로 정답 보장
@@ -174,7 +174,7 @@ NP-완전 문제 실용적 해법:
   = NP-완전 (TSP 변형)
 
 단순 완전 탐색:
-  500! 경우의 수 → 우주 나이로도 불가
+  500! 경우의 수 -> 우주 나이로도 불가
 
 근사 알고리즘 선택:
   방법: Christofides 알고리즘
@@ -182,7 +182,7 @@ NP-완전 문제 실용적 해법:
   실행: 수 초 이내
 
 실용적 접근:
-  1. 지역 분할: 500개 거점 → 50개 구역 분할
+  1. 지역 분할: 500개 거점 -> 50개 구역 분할
   2. 각 구역 내: Greedy TSP (50~100개 노드)
   3. 구역 간: 최소 신장 트리 기반 근사
   4. 결과: 최적의 85~95% 효율 달성
@@ -263,7 +263,7 @@ LLM 기반 조합 최적화 연구 진행 중
 
 **진행 상황**: 108 / 175
 
-← **이전**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/107_np_class/)
-**다음**: [004. NP-어려움 (NP-Hard)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) →
+<- **이전**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/107_np_class/)
+**다음**: [004. NP-어려움 (NP-Hard)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) ->
 
 ---

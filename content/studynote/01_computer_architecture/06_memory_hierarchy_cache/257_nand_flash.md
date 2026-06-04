@@ -26,15 +26,15 @@ NAND 플래시 (NAND Flash)는 전원이 꺼져도 저장된 전하 상태를 �
 아래 그림은 NAND 플래시가 왜 집적도에 강한지 보여준다. 개별 문을 많이 두는 대신, 여러 방을 긴 복도 하나로 묶는 방식이라 생각하면 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                NAND 플래시의 핵심 선택: 배선 절약으로 셀 밀도 확보         │
-├───────────────────────┬───────────────────────────┬────────────────────────┤
-│ NOR 계열              │ NAND 계열                 │ 결과                   │
-├───────────────────────┼───────────────────────────┼────────────────────────┤
-│ 셀마다 접근선이 큼    │ 셀 여러 개를 직렬 연결    │ 동일 면적에 더 많은 셀 │
-│ 바이트 접근이 쉬움    │ 페이지 단위 접근 중심     │ 대용량 저장에 유리     │
-│ XIP에 적합            │ 저장 매체에 적합          │ SSD·모바일 저장소 채택 │
-└───────────────────────┴───────────────────────────┴────────────────────────┘
++----------------------------------------------------------------------------+
+|                NAND 플래시의 핵심 선택: 배선 절약으로 셀 밀도 확보         |
++-----------------------+---------------------------+------------------------+
+| NOR 계열              | NAND 계열                 | 결과                   |
++-----------------------+---------------------------+------------------------+
+| 셀마다 접근선이 큼    | 셀 여러 개를 직렬 연결    | 동일 면적에 더 많은 셀 |
+| 바이트 접근이 쉬움    | 페이지 단위 접근 중심     | 대용량 저장에 유리     |
+| XIP에 적합            | 저장 매체에 적합          | SSD·모바일 저장소 채택 |
++-----------------------+---------------------------+------------------------+
 ```
 
 즉 NAND 플래시는 "접근 편의성을 조금 포기하고 저장 밀도를 크게 얻는 거래"의 산물이다. 이 선택이 메모리 계층에서 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)를 빠르게 대체한 핵심 이유다.
@@ -57,25 +57,25 @@ NAND 플래시의 기본 저장 단위는 전하를 가두는 셀(Cell)이고, �
 다음 흐름도는 NAND 플래시가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신할 때 왜 FTL이 필요한지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   NAND 플래시 쓰기 경로와 블록 삭제의 비대칭               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 호스트 쓰기 요청                                                           │
-│      │                                                                     │
-│      ▼                                                                     │
-│ FTL이 논리 주소를 빈 페이지로 매핑                                          │
-│      │                                                                     │
-│      ├── 기존 데이터가 있으면 → 기존 페이지를 invalid 표시                 │
-│      │                                                                     │
-│      ▼                                                                     │
-│ 새 페이지 Program                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ invalid 페이지 누적                                                        │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Garbage Collection → 유효 페이지 복사 → 블록 Erase → 재사용               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   NAND 플래시 쓰기 경로와 블록 삭제의 비대칭               |
++----------------------------------------------------------------------------+
+| 호스트 쓰기 요청                                                           |
+|      |                                                                     |
+|      v                                                                     |
+| FTL이 논리 주소를 빈 페이지로 매핑                                          |
+|      |                                                                     |
+|      +-- 기존 데이터가 있으면 -> 기존 페이지를 invalid 표시                 |
+|      |                                                                     |
+|      v                                                                     |
+| 새 페이지 Program                                                          |
+|      |                                                                     |
+|      v                                                                     |
+| invalid 페이지 누적                                                        |
+|      |                                                                     |
+|      v                                                                     |
+| Garbage Collection -> 유효 페이지 복사 -> 블록 Erase -> 재사용               |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 세 가지다. 첫째, 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 연속 사용하므로 빠르다. 둘째, 임의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무효화하고 새 위치에 써야 하므로 내부 복사가 늘어난다. 셋째, 삭제는 블록 전체에 대해서만 가능하므로 작은 수정이 큰 내부 작업으로 증폭될 수 있다. 이 현상을 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))이라 하며, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 수명 단축의 직접 원인이 된다.
@@ -156,21 +156,21 @@ NAND 플래시가 가져온 가장 큰 효과는 저장장치를 "기계식 회�
 
 ```text
 플로팅 게이트 셀 기반 비휘발성 저장
-    │
-    ▼
+    |
+    v
 NAND 문자열 구조 · 페이지/블록 비대칭
-    │
-    ▼
+    |
+    v
 FTL · 웨어 레벨링 · 가비지 컬렉션
-    │
-    ▼
+    |
+    v
 SSD · eMMC · UFS 대중화
-    │
-    ▼
+    |
+    v
 3D NAND · TLC/QLC · 고도화된 ECC
 ```
 
-이 흐름은 "물리 저장 원리 → 구조적 제약 → 제약을 숨기는 제어 기술 → 대중화 → 고집적 확장"의 순서를 보여준다.
+이 흐름은 "물리 저장 원리 -> 구조적 제약 -> 제약을 숨기는 제어 기술 -> 대중화 -> 고집적 확장"의 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +184,7 @@ SSD · eMMC · UFS 대중화
 
 **진행 상황**: 257 / 803
 
-← **이전**: [256. 플래시 메모리 (Flash Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
-**다음**: [258. NOR 플래시 (NOR Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/258_nor_flash/) →
+<- **이전**: [256. 플래시 메모리 (Flash Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
+**다음**: [258. NOR 플래시 (NOR Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/258_nor_flash/) ->
 
 ---

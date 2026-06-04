@@ -12,24 +12,24 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self-Attention은 <strong>같은 시퀀스 내에서 각 위치가 다른 모든 위치를 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여 문맥을 파악하는 메커니즘이며, Transformer의 핵심 연산이다. Q·K·V가 모두 <strong>같은 시퀀스에서 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>된다.
 > 2. **가치**: "The animal didn't cross the street because **it** was too tired"에서 "it"이 "animal"을 가리킨다는 것을 파악하려면 문장 전체를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)해야 하며, Self-Attention이 이를 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>로 정량화</strong>한다.
-> 3. **판단 포인트**: Cross-Attention(Q≠K,V, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)→[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))과 구분하고, **Masked Self-Attention**([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에서 미래 토큰 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 방지)의 필요성을 이해해야 한다.
+> 3. **판단 포인트**: Cross-Attention(Q≠K,V, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)->[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))과 구분하고, **Masked Self-Attention**([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에서 미래 토큰 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 방지)의 필요성을 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Self-Attention 동작                                │
-├───────────────────────────────────────────────────────┤
-│  입력: "The cat sat on the mat"                       │
-│                                                       │
-│  "sat"의 Self-Attention:                              │
-│   "The"→0.05, "cat"→0.30, "sat"→0.10               │
-│   "on"→0.15, "the"→0.05, "mat"→0.35                │
-│   → "sat"은 "cat"과 "mat"에 높은 가중치!            │
-│   → "누가(cat) 어디에(mat) 앉았는지" 파악            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Self-Attention 동작                                |
++-------------------------------------------------------+
+|  입력: "The cat sat on the mat"                       |
+|                                                       |
+|  "sat"의 Self-Attention:                              |
+|   "The"->0.05, "cat"->0.30, "sat"->0.10               |
+|   "on"->0.15, "the"->0.05, "mat"->0.35                |
+|   -> "sat"은 "cat"과 "mat"에 높은 가중치!            |
+|   -> "누가(cat) 어디에(mat) 앉았는지" 파악            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Self-Attention은 교실에서 **모든 학생이 서로의 얼굴을 보면서** 누가 누구와 관련 있는지 파악하는 것이다.
@@ -43,7 +43,7 @@ tags = ["studynote-ai"]
 | 유형 | Q·K·V | 용도 |
 |:---|:---|:---|
 | **Self** | 같은 시퀀스 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a> (양방향)</strong> |
-| **Cross** | Q([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)), K,V([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)→[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
+| **Cross** | Q([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)), K,V([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)->[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | **Masked Self** | 같은 시퀀스 + 미래 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> (자기 회귀)</strong> |
 
 - **📢 섹션 요약 비유**: Self는 책 전체를 보고 이해하는 것, Masked는 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 보고 다음 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 예측하는 것이다.
@@ -63,7 +63,7 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 계산 복잡도
-- Self-Attention: **O(n²)** — 시퀀스 길이 n에 대해 모든 쌍 비교.
+- Self-Attention: **O(n^)** — 시퀀스 길이 n에 대해 모든 쌍 비교.
 - 해결: Linear Attention·Flash Attention·Sliding Window.
 
 ---
@@ -81,24 +81,24 @@ Self-Attention은 <strong><a href="/knowledge-base/studynote/14_data_engineering
 | **Self-Attention** | 같은 시퀀스 내 상호 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | **Masked Self-Attention** | 미래 토큰 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) |
 | **Multi-Head** | 다관점 Self-Attention |
-| **O(n²) 복잡도** | Self-Attention의 한계 |
-| **Flash Attention** | O(n²) 메모리 최적화 |
+| **O(n^) 복잡도** | Self-Attention의 한계 |
+| **Flash Attention** | O(n^) 메모리 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [Cross-Attention (Bahdanau, 2014)]
-    │
-    ▼
+    |
+    v
 [Self-Attention (Transformer, 2017)]
-    │
-    ▼
+    |
+    v
 [Multi-Head + Masked Self-Attention (GPT)]
-    │
-    ▼
+    |
+    v
 [Efficient Attention (Linformer, 2020 — O(n))]
-    │
-    ▼
+    |
+    v
 [현재: Flash Attention 2/3 — 메모리 최적화]
 ```
 
@@ -113,7 +113,7 @@ Self-Attention은 <strong><a href="/knowledge-base/studynote/14_data_engineering
 
 **진행 상황**: 124 / 420
 
-← **이전**: [123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리](/knowledge-base/studynote/10_ai/02_dl_architecture_new/123_transformer_architecture/)
-**다음**: [125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/125_multi_head_attention/) →
+<- **이전**: [123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리](/knowledge-base/studynote/10_ai/02_dl_architecture_new/123_transformer_architecture/)
+**다음**: [125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/125_multi_head_attention/) ->
 
 ---

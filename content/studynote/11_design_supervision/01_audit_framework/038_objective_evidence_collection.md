@@ -229,7 +229,7 @@ AI 기반 이상 탐지 증거 활용
 
 **진행 상황**: 52 / 530
 
-← **이전**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/)
-**다음**: [38. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/038_pmo_vs_audit_difference/) →
+<- **이전**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/)
+**다음**: [38. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/038_pmo_vs_audit_difference/) ->
 
 ---

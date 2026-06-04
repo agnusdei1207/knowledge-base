@@ -42,11 +42,11 @@ tags = ["studynote-algorithm"]
 
 ```
 HEAD
-  │
-  ▼
-┌──────┬────┐   ┌──────┬────┐   ┌──────┬──────┐
-│  10  │ ●──┼──▶│  20  │ ●──┼──▶│  30  │ NULL │
-└──────┴────┘   └──────┴────┘   └──────┴──────┘
+  |
+  v
++------+----+   +------+----+   +------+------+
+|  10  | ●--+--->|  20  | ●--+--->|  30  | NULL |
++------+----+   +------+----+   +------+------+
   Node(data=10)   Node(data=20)   Node(data=30)
 ```
 
@@ -56,11 +56,11 @@ HEAD
 
 ```
 HEAD                                           TAIL
-  │                                              │
-  ▼                                              ▼
-┌────┬────┬────┐   ┌────┬────┬────┐   ┌────┬────┬────┐
-│NULL│ 10 │ ●──┼──▶│ ●──│ 20 │ ●──┼──▶│ ●──│ 30 │NULL│
-└────┴────┴────┘◀──┼────┘    └────┘◀──┼────┘    └────┘
+  |                                              |
+  v                                              v
++----+----+----+   +----+----+----+   +----+----+----+
+|NULL| 10 | ●--+--->| ●--| 20 | ●--+--->| ●--| 30 |NULL|
++----+----+----+<---+----+    +----+<---+----+    +----+
   prev  data next    prev  data next    prev  data next
 ```
 
@@ -69,11 +69,11 @@ HEAD                                           TAIL
 ### 순환 연결 리스트 (Circular Linked List)
 
 ```
-┌──────┬────┐   ┌──────┬────┐   ┌──────┬────┐
-│  10  │ ●──┼──▶│  20  │ ●──┼──▶│  30  │ ●──┼──┐
-└──────┴────┘   └──────┴────┘   └──────┴────┘  │
-        ▲                                        │
-        └────────────────────────────────────────┘
++------+----+   +------+----+   +------+----+
+|  10  | ●--+--->|  20  | ●--+--->|  30  | ●--+--+
++------+----+   +------+----+   +------+----+  |
+        ^                                        |
+        +----------------------------------------+
 ```
 
 마지막 노드의 `next`가 첫 번째 노드를 가리킴. 라운드-로빈 스케줄링, 순환 버퍼에 활용.
@@ -81,8 +81,8 @@ HEAD                                           TAIL
 ### 삽입 예시: 노드 B를 A와 C 사이에 삽입 (단일)
 
 ```
-Before:  A → C
-After:   A → B → C
+Before:  A -> C
+After:   A -> B -> C
 
 코드:
   B.next = A.next  // B가 C를 가리킴
@@ -109,11 +109,11 @@ After:   A → B → C
 ### 실제 응용: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) Cache)
 
 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 <strong>이중 연결 리스트 + 해시맵</strong>으로 O(1) get/put을 구현한다.
-- 해시맵: [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → 노드 포인터 (O(1) 검색)
+- 해시맵: [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) -> 노드 포인터 (O(1) 검색)
 - 이중 연결 리스트: 접근 순서 유지, 헤드에 최신, 테일에 최오래 (O(1) 이동·삭제)
 
 ```
-해시맵: {A→node_A, B→node_B, C→node_C}
+해시맵: {A->node_A, B->node_B, C->node_C}
 연결리스트: [최신]C ↔ A ↔ B[최오래]
 용량 초과 시 테일(B) 제거
 ```
@@ -127,7 +127,7 @@ After:   A → B → C
 ### 주요 활용 사례
 
 - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> / <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 캐시</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 제거 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
-- <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a></strong>: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 → 이중 연결)
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a></strong>: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 -> 이중 연결)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템</strong>: inode 블록 체인, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리
 - **Java LinkedList**: `java.util.LinkedList`는 이중 연결 리스트로 [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/) 인터페이스 구현
 - **메모리 할당자**: Free list (가용 블록 연결 리스트)
@@ -135,10 +135,10 @@ After:   A → B → C
 ### 기술사 판단 기준
 
 ```
-캐시 히트율 중요 + 인덱스 접근 필요  →  배열 / ArrayList
-삽입/삭제 O(1) + 순서 유지 필요       →  이중 연결 리스트
-스택/큐 구현 (헤드만 조작)             →  단일 연결 리스트
-순환 처리 (라운드-로빈)                →  순환 연결 리스트
+캐시 히트율 중요 + 인덱스 접근 필요  ->  배열 / ArrayList
+삽입/삭제 O(1) + 순서 유지 필요       ->  이중 연결 리스트
+스택/큐 구현 (헤드만 조작)             ->  단일 연결 리스트
+순환 처리 (라운드-로빈)                ->  순환 연결 리스트
 ```
 
 📢 **섹션 요약 비유**: 연결 리스트는 유연하지만 원하는 항목을 찾으려면 처음부터 따라가야 한다—색인 없는 소설책처럼 특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾으려면 앞에서 넘겨야 한다.
@@ -170,17 +170,17 @@ After:   A → B → C
 
 ```text
 [배열 (Array)]
-    │
-    ▼
+    |
+    v
 [스택 (Stack)]
-    │
-    ▼
+    |
+    v
 [큐 (Queue)]
-    │
-    ▼
+    |
+    v
 [LRU 캐시]
-    │
-    ▼
+    |
+    v
 [해시 테이블 (Hash Table)]
 ```
 
@@ -198,7 +198,7 @@ After:   A → B → C
 
 **진행 상황**: 56 / 175
 
-← **이전**: [1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)
-**다음**: [3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) →
+<- **이전**: [1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)
+**다음**: [3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ->
 
 ---

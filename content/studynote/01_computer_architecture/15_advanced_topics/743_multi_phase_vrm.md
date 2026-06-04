@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대 CPU는 짧은 순간에 수십에서 수백 암페어 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 요구한다. 단일상 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 하나로 이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 모두 공급하면 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)와 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))에 흐르는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 지나치게 커지고, I²R 손실과 스위칭 손실이 빠르게 증가한다. 결과적으로 발열이 커지고, 출력 리플과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하도 심해져 고성능 코어를 안정적으로 유지하기 어렵다.
+현대 CPU는 짧은 순간에 수십에서 수백 암페어 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 요구한다. 단일상 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 하나로 이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 모두 공급하면 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)와 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))에 흐르는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 지나치게 커지고, I^R 손실과 스위칭 손실이 빠르게 증가한다. 결과적으로 발열이 커지고, 출력 리플과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하도 심해져 고성능 코어를 안정적으로 유지하기 어렵다.
 
 이 문제를 해결하기 위해 등장한 것이 다상 전원부다. 여러 개의 작은 전원 단을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 두고, 각 전원 단이 서로 다른 시점에 조금씩 에너지를 공급하게 만들면, 한 개가 혼자 큰 짐을 지지 않아도 된다. 즉 다상 전원부는 "더 큰 부품 하나"를 쓰는 방식이 아니라, <strong>여러 전원 단이 시간과 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a>를 나눠 가지는 방식</strong>으로 고전류 문제를 푼다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다상 전원부의 핵심은 인터리빙 (Interleaving)이다. PWM 컨트롤러가 N개의 페이즈에 `360° / N`의 위상차를 주고 스위칭하면, 각 페이즈는 서로 다른 시점에 에너지를 전달한다. 이때 각 페이즈 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 대략 `I_total / N`으로 나뉘고, 출력에서 보이는 리플의 유효 주파수는 대략 `N × f_sw` 수준으로 높아진다. 주파수가 높아지면 같은 출력 커패시턴스로도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변동을 더 잘 다룰 수 있다.
+다상 전원부의 핵심은 인터리빙 (Interleaving)이다. PWM 컨트롤러가 N개의 페이즈에 `360+ / N`의 위상차를 주고 스위칭하면, 각 페이즈는 서로 다른 시점에 에너지를 전달한다. 이때 각 페이즈 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 대략 `I_total / N`으로 나뉘고, 출력에서 보이는 리플의 유효 주파수는 대략 `N × f_sw` 수준으로 높아진다. 주파수가 높아지면 같은 출력 커패시턴스로도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변동을 더 잘 다룰 수 있다.
 
 예를 들어 200A를 8페이즈가 공급하면 이론적으로 각 페이즈는 약 25A 정도를 맡는다. 각 MOSFET과 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)의 열 부담이 줄어들고, 출력 커패시터는 여러 페이즈가 촘촘하게 메워 주는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 덕분에 순간 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 꺼짐을 덜 겪는다. 따라서 다상 전원부는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 용량 확대와 리플 저감을 동시에 달성한다.
 
@@ -45,16 +45,16 @@ tags = ["studynote-computer-architecture"]
 이 그림은 다상 구조가 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이 아니라, 시간차를 둔 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이라는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           4-phase interleaving: split current, stagger switching          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 12V -> Phase A -> L_A --\                                                 │
-│ 12V -> Phase B -> L_B ---+--> Output capacitors --> CPU Vcore             │
-│ 12V -> Phase C -> L_C ---+                                                │
-│ 12V -> Phase D -> L_D --/                                                 │
-│                                                                            │
-│ PWM timing:   0°        90°        180°        270°                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           4-phase interleaving: split current, stagger switching          |
++----------------------------------------------------------------------------+
+| 12V -> Phase A -> L_A --\                                                 |
+| 12V -> Phase B -> L_B ---+--> Output capacitors --> CPU Vcore             |
+| 12V -> Phase C -> L_C ---+                                                |
+| 12V -> Phase D -> L_D --/                                                 |
+|                                                                            |
+| PWM timing:   0+        90+        180+        270+                        |
++----------------------------------------------------------------------------+
 ```
 
 실무적으로는 저부하 효율도 중요하다. 페이즈를 많이 두면 고부하에는 유리하지만, 유휴 상태에서는 스위칭 손실이 오히려 늘 수 있다. 그래서 고급 컨트롤러는 낮은 부하에서 일부 페이즈를 끄는 페이즈 셰딩 기능을 사용해 효율을 유지한다.
@@ -130,17 +130,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일상 벅 VRM
-        │
-        ▼
+        |
+        v
 인터리브드 다상 VRM
-        │
-        ▼
+        |
+        v
 페이즈 더블러 · 팀드 전원부
-        │
-        ▼
+        |
+        v
 페이즈 셰딩 · 디지털 전류 밸런싱
-        │
-        ▼
+        |
+        v
 고밀도 스마트 파워 스테이지 기반 전원 아키텍처
 ```
 
@@ -158,7 +158,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 744 / 803
 
-← **이전**: [742. 전압 조정기 모듈 (VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/)
-**다음**: [744. 로드 라인 캘리브레이션 (LLC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) →
+<- **이전**: [742. 전압 조정기 모듈 (VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/)
+**다음**: [744. 로드 라인 캘리브레이션 (LLC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) ->
 
 ---

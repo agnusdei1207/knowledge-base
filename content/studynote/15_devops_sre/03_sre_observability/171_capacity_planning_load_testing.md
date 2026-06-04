@@ -24,14 +24,14 @@ tags = ["studynote-devops-sre"]
 특히 [Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 환경에서는 평균값이 거의 의미가 없다. 전자상거래 할인 시작 5분, 방송 직후 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 몰림, 재시도 폭주, 배치 작업 겹침처럼 실제 장애는 대부분 짧은 피크 구간에서 일어난다. 따라서 용량 계획은 평균 Central Processing Unit (CPU) 사용률이 아니라 피크 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 외부 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 한도까지 함께 모델링해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          평균이 아니라 피크와 회복시간이 시스템을 결정한다    │
-├──────────────────────────────────────────────────────────────┤
-│ 일평균:        1,000 RPS                                     │
-│ 이벤트 피크:   6,000 RPS                                     │
-│ 재시도 폭주:   9,000 RPS                                     │
-│ 외형상 평온해도, 실제 장애는 짧은 포화 구간에서 발생         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          평균이 아니라 피크와 회복시간이 시스템을 결정한다    |
++--------------------------------------------------------------+
+| 일평균:        1,000 RPS                                     |
+| 이벤트 피크:   6,000 RPS                                     |
+| 재시도 폭주:   9,000 RPS                                     |
+| 외형상 평온해도, 실제 장애는 짧은 포화 구간에서 발생         |
++--------------------------------------------------------------+
 ```
 
 그래서 용량 계획과 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 운영 안정성의 앞뒤 절반이다. 계획은 얼마를 준비할지 정하고, 테스트는 그 준비가 어느 계층에서 무너지는지 보여 준다. 둘이 연결되어야만 "왜 이 정도 자원이 필요한가"를 기술적·사업적으로 설명할 수 있다.
@@ -45,17 +45,17 @@ tags = ["studynote-devops-sre"]
 좋은 용량 계획은 단일 서버 스펙이 아니라 요청이 지나가는 전체 경로를 모델링한다. 사용자는 Content Delivery Network ([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)), [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/), 애플리케이션, 캐시, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 외부 API를 거치며, 가장 느린 한 지점이 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 결정한다. 따라서 CPU만 여유 있다고 안심할 수 없고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 수나 외부 호출 제한이 먼저 병목이 될 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│               Capacity Model: 수요가 병목을 통과하는 경로          │
-├────────────────────────────────────────────────────────────────────┤
-│ Users → CDN → Load Balancer → App                                │
-│                                ├─ Cache (hit ratio)              │
-│                                ├─ Database (conn pool)           │
-│                                └─ External API (rate limit)      │
-│                                                                    │
-│ 병목 후보: worker 수 · queue depth · slow query · timeout         │
-│ 가장 먼저 포화되는 지점 = 실제 시스템 처리량의 상한                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|               Capacity Model: 수요가 병목을 통과하는 경로          |
++--------------------------------------------------------------------+
+| Users -> CDN -> Load Balancer -> App                                |
+|                                +- Cache (hit ratio)              |
+|                                +- Database (conn pool)           |
+|                                +- External API (rate limit)      |
+|                                                                    |
+| 병목 후보: worker 수 · queue depth · slow query · timeout         |
+| 가장 먼저 포화되는 지점 = 실제 시스템 처리량의 상한                |
++--------------------------------------------------------------------+
 ```
 
 용량 계산의 기본은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델이다. Little's Law에 따라 대략 `동시 요청 수 ≈ 처리량 × 응답 시간`으로 볼 수 있다. 예를 들어 2,000 RPS를 처리하면서 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 0.2초라면, 동시에 떠 있는 요청은 약 400개다. 이 값은 워커 수, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 수를 잡는 데 직접적인 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 된다.
@@ -91,12 +91,12 @@ tags = ["studynote-devops-sre"]
 ```text
 99th Percentile Latency
 ^
-│                               포화 구간
-│                            /
-│                         __/
-│                      __/
-│                   __/
-│__________________/____________________________> RPS
+|                               포화 구간
+|                            /
+|                         __/
+|                      __/
+|                   __/
+|__________________/____________________________> RPS
                   ^
                 무릎점
 ```
@@ -136,7 +136,7 @@ tags = ["studynote-devops-sre"]
 - 배치 작업, 재시도, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 트래픽을 제외하고 계획 세우기
 - 오토스케일링이 있으니 용량 계획은 필요 없다고 생각하기
 
-기술사 답안에서는 <strong>수요 예측 → workload 모델 → <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> → 병목 분석 → 개선 및 재검증</strong> 흐름으로 정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성이 높다. 클라우드는 자원을 빨리 빌려줄 수는 있어도, 갑자기 나타나는 병목을 대신 설계해 주지는 않는다.
+기술사 답안에서는 <strong>수요 예측 -> workload 모델 -> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> -> 병목 분석 -> 개선 및 재검증</strong> 흐름으로 정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성이 높다. 클라우드는 자원을 빨리 빌려줄 수는 있어도, 갑자기 나타나는 병목을 대신 설계해 주지는 않는다.
 
 - **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 실무는 공연 전 리허설과 같다. 무대 크기만 보는 것이 아니라, 배우 동선이 겹치는지, 조명이 늦게 켜지는지, 출입구가 막히는지까지 실제처럼 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 본 공연에서 사고가 없다.
 
@@ -169,17 +169,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 과거 트래픽 · 사업 이벤트 예측
-    │
-    ▼
+    |
+    v
 Workload Model (RPS · 동시성 · 요청 혼합비)
-    │
-    ▼
+    |
+    v
 Load / Stress / Spike / Soak Test
-    │
-    ▼
+    |
+    v
 Knee Point · Bottleneck 발견
-    │
-    ▼
+    |
+    v
 Scale Strategy · Tuning · 재검증
 ```
 
@@ -197,7 +197,7 @@ Scale Strategy · Tuning · 재검증
 
 **진행 상황**: 171 / 373
 
-← **이전**: [170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs](/knowledge-base/studynote/15_devops_sre/03_sre_observability/170_self_healing_filesystem_zfs_btrfs/)
-**다음**: [172. 프로비저닝 병목 (Cold Start) 관측 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/172_cold_start_provisioning_bottleneck/) →
+<- **이전**: [170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs](/knowledge-base/studynote/15_devops_sre/03_sre_observability/170_self_healing_filesystem_zfs_btrfs/)
+**다음**: [172. 프로비저닝 병목 (Cold Start) 관측 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/172_cold_start_provisioning_bottleneck/) ->
 
 ---

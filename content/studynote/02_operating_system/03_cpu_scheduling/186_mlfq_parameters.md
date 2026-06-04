@@ -26,19 +26,19 @@ tags = ["studynote-operating-system"]
 아래 그림은 MLFQ가 사실상 다섯 개 안팎의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 손잡이 위에서 움직인다는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 MLFQ의 핵심 조정 손잡이                    │
-├──────────────────────────────────────────────────────────────┤
-│ 신규 작업 진입 위치 : Q0 ? Q1 ?                             │
-│                                                              │
-│ Q0 [RR, q=8ms]  ── demote rule ──▶  Q1 [RR, q=16ms]         │
-│   ▲                         ▲                    │            │
-│   │                         │                    ▼            │
-│   └────── promotion / boost ┴───────  Q2 [FCFS or q=32ms]   │
-│                                                              │
-│ 조정 항목: queue count / per-queue policy / demotion /      │
-│           promotion / initial placement                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 MLFQ의 핵심 조정 손잡이                    |
++--------------------------------------------------------------+
+| 신규 작업 진입 위치 : Q0 ? Q1 ?                             |
+|                                                              |
+| Q0 [RR, q=8ms]  -- demote rule --->  Q1 [RR, q=16ms]         |
+|   ^                         ^                    |            |
+|   |                         |                    v            |
+|   +------ promotion / boost +-------  Q2 [FCFS or q=32ms]   |
+|                                                              |
+| 조정 항목: queue count / per-queue policy / demotion /      |
+|           promotion / initial placement                      |
++--------------------------------------------------------------+
 ```
 
 중요한 점은 어느 하나의 값만 좋다고 해서 전체가 좋아지지 않는다는 사실이다. 큐 개수와 퀀텀, 부스트 주기, 진입 규칙은 서로 묶여 작동하며, 하나를 바꾸면 다른 값도 다시 맞춰야 한다.
@@ -64,17 +64,17 @@ tags = ["studynote-operating-system"]
 아래 예시는 파라미터가 실제 실행 패턴을 어떻게 바꾸는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)      │
-├──────────────────────────────────────────────────────────────┤
-│ t=0      P1(new) in Q0, P2(new) in Q0                       │
-│ t=8      P1 quantum expire  → Q1 demote                     │
-│ t=12     P2 blocks for I/O   → stays near Q0                │
-│ t=24     P1 quantum expire  → Q2 demote                     │
-│ t=200    global boost       → P1, P2 모두 Q0로 승급         │
-│                                                              │
-│ 결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)      |
++--------------------------------------------------------------+
+| t=0      P1(new) in Q0, P2(new) in Q0                       |
+| t=8      P1 quantum expire  -> Q1 demote                     |
+| t=12     P2 blocks for I/O   -> stays near Q0                |
+| t=24     P1 quantum expire  -> Q2 demote                     |
+| t=200    global boost       -> P1, P2 모두 Q0로 승급         |
+|                                                              |
+| 결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감 |
++--------------------------------------------------------------+
 ```
 
 이 메커니즘 덕분에 MLFQ는 실행 시간을 미리 몰라도 어느 정도 SJF에 가까운 효과를 낸다. 대신 그 효과는 파라미터가 적절할 때만 유지되며, 값이 흔들리면 공정성과 응답성이 동시에 무너질 수 있다.
@@ -151,17 +151,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 고정 우선순위 · RR
-    │
-    ▼
+    |
+    v
 다단계 큐 (Multilevel Queue)
-    │
-    ▼
+    |
+    v
 다단계 피드백 큐 (MLFQ)
-    │
-    ▼
+    |
+    v
 boost · aging · gaming 방지
-    │
-    ▼
+    |
+    v
 공정성 중심 스케줄러 (예: CFS)
 ```
 
@@ -179,7 +179,7 @@ boost · aging · gaming 방지
 
 **진행 상황**: 186 / 800
 
-← **이전**: [185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/185_mlfq_scheduling/)
-**다음**: [187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) →
+<- **이전**: [185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/185_mlfq_scheduling/)
+**다음**: [187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) ->
 
 ---

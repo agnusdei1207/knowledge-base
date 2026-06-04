@@ -27,16 +27,16 @@ tags = ["studynote-software-engineering"]
 다음은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컨텍스트 매핑 (Context Map                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  컨텍스트 매핑 (Context Map                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -128,21 +128,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 컨텍스트 매핑 (Context Mapping) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -156,7 +156,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 223 / 973
 
-← **이전**: [222. 애그리게이트 (Aggregate) - 데이터 변경의 단위가 되는 객체 묶음](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)
-**다음**: [224. 안티 코럽션 레이어 (ACL, Anti-Corruption Layer)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) →
+<- **이전**: [222. 애그리게이트 (Aggregate) - 데이터 변경의 단위가 되는 객체 묶음](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)
+**다음**: [224. 안티 코럽션 레이어 (ACL, Anti-Corruption Layer)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/224_acl_anti_corruption_layer_legacy_integration/) ->
 
 ---

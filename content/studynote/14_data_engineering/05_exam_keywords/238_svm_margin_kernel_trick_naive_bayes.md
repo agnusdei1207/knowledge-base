@@ -55,14 +55,14 @@ SVM의 핵심 아이디어: **마진을 최대화하는 유일한 하이퍼플�
   subject to: y_i(w·x_i + b) ≥ 1  for all i
 
 ASCII 구조:
-  ─────────────────────────────────────────
-           ◉ ← 서포트 벡터 (양성)
+  -----------------------------------------
+           ◉ <- 서포트 벡터 (양성)
        ○  |마|  ●
      ○    |진|    ●
        ○  |  |  ●
-           ◉ ← 서포트 벡터 (음성)
-  ─────────────────────────────────────────
-       ↑         ↑
+           ◉ <- 서포트 벡터 (음성)
+  -----------------------------------------
+       ^         ^
    양성 경계  음성 경계
          하이퍼플레인 (w·x+b=0)
 ```
@@ -72,18 +72,18 @@ ASCII 구조:
 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완전히 선형 분리되지 않는다. 소프트 마진은 일부 오분류를 허용한다.
 
 ```
-최적화: minimize ||w||² + C × Σξ_i
+최적화: minimize ||w||^ + C × Σξ_i
   ξ_i: 슬랙 변수 (오분류 허용량)
   C: 정규화 파라미터
 
-┌──────────────────────────────────────────────┐
-│    C 파라미터 효과                              │
-├──────────────────┬───────────────────────────┤
-│  C 작음 (넓은 마진)│  C 큼 (좁은 마진)           │
-│  일부 오분류 허용  │  오분류 강하게 페널티        │
-│  고편향, 저분산    │  저편향, 고분산              │
-│  → 과소적합 위험  │  → 과적합 위험              │
-└──────────────────┴───────────────────────────┘
++----------------------------------------------+
+|    C 파라미터 효과                              |
++------------------+---------------------------+
+|  C 작음 (넓은 마진)|  C 큼 (좁은 마진)           |
+|  일부 오분류 허용  |  오분류 강하게 페널티        |
+|  고편향, 저분산    |  저편향, 고분산              |
+|  -> 과소적합 위험  |  -> 과적합 위험              |
++------------------+---------------------------+
 ```
 
 ### [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
@@ -92,18 +92,18 @@ ASCII 구조:
 
 ```
 원리:
-  저차원 비선형 데이터   →   고차원 선형 분리 가능
+  저차원 비선형 데이터   ->   고차원 선형 분리 가능
   (직접 매핑 불필요)         (커널 함수로 내적만 계산)
 
 K(x_i, x_j) = φ(x_i) · φ(x_j)
-  → φ()는 명시적 계산 불필요!
+  -> φ()는 명시적 계산 불필요!
 
 비선형 분류 예시:
   1차원: ●●○○●●  (선형 분리 불가)
-        │
-        ▼ 커널 매핑
-  2차원: ○○  ← 위
-         ●●  ← 아래  (선형 분리 가능!)
+        |
+        v 커널 매핑
+  2차원: ○○  <- 위
+         ●●  <- 아래  (선형 분리 가능!)
 ```
 
 ### 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 비교
@@ -112,13 +112,13 @@ K(x_i, x_j) = φ(x_i) · φ(x_j)
 |:---|:---|:---|:---|
 | 선형 (Linear) | K(x,y) = x·y | 선형 분리 가능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 없음 |
 | 다항 ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | K(x,y) = (x·y + c)^d | 중간 복잡도 | d (차수), c |
-| **RBF (Radial Basis Function)** | K(x,y) = exp(-γ||x-y||²) | **가장 범용** | γ (방사폭) |
+| **RBF (Radial Basis Function)** | K(x,y) = exp(-γ||x-y||^) | **가장 범용** | γ (방사폭) |
 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | K(x,y) = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(αx·y + c) | 신경망 유사 | α, c |
 
 <strong>RBF <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> γ 파라미터 효과:</strong>
 ```
-γ 작음: 넓은 영향권 → 부드러운 경계 → 고편향(과소적합)
-γ 큼:  좁은 영향권 → 복잡한 경계 → 고분산(과적합)
+γ 작음: 넓은 영향권 -> 부드러운 경계 -> 고편향(과소적합)
+γ 큼:  좁은 영향권 -> 복잡한 경계 -> 고분산(과적합)
 ```
 
 ### [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) ([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/)) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기
@@ -131,7 +131,7 @@ K(x_i, x_j) = φ(x_i) · φ(x_j)
 
 나이브 가정 (Conditional Independence):
   P(x₁,...,xₙ|C) = P(x₁|C) × P(x₂|C) × ... × P(xₙ|C)
-  → 피처들이 서로 독립 (실제로는 성립 안 해도 잘 동작!)
+  -> 피처들이 서로 독립 (실제로는 성립 안 해도 잘 동작!)
 
 최종 분류:
   ĉ = argmax_C [ P(C) × ∏ P(xᵢ|C) ]
@@ -157,7 +157,7 @@ P(정상 | "할인", "무료", "지금")
 | 항목 | SVM | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) |
 |:---|:---|:---|:---|
 | 원리 | 마진 최대화 | 베이즈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 오즈 |
-| 학습 속도 | 느림 (O(n²~n³)) | ⚡ 매우 빠름 | 빠름 |
+| 학습 속도 | 느림 (O(n^~n³)) | ⚡ 매우 빠름 | 빠름 |
 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | ❌ (거리 기반) | ✅ | ✅ |
 | 비선형 | ✅ ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | ❌ | ❌ (기본) |
 | 고차원 | ✅ 강점 | ✅ | 보통 |
@@ -180,7 +180,7 @@ P(정상 | "할인", "무료", "지금")
 
 ```
 데이터 준비        전처리         모델 선택       튜닝
-[원시 데이터] → [정규화]    → [커널 선택] → [C, γ/d]
+[원시 데이터] -> [정규화]    -> [커널 선택] -> [C, γ/d]
                 (필수!!)       Linear?       GridSearch
                 표준화          RBF?          CV 평가
                 MinMaxScaler    Poly?
@@ -188,17 +188,17 @@ P(정상 | "할인", "무료", "지금")
 
 <strong>SVM에서 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 스케일링이 필수인 이유:</strong>
 ```
-거리 기반 알고리즘 → 피처 단위에 민감
+거리 기반 알고리즘 -> 피처 단위에 민감
 예: 나이(0~100) vs 연봉(0~10,000,000)
-  → 연봉이 마진 계산을 지배
-  → StandardScaler 또는 MinMaxScaler 전처리 필수
+  -> 연봉이 마진 계산을 지배
+  -> StandardScaler 또는 MinMaxScaler 전처리 필수
 ```
 
 ### 기술사 판단 포인트
 
 1. <strong>고차원 희소 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (텍스트)</strong>: 선형 SVM이 RBF보다 빠르고 효과적인 경우 많음
 2. <strong>소규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: SVM은 소규모에서 강점, 수백만 건 이상이면 SGD 기반 Linear SVM
-3. <strong>실시간 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a></strong>: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) → 빠르고 간단, 먼저 시도
+3. <strong>실시간 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a></strong>: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) -> 빠르고 간단, 먼저 시도
 4. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 출력 필요</strong>: SVM은 Platt Scaling 추가 필요, [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)/로지스틱은 기본 제공
 
 📢 **섹션 요약 비유**: SVM은 정교한 경계선 긋기, [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 빠른 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산기다. 급하면 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)로 먼저 시도하고, 정확도가 중요하면 SVM을 튜닝한다.
@@ -240,15 +240,15 @@ SVM은 마진 최대화라는 우아한 수학적 원리로 고차원·소규모
 
 ```text
 선형 분류 (퍼셉트론)
-    │
-    ▼
+    |
+    v
 SVM: 최대 마진 초평면 + 커널 트릭 (비선형 매핑)
-    │
-    ▼
+    |
+    v
 나이브 베이즈: 조건부 독립 가정 분류
-    │
-    ▼
-앙상블: Random Forest · XGBoost → 딥러닝
+    |
+    v
+앙상블: Random Forest · XGBoost -> 딥러닝
 ```
 2. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 평평한 종이에 섞인 점을 분리하기 어려울 때 종이를 3D로 구겨 올리면 선을 그을 수 있게 되는 마법이다.
 3. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "무료"라는 단어가 스팸 메일에 많이 나온다는 과거 통계를 보고 새 메일이 스팸인지 빠르게 판단하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산기다.
@@ -259,7 +259,7 @@ SVM: 최대 마진 초평면 + 커널 트릭 (비선형 매핑)
 
 **진행 상황**: 238 / 258
 
-← **이전**: [237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/237_ml_supervised_unsupervised_reinforcement_bias_variance/)
-**다음**: [239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) →
+<- **이전**: [237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/237_ml_supervised_unsupervised_reinforcement_bias_variance/)
+**다음**: [239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) ->
 
 ---

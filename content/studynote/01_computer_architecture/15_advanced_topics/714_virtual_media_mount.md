@@ -52,23 +52,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 그대로 복사되는 것이 아니라, BMC가 중간에서 "읽을 수 있는 부팅 장치"를 흉내 내는 구조를 나타낸다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Admin PC / Image Repository                                               │
-│  ISO / IMG                                                                │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ HTTPS / CIFS / NFS
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ BMC                                                                        │
-│  Image Cache / Remote Share Client                                         │
-│  Virtual USB-CD Emulation                                                  │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ USB Mass Storage / Virtual CD-ROM
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Host Server                                                                │
-│  BIOS / UEFI ─────▶ Boot Manager ─────▶ Installer / Rescue Environment     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Admin PC / Image Repository                                               |
+|  ISO / IMG                                                                |
++---------------+------------------------------------------------------------+
+                | HTTPS / CIFS / NFS
+                v
++----------------------------------------------------------------------------+
+| BMC                                                                        |
+|  Image Cache / Remote Share Client                                         |
+|  Virtual USB-CD Emulation                                                  |
++---------------+------------------------------------------------------------+
+                | USB Mass Storage / Virtual CD-ROM
+                v
++----------------------------------------------------------------------------+
+| Host Server                                                                |
+|  BIOS / UEFI ------> Boot Manager ------> Installer / Rescue Environment     |
++----------------------------------------------------------------------------+
 ```
 
 중요한 실무 포인트는 설치 ISO가 항상 한 번에 통째로 복사되는 것이 아니라, 호스트가 읽는 블록을 BMC가 순차적으로 제공하는 경우가 많다는 점이다. 그래서 관리망이 불안정하거나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊기면 설치 중간에 읽기 오류가 날 수 있다. 즉 원격 미디어는 편리하지만, 로컬 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))처럼 완전히 독립적인 저장장치와 동일하다고 보면 안 된다.
@@ -150,18 +150,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Physical USB / DVD
-      │
-      ▼
+      |
+      v
 Local Crash Cart Install
-      │
-      ▼
+      |
+      v
 BMC-based Virtual Media
-      │
-      ├──▶ Remote OS Install
-      ├──▶ Rescue / Firmware Boot
-      └──▶ KVM-assisted Recovery
-      │
-      ▼
+      |
+      +---> Remote OS Install
+      +---> Rescue / Firmware Boot
+      +---> KVM-assisted Recovery
+      |
+      v
 API (Application Programming Interface)-driven Bare-metal Provisioning + PXE
 ```
 
@@ -179,7 +179,7 @@ API (Application Programming Interface)-driven Bare-metal Provisioning + PXE
 
 **진행 상황**: 715 / 803
 
-← **이전**: [713. KVM (Keyboard, Video, Mouse) 오버 IP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)
-**다음**: [715. 하드웨어 헬스 모니터링 (센서 레지스터)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/715_hw_health_monitoring/) →
+<- **이전**: [713. KVM (Keyboard, Video, Mouse) 오버 IP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)
+**다음**: [715. 하드웨어 헬스 모니터링 (센서 레지스터)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/715_hw_health_monitoring/) ->
 
 ---

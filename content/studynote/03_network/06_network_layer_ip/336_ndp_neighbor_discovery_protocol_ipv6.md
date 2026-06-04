@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [MLD]
-    │
-    ▼
+    |
+    v
 [NDP]
-    │
-    └──▶ [라우터 구조 판단]
+    |
+    +---> [라우터 구조 판단]
 ```
 
 - **📢 섹션 요약 비유**: <strong> NDP는 흩어져 있던 주민센터(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a>), 114 전화번호부(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a>), 파출소(충돌 검사) 업무를 </strong>"ICMPv6"**라는 하나의 거대한 스마트폰 통합 앱으로 합쳐버린 궁극의 전자정부 시스템입니다.
@@ -45,39 +45,39 @@ NDP는 크게 라우터와 소통하는 부분(RS/[RA](/knowledge-base/studynote
 
 ### 1. 라우터와의 소통 ([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동 주소 완성)
 내가 인터넷으로 나갈 공인 IP 앞자리가 필요할 때 라우터와 대화하는 과정이다.
-- **RS (Router Solicitation, Type 133)**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ──▶ 라우터
+- **RS (Router Solicitation, Type 133)**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ---> 라우터
   - "이 동네 라우터님 계시나요? 저 앞자리 주소(Prefix) 좀 주세요!"
-- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> (Router Advertisement, Type 134)</strong>: 라우터 ──▶ [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> (Router Advertisement, Type 134)</strong>: 라우터 ---> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
   - "오냐, 나 여기 있다. 우리 동네 앞자리는 `2001:db8::` 이고, 나는 기본 게이트웨이야!"
   - (참고: 라우터는 굳이 안 물어봐도 자발적으로 주기적으로 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 메시지를 동네방네 뿌린다).
 
 ### 2. 이웃과의 소통 ([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 대체 및 충돌 검사)
 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`2001:db8::20`)로 엑셀 파일을 보내기 위해 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 물어보는 과정이다.
-- **NS (Neighbor Solicitation, Type 135)**: 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ──▶ 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
+- **NS (Neighbor Solicitation, Type 135)**: 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ---> 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
   - "혹시 IP가 `2001:db8::20`이신 분, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 좀 알려주세요!"
   - **[마법의 멀티캐스트]**: 이때 패킷은 브로드캐스트로 날아가지 않는다. 목적지 IP를 `FF02::1:FF00:20`이라는 특수한 <strong>솔리시티드 노드 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 주소</strong>로 변환해서 쏜다. 이 주소는 20으로 끝나는 애들만 반응하는 특수 주파수라서, 30번이나 40번 PC는 랜카드 칩셋 단위에서 패킷을 기계적으로 무시(Drop)하므로 CPU가 전혀 방해받지 않는다.
-- **NA (Neighbor Advertisement, Type 136)**: 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ──▶ 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
+- **NA (Neighbor Advertisement, Type 136)**: 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ---> 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
   - "저 부르셨어요? 제 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 `AA:BB:CC...` 입니다!" (조용히 유니캐스트로 대답함).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                NDP를 통한 이웃 탐색(NS/NA) 시나리오              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC ]                                  [ 김대리 PC ]   │
- │   (IP: ::10, MAC: AA)                     (IP: ::20, MAC: BB)│
- │                                                             │
- │   1. "IP 끝자리 20번인 분, MAC 주소 좀!" (NS 발송)               │
- │   목적지 IP: 솔리시티드 멀티캐스트 (FF02::1:FFxx:xxxx)             │
- │   ─────────────────────────────────────────▶           │
- │               (동네 다른 PC들은 듣고도 무시함)                    │
- │                                                             │
- │   2. "저 여깄어요! MAC은 BB 입니다!" (NA 응답)                 │
- │   목적지 IP: 내 PC의 유니캐스트 주소 (::10)                       │
- │   ◀─────────────────────────────────────────            │
- │                                                             │
- │   ▶ 결과: 브로드캐스트의 소음 공해 없이 조용하고 우아하게 MAC 획득 성공!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                NDP를 통한 이웃 탐색(NS/NA) 시나리오              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC ]                                  [ 김대리 PC ]   |
+ |   (IP: ::10, MAC: AA)                     (IP: ::20, MAC: BB)|
+ |                                                             |
+ |   1. "IP 끝자리 20번인 분, MAC 주소 좀!" (NS 발송)               |
+ |   목적지 IP: 솔리시티드 멀티캐스트 (FF02::1:FFxx:xxxx)             |
+ |   ------------------------------------------>           |
+ |               (동네 다른 PC들은 듣고도 무시함)                    |
+ |                                                             |
+ |   2. "저 여깄어요! MAC은 BB 입니다!" (NA 응답)                 |
+ |   목적지 IP: 내 PC의 유니캐스트 주소 (::10)                       |
+ |   <------------------------------------------            |
+ |                                                             |
+ |   -> 결과: 브로드캐스트의 소음 공해 없이 조용하고 우아하게 MAC 획득 성공!|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. DAD (Duplicate Address [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) - IP 충돌 검사)
@@ -143,12 +143,12 @@ NDP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: MLD]
-    │
-    ▼
+    |
+    v
 [현재 개념: NDP]
-    │
-    ├──▶ [확장 A: 라우터 구조 판단]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 라우터 구조 판단]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 NDP는 MLD에서 출발해 현재 메커니즘을 정교화하고, 이후 [라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ NDP는 MLD에서 출발해 현재 메커니즘을 정교화하고, 이후 [라�
 
 **진행 상황**: 457 / 1120
 
-← **이전**: [335. MLD (Multicast Listener Discovery)](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/)
-**다음**: [337. 라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/) →
+<- **이전**: [335. MLD (Multicast Listener Discovery)](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/)
+**다음**: [337. 라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/) ->
 
 ---

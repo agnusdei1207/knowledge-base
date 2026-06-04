@@ -39,22 +39,22 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 | <strong>위치 인코딩 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a>)</strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 입력으로 잃어버린 단어의 순서 정보 주입 | 사인/코사인 함수를 사용해 위치마다 고유한 값 부여 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Self-Attention의 Q, K, V 계산 흐름             │
-├──────────────────────────────────────────────────────────────┤
-│ "The", "cat", "sat" (모든 단어 동시 입력)                  │
-│        │                                                   │
-│        ▼ (선형 변환)                                       │
-│    [ Query(Q) ] : "나는 어떤 정보가 필요한가?"             │
-│    [ Key(K) ]   : "나는 이런 정보를 가지고 있다"           │
-│    [ Value(V) ] : "나의 실제 의미 값은 이것이다"           │
-│        │                                                   │
-│        ▼                                                   │
-│  Attention Score = Softmax( (Q × K^T) / √d ) × V          │
-│        │                                                   │
-│        ▼                                                   │
-│   "cat"과 "sat"의 연관성이 높음을 수학적으로 도출          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Self-Attention의 Q, K, V 계산 흐름             |
++--------------------------------------------------------------+
+| "The", "cat", "sat" (모든 단어 동시 입력)                  |
+|        |                                                   |
+|        v (선형 변환)                                       |
+|    [ Query(Q) ] : "나는 어떤 정보가 필요한가?"             |
+|    [ Key(K) ]   : "나는 이런 정보를 가지고 있다"           |
+|    [ Value(V) ] : "나의 실제 의미 값은 이것이다"           |
+|        |                                                   |
+|        v                                                   |
+|  Attention Score = Softmax( (Q × K^T) / √d ) × V          |
+|        |                                                   |
+|        v                                                   |
+|   "cat"과 "sat"의 연관성이 높음을 수학적으로 도출          |
++--------------------------------------------------------------+
 ```
 
 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 이 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 구조 중에서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)를 버리고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>만</strong>을 차용한 모델이다. BERT의 가장 큰 원리는 문장의 일부 단어를 빈칸([MASK])으로 뚫어놓고, 주변의 양방향 문맥을 모두 고려해 빈칸을 맞추도록 대규모 사전 학습(Pre-training)을 수행한다는 점이다.
@@ -70,7 +70,7 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 | 항목 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) |
 | :--- | :--- | :--- |
 | **차용 아키텍처** | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>)</strong> | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">Decoder</a>)</strong> |
-| <strong>문맥 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 방향</strong> | **양방향 (Bidirectional)** | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> (Unidirectional, 좌→우)</strong> |
+| <strong>문맥 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 방향</strong> | **양방향 (Bidirectional)** | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> (Unidirectional, 좌->우)</strong> |
 | **학습 방식** | 문장 중간의 빈칸([MASK]) 단어 예측 | 주어진 단어들 다음으로 올 단어 예측 |
 | **강점 분야** | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), [기계 독해](/knowledge-base/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/)(QA) | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 요약 |
 
@@ -87,7 +87,7 @@ BERT는 문장의 처음과 끝을 동시에 파악하므로 문맥의 의미를
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong>문제의 성격이 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>인가, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>인가?</strong> 고객의 리뷰가 긍정인지 부정인지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 문제라면 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(또는 RoBERTa, ALBERT) 계열을, 챗봇처럼 자연스러운 답변을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다면 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열을 선택한다.
 2. **사전 학습된 모델이 도메인에 맞는가?** 의료, 법률 등 특수 도메인일 경우 일반 텍스트로 학습된 기본 BERT보다는 BioBERT, LegalBERT 등 특화된 코퍼스로 사전 학습된 모델을 베이스로 가져와 파인튜닝해야 한다.
-3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리와 연산 한계가 존재하는가?</strong> Transformer는 시퀀스 길이의 제곱(O(N²))에 비례하여 메모리를 소모한다. 모바일이나 엣지 디바이스 환경이라면 파라미터를 경량화한 DistilBERT나 TinyBERT 채택을 검토한다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리와 연산 한계가 존재하는가?</strong> Transformer는 시퀀스 길이의 제곱(O(N^))에 비례하여 메모리를 소모한다. 모바일이나 엣지 디바이스 환경이라면 파라미터를 경량화한 DistilBERT나 TinyBERT 채택을 검토한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수만 건에 불과한 소규모 자체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋만으로 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델을 바닥부터(From Scratch) 학습시키려는 설계. (반드시 거대 코퍼스로 사전 학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 불러와야 한다.)
@@ -120,21 +120,21 @@ Transformer와 BERT의 등장은 자연어 처리 역사상 가장 거대한 도
 
 ```text
 RNN / LSTM (순차 처리, 장기 의존성 한계)
-    │
-    ▼
+    |
+    v
 Attention Mechanism 도입 (Seq2Seq 성능 개선)
-    │
-    ▼
+    |
+    v
 Transformer (RNN 제거, 100% 병렬 Self-Attention)
-    │
-    ├──────────────┬──────────────┐
-    ▼              ▼              ▼
+    |
+    +--------------+--------------+
+    v              v              v
   인코더 활용    디코더 활용  인코더-디코더 모두 활용
  (BERT 계열)    (GPT 계열)      (T5, BART 계열)
-    │              │
+    |              |
  문맥 이해 최적화 텍스트 생성 최적화
-    │              │
-    ▼              ▼
+    |              |
+    v              v
  다양한 도메인 파인튜닝 및 초거대 LLM(GPT-4 등) 진화
 ```
 
@@ -150,7 +150,7 @@ Transformer (RNN 제거, 100% 병렬 Self-Attention)
 
 **진행 상황**: 165 / 587
 
-← **이전**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
-**다음**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) →
+<- **이전**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
+**다음**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) ->
 
 ---

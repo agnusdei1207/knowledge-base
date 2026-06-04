@@ -26,17 +26,17 @@ Write-Through (동시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/0
 특히 MMIO (Memory-Mapped I/O)처럼 하드웨어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 즉시 명령을 전달해야 하는 공간에서는 이 철학이 중요하다. CPU가 장치 제어 값을 캐시에만 남겨 두면 실제 장치는 아무 일도 하지 않는다. 따라서 Write-Through는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이라기보다, <strong>즉시성·가시성·<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>을 우선하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Write-Through가 필요한 이유: 최신본 위치를 숨기지 않음       │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Store                                                            │
-│    │                                                                 │
-│    ├─▶ L1 Cache 갱신                                                 │
-│    │                                                                 │
-│    └─▶ 하위 계층 즉시 반영 ──▶ L2 / Memory / Device                  │
-│                                                                       │
-│ 결과: "최신 데이터가 캐시에만 있다"는 애매한 상태를 줄임             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Write-Through가 필요한 이유: 최신본 위치를 숨기지 않음       |
++----------------------------------------------------------------------+
+| CPU Store                                                            |
+|    |                                                                 |
+|    +--> L1 Cache 갱신                                                 |
+|    |                                                                 |
+|    +--> 하위 계층 즉시 반영 ---> L2 / Memory / Device                  |
+|                                                                       |
+| 결과: "최신 데이터가 캐시에만 있다"는 애매한 상태를 줄임             |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 Write-Through가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기보다 <strong>최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 위치를 투명하게 만드는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이라는 점이다. 그래서 설계자는 속도보다 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 단순성, 장애 시 해석 용이성, 장치 제어의 즉시성을 얻는다.
@@ -61,14 +61,14 @@ Write-Through의 동작은 단순하다. CPU가 [캐시 히트](/knowledge-base/
 다음 그림은 순수 Write-Through와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼를 둔 Write-Through의 차이를 보여준다.
 
 ```text
-┌───────────────────────────── 순수 Write-Through ─────────────────────────────┐
-│ CPU Store ─▶ L1 갱신 ─▶ DRAM 쓰기 완료 대기 ─▶ 다음 명령                     │
-│                       (긴 지연이 그대로 CPU 정지 시간으로 노출)              │
-├────────────────────────── Write Buffer 포함 구조 ────────────────────────────┤
-│ CPU Store ─▶ L1 갱신 ─▶ Write Buffer 적재 ─▶ 다음 명령                       │
-│                               │                                               │
-│                               └────────▶ DRAM에 순차 반영                     │
-└───────────────────────────────────────────────────────────────────────────────┘
++----------------------------- 순수 Write-Through -----------------------------+
+| CPU Store --> L1 갱신 --> DRAM 쓰기 완료 대기 --> 다음 명령                     |
+|                       (긴 지연이 그대로 CPU 정지 시간으로 노출)              |
++-------------------------- Write Buffer 포함 구조 ----------------------------+
+| CPU Store --> L1 갱신 --> Write Buffer 적재 --> 다음 명령                       |
+|                               |                                               |
+|                               +---------> DRAM에 순차 반영                     |
++-------------------------------------------------------------------------------+
 ```
 
 핵심 공식은 단순하다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 빈도 × 메모리 반영 비용</strong>이 커질수록 Write-Through의 불리함이 커진다. 그래서 버퍼 병합, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 확대, 스트리밍 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화가 함께 붙는다. 하지만 아무리 보완해도 "메모리에 자주 써야 한다"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 본질 자체는 바뀌지 않는다.
@@ -148,19 +148,19 @@ Write-Through의 가장 큰 효과는 <strong>단순한 <a href="/knowledge-base
 
 ```text
 단순 캐시 쓰기 정책
-    │
-    ▼
+    |
+    v
 Write-Through (동시 쓰기)
-    │
-    ├─▶ 쓰기 버퍼 (Write Buffer)
-    │        │
-    │        └─▶ 버퍼 병합 · 버스 지연 은닉
-    │
-    ├─▶ No-Write-Allocate
-    │
-    └─▶ MMIO · 장치 제어 · 일관성 단순화
-             │
-             ▼
+    |
+    +--> 쓰기 버퍼 (Write Buffer)
+    |        |
+    |        +--> 버퍼 병합 · 버스 지연 은닉
+    |
+    +--> No-Write-Allocate
+    |
+    +--> MMIO · 장치 제어 · 일관성 단순화
+             |
+             v
       선택적 주소 공간 정책 설계
 ```
 
@@ -178,7 +178,7 @@ Write-Through (동시 쓰기)
 
 **진행 상황**: 276 / 803
 
-← **이전**: [275. 캐시 쓰기 정책 (Write Policy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/275_write_policy/)
-**다음**: [277. Write-Back (나중 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) →
+<- **이전**: [275. 캐시 쓰기 정책 (Write Policy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/275_write_policy/)
+**다음**: [277. Write-Back (나중 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ->
 
 ---

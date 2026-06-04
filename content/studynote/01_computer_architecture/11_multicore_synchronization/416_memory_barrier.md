@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 코드 순서와 관찰 순서가 달라질 수 있는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Producer code vs Consumer observation                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Producer program order                                            │
-│   [Write data] ───────────────────────────────▶ [Write flag]      │
-│        │                                        │                 │
-│        │ delayed in store buffer                │ quick visible   │
-│        ▼                                        ▼                 │
-│ Global visibility                                                   │
-│   [data not visible yet]                         [flag visible]    │
-│                                                     │              │
-│                                                     ▼              │
-│ Consumer may see : flag == 1, data == old value                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Producer code vs Consumer observation                             |
++--------------------------------------------------------------------+
+| Producer program order                                            |
+|   [Write data] --------------------------------> [Write flag]      |
+|        |                                        |                 |
+|        | delayed in store buffer                | quick visible   |
+|        v                                        v                 |
+| Global visibility                                                   |
+|   [data not visible yet]                         [flag visible]    |
+|                                                     |              |
+|                                                     v              |
+| Consumer may see : flag == 1, data == old value                    |
++--------------------------------------------------------------------+
 ```
 
 즉 메모리 배리어는 "순서를 강요하는 추가 연산"이 아니라, 멀티코어 세계에서 프로그램 의미를 유지하기 위한 최소한의 계약이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 강해질수록 이런 계약의 중요성은 더 커진다.
@@ -54,26 +54,26 @@ tags = ["studynote-computer-architecture"]
 
 | 배리어 유형 | 주로 제어하는 순서 | 의미 | 대표 사용 맥락 |
 | :-- | :-- | :-- | :-- |
-| Load Barrier | Load → Load, Load → Store | 이후 읽기/쓰기가 앞선 읽기보다 먼저 해석되지 않게 함 | 소비자가 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 본문 읽기 |
-| Store Barrier | Store → Store, Store → Load | 앞선 쓰기가 뒤 쓰기보다 늦게 보이지 않게 함 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 후 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 게시 |
+| Load Barrier | Load -> Load, Load -> Store | 이후 읽기/쓰기가 앞선 읽기보다 먼저 해석되지 않게 함 | 소비자가 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 본문 읽기 |
+| Store Barrier | Store -> Store, Store -> Load | 앞선 쓰기가 뒤 쓰기보다 늦게 보이지 않게 함 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 후 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 게시 |
 | Full Barrier | Load/Store 전 범위 | 경계 전후의 읽기·쓰기를 모두 강하게 정렬 | 장치 제어, 강한 순차성 요구 |
 | Acquire / Release | 한쪽 방향만 선택적 제어 | 필요한 방향만 막아 비용을 줄임 | 락프리 큐, publish-subscribe |
 
 다음 그림은 생산자와 소비자 사이에서 Release-Acquire가 어떤 경계를 만드는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Release-Acquire ordering                                           │
-├──────────────────────────────┬─────────────────────────────────────┤
-│ Producer Core                │ Consumer Core                       │
-├──────────────────────────────┼─────────────────────────────────────┤
-│ 1) payload = 42              │ 1) while (flag == 0) wait          │
-│ 2) release barrier/store     │ 2) acquire barrier/load            │
-│ 3) flag = 1                  │ 3) read payload                    │
-├──────────────────────────────┼─────────────────────────────────────┤
-│ payload write가 flag 뒤로     │ flag를 본 이후의 payload read가     │
-│ 밀리지 않도록 고정            │ 그 이전으로 당겨지지 않도록 고정    │
-└──────────────────────────────┴─────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Release-Acquire ordering                                           |
++------------------------------+-------------------------------------+
+| Producer Core                | Consumer Core                       |
++------------------------------+-------------------------------------+
+| 1) payload = 42              | 1) while (flag == 0) wait          |
+| 2) release barrier/store     | 2) acquire barrier/load            |
+| 3) flag = 1                  | 3) read payload                    |
++------------------------------+-------------------------------------+
+| payload write가 flag 뒤로     | flag를 본 이후의 payload read가     |
+| 밀리지 않도록 고정            | 그 이전으로 당겨지지 않도록 고정    |
++------------------------------+-------------------------------------+
 ```
 
 여기서 중요한 점은 배리어가 "메모리를 즉시 모두 비운다"는 단순 그림으로만 이해되면 안 된다는 것이다. 실제 구현은 아키텍처마다 다르며, 어떤 경우에는 명시적 펜스 명령이 필요하고, 어떤 경우에는 원자 연산 자체가 필요한 배리어 의미를 포함한다. 결국 배리어는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름보다, <strong>어떤 재배치를 어느 방향으로 금지할지 정의하는 메모리 모델 계약</strong>으로 이해해야 한다.
@@ -159,21 +159,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 비순차 실행 (Out-of-Order Execution)
-        │
-        ▼
+        |
+        v
 스토어 버퍼 (Store Buffer) · 가시성 지연 (Visibility Delay)
-        │
-        ▼
+        |
+        v
 완화된 일관성 (Relaxed Consistency)
-        │
-        ▼
+        |
+        v
 메모리 배리어 (Memory Barrier / Fence)
-        │
-        ├──▶ Release / Acquire
-        │
-        ├──▶ Full Fence
-        │
-        └──▶ 원자 연산 (Atomic Operation) · 락프리 자료구조
+        |
+        +---> Release / Acquire
+        |
+        +---> Full Fence
+        |
+        +---> 원자 연산 (Atomic Operation) · 락프리 자료구조
 ```
 
 이 흐름은 "하드웨어 최적화 확대"가 왜 배리어를 필요하게 만들었고, 그 이후 소프트웨어가 더 정교한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 추상화로 발전했는지를 보여준다.
@@ -190,7 +190,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 417 / 803
 
-← **이전**: [415. Compare-and-Swap (CAS) 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)
-**다음**: [417. 하드웨어 가속기 (Hardware Accelerator)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/) →
+<- **이전**: [415. Compare-and-Swap (CAS) 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)
+**다음**: [417. 하드웨어 가속기 (Hardware Accelerator)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/) ->
 
 ---

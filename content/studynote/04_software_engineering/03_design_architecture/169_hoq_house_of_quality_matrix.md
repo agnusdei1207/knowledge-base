@@ -36,18 +36,18 @@ HoQ는 보통 네 개의 핵심 블록과 두 개의 보조 블록으로 읽는�
 아래 그림은 HoQ의 구조와 정보 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    House of Quality (HoQ)                   │
-├──────────────────────────────────────────────────────────────┤
-│                 Roof: HOW ↔ HOW correlation                 │
-│              (+ synergy / - trade-off / 0 none)             │
-├───────────────┬──────────────────────────────┬───────────────┤
-│ WHAT          │ Relationship Matrix          │ Benchmark     │
-│ customer need │ 9 strong / 3 medium / 1 weak │ our vs rival  │
-│ + importance  │                              │               │
-├───────────────┴──────────────────────────────┴───────────────┤
-│ Priority result = importance × relationship → target values │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    House of Quality (HoQ)                   |
++--------------------------------------------------------------+
+|                 Roof: HOW ↔ HOW correlation                 |
+|              (+ synergy / - trade-off / 0 none)             |
++---------------+------------------------------+---------------+
+| WHAT          | Relationship Matrix          | Benchmark     |
+| customer need | 9 strong / 3 medium / 1 weak | our vs rival  |
+| + importance  |                              |               |
++---------------+------------------------------+---------------+
+| Priority result = importance × relationship -> target values |
++--------------------------------------------------------------+
 ```
 
 핵심 계산은 단순하지만 강력하다. 고객 중요도가 높은 WHAT에 강하게 연결된 HOW는 우선순위가 올라간다. 예를 들어 "로그인 속도" 중요도 5와 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간" [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 9가 만나면, 이 HOW는 높은 개선 가치가 있다고 판단할 수 있다. 반대로 화려하지만 고객 요구와 약하게 연결된 기술은 점수가 낮아져 과잉 설계를 막는 근거가 된다.
@@ -139,17 +139,17 @@ HoQ를 제대로 활용하면 고객 요구가 기술 목표와 [검증](/knowle
 
 ```text
 VOC 수집
-    │
-    ▼
+    |
+    v
 WHAT 정리 · 중요도 부여
-    │
-    ▼
+    |
+    v
 HoQ 관계 행렬 작성
-    │
-    ├──────────────▶ HOW 도출 · 목표치 설정
-    ├──────────────▶ Roof 상충 관계 분석
-    ├──────────────▶ 경쟁사 벤치마크 비교
-    ▼
+    |
+    +---------------> HOW 도출 · 목표치 설정
+    +---------------> Roof 상충 관계 분석
+    +---------------> 경쟁사 벤치마크 비교
+    v
 설계 · 구현 · 테스트 · 운영 지표 전개
 ```
 
@@ -167,7 +167,7 @@ HoQ 관계 행렬 작성
 
 **진행 상황**: 169 / 973
 
-← **이전**: [168. 품질 기능 전개 (QFD, Quality Function Deployment)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/)
-**다음**: [170. 도메인 분석 (Domain Analysis)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/) →
+<- **이전**: [168. 품질 기능 전개 (QFD, Quality Function Deployment)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/)
+**다음**: [170. 도메인 분석 (Domain Analysis)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/) ->
 
 ---

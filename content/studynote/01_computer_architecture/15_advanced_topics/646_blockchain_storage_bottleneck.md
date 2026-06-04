@@ -34,20 +34,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 신규 블록 반영 시 저장 계층에서 병목이 어떻게 누적되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ New block commit path inside a blockchain node                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [Execute Tx]                                                      │
-│      │                                                           │
-│      ├─ random read ──> [State Trie]                             │
-│      │                      │                                    │
-│      └─ hash update ───────>│                                    │
-│                             ▼                                    │
-│                      [KV store / LSM tree] -> Flush -> Compaction │
-│                                                  │               │
-│                                                  ▼               │
-│                                               [SSD / NVMe]       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| New block commit path inside a blockchain node                    |
++--------------------------------------------------------------------+
+| [Execute Tx]                                                      |
+|      |                                                           |
+|      +- random read --> [State Trie]                             |
+|      |                      |                                    |
+|      +- hash update ------->|                                    |
+|                             v                                    |
+|                      [KV store / LSM tree] -> Flush -> Compaction |
+|                                                  |               |
+|                                                  v               |
+|                                               [SSD / NVMe]       |
++--------------------------------------------------------------------+
 ```
 
 | 저장 계층 | 주 역할 | 주된 I/O 패턴 | 병목 원인 |
@@ -128,17 +128,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Append-only ledger growth
-    │
-    ▼
+    |
+    v
 State trie + authenticated storage
-    │
-    ▼
+    |
+    v
 LSM compaction and random-read bottlenecks
-    │
-    ▼
+    |
+    v
 NVMe / snapshots / pruning / ZNS tuning
-    │
-    ▼
+    |
+    v
 Verkle-style proofs and stateless validation
 ```
 
@@ -156,7 +156,7 @@ Verkle-style proofs and stateless validation
 
 **진행 상황**: 647 / 803
 
-← **이전**: [645. 데이터 파이프라인 (Data Pipeline) 가속](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
-**다음**: [647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) →
+<- **이전**: [645. 데이터 파이프라인 (Data Pipeline) 가속](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
+**다음**: [647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) ->
 
 ---

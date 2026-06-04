@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [이더채널 / 링크 어그리게이션]
-    │
-    ▼
+    |
+    v
 [PAgP]
-    │
-    └──▶ [PoE]
+    |
+    +---> [PoE]
 ```
 
 - **📢 섹션 요약 비유**: ** PAgP는 아이폰 사용자들끼리만 사진을 순식간에 묶어서 보낼 수 있는 **"에어드롭(AirDrop)"**과 같습니다. 반면 LACP는 갤럭시, 아이폰 모두 쓸 수 있는 범용 이메일 첨부파일과 같습니다.
@@ -51,17 +51,17 @@ PAgP로 포트를 묶으려면 양쪽 포트에 모드를 세팅해야 한다.
 - `Auto` + `Auto` = **안 묶임** (둘 다 평생 기다리기만 하다가 일반 개별 포트로 동작함)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │               LACP vs PAgP 협상 모드 명칭 비교                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 표준 LACP (IEEE 802.3ad) ]       [ 시스코 전용 PAgP ]       │
- │   * Active (적극적 제안)    ======   * Desirable (적극적)      │
- │   * Passive (수동적 수락)   ======   * Auto (수동적)          │
- │                                                             │
- │   ▶ 두 프로토콜의 기능은 99.9% 똑같으며, 명령어 단어만 다를 뿐이다.    │
- │   ▶ 시험 문제 단골 출제: "PAgP의 능동적 모드는 무엇인가?" -> Desirable│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |               LACP vs PAgP 협상 모드 명칭 비교                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 표준 LACP (IEEE 802.3ad) ]       [ 시스코 전용 PAgP ]       |
+ |   * Active (적극적 제안)    ======   * Desirable (적극적)      |
+ |   * Passive (수동적 수락)   ======   * Auto (수동적)          |
+ |                                                             |
+ |   -> 두 프로토콜의 기능은 99.9% 똑같으며, 명령어 단어만 다를 뿐이다.    |
+ |   -> 시험 문제 단골 출제: "PAgP의 능동적 모드는 무엇인가?" -> Desirable|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PAgP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ PAgP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: 이더채널 / 링크 어그리게이션]
-    │
-    ▼
+    |
+    v
 [현재 개념: PAgP]
-    │
-    ├──▶ [확장 A: PoE]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: PoE]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 PAgP는 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) / 링크 어그리게이션에서 출발해 현재 메커니즘을 정교화하고, 이후 PoE와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ PAgP는 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_device
 
 **진행 상황**: 385 / 1120
 
-← **이전**: [263. 이더채널 (EtherChannel) / 링크 어그리게이션 (LACP, IEEE 802.3ad/802.1AX)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)
-**다음**: [265. PoE (Power over Ethernet)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) →
+<- **이전**: [263. 이더채널 (EtherChannel) / 링크 어그리게이션 (LACP, IEEE 802.3ad/802.1AX)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)
+**다음**: [265. PoE (Power over Ethernet)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) ->
 
 ---

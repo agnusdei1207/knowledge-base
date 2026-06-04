@@ -31,30 +31,30 @@ tags = ["studynote-operating-system"]
 유저가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `$ touch /tmp/테스트.txt` 를 쳤을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 무거운 디스크를 피해 메모리 파도 위를 서핑하는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "하드디스크 쇳덩이는 너무 무겁다! 우리는 구름(RAM) 위에서 논다!" │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  🚨 [ 사용자 앱 : $ echo "Hello" > /경로/테스트.txt  스왑 요청 빔! ]             │
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ 커널 VFS (Virtual File System 추상화 껍데기 록백) ]                        │
-  │     => "유저야 이 파일, 어디 디렉터리(/)에 꽂았니?"                              │
-  │                                                                                  │
-  │    (왼쪽 경로망)                  (오른쪽 마법 경로망)                           │
-  │   /home/user/테스트.txt          /tmp/테스트.txt (여긴 tmpfs 마운트점!)          │
-  │        │                             │                                           │
-  │  ======▼===========================▼==========================                   │
-  │                                                                                  │
-  │  🔥 [ EXT4 (디스크 추락 지옥 늪) ]     [ ✨ tmpfs (초광속 RAM 천국 렌더) ]       │
-  │    (저널링 일기장 씀)                 (VFS Page Cache 에 데이터 던짐 끝!)        │
-  │    (Block I/O 요청 생성)                     │                                   │
-  │          │                                 ▼                                     │
-  │    [ 물리적 쇳덩어리 SSD 철판 타격! ]        [[ DRAM (메인 메모리) 반도체 ]]     │
-  │      -> 쾅쾅 구워! (1ms 랙!)           -> 번쩍 장착 완료 (1ns 컷 부스트!)        │
-  │                                       (디스크 헤드 모터 1도 안 돌림 통달)        │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 "하드디스크 쇳덩이는 너무 무겁다! 우리는 구름(RAM) 위에서 논다!" |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  🚨 [ 사용자 앱 : $ echo "Hello" > /경로/테스트.txt  스왑 요청 빔! ]             |
+  |                                                                                  |
+  |  =========================v===================================                   |
+  |                                                                                  |
+  |  ✅ [ 커널 VFS (Virtual File System 추상화 껍데기 록백) ]                        |
+  |     => "유저야 이 파일, 어디 디렉터리(/)에 꽂았니?"                              |
+  |                                                                                  |
+  |    (왼쪽 경로망)                  (오른쪽 마법 경로망)                           |
+  |   /home/user/테스트.txt          /tmp/테스트.txt (여긴 tmpfs 마운트점!)          |
+  |        |                             |                                           |
+  |  ======v===========================v==========================                   |
+  |                                                                                  |
+  |  🔥 [ EXT4 (디스크 추락 지옥 늪) ]     [ ✨ tmpfs (초광속 RAM 천국 렌더) ]       |
+  |    (저널링 일기장 씀)                 (VFS Page Cache 에 데이터 던짐 끝!)        |
+  |    (Block I/O 요청 생성)                     |                                   |
+  |          |                                 v                                     |
+  |    [ 물리적 쇳덩어리 SSD 철판 타격! ]        [[ DRAM (메인 메모리) 반도체 ]]     |
+  |      -> 쾅쾅 구워! (1ms 랙!)           -> 번쩍 장착 완료 (1ns 컷 부스트!)        |
+  |                                       (디스크 헤드 모터 1도 안 돌림 통달)        |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 서버의 속도 치트키 아키텍처다. 사용자는 `ext4`든 `tmpfs`든 터미널에서 구별할 수 없고 똑같은 `표준 파일 함수(open, write)` 를 쓴다(VFS의 완벽한 튜리링 투명 마장). 왼쪽 ext4 경로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드웨어 블록 레이어(Block Layer)까지 질질 끌고 가 엘리베이터 스케줄러를 거쳐 디스크 전극에 박아 넣는 무거운 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Overhead)을 치른다. 오른쪽 `tmpfs` 경로는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 536장) 단계에서 딱 멈춘 채, 물리 디스크로 내려가는 통로(Flusher 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 다운) 자체의 끈을 가위로 잘라버린다(No Sync To Disk 스왑). 즉 영원히 더티(Dirty) 상태의 메모리로만 둥둥 떠서 $O(1)$ 비율의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭주를 보장한다 도출.
@@ -137,12 +137,12 @@ RAM을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501
 
 ```text
 [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
-    │
-    ▼
+    |
+    v
 [임시 파일 시스템 (tmpfs / ramfs)]
-    │
-    ├──▶ [가상 장치 파일 시스템 (sysfs, procfs)]
-    └──▶ [파일 시스템 일관성 검사 (fsck / chkdsk)]
+    |
+    +---> [가상 장치 파일 시스템 (sysfs, procfs)]
+    +---> [파일 시스템 일관성 검사 (fsck / chkdsk)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ RAM을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501
 
 **진행 상황**: 557 / 800
 
-← **이전**: [556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리](/knowledge-base/studynote/02_operating_system/09_file_system/556_undelete_data_carving/)
-**다음**: [558. 가상 장치 파일 시스템 (sysfs, procfs) - 커널 변수와 하드웨어 정보 노출 통로](/knowledge-base/studynote/02_operating_system/09_file_system/558_proc_sysfs_virtual_filesystem/) →
+<- **이전**: [556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리](/knowledge-base/studynote/02_operating_system/09_file_system/556_undelete_data_carving/)
+**다음**: [558. 가상 장치 파일 시스템 (sysfs, procfs) - 커널 변수와 하드웨어 정보 노출 통로](/knowledge-base/studynote/02_operating_system/09_file_system/558_proc_sysfs_virtual_filesystem/) ->
 
 ---

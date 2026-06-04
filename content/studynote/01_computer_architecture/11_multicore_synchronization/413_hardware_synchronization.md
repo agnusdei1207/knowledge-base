@@ -36,25 +36,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 두 코어가 같은 락 변수를 두고 경쟁할 때, 현대 하드웨어가 어떻게 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 공유 주소 L(lock) 가 같은 캐시 라인에 존재                                 │
-│                                                                            │
-│ Core A                    Coherence Fabric                 Core B          │
-│ ┌──────────────┐         ┌──────────────────┐         ┌──────────────┐    │
-│ │ atomic op(L) │ ──────▶ │ L line 독점 요청 │ ──────▶ │ line 무효화   │    │
-│ └──────┬───────┘         └────────┬─────────┘         └──────┬───────┘    │
-│        │                           │                          │            │
-│        ▼                           ▼                          ▼            │
-│  L line = M/E 상태           다른 코어 사본 폐기          읽기만 가능     │
-│        │                                                                │
-│        ▼                                                                │
-│  Read → Modify → Write 를 하나의 원자적 단위로 완료                      │
-│        │                                                                │
-│        ▼                                                                │
-│  결과 공개 후 다른 코어가 최신 값 재획득                                  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호      |
++----------------------------------------------------------------------------+
+| 공유 주소 L(lock) 가 같은 캐시 라인에 존재                                 |
+|                                                                            |
+| Core A                    Coherence Fabric                 Core B          |
+| +--------------+         +------------------+         +--------------+    |
+| | atomic op(L) | -------> | L line 독점 요청 | -------> | line 무효화   |    |
+| +------+-------+         +--------+---------+         +------+-------+    |
+|        |                           |                          |            |
+|        v                           v                          v            |
+|  L line = M/E 상태           다른 코어 사본 폐기          읽기만 가능     |
+|        |                                                                |
+|        v                                                                |
+|  Read -> Modify -> Write 를 하나의 원자적 단위로 완료                      |
+|        |                                                                |
+|        v                                                                |
+|  결과 공개 후 다른 코어가 최신 값 재획득                                  |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 전체 시스템을 멈추지 않고도 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 조각만 안전하게 갱신할 수 있다. 다만 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)만으로 모든 문제가 끝나는 것은 아니다. 값 하나를 바꾸는 행위는 원자적이어도, 그 앞뒤 메모리 접근 순서까지 자동으로 정리되지는 않으므로 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 아키텍처의 [메모리 일관성 모델](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/))이 함께 중요해진다.
@@ -85,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 
 또 하나의 중요한 연결은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)과 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 구분이다. [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 "같은 주소의 값이 코어마다 다르게 오래 남지 않게 하는 규칙"이고, 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "여러 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 관측 순서를 어떻게 볼 것인가"에 대한 규칙이다. 하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령은 보통 둘 사이를 이어 주는 접점에 위치하며, 그래서 11장 안의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 순차 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 완화 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)와 자연스럽게 연결된다.
 
-특히 락프리 구조에서는 하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 강력한 대신 설계 부담이 커진다. Compare-and-Swap은 잠그지 않고도 전진성을 확보할 수 있지만, 값이 `A→B→A`로 바뀌어도 처음과 같다고 오인하는 ABA 문제를 일으킬 수 있다. 반대로 뮤텍스는 느릴 수 있지만 설계와 검증이 비교적 단순하다. 따라서 "원자적 명령이 있으니 락은 낡았다"가 아니라, 워크로드에 따라 둘을 구분해야 한다.
+특히 락프리 구조에서는 하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 강력한 대신 설계 부담이 커진다. Compare-and-Swap은 잠그지 않고도 전진성을 확보할 수 있지만, 값이 `A->B->A`로 바뀌어도 처음과 같다고 오인하는 ABA 문제를 일으킬 수 있다. 반대로 뮤텍스는 느릴 수 있지만 설계와 검증이 비교적 단순하다. 따라서 "원자적 명령이 있으니 락은 낡았다"가 아니라, 워크로드에 따라 둘을 구분해야 한다.
 
 - **📢 섹션 요약 비유**: 하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 작은 정밀 드라이버이고, 뮤텍스는 큰 공구함이다. 나사 하나 조일 때 공구함 전체를 들고 오면 무겁고, 큰 가구를 조립하는데 드라이버 하나만 믿으면 손이 모자란다.
 
@@ -149,26 +149,26 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 메모리 경쟁
-    │
-    ▼
+    |
+    v
 원자성 (Atomicity) 필요
-    │
-    ├─▶ Test-and-Set · Fetch-and-Add
-    │
-    ▼
+    |
+    +--> Test-and-Set · Fetch-and-Add
+    |
+    v
 Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)
-    │
-    ▼
+    |
+    v
 캐시 일관성 (Cache Coherence) · 메모리 배리어 (Memory Barrier)
-    │
-    ▼
+    |
+    v
 스핀락 · 뮤텍스 · 락프리 자료구조
-    │
-    ▼
+    |
+    v
 하드웨어 트랜잭셔널 메모리 (HTM)
 ```
 
-이 흐름은 "충돌 인식 → 원자 명령 → 가시성 보강 → 상위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조 → 더 큰 범위의 하드웨어 지원"으로 발전하는 방향을 보여준다.
+이 흐름은 "충돌 인식 -> 원자 명령 -> 가시성 보강 -> 상위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조 -> 더 큰 범위의 하드웨어 지원"으로 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)
 
 **진행 상황**: 414 / 803
 
-← **이전**: [412. 완화된 일관성 (Relaxed Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/)
-**다음**: [414. Test-and-Set 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/) →
+<- **이전**: [412. 완화된 일관성 (Relaxed Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/412_relaxed_consistency/)
+**다음**: [414. Test-and-Set 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/) ->
 
 ---

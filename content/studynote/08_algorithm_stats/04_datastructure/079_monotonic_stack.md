@@ -11,7 +11,7 @@ tags = ["studynote-algorithm-stats"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Monotonic [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 내 원소가 단조 증가(Monotonically Increasing) 또는 단조 감소(Monotonically Decreasing) 순서를 유지하는 특수 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴으로, 배열에서 각 원소의 "다음으로 더 큰 원소(Next Greater Element)" 또는 "다음으로 더 작은 원소"를 O(n)에 찾는 데 특화되어 있다.
-> 2. **가치**: 단순 이중 루프로 각 원소의 NGE(Next Greater Element)를 구하면 O(n²)이지만, 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 각 원소가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 한 번 삽입·한 번 제거되어 전체 O(n)을 보장한다. 히스토그램 최대 직사각형(LeetCode 84), 빗물 트래핑(LeetCode 42), 주식 가격 스팬(LeetCode 901) 등 경쟁 프로그래밍의 클래식 문제들이 이 패턴으로 해결된다.
+> 2. **가치**: 단순 이중 루프로 각 원소의 NGE(Next Greater Element)를 구하면 O(n^)이지만, 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 각 원소가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 한 번 삽입·한 번 제거되어 전체 O(n)을 보장한다. 히스토그램 최대 직사각형(LeetCode 84), 빗물 트래핑(LeetCode 42), 주식 가격 스팬(LeetCode 901) 등 경쟁 프로그래밍의 클래식 문제들이 이 패턴으로 해결된다.
 > 3. **판단 포인트**: 문제에서 "각 원소에 대해 다음/이전의 더 크거나 작은 원소 찾기"를 요구하면 즉시 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴을 떠올려야 한다. 단조 증가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 다음 더 큰 원소 찾기에, 단조 감소 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 다음 더 작은 원소 찾기에 사용한다.
 
 ---
@@ -21,13 +21,13 @@ tags = ["studynote-algorithm-stats"]
 ```text
 문제: 배열 [2, 1, 5, 6, 2, 3]에서 각 원소의 NGE(다음 더 큰 원소)
 
-O(n²) 순진한 접근:
+O(n^) 순진한 접근:
 for i in range(n):
-    for j in range(i+1, n):  ← 이중 루프 O(n²)
+    for j in range(i+1, n):  <- 이중 루프 O(n^)
         if arr[j] > arr[i]: ...
 
 단조 스택 O(n):
-각 원소를 한 번씩만 처리 → 전체 O(n)
+각 원소를 한 번씩만 처리 -> 전체 O(n)
 ```
 
 - **📢 섹션 요약 비유**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 콘서트 입장 대기 줄에서 자신보다 키 큰 사람을 앞에 세우는 규칙이다. 키 작은 사람들을 밀어내면서([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 이미 기다리던 사람들의 "다음으로 키 큰 사람"이 누군지 O(1)에 결정된다.
@@ -64,11 +64,11 @@ arr = [2, 1, 5, 6, 2, 3]
 
 i=0: 스택=[0(val=2)]
 i=1: 1<2, 스택=[0,1]
-i=2: 5>1→result[1]=5, 5>2→result[0]=5, 스택=[2]
-i=3: 6>5→result[2]=6, 스택=[3]
+i=2: 5>1->result[1]=5, 5>2->result[0]=5, 스택=[2]
+i=3: 6>5->result[2]=6, 스택=[3]
 i=4: 2<6, 스택=[3,4]
-i=5: 3>2→result[4]=3, 3<6, 스택=[3,5]
-끝: 스택에 남은 [3,5] → result = -1
+i=5: 3>2->result[4]=3, 3<6, 스택=[3,5]
+끝: 스택에 남은 [3,5] -> result = -1
 
 결과: [5, 5, 6, -1, 3, -1]
 ```
@@ -83,7 +83,7 @@ i=5: 3>2→result[4]=3, 3<6, 스택=[3,5]
 |:---|:---|:---|:---|
 | <strong>단조 감소 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | 다음 더 큰 원소 (NGE) | 현재보다 작은 것만 유지 | O(n) |
 | <strong>단조 증가 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | 다음 더 작은 원소 | 현재보다 큰 것만 유지 | O(n) |
-| **이중 루프** | 모든 조합 탐색 | - | O(n²) |
+| **이중 루프** | 모든 조합 탐색 | - | O(n^) |
 
 - **📢 섹션 요약 비유**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) vs 이중 루프는 색인([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))이 있는 책 vs 처음부터 읽는 책이다. 색인(단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 원하는 정보를 O(1)에 찾고, 처음부터 읽기(이중 루프)는 O(n)마다 탐색한다.
 
@@ -106,14 +106,14 @@ def largest_rectangle(heights):
         stack.append(i)
 
     return max_area
-# heights = [2,1,5,6,2,3] → 10
+# heights = [2,1,5,6,2,3] -> 10
 ```
 
 ### 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴 인식 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- [ ] "다음으로 더 큰/작은 원소" → 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
-- [ ] "이전으로 더 큰/작은 원소" → 역방향 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
-- [ ] "범위 내 최솟값/최댓값" → 단조 덱(Monotonic [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/))
-- [ ] "히스토그램, 빗물, 온도" 유형 → 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 99%
+- [ ] "다음으로 더 큰/작은 원소" -> 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
+- [ ] "이전으로 더 큰/작은 원소" -> 역방향 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
+- [ ] "범위 내 최솟값/최댓값" -> 단조 덱(Monotonic [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/))
+- [ ] "히스토그램, 빗물, 온도" 유형 -> 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 99%
 
 - **📢 섹션 요약 비유**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴 인식은 요리 레시피 패턴 인식이다. 재료 목록(문제 조건)을 보면 어떤 레시피([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))인지 즉시 판단하는 숙련된 요리사처럼, 문제 유형만 보면 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 적용해야 한다는 것을 즉시 알 수 있어야 한다.
 
@@ -123,7 +123,7 @@ def largest_rectangle(heights):
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **O(n) 최적화** | 이중 루프 O(n²) → 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) O(n) |
+| **O(n) 최적화** | 이중 루프 O(n^) -> 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) O(n) |
 | **패턴 재사용** | NGE, 히스토그램, 빗물 유형 통일 해법 |
 | **코딩 테스트** | Top 100 LeetCode 문제 다수 포함 |
 
@@ -146,25 +146,25 @@ def largest_rectangle(heights):
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[이중 루프 O(n²) — NGE 순진한 탐색]
-    │
-    ▼
+[이중 루프 O(n^) — NGE 순진한 탐색]
+    |
+    v
 [단조 스택 O(n) — 단조 순서 유지로 최적화]
-    │
-    ▼
+    |
+    v
 [히스토그램/빗물 응용 — 2D 문제 적용]
-    │
-    ▼
+    |
+    v
 [단조 덱 — 슬라이딩 윈도우 범위 최솟값/최댓값]
-    │
-    ▼
-[DP 슬라이딩 윈도우 최적화 — O(n²) DP를 O(n)으로]
+    |
+    v
+[DP 슬라이딩 윈도우 최적화 — O(n^) DP를 O(n)으로]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 줄 서기 게임이에요! 뒤에서 더 큰 수가 오면 앞에 있는 작은 수들이 "내 NGE(다음 더 큰 수)는 이것"이라고 알아채고 줄에서 나와요.
-2. 이렇게 하면 모든 수를 딱 한 번씩만 줄에 넣었다 빼기 때문에(O(n)), 이중 루프(O(n²))보다 훨씬 빠르게 답을 구할 수 있어요.
+2. 이렇게 하면 모든 수를 딱 한 번씩만 줄에 넣었다 빼기 때문에(O(n)), 이중 루프(O(n^))보다 훨씬 빠르게 답을 구할 수 있어요.
 3. 히스토그램 최대 직사각형, 빗물 채우기 같은 어려운 문제들이 모두 이 원리로 해결된답니다!
 
 ---
@@ -173,7 +173,7 @@ def largest_rectangle(heights):
 
 **진행 상황**: 79 / 175
 
-← **이전**: [26. 힙 (Heap) — 우선순위 큐 구현의 완전 이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)
-**다음**: [27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) →
+<- **이전**: [26. 힙 (Heap) — 우선순위 큐 구현의 완전 이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)
+**다음**: [27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ->
 
 ---

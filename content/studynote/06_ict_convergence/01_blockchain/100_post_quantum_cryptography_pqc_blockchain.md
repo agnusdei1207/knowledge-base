@@ -37,18 +37,18 @@ tags = ["ict_convergence"]
 | **해시 기반 (Hash-based)** | 해시 함수의 일방향성(역산 불가능) 원리를 서명에 직접 활용 | 수학적 역산이 불가능해 안정성이 가장 높으나, 서명 크기가 너무 커서 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 불리함 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            쇼어 알고리즘과 양자 내성 암호의 방어 원리              │
-├──────────────────────────────────────────────────────────────┤
-│ [공격] 양자 컴퓨터 (쇼어 알고리즘 가동)                           │
-│     │                                                        │
-│     ├──▶ [기존 타원곡선 암호 ECDSA]                          │
-│     │     수학적 구조(주기성)를 이용해 순식간에 개인키 역산 💥  │
-│     │                                                        │
-│     └──▶ [양자 내성 암호 PQC (격자 기반)]                      │
-│           방향성 없는 n차원 격자 점들!                          │
-│           주기성이 없어서 중첩 연산 실패 ──▶ 역산 방어 성공 🛡️ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            쇼어 알고리즘과 양자 내성 암호의 방어 원리              |
++--------------------------------------------------------------+
+| [공격] 양자 컴퓨터 (쇼어 알고리즘 가동)                           |
+|     |                                                        |
+|     +---> [기존 타원곡선 암호 ECDSA]                          |
+|     |     수학적 구조(주기성)를 이용해 순식간에 개인키 역산 💥  |
+|     |                                                        |
+|     +---> [양자 내성 암호 PQC (격자 기반)]                      |
+|           방향성 없는 n차원 격자 점들!                          |
+|           주기성이 없어서 중첩 연산 실패 ---> 역산 방어 성공 🛡️ |
++--------------------------------------------------------------+
 ```
 
 이 그림은 기존 암호가 수학적 "주기"를 가져 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 뚫리는 반면, 격자 기반 암호는 패턴이 없어 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 가속 능력을 무력화시키는 원리를 보여준다.
@@ -114,17 +114,17 @@ PQC로의 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockch
 
 ```text
 타원곡선 서명 (ECDSA) 기반 원장 운영
-    │
-    ▼
+    |
+    v
 양자 컴퓨팅(Shor 알고리즘) 위협 대두
-    │
-    ▼
+    |
+    v
 NIST 표준화 및 양자 내성 암호(PQC) 연구 (격자, 다변수, 해시)
-    │
-    ▼
+    |
+    v
 레이어 2 결합을 통한 트랜잭션 용량 팽창 억제
-    │
-    ▼
+    |
+    v
 커뮤니티 합의 및 대규모 하드 포크 실행 (안전망 구축)
 ```
 
@@ -142,7 +142,7 @@ NIST 표준화 및 양자 내성 암호(PQC) 연구 (격자, 다변수, 해시)
 
 **진행 상황**: 100 / 552
 
-← **이전**: [99. BRC-20 표준 - 비트코인 네트워크 상에서의 토큰 발행 프로토콜 (오디널스 Ordinals)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/099_brc_20_bitcoin_ordinals_protocol/)
-**다음**: [사물인터넷 (IoT) 개념](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) →
+<- **이전**: [99. BRC-20 표준 - 비트코인 네트워크 상에서의 토큰 발행 프로토콜 (오디널스 Ordinals)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/099_brc_20_bitcoin_ordinals_protocol/)
+**다음**: [사물인터넷 (IoT) 개념](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ->
 
 ---

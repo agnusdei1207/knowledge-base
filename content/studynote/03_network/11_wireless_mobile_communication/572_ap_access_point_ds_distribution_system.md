@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
+    |
+    v
 [AP / DS]
-    │
-    └──▶ [11 b/g/a/n 표준 세대 발전]
+    |
+    +---> [11 b/g/a/n 표준 세대 발전]
 ```
 
 - **📢 섹션 요약 비유**: AP / DS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,15 +51,15 @@ tags = ["studynote-network"]
 
 ### 2. 왜 DS가 중요한가? (로밍과 패킷 전달)
 - 스마트폰이 AP1 구역에서 AP2 구역으로 걸어갈 때 끊김 없이 통신하려면, 두 AP가 서로 "이 고객이 내 쪽에서 네 쪽으로 넘어갔다"라고 정보를 교환해야 합니다. 이 정보 교환 통로가 바로 DS입니다.
-- 만약 AP1에 접속한 노트북이 AP2에 접속한 프린터로 문서를 보낸다면, 전파가 직접 날아가는 것이 아니라 <strong>[노트북 → 무선 → AP1 → 유선(DS) → AP2 → 무선 → 프린터]</strong>의 경로를 타게 됩니다.
+- 만약 AP1에 접속한 노트북이 AP2에 접속한 프린터로 문서를 보낸다면, 전파가 직접 날아가는 것이 아니라 <strong>[노트북 -> 무선 -> AP1 -> 유선(DS) -> AP2 -> 무선 -> 프린터]</strong>의 경로를 타게 됩니다.
 
 ```text
 [무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
+    |
+    v
 [AP / DS]
-    │
-    └──▶ [11 b/g/a/n 표준 세대 발전]
+    |
+    +---> [11 b/g/a/n 표준 세대 발전]
 ```
 
 - **📢 섹션 요약 비유**: AP(Access Point)는 무선 전파라는 '배'를 타고 온 화물을 내려서 트럭에 옮겨 싣는 '항구([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))'입니다. 그리고 항구들을 하나로 연결해 전국 어디로든 트럭이 달리게 해주는 '거대한 고속도로망'이 바로 DS(Distribution System)입니다.
@@ -120,12 +120,12 @@ AP / DS는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개
 
 ```text
 [선행 개념: 무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
+    |
+    v
 [현재 개념: AP / DS]
-    │
-    ├──▶ [확장 A: 11 b/g/a/n 표준 세대 발전]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 11 b/g/a/n 표준 세대 발전]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 AP / DS는 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS에서 출발해 현재 메커니즘을 정교화하고, 이후 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ AP / DS는 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_sta
 
 **진행 상황**: 693 / 1120
 
-← **이전**: [571. 무선 LAN (WLAN) 구조 분산: BSS(Basic Service Set), ESS(Extended Service Set)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/)
-**다음**: [573. 11 b/g/a/n 표준 세대 발전](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/573_802_11_wifi_standards_evolution/) →
+<- **이전**: [571. 무선 LAN (WLAN) 구조 분산: BSS(Basic Service Set), ESS(Extended Service Set)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/)
+**다음**: [573. 11 b/g/a/n 표준 세대 발전](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/573_802_11_wifi_standards_evolution/) ->
 
 ---

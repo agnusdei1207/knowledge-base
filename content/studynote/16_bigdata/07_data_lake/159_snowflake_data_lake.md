@@ -36,37 +36,37 @@ Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│               Snowflake 레이크하우스 아키텍처                     │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │         외부 객체 스토리지 (S3 / ADLS Gen2 / GCS)        │     │
-│  │         Parquet / Iceberg 형식 파일                      │     │
-│  └──────────────────┬─────────────────────────────────────┘     │
-│                     │                                           │
-│           ┌─────────┴─────────┐                                 │
-│           │                   │                                 │
-│  ┌────────▼───────┐  ┌────────▼────────────┐                   │
-│  │ External Table │  │ Snowflake-Managed    │                   │
-│  │ (메타데이터만)  │  │ Iceberg Table       │                   │
-│  │ 스키마 정의,   │  │ (Snowflake가 카탈로그│                   │
-│  │ 직접 파일 읽기 │  │  관리, 외부 엔진도   │                   │
-│  └────────────────┘  │  읽기 가능)          │                   │
-│                      └────────────────────┘                    │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │          Virtual Warehouse (컴퓨팅, 독립 스케일)          │     │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐  │     │
-│  │  │ XSmall   │  │  Large   │  │  Snowpark (Python/   │  │     │
-│  │  │ (SQL 분석)│  │  (ETL)   │  │  Java/Scala 실행)    │  │     │
-│  │  └──────────┘  └──────────┘  └──────────────────────┘  │     │
-│  └────────────────────────────────────────────────────────┘     │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │          Cloud Services Layer (메타데이터·쿼리 최적화)    │     │
-│  └────────────────────────────────────────────────────────┘     │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|               Snowflake 레이크하우스 아키텍처                     |
++------------------------------------------------------------------+
+|                                                                  |
+|  +--------------------------------------------------------+     |
+|  |         외부 객체 스토리지 (S3 / ADLS Gen2 / GCS)        |     |
+|  |         Parquet / Iceberg 형식 파일                      |     |
+|  +------------------+-------------------------------------+     |
+|                     |                                           |
+|           +---------+---------+                                 |
+|           |                   |                                 |
+|  +--------v-------+  +--------v------------+                   |
+|  | External Table |  | Snowflake-Managed    |                   |
+|  | (메타데이터만)  |  | Iceberg Table       |                   |
+|  | 스키마 정의,   |  | (Snowflake가 카탈로그|                   |
+|  | 직접 파일 읽기 |  |  관리, 외부 엔진도   |                   |
+|  +----------------+  |  읽기 가능)          |                   |
+|                      +--------------------+                    |
+|                                                                  |
+|  +--------------------------------------------------------+     |
+|  |          Virtual Warehouse (컴퓨팅, 독립 스케일)          |     |
+|  |  +----------+  +----------+  +----------------------+  |     |
+|  |  | XSmall   |  |  Large   |  |  Snowpark (Python/   |  |     |
+|  |  | (SQL 분석)|  |  (ETL)   |  |  Java/Scala 실행)    |  |     |
+|  |  +----------+  +----------+  +----------------------+  |     |
+|  +--------------------------------------------------------+     |
+|                                                                  |
+|  +--------------------------------------------------------+     |
+|  |          Cloud Services Layer (메타데이터·쿼리 최적화)    |     |
+|  +--------------------------------------------------------+     |
++------------------------------------------------------------------+
 ```
 
 **External Table vs Iceberg Table vs Internal Table**
@@ -122,7 +122,7 @@ Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티
 | Virtual Warehouse 동작 | 독립 컴퓨팅 클러스터, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)별 자동 확장, 사용 시간만 과금 |
 | External Table 한계 | [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) 효율 낮음, ACID 없음, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 |
 | Iceberg Table 이점 | 외부 엔진과 공유 가능, Iceberg ACID, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 진화 |
-| Snowpark 활용 이유 | Python 코드를 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 내에서 실행 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음 |
+| Snowpark 활용 이유 | Python 코드를 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 내에서 실행 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음 |
 
 > 📢 **섹션 요약 비유**: Virtual Warehouse는 택시 호출 앱과 같다. 손님([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))이 생기면 택시(컴퓨팅)를 불러 태우고, 목적지(결과)에 도달하면 요금만 내고 해산한다.
 
@@ -160,20 +160,20 @@ Snowflake는 SQL 네이티브 강점을 유지하면서 [레이크하우스](/kn
 
 ```text
 [기존 데이터 웨어하우스 (DW) — 정형 데이터 전용, 비용 높음, 비정형 처리 불가]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake) — 원시 데이터 모든 형식 저장, 스키마 온 리드]
-    │
-    ▼
+    |
+    v
 [Snowflake External Table — S3/GCS 오브젝트 스토리지를 Snowflake에서 SQL 조회]
-    │
-    ▼
+    |
+    v
 [Apache Iceberg 통합 — 오픈 테이블 포맷, ACID 트랜잭션·타임 트래블 지원]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 (Data Lakehouse) — DW 성능 + 데이터 레이크 유연성 통합]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인별 분산 소유권, Snowflake Data Sharing 연동]
 ```
 이 흐름은 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 전용 DW의 한계를 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)로 극복하고, Snowflake의 외부 테이블·Iceberg 통합을 통해 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처로 수렴하며, [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 패러다임과 결합하는 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 진화를 보여준다.
@@ -189,7 +189,7 @@ Snowflake는 SQL 네이티브 강점을 유지하면서 [레이크하우스](/kn
 
 **진행 상황**: 159 / 262
 
-← **이전**: [158. Databricks — Spark 기반 레이크하우스 통합 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/158_databricks_platform/)
-**다음**: [160. Microsoft Fabric — One Lake 통합 분석 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/) →
+<- **이전**: [158. Databricks — Spark 기반 레이크하우스 통합 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/158_databricks_platform/)
+**다음**: [160. Microsoft Fabric — One Lake 통합 분석 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/) ->
 
 ---

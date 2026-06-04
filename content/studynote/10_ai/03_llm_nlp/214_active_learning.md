@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이것이 기계가 수동적으로 주는 밥만 먹는 것(Passive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 거부하고, 밥상에서 자신이 먹고 싶은 가장 영양가 높은 반찬([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 직접 찍어서 가져오라고 지시하는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a> 러닝 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>, 능동 학습)</strong>의 위대한 탄생이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 패시브 러닝(기존 방식)은 100권의 교과서를 학생에게 다 던져주고 무식하게 처음부터 끝까지 다 외우라고 시키는 무식한 학원이다. [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 러닝은 똑똑한 과외 학생이다. 학생이 혼자서 교과서를 쫙 훑어본 다음, 아는 문제는 다 건너뛰고 "선생님, 저 이 3번 문제랑 18번 문제 두 개는 도저히 모르겠어요. 이것만 설명해 주세요!"라고 핀포인트로 질문해서 1시간 만에 전교 1등을 찍는 궁극의 효율적인 공부법이다.
@@ -44,27 +44,27 @@ tags = ["studynote-ai"]
 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 러닝의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 인간([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 간의 끝없는 탁구(핑퐁) 게임 루프다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           액티브 러닝 (Active Learning)의 인간 개입 무한 루프 아키텍처 │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 초기 학습 (Seed Training)]                               │
-│   * 100만 장의 미라벨링(Unlabeled) 쓰레기 데이터 덤프장 확보.           │
-│   * 이 중 딱 1,000장만 사람이 라벨링해서 딥러닝 뇌를 대충 구워놓음.       │
-│                                                              │
-│  [2. 모델의 불확실성 스캐닝 (Query Strategy)]                   │
-│   * 대충 구워진 딥러닝 뇌가 나머지 99만 9천 장의 데이터를 쫙 훑어봄.     │
-│   * 계산 발동: "1번 사진은 암 99% (알아!), 2번 사진은 정상 98% (알아!)"  │
-│   * "어? 3번 사진은 암 51%, 정상 49%? 이거 미치겠네 나 전혀 모르겠어!"     │
-│   ─▶ 모델이 헷갈려 뒤질 것 같은(Uncertainty Max) 사진 1,000장을 색출! │
-│                                                              │
-│  [3. 전문가 개입 (Human Oracle Labeling)]                     │
-│   * 시스템이 색출된 1,000장의 사진을 진짜 의사 선생님 모니터로 전송함.       │
-│   * 의사가 1,000장의 정답을 달아줌 (Human-in-the-Loop).              │
-│                                                              │
-│  [4. 뇌 융합 및 재학습 (Retraining)]                            │
-│   * 의사가 준 1,000장의 고급 지식을 기존 데이터에 섞어 모델을 다시 훈련!    │
-│   * 뇌가 한 단계 더 똑똑해짐 ─▶ 다시 2번으로 돌아가서 다음 헷갈리는 걸 찾음.│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           액티브 러닝 (Active Learning)의 인간 개입 무한 루프 아키텍처 |
++--------------------------------------------------------------+
+|  [1. 초기 학습 (Seed Training)]                               |
+|   * 100만 장의 미라벨링(Unlabeled) 쓰레기 데이터 덤프장 확보.           |
+|   * 이 중 딱 1,000장만 사람이 라벨링해서 딥러닝 뇌를 대충 구워놓음.       |
+|                                                              |
+|  [2. 모델의 불확실성 스캐닝 (Query Strategy)]                   |
+|   * 대충 구워진 딥러닝 뇌가 나머지 99만 9천 장의 데이터를 쫙 훑어봄.     |
+|   * 계산 발동: "1번 사진은 암 99% (알아!), 2번 사진은 정상 98% (알아!)"  |
+|   * "어? 3번 사진은 암 51%, 정상 49%? 이거 미치겠네 나 전혀 모르겠어!"     |
+|   --> 모델이 헷갈려 뒤질 것 같은(Uncertainty Max) 사진 1,000장을 색출! |
+|                                                              |
+|  [3. 전문가 개입 (Human Oracle Labeling)]                     |
+|   * 시스템이 색출된 1,000장의 사진을 진짜 의사 선생님 모니터로 전송함.       |
+|   * 의사가 1,000장의 정답을 달아줌 (Human-in-the-Loop).              |
+|                                                              |
+|  [4. 뇌 융합 및 재학습 (Retraining)]                            |
+|   * 의사가 준 1,000장의 고급 지식을 기존 데이터에 섞어 모델을 다시 훈련!    |
+|   * 뇌가 한 단계 더 똑똑해짐 --> 다시 2번으로 돌아가서 다음 헷갈리는 걸 찾음.|
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>, Query <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>)</strong>:
@@ -137,7 +137,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [액티브 러닝 (Active Learning)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [액티브 러닝 (Active Learning)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 214 / 420
 
-← **이전**: [213. 변이형 오토인코더 (VAE)](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)
-**다음**: [215. 메타 러닝 (Meta Learning / Learning to Learn)](/knowledge-base/studynote/10_ai/03_llm_nlp/215_meta_learning/) →
+<- **이전**: [213. 변이형 오토인코더 (VAE)](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)
+**다음**: [215. 메타 러닝 (Meta Learning / Learning to Learn)](/knowledge-base/studynote/10_ai/03_llm_nlp/215_meta_learning/) ->
 
 ---

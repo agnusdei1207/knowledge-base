@@ -42,18 +42,18 @@ ERP의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 아래 흐름은 ERP가 "주문 입력" 하나를 여러 부서의 동시 작업으로 바꾸는 방식을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ ERP integrated flow                                          │
-├──────────────────────────────────────────────────────────────┤
-│ Sales Order                                                  │
-│      │                                                       │
-│      ├─> SD : order / delivery plan                          │
-│      ├─> MM : ATP check / inventory update                   │
-│      ├─> PP : production requirement if stock is short       │
-│      └─> FI : receivable / revenue posting                   │
-│                                                              │
-│ Shared master data: item, customer, supplier, account, org   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| ERP integrated flow                                          |
++--------------------------------------------------------------+
+| Sales Order                                                  |
+|      |                                                       |
+|      +-> SD : order / delivery plan                          |
+|      +-> MM : ATP check / inventory update                   |
+|      +-> PP : production requirement if stock is short       |
+|      +-> FI : receivable / revenue posting                   |
+|                                                              |
+| Shared master data: item, customer, supplier, account, org   |
++--------------------------------------------------------------+
 ```
 
 즉 ERP는 화면을 합치는 것이 아니라, <strong>거래의 파급 효과를 같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 안에서 연쇄적으로 처리</strong>하는 구조다. 이 때문에 인터페이스보다 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 설계와 코드 체계가 더 중요하다.
@@ -124,16 +124,16 @@ ERP가 제대로 정착되면 결산 속도, 재고 정확도, 납기 예측력,
 
 ```text
 MRP
-  │
-  ▼
+  |
+  v
 MRP II
-  │
-  ▼
+  |
+  v
 ERP
-  │
-  ├─> SCM / CRM / MES integration
-  │
-  ▼
+  |
+  +-> SCM / CRM / MES integration
+  |
+  v
 Cloud ERP / Composable ERP / Intelligent ERP
 ```
 
@@ -149,7 +149,7 @@ Cloud ERP / Composable ERP / Intelligent ERP
 
 **진행 상황**: 81 / 482
 
-← **이전**: [080. 하이퍼오토메이션 (Hyperautomation: RPA + AI)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/)
-**다음**: [82. MRP (Material Requirements Planning)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) →
+<- **이전**: [080. 하이퍼오토메이션 (Hyperautomation: RPA + AI)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/)
+**다음**: [82. MRP (Material Requirements Planning)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) ->
 
 ---

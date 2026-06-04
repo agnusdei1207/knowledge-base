@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 Text-to-SQL on BigData ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))으로 자연어 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 빅데이터 환경에서 자연어 질의을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력           │──▶│ 절차           │──▶│ 산출물          │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력           |--->| 절차           |--->| 산출물          |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 요리 레시피처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ Text-to-SQL on BigData ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai
 | 산출물 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력           │──▶│ 절차           │──▶│ 산출물          │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력           |--->| 절차           |--->| 산출물          |
++--------------+   +--------------+   +--------------+
 ```
 
 Text-to-SQL와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ Text-to-SQL on BigData ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai
 
 ```text
 [Text-to-SQL]
-    │
-    ▼
+    |
+    v
 [LLM (Large Language Model)]
-    │
-    ▼
+    |
+    v
 [자연어 질의 (Natural Language Query)]
-    │
-    ▼
+    |
+    v
 [쿼리 자동 생성 (Auto SQL Generation)]
-    │
-    ▼
+    |
+    v
 [RAG (Retrieval-Augmented Generation)]
 ```
 
@@ -138,7 +138,7 @@ Text-to-SQL on BigData ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai
 
 **진행 상황**: 234 / 262
 
-← **이전**: [228. AI + 빅데이터 융합 (대규모 ML 학습, LLM 기반 데이터 분석)](/knowledge-base/studynote/16_bigdata/12_trends/233_ai_ml_llm/)
-**다음**: [230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) →
+<- **이전**: [228. AI + 빅데이터 융합 (대규모 ML 학습, LLM 기반 데이터 분석)](/knowledge-base/studynote/16_bigdata/12_trends/233_ai_ml_llm/)
+**다음**: [230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) ->
 
 ---

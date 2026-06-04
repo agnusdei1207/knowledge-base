@@ -26,29 +26,29 @@ tags = ["studynote-operating-system"]
 소프트웨어 취약점, 특히 메모리 손상 버그(Memory Corruption Bugs)인 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))를 발견하더라도, 프로그램이 단순히 크래시(Crash)되어 종료되는 것만으로는 공격자에게 큰 이득이 없다. 공격자는 단순한 [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/), Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 넘어 시스템 제어권을 탈취(RCE, Remote [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Execution)하고자 했다. 이를 위해 공격자는 자신이 작성한 코드를 메모리에 밀어 넣고, CPU (Central Processing Unit)가 그것을 실행하게 만드는 정교한 기술이 필요했다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      버퍼 오버플로우와 셸코드 인젝션의 문제 발생 배경도    │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [정상적인 스택 프레임]                                    │
-│  ┌──────────┬─────────────┬─────────┬───────────────┐      │
-│  │ 지역 변수 │  이전 EBP   │ 리턴 주소│ 함수의 매개변수 │  │
-│  │ (Buffer) │(Frame Ptr)  │ (RET)   │ (Arguments)   │      │
-│  └──────────┴─────────────┴─────────┴───────────────┘      │
-│                                                            │
-│  [공격자의 입력 삽입 (오버플로우 발생)]                    │
-│  입력 데이터: [ NOP Sled ] + [ Shellcode ] + [ 새로운 RET] │
-│      │                                                     │
-│      ▼                                                     │
-│  ┌────────────────────────┬─────────┬───────────────┐      │
-│  │ [NOP] [NOP] [Shellcode]│ 변조된  │ 함수의 매개변수 │    │
-│  │ 악성 기계어 코드 덮어쓰기│ RET 주소│ (Arguments)   │    │
-│  └────────────────────────┴────┬────┴───────────────┘      │
-│                                │                           │
-│                                └─▶ 프로그램 종료 시        │
-│                                     원래 호출자가 아닌     │
-│                                     셸코드로 점프!         │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      버퍼 오버플로우와 셸코드 인젝션의 문제 발생 배경도    |
++------------------------------------------------------------+
+|                                                            |
+|  [정상적인 스택 프레임]                                    |
+|  +----------+-------------+---------+---------------+      |
+|  | 지역 변수 |  이전 EBP   | 리턴 주소| 함수의 매개변수 |  |
+|  | (Buffer) |(Frame Ptr)  | (RET)   | (Arguments)   |      |
+|  +----------+-------------+---------+---------------+      |
+|                                                            |
+|  [공격자의 입력 삽입 (오버플로우 발생)]                    |
+|  입력 데이터: [ NOP Sled ] + [ Shellcode ] + [ 새로운 RET] |
+|      |                                                     |
+|      v                                                     |
+|  +------------------------+---------+---------------+      |
+|  | [NOP] [NOP] [Shellcode]| 변조된  | 함수의 매개변수 |    |
+|  | 악성 기계어 코드 덮어쓰기| RET 주소| (Arguments)   |    |
+|  +------------------------+----+----+---------------+      |
+|                                |                           |
+|                                +--> 프로그램 종료 시        |
+|                                     원래 호출자가 아닌     |
+|                                     셸코드로 점프!         |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 취약점을 이용하여 셸코드가 어떻게 주입되고 실행되는지를 보여준다. 정상적인 프로그램은 함수 실행이 끝나면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장된 리턴 주소 (RET, Return Address)를 참조하여 원래의 실행 흐름으로 돌아간다. 그러나 공격자는 입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 누락된 버퍼에 할당된 공간보다 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어씌워 (Overwrite), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 상의 EBP (Extended Base Pointer)와 RET 영역까지 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 조작한다. 변조된 RET는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 어딘가에 위치한 셸코드의 시작 주소를 가리키게 되며, 함수가 반환(Return) 명령을 수행하는 순간 CPU는 셸코드를 실행하게 된다.
@@ -77,32 +77,32 @@ tags = ["studynote-operating-system"]
 3. <strong>직접적인 시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>) 호출</strong>: 주입된 환경에서는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(libc.so 등)의 주소를 알 수 없으므로, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수(예: `system()`)를 호출할 수 없다. 대신 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 인자를 세팅하고 직접 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(`int 0x80`)나 `syscall` 명령을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 직접 시스템 콜을 요청해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      리눅스 x86 기반 execve("/bin/sh") 셸코드 동작 흐름      │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [목표: execve("/bin/sh", ["/bin/sh", NULL], NULL) 호출]     │
-│                                                              │
-│  ① 레지스터 초기화 및 Null 바이트 확보                       │
-│     xor eax, eax      ; EAX를 0으로 (널 바이트 없는 0 생성)  │
-│     push eax          ; 스택에 0x00000000 푸시 (문자열 끝)   │
-│                                                              │
-│  ② "/bin//sh" 문자열을 스택에 푸시 (리틀 엔디안)             │
-│     push 0x68732f2f   ; "//sh" (8바이트를 맞추기 위해 / 추가)│
-│     push 0x6e69622f   ; "/bin"                               │
-│     mov ebx, esp      ; EBX에 현재 스택 포인터 주소 저장     │
-│                       ; EBX는 첫 번째 인자 (파일명)          │
-│                                                              │
-│  ③ 인자 배열 구성 및 시스템 콜 번호 세팅                     │
-│     push eax          ; 두 번째 인자의 끝 (NULL)             │
-│     push ebx          ; 문자열 주소를 스택에 푸시            │
-│     mov ecx, esp      ; ECX에 두 번째 인자(argv) 배열 주소   │
-│     mov edx, eax      ; EDX에 세 번째 인자(envp) NULL        │
-│     mov al, 11        ; EAX에 execve 시스템 콜 번호(11)      │
-│                                                              │
-│  ④ 시스템 콜 실행                                            │
-│     int 0x80          ; 커널 인터럽트 발생 → 루트 셸 획득!   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      리눅스 x86 기반 execve("/bin/sh") 셸코드 동작 흐름      |
++--------------------------------------------------------------+
+|                                                              |
+|  [목표: execve("/bin/sh", ["/bin/sh", NULL], NULL) 호출]     |
+|                                                              |
+|  ① 레지스터 초기화 및 Null 바이트 확보                       |
+|     xor eax, eax      ; EAX를 0으로 (널 바이트 없는 0 생성)  |
+|     push eax          ; 스택에 0x00000000 푸시 (문자열 끝)   |
+|                                                              |
+|  ② "/bin//sh" 문자열을 스택에 푸시 (리틀 엔디안)             |
+|     push 0x68732f2f   ; "//sh" (8바이트를 맞추기 위해 / 추가)|
+|     push 0x6e69622f   ; "/bin"                               |
+|     mov ebx, esp      ; EBX에 현재 스택 포인터 주소 저장     |
+|                       ; EBX는 첫 번째 인자 (파일명)          |
+|                                                              |
+|  ③ 인자 배열 구성 및 시스템 콜 번호 세팅                     |
+|     push eax          ; 두 번째 인자의 끝 (NULL)             |
+|     push ebx          ; 문자열 주소를 스택에 푸시            |
+|     mov ecx, esp      ; ECX에 두 번째 인자(argv) 배열 주소   |
+|     mov edx, eax      ; EDX에 세 번째 인자(envp) NULL        |
+|     mov al, 11        ; EAX에 execve 시스템 콜 번호(11)      |
+|                                                              |
+|  ④ 시스템 콜 실행                                            |
+|     int 0x80          ; 커널 인터럽트 발생 -> 루트 셸 획득!   |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도는 20~30바이트에 불과한 매우 콤팩트한 리눅스 x86 셸코드의 전형적인 구조를 보여준다. 가장 중요한 트레이드오프는 크기를 최소화하면서 동시에 `0x00` 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 회피하는 것이다. `push 0` 대신 `xor eax, eax` 후 `push eax`를 사용하는 것이 그 대표적인 예이다. 또한 문자열 `/bin/sh`를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 선언할 수 없으므로, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭(4바이트)에 맞게 쪼개어 직접 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 밀어 넣고(Push) [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))를 활용해 메모리 주소를 획득한다. `int 0x80`이 호출되는 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 세팅된 값들을 읽어 `execve` 함수를 실행하고, 현재 취약한 프로세스는 공격자가 제어하는 새로운 셸로 덮어씌워진다.
@@ -128,26 +128,26 @@ tags = ["studynote-operating-system"]
 원격 서버를 해킹할 때, 단순한 로컬 셸코드는 의미가 없다. 공격자는 획득한 셸의 입출력(표준 입력/출력/에러)을 네트워크 소켓으로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Redirect)시켜야 원격에서 명령을 내릴 수 있다. 이 과정에서 바인드 셸과 리버스 셸의 아키텍처적 차이가 두드러진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│      바인드 셸 (Bind Shell) vs 리버스 셸 (Reverse Shell)       │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [바인드 셸: 인바운드 방화벽에 취약]                           │
-│  공격자(Attacker)                 피해자(Victim / Target)      │
-│         │                             │                        │
-│         │ ──(1) 익스플로잇 주입 ─────▶│ 셸코드가 포트 4444 오픈│
-│         │                             │                        │
-│  [막힘] ┼ ──(2) 포트 4444로 접속 시도▶│ [방화벽] Inbound Drop  │
-│                                                                │
-│                                                                │
-│  [리버스 셸: 아웃바운드 허용을 악용한 우회]                    │
-│  공격자(Attacker)                 피해자(Victim / Target)      │
-│  (포트 4444 대기)                     │                        │
-│         │ ──(1) 익스플로잇 주입 ─────▶│ 셸코드 실행            │
-│         │                             │                        │
-│         │ ◀──(2) 공격자 IP로 접속 시도─│ [방화벽] Outbound 통과│
-│         │     (Socket Connect)        │                        │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|      바인드 셸 (Bind Shell) vs 리버스 셸 (Reverse Shell)       |
++----------------------------------------------------------------+
+|                                                                |
+|  [바인드 셸: 인바운드 방화벽에 취약]                           |
+|  공격자(Attacker)                 피해자(Victim / Target)      |
+|         |                             |                        |
+|         | --(1) 익스플로잇 주입 ------>| 셸코드가 포트 4444 오픈|
+|         |                             |                        |
+|  [막힘] + --(2) 포트 4444로 접속 시도->| [방화벽] Inbound Drop  |
+|                                                                |
+|                                                                |
+|  [리버스 셸: 아웃바운드 허용을 악용한 우회]                    |
+|  공격자(Attacker)                 피해자(Victim / Target)      |
+|  (포트 4444 대기)                     |                        |
+|         | --(1) 익스플로잇 주입 ------>| 셸코드 실행            |
+|         |                             |                        |
+|         | <---(2) 공격자 IP로 접속 시도-| [방화벽] Outbound 통과|
+|         |     (Socket Connect)        |                        |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 비교도는 왜 실무 해킹에서 리버스 셸(Reverse [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))이 압도적으로 많이 쓰이는지를 명확히 보여준다. 바인드 셸은 타겟 서버에 새로운 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열고 기다리지만, 현대 기업망의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 허용된 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80, 443) 외의 인바운드(Inbound) 접속을 철저히 차단한다. 따라서 바인드 셸은 무용지물이 된다. 반면, 리버스 셸은 타겟 내부에서 외부망(공격자 서버)으로 아웃바운드(Outbound) 연결을 시도한다. 많은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙이 내부에서 외부로 나가는 트래픽에 대해서는 상대적으로 관대하기 때문에, 리버스 셸 셸코드는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 쉽게 우회하여 공격자에게 제어권을 전달한다. 이때 셸코드는 `dup2` 시스템 콜을 사용하여 타겟의 셸(stdin/stdout/stderr)을 네트워크 소켓과 동기화시킨다.
@@ -214,12 +214,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [버퍼 오버플로우 (Buffer Overflow) 원리]
-    │
-    ▼
+    |
+    v
 [셸코드 (Shellcode) 인젝션]
-    │
-    ├──▶ [버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
-    └──▶ [가상 주소 공간 구조 무작위화 (ASLR)]
+    |
+    +---> [버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
+    +---> [가상 주소 공간 구조 무작위화 (ASLR)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -236,7 +236,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 592 / 800
 
-← **이전**: [591. 버퍼 오버플로우 (Buffer Overflow) 원리 - C언어 취약 함수 악용 리턴 주소 덮어쓰기](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)
-**다음**: [593. 버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)](/knowledge-base/studynote/02_operating_system/10_security/593_dep_nx_bit/) →
+<- **이전**: [591. 버퍼 오버플로우 (Buffer Overflow) 원리 - C언어 취약 함수 악용 리턴 주소 덮어쓰기](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)
+**다음**: [593. 버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)](/knowledge-base/studynote/02_operating_system/10_security/593_dep_nx_bit/) ->
 
 ---

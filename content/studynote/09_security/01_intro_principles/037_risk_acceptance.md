@@ -218,7 +218,7 @@ AI 기반 위험 점수 자동화
 
 **진행 상황**: 37 / 1108
 
-← **이전**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)
-**다음**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) →
+<- **이전**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)
+**다음**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ->
 
 ---

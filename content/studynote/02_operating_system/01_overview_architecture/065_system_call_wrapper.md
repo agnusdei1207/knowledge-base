@@ -31,11 +31,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 User Program
-  ↓
+  v
 Library Wrapper
-  ↓
+  v
 syscall instruction
-  ↓
+  v
 Kernel
 ```
 
@@ -103,11 +103,11 @@ Wrapper는 단순한 껍데기가 아니라, 시스템 콜을 안전하고 일�
 
 ```text
 User Space
-  ↓
+  v
 Wrapper
-  ↓
+  v
 syscall
-  ↓
+  v
 Kernel Space
 ```
 
@@ -117,11 +117,11 @@ Kernel Space
 
 ```text
 API Call
-  ↓
+  v
 System Call Wrapper
-  ↓
+  v
 Kernel Entry
-  ↓
+  v
 User-Kernel Boundary
 ```
 
@@ -139,7 +139,7 @@ User-Kernel Boundary
 
 **진행 상황**: 65 / 800
 
-← **이전**: [64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/064_rootfs_overlayfs/)
-**다음**: [66. VFS (Virtual File System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/066_vfs/) →
+<- **이전**: [64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/064_rootfs_overlayfs/)
+**다음**: [66. VFS (Virtual File System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/066_vfs/) ->
 
 ---

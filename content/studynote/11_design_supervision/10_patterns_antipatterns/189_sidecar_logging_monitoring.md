@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 통합 로깅 및 모니터링 수집망 아키텍처 패턴은 이 문제를 <strong>애플리케이션 코드가 아니라 배포 구조 수준에서 해결</strong>한다. 주 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 요청 처리와 비즈니스 규칙에 집중하고, 옆의 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수집, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 노출, 트레이스 전달, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 같은 횡단 관심사를 담당한다.
 
 ```text
-┌─────────────────────── 서비스 내부 직접 내장 방식의 문제 ───────────────────────┐
-│ App A + Logging SDK + Metrics SDK + Trace SDK                                │
-│ App B + Logging SDK + Metrics SDK + Trace SDK                                │
-│ App C + Logging SDK + Metrics SDK + Trace SDK                                │
-│                └─ 언어별 편차, 버전 충돌, 재배포 부담 증가                    │
-└───────────────────────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────── 사이드카 분리 방식 ───────────────────────────────────┐
-│ App Container │ Sidecar Collector │ 공통 설정 │ 독립 업그레이드              │
-└───────────────────────────────────────────────────────────────────────────────┘
++----------------------- 서비스 내부 직접 내장 방식의 문제 -----------------------+
+| App A + Logging SDK + Metrics SDK + Trace SDK                                |
+| App B + Logging SDK + Metrics SDK + Trace SDK                                |
+| App C + Logging SDK + Metrics SDK + Trace SDK                                |
+|                +- 언어별 편차, 버전 충돌, 재배포 부담 증가                    |
++-------------------------------------------------------------------------------+
+                           |
+                           v
++----------------------- 사이드카 분리 방식 -----------------------------------+
+| App Container | Sidecar Collector | 공통 설정 | 독립 업그레이드              |
++-------------------------------------------------------------------------------+
 ```
 
 감리·설계 관점에서 핵심은 “수집을 한다”가 아니라 “운영 기능을 어디에 배치할 것인가”다. 코드에 넣을지, 노드 단위로 둘지, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 단위로 붙일지에 따라 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)와 장애 범위가 달라진다.
@@ -44,18 +44,18 @@ tags = ["studynote-design-supervision"]
 [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)의 핵심 원리는 <strong>동일 배포 단위, 분리된 책임, 짧은 관측 경로</strong>다. 주 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 같은 Pod에 있으므로 로컬호스트 통신이나 공유 볼륨을 사용할 수 있고, 동시에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 분리되어 있어 운영 기능만 독립적으로 교체하거나 제한할 수 있다.
 
 ```text
-┌──────────────────────────── Kubernetes Pod ────────────────────────────┐
-│                                                                        │
-│  ┌────────────────────┐        shared volume / localhost              │
-│  │ Main Container     │──────────────────────────────────────┐         │
-│  │ business logic     │                                      │         │
-│  └────────────────────┘                                      │         │
-│                                                              ▼         │
-│  ┌────────────────────┐   collect / enrich / forward   ┌───────────┐  │
-│  │ Sidecar Collector  │────────────────────────────────▶│ Backend   │  │
-│  │ log·metric·trace   │                                 │ OTEL/ELK  │  │
-│  └────────────────────┘                                 └───────────┘  │
-└──────────────────────────────────────────────────────────────────────────┘
++---------------------------- Kubernetes Pod ----------------------------+
+|                                                                        |
+|  +--------------------+        shared volume / localhost              |
+|  | Main Container     |--------------------------------------+         |
+|  | business logic     |                                      |         |
+|  +--------------------+                                      |         |
+|                                                              v         |
+|  +--------------------+   collect / enrich / forward   +-----------+  |
+|  | Sidecar Collector  |--------------------------------->| Backend   |  |
+|  | log·metric·trace   |                                 | OTEL/ELK  |  |
+|  +--------------------+                                 +-----------+  |
++--------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 핵심 역할 | 설계 포인트 |
@@ -119,14 +119,14 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 서비스별 SDK 개별 내장
-        │
-        ▼
+        |
+        v
 Pod 단위 로그·메트릭 수집 분리
-        │
-        ▼
+        |
+        v
 OpenTelemetry 기반 통합 수집
-        │
-        ▼
+        |
+        v
 서비스 메시·정책 제어·보안 텔레메트리 연계
 ```
 
@@ -141,7 +141,7 @@ OpenTelemetry 기반 통합 수집
 
 **진행 상황**: 248 / 530
 
-← **이전**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/)
-**다음**: [189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/189_sidecar_logging_monitoring/) →
+<- **이전**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/)
+**다음**: [189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/189_sidecar_logging_monitoring/) ->
 
 ---

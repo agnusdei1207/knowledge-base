@@ -33,9 +33,9 @@ tags = ["studynote-design-supervision"]
 3. **인프라 레이어**: CPU, 메모리, 디스크, 네트워크 포화
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 병목 진단 없는 서버 증설은 "교통 체증의 원인이 신호등인데 차선만 늘리는 것"이다. 원인을 정확히 찾아야 올바른 해결책을 적용할 수 있다.
@@ -44,39 +44,39 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────┐
-│       USE 방법론 (Utilization, Saturation, Errors)           │
-│                                                             │
-│  리소스   │ Utilization(사용률) │ Saturation(포화) │ Errors  │
-│  ─────────┼────────────────────┼─────────────────┼──────── │
-│  CPU      │ %usr + %sys        │ 런큐(run queue) │ -        │
-│           │ 기준: < 70% 정상   │ > CPU 수 → 포화  │          │
-│  메모리   │ Used / Total       │ 스왑(Swap) 사용 │ OOM      │
-│           │ 기준: < 80% 정상   │ Swap > 0 → 포화  │          │
-│  디스크   │ %iowait            │ I/O 대기 큐     │ EIO      │
-│           │ 기준: < 20% 정상   │ avgqu-sz > 1    │          │
-│  네트워크 │ 대역폭 사용률      │ 패킷 드롭       │ TCP 재전송 │
-│           │ 기준: < 70% 정상   │ rxdrop > 0      │          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       USE 방법론 (Utilization, Saturation, Errors)           |
+|                                                             |
+|  리소스   | Utilization(사용률) | Saturation(포화) | Errors  |
+|  ---------+--------------------+-----------------+-------- |
+|  CPU      | %usr + %sys        | 런큐(run queue) | -        |
+|           | 기준: < 70% 정상   | > CPU 수 -> 포화  |          |
+|  메모리   | Used / Total       | 스왑(Swap) 사용 | OOM      |
+|           | 기준: < 80% 정상   | Swap > 0 -> 포화  |          |
+|  디스크   | %iowait            | I/O 대기 큐     | EIO      |
+|           | 기준: < 20% 정상   | avgqu-sz > 1    |          |
+|  네트워크 | 대역폭 사용률      | 패킷 드롭       | TCP 재전송 |
+|           | 기준: < 70% 정상   | rxdrop > 0      |          |
++-------------------------------------------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│         메모리 누수 진단 그래프 패턴                          │
-│                                                             │
-│  메모리                                                      │
-│  사용량                                                      │
-│   ▲                                                         │
-│   │               ╭──────────── OOM 위험 구간              │
-│   │           ╭───╯                                         │
-│   │       ╭───╯   ← 부하 테스트 중 점진적 증가               │
-│   │   ╭───╯       (GC 후에도 완전히 회복 안 됨)              │
-│   │ ──╯                                                     │
-│   └──────────────────────────────────── 시간                │
-│                                                             │
-│  정상 패턴: 부하 해제 후 메모리 회복 (톱니 모양)              │
-│  누수 패턴: 부하 해제 후에도 메모리 지속 증가 (우상향)         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         메모리 누수 진단 그래프 패턴                          |
+|                                                             |
+|  메모리                                                      |
+|  사용량                                                      |
+|   ^                                                         |
+|   |               +------------ OOM 위험 구간              |
+|   |           +---+                                         |
+|   |       +---+   <- 부하 테스트 중 점진적 증가               |
+|   |   +---+       (GC 후에도 완전히 회복 안 됨)              |
+|   | --+                                                     |
+|   +------------------------------------ 시간                |
+|                                                             |
+|  정상 패턴: 부하 해제 후 메모리 회복 (톱니 모양)              |
+|  누수 패턴: 부하 해제 후에도 메모리 지속 증가 (우상향)         |
++-------------------------------------------------------------+
 ```
 
 ```
@@ -105,7 +105,7 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: USE 방법론은 "차량 점검 항목표"와 같다. 엔진(CPU), 연료(메모리), 타이어(디스크), 도로(네트워크) 각각을 사용률→포화→오류 순서로 점검한다.
+- **📢 섹션 요약 비유**: USE 방법론은 "차량 점검 항목표"와 같다. 엔진(CPU), 연료(메모리), 타이어(디스크), 도로(네트워크) 각각을 사용률->포화->오류 순서로 점검한다.
 
 ---
 
@@ -142,12 +142,12 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 | 조치 완료 여부 | 재테스트 결과 | 목표치 달성 |
 
 ```
-힙 덤프 수집 → Eclipse MAT / VisualVM 분석
-→ 가장 많은 메모리 점유 객체 확인
-→ 참조(Reference) 체인 추적
-→ 누수 원인 코드 수정
+힙 덤프 수집 -> Eclipse MAT / VisualVM 분석
+-> 가장 많은 메모리 점유 객체 확인
+-> 참조(Reference) 체인 추적
+-> 누수 원인 코드 수정
   (예: static 컬렉션에 계속 추가, 이벤트 리스너 해제 미처리)
-→ 수정 후 재테스트
+-> 수정 후 재테스트
 ```
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -181,7 +181,7 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 | 연관 개념 | GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단의 선행 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-부하 시나리오 → [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 병목 진단 → 원인별 튜닝·재시험
+부하 시나리오 -> [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 병목 진단 -> 원인별 튜닝·재시험
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 컴퓨터가 느려질 때는 원인이 CPU(두뇌), 메모리(책상), 디스크(책장), 네트워크(도로) 중 하나인데, 어디가 막혔는지 정확히 찾아야 해.
@@ -194,7 +194,7 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 
 **진행 상황**: 319 / 530
 
-← **이전**: [257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/257_littles_law_performance_audit/)
-**다음**: [259. APM 모니터링 감리 (APM Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/259_apm_monitoring_audit/) →
+<- **이전**: [257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/257_littles_law_performance_audit/)
+**다음**: [259. APM 모니터링 감리 (APM Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/259_apm_monitoring_audit/) ->
 
 ---

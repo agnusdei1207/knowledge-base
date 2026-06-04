@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) and [Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어와 규칙의 경계를 바운디드 컨텍스트로 자르고, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 경계를 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)로 묶는 설계 방식이다. 같은 용어라도 부서와 업무 문맥마다 의미가 달라져 모델 충돌과 통합 혼란이 발생했다. 이 개념이 필요한 이유는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 의미와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 범위를 명확히 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 하나의 모델에 서로 다른 의미를 억지로 담아 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 생긴다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    DDD     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    DDD     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studyno
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studyno
 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) | DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) and [Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[공유 거대 모델] → DDD 경계 설정] → [컨텍스트별 자율 모델]
+[공유 거대 모델] -> DDD 경계 설정] -> [컨텍스트별 자율 모델]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) and [Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))은 같은 “주문”이라도 가게, 창고, 택배팀이 각자 다른 뜻으로 쓰는 말을 구분하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studyno
 
 **진행 상황**: 452 / 530
 
-← **이전**: [373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/)
-**다음**: [375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/) →
+<- **이전**: [373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/373_saga_pattern_compensation/)
+**다음**: [375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/375_acl_legacy_buffer/) ->
 
 ---

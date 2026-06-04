@@ -30,9 +30,9 @@ tags = ["ict_convergence"]
 
 ```text
 Target Node
-  ↓ isolated by
+  v isolated by
 Malicious Peers
-  ↓
+  v
 Fake View / Delay
 ```
 
@@ -103,11 +103,11 @@ Fake View / Delay
 
 ```text
 P2P Network
-  ↓
+  v
 Eclipse Attack
-  ↓
+  v
 Isolation
-  ↓
+  v
 False View
 ```
 
@@ -117,11 +117,11 @@ False View
 
 ```text
 Network Attack
-  ↓
+  v
 Eclipse Attack
-  ↓
+  v
 P2P Security
-  ↓
+  v
 Mitigation
 ```
 
@@ -139,7 +139,7 @@ Mitigation
 
 **진행 상황**: 68 / 552
 
-← **이전**: [67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/067_51_percent_attack_double_spending/)
-**다음**: [69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/) →
+<- **이전**: [67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/067_51_percent_attack_double_spending/)
+**다음**: [69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/) ->
 
 ---

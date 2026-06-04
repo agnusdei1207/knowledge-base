@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버킷 정렬은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 구간(버킷)으로 분산시킨 후 각 버킷을 개별 정렬하고 합치는 방식으로, 균등 분포 조건에서 O(n) 평균 시간을 달성한다.
 > 2. **가치**: [0, 1) 범위의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수나 균일하게 분포된 실수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 시간에 정렬할 수 있는 유일한 범용 방법이다.
-> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 균등하지 않으면(편중되면) 특정 버킷에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰려 O(n²)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되므로, 분포 분석이 적용 전 필수 전제다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 균등하지 않으면(편중되면) 특정 버킷에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰려 O(n^)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되므로, 분포 분석이 적용 전 필수 전제다.
 
 ---
 
@@ -47,20 +47,20 @@ tags = ["studynote-algorithm"]
 n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 
 분배 단계:
-┌────────┬─────────────────────────┐
-│ Bucket │ Elements                │
-├────────┼─────────────────────────┤
-│  [0]   │ (비어있음)               │
-│  [1]   │ 0.17, 0.12              │
-│  [2]   │ 0.26, 0.21, 0.23        │
-│  [3]   │ 0.39                    │
-│  [4]   │ (비어있음)               │
-│  [5]   │ (비어있음)               │
-│  [6]   │ 0.68                    │
-│  [7]   │ 0.78, 0.72              │
-│  [8]   │ (비어있음)               │
-│  [9]   │ 0.94                    │
-└────────┴─────────────────────────┘
++--------+-------------------------+
+| Bucket | Elements                |
++--------+-------------------------+
+|  [0]   | (비어있음)               |
+|  [1]   | 0.17, 0.12              |
+|  [2]   | 0.26, 0.21, 0.23        |
+|  [3]   | 0.39                    |
+|  [4]   | (비어있음)               |
+|  [5]   | (비어있음)               |
+|  [6]   | 0.68                    |
+|  [7]   | 0.78, 0.72              |
+|  [8]   | (비어있음)               |
+|  [9]   | 0.94                    |
++--------+-------------------------+
 
 각 버킷 내부 정렬:
   [1]: [0.12, 0.17]
@@ -76,7 +76,7 @@ n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 | 항목 | 복잡도 | 조건 |
 |:---|:---:|:---|
 | 평균 시간 | **O(n)** | 균등 분포 시 각 버킷 원소 수 ≈ 1 |
-| 최악 시간 | **O(n²)** | 모든 원소가 한 버킷에 몰릴 때 |
+| 최악 시간 | **O(n^)** | 모든 원소가 한 버킷에 몰릴 때 |
 | 공간 | O(n) | 버킷 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) |
 | 안정 정렬 | ✅ ([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) 사용 시) | |
 | 제자리 정렬 | ❌ | |
@@ -84,12 +84,12 @@ n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 ### 평균 복잡도 유도
 
 ```
-n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
-삽입 정렬 비용: O(1²) = O(1) per bucket
+n개 원소, n개 버킷 -> 각 버킷 기대 원소 수 = 1
+삽입 정렬 비용: O(1^) = O(1) per bucket
 전체: O(n·1) = O(n)
 
 분포가 편중되면:
-최악의 경우 한 버킷에 모든 원소 → O(n²) 삽입 정렬
+최악의 경우 한 버킷에 모든 원소 -> O(n^) 삽입 정렬
 ```
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 파티 참석자 배분과 같다. 10개 테이블에 100명이 고르게 앉으면 각 테이블은 10명만 관리하면 되지만, 모두가 테이블 1에 몰리면 그 테이블은 100명을 혼자 감당해야 한다.
@@ -123,27 +123,27 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 ### 적합한 사용 사례
 
 <strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 정렬</strong>: [0, 1) 사이 확률값, 측정치 n=100만
-→ 균등 분포 가정 시 O(n) ≈ 100만 연산
-→ 퀵소트 O(n log n) ≈ 2,000만 연산 대비 약 20배 빠름
+-> 균등 분포 가정 시 O(n) ≈ 100만 연산
+-> 퀵소트 O(n log n) ≈ 2,000만 연산 대비 약 20배 빠름
 
 **시나리오 2 — 연령 분포 분석**: 0~120세, n=1억 명
-→ 연령은 균등 분포에 가까움 → 버킷 수 121개, 각 버킷 평균 826,446명
-→ 이 경우 각 버킷이 여전히 크므로 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/">계수 정렬</a></strong>이 더 적합
+-> 연령은 균등 분포에 가까움 -> 버킷 수 121개, 각 버킷 평균 826,446명
+-> 이 경우 각 버킷이 여전히 크므로 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/">계수 정렬</a></strong>이 더 적합
 
 <strong>시나리오 3 — 지형 고도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: GPS 고도 0~8,848m (균등 분포)
-→ 버킷 정렬로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 후 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+-> 버킷 정렬로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 후 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  버킷 정렬 성능 저하 방지 체크리스트                  │
-│                                                      │
-│  1. 분포 분석 먼저: 히스토그램으로 편중 확인          │
-│  2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드│
-│  3. 내부 정렬 선택: 소규모 버킷 → 삽입 정렬 최적     │
-│  4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  버킷 정렬 성능 저하 방지 체크리스트                  |
+|                                                      |
+|  1. 분포 분석 먼저: 히스토그램으로 편중 확인          |
+|  2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드|
+|  3. 내부 정렬 선택: 소규모 버킷 -> 삽입 정렬 최적     |
+|  4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리는 물의 수압 조절과 같다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(버킷)가 균등하게 설계되어야 물이 고르게 흐른다. 한쪽이 막히면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중) 전체 시스템이 비효율적이 된다.
@@ -160,7 +160,7 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 |:---|:---|
 | 속도 | 균등 분포 시 O(n) 평균 시간 달성 |
 | 유연성 | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수에 직접 적용 가능 |
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 각 버킷은 독립적 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 친화적 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 각 버킷은 독립적 -> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 친화적 |
 | 조합성 | 내부 정렬을 교체하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조정 가능 |
 
 📢 **섹션 요약 비유**: 버킷 정렬은 항만 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 야드 관리와 같다. 선박(버킷)별로 화물을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 각 선박의 인부가 자기 화물만 정리하면, 전체 터미널이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 운영되어 처리 속도가 극대화된다.
@@ -171,27 +171,27 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | → 서브루틴 | 각 버킷 내부 정렬에 사용 |
-| 균등 분포 (Uniform Distribution) | → 전제 조건 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장의 핵심 가정 |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 서브루틴 | 각 버킷 내부 정렬에 사용 |
+| 균등 분포 (Uniform Distribution) | -> 전제 조건 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장의 핵심 가정 |
 | [계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/) ([Counting Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)) | 유사 개념 | 정수 특화 비비교 정렬 |
 | [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | 유사 개념 | 자릿수 기반 비비교 정렬 |
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬 (Parallel Sort) | → 응용 | 버킷 독립성으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬 (Parallel Sort) | -> 응용 | 버킷 독립성으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [비교 기반 정렬 (Comparison Sort) — 최선 O(n log n) 하한 한계]
-    │
-    ▼
+    |
+    v
 [계수 정렬 (Counting Sort) — 정수 범위 제한 시 O(n) 달성]
-    │
-    ▼
+    |
+    v
 [버킷 정렬 (Bucket Sort) — 균등 분포 데이터를 구간 버킷으로 분산]
-    │
-    ▼
+    |
+    v
 [기수 정렬 (Radix Sort) — 자릿수 단위 안정 정렬로 O(kn) 달성]
-    │
-    ▼
+    |
+    v
 [병렬 분산 정렬 (Parallel Sort) — 대용량 빅데이터 환경에서 파티션 기반 병렬 처리]
 ```
 
@@ -209,7 +209,7 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 **진행 상황**: 18 / 175
 
-← **이전**: [10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)
-**다음**: [12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) →
+<- **이전**: [10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)
+**다음**: [12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) ->
 
 ---

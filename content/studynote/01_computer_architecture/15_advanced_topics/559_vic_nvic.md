@@ -31,7 +31,7 @@ VIC와 NVIC의 차이도 바로 여기서 나온다. VIC는 벡터화 자체에 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-벡터형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러의 기본 동작은 `요청 수집 → pending 기록 → 우선순위 결정 → 벡터 주소 제공 → 핸들러 진입`이다. 여기서 NVIC는 한 걸음 더 나아가 예외 진입 시 주요 레지스터를 자동 저장하고, 우선순위가 더 높은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어오면 현재 ISR을 선점하며, 연속 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이에서는 불필요한 복귀·재진입을 줄이는 Tail Chaining을 제공한다. 이 차이가 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 크게 줄인다.
+벡터형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러의 기본 동작은 `요청 수집 -> pending 기록 -> 우선순위 결정 -> 벡터 주소 제공 -> 핸들러 진입`이다. 여기서 NVIC는 한 걸음 더 나아가 예외 진입 시 주요 레지스터를 자동 저장하고, 우선순위가 더 높은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어오면 현재 ISR을 선점하며, 연속 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이에서는 불필요한 복귀·재진입을 줄이는 Tail Chaining을 제공한다. 이 차이가 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 크게 줄인다.
 
 | 항목 | VIC | NVIC |
 | :-- | :-- | :-- |
@@ -44,18 +44,18 @@ VIC와 NVIC의 차이도 바로 여기서 나온다. VIC는 벡터화 자체에 
 이 그림은 NVIC가 왜 단순 컨트롤러가 아니라 "코어의 일부"처럼 동작하는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Peripherals ─▶ Pending Bits ─▶ Priority Encoder ─▶ Vector Fetch             │
-│                                                         │                   │
-│                                                         ▼                   │
-│                                              Auto Stack Save                │
-│                                                         │                   │
-│                            higher priority arrival ─────┼────▶ Preempt       │
-│                                                         │                   │
-│                                    next pending exists ─┴────▶ Tail Chain   │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다   |
++------------------------------------------------------------------------------+
+| Peripherals --> Pending Bits --> Priority Encoder --> Vector Fetch             |
+|                                                         |                   |
+|                                                         v                   |
+|                                              Auto Stack Save                |
+|                                                         |                   |
+|                            higher priority arrival -----+-----> Preempt       |
+|                                                         |                   |
+|                                    next pending exists -+-----> Tail Chain   |
++------------------------------------------------------------------------------+
 ```
 
 대표적으로 Cortex-M 계열에서는 예외 진입이 약 12 cycle 수준, Tail Chaining은 약 6 cycle 수준으로 알려져 있다. 물론 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 플래시 wait [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 혼잡, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 코드 길이에 따라 달라지지만, 핵심은 "문맥 저장과 다음 벡터 결정"을 하드웨어가 대신함으로써 소프트웨어 가변 비용을 크게 줄였다는 데 있다.
@@ -106,7 +106,7 @@ NVIC를 제대로 쓰려면 우선순위를 단순 숫자 크기가 아니라 �
 - 하드웨어는 NVIC인데 소프트웨어는 여전히 [polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 구조처럼 작성해 장점을 버리는 설계
 - 벡터 테이블을 바꾸고도 캐시/메모리 가시성을 고려하지 않는 부트 코드
 
-기술사 답안에서는 VIC와 NVIC를 단순 세대 차이로 설명하기보다, **벡터화 → 중첩 선점 → 자동 문맥 저장 → RTOS 연동** 흐름으로 써야 한다. 그래야 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러가 왜 실시간성의 핵심인지 살아난다.
+기술사 답안에서는 VIC와 NVIC를 단순 세대 차이로 설명하기보다, **벡터화 -> 중첩 선점 -> 자동 문맥 저장 -> RTOS 연동** 흐름으로 써야 한다. 그래야 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러가 왜 실시간성의 핵심인지 살아난다.
 
 - **📢 섹션 요약 비유**: 좋은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 우선순위 설계는 도로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계와 같다. 구급차, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 일반차를 같은 차선에 아무렇게나 섞어 두면 도로가 막히듯, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)도 급한 일과 덜 급한 일을 분리해야 흐름이 살아난다.
 
@@ -139,17 +139,17 @@ NVIC를 제대로 쓰려면 우선순위를 단순 숫자 크기가 아니라 �
 
 ```text
 Polling 기반 장치 감시
-        │
-        ▼
+        |
+        v
 Vectored Interrupt Controller
-        │
-        ▼
+        |
+        v
 Nested Vectored Interrupt Controller
-        │
-        ▼
+        |
+        v
 RTOS 연동 예외 분리(SysTick / PendSV)
-        │
-        ▼
+        |
+        v
 멀티코어 GIC · APIC · 가상 인터럽트 주입
 ```
 
@@ -167,7 +167,7 @@ RTOS 연동 예외 분리(SysTick / PendSV)
 
 **진행 상황**: 559 / 803
 
-← **이전**: [558. NMI (Non-Maskable Interrupt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/)
-**다음**: [560. 멀티코어 인터럽트 라우팅 (GIC: Generic Interrupt Controller, APIC: Advanced Programmable](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/560_multicore_interrupt_routing/) →
+<- **이전**: [558. NMI (Non-Maskable Interrupt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/)
+**다음**: [560. 멀티코어 인터럽트 라우팅 (GIC: Generic Interrupt Controller, APIC: Advanced Programmable](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/560_multicore_interrupt_routing/) ->
 
 ---

@@ -37,22 +37,22 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌───────────────────────────────────────────────────────────┐
-│                 LPWAN 기술 분류 체계                        │
-├──────────────────────────┬────────────────────────────────┤
-│    비면허(Unlicensed)      │       면허(Licensed)            │
-├──────────────────────────┼────────────────────────────────┤
-│  LoRaWAN                 │  NB-IoT (Narrowband IoT)       │
-│  - CSS(Chirp Spread       │  - 3GPP Release 13             │
-│    Spectrum) 변조          │  - LTE 보호대역(200kHz) 활용    │
-│  - Star-of-Stars 토폴로지  │  - 최대 200kbps               │
-│  - 전송 범위 2~15km        │  - PSM/eDRX 초저전력 모드       │
-│                          │                                │
-│  Sigfox                  │  LTE-M (eMTC)                  │
-│  - UNB(Ultra Narrow Band)│  - 3GPP Release 13             │
-│  - 최대 140 메시지/일       │  - 이동성 + 음성(VoLTE) 지원    │
-│  - 12 바이트 페이로드 한계  │  - 최대 1Mbps                  │
-└──────────────────────────┴────────────────────────────────┘
++-----------------------------------------------------------+
+|                 LPWAN 기술 분류 체계                        |
++--------------------------+--------------------------------+
+|    비면허(Unlicensed)      |       면허(Licensed)            |
++--------------------------+--------------------------------+
+|  LoRaWAN                 |  NB-IoT (Narrowband IoT)       |
+|  - CSS(Chirp Spread       |  - 3GPP Release 13             |
+|    Spectrum) 변조          |  - LTE 보호대역(200kHz) 활용    |
+|  - Star-of-Stars 토폴로지  |  - 최대 200kbps               |
+|  - 전송 범위 2~15km        |  - PSM/eDRX 초저전력 모드       |
+|                          |                                |
+|  Sigfox                  |  LTE-M (eMTC)                  |
+|  - UNB(Ultra Narrow Band)|  - 3GPP Release 13             |
+|  - 최대 140 메시지/일       |  - 이동성 + 음성(VoLTE) 지원    |
+|  - 12 바이트 페이로드 한계  |  - 최대 1Mbps                  |
++--------------------------+--------------------------------+
 ```
 
 ### [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 기술 상세 비교표
@@ -67,7 +67,7 @@ tags = ["studynote-ict-convergence"]
 | 메시지/일 제한 | 없음 | 140개 | 없음 | 없음 |
 | 인프라 | 자체 구축 | [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 전용 | 통신사 망 | 통신사 망 |
 
-**LoRaWAN Star-of-Stars 토폴로지**: 종단 노드 → 게이트웨이(복수) → 네트워크 서버 → 앱 서버. 게이트웨이는 여러 노드의 패킷을 수신해 서버로 전달, 서버가 중복 제거·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 담당.
+**LoRaWAN Star-of-Stars 토폴로지**: 종단 노드 -> 게이트웨이(복수) -> 네트워크 서버 -> 앱 서버. 게이트웨이는 여러 노드의 패킷을 수신해 서버로 전달, 서버가 중복 제거·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 담당.
 
 - **📢 섹션 요약 비유**: LoRaWAN은 개인 라디오 방송국이다. 내 땅에 안테나를 세워 마음대로 방송하지만 채널(주파수)이 자유롭지 않아 혼선이 생길 수 있다. NB-IoT는 KT/SKT 공중파다. 혼선 없이 안정적이지만 통신사 요금을 내야 한다.
 
@@ -133,7 +133,7 @@ LPWAN은 스마트 미터링·정밀 농업·스마트시티 인프라에서 수
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[LoRa 물리 계층 · 치프 확산 스펙트럼 변조] → [LPWAN: LoRa · NB-IoT 면허] → [비면허 LPWAN · 산업]
+[LoRa 물리 계층 · 치프 확산 스펙트럼 변조] -> [LPWAN: LoRa · NB-IoT 면허] -> [비면허 LPWAN · 산업]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ LPWAN은 스마트 미터링·정밀 농업·스마트시티 인프라에서 수
 
 **진행 상황**: 488 / 552
 
-← **이전**: [487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/487_edge_fog_computing_distributed_ai/)
-**다음**: [489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/489_mqtt_coap_iot_protocols_pubsub_rest/) →
+<- **이전**: [487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/487_edge_fog_computing_distributed_ai/)
+**다음**: [489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/489_mqtt_coap_iot_protocols_pubsub_rest/) ->
 
 ---

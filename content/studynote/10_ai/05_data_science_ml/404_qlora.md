@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **학습 속도 및 비용 최적화**: 메모리 효율화를 통해 더 큰 [배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)를 사용하거나 클라우드 대여 비용 절감
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: QLoRA는 수천 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 백과사전(모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 아주 작은 마이크로필름(4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤, 그 위에 포스트잇([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))을 붙여 메모를 남기며 공부하는 것과 같다.
@@ -52,20 +52,20 @@ QLoRA는 세 가지 혁신적인 기술을 통해 4비트 환경에서도 FP16 �
 ```text
 [ QLoRA 학습 구조 ]
 
-1. Base Model (Fixed, 4-bit NF4) ◀── 고정된 백과사전 (압축됨)
-   │
-2. Dequantization (on-the-fly to BF16) ◀── 연산 시에만 일시적으로 복원
-   │
-3. Forward/Backward Pass (LoRA Layers, BF16/FP16) ◀── 실제 학습되는 부분
-   │
-4. Update Adapters (Weights only) ◀── 포스트잇에만 기록 업데이트
+1. Base Model (Fixed, 4-bit NF4) <--- 고정된 백과사전 (압축됨)
+   |
+2. Dequantization (on-the-fly to BF16) <--- 연산 시에만 일시적으로 복원
+   |
+3. Forward/Backward Pass (LoRA Layers, BF16/FP16) <--- 실제 학습되는 부분
+   |
+4. Update Adapters (Weights only) <--- 포스트잇에만 기록 업데이트
 
     [ GPU Memory ]
-    ┌───────────────────────────────────┐
-    │ 4-bit Frozen Weights (NF4)        │ ◀── 대부분의 공간 (초절약)
-    ├───────────────────────────────────┤
-    │ 16-bit LoRA Adapters (Learnable)  │ ◀── 미세한 조정 (정밀함)
-    └───────────────────────────────────┘
+    +-----------------------------------+
+    | 4-bit Frozen Weights (NF4)        | <--- 대부분의 공간 (초절약)
+    +-----------------------------------+
+    | 16-bit LoRA Adapters (Learnable)  | <--- 미세한 조정 (정밀함)
+    +-----------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 연산할 때만 마이크로필름의 내용을 돋보기(Dequantization)로 비추어 보고, 필기(학습)는 별도의 노트([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))에 정교하게 기록하는 방식이다.
@@ -122,7 +122,7 @@ QLoRA는 '거대 모델은 빅테크만의 전유물'이라는 편견을 깼다.
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [QLoRA (Quantized LoRA)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [QLoRA (Quantized LoRA)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -137,7 +137,7 @@ QLoRA는 '거대 모델은 빅테크만의 전유물'이라는 편견을 깼다.
 
 **진행 상황**: 404 / 420
 
-← **이전**: [403. RLHF 보상 모델 (Reward Model)](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)
-**다음**: [405. 파이프라인 병렬화 (GPipe)](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/) →
+<- **이전**: [403. RLHF 보상 모델 (Reward Model)](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)
+**다음**: [405. 파이프라인 병렬화 (GPipe)](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/) ->
 
 ---

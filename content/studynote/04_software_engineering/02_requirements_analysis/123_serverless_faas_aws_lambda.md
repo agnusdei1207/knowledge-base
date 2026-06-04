@@ -19,20 +19,20 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    서버리스 실행 모델                                  │
-├───────────────────────────────────────────────────────┤
-│  [이벤트 발생]                                        │
-│   API Gateway 요청 / S3 업로드 / SNS 메시지           │
-│      │                                                │
-│      ▼                                                │
-│  [Lambda 함수 실행]                                    │
-│   → 코드 실행 (최대 15분)                            │
-│   → 결과 반환                                         │
-│   → 실행 종료 (유휴 시 과금 0)                       │
-│                                                       │
-│  자동 스케일링: 동시 1000건 → 자동 1000 인스턴스     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    서버리스 실행 모델                                  |
++-------------------------------------------------------+
+|  [이벤트 발생]                                        |
+|   API Gateway 요청 / S3 업로드 / SNS 메시지           |
+|      |                                                |
+|      v                                                |
+|  [Lambda 함수 실행]                                    |
+|   -> 코드 실행 (최대 15분)                            |
+|   -> 결과 반환                                         |
+|   -> 실행 종료 (유휴 시 과금 0)                       |
+|                                                       |
+|  자동 스케일링: 동시 1000건 -> 자동 1000 인스턴스     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 택시(필요할 때만 호출, 탄 만큼 과금)이고, VM은 자가용(항상 유지비 발생)이다.
@@ -46,7 +46,7 @@ tags = ["studynote-software-engineering"]
 | 비교 | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) (K8s) |
 |:---|:---|:---|
 | **관리** | **없음** | 클러스터 관리 |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | **자동 (0→∞)** | [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | **자동 (0->∞)** | [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | **과금** | 실행 시간 | 노드 상시 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a></strong> | <strong>있음 (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong> | 없음 |
 | **실행 제한** | 15분 | 없음 |
@@ -93,17 +93,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [IaaS (EC2, 2006)]
-    │
-    ▼
+    |
+    v
 [PaaS (Heroku, 2009)]
-    │
-    ▼
+    |
+    v
 [FaaS (AWS Lambda, 2014) — 서버리스 시대]
-    │
-    ▼
+    |
+    v
 [Edge Function (Cloudflare Workers, 2018~)]
-    │
-    ▼
+    |
+    v
 [현재: AI 서버리스 — 추론 API 서버리스화 (Bedrock)]
 ```
 
@@ -118,7 +118,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 123 / 973
 
-← **이전**: [122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/122_container_orchestration_kubernetes_k8s/)
-**다음**: [124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/124_cloud_native_development_architecture/) →
+<- **이전**: [122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/122_container_orchestration_kubernetes_k8s/)
+**다음**: [124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/124_cloud_native_development_architecture/) ->
 
 ---

@@ -24,7 +24,7 @@ BASE (Basically Available, Soft-state, Eventual Consistency):
 B - Basically Available (기본적 가용성):
   일부 노드 장애 시에도 시스템 전체는 응답 가능
   단, 응답이 최신 데이터가 아닐 수 있음
-  예: Cassandra의 일부 노드 다운 → 나머지 노드 계속 읽기/쓰기
+  예: Cassandra의 일부 노드 다운 -> 나머지 노드 계속 읽기/쓰기
 
 S - Soft-state (연한 상태):
   외부 입력 없이도 시간이 지남에 따라 시스템 상태가 변화 가능
@@ -77,8 +77,8 @@ CAP 정리와의 연결:
   BASE: AP (가용성 + 분산, 일관성 약화)
 
 현실의 일관성 수준 스펙트럼:
-  Strong → Linearizable → Sequential → Causal → Eventual
-  강한 일관성 ──────────────────────────────> 약한 일관성
+  Strong -> Linearizable -> Sequential -> Causal -> Eventual
+  강한 일관성 ------------------------------> 약한 일관성
   낮은 가용성                                   높은 가용성
 ```
 
@@ -141,22 +141,22 @@ Cassandra:
     ONE: 1개 노드 응답으로 읽기 완료
     QUORUM: 과반수 노드 응답 (RF=3이면 2개)
     ALL: 전체 노드 응답 (강한 일관성)
-  R + W > RF → Strong Consistency 달성 가능
+  R + W > RF -> Strong Consistency 달성 가능
 
 MongoDB:
   기본: PRIMARY 노드에서만 읽기 (강한 일관성)
-  Read Concern secondaryPreferred → Eventual
+  Read Concern secondaryPreferred -> Eventual
   Write Concern w:1 vs w:majority
 
 Redis Cluster:
-  비동기 복제 (PRIMARY → REPLICA)
+  비동기 복제 (PRIMARY -> REPLICA)
   PRIMARY 장애 시 REPLICA 승격 전 데이터 손실 가능
-  → BASE 모델
+  -> BASE 모델
 
 주의 사항:
   BASE로 설계된 시스템에서 ACID 트랜잭션을 억지로 구현하면
   결국 성능/확장성 이점을 잃음
-  → 올바른 데이터 모델링 선택이 핵심
+  -> 올바른 데이터 모델링 선택이 핵심
 ```
 
 > 📢 **섹션 요약 비유**: [NoSQL BASE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/) 설정은 스피커 음량 조절 — [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(볼륨 높음) vs [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(음질 좋음) 사이에서 [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Level이라는 다이얼로 균형 조정.
@@ -201,9 +201,9 @@ Redis Cluster:
   이유: 검색 결과에 신상품 즉시 반영 불필요
 
 결론:
-  "모든 데이터에 ACID" → 과도 엔지니어링
-  "모든 데이터에 BASE" → 금융 데이터 위험
-  → 데이터 중요도별 적합한 일관성 모델 선택
+  "모든 데이터에 ACID" -> 과도 엔지니어링
+  "모든 데이터에 BASE" -> 금융 데이터 위험
+  -> 데이터 중요도별 적합한 일관성 모델 선택
 ```
 
 > 📢 **섹션 요약 비유**: 폴리글롯 퍼시스턴스는 주방 도구 전문화 — 칼은 썰기(ACID 결제), 냄비는 끓이기(BASE 피드), 믹서는 갈기(검색 엔진), 각자 전문 도구 사용.
@@ -274,7 +274,7 @@ NewSQL: ACID + 분산 확장성 동시 달성
 
 **진행 상황**: 42 / 258
 
-← **이전**: [041. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/041_pacelc_theorem_cap_extension/)
-**다음**: [043. 람다 아키텍처 — 배치 & 스피드 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/043_lambda_architecture_batch_speed_layer/) →
+<- **이전**: [041. PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/041_pacelc_theorem_cap_extension/)
+**다음**: [043. 람다 아키텍처 — 배치 & 스피드 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/043_lambda_architecture_batch_speed_layer/) ->
 
 ---

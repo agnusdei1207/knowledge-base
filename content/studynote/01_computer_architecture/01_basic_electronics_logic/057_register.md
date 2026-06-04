@@ -32,8 +32,8 @@ tags = ["studynote-computer-architecture"]
 레지스터는 여러 개의 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)을 한 번에 묶어 같은 클록([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))에 맞춰 동작한다.
 
 ```text
-입력 비트 ─► D FF ─► D FF ─► D FF ─► D FF
-                │        │        │        │
+입력 비트 -► D FF -► D FF -► D FF -► D FF
+                |        |        |        |
              클록 신호가 동시에 들어와 저장
 ```
 
@@ -87,11 +87,11 @@ CPU를 이해할 때는 단순히 "빠르다"가 아니라, 어떤 값을 어디
 
 ```text
 D 플립플롭
-   ↓
+   v
 레지스터
-   ↓
+   v
 레지스터 파일
-   ↓
+   v
 CPU 데이터패스 / ALU
 ```
 
@@ -99,11 +99,11 @@ CPU 데이터패스 / ALU
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) → 기본 저장 소자
-2. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 결합 → 다비트 레지스터
-3. [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) / [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) / [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) / [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 분화 → CPU 제어 정교화
-4. 레지스터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → 대규모 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) 지원
-5. 고성능 CPU 설계 → 더 많은 레지스터와 더 빠른 접근 최적화
+1. 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) -> 기본 저장 소자
+2. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 결합 -> 다비트 레지스터
+3. [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) / [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) / [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) / [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 분화 -> CPU 제어 정교화
+4. 레지스터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> 대규모 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) 지원
+5. 고성능 CPU 설계 -> 더 많은 레지스터와 더 빠른 접근 최적화
 
 ---
 
@@ -119,7 +119,7 @@ CPU 데이터패스 / ALU
 
 **진행 상황**: 57 / 803
 
-← **이전**: [56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/056_master_slave_flip_flop/)
-**다음**: [58. 시프트 레지스터 (Shift Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/) →
+<- **이전**: [56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/056_master_slave_flip_flop/)
+**다음**: [58. 시프트 레지스터 (Shift Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/) ->
 
 ---

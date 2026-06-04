@@ -30,11 +30,11 @@ tags = ["enterprise_systems"]
 
 ```text
 Source Systems
-  ↓
+  v
 Master Data Hub
-  ↓
+  v
 Golden Record
-  ↓
+  v
 SSOT
 ```
 
@@ -107,11 +107,11 @@ MDM은 고객/제품/조직 정보를 통합해 업무 [일관성](/knowledge-ba
 
 ```text
 Master Data
-  ↓
+  v
 MDM
-  ↓
+  v
 Golden Record
-  ↓
+  v
 SSOT
 ```
 
@@ -121,11 +121,11 @@ SSOT
 
 ```text
 Master Data
-  ↓
+  v
 MDM
-  ↓
+  v
 Data Quality
-  ↓
+  v
 SSOT
 ```
 
@@ -143,7 +143,7 @@ MDM은 그런 정리예요.
 
 **진행 상황**: 70 / 482
 
-← **이전**: [69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/069_metadata_data_catalog/)
-**다음**: [71. 디지털 트랜스포메이션 (DX / DT, Digital Transformation) - AI, 클라우드, 빅데이터로 비즈니스 모델](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/) →
+<- **이전**: [69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/069_metadata_data_catalog/)
+**다음**: [71. 디지털 트랜스포메이션 (DX / DT, Digital Transformation) - AI, 클라우드, 빅데이터로 비즈니스 모델](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/) ->
 
 ---

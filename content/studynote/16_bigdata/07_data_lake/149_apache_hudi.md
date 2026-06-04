@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Apache Hudi는 Uber가 MySQL → [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 만든 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, <strong>Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행</strong>할 수 있게 한다.
+1. Apache Hudi는 Uber가 MySQL -> [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 만든 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, <strong>Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행</strong>할 수 있게 한다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>, 읽기 최적화)</strong>와 <strong>MOR (Merge-on-Read, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 최적화)</strong> 두 가지 테이블 유형을 제공하여 워크로드 특성에 맞는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 선택할 수 있다.
 3. <strong>Timeline (커밋 이력 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong>과 <strong>Incremental Query</strong>를 통해 마지막 체크포인트 이후 변경분만 처리하는 효율적인 증분 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구현이 가능하다.
 
@@ -36,30 +36,30 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Apache Hudi 내부 구조                           │
-├─────────────────────────────────────────────────────────────────┤
-│  .hoodie/  (Timeline)                                           │
-│  ├── 20260421120000.commit    (완료된 커밋)                      │
-│  ├── 20260421120000.clean     (클리너 실행 이력)                 │
-│  └── 20260421120000.compaction (컴팩션 이력)                     │
-│                                                                 │
-│  COW (Copy-on-Write) 테이블:                                    │
-│  ┌───────────┐  Write    ┌─────────────────┐                   │
-│  │ 변경 레코드│ ────────▶ │ 파일 전체 재작성 │ (base Parquet)    │
-│  └───────────┘           └─────────────────┘                   │
-│                                                                 │
-│  MOR (Merge-on-Read) 테이블:                                    │
-│  ┌───────────┐  Write    ┌────────────────┐                    │
-│  │ 변경 레코드│ ────────▶ │ Delta Log 파일  │ (.log, Avro)      │
-│  └───────────┘           └───────┬────────┘                    │
-│                                  │ 읽기 시 병합                  │
-│                         ┌────────▼────────┐                    │
-│                         │ Base Parquet +  │                     │
-│                         │ Delta Log 병합  │                     │
-│                         └─────────────────┘                    │
-│                          (주기적 Compaction으로 병합 고정)        │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  Apache Hudi 내부 구조                           |
++-----------------------------------------------------------------+
+|  .hoodie/  (Timeline)                                           |
+|  +-- 20260421120000.commit    (완료된 커밋)                      |
+|  +-- 20260421120000.clean     (클리너 실행 이력)                 |
+|  +-- 20260421120000.compaction (컴팩션 이력)                     |
+|                                                                 |
+|  COW (Copy-on-Write) 테이블:                                    |
+|  +-----------+  Write    +-----------------+                   |
+|  | 변경 레코드| ---------> | 파일 전체 재작성 | (base Parquet)    |
+|  +-----------+           +-----------------+                   |
+|                                                                 |
+|  MOR (Merge-on-Read) 테이블:                                    |
+|  +-----------+  Write    +----------------+                    |
+|  | 변경 레코드| ---------> | Delta Log 파일  | (.log, Avro)      |
+|  +-----------+           +-------+--------+                    |
+|                                  | 읽기 시 병합                  |
+|                         +--------v--------+                    |
+|                         | Base Parquet +  |                     |
+|                         | Delta Log 병합  |                     |
+|                         +-----------------+                    |
+|                          (주기적 Compaction으로 병합 고정)        |
++-----------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> vs MOR 비교</strong>
@@ -105,7 +105,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 **주요 활용 시나리오**
 
 - <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 삭제</strong>: Hard Delete API로 특정 사용자의 모든 레코드를 레이크에서 물리 삭제
-- <strong>실시간 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong>: Debezium → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) → Hudi MOR 테이블 upsert
+- <strong>실시간 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong>: Debezium -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) -> Hudi MOR 테이블 upsert
 - **증분 배치**: 매시간 Incremental Query로 변경분만 읽어 하위 집계 테이블 갱신
 - **대용량 upsert**: 수억 건의 MySQL 테이블을 Hudi로 매일 delta [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
@@ -116,7 +116,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 | [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | MOR [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 Parquet로 병합 | `HoodieCompactionJob` |
 | Cleaning | 만료 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정리 | `HoodieCleanJob` |
 | [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정렬·통합 | `HoodieClusteringJob` |
-| [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리 | 레코드 키 → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치 매핑 | Bloom/Bucket/Record Level |
+| [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리 | 레코드 키 -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치 매핑 | Bloom/Bucket/Record Level |
 
 > 📢 **섹션 요약 비유**: Hudi 운영은 슈퍼마켓 재고 관리와 같다. 팔린 상품만 재입고(upsert)하고, 유통기한 만료 상품은 폐기(cleaning)하며, 주기적으로 진열대를 정리([compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))하여 쇼핑([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))이 빠르게 되도록 유지한다.
 
@@ -126,7 +126,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 
 | 효과 | 내용 |
 |:---|:---|
-| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 실시간화 | 배치 전체 재작성 → 변경분만 upsert로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수 시간 → 수 분 단축 |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 실시간화 | 배치 전체 재작성 -> 변경분만 upsert로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수 시간 -> 수 분 단축 |
 | 스토리지 효율 | 전체 테이블 복사 제거로 스토리지 사용량 30~60% 절감 |
 | 규정 준수 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 삭제 요구를 레이크 단계에서 직접 처리 |
 | 증분 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | Incremental Query로 하위 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 컴퓨팅 비용 대폭 감소 |
@@ -145,27 +145,27 @@ Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledg
 | MOR 테이블 | 핵심 설계 | 델타 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 추가 방식, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적 |
 | Timeline | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 구조 | `.hoodie/` 내 커밋·클린·컴팩션 이력 |
 | Incremental Query | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 타입 | 특정 구간 변경분만 조회 |
-| [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 운영 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | MOR [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 병합 |
+| [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 운영 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | MOR [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 병합 |
 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제 | 활용 사례 | Hard Delete API로 레코드 물리 삭제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [HDFS]
-    │
-    ▼
+    |
+    v
 [Delta Lake]
-    │
-    ▼
+    |
+    v
 [Apache Hudi]
-    │
-    ▼
+    |
+    v
 [Copy-on-Write]
-    │
-    ▼
+    |
+    v
 [Merge-on-Read]
-    │
-    ▼
+    |
+    v
 [Data Lakehouse]
 ```
 
@@ -184,7 +184,7 @@ Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledg
 
 **진행 상황**: 149 / 262
 
-← **이전**: [148. Apache Iceberg — 오픈 테이블 포맷 히든 파티셔닝](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)
-**다음**: [150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) →
+<- **이전**: [148. Apache Iceberg — 오픈 테이블 포맷 히든 파티셔닝](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)
+**다음**: [150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) ->
 
 ---

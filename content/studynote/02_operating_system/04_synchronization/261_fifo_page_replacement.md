@@ -28,12 +28,12 @@ tags = ["studynote-operating-system"]
   [FIFO 페이지 교체 알고리즘의 동작 메커니즘]
 
   [ 초기 상태: 빈 프레임 3개 존재 ]
-  페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 4 ─▶ 1 ─▶ 2
+  페이지 요청 순서: 1 --> 2 --> 3 --> 4 --> 1 --> 2
 
   [ 메모리 큐 상태 변화 (들어온 순서대로 정렬) ]
   1 요청: [ 1 ] (Hit 실패, 폴트 발생)
   2 요청: [ 1, 2 ] (폴트)
-  3 요청: [ 1, 2, 3 ] (폴트) ──▶ 🚨 메모리 꽉 참!
+  3 요청: [ 1, 2, 3 ] (폴트) ---> 🚨 메모리 꽉 참!
 
   4 요청: 큐 맨 앞의 '1'을 버리고 '4'를 뒤에 넣음
          [ 2, 3, 4 ] (폴트)
@@ -60,29 +60,29 @@ tags = ["studynote-operating-system"]
 요청 순서: `1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5`
 
 #### 케이스 1: 램 공간이 3칸 (Frame=3) 일 때
-1, 2, 3 들어감 (폴트 3번) ─▶ 4 들어오며 1 쫓아냄 (폴트) ─▶ 1 들어오며 2 쫓아냄 (폴트) ─▶ 2 들어오며 3 쫓아냄 (폴트) ─▶ ...
+1, 2, 3 들어감 (폴트 3번) --> 4 들어오며 1 쫓아냄 (폴트) --> 1 들어오며 2 쫓아냄 (폴트) --> 2 들어오며 3 쫓아냄 (폴트) --> ...
 <strong>결과: <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 총 9회 발생</strong>
 
 #### 케이스 2: 램 공간을 4칸 (Frame=4) 으로 늘려줬을 때
-1, 2, 3, 4 들어감 (폴트 4번) ─▶ 1, 2는 이미 있으니 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)! (오 좋네?) ─▶ 5 들어오며 1 쫓아냄 (폴트) ─▶ 1 들어오며 2 쫓아냄 (폴트) ─▶ 2 들어오며 3 쫓아냄 (폴트) ─▶ 3 들어오며 4 쫓아냄 (폴트) ─▶ 4 들어오며 5 쫓아냄 (폴트) ─▶ ...
+1, 2, 3, 4 들어감 (폴트 4번) --> 1, 2는 이미 있으니 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)! (오 좋네?) --> 5 들어오며 1 쫓아냄 (폴트) --> 1 들어오며 2 쫓아냄 (폴트) --> 2 들어오며 3 쫓아냄 (폴트) --> 3 들어오며 4 쫓아냄 (폴트) --> 4 들어오며 5 쫓아냄 (폴트) --> ...
 <strong>결과: <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 총 10회 발생 🚨</strong>
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │         Belady's Anomaly (벨라디의 모순) 성능 그래프 시각화        │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   페이지 폴트 횟수                                                 │
-  │      15 │                                                          │
-  │         │                                                          │
-  │      10 │       ● (Frame 3일 때 폴트 9회)                          │
-  │         │          ↘                                               │
-  │         │             ● 🚨 (Frame 4일 때 폴트 10회! 역주행!)       │
-  │       5 │                ↘                                         │
-  │         │                   ● (Frame 5일 때 폴트 5회)              │
-  │         └───────────────────────────────────────────               │
-  │             1    2    3    4    5    6  (할당된 프레임 수)         │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |         Belady's Anomaly (벨라디의 모순) 성능 그래프 시각화        |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   페이지 폴트 횟수                                                 |
+  |      15 |                                                          |
+  |         |                                                          |
+  |      10 |       ● (Frame 3일 때 폴트 9회)                          |
+  |         |          ↘                                               |
+  |         |             ● 🚨 (Frame 4일 때 폴트 10회! 역주행!)       |
+  |       5 |                ↘                                         |
+  |         |                   ● (Frame 5일 때 폴트 5회)              |
+  |         +-------------------------------------------               |
+  |             1    2    3    4    5    6  (할당된 프레임 수)         |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 그래프는 하드웨어 엔지니어들을 멘붕에 빠뜨렸다. 비싼 돈 주고 RAM 4GB에서 8GB로 늘렸는데, 윈도우가 더 버벅대는 현상이 수리적으로 증명된 것이다. 이 모순이 증명된 직후, 순수 FIFO [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 영구 퇴출당했다.
 
@@ -127,23 +127,23 @@ LRU나 OPT는 이른바 <strong><a href="/knowledge-base/studynote/08_algorithm_
    - **실무 규칙**: 비즈니스 캐시를 설계할 때는 무조건 LRU나 LFU를 기본값으로 깔고 가야지, 절대 선입선출(FIFO)의 함정에 빠지면 안 된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     메모리/캐시 교체 알고리즘 설계 시 아키텍트의 Trade-off 트리     │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 초당 1,000만 건 조회되는 고속 캐시 시스템 구축]        │
-  │                │                                                    │
-  │                ▼ 허용 가능한 연산 오버헤드는?                       │
-  │      [ 극도로 낮아야 함 (하드웨어/커널 레벨의 속도) ]               │
-  │       ├─▶ 순수 LRU는 포인터 스위칭 비용 때문에 절대 불가.           │
-  │       └─▶ 대안: FIFO 뼈대 + Second Chance(Clock) 적용!              │
-  │                 (속도는 FIFO급, 히트율은 LRU급의 미친 가성비)       │
-  │                                                                     │
-  │      [ 어느 정도 오버헤드 감수 가능 (애플리케이션 레벨) ]           │
-  │       ├─▶ 순수 LRU (LinkedHashMap 등) 적용.                         │
-  │       └─▶ 대안: Redis, Caffeine 캐시처럼 백그라운드 스레드가        │
-  │                 비동기로 LRU를 정리하는 현대적 캐시 프레임워크 도입.│
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     메모리/캐시 교체 알고리즘 설계 시 아키텍트의 Trade-off 트리     |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 초당 1,000만 건 조회되는 고속 캐시 시스템 구축]        |
+  |                |                                                    |
+  |                v 허용 가능한 연산 오버헤드는?                       |
+  |      [ 극도로 낮아야 함 (하드웨어/커널 레벨의 속도) ]               |
+  |       +--> 순수 LRU는 포인터 스위칭 비용 때문에 절대 불가.           |
+  |       +--> 대안: FIFO 뼈대 + Second Chance(Clock) 적용!              |
+  |                 (속도는 FIFO급, 히트율은 LRU급의 미친 가성비)       |
+  |                                                                     |
+  |      [ 어느 정도 오버헤드 감수 가능 (애플리케이션 레벨) ]           |
+  |       +--> 순수 LRU (LinkedHashMap 등) 적용.                         |
+  |       +--> 대안: Redis, Caffeine 캐시처럼 백그라운드 스레드가        |
+  |                 비동기로 LRU를 정리하는 현대적 캐시 프레임워크 도입.|
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** FIFO는 그 자체로는 쓰레기지만, <strong>"순회(Iteration) 비용이 완벽한 O(1)"</strong>이라는 흉내 낼 수 없는 물리적 장점을 가지고 있다. 실무 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어들은 이 FIFO의 O(1) 순회 능력 위에 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 얹어서 완벽한 하이브리드 엔진을 창조해 냈다. 단점을 버리지 않고 뼈대로 쓴 통찰력의 승리다.
 
@@ -177,12 +177,12 @@ FIFO 기반의 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stat
 
 ```text
 [ABA 문제 해결책]
-    │
-    ▼
+    |
+    v
 [FIFO (First-In, First-Out) 페이지 교체]
-    │
-    ├──▶ [양방향 랑데부 (Rendezvous)]
-    └──▶ [티켓 락 (Ticket Lock)]
+    |
+    +---> [양방향 랑데부 (Rendezvous)]
+    +---> [티켓 락 (Ticket Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -199,7 +199,7 @@ FIFO 기반의 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stat
 
 **진행 상황**: 261 / 800
 
-← **이전**: [260. 페이지 교체 (Page Replacement)](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)
-**다음**: [262. LRU (Least Recently Used) 페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) →
+<- **이전**: [260. 페이지 교체 (Page Replacement)](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)
+**다음**: [262. LRU (Least Recently Used) 페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [대칭키 암호화]
-    │
-    ▼
+    |
+    v
 [스트림 암호]
-    │
-    └──▶ [블록 암호]
+    |
+    +---> [블록 암호]
 ```
 
 - **📢 섹션 요약 비유**: 스트림 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [대칭키 암호화]
-    │
-    ▼
+    |
+    v
 [스트림 암호]
-    │
-    └──▶ [블록 암호]
+    |
+    +---> [블록 암호]
 ```
 
 - **📢 섹션 요약 비유**: 스트림 암호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 대칭키 암호화]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스트림 암호]
-    │
-    ├──▶ [확장 A: 블록 암호]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 블록 암호]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 스트림 암호는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 775 / 1120
 
-← **이전**: [653. 대칭키 암호화 (Symmetric Key)](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)
-**다음**: [655. 블록 암호 (Block Cipher)](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) →
+<- **이전**: [653. 대칭키 암호화 (Symmetric Key)](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)
+**다음**: [655. 블록 암호 (Block Cipher)](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) ->
 
 ---

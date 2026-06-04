@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SASE]
-    │
-    ▼
+    |
+    v
 [CASB]
-    │
-    └──▶ [SWG]
+    |
+    +---> [SWG]
 ```
 
 - **📢 섹션 요약 비유**: CASB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [SASE]
-    │
-    ▼
+    |
+    v
 [CASB]
-    │
-    └──▶ [SWG]
+    |
+    +---> [SWG]
 ```
 
 - **📢 섹션 요약 비유**: CASB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ CASB는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ```text
 [선행 개념: SASE]
-    │
-    ▼
+    |
+    v
 [현재 개념: CASB]
-    │
-    ├──▶ [확장 A: SWG]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SWG]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 CASB는 SASE에서 출발해 현재 메커니즘을 정교화하고, 이후 SWG와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ CASB는 SASE에서 출발해 현재 메커니즘을 정교화하고, 이후 SWG�
 
 **진행 상황**: 862 / 1120
 
-← **이전**: [740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)
-**다음**: [742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/) →
+<- **이전**: [740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)
+**다음**: [742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/) ->
 
 ---

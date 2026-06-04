@@ -29,20 +29,20 @@ tags = ["bigdata"]
 
 ```text
 [과거: 사일로 및 규제 중심 구조]
-┌─────────┐   (법적 근거 미비, 거래 단절)    ┌─────────┐
-│ 기업 A  │ ─ ─ ─ ─ ─ X ─ ─ ─ ─ ─ │ 기업 B  │
-│(데이터 보유)│                             │(AI 개발) │
-└─────────┘                             └─────────┘
-      ▲ 개인정보 유출 리스크, 가치 산정 불가로 인한 유통 포기
++---------+   (법적 근거 미비, 거래 단절)    +---------+
+| 기업 A  | - - - - - X - - - - - | 기업 B  |
+|(데이터 보유)|                             |(AI 개발) |
++---------+                             +---------+
+      ^ 개인정보 유출 리스크, 가치 산정 불가로 인한 유통 포기
 
 [현재: 데이터기본법 기반 생태계 아키텍처]
-┌─────────┐       [데이터 가치 평가 기관]       ┌─────────┐
-│ 기업 A  │ ==== (가치 산정 & 품질 인증) ===> │ 기업 B  │
-│(공급자)  │                                 │(수요자)  │
-└─────────┘       ┌───────────────────┐       └─────────┘
-   │              │   데이터 거래사   │              ▲
-   └────────────> │ (Data Brokerage)  │ ──────────────┘
-    (상품화/등록)   └───────────────────┘ (안전한 계약 및 유통)
++---------+       [데이터 가치 평가 기관]       +---------+
+| 기업 A  | ==== (가치 산정 & 품질 인증) ===> | 기업 B  |
+|(공급자)  |                                 |(수요자)  |
++---------+       +-------------------+       +---------+
+   |              |   데이터 거래사   |              ^
+   +------------> | (Data Brokerage)  | --------------+
+    (상품화/등록)   +-------------------+ (안전한 계약 및 유통)
 ```
 
 이 도식의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급자와 수요자 사이에 '가치 평가 기관'과 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래사'라는 법적·제도적 매개체가 도입되었다는 점이다. 이로 인해 과거에는 불투명했던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가격 산정이 명확해지고, 거래의 법적 안정성이 보장되어 기업 간 B2B [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 합법적으로 가동될 수 있다.
@@ -72,19 +72,19 @@ tags = ["bigdata"]
 [MyData API 아키텍처 동작 흐름]
 
      [사용자 (Data Subject)]
-           │      ▲
-      1.요청│      │ 5. 통합 뷰 제공
-           ▼      │
+           |      ^
+      1.요청|      | 5. 통합 뷰 제공
+           v      |
 [마이데이터 사업자 (Data Consumer / PFM App)]
-           │      ▲
-           │      │ 4. 데이터 전송 (JSON/API, mTLS 암호화)
+           |      ^
+           |      | 4. 데이터 전송 (JSON/API, mTLS 암호화)
     2. 동의/위임 (OAuth 2.0 Token)
-           │      │
-           ▼      │
+           |      |
+           v      |
    [중계 기관 (API Gateway / Hub)]  <-- 3. 토큰 검증 및 라우팅
-           │      ▲
-           │      │
-           ▼      │
+           |      ^
+           |      |
+           v      |
 [데이터 보유 기관 (Data Provider / Bank, Telco)]
  (토큰 기반 스코프 확인 후 데이터 추출)
 ```
@@ -133,12 +133,12 @@ tags = ["bigdata"]
 ```text
 [데이터 상품화 파이프라인 (Data Monetization Pipeline)]
 
-[Raw DB] ──> [비식별화/가명처리 엔진] ──> [Data Quality Checker]
+[Raw DB] --> [비식별화/가명처리 엔진] --> [Data Quality Checker]
                     (k-익명성 보장)         (결측치, 최신성 평가)
-                                                │
-[Billing & Metering] <──────────────> [API Gateway / Catalog]
-   (과금 및 토큰 관리)                           │ (Data Contract)
-                                                ▼
+                                                |
+[Billing & Metering] <--------------> [API Gateway / Catalog]
+   (과금 및 토큰 관리)                           | (Data Contract)
+                                                v
                                     [External Data Exchange]
 ```
 
@@ -177,20 +177,20 @@ tags = ["bigdata"]
 
 ```text
 [개인정보 보호법 (PIPA) — 개인정보 수집·처리 규제, 프라이버시 우선 체계]
-    │
-    ▼
+    |
+    v
 [데이터기본법 (Data Framework Act) — 데이터 주권·가치 인정, 산업 진흥과 보호 균형]
-    │
-    ▼
+    |
+    v
 [데이터 산업 진흥법 — 데이터 거래소·마켓플레이스 제도화, 데이터 상품 유통 합법화]
-    │
-    ▼
+    |
+    v
 [마이데이터 (MyData) — 개인이 자신의 데이터 이동·활용 주도권 보유]
-    │
-    ▼
+    |
+    v
 [공공 데이터 개방 (Open Data) — 정부 데이터 API 공개, 민간 혁신 생태계 조성]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 국제 표준 (GDPR 연계) — 국가 간 데이터 이동 규범 정합성]
 ```
 이 흐름은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 중심의 규제에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 진흥과 개인 주권 강화로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향이 확장되고, 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방과 국제 규범 정합성으로 수렴하는 국가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 패러다임의 발전을 보여준다.
@@ -206,7 +206,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 17 / 262
 
-← **이전**: [16. 유럽 데이터 전략 — Data Spaces, Gaia-X](/knowledge-base/studynote/16_bigdata/01_intro/016_europe_data_strategy/)
-**다음**: [18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제](/knowledge-base/studynote/16_bigdata/01_intro/018_data_sovereignty/) →
+<- **이전**: [16. 유럽 데이터 전략 — Data Spaces, Gaia-X](/knowledge-base/studynote/16_bigdata/01_intro/016_europe_data_strategy/)
+**다음**: [18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제](/knowledge-base/studynote/16_bigdata/01_intro/018_data_sovereignty/) ->
 
 ---

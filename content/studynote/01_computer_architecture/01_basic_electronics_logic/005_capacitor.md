@@ -33,20 +33,20 @@ tags = ["studynote-computer-architecture"]
 가장 대표적인 아키텍처 적용 사례는 <strong>1T-1C (1 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/">Transistor</a> - 1 Capacitor)</strong> 구조를 가진 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           DRAM 셀의 읽기/쓰기 스위칭 아키텍처              │
-├──────────────────────────────────────────────────────────────┤
-│  워드라인 (WL) ──▶ [ 게이트 스위치 ON/OFF 제어 ]               │
-│                            │                                 │
-│  비트라인 (BL) ◀──▶ [ 접근 트랜지스터 (Access Transistor) ] │
-│  (데이터 고속도로)          │                                 │
-│                            ▼ (전하 저장)                       │
-│                        ======== (High-K 유전체)                │
-│                        ║ + + ║ ◀── 저장된 전자가 1과 0 판별  │
-│                        ======== (커패시터)                     │
-│                            │                                 │
-│                           GND                                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           DRAM 셀의 읽기/쓰기 스위칭 아키텍처              |
++--------------------------------------------------------------+
+|  워드라인 (WL) ---> [ 게이트 스위치 ON/OFF 제어 ]               |
+|                            |                                 |
+|  비트라인 (BL) <----> [ 접근 트랜지스터 (Access Transistor) ] |
+|  (데이터 고속도로)          |                                 |
+|                            v (전하 저장)                       |
+|                        ======== (High-K 유전체)                |
+|                        | + + | <--- 저장된 전자가 1과 0 판별  |
+|                        ======== (커패시터)                     |
+|                            |                                 |
+|                           GND                                |
++--------------------------------------------------------------+
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 스위치를 열어 커패시터에 전자를 밀어 넣고 충전한다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 1). 읽을 때는 스위치를 다시 열어 커패시터에서 흘러나오는 미세한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화를 감지 증폭기(Sense Amplifier)가 읽어낸다. 하지만 절연막이 너무 얇아 전자가 시간이 지남에 따라 누설(Leakage)되므로, 이를 막기 위해 주기적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 읽고 채워 넣는 **리프레시 (Refresh)** 동작이 필수적으로 요구된다.
@@ -107,14 +107,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [디커플링 (Decoupling)]
-    │
-    ▼
+    |
+    v
 [리프레시 (Refresh)]
-    │
-    ▼
+    |
+    v
 [High-K 유전체]
-    │
-    ▼
+    |
+    v
 [RC 지연 (RC Delay)]
 ```
 
@@ -132,7 +132,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 5 / 803
 
-← **이전**: [4. 임피던스 (Impedance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)
-**다음**: [6. 정전용량 (Capacitance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) →
+<- **이전**: [4. 임피던스 (Impedance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)
+**다음**: [6. 정전용량 (Capacitance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) ->
 
 ---

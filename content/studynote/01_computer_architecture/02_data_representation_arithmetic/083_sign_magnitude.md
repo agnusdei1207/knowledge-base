@@ -39,12 +39,12 @@ tags = ["studynote-computer-architecture"]
 Sign-Magnitude의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조는 단순하다. 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 부호, 나머지는 크기다. 이 구조는 절댓값 추출이 쉽고, 숫자의 방향과 크기를 시각적으로 분리할 수 있다. 그러나 연산 시에는 부호를 먼저 보고, 그다음 절댓값을 비교해야 하므로 하드웨어 로직이 복잡해진다.
 
 ```text
-┌────┬─────┬─────┬─────┐
-│ S  │ b2  │ b1  │ b0  │
-├────┼─────┼─────┼─────┤
-│ 0  │ 1   │ 0   │ 1   │  +5
-│ 1  │ 1   │ 0   │ 1   │  -5
-└────┴─────┴─────┴─────┘
++----+-----+-----+-----+
+| S  | b2  | b1  | b0  |
++----+-----+-----+-----+
+| 0  | 1   | 0   | 1   |  +5
+| 1  | 1   | 0   | 1   |  -5
++----+-----+-----+-----+
 ```
 
 덧셈 규칙도 2의 보수보다 복잡하다.
@@ -54,11 +54,11 @@ Sign-Magnitude의 [비트](/knowledge-base/studynote/01_computer_architecture/02
 3. 결과가 0이면 +0으로 정규화해야 한다.
 
 ```text
-같은 부호? ── 예 ──▶ 절댓값 덧셈 ──▶ 부호 유지
-     │
+같은 부호? -- 예 ---> 절댓값 덧셈 ---> 부호 유지
+     |
      아니오
-     ▼
-절댓값 비교 ──▶ 큰 값 - 작은 값 ──▶ 큰 쪽 부호 유지
+     v
+절댓값 비교 ---> 큰 값 - 작은 값 ---> 큰 쪽 부호 유지
 ```
 
 이 과정은 덧셈 하나를 위해 여러 비교와 분기가 필요하다는 뜻이다. 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 단순해지기 어렵고, 결과적으로 속도와 면적에서 손해를 본다.
@@ -123,18 +123,18 @@ Sign-Magnitude의 장점은 직관성이다. 부호와 절댓값을 분리해 �
 
 ```text
 Sign-Magnitude
-    │
-    ▼
+    |
+    v
 One's Complement
-    │
-    ▼
+    |
+    v
 Two's Complement
-    │
-    ▼
+    |
+    v
 IEEE 754 부동소수점의 부호 비트
 ```
 
-이 흐름은 "직관성 → 중간 단계 → 회로 단순화 → 표준화"로 표현 방식이 진화한 과정을 보여준다.
+이 흐름은 "직관성 -> 중간 단계 -> 회로 단순화 -> 표준화"로 표현 방식이 진화한 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ IEEE 754 부동소수점의 부호 비트
 
 **진행 상황**: 83 / 803
 
-← **이전**: [82. 부호 있는 정수 (Signed Integer)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)
-**다음**: [84. 1의 보수 (1's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/084_ones_complement/) →
+<- **이전**: [82. 부호 있는 정수 (Signed Integer)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)
+**다음**: [84. 1의 보수 (1's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/084_ones_complement/) ->
 
 ---

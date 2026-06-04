@@ -145,7 +145,7 @@ RabbitMQ/ActiveMQ  ->  LinkedIn Kafka 오픈소스    ->  Kafka Streams API
 
 **진행 상황**: 340 / 373
 
-← **이전**: [339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark](/knowledge-base/studynote/15_devops_sre/05_devsecops/339_hdfs/)
-**다음**: [341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/341_cdc_db/) →
+<- **이전**: [339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark](/knowledge-base/studynote/15_devops_sre/05_devsecops/339_hdfs/)
+**다음**: [341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/341_cdc_db/) ->
 
 ---

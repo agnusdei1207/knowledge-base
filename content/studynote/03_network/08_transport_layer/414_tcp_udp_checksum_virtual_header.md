@@ -31,11 +31,11 @@ tags = ["studynote-network"]
 
 ```text
 [윈도우 크기]
-    │
-    ▼
+    |
+    v
 [체크섬]
-    │
-    └──▶ [긴급 포인터]
+    |
+    +---> [긴급 포인터]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>은 택배 상자가 오면서 모서리가 찌그러졌는지 내용물이 상했는지 검사하는 </strong>"안심 스티커"**입니다. 단 1비트의 손상이라도 발생하면 스티커 색깔이 변하여 수신자가 패킷을 가차 없이 폐기하게 만듭니다.
@@ -62,23 +62,23 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 - **가상 헤더의 방어**: 수신자는 자기가 받은 목적지 IP(`10.1.1.3`)를 가상 헤더로 만들어 믹서기에 돌린다. 그런데 원래 계산된 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 출발할 때 `10.1.1.2`로 만들어진 놈이다. 두 값이 불일치하므로 "야! 이거 내용물은 멀쩡한데, 내 IP로 와야 할 패킷이 아니잖아! 잘못 배달 온 놈이네! 버려!" 하고 귀신같이 오배송을 컷트해 버린다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                공유기(NAT/PAT)의 눈물겨운 체크섬 재계산            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (IP 192.168.0.5) ]                                │
- │   - 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!     │
- │                                                             │
- │   [ 집 공유기 (NAT) ]                                         │
- │   - 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...  │
- │   - 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔 │
- │     체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ                       │
- │   - 아놔 귀찮아!! ──▶ **공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로**│
- │                   **놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!**│
- │                                                             │
- │   ▶ 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를   │
- │           바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                공유기(NAT/PAT)의 눈물겨운 체크섬 재계산            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC (IP 192.168.0.5) ]                                |
+ |   - 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!     |
+ |                                                             |
+ |   [ 집 공유기 (NAT) ]                                         |
+ |   - 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...  |
+ |   - 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔 |
+ |     체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ                       |
+ |   - 아놔 귀찮아!! ---> **공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로**|
+ |                   **놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!**|
+ |                                                             |
+ |   -> 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를   |
+ |           바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> 가상 헤더 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>법은 우체국 배달원이 내용물(편지)이 상했는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 것을 넘어서, </strong>"겉봉투에 적힌 수취인 이름(목적지 IP)과 이 집에 사는 실제 집주인의 명패가 완벽하게 일치하는지"**까지 깐깐하게 크로스 체크하여 오배송을 원천 차단하는 이중 삼중의 검수 작업입니다.
@@ -139,12 +139,12 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 
 ```text
 [선행 개념: 윈도우 크기]
-    │
-    ▼
+    |
+    v
 [현재 개념: 체크섬]
-    │
-    ├──▶ [확장 A: 긴급 포인터]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 긴급 포인터]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)는 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 
 **진행 상황**: 535 / 1120
 
-← **이전**: [413. 윈도우 크기 (Window Size, 16bit)](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)
-**다음**: [415. 긴급 포인터 (Urgent Pointer)](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/) →
+<- **이전**: [413. 윈도우 크기 (Window Size, 16bit)](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)
+**다음**: [415. 긴급 포인터 (Urgent Pointer)](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/) ->
 
 ---

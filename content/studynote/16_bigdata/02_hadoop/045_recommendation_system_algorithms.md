@@ -23,22 +23,22 @@ tags = ["studynote-bigdata"]
 개인화 없이는 수백만 개의 상품·영화·노래 중에서 사용자가 원하는 것을 스스로 찾아야 한다. 이는 정보 과부하(Information Overload)로 이어지고, 사용자는 불만족 후 이탈한다. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 이 탐색 비용을 대신 부담함으로써 플랫폼의 체류 시간(Engagement)과 전환율(Conversion)을 극적으로 향상시킨다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            추천 시스템 3대 알고리즘 유형                       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 협업 필터링 (CF)                                        │
-│     "나와 비슷한 사용자가 좋아한 것을 추천"                   │
-│     └─ User-Based CF, Item-Based CF, Matrix Factorization  │
-│                                                            │
-│  2. 콘텐츠 기반 필터링 (CBF)                                 │
-│     "내가 좋아한 것과 비슷한 속성의 아이템을 추천"             │
-│     └─ TF-IDF, 코사인 유사도, 아이템 프로필                   │
-│                                                            │
-│  3. 하이브리드 (Hybrid)                                     │
-│     CF + CBF 혼합으로 각 방식의 단점 보완                    │
-│     └─ Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델         │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|            추천 시스템 3대 알고리즘 유형                       |
++------------------------------------------------------------+
+|                                                            |
+|  1. 협업 필터링 (CF)                                        |
+|     "나와 비슷한 사용자가 좋아한 것을 추천"                   |
+|     +- User-Based CF, Item-Based CF, Matrix Factorization  |
+|                                                            |
+|  2. 콘텐츠 기반 필터링 (CBF)                                 |
+|     "내가 좋아한 것과 비슷한 속성의 아이템을 추천"             |
+|     +- TF-IDF, 코사인 유사도, 아이템 프로필                   |
+|                                                            |
+|  3. 하이브리드 (Hybrid)                                     |
+|     CF + CBF 혼합으로 각 방식의 단점 보완                    |
+|     +- Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델         |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 도서관 사서와 같다. "당신이 읽은 책들을 보니, 이런 책들도 좋아하실 것 같아요"라고 개인 맞춤으로 골라주는 지식 큐레이터다.
@@ -50,23 +50,23 @@ tags = ["studynote-bigdata"]
 ### [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) 핵심: [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          사용자-아이템 행렬과 잠재 요인 분해                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  원래 행렬 (희소):          분해 후:                        │
-│         A  B  C  D          User Matrix × Item Matrix   │
-│  User1  5  ?  3  ?          [잠재 요인 k개]으로 압축       │
-│  User2  ?  4  ?  5                                       │
-│  User3  2  ?  ?  3          SVD / ALS / SGD로 최적화      │
-│                                                          │
-│  "?"를 예측 → 높은 예측값 = 추천                            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          사용자-아이템 행렬과 잠재 요인 분해                 |
++----------------------------------------------------------+
+|                                                          |
+|  원래 행렬 (희소):          분해 후:                        |
+|         A  B  C  D          User Matrix × Item Matrix   |
+|  User1  5  ?  3  ?          [잠재 요인 k개]으로 압축       |
+|  User2  ?  4  ?  5                                       |
+|  User3  2  ?  ?  3          SVD / ALS / SGD로 최적화      |
+|                                                          |
+|  "?"를 예측 -> 높은 예측값 = 추천                            |
++----------------------------------------------------------+
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 강점 | 한계 |
 |:---|:---|:---|:---|
-| **User-Based CF** | 유사 사용자 기반 | 직관적 | 사용자 수 증가 시 O(n²) 확장 불가 |
+| **User-Based CF** | 유사 사용자 기반 | 직관적 | 사용자 수 증가 시 O(n^) 확장 불가 |
 | **Item-Based CF** | 유사 아이템 기반 | 안정적, 오프라인 계산 가능 | 아이템 다양성 감소 |
 | <strong>ALS (교대 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/">최소 제곱법</a>)</strong> | [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) | 암묵적 피드백 처리 | 잠재 요인 수 k 조정 필요 |
 | **딥러닝 (NCF, Two-Tower)** | 비선형 상호작용 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 계산 비용 높음, 해석 어려움 |
@@ -141,17 +141,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [콘텐츠 기반 필터링 — 아이템 속성 유사도]
-    │
-    ▼
+    |
+    v
 [협업 필터링 (User/Item CF) — 사용자 행동 유사도]
-    │
-    ▼
+    |
+    v
 [행렬 분해 (ALS/SVD) — 잠재 요인 추출, 빅데이터 확장]
-    │
-    ▼
+    |
+    v
 [딥러닝 추천 (NCF, Two-Tower, BERT4Rec) — 비선형 패턴]
-    │
-    ▼
+    |
+    v
 [LLM 기반 대화형 추천 — 자연어 맥락 이해 추천]
 ```
 콘텐츠 기반에서 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/), [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/), 딥러닝을 거쳐 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 대화형 추천으로 진화하는 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 발전 흐름이다.
@@ -168,7 +168,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 45 / 262
 
-← **이전**: [아파치 스톰 (Apache Storm) 및 실시간 분산 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/)
-**다음**: [24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/) →
+<- **이전**: [아파치 스톰 (Apache Storm) 및 실시간 분산 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/)
+**다음**: [24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/) ->
 
 ---

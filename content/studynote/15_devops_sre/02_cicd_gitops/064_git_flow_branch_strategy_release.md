@@ -30,7 +30,7 @@ tags = ["studynote-devops"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-feature → develop → release → main
+feature -> develop -> release -> main
                     ↘ hotfix ↗
 ```
 
@@ -105,11 +105,11 @@ Git Flow는 릴리스 기준이 분명한 팀에서 안정성을 높여 준다. 
 
 ```text
 feature
-  ↓
+  v
 develop
-  ↓
+  v
 release
-  ↓
+  v
 main / hotfix
 ```
 
@@ -119,11 +119,11 @@ main / hotfix
 
 ```text
 Branching Strategy
-  ↓
+  v
 Git Flow
-  ↓
+  v
 Release Management
-  ↓
+  v
 CI/CD
 ```
 
@@ -141,7 +141,7 @@ Git Flow는 그런 식으로 브랜치를 나누는 방법이에요.
 
 **진행 상황**: 64 / 373
 
-← **이전**: [63. Terraform vs Ansible](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/063_terraform_ansible/)
-**다음**: [65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/065_github_flow_branch_strategy/) →
+<- **이전**: [63. Terraform vs Ansible](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/063_terraform_ansible/)
+**다음**: [65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/065_github_flow_branch_strategy/) ->
 
 ---

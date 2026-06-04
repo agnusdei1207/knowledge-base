@@ -32,9 +32,9 @@ tags = ["studynote-cloud-architecture"]
 ConfigMap은 일반 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 저장하고, Secret은 패스워드, 토큰, 키 같은 민감 정보를 저장한다. 둘 다 환경변수나 볼륨으로 주입할 수 있다.
 
 ```text
-ConfigMap ─┐
-           ├→ Pod (env / volume)
-Secret   ──┘
+ConfigMap -+
+           +-> Pod (env / volume)
+Secret   --+
 ```
 
 | 객체 | 용도 | 주의점 |
@@ -113,14 +113,14 @@ ConfigMap과 Secret을 잘 쓰면 배포가 깔끔해지고, 보안과 운영 �
 
 ```text
 하드코딩 설정
-    │
-    ▼
+    |
+    v
 ConfigMap / Secret
-    │
-    ▼
+    |
+    v
 Pod 주입
-    │
-    ▼
+    |
+    v
 환경 분리 / 회전 / 감사
 ```
 
@@ -138,7 +138,7 @@ Pod 주입
 
 **진행 상황**: 53 / 371
 
-← **이전**: [53. 서비스와 파드 배포 (Service Pod Deployment)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/053_service_pod_deployment/)
-**다음**: [55. Ingress와 Service Type](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/055_ingress_service_types/) →
+<- **이전**: [53. 서비스와 파드 배포 (Service Pod Deployment)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/053_service_pod_deployment/)
+**다음**: [55. Ingress와 Service Type](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/055_ingress_service_types/) ->
 
 ---

@@ -12,27 +12,27 @@ tags = ["studynote-enterprise-systems"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: POP(Point of Production)는 <strong>생산 현장의 각 공정·설비에서 실적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(생산량·불량·가동시간)를 실시간으로 수집</strong>하여 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)·ERP에 전달하는 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 시스템이다.
 > 2. **가치**: POP 없이는 생산 실적이 <strong>종이·수기 입력</strong>에 의존하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·오류가 발생하지만, POP은 바코드·RFID·센서로 <strong>자동 수집</strong>하여 실시간 생산 가시성을 확보한다.
-> 3. **판단 포인트**: POP은 MES의 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 계층</strong>이며, POP→[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 순서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 상향 전달되어 경영 의사결정에 활용된다.
+> 3. **판단 포인트**: POP은 MES의 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 계층</strong>이며, POP->[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)->[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 순서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 상향 전달되어 경영 의사결정에 활용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    POP 데이터 흐름                                    │
-├───────────────────────────────────────────────────────┤
-│  [현장] 바코드 스캔 / RFID / 센서                     │
-│     │                                                 │
-│     ▼                                                 │
-│  [POP 단말] 실적 데이터 자동 수집                     │
-│     │                                                 │
-│     ▼                                                 │
-│  [MES] 생산 실행 관리 (일정·품질·추적)                │
-│     │                                                 │
-│     ▼                                                 │
-│  [ERP] 경영 계획 반영 (재고·원가·납기)                │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    POP 데이터 흐름                                    |
++-------------------------------------------------------+
+|  [현장] 바코드 스캔 / RFID / 센서                     |
+|     |                                                 |
+|     v                                                 |
+|  [POP 단말] 실적 데이터 자동 수집                     |
+|     |                                                 |
+|     v                                                 |
+|  [MES] 생산 실행 관리 (일정·품질·추적)                |
+|     |                                                 |
+|     v                                                 |
+|  [ERP] 경영 계획 반영 (재고·원가·납기)                |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: POP은 공장 CCTV이다. 각 라인에서 무슨 일이 일어나는지 실시간으로 기록하여 관리자([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))에게 보고한다.
@@ -67,7 +67,7 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)에서의 POP
-- [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 → POP → [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) → [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 연동.
+- [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 -> POP -> [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) -> [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 연동.
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 예측 모델에 POP 실적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피딩.
 
 ---
@@ -92,17 +92,17 @@ POP은 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_
 
 ```text
 [수기 생산 실적 관리 (종이, 1980s)]
-    │
-    ▼
+    |
+    v
 [바코드 POP (1990s) — 스캔 기반 실적 수집]
-    │
-    ▼
+    |
+    v
 [RFID POP (2000s) — 비접촉 자동 인식]
-    │
-    ▼
+    |
+    v
 [IoT POP (2015~) — 센서 자동 수집, 실시간]
-    │
-    ▼
+    |
+    v
 [현재: AI + POP — 실적 데이터 기반 예측·최적화]
 ```
 
@@ -117,7 +117,7 @@ POP은 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_
 
 **진행 상황**: 120 / 482
 
-← **이전**: [119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)
-**다음**: [121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/121_smart_factory_4_levels/) →
+<- **이전**: [119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)
+**다음**: [121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/121_smart_factory_4_levels/) ->
 
 ---

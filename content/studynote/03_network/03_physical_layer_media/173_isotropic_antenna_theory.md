@@ -25,13 +25,13 @@ tags = ["network"]
 아래 그림은 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 무엇을 이상화하는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ideal isotropic radiator                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ total power Pt spreads uniformly over a sphere radius r           │
-│ power density S(r) = Pt / (4πr^2) in every direction              │
-│ no preferred azimuth, elevation, or beam axis                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Ideal isotropic radiator                                          |
++--------------------------------------------------------------------+
+| total power Pt spreads uniformly over a sphere radius r           |
+| power density S(r) = Pt / (4πr^2) in every direction              |
+| no preferred azimuth, elevation, or beam axis                     |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "전력이 구면 전체에 균등하게 퍼진다"는 점이다. 거리가 두 배가 되면 표면적이 네 배가 되어 전력 밀도는 `1 / r^2`로 감소한다. 따라서 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 방사 패턴과 전파 감쇠를 가장 단순한 형태로 모델링하는 출발점이 된다.
@@ -64,13 +64,13 @@ tags = ["network"]
 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)와 자주 혼동되지만 같은 개념이 아니다. 등방성은 위아래와 좌우를 포함한 3차원 전 방향에 동일하게 방사하는 이상 모델이고, [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)는 보통 수평면 360도 커버리지를 목표로 하지만 위아래는 약한 도넛형 패턴을 갖는다. 또한 반파장 다이폴 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Half-Wave Dipole)는 현실적인 기준 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 자주 쓰이며, 0 dBd (decibels relative to dipole)는 약 2.15 dBi에 해당한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Pattern intuition                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ isotropic   : sphere   -> equal in azimuth and elevation          │
-│ omni        : donut    -> wide azimuth, weak above/below          │
-│ directional : beam     -> narrow lobe, high gain                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Pattern intuition                                                 |
++--------------------------------------------------------------------+
+| isotropic   : sphere   -> equal in azimuth and elevation          |
+| omni        : donut    -> wide azimuth, weak above/below          |
+| directional : beam     -> narrow lobe, high gain                 |
++--------------------------------------------------------------------+
 ```
 
 | 비교 대상 | 방사 패턴 | 현실성 | 주 용도 |
@@ -91,15 +91,15 @@ tags = ["network"]
 실무에서 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 직접 설치 대상이 아니라 계산과 규제의 기준점으로 등장한다. 링크 버짓을 계산할 때 송신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)과 수신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 dBi로 넣어 EIRP와 예상 수신 전력을 산정하고, 규제 검토 시에도 허용 EIRP 한도를 등방성 기준으로 확인한다. 즉 장비 선택보다 "스펙 해석" 단계에서 더 자주 쓰이는 개념이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ How to use isotropic reference in practice                        │
-├────────────────────────────────────────────────────────────────────┤
-│ reading antenna spec?                                             │
-│   ├─ unit = dBi -> compare directly                              │
-│   ├─ unit = dBd -> convert to dBi (+2.15 dB)                     │
-│   └─ no unit   -> do not compare blindly                         │
-│ then combine Tx power + gain - losses -> EIRP / link budget      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| How to use isotropic reference in practice                        |
++--------------------------------------------------------------------+
+| reading antenna spec?                                             |
+|   +- unit = dBi -> compare directly                              |
+|   +- unit = dBd -> convert to dBi (+2.15 dB)                     |
+|   +- no unit   -> do not compare blindly                         |
+| then combine Tx power + gain - losses -> EIRP / link budget      |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -148,16 +148,16 @@ tags = ["network"]
 
 ```text
 uniform spherical reference
-    │
-    ▼
+    |
+    v
 0 dBi baseline
-    │
-    ├──────────────▶ antenna gain comparison
-    ├──────────────▶ dBi / dBd interpretation
-    ▼
+    |
+    +---------------> antenna gain comparison
+    +---------------> dBi / dBd interpretation
+    v
 EIRP and link budget
-    │
-    ▼
+    |
+    v
 real coverage design
 ```
 
@@ -175,7 +175,7 @@ real coverage design
 
 **진행 상황**: 294 / 1120
 
-← **이전**: [172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)
-**다음**: [174. 안테나 이득 (Antenna Gain, dBi, dBd)](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) →
+<- **이전**: [172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)
+**다음**: [174. 안테나 이득 (Antenna Gain, dBi, dBd)](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) ->
 
 ---

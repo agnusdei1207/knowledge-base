@@ -45,22 +45,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 가속기에서 연산보다 주변 공급 체계가 왜 중요한지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ PQC 가속기의 데이터 경로: 산술 유닛보다 주변 엔진의 균형이 중요하다    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host CPU / Security Controller                                      │
-│                │ command / DMA                                      │
-│                ▼                                                    │
-│   Seeds ─▶ Sampler / TRNG ─┐                                        │
-│   Msg   ─▶ Hash / XOF   ───┼──▶ NTT / iNTT ─▶ Mod Mul / Reduce     │
-│                            │                     │                   │
-│                            └────▶ Banked SRAM ◀─┘                   │
-│                                                      │              │
-│                                                      ▼              │
-│                                          Ciphertext / Signature     │
-│                                                                      │
-│ 병목 포인트: bank 충돌 · 난수 공급 · 부채널 마스킹                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| PQC 가속기의 데이터 경로: 산술 유닛보다 주변 엔진의 균형이 중요하다    |
++----------------------------------------------------------------------+
+| Host CPU / Security Controller                                      |
+|                | command / DMA                                      |
+|                v                                                    |
+|   Seeds --> Sampler / TRNG -+                                        |
+|   Msg   --> Hash / XOF   ---+---> NTT / iNTT --> Mod Mul / Reduce     |
+|                            |                     |                   |
+|                            +-----> Banked SRAM <--+                   |
+|                                                      |              |
+|                                                      v              |
+|                                          Ciphertext / Signature     |
+|                                                                      |
+| 병목 포인트: bank 충돌 · 난수 공급 · 부채널 마스킹                |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 [ML-KEM](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/) 디캡슐레이션 (Decapsulation)에서는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 산술만 빠르다고 끝나지 않는다. 키 재구성, 해시 기반 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 오류 은닉, 일정 시간 동작이 함께 맞아야 안전하다. [ML-DSA](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/) 역시 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 샘플링 품질과 거부 샘플링 제어가 중요해, 단순 곱셈기 증설만으로는 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 선형적으로 오르지 않는다.
@@ -140,17 +140,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 RSA / ECC 공개키 가속기
-          │
-          ▼
+          |
+          v
 하이브리드 키 교환 · 전환기 TLS
-          │
-          ▼
+          |
+          v
 ML-KEM · ML-DSA 중심 PQC 가속기
-          │
-          ▼
+          |
+          v
 알고리즘 민첩형 다중 엔진 구조
-          │
-          ▼
+          |
+          v
 양자 안전 NIC · HSM · 보안 소자 (Secure Element)
 ```
 
@@ -168,7 +168,7 @@ ML-KEM · ML-DSA 중심 PQC 가속기
 
 **진행 상황**: 543 / 803
 
-← **이전**: [542. 포인터 인증 (Pointer Authentication, ARM PAC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/)
-**다음**: [544. 안전한 컨텍스트 스위칭 (Secure Context Switching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/544_secure_context_switching/) →
+<- **이전**: [542. 포인터 인증 (Pointer Authentication, ARM PAC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/)
+**다음**: [544. 안전한 컨텍스트 스위칭 (Secure Context Switching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/544_secure_context_switching/) ->
 
 ---

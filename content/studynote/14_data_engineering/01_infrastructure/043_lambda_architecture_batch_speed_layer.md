@@ -23,21 +23,21 @@ tags = ["studynote-data-engineering"]
   Nathan Marz (Twitter) 제안, 2012
 
   데이터 소스
-      │
-      ├── 배치 레이어 (Batch Layer) ──────────┐
-      │   - 전체 히스토리 데이터 처리         │
-      │   - 높은 정확성, 느린 처리(시간~일)   │
-      │   - Hadoop MapReduce, Spark Batch     │
-      │   - Batch View (하루치 집계 등)       │
-      │                                      │
-      ├── 스피드 레이어 (Speed Layer) ─────────┤
-      │   - 최근 데이터만 처리 (배치 지연 보완)│
-      │   - 낮은 지연(수초 이내), 근사치 허용 │
-      │   - Storm, Flink, Spark Streaming    │
-      │   - Realtime View (최신 수분 데이터)  │
-      │                                      │
-      └──────────────────────────────────────┤
-                                             ↓
+      |
+      +-- 배치 레이어 (Batch Layer) ----------+
+      |   - 전체 히스토리 데이터 처리         |
+      |   - 높은 정확성, 느린 처리(시간~일)   |
+      |   - Hadoop MapReduce, Spark Batch     |
+      |   - Batch View (하루치 집계 등)       |
+      |                                      |
+      +-- 스피드 레이어 (Speed Layer) ---------+
+      |   - 최근 데이터만 처리 (배치 지연 보완)|
+      |   - 낮은 지연(수초 이내), 근사치 허용 |
+      |   - Storm, Flink, Spark Streaming    |
+      |   - Realtime View (최신 수분 데이터)  |
+      |                                      |
+      +--------------------------------------+
+                                             v
                                서빙 레이어 (Serving Layer)
                                - Batch View + Realtime View 병합
                                - 쿼리 응답 (HBase, Cassandra)
@@ -70,7 +70,7 @@ tags = ["studynote-data-engineering"]
 처리 엔진:
   Apache Hadoop MapReduce (초기)
   Apache Spark (현재 표준)
-    - 인메모리 처리 → 10~100배 빠름
+    - 인메모리 처리 -> 10~100배 빠름
     - Spark SQL, DataFrame API
 
 배치 뷰 (Batch View):
@@ -84,8 +84,8 @@ tags = ["studynote-data-engineering"]
 
 배치 레이어 한계:
   지연: 방금 발생한 이벤트는 내일 집계에 포함
-  → 사용자가 "오늘 내 구매 합계"를 보려면?
-  → 스피드 레이어 필요
+  -> 사용자가 "오늘 내 구매 합계"를 보려면?
+  -> 스피드 레이어 필요
 
 Apache Spark 배치 예시:
   spark.read.parquet("s3://data/events/2026-04-05/")
@@ -121,7 +121,7 @@ Apache Spark 배치 예시:
 
 스피드 레이어 한계:
   지연 보상 로직: 배치와 동일 비즈니스 로직 재구현 필요
-  → 코드 중복 = 람다의 핵심 문제
+  -> 코드 중복 = 람다의 핵심 문제
 
 쿼리 시 조합:
   총 판매액 쿼리:
@@ -152,15 +152,15 @@ Flink 스트리밍 예시:
   동일 비즈니스 로직을 두 번 구현
     배치: Spark SQL로 집계 로직
     스피드: Flink로 동일 집계 로직
-  → 코드 불일치 위험
-  → 유지보수 비용 2배
+  -> 코드 불일치 위험
+  -> 유지보수 비용 2배
 
 카파 아키텍처 (Kappa Architecture):
   Jay Kreps (LinkedIn) 제안, 2014
 
   핵심: 스트리밍 레이어 하나로 통합
 
-  데이터 소스 → Kafka (로그 저장) → 스트리밍 처리 → 서빙
+  데이터 소스 -> Kafka (로그 저장) -> 스트리밍 처리 -> 서빙
 
   배치 재처리가 필요하면:
     Kafka에 전체 로그 보관 (Kafka Log Compaction)
@@ -202,14 +202,14 @@ Flink 스트리밍 예시:
 람다 아키텍처 구현:
 
   데이터 소스:
-    주문 서비스 → Kafka 토픽 (orders)
+    주문 서비스 -> Kafka 토픽 (orders)
 
   배치 레이어:
     Spark on EMR, 매일 새벽 3시 실행
-    S3 Parquet (원본) → 일별/월별 집계 → HBase (batch view)
+    S3 Parquet (원본) -> 일별/월별 집계 -> HBase (batch view)
 
   스피드 레이어:
-    Kafka → Flink → Cassandra (speed view)
+    Kafka -> Flink -> Cassandra (speed view)
     Tumbling Window: 1분 단위 집계
 
   서빙 레이어:
@@ -303,7 +303,7 @@ Apache Iceberg + Flink
 
 **진행 상황**: 43 / 258
 
-← **이전**: [042. BASE 특성 — NoSQL 일관성 모델](/knowledge-base/studynote/14_data_engineering/01_infrastructure/042_base_characteristics_nosql_eventual_consistency/)
-**다음**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/) →
+<- **이전**: [042. BASE 특성 — NoSQL 일관성 모델](/knowledge-base/studynote/14_data_engineering/01_infrastructure/042_base_characteristics_nosql_eventual_consistency/)
+**다음**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/) ->
 
 ---

@@ -37,36 +37,36 @@ tags = ["studynote-cloud-architecture"]
 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 크기 | 100% 기준 | 약 30~50% 수준 |
 | 직렬화 속도 | 느림 | 약 5~10배 빠름 |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 없음 (문서 의존) | `.proto` 강타입 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) |
-| 스트리밍 | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2에서 가능) | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·서버→클라·양방향 |
+| 스트리밍 | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2에서 가능) | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·서버->클라·양방향 |
 | 브라우저 지원 | 직접 | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 레이어 필요 |
-| 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 없음 (OpenAPI 도구) | `.proto` → 다국어 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 없음 (OpenAPI 도구) | `.proto` -> 다국어 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    gRPC 통신 구조                                  │
-│                                                                    │
-│  .proto 파일 정의:                                                 │
-│  service OrderService {                                            │
-│    rpc GetOrder (OrderRequest) returns (OrderResponse);            │
-│    rpc StreamOrders (Empty) returns (stream OrderResponse);        │
-│  }                                                                 │
-│                                                                    │
-│  ┌──────────────────┐          ┌──────────────────────────────┐   │
-│  │   gRPC 클라이언트 │          │      gRPC 서버               │   │
-│  │                  │          │                              │   │
-│  │  Stub (자동생성) │─HTTP/2──►│  Handler                    │   │
-│  │  GetOrder(req)   │◄─────────│  ProcessOrder(req, res)     │   │
-│  │  [Protobuf 직렬화│ 바이너리  │  [Protobuf 역직렬화]        │   │
-│  └──────────────────┘          └──────────────────────────────┘   │
-│                                                                    │
-│  HTTP/2 멀티플렉싱:                                                │
-│  ┌───────────────────────────────────────────────────────────┐    │
-│  │  단일 TCP 연결                                            │    │
-│  │  Stream 1: 주문 조회 ──────────────────────────────►     │    │
-│  │  Stream 2: 재고 확인 ───────────────────────────────►    │    │
-│  │  Stream 3: 배송 조회 ────────────────────────────────►   │    │
-│  └───────────────────────────────────────────────────────────┘    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    gRPC 통신 구조                                  |
+|                                                                    |
+|  .proto 파일 정의:                                                 |
+|  service OrderService {                                            |
+|    rpc GetOrder (OrderRequest) returns (OrderResponse);            |
+|    rpc StreamOrders (Empty) returns (stream OrderResponse);        |
+|  }                                                                 |
+|                                                                    |
+|  +------------------+          +------------------------------+   |
+|  |   gRPC 클라이언트 |          |      gRPC 서버               |   |
+|  |                  |          |                              |   |
+|  |  Stub (자동생성) |-HTTP/2--►|  Handler                    |   |
+|  |  GetOrder(req)   |◄---------|  ProcessOrder(req, res)     |   |
+|  |  [Protobuf 직렬화| 바이너리  |  [Protobuf 역직렬화]        |   |
+|  +------------------+          +------------------------------+   |
+|                                                                    |
+|  HTTP/2 멀티플렉싱:                                                |
+|  +-----------------------------------------------------------+    |
+|  |  단일 TCP 연결                                            |    |
+|  |  Stream 1: 주문 조회 ------------------------------►     |    |
+|  |  Stream 2: 재고 확인 -------------------------------►    |    |
+|  |  Stream 3: 배송 조회 --------------------------------►   |    |
+|  +-----------------------------------------------------------+    |
++--------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.zip) — 같은 내용이지만 텍스트([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 대신 바이너리로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 전송하므로 용량이 훨씬 작고 빠르다.
@@ -77,7 +77,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 구분 | Unary [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | Server Streaming | [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Streaming | Bidirectional |
 |:---|:---|:---|:---|:---|
-| 방향 | 요청 1 → 응답 1 | 요청 1 → 응답 N개 스트림 | 요청 N개 → 응답 1 | 양방향 스트림 |
+| 방향 | 요청 1 -> 응답 1 | 요청 1 -> 응답 N개 스트림 | 요청 N개 -> 응답 1 | 양방향 스트림 |
 | 사용 예 | 일반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 조회 | 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/이벤트 구독 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 청크 | 채팅, 실시간 게임 |
 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 대응 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) | [SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) ([Server-Sent Events](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)) | FormData POST | [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) |
 
@@ -90,16 +90,16 @@ gRPC의 4가지 통신 패턴은 REST가 Unary에만 자연스럽게 맞는 것�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **내부/외부 통신 기술 선택 기준**
-- [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 동기 통신 → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·타입 안전성)
-- 외부 공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (파트너·모바일) → [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 또는 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)
-- 실시간 스트리밍 ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 실시간 대시보드) → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) Bidirectional Streaming
-- 브라우저 직접 호출 → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 또는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
+- [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 동기 통신 -> [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·타입 안전성)
+- 외부 공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (파트너·모바일) -> [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 또는 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)
+- 실시간 스트리밍 ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 실시간 대시보드) -> [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) Bidirectional Streaming
+- 브라우저 직접 호출 -> [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 또는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
 
 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a> 도입 시 고려사항</strong>
-1. `.proto` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 → [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Buf [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등)
-2. [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) → L7 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 지원 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (AWS ALB 지원)
-3. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd) 연동 → 자동 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) + 트래픽 관리
-4. 디버깅 도구 → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 클라이언트(grpcurl), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) UI 활용
+1. `.proto` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 -> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Buf [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등)
+2. [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) -> L7 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 지원 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (AWS ALB 지원)
+3. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd) 연동 -> 자동 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) + 트래픽 관리
+4. 디버깅 도구 -> [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 클라이언트(grpcurl), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) UI 활용
 
 📢 **섹션 요약 비유**: `.proto` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 공동 작업 계약서 — 모든 팀이 서명한 계약서([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))에 따라 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 주고받으므로 오해(타입 불일치)가 없다.
 
@@ -132,14 +132,14 @@ gRPC는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ```text
 REST/JSON (텍스트 기반, 사람 친화)
-    │
-    ▼
+    |
+    v
 gRPC: Protocol Buffers + HTTP/2
-    ├─► 바이너리 직렬화: 10x 빠름, 70% 작은 페이로드
-    ├─► 스트리밍: Unary · Server · Client · Bidirectional
-    └─► IDL 기반 코드 생성: 타입 안전
-    │
-    ▼
+    +-► 바이너리 직렬화: 10x 빠름, 70% 작은 페이로드
+    +-► 스트리밍: Unary · Server · Client · Bidirectional
+    +-► IDL 기반 코드 생성: 타입 안전
+    |
+    v
 내부 MSA 통신: gRPC | 외부 API: REST · GraphQL
 ```
 2. [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)/Protobuf는 모스 부호로 통신하기 — 사람은 바로 못 읽지만 훨씬 짧고 빠르게 전달돼요.
@@ -151,7 +151,7 @@ gRPC: Protocol Buffers + HTTP/2
 
 **진행 상황**: 157 / 371
 
-← **이전**: [157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/157_bdi_graphql_api_aggregation/)
-**다음**: [159. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/159_eventual_consistency_distributed_systems/) →
+<- **이전**: [157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/157_bdi_graphql_api_aggregation/)
+**다음**: [159. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/159_eventual_consistency_distributed_systems/) ->
 
 ---

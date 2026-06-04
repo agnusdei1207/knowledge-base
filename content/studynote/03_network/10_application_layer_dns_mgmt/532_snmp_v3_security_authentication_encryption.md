@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [SNMPv1, v2c]
-    │
-    ▼
+    |
+    v
 [SNMPv3]
-    │
-    └──▶ [SNMP 명령]
+    |
+    +---> [SNMP 명령]
 ```
 
 - **📢 섹션 요약 비유**: SNMPv3는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ SNMPv3는 USM(User-Based [Security](/knowledge-base/studynote/04_software_engine
 
 ```text
 [SNMPv1, v2c]
-    │
-    ▼
+    |
+    v
 [SNMPv3]
-    │
-    └──▶ [SNMP 명령]
+    |
+    +---> [SNMP 명령]
 ```
 
 - **📢 섹션 요약 비유**: SNMPv3의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ SNMPv3는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 �
 
 ```text
 [선행 개념: SNMPv1, v2c]
-    │
-    ▼
+    |
+    v
 [현재 개념: SNMPv3]
-    │
-    ├──▶ [확장 A: SNMP 명령]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: SNMP 명령]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 SNMPv3는 SNMPv1, v2c에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ SNMPv3는 SNMPv1, v2c에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 653 / 1120
 
-← **이전**: [531. SNMPv1, v2c (Community String 노출 단점)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/531_snmp_v1_v2c_community_string/)
-**다음**: [533. SNMP 명령](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/533_snmp_commands_get_set_trap/) →
+<- **이전**: [531. SNMPv1, v2c (Community String 노출 단점)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/531_snmp_v1_v2c_community_string/)
+**다음**: [533. SNMP 명령](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/533_snmp_commands_get_set_trap/) ->
 
 ---

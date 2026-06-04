@@ -31,9 +31,9 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Observed Counts
-  ↓ compare
+  v compare
 Expected Counts
-  ↓
+  v
 Chi-square Statistic
 ```
 
@@ -104,11 +104,11 @@ Chi-square Statistic
 
 ```text
 Categorical Data
-  ↓
+  v
 Chi-square Test
-  ↓
+  v
 Contingency Table
-  ↓
+  v
 Decision
 ```
 
@@ -118,9 +118,9 @@ Decision
 
 ```text
 Observed / Expected
-  ↓
+  v
 Chi-square
-  ↓
+  v
 Independence / Goodness-of-fit
 ```
 
@@ -138,7 +138,7 @@ Independence / Goodness-of-fit
 
 **진행 상황**: 72 / 258
 
-← **이전**: [71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)
-**다음**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/knowledge-base/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/) →
+<- **이전**: [71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)
+**다음**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/knowledge-base/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/) ->
 
 ---

@@ -22,10 +22,10 @@ tags = ["studynote-design-supervision"]
 하지만 MVCC만으로 모든 문제가 끝나지는 않는다. 같은 자원을 동시에 수정하려는 순간에는 낙관 락킹의 재시도 정책이나 비관 락킹의 선점 정책이 필요하다. 그래서 시험과 실무 모두에서 MVCC는 "[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리"와 "잠금 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 함께 보는 주제로 이해해야 한다.
 
 ```text
-┌────────────┐    ┌────────────────┐    ┌────────────────┐
-│ Readers    │──▶│ Versioned Rows │◀──│ Writers Create │
-│ Snapshot   │    │ MVCC Snapshot  │    │ New Versions   │
-└────────────┘    └────────────────┘    └────────────────┘
++------------+    +----------------+    +----------------+
+| Readers    |--->| Versioned Rows |<---| Writers Create |
+| Snapshot   |    | MVCC Snapshot  |    | New Versions   |
++------------+    +----------------+    +----------------+
 ```
 
 이 그림은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 같은 길에 세우지 않고, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이라는 우회로를 만들어 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 높이는 발상을 보여 준다. 따라서 설계 문서에는 어떤 격리 수준에서 어떤 충돌을 허용·차단하는지 분명히 적어야 한다.
@@ -37,12 +37,12 @@ tags = ["studynote-design-supervision"]
 MVCC의 핵심 원리는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시작 시점 기준으로 보이는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 판단하고, 갱신 시에는 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추가하는 것이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 보통 행 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정보, [undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 영역, vacuum 또는 purge 과정으로 오래된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 정리한다. 여기에 충돌 처리 방식으로 낙관 락킹은 커밋 시 충돌을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 비관 락킹은 수정 전 잠금을 먼저 획득한다. 감리 관점에서는 단순 이론보다 충돌 패턴과 운영 비용이 실제 업무와 맞는지가 중요하다.
 
 ```text
-┌────────┐      ┌────────┐      ┌────────┐
-│ Row V1 │───▶│ Row V2 │───▶│ Row V3 │
-└────────┘      └────────┘      └────────┘
-     ▲               ▲
-     │               └── Writer Commit
-     └────────────────── Reader Snapshot
++--------+      +--------+      +--------+
+| Row V1 |---->| Row V2 |---->| Row V3 |
++--------+      +--------+      +--------+
+     ^               ^
+     |               +-- Writer Commit
+     +------------------ Reader Snapshot
 ```
 
 | 구성축 | 핵심 내용 | 감리 포인트 |
@@ -110,29 +110,29 @@ MVCC를 적절히 활용하면 읽기 지연을 크게 줄이고, 사용자에�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-┌─────────────┐
-│ 2PL Locking │
-└─────────────┘
-       │
-       ▼
-┌────────────────────┐
-│ MVCC Snapshot Read │
-└────────────────────┘
-       │
-       ▼
-┌────────────────────┐
-│ Opt. / Pess. Mix   │
-└────────────────────┘
-       │
-       ▼
-┌────────────────────┐
-│ Isolation Tuning   │
-└────────────────────┘
-       │
-       ▼
-┌────────────────────┐
-│ Vacuum Monitoring  │
-└────────────────────┘
++-------------+
+| 2PL Locking |
++-------------+
+       |
+       v
++--------------------+
+| MVCC Snapshot Read |
++--------------------+
+       |
+       v
++--------------------+
+| Opt. / Pess. Mix   |
++--------------------+
+       |
+       v
++--------------------+
+| Isolation Tuning   |
++--------------------+
+       |
+       v
++--------------------+
+| Vacuum Monitoring  |
++--------------------+
 ```
 
 MVCC는 순수 잠금 중심 제어에서 시작해, 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선과 충돌 유형별 잠금 조합으로 발전하는 흐름 속에서 이해하는 것이 좋다.
@@ -149,7 +149,7 @@ MVCC는 순수 잠금 중심 제어에서 시작해, 읽기 [성능](/knowledge-
 
 **진행 상황**: 527 / 530
 
-← **이전**: [448. AI 환각 방지 RAG 벡터 인덱싱 파이프 (AI Hallucination Mitigation RAG Vector Indexing](/knowledge-base/studynote/11_design_supervision/06_exam_summary/448_ai_rag/)
-**다음**: [450. 가비지 컬렉션 스톱 더 월드 메모리 튜닝 (Garbage Collection Stop-the-World Memory Tuning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/450_process/) →
+<- **이전**: [448. AI 환각 방지 RAG 벡터 인덱싱 파이프 (AI Hallucination Mitigation RAG Vector Indexing](/knowledge-base/studynote/11_design_supervision/06_exam_summary/448_ai_rag/)
+**다음**: [450. 가비지 컬렉션 스톱 더 월드 메모리 튜닝 (Garbage Collection Stop-the-World Memory Tuning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/450_process/) ->
 
 ---

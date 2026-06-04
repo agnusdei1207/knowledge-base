@@ -24,9 +24,9 @@ tags = ["studynote-ai"]
 residual을 그냥 더하면 양수와 음수가 서로 지워진다. 그래서 오차를 제곱해 모두 양수로 만든 뒤 평균을 내면, "얼마나 틀렸는가"가 한 값으로 모인다. MSE는 바로 그 평균이다.
 
 ```text
-정답 y ─┐
-        ├─ residual ─▶ 제곱 ─▶ 평균 ─▶ MSE
-예측 ŷ ─┘
+정답 y -+
+        +- residual --> 제곱 --> 평균 --> MSE
+예측 ŷ -+
 ```
 
 이 흐름은 간단하지만 강력하다. 모델은 MSE가 작아지도록 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 조정하면서 점점 정답에 가까워진다.
@@ -50,7 +50,7 @@ MSE = (1/n) Σ (y_i - ŷ_i)^2
 | 정답 y | 실제 값 | 기준점 |
 | 예측 ŷ | 모델 출력 | 조정 대상 |
 | residual | y - ŷ | 오차 방향 |
-| [square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) | residual² | 큰 오차에 가중 |
+| [square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) | residual^ | 큰 오차에 가중 |
 | mean | 평균 | 전체 손실 |
 
 필요하면 미분도 쓸 수 있다.
@@ -127,17 +127,17 @@ MSE는 회귀 학습을 단순하고 안정적으로 만든다. 오차가 작아
 
 ```text
 정답과 예측의 차이
-    │
-    ▼
+    |
+    v
 residual 계산
-    │
-    ▼
+    |
+    v
 제곱으로 부호 제거
-    │
-    ▼
+    |
+    v
 평균으로 전체 오차 요약
-    │
-    ▼
+    |
+    v
 Gradient Descent로 가중치 갱신
 ```
 
@@ -155,7 +155,7 @@ Gradient Descent로 가중치 갱신
 
 **진행 상황**: 76 / 420
 
-← **이전**: [75. 손실 함수 (Loss Function) - 예측 오차 계산](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)
-**다음**: [77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/077_cross_entropy_error_log_loss/) →
+<- **이전**: [75. 손실 함수 (Loss Function) - 예측 오차 계산](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)
+**다음**: [77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/077_cross_entropy_error_log_loss/) ->
 
 ---

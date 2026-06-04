@@ -169,7 +169,7 @@ TDD의 핵심은 **"테스트가 설계를 주도한다"**는 것이다. 테스�
 
 **진행 상황**: 335 / 373
 
-← **이전**: [[334_opa_gatekeeper_rego|334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego]]
-**다음**: [[336_msa_api|336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven]] →
+<- **이전**: [[334_opa_gatekeeper_rego|334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego]]
+**다음**: [[336_msa_api|336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven]] ->
 
 ---

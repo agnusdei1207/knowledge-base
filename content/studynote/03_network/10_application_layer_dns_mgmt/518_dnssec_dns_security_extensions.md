@@ -27,11 +27,11 @@ DNS는 기본적으로 UDP를 사용하며 [인증](/knowledge-base/studynote/04
 
 ```text
 [일반 DNS 질의]
-    │
-    ▼
+    |
+    v
 [DNSSEC]
-    │
-    └──▶ [DoT]
+    |
+    +---> [DoT]
 ```
 
 - **📢 섹션 요약 비유**: DNSSEC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ DNSSEC는 이름을 주소로 바꾸고 운영 상태를 관찰·관리하는 �
 
 ```text
 [일반 DNS 질의]
-    │
-    ▼
+    |
+    v
 [DNSSEC]
-    │
-    └──▶ [DoT]
+    |
+    +---> [DoT]
 ```
 
 - **📢 섹션 요약 비유**: DNSSEC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -62,14 +62,14 @@ DNSSEC은 공개키 암호화(Public [Key](/knowledge-base/studynote/05_database
 ```text
 [ DNSSEC 인증 과정 ]
 
-┌─────────────┐                      ┌────────────────────┐
-│ Auth Server │                      │ Local DNS Resolver │
-│             │   1. DNS 질의        │ (Client)           │
-│ [ A Record ]│ ◀─────────────────── │                    │
-│ [ RRSIG   ] │                      │                    │
-│ [ DNSKEY  ] │   2. 서명된 응답     │                    │
-│             │ ───────────────────▶ │ 3. 공개키로 서명 검증│
-└─────────────┘                      └────────────────────┘
++-------------+                      +--------------------+
+| Auth Server |                      | Local DNS Resolver |
+|             |   1. DNS 질의        | (Client)           |
+| [ A Record ]| <-------------------- |                    |
+| [ RRSIG   ] |                      |                    |
+| [ DNSKEY  ] |   2. 서명된 응답     |                    |
+|             | --------------------> | 3. 공개키로 서명 검증|
++-------------+                      +--------------------+
 ```
 
 1. **존(Zone) 서명**: 네임서버 관리자는 자신의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(A, MX 등)를 개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 서명하여 `RRSIG` 레코드를 생성합니다.
@@ -120,12 +120,12 @@ DNSSEC는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 �
 
 ```text
 [선행 개념: 일반 DNS 질의]
-    │
-    ▼
+    |
+    v
 [현재 개념: DNSSEC]
-    │
-    ├──▶ [확장 A: DoT]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DoT]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 DNSSEC는 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의에서 출발해 현재 메커니즘을 정교화하고, 이후 DoT와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ DNSSEC는 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer
 
 **진행 상황**: 639 / 1120
 
-← **이전**: [517. 일반 DNS 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/517_dns_query_udp_53/)
-**다음**: [519. DoT (DNS over TLS)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) →
+<- **이전**: [517. 일반 DNS 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/517_dns_query_udp_53/)
+**다음**: [519. DoT (DNS over TLS)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) ->
 
 ---

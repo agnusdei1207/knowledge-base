@@ -36,23 +36,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 한 번의 메모리 요청이 히트 또는 미스로 갈라지는 경로를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Cache request path: hit vs miss                                         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ CPU request                                                              │
-│    │                                                                     │
-│    ▼                                                                     │
-│ Set index select -> Tag compare -> match? -- yes --> Hit: 1~4 cycles    │
-│                                  │                                       │
-│                                  └-- no ---> Miss detected               │
-│                                                  │                       │
-│                                                  ▼                       │
-│                                     Lower level access                   │
-│                                     L2 -> L3 -> DRAM                    │
-│                                                  │                       │
-│                                                  ▼                       │
-│                                     Fill cache line, retry               │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Cache request path: hit vs miss                                         |
++--------------------------------------------------------------------------+
+| CPU request                                                              |
+|    |                                                                     |
+|    v                                                                     |
+| Set index select -> Tag compare -> match? -- yes --> Hit: 1~4 cycles    |
+|                                  |                                       |
+|                                  +-- no ---> Miss detected               |
+|                                                  |                       |
+|                                                  v                       |
+|                                     Lower level access                   |
+|                                     L2 -> L3 -> DRAM                    |
+|                                                  |                       |
+|                                                  v                       |
+|                                     Fill cache line, retry               |
++--------------------------------------------------------------------------+
 ```
 
 이 그림이 보여주는 핵심은 캐시가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계산하는 장치"가 아니라, "가장 먼저 조회되는 저장 계층"이라는 점이다. 따라서 히트 시간을 줄이려면 캐시 탐색이 짧아야 하고, 미스 피해를 줄이려면 하위 계층 접근과 재적재 과정을 효율화해야 한다.
@@ -141,19 +141,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 참조의 지역성 (Locality)
-    │
-    ▼
+    |
+    v
 캐시 라인 (Cache Line) · 캐시 매핑 (Cache Mapping)
-    │
-    ▼
+    |
+    v
 캐시 히트 (Cache Hit) / 캐시 미스 (Cache Miss)
-    │
-    ├───────────────┬────────────────┐
-    ▼               ▼                ▼
+    |
+    +---------------+----------------+
+    v               v                v
 적중률 (Hit Ratio)  3C Miss Model    캐시 일관성 (Coherence)
-    │               │                │
-    └───────────────┴────────────────┘
-                    ▼
+    |               |                |
+    +---------------+----------------+
+                    v
 AMAT (Average Memory Access Time) 최적화
 ```
 
@@ -171,7 +171,7 @@ AMAT (Average Memory Access Time) 최적화
 
 **진행 상황**: 263 / 803
 
-← **이전**: [262. L3 캐시 (Level 3 Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)
-**다음**: [264. 적중률 (Hit Ratio)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) →
+<- **이전**: [262. L3 캐시 (Level 3 Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)
+**다음**: [264. 적중률 (Hit Ratio)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) ->
 
 ---

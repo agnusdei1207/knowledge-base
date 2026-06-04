@@ -31,14 +31,14 @@ tags = ["studynote-operating-system"]
 
 ```text
 Root Cgroup
-  ├─ Group A
-  │   ├─ CPU
-  │   ├─ Memory
-  │   └─ IO
-  └─ Group B
-      ├─ CPU
-      ├─ Memory
-      └─ IO
+  +- Group A
+  |   +- CPU
+  |   +- Memory
+  |   +- IO
+  +- Group B
+      +- CPU
+      +- Memory
+      +- IO
 ```
 
 | 컨트롤러 | 역할 |
@@ -106,13 +106,13 @@ cgroups는 Linux를 대규모 [서비스](/knowledge-base/studynote/13_cloud_arc
 
 ```text
 Process Group
-   ↓
+   v
 cgroups
-   ↓
+   v
 Resource Control
-   ↓
+   v
 Kubernetes requests/limits
-   ↓
+   v
 Container Scheduling
 ```
 
@@ -122,11 +122,11 @@ Container Scheduling
 
 ```text
 Process Containers
-   ↓
+   v
 cgroups
-   ↓
+   v
 Container Resource Control
-   ↓
+   v
 Kubernetes Limits
 ```
 
@@ -144,7 +144,7 @@ Kubernetes Limits
 
 **진행 상황**: 62 / 800
 
-← **이전**: [61. 네임스페이스 (Namespace) - 자원 격리](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)
-**다음**: [63. 도커 (Docker) 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) →
+<- **이전**: [61. 네임스페이스 (Namespace) - 자원 격리](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)
+**다음**: [63. 도커 (Docker) 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) ->
 
 ---

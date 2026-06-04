@@ -31,12 +31,12 @@ Helm은 이런 문제를 패키지화로 푼다. 템플릿은 재사용하고, �
 
 ```text
 Chart
-  ├─ templates/
-  ├─ values.yaml
-  └─ Chart.yaml
-        ↓ render
+  +- templates/
+  +- values.yaml
+  +- Chart.yaml
+        v render
 Rendered Kubernetes YAML
-        ↓ install / upgrade
+        v install / upgrade
 Kubernetes Cluster
 ```
 
@@ -105,13 +105,13 @@ Helm은 "[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud
 
 ```text
 Chart
-   ↓
+   v
 Templates / values.yaml
-   ↓
+   v
 Rendered Manifest
-   ↓
+   v
 Kubernetes Release
-   ↓
+   v
 Rollback / Versioning
 ```
 
@@ -121,13 +121,13 @@ Rollback / Versioning
 
 ```text
 Raw YAML
-   ↓
+   v
 Helm Chart
-   ↓
+   v
 Release Management
-   ↓
+   v
 OCI Registry
-   ↓
+   v
 GitOps
 ```
 
@@ -145,7 +145,7 @@ GitOps
 
 **진행 상황**: 61 / 373
 
-← **이전**: [60. ChatOps (Chat + Operations) 협업 운영 모델](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/060_chatops/)
-**다음**: [62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) →
+<- **이전**: [60. ChatOps (Chat + Operations) 협업 운영 모델](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/060_chatops/)
+**다음**: [62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ->
 
 ---

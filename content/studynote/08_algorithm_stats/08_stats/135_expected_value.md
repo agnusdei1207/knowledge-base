@@ -41,7 +41,7 @@ E[X] = ∫₋∞^{+∞} x · f(x) dx
 
 **예시 — 균등 분포 U(0,1)**:
 ```
-E[X] = ∫₀¹ x · 1 dx = [x²/2]₀¹ = 0.5
+E[X] = ∫₀¹ x · 1 dx = [x^/2]₀¹ = 0.5
 ```
 
 ### 함수의 기댓값 — LOTUS 법칙
@@ -75,7 +75,7 @@ E[aX + bY + c] = a·E[X] + b·E[Y] + c
 E[X+Y] = Σₓ Σᵧ (x+y) · P(X=x, Y=y)
        = Σₓ Σᵧ x · P(X=x, Y=y) + Σₓ Σᵧ y · P(X=x, Y=y)
        = Σₓ x · P(X=x) + Σᵧ y · P(Y=y)
-       = E[X] + E[Y]    ← 결합 분포의 주변화 (Marginalization) 이용
+       = E[X] + E[Y]    <- 결합 분포의 주변화 (Marginalization) 이용
 ```
 
 ### 곱의 기댓값 (독립인 경우만)
@@ -112,7 +112,7 @@ X_{ij} = {1 if 원소 i와 j가 직접 비교됨, 0 otherwise}
 
 총 비교 횟수 X = Σ_{i<j} X_{ij}
 
-E[X] = Σ_{i<j} E[X_{ij}]    ← 선형성 적용!
+E[X] = Σ_{i<j} E[X_{ij}]    <- 선형성 적용!
       = Σ_{i<j} P(i와 j가 비교됨)
       = Σ_{i<j} 2/(j-i+1)
       ≈ n·H(n) ≈ n·ln(n) = O(n log n)
@@ -121,20 +121,20 @@ E[X] = Σ_{i<j} E[X_{ij}]    ← 선형성 적용!
 선형성 덕분에 각 쌍의 비교 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)만 계산하면 전체 기댓값이 나온다.
 
 ```
-┌────────────────────────────────────────────────────────┐
-│  기댓값 분석 — E[X] 확률 가중 시각화                   │
-│                                                        │
-│  X값    확률     기여값                                │
-│  ┌────┬────────┬────────────────────────────────────┐ │
-│  │ 1  │ P=0.2  │ ████  (1×0.2 = 0.2)               │ │
-│  │ 2  │ P=0.3  │ ██████████ (2×0.3 = 0.6)          │ │
-│  │ 3  │ P=0.3  │ ████████████████ (3×0.3 = 0.9)    │ │
-│  │ 4  │ P=0.2  │ █████████████████ (4×0.2 = 0.8)   │ │
-│  └────┴────────┴────────────────────────────────────┘ │
-│                                                        │
-│  E[X] = 0.2+0.6+0.9+0.8 = 2.5   ← 가중 평균          │
-│  확률 기중(막대 높이 × 위치)의 균형점                  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  기댓값 분석 — E[X] 확률 가중 시각화                   |
+|                                                        |
+|  X값    확률     기여값                                |
+|  +----+--------+------------------------------------+ |
+|  | 1  | P=0.2  | ████  (1×0.2 = 0.2)               | |
+|  | 2  | P=0.3  | ██████████ (2×0.3 = 0.6)          | |
+|  | 3  | P=0.3  | ████████████████ (3×0.3 = 0.9)    | |
+|  | 4  | P=0.2  | █████████████████ (4×0.2 = 0.8)   | |
+|  +----+--------+------------------------------------+ |
+|                                                        |
+|  E[X] = 0.2+0.6+0.9+0.8 = 2.5   <- 가중 평균          |
+|  확률 기중(막대 높이 × 위치)의 균형점                  |
++--------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 퀵정렬 분석에서 선형성은 "수천 쌍의 비교를 한꺼번에 계산하는 대신, 각 쌍을 독립적으로 계산해서 더하는" 마법 같은 분해 기법이다.
@@ -184,7 +184,7 @@ E[X] = E[E[X|Y]]
 
   E[T(n)] = E[E[T(n)|피벗 위치]]
            = (1/n) Σₖ₌₁ⁿ (T(k-1)+T(n-k)+cn)
-           → T(n) = O(n log n) 도출
+           -> T(n) = O(n log n) 도출
 ```
 
 ### 응용 — 이중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
@@ -196,7 +196,7 @@ E[S] = E[E[S|N]]
      = E[N · E[X₁]]     (동일 분포 가정)
      = E[N] · E[X₁]
 
-→ 청구 건수와 금액을 분리해서 계산 가능!
+-> 청구 건수와 금액을 분리해서 계산 가능!
 ```
 
 📢 **섹션 요약 비유**: 전체 기댓값 법칙은 "학교 평균 성적"을 직접 계산하는 대신 "각 반 평균의 가중 평균"으로 계산하는 것과 같다 — 복잡한 문제를 계층별로 쪼개서 푼다.
@@ -207,7 +207,7 @@ E[S] = E[E[S|N]]
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 기댓값 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | E[X²] - (E[X])² |
+| 기댓값 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | E[X^] - (E[X])^ |
 | 선형성 | 랜덤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석 | 복잡도 기댓값 계산 |
 | 전체 기댓값 법칙 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 점화식 | T(n) 분석 도구 |
 | 기대 효용 | 위험 관리, 게임 이론 | 의사결정 기반 |
@@ -220,14 +220,14 @@ E[S] = E[E[S|N]]
 
 ```text
 [확률 분포 (Probability Distribution)]
-    │
-    ▼
+    |
+    v
 [기댓값 (Expected Value)]
-    │
-    ▼
+    |
+    v
 [분산 (Variance)]
-    │
-    ▼
+    |
+    v
 [중심극한정리 (CLT, Central Limit Theorem)]
 ```
 
@@ -244,7 +244,7 @@ E[S] = E[E[S|N]]
 
 **진행 상황**: 135 / 175
 
-← **이전**: [5. 확률 변수 (Random Variable) — 이산/연속](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)
-**다음**: [7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) →
+<- **이전**: [5. 확률 변수 (Random Variable) — 이산/연속](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)
+**다음**: [7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ->
 
 ---

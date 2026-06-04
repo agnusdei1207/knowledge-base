@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [LoRa / LoRaWAN 표준]
-    │
-    ▼
+    |
+    v
 [Sigfox]
-    │
-    └──▶ [면허 대역 LPWAN 분야]
+    |
+    +---> [면허 대역 LPWAN 분야]
 ```
 
 - **📢 섹션 요약 비유**: Sigfox는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [LoRa / LoRaWAN 표준]
-    │
-    ▼
+    |
+    v
 [Sigfox]
-    │
-    └──▶ [면허 대역 LPWAN 분야]
+    |
+    +---> [면허 대역 LPWAN 분야]
 ```
 
 - **📢 섹션 요약 비유**: Sigfox의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -108,12 +108,12 @@ Sigfox는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ```text
 [선행 개념: LoRa / LoRaWAN 표준]
-    │
-    ▼
+    |
+    v
 [현재 개념: Sigfox]
-    │
-    ├──▶ [확장 A: 면허 대역 LPWAN 분야]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 면허 대역 LPWAN 분야]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 Sigfox는 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -130,7 +130,7 @@ Sigfox는 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_
 
 **진행 상황**: 739 / 1120
 
-← **이전**: [617. LoRa (Long Range) / LoRaWAN 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)
-**다음**: [619. 면허 대역 LPWAN 분야 (이동통신사 기반형 IoT)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/619_licensed_band_lpwan_cellular_iot/) →
+<- **이전**: [617. LoRa (Long Range) / LoRaWAN 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)
+**다음**: [619. 면허 대역 LPWAN 분야 (이동통신사 기반형 IoT)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/619_licensed_band_lpwan_cellular_iot/) ->
 
 ---

@@ -26,15 +26,15 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 아래 그림은 Evict+Time이 개별 메모리 접근이 아니라 <strong>전체 런타임의 이동</strong>을 관찰한다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Evict+Time watches total runtime, not a single cache access     │
-├──────────────────────────────────────────────────────────────────┤
-│ 1) Baseline run : victim(input) -> T_base                       │
-│ 2) Evict set S : attacker fills all ways of one cache set       │
-│ 3) Victim rerun : victim(input) -> T_evict                      │
-│ 4) Compare      : ΔT = T_evict - T_base                         │
-│ 5) Repetition   : if ΔT stays positive, set S likely mattered   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Evict+Time watches total runtime, not a single cache access     |
++------------------------------------------------------------------+
+| 1) Baseline run : victim(input) -> T_base                       |
+| 2) Evict set S : attacker fills all ways of one cache set       |
+| 3) Victim rerun : victim(input) -> T_evict                      |
+| 4) Compare      : ΔT = T_evict - T_base                         |
+| 5) Repetition   : if ΔT stays positive, set S likely mattered   |
++------------------------------------------------------------------+
 ```
 
 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 단 한 번 느려졌다고 바로 공격이 성립하는 것은 아니다. 핵심은 같은 입력 조건을 반복했을 때, 특정 세트를 eviction한 경우에만 평균값이나 중앙값이 유의미하게 오른다는 사실을 포착하는 데 있다.
@@ -61,15 +61,15 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 아래 그림은 한 캐시 세트가 eviction된 뒤 피해자가 다시 같은 세트를 쓰면서 refill penalty를 떠안는 구조를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Example: one 4-way cache set S                                 │
-├──────────────────────────────────────────────────────────────────┤
-│ Before attack : [ V0 ][ V1 ][ V2 ][ V3 ]  victim-owned lines    │
-│ Attacker fill : [ A0 ][ A1 ][ A2 ][ A3 ]  same-set addresses    │
-│ After eviction: [ A0 ][ A1 ][ A2 ][ A3 ]  victim lines gone     │
-│ Victim rerun   : needs set S -> refill from lower cache / DRAM   │
-│ Observable     : extra misses accumulate into total runtime      │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Example: one 4-way cache set S                                 |
++------------------------------------------------------------------+
+| Before attack : [ V0 ][ V1 ][ V2 ][ V3 ]  victim-owned lines    |
+| Attacker fill : [ A0 ][ A1 ][ A2 ][ A3 ]  same-set addresses    |
+| After eviction: [ A0 ][ A1 ][ A2 ][ A3 ]  victim lines gone     |
+| Victim rerun   : needs set S -> refill from lower cache / DRAM   |
+| Observable     : extra misses accumulate into total runtime      |
++------------------------------------------------------------------+
 ```
 
 이 기법의 본질은 캐시를 "훔쳐보는" 것이 아니라 캐시를 "괴롭혀서 느려지게 만드는" 데 있다. 그래서 관찰 해상도는 낮지만, 공격자가 볼 수 있는 정보가 전체 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)뿐일 때도 성립 여지가 생긴다.
@@ -152,17 +152,17 @@ Evict+Time을 이해하면 [성능](/knowledge-base/studynote/04_software_engine
 
 ```text
 캐시 집합 연관 구조 이해
-    │
-    ▼
+    |
+    v
 Conflict Miss · Eviction Set
-    │
-    ▼
+    |
+    v
 Evict+Time (전체 실행 시간 관찰)
-    │
-    ├──► Prime+Probe (세트 상태 직접 관찰)
-    └──► Flush+Reload (공유 라인 정밀 관찰)
-    │
-    ▼
+    |
+    +--► Prime+Probe (세트 상태 직접 관찰)
+    +--► Flush+Reload (공유 라인 정밀 관찰)
+    |
+    v
 Constant-time 구현 · 캐시 격리 · 타이머 완화
 ```
 
@@ -180,7 +180,7 @@ Constant-time 구현 · 캐시 격리 · 타이머 완화
 
 **진행 상황**: 778 / 803
 
-← **이전**: [776. Flush+Reload 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/776_flush_reload/)
-**다음**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/) →
+<- **이전**: [776. Flush+Reload 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/776_flush_reload/)
+**다음**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/) ->
 
 ---

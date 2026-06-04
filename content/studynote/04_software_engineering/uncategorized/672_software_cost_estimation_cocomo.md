@@ -32,30 +32,30 @@ tags = ["studynote-software-engineering"]
 기존 경험적 추정 방식과 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델이 프로젝트 복잡도를 다루는 방식의 차이를 시각화하면 다음과 같다. 규모가 커질수록 직관적 추정은 실제 필요 노력을 과소평가하는 경향이 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         규모(LOC)에 따른 필요 노력(Effort) 증가 곡선      │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  노력(PM)                                                │
-  │   ▲                                    / Embedded       │
-  │   │                                  /  (복잡함, 지수 큼) │
-  │   │                                /                    │
-  │   │                              /                      │
-  │   │                            /  Semi-detached         │
-  │   │                         /    (중간)                 │
-  │   │                      /                              │
-  │   │                    /     Organic                    │
-  │   │                 /       (단순, 지수 작음)            │
-  │   │              /                                      │
-  │   │   . . . . ./ . . . . . . 직관적/선형적 추정(실패 원인) │
-  │   │                                                     │
-  │   └───────────────────────────────────────────▶ 규모  │
-  │                                              (KLOC)     │
-  │                                                         │
-  │  ※ 공식: Effort(PM) = a * (KLOC)^b                       │
-  │     규모가 커질수록 의사소통 비용 등으로 인해              │
-  │     필요 노력이 기하급수적으로 증가함. (b > 1.0)          │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         규모(LOC)에 따른 필요 노력(Effort) 증가 곡선      |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  노력(PM)                                                |
+  |   ^                                    / Embedded       |
+  |   |                                  /  (복잡함, 지수 큼) |
+  |   |                                /                    |
+  |   |                              /                      |
+  |   |                            /  Semi-detached         |
+  |   |                         /    (중간)                 |
+  |   |                      /                              |
+  |   |                    /     Organic                    |
+  |   |                 /       (단순, 지수 작음)            |
+  |   |              /                                      |
+  |   |   . . . . ./ . . . . . . 직관적/선형적 추정(실패 원인) |
+  |   |                                                     |
+  |   +--------------------------------------------> 규모  |
+  |                                              (KLOC)     |
+  |                                                         |
+  |  ※ 공식: Effort(PM) = a * (KLOC)^b                       |
+  |     규모가 커질수록 의사소통 비용 등으로 인해              |
+  |     필요 노력이 기하급수적으로 증가함. (b > 1.0)          |
+  +---------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 그래프의 핵심은 소프트웨어 개발 노력이 규모(KLOC)에 비례하여 선형적으로 증가하지 않는다는 점이다. 사람이 늘어나고 시스템 단위가 커질수록 인터페이스 복잡도와 커뮤니케이션 오버헤드가 기하급수적으로 증가하기 때문이다. COCOMO는 방정식의 지수(b) 값을 프로젝트 복잡도(Organic, Semi-detached, Embedded)에 따라 다르게 부여하여 이 비선형성을 수학적으로 모델링했다. 따라서 대규모의 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)(Embedded)일수록 동일한 코드를 짜더라도 훨씬 더 가파른 비용 증가 곡선을 그리게 된다.
@@ -161,21 +161,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 소프트웨어 비용 산정 COCOMO 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -189,7 +189,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 845 / 973
 
-← **이전**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/672_cocomo_cost_estimation_modes/)
-**다음**: [673. 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF)](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) →
+<- **이전**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/672_cocomo_cost_estimation_modes/)
+**다음**: [673. 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF)](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) ->
 
 ---

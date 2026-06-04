@@ -12,7 +12,7 @@ tags = ["studynote-database"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OUTER JOIN은 <strong>매칭되지 않는 행도 NULL로 채워서 포함</strong>하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.
 > 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 찾는 데 필수</strong>이며, LEFT JOIN이 가장 빈번하게 사용된다.
-> 3. **판단 포인트**: LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) + WHERE right.id IS NULL → <strong>비매칭만 추출</strong>하는 Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 핵심이다.
+> 3. **판단 포인트**: LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) + WHERE right.id IS NULL -> <strong>비매칭만 추출</strong>하는 Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 핵심이다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-database"]
 LEFT JOIN:  왼쪽 전체 + 오른쪽 매칭 (없으면 NULL)
 RIGHT JOIN: 오른쪽 전체 + 왼쪽 매칭 (없으면 NULL)
 FULL JOIN:  양쪽 전체 (없으면 NULL)
-Anti-Join:  LEFT JOIN WHERE right.id IS NULL → 비매칭만
+Anti-Join:  LEFT JOIN WHERE right.id IS NULL -> 비매칭만
 ```
 
 - **📢 섹션 요약 비유**: LEFT JOIN은 "A반 전체 명단 + B반 겹치는 사람 표시, 안 겹치면 빈칸"이다.
@@ -48,9 +48,9 @@ OUTER JOIN은 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/0
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Cartesian Product] → [INNER JOIN (교집합)]
-    → [OUTER JOIN (SQL-92)] → [Anti-Join 패턴]
-    → [LATERAL JOIN (SQL:2003)] → [현재: Semi-Join 최적화]
+[Cartesian Product] -> [INNER JOIN (교집합)]
+    -> [OUTER JOIN (SQL-92)] -> [Anti-Join 패턴]
+    -> [LATERAL JOIN (SQL:2003)] -> [현재: Semi-Join 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ OUTER JOIN은 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/0
 
 **진행 상황**: 134 / 600
 
-← **이전**: [133. SQL INNER JOIN - 교집합 결합의 기본](/knowledge-base/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/)
-**다음**: [135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합](/knowledge-base/studynote/05_database/03_relational_model/135_sql_non_equi_join/) →
+<- **이전**: [133. SQL INNER JOIN - 교집합 결합의 기본](/knowledge-base/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/)
+**다음**: [135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합](/knowledge-base/studynote/05_database/03_relational_model/135_sql_non_equi_join/) ->
 
 ---

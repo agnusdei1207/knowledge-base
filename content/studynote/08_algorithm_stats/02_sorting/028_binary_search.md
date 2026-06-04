@@ -41,11 +41,11 @@ tags = ["studynote-algorithm"]
 BinarySearch(arr, target):
   left = 0, right = n - 1
   while left <= right:
-    mid = left + (right - left) / 2  ← 오버플로우 방지
+    mid = left + (right - left) / 2  <- 오버플로우 방지
     if arr[mid] == target: return mid
     elif arr[mid] < target: left = mid + 1
     else: right = mid - 1
-  return -1  ← 찾지 못함
+  return -1  <- 찾지 못함
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 탐색 과정
@@ -55,26 +55,26 @@ BinarySearch(arr, target):
 인덱스: 0  1  2  3  4   5   6   7   8   9
 목표: 7
 
-── 1단계 ──────────────────────────────────────
+-- 1단계 --------------------------------------
 left=0, right=9, mid=4
-arr[4]=9 > 7 → right = mid - 1 = 3
-[1, 3, 5, 7] ← 탐색 범위 절반으로
+arr[4]=9 > 7 -> right = mid - 1 = 3
+[1, 3, 5, 7] <- 탐색 범위 절반으로
 
-── 2단계 ──────────────────────────────────────
+-- 2단계 --------------------------------------
 left=0, right=3, mid=1
-arr[1]=3 < 7 → left = mid + 1 = 2
-      [5, 7] ← 탐색 범위 또 절반
+arr[1]=3 < 7 -> left = mid + 1 = 2
+      [5, 7] <- 탐색 범위 또 절반
 
-── 3단계 ──────────────────────────────────────
+-- 3단계 --------------------------------------
 left=2, right=3, mid=2
-arr[2]=5 < 7 → left = mid + 1 = 3
-         [7] ← 범위 1
+arr[2]=5 < 7 -> left = mid + 1 = 3
+         [7] <- 범위 1
 
-── 4단계 ──────────────────────────────────────
+-- 4단계 --------------------------------------
 left=3, right=3, mid=3
-arr[3]=7 == 7 → 발견! 인덱스 3 반환 ✅
+arr[3]=7 == 7 -> 발견! 인덱스 3 반환 ✅
 
-총 4단계 (log₂(10) ≈ 3.32, 올림 → 4)
+총 4단계 (log₂(10) ≈ 3.32, 올림 -> 4)
 ```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
@@ -92,12 +92,12 @@ arr[3]=7 == 7 → 발견! 인덱스 3 반환 ✅
 
 ```
 Lower Bound (lower_bound): target 이상의 첫 번째 위치
-  → arr[mid] < target: left = mid + 1
-  → arr[mid] >= target: right = mid  ← (right = mid-1 이 아님!)
+  -> arr[mid] < target: left = mid + 1
+  -> arr[mid] >= target: right = mid  <- (right = mid-1 이 아님!)
 
 Upper Bound (upper_bound): target 초과의 첫 번째 위치
-  → arr[mid] <= target: left = mid + 1
-  → arr[mid] > target: right = mid
+  -> arr[mid] <= target: left = mid + 1
+  -> arr[mid] > target: right = mid
 
 예시: arr = [1, 2, 2, 2, 3, 4], target = 2
   lower_bound = 인덱스 1 (첫 번째 2)
@@ -111,8 +111,8 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ```
 문제: "K명 이상 들어가는 가장 작은 버스 용량은?"
-  → 버스 용량 x에 대해 "x로 K명 수용 가능한가?" 판단 함수 작성
-  → 이분 탐색으로 최솟값 탐색 (단조 증가/감소 조건 필수)
+  -> 버스 용량 x에 대해 "x로 K명 수용 가능한가?" 판단 함수 작성
+  -> 이분 탐색으로 최솟값 탐색 (단조 증가/감소 조건 필수)
 ```
 
 📢 **섹션 요약 비유**: Lower/Upper Bound는 도서관에서 같은 제목의 책이 여러 권 있을 때, "첫 번째 책이 어디?"(Lower)와 "마지막 책 다음이 어디?"(Upper)를 찾는 것과 같다.
@@ -129,7 +129,7 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 |:---|:---|:---|
 | 무한 루프 | `while left < right` (Lower Bound) | `while left < right` + `mid = left + (right-left)/2` + `right = mid` |
 | 범위 초과 | `mid = (left + right) / 2` | `mid = left + (right - left) / 2` ([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지) |
-| 끝 조건 | `right = n` → 올바름 | `right = n - 1` → 기본 탐색에 올바름 |
+| 끝 조건 | `right = n` -> 올바름 | `right = n - 1` -> 기본 탐색에 올바름 |
 
 ### 이분 탐색 응용 비교
 
@@ -151,32 +151,32 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 ### 실무 시나리오
 
 <strong>시나리오 1 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 각 노드 내 키 탐색
-→ 페이지당 수백 개 키에 이분 탐색 → O(log n) 탐색 보장
+-> 페이지당 수백 개 키에 이분 탐색 -> O(log n) 탐색 보장
 
 **시나리오 2 — 컴파일러 심볼 테이블**: 정렬된 심볼 목록에서 변수명 탐색
-→ 이분 탐색으로 O(log n) 조회
+-> 이분 탐색으로 O(log n) 조회
 
 <strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/">이진 탐색 트리</a>(BST)</strong>: 이분 탐색의 구조화된 형태
-→ 삽입/삭제가 가능한 동적 이분 탐색 구조
+-> 삽입/삭제가 가능한 동적 이분 탐색 구조
 
 **시나리오 4 — 업무 최적화 문제**: "최소 배송 비용으로 D일 이내 전달 가능한가?"
-→ 매개변수 탐색: 비용 x에 대해 판단 함수 설계 후 이분 탐색
+-> 매개변수 탐색: 비용 x에 대해 판단 함수 설계 후 이분 탐색
 
 ### 기술사 구현 주의사항
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  이분 탐색 구현 체크리스트                            │
-│                                                      │
-│  1. 전제 조건 확인: 배열이 정렬되어 있는가?           │
-│  2. 인덱스 초기화: left=0, right=n-1 (기본 탐색)     │
-│                    left=0, right=n (Lower/Upper Bound)│
-│  3. mid 계산: left + (right-left)/2 (오버플로우 방지) │
-│  4. 루프 조건: while left <= right (기본)            │
-│                while left < right (Lower/Upper Bound) │
-│  5. 업데이트: 항상 범위가 줄어드는지 확인            │
-│  6. 반환값: -1 (미발견) vs lower_bound (삽입 위치)   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  이분 탐색 구현 체크리스트                            |
+|                                                      |
+|  1. 전제 조건 확인: 배열이 정렬되어 있는가?           |
+|  2. 인덱스 초기화: left=0, right=n-1 (기본 탐색)     |
+|                    left=0, right=n (Lower/Upper Bound)|
+|  3. mid 계산: left + (right-left)/2 (오버플로우 방지) |
+|  4. 루프 조건: while left <= right (기본)            |
+|                while left < right (Lower/Upper Bound) |
+|  5. 업데이트: 항상 범위가 줄어드는지 확인            |
+|  6. 반환값: -1 (미발견) vs lower_bound (삽입 위치)   |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 이분 탐색 구현의 off-by-one은 마치 자물쇠 조합의 마지막 숫자 같다. 1999번까지 맞다가 2000번째 조합만 틀리면 문이 열리지 않는다.
@@ -191,7 +191,7 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 | 효과 | 내용 |
 |:---|:---|
-| 극적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | n=10억에서 O(n)→O(log n): 10억 → 30 비교 |
+| 극적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | n=10억에서 O(n)->O(log n): 10억 -> 30 비교 |
 | 범용 응용 | Lower/Upper Bound, 매개변수 탐색으로 확장 |
 | 시스템 기반 | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, BST의 근원 |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이성 | 단순한 로직으로 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 증명이 쉬움 |
@@ -204,27 +204,27 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST) | → 구조화 확장 | 동적 삽입/삭제 지원 |
-| B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | → 실무 응용 | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 |
-| 매개변수 탐색 | → 응용 패턴 | 해 공간 이분 탐색 |
-| 분할정복 | → 설계 패러다임 | 절반씩 줄이는 원리 |
-| Lower/Upper Bound | → 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 중복값 범위 탐색 |
+| [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST) | -> 구조화 확장 | 동적 삽입/삭제 지원 |
+| B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | -> 실무 응용 | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 |
+| 매개변수 탐색 | -> 응용 패턴 | 해 공간 이분 탐색 |
+| 분할정복 | -> 설계 패러다임 | 절반씩 줄이는 원리 |
+| Lower/Upper Bound | -> 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 중복값 범위 탐색 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [선형 탐색 (Linear Search) — O(n), 정렬 불필요]
-    │
-    ▼
+    |
+    v
 [이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수]
-    │
-    ▼
+    |
+    v
 [하한/상한 (Lower/Upper Bound) — 중복값 범위 탐색 변형]
-    │
-    ▼
+    |
+    v
 [매개변수 탐색 (Parametric Search) — 해 공간 이분 탐색, 최적화 문제]
-    │
-    ▼
+    |
+    v
 [이진 탐색 트리 (BST) / B-트리 — 동적 데이터 구조로 확장]
 ```
 이분 탐색은 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 범위를 반으로 줄이는 분할 원리를 바탕으로, Lower/Upper Bound·매개변수 탐색·BST 등 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 자료구조로 확장된다.
@@ -241,7 +241,7 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 **진행 상황**: 28 / 175
 
-← **이전**: [17. 정렬 네트워크 (Sorting Network) — 병렬 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)
-**다음**: [18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/) →
+<- **이전**: [17. 정렬 네트워크 (Sorting Network) — 병렬 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)
+**다음**: [18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/) ->
 
 ---

@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) | 소비 가능한 산출물 | 발견성, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
 
 ```text
-┌──────────────┐   publish   ┌──────────────┐   discover   ┌──────────────┐
-│ Domain Team A│ ──────────▶ │ Data Product │ ───────────▶ │ Consumers    │
-└──────────────┘             └──────────────┘              └──────────────┘
-        ▲                             ▲                             │
-        │ tooling                     │ policy                      │ feedback
-        │                             │                             ▼
-┌──────────────┐             ┌──────────────┐              ┌──────────────┐
-│ Platform Team│ ──────────▶ │ Governance   │ ◀─────────── │ Domain Team B│
-└──────────────┘             └──────────────┘              └──────────────┘
++--------------+   publish   +--------------+   discover   +--------------+
+| Domain Team A| -----------> | Data Product | ------------> | Consumers    |
++--------------+             +--------------+              +--------------+
+        ^                             ^                             |
+        | tooling                     | policy                      | feedback
+        |                             |                             v
++--------------+             +--------------+              +--------------+
+| Platform Team| -----------> | Governance   | <------------ | Domain Team B|
++--------------+             +--------------+              +--------------+
 ```
 
 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 핵심 원리는 “[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성”과 “플랫폼 표준화”의 균형이다. 자율성만 강조하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)마다 포맷과 용어가 달라져 소비가 어려워지고, 표준화만 강조하면 다시 중앙팀 병목으로 회귀한다. 따라서 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 아니라 운영 모델로 이해해야 한다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Central Data Team
-   │
-   ▼
+   |
+   v
 Self-service Platform
-   │
-   ▼
+   |
+   v
 Domain-owned Data Product
-   │
-   ▼
+   |
+   v
 Federated Governance + Data Mesh
 ```
 
-이 흐름은 “중앙 처리 → 플랫폼화 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스”로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조직이 진화하는 방향을 보여준다.
+이 흐름은 “중앙 처리 -> 플랫폼화 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스”로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조직이 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Federated Governance + Data Mesh
 
 **진행 상황**: 343 / 373
 
-← **이전**: [342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/)
-**다음**: [344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)](/knowledge-base/studynote/15_devops_sre/05_devsecops/344_process/) →
+<- **이전**: [342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/)
+**다음**: [344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)](/knowledge-base/studynote/15_devops_sre/05_devsecops/344_process/) ->
 
 ---

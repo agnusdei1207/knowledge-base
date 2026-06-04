@@ -44,23 +44,23 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 화이트박스가 왜 "장비"보다 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)"으로 이해되어야 하는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Whitebox switch stack: hardware and software are independently replaceable   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Routing / Policy / Telemetry                                                 │
-│                           │                                                  │
-│                           ▼                                                  │
-│ NOS (SONiC, FBOSS, Cumulus ...)                                              │
-│                           │                                                  │
-│                           ▼                                                  │
-│ SAI (Switch Abstraction Interface)                                           │
-│                           │                                                  │
-│                           ▼                                                  │
-│ Vendor Software Kit / Driver                                                 │
-│                           │                                                  │
-│                           ▼                                                  │
-│ Merchant Silicon ASIC -> Parser -> Match/Action -> Queue -> Port             │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Whitebox switch stack: hardware and software are independently replaceable   |
++------------------------------------------------------------------------------+
+| Routing / Policy / Telemetry                                                 |
+|                           |                                                  |
+|                           v                                                  |
+| NOS (SONiC, FBOSS, Cumulus ...)                                              |
+|                           |                                                  |
+|                           v                                                  |
+| SAI (Switch Abstraction Interface)                                           |
+|                           |                                                  |
+|                           v                                                  |
+| Vendor Software Kit / Driver                                                 |
+|                           |                                                  |
+|                           v                                                  |
+| Merchant Silicon ASIC -> Parser -> Match/Action -> Queue -> Port             |
++------------------------------------------------------------------------------+
 ```
 
 여기서 실질적 성능은 대부분 상용 실리콘 ASIC의 패킷 파이프라인이 결정한다. 패킷은 파서(Parser)를 거쳐 테이블 매칭을 수행하고, 삼진 내용 주소 지정 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/), Ternary Content-Addressable Memory)와 버퍼·스케줄러를 통해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나간다. 반면 운영 유연성은 NOS와 SAI가 결정한다. 즉 화이트박스는 성능을 새로 만드는 기술이라기보다, 이미 충분히 빠른 하드웨어를 더 자유롭게 쓰게 만드는 아키텍처다.
@@ -134,20 +134,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전통 블랙박스 스위치
-    │
-    ▼
+    |
+    v
 Merchant Silicon 확산
-    │
-    ▼
+    |
+    v
 ONIE + Open NOS
-    │
-    ▼
+    |
+    v
 SAI 기반 하드웨어/소프트웨어 분리
-    │
-    ▼
+    |
+    v
 SONiC · 자동화 패브릭 · SDN 운영
-    │
-    ▼
+    |
+    v
 P4 · DPU · Intent-Based Fabric
 ```
 
@@ -165,7 +165,7 @@ P4 · DPU · Intent-Based Fabric
 
 **진행 상황**: 634 / 803
 
-← **이전**: [632. SDS (Software Defined Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)
-**다음**: [634. 엣지 AI 칩 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/634_edge_ai_chip/) →
+<- **이전**: [632. SDS (Software Defined Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)
+**다음**: [634. 엣지 AI 칩 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/634_edge_ai_chip/) ->
 
 ---

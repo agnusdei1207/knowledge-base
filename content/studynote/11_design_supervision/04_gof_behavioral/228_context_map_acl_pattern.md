@@ -31,7 +31,7 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 - 변경 시 전체 시스템 영향도 증가
 - 팀 간 조율 비용 폭증
 
-**해결**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)별로 독립된 모델을 유지하되, 경계([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 명확히 정의 → [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/).
+**해결**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)별로 독립된 모델을 유지하되, 경계([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 명확히 정의 -> [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/).
 
 ```
 레거시 시스템 통합:
@@ -40,17 +40,17 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 
   ACL 없이 직접 참조:
     Order 도메인 내부에 CUST_NM, ADDR_CD 등 레거시 용어 침투
-    → 도메인 모델 오염, 가독성 파괴
+    -> 도메인 모델 오염, 가독성 파괴
 
   ACL 적용:
-    CustomerAdapter.translate(CUST_TBL 레코드) → Customer(name, address)
+    CustomerAdapter.translate(CUST_TBL 레코드) -> Customer(name, address)
     Order 도메인은 깨끗한 Customer 모델만 참조
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: ACL은 공항 입국 심사관 — 어떤 외국인(외부 모델)이 들어오더라도 입국 심사관([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))이 우리나라 규정(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)에 맞게 처리하고, 의심스러운 것(오염 요소)은 걸러낸다.
@@ -59,42 +59,42 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   Context Map 관계 유형                          │
-│                                                                 │
-│  [주문 컨텍스트] ─────── Shared Kernel ──────── [결제 컨텍스트]  │
-│      (공유 라이브러리로 일부 모델 공유)                            │
-│                                                                 │
-│  [주문 컨텍스트] ─── Customer-Supplier ──▶ [재고 컨텍스트]        │
-│      (주문=고객, 재고=공급자 → 주문이 요구사항 정의)               │
-│                                                                 │
-│  [CRM 컨텍스트] ────── Conformist ──────▶ [외부 SAP 시스템]      │
-│      (외부 모델을 그대로 따름, 협상력 없음)                        │
-│                                                                 │
-│  [배송 컨텍스트] ──── ACL ──────────────▶ [레거시 물류 시스템]    │
-│      (번역 계층으로 레거시 모델 차단)       ← 우리가 번역           │
-│                                                                 │
-│  [공개 API 컨텍스트] ─ Open Host Service ▶ [다수의 소비자]        │
-│      (표준화된 공개 프로토콜로 서비스 제공)                        │
-│                                                                 │
-│  [이벤트 컨텍스트] ─── Published Language ▶ [다수의 소비자]       │
-│      (표준 이벤트 스키마/메시지 형식 발행)                         │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                   Context Map 관계 유형                          |
+|                                                                 |
+|  [주문 컨텍스트] ------- Shared Kernel -------- [결제 컨텍스트]  |
+|      (공유 라이브러리로 일부 모델 공유)                            |
+|                                                                 |
+|  [주문 컨텍스트] --- Customer-Supplier ---> [재고 컨텍스트]        |
+|      (주문=고객, 재고=공급자 -> 주문이 요구사항 정의)               |
+|                                                                 |
+|  [CRM 컨텍스트] ------ Conformist -------> [외부 SAP 시스템]      |
+|      (외부 모델을 그대로 따름, 협상력 없음)                        |
+|                                                                 |
+|  [배송 컨텍스트] ---- ACL ---------------> [레거시 물류 시스템]    |
+|      (번역 계층으로 레거시 모델 차단)       <- 우리가 번역           |
+|                                                                 |
+|  [공개 API 컨텍스트] - Open Host Service -> [다수의 소비자]        |
+|      (표준화된 공개 프로토콜로 서비스 제공)                        |
+|                                                                 |
+|  [이벤트 컨텍스트] --- Published Language -> [다수의 소비자]       |
+|      (표준 이벤트 스키마/메시지 형식 발행)                         |
++-----------------------------------------------------------------+
 ```
 
 ```
 외부 시스템                   ACL                    내부 도메인
-┌─────────────┐        ┌─────────────────┐        ┌─────────────┐
-│  레거시 API  │        │  ┌───────────┐  │        │ Order       │
-│             │──HTTP─▶│  │ Adapter   │  │──────▶│ Domain      │
-│ {CUST_ID:   │        │  │ (외부 호출)│  │        │             │
-│  "C001",    │        │  └─────┬─────┘  │        │ Customer {  │
-│  CUST_NM:   │        │        │ 변환    │        │   name,     │
-│  "홍길동",   │        │  ┌─────▼─────┐  │        │   address   │
-│  STAT_FLG:  │        │  │Translator │  │        │ }           │
-│  "Y" }      │        │  │(모델 변환) │  │        └─────────────┘
-└─────────────┘        │  └───────────┘  │
-                       └─────────────────┘
++-------------+        +-----------------+        +-------------+
+|  레거시 API  |        |  +-----------+  |        | Order       |
+|             |--HTTP-->|  | Adapter   |  |------->| Domain      |
+| {CUST_ID:   |        |  | (외부 호출)|  |        |             |
+|  "C001",    |        |  +-----+-----+  |        | Customer {  |
+|  CUST_NM:   |        |        | 변환    |        |   name,     |
+|  "홍길동",   |        |  +-----v-----+  |        |   address   |
+|  STAT_FLG:  |        |  |Translator |  |        | }           |
+|  "Y" }      |        |  |(모델 변환) |  |        +-------------+
++-------------+        |  +-----------+  |
+                       +-----------------+
 ```
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 설명 | 팀 협력도 | 모델 독립성 |
@@ -122,13 +122,13 @@ public class LegacyCustomerACL {
         return legacyClient.getCustomer(custId);  // 레거시 DTO
     }
 
-    // Translator: 레거시 모델 → 우리 도메인 모델 변환
+    // Translator: 레거시 모델 -> 우리 도메인 모델 변환
     public Customer translate(LegacyCustomerDTO dto) {
         return Customer.of(
             CustomerId.of(dto.getCustId()),
-            CustomerName.of(dto.getCustNm()),      // 약어 → 명확한 이름
-            Address.of(resolveAddressCode(dto.getAddrCd())),  // 코드 → 의미
-            CustomerStatus.from(dto.getStatFlg())  // Y/N → Enum
+            CustomerName.of(dto.getCustNm()),      // 약어 -> 명확한 이름
+            Address.of(resolveAddressCode(dto.getAddrCd())),  // 코드 -> 의미
+            CustomerStatus.from(dto.getStatFlg())  // Y/N -> Enum
         );
     }
 
@@ -148,7 +148,7 @@ public class LegacyCustomerACL {
 | 범위 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 전체 | 개별 클래스/인터페이스 |
 | 포함 요소 | [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) + Translator + [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) | 인터페이스 변환만 |
 
-- **📢 섹션 요약 비유**: [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) Pattern은 플러그 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(220V → 110V 변환), ACL은 외교관(두 나라 문화·법률·언어를 이해하고 양쪽에 맞게 해석)이다. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 형태만 바꾸고, ACL은 의미를 번역한다.
+- **📢 섹션 요약 비유**: [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) Pattern은 플러그 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(220V -> 110V 변환), ACL은 외교관(두 나라 문화·법률·언어를 이해하고 양쪽에 맞게 해석)이다. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 형태만 바꾸고, ACL은 의미를 번역한다.
 
 ---
 
@@ -157,20 +157,20 @@ public class LegacyCustomerACL {
 MSA(Microservice Architecture) 환경:
 
   [주문 서비스]    ACL    [외부 결제 게이트웨이]
-       │          │       (PayPal, Stripe, KG이니시스)
-       │          │       각 결제사마다 다른 API 모델
-       │          ▼
-       └─▶ PaymentACL
-             ├── PaypalAdapter   (PayPal API 번역)
-             ├── StripeAdapter   (Stripe API 번역)
-             └── KGiniAdapter    (KG이니시스 API 번역)
-             │
-             └─▶ 내부: Payment(amount, currency, method, status)
+       |          |       (PayPal, Stripe, KG이니시스)
+       |          |       각 결제사마다 다른 API 모델
+       |          v
+       +--> PaymentACL
+             +-- PaypalAdapter   (PayPal API 번역)
+             +-- StripeAdapter   (Stripe API 번역)
+             +-- KGiniAdapter    (KG이니시스 API 번역)
+             |
+             +--> 내부: Payment(amount, currency, method, status)
              (모든 결제사 차이를 ACL 내부에서 흡수)
 ```
 
 ```
-외부 이벤트 → ACL → 내부 도메인 이벤트
+외부 이벤트 -> ACL -> 내부 도메인 이벤트
 
 외부: {"event": "ORDER_PLACED", "custId": "C001", "items": [...]}
 ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
@@ -228,7 +228,7 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 | 적용 사례 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 결제 게이트웨이 통합 | ACL로 복수 결제사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 번역 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) → [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵과 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴 → 통합 번역 계층
+[Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) -> [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵과 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴 -> 통합 번역 계층
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ACL은 다른 나라(외부 시스템) 말을 우리말로 통역해주는 통역사 — 외국어(레거시 모델)가 우리 방(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 직접 들어오지 못하게 막아줘.
@@ -241,7 +241,7 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 
 **진행 상황**: 289 / 530
 
-← **이전**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/)
-**다음**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/) →
+<- **이전**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/)
+**다음**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/) ->
 
 ---

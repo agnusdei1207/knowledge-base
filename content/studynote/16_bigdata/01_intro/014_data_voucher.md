@@ -27,14 +27,14 @@ tags = ["bigdata"]
 이 도식은 데이터바우처 사업이 개입하기 전후의 중소기업 '데이터 격차(Data Divide)' 문제 해결 과정을 시각화한 것이다.
 
 [도입 전: 양극화 심화]
-대기업 ──(자본)──> [자체 데이터 수집/가공] ──> AI 혁신 및 독점
-중소기업 ──(비용 한계)──> 데이터 부재 ──> 경쟁력 도태
+대기업 --(자본)--> [자체 데이터 수집/가공] --> AI 혁신 및 독점
+중소기업 --(비용 한계)--> 데이터 부재 --> 경쟁력 도태
 
 [도입 후: 생태계 마중물 역할]
-정부 ──(바우처 지급)──> [중소/스타트업 (수요기업)]
-                            │ (바우처 결제)
-                            ↓
-                      [데이터 판매/가공 (공급기업)] ──(고품질 데이터/AI 셋)──> 중소기업 비즈니스 혁신
+정부 --(바우처 지급)--> [중소/스타트업 (수요기업)]
+                            | (바우처 결제)
+                            v
+                      [데이터 판매/가공 (공급기업)] --(고품질 데이터/AI 셋)--> 중소기업 비즈니스 혁신
 ```
 이 도식의 핵심은 정부의 지원이 수요 기업을 거쳐 결국 공급 기업으로 흘러가는 선순환 고리를 형성한다는 점이다. 이런 배치는 시장에 무분별한 현금을 푸는 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 자체의 밸류체인([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))을 강제적으로 가동시키기 때문이며, 따라서 사업 전체의 성공 여부는 수요 기업의 아이디어뿐 아니라 공급 기업의 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)(가공) 역량에 큰 영향을 받는다. 실무에서는 이 지원금을 통해 일회성 분석으로 끝내지 않고, 자사의 지속 가능한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 자산으로 편입시킬 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
@@ -59,11 +59,11 @@ tags = ["bigdata"]
 ```text
 이 흐름도는 수요 기업이 사업에 참여하여 데이터를 획득하고 검수받기까지의 순차적 상태 전이도를 보여준다.
 
-[기획] ──① 사업계획/매칭──> [협약] ──② 바우처 발급──> [수행] ──③ 데이터 전달/가공──> [검수]
-  │                           │                         │                          │
+[기획] --① 사업계획/매칭--> [협약] --② 바우처 발급--> [수행] --③ 데이터 전달/가공--> [검수]
+  |                           |                         |                          |
 (수요+공급 협의)          (전담 기관 승인)      (ETL / AI Labeling 수행)     (품질/수량 감리)
-                                                        │                          │
-                                                        └─(수요기업 피드백)─<───(보완 요구)
+                                                        |                          |
+                                                        +-(수요기업 피드백)-<---(보완 요구)
 ```
 이 흐름의 핵심은 협약 이후 수행 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 실질적 가공(③)이 일어나는 동안 수요 기업과 공급 기업 간의 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)가 위치한다는 점이다. 이런 배치는 공급자가 일방적으로 덤프(Dump) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져주고 끝내는 것을 막기 때문이며, 따라서 최종 산출물의 품질은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업계획서에 명시된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))와 라벨링 가이드라인의 정교함에 의해 결정된다. 실무에서는 이 지점의 [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)가 모호할 경우, 나중에 쓸모없는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(GIGO)를 넘겨받고도 검수를 통과해야 하는 병목이 발생할 수 있다.
 
@@ -101,14 +101,14 @@ dataset_spec:
 ```text
 이 매트릭스는 바우처 사업 내 일반 데이터 구매와 AI 가공 지원의 파이프라인 차이를 보여준다.
 
-┌────────────┬─────────────────────────────┬────────────────────────────────┐
-│ 비교 항목  │ 구매 바우처 파이프라인      │ AI 가공 바우처 파이프라인      │
-├────────────┼─────────────────────────────┼────────────────────────────────┤
-│ 핵심 작업  │ Data Transfer (이관)        │ Data Annotation (라벨링/태깅)  │
-│ 주요 대상  │ 기상, 금융, 상권 기성 데이터│ 이미지, 음성, 비정형 텍스트    │
-│ 투입 인력  │ DBA / Data Engineer         │ Crowdsourcing Workers / AI Dev │
-│ 결과물 형태│ CSV, JSON DB Dump           │ JSON(COCO 포맷), XML 등        │
-└────────────┴─────────────────────────────┴────────────────────────────────┘
++------------+-----------------------------+--------------------------------+
+| 비교 항목  | 구매 바우처 파이프라인      | AI 가공 바우처 파이프라인      |
++------------+-----------------------------+--------------------------------+
+| 핵심 작업  | Data Transfer (이관)        | Data Annotation (라벨링/태깅)  |
+| 주요 대상  | 기상, 금융, 상권 기성 데이터| 이미지, 음성, 비정형 텍스트    |
+| 투입 인력  | DBA / Data Engineer         | Crowdsourcing Workers / AI Dev |
+| 결과물 형태| CSV, JSON DB Dump           | JSON(COCO 포맷), XML 등        |
++------------+-----------------------------+--------------------------------+
 ```
 일반 구매 방식은 즉시 조회가 가능한 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 확보에 유리하지만, 독창적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 설계에는 한계가 있다. 반면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 방식은 단기적인 커뮤니케이션 오버헤드와 검수 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 다소 크지만, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 자사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델에 정확히 맞출 수 있어, 원천 기술 중심의 스타트업 환경에서는 핵심 역량 기준으로 훨씬 강력한 무기가 될 수 있다.
 
@@ -136,7 +136,7 @@ dataset_spec:
 이 도식은 데이터바우처 수행 시 발생할 수 있는 요구사항 불일치와 장애 전파 구조를 보여준다.
 
 [수요기업: 모호한 지시] => [공급기업: 일괄 처리] => [전담기관: 외형 통과] => [수요기업 Dev팀: 재정제]
-          ▲                                                             ▲
+          ^                                                             ^
  (형식적 스키마 정의 누락)                                          (내부 엔지니어링 리소스 낭비)
 ```
 이 흐름의 핵심은 외형적 감리(검수)가 실제 시스템 활용의 성공을 보장하지 않는다는 점이다. 이런 구조적 틈은 수요 기업의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식과 공급 기업의 가공 인력 간에 발생하는 시맨틱 갭(Semantic Gap) 때문이며, 따라서 프로젝트의 진짜 성패는 중간 관리자(PM)가 정의한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 정의서 수준에 의해 완전히 제한된다. 실무에서는 이러한 재정제 오버헤드를 막기 위해, 전체 수량 가공 전 '1% 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 먼저 납품받아 실제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 태워보는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 필수 의사결정 플로우에 넣어야 한다.
@@ -165,11 +165,11 @@ dataset_spec:
 ```text
 데이터바우처 사업을 기점으로 한 국가 데이터 생태계의 장기 진화 로드맵이다.
 
-Phase 1: (과거) 예산 집중 지원 ──> 단순 데이터 수집 및 기초 라벨링 (단기 처방)
-  ↓
-Phase 2: (현재) AI 융합 가공 ──> 비전, 자연어 등 고도화된 모델 학습용 셋 구축
-  ↓
-Phase 3: (미래) 자생적 생태계 ──> 바우처 없이도 공급-수요가 맞물려 도는 데이터 거래소 활성화
+Phase 1: (과거) 예산 집중 지원 --> 단순 데이터 수집 및 기초 라벨링 (단기 처방)
+  v
+Phase 2: (현재) AI 융합 가공 --> 비전, 자연어 등 고도화된 모델 학습용 셋 구축
+  v
+Phase 3: (미래) 자생적 생태계 --> 바우처 없이도 공급-수요가 맞물려 도는 데이터 거래소 활성화
 ```
 이 진화 과정의 핵심은 정부 주도의 '마중물(Phase 1,2)'이 결국 민간 주도의 '자생적 시장(Phase 3)'으로 전환된다는 점이다. 이는 무한정 국비를 투입할 수 없는 한계를 극복하기 위함이며, 따라서 미래에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))보다 품질(Veracity)을 증명하는 자동화된 검수 플랫폼의 역할이 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)의 중심에 설 것이다. 실무에서는 지원금에 취해 일회성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소비에 그치지 않고, 자사만의 핵심 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 고도화하여 의존성을 탈피해야 한다.
 
@@ -189,17 +189,17 @@ Phase 3: (미래) 자생적 생태계 ──> 바우처 없이도 공급-수요�
 
 ```text
 [데이터 격차 (Data Divide) — 중소기업의 데이터 구매·활용 역량 부재]
-    │
-    ▼
+    |
+    v
 [데이터바우처 사업 — 정부 지원금으로 데이터 구매·가공·분석 비용 보전]
-    │
-    ▼
+    |
+    v
 [데이터 마켓플레이스 — 공급 기업·수요 기업 연계 데이터 거래 플랫폼]
-    │
-    ▼
+    |
+    v
 [데이터 활용 역량 강화 — AI·분석 인재 양성, 데이터 리터러시 향상]
-    │
-    ▼
+    |
+    v
 [데이터 경제 생태계 — 공공·민간 데이터 결합, 데이터 산업 활성화]
 ```
 
@@ -217,7 +217,7 @@ Phase 3: (미래) 자생적 생태계 ──> 바우처 없이도 공급-수요�
 
 **진행 상황**: 14 / 262
 
-← **이전**: [13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책](/knowledge-base/studynote/16_bigdata/01_intro/013_public_bigdata/)
-**다음**: [15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)](/knowledge-base/studynote/16_bigdata/01_intro/015_open_data_principles/) →
+<- **이전**: [13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책](/knowledge-base/studynote/16_bigdata/01_intro/013_public_bigdata/)
+**다음**: [15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)](/knowledge-base/studynote/16_bigdata/01_intro/015_open_data_principles/) ->
 
 ---

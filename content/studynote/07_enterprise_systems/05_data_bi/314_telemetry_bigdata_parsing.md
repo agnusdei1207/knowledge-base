@@ -55,38 +55,38 @@ tags = ["studynote-enterprise-systems"]
 
 ```
   마이크로서비스 (OTel SDK 계측)
-  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-  │  Service A   │  │  Service B   │  │  Service C   │
-  │ Trace/Metric │  │ Trace/Metric │  │ Trace/Metric │
-  │   /Log 생성  │  │   /Log 생성  │  │   /Log 생성  │
-  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
-         └──────────────────┼──────────────────┘
-                            ▼ OTLP (gRPC/HTTP)
-               ┌────────────────────────────┐
-               │     OTel Collector         │
-               │  ┌──────────────────────┐  │
-               │  │ Receiver (OTLP)      │  │
-               │  ├──────────────────────┤  │
-               │  │ Processor            │  │
-               │  │ - Batch (500ms)      │  │
-               │  │ - Tail Sampling      │  │
-               │  │ - PII 마스킹          │  │
-               │  ├──────────────────────┤  │
-               │  │ Exporter             │  │
-               │  └──────────────────────┘  │
-               └──────────────┬─────────────┘
-          ┌────────────────────┼──────────────────┐
-          ▼                    ▼                   ▼
-  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐
-  │   Jaeger     │  │  Prometheus  │  │  Grafana Loki    │
-  │  (Tracing)   │  │  (Metrics)   │  │  (Logs)          │
-  └──────────────┘  └──────────────┘  └──────────────────┘
-          └────────────────────┼──────────────────┘
-                               ▼
-                     ┌──────────────────┐
-                     │   Grafana 대시보드 │
-                     │  (4 Golden Sign) │
-                     └──────────────────┘
+  +--------------+  +--------------+  +--------------+
+  |  Service A   |  |  Service B   |  |  Service C   |
+  | Trace/Metric |  | Trace/Metric |  | Trace/Metric |
+  |   /Log 생성  |  |   /Log 생성  |  |   /Log 생성  |
+  +------+-------+  +------+-------+  +------+-------+
+         +------------------+------------------+
+                            v OTLP (gRPC/HTTP)
+               +----------------------------+
+               |     OTel Collector         |
+               |  +----------------------+  |
+               |  | Receiver (OTLP)      |  |
+               |  +----------------------+  |
+               |  | Processor            |  |
+               |  | - Batch (500ms)      |  |
+               |  | - Tail Sampling      |  |
+               |  | - PII 마스킹          |  |
+               |  +----------------------+  |
+               |  | Exporter             |  |
+               |  +----------------------+  |
+               +--------------+-------------+
+          +--------------------+------------------+
+          v                    v                   v
+  +--------------+  +--------------+  +------------------+
+  |   Jaeger     |  |  Prometheus  |  |  Grafana Loki    |
+  |  (Tracing)   |  |  (Metrics)   |  |  (Logs)          |
+  +--------------+  +--------------+  +------------------+
+          +--------------------+------------------+
+                               v
+                     +------------------+
+                     |   Grafana 대시보드 |
+                     |  (4 Golden Sign) |
+                     +------------------+
 ```
 
 ### 4 Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/) 알람 임계값 예시
@@ -150,7 +150,7 @@ tags = ["studynote-enterprise-systems"]
 - [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) SDK 자동 계측 지원 언어 제한 (Go, Java, Python, JS 강력, [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 성장 중)
 - Collector 클러스터 자체 운영 복잡도 ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/) 권장)
 - 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 비용: [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) Loki, [ElasticSearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 인덱싱 비용 설계 필요
-- Tail [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Collector: 모든 스팬 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 필요 → 고메모리 필요
+- Tail [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Collector: 모든 스팬 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 필요 -> 고메모리 필요
 
 📢 **섹션 요약 비유**: [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 도입은 병원에 전자의무기록 시스템을 도입하는 것이다. 모든 진료 기록이 통합되면 어느 과 의사든 즉시 전체 이력을 볼 수 있다.
 
@@ -169,17 +169,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```
 O-RAN 네트워크 장비 지표 수동 수집 한계
-    │
-    ▼
+    |
+    v
 스트리밍 텔레메트리 (gRPC/gNMI) - 실시간 전송
-    │
-    ▼
+    |
+    v
 Kafka + Flink - 대용량 텔레메트리 스트리밍 파싱
-    │
-    ▼
+    |
+    v
 시계열 DB (InfluxDB, OpenTSDB) 저장·분석
-    │
-    ▼
+    |
+    v
 ML 기반 네트워크 이상 탐지 자동화
 ```
 
@@ -197,7 +197,7 @@ ML 기반 네트워크 이상 탐지 자동화
 
 **진행 상황**: 314 / 482
 
-← **이전**: [313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/313_htap_in_memory_architecture/)
-**다음**: [315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/315_nosql_base_cap_theorem/) →
+<- **이전**: [313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/313_htap_in_memory_architecture/)
+**다음**: [315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/315_nosql_base_cap_theorem/) ->
 
 ---

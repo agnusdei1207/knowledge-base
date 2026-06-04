@@ -19,20 +19,20 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Scaled Dot-Product Attention                       │
-├───────────────────────────────────────────────────────┤
-│  입력: X (시퀀스)                                     │
-│  Q = X · W_Q  (무엇을 찾는가?)                        │
-│  K = X · W_K  (각 위치의 매칭 키)                     │
-│  V = X · W_V  (실제 정보)                             │
-│                                                       │
-│  Score = Q · K^T / √d_k  (유사도)                     │
-│  Weight = softmax(Score)  (가중치)                     │
-│  Output = Weight · V      (가중 합)                    │
-│                                                       │
-│  → Q와 K가 유사한 위치의 V 정보를 더 많이 가져옴     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Scaled Dot-Product Attention                       |
++-------------------------------------------------------+
+|  입력: X (시퀀스)                                     |
+|  Q = X · W_Q  (무엇을 찾는가?)                        |
+|  K = X · W_K  (각 위치의 매칭 키)                     |
+|  V = X · W_V  (실제 정보)                             |
+|                                                       |
+|  Score = Q · K^T / √d_k  (유사도)                     |
+|  Weight = softmax(Score)  (가중치)                     |
+|  Output = Weight · V      (가중 합)                    |
+|                                                       |
+|  -> Q와 K가 유사한 위치의 V 정보를 더 많이 가져옴     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Q는 도서관에서 <strong>검색어(질문)</strong>이고, K는 각 책의 <strong>태그(키워드)</strong>이며, V는 책의 <strong>실제 내용</strong>이다. 검색어와 태그가 매치될수록 그 책의 내용을 더 많이 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한다.
@@ -69,7 +69,7 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/)
-- QKV를 <strong>h개 헤드로 분할</strong>하여 각 헤드가 다른 관점으로 Attention → 결합.
+- QKV를 <strong>h개 헤드로 분할</strong>하여 각 헤드가 다른 관점으로 Attention -> 결합.
 - "문법 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)", "의미 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)" 등 **다양한 패턴을 동시에 포착**.
 
 ---
@@ -94,17 +94,17 @@ QKV 시스템은 <strong>Transformer의 핵심 연산 단위</strong>이며, 이
 
 ```text
 [Bahdanau Attention (2014) — 암묵적 Score]
-    │
-    ▼
+    |
+    v
 [Luong Dot-Product (2015) — Q·K^T]
-    │
-    ▼
+    |
+    v
 [Scaled Dot-Product (Transformer, 2017) — QKV 명시화]
-    │
-    ▼
+    |
+    v
 [Multi-Head Attention — 다관점 병렬 Attention]
-    │
-    ▼
+    |
+    v
 [현재: Flash Attention / GQA — 효율적 QKV 연산]
 ```
 
@@ -119,7 +119,7 @@ QKV 시스템은 <strong>Transformer의 핵심 연산 단위</strong>이며, 이
 
 **진행 상황**: 122 / 420
 
-← **이전**: [121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트](/knowledge-base/studynote/10_ai/02_dl_architecture_new/121_attention_mechanism/)
-**다음**: [123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리](/knowledge-base/studynote/10_ai/02_dl_architecture_new/123_transformer_architecture/) →
+<- **이전**: [121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트](/knowledge-base/studynote/10_ai/02_dl_architecture_new/121_attention_mechanism/)
+**다음**: [123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리](/knowledge-base/studynote/10_ai/02_dl_architecture_new/123_transformer_architecture/) ->
 
 ---

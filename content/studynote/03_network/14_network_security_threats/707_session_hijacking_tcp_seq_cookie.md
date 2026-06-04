@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
+    |
+    v
 [세션 하이재킹]
-    │
-    └──▶ [재생 공격]
+    |
+    +---> [재생 공격]
 ```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
+    |
+    v
 [세션 하이재킹]
-    │
-    └──▶ [재생 공격]
+    |
+    +---> [재생 공격]
 ```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -129,12 +129,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
+    |
+    v
 [현재 개념: 세션 하이재킹]
-    │
-    ├──▶ [확장 A: 재생 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 재생 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치에서 출발해 현재 메커니즘을 정교화하고, 이후 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 828 / 1120
 
-← **이전**: [706. 중간자 공격 (MitM, Man-in-the-Middle) 도청 흐름과 통제 조치 (TLS 암호 검증 중요성, HSTS 설정](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)
-**다음**: [708. 재생 공격 (Replay Attack 방어 타임스탬프 원리 / 비표 넌스 Nonce 적용)](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) →
+<- **이전**: [706. 중간자 공격 (MitM, Man-in-the-Middle) 도청 흐름과 통제 조치 (TLS 암호 검증 중요성, HSTS 설정](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)
+**다음**: [708. 재생 공격 (Replay Attack 방어 타임스탬프 원리 / 비표 넌스 Nonce 적용)](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) ->
 
 ---

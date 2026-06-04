@@ -31,11 +31,11 @@ RBAC는 역할을 기준으로 권한을 묶어, 사람의 변동이 있어도 [
 
 ```text
 User
-  ↓
+  v
 Role
-  ↓
+  v
 Permission
-  ↓
+  v
 Object / Resource
 ```
 
@@ -104,11 +104,11 @@ RBAC는 권한 관리를 단순화하고, [감사](/knowledge-base/studynote/02_
 
 ```text
 Access Control Matrix
-  ↓
+  v
 Role
-  ↓
+  v
 RBAC
-  ↓
+  v
 Audit Evidence
 ```
 
@@ -118,11 +118,11 @@ Audit Evidence
 
 ```text
 DAC / MAC
-  ↓
+  v
 RBAC
-  ↓
+  v
 ABAC
-  ↓
+  v
 Zero Trust
 ```
 
@@ -140,7 +140,7 @@ RBAC는 그런 역할별 열쇠 관리예요.
 
 **진행 상황**: 97 / 530
 
-← **이전**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance_gpl_mit/)
-**다음**: [64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_rbac_audit/) →
+<- **이전**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance_gpl_mit/)
+**다음**: [64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_rbac_audit/) ->
 
 ---

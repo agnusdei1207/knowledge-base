@@ -25,19 +25,19 @@ tags = ["studynote-enterprise-systems"]
 아래 그림은 게이트웨이가 없을 때의 직접 연결 구조와, 게이트웨이를 둔 뒤의 단일 진입 구조를 대비해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              API 게이트웨이의 필요성: 다중 호출을 단일 진입으로      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without Gateway                                                     │
-│ Client ─▶ Order Service                                             │
-│ Client ─▶ Payment Service                                           │
-│ Client ─▶ Delivery Service                                          │
-│                                                                      │
-│ With Gateway                                                        │
-│ Client ─▶ API Gateway ─┬─▶ Order Service                            │
-│                        ├─▶ Payment Service                          │
-│                        └─▶ Delivery Service                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              API 게이트웨이의 필요성: 다중 호출을 단일 진입으로      |
++----------------------------------------------------------------------+
+| Without Gateway                                                     |
+| Client --> Order Service                                             |
+| Client --> Payment Service                                           |
+| Client --> Delivery Service                                          |
+|                                                                      |
+| With Gateway                                                        |
+| Client --> API Gateway -+--> Order Service                            |
+|                        +--> Payment Service                          |
+|                        +--> Delivery Service                         |
++----------------------------------------------------------------------+
 ```
 
 즉 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 내부 복잡성을 감추고 외부와의 계약을 안정화하는 경계 계층이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아질수록 그 가치는 더 커진다.
@@ -48,7 +48,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 핵심 원리는 <strong>수신 → <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 적용 → <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> → 응답 조합 → 관측</strong> 흐름이다. 우선 요청을 받으면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 속도 제한이나 [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한 뒤, [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))나 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/) 규칙을 바탕으로 적절한 백엔드로 전달한다. 필요하면 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 응답을 모아 하나의 응답으로 재구성하고, 전 구간의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 추적 정보를 남긴다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 핵심 원리는 <strong>수신 -> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 적용 -> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> -> 응답 조합 -> 관측</strong> 흐름이다. 우선 요청을 받으면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 속도 제한이나 [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한 뒤, [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))나 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/) 규칙을 바탕으로 적절한 백엔드로 전달한다. 필요하면 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 응답을 모아 하나의 응답으로 재구성하고, 전 구간의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 추적 정보를 남긴다.
 
 | 기능 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -62,23 +62,23 @@ tags = ["studynote-enterprise-systems"]
 아래 그림은 게이트웨이가 단순 전달자가 아니라, 요청 입구에서 여러 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 순차 적용하는 계층임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   API 게이트웨이 요청 처리 파이프라인               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client Request                                                      │
-│      │                                                              │
-│      ▼                                                              │
-│ [Auth] → [Rate Limit] → [Route Decision] → [Backend Call]           │
-│                                              │                       │
-│                           ┌──────────────────┴───────────────┐       │
-│                           ▼                                  ▼       │
-│                    Service A                           Service B      │
-│                           └──────────────┬───────────────────┘       │
-│                                          ▼                           │
-│                                 [Aggregate / Transform]              │
-│                                          ▼                           │
-│                                   Client Response                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   API 게이트웨이 요청 처리 파이프라인               |
++----------------------------------------------------------------------+
+| Client Request                                                      |
+|      |                                                              |
+|      v                                                              |
+| [Auth] -> [Rate Limit] -> [Route Decision] -> [Backend Call]           |
+|                                              |                       |
+|                           +------------------+---------------+       |
+|                           v                                  v       |
+|                    Service A                           Service B      |
+|                           +--------------+-------------------+       |
+|                                          v                           |
+|                                 [Aggregate / Transform]              |
+|                                          v                           |
+|                                   Client Response                    |
++----------------------------------------------------------------------+
 ```
 
 중요한 점은 게이트웨이가 모든 일을 대신하면 안 된다는 것이다. 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 외부 계약 안정화는 게이트웨이의 역할이지만, 주문 계산이나 결제 규칙 같은 핵심 비즈니스 로직은 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 남겨야 한다. 그렇지 않으면 게이트웨이가 또 하나의 거대한 모놀리식 병목이 된다.
@@ -157,16 +157,16 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 클라이언트 직접 호출
-    │
-    ▼
+    |
+    v
 API 게이트웨이 (API Gateway)
-    │
-    ├─ 인증·인가
-    ├─ 라우팅
-    ├─ 속도 제한
-    └─ 응답 조합
-    │
-    ▼
+    |
+    +- 인증·인가
+    +- 라우팅
+    +- 속도 제한
+    +- 응답 조합
+    |
+    v
 BFF · 서비스 메시 · 제로 트러스트 경계 강화
 ```
 
@@ -184,7 +184,7 @@ BFF · 서비스 메시 · 제로 트러스트 경계 강화
 
 **진행 상황**: 166 / 482
 
-← **이전**: [165. SOA vs MSA 차이점 - SOA는 전사적 재사용과 ESB 중앙 파이프 집중 (Smart Pipe, Dumb Endpoint),](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/165_soa_vs_msa_architecture/)
-**다음**: [167. BFF (Backend For Frontend)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/167_bff_backend_for_frontend/) →
+<- **이전**: [165. SOA vs MSA 차이점 - SOA는 전사적 재사용과 ESB 중앙 파이프 집중 (Smart Pipe, Dumb Endpoint),](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/165_soa_vs_msa_architecture/)
+**다음**: [167. BFF (Backend For Frontend)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/167_bff_backend_for_frontend/) ->
 
 ---

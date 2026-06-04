@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [uRLLC]
-    │
-    ▼
+    |
+    v
 [mMTC]
-    │
-    └──▶ [5G NR 신무선 표준 대역]
+    |
+    +---> [5G NR 신무선 표준 대역]
 ```
 
 - **📢 섹션 요약 비유**: mMTC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ mMTC는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transfor
 
 ```text
 [uRLLC]
-    │
-    ▼
+    |
+    v
 [mMTC]
-    │
-    └──▶ [5G NR 신무선 표준 대역]
+    |
+    +---> [5G NR 신무선 표준 대역]
 ```
 
 - **📢 섹션 요약 비유**: mMTC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -54,8 +54,8 @@ mMTC는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transfor
 
 ## Ⅲ. 비교 및 연결
 
-- 기존 4G LTE는 1제곱킬로미터(km², 사방 1km) 반경에 약 10만 대의 기기만 붙을 수 있었습니다.
-- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) mMTC는 이 수용량을 10배 늘려, <strong>1km²당 무려 100만 대(1,000,000 Devices)</strong>의 기기가 동시에 접속해도 망이 터지지 않고 견뎌냅니다. (강남 한복판의 모든 사람의 스마트폰, 자동차, 도로 센서, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 쓰레기통이 5G망 하나에 다 물려있어도 끄떡없습니다.)
+- 기존 4G LTE는 1제곱킬로미터(km^, 사방 1km) 반경에 약 10만 대의 기기만 붙을 수 있었습니다.
+- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) mMTC는 이 수용량을 10배 늘려, <strong>1km^당 무려 100만 대(1,000,000 Devices)</strong>의 기기가 동시에 접속해도 망이 터지지 않고 견뎌냅니다. (강남 한복판의 모든 사람의 스마트폰, 자동차, 도로 센서, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 쓰레기통이 5G망 하나에 다 물려있어도 끄떡없습니다.)
 
 ### 2. 극한의 저전력 제어 (Low [Power Consumption](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))
 - 100만 대의 맨홀 뚜껑 센서를 매달 충전하러 다닐 수는 없습니다.
@@ -121,12 +121,12 @@ mMTC는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ```text
 [선행 개념: uRLLC]
-    │
-    ▼
+    |
+    v
 [현재 개념: mMTC]
-    │
-    ├──▶ [확장 A: 5G NR 신무선 표준 대역]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 5G NR 신무선 표준 대역]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 mMTC는 uRLLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ mMTC는 uRLLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G
 
 **진행 상황**: 883 / 1120
 
-← **이전**: [761. uRLLC (Ultra-Reliable and Low Latency Communications 초안정/초고신뢰 초저지연망 차량](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)
-**다음**: [763. 5G NR (New Radio) 신무선 표준 대역](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) →
+<- **이전**: [761. uRLLC (Ultra-Reliable and Low Latency Communications 초안정/초고신뢰 초저지연망 차량](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)
+**다음**: [763. 5G NR (New Radio) 신무선 표준 대역](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) ->
 
 ---

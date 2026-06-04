@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
+    |
+    v
 [도청 네트워크 토폴로지 취약]
-    │
-    └──▶ [스푸핑 기만 위장 공격 종류 및 특성 분석]
+    |
+    +---> [스푸핑 기만 위장 공격 종류 및 특성 분석]
 ```
 
 - **📢 섹션 요약 비유**: 도청 네트워크 토폴로지 취약은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
+    |
+    v
 [도청 네트워크 토폴로지 취약]
-    │
-    └──▶ [스푸핑 기만 위장 공격 종류 및 특성 분석]
+    |
+    +---> [스푸핑 기만 위장 공격 종류 및 특성 분석]
 ```
 
 - **📢 섹션 요약 비유**: 도청 네트워크 토폴로지 취약의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
+    |
+    v
 [현재 개념: 도청 네트워크 토폴로지 취약]
-    │
-    ├──▶ [확장 A: 스푸핑 기만 위장 공격 종류 및 특성 분석]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 스푸핑 기만 위장 공격 종류 및 특성 분석]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 도청 네트워크 토폴로지 취약는 [NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단에서 출발해 현재 메커니즘을 정교화하고, 이후 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 822 / 1120
 
-← **이전**: [700. NAC (Network Access Control 시스템) 내부 접근 단말기 관리 무결성 진단](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/)
-**다음**: [702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석](/knowledge-base/studynote/03_network/14_network_security_threats/702_spoofing_concept_deception/) →
+<- **이전**: [700. NAC (Network Access Control 시스템) 내부 접근 단말기 관리 무결성 진단](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/)
+**다음**: [702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석](/knowledge-base/studynote/03_network/14_network_security_threats/702_spoofing_concept_deception/) ->
 
 ---

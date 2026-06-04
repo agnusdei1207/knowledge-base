@@ -39,18 +39,18 @@ ATAM은 크게 4개의 Phase와 그 아래 9개의 세부 스텝으로 맞물려
 | Phase 4: 종합 | 판결문 낭독 | 7) 실무자 브레인스토밍 8) 최종 분석 9) 결과 발표 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ATAM 프로세스: 시나리오가 도면을 공격하는 과정         │
-├──────────────────────────────────────────────────────────────┤
-│ [Phase 1/2] 비즈니스 목표 ──────▶ 유틸리티 트리 (Utility Tree)   │
-│                                           │                  │
-│ [Phase 3]   우선순위(H-H) 시나리오 도출 ─▶ ┼ ◀─ 아키텍처 도면   │
-│                                           │   (방어 논리)    │
-│ [Phase 4]                  ┌──────────────┴──────────────┐ │
-│                            ▼                             ▼ │
-│                      민감점 / 타협점                 리스크  │
-│                   (성능 vs 보안의 충돌)           (시스템 붕괴점)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ATAM 프로세스: 시나리오가 도면을 공격하는 과정         |
++--------------------------------------------------------------+
+| [Phase 1/2] 비즈니스 목표 -------> 유틸리티 트리 (Utility Tree)   |
+|                                           |                  |
+| [Phase 3]   우선순위(H-H) 시나리오 도출 --> + <-- 아키텍처 도면   |
+|                                           |   (방어 논리)    |
+| [Phase 4]                  +--------------+--------------+ |
+|                            v                             v |
+|                      민감점 / 타협점                 리스크  |
+|                   (성능 vs 보안의 충돌)           (시스템 붕괴점)|
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 Phase 3에서 유틸리티 트리를 통해 만들어진 '정량적 시나리오'가 아키텍트가 제시한 '도면'과 충돌(Cross-check)하면서 민감점과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 뱉어내는 팩토리(Factory) 구조라는 점이다.
@@ -117,17 +117,17 @@ ATAM을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ```text
 비즈니스 요구사항 (품질 속성 모호성)
-    │
-    ▼
+    |
+    v
 유틸리티 트리 (Utility Tree) · 정량적 시나리오 도출
-    │
-    ▼
-ATAM 4단계 페이즈 (초기화 → 평가 → 분석 → 종합)
-    │
-    ▼
+    |
+    v
+ATAM 4단계 페이즈 (초기화 -> 평가 -> 분석 -> 종합)
+    |
+    v
 민감점 / 타협점 / 리스크 문서화 (Risk Identification)
-    │
-    ▼
+    |
+    v
 CBAM 연계 (비용 기반 최적 대안 선택)
 ```
 
@@ -143,7 +143,7 @@ CBAM 연계 (비용 기반 최적 대안 선택)
 
 **진행 상황**: 136 / 530
 
-← **이전**: [92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/092_atam_architecture_tradeoff_analysis_method/)
-**다음**: [94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) →
+<- **이전**: [92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/092_atam_architecture_tradeoff_analysis_method/)
+**다음**: [94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ->
 
 ---

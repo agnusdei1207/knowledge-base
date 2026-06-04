@@ -26,11 +26,11 @@ OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_e
 
 ```text
 고속 직렬 데이터
-      │
-      ▼
+      |
+      v
 부반송파 여러 개로 분할
-      │
-      ▼
+      |
+      v
 각 부반송파는 직교 상태로 전송
 ```
 
@@ -45,13 +45,13 @@ OFDM은 송신 측에서 [직렬](/knowledge-base/studynote/03_network/03_physic
 | 구성 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
 | [Subcarrier](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) | 좁은 주파수 단위 | [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 유지 |
-| IFFT | 주파수 → 시간 변환 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 합성 |
+| IFFT | 주파수 -> 시간 변환 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 합성 |
 | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) | 심볼 앞의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 | 다중경로와 ISI 완화 |
-| [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) | 시간 → 주파수 변환 | 수신 복원 |
+| [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) | 시간 -> 주파수 변환 | 수신 복원 |
 | Pilot | 채널 추정 기준점 | 등화와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지원 |
 
 ```text
-비트 → QAM 매핑 → IFFT → CP 추가 → 채널 → CP 제거 → FFT → 등화 → 비트 복원
+비트 -> QAM 매핑 -> IFFT -> CP 추가 -> 채널 -> CP 제거 -> FFT -> 등화 -> 비트 복원
 
 직교성 덕분에 부반송파는 겹쳐도 수학적으로 분리된다.
 ```
@@ -124,15 +124,15 @@ OFDM의 기대효과는 다중경로 환경에서 높은 데이터율과 비교�
 
 ```text
 직렬 비트 스트림
-  │
-  ▼
+  |
+  v
 병렬 서브캐리어 분할
-  │
-  ▼
-IFFT → CP → 전송
-  │
-  ▼
-채널 → FFT → 등화 → 복원
+  |
+  v
+IFFT -> CP -> 전송
+  |
+  v
+채널 -> FFT -> 등화 -> 복원
 ```
 
 흐름의 핵심은 '하나의 어려운 채널'을 '많은 쉬운 채널'로 바꾸는 데 있다.
@@ -149,7 +149,7 @@ IFFT → CP → 전송
 
 **진행 상황**: 84 / 1120
 
-← **이전**: [83. 직교성 (Orthogonality) 원리](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)
-**다음**: [85. 부반송파 (Subcarrier)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) →
+<- **이전**: [83. 직교성 (Orthogonality) 원리](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)
+**다음**: [85. 부반송파 (Subcarrier)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) ->
 
 ---

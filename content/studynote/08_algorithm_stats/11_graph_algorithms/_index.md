@@ -17,21 +17,21 @@ tags = ["studynote-algorithm-stats"]
 ### Ford-Fulkerson 알고리즘
 
 ```text
-소스(s) → 싱크(t)로 흐를 수 있는 최대 유량 찾기
+소스(s) -> 싱크(t)로 흐를 수 있는 최대 유량 찾기
 
 잔여 그래프(Residual Graph) 개념:
   실제 용량 c(u,v)에서 현재 흐름 f(u,v)를 뺀 잔여 용량
   역방향 간선: f(v,u) = -f(u,v) (흐름 취소 가능)
 
 증가 경로(Augmenting Path) 반복:
-  BFS/DFS로 s → t 경로 탐색
+  BFS/DFS로 s -> t 경로 탐색
   최소 잔여 용량만큼 흐름 추가
-  종료: 더 이상 증가 경로 없음 → 최대 유량 달성
+  종료: 더 이상 증가 경로 없음 -> 최대 유량 달성
 
 시간 복잡도:
   Ford-Fulkerson: O(E·f*)  [f*: 최대 유량값]
-  Edmonds-Karp (BFS 사용): O(V·E²)
-  Dinic: O(V²·E)  — 실무 권장
+  Edmonds-Karp (BFS 사용): O(V·E^)
+  Dinic: O(V^·E)  — 실무 권장
 ```
 
 ### Max-Flow Min-Cut 정리
@@ -79,7 +79,7 @@ tags = ["studynote-algorithm-stats"]
 
 ```text
 SCC: 방향 그래프에서 모든 정점 쌍 (u, v)에 대해
-     u → v, v → u 경로가 모두 존재하는 최대 부분 그래프
+     u -> v, v -> u 경로가 모두 존재하는 최대 부분 그래프
 
 알고리즘:
   Tarjan's: O(V+E) — DFS + 스택 기반
@@ -97,7 +97,7 @@ SCC: 방향 그래프에서 모든 정점 쌍 (u, v)에 대해
 
 ```text
 DAG(Directed Acyclic Graph, 유향 비순환 그래프)에서
-모든 간선 (u→v)에 대해 u가 v보다 먼저 오는 순서
+모든 간선 (u->v)에 대해 u가 v보다 먼저 오는 순서
 
 알고리즘:
   ① Kahn's Algorithm (BFS 기반): 진입 차수 0인 노드부터
@@ -134,21 +134,21 @@ DAG(Directed Acyclic Graph, 유향 비순환 그래프)에서
 
 ```text
 기본 그래프 탐색 (BFS / DFS)
-    │
-    ▼
+    |
+    v
 최단 경로 (Dijkstra · Bellman-Ford · Floyd-Warshall)
-    │
-    ▼
+    |
+    v
 최소 신장 트리 (Kruskal · Prim)
-    │
-    ▼
+    |
+    v
 고급 그래프 알고리즘
-    ├─► 최대 유량 (Ford-Fulkerson · Dinic)
-    ├─► 이분 매칭 (Hungarian · Hopcroft-Karp)
-    ├─► SCC (Tarjan · Kosaraju)
-    └─► 위상 정렬 (Kahn's · DFS)
-    │
-    ▼
+    +-► 최대 유량 (Ford-Fulkerson · Dinic)
+    +-► 이분 매칭 (Hungarian · Hopcroft-Karp)
+    +-► SCC (Tarjan · Kosaraju)
+    +-► 위상 정렬 (Kahn's · DFS)
+    |
+    v
 그래프 신경망 (GNN) — 그래프 구조 딥러닝
 ```
 

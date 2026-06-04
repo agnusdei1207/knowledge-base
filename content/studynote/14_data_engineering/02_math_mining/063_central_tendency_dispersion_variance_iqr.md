@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Data
-  ↓
+  v
 Center
-  ↓
+  v
 Spread
-  ↓
+  v
 Interpretation
 ```
 
@@ -111,11 +111,11 @@ Interpretation
 
 ```text
 Data Distribution
-  ↓
+  v
 Central Tendency
-  ↓
+  v
 Dispersion
-  ↓
+  v
 Statistical Interpretation
 ```
 
@@ -125,11 +125,11 @@ Statistical Interpretation
 
 ```text
 Mean / Median
-  ↓
+  v
 Variance / SD
-  ↓
+  v
 IQR
-  ↓
+  v
 Robust Statistics
 ```
 
@@ -147,7 +147,7 @@ Robust Statistics
 
 **진행 상황**: 63 / 258
 
-← **이전**: [62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)
-**다음**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) →
+<- **이전**: [62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)
+**다음**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) ->
 
 ---

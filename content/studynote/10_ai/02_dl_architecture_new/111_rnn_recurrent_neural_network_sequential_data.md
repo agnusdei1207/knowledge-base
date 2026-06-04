@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 은닉 상태(Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 <strong>이전 시간 단계에서 다음 시간 단계로 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적으로 전달</strong>하여, 시계열·텍스트·음성 같은 <strong>순서가 중요한 시퀀스(Sequence) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 처리하는 신경망이다.
-> 2. **가치**: CNN이 공간(이미지)을 보는 눈이라면, RNN은 시간 축(과거→현재→미래)을 따라 <strong>문맥(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)을 기억</strong>하는 기억력이며, 기계 번역·음성 인식·주가 예측의 기초가 되었다.
+> 2. **가치**: CNN이 공간(이미지)을 보는 눈이라면, RNN은 시간 축(과거->현재->미래)을 따라 <strong>문맥(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)을 기억</strong>하는 기억력이며, 기계 번역·음성 인식·주가 예측의 기초가 되었다.
 > 3. **판단 포인트**: 바닐라 RNN은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong> 문제로 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))을 학습하지 못하며, 이를 해결한 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a>·<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong>가 사실상 표준이었고, 현재는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong>가 대부분의 시퀀스 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 지배한다.
 
 ---
@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 CNN과 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)(완전 연결) 네트워크는 입력 순서를 무시한다. "나는 학교에 간다"와 "간다 학교에 나는"을 같은 것으로 본다. 하지만 언어·음악·주가는 <strong>순서가 의미를 결정</strong>한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      RNN의 시간 축 펼침 (Unfolding)                    │
-├───────────────────────────────────────────────────────┤
-│  x₁ ──▶ [h₁] ──▶ x₂ ──▶ [h₂] ──▶ x₃ ──▶ [h₃]     │
-│          │               │               │            │
-│          ▼               ▼               ▼            │
-│          y₁              y₂              y₃           │
-│                                                       │
-│  h_t = f(W_h · h_{t-1} + W_x · x_t + b)             │
-│  이전 기억(h_{t-1}) + 현재 입력(x_t) → 새 기억(h_t)  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      RNN의 시간 축 펼침 (Unfolding)                    |
++-------------------------------------------------------+
+|  x₁ ---> [h₁] ---> x₂ ---> [h₂] ---> x₃ ---> [h₃]     |
+|          |               |               |            |
+|          v               v               v            |
+|          y₁              y₂              y₃           |
+|                                                       |
+|  h_t = f(W_h · h_{t-1} + W_x · x_t + b)             |
+|  이전 기억(h_{t-1}) + 현재 입력(x_t) -> 새 기억(h_t)  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RNN은 소설을 읽는 독자다. 1장에서 읽은 내용(h₁)을 기억하고 2장을 읽어야(x₂) 줄거리를 이해한다.
@@ -82,7 +82,7 @@ RNN을 100 시간 단계로 펼치면, [역전파](/knowledge-base/studynote/10_
 2. **경량 엣지 디바이스**: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 대비 파라미터가 적어 MCU에서 추론 가능.
 
 ### Transformer로 대체된 영역
-- 기계 번역, 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 음성 인식 → <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 압도적 우위.
+- 기계 번역, 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 음성 인식 -> <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 압도적 우위.
 
 ---
 
@@ -106,17 +106,17 @@ RNN은 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ```text
 [바닐라 RNN (1986, Elman) — 시퀀스 처리의 시작]
-    │
-    ▼
+    |
+    v
 [LSTM (1997, Hochreiter) — 기울기 소실 해결, 게이트 도입]
-    │
-    ▼
+    |
+    v
 [GRU (2014, Cho) — LSTM 간소화]
-    │
-    ▼
+    |
+    v
 [Seq2Seq + Attention (2015, Bahdanau) — 기계 번역 혁신]
-    │
-    ▼
+    |
+    v
 [Transformer (2017, Vaswani) — Self-Attention, RNN 대체]
 ```
 
@@ -131,7 +131,7 @@ RNN은 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 **진행 상황**: 111 / 420
 
-← **이전**: [110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계](/knowledge-base/studynote/10_ai/02_dl_architecture_new/110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn/)
-**다음**: [112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/112_hidden_state_recurrent_loop_context_memory/) →
+<- **이전**: [110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계](/knowledge-base/studynote/10_ai/02_dl_architecture_new/110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn/)
+**다음**: [112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘](/knowledge-base/studynote/10_ai/02_dl_architecture_new/112_hidden_state_recurrent_loop_context_memory/) ->
 
 ---

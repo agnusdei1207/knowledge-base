@@ -25,10 +25,10 @@ tags = ["studynote-algorithm"]
 
 | 연산 | 설명 | 예시 |
 |:---|:---|:---|
-| 삽입 (Insert) | 문자 추가 | "cat" → "cart" |
-| 삭제 (Delete) | 문자 제거 | "cart" → "cat" |
-| 대체 (Substitute) | 문자 교체 | "cat" → "bat" |
-| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" → "[ba](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)" |
+| 삽입 (Insert) | 문자 추가 | "cat" -> "cart" |
+| 삭제 (Delete) | 문자 제거 | "cart" -> "cat" |
+| 대체 (Substitute) | 문자 교체 | "cat" -> "bat" |
+| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" -> "[ba](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)" |
 
 📢 **섹션 요약 비유**: 편집 거리는 두 단어를 같은 단어로 만들기 위해 레고 블록을 추가·제거·교체하는 최소 횟수다.
 
@@ -41,14 +41,14 @@ tags = ["studynote-algorithm"]
 ```
 s1 = "kitten", s2 = "sitting"
 
-dp[i][j] = s1[0..i-1] → s2[0..j-1]로 변환하는 최소 편집 수
+dp[i][j] = s1[0..i-1] -> s2[0..j-1]로 변환하는 최소 편집 수
 
 점화식:
   if s1[i-1] == s2[j-1]: dp[i][j] = dp[i-1][j-1]         (문자 일치)
   else:                   dp[i][j] = 1 + min(
-                            dp[i-1][j],    ← s1에서 삭제
-                            dp[i][j-1],    ← s2에 삽입
-                            dp[i-1][j-1]   ← 대체
+                            dp[i-1][j],    <- s1에서 삭제
+                            dp[i][j-1],    <- s2에 삽입
+                            dp[i-1][j-1]   <- 대체
                           )
 
 DP 테이블:
@@ -62,22 +62,22 @@ DP 테이블:
    n   [6, 6, 5, 4, 3, 3, 2, 3]
 
 편집 거리 = dp[6][7] = 3
-  (kitten → sitten → sittin → sitting)
+  (kitten -> sitten -> sittin -> sitting)
 ```
 
 ### 역추적: 연산 시퀀스 복원
 
 ```
 dp[6][7]=3:
-  s1[5]='n' ≠ s2[6]='g' → min은 dp[5][7]=4에서 대체(1)
+  s1[5]='n' ≠ s2[6]='g' -> min은 dp[5][7]=4에서 대체(1)
 
   역추적 경로:
-  (6,7)→(5,6)→(4,5)→(3,4)→(2,3)→(1,2)→(0,0)
+  (6,7)->(5,6)->(4,5)->(3,4)->(2,3)->(1,2)->(0,0)
 
   연산:
-  k→s: 대체 (1)
-  e→i: 대체 (1)
-  _→g: 삽입 (1)
+  k->s: 대체 (1)
+  e->i: 대체 (1)
+  _->g: 삽입 (1)
   총 3회
 ```
 
@@ -86,7 +86,7 @@ dp[6][7]=3:
 ```
 길이만 필요한 경우:
   i번째 행 계산에 (i-1)번째 행만 필요
-  → 두 행만 유지: O(min(m,n)) 공간
+  -> 두 행만 유지: O(min(m,n)) 공간
 
 prev_row = [0,1,2,...,n]
 curr_row = [0, ...]
@@ -97,10 +97,10 @@ curr_row = [0, ...]
 
 ```
 전치 연산 추가:
-  "ab" → "ba": Levenshtein = 2 (ab→xb→ba), DL = 1 (전치 1회)
+  "ab" -> "ba": Levenshtein = 2 (ab->xb->ba), DL = 1 (전치 1회)
 
 실제 오타의 ~80%는 단일 삽입·삭제·대체·전치로 설명 가능
-→ 맞춤법 교정에는 DL Distance가 Levenshtein보다 정확
+-> 맞춤법 교정에는 DL Distance가 Levenshtein보다 정확
 ```
 
 📢 **섹션 요약 비유**: DP 테이블은 두 단어 사이의 변환 지도—오른쪽은 삽입, 아래는 삭제, 대각선은 대체·일치를 나타내며, 왼쪽 위에서 오른쪽 아래로 가는 최소 비용 경로가 편집 거리다.
@@ -123,12 +123,12 @@ curr_row = [0, ...]
 SymSpell 알고리즘 (편집 거리 ≤ 2):
   사전의 모든 단어와 그 편집 거리 ≤ 2 변형을 해시맵에 저장
   쿼리 단어의 변형을 생성해 해시맵 조회
-  → O(1) 평균 조회 (브루트포스 O(dictionary_size) 대비)
+  -> O(1) 평균 조회 (브루트포스 O(dictionary_size) 대비)
 
 BK-tree:
   편집 거리를 거리 함수로 사용한 트리 구조
-  query(q, threshold=2) → d(root, q) ± 2 범위 노드만 탐색
-  → 대용량 사전에서 퍼지 검색 최적화
+  query(q, threshold=2) -> d(root, q) ± 2 범위 노드만 탐색
+  -> 대용량 사전에서 퍼지 검색 최적화
 ```
 
 📢 **섹션 요약 비유**: BK-tree는 도시 지도에서 "반경 2km 이내 식당"을 찾는 것처럼, 편집 거리를 반경으로 삼아 사전에서 유사 단어를 빠르게 검색한다.
@@ -148,12 +148,12 @@ BK-tree:
 ### 기술사 판단 기준
 
 ```
-문자열 유사도 정량화                →  편집 거리 O(mn)
-전치 오타 포함 교정                 →  Damerau-Levenshtein
-대용량 사전 퍼지 검색               →  SymSpell (O(1)) 또는 BK-tree
-DNA 국소 정렬 (일부 서열 비교)     →  Smith-Waterman (편집 거리 변형)
-DNA 전역 정렬                       →  Needleman-Wunsch
-공통 구조 추출                      →  LCS (편집 거리 대신)
+문자열 유사도 정량화                ->  편집 거리 O(mn)
+전치 오타 포함 교정                 ->  Damerau-Levenshtein
+대용량 사전 퍼지 검색               ->  SymSpell (O(1)) 또는 BK-tree
+DNA 국소 정렬 (일부 서열 비교)     ->  Smith-Waterman (편집 거리 변형)
+DNA 전역 정렬                       ->  Needleman-Wunsch
+공통 구조 추출                      ->  LCS (편집 거리 대신)
 ```
 
 📢 **섹션 요약 비유**: 편집 거리는 두 단어를 같은 단어로 만들기 위해 지불하는 "변환 요금"—거리가 작을수록 두 단어는 비슷하고, 맞춤법 교정 시스템은 요금이 가장 낮은 단어를 추천한다.
@@ -185,20 +185,20 @@ DNA 전역 정렬                       →  Needleman-Wunsch
 
 ```text
 [문자열 비교 (String Comparison) — 차이 정량화 필요]
-    │
-    ▼
+    |
+    v
 [동적 프로그래밍 (DP) — 최소 변환 비용 테이블]
-    │
-    ▼
+    |
+    v
 [레벤슈타인 거리 (Levenshtein Distance) — 삽입·삭제·대체]
-    │
-    ▼
+    |
+    v
 [다메라우-레벤슈타인 거리 (Damerau-Levenshtein Distance) — 전치 포함]
-    │
-    ▼
+    |
+    v
 [퍼지 검색 / 맞춤법 교정 — 유사 문자열 실무 적용]
-    │
-    ▼
+    |
+    v
 [시퀀스 정렬 / BK-tree / SymSpell — 대규모 검색 최적화]
 ```
 편집 거리는 DP로 최소 변환 비용을 계산하는 문자열 유사도의 표준이며, 퍼지 검색과 맞춤법 교정의 기반으로 확장되었다.
@@ -215,7 +215,7 @@ DNA 전역 정렬                       →  Needleman-Wunsch
 
 **진행 상황**: 103 / 175
 
-← **이전**: [9. 최장 공통 부분수열 (LCS, Longest Common Subsequence) — 문자열 비교](/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/)
-**다음**: [11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/) →
+<- **이전**: [9. 최장 공통 부분수열 (LCS, Longest Common Subsequence) — 문자열 비교](/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/)
+**다음**: [11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/) ->
 
 ---

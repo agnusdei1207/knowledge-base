@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [에이징 / 포트 미러링]
-    │
-    ▼
+    |
+    v
 [스위칭 방식]
-    │
-    └──▶ [스위칭 방식]
+    |
+    +---> [스위칭 방식]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 컷스루 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>는 물류 창고에서 택배 박스의 </strong>"송장(목적지 주소)만 스캔하자마자 컨베이어 벨트를 멈추지 않고 바로 배송 트럭으로 밀어 넣는 초스피드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"**입니다. 내용물 파손 여부는 아예 검사하지 않습니다.
@@ -40,28 +40,28 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 최소 대기 시간: 14 Bytes
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 맨 앞은 Preamble(8B) → 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) → 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) 순으로 들어온다.
+[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 맨 앞은 Preamble(8B) -> 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) -> 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) 순으로 들어온다.
 - 컷스루 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 Preamble로 박자를 맞추고, 바로 뒤따라오는 <strong>목적지 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 6바이트만 읽자마자</strong> 자신의 CAM 테이블을 뒤져 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 찾아낸다.
 - 그리고 나머지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 페이로드, FCS)가 아직 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안으로 질금질금 들어오고 있는 와중에, 앞머리를 이미 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 뿜어내기 시작한다(Streaming).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    컷스루 (Cut-through) 동작 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 프레임이 스위치로 들어옴 (오른쪽에서 왼쪽으로 이동)                 │
- │   [ FCS(4B) | Payload(1500B) | 출발지 MAC(6B) | 목적지 MAC(6B) ] │
- │                                              └─── 이만큼만 ───┘ │
- │                                                  스위치가 수신   │
- │                                                             │
- │   2. 목적지 MAC(6B)을 읽은 직후 (스위치 내부)                     │
- │   스위치: "오케이, 목적지 확인 완료. 에러 검사 안 함. 바로 출발시켜!"      │
- │                                                             │
- │   3. 프레임이 출력 포트로 나가기 시작 (동시 진행)                    │
- │   들어오는 중인 꼬리부분 ──▶ 스위치 ──▶ 이미 나가고 있는 머리부분      │
- │   [ FCS | Payload ...             ... 출발지 MAC | 목적지 MAC ] │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                    컷스루 (Cut-through) 동작 도식             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. 프레임이 스위치로 들어옴 (오른쪽에서 왼쪽으로 이동)                 |
+ |   [ FCS(4B) | Payload(1500B) | 출발지 MAC(6B) | 목적지 MAC(6B) ] |
+ |                                              +--- 이만큼만 ---+ |
+ |                                                  스위치가 수신   |
+ |                                                             |
+ |   2. 목적지 MAC(6B)을 읽은 직후 (스위치 내부)                     |
+ |   스위치: "오케이, 목적지 확인 완료. 에러 검사 안 함. 바로 출발시켜!"      |
+ |                                                             |
+ |   3. 프레임이 출력 포트로 나가기 시작 (동시 진행)                    |
+ |   들어오는 중인 꼬리부분 ---> 스위치 ---> 이미 나가고 있는 머리부분      |
+ |   [ FCS | Payload ...             ... 출발지 MAC | 목적지 MAC ] |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 레이턴시([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))와 에러율의 Trade-off
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 에이징 / 포트 미러링]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스위칭 방식]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 스위칭 방식]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 363 / 1120
 
-← **이전**: [241. 에이징 (Aging) / 포트 미러링 (Port Mirroring)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/241_aging_and_port_mirroring/)
-**다음**: [243. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/) →
+<- **이전**: [241. 에이징 (Aging) / 포트 미러링 (Port Mirroring)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/241_aging_and_port_mirroring/)
+**다음**: [243. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/) ->
 
 ---

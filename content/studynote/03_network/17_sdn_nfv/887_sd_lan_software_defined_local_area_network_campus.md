@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [엣지 가상화]
-    │
-    ▼
+    |
+    v
 [SD-LAN]
-    │
-    └──▶ [멀티 테넌트]
+    |
+    +---> [멀티 테넌트]
 ```
 
 - **📢 섹션 요약 비유**: SD-LAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [엣지 가상화]
-    │
-    ▼
+    |
+    v
 [SD-LAN]
-    │
-    └──▶ [멀티 테넌트]
+    |
+    +---> [멀티 테넌트]
 ```
 
 - **📢 섹션 요약 비유**: SD-LAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_t
 
 ```text
 [선행 개념: 엣지 가상화]
-    │
-    ▼
+    |
+    v
 [현재 개념: SD-LAN]
-    │
-    ├──▶ [확장 A: 멀티 테넌트]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 멀티 테넌트]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 SD-LAN는 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ SD-LAN는 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886
 
 **진행 상황**: 1008 / 1120
 
-← **이전**: [886. 엣지 가상화 (vCPE)](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)
-**다음**: [888. 멀티 테넌트 (Multi-Tenant)](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) →
+<- **이전**: [886. 엣지 가상화 (vCPE)](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)
+**다음**: [888. 멀티 테넌트 (Multi-Tenant)](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) ->
 
 ---

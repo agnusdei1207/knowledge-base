@@ -52,7 +52,7 @@ LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 | 비교 항목 | 단순 비교 (Naive) | KMP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [보이어-무어](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/) ([Boyer-Moore](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)) |
 | :--- | :--- | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(N \times M)$ | $O(N + M)$ | $O(N/M) \sim O(N \times M)$ |
-| **탐색 방향** | 왼쪽 → 오른쪽 | 왼쪽 → 오른쪽 | 오른쪽 → 왼쪽 (Backwards) |
+| **탐색 방향** | 왼쪽 -> 오른쪽 | 왼쪽 -> 오른쪽 | 오른쪽 -> 왼쪽 (Backwards) |
 | **주요 특징** | 구현이 단순함 | 최악의 경우에도 선형 시간 보장 | 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 우수함 (스킵 큼) |
 | **추가 공간** | $O(1)$ | $O(M)$ - LPS [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | $O(\Sigma + M)$ - Skip Tables |
 
@@ -73,14 +73,14 @@ LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 
 ```text
 [Naive 문자열 매칭]
-    │
-    ▼
+    |
+    v
 [부분 일치 테이블]
-    │
-    ▼
+    |
+    v
 [KMP 알고리즘]
-    │
-    ▼
+    |
+    v
 [선형 시간 검색]
 ```
 
@@ -97,7 +97,7 @@ LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 
 **진행 상황**: 94 / 175
 
-← **이전**: [스킵 리스트 (Skip List)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/093_skip_list/)
-**다음**: [보이어-무어 (Boyer-Moore) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/) →
+<- **이전**: [스킵 리스트 (Skip List)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/093_skip_list/)
+**다음**: [보이어-무어 (Boyer-Moore) 알고리즘](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/) ->
 
 ---

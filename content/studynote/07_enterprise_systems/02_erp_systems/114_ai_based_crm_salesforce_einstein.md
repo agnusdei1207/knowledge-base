@@ -19,17 +19,17 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    CRM 진화 단계                                      │
-├───────────────────────────────────────────────────────┤
-│  [1세대] 수첩·엑셀 — 수동 고객 관리                   │
-│  [2세대] 운영 CRM — SFA·MA·CSS 자동화               │
-│  [3세대] 분석 CRM — DW + 데이터 마이닝               │
-│  [4세대] AI CRM — 예측·생성·자율 에이전트             │
-│      └── Einstein: "이 리드 계약 확률 85%"           │
-│      └── Copilot: "상담 요약 자동 생성"               │
-│      └── Agent: "고객 질문에 AI 자동 응답"            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    CRM 진화 단계                                      |
++-------------------------------------------------------+
+|  [1세대] 수첩·엑셀 — 수동 고객 관리                   |
+|  [2세대] 운영 CRM — SFA·MA·CSS 자동화               |
+|  [3세대] 분석 CRM — DW + 데이터 마이닝               |
+|  [4세대] AI CRM — 예측·생성·자율 에이전트             |
+|      +-- Einstein: "이 리드 계약 확률 85%"           |
+|      +-- Copilot: "상담 요약 자동 생성"               |
+|      +-- Agent: "고객 질문에 AI 자동 응답"            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 CRM이 영업사원의 수첩을 디지털화한 것이라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 "오늘 김 사장에게 전화하세요, 계약 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 85%"라고 말하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 비서</strong>다.
@@ -42,7 +42,7 @@ tags = ["studynote-enterprise-systems"]
 
 | 기능 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역할 | 비즈니스 효과 |
 |:---|:---|:---|
-| **리드 스코어링** | ML로 가망→계약 전환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 | 영업 우선순위 자동 정렬 |
+| **리드 스코어링** | ML로 가망->계약 전환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 | 영업 우선순위 자동 정렬 |
 | **이탈 예측** | XGBoost로 해지 위험 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 선제적 리텐션 캠페인 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 이메일·전화 감정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 불만 고객 즉시 에스컬레이션 |
 | **상담 요약** | GenAI로 통화 내용 자동 요약 | 상담원 후처리 시간 80% 감소 |
@@ -65,8 +65,8 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 효과
-- **리드 스코어링**: 영업팀이 상위 20% 리드에 집중 → 계약 전환율 30% 향상.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 상담</strong>: 단순 문의(주문 조회·배송 추적) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 처리 → 상담원은 복잡한 건만 처리.
+- **리드 스코어링**: 영업팀이 상위 20% 리드에 집중 -> 계약 전환율 30% 향상.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 상담</strong>: 단순 문의(주문 조회·배송 추적) -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 처리 -> 상담원은 복잡한 건만 처리.
 
 ---
 
@@ -90,17 +90,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [수첩·엑셀 CRM (1990s)]
-    │
-    ▼
+    |
+    v
 [SaaS CRM (Salesforce, 2000s) — 클라우드 CRM]
-    │
-    ▼
+    |
+    v
 [분석 CRM + ML (2015~) — 이탈 예측, 리드 스코어링]
-    │
-    ▼
+    |
+    v
 [Einstein / AI CRM (2018~) — CRM 내장 AI]
-    │
-    ▼
+    |
+    v
 [현재: GenAI CRM Agent — 자율 고객 응대·행동 실행]
 ```
 
@@ -115,7 +115,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 114 / 482
 
-← **이전**: [113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/113_social_crm_listening_sentiment_analysis/)
-**다음**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) →
+<- **이전**: [113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/113_social_crm_listening_sentiment_analysis/)
+**다음**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) ->
 
 ---

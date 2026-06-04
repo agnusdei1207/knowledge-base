@@ -29,12 +29,12 @@ tags = ["database"]
 [그림 1: 메타데이터의 필요성 - 데이터 늪(Swamp) 방지]
 
 [사용자/AI] --(질의/탐색)--> [메타데이터 계층 (나침반)] --(위치/구조 반환)--> [물리 데이터 저장소]
-                                   │                                    (Data Lake / RDBMS)
-                 ┌─────────────────┴─────────────────┐               (구조 없는 원시 데이터 늪)
-                 │ - 비즈니스: "매출액" 정의, 소유자 │
-                 │ - 기술적: INT, NOT NULL, 테이블명 │
-                 │ - 운영적: 최종 갱신일, 접근 권한  │
-                 └───────────────────────────────────┘
+                                   |                                    (Data Lake / RDBMS)
+                 +-----------------+-----------------+               (구조 없는 원시 데이터 늪)
+                 | - 비즈니스: "매출액" 정의, 소유자 |
+                 | - 기술적: INT, NOT NULL, 테이블명 |
+                 | - 운영적: 최종 갱신일, 접근 권한  |
+                 +-----------------------------------+
 ```
 
 이 도식은 사용자와 방대한 물리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 사이에 메타데이터 계층이 어떻게 위치하는지를 보여준다. 메타데이터 계층이 없다면 사용자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 의미를 알 수 없어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용할 수 없게 되며, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 곧 '[데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)'으로 전락하게 된다. 실무에서는 이 계층이 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) 솔루션으로 구현되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 디스커버리 속도를 결정짓는다.
@@ -58,19 +58,19 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 ```text
 [그림 2: 메타데이터 참조를 통한 쿼리 실행 아키텍처]
 
-[Client] ──> [Query: SELECT * FROM Emp]
-                     │
-            ┌────────▼────────┐ (1. 구문/의미 분석)
-            │      Parser     │ ──> [데이터 딕셔너리 캐시] (메타데이터 메모리)
-            └────────┬────────┘      ▲
-                     │ (2. 통계 참조)│ (Hit/Miss)
-            ┌────────▼────────┐ ─────┘
-            │    Optimizer    │ ──> (인덱스 유무, Row 수, 데이터 분포도 등 Technical Metadata)
-            └────────┬────────┘
-                     │ (3. 실행 계획)
-            ┌────────▼────────┐
-            │ Execution Engine│ ──> [데이터 파일] (물리 데이터 I/O)
-            └─────────────────┘
+[Client] --> [Query: SELECT * FROM Emp]
+                     |
+            +--------v--------+ (1. 구문/의미 분석)
+            |      Parser     | --> [데이터 딕셔너리 캐시] (메타데이터 메모리)
+            +--------+--------+      ^
+                     | (2. 통계 참조)| (Hit/Miss)
+            +--------v--------+ -----+
+            |    Optimizer    | --> (인덱스 유무, Row 수, 데이터 분포도 등 Technical Metadata)
+            +--------+--------+
+                     | (3. 실행 계획)
+            +--------v--------+
+            | Execution Engine| --> [데이터 파일] (물리 데이터 I/O)
+            +-----------------+
 ```
 
 이 구조도는 클라이언트의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 도달하기 전, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부에서 메타데이터([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리)가 어떻게 엔진의 두뇌 역할을 하는지 보여준다. 이 도식의 핵심은 메타데이터가 하드 디스크의 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 테이블뿐만 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리 캐시([공유 풀](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/) 영역)'에 올라가 있다는 점이다. 따라서 메타데이터 캐시 힛([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))율이 낮거나 캐시 경합이 발생하면 시스템 전체의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파싱 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Hard Parsing 병목)이 급증하게 된다.
@@ -93,14 +93,14 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 ```text
 [그림 3: 패시브 메타데이터와 액티브 메타데이터 구조 비교 매트릭스]
 
-┌──────────┬─────────────────────────────┬─────────────────────────────┐
-│ 항목     │ 수동형 메타데이터 (Passive) │ 능동형 메타데이터 (Active)  │
-├──────────┼─────────────────────────────┼─────────────────────────────┤
-│ 수집방식 │ 스키마 스캔 후 정적 카탈로그│ 실시간 로그, 쿼리, API 수집 │
-│ 활용도   │ "이 테이블 구조가 무엇인가?"│ "이 데이터를 누가 자주 쓰나?"│
-│ 결과물   │ 정적인 데이터 사전(Wiki)    │ AI 추천, 자동 경고, 리니지  │
-│ 관리초점 │ 데이터 관리자(DA)의 수기입력│ 머신러닝 기반 자동 태깅     │
-└──────────┴─────────────────────────────┴─────────────────────────────┘
++----------+-----------------------------+-----------------------------+
+| 항목     | 수동형 메타데이터 (Passive) | 능동형 메타데이터 (Active)  |
++----------+-----------------------------+-----------------------------+
+| 수집방식 | 스키마 스캔 후 정적 카탈로그| 실시간 로그, 쿼리, API 수집 |
+| 활용도   | "이 테이블 구조가 무엇인가?"| "이 데이터를 누가 자주 쓰나?"|
+| 결과물   | 정적인 데이터 사전(Wiki)    | AI 추천, 자동 경고, 리니지  |
+| 관리초점 | 데이터 관리자(DA)의 수기입력| 머신러닝 기반 자동 태깅     |
++----------+-----------------------------+-----------------------------+
 ```
 
 이 매트릭스는 과거 단순히 문서화 목적에 머물던 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/)가, 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 운영 메타데이터를 결합해 사용자의 행위를 분석하는 능동형으로 진화했음을 보여준다. 수동형은 정보의 '방치와 낙후'를 유발하는 반면, 능동형 메타데이터는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 두뇌 역할을 하며 트래픽 패턴에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 핫/콜드 티어로 분배하는 시스템 최적화로 이어진다.
@@ -124,12 +124,12 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 [그림 4: 실무 데이터 카탈로그 거버넌스 적용 플로우]
 
 [원천 시스템] (RDBMS, NoSQL)
-     │ (1. 기술 메타 자동 추출 / Crawler)
-     ▼
-[메타데이터 리포지토리] <── (2. 비즈니스 용어 매핑) ── [데이터 관리자(DA)]
-     │
-     ▼ (3. 메타데이터 API / 보안 정책)
-[데이터 분석가] (카탈로그 검색 → 접근 권한 신청 → 데이터 활용)
+     | (1. 기술 메타 자동 추출 / Crawler)
+     v
+[메타데이터 리포지토리] <-- (2. 비즈니스 용어 매핑) -- [데이터 관리자(DA)]
+     |
+     v (3. 메타데이터 API / 보안 정책)
+[데이터 분석가] (카탈로그 검색 -> 접근 권한 신청 -> 데이터 활용)
 ```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가가 실제 원천 DB에 직접 접근하여 구조 파악하는 위험을 방지하고, [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)를 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)로 활용하여 거버넌스를 통제하는 구조를 나타낸다. 실무에서는 자동화된 크롤러(Crawler)로 기술 메타데이터를 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/)하는 것(1단계)은 쉽지만, 비즈니스 의미를 매핑하는 과정(2단계)에서 인적 자원이 병목이 된다. 이 지점을 어떻게 AI로 자동화(태깅)하느냐가 현대 거버넌스의 핵심 경쟁력이다.
@@ -138,7 +138,7 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-| 지표 | 정량적 기대효과 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) → TO-BE) | 정성적 기대효과 |
+| 지표 | 정량적 기대효과 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) -> TO-BE) | 정성적 기대효과 |
 |:---|:---|:---|
 | [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색 소요 시간 70% 감소 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가의 분석 본연의 업무 집중도 향상 |
 | 통제성 | 규제 위반 페널티 위험도 감소 | 리니지 확보를 통한 규제([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 투명성 |
@@ -161,17 +161,17 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 
 ```text
 [시스템 카탈로그 (System Catalog) — DB 내부 스키마를 저장하는 핵심 저장소]
-    │
-    ▼
+    |
+    v
 [데이터 딕셔너리 (Data Dictionary) — 사용자에게 보이는 메타데이터 사전]
-    │
-    ▼
+    |
+    v
 [데이터 리니지 (Data Lineage) — 데이터 흐름과 변환 경로 추적]
-    │
-    ▼
+    |
+    v
 [능동형 메타데이터 (Active Metadata) — 수집·분류를 자동화하는 실행형 메타데이터]
-    │
-    ▼
+    |
+    v
 [데이터 패브릭 (Data Fabric) — AI로 메타데이터를 통합하는 지능형 계층]
 ```
 
@@ -188,7 +188,7 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 
 **진행 상황**: 12 / 600
 
-← **이전**: [11. 시스템 카탈로그 (System Catalog) / 데이터 사전 (Data Dictionary) - 메타데이터(Metadata)](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)
-**다음**: [13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) →
+<- **이전**: [11. 시스템 카탈로그 (System Catalog) / 데이터 사전 (Data Dictionary) - 메타데이터(Metadata)](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)
+**다음**: [13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) ->
 
 ---

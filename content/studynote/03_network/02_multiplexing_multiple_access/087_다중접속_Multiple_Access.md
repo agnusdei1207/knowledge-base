@@ -109,14 +109,14 @@ tags = ["network"]
     ### 📈 관련 키워드 및 발전 흐름도
 
     공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 등장
-    │
-    ▼
+    |
+    v
 [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) / [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) / [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)
-    │
-    ▼
+    |
+    v
 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) / [ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) 계열
-    │
-    ▼
+    |
+    v
 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) / 스케줄링 / [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 중심 설계
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -131,7 +131,7 @@ tags = ["network"]
 
 **진행 상황**: 87 / 1120
 
-← **이전**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)
-**다음**: [88. FDMA (Frequency Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) →
+<- **이전**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)
+**다음**: [88. FDMA (Frequency Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) ->
 
 ---

@@ -37,27 +37,27 @@ tags = ["studynote-ai"]
 4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> (2015)</strong>: 깊이의 한계 돌파. 네트워크가 깊어질수록 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 열화 현상을 해결하기 위해 <strong>잔차 연결(Skip Connection)</strong>을 도입했다. 입력값을 출력값에 직접 더해주는(F(x) + x) 우회로를 만들어, 오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 소실되지 않고 깊은 층까지 전달되게 했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  ResNet의 핵심: 잔차 연결 (Skip Connection)      │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│        [입력 x] ───────┐                                     │
-│           │            │ (그대로 복사하여 우회)                 │
-│           ▼            │                                     │
-│      [Weight Layer]    │                                     │
-│           │            │                                     │
-│           ▼            │                                     │
-│        [ReLU]          │                                     │
-│           │            │                                     │
-│           ▼            │                                     │
-│      [Weight Layer]    │                                     │
-│           │            │                                     │
-│           ▼            ▼                                     │
-│          ( + ) ◀───────┘ 더하기 (F(x) + x)                    │
-│           │                                                  │
-│           ▼                                                  │
-│        [ReLU]  ──▶ 다음 층으로 전달                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  ResNet의 핵심: 잔차 연결 (Skip Connection)      |
++--------------------------------------------------------------+
+|                                                              |
+|        [입력 x] -------+                                     |
+|           |            | (그대로 복사하여 우회)                 |
+|           v            |                                     |
+|      [Weight Layer]    |                                     |
+|           |            |                                     |
+|           v            |                                     |
+|        [ReLU]          |                                     |
+|           |            |                                     |
+|           v            |                                     |
+|      [Weight Layer]    |                                     |
+|           |            |                                     |
+|           v            v                                     |
+|          ( + ) <--------+ 더하기 (F(x) + x)                    |
+|           |                                                  |
+|           v                                                  |
+|        [ReLU]  ---> 다음 층으로 전달                           |
++--------------------------------------------------------------+
 ```
 
 이 구조 덕분에 ResNet은 152층이라는 엄청난 깊이에서도 안정적인 학습이 가능해졌다.
@@ -118,23 +118,23 @@ AlexNet부터 ResNet에 이르는 [CNN](/knowledge-base/studynote/14_data_engine
 
 ```text
 전통적 머신러닝 (수동 특징 추출)
-    │
-    ▼
+    |
+    v
 LeNet-5 (CNN 뼈대 확립, CPU 한계)
-    │
-    ▼
+    |
+    v
 AlexNet (ReLU 활성화 함수, GPU 연산 도입)
-    │
-    ├───────────┐
-    ▼           ▼
+    |
+    +-----------+
+    v           v
 VGGNet          GoogLeNet
 (3x3 필터)      (Inception 모듈, 경량화)
-    │           │
-    └─────┬─────┘
-          ▼
+    |           |
+    +-----+-----+
+          v
 ResNet (잔차 연결, 기울기 소실 극복, 초심층화)
-          │
-          ▼
+          |
+          v
 ViT (Vision Transformer) 및 NAS (자동 탐색)
 ```
 
@@ -150,7 +150,7 @@ ViT (Vision Transformer) 및 NAS (자동 탐색)
 
 **진행 상황**: 103 / 420
 
-← **이전**: [102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/)
-**다음**: [104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파](/knowledge-base/studynote/10_ai/02_dl_architecture_new/104_resnet_residual_network_skip_connection_bottleneck/) →
+<- **이전**: [102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/)
+**다음**: [104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파](/knowledge-base/studynote/10_ai/02_dl_architecture_new/104_resnet_residual_network_skip_connection_bottleneck/) ->
 
 ---

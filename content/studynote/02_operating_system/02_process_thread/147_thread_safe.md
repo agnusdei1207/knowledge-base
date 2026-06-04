@@ -37,24 +37,24 @@ tags = ["studynote-operating-system"]
 
 ```text
 스레드 안전 달성 전략
-┌──────────────────────────────────────────────────────────────────┐
-│                                                                  │
-│  ① 뮤텍스(Mutex) / 락(Lock) 사용                                  │
-│     공유 자원 접근 전 락 획득 → 임계 구역(Critical Section) 보호    │
-│     장점: 범용적   단점: 데드락(Deadlock), 성능 저하               │
-│                                                                  │
-│  ② 원자적 연산 (Atomic Operation)                                 │
-│     CAS(Compare-And-Swap), fetch_add 등 CPU 명령어 수준 원자성    │
-│     장점: 락 없이 안전   단점: 복잡한 연산에는 부적합               │
-│                                                                  │
-│  ③ 스레드 지역 저장소 (TLS, Thread-Local Storage)                  │
-│     스레드별 독립 복사본 → 공유 자체를 없앰                         │
-│     장점: 잠금 불필요   단점: 메모리 증가                           │
-│                                                                  │
-│  ④ 불변 데이터 (Immutable Data)                                    │
-│     초기화 후 읽기 전용 → 경쟁 조건 원천 차단                       │
-│     장점: 가장 안전   단점: 상태 변경 불가                          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                                                                  |
+|  ① 뮤텍스(Mutex) / 락(Lock) 사용                                  |
+|     공유 자원 접근 전 락 획득 -> 임계 구역(Critical Section) 보호    |
+|     장점: 범용적   단점: 데드락(Deadlock), 성능 저하               |
+|                                                                  |
+|  ② 원자적 연산 (Atomic Operation)                                 |
+|     CAS(Compare-And-Swap), fetch_add 등 CPU 명령어 수준 원자성    |
+|     장점: 락 없이 안전   단점: 복잡한 연산에는 부적합               |
+|                                                                  |
+|  ③ 스레드 지역 저장소 (TLS, Thread-Local Storage)                  |
+|     스레드별 독립 복사본 -> 공유 자체를 없앰                         |
+|     장점: 잠금 불필요   단점: 메모리 증가                           |
+|                                                                  |
+|  ④ 불변 데이터 (Immutable Data)                                    |
+|     초기화 후 읽기 전용 -> 경쟁 조건 원천 차단                       |
+|     장점: 가장 안전   단점: 상태 변경 불가                          |
++------------------------------------------------------------------+
 ```
 
 ### 2. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전 vs. 재진입 가능 비교
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 ### 연결 개념 흐름
 
-[경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) → [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘 선택 → [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전 확보 → 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 방지 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화(Atomic, [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))
+[경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) -> [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) -> [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘 선택 -> [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전 확보 -> 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 방지 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화(Atomic, [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))
 
 - **📢 섹션 요약 비유**: [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘 선택은 **'교통 통제 방식 선택'** 과 같습니다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))은 범용적이지만 대기 시간이 있고, 로터리([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))는 짧게 돌다가 빠져나가기 좋으며, 고속도로 전용차로(RW [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))는 승객(읽기)은 많고 화물차([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 드물 때 최적입니다.
 
@@ -151,20 +151,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 단일 스레드 프로그래밍 (공유 상태 무관)
-    │
-    ▼
-멀티스레드 등장 → 경쟁 조건(Race Condition) 문제
-    │
-    ▼
+    |
+    v
+멀티스레드 등장 -> 경쟁 조건(Race Condition) 문제
+    |
+    v
 뮤텍스(Mutex) / 세마포어(Semaphore) — 임계 구역 보호
-    │
-    ├─► 재진입 가능 함수 (Reentrant) — 공유 상태 제거
-    │
-    ├─► Atomic Operations — 락 없는 원자 연산
-    │
-    └─► Lock-free / Wait-free 알고리즘
-              │
-              ▼
+    |
+    +-► 재진입 가능 함수 (Reentrant) — 공유 상태 제거
+    |
+    +-► Atomic Operations — 락 없는 원자 연산
+    |
+    +-► Lock-free / Wait-free 알고리즘
+              |
+              v
         Rust 소유권 시스템 / 트랜잭셔널 메모리 (TM)
 ```
 
@@ -180,7 +180,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 147 / 800
 
-← **이전**: [146. 실시간 프로세스 (Real-time Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/)
-**다음**: [148. 재진입 가능 코드 (Reentrant Code / Pure Code)](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/) →
+<- **이전**: [146. 실시간 프로세스 (Real-time Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/)
+**다음**: [148. 재진입 가능 코드 (Reentrant Code / Pure Code)](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/) ->
 
 ---

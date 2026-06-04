@@ -28,20 +28,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 직접 사상이 왜 빠른지, 그리고 왜 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)끼리 충돌하는지를 한 번에 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Direct Mapping: address decides one and only one cache line         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 32-bit address = [ Tag 17b ][ Index 9b ][ Offset 6b ]               │
-│                               │            │                         │
-│                               │            └─ byte in 64B line       │
-│                               └────────────── line 0..511            │
-│                                                                      │
-│ block 13    ─┐                                                       │
-│ block 525   ─┼─ mod 512 = 13 ─────────────▶ cache line 13            │
-│ block 1037  ─┘                                                       │
-│                                                                      │
-│ lookup flow: read line 13 ─▶ compare stored tag ─▶ hit or miss       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Direct Mapping: address decides one and only one cache line         |
++----------------------------------------------------------------------+
+| 32-bit address = [ Tag 17b ][ Index 9b ][ Offset 6b ]               |
+|                               |            |                         |
+|                               |            +- byte in 64B line       |
+|                               +-------------- line 0..511            |
+|                                                                      |
+| block 13    -+                                                       |
+| block 525   -+- mod 512 = 13 --------------> cache line 13            |
+| block 1037  -+                                                       |
+|                                                                      |
+| lookup flow: read line 13 --> compare stored tag --> hit or miss       |
++----------------------------------------------------------------------+
 ```
 
 핵심은 주소가 저장 위치를 먼저 결정하고, 태그 (Tag)는 그 위치의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정말 원하는 블록인지 나중에 확인한다는 점이다. 그래서 직접 사상은 "찾는 비용"은 매우 낮지만, "같은 자리를 두고 경쟁하는 비용"은 높다.
@@ -68,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 하지만 이 단순함은 곧 충돌 가능성을 내장한다. 예를 들어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) A와 B의 시작 주소 차이가 캐시 전체 크기와 정확히 같다면, 두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 같은 상대 위치 원소는 동일한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 떨어진다. `A[0]`을 읽고 곧바로 `B[0]`을 읽는 순간 같은 라인을 교대로 덮어쓰게 되고, 이후 `A[1]`, `B[1]`도 같은 문제가 반복된다. 이것이 직접 사상의 대표적 병목인 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이다.
 
 ```text
-Time →
+Time ->
 A0 access  : miss, line 13 <= A0
 B0 access  : miss, line 13 <= B0   (A0 evicted)
 A0 reaccess: miss, line 13 <= A0   (B0 evicted)
@@ -155,26 +155,26 @@ B0 reaccess: miss, line 13 <= B0   (A0 evicted)
 
 ```text
 메모리 계층 (Memory Hierarchy)
-        │
-        ▼
+        |
+        v
 캐시 메모리 (Cache Memory)
-        │
-        ▼
+        |
+        v
 캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        ├─ 장점: 짧은 hit time · 낮은 회로 복잡도
-        │        └─ 한계: 충돌 미스 · 스래싱
-        │
-        ▼
+        |
+        +--> 직접 사상 (Direct Mapping)
+        |        |
+        |        +- 장점: 짧은 hit time · 낮은 회로 복잡도
+        |        +- 한계: 충돌 미스 · 스래싱
+        |
+        v
 집합 연관 사상 (Set Associative Mapping)
-        │
-        ▼
+        |
+        v
 희생자 캐시 (Victim Cache) · 페이지 컬러링 · 주소 해싱
 ```
 
-이 흐름은 "단순 배정 → 충돌 노출 → 절충 구조 → 보완 기법"으로 발전한 캐시 설계의 사고 과정을 보여준다.
+이 흐름은 "단순 배정 -> 충돌 노출 -> 절충 구조 -> 보완 기법"으로 발전한 캐시 설계의 사고 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ B0 reaccess: miss, line 13 <= B0   (A0 evicted)
 
 **진행 상황**: 267 / 803
 
-← **이전**: [266. 캐시 맵핑 방식 (Cache Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/266_cache_mapping/)
-**다음**: [268. 완전 연관 사상 (Fully Associative)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/) →
+<- **이전**: [266. 캐시 맵핑 방식 (Cache Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/266_cache_mapping/)
+**다음**: [268. 완전 연관 사상 (Fully Associative)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/) ->
 
 ---

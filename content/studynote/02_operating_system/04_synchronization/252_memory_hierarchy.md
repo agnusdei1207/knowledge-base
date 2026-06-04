@@ -27,18 +27,18 @@ tags = ["studynote-operating-system"]
 ```text
   [메모리 계층 구조의 피라미드와 속도/비용 스펙트럼]
 
-               ▲ (Speed ⚡, Cost 💰) 극대화  /  (Capacity 💾) 최소화
+               ^ (Speed ⚡, Cost 💰) 극대화  /  (Capacity 💾) 최소화
              ╱   ╲
            ╱       ╲
-         ╱ Register  ╲    ◀─ CPU 내부 (0.1 ns) / 바이트(Byte) 단위 / 수백만 원
-       ╱───────────────╲
-     ╱    L1 / L2 Cache  ╲  ◀─ CPU 내부 (1~10 ns) / 메가바이트(MB) 단위 / 수십만 원
-   ╱───────────────────────╲
-  ╱       Main Memory (RAM)  ╲ ◀─ 마더보드 (100 ns) / 기가바이트(GB) 단위 / 만 원
-╱─────────────────────────────╲
-│      Disk (SSD / HDD)       │ ◀─ 외부 장치 (1,000,000 ns) / 테라바이트(TB) 단위 / 십 원
-└─────────────────────────────┘
-               ▼ (Capacity 💾) 극대화  /  (Speed ⚡, Cost 💰) 최소화
+         ╱ Register  ╲    <-- CPU 내부 (0.1 ns) / 바이트(Byte) 단위 / 수백만 원
+       ╱---------------╲
+     ╱    L1 / L2 Cache  ╲  <-- CPU 내부 (1~10 ns) / 메가바이트(MB) 단위 / 수십만 원
+   ╱-----------------------╲
+  ╱       Main Memory (RAM)  ╲ <-- 마더보드 (100 ns) / 기가바이트(GB) 단위 / 만 원
+╱-----------------------------╲
+|      Disk (SSD / HDD)       | <-- 외부 장치 (1,000,000 ns) / 테라바이트(TB) 단위 / 십 원
++-----------------------------+
+               v (Capacity 💾) 극대화  /  (Speed ⚡, Cost 💰) 최소화
 ```
 **[다이어그램 해설]** 위로 갈수록 1바이트당 가격이 살인적으로 비싸지기 때문에 용량을 키울 수가 없다. 아래로 갈수록 속도는 수백만 배 느려지지만 미친 듯이 싸고 전원이 꺼져도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 보존되는(Non-volatile) 혜택을 얻는다. 아키텍트의 목표는 이 피라미드의 꼭대기(캐시)에 "지금 당장 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 기가 막히게 올려놓는 것이다.
 
@@ -110,23 +110,23 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
    - **아키텍트 조치**: 자주 찾는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(게시판 1페이지, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보)는 지역성(Locality)이 뚜렷하므로, DB(디스크 계층) 앞단에 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)(메인 메모리 계층) 서버를 따로 박아둔다. 즉, Redis는 백엔드 인프라 아키텍처 관점에서 거대한 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) L3 캐시' 역할을 수행하는 것이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     성능 최적화(Optimization) 시 메모리 계층 튜닝 아키텍처 트리    │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [요구사항: 초당 100만 건의 트랜잭션을 처리하는 애플리케이션 개발]│
-  │                                                                    │
-  │   [ 1단계: 디스크 I/O (가장 느림) 타파 ]                           │
-  │     ▶ DB Hit를 줄이고 Redis 같은 In-Memory 캐시를 떡칠한다.        │
-  │                                                                    │
-  │   [ 2단계: 메인 메모리 I/O (중간 지연) 타파 ]                      │
-  │     ▶ 자바의 GC(Garbage Collection)를 튜닝하거나, 객체 할당을      │
-  │        줄여(Object Pool) RAM에 갔다 오는 빈도를 낮춘다.            │
-  │                                                                    │
-  │   [ 3단계: L1/L2 Cache Miss (초미세 지연) 타파 ]                   │
-  │     ▶ Linked List를 버리고 배열(Array) 위주의 연속된 메모리        │
-  │        배치(Data-Oriented Design)로 바꿔 캐시 프리패치 극대화.     │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     성능 최적화(Optimization) 시 메모리 계층 튜닝 아키텍처 트리    |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [요구사항: 초당 100만 건의 트랜잭션을 처리하는 애플리케이션 개발]|
+  |                                                                    |
+  |   [ 1단계: 디스크 I/O (가장 느림) 타파 ]                           |
+  |     -> DB Hit를 줄이고 Redis 같은 In-Memory 캐시를 떡칠한다.        |
+  |                                                                    |
+  |   [ 2단계: 메인 메모리 I/O (중간 지연) 타파 ]                      |
+  |     -> 자바의 GC(Garbage Collection)를 튜닝하거나, 객체 할당을      |
+  |        줄여(Object Pool) RAM에 갔다 오는 빈도를 낮춘다.            |
+  |                                                                    |
+  |   [ 3단계: L1/L2 Cache Miss (초미세 지연) 타파 ]                   |
+  |     -> Linked List를 버리고 배열(Array) 위주의 연속된 메모리        |
+  |        배치(Data-Oriented Design)로 바꿔 캐시 프리패치 극대화.     |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 백엔드 아키텍처의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선은 결국 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피라미드의 위쪽으로 밀어 올려서, 아래쪽(Disk, RAM)으로 내려가는 횟수를 줄이는 싸움"이다. 가장 느린 계층부터 하나씩 병목을 부수고 올라가는 것이 탑티어 엔지니어의 최적화 정석이다.
 
@@ -160,12 +160,12 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 
 ```text
 [윈도우 동기화]
-    │
-    ▼
+    |
+    v
 [메모리 계층 구조 (Memory Hierarchy)]
-    │
-    ├──▶ [리눅스 동기화]
-    └──▶ [RCU (Read-Copy-Update)]
+    |
+    +---> [리눅스 동기화]
+    +---> [RCU (Read-Copy-Update)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -182,7 +182,7 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 
 **진행 상황**: 252 / 800
 
-← **이전**: [251. 윈도우 동기화 (Windows Synchronization)](/knowledge-base/studynote/02_operating_system/04_synchronization/251_windows_synchronization/)
-**다음**: [253. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) →
+<- **이전**: [251. 윈도우 동기화 (Windows Synchronization)](/knowledge-base/studynote/02_operating_system/04_synchronization/251_windows_synchronization/)
+**다음**: [253. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) ->
 
 ---

@@ -19,9 +19,9 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-Platooning: 선두 → 후속1 → 후속2 → 후속3
+Platooning: 선두 -> 후속1 -> 후속2 -> 후속3
   차간 거리: 수m (V2V 통신으로 동기화)
-  공기 저항↓ → 연비 10~15%↑
+  공기 저항v -> 연비 10~15%^
   후속 차량: CACC 자동 추종 (L2~L4)
 ```
 
@@ -48,14 +48,14 @@ Platooning: 선두 → 후속1 → 후속2 → 후속3
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ACC (2000s)] → [CACC (V2V 기반, 2015)]
-    → [Platooning 실증 (EU SARTRE, 2016)]
-    → [현재: 상용화 시험 — Volvo·Daimler·현대]
+[ACC (2000s)] -> [CACC (V2V 기반, 2015)]
+    -> [Platooning 실증 (EU SARTRE, 2016)]
+    -> [현재: 상용화 시험 — Volvo·Daimler·현대]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 군집주행은 <strong>기러기 V자 비행</strong>이에요. 선두가 바람을 막아줘요.
-2. 뒤따르는 트럭은 <strong>바람 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a>이 적어</strong> 기름을 덜 써요(15%↓).
+2. 뒤따르는 트럭은 <strong>바람 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a>이 적어</strong> 기름을 덜 써요(15%v).
 3. 무전(V2V)으로 **"나 감속한다!"** 알려서 동시에 움직여요!
 
 ---
@@ -64,7 +64,7 @@ Platooning: 선두 → 후속1 → 후속2 → 후속3
 
 **진행 상황**: 144 / 552
 
-← **이전**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)
-**다음**: [145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) →
+<- **이전**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)
+**다음**: [145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) ->
 
 ---

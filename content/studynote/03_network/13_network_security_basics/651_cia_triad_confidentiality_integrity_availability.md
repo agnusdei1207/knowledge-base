@@ -38,11 +38,11 @@ tags = ["studynote-network"]
 
 ```text
 [저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
+    |
+    v
 [정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    └──▶ [암호학 개요 통신망 보안 적용]
+    |
+    +---> [암호학 개요 통신망 보안 적용]
 ```
 
 - **📢 섹션 요약 비유**: 정보보안 3대 요소 + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -62,11 +62,11 @@ tags = ["studynote-network"]
 
 ```text
 [저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
+    |
+    v
 [정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    └──▶ [암호학 개요 통신망 보안 적용]
+    |
+    +---> [암호학 개요 통신망 보안 적용]
 ```
 
 - **📢 섹션 요약 비유**: 택배 배송에 비유해 봅시다. 배송 중인 상자를 투명 테이프 대신 속이 안 보이는 '검은색 랩([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))'으로 칭칭 감싸고, 그 위에 뜯으면 자국이 남는 '홀로그램 씰([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))'을 붙인 뒤, 배달원이 24시간 언제든 고객에게 무사히 전달할 수 있도록 '예비 트럭([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'을 준비해 두는 완벽한 배송 시스템이 CIA 트라이어드입니다. 수령 시 신분증을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))하고 고객의 사인(부인 방지)을 받아두면 완벽합니다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
+    |
+    v
 [현재 개념: 정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    ├──▶ [확장 A: 암호학 개요 통신망 보안 적용]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 암호학 개요 통신망 보안 적용]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 정보보안 3대 요소 + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 개요 통신망 보안 적용와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 772 / 1120
 
-← **이전**: [650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/650_lea_lightweight_encryption_algorithm_iot/)
-**다음**: [652. 암호학 (Cryptography) 개요 통신망 보안 적용 (평문->암호문->평문 변환 체계)](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) →
+<- **이전**: [650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/650_lea_lightweight_encryption_algorithm_iot/)
+**다음**: [652. 암호학 (Cryptography) 개요 통신망 보안 적용 (평문->암호문->평문 변환 체계)](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) ->
 
 ---

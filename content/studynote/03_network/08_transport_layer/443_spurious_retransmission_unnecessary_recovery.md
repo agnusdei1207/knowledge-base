@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [칸 알고리즘]
-    │
-    ▼
+    |
+    v
 [불필요한 재전송 해결 방안]
-    │
-    └──▶ [TCP Keep-Alive 타이머]
+    |
+    +---> [TCP Keep-Alive 타이머]
 ```
 
 - **📢 섹션 요약 비유**: <strong> Spurious Retransmission은 상대방이 카톡을 못 본 게 아니라 </strong>단지 회의 중이라 답장을 "늦게(Delay)" 하는 것뿐인데, 혼자 "차단당했네!"라고 오해([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))하여 구질구질하게 문자를 한 번 더 보내는 흑역사**와 같습니다. 이 착각 때문에 우리 사이(통신 속도)는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 불가(CWND=1)로 곤두박질칩니다.
@@ -55,24 +55,24 @@ TCP의 가장 뼈아픈 약점이다.
 - 수신자는 잉여 패킷(두 번째 도착한 1번 택배)을 버리면서, 영수증(ACK) 꼬리표에 <strong>"나 1번 택배 중복(Duplicate)으로 받았어 멍청아!"</strong>라고 콕 집어 적어 보낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                D-SACK에 의한 송신자의 오판 회복(Undo) 과정          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 (유튜브) ]                            [ 수신자 (스마트폰) ]│
- │   1번 패킷 발사! ────────(기지국 전환으로 버퍼에 갇힘)──────▶  │
- │                                                             │
- │   (타임아웃 발생! 아 죽었네! 속도 CWND 1로 박살 냄!)               │
- │   1번 패킷 재전송! ────────(빛의 속도로 날아감)────────▶     │
- │                                                             │
- │   * 스마트폰 상황: "아까 갇혀있던 원본 1번도 오고, 재전송 1번도 오네?"  │
- │   * 스마트폰 ── "야, 나 1번 중복으로 2개 받았어!(D-SACK)" ──▶ │
- │                                                             │
- │   * 송신자의 뇌구조 (롤백 발동!):                               │
- │     "헐! 내가 아까 친 타임아웃은 패킷이 죽은 게 아니라, 내가 성급하게 │
- │      헛발질(Spurious)한 거였구나!! 미안 미안, 아까 CWND 1로     │
- │      박살 냈던 거 없던 일(Undo)로 하고 원래 속도로 다시 돌려놓을게!!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                D-SACK에 의한 송신자의 오판 회복(Undo) 과정          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 송신자 (유튜브) ]                            [ 수신자 (스마트폰) ]|
+ |   1번 패킷 발사! --------(기지국 전환으로 버퍼에 갇힘)------->  |
+ |                                                             |
+ |   (타임아웃 발생! 아 죽었네! 속도 CWND 1로 박살 냄!)               |
+ |   1번 패킷 재전송! --------(빛의 속도로 날아감)--------->     |
+ |                                                             |
+ |   * 스마트폰 상황: "아까 갇혀있던 원본 1번도 오고, 재전송 1번도 오네?"  |
+ |   * 스마트폰 -- "야, 나 1번 중복으로 2개 받았어!(D-SACK)" ---> |
+ |                                                             |
+ |   * 송신자의 뇌구조 (롤백 발동!):                               |
+ |     "헐! 내가 아까 친 타임아웃은 패킷이 죽은 게 아니라, 내가 성급하게 |
+ |      헛발질(Spurious)한 거였구나!! 미안 미안, 아까 CWND 1로     |
+ |      박살 냈던 거 없던 일(Undo)로 하고 원래 속도로 다시 돌려놓을게!!"|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. F-[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)-Recovery)
@@ -140,12 +140,12 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, <strong>F-<a
 
 ```text
 [선행 개념: 칸 알고리즘]
-    │
-    ▼
+    |
+    v
 [현재 개념: 불필요한 재전송 해결 방안]
-    │
-    ├──▶ [확장 A: TCP Keep-Alive 타이머]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP Keep-Alive 타이머]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 불필요한 재전송 해결 방안는 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, <strong>F-<a
 
 **진행 상황**: 564 / 1120
 
-← **이전**: [442. 칸 알고리즘 (Karn's Algorithm)](/knowledge-base/studynote/03_network/08_transport_layer/442_karns_algorithm_exclude_retransmitted_rtt/)
-**다음**: [444. TCP Keep-Alive 타이머](/knowledge-base/studynote/03_network/08_transport_layer/444_tcp_keep_alive_timer/) →
+<- **이전**: [442. 칸 알고리즘 (Karn's Algorithm)](/knowledge-base/studynote/03_network/08_transport_layer/442_karns_algorithm_exclude_retransmitted_rtt/)
+**다음**: [444. TCP Keep-Alive 타이머](/knowledge-base/studynote/03_network/08_transport_layer/444_tcp_keep_alive_timer/) ->
 
 ---

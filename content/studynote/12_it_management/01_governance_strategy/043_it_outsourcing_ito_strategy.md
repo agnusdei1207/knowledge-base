@@ -23,7 +23,7 @@ IT 아웃소싱 (ITO) 정의:
   내부 IT 기능(인프라/앱/서비스)을 외부 전문 업체에 위탁
 
   동기:
-    비용 절감 (고정 비용 → 변동 비용)
+    비용 절감 (고정 비용 -> 변동 비용)
     핵심 역량에 집중
     전문성 활용 (24/7 모니터링, 보안 등)
     빠른 확장성
@@ -38,13 +38,13 @@ ITO 유형:
 
 2. 전면 아웃소싱 (Total Outsourcing):
    IT 전반을 단일 업체에 위탁
-   예: 은행 IT 전부 → IBM, Accenture
+   예: 은행 IT 전부 -> IBM, Accenture
    장점: 단일 책임, 대규모 절감
    단점: 락인(Lock-in) 위험 극대화
 
 3. 멀티 소싱 (Multi-Sourcing):
    기능별로 다수 업체 분리 발주
-   예: 인프라 → A사, 앱 개발 → B사, 보안 → C사
+   예: 인프라 -> A사, 앱 개발 -> B사, 보안 -> C사
    장점: 경쟁, 유연성
    단점: 통합 관리 복잡
 
@@ -94,16 +94,16 @@ SLA (Service Level Agreement) 핵심 구성:
    분쟁 시 중립적 제3자 측정
 
 4. 패널티/인센티브:
-   SLA 미달 → 서비스 크레딧 지급 (예: 1% 요금 감면)
-   SLA 초과 달성 → 인센티브 (계약 연장, 보너스)
+   SLA 미달 -> 서비스 크레딧 지급 (예: 1% 요금 감면)
+   SLA 초과 달성 -> 인센티브 (계약 연장, 보너스)
 
 5. 에스컬레이션 절차:
-   사고 발생 → 담당자 → 관리자 → 임원 escalation
+   사고 발생 -> 담당자 -> 관리자 -> 임원 escalation
 
 SLA 함정:
   99.9% 가용성 = 연간 8.76시간 다운 허용
   피크 타임 다운 vs 새벽 다운: 비즈니스 영향 다름
-  → 서비스 시간대별 가중 가용성 측정 필요
+  -> 서비스 시간대별 가중 가용성 측정 필요
 ```
 
 > 📢 **섹션 요약 비유**: SLA는 음식점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 계약 — "주문 후 15분 내 음식 제공, 불이행 시 식사비 할인"처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 보상을 명확히 계약.
@@ -117,7 +117,7 @@ ITO 주요 위험:
 
 1. 락인(Vendor Lock-in):
    특정 업체 기술/플랫폼에 종속
-   전환 비용 증가 → 협상력 감소
+   전환 비용 증가 -> 협상력 감소
 
    완화:
      개방형 표준 사용 계약 명시
@@ -166,7 +166,7 @@ ITO 주요 위험:
 ## Ⅳ. 클라우드 MSP와 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)
 
 ```
-전통 ITO → 클라우드 MSP 진화:
+전통 ITO -> 클라우드 MSP 진화:
 
 전통 ITO (2000~2015):
   데이터센터 인프라 아웃소싱
@@ -233,10 +233,10 @@ MSP 선택 기준:
 ITO 전략 결정:
   핵심 유지: ERP 커스터마이징, IT 거버넌스, 전략 결정
   선택적 아웃소싱:
-    인프라 → 클라우드 MSP (AWS Premier Partner)
-    헬프데스크 → BPO 업체
-    보안 관제 → MSSP (Managed Security Service Provider)
-    앱 개발 → 니어쇼어 개발사
+    인프라 -> 클라우드 MSP (AWS Premier Partner)
+    헬프데스크 -> BPO 업체
+    보안 관제 -> MSSP (Managed Security Service Provider)
+    앱 개발 -> 니어쇼어 개발사
 
 SLA 설계:
   인프라 가용성: 99.9% (월 43.8분 다운 허용)
@@ -244,9 +244,9 @@ SLA 설계:
   FinOps 절감 목표: 연간 15% 클라우드 비용 절감
 
 결과 (3년 후):
-  IT 비용: 50억 → 38억 (24% 절감)
+  IT 비용: 50억 -> 38억 (24% 절감)
   IT 역량: 보안 SOC, AI/ML 전문 서비스 활용
-  내부 IT팀: 50명 → 15명 (핵심 거버넌스 역할)
+  내부 IT팀: 50명 -> 15명 (핵심 거버넌스 역할)
   디지털 전환: 클라우드 ERP, 스마트 공장 IoT 플랫폼 구축
 
 교훈:
@@ -298,7 +298,7 @@ TCS, Infosys, Wipro 급성장
       |
       v
 [클라우드 ITO (2010s~)]
-AWS/Azure 등장 → 인프라 아웃소싱 대체
+AWS/Azure 등장 -> 인프라 아웃소싱 대체
 MSP 시장 형성
       |
       v
@@ -321,7 +321,7 @@ AI/ML 운영 관리 서비스 MSP
 
 **진행 상황**: 77 / 587
 
-← **이전**: [042. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_growth_hacking/)
-**다음**: [43. IT 아웃소싱 (ITO, IT Outsourcing) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_strategy/) →
+<- **이전**: [042. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_growth_hacking/)
+**다음**: [43. IT 아웃소싱 (ITO, IT Outsourcing) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_strategy/) ->
 
 ---

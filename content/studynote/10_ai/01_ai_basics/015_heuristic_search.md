@@ -25,11 +25,11 @@ tags = ["ai"]
 ```text
 [평가 함수 구조: f(n) = g(n) + h(n)]
   S (시작)
-   │
-   ├─> (노드 A) : 이미 온 거리 g(A)=10 + 예상 남은 거리 h(A)=50  => 총 f(A)=60
-   │
-   └─> (노드 B) : 이미 온 거리 g(B)=15 + 예상 남은 거리 h(B)=20  => 총 f(B)=35  (★우선 탐색)
-                                                           ↓
+   |
+   +-> (노드 A) : 이미 온 거리 g(A)=10 + 예상 남은 거리 h(A)=50  => 총 f(A)=60
+   |
+   +-> (노드 B) : 이미 온 거리 g(B)=15 + 예상 남은 거리 h(B)=20  => 총 f(B)=35  (★우선 탐색)
+                                                           v
                                                       목표점(Goal)
 ```
 이 구조의 핵심은 과거의 확정된 비용($g(n)$)과 미래의 추정된 비용($h(n)$)의 결합이다. 오직 $h(n)$에만 의존하여 가장 좋아 보이는 곳만 탐색하는 것을 최고 우선 탐색(Best-First Search / Greedy Search)이라 하고, $g(n)$과 $h(n)$을 더해 전체 경로의 최적성을 보장하는 가장 완벽한 형태가 바로 A* (에이스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
@@ -52,8 +52,8 @@ tags = ["ai"]
 다음은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 과대평가되었을 때 왜 최적 경로를 놓치는지를 보여주는 치명적 병목 도식이다.
 ```text
 (S) -- 비용(1) --> (A) -- 비용(10) --> (Goal) : 총 실제비용 11
- │
- └---- 비용(5) --> (B) -- 비용( 2) --> (Goal) : 총 실제비용 7 (이게 정답이어야 함)
+ |
+ +---- 비용(5) --> (B) -- 비용( 2) --> (Goal) : 총 실제비용 7 (이게 정답이어야 함)
 
 [만약 h(n)이 잘못 설계되어 과대평가한 경우 (비허용적)]
 - 노드 A 평가: f(A) = g(1) + h(A)추정치(1) = 2
@@ -80,15 +80,15 @@ tags = ["ai"]
 다음은 언덕 오르기([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)) 탐색이 맞닥뜨리는 치명적인 병목 현상인 '지역 최적해(Local Maxima)'를 나타낸 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)이다.
 ```text
 목표 함수 값(성능)
-  ↑             (Global Maxima: 진짜 목표)
-  │                 /\
-  │ (Local Maxima) /  \
-  │      /\       /
-  │     /  \     /
-  │    /    \___/ (계곡)
-  │   /
-  │  / (현재 위치에서 주변을 보면 다 내리막이라 자기가 정상인 줄 착각함)
-  └───────────────────────────────> 상태 공간
+  ^             (Global Maxima: 진짜 목표)
+  |                 /\
+  | (Local Maxima) /  \
+  |      /\       /
+  |     /  \     /
+  |    /    \___/ (계곡)
+  |   /
+  |  / (현재 위치에서 주변을 보면 다 내리막이라 자기가 정상인 줄 착각함)
+  +-------------------------------> 상태 공간
 ```
 이 비교도의 핵심은 '근시안적 탐색의 한계'다. 메모리를 아끼기 위해 현재 노드의 주변 이웃만 평가하여 무조건 높은 곳으로 올라가는 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)은, 작은 봉우리(Local Maxima)에 갇히면 내려갈 수 있는 수단([백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))이 없어 탐색이 정지된다. 실무에서는 이를 돌파하기 위해 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 가끔 나쁜 길(내리막)도 수용하는 **시뮬레이티드 어닐링(Simulated Annealing)** 기법이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 위치를 무작위로 바꾸는 **랜덤 리스타트(Random Restart)** 기법을 필수로 융합해야 한다.
 
@@ -102,14 +102,14 @@ tags = ["ai"]
 <strong>실무 의사결정 시나리오: 자율주행 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 시스템 구축</strong>
 ```text
 [실시간 라우팅 탐색 전략 결정]
-   ↓
+   v
 [Q1. 100% 최적 경로 보장이 비즈니스상 필수적인가?]
- ├── (Yes) -> 허용적(Admissible) h(n)을 철저히 설계한 A* 적용
- └── (No, 1% 오차는 감수하되 빠른 속도가 중요)
-      ↓
+ +-- (Yes) -> 허용적(Admissible) h(n)을 철저히 설계한 A* 적용
+ +-- (No, 1% 오차는 감수하되 빠른 속도가 중요)
+      v
 [Q2. 동적 장애물(공사, 사고)로 지도가 실시간 파편화되는가?]
- ├── (No) -> $h(n)$의 가중치 $w$를 1 이상으로 키운 Weighted A*로 연산 가속화 (Sub-optimal 허용)
- └── (Yes) -> 목표점에서 역방향으로 갱신하는 D* Lite 알고리즘 도입
+ +-- (No) -> $h(n)$의 가중치 $w$를 1 이상으로 키운 Weighted A*로 연산 가속화 (Sub-optimal 허용)
+ +-- (Yes) -> 목표점에서 역방향으로 갱신하는 D* Lite 알고리즘 도입
 ```
 이 의사결정 흐름의 핵심은 정확도와 연산 시간의 타협(Trade-off)이다. A*에서 $h(n)$의 비중을 높이면($f(n) = g(n) + W \times h(n), W > 1$) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 탐색 가지를 극적으로 좁혀 속도가 10배 이상 빨라진다. 다만 최단 거리를 살짝 벗어날 위험이 생긴다. 실시간 게임(스타크래프트 길찾기)이나 내비게이션에서는 완벽한 최단거리보다 '빠른 반응성'이 더 중요하므로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 부여된 $W-A^*$ 방식이나 탐색 공간을 계층화한 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)* (Hierarchical Pathfinding A*)를 적극 채택하여 CPU 부하를 방어한다.
 
@@ -148,21 +148,21 @@ tags = ["ai"]
 
 ```text
 [맹목적 탐색 (BFS / DFS) — 휴리스틱 없이 모든 경우의 수 탐색, 지수적 복잡도]
-    │
-    ▼
+    |
+    v
 [탐욕적 최선 우선 탐색 (Greedy Best-First) — h(n)만 사용, 빠르지만 최적성 미보장]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 — f(n)=g(n)+h(n), 허용 가능 h(n)으로 최적성 보장]
-    │
-    ▼
+    |
+    v
 [가중치 A* (Weighted A*) — f(n)=g(n)+W·h(n), 최적성 포기하고 속도 우선화]
-    │
-    ▼
+    |
+    v
 [학습 기반 휴리스틱 (Learned Heuristics) — 딥러닝으로 h(n) 함수 자체를 데이터 학습]
 ```
 
-이 흐름은 방향 없이 탐색하는 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)에서 경험적 추정치(h(n))를 도입한 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색으로 진화하고, A*의 최적성 보장→[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) A*의 속도 우선화를 거쳐, 딥러닝이 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 자체를 학습하는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 탐색의 발전 계보를 보여준다.
+이 흐름은 방향 없이 탐색하는 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)에서 경험적 추정치(h(n))를 도입한 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색으로 진화하고, A*의 최적성 보장->[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) A*의 속도 우선화를 거쳐, 딥러닝이 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 자체를 학습하는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 탐색의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +176,7 @@ tags = ["ai"]
 
 **진행 상황**: 15 / 420
 
-← **이전**: [14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)
-**다음**: [16. 언덕 오르기 탐색 (Hill Climbing) - 현재 상태에서 이웃 상태 중 가장 좋은 곳으로만 이동 (지역 최적해에 빠질 위험)](/knowledge-base/studynote/10_ai/01_ai_basics/016_hill_climbing/) →
+<- **이전**: [14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)
+**다음**: [16. 언덕 오르기 탐색 (Hill Climbing) - 현재 상태에서 이웃 상태 중 가장 좋은 곳으로만 이동 (지역 최적해에 빠질 위험)](/knowledge-base/studynote/10_ai/01_ai_basics/016_hill_climbing/) ->
 
 ---

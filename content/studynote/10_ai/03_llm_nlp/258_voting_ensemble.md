@@ -29,18 +29,18 @@ tags = ["studynote-ai"]
 
 | 구분 | Hard Voting | Soft Voting |
 |:---|:---|:---|
-| 집계 방법 | 다수결 (최빈 클래스) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 평균 → argmax |
+| 집계 방법 | 다수결 (최빈 클래스) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 평균 -> argmax |
 | 필요 정보 | 클래스 레이블 | 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 낮음 | 높음 |
 | 사용 조건 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 불가 모델 포함 시 | 모든 모델이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 가능 시 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 보팅은 배심원 재판과 같다. 12명의 배심원이 각자 다른 직업과 관점을 가지고 유/무죄를 결정하는 것처럼, 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "각자의 관점"으로 클래스를 판정한다.
@@ -53,24 +53,24 @@ tags = ["studynote-ai"]
 
 ```
   입력 데이터 X
-       │
-  ┌────┴──────────────────────────────────┐
-  │         이종 모델 학습 (병렬)          │
-  ├──────────┬──────────┬─────────────────┤
-  │  SVM     │    RF    │  Logistic Reg.  │
-  │ Class: A │ Class: B │    Class: A     │
-  │  ─────   │  ─────   │   ─────────     │
-  │ Pr(A)=.9 │ Pr(A)=.3 │  Pr(A)=0.7     │
-  └─────┬────┴─────┬────┴────────┬────────┘
-        │          │             │
-  ┌─────▼──────────▼─────────────▼────────┐
-  │           집계 방법                    │
-  ├────────────────┬──────────────────────┤
-  │  Hard Voting   │    Soft Voting       │
-  │  A:2, B:1      │  Pr(A)=(0.9+0.3+0.7)│
-  │  → 다수결: A   │       /3 = 0.633     │
-  │                │  → argmax: A         │
-  └────────────────┴──────────────────────┘
+       |
+  +----+----------------------------------+
+  |         이종 모델 학습 (병렬)          |
+  +----------+----------+-----------------+
+  |  SVM     |    RF    |  Logistic Reg.  |
+  | Class: A | Class: B |    Class: A     |
+  |  -----   |  -----   |   ---------     |
+  | Pr(A)=.9 | Pr(A)=.3 |  Pr(A)=0.7     |
+  +-----+----+-----+----+--------+--------+
+        |          |             |
+  +-----v----------v-------------v--------+
+  |           집계 방법                    |
+  +----------------+----------------------+
+  |  Hard Voting   |    Soft Voting       |
+  |  A:2, B:1      |  Pr(A)=(0.9+0.3+0.7)|
+  |  -> 다수결: A   |       /3 = 0.633     |
+  |                |  -> argmax: A         |
+  +----------------+----------------------+
              최종 예측: Class A
 ```
 
@@ -113,7 +113,7 @@ $$\hat{y} = \text{argmax}_k \sum_{j=1}^{M} w_j \cdot p_{jk}$$
 
 $$P(\text{다수결 오류}) = \sum_{k=\lceil n/2 \rceil}^{n} \binom{n}{k} \epsilon^k (1-\epsilon)^{n-k}$$
 
-n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
+n=5, ε=0.3 -> 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 그러나 현실에서 모델들은 **완전 독립적이지 않으므로**, 다양성 확보가 핵심이다.
 
@@ -130,7 +130,7 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 - 각 모델이 서로 다른 특성(선형/비선형/트리 기반)을 활용하므로 다양성 확보
 
 **나쁜 보팅 조합 예시**:
-- [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) + [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) + [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) (모두 동일 → Bagging이 낫다)
+- [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) + [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) + [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) (모두 동일 -> Bagging이 낫다)
 
 ### 가중 보팅(Weighted Voting)
 
@@ -138,13 +138,13 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 ```
   모델별 가중치 결정:
-  ┌────────────────┬────────────┬──────────────┐
-  │ 모델           │ 검증 정확도 │ 소프트 보팅 가중치│
-  ├────────────────┼────────────┼──────────────┤
-  │ SVM            │ 0.88       │ 0.35         │
-  │ Random Forest  │ 0.85       │ 0.34         │
-  │ Logistic Reg.  │ 0.77       │ 0.31         │
-  └────────────────┴────────────┴──────────────┘
+  +----------------+------------+--------------+
+  | 모델           | 검증 정확도 | 소프트 보팅 가중치|
+  +----------------+------------+--------------+
+  | SVM            | 0.88       | 0.35         |
+  | Random Forest  | 0.85       | 0.34         |
+  | Logistic Reg.  | 0.77       | 0.31         |
+  +----------------+------------+--------------+
 ```
 
 ### 기술사 답안 포인트
@@ -186,7 +186,7 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [보팅 (Voting)] → [최적화·운영 자동화]
+[데이터 전처리] -> [보팅 (Voting)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -201,7 +201,7 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 **진행 상황**: 258 / 420
 
-← **이전**: [257. 앙상블 (Ensemble) 학습](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
-**다음**: [259. 배깅 (Bagging)](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) →
+<- **이전**: [257. 앙상블 (Ensemble) 학습](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
+**다음**: [259. 배깅 (Bagging)](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ->
 
 ---

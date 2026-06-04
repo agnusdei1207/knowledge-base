@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴은 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 긴 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Long Lived [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 처리, 이벤트 기반 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/) 분할 및 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)([Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) 수행에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Request -> Tx boundary -> Current concept -> Commit/RB       │
-├──────────────────────────────────────────────────────────────┤
-│ Work unit -> control point -> consistency                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Request -> Tx boundary -> Current concept -> Commit/RB       |
++--------------------------------------------------------------+
+| Work unit -> control point -> consistency                    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `3단계 커밋`·`CAP 정리`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Begin -> current concept -> Commit / Rollback                │
-├──────────────────────────────────────────────────────────────┤
-│ State change -> control command -> durable result            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Begin -> current concept -> Commit / Rollback                |
++--------------------------------------------------------------+
+| State change -> control command -> durable result            |
++--------------------------------------------------------------+
 ```
 
 핵심은 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [3단계 커밋]
-    │
-    ▼
+    |
+    v
 [Saga 패턴]
-    │
-    ├──▶ [CAP 정리]
-    └──▶ [CP 시스템 / AP 시스템 / CA 시스템]
+    |
+    +---> [CAP 정리]
+    +---> [CP 시스템 / AP 시스템 / CA 시스템]
 ```
 
 [3단계 커밋](/knowledge-base/studynote/05_database/04_transactions_concurrency/251_three_phase_commit_3pc_blocking_solution/)에서 출발한 논점이 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴에서 핵심 판단으로 모이고, 이후 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리·[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 / [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 / [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 252 / 600
 
-← **이전**: [251. 3단계 커밋 (3PC, Three-Phase Commit)](/knowledge-base/studynote/05_database/04_transactions_concurrency/251_three_phase_commit_3pc_blocking_solution/)
-**다음**: [253. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/05_database/04_transactions_concurrency/253_cap_theorem/) →
+<- **이전**: [251. 3단계 커밋 (3PC, Three-Phase Commit)](/knowledge-base/studynote/05_database/04_transactions_concurrency/251_three_phase_commit_3pc_blocking_solution/)
+**다음**: [253. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/05_database/04_transactions_concurrency/253_cap_theorem/) ->
 
 ---

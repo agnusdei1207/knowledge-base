@@ -32,9 +32,9 @@ tags = ["studynote-algorithm-stats"]
   |   |
   4 - 5
 
-  클리크 {1,2,4}: 1-2, 2-4, 1-4 모두 연결? 1-4 없음 → Not clique
-  클리크 {1,2}: 1-2 연결 → size-2 clique ✓
-  클리크 {2,3}: 2-3 연결 → size-2 clique ✓
+  클리크 {1,2,4}: 1-2, 2-4, 1-4 모두 연결? 1-4 없음 -> Not clique
+  클리크 {1,2}: 1-2 연결 -> size-2 clique ✓
+  클리크 {2,3}: 2-3 연결 -> size-2 clique ✓
 
 최대 클리크 (Maximum Clique):
   그래프에서 가장 큰 클리크
@@ -42,11 +42,11 @@ tags = ["studynote-algorithm-stats"]
 
 k-클리크 결정 문제 (k-Clique Decision Problem):
   "그래프 G에 크기 k 이상의 클리크가 존재하는가?"
-  → NP-완전
+  -> NP-완전
 
 클리크 최적화 문제:
   "최대 클리크의 크기는?"
-  → NP-하드
+  -> NP-하드
 
 사회 네트워크 직관:
   정점 = 사람
@@ -68,35 +68,35 @@ k-클리크 ∈ NP 증명:
 검증 (Verification):
   주어진 부분 집합 C가 크기 k 클리크인지 확인
   모든 쌍 (u,v) ∈ C에 대해 엣지 존재 확인
-  O(k^2) = O(n^2) → 다항 시간 검증 가능
-  → k-Clique ∈ NP ✓
+  O(k^2) = O(n^2) -> 다항 시간 검증 가능
+  -> k-Clique ∈ NP ✓
 
-3-SAT ≤p k-Clique (3-SAT → k-Clique 다항 변환):
+3-SAT ≤p k-Clique (3-SAT -> k-Clique 다항 변환):
 
   3-SAT 입력:
     k개의 절 C1, ..., Ck
     각 절 Ci = (xi1 ∨ xi2 ∨ xi3)
 
   k-Clique 변환:
-    각 절의 각 리터럴 → 정점 생성
+    각 절의 각 리터럴 -> 정점 생성
     총 3k개의 정점
 
     엣지 추가 규칙:
     1. 같은 절의 리터럴 끼리는 연결 안 함
     2. 다른 절의 리터럴 사이 연결:
-       모순이 아닐 때만 (xi와 ¬xi는 연결 안 함)
+       모순이 아닐 때만 (xi와 +xi는 연결 안 함)
 
   핵심 아이디어:
     3-SAT가 만족 가능 ↔ 크기 k 클리크 존재
 
     각 절에서 하나씩 리터럴을 선택 (k개 선택)
-    → 선택한 k개가 모두 모순 없이 연결 = k-클리크
+    -> 선택한 k개가 모두 모순 없이 연결 = k-클리크
 
-  변환: O(n^2) → 다항 시간
+  변환: O(n^2) -> 다항 시간
   따라서 3-SAT ≤p k-Clique
 
   3-SAT는 NP-완전 + k-Clique ∈ NP
-  → k-Clique는 NP-완전 ✓
+  -> k-Clique는 NP-완전 ✓
 
 클리크 ≡ 독립 집합 (Independent Set):
 
@@ -105,12 +105,12 @@ k-클리크 ∈ NP 증명:
 
   관계:
     G의 여그래프 G-bar:
-    G의 엣지가 없는 곳 → G-bar에 엣지
+    G의 엣지가 없는 곳 -> G-bar에 엣지
 
     G에서 클리크 C ↔ G-bar에서 독립 집합 C
 
-  → Clique ≤p Independent Set (동치)
-  → 둘 다 NP-완전
+  -> Clique ≤p Independent Set (동치)
+  -> 둘 다 NP-완전
 ```
 
 > 📢 **섹션 요약 비유**: 클리크 NP-완전 증명은 어려움의 연쇄 — SAT가 어렵다는 걸 알았고, SAT를 클리크 문제로 변환할 수 있으니 클리크도 어렵다! 어려움이 바이러스처럼 전파돼요.
@@ -126,7 +126,7 @@ k-클리크 ∈ NP 증명:
    모든 2^n 부분 집합 검사
    각 부분 집합이 클리크인지 O(n^2) 검사
    총: O(2^n × n^2)
-   n=50 → 2^50 ≈ 10^15 연산 → 실용 불가
+   n=50 -> 2^50 ≈ 10^15 연산 -> 실용 불가
 
 2. Bron-Kerbosch 알고리즘 (1973):
    백트래킹 기반 최대 클리크 탐색
@@ -155,7 +155,7 @@ k-클리크 ∈ NP 증명:
 
 SNS 클리크 탐색 현실:
   Facebook, Twitter: 수십억 노드
-  최대 클리크 탐색: 불가능 → 근사 사용
+  최대 클리크 탐색: 불가능 -> 근사 사용
   Dense Subgraph Discovery: 완화된 클리크 개념
 ```
 
@@ -197,7 +197,7 @@ SNS 클리크 탐색 현실:
 
 5. 패턴 인식:
    이미지 특징 매칭
-   두 이미지의 특징점 → 클리크 = 매칭 그룹
+   두 이미지의 특징점 -> 클리크 = 매칭 그룹
 
 MaxClique 벤치마크:
   DIMACS 그래프: 표준 클리크 테스트셋
@@ -229,7 +229,7 @@ MaxClique 벤치마크:
 
   2. 필터링:
      고신뢰도 상호작용만 유지 (confidence > 0.7)
-     네트워크 밀도 감소 → Bron-Kerbosch 실용화
+     네트워크 밀도 감소 -> Bron-Kerbosch 실용화
 
   3. Bron-Kerbosch 실행:
      극대 클리크 열거 (크기 ≥ 3)
@@ -241,8 +241,8 @@ MaxClique 벤치마크:
 
   발견 사례:
     크기-5 클리크 {EGFR, GRB2, SOS1, RAS, RAF}
-    → EGFR 신호 경로 복합체
-    → 암 치료 타겟 후보 발견
+    -> EGFR 신호 경로 복합체
+    -> 암 치료 타겟 후보 발견
 
 성능:
   전체 네트워크: 28,000 노드, 600,000 엣지
@@ -264,7 +264,7 @@ MaxClique 벤치마크:
 ```
 클리크 문제 (Clique Problem)
 +-- 이론
-|   +-- NP-완전 (SAT → 3-SAT → k-Clique)
+|   +-- NP-완전 (SAT -> 3-SAT -> k-Clique)
 |   +-- 독립 집합과 동치 (여그래프)
 |   +-- 최대 클리크 = NP-하드
 +-- 알고리즘
@@ -291,7 +291,7 @@ Euler 쾨니히스베르크 다리 문제
       |
       v
 [클리크 문제 NP-완전 증명 (1972)]
-Karp: SAT → k-Clique 귀납
+Karp: SAT -> k-Clique 귀납
 클리크 ≡ 독립 집합 발견
       |
       v
@@ -329,7 +329,7 @@ GNN 기반 클리크 탐색
 
 **진행 상황**: 113 / 175
 
-← **이전**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/)
-**다음**: [009. 버텍스 커버 — Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/) →
+<- **이전**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/)
+**다음**: [009. 버텍스 커버 — Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/) ->
 
 ---

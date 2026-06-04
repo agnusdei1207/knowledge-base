@@ -13,7 +13,7 @@ tags = ["studynote-ict-convergence"]
 
 > 1. **본질**: [LDM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/)([Latent Diffusion Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/))은 픽셀 공간이 아닌 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 잠재 공간(Latent Space)에서 디퓨전(확산/역확산) 과정을 수행해 고해상도 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용을 획기적으로 낮춘다.
 > 2. **가치**: Stable Diffusion의 핵심 구조로, 512×512 이미지를 64×64 잠재 벡터에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 메모리와 연산을 수십 배 절감하면서도 픽셀 수준 디퓨전과 유사한 품질을 달성한다.
-> 3. **판단 포인트**: CFG(Classifier-Free Guidance) 스케일 값이 높을수록 텍스트 프롬프트 충실도가 높아지지만 다양성이 감소하며, DDIM·DPM-Solver로 샘플링 스텝을 50→20 단계로 줄여 속도와 품질을 균형있게 조정해야 한다.
+> 3. **판단 포인트**: CFG(Classifier-Free Guidance) 스케일 값이 높을수록 텍스트 프롬프트 충실도가 높아지지만 다양성이 감소하며, DDIM·DPM-Solver로 샘플링 스텝을 50->20 단계로 줄여 속도와 품질을 균형있게 조정해야 한다.
 
 ---
 
@@ -22,8 +22,8 @@ tags = ["studynote-ict-convergence"]
 픽셀 공간 디퓨전(DDPM, Imagen)은 1024×1024 이미지에서 직접 노이즈 제거를 반복하므로 메모리 수요가 방대하고, 학습 비용이 수백~수천만 달러에 달한다. LDM은 이 병목을 잠재 공간으로의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 해결했다.
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/">디퓨전 모델</a> 기본 원리</strong>
-- <strong>순방향(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>) 확산</strong>: 원본 이미지 x₀에 단계별 가우시안 노이즈 추가 → xₜ (순수 노이즈)
-- **역방향(Reverse) 확산**: 노이즈 xₜ에서 출발해 U-Net으로 반복적 노이즈 제거 → x₀ 복원
+- <strong>순방향(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>) 확산</strong>: 원본 이미지 x₀에 단계별 가우시안 노이즈 추가 -> xₜ (순수 노이즈)
+- **역방향(Reverse) 확산**: 노이즈 xₜ에서 출발해 U-Net으로 반복적 노이즈 제거 -> x₀ 복원
 
 - **📢 섹션 요약 비유**: LDM은 조각상을 원래 크기로 조각하지 않고 1/8 크기 미니어처를 먼저 완성한 후 크게 확대하는 방식 — 시간과 재료(메모리)를 크게 절약한다.
 
@@ -32,35 +32,35 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  LDM/Stable Diffusion 구조               │
-│                                                         │
-│  텍스트 프롬프트                                          │
-│  ┌──────────┐                                           │
-│  │CLIP 텍스트│                                           │
-│  │인코더    │                                           │
-│  └────┬─────┘                                           │
-│       │ 텍스트 임베딩                                     │
-│       ▼                                                 │
-│  ┌───────────────────────────────────┐                  │
-│  │         U-Net (잠재 공간)          │ ← 노이즈 예측    │
-│  │  Cross-Attention(텍스트 조건화)   │                  │
-│  └────────────┬──────────────────────┘                  │
-│               │ 잠재 벡터 z (64×64×4)                   │
-│  ┌────────────▼──────────────────────┐                  │
-│  │     VAE Decoder                   │                  │
-│  │     z (64×64) → 픽셀 (512×512)   │                  │
-│  └───────────────────────────────────┘                  │
-│                                                         │
-│  [인코딩] 입력이미지 → VAE Encoder → 잠재 z              │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                  LDM/Stable Diffusion 구조               |
+|                                                         |
+|  텍스트 프롬프트                                          |
+|  +----------+                                           |
+|  |CLIP 텍스트|                                           |
+|  |인코더    |                                           |
+|  +----+-----+                                           |
+|       | 텍스트 임베딩                                     |
+|       v                                                 |
+|  +-----------------------------------+                  |
+|  |         U-Net (잠재 공간)          | <- 노이즈 예측    |
+|  |  Cross-Attention(텍스트 조건화)   |                  |
+|  +------------+----------------------+                  |
+|               | 잠재 벡터 z (64×64×4)                   |
+|  +------------v----------------------+                  |
+|  |     VAE Decoder                   |                  |
+|  |     z (64×64) -> 픽셀 (512×512)   |                  |
+|  +-----------------------------------+                  |
+|                                                         |
+|  [인코딩] 입력이미지 -> VAE Encoder -> 잠재 z              |
++---------------------------------------------------------+
 ```
 
 <strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
 
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/">Variational Autoencoder</a>)</strong>: 픽셀(512×512×3) ↔ 잠재 벡터(64×64×4) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/복원. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 48×.
 2. **U-Net**: 잠재 공간에서 노이즈 예측. Cross-Attention으로 텍스트 조건화.
-3. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> 텍스트 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong>: 텍스트 → 77×768 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/). U-Net에 Cross-Attention으로 주입.
+3. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> 텍스트 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong>: 텍스트 -> 77×768 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/). U-Net에 Cross-Attention으로 주입.
 
 ### 샘플링 최적화 기법 비교
 
@@ -117,9 +117,9 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 포인트**
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 불분명 → 상업적 사용 시 라이선스 검토 필수
-2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/">딥페이크</a>/악용</strong>: 인물 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 워터마킹, [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준 적용
-3. **추론 비용**: SDXL 1024px, 50 스텝 → A100 1초 내외 → DPM-Solver 20스텝으로 절감
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 불분명 -> 상업적 사용 시 라이선스 검토 필수
+2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/">딥페이크</a>/악용</strong>: 인물 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 워터마킹, [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준 적용
+3. **추론 비용**: SDXL 1024px, 50 스텝 -> A100 1초 내외 -> DPM-Solver 20스텝으로 절감
 4. **프라이빗 배포**: Hugging Face Space, ComfyUI 자체 서버 구축으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성 제거
 
 - **📢 섹션 요약 비유**: Stable Diffusion은 강력한 디지털 화가 — 잘 쓰면 창작 도구, 잘못 쓰면 사회적 위험 — 거버넌스 설계가 핵심이다.
@@ -140,14 +140,14 @@ LDM은 잠재 공간으로의 이동으로 [디퓨전 모델](/knowledge-base/st
 |:---|:---|
 | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | [LDM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) 기반 · 픽셀↔잠재 공간 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | U-Net | [LDM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) 핵심 · 잠재 노이즈 예측 |
-| [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | 조건화 · 텍스트→[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
+| [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | 조건화 · 텍스트->[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
 | DDIM | 샘플링 · 결정론적 빠른 샘플링 |
 | CFG | 품질 조절 · 텍스트 충실도 스케일 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[LDM 기반 · 픽셀↔잠재 공간 압축] → [LDM 잠재 디퓨전 모델과 생성 최적화] → [품질 조절 · 텍스트 충실도 스케일]
+[LDM 기반 · 픽셀↔잠재 공간 압축] -> [LDM 잠재 디퓨전 모델과 생성 최적화] -> [품질 조절 · 텍스트 충실도 스케일]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -162,7 +162,7 @@ LDM은 잠재 공간으로의 이동으로 [디퓨전 모델](/knowledge-base/st
 
 **진행 상황**: 533 / 552
 
-← **이전**: [532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/532_dpo_direct_preference_optimization/)
-**다음**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/) →
+<- **이전**: [532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/532_dpo_direct_preference_optimization/)
+**다음**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/) ->
 
 ---

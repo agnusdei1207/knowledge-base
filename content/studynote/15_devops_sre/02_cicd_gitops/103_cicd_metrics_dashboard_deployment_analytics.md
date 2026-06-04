@@ -38,19 +38,19 @@ tags = ["studynote-devops-sre"]
 | <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Visualization)</strong> | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 차트, 게이지, 트렌드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링하여 인사이트 도출 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           CI/CD 옵저버빌리티(Observability) 데이터 파이프라인       │
-├──────────────────────────────────────────────────────────────┤
-│ [Pipeline Event]     [Collector / Exporter]   [Visualization]│
-│                                                              │
-│  Git Push ────┐                                              │
-│               │        Webhook / API 호출        DORA Metrics │
-│  Build ───────┼───────▶ Prometheus TSDB ──────▶ Grafana 📊   │
-│               │        (성공/실패, 소요시간)       - 배포 빈도    │
-│  Test ────────┤                                - 실패율      │
-│               │                                - 리드 타임   │
-│  Deploy ──────┘                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           CI/CD 옵저버빌리티(Observability) 데이터 파이프라인       |
++--------------------------------------------------------------+
+| [Pipeline Event]     [Collector / Exporter]   [Visualization]|
+|                                                              |
+|  Git Push ----+                                              |
+|               |        Webhook / API 호출        DORA Metrics |
+|  Build -------+--------> Prometheus TSDB -------> Grafana 📊   |
+|               |        (성공/실패, 소요시간)       - 배포 빈도    |
+|  Test --------+                                - 실패율      |
+|               |                                - 리드 타임   |
+|  Deploy ------+                                              |
++--------------------------------------------------------------+
 ```
 
 가장 핵심이 되는 측정 기준은 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> Research and Assessment) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스</strong>다. 이는 배포 빈도 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율 ([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Time to Restore [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 4가지 지표로 구성되어 민첩성과 안정성을 동시에 평가한다.
@@ -115,17 +115,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 배포 자동화 구축 (CI/CD Pipeline)
-    │
-    ▼
+    |
+    v
 로깅 및 파이프라인 상태 수집 (Pipeline Logging)
-    │
-    ▼
+    |
+    v
 정량적 성과 측정 도입 (DORA Metrics)
-    │
-    ▼
+    |
+    v
 배포 성능 분석 및 시각화 (CI/CD Metrics Dashboard)
-    │
-    ▼
+    |
+    v
 예측형 자동화 및 지능형 배포 차단 (Predictive CI/CD)
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 103 / 373
 
-← **이전**: [에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)
-**다음**: [모바일 앱 CI/CD: Fastlane을 활용한 파이프라인 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/104_mobile_app_cicd_fastlane_pipeline/) →
+<- **이전**: [에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)
+**다음**: [모바일 앱 CI/CD: Fastlane을 활용한 파이프라인 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/104_mobile_app_cicd_fastlane_pipeline/) ->
 
 ---

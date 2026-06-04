@@ -31,33 +31,33 @@ tags = ["studynote-operating-system"]
 유저가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `$ notepad 일반파일.txt:비밀통로.exe` 를 쳤을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 눈에서 완벽히 숨겨져 마스킹 되는지 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────────────┐
-  │                 "폴더를 열면 용량도 0이고 텅 빈 파일인데, 그 뒷면에 괴물이 산다!" │
-  ├───────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                   │
-  │  🚨 [ 사용자 해커 : 명령 프롬프트(CMD) 에서 스마일 스왑 생성 빔! ]                │
-  │     > echo "스마일" > 정상파일.txt                                                │
-  │     > type 악성코드.exe > 정상파일.txt:은닉바이러스.exe                           │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  ✅ [ Windows 탐색기 (가짜 눈가림 위장술 VFS 록백) ]                              │
-  │     - 파일명: 정상파일.txt                                                        │
-  │     - 용량: 9 바이트 (스마일 글자 수)                                             │
-  │     => 유저: "에이 9바이트짜리 텍스트 파일이네 안전하다 클릭!" (보안 탈탈 털림)   │
-  │                                                                                   │
-  │  ======= ( ⬇️ 파일 시스템 MFT 내부 NTFS 차원 스위칭 록백!! ) ==========           │
-  │                                                                                   │
-  │  🔥 [ 커널 MFT (MFT 레코드 분석 구조체 내부 렌더) ]                               │
-  │                                                                                   │
-  │     [ 정상파일.txt 의 MFT 속성 표 빔! ]                                           │
-  │     - $DATA (스트림 1번 Main)   : "스마일" 데이터 블록 1번지 매핑!                │
-  │     - $DATA (스트림 2번 ADS 은닉) : 이름 "은닉바이러스.exe"                       │
-  │                  └──────────> 디스크 8000번~9000번 블록에 거대 매핑!!             │
-  │                                                                                   │
-  │  ✅ [ 악성 봇 동작의 파단 부스트 ]                                                │
-  │     > wmic process call create 정상파일.txt:은닉바이러스.exe (실행 쾅!)           │
-  └───────────────────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------------------+
+  |                 "폴더를 열면 용량도 0이고 텅 빈 파일인데, 그 뒷면에 괴물이 산다!" |
+  +-----------------------------------------------------------------------------------+
+  |                                                                                   |
+  |  🚨 [ 사용자 해커 : 명령 프롬프트(CMD) 에서 스마일 스왑 생성 빔! ]                |
+  |     > echo "스마일" > 정상파일.txt                                                |
+  |     > type 악성코드.exe > 정상파일.txt:은닉바이러스.exe                           |
+  |                                                                                   |
+  |  =========================v===================================                    |
+  |                                                                                   |
+  |  ✅ [ Windows 탐색기 (가짜 눈가림 위장술 VFS 록백) ]                              |
+  |     - 파일명: 정상파일.txt                                                        |
+  |     - 용량: 9 바이트 (스마일 글자 수)                                             |
+  |     => 유저: "에이 9바이트짜리 텍스트 파일이네 안전하다 클릭!" (보안 탈탈 털림)   |
+  |                                                                                   |
+  |  ======= ( ⬇️ 파일 시스템 MFT 내부 NTFS 차원 스위칭 록백!! ) ==========           |
+  |                                                                                   |
+  |  🔥 [ 커널 MFT (MFT 레코드 분석 구조체 내부 렌더) ]                               |
+  |                                                                                   |
+  |     [ 정상파일.txt 의 MFT 속성 표 빔! ]                                           |
+  |     - $DATA (스트림 1번 Main)   : "스마일" 데이터 블록 1번지 매핑!                |
+  |     - $DATA (스트림 2번 ADS 은닉) : 이름 "은닉바이러스.exe"                       |
+  |                  +----------> 디스크 8000번~9000번 블록에 거대 매핑!!             |
+  |                                                                                   |
+  |  ✅ [ 악성 봇 동작의 파단 부스트 ]                                                |
+  |     > wmic process call create 정상파일.txt:은닉바이러스.exe (실행 쾅!)           |
+  +-----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** NTFS의 다중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림(Alternate [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams) 결속 아키텍처다. 윈도우 OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 고작 "1줄짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바이트의 흐름" 이라고 생각하지 않고, "$[DATA](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 여러 개 박아 넣을 수 있는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))" 라고 여긴다. 해커는 이 NTFS의 원래 목적(썸네일 텍스처 메타 보관)을 악용하여, 부모 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`정상파일.txt`)의 탐색기 용량을 건드리지 않은 채 그 그림자 뒷면에 수백 MB의 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)([Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))를 동여매 마스킹(Masking) 하는 우주적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다이브 타격을 선사한다 도출 증명.
@@ -145,12 +145,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [파일 시스템 일관성 검사 (fsck / chkdsk)]
-    │
-    ▼
+    |
+    v
 [다중 스트림 (Multi-stream) 파일 / 포크 (Forks)]
-    │
-    ├──▶ [암호화 파일 시스템 (eCryptfs / Windows EFS)]
-    └──▶ [무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
+    |
+    +---> [암호화 파일 시스템 (eCryptfs / Windows EFS)]
+    +---> [무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -167,7 +167,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 560 / 800
 
-← **이전**: [559. 파일 시스템 일관성 검사 (fsck / chkdsk)](/knowledge-base/studynote/02_operating_system/09_file_system/559_fsck_filesystem_consistency/)
-**다음**: [561. 암호화 파일 시스템 (eCryptfs / Windows EFS)](/knowledge-base/studynote/02_operating_system/09_file_system/561_encrypted_file_system_ecryptfs/) →
+<- **이전**: [559. 파일 시스템 일관성 검사 (fsck / chkdsk)](/knowledge-base/studynote/02_operating_system/09_file_system/559_fsck_filesystem_consistency/)
+**다음**: [561. 암호화 파일 시스템 (eCryptfs / Windows EFS)](/knowledge-base/studynote/02_operating_system/09_file_system/561_encrypted_file_system_ecryptfs/) ->
 
 ---

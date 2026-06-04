@@ -31,9 +31,9 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Specification
-  ↓ design
+  v design
 Fabrication
-  ↓
+  v
 Fixed Hardware
 ```
 
@@ -105,11 +105,11 @@ ASIC은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ```text
 Specification
-  ↓
+  v
 ASIC
-  ↓
+  v
 Fabrication
-  ↓
+  v
 High Efficiency
 ```
 
@@ -119,11 +119,11 @@ High Efficiency
 
 ```text
 Custom Chip
-  ↓
+  v
 ASIC
-  ↓
+  v
 SoC
-  ↓
+  v
 Specialized Hardware
 ```
 
@@ -141,7 +141,7 @@ ASIC은 그런 특별한 칩이에요.
 
 **진행 상황**: 70 / 803
 
-← **이전**: [69. FPGA (Field Programmable Gate Array)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/)
-**다음**: [71. CPLD](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/071_cpld/) →
+<- **이전**: [69. FPGA (Field Programmable Gate Array)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/)
+**다음**: [71. CPLD](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/071_cpld/) ->
 
 ---

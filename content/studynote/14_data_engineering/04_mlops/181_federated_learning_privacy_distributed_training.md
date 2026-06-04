@@ -28,20 +28,20 @@ tags = ["studynote-data-engineering"]
 아래 그림은 중앙집중 학습과 연방 학습의 경계 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 중앙집중 학습 vs 연방 학습                                   │
-├──────────────────────────────────────────────────────────────┤
-│ 중앙집중 학습                                                │
-│  데이터 A ─┐                                                 │
-│  데이터 B ─┼─▶ 중앙 저장소 ─▶ 모델 학습                      │
-│  데이터 C ─┘                                                 │
-│                                                              │
-│ 연방 학습                                                    │
-│  전역 모델 ─▶ 노드 A 로컬 학습 ─┐                            │
-│  전역 모델 ─▶ 노드 B 로컬 학습 ─┼─▶ 업데이트 집계            │
-│  전역 모델 ─▶ 노드 C 로컬 학습 ─┘                            │
-│  원시 데이터는 각 노드에 남음                                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 중앙집중 학습 vs 연방 학습                                   |
++--------------------------------------------------------------+
+| 중앙집중 학습                                                |
+|  데이터 A -+                                                 |
+|  데이터 B -+--> 중앙 저장소 --> 모델 학습                      |
+|  데이터 C -+                                                 |
+|                                                              |
+| 연방 학습                                                    |
+|  전역 모델 --> 노드 A 로컬 학습 -+                            |
+|  전역 모델 --> 노드 B 로컬 학습 -+--> 업데이트 집계            |
+|  전역 모델 --> 노드 C 로컬 학습 -+                            |
+|  원시 데이터는 각 노드에 남음                                |
++--------------------------------------------------------------+
 ```
 
 핵심은 연방 학습이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 한 종류이되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치와 신뢰 모델이 완전히 다르다는 점이다. 고정된 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안의 고속 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클러스터를 다루는 것이 아니라, 느리고 불안정하며 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가진 참여자 집합을 다루는 문제다.
@@ -74,24 +74,24 @@ N = Σ_k n_k
 아래 그림은 한 번의 연방 학습 라운드를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 연방 학습 1라운드                                            │
-├──────────────────────────────────────────────────────────────┤
-│ 1) Coordinator가 전역 모델 w_t 배포                         │
-│          │                                                   │
-│          ▼                                                   │
-│    Client A / B / C 가 로컬 데이터로 E epoch 학습           │
-│          │                                                   │
-│          ├─ Gradient Clipping                               │
-│          ├─ 필요 시 Differential Privacy 노이즈 추가        │
-│          └─ Secure Aggregation용 마스킹                     │
-│          │                                                   │
-│          ▼                                                   │
-│ 2) 업데이트 수집  ─────────▶  3) FedAvg 집계                │
-│                                      │                       │
-│                                      ▼                       │
-│                               다음 전역 모델 w_(t+1)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 연방 학습 1라운드                                            |
++--------------------------------------------------------------+
+| 1) Coordinator가 전역 모델 w_t 배포                         |
+|          |                                                   |
+|          v                                                   |
+|    Client A / B / C 가 로컬 데이터로 E epoch 학습           |
+|          |                                                   |
+|          +- Gradient Clipping                               |
+|          +- 필요 시 Differential Privacy 노이즈 추가        |
+|          +- Secure Aggregation용 마스킹                     |
+|          |                                                   |
+|          v                                                   |
+| 2) 업데이트 수집  ---------->  3) FedAvg 집계                |
+|                                      |                       |
+|                                      v                       |
+|                               다음 전역 모델 w_(t+1)         |
++--------------------------------------------------------------+
 ```
 
 여기서 중요한 오해가 하나 있다. 연방 학습은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 줄일 뿐, 자동으로 완전한 프라이버시를 보장하지는 않는다. 업데이트만 보더라도 [Membership Inference](/knowledge-base/studynote/09_security/19_ai_advanced_security/952_membership_inference/) Attack ([멤버십 추론 공격](/knowledge-base/studynote/09_security/19_ai_advanced_security/952_membership_inference/))이나 Gradient Leakage 공격이 가능하므로, 실무에서는 Secure Aggregation과 Differential Privacy를 결합하는 경우가 많다.
@@ -142,7 +142,7 @@ N = Σ_k n_k
 
 안티패턴도 분명하다. 첫째, "원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 보내니 법적 검토가 끝났다"고 보는 태도다. 둘째, 대형 모델을 저사양 엣지 디바이스에 그대로 배포하는 태도다. 셋째, 악의적 노드의 모델 오염(Model Poisoning)을 무시하는 태도다. 넷째, 중앙집중 학습 하이퍼파라미터를 그대로 가져와 수렴 실패를 반복하는 태도다.
 
-기술사 답안에서는 FedAvg 수식만 쓰고 끝내기보다, <strong>왜 중앙집중 학습이 불가능한지 → 어떻게 집계하는지 → 어떤 프라이버시 보강과 Non-IID 대응이 필요한지 → 언제 오히려 부적합한지</strong>까지 함께 제시해야 설계 답안이 된다.
+기술사 답안에서는 FedAvg 수식만 쓰고 끝내기보다, <strong>왜 중앙집중 학습이 불가능한지 -> 어떻게 집계하는지 -> 어떤 프라이버시 보강과 Non-IID 대응이 필요한지 -> 언제 오히려 부적합한지</strong>까지 함께 제시해야 설계 답안이 된다.
 
 - **📢 섹션 요약 비유**: 연방 학습 도입은 각 병원이 환자 기록을 내놓지 않고도 함께 의학 교과서를 쓰는 일과 같다. 하지만 모두가 같은 용어를 쓰고, 가짜 보고서를 막고, 전달 과정이 안전해야만 좋은 교과서가 나온다.
 
@@ -176,18 +176,18 @@ N = Σ_k n_k
 
 ```text
 중앙집중 Machine Learning
-    │ 개인정보 · 전송 비용 · 데이터 주권 한계
-    ▼
+    | 개인정보 · 전송 비용 · 데이터 주권 한계
+    v
 연방 학습 (Federated Learning)
-    │
-    ├─ 로컬 학습 + FedAvg 집계
-    ├─ Secure Aggregation 결합
-    └─ Differential Privacy 결합
-    │
-    ▼
+    |
+    +- 로컬 학습 + FedAvg 집계
+    +- Secure Aggregation 결합
+    +- Differential Privacy 결합
+    |
+    v
 Cross-Device / Cross-Silo 운영
-    │
-    ▼
+    |
+    v
 개인화 연방 학습 · 계층형 집계 · 강건 집계 확장
 ```
 
@@ -205,7 +205,7 @@ Cross-Device / Cross-Silo 운영
 
 **진행 상황**: 181 / 258
 
-← **이전**: [180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화](/knowledge-base/studynote/14_data_engineering/04_mlops/180_cdc_debezium_binlog_realtime_sync/)
-**다음**: [182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token](/knowledge-base/studynote/14_data_engineering/04_mlops/182_blockchain_smart_contract_data_integrity/) →
+<- **이전**: [180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화](/knowledge-base/studynote/14_data_engineering/04_mlops/180_cdc_debezium_binlog_realtime_sync/)
+**다음**: [182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token](/knowledge-base/studynote/14_data_engineering/04_mlops/182_blockchain_smart_contract_data_integrity/) ->
 
 ---

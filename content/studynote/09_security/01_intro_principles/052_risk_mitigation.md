@@ -32,14 +32,14 @@ tags = ["studynote-security"]
 위험 완화는 보통 위험 평가 후 통제 선택, 구현, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 순서로 진행된다. 통제는 예방, 탐지, 교정으로 나눌 수 있고, 서로 다른 층에서 함께 작동해야 효과가 크다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 위험 완화의 반복적 제어 흐름                │
-├──────────────────────────────────────────────────────────────┤
-│ 위험 식별 → 평가(확률/영향) → 통제 선택 → 구현              │
-│                    │                                          │
-│                    ▼                                          │
-│               효과 검증 → 잔여 위험 재평가                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 위험 완화의 반복적 제어 흐름                |
++--------------------------------------------------------------+
+| 위험 식별 -> 평가(확률/영향) -> 통제 선택 -> 구현              |
+|                    |                                          |
+|                    v                                          |
+|               효과 검증 -> 잔여 위험 재평가                  |
++--------------------------------------------------------------+
 ```
 
 | 통제 유형 | 역할 | 예시 |
@@ -119,17 +119,17 @@ tags = ["studynote-security"]
 
 ```text
 위험 식별
-    │
-    ▼
+    |
+    v
 위험 평가 (ARO / SLE / ALE)
-    │
-    ▼
+    |
+    v
 통제 선택
-    │
-    ▼
+    |
+    v
 예방 · 탐지 · 교정 통제 구현
-    │
-    ▼
+    |
+    v
 효과 검증 / 잔여 위험 재평가
 ```
 
@@ -147,7 +147,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 52 / 1108
 
-← **이전**: [051. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)
-**다음**: [53. 예방 통제 (Preventive Controls)](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) →
+<- **이전**: [051. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)
+**다음**: [53. 예방 통제 (Preventive Controls)](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) ->
 
 ---

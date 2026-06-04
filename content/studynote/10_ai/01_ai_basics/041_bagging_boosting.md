@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 > **핵심 인사이트**
 > 1. 하이퍼파라미터(Hyperparameter)는 모델 학습 전 인간이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 메타 수준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)·트리 깊이·[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)율 등), 모델 파라미터([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 학습되는 것과 달리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체의 동작 방식을 결정한다.
-> 2. 하이퍼파라미터 튜닝의 체계적 방법은 [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)([Grid Search](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/))→랜덤 서치(Random Search)→베이지안 최적화(Bayesian Optimization)→[AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 순으로 발전했으며, 랜덤 서치는 [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)보다 같은 계산 비용에서 더 좋은 결과를 찾을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다는 수학적 근거가 있다.
+> 2. 하이퍼파라미터 튜닝의 체계적 방법은 [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)([Grid Search](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/))->랜덤 서치(Random Search)->베이지안 최적화(Bayesian Optimization)->[AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 순으로 발전했으며, 랜덤 서치는 [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)보다 같은 계산 비용에서 더 좋은 결과를 찾을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다는 수학적 근거가 있다.
 > 3. 하이퍼파라미터 튜닝은 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 마지막 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15%를 결정하는 작업으로, 올바른 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 훨씬 더 중요하며 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 유발하는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)' 없이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트에서 독립적으로 평가해야 한다.
 
 ---
@@ -59,7 +59,7 @@ SVM:
 
 1. 그리드 서치 (Grid Search):
    모든 조합 완전 탐색
-   예: lr=[0.001,0.01], batch=[32,64] → 4가지
+   예: lr=[0.001,0.01], batch=[32,64] -> 4가지
    장점: 완전 탐색, 재현 가능
    단점: 조합 수 지수적 증가 (차원의 저주)
 
@@ -78,7 +78,7 @@ SVM:
 
 4. HyperBand / ASHA:
    조기 종료 (Early Stopping) 활용
-   나쁜 설정 빠르게 제거 → 유망한 것 집중
+   나쁜 설정 빠르게 제거 -> 유망한 것 집중
 
 5. AutoML:
    NAS (Neural Architecture Search)
@@ -104,7 +104,7 @@ SVM:
 학습률 스케줄러:
   Step Decay: 일정 에폭마다 감소
   Cosine Annealing: 코사인 함수로 감소
-  Warm-up: 초반 작게 시작 → 증가 → 감소
+  Warm-up: 초반 작게 시작 -> 증가 -> 감소
 
 학습률 탐색 (LR Finder):
   매우 작게 시작해서 점차 증가
@@ -258,7 +258,7 @@ LLM 사전학습 HP = 핵심 연구 영역
 
 **진행 상황**: 41 / 420
 
-← **이전**: [040. 앙상블 학습 (Ensemble Learning)](/knowledge-base/studynote/10_ai/01_ai_basics/040_ensemble_learning/)
-**다음**: [042. 그리드/랜덤/베이지안 하이퍼파라미터 튜닝 비교](/knowledge-base/studynote/10_ai/01_ai_basics/042_pca/) →
+<- **이전**: [040. 앙상블 학습 (Ensemble Learning)](/knowledge-base/studynote/10_ai/01_ai_basics/040_ensemble_learning/)
+**다음**: [042. 그리드/랜덤/베이지안 하이퍼파라미터 튜닝 비교](/knowledge-base/studynote/10_ai/01_ai_basics/042_pca/) ->
 
 ---

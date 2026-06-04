@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 "나이키 경쟁사들의 최신 운동화 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 요약해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 바탕화면에 저장해 줘." 이 한마디 목표(Goal)를 던졌을 뿐인데, AutoGPT는 스스로 "1. 아디다스 마케팅 기사 구글 검색 $\rightarrow$ 2. 기사 클릭해서 읽고 메모리에 요약 저장 $\rightarrow$ 3. 퓨마 기사 검색 $\rightarrow$ 4. 정보가 부족하니 트위터 검색 추가 $\rightarrow$ 5. txt [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 저장 완료!"라는 행동을 <strong>아무도 시키지 않았는데 혼자 핑퐁 치며 끝날 때까지 수행(Autonomous Loop)</strong>한 것이다. 이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 텍스트 창을 뚫고 나와 현실 세계의 도구(Tool)를 쥐고 비즈니스를 대행하는 **자율 에이전트(Autonomous Agent)** 혁명의 빅뱅이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 챗GPT가 세상 모든 지식을 다 아는 '전신 마비 천재 철학자'라면, 오토지피티(AutoGPT)는 그 철학자의 뇌를 티타늄 로봇의 몸통(인터넷 브라우저, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 손발)에 이식시킨 '터미네이터 비서'다. 예전엔 철학자에게 물어보고 내가 직접 손발을 움직여 검색해야 했다면, 이젠 터미네이터에게 목적만 툭 던져주면 지가 알아서 문을 따고 들어가(검색) 물건을 훔쳐서(요약) 내 책상에 곱게 올려두고([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장) 퇴근하는 기적이다.
@@ -43,26 +43,26 @@ tags = ["studynote-ai"]
 AutoGPT가 멈추지 않고 스스로 돌아가는 흑마술의 뼈대는 프롬프트를 교묘하게 연쇄적으로 엮어놓은 **ReAct (Reasoning and Acting)** 루프와 단기/장기 기억 장치 벡터 DB의 결합이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           자율 에이전트 AutoGPT의 무한 사고-행동 루프(ReAct) 아키텍처 도해 │
-├──────────────────────────────────────────────────────────────┤
-│  [최종 목표 입력]: "내일 서울 비 오는지 확인하고 챙길 물건 추천해 줘."          │
-│                                                              │
-│  [1. 생각 (Thought / Reasoning)]                              │
-│   * LLM 뇌: "목표를 달성하려면, 일단 내일 서울 날씨를 알아내야겠군."         │
-│                                                              │
-│  [2. 계획 및 도구 선택 (Plan & Action)]                          │
-│   * LLM 뇌: "[Google Search API] 도구를 꺼내서 '서울 내일 날씨'를 검색하자."│
-│   * ─▶ 파이썬 코드가 LLM의 명령을 받아 진짜로 인터넷 검색을 실행함!         │
-│                                                              │
-│  [3. 관찰 및 기억 (Observation & Memory)]                       │
-│   * 파이썬 코드: "검색 결과 가져왔어! [내일 서울 강수확률 90%, 폭우 예상]"     │
-│   * LLM 뇌: 이 팩트를 잊어먹지 않게 벡터 DB(Pinecone 등 장기기억)에 꾹 쑤셔 넣음.│
-│                                                              │
-│  [4. 자아 비판 및 다음 스텝 (Self-Criticism & Next Step)]          │
-│   * LLM 뇌: "비가 오네? 그럼 우산이 필요해. 목표 달성했나? 아직! 추천을 안 했네."│
-│   * ─▶ 다시 1번으로 돌아가서 "비 오는 날 필수템 목록 작성"으로 무한 루프 돎!  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           자율 에이전트 AutoGPT의 무한 사고-행동 루프(ReAct) 아키텍처 도해 |
++--------------------------------------------------------------+
+|  [최종 목표 입력]: "내일 서울 비 오는지 확인하고 챙길 물건 추천해 줘."          |
+|                                                              |
+|  [1. 생각 (Thought / Reasoning)]                              |
+|   * LLM 뇌: "목표를 달성하려면, 일단 내일 서울 날씨를 알아내야겠군."         |
+|                                                              |
+|  [2. 계획 및 도구 선택 (Plan & Action)]                          |
+|   * LLM 뇌: "[Google Search API] 도구를 꺼내서 '서울 내일 날씨'를 검색하자."|
+|   * --> 파이썬 코드가 LLM의 명령을 받아 진짜로 인터넷 검색을 실행함!         |
+|                                                              |
+|  [3. 관찰 및 기억 (Observation & Memory)]                       |
+|   * 파이썬 코드: "검색 결과 가져왔어! [내일 서울 강수확률 90%, 폭우 예상]"     |
+|   * LLM 뇌: 이 팩트를 잊어먹지 않게 벡터 DB(Pinecone 등 장기기억)에 꾹 쑤셔 넣음.|
+|                                                              |
+|  [4. 자아 비판 및 다음 스텝 (Self-Criticism & Next Step)]          |
+|   * LLM 뇌: "비가 오네? 그럼 우산이 필요해. 목표 달성했나? 아직! 추천을 안 했네."|
+|   * --> 다시 1번으로 돌아가서 "비 오는 날 필수템 목록 작성"으로 무한 루프 돎!  |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (도구 사용권과 자가 프롬프팅)**:
@@ -75,7 +75,7 @@ AutoGPT 아키텍처의 혁명은 모델에게 <strong>"내가 쓸 수 있는 �
 | 경량화 | 배포 환경에 맞춰 메모리와 연산량을 조정한다. |
 | 응용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 검색, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
 
-- **📢 섹션 요약 비유**: AutoGPT는 무전기를 든 현장 지휘관이다. 지휘관([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 총을 못 쏘지만, 부하(도구)들을 갖고 있다. "알파팀(구글 검색), 날씨 알아와!" ─▶ 알파팀 보고: "비 옵니다!" ─▶ "좋아, 브라보팀([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장), 우산 챙기라고 메모해!" 이렇게 끊임없이 스스로 상황을 판단하고 명령을 내리며, 전쟁(목표)이 끝날 때까지 무전(루프)을 멈추지 않는 지독한 워커홀릭 사령관이다.
+- **📢 섹션 요약 비유**: AutoGPT는 무전기를 든 현장 지휘관이다. 지휘관([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 총을 못 쏘지만, 부하(도구)들을 갖고 있다. "알파팀(구글 검색), 날씨 알아와!" --> 알파팀 보고: "비 옵니다!" --> "좋아, 브라보팀([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장), 우산 챙기라고 메모해!" 이렇게 끊임없이 스스로 상황을 판단하고 명령을 내리며, 전쟁(목표)이 끝날 때까지 무전(루프)을 멈추지 않는 지독한 워커홀릭 사령관이다.
 
 ---
 
@@ -134,7 +134,7 @@ AutoGPT와 자율 에이전트의 충격은 단순히 코딩 몇 줄의 트릭�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [자율 에이전트 오토지피티 (AutoGPT)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [자율 에이전트 오토지피티 (AutoGPT)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ AutoGPT와 자율 에이전트의 충격은 단순히 코딩 몇 줄의 트릭�
 
 **진행 상황**: 216 / 420
 
-← **이전**: [215. 메타 러닝 (Meta Learning / Learning to Learn)](/knowledge-base/studynote/10_ai/03_llm_nlp/215_meta_learning/)
-**다음**: [217. LLM 캐싱 (Semantic Cache) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/217_llm_semantic_cache/) →
+<- **이전**: [215. 메타 러닝 (Meta Learning / Learning to Learn)](/knowledge-base/studynote/10_ai/03_llm_nlp/215_meta_learning/)
+**다음**: [217. LLM 캐싱 (Semantic Cache) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/217_llm_semantic_cache/) ->
 
 ---

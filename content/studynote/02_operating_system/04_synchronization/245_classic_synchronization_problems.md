@@ -36,27 +36,27 @@ tags = ["studynote-operating-system"]
 ### [유한 버퍼 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/) ([Bounded-Buffer Problem](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)) — Producer-Consumer
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│            유한 버퍼 구조 및 세마포어 제어              │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  Producer                  Consumer                     │
-│     │                          │                        │
-│     ▼                          ▼                        │
-│  wait(empty) ── n칸 중 빈 칸 확인                       │
-│  wait(mutex) ── 버퍼 접근 상호 배제                     │
-│  → 버퍼에 항목 삽입                                     │
-│  signal(mutex)                                          │
-│  signal(full) ── 소비자에게 항목 있음 알림              │
-│                                                         │
-│  세마포어:                                              │
-│  - mutex  = 1   (버퍼 접근 상호 배제)                   │
-│  - empty  = N   (빈 슬롯 수, 초기 = 버퍼 크기)          │
-│  - full   = 0   (채워진 슬롯 수, 초기 = 0)              │
-│                                                         │
-│  ⚠ wait 순서: 반드시 empty/full → mutex 순서            │
-│     반대로 하면 데드락!                                 │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|            유한 버퍼 구조 및 세마포어 제어              |
++---------------------------------------------------------+
+|                                                         |
+|  Producer                  Consumer                     |
+|     |                          |                        |
+|     v                          v                        |
+|  wait(empty) -- n칸 중 빈 칸 확인                       |
+|  wait(mutex) -- 버퍼 접근 상호 배제                     |
+|  -> 버퍼에 항목 삽입                                     |
+|  signal(mutex)                                          |
+|  signal(full) -- 소비자에게 항목 있음 알림              |
+|                                                         |
+|  세마포어:                                              |
+|  - mutex  = 1   (버퍼 접근 상호 배제)                   |
+|  - empty  = N   (빈 슬롯 수, 초기 = 버퍼 크기)          |
+|  - full   = 0   (채워진 슬롯 수, 초기 = 0)              |
+|                                                         |
+|  ⚠ wait 순서: 반드시 empty/full -> mutex 순서            |
+|     반대로 하면 데드락!                                 |
++---------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 핵심은 `wait(mutex)`보다 `wait(empty)`를 먼저 수행하는 순서다. 만약 mutex를 먼저 잡고 empty를 기다리면, 소비자가 mutex를 획득하지 못해 영원히 대기하는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다. 이 순서 실수가 실무에서 매우 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
@@ -70,23 +70,23 @@ tags = ["studynote-operating-system"]
 | **공정 해결 (Fair)** | 대기 순서 기반 큐로 기아 방지 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 감소 |
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│        독자-저자 제1유형 세마포어 구조                   │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [독자]                     [저자]                       │
-│  wait(mutex_r)              wait(rw_mutex) ← 단독 접근   │
-│  read_count++               // 쓰기 작업                 │
-│  if (read_count == 1)       signal(rw_mutex)             │
-│    wait(rw_mutex)  ←┐                                    │
-│  signal(mutex_r)    │ 첫 번째 독자만 저자 잠금           │
-│  // 읽기 작업       │                                    │
-│  wait(mutex_r)      │                                    │
-│  read_count--       │                                    │
-│  if (read_count == 0)                                    │
-│    signal(rw_mutex) ─┘ 마지막 독자가 저자 잠금 해제      │
-│  signal(mutex_r)                                         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|        독자-저자 제1유형 세마포어 구조                   |
++----------------------------------------------------------+
+|                                                          |
+|  [독자]                     [저자]                       |
+|  wait(mutex_r)              wait(rw_mutex) <- 단독 접근   |
+|  read_count++               // 쓰기 작업                 |
+|  if (read_count == 1)       signal(rw_mutex)             |
+|    wait(rw_mutex)  <-+                                    |
+|  signal(mutex_r)    | 첫 번째 독자만 저자 잠금           |
+|  // 읽기 작업       |                                    |
+|  wait(mutex_r)      |                                    |
+|  read_count--       |                                    |
+|  if (read_count == 0)                                    |
+|    signal(rw_mutex) -+ 마지막 독자가 저자 잠금 해제      |
+|  signal(mutex_r)                                         |
++----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** read_count 변수를 mutex_r로 보호하면서 첫 번째 독자만 rw_mutex를 획득하고 마지막 독자가 반납하는 구조다. 독자가 연속으로 들어오면 저자는 영원히 기다리는 저자 기아가 발생한다. 실무([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 읽기 잠금 등)에서는 타임아웃이나 우선순위 카운터로 기아를 방지한다.
@@ -96,28 +96,28 @@ tags = ["studynote-operating-system"]
 5명의 철학자가 원형 테이블에 앉아 있고, 각자 양쪽에 젓가락 1개씩 공유한다. 식사하려면 양쪽 젓가락을 모두 집어야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│            식사하는 철학자 — 교착 상태 발생 조건         │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│         P0                                               │
-│        /  \                                              │
-│      C[4]  C[0]                                          │
-│      /        \                                          │
-│    P4          P1                                        │
-│      \        /                                          │
-│      C[3]  C[1]                                          │
-│        \  /                                              │
-│         P3---C[2]---P2                                   │
-│                                                          │
-│  ⚠ 모든 철학자가 동시에 왼쪽 젓가락만 잡으면 교착!       │
-│  P0→C[4], P1→C[0], P2→C[1], P3→C[2], P4→C[3]             │
-│  → 아무도 오른쪽을 집지 못해 영구 대기                   │
-│                                                          │
-│  해결책 1: 최대 4명만 동시 착석 (세마포어 초기값=4)      │
-│  해결책 2: 홀수 철학자는 왼쪽 우선, 짝수는 오른쪽 우선   │
-│  해결책 3: 모니터로 두 젓가락 동시 확인 후 집기          │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            식사하는 철학자 — 교착 상태 발생 조건         |
++----------------------------------------------------------+
+|                                                          |
+|         P0                                               |
+|        /  \                                              |
+|      C[4]  C[0]                                          |
+|      /        \                                          |
+|    P4          P1                                        |
+|      \        /                                          |
+|      C[3]  C[1]                                          |
+|        \  /                                              |
+|         P3---C[2]---P2                                   |
+|                                                          |
+|  ⚠ 모든 철학자가 동시에 왼쪽 젓가락만 잡으면 교착!       |
+|  P0->C[4], P1->C[0], P2->C[1], P3->C[2], P4->C[3]             |
+|  -> 아무도 오른쪽을 집지 못해 영구 대기                   |
+|                                                          |
+|  해결책 1: 최대 4명만 동시 착석 (세마포어 초기값=4)      |
+|  해결책 2: 홀수 철학자는 왼쪽 우선, 짝수는 오른쪽 우선   |
+|  해결책 3: 모니터로 두 젓가락 동시 확인 후 집기          |
++----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 조건은 4가지 필요 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))을 모두 충족한다. 해결책 2(비대칭 집기)는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)를 깨뜨린다. 해결책 3([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 방식)은 두 젓가락이 모두 사용 가능할 때만 집으므로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 방지한다.
@@ -131,14 +131,14 @@ tags = ["studynote-operating-system"]
 ### 세 문제 비교 매트릭스
 
 ```text
-┌──────────────────┬──────────────┬──────────────┬───────────────┐
-│ 항목             │ 유한 버퍼    │ 독자-저자    │ 식사 철학자   │
-├──────────────────┼──────────────┼──────────────┼───────────────┤
-│ 핵심 위험        │ 버퍼 가득/빔 │ 저자 기아    │ 교착+기아     │
-│ 주요 동기화 도구 │ 세마포어 3개 │ 세마포어 2개 │ 모니터/세마   │
-│ 실무 유사 사례   │ 메시지 큐    │ DB 읽기 잠금 │ 자원 배분     │
-│ 기아 가능성      │ 없음         │ 유형별 상이  │ 있음(단순구현)│
-└──────────────────┴──────────────┴──────────────┴───────────────┘
++------------------+--------------+--------------+---------------+
+| 항목             | 유한 버퍼    | 독자-저자    | 식사 철학자   |
++------------------+--------------+--------------+---------------+
+| 핵심 위험        | 버퍼 가득/빔 | 저자 기아    | 교착+기아     |
+| 주요 동기화 도구 | 세마포어 3개 | 세마포어 2개 | 모니터/세마   |
+| 실무 유사 사례   | 메시지 큐    | DB 읽기 잠금 | 자원 배분     |
+| 기아 가능성      | 없음         | 유형별 상이  | 있음(단순구현)|
++------------------+--------------+--------------+---------------+
 ```
 
 **📢 섹션 요약 비유**: 유한 버퍼는 '흐름 조절', 독자-저자는 '접근 권한 관리', 식사 철학자는 '교착 예방' — 실무에서 마주치는 병행 문제의 90%가 이 세 패턴의 변형입니다.
@@ -182,12 +182,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [우선순위 올림 (Priority Ceiling Protocol)]
-    │
-    ▼
+    |
+    v
 [고전적 동기화 문제들 (Classic Synchronization Problems)]
-    │
-    ├──▶ [유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
-    └──▶ [독자-저자 문제 (Readers-Writers Problem)]
+    |
+    +---> [유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
+    +---> [독자-저자 문제 (Readers-Writers Problem)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -204,7 +204,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 245 / 800
 
-← **이전**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/)
-**다음**: [246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/) →
+<- **이전**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/)
+**다음**: [246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/) ->
 
 ---

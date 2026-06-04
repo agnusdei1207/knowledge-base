@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [VRF]
-    │
-    ▼
+    |
+    v
 [Policy-Based Routing / R…]
-    │
-    └──▶ [MPLS]
+    |
+    +---> [MPLS]
 ```
 
 - **📢 섹션 요약 비유**: <strong> PBR은 공정한 법(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블) 위에 군림하는 </strong>"관리자의 독재(사면권)"**입니다. 내비게이션이 아무리 빠른 길을 알려줘도, 조수석에 앉은 회장님이 "저쪽 골목으로 들어가!" 하면 운전사(라우터)는 찍소리 못하고 핸들을 꺾어야 합니다.
@@ -55,27 +55,27 @@ PBR을 구현하려면 시스코 장비 기준 <strong><code>route-map</code></s
 포트로 패킷이 들어올 때 라우터의 뇌구조는 다음과 같다.
 1. 이 포트에 PBR([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 걸려 있나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 2. 걸려있네? 패킷을 뜯어서 `match` 조건에 맞는지 본다.
-3. 조건에 맞으면(예: 사장님 IP) ──▶ [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 무시하고, `set` 명령에 따라 강제로 1번 길로 날려버림!
-4. 조건에 안 맞으면(예: 일반 직원) ──▶ PBR 룰을 통과하여, 비로소 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등)을 보고 2번 길로 정상 배달됨.
+3. 조건에 맞으면(예: 사장님 IP) ---> [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 무시하고, `set` 명령에 따라 강제로 1번 길로 날려버림!
+4. 조건에 안 맞으면(예: 일반 직원) ---> PBR 룰을 통과하여, 비로소 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등)을 보고 2번 길로 정상 배달됨.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                PBR (Policy-Based Routing) 트래픽 갈라치기 도식    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 사장님 PC (192.168.1.99) ] ────┐                          │
- │                                  ▼ [라우터]                     │
- │   [ 직원들 PC (192.168.1.x)  ] ────┤ 1) PBR 검사              │
- │                                    │ - 99번 IP인가? (Match)   │
- │                                    │ - Yes ──▶ 광랜으로 쏴! (Set)│
- │                                    │ - No  ──▶ 라우팅테이블 봐!  │
- │                                    │                        │
- │   * 라우터의 행동:                      ▼                        │
- │     사장님 패킷 ════════════════════▶ [ 광랜 (비싼 전용선) ]      │
- │     직원들 패킷 ────────────────────▶ [ 일반망 (ADSL선) ]       │
- │                                                             │
- │   ▶ "목적지가 같아도 출발지 신분에 따라 다른 길로 던지는 마법!"         │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                PBR (Policy-Based Routing) 트래픽 갈라치기 도식    |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 사장님 PC (192.168.1.99) ] ----+                          |
+ |                                  v [라우터]                     |
+ |   [ 직원들 PC (192.168.1.x)  ] ----+ 1) PBR 검사              |
+ |                                    | - 99번 IP인가? (Match)   |
+ |                                    | - Yes ---> 광랜으로 쏴! (Set)|
+ |                                    | - No  ---> 라우팅테이블 봐!  |
+ |                                    |                        |
+ |   * 라우터의 행동:                      v                        |
+ |     사장님 패킷 ---------------------> [ 광랜 (비싼 전용선) ]      |
+ |     직원들 패킷 ---------------------> [ 일반망 (ADSL선) ]       |
+ |                                                             |
+ |   -> "목적지가 같아도 출발지 신분에 따라 다른 길로 던지는 마법!"         |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. PBR의 치명적 단점 (CPU 갉아먹기)
@@ -140,12 +140,12 @@ Policy-Based [Routing](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ```text
 [선행 개념: VRF]
-    │
-    ▼
+    |
+    v
 [현재 개념: Policy-Based Routing / R…]
-    │
-    ├──▶ [확장 A: MPLS]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: MPLS]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 Policy-Based [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) / R…는 VRF에서 출발해 현재 메커니즘을 정교화하고, 이후 MPLS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ Policy-Based [Routing](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 **진행 상황**: 493 / 1120
 
-← **이전**: [371. VRF (Virtual Routing and Forwarding)](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/)
-**다음**: [373. MPLS (Multiprotocol Label Switching)](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) →
+<- **이전**: [371. VRF (Virtual Routing and Forwarding)](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/)
+**다음**: [373. MPLS (Multiprotocol Label Switching)](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) ->
 
 ---

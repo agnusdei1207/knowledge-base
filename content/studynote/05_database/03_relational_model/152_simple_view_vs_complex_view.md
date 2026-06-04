@@ -34,32 +34,32 @@ tags = ["studynote-database"]
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술사 시험에서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert/Update/Delete) 가능 여부를 묻는 핵심 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          단순 뷰(Simple) vs 복합 뷰(Complex)의 적나라한 해부도 비교      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🪟 [ 단순 뷰 (Simple View) - 1:1 거울 복사본 ]                   │
-│   - 쿼리: `CREATE VIEW 서울_사원 AS`                           │
-│           `SELECT 사번, 이름 FROM 사원 WHERE 지역='서울';`      │
-│   - 뼈대: `사원` 테이블 딱 1개 (Join ❌, Group By ❌)          │
-│   - 마법 발동 (Update 뚫림 ✅):                                │
-│     ➔ 뷰 화면에서 홍길동 이름을 '임꺽정'으로 고침.                │
-│     ➔ 🌟 뷰 뒤에 숨겨진 1가닥의 끈을 타고 원본 '사원' 테이블로 직진!│
-│     ➔ 원본 테이블의 이름이 '임꺽정'으로 실제로 바뀜! (완벽한 투명성)│
-│                                                             │
-│ ----------------------------------------------------------- │
-│                                                             │
-│ 🧱 [ 복합 뷰 (Complex View) - N:1 비빔밥 믹서기 ]                │
-│   - 쿼리: `CREATE VIEW 부서_통계 AS`                           │
-│           `SELECT 부서명, SUM(매출) FROM 사원 JOIN 부서 ... `   │
-│           `GROUP BY 부서명;`                                 │
-│   - 뼈대: 테이블 2개 조인(✅), SUM 믹서기 돌림(✅)                │
-│   - 마법 폭발 (Update 튕겨냄 ❌):                              │
-│     ➔ 뷰 화면에서 '영업부 합계 100만 원'을 '200만 원'으로 고치려 함.│
-│     ➔ 💥 DB 엔진 피 토함: "야 인간아! 100명을 더해서 100만 원이 │
-│        나왔는데, 합계를 200으로 고치면 100명한테 얼마씩 나눠서     │
-│        업데이트(N분의 1) 치라는 거야? 역산 불가! 에러 쾅!"         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          단순 뷰(Simple) vs 복합 뷰(Complex)의 적나라한 해부도 비교      |
++-------------------------------------------------------------+
+|                                                             |
+| 🪟 [ 단순 뷰 (Simple View) - 1:1 거울 복사본 ]                   |
+|   - 쿼리: `CREATE VIEW 서울_사원 AS`                           |
+|           `SELECT 사번, 이름 FROM 사원 WHERE 지역='서울';`      |
+|   - 뼈대: `사원` 테이블 딱 1개 (Join ❌, Group By ❌)          |
+|   - 마법 발동 (Update 뚫림 ✅):                                |
+|     ➔ 뷰 화면에서 홍길동 이름을 '임꺽정'으로 고침.                |
+|     ➔ 🌟 뷰 뒤에 숨겨진 1가닥의 끈을 타고 원본 '사원' 테이블로 직진!|
+|     ➔ 원본 테이블의 이름이 '임꺽정'으로 실제로 바뀜! (완벽한 투명성)|
+|                                                             |
+| ----------------------------------------------------------- |
+|                                                             |
+| 🧱 [ 복합 뷰 (Complex View) - N:1 비빔밥 믹서기 ]                |
+|   - 쿼리: `CREATE VIEW 부서_통계 AS`                           |
+|           `SELECT 부서명, SUM(매출) FROM 사원 JOIN 부서 ... `   |
+|           `GROUP BY 부서명;`                                 |
+|   - 뼈대: 테이블 2개 조인(✅), SUM 믹서기 돌림(✅)                |
+|   - 마법 폭발 (Update 튕겨냄 ❌):                              |
+|     ➔ 뷰 화면에서 '영업부 합계 100만 원'을 '200만 원'으로 고치려 함.|
+|     ➔ 💥 DB 엔진 피 토함: "야 인간아! 100명을 더해서 100만 원이 |
+|        나왔는데, 합계를 200으로 고치면 100명한테 얼마씩 나눠서     |
+|        업데이트(N분의 1) 치라는 거야? 역산 불가! 에러 쾅!"         |
++-------------------------------------------------------------+
 ```
 
 단순 뷰는 뷰의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1줄과 원본 테이블의 1줄이 <strong>1:1로 완벽하게 매핑(Row-to-Row Identity)</strong>되어 있기 때문에 역추적이 가능하여 DML이 스르륵 뚫고 들어간다. 반면 복합 뷰는 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뻥튀기(카테시안)되거나, `GROUP BY`로 100만 줄이 10줄로 뭉개져 버려(Aggregation) 원본의 흔적을 잃어버렸다. 원본 좌표를 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리에 업데이트 총(Update)을 쏘면 총알이 갈 길을 잃고 시스템 에러로 터져버리는 차가운 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 수학적 한계다.
@@ -135,17 +135,17 @@ tags = ["studynote-database"]
 
 ```text
 쌩 테이블 다이렉트 강결합 쇳덩이 시대 💀 / 앱 100군데서 물리 테이블명 하드코딩 직통 찌르다 ➔ DB 스키마 1번 엎어지면 소스 100군데 다 뜯어고쳐 야근 재배포 셧다운 뻗음 지옥 폭파 💥
-    │
-    ▼
+    |
+    v
 단순 뷰 (Simple View) 가상 테이블 껍데기 강림 🚀 / "테이블이랑 소스 중간에 1:1 투명 유리창 끼워 넣어 쾅!" ➔ 데이터 수정(DML)은 그대로 관통 패스하면서 물리적 스키마 은닉 보호막(독립성) 무결점 성취 ✨
-    │
-    ▼
+    |
+    v
 보안 캡슐화 (Row/Column Security) 및 WITH CHECK OPTION 쉴드 🔒 / 민감한 '월급, 주민번호' 가위로 오려 숨기고 하청용 뷰 따로 파줌 ➔ DML 치다 증발하는 거 막는 체크 옵션 방폭문 록온 완료
-    │
-    ▼
+    |
+    v
 복합 뷰 (Complex View) 통계 요약 텐트 💥 / 100줄 스파게티 조인 쿼리를 1줄 이름으로 캡슐화 포장. 근데 조인/집계 떡칠이라 DML(수정) 튕겨내는 Read-only 한계 도달 💀 ➔ (INSTEAD OF 트리거로 땜빵 우회 핑퐁 수술 치며 연명)
-    │
-    ▼
+    |
+    v
 Materialized View (MView) 데이터 웨어하우스 구원 (현재) ✨ / "껍데기 복합 뷰 찢어버려 서버 타죽어 랙 뻗음! 걍 1억 건 조인 결과를 밤새 진짜 하드디스크 돌덩이(Table)로 굳혀 캐싱 박제 쳐 쾅!!" ➔ OLAP 대시보드 1초 컷 쾌속 렌더링 펌핑의 빅데이터 제국 완성 🚀
 ```
 
@@ -161,7 +161,7 @@ Materialized View (MView) 데이터 웨어하우스 구원 (현재) ✨ / "껍�
 
 **진행 상황**: 152 / 600
 
-← **이전**: [151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)
-**다음**: [153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법](/knowledge-base/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) →
+<- **이전**: [151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)
+**다음**: [153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법](/knowledge-base/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) ->
 
 ---

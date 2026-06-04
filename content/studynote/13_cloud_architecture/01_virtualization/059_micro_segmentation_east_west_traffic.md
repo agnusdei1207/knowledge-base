@@ -33,12 +33,12 @@ tags = ["studynote-cloud"]
 
 ```text
 정책 컨트롤러
-   ↓
+   v
 레이블 기반 규칙
-   ↓
+   v
 분산 방화벽 / Enforcer
-   ↓
-Web → DB 허용, Web → HR 차단
+   v
+Web -> DB 허용, Web -> HR 차단
 ```
 
 | 구성 요소 | 역할 |
@@ -106,11 +106,11 @@ Web → DB 허용, Web → HR 차단
 
 ```text
 Zero Trust
-   ↓
+   v
 마이크로 세그멘테이션
-   ↓
+   v
 Network Policy / Distributed Firewall
-   ↓
+   v
 횡적 이동 차단
 ```
 
@@ -120,11 +120,11 @@ Network Policy / Distributed Firewall
 
 ```text
 경계 방화벽
-   ↓
+   v
 SDN 기반 분산 방화벽
-   ↓
+   v
 Kubernetes NetworkPolicy
-   ↓
+   v
 서비스 메시 + mTLS
 ```
 
@@ -142,7 +142,7 @@ Kubernetes NetworkPolicy
 
 **진행 상황**: 58 / 371
 
-← **이전**: [58. HPA / VPA - 쿠버네티스 자동 확장 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/058_hpa_vpa/)
-**다음**: [60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/) →
+<- **이전**: [58. HPA / VPA - 쿠버네티스 자동 확장 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/058_hpa_vpa/)
+**다음**: [60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/) ->
 
 ---

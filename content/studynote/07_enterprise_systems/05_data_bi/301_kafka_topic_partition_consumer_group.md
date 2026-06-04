@@ -57,35 +57,35 @@ tags = ["studynote-enterprise-systems"]
 | Manual sync commit | commitSync() 직접 호출 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하 |
 | Manual async commit | commitAsync() + 콜백 | 재시도 순서 역전 주의 |
 
-### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 토픽 4파티션 → [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 2대
+### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 토픽 4파티션 -> [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 2대
 
 ```
   Topic: user-events (파티션 4개)
-  ┌──────────────────────────────────────────────────────────────┐
-  │  Partition-0   │  Partition-1   │  Partition-2   │  Partition-3   │
-  └───────┬────────┴───────┬────────┴───────┬────────┴───────┬────────┘
-          │                │                │                │
-          ▼                ▼                ▼                ▼
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                Consumer Group: analytics-group                    │
-  │   ┌─────────────────────────────┐   ┌──────────────────────────┐  │
-  │   │         Consumer-A          │   │         Consumer-B       │  │
-  │   │   (Partition-0, P-1 담당)   │   │   (Partition-2, P-3 담당)│  │
-  │   └─────────────────────────────┘   └──────────────────────────┘  │
-  └───────────────────────────────────────────────────────────────────┘
-                │ 오프셋 커밋
-  ┌─────────────────────┐
-  │  Kafka Broker       │  __consumer_offsets 토픽
-  │  P-0: 48200         │  P-1: 50100
-  │  P-2: 47900         │  P-3: 51200
-  └─────────────────────┘
+  +--------------------------------------------------------------+
+  |  Partition-0   |  Partition-1   |  Partition-2   |  Partition-3   |
+  +-------+--------+-------+--------+-------+--------+-------+--------+
+          |                |                |                |
+          v                v                v                v
+  +-------------------------------------------------------------------+
+  |                Consumer Group: analytics-group                    |
+  |   +-----------------------------+   +--------------------------+  |
+  |   |         Consumer-A          |   |         Consumer-B       |  |
+  |   |   (Partition-0, P-1 담당)   |   |   (Partition-2, P-3 담당)|  |
+  |   +-----------------------------+   +--------------------------+  |
+  +-------------------------------------------------------------------+
+                | 오프셋 커밋
+  +---------------------+
+  |  Kafka Broker       |  __consumer_offsets 토픽
+  |  P-0: 48200         |  P-1: 50100
+  |  P-2: 47900         |  P-3: 51200
+  +---------------------+
 ```
 
 ### [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
 ```
 Consumer Lag = Log End Offset - Consumer Commit Offset
-Lag > 10,000건 → 알람 → 컨슈머 추가 or 처리 로직 최적화
+Lag > 10,000건 -> 알람 -> 컨슈머 추가 or 처리 로직 최적화
 ```
 
 📢 **섹션 요약 비유**: 오프셋은 책갈피다. 책갈피를 자주 꽂을수록 재시작 시 읽을 분량이 줄어들지만, 너무 자주 꽂으면 손이 바빠진다.
@@ -125,7 +125,7 @@ Lag > 10,000건 → 알람 → 컨슈머 추가 or 처리 로직 최적화
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
-| enable.auto.commit=true + 무거운 처리 | 처리 전 커밋 → 유실 | 수동 커밋 + [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 처리 |
+| enable.auto.commit=true + 무거운 처리 | 처리 전 커밋 -> 유실 | 수동 커밋 + [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 처리 |
 | 단일 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 쏠림 | 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Hotspot) | 복합 키 or 랜덤 솔팅 |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 컨슈머 수 고정 | 탄력적 확장 불가 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 여유분 확보 |
 | 리밸런싱 무시 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 수초 | CooperativeStickyAssignor 적용 |
@@ -145,8 +145,8 @@ Lag > 10,000건 → 알람 → 컨슈머 추가 or 처리 로직 최적화
 
 ### 한계 및 선결 과제
 
-- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 증가만 가능, 감소 불가 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계가 중요
-- Kafka는 at-least-once 기본 → [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)(Idempotent) 처리를 컨슈머가 보장
+- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 증가만 가능, 감소 불가 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계가 중요
+- Kafka는 at-least-once 기본 -> [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)(Idempotent) 처리를 컨슈머가 보장
 - [exactly-once semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) (EOS) 사용 시 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% 저하
 
 📢 **섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 여러 계산대를 열어 계산대마다 전담 직원을 배치한 대형마트다. 계산대([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))가 많을수록 손님([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)을 빠르게 처리하지만, 너무 많으면 직원 관리 비용도 늘어난다.
@@ -166,17 +166,17 @@ Lag > 10,000건 → 알람 → 컨슈머 추가 or 처리 로직 최적화
 
 ```
 단일 큐 메시지 브로커 - 처리량 병목
-    │
-    ▼
+    |
+    v
 Kafka Topic - 논리적 데이터 채널 추상화
-    │
-    ▼
+    |
+    v
 Partition - 물리적 분산·병렬 처리 단위
-    │
-    ▼
+    |
+    v
 Consumer Group - 파티션별 독립 소비자 배정
-    │
-    ▼
+    |
+    v
 Replication Factor + ISR = 고가용성 보장
 ```
 
@@ -194,7 +194,7 @@ Replication Factor + ISR = 고가용성 보장
 
 **진행 상황**: 301 / 482
 
-← **이전**: [300. 실시간 데이터 스트리밍 (Kafka + CDC)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/)
-**다음**: [302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/302_dataops_cicd_dbt/) →
+<- **이전**: [300. 실시간 데이터 스트리밍 (Kafka + CDC)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/)
+**다음**: [302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/302_dataops_cicd_dbt/) ->
 
 ---

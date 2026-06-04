@@ -28,21 +28,21 @@ tags = ["studynote-operating-system"]
   3. **Linux Kernel의 수용**: 그 효용성이 너무나 압도적이어서, Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 2.2 버전부터 이 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 아이디어를 차용(이후 SLUB, SLOB 등으로 진화)하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 관리의 표준으로 삼았다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│           슬랩 할당기의 3단 계층 구조 (Cache -> Slab -> Object)   │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 최하단: Buddy System (물리 메모리 공급자) ]                     │
-│    │ "3페이지(12KB) 덩어리 줄게"                                  │
-│    ▼                                                              │
-│ [ 캐시(Cache): 특정 객체 전용 장부 (예: Task Struct 캐시) ]       │
-│  ├─ Slab 1 (Full - 방 꽉참)                                       │
-│  │   [객체][객체][객체][객체] (1개 2KB짜리 PCB 객체 4개 꽉참)     │
-│  ├─ Slab 2 (Partial - 빈방 있음)  ◀── 할당 요청 시 여기서 빼줌!   │
-│  │   [객체][빈방][빈방][객체]                                     │
-│  └─ Slab 3 (Empty - 텅텅 빔)                                      │
-│      [빈방][빈방][빈방][빈방] ──장기 미사용 시 Buddy로 반납──▶    │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|           슬랩 할당기의 3단 계층 구조 (Cache -> Slab -> Object)   |
++-------------------------------------------------------------------+
+|                                                                   |
+| [ 최하단: Buddy System (물리 메모리 공급자) ]                     |
+|    | "3페이지(12KB) 덩어리 줄게"                                  |
+|    v                                                              |
+| [ 캐시(Cache): 특정 객체 전용 장부 (예: Task Struct 캐시) ]       |
+|  +- Slab 1 (Full - 방 꽉참)                                       |
+|  |   [객체][객체][객체][객체] (1개 2KB짜리 PCB 객체 4개 꽉참)     |
+|  +- Slab 2 (Partial - 빈방 있음)  <--- 할당 요청 시 여기서 빼줌!   |
+|  |   [객체][빈방][빈방][객체]                                     |
+|  +- Slab 3 (Empty - 텅텅 빔)                                      |
+|      [빈방][빈방][빈방][빈방] --장기 미사용 시 Buddy로 반납--->    |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)은 객체 종류별로 캐시(Cache)라는 전용 장부를 둔다. 예를 들어 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)(PCB) 전용 캐시, 네트워크 패킷 전용 캐시 등이다. 이 캐시 안에는 여러 개의 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)(보통 1~4개의 연속된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 덩어리)이 존재한다. [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 Partial(일부만 찬) [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)에서 빈 객체를 O(1) 속도로 꺼내준다. 덕분에 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 0에 가깝게 소거된다.
 
@@ -70,25 +70,25 @@ tags = ["studynote-operating-system"]
 3. **Full (꽉 찬)** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/): 모든 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)이 Full 상태라면? [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 당황하지 않고 <strong>하단의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">Buddy System</a>)에게 전화를 걸어 "<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 몇 장만 더 줘!"라고 요청</strong>하여 새로운 Empty [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)을 찍어낸다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              슬랩과 버디 시스템의 찰떡 궁합 (투트랙 아키텍처)          │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 커널 코드 ] "세마포어 객체(80 Byte) 하나 주세요"                     │
-│      │                                                                 │
-│      ▼                                                                 │
-│ [ 슬랩 할당기 ] "Slab Partial에 빈 객체가 있네. 자, 받아." (0.1ms)     │
-│      │ (만약 꽉 찼다면?)                                               │
-│      ▼                                                                 │
-│ "아이고 다 팔렸네. [ 버디 시스템 ]아, 나 Slab 하나 더 만들게           │
-│  연속된 4KB짜리 페이지 프레임 하나만 떼어줘."                          │
-│      │                                                                 │
-│      ▼                                                                 │
-│ [ 버디 시스템 ] "오케이. 4KB 여기 있어." (외부 단편화 없이 깔끔 할당)  │
-│      │                                                                 │
-│      ▼                                                                 │
-│ [ 슬랩 할당기 ] 4KB를 80 Byte짜리 붕어빵 틀 50개로 쪼갬. (내부 낭비 0) │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|              슬랩과 버디 시스템의 찰떡 궁합 (투트랙 아키텍처)          |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 커널 코드 ] "세마포어 객체(80 Byte) 하나 주세요"                     |
+|      |                                                                 |
+|      v                                                                 |
+| [ 슬랩 할당기 ] "Slab Partial에 빈 객체가 있네. 자, 받아." (0.1ms)     |
+|      | (만약 꽉 찼다면?)                                               |
+|      v                                                                 |
+| "아이고 다 팔렸네. [ 버디 시스템 ]아, 나 Slab 하나 더 만들게           |
+|  연속된 4KB짜리 페이지 프레임 하나만 떼어줘."                          |
+|      |                                                                 |
+|      v                                                                 |
+| [ 버디 시스템 ] "오케이. 4KB 여기 있어." (외부 단편화 없이 깔끔 할당)  |
+|      |                                                                 |
+|      v                                                                 |
+| [ 슬랩 할당기 ] 4KB를 80 Byte짜리 붕어빵 틀 50개로 쪼갬. (내부 낭비 0) |
++------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아름다운 협업 구조가 리눅스를 서버 시장의 제왕으로 만든 일등 공신이다. 거칠게 잘라서 남는 공간이 펑펑 버려지던 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)의 약점([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))을, [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기라는 촘촘한 그물망이 완벽하게 필터링해준다. [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) 입장에서는 자잘한 요청에 시달리지 않고 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB 단위)만 쿨하게 던져주면 되니 서로의 장점만 극대화된다.
@@ -114,13 +114,13 @@ tags = ["studynote-operating-system"]
 현대 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 환경에 맞춰 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기도 세 가지 맛으로 진화시켰다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────────┐
-│ 종류       │ 특징         │ 장점         │ 주 사용처                    │
-├──────────┼────────────┼────────────┼────────────────────────────────────┤
-│ SLAB     │ 오리지널 전통 캐시│ 안정성 높음   │ 과거 리눅스 커널         │
-│ SLUB     │ 메타데이터 극소화 │ 관리 오버헤드 ⬇│ **현재 리눅스 표준**    │
-│ SLOB     │ 코드 크기 초경량화│ 램 사용량 극소화│ 임베디드 (라즈베리파이)│
-└──────────┴────────────┴────────────┴────────────────────────────────────┘
++----------+------------+------------+------------------------------------+
+| 종류       | 특징         | 장점         | 주 사용처                    |
++----------+------------+------------+------------------------------------+
+| SLAB     | 오리지널 전통 캐시| 안정성 높음   | 과거 리눅스 커널         |
+| SLUB     | 메타데이터 극소화 | 관리 오버헤드 ⬇| **현재 리눅스 표준**    |
+| SLOB     | 코드 크기 초경량화| 램 사용량 극소화| 임베디드 (라즈베리파이)|
++----------+------------+------------+------------------------------------+
 ```
 **[매트릭스 해설]** 원조 SLAB은 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 여러 개 유지하느라 구조체가 너무 뚱뚱해져서, 수백 코어를 가진 현대 서버에서는 캐시 장부 관리 자체가 짐이 되었다. 그래서 장부([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 안으로 욱여넣어 구조를 극도로 심플하게 만든 <strong>SLUB (Unqueued <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">Slab</a>)</strong>이 현대 데스크탑/서버 리눅스의 기본 할당기로 채택되었다. 반면 메모리가 몇 메가바이트뿐인 소형 라즈베리파이 같은 기기에서는 코드가 가장 가벼운 SLOB을 쓴다.
 
@@ -177,12 +177,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [버디 시스템 (Buddy System) 할당기]
-    │
-    ▼
+    |
+    v
 [슬랩 할당기 (Slab Allocator)]
-    │
-    ├──▶ [비연속 메모리 할당 (Non-contiguous Memory Allocation)]
-    └──▶ [페이징 (Paging)]
+    |
+    +---> [비연속 메모리 할당 (Non-contiguous Memory Allocation)]
+    +---> [페이징 (Paging)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -199,7 +199,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 349 / 800
 
-← **이전**: [348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)
-**다음**: [350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) →
+<- **이전**: [348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)
+**다음**: [350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) ->
 
 ---

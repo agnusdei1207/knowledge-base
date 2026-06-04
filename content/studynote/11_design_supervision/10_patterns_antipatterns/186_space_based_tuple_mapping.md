@@ -36,22 +36,22 @@ tags = ["studynote-design-supervision"]
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 과정에서 투플 맵핑이 어떤 역할을 하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                   Space-Based Tuple Mapping의 저장/조회 흐름                │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Producer                                                                    │
-│    │                                                                         │
-│    ▼                                                                         │
-│ [Tuple Mapper] ──▶ (Type, AffinityKey, BusinessKey, Version, TTL, Payload) │
-│    │                                                                         │
-│    ├── hash(AffinityKey) ──▶ [Primary Partition] ──▶ [Backup Partition]     │
-│    │                                                                         │
-│    └── template(Type + BusinessKey) ──▶ [Matcher] ──▶ [Processing Unit]     │
-│                                                                              │
-│ Read  : read(template)  = 조회만 수행                                        │
-│ Take  : take(template)  = 조회 후 공간에서 제거                              │
-│ Notify: notify(template)= 조건 일치 시 이벤트 통지                           │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                   Space-Based Tuple Mapping의 저장/조회 흐름                |
++------------------------------------------------------------------------------+
+| Producer                                                                    |
+|    |                                                                         |
+|    v                                                                         |
+| [Tuple Mapper] ---> (Type, AffinityKey, BusinessKey, Version, TTL, Payload) |
+|    |                                                                         |
+|    +-- hash(AffinityKey) ---> [Primary Partition] ---> [Backup Partition]     |
+|    |                                                                         |
+|    +-- template(Type + BusinessKey) ---> [Matcher] ---> [Processing Unit]     |
+|                                                                              |
+| Read  : read(template)  = 조회만 수행                                        |
+| Take  : take(template)  = 조회 후 공간에서 제거                              |
+| Notify: notify(template)= 조건 일치 시 이벤트 통지                           |
++------------------------------------------------------------------------------+
 ```
 
 | 필드 | 의미 | 설계 포인트 |
@@ -137,21 +137,21 @@ tags = ["studynote-design-supervision"]
 
 ```text
 Linda Tuple Space
-    │
-    ▼
+    |
+    v
 Shared Memory Pattern Matching
-    │
-    ▼
+    |
+    v
 IMDG 기반 Space-Based Architecture
-    │
-    ▼
+    |
+    v
 Affinity Key · Template Mapping · TTL
-    │
-    ▼
+    |
+    v
 Hot Spot 제어 · Idempotency · Versioned Payload
 ```
 
-이 흐름은 “공유 공간 개념 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 구현 → 운영 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙”으로 구체화되는 과정을 보여준다.
+이 흐름은 “공유 공간 개념 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 구현 -> 운영 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙”으로 구체화되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ Hot Spot 제어 · Idempotency · Versioned Payload
 
 **진행 상황**: 243 / 530
 
-← **이전**: [186. 스페이스 기반 아키텍처 (Space-Based Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/186_space_based_architecture/)
-**다음**: [187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/187_lmax_disruptor_architecture/) →
+<- **이전**: [186. 스페이스 기반 아키텍처 (Space-Based Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/186_space_based_architecture/)
+**다음**: [187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/187_lmax_disruptor_architecture/) ->
 
 ---

@@ -41,38 +41,38 @@ Apache Parquet은 효율적인 렬지향(컬럼 기반) [압축](/knowledge-base
 세 개의 주요 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/))은 공통적으로 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 레이어 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)" 구조를 따르며, 차이는 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 방식과 지원하는 기능에 있습니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              [ 오픈 테이블 포맷 (Open Table Format) 공통 아키텍처 ]              │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │  [사용자 / 쿼리 엔진]                                                 │    │
-│  │   Spark SQL / Trino / Presto / Hive / Snowflake / BigQuery       │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 테이블 포맷 메타데이터 레이어 ★ 핵심 ]                              │    │
-│  │                                                                       │    │
-│  │   ┌─────────────────────────────────────────────────────────────┐  │    │
-│  │   │  [manifest list 파일]  ← 각 스냅샷의 파일 목록 관리              │  │    │
-│  │   │         │                                                   │  │    │
-│  │   │         ▼                                                   │  │    │
-│  │   │  [manifest 파일]  ← 데이터 파일의 스키마, 통계 정보, 파티션 범위   │  │    │
-│  │   │         │                                                   │  │    │
-│  │   │         ▼                                                   │  │    │
-│  │   │  [스냅샷 (Snapshot)]  ← 특정 시점의 전체 파일 목록 + 메타데이터    │  │    │
-│  │   │         │                                                   │  │    │
-│  │   └─────────┼───────────────────────────────────────────────────┘  │    │
-│  └─────────────┼───────────────────────────────────────────────────────┘    │
-│                │                                                             │
-│  ┌─────────────▼───────────────────────────────────────────────────────┐  │
-│  │  [ 데이터 파일 레이어 ]                                                  │  │
-│  │   Apache Parquet (또는 ORC, Avro)                                    │  │
-│  │   실제 분석 대상 데이터가 Parquet 형식으로 저장                          │  │
-│  └─────────────────────────────────────────────────────────────────────┘  │
-│                                                                         │
-│  [ 하단 스토리지 ]                                                          │
-│   HDFS / Amazon S3 / Google Cloud Storage / Azure Data Lake Storage      │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|              [ 오픈 테이블 포맷 (Open Table Format) 공통 아키텍처 ]              |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |  [사용자 / 쿼리 엔진]                                                 |    |
+|  |   Spark SQL / Trino / Presto / Hive / Snowflake / BigQuery       |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 테이블 포맷 메타데이터 레이어 ★ 핵심 ]                              |    |
+|  |                                                                       |    |
+|  |   +-------------------------------------------------------------+  |    |
+|  |   |  [manifest list 파일]  <- 각 스냅샷의 파일 목록 관리              |  |    |
+|  |   |         |                                                   |  |    |
+|  |   |         v                                                   |  |    |
+|  |   |  [manifest 파일]  <- 데이터 파일의 스키마, 통계 정보, 파티션 범위   |  |    |
+|  |   |         |                                                   |  |    |
+|  |   |         v                                                   |  |    |
+|  |   |  [스냅샷 (Snapshot)]  <- 특정 시점의 전체 파일 목록 + 메타데이터    |  |    |
+|  |   |         |                                                   |  |    |
+|  |   +---------+---------------------------------------------------+  |    |
+|  +-------------+-------------------------------------------------------+    |
+|                |                                                             |
+|  +-------------v-------------------------------------------------------+  |
+|  |  [ 데이터 파일 레이어 ]                                                  |  |
+|  |   Apache Parquet (또는 ORC, Avro)                                    |  |
+|  |   실제 분석 대상 데이터가 Parquet 형식으로 저장                          |  |
+|  +---------------------------------------------------------------------+  |
+|                                                                         |
+|  [ 하단 스토리지 ]                                                          |
+|   HDFS / Amazon S3 / Google Cloud Storage / Azure Data Lake Storage      |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 기반 아키텍처 ([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))
@@ -85,7 +85,7 @@ Apache Parquet은 효율적인 렬지향(컬럼 기반) [압축](/knowledge-base
 
 | 구분 | [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) |
 | :--- | :--- | :--- | :--- |
-| **출생** | Netflix → Apache | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) → Linux Fnd | Uber → Apache |
+| **출생** | Netflix -> Apache | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) -> Linux Fnd | Uber -> Apache |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 지원</strong> | 멀티 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 지원 | 멀티 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 지원 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)/Incremental |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> evolution</strong> | 지원 | 제한적 | 미지원 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> evolution</strong> | Full [support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | Full [support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | ADD/DROP만 |
@@ -181,14 +181,14 @@ Apache Parquet은 효율적인 렬지향(컬럼 기반) [압축](/knowledge-base
 
 ```text
 [데이터 레이크 (Data Lake)]
-    │
-    ▼
+    |
+    v
 [오픈 테이블 포맷 (Open Table Format)]
-    │
-    ▼
+    |
+    v
 [Apache Iceberg / Delta Lake (Apache Iceberg / Delta Lake)]
-    │
-    ▼
+    |
+    v
 [ACID 트랜잭션 (ACID Transactions)]
 ```
 
@@ -208,7 +208,7 @@ Apache Parquet은 효율적인 렬지향(컬럼 기반) [압축](/knowledge-base
 
 **진행 상황**: 196 / 262
 
-← **이전**: [05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화](/knowledge-base/studynote/16_bigdata/10_governance/195_dataops/)
-**다음**: [191. 데이터 거버넌스 정의 (Data Governance Definition) — 데이터 소유·관리·사용 원칙 체계](/knowledge-base/studynote/16_bigdata/10_governance/197_data_governance_definition/) →
+<- **이전**: [05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화](/knowledge-base/studynote/16_bigdata/10_governance/195_dataops/)
+**다음**: [191. 데이터 거버넌스 정의 (Data Governance Definition) — 데이터 소유·관리·사용 원칙 체계](/knowledge-base/studynote/16_bigdata/10_governance/197_data_governance_definition/) ->
 
 ---

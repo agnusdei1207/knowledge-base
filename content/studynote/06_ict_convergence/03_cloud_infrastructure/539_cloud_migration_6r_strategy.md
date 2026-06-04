@@ -37,7 +37,7 @@ tags = ["studynote-ict-convergence"]
 
 ```
   빠른 이전                              최고 최적화
-  ←────────────────────────────────────────────────→
+  <-------------------------------------------------->
   비용 低                                    비용 高
 
   Rehost   Replatform  Repurchase  Refactor  Retire  Retain
@@ -48,18 +48,18 @@ tags = ["studynote-ict-convergence"]
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 내용 | 이점 | 적합 사례 |
 |:---|:---|:---|:---|
 | Rehost ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift) | 코드/DB 변경 없이 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 그대로 이전 | 빠름, 위험 낮음 | 레거시 대용량 이전 |
-| Replatform ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Reshape) | 최소 변경으로 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용 | 관리 부담 감소 | DB → RDS 전환 |
-| Repurchase | 기존 앱 폐기 후 SaaS로 전환 | 유지보수 제거 | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) → Salesforce |
+| Replatform ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Reshape) | 최소 변경으로 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용 | 관리 부담 감소 | DB -> RDS 전환 |
+| Repurchase | 기존 앱 폐기 후 SaaS로 전환 | 유지보수 제거 | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) -> Salesforce |
 | [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) / Re-architect | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)로 완전 재설계 | 최고 효과 | 핵심 경쟁력 앱 |
 | Retire | 사용 안 되는 앱 폐기 | 비용 절감 | 중복/유휴 시스템 |
 | Retain | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 현행 유지 | 안정성 유지 | 규제, 레이턴시 요구 |
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a></strong>:
-1. 앱이 더 이상 필요한가? → NO: Retire
-2. 클라우드 이전이 적합한가? → NO: Retain
-3. 완제품 SaaS가 있는가? → YES: Repurchase
-4. 핵심 경쟁력 앱이고 클라우드 최적화 가치가 있는가? → YES: [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)
-5. 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 최소 변경 가능한가? → YES: Replatform
+1. 앱이 더 이상 필요한가? -> NO: Retire
+2. 클라우드 이전이 적합한가? -> NO: Retain
+3. 완제품 SaaS가 있는가? -> YES: Repurchase
+4. 핵심 경쟁력 앱이고 클라우드 최적화 가치가 있는가? -> YES: [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)
+5. 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 최소 변경 가능한가? -> YES: Replatform
 6. 나머지: Rehost
 
 - **📢 섹션 요약 비유**: Refactor는 집을 최신 스마트홈으로 전면 리모델링하는 것, Rehost는 가구 배치도 안 바꾸고 그냥 이사하는 것, Retain은 이사 자체를 안 하는 것이다.
@@ -99,7 +99,7 @@ tags = ["studynote-ict-convergence"]
 - HR 시스템: Repurchase (WorkDay [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 전환)
 - 생산 모니터링: Rehost (빠른 이전 우선)
 - 물류 최적화 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/): [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) (클라우드 ML [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용, 경쟁력 핵심)
-- 배치 리포팅 서버: Replatform (EC2 → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 전환, 최소 변경)
+- 배치 리포팅 서버: Replatform (EC2 -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 전환, 최소 변경)
 
 - **📢 섹션 요약 비유**: 6R 분류는 이사할 때 짐을 정리하는 것이다 — 자주 쓰는 것(Rehost), 버릴 것(Retire), 새 것으로 살 것(Repurchase)을 먼저 분류해야 이사가 효율적이다.
 
@@ -132,7 +132,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[클라우드 서비스 모델 · 관리 부담] → [클라우드 마이그레이션 6R 전략] → [온프레미스 현대화 · Retain 대안]
+[클라우드 서비스 모델 · 관리 부담] -> [클라우드 마이그레이션 6R 전략] -> [온프레미스 현대화 · Retain 대안]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 539 / 552
 
-← **이전**: [538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/538_adversarial_examples_differential_privacy/)
-**다음**: [540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/540_sddc_hci_software_defined_appliance/) →
+<- **이전**: [538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/538_adversarial_examples_differential_privacy/)
+**다음**: [540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/540_sddc_hci_software_defined_appliance/) ->
 
 ---

@@ -30,9 +30,9 @@ tags = ["ai"]
 
 ```text
 Weighted Sum
-  ↓
+  v
 Activation Function
-  ↓
+  v
 Non-linear Output
 ```
 
@@ -106,11 +106,11 @@ Non-linear Output
 
 ```text
 Weighted Sum
-  ↓
+  v
 Activation Function
-  ↓
+  v
 Non-linearity
-  ↓
+  v
 Deep Learning
 ```
 
@@ -120,11 +120,11 @@ Deep Learning
 
 ```text
 Perceptron
-  ↓
+  v
 Activation Function
-  ↓
+  v
 MLP / DNN
-  ↓
+  v
 Deep Learning
 ```
 
@@ -142,7 +142,7 @@ Deep Learning
 
 **진행 상황**: 67 / 420
 
-← **이전**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/knowledge-base/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/)
-**다음**: [68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) →
+<- **이전**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/knowledge-base/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/)
+**다음**: [68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) ->
 
 ---

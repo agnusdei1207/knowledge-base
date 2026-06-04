@@ -23,28 +23,28 @@ X.509 v3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci
 
 X.509의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 버전은 이름, 발급자, 유효기간 같은 기본 항목 중심이어서 현대 웹의 요구를 모두 담기 어려웠다. 다중 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 용도 제한, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority) 여부, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)처럼 운영상 중요한 조건을 넣기 위해 등장한 것이 v3의 확장 필드 (Extensions)다. 즉 v3는 단순한 신분증 양식이 아니라, <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 함께 운반하는 신뢰 포맷</strong>으로 진화한 버전이다.
 
-아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 왜 필요한지를 "신원 주장 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 키 신뢰" 흐름으로 보여 준다.
+아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 왜 필요한지를 "신원 주장 -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 키 신뢰" 흐름으로 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why X.509 v3 exists                                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server / user claims identity                                        │
-│        │                                                             │
-│        ▼                                                             │
-│ CA (Certificate Authority) checks evidence and issues certificate    │
-│        │                                                             │
-│        ▼                                                             │
-│ Client validates                                                     │
-│   ├─ Issuer chain                                                    │
-│   ├─ Validity period                                                 │
-│   ├─ Subject / SAN match                                             │
-│   └─ Key usage / constraints                                         │
-│        │                                                             │
-│        ▼                                                             │
-│ Only then the public key becomes trusted for secure sessions, mail,   │
-│ and digital signing                                                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why X.509 v3 exists                                                  |
++----------------------------------------------------------------------+
+| Server / user claims identity                                        |
+|        |                                                             |
+|        v                                                             |
+| CA (Certificate Authority) checks evidence and issues certificate    |
+|        |                                                             |
+|        v                                                             |
+| Client validates                                                     |
+|   +- Issuer chain                                                    |
+|   +- Validity period                                                 |
+|   +- Subject / SAN match                                             |
+|   +- Key usage / constraints                                         |
+|        |                                                             |
+|        v                                                             |
+| Only then the public key becomes trusted for secure sessions, mail,   |
+| and digital signing                                                   |
++----------------------------------------------------------------------+
 ```
 
 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 자체가 아니라 <strong>공개키에 대한 신뢰 문맥</strong>을 제공한다는 점이다. 이 문맥이 없으면 같은 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 키라도 웹 서버용인지, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)용인지, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관용인지 구분할 수 없다.
@@ -58,24 +58,24 @@ X.509의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_qu
 X.509 v3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 크게 `tbsCertificate`, `signatureAlgorithm`, `signatureValue` 세 층으로 이해하면 쉽다. `tbsCertificate`는 실제로 읽고 판단해야 할 본문이며, `signatureValue`는 이 본문이 중간에 바뀌지 않았다는 보증이다. 따라서 Subject나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 한 글자만 바뀌어도 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 실패한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ X.509 v3 certificate layout                                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Certificate                                                          │
-│ ├─ tbsCertificate                                                    │
-│ │   ├─ version / serial number                                       │
-│ │   ├─ issuer                                                        │
-│ │   ├─ validity                                                      │
-│ │   ├─ subject                                                       │
-│ │   ├─ subjectPublicKeyInfo                                          │
-│ │   └─ extensions                                                    │
-│ │       ├─ SAN: DNS, IP, email aliases                               │
-│ │       ├─ Key Usage: allowed crypto operations                      │
-│ │       ├─ Basic Constraints: CA 여부, path length                   │
-│ │       └─ NSC: legacy Netscape purpose hint                         │
-│ ├─ signatureAlgorithm                                                │
-│ └─ signatureValue = Sign(issuer private key, tbsCertificate)         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| X.509 v3 certificate layout                                          |
++----------------------------------------------------------------------+
+| Certificate                                                          |
+| +- tbsCertificate                                                    |
+| |   +- version / serial number                                       |
+| |   +- issuer                                                        |
+| |   +- validity                                                      |
+| |   +- subject                                                       |
+| |   +- subjectPublicKeyInfo                                          |
+| |   +- extensions                                                    |
+| |       +- SAN: DNS, IP, email aliases                               |
+| |       +- Key Usage: allowed crypto operations                      |
+| |       +- Basic Constraints: CA 여부, path length                   |
+| |       +- NSC: legacy Netscape purpose hint                         |
+| +- signatureAlgorithm                                                |
+| +- signatureValue = Sign(issuer private key, tbsCertificate)         |
++----------------------------------------------------------------------+
 ```
 
 | 필드 | 의미 | 실무 해석 포인트 |
@@ -174,21 +174,21 @@ X.509 v3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci
 
 ```text
 신원 확인 요구
-    │
-    ▼
+    |
+    v
 X.509 기본 필드 (Subject / Issuer / Validity / Public Key)
-    │
-    ▼
+    |
+    v
 v3 확장 필드 도입
-    ├─ SAN (다중 이름 표현)
-    ├─ Key Usage (용도 제한)
-    ├─ Basic Constraints (CA 권한 통제)
-    └─ NSC (레거시 호환 목적)
-    │
-    ▼
+    +- SAN (다중 이름 표현)
+    +- Key Usage (용도 제한)
+    +- Basic Constraints (CA 권한 통제)
+    +- NSC (레거시 호환 목적)
+    |
+    v
 체인 검증 · 호스트 검증 · 폐지 검증
-    │
-    ▼
+    |
+    v
 현대 TLS / 메일 / 코드 서명 PKI 운영
 ```
 
@@ -206,7 +206,7 @@ v3 확장 필드 도입
 
 **진행 상황**: 226 / 1108
 
-← **이전**: [172. DER / PEM 인코딩 — 인증서 인코딩 형식](/knowledge-base/studynote/09_security/04_endpoint_security/172_der_pem_encoding/)
-**다음**: [174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/) →
+<- **이전**: [172. DER / PEM 인코딩 — 인증서 인코딩 형식](/knowledge-base/studynote/09_security/04_endpoint_security/172_der_pem_encoding/)
+**다음**: [174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/) ->
 
 ---

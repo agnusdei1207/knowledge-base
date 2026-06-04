@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Azure Event Hubs (애저 이벤트 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 Microsoft Azure의 완전 관리형 이벤트 스트리밍 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 호환 엔드포인트를 제공하여 기존 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클라이언트 코드 변경 없이(Drop-in Replacement) 마이그레이션이 가능하다.
-- **가치**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 호환 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 덕분에 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → Azure 마이그레이션 경로가 쉽고, AMQP/HTTPS도 지원하여 다양한 클라이언트와 통합되며, Capture 기능으로 원본 이벤트를 Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/)(ADLS)에 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하여 장기 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다.
+- **가치**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 호환 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 덕분에 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> Azure 마이그레이션 경로가 쉽고, AMQP/HTTPS도 지원하여 다양한 클라이언트와 통합되며, Capture 기능으로 원본 이벤트를 Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/)(ADLS)에 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하여 장기 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다.
 - **판단 포인트**: Event Hubs Standard vs Premium vs Dedicated 티어 선택이 핵심이다. Standard는 비용 효율적이나 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 제한이 있고, Premium은 전용 컴퓨팅으로 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을, Dedicated는 전용 클러스터로 최대 100TB 스토리지와 VNET 격리를 제공한다.
 
 ---
@@ -59,24 +59,24 @@ producer.produce('my-event-hub', key='user-001', value='{"action": "click"}')
 ### 1. Event Hubs 구조
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Event Hubs Namespace                                        │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Event Hub (토픽): "telemetry"                       │   │
-│  │                                                      │   │
-│  │  파티션 0 ─── 이벤트 스트림 ──→ Consumer Group A     │   │
-│  │  파티션 1 ─── 이벤트 스트림 ──→ Consumer Group A     │   │
-│  │  파티션 2 ─── 이벤트 스트림 ──→ Consumer Group B     │   │
-│  │                                                      │   │
-│  │  Capture: 자동 → Azure Blob Storage / ADLS Gen2      │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  프로토콜: AMQP 1.0 / Kafka API (9093) / HTTPS             │
-└─────────────────────────────────────────────────────────────┘
-                              │
-         ┌───────────────────┼──────────────────┐
-         ▼                   ▼                  ▼
++-------------------------------------------------------------+
+|  Event Hubs Namespace                                        |
+|                                                             |
+|  +-----------------------------------------------------+   |
+|  |  Event Hub (토픽): "telemetry"                       |   |
+|  |                                                      |   |
+|  |  파티션 0 --- 이벤트 스트림 ---> Consumer Group A     |   |
+|  |  파티션 1 --- 이벤트 스트림 ---> Consumer Group A     |   |
+|  |  파티션 2 --- 이벤트 스트림 ---> Consumer Group B     |   |
+|  |                                                      |   |
+|  |  Capture: 자동 -> Azure Blob Storage / ADLS Gen2      |   |
+|  +-----------------------------------------------------+   |
+|                                                             |
+|  프로토콜: AMQP 1.0 / Kafka API (9093) / HTTPS             |
++-------------------------------------------------------------+
+                              |
+         +-------------------+------------------+
+         v                   v                  v
   Azure Stream           Azure Databricks    Azure Function
   Analytics              (Spark Streaming)   (서버리스)
 ```
@@ -154,30 +154,30 @@ schema_registry = SchemaRegistryClient(
 
 ```
 온프레미스 Kafka 클러스터
-  ↓ MirrorMaker 2 (병렬 복제)
+  v MirrorMaker 2 (병렬 복제)
 Azure Event Hubs (Kafka 호환)
-  ↓ 검증 완료 후 기존 클러스터 종료
+  v 검증 완료 후 기존 클러스터 종료
 ```
 
 ### 2. 이벤트 처리 아키텍처
 
 ```
-IoT 디바이스/웹앱 → Event Hubs → Azure Stream Analytics → Power BI (실시간 대시보드)
-                              └──→ Azure Databricks/Spark → ADLS Gen2 (배치 분석)
-                              └──→ Azure Functions → Azure Cosmos DB (실시간 상태 업데이트)
-                              └──→ Capture → ADLS Gen2 (원본 보존)
+IoT 디바이스/웹앱 -> Event Hubs -> Azure Stream Analytics -> Power BI (실시간 대시보드)
+                              +---> Azure Databricks/Spark -> ADLS Gen2 (배치 분석)
+                              +---> Azure Functions -> Azure Cosmos DB (실시간 상태 업데이트)
+                              +---> Capture -> ADLS Gen2 (원본 보존)
 ```
 
 ### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 요구사항 기반 티어 선택 (Standard → Premium → Dedicated)
+- [ ] [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 요구사항 기반 티어 선택 (Standard -> Premium -> Dedicated)
 - [ ] [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 마이그레이션: 연결 문자열만 변경하여 테스트
 - [ ] Capture [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 원본 이벤트 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립
 - [ ] [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 페어링 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구성
 - [ ] [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 격리: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립적 오프셋 관리
 
 **📢 섹션 요약 비유**
-> Event Hubs Standard → Dedicated는 "공용 수영장 → 개인 수영장 임대"와 같다. 공용(Standard)은 저렴하지만 피크 시간에 혼잡하고, 개인(Dedicated)은 비싸지만 항상 전용 레인을 보장한다.
+> Event Hubs Standard -> Dedicated는 "공용 수영장 -> 개인 수영장 임대"와 같다. 공용(Standard)은 저렴하지만 피크 시간에 혼잡하고, 개인(Dedicated)은 비싸지만 항상 전용 레인을 보장한다.
 
 ---
 
@@ -209,30 +209,30 @@ Azure Event Hubs는 <strong><a href="/knowledge-base/studynote/14_data_engineeri
 | [Amazon Kinesis](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/) | 경쟁 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | AWS 동등 포지션 |
 | Azure [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | 통합 처리 | Spark Structured Streaming과 연동 |
 | Azure [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) Gen2 | 저장 대상 | Capture 기능으로 자동 보관 |
-| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 | 마이그레이션 도구 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) → Event Hubs 마이그레이션 |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 | 마이그레이션 도구 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) -> Event Hubs 마이그레이션 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [이벤트 소스 (Event Sources) — IoT·앱·클릭스트림, 초당 수백만 이벤트]
-    │
-    ▼
+    |
+    v
 [아파치 카프카 (Apache Kafka) — 오픈소스 고처리량 메시지 스트리밍]
-    │
-    ▼
+    |
+    v
 [Azure Event Hubs — Kafka 호환, 완전 관리형 이벤트 스트리밍 서비스]
-    │
-    ▼
+    |
+    v
 [Azure Stream Analytics — 실시간 SQL 쿼리 처리, 창 집계(Window)]
-    │
-    ▼
+    |
+    v
 [Azure Synapse Analytics / Power BI — 배치 분석 및 시각화 대시보드]
 ```
 Azure Event Hubs는 [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) 호환 API를 제공하며, 완전 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 대규모 이벤트를 수집하여 Azure 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 진입점 역할을 한다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
-Azure Event Hubs는 Microsoft의 편지 배달 시스템이에요. 특별한 점은 Kafka라는 다른 우편 시스템의 편지([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)도 받을 수 있어요([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 호환 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)). 중요한 편지는 자동으로 사진을 찍어 보관(Capture → ADLS)하고, 다른 도시(다른 Azure 리전)에도 복사본을 보내서 편지가 절대 없어지지 않도록 해요([Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))!
+Azure Event Hubs는 Microsoft의 편지 배달 시스템이에요. 특별한 점은 Kafka라는 다른 우편 시스템의 편지([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)도 받을 수 있어요([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 호환 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)). 중요한 편지는 자동으로 사진을 찍어 보관(Capture -> ADLS)하고, 다른 도시(다른 Azure 리전)에도 복사본을 보내서 편지가 절대 없어지지 않도록 해요([Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))!
 
 ---
 
@@ -240,7 +240,7 @@ Azure Event Hubs는 Microsoft의 편지 배달 시스템이에요. 특별한 점
 
 **진행 상황**: 93 / 262
 
-← **이전**: [17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스](/knowledge-base/studynote/16_bigdata/04_streaming/092_google_pubsub/)
-**다음**: [19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징](/knowledge-base/studynote/16_bigdata/04_streaming/094_apache_pulsar/) →
+<- **이전**: [17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스](/knowledge-base/studynote/16_bigdata/04_streaming/092_google_pubsub/)
+**다음**: [19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징](/knowledge-base/studynote/16_bigdata/04_streaming/094_apache_pulsar/) ->
 
 ---

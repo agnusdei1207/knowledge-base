@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 PPO는 클리핑만으로 비슷한 안정성을 달성한다. 단순하지만 강력한 이 특성으로 OpenAI의 기본 RL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 됐다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PPO는 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 업데이트할 때 한 번에 너무 많이 바꾸지 말라"는 규칙을 단순한 클리핑으로 구현한다. 경사 하강 시 최대 보폭을 정하는 것이다.
@@ -66,27 +66,27 @@ L_CLIP = E[min(rₜ(θ)·Âₜ, clip(rₜ(θ), 1-ε, 1+ε)·Âₜ)]
 ```
 Âₜ > 0 (좋은 행동을 더 강화):
   r < 1-ε: 정상적으로 보상 증가 허용
-  r > 1+ε: 클리핑 → 더 이상 보상 증가 차단 (과도한 업데이트 방지)
+  r > 1+ε: 클리핑 -> 더 이상 보상 증가 차단 (과도한 업데이트 방지)
 
 Âₜ < 0 (나쁜 행동을 줄임):
   r > 1+ε: 정상적으로 페널티
-  r < 1-ε: 클리핑 → 더 이상 페널티 차단
+  r < 1-ε: 클리핑 -> 더 이상 페널티 차단
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  L_CLIP 함수 (Âₜ > 0 경우)                           │
-│                                                      │
-│  L↑                                                  │
-│  |    ________________                               │
-│  |   /                                               │
-│  |  / (클리핑 이전)                                   │
-│  | /                                                 │
-│  |/_________________________ r                       │
-│  1-ε        1         1+ε                            │
-│             ↑                                        │
-│     클리핑: 1+ε 초과 시 기울기 0                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  L_CLIP 함수 (Âₜ > 0 경우)                           |
+|                                                      |
+|  L^                                                  |
+|  |    ________________                               |
+|  |   /                                               |
+|  |  / (클리핑 이전)                                   |
+|  | /                                                 |
+|  |/_________________________ r                       |
+|  1-ε        1         1+ε                            |
+|             ^                                        |
+|     클리핑: 1+ε 초과 시 기울기 0                      |
++------------------------------------------------------+
 ```
 
 ### PPO 전체 목적 함수
@@ -114,7 +114,7 @@ c₁, c₂: 가중치 계수
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (강화학습 기반 인간 피드백)</strong>에서의 PPO:
 1. SFT (Supervised [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습
-2. 보상 모델([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 학습: 사람 선호도 → Bradley-Terry 모델
+2. 보상 모델([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 학습: 사람 선호도 -> Bradley-Terry 모델
 3. PPO로 [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 점수를 보상으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화
 4. KL 패널티로 SFT [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과의 과도한 이탈 방지
 
@@ -164,7 +164,7 @@ PPO는 단순함과 안정성을 겸비한 강화학습 [알고리즘](/knowledg
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [PPO (Proximal Policy Optimization)] → [최적화·운영 자동화]
+[데이터 전처리] -> [PPO (Proximal Policy Optimization)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -179,7 +179,7 @@ PPO는 단순함과 안정성을 겸비한 강화학습 [알고리즘](/knowledg
 
 **진행 상황**: 395 / 420
 
-← **이전**: [394. AutoML / Hyperopt (Automl Hyperopt TPE)](/knowledge-base/studynote/10_ai/05_data_science_ml/394_automl_hyperopt_tpe/)
-**다음**: [396. 차분 프라이버시 (Differential Privacy)](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/) →
+<- **이전**: [394. AutoML / Hyperopt (Automl Hyperopt TPE)](/knowledge-base/studynote/10_ai/05_data_science_ml/394_automl_hyperopt_tpe/)
+**다음**: [396. 차분 프라이버시 (Differential Privacy)](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/) ->
 
 ---

@@ -28,23 +28,23 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 **💡 비유**: CPU는 요리사다. 책상 위 도마([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에는 당장 썰 양파를 둔다. 냉장고(캐시)에는 오늘 저녁 재료를 둔다. 마트(메인 메모리)에는 일주일 치 식량을, 해외 직구(하드디스크)에는 1년 보관용 통조림을 둔다. 요리사는 마트에 직접 가지 않고 보조 주방장(OS/하드웨어)이 알아서 도마 위로 올려주는 재료만 썰면 된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│         메모리 계층 구조 피라미드 (속도와 용량의 반비례)          │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│        [ CPU 내부 ]                                               │
-│             ▲                                                     │
-│          / 레지 \       ◀ 1ns 속도 / 수십 Byte 용량 / 수백만 원   │
-│         / L1캐시 \      ◀ 2ns 속도 / 수십 KB 용량   / 수십만 원   │
-│        / L2캐시   \     ◀ 10ns 속도/ 수 MB 용량     / 만 원대     │
-│       /────────────\                                              │
-│      / 메인 메모리  \   ◀ 100ns 속도/ 16~64 GB 용량 / 천 원대     │
-│     /   (DRAM)       \                                            │
-│    /──────────────────\                                           │
-│   / 보조기억장치 (SSD)\ ◀ 100μs 속도/ 수 TB 용량    / 백 원대     │
-│  /  (HDD, Magnetic)    \◀ 10ms 속도 / 수십 TB 용량  / 십 원대     │
-│ └────────────────────────┘                                        │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|         메모리 계층 구조 피라미드 (속도와 용량의 반비례)          |
++-------------------------------------------------------------------+
+|                                                                   |
+|        [ CPU 내부 ]                                               |
+|             ^                                                     |
+|          / 레지 \       <- 1ns 속도 / 수십 Byte 용량 / 수백만 원   |
+|         / L1캐시 \      <- 2ns 속도 / 수십 KB 용량   / 수십만 원   |
+|        / L2캐시   \     <- 10ns 속도/ 수 MB 용량     / 만 원대     |
+|       /------------\                                              |
+|      / 메인 메모리  \   <- 100ns 속도/ 16~64 GB 용량 / 천 원대     |
+|     /   (DRAM)       \                                            |
+|    /------------------\                                           |
+|   / 보조기억장치 (SSD)\ <- 100μs 속도/ 수 TB 용량    / 백 원대     |
+|  /  (HDD, Magnetic)    \<- 10ms 속도 / 수십 TB 용량  / 십 원대     |
+| +------------------------+                                        |
++-------------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 돈이 무한대라면 피라미드가 아니라 직사각형(전부 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))으로 지었겠지만, 현실은 가난하기에 위는 뾰족하게(비싼 건 조금), 아래는 펑퍼짐하게(싼 건 넓게) 지어놓고 마치 전체가 금괴인 척 속이는 마술입니다.
@@ -117,12 +117,12 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 
 ```text
 [2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)]
-    │
-    ▼
+    |
+    v
 [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-    │
-    ├──▶ [논리 주소 (Logical/Virtual Address)]
-    └──▶ [물리 주소 (Physical Address)]
+    |
+    +---> [논리 주소 (Logical/Virtual Address)]
+    +---> [물리 주소 (Physical Address)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -139,7 +139,7 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 
 **진행 상황**: 321 / 800
 
-← **이전**: [320. 2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)](/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/)
-**다음**: [322. 논리 주소 (Logical/Virtual Address) - CPU가 생성하는 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) →
+<- **이전**: [320. 2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)](/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/)
+**다음**: [322. 논리 주소 (Logical/Virtual Address) - CPU가 생성하는 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) ->
 
 ---

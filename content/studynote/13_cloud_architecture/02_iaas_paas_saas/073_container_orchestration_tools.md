@@ -31,9 +31,9 @@ tags = ["studynote-cloud"]
 
 ```text
 Cluster
-  ↓ schedule
+  v schedule
 Containers
-  ↓ scale / heal
+  v scale / heal
 Service
 ```
 
@@ -105,9 +105,9 @@ Service
 
 ```text
 Cluster
-  ↓
+  v
 Orchestration
-  ↓
+  v
 Scaling / Healing
 ```
 
@@ -117,9 +117,9 @@ Scaling / Healing
 
 ```text
 Container Runtime
-  ↓
+  v
 Orchestration
-  ↓
+  v
 Kubernetes
 ```
 
@@ -137,7 +137,7 @@ Kubernetes
 
 **진행 상황**: 72 / 371
 
-← **이전**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/)
-**다음**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/) →
+<- **이전**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/)
+**다음**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/) ->
 
 ---

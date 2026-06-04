@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP]
-    │
-    ▼
+    |
+    v
 [UDP]
-    │
-    └──▶ [TCP 세그먼트 헤더]
+    |
+    +---> [TCP 세그먼트 헤더]
 ```
 
 - **📢 섹션 요약 비유**: <strong> UDP는 브레이크, 에어백, 내비게이션(제어 기능)을 모조리 떼어버리고 오직 엔진과 바퀴(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송)만 남겨둔 </strong>"초경량 F1 레이싱 머신"**입니다. 사고(패킷 손실) 확률은 높지만 달리는 속도만큼은 타의 추종을 불허합니다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP]
-    │
-    ▼
+    |
+    v
 [UDP]
-    │
-    └──▶ [TCP 세그먼트 헤더]
+    |
+    +---> [TCP 세그먼트 헤더]
 ```
 
 - **📢 섹션 요약 비유**: UDP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -86,23 +86,23 @@ UDP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - <strong>VoIP / <a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a></strong>: 인터넷 전화와 실시간 영상 스트리밍. 깨지면 화면에 살짝 모자이크(깍두기)가 낄 뿐, 굳이 과거 화면을 재전송받지 않는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP(스트림) vs UDP(데이터그램) 전송 방식의 차이     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: 앱이 "안녕"과 "하세요"를 두 번에 걸쳐 전송함 ]              │
- │                                                             │
- │   * TCP의 방식 (수도꼭지 Stream):                               │
- │     "안", "녕", "하", "세", "요" -> 글자들을 물처럼 이어서 쏨.         │
- │     받는 쪽은 1바이트씩 컵에 모으다가 앱이 "글씨 줘!" 하면           │
- │     [ "안녕하세" ], [ "요" ] 처럼 자기 맘대로 잘라서 가져감.         │
- │                                                             │
- │   * UDP의 방식 (블록 Datagram):                               │
- │     [ 박스 1: "안녕" ] ── 휙! ──▶ 받는 쪽 앱: [ 박스 1: "안녕" ]  │
- │     [ 박스 2: "하세요" ] ── 휙! ──▶ 받는 쪽 앱: [ 박스 2: "하세요" ]│
- │                                                             │
- │   ▶ "UDP는 앱이 던진 박스의 경계(Message Boundary)를 완벽히 유지한다!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP(스트림) vs UDP(데이터그램) 전송 방식의 차이     |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황: 앱이 "안녕"과 "하세요"를 두 번에 걸쳐 전송함 ]              |
+ |                                                             |
+ |   * TCP의 방식 (수도꼭지 Stream):                               |
+ |     "안", "녕", "하", "세", "요" -> 글자들을 물처럼 이어서 쏨.         |
+ |     받는 쪽은 1바이트씩 컵에 모으다가 앱이 "글씨 줘!" 하면           |
+ |     [ "안녕하세" ], [ "요" ] 처럼 자기 맘대로 잘라서 가져감.         |
+ |                                                             |
+ |   * UDP의 방식 (블록 Datagram):                               |
+ |     [ 박스 1: "안녕" ] -- 휙! ---> 받는 쪽 앱: [ 박스 1: "안녕" ]  |
+ |     [ 박스 2: "하세요" ] -- 휙! ---> 받는 쪽 앱: [ 박스 2: "하세요" ]|
+ |                                                             |
+ |   -> "UDP는 앱이 던진 박스의 경계(Message Boundary)를 완벽히 유지한다!"|
+ +-------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -136,12 +136,12 @@ UDP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ```text
 [선행 개념: TCP]
-    │
-    ▼
+    |
+    v
 [현재 개념: UDP]
-    │
-    ├──▶ [확장 A: TCP 세그먼트 헤더]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP 세그먼트 헤더]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 UDP는 TCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ UDP는 TCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](
 
 **진행 상황**: 527 / 1120
 
-← **이전**: [405. TCP (Transmission Control Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)
-**다음**: [407. TCP 세그먼트 (Segment) 헤더](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) →
+<- **이전**: [405. TCP (Transmission Control Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)
+**다음**: [407. TCP 세그먼트 (Segment) 헤더](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) ->
 
 ---

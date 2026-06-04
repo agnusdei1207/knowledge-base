@@ -21,29 +21,29 @@ tags = ["studynote-bigdata"]
 ### [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 원리
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│              역색인 (Inverted Index) 구조                   │
-│                                                           │
-│  문서:                                                    │
-│  Doc1: "Redis는 빠른 인메모리 캐시다"                        │
-│  Doc2: "MongoDB는 유연한 문서형 DB다"                        │
-│  Doc3: "Redis와 MongoDB 모두 NoSQL이다"                     │
-│                                                           │
-│  ↓ 분석(Tokenize + Normalize)                             │
-│                                                           │
-│  역색인 테이블:                                             │
-│  ┌──────────────┬─────────────────────────────────┐       │
-│  │  Term (단어) │  문서 목록 (Posting List)         │       │
-│  ├──────────────┼─────────────────────────────────┤       │
-│  │  redis       │  [Doc1(pos:0), Doc3(pos:0)]      │       │
-│  │  캐시         │  [Doc1(pos:3)]                   │       │
-│  │  mongodb     │  [Doc2(pos:0), Doc3(pos:2)]      │       │
-│  │  nosql       │  [Doc3(pos:4)]                   │       │
-│  └──────────────┴─────────────────────────────────┘       │
-│                                                           │
-│  "redis" 검색 → Posting List 조회 → Doc1, Doc3 즉시 반환   │
-│  일반 B-Tree: O(log N)  |  역색인: O(1) 용어 조회           │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|              역색인 (Inverted Index) 구조                   |
+|                                                           |
+|  문서:                                                    |
+|  Doc1: "Redis는 빠른 인메모리 캐시다"                        |
+|  Doc2: "MongoDB는 유연한 문서형 DB다"                        |
+|  Doc3: "Redis와 MongoDB 모두 NoSQL이다"                     |
+|                                                           |
+|  v 분석(Tokenize + Normalize)                             |
+|                                                           |
+|  역색인 테이블:                                             |
+|  +--------------+---------------------------------+       |
+|  |  Term (단어) |  문서 목록 (Posting List)         |       |
+|  +--------------+---------------------------------+       |
+|  |  redis       |  [Doc1(pos:0), Doc3(pos:0)]      |       |
+|  |  캐시         |  [Doc1(pos:3)]                   |       |
+|  |  mongodb     |  [Doc2(pos:0), Doc3(pos:2)]      |       |
+|  |  nosql       |  [Doc3(pos:4)]                   |       |
+|  +--------------+---------------------------------+       |
+|                                                           |
+|  "redis" 검색 -> Posting List 조회 -> Doc1, Doc3 즉시 반환   |
+|  일반 B-Tree: O(log N)  |  역색인: O(1) 용어 조회           |
++-----------------------------------------------------------+
 ```
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) vs OpenSearch
@@ -58,7 +58,7 @@ tags = ["studynote-bigdata"]
 | 선택 기준 | 최신 ML 기능 | AWS 통합, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 
 📢 **섹션 요약 비유**
-> [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)은 책의 색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 같다. 책을 처음부터 읽어 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)"를 찾는 대신(O(N)), 뒤의 색인에서 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) → 12, 45, 87페이지"를 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(O(1))하는 것이다. 검색 엔진은 이 색인을 수십억 개 문서에 대해 미리 만들어둔 것이다.
+> [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)은 책의 색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 같다. 책을 처음부터 읽어 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)"를 찾는 대신(O(N)), 뒤의 색인에서 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) -> 12, 45, 87페이지"를 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(O(1))하는 것이다. 검색 엔진은 이 색인을 수십억 개 문서에 대해 미리 만들어둔 것이다.
 
 ---
 
@@ -67,29 +67,29 @@ tags = ["studynote-bigdata"]
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 클러스터 구조
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              Elasticsearch 클러스터 아키텍처                   │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │               Client / Load Balancer                   │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                      │                                       │
-│         ┌────────────┼────────────┐                          │
-│         ↓            ↓            ↓                          │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
-│  │  Node 1  │  │  Node 2  │  │  Node 3  │                   │
-│  │          │  │          │  │          │                   │
-│  │ Master   │  │  Data    │  │  Data    │                   │
-│  │ Eligible │  │          │  │ + Ingest │                   │
-│  │          │  │ Shard 0P │  │ Shard 1P │                   │
-│  │ Shard 2P │  │ Shard 1R │  │ Shard 0R │                   │
-│  │ Shard 2R │  │          │  │ Shard 2R │                   │
-│  └──────────┘  └──────────┘  └──────────┘                   │
-│                                                              │
-│  P: Primary Shard (쓰기 가능)                                 │
-│  R: Replica Shard (읽기 가능, HA 보장)                        │
-│  Master: 클러스터 상태 관리 (인덱스 생성/삭제, 샤드 할당)          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              Elasticsearch 클러스터 아키텍처                   |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  |               Client / Load Balancer                   |  |
+|  +--------------------------------------------------------+  |
+|                      |                                       |
+|         +------------+------------+                          |
+|         v            v            v                          |
+|  +----------+  +----------+  +----------+                   |
+|  |  Node 1  |  |  Node 2  |  |  Node 3  |                   |
+|  |          |  |          |  |          |                   |
+|  | Master   |  |  Data    |  |  Data    |                   |
+|  | Eligible |  |          |  | + Ingest |                   |
+|  |          |  | Shard 0P |  | Shard 1P |                   |
+|  | Shard 2P |  | Shard 1R |  | Shard 0R |                   |
+|  | Shard 2R |  |          |  | Shard 2R |                   |
+|  +----------+  +----------+  +----------+                   |
+|                                                              |
+|  P: Primary Shard (쓰기 가능)                                 |
+|  R: Replica Shard (읽기 가능, HA 보장)                        |
+|  Master: 클러스터 상태 관리 (인덱스 생성/삭제, 샤드 할당)          |
++--------------------------------------------------------------+
 ```
 
 ### [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) DSL ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language) 핵심
@@ -148,24 +148,24 @@ tags = ["studynote-bigdata"]
 ### ELK/EFK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            ELK Stack (관찰 가능성 플랫폼)                    │
-│                                                            │
-│  ┌──────────┐    ┌───────────┐    ┌──────────────────────┐ │
-│  │ 로그 소스 │───→│ Logstash  │───→│   Elasticsearch      │ │
-│  │ (앱 서버) │    │ (필터/파싱)│    │   (저장 + 검색)      │ │
-│  └──────────┘    └───────────┘    └──────────────────────┘ │
-│                                            ↑               │
-│  ┌──────────┐    ┌───────────┐             │               │
-│  │메트릭 소스│───→│  Beats    │─────────────┘               │
-│  │(시스템)  │    │(경량 수집) │                              │
-│  └──────────┘    └───────────┘                              │
-│                                                            │
-│                       ┌──────────────────────────────────┐ │
-│                       │         Kibana (시각화)           │ │
-│                       │  대시보드, 로그 검색, 알람         │ │
-│                       └──────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|            ELK Stack (관찰 가능성 플랫폼)                    |
+|                                                            |
+|  +----------+    +-----------+    +----------------------+ |
+|  | 로그 소스 |---->| Logstash  |---->|   Elasticsearch      | |
+|  | (앱 서버) |    | (필터/파싱)|    |   (저장 + 검색)      | |
+|  +----------+    +-----------+    +----------------------+ |
+|                                            ^               |
+|  +----------+    +-----------+             |               |
+|  |메트릭 소스|---->|  Beats    |-------------+               |
+|  |(시스템)  |    |(경량 수집) |                              |
+|  +----------+    +-----------+                              |
+|                                                            |
+|                       +----------------------------------+ |
+|                       |         Kibana (시각화)           | |
+|                       |  대시보드, 로그 검색, 알람         | |
+|                       +----------------------------------+ |
++------------------------------------------------------------+
 ```
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) vs Solr 비교
@@ -192,18 +192,18 @@ tags = ["studynote-bigdata"]
 인덱스 설계 Best Practice:
 
 1. 시간 기반 인덱스 롤링
-   logs-2026.04.21  →  logs-2026.04.22  → ...
+   logs-2026.04.21  ->  logs-2026.04.22  -> ...
    오래된 인덱스 삭제 용이, 클러스터 부하 분산
 
 2. 샤드 수 계산
    권장: 샤드 당 10~50GB
-   인덱스 크기 예상 → 샤드 수 = 예상 크기 / 30GB
+   인덱스 크기 예상 -> 샤드 수 = 예상 크기 / 30GB
 
 3. 매핑 동적 생성 비활성화
-   "dynamic": "strict"  ← 알 수 없는 필드 거부
+   "dynamic": "strict"  <- 알 수 없는 필드 거부
 
 4. 인덱스 별칭(Alias) 사용
-   alias "current_logs" → 실제 인덱스 교체 시 무중단
+   alias "current_logs" -> 실제 인덱스 교체 시 무중단
 ```
 
 ### 기술사 필수 개념: BM25 관련성 스코어링
@@ -216,7 +216,7 @@ BM25 (Best Match 25) 스코어링:
 
 score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 
-→ "Redis"가 짧은 제목 필드에 등장하면 긴 본문 필드보다 높은 점수
+-> "Redis"가 짧은 제목 필드에 등장하면 긴 본문 필드보다 높은 점수
 ```
 
 📢 **섹션 요약 비유**
@@ -258,17 +258,17 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 
 ```text
 [관계형 DB LIKE 검색 — 풀 테이블 스캔, 대규모 비정형 텍스트 처리 한계]
-    │
-    ▼
-[역색인 (Inverted Index) — 단어→문서 매핑, 전문 검색(Full-Text Search) 핵심]
-    │
-    ▼
+    |
+    v
+[역색인 (Inverted Index) — 단어->문서 매핑, 전문 검색(Full-Text Search) 핵심]
+    |
+    v
 [Elasticsearch — 루씬(Lucene) 기반 분산 검색 엔진, JSON REST API, 실시간 색인]
-    │
-    ▼
+    |
+    v
 [벡터 검색 (Vector Search) — 임베딩 유사도 기반 의미 검색, ANN 인덱스]
-    │
-    ▼
+    |
+    v
 [AI 검색 엔진 — RAG + 벡터DB + LLM, 의미 기반 지식 검색 통합]
 ```
 
@@ -286,7 +286,7 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 
 **진행 상황**: 136 / 262
 
-← **이전**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/)
-**다음**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/knowledge-base/studynote/16_bigdata/06_nosql/137_multi_model_db/) →
+<- **이전**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/)
+**다음**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/knowledge-base/studynote/16_bigdata/06_nosql/137_multi_model_db/) ->
 
 ---

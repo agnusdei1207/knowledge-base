@@ -31,29 +31,29 @@ tags = ["studynote-computer-architecture"]
     피드백 루프 포함
 
 구조:
-  입력(X) ──┐
-             ├──▷ 조합 논리 회로 ──▷ 출력(Z)
-  상태(Q) ──┘         │
-      ↑               │ (다음 상태)
-      └───────────────┘
-              ↑
+  입력(X) --+
+             +--▷ 조합 논리 회로 --▷ 출력(Z)
+  상태(Q) --+         |
+      ^               | (다음 상태)
+      +---------------+
+              ^
            기억 소자 (Flip-Flop / Latch)
-              ↑
+              ^
            클록 (CLK)
 
 클록 동기화:
   동기식 (Synchronous): CLK 엣지에서 상태 전환
-    → 설계 단순, 분석 명확
-    → 현대 디지털 시스템 표준
+    -> 설계 단순, 분석 명확
+    -> 현대 디지털 시스템 표준
 
   비동기식 (Asynchronous): 클록 없이 이벤트 기반
-    → 빠른 반응, 설계 복잡
-    → Ripple Counter 등 특수 용도
+    -> 빠른 반응, 설계 복잡
+    -> Ripple Counter 등 특수 용도
 
 상태 다이어그램 (State Diagram):
   원(Circle) = 상태
   화살표(Arc) = 전환 (입력/출력)
-  예: 신호등 FSM: RED → GREEN → YELLOW → RED
+  예: 신호등 FSM: RED -> GREEN -> YELLOW -> RED
 ```
 
 > 📢 **섹션 요약 비유**: 순서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 메모리 있는 계산 — 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 "지금만 보는 사람"이라면, 순서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "전 상황도 기억하는 사람". 다음 행동이 과거에도 영향받아요.
@@ -72,10 +72,10 @@ tags = ["studynote-computer-architecture"]
   현대: 플립플롭이 표준 (타이밍 제어 정확)
 
 1. SR 플립플롭 (Set-Reset):
-   S=1, R=0 → Q=1 (Set)
-   S=0, R=1 → Q=0 (Reset)
-   S=0, R=0 → Q 유지 (Hold)
-   S=1, R=1 → 금지 (Forbidden) ← 문제점
+   S=1, R=0 -> Q=1 (Set)
+   S=0, R=1 -> Q=0 (Reset)
+   S=0, R=0 -> Q 유지 (Hold)
+   S=1, R=1 -> 금지 (Forbidden) <- 문제점
 
 2. D 플립플롭 (Data):
    가장 단순하고 널리 사용
@@ -86,16 +86,16 @@ tags = ["studynote-computer-architecture"]
 
 3. JK 플립플롭:
    SR의 금지 상태를 해결
-   J=K=1 → Toggle (반전)
-   J=1, K=0 → Set
-   J=0, K=1 → Reset
-   J=0, K=0 → Hold
+   J=K=1 -> Toggle (반전)
+   J=1, K=0 -> Set
+   J=0, K=1 -> Reset
+   J=0, K=0 -> Hold
 
    Q(t+1) = J·Q̄ + K̄·Q
 
 4. T 플립플롭 (Toggle):
-   T=1 → Toggle
-   T=0 → Hold
+   T=1 -> Toggle
+   T=0 -> Hold
    Q(t+1) = T⊕Q
 
    용도: 카운터 (T=1이면 매 CLK마다 반전)
@@ -103,7 +103,7 @@ tags = ["studynote-computer-architecture"]
 셋업/홀드 타임:
   셋업 타임 (tsu): CLK 엣지 전 입력 안정 유지 시간
   홀드 타임 (th): CLK 엣지 후 입력 안정 유지 시간
-  위반 시: 메타스태빌리티 (Metastability) → 불확정 출력
+  위반 시: 메타스태빌리티 (Metastability) -> 불확정 출력
 ```
 
 > 📢 **섹션 요약 비유**: D/JK/T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 메모리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 종류 — D는 "그냥 저장", JK는 "더 많은 명령 수용", T는 "ON/OFF 토글". 클록이 울릴 때만 상태 바뀌는 엄격한 기억 소자.
@@ -141,12 +141,12 @@ FSM 설계 절차:
   상태: S0(RED), S1(GREEN), S2(YELLOW)
   입력: timer
 
-  S0 →[timer=1]→ S1 →[timer=1]→ S2 →[timer=1]→ S0
+  S0 ->[timer=1]-> S1 ->[timer=1]-> S2 ->[timer=1]-> S0
 
   출력:
-  S0 → RED=1, GREEN=0, YELLOW=0
-  S1 → RED=0, GREEN=1, YELLOW=0
-  S2 → RED=0, GREEN=0, YELLOW=1
+  S0 -> RED=1, GREEN=0, YELLOW=0
+  S1 -> RED=0, GREEN=1, YELLOW=0
+  S2 -> RED=0, GREEN=0, YELLOW=1
 
 실용 FSM 응용:
   프로토콜 파서: TCP 연결 상태 머신
@@ -155,7 +155,7 @@ FSM 설계 절차:
   통신: UART, I2C 프로토콜
 ```
 
-> 📢 **섹션 요약 비유**: FSM은 게임 캐릭터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) — "대기→공격→[후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)→대기" 상태가 있고, 입력(플레이어 위치)에 따라 상태가 전환. 현재 상태만이 다음 행동을 결정해요.
+> 📢 **섹션 요약 비유**: FSM은 게임 캐릭터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) — "대기->공격->[후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)->대기" 상태가 있고, 입력(플레이어 위치)에 따라 상태가 전환. 현재 상태만이 다음 행동을 결정해요.
 
 ---
 
@@ -166,11 +166,11 @@ FSM 설계 절차:
 
 비동기 카운터 (Ripple Counter):
   T 플립플롭 직렬 연결
-  각 FF의 Q 출력 → 다음 FF의 CLK
+  각 FF의 Q 출력 -> 다음 FF의 CLK
 
   장점: 구조 단순
   단점: 전파 지연 (Ripple Delay) 누적
-        n비트 → n × tFF 지연
+        n비트 -> n × tFF 지연
 
 동기 카운터 (Synchronous Counter):
   모든 FF가 공통 CLK 사용
@@ -178,15 +178,15 @@ FSM 설계 절차:
   단점: 회로 복잡
 
 2비트 업 카운터 (D FF, 동기):
-  현재 상태 Q1Q0 → 다음 상태
-  00 → 01 → 10 → 11 → 00 (반복)
+  현재 상태 Q1Q0 -> 다음 상태
+  00 -> 01 -> 10 -> 11 -> 00 (반복)
 
   D0 = Q0̄
   D1 = Q1⊕Q0
 
 분주기 (Frequency Divider):
   T FF T=1: 매 CLK마다 토글
-  → 출력 주파수 = CLK / 2
+  -> 출력 주파수 = CLK / 2
 
   n개 직렬: CLK / 2^n
 
@@ -196,7 +196,7 @@ FSM 설계 절차:
     n비트 데이터를 동시에 저장/출력
 
   시프트 레지스터 (Shift Register):
-    직렬 연결: Q → 다음 D
+    직렬 연결: Q -> 다음 D
     매 CLK마다 데이터가 한 칸씩 이동
 
     용도: 직렬↔병렬 변환, UART 송수신
@@ -217,7 +217,7 @@ FSM 설계 절차:
 CPU 파이프라인 레지스터 (순서 논리 응용):
 
 5단계 파이프라인:
-  IF → ID → EX → MEM → WB
+  IF -> ID -> EX -> MEM -> WB
 
   각 단계 사이: 파이프라인 레지스터 (D FF 묶음)
 
@@ -239,11 +239,11 @@ CPU 파이프라인 레지스터 (순서 논리 응용):
   최대 주파수 = 1 / 3.6ns ≈ 278MHz
 
 데이터 해저드와 스톨:
-  1. 데이터 의존성 → 파이프라인 스톨
+  1. 데이터 의존성 -> 파이프라인 스톨
      NOP 삽입 (버블) = 낭비 사이클
 
   2. 전달(Forwarding)로 해결:
-     EX/MEM 레지스터 값 → EX 단계 입력으로 직접 전달
+     EX/MEM 레지스터 값 -> EX 단계 입력으로 직접 전달
      스톨 없이 의존성 해결
 
 브랜치 예측 실패:
@@ -288,7 +288,7 @@ CPU 파이프라인 레지스터 (순서 논리 응용):
 ```
 [래치 발명 (1918)]
 SR 래치 (릴레이 기반)
-진공관 → 트랜지스터 래치
+진공관 -> 트랜지스터 래치
       |
       v
 [플립플롭 체계화 (1950s)]
@@ -297,7 +297,7 @@ D/JK/T 플립플롭 설계 이론
       |
       v
 [VLSI 시대 (1980s)]
-수백만 FF → CPU 레지스터 파일
+수백만 FF -> CPU 레지스터 파일
 CMOS 구현, 저전력화
       |
       v
@@ -326,7 +326,7 @@ GHz 클록, 딥 파이프라인
 
 **진행 상황**: 44 / 803
 
-← **이전**: [043. 비교기 (Comparator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)
-**다음**: [045. 클럭 — Clock Signal](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) →
+<- **이전**: [043. 비교기 (Comparator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)
+**다음**: [045. 클럭 — Clock Signal](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) ->
 
 ---

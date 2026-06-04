@@ -25,13 +25,13 @@ tags = ["database"]
 이 그림은 기존 아키텍처의 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 문제와 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도입에 따른 격리 효과를 보여줍니다.
 ```text
 [기존 결합 구조]
-App A ──(직접 쿼리)──> [ 통합 원본 테이블 ] <──(직접 쿼리)── App B
+App A --(직접 쿼리)--> [ 통합 원본 테이블 ] <--(직접 쿼리)-- App B
 (컬럼 하나만 변경되어도 App A, B 동시 장애 위험)
 
 [외부 스키마 격리 구조]
-App A ──> [외부 스키마 A (View)] ─(매핑)─┐
+App A --> [외부 스키마 A (View)] -(매핑)-+
                                          v
-App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
+App B --> [외부 스키마 B (View)] -(매핑)-> [ 개념 스키마 ]
 (원본이 변경되어도 매핑 계층만 수정, App은 무사함)
 ```
 이 도식에서 핵심은 응용 프로그램이 원본([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))을 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 않고 가상의 창구(외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 거친다는 점입니다. 따라서 조직 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 개편되더라도, 각 애플리케이션이 바라보는 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 반환 포맷만 유지하면 응용 프로그램의 수정 비용이 극적으로 감소합니다. 실무에서는 복잡한 레거시 시스템을 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)할 때 이 계층이 생명주기를 연장하는 핵심 방어막이 됩니다.
@@ -52,14 +52,14 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 질의가 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) 질의로 변환되는 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 다음과 같습니다.
 ```text
 [Client] SELECT name FROM HR_View;
-   ↓
+   v
 [Parser] HR_View 메타데이터 조회 (System Catalog)
-   ↓
+   v
 [Rewrite] 질의 재작성 연산 (View Merging)
    => SELECT name FROM Employee WHERE dept='HR';
-   ↓
+   v
 [Auth] 권한 검증 (HR_View 접근 인가 여부)
-   ↓
+   v
 [Execute] 개념/내부 스키마 엔진으로 쿼리 전달
 ```
 이 흐름의 핵심은 사용자의 단일 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 내부적으로 원본 테이블을 향한 복합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 자동 재작성(Rewriting)된다는 점입니다. 따라서 사용자는 복잡한 조인이나 조건절을 몰라도 단순한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻습니다. 그러나 뷰가 너무 많은 기본 테이블을 조인하도록 설계되어 있다면, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 뷰 병합([View Merging](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/))에 실패하여 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발할 수 있습니다. 실무에서는 이 질의 재작성 비용을 반드시 평가해야 합니다.
@@ -90,13 +90,13 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 다음은 권한 기반의 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 접근 제어 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)입니다.
 ```text
 [데이터 접근 요청]
-   ↓
+   v
 [객체 타입 판별]
-   ├─> Base Table 직접 접근 ──> (정책상 반려, DBA 권한 요구)
-   └─> View (외부 스키마) 접근 ──> [권한 확인] ─(통과)─>
-                                       ↓
+   +-> Base Table 직접 접근 --> (정책상 반려, DBA 권한 요구)
+   +-> View (외부 스키마) 접근 --> [권한 확인] -(통과)->
+                                       v
                             [View-to-Table 매핑 연산]
-                                       ↓
+                                       v
                             [마스킹된 안전한 데이터 반환]
 ```
 이 흐름의 핵심은 일반 사용자나 애플리케이션의 Base Table 직접 접근을 차단하고 뷰만을 허용하여 보안을 강제한다는 점입니다. 실무에서는 이러한 통제선이 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 준수와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 확립의 첫 단추가 됩니다.
@@ -127,17 +127,17 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 
 ```text
 [데이터 정의 (Data Definition)]
-    │
-    ▼
+    |
+    v
 [외부 스키마 (External Schema)]
-    │
-    ▼
+    |
+    v
 [개념 스키마 (Conceptual Schema)]
-    │
-    ▼
+    |
+    v
 [내부 스키마 (Internal Schema)]
-    │
-    ▼
+    |
+    v
 [데이터 독립성 (Data Independence)]
 ```
 
@@ -154,7 +154,7 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 
 **진행 상황**: 7 / 600
 
-← **이전**: [6. 3단계 스키마 아키텍처 (ANSI/SPARC)](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/)
-**다음**: [8. 개념 스키마 (Conceptual Schema) - 조직 전체 관점, 논리적 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) →
+<- **이전**: [6. 3단계 스키마 아키텍처 (ANSI/SPARC)](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/)
+**다음**: [8. 개념 스키마 (Conceptual Schema) - 조직 전체 관점, 논리적 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) ->
 
 ---

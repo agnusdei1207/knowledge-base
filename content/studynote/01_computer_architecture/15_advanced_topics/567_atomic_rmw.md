@@ -46,16 +46,16 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 원자적 RMW가 실제로는 "한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)를 독점 소유한 상태에서 수행되는 짧은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)"이라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Atomic RMW: 계산보다 캐시 라인 소유권 이동이 더 큰 비용이 될 수 있다       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core A                 Coherence Fabric                 Core B              │
-│ [LOCK XADD] ──Req E/M ownership──▶ [Line X] ◀──Req E/M ownership── [CAS]   │
-│     │                                    │                                  │
-│     ├─ read / modify / write 완료        ├─ 다른 코어는 invalid 상태 대기   │
-│     │                                    │                                  │
-│     └──────── 완료 후 소유권 이동 가능 ──┴──────────────▶ cache bounce       │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Atomic RMW: 계산보다 캐시 라인 소유권 이동이 더 큰 비용이 될 수 있다       |
++------------------------------------------------------------------------------+
+| Core A                 Coherence Fabric                 Core B              |
+| [LOCK XADD] --Req E/M ownership---> [Line X] <---Req E/M ownership-- [CAS]   |
+|     |                                    |                                  |
+|     +- read / modify / write 완료        +- 다른 코어는 invalid 상태 대기   |
+|     |                                    |                                  |
+|     +-------- 완료 후 소유권 이동 가능 --+---------------> cache bounce       |
++------------------------------------------------------------------------------+
 ```
 
 메모리 순서도 함께 중요하다. 어떤 원자 연산은 acquire, release, acquire-release, sequentially consistent 같은 순서 보장을 선택할 수 있으며, 이는 correctness와 성능을 모두 바꾼다. 예를 들어 락 해제에는 release가, 락 획득에는 acquire가 자주 쓰이고, 단순 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 교환에 무조건 가장 강한 순서를 쓰면 불필요한 직렬화 비용을 떠안게 된다.
@@ -135,17 +135,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 버스 잠금 기반 원자성
-        │
-        ▼
+        |
+        v
 캐시 일관성 기반 LOCK 연산
-        │
-        ▼
+        |
+        v
 CAS · FAA · Exchange 같은 범용 RMW
-        │
-        ▼
+        |
+        v
 락-프리 자료구조 · 세밀한 메모리 순서
-        │
-        ▼
+        |
+        v
 HTM · 더 넓은 원자 폭 · 아키텍처별 AMO 확장
 ```
 
@@ -163,7 +163,7 @@ HTM · 더 넓은 원자 폭 · 아키텍처별 AMO 확장
 
 **진행 상황**: 567 / 803
 
-← **이전**: [566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/)
-**다음**: [568. ABA 문제 (ABA Problem, 동기화 이슈)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/568_aba_problem/) →
+<- **이전**: [566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/)
+**다음**: [568. ABA 문제 (ABA Problem, 동기화 이슈)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/568_aba_problem/) ->
 
 ---

@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [체내 통신]
-    │
-    ▼
+    |
+    v
 [LPWAN 로라]
-    │
-    └──▶ [시그폭스 협대역 통신]
+    |
+    +---> [시그폭스 협대역 통신]
 ```
 
 - **📢 섹션 요약 비유**: 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보낼 때 엄청 비싸고 빠른 비행기([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))나 동네만 가는 오토바이(Wi-Fi) 대신, 한 달에 한 번 편지 한 장만 싣고 전국을 걸어가는 마라토너([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))를 고용한 것이다.
@@ -41,25 +41,25 @@ tags = ["studynote-network"]
 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 생태계는 하위 물리 계층인 '[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)'와 상위 네트워크 프로토콜인 'LoRaWAN'으로 구분된다. 아키텍처는 전력을 아끼기 위해 극도로 단순한 Star-of-Stars(별) 모양을 취한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    [ 애플리케이션 서버 ]                     │
-│               (수도 검침, 산불 감시 대시보드)                │
-└──────────────▲───────────────────────────────────────────────┘
-               │ (인터넷 / TCP/IP)
-┌──────────────▼───────────────────────────────────────────────┐
-│                   [ LoRaWAN Network Server ]                 │
-│               (중복 패킷 제거, 보안 검사, 라우팅)            │
-└──────────────▲───────────────────────────────────────────────┘
-               │ (인터넷 / 3G, 4G 백홀)
-┌──────────────▼──────────┐        ┌────────────▼────────────┐
-│      [ LoRa Gateway 1 ]     │        │     [ LoRa Gateway 2 ]    │
-│    (산꼭대기 / 고층 빌딩)   │        │     (다른 동네 건물)      │
-└──────────────▲──────────┘        └────────────▲────────────┘
-               │ (LoRa 전파: CSS 변조, 비면허 대역 900MHz)
-         ┌─────┴────────┬───────────────────┐
-┌────────▼───┐   ┌──────▼─────┐   ┌────────▼───┐
-│  수도 계량기 │   │ 산불 감지기 │   │ 애완견 목걸이│ ◀ End Nodes
-└────────────┘   └─────────────┘   └────────────┘
++--------------------------------------------------------------+
+|                    [ 애플리케이션 서버 ]                     |
+|               (수도 검침, 산불 감시 대시보드)                |
++--------------^-----------------------------------------------+
+               | (인터넷 / TCP/IP)
++--------------v-----------------------------------------------+
+|                   [ LoRaWAN Network Server ]                 |
+|               (중복 패킷 제거, 보안 검사, 라우팅)            |
++--------------^-----------------------------------------------+
+               | (인터넷 / 3G, 4G 백홀)
++--------------v----------+        +------------v------------+
+|      [ LoRa Gateway 1 ]     |        |     [ LoRa Gateway 2 ]    |
+|    (산꼭대기 / 고층 빌딩)   |        |     (다른 동네 건물)      |
++--------------^----------+        +------------^------------+
+               | (LoRa 전파: CSS 변조, 비면허 대역 900MHz)
+         +-----+--------+-------------------+
++--------v---+   +------v-----+   +--------v---+
+|  수도 계량기 |   | 산불 감지기 |   | 애완견 목걸이| <- End Nodes
++------------+   +-------------+   +------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (Chirp <a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>)</strong>: LoRa의 핵심 변조 기술이다. 박쥐가 소리를 낼 때 주파수가 주욱 올라가거나 내려가는 '처프(Chirp)' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 이용한다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 넓은 주파수 대역으로 쭉 늘여서(확산) 보내기 때문에, 중간에 엄청난 노이즈가 섞이거나 벽에 부딪혀도 수신기가 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 기가 막히게 복원해 낸다(수신 감도가 -148dBm에 달함).
@@ -130,12 +130,12 @@ LoRa는 수백억 개의 사물들이 인터넷에 연결되는 진정한 'Massi
 
 ```text
 [선행 개념: 체내 통신]
-    │
-    ▼
+    |
+    v
 [현재 개념: LPWAN 로라]
-    │
-    ├──▶ [확장 A: 시그폭스 협대역 통신]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 시그폭스 협대역 통신]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)는 [체내 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1028_wban_wireless_body_area_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 협대역 통신와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ LoRa는 수백억 개의 사물들이 인터넷에 연결되는 진정한 'Massi
 
 **진행 상황**: 131 / 1120
 
-← **이전**: [1028. 체내 통신 (WBAN: Wireless Body Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1028_wban_wireless_body_area_network/)
-**다음**: [102. TDD (Time Division Duplexing) - 시분할 이중화 (업/다운링크 분리)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/102_tdd/) →
+<- **이전**: [1028. 체내 통신 (WBAN: Wireless Body Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1028_wban_wireless_body_area_network/)
+**다음**: [102. TDD (Time Division Duplexing) - 시분할 이중화 (업/다운링크 분리)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/102_tdd/) ->
 
 ---

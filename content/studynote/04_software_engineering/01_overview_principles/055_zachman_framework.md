@@ -116,14 +116,14 @@ Zachman은 산출물의 위치를 정리하는 데 강하고, 변환 절차는 �
 
 ```text
 산출물 혼재
-    │
-    ▼
+    |
+    v
 질문 축/관점 축 분류
-    │
-    ▼
+    |
+    v
 Zachman Matrix
-    │
-    ▼
+    |
+    v
 누락 확인 / 아키텍처 정렬
 ```
 
@@ -141,7 +141,7 @@ Zachman Matrix
 
 **진행 상황**: 55 / 973
 
-← **이전**: [54. 브룩스의 법칙 (Brooks' Law)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/054_brooks_law/)
-**다음**: [56. TOGAF EA Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) →
+<- **이전**: [54. 브룩스의 법칙 (Brooks' Law)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/054_brooks_law/)
+**다음**: [56. TOGAF EA Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/) ->
 
 ---

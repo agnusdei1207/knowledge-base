@@ -32,25 +32,25 @@ tags = ["studynote-software-engineering"]
 기존 물리적(LOC) 규모 측정의 한계와 논리적([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 규모 측정 방식의 차이를 시각화하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         LOC 기반 산정의 모순 vs FP 기반 산정의 일관성      │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │ [동일한 비즈니스 요구사항: "사용자 로그인 및 이력 조회"]        │
-  │                                                         │
-  │ 1. LOC (물리적) 측정 방식의 경우:                           │
-  │    C 언어 구현   : ─────────────────── 3,000 LOC (예산↑) │
-  │    Java 구현     : ───────── 1,000 LOC                 │
-  │    Python 구현   : ── 300 LOC (생산성 높으나 예산 급감↓)   │
-  │    ⚠ 문제: 우수한 도구를 쓸수록 비용(규모)이 작게 평가됨!        │
-  │                                                         │
-  │ 2. FP (논리적) 측정 방식의 경우:                            │
-  │    어떤 언어로   ┌─ 데이터 기능: 사용자 정보(ILF) 1개        │
-  │    구현하든      ├─ 트랜잭션 : 로그인(EI) 1개, 조회(EQ) 1개 │
-  │    관계없이      └─ ∴ 총 기능점수 = 15 FP (일관된 규모)     │
-  │                                                         │
-  │    ✅ 해결: "제공하는 기능 가치"가 같으면 규모도 같다.          │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         LOC 기반 산정의 모순 vs FP 기반 산정의 일관성      |
+  +---------------------------------------------------------+
+  |                                                         |
+  | [동일한 비즈니스 요구사항: "사용자 로그인 및 이력 조회"]        |
+  |                                                         |
+  | 1. LOC (물리적) 측정 방식의 경우:                           |
+  |    C 언어 구현   : ------------------- 3,000 LOC (예산^) |
+  |    Java 구현     : --------- 1,000 LOC                 |
+  |    Python 구현   : -- 300 LOC (생산성 높으나 예산 급감v)   |
+  |    ⚠ 문제: 우수한 도구를 쓸수록 비용(규모)이 작게 평가됨!        |
+  |                                                         |
+  | 2. FP (논리적) 측정 방식의 경우:                            |
+  |    어떤 언어로   +- 데이터 기능: 사용자 정보(ILF) 1개        |
+  |    구현하든      +- 트랜잭션 : 로그인(EI) 1개, 조회(EQ) 1개 |
+  |    관계없이      +- ∴ 총 기능점수 = 15 FP (일관된 규모)     |
+  |                                                         |
+  |    ✅ 해결: "제공하는 기능 가치"가 같으면 규모도 같다.          |
+  +---------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 그림은 기능점수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델이 등장하게 된 결정적인 기술적 한계를 명확히 짚어준다. 물리적 코드 라인(LOC)은 언어의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준에 반비례한다. 고수준 언어일수록 적은 코드로 많은 기능을 수행하므로, LOC로 비용을 산정하면 개발 생산성이 높은 조직이 오히려 예산을 적게 받는 불합리한 상황이 발생한다. 반면 기능점수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델은 내부적으로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블(ILF)을 어떻게 구성하고 입출력(EI, EQ) 화면을 만들었는지 사용자 관점의 논리적 요소만을 세므로 구현 기술에 대해 완벽하게 독립적(Technology Independent)이다. 이를 통해 발주처와 수행사 모두가 합의할 수 있는 객관적 규모 지표를 확보할 수 있다.
@@ -154,21 +154,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 846 / 973
 
-← **이전**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/uncategorized/672_software_cost_estimation_cocomo/)
-**다음**: [674. 델파이 기법 (Delphi Method) 전문가 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/674_delphi_method_consensus/) →
+<- **이전**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/uncategorized/672_software_cost_estimation_cocomo/)
+**다음**: [674. 델파이 기법 (Delphi Method) 전문가 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/674_delphi_method_consensus/) ->
 
 ---

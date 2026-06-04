@@ -31,11 +31,11 @@ tags = ["studynote-devops"]
 
 ```text
 Branch A + Branch B
-  ↓
+  v
 Merge Conflict
-  ↓
+  v
 Manual Resolution
-  ↓
+  v
 Merge / Rebase
 ```
 
@@ -105,11 +105,11 @@ Merge와 Rebase는 도구가 아니라 [전략](/knowledge-base/studynote/04_sof
 
 ```text
 Branch
-  ↓
+  v
 Merge Conflict
-  ↓
+  v
 Merge / Rebase
-  ↓
+  v
 Collaboration
 ```
 
@@ -119,11 +119,11 @@ Collaboration
 
 ```text
 Git Branch
-  ↓
+  v
 Conflict
-  ↓
+  v
 Merge / Rebase
-  ↓
+  v
 Branch Policy
 ```
 
@@ -141,7 +141,7 @@ Branch Policy
 
 **진행 상황**: 68 / 373
 
-← **이전**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)
-**다음**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/) →
+<- **이전**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)
+**다음**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/) ->
 
 ---

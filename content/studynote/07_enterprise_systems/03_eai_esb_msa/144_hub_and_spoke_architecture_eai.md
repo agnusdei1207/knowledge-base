@@ -20,7 +20,7 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 Hub 핵심 기능:
-  Transformation: A포맷 → 정규모델 → B포맷
+  Transformation: A포맷 -> 정규모델 -> B포맷
   Routing: 조건별 목적지 결정
   Orchestration: 다단계 프로세스 조합
   어댑터(Spoke): JDBC·REST·FTP·MQ 연결
@@ -49,10 +49,10 @@ Hub의 정규 [데이터 모델](/knowledge-base/studynote/05_database/01_db_arc
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[P2P] → [Hub-and-Spoke (2000s)]
-    → [Canonical Data Model (표준화)]
-    → [ESB (분산 Hub, 2005~)]
-    → [현재: iPaaS — 클라우드 Hub]
+[P2P] -> [Hub-and-Spoke (2000s)]
+    -> [Canonical Data Model (표준화)]
+    -> [ESB (분산 Hub, 2005~)]
+    -> [현재: iPaaS — 클라우드 Hub]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Hub의 정규 [데이터 모델](/knowledge-base/studynote/05_database/01_db_arc
 
 **진행 상황**: 144 / 482
 
-← **이전**: [143. EAI (Enterprise Application Integration) - Hub-and-Spoke](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)
-**다음**: [145. 메시지 브로커 (Message Broker) - 동기·비동기 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/) →
+<- **이전**: [143. EAI (Enterprise Application Integration) - Hub-and-Spoke](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)
+**다음**: [145. 메시지 브로커 (Message Broker) - 동기·비동기 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/) ->
 
 ---

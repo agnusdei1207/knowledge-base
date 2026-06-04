@@ -22,16 +22,16 @@ tags = ["studynote-computer-architecture"]
 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀은 두 개의 인버터가 서로를 밀어주는 구조라서, 전원이 켜질 때 아주 미세한 불균형만 있어도 한쪽 상태로 먼저 무너진다. 그 미세한 불균형은 제조 편차에서 오므로 같은 설계로 만든 칩도 시작 패턴이 조금씩 다르다. 바로 이 점을 이용해 칩의 고유 지문처럼 쓰는 것이 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) PUF다. 저장된 키가 아니라, 칩 몸체의 물리 편차 자체를 비밀의 원천으로 삼는다는 점이 핵심이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SRAM startup as device fingerprint          │
-├──────────────────────────────────────────────────────────────┤
-│ Power on -> cell metastable -> tiny mismatch wins           │
-│                                                              │
-│ Chip A: 101101...                                            │
-│ Chip B: 001011...                                            │
-│                                                              │
-│ Same design, different startup bias                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 SRAM startup as device fingerprint          |
++--------------------------------------------------------------+
+| Power on -> cell metastable -> tiny mismatch wins           |
+|                                                              |
+| Chip A: 101101...                                            |
+| Chip B: 001011...                                            |
+|                                                              |
+| Same design, different startup bias                         |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 새 연필 두 자루도 자세히 보면 무게 중심이 조금씩 다른 것처럼, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀도 아주 작은 차이 때문에 켜질 때 먼저 쓰러지는 방향이 달라진다.
@@ -50,16 +50,16 @@ tags = ["studynote-computer-architecture"]
 | Fuzzy Extractor | 일관된 키 재생성 | [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 강도와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 균형 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                SRAM PUF key reconstruction path             │
-├──────────────────────────────────────────────────────────────┤
-│ Startup bits -> Stable-cell filter -> Helper Data + ECC     │
-│                                        │                     │
-│                                        ▼                     │
-│                           Reconstructed root key            │
-│                                                              │
-│ Secret is regenerated, not permanently stored               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                SRAM PUF key reconstruction path             |
++--------------------------------------------------------------+
+| Startup bits -> Stable-cell filter -> Helper Data + ECC     |
+|                                        |                     |
+|                                        v                     |
+|                           Reconstructed root key            |
+|                                                              |
+| Secret is regenerated, not permanently stored               |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 모래사장에서 발자국을 바로 열쇠로 쓰는 것이 아니라, 흔들리지 않는 자국만 골라 석고틀을 떠서 다시 같은 모양을 재현하는 과정과 비슷하다.
@@ -109,15 +109,15 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [Process Variation]
-    │
-    ▼
+    |
+    v
 [SRAM Startup Pattern]
-    │
-    ▼
+    |
+    v
 [Enrollment / Stable Bit Selection]
-    │
-    ├──▶ [Helper Data + ECC]
-    └──▶ [Reconstructed Device Key]
+    |
+    +---> [Helper Data + ECC]
+    +---> [Reconstructed Device Key]
 ```
 
 이 흐름은 제조 편차가 스타트업 패턴으로 나타나고, 그 패턴이 등록과 복원 단계를 거쳐 최종 키가 되는 과정을 보여준다. 즉 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) PUF는 저장된 키가 아니라 재생성된 키를 제공한다.
@@ -134,7 +134,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 789 / 803
 
-← **이전**: [787. 링 오실레이터 (Ring Oscillator) TRNG](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/787_ring_oscillator_trng/)
-**다음**: [789. 도전-응답 쌍 (Challenge-Response Pair, CRP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/789_challenge_response_pair/) →
+<- **이전**: [787. 링 오실레이터 (Ring Oscillator) TRNG](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/787_ring_oscillator_trng/)
+**다음**: [789. 도전-응답 쌍 (Challenge-Response Pair, CRP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/789_challenge_response_pair/) ->
 
 ---

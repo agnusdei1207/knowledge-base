@@ -39,20 +39,20 @@ tags = ["it_management"]
 | 아이템 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (Item-Based CF) | 내가 과거에 높게 평가한 아이템과 '비슷한 평점 패턴'을 가진 아이템 추천 | 평점 분포 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           협업 필터링의 핵심: 행렬 분해 (Matrix Factorization) │
-├──────────────────────────────────────────────────────────────┤
-│    [사용자-아이템 평점 희소 행렬]                               │
-│                                                              │
-│       Item1  Item2  Item3        사용자 잠재요인   아이템 잠재요인│
-│ UserA   5      ?      2      ≈   ┌───────┐      ┌───────┐    │
-│ UserB   ?      4      ?          │ U_A   │   X  │ V_1   │    │
-│ UserC   2      5      ?          │ U_B   │      │ V_2   │    │
-│ UserD   4      ?      5          │ U_C   │      │ V_3   │    │
-│                                  └───────┘      └───────┘    │
-│ ▶ 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성     │
-│   (Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           협업 필터링의 핵심: 행렬 분해 (Matrix Factorization) |
++--------------------------------------------------------------+
+|    [사용자-아이템 평점 희소 행렬]                               |
+|                                                              |
+|       Item1  Item2  Item3        사용자 잠재요인   아이템 잠재요인|
+| UserA   5      ?      2      ≈   +-------+      +-------+    |
+| UserB   ?      4      ?          | U_A   |   X  | V_1   |    |
+| UserC   2      5      ?          | U_B   |      | V_2   |    |
+| UserD   4      ?      5          | U_C   |      | V_3   |    |
+|                                  +-------+      +-------+    |
+| -> 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성     |
+|   (Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.|
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 수백만 명의 사용자가 모든 상품을 평가할 수 없어 발생하는 '희소성(Sparsity)' 문제를, [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)를 통한 차원 축소로 해결하여 숨겨진 평점 빈칸(?)을 예측해 낸다는 점이다.
@@ -119,17 +119,17 @@ tags = ["it_management"]
 
 ```text
 정보 과부하 (Information Overload) 발생
-    │
-    ▼
+    |
+    v
 콘텐츠 기반 필터링 (Content-Based) · 콜드 스타트 대응
-    │
-    ▼
+    |
+    v
 협업 필터링 (Collaborative Filtering) · 행렬 분해(SVD) 적용
-    │
-    ▼
+    |
+    v
 하이브리드 추천 (Hybrid) · 탐색과 활용(Exploration & Exploitation)
-    │
-    ▼
+    |
+    v
 딥러닝 기반 (NCF, Wide & Deep) 추천 고도화
 ```
 
@@ -145,7 +145,7 @@ tags = ["it_management"]
 
 **진행 상황**: 170 / 587
 
-← **이전**: [93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/093_itscm/)
-**다음**: [94. 용량 관리 (Capacity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/) →
+<- **이전**: [93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/093_itscm/)
+**다음**: [94. 용량 관리 (Capacity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/) ->
 
 ---

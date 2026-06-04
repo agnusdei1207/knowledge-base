@@ -28,22 +28,22 @@ tags = ["enterprise_systems"]
 SCM은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 흐르는 세 가지 핵심 혈류(Flow)를 관리한다. 이 세 가지 흐름이 병목없이 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)될 때 진정한 최적화가 이루어진다.
 
 ### SCM의 3대 핵심 흐름
-1. **물자의 흐름 (Physical Flow / 상류 → 하류)**: 원자재, 반제품, 완제품이 공장을 거쳐 창고와 매장, 고객의 집 앞까지 이동하는 물리적 이동이다.
-2. **자금의 흐름 (Financial Flow / 하류 → 상류)**: 제품 구매에 대한 결제 대금과 신용이 흐르는 역방향의 흐름이다.
+1. **물자의 흐름 (Physical Flow / 상류 -> 하류)**: 원자재, 반제품, 완제품이 공장을 거쳐 창고와 매장, 고객의 집 앞까지 이동하는 물리적 이동이다.
+2. **자금의 흐름 (Financial Flow / 하류 -> 상류)**: 제품 구매에 대한 결제 대금과 신용이 흐르는 역방향의 흐름이다.
 3. **정보의 흐름 (Information Flow / 양방향)**: <strong>가장 중요한 흐름</strong>이다. 주문, 재고 수준, 배송 상태 등의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전체 사슬에 실시간으로 공유된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                   SCM 네트워크의 통합 흐름도                  │
-├─────────────────────────────────────────────────────────────┤
-│         [자금(Money)] ◀───────────────────────────────┐      │
-│                                                          │      │
-│ [공급사] ───(물자)──▶ [제조사] ───(물자)──▶ [물류센터] ───(물자)──▶ [고객] │
-│                                                          │      │
-│         └───────────────────────────────▶ [정보(Data)]       │
-│                                                                 │
-│ * 핵심: 소비자의 POS(결제) 데이터가 즉시 제조/공급사로 양방향 전송됨 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                   SCM 네트워크의 통합 흐름도                  |
++-------------------------------------------------------------+
+|         [자금(Money)] <--------------------------------+      |
+|                                                          |      |
+| [공급사] ---(물자)---> [제조사] ---(물자)---> [물류센터] ---(물자)---> [고객] |
+|                                                          |      |
+|         +--------------------------------> [정보(Data)]       |
+|                                                                 |
+| * 핵심: 소비자의 POS(결제) 데이터가 즉시 제조/공급사로 양방향 전송됨 |
++-------------------------------------------------------------+
 ```
 정보의 실시간 흐름이 물자와 자금의 흐름을 지휘한다. 정보 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 '0'에 수렴할수록 공장의 재고 창고 크기는 작아질 수 있다.
 
@@ -101,17 +101,17 @@ ERP가 우리 집 안을 깔끔하게 정리하는 것이라면, SCM은 우리 �
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 사일로(Silo) 경영 (각 기업별 개별 최적화, 정보 단절)
-    │
-    ▼
+    |
+    v
 ERP 도입 (기업 내부 프로세스 통합)
-    │
-    ▼
+    |
+    v
 SCM 도입 (기업 외부 파트너와의 네트워크 통합)
-    │
-    ▼
+    |
+    v
 CPFR 협업 체계 (공동 수요 예측 및 재고 보충)
-    │
-    ▼
+    |
+    v
 지능형 공급망 (AI/IoT 결합, 실시간 가시성 및 복원력 확보)
 ```
 
@@ -126,7 +126,7 @@ CPFR 협업 체계 (공동 수요 예측 및 재고 보충)
 
 **진행 상황**: 92 / 482
 
-← **이전**: [91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/091_composable_erp_pbc_api/)
-**다음**: [93. 불황 효과 / 채찍 효과 (Bullwhip Effect) - 하류(소비자)의 작은 수요 변동이 상류(제조업체)로 갈수록 정보 왜곡으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/) →
+<- **이전**: [91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/091_composable_erp_pbc_api/)
+**다음**: [93. 불황 효과 / 채찍 효과 (Bullwhip Effect) - 하류(소비자)의 작은 수요 변동이 상류(제조업체)로 갈수록 정보 왜곡으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/) ->
 
 ---

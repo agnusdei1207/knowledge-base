@@ -32,20 +32,20 @@ tags = ["studynote-devops-sre"]
 Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'들을 조합하여, 하나의 고속도로(차선, Lane)로 이어붙이는 아키텍처다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Fastlane 기반 모바일 CI/CD 파이프라인            │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ─▶ [CI Runner (Mac/Linux)] ─▶ [App Stores]  │
-│                                                              │
-│       ┌────────── Fastfile (Lane: release) ──────────┐       │
-│       │                                              │       │
-│       │ 1. match (인증서 동기화)                     │       │
-│       │ 2. increment_build_number (버전 업)          │       │
-│       │ 3. gym (앱 빌드 & 패키징 - IPA/APK 생성)     │       │
-│       │ 4. snapshot (스크린샷 자동 캡처)             │       │
-│       │ 5. deliver / supply (스토어 및 메타 업로드)  │       │
-│       └──────────────────────────────────────────────┘       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Fastlane 기반 모바일 CI/CD 파이프라인            |
++--------------------------------------------------------------+
+| [Git Repository] --> [CI Runner (Mac/Linux)] --> [App Stores]  |
+|                                                              |
+|       +---------- Fastfile (Lane: release) ----------+       |
+|       |                                              |       |
+|       | 1. match (인증서 동기화)                     |       |
+|       | 2. increment_build_number (버전 업)          |       |
+|       | 3. gym (앱 빌드 & 패키징 - IPA/APK 생성)     |       |
+|       | 4. snapshot (스크린샷 자동 캡처)             |       |
+|       | 5. deliver / supply (스토어 및 메타 업로드)  |       |
+|       +----------------------------------------------+       |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 Git에 코드가 푸시되면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 러너가 Fastlane을 호출하여, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 처리부터 스토어 등록까지의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 끊김 없이 관통하는 흐름을 보여준다.
@@ -113,17 +113,17 @@ Fastlane의 도입은 단순히 개발자의 귀찮음을 줄여주는 것을 �
 
 ```text
 수동 빌드 및 배포 (IDE 툴 의존, 휴먼 에러)
-    │
-    ▼
+    |
+    v
 쉘 스크립트 기반 자동화 (유지보수 지옥)
-    │
-    ▼
+    |
+    v
 도구의 표준화: Fastlane 등장 (Action 및 Lane 분리)
-    │
-    ▼
+    |
+    v
 인증서 중앙 관리: Fastlane Match 도입
-    │
-    ▼
+    |
+    v
 모바일 DevOps 플랫폼 결합: 범용 CI + Fastlane의 완전 자동화
 ```
 
@@ -141,7 +141,7 @@ Fastlane의 도입은 단순히 개발자의 귀찮음을 줄여주는 것을 �
 
 **진행 상황**: 104 / 373
 
-← **이전**: [CI/CD 메트릭 대시보드: 배포 성능 분석 및 병목 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/103_cicd_metrics_dashboard_deployment_analytics/)
-**다음**: [빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/105_build_caching_optimization_docker_layer/) →
+<- **이전**: [CI/CD 메트릭 대시보드: 배포 성능 분석 및 병목 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/103_cicd_metrics_dashboard_deployment_analytics/)
+**다음**: [빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/105_build_caching_optimization_docker_layer/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ONIE (Open Network Insta…]
-    │
-    ▼
+    |
+    v
 [BGP-EVPN 스파인-리프 오버레이]
-    │
-    └──▶ [엣지 가상화]
+    |
+    +---> [엣지 가상화]
 ```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [ONIE (Open Network Insta…]
-    │
-    ▼
+    |
+    v
 [BGP-EVPN 스파인-리프 오버레이]
-    │
-    └──▶ [엣지 가상화]
+    |
+    +---> [엣지 가상화]
 ```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ONIE (Open Network Insta…]
-    │
-    ▼
+    |
+    v
 [현재 개념: BGP-EVPN 스파인-리프 오버레이]
-    │
-    ├──▶ [확장 A: 엣지 가상화]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 엣지 가상화]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Insta…에서 출발해 현재 메커니즘을 정교화하고, 이후 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1006 / 1120
 
-← **이전**: [884. ONIE (오픈 네트워크 설치 환경)](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/)
-**다음**: [886. 엣지 가상화 (vCPE)](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) →
+<- **이전**: [884. ONIE (오픈 네트워크 설치 환경)](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/)
+**다음**: [886. 엣지 가상화 (vCPE)](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) ->
 
 ---

@@ -28,17 +28,17 @@ MOESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/29
 아래 그림은 MESI와 MOESI가 수정 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 어떻게 다르게 처리하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Why Owned State Matters in Shared Read                │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ MESI 중심 사고               │ MOESI 중심 사고                      │
-├──────────────────────────────┼───────────────────────────────────────┤
-│ Core0 has dirty data         │ Core0 has dirty data                 │
-│ Core1 reads same line        │ Core1 reads same line                │
-│   └─ memory path involved    │   └─ direct cache-to-cache transfer  │
-│      or early write-back     │      and Core0 keeps ownership       │
-│ Memory becomes sync point    │ Memory update is deferred safely     │
-└──────────────────────────────┴───────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                Why Owned State Matters in Shared Read                |
++------------------------------+---------------------------------------+
+| MESI 중심 사고               | MOESI 중심 사고                      |
++------------------------------+---------------------------------------+
+| Core0 has dirty data         | Core0 has dirty data                 |
+| Core1 reads same line        | Core1 reads same line                |
+|   +- memory path involved    |   +- direct cache-to-cache transfer  |
+|      or early write-back     |      and Core0 keeps ownership       |
+| Memory becomes sync point    | Memory update is deferred safely     |
++------------------------------+---------------------------------------+
 ```
 
 이 그림의 요점은 MOESI가 메모리를 없애는 것이 아니라, <strong>메모리를 즉시 동원해야 하는 상황을 줄인다</strong>는 데 있다. 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "법적 책임자"를 캐시에 남겨 두기 때문에, 읽기 공유 요청마다 DRAM을 호출하지 않아도 된다.
@@ -63,32 +63,32 @@ MOESI는 캐시 라인마다 다섯 가지 상태를 두고 읽기·[쓰기](/kn
 
 1. 코어 0이 어떤 라인을 읽어 와서 수정하면 `M` 상태가 된다.
 2. 코어 1이 같은 라인을 읽으려 하면, 코어 0은 메모리에 먼저 반영하지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 전달할 수 있다.
-3. 그 순간 코어 0은 `M → O`, 코어 1은 `S`가 된다.
+3. 그 순간 코어 0은 `M -> O`, 코어 1은 `S`가 된다.
 4. 이후 추가 읽기 요청이 오면 owner가 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급한다.
 5. owner가 라인을 축출(eviction)할 때 비로소 메모리에 write-back하거나, 다른 캐시에 ownership을 넘긴다.
 
 아래 그림은 `M`에서 `O`로 바뀌는 대표 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Typical MOESI Read-Share Transition                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Step 1                                                               │
-│   Core0 : X = 10 in cache, state = M                                 │
-│   Memory: X = 5 (stale)                                               │
-│                                                                      │
-│ Step 2                                                               │
-│   Core1 issues BusRd(X)                                               │
-│                                                                      │
-│ Step 3                                                               │
-│   Core0 supplies data directly to Core1                               │
-│   Core0 : M ───────────────▶ O                                        │
-│   Core1 : I ───────────────▶ S                                        │
-│   Memory: still stale, update deferred                                │
-│                                                                      │
-│ Step 4                                                               │
-│   Core0 remains responsible for future write-back                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Typical MOESI Read-Share Transition                  |
++----------------------------------------------------------------------+
+| Step 1                                                               |
+|   Core0 : X = 10 in cache, state = M                                 |
+|   Memory: X = 5 (stale)                                               |
+|                                                                      |
+| Step 2                                                               |
+|   Core1 issues BusRd(X)                                               |
+|                                                                      |
+| Step 3                                                               |
+|   Core0 supplies data directly to Core1                               |
+|   Core0 : M ----------------> O                                        |
+|   Core1 : I ----------------> S                                        |
+|   Memory: still stale, update deferred                                |
+|                                                                      |
+| Step 4                                                               |
+|   Core0 remains responsible for future write-back                     |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 설계 포인트는 `Owned`가 "공유도 되고 더티이기도 한" 예외 상태라는 점이다. 일반적인 `Shared`는 메모리와 일치하는 복사본을 여러 개 두는 개념이지만, MOESI에서는 owner가 메모리보다 최신인 값을 쥐고 있고 다른 sharer는 그 owner가 배포한 값을 읽는다. 따라서 coherence controller는 "누가 최신 책임자인가"를 별도로 기억해야 한다.
@@ -174,19 +174,19 @@ MOESI의 가장 큰 효과는 [캐시 일관성](/knowledge-base/studynote/01_co
 
 ```text
 MSI (Modified, Shared, Invalid)
-    │
-    ▼
+    |
+    v
 MESI (Modified, Exclusive, Shared, Invalid)
-    │
-    ├─▶ 단독 수정 최적화
-    │
-    ▼
+    |
+    +--> 단독 수정 최적화
+    |
+    v
 MOESI (Modified, Owned, Exclusive, Shared, Invalid)
-    │
-    ├─▶ dirty data cache-to-cache transfer
-    ├─▶ 멀티소켓 · ccNUMA 최적화
-    │
-    ▼
+    |
+    +--> dirty data cache-to-cache transfer
+    +--> 멀티소켓 · ccNUMA 최적화
+    |
+    v
 MESIF / Directory-based Coherence / many-core 확장
 ```
 
@@ -204,7 +204,7 @@ MESIF / Directory-based Coherence / many-core 확장
 
 **진행 상황**: 409 / 803
 
-← **이전**: [407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/407_mesi_protocol/)
-**다음**: [409. 거짓 공유 (False Sharing)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) →
+<- **이전**: [407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/407_mesi_protocol/)
+**다음**: [409. 거짓 공유 (False Sharing)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ->
 
 ---

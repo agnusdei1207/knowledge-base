@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **Pinning 락의 도입**: OS는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부에 '절대 쫓아내지 마'라는 예외 조항을 급히 신설하여 I/O [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 하드캐리하게 되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사           │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 1. 정상적인 I/O 시작 ]                                                 │
-│ 하드웨어 랜카드 ──(DMA 전송 시작)──▶ [ 물리 램 5번 프레임 ]              │
-│ (네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)                 │
-│                                                                          │
-│ [ 2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점) ]                │
-│ OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"          │
-│ OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)                │
-│                                                                          │
-│ [ 3. 끔찍한 데이터 파괴 (Memory Corruption) ]                            │
-│ 하드웨어 랜카드 ──(나머지 데이터 계속 전송)──▶ [ 물리 램 5번 프레임 ]    │
-│ ✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.  │
-│         5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.│
-│                                                                          │
-│ 🛡️ [ 해결책: Page Pinning (페이지 고정) ]                                │
-│ 1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에 [ 🔒 락 ]을 검.      │
-│ 2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.  │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|        DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사           |
++--------------------------------------------------------------------------+
+|                                                                          |
+| [ 1. 정상적인 I/O 시작 ]                                                 |
+| 하드웨어 랜카드 --(DMA 전송 시작)---> [ 물리 램 5번 프레임 ]              |
+| (네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)                 |
+|                                                                          |
+| [ 2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점) ]                |
+| OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"          |
+| OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)                |
+|                                                                          |
+| [ 3. 끔찍한 데이터 파괴 (Memory Corruption) ]                            |
+| 하드웨어 랜카드 --(나머지 데이터 계속 전송)---> [ 물리 램 5번 프레임 ]    |
+| ✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.  |
+|         5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.|
+|                                                                          |
+| 🛡️ [ 해결책: Page Pinning (페이지 고정) ]                                |
+| 1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에 [ 🔒 락 ]을 검.      |
+| 2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.  |
++--------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 시스템([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))은 소프트웨어적인 눈속임이다. 하지만 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러는 이런 눈속임을 모르는 순수 하드웨어다. "5번 방에 쏴라" 하면 진짜 구리선 5번 구역에 전기를 쏜다. 소프트웨어의 스왑과 하드웨어의 전송이 부딪히는 이 끔찍한 사고를 막는 유일한 방파제가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정(Pinning) 기술이다.
 
@@ -101,12 +101,12 @@ tags = ["studynote-operating-system"]
 <strong>"내 메모리는 절대 하드디스크 스왑에 적히면 안 돼!"</strong>라는 극강의 보안 철학을 달성하기 위한 유일한 함수가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 피닝(`mlock`)이다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 메모리 성격│ 스와핑(Swap) │ 보안 취약점  │ mlock 적용 후              │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ 일반 변수  │ 자유롭게 이동 │ 스왑 디스크에 남음│ 적용 안 함 (자유로움)│
-│ 암호 키   │ ☠️ 절대 금지  │ 치명적 정보 유출│ 🔒 램에 영구 상주       │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
++----------+------------+------------+----------------------------------+
+| 메모리 성격| 스와핑(Swap) | 보안 취약점  | mlock 적용 후              |
++----------+------------+------------+----------------------------------+
+| 일반 변수  | 자유롭게 이동 | 스왑 디스크에 남음| 적용 안 함 (자유로움)|
+| 암호 키   | ☠️ 절대 금지  | 치명적 정보 유출| 🔒 램에 영구 상주       |
++----------+------------+------------+----------------------------------+
 ```
 **[매트릭스 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 부리는 스왑의 마법은 편하지만 보안 관점에서는 램에 있어야 할 휘발성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비휘발성 디스크로 질질 흘리고 다니는 무서운 정보 유출 펌프다. 보안 개발자에게 피닝은 속도 튜닝을 넘어서는 생명 지킴이다.
 
@@ -165,12 +165,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [커널 메모리 할당의 특징]
-    │
-    ▼
+    |
+    v
 [페이지 고정 (Page Pinning / Locking)]
-    │
-    ├──▶ [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
-    └──▶ [ZRAM / 커널 스왑 압축 기술]
+    |
+    +---> [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
+    +---> [ZRAM / 커널 스왑 압축 기술]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -187,7 +187,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 422 / 800
 
-← **이전**: [421. 커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/421_kernel_memory_allocation_characteristics/)
-**다음**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) →
+<- **이전**: [421. 커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/421_kernel_memory_allocation_characteristics/)
+**다음**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) ->
 
 ---

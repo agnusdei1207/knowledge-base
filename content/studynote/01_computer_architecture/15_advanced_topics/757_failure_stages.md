@@ -36,17 +36,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 세 단계가 단순 시간 구분이 아니라, 지배적 고장 원인과 대응 전략이 함께 바뀌는 곡선임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Failure-rate stages over lifetime                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ High λ   \                                                          │
-│           \   DFR           CFR                    IFR              │
-│            \__________________________            /                 │
-│                                       \          /                  │
-│                                        \________/                   │
-│ Time ─────────────────────────────────────────────────────────────▶ │
-│ Action : screen-out weak units   protect & repair   replace early   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Failure-rate stages over lifetime                   |
++----------------------------------------------------------------------+
+| High λ   \                                                          |
+|           \   DFR           CFR                    IFR              |
+|            \__________________________            /                 |
+|                                       \          /                  |
+|                                        \________/                   |
+| Time --------------------------------------------------------------> |
+| Action : screen-out weak units   protect & repair   replace early   |
++----------------------------------------------------------------------+
 ```
 
 이 곡선의 해석은 다음과 같다.
@@ -133,17 +133,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고장률 개념 λ(t)
-    │
-    ▼
+    |
+    v
 배스터브 곡선 (Bathtub Curve)
-    │
-    ├──▶ 초기 고장기
-    │     : burn-in · screening · infant mortality control
-    │
-    ├──▶ 우발 고장기
-    │     : MTBF · redundancy · fast repair
-    │
-    └──▶ 마모 고장기
+    |
+    +---> 초기 고장기
+    |     : burn-in · screening · infant mortality control
+    |
+    +---> 우발 고장기
+    |     : MTBF · redundancy · fast repair
+    |
+    +---> 마모 고장기
           : wear-out · preventive replacement · life prediction
 ```
 
@@ -159,7 +159,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 758 / 803
 
-← **이전**: [756. 배스터브 곡선 (Bathtub Curve) 고장률](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/)
-**다음**: [758. 번인 (Burn-in) 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) →
+<- **이전**: [756. 배스터브 곡선 (Bathtub Curve) 고장률](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/)
+**다음**: [758. 번인 (Burn-in) 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) ->
 
 ---

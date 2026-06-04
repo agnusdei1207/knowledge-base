@@ -32,11 +32,11 @@ tags = ["studynote-network"]
 
 ```text
 [수신/학습 / 전달 / 플러딩]
-    │
-    ▼
+    |
+    v
 [에이징 / 포트 미러링]
-    │
-    └──▶ [스위칭 방식]
+    |
+    +---> [스위칭 방식]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 한정된 뇌 용량(메모리)을 지키기 위한 </strong>"망각의 기술"<strong>이고, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>라는 닫힌 상자 속을 들여다보기 위한 </strong>"[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 설치"**입니다.
@@ -54,23 +54,23 @@ tags = ["studynote-network"]
 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 시절에는 그냥 PC에 와이어샤크를 켜놓기만 해도 동네방네 퍼지는 남의 패킷을 다 주워 담을 수 있었다(Promiscuous Mode). 그러나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서는 유니캐스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 오지 않기 때문에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 설정에 들어가 강제로 복사 명령을 내려야 한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 포트 미러링(Port Mirroring) 구조                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A (서버) ] ────▶ (Port 1: Source Port)                │
- │                           │ 스위치 내부에서                   │
- │                           │ 데이터 복사 발생!                  │
- │                           ├─────────────┐                   │
- │                           ▼             ▼ (복사본)           │
- │   [ PC B (클라) ] ◀──── (Port 2)       (Port 3: Dest Port)  │
- │                                         │                   │
- │                                         ▼                   │
- │                                    [ 패킷 분석기 (IDS/IPS) ]   │
- │                                     (Wireshark 모니터링)      │
- │                                                             │
- │ * 관리자 설정: "Port 1로 들어오고 나가는 트래픽을 Port 3으로 복사하라!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 포트 미러링(Port Mirroring) 구조                |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC A (서버) ] -----> (Port 1: Source Port)                |
+ |                           | 스위치 내부에서                   |
+ |                           | 데이터 복사 발생!                  |
+ |                           +-------------+                   |
+ |                           v             v (복사본)           |
+ |   [ PC B (클라) ] <----- (Port 2)       (Port 3: Dest Port)  |
+ |                                         |                   |
+ |                                         v                   |
+ |                                    [ 패킷 분석기 (IDS/IPS) ]   |
+ |                                     (Wireshark 모니터링)      |
+ |                                                             |
+ | * 관리자 설정: "Port 1로 들어오고 나가는 트래픽을 Port 3으로 복사하라!"|
+ +-------------------------------------------------------------+
 ```
 
 - <strong>Source <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (소스 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 감시의 대상이 되는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). (주로 라우터와 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)나 중요 서버가 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 수신/학습 / 전달 / 플러딩]
-    │
-    ▼
+    |
+    v
 [현재 개념: 에이징 / 포트 미러링]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 스위칭 방식]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)는 수신/학습 / 전달 / 플러딩에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 362 / 1120
 
-← **이전**: [240. 수신/학습 (Learning) / 전달 (Forwarding) / 플러딩 (Flooding)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)
-**다음**: [242. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/242_switching_method_cut_through/) →
+<- **이전**: [240. 수신/학습 (Learning) / 전달 (Forwarding) / 플러딩 (Flooding)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)
+**다음**: [242. 스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/242_switching_method_cut_through/) ->
 
 ---

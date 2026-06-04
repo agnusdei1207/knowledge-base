@@ -26,23 +26,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 스펙터의 큰 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Spectre overview: train predictor, trigger victim, read cache trail       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Attacker training                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Predictor expects "safe path"                                              │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Victim executes wrong transient path                                       │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Secret-dependent cache footprint                                           │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Timing measurement -> secret inference                                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Spectre overview: train predictor, trigger victim, read cache trail       |
++----------------------------------------------------------------------------+
+| Attacker training                                                          |
+|      |                                                                     |
+|      v                                                                     |
+| Predictor expects "safe path"                                              |
+|      |                                                                     |
+|      v                                                                     |
+| Victim executes wrong transient path                                       |
+|      |                                                                     |
+|      v                                                                     |
+| Secret-dependent cache footprint                                           |
+|      |                                                                     |
+|      v                                                                     |
+| Timing measurement -> secret inference                                     |
++----------------------------------------------------------------------------+
 ```
 
 즉 스펙터의 본질은 권한 검사를 정면으로 깨는 것이 아니라, "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 믿고 있던 예측"을 공격면으로 바꾸는 데 있다. 이 때문에 스펙터는 단순 취약점이 아니라 현대 고성능 프로세서의 설계 철학과 보안 모델이 충돌한 사건으로 기억된다.
@@ -66,26 +66,26 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 가장 전형적인 v1 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Spectre v1 flow: transient path turns secret into cache state             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1) Train with in-bounds index                                              │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 2) Predictor learns branch as taken                                        │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 3) Malicious out-of-bounds index arrives                                   │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 4) Victim transiently reads secret byte S                                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 5) probe[S * 4096] touched in cache                                        │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 6) Attacker times probe array and learns S                                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Spectre v1 flow: transient path turns secret into cache state             |
++----------------------------------------------------------------------------+
+| 1) Train with in-bounds index                                              |
+|        |                                                                   |
+|        v                                                                   |
+| 2) Predictor learns branch as taken                                        |
+|        |                                                                   |
+|        v                                                                   |
+| 3) Malicious out-of-bounds index arrives                                   |
+|        |                                                                   |
+|        v                                                                   |
+| 4) Victim transiently reads secret byte S                                  |
+|        |                                                                   |
+|        v                                                                   |
+| 5) probe[S * 4096] touched in cache                                        |
+|        |                                                                   |
+|        v                                                                   |
+| 6) Attacker times probe array and learns S                                 |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 때문에 스펙터는 단순히 예측기를 끄면 끝나는 문제가 아니다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 너무 크고, 실제 시스템은 브랜치와 간접 호출에 깊게 의존한다. 그래서 실무에서는 "예측기 자체", "피해자 코드 패턴", "타이밍 측정 수단"을 동시에 줄이는 다층 대응이 필요하다.
@@ -164,16 +164,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 깊은 파이프라인 · 분기 예측
-        │
-        ▼
+        |
+        v
 추측 실행 (Speculative Execution)
-        │
-        ▼
+        |
+        v
 스펙터 (Spectre)
-        │
-        ├────────▶ Retpoline · LFENCE · IBRS
-        │
-        └────────▶ 사이트 격리 · 타이머 축소 · 예측기 분할
+        |
+        +---------> Retpoline · LFENCE · IBRS
+        |
+        +---------> 사이트 격리 · 타이머 축소 · 예측기 분할
 ```
 
 이 흐름은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 예측"이 "보안 위험"으로 바뀌고, 다시 소프트웨어와 하드웨어가 함께 추측의 범위를 다듬는 방향으로 발전한 과정을 보여 준다.
@@ -190,7 +190,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 483 / 803
 
-← **이전**: [482. 멜트다운 (Meltdown)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)
-**다음**: [484. 로우해머 공격 (Rowhammer)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) →
+<- **이전**: [482. 멜트다운 (Meltdown)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)
+**다음**: [484. 로우해머 공격 (Rowhammer)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) ->
 
 ---

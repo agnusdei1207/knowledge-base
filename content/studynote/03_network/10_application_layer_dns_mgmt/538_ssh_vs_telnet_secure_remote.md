@@ -21,27 +21,27 @@ tags = ["studynote-network"]
 
 - **개념**: 원격지에 물리적으로 떨어져 있는 서버나 네트워크 장비(라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 콘솔 화면(CLI 터미널)에 접속하여 명령어를 실행할 수 있게 해주는 애플리케이션 계층(L7)의 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. Telnet은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 23번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를, SSH(Secure [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 기본으로 사용한다.
 - **필요성**: 수백 대의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버를 관리하기 위해 엔지니어가 일일이 키보드와 모니터를 들고 이동할 수는 없다. 따라서 네트워크를 통해 터미널 환경을 가져오는 원격 접속 기술은 IT 인프라 관리의 숨쉬는 공기와 같다. 하지만 네트워크 회선은 언제나 감청당할 수 있는 공개된 도로와 같으므로 통신의 안전성([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 보장 여부가 가장 중요한 선택 기준이 된다.
-- **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아파넷(ARPANET) 시절 통신 자체에 목적을 둔 평문 기반 Telnet 탄생 → ② 네트워크 대중화로 인한 악의적 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)(Sniffing)에 의한 관리자 탈취 사고 빈발 → ③ 1995년 암호화와 키 교환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 태생적으로 내장한 SSH [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 등장 및 보안 대체.
+- **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아파넷(ARPANET) 시절 통신 자체에 목적을 둔 평문 기반 Telnet 탄생 -> ② 네트워크 대중화로 인한 악의적 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)(Sniffing)에 의한 관리자 탈취 사고 빈발 -> ③ 1995년 암호화와 키 교환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 태생적으로 내장한 SSH [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 등장 및 보안 대체.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             Telnet과 SSH의 치명적 차이 시각화 (스니핑 위협)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [클라이언트]                                  [서버]            │
-│       │                                         │            │
-│       │── "ID: root" ─────────(평문)─────────▶│            │
-│       │── "PW: admin123" ─────(평문)─────────▶│ [Telnet]   │
-│       │                                         │            │
-│      ※ 악의적 해커가 Wireshark로 중간에서 훔쳐보면 글자가 그대로 보임! │
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                                                             │
-│       │── "e1x$#k@9z..." ─────(AES 암호문)─────▶│            │
-│       │── "m9*qL!2p..."  ─────(AES 암호문)─────▶│ [SSH]      │
-│       │                                         │            │
-│      ※ 해커가 패킷을 가로채도 강력한 암호 덩어리일 뿐 해독 불가능.        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             Telnet과 SSH의 치명적 차이 시각화 (스니핑 위협)           |
++-------------------------------------------------------------+
+|                                                             |
+|   [클라이언트]                                  [서버]            |
+|       |                                         |            |
+|       |-- "ID: root" ---------(평문)---------->|            |
+|       |-- "PW: admin123" -----(평문)---------->| [Telnet]   |
+|       |                                         |            |
+|      ※ 악의적 해커가 Wireshark로 중간에서 훔쳐보면 글자가 그대로 보임! |
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|                                                             |
+|       |-- "e1x$#k@9z..." -----(AES 암호문)------>|            |
+|       |-- "m9*qL!2p..."  -----(AES 암호문)------>| [SSH]      |
+|       |                                         |            |
+|      ※ 해커가 패킷을 가로채도 강력한 암호 덩어리일 뿐 해독 불가능.        |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 두 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 근본적으로 왜 세대 교체되었는지를 극명하게 보여준다. Telnet [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 암호화 캡슐화 로직이 전무하여 사용자가 치는 키보드 입력 값(아이디, 패스워드 포함)이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터를 날 것 그대로 통과한다. 내부 망이라 할지라도 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 기법을 쓴 공격자에게 10초면 탈취당한다. 반면 SSH는 Diffie-Hellman 방식 등으로 동적 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 키를 안전하게 교환한 뒤 통신 전체를 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등 대칭키 암호화로 감싸기 때문에, 중간 과정에서 패킷이 유출되더라도 통신의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))이 완벽히 보호된다.
@@ -65,31 +65,31 @@ tags = ["studynote-network"]
 SSH 통신은 단순한 [TCP 3-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/) 이후에 매우 복잡하고 철저한 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Handshake)을 통해 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 생성한다. 이 과정은 보안의 핵심 3요소인 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(암호화), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(변조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(진짜 서버/사용자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 모두 달성한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               SSH v2 보안 세션 초기화 흐름도 (Handshake)            │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [Client]                                       [Server]     │
-│      │               1. TCP 연결 확립                 │         │
-│      │◀═════════════ (3-Way Handshake) ════════════▶│         │
-│      │                                                │         │
-│      │               2. 버전 및 암호군 협상             │         │
-│      │───────────── 지원 가능한 알고리즘 목록 ─────────▶│         │
-│      │◀──────────── 선택된 알고리즘 확정 ──────────────│         │
-│      │                                                │         │
-│      │               3. 키 교환 (KEX) 및 서버 인증       │         │
-│      │◀──────────── 서버의 공개키(Public Key) 전송 ────│         │
-│      │                                                │         │
-│  ※ Client는 known_hosts 파일에서 이 서버의 공개키가 맞는지 1차 검증! │
-│      │                                                │         │
-│      │◀═════════════ Diffie-Hellman 키 교환 ══════════▶│         │
-│  ※ 공유 비밀키(Shared Secret) 생성 ─▶ 대칭 세션키(Session Key) 추출 │
-│                                                               │
-│      │               4. 보안 채널 확립 및 사용자 인증      │         │
-│      │=====[이후 통신은 세션키로 AES-256 전체 암호화됨]======│         │
-│      │───── (암호화) 비대칭키 서명 데이터 전송(로그인) ──▶│         │
-│      │◀──── (암호화) 인증 성공! 터미널 쉘(Shell) 제공 ───│         │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               SSH v2 보안 세션 초기화 흐름도 (Handshake)            |
++---------------------------------------------------------------+
+|                                                               |
+|   [Client]                                       [Server]     |
+|      |               1. TCP 연결 확립                 |         |
+|      |<-------------- (3-Way Handshake) ------------->|         |
+|      |                                                |         |
+|      |               2. 버전 및 암호군 협상             |         |
+|      |------------- 지원 가능한 알고리즘 목록 ---------->|         |
+|      |<------------- 선택된 알고리즘 확정 --------------|         |
+|      |                                                |         |
+|      |               3. 키 교환 (KEX) 및 서버 인증       |         |
+|      |<------------- 서버의 공개키(Public Key) 전송 ----|         |
+|      |                                                |         |
+|  ※ Client는 known_hosts 파일에서 이 서버의 공개키가 맞는지 1차 검증! |
+|      |                                                |         |
+|      |<-------------- Diffie-Hellman 키 교환 ----------->|         |
+|  ※ 공유 비밀키(Shared Secret) 생성 --> 대칭 세션키(Session Key) 추출 |
+|                                                               |
+|      |               4. 보안 채널 확립 및 사용자 인증      |         |
+|      |=====[이후 통신은 세션키로 AES-256 전체 암호화됨]======|         |
+|      |----- (암호화) 비대칭키 서명 데이터 전송(로그인) --->|         |
+|      |<----- (암호화) 인증 성공! 터미널 쉘(Shell) 제공 ---|         |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도의 가장 핵심적인 부분은 3번 단계인 "서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 키 교환"이다. 클라이언트는 서버에 접속할 때 서버가 가짜(해커가 만든 위장 서버)가 아닌지 서버의 공개키를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(`known_hosts` 대조)한다. 만약 처음 접속하는 서버라면 "이 서버를 신뢰할 것인가?"(fingerprint [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 묻는다. 이후 Diffie-Hellman 수학적 마법을 통해 네트워크로 비밀번호를 교환하지 않고도 양쪽이 동일한 대칭키([Session Key](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))를 나누어 가진다. 그 다음 4번 단계부터 이루어지는 클라이언트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(비밀번호 혹은 `.ssh/id_rsa` 키 로그인)은 이 강력하게 암호화된 터널 안에서 이루어지므로 외부 해커는 절대 내용을 알 수 없다.
@@ -112,29 +112,29 @@ SSH 통신은 단순한 [TCP 3-Way Handshake](/knowledge-base/studynote/03_netwo
 Telnet은 인터넷에 '나쁜 짓을 하는 해커'가 없던 순수한 연구자들의 시대에 만들어진 성선설적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 반면 SSH는 중간에서 누군가 패킷을 복사하고 변조할 것이라는 성악설(Zero-Trust 관점)을 바탕으로 철저한 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 방어벽을 둘러친 현대적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 따라서 기능 비교를 넘어, 정보보안 심사 시 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 Telnet이 열려있으면 즉각적인 '치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Critical)' 사유가 된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│                 SSH의 기능적 확장성 (포트 포워딩 터널링)             │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [해커 공격 망 / 비신뢰 구간]                                      │
-│                                                               │
-│   로컬 PC (L)                  방화벽               사내 망 DB (D) │
-│   [Port 8080] ====================|==============▶ [Port 3306]  │
-│                                   |                           │
-│   (직접 접속 시도 시) ─────── 차단 (Drop)! ────────────────│
-│                                                               │
-│   [SSH 포트 포워딩(터널링) 매직]                                      │
-│                                   |          [SSH Server(S)]  │
-│   [Port 8080] <---(암호화 터널)---|------------> [Port 22]    │
-│                                   |                 │         │
-│                                   |            (내부 로컬 포워드) │
-│                                   |                 ▼         │
-│                                   |             [Port 3306]   │
-│                                                               │
-│  명령어: ssh -L 8080:DB_IP:3306 user@SSH_Server_IP            │
-│  => 클라이언트가 로컬 8080 포트로 쏘는 트래픽이 SSH 암호화 파이프를 타고 │
-│     방화벽을 무사히 넘어가 목적지 DB에 도달한다!                       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                 SSH의 기능적 확장성 (포트 포워딩 터널링)             |
++---------------------------------------------------------------+
+|                                                               |
+|   [해커 공격 망 / 비신뢰 구간]                                      |
+|                                                               |
+|   로컬 PC (L)                  방화벽               사내 망 DB (D) |
+|   [Port 8080] ====================|==============-> [Port 3306]  |
+|                                   |                           |
+|   (직접 접속 시도 시) ------- 차단 (Drop)! ----------------|
+|                                                               |
+|   [SSH 포트 포워딩(터널링) 매직]                                      |
+|                                   |          [SSH Server(S)]  |
+|   [Port 8080] <---(암호화 터널)---|------------> [Port 22]    |
+|                                   |                 |         |
+|                                   |            (내부 로컬 포워드) |
+|                                   |                 v         |
+|                                   |             [Port 3306]   |
+|                                                               |
+|  명령어: ssh -L 8080:DB_IP:3306 user@SSH_Server_IP            |
+|  => 클라이언트가 로컬 8080 포트로 쏘는 트래픽이 SSH 암호화 파이프를 타고 |
+|     방화벽을 무사히 넘어가 목적지 DB에 도달한다!                       |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 다이어그램은 SSH가 단순한 콘솔 텍스트를 전달하는 용도에서 벗어나, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫는 강력한 보안 우회 터널([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 장비로 쓰이는 '로컬 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)(Local [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Forwarding)'의 개념을 보여준다. 외부에서 사내 망의 DB 서버(3306 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 직접 붙으려 하면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 막힌다. 이때 허용된 유일한 문인 SSH 서버(22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 튼튼한 암호화 터널을 뚫고, 내 로컬 PC의 8080 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 입력되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이 터널을 거쳐 SSH 서버가 대신 DB로 쏴주는 원리다. SSH는 이러한 통신 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 능력을 통해 VPN을 대체하는 경량화된 보안 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 인프라 역할을 수행한다.
@@ -195,12 +195,12 @@ Telnet은 인터넷에 '나쁜 짓을 하는 해커'가 없던 순수한 연구�
 
 ```text
 [선행 개념: SNTP / PTP (Precision Ti…]
-    │
-    ▼
+    |
+    v
 [현재 개념: SSH 포트 22 / Telnet 포트 23…]
-    │
-    ├──▶ [확장 A: NetFlow / sFlow 트래픽 흐름 모…]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: NetFlow / sFlow 트래픽 흐름 모…]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 SSH [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 22 / Telnet [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 23…는 [SNTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/537_sntp_ptp_precision_time_protocol/) / PTP ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [Ti](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NetFlow](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) / sFlow 트래픽 흐름 모…와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -217,7 +217,7 @@ SSH [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_sys
 
 **진행 상황**: 659 / 1120
 
-← **이전**: [537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/537_sntp_ptp_precision_time_protocol/)
-**다음**: [539. NetFlow (Cisco) / sFlow 트래픽 흐름 모니터링 분석 프로토콜](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) →
+<- **이전**: [537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/537_sntp_ptp_precision_time_protocol/)
+**다음**: [539. NetFlow (Cisco) / sFlow 트래픽 흐름 모니터링 분석 프로토콜](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ->
 
 ---

@@ -26,14 +26,14 @@ tags = ["studynote-design-supervision"]
 아래 그림은 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)가 필요한 전형적 상황, 즉 "제품 종류"와 "제품 계열"이 동시에 존재하는 2차원 문제를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          제품 생성 문제가 2차원으로 커질 때 추상화 필요        │
-├───────────────────────┬──────────────┬──────────────┬─────────┤
-│ 제품 계열 (Family)    │ Button       │ Dialog       │ Menu    │
-├───────────────────────┼──────────────┼──────────────┼─────────┤
-│ Web Theme             │ WebButton    │ WebDialog    │ WebMenu │
-│ Desktop Theme         │ WinButton    │ WinDialog    │ WinMenu │
-└───────────────────────┴──────────────┴──────────────┴─────────┘
++--------------------------------------------------------------+
+|          제품 생성 문제가 2차원으로 커질 때 추상화 필요        |
++-----------------------+--------------+--------------+---------+
+| 제품 계열 (Family)    | Button       | Dialog       | Menu    |
++-----------------------+--------------+--------------+---------+
+| Web Theme             | WebButton    | WebDialog    | WebMenu |
+| Desktop Theme         | WinButton    | WinDialog    | WinMenu |
++-----------------------+--------------+--------------+---------+
 
 행(계열)은 Concrete Factory, 열(제품 종류)은 Abstract Product로 도출된다.
 ```
@@ -53,27 +53,27 @@ tags = ["studynote-design-supervision"]
 아래 그림은 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 전형적 아키텍처를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                       Client                                 │
-│                 (추상 팩토리에만 의존)                       │
-└───────────────────────────┬──────────────────────────────────┘
-                            │
-                            ▼
-                ┌──────────────────────────┐
-                │ AbstractFactory          │
-                │ + createButton()         │
-                │ + createDialog()         │
-                │ + createMenu()           │
-                └───────────┬──────────────┘
-                            │
-          ┌─────────────────┴─────────────────┐
-          ▼                                   ▼
-┌──────────────────────┐           ┌──────────────────────┐
-│ WebFactory           │           │ DesktopFactory       │
-│ → WebButton          │           │ → WinButton          │
-│ → WebDialog          │           │ → WinDialog          │
-│ → WebMenu            │           │ → WinMenu            │
-└──────────────────────┘           └──────────────────────┘
++--------------------------------------------------------------+
+|                       Client                                 |
+|                 (추상 팩토리에만 의존)                       |
++---------------------------+----------------------------------+
+                            |
+                            v
+                +--------------------------+
+                | AbstractFactory          |
+                | + createButton()         |
+                | + createDialog()         |
+                | + createMenu()           |
+                +-----------+--------------+
+                            |
+          +-----------------+-----------------+
+          v                                   v
++----------------------+           +----------------------+
+| WebFactory           |           | DesktopFactory       |
+| -> WebButton          |           | -> WinButton          |
+| -> WebDialog          |           | -> WinDialog          |
+| -> WebMenu            |           | -> WinMenu            |
++----------------------+           +----------------------+
 ```
 
 | 구성 요소 | 역할 | 도출 기준 |
@@ -160,17 +160,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 생성 책임 분리 요구
-    │
-    ▼
+    |
+    v
 정적 팩토리 · 팩토리 메서드 (Factory Method)
-    │
-    ▼
+    |
+    v
 제품 종류 + 제품 계열의 2축 식별
-    │
-    ▼
+    |
+    v
 추상 팩토리 (Abstract Factory)
-    │
-    ▼
+    |
+    v
 DI (Dependency Injection) · 플러그인형 아키텍처
 ```
 
@@ -188,7 +188,7 @@ DI (Dependency Injection) · 플러그인형 아키텍처
 
 **진행 상황**: 223 / 530
 
-← **이전**: [166. 데코레이터 vs 프록시 (Decorator vs Proxy)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/166_decorator_vs_proxy/)
-**다음**: [168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/168_template_method_factory_method_combo/) →
+<- **이전**: [166. 데코레이터 vs 프록시 (Decorator vs Proxy)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/166_decorator_vs_proxy/)
+**다음**: [168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/168_template_method_factory_method_combo/) ->
 
 ---

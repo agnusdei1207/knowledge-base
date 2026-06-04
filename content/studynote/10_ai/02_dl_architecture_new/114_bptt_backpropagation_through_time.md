@@ -19,20 +19,20 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    BPTT: 시간 축 펼침 후 역전파                       │
-├───────────────────────────────────────────────────────┤
-│  [RNN 순환 구조]        [시간 축 펼침 (Unfolding)]    │
-│   ┌──▶ h ──┐            h₁ → h₂ → h₃ → h₄          │
-│   │   │    │            ↑    ↑    ↑    ↑             │
-│   └── x ───┘            x₁   x₂   x₃   x₄          │
-│                                                       │
-│  역전파: L → h₄ → h₃ → h₂ → h₁ (시간 역방향)       │
-│  기울기: ∂L/∂W = Σ(∂L/∂h_t × ∂h_t/∂W)              │
-│                                                       │
-│  문제: T=1000이면 h₁까지 1000단계 역전파 → 폭발/소실 │
-│  해결: Truncated BPTT (k=20으로 잘라서 역전파)       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    BPTT: 시간 축 펼침 후 역전파                       |
++-------------------------------------------------------+
+|  [RNN 순환 구조]        [시간 축 펼침 (Unfolding)]    |
+|   +---> h --+            h₁ -> h₂ -> h₃ -> h₄          |
+|   |   |    |            ^    ^    ^    ^             |
+|   +-- x ---+            x₁   x₂   x₃   x₄          |
+|                                                       |
+|  역전파: L -> h₄ -> h₃ -> h₂ -> h₁ (시간 역방향)       |
+|  기울기: ∂L/∂W = Σ(∂L/∂h_t × ∂h_t/∂W)              |
+|                                                       |
+|  문제: T=1000이면 h₁까지 1000단계 역전파 -> 폭발/소실 |
+|  해결: Truncated BPTT (k=20으로 잘라서 역전파)       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BPTT는 1000페이지 소설을 처음부터 끝까지 형광펜(기울기)으로 표시하는 것이고, Truncated BPTT는 20페이지씩 끊어서 표시하는 것이다.
@@ -93,17 +93,17 @@ BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244
 
 ```text
 [역전파 (1986, Rumelhart) — FC 네트워크 학습]
-    │
-    ▼
+    |
+    v
 [BPTT (1990, Werbos) — RNN 시간 축 역전파]
-    │
-    ▼
+    |
+    v
 [Truncated BPTT — 실무 메모리·기울기 제어]
-    │
-    ▼
+    |
+    v
 [LSTM (1997) — 기울기 소실 완화, BPTT 효과 극대화]
-    │
-    ▼
+    |
+    v
 [Transformer (2017) — BPTT 불필요, 병렬 학습]
 ```
 
@@ -118,7 +118,7 @@ BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244
 
 **진행 상황**: 114 / 420
 
-← **이전**: [113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)
-**다음**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/knowledge-base/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) →
+<- **이전**: [113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)
+**다음**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/knowledge-base/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) ->
 
 ---

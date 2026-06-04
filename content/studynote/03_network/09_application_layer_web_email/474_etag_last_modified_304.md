@@ -30,35 +30,35 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1의 ETag 등장</strong>: 콘텐츠의 내용을 기반으로 고유한 해시 문자열(지문)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 `ETag`가 도입되어, 1바이트의 변화도 정확하게 감지하는 강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Strong [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이 가능해졌다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          조건부 요청(Conditional Request) 아키텍처 흐름         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Client / Browser]                           [Origin Server]│
-│         │                                         │         │
-│         │ 1. GET /style.css (최초 요청)             │         │
-│         │────────────────────────────────────────▶│         │
-│         │                                         │         │
-│         │ 2. 200 OK                               │         │
-│   ┌─────│    Cache-Control: max-age=3600          │         │
-│   │     │    ETag: "W/1A2B3C"                     │         │
-│   │     │    Last-Modified: Mon, 12 Oct ...       │         │
-│ 저장    │◀────────────────────────────────────────│         │
-│   │     │                                         │         │
-│   │     │ (1시간 경과 후, 캐시 만료됨 - Stale 상태)   │         │
-│   │     │                                         │         │
-│   └────▶│ 3. GET /style.css (조건부 요청)           │         │
-│         │    If-None-Match: "W/1A2B3C"            │         │
-│         │    If-Modified-Since: Mon, 12 Oct ...   │         │
-│         │────────────────────────────────────────▶│         │
-│         │                             (서버에서 원본과 비교)  │
-│         │                                         │         │
-│         │ 4. 304 Not Modified                     │         │
-│   ┌─────│    (Body 없음! 헤더만 100바이트 전송)       │         │
-│ 갱신    │◀────────────────────────────────────────│         │
-│   │     │                                         │         │
-│   └────▶│ ➔ 기존 1MB 캐시 사본의 수명 연장 후 화면 렌더링!│         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          조건부 요청(Conditional Request) 아키텍처 흐름         |
++-------------------------------------------------------------+
+|                                                             |
+| [Client / Browser]                           [Origin Server]|
+|         |                                         |         |
+|         | 1. GET /style.css (최초 요청)             |         |
+|         |----------------------------------------->|         |
+|         |                                         |         |
+|         | 2. 200 OK                               |         |
+|   +-----|    Cache-Control: max-age=3600          |         |
+|   |     |    ETag: "W/1A2B3C"                     |         |
+|   |     |    Last-Modified: Mon, 12 Oct ...       |         |
+| 저장    |<-----------------------------------------|         |
+|   |     |                                         |         |
+|   |     | (1시간 경과 후, 캐시 만료됨 - Stale 상태)   |         |
+|   |     |                                         |         |
+|   +----->| 3. GET /style.css (조건부 요청)           |         |
+|         |    If-None-Match: "W/1A2B3C"            |         |
+|         |    If-Modified-Since: Mon, 12 Oct ...   |         |
+|         |----------------------------------------->|         |
+|         |                             (서버에서 원본과 비교)  |
+|         |                                         |         |
+|         | 4. 304 Not Modified                     |         |
+|   +-----|    (Body 없음! 헤더만 100바이트 전송)       |         |
+| 갱신    |<-----------------------------------------|         |
+|   |     |                                         |         |
+|   +----->| ➔ 기존 1MB 캐시 사본의 수명 연장 후 화면 렌더링!|         |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 브라우저는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음 받을 때 꼬리표(`ETag`, `Last-Modified`)를 캐시에 함께 보관한다. `max-age` 시간이 지나면 브라우저는 서버로 3번 단계인 '조건부 요청'을 날린다. 헤더 이름이 `If-None-Match`(지문이 매칭되지 않으면 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘)와 `If-Modified-Since`(이 시간 이후로 수정됐으면 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘)로 바뀐다. 서버가 이 두 값을 자신의 현재 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 상태와 비교해보고 일치한다면, 4번 단계에서 내용물(Body)을 완전히 뺀 상태 코드 `304 Not Modified`만 보낸다. 1MB를 받을 것을 100바이트로 퉁치는 압도적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감이 일어난다.
@@ -86,29 +86,29 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
    - 접두사 `W/`가 붙는다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 본질적 의미(시맨틱)는 같지만, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 하나하나가 일치하지는 않을 수 있다. 예를 들어, 웹 페이지의 광고 배너가 바뀌거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내 공백이 약간 추가되었지만 핵심 콘텐츠가 동일할 때 쓰인다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 적고 융통성이 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          ETag vs Last-Modified 조건부 검증 내부 로직           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [조건부 요청 도착: If-None-Match & If-Modified-Since]        │
-│                           │                                 │
-│                           ▼                                 │
-│              [서버: ETag 매칭 검사 수행]                       │
-│             클라이언트 ETag == 서버 현재 ETag ?               │
-│                  │                   │                      │
-│            (매칭됨 = 변경 없음)  (매칭안됨 = 파일 변경됨)          │
-│                  ▼                   ▼                      │
-│        [Last-Modified 검사]  ┌─────────────────────────┐    │
-│        클라이언트 Date >=    │      200 OK             │    │
-│        서버 수정 Date ?      │ (새 파일 1MB 전체 다운로드)│    │
-│                  │           └─────────────────────────┘    │
-│            (둘 다 만족)                                        │
-│                  ▼                                          │
-│        ┌─────────────────────────┐                          │
-│        │   304 Not Modified      │                          │
-│        │ (Body 없음, 헤더만 전송)  │                          │
-│        └─────────────────────────┘                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          ETag vs Last-Modified 조건부 검증 내부 로직           |
++-------------------------------------------------------------+
+|                                                             |
+| [조건부 요청 도착: If-None-Match & If-Modified-Since]        |
+|                           |                                 |
+|                           v                                 |
+|              [서버: ETag 매칭 검사 수행]                       |
+|             클라이언트 ETag == 서버 현재 ETag ?               |
+|                  |                   |                      |
+|            (매칭됨 = 변경 없음)  (매칭안됨 = 파일 변경됨)          |
+|                  v                   v                      |
+|        [Last-Modified 검사]  +-------------------------+    |
+|        클라이언트 Date >=    |      200 OK             |    |
+|        서버 수정 Date ?      | (새 파일 1MB 전체 다운로드)|    |
+|                  |           +-------------------------+    |
+|            (둘 다 만족)                                        |
+|                  v                                          |
+|        +-------------------------+                          |
+|        |   304 Not Modified      |                          |
+|        | (Body 없음, 헤더만 전송)  |                          |
+|        +-------------------------+                          |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 명세에 따르면, 브라우저가 `If-None-Match`와 `If-Modified-Since` 헤더를 동시에 보냈을 경우, 서버는 무조건 ETag를 1순위로 검사해야 한다(ETag가 훨씬 더 정확한 기준이기 때문). 두 조건이 모두 캐시 유효함을 증명할 때만 `304 Not Modified`를 내리며, 어느 하나라도 어긋난다면 가차 없이 `200 OK`와 함께 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 꽉 채워서 내려보내야 한다.
@@ -146,24 +146,24 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
    - **판단**: 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(이미지)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈/날짜로 ETag 계산이 즉각적(O(1))이지만, 동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) API에 무분별하게 해시 기반 ETag 필터를 걸면 "결과물을 다 만들고 나서야 똑같다는 걸 깨닫는" CPU 낭비의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 된다. 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 차라리 DB의 `update_time` 컬럼을 조회해 즉시 `Last-Modified`로 응답하거나, ETag [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 생략하고 캐시를 수동 무효화([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)하는 아키텍처가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 훨씬 유리하다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 동적 API 검증 시 CPU 부하의 역설           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [문제 상황: 무거운 해시 연산 기반 ETag]                       │
-  │ 조건부 요청 (If-None-Match) 도착                             │
-  │  ➔ 1. DB Full Scan 조회 (수십 ms 소요)                      │
-  │  ➔ 2. 10MB 크기 JSON 객체 직렬화 렌더링                        │
-  │  ➔ 3. 10MB 전체를 SHA-256 해시 함수 통과 ➔ ETag 생성 (CPU 낭비)│
-  │  ➔ 4. 비교해보니 클라이언트 ETag와 같음 ➔ 304 반환              │
-  │ 🌟 결과: 대역폭은 아꼈지만, 서버 DB/CPU는 100% 낭비됨!          │
-  │                                                             │
-  │ [개선 아키텍처: 메타데이터 기반 Last-Modified 조기 반환]        │
-  │ 조건부 요청 (If-Modified-Since) 도착                         │
-  │  ➔ 1. DB에서 게시물의 '수정일(updated_at)' 컬럼 단 1개만 조회!    │
-  │  ➔ 2. 비교해보니 수정 안됨 ➔ 304 조기 반환 (Short-circuit)       │
-  │ 🌟 결과: 무거운 JSON 직렬화 및 해시 연산 전체 생략! 서버 부하 극감. │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 동적 API 검증 시 CPU 부하의 역설           |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [문제 상황: 무거운 해시 연산 기반 ETag]                       |
+  | 조건부 요청 (If-None-Match) 도착                             |
+  |  ➔ 1. DB Full Scan 조회 (수십 ms 소요)                      |
+  |  ➔ 2. 10MB 크기 JSON 객체 직렬화 렌더링                        |
+  |  ➔ 3. 10MB 전체를 SHA-256 해시 함수 통과 ➔ ETag 생성 (CPU 낭비)|
+  |  ➔ 4. 비교해보니 클라이언트 ETag와 같음 ➔ 304 반환              |
+  | 🌟 결과: 대역폭은 아꼈지만, 서버 DB/CPU는 100% 낭비됨!          |
+  |                                                             |
+  | [개선 아키텍처: 메타데이터 기반 Last-Modified 조기 반환]        |
+  | 조건부 요청 (If-Modified-Since) 도착                         |
+  |  ➔ 1. DB에서 게시물의 '수정일(updated_at)' 컬럼 단 1개만 조회!    |
+  |  ➔ 2. 비교해보니 수정 안됨 ➔ 304 조기 반환 (Short-circuit)       |
+  | 🌟 결과: 무거운 JSON 직렬화 및 해시 연산 전체 생략! 서버 부하 극감. |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** ETag는 만능 치트키가 아니다. 텍스트를 해싱하는 연산([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA)은 CPU 사이클을 소모한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 아닌 백엔드 애플리케이션(동적 로직) 단에서 ETag를 쓰려면, 본문을 다 그려놓고 해싱하는 멍청한 방식 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도메인의 핵심 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Version 컬럼 등)를 ETag로 차용하거나 `Last-Modified` 시간 대조만으로 로직 초입에서 304를 재빨리 리턴(Short-circuit)해야 진정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 이루어진다.
@@ -214,12 +214,12 @@ HTTP의 조건부 요청 모델은 컴퓨터 과학의 난제인 캐시 무효�
 
 ```text
 [선행 개념: 캐시 제어 헤더]
-    │
-    ▼
+    |
+    v
 [현재 개념: ETag / Last-Modified 검증]
-    │
-    ├──▶ [확장 A: 쿠키]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: 쿠키]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)는 [캐시 제어 헤더](/knowledge-base/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -236,7 +236,7 @@ ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/
 
 **진행 상황**: 595 / 1120
 
-← **이전**: [473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)](/knowledge-base/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)
-**다음**: [475. 쿠키 (Cookie)](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) →
+<- **이전**: [473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)](/knowledge-base/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)
+**다음**: [475. 쿠키 (Cookie)](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ->
 
 ---

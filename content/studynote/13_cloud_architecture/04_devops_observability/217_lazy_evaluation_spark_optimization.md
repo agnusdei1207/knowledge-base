@@ -25,7 +25,7 @@ tags = ["studynote-cloud-architecture"]
 
 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 핵심 이점은 <strong>전체 맥락을 알고 최적화한다</strong>는 것이다. 각 연산을 따로 실행하면 filter의 결과를 임시 저장 후 groupBy에 전달해야 하지만, [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 통해 Optimizer가 "filter를 먼저 하면 groupBy의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 줄어든다"는 것을 알고 최적 순서로 실행한다.
 
-📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 출장 여행 계획과 같다. 서울→부산→광주→서울 순서를 바로 예약하지 않고, 모든 방문지를 먼저 정한 후 여행사([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에게 최적 경로(비용·시간 최소화)를 계산해달라고 맡기는 방식이다.
+📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 출장 여행 계획과 같다. 서울->부산->광주->서울 순서를 바로 예약하지 않고, 모든 방문지를 먼저 정한 후 여행사([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에게 최적 경로(비용·시간 최소화)를 계산해달라고 맡기는 방식이다.
 
 ---
 
@@ -35,27 +35,27 @@ tags = ["studynote-cloud-architecture"]
 
 ```
   사용자 코드 (PySpark/Scala)
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │              Catalyst Optimizer                          │
-  │                                                          │
-  │  1단계: Logical Plan (논리적 계획)                        │
-  │     filter(age>30) → groupBy(dept) → count()            │
-  │                    │                                    │
-  │  2단계: Optimized Logical Plan (최적화 논리 계획)          │
-  │     Predicate Pushdown: filter를 데이터 소스로 내림       │
-  │     Column Pruning: 필요한 컬럼만 읽음                    │
-  │                    │                                    │
-  │  3단계: Physical Plan 선택 (물리적 실행 계획)              │
-  │     Join 방식: BroadcastHashJoin vs SortMergeJoin        │
-  │     실제 실행 방식 결정                                   │
-  │                    │                                    │
-  │  4단계: Code Generation (Tungsten)                       │
-  │     JVM 바이트코드 직접 생성 → 최적 실행                  │
-  └─────────────────────────────────────────────────────────┘
-       │
-       ▼
+       |
+       v
+  +---------------------------------------------------------+
+  |              Catalyst Optimizer                          |
+  |                                                          |
+  |  1단계: Logical Plan (논리적 계획)                        |
+  |     filter(age>30) -> groupBy(dept) -> count()            |
+  |                    |                                    |
+  |  2단계: Optimized Logical Plan (최적화 논리 계획)          |
+  |     Predicate Pushdown: filter를 데이터 소스로 내림       |
+  |     Column Pruning: 필요한 컬럼만 읽음                    |
+  |                    |                                    |
+  |  3단계: Physical Plan 선택 (물리적 실행 계획)              |
+  |     Join 방식: BroadcastHashJoin vs SortMergeJoin        |
+  |     실제 실행 방식 결정                                   |
+  |                    |                                    |
+  |  4단계: Code Generation (Tungsten)                       |
+  |     JVM 바이트코드 직접 생성 -> 최적 실행                  |
+  +---------------------------------------------------------+
+       |
+       v
   Spark Executor에서 최적화된 Job 실행
 ```
 
@@ -113,11 +113,11 @@ step2 = step1.filter(f2)  # 1M 행 생성, 저장 (9M 버려짐)
 step3 = step2.map(f3)     # 1M 행 처리
 
 # 지연 평가 (Spark): Pipeline Fusion
-# f1 → f2 → f3를 하나의 단계로 합쳐서 실행
+# f1 -> f2 -> f3를 하나의 단계로 합쳐서 실행
 # 불필요한 중간 결과 저장 없음, 메모리 효율 최대화
 ```
 
-📢 **섹션 요약 비유**: [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion은 공장 컨베이어 벨트와 같다. 자동차 부품을 1단계 가공 후 창고에 저장하고, 다시 꺼내서 2단계 가공 후 저장하는 대신, 컨베이어 벨트에서 1→2→3단계를 연속으로 처리하여 중간 저장 없이 완성차를 만든다.
+📢 **섹션 요약 비유**: [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion은 공장 컨베이어 벨트와 같다. 자동차 부품을 1단계 가공 후 창고에 저장하고, 다시 꺼내서 2단계 가공 후 저장하는 대신, 컨베이어 벨트에서 1->2->3단계를 연속으로 처리하여 중간 저장 없이 완성차를 만든다.
 
 ---
 
@@ -128,7 +128,7 @@ step3 = step2.map(f3)     # 1M 행 처리
 # ❌ 잘못된 패턴: 루프에서 collect() 호출
 for user_id in user_ids:  # user_ids = large list
     df.filter(df.user_id == user_id).collect()  # 매번 Job 생성!
-    # → 수천 개의 별도 Job 생성 = 극도로 느림
+    # -> 수천 개의 별도 Job 생성 = 극도로 느림
 
 # ✅ 올바른 패턴: 한 번에 처리
 result = df.filter(df.user_id.isin(user_ids)).collect()
@@ -153,9 +153,9 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 # *(2) HashAggregate(keys=[dept#0], functions=[count(1)])
 # +- Exchange hashpartitioning(dept#0, 200)
 #    +- *(1) HashAggregate(keys=[dept#0], functions=[partial_count(1)])
-#       +- *(1) Project [dept#0]             ← Column Pruning 적용
-#          +- *(1) Filter (isnotnull(age#1) AND (age#1 > 30))  ← Pushdown 적용
-#             +- *(1) FileScan parquet [age#1,dept#0]  ← 필요한 컬럼만 읽음
+#       +- *(1) Project [dept#0]             <- Column Pruning 적용
+#          +- *(1) Filter (isnotnull(age#1) AND (age#1 > 30))  <- Pushdown 적용
+#             +- *(1) FileScan parquet [age#1,dept#0]  <- 필요한 컬럼만 읽음
 ```
 
 **기술사 판단 포인트**:
@@ -201,13 +201,13 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 
 ```text
 Eager Evaluation: 즉시 실행 (최적화 기회 없음)
-    │
-    ▼
-Lazy Evaluation: DAG 구축 → Action 호출 시 실행
-    ├─► Catalyst Optimizer: 실행 계획 최적화
-    └─► Predicate Pushdown · Partition Pruning
-    │
-    ▼
+    |
+    v
+Lazy Evaluation: DAG 구축 -> Action 호출 시 실행
+    +-► Catalyst Optimizer: 실행 계획 최적화
+    +-► Predicate Pushdown · Partition Pruning
+    |
+    v
 Adaptive Query Execution (AQE): 런타임 동적 최적화
 ```
 2. Spark도 filter, groupBy, count 같은 연산을 모두 모아두었다가, "결과를 줘!"(액션) 할 때 한 번에 최적화해서 실행해.
@@ -219,7 +219,7 @@ Adaptive Query Execution (AQE): 런타임 동적 최적화
 
 **진행 상황**: 216 / 371
 
-← **이전**: [216. RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/216_rdd_resilient_distributed_dataset/)
-**다음**: [218. 스파크 스트리밍 / Structured Streaming](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/218_spark_streaming_realtime_processing/) →
+<- **이전**: [216. RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/216_rdd_resilient_distributed_dataset/)
+**다음**: [218. 스파크 스트리밍 / Structured Streaming](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/218_spark_streaming_realtime_processing/) ->
 
 ---

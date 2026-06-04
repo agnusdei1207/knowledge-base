@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 리그레션 테스트 자동화 및 선택적 수의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  리그레션 테스트 자동화 및 선택적 수                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  리그레션 테스트 자동화 및 선택적 수                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 리그레션 테스트 자동화 및 선택적 수가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -59,21 +59,21 @@ tags = ["studynote-software-engineering"]
   - 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 전날 밤, 최종 승인(Sign-off)을 위한 나이트리 빌드(Nightly Build) 시.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             전체 테스트 (Retest All)의 특징               │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [변경 사항] ───> [코드 베이스]                         │
-│                        │                               │
-│  [테스트 스위트] (TC 1 ~ TC 10,000)                    │
-│    │                                                   │
-│    ├─> 모듈 A (영향 O) ───> TC 1 ~ 1,000 실행          │
-│    ├─> 모듈 B (영향 O) ───> TC 1,001 ~ 2,000 실행      │
-│    ├─> 모듈 C (영향 X) ───> TC 2,001 ~ 9,000 실행 (낭비)│
-│    └─> 모듈 D (영향 X) ───> TC 9,001 ~ 10,000 실행 (낭비)│
-│                                                        │
-│  * 결과: 완벽한 안전성 보장, 극심한 시간/자원 낭비 발생        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             전체 테스트 (Retest All)의 특징               |
++--------------------------------------------------------+
+|                                                        |
+|  [변경 사항] ---> [코드 베이스]                         |
+|                        |                               |
+|  [테스트 스위트] (TC 1 ~ TC 10,000)                    |
+|    |                                                   |
+|    +-> 모듈 A (영향 O) ---> TC 1 ~ 1,000 실행          |
+|    +-> 모듈 B (영향 O) ---> TC 1,001 ~ 2,000 실행      |
+|    +-> 모듈 C (영향 X) ---> TC 2,001 ~ 9,000 실행 (낭비)|
+|    +-> 모듈 D (영향 X) ---> TC 9,001 ~ 10,000 실행 (낭비)|
+|                                                        |
+|  * 결과: 완벽한 안전성 보장, 극심한 시간/자원 낭비 발생        |
++--------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -104,25 +104,25 @@ tags = ["studynote-software-engineering"]
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a> 매핑 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">Test Case</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 도출된 영향 반경 내의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들의 교집합을 추출한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          콜 그래프(Call Graph) 기반 선택적 테스트 메커니즘        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [변경 지점] : `CalculateDiscount()` 함수 변경                 │
-│                                                             │
-│   1. 영향도 추적 (상향식 콜 그래프 분석)                          │
-│      CalculateDiscount()                                    │
-│       ▲            ▲                                        │
-│       │            │                                        │
-│  [Cart.js]     [Payment.js]   [UserProfile.js] (영향 없음)     │
-│       ▲            ▲                                        │
-│       │            │                                        │
-│   (TC_101)      (TC_205)         (TC_301 생략)                │
-│   (장바구니)     (결제 검증)        (프로필 조회)                 │
-│                                                             │
-│   2. 동적 스위트 생성: Suite = { TC_101, TC_205 }             │
-│   3. CI 실행: 시간 90% 단축, 피드백 속도 극대화                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          콜 그래프(Call Graph) 기반 선택적 테스트 메커니즘        |
++-------------------------------------------------------------+
+|                                                             |
+|   [변경 지점] : `CalculateDiscount()` 함수 변경                 |
+|                                                             |
+|   1. 영향도 추적 (상향식 콜 그래프 분석)                          |
+|      CalculateDiscount()                                    |
+|       ^            ^                                        |
+|       |            |                                        |
+|  [Cart.js]     [Payment.js]   [UserProfile.js] (영향 없음)     |
+|       ^            ^                                        |
+|       |            |                                        |
+|   (TC_101)      (TC_205)         (TC_301 생략)                |
+|   (장바구니)     (결제 검증)        (프로필 조회)                 |
+|                                                             |
+|   2. 동적 스위트 생성: Suite = { TC_101, TC_205 }             |
+|   3. CI 실행: 시간 90% 단축, 피드백 속도 극대화                  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -201,21 +201,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -229,7 +229,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 414 / 973
 
-← **이전**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/)
-**다음**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) →
+<- **이전**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/)
+**다음**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ->
 
 ---

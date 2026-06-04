@@ -37,20 +37,20 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 이때 $O = I$를 만족하게 하려면 $P = \frac{K - 1}{2}$로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              제로 패딩을 적용한 3x3 커널 합성곱 연산            │
-├─────────────────────────────────────────────────────────────┤
-│   [Padding=1 적용된 6x6 입력]       [출력 Feature Map]      │
-│   0  0  0  0  0  0                                          │
-│   0 ┌──────────┐ 0             3x3 Kernel                   │
-│   0 │ 1  2  3  │ 0               (가운데)                   │
-│   0 │ 4  5  6  │ 0   ──────▶   [ 연산 결과 ]                │
-│   0 │ 7  8  9  │ 0                                          │
-│   0 └──────────┘ 0                                          │
-│   0  0  0  0  0  0                                          │
-│                                                             │
-│   * 모서리(1,3,7,9) 픽셀도 중앙 쪽으로 들어와 여러 번 연산됨   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              제로 패딩을 적용한 3x3 커널 합성곱 연산            |
++-------------------------------------------------------------+
+|   [Padding=1 적용된 6x6 입력]       [출력 Feature Map]      |
+|   0  0  0  0  0  0                                          |
+|   0 +----------+ 0             3x3 Kernel                   |
+|   0 | 1  2  3  | 0               (가운데)                   |
+|   0 | 4  5  6  | 0   ------->   [ 연산 결과 ]                |
+|   0 | 7  8  9  | 0                                          |
+|   0 +----------+ 0                                          |
+|   0  0  0  0  0  0                                          |
+|                                                             |
+|   * 모서리(1,3,7,9) 픽셀도 중앙 쪽으로 들어와 여러 번 연산됨   |
++-------------------------------------------------------------+
 ```
 
 패딩을 추가하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이미지의 가장자리에서도 중앙과 동일하게 연산될 수 있다. 위 그림처럼 원본 주위를 0으로 감싸면 모서리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 안전하게 살아남아 다음 층으로 전달된다.
@@ -112,17 +112,17 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 
 ```text
 합성곱 연산의 차원 축소 한계 인식
-    │
-    ▼
+    |
+    v
 Valid Padding · 가장자리 정보 유실 방치 (초기 모델)
-    │
-    ▼
+    |
+    v
 제로 패딩 (Zero Padding) · Same Padding 도입
-    │
-    ▼
+    |
+    v
 심층 신경망 (VGGNet, ResNet 등) 구조적 안정성 확보
-    │
-    ▼
+    |
+    v
 리플렉트 패딩 (Reflect Padding) 등 특수 패딩 기법 분화
 ```
 
@@ -140,7 +140,7 @@ Valid Padding · 가장자리 정보 유실 방치 (초기 모델)
 
 **진행 상황**: 98 / 420
 
-← **이전**: [97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)
-**다음**: [99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) →
+<- **이전**: [97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)
+**다음**: [99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ->
 
 ---

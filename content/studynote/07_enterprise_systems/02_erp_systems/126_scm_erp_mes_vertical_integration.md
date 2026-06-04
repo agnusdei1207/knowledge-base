@@ -1,5 +1,5 @@
 +++
-title = "126. SCM·ERP·MES 수직 통합 - 계획→실행→현장의 데이터 연속성"
+title = "126. SCM·ERP·MES 수직 통합 - 계획->실행->현장의 데이터 연속성"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,26 +10,26 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획)→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(경영 자원 계획)→[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)의 <strong>수직 통합</strong>은 수요 예측→생산 계획→현장 실행→실적 피드백의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊김 없이 흐르는 체계이다.
+> 1. **본질**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획)->[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(경영 자원 계획)->[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)의 <strong>수직 통합</strong>은 수요 예측->생산 계획->현장 실행->실적 피드백의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊김 없이 흐르는 체계이다.
 > 2. **가치**: 3개 시스템이 분리되면 SCM의 계획이 ERP에 반영되지 않고, ERP의 작업지시가 MES에 전달되지 않아 <strong>계획과 현장의 괴리·재고 과잉·납기 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 발생한다.
-> 3. **판단 포인트**: [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)-95 표준이 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)↔[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 통합 인터페이스를 정의하며, [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)→[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)→MES의 수직 통합이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a>의 핵심 아키텍처</strong>이다.
+> 3. **판단 포인트**: [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)-95 표준이 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)↔[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 통합 인터페이스를 정의하며, [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)->[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)->[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)->MES의 수직 통합이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a>의 핵심 아키텍처</strong>이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    수직 통합 레이어                                    │
-├───────────────────────────────────────────────────────┤
-│  [SCM]   수요예측 → 공급계획 → 조달                  │
-│     ↕ (계획 연동)                                     │
-│  [ERP]   생산계획 → 자재소요(MRP) → 작업지시         │
-│     ↕ (ISA-95 인터페이스)                             │
-│  [MES]   작업실행 → 품질검사 → 실적보고              │
-│     ↕ (PLC/SCADA)                                     │
-│  [현장]  설비·센서 (OT 레이어)                        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    수직 통합 레이어                                    |
++-------------------------------------------------------+
+|  [SCM]   수요예측 -> 공급계획 -> 조달                  |
+|     ↕ (계획 연동)                                     |
+|  [ERP]   생산계획 -> 자재소요(MRP) -> 작업지시         |
+|     ↕ (ISA-95 인터페이스)                             |
+|  [MES]   작업실행 -> 품질검사 -> 실적보고              |
+|     ↕ (PLC/SCADA)                                     |
+|  [현장]  설비·센서 (OT 레이어)                        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SCM은 여행 계획, ERP는 여행 일정표, MES는 현지 가이드(실행), 현장은 실제 여행지이다. 모두 연결되어야 좋은 여행이 된다.
@@ -86,23 +86,23 @@ tags = ["studynote-enterprise-systems"]
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a></strong> | 경영 자원 관리 ([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) 포함) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/">MES</a></strong> | 제조 실행 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a>-95</strong> | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)↔[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 통합 표준 |
-| <strong>Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> | [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)→[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)→[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속성 |
+| <strong>Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> | [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)->[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)->[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)->[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [독립 MRP / MES (1990s)]
-    │
-    ▼
+    |
+    v
 [ERP + MES 연동 (ISA-95, 2000s)]
-    │
-    ▼
+    |
+    v
 [SCM + ERP + MES 수직 통합 (2010s)]
-    │
-    ▼
+    |
+    v
 [스마트 팩토리 (IoT + 통합, 2015~)]
-    │
-    ▼
+    |
+    v
 [현재: AI + 수직 통합 — 자율 공급망·자율 제조]
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 126 / 482
 
-← **이전**: [125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/)
-**다음**: [127. KMS (Knowledge Management System) - 조직 지식 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) →
+<- **이전**: [125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/)
+**다음**: [127. KMS (Knowledge Management System) - 조직 지식 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ->
 
 ---

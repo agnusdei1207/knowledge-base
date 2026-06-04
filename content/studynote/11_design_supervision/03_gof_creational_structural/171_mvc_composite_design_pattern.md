@@ -26,15 +26,15 @@ MVC가 필요한 이유는 "변화의 종류"가 서로 다르기 때문이다. 
 아래 그림은 MVC가 해결하려는 문제를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Before MVC vs After MVC                                              │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ One event handler             │ Model / View / Controller            │
-│ - reads user input            │ - Model: state + business rule       │
-│ - updates domain state        │ - View : rendering                   │
-│ - queries DB                  │ - Controller: input coordination     │
-│ - renders screen              │ - changes isolated by responsibility  │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Before MVC vs After MVC                                              |
++-------------------------------+--------------------------------------+
+| One event handler             | Model / View / Controller            |
+| - reads user input            | - Model: state + business rule       |
+| - updates domain state        | - View : rendering                   |
+| - queries DB                  | - Controller: input coordination     |
+| - renders screen              | - changes isolated by responsibility  |
++-------------------------------+--------------------------------------+
 ```
 
 즉 MVC는 미학적 분리보다 <strong>변화의 지역화(Locality of Change)</strong>를 목적으로 한다. 역할을 나누는 이유는 코드가 예뻐 보여서가 아니라, 화면 변경이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 흔들지 않게 하고 입력 흐름 수정이 렌더링 로직 전체를 오염시키지 않게 하려는 것이다.
@@ -56,20 +56,20 @@ MVC의 핵심은 세 역할의 경계를 만드는 것이다. Model은 상태와
 아래 그림은 MVC를 "복합 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)"으로 보는 관점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MVC as a composite of patterns                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ User input                                                           │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Controller ── Strategy / Command ──> Model                           │
-│    │                                   │                             │
-│    │                                   └─ Observer notify ───────┐   │
-│    ▼                                                            ▼   │
-│ View selection                                            View update │
-│                                                                  │    │
-│                                                          Composite UI │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| MVC as a composite of patterns                                       |
++----------------------------------------------------------------------+
+| User input                                                           |
+|    |                                                                 |
+|    v                                                                 |
+| Controller -- Strategy / Command --> Model                           |
+|    |                                   |                             |
+|    |                                   +- Observer notify -------+   |
+|    v                                                            v   |
+| View selection                                            View update |
+|                                                                  |    |
+|                                                          Composite UI |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 Model이 View를 "예쁘게 그리는 법"을 몰라야 하고, View가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 스스로 바꾸지 말아야 하며, Controller가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 세부 구현을 다 떠안지 않아야 한다는 것이다. 특히 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 트리는 버튼, 패널, 리스트, 폼 같은 구성요소가 중첩되므로 GoF의 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴이 자연스럽게 녹아든다.
@@ -105,19 +105,19 @@ MVC는 특히 웹 프레임워크에서 Front Controller 패턴과 자주 연결
 아래 그림은 서버사이드 웹에서 자주 보는 MVC 흐름이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Typical Web MVC request flow                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ HTTP Request                                                         │
-│      │                                                               │
-│      ▼                                                               │
-│ Front Controller -> Controller -> Service / Domain Model             │
-│      │                                   │                           │
-│      └────────────── Model data <────────┘                           │
-│                              │                                       │
-│                              ▼                                       │
-│                     View template / JSON response                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Typical Web MVC request flow                                         |
++----------------------------------------------------------------------+
+| HTTP Request                                                         |
+|      |                                                               |
+|      v                                                               |
+| Front Controller -> Controller -> Service / Domain Model             |
+|      |                                   |                           |
+|      +-------------- Model data <--------+                           |
+|                              |                                       |
+|                              v                                       |
+|                     View template / JSON response                    |
++----------------------------------------------------------------------+
 ```
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -168,18 +168,18 @@ MVC의 가장 큰 효과는 변경 가능성을 구조 안에 미리 접어 넣�
 
 ```text
 Monolithic UI code
-        │
-        ▼
+        |
+        v
 MVC separation
-        │
-        ├─ Observer for state update
-        ├─ Composite for view tree
-        └─ Strategy / Command for input flow
-        │
-        ▼
+        |
+        +- Observer for state update
+        +- Composite for view tree
+        +- Strategy / Command for input flow
+        |
+        v
 Web MVC + Front Controller
-        │
-        ▼
+        |
+        v
 MVP / MVVM / reactive UI architectures
 ```
 
@@ -197,7 +197,7 @@ MVP / MVVM / reactive UI architectures
 
 **진행 상황**: 227 / 530
 
-← **이전**: [170. 모듈 패턴 (Module Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/170_module_pattern/)
-**다음**: [172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/) →
+<- **이전**: [170. 모듈 패턴 (Module Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/170_module_pattern/)
+**다음**: [172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/) ->
 
 ---

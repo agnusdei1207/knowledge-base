@@ -43,19 +43,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 명령어 한 줄이 실제 실행 경로에서 어떻게 해석되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 instruction flow: bits become control signals             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PC (Program Counter)                                                      │
-│      │                                                                    │
-│      ▼                                                                    │
-│ Instruction Memory ──▶ Instruction Register ──▶ Decoder                   │
-│                                                     │                     │
-│                        ┌──────── register select ───┼──▶ Register File    │
-│                        ├──────── ALU op code ──────┼──▶ ALU               │
-│                        ├──────── memory control ───┼──▶ Load / Store Unit │
-│                        └──────── branch target ────┼──▶ PC update logic   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 instruction flow: bits become control signals             |
++----------------------------------------------------------------------------+
+| PC (Program Counter)                                                      |
+|      |                                                                    |
+|      v                                                                    |
+| Instruction Memory ---> Instruction Register ---> Decoder                   |
+|                                                     |                     |
+|                        +-------- register select ---+---> Register File    |
+|                        +-------- ALU op code ------+---> ALU               |
+|                        +-------- memory control ---+---> Load / Store Unit |
+|                        +-------- branch target ----+---> PC update logic   |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 명령어가 단순한 숫자가 아니라 <strong>제어 신호를 생성하는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 설계도</strong>라는 점이다. 명령어가 메모리에서 인출되면 디코더가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 해석하고, 그 결과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산, 메모리 접근, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신이 연쇄적으로 일어난다. 그래서 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)이 단순하면 디코드가 빨라지고, 복잡하면 한 번의 명령이 더 많은 일을 하더라도 전단부 병목이 커질 수 있다.
@@ -130,16 +130,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 저장 프로그램 방식
-    │
-    ▼
+    |
+    v
 명령어 (Instruction)
-    │
-    ├── Opcode · Operand · 주소 지정 방식
-    │
-    ▼
-명령어 사이클 (Fetch → Decode → Execute → Write-back)
-    │
-    ▼
+    |
+    +-- Opcode · Operand · 주소 지정 방식
+    |
+    v
+명령어 사이클 (Fetch -> Decode -> Execute -> Write-back)
+    |
+    v
 파이프라인 · 마이크로 연산 · SIMD 확장
 ```
 
@@ -157,7 +157,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 158 / 803
 
-← **이전**: [157. ISA (Instruction Set Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)
-**다음**: [159. 연산 코드 (Opcode)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) →
+<- **이전**: [157. ISA (Instruction Set Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)
+**다음**: [159. 연산 코드 (Opcode)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ->
 
 ---

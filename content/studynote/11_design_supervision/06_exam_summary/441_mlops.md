@@ -24,14 +24,14 @@ tags = ["studynote-design-supervision"]
 기술사 답안에서는 단순히 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)와 개념 드리프트를 정의하는 데서 멈추지 말고, **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 탐지 -> 경보 -> 재학습 또는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)**의 운영 루프로 정리해야 한다. 결국 드리프트 관리는 통계 기법의 문제가 아니라 모델 운영 거버넌스의 문제이기 때문이다.
 
 ```text
-┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌─────────────┐
-│ Train Data  │ ───▶ │ Deploy Model │ ───▶ │ Live Traffic│ ───▶ │ Drift Signal│
-└─────────────┘      └──────────────┘      └─────────────┘      └─────────────┘
-                                                                     │
-                                                                     ▼
-                                                             ┌─────────────┐
-                                                             │ Action Loop │
-                                                             └─────────────┘
++-------------+      +--------------+      +-------------+      +-------------+
+| Train Data  | ----> | Deploy Model | ----> | Live Traffic| ----> | Drift Signal|
++-------------+      +--------------+      +-------------+      +-------------+
+                                                                     |
+                                                                     v
+                                                             +-------------+
+                                                             | Action Loop |
+                                                             +-------------+
 ```
 
 이 그림은 모델 운영이 일회성 배포가 아니라, 실제 입력 변화에 따라 계속 되돌아오는 순환 구조임을 보여 준다.
@@ -51,21 +51,21 @@ tags = ["studynote-design-supervision"]
 | 대응 파이프라인 | 재학습, 승인, 재배포, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 실행 | 자동화 범위와 사람 승인 경계를 분리해야 함 |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ Baseline Store   │      │ Live Feature Log │
-└──────────────────┘      └──────────────────┘
-          │                         │
-          └────────────┬────────────┘
-                       ▼
-              ┌──────────────────┐
-              │ Drift Detector   │
-              └──────────────────┘
-                       │
++------------------+      +------------------+
+| Baseline Store   |      | Live Feature Log |
++------------------+      +------------------+
+          |                         |
+          +------------+------------+
+                       v
+              +------------------+
+              | Drift Detector   |
+              +------------------+
+                       |
                   alert / score
-                       ▼
-┌──────────────────┐      ┌──────────────────┐
-│ Retrain / Review │ ───▶ │ Deploy / Rollback│
-└──────────────────┘      └──────────────────┘
+                       v
++------------------+      +------------------+
+| Retrain / Review | ----> | Deploy / Rollback|
++------------------+      +------------------+
 ```
 
 이 구조가 갖춰지면 드리프트는 단순 경고가 아니라 운영 의사결정을 촉발하는 증거가 된다.
@@ -160,7 +160,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 519 / 530
 
-← **이전**: [440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/440_dapp/)
-**다음**: [442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/442_architecture/) →
+<- **이전**: [440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/440_dapp/)
+**다음**: [442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/442_architecture/) ->
 
 ---

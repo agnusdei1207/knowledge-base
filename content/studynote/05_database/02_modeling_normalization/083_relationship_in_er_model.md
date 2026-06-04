@@ -23,9 +23,9 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 관계는 단순한 화살표가 아니다. 예를 들어 학생과 과목 사이의 수강은 "학생이 과목을 듣는다"는 의미를 담고, 주문과 상품 사이의 포함은 "주문이 여러 상품을 가진다"는 의미를 담는다. 이 의미를 정확히 적지 않으면 관계형 테이블에서는 나중에 해석이 꼬인다.
 
 ```text
-┌──────┐      ◇수강◇      ┌──────┐
-│ 학생 │──────────────────│ 과목 │
-└──────┘                  └──────┘
++------+      ◇수강◇      +------+
+| 학생 |------------------| 과목 |
++------+                  +------+
    N                          M
 ```
 
@@ -49,22 +49,22 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 
 ```text
           수강일자
-             │
-┌──────┐   ◇수강◇   ┌──────┐
-│ 학생 │───────────│ 과목 │
-└──────┘           └──────┘
+             |
++------+   ◇수강◇   +------+
+| 학생 |-----------| 과목 |
++------+           +------+
 ```
 
 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계(Recursive Relationship)는 같은 개체 집합 안에서 관계가 맺어지는 경우다. 직원이 직원을 관리하거나, 문서가 다른 문서를 참조하는 형태가 대표적이다.
 
 ```text
-┌──────┐
-│ 직원 │
-└──┬───┘
-   │ 관리
-   └────────▶┌──────┐
-             │ 직원 │
-             └──────┘
++------+
+| 직원 |
++--+---+
+   | 관리
+   +--------->+------+
+             | 직원 |
+             +------+
 ```
 
 관계는 개체의 존재 자체보다 개체 간 규칙을 표현하는 데 초점이 있다. 그래서 개체와 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 다 그린 뒤에도 관계가 빠지면 모델은 아직 완성되지 않은 것이다.
@@ -137,21 +137,21 @@ ER 모델은 개념 모델이고, 관계형 스키마는 구현 모델이다. ER
 
 ```text
 개체(Entity)
-    │
-    ▼
+    |
+    v
 관계(Relationship)
-    │
-    ▼
+    |
+    v
 카디낼리티 비율(Cardinality Ratio)
-    │
-    ▼
+    |
+    v
 참여 제약(Participation Constraint)
-    │
-    ▼
+    |
+    v
 관계형 스키마 변환
 ```
 
-이 흐름은 "무엇이 있는가 → 어떻게 연결되는가 → 얼마나/반드시 연결되는가 → 테이블로 어떻게 옮기는가"를 보여준다.
+이 흐름은 "무엇이 있는가 -> 어떻게 연결되는가 -> 얼마나/반드시 연결되는가 -> 테이블로 어떻게 옮기는가"를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ ER 모델은 개념 모델이고, 관계형 스키마는 구현 모델이다. ER
 
 **진행 상황**: 83 / 600
 
-← **이전**: [82. 속성 (Attribute)](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
-**다음**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) →
+<- **이전**: [82. 속성 (Attribute)](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
+**다음**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) ->
 
 ---

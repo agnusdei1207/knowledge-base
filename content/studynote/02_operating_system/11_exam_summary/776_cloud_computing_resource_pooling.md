@@ -35,31 +35,31 @@ tags = ["studynote-operating-system"]
   - VMware의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기술을 필두로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 오버헤드를 극복하고 남는 자원을 통계적 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Statistical [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))로 팔아먹기 위한 IT 대기업들의 비즈니스적 극한 최적화에서 탄생했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 전통적 사일로(Silo) 구조 vs 자원 풀링(Pooling) 구조    │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 전통적 온프레미스 (Siloed Infrastructure) ]                 │
-  │   웹 서버 (CPU 20% 사용)  DB 서버 (CPU 90% 사용)                │
-  │   ┌────────────┐        ┌────────────┐                      │
-  │   │ 🟩 낭비됨   │        │ 🟥 꽉참!   │ ◀ 병목 발생, 증설 불가! │
-  │   │ 🟩 낭비됨   │        │ 🟥 꽉참!   │                      │
-  │   │ 🟦 사용중   │        │ 🟥 꽉참!   │                      │
-  │   └────────────┘        └────────────┘                      │
-  │    (물리적 장벽으로 서로 자원 대여 절대 불가)                          │
-  │                                                             │
-  │  [ 클라우드 자원 풀링 (Resource Pooling) ]                     │
-  │                                                             │
-  │   ┌──────────────────────────────────────────────────┐      │
-  │   │ 💧 거대한 하이퍼바이저 / 쿠버네티스 자원 풀 (CPU 총합 1000개)│      │
-  │   │  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦   │      │
-  │   └─────┬───────────────────────────────┬────────────┘      │
-  │         │ (동적 할당)                     │ (동적 할당)         │
-  │         ▼                               ▼                  │
-  │   [ Tenant A의 가상 서버 ]          [ Tenant B의 가상 서버 ]   │
-  │   (웹 서버: CPU 2개 쏙 빼감)          (DB 서버: CPU 18개 쏙 빼감) │
-  │   ※ Tenant B에 트래픽이 폭주하면? 풀에서 10개를 1초만에 더 떼어줌! (탄력성) │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 전통적 사일로(Silo) 구조 vs 자원 풀링(Pooling) 구조    |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 전통적 온프레미스 (Siloed Infrastructure) ]                 |
+  |   웹 서버 (CPU 20% 사용)  DB 서버 (CPU 90% 사용)                |
+  |   +------------+        +------------+                      |
+  |   | 🟩 낭비됨   |        | 🟥 꽉참!   | <- 병목 발생, 증설 불가! |
+  |   | 🟩 낭비됨   |        | 🟥 꽉참!   |                      |
+  |   | 🟦 사용중   |        | 🟥 꽉참!   |                      |
+  |   +------------+        +------------+                      |
+  |    (물리적 장벽으로 서로 자원 대여 절대 불가)                          |
+  |                                                             |
+  |  [ 클라우드 자원 풀링 (Resource Pooling) ]                     |
+  |                                                             |
+  |   +--------------------------------------------------+      |
+  |   | 💧 거대한 하이퍼바이저 / 쿠버네티스 자원 풀 (CPU 총합 1000개)|      |
+  |   |  🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦   |      |
+  |   +-----+-------------------------------+------------+      |
+  |         | (동적 할당)                     | (동적 할당)         |
+  |         v                               v                  |
+  |   [ Tenant A의 가상 서버 ]          [ Tenant B의 가상 서버 ]   |
+  |   (웹 서버: CPU 2개 쏙 빼감)          (DB 서버: CPU 18개 쏙 빼감) |
+  |   ※ Tenant B에 트래픽이 폭주하면? 풀에서 10개를 1초만에 더 떼어줌! (탄력성) |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)의 핵심은 "통계적 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Statistical [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))"라는 마법이다. 만약 100명의 고객이 모두 동시에 100%의 CPU를 돌린다면 클라우드 서버는 펑 터질 것이다. 하지만 구글이나 아마존은 안다. "한국의 쇼핑몰 고객이 낮에 서버를 불태울 때, 미국의 고객은 밤이라 서버가 잔다." 이 완벽한 엇박자(통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))를 믿고, 물리적인 CPU 코어가 100개뿐인데 고객들에게는 300개를 팔아치우는 <strong>오버커밋(Overcommit)</strong>을 수행한다. 모든 자원을 거대한 웅덩이로 뭉쳐놓았기 때문에 국지적인 폭주가 발생해도 거대한 물웅덩이의 미세한 수위 변화로 상쇄되어 버리는 것이다.
@@ -85,23 +85,23 @@ tags = ["studynote-operating-system"]
 거대한 웅덩이를 같이 쓰다 보면 필연적으로 보안과 성능의 간섭 문제가 터진다. 이를 <strong>"시끄러운 이웃 (Noisy Neighbor) 문제"</strong>라고 한다. 옆방(Tenant A)에서 채굴 프로그램을 돌리며 디스크 I/O를 100% 독식하면, 내 방(Tenant B)의 DB 서버가 영문도 모른 채 렉이 걸려 죽어버리는 현상이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 자원 풀링 환경에서의 "시끄러운 이웃" 차단 아키텍처        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ ☁️ 공유 자원 풀 (Shared Pool) ]                                  │
-  │   CPU 총 100코어 / RAM 512GB / Network 100Gbps                    │
-  │                                                                   │
-  │  ┌────────────┐               [ OS Cgroups / 하이퍼바이저 통제망 ]  │
-  │  │ 해커 (VM 1) │ ──(코인 채굴!)──▶ 🚨 CPU 90코어 점유 시도!            │
-  │  └────────────┘                  │ (QoS 제한 발동: Throttling!)   │
-  │                                  ▼                              │
-  │                           ⛔ CPU 할당량 상한선(Quota) 초과로 칼같이 쳐냄 │
-  │                                                                   │
-  │  ┌────────────┐                                                 │
-  │  │ 고객 (VM 2) │ ──(일반 쇼핑몰)─▶ 🟢 격리된 나의 CPU 10코어를 안정적으로 사용│
-  │  └────────────┘                 (옆집이 아무리 시끄러워도 철저한 방음벽 보장)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 자원 풀링 환경에서의 "시끄러운 이웃" 차단 아키텍처        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ ☁️ 공유 자원 풀 (Shared Pool) ]                                  |
+  |   CPU 총 100코어 / RAM 512GB / Network 100Gbps                    |
+  |                                                                   |
+  |  +------------+               [ OS Cgroups / 하이퍼바이저 통제망 ]  |
+  |  | 해커 (VM 1) | --(코인 채굴!)---> 🚨 CPU 90코어 점유 시도!            |
+  |  +------------+                  | (QoS 제한 발동: Throttling!)   |
+  |                                  v                              |
+  |                           ⛔ CPU 할당량 상한선(Quota) 초과로 칼같이 쳐냄 |
+  |                                                                   |
+  |  +------------+                                                 |
+  |  | 고객 (VM 2) | --(일반 쇼핑몰)--> 🟢 격리된 나의 CPU 10코어를 안정적으로 사용|
+  |  +------------+                 (옆집이 아무리 시끄러워도 철저한 방음벽 보장)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 진정한 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 기술은 "얼마나 잘 합치느냐"가 아니라 "합쳐놓고 얼마나 칼같이 잘 막아주느냐(격리)"에 달렸다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)나 리눅스 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))는 웅덩이에 파이프를 꽂은 사용자마다 <strong>정밀한 유량 조절 밸브(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>를 달아둔다. Tenant A가 약속된 IOPS(초당 입출력)나 대역폭을 넘어서면, 하드웨어 타이머와 스케줄러가 즉각 개입하여 패킷을 드롭(Drop)시키거나 CPU 선점을 박탈(Throttling)하여, Tenant B가 물리적으로 완전히 독립된 서버를 쓰는 것과 동일한 수준의 착각(격리 환상)을 유지시켜 준다.
@@ -144,28 +144,28 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> Limits 하드 리미트 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)</strong>: 1원칙: "CPU는 오버커밋([풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 해도 되지만, 메모리는 절대 보수적으로 잡아라." [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 매니페스트에 메모리 `limits`를 엄격하게 걸어, 특정 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 누수를 일으키더라도 자기 몫만 터지고 다른 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(자원 풀 전체)를 침범하지 못하게 하드 리미트를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 클라우드 자원 풀링 환경 생존을 위한 아키텍트 결정 트리      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서비스 워크로드에 맞는 클라우드 인스턴스를 설계한다 ]                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서비스가 나노초(ns) 단위의 지터(Jitter)조차 허용하지 않는가? (HFT 등)  │
-  │          ├─ 예 ─────▶ [ Bare-Metal (베어메탈) 인스턴스 선택 ]       │
-  │          │             하이퍼바이저(풀링) 자체를 아예 걷어낸 물리 서버 독점│
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      데이터베이스(DB)처럼 일관되고 지속적인 100% CPU/I/O 성능이 필요한가?   │
-  │          ├─ 예 ─────▶ [ Compute Optimized (M, C 계열) 선택 ]     │
-  │          │             vCPU가 물리 코어와 1:1로 고정 할당되어 이웃 간섭 0 │
-  │          └─ 아니오 (웹 서버, 마이크로서비스 등 부하가 널뛰기하는 일반 앱)   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │            [ Burstable (버스트/공유) 인스턴스 선택 (T 계열) ]            │
-  │            자원 풀링의 혜택(초저가)을 누리되, 크레딧 모니터링 알람 연동 필수!  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 클라우드 자원 풀링 환경 생존을 위한 아키텍트 결정 트리      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서비스 워크로드에 맞는 클라우드 인스턴스를 설계한다 ]                   |
+  |                |                                                  |
+  |                v                                                  |
+  |      서비스가 나노초(ns) 단위의 지터(Jitter)조차 허용하지 않는가? (HFT 등)  |
+  |          +- 예 ------> [ Bare-Metal (베어메탈) 인스턴스 선택 ]       |
+  |          |             하이퍼바이저(풀링) 자체를 아예 걷어낸 물리 서버 독점|
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      데이터베이스(DB)처럼 일관되고 지속적인 100% CPU/I/O 성능이 필요한가?   |
+  |          +- 예 ------> [ Compute Optimized (M, C 계열) 선택 ]     |
+  |          |             vCPU가 물리 코어와 1:1로 고정 할당되어 이웃 간섭 0 |
+  |          +- 아니오 (웹 서버, 마이크로서비스 등 부하가 널뛰기하는 일반 앱)   |
+  |                |                                                  |
+  |                v                                                  |
+  |            [ Burstable (버스트/공유) 인스턴스 선택 (T 계열) ]            |
+  |            자원 풀링의 혜택(초저가)을 누리되, 크레딧 모니터링 알람 연동 필수!  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "클라우드는 마법이 아니다. 누군가의 컴퓨터일 뿐이다." [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)은 자본주의의 극치다. 싼 인스턴스는 여러 명을 좁은 방(물리 코어)에 몰아넣고(Overcommit), 비싼 인스턴스는 방을 넓게 독점(Pinning)하게 해준다. 아키텍트는 맹목적으로 클라우드의 유연성을 믿지 말고, 내 앱이 "옆방의 소음에 취약한지(민감도)"를 파악하여 가격과 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 수준 사이에서 완벽한 타협점을 찾아내는 것이 핵심이다.
@@ -214,12 +214,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [파티션 MBR GPT 크기 제한]
-    │
-    ▼
+    |
+    v
 [클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)]
-    │
-    ├──▶ [OOM 킬러 메모리 보호 정책]
-    └──▶ [프로세스 친화성 (Affinity) 스케줄링]
+    |
+    +---> [OOM 킬러 메모리 보호 정책]
+    +---> [프로세스 친화성 (Affinity) 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -236,7 +236,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 776 / 800
 
-← **이전**: [775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/)
-**다음**: [777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)](/knowledge-base/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/) →
+<- **이전**: [775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/)
+**다음**: [777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)](/knowledge-base/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/) ->
 
 ---

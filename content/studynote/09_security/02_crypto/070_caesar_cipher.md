@@ -101,9 +101,9 @@ Plaintext -> shift -> Ciphertext
 
 ```text
 Plaintext
-  ↓ shift
+  v shift
 Caesar Cipher
-  ↓
+  v
 Ciphertext
 ```
 
@@ -113,11 +113,11 @@ Ciphertext
 
 ```text
 Substitution Cipher
-  ↓
+  v
 Caesar Cipher
-  ↓
+  v
 Frequency Analysis
-  ↓
+  v
 Modern Cryptography
 ```
 
@@ -135,7 +135,7 @@ Modern Cryptography
 
 **진행 상황**: 70 / 1108
 
-← **이전**: [069. 고전 암호 — 치환 암호, 전치 암호](/knowledge-base/studynote/09_security/02_crypto/069_classical_cipher/)
-**다음**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/) →
+<- **이전**: [069. 고전 암호 — 치환 암호, 전치 암호](/knowledge-base/studynote/09_security/02_crypto/069_classical_cipher/)
+**다음**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/) ->
 
 ---

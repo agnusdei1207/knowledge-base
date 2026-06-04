@@ -30,11 +30,11 @@ tags = ["enterprise_systems"]
 
 ```text
 Business Data
-  ↓
+  v
 Data Steward
-  ↓
+  v
 Quality Rules
-  ↓
+  v
 Trusted Data
 ```
 
@@ -107,11 +107,11 @@ Trusted Data
 
 ```text
 Data Owner
-  ↓
+  v
 Data Steward
-  ↓
+  v
 Data Quality
-  ↓
+  v
 Data Governance
 ```
 
@@ -121,11 +121,11 @@ Data Governance
 
 ```text
 Data Governance
-  ↓
+  v
 Data Steward
-  ↓
+  v
 Quality Rules
-  ↓
+  v
 Trusted Data
 ```
 
@@ -143,7 +143,7 @@ Trusted Data
 
 **진행 상황**: 67 / 482
 
-← **이전**: [66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/066_data_governance_framework/)
-**다음**: [68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/) →
+<- **이전**: [66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/066_data_governance_framework/)
+**다음**: [68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/) ->
 
 ---

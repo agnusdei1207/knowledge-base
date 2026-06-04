@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    LSTM 셀 구조 (Simplified)                          │
-├───────────────────────────────────────────────────────┤
-│         C_{t-1} ───[×f_t]───[+i_t·C̃]───▶ C_t       │
-│                     ↑         ↑                       │
-│  Forget Gate ───────┘   Input Gate                    │
-│     f_t = σ(W_f·[h_{t-1}, x_t])                     │
-│     i_t = σ(W_i·[h_{t-1}, x_t])                     │
-│     C̃_t = tanh(W_c·[h_{t-1}, x_t])                 │
-│                                                       │
-│  Output Gate ──▶ h_t = o_t · tanh(C_t)               │
-│     o_t = σ(W_o·[h_{t-1}, x_t])                     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    LSTM 셀 구조 (Simplified)                          |
++-------------------------------------------------------+
+|         C_{t-1} ---[×f_t]---[+i_t·C̃]----> C_t       |
+|                     ^         ^                       |
+|  Forget Gate -------+   Input Gate                    |
+|     f_t = σ(W_f·[h_{t-1}, x_t])                     |
+|     i_t = σ(W_i·[h_{t-1}, x_t])                     |
+|     C̃_t = tanh(W_c·[h_{t-1}, x_t])                 |
+|                                                       |
+|  Output Gate ---> h_t = o_t · tanh(C_t)               |
+|     o_t = σ(W_o·[h_{t-1}, x_t])                     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LSTM은 3개의 수문(게이트)이 있는 댐이다. Forget Gate는 오래된 물을 빼고, Input Gate는 새 물을 넣으며, Output Gate는 필요한 만큼만 방류한다.
@@ -52,7 +52,7 @@ tags = ["studynote-ai"]
 
 $C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$
 
-원소별 곱(Hadamard Product)으로 전파 → 행렬 곱 반복 없음 → <strong>기울기 직통 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>.</strong>
+원소별 곱(Hadamard Product)으로 전파 -> 행렬 곱 반복 없음 -> <strong>기울기 직통 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>.</strong>
 
 - **📢 섹션 요약 비유**: Cell State는 고속도로이고, 게이트는 IC(인터체인지)다. 고속도로를 통해 정보가 멀리까지 빠르게 전달되고, IC에서 필요한 정보만 진입·퇴장한다.
 
@@ -102,17 +102,17 @@ LSTM은 1997년 발표 이후 20년간 시퀀스 모델의 왕좌를 지켰으�
 
 ```text
 [바닐라 RNN (1986) — 기울기 소실 문제]
-    │
-    ▼
+    |
+    v
 [LSTM (1997, Hochreiter & Schmidhuber) — 게이트로 해결]
-    │
-    ▼
+    |
+    v
 [GRU (2014, Cho) — LSTM 간소화]
-    │
-    ▼
+    |
+    v
 [Transformer (2017) — 순환 제거, Attention]
-    │
-    ▼
+    |
+    v
 [xLSTM (2024) — LSTM 현대화, Transformer 대안]
 ```
 
@@ -127,7 +127,7 @@ LSTM은 1997년 발표 이후 20년간 시퀀스 모델의 왕좌를 지켰으�
 
 **진행 상황**: 115 / 420
 
-← **이전**: [114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)
-**다음**: [116. LSTM 게이트 상세 (LSTM Gates Detail) - Forget·Input·Output 게이트 수학적 분석](/knowledge-base/studynote/10_ai/02_dl_architecture_new/116_lstm_gates/) →
+<- **이전**: [114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)
+**다음**: [116. LSTM 게이트 상세 (LSTM Gates Detail) - Forget·Input·Output 게이트 수학적 분석](/knowledge-base/studynote/10_ai/02_dl_architecture_new/116_lstm_gates/) ->
 
 ---

@@ -41,14 +41,14 @@ H(X) ≤ L̄ < H(X) + ε   (임의로 작은 ε > 0에 대해 달성 가능)
 
 ```
 평균 코드 길이 L̄
-         │
-H(X)+1   ├──────────── 허프만 코딩 ────────────────
-H(X)+0.1 ├──────────── 산술 부호화 ───────────────
-H(X)+ε   ├──────────── LZ 계열 (점근적) ─────────
-H(X)     ├──────────── 이론 하한 ─────────────────
-         │
-         └──────────────────────────────────────►
-                        블록 길이 n → ∞
+         |
+H(X)+1   +------------ 허프만 코딩 ----------------
+H(X)+0.1 +------------ 산술 부호화 ---------------
+H(X)+ε   +------------ LZ 계열 (점근적) ---------
+H(X)     +------------ 이론 하한 -----------------
+         |
+         +--------------------------------------►
+                        블록 길이 n -> ∞
 ```
 
 ### [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) ([Huffman Coding](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)) 예시
@@ -63,14 +63,14 @@ H(X)     ├──────────── 이론 하한 ─────�
 ```
 심볼:  A(0.5)  B(0.25)  C(0.125)  D(0.125)
 
-단계1:        C+D → 0.25
-단계2:     B + 0.25 → 0.5
-단계3:  A + 0.5 → 1.0 (루트)
+단계1:        C+D -> 0.25
+단계2:     B + 0.25 -> 0.5
+단계3:  A + 0.5 -> 1.0 (루트)
 
-코드: A→0, B→10, C→110, D→111
+코드: A->0, B->10, C->110, D->111
 
 평균 코드 길이: 0.5×1 + 0.25×2 + 0.125×3 + 0.125×3 = 1.75 bits
-→ 엔트로피와 완전히 동일!
+-> 엔트로피와 완전히 동일!
 ```
 
 | 심볼 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 코드 | 길이 |
@@ -114,16 +114,16 @@ D: 최대 허용 왜곡, R(D): 그에 대응하는 최소 필요 [비트](/knowl
 
 ```
 R(D)
-   ▲
-   │╲
-   │  ╲
-   │    ╲
-   │      ─────
-   └───────────► D
+   ^
+   |╲
+   |  ╲
+   |    ╲
+   |      -----
+   +-----------► D
   D=0   D 증가시 R 감소
 
 D=0: R = H(X) (무손실)
-D→∞: R → 0 (극단 손실)
+D->∞: R -> 0 (극단 손실)
 ```
 
 📢 **섹션 요약 비유**: 레이트-왜곡 트레이드오프는 "사진 화질 vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기"다 — 화질(D 낮음)을 높이면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(R)이 커지고, 허용 화질 저하(D 높음)를 늘리면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작아진다.
@@ -136,14 +136,14 @@ D→∞: R → 0 (극단 손실)
 
 ```
 원본 데이터
-     │
-     ▼ LZ77 (중복 제거)
+     |
+     v LZ77 (중복 제거)
 길이-오프셋 쌍
-     │
-     ▼ 허프만 코딩 (심볼 인코딩)
+     |
+     v 허프만 코딩 (심볼 인코딩)
 압축 비트스트림
-     │
-     ▼ 컨테이너 포맷 (.zip, .png, .gz)
+     |
+     v 컨테이너 포맷 (.zip, .png, .gz)
 최종 파일
 ```
 
@@ -159,9 +159,9 @@ D→∞: R → 0 (극단 손실)
 
 ### 기술사 판단 포인트
 
-1. <strong>"무손실 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 이론 한계는?"</strong> → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X) [bits/symbol]
-2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/">허프만 코딩</a>이 최적인가?"</strong> → 심볼 수 무한 시 아님, 산술 부호화가 더 가까움
-3. **"JPEG는 무손실인가?"** → 기본은 DCT 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (JPEG 2000 웨이블릿도 손실)
+1. <strong>"무손실 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 이론 한계는?"</strong> -> [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X) [bits/symbol]
+2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/">허프만 코딩</a>이 최적인가?"</strong> -> 심볼 수 무한 시 아님, 산술 부호화가 더 가까움
+3. **"JPEG는 무손실인가?"** -> 기본은 DCT 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (JPEG 2000 웨이블릿도 손실)
 
 📢 **섹션 요약 비유**: DEFLATE(LZ77+허프만)는 "두 단계 짐 싸기"다 — 먼저 중복 물건을 없애고(LZ77), 나머지를 무게 순으로 효율 포장한다(허프만).
 
@@ -185,7 +185,7 @@ D→∞: R → 0 (극단 손실)
 |:---|:---|:---|
 | 소스 부호화 정리 | H(X) ≤ L̄ | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 하한 |
 | [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) | L̄ < H(X) + 1 | 빈도 기반 가변 길이 코드 |
-| 산술 부호화 | L̄ → H(X) | 전체 메시지를 단일 수로 |
+| 산술 부호화 | L̄ -> H(X) | 전체 메시지를 단일 수로 |
 | LZ77/LZW | 점근적 H(X) | 실용 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | 레이트-왜곡 R(D) | 손실 허용 시 최소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율 | JPEG, MP3, H.265 |
 
@@ -193,20 +193,20 @@ D→∞: R → 0 (극단 손실)
 
 ```text
 [정보 이론 (Information Theory)]
-    │
-    ▼
+    |
+    v
 [엔트로피 (Entropy)]
-    │
-    ▼
+    |
+    v
 [소스 코딩 (Source Coding)]
-    │
-    ▼
+    |
+    v
 [무손실 압축 (Lossless Compression)]
-    │
-    ▼
+    |
+    v
 [손실 압축 (Lossy Compression)]
-    │
-    ▼
+    |
+    v
 [채널 코딩 (Channel Coding)]
 ```
 
@@ -217,7 +217,7 @@ D→∞: R → 0 (극단 손실)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> = 짐 최소 무게</strong>: 아무리 잘 개도 짐의 정보만큼의 무게는 가져가야 한다.
-2. **허프만 = 자주 쓰는 단어 줄임말**: "반갑습니다"→"반갑", "안녕하세요"→"안녕"처럼 자주 나오는 것에 짧은 코드.
+2. **허프만 = 자주 쓰는 단어 줄임말**: "반갑습니다"->"반갑", "안녕하세요"->"안녕"처럼 자주 나오는 것에 짧은 코드.
 3. <strong>손실 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> = 살짝 흐릿한 사진</strong>: 완벽한 원본 대신 눈에 덜 띄는 부분을 조금 희생해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 작게 만든다.
 
 ---
@@ -226,7 +226,7 @@ D→∞: R → 0 (극단 손실)
 
 **진행 상황**: 156 / 175
 
-← **이전**: [6. 채널 용량 (Channel Capacity) — 샤논 용량 공식](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)
-**다음**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/) →
+<- **이전**: [6. 채널 용량 (Channel Capacity) — 샤논 용량 공식](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)
+**다음**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/) ->
 
 ---

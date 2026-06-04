@@ -32,22 +32,22 @@ tags = ["studynote-ict-convergence"]
 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본은 절대 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올라가지 않는다. 정보는 발급자(Issuer)로부터 사용자(Holder)의 지갑으로 직접 들어간다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           DID (분산 신원 증명) 트러스트 트라이앵글 로직      │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   [ 발급자 (Issuer) ] ──────(VC 발급)─────▶ [ 사용자 (Holder) ]│
-│    (학교, 병원, 정부)                            (개인의 스마트폰 지갑)│
-│            │                                           │
-│            │ (공개키 등록)                 (VP 제출) │
-│            ▼                                           ▼
-│   [ 블록체인 (DID Registry) ] ◀──(DID 검증)── [ 검증자 (Verifier) ]│
-│    - 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록     (기업, 쇼핑몰)  │
-│                                                        │
-│ * 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로   │
-│   서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서        │
-│   학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다! │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           DID (분산 신원 증명) 트러스트 트라이앵글 로직      |
++--------------------------------------------------------+
+|                                                        |
+|   [ 발급자 (Issuer) ] ------(VC 발급)------> [ 사용자 (Holder) ]|
+|    (학교, 병원, 정부)                            (개인의 스마트폰 지갑)|
+|            |                                           |
+|            | (공개키 등록)                 (VP 제출) |
+|            v                                           v
+|   [ 블록체인 (DID Registry) ] <---(DID 검증)-- [ 검증자 (Verifier) ]|
+|    - 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록     (기업, 쇼핑몰)  |
+|                                                        |
+| * 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로   |
+|   서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서        |
+|   학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다! |
++--------------------------------------------------------+
 ```
 
 - <strong>VC (Verifiable Credential, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 크리덴셜)</strong>: 플라스틱 신분증의 디지털 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발급자의 전자 서명이 포함된 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꾸러미다.
@@ -109,21 +109,21 @@ DID와 SSI는 단순히 로그인 방식을 바꾸는 기술이 아니라, 인�
 
 ```text
 개인정보 유출 사고 빈발 및 거대 플랫폼의 데이터 독점 (Siloed & Federated ID)
-    │
-    ▼
+    |
+    v
 자기주권 신원(SSI, Self-Sovereign Identity) 철학 대두 (데이터 주권 회복)
-    │
-    ▼
-블록체인 인프라 성숙 ──▶ 위변조 없는 분산 원장 기술(DLT) 융합
-    │
-    ▼
+    |
+    v
+블록체인 인프라 성숙 ---> 위변조 없는 분산 원장 기술(DLT) 융합
+    |
+    v
 W3C 표준 DID (Decentralized Identifier) 및 VC 규격 국제 표준화 제정
-    │
-    ▼
+    |
+    v
 ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지털 국가 신분증(eID) 적용
 ```
 
-이 흐름도는 "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 상실 → 철학적 반성 → [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 하드웨어 기술 결합 → 글로벌 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준화 → 극강의 프라이버시 실현"으로 치닫는 디지털 신원 패러다임의 혁명을 보여준다.
+이 흐름도는 "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 상실 -> 철학적 반성 -> [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 하드웨어 기술 결합 -> 글로벌 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준화 -> 극강의 프라이버시 실현"으로 치닫는 디지털 신원 패러다임의 혁명을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지
 
 **진행 상황**: 51 / 552
 
-← **이전**: [SBT — 소울바운드 토큰 (Soulbound Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/)
-**다음**: [52. 탈중앙화 신원증명 (DID, Decentralized Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/) →
+<- **이전**: [SBT — 소울바운드 토큰 (Soulbound Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/)
+**다음**: [52. 탈중앙화 신원증명 (DID, Decentralized Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/) ->
 
 ---

@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [NCP]
-    │
-    ▼
+    |
+    v
 [PAP]
-    │
-    └──▶ [CHAP]
+    |
+    +---> [CHAP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> PAP <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>은 마치 비밀번호를 쓴 </strong>"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
@@ -47,21 +47,21 @@ PAP는 클라이언트가 능동적으로 자격 증명을 제시하는 방식(C
 2. <strong>Authenticate-Ack / <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">Nak</a> (응답)</strong>: Authenticator(서버)가 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 대조 후 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)) 메시지를 반환한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                     PAP 동작 방식 시퀀스                    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [클라이언트 (Peer)]                       [서버 (Authenticator)]│
- │           │                                         │       │
- │           │     1. Authenticate-Request (ID, PW)    │       │
- │           ├────────────────────────────────────────▶│       │
- │           │      (평문으로 전송됨 - Sniffing 위험)     │       │
- │           │                                         │       │
- │           │     2. Authenticate-Ack 또는 Nak          │       │
- │           │◀────────────────────────────────────────┤       │
- │           │                                         │       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                     PAP 동작 방식 시퀀스                    |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [클라이언트 (Peer)]                       [서버 (Authenticator)]|
+ |           |                                         |       |
+ |           |     1. Authenticate-Request (ID, PW)    |       |
+ |           +----------------------------------------->|       |
+ |           |      (평문으로 전송됨 - Sniffing 위험)     |       |
+ |           |                                         |       |
+ |           |     2. Authenticate-Ack 또는 Nak          |       |
+ |           |<-----------------------------------------+       |
+ |           |                                         |       |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 치명적인 취약점: Cleartext 전송
@@ -127,12 +127,12 @@ PAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 [선행 개념: NCP]
-    │
-    ▼
+    |
+    v
 [현재 개념: PAP]
-    │
-    ├──▶ [확장 A: CHAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: CHAP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP�
 
 **진행 상황**: 348 / 1120
 
-← **이전**: [226. NCP (Network Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/)
-**다음**: [228. CHAP (Challenge Handshake Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) →
+<- **이전**: [226. NCP (Network Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/)
+**다음**: [228. CHAP (Challenge Handshake Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) ->
 
 ---

@@ -26,18 +26,18 @@ DDR [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarc
 아래 그림은 SDR과 DDR이 같은 클럭 틱을 어떻게 다르게 활용하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                SDR과 DDR의 데이터 전송 방식 비교                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Clock      : ┌─┐   ┌─┐   ┌─┐   ┌─┐                                 │
-│              └─┘   └─┘   └─┘   └─┘                                 │
-│ Edge       :  ↑ ↓   ↑ ↓   ↑ ↓   ↑ ↓                               │
-│                                                                      │
-│ SDR Data   :  D0    -    D1    -    D2    -    D3    -             │
-│ DDR Data   :  D0   D1    D2   D3    D4   D5    D6   D7             │
-│                                                                      │
-│ 의미       : SDR은 상승 에지만 사용, DDR은 상승·하강 에지를 모두 사용 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                SDR과 DDR의 데이터 전송 방식 비교                    |
++----------------------------------------------------------------------+
+| Clock      : +-+   +-+   +-+   +-+                                 |
+|              +-+   +-+   +-+   +-+                                 |
+| Edge       :  ^ v   ^ v   ^ v   ^ v                               |
+|                                                                      |
+| SDR Data   :  D0    -    D1    -    D2    -    D3    -             |
+| DDR Data   :  D0   D1    D2   D3    D4   D5    D6   D7             |
+|                                                                      |
+| 의미       : SDR은 상승 에지만 사용, DDR은 상승·하강 에지를 모두 사용 |
++----------------------------------------------------------------------+
 ```
 
 핵심은 DDR이 "메모리를 두 배로 빠르게 만든 기술"이 아니라, 같은 클럭 이벤트를 더 촘촘하게 활용해 전송 밀도를 높인 기술이라는 점이다. 그래서 DDR을 이해할 때는 단순 주파수보다 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타이밍과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처 방식이 더 중요하다.
@@ -63,17 +63,17 @@ DDR의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 아래 그림은 내부 코어와 외부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 속도 차이를 프리페치가 어떻게 메우는지 압축해서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 DDR의 내부 코어와 외부 버스 연결 구조               │
-├──────────────────────────────────────────────────────────────────────┤
-│   메모리 셀 코어            프리페치 버퍼              I/O 버스      │
-│ ┌──────────────┐         ┌──────────────┐         ┌──────────────┐   │
-│ │ Cell Array   │ ─────▶  │ D0 D1 D2 D3  │ ─────▶  │ Edge마다 전송 │   │
-│ │ 느리지만 넓음 │         │ 묶음 적재     │         │ D0 D1 D2 D3   │   │
-│ └──────────────┘         └──────────────┘         └──────────────┘   │
-│        │                         │                         │          │
-│        └─ 내부 접근 지연 흡수 ───┴─ 여러 비트 선적 ────────┘          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 DDR의 내부 코어와 외부 버스 연결 구조               |
++----------------------------------------------------------------------+
+|   메모리 셀 코어            프리페치 버퍼              I/O 버스      |
+| +--------------+         +--------------+         +--------------+   |
+| | Cell Array   | ------>  | D0 D1 D2 D3  | ------>  | Edge마다 전송 |   |
+| | 느리지만 넓음 |         | 묶음 적재     |         | D0 D1 D2 D3   |   |
+| +--------------+         +--------------+         +--------------+   |
+|        |                         |                         |          |
+|        +- 내부 접근 지연 흡수 ---+- 여러 비트 선적 --------+          |
++----------------------------------------------------------------------+
 ```
 
 또 하나의 핵심은 소스 동기식 (Source-[Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 전송이다. 고속 DDR에서는 시스템 클럭만 믿고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받기 어렵기 때문에, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함께 DQS를 보내 수신 측이 샘플링 기준을 직접 맞춘다. 이 덕분에 MHz가 높아질수록 심해지는 스큐 (Skew)와 위상 오차를 줄일 수 있다. DDR4 이후에는 뱅크 그룹, 훈련 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)), 온다이 종단 (On-Die Termination) 같은 보조 기술까지 결합되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 무결성을 더 정교하게 다룬다.
@@ -153,28 +153,28 @@ DDR SDRAM의 가장 큰 효과는 범용 컴퓨팅 환경에서 비용 대비 [�
 
 ```text
 SDR SDRAM
-    │
-    ▼
+    |
+    v
 DDR SDRAM
-    │
-    ├─ 2n/4n/8n/16n 프리페치 확대
-    │
-    ├─ DQS 기반 고속 타이밍 정밀화
-    │
-    ├─ DDR3 → DDR4 → DDR5
-    │        (저전압 · 고속화 · 서브채널)
-    │
-    ├─ LPDDR
-    │   (저전력 · 모바일 최적화)
-    │
-    ├─ GDDR
-    │   (그래픽 대역폭 최적화)
-    │
-    ▼
+    |
+    +- 2n/4n/8n/16n 프리페치 확대
+    |
+    +- DQS 기반 고속 타이밍 정밀화
+    |
+    +- DDR3 -> DDR4 -> DDR5
+    |        (저전압 · 고속화 · 서브채널)
+    |
+    +- LPDDR
+    |   (저전력 · 모바일 최적화)
+    |
+    +- GDDR
+    |   (그래픽 대역폭 최적화)
+    |
+    v
 HBM · CXL 메모리 확장
 ```
 
-이 흐름은 "동기식 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) → 이중 에지 전송 → 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 강화 → 용도별 분화 → 차세대 확장"으로 이어지는 발전 방향을 보여준다.
+이 흐름은 "동기식 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) -> 이중 에지 전송 -> 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 강화 -> 용도별 분화 -> 차세대 확장"으로 이어지는 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ HBM · CXL 메모리 확장
 
 **진행 상황**: 253 / 803
 
-← **이전**: [252. SDRAM (Synchronous DRAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/)
-**다음**: [254. 메모리 인터리빙 (Memory Interleaving)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) →
+<- **이전**: [252. SDRAM (Synchronous DRAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/)
+**다음**: [254. 메모리 인터리빙 (Memory Interleaving)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) ->
 
 ---

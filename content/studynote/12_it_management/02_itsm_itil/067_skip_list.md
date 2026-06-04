@@ -29,9 +29,9 @@ tags = ["it_management"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-Level 3: ────●────────────●────
-Level 2: ─●────●────●────●────
-Level 1: ─●─●─●─●─●─●─●─●─●───
+Level 3: ----●------------●----
+Level 2: -●----●----●----●----
+Level 1: -●-●-●-●-●-●-●-●-●---
 ```
 
 | 요소 | 역할 |
@@ -102,11 +102,11 @@ Level 1: ─●─●─●─●─●─●─●─●─●───
 
 ```text
 Sorted List
-  ↓
+  v
 Skip List
-  ↓
+  v
 Multi-level Pointers
-  ↓
+  v
 Logarithmic Search
 ```
 
@@ -116,11 +116,11 @@ Logarithmic Search
 
 ```text
 Linked List
-  ↓
+  v
 Skip List
-  ↓
+  v
 Balanced Tree Alternative
-  ↓
+  v
 Ordered Map
 ```
 
@@ -138,7 +138,7 @@ Ordered Map
 
 **진행 상황**: 118 / 587
 
-← **이전**: [67. 서비스 운영 (Service Operation)](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)
-**다음**: [68. 지속적 서비스 개선 (CSI, Continual Service Improvement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) →
+<- **이전**: [67. 서비스 운영 (Service Operation)](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)
+**다음**: [68. 지속적 서비스 개선 (CSI, Continual Service Improvement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) ->
 
 ---

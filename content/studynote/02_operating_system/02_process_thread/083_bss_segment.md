@@ -23,10 +23,10 @@ BSS (Block Started by Symbol)는 프로그램의 정적 저장 영역 중 하나
 과거 어셈블리와 링크 단계에서는 "여기부터는 나중에 빈 공간을 잡아 달라"는 의사 명령이 필요했다. 그 개념이 현대의 `.bss`로 이어졌다. 즉, BSS는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 공간이 아니라 "이만큼의 빈 공간이 필요하다"는 약속이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 실행 파일: Text | Data | .bss size만 기록                   │
-│ 메모리   : Text | Data | BSS(0-filled) | Heap↑ | Stack↓    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 실행 파일: Text | Data | .bss size만 기록                   |
+| 메모리   : Text | Data | BSS(0-filled) | Heap^ | Stackv    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 빈 창고를 짓는 설계도에는 평수만 적고, 벽돌은 현장에서 쌓는 방식이다.
@@ -47,11 +47,11 @@ BSS는 컴파일러, 링커, 로더, [가상 메모리](/knowledge-base/studynot
 여기서 중요한 개념이 Zero-fill-on-demand와 [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))다. Zero-fill-on-demand는 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 0으로 칠하지 않고, 접근 순간에 0으로 채운 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 주는 방식이다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 읽기 전용으로 공유하던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순간에만 복제하는 기법인데, BSS의 첫 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에도 유사한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당 철학이 들어 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│ 파일에는 없음 → 가상 주소만 예약 → 첫 접근 시 0페이지 매핑     │
-├────────────────────────────────────────────────────────────────┤
-│ Disk ELF ─► Loader ─► Virtual BSS ─► Page Fault ─► Zero page  │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+| 파일에는 없음 -> 가상 주소만 예약 -> 첫 접근 시 0페이지 매핑     |
++----------------------------------------------------------------+
+| Disk ELF -► Loader -► Virtual BSS -► Page Fault -► Zero page  |
++----------------------------------------------------------------+
 ```
 
 예를 들어 `int arr[1000000];`처럼 큰 배열을 선언해도 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기는 거의 변하지 않는다. `nm` 명령으로 보면 해당 심볼은 `B` 타입으로 표시되는 경우가 많다. 이때 BSS는 용량을 아끼는 대신, 실제 접근 시점까지 물리 메모리를 미룬다는 점이 핵심이다.
@@ -116,17 +116,17 @@ BSS는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_sys
 
 ```text
 컴파일러가 .bss 분류
-    │
-    ▼
+    |
+    v
 링커가 크기만 기록
-    │
-    ▼
+    |
+    v
 로더가 가상 주소 예약
-    │
-    ▼
+    |
+    v
 Page Fault 시 0페이지 할당
-    │
-    ▼
+    |
+    v
 프로그램은 0으로 시작
 ```
 
@@ -142,7 +142,7 @@ Page Fault 시 0페이지 할당
 
 **진행 상황**: 83 / 800
 
-← **이전**: [82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)
-**다음**: [84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)](/knowledge-base/studynote/02_operating_system/02_process_thread/084_heap_segment/) →
+<- **이전**: [82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)
+**다음**: [84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)](/knowledge-base/studynote/02_operating_system/02_process_thread/084_heap_segment/) ->
 
 ---

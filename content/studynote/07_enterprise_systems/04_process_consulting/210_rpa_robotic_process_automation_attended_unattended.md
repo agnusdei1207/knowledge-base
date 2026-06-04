@@ -41,16 +41,16 @@ RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇�
 아래 그림은 Attended Bot과 Unattended Bot이 같은 플랫폼 위에서 다르게 배치되는 구조를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│                RPA 운영 구조: 중앙 통제와 실행 방식            │
-├────────────────────────────────────────────────────────────────┤
-│                 오케스트레이터 (Orchestrator)                 │
-│            ┌──────────────┴──────────────┐                    │
-│            ▼                             ▼                    │
-│  사용자 단말의 Attended Bot        서버/VM의 Unattended Bot      │
-│  - 사용자 트리거                  - 스케줄·이벤트 기반 실행    │
-│  - 사람 판단 후 이어받음          - 대량·야간·배치 업무 적합   │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                RPA 운영 구조: 중앙 통제와 실행 방식            |
++----------------------------------------------------------------+
+|                 오케스트레이터 (Orchestrator)                 |
+|            +--------------+--------------+                    |
+|            v                             v                    |
+|  사용자 단말의 Attended Bot        서버/VM의 Unattended Bot      |
+|  - 사용자 트리거                  - 스케줄·이벤트 기반 실행    |
+|  - 사람 판단 후 이어받음          - 대량·야간·배치 업무 적합   |
++----------------------------------------------------------------+
 ```
 
 핵심 원리는 세 가지다. 첫째, 화면 기반 자동화이므로 선택자 안정성과 예외 처리가 중요하다. 둘째, 업무 규칙이 명확할수록 자동화 성공률이 높다. 셋째, 봇 수가 늘어날수록 중앙 통제와 자격증명 관리가 필수다. 즉 RPA는 단순 매크로가 아니라 운영 체계를 함께 가져야 하는 자동화 플랫폼이다.
@@ -125,16 +125,16 @@ RPA를 적절히 적용하면 처리시간 단축, 입력 오류 감소, 야간 
 
 ```text
 수작업 화면 입력
-      │
-      ▼
+      |
+      v
 RPA (Robotic Process Automation)
-   ├─ Attended Bot
-   └─ Unattended Bot
-      │
-      ▼
+   +- Attended Bot
+   +- Unattended Bot
+      |
+      v
 오케스트레이터 기반 중앙 통제
-      │
-      ▼
+      |
+      v
 지능형 자동화 · 하이퍼오토메이션
 ```
 
@@ -152,7 +152,7 @@ RPA (Robotic Process Automation)
 
 **진행 상황**: 210 / 482
 
-← **이전**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/)
-**다음**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/) →
+<- **이전**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/)
+**다음**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/) ->
 
 ---

@@ -24,23 +24,23 @@ tags = ["studynote-design-supervision"]
 전통적 서버 기반 아키텍처에서는 항상 서버가 실행 중이어야 하므로 유휴 시간에도 비용이 발생한다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 코드가 실행될 때만 과금하는 이벤트 기반 실행 모델로, 비용 구조를 근본적으로 바꿔놓는다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         서버리스 실행 흐름                                    │
-├─────────────────────────────────────────────────────────────┤
-│  트리거 이벤트 발생                                          │
-│  (HTTP 요청, S3 업로드, Kafka 메시지, 스케줄)               │
-│       │                                                     │
-│       ▼                                                     │
-│  클라우드 플랫폼: 컨테이너 스핀업 (콜드 스타트: 수백ms~수초) │
-│       │                                                     │
-│       ▼                                                     │
-│  함수 코드 실행 (최대 15분, AWS Lambda 기준)                 │
-│       │                                                     │
-│       ▼                                                     │
-│  실행 완료 → 컨테이너 종료 (Scale-to-Zero)                  │
-│                                                             │
-│  과금: 실행 시간(ms) × 메모리 크기 × 호출 횟수              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         서버리스 실행 흐름                                    |
++-------------------------------------------------------------+
+|  트리거 이벤트 발생                                          |
+|  (HTTP 요청, S3 업로드, Kafka 메시지, 스케줄)               |
+|       |                                                     |
+|       v                                                     |
+|  클라우드 플랫폼: 컨테이너 스핀업 (콜드 스타트: 수백ms~수초) |
+|       |                                                     |
+|       v                                                     |
+|  함수 코드 실행 (최대 15분, AWS Lambda 기준)                 |
+|       |                                                     |
+|       v                                                     |
+|  실행 완료 -> 컨테이너 종료 (Scale-to-Zero)                  |
+|                                                             |
+|  과금: 실행 시간(ms) × 메모리 크기 × 호출 횟수              |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 택시 대신 우버(Uber)를 사용하는 것과 같다. 택시를 항상 대기시키면(서버 상시 운영) 유휴 시간에도 비용이 발생하지만, 필요할 때만 호출하면([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 탑승 시간만 비용을 낸다.
@@ -60,17 +60,17 @@ tags = ["studynote-design-supervision"]
 | 상태 관리 | 외부 스토리지 필수 | 내부·외부 모두 가능 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       서버리스 아키텍처 구성 예시 (AWS)                       │
-├─────────────────────────────────────────────────────────────┤
-│  API Gateway → Lambda (비즈니스 로직)                        │
-│                    │                                        │
-│              DynamoDB (상태 저장)                           │
-│                    │                                        │
-│              SNS/SQS → Lambda (비동기 처리)                 │
-│                    │                                        │
-│              S3 (파일 저장) → Lambda (이벤트 트리거)         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       서버리스 아키텍처 구성 예시 (AWS)                       |
++-------------------------------------------------------------+
+|  API Gateway -> Lambda (비즈니스 로직)                        |
+|                    |                                        |
+|              DynamoDB (상태 저장)                           |
+|                    |                                        |
+|              SNS/SQS -> Lambda (비동기 처리)                 |
+|                    |                                        |
+|              S3 (파일 저장) -> Lambda (이벤트 트리거)         |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전기 콘센트처럼 필요할 때만 플러그를 꽂으면 전기(컴퓨팅 자원)가 공급된다. 플러그를 빼면 전기 소비가 즉시 멈춘다. 발전소(클라우드)는 항상 준비되어 있지만 요금은 사용한 만큼만 낸다.
@@ -120,7 +120,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[클라우드 컴퓨팅 진화] → FaaS·서버리스] → [이벤트 기반 실행] → [자동 확장] → Wasm 기반 초경량 서버리스]
+[클라우드 컴퓨팅 진화] -> FaaS·서버리스] -> [이벤트 기반 실행] -> [자동 확장] -> Wasm 기반 초경량 서버리스]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -131,7 +131,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[서버 상시 운영 비용 문제] → PaaS] → [컨테이너·[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)] → FaaS·서버리스] → Wasm 초경량] → AI 추론 서버리스]
+[서버 상시 운영 비용 문제] -> PaaS] -> [컨테이너·[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)] -> FaaS·서버리스] -> Wasm 초경량] -> AI 추론 서버리스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 183 / 530
 
-← **이전**: [126. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/126_strangler_fig_pattern/)
-**다음**: [128. 마이크로 프론트엔드 (Micro Frontends)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/128_micro_frontends/) →
+<- **이전**: [126. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/126_strangler_fig_pattern/)
+**다음**: [128. 마이크로 프론트엔드 (Micro Frontends)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/128_micro_frontends/) ->
 
 ---

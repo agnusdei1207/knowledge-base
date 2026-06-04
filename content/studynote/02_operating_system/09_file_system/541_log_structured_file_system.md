@@ -31,31 +31,31 @@ tags = ["studynote-operating-system"]
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 3개를 동시에 동시다발적으로 고칠 때, 디스크 헤드 모터가 찢어지는 대신 LFS [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 어떻게 하나로 엮어버리는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "제자리 찾아갈 필요 없어! 그냥 막노동으로 끝에 이어 붙여 쏴!"    │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  ❌ [ 기존 일반 File System : 모터의 미친 랜덤 탐색 Random I/O 폭망 늪 ]         │
-  │     (유저 명령: A파일 고쳐, C파일 고쳐, i-node 메타정보 갱신해!)                 │
-  │       [헤드 모터] -> 징~ (1번 구역 이동 랙) A 덮어써!                            │
-  │       [헤드 모터] -> 지이잉~ (999번 구역 탐색 랙 터짐) C 덮어써!                 │
-  │       [헤드 모터] -> 지이이이잉~~ (25번 구역 메타블록 랙) i-node 변경!           │
-  │     => 총 디스크 이동시간 수백 밀리초 모터 화재 오버헤드 OOM 프리징!             │
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ LFS(Log-structured) : 순차 기차 압축 펀치 발사 (Append-only 스왑 빔) ]     │
-  │                                                                                  │
-  │     (유저 명령 접수) -> 전부 [ 메모리(캐시) Segment 공간에 모아 압축 타결 ]      │
-  │                                                                                  │
-  │     [[ 디스크 맨 마지막 꼬리 빈 공간 (로그 끝단 포인터 위치) 📌 ]]               │
-  │      - [모터 1번만 이동 부스트!] ──> 쾅! 쾅! 쾅! 연속해서 기차처럼 내리꽂음 록백!│
-  │                                                                                  │
-  │      (기록된 디스크 블록 형상)                                                   │
-  │      ...[옛날데이터]| [새 A 블록] | [새 C 블록] | [메타 블록 맵 i-node] -> (끝)  │
-  │      => 결과: 여러 곳에 흩어져야 할 수정 내용 파편을 그냥 1방에 일렬종대 1콤보로 │
-  │              찍어 굽기 완료! 탐색 랙 제로 $O(1)$ 초광속 쓰루풋 방패 발현 증명!   │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 "제자리 찾아갈 필요 없어! 그냥 막노동으로 끝에 이어 붙여 쏴!"    |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  ❌ [ 기존 일반 File System : 모터의 미친 랜덤 탐색 Random I/O 폭망 늪 ]         |
+  |     (유저 명령: A파일 고쳐, C파일 고쳐, i-node 메타정보 갱신해!)                 |
+  |       [헤드 모터] -> 징~ (1번 구역 이동 랙) A 덮어써!                            |
+  |       [헤드 모터] -> 지이잉~ (999번 구역 탐색 랙 터짐) C 덮어써!                 |
+  |       [헤드 모터] -> 지이이이잉~~ (25번 구역 메타블록 랙) i-node 변경!           |
+  |     => 총 디스크 이동시간 수백 밀리초 모터 화재 오버헤드 OOM 프리징!             |
+  |                                                                                  |
+  |  =========================v===================================                   |
+  |                                                                                  |
+  |  ✅ [ LFS(Log-structured) : 순차 기차 압축 펀치 발사 (Append-only 스왑 빔) ]     |
+  |                                                                                  |
+  |     (유저 명령 접수) -> 전부 [ 메모리(캐시) Segment 공간에 모아 압축 타결 ]      |
+  |                                                                                  |
+  |     [[ 디스크 맨 마지막 꼬리 빈 공간 (로그 끝단 포인터 위치) 📌 ]]               |
+  |      - [모터 1번만 이동 부스트!] --> 쾅! 쾅! 쾅! 연속해서 기차처럼 내리꽂음 록백!|
+  |                                                                                  |
+  |      (기록된 디스크 블록 형상)                                                   |
+  |      ...[옛날데이터]| [새 A 블록] | [새 C 블록] | [메타 블록 맵 i-node] -> (끝)  |
+  |      => 결과: 여러 곳에 흩어져야 할 수정 내용 파편을 그냥 1방에 일렬종대 1콤보로 |
+  |              찍어 굽기 완료! 탐색 랙 제로 $O(1)$ 초광속 쓰루풋 방패 발현 증명!   |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 구형 체제는 `Update-in-place(덮어쓰기 정착)` 패러다임이라 파편화된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 제자리에서 고치다 모터 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 시간의 90%를 다 갉아먹는 배보다 배꼽이 큰 오버헤드 악취를 풍겼다.
@@ -137,12 +137,12 @@ LFS (Log-structured [File](/knowledge-base/studynote/02_operating_system/09_file
 
 ```text
 [메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영)]
-    │
-    ▼
+    |
+    v
 [LFS (Log-structured File System)]
-    │
-    ├──▶ [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
-    └──▶ [NFS (Network File System)]
+    |
+    +---> [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
+    +---> [NFS (Network File System)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -159,7 +159,7 @@ LFS (Log-structured [File](/knowledge-base/studynote/02_operating_system/09_file
 
 **진행 상황**: 541 / 800
 
-← **이전**: [540. 메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling](/knowledge-base/studynote/02_operating_system/09_file_system/540_journaling_modes/)
-**다음**: [542. COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs) - 스냅샷 및 롤백 기능 내장](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) →
+<- **이전**: [540. 메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling](/knowledge-base/studynote/02_operating_system/09_file_system/540_journaling_modes/)
+**다음**: [542. COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs) - 스냅샷 및 롤백 기능 내장](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ->
 
 ---

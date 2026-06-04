@@ -30,22 +30,22 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│              SQL 인젝션 공격 메커니즘과 방어                         │
-├──────────────────────────────────────────────────────────────────┤
-│  취약한 코드 (문자열 연결):                                          │
-│  query = "SELECT * FROM users WHERE id = '" + user_input + "'"  │
-│                                                                  │
-│  공격 입력: 1' OR '1'='1                                           │
-│  실행 쿼리: SELECT * FROM users WHERE id = '1' OR '1'='1'        │
-│  결과: 모든 사용자 레코드 반환 (인증 우회!)                           │
-│                                                                  │
-│  Prepared Statement (안전):                                       │
-│  query = "SELECT * FROM users WHERE id = ?"                      │
-│  stmt.setString(1, user_input)  ← 데이터로만 처리, 구조 변조 불가   │
-│                                                                  │
-│  1' OR '1'='1 입력 시: 리터럴 문자열로 처리 → 결과 없음 (안전)       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              SQL 인젝션 공격 메커니즘과 방어                         |
++------------------------------------------------------------------+
+|  취약한 코드 (문자열 연결):                                          |
+|  query = "SELECT * FROM users WHERE id = '" + user_input + "'"  |
+|                                                                  |
+|  공격 입력: 1' OR '1'='1                                           |
+|  실행 쿼리: SELECT * FROM users WHERE id = '1' OR '1'='1'        |
+|  결과: 모든 사용자 레코드 반환 (인증 우회!)                           |
+|                                                                  |
+|  Prepared Statement (안전):                                       |
+|  query = "SELECT * FROM users WHERE id = ?"                      |
+|  stmt.setString(1, user_input)  <- 데이터로만 처리, 구조 변조 불가   |
+|                                                                  |
+|  1' OR '1'='1 입력 시: 리터럴 문자열로 처리 -> 결과 없음 (안전)       |
++------------------------------------------------------------------+
 ```
 
 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 유형      | 방법                             | 피해                           |
@@ -122,17 +122,17 @@ Prepared Statement 적용만으로도 SQL [인젝션](/knowledge-base/studynote/
 
 ```
 문자열 연결 SQL 구성 (취약 패턴)
-    │
-    ▼
+    |
+    v
 SQL 인젝션 공격 (OWASP Top 1~3위)
-    │
-    ▼
+    |
+    v
 Prepared Statement / ORM (1차 방어)
-    │
-    ▼
+    |
+    v
 입력 검증 + WAF + 최소 권한 (다층 방어)
-    │
-    ▼
+    |
+    v
 SAST/DAST 자동화 보안 테스트 (DevSecOps)
 ```
 
@@ -148,7 +148,7 @@ SAST/DAST 자동화 보안 테스트 (DevSecOps)
 
 **진행 상황**: 318 / 482
 
-← **이전**: [317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/317_tde_vs_application_encryption/)
-**다음**: [319. Apache Airflow DAG 파이프라인 오케스트레이션](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/319_airflow_dag_pipeline/) →
+<- **이전**: [317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/317_tde_vs_application_encryption/)
+**다음**: [319. Apache Airflow DAG 파이프라인 오케스트레이션](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/319_airflow_dag_pipeline/) ->
 
 ---

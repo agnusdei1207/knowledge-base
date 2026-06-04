@@ -19,16 +19,16 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│          리엔지니어링 Horseshoe 모델                  │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  기존 시스템 → [역공학] → 설계 복원 → [재구조화]       │
-│                                ↓                     │
-│  새 시스템  ← [순공학] ← 개선 설계 ←─────────────     │
-│                                                       │
-│  좌측(역공학): 이해 단계   우측(순공학): 구현 단계     │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|          리엔지니어링 Horseshoe 모델                  |
++------------------------------------------------------+
+|                                                       |
+|  기존 시스템 -> [역공학] -> 설계 복원 -> [재구조화]       |
+|                                v                     |
+|  새 시스템  <- [순공학] <- 개선 설계 <--------------     |
+|                                                       |
+|  좌측(역공학): 이해 단계   우측(순공학): 구현 단계     |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 리엔지니어링은 낡은 집을 리모델링하는 것이다. 집을 허물고 새로 짓는 대신(재개발), 기초(비즈니스 로직)는 유지하면서 내부 구조·배관·전기를 현대화한다.
@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ### [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/))
 
 ```text
-기존 레거시 시스템 → 새 마이크로서비스가 기능별로 교체
+기존 레거시 시스템 -> 새 마이크로서비스가 기능별로 교체
                       점진적으로 레거시 기능을 래핑/대체
 
 단계:
@@ -78,14 +78,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 레거시 COBOL → Java 마이그레이션
-- [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)으로 COBOL 비즈니스 로직 추출 → [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 다이어그램 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
+### 레거시 COBOL -> Java 마이그레이션
+- [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)으로 COBOL 비즈니스 로직 추출 -> [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 다이어그램 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 - 자동화 도구(Micro Focus, IBM Rational) 활용.
-- 점진적 마이그레이션: 모듈별 Java 재구현 → 스트랭글러 패턴 적용.
+- 점진적 마이그레이션: 모듈별 Java 재구현 -> 스트랭글러 패턴 적용.
 
 ### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지원 리엔지니어링
 - GitHub Copilot: 레거시 코드 설명 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 현대 언어로 변환 제안.
-- [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/): COBOL → Java, C → Python 자동 번역 (90%+ 정확도).
+- [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/): COBOL -> Java, C -> Python 자동 번역 (90%+ 정확도).
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 마이그레이션은 자동 번역기다. 옛날 언어(COBOL)로 쓰인 소설을 현대 언어(Java)로 자동 번역하되, 내용(비즈니스 로직)은 그대로 유지한다.
 
@@ -119,17 +119,17 @@ GenAI 기반 코드 마이그레이션 도구(Amazon Q, IBM WCA)는 대규모 �
 
 ```text
 [레거시 시스템 — 기술 부채 누적, 유지보수 어려움]
-    │
-    ▼
+    |
+    v
 [역공학 — 코드에서 설계·요구사항 추출]
-    │
-    ▼
+    |
+    v
 [재구조화/마이그레이션 — 현대 언어·아키텍처로 전환]
-    │
-    ▼
+    |
+    v
 [스트랭글러 피그 — 점진적 마이크로서비스 교체]
-    │
-    ▼
+    |
+    v
 [AI 리엔지니어링 — LLM 기반 자동 코드 변환]
 ```
 
@@ -145,7 +145,7 @@ GenAI 기반 코드 마이그레이션 도구(Amazon Q, IBM WCA)는 대규모 �
 
 **진행 상황**: 28 / 973
 
-← **이전**: [27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)
-**다음**: [29. 역공학 (Reverse 엔진ering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) →
+<- **이전**: [27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)
+**다음**: [29. 역공학 (Reverse 엔진ering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) ->
 
 ---

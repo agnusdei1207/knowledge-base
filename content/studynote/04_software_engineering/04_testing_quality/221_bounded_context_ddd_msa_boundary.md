@@ -27,16 +27,16 @@ tags = ["studynote-software-engineering"]
 다음은 바운디드 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) (Bounded C의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  바운디드 컨텍스트 (Bounded C                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  바운디드 컨텍스트 (Bounded C                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 바운디드 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) (Bounded C가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -135,21 +135,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 바운디드 컨텍스트 (Bounded Context) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 221 / 973
 
-← **이전**: [220. 유비쿼터스 언어 (Ubiquitous Language) - 비즈니스와 기술의 공통 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)
-**다음**: [222. 애그리게이트 (Aggregate) - 데이터 변경의 단위가 되는 객체 묶음](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) →
+<- **이전**: [220. 유비쿼터스 언어 (Ubiquitous Language) - 비즈니스와 기술의 공통 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)
+**다음**: [222. 애그리게이트 (Aggregate) - 데이터 변경의 단위가 되는 객체 묶음](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ->
 
 ---

@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 유전체 분석에서 환자 1만 명의 SNP(단일 염기 다형성) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 50만 차원이라 가정하자. 이 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에 쓰면 계산 불가능하고, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)도 불가하다. PCA는 이 50만 차원에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변동이 가장 큰 방향" 순서로 새로운 축(주성분)을 잡아, 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)개 주성분만으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 설명하도록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PCA는 "그림자 투영기"다. 3D 물체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 가장 정보가 많이 담기는 방향에서 2D 그림자로 투영한다. 물체를 옆에서 보면 넓은 그림자(높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), 앞에서 보면 좁은 그림자(낮은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 생긴다. PCA는 가장 넓은 그림자가 나오는 방향을 자동으로 찾는다.
@@ -37,22 +37,22 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              PCA 처리 파이프라인                         │
-├─────────────────────────────────────────────────────────┤
-│  1. 데이터 중심화: X_c = X - mean(X)                   │
-│                                                         │
-│  2. 공분산 행렬:   Σ = (1/n) · X_cᵀ · X_c            │
-│     (d×d 대칭 행렬, d = 원본 차원 수)                 │
-│                                                         │
-│  3. 고유값 분해:   Σ = V · Λ · Vᵀ                    │
-│     V = [v₁, v₂, ..., vd]  (고유벡터 = 주성분 방향)  │
-│     Λ = diag(λ₁, λ₂, ..., λd) (고유값, λ₁≥λ₂≥...)   │
-│                                                         │
-│  4. k 선택:  누적 설명 분산 = Σλᵢ/Σλⱼ ≥ 95%         │
-│                                                         │
-│  5. 투영:    Z = X_c · Vₖ  (n×k 저차원 데이터)        │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              PCA 처리 파이프라인                         |
++---------------------------------------------------------+
+|  1. 데이터 중심화: X_c = X - mean(X)                   |
+|                                                         |
+|  2. 공분산 행렬:   Σ = (1/n) · X_cᵀ · X_c            |
+|     (d×d 대칭 행렬, d = 원본 차원 수)                 |
+|                                                         |
+|  3. 고유값 분해:   Σ = V · Λ · Vᵀ                    |
+|     V = [v₁, v₂, ..., vd]  (고유벡터 = 주성분 방향)  |
+|     Λ = diag(λ₁, λ₂, ..., λd) (고유값, λ₁≥λ₂≥...)   |
+|                                                         |
+|  4. k 선택:  누적 설명 분산 = Σλᵢ/Σλⱼ ≥ 95%         |
+|                                                         |
+|  5. 투영:    Z = X_c · Vₖ  (n×k 저차원 데이터)        |
++---------------------------------------------------------+
 ```
 
 | 항목 | 수식 | 의미 |
@@ -90,7 +90,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-PCA는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 전처리 단계로 차원의 저주를 해소하고, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)(2D/3D 산점도), 노이즈 제거, 계산 효율화를 동시에 달성하는 만능 도구다. 기술사 시험에서는 공분산 행렬 → [고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/) → 주성분 선택(Scree Plot, 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 95%) → 투영의 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 = 정보 보존 최대화"라는 핵심 원리를 서술하면 완벽한 답안이 된다.
+PCA는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 전처리 단계로 차원의 저주를 해소하고, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)(2D/3D 산점도), 노이즈 제거, 계산 효율화를 동시에 달성하는 만능 도구다. 기술사 시험에서는 공분산 행렬 -> [고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/) -> 주성분 선택(Scree Plot, 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 95%) -> 투영의 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 = 정보 보존 최대화"라는 핵심 원리를 서술하면 완벽한 답안이 된다.
 
 - **📢 섹션 요약 비유**: PCA는 "사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이다. JPEG [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 이미지의 핵심 정보는 유지하고 세밀한 노이즈를 버리듯, PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주요 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방향(핵심 정보)만 남기고 노이즈(작은 고유값 방향)를 버린다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높을수록 세부 정보는 줄지만 저장 공간은 획기적으로 줄어든다.
 
@@ -108,7 +108,7 @@ PCA는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_lea
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [PCA (Principal Component Analysis)] → [최적화·운영 자동화]
+[데이터 전처리] -> [PCA (Principal Component Analysis)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -123,7 +123,7 @@ PCA는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_lea
 
 **진행 상황**: 354 / 420
 
-← **이전**: [353. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/)
-**다음**: [355. 랜덤 포레스트 변수 중요도 (Feature Importance)](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/) →
+<- **이전**: [353. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/)
+**다음**: [355. 랜덤 포레스트 변수 중요도 (Feature Importance)](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/) ->
 
 ---

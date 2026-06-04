@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 KPTI가 도입되기 전과 후에 사용자 모드에서 보이는 주소 지도가 어떻게 달라지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ User-mode address view before and after KPTI                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Before KPTI                                                               │
-│   user pages + full kernel mapping (supervisor-only)                      │
-│                                                                            │
-│ After KPTI                                                                │
-│   user pages + tiny entry trampoline only                                 │
-│                                                                            │
-│ kernel entry -> switch to full kernel page table                          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| User-mode address view before and after KPTI                              |
++----------------------------------------------------------------------------+
+| Before KPTI                                                               |
+|   user pages + full kernel mapping (supervisor-only)                      |
+|                                                                            |
+| After KPTI                                                                |
+|   user pages + tiny entry trampoline only                                 |
+|                                                                            |
+| kernel entry -> switch to full kernel page table                          |
++----------------------------------------------------------------------------+
 ```
 
 KPTI의 핵심은 단순히 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 숨기는 것이 아니다. 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 거의 보이지 않게 만들어, 투기 실행이 잘못 달려 나가더라도 밟을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 자체를 크게 줄인다. 그래서 KPTI는 "권한 검사 강화"라기보다 <strong>가시성 자체를 줄이는 구조적 격리</strong>로 이해하는 편이 정확하다.
@@ -62,23 +62,23 @@ KPTI는 보통 프로세스마다 두 종류의 [페이지 테이블](/knowledge
 이 그림은 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어갔다가 다시 나오는 KPTI의 전환 흐름을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ KPTI entry / exit flow                                                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User mode on user page table                                               │
-│          │                                                                 │
-│          ├─ syscall / interrupt / exception                                │
-│          ▼                                                                 │
-│ minimal trampoline mapping                                                 │
-│          │                                                                 │
-│          ├─ switch CR3 to kernel page table                                │
-│          ▼                                                                 │
-│ full kernel handling                                                       │
-│          │                                                                 │
-│          ├─ switch CR3 back to user page table                             │
-│          ▼                                                                 │
-│ return to user mode                                                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| KPTI entry / exit flow                                                    |
++----------------------------------------------------------------------------+
+| User mode on user page table                                               |
+|          |                                                                 |
+|          +- syscall / interrupt / exception                                |
+|          v                                                                 |
+| minimal trampoline mapping                                                 |
+|          |                                                                 |
+|          +- switch CR3 to kernel page table                                |
+|          v                                                                 |
+| full kernel handling                                                       |
+|          |                                                                 |
+|          +- switch CR3 back to user page table                             |
+|          v                                                                 |
+| return to user mode                                                        |
++----------------------------------------------------------------------------+
 ```
 
 중요한 것은 사용자 모드용 테이블이 완전히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 무관한 빈 껍데기가 아니라는 점이다. 실제 진입을 위해 필요한 최소한의 코드와 데이터는 남아 있어야 한다. 따라서 KPTI는 "완전 분리"라기보다 <strong>사용자 모드 노출면을 극단적으로 줄인 이중 지도 설계</strong>라고 이해하는 것이 현실적이다.
@@ -159,17 +159,17 @@ KPTI의 가장 큰 효과는 [커널](/knowledge-base/studynote/02_operating_sys
 
 ```text
 항상 매핑된 kernel/user 공존 모델
-                │
-                ▼
+                |
+                v
 Meltdown 발견
-                │
-                ▼
+                |
+                v
 KPTI 도입
-                │
-                ▼
+                |
+                v
 PCID 기반 TLB 비용 완화
-                │
-                ▼
+                |
+                v
 하드웨어 수정 + 최소 노출 kernel mapping
 ```
 
@@ -187,7 +187,7 @@ PCID 기반 TLB 비용 완화
 
 **진행 상황**: 578 / 803
 
-← **이전**: [577. 분기 목표 주입 (Branch Target Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/577_branch_target_injection/)
-**다음**: [579. 간접 분기 추측 제어 (IBPB, Indirect Branch Predictor Barrier)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/) →
+<- **이전**: [577. 분기 목표 주입 (Branch Target Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/577_branch_target_injection/)
+**다음**: [579. 간접 분기 추측 제어 (IBPB, Indirect Branch Predictor Barrier)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/) ->
 
 ---

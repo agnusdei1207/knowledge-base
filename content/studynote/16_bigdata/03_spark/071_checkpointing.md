@@ -43,18 +43,18 @@ tags = ["studynote-bigdata"]
 
 ```
 체크포인팅 전:
-  Input ─→ T1 ─→ T2 ─→ T3 ─→ T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
+  Input --> T1 --> T2 --> T3 --> T4 --> T5 --> T6 --> T7 --> Output
   (Lineage: 7단계 변환 기억)
 
-  장애 발생 (T6 파티션 유실) → T1~T6 전체 재연산 필요!
+  장애 발생 (T6 파티션 유실) -> T1~T6 전체 재연산 필요!
 
 체크포인팅 후:
-  Input ─→ T1 ─→ T2 ─→ T3 ─→ [체크포인트: HDFS 저장]
-                                   ↓
-                              T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
+  Input --> T1 --> T2 --> T3 --> [체크포인트: HDFS 저장]
+                                   v
+                              T4 --> T5 --> T6 --> T7 --> Output
   (T4 이후 Lineage만 기억)
 
-  장애 발생 (T6 파티션 유실) → HDFS에서 T3 체크포인트 로드 → T4~T6만 재연산!
+  장애 발생 (T6 파티션 유실) -> HDFS에서 T3 체크포인트 로드 -> T4~T6만 재연산!
 ```
 
 ### 2. [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 체크포인팅 사용법
@@ -95,7 +95,7 @@ query = df.writeStream \
 
 | 유형 | 저장 위치 | 리니지 단절 | 사용 대상 |
 |:---|:---|:---|:---|
-| Reliable Checkpoint | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 (내구성↑) | 완전 단절 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/), [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) |
+| Reliable Checkpoint | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 (내구성^) | 완전 단절 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/), [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) |
 | Local Checkpoint | Executor 로컬 디스크 | 부분 단절 | 빠르지만 Executor 장애 시 유실 |
 | Streaming Checkpoint | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 | 상태 저장 | [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) |
 
@@ -196,17 +196,17 @@ rdd.count()  # persist된 데이터를 HDFS에 쓰기 (재연산 불필요)
 
 ```text
 [Spark RDD 리니지 (Lineage) — 변환 이력 그래프 축적]
-    │
-    ▼
+    |
+    v
 [체크포인팅 (Checkpointing) — HDFS에 RDD 물리 저장, 리니지 절단]
-    │
-    ▼
+    |
+    v
 [스트리밍 체크포인트 — 오프셋·상태(State) 주기적 영속화]
-    │
-    ▼
+    |
+    v
 [WAL (Write-Ahead Log) — 장애 복구 전 로그 선기록]
-    │
-    ▼
+    |
+    v
 [장애 복구 (Fault Recovery) — 체크포인트 지점에서 재연산 최소화]
 ```
 Spark의 리니지가 길어질수록 재연산 비용이 폭발하므로, 체크포인팅으로 중간 상태를 영속화해 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 재연산 범위를 최소화한다.
@@ -221,7 +221,7 @@ Spark의 리니지가 길어질수록 재연산 비용이 폭발하므로, 체�
 
 **진행 상황**: 71 / 262
 
-← **이전**: [19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/)
-**다음**: [21. Spark History Server — 완료 작업 이력 조회](/knowledge-base/studynote/16_bigdata/03_spark/072_spark_history_server/) →
+<- **이전**: [19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/)
+**다음**: [21. Spark History Server — 완료 작업 이력 조회](/knowledge-base/studynote/16_bigdata/03_spark/072_spark_history_server/) ->
 
 ---

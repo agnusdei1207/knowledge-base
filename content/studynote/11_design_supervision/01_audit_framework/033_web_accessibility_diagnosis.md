@@ -121,8 +121,8 @@ tags = ["studynote-design"]
 ### 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)마크 (WA)
 
 ```
-신청 → 서류 검토 → 전문가 진단 (자동+수동) → 보완
-     → 최종 심사 → 인증마크 부여 (유효 1년)
+신청 -> 서류 검토 -> 전문가 진단 (자동+수동) -> 보완
+     -> 최종 심사 -> 인증마크 부여 (유효 1년)
 ```
 
 ### [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -143,19 +143,19 @@ tags = ["studynote-design"]
 
 ```
 웹 접근성 진단 (Web Accessibility Diagnosis)
-├── 국제 표준
-│   ├── WCAG 2.1 (W3C)
-│   └── POUR 4대 원칙
-├── 국내 기준
-│   ├── KWCAG 2.1
-│   └── 웹 접근성 인증마크 (WA)
-├── 자동화 도구
-│   ├── axe DevTools
-│   ├── WAVE
-│   └── Lighthouse
-└── 수동 진단
-    ├── 스크린 리더 (NVDA·JAWS·VoiceOver)
-    └── 키보드 네비게이션 테스트
++-- 국제 표준
+|   +-- WCAG 2.1 (W3C)
+|   +-- POUR 4대 원칙
++-- 국내 기준
+|   +-- KWCAG 2.1
+|   +-- 웹 접근성 인증마크 (WA)
++-- 자동화 도구
+|   +-- axe DevTools
+|   +-- WAVE
+|   +-- Lighthouse
++-- 수동 진단
+    +-- 스크린 리더 (NVDA·JAWS·VoiceOver)
+    +-- 키보드 네비게이션 테스트
 ```
 
 ---
@@ -163,24 +163,24 @@ tags = ["studynote-design"]
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              웹 접근성 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1999년       │ WCAG 1.0 (W3C)    │ 최초 웹 접근성 지침          │
-│ 2008년       │ WCAG 2.0          │ POUR 원칙 체계화              │
-│ 2015년       │ KWCAG 2.1 (한국)  │ 국내 법적 의무화 기준         │
-│ 2018년       │ WCAG 2.1          │ 모바일·인지 장애 지침 추가   │
-│ 2021년       │ 장애인차별금지법  │ 민간까지 접근성 의무 확대     │
-│ 2023년       │ WCAG 2.2          │ Focus 가시성·터치 타겟 강화  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              웹 접근성 발전 흐름                                 |
++--------------+--------------------+-----------------------------+
+| 1999년       | WCAG 1.0 (W3C)    | 최초 웹 접근성 지침          |
+| 2008년       | WCAG 2.0          | POUR 원칙 체계화              |
+| 2015년       | KWCAG 2.1 (한국)  | 국내 법적 의무화 기준         |
+| 2018년       | WCAG 2.1          | 모바일·인지 장애 지침 추가   |
+| 2021년       | 장애인차별금지법  | 민간까지 접근성 의무 확대     |
+| 2023년       | WCAG 2.2          | Focus 가시성·터치 타겟 강화  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-POUR 원칙 → WCAG 2.1 → KWCAG 2.1 → WA 인증
-    ↓           ↓            ↓           ↓
+POUR 원칙 -> WCAG 2.1 -> KWCAG 2.1 -> WA 인증
+    v           v            v           v
 인지/운용   A/AA/AAA     국내 법적    연간 갱신
   이해/견고  적합수준     의무 기준
-    ↓
-자동화(axe) + 수동(SR) → CI/CD 통합 → 지속적 접근성
+    v
+자동화(axe) + 수동(SR) -> CI/CD 통합 -> 지속적 접근성
 ```
 
 ---
@@ -197,7 +197,7 @@ POUR 원칙 → WCAG 2.1 → KWCAG 2.1 → WA 인증
 
 **진행 상황**: 43 / 530
 
-← **이전**: [33. 기능점수 검증 (Function Point Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/033_function_point_verification/)
-**다음**: [감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_audit_quality_management/) →
+<- **이전**: [33. 기능점수 검증 (Function Point Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/033_function_point_verification/)
+**다음**: [감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_audit_quality_management/) ->
 
 ---

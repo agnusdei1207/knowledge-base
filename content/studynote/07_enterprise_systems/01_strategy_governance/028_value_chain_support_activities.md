@@ -19,22 +19,22 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│               포터 가치 사슬 (Porter Value Chain)        │
-├──────────────────────────────────────────────────────────┤
-│ 지원 활동:                                               │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 기업 인프라 (Finance, Legal, Planning)              │ │
-│ ├─────────────────────────────────────────────────────┤ │
-│ │ 인적 자원 관리 (HRM: Recruitment, Training)        │ │
-│ ├─────────────────────────────────────────────────────┤ │
-│ │ 기술 개발 (R&D, IT, 공정 혁신)                     │ │
-│ ├─────────────────────────────────────────────────────┤ │
-│ │ 조달 관리 (Procurement: 원자재·설비 구매)           │ │
-│ └─────────────────────────────────────────────────────┘ │
-│           ↓ 지원 활동이 아래 본원 활동을 지원 ↓          │
-│ [입고물류 → 운영 → 출고물류 → 마케팅 → 서비스]         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               포터 가치 사슬 (Porter Value Chain)        |
++----------------------------------------------------------+
+| 지원 활동:                                               |
+| +-----------------------------------------------------+ |
+| | 기업 인프라 (Finance, Legal, Planning)              | |
+| +-----------------------------------------------------+ |
+| | 인적 자원 관리 (HRM: Recruitment, Training)        | |
+| +-----------------------------------------------------+ |
+| | 기술 개발 (R&D, IT, 공정 혁신)                     | |
+| +-----------------------------------------------------+ |
+| | 조달 관리 (Procurement: 원자재·설비 구매)           | |
+| +-----------------------------------------------------+ |
+|           v 지원 활동이 아래 본원 활동을 지원 v          |
+| [입고물류 -> 운영 -> 출고물류 -> 마케팅 -> 서비스]         |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 지원 활동은 무대 뒤의 스태프다. 배우(본원 활동)가 무대에서 빛나려면 조명팀(인프라), 의상팀(조달), 연출팀(기술 개발), 배우 코디(HRM)가 완벽히 지원해야 한다.
@@ -56,11 +56,11 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 전통 지원 활동          DX 혁신
-─────────────────────────────────────────
-기업 인프라 → 클라우드 ERP (SAP S/4HANA)
-HRM        → AI 채용 (HireVue) + 피플 어낼리틱스
-기술 개발  → DevOps + AI/ML 플랫폼
-조달       → e-Procurement + 공급망 AI (Coupa, Ariba)
+-----------------------------------------
+기업 인프라 -> 클라우드 ERP (SAP S/4HANA)
+HRM        -> AI 채용 (HireVue) + 피플 어낼리틱스
+기술 개발  -> DevOps + AI/ML 플랫폼
+조달       -> e-Procurement + 공급망 AI (Coupa, Ariba)
 ```
 
 - **📢 섹션 요약 비유**: [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 지원 활동 혁신은 공장 내부를 자동화하는 것이다. 공장 바닥(본원 활동)에서 제품을 만들지만, 자동화된 부품 조달(조달), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설비 관리(인프라), 스마트 교육 시스템(HRM)이 효율을 결정한다.
@@ -119,17 +119,17 @@ HRM        → AI 채용 (HireVue) + 피플 어낼리틱스
 
 ```text
 [포터 가치 사슬 — 지원 활동 4가지 정의]
-    │
-    ▼
+    |
+    v
 [ERP 도입 — 기업 인프라 통합 자동화]
-    │
-    ▼
+    |
+    v
 [HR 어낼리틱스 — 데이터 기반 인적 자원 관리]
-    │
-    ▼
+    |
+    v
 [e-Procurement + AI — 조달 자동화·최적화]
-    │
-    ▼
+    |
+    v
 [AI/데이터 인프라 — 21세기 핵심 지원 활동]
 ```
 
@@ -145,7 +145,7 @@ HRM        → AI 채용 (HireVue) + 피플 어낼리틱스
 
 **진행 상황**: 28 / 482
 
-← **이전**: [27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/027_value_chain_primary_activities/)
-**다음**: [29. 포터의 5 Forces 모델 (Porter Five Forces)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/029_five_forces_model/) →
+<- **이전**: [27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/027_value_chain_primary_activities/)
+**다음**: [29. 포터의 5 Forces 모델 (Porter Five Forces)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/029_five_forces_model/) ->
 
 ---

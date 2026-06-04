@@ -25,16 +25,16 @@ tags = ["studynote-network"]
 
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 매체의 최상위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 각 매체가 활용하는 전자기파 스펙트럼의 영역을 직관적으로 보여준다.
 ```text
-┌─────────────────────────────────────────────────────────┐
-│               Transmission Media (전송 매체)            │
-├────────────────────────────┬────────────────────────────┤
-│   Guided Media (유도 매체) │ Unguided Media (비유도)    │
-│   "신호를 물리적으로 구속" │ "신호를 공간으로 방사"     │
-├─────────┬────────┬─────────┼────────┬─────────┬────────┤
-│ Twisted │Coaxial │ Optical │ Radio  │Micro-   │Infra-  │
-│  Pair   │ Cable  │  Fiber  │ Waves  │ wave    │ red    │
-│(전기신호│(전기신호│ (빛신호)│(다방향)│(직진성) │(가시선)│
-└─────────┴────────┴─────────┴────────┴─────────┴────────┘
++---------------------------------------------------------+
+|               Transmission Media (전송 매체)            |
++----------------------------+----------------------------+
+|   Guided Media (유도 매체) | Unguided Media (비유도)    |
+|   "신호를 물리적으로 구속" | "신호를 공간으로 방사"     |
++---------+--------+---------+--------+---------+--------+
+| Twisted |Coaxial | Optical | Radio  |Micro-   |Infra-  |
+|  Pair   | Cable  |  Fiber  | Waves  | wave    | red    |
+|(전기신호|(전기신호| (빛신호)|(다방향)|(직진성) |(가시선)|
++---------+--------+---------+--------+---------+--------+
 ```
 이 그림의 핵심은 매체의 물리적 형태(구리선, 유리, 대기)에 따라 전달할 수 있는 전자기파의 주파수 대역이 확연히 달라진다는 점이다. 유도 매체는 매질 내부로 에너지를 집중시켜 장거리, 고속 전송에 유리하지만 설치 공간의 제약을 받는다. 반면 비유도 매체는 공간 전체를 매질로 사용하여 이동성을 극대화하지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 확산과 경로 손실, 외부 간섭에 본질적으로 취약한 구조적 한계를 안고 있다. 실무에서는 이러한 물리적 특성을 기반으로 구간별(Access, Distribution, Core) 매체를 혼용하게 된다.
 
@@ -60,14 +60,14 @@ tags = ["studynote-network"]
 ```text
 [Guided Media : Optical Fiber]
      빛 에너지 전반사 (구속됨)
- ───────────────────────────────┐
-  →  /\  /\  /\  /\  /\  /\   │ → (도착 에너지 밀도 높음)
- ───/──\/──\/──\/──\/──\/──\────┘
+ -------------------------------+
+  ->  /\  /\  /\  /\  /\  /\   | -> (도착 에너지 밀도 높음)
+ ---/--\/--\/--\/--\/--\/--\----+
   에너지 손실(감쇠) 최소화
 
 [Unguided Media : Radio Wave 방사]
    /        /        /       /  (공간 확산)
-(Tx) )))  )))   )))    )))   )))   (Rx) → (도착 에너지 밀도 낮음)
+(Tx) )))  )))   )))    )))   )))   (Rx) -> (도착 에너지 밀도 낮음)
    \        \        \       \  (자유 공간 경로 손실: FSPL)
 ```
 이 흐름의 핵심은 유도 매체는 에너지가 매질 밖으로 빠져나가는 것을 물리적인 경계(클래딩, 차폐막)로 막아내기 때문에 거리에 따른 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠(Attenuation)가 선형적이거나 매우 적다는 점이다. 반면 비유도 매체는 에너지가 3차원 구면으로 확산되므로 거리가 멀어질수록 에너지 밀도가 역제곱 법칙(거리의 제곱에 반비례)에 따라 급격히 감소한다. 따라서 비유도 매체를 이용한 고속 통신은 반드시 강력한 오류 정정(FEC) 기법과 고도화된 변조 방식, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭기 설계가 필수적으로 동반되어야 한다.
@@ -91,10 +91,10 @@ tags = ["studynote-network"]
 
 다음 구조도는 현대 네트워크([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi 환경)에서 두 매체가 어떻게 상호 보완적으로 배치되는지를 나타낸다.
 ```text
-┌───────────────── 유도 매체 (Guided) ──────────────────┐  ┌─ 비유도 (Unguided) ─┐
-│ [Data Center] ======(Optical Fiber)====== [Cell Tower / AP] ~~~(RF Waves)~~~ [User] │
-│   Core Network          (Backhaul/Fronthaul)     Edge Node       Access Link   Mobile│
-└────────────────────────────────────────────────────────┘  └─────────────────────┘
++----------------- 유도 매체 (Guided) ------------------+  +- 비유도 (Unguided) -+
+| [Data Center] ======(Optical Fiber)====== [Cell Tower / AP] ~~~(RF Waves)~~~ [User] |
+|   Core Network          (Backhaul/Fronthaul)     Edge Node       Access Link   Mobile|
++--------------------------------------------------------+  +---------------------+
 ```
 이 도식에서 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 장거리 대용량 이동은 전적으로 유도 매체(광섬유)가 책임지고, 최종 사용자(End-User)와의 마지막 1마일(Last Mile) 연결만이 비유도 매체(무선)를 통해 이루어진다는 점이다. "무선 통신의 본질은 결국 유선망 끝에 달린 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다"라는 말처럼, 무선망의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 7](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/))은 필연적으로 그 뒤를 받쳐주는 유도 매체([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)망)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증설(100GbE 이상)을 요구한다. 따라서 어느 한쪽의 병목 현상은 전체 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 직결된다.
 
@@ -116,13 +116,13 @@ tags = ["studynote-network"]
 
 이 흐름도는 실무 환경에서 매체 도입을 결정하는 판단 로직을 보여준다.
 ```text
-[요구사항 분석] ──> 물리적 케이블 설치가 가능한가? (이동성 불필요/설치 허가 가능)
-                        ├─ No ──> [비유도 매체 선택] ─> 대역폭/거리 따라 RF/위성/M/W 결정
-                        │
-                        └─ Yes ─> 초고속(10G+)/장거리(100m+)인가?
-                                     ├─ Yes ──> [광섬유 (Optical Fiber) 포설]
-                                     │
-                                     └─ No ───> [구리선 (Twisted Pair / UTP) 적용]
+[요구사항 분석] --> 물리적 케이블 설치가 가능한가? (이동성 불필요/설치 허가 가능)
+                        +- No --> [비유도 매체 선택] -> 대역폭/거리 따라 RF/위성/M/W 결정
+                        |
+                        +- Yes -> 초고속(10G+)/장거리(100m+)인가?
+                                     +- Yes --> [광섬유 (Optical Fiber) 포설]
+                                     |
+                                     +- No ---> [구리선 (Twisted Pair / UTP) 적용]
 ```
 이 의사결정 플로우의 핵심은 매체 선택의 첫 번째 분기점이 '[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)'이 아니라 '물리적 제약과 이동성'이라는 점이다. 비유도 매체는 케이블 매설이라는 막대한 CAPEX와 물리적 제약을 우회하는 강력한 장점이 있지만, 스펙트럼 자원의 유한성과 환경 변수에 의한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 변동성이라는 큰 트레이드오프를 낳는다. 실무에서는 비유도 매체를 채택할 경우 보안([WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)과 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장을 위해 논리적 계층(L2~L4)에서 훨씬 더 많은 오버헤드와 연산 자원을 투입해야 함을 반드시 고려해야 한다.
 
@@ -165,12 +165,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: W-CDMA / HSPA]
-    │
-    ▼
+    |
+    v
 [현재 개념: 매체 구분: 유도 매체 vs 비유도 매체]
-    │
-    ├──▶ [확장 A: 평행 2선식 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 평행 2선식 케이블]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 매체 구분: 유도 매체 vs 비유도 매체는 [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSPA에서 출발해 현재 메커니즘을 정교화하고, 이후 평행 2선식 케이블와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -187,7 +187,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 242 / 1120
 
-← **이전**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)
-**다음**: [122. 평행 2선식 케이블 (Twin-lead cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/122_twin_lead_cable/) →
+<- **이전**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)
+**다음**: [122. 평행 2선식 케이블 (Twin-lead cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/122_twin_lead_cable/) ->
 
 ---

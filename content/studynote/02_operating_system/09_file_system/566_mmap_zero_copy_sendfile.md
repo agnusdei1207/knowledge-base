@@ -31,35 +31,35 @@ tags = ["studynote-operating-system"]
 동일한 웹서버 프로그램인데, 1번은 CPU가 타들어가고 2번은 CPU가 0% 팽팽 노는 그 기적의 렌더 체계를 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "유저(웹서버) 메모리로 파일을 퍼 올리면, 서버의 심장은 곧 터진다!" │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  🚨 [ 모델 A: 구식 웹서버 (read + write 노가다 지옥 늪!) ]                         │
-  │     => 유저 C언어: buf = read(disk); write(socket, buf);                           │
-  │                                                                                    │
-  │     [ CPU 100% 미친듯 복사 랙 발동 ❗ ]                                            │
-  │     => 디스크 ──(DMA)──> 커널 메모리(PageCache)                   (↑모드↑)         │
-  │                           └──(CPU 직접 복사 쾅!)──> 유저(웹서버) 메모리            │
-  │                           ┌──(CPU 또 복사 쾅!)──┘                                  │
-  │     => 랜카드 <──(DMA)──< 커널 네트워크 소켓(Socket)               (↓모드↓)        │
-  │     => (비극): 컨텍스트 스위칭 4번! 메모리 버퍼 카피 4번의 처참한 멸망 병목 타파!  │
-  │                                                                                    │
-  │  =========================▼===================================                     │
-  │                                                                                    │
-  │  🔥 [ 모델 B: 제로 카피 특급 버스 (Nginx / Kafka : sendfile 마법 빔!) ]            │
-  │     => 유저 C언어: sendfile(socket_fd, disk_fd); (명령 1줄 끗!)                    │
-  │                                                                                    │
-  │     [ CPU는 낮잠 자고 DMA 철판 로봇이 100% 짐꾼 일함 스왑 ❗ ]                     │
-  │     => 유저는 명령 던지고 바로 퇴근 (유저 메모리 터치 0% 컷!)                      │
-  │                                                                                    │
-  │     => 디스크 ──(DMA)──> 커널 메모리(PageCache 파일 버퍼 스왑)                     │
-  │                             │                                                      │
-  │                             └─> (포인터 1줄만 쓱 소켓에 넘겨줌 O(1))               │
-  │                                          ▼                                         │
-  │     => 랜카드 <─────(SG-DMA가 그 버퍼에서 직빵으로 긁어감 무결 록백!)───────┘      │
-  │     => (기적): 컨텍스트 스위칭 2번으로 단축! CPU 복사 0번(제로) 폭발 성능 스피드!  │
-  └────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------+
+  |                 "유저(웹서버) 메모리로 파일을 퍼 올리면, 서버의 심장은 곧 터진다!" |
+  +------------------------------------------------------------------------------------+
+  |                                                                                    |
+  |  🚨 [ 모델 A: 구식 웹서버 (read + write 노가다 지옥 늪!) ]                         |
+  |     => 유저 C언어: buf = read(disk); write(socket, buf);                           |
+  |                                                                                    |
+  |     [ CPU 100% 미친듯 복사 랙 발동 ❗ ]                                            |
+  |     => 디스크 --(DMA)--> 커널 메모리(PageCache)                   (^모드^)         |
+  |                           +--(CPU 직접 복사 쾅!)--> 유저(웹서버) 메모리            |
+  |                           +--(CPU 또 복사 쾅!)--+                                  |
+  |     => 랜카드 <--(DMA)--< 커널 네트워크 소켓(Socket)               (v모드v)        |
+  |     => (비극): 컨텍스트 스위칭 4번! 메모리 버퍼 카피 4번의 처참한 멸망 병목 타파!  |
+  |                                                                                    |
+  |  =========================v===================================                     |
+  |                                                                                    |
+  |  🔥 [ 모델 B: 제로 카피 특급 버스 (Nginx / Kafka : sendfile 마법 빔!) ]            |
+  |     => 유저 C언어: sendfile(socket_fd, disk_fd); (명령 1줄 끗!)                    |
+  |                                                                                    |
+  |     [ CPU는 낮잠 자고 DMA 철판 로봇이 100% 짐꾼 일함 스왑 ❗ ]                     |
+  |     => 유저는 명령 던지고 바로 퇴근 (유저 메모리 터치 0% 컷!)                      |
+  |                                                                                    |
+  |     => 디스크 --(DMA)--> 커널 메모리(PageCache 파일 버퍼 스왑)                     |
+  |                             |                                                      |
+  |                             +-> (포인터 1줄만 쓱 소켓에 넘겨줌 O(1))               |
+  |                                          v                                         |
+  |     => 랜카드 <-----(SG-DMA가 그 버퍼에서 직빵으로 긁어감 무결 록백!)-------+      |
+  |     => (기적): 컨텍스트 스위칭 2번으로 단축! CPU 복사 0번(제로) 폭발 성능 스피드!  |
+  +------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 글로벌 서버 인프라 (Nginx, Apache, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)) 폭주 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵 뼈대다. 원래 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자기가 캐싱한 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리" 를 다시 자기가 가진 "네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)" 에게 퍼줄 때 미련하게 유저 프로세스를 꼭 거쳐야 했다. 이 중간 유통상을 철저하게 배제하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 뱃속에서 `디스크 파이프 $\to$ 네트워크 소켓 파이프` 를 다이렉트 튜브(Splice, Sendfile)로 용접(SG-[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/) 하드웨어 지원) 해버려 서버의 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(Memory [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 낭비를 우주 끝까지 압살 도출.
@@ -143,12 +143,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [Direct I/O (O_DIRECT)]
-    │
-    ▼
+    |
+    v
 [mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]
-    │
-    ├──▶ [파일 잠금 (File Locking)]
-    └──▶ [강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]
+    |
+    +---> [파일 잠금 (File Locking)]
+    +---> [강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -165,7 +165,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 566 / 800
 
-← **이전**: [565. Direct I/O (O_DIRECT) - OS 캐시를 우회하여 데이터베이스 등의 자체 캐싱 최적화](/knowledge-base/studynote/02_operating_system/09_file_system/565_o_direct_io_bypass_cache/)
-**다음**: [567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/) →
+<- **이전**: [565. Direct I/O (O_DIRECT) - OS 캐시를 우회하여 데이터베이스 등의 자체 캐싱 최적화](/knowledge-base/studynote/02_operating_system/09_file_system/565_o_direct_io_bypass_cache/)
+**다음**: [567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/) ->
 
 ---

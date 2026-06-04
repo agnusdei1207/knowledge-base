@@ -19,17 +19,17 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-기존 언어 모델(ELMo, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-1)은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(좌→우 또는 우→좌)으로만 학습했다. "그는 은행에 **앉았다**"에서 "은행"의 의미가 '금융 기관'인지 '강가의 둑'인지 판단하려면, 앞의 "그는"과 뒤의 "앉았다"를 동시에 고려해야 한다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 이 양방향 문맥을 동시에 볼 수 없어 의미 모호성 해소에 취약했다.
+기존 언어 모델(ELMo, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-1)은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(좌->우 또는 우->좌)으로만 학습했다. "그는 은행에 **앉았다**"에서 "은행"의 의미가 '금융 기관'인지 '강가의 둑'인지 판단하려면, 앞의 "그는"과 뒤의 "앉았다"를 동시에 고려해야 한다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 이 양방향 문맥을 동시에 볼 수 없어 의미 모호성 해소에 취약했다.
 
 BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향으로 활용하여 이 문제를 해결했다. 입력 전체를 동시에 보는 셀프 어텐션 덕분에 각 토큰은 자신의 좌측과 우측 모든 토큰으로부터 정보를 받아 표현(Representation)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 눈가리개를 하고 오른쪽에서 왼쪽으로만 책을 읽는 것이고, BERT는 눈가리개를 벗고 책 전체를 동시에 보면서 "앞 문장, 뒷 문장 다 보고 이 단어가 어떤 뜻인지 결정"하는 것이다. 두 눈으로 보면 깊이감(문맥 이해)이 달라진다.
@@ -39,30 +39,30 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         BERT 사전 학습 (Pre-training) 구조                         │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① MLM (Masked Language Modeling, 마스크 언어 모델링):             │
-│                                                                  │
-│  입력: "나는 [MASK]을 좋아한다" (15% 토큰 무작위 마스킹)            │
-│         │                                                        │
-│  Transformer 인코더 (12층, 양방향 셀프 어텐션)                     │
-│         │                                                        │
-│  출력: [MASK] 위치에서 원래 단어 "기계학습" 예측                    │
-│  → 양방향 문맥("나는 ...을 좋아한다")을 모두 이용해 예측 학습!       │
-│                                                                  │
-│  ② NSP (Next Sentence Prediction, 다음 문장 예측):                │
-│                                                                  │
-│  입력: [CLS] 문장A [SEP] 문장B [SEP]                               │
-│  레이블: 문장B가 문장A 다음에 오는 문장인지(IsNext) / 아닌지(NotNext) │
-│  → 문장 간 관계 학습 (QA, 추론 태스크에 유용)                       │
-│                                                                  │
-│  특수 토큰:                                                        │
-│  [CLS]: 문장 분류를 위한 집계 토큰 (첫 번째 위치)                    │
-│  [SEP]: 문장 경계 구분 토큰                                         │
-│  [MASK]: 마스킹된 위치 표시 토큰                                     │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         BERT 사전 학습 (Pre-training) 구조                         |
++------------------------------------------------------------------+
+|                                                                  |
+|  ① MLM (Masked Language Modeling, 마스크 언어 모델링):             |
+|                                                                  |
+|  입력: "나는 [MASK]을 좋아한다" (15% 토큰 무작위 마스킹)            |
+|         |                                                        |
+|  Transformer 인코더 (12층, 양방향 셀프 어텐션)                     |
+|         |                                                        |
+|  출력: [MASK] 위치에서 원래 단어 "기계학습" 예측                    |
+|  -> 양방향 문맥("나는 ...을 좋아한다")을 모두 이용해 예측 학습!       |
+|                                                                  |
+|  ② NSP (Next Sentence Prediction, 다음 문장 예측):                |
+|                                                                  |
+|  입력: [CLS] 문장A [SEP] 문장B [SEP]                               |
+|  레이블: 문장B가 문장A 다음에 오는 문장인지(IsNext) / 아닌지(NotNext) |
+|  -> 문장 간 관계 학습 (QA, 추론 태스크에 유용)                       |
+|                                                                  |
+|  특수 토큰:                                                        |
+|  [CLS]: 문장 분류를 위한 집계 토큰 (첫 번째 위치)                    |
+|  [SEP]: 문장 경계 구분 토큰                                         |
+|  [MASK]: 마스킹된 위치 표시 토큰                                     |
++------------------------------------------------------------------+
 ```
 
 | 모델 | 레이어 수 | 어텐션 헤드 | 파라미터 | 사용 목적 |
@@ -125,7 +125,7 @@ BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engi
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [BERT (Bidirectional Encoder Representations from Transformers)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [BERT (Bidirectional Encoder Representations from Transformers)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engi
 
 **진행 상황**: 301 / 420
 
-← **이전**: [300. 포지셔널 인코딩 (Positional Encoding)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)
-**다음**: [302. GPT (Generative Pre-trained Transformer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) →
+<- **이전**: [300. 포지셔널 인코딩 (Positional Encoding)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)
+**다음**: [302. GPT (Generative Pre-trained Transformer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ->
 
 ---

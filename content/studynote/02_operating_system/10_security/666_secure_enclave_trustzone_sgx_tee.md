@@ -48,30 +48,30 @@ tags = ["studynote-operating-system"]
 전 세계 스마트폰의 99%를 지배하는 ARM 프로세서의 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) 아키텍처다. TrustZone은 CPU를 아예 <strong>Normal World(일반 세상)</strong>와 <strong>Secure World(안전한 세상)</strong>로 반으로 쪼갠다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ARM TrustZone 아키텍처 (NS-bit 기반 격리)              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │    [ Normal World (REE) ]               [ Secure World (TEE) ]    │
-  │                                                                   │
-  │   Android 앱 (카카오뱅크)                   Trust App (지문 인식 앱)  │
-  │            │                                       │              │
-  │   Android 커널 (Linux)                      Secure OS (Trusty 등)  │
-  │            │                                       │              │
-  │  ==========▼========[ SMC (Secure Monitor Call) ]==▼==============│
-  │                                                                   │
-  │  [ 하드웨어 (ARM CPU Core) ]  -- NS-Bit (Non-Secure Bit) 로 제어      │
-  │                                                                   │
-  │    (NS-Bit = 1)                         (NS-Bit = 0)              │
-  │   일반 RAM 공간 (접근 가능)                 보안 RAM (TZASC로 물리적 격리)│
-  │                                                                   │
-  │  ※ 동작 원리:                                                       │
-  │   1. 카카오뱅크가 결제를 위해 지문 인식을 요청함.                        │
-  │   2. Android 커널이 CPU에 [SMC 명령]을 날림.                         │
-  │   3. CPU가 즉시 동작을 멈추고 컨텍스트를 스위칭하여 Secure World로 넘어감.  │
-  │   4. 보안 RAM 안에서 지문 매칭을 수행함 (이때 Android는 일시 정지됨).      │
-  │   5. "인증 성공!" 결과만 Android 쪽으로 반환함.                      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ARM TrustZone 아키텍처 (NS-bit 기반 격리)              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |    [ Normal World (REE) ]               [ Secure World (TEE) ]    |
+  |                                                                   |
+  |   Android 앱 (카카오뱅크)                   Trust App (지문 인식 앱)  |
+  |            |                                       |              |
+  |   Android 커널 (Linux)                      Secure OS (Trusty 등)  |
+  |            |                                       |              |
+  |  ==========v========[ SMC (Secure Monitor Call) ]==v==============|
+  |                                                                   |
+  |  [ 하드웨어 (ARM CPU Core) ]  -- NS-Bit (Non-Secure Bit) 로 제어      |
+  |                                                                   |
+  |    (NS-Bit = 1)                         (NS-Bit = 0)              |
+  |   일반 RAM 공간 (접근 가능)                 보안 RAM (TZASC로 물리적 격리)|
+  |                                                                   |
+  |  ※ 동작 원리:                                                       |
+  |   1. 카카오뱅크가 결제를 위해 지문 인식을 요청함.                        |
+  |   2. Android 커널이 CPU에 [SMC 명령]을 날림.                         |
+  |   3. CPU가 즉시 동작을 멈추고 컨텍스트를 스위칭하여 Secure World로 넘어감.  |
+  |   4. 보안 RAM 안에서 지문 매칭을 수행함 (이때 Android는 일시 정지됨).      |
+  |   5. "인증 성공!" 결과만 Android 쪽으로 반환함.                      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** TrustZone의 핵심은 CPU 내부의 1비트짜리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)인 <strong>NS-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">bit</a> (Non-Secure <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>다. NS-bit가 1(Normal)일 때는 메모리의 특정 영역(보안 RAM)이나 지문 센서 하드웨어에 접근하면 하드웨어적으로 전기 신호가 차단된다. SMC(Secure [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))라는 특수 명령어를 쳐야만 CPU가 NS-bit를 0(Secure)으로 바꾸고 안전한 세상으로 넘어간다. Normal World의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(안드로이드)이 아무리 해킹을 당해도, NS-bit를 0으로 바꾸지 않는 한 지문 센서나 보안 메모리를 읽는 것은 물리적으로 불가능하다.
@@ -131,28 +131,28 @@ Apple의 [SEP](/knowledge-base/studynote/01_computer_architecture/15_advanced_to
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 보안 엔클레이브 (TEE) 연동 아키텍처 도입 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [생체 인증, 블록체인 키 관리, 혹은 극비 데이터 연산 시스템 설계]             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      사용자 디바이스(스마트폰) 단말기에서 보안 연산을 수행해야 하는가?        │
-  │          ├─ 예 (안드로이드) ──▶ [ARM TrustZone API (Keystore) 활용]  │
-  │          │                   지문/안면 인증 로직은 OS 기본 API에 위임        │
-  │          ├─ 예 (Apple)      ──▶ [Secure Enclave API (CryptoKit) 활용]│
-  │          │                                                        │
-  │          └─ 아니오 (서버/클라우드 환경에서 대규모 연산을 수행해야 한다)       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버 운영자나 클라우드 벤더(AWS, Azure)조차 신뢰할 수 없는가? (Zero Trust)│
-  │          ├─ 예 ─────▶ [Intel SGX / AMD SEV 기밀 컴퓨팅 인스턴스 도입]  │
-  │          │            대책: 애플리케이션 코드를 SGX SDK(Gramine, Occlum)로 │
-  │          │                  재컴파일하여 엔클레이브 안에서 구동하도록 리팩토링  │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 일반 서버에서 HSM(하드웨어 보안 모듈) 네트워크 연동으로 타협│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 보안 엔클레이브 (TEE) 연동 아키텍처 도입 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [생체 인증, 블록체인 키 관리, 혹은 극비 데이터 연산 시스템 설계]             |
+  |                |                                                  |
+  |                v                                                  |
+  |      사용자 디바이스(스마트폰) 단말기에서 보안 연산을 수행해야 하는가?        |
+  |          +- 예 (안드로이드) ---> [ARM TrustZone API (Keystore) 활용]  |
+  |          |                   지문/안면 인증 로직은 OS 기본 API에 위임        |
+  |          +- 예 (Apple)      ---> [Secure Enclave API (CryptoKit) 활용]|
+  |          |                                                        |
+  |          +- 아니오 (서버/클라우드 환경에서 대규모 연산을 수행해야 한다)       |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버 운영자나 클라우드 벤더(AWS, Azure)조차 신뢰할 수 없는가? (Zero Trust)|
+  |          +- 예 ------> [Intel SGX / AMD SEV 기밀 컴퓨팅 인스턴스 도입]  |
+  |          |            대책: 애플리케이션 코드를 SGX SDK(Gramine, Occlum)로 |
+  |          |                  재컴파일하여 엔클레이브 안에서 구동하도록 리팩토링  |
+  |          |                                                        |
+  |          +- 아니오 ---> 일반 서버에서 HSM(하드웨어 보안 모듈) 네트워크 연동으로 타협|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** TEE는 공짜가 아니다. Normal World에서 Secure World로 넘어가는 작업(SMC)이나, [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) 엔클레이브 내부로 들어가는 작업은 엄청난 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 비용([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)을 유발한다. 따라서 앱의 모든 기능을 TEE에 넣으면 앱이 멈춰버린다. 가장 좋은 설계는 <strong>"수백만 줄의 코드 중, 진짜 목숨과도 같은 100줄(암호화 키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>, 복호화)만 도려내어 TEE에 집어넣는 것"</strong>이다. 이를 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))이라고 한다.
@@ -199,12 +199,12 @@ Apple의 [SEP](/knowledge-base/studynote/01_computer_architecture/15_advanced_to
 
 ```text
 [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
-    │
-    ▼
+    |
+    v
 [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
-    │
-    ├──▶ [제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
-    └──▶ [부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)]
+    |
+    +---> [제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
+    +---> [부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -221,7 +221,7 @@ Apple의 [SEP](/knowledge-base/studynote/01_computer_architecture/15_advanced_to
 
 **진행 상황**: 666 / 800
 
-← **이전**: [665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/)
-**다음**: [667. 제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) →
+<- **이전**: [665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/)
+**다음**: [667. 제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ->
 
 ---

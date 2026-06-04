@@ -27,7 +27,7 @@ tags = ["ict_convergence"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-믹싱의 기본 흐름은 `입금 → 풀(pool) → 증명 → 출금`이다. 현대 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))를 활용해 "정당한 출금 권리"는 증명하되, "누가 입금했는지"는 공개하지 않도록 만든다.
+믹싱의 기본 흐름은 `입금 -> 풀(pool) -> 증명 -> 출금`이다. 현대 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))를 활용해 "정당한 출금 권리"는 증명하되, "누가 입금했는지"는 공개하지 않도록 만든다.
 
 | 방식 | 특징 | 위험/한계 |
 | :--- | :--- | :--- |
@@ -36,9 +36,9 @@ tags = ["ict_convergence"]
 | [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 권리만 증명하고 링크는 숨김 | 규제·제재 이슈 |
 
 ```text
-입금 주소 ──▶ 믹싱 풀 ──▶ 출금 주소
-      │          │          │
-      └── 링크 약화 ── ZKP (Zero-Knowledge Proof)
+입금 주소 ---> 믹싱 풀 ---> 출금 주소
+      |          |          |
+      +-- 링크 약화 -- ZKP (Zero-Knowledge Proof)
 ```
 
 Tornado Cash 계열의 핵심 아이디어는 예치 시 남긴 약속(commitment)과 출금 시의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(nullifier)를 이용해, 동일 자금의 중복 인출을 막으면서도 원래 예치 주소를 쉽게 드러내지 않는 데 있다. 다만 이 설명은 개념 수준이며, 실제 사용은 반드시 법과 규정을 따라야 한다.
@@ -92,17 +92,17 @@ Tornado Cash 계열의 핵심 아이디어는 예치 시 남긴 약속(commitmen
 
 ```text
 공개 블록체인
-    │
-    ▼
+    |
+    v
 주소 추적과 클러스터링
-    │
-    ▼
+    |
+    v
 Tumbler / Mixer
-    │
-    ▼
+    |
+    v
 ZKP 기반 프라이버시 프로토콜
-    │
-    ▼
+    |
+    v
 규제 준수와 선택적 공개
 ```
 
@@ -118,7 +118,7 @@ ZKP 기반 프라이버시 프로토콜
 
 **진행 상황**: 77 / 552
 
-← **이전**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/)
-**다음**: [78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/078_web3_social_network_mastodon_nostr/) →
+<- **이전**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/)
+**다음**: [78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/078_web3_social_network_mastodon_nostr/) ->
 
 ---

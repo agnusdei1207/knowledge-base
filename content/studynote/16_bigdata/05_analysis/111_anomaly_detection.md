@@ -31,18 +31,18 @@ tags = ["studynote-bigdata"]
 ### 이상 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     이상 유형 3가지                                │
-├──────────────────┬─────────────────────┬───────────────────────────┤
-│  점 이상치       │  문맥적 이상치      │  집단 이상치              │
-│  (Point Anomaly) │  (Contextual Anomaly│  (Collective Anomaly)     │
-├──────────────────┼─────────────────────┼───────────────────────────┤
-│  ● ← 이상        │  일반: 기온 35℃     │  각 점은 정상이나         │
-│                  │  맥락: 한겨울 35℃  │  패턴 전체가 비정상       │
-│  정상 데이터    │  → 계절 맥락이 핵심 │  예: 특정 시간대 집단     │
-│  분포에서 멀리   │                     │  구매 급증 (카드 복제)    │
-│  벗어난 단일값  │                     │                           │
-└──────────────────┴─────────────────────┴───────────────────────────┘
++--------------------------------------------------------------------+
+|                     이상 유형 3가지                                |
++------------------+---------------------+---------------------------+
+|  점 이상치       |  문맥적 이상치      |  집단 이상치              |
+|  (Point Anomaly) |  (Contextual Anomaly|  (Collective Anomaly)     |
++------------------+---------------------+---------------------------+
+|  ● <- 이상        |  일반: 기온 35℃     |  각 점은 정상이나         |
+|                  |  맥락: 한겨울 35℃  |  패턴 전체가 비정상       |
+|  정상 데이터    |  -> 계절 맥락이 핵심 |  예: 특정 시간대 집단     |
+|  분포에서 멀리   |                     |  구매 급증 (카드 복제)    |
+|  벗어난 단일값  |                     |                           |
++------------------+---------------------+---------------------------+
 ```
 
 ### 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
@@ -52,7 +52,7 @@ tags = ["studynote-bigdata"]
 | **Z-score / IQR** | 평균±k·σ 또는 사분위 범위 | 단순, 빠름 | 단변량, 정규분포 가정 | 단순 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a> Forest</strong> | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)는 적은 분기로 고립됨 | 고차원, 빠름 | 국소 이상에 약함 | 표형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | <strong>One-Class <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a></strong> | 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계 학습 | [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) | 대용량에 느림 | 중소규모 고차원 |
-| <strong>LOF (Local <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> Factor)</strong> | 국소 밀도 비교 | 국소 이상 강함 | O(n²) 느림 | 중규모 |
+| <strong>LOF (Local <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> Factor)</strong> | 국소 밀도 비교 | 국소 이상 강함 | O(n^) 느림 | 중규모 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">Autoencoder</a></strong> | 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재구성 학습, 복원 오차 | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) | 학습 비용 | 이미지, 시계열 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">Long Short-Term Memory</a>)</strong> | 시퀀스 패턴 학습 | 시계열 의존성 | 학습 복잡 | 시계열, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 
@@ -80,10 +80,10 @@ tags = ["studynote-bigdata"]
 
 ### 적용 시나리오
 
-1. <strong>금융 사기 탐지 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/">FDS</a>, Fraud <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> System)</strong>: 실시간 거래마다 [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest 점수 계산 → 임계값 초과 시 즉시 차단
-2. **제조 설비 예지 보전**: 진동·온도·[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 시계열 → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) [Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 복원 오차 급증 = 고장 조기 경보
-3. **사이버 보안**: 네트워크 트래픽 패턴 이상 → One-Class SVM으로 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 탐지
-4. <strong>의료 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: ICU 환자 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) → 실시간 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 급변 조기 알림
+1. <strong>금융 사기 탐지 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/">FDS</a>, Fraud <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> System)</strong>: 실시간 거래마다 [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest 점수 계산 -> 임계값 초과 시 즉시 차단
+2. **제조 설비 예지 보전**: 진동·온도·[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 시계열 -> [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) [Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 복원 오차 급증 = 고장 조기 경보
+3. **사이버 보안**: 네트워크 트래픽 패턴 이상 -> One-Class SVM으로 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 탐지
+4. <strong>의료 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: ICU 환자 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) -> 실시간 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 급변 조기 알림
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,17 +129,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [통계적 방법 (Statistical Method) — 기준선 이탈 탐지]
-    │
-    ▼
+    |
+    v
 [머신러닝 기반 (ML-based) — Isolation Forest/Autoencoder]
-    │
-    ▼
+    |
+    v
 [시계열 분석 (Time-series Analysis) — 계절성 제거]
-    │
-    ▼
+    |
+    v
 [스트리밍 탐지 (Streaming Detection) — 실시간 처리]
-    │
-    ▼
+    |
+    v
 [설명 가능 AI (XAI, Explainable AI) — 탐지 근거 제공]
 ```
 
@@ -156,7 +156,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 111 / 262
 
-← **이전**: [107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지](/knowledge-base/studynote/16_bigdata/05_analysis/110_social_network_analysis/)
-**다음**: [109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측](/knowledge-base/studynote/16_bigdata/05_analysis/112_time_series_analysis/) →
+<- **이전**: [107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지](/knowledge-base/studynote/16_bigdata/05_analysis/110_social_network_analysis/)
+**다음**: [109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측](/knowledge-base/studynote/16_bigdata/05_analysis/112_time_series_analysis/) ->
 
 ---

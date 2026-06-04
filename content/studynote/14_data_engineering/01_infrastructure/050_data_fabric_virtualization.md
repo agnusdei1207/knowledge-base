@@ -24,8 +24,8 @@ tags = ["AI-driven", "data catalog", "data fabric", "data mesh", "data virtualiz
 ```
 기존:
   온프레미스 DW + 클라우드 DW + SaaS 앱 + 레거시 DB
-      → 각각 별도 ETL, 중복 파이프라인
-      → 데이터 사일로, 거버넌스 불일치
+      -> 각각 별도 ETL, 중복 파이프라인
+      -> 데이터 사일로, 거버넌스 불일치
 
 데이터 패브릭:
   [단일 통합 레이어 (메타데이터 + 가상화 + 거버넌스)]
@@ -53,11 +53,11 @@ tags = ["AI-driven", "data catalog", "data fabric", "data mesh", "data virtualiz
 
 ```
 ETL 복제:
-  소스 DB → (추출·변환·적재) → 중앙 DW
+  소스 DB -> (추출·변환·적재) -> 중앙 DW
   장점: 빠른 쿼리  단점: 데이터 최신성 지연, 중복
 
 데이터 가상화:
-  쿼리 → 가상 레이어 → 각 소스에 실시간 위임
+  쿼리 -> 가상 레이어 -> 각 소스에 실시간 위임
   장점: 최신 데이터, 중복 없음  단점: 소스 성능 의존
 ```
 
@@ -83,17 +83,17 @@ WHERE o.date >= '2024-01-01';
 
 ```
 데이터 소스 연결
-    ↓
+    v
 AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
-    ↓
+    v
 자동 분류: PII 탐지, 비즈니스 용어 매핑
-    ↓
+    v
 데이터 카탈로그 자동 업데이트
 ```
 
 ### 3.2 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)
 
-기존 수동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) → [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/):
+기존 수동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) -> [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/):
 - 실시간 사용 패턴 수집 (누가, 언제, 얼마나)
 - 머신러닝으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈 예측
 - 자동 추천: "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 쓰는 사람들은 X도 함께 씀"
@@ -121,7 +121,7 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 데이터 메시 (도메인 소유권 분산)
     ↕
 데이터 패브릭 (기술 통합 레이어)
-→ 메시의 자율성 + 패브릭의 통합 가시성
+-> 메시의 자율성 + 패브릭의 통합 가시성
 ```
 
 📢 **섹션 요약 비유**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 각 팀이 자신의 가게를 운영, 패브릭은 모든 가게를 연결하는 배달 플랫폼 — 둘은 층이 다르다.
@@ -134,11 +134,11 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ```
 [비즈니스 사용자]
-      ↓ 단일 접근
+      v 단일 접근
 [데이터 패브릭 레이어]
-  ├── 카탈로그 (Collibra/Atlan)
-  ├── 가상화 엔진 (Denodo/Dremio/Starburst)
-  └── 거버넌스 정책 (Apache Ranger/Privacera)
+  +-- 카탈로그 (Collibra/Atlan)
+  +-- 가상화 엔진 (Denodo/Dremio/Starburst)
+  +-- 거버넌스 정책 (Apache Ranger/Privacera)
       ↕         ↕         ↕
   [온프레미스]  [AWS]    [Azure/GCP]
 ```
@@ -160,17 +160,17 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ```
 데이터 패브릭
-├── 핵심 기술
-│   ├── 데이터 가상화 (Denodo, Dremio)
-│   ├── 데이터 카탈로그 (Alation, Collibra)
-│   └── Active Metadata (AI 기반)
-├── 관련 패턴
-│   ├── 데이터 메시 (보완 관계)
-│   ├── 데이터 레이크하우스
-│   └── 연합 쿼리
-└── 거버넌스
-    ├── 중앙 집중 정책
-    └── Apache Ranger / Privacera
++-- 핵심 기술
+|   +-- 데이터 가상화 (Denodo, Dremio)
+|   +-- 데이터 카탈로그 (Alation, Collibra)
+|   +-- Active Metadata (AI 기반)
++-- 관련 패턴
+|   +-- 데이터 메시 (보완 관계)
+|   +-- 데이터 레이크하우스
+|   +-- 연합 쿼리
++-- 거버넌스
+    +-- 중앙 집중 정책
+    +-- Apache Ranger / Privacera
 ```
 
 ---
@@ -179,17 +179,17 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ```
 ETL + 중앙 DW (1990s~2000s)
-     │  다중 소스·클라우드 확산
-     ▼
+     |  다중 소스·클라우드 확산
+     v
 데이터 가상화 (2010s, EII/EAI)
-     │  메타데이터 자동화 필요
-     ▼
+     |  메타데이터 자동화 필요
+     v
 데이터 패브릭 (2019, Gartner 선정)
-     │  조직 분산 필요
-     ▼
+     |  조직 분산 필요
+     v
 데이터 메시 + 패브릭 하이브리드 (2021~)
-     │  AI 기반 Active Metadata
-     ▼
+     |  AI 기반 Active Metadata
+     v
 지능형 데이터 패브릭 (현재)
 ```
 
@@ -209,7 +209,7 @@ ETL + 중앙 DW (1990s~2000s)
 
 **진행 상황**: 50 / 258
 
-← **이전**: [049. 데이터 메시 — Data Mesh Distributed Ownership](/knowledge-base/studynote/14_data_engineering/01_infrastructure/049_data_mesh_distributed_ownership/)
-**다음**: [51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/051_data_catalog_metadata_discovery/) →
+<- **이전**: [049. 데이터 메시 — Data Mesh Distributed Ownership](/knowledge-base/studynote/14_data_engineering/01_infrastructure/049_data_mesh_distributed_ownership/)
+**다음**: [51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/051_data_catalog_metadata_discovery/) ->
 
 ---

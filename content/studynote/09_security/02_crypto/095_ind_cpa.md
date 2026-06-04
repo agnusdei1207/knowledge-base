@@ -33,25 +33,25 @@ IND-CPA는 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01
 4. **결과 판정**: 해커가 어떤 꼼수를 부리더라도 정답을 맞출 확률이 $\frac{1}{2} + \epsilon$ (여기서 $\epsilon$은 무시할 수 있을 만큼 아주 작은 값)에 불과하다면, 이 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>IND-<a href="/knowledge-base/studynote/09_security/02_crypto/094_cpa/">CPA</a> 안전성을 확보(합격)</strong>한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       IND-CPA 게임 모델 시각화 (해커 vs 심사위원)            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 🕵️ 해커 (Adversary) ]             [ 🧑‍⚖️ 심사위원 (Challenger) ] │
-│      │                                              │        │
-│      ├── 1. M0 ("사과"), M1 ("바나나") 제출 ───────▶│        │
-│      │                                              │        │
-│      │                (심사위원: 무작위 동전 던지기 $b=0$ 선택) │        │
-│      │                (선택된 M0 암호화 -> 암호문 C 생성)    │        │
-│      │                                              │        │
-│      │◀──── 2. 수수께끼 암호문 C ("X9@!K") 반환 ────┤        │
-│      │                                              │        │
-│ (수많은 암호문과 비교 분석)                         │        │
-│      │                                              │        │
-│      ├── 3. 해커의 정답 예측: "$b'=0$ 입니다!" ────▶│        │
-│                                                              │
-│ ★ 평가: $P(b = b') \approx \frac{1}{2}$ 이어야만 합격(안전)! │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       IND-CPA 게임 모델 시각화 (해커 vs 심사위원)            |
++--------------------------------------------------------------+
+|                                                              |
+| [ 🕵️ 해커 (Adversary) ]             [ 🧑‍⚖️ 심사위원 (Challenger) ] |
+|      |                                              |        |
+|      +-- 1. M0 ("사과"), M1 ("바나나") 제출 -------->|        |
+|      |                                              |        |
+|      |                (심사위원: 무작위 동전 던지기 $b=0$ 선택) |        |
+|      |                (선택된 M0 암호화 -> 암호문 C 생성)    |        |
+|      |                                              |        |
+|      |<----- 2. 수수께끼 암호문 C ("X9@!K") 반환 ----+        |
+|      |                                              |        |
+| (수많은 암호문과 비교 분석)                         |        |
+|      |                                              |        |
+|      +-- 3. 해커의 정답 예측: "$b'=0$ 입니다!" ----->|        |
+|                                                              |
+| ★ 평가: $P(b = b') \approx \frac{1}{2}$ 이어야만 합격(안전)! |
++--------------------------------------------------------------+
 ```
 이 게임은 해커에게 가장 유리한 상황(원하는 걸 다 암호화해 볼 수 있음)을 가정하고도, 수학적으로 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 누출되지 않음을 증명하는 극단적 스트레스 테스트다.
 
@@ -102,20 +102,20 @@ IND-CPA는 암호가 뚫리지 않음을 증명하는 '수학적 대헌장'이�
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 암호 알고리즘 설계 및 단순 암호화 시도
-    │
-    ▼
+    |
+    v
 선택 평문 공격 (CPA) 위협 대두
-    │
-    ▼
+    |
+    v
 의미론적 안전성 (Semantic Security) 개념 정립
-    │
-    ▼
+    |
+    v
 IND-CPA 게임 모델 확립 (50% 구별 불가능성 증명)
-    │
-    ▼
+    |
+    v
 확률적 암호화 강제 (IV, Nonce, OAEP 패딩 도입)
-    │
-    ▼
+    |
+    v
 더 강력한 공격(CCA)을 방어하기 위한 IND-CCA (AEAD, GCM) 로 진화
 ```
 이 흐름도는 단순히 튼튼함을 주장하던 시대에서 벗어나, 해커에게 막강한 권한([CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/))을 주고도 확률적으로 안전함을 증명하는 게임 모델(IND-[CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/))을 거쳐, 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화([AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/))로 진화하는 궤적을 보여준다.
@@ -131,7 +131,7 @@ IND-CPA 게임 모델 확립 (50% 구별 불가능성 증명)
 
 **진행 상황**: 95 / 1108
 
-← **이전**: [94. 선택 평문 공격 (Chosen Plaintext Attack, CPA)](/knowledge-base/studynote/09_security/02_crypto/094_cpa/)
-**다음**: [096. IND-CCA2 — 강인한 암호학적 안전성](/knowledge-base/studynote/09_security/02_crypto/096_ind_cca2/) →
+<- **이전**: [94. 선택 평문 공격 (Chosen Plaintext Attack, CPA)](/knowledge-base/studynote/09_security/02_crypto/094_cpa/)
+**다음**: [096. IND-CCA2 — 강인한 암호학적 안전성](/knowledge-base/studynote/09_security/02_crypto/096_ind_cca2/) ->
 
 ---

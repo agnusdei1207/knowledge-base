@@ -32,11 +32,11 @@ tags = ["studynote-ict-convergence"]
 DID는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)이고, [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 문서는 그 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)에 대한 상세 설명서다. Resolver가 DID를 조회하면 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 문서가 나오고, 그 안의 [verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) method로 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다.
 
 ```text
-DID → DID Resolver → DID Document
-                     ├─ verificationMethod (public key)
-                     ├─ authentication
-                     ├─ assertionMethod
-                     └─ service
+DID -> DID Resolver -> DID Document
+                     +- verificationMethod (public key)
+                     +- authentication
+                     +- assertionMethod
+                     +- service
 ```
 
 | 구성 요소 | 역할 | 예시 |
@@ -117,14 +117,14 @@ DID → DID Resolver → DID Document
 
 ```text
 ID / Password
-    │
-    ▼
+    |
+    v
 PKI / Certificate
-    │
-    ▼
+    |
+    v
 DID
-    │
-    ▼
+    |
+    v
 DID Document / VC / VP
 ```
 
@@ -142,7 +142,7 @@ DID Document / VC / VP
 
 **진행 상황**: 53 / 552
 
-← **이전**: [52. 탈중앙화 신원증명 (DID, Decentralized Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/)
-**다음**: [54. DAO (Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) →
+<- **이전**: [52. 탈중앙화 신원증명 (DID, Decentralized Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/)
+**다음**: [54. DAO (Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ->
 
 ---

@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 제어 플래그]
-    │
-    ▼
+    |
+    v
 [ECN 징후 플래그]
-    │
-    └──▶ [윈도우 크기]
+    |
+    +---> [윈도우 크기]
 ```
 
 - **📢 섹션 요약 비유**: <strong> ECE와 CWR <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>는 투수가 공을 던질 때, 포수가 </strong>"야, 타자 타이밍이 딱 맞아서 홈런 칠 거 같아! 견제구 던져!(ECE)"**라고 사인(경고)을 보내고, 투수가 **"알았어, 템포 좀 늦출게(CWR)"**라고 모자 챙을 만지며 호흡을 맞추는 환상적인 배터리 사인 교환입니다.
@@ -63,21 +63,21 @@ tags = ["studynote-network"]
 - 수신자는 `CWR` 불이 켜진 패킷을 받으면 비로소 `ECE` 경고등을 끄고 평화로운 통신으로 돌아간다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ECN 조기 경보 시스템의 핑퐁 시나리오               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ] ──▶ (패킷 슝~) ──▶ [ 막혀가는 라우터 ] ──▶ [ 수신자 ] │
- │                                 (IP 겉면에 CE 딱지 쾅!)       │
- │                                                             │
- │   [ 송신자 ] ◀── (TCP 헤더에 [ ECE ] 불 켜서 쏨!) ─────── [ 수신자 ] │
- │   "아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"                      │
- │                                                             │
- │   [ 송신자 ] ── (TCP 헤더에 [ CWR ] 불 켜서 쏨!) ───────▶ [ 수신자 ] │
- │                   "나 속도 줄였으니까 이제 경고등 꺼라!"               │
- │                                                             │
- │   ▶ 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ECN 조기 경보 시스템의 핑퐁 시나리오               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 송신자 ] ---> (패킷 슝~) ---> [ 막혀가는 라우터 ] ---> [ 수신자 ] |
+ |                                 (IP 겉면에 CE 딱지 쾅!)       |
+ |                                                             |
+ |   [ 송신자 ] <--- (TCP 헤더에 [ ECE ] 불 켜서 쏨!) ------- [ 수신자 ] |
+ |   "아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"                      |
+ |                                                             |
+ |   [ 송신자 ] -- (TCP 헤더에 [ CWR ] 불 켜서 쏨!) --------> [ 수신자 ] |
+ |                   "나 속도 줄였으니까 이제 경고등 꺼라!"               |
+ |                                                             |
+ |   -> 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** ECE와 CWR의 교환은 전투기 조종석의 **"락온(Lock-on) 경고음"<strong>과 같습니다. 적의 미사일 기지(혼잡 라우터)가 레이더를 비추면, 전투기 경보음이 미친 듯이 울립니다(ECE). 조종사가 즉시 회피 기동(속도 감속)을 한 뒤 </strong>방어 버튼(CWR)**을 누르면, 그제야 삑삑거리던 경보음이 꺼지고 비행기는 격추(패킷 드랍)를 면하게 됩니다.
@@ -138,12 +138,12 @@ ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_e
 
 ```text
 [선행 개념: TCP 제어 플래그]
-    │
-    ▼
+    |
+    v
 [현재 개념: ECN 징후 플래그]
-    │
-    ├──▶ [확장 A: 윈도우 크기]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 윈도우 크기]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_e
 
 **진행 상황**: 533 / 1120
 
-← **이전**: [411. TCP 제어 플래그(6bit)](/knowledge-base/studynote/03_network/08_transport_layer/411_tcp_control_flags_urg_ack_psh_rst_syn_fin/)
-**다음**: [413. 윈도우 크기 (Window Size, 16bit)](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) →
+<- **이전**: [411. TCP 제어 플래그(6bit)](/knowledge-base/studynote/03_network/08_transport_layer/411_tcp_control_flags_urg_ack_psh_rst_syn_fin/)
+**다음**: [413. 윈도우 크기 (Window Size, 16bit)](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ->
 
 ---

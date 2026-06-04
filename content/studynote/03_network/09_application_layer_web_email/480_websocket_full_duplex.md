@@ -31,29 +31,29 @@ tags = ["studynote-network"]
   3. **HTML5 표준화**: 2011년 IETF에서 WebSocket 스펙(RFC 6455)이 제정되며, 브라우저에 C언어의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)과 유사한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 정식으로 탑재되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          HTTP Polling vs WebSocket 아키텍처 및 페이로드 비교     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ ❌ 구시대 방식: HTTP Polling ]                              │
-│                                                             │
-│ Client ──(HTTP 요청 + 무거운 헤더/쿠키 800 Bytes)──▶ Server     │
-│ Client ◀──(HTTP 응답 + 무거운 헤더 + "변화없음")── Server     │
-│ Client ──(HTTP 요청 + 무거운 헤더/쿠키 800 Bytes)──▶ Server     │
-│ Client ◀──(HTTP 응답 + 무거운 헤더 + "변화없음")── Server     │
-│ 🌟 결과: 매초마다 엄청난 트래픽 낭비, 서버 연결/종료 부하 극심         │
-│                                                             │
-│ [ ✅ 현대 방식: WebSocket (Full-Duplex) ]                     │
-│                                                             │
-│ Client ──(최초 1회 HTTP Upgrade 핸드셰이크)─────▶ Server     │
-│ Client ◀──(101 Switching Protocols 수락)─── Server     │
-│          ====== [ 영구적인 TCP 파이프 연결 완료 ] ======         │
-│                                                             │
-│ Client ──(Frame: 단 2 Bytes 헤더 + "채팅")───▶ Server     │
-│ Client ◀──(Frame: 단 2 Bytes 헤더 + "알림")─── Server     │
-│ Client ◀──(Frame: 단 2 Bytes 헤더 + "주식")─── Server     │
-│ 🌟 결과: 연결을 유지한 채 2바이트 초경량 프레임으로 마음껏 양방향 핑퐁!  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          HTTP Polling vs WebSocket 아키텍처 및 페이로드 비교     |
++-------------------------------------------------------------+
+|                                                             |
+| [ ❌ 구시대 방식: HTTP Polling ]                              |
+|                                                             |
+| Client --(HTTP 요청 + 무거운 헤더/쿠키 800 Bytes)---> Server     |
+| Client <---(HTTP 응답 + 무거운 헤더 + "변화없음")-- Server     |
+| Client --(HTTP 요청 + 무거운 헤더/쿠키 800 Bytes)---> Server     |
+| Client <---(HTTP 응답 + 무거운 헤더 + "변화없음")-- Server     |
+| 🌟 결과: 매초마다 엄청난 트래픽 낭비, 서버 연결/종료 부하 극심         |
+|                                                             |
+| [ ✅ 현대 방식: WebSocket (Full-Duplex) ]                     |
+|                                                             |
+| Client --(최초 1회 HTTP Upgrade 핸드셰이크)------> Server     |
+| Client <---(101 Switching Protocols 수락)--- Server     |
+|          ====== [ 영구적인 TCP 파이프 연결 완료 ] ======         |
+|                                                             |
+| Client --(Frame: 단 2 Bytes 헤더 + "채팅")----> Server     |
+| Client <---(Frame: 단 2 Bytes 헤더 + "알림")--- Server     |
+| Client <---(Frame: 단 2 Bytes 헤더 + "주식")--- Server     |
+| 🌟 결과: 연결을 유지한 채 2바이트 초경량 프레임으로 마음껏 양방향 핑퐁!  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 "상태가 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신"의 한계를 극복하기 위한 억지 꼼수였다. 질문할 때마다 무거운 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 옷([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더와 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 매번 껴입고 왕복해야 한다. 반면 WebSocket은 처음에만 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 옷을 입고 인사를 나눈 뒤, 수락(`101 Switching Protocols`)을 받으면 즉시 HTTP의 껍데기를 훌렁 벗어던진다. 그리고 가벼운 프레임(최소 2바이트 오버헤드) 형태의 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 끝없이 연결된 고속도로([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 위로 자유롭게 쏘아댄다. 전송 효율성 면에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 대비 수백 배 이상의 개선이 일어난다.
@@ -79,31 +79,31 @@ tags = ["studynote-network"]
 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)은 처음부터 새로운 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 뚫지 않는다. 기업이나 공공기관의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 기본적으로 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80, 443) 외에는 모두 막아버리기 때문이다. 따라서 교묘하게 브라우저의 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 타고 들어가 안에서 구조를 바꾼다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               WebSocket 최초 연결 및 신분 상승 로직               │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [ 1. HTTP Request (클라이언트 ➔ 서버) ]                           │
-│ GET /chat HTTP/1.1                                            │
-│ Host: server.example.com                                      │
-│ Upgrade: websocket                ◀─ "웹소켓으로 폼 체인지 원함"      │
-│ Connection: Upgrade               ◀─ "이 연결의 성질을 바꾸겠다"      │
-│ Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ== ◀─ (클라이언트 난수) │
-│ Sec-WebSocket-Version: 13                                     │
-│                                                               │
-│ [ 2. HTTP Response (서버 ➔ 클라이언트) ]                          │
-│ HTTP/1.1 101 Switching Protocols  ◀─ "오케이! 폼 체인지 승인"       │
-│ Upgrade: websocket                                            │
-│ Connection: Upgrade                                           │
-│ Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo= ◀─(해시 답변)│
-│                                                               │
-│ 💥 이 순간부터 HTTP 끝! TCP 소켓이 직접 연결된 완전 양방향 상태 진입!     │
-│                                                               │
-│ [ 3. Data Frame (양방향 이진 통신 시작) ]                         │
-│ Frame 1 (Opcode: Text, Payload: "Hello Server!")              │
-│ Frame 2 (Opcode: Binary, Payload: [0x12, 0x34...])            │
-│ Frame 3 (Opcode: Ping) ➔ 서버 응답: Frame 4 (Opcode: Pong)       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               WebSocket 최초 연결 및 신분 상승 로직               |
++---------------------------------------------------------------+
+|                                                               |
+| [ 1. HTTP Request (클라이언트 ➔ 서버) ]                           |
+| GET /chat HTTP/1.1                                            |
+| Host: server.example.com                                      |
+| Upgrade: websocket                <-- "웹소켓으로 폼 체인지 원함"      |
+| Connection: Upgrade               <-- "이 연결의 성질을 바꾸겠다"      |
+| Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ== <-- (클라이언트 난수) |
+| Sec-WebSocket-Version: 13                                     |
+|                                                               |
+| [ 2. HTTP Response (서버 ➔ 클라이언트) ]                          |
+| HTTP/1.1 101 Switching Protocols  <-- "오케이! 폼 체인지 승인"       |
+| Upgrade: websocket                                            |
+| Connection: Upgrade                                           |
+| Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo= <--(해시 답변)|
+|                                                               |
+| 💥 이 순간부터 HTTP 끝! TCP 소켓이 직접 연결된 완전 양방향 상태 진입!     |
+|                                                               |
+| [ 3. Data Frame (양방향 이진 통신 시작) ]                         |
+| Frame 1 (Opcode: Text, Payload: "Hello Server!")              |
+| Frame 2 (Opcode: Binary, Payload: [0x12, 0x34...])            |
+| Frame 3 (Opcode: Ping) ➔ 서버 응답: Frame 4 (Opcode: Pong)       |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 핸드셰이크의 핵심은 1번과 2번의 교환이다. 클라이언트가 던진 `Sec-WebSocket-Key` 난수에, 서버는 전 세계 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 스펙에 하드코딩된 마법의 문자열(GUID)을 붙인 뒤 SHA-1 해시 함수에 돌려서 `Sec-WebSocket-Accept`로 되돌려준다. 이 복잡한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 중간의 오지랖 넓은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 서버나 구형 캐시 서버가 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 연결을 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답으로 착각하여 엉뚱한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라이언트에 캐싱해주는 치명적 사고를 막기 위한 스펙이다. 이 인증을 통과해 `101` 응답이 떨어지면, 그때부터 브라우저와 서버는 무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 옷을 벗고 날렵한 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Frame만으로 서로 공격적인 핑퐁(Ping-Pong)을 시작한다.
@@ -143,28 +143,28 @@ tags = ["studynote-network"]
    - **판단**: [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)을 다중 서버로 운영하려면 서버 단독으로는 절대 아키텍처를 완성할 수 없다. 백엔드 뒤에 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Pub/Sub 또는 <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a></strong> 같은 메시지 브로커를 달아야 한다. 1번 서버가 "안녕"을 받으면 브로커로 쏘아 올리고(Publish), 모든 채팅 서버(1, 2, 3번)가 이 브로커를 구독(Subscribe)하고 있다가, B와 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 잡고 있는 2번 서버가 그 메시지를 가로채서 B의 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 내려보내는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Pub/Sub 아키텍처가 필수불가결하다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 다중 서버 환경의 WebSocket Pub/Sub 구조     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [Client A]  (목적지: B에게 채팅 쏨)        [Client B]           │
-  │     │                                         ▲             │
-  │  (WebSocket)                              (WebSocket)       │
-  │     │                                         │             │
-  │     ▼                                         │             │
-  │ [WAS 1번 서버]   ── (1번 서버엔 B가 없다!) ──  [WAS 2번 서버]     │
-  │     │                                         ▲             │
-  │     │ 1. Publish (발행)                        │ 3. 메시지 캐치│
-  │     │    "B에게 전달해줘: 안녕"                   │   & 소켓전송  │
-  │     ▼                                         │             │
-  │  ======================================================     │
-  │  │         Redis Pub/Sub (또는 Kafka Broker)          │     │
-  │  │  2. 수신된 메시지를 모든 구독 WAS 서버로 브로드캐스팅(전파)│     │
-  │  ======================================================     │
-  │                                                             │
-  │ ✅ 판단 지점: 웹소켓 서버를 스케일아웃하려면 그들의 뒤통수를 묶어주는 │
-  │    거대한 중앙 신경망(메시지 큐) 설계가 반드시 동반되어야 한다!       │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 다중 서버 환경의 WebSocket Pub/Sub 구조     |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [Client A]  (목적지: B에게 채팅 쏨)        [Client B]           |
+  |     |                                         ^             |
+  |  (WebSocket)                              (WebSocket)       |
+  |     |                                         |             |
+  |     v                                         |             |
+  | [WAS 1번 서버]   -- (1번 서버엔 B가 없다!) --  [WAS 2번 서버]     |
+  |     |                                         ^             |
+  |     | 1. Publish (발행)                        | 3. 메시지 캐치|
+  |     |    "B에게 전달해줘: 안녕"                   |   & 소켓전송  |
+  |     v                                         |             |
+  |  ======================================================     |
+  |  |         Redis Pub/Sub (또는 Kafka Broker)          |     |
+  |  |  2. 수신된 메시지를 모든 구독 WAS 서버로 브로드캐스팅(전파)|     |
+  |  ======================================================     |
+  |                                                             |
+  | ✅ 판단 지점: 웹소켓 서버를 스케일아웃하려면 그들의 뒤통수를 묶어주는 |
+  |    거대한 중앙 신경망(메시지 큐) 설계가 반드시 동반되어야 한다!       |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)의 상태 유지(Stateful) 특성은 클라우드 네이티브의 수평 확장성([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 철학과 정면으로 충돌한다. 백엔드 개발자가 [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/).io나 Spring WebSocket으로 로컬 환경에서 완성한 채팅 코드가 프로덕션 환경(서버 10대)에 올라가면 100% 무너지는 이유가 여기에 있다. A가 서버 1번에 붙고, B가 서버 2번에 붙어있다면, 두 서버는 서로의 존재를 모른다. 이 단절을 극복하기 위해 Redis라는 외부 장부(Pub/Sub)를 도입하여, 어떤 서버가 메시지를 받든 중앙에 던지고 모든 서버가 귀를 기울이게 만드는 것이 대용량 실시간 서버 설계의 뼈대다.
@@ -215,12 +215,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: gRPC]
-    │
-    ▼
+    |
+    v
 [현재 개념: WebSocket]
-    │
-    ├──▶ [확장 A: SSE]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: SSE]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 WebSocket는 gRPC에서 출발해 현재 메커니즘을 정교화하고, 이후 SSE와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -237,7 +237,7 @@ WebSocket는 gRPC에서 출발해 현재 메커니즘을 정교화하고, 이후
 
 **진행 상황**: 601 / 1120
 
-← **이전**: [479. gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)
-**다음**: [481. SSE (Server-Sent Events)](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) →
+<- **이전**: [479. gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)
+**다음**: [481. SSE (Server-Sent Events)](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) ->
 
 ---

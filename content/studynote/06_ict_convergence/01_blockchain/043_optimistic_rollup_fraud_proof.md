@@ -21,8 +21,8 @@ tags = ["studynote-ict-convergence"]
 ```
 롤업 (Rollup) 원리:
   대량 트랜잭션을 L2(Layer 2)에서 실행
-  → 실행 결과(상태 루트)만 L1(이더리움 메인넷)에 제출
-  → L1 데이터 가용성 활용 + L1 실행 비용 절감
+  -> 실행 결과(상태 루트)만 L1(이더리움 메인넷)에 제출
+  -> L1 데이터 가용성 활용 + L1 실행 비용 절감
 
 옵티미스틱 (Optimistic) 의미:
   "트랜잭션이 유효하다고 낙관적으로 가정"
@@ -47,11 +47,11 @@ tags = ["studynote-ict-convergence"]
     오류 발견 시 사기 증명 제출
 
 흐름:
-  L2 트랜잭션 → 시퀀서 → 배치 압축 → L1 제출
-                                              ↓
+  L2 트랜잭션 -> 시퀀서 -> 배치 압축 -> L1 제출
+                                              v
                                     7일 이의제기 기간
-                                              ↓
-                                    이의 없음 → 최종 확정
+                                              v
+                                    이의 없음 -> 최종 확정
 ```
 
 > 📢 **섹션 요약 비유**: 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 선불 여행 정산 — 회사 출장비를 먼저 쓰고(L2 실행), 나중에 영수증 제출(L1 제출). 7일 내 문제 제기 없으면 확정.
@@ -71,7 +71,7 @@ tags = ["studynote-ict-convergence"]
    배치 데이터 다운로드 (L1 calldata/blob)
    자체 실행 결과: CORRECT_ROOT
    시퀀서 제출: WRONG_ROOT
-   → 불일치 탐지!
+   -> 불일치 탐지!
 
 3. 이의제기 (Challenge) 제출:
    L1 Rollup 계약에 이의제기 트랜잭션 발송
@@ -83,13 +83,13 @@ tags = ["studynote-ict-convergence"]
    L1에서 해당 트랜잭션만 재실행 (저비용)
 
 5. 판정:
-   시퀀서 잘못 → 상태 롤백, 시퀀서 슬래시(Slash)
-   이의제기 잘못 → 이의제기자 보증금 몰수
+   시퀀서 잘못 -> 상태 롤백, 시퀀서 슬래시(Slash)
+   이의제기 잘못 -> 이의제기자 보증금 몰수
 
 인센티브 설계:
   이의제기자: 성공 시 보상 (시퀀서 슬래시 일부)
   시퀀서: 허위 제출 시 본딩(Bonding) 자산 몰수
-  → 게임이론적 균형: 시퀀서가 정직하게 행동하도록 유도
+  -> 게임이론적 균형: 시퀀서가 정직하게 행동하도록 유도
 
 이의제기 기간:
   Optimism: 7일
@@ -184,13 +184,13 @@ Base 개요:
 
 DApp 배포 단계:
   1. 계약 배포:
-     이더리움 mainnet 계약 → Base에 그대로 배포
+     이더리움 mainnet 계약 -> Base에 그대로 배포
      (EVM 100% 호환)
 
      forge deploy --rpc-url https://mainnet.base.org
 
   2. 브리징:
-     ETH → Base ETH (7일 출금 지연)
+     ETH -> Base ETH (7일 출금 지연)
      또는 CEX(Coinbase) 직접 출금으로 즉시 획득
 
   3. 사용자 경험:
@@ -200,13 +200,13 @@ DApp 배포 단계:
 EIP-4844 (Proto-Danksharding) 영향:
   2024년 이더리움 업그레이드
   Blob 데이터: calldata 대비 10~100배 저렴
-  → Optimistic 롤업 수수료 추가 80~90% 감소
+  -> Optimistic 롤업 수수료 추가 80~90% 감소
 
   Base, Optimism, Arbitrum 모두 즉시 적용
   결과: 평균 L2 거래 수수료 $0.001~$0.01 수준
 
-미래: EIP-4844 → Full Danksharding
-  수백 개 Blob/블록 → 롤업 비용 거의 0
+미래: EIP-4844 -> Full Danksharding
+  수백 개 Blob/블록 -> 롤업 비용 거의 0
   "롤업 중심의 이더리움 로드맵" 실현
 ```
 
@@ -243,7 +243,7 @@ CryptoKitties로 네트워크 마비
       |
       v
 [롤업 제안 (2018~)]
-Plasma → 데이터 가용성 문제
+Plasma -> 데이터 가용성 문제
 Rollup 개념 등장 (Vitalik)
       |
       v
@@ -263,7 +263,7 @@ EIP-4844로 수수료 대폭 감소
       |
       v
 [현재: ZK vs Optimistic 경쟁]
-ZK 기술 성숙 → 점진적 대체 가능성
+ZK 기술 성숙 -> 점진적 대체 가능성
 단기: Optimistic이 높은 TVL/생태계 유지
 ```
 
@@ -281,7 +281,7 @@ ZK 기술 성숙 → 점진적 대체 가능성
 
 **진행 상황**: 43 / 552
 
-← **이전**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
-**다음**: [044. ZK-Rollup & 유효성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) →
+<- **이전**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+**다음**: [044. ZK-Rollup & 유효성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) ->
 
 ---

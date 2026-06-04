@@ -51,35 +51,35 @@ tags = ["studynote-operating-system"]
 ART의 하이브리드 아키텍처는 앱의 생명주기와 기기의 상태(충전 중, 유휴 상태 등)에 따라 실행 전략을 동적으로 전환한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │                 ART 혼합 컴파일 (Hybrid Compilation) 파이프라인                 │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [앱 설치 (Install)] ───▶ [AOT 보류 / 설치 즉각 완료]                     │
-  │                                                                       │
-  │  [앱 실행 (Run)]                                                      │
-  │   │                                                                   │
-  │   ├──▶ 1. 인터프리터 (Interpreter) 모드 실행 (초기)                      │
-  │   │      └─▶ 장점: 즉각적 앱 시작 가능                                  │
-  │   │                                                                   │
-  │   └──▶ 2. 프로파일링 (Profiling) 및 JIT 개입                            │
-  │          │                                                            │
-  │          ├──▶ 자주 호출되는 'Hot Code' 식별                             │
-  │          ├──▶ JIT 컴파일러가 메모리 상에서 기계어 컴파일 및 실행             │
-  │          └──▶ JIT 캐시(메모리)에 저장 & 프로필 파일(.prof) 디스크 기록        │
-  │                                                                       │
-  │  [기기 유휴 (Idle) & 충전 (Charging) 상태 진입]                       │
-  │   │                                                                   │
-  │   └──▶ 3. 백그라운드 AOT 컴파일 데몬 (dex2oat) 가동                     │
-  │          │                                                            │
-  │          ├──▶ 프로필 파일(.prof) 분석                                  │
-  │          ├──▶ Hot Code만을 대상으로 심층 최적화 AOT 컴파일 수행             │
-  │          └──▶ .oat 파일(네이티브 기계어) 생성 및 스토리지 저장               │
-  │                                                                       │
-  │  [이후 앱 재실행]                                                     │
-  │   │                                                                   │
-  │   └──▶ 4. .oat 파일 확인 후 네이티브 코드로 즉시 직접 실행 (초고속)          │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |                 ART 혼합 컴파일 (Hybrid Compilation) 파이프라인                 |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |  [앱 설치 (Install)] ----> [AOT 보류 / 설치 즉각 완료]                     |
+  |                                                                       |
+  |  [앱 실행 (Run)]                                                      |
+  |   |                                                                   |
+  |   +---> 1. 인터프리터 (Interpreter) 모드 실행 (초기)                      |
+  |   |      +--> 장점: 즉각적 앱 시작 가능                                  |
+  |   |                                                                   |
+  |   +---> 2. 프로파일링 (Profiling) 및 JIT 개입                            |
+  |          |                                                            |
+  |          +---> 자주 호출되는 'Hot Code' 식별                             |
+  |          +---> JIT 컴파일러가 메모리 상에서 기계어 컴파일 및 실행             |
+  |          +---> JIT 캐시(메모리)에 저장 & 프로필 파일(.prof) 디스크 기록        |
+  |                                                                       |
+  |  [기기 유휴 (Idle) & 충전 (Charging) 상태 진입]                       |
+  |   |                                                                   |
+  |   +---> 3. 백그라운드 AOT 컴파일 데몬 (dex2oat) 가동                     |
+  |          |                                                            |
+  |          +---> 프로필 파일(.prof) 분석                                  |
+  |          +---> Hot Code만을 대상으로 심층 최적화 AOT 컴파일 수행             |
+  |          +---> .oat 파일(네이티브 기계어) 생성 및 스토리지 저장               |
+  |                                                                       |
+  |  [이후 앱 재실행]                                                     |
+  |   |                                                                   |
+  |   +---> 4. .oat 파일 확인 후 네이티브 코드로 즉시 직접 실행 (초고속)          |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 앱이 다운로드되면, 기존 AOT 방식처럼 수 분간 설치 대기를 하지 않고 바로 설치가 완료된다. 사용자가 앱을 켜면 먼저 인터프리터가 동작하며 빠른 앱 구동을 보장한다. 실행 중 특정 메서드가 반복 호출되면 이를 감지하여 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러가 즉시 기계어로 변환해 메모리에서 실행 속도를 올린다. 동시에 ART는 이 '핫 코드'들의 목록을 디스크의 프로필 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 남겨둔다. 새벽 시간 등 사용자가 스마트폰을 충전기에 꽂고 사용하지 않는 유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 상태가 되면, ART의 데몬 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나 프로필 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽고 핫 코드만 집중적으로 AOT 컴파일(.[oat](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))한다. 다음 날 사용자가 앱을 켜면, 이제 인터프리터나 JIT의 개입 없이 네이티브 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 앱이 실행된다.
@@ -91,20 +91,20 @@ ART의 하이브리드 아키텍처는 앱의 생명주기와 기기의 상태(�
 개별 기기에서 핫 코드를 학습하는 데는 시간이 걸린다(사용자가 앱을 여러 번 써야 함). 이를 극복하기 위해 도입된 것이 <strong>클라우드 프로필(Cloud Profiles)</strong>이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 클라우드 기반 프로필 가이드 AOT 컴파일             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [기존 사용자들]                                            │
-  │  Device A ─(프로필 데이터)─▶ Google Play                    │
-  │  Device B ─(프로필 데이터)─▶ 서버 익명화 및                 │
-  │  Device C ─(프로필 데이터)─▶ 코어 프로필(Core Profile) 생성 │
-  │                                                             │
-  │  [신규 사용자]                                              │
-  │  1. Google Play에서 앱(DEX) + 코어 프로필 동시 다운로드        │
-  │  2. 다운로드 직후 코어 프로필 기반으로 핵심 영역 AOT 선행 컴파일 │
-  │  3. 앱 최초 실행 시부터 핵심 기능은 네이티브 코드로 작동!      │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 클라우드 기반 프로필 가이드 AOT 컴파일             |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [기존 사용자들]                                            |
+  |  Device A -(프로필 데이터)--> Google Play                    |
+  |  Device B -(프로필 데이터)--> 서버 익명화 및                 |
+  |  Device C -(프로필 데이터)--> 코어 프로필(Core Profile) 생성 |
+  |                                                             |
+  |  [신규 사용자]                                              |
+  |  1. Google Play에서 앱(DEX) + 코어 프로필 동시 다운로드        |
+  |  2. 다운로드 직후 코어 프로필 기반으로 핵심 영역 AOT 선행 컴파일 |
+  |  3. 앱 최초 실행 시부터 핵심 기능은 네이티브 코드로 작동!      |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 수많은 사용자가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 프로파일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구글 플레이 서버가 수집, 취합하여 모든 사용자가 공통으로 많이 쓰는 코드 영역(예: 앱 시작 로직, 메인 화면 UI 렌더링)을 추출한다. 새로운 사용자가 앱을 설치할 때 이 '클라우드 프로필'을 함께 내려받아, 런타임 학습 과정 없이도 설치 즉시 핵심 부분을 AOT 컴파일 할 수 있게 한다. 이는 최초 실행 속도와 부드러움을 혁신적으로 향상시킨다.
@@ -147,29 +147,29 @@ ART의 하이브리드 아키텍처는 앱의 생명주기와 기기의 상태(�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │             ART 런타임 컴파일러 실무 튜닝 의사결정 플로우                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [앱 성능 저하 (Jank / 긴 로딩) 이슈 접수]                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      앱 구동 극초기(Cold Start) 지연인가?                         │
-  │          ├─ 예 ─────▶ [Baseline Profiles (Macrobenchmark) 적용]  │
-  │          │                     │                                  │
-  │          │                     └─▶ 핵심 경로 AOT 컴파일 강제 유도   │
-  │          │                                                        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      장시간 구동 시 메모리 누수 / 발열인가?                       │
-  │          ├─ 예 ─────▶ [Android Studio Profiler (CPU/Memory) 분석]│
-  │          │                     │                                  │
-  │          │                     └─▶ JIT 스래싱(Thrashing) 원인 메서드│
-  │          │                         식별 및 알고리즘 복잡도 개선       │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 시스템 레벨 (dex2oat 백그라운드 부하) 검토   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |             ART 런타임 컴파일러 실무 튜닝 의사결정 플로우                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [앱 성능 저하 (Jank / 긴 로딩) 이슈 접수]                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      앱 구동 극초기(Cold Start) 지연인가?                         |
+  |          +- 예 ------> [Baseline Profiles (Macrobenchmark) 적용]  |
+  |          |                     |                                  |
+  |          |                     +--> 핵심 경로 AOT 컴파일 강제 유도   |
+  |          |                                                        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      장시간 구동 시 메모리 누수 / 발열인가?                       |
+  |          +- 예 ------> [Android Studio Profiler (CPU/Memory) 분석]|
+  |          |                     |                                  |
+  |          |                     +--> JIT 스래싱(Thrashing) 원인 메서드|
+  |          |                         식별 및 알고리즘 복잡도 개선       |
+  |          |                                                        |
+  |          +- 아니오 ---> 시스템 레벨 (dex2oat 백그라운드 부하) 검토   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도 문제는 인터프리터 모드에서 AOT로 빠르게 전환되지 않았기 때문일 확률이 높으므로, [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) Profiles 등을 배포 파이프라인에 추가해 해결한다. 런타임 중반의 발열은 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러가 특정 코드를 처리하는 데 과도한 리소스를 쓰거나, [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)과의 간섭 때문일 수 있다. 이때는 코드 자체의 구조적 리팩토링이 필요하다.
@@ -216,12 +216,12 @@ ART의 AOT/[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568
 
 ```text
 [안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]
-    │
-    ▼
+    |
+    v
 [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
-    │
-    ├──▶ [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
-    └──▶ [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
+    |
+    +---> [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
+    +---> [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -238,7 +238,7 @@ ART의 AOT/[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568
 
 **진행 상황**: 621 / 800
 
-← **이전**: [620. 안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)](/knowledge-base/studynote/02_operating_system/10_security/620_android_runtime_art_wakelock/)
-**다음**: [622. iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)](/knowledge-base/studynote/02_operating_system/10_security/622_ios_xnu_hybrid_kernel_app_sandbox/) →
+<- **이전**: [620. 안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)](/knowledge-base/studynote/02_operating_system/10_security/620_android_runtime_art_wakelock/)
+**다음**: [622. iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)](/knowledge-base/studynote/02_operating_system/10_security/622_ios_xnu_hybrid_kernel_app_sandbox/) ->
 
 ---

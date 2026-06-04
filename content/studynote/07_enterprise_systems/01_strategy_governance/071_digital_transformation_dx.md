@@ -30,11 +30,11 @@ tags = ["enterprise_systems"]
 
 ```text
 Tech (AI/Cloud/Big Data)
-  ↓
+  v
 Business Model
-  ↓
+  v
 Customer Experience
-  ↓
+  v
 Culture Change
 ```
 
@@ -107,11 +107,11 @@ DX는 경쟁력과 민첩성을 높이는 핵심 [전략](/knowledge-base/studyn
 
 ```text
 AI / Cloud / Big Data
-  ↓
+  v
 DX
-  ↓
+  v
 Business Model
-  ↓
+  v
 Culture Change
 ```
 
@@ -121,11 +121,11 @@ Culture Change
 
 ```text
 Digitization
-  ↓
+  v
 Digitalization
-  ↓
+  v
 DX
-  ↓
+  v
 Innovation
 ```
 
@@ -143,7 +143,7 @@ DX는 그런 큰 변화예요.
 
 **진행 상황**: 71 / 482
 
-← **이전**: [70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/070_master_data_management_mdm_ssot/)
-**다음**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) →
+<- **이전**: [70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/070_master_data_management_mdm_ssot/)
+**다음**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) ->
 
 ---

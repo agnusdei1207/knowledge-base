@@ -28,11 +28,11 @@ V-모델 ([V-Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/1
 ```text
 [폭포수 모델의 병목 vs V-모델의 사전 대응]
 
-[폭포수]: 요구 ─> 설계 ─> 구현 ─> (여기서부터 부랴부랴 테스트 준비) ─> [테스트] 💥 (설계 결함 폭발)
+[폭포수]: 요구 -> 설계 -> 구현 -> (여기서부터 부랴부랴 테스트 준비) -> [테스트] 💥 (설계 결함 폭발)
 
-[V-모델]: 요구 ────────────────────────────────────────────────> 인수 테스트 계획 (사전 준비)
-            ▼                                                  ▲
-          설계 ────────────────────────────────────> 통합 테스트 계획 (사전 준비)
+[V-모델]: 요구 ------------------------------------------------> 인수 테스트 계획 (사전 준비)
+            v                                                  ^
+          설계 ------------------------------------> 통합 테스트 계획 (사전 준비)
 ```
 **[도식 설명]**
 이 도식은 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)에서 테스트가 지연되며 발생하는 위험을 V-모델이 어떻게 선제적으로 차단하는지 보여준다. V-모델에서는 코딩이 시작되기 한참 전인 '요구 분석' 단계에서부터 우측의 '테스트 계획'이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 생성된다. 이를 통해 설계자는 "이 기능은 나중에 어떻게 테스트되지?"를 염두에 두고 Testable(테스트 가능한) 설계를 하게 되며, 이는 후반부 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생률을 극적으로 낮추는 메커니즘으로 작용한다.
@@ -52,15 +52,15 @@ V-모델의 핵심 메커니즘은 좌측의 개발 단계(수준)와 우측의 
 ```text
 [V-모델 아키텍처 대칭 및 V&V 교차 메커니즘]
 
-[사용자 관점] 요구사항 분석 ────── (인수 테스트 계획) ──────> 인수 테스트 [Validation]
-                   │                                          ▲
-[아키텍처 관점] 시스템 설계 ────── (시스템 테스트 계획) ────> 시스템 테스트 [Verification]
-                       │                                      ▲
-[모듈 간 연동]     아키텍처 설계 ── (통합 테스트 계획) ───> 통합 테스트
-                           │                                  ▲
-[코드 레벨]            상세 설계 ── (단위 테스트 계획) ──> 단위 테스트
-                               │                              ▲
-                               └──────> [구현 (Coding)] ──────┘
+[사용자 관점] 요구사항 분석 ------ (인수 테스트 계획) ------> 인수 테스트 [Validation]
+                   |                                          ^
+[아키텍처 관점] 시스템 설계 ------ (시스템 테스트 계획) ----> 시스템 테스트 [Verification]
+                       |                                      ^
+[모듈 간 연동]     아키텍처 설계 -- (통합 테스트 계획) ---> 통합 테스트
+                           |                                  ^
+[코드 레벨]            상세 설계 -- (단위 테스트 계획) --> 단위 테스트
+                               |                              ^
+                               +------> [구현 (Coding)] ------+
 ```
 **[도식 설명]**
 이 알파벳 'V'자 다이어그램은 왼쪽의 하강 곡선(상세화 과정)과 오른쪽의 상승 곡선(통합 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정)이 만나는 대칭성을 시각화한다. 왼쪽 상단으로 갈수록 사용자 지향적(추상적)이며, 맨 아래 모서리(구현)는 기계 지향적(구체적)이다. 수평선(화살표)은 좌측 단계 완료 시 우측 단계의 테스트 '계획과 시나리오'가 도출된다는 강력한 연결 고리를 의미한다. 개발이 바닥을 찍고 올라갈 때, 미리 준비된 테스트 시나리오를 통해 각 레벨의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명한다.
@@ -84,14 +84,14 @@ V-모델은 [테스트 주도 개발](/knowledge-base/studynote/04_software_engi
 [결함 발견 시점에 따른 수정 비용 증가 곡선 비교]
 
 수정 비용 ($)
-   ▲                                 [폭포수 모델: 후반 폭발]
-   │                                   /
-   │                                 /
-   │                  [V-모델: 선형적 통제]
-   │                    /
-   │            /
-   │     /
-   └───────────────────────────────────────────────► 시간
+   ^                                 [폭포수 모델: 후반 폭발]
+   |                                   /
+   |                                 /
+   |                  [V-모델: 선형적 통제]
+   |                    /
+   |            /
+   |     /
+   +-----------------------------------------------► 시간
     요구분석    설계    구현    테스트    운영
 ```
 **[도식 설명]**
@@ -116,8 +116,8 @@ V-모델은 [테스트 주도 개발](/knowledge-base/studynote/04_software_engi
 [V-모델 적용 시 양방향 추적성(Traceability) 맵]
 
 [요구사항 명세] <==== 매핑 ====> [인수 테스트 결과]
-     │                                  ▲
-     ▼ (상세화)                         │ (증명)
+     |                                  ^
+     v (상세화)                         | (증명)
 [컴포넌트 설계] <==== 매핑 ====> [통합 테스트 결과]
 ```
 **[도식 설명]**
@@ -150,17 +150,17 @@ V-모델은 비용이 많이 들지만, 그 이상의 '[신뢰성](/knowledge-ba
 
 ```text
 [폭포수 모델 (Waterfall Model)]
-    │
-    ▼
+    |
+    v
 [검증과 확인 (Verification & Validation)]
-    │
-    ▼
+    |
+    v
 [단위/통합/시스템/인수 테스트]
-    │
-    ▼
+    |
+    v
 [TDD (Test-Driven Development)]
-    │
-    ▼
+    |
+    v
 [추적성 매트릭스 (Traceability Matrix)]
 ```
 
@@ -177,7 +177,7 @@ V-모델은 비용이 많이 들지만, 그 이상의 '[신뢰성](/knowledge-ba
 
 **진행 상황**: 5 / 973
 
-← **이전**: [4. 폭포수 모델 (Waterfall Model) - 순차적, 문서 중심](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)
-**다음**: [6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/) →
+<- **이전**: [4. 폭포수 모델 (Waterfall Model) - 순차적, 문서 중심](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)
+**다음**: [6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/) ->
 
 ---

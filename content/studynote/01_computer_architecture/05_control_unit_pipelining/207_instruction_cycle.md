@@ -28,16 +28,16 @@ tags = ["studynote-computer-architecture"]
 또 하나 자주 놓치는 점은, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 곧 한 번의 클럭과 같지는 않다는 사실이다. 간단한 명령은 몇 개의 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/))으로 끝날 수 있지만, 메모리 접근이나 분기 판정이 들어가면 여러 클럭에 걸쳐 진행된다. 즉 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 생명주기</strong>이고, 클럭은 그 생명주기를 잘게 나누는 시간 눈금이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Why the instruction cycle exists: order before speed           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Program in memory                                                         │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Fetch the next instruction  →  Understand meaning  →  Change state         │
-│      │                               │                    │                 │
-│      └────────────── without this order, hardware conflicts ──────────────┘ │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            Why the instruction cycle exists: order before speed           |
++----------------------------------------------------------------------------+
+| Program in memory                                                         |
+|      |                                                                     |
+|      v                                                                     |
+| Fetch the next instruction  ->  Understand meaning  ->  Change state         |
+|      |                               |                    |                 |
+|      +-------------- without this order, hardware conflicts --------------+ |
++----------------------------------------------------------------------------+
 ```
 
 이 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 단순히 단계 이름의 나열이 아니라, 프로그램의 추상적 지시를 하드웨어의 실제 상태 변화로 연결하는 최소한의 질서임을 보여준다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기법은 이 질서를 더 빨리 처리하는 방법이지, 질서 자체를 제거하는 방법이 아니다.
@@ -61,23 +61,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 고전적 설명과 현대적 구현을 함께 읽을 수 있도록, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클의 핵심 분기점을 한 장에 정리한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         Instruction Cycle: state update order and decision points         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PC → Fetch → Decode ──┬─ direct operand path ───────────────┐             │
-│                       │                                      │             │
-│                       └─ indirect address read ────────────▶ │             │
-│                                                              ▼             │
-│                                                     Execute / Memory       │
-│                                                              │             │
-│                                                   Register write / PC up   │
-│                                                              │             │
-│                                      pending interrupt? ─ Yes ─▶ ISR jump  │
-│                                                              │             │
-│                                                              No            │
-│                                                              ▼             │
-│                                                          Next Fetch        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|         Instruction Cycle: state update order and decision points         |
++----------------------------------------------------------------------------+
+| PC -> Fetch -> Decode --+- direct operand path ---------------+             |
+|                       |                                      |             |
+|                       +- indirect address read -------------> |             |
+|                                                              v             |
+|                                                     Execute / Memory       |
+|                                                              |             |
+|                                                   Register write / PC up   |
+|                                                              |             |
+|                                      pending interrupt? - Yes --> ISR jump  |
+|                                                              |             |
+|                                                              No            |
+|                                                              v             |
+|                                                          Next Fetch        |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 설계 포인트는 두 가지다. 첫째, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독 이후에 모든 명령이 같은 경로를 가는 것은 아니다. 메모리 간접 주소 지정은 한 번 더 읽기가 필요하고, 분기 명령은 실행 단계에서 다음 PC를 바꾸며, 예외나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있으면 정상 흐름 대신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 넘어간다. 둘째, 이 분기들이 있어도 <strong>아키텍처 상태는 일관된 순서로만 반영</strong>되어야 한다. 그래야 운영체제와 디버거가 "어디까지 실행되었는지"를 정확히 이해할 수 있다.
@@ -168,20 +168,20 @@ Inst C                       [Fetch]   [Decode]    [Execute]   [Writeback]
 
 ```text
 Stored-program concept
-        │
-        ▼
+        |
+        v
 Instruction Cycle
-(Fetch → Decode → Execute)
-        │
-        ├──► Indirect addressing / Interrupt handling
-        │
-        ▼
+(Fetch -> Decode -> Execute)
+        |
+        +--► Indirect addressing / Interrupt handling
+        |
+        v
 Multi-cycle control + Micro-operation sequencing
-        │
-        ▼
+        |
+        v
 Pipeline stages + Hazard control
-        │
-        ▼
+        |
+        v
 Superscalar / Out-of-Order / Precise exception
 ```
 
@@ -199,7 +199,7 @@ Superscalar / Out-of-Order / Precise exception
 
 **진행 상황**: 207 / 803
 
-← **이전**: [206. 제어 유닛 (Control Unit)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)
-**다음**: [208. 인출 사이클 (Fetch Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/) →
+<- **이전**: [206. 제어 유닛 (Control Unit)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)
+**다음**: [208. 인출 사이클 (Fetch Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/) ->
 
 ---

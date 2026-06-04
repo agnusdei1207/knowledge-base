@@ -31,29 +31,29 @@ tags = ["studynote-operating-system"]
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `cat.jpg` 를 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 뱃속의 폴더 구조에서 어떻게 3-Depth 만에 찾아내는지 그 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스캐팅 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "100만 개의 파일도 내 세 번의 질문을 벗어날 순 없다!"            │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  [ Root Directory Node (최상위 폴더 기둥 블록) ]                                 │
-  │     [ A ~ K ] ─────── (화살표 빔!) ─────── [ L ~ Z ]                             │
-  │         │                                      │                                 │
-  │  =======▼======================================▼==============                   │
-  │                                                                                  │
-  │  ✅ [ Level 1 중위 노드 (접근 록백!) ]                                           │
-  │                                                                                  │
-  │    (A~K 그룹 노드)                        (L~Z 그룹 노드)                        │
-  │    [A~E]  [F~K]                         [L~P]  [Q~Z]                             │
-  │      │                                                                           │
-  │  ====▼========================================================                   │
-  │                                                                                  │
-  │  🔥 [ Level 2 리프 노드 (Leaf Node 단말 잎사귀 컷!!) ]                           │
-  │                                                                                  │
-  │   (A~E 폴더 실제 목록)                                                           │
-  │    - apple.txt -> (i-node 101번 렌더!)                                           │
-  │    - cat.jpg   -> (i-node 205번 렌더!) 타겟 발견 탐색 끝 부스트!!                │
-  │    - dog.avi   -> (i-node 888번 렌더!)                                           │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 "100만 개의 파일도 내 세 번의 질문을 벗어날 순 없다!"            |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  [ Root Directory Node (최상위 폴더 기둥 블록) ]                                 |
+  |     [ A ~ K ] ------- (화살표 빔!) ------- [ L ~ Z ]                             |
+  |         |                                      |                                 |
+  |  =======v======================================v==============                   |
+  |                                                                                  |
+  |  ✅ [ Level 1 중위 노드 (접근 록백!) ]                                           |
+  |                                                                                  |
+  |    (A~K 그룹 노드)                        (L~Z 그룹 노드)                        |
+  |    [A~E]  [F~K]                         [L~P]  [Q~Z]                             |
+  |      |                                                                           |
+  |  ====v========================================================                   |
+  |                                                                                  |
+  |  🔥 [ Level 2 리프 노드 (Leaf Node 단말 잎사귀 컷!!) ]                           |
+  |                                                                                  |
+  |   (A~E 폴더 실제 목록)                                                           |
+  |    - apple.txt -> (i-node 101번 렌더!)                                           |
+  |    - cat.jpg   -> (i-node 205번 렌더!) 타겟 발견 탐색 끝 부스트!!                |
+  |    - dog.avi   -> (i-node 888번 렌더!)                                           |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** B+Tree 폴더 구조다. 중간 노드(Level 1)는 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름과 i-node를 가지고 있지 않다! 오직 이정표([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 역할만 하며 다음 층으로 내려가는 블록 포인터 화살표만 던져준다(마스킹). 결국 바닥인 Leaf Node(잎사귀) 블록에 도착해야만 [파일 이름 : i-node 번호] 의 진짜 매핑 페어가 튀어나온다. 이 방식은 디스크 블록의 크기(4KB) 안에 이정표를 수백 개씩 우겨 넣을 수 있어, 트리가 밑으로 깊어지지 않고 양옆으로 넓적해지는 아주 거대하고 얕은 구조([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) Tree)를 형성하여 디스크 I/O 탐색 횟수($O(\log N)$)를 극단적으로 낮추는 방패를 건설한다 도출.
@@ -137,12 +137,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [할당량 (Quota) 시스템]
-    │
-    ▼
+    |
+    v
 [B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화) (Btree Directory Index)]
-    │
-    ├──▶ [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
-    └──▶ [FUSE (Filesystem in Userspace)]
+    |
+    +---> [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
+    +---> [FUSE (Filesystem in Userspace)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 552 / 800
 
-← **이전**: [551. 할당량 (Quota) 시스템 - 유저/그룹 별 디스크 사용량 제한](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)
-**다음**: [553. 분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) →
+<- **이전**: [551. 할당량 (Quota) 시스템 - 유저/그룹 별 디스크 사용량 제한](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)
+**다음**: [553. 분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) ->
 
 ---

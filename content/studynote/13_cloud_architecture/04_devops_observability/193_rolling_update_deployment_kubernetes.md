@@ -48,10 +48,10 @@ tags = ["studynote-cloud-architecture"]
 
 maxSurge=1, maxUnavailable=1 설정 시:
 
-단계 1: v2 1개 생성 → [v1][v1][v1][v1][v2]  (5개)
-단계 2: v1 1개 종료 → [v1][v1][v1][v2]      (4개)
-단계 3: v2 1개 생성 → [v1][v1][v1][v2][v2]  (5개)
-단계 4: v1 1개 종료 → [v1][v1][v2][v2]      (4개)
+단계 1: v2 1개 생성 -> [v1][v1][v1][v1][v2]  (5개)
+단계 2: v1 1개 종료 -> [v1][v1][v1][v2]      (4개)
+단계 3: v2 1개 생성 -> [v1][v1][v1][v2][v2]  (5개)
+단계 4: v1 1개 종료 -> [v1][v1][v2][v2]      (4개)
   ... 반복 ...
 완료: [v2] [v2] [v2] [v2]    총 4개 Pod
 ```
@@ -171,16 +171,16 @@ kubectl rollout history deployment/my-app
 
 ```text
 K8s Deployment: maxSurge · maxUnavailable 설정
-    │
-    ▼
-Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)
-    ├─► Readiness Probe: 트래픽 수신 준비 확인
-    └─► Graceful Shutdown: 기존 연결 완료 대기
-    │
-    ▼
-롤백: kubectl rollout undo → 이전 ReplicaSet 복원
+    |
+    v
+Rolling Update: 기존 Pod 종료 -> 신규 Pod 생성 (순차)
+    +-► Readiness Probe: 트래픽 수신 준비 확인
+    +-► Graceful Shutdown: 기존 연결 완료 대기
+    |
+    v
+롤백: kubectl rollout undo -> 이전 ReplicaSet 복원
 ```
-2. 한 번에 다 바꾸면 손님이 앉을 의자가 없으니까, 하나 바꾸고→하나 돌아오고→또 하나 바꾸고 반복해.
+2. 한 번에 다 바꾸면 손님이 앉을 의자가 없으니까, 하나 바꾸고->하나 돌아오고->또 하나 바꾸고 반복해.
 3. `maxSurge`는 "의자를 최대 몇 개까지 동시에 밖에 내보낼 수 있는지", `maxUnavailable`은 "동시에 몇 개 자리를 비울 수 있는지"야.
 
 ---
@@ -189,7 +189,7 @@ Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)
 
 **진행 상황**: 192 / 371
 
-← **이전**: [192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/192_zero_downtime_deployment_strategies/)
-**다음**: [194. 블루-그린 배포 (Blue-Green Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) →
+<- **이전**: [192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/192_zero_downtime_deployment_strategies/)
+**다음**: [194. 블루-그린 배포 (Blue-Green Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) ->
 
 ---

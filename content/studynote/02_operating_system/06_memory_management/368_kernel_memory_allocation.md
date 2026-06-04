@@ -28,25 +28,25 @@ tags = ["studynote-operating-system"]
   3. **투트랙 할당의 탄생**: 작고 빠른 물리적 연속 공간은 `kmalloc`([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)/버디 엔진)에 맡기고, 하드웨어가 개입하지 않는 수 메가바이트짜리 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소프트웨어 버퍼는 `vmalloc`이 램의 조각들을 기워 붙여 만들어주는 이원화 체계가 확립되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        kmalloc vs vmalloc의 메모리 매핑 아키텍처 비교                │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 1. kmalloc() 호출 시 (물리적 연속) ]                               │
-│ 커널의 요구: "나 드라이버인데 물리적으로 이어진 12KB 줘!"            │
-│ 논리 주소 (가상) :  [ 4K ]-[ 4K ]-[ 4K ] (연속)                      │
-│                       ↓      ↓      ↓  (다이렉트 매핑)               │
-│ 실제 램 (물리)   :  [ 4K ]-[ 4K ]-[ 4K ] (완벽하게 연속됨!)          │
-│ ✅ 결과: DMA 하드웨어가 12KB를 한 번에 쏴도 안전하게 저장됨.         │
-│                                                                      │
-│ [ 2. vmalloc() 호출 시 (논리적 연속) ]                               │
-│ 커널의 요구: "나 내부 배열 쓸 건데 12MB짜리 줘!"                     │
-│ 논리 주소 (가상) :  [ 4K ]-[ 4K ]-[ 4K ] ... (연속된 환상)           │
-│                       ↓      ↘      ↘  (페이지 테이블 매핑)          │
-│ 실제 램 (물리)   :  [빈방]...[ 4K ]...[ 4K ]...[ 4K ] (찢어짐)       │
-│ ✅ 결과: 페이지 테이블을 조작해 찢어진 빈방들을 하나로 꿰매줌.       │
-│ ⚠ 단점: 12MB를 매핑하느라 페이지 테이블 수정 연산이 겁나 느림!       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        kmalloc vs vmalloc의 메모리 매핑 아키텍처 비교                |
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 1. kmalloc() 호출 시 (물리적 연속) ]                               |
+| 커널의 요구: "나 드라이버인데 물리적으로 이어진 12KB 줘!"            |
+| 논리 주소 (가상) :  [ 4K ]-[ 4K ]-[ 4K ] (연속)                      |
+|                       v      v      v  (다이렉트 매핑)               |
+| 실제 램 (물리)   :  [ 4K ]-[ 4K ]-[ 4K ] (완벽하게 연속됨!)          |
+| ✅ 결과: DMA 하드웨어가 12KB를 한 번에 쏴도 안전하게 저장됨.         |
+|                                                                      |
+| [ 2. vmalloc() 호출 시 (논리적 연속) ]                               |
+| 커널의 요구: "나 내부 배열 쓸 건데 12MB짜리 줘!"                     |
+| 논리 주소 (가상) :  [ 4K ]-[ 4K ]-[ 4K ] ... (연속된 환상)           |
+|                       v      ↘      ↘  (페이지 테이블 매핑)          |
+| 실제 램 (물리)   :  [빈방]...[ 4K ]...[ 4K ]...[ 4K ] (찢어짐)       |
+| ✅ 결과: 페이지 테이블을 조작해 찢어진 빈방들을 하나로 꿰매줌.       |
+| ⚠ 단점: 12MB를 매핑하느라 페이지 테이블 수정 연산이 겁나 느림!       |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** `kmalloc`은 가상 주소와 물리 주소의 간격이 사실상 없다. 그냥 물리 램의 거대 덩어리를 그대로 떼어준다. 반면 `vmalloc`은 일반 유저 프로그램(`malloc`)이 하는 짓과 똑같이, 여기저기 흩어진 4KB 물리 조각들을 긁어모은 뒤 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 일일이 조작하여 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 이어 붙인다.
 
@@ -102,12 +102,12 @@ tags = ["studynote-operating-system"]
 - 반면 `kmalloc`은 이미 매핑이 고정된 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 캐시를 쓰므로 이 끔찍한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 피할 수 있다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 할당 함수  │ 페이지 테이블 갱신│ 멀티코어 IPI 인터럽트│ 성능 체감    │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ kmalloc  │ 발생 안 함   │ 발생 안 함   │ 로켓 속도                   │
-│ vmalloc  │ 무겁게 발생   │ 수십 번 폭발  │ 기어감                    │
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
++----------+------------+------------+---------------------------------+
+| 할당 함수  | 페이지 테이블 갱신| 멀티코어 IPI 인터럽트| 성능 체감    |
++----------+------------+------------+---------------------------------+
+| kmalloc  | 발생 안 함   | 발생 안 함   | 로켓 속도                   |
+| vmalloc  | 무겁게 발생   | 수십 번 폭발  | 기어감                    |
++----------+------------+------------+---------------------------------+
 ```
 **[매트릭스 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코딩 스탠다드에서는 "죽을 것 같이 큰 메모리가 필요한 게 아니면 무조건 kmalloc을 써라"라고 못 박고 있다. vmalloc의 매핑 변경이 가져오는 나비효과는 시스템 전체의 코어를 멈칫하게 만들기 때문이다.
 
@@ -164,12 +164,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [세그멘테이션 기반 페이징 (Paged Segmentation)]
-    │
-    ▼
+    |
+    v
 [커널 메모리 할당 방식 (kmalloc, vmalloc)]
-    │
-    ├──▶ [메모리 풀 (Memory Pool) 기법]
-    └──▶ [파편화 관리 및 조각 모음]
+    |
+    +---> [메모리 풀 (Memory Pool) 기법]
+    +---> [파편화 관리 및 조각 모음]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -186,7 +186,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 368 / 800
 
-← **이전**: [367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/)
-**다음**: [369. 메모리 풀 (Memory Pool) 기법](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) →
+<- **이전**: [367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/)
+**다음**: [369. 메모리 풀 (Memory Pool) 기법](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) ->
 
 ---

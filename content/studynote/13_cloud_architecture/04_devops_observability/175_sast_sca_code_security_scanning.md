@@ -26,14 +26,14 @@ tags = ["studynote-cloud-architecture"]
 아래 그림은 코드 보안 위험이 들어오는 두 경로를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Two entry points for code risk                   │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ Own source code              │ 3rd-party components                 │
-│ controller -> service -> DB  │ manifest -> dep A -> dep B           │
-│ weak validation / secrets    │ known CVE / malicious package        │
-│ logic flaw lives in repo     │ risk travels through transitive deps │
-└──────────────────────────────┴───────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Two entry points for code risk                   |
++------------------------------+---------------------------------------+
+| Own source code              | 3rd-party components                 |
+| controller -> service -> DB  | manifest -> dep A -> dep B           |
+| weak validation / secrets    | known CVE / malicious package        |
+| logic flaw lives in repo     | risk travels through transitive deps |
++------------------------------+---------------------------------------+
 ```
 
 핵심은 애플리케이션 보안을 "내가 작성한 줄"과 "내가 가져온 줄"의 결합 문제로 보는 것이다. 둘 중 하나만 관리하면 나머지 절반의 공격면이 그대로 남는다.
@@ -51,19 +51,19 @@ SCA의 핵심은 의존성 [그래프](/knowledge-base/studynote/08_algorithm_st
 아래 그림은 [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기준으로 두 검사가 어떻게 합쳐지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    PR-centered security scan flow                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Git diff                                                             │
-│   ├─ source files ----------> parser / AST / data-flow -> SAST       │
-│   │                                                   └-> code path  │
-│   └─ lockfile / manifest ---> dependency graph ------> SCA           │
-│                                                       ├-> CVE match  │
-│                                                       └-> fix path   │
-│                                                                      │
-│ Findings -> dedupe -> reachability / severity tuning -> policy gate  │
-│          -> PR comment / build fail / ticket / baseline record       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    PR-centered security scan flow                   |
++----------------------------------------------------------------------+
+| Git diff                                                             |
+|   +- source files ----------> parser / AST / data-flow -> SAST       |
+|   |                                                   +-> code path  |
+|   +- lockfile / manifest ---> dependency graph ------> SCA           |
+|                                                       +-> CVE match  |
+|                                                       +-> fix path   |
+|                                                                      |
+| Findings -> dedupe -> reachability / severity tuning -> policy gate  |
+|          -> PR comment / build fail / ticket / baseline record       |
++----------------------------------------------------------------------+
 ```
 
 | 관점 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) |
@@ -113,15 +113,15 @@ SAST와 SCA를 이해하려면 다른 보안 검사와의 경계도 분명히 �
 아래 흐름은 실제로 자주 쓰는 triage 기준이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     Practical finding triage                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ finding detected?                                                    │
-│   ├─ secret leak / internet remote code execution -> block now       │
-│   ├─ new code + high confidence issue             -> block PR         │
-│   ├─ transitive CVE but no reachable path         -> ticket + watch   │
-│   └─ legacy medium/low debt                       -> baseline + due    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     Practical finding triage                        |
++----------------------------------------------------------------------+
+| finding detected?                                                    |
+|   +- secret leak / internet remote code execution -> block now       |
+|   +- new code + high confidence issue             -> block PR         |
+|   +- transitive CVE but no reachable path         -> ticket + watch   |
+|   +- legacy medium/low debt                       -> baseline + due    |
++----------------------------------------------------------------------+
 ```
 
 판단 포인트는 네 가지다. 첫째, <strong>새로운 위험 유입을 멈추는 것</strong>이 기존 부채를 한 번에 모두 없애는 것보다 우선이다. 둘째, Reachability와 Exploit Maturity를 반영해야 오탐에 묻히지 않는다. 셋째, 예외 승인은 영구 면제가 아니라 만료일이 있는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 객체여야 한다. 넷째, SCA는 주기 재평가가 필수다. 코드가 바뀌지 않아도 어제 공개된 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 때문에 오늘 위험해질 수 있기 때문이다.
@@ -159,17 +159,17 @@ SAST와 SCA를 함께 운영하면 개발 [초기](/knowledge-base/studynote/03_
 
 ```text
 Manual code review
-    │
-    ▼
+    |
+    v
 SAST on source-code structure
-    │
-    ▼
+    |
+    v
 SCA on dependency graph and transitive packages
-    │
-    ▼
+    |
+    v
 SBOM + reachability + policy gate
-    │
-    ▼
+    |
+    v
 Continuous supply-chain security and runtime re-evaluation
 ```
 
@@ -185,7 +185,7 @@ Continuous supply-chain security and runtime re-evaluation
 
 **진행 상황**: 174 / 371
 
-← **이전**: [174. 데브섹옵스 (DevSecOps, Shift-Left Security)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/174_devsecops_shift_left_security/)
-**다음**: [176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/176_container_image_vulnerability_scanning/) →
+<- **이전**: [174. 데브섹옵스 (DevSecOps, Shift-Left Security)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/174_devsecops_shift_left_security/)
+**다음**: [176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/176_container_image_vulnerability_scanning/) ->
 
 ---

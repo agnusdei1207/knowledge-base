@@ -31,15 +31,15 @@ tags = ["devops_sre"]
 이 도식은 코드 통합 주기와 리스크 누적(결함 수정 비용)의 상관관계를 나타낸다. 오래 고립될수록 폭발력은 기하급수적으로 커진다.
 
 [과거: 빅뱅 통합 (Big Bang Integration)]
-Dev A ──(1달 작업)──────────────────────────┐  (충돌 폭발! Merge Hell)
-Dev B ──(1달 작업)──────────────────────────┼──> 💥 [QA 및 릴리스 지연]
-Main  ──────────────────────────────────────┴──> 시간/비용 막대함
+Dev A --(1달 작업)--------------------------+  (충돌 폭발! Merge Hell)
+Dev B --(1달 작업)--------------------------+--> 💥 [QA 및 릴리스 지연]
+Main  --------------------------------------+--> 시간/비용 막대함
 
 [현대: 지속적 통합 (Continuous Integration)]
-Dev A ─┬──┬──┬──────┬───┐ (매일 병합)
-Dev B ─┼──┼─┬┴──┬───┼───┤
-Main  ─┴──┴─┴───┴───┴───┴──> ✅ [항상 배포 가능한 안정적 상태 유지]
-       (CI) (CI) (CI)  (CI)  ← 병합마다 즉각 자동 빌드/테스트 피드백 (Fail Fast)
+Dev A -+--+--+------+---+ (매일 병합)
+Dev B -+--+-++--+---+---+
+Main  -+--+-+---+---+---+--> ✅ [항상 배포 가능한 안정적 상태 유지]
+       (CI) (CI) (CI)  (CI)  <- 병합마다 즉각 자동 빌드/테스트 피드백 (Fail Fast)
 ```
 
 이 구조의 핵심은 잦은 병합(Frequent Merge)이 가져오는 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 단축이다. 개발자는 코드를 올린 지 수 분 내에 슬랙(Slack) 등을 통해 "네가 방금 짠 코드가 기존 기능 A의 테스트를 실패하게 만들었다"는 알람을 받는다. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 머리에 생생히 남아 있는 시점이므로 단 몇 분 만에 버그를 수정할 수 있다. 이는 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(문제를 개발 주기 초반으로 당겨 해결함) 사상의 완벽한 실현이다.
@@ -66,24 +66,24 @@ Main  ─┴──┴─┴───┴───┴───┴──> ✅ [항�
 이 도식은 일반적인 CI 파이프라인의 파드(Pod) 기반 단계별 실행 구조와 의존성을 나타낸다. 한 단계라도 실패하면 다음 단계는 실행되지 않는다.
 
 [ Developer Push (PR 생성) ]
-       │ (Webhook)
-       ↓
-┌── CI Orchestrator (Jenkins / GitHub Actions) ─────────┐
-│                                                       │
-│ 1. [Checkout] 소스 코드 내려받기                      │
-│       ↓                                               │
-│ 2. [Lint / SAST] 코드 냄새 및 보안 스캔 (병렬)        │
-│       ├─ (에러 발견 시) ──> ❌ 파이프라인 중단 (Fail) │
-│       ↓ (통과)                                        │
-│ 3. [Build & Unit Test] 컴파일 및 JUnit 실행           │
-│       ├─ (테스트 깨짐) ──> ❌ 파이프라인 중단 (Fail)  │
-│       ↓ (통과)                                        │
-│ 4. [Image Build] 도커 이미지 생성 (docker build)      │
-│       ↓                                               │
-│ 5. [Push Registry] ECR, DockerHub 등에 업로드         │
-└───────┬───────────────────────────────────────────────┘
-        │ (성공 알림 및 PR Merge 승인 허가)
-        ↓
+       | (Webhook)
+       v
++-- CI Orchestrator (Jenkins / GitHub Actions) ---------+
+|                                                       |
+| 1. [Checkout] 소스 코드 내려받기                      |
+|       v                                               |
+| 2. [Lint / SAST] 코드 냄새 및 보안 스캔 (병렬)        |
+|       +- (에러 발견 시) --> ❌ 파이프라인 중단 (Fail) |
+|       v (통과)                                        |
+| 3. [Build & Unit Test] 컴파일 및 JUnit 실행           |
+|       +- (테스트 깨짐) --> ❌ 파이프라인 중단 (Fail)  |
+|       v (통과)                                        |
+| 4. [Image Build] 도커 이미지 생성 (docker build)      |
+|       v                                               |
+| 5. [Push Registry] ECR, DockerHub 등에 업로드         |
++-------+-----------------------------------------------+
+        | (성공 알림 및 PR Merge 승인 허가)
+        v
 [ Ready for CD (Continuous Delivery) ]
 ```
 
@@ -110,15 +110,15 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 아래 다이어그램은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 아키텍처 관점에서 자체 구축(Self-hosted)과 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 방식의 트레이드오프를 보여준다.
 
 ```text
-┌────────────┬─────────────────────────────┬───────────────────────────┐
-│ 방식       │ Self-Hosted (Jenkins)       │ SaaS (GitHub Actions)     │
-├────────────┼─────────────────────────────┼───────────────────────────┤
-│ 아키텍처   │ 마스터-워커 노드 직접 운영  │ 클라우드 인스턴스 임대    │
-│ 유지보수   │ 플러그인 업데이트 지옥 발생 │ 유지보수 제로, 완전 관리형│
-│ 보안/폐쇄망│ 금융권 등 폐쇄망 내 구축 용이│ 외부 통신 필수 (제약 있음)│
-│ 러너 환경  │ 상태가 남을 수 있어 충돌 위험│ 매번 초기화되는 Ephemeral │
-│ 진화 방향  │ 레거시 MSA, 복잡도 높은 룰  │ 모던 클라우드 네이티브 표준│
-└────────────┴─────────────────────────────┴───────────────────────────┘
++------------+-----------------------------+---------------------------+
+| 방식       | Self-Hosted (Jenkins)       | SaaS (GitHub Actions)     |
++------------+-----------------------------+---------------------------+
+| 아키텍처   | 마스터-워커 노드 직접 운영  | 클라우드 인스턴스 임대    |
+| 유지보수   | 플러그인 업데이트 지옥 발생 | 유지보수 제로, 완전 관리형|
+| 보안/폐쇄망| 금융권 등 폐쇄망 내 구축 용이| 외부 통신 필수 (제약 있음)|
+| 러너 환경  | 상태가 남을 수 있어 충돌 위험| 매번 초기화되는 Ephemeral |
+| 진화 방향  | 레거시 MSA, 복잡도 높은 룰  | 모던 클라우드 네이티브 표준|
++------------+-----------------------------+---------------------------+
 ```
 
 이 비교의 핵심은 '[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경 자체의 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)'이다. 자체 구축된 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 서버는 이전에 돌았던 빌드의 캐시나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 디스크에 남아(Stateful) "어제는 성공했는데 오늘은 실패하는" [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 취약성을 낳는다. 반면 GitHub Actions 등의 클라우드 기반 CI는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 돌 때마다 백지상태의 1회용(Ephemeral) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Runner)를 띄워 실행하므로, 언제 돌려도 100% 동일한 빌드 환경과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장한다.
@@ -149,20 +149,20 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 이 도식은 브랜치 정책과 CI가 결합되어, 결함 있는 코드가 메인(Trunk) 브랜치를 오염시키지 못하도록 막는 완벽한 게이트웨이 시스템을 보여준다.
 
 [ 개발자가 Feature 브랜치에서 PR(Pull Request) 생성 ]
-   │
-   ├─ [GitHub Action 트리거 - PR Check 파이프라인 실행]
-   │       ↓
-   ├─ Q1. 코드 커버리지(Code Coverage)가 80%를 넘는가? (SonarQube)
-   │   ├─ No ──> ❌ 자동 병합(Merge) 차단 및 코멘트 ("테스트 코드 작성 요망")
-   │   └─ Yes ──> ↓
-   │
-   ├─ Q2. 모든 단위/통합 테스트가 100% Pass 했는가?
-   │   ├─ No ──> ❌ 자동 병합 차단 ("Broken Code 감지")
-   │   └─ Yes ──> ↓
-   │
-   └─ Q3. 시니어 엔지니어의 수동 코드 리뷰(Approve)를 받았는가?
-       ├─ No ──> ❌ 병합 대기 상태 유지
-       └─ Yes ──> ✅ [Merge 버튼 활성화] ──> Main 브랜치로 통합!
+   |
+   +- [GitHub Action 트리거 - PR Check 파이프라인 실행]
+   |       v
+   +- Q1. 코드 커버리지(Code Coverage)가 80%를 넘는가? (SonarQube)
+   |   +- No --> ❌ 자동 병합(Merge) 차단 및 코멘트 ("테스트 코드 작성 요망")
+   |   +- Yes --> v
+   |
+   +- Q2. 모든 단위/통합 테스트가 100% Pass 했는가?
+   |   +- No --> ❌ 자동 병합 차단 ("Broken Code 감지")
+   |   +- Yes --> v
+   |
+   +- Q3. 시니어 엔지니어의 수동 코드 리뷰(Approve)를 받았는가?
+       +- No --> ❌ 병합 대기 상태 유지
+       +- Yes --> ✅ [Merge 버튼 활성화] --> Main 브랜치로 통합!
 ```
 
 이 의사결정 체계는 사람의 눈([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/))과 기계의 눈([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 스캔, 테스트)을 결합하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 상류(Upstream)로 흘러가는 것을 겹겹이 차단한다. 실무에서는 브랜치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규칙(Branch [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Rule) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 통해, 관리자라 할지라도 이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 게이트를 통과하지 못하면 강제 병합(Force Merge)을 불가능하게 만들어야 시스템 붕괴를 막을 수 있다.
@@ -198,17 +198,17 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 
 ```text
 [폭포수 통합 — 주기적 빅뱅 통합, 충돌 폭발]
-    │
-    ▼
+    |
+    v
 [CI (지속적 통합) — 코드 커밋마다 자동 빌드·테스트]
-    │
-    ▼
+    |
+    v
 [CD (지속적 배포) — 검증된 아티팩트 자동 스테이징/배포]
-    │
-    ▼
+    |
+    v
 [GitOps — Git을 단일 진실의 원천으로 인프라까지 선언적 관리]
-    │
-    ▼
+    |
+    v
 [플랫폼 엔지니어링 — 내부 개발자 플랫폼(IDP)으로 CI/CD 셀프서비스화]
 ```
 CI는 자주 통합해 충돌을 조기에 발견하는 원칙에서 출발해, CD·[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)으로 발전해 DevOps의 핵심 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 되었다.
@@ -224,7 +224,7 @@ CI는 자주 통합해 충돌을 조기에 발견하는 원칙에서 출발해, 
 
 **진행 상황**: 19 / 373
 
-← **이전**: [18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
-**다음**: [20. 지속적 전달 (CD, Continuous Delivery) - CI를 통과한 코드를 프로덕션(운영) 환경에 배포할 준비(아티팩트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) →
+<- **이전**: [18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
+**다음**: [20. 지속적 전달 (CD, Continuous Delivery) - CI를 통과한 코드를 프로덕션(운영) 환경에 배포할 준비(아티팩트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ->
 
 ---

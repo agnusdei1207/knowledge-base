@@ -30,27 +30,27 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache의 천하 통일</strong>: 블록 단위(512B)의 버퍼 헤더를 4KB짜리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 구조체 안에 묶어(Piggyback) 버림으로써, [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 노예로 전락시켜 완벽한 대통합을 이룸.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        과거의 이중 낭비(Split) vs 현대의 대통합(Unified) 캐시 시각화  │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ ▶ 1. 과거 분리형(Split) 캐시 시절 (지옥의 불일치)                     │
-│                 [ 하드디스크의 엑셀.xls 원본 ]                        │
-│                 ↙ (read 함수)       ↘ (mmap 함수)                     │
-│  [ RAM: Buffer Cache 방 ]     [ RAM: Page Cache 방 ]                  │
-│  "난 블록 단위로 엑셀 저장!"       "난 페이지 단위로 엑셀 띄움!"      │
-│  💥 램 용량 2배로 파먹음. 한 곳 수정 시 다른 곳은 옛날 데이터(오류)!  │
-│                                                                       │
-│ ▶ 2. 현대 통합(Unified) 캐시 시절 (평화의 시대)                       │
-│                 [ 하드디스크의 엑셀.xls 원본 ]                        │
-│                         │ (무조건 여기로 올림)                        │
-│                         ▼                                             │
-│         🌟 [ RAM: 통합 Page Cache (단 1개!) ] 🌟                      │
-│         /               │              \                              │
-│    (read/write)       (mmap)          (sendfile)                      │
-│  A 앱이 읽든          B 앱이 맵핑하든      네트워크로 쏘든            │
-│  모두가 똑같은 [물리 램 1장(Page Cache)]을 다이렉트로 공유함!         │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        과거의 이중 낭비(Split) vs 현대의 대통합(Unified) 캐시 시각화  |
++-----------------------------------------------------------------------+
+|                                                                       |
+| -> 1. 과거 분리형(Split) 캐시 시절 (지옥의 불일치)                     |
+|                 [ 하드디스크의 엑셀.xls 원본 ]                        |
+|                 ↙ (read 함수)       ↘ (mmap 함수)                     |
+|  [ RAM: Buffer Cache 방 ]     [ RAM: Page Cache 방 ]                  |
+|  "난 블록 단위로 엑셀 저장!"       "난 페이지 단위로 엑셀 띄움!"      |
+|  💥 램 용량 2배로 파먹음. 한 곳 수정 시 다른 곳은 옛날 데이터(오류)!  |
+|                                                                       |
+| -> 2. 현대 통합(Unified) 캐시 시절 (평화의 시대)                       |
+|                 [ 하드디스크의 엑셀.xls 원본 ]                        |
+|                         | (무조건 여기로 올림)                        |
+|                         v                                             |
+|         🌟 [ RAM: 통합 Page Cache (단 1개!) ] 🌟                      |
+|         /               |              \                              |
+|    (read/write)       (mmap)          (sendfile)                      |
+|  A 앱이 읽든          B 앱이 맵핑하든      네트워크로 쏘든            |
+|  모두가 똑같은 [물리 램 1장(Page Cache)]을 다이렉트로 공유함!         |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 통합의 힘은 위대하다. 이제 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 하드디스크를 거치는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 유저가 어떤 시스템 콜(`read`, `write`, `mmap`, 심지어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 디렉토리 탐색까지)을 때리더라도 무조건 <strong>'단 하나의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache 물리 프레임'</strong>으로 수렴(Converge)한다. 이로 인해 메모리 오버헤드가 제로(0)가 되고, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 맞추기 위한 수천 줄의 더러운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 코드가 삭제되었다.
 
@@ -102,13 +102,13 @@ tags = ["studynote-operating-system"]
 - 이를 통해 통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 거대한 이점을 포기하는 대신, DB만의 극한 컨트롤을 얻는 실무 최고의 안티-캐시 튜닝이 탄생했다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
-│ 애플리케이션 │ Page Cache 의존│ 파일 읽기 방식 │ 추천 O_DIRECT 여부       │
-├──────────┼────────────┼────────────┼──────────────────────────────────────┤
-│ Nginx/Web│ 100% 맹신   │ `sendfile()`│ 절대 끄면 안 됨(성능 좍)           │
-│ Kafka    │ 100% 맹신   │ `mmap()`    │ 무조건 켜둠                        │
-│ MySQL DB │ 0% (혐오함)  │ `read()` + 자체버퍼│ **🟢 무조건 켜라 (Bypass)**│
-└──────────┴────────────┴────────────┴──────────────────────────────────────┘
++----------+------------+------------+--------------------------------------+
+| 애플리케이션 | Page Cache 의존| 파일 읽기 방식 | 추천 O_DIRECT 여부       |
++----------+------------+------------+--------------------------------------+
+| Nginx/Web| 100% 맹신   | `sendfile()`| 절대 끄면 안 됨(성능 좍)           |
+| Kafka    | 100% 맹신   | `mmap()`    | 무조건 켜둠                        |
+| MySQL DB | 0% (혐오함)  | `read()` + 자체버퍼| **🟢 무조건 켜라 (Bypass)**|
++----------+------------+------------+--------------------------------------+
 ```
 **[매트릭스 해설]** "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시는 웹 서버(Nginx)의 신이지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)에게는 짐짝이다." 카프카나 웹 서버는 OS가 남는 램 100GB를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 꽉꽉 채워두는 덕분에 로켓 스피드가 나오지만, DB는 자기가 램을 100GB 먹어야 하는데 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 램을 선점하고 안 내놓으면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 터지는 악연이다.
 
@@ -166,12 +166,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
-    │
-    ▼
+    |
+    v
 [파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
-    │
-    ├──▶ [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
-    └──▶ [eBPF 기반 메모리 할당 트레이싱]
+    |
+    +---> [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
+    +---> [eBPF 기반 메모리 할당 트레이싱]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 438 / 800
 
-← **이전**: [437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/)
-**다음**: [439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작](/knowledge-base/studynote/02_operating_system/07_virtual_memory/439_cgroups_memory_limit/) →
+<- **이전**: [437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/)
+**다음**: [439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작](/knowledge-base/studynote/02_operating_system/07_virtual_memory/439_cgroups_memory_limit/) ->
 
 ---

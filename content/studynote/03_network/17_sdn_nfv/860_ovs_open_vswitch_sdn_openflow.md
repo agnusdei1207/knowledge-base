@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [화이트박스 스위치]
-    │
-    ▼
+    |
+    v
 [OVS]
-    │
-    └──▶ [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    |
+    +---> [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
 ```
 
 - **📢 섹션 요약 비유**: OVS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ OVS가 멍청한 리눅스 기본 브릿지(Linux [Bridge](/knowledge-base/study
 
 ```text
 [화이트박스 스위치]
-    │
-    ▼
+    |
+    v
 [OVS]
-    │
-    └──▶ [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    |
+    +---> [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
 ```
 
 - **📢 섹션 요약 비유**: OVS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ OVS는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ```text
 [선행 개념: 화이트박스 스위치]
-    │
-    ▼
+    |
+    v
 [현재 개념: OVS]
-    │
-    ├──▶ [확장 A: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 OVS는 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [미니넷](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 토폴로지 에뮬레이터 연구 평가…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ OVS는 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_n
 
 **진행 상황**: 981 / 1120
 
-← **이전**: [859. 화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)
-**다음**: [861. 미니넷 (Mininet)](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) →
+<- **이전**: [859. 화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)
+**다음**: [861. 미니넷 (Mininet)](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) ->
 
 ---

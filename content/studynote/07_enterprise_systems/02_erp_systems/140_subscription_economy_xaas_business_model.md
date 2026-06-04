@@ -19,7 +19,7 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-구독 모델: 월/연 정기 결제 → 지속적 서비스 이용
+구독 모델: 월/연 정기 결제 -> 지속적 서비스 이용
   핵심 지표: MRR(월 반복 수익), ARR(연 반복 수익)
   LTV > CAC: 수익성 조건
   Churn Rate: 월 이탈률 (5% 이하 목표)
@@ -48,10 +48,10 @@ tags = ["studynote-enterprise-systems"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[일회성 판매 (전통)] → [SaaS (Salesforce, 2000)]
-    → [넷플릭스 스트리밍 (2007)]
-    → [Adobe CC 구독 전환 (2013)]
-    → [현재: 자동차 구독·AI API 구독 — 모든 것이 구독]
+[일회성 판매 (전통)] -> [SaaS (Salesforce, 2000)]
+    -> [넷플릭스 스트리밍 (2007)]
+    -> [Adobe CC 구독 전환 (2013)]
+    -> [현재: 자동차 구독·AI API 구독 — 모든 것이 구독]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 140 / 482
 
-← **이전**: [139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/139_o2o_online_to_offline_platform/)
-**다음**: [141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/141_application_integration_architecture_overview/) →
+<- **이전**: [139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/139_o2o_online_to_offline_platform/)
+**다음**: [141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/141_application_integration_architecture_overview/) ->
 
 ---

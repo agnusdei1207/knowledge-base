@@ -22,16 +22,16 @@ tags = ["studynote-design-supervision"]
 레거시 애플리케이션은 대개 원격 호출을 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 수준으로 구현해 두었기 때문에, 클라우드 환경에서 요구되는 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 관리, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적을 코드에 다시 넣기가 어렵다. 특히 소스 수정이 어렵거나 여러 언어 클라이언트가 섞여 있으면 공통 기능이 중복된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 레거시 클라이언트의 직접 호출 문제                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Legacy App ───────────────▶ Cloud Service                            │
-│    │                                                                 │
-│    ├── 재시도 없음                                                   │
-│    ├── TLS / 인증 직접 처리 부담                                     │
-│    ├── 장애 시 연쇄 실패 가능                                        │
-│    └── 로깅/추적 구현이 언어별로 흩어짐                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 레거시 클라이언트의 직접 호출 문제                   |
++----------------------------------------------------------------------+
+| Legacy App ----------------> Cloud Service                            |
+|    |                                                                 |
+|    +-- 재시도 없음                                                   |
+|    +-- TLS / 인증 직접 처리 부담                                     |
+|    +-- 장애 시 연쇄 실패 가능                                        |
+|    +-- 로깅/추적 구현이 언어별로 흩어짐                              |
++----------------------------------------------------------------------+
 ```
 
 앰배서더 패턴은 이 문제를 <strong>클라이언트 옆의 대리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>로 해결한다. 클라이언트는 로컬 주소만 호출하고, 실제 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 복잡한 통신 책임은 앰배서더가 맡는다.
@@ -45,16 +45,16 @@ tags = ["studynote-design-supervision"]
 앰배서더는 보통 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 컨테이너나 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 형태로 배치된다. 핵심은 <strong>클라이언트의 outbound 호출을 로컬 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>로 우회시키고</strong>, 그 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 후 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전달하는 것이다. 이 구조 덕분에 애플리케이션 코드는 비즈니스 호출만 유지한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Ambassador 패턴의 호출 흐름                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client App ──localhost──▶ Ambassador Proxy ──▶ Remote Service        │
-│                         │                                             │
-│                         ├── Retry / Timeout                           │
-│                         ├── mTLS / Auth                               │
-│                         ├── Protocol Transform                        │
-│                         └── Logging / Trace                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Ambassador 패턴의 호출 흐름                       |
++----------------------------------------------------------------------+
+| Client App --localhost---> Ambassador Proxy ---> Remote Service        |
+|                         |                                             |
+|                         +-- Retry / Timeout                           |
+|                         +-- mTLS / Auth                               |
+|                         +-- Protocol Transform                        |
+|                         +-- Logging / Trace                           |
++----------------------------------------------------------------------+
 ```
 
 | 기능 | Ambassador 역할 | 대표 구현 |
@@ -142,19 +142,19 @@ tags = ["studynote-design-supervision"]
 
 ```text
 레거시 클라이언트 직접 호출
-    │
-    ▼
+    |
+    v
 정책 중복 · 인증 부담 · 장애 전파
-    │
-    ▼
+    |
+    v
 Ambassador Pattern
-    │
-    ├──▶ Retry / Timeout
-    ├──▶ Auth / mTLS
-    ├──▶ Trace / Logging
-    └──▶ Protocol Transform
-            │
-            ▼
+    |
+    +---> Retry / Timeout
+    +---> Auth / mTLS
+    +---> Trace / Logging
+    +---> Protocol Transform
+            |
+            v
 비침습적 현대화 · 공통 정책 중앙화 · 운영 가시성 향상
 ```
 
@@ -172,7 +172,7 @@ Ambassador Pattern
 
 **진행 상황**: 246 / 530
 
-← **이전**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/187_lmax_disruptor_pattern/)
-**다음**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/) →
+<- **이전**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/187_lmax_disruptor_pattern/)
+**다음**: [188. 앰배서더 패턴 (Ambassador Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/188_ambassador_pattern/) ->
 
 ---

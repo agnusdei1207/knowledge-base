@@ -35,11 +35,11 @@ tags = ["studynote-network"]
 
 ```text
 [O-RAN]
-    │
-    ▼
+    |
+    v
 [기지국 DU]
-    │
-    └──▶ [프론트홀]
+    |
+    +---> [프론트홀]
 ```
 
 - **📢 섹션 요약 비유**: 기지국 DU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [O-RAN]
-    │
-    ▼
+    |
+    v
 [기지국 DU]
-    │
-    └──▶ [프론트홀]
+    |
+    +---> [프론트홀]
 ```
 
 - **📢 섹션 요약 비유**: 기지국 DU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: O-RAN]
-    │
-    ▼
+    |
+    v
 [현재 개념: 기지국 DU]
-    │
-    ├──▶ [확장 A: 프론트홀]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 프론트홀]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 기지국 DU는 O-RAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 904 / 1120
 
-← **이전**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)
-**다음**: [784. 프론트홀 (Fronthaul 안테나-DU망 광인터페이스 eCPRI 규격 모델 구조 구성 패킷망 확장망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) →
+<- **이전**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)
+**다음**: [784. 프론트홀 (Fronthaul 안테나-DU망 광인터페이스 eCPRI 규격 모델 구조 구성 패킷망 확장망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) ->
 
 ---

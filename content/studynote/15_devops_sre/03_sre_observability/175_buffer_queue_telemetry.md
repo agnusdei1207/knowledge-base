@@ -26,14 +26,14 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 아래 그림은 왜 경계 텔레메트리가 선행 지표가 되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Delay hides in the boundary buffer                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer OK  --->  [ Buffer / Queue ]  --->  Consumer OK            │
-│ latency low        depth↑ age↑ lag↑         CPU 60%                 │
-│                                                                      │
-│ Each side can look healthy while user-visible waiting grows.         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Delay hides in the boundary buffer                 |
++----------------------------------------------------------------------+
+| Producer OK  --->  [ Buffer / Queue ]  --->  Consumer OK            |
+| latency low        depth^ age^ lag^         CPU 60%                 |
+|                                                                      |
+| Each side can look healthy while user-visible waiting grows.         |
++----------------------------------------------------------------------+
 ```
 
 따라서 [Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 큐 텔레메트리는 "문제가 터진 뒤 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 지표"가 아니라, 포화가 오기 전에 경고를 주는 선행 계기판이다.
@@ -51,16 +51,16 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 아래 그림은 경계 버퍼에서 반드시 수집해야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 정리한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Core signals around a queue edge                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ ingress rate  ─┐                                                     │
-│                ├─> backlog depth -----------┐                        │
-│ egress rate   ─┘                            ├─> oldest age           │
-│                                             ├─> time to drain        │
-│ retry / dead-letter / drop -------------> ├─> failure pressure       │
-│ pool wait / ack latency ------------------> └─> hidden saturation    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Core signals around a queue edge                   |
++----------------------------------------------------------------------+
+| ingress rate  -+                                                     |
+|                +-> backlog depth -----------+                        |
+| egress rate   -+                            +-> oldest age           |
+|                                             +-> time to drain        |
+| retry / dead-letter / drop -------------> +-> failure pressure       |
+| pool wait / ack latency ------------------> +-> hidden saturation    |
++----------------------------------------------------------------------+
 ```
 
 | 지표 | 의미 | 왜 중요한가 |
@@ -104,24 +104,24 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 | 증상 | 해석 | 우선 조치 |
 | :--- | :--- | :--- |
 | Depth 급증, Age 안정 | 짧은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트를 흡수 중 | 관찰 유지, 필요 시 완만한 스케일아웃 |
-| Depth↑ + Age↑ | 소비자가 구조적으로 밀림 | 컨슈머 스케일아웃, 처리 로직 최적화 |
-| Depth 낮음, Age↑ | 독성 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 또는 순서 병목 | DLQ, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 핫스팟, [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 점검 |
-| DLQ↑ / Retry↑ | 단순 적체가 아니라 실패 누적 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 격리, 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 다운스트림 오류 점검 |
-| Pool Wait Time↑ | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 밖 경계 포화 | 커넥션/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기, DB 병목 분석 |
+| Depth^ + Age^ | 소비자가 구조적으로 밀림 | 컨슈머 스케일아웃, 처리 로직 최적화 |
+| Depth 낮음, Age^ | 독성 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 또는 순서 병목 | DLQ, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 핫스팟, [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 점검 |
+| DLQ^ / Retry^ | 단순 적체가 아니라 실패 누적 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 격리, 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 다운스트림 오류 점검 |
+| Pool Wait Time^ | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 밖 경계 포화 | 커넥션/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기, DB 병목 분석 |
 
 아래 흐름은 큐 알람이 떴을 때의 실전 판단 순서를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Backlog alarm decision flow                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ backlog alert                                                        │
-│   ├─ age stable and burst short? -> observe / mild autoscale         │
-│   ├─ consumers maxed out?      -> scale out / add partitions         │
-│   ├─ single hot partition?     -> rebalance / shard / remove lock    │
-│   ├─ retry or DLQ rising?      -> isolate poison message             │
-│   └─ downstream slow?          -> trace database path / backpressure │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Backlog alarm decision flow                      |
++----------------------------------------------------------------------+
+| backlog alert                                                        |
+|   +- age stable and burst short? -> observe / mild autoscale         |
+|   +- consumers maxed out?      -> scale out / add partitions         |
+|   +- single hot partition?     -> rebalance / shard / remove lock    |
+|   +- retry or DLQ rising?      -> isolate poison message             |
+|   +- downstream slow?          -> trace database path / backpressure |
++----------------------------------------------------------------------+
 ```
 
 실무 판단의 핵심은 세 가지다. 첫째, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 목표 (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>)에 맞는 age 기준</strong>을 잡아야 한다. 사용자에게 2분 이내 처리 보장을 한 시스템이라면 oldest age 60초부터 경고해야 한다. 둘째, **오토스케일링은 depth보다 처리율과 함께 봐야 한다**. 단순히 큐 길이만 보고 늘리면 잠깐의 burst에도 과도하게 확장될 수 있다. 셋째, **DLQ를 정상적인 완충 장치로 오해하면 안 된다**. 특히 결제, 주문 같은 핵심 토픽에서는 DLQ 1건도 비즈니스 실패 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다.
@@ -160,17 +160,17 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 ```text
 Ingress / egress rate measurement
-    │
-    ▼
+    |
+    v
 Depth + lag + oldest age observation
-    │
-    ▼
+    |
+    v
 Time-to-drain and backpressure judgment
-    │
-    ▼
+    |
+    v
 Autoscaling / DLQ / partition-skew response
-    │
-    ▼
+    |
+    v
 Proactive control of boundary saturation
 ```
 
@@ -186,7 +186,7 @@ Proactive control of boundary saturation
 
 **진행 상황**: 175 / 373
 
-← **이전**: [174. 런북/플레이북 (Runbook/Playbook)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/174_runbook_playbook_incident_management/)
-**다음**: [176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/176_slow_query_distributed_db_tracing/) →
+<- **이전**: [174. 런북/플레이북 (Runbook/Playbook)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/174_runbook_playbook_incident_management/)
+**다음**: [176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/176_slow_query_distributed_db_tracing/) ->
 
 ---

@@ -58,30 +58,30 @@ tags = ["studynote-operating-system"]
 바인더의 진정한 가치는 단순한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 전달이 아니라, <strong>"저쪽 프로세스에 있는 객체의 함수를 내 프로세스에 있는 객체처럼 호출한다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>)"</strong>는 데 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Binder 객체 참조 및 프록시(Proxy) 매핑 구조             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [Client 프로세스 (App)]               [Server 프로세스 (Camera)]      │
-  │                                                                   │
-  │  1. Proxy 객체 생성                    2. Stub (실제 구현체) 존재        │
-  │  (실체는 없지만 껍데기만 있음)              takePicture() { 찰칵! }      │
-  │  proxy.takePicture() 호출                                          │
-  │            │                                                      │
-  │  ==========▼======================================================│
-  │  [Binder Driver (Kernel)]                                         │
-  │                                                                   │
-  │   - 커널 내부에는 [Binder Node (서버의 진짜 객체 주소)]와                 │
-  │     [Binder Reference (클라이언트가 쥐고 있는 가짜 핸들)]이 매핑된          │
-  │     테이블(레드-블랙 트리)이 존재함.                                     │
-  │                                                                   │
-  │   - Client가 "나 참조번호 3번 객체의 takePicture 함수 부를게!" 라고 쏘면,  │
-  │   - 커널이 "아, 3번 참조는 Server 프로세스의 메모리 0x8000 객체구나!"      │
-  │     하고 목적지를 정확히 찾아 라우팅해 줌.                                │
-  │  ==========▼======================================================│
-  │            │                                                      │
-  │            └───────────────────────────▶ 3. Stub의 함수 실제 실행       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Binder 객체 참조 및 프록시(Proxy) 매핑 구조             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [Client 프로세스 (App)]               [Server 프로세스 (Camera)]      |
+  |                                                                   |
+  |  1. Proxy 객체 생성                    2. Stub (실제 구현체) 존재        |
+  |  (실체는 없지만 껍데기만 있음)              takePicture() { 찰칵! }      |
+  |  proxy.takePicture() 호출                                          |
+  |            |                                                      |
+  |  ==========v======================================================|
+  |  [Binder Driver (Kernel)]                                         |
+  |                                                                   |
+  |   - 커널 내부에는 [Binder Node (서버의 진짜 객체 주소)]와                 |
+  |     [Binder Reference (클라이언트가 쥐고 있는 가짜 핸들)]이 매핑된          |
+  |     테이블(레드-블랙 트리)이 존재함.                                     |
+  |                                                                   |
+  |   - Client가 "나 참조번호 3번 객체의 takePicture 함수 부를게!" 라고 쏘면,  |
+  |   - 커널이 "아, 3번 참조는 Server 프로세스의 메모리 0x8000 객체구나!"      |
+  |     하고 목적지를 정확히 찾아 라우팅해 줌.                                |
+  |  ==========v======================================================|
+  |            |                                                      |
+  |            +----------------------------> 3. Stub의 함수 실제 실행       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 앱([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 입장에서는 `camera.takePicture()`라고 평범한 자바 함수를 부른 것 같지만, 실은 그 `camera` 객체는 진짜가 아니라 껍데기([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))다. 껍데기는 AIDL이 만들어준 코드에 따라 명령을 Parcel(짐꾸러미)로 직렬화하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 쏜다. 바인더 드라이버는 클라이언트가 보낸 가짜 핸들([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 번호)을 서버의 진짜 메모리 주소(Node)로 번역해 준다. 서버([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))는 명령을 풀어 실제 카메라 셔터를 터뜨린 뒤 그 결과를 다시 바인더를 통해 클라이언트로 돌려준다.
@@ -137,26 +137,26 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안드로이드 프로세스 간 통신 (IPC) 설계 플로우              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [앱과 시스템 서비스, 혹은 두 앱 간의 데이터/명령 전송 아키텍처 설계]          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      전송하려는 데이터의 크기가 500KB 이상으로 큰가? (사진, 영상, 빅데이터)   │
-  │          ├─ 예 ─────▶ [바인더 직접 전송 금지 (TransactionTooLarge 방어)]│
-  │          │            대책: 안드로이드 ContentProvider 파일 전송이나      │
-  │          │                  MemoryFile (Shared Memory) 기반 FD 전달 사용 │
-  │          └─ 아니오 (단순한 명령, JSON, 작은 상태값 등)                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      결과를 즉시 받아야 하는가(동기), 아니면 나중에 받아도 되는가(비동기)?       │
-  │          ├─ 예 (동기) ──▶ 일반 AIDL 호출 (단, 백그라운드 스레드에서 호출 필수) │
-  │          │                                                        │
-  │          └─ 아니오 (비동기) ──▶ AIDL 인터페이스에 `oneway` 키워드 추가     │
-  │                              (클라이언트는 쏘고 바로 리턴, 블로킹 오버헤드 0) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안드로이드 프로세스 간 통신 (IPC) 설계 플로우              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [앱과 시스템 서비스, 혹은 두 앱 간의 데이터/명령 전송 아키텍처 설계]          |
+  |                |                                                  |
+  |                v                                                  |
+  |      전송하려는 데이터의 크기가 500KB 이상으로 큰가? (사진, 영상, 빅데이터)   |
+  |          +- 예 ------> [바인더 직접 전송 금지 (TransactionTooLarge 방어)]|
+  |          |            대책: 안드로이드 ContentProvider 파일 전송이나      |
+  |          |                  MemoryFile (Shared Memory) 기반 FD 전달 사용 |
+  |          +- 아니오 (단순한 명령, JSON, 작은 상태값 등)                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      결과를 즉시 받아야 하는가(동기), 아니면 나중에 받아도 되는가(비동기)?       |
+  |          +- 예 (동기) ---> 일반 AIDL 호출 (단, 백그라운드 스레드에서 호출 필수) |
+  |          |                                                        |
+  |          +- 아니오 (비동기) ---> AIDL 인터페이스에 `oneway` 키워드 추가     |
+  |                              (클라이언트는 쏘고 바로 리턴, 블로킹 오버헤드 0) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 바인더 아키텍처의 철학은 <strong>"가볍고, 빠르고, 명확하게"</strong>다. `oneway` 키워드의 활용은 실무에서 매우 중요하다. 콜백(Callback)을 등록하거나 이벤트를 푸시할 때, 수신자가 바빠서 늦게 응답하더라도 송신자가 멈추지 않도록(Fire-and-forget) `oneway`를 붙이는 것이 바인더 데드락을 막는 최고의 방어막이다.
@@ -203,12 +203,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
-    │
-    ▼
+    |
+    v
 [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
-    │
-    ├──▶ [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
-    └──▶ [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
+    |
+    +---> [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
+    +---> [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -225,7 +225,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 662 / 800
 
-← **이전**: [661. eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/)
-**다음**: [663. macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) →
+<- **이전**: [661. eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/)
+**다음**: [663. macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) ->
 
 ---

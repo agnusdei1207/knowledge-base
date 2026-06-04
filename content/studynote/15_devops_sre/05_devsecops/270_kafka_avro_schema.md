@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Ingestion            │──▶│ Processing           │──▶│ Serving              │──▶│ Governance           │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Ingestion            |--->| Processing           |--->| Serving              |--->| Governance           |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통제망 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Ingestion            │──▶│ Processing           │──▶│ Serving              │──▶│ Governance           │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Ingestion            |--->| Processing           |--->| Serving              |--->| Governance           |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Topic]
-    │
-    ▼
+    |
+    v
 [카프카 파이프라인 메시지 무결성 통제망 스키마 레지스트리]
-    │
-    ├──▶ [Partition]
-    ├──▶ [Offset]
-    └──▶ [배치 중심의 단절된 데이터 처리]
+    |
+    +---> [Partition]
+    +---> [Offset]
+    +---> [배치 중심의 단절된 데이터 처리]
 ```
 
 이 흐름도는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통제망 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 270 / 373
 
-← **이전**: [269. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스트)](/knowledge-base/studynote/15_devops_sre/05_devsecops/269_mutation_testing_kill/)
-**다음**: [271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)](/knowledge-base/studynote/15_devops_sre/05_devsecops/271_ddl_liquibase/) →
+<- **이전**: [269. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스트)](/knowledge-base/studynote/15_devops_sre/05_devsecops/269_mutation_testing_kill/)
+**다음**: [271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)](/knowledge-base/studynote/15_devops_sre/05_devsecops/271_ddl_liquibase/) ->
 
 ---

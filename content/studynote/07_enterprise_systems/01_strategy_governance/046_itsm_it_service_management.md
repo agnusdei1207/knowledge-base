@@ -73,7 +73,7 @@ ITSM 핵심 성과 지표:
 
 인시던트 관리:
   MTTR (Mean Time To Repair/Restore):
-  인시던트 발생 → 서비스 복구까지 평균 시간
+  인시던트 발생 -> 서비스 복구까지 평균 시간
   목표: P1 < 4시간, P2 < 8시간
 
   MTBF (Mean Time Between Failures):
@@ -127,9 +127,9 @@ SLA:
 전통 ITSM vs DevOps 충돌:
 
 전통 ITSM 변경 관리:
-  모든 변경 → CAB 검토 (1주 주기)
-  → 검토·승인 후 배포
-  → 통제됨, 느림
+  모든 변경 -> CAB 검토 (1주 주기)
+  -> 검토·승인 후 배포
+  -> 통제됨, 느림
 
   DevOps 목표: 하루 수십~수백 배포
 
@@ -137,7 +137,7 @@ SLA:
   DevOps 팀: "CAB이 속도를 막는다"
   ITSM 팀: "변경 관리 없으면 장애 증가"
 
-  → 현실: 변경 관련 장애가 전체의 60~70%
+  -> 현실: 변경 관련 장애가 전체의 60~70%
 
 해결: 경량화된 변경 관리
 
@@ -154,7 +154,7 @@ SLA:
 
 2. 자동화된 변경 승인:
    모든 테스트 통과 + SAST + SCA
-   → 저위험 변경 자동 승인
+   -> 저위험 변경 자동 승인
 
    사람 검토: 고위험 변경만
 
@@ -164,9 +164,9 @@ SLA:
 
 SRE와 ITSM 융합:
   Error Budget: 허용 오류 예산
-  → SLA 99.9% = 0.1% 오류 예산
-  → 오류 예산 소진 → 기능 개발 중단
-  → 안정성 우선
+  -> SLA 99.9% = 0.1% 오류 예산
+  -> 오류 예산 소진 -> 기능 개발 중단
+  -> 안정성 우선
 ```
 
 > 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 — 빠른 배달([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 위해 안전 검사([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))를 자동화. 저위험 소포는 자동 통과, 위험 화물만 검사!
@@ -238,12 +238,12 @@ SMB:
 
 문제 분석:
   FCR 낮음:
-  → L1 담당자 권한/지식 부족
-  → 불필요한 에스컬레이션
+  -> L1 담당자 권한/지식 부족
+  -> 불필요한 에스컬레이션
 
   높은 MTTR:
-  → CMDB 부정확 → 영향 분석 오래 걸림
-  → 담당자 수동 배정
+  -> CMDB 부정확 -> 영향 분석 오래 걸림
+  -> 담당자 수동 배정
 
 개선 계획 (18개월):
 
@@ -253,7 +253,7 @@ SMB:
 
 2. 지식 관리 강화:
    상위 100개 인시던트 지식 문서화
-   L1 참조 가이드 → FCR 향상
+   L1 참조 가이드 -> FCR 향상
 
 3. CMDB 정확도 개선:
    자동 발견(Discovery) 도구 활용
@@ -264,15 +264,15 @@ SMB:
    긴급 변경 비율 목표 5% 이하
 
 결과 (18개월):
-  FCR: 45% → 72%
-  MTTR P1: 8시간 → 3.2시간
-  월 티켓: 80,000 → 65,000 (15% 감소)
-  긴급 변경 비율: 18% → 6%
-  CSAT: 3.4 → 4.1/5.0
-  비용: BMC Remedy 유지보수 → ServiceNow 이관 후 3년 TCO 15% 절감
+  FCR: 45% -> 72%
+  MTTR P1: 8시간 -> 3.2시간
+  월 티켓: 80,000 -> 65,000 (15% 감소)
+  긴급 변경 비율: 18% -> 6%
+  CSAT: 3.4 -> 4.1/5.0
+  비용: BMC Remedy 유지보수 -> ServiceNow 이관 후 3년 TCO 15% 절감
 ```
 
-> 📢 **섹션 요약 비유**: 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신은 콜센터 업그레이드 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(자동 배정), 지식 시스템(L1 권한 강화), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 지도(영향 분석). FCR 45%→72% = 고객 절반 더 빠른 해결!
+> 📢 **섹션 요약 비유**: 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신은 콜센터 업그레이드 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(자동 배정), 지식 시스템(L1 권한 강화), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 지도(영향 분석). FCR 45%->72% = 고객 절반 더 빠른 해결!
 
 ---
 
@@ -340,7 +340,7 @@ AIOps (이상 자동 탐지)
 
 **진행 상황**: 46 / 482
 
-← **이전**: [045. ITIL과 ITSM 프레임워크 — ITIL & ITSM](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/045_itil_itsm_framework/)
-**다음**: [047. SLA 심화 — 계약 구조와 거버넌스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/047_sla_service_level_agreement/) →
+<- **이전**: [045. ITIL과 ITSM 프레임워크 — ITIL & ITSM](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/045_itil_itsm_framework/)
+**다음**: [047. SLA 심화 — 계약 구조와 거버넌스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/047_sla_service_level_agreement/) ->
 
 ---

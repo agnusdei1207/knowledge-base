@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [V2X]
-    │
-    ▼
+    |
+    v
 [C-V2X / WAVE 매체 제어]
-    │
-    └──▶ [스마트 그리드 통신 인프라망]
+    |
+    +---> [스마트 그리드 통신 인프라망]
 ```
 
 - **📢 섹션 요약 비유**: 도로 위에서 자동차들이 서로 대화할 때 무전기(Wi-Fi 기반 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))를 쓸 것인가, 아니면 스마트폰([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기반 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))을 쓸 것인가를 두고 벌어진 거대한 국가 단위의 기술 전쟁이다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [V2X]
-    │
-    ▼
+    |
+    v
 [C-V2X / WAVE 매체 제어]
-    │
-    └──▶ [스마트 그리드 통신 인프라망]
+    |
+    +---> [스마트 그리드 통신 인프라망]
 ```
 
 - **📢 섹션 요약 비유**: WAVE가 눈치껏 빈 타이밍에 말하는 '자유 토론(Wi-Fi)'이라면, C-V2X는 사회자(기지국)가 발언권을 분 초 단위로 정확히 나눠주는 '규칙적인 회의(이동통신)'다.
@@ -125,12 +125,12 @@ C-V2X의 승리는 이동통신 생태계(퀄컴, 화웨이, 에릭슨)의 규�
 
 ```text
 [선행 개념: V2X]
-    │
-    ▼
+    |
+    v
 [현재 개념: C-V2X / WAVE 매체 제어]
-    │
-    ├──▶ [확장 A: 스마트 그리드 통신 인프라망]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 스마트 그리드 통신 인프라망]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어는 V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ C-V2X의 승리는 이동통신 생태계(퀄컴, 화웨이, 에릭슨)의 규�
 
 **진행 상황**: 127 / 1120
 
-← **이전**: [1024. V2X (Vehicle-to-Everything)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1024_v2x_vehicle_to_everything/)
-**다음**: [1026. 스마트 그리드 (Smart Grid) 통신망](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1026_smart_grid_communication/) →
+<- **이전**: [1024. V2X (Vehicle-to-Everything)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1024_v2x_vehicle_to_everything/)
+**다음**: [1026. 스마트 그리드 (Smart Grid) 통신망](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1026_smart_grid_communication/) ->
 
 ---

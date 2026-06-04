@@ -32,17 +32,17 @@ tags = ["enterprise_systems"]
 
      (나쁜 품질: 산포가 넓어 규격을 벗어나는 불량 발생)
               규격 하한(LSL)         규격 상한(USL)
-                  │ ╭───────────┴───────────╮ │
-                  │/          평균           \│  <-- 꼬리 부분이 규격 밖(불량)
-                  /            │              \
-                ─/─────────────┼───────────────\─
+                  | +-----------+-----------+ |
+                  |/          평균           \|  <-- 꼬리 부분이 규격 밖(불량)
+                  /            |              \
+                -/-------------+---------------\-
 
      (식스 시그마 품질: 산포가 극도로 좁아 규격 내에 완벽히 들어옴)
               규격 하한(LSL)         규격 상한(USL)
-                  │            │            │
-                  │         ╭──┴──╮         │  <-- ±6σ 범위가 규격 한계 내에 존재
-                  │        /   │   \        │      (불량률 3.4 PPM)
-                ──┼───────/────┼────\───────┼──
+                  |            |            |
+                  |         +--+--+         |  <-- ±6σ 범위가 규격 한계 내에 존재
+                  |        /   |   \        |      (불량률 3.4 PPM)
+                --+-------/----+----\-------+--
                     -6σ       0       +6σ
 ```
 
@@ -74,14 +74,14 @@ tags = ["enterprise_systems"]
 [ DMAIC의 함수적 문제 해결 흐름도: Y = f(X) ]
 
 [ Define ]    고객이 원하는 결과물 'Y' (CTQ)를 정의한다. (예: 배송 시간)
-    ↓
+    v
 [ Measure ]   현재의 Y가 얼마나 나쁜지 통계 수치로 측정한다.
-    ↓
+    v
 [ Analyze ]   Y를 변하게 만드는 수많은 원인 변수(X1, X2... Xn) 중
               결정적 영향을 미치는 '핵심 X (Vital Few X's)'를 찾아낸다.
-    ↓
+    v
 [ Improve ]   핵심 X의 값을 어떻게 세팅해야 Y가 최적의 값을 갖는지 공식을 찾고 고친다.
-    ↓
+    v
 [ Control ]   X가 정해진 범위를 벗어나지 않도록 대시보드와 규정으로 통제한다.
 ```
 
@@ -114,14 +114,14 @@ tags = ["enterprise_systems"]
 [ TQM: 분산/자율형 ]                    [ Six Sigma: 전문가 주도/계층형 ]
 
                                            (스폰서) 챔피언 (Champion)
-      품질관리부서 중심의 캠페인                  │
- ┌────────┴────────┐                              ▼ 전담/지원
- │                 │                       마스터 블랙벨트 (MBB)
-현업부서        현업부서                           │
-(품질은 부수적) (품질은 부수적)                    ▼ 프로젝트 리더 (풀타임)
+      품질관리부서 중심의 캠페인                  |
+ +--------+--------+                              v 전담/지원
+ |                 |                       마스터 블랙벨트 (MBB)
+현업부서        현업부서                           |
+(품질은 부수적) (품질은 부수적)                    v 프로젝트 리더 (풀타임)
                                            블랙벨트 (Black Belt)
-                                                  │
-                                                  ▼ 현업 전문가 (파트타임)
+                                                  |
+                                                  v 현업 전문가 (파트타임)
                                            그린벨트 (Green Belt)
 ```
 
@@ -181,14 +181,14 @@ tags = ["enterprise_systems"]
 
 ```text
 [품질 비용 (COPQ) 문제 인식 — 결함으로 인한 손실 정량화]
-    │
-    ▼
+    |
+    v
 [식스 시그마 (Six Sigma) DMAIC — 정의·측정·분석·개선·통제]
-    │
-    ▼
+    |
+    v
 [린 식스 시그마 (Lean Six Sigma) — 낭비 제거 + 변동 축소 융합]
-    │
-    ▼
+    |
+    v
 [디지털 식스 시그마 — AI·RPA 활용 프로세스 자동화·최적화]
 ```
 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 DMAIC 방법론으로 프로세스 변동을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 줄이며, 린과 결합한 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)로 발전해 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)까지 이어진다.
@@ -204,7 +204,7 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 19 / 482
 
-← **이전**: [18. PI (Process Innovation) - BPR보다 점진적/연속적인 프로세스 혁신](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/018_pi/)
-**다음**: [20. KPI (Key Performance Indicator) - 핵심 성과 지표 (목표 달성 정도 측정)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/) →
+<- **이전**: [18. PI (Process Innovation) - BPR보다 점진적/연속적인 프로세스 혁신](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/018_pi/)
+**다음**: [20. KPI (Key Performance Indicator) - 핵심 성과 지표 (목표 달성 정도 측정)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/) ->
 
 ---

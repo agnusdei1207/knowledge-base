@@ -27,16 +27,16 @@ tags = ["ict_convergence"]
 
 이 그림은 기존 PoW 방식과 PoST 방식의 자원 활용 메커니즘 차이를 직관적으로 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [PoW (작업 증명): 연산 중심, 전력 소모 극대화]         │
-│  ASIC / GPU 가동 ====(막대한 전기 낭비)====> 해시 정답 도출│
-│  ※ CPU 연산을 계속 돌려야만 정답을 찾을 수 있음       │
-├────────────────────────────────────────────────────────┤
-│ [PoST (공간/시간 증명): 스토리지 중심, 친환경 유지]    │
-│  빈 HDD 공간에 ====(초기 1회 Plotting)====> 빙고판 저장 │
-│  데이터 유지 시간 ====(VDF 지연 함수)====> 당첨 여부 확인│
-│  ※ 이후 대기 모드에서 전력 소모 없이 공간만 제공      │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [PoW (작업 증명): 연산 중심, 전력 소모 극대화]         |
+|  ASIC / GPU 가동 ====(막대한 전기 낭비)====> 해시 정답 도출|
+|  ※ CPU 연산을 계속 돌려야만 정답을 찾을 수 있음       |
++--------------------------------------------------------+
+| [PoST (공간/시간 증명): 스토리지 중심, 친환경 유지]    |
+|  빈 HDD 공간에 ====(초기 1회 Plotting)====> 빙고판 저장 |
+|  데이터 유지 시간 ====(VDF 지연 함수)====> 당첨 여부 확인|
+|  ※ 이후 대기 모드에서 전력 소모 없이 공간만 제공      |
++--------------------------------------------------------+
 ```
 이 도식의 핵심은 소모되는 자원의 성질이 '동적인 전기(연산)'에서 '정적인 디스크(공간)'로 변환되었다는 점이다. 이런 배치는 네트워크 유지에 필요한 에너지를 기하급수적으로 줄이기 때문이며, 따라서 시스템은 친환경적(Green) 요건을 완벽히 만족한다. 실무에서는 누구나 집에 있는 남는 하드디스크를 연결(Farming)하기만 하면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자로 참여할 수 있어, 네트워크의 노드 수가 폭발적으로 증가하여 진정한 의미의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)를 이룰 수 있게 된다.
 
@@ -62,17 +62,17 @@ PoST의 가장 중요한 난제는 "공격자가 디스크 공간을 실제로 �
 [PoST 블록 생성 및 암호학적 검증 순차 흐름도]
 
 [네트워크 챌린지 발생] (이전 블록의 해시값)
-         │
-         ↓
+         |
+         v
 [Farmer들의 Space 증명 (Proof of Space)]
- ├─ Farmer A (1TB) : 내 하드디스크에 정답과 90% 일치하는 값 있음!
- ├─ Farmer B (10TB) : 나는 정답과 99% 일치하는 값 있음! (당첨 확률 높음)
-         │
-         ↓ (가장 우수한 증명을 네트워크에 제출)
+ +- Farmer A (1TB) : 내 하드디스크에 정답과 90% 일치하는 값 있음!
+ +- Farmer B (10TB) : 나는 정답과 99% 일치하는 값 있음! (당첨 확률 높음)
+         |
+         v (가장 우수한 증명을 네트워크에 제출)
 [Timelord의 Time 증명 (Proof of Time - VDF)]
- └─ VDF 연산 시작: "B의 증명이 유효한지 10초 동안 순차 연산 강제 수행"
-         │ (※ 병렬 처리 불가, 무조건 시간 지연 발생)
-         ↓
+ +- VDF 연산 시작: "B의 증명이 유효한지 10초 동안 순차 연산 강제 수행"
+         | (※ 병렬 처리 불가, 무조건 시간 지연 발생)
+         v
 [최종 블록 확정] => Farmer B가 블록 생성 및 코인 보상 획득
 ```
 이 흐름의 핵심은 공간 증명과 시간 증명이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결되어 상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다는 점이다. 이런 배치는 압도적인 CPU 성능을 가진 공격자라 할지라도 VDF의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산 시간(Time)을 압축할 수 없고, 결국 꼼수 없이 거대한 저장 공간(Space)을 실제로 구비해야만 승리할 수 있도록 강제하기 때문이며, 따라서 시스템은 순수하게 디스크 용량에 비례하여 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)된 보안을 유지한다. 실무에서는 VDF 연산을 전담하는 Timelord 노드는 고성능 연산이 필요하지만, 일반 Farmer 노드들은 저전력으로 수확만 수행하므로 전체 생태계의 전력 효율이 극대화된다.
@@ -82,15 +82,15 @@ PoST의 가장 중요한 난제는 "공격자가 디스크 공간을 실제로 �
 ```text
 [디스크 Plotting 메모리/디스크 레이아웃 상태]
 
-┌─────────────── HDD / SSD ───────────────┐
-│ Plot 1 (100GB)  │ Plot 2 (100GB)        │
-│ ┌─Table 1 (해시)│ ┌─Table 1             │
-│ ├─Table 2 (포인터│ ├─...                 │
-│ └─...           │ └─Table 7 (최종 해시) │
-│                                         │
-│ ※ 초기 Plotting 시 CPU/RAM을 많이 쓰지만,│
-│    완료 후 Farming 시에는 단순 Read만 수행│
-└─────────────────────────────────────────┘
++--------------- HDD / SSD ---------------+
+| Plot 1 (100GB)  | Plot 2 (100GB)        |
+| +-Table 1 (해시)| +-Table 1             |
+| +-Table 2 (포인터| +-...                 |
+| +-...           | +-Table 7 (최종 해시) |
+|                                         |
+| ※ 초기 Plotting 시 CPU/RAM을 많이 쓰지만,|
+|    완료 후 Farming 시에는 단순 Read만 수행|
++-----------------------------------------+
 ```
 이 그림은 한 번 디스크에 Plot이 기록되고 나면, 이후 유지보수에는 최소한의 자원만 소모됨을 보여준다. 이 도식에서 핵심은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업(Write)이 일회성으로 끝난다는 점이다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 SSD로 빠르게 Plot을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 후 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 적고 용량이 큰 저렴한 HDD로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮겨 장기 보관(Farming)하는 아키텍처가 실무적으로 가장 효율적이고 보편적인 참여 방식이 된다.
 
@@ -113,18 +113,18 @@ PoST는 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_bl
 PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승하면서도, 그 자원을 무한 소모되는 '전기'에서 재사용 가능한 '디스크 공간'으로 치환했다.
 
 ```text
-┌─────────── [합의 자원과 진입 장벽 매트릭스] ───────────┐
-│                                                        │
-│  [진입 장벽 높음]      (자본/특수 장비 필요)           │
-│         ▲                    │ PoS (대량 토큰 필요)    │
-│         │ PoW (ASIC 채굴기)  │                         │
-│ ────────┼────────────────────┼──────────────────────── │
-│         │                    │                         │
-│  [진입 장벽 낮음]            │ PoST (남는 하드디스크)  │
-│      (잉여 자원 활용)        │                         │
-│         └────────────────────┴──────────────────────── │
-│         [소모성 자원 (전기)]    [비소모성 고정 자원 (공간)]│
-└────────────────────────────────────────────────────────┘
++----------- [합의 자원과 진입 장벽 매트릭스] -----------+
+|                                                        |
+|  [진입 장벽 높음]      (자본/특수 장비 필요)           |
+|         ^                    | PoS (대량 토큰 필요)    |
+|         | PoW (ASIC 채굴기)  |                         |
+| --------+--------------------+------------------------ |
+|         |                    |                         |
+|  [진입 장벽 낮음]            | PoST (남는 하드디스크)  |
+|      (잉여 자원 활용)        |                         |
+|         +--------------------+------------------------ |
+|         [소모성 자원 (전기)]    [비소모성 고정 자원 (공간)]|
++--------------------------------------------------------+
 ```
 이 매트릭스의 핵심은 일반 대중이 네트워크 합의에 참여하기 위한 진입 장벽이 가장 낮은 곳이 우측 하단(PoST)이라는 점이다. PoW는 고가의 특수 채굴기가 필요하고 전기료 감당이 어려우며, PoS는 수천만 원어치의 코인을 사전에 보유해야 한다. 반면 PoST는 누구나 집에 있는 PC의 남는 하드디스크 공간만 있으면 즉시 네트워크의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자로 기여할 수 있어, 가장 이상적인 '완전한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)' 철학에 부합한다.
 
@@ -153,9 +153,9 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
 [PoST 하드웨어 소모 병목 시각화 (안티패턴)]
 
 [일반 SSD 구매] => [무한 Plotting (Write 폭주) 수행]
-       ↓
+       v
 [SSD 수명(TBW) 급속 고갈 및 디스크 파괴]
-       ↓ (단기 수익은 얻었으나 장비 교체 비용 발생)
+       v (단기 수익은 얻었으나 장비 교체 비용 발생)
 [전자 폐기물(e-Waste) 급증] => 🚨 '친환경'이라는 본래 철학 훼손
 ```
 이 그림은 소프트웨어적 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)이 하드웨어 인프라에 미치는 물리적 부작용을 경고한다. 이 도식에서 핵심은 Plotting과 Farming의 하드웨어 요구사항이 완전히 다르다는 점이다. 따라서 실무 운영자는 Plotting 전용 RAM Disk나 엔터프라이즈급 SSD로 단기 부하를 흡수하고, 장기 보관(Farming)은 저전력 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 클러스터로 분리하는 계층화된 스토리지 아키텍처([Storage Tiering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/))를 반드시 설계해야만 투자 대비 수익([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))과 인프라 안정성을 지킬 수 있다.
@@ -192,17 +192,17 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
 
 ```text
 [PoW (Proof of Work) — CPU/GPU 연산 경쟁, 막대한 에너지 소비]
-    │
-    ▼
+    |
+    v
 [PoS (Proof of Stake) — 토큰 지분 증명, 에너지 절약]
-    │
-    ▼
+    |
+    v
 [PoSpace (Proof of Space) — 디스크 공간 사전 플로팅, I/O 기반]
-    │
-    ▼
+    |
+    v
 [PoST (Proof of Space and Time) — 공간 + VDF 시간 증명, Chia Network]
-    │
-    ▼
+    |
+    v
 [VDF (Verifiable Delay Function) — 검증 가능한 지연 함수, 선행 조건 방지]
 ```
 PoST는 디스크 공간(Space)을 사전 확보하고 VDF로 시간 경과를 증명하여, PoW의 에너지 낭비 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의를 달성한다.
@@ -217,7 +217,7 @@ PoST는 디스크 공간(Space)을 사전 확보하고 VDF로 시간 경과를 �
 
 **진행 상황**: 18 / 552
 
-← **이전**: [17. 권위 증명 (PoA, Proof of Authority) - 신원 인증된 노드만 합의 참여 (프라이빗 블록체인)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/)
-**다음**: [19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) →
+<- **이전**: [17. 권위 증명 (PoA, Proof of Authority) - 신원 인증된 노드만 합의 참여 (프라이빗 블록체인)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/)
+**다음**: [19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) ->
 
 ---

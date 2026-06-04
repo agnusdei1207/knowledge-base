@@ -34,16 +34,16 @@ EDA의 핵심 구성은 생산자, 이벤트 브로커, 토픽 또는 큐, 소�
 아래 그림은 전형적인 퍼블리시/서브스크라이브 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Event propagation through broker                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Order Service -- publish OrderPlaced --> Broker Topic               │
-│                                         ├─ Inventory Consumer       │
-│                                         ├─ Payment Consumer         │
-│                                         └─ Notification Consumer    │
-│                                                                      │
-│ Trace ID / key / schema version travel with the event               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Event propagation through broker                                     |
++----------------------------------------------------------------------+
+| Order Service -- publish OrderPlaced --> Broker Topic               |
+|                                         +- Inventory Consumer       |
+|                                         +- Payment Consumer         |
+|                                         +- Notification Consumer    |
+|                                                                      |
+| Trace ID / key / schema version travel with the event               |
++----------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | 설계 포인트 |
@@ -126,17 +126,17 @@ EDA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ```text
 동기 호출 체인의 결합 증가
-        │
-        ▼
+        |
+        v
 브로커 기반 비동기 메시징 도입
-        │
-        ▼
+        |
+        v
 Publish / Subscribe 이벤트 전파
-        │
-        ▼
+        |
+        v
 멱등성 · DLQ · 추적 체계 강화
-        │
-        ▼
+        |
+        v
 Saga · CQRS · Event Sourcing 확장
 ```
 
@@ -154,7 +154,7 @@ Saga · CQRS · Event Sourcing 확장
 
 **진행 상황**: 190 / 482
 
-← **이전**: [189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/189_multi_tenant_database_architecture_saas/)
-**다음**: [191. 컨슈머 그룹 (Consumer Group) - Kafka 파티션 병렬 처리와 부하 분산](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) →
+<- **이전**: [189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/189_multi_tenant_database_architecture_saas/)
+**다음**: [191. 컨슈머 그룹 (Consumer Group) - Kafka 파티션 병렬 처리와 부하 분산](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) ->
 
 ---

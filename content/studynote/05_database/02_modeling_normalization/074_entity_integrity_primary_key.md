@@ -30,7 +30,7 @@ tags = ["database"]
 
 ```text
 Row
-  ↓ primary key
+  v primary key
 Unique & Not Null
 ```
 
@@ -101,9 +101,9 @@ Unique & Not Null
 
 ```text
 Row
-  ↓
+  v
 Primary Key
-  ↓
+  v
 Entity Integrity
 ```
 
@@ -113,9 +113,9 @@ Entity Integrity
 
 ```text
 Primary Key
-  ↓
+  v
 Entity Integrity
-  ↓
+  v
 Relational Model
 ```
 
@@ -133,7 +133,7 @@ Relational Model
 
 **진행 상황**: 74 / 600
 
-← **이전**: [73. 무결성 제약조건 (Integrity Constraints)](/knowledge-base/studynote/05_database/02_modeling_normalization/073_integrity_constraints_overview/)
-**다음**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) →
+<- **이전**: [73. 무결성 제약조건 (Integrity Constraints)](/knowledge-base/studynote/05_database/02_modeling_normalization/073_integrity_constraints_overview/)
+**다음**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) ->
 
 ---

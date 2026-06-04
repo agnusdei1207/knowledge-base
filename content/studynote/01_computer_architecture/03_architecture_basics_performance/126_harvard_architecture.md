@@ -28,21 +28,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 분리가 필요한지를 보여준다. 핵심은 메모리 용량의 크기가 아니라 <strong>길을 몇 개로 나누었는가</strong>다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        같은 CPU라도 "길 하나"와 "길 둘"은 동작 감각이 다르다        │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 폰 노이만 구조                │ 하버드 아키텍처                     │
-│                               │                                      │
-│ [코드+데이터 공용 메모리]     │ [명령어 메모리]   [데이터 메모리]   │
-│            │                  │        │                 │           │
-│            ▼                  │        ▼                 ▼           │
-│          [단일 버스]           │   [명령어 버스]     [데이터 버스]   │
-│            │                  │        │                 │           │
-│            ▼                  │        └──────┬──────────┘           │
-│           CPU                 │               ▼                      │
-│                               │              CPU                     │
-│ 명령어 인출과 데이터 접근 충돌 │ 명령어 인출과 데이터 접근 병행 가능 │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        같은 CPU라도 "길 하나"와 "길 둘"은 동작 감각이 다르다        |
++-------------------------------+--------------------------------------+
+| 폰 노이만 구조                | 하버드 아키텍처                     |
+|                               |                                      |
+| [코드+데이터 공용 메모리]     | [명령어 메모리]   [데이터 메모리]   |
+|            |                  |        |                 |           |
+|            v                  |        v                 v           |
+|          [단일 버스]           |   [명령어 버스]     [데이터 버스]   |
+|            |                  |        |                 |           |
+|            v                  |        +------+----------+           |
+|           CPU                 |               v                      |
+|                               |              CPU                     |
+| 명령어 인출과 데이터 접근 충돌 | 명령어 인출과 데이터 접근 병행 가능 |
++-------------------------------+--------------------------------------+
 ```
 
 즉, 하버드 아키텍처는 단순히 "메모리를 둘로 나눈 설계"가 아니라, <strong>시간에 민감한 계산에서 충돌을 줄이기 위한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 분리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 이해해야 한다.
@@ -68,20 +68,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 파이프라인 관점에서 왜 하버드 아키텍처가 유리한지 보여준다. 폰 노이만 구조에서는 IF ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch)와 MEM (Memory Access)이 같은 자원을 두고 경쟁하지만, 하버드 구조에서는 그 경쟁이 처음부터 줄어든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            파이프라인에서 보는 하버드 아키텍처의 이점               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cycle      1      2      3      4      5      6                     │
-│                                                                      │
-│ 명령 A    [IF]   [ID]   [EX]   [MEM]  [WB]                           │
-│ 명령 B           [IF]   [ID]   [EX]   [MEM]  [WB]                    │
-│ 명령 C                  [IF]   [ID]   [EX]   [MEM]  [WB]             │
-│                                                                      │
-│ 폰 노이만 구조 : Cycle 4에서 A의 [MEM] 과 D의 [IF] 가 자원 충돌      │
-│ 하버드 구조  : A의 [MEM] 은 데이터 버스, D의 [IF] 는 명령어 버스 사용 │
-│                                                                      │
-│ 결과: Fetch와 Load/Store가 겹쳐도 구조적 해저드가 크게 줄어든다      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            파이프라인에서 보는 하버드 아키텍처의 이점               |
++----------------------------------------------------------------------+
+| Cycle      1      2      3      4      5      6                     |
+|                                                                      |
+| 명령 A    [IF]   [ID]   [EX]   [MEM]  [WB]                           |
+| 명령 B           [IF]   [ID]   [EX]   [MEM]  [WB]                    |
+| 명령 C                  [IF]   [ID]   [EX]   [MEM]  [WB]             |
+|                                                                      |
+| 폰 노이만 구조 : Cycle 4에서 A의 [MEM] 과 D의 [IF] 가 자원 충돌      |
+| 하버드 구조  : A의 [MEM] 은 데이터 버스, D의 [IF] 는 명령어 버스 사용 |
+|                                                                      |
+| 결과: Fetch와 Load/Store가 겹쳐도 구조적 해저드가 크게 줄어든다      |
++----------------------------------------------------------------------+
 ```
 
 다만 하버드 구조가 모든 병목을 없애는 것은 아니다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성, 캐시 미스처럼 다른 원인의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 여전히 남는다. 즉 하버드 아키텍처는 "CPU를 무조건 빠르게 만드는 마법"이 아니라, <strong>메모리 통로 하나 때문에 생기는 불필요한 대기를 줄이는 구조적 개선</strong>이다.
@@ -167,23 +167,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 폰 노이만 아키텍처
-        │
-        ▼
+        |
+        v
 폰 노이만 병목 (Von Neumann Bottleneck)
-        │
-        ▼
+        |
+        v
 하버드 아키텍처 (Harvard Architecture)
-        │
-        ├──────────────► DSP · MCU 중심 실시간 설계 강화
-        │
-        ▼
+        |
+        +--------------► DSP · MCU 중심 실시간 설계 강화
+        |
+        v
 모디파이드 하버드 아키텍처 (Modified Harvard Architecture)
-        │
-        ▼
+        |
+        v
 L1I / L1D 분리 캐시 · 도메인 특화 가속기 내부 다중 경로 설계
 ```
 
-이 흐름은 "통합 구조의 병목 인식 → 경로 분리 → 현대적 절충 → 계층별 최적화"로 이어지는 진화를 보여준다.
+이 흐름은 "통합 구조의 병목 인식 -> 경로 분리 -> 현대적 절충 -> 계층별 최적화"로 이어지는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -197,7 +197,7 @@ L1I / L1D 분리 캐시 · 도메인 특화 가속기 내부 다중 경로 설�
 
 **진행 상황**: 126 / 803
 
-← **이전**: [125. 내장형 프로그램 (Stored-program Concept)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/)
-**다음**: [127. 시스템 버스 (System Bus)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) →
+<- **이전**: [125. 내장형 프로그램 (Stored-program Concept)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/)
+**다음**: [127. 시스템 버스 (System Bus)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) ->
 
 ---

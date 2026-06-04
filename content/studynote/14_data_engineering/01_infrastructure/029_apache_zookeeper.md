@@ -19,21 +19,21 @@ tags = ["studynote-data-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          ZooKeeper 분산 조율 서비스                        │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  분산 잠금:    노드 A      ZooKeeper     노드 B           │
-│               "잠금 요청" →  [Lock Znode] ← "대기"       │
-│               잠금 획득 → 작업 수행 → 잠금 해제           │
-│                                                           │
-│  리더 선출:   노드1, 노드2, 노드3가 경쟁                   │
-│               → ZooKeeper가 공정한 리더 선출              │
-│               → 리더 장애 시 자동 재선출                  │
-│                                                           │
-│  ZooKeeper 앙상블 (최소 3개, 홀수 권장):                   │
-│  [ZK1] [ZK2] [ZK3]  → 과반수(2개) 살아있으면 정상 운영   │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          ZooKeeper 분산 조율 서비스                        |
++----------------------------------------------------------+
+|                                                           |
+|  분산 잠금:    노드 A      ZooKeeper     노드 B           |
+|               "잠금 요청" ->  [Lock Znode] <- "대기"       |
+|               잠금 획득 -> 작업 수행 -> 잠금 해제           |
+|                                                           |
+|  리더 선출:   노드1, 노드2, 노드3가 경쟁                   |
+|               -> ZooKeeper가 공정한 리더 선출              |
+|               -> 리더 장애 시 자동 재선출                  |
+|                                                           |
+|  ZooKeeper 앙상블 (최소 3개, 홀수 권장):                   |
+|  [ZK1] [ZK2] [ZK3]  -> 과반수(2개) 살아있으면 정상 운영   |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ZooKeeper는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 신뢰할 수 있는 공증인이다. 여러 서버가 "내가 리더야!"라고 주장할 때, ZooKeeper라는 공증인이 공정하게 하나만 인정하고 나머지에게 통보한다.
@@ -48,9 +48,9 @@ tags = ["studynote-data-engineering"]
 ZooKeeper 데이터 트리 (/):
   /kafka/
     /brokers/
-      /0001  → broker 1 연결 정보
-      /0002  → broker 2 연결 정보
-    /controller → 현재 컨트롤러(리더) 브로커 ID
+      /0001  -> broker 1 연결 정보
+      /0002  -> broker 2 연결 정보
+    /controller -> 현재 컨트롤러(리더) 브로커 ID
 
 znode 타입:
   persistent: 클라이언트 연결 끊겨도 유지
@@ -65,7 +65,7 @@ ZAB (ZooKeeper Atomic Broadcast):
   1. Leader가 변경 사항 제안 (Proposal)
   2. 과반수(n/2+1) Follower가 ACK
   3. Leader가 COMMIT 전파
-  → 모든 노드 동일 순서로 상태 업데이트 보장
+  -> 모든 노드 동일 순서로 상태 업데이트 보장
 ```
 
 - **📢 섹션 요약 비유**: ZAB [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 민주주의 투표 시스템이다. 대통령(Leader)이 법안(변경사항)을 제출하면 국회의원(Follower) 과반수가 동의해야 통과된다. 과반수 미달이면 부결된다.
@@ -92,13 +92,13 @@ ZAB (ZooKeeper Atomic Broadcast):
 ```text
 전통 Kafka 아키텍처:
   Kafka Broker + ZooKeeper 앙상블 분리 운영
-  → ZooKeeper 관리 부담, ZK-Kafka 버전 호환 이슈
+  -> ZooKeeper 관리 부담, ZK-Kafka 버전 호환 이슈
 
 Kafka KRaft (Kafka 3.3+, 2022):
   Kafka 내장 Raft 합의 프로토콜
-  → ZooKeeper 완전 제거 가능
-  → 단일 클러스터 운영, 관리 단순화
-  → 메타데이터 처리 성능 10배 향상
+  -> ZooKeeper 완전 제거 가능
+  -> 단일 클러스터 운영, 관리 단순화
+  -> 메타데이터 처리 성능 10배 향상
 ```
 
 ### [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 적용 사례
@@ -142,17 +142,17 @@ ZooKeeper는 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ```text
 [분산 시스템 조율 문제 — Split Brain, 리더 선출]
-    │
-    ▼
+    |
+    v
 [Apache ZooKeeper — ZAB 프로토콜, 범용 조율 서비스]
-    │
-    ▼
+    |
+    v
 [etcd — Raft 기반, Kubernetes 표준 조율]
-    │
-    ▼
+    |
+    v
 [Kafka KRaft — ZooKeeper 의존성 제거]
-    │
-    ▼
+    |
+    v
 [서비스 메시 — Consul 기반 서비스 디스커버리]
 ```
 
@@ -168,7 +168,7 @@ ZooKeeper는 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 **진행 상황**: 29 / 258
 
-← **이전**: [28. Apache Hive](/knowledge-base/studynote/14_data_engineering/01_infrastructure/028_apache_hive/)
-**다음**: [30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/030_split_brain_quorum/) →
+<- **이전**: [28. Apache Hive](/knowledge-base/studynote/14_data_engineering/01_infrastructure/028_apache_hive/)
+**다음**: [30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/030_split_brain_quorum/) ->
 
 ---

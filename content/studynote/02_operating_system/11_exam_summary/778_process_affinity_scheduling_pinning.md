@@ -36,29 +36,29 @@ tags = ["studynote-operating-system"]
   - 코어가 2~4개이던 시절에는 공평한 분배가 더 중요했다. 그러나 64코어, 128코어 시대로 오며 코어 간 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(MESI 핑퐁) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비용이 어마어마해지자, 차라리 한 우물만 파는 것이 압도적으로 빠르다는 것을 깨닫고 HFT(초고빈도 매매) 및 DB 아키텍트들의 필수 교양으로 자리 잡았다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 CPU Migration(이주) 오버헤드와 Affinity 방어 원리     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 스케줄러의 무분별한 이주 (Migration) - 캐시 파괴 ]            │
-  │   시간 T1: [ Core 0 ] ◀ Thread A 실행 중 (L1 캐시 99% 웜업 완료!)│
-  │               │                                              │
-  │   시간 T2: (Core 0 바쁨, Core 1 빔)                            │
-  │            스케줄러: "A야 너 Core 1로 방 빼!" (Migration)        │
-  │               │                                              │
-  │   시간 T3: [ Core 1 ] ◀ Thread A 도착                        │
-  │            🚨 대참사: Core 1의 캐시는 텅 빔(Cold).                │
-  │            메모리에서 다시 데이터 퍼오느라 수백 마이크로초 멈춤(Stall)! │
-  │                                                             │
-  │  [ 2. 하드 친화성 (CPU Pinning / taskset) - 캐시 보존 ]          │
-  │   설정: `taskset -c 0 ./my_app` (넌 무조건 Core 0번만 써!)     │
-  │                                                             │
-  │   시간 T1: [ Core 0 ] ◀ Thread A 실행 중 (L1 캐시 웜업)        │
-  │   시간 T2: (Core 0 매우 바쁨, Core 1 텅텅 빔)                    │
-  │            스케줄러: "A를 옮기고 싶지만 족쇄(Affinity)가 있네. 포기." │
-  │   시간 T3: [ Core 0 ] ◀ 대기 큐에서 살짝 기다렸다가 다시 Core 0 실행! │
-  │            🚀 성공: 캐시가 그대로 살아있어 메모리 지연 0초로 즉시 연산! │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 CPU Migration(이주) 오버헤드와 Affinity 방어 원리     |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 스케줄러의 무분별한 이주 (Migration) - 캐시 파괴 ]            |
+  |   시간 T1: [ Core 0 ] <- Thread A 실행 중 (L1 캐시 99% 웜업 완료!)|
+  |               |                                              |
+  |   시간 T2: (Core 0 바쁨, Core 1 빔)                            |
+  |            스케줄러: "A야 너 Core 1로 방 빼!" (Migration)        |
+  |               |                                              |
+  |   시간 T3: [ Core 1 ] <- Thread A 도착                        |
+  |            🚨 대참사: Core 1의 캐시는 텅 빔(Cold).                |
+  |            메모리에서 다시 데이터 퍼오느라 수백 마이크로초 멈춤(Stall)! |
+  |                                                             |
+  |  [ 2. 하드 친화성 (CPU Pinning / taskset) - 캐시 보존 ]          |
+  |   설정: `taskset -c 0 ./my_app` (넌 무조건 Core 0번만 써!)     |
+  |                                                             |
+  |   시간 T1: [ Core 0 ] <- Thread A 실행 중 (L1 캐시 웜업)        |
+  |   시간 T2: (Core 0 매우 바쁨, Core 1 텅텅 빔)                    |
+  |            스케줄러: "A를 옮기고 싶지만 족쇄(Affinity)가 있네. 포기." |
+  |   시간 T3: [ Core 0 ] <- 대기 큐에서 살짝 기다렸다가 다시 Core 0 실행! |
+  |            🚀 성공: 캐시가 그대로 살아있어 메모리 지연 0초로 즉시 연산! |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자들은 `top` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤을 때 모든 코어가 고르게 50%씩 일하고 있으면 "스케줄링이 예술이네"라고 착각한다. 하지만 고성능 엔지니어의 눈에는 그것이 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 이 코어 저 코어로 미친 듯이 이사(Migration) 다니며 서로의 L1/L2 캐시를 짓밟고 있는 지옥도"로 보인다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 하나의 코어에 강력한 본드로 붙여버리면(Pinning), 비록 다른 코어가 놀고 있어 가끔 CPU 활용률이 찌그러져 보일지언정, 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 <strong>메모리 접근 레이턴시는 흔들림 없는 일직선(Deterministic)</strong>을 그리게 된다. 이것이 실시간(Real-Time) 시스템과 인메모리 DB의 최강 스킬이다.
@@ -74,28 +74,28 @@ tags = ["studynote-operating-system"]
 현대 서버 CPU(Intel Xeon, AMD EPYC 등)는 하나의 거대한 칩이 아니라, 여러 개의 CPU 덩어리(노드)가 합쳐진 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>, 불균일 메모리 접근)</strong> 구조다. Affinity의 진정한 파괴력은 여기서 폭발한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 NUMA 노드 구조와 CPU Affinity의 완벽한 짝꿍 아키텍처      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ NUMA Node 0 ]                           [ NUMA Node 1 ]       │
-  │  ┌────────┬────────┐                       ┌────────┬────────┐    │
-  │  │ Core 0 │ Core 1 │   (QPI / Infinity     │ Core 2 │ Core 3 │    │
-  │  ├────────┴────────┤   Fabric 고속 통신망)   ├────────┴────────┤    │
-  │  │ Local RAM (32GB)│◀════════════════════▶│ Local RAM (32GB)│    │
-  │  └─────────────────┘                       └─────────────────┘    │
-  │                                                                   │
-  │   [ 🚨 안티패턴: Affinity 없음 ]                                     │
-  │   - 스레드가 Core 0에서 돌면서, 메모리 할당(malloc)을 Node 1의 램에 해버림! │
-  │   - Core 0이 데이터를 읽을 때마다 좁은 QPI 다리를 건너 원정(Remote Access) │
-  │     가야 하므로 **메모리 속도가 반토막(지연 시간 2배 증가)** 남.             │
-  │                                                                   │
-  │   [ 🚀 최고 아키텍처: NUMA Pinning (numactl + taskset) ]             │
-  │   - 룰: "이 데이터베이스 프로세스는 무조건 Node 0 (Core 0,1)에서만 돌고,      │
-  │         메모리도 무조건 Node 0의 램에서만 할당받아라!"                   │
-  │   - 결과: QPI 원정 통신망 사용량 0%. 모든 메모리 접근이 최단거리 Local RAM  │
-  │         에서 이루어져 극단적인 RAM 스루풋과 캐시 대역폭을 확보.            │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 NUMA 노드 구조와 CPU Affinity의 완벽한 짝꿍 아키텍처      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ NUMA Node 0 ]                           [ NUMA Node 1 ]       |
+  |  +--------+--------+                       +--------+--------+    |
+  |  | Core 0 | Core 1 |   (QPI / Infinity     | Core 2 | Core 3 |    |
+  |  +--------+--------+   Fabric 고속 통신망)   +--------+--------+    |
+  |  | Local RAM (32GB)|<---------------------->| Local RAM (32GB)|    |
+  |  +-----------------+                       +-----------------+    |
+  |                                                                   |
+  |   [ 🚨 안티패턴: Affinity 없음 ]                                     |
+  |   - 스레드가 Core 0에서 돌면서, 메모리 할당(malloc)을 Node 1의 램에 해버림! |
+  |   - Core 0이 데이터를 읽을 때마다 좁은 QPI 다리를 건너 원정(Remote Access) |
+  |     가야 하므로 **메모리 속도가 반토막(지연 시간 2배 증가)** 남.             |
+  |                                                                   |
+  |   [ 🚀 최고 아키텍처: NUMA Pinning (numactl + taskset) ]             |
+  |   - 룰: "이 데이터베이스 프로세스는 무조건 Node 0 (Core 0,1)에서만 돌고,      |
+  |         메모리도 무조건 Node 0의 램에서만 할당받아라!"                   |
+  |   - 결과: QPI 원정 통신망 사용량 0%. 모든 메모리 접근이 최단거리 Local RAM  |
+  |         에서 이루어져 극단적인 RAM 스루풋과 캐시 대역폭을 확보.            |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "불균일(Non-Uniform)"이라는 말은 내 방 책상(로컬 램)에 있는 책을 집는 속도와, 동생 방 책상(원격 램)에 있는 책을 집는 속도가 2배 이상 차이 난다는 뜻이다. 과거 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)(대칭형) 구조에서는 램 위치가 평등했지만, 현대 서버는 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 구조라 코어별로 자기 구역 램이 정해져 있다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 노드 0번과 1번으로 이리저리 던져버리면(Migration), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 탯줄(메모리 주소)이 길게 꼬여서 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 맞는다. 아키텍트는 반드시 `numactl` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이용해 <strong>프로세스 족쇄(CPU Pinning)</strong>와 <strong>메모리 족쇄(Membind)</strong>를 하나의 동일한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 세트로 묶어서 감금해 버려야 진정한 하드웨어의 신이 될 수 있다.
@@ -139,27 +139,27 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> Interleave 튜닝)</strong>: 이렇게 덩치가 커서 여러 노드의 램을 다 씹어먹어야 하는 자바/빅데이터 앱은 노드 친화성이 오히려 치명적인 데드락(Swap)을 부른다. 아키텍트는 실행 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 앞에 <strong><code>numactl --interleave=all java -jar ...</code></strong> 를 붙여 강제로 실행시킨다. 이 룰은 "메모리 할당할 때 0번 노드, 1번 노드 따지지 말고 양쪽에서 지퍼 물리듯 번갈아 가며 골고루 뽑아 써라!"는 뜻이다. 특정 노드 편중에 의한 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 발작을 억제하는 빅데이터 인프라의 마법 주문이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 개발 언어별 CPU 친화성(Affinity) 통제 아키텍처 트리       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 우리 팀의 핵심 코어가 어떤 언어/프레임워크로 작성되었나? ]                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      C / C++ / Rust (시스템 네이티브 언어)                          │
-  │          └──▶ 최상! 코드 내부에 `sched_setaffinity()` 시스템 콜을 박아서 │
-  │                 프로그램 스스로 메인/워커 스레드를 각 코어에 하드코딩 맵핑 설계.│
-  │                                                                   │
-  │      Nginx / Redis (C 기반이지만 이미 컴파일된 상용 솔루션)             │
-  │          └──▶ 설정 파일(`worker_cpu_affinity`)이나 외부 OS 유틸인     │
-  │                 `taskset` 명령어를 써서 껍데기 위에서 강제로 묶어버림.     │
-  │                                                                   │
-  │      Java / Go (자체 스케줄러(JVM, Goroutine)를 가진 언어)           │
-  │          └──▶ 🚨 경고! 커널 코어(OS Thread)와 1:1 매핑이 되지 않음.     │
-  │                 코드단에서 CPU를 고정하려 해봤자 JVM/Go 런타임이 맘대로 섞어버림.│
-  │                 -> 언어 단이 아닌, 아예 Docker/K8s의 컨테이너 레벨(Cgroups)│
-  │                 단위에서 `cpuset`으로 물리 코어를 외부에서 통째로 격리해야 함.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 개발 언어별 CPU 친화성(Affinity) 통제 아키텍처 트리       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 우리 팀의 핵심 코어가 어떤 언어/프레임워크로 작성되었나? ]                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      C / C++ / Rust (시스템 네이티브 언어)                          |
+  |          +---> 최상! 코드 내부에 `sched_setaffinity()` 시스템 콜을 박아서 |
+  |                 프로그램 스스로 메인/워커 스레드를 각 코어에 하드코딩 맵핑 설계.|
+  |                                                                   |
+  |      Nginx / Redis (C 기반이지만 이미 컴파일된 상용 솔루션)             |
+  |          +---> 설정 파일(`worker_cpu_affinity`)이나 외부 OS 유틸인     |
+  |                 `taskset` 명령어를 써서 껍데기 위에서 강제로 묶어버림.     |
+  |                                                                   |
+  |      Java / Go (자체 스케줄러(JVM, Goroutine)를 가진 언어)           |
+  |          +---> 🚨 경고! 커널 코어(OS Thread)와 1:1 매핑이 되지 않음.     |
+  |                 코드단에서 CPU를 고정하려 해봤자 JVM/Go 런타임이 맘대로 섞어버림.|
+  |                 -> 언어 단이 아닌, 아예 Docker/K8s의 컨테이너 레벨(Cgroups)|
+  |                 단위에서 `cpuset`으로 물리 코어를 외부에서 통째로 격리해야 함.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 코드를 잘 짜는 것과 서버를 튜닝하는 것은 다른 세계다. C언어는 OS의 뼈대([System call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))를 직접 만질 수 있어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1번은 코어 1번에 찰싹 붙이는 외과수술이 가능하다. 하지만 Java나 Go 언어는 OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 위에 자기들만의 뚱뚱한 가상 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(JVM, [Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/))를 한 겹 더 깔아놓았기 때문에 OS 단의 Affinity를 걸어도 무용지물이 되는 경우가 많다. 이런 하이레벨 언어는 도커나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 `cpuset` ([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)) 기능을 이용해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 자체를 물리 코어에 덮어씌워 가둬버리는 것이 올바른 아키텍처 설계다.
@@ -208,12 +208,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [OOM 킬러 메모리 보호 정책]
-    │
-    ▼
+    |
+    v
 [프로세스 친화성 (Affinity) 스케줄링]
-    │
-    ├──▶ [부하 균등화 (Load Balancing) 큐 이주]
-    └──▶ [eBPF 동적 커널 트레이싱 프레임워크 성능]
+    |
+    +---> [부하 균등화 (Load Balancing) 큐 이주]
+    +---> [eBPF 동적 커널 트레이싱 프레임워크 성능]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -230,7 +230,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 778 / 800
 
-← **이전**: [777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)](/knowledge-base/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/)
-**다음**: [779. 부하 균등화 (Load Balancing) 큐 이주](/knowledge-base/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/) →
+<- **이전**: [777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)](/knowledge-base/studynote/02_operating_system/11_exam_summary/777_oom_killer_memory_protection/)
+**다음**: [779. 부하 균등화 (Load Balancing) 큐 이주](/knowledge-base/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/) ->
 
 ---

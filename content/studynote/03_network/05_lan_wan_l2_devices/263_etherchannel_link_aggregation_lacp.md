@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [MSTP]
-    │
-    ▼
+    |
+    v
 [이더채널 / 링크 어그리게이션]
-    │
-    └──▶ [PAgP]
+    |
+    +---> [PAgP]
 ```
 
 - **📢 섹션 요약 비유**: ** 링크 어그리게이션은 가느다란 실 4가닥을 꼬아서 **"절대 끊어지지 않고 무거운 짐을 견디는 하나의 두꺼운 동아줄"**로 만드는 마법입니다.
@@ -48,25 +48,25 @@ tags = ["studynote-network"]
 - <strong>무중단 장애 극구 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>: 포크레인이 4가닥 중 1가닥을 끊어 먹더라도, 1초의 끊김도 없이 남은 3가닥(3Gbps)으로 통신이 자연스럽게 우회된다. STP처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타이머(50초)를 기다릴 필요조차 없는 완벽한 하드웨어 백업이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP Block vs EtherChannel (LACP)               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 연결 (STP 동작) ]                                    │
- │   스위치 A ──── (선로 1: 포워딩) ──── 스위치 B                  │
- │   스위치 A ──── (선로 2: BLOCK 차단!) ──── 스위치 B             │
- │   ▶ 결과: 돈 들여서 선 2개 꽂아도 1Gbps 속도밖에 못 씀.          │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ 이더채널 묶음 (LACP 적용) ]                                │
- │             ┌────── 묶음(Port-Channel) ─────┐                 │
- │   스위치 A ──│── (선로 1) ─── ┐            │── 스위치 B       │
- │   스위치 A ──│── (선로 2) ─── ┘(2Gbps 파이프)│── 스위치 B       │
- │             └────────────────────────────┘                 │
- │   ▶ 결과: STP는 이걸 선 1가닥으로 착각하므로 Block 안 함!        │
- │          2Gbps 대역폭 풀가동 + 1개 끊어져도 즉각 백업.          │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                STP Block vs EtherChannel (LACP)               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 일반 연결 (STP 동작) ]                                    |
+ |   스위치 A ---- (선로 1: 포워딩) ---- 스위치 B                  |
+ |   스위치 A ---- (선로 2: BLOCK 차단!) ---- 스위치 B             |
+ |   -> 결과: 돈 들여서 선 2개 꽂아도 1Gbps 속도밖에 못 씀.          |
+ |                                                             |
+ | ----------------------------------------------------------- |
+ |                                                             |
+ |   [ 이더채널 묶음 (LACP 적용) ]                                |
+ |             +------ 묶음(Port-Channel) -----+                 |
+ |   스위치 A --|-- (선로 1) --- +            |-- 스위치 B       |
+ |   스위치 A --|-- (선로 2) --- +(2Gbps 파이프)|-- 스위치 B       |
+ |             +----------------------------+                 |
+ |   -> 결과: STP는 이걸 선 1가닥으로 착각하므로 Block 안 함!        |
+ |          2Gbps 대역폭 풀가동 + 1개 끊어져도 즉각 백업.          |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. LACP (Link Aggregation Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
@@ -133,12 +133,12 @@ LACP는 다른 제조사 [스위치](/knowledge-base/studynote/03_network/05_lan
 
 ```text
 [선행 개념: MSTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이더채널 / 링크 어그리게이션]
-    │
-    ├──▶ [확장 A: PAgP]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: PAgP]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 이더채널 / 링크 어그리게이션는 MSTP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAgP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ LACP는 다른 제조사 [스위치](/knowledge-base/studynote/03_network/05_lan
 
 **진행 상황**: 384 / 1120
 
-← **이전**: [262. MSTP (Multiple STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/262_mstp_multiple_stp_ieee_802_1s/)
-**다음**: [264. PAgP (Port Aggregation Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/) →
+<- **이전**: [262. MSTP (Multiple STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/262_mstp_multiple_stp_ieee_802_1s/)
+**다음**: [264. PAgP (Port Aggregation Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/) ->
 
 ---

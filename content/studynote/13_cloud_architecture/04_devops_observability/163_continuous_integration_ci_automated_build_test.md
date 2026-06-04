@@ -73,12 +73,12 @@ tags = ["studynote-cloud"]
 
 ```text
 수동 빌드 + 수동 테스트 (통합 지옥)
-    │
-    ▼
-CI: 코드 커밋 → 자동 빌드 → 자동 테스트
-    │
-    ▼
-CD: Continuous Delivery → Continuous Deployment
+    |
+    v
+CI: 코드 커밋 -> 자동 빌드 -> 자동 테스트
+    |
+    v
+CD: Continuous Delivery -> Continuous Deployment
 ```
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
 3. 기계 선생님([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
@@ -89,7 +89,7 @@ CD: Continuous Delivery → Continuous Deployment
 
 **진행 상황**: 162 / 371
 
-← **이전**: [CALMS 프레임워크 (CALMS Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/162_calms_framework_devops_principles/)
-**다음**: [164. 지속적 제공 (Continuous Delivery)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) →
+<- **이전**: [CALMS 프레임워크 (CALMS Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/162_calms_framework_devops_principles/)
+**다음**: [164. 지속적 제공 (Continuous Delivery)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) ->
 
 ---

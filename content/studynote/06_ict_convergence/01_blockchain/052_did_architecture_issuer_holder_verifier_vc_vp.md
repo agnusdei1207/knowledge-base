@@ -32,16 +32,16 @@ DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것
 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계는 Issuer, Holder, Verifier의 삼각형으로 이해하면 쉽다. Issuer는 VC (Verifiable Credential)를 발급하고, Holder는 이를 지갑에 저장한다. Verifier는 Holder가 제출한 VP를 보고 서명과 신뢰 근거를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                   DID / VC / VP 신뢰 흐름                   │
-├──────────────────────────────────────────────────────────────┤
-│ Issuer ── 발급 ──▶ VC ── 저장 ──▶ Holder Wallet            │
-│   ▲                                   │                     │
-│   │                                   ▼                     │
-│ DID Document / Public Key        VP 생성(선택적 공개)       │
-│   │                                   │                     │
-│   └──────────── 검증 근거 ───────────▶ Verifier             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   DID / VC / VP 신뢰 흐름                   |
++--------------------------------------------------------------+
+| Issuer -- 발급 ---> VC -- 저장 ---> Holder Wallet            |
+|   ^                                   |                     |
+|   |                                   v                     |
+| DID Document / Public Key        VP 생성(선택적 공개)       |
+|   |                                   |                     |
+|   +------------ 검증 근거 ------------> Verifier             |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 포인트 |
@@ -122,17 +122,17 @@ DID의 가장 큰 효과는 사용자 중심의 신원 통제다. 사용자는 �
 
 ```text
 중앙집중형 ID
-    │
-    ▼
+    |
+    v
 연합형 SSO
-    │
-    ▼
+    |
+    v
 DID / SSI
-    │
-    ▼
+    |
+    v
 VC (Verifiable Credential)
-    │
-    ▼
+    |
+    v
 VP (Verifiable Presentation)
 ```
 
@@ -150,7 +150,7 @@ VP (Verifiable Presentation)
 
 **진행 상황**: 52 / 552
 
-← **이전**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/)
-**다음**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/) →
+<- **이전**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/)
+**다음**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/) ->
 
 ---

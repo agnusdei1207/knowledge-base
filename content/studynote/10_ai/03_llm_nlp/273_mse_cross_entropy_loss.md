@@ -35,18 +35,18 @@ tags = ["studynote-ai"]
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   손실 함수 분류                                  │
-│                                                                 │
-│  ┌─────────────────────────┐  ┌──────────────────────────────┐ │
-│  │         회귀용           │  │           분류용              │ │
-│  ├─────────────────────────┤  ├──────────────────────────────┤ │
-│  │ MSE (Mean Squared Error)│  │ Binary Cross-Entropy         │ │
-│  │ MAE (Mean Absolute Err) │  │ Categorical Cross-Entropy    │ │
-│  │ Huber Loss              │  │ Focal Loss (불균형 클래스)    │ │
-│  │ RMSE                    │  │ KL Divergence                │ │
-│  └─────────────────────────┘  └──────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                   손실 함수 분류                                  |
+|                                                                 |
+|  +-------------------------+  +------------------------------+ |
+|  |         회귀용           |  |           분류용              | |
+|  +-------------------------+  +------------------------------+ |
+|  | MSE (Mean Squared Error)|  | Binary Cross-Entropy         | |
+|  | MAE (Mean Absolute Err) |  | Categorical Cross-Entropy    | |
+|  | Huber Loss              |  | Focal Loss (불균형 클래스)    | |
+|  | RMSE                    |  | KL Divergence                | |
+|  +-------------------------+  +------------------------------+ |
++-----------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 요리 채점 기준 — 맛이 목표와 얼마나 다른지(오차)를 측정하는데, 달콤함을 겨루는 대회(회귀)와 국가 음식 맞추기 대회([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))는 다른 채점 기준([손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/))이 필요하다.
@@ -58,7 +58,7 @@ tags = ["studynote-ai"]
 ### [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ([Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))
 
 ```
-MSE = (1/n) × Σᵢ (yᵢ - ŷᵢ)²
+MSE = (1/n) × Σᵢ (yᵢ - ŷᵢ)^
 
 n: 샘플 수
 yᵢ: 실제값
@@ -68,7 +68,7 @@ yᵢ: 실제값
 ```
 
 **특성**:
-- 오차의 제곱 → 큰 오차 강하게 패널티
+- 오차의 제곱 -> 큰 오차 강하게 패널티
 - [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))에 민감 (제곱 효과)
 - 연속적이고 미분 가능
 - 최솟값이 하나 ([볼록 함수](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/), Convex)
@@ -100,7 +100,7 @@ BCE = -(1/n) × Σᵢ [yᵢ log(ŷᵢ) + (1-yᵢ) log(1-ŷᵢ)]
 yᵢ ∈ {0, 1}, ŷᵢ ∈ (0, 1)
 
 기울기 (Sigmoid 출력층 결합 시):
-∂BCE/∂z = ŷ - y   ← 매우 단순!
+∂BCE/∂z = ŷ - y   <- 매우 단순!
 ```
 
 <strong>범주형 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a> (Categorical <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">Cross-Entropy</a>, CCE)</strong>:
@@ -112,25 +112,25 @@ yᵢₖ: 클래스 k에 대한 원핫 인코딩 (0 또는 1)
 ŷᵢₖ: Softmax 출력 확률
 
 기울기 (Softmax 결합 시):
-∂CCE/∂zₖ = ŷₖ - yₖ   ← 역시 단순!
+∂CCE/∂zₖ = ŷₖ - yₖ   <- 역시 단순!
 ```
 
 ### [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) vs [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/): [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 왜 CE가 더 나은가?
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│          MSE vs Cross-Entropy 기울기 비교 (분류 문제)               │
-│                                                                    │
-│  분류 출력층: Sigmoid + MSE                                         │
-│  ∂MSE/∂W = (ŷ - y) × σ'(z) × x                                    │
-│               ↑ σ'(z)은 포화 구간에서 ≈ 0 → 기울기 소멸!            │
-│                                                                    │
-│  분류 출력층: Sigmoid + BCE                                         │
-│  ∂BCE/∂W = (ŷ - y) × x   ← σ'(z) 항이 제거됨!                     │
-│               ↑ 항상 명확한 기울기 (포화 구간에서도)                  │
-│                                                                    │
-│  Softmax + CCE도 동일: ∂CCE/∂W = (ŷ - y) × x                      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|          MSE vs Cross-Entropy 기울기 비교 (분류 문제)               |
+|                                                                    |
+|  분류 출력층: Sigmoid + MSE                                         |
+|  ∂MSE/∂W = (ŷ - y) × σ'(z) × x                                    |
+|               ^ σ'(z)은 포화 구간에서 ≈ 0 -> 기울기 소멸!            |
+|                                                                    |
+|  분류 출력층: Sigmoid + BCE                                         |
+|  ∂BCE/∂W = (ŷ - y) × x   <- σ'(z) 항이 제거됨!                     |
+|               ^ 항상 명확한 기울기 (포화 구간에서도)                  |
+|                                                                    |
+|  Softmax + CCE도 동일: ∂CCE/∂W = (ŷ - y) × x                      |
++--------------------------------------------------------------------+
 ```
 
 수학적 이유: BCE와 CE의 미분에서 [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/Softmax의 도함수가 상쇄되어 깔끔한 기울기가 남는다.
@@ -153,15 +153,15 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
   H(P)    : P의 엔트로피 (Entropy, 고정값)
   H(P, Q) : 크로스 엔트로피 (P를 기준으로 Q 평가)
 
-→ KL 발산 최소화 = 크로스 엔트로피 최소화 (P 고정 시)
-→ 분류 학습은 예측 분포 Q를 실제 분포 P에 가깝게 만드는 것
+-> KL 발산 최소화 = 크로스 엔트로피 최소화 (P 고정 시)
+-> 분류 학습은 예측 분포 Q를 실제 분포 P에 가깝게 만드는 것
 ```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 종합 비교
 
 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 수식 (요약) | 문제 유형 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) | 기울기 특성 |
 |:---|:---|:---|:---:|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a></strong> | Σ(y-ŷ)²/n | 회귀 | 민감 | 연속적, 빠른 수렴 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a></strong> | Σ(y-ŷ)^/n | 회귀 | 민감 | 연속적, 빠른 수렴 |
 | **MAE** | Σ|y-ŷ|/n | 회귀 ([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) | 강건 | 불연속 (0에서) |
 | **Huber** | 이차+일차 혼합 | 회귀 | 중간 | 연속, 강건 |
 | **BCE** | -[y·log(ŷ)+(1-y)·log(1-ŷ)] | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | - | σ'(z) 상쇄, 명확 |
@@ -176,23 +176,23 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 
 ### 기술사 시험 핵심 논점
 
-1. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>에 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a> 사용 시 문제</strong>: [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 포화 구간에서 σ'(z)≈0 → [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) 기울기≈0 → 학습 극히 느림 → BCE로 해결
-2. <strong>CE와 KL 발산 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: H(P,Q) = H(P) + DKL(P||Q) → CE 최소화 = KL 발산 최소화
-3. <strong>원핫 인코딩 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">One-hot Encoding</a>)과 CCE</strong>: 실제 클래스만 y=1, 나머지 y=0 → CCE = -log(ŷ_correct) (정답 클래스의 log [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
-4. **Focal Loss 등장 이유**: 클래스 불균형(Class Imbalance) 문제 → 쉬운 샘플(높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))의 손실을 (1-ŷ)^γ로 down-weighting
+1. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>에 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a> 사용 시 문제</strong>: [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 포화 구간에서 σ'(z)≈0 -> [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) 기울기≈0 -> 학습 극히 느림 -> BCE로 해결
+2. <strong>CE와 KL 발산 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: H(P,Q) = H(P) + DKL(P||Q) -> CE 최소화 = KL 발산 최소화
+3. <strong>원핫 인코딩 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">One-hot Encoding</a>)과 CCE</strong>: 실제 클래스만 y=1, 나머지 y=0 -> CCE = -log(ŷ_correct) (정답 클래스의 log [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
+4. **Focal Loss 등장 이유**: 클래스 불균형(Class Imbalance) 문제 -> 쉬운 샘플(높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))의 손실을 (1-ŷ)^γ로 down-weighting
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 선택 가이드
 
 ```
 문제 유형 결정 트리:
-├── 연속값 예측 (회귀)?
-│     ├── 이상치 있음? → Huber Loss 또는 MAE
-│     └── 이상치 없음? → MSE
-└── 클래스 예측 (분류)?
-      ├── 이진 (0/1)? → Binary CE + Sigmoid
-      ├── 다중 클래스? → Categorical CE + Softmax
-      ├── 다레이블? → Binary CE × K개 + Sigmoid
-      └── 클래스 불균형? → Focal Loss
++-- 연속값 예측 (회귀)?
+|     +-- 이상치 있음? -> Huber Loss 또는 MAE
+|     +-- 이상치 없음? -> MSE
++-- 클래스 예측 (분류)?
+      +-- 이진 (0/1)? -> Binary CE + Sigmoid
+      +-- 다중 클래스? -> Categorical CE + Softmax
+      +-- 다레이블? -> Binary CE × K개 + Sigmoid
+      +-- 클래스 불균형? -> Focal Loss
 ```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 선택은 병원에서 올바른 검사 기준 사용 — 혈당 검사([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))로 골밀도([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제)를 측정하면 엉뚱한 결과가 나오듯, 문제 유형에 맞는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 써야 정확한 학습이 된다.
@@ -204,18 +204,18 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)별 특성 요약
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│              MSE vs Cross-Entropy 특성 비교 요약                   │
-│                                                                  │
-│  MSE (회귀):                Cross-Entropy (분류):                 │
-│  ┌──────────────────┐       ┌──────────────────────────────┐    │
-│  │ L = Σ(y-ŷ)²/n   │       │ L = -Σ y·log(ŷ)              │    │
-│  │ 볼록 함수 ✓      │       │ 볼록 함수 ✓                   │    │
-│  │ 이상치 민감 ⚠   │       │ 이상치 영향 적음 ✓             │    │
-│  │ 분류에 느림 ❌   │       │ 분류에 최적 ✓                 │    │
-│  │ 기울기: 연속 ✓   │       │ 기울기: ŷ-y (간단) ✓          │    │
-│  └──────────────────┘       └──────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              MSE vs Cross-Entropy 특성 비교 요약                   |
+|                                                                  |
+|  MSE (회귀):                Cross-Entropy (분류):                 |
+|  +------------------+       +------------------------------+    |
+|  | L = Σ(y-ŷ)^/n   |       | L = -Σ y·log(ŷ)              |    |
+|  | 볼록 함수 ✓      |       | 볼록 함수 ✓                   |    |
+|  | 이상치 민감 ⚠   |       | 이상치 영향 적음 ✓             |    |
+|  | 분류에 느림 ❌   |       | 분류에 최적 ✓                 |    |
+|  | 기울기: 연속 ✓   |       | 기울기: ŷ-y (간단) ✓          |    |
+|  +------------------+       +------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 ### 기대효과
@@ -225,7 +225,7 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 | **학습 수렴 속도** | CE 사용 시 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에서 [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) 대비 수십 배 빠른 수렴 |
 | **기울기 안정성** | CE + [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 조합의 깔끔한 기울기로 안정적 학습 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화</strong> | 문제에 맞는 손실로 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화 |
-| **해석 가능성** | CE = 정보 이론적 불확실성 감소 → 직관적 해석 |
+| **해석 가능성** | CE = 정보 이론적 불확실성 감소 -> 직관적 해석 |
 
 ### 결론
 
@@ -239,7 +239,7 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ([Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) | 회귀, (y-ŷ)², [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감 / 회귀 문제의 표준 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
+| [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ([Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) | 회귀, (y-ŷ)^, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감 / 회귀 문제의 표준 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
 | MAE (Mean Absolute Error) | y-ŷ / , [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 강건 / MSE의 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 강건 대안 |
 | 이진 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) (BCE) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 표준 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
 | 범주형 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) (CCE) | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/), 원핫 인코딩 / 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 표준 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
@@ -249,7 +249,7 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수] → [최적화·운영 자동화]
+[데이터 전처리] -> [MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -264,7 +264,7 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 
 **진행 상황**: 273 / 420
 
-← **이전**: [272. 역전파 (Backpropagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
-**다음**: [274. 옵티마이저 (Optimizer)](/knowledge-base/studynote/10_ai/03_llm_nlp/274_optimizer_learning_rate/) →
+<- **이전**: [272. 역전파 (Backpropagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
+**다음**: [274. 옵티마이저 (Optimizer)](/knowledge-base/studynote/10_ai/03_llm_nlp/274_optimizer_learning_rate/) ->
 
 ---

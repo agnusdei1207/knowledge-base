@@ -27,7 +27,7 @@ tags = ["studynote-ict-convergence"]
 이 두 위협은 서로 다른 차원의 문제이지만, 안전한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 설계를 위해 함께 고려해야 한다.
 
 <strong>특성 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>(Feature Visualization)</strong>
-[딥 드림](/knowledge-base/studynote/10_ai/02_dl_architecture_new/194_deepdream_gradcam/)(Deep Dream): 특정 뉴런을 활성화하는 입력 이미지를 역전파로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 모델 내부 표현 이해. 적대적 공격 이해의 출발점.
+[딥 드림](/knowledge-base/studynote/10_ai/02_dl_architecture_new/194_deepdream_gradcam/)(Deep Dream): 특정 뉴런을 활성화하는 입력 이미지를 역전파로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 모델 내부 표현 이해. 적대적 공격 이해의 출발점.
 
 - **📢 섹션 요약 비유**: [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)는 마술사의 눈속임(모델을 속임), [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)는 공연 후 관객이 출연자 신원을 알아낼 수 없도록 하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이다.
 
@@ -36,24 +36,24 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│           AI 보안 두 축                                   │
-│                                                          │
-│  적대적 예제                     차분 프라이버시           │
-│  ┌────────────────────┐         ┌─────────────────────┐  │
-│  │입력 x + δ (노이즈) │         │ε-DP 보장            │  │
-│  │‖δ‖∞ ≤ ε_adv       │         │                     │  │
-│  │                    │         │ 훈련 데이터           │  │
-│  │ → f(x+δ) ≠ f(x)   │         │    │                │  │
-│  │  모델 오분류        │         │    ▼ 클리핑          │  │
-│  │                    │         │ 그래디언트           │  │
-│  │방어: 적대적 훈련   │         │    │                │  │
-│  │      입력 정화     │         │    ▼ 노이즈 추가     │  │
-│  └────────────────────┘         │ N(0, σ²C²I)        │  │
-│                                 │    │                │  │
-│                                 │    ▼ 모델 업데이트  │  │
-│                                 └─────────────────────┘  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           AI 보안 두 축                                   |
+|                                                          |
+|  적대적 예제                     차분 프라이버시           |
+|  +--------------------+         +---------------------+  |
+|  |입력 x + δ (노이즈) |         |ε-DP 보장            |  |
+|  |‖δ‖∞ ≤ ε_adv       |         |                     |  |
+|  |                    |         | 훈련 데이터           |  |
+|  | -> f(x+δ) ≠ f(x)   |         |    |                |  |
+|  |  모델 오분류        |         |    v 클리핑          |  |
+|  |                    |         | 그래디언트           |  |
+|  |방어: 적대적 훈련   |         |    |                |  |
+|  |      입력 정화     |         |    v 노이즈 추가     |  |
+|  +--------------------+         | N(0, σ^C^I)        |  |
+|                                 |    |                |  |
+|                                 |    v 모델 업데이트  |  |
+|                                 +---------------------+  |
++----------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>) 정의</strong>
@@ -62,14 +62,14 @@ tags = ["studynote-ict-convergence"]
 
 $$\[Pr](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)[M(D) \in S] \leq e^\epsilon \cdot \[Pr](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)[M(D') \in S]$$
 
-→ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 특정 개인이 포함되었는지 공격자가 구분하기 어려움.
+-> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 특정 개인이 포함되었는지 공격자가 구분하기 어려움.
 
 <strong>DP-SGD <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> (Abadi et al., 2016)
 
 | 단계 | 내용 |
 |:---:|:---|
 | 1. 클리핑 | 각 샘플 그래디언트를 L2 노름 C로 클리핑 |
-| 2. 노이즈 추가 | 클리핑 후 합산 그래디언트에 N(0, σ²C²I) 추가 |
+| 2. 노이즈 추가 | 클리핑 후 합산 그래디언트에 N(0, σ^C^I) 추가 |
 | 3. 평균화 | 노이즈 추가 그래디언트를 배치 크기로 나눔 |
 | 4. 갱신 | 표준 SGD 업데이트 수행 |
 
@@ -78,7 +78,7 @@ $$\[Pr](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_
 | 항목 | 라플라스 메커니즘 | 가우시안 메커니즘 |
 |:---:|:---:|:---:|
 | DP 유형 | 순수 ε-DP | (ε, δ)-DP |
-| 노이즈 분포 | Laplace(0, Δf/ε) | N(0, 2Δf²ln(1.25/δ)/ε²) |
+| 노이즈 분포 | Laplace(0, Δf/ε) | N(0, 2Δf^ln(1.25/δ)/ε^) |
 | 연산 합성 | 간단 | Moments Accountant 필요 |
 | 딥러닝 적용 | 드묾 | DP-SGD 표준 |
 
@@ -99,7 +99,7 @@ $$\[Pr](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_
 
 ### [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) + DP 통합 아키텍처
 
-각 클라이언트가 로컬에서 DP-SGD로 노이즈 추가 → 서버 전송 → 집계 → 프라이버시 증폭(Privacy Amplification, 서브샘플링 효과)으로 전체 ε 감소.
+각 클라이언트가 로컬에서 DP-SGD로 노이즈 추가 -> 서버 전송 -> 집계 -> 프라이버시 증폭(Privacy Amplification, 서브샘플링 효과)으로 전체 ε 감소.
 
 - **📢 섹션 요약 비유**: ε은 프라이버시의 허용 오차 — 작을수록 더 안전하지만 AI가 조금 더 멍청해지는 대가가 따른다.
 
@@ -124,14 +124,14 @@ optimizer = DPKerasSGDOptimizer(
 
 - **모멘츠 어카운턴트(Moments Accountant)**: 반복 훈련 단계별 누적 ε 추적
 - **Rényi DP**: 타이트한 ε 계산, TF Privacy 기본 방법
-- 훈련 스텝 수 늘릴수록 ε 증가 → 에폭 수 제한 고려
+- 훈련 스텝 수 늘릴수록 ε 증가 -> 에폭 수 제한 고려
 
 **기술사 판단 포인트**
 
-1. **DP vs 정확도 트레이드오프**: CIFAR-10에서 ε=3 → 정확도 약 5~8% 하락 → 허용 기준 사전 합의
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능성(Auditability)</strong>: ε 계산 결과와 훈련 로그를 함께 보존 → 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응
+1. **DP vs 정확도 트레이드오프**: CIFAR-10에서 ε=3 -> 정확도 약 5~8% 하락 -> 허용 기준 사전 합의
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능성(Auditability)</strong>: ε 계산 결과와 훈련 로그를 함께 보존 -> 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응
 3. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a> + DP 결합</strong>: DP 노이즈가 [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) 방어에도 일부 기여 — 완전한 방어는 아님
-4. **프라이버시 예산 소진**: ε 예산 초과 후 추가 학습 불가 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 주기와 재훈련 계획 연계
+4. **프라이버시 예산 소진**: ε 예산 초과 후 추가 학습 불가 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 주기와 재훈련 계획 연계
 
 - **📢 섹션 요약 비유**: DP 예산은 연간 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 사용 허가증 — 쓸수록 줄어들고, 다 쓰면 추가 학습이 불가능하다.
 
@@ -158,7 +158,7 @@ optimizer = DPKerasSGDOptimizer(
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[차분 프라이버시 · 프라이버시 보장 정량 지표] → [적대적 예제 · 차분 프라이버시 방어] → [DP 예산 관리 · 누적 ε 추적]
+[차분 프라이버시 · 프라이버시 보장 정량 지표] -> [적대적 예제 · 차분 프라이버시 방어] -> [DP 예산 관리 · 누적 ε 추적]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -173,7 +173,7 @@ optimizer = DPKerasSGDOptimizer(
 
 **진행 상황**: 538 / 552
 
-← **이전**: [537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/537_semantic_cache_rag_cost_reduction/)
-**다음**: [539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/539_cloud_migration_6r_strategy/) →
+<- **이전**: [537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/537_semantic_cache_rag_cost_reduction/)
+**다음**: [539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/539_cloud_migration_6r_strategy/) ->
 
 ---

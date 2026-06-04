@@ -58,31 +58,31 @@ $$ P = C \cdot V^2 \cdot f $$
 EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Cores: 고성능 big 코어 + 저전력 LITTLE 코어)가 섞여 있는 환경에서 빛을 발한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 EAS (Energy Aware Scheduling) 3대 핵심 구조         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. PELT (Per-Entity Load Tracking)] - "짐의 무게 측정"            │
-  │   - 스케줄러는 각 스레드(Task)가 과거에 얼마나 CPU를 썼는지 추적(지수 가중 평균). │
-  │   - Task A: 무거운 작업 (부하량 800)                                 │
-  │   - Task B: 가벼운 작업 (부하량 100)                                 │
-  │                                                                   │
-  │  [2. Energy Model (에너지 모델)] - "차량별 연비표 확인"               │
-  │   - 커널 부팅 시 디바이스 트리(DTB)를 통해 각 코어의 주파수별 전력 소모량 표를 획득. │
-  │   - LITTLE 코어: 주파수 1GHz일 때 50mW 소모                           │
-  │   - big 코어   : 주파수 2GHz일 때 500mW 소모 (전력비 10배!)            │
-  │                                                                   │
-  │  [3. Task Placement (작업 배치) 및 Schedutil]                     │
-  │   - Task B (가벼움)가 들어옴.                                        │
-  │     스케줄러 계산: "B를 LITTLE에 넣으면 50mW, big에 넣으면 150mW.      │
-  │                   결정! [LITTLE 코어]에 넣고 주파수는 최저로 설정(Schedutil)!"│
-  │                                                                   │
-  │   - Task A (무거움)가 들어옴.                                        │
-  │     스케줄러 계산: "A를 LITTLE에 넣으면 주파수 100% 쳐도 처리 못함(병목). │
-  │                   결정! [big 코어]에 넣고 주파수를 즉시 2GHz로 부스팅!"  │
-  │                                                                   │
-  │   ★ Schedutil: 스레드가 코어에 꽂히는 즉시 1밀리초 내에 주파수를 변경해버림. │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 EAS (Energy Aware Scheduling) 3대 핵심 구조         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [1. PELT (Per-Entity Load Tracking)] - "짐의 무게 측정"            |
+  |   - 스케줄러는 각 스레드(Task)가 과거에 얼마나 CPU를 썼는지 추적(지수 가중 평균). |
+  |   - Task A: 무거운 작업 (부하량 800)                                 |
+  |   - Task B: 가벼운 작업 (부하량 100)                                 |
+  |                                                                   |
+  |  [2. Energy Model (에너지 모델)] - "차량별 연비표 확인"               |
+  |   - 커널 부팅 시 디바이스 트리(DTB)를 통해 각 코어의 주파수별 전력 소모량 표를 획득. |
+  |   - LITTLE 코어: 주파수 1GHz일 때 50mW 소모                           |
+  |   - big 코어   : 주파수 2GHz일 때 500mW 소모 (전력비 10배!)            |
+  |                                                                   |
+  |  [3. Task Placement (작업 배치) 및 Schedutil]                     |
+  |   - Task B (가벼움)가 들어옴.                                        |
+  |     스케줄러 계산: "B를 LITTLE에 넣으면 50mW, big에 넣으면 150mW.      |
+  |                   결정! [LITTLE 코어]에 넣고 주파수는 최저로 설정(Schedutil)!"|
+  |                                                                   |
+  |   - Task A (무거움)가 들어옴.                                        |
+  |     스케줄러 계산: "A를 LITTLE에 넣으면 주파수 100% 쳐도 처리 못함(병목). |
+  |                   결정! [big 코어]에 넣고 주파수를 즉시 2GHz로 부스팅!"  |
+  |                                                                   |
+  |   ★ Schedutil: 스레드가 코어에 꽂히는 즉시 1밀리초 내에 주파수를 변경해버림. |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 과거의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 무거운 작업(A)과 가벼운 작업(B)을 구분 없이 아무 코어에나 던졌다. 만약 가벼운 카카오톡 알림(B)이 고성능 big 코어에 배정되면, 알림 하나 띄우는데 배터리가 줄줄 샌다. <strong>EAS</strong>는 PELT를 통해 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 평소에 얼마나 무거웠는지(History)를 기억한다. 그리고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나는 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 '에너지 연비표(Energy Model)'를 조회하여 이 놈을 어느 코어에 넣어야 가장 전기를 덜 먹으면서 데드라인을 맞출 수 있을지 계산한다. 배치가 끝나면 <strong>Schedutil</strong>이 하드웨어에 즉시 명령을 내려 코어의 주파수([DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/))를 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 딱 맞게 조절해 준다.
@@ -138,28 +138,28 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogen
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 서버 전력 및 주파수(DVFS) 튜닝 의사결정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 엔터프라이즈 서버 랙 도입 및 OS 프로비저닝]                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 서버의 워크로드가 초저지연(HFT, 인메모리 DB)을 요구하는가?         │
-  │          ├─ 예 ─────▶ [절전 기능 완전 해제 (Performance 최우선)]        │
-  │          │            - BIOS: C-States 비활성화, P-States 최대로 고정   │
-  │          │            - OS: governor=performance, max_cstate=1 설정 │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 서버가 배치(Batch) 처리나 일반적인 웹 서버(Web/WAS)인가?        │
-  │          ├─ 예 ─────▶ [통합 전력 제어 (EAS / Schedutil / P-State) 활용] │
-  │          │            - 하드웨어(HWP)와 OS가 협력하여 부하에 따라       │
-  │          │              전력과 클럭을 동적으로 오르내리도록 허용(전기세 절감) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 모바일/엣지 환경: Energy Model 기반의 엄격한      │
-  │                         Task Placement (LITTLE 코어 우선) 정책 적용     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 서버 전력 및 주파수(DVFS) 튜닝 의사결정 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 엔터프라이즈 서버 랙 도입 및 OS 프로비저닝]                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      해당 서버의 워크로드가 초저지연(HFT, 인메모리 DB)을 요구하는가?         |
+  |          +- 예 ------> [절전 기능 완전 해제 (Performance 최우선)]        |
+  |          |            - BIOS: C-States 비활성화, P-States 최대로 고정   |
+  |          |            - OS: governor=performance, max_cstate=1 설정 |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      해당 서버가 배치(Batch) 처리나 일반적인 웹 서버(Web/WAS)인가?        |
+  |          +- 예 ------> [통합 전력 제어 (EAS / Schedutil / P-State) 활용] |
+  |          |            - 하드웨어(HWP)와 OS가 협력하여 부하에 따라       |
+  |          |              전력과 클럭을 동적으로 오르내리도록 허용(전기세 절감) |
+  |          |                                                        |
+  |          +- 아니오 ---> 모바일/엣지 환경: Energy Model 기반의 엄격한      |
+  |                         Task Placement (LITTLE 코어 우선) 정책 적용     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계에서 가장 큰 딜레마는 '전기세'와 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'의 트레이드오프다. 무조건 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리면 전원 공급 장치(PDU)와 냉각 에어컨이 터져 나간다. 따라서 레이턴시에 민감한 DB 노드만 `performance`로 락을 걸고, 스케일 아웃이 유연한 수천 대의 WAS 워커 노드들은 `schedutil` 기반의 전력 인지 스케줄링을 통해 전기 요금을 수십 퍼센트 방어하는 이원화(Tiering) 튜닝 전략이 필수적이다.
@@ -206,12 +206,12 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogen
 
 ```text
 [고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
-    │
-    ▼
+    |
+    v
 [전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
-    │
-    ├──▶ [모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
-    └──▶ [엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)]
+    |
+    +---> [모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
+    +---> [엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -228,7 +228,7 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogen
 
 **진행 상황**: 651 / 800
 
-← **이전**: [650. 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/650_ha_cluster_split_brain_stonith/)
-**다음**: [652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리](/knowledge-base/studynote/02_operating_system/10_security/652_mobile_os_low_memory_killer_lmk/) →
+<- **이전**: [650. 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/650_ha_cluster_split_brain_stonith/)
+**다음**: [652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리](/knowledge-base/studynote/02_operating_system/10_security/652_mobile_os_low_memory_killer_lmk/) ->
 
 ---

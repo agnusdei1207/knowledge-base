@@ -45,14 +45,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 완화되는지 보여 준다. 같은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 끼어들면서 <strong>자연스러운 시간 간격</strong>이 생기기 때문이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Fine-grained multithreading: rotate thread every cycle             │
-├────────┬──────────┬──────────┬──────────┬──────────┬───────────────┤
-│ Cycle  │    1     │    2     │    3     │    4     │       5       │
-├────────┼──────────┼──────────┼──────────┼──────────┼───────────────┤
-│ Issue  │  T0-I1   │  T1-I1   │  T2-I1   │  T3-I1   │    T0-I2      │
-│ T0 view│ execute  │ waiting  │ waiting  │ waiting  │ result usable │
-└────────┴──────────┴──────────┴──────────┴──────────┴───────────────┘
++----------------------------------------------------------------------+
+| Fine-grained multithreading: rotate thread every cycle             |
++--------+----------+----------+----------+----------+---------------+
+| Cycle  |    1     |    2     |    3     |    4     |       5       |
++--------+----------+----------+----------+----------+---------------+
+| Issue  |  T0-I1   |  T1-I1   |  T2-I1   |  T3-I1   |    T0-I2      |
+| T0 view| execute  | waiting  | waiting  | waiting  | result usable |
++--------+----------+----------+----------+----------+---------------+
 ```
 
 즉 T0의 두 번째 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `T0-I2`는 바로 다음 사이클이 아니라 네 번째 간격 뒤에 들어온다. 이 간격이 짧은 의존성 해소 시간으로 작용해 포워딩 회로나 스톨 부담을 줄여 준다. 물론 메모리 접근이 수십~수백 사이클 걸리는 경우에는 더 많은 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 필요하므로, 이 구조는 본질적으로 <strong>많은 하드웨어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 수</strong>를 전제로 한다.
@@ -103,18 +103,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Throughput-oriented workload?
-        │
-        ├─ No  ──> prefer low latency core design
-        │
-        └─ Yes
-             │
-             ├─ Many ready threads available?
-             │      ├─ No  ──> hiding effect is limited
-             │      └─ Yes ──> fine-grained MT is effective
-             │
-             └─ Long/short stalls dominate pipeline?
-                    ├─ Yes ──> utilization gain is high
-                    └─ No  ──> benefit may be marginal
+        |
+        +- No  --> prefer low latency core design
+        |
+        +- Yes
+             |
+             +- Many ready threads available?
+             |      +- No  --> hiding effect is limited
+             |      +- Yes --> fine-grained MT is effective
+             |
+             +- Long/short stalls dominate pipeline?
+                    +- Yes --> utilization gain is high
+                    +- No  --> benefit may be marginal
 ```
 
 기술사 답안에서는 "세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) = 빠른 구조"라고 쓰면 틀리기 쉽다. 정확한 표현은 "단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속도를 희생해 전체 자원 활용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 구조"다. 특히 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 네트워크 프로세서, 대량 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진에서는 강점이 크지만, 일반 사용자 인터랙션 중심 CPU에는 제한적이라는 판단을 함께 제시해야 답안이 완성된다.
@@ -149,22 +149,22 @@ Throughput-oriented workload?
 
 ```text
 단일 스레드 파이프라인
-        │
-        ▼
+        |
+        v
 긴 스톨 문제 인식
-        │
-        ▼
+        |
+        v
 거친 멀티스레딩 (Coarse-grained MT)
-        │
-        ▼
+        |
+        v
 세밀한 멀티스레딩 (Fine-grained MT)
-        │
-        ├──▶ 워프 스케줄링 (Warp Scheduling)
-        ├──▶ SIMT (Single Instruction Multiple Threads)
-        └──▶ SMT (Simultaneous Multithreading)와 비교·발전
+        |
+        +---> 워프 스케줄링 (Warp Scheduling)
+        +---> SIMT (Single Instruction Multiple Threads)
+        +---> SMT (Simultaneous Multithreading)와 비교·발전
 ```
 
-이 흐름은 "큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 숨기기 → 모든 사이클을 활용하기 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) 방향으로 확장"되는 진화 경로를 보여 준다.
+이 흐름은 "큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 숨기기 -> 모든 사이클을 활용하기 -> [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) 방향으로 확장"되는 진화 경로를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -178,7 +178,7 @@ Throughput-oriented workload?
 
 **진행 상황**: 400 / 803
 
-← **이전**: [398. 거친 멀티스레딩 (Coarse-grained)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)
-**다음**: [400. 동시 멀티스레딩 (SMT, Simultaneous Multithreading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) →
+<- **이전**: [398. 거친 멀티스레딩 (Coarse-grained)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)
+**다음**: [400. 동시 멀티스레딩 (SMT, Simultaneous Multithreading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ->
 
 ---

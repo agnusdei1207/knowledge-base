@@ -28,7 +28,7 @@ tags = ["studynote-data-engineering"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-결측 처리의 기본 흐름은 `진단 → 방식 선택 → 학습 데이터에만 적합 → 검증 데이터에는 변환만 적용 → 품질 재확인`이다. 특히 KNN은 거리 기반이므로 스케일 정규화가 선행되어야 하고, MICE는 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이용하므로 다변량 구조를 유지하는 데 유리하다.
+결측 처리의 기본 흐름은 `진단 -> 방식 선택 -> 학습 데이터에만 적합 -> 검증 데이터에는 변환만 적용 -> 품질 재확인`이다. 특히 KNN은 거리 기반이므로 스케일 정규화가 선행되어야 하고, MICE는 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이용하므로 다변량 구조를 유지하는 데 유리하다.
 
 | 방식 | 장점 | 단점 | 적합한 상황 |
 | :--- | :--- | :--- | :--- |
@@ -39,14 +39,14 @@ tags = ["studynote-data-engineering"]
 
 ```text
 결측 패턴 진단
-    │
-    ├─ MCAR / MAR / MNAR 확인
-    │
-    ├─ dropna / 단순대치 / kNN / MICE 선택
-    │
-    ├─ train set에만 fit
-    │
-    └─ valid/test에는 transform만 적용
+    |
+    +- MCAR / MAR / MNAR 확인
+    |
+    +- dropna / 단순대치 / kNN / MICE 선택
+    |
+    +- train set에만 fit
+    |
+    +- valid/test에는 transform만 적용
 ```
 
 kNN은 특성이 비슷한 샘플들의 값을 참고해 빈칸을 메우고, MICE는 각 변수를 하나씩 종속변수로 두고 다른 변수들로 반복 예측한다. MICE는 하나의 추정치만 고정하지 않아서 불확실성을 덜 왜곡할 수 있다.
@@ -100,17 +100,17 @@ MICE는 여러 번 대치한 뒤 결과를 합치면 추정 불확실성을 반�
 
 ```text
 결측 탐지
-    │
-    ▼
+    |
+    v
 결측 원인 분류(MCAR/MAR/MNAR)
-    │
-    ▼
+    |
+    v
 dropna / 단순대치 / kNN / MICE 선택
-    │
-    ▼
+    |
+    v
 train-only 대치와 검증
-    │
-    ▼
+    |
+    v
 편향 점검과 분포 확인
 ```
 
@@ -126,7 +126,7 @@ train-only 대치와 검증
 
 **진행 상황**: 77 / 258
 
-← **이전**: [76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
-**다음**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/) →
+<- **이전**: [76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
+**다음**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/) ->
 
 ---

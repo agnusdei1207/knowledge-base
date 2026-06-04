@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [프로토콜 필드]
-    │
-    ▼
+    |
+    v
 [헤더 체크섬]
-    │
-    └──▶ [IP 주소 고갈 문제, 클라스풀 주소체계]
+    |
+    +---> [IP 주소 고갈 문제, 클라스풀 주소체계]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 헤더 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>은 </strong>"이정표 훼손 감지기"**입니다. 내용물(박스 안의 물건)이 깨졌는지는 알 바 아니지만, 적어도 택배 기사님이 보는 주소지(헤더)만큼은 완벽하게 흠집이 없어야만 다음 배달지로 패킷을 넘겨줍니다.
@@ -51,22 +51,22 @@ IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data
 - 전 세계의 모든 라우터는 패킷 수백만 개를 통과시킬 때마다, 1) TTL을 1 빼고, 2) 새로운 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 다시 계산해서 덮어쓰는 뻘짓을 무한 반복해야 한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                라우터의 체크섬 재계산(Re-calculate) 오버헤드      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신된 패킷 헤더 ] TTL: 64 / Checksum: 0x1234              │
- │          │                                                  │
- │          ▼ (라우터 내부 통과)                                   │
- │   [ 1단계 ] TTL을 1 깎음 ──▶ TTL: 63                          │
- │   [ 2단계 ] 헤더 숫자가 바뀌었으니 체크섬 폐기! ──▶ Checksum: 0000  │
- │   [ 3단계 ] 1의 보수 공식으로 덧셈 다시 함 ──▶ Checksum: 0x1A2B     │
- │          │                                                  │
- │          ▼ (다음 라우터로 발송)                                 │
- │   [ 전송할 패킷 헤더 ] TTL: 63 / Checksum: 0x1A2B              │
- │                                                             │
- │   ▶ 결과: 라우터의 CPU 자원을 어마어마하게 갉아먹는 주범이 됨!         │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                라우터의 체크섬 재계산(Re-calculate) 오버헤드      |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 수신된 패킷 헤더 ] TTL: 64 / Checksum: 0x1234              |
+ |          |                                                  |
+ |          v (라우터 내부 통과)                                   |
+ |   [ 1단계 ] TTL을 1 깎음 ---> TTL: 63                          |
+ |   [ 2단계 ] 헤더 숫자가 바뀌었으니 체크섬 폐기! ---> Checksum: 0000  |
+ |   [ 3단계 ] 1의 보수 공식으로 덧셈 다시 함 ---> Checksum: 0x1A2B     |
+ |          |                                                  |
+ |          v (다음 라우터로 발송)                                 |
+ |   [ 전송할 패킷 헤더 ] TTL: 63 / Checksum: 0x1A2B              |
+ |                                                             |
+ |   -> 결과: 라우터의 CPU 자원을 어마어마하게 갉아먹는 주범이 됨!         |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. IPv6에서의 과감한 삭제
@@ -131,12 +131,12 @@ IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data
 
 ```text
 [선행 개념: 프로토콜 필드]
-    │
-    ▼
+    |
+    v
 [현재 개념: 헤더 체크섬]
-    │
-    ├──▶ [확장 A: IP 주소 고갈 문제, 클라스풀 주소체계]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IP 주소 고갈 문제, 클라스풀 주소체계]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드에서 출발해 현재 메커니즘을 정교화하고, 이후 IP 주소 고갈 문제, 클라스풀 주소체계와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data
 
 **진행 상황**: 417 / 1120
 
-← **이전**: [295. 프로토콜 (Protocol) 필드](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
-**다음**: [297. IP 주소 고갈 문제, 클라스풀 (Classful) 주소체계](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/) →
+<- **이전**: [295. 프로토콜 (Protocol) 필드](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
+**다음**: [297. IP 주소 고갈 문제, 클라스풀 (Classful) 주소체계](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/) ->
 
 ---

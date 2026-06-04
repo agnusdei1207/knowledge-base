@@ -22,17 +22,17 @@ JSON(JavaScript Object Notation) [공공데이터 개방](/knowledge-base/studyn
 특히 [공공데이터 개방](/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/) JSON 규격은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 문제 해석     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 구조 배치     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 판단 문장     │
-└──────────────┘
++--------------+
+| 문제 해석     |
++------+-------+
+       |
++------v-------+
+| 구조 배치     |
++------+-------+
+       |
++------v-------+
+| 판단 문장     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 같은 규격의 플러그를 써야 어디서나 꽂히는 것과 같다.
@@ -49,9 +49,9 @@ JSON(JavaScript Object Notation) [공공데이터 개방](/knowledge-base/studyn
 | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 예외 처리를 확인한다. | 예외는 문서화된 승인으로 다뤄야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 서론 키워드  │ 본론 구조    │ 결론 판단    │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 서론 키워드  | 본론 구조    | 결론 판단    |
++------------+------------+------------+
 ```
 
 또한 [공공데이터 개방](/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/) JSON 규격은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ JSON(JavaScript Object Notation) [공공데이터 개방](/knowledge-base/studyn
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 표준화, 필드 의미 정의, [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-[CSV 중심 개방] → [JSON 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] → [Linked [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확장]
+[CSV 중심 개방] -> [JSON 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] -> [Linked [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확장]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [공공데이터 개방](/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/) JSON 규격은 모두가 같은 규칙의 블록을 쓰는 것과 같아요.
@@ -117,7 +117,7 @@ JSON(JavaScript Object Notation) [공공데이터 개방](/knowledge-base/studyn
 
 **진행 상황**: 421 / 530
 
-← **이전**: [342. 시정 조치 조율 위원회 (Corrective Action Coordination Committee)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/)
-**다음**: [344. 모바일 위변조 방지 감리 (Mobile Anti-Tampering Audit)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/344_audit/) →
+<- **이전**: [342. 시정 조치 조율 위원회 (Corrective Action Coordination Committee)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/)
+**다음**: [344. 모바일 위변조 방지 감리 (Mobile Anti-Tampering Audit)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/344_audit/) ->
 
 ---

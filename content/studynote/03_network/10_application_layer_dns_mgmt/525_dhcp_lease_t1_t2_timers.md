@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP Relay Agent]
-    │
-    ▼
+    |
+    v
 [DHCP Lease / DHCP 갱신]
-    │
-    └──▶ [DHCP Snooping]
+    |
+    +---> [DHCP Snooping]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ```text
 [ 임대 시간의 흐름 (예: 24시간) ]
 0시간                  12시간(50%)              21시간(87.5%)            24시간(100%)
-  ├────────────────────────┼────────────────────────┼────────────────────────┤
+  +------------------------+------------------------+------------------------+
 시작                     T1 (갱신)                T2 (재바인딩)            만료 (IP 회수)
 ```
 
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DHCP Relay Agent]
-    │
-    ▼
+    |
+    v
 [현재 개념: DHCP Lease / DHCP 갱신]
-    │
-    ├──▶ [확장 A: DHCP Snooping]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DHCP Snooping]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 646 / 1120
 
-← **이전**: [524. DHCP Relay Agent (DHCP 릴레이)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/524_dhcp_relay_agent/)
-**다음**: [526. DHCP Snooping](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/526_dhcp_snooping/) →
+<- **이전**: [524. DHCP Relay Agent (DHCP 릴레이)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/524_dhcp_relay_agent/)
+**다음**: [526. DHCP Snooping](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/526_dhcp_snooping/) ->
 
 ---

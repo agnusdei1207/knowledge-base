@@ -24,17 +24,17 @@ tags = ["studynote-design-supervision"]
 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 이 모호성을 해결한다. 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 자신만의 언어와 모델을 갖고, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 밖에서는 그 모델이 의미 없거나 다른 의미를 가진다고 명시적으로 선언한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         동일 용어의 컨텍스트별 의미 차이                      │
-├─────────────────────────────────────────────────────────────┤
-│  [주문 바운디드 컨텍스트]          [마케팅 바운디드 컨텍스트] │
-│  Customer: {                      Customer: {               │
-│    orderId, shippingAddr,           segment, purchaseHist,  │
-│    paymentMethod                    campaignTargets          │
-│  }                                }                         │
-│                                                             │
-│  같은 'Customer'이지만 완전히 다른 모델 → BC로 명확히 분리  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         동일 용어의 컨텍스트별 의미 차이                      |
++-------------------------------------------------------------+
+|  [주문 바운디드 컨텍스트]          [마케팅 바운디드 컨텍스트] |
+|  Customer: {                      Customer: {               |
+|    orderId, shippingAddr,           segment, purchaseHist,  |
+|    paymentMethod                    campaignTargets          |
+|  }                                }                         |
+|                                                             |
+|  같은 'Customer'이지만 완전히 다른 모델 -> BC로 명확히 분리  |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 국제법([컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵)에서 '국경([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))'이 각 나라의 주권([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)이 유효한 영역을 정한다. 한국법은 한국 영토에서만 유효하고, 미국법은 미국 영토에서 유효하다.
@@ -53,17 +53,17 @@ tags = ["studynote-design-supervision"]
 | 오픈 호스트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 공개 API로 다수 하류 BC 지원 | 낮음 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           컨텍스트 맵 예시 (전자상거래)                       │
-├─────────────────────────────────────────────────────────────┤
-│  [카탈로그 BC] ──Open Host──> [주문 BC] ──고객-공급자──>     │
-│                                   │             [결제 BC]   │
-│                                   │                         │
-│                                ACL 변환                      │
-│                                   │                         │
-│                              [외부 PG API]                  │
-│                              (외부 결제사 모델 차단)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           컨텍스트 맵 예시 (전자상거래)                       |
++-------------------------------------------------------------+
+|  [카탈로그 BC] --Open Host--> [주문 BC] --고객-공급자-->     |
+|                                   |             [결제 BC]   |
+|                                   |                         |
+|                                ACL 변환                      |
+|                                   |                         |
+|                              [외부 PG API]                  |
+|                              (외부 결제사 모델 차단)          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 외교관([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))은 두 나라(BC)가 언어·문화가 달라도 서로 소통할 수 있게 해주는 중재자로, 한 나라의 문화(모델)가 다른 나라를 오염시키지 않게 막는다.
@@ -112,7 +112,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-DDD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계] → [바운디드 컨텍스트] → [컨텍스트 맵] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계] → ACL·Event 통합]
+DDD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계] -> [바운디드 컨텍스트] -> [컨텍스트 맵] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계] -> ACL·Event 통합]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -123,7 +123,7 @@ DDD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[모놀리식 단일 모델 오염] → DDD [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 패턴] → [컨텍스트 맵 통합 전략] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 정렬] → [Event Storming 워크숍] → AI 경계 추천]
+[모놀리식 단일 모델 오염] -> DDD [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 패턴] -> [컨텍스트 맵 통합 전략] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 정렬] -> [Event Storming 워크숍] -> AI 경계 추천]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ DDD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 **진행 상황**: 186 / 530
 
-← **이전**: [129. 도메인 주도 설계 (DDD: Domain-Driven Design)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/129_ddd_domain_driven_design/)
-**다음**: [131. 에그리게이트 루트 (Aggregate Root)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/) →
+<- **이전**: [129. 도메인 주도 설계 (DDD: Domain-Driven Design)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/129_ddd_domain_driven_design/)
+**다음**: [131. 에그리게이트 루트 (Aggregate Root)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/) ->
 
 ---

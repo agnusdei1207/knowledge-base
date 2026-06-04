@@ -32,24 +32,24 @@ tags = ["studynote-it-management"]
 IT 거버넌스는 독자적으로 존재할 수 없으며, 반드시 [기업 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)의 목표(Goal)를 내려받아 IT의 실행 지표([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))로 치환해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           기업 거버넌스 - IT 거버넌스 폭포수(Waterfall) 구조   │
-├────────────────────────────────────────────────────────┤
-│   [ 기업 거버넌스 (이사회 / CEO) ]                        │
-│    비즈니스 목표: "올해 온라인 모바일 매출 30% 폭풍 성장!"     │
-│             │                                          │
-│             ▼ (전략적 정렬: Strategic Alignment)          │
-│   [ IT 거버넌스 (CIO / IT 운영 위원회) ]                   │
-│    IT 목표: "모바일 앱 응답 속도 0.5초 달성, 서버 99.99% 가동"│
-│             │                                          │
-│             ▼ (가치 전달 및 자원 관리)                     │
-│   [ IT 매니지먼트 (개발팀 / 운영팀) ]                      │
-│    실행: "AWS 오토 스케일링 적용, Redis 캐시 서버 도입"        │
-│                                                        │
-│ * 핵심 논리: 밑(IT 매니지먼트)에서 아무리 기술적으로 훌륭한   │
-│   Redis 캐시를 깔았어도, 위(기업 목표)의 모바일 매출 증가에   │
-│   기여하지 못했다면 그 IT 투자는 실패한 거버넌스로 판정받는다.│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           기업 거버넌스 - IT 거버넌스 폭포수(Waterfall) 구조   |
++--------------------------------------------------------+
+|   [ 기업 거버넌스 (이사회 / CEO) ]                        |
+|    비즈니스 목표: "올해 온라인 모바일 매출 30% 폭풍 성장!"     |
+|             |                                          |
+|             v (전략적 정렬: Strategic Alignment)          |
+|   [ IT 거버넌스 (CIO / IT 운영 위원회) ]                   |
+|    IT 목표: "모바일 앱 응답 속도 0.5초 달성, 서버 99.99% 가동"|
+|             |                                          |
+|             v (가치 전달 및 자원 관리)                     |
+|   [ IT 매니지먼트 (개발팀 / 운영팀) ]                      |
+|    실행: "AWS 오토 스케일링 적용, Redis 캐시 서버 도입"        |
+|                                                        |
+| * 핵심 논리: 밑(IT 매니지먼트)에서 아무리 기술적으로 훌륭한   |
+|   Redis 캐시를 깔았어도, 위(기업 목표)의 모바일 매출 증가에   |
+|   기여하지 못했다면 그 IT 투자는 실패한 거버넌스로 판정받는다.|
++--------------------------------------------------------+
 ```
 
 [기업 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)는 <strong>'무엇(What)'</strong>을 할 것인가의 문제이며, IT 거버넌스는 그 비즈니스 가치를 보장하기 위해 IT 자원을 **'어떻게(How)'** 배분하고 위험을 통제할 것인가의 메커니즘이다. [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/)(코빗) 같은 프레임워크가 이 둘 사이의 통역사 역할을 한다.
@@ -111,21 +111,21 @@ IT 세계에서 가장 혼동되는 두 개념의 쇳덩어리 분리.
 
 ```text
 IT 기술의 급격한 발전 및 예산 폭증 (전산실의 블랙박스화)
-    │
-    ▼
+    |
+    v
 대형 IT 프로젝트 연쇄 실패 및 비즈니스 가치 창출 불능 (Productivity Paradox)
-    │
-    ▼
-경영진(이사회)의 IT 통제 필요성 대두 ──▶ IT 거버넌스(IT Governance) 개념 탄생
-    │
-    ▼
-전략적 정렬(Alignment) 강제 ──▶ IT의 목표를 기업 거버넌스(비즈니스 목표)에 완벽히 종속시킴
-    │
-    ▼
-디지털 트랜스포메이션(DX) 시대 ──▶ IT가 곧 비즈니스 자체가 되는 엔터프라이즈 아키텍처(EA) 융합
+    |
+    v
+경영진(이사회)의 IT 통제 필요성 대두 ---> IT 거버넌스(IT Governance) 개념 탄생
+    |
+    v
+전략적 정렬(Alignment) 강제 ---> IT의 목표를 기업 거버넌스(비즈니스 목표)에 완벽히 종속시킴
+    |
+    v
+디지털 트랜스포메이션(DX) 시대 ---> IT가 곧 비즈니스 자체가 되는 엔터프라이즈 아키텍처(EA) 융합
 ```
 
-이 흐름도는 "기술 부서의 고립 → 예산 낭비 직면 → 이사회 레벨의 통제권 확보 → 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 이어지는 IT 조직의 정치적/[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 승격의 역사를 보여준다.
+이 흐름도는 "기술 부서의 고립 -> 예산 낭비 직면 -> 이사회 레벨의 통제권 확보 -> 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 이어지는 IT 조직의 정치적/[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 승격의 역사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ IT 기술의 급격한 발전 및 예산 폭증 (전산실의 블랙박스화)
 
 **진행 상황**: 4 / 587
 
-← **이전**: [3. 기업 거버넌스 (Corporate Governance) 와의 관계](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)
-**다음**: [4. COBIT (Control Objectives for Information and Related Technologies) - ISACA](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) →
+<- **이전**: [3. 기업 거버넌스 (Corporate Governance) 와의 관계](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)
+**다음**: [4. COBIT (Control Objectives for Information and Related Technologies) - ISACA](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) ->
 
 ---

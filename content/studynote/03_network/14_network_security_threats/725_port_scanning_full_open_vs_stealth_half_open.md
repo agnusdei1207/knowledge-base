@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [다크 웹 Tor]
-    │
-    ▼
+    |
+    v
 [스키밍 공격]
-    │
-    └──▶ [무차별 대입 공격 통신 로그인/SSH 타격]
+    |
+    +---> [무차별 대입 공격 통신 로그인/SSH 타격]
 ```
 
 - **📢 섹션 요약 비유**: 스키밍 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [다크 웹 Tor]
-    │
-    ▼
+    |
+    v
 [스키밍 공격]
-    │
-    └──▶ [무차별 대입 공격 통신 로그인/SSH 타격]
+    |
+    +---> [무차별 대입 공격 통신 로그인/SSH 타격]
 ```
 
 - **📢 섹션 요약 비유**: 스키밍 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 다크 웹 Tor]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스키밍 공격]
-    │
-    ├──▶ [확장 A: 무차별 대입 공격 통신 로그인/SSH 타격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 무차별 대입 공격 통신 로그인/SSH 타격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 스키밍 공격는 다크 웹 Tor에서 출발해 현재 메커니즘을 정교화하고, 이후 무차별 대입 공격 통신 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 846 / 1120
 
-← **이전**: [724. 스머프 공격 방어를 위한 no ip directed-broadcast 설정 논리](/knowledge-base/studynote/03_network/14_network_security_threats/724_no_ip_directed_broadcast_smurf_defense/)
-**다음**: [726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) →
+<- **이전**: [724. 스머프 공격 방어를 위한 no ip directed-broadcast 설정 논리](/knowledge-base/studynote/03_network/14_network_security_threats/724_no_ip_directed_broadcast_smurf_defense/)
+**다음**: [726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) ->
 
 ---

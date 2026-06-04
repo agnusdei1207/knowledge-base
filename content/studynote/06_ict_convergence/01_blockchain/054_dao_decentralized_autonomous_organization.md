@@ -32,7 +32,7 @@ DAO는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 DAO는 제안서, 투표, 실행, 금고(treasury)를 중심으로 돌아간다. 권한은 토큰이나 멤버십으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 결과는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 집행한다.
 
 ```text
-Proposal → Vote → Quorum Check → Smart Contract Execution → Treasury
+Proposal -> Vote -> Quorum Check -> Smart Contract Execution -> Treasury
 ```
 
 | 요소 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ DAO는 투명성과 참여성을 높이고, 중앙 권한 의존도를 낮춘다
 
 ```text
 중앙 조직
-    │
-    ▼
+    |
+    v
 토큰 기반 커뮤니티
-    │
-    ▼
+    |
+    v
 DAO
-    │
-    ▼
+    |
+    v
 온체인 거버넌스 / 자동 집행
 ```
 
@@ -136,7 +136,7 @@ DAO
 
 **진행 상황**: 54 / 552
 
-← **이전**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/)
-**다음**: [55. IPFS (InterPlanetary File System)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) →
+<- **이전**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/)
+**다음**: [55. IPFS (InterPlanetary File System)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) ->
 
 ---

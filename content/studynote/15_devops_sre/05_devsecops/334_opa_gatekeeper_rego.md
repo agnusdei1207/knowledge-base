@@ -167,7 +167,7 @@ spec:
 
 **진행 상황**: 334 / 373
 
-← **이전**: [333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform](/knowledge-base/studynote/15_devops_sre/05_devsecops/333_cnapp/)
-**다음**: [335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid](/knowledge-base/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/) →
+<- **이전**: [333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform](/knowledge-base/studynote/15_devops_sre/05_devsecops/333_cnapp/)
+**다음**: [335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid](/knowledge-base/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/) ->
 
 ---

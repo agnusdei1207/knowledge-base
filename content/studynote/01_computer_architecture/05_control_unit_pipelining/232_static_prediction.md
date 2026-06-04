@@ -41,25 +41,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 정적 예측이 파이프라인 초반에서 어떤 결정을 내리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│          정적 분기 예측의 위치: 분기 확정 전, 먼저 경로를 고른다         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ IF (Instruction Fetch)                                                  │
-│   │                                                                      │
-│   ├─ 분기 아님 ───────────────────────────────▶ 순차 주소 인출            │
-│   │                                                                      │
-│   └─ 분기 명령 발견                                                      │
-│         │                                                                │
-│         ├─ 규칙 1: Always Not Taken ─────────▶ PC + 4 인출               │
-│         ├─ 규칙 2: Always Taken ─────────────▶ Branch Target 인출        │
-│         └─ 규칙 3: BTFN                                                  │
-│                ├─ 뒤로 점프(루프) ───────────▶ Taken 예측                │
-│                └─ 앞으로 점프(조건 예외) ────▶ Not Taken 예측            │
-│                                                                          │
-│ EX (Execute)에서 실제 조건 계산                                          │
-│   ├─ 예측 성공 ─────────────────────────────▶ 파이프라인 유지            │
-│   └─ 예측 실패 ─────────────────────────────▶ 잘못 가져온 명령 Flush     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|          정적 분기 예측의 위치: 분기 확정 전, 먼저 경로를 고른다         |
++--------------------------------------------------------------------------+
+| IF (Instruction Fetch)                                                  |
+|   |                                                                      |
+|   +- 분기 아님 --------------------------------> 순차 주소 인출            |
+|   |                                                                      |
+|   +- 분기 명령 발견                                                      |
+|         |                                                                |
+|         +- 규칙 1: Always Not Taken ----------> PC + 4 인출               |
+|         +- 규칙 2: Always Taken --------------> Branch Target 인출        |
+|         +- 규칙 3: BTFN                                                  |
+|                +- 뒤로 점프(루프) ------------> Taken 예측                |
+|                +- 앞으로 점프(조건 예외) -----> Not Taken 예측            |
+|                                                                          |
+| EX (Execute)에서 실제 조건 계산                                          |
+|   +- 예측 성공 ------------------------------> 파이프라인 유지            |
+|   +- 예측 실패 ------------------------------> 잘못 가져온 명령 Flush     |
++--------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 정적 예측이 <strong>정확도보다 결정 시점</strong>으로 가치를 만든다는 사실이다. 예측 정확도가 100%가 아니더라도, 매번 기다리는 것보다 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아질 수 있다. 특히 BTFN은 반복문이 뒤로 점프하고, 오류 처리나 희귀 조건은 앞으로 빠지는 코드 배치 관례를 이용하므로 추가 저장장치 없이도 비교적 높은 적중률을 낸다. 반대로 분기 패턴이 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 따라 계속 바뀌는 경우에는 고정 규칙이 현실을 따라가지 못한다.
@@ -133,21 +133,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 분기 명령으로 인한 파이프라인 정지
-    │
-    ▼
+    |
+    v
 정적 분기 예측 (Always Taken / Always Not Taken)
-    │
-    ▼
+    |
+    v
 BTFN (Backward Taken, Forward Not Taken)
-    │
-    ▼
+    |
+    v
 컴파일러 힌트 · PGO (Profile-Guided Optimization)
-    │
-    ▼
+    |
+    v
 동적 분기 예측 · 하이브리드 분기 예측
 ```
 
-이 흐름은 "기다림 회피 → 규칙 정교화 → 소프트웨어 협력 → 학습형 예측"으로 분기 처리 기술이 발전해 온 방향을 보여준다.
+이 흐름은 "기다림 회피 -> 규칙 정교화 -> 소프트웨어 협력 -> 학습형 예측"으로 분기 처리 기술이 발전해 온 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -161,7 +161,7 @@ BTFN (Backward Taken, Forward Not Taken)
 
 **진행 상황**: 232 / 803
 
-← **이전**: [231. 분기 예측 (Branch Prediction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)
-**다음**: [233. 동적 분기 예측 (Dynamic Prediction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/) →
+<- **이전**: [231. 분기 예측 (Branch Prediction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)
+**다음**: [233. 동적 분기 예측 (Dynamic Prediction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/) ->
 
 ---

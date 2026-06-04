@@ -78,7 +78,7 @@ Premier Consulting Partner:
   최고 수준 AWS 전문성 인정
   연간 200개 이상 AWS 자격증 보유
   고객 성공 사례 다수
-  → AWS의 직접 지원 + 마케팅 협력
+  -> AWS의 직접 지원 + 마케팅 협력
 
 Advanced Consulting Partner:
   기술 역량 + 프로젝트 실적 요구
@@ -92,7 +92,7 @@ Select / Registered: 기본 파트너
   공동 영업 (Co-selling) 기회
 
 Azure와 GCP 유사 계층:
-  Azure: Gold/Silver Competency → Solutions Partner
+  Azure: Gold/Silver Competency -> Solutions Partner
   GCP: Premier/Partner 계층
 
 국내 주요 클라우드 MSP:
@@ -144,8 +144,8 @@ DR 발동 결정       |  I  |  A
 보안 정책 구현     |  R  |  C
 
 명확하지 않은 RACI의 결과:
-  인시던트 발생 → "이건 MSP 책임" vs "고객 책임"
-  → 대응 지연 → 장애 시간 연장 → SLA 위반
+  인시던트 발생 -> "이건 MSP 책임" vs "고객 책임"
+  -> 대응 지연 -> 장애 시간 연장 -> SLA 위반
 
 계약 전 필수 명확화:
   모든 서비스 항목별 RACI 작성
@@ -193,11 +193,11 @@ MSP 비용 모델:
 
 Pass-Through (권장):
   클라우드 비용은 고객에게 직접 청구 (MSP 마진 없음)
-  → 비용 투명성 높음
+  -> 비용 투명성 높음
 
 vs. Resell (주의):
   MSP가 클라우드 비용 중간에서 마크업
-  → 실제 비용 파악 어려움
+  -> 실제 비용 파악 어려움
 ```
 
 > 📢 **섹션 요약 비유**: MSP 비용 모델 = 관리 회사 수수료 — 청구서 ×15%(클라우드 비용 연동) vs 고정 월세(예산 예측). Pass-Through(투명한 세입자): 실제 공과금 직접 내고 관리비만 별도. 투명이 최선!
@@ -229,18 +229,18 @@ RACI 협의:
 계약 후 3개월:
 
 FinOps 최적화:
-  미사용 EC2 17개 식별 → 종료 (월 150만원 절감)
-  Reserved Instance 분석 → 예약 전환 (월 420만원 절감)
+  미사용 EC2 17개 식별 -> 종료 (월 150만원 절감)
+  Reserved Instance 분석 -> 예약 전환 (월 420만원 절감)
   크기 최적화 33개 인스턴스 (월 280만원 절감)
 
   총 3개월 내: 월 850만원 절감 (28%)
 
 인시던트 개선:
-  P2 인시던트: 월 8건 → 3건 (전문 모니터링 튜닝)
-  평균 해결 시간: 4.2시간 → 1.1시간
+  P2 인시던트: 월 8건 -> 3건 (전문 모니터링 튜닝)
+  평균 해결 시간: 4.2시간 -> 1.1시간
 
 보안:
-  취약점 49개 발견 → 38개 즉시 수정
+  취약점 49개 발견 -> 38개 즉시 수정
   IAM 권한 정리: 과잉 권한 64개 제거
 
 ROI 계산:
@@ -319,7 +319,7 @@ AI 자동화 운영
 
 **진행 상황**: 47 / 371
 
-← **이전**: [047. CSB — 클라우드 서비스 브로커리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/047_cloud_service_brokerage_csb/)
-**다음**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/) →
+<- **이전**: [047. CSB — 클라우드 서비스 브로커리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/047_cloud_service_brokerage_csb/)
+**다음**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/) ->
 
 ---

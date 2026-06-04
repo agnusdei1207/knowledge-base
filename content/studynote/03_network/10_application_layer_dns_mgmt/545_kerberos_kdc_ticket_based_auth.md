@@ -21,25 +21,25 @@ tags = ["studynote-network"]
 
 - **개념**: 커버로스는 MIT의 프로젝트 아테나([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Athena)에서 개발된 클라이언트-서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 88 사용). 이름의 유래인 그리스 신화 속 지옥 문을 지키는 머리 셋 달린 개(케르베로스)처럼, 클라이언트, 서버, 그리고 이 둘을 중재하는 신뢰 기관인 <strong><a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/583_kdc/">KDC</a> (<a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/583_kdc/">Key Distribution Center</a>)</strong>라는 3개의 주체로 구성된다.
 - **필요성**: 수천 명의 대학생과 수백 대의 공용 컴퓨터가 얽힌 네트워크에서, 사용자가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예: 프린터 서버)에 접속할 때마다 패스워드를 보내면 스니핑(Sniffing)에 의해 계정이 쉽게 털린다. 서버 입장에서도 "접속 요청자가 진짜 그 학생인지" 믿을 수 없고, 클라이언트 입장에서도 "저 서버가 해커가 만든 가짜 위장 서버가 아닌지" 믿을 수 없다. 따라서 "둘 다 믿을 수 없으니, 우리가 모두 신뢰하는 막강한 제3자([KDC](/knowledge-base/studynote/09_security/12_identity_threat_advanced/583_kdc/))가 도장을 찍은 보증서(티켓)만 통과시키자"라는 개념이 절실했다.
-- **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인터넷의 평문 패스워드 전송(Telnet, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 등)에 따른 치명적 계정 탈취 빈발 → ② 대칭키 암호학의 발전 및 티켓 기반 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 도입 → ③ Windows 2000 이후 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Directory의 기본 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 채택되면서 글로벌 엔터프라이즈 환경의 지배적 표준으로 등극.
+- **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인터넷의 평문 패스워드 전송(Telnet, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 등)에 따른 치명적 계정 탈취 빈발 -> ② 대칭키 암호학의 발전 및 티켓 기반 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 도입 -> ③ Windows 2000 이후 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Directory의 기본 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 채택되면서 글로벌 엔터프라이즈 환경의 지배적 표준으로 등극.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             기존 인증 방식의 취약점 vs 커버로스의 철학 시각화       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 무지성 패스워드 전송]                                   │
-│   Client ───── "나 앨리스야, PW: 1234" ──────▶ File Server │
-│             (해커가 중간에서 가로채면 끝!)                         │
-│                                                             │
-│   [혁신: 커버로스 티켓(Ticket) 인증]                           │
-│   Client ───── "KDC야, 나 앨리스인데 파일 서버 접속할래" ───┐ │
-│   Client ◀──── "앨리스 맞네. 여기 암호화된 [티켓] 가져가" ──┘ │
-│        │                                                    │
-│        └─────── "나 앨리스야, 이거 KDC가 준 [티켓]!" ────▶ File Server │
-│                                                             │
-│   => 클라이언트는 파일 서버에 비밀번호를 절대 보내지 않음! 티켓만 제시함!   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             기존 인증 방식의 취약점 vs 커버로스의 철학 시각화       |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: 무지성 패스워드 전송]                                   |
+|   Client ----- "나 앨리스야, PW: 1234" -------> File Server |
+|             (해커가 중간에서 가로채면 끝!)                         |
+|                                                             |
+|   [혁신: 커버로스 티켓(Ticket) 인증]                           |
+|   Client ----- "KDC야, 나 앨리스인데 파일 서버 접속할래" ---+ |
+|   Client <----- "앨리스 맞네. 여기 암호화된 [티켓] 가져가" --+ |
+|        |                                                    |
+|        +------- "나 앨리스야, 이거 KDC가 준 [티켓]!" -----> File Server |
+|                                                             |
+|   => 클라이언트는 파일 서버에 비밀번호를 절대 보내지 않음! 티켓만 제시함!   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 도식은 커버로스가 네트워크 스니핑의 근본적인 위험을 어떻게 우회하는지 직관적으로 보여준다. 해커가 네트워크 중간에 숨어 패킷을 가로채더라도, 패킷 안에는 비밀번호가 없다. 오직 KDC라는 중앙 서버가 특정 사용자(앨리스)와 특정 목적지([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버) 사이에서만 제한된 시간 동안 쓸 수 있게 만들어준 고도의 암호화된 '입장권(Ticket)' 덩어리만 돌아다닐 뿐이다. 따라서 비밀번호 노출의 위험이 원천 차단된다.
@@ -65,31 +65,31 @@ tags = ["studynote-network"]
 커버로스 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정은 크게 3단계의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 흐름(총 6번의 메시지 교환)으로 완성된다. 복잡해 보이지만 "안전하게 입장권을 얻어가는 과정"으로 이해하면 된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               커버로스 (Kerberos) 티켓 기반 6단계 인증 흐름        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [클라이언트(Client)]                                [KDC 서버] │
-│      │                                                    │   │
-│      │  ① AS_REQ: "저 앨리스인데요, 놀이공원(KDC) 입장할래요"   │   │
-│      ├───────────────────────────────────────────────────▶│   │
-│      │  ② AS_REP: "ㅇㅋ, 여기 [TGT 티켓]이랑 [세션키 1] 가져가" │   │
-│      │◀───────────────────────────────────────────────────┤   │
-│      │                                                    │   │
-│      │  ③ TGS_REQ: "[TGT] 제출 + 파일 서버(B) 접근권 좀 주세요" │   │
-│      ├───────────────────────────────────────────────────▶│   │
-│      │  ④ TGS_REP: "ㅇㅋ, 여기 [파일서버 전용 티켓] + [세션키 2]"│   │
-│      │◀───────────────────────────────────────────────────┤   │
-│      │                                                    │   │
-│      ▼                                                    │   │
-│   [파일 서버(Server B)]                                      │   │
-│      │  ⑤ AP_REQ: "나 앨리스야, KDC가 준 [전용 티켓] 여기 있어" │   │
-│      │◀───────────────────────────────────────────────────┤   │
-│      │  ⑥ AP_REP: "티켓 맞네, 나 가짜 서버 아니니 안심하고 들어와"│   │
-│      ├───────────────────────────────────────────────────▶│   │
-│      │                                                    │   │
-│      │  ==== [인증 완료! 이 순간부터 안전한 데이터 통신 시작] ====   │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               커버로스 (Kerberos) 티켓 기반 6단계 인증 흐름        |
++---------------------------------------------------------------+
+|                                                               |
+|   [클라이언트(Client)]                                [KDC 서버] |
+|      |                                                    |   |
+|      |  ① AS_REQ: "저 앨리스인데요, 놀이공원(KDC) 입장할래요"   |   |
+|      +---------------------------------------------------->|   |
+|      |  ② AS_REP: "ㅇㅋ, 여기 [TGT 티켓]이랑 [세션키 1] 가져가" |   |
+|      |<----------------------------------------------------+   |
+|      |                                                    |   |
+|      |  ③ TGS_REQ: "[TGT] 제출 + 파일 서버(B) 접근권 좀 주세요" |   |
+|      +---------------------------------------------------->|   |
+|      |  ④ TGS_REP: "ㅇㅋ, 여기 [파일서버 전용 티켓] + [세션키 2]"|   |
+|      |<----------------------------------------------------+   |
+|      |                                                    |   |
+|      v                                                    |   |
+|   [파일 서버(Server B)]                                      |   |
+|      |  ⑤ AP_REQ: "나 앨리스야, KDC가 준 [전용 티켓] 여기 있어" |   |
+|      |<----------------------------------------------------+   |
+|      |  ⑥ AP_REP: "티켓 맞네, 나 가짜 서버 아니니 안심하고 들어와"|   |
+|      +---------------------------------------------------->|   |
+|      |                                                    |   |
+|      |  ==== [인증 완료! 이 순간부터 안전한 데이터 통신 시작] ====   |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라이언트가 최초로 로그인할 때(①, ②), KDC의 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)([인증 서버](/knowledge-base/studynote/09_security/12_identity_threat_advanced/581_authentication_server/))는 클라이언트의 비밀번호로 해독할 수 있는 암호 상자를 던져준다. 만약 사용자가 진짜 앨리스라면 자신의 비밀번호로 상자를 열어 `TGT(마스터 티켓)`와 `세션키 1`을 획득한다. 이제 앨리스는 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버에 접속하고 싶을 때마다 매번 비밀번호를 칠 필요 없이, 이 `TGT`를 [TGS](/knowledge-base/studynote/09_security/12_identity_threat_advanced/585_tgs/)(티켓 발급 서버)에게 보여주어(③, ④) 목적지 전용 티켓을 발급받는다. 최종적으로 앨리스는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버에게 이 전용 티켓을 제시(⑤)하며, 서버 역시 KDC와 공유한 마스터키로 티켓을 열어보고 "음, KDC가 보증한 앨리스가 맞군" 하며 문을 열어준다(⑥). 이 과정에서 서로의 신원이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되는 '상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Mutual Authentication](/knowledge-base/studynote/09_security/12_identity_threat_advanced/588_mutual_authentication/))'이 완성된다.
@@ -113,22 +113,22 @@ tags = ["studynote-network"]
 커버로스는 사내 폐쇄망([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 생태계에서 왕이다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 컨트롤러(DC)와 단단히 묶인 윈도우 생태계에서는 커버로스 없이 한 발짝도 나아갈 수 없다. 하지만 커버로스는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 같은 웹 환경이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 너머의 외부망에서는 작동하기 어렵기 때문에(엄격한 IP 제한과 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 이슈), 밖으로 나갈 때는 Oauth나 SAML 같은 웹 기반 토큰 아키텍처로 옷을 갈아입어야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               타임스탬프(Timestamp) 기반 재전송 공격 방어 원리      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [해커의 Replay Attack 시도]                                   │
-│   1. 해커가 네트워크에 몰래 숨어 앨리스가 서버로 보내는 [티켓]을 복사함. │
-│   2. 30분 뒤, 해커가 복사한 [티켓]을 서버로 그대로 다시 쏘아 로그인 시도!│
-│                                                               │
-│   [서버의 커버로스 방어 로직 작동]                                 │
-│   서버: "티켓 열어보자. 앗? 이 티켓에 찍힌 시간이 30분 전이잖아?"        │
-│   서버 정책: [현재 서버 시간]과 [티켓 발급 시간] 오차가 5분 이상이면 차단! │
-│   서버: "네놈은 해커구나! 이 티켓은 폐기된 티켓이다!" (접속 거부 ─▶ Drop)│
-│                                                               │
-│   => 결론: 커버로스 환경에서는 KDC, 클라이언트, 서버 간의 시간(NTP)이 │
-│            정확히 일치하지 않으면 정상 사용자도 통신이 거부된다.       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               타임스탬프(Timestamp) 기반 재전송 공격 방어 원리      |
++---------------------------------------------------------------+
+|                                                               |
+|   [해커의 Replay Attack 시도]                                   |
+|   1. 해커가 네트워크에 몰래 숨어 앨리스가 서버로 보내는 [티켓]을 복사함. |
+|   2. 30분 뒤, 해커가 복사한 [티켓]을 서버로 그대로 다시 쏘아 로그인 시도!|
+|                                                               |
+|   [서버의 커버로스 방어 로직 작동]                                 |
+|   서버: "티켓 열어보자. 앗? 이 티켓에 찍힌 시간이 30분 전이잖아?"        |
+|   서버 정책: [현재 서버 시간]과 [티켓 발급 시간] 오차가 5분 이상이면 차단! |
+|   서버: "네놈은 해커구나! 이 티켓은 폐기된 티켓이다!" (접속 거부 --> Drop)|
+|                                                               |
+|   => 결론: 커버로스 환경에서는 KDC, 클라이언트, 서버 간의 시간(NTP)이 |
+|            정확히 일치하지 않으면 정상 사용자도 통신이 거부된다.       |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 커버로스의 가장 빛나는 아이디어 중 하나는 암호학에 '시간(Time)'이라는 변수를 섞어 넣은 것이다. 해커가 패킷을 스니핑해서 암호문을 가로채더라도 그 안의 내용은 풀 수 없다. 그래서 해커들은 풀기를 포기하고, 그 암호문 덩어리 자체를 그대로 서버에 다시 던지는 '[재전송 공격](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))'을 쓴다. 커버로스는 암호문(티켓과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)자) 내부에 발급 당시의 '타임스탬프'를 박아 넣었다. 서버는 자신이 받은 패킷의 타임스탬프가 현재 시간과 5분 이상 차이 나면 무조건 폐기해버린다. 따라서 커버로스를 쓰는 인프라에서는 단 1초의 오차도 없애기 위해 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)([Network Time Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/), 536번 문서) 서버와의 엄격한 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 절대적인 필수 요건이다.
@@ -189,12 +189,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: AAA 보안 모델]
-    │
-    ▼
+    |
+    v
 [현재 개념: 커버로스]
-    │
-    ├──▶ [확장 A: OAuth 2.0]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: OAuth 2.0]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 커버로스는 AAA 보안 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 OAuth 2.0와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -211,7 +211,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 666 / 1120
 
-← **이전**: [544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/544_aaa_security_model_auth_authz_acct/)
-**다음**: [546. OAuth 2.0](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/546_oauth_2_0_access_token/) →
+<- **이전**: [544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/544_aaa_security_model_auth_authz_acct/)
+**다음**: [546. OAuth 2.0](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/546_oauth_2_0_access_token/) ->
 
 ---

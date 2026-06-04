@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 ```text
 재사용 수준 계층:
 
-  시스템 수준  ← 전체 애플리케이션 재사용 (SaaS 활용)
-  서브시스템  ← 라이브러리·프레임워크·미들웨어
-  컴포넌트    ← CBD, 인터페이스로 조립
-  객체/클래스 ← OOP 상속·다형성
-  함수/모듈   ← 가장 기본적인 재사용
-  코드 복사   ← Copy-Paste (재사용 최하위)
+  시스템 수준  <- 전체 애플리케이션 재사용 (SaaS 활용)
+  서브시스템  <- 라이브러리·프레임워크·미들웨어
+  컴포넌트    <- CBD, 인터페이스로 조립
+  객체/클래스 <- OOP 상속·다형성
+  함수/모듈   <- 가장 기본적인 재사용
+  코드 복사   <- Copy-Paste (재사용 최하위)
 ```
 
 - **📢 섹션 요약 비유**: 소프트웨어 재사용 수준은 레고 블록 조립 방식이다. 기성 완성품([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 구매부터 큰 레고 세트(프레임워크) 활용, 개별 블록([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 조립까지 다양한 수준이 있다.
@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ```text
 White-Box Reuse (화이트박스):
   - 소스 코드 수정 후 재사용
-  - 유연하지만 유지보수 비용↑
+  - 유연하지만 유지보수 비용^
   - 예: 오픈소스 포크
 
 Black-Box Reuse (블랙박스):
@@ -111,7 +111,7 @@ Glass-Box Reuse (글래스박스):
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **생산성** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 조립으로 개발 속도↑ |
+| **생산성** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 조립으로 개발 속도^ |
 | **품질** | 기존 테스트된 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 재활용 |
 | **유지보수** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 교체로 유연한 시스템 변경 |
 
@@ -135,20 +135,20 @@ Glass-Box Reuse (글래스박스):
 
 ```text
 [코드 복사·라이브러리 — 기초 재사용]
-    │
-    ▼
+    |
+    v
 [OOP — 클래스·상속 기반 재사용]
-    │
-    ▼
+    |
+    v
 [CBD — 컴포넌트 인터페이스 기반 블랙박스 재사용]
-    │
-    ▼
+    |
+    v
 [SOA — 서비스 수준 재사용, 웹서비스]
-    │
-    ▼
+    |
+    v
 [마이크로서비스 — 컨테이너 기반 현대 CBD]
-    │
-    ▼
+    |
+    v
 [AI 코드 생성 — 지능형 자동 재사용 추천]
 ```
 
@@ -164,7 +164,7 @@ Glass-Box Reuse (글래스박스):
 
 **진행 상황**: 30 / 973
 
-← **이전**: [29. 역공학 (Reverse 엔진ering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)
-**다음**: [31. 소프트웨어 유지보수 유형 — 4가지 변경 분류](/knowledge-base/studynote/04_software_engineering/01_overview_principles/031_software_maintenance_types/) →
+<- **이전**: [29. 역공학 (Reverse 엔진ering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)
+**다음**: [31. 소프트웨어 유지보수 유형 — 4가지 변경 분류](/knowledge-base/studynote/04_software_engineering/01_overview_principles/031_software_maintenance_types/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Mini-Spec은 <strong>DFD의 최하위 프로세스(기본 프로세스)의 로직을 구조적 영어(Structured English)·의사결정표·의사결정트리</strong>로 상세 기술하는 프로세스 명세서이다.
-> 2. **가치**: DFD는 "무엇을" 보여주지만 <strong>"어떻게 변환하는지"</strong>는 보여주지 않으며, Mini-Spec이 각 프로세스의 **입력→변환 규칙→출력을 명확히** 정의한다.
+> 2. **가치**: DFD는 "무엇을" 보여주지만 <strong>"어떻게 변환하는지"</strong>는 보여주지 않으며, Mini-Spec이 각 프로세스의 **입력->변환 규칙->출력을 명확히** 정의한다.
 > 3. **판단 포인트**: 구조적 영어(IF-THEN-ELSE, DO-WHILE), 의사결정표([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/), 복합 조건), 의사결정트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), 시각적) 중 상황에 맞는 표현을 선택한다.
 
 ---
@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
     할인율 = 5%
   ENDIF
 
-의사결정표: 조건 조합 → 행동 매핑 (복합 조건에 적합)
+의사결정표: 조건 조합 -> 행동 매핑 (복합 조건에 적합)
 ```
 
 - **📢 섹션 요약 비유**: Mini-Spec은 <strong>요리 레시피</strong>이다. DFD가 "볶음밥 만들기"라면, Mini-Spec은 <strong>재료·순서·불세기</strong>를 상세히 적는다.
@@ -52,10 +52,10 @@ Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[DFD (1978)] → [Mini-Spec (구조적 분석)]
-    → [의사결정표 (복합 조건)]
-    → [UML 활동 다이어그램 (대안)]
-    → [현재: BDD/Gherkin — Given-When-Then 형식]
+[DFD (1978)] -> [Mini-Spec (구조적 분석)]
+    -> [의사결정표 (복합 조건)]
+    -> [UML 활동 다이어그램 (대안)]
+    -> [현재: BDD/Gherkin — Given-When-Then 형식]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -69,7 +69,7 @@ Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 
 **진행 상황**: 145 / 973
 
-← **이전**: [144. DFD (Data Flow Diagram) - 데이터 흐름도 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)
-**다음**: [146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/) →
+<- **이전**: [144. DFD (Data Flow Diagram) - 데이터 흐름도 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)
+**다음**: [146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/) ->
 
 ---

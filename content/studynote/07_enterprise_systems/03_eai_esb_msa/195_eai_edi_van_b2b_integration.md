@@ -44,13 +44,13 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 아래 그림은 기업 간 EDI 연동의 대표 경로를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ B2B EDI flow: internal data -> mapping -> network -> partner ERP    │
-├──────────────────────────────────────────────────────────────────────┤
-│ ERP -> B2B Gateway -> EDI Message -> VAN/AS2 -> Partner Gateway     │
-│  │            │                    │                │                │
-│  └─ Master Data ─┴─ Validation ───┴─ Ack/Tracking ─┘                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| B2B EDI flow: internal data -> mapping -> network -> partner ERP    |
++----------------------------------------------------------------------+
+| ERP -> B2B Gateway -> EDI Message -> VAN/AS2 -> Partner Gateway     |
+|  |            |                    |                |                |
+|  +- Master Data -+- Validation ---+- Ack/Tracking -+                |
++----------------------------------------------------------------------+
 ```
 
 이 과정에서 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 엔진은 중요한 연결고리다. 외부 표준 문서와 내부 애플리케이션 포맷이 다르기 때문에, 게이트웨이는 단순 전달이 아니라 코드 변환, 필드 매핑, 오류 큐 적재, 재처리, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링까지 담당한다. 즉 현대 EDI 운영의 핵심은 "문서를 보내는 것"보다 <strong>변환과 예외를 통제하는 것</strong>에 가깝다.
@@ -124,21 +124,21 @@ EDI와 VAN을 적절히 활용하면 거래 문서 처리 속도가 빨라지고
 
 ```text
 종이 문서 · 수기 입력
-    │
-    ▼
+    |
+    v
 EDI (Electronic Data Interchange) 표준화
-    │
-    ▼
+    |
+    v
 VAN 중계망 · ACK 추적
-    │
-    ▼
+    |
+    v
 EAI 기반 매핑 · 예외 처리
-    │
-    ▼
+    |
+    v
 AS2 · Web-EDI · OpenAPI 하이브리드
 ```
 
-이 흐름은 "문서 표준화 → 안전한 전달 → 내부 변환 → 현대적 혼합 통합"으로 발전하는 과정을 보여준다.
+이 흐름은 "문서 표준화 -> 안전한 전달 -> 내부 변환 -> 현대적 혼합 통합"으로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +152,7 @@ AS2 · Web-EDI · OpenAPI 하이브리드
 
 **진행 상황**: 195 / 482
 
-← **이전**: [194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/194_webhook_reverse_api_event_push/)
-**다음**: [196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/196_serverless_architecture_baas_integration/) →
+<- **이전**: [194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/194_webhook_reverse_api_event_push/)
+**다음**: [196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/196_serverless_architecture_baas_integration/) ->
 
 ---

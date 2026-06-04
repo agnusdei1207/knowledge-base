@@ -38,22 +38,22 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 이 분리 원리의 핵심은 두 계층이 <strong>느슨한 결합(Loosely Coupled)</strong>을 유지하는 것이다. 코어는 10년에 한 번 업그레이드하더라도, 주변의 마케팅 위성 앱은 매년 트렌드에 맞는 새로운 SaaS로 갈아 끼운다. 앱을 교체할 때는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연결 선만 코어에서 뽑았다가 새 앱에 꽂으면 되므로 회사 전체의 메인 시스템을 다운시킬 필요가 없다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          포스트 모던 ERP의 하이브리드 결합 구조 시각화           │
-├──────────────────────────────────────────────────────────────┤
-│               [ 전문 SaaS (Best of Breed) ]                  │
-│       [Salesforce]       [Workday]        [HubSpot]          │
-│          (영업/CRM)        (인사/HR)        (마케팅)           │
-│              │                 │                │            │
-│  ============▼=================▼================▼=========== │
-│                [ 통합 레이어 (API / iPaaS) ]                  │
-│  ==============================┬============================= │
-│                                │                             │
-│                  ┌─────────────┴────────────┐              │
-│                  │   [ 메인 코어 ERP (안정성) ]   │              │
-│                  │      (재무 / 회계 / 생산)      │              │
-│                  └──────────────────────────┘              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          포스트 모던 ERP의 하이브리드 결합 구조 시각화           |
++--------------------------------------------------------------+
+|               [ 전문 SaaS (Best of Breed) ]                  |
+|       [Salesforce]       [Workday]        [HubSpot]          |
+|          (영업/CRM)        (인사/HR)        (마케팅)           |
+|              |                 |                |            |
+|  ============v=================v================v=========== |
+|                [ 통합 레이어 (API / iPaaS) ]                  |
+|  ==============================+============================= |
+|                                |                             |
+|                  +-------------+------------+              |
+|                  |   [ 메인 코어 ERP (안정성) ]   |              |
+|                  |      (재무 / 회계 / 생산)      |              |
+|                  +--------------------------+              |
++--------------------------------------------------------------+
 ```
 이 그림은 중앙의 코어 ERP가 모든 것을 독점하지 않고, 통합 레이어를 통해 외부의 강력한 전문 무기([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))들과 유연하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 아키텍처를 보여준다.
 
@@ -115,17 +115,17 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 ```text
 MRP / MRP Ⅱ (자재 및 생산 자원 관리)
-    │
-    ▼
+    |
+    v
 모놀리식 ERP (전사 통합, 단일 벤더 종속, 무거움)
-    │
-    ▼
+    |
+    v
 섀도우 IT 발생 및 클라우드(SaaS) 전문 도구의 부상
-    │
-    ▼
+    |
+    v
 포스트 모던 ERP (Postmodern ERP) · 코어와 위성의 분리 및 조립
-    │
-    ▼
+    |
+    v
 지능형/컴포저블 ERP (AI가 최적의 앱 연계와 프로세스를 자동 제안)
 ```
 
@@ -143,7 +143,7 @@ MRP / MRP Ⅱ (자재 및 생산 자원 관리)
 
 **진행 상황**: 89 / 482
 
-← **이전**: [88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/088_cloud_saas_erp_2_tier_architecture/)
-**다음**: [90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/090_intelligent_erp_ai_machine_learning/) →
+<- **이전**: [88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/088_cloud_saas_erp_2_tier_architecture/)
+**다음**: [90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/090_intelligent_erp_ai_machine_learning/) ->
 
 ---

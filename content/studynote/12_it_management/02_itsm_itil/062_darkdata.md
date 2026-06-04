@@ -31,10 +31,10 @@ tags = ["studynote-it-management"]
 
 ```text
 Dark Data
-├─ Technical Dark Data
-├─ Organizational Dark Data
-├─ Regulatory Dark Data
-└─ Temporary Dark Data
++- Technical Dark Data
++- Organizational Dark Data
++- Regulatory Dark Data
++- Temporary Dark Data
 ```
 
 | 유형 | 특징 | 예시 | 처리 방향 |
@@ -71,13 +71,13 @@ Dark Data
 
 ```text
 자산 인벤토리
-  ↓
+  v
 접근 빈도·최종 수정일 확인
-  ↓
+  v
 민감도·보존기한 판단
-  ↓
+  v
 활용 / 보존 / 삭제 / 익명화
-  ↓
+  v
 주기적 재평가
 ```
 
@@ -116,13 +116,13 @@ Dark Data
 
 ```text
 데이터 수집
-  ↓
+  v
 미사용 데이터
-  ↓
+  v
 다크 데이터
-  ↓
+  v
 분류 · 보존 · 삭제
-  ↓
+  v
 데이터 거버넌스
 ```
 
@@ -132,13 +132,13 @@ Dark Data
 
 ```text
 로그/백업/이메일
-  ↓
+  v
 방치된 저장소
-  ↓
+  v
 다크 데이터 탐지
-  ↓
+  v
 정책 기반 분류
-  ↓
+  v
 데이터 최소화
 ```
 
@@ -156,7 +156,7 @@ Dark Data
 
 **진행 상황**: 107 / 587
 
-← **이전**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/)
-**다음**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) →
+<- **이전**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/)
+**다음**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ->
 
 ---

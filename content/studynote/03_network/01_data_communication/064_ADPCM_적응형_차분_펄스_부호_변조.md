@@ -32,15 +32,15 @@ DPCM은 차이값을 보내 효율적이지만, [신호](/knowledge-base/studyno
 
 ```text
 Input
-  ↓
+  v
 Predictor
-  ↓
+  v
 Subtractor
-  ↓
+  v
 Adaptive Quantizer
-  ↓
+  v
 Encoder
-  ↓
+  v
 Feedback + Step-size Control
 ```
 
@@ -114,11 +114,11 @@ ADPCM은 제한된 대역폭에서 음성 품질을 유지하기 위한 실용�
 
 ```text
 PCM
-  ↓
+  v
 DPCM
-  ↓
+  v
 ADPCM
-  ↓
+  v
 Adaptive Quantization
 ```
 
@@ -128,11 +128,11 @@ Adaptive Quantization
 
 ```text
 DPCM Limitations
-  ↓
+  v
 Adaptive Quantization
-  ↓
+  v
 ADPCM
-  ↓
+  v
 Speech Codec
 ```
 
@@ -150,7 +150,7 @@ ADPCM은 그때그때 보폭을 바꾸는 방법이에요.
 
 **진행 상황**: 64 / 1120
 
-← **이전**: [63. DPCM (Differential PCM) - 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/)
-**다음**: [65. 델타 변조 (DM, Delta Modulation) - 1비트 전송](/knowledge-base/studynote/03_network/01_data_communication/065_델타_변조_DM/) →
+<- **이전**: [63. DPCM (Differential PCM) - 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/)
+**다음**: [65. 델타 변조 (DM, Delta Modulation) - 1비트 전송](/knowledge-base/studynote/03_network/01_data_communication/065_델타_변조_DM/) ->
 
 ---

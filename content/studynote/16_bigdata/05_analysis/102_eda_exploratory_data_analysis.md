@@ -69,11 +69,11 @@ EDA는 분석 모델의 품질(Garbage In, Garbage Out 방지)을 결정짓는 �
 
 ```text
 [시각화 기술: Histogram, Box Plot, Scatter Matrix, Heatmap]
-    │
-    ▼
+    |
+    v
 [데이터 정제: Outlier Detection, Imputation, Scaling]
-    │
-    ▼
+    |
+    v
 [분석 기구: Correlation Analysis, Feature Importance, Anscombe's Quartet]
 ```
 
@@ -90,7 +90,7 @@ EDA는 분석 모델의 품질(Garbage In, Garbage Out 방지)을 결정짓는 �
 
 **진행 상황**: 102 / 262
 
-← **이전**: [추론 통계 (Inferential Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/101_inferential_statistics/)
-**다음**: [회귀 분석 (Regression Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/103_regression_analysis/) →
+<- **이전**: [추론 통계 (Inferential Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/101_inferential_statistics/)
+**다음**: [회귀 분석 (Regression Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/103_regression_analysis/) ->
 
 ---

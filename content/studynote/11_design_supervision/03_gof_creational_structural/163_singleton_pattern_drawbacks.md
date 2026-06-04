@@ -36,18 +36,18 @@ tags = ["studynote-design-supervision"]
 아래 그림은 같은 단일 인스턴스 요구가 전혀 다른 결합 구조를 만들 수 있음을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           전통 Singleton vs DI 컨테이너 관리형 Singleton            │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 전통 Singleton                │ DI + IoC 컨테이너                   │
-│                               │                                      │
-│ ServiceA ── getInstance() ─┐  │ Container ── 생성/보관 ── SharedObj │
-│ ServiceB ── getInstance() ─┼─▶│    │                    ┌───────────┐ │
-│ ServiceC ── getInstance() ─┘  │    ├─ inject ────────▶ │ ServiceA   │ │
-│                               │    ├─ inject ────────▶ │ ServiceB   │ │
-│ 숨겨진 직접 의존              │    └─ inject ────────▶ │ ServiceC   │ │
-│ 전역 상태 변경 파급           │       의존성 명시      └───────────┘ │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           전통 Singleton vs DI 컨테이너 관리형 Singleton            |
++-------------------------------+--------------------------------------+
+| 전통 Singleton                | DI + IoC 컨테이너                   |
+|                               |                                      |
+| ServiceA -- getInstance() -+  | Container -- 생성/보관 -- SharedObj |
+| ServiceB -- getInstance() -+-->|    |                    +-----------+ |
+| ServiceC -- getInstance() -+  |    +- inject ---------> | ServiceA   | |
+|                               |    +- inject ---------> | ServiceB   | |
+| 숨겨진 직접 의존              |    +- inject ---------> | ServiceC   | |
+| 전역 상태 변경 파급           |       의존성 명시      +-----------+ |
++-------------------------------+--------------------------------------+
 ```
 
 | 단점 | 왜 발생하는가 | 실제 문제 |
@@ -133,20 +133,20 @@ tags = ["studynote-design-supervision"]
 
 ```text
 전역 객체 공유 요구
-    │
-    ▼
+    |
+    v
 전통 Singleton Pattern
-    │
-    ├─ 장점: 단일 인스턴스 보장
-    └─ 한계: 전역 상태 · 숨겨진 결합 · 테스트 어려움
-    │
-    ▼
+    |
+    +- 장점: 단일 인스턴스 보장
+    +- 한계: 전역 상태 · 숨겨진 결합 · 테스트 어려움
+    |
+    v
 DI (Dependency Injection) · IoC 컨테이너
-    │
-    ▼
+    |
+    v
 컨테이너 관리형 Singleton 스코프
-    │
-    ▼
+    |
+    v
 명시적 의존성 · 테스트 가능 설계 · 유연한 스코프 관리
 ```
 
@@ -164,7 +164,7 @@ DI (Dependency Injection) · IoC 컨테이너
 
 **진행 상황**: 219 / 530
 
-← **이전**: [162. 갓 클래스/블랍 (God Class / Blob)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/162_god_class_blob/)
-**다음**: [164. 어댑터 vs 퍼사드 (Adapter vs Facade)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/164_adapter_vs_facade/) →
+<- **이전**: [162. 갓 클래스/블랍 (God Class / Blob)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/162_god_class_blob/)
+**다음**: [164. 어댑터 vs 퍼사드 (Adapter vs Facade)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/164_adapter_vs_facade/) ->
 
 ---

@@ -30,7 +30,7 @@ tags = ["database"]
 
 ```text
 Parent Table (PK)
-  ↑ referenced by
+  ^ referenced by
 Child Table (FK)
 ```
 
@@ -101,9 +101,9 @@ Child Table (FK)
 
 ```text
 Primary Key
-  ↓ referenced by
+  v referenced by
 Foreign Key
-  ↓
+  v
 Join / Integrity
 ```
 
@@ -113,9 +113,9 @@ Join / Integrity
 
 ```text
 Referential Integrity
-  ↓
+  v
 Foreign Key
-  ↓
+  v
 Relational Model
 ```
 
@@ -133,7 +133,7 @@ Relational Model
 
 **진행 상황**: 72 / 600
 
-← **이전**: [71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키](/knowledge-base/studynote/05_database/02_modeling_normalization/071_alternate_key/)
-**다음**: [73. 무결성 제약조건 (Integrity Constraints)](/knowledge-base/studynote/05_database/02_modeling_normalization/073_integrity_constraints_overview/) →
+<- **이전**: [71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키](/knowledge-base/studynote/05_database/02_modeling_normalization/071_alternate_key/)
+**다음**: [73. 무결성 제약조건 (Integrity Constraints)](/knowledge-base/studynote/05_database/02_modeling_normalization/073_integrity_constraints_overview/) ->
 
 ---

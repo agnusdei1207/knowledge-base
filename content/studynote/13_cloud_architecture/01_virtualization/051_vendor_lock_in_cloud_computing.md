@@ -66,17 +66,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 단일 클라우드 의존 (Vendor Lock-in)
-    │
-    ▼
+    |
+    v
 종속 요인: 기술 API · 데이터 그래비티 · 인력 스킬
-    │
-    ▼
+    |
+    v
 탈출 전략
-    ├─► 컨테이너 + K8s: 이식성 확보
-    ├─► 오픈소스 고집: Kafka · PostgreSQL · Terraform
-    └─► 멀티 클라우드: 워크로드 분산 배치
-    │
-    ▼
+    +-► 컨테이너 + K8s: 이식성 확보
+    +-► 오픈소스 고집: Kafka · PostgreSQL · Terraform
+    +-► 멀티 클라우드: 워크로드 분산 배치
+    |
+    v
 Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환
 ```
 
@@ -86,7 +86,7 @@ Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환
 
 **진행 상황**: 50 / 371
 
-← **이전**: [데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/050_data_gravity_cloud_lock_in/)
-**다음**: [52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/052_kubernetes_cluster_architecture/) →
+<- **이전**: [데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/050_data_gravity_cloud_lock_in/)
+**다음**: [52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/052_kubernetes_cluster_architecture/) ->
 
 ---

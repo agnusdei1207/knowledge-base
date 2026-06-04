@@ -26,18 +26,18 @@ NOR 플래시는 전원을 꺼도 내용이 유지되면서도 특정 주소를 
 즉 NOR 플래시는 "대용량 저장"이 아니라 "가장 먼저, 가장 확실하게 읽혀야 하는 코드 저장"이라는 요구에서 등장한 메모리다. 메인보드의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 칩, 자동차 제어기, 산업용 장비, 통신 장비가 NOR를 계속 쓰는 이유도 여기에 있다. 시스템 전체 용량은 작아도, 첫 1ms가 치명적으로 중요한 곳에서는 여전히 대체재가 제한적이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 왜 NOR 플래시가 필요한가: 부팅의 첫 읽기            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 전원 인가                                                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ CPU 리셋 벡터 접근                                                   │
-│    │                                                                 │
-│    ├─ DRAM: 아직 초기화 전 → 즉시 실행 불가                          │
-│    ├─ NAND Flash: 페이지/블록 중심 → 첫 바이트 직접 인출 비효율      │
-│    └─ NOR Flash: 주소 직접 지정 가능 → 부트 코드 즉시 읽기 가능      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 왜 NOR 플래시가 필요한가: 부팅의 첫 읽기            |
++----------------------------------------------------------------------+
+| 전원 인가                                                            |
+|    |                                                                 |
+|    v                                                                 |
+| CPU 리셋 벡터 접근                                                   |
+|    |                                                                 |
+|    +- DRAM: 아직 초기화 전 -> 즉시 실행 불가                          |
+|    +- NAND Flash: 페이지/블록 중심 -> 첫 바이트 직접 인출 비효율      |
+|    +- NOR Flash: 주소 직접 지정 가능 -> 부트 코드 즉시 읽기 가능      |
++----------------------------------------------------------------------+
 ```
 
 이 그림은 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 필요한 조건이 단순한 저장 용량이 아니라 "[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 없이 바로 읽을 수 있는가"임을 보여준다. NOR는 전체 시스템에서 가장 큰 메모리가 아니라, 가장 먼저 읽혀야 하는 메모리다.
@@ -53,21 +53,21 @@ NOR 플래시 셀은 부유 게이트 [트랜지스터](/knowledge-base/studynot
 NOR의 핵심은 각 셀이 비트선에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 연결된다는 점이다. 그래서 주소 디코더가 특정 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)선과 비트선을 선택하면 그 위치의 셀 상태를 상대적으로 직접 읽어 낼 수 있다. 반대로 NAND는 여러 셀이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 스트링을 이루므로, 특정 셀을 읽더라도 같은 스트링의 다른 셀 상태와 센스 증폭기 (Sense Amplifier) 동작을 함께 고려해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 NOR 어레이의 읽기 중심 연결 구조                    │
-├──────────────────────────────────────────────────────────────────────┤
-│               Bit Line 0      Bit Line 1      Bit Line 2            │
-│                  │               │               │                   │
-│ Word Line 0 ─────┼────[Cell]─────┼────[Cell]─────┼────[Cell]         │
-│                  │               │               │                   │
-│ Word Line 1 ─────┼────[Cell]─────┼────[Cell]─────┼────[Cell]         │
-│                  │               │               │                   │
-│ Word Line 2 ─────┼────[Cell]─────┼────[Cell]─────┼────[Cell]         │
-│                  │               │               │                   │
-│              Sense Amp       Sense Amp       Sense Amp              │
-│                  │               │               │                   │
-│                I/O Bus  ───── 주소 디코더가 한 위치를 직접 선택      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 NOR 어레이의 읽기 중심 연결 구조                    |
++----------------------------------------------------------------------+
+|               Bit Line 0      Bit Line 1      Bit Line 2            |
+|                  |               |               |                   |
+| Word Line 0 -----+----[Cell]-----+----[Cell]-----+----[Cell]         |
+|                  |               |               |                   |
+| Word Line 1 -----+----[Cell]-----+----[Cell]-----+----[Cell]         |
+|                  |               |               |                   |
+| Word Line 2 -----+----[Cell]-----+----[Cell]-----+----[Cell]         |
+|                  |               |               |                   |
+|              Sense Amp       Sense Amp       Sense Amp              |
+|                  |               |               |                   |
+|                I/O Bus  ----- 주소 디코더가 한 위치를 직접 선택      |
++----------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 NOR는 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 ns (nanosecond) 단위로 줄이기 쉽고, 코드 페치 패턴에 유리하다. 대신 셀마다 개별 접속 경로를 충분히 제공해야 하므로 면적 효율이 나쁘고 같은 다이 면적에서 저장 용량을 크게 늘리기 어렵다. 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 배선을 아낌없이 쓰는 구조라고 이해하면 된다.
@@ -152,15 +152,15 @@ NOR 플래시를 적재적소에 쓰면 시스템은 부팅 경로가 단순해�
 
 ```text
 마스크 ROM · EPROM · EEPROM
-            │
-            ▼
+            |
+            v
    NOR 플래시 (NOR Flash)
-            │
-            ├── XIP (eXecute In Place) · 부트 펌웨어
-            │
-            ├── 병렬 NOR → SPI NOR → Quad/Octal SPI NOR
-            │
-            ▼
+            |
+            +-- XIP (eXecute In Place) · 부트 펌웨어
+            |
+            +-- 병렬 NOR -> SPI NOR -> Quad/Octal SPI NOR
+            |
+            v
 보안 부트 (Secure Boot) · 듀얼 이미지 복구 · 기능 안전 펌웨어
 ```
 
@@ -178,7 +178,7 @@ NOR 플래시를 적재적소에 쓰면 시스템은 부팅 경로가 단순해�
 
 **진행 상황**: 258 / 803
 
-← **이전**: [257. NAND 플래시 (NAND Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)
-**다음**: [259. 캐시 메모리 (Cache Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) →
+<- **이전**: [257. NAND 플래시 (NAND Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)
+**다음**: [259. 캐시 메모리 (Cache Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ->
 
 ---

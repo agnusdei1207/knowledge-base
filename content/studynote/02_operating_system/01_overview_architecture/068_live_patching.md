@@ -31,11 +31,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 Kernel Bug
-  ↓
+  v
 Live Patch
-  ↓
+  v
 Redirect / Replace
-  ↓
+  v
 Patched Kernel
 ```
 
@@ -107,11 +107,11 @@ Live Patching은 [커널 취약점](/knowledge-base/studynote/09_security/04_end
 
 ```text
 Kernel
-  ↓
+  v
 Live Patching
-  ↓
+  v
 kpatch / kGraft
-  ↓
+  v
 Zero Downtime Maintenance
 ```
 
@@ -121,11 +121,11 @@ Zero Downtime Maintenance
 
 ```text
 Kernel Patch
-  ↓
+  v
 Live Patching
-  ↓
+  v
 kpatch / kGraft
-  ↓
+  v
 High Availability
 ```
 
@@ -143,7 +143,7 @@ High Availability
 
 **진행 상황**: 68 / 800
 
-← **이전**: [67. 모듈 적재 (Loadable Kernel Modules, LKM)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/)
-**다음**: [69. BPF (Berkeley Packet Filter) / eBPF (Extended BPF) - 커널 내 샌드박스 프로그램](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) →
+<- **이전**: [67. 모듈 적재 (Loadable Kernel Modules, LKM)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/)
+**다음**: [69. BPF (Berkeley Packet Filter) / eBPF (Extended BPF) - 커널 내 샌드박스 프로그램](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) ->
 
 ---

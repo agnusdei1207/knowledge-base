@@ -58,17 +58,17 @@ tags = ["studynote-devops-sre"]
 섀도우 트래픽 아키텍처:
 
   클라이언트 요청
-      │
-      ↓
-  [Proxy/Gateway] ────────────────────────────────
-      │                                          │
-      │ (동기, 사용자 응답)             (비동기, 복제)
-      ↓                                          ↓
+      |
+      v
+  [Proxy/Gateway] --------------------------------
+      |                                          |
+      | (동기, 사용자 응답)             (비동기, 복제)
+      v                                          v
   [기존 서비스 v1]                    [신규 서비스 v2]
-      │                                          │
-      │ 응답 → 사용자에게 반환          응답 수집 (로깅)
-      │                                          │
-      └──────────────────────────────────────────┘
+      |                                          |
+      | 응답 -> 사용자에게 반환          응답 수집 (로깅)
+      |                                          |
+      +------------------------------------------+
                                           비교 분석 (Shadow Comparison)
 
 구현 도구:
@@ -114,12 +114,12 @@ tags = ["studynote-devops-sre"]
 다크 런칭/섀도우 트래픽 실전 사례:
 
 1. Facebook: 뉴스피드 알고리즘 교체:
-   신규 랭킹 알고리즘 → 다크 런칭
+   신규 랭킹 알고리즘 -> 다크 런칭
    사용자는 기존 피드 보되, 신규 알고리즘 결과 내부 수집
    성능/CPU 사용량 비교 후 점진적 노출
 
 2. Netflix: 마이크로서비스 전환:
-   Monolith 서비스 → 새 마이크로서비스
+   Monolith 서비스 -> 새 마이크로서비스
    섀도우 트래픽으로 마이크로서비스 부하 검증
    완전 전환 전 레이턴시/에러율 비교
 
@@ -128,18 +128,18 @@ tags = ["studynote-devops-sre"]
    6개월간 프로덕션 트래픽 패턴 검증 후 전환
 
 4. Amazon: 추천 알고리즘 교체:
-   신규 ML 모델 → 다크 런칭
+   신규 ML 모델 -> 다크 런칭
    A/B 테스트 전 기술적 문제 사전 탐지
 
 5. 데이터베이스 마이그레이션:
-   온프레미스 DB → RDS
+   온프레미스 DB -> RDS
    읽기 쿼리를 양쪽으로 보내 결과 일치 확인
    6주 검증 후 쓰기 전환
 
 기대 효과:
   문제 조기 발견: 스테이징에서 못 잡은 트래픽 패턴 문제
   성능 검증: 실제 트래픽으로 P99 레이턴시 측정
-  신뢰도 향상: 엔지니어 확신 후 전환 → 롤백 감소
+  신뢰도 향상: 엔지니어 확신 후 전환 -> 롤백 감소
   사용자 영향 제로: 프로덕션 검증이면서 사용자 위험 없음
 ```
 
@@ -153,20 +153,20 @@ tags = ["studynote-devops-sre"]
 DevOps CD 파이프라인에서 다크 런칭:
 
 표준 파이프라인:
-  코드 커밋 → CI 빌드 → 단위 테스트 → 스테이징 배포
-  → 통합 테스트 → 프로덕션 배포
+  코드 커밋 -> CI 빌드 -> 단위 테스트 -> 스테이징 배포
+  -> 통합 테스트 -> 프로덕션 배포
 
 다크 런칭 통합:
-  ... → 프로덕션 배포 (피처 플래그 OFF)
-       → 다크 런칭 활성화 (내부 트래픽)
-       → 섀도우 트래픽 비교 분석 (1~2주)
-       → 카나리 배포 (5% 사용자)
-       → 점진적 증가 (25% → 50% → 100%)
+  ... -> 프로덕션 배포 (피처 플래그 OFF)
+       -> 다크 런칭 활성화 (내부 트래픽)
+       -> 섀도우 트래픽 비교 분석 (1~2주)
+       -> 카나리 배포 (5% 사용자)
+       -> 점진적 증가 (25% -> 50% -> 100%)
 
 자동화 판단 기준:
-  에러율 < 0.1% → 다음 단계 진행
-  P99 레이턴시 < 기준값 + 20% → 통과
-  Shadow 응답 불일치 < 5% → 통과
+  에러율 < 0.1% -> 다음 단계 진행
+  P99 레이턴시 < 기준값 + 20% -> 통과
+  Shadow 응답 불일치 < 5% -> 통과
   자동 롤백 트리거: 에러율 > 1% 또는 레이턴시 3배 이상
 
 Diffy (Twitter): 오픈소스 섀도우 비교 도구
@@ -175,19 +175,19 @@ Diffy (Twitter): 오픈소스 섀도우 비교 도구
   실제 로직 차이만 리포트
 
 LaunchDarkly 통합:
-  피처 플래그 → 다크 런칭 제어
+  피처 플래그 -> 다크 런칭 제어
   특정 조건 (내부 IP, 알파 테스터) 자동 활성화
   트래픽 % 제어 (shadow %, canary %)
 ```
 
-> 📢 **섹션 요약 비유**: 다크 런칭 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 비행기 시험 비행 순서 — 격납고 점검([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) → 활주로 주행(스테이징) → 저고도 비행(다크 런칭) → 정식 운항(100% 배포).
+> 📢 **섹션 요약 비유**: 다크 런칭 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 비행기 시험 비행 순서 — 격납고 점검([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) -> 활주로 주행(스테이징) -> 저고도 비행(다크 런칭) -> 정식 운항(100% 배포).
 
 ---
 
 ## Ⅴ. 실무 시나리오 — 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션
 
 ```
-결제 API v1 → v2 섀도우 트래픽 마이그레이션:
+결제 API v1 -> v2 섀도우 트래픽 마이그레이션:
 
 배경:
   결제 서비스 v1: Java Monolith
@@ -201,12 +201,12 @@ LaunchDarkly 통합:
   이유: POST 복제 시 이중 결제 발생 가능
 
 Envoy 설정:
-  GET /payments → v1 + v2 (100% mirror)
-  POST /payments → v1만 (mirror 없음)
+  GET /payments -> v1 + v2 (100% mirror)
+  POST /payments -> v1만 (mirror 없음)
 
 비교 지표 모니터링 (4주):
-  Week 1: GET 기본 조회 일치율 → 99.2% (우수)
-  Week 2: 복잡한 할부 조회 일치율 → 87% (문제 발견!)
+  Week 1: GET 기본 조회 일치율 -> 99.2% (우수)
+  Week 2: 복잡한 할부 조회 일치율 -> 87% (문제 발견!)
 
   발견된 버그:
     할부 수수료 계산 공식 차이
@@ -214,7 +214,7 @@ Envoy 설정:
     v2: 복리 계산 오류
 
   수정 후 Week 3: 일치율 99.8%
-  Week 4: 전체 지표 만족 → 카나리 배포 시작
+  Week 4: 전체 지표 만족 -> 카나리 배포 시작
 
 결과:
   섀도우 기간: 4주
@@ -294,7 +294,7 @@ Istio, Envoy: 선언적 트래픽 미러링
 
 **진행 상황**: 43 / 373
 
-← **이전**: [042. A/B 테스팅 가설 검증](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/042_ab_testing_hypothesis_validation/)
-**다음**: [044. TDD & BDD — 테스트 주도 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/044_tdd_bdd_test_driven_behavior_driven_development/) →
+<- **이전**: [042. A/B 테스팅 가설 검증](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/042_ab_testing_hypothesis_validation/)
+**다음**: [044. TDD & BDD — 테스트 주도 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/044_tdd_bdd_test_driven_behavior_driven_development/) ->
 
 ---

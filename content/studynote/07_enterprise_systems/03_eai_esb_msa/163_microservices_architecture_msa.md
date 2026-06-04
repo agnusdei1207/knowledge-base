@@ -44,20 +44,20 @@ MSA의 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_
 아래 그림은 MSA의 대표적인 구성 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      MSA의 기본 서비스 구성도                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                              │
-│   │                                                                  │
-│   ▼                                                                  │
-│ API Gateway                                                          │
-│   ├─ Order Service   ── Order DB                                     │
-│   ├─ Payment Service ── Payment DB                                   │
-│   ├─ Delivery Service ── Delivery DB                                 │
-│   └─ User Service    ── User DB                                      │
-│                                                                      │
-│ Services communicate via REST / gRPC / Event Bus                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                      MSA의 기본 서비스 구성도                       |
++----------------------------------------------------------------------+
+| Client                                                              |
+|   |                                                                  |
+|   v                                                                  |
+| API Gateway                                                          |
+|   +- Order Service   -- Order DB                                     |
+|   +- Payment Service -- Payment DB                                   |
+|   +- Delivery Service -- Delivery DB                                 |
+|   +- User Service    -- User DB                                      |
+|                                                                      |
+| Services communicate via REST / gRPC / Event Bus                    |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 원리는 두 가지다. 첫째, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단순히 코드를 나눈 것이 아니라 <strong>배포와 장애의 경계를 나눈 것</strong>이어야 한다. 둘째, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공유하면 결국 배포와 변경 영향도가 다시 엮이므로, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유"가 매우 중요하다. 그래서 MSA는 아키텍처와 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계, 팀 구조, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인까지 함께 바꾸는 전환이다.
@@ -137,19 +137,19 @@ MSA가 제대로 정착되면 기능별 독립 배포, 빠른 릴리스, 선택�
 
 ```text
 모놀리식 아키텍처
-    │
-    ▼
+    |
+    v
 서비스 분해 요구 증가
-    │
-    ▼
+    |
+    v
 MSA (독립 배포 · 독립 데이터)
-    │
-    ├─ API Gateway · Service Discovery
-    ├─ Event-Driven Architecture
-    └─ Saga · Observability · Platform Engineering
+    |
+    +- API Gateway · Service Discovery
+    +- Event-Driven Architecture
+    +- Saga · Observability · Platform Engineering
 ```
 
-이 흐름은 "거대 단일 시스템 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 → 운영 자동화와 관측성 강화"로 이어지는 MSA의 확장 방향을 보여준다.
+이 흐름은 "거대 단일 시스템 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 -> 운영 자동화와 관측성 강화"로 이어지는 MSA의 확장 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ MSA (독립 배포 · 독립 데이터)
 
 **진행 상황**: 163 / 482
 
-← **이전**: [162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)
-**다음**: [164. 모놀리식 아키텍처 (Monolithic Architecture) - 프론트, 비즈니스 로직, DB 접근이 한 코드베이스와 단일](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/164_monolithic_architecture/) →
+<- **이전**: [162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)
+**다음**: [164. 모놀리식 아키텍처 (Monolithic Architecture) - 프론트, 비즈니스 로직, DB 접근이 한 코드베이스와 단일](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/164_monolithic_architecture/) ->
 
 ---

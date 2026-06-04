@@ -46,22 +46,22 @@ PAC [비트](/knowledge-base/studynote/01_computer_architecture/02_data_represen
 아래 그림은 PACMAN이 fault를 직접 내지 않고 "캐시 흔적"으로 정답을 묻는 방식을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PACMAN speculative PAC oracle                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ attacker-controlled pointer + guessed PAC                         │
-│                  │                                                 │
-│                  ▼                                                 │
-│             AUT* verification                                      │
-│                  │                                                 │
-│       transient window before architectural trap                   │
-│          │                                  │                      │
-│          ├─ correct guess ─▶ cache line touched                    │
-│          └─ wrong guess   ─▶ no useful cache effect                │
-│                  │                                                 │
-│                  ▼                                                 │
-│        timing probe reveals whether guess was accepted            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| PACMAN speculative PAC oracle                                     |
++--------------------------------------------------------------------+
+| attacker-controlled pointer + guessed PAC                         |
+|                  |                                                 |
+|                  v                                                 |
+|             AUT* verification                                      |
+|                  |                                                 |
+|       transient window before architectural trap                   |
+|          |                                  |                      |
+|          +- correct guess --> cache line touched                    |
+|          +- wrong guess   --> no useful cache effect                |
+|                  |                                                 |
+|                  v                                                 |
+|        timing probe reveals whether guess was accepted            |
++--------------------------------------------------------------------+
 ```
 
 즉 PACMAN은 "틀리면 즉시 크래시"라는 PAC의 장점을 "틀려도 조용히 흔적만 남기고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"으로 뒤집는다. 다만 여기서 얻는 것은 PAC 자체의 유효 여부이지, 임의의 코드 실행이 자동으로 따라오는 것은 아니다. 실제 악용에는 여전히 포인터를 원하는 위치에 배치하는 메모리 손상, 쓸 만한 gadget, 적절한 권한 경계가 함께 필요하다.
@@ -134,17 +134,17 @@ PACMAN을 계기로 얻는 실무적 효과는 제어 흐름 [보호](/knowledge
 
 ```text
 메모리 손상 취약점
-        │
-        ▼
+        |
+        v
 PAC (Pointer Authentication Code)
-        │
-        ▼
+        |
+        v
 PACMAN speculative PAC oracle
-        │
-        ▼
+        |
+        v
 PAC 우회 가능성 + control-flow hijack 발판
-        │
-        ▼
+        |
+        v
 PAC + BTI + MTE + speculation barrier
 ```
 
@@ -162,7 +162,7 @@ PAC + BTI + MTE + speculation barrier
 
 **진행 상황**: 771 / 803
 
-← **이전**: [769. 플런더버그 (Plundervolt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/769_plundervolt/)
-**다음**: [771. 볼티지 글리칭 (Voltage Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/771_voltage_glitching/) →
+<- **이전**: [769. 플런더버그 (Plundervolt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/769_plundervolt/)
+**다음**: [771. 볼티지 글리칭 (Voltage Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/771_voltage_glitching/) ->
 
 ---

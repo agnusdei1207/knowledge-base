@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [무손실 이더넷]
-    │
-    ▼
+    |
+    v
 [DPDK 패킷 바이패스]
-    │
-    └──▶ [스마트NIC 가속 오프로딩 시스템]
+    |
+    +---> [스마트NIC 가속 오프로딩 시스템]
 ```
 
 - **📢 섹션 요약 비유**: [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [무손실 이더넷]
-    │
-    ▼
+    |
+    v
 [DPDK 패킷 바이패스]
-    │
-    └──▶ [스마트NIC 가속 오프로딩 시스템]
+    |
+    +---> [스마트NIC 가속 오프로딩 시스템]
 ```
 
 - **📢 섹션 요약 비유**: [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 무손실 이더넷]
-    │
-    ▼
+    |
+    v
 [현재 개념: DPDK 패킷 바이패스]
-    │
-    ├──▶ [확장 A: 스마트NIC 가속 오프로딩 시스템]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 스마트NIC 가속 오프로딩 시스템]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 222 / 1120
 
-← **이전**: [1110. 무손실 이더넷 (PFC 체제)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1110_lossless_ethernet_pfc_priority_flow_control/)
-**다음**: [1112. 스마트NIC 가속 오프로딩 시스템](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/) →
+<- **이전**: [1110. 무손실 이더넷 (PFC 체제)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1110_lossless_ethernet_pfc_priority_flow_control/)
+**다음**: [1112. 스마트NIC 가속 오프로딩 시스템](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/) ->
 
 ---

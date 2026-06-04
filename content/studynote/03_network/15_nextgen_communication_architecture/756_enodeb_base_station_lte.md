@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [HSS]
-    │
-    ▼
+    |
+    v
 [기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    └──▶ [LTE-A]
+    |
+    +---> [LTE-A]
 ```
 
 - **📢 섹션 요약 비유**: 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [HSS]
-    │
-    ▼
+    |
+    v
 [기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    └──▶ [LTE-A]
+    |
+    +---> [LTE-A]
 ```
 
 - **📢 섹션 요약 비유**: 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HSS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    ├──▶ [확장 A: LTE-A]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: LTE-A]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…는 HSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 877 / 1120
 
-← **이전**: [755. HSS (Home Subscriber Server 가입자 마스터 정보)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/)
-**다음**: [757. LTE-A (LTE-Advanced)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/) →
+<- **이전**: [755. HSS (Home Subscriber Server 가입자 마스터 정보)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/)
+**다음**: [757. LTE-A (LTE-Advanced)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/) ->
 
 ---

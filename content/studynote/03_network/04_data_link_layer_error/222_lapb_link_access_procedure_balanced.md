@@ -25,16 +25,16 @@ tags = ["studynote-network"]
 - **등장 배경 및 발전 과정**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (High-Level [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 세 가지 동작 모드([NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/), ARM, ABM)를 가졌는데, 이 중 양 노드가 동등한 지위를 가지는 ABM (Asynchronous Balanced Mode)의 장점만을 차용하여 X.25 망 전용으로 경량화/최적화한 것이 바로 LAPB이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                 X.25 스택 내 LAPB의 위치                │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [계층 3] Network Layer  : PLP (Packet Layer Protocol)  │
-  │  [계층 2] Data Link Layer: LAPB (프레임 단위 오류 제어) │ ◀─ 여기
-  │  [계층 1] Physical Layer : X.21bis, EIA-232 등          │
-  │                                                         │
-  │    DTE (사용자 단말) ◀───── LAPB ─────▶ DCE (통신망 노드)   │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |                 X.25 스택 내 LAPB의 위치                |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  [계층 3] Network Layer  : PLP (Packet Layer Protocol)  |
+  |  [계층 2] Data Link Layer: LAPB (프레임 단위 오류 제어) | <-- 여기
+  |  [계층 1] Physical Layer : X.21bis, EIA-232 등          |
+  |                                                         |
+  |    DTE (사용자 단말) <------ LAPB ------> DCE (통신망 노드)   |
+  +---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LAPB는 험난한 비포장도로(물리 계층) 위를 달리는 트럭에서 물건이 떨어지지 않았는지([오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)), 너무 많은 물건을 한 번에 던지지는 않았는지([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/))를 양쪽에서 똑같은 권한으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 양방향 품질 보증 시스템입니다.
@@ -60,21 +60,21 @@ LAPB 프레임은 HDLC와 동일한 구조를 가지지만, 오직 '평형(Balan
 LAPB는 DTE와 DCE가 모두 '복합국(Combined [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))'으로 동작한다. 즉, 명령을 내릴 수도 있고 응답을 할 수도 있다. 주소 필드는 프레임의 목적지 주소가 아니라, 이 프레임이 '명령'인지 '응답'인지 구별하는 용도로 쓰인다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │                 LAPB 주소 필드 기반 Command/Response 구분     │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │    [DTE]                                             [DCE]    │
-  │                                                               │
-  │   보내는 프레임 (Command)   ──── 주소: 0x01 ────▶               │
-  │                             ◀─── 주소: 0x01 ──── 응답 프레임  │
-  │                                                               │
-  │   응답 프레임 (Response)    ◀─── 주소: 0x03 ──── 보내는 명령  │
-  │                             ──── 주소: 0x03 ────▶             │
-  │                                                               │
-  │ * 0x01: DTE의 Command 이자 DCE의 Response 용 주소             │
-  │ * 0x03: DCE의 Command 이자 DTE의 Response 용 주소             │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |                 LAPB 주소 필드 기반 Command/Response 구분     |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |    [DTE]                                             [DCE]    |
+  |                                                               |
+  |   보내는 프레임 (Command)   ---- 주소: 0x01 ----->               |
+  |                             <---- 주소: 0x01 ---- 응답 프레임  |
+  |                                                               |
+  |   응답 프레임 (Response)    <---- 주소: 0x03 ---- 보내는 명령  |
+  |                             ---- 주소: 0x03 ----->             |
+  |                                                               |
+  | * 0x01: DTE의 Command 이자 DCE의 Response 용 주소             |
+  | * 0x03: DCE의 Command 이자 DTE의 Response 용 주소             |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** LAPB에서는 점대점 연결이므로 물리적 주소 구분이 불필요하다. 대신 Address 필드(0x01, 0x03)를 사용하여 양쪽 모두가 주도권을 가지고 통신할 때 프레임의 성격을 명확히 분리한다. 이를 통해 마스터-슬레이브 구조([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 병목을 해결했다.
@@ -149,12 +149,12 @@ LAPB [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295
 
 ```text
 [선행 개념: SDLC]
-    │
-    ▼
+    |
+    v
 [현재 개념: LAPB]
-    │
-    ├──▶ [확장 A: LAPD]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: LAPD]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 LAPB는 SDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 LAPD와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -171,7 +171,7 @@ LAPB는 SDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 LAPD
 
 **진행 상황**: 343 / 1120
 
-← **이전**: [221. SDLC (Synchronous Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/221_sdlc_ibm_synchronous_data_link_control/)
-**다음**: [223. LAPD (Link Access Procedure on the D channel)](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/) →
+<- **이전**: [221. SDLC (Synchronous Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/221_sdlc_ibm_synchronous_data_link_control/)
+**다음**: [223. LAPD (Link Access Procedure on the D channel)](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/) ->
 
 ---

@@ -28,7 +28,7 @@ tags = ["studynote-design"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-CSAT audit의 흐름은 `설문 설계 → 대상 선정 → 수집 → 분석 → remediation → 재측정`이다. 중요한 것은 감정을 점수로만 바꾸지 말고, 원인과 조치로 이어지게 만드는 일이다.
+CSAT audit의 흐름은 `설문 설계 -> 대상 선정 -> 수집 -> 분석 -> remediation -> 재측정`이다. 중요한 것은 감정을 점수로만 바꾸지 말고, 원인과 조치로 이어지게 만드는 일이다.
 
 | 단계 | 입력 | 산출물 |
 | :--- | :--- | :--- |
@@ -40,20 +40,20 @@ CSAT audit의 흐름은 `설문 설계 → 대상 선정 → 수집 → 분석 �
 
 ```text
 사용자 경험
-    │
-    ▼
+    |
+    v
 CSAT 조사
-    │
-    ▼
+    |
+    v
 RCA (Root Cause Analysis)
-    │
-    ├─ 화면 개선
-    ├─ 권한 조정
-    ├─ 속도 개선
-    └─ 교육 보완
-    │
-    ▼
-재측정 → 감리 종료
+    |
+    +- 화면 개선
+    +- 권한 조정
+    +- 속도 개선
+    +- 교육 보완
+    |
+    v
+재측정 -> 감리 종료
 ```
 
 VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))는 현장의 불만과 요구를 모으는 입력이고, CSAT는 그 만족도를 점수화한 출력이다. 두 지표를 함께 봐야 문제의 양과 질을 동시에 파악할 수 있다.
@@ -107,17 +107,17 @@ CSAT remediation audit는 현업 불만을 구조화하고, 개선의 우선순�
 
 ```text
 운영 이관
-    │
-    ▼
+    |
+    v
 CSAT / VOC 수집
-    │
-    ▼
+    |
+    v
 RCA (Root Cause Analysis)
-    │
-    ▼
+    |
+    v
 remediation 계획과 실행
-    │
-    ▼
+    |
+    v
 재측정 및 감리 종료
 ```
 
@@ -133,7 +133,7 @@ remediation 계획과 실행
 
 **진행 상황**: 119 / 530
 
-← **이전**: [77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_audit/)
-**다음**: [78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/) →
+<- **이전**: [77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_audit/)
+**다음**: [78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/) ->
 
 ---

@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 ```text
 [소프트웨어 위기 발생 메커니즘]
 
-하드웨어 성능 향상 ──> 사용자 요구사항의 복잡도 급증
-                           │
-       ┌───────────────────┴───────────────────┐
-       ▼                                       ▼
+하드웨어 성능 향상 --> 사용자 요구사항의 복잡도 급증
+                           |
+       +-------------------+-------------------+
+       v                                       v
 [기존 비체계적 개발 방식]               [관리 통제력 상실]
  - 주먹구구식 코딩                       - 일정 예측 불가
  - 문서화 부재                           - 비용 산정 실패
-       │                                       │
-       └───────────────────┬───────────────────┘
-                           ▼
+       |                                       |
+       +-------------------+-------------------+
+                           v
             💥 [ 소프트웨어 위기 도래 ] 💥
              (비용 초과, 일정 지연, 품질 저하)
 ```
@@ -57,12 +57,12 @@ tags = ["software_engineering"]
 ```text
 [소프트웨어 위기의 악순환 구조 (Vicious Cycle)]
 
-      ┌──> [요구사항 변경/불명확] ──┐
-      │                             ▼
+      +--> [요구사항 변경/불명확] --+
+      |                             v
 [품질 저하 (버그)]          [설계 결함 및 스파게티 코드]
-      ▲                             │
-      │                             ▼
-[일정 지연 압박] <── [재작업(Rework) 및 비용 초과]
+      ^                             |
+      |                             v
+[일정 지연 압박] <-- [재작업(Rework) 및 비용 초과]
 ```
 **[도식 설명]**
 이 흐름도는 소프트웨어 위기의 각 증상들이 어떻게 악순환의 고리를 형성하는지 보여준다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항이 불명확하여 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생하고, 이는 재작업을 유발하여 일정을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다. 일정이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 테스트 시간을 단축하게 되어 품질 저하(버그)로 이어지고, 버그를 수정하기 위해 또다시 재작업이 발생하는 치명적인 병목 사이클이다. 실무에서는 이 고리를 끊기 위해 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 '정형적 요구공학'을 도입해야 한다.
@@ -84,15 +84,15 @@ tags = ["software_engineering"]
 [규모에 따른 복잡도 증가 곡선 분석]
 
 복잡도 / 비용
-   ▲
-   │                   / [비체계적 개발의 비용 지수 함수]
-   │                  /  (위기 발생 영역)
-   │                 /
-   │                /      [소프트웨어 공학 적용 시 선형 유지]
-   │               /─────────
-   │              /
-   │             /
-   └───────────────────────────────► 시스템 규모 (LOC)
+   ^
+   |                   / [비체계적 개발의 비용 지수 함수]
+   |                  /  (위기 발생 영역)
+   |                 /
+   |                /      [소프트웨어 공학 적용 시 선형 유지]
+   |               /---------
+   |              /
+   |             /
+   +-------------------------------► 시스템 규모 (LOC)
 ```
 **[도식 설명]**
 이 그래프는 시스템 규모가 커짐에 따라 비체계적 개발 방식이 어떻게 '소프트웨어 위기'를 유발하는지 정량적 한계를 보여준다. 공학적 통제가 없는 경우 코드(LOC)가 증가함에 따라 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 의존성 결합이 폭발적으로 늘어나 비용과 복잡도가 지수 함수 형태로 치솟는다. 반면, 아키텍처 원칙과 공학적 방법론을 적용하면 복잡도 증가를 어느 정도 선형적으로 통제할 수 있어 대규모 시스템에서도 유지보수성을 방어할 수 있다.
@@ -116,15 +116,15 @@ tags = ["software_engineering"]
 [실무 의사결정 트리: 소프트웨어 위기 징후 발견 시 대응]
 
 [일정 지연 및 버그 폭증 발생 (위기 징후)]
-           │
-           ▼
+           |
+           v
 [원인 분석: 인력 부족인가, 구조 문제인가?]
-           │
-    ├──────┴──────┐
+           |
+    +------+------+
 (인력 부족)    (구조 문제)
-    ▼             ▼
+    v             v
 [Brooks의 법칙 고려]  [코드 복잡도/결합도 분석]
-인력 추가 시 소통   ──> 즉각적인 리팩토링 및
+인력 추가 시 소통   --> 즉각적인 리팩토링 및
 비용 증가 경계          아키텍처 재설계 결정
 ```
 **[도식 설명]**
@@ -158,17 +158,17 @@ tags = ["software_engineering"]
 
 ```text
 [소프트웨어 공학 (Software Engineering)]
-    │
-    ▼
+    |
+    v
 [브룩스의 법칙 (Brooks's Law)]
-    │
-    ▼
+    |
+    v
 [기술 부채 (Technical Debt)]
-    │
-    ▼
+    |
+    v
 [형상 관리 (Configuration Management)]
-    │
-    ▼
+    |
+    v
 [객체 지향 및 MSA]
 ```
 
@@ -185,7 +185,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 2 / 973
 
-← **이전**: [1. 소프트웨어 공학 (Software 엔진ering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)
-**다음**: [3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) →
+<- **이전**: [1. 소프트웨어 공학 (Software 엔진ering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)
+**다음**: [3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ->
 
 ---

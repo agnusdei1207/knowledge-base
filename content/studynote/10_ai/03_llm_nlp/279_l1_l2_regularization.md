@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: L1 규제([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/), Least Absolute Shrinkage and [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 λΣ|w|, L2 규제(Ridge)는 λΣw²의 페널티를 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 추가해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 커지는 것을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하며, L1은 희소 해(Sparse Solution)를, L2는 전체 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 균형 있는 축소를 유도한다.
+> 1. **본질**: L1 규제([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/), Least Absolute Shrinkage and [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 λΣ|w|, L2 규제(Ridge)는 λΣw^의 페널티를 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 추가해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 커지는 것을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하며, L1은 희소 해(Sparse Solution)를, L2는 전체 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 균형 있는 축소를 유도한다.
 > 2. **가치**: L1은 불필요한 특성을 자동으로 제거하는 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 효과가 있고, L2는 학습을 안정화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) 효과로 딥러닝에서 널리 사용된다.
 > 3. **판단 포인트**: 기술사 시험에서 L1과 L2의 기하학적 해석(L1은 다이아몬드, L2는 원형 제약 영역), 희소 해 발생 이유, 엘라스틱넷([Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/))의 목적을 묻는 문제가 출제된다.
 
@@ -21,15 +21,15 @@ tags = ["studynote-ai"]
 
 딥러닝 모델의 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 <strong>예측 오차(Prediction Error)만 최소화</strong>하도록 설계되므로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 불필요하게 커져도 제약이 없다. 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는:
 
-- 특정 특성에 과도하게 의존 → 과적합
-- 입력의 미세한 변화에 극단적으로 반응 → 불안정
+- 특정 특성에 과도하게 의존 -> 과적합
+- 입력의 미세한 변화에 극단적으로 반응 -> 불안정
 
 L1/L2 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 크기에 비례하는 페널티(Penalty)를 추가</strong>해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작게 유지되도록 강제한다:
 
 ```
 규제된 손실 = 원래 손실 + λ · 규제항
 L1: J(w) = L(w) + λΣ|w_i|
-L2: J(w) = L(w) + λΣw_i²
+L2: J(w) = L(w) + λΣw_i^
 ```
 
 - **📢 섹션 요약 비유**: L1/L2는 학생의 짐 가방(모델)이 너무 무거워지지 않도록 "짐을 버릴수록 가산점"을 주는 제도다. L1은 작은 짐(작은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 통째로 버리게 하고, L2는 모든 짐을 골고루 조금씩 줄이게 한다.
@@ -41,21 +41,21 @@ L2: J(w) = L(w) + λΣw_i²
 ### L1 vs L2 규제 수식 비교
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│                  L1 vs L2 규제 비교                        │
-├──────────────────────────┬─────────────────────────────────┤
-│        L1 규제 (Lasso)   │       L2 규제 (Ridge)           │
-├──────────────────────────┼─────────────────────────────────┤
-│  페널티: λΣ|w_i|         │  페널티: λΣw_i²                │
-│                          │                                 │
-│  미분: λ·sign(w_i)       │  미분: 2λ·w_i                  │
-│  (부호 함수)             │  (선형 비례)                    │
-│                          │                                 │
-│  w → 0 에서 불연속       │  w → 0 에서 연속               │
-│  (Subgradient 필요)      │  (Smooth)                       │
-│                          │                                 │
-│  결과: 일부 w = 0 (희소) │  결과: 모든 w ≈ 0 (작게 축소)  │
-└──────────────────────────┴─────────────────────────────────┘
++------------------------------------------------------------+
+|                  L1 vs L2 규제 비교                        |
++--------------------------+---------------------------------+
+|        L1 규제 (Lasso)   |       L2 규제 (Ridge)           |
++--------------------------+---------------------------------+
+|  페널티: λΣ|w_i|         |  페널티: λΣw_i^                |
+|                          |                                 |
+|  미분: λ·sign(w_i)       |  미분: 2λ·w_i                  |
+|  (부호 함수)             |  (선형 비례)                    |
+|                          |                                 |
+|  w -> 0 에서 불연속       |  w -> 0 에서 연속               |
+|  (Subgradient 필요)      |  (Smooth)                       |
+|                          |                                 |
+|  결과: 일부 w = 0 (희소) |  결과: 모든 w ≈ 0 (작게 축소)  |
++--------------------------+---------------------------------+
 ```
 
 ### 기하학적 해석
@@ -64,17 +64,17 @@ L2: J(w) = L(w) + λΣw_i²
 L1 제약 (다이아몬드)           L2 제약 (원/구)
 
       w2                             w2
-       │   ●                          │     ●
-       │  /│\        손실 등고선       │    /│\
-       │ / │ \       접점에서 최솟값   │   / │ \
-     ──┼───●──┼──→ w1           ──────┼───●────┼──→ w1
-       │ \ │ /                        │   \ │ /
-       │  \│/      ◆ L1의 꼭짓점에서  │    \│/
-       │   ●       접하면 w=0 발생     │     ●
-                   → 희소 해!         반드시 꼭짓점 없음
+       |   ●                          |     ●
+       |  /|\        손실 등고선       |    /|\
+       | / | \       접점에서 최솟값   |   / | \
+     --+---●--+---> w1           ------+---●----+---> w1
+       | \ | /                        |   \ | /
+       |  \|/      ◆ L1의 꼭짓점에서  |    \|/
+       |   ●       접하면 w=0 발생     |     ●
+                   -> 희소 해!         반드시 꼭짓점 없음
 ```
 
-L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할 가능성이 높아, 해당 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 <strong>정확히 0</strong>이 된다 → 특성 선택 효과.
+L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할 가능성이 높아, 해당 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 <strong>정확히 0</strong>이 된다 -> 특성 선택 효과.
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신에서의 차이
 
@@ -91,7 +91,7 @@ L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할
 L1과 L2를 선형 결합한 규제:
 
 ```
-Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i²
+Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i^
 ```
 
 - **r (혼합 비율, Mix Ratio)**: r=1이면 L1, r=0이면 L2
@@ -107,10 +107,10 @@ Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i²
 ### λ ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도)의 역할
 
 ```
-λ = 0       →  규제 없음 (원래 손실만 최적화)
-λ = 작음    →  약한 규제 (원래 목적 + 약한 가중치 제약)
-λ = 적당    →  균형 잡힌 일반화
-λ = 큰 값   →  강한 규제 (가중치 → 0, 과소적합 위험)
+λ = 0       ->  규제 없음 (원래 손실만 최적화)
+λ = 작음    ->  약한 규제 (원래 목적 + 약한 가중치 제약)
+λ = 적당    ->  균형 잡힌 일반화
+λ = 큰 값   ->  강한 규제 (가중치 -> 0, 과소적합 위험)
 ```
 
 ### 딥러닝에서의 L2 사용 = [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))
@@ -186,7 +186,7 @@ L1/L2 규제의 적용 효과:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | L1 규제 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | λΣ / w / , 희소 해, 특성 선택 / [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값 페널티 |
-| L2 규제 (Ridge) | λΣw², [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 / [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱 페널티 |
+| L2 규제 (Ridge) | λΣw^, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 / [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱 페널티 |
 | 엘라스틱넷 ([Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/)) | L1+L2, 혼합 비율 / L1/L2 선형 결합 |
 | 희소 해 (Sparse Solution) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)=0, 특성 제거 / L1 규제의 핵심 효과 |
 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 ([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) | AdamW, L2 / L2의 딥러닝 구현 방식 |
@@ -195,7 +195,7 @@ L1/L2 규제의 적용 효과:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [L1/L2 규제 (Regularization)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [L1/L2 규제 (Regularization)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -210,7 +210,7 @@ L1/L2 규제의 적용 효과:
 
 **진행 상황**: 279 / 420
 
-← **이전**: [278. 과적합 방지 기법 (Regularization Techniques) 모음](/knowledge-base/studynote/10_ai/03_llm_nlp/278_regularization_overview/)
-**다음**: [280. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) →
+<- **이전**: [278. 과적합 방지 기법 (Regularization Techniques) 모음](/knowledge-base/studynote/10_ai/03_llm_nlp/278_regularization_overview/)
+**다음**: [280. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ->
 
 ---

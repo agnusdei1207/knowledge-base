@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [5GC]
-    │
-    ▼
+    |
+    v
 [SBA]
-    │
-    └──▶ [AMF]
+    |
+    +---> [AMF]
 ```
 
 - **📢 섹션 요약 비유**: SBA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [5GC]
-    │
-    ▼
+    |
+    v
 [SBA]
-    │
-    └──▶ [AMF]
+    |
+    +---> [AMF]
 ```
 
 - **📢 섹션 요약 비유**: 옛날 4G 구조는 회사 부서끼리 업무 연락을 할 때, 1층 영업부에서 3층 재무부 책상까지 매번 종이컵 전화기 선([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))을 수십 가닥 직접 연결해 놓고 썼던 촌스러운 아날로그 구조입니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 구조는 부서 간의 종이컵 실을 가위로 싹둑 잘라버리고, 회사 전체 '사내 슬랙(Slack/단톡방)' 하나를 판 것입니다([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)). 영업부([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/))가 단톡방에 `@재무부(HSS) 홍길동 예산 줘(REST API)`라고 카톡을 치면, 재무부가 즉각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))을 올려줍니다. 새 부서가 생겨도 단톡방에 초대(NRF 등록)만 하면 1초 만에 전사 통신이 완료되는 혁명적인 유연성입니다.
@@ -120,12 +120,12 @@ SBA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ```text
 [선행 개념: 5GC]
-    │
-    ▼
+    |
+    v
 [현재 개념: SBA]
-    │
-    ├──▶ [확장 A: AMF]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: AMF]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 SBA는 5GC에서 출발해 현재 메커니즘을 정교화하고, 이후 AMF와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ SBA는 5GC에서 출발해 현재 메커니즘을 정교화하고, 이후 AMF와
 
 **진행 상황**: 890 / 1120
 
-← **이전**: [768. 5GC (5G Core Network 차세대 코어망 SBA 아키텍처)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)
-**다음**: [770. AMF (Access and Mobility Management Function / MME 대체)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) →
+<- **이전**: [768. 5GC (5G Core Network 차세대 코어망 SBA 아키텍처)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)
+**다음**: [770. AMF (Access and Mobility Management Function / MME 대체)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) ->
 
 ---

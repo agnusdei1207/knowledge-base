@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [OPC UA]
-    │
-    ▼
+    |
+    v
 [TSN]
-    │
-    └──▶ [자율주행 차량 통신]
+    |
+    +---> [자율주행 차량 통신]
 ```
 
 - **📢 섹션 요약 비유**: TSN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [OPC UA]
-    │
-    ▼
+    |
+    v
 [TSN]
-    │
-    └──▶ [자율주행 차량 통신]
+    |
+    +---> [자율주행 차량 통신]
 ```
 
 - **📢 섹션 요약 비유**: TSN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ TSN는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ```text
 [선행 개념: OPC UA]
-    │
-    ▼
+    |
+    v
 [현재 개념: TSN]
-    │
-    ├──▶ [확장 A: 자율주행 차량 통신]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 자율주행 차량 통신]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 TSN는 OPC UA에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ TSN는 OPC UA에서 출발해 현재 메커니즘을 정교화하고, 이후 [�
 
 **진행 상황**: 753 / 1120
 
-← **이전**: [631. OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)
-**다음**: [633. 자율주행 차량 통신 (V2V, V2I 교통인프라 교환)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/) →
+<- **이전**: [631. OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)
+**다음**: [633. 자율주행 차량 통신 (V2V, V2I 교통인프라 교환)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/) ->
 
 ---

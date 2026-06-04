@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time to Recover/Repair, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)은 시스템 장애 발생부터 정상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸린 평균 시간으로, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 4대 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 "복원력([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))"을 측정하는 핵심 지표다.
-> 2. **가치**: MTTR은 단순히 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만을 의미하지 않는다. 장애 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) → 대응(Response) → 원인 파악(Diagnosis) → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체를 최적화해야 낮출 수 있다. 어느 한 단계의 병목이 전체 MTTR을 지배한다.
+> 2. **가치**: MTTR은 단순히 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만을 의미하지 않는다. 장애 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) -> 대응(Response) -> 원인 파악(Diagnosis) -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체를 최적화해야 낮출 수 있다. 어느 한 단계의 병목이 전체 MTTR을 지배한다.
 > 3. **판단 포인트**: MTTR이 낮다고 무조건 좋은 것은 아니다. 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 원인 파악을 건너뛰면 재발 빈도([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 단축)가 높아진다. 이상적인 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀은 "빠른 일시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) + 철저한 사후 분석(Post-mortem)"을 병행하여 MTTR과 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 모두 개선한다.
 
 ---
@@ -19,20 +19,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│              MTTR 4단계 파이프라인                       │
-├────────────────────────────────────────────────────────┤
-│                                                         │
-│  장애 발생 ──> [1. 탐지] ──> [2. 대응] ──> [3. 진단]     │
-│                                         ──> [4. 복구]   │
-│                                                         │
-│  MTTR = 탐지 시간 + 대응 시간 + 진단 시간 + 복구 시간    │
-│                                                         │
-│  목표: 각 단계를 자동화하여 MTTR을 시간 → 분 → 초로 단축 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|              MTTR 4단계 파이프라인                       |
++--------------------------------------------------------+
+|                                                         |
+|  장애 발생 --> [1. 탐지] --> [2. 대응] --> [3. 진단]     |
+|                                         --> [4. 복구]   |
+|                                                         |
+|  MTTR = 탐지 시간 + 대응 시간 + 진단 시간 + 복구 시간    |
+|                                                         |
+|  목표: 각 단계를 자동화하여 MTTR을 시간 -> 분 -> 초로 단축 |
++--------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: MTTR은 화재 진압 시간이다. 화재 감지기(탐지) → 소방차 출동(대응) → 불 위치 파악(진단) → 진화([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계. 어느 한 단계가 느리면 전체 피해가 커진다.
+- **📢 섹션 요약 비유**: MTTR은 화재 진압 시간이다. 화재 감지기(탐지) -> 소방차 출동(대응) -> 불 위치 파악(진단) -> 진화([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계. 어느 한 단계가 느리면 전체 피해가 커진다.
 
 ---
 
@@ -67,7 +67,7 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 측정 대상 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> Frequency</strong> | 속도 | 배포 얼마나 자주 하는가 |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/">Lead Time for Changes</a></strong> | 속도 | 코드 → 운영 환경 소요 시간 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/">Lead Time for Changes</a></strong> | 속도 | 코드 -> 운영 환경 소요 시간 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/">Change Failure Rate</a></strong> | 안정성 | 배포 후 장애 발생 비율 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | 안정성 | 장애 발생 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 소요 시간 |
 
@@ -80,8 +80,8 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 ### [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 개선 로드맵
 1. **현황 측정**: MTTD, 대응 시간, 진단 시간, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 각각 측정.
 2. <strong>병목 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 4단계 중 가장 긴 단계 파악.
-3. **자동화 우선**: 탐지→알림→런북 실행 자동화 (0단계 자동화 달성).
-4. **Post-mortem 문화**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 반드시 근본 원인 분석 → 재발 방지.
+3. **자동화 우선**: 탐지->알림->런북 실행 자동화 (0단계 자동화 달성).
+4. **Post-mortem 문화**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 반드시 근본 원인 분석 -> 재발 방지.
 
 ### 목표 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 산업 벤치마크
 - Elite 조직: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) < 1시간.
@@ -103,7 +103,7 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) for IT Operations)는 ML 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 MTTD를 초 단위로 단축하고, 자동 런북 실행으로 MTTR을 수분 이내로 낮추는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: AIOps는 자동 운전 소방차다. AI가 화재를 먼저 탐지하고 자동으로 최적 경로로 출동하여 진압한다. 사람 운전사(운영팀)보다 탐지→[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 사이클이 훨씬 빠르다.
+- **📢 섹션 요약 비유**: AIOps는 자동 운전 소방차다. AI가 화재를 먼저 탐지하고 자동으로 최적 경로로 출동하여 진압한다. 사람 운전사(운영팀)보다 탐지->[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 사이클이 훨씬 빠르다.
 
 ---
 
@@ -121,24 +121,24 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 ```text
 [수동 장애 대응 — 장시간 MTTR, 사람 의존]
-    │
-    ▼
+    |
+    v
 [모니터링 도구 — APM, ELK, Prometheus 도입]
-    │
-    ▼
+    |
+    v
 [DORA 메트릭 체계화 — MTTR 정량 측정 시작]
-    │
-    ▼
+    |
+    v
 [자동화 런북 — PagerDuty + Runbook 자동 실행]
-    │
-    ▼
+    |
+    v
 [AIOps — AI 이상 탐지 + 자동 복구 파이프라인]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. MTTR은 게임에서 다시 살아나는 데 걸리는 시간이에요! 빠를수록 좋고, 방법을 알아야 빠르게 살아날 수 있어요.
-2. 화재 탐지기 → 소방차 출동 → 불 위치 파악 → 진화처럼, 장애도 탐지→대응→진단→[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 4단계로 줄여야 해요.
+2. 화재 탐지기 -> 소방차 출동 -> 불 위치 파악 -> 진화처럼, 장애도 탐지->대응->진단->[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 4단계로 줄여야 해요.
 3. AI가 알아서 불을 탐지하고 자동으로 진압하는 세상([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))이 되면 MTTR이 몇 초로 줄어든답니다!
 
 ---
@@ -147,7 +147,7 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 **진행 상황**: 26 / 373
 
-← **이전**: [25. CFR (Change Failure Rate) — 변경 실패율](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)
-**다음**: [27. SPACE 프레임워크 — 개발자 생산성 5차원 측정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/027_space_framework/) →
+<- **이전**: [25. CFR (Change Failure Rate) — 변경 실패율](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)
+**다음**: [27. SPACE 프레임워크 — 개발자 생산성 5차원 측정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/027_space_framework/) ->
 
 ---

@@ -22,8 +22,8 @@ tags = ["studynote-it-management"]
 
 PMBOK 없이는 다음과 같은 문제가 반복된다:
 - **삼중 제약(Triple Constraint) 붕괴**: 범위·일정·비용 간 트레이드오프 관리 실패
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 관리 누락</strong>: 숨어있는 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 요구사항 미발견 → 후반부 대규모 재작업
-- **위험 무관리**: 사전 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 없이 위험이 현실화 → 일정·비용 초과
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 관리 누락</strong>: 숨어있는 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 요구사항 미발견 -> 후반부 대규모 재작업
+- **위험 무관리**: 사전 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 없이 위험이 현실화 -> 일정·비용 초과
 
 - **📢 섹션 요약 비유**: PMBOK은 **'건물을 짓기 위한 공사 표준 매뉴얼'** 과 같습니다. 착공 전 설계(계획), 공사 중 품질 검사(실행·통제), 준공 검사(종료)의 각 단계에서 무엇을 해야 하는지를 체계적으로 정리한 건설 표준서입니다.
 
@@ -37,7 +37,7 @@ PMBOK 없이는 다음과 같은 문제가 반복된다:
 PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 
                   착수  계획  실행  감시·통제  종료
-                  ────  ────  ────  ──────────  ────
+                  ----  ----  ----  ----------  ----
 1. 통합관리       ●     ●     ●        ●         ●
 2. 범위관리             ●              ●
 3. 일정관리             ●              ●
@@ -54,7 +54,7 @@ PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 
 | 지식 영역 | 핵심 활동 | 핵심 산출물 |
 |:---|:---|:---|
-| **1. 통합관리** | [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) → 계획 통합 → 변경 통제 | [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), 프로젝트 관리 계획서 |
+| **1. 통합관리** | [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) -> 계획 통합 -> 변경 통제 | [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), 프로젝트 관리 계획서 |
 | **2. 범위관리** | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 작성, 범위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·통제 | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) |
 | **3. 일정관리** | 활동 정의, [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 경로 분석, 일정 통제 | 프로젝트 일정, 네트워크 다이어그램 |
 | **4. 원가관리** | 예산 산정, 획득가치([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)) 분석 | 비용 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 보고서 |
@@ -69,16 +69,16 @@ PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 
 ```text
 EVM 핵심 지표
-  ┌──────────────────────────────────────────────────────────┐
-  │  PV (Planned Value)   : 계획된 작업의 계획 비용           │
-  │  EV (Earned Value)    : 완료된 작업의 계획 비용           │
-  │  AC (Actual Cost)     : 완료된 작업의 실제 비용           │
-  │                                                          │
-  │  SV (Schedule Variance) = EV - PV  (일정 편차)           │
-  │  CV (Cost Variance)     = EV - AC  (원가 편차)           │
-  │  SPI (일정 성과지수)    = EV / PV  (1.0 이상: 일정 앞섬) │
-  │  CPI (원가 성과지수)    = EV / AC  (1.0 이상: 예산 절약)  │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |  PV (Planned Value)   : 계획된 작업의 계획 비용           |
+  |  EV (Earned Value)    : 완료된 작업의 계획 비용           |
+  |  AC (Actual Cost)     : 완료된 작업의 실제 비용           |
+  |                                                          |
+  |  SV (Schedule Variance) = EV - PV  (일정 편차)           |
+  |  CV (Cost Variance)     = EV - AC  (원가 편차)           |
+  |  SPI (일정 성과지수)    = EV / PV  (1.0 이상: 일정 앞섬) |
+  |  CPI (원가 성과지수)    = EV / AC  (1.0 이상: 예산 절약)  |
+  +----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: EVM은 **'택배 배송 진행률 트래커'** 와 같습니다. "오늘까지 전체 택배의 60%([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))를 보내야 했는데, 실제로 50%([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))만 보냈고, 그 50% 보내는 데 예상보다 돈이 20% 더 들었다([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))"면, 일정도 늦고 비용도 초과된 상황입니다.
@@ -128,7 +128,7 @@ EVM 핵심 지표
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-<strong>골드 플레이팅(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/">Gold Plating</a>)</strong>: 고객이 요청하지 않은 추가 기능을 선의로 추가하는 행위. 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 초과하므로 PMBOK에서 엄격히 금지한다. 모든 변경은 공식 변경 요청(Change Request) → [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 승인 절차를 거쳐야 한다.
+<strong>골드 플레이팅(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/">Gold Plating</a>)</strong>: 고객이 요청하지 않은 추가 기능을 선의로 추가하는 행위. 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 초과하므로 PMBOK에서 엄격히 금지한다. 모든 변경은 공식 변경 요청(Change Request) -> [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 승인 절차를 거쳐야 한다.
 
 - **📢 섹션 요약 비유**: 골드 플레이팅은 **'피자 배달 주문에 서비스라며 파스타를 추가로 가져가는 것'** 과 같습니다. 고객이 원치 않을 수도 있고, 배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(일정 초과)과 재료 비용 증가(원가 초과)를 유발합니다.
 
@@ -162,23 +162,23 @@ PMBOK은 "프로젝트를 통제하는 도구"가 아니라, **"프로젝트를 
 
 ```text
 프로젝트 관리 방법론 필요성 (방산·우주 프로젝트)
-    │
-    ▼
+    |
+    v
 PMI PMBOK 초판 (1996)
-    │
-    ▼
+    |
+    v
 PMBOK 6판 — 49개 프로세스, 10대 지식 영역
-    │
-    ├─► WBS / CPM / EVM — 일정·비용 통제 도구
-    ├─► 위험 관리 (정성·정량 분석)
-    │
-    ▼
+    |
+    +-► WBS / CPM / EVM — 일정·비용 통제 도구
+    +-► 위험 관리 (정성·정량 분석)
+    |
+    v
 PMBOK 7판 (2021) — 12원칙 + 8성과 영역 (가치 중심)
-    │
-    ▼
+    |
+    v
 하이브리드 PM (예측 + 애자일 통합)
-    │
-    ▼
+    |
+    v
 AI 기반 프로젝트 예측·자동화
 ```
 
@@ -194,7 +194,7 @@ AI 기반 프로젝트 예측·자동화
 
 **진행 상황**: 261 / 587
 
-← **이전**: [146. COCOMO 모델 종류](/knowledge-base/studynote/12_it_management/04_sdlc_testing/146_cocomo_types/)
-**다음**: [148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/148_pmbok_10_knowledge_areas_overview/) →
+<- **이전**: [146. COCOMO 모델 종류](/knowledge-base/studynote/12_it_management/04_sdlc_testing/146_cocomo_types/)
+**다음**: [148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/148_pmbok_10_knowledge_areas_overview/) ->
 
 ---

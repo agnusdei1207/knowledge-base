@@ -24,17 +24,17 @@ tags = ["studynote-it-management"]
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
 ```text
-┌────────────────────┐
-│ Business Need      │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ MVP                │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ Value / Control    │
-└────────────────────┘
++--------------------+
+| Business Need      |
++---------+----------+
+          v
++--------------------+
+| MVP                |
++---------+----------+
+          v
++--------------------+
+| Value / Control    |
++--------------------+
 ```
 
 이 흐름은 '[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
@@ -55,11 +55,11 @@ MVP의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | 개선 | 리뷰와 CSI로 다음 운영 기준을 조정한다. | 닫힌 루프가 없으면 반복 장애가 남는다. |
 
 ```text
-┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
-│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
-└────┬─────┘           └────┬───────┘           └────┬───────┘
-     │                      │                          │
-     └──── constraints ────▶│◀──── metrics / review ──┘
++----------+   input    +------------+   output   +------------+
+| Trigger  +----------->| Core Rule  +----------->| Decision   |
++----+-----+           +----+-------+           +----+-------+
+     |                      |                          |
+     +---- constraints ----->|<----- metrics / review --+
 ```
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
@@ -127,12 +127,12 @@ MVP의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 
 ```text
 [7S 모델]
-    │
-    ▼
+    |
+    v
 [MVP]
-    │
-    ├──▶ [SLA]
-    └──▶ [자동화 운영]
+    |
+    +---> [SLA]
+    +---> [자동화 운영]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
@@ -148,7 +148,7 @@ MVP의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 
 **진행 상황**: 64 / 587
 
-← **이전**: [036. MVP — 최소 기능 제품 (Minimum Viable Product)](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)
-**다음**: [037. 양손잡이 조직 (Ambidextrous Organization)](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/) →
+<- **이전**: [036. MVP — 최소 기능 제품 (Minimum Viable Product)](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)
+**다음**: [037. 양손잡이 조직 (Ambidextrous Organization)](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/) ->
 
 ---

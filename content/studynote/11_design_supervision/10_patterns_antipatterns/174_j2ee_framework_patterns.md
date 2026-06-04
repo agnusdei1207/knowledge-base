@@ -24,15 +24,15 @@ J2EE 패턴은 단순 객체 설계 기법이 아니라, 엔터프라이즈 웹 
 이 패턴들이 중요했던 이유는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 때문이다. 네트워크 왕복이 비싼 시대에는 자잘한 원격 호출이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하였고, JNDI lookup 같은 인프라 의존 코드가 프레젠테이션 계층까지 침투하면 테스트와 교체가 어려웠다. 결국 J2EE 패턴은 "어떤 클래스가 예쁜가"보다 <strong>어떤 책임을 어느 계층 경계에 둬야 시스템이 견딜 수 있는가</strong>를 다뤘다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Enterprise pain points that created J2EE patterns                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Web tier       : duplicated request handling, auth, navigation       │
-│ Business tier  : chatty remote calls, unclear transaction boundary   │
-│ Integration    : SQL / JNDI / legacy access mixed into service code  │
-│                                                                      │
-│ Pattern goal   : split entry, orchestration, transfer, persistence   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Enterprise pain points that created J2EE patterns                    |
++----------------------------------------------------------------------+
+| Web tier       : duplicated request handling, auth, navigation       |
+| Business tier  : chatty remote calls, unclear transaction boundary   |
+| Integration    : SQL / JNDI / legacy access mixed into service code  |
+|                                                                      |
+| Pattern goal   : split entry, orchestration, transfer, persistence   |
++----------------------------------------------------------------------+
 ```
 
 현재는 Jakarta EE라는 이름이 더 공식적이지만, 설계 패턴 명칭과 사고방식은 여전히 J2EE 패턴으로 널리 통한다. 즉 이 주제는 특정 프레임워크 버전보다 <strong>엔터프라이즈 계층 설계의 공통 문법</strong>으로 기억하는 것이 맞다.
@@ -46,22 +46,22 @@ J2EE 패턴은 단순 객체 설계 기법이 아니라, 엔터프라이즈 웹 
 J2EE 패턴의 핵심 원리는 네 가지다. 첫째, **단일 진입점**: 모든 웹 요청을 공통 지점에서 받아 공통 처리를 집중한다. 둘째, **원격 호출 축소**: 여러 번 왕복할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DTO와 Facade로 묶는다. 셋째, **인프라 의존성 격리**: JNDI lookup, SQL (Structured Query Language), 메시징 같은 기술 세부사항을 상위 계층에서 숨긴다. 넷째, **계층 책임 분리**: 프레젠테이션은 화면 흐름, 비즈니스는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 통합 계층은 저장/연계에 집중하게 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ J2EE pattern map across layers                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Front Controller -> Intercepting Filter -> Controller / View Helper  │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Business Delegate -> Session Facade -> DTO / Assembler               │
-│   │                                                                  │
-│   ▼                                                                  │
-│ DAO / Repository-like access -> Database / Legacy / External Service │
-│                                                                      │
-│ Service Locator sits beside container lookup when DI is unavailable  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| J2EE pattern map across layers                                       |
++----------------------------------------------------------------------+
+| Client                                                               |
+|   |                                                                  |
+|   v                                                                  |
+| Front Controller -> Intercepting Filter -> Controller / View Helper  |
+|   |                                                                  |
+|   v                                                                  |
+| Business Delegate -> Session Facade -> DTO / Assembler               |
+|   |                                                                  |
+|   v                                                                  |
+| DAO / Repository-like access -> Database / Legacy / External Service |
+|                                                                      |
+| Service Locator sits beside container lookup when DI is unavailable  |
++----------------------------------------------------------------------+
 ```
 
 | 패턴 | 주 계층 | 해결하려는 문제 | 현대적 해석 |
@@ -158,19 +158,19 @@ J2EE 프레임워크 패턴을 올바르게 이해하면 엔터프라이즈 시�
 
 ```text
 Servlet / JSP / EJB complexity
-    │
-    ▼
+    |
+    v
 Core J2EE Patterns
-    │
-    ├─ request entry unification
-    ├─ remote call reduction
-    ├─ transaction boundary definition
-    └─ persistence isolation
-    │
-    ▼
+    |
+    +- request entry unification
+    +- remote call reduction
+    +- transaction boundary definition
+    +- persistence isolation
+    |
+    v
 Spring / Jakarta EE simplification
-    │
-    ▼
+    |
+    v
 Repository / DI / API-driven enterprise patterns
 ```
 
@@ -188,7 +188,7 @@ Repository / DI / API-driven enterprise patterns
 
 **진행 상황**: 230 / 530
 
-← **이전**: [173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/173_creational_pattern_memory_efficiency/)
-**다음**: [175. DTO 패턴 (Data Transfer Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/) →
+<- **이전**: [173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/173_creational_pattern_memory_efficiency/)
+**다음**: [175. DTO 패턴 (Data Transfer Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/) ->
 
 ---

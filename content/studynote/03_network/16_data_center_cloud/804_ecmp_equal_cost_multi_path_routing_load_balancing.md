@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [오버서브스크립션 비율 설계 개념 분산망 대역]
-    │
-    ▼
+    |
+    v
 [ECMP 스파인-리프 병렬 라우팅 경로 활성…]
-    │
-    └──▶ [Clos 네트워크]
+    |
+    +---> [Clos 네트워크]
 ```
 
 - **📢 섹션 요약 비유**: ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [오버서브스크립션 비율 설계 개념 분산망 대역]
-    │
-    ▼
+    |
+    v
 [ECMP 스파인-리프 병렬 라우팅 경로 활성…]
-    │
-    └──▶ [Clos 네트워크]
+    |
+    +---> [Clos 네트워크]
 ```
 
 - **📢 섹션 요약 비유**: ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_sum
 
 ```text
 [선행 개념: 오버서브스크립션 비율 설계 개념 분산망 대역]
-    │
-    ▼
+    |
+    v
 [현재 개념: ECMP 스파인-리프 병렬 라우팅 경로 활성…]
-    │
-    ├──▶ [확장 A: Clos 네트워크]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: Clos 네트워크]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 [오버서브스크립션 비율](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/) 설계 개념 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 Clos 네트워크와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_sum
 
 **진행 상황**: 925 / 1120
 
-← **이전**: [803. 오버서브스크립션 비율 (Oversubscription Ratio) 설계 개념 분산망 대역](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/)
-**다음**: [805. Clos 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/805_clos_network_non_blocking_multi_stage_switching/) →
+<- **이전**: [803. 오버서브스크립션 비율 (Oversubscription Ratio) 설계 개념 분산망 대역](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/)
+**다음**: [805. Clos 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/805_clos_network_non_blocking_multi_stage_switching/) ->
 
 ---

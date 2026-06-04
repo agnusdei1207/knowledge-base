@@ -34,21 +34,21 @@ PACELC의 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_in
 아래 그림은 PACELC가 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로를 어떻게 갈라놓는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              PACELC decision path in a replicated storage system          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client Write                                                              │
-│      │                                                                    │
-│      ▼                                                                    │
-│ Partition detected?                                                       │
-│      ├── Yes ──▶ choose A or C                                            │
-│      │            ├─ A: accept local write, sync later                    │
-│      │            └─ C: reject or block until agreement                   │
-│      │                                                                    │
-│      └── No  ──▶ choose L or C                                            │
-│                   ├─ L: local ack first, async replication                │
-│                   └─ C: quorum or leader commit before ack                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              PACELC decision path in a replicated storage system          |
++----------------------------------------------------------------------------+
+| Client Write                                                              |
+|      |                                                                    |
+|      v                                                                    |
+| Partition detected?                                                       |
+|      +-- Yes ---> choose A or C                                            |
+|      |            +- A: accept local write, sync later                    |
+|      |            +- C: reject or block until agreement                   |
+|      |                                                                    |
+|      +-- No  ---> choose L or C                                            |
+|                   +- L: local ack first, async replication                |
+|                   +- C: quorum or leader commit before ack                |
++----------------------------------------------------------------------------+
 ```
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 분단 시 선택 | 정상 시 선택 | 동작 특성 | 대표적 활용 |
@@ -128,16 +128,16 @@ PACELC를 적용하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ```text
 CAP 정리 (Consistency / Availability / Partition tolerance)
-    │
-    ▼
+    |
+    v
 PACELC 정리
 : Partition 시 A/C, Else 시 L/C를 함께 고려
-    │
-    ├──▶ 결과적 일관성 (Eventual Consistency) · 비동기 복제
-    │
-    ├──▶ 정족수 (Quorum) · 리더 기반 합의
-    │
-    ▼
+    |
+    +---> 결과적 일관성 (Eventual Consistency) · 비동기 복제
+    |
+    +---> 정족수 (Quorum) · 리더 기반 합의
+    |
+    v
 지리 분산 데이터베이스 · 저지연 네트워크 · 시간 동기화 기반 일관성 최적화
 ```
 
@@ -153,7 +153,7 @@ PACELC 정리
 
 **진행 상황**: 650 / 803
 
-← **이전**: [648. 캡 정리 (CAP Theorem)와 분산 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/648_cap_theorem_storage/)
-**다음**: [650. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) →
+<- **이전**: [648. 캡 정리 (CAP Theorem)와 분산 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/648_cap_theorem_storage/)
+**다음**: [650. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ->
 
 ---

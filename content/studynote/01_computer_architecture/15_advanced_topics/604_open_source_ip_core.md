@@ -26,13 +26,13 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 이 그림은 오픈 소스 IP 코어가 왜 "무료 설계도"를 넘어 생태계 자산이 되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          Open repository -> verification -> integration -> silicon        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ RTL / Docs / License -> Testbench / Review -> SoC Integration -> Tapeout  │
-│                                                                            │
-│ 공개의 핵심은 단순 배포가 아니라, 읽고 검증하고 다시 조합할 수 있음이다.   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          Open repository -> verification -> integration -> silicon        |
++----------------------------------------------------------------------------+
+| RTL / Docs / License -> Testbench / Review -> SoC Integration -> Tapeout  |
+|                                                                            |
+| 공개의 핵심은 단순 배포가 아니라, 읽고 검증하고 다시 조합할 수 있음이다.   |
++----------------------------------------------------------------------------+
 ```
 
 따라서 오픈 소스 IP 코어의 가치는 단순 비용 절감에만 있지 않다. 더 본질적으로는 <strong>칩 설계의 출발점을 더 많은 사람에게 열고, 설계 과정 자체를 투명하게 만들어 혁신 속도와 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능성을 높인다는 점</strong>에 있다.
@@ -56,13 +56,13 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 이 그림은 오픈 소스 코어가 실제 칩에 들어가기까지 필요한 연결 고리를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   From open RTL to product-ready SoC                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Open RTL] -> [Verification] -> [Bus / Memory Integration] -> [Tapeout]   │
-│      │               │                         │                           │
-│      └---- docs -----┴----- license -----------┴---- physical checks -----│
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   From open RTL to product-ready SoC                      |
++----------------------------------------------------------------------------+
+| [Open RTL] -> [Verification] -> [Bus / Memory Integration] -> [Tapeout]   |
+|      |               |                         |                           |
+|      +---- docs -----+----- license -----------+---- physical checks -----|
++----------------------------------------------------------------------------+
 ```
 
 여기서 자주 혼동되는 개념이 개방형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))와 오픈 소스 코어의 차이다. 예를 들어 [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer Five)는 ISA가 열려 있다는 뜻이지, 그 ISA를 구현한 모든 마이크로아키텍처가 자동으로 공개된다는 뜻은 아니다. 즉 오픈 ISA와 오픈 IP 코어는 겹칠 수는 있어도 같은 말은 아니다.
@@ -143,20 +143,20 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 
 ```text
 독점형 하드웨어 IP 라이선스
-    │
-    ▼
+    |
+    v
 Open ISA movement
-    │
-    ▼
+    |
+    v
 Open RTL / Verification assets
-    │
-    ▼
+    |
+    v
 RISC-V ecosystem · OpenTitan
-    │
-    ▼
+    |
+    v
 맞춤형 SoC · 스타트업 chip design democratization
-    │
-    ▼
+    |
+    v
 Open chiplet / open hardware platform
 ```
 
@@ -174,7 +174,7 @@ Open chiplet / open hardware platform
 
 **진행 상황**: 604 / 803
 
-← **이전**: [603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/603_software_defined_accelerator/)
-**다음**: [605. 고수준 합성 (HLS, High-Level Synthesis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/605_high_level_synthesis/) →
+<- **이전**: [603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/603_software_defined_accelerator/)
+**다음**: [605. 고수준 합성 (HLS, High-Level Synthesis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/605_high_level_synthesis/) ->
 
 ---

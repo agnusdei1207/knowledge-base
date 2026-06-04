@@ -34,8 +34,8 @@ tags = ["studynote-it-management"]
   클라우드 변경 속도를 따라가지 못함
 
 Compliance as Code:
-  정책 → 코드화 → CI/CD 파이프라인 통합
-  인프라 변경 → 자동 정책 검사 → 위반 즉시 차단/알림
+  정책 -> 코드화 -> CI/CD 파이프라인 통합
+  인프라 변경 -> 자동 정책 검사 -> 위반 즉시 차단/알림
 
   도구:
   OPA (Open Policy Agent): 범용 정책 엔진
@@ -46,8 +46,8 @@ Compliance as Code:
 
 핵심 원칙:
   Policy as Code:
-  정책 → Git 저장소 관리 (버전 관리, 변경 추적)
-  검토/승인 → PR 프로세스
+  정책 -> Git 저장소 관리 (버전 관리, 변경 추적)
+  검토/승인 -> PR 프로세스
 
   Continuous Compliance:
   매 커밋/배포 시 정책 자동 검사
@@ -80,7 +80,7 @@ Rego 정책 예시:
     msg := sprintf("특권 컨테이너 허용 안 됨: %v", [container.name])
   }
 
-  → 특권 컨테이너 배포 시 자동 거부
+  -> 특권 컨테이너 배포 시 자동 거부
 
 2. Terraform IaC 정책 (S3 퍼블릭 차단):
   package terraform
@@ -92,7 +92,7 @@ Rego 정책 예시:
     msg := "S3 버킷 공개 읽기 허용 금지"
   }
 
-  → terraform plan 시 정책 검사 → 위반 차단
+  -> terraform plan 시 정책 검사 -> 위반 차단
 
 3. API 접근 정책:
   package authz
@@ -106,7 +106,7 @@ Rego 정책 예시:
     input.path == ["public", "api"]
   }
 
-  → API 게이트웨이에서 OPA로 권한 검사
+  -> API 게이트웨이에서 OPA로 권한 검사
 
 OPA 통합 포인트:
   Kubernetes: OPA Gatekeeper (Admission Controller)
@@ -128,21 +128,21 @@ AWS Config:
   1. 자원 변경 발생 (EC2, S3, IAM...)
   2. AWS Config가 변경 기록 (Configuration Item)
   3. Config Rules 자동 평가
-  4. 위반 → AWS Security Hub로 전달
+  4. 위반 -> AWS Security Hub로 전달
 
 AWS Config Rules 예시:
 
   s3-bucket-public-read-prohibited:
-  S3 버킷 퍼블릭 읽기 → NON_COMPLIANT
+  S3 버킷 퍼블릭 읽기 -> NON_COMPLIANT
 
   ec2-instance-no-public-ip:
-  EC2에 퍼블릭 IP → NON_COMPLIANT
+  EC2에 퍼블릭 IP -> NON_COMPLIANT
 
   iam-password-policy:
-  IAM 비밀번호 정책 최소 길이 14자 미만 → NON_COMPLIANT
+  IAM 비밀번호 정책 최소 길이 14자 미만 -> NON_COMPLIANT
 
   root-account-mfa-enabled:
-  루트 계정 MFA 비활성화 → NON_COMPLIANT
+  루트 계정 MFA 비활성화 -> NON_COMPLIANT
 
 AWS Security Hub:
   여러 AWS 서비스 보안 결과 통합
@@ -154,15 +154,15 @@ AWS Security Hub:
 
   점수 예:
   CIS Level 1: 67% 준수
-  → 무엇을 고쳐야 100%?
-  → 우선순위별 수정 가이드
+  -> 무엇을 고쳐야 100%?
+  -> 우선순위별 수정 가이드
 
 자동 교정 (Auto Remediation):
-  Config Rule 위반 → Lambda 자동 실행 → 수정
+  Config Rule 위반 -> Lambda 자동 실행 -> 수정
 
   예:
-  S3 퍼블릭 → Lambda가 ACL을 private으로 변경
-  IAM 비밀번호 정책 위반 → 자동 정책 업데이트
+  S3 퍼블릭 -> Lambda가 ACL을 private으로 변경
+  IAM 비밀번호 정책 위반 -> 자동 정책 업데이트
 ```
 
 > 📢 **섹션 요약 비유**: AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) = 자동 건물 점검 로봇 — S3 문(버킷) 열렸나 매초 감시. 열리면 즉시 닫음(자동 교정) + 관리자 알림. 24×7 자동 규정 준수!
@@ -177,7 +177,7 @@ Terraform Sentinel:
   IaC 배포 전 정책 검사 (Shift-Left!)
 
 정책 적용 단계:
-  terraform plan → Sentinel 정책 검사 → terraform apply
+  terraform plan -> Sentinel 정책 검사 -> terraform apply
 
   정책 위반 시: apply 차단 (Advisory / Soft-Mandatory / Mandatory)
 
@@ -200,7 +200,7 @@ Sentinel 정책 예시:
 
   main = rule { check_tags }
 
-  → 태그 없는 EC2 배포 차단
+  -> 태그 없는 EC2 배포 차단
 
 2. 인스턴스 유형 제한:
   allowed_types = ["t3.micro", "t3.small", "t3.medium"]
@@ -211,7 +211,7 @@ Sentinel 정책 예시:
     }
   }
 
-  → 프로덕션 제외 환경에서 큰 인스턴스 배포 차단
+  -> 프로덕션 제외 환경에서 큰 인스턴스 배포 차단
 
 정책 단계:
   Advisory: 경고만 (배포는 진행)
@@ -223,14 +223,14 @@ Conftest (오픈소스 대안):
   Terraform Cloud 없이도 사용 가능
 ```
 
-> 📢 **섹션 요약 비유**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel = 공사 착공 전 허가 — 설계도([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan) 제출 시 법규 자동 검사. 태그 없음(필수 서류 미비) → 착공 불허. 공사 중 문제가 아닌 착공 전 예방!
+> 📢 **섹션 요약 비유**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel = 공사 착공 전 허가 — 설계도([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan) 제출 시 법규 자동 검사. 태그 없음(필수 서류 미비) -> 착공 불허. 공사 중 문제가 아닌 착공 전 예방!
 
 ---
 
 ## Ⅴ. 실무 시나리오 — 금융사 CaC 구축
 
 ```
-핀테크 스타트업 → 금융감독원 규제 준수 CaC:
+핀테크 스타트업 -> 금융감독원 규제 준수 CaC:
 
 배경:
   AWS 기반 서비스
@@ -242,7 +242,7 @@ Conftest (오픈소스 대안):
 CaC 구축:
 
 1. 정책 코드화 (OPA + AWS Config):
-  전자금융감독규정 주요 항목 → Rego + Config Rules
+  전자금융감독규정 주요 항목 -> Rego + Config Rules
 
   정책 목록 (50개):
   - S3 암호화 필수 (AES-256)
@@ -254,29 +254,29 @@ CaC 구축:
   - ...
 
 2. CI/CD 통합:
-  Terraform 변경 → Sentinel 정책 자동 검사
-  Kubernetes 배포 → OPA Gatekeeper 검사
+  Terraform 변경 -> Sentinel 정책 자동 검사
+  Kubernetes 배포 -> OPA Gatekeeper 검사
 
   PR 단계에서 정책 위반 즉시 피드백:
   "🚫 S3 버킷에 암호화 누락 (규정 제28조)"
   "✅ 8개 정책 통과"
 
 3. 실시간 대시보드:
-  AWS Security Hub → Grafana 대시보드
+  AWS Security Hub -> Grafana 대시보드
   준수율 실시간 표시 (목표: 98%+)
   위반 항목 드릴다운 가능
 
 결과 (3개월):
-  감사 준비 시간: 2주 → 1일 (대시보드 리포트 출력)
-  반복 위반: 월 25건 → 2건 (자동 차단)
+  감사 준비 시간: 2주 -> 1일 (대시보드 리포트 출력)
+  반복 위반: 월 25건 -> 2건 (자동 차단)
   개발팀 체감: "배포할 때 미리 알려줘서 좋음"
 
   규제 감사 결과:
   "컴플라이언스 자동화 우수 사례" 인정
-  지적 사항: 3건 → 0건
+  지적 사항: 3건 -> 0건
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 CaC = 자동 규정 준수 비서 — 코드 배포 시 규정집 자동 대조, 위반 즉시 차단, 대시보드로 실시간 점수. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 준비 2주 → 1일. 개발자도 "미리 알려줘서 좋아요"!
+> 📢 **섹션 요약 비유**: 핀테크 CaC = 자동 규정 준수 비서 — 코드 배포 시 규정집 자동 대조, 위반 즉시 차단, 대시보드로 실시간 점수. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 준비 2주 -> 1일. 개발자도 "미리 알려줘서 좋아요"!
 
 ---
 
@@ -347,7 +347,7 @@ LLM 기반 정책 생성
 
 **진행 상황**: 87 / 587
 
-← **이전**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/)
-**다음**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/) →
+<- **이전**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/)
+**다음**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/) ->
 
 ---

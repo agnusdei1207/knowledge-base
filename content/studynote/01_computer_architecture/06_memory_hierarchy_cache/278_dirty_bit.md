@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 특히 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 캐시나 가상 메모리의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)처럼 "나중에 몰아서 쓰는" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은, 어떤 블록이 실제로 바뀌었는지를 추적해야만 성립한다. 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 하드웨어 비용은 매우 작지만, 없으면 시스템은 안전을 위해 매번 보수적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작을 수행해야 한다. 결국 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 기억장치 계층 전체에 걸친 <strong>선별적 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 출발점</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       더티 비트가 필요한 이유: "다 바뀐 것은 아니다"         │
-├──────────────────────────────────────────────────────────────┤
-│ 상위 계층 보유 데이터      원본과 동일?      퇴출 시 동작      │
-│                                                              │
-│ 읽기만 한 블록            예                바로 폐기 가능     │
-│ 여러 번 수정한 블록       아니오            하위 계층에 기록   │
-│                                                              │
-│ 핵심 판단: 수정된 것만 골라서 쓰기                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       더티 비트가 필요한 이유: "다 바뀐 것은 아니다"         |
++--------------------------------------------------------------+
+| 상위 계층 보유 데이터      원본과 동일?      퇴출 시 동작      |
+|                                                              |
+| 읽기만 한 블록            예                바로 폐기 가능     |
+| 여러 번 수정한 블록       아니오            하위 계층에 기록   |
+|                                                              |
+| 핵심 판단: 수정된 것만 골라서 쓰기                           |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 도서관 책에 붙이는 "메모함" 스티커와 같다. 그냥 읽은 책은 바로 반납하면 되지만, 밑줄을 긋고 메모한 책은 원본 보관 전에 다시 확인해야 한다.
@@ -51,16 +51,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 캐시 라인 기준의 상태 흐름을 압축해 보여준다. 중요한 점은 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 "언제 1이 되느냐"보다 "언제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략할 수 있느냐"를 결정한다는 데 있다. 즉 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 실행 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라기보다 <strong>불필요한 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>에 가깝다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              캐시 라인과 더티 비트의 상태 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│ 메모리 적재                 CPU 쓰기                  퇴출    │
-│ [Valid=1, Dirty=0] ─────▶ [Valid=1, Dirty=1] ─────▶ 판단     │
-│        ▲                         │                     │       │
-│        │                         │                     ├─ Dirty=0 → 폐기
-│        └──── 읽기 히트는 변화 없음 ────────────────────┤
-│                                                      └─ Dirty=1 → Write-Back
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              캐시 라인과 더티 비트의 상태 흐름               |
++--------------------------------------------------------------+
+| 메모리 적재                 CPU 쓰기                  퇴출    |
+| [Valid=1, Dirty=0] ------> [Valid=1, Dirty=1] ------> 판단     |
+|        ^                         |                     |       |
+|        |                         |                     +- Dirty=0 -> 폐기
+|        +---- 읽기 히트는 변화 없음 --------------------+
+|                                                      +- Dirty=1 -> Write-Back
++--------------------------------------------------------------+
 ```
 
 | 상태 항목 | 의미 | 퇴출 시 처리 |
@@ -141,19 +141,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 캐시 라인 메타데이터
-        │
-        ▼
+        |
+        v
 Valid Bit + Dirty Bit
-        │
-        ▼
+        |
+        v
 Write-Back (나중 쓰기) 최적화
-        │
-        ├──────────────▶ 페이지 교체 · 스왑 I/O 절감
-        │
-        ▼
+        |
+        +---------------> 페이지 교체 · 스왑 I/O 절감
+        |
+        v
 MESI (Modified, Exclusive, Shared, Invalid)
-        │
-        ▼
+        |
+        v
 멀티코어 캐시 일관성 · 백그라운드 플러시 전략
 ```
 
@@ -171,7 +171,7 @@ MESI (Modified, Exclusive, Shared, Invalid)
 
 **진행 상황**: 278 / 803
 
-← **이전**: [277. Write-Back (나중 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)
-**다음**: [279. 분리 캐시 (Split Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/) →
+<- **이전**: [277. Write-Back (나중 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)
+**다음**: [279. 분리 캐시 (Split Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/) ->
 
 ---

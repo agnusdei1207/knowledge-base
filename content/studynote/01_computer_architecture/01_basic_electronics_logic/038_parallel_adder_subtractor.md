@@ -205,7 +205,7 @@ AI 가속기: 행렬 곱 전용 ALU
 
 **진행 상황**: 38 / 803
 
-← **이전**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)
-**다음**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) →
+<- **이전**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)
+**다음**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ->
 
 ---

@@ -30,19 +30,19 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│           멀티클러스터 K8s 아키텍처 (Active-Active)              │
-├──────────────────────────────────────────────────────────────────┤
-│  [글로벌 DNS / GSLB]                                             │
-│  지역별 트래픽 라우팅 (가중치, 레이턴시, 헬스체크 기반)          │
-│         │                        │                              │
-│  [클러스터 A: ap-northeast-2]   [클러스터 B: us-east-1]         │
-│  Argo CD ApplicationSet         Argo CD ApplicationSet          │
-│         │                        │                              │
-│  [Submariner / Cilium ClusterMesh — 클러스터 간 파드 네트워크]   │
-│         │                                                        │
-│  [Cluster API — 클러스터 생성·업그레이드 자동화]                 │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|           멀티클러스터 K8s 아키텍처 (Active-Active)              |
++------------------------------------------------------------------+
+|  [글로벌 DNS / GSLB]                                             |
+|  지역별 트래픽 라우팅 (가중치, 레이턴시, 헬스체크 기반)          |
+|         |                        |                              |
+|  [클러스터 A: ap-northeast-2]   [클러스터 B: us-east-1]         |
+|  Argo CD ApplicationSet         Argo CD ApplicationSet          |
+|         |                        |                              |
+|  [Submariner / Cilium ClusterMesh — 클러스터 간 파드 네트워크]   |
+|         |                                                        |
+|  [Cluster API — 클러스터 생성·업그레이드 자동화]                 |
++------------------------------------------------------------------+
 ```
 
 | 도구                        | 역할                                           |
@@ -86,9 +86,9 @@ GitOps와의 연계: [Argo CD](/knowledge-base/studynote/13_cloud_architecture/0
 5. 글로벌 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/): [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 헬스체크와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태 연동
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- 클러스터 간 네트워크 미연결 → [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 실패
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치
-- Cluster [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 없이 수동 클러스터 관리 → 업그레이드 드리프트
+- 클러스터 간 네트워크 미연결 -> [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 실패
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치
+- Cluster [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 없이 수동 클러스터 관리 -> 업그레이드 드리프트
 
 - 📢 섹션 요약 비유: 멀티클러스터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Active를 하면, 두 금고(클러스터)가 각각 다른 잔액을 표시하는 상황이 된다.
 
@@ -119,20 +119,20 @@ GitOps와의 연계: [Argo CD](/knowledge-base/studynote/13_cloud_architecture/0
 
 ```text
 단일 K8s 클러스터 (단일 장애점)
-    │
-    ▼
+    |
+    v
 다중 AZ 배포 (동일 리전 HA)
-    │
-    ▼
+    |
+    v
 멀티클러스터 — KubeFed v2 + Cluster API
-    │
-    ▼
+    |
+    v
 Argo CD ApplicationSet — GitOps 멀티클러스터 배포
-    │
-    ▼
+    |
+    v
 Submariner / Cilium ClusterMesh — 클러스터 간 네트워킹
-    │
-    ▼
+    |
+    v
 GSLB + Active-Active — 글로벌 제로다운타임
 ```
 
@@ -148,7 +148,7 @@ GSLB + Active-Active — 글로벌 제로다운타임
 
 **진행 상황**: 364 / 373
 
-← **이전**: [363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay](/knowledge-base/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/)
-**다음**: [365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G](/knowledge-base/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) →
+<- **이전**: [363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay](/knowledge-base/studynote/15_devops_sre/05_devsecops/363_sdn_sddc_vxlan/)
+**다음**: [365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G](/knowledge-base/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/) ->
 
 ---

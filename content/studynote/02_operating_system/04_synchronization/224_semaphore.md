@@ -29,16 +29,16 @@ tags = ["studynote-operating-system"]
 
   [ 자원: 공용 프린터 2대 ]
 
-  ▶ 스레드 A 진입: wait(S) 호출 ─▶ S=1로 감소. 프린터 1번 사용 시작.
-  ▶ 스레드 B 진입: wait(S) 호출 ─▶ S=0으로 감소. 프린터 2번 사용 시작.
+  -> 스레드 A 진입: wait(S) 호출 --> S=1로 감소. 프린터 1번 사용 시작.
+  -> 스레드 B 진입: wait(S) 호출 --> S=0으로 감소. 프린터 2번 사용 시작.
 
-  ▶ 스레드 C 진입: wait(S) 호출 ─▶ S가 0이므로 진입 불가!
+  -> 스레드 C 진입: wait(S) 호출 --> S가 0이므로 진입 불가!
                  C는 OS에 의해 대기 큐(Wait Queue)로 쫓겨나 Sleep(수면).
 
-  ▶ 스레드 A 퇴장: signal(S) 호출 ─▶ S=1로 증가시킴과 동시에,
+  -> 스레드 A 퇴장: signal(S) 호출 --> S=1로 증가시킴과 동시에,
                  대기 큐에서 자고 있던 C를 Wakeup(기상) 시킴!
 
-  ▶ 스레드 C 진입: 깨어난 C가 남은 프린터 1번을 사용 시작.
+  -> 스레드 C 진입: 깨어난 C가 남은 프린터 1번을 사용 시작.
 ```
 **[다이어그램 해설]** 세마포어의 정수 `S`는 "현재 쓸 수 있는 자원의 남은 개수"를 뜻한다. 만약 `S`가 음수(-1)가 되었다면, "현재 1명이 대기실에서 자면서 기다리고 있다"는 뜻이다. 이 숫자 하나만으로 시스템의 혼잡도를 완벽하게 추적(Tracking)하고 제어하는 천재적인 발상이다.
 
@@ -123,24 +123,24 @@ tags = ["studynote-operating-system"]
    - **오류 3: 이중 대기**: `wait()`를 치고 방에 들어갔는데 실수로 `wait()`를 한 번 더 치면 자기 스스로 자기 발등을 찍고 방 안에서 영원히 잠든다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │     개발자의 동기화 객체 남용 방지 및 대체 아키텍처 결정 트리         │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [요구사항: 1개의 공유 파일에 여러 스레드가 순서대로 로그를 써야 함] │
-  │                │                                                      │
-  │                ▼ 동기화 도구 선택                                     │
-  │   [ ❌ 레벨 1: C/C++ 세마포어 직접 구현 (Manual) ]                    │
-  │     - 판정: 하수. 에러 처리(Exception) 시 signal() 누락 확률 높음.    │
-  │                                                                       │
-  │   [ 🟡 레벨 2: 객체지향 언어의 Mutex / Monitor (Synchronized) ]       │
-  │     - 판정: 중수. Exception이 터져도 언어가 알아서 락을 풀어주어 안전.│
-  │                                                                       │
-  │   [ ✅ 레벨 3: 동시성 큐 (Concurrent Queue) 위임 ]                    │
-  │     - 판정: 아키텍트의 정답. 로그를 쓰는 스레드는 딱 1개(소비자)만    │
-  │             띄워놓고, 나머지 수백 개 스레드는 락 없이 스레드 세이프한 │
-  │             Queue에 메시지만 던지고 도망가게(Non-blocking) 설계!      │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |     개발자의 동기화 객체 남용 방지 및 대체 아키텍처 결정 트리         |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   [요구사항: 1개의 공유 파일에 여러 스레드가 순서대로 로그를 써야 함] |
+  |                |                                                      |
+  |                v 동기화 도구 선택                                     |
+  |   [ ❌ 레벨 1: C/C++ 세마포어 직접 구현 (Manual) ]                    |
+  |     - 판정: 하수. 에러 처리(Exception) 시 signal() 누락 확률 높음.    |
+  |                                                                       |
+  |   [ 🟡 레벨 2: 객체지향 언어의 Mutex / Monitor (Synchronized) ]       |
+  |     - 판정: 중수. Exception이 터져도 언어가 알아서 락을 풀어주어 안전.|
+  |                                                                       |
+  |   [ ✅ 레벨 3: 동시성 큐 (Concurrent Queue) 위임 ]                    |
+  |     - 판정: 아키텍트의 정답. 로그를 쓰는 스레드는 딱 1개(소비자)만    |
+  |             띄워놓고, 나머지 수백 개 스레드는 락 없이 스레드 세이프한 |
+  |             Queue에 메시지만 던지고 도망가게(Non-blocking) 설계!      |
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 세마포어는 1960년대의 위대한 발명품이지만, 2026년 실무 비즈니스 로직(애플리케이션 단)에서 개발자가 직접 세마포어를 `new` 해서 쓰는 것은 코드 악취([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))로 간주된다. 인간은 무조건 실수를 하기 때문이다. 세마포어는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 자바의 `java.util.concurrent` 패키지 등 하부 라이브러리를 만들 때만 깊숙이 숨겨서 쓰고, 실무는 검증된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 세이프([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 자료구조를 쓰는 것이 백엔드 엔지니어링의 기본이다.
 
@@ -174,12 +174,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [임계 구역 문제 해결의 3조건]
-    │
-    ▼
+    |
+    v
 [세마포어 (Semaphore)]
-    │
-    ├──▶ [피터슨의 해결책 (Peterson's Algorithm)]
-    └──▶ [메모리 장벽 (Memory Barrier / Memory Fence)]
+    |
+    +---> [피터슨의 해결책 (Peterson's Algorithm)]
+    +---> [메모리 장벽 (Memory Barrier / Memory Fence)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -196,7 +196,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 224 / 800
 
-← **이전**: [223. 임계 구역 문제 해결의 3조건 - 상호 배제(Mutual Exclusion), 진행(Progress), 한정된 대기(Bounded](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)
-**다음**: [225. 이진 세마포어 (Binary Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) →
+<- **이전**: [223. 임계 구역 문제 해결의 3조건 - 상호 배제(Mutual Exclusion), 진행(Progress), 한정된 대기(Bounded](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)
+**다음**: [225. 이진 세마포어 (Binary Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) ->
 
 ---

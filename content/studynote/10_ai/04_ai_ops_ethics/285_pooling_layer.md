@@ -30,10 +30,10 @@ tags = ["studynote-ai"]
 ### 풀링의 위치와 역할
 
 ```
-합성곱 → 활성화 → 풀링 → 합성곱 → 활성화 → 풀링 → FC (분류)
+합성곱 -> 활성화 -> 풀링 -> 합성곱 -> 활성화 -> 풀링 -> FC (분류)
  Conv      ReLU   Pool    Conv     ReLU   Pool   Layer
- 3×3       ──     2×2     3×3       ──     2×2
- ↓         ↓      ↓       ↓         ↓      ↓
+ 3×3       --     2×2     3×3       --     2×2
+ v         v      v       v         v      v
 32×32     32×32  16×16   16×16    16×16   8×8
 ```
 
@@ -49,17 +49,17 @@ tags = ["studynote-ai"]
 
 ```
 입력 특징 맵 (4×4)            최대 풀링 (2×2, Stride=2)
-┌────────────────────┐       ┌────────────┐
-│  1   3   2   4     │       │  max(1,3,  │
-│  5   6   1   2     │  →    │  5,6) = 6  │ ...
-│  3   2   1   0     │       │            │
-│  1   2   3   4     │       └────────────┘
-└────────────────────┘
-          ↓
-┌────────────────────┐
-│  6   4             │   각 2×2 블록에서 최댓값 선택
-│  3   4             │   → 출력 크기: 2×2
-└────────────────────┘
++--------------------+       +------------+
+|  1   3   2   4     |       |  max(1,3,  |
+|  5   6   1   2     |  ->    |  5,6) = 6  | ...
+|  3   2   1   0     |       |            |
+|  1   2   3   4     |       +------------+
++--------------------+
+          v
++--------------------+
+|  6   4             |   각 2×2 블록에서 최댓값 선택
+|  3   4             |   -> 출력 크기: 2×2
++--------------------+
 ```
 
 ### 평균 풀링 (Average Pooling)
@@ -79,18 +79,18 @@ GAP (Global Average Pooling)은 각 채널의 전체 공간에 대해 **단일 �
 
 ```
 일반 완전 연결 (FC) 방식:
-┌─────────────────────────────────────────┐
-│ 특징 맵 7×7×512 → Flatten → FC(25088→1000) │
-│ 파라미터: 25,088 × 1,000 = 약 2,500만   │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+| 특징 맵 7×7×512 -> Flatten -> FC(25088->1000) |
+| 파라미터: 25,088 × 1,000 = 약 2,500만   |
++-----------------------------------------+
 
 GAP (Global Average Pooling) 방식:
-┌─────────────────────────────────────────┐
-│ 특징 맵 7×7×1024                        │
-│    ↓ 각 채널별 7×7 평균                  │
-│ 벡터 1024 → Softmax(1000)               │
-│ 파라미터: 1,024 × 1,000 = 약 100만      │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+| 특징 맵 7×7×1024                        |
+|    v 각 채널별 7×7 평균                  |
+| 벡터 1024 -> Softmax(1000)               |
+| 파라미터: 1,024 × 1,000 = 약 100만      |
++-----------------------------------------+
 ```
 
 GoogLeNet(Inception), MobileNet, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 현대 아키텍처에서 GAP는 [FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) 직전에 배치된다.
@@ -101,7 +101,7 @@ GoogLeNet(Inception), MobileNet, [ResNet](/knowledge-base/studynote/10_ai/04_ai_
 
 $$O = \left\lfloor \frac{I - F}{S} \right\rfloor + 1$$
 
-([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없는 경우, F=2, S=2가 일반적 → 출력 = 입력의 절반)
+([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없는 경우, F=2, S=2가 일반적 -> 출력 = 입력의 절반)
 
 | 풀링 크기 | [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 비율 | 용례 |
 |:---:|:---:|:---:|:---|
@@ -149,8 +149,8 @@ $$O = \left\lfloor \frac{I - F}{S} \right\rfloor + 1$$
 GAP (Global Average Pooling)는 CAM (Class Activation [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))의 핵심 전제이다. GAP 이후 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) Layer의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 각 채널 맵을 선형 결합하면 <strong>클래스 활성화 지도(CAM)</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여, CNN이 어느 영역을 보고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정을 내렸는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)할 수 있다.
 
 ```
-GAP → FC(softmax) → 클래스 예측
- ↑
+GAP -> FC(softmax) -> 클래스 예측
+ ^
 채널 × FC 가중치의 선형 결합
 = CAM (어느 위치가 분류에 기여했나)
 ```
@@ -174,16 +174,16 @@ GAP → FC(softmax) → 클래스 예측
 ### 풀링 유형 정리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                     풀링 분류                             │
-│                                                          │
-│  공간 풀링 ──┬── Max Pooling   (최댓값, 가장 강한 특징)   │
-│             ├── Avg Pooling   (평균값, 부드러운 특징)     │
-│             └── Stochastic    (랜덤 샘플, 드롭아웃 효과) │
-│                                                          │
-│  전역 풀링 ──┬── GAP          (채널당 전역 평균)          │
-│             └── GMP          (채널당 전역 최댓값)         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                     풀링 분류                             |
+|                                                          |
+|  공간 풀링 --+-- Max Pooling   (최댓값, 가장 강한 특징)   |
+|             +-- Avg Pooling   (평균값, 부드러운 특징)     |
+|             +-- Stochastic    (랜덤 샘플, 드롭아웃 효과) |
+|                                                          |
+|  전역 풀링 --+-- GAP          (채널당 전역 평균)          |
+|             +-- GMP          (채널당 전역 최댓값)         |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 풀링은 CNN의 '다이어트 전문가'다. 중요하지 않은 위치 세부 정보를 버리고 핵심 특징만 남겨 모델을 날씬하고 튼튼하게 만든다.
@@ -204,7 +204,7 @@ GAP → FC(softmax) → 클래스 예측
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [풀링 (Pooling)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [풀링 (Pooling)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -219,7 +219,7 @@ GAP → FC(softmax) → 클래스 예측
 
 **진행 상황**: 285 / 420
 
-← **이전**: [284. 합성곱 연산 (Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)
-**다음**: [286. 1×1 합성곱 (1x1 Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/286_1x1_convolution/) →
+<- **이전**: [284. 합성곱 연산 (Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)
+**다음**: [286. 1×1 합성곱 (1x1 Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/286_1x1_convolution/) ->
 
 ---

@@ -34,16 +34,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 일반적인 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Tenant resolution path                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Request -> Auth / token -> Tenant Resolver -> Isolation Layer       │
-│                                              ├─ DB per tenant       │
-│                                              ├─ Schema per tenant   │
-│                                              └─ Shared tables + RLS │
-│                                                            │         │
-│                                              Backup / quota / audit  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Tenant resolution path                                               |
++----------------------------------------------------------------------+
+| Request -> Auth / token -> Tenant Resolver -> Isolation Layer       |
+|                                              +- DB per tenant       |
+|                                              +- Schema per tenant   |
+|                                              +- Shared tables + RLS |
+|                                                            |         |
+|                                              Backup / quota / audit  |
++----------------------------------------------------------------------+
 ```
 
 | 패턴 | 격리 수준 | 운영 효율 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 편의성 | 적합한 상황 |
@@ -127,17 +127,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 고객별 독립 인프라 운영
-        │
-        ▼
+        |
+        v
 공통 애플리케이션 + 테넌트 식별
-        │
-        ▼
+        |
+        v
 DB 분리 / 스키마 분리 / 공유 테이블 선택
-        │
-        ▼
+        |
+        v
 RLS · 쿼터 · 감사 로그로 격리 강화
-        │
-        ▼
+        |
+        v
 하이브리드 티어링과 고객별 승급 전략
 ```
 
@@ -155,7 +155,7 @@ RLS · 쿼터 · 감사 로그로 격리 강화
 
 **진행 상황**: 189 / 482
 
-← **이전**: [188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/)
-**다음**: [190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/190_event_driven_architecture_eda_pubsub/) →
+<- **이전**: [188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/)
+**다음**: [190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/190_event_driven_architecture_eda_pubsub/) ->
 
 ---

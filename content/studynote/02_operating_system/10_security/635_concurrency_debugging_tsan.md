@@ -58,35 +58,35 @@ tags = ["studynote-operating-system"]
 TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory)"</strong>와 <strong>"Happens-before (발생 선후 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)"</strong> [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 결합이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ThreadSanitizer 섀도우 메모리 동작 원리               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [실제 메모리 (App Memory)]          [섀도우 메모리 (Shadow Memory)]  │
-  │   주소 0x1000 : 변수 'X'             주소 0x8000 (0x1000의 그림자)     │
-  │                                                                   │
-  │  [시간 T1]                                                        │
-  │  스레드 1: X = 10 (Write)  ──▶  TSan이 0x8000에 기록:               │
-  │                                  {스레드=1, 접근=Write, 시각=T1}   │
-  │                                                                   │
-  │  [시간 T2]                                                        │
-  │  스레드 2: print(X) (Read) ──▶  TSan이 0x8000 확인 후 기록:           │
-  │                                  {스레드=2, 접근=Read, 시각=T2}    │
-  │                                                                   │
-  │  ★ TSan의 판단 (Happens-before 체크):                              │
-  │  TSan: "잠깐! 스레드 2가 읽기 전에, 스레드 1과 스레드 2 사이에           │
-  │        Lock이나 Unlock 같은 '동기화 신호'가 있었는가?"                 │
-  │                                                                   │
-  │     [상황 A: 동기화 있음] (정상)                                      │
-  │     스레드 1 (Write) -> Unlock(M) -> 스레드 2 Lock(M) -> (Read)     │
-  │     TSan: "오케이, 합법적인 순서군. 무사 통과!"                        │
-  │                                                                   │
-  │     [상황 B: 동기화 없음] (Data Race 발생!)                           │
-  │     스레드 1 (Write) -> (아무 락도 없음) -> 스레드 2 (Read)            │
-  │     TSan: "삐빅! 데이터 레이스 발견! 지금 당장 충돌이 안 났더라도,        │
-  │           스케줄러에 따라 1과 2가 동시에 실행될 수 있는 잠재적 폭탄이다!" │
-  │     -> 즉시 경고창 (Call Stack 2개) 화면 출력!                        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ThreadSanitizer 섀도우 메모리 동작 원리               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [실제 메모리 (App Memory)]          [섀도우 메모리 (Shadow Memory)]  |
+  |   주소 0x1000 : 변수 'X'             주소 0x8000 (0x1000의 그림자)     |
+  |                                                                   |
+  |  [시간 T1]                                                        |
+  |  스레드 1: X = 10 (Write)  --->  TSan이 0x8000에 기록:               |
+  |                                  {스레드=1, 접근=Write, 시각=T1}   |
+  |                                                                   |
+  |  [시간 T2]                                                        |
+  |  스레드 2: print(X) (Read) --->  TSan이 0x8000 확인 후 기록:           |
+  |                                  {스레드=2, 접근=Read, 시각=T2}    |
+  |                                                                   |
+  |  ★ TSan의 판단 (Happens-before 체크):                              |
+  |  TSan: "잠깐! 스레드 2가 읽기 전에, 스레드 1과 스레드 2 사이에           |
+  |        Lock이나 Unlock 같은 '동기화 신호'가 있었는가?"                 |
+  |                                                                   |
+  |     [상황 A: 동기화 있음] (정상)                                      |
+  |     스레드 1 (Write) -> Unlock(M) -> 스레드 2 Lock(M) -> (Read)     |
+  |     TSan: "오케이, 합법적인 순서군. 무사 통과!"                        |
+  |                                                                   |
+  |     [상황 B: 동기화 없음] (Data Race 발생!)                           |
+  |     스레드 1 (Write) -> (아무 락도 없음) -> 스레드 2 (Read)            |
+  |     TSan: "삐빅! 데이터 레이스 발견! 지금 당장 충돌이 안 났더라도,        |
+  |           스케줄러에 따라 1과 2가 동시에 실행될 수 있는 잠재적 폭탄이다!" |
+  |     -> 즉시 경고창 (Call Stack 2개) 화면 출력!                        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 일반적인 디버거는 버그가 터져서(Crash) 프로그램이 죽어야만 원인을 찾을 수 있다. 하지만 TSan은 **프로그램이 우연히 정상적으로 동작했어도 버그를 잡아낸다**. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1과 2가 우연히 시간 차를 두고 실행되어 에러가 안 났더라도, TSan의 섀도우 메모리 엔진은 "둘 사이에 Lock이 없었으므로 이론상 언젠간 충돌한다"라는 사실을 수학적으로 증명해 낸다. TSan이 내뿜는 에러 로그는 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1이 여기서 썼고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2가 저기서 썼다"며 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 모두 보여주어 개발자가 1초 만에 원인을 파악하게 해준다.
@@ -130,26 +130,26 @@ TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 멀티스레드 동시성 버그(경쟁 조건) 디버깅 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [버그 리포트: 멀티스레드 환경에서 간헐적인 크래시 혹은 데이터 오염 발생]   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      코드 전체를 -fsanitize=thread (TSan) 옵션으로 빌드 가능한가?     │
-  │          ├─ 예 ─────▶ CI 환경의 Test Suite를 TSan 바이너리로 실행     │
-  │          │                                                        │
-  │          └─ 아니오 (메모리 부족 / 속도 저하로 앱 구동 불가)              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      의심되는 핵심 로직만 떼어내어 단위 테스트(Unit Test)를 짤 수 있는가? │
-  │          ├─ 예 ─────▶ 해당 단위 테스트만 TSan + Fuzzer로 무한 반복    │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [차선책] OS 스케줄러의 타임 슬라이스를 극단적으로   │
-  │                         짧게 튜닝하거나 단일 코어(Taskset)로 강제 고정하여│
-  │                         동시성 버그인지 타이밍 버그인지 범위를 좁힘        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 멀티스레드 동시성 버그(경쟁 조건) 디버깅 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [버그 리포트: 멀티스레드 환경에서 간헐적인 크래시 혹은 데이터 오염 발생]   |
+  |                |                                                  |
+  |                v                                                  |
+  |      코드 전체를 -fsanitize=thread (TSan) 옵션으로 빌드 가능한가?     |
+  |          +- 예 ------> CI 환경의 Test Suite를 TSan 바이너리로 실행     |
+  |          |                                                        |
+  |          +- 아니오 (메모리 부족 / 속도 저하로 앱 구동 불가)              |
+  |                |                                                  |
+  |                v                                                  |
+  |      의심되는 핵심 로직만 떼어내어 단위 테스트(Unit Test)를 짤 수 있는가? |
+  |          +- 예 ------> 해당 단위 테스트만 TSan + Fuzzer로 무한 반복    |
+  |          |                                                        |
+  |          +- 아니오 ---> [차선책] OS 스케줄러의 타임 슬라이스를 극단적으로   |
+  |                         짧게 튜닝하거나 단일 코어(Taskset)로 강제 고정하여|
+  |                         동시성 버그인지 타이밍 버그인지 범위를 좁힘        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그는 "내 PC에서는 잘 되는데요?"의 끝판왕이다. 개발자 PC는 코어가 쉬고 있어서 버그가 발현 안 될 확률이 높다. 따라서 버그를 인위적으로 끄집어내기 위해서는 TSan을 켜둔 상태로 <strong>코어 개수를 초과하는 엄청난 수의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 띄우거나, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Fuzzer(임의의 위치에서 Sleep을 거는 도구)를 결합</strong>하여 OS 스케줄러가 미친 듯이 문맥 교환을 하도록 시스템을 고문(Torture)해야 한다.
@@ -196,12 +196,12 @@ TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory
 
 ```text
 [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘]
-    │
-    ▼
+    |
+    v
 [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
-    │
-    ├──▶ [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
-    └──▶ [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
+    |
+    +---> [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
+    +---> [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -218,7 +218,7 @@ TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory
 
 **진행 상황**: 635 / 800
 
-← **이전**: [634. 병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)](/knowledge-base/studynote/02_operating_system/10_security/634_lock_free_stack_queue/)
-**다음**: [636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/636_multipath_io_kernel_module/) →
+<- **이전**: [634. 병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)](/knowledge-base/studynote/02_operating_system/10_security/634_lock_free_stack_queue/)
+**다음**: [636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/636_multipath_io_kernel_module/) ->
 
 ---

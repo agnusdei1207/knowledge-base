@@ -44,21 +44,21 @@ LLC의 핵심 기능은 <strong>상위 <a href="/knowledge-base/studynote/03_net
 SNAP 확장 안에는 OUI (Organizationally Unique [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 들어가므로, 원래 SAP 공간만으로 표현하기 어려운 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)도 구분할 수 있다. 대표적으로 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) version 4), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) version 6), [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Address Resolution Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 같은 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 이 경로로 구분한다. 아래 그림은 LLC가 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 사이에서 어떻게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)를 수행하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ IEEE 802 data link split and demultiplexing                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Network Layer                                                     │
-│   IPv4 / IPv6 / ARP / other protocols                            │
-│              │                                                     │
-│              ▼                                                     │
-│ LLC : DSAP / SSAP / Control                                       │
-│              │                                                     │
-│     optional SNAP : OUI + protocol identifier                     │
-│              │                                                     │
-│ MAC : frame delivery, addressing, medium access, FCS              │
-│              │                                                     │
-│ Ethernet / Wi-Fi / Token Ring / other IEEE 802 media             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| IEEE 802 data link split and demultiplexing                       |
++--------------------------------------------------------------------+
+| Network Layer                                                     |
+|   IPv4 / IPv6 / ARP / other protocols                            |
+|              |                                                     |
+|              v                                                     |
+| LLC : DSAP / SSAP / Control                                       |
+|              |                                                     |
+|     optional SNAP : OUI + protocol identifier                     |
+|              |                                                     |
+| MAC : frame delivery, addressing, medium access, FCS              |
+|              |                                                     |
+| Ethernet / Wi-Fi / Token Ring / other IEEE 802 media             |
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 LLC가 하는 가장 중요한 일은 <strong>상위 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 구분해 주는 것</strong>이다. 수신 측은 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 정보를 보고 이 프레임이 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) version 4)인지, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) version 6)인지, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Address Resolution Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))인지 판단해 올바른 상위 처리기로 보낸다. SAP만으로 부족한 경우에는 SNAP이 붙어 더 넓은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 공간을 제공한다.
@@ -140,16 +140,16 @@ LLC의 가장 큰 효과는 <strong><a href="/knowledge-base/studynote/03_networ
 
 ```text
 다양한 IEEE 802 매체 등장
-        │
-        ▼
+        |
+        v
 데이터 링크 계층의 역할 분리 필요
-        │
-        ▼
+        |
+        v
 LLC (논리 제어) + MAC (매체 접근) 구조
-        │
-        ├──────────────▶ SAP 기반 상위 프로토콜 다중화
-        ├──────────────▶ SNAP으로 식별 공간 확장
-        └──────────────▶ Ethernet II와 공존하는 현대 캡슐화 해석
+        |
+        +---------------> SAP 기반 상위 프로토콜 다중화
+        +---------------> SNAP으로 식별 공간 확장
+        +---------------> Ethernet II와 공존하는 현대 캡슐화 해석
 ```
 
 이 흐름도는 LLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 분업 구조에서 출발해, 현대 LAN의 프레임 형식 해석까지 이어지는 개념임을 보여 준다.
@@ -166,7 +166,7 @@ LLC (논리 제어) + MAC (매체 접근) 구조
 
 **진행 상황**: 303 / 1120
 
-← **이전**: [181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/)
-**다음**: [183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) →
+<- **이전**: [181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/)
+**다음**: [183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) ->
 
 ---

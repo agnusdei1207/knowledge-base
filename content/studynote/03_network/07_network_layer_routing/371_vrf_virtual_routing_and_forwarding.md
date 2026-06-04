@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [RP, RPF 멀티캐스트 루프 방지]
-    │
-    ▼
+    |
+    v
 [VRF]
-    │
-    └──▶ [Policy-Based Routing / R…]
+    |
+    +---> [Policy-Based Routing / R…]
 ```
 
 - **📢 섹션 요약 비유**: ** VRF는 하나의 거대한 오피스텔 건물(라우터)을 칸막이로 막아 101호(A사), 102호(B사)로 쪼갠 것입니다. 101호 안방에도 침대가 있고 102호 안방에도 똑같이 침대(중복 IP)가 있지만, 벽(VRF 격리)이 쳐져 있어서 옆집 사람이 내 침대에서 자는 사고는 발생하지 않습니다.
@@ -43,8 +43,8 @@ tags = ["studynote-network"]
 
 ### 1. 인터페이스 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 할당)
 라우터에 VRF를 10개 만들었다면, 라우터의 팔다리(인터페이스)를 각 VRF에 할당(Binding)해 주어야 한다.
-- 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ──▶ VRF 'Samsung' 할당
-- 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ──▶ VRF 'LG' 할당
+- 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ---> VRF 'Samsung' 할당
+- 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ---> VRF 'LG' 할당
 - 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어온 패킷은 오직 VRF Samsung이라는 이름이 붙은 수첩([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)만 뒤져서 나갈 길을 찾고, VRF LG 수첩은 쳐다보지도 않는다.
 
 ### 2. 완벽한 논리적 분리 (평행 우주)
@@ -54,22 +54,22 @@ tags = ["studynote-network"]
 - 이 둘은 서로 핑(Ping)을 때려도 응답하지 않는다 (디폴트로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 단절되어 있음). 만약 삼성과 LG가 통신하게 하려면 <strong>Route Leaking(경로 누수)</strong>이라는 고도의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 수작업을 통해 두 테이블 간에 일부러 구멍을 뚫어줘야만 한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                VRF를 통한 IP 중복(Overlap) 해결 도식              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 삼성 지사 (10.1.1.x) ] ── (Port 1) ──┐                    │
- │                                        ▼                    │
- │                       ┏━━━━━━━━━━━━━━━ KT 라우터 ━━━━━━━━━━━━━┓ │
- │                       ┃  [ VRF 삼성 테이블 ]               ┃ │
- │                       ┃  - 10.1.1.0/24 -> Port 1        ┃ │
- │                       ┃                                 ┃ │
- │   [ LG 지사 (10.1.1.x) ]── (Port 2) ──▶ [ VRF LG 테이블 ]   ┃ │
- │                       ┃  - 10.1.1.0/24 -> Port 2        ┃ │
- │                       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ │
- │                                                             │
- │   ▶ 결과: 라우터 1대가 마치 라우터 2대인 것처럼 완벽히 분할되어 동작함!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                VRF를 통한 IP 중복(Overlap) 해결 도식              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 삼성 지사 (10.1.1.x) ] -- (Port 1) --+                    |
+ |                                        v                    |
+ |                       ┏━━━━━━━━━━━━━━━ KT 라우터 ━━━━━━━━━━━━━┓ |
+ |                       ┃  [ VRF 삼성 테이블 ]               ┃ |
+ |                       ┃  - 10.1.1.0/24 -> Port 1        ┃ |
+ |                       ┃                                 ┃ |
+ |   [ LG 지사 (10.1.1.x) ]-- (Port 2) ---> [ VRF LG 테이블 ]   ┃ |
+ |                       ┃  - 10.1.1.0/24 -> Port 2        ┃ |
+ |                       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ |
+ |                                                             |
+ |   -> 결과: 라우터 1대가 마치 라우터 2대인 것처럼 완벽히 분할되어 동작함!|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. VRF Lite vs [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/)
@@ -134,12 +134,12 @@ VRF는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ```text
 [선행 개념: RP, RPF 멀티캐스트 루프 방지]
-    │
-    ▼
+    |
+    v
 [현재 개념: VRF]
-    │
-    ├──▶ [확장 A: Policy-Based Routing / R…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: Policy-Based Routing / R…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 VRF는 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지에서 출발해 현재 메커니즘을 정교화하고, 이후 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ VRF는 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pi
 
 **진행 상황**: 492 / 1120
 
-← **이전**: [370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)
-**다음**: [372. Policy-Based Routing (PBR) / Route Map](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) →
+<- **이전**: [370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)
+**다음**: [372. Policy-Based Routing (PBR) / Route Map](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) ->
 
 ---

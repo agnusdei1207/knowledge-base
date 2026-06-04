@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
+    |
+    v
 [P2P]
-    │
-    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    |
+    +---> [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
 ```
 
 - **📢 섹션 요약 비유**: P2P는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 
 ```text
 [해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
+    |
+    v
 [P2P]
-    │
-    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    |
+    +---> [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
 ```
 
 - **📢 섹션 요약 비유**: P2P의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ```text
 [선행 개념: 해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
+    |
+    v
 [현재 개념: P2P]
-    │
-    ├──▶ [확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 P2P는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ P2P는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextge
 
 **진행 상황**: 1037 / 1120
 
-← **이전**: [915. 해상 통신망 (LTE-M)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/)
-**다음**: [917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) →
+<- **이전**: [915. 해상 통신망 (LTE-M)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/)
+**다음**: [917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) ->
 
 ---

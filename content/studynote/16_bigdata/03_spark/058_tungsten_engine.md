@@ -60,17 +60,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [RDD]
-    │
-    ▼
+    |
+    v
 [DataFrame]
-    │
-    ▼
+    |
+    v
 [Tungsten 엔진]
-    │
-    ▼
+    |
+    v
 [코드 생성 (Code Generation)]
-    │
-    ▼
+    |
+    v
 [Photon 엔진]
 ```
 
@@ -87,7 +87,7 @@ Spark의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 **진행 상황**: 58 / 262
 
-← **이전**: [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/)
-**다음**: [적응형 쿼리 실행 (Adaptive Query Execution, AQE)](/knowledge-base/studynote/16_bigdata/03_spark/059_adaptive_query_execution_aqe/) →
+<- **이전**: [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/)
+**다음**: [적응형 쿼리 실행 (Adaptive Query Execution, AQE)](/knowledge-base/studynote/16_bigdata/03_spark/059_adaptive_query_execution_aqe/) ->
 
 ---

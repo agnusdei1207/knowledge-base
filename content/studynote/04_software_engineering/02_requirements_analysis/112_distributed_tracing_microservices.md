@@ -11,28 +11,28 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이싱은 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 하나의 사용자 요청이 <strong>N개 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 거치는 전체 경로(Trace)</strong>를 고유 ID([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))로 추적하고, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 처리 구간(Span)의 <strong>레이턴시·에러를 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>하여 병목을 특정하는 기법이다.
-> 2. **가치**: 모놀리스에서는 하나의 스택트레이스로 디버깅이 가능하지만, MSA에서는 "주문→결제→배송→알림" 4개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중 **어디서 500ms가 추가됐는지** 찾는 것 자체가 난제이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이싱이 유일한 해법이다.
+> 2. **가치**: 모놀리스에서는 하나의 스택트레이스로 디버깅이 가능하지만, MSA에서는 "주문->결제->배송->알림" 4개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중 **어디서 500ms가 추가됐는지** 찾는 것 자체가 난제이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이싱이 유일한 해법이다.
 > 3. **판단 포인트**: [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)([OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 표준으로 계측(Instrumentation)을 통일하고, Jaeger·Tempo·Zipkin이 백엔드 저장·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 담당하며, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/570_trace_id_span_id_context_propagation/">Context Propagation</a>(W3C Trace <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong>으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 Trace ID를 전파한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MSA에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) → Auth → Order → Payment → Notification으로 이어지는 요청 체인에서, 전체 응답이 2초 걸린다. "어디서 느린가?"를 찾으려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 시간순으로 대조해야 한다.
+MSA에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) -> Auth -> Order -> Payment -> Notification으로 이어지는 요청 체인에서, 전체 응답이 2초 걸린다. "어디서 느린가?"를 찾으려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 시간순으로 대조해야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      분산 트레이싱 Trace/Span 구조                     │
-├───────────────────────────────────────────────────────┤
-│  Trace ID: abc-123 (전체 요청 1건)                    │
-│  ├─ Span 1: API Gateway    [0ms ─── 50ms]            │
-│  ├─ Span 2: Auth Service   [50ms ── 100ms]           │
-│  ├─ Span 3: Order Service  [100ms ─ 800ms] ← 병목!  │
-│  │   └─ Span 3.1: DB Query [200ms ─ 750ms] ← 원인!  │
-│  ├─ Span 4: Payment        [800ms ─ 1200ms]          │
-│  └─ Span 5: Notification   [1200ms ─ 1250ms]         │
-│  총 응답: 1250ms                                      │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      분산 트레이싱 Trace/Span 구조                     |
++-------------------------------------------------------+
+|  Trace ID: abc-123 (전체 요청 1건)                    |
+|  +- Span 1: API Gateway    [0ms --- 50ms]            |
+|  +- Span 2: Auth Service   [50ms -- 100ms]           |
+|  +- Span 3: Order Service  [100ms - 800ms] <- 병목!  |
+|  |   +- Span 3.1: DB Query [200ms - 750ms] <- 원인!  |
+|  +- Span 4: Payment        [800ms - 1200ms]          |
+|  +- Span 5: Notification   [1200ms - 1250ms]         |
+|  총 응답: 1250ms                                      |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Trace ID는 택배 송장번호이고, 각 Span은 물류 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에서의 체류 시간이다. 송장을 추적하면 어느 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에서 택배가 멈췄는지 즉시 알 수 있다.
@@ -76,10 +76,10 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 1. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a> SDK 계측</strong>: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) SDK 추가 (Auto-instrumentation 권장).
 2. **Collector 배포**: [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector를 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 또는 DaemonSet으로 배포하여 Span 수집.
 3. **백엔드 선택**: Jaeger(분석)·Tempo(비용 효율)·Datadog([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)).
-4. <strong>샘플링 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전량 수집은 비용 폭발 → Head-based 또는 Tail-based 샘플링.
+4. <strong>샘플링 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전량 수집은 비용 폭발 -> Head-based 또는 Tail-based 샘플링.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **샘플링 없이 전량 수집**: 초당 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 요청 × 5 Span = 50,000 Span/s → 저장 비용 폭발.
+- **샘플링 없이 전량 수집**: 초당 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 요청 × 5 Span = 50,000 Span/s -> 저장 비용 폭발.
 
 ---
 
@@ -109,17 +109,17 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 
 ```text
 [Google Dapper 논문 (2010) — 분산 트레이싱 개념 정립]
-    │
-    ▼
+    |
+    v
 [Zipkin (2012, Twitter) — 최초 OSS 분산 트레이싱]
-    │
-    ▼
+    |
+    v
 [Jaeger (2017, Uber) — CNCF 졸업 프로젝트]
-    │
-    ▼
+    |
+    v
 [OpenTelemetry 통합 (2019~) — OpenTracing+OpenCensus 합병]
-    │
-    ▼
+    |
+    v
 [현재: eBPF Zero-instrumentation — 코드 변경 없는 자동 추적]
 ```
 
@@ -134,7 +134,7 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 
 **진행 상황**: 112 / 973
 
-← **이전**: [111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)
-**다음**: [113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/) →
+<- **이전**: [111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)
+**다음**: [113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/) ->
 
 ---

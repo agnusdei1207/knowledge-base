@@ -26,16 +26,16 @@ tags = ["studynote-devops-sre"]
 Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"를 묻는다.
 
 ```
-┌─────────────────────────────────────────────────────┐
-│             Blameless vs Blame 비교                 │
-│                                                     │
-│  Blame Culture     │  Blameless Culture             │
-│  ─────────────── │  ─────────────────────────     │
-│  "누가 잘못?"     │  "시스템 어디가 취약?"         │
-│  개인 처벌        │  시스템 개선                   │
-│  장애 은폐        │  투명한 공유                   │
-│  반복 장애        │  재발 방지 액션 이행            │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|             Blameless vs Blame 비교                 |
+|                                                     |
+|  Blame Culture     |  Blameless Culture             |
+|  --------------- |  -------------------------     |
+|  "누가 잘못?"     |  "시스템 어디가 취약?"         |
+|  개인 처벌        |  시스템 개선                   |
+|  장애 은폐        |  투명한 공유                   |
+|  반복 장애        |  재발 방지 액션 이행            |
++-----------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -65,12 +65,12 @@ Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"
 
 ```
 왜 서비스가 다운됐나?
-→ DB 연결 풀이 고갈됐다
-→ 왜? 쿼리 타임아웃 설정이 없었다
-→ 왜? 코드 리뷰 체크리스트에 타임아웃 항목이 없었다
-→ 왜? Runbook에 DB 설정 가이드가 없었다
-→ 왜? 스테이징 환경에서 부하 테스트를 안 했다
-→ 근본 원인: 부하 테스트 자동화 미비
+-> DB 연결 풀이 고갈됐다
+-> 왜? 쿼리 타임아웃 설정이 없었다
+-> 왜? 코드 리뷰 체크리스트에 타임아웃 항목이 없었다
+-> 왜? Runbook에 DB 설정 가이드가 없었다
+-> 왜? 스테이징 환경에서 부하 테스트를 안 했다
+-> 근본 원인: 부하 테스트 자동화 미비
 ```
 
 근본 원인은 보통 "프로세스·도구·설계의 구조적 약점"이다.
@@ -91,7 +91,7 @@ Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"
 Postmortem 리뷰:
 - 작성 후 24~48시간 이내 팀 리뷰
 - 액션 아이템 완료 여부 주기적 추적
-- 사내 Postmortem 저장소에 공유 → 조직 학습
+- 사내 Postmortem 저장소에 공유 -> 조직 학습
 
 > 📢 **Ⅳ 섹션 요약 비유**
 > 액션 아이템 없는 Postmortem은 처방전 없는 진단서 — 아무리 정확한 진단도 치료 계획이 없으면 의미가 없다.
@@ -115,10 +115,10 @@ Postmortem 리뷰:
 
 ```
 Blameless Postmortem
-    ├── 5-Why / Fish-bone → 근본 원인 분석
-    ├── 타임라인 → 장애 흐름 재구성
-    ├── 액션 아이템 → 재발 방지 트래킹
-    └── Postmortem 저장소 → 조직 학습·지식 공유
+    +-- 5-Why / Fish-bone -> 근본 원인 분석
+    +-- 타임라인 -> 장애 흐름 재구성
+    +-- 액션 아이템 -> 재발 방지 트래킹
+    +-- Postmortem 저장소 -> 조직 학습·지식 공유
 ```
 
 > 🧒 **어린이 비유**
@@ -130,7 +130,7 @@ Blameless Postmortem
 
 **진행 상황**: 319 / 373
 
-← **이전**: [Toil SRE Automation](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/)
-**다음**: [Observability Metrics Logs Traces](/knowledge-base/studynote/15_devops_sre/05_devsecops/320_metric/) →
+<- **이전**: [Toil SRE Automation](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/)
+**다음**: [Observability Metrics Logs Traces](/knowledge-base/studynote/15_devops_sre/05_devsecops/320_metric/) ->
 
 ---

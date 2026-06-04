@@ -33,18 +33,18 @@ tags = ["studynote-computer-architecture"]
 전통적으로 실리콘(Si)을 산화시킨 이산화규소 (SiO2)가 완벽한 자연 절연체로 쓰였다. 하지만 칩이 나노미터 단위로 축소되면서 절연막 두께가 얇아지자, 전자가 장벽을 무시하고 유령처럼 벽을 통과해버리는 <strong>양자 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>)</strong> 현상이 발생해 치명적인 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))를 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           양자 터널링 (Quantum Tunneling) 현상의 발생 원리       │
-├──────────────────────────────────────────────────────────────┤
-│  [정상 두께의 절연막]                [초박막 절연막 (1.5nm 이하)] │
-│                                                              │
-│   (전자) ──▶ █ 절벽 █              (전자) ──▶ ▒ ▒ ──▶ (통과!) │
-│              █ 통과불가 █                        ▒ ▒             │
-│              █        █                        ▒ ▒             │
-│                                                              │
-│ * 벽이 너무 얇아지면, 에너지가 부족한 전자도 파동의 성질을 이용해 │
-│   절연벽을 뚫고 지나가 전력 누수가 발생한다.                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           양자 터널링 (Quantum Tunneling) 현상의 발생 원리       |
++--------------------------------------------------------------+
+|  [정상 두께의 절연막]                [초박막 절연막 (1.5nm 이하)] |
+|                                                              |
+|   (전자) ---> █ 절벽 █              (전자) ---> ▒ ▒ ---> (통과!) |
+|              █ 통과불가 █                        ▒ ▒             |
+|              █        █                        ▒ ▒             |
+|                                                              |
+| * 벽이 너무 얇아지면, 에너지가 부족한 전자도 파동의 성질을 이용해 |
+|   절연벽을 뚫고 지나가 전력 누수가 발생한다.                       |
++--------------------------------------------------------------+
 ```
 
 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 연산을 하지 않는 대기 상태에서도 배터리를 방전시키고 발열을 일으키는 주범이 된다.
@@ -106,20 +106,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [절연체 (Insulator) — 전류 흐름 차단]
-    │
-    ▼
+    |
+    v
 [절연 파괴 (Dielectric Breakdown) — 임계 전압 초과 시 도통]
-    │
-    ▼
+    |
+    v
 [유전체 (Dielectric) — 전기장 저장·절연 기능 통합]
-    │
-    ▼
+    |
+    v
 [커패시터 (Capacitor) — 유전체를 이용한 전하 저장 소자]
-    │
-    ▼
+    |
+    v
 [게이트 산화막 (Gate Oxide) — MOSFET의 핵심 절연층]
-    │
-    ▼
+    |
+    v
 [High-K 절연막 — 누설 전류 억제를 위한 차세대 소재]
 ```
 절연체는 단순한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 차단 재료에서 출발해, 유전체·커패시터를 거쳐 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 게이트 산화막이라는 초미세 소자의 핵심 구조로 진화했다.
@@ -136,7 +136,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 10 / 803
 
-← **이전**: [09. 반도체 (Semiconductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)
-**다음**: [11. 다이오드 (Diode)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) →
+<- **이전**: [09. 반도체 (Semiconductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)
+**다음**: [11. 다이오드 (Diode)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) ->
 
 ---

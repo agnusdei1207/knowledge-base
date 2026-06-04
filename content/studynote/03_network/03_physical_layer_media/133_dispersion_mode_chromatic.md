@@ -24,20 +24,20 @@ tags = ["studynote-network"]
 
 ```text
 이 도식은 분산으로 인한 펄스 퍼짐과 심볼 상호 간섭(ISI) 발생 메커니즘을 시각화한다.
-┌────────────────────────────────────────────────────────┐
-│ [분산에 의한 ISI (Inter-Symbol Interference) 발생]     │
-│                                                        │
-│ [송신단 펄스]             [장거리 전송 중]             │
-│   __      __                _        _                 │
-│  |  |    |  |             /   \    /   \               │
-│  |  |    |  |            /     \  /     \              │
-│ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ==>  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾           │
-│                                                        │
-│                  [수신단 도달 시: ISI 파괴]            │
-│                     __--‾‾‾‾--__   <-- 앞뒤 펄스 겹침  │
-│                   /              \     (0과 1 판독 불가│
-│                 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [분산에 의한 ISI (Inter-Symbol Interference) 발생]     |
+|                                                        |
+| [송신단 펄스]             [장거리 전송 중]             |
+|   __      __                _        _                 |
+|  |  |    |  |             /   \    /   \               |
+|  |  |    |  |            /     \  /     \              |
+| ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ==>  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾           |
+|                                                        |
+|                  [수신단 도달 시: ISI 파괴]            |
+|                     __--‾‾‾‾--__   <-- 앞뒤 펄스 겹침  |
+|                   /              \     (0과 1 판독 불가|
+|                 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                   |
++--------------------------------------------------------+
 ```
 이 그림의 핵심은 전송 거리가 길어짐에 따라 원래 날카로웠던 사각 펄스가 둥글고 넓게 퍼진다는 점이다. 퍼짐의 폭이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간격([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Interval)을 초과하는 순간 두 펄스가 섞여버려 통신은 마비된다. 따라서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 늘리려면([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간격을 좁히려면) 반드시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계수(ps/nm·km)를 최소화해야만 한다.
 
@@ -59,18 +59,18 @@ tags = ["studynote-network"]
 
 ```text
 이 도식은 SMF에서 파장 분산(색 분산)을 구성하는 재료 분산과 구조 분산의 상쇄 관계를 보여준다.
-┌──────────────────────────────────────────────────────────────┐
-│ [SMF의 파장 분산 곡선 메커니즘]                              │
-│                                                              │
-│ 분산값 (ps/nm·km)                                           │
-│   ▲                                                          │
-│ + │              / ---- 재료 분산 (파장이 길수록 +)        │
-│   │            /                                             │
-│ 0 ├──────────/─────────────x─────▶ 파장(λ, nm)           │
-│   │        /               ↑ 영 분산 파장 (Zero Dispersion) │
-│ - │      /                  (일반 SMF는 1310nm 부근)         │
-│   │    / ── 구조 분산 (코어 설계로 - 값 유도)                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| [SMF의 파장 분산 곡선 메커니즘]                              |
+|                                                              |
+| 분산값 (ps/nm·km)                                           |
+|   ^                                                          |
+| + |              / ---- 재료 분산 (파장이 길수록 +)        |
+|   |            /                                             |
+| 0 +----------/-------------x------> 파장(λ, nm)           |
+|   |        /               ^ 영 분산 파장 (Zero Dispersion) |
+| - |      /                  (일반 SMF는 1310nm 부근)         |
+|   |    / -- 구조 분산 (코어 설계로 - 값 유도)                |
++--------------------------------------------------------------+
 ```
 이 흐름의 핵심은 유리의 고유한 재료 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(+)과 코어 구조로 유도한 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(-)이 합쳐져 전체 파장 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 이룬다는 점이다. 두 그래프가 만나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)값이 '0'이 되는 지점([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Dispersion Wavelength)이 광통신의 스위트 스팟이 된다. 일반 SMF는 이 지점이 1310nm지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 손실이 가장 적은 1550nm 대역(EDFA 사용 대역)으로 이 영분산 지점을 이동시킨 것이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 천이 광섬유(DSF) 아키텍처다.
 
@@ -92,20 +92,20 @@ tags = ["studynote-network"]
 
 ```text
 이 의사결정 트리 구조는 실무에서 광통신 에러 발생 시 분산 원인 추적의 기준을 제시한다.
-┌────────────────────────────────────────────────────────┐
-│ [광 링크 에러 추적 프레임워크 (분산 관점)]             │
-│                                                        │
-│ [에러 증가 및 아이패턴(Eye Pattern) 폐쇄 현상 감지]    │
-│        │                                               │
-│   (사용 매체는?) ── MMF ──> [ 모드 분산 지배적 ]     │
-│        │ SMF                      └> 케이블 거리 초과, 규격(OM) 확인│
-│        v                                               │
-│   (속도는?) ── < 10G ──> [ 파장 분산 지배적 ]        │
-│        │ > 10G                    └> 광원 스펙트럼 좁은 DFB-LD 교체 │
-│        v                                               │
-│ [ 편광 모드 분산(PMD) 복합 발생 ]                      │
-│   └> 물리적 케이블 뒤틀림 확인 또는 최신 DSP 모듈 장비 교체 적용 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [광 링크 에러 추적 프레임워크 (분산 관점)]             |
+|                                                        |
+| [에러 증가 및 아이패턴(Eye Pattern) 폐쇄 현상 감지]    |
+|        |                                               |
+|   (사용 매체는?) -- MMF --> [ 모드 분산 지배적 ]     |
+|        | SMF                      +> 케이블 거리 초과, 규격(OM) 확인|
+|        v                                               |
+|   (속도는?) -- < 10G --> [ 파장 분산 지배적 ]        |
+|        | > 10G                    +> 광원 스펙트럼 좁은 DFB-LD 교체 |
+|        v                                               |
+| [ 편광 모드 분산(PMD) 복합 발생 ]                      |
+|   +> 물리적 케이블 뒤틀림 확인 또는 최신 DSP 모듈 장비 교체 적용 |
++--------------------------------------------------------+
 ```
 이 비교도의 핵심은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 종류(MMF vs [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))와 전송 속도의 임계점(10G)을 기준으로 지배적 원인이 계단식으로 달라진다는 것이다. 실무자는 아이패턴을 측정해 왜곡이 발생했을 때 맹목적으로 장비를 재부팅할 것이 아니라, 물리적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 거리 한계인지, 광원의 파장 퍼짐 한계인지 정확히 기저 원인을 짚어내야 한다.
 
@@ -123,19 +123,19 @@ tags = ["studynote-network"]
 
 ```text
 이 도식은 장거리 WDM 통신망에서 분산 보상 모듈(DCF)의 직렬 배치 아키텍처를 보여준다.
-┌────────────────────────────────────────────────────────┐
-│ [장거리 전송로의 분산 누적 및 DCF 보상 설계]           │
-│                                                        │
-│ (+) 분산 누적                                          │
-│   ▲          [일반 SMF 80km]          [일반 SMF]       │
-│   │           /----------\            /                │
-│ 0 ├─────────/────────────\──────────/───────▶ 거리    │
-│   │  [송신]              \        /                │
-│   │                      \[DCF] /  <-- 역보상          │
-│ (-) 분산                 \----/                        │
-│                                                        │
-│ => 펄스가 퍼졌다(SMF)가 다시 압축(DCF)되는 과정 반복   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [장거리 전송로의 분산 누적 및 DCF 보상 설계]           |
+|                                                        |
+| (+) 분산 누적                                          |
+|   ^          [일반 SMF 80km]          [일반 SMF]       |
+|   |           /----------\            /                |
+| 0 +---------/------------\----------/--------> 거리    |
+|   |  [송신]              \        /                |
+|   |                      \[DCF] /  <-- 역보상          |
+| (-) 분산                 \----/                        |
+|                                                        |
+| => 펄스가 퍼졌다(SMF)가 다시 압축(DCF)되는 과정 반복   |
++--------------------------------------------------------+
 ```
 이 흐름의 요지는 장거리 백본에서 펄스 퍼짐을 막기 위해 주기적으로 반대 특성의 필터(DCF)를 끼워 넣어 전체 누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 0에 가깝게 통제한다는 것이다. 이는 물리 계층에서 이루어지는 정교한 [아날로그 신호](/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) 복원 작업으로, 과보상도 과소보상도 피해야 하는 고난도 엔지니어링 영역이다.
 
@@ -171,12 +171,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 단일모드 광섬유 / 다중모드 광섬유]
-    │
-    ▼
+    |
+    v
 [현재 개념: 분산]
-    │
-    ├──▶ [확장 A: 광증폭기]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 광증폭기]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [단일모드 광섬유](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/) / 다중모드 광섬유에서 출발해 현재 메커니즘을 정교화하고, 이후 광증폭기와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -193,7 +193,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 254 / 1120
 
-← **이전**: [132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/)
-**다음**: [134. 광증폭기 (EDFA, SOA, 라만 증폭기)](/knowledge-base/studynote/03_network/03_physical_layer_media/134_optical_amplifier_edfa_soa_raman/) →
+<- **이전**: [132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/)
+**다음**: [134. 광증폭기 (EDFA, SOA, 라만 증폭기)](/knowledge-base/studynote/03_network/03_physical_layer_media/134_optical_amplifier_edfa_soa_raman/) ->
 
 ---

@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 계열은 모두 이 원리로 사전학습된다. 인간의 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)처럼 "앞 내용을 보고 다음을 예측"하는 자연스러운 귀납 구조다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 자기 회귀 언어 모델은 "앞 글자들을 보고 다음 글자를 맞추는 받아쓰기 게임"을 무한 반복하며 언어 패턴을 학습하는 것이다.
@@ -58,14 +58,14 @@ L(θ) = Σ_{t=1}^{n} log P(xₜ | x₁,...,xₜ₋₁ ; θ)
 
 학습 시 실제 토큰(Ground Truth)을 이전 입력으로 사용:
 ```
-┌──────────────────────────────────────────────────────┐
-│  학습:   [BOS, "오늘", "날씨", "가"] → "맑다" 예측   │
-│           ↑실제 토큰 사용 (Teacher Forcing)           │
-│                                                      │
-│  추론:   [BOS, "오늘"] → "날씨" 예측 →               │
-│           [BOS, "오늘", "날씨"] → "가" 예측 → ...     │
-│           ↑이전 예측 토큰 사용 (Auto-Regressive)      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  학습:   [BOS, "오늘", "날씨", "가"] -> "맑다" 예측   |
+|           ^실제 토큰 사용 (Teacher Forcing)           |
+|                                                      |
+|  추론:   [BOS, "오늘"] -> "날씨" 예측 ->               |
+|           [BOS, "오늘", "날씨"] -> "가" 예측 -> ...     |
+|           ^이전 예측 토큰 사용 (Auto-Regressive)      |
++------------------------------------------------------+
 ```
 
 ### 퍼플렉시티 (Perplexity)
@@ -94,7 +94,7 @@ PPL=100 : 매 위치에서 100가지 균등 분포로 추측하는 수준
 | 구분 | 자기 회귀 (AR) | 자동 인코딩 (AE, BERT형) |
 |:---|:---|:---|
 | 학습 목표 | 다음 토큰 예측 (LM loss) | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 토큰 복원 ([MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) loss) |
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 | 좌→우 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 비자기 회귀 (동시 예측) |
+| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 | 좌->우 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 비자기 회귀 (동시 예측) |
 | 대표 모델 | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2/3/4, LLaMA | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), RoBERTa |
 | 강점 | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 이해·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
 
@@ -105,8 +105,8 @@ PPL=100 : 매 위치에서 100가지 균등 분포로 추측하는 수준
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **Beam Search**: 각 단계에서 상위 k개 후보 유지, 최종 가장 높은 시퀀스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 선택
-<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: P(xₜ)를 T로 나눠 재조정 → T<1 집중, T>1 다양성
-<strong>Exposure <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a></strong>: Teacher Forcing의 학습-추론 불일치 → Scheduled Sampling으로 완화
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: P(xₜ)를 T로 나눠 재조정 -> T<1 집중, T>1 다양성
+<strong>Exposure <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a></strong>: Teacher Forcing의 학습-추론 불일치 -> Scheduled Sampling으로 완화
 
 기술사 포인트: 연쇄 법칙 분해, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도 최대화, 퍼플렉시티 수식을 정확히 쓰고 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열과의 연관성을 설명.
 
@@ -136,7 +136,7 @@ PPL=100 : 매 위치에서 100가지 균등 분포로 추측하는 수준
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -151,7 +151,7 @@ PPL=100 : 매 위치에서 100가지 균등 분포로 추측하는 수준
 
 **진행 상황**: 383 / 420
 
-← **이전**: [382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/382_positional_encoding_math/)
-**다음**: [384. 토크나이저 BPE (Byte Pair Encoding)](/knowledge-base/studynote/10_ai/05_data_science_ml/384_tokenizer_bpe/) →
+<- **이전**: [382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/382_positional_encoding_math/)
+**다음**: [384. 토크나이저 BPE (Byte Pair Encoding)](/knowledge-base/studynote/10_ai/05_data_science_ml/384_tokenizer_bpe/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (Distributed [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 목표은 단일 시스템처럼 보이게 하는 투명성(Transparency) 제공에 초점을 맞춘 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Coordinator -> Current concept -> Replica result   │
-├──────────────────────────────────────────────────────────────┤
-│ Network delay -> rule -> consistency outcome                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Coordinator -> Current concept -> Replica result   |
++--------------------------------------------------------------+
+| Network delay -> rule -> consistency outcome                 |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 목표를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `분산 데이터베이스 투명성 6가지 규칙`·`위치 투명성`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Prepare -> sync -> current concept -> final decision         │
-├──────────────────────────────────────────────────────────────┤
-│ Local success -> global agreement -> atomicity               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Prepare -> sync -> current concept -> final decision         |
++--------------------------------------------------------------+
+| Local success -> global agreement -> atomicity               |
++--------------------------------------------------------------+
 ```
 
 핵심은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 목표를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [분산 데이터베이스 투명성 6가지 규칙]
-    │
-    ▼
+    |
+    v
 [분산 데이터베이스 목표]
-    │
-    ├──▶ [분산 데이터베이스 투명성 6가지 규칙]
-    └──▶ [위치 투명성]
+    |
+    +---> [분산 데이터베이스 투명성 6가지 규칙]
+    +---> [위치 투명성]
 ```
 
 [분산 데이터베이스 투명성 6가지 규칙](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/262_distributed_transparency/)에서 출발한 논점이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 목표에서 핵심 판단으로 모이고, 이후 [분산 데이터베이스 투명성 6가지 규칙](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/262_distributed_transparency/)·[위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 261 / 600
 
-← **이전**: [260. 스플릿 브레인 (Split Brain) 현상](/knowledge-base/studynote/05_database/04_transactions_concurrency/260_split_brain/)
-**다음**: [262. 분산 데이터베이스 투명성 6가지 규칙 (Distributed Transparency)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/262_distributed_transparency/) →
+<- **이전**: [260. 스플릿 브레인 (Split Brain) 현상](/knowledge-base/studynote/05_database/04_transactions_concurrency/260_split_brain/)
+**다음**: [262. 분산 데이터베이스 투명성 6가지 규칙 (Distributed Transparency)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/262_distributed_transparency/) ->
 
 ---

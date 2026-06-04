@@ -21,20 +21,20 @@ tags = ["studynote-cloud-architecture"]
 CPU를 초과하면 K8s는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이지 않고 **속도를 늦춘다(Throttling)**. 하지만 메모리(RAM)는 "빌린 뒤 반환 불가능한" 자원이므로, 한도를 넘는 순간 리눅스 커널이 프로세스를 <strong>즉시 사살(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Killed)</strong>하여 다른 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 보호한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      CPU 초과 vs 메모리 초과: 비대칭 대응               │
-├───────────────────────────────────────────────────────┤
-│  [CPU 초과]                                           │
-│   limits.cpu: 500m 초과 → Throttling (감속)           │
-│   파드는 살아있음, 응답만 느려짐                       │
-│                                                       │
-│  [Memory 초과]                                        │
-│   limits.memory: 512Mi 초과 → OOM Killed (즉사)       │
-│   SIGKILL → CrashLoopBackOff 무한 루프                │
-│                                                       │
-│  왜 즉사? → 메모리는 "빌린 뒤 반환 불가"              │
-│  방치 시 → 노드 전체 RAM 소진 → 동반 질식사           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      CPU 초과 vs 메모리 초과: 비대칭 대응               |
++-------------------------------------------------------+
+|  [CPU 초과]                                           |
+|   limits.cpu: 500m 초과 -> Throttling (감속)           |
+|   파드는 살아있음, 응답만 느려짐                       |
+|                                                       |
+|  [Memory 초과]                                        |
+|   limits.memory: 512Mi 초과 -> OOM Killed (즉사)       |
+|   SIGKILL -> CrashLoopBackOff 무한 루프                |
+|                                                       |
+|  왜 즉사? -> 메모리는 "빌린 뒤 반환 불가"              |
+|  방치 시 -> 노드 전체 RAM 소진 -> 동반 질식사           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CPU 초과는 고속도로에서 서행(Throttling)하는 것이고, 메모리 초과는 밥그릇을 넘겨 먹은 손님을 식당에서 즉시 퇴장(Kill)시키는 것이다. 안 그러면 식당 전체가 굶는다.
@@ -76,9 +76,9 @@ Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_n
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 대처 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **즉시**: `kubectl describe pod` → `Reason: OOMKilled` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+1. **즉시**: `kubectl describe pod` -> `Reason: OOMKilled` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 2. **임시**: `limits.memory` 상향 (진통제, 근본 해결 아님).
-3. **근본**: Java → `-XX:MaxRAMPercentage=75.0`, Node.js → `--max-old-space-size`.
+3. **근본**: Java -> `-XX:MaxRAMPercentage=75.0`, Node.js -> `--max-old-space-size`.
 4. **예방**: [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + Grafana로 메모리 사용률 80% 알림 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -114,17 +114,17 @@ Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_n
 
 ```text
 [cgroups v1 (2007) — 프로세스별 메모리 제한 도입]
-    │
-    ▼
+    |
+    v
 [Docker (2013) — 컨테이너별 메모리 limits 적용]
-    │
-    ▼
+    |
+    v
 [K8s QoS Class (2015~) — Guaranteed·Burstable·BestEffort 분류]
-    │
-    ▼
+    |
+    v
 [cgroups v2 + Memory QoS (2022~) — 세밀한 메모리 보호]
-    │
-    ▼
+    |
+    v
 [현재: VPA + KEP-2570 — 자동 limits 튜닝 + 메모리 QoS]
 ```
 
@@ -139,7 +139,7 @@ Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_n
 
 **진행 상황**: 109 / 371
 
-← **이전**: [109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/109_multi_cluster_federation_karmada_cloud_bursting/)
-**다음**: [111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/111_container_runtime_sandboxing_gvisor_kata_containers/) →
+<- **이전**: [109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/109_multi_cluster_federation_karmada_cloud_bursting/)
+**다음**: [111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/111_container_runtime_sandboxing_gvisor_kata_containers/) ->
 
 ---

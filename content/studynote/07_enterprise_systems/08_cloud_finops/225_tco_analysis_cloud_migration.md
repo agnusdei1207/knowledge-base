@@ -26,15 +26,15 @@ tags = ["studynote-enterprise"]
 아래 그림은 TCO가 왜 필요한지 보여 주는 기본 구조다. 눈에 잘 보이는 구매비보다 보이지 않는 운영비와 유휴비가 더 클 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ TCO = visible cost + hidden cost                            │
-├──────────────────────────────────────────────────────────────┤
-│ Visible: hardware, initial license, migration project       │
-│ Hidden : power, rack, ops labor, idle capacity, downtime    │
-│          security, backup, support contracts, delay cost    │
-│                                                              │
-│ Decision error happens when only the first line is counted.  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| TCO = visible cost + hidden cost                            |
++--------------------------------------------------------------+
+| Visible: hardware, initial license, migration project       |
+| Hidden : power, rack, ops labor, idle capacity, downtime    |
+|          security, backup, support contracts, delay cost    |
+|                                                              |
+| Decision error happens when only the first line is counted.  |
++--------------------------------------------------------------+
 ```
 
 따라서 TCO는 가격 비교표가 아니라 비용 구조를 해부하는 도구다. 특히 클라우드 전환에서는 "무엇을 옮길 것인가"보다 "어떤 형태로 운영할 것인가"가 비용에 더 큰 영향을 준다.
@@ -57,20 +57,20 @@ TCO를 계산할 때는 비용을 한 덩어리로 보지 말고 계층별로 �
 아래 그림은 36개월 누적 비용 관점에서 CAPEX와 OPEX가 어떻게 다르게 보이는지 요약한다. 핵심은 한 시점 비용이 아니라 곡선의 기울기와 break-even이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 36-month cumulative cost pattern                            │
-├──────────────────────────────────────────────────────────────┤
-│ Cost                                                        │
-│  ▲                                                           │
-│  │ On-prem      ┌────────────── slow growth                 │
-│  │              │                                            │
-│  │              │                                            │
-│  │ Cloud    ─┐──┴──────────── steady pay-as-you-go          │
-│  │ Move cost └─ initial migration hump                       │
-│  └──────────────────────────────────────────────▶ Time      │
-│      M0          M6          M12         M24         M36     │
-│ Break-even changes with utilization and modernization level. │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 36-month cumulative cost pattern                            |
++--------------------------------------------------------------+
+| Cost                                                        |
+|  ^                                                           |
+|  | On-prem      +-------------- slow growth                 |
+|  |              |                                            |
+|  |              |                                            |
+|  | Cloud    -+--+------------ steady pay-as-you-go          |
+|  | Move cost +- initial migration hump                       |
+|  +-----------------------------------------------> Time      |
+|      M0          M6          M12         M24         M36     |
+| Break-even changes with utilization and modernization level. |
++--------------------------------------------------------------+
 ```
 
 즉, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)-and-Shift처럼 기존 구조를 그대로 옮기면 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을 거의 못 써서 OPEX 곡선이 가파르게 유지된다. 반대로 오토스케일링, managed [service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 설계를 활용하면 운영 기울기를 낮출 수 있다. 그래서 TCO는 인프라 가격 비교보다 아키텍처 성숙도 비교에 더 가깝다.
@@ -142,17 +142,17 @@ TCO를 계산할 때는 비용을 한 덩어리로 보지 말고 계층별로 �
 
 ```text
 Purchase price thinking
-         │
-         ▼
+         |
+         v
 Total Cost of Ownership
-         │
-         ▼
+         |
+         v
 CAPEX vs OPEX comparison
-         │
-         ▼
+         |
+         v
 Migration pattern analysis
-         │
-         ▼
+         |
+         v
 FinOps and ROI optimization
 ```
 
@@ -170,7 +170,7 @@ FinOps and ROI optimization
 
 **진행 상황**: 225 / 482
 
-← **이전**: [224. 가치 흐름 매핑 (Value Stream Mapping)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)
-**다음**: [226. FinOps (Cloud Financial Management)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/226_finops_cloud_financial_management/) →
+<- **이전**: [224. 가치 흐름 매핑 (Value Stream Mapping)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)
+**다음**: [226. FinOps (Cloud Financial Management)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/226_finops_cloud_financial_management/) ->
 
 ---

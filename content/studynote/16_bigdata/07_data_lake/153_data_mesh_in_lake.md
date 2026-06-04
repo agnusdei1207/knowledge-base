@@ -36,34 +36,34 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│            Data Mesh on Lakehouse 아키텍처                        │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  Unity Catalog (연합 거버넌스 레이어)                      │    │
-│  │  - 중앙 접근 제어 정책 (컬럼 마스킹, 행 필터)              │    │
-│  │  - 감사 로그 통합, 리니지 추적                             │    │
-│  └────────────────────────────┬────────────────────────────┘    │
-│                               │ 정책 적용                        │
-│             ┌─────────────────┼──────────────────┐              │
-│             │                 │                  │              │
-│   ┌─────────▼──────┐ ┌───────▼────────┐ ┌──────▼──────────┐   │
-│   │  도메인: 영업    │ │ 도메인: 마케팅  │ │ 도메인: 물류     │   │
-│   │  catalog.sales  │ │ catalog.mkt    │ │ catalog.logist. │   │
-│   │                │ │               │ │                │   │   │
-│   │  Bronze (raw)  │ │ Bronze (raw)  │ │ Bronze (raw)   │   │   │
-│   │  Silver        │ │ Silver        │ │ Silver         │   │   │
-│   │  Gold 제품 테이블│ │ Gold 제품 테이블│ │ Gold 제품 테이블│   │   │
-│   │  (SLA 계약 포함)│ │ (SLA 계약 포함)│ │ (SLA 계약 포함)│   │   │
-│   └────────────────┘ └───────────────┘ └────────────────┘   │   │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  소비자 도메인 (교차 도메인 쿼리)                           │   │
-│  │  - Unity Catalog 공유 테이블 읽기                          │   │
-│  │  - Delta Sharing으로 외부 공유                             │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            Data Mesh on Lakehouse 아키텍처                        |
++------------------------------------------------------------------+
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |  Unity Catalog (연합 거버넌스 레이어)                      |    |
+|  |  - 중앙 접근 제어 정책 (컬럼 마스킹, 행 필터)              |    |
+|  |  - 감사 로그 통합, 리니지 추적                             |    |
+|  +----------------------------+----------------------------+    |
+|                               | 정책 적용                        |
+|             +-----------------+------------------+              |
+|             |                 |                  |              |
+|   +---------v------+ +-------v--------+ +------v----------+   |
+|   |  도메인: 영업    | | 도메인: 마케팅  | | 도메인: 물류     |   |
+|   |  catalog.sales  | | catalog.mkt    | | catalog.logist. |   |
+|   |                | |               | |                |   |   |
+|   |  Bronze (raw)  | | Bronze (raw)  | | Bronze (raw)   |   |   |
+|   |  Silver        | | Silver        | | Silver         |   |   |
+|   |  Gold 제품 테이블| | Gold 제품 테이블| | Gold 제품 테이블|   |   |
+|   |  (SLA 계약 포함)| | (SLA 계약 포함)| | (SLA 계약 포함)|   |   |
+|   +----------------+ +---------------+ +----------------+   |   |
+|                                                                  |
+|  +----------------------------------------------------------+   |
+|  |  소비자 도메인 (교차 도메인 쿼리)                           |   |
+|  |  - Unity Catalog 공유 테이블 읽기                          |   |
+|  |  - Delta Sharing으로 외부 공유                             |   |
+|  +----------------------------------------------------------+   |
++------------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별 <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 구성 요소</strong>
@@ -71,7 +71,7 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 | 구성 요소 | 역할 | 도구 |
 |:---|:---|:---|
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 테이블 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) | [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) [catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 수준 |
-| [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) | Bronze→Silver→Gold 변환 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Workflows / [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
+| [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) | Bronze->Silver->Gold 변환 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Workflows / [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
 | [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 테이블 | 외부 소비 인터페이스 | Gold Delta Table + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 문서 |
 | 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 제품 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수 추적 | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations / Soda |
 | 셀프서비스 템플릿 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 신규 팀 온보딩 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Repos + [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) |
@@ -156,17 +156,17 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 
 ```text
 [중앙 집중 데이터 레이크 (Centralized Data Lake) — 모든 데이터를 한 곳에 수집]
-    │
-    ▼
+    |
+    v
 [데이터 사일로 문제 (Data Silo) — 팀 간 데이터 접근 병목·거버넌스 공백 발생]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인 팀이 데이터 제품 소유·서빙하는 분산 아키텍처]
-    │
-    ▼
+    |
+    v
 [데이터 제품 (Data Product) — 발견 가능·접근 가능·신뢰 가능한 자립 데이터 단위]
-    │
-    ▼
+    |
+    v
 [연합 거버넌스 (Federated Governance) — 중앙 정책과 도메인 자율성의 균형 유지]
 ```
 
@@ -183,7 +183,7 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 
 **진행 상황**: 153 / 262
 
-← **이전**: [152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층](/knowledge-base/studynote/16_bigdata/07_data_lake/152_medallion_architecture/)
-**다음**: [154. 데이터 제품 (Data Product) — API 인터페이스와 SLA 품질 지표](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) →
+<- **이전**: [152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층](/knowledge-base/studynote/16_bigdata/07_data_lake/152_medallion_architecture/)
+**다음**: [154. 데이터 제품 (Data Product) — API 인터페이스와 SLA 품질 지표](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) ->
 
 ---

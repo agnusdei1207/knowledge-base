@@ -34,21 +34,21 @@ tags = ["studynote-devops-sre"]
 아래 그림은 세 가지 프로브와 그 결과가 어떻게 연결되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Probe flow: startup gate, traffic gate, restart gate       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Container start                                                            │
-│      │                                                                     │
-│      ├─ Startup Probe fail ───────────────▶ keep waiting / restart later   │
-│      │                                                                     │
-│      └─ Startup Probe success                                              │
-│               │                                                            │
-│               ├─ Readiness success ───────▶ add pod to Service endpoints   │
-│               ├─ Readiness fail ─────────▶ remove from traffic only        │
-│               │                                                            │
-│               ├─ Liveness success ───────▶ keep running                    │
-│               └─ Liveness fail N times ─▶ restart container                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                Probe flow: startup gate, traffic gate, restart gate       |
++----------------------------------------------------------------------------+
+| Container start                                                            |
+|      |                                                                     |
+|      +- Startup Probe fail ----------------> keep waiting / restart later   |
+|      |                                                                     |
+|      +- Startup Probe success                                              |
+|               |                                                            |
+|               +- Readiness success --------> add pod to Service endpoints   |
+|               +- Readiness fail ----------> remove from traffic only        |
+|               |                                                            |
+|               +- Liveness success --------> keep running                    |
+|               +- Liveness fail N times --> restart container                |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 Readiness 실패가 곧바로 재시작을 뜻하지 않는다는 것이다. 준비가 안 된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 살아 있을 수 있고, 살아 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 요청을 받아서는 안 될 수도 있다. 그래서 엔드포인트 제어와 프로세스 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 분리하는 것이 핵심 원리다.
@@ -128,17 +128,17 @@ Shallow Check는 가볍고 안정적이지만 실제 장애를 놓칠 수 있고
 
 ```text
 프로세스 실행 여부 확인
-    │
-    ▼
+    |
+    v
 Startup / Readiness / Liveness 분리
-    │
-    ▼
+    |
+    v
 서비스 엔드포인트 제어 · 자동 재시작
-    │
-    ▼
+    |
+    v
 롤링 업데이트 · 오토스케일링 안정화
-    │
-    ▼
+    |
+    v
 관측성 기반 원인 분석 · 자동 치유 고도화
 ```
 
@@ -156,7 +156,7 @@ Startup / Readiness / Liveness 분리
 
 **진행 상황**: 160 / 373
 
-← **이전**: [159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/159_failover_failback_architecture/)
-**다음**: [161. AIOps (Artificial Intelligence for IT Operations)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/161_aiops_anomaly_detection_auto_remediation/) →
+<- **이전**: [159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/159_failover_failback_architecture/)
+**다음**: [161. AIOps (Artificial Intelligence for IT Operations)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/161_aiops_anomaly_detection_auto_remediation/) ->
 
 ---

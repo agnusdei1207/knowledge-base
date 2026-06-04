@@ -32,12 +32,12 @@ tags = ["studynote-ai"]
 *전체 비용은 O([순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용) 의 상수 배
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "모든 사원의 성과급을 계산할 때, 각 사원을 하나씩 회의실에 불러 따로 평가하는(수치 미분) 대신, 전체 회의에서 한 번에 책임 분담을 계산하는([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))" 방법이다.
@@ -56,9 +56,9 @@ tags = ["studynote-ai"]
   ∂L/∂w = ∂L/∂z · ∂z/∂w   (z = wx + b)
 
   실제 수식:
-  z = wx + b → ∂z/∂w = x
-  a = σ(z)   → ∂a/∂z = σ'(z)
-  L = loss(a)→ ∂L/∂a = loss'(a)
+  z = wx + b -> ∂z/∂w = x
+  a = σ(z)   -> ∂a/∂z = σ'(z)
+  L = loss(a)-> ∂L/∂a = loss'(a)
 
   따라서: ∂L/∂w = ∂L/∂a · ∂a/∂z · ∂z/∂w
                 = loss'(a) · σ'(z) · x
@@ -67,37 +67,37 @@ tags = ["studynote-ai"]
 ### 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
 
 ```
-  순전파 (Forward Pass): 좌 → 우
-  역전파 (Backward Pass): 우 → 좌
+  순전파 (Forward Pass): 좌 -> 우
+  역전파 (Backward Pass): 우 -> 좌
 
-  x ──▶[× w]──▶ z ──▶[σ]──▶ a ──▶[L]──▶ Loss
-  ↑             ↑            ↑           |
+  x --->[× w]---> z --->[σ]---> a --->[L]---> Loss
+  ^             ^            ^           |
   w             w            a           |
-                ▲            ▲           ▼
-                │    역전파   │ ∂L/∂a ←──┘
-                │            │
-  ∂L/∂w ◀──────│────────────┘
+                ^            ^           v
+                |    역전파   | ∂L/∂a <---+
+                |            |
+  ∂L/∂w <-------|------------+
        = ∂L/∂z · ∂z/∂w
        = (∂L/∂a · σ'(z)) · x
 
   계산 그래프 노드별 역전파 규칙:
-  ┌───────────────────────────────────────────────────┐
-  │  덧셈 노드: 기울기를 그대로 양 쪽으로 분배          │
-  │  곱셈 노드: 기울기 × 상대방 입력값 (교차 곱)       │
-  │  활성화 노드: 기울기 × 활성화 함수 도함수           │
-  └───────────────────────────────────────────────────┘
+  +---------------------------------------------------+
+  |  덧셈 노드: 기울기를 그대로 양 쪽으로 분배          |
+  |  곱셈 노드: 기울기 × 상대방 입력값 (교차 곱)       |
+  |  활성화 노드: 기울기 × 활성화 함수 도함수           |
+  +---------------------------------------------------+
 ```
 
 ### 2층 신경망 전체 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수식 전개
 
 ```
-  구조: x → [Linear 1] → h → [ReLU] → a → [Linear 2] → y → [MSE] → L
+  구조: x -> [Linear 1] -> h -> [ReLU] -> a -> [Linear 2] -> y -> [MSE] -> L
 
   Forward:
   h₁ = W₁x + b₁
   a₁ = ReLU(h₁)
   y = W₂a₁ + b₂
-  L = (1/2)(y - t)²   (t: 정답)
+  L = (1/2)(y - t)^   (t: 정답)
 
   Backward (연쇄 법칙):
   δL/δy = y - t                         (MSE 도함수)
@@ -117,7 +117,7 @@ tags = ["studynote-ai"]
   활용: 역전파 구현 검증 (Gradient Check)
 
   자동 미분 (Autograd):
-  PyTorch: tensor.backward() → .grad 자동 계산
+  PyTorch: tensor.backward() -> .grad 자동 계산
   JAX: jax.grad(loss_fn)(params)
   비용: 역전파 1회 = O(순전파 비용의 ~3배)
 ```
@@ -132,7 +132,7 @@ tags = ["studynote-ai"]
 
 | 항목 | [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode | Reverse Mode ([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
 |:---|:---|:---|
-| 계산 방향 | 입력 → 출력 | 출력 → 입력 |
+| 계산 방향 | 입력 -> 출력 | 출력 -> 입력 |
 | 비용 | O(d) — 입력 차원 | O(1) — 출력 차원 |
 | 유리한 경우 | 출력 차원 >> 입력 차원 | 입력 차원 >> 출력 차원 |
 | 딥러닝 적용 | 비적합 (파라미터 수 방대) | 적합 (손실 = 스칼라 1개) |
@@ -210,13 +210,13 @@ for i in range(w.shape[0]):
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [역전파 편미분 (Backpropagation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [역전파 편미분 (Backpropagation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🎯 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "축구 시합에서 진 이유를 찾을 때, 최종 결과(패배)에서 거꾸로 각 선수(파라미터)의 잘못을 계산하는" 방법이에요.
-2. ⛓️ 연쇄 법칙은 "A 가 B 를 움직이고, B 가 C 를 움직이면, A 가 C 에 미치는 영향 = A→B 영향 × B→C 영향" 이에요.
+2. ⛓️ 연쇄 법칙은 "A 가 B 를 움직이고, B 가 C 를 움직이면, A 가 C 에 미치는 영향 = A->B 영향 × B->C 영향" 이에요.
 3. 🤖 PyTorch 는 이걸 자동으로 해줘서, 우리가 직접 계산하지 않아도 돼요!
 
 ---
@@ -225,7 +225,7 @@ for i in range(w.shape[0]):
 
 **진행 상황**: 345 / 420
 
-← **이전**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/knowledge-base/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/)
-**다음**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/) →
+<- **이전**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/knowledge-base/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/)
+**다음**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/) ->
 
 ---

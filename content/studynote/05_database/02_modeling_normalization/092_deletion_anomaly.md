@@ -34,16 +34,16 @@ tags = ["database"]
 | 102 | ACC | 이영희 | 경영 | 회계학 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 삭제 이상 발생 메커니즘                     │
-├─────────────────────────────────────────────────────────────┤
-│ 1. 삭제 의도: 학번 102의 'ACC' 과목 수강 내역 삭제          │
-│                                                             │
-│ 2. DB 시스템의 처리: 행(Row) 단위 삭제 연산 수행            │
-│    DELETE FROM Table WHERE 학번=102 AND 과목코드='ACC';     │
-│                                                             │
-│ 3. 결과: 의도하지 않은 '이영희, 경영' 정보까지 동반 소멸    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 삭제 이상 발생 메커니즘                     |
++-------------------------------------------------------------+
+| 1. 삭제 의도: 학번 102의 'ACC' 과목 수강 내역 삭제          |
+|                                                             |
+| 2. DB 시스템의 처리: 행(Row) 단위 삭제 연산 수행            |
+|    DELETE FROM Table WHERE 학번=102 AND 과목코드='ACC';     |
+|                                                             |
+| 3. 결과: 의도하지 않은 '이영희, 경영' 정보까지 동반 소멸    |
++-------------------------------------------------------------+
 ```
 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 삭제할 때 부분적인 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))만 남길 수 없으므로, 해당 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)에 유일하게 존재했던 종속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(이름, 학과)가 함께 파괴된다.
 
@@ -101,17 +101,17 @@ tags = ["database"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 비정규화 릴레이션 (하나의 거대한 테이블)
-    │
-    ▼
+    |
+    v
 갱신 이상 발생 (삽입 / 갱신 / 삭제 이상)
-    │
-    ▼
+    |
+    v
 함수적 종속성 (FD) 분석
-    │
-    ▼
+    |
+    v
 정규화 및 무손실 분해 (1NF, 2NF, 3NF...)
-    │
-    ▼
+    |
+    v
 독립된 엔티티 보장 및 데이터 무결성 확보
 ```
 
@@ -126,7 +126,7 @@ tags = ["database"]
 
 **진행 상황**: 92 / 600
 
-← **이전**: [91. 삽입 이상 (Insertion Anomaly) - 불필요한 데이터까지 함께 삽입해야 하는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)
-**다음**: [93. 갱신 이상 (Update Anomaly) - 중복 데이터 중 일부만 갱신되어 데이터 불일치 발생](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) →
+<- **이전**: [91. 삽입 이상 (Insertion Anomaly) - 불필요한 데이터까지 함께 삽입해야 하는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)
+**다음**: [93. 갱신 이상 (Update Anomaly) - 중복 데이터 중 일부만 갱신되어 데이터 불일치 발생](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) ->
 
 ---

@@ -174,7 +174,7 @@ GHz 주파수에서 1-cycle 64-bit 가산
 
 **진행 상황**: 36 / 803
 
-← **이전**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)
-**다음**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) →
+<- **이전**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)
+**다음**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) ->
 
 ---

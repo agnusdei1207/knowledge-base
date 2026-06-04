@@ -56,9 +56,9 @@ tags = ["studynote-security"]
 
 ```text
 보이는 경고
-    ↓
+    v
 행동의 위험 인식
-    ↓
+    v
 시도 포기 또는 지연
 ```
 
@@ -99,11 +99,11 @@ tags = ["studynote-security"]
 
 ```text
 보이는 경고
-   ↓
+   v
 심리적 부담
-   ↓
+   v
 행동 포기
-   ↓
+   v
 예방 / 탐지 / 보완 통제와 결합
 ```
 
@@ -111,11 +111,11 @@ tags = ["studynote-security"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 경고 표지판과 경비 인력 → 가장 기본적인 물리적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
-2. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 배너와 징계 규정 → 내부자 위협 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
-3. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 알림 기능 → 기술적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)와 추적성 강화
-4. 사용자 행위 분석과 적응형 경고 → 맥락 기반 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
-5. 다층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) → [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제를 다른 통제와 결합
+1. 경고 표지판과 경비 인력 -> 가장 기본적인 물리적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
+2. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 배너와 징계 규정 -> 내부자 위협 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
+3. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 알림 기능 -> 기술적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)와 추적성 강화
+4. 사용자 행위 분석과 적응형 경고 -> 맥락 기반 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
+5. 다층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) -> [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제를 다른 통제와 결합
 
 ---
 
@@ -131,7 +131,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 56 / 1108
 
-← **이전**: [55. 교정 통제 (Corrective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/)
-**다음**: [57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치](/knowledge-base/studynote/09_security/01_intro_principles/057_compensating_controls/) →
+<- **이전**: [55. 교정 통제 (Corrective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/)
+**다음**: [57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치](/knowledge-base/studynote/09_security/01_intro_principles/057_compensating_controls/) ->
 
 ---

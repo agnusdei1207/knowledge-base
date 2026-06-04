@@ -32,28 +32,28 @@ tags = ["studynote-software-engineering"]
 전통적인 2차원 비교 방식과 EVM의 3차원 비교 방식이 빚어내는 해석의 차이를 시각화하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         전통적 예산 통제 vs EVM(획득 가치) 통제 비교          │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │ [상황: 100일간 100억을 쓰는 프로젝트의 50일 차 보고]          │
-  │                                                         │
-  │ 1. 전통적 방식 (1차원 회계)                                │
-  │    - 계획 예산 (PV): 50억 (원래 이때까지 쓰기로 한 돈)       │
-  │    - 실제 투입 (AC): 40억 (실제로 내 지갑에서 나간 돈)       │
-  │    ▶ PM의 보고: "사장님! 10억이나 예산을 아꼈습니다. 우수합니다!" │
-  │    ▶ 경영진의 오판: "잘하고 있군."                          │
-  │                                                         │
-  │ 2. EVM 방식 (3차원 통합 진단)                              │
-  │    - 계획 예산 (PV): 50억                                │
-  │    - 실제 투입 (AC): 40억                                │
-  │    - 획득 가치 (EV): 20억 (실제 완성된 모듈의 원래 가치)       │
-  │                                                         │
-  │    ▶ 진단 1 (일정): EV(20) - PV(50) = -30억 (일정 극심한 지연)│
-  │    ▶ 진단 2 (비용): EV(20) - AC(40) = -20억 (원가 심각한 초과)│
-  │                                                         │
-  │    🚨 진실: 일은 절반도 못 끝냈는데(지연), 돈은 예산보다 두 배나 펑펑 썼음!│
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         전통적 예산 통제 vs EVM(획득 가치) 통제 비교          |
+  +---------------------------------------------------------+
+  |                                                         |
+  | [상황: 100일간 100억을 쓰는 프로젝트의 50일 차 보고]          |
+  |                                                         |
+  | 1. 전통적 방식 (1차원 회계)                                |
+  |    - 계획 예산 (PV): 50억 (원래 이때까지 쓰기로 한 돈)       |
+  |    - 실제 투입 (AC): 40억 (실제로 내 지갑에서 나간 돈)       |
+  |    -> PM의 보고: "사장님! 10억이나 예산을 아꼈습니다. 우수합니다!" |
+  |    -> 경영진의 오판: "잘하고 있군."                          |
+  |                                                         |
+  | 2. EVM 방식 (3차원 통합 진단)                              |
+  |    - 계획 예산 (PV): 50억                                |
+  |    - 실제 투입 (AC): 40억                                |
+  |    - 획득 가치 (EV): 20억 (실제 완성된 모듈의 원래 가치)       |
+  |                                                         |
+  |    -> 진단 1 (일정): EV(20) - PV(50) = -30억 (일정 극심한 지연)|
+  |    -> 진단 2 (비용): EV(20) - AC(40) = -20억 (원가 심각한 초과)|
+  |                                                         |
+  |    🚨 진실: 일은 절반도 못 끝냈는데(지연), 돈은 예산보다 두 배나 펑펑 썼음!|
+  +---------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 그림은 EVM이 왜 혁명적인 관리 기법인지 단적으로 증명한다. 전통적인 방식에서는 지갑에서 돈이 덜 나간 것([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) < [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))을 원가 절감이라 착각했다. 하지만 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(Earned Value)라는 '실제 수행된 작업의 가치'를 꺼내어 보면 진실이 드러난다. 50일 차에 20억 치의 일([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))밖에 못 했다면 심각한 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이며, 그 20억 치의 일을 하기 위해 무려 40억([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))을 쏟아부었으므로 원가 통제력도 완전히 상실한 상태다. EVM은 항상 '달성한 가치([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))'를 중심에 두고, 이를 PV와 비교하면 일정(Schedule)을, AC와 비교하면 비용(Cost)을 평가하는 완벽한 대칭형 진단 모델이다.
@@ -157,21 +157,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 EVM (Earned Value Management) SPI, CPI 계산 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ EVM (Earned Value Management) SPI, CPI 계산 개념 정립
 
 **진행 상황**: 849 / 973
 
-← **이전**: [675. 프로젝트 관리 WBS, CPM, PERT](/knowledge-base/studynote/04_software_engineering/uncategorized/675_project_management_wbs_cpm_pert/)
-**다음**: [677. CMMI 성숙도 5단계 (초기-관리-정의-정량-최적)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/677_cmmi_5_levels_maturity/) →
+<- **이전**: [675. 프로젝트 관리 WBS, CPM, PERT](/knowledge-base/studynote/04_software_engineering/uncategorized/675_project_management_wbs_cpm_pert/)
+**다음**: [677. CMMI 성숙도 5단계 (초기-관리-정의-정량-최적)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/677_cmmi_5_levels_maturity/) ->
 
 ---

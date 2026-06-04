@@ -34,26 +34,26 @@ Spotify는 2016년부터 이 문제를 해결하기 위해 내부 도구 Backsta
 ### Backstage 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)
 
 ```
-  ┌─────────────────────────────────────────────────────────┐
-  │                 Backstage IDP 포털                        │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                          │
-  │  ┌─────────────────┐    ┌─────────────────────────────┐ │
-  │  │  Service Catalog │    │      Software Templates      │ │
-  │  │  (서비스 카탈로그)│    │      (골든 패스 스캐폴딩)    │ │
-  │  │                  │    │                              │ │
-  │  │ - 서비스 목록     │    │ - 서비스 생성 워크플로우      │ │
-  │  │ - 소유자·팀       │    │ - CI/CD 파이프라인 자동 구성  │ │
-  │  │ - API 문서        │    │ - IaC 코드 생성              │ │
-  │  │ - 의존성 맵       │    │ - 보안·모니터링 기본값 포함   │ │
-  │  └─────────────────┘    └─────────────────────────────┘ │
-  │                                                          │
-  │  ┌────────────────────────────────────────────────────┐ │
-  │  │                   Plugin 생태계                      │ │
-  │  │  [K8s] [GitHub] [Jenkins] [PagerDuty] [Datadog]    │ │
-  │  │  [SonarQube] [Vault] [AWS] [Terraform Cloud] ...   │ │
-  │  └────────────────────────────────────────────────────┘ │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |                 Backstage IDP 포털                        |
+  +---------------------------------------------------------+
+  |                                                          |
+  |  +-----------------+    +-----------------------------+ |
+  |  |  Service Catalog |    |      Software Templates      | |
+  |  |  (서비스 카탈로그)|    |      (골든 패스 스캐폴딩)    | |
+  |  |                  |    |                              | |
+  |  | - 서비스 목록     |    | - 서비스 생성 워크플로우      | |
+  |  | - 소유자·팀       |    | - CI/CD 파이프라인 자동 구성  | |
+  |  | - API 문서        |    | - IaC 코드 생성              | |
+  |  | - 의존성 맵       |    | - 보안·모니터링 기본값 포함   | |
+  |  +-----------------+    +-----------------------------+ |
+  |                                                          |
+  |  +----------------------------------------------------+ |
+  |  |                   Plugin 생태계                      | |
+  |  |  [K8s] [GitHub] [Jenkins] [PagerDuty] [Datadog]    | |
+  |  |  [SonarQube] [Vault] [AWS] [Terraform Cloud] ...   | |
+  |  +----------------------------------------------------+ |
+  +---------------------------------------------------------+
 ```
 
 ### catalog-info.yaml ([서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 등록)
@@ -207,14 +207,14 @@ IDP는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_enginee
 
 ```text
 개발자: 여러 도구 분산 사용 (컨텍스트 스위칭)
-    │
-    ▼
+    |
+    v
 IDP: 서비스 카탈로그 + 템플릿 + 문서 통합
-    ├─► Backstage (Spotify 오픈소스)
-    └─► 플러그인 생태계: K8s · CI/CD · 비용 연동
-    │
-    ▼
-개발자 경험(DX) 극대화 → 생산성 향상
+    +-► Backstage (Spotify 오픈소스)
+    +-► 플러그인 생태계: K8s · CI/CD · 비용 연동
+    |
+    v
+개발자 경험(DX) 극대화 -> 생산성 향상
 ```
 2. 새 친구(신규 입사자)가 와도 스마트패드만 켜면 학교 전체가 어떻게 돌아가는지 바로 알 수 있어.
 3. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들고 싶으면? 버튼 하나 누르면 표준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 서버가 뚝딱 생겨.
@@ -225,7 +225,7 @@ IDP: 서비스 카탈로그 + 템플릿 + 문서 통합
 
 **진행 상황**: 199 / 371
 
-← **이전**: [199. 플랫폼 엔지니어링 (Platform 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/)
-**다음**: [201. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) →
+<- **이전**: [199. 플랫폼 엔지니어링 (Platform 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/)
+**다음**: [201. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) ->
 
 ---

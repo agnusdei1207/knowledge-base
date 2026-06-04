@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. **OS의 영리한 취사선택**: OS가 쫓아낼 놈을 고를 때 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어보고, 0이면 1번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(읽기만)으로 끝내버리는 필터링 로직이 추가되어 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 체감 속도가 두 배 이상 빨라졌다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│        Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이    │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함 ]      │
-│                                                                   │
-│ ▶ 1. 희생양이 Clean (Dirty Bit == 0) 인 경우                      │
-│   - OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."            │
-│   - 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)                 │
-│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
-│   🚀 총 소요 시간: 약 8 ms (쾌적함)                               │
-│                                                                   │
-│ ▶ 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우                      │
-│   - OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."      │
-│   - 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)      │
-│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
-│   ☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)                 │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|        Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이    |
++-------------------------------------------------------------------+
+|                                                                   |
+| [ 상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함 ]      |
+|                                                                   |
+| -> 1. 희생양이 Clean (Dirty Bit == 0) 인 경우                      |
+|   - OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."            |
+|   - 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)                 |
+|   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               |
+|   🚀 총 소요 시간: 약 8 ms (쾌적함)                               |
+|                                                                   |
+| -> 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우                      |
+|   - OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."      |
+|   - 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)      |
+|   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               |
+|   ☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)                 |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 단순한 표가 왜 OS가 그렇게나 `Dirty Bit`에 집착하는지를 보여준다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 자체도 느려 터졌는데, 하필 내가 고른 희생양이 Dirty라면 시간이 2배로 길어지는 벌칙을 받는다. 따라서 OS는 <strong>"무조건 깨끗한(Clean) 놈부터 먼저 쫓아낸다"</strong>는 편애 로직을 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) 깊숙이 박아 넣을 수밖에 없다.
 
@@ -97,14 +97,14 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 4. **클래스 3 (R=1, M=1)**: 방금 막 값을 미친 듯이 썼음 (Dirty). -> **[절대 죽이면 안 됨]** 지금 가장 뜨거운(Hot) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 살생부 순위│ R (참조됨)   │ M (변경됨/Dirty)│ 생존율       │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ 1순위 타겟 │ 0          │ 0          │ ☠️ 가장 먼저 죽음   │
-│ 2순위 타겟 │ 0          │ 1          │ 🔴 위험함           │
-│ 3순위 타겟 │ 1          │ 0          │ 🟡 웬만하면 생존    │
-│ 마지막 보루│ 1          │ 1          │ 🟢 완벽한 생존      │
-└──────────┴────────────┴────────────┴───────────────────────┘
++----------+------------+------------+-----------------------+
+| 살생부 순위| R (참조됨)   | M (변경됨/Dirty)| 생존율       |
++----------+------------+------------+-----------------------+
+| 1순위 타겟 | 0          | 0          | ☠️ 가장 먼저 죽음   |
+| 2순위 타겟 | 0          | 1          | 🔴 위험함           |
+| 3순위 타겟 | 1          | 0          | 🟡 웬만하면 생존    |
+| 마지막 보루| 1          | 1          | 🟢 완벽한 생존      |
++----------+------------+------------+-----------------------+
 ```
 **[매트릭스 해설]** 흥미로운 점은 `R=0, M=1`인 클래스 1이다. "방금 안 썼는데 어떻게 값이 바뀌어 있지?"라는 모순이 생길 수 있지만, 하드웨어는 주기적으로 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내리므로 과거에 수정(Dirty)된 채로 버려진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 이 클래스에 속하게 된다. OS는 이 계급표를 바탕으로 가장 빠르고 부작용 없이 메모리를 뜯어낸다.
 
@@ -161,12 +161,12 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 
 ```text
 [페이지 교체 (Page Replacement)의 필요성]
-    │
-    ▼
+    |
+    v
 [변경 비트 (Modify Bit / Dirty Bit)]
-    │
-    ├──▶ [프레임 할당 (Frame Allocation) 알고리즘]
-    └──▶ [균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
+    |
+    +---> [프레임 할당 (Frame Allocation) 알고리즘]
+    +---> [균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -183,7 +183,7 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 
 **진행 상황**: 396 / 800
 
-← **이전**: [395. 페이지 교체 (Page Replacement)의 필요성 - 프레임 가용 공간 부족 시 (Over-allocation)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/)
-**다음**: [397. 프레임 할당 (Frame Allocation) 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/397_frame_allocation/) →
+<- **이전**: [395. 페이지 교체 (Page Replacement)의 필요성 - 프레임 가용 공간 부족 시 (Over-allocation)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/)
+**다음**: [397. 프레임 할당 (Frame Allocation) 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/397_frame_allocation/) ->
 
 ---

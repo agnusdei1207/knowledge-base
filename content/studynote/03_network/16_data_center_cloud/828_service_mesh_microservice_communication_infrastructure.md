@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [Ingress / Egress 트래픽]
-    │
-    ▼
+    |
+    v
 [서비스 메시]
-    │
-    └──▶ [Istio]
+    |
+    +---> [Istio]
 ```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [Ingress / Egress 트래픽]
-    │
-    ▼
+    |
+    v
 [서비스 메시]
-    │
-    └──▶ [Istio]
+    |
+    +---> [Istio]
 ```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Ingress / Egress 트래픽]
-    │
-    ▼
+    |
+    v
 [현재 개념: 서비스 메시]
-    │
-    ├──▶ [확장 A: Istio]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: Istio]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) / [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 Istio와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 949 / 1120
 
-← **이전**: [827. Ingress와 Egress 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/827_ingress_egress_traffic_routing_l7_proxy/)
-**다음**: [829. Istio (이스티오)](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) →
+<- **이전**: [827. Ingress와 Egress 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/827_ingress_egress_traffic_routing_l7_proxy/)
+**다음**: [829. Istio (이스티오)](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) ->
 
 ---

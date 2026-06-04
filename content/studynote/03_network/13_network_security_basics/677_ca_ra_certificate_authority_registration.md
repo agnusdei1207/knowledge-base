@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
+    |
+    v
 [인증국, 등록기관, 저장소 체계]
-    │
-    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    |
+    +---> [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
 ```
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 
 ```text
 [공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
+    |
+    v
 [인증국, 등록기관, 저장소 체계]
-    │
-    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    |
+    +---> [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
 ```
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 
 ```text
 [선행 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
+    |
+    v
 [현재 개념: 인증국, 등록기관, 저장소 체계]
-    │
-    ├──▶ [확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 
 **진행 상황**: 798 / 1120
 
-← **이전**: [676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)
-**다음**: [678. CRL (Certificate Revocation List) 스펙 및 폐기 문제 및 배포 지연 약점 완화 체계](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) →
+<- **이전**: [676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)
+**다음**: [678. CRL (Certificate Revocation List) 스펙 및 폐기 문제 및 배포 지연 약점 완화 체계](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ->
 
 ---

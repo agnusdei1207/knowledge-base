@@ -32,10 +32,10 @@ tags = ["studynote-computer-architecture"]
 핵심은 공통 클럭과 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 결합이다. 각 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 다음 박자에 뒤집힐지 미리 계산하고, 클럭 에지에서 한꺼번에 반응한다.
 
 ```text
-CLK ─────────────────▶ [FF0]
-  ├──────────────────▶ [FF1]
-  ├──────────────────▶ [FF2]
-  └──────────────────▶ [FF3]
+CLK ------------------> [FF0]
+  +-------------------> [FF1]
+  +-------------------> [FF2]
+  +-------------------> [FF3]
 
 AND / look-ahead logic가 다음 상태를 미리 계산
 ```
@@ -103,11 +103,11 @@ AND / look-ahead logic가 다음 상태를 미리 계산
 
 ```text
 클럭(Clock)
-   ↓
+   v
 플립플롭(Flip-Flop)
-   ↓
+   v
 동기식 카운터
-   ↓
+   v
 PC / 타이머 / 주소 생성
 ```
 
@@ -117,11 +117,11 @@ PC / 타이머 / 주소 생성
 
 ```text
 비동기식 카운터
-   ↓
+   v
 동기식 카운터
-   ↓
+   v
 Look-ahead 논리
-   ↓
+   v
 고속 주소/상태 제어
 ```
 
@@ -139,7 +139,7 @@ Look-ahead 논리
 
 **진행 상황**: 60 / 803
 
-← **이전**: [59. 카운터 (Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)
-**다음**: [61. 비동기식 카운터 (리플 카운터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/061_asynchronous_counter/) →
+<- **이전**: [59. 카운터 (Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)
+**다음**: [61. 비동기식 카운터 (리플 카운터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/061_asynchronous_counter/) ->
 
 ---

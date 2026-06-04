@@ -24,17 +24,17 @@ tags = ["studynote-data-engineering"]
 
 ```
 모델 학습 (오프라인)               모델 서빙 (온라인)
-┌─────────────────────┐          ┌────────────────────────────┐
-│  GPU 클러스터       │          │  서빙 서버                  │
-│  데이터 → 학습 →   │ 배포 →   │                            │
-│  model.pkl         │          │  클라이언트 요청             │
-│  (정적 파일)        │          │  POST /predict             │
-└─────────────────────┘          │  {"input": [1.2, 3.4, ...]}│
-                                  │         ↓                  │
-                                  │  모델 추론 (ms 단위)        │
-                                  │         ↓                  │
-                                  │  {"prediction": 0.95}      │
-                                  └────────────────────────────┘
++---------------------+          +----------------------------+
+|  GPU 클러스터       |          |  서빙 서버                  |
+|  데이터 -> 학습 ->   | 배포 ->   |                            |
+|  model.pkl         |          |  클라이언트 요청             |
+|  (정적 파일)        |          |  POST /predict             |
++---------------------+          |  {"input": [1.2, 3.4, ...]}|
+                                  |         v                  |
+                                  |  모델 추론 (ms 단위)        |
+                                  |         v                  |
+                                  |  {"prediction": 0.95}      |
+                                  +----------------------------+
 ```
 
 ### 1.2 모델 서빙의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표
@@ -55,43 +55,43 @@ tags = ["studynote-data-engineering"]
 ### 2.1 TensorFlow Serving
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  TensorFlow Serving 아키텍처                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  SavedModel 디렉토리 구조                                    │
-│  models/                                                     │
-│  └── fraud_detection/                                        │
-│      ├── 1/  (버전 1)                                        │
-│      │   ├── saved_model.pb                                  │
-│      │   └── variables/                                      │
-│      └── 2/  (버전 2 - 자동으로 최신 버전 서빙)              │
-│          ├── saved_model.pb                                  │
-│          └── variables/                                      │
-│                                                              │
-│  TF Serving 서버                                             │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  ModelServer                                        │     │
-│  │  ├── HTTP/REST 서버 (포트 8501)                     │     │
-│  │  ├── gRPC 서버 (포트 8500)                          │     │
-│  │  ├── 모델 매니저 (버전 자동 감지)                   │     │
-│  │  └── 동적 배치 (Dynamic Batching)                   │     │
-│  └────────────────────────────────────────────────────┘     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  TensorFlow Serving 아키텍처                  |
++--------------------------------------------------------------+
+|                                                              |
+|  SavedModel 디렉토리 구조                                    |
+|  models/                                                     |
+|  +-- fraud_detection/                                        |
+|      +-- 1/  (버전 1)                                        |
+|      |   +-- saved_model.pb                                  |
+|      |   +-- variables/                                      |
+|      +-- 2/  (버전 2 - 자동으로 최신 버전 서빙)              |
+|          +-- saved_model.pb                                  |
+|          +-- variables/                                      |
+|                                                              |
+|  TF Serving 서버                                             |
+|  +----------------------------------------------------+     |
+|  |  ModelServer                                        |     |
+|  |  +-- HTTP/REST 서버 (포트 8501)                     |     |
+|  |  +-- gRPC 서버 (포트 8500)                          |     |
+|  |  +-- 모델 매니저 (버전 자동 감지)                   |     |
+|  |  +-- 동적 배치 (Dynamic Batching)                   |     |
+|  +----------------------------------------------------+     |
++--------------------------------------------------------------+
 ```
 
 #### TF Serving 동적 배치 (Dynamic [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 원리
 
 ```
 동적 배치 없음:
-  요청 1 ──→ GPU 추론 ──→ 응답 1    (GPU 활용률: 낮음)
-  요청 2 ──→ GPU 추론 ──→ 응답 2
-  요청 3 ──→ GPU 추론 ──→ 응답 3
+  요청 1 ---> GPU 추론 ---> 응답 1    (GPU 활용률: 낮음)
+  요청 2 ---> GPU 추론 ---> 응답 2
+  요청 3 ---> GPU 추론 ---> 응답 3
 
 동적 배치 적용:
-  요청 1 ──→ 대기 ─┐
-  요청 2 ──→ 대기 ─┼──→ 배치 [1,2,3] ──→ GPU 추론 ──→ 응답 1,2,3
-  요청 3 ──→ 대기 ─┘         (GPU 활용률: 높음, 단 지연시간 약간 증가)
+  요청 1 ---> 대기 -+
+  요청 2 ---> 대기 -+---> 배치 [1,2,3] ---> GPU 추론 ---> 응답 1,2,3
+  요청 3 ---> 대기 -+         (GPU 활용률: 높음, 단 지연시간 약간 증가)
 
 설정:
   batch_timeout_micros: 5000  # 최대 5ms 대기
@@ -101,48 +101,48 @@ tags = ["studynote-data-engineering"]
 ### 2.2 NVIDIA Triton Inference Server
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│              NVIDIA Triton Inference Server 아키텍처          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  클라이언트 요청 (HTTP/gRPC)                                 │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  Triton Server                                    │       │
-│  │                                                   │       │
-│  │  모델 저장소 (Model Repository)                   │       │
-│  │  ├── TensorFlow SavedModel                       │       │
-│  │  ├── PyTorch TorchScript                         │       │
-│  │  ├── ONNX                                        │       │
-│  │  ├── TensorRT Plan                               │       │
-│  │  ├── OpenVINO                                    │       │
-│  │  └── Python 커스텀 모델                          │       │
-│  │                                                   │       │
-│  │  인퍼런스 최적화                                  │       │
-│  │  ├── 동적 배치 (Dynamic Batching)                │       │
-│  │  ├── 동시 모델 실행 (Concurrent Model Execution) │       │
-│  │  ├── 모델 앙상블 파이프라인                       │       │
-│  │  └── 비동기 추론                                  │       │
-│  └──────────────────────────────────────────────────┘       │
-│         │                                                    │
-│         ▼                                                    │
-│  GPU (NVIDIA A100/H100) / CPU                               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              NVIDIA Triton Inference Server 아키텍처          |
++--------------------------------------------------------------+
+|                                                              |
+|  클라이언트 요청 (HTTP/gRPC)                                 |
+|         |                                                    |
+|         v                                                    |
+|  +--------------------------------------------------+       |
+|  |  Triton Server                                    |       |
+|  |                                                   |       |
+|  |  모델 저장소 (Model Repository)                   |       |
+|  |  +-- TensorFlow SavedModel                       |       |
+|  |  +-- PyTorch TorchScript                         |       |
+|  |  +-- ONNX                                        |       |
+|  |  +-- TensorRT Plan                               |       |
+|  |  +-- OpenVINO                                    |       |
+|  |  +-- Python 커스텀 모델                          |       |
+|  |                                                   |       |
+|  |  인퍼런스 최적화                                  |       |
+|  |  +-- 동적 배치 (Dynamic Batching)                |       |
+|  |  +-- 동시 모델 실행 (Concurrent Model Execution) |       |
+|  |  +-- 모델 앙상블 파이프라인                       |       |
+|  |  +-- 비동기 추론                                  |       |
+|  +--------------------------------------------------+       |
+|         |                                                    |
+|         v                                                    |
+|  GPU (NVIDIA A100/H100) / CPU                               |
++--------------------------------------------------------------+
 ```
 
 #### Triton [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 파이프라인 예시
 
 ```
 입력 (이미지)
-     │
-     ▼
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│  전처리 모델  │────→│  추론 모델    │────→│  후처리 모델  │
-│  (Python)     │     │  (TensorRT)   │     │  (Python)     │
-└───────────────┘     └───────────────┘     └───────────────┘
-                                                    │
-                                                    ▼
+     |
+     v
++---------------+     +---------------+     +---------------+
+|  전처리 모델  |----->|  추론 모델    |----->|  후처리 모델  |
+|  (Python)     |     |  (TensorRT)   |     |  (Python)     |
++---------------+     +---------------+     +---------------+
+                                                    |
+                                                    v
                                            예측 결과 반환
 ```
 
@@ -174,30 +174,30 @@ INT8 (8비트 정수) 양자화 후
   메모리: 1/4
 
 양자화 방법:
-┌────────────────────────────────────────────────────┐
-│  PTQ (Post-Training Quantization):                  │
-│  학습 완료 후 양자화, 빠르고 간단                  │
-│  → 정확도 손실 약간 있음                           │
-│                                                    │
-│  QAT (Quantization-Aware Training):                │
-│  학습 중 양자화 시뮬레이션                         │
-│  → 정확도 손실 최소화, 학습 비용 증가              │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|  PTQ (Post-Training Quantization):                  |
+|  학습 완료 후 양자화, 빠르고 간단                  |
+|  -> 정확도 손실 약간 있음                           |
+|                                                    |
+|  QAT (Quantization-Aware Training):                |
+|  학습 중 양자화 시뮬레이션                         |
+|  -> 정확도 손실 최소화, 학습 비용 증가              |
++----------------------------------------------------+
 ```
 
 #### TensorRT 변환
 
 ```
 원본 PyTorch/TF 모델
-        │
-        ▼
+        |
+        v
 TensorRT 변환 과정:
-  1. ONNX 내보내기 (PyTorch → ONNX)
+  1. ONNX 내보내기 (PyTorch -> ONNX)
   2. TensorRT 파서로 네트워크 빌드
   3. GPU별 최적화 (Layer Fusion, Kernel Selection)
   4. INT8/FP16 정밀도 최적화
-        │
-        ▼
+        |
+        v
 TensorRT Plan (.plan)
   - GPU 특화 최적화 완료
   - 처음 빌드 시 수분 소요, 이후 ms 추론
@@ -207,16 +207,16 @@ TensorRT Plan (.plan)
 ### 2.5 서빙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 목표값
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  서빙 SLA 기준 예시                           │
-├────────────────┬────────────────────────────────────────────┤
-│  서비스 유형   │  목표 지연시간            │  목표 처리량    │
-├────────────────┼───────────────────────────┼────────────────┤
-│  실시간 추천   │  P99 < 50ms              │  > 10,000 QPS  │
-│  사기 탐지     │  P99 < 100ms             │  > 5,000 QPS   │
-│  이미지 분류   │  P99 < 200ms             │  > 1,000 QPS   │
-│  LLM 생성      │  TTFT < 1s, TPS > 50    │  > 100 QPS     │
-└────────────────┴───────────────────────────┴────────────────┘
++--------------------------------------------------------------+
+|                  서빙 SLA 기준 예시                           |
++----------------+--------------------------------------------+
+|  서비스 유형   |  목표 지연시간            |  목표 처리량    |
++----------------+---------------------------+----------------+
+|  실시간 추천   |  P99 < 50ms              |  > 10,000 QPS  |
+|  사기 탐지     |  P99 < 100ms             |  > 5,000 QPS   |
+|  이미지 분류   |  P99 < 200ms             |  > 1,000 QPS   |
+|  LLM 생성      |  TTFT < 1s, TPS > 50    |  > 100 QPS     |
++----------------+---------------------------+----------------+
   TTFT: Time to First Token  TPS: Tokens Per Second
 ```
 
@@ -243,7 +243,7 @@ TensorRT Plan (.plan)
 |:---|:---|:---|
 | **배치 구성** | 고정 크기로 전처리 | 런타임에 요청 묶음 |
 | **지연시간** | 낮음 (즉시 처리) | 약간 높음 (대기 시간) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률↑) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률^) |
 | **복잡도** | 간단 | 복잡 ([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝) |
 | **적합 상황** | 지연시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 엄격 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
@@ -253,7 +253,7 @@ TensorRT Plan (.plan)
 |:---|:---|:---:|:---:|:---:|
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a> (INT8)</strong> | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 2~4배 | <1% | 낮음 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)</strong> | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 1.5~3배 | 1~3% | 중간 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a></strong> | 큰 모델 → 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a></strong> | 큰 모델 -> 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
 | **TensorRT** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최적화 | 3~10배 | <0.5% | 중간 |
 | **ONNX 변환** | 중간 표현으로 최적화 | 1.5~3배 | <0.1% | 낮음 |
 
@@ -266,25 +266,25 @@ TensorRT Plan (.plan)
 ### 4.1 모델 서빙 아키텍처 설계 패턴
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│              모델 서빙 아키텍처 패턴 선택                     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  단일 모델 서빙                                              │
-│  클라이언트 → Load Balancer → TF Serving / TorchServe       │
-│                                                              │
-│  멀티 모델 서빙 (Triton)                                     │
-│  클라이언트 → Triton Server                                  │
-│               ├── 모델 A (TensorRT, GPU)                    │
-│               ├── 모델 B (ONNX, CPU)                        │
-│               └── 모델 C (Python, 후처리)                   │
-│                                                              │
-│  마이크로서비스 서빙                                         │
-│  클라이언트 → API Gateway                                    │
-│               ├── 서비스 A → 모델 서버 A                    │
-│               ├── 서비스 B → 모델 서버 B                    │
-│               └── 서비스 C → 모델 서버 C                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              모델 서빙 아키텍처 패턴 선택                     |
++--------------------------------------------------------------+
+|                                                              |
+|  단일 모델 서빙                                              |
+|  클라이언트 -> Load Balancer -> TF Serving / TorchServe       |
+|                                                              |
+|  멀티 모델 서빙 (Triton)                                     |
+|  클라이언트 -> Triton Server                                  |
+|               +-- 모델 A (TensorRT, GPU)                    |
+|               +-- 모델 B (ONNX, CPU)                        |
+|               +-- 모델 C (Python, 후처리)                   |
+|                                                              |
+|  마이크로서비스 서빙                                         |
+|  클라이언트 -> API Gateway                                    |
+|               +-- 서비스 A -> 모델 서버 A                    |
+|               +-- 서비스 B -> 모델 서버 B                    |
+|               +-- 서비스 C -> 모델 서버 C                    |
++--------------------------------------------------------------+
 ```
 
 ### 4.2 기술사 시험 핵심 포인트
@@ -302,25 +302,25 @@ TensorRT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelera
 ### 4.3 모델 서빙 최적화 튜닝 가이드
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│             모델 서빙 성능 최적화 순서                        │
-├──────────────────────────────────────────────────────────────┤
-│  Step 1: 베이스라인 측정                                     │
-│  └── 현재 P50/P99 지연시간, QPS, GPU 활용률 측정            │
-│                                                              │
-│  Step 2: 동적 배치 튜닝                                      │
-│  └── batch_timeout: 1ms~10ms 범위 실험                      │
-│  └── max_batch_size: 16~256 범위 실험                       │
-│                                                              │
-│  Step 3: 모델 최적화                                         │
-│  └── FP16 변환 (정확도 검증 필수)                           │
-│  └── TensorRT 변환 (GPU 환경)                               │
-│  └── INT8 양자화 (정확도 허용 범위 확인)                    │
-│                                                              │
-│  Step 4: 인프라 최적화                                       │
-│  └── 복제본 수 조정 (HPA)                                   │
-│  └── GPU 유형 업그레이드 (A10G → A100)                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             모델 서빙 성능 최적화 순서                        |
++--------------------------------------------------------------+
+|  Step 1: 베이스라인 측정                                     |
+|  +-- 현재 P50/P99 지연시간, QPS, GPU 활용률 측정            |
+|                                                              |
+|  Step 2: 동적 배치 튜닝                                      |
+|  +-- batch_timeout: 1ms~10ms 범위 실험                      |
+|  +-- max_batch_size: 16~256 범위 실험                       |
+|                                                              |
+|  Step 3: 모델 최적화                                         |
+|  +-- FP16 변환 (정확도 검증 필수)                           |
+|  +-- TensorRT 변환 (GPU 환경)                               |
+|  +-- INT8 양자화 (정확도 허용 범위 확인)                    |
+|                                                              |
+|  Step 4: 인프라 최적화                                       |
+|  +-- 복제본 수 조정 (HPA)                                   |
+|  +-- GPU 유형 업그레이드 (A10G -> A100)                      |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 모델 서빙 최적화는 요리 경연 속도 올리기와 같다. 동적 배치는 주문 여러 개를 한 번에 몰아서 요리하기, TensorRT는 최신 주방 도구로 업그레이드하기, Quantization은 레시피를 간소화하기(맛은 거의 동일)다. 각 방법을 조합해 최단 시간에 최다 요리를 만든다.
@@ -373,22 +373,22 @@ TensorRT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelera
 
 ```text
 학습된 모델 (.pt / .h5 / .onnx)
-    │
-    ▼
+    |
+    v
 모델 서빙 엔진
-    ├─► TF Serving: TensorFlow 네이티브
-    ├─► NVIDIA Triton: 멀티 프레임워크 · 동적 배치
-    ├─► TorchServe: PyTorch 네이티브
-    └─► KServe: K8s 기반 통합 서빙
-    │
-    ▼
+    +-► TF Serving: TensorFlow 네이티브
+    +-► NVIDIA Triton: 멀티 프레임워크 · 동적 배치
+    +-► TorchServe: PyTorch 네이티브
+    +-► KServe: K8s 기반 통합 서빙
+    |
+    v
 추론 최적화
-    ├─► TensorRT: GPU 커널 융합 · FP16/INT8
-    ├─► ONNX Runtime: 크로스 플랫폼
-    └─► 동적 배치 (Dynamic Batching): GPU 활용 극대화
-    │
-    ▼
-API 게이트웨이 → REST/gRPC → 클라이언트 응답 (ms 이내)
+    +-► TensorRT: GPU 커널 융합 · FP16/INT8
+    +-► ONNX Runtime: 크로스 플랫폼
+    +-► 동적 배치 (Dynamic Batching): GPU 활용 극대화
+    |
+    v
+API 게이트웨이 -> REST/gRPC -> 클라이언트 응답 (ms 이내)
 ```
 
 ---
@@ -397,7 +397,7 @@ API 게이트웨이 → REST/gRPC → 클라이언트 응답 (ms 이내)
 
 **진행 상황**: 169 / 258
 
-← **이전**: [168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)
-**다음**: [170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터](/knowledge-base/studynote/14_data_engineering/04_mlops/170_ab_test_canary_rollout_shadow_mirroring/) →
+<- **이전**: [168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)
+**다음**: [170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터](/knowledge-base/studynote/14_data_engineering/04_mlops/170_ab_test_canary_rollout_shadow_mirroring/) ->
 
 ---

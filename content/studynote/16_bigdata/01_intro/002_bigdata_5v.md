@@ -29,9 +29,9 @@ tags = ["bigdata"]
 이 도식은 데이터 인프라 관점의 3V가 비즈니스 관점의 5V로 진화하며 확장되는 목적의 변화를 보여준다.
 
 [ 인프라/엔지니어링의 영역 ]         [ 분석/비즈니스의 영역 ]
-   Volume (규모) ────────┐
-   Velocity (속도) ──────┼───>  Veracity (신뢰성) ───> Value (가치 창출)
-   Variety (다양성) ─────┘      (정제, 품질 관리)       (AI, 인사이트)
+   Volume (규모) --------+
+   Velocity (속도) ------+--->  Veracity (신뢰성) ---> Value (가치 창출)
+   Variety (다양성) -----+      (정제, 품질 관리)       (AI, 인사이트)
 ```
 
 이 진화 과정의 핵심은 왼쪽의 3V가 시스템 아키텍트와 엔지니어의 숙제라면, 오른쪽의 Veracity와 Value는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트와 비즈니스 의사결정권자의 숙제라는 점이다. 3V를 완벽하게 수집해도 Veracity [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필터를 거치지 못하면 Value 도출 단계에서 치명적인 의사결정 실패(예: 잘못된 신용 평가, 자율주행 오류)로 이어진다. 실무에서는 이러한 한계를 극복하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 자동화 도구 도입을 서두르게 되었다.
@@ -113,11 +113,11 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 이 의사결정 트리는 데이터 파이프라인 운영 중 신뢰성(Veracity) 문제 발생 시의 처리 및 방어 전략을 나타낸다.
 
 [신규 데이터 소스 유입]
-        ↓
-[품질 SLA 검증] ──(NULL 비율 5% 초과?)──> [Yes] ─> Dead Letter Queue(DLQ) 격리 및 알림
-        ↓ [No]
-[스키마 진단] ──(기존 구조와 불일치?)──> [Yes] ─> 데이터 컨트랙트(Data Contract) 위반 경고
-        ↓ [No]
+        v
+[품질 SLA 검증] --(NULL 비율 5% 초과?)--> [Yes] -> Dead Letter Queue(DLQ) 격리 및 알림
+        v [No]
+[스키마 진단] --(기존 구조와 불일치?)--> [Yes] -> 데이터 컨트랙트(Data Contract) 위반 경고
+        v [No]
 [신뢰 데이터 마트 적재] => [BI / AI 파이프라인 연동을 통한 Value 도출]
 ```
 
@@ -152,17 +152,17 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 
 ```text
 [Data Governance]
-    │
-    ▼
+    |
+    v
 [Data Lineage]
-    │
-    ▼
+    |
+    v
 [Master Data Management (MDM)]
-    │
-    ▼
+    |
+    v
 [Data Contract]
-    │
-    ▼
+    |
+    v
 [Data Mesh]
 ```
 
@@ -179,7 +179,7 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 
 **진행 상황**: 2 / 262
 
-← **이전**: [1. 빅데이터 정의 — 3V: Volume(양) / Velocity(속도) / Variety(다양성) (Laney, 2001)](/knowledge-base/studynote/16_bigdata/01_intro/001_bigdata_definition/)
-**다음**: [3. 7V — 5V + Visualization(시각화) + Variability(가변성)](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) →
+<- **이전**: [1. 빅데이터 정의 — 3V: Volume(양) / Velocity(속도) / Variety(다양성) (Laney, 2001)](/knowledge-base/studynote/16_bigdata/01_intro/001_bigdata_definition/)
+**다음**: [3. 7V — 5V + Visualization(시각화) + Variability(가변성)](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) ->
 
 ---

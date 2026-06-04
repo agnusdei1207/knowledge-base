@@ -63,25 +63,25 @@ tags = ["studynote-operating-system"]
 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)가 이 3가지 작업을 하는 동안 CPU는 "사용자 앱"을 1밀리초도 실행하지 못한다. 이를 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">Dispatch Latency</a>)</strong>이라 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 단기 스케줄러와 디스패치 지연(Latency)의 타임라인        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ CPU 타임라인 ]                                                  │
-  │                                                                   │
-  │   --- 프로세스 P0 실행 중 ---                                         │
-  │          │                                                        │
-  │          ⚡ 인터럽트 발생 (예: 타임 슬라이스 종료)                         │
-  │          │                                                        │
-  │  ========▼====[ 디스패치 지연 (Dispatch Latency) 구간 ]=============│
-  │  커 │ 1. 단기 스케줄러 실행: "다음은 누구지? P1이네." (알고리즘 연산)        │
-  │  널 │ 2. 디스패처 동작: P0 레지스터 저장, P1 레지스터 복원                 │
-  │  공 │ 3. 모드 전환: 커널 -> 유저                                      │
-  │  간 │ 4. P1 코드로 점프                                              │
-  │  ========▼========================================================│
-  │          │                                                        │
-  │   --- 프로세스 P1 실행 시작 ---                                       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 단기 스케줄러와 디스패치 지연(Latency)의 타임라인        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ CPU 타임라인 ]                                                  |
+  |                                                                   |
+  |   --- 프로세스 P0 실행 중 ---                                         |
+  |          |                                                        |
+  |          ⚡ 인터럽트 발생 (예: 타임 슬라이스 종료)                         |
+  |          |                                                        |
+  |  ========v====[ 디스패치 지연 (Dispatch Latency) 구간 ]=============|
+  |  커 | 1. 단기 스케줄러 실행: "다음은 누구지? P1이네." (알고리즘 연산)        |
+  |  널 | 2. 디스패처 동작: P0 레지스터 저장, P1 레지스터 복원                 |
+  |  공 | 3. 모드 전환: 커널 -> 유저                                      |
+  |  간 | 4. P1 코드로 점프                                              |
+  |  ========v========================================================|
+  |          |                                                        |
+  |   --- 프로세스 P1 실행 시작 ---                                       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)는 1초에 수백 번~수천 번 호출된다. 만약 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 하는 데 1ms가 걸리고, 프로세스에게 주어지는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 10ms라면, CPU는 전체 시간의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 앱이 아닌 "교대하는 데(오버헤드)" 날려버린다. 따라서 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) 코드는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에서도 가장 최적화된 극강의 어셈블리어로 작성되며, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 줄이는 것이 최고 지상 과제다.
@@ -129,25 +129,25 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 단기 스케줄링 특성에 따른 애플리케이션 아키텍처 튜닝        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [CPU 코어에서 돌고 있는 수백 개의 스레드 관리 전략]                        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      응답 속도보다 공평성과 배터리 절약이 중요한 데스크탑/모바일인가?             │
-  │          ├─ 예 ─────▶ [리눅스 CFS (Completely Fair Scheduler) 유지]   │
-  │          │            - 단기 스케줄러가 vruntime을 계산하여 공평하게 디스패치 │
-  │          └─ 아니오 (특정 스레드의 절대적인 실시간 처리가 중요하다)            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      결제가 지연되거나 패킷이 드롭되는 것을 0%로 막아야 하는가?                │
-  │          ├─ 예 ─────▶ [스레드 스케줄링 정책을 FIFO나 RR로 변경]        │
-  │          │            `chrt -f 99 <pid>` (실시간 스케줄링 정책 적용)    │
-  │          │            - 단기 스케줄러는 이 스레드가 스스로 양보하기 전까지    │
-  │          │              절대 다른 일반 프로세스를 디스패치하지 않음!          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 단기 스케줄링 특성에 따른 애플리케이션 아키텍처 튜닝        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [CPU 코어에서 돌고 있는 수백 개의 스레드 관리 전략]                        |
+  |                |                                                  |
+  |                v                                                  |
+  |      응답 속도보다 공평성과 배터리 절약이 중요한 데스크탑/모바일인가?             |
+  |          +- 예 ------> [리눅스 CFS (Completely Fair Scheduler) 유지]   |
+  |          |            - 단기 스케줄러가 vruntime을 계산하여 공평하게 디스패치 |
+  |          +- 아니오 (특정 스레드의 절대적인 실시간 처리가 중요하다)            |
+  |                |                                                  |
+  |                v                                                  |
+  |      결제가 지연되거나 패킷이 드롭되는 것을 0%로 막아야 하는가?                |
+  |          +- 예 ------> [스레드 스케줄링 정책을 FIFO나 RR로 변경]        |
+  |          |            `chrt -f 99 <pid>` (실시간 스케줄링 정책 적용)    |
+  |          |            - 단기 스케줄러는 이 스레드가 스스로 양보하기 전까지    |
+  |          |              절대 다른 일반 프로세스를 디스패치하지 않음!          |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 개발자들은 보통 소스 코드 레벨의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 신경 쓴다. 하지만 아무리 코드를 잘 짜도, [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 내 프로세스에 CPU를 안 꽂아주면(디스패치 안 해주면) 그 코드는 멈춰있는 돌덩이다. 고성능 백엔드 아키텍트는 OS [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)의 눈치를 보며, "내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 예뻐해 달라"고 우선순위(Nice 값)를 깎거나 실시간 클래스로 격상시키는 OS 레벨의 튜닝을 반드시 병행해야 한다.
@@ -193,12 +193,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [문맥 교환 TLB 플러시]
-    │
-    ▼
+    |
+    v
 [단기 스케줄러 디스패치 (Short Term Scheduler Dispatcher)]
-    │
-    ├──▶ [CPU 바운드 vs I/O 바운드]
-    └──▶ [선점 / 비선점 스케줄링 차이]
+    |
+    +---> [CPU 바운드 vs I/O 바운드]
+    +---> [선점 / 비선점 스케줄링 차이]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -215,7 +215,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 685 / 800
 
-← **이전**: [684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)](/knowledge-base/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/)
-**다음**: [686. CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)](/knowledge-base/studynote/02_operating_system/11_exam_summary/686_cpu_bound_vs_io_bound_workload/) →
+<- **이전**: [684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)](/knowledge-base/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/)
+**다음**: [686. CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)](/knowledge-base/studynote/02_operating_system/11_exam_summary/686_cpu_bound_vs_io_bound_workload/) ->
 
 ---

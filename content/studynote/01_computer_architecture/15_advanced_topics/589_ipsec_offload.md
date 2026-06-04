@@ -26,18 +26,18 @@ IPsec 오프로드 가속기는 네트워크 계층 보안을 선로 속도에 �
 이 그림은 왜 보안 처리가 CPU 병목으로 바뀌는지, 그리고 오프로드가 무엇을 떼어 가는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        보안은 필요하지만, 패킷마다 CPU가 직접 봉인하면 선로 속도를 못 따라간다        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 소프트웨어 경로                                                           │
-│ Application -> Kernel IPsec -> SA 조회 -> 암호화/인증 -> NIC -> Wire     │
-│                 ▲            ▲               ▲                            │
-│                 └─ 패킷마다 상태관리 + 헤더변환 + 암호연산                │
-│                                                                            │
-│ 오프로드 경로                                                              │
-│ Application -> 정책 결정(Host) -> Offload NIC/DPU -> Wire                 │
-│                        └─ 반복적인 데이터 평면 변환을 하드웨어가 전담      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        보안은 필요하지만, 패킷마다 CPU가 직접 봉인하면 선로 속도를 못 따라간다        |
++----------------------------------------------------------------------------+
+| 소프트웨어 경로                                                           |
+| Application -> Kernel IPsec -> SA 조회 -> 암호화/인증 -> NIC -> Wire     |
+|                 ^            ^               ^                            |
+|                 +- 패킷마다 상태관리 + 헤더변환 + 암호연산                |
+|                                                                            |
+| 오프로드 경로                                                              |
+| Application -> 정책 결정(Host) -> Offload NIC/DPU -> Wire                 |
+|                        +- 반복적인 데이터 평면 변환을 하드웨어가 전담      |
++----------------------------------------------------------------------------+
 ```
 
 IPsec 오프로드가 뜻하는 바는 "보안을 NIC에 전부 던진다"가 아니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설치, [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상, 키 교체, 예외 패킷 처리 같은 제어 평면은 여전히 호스트가 맡고, 가장 반복적이고 비싼 fast path만 하드웨어가 담당한다. 그래서 이 기술의 핵심은 기능 전체의 대체가 아니라 <strong>반복 경로의 전문화</strong>다.
@@ -61,15 +61,15 @@ IPsec 오프로드 아키텍처의 핵심은 "[정책](/knowledge-base/studynote
 이 그림은 송신과 수신에서 오프로드 파이프라인이 어떻게 작동하는지 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   IPsec 오프로드 데이터 평면의 핵심 단계                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 송신: Host Packet -> SA Lookup -> Seq Number -> ESP Add -> AES-GCM -> Send│
-│ 수신: Receive Packet -> ESP Parse -> SA Lookup -> AES-GCM -> Replay Check │
-│                                                 -> Plain Packet -> Host   │
-│                                                                            │
-│ Host CPU는 정책·IKE를, NIC/DPU는 반복적인 패킷 변환을 맡는다.             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   IPsec 오프로드 데이터 평면의 핵심 단계                   |
++----------------------------------------------------------------------------+
+| 송신: Host Packet -> SA Lookup -> Seq Number -> ESP Add -> AES-GCM -> Send|
+| 수신: Receive Packet -> ESP Parse -> SA Lookup -> AES-GCM -> Replay Check |
+|                                                 -> Plain Packet -> Host   |
+|                                                                            |
+| Host CPU는 정책·IKE를, NIC/DPU는 반복적인 패킷 변환을 맡는다.             |
++----------------------------------------------------------------------------+
 ```
 
 여기서 자주 나뉘는 구현이 inline과 lookaside다. inline 오프로드는 NIC가 실제 전송 경로 한가운데서 패킷을 바로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·해제하므로 CPU 개입이 가장 적다. 반면 lookaside 오프로드는 호스트가 패킷 조립을 일부 맡고, 암호 연산만 별도 가속기에 맡기는 구조라 통합은 쉽지만 버퍼 왕복과 소프트웨어 잔여 비용이 더 남는다.
@@ -148,17 +148,17 @@ IPsec 오프로드 가속기를 잘 적용하면 보안 트래픽이 더 이상 
 
 ```text
 소프트웨어 VPN 처리
-        │
-        ▼
+        |
+        v
 CPU 내 암호 명령어 가속
-        │
-        ▼
+        |
+        v
 Lookaside 보안 가속기
-        │
-        ▼
+        |
+        v
 Inline IPsec Offload NIC
-        │
-        ▼
+        |
+        v
 DPU 기반 통합 보안 데이터 평면
 ```
 
@@ -176,7 +176,7 @@ DPU 기반 통합 보안 데이터 평면
 
 **진행 상황**: 589 / 803
 
-← **이전**: [588. TCP 오프로드 엔진 (TOE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)
-**다음**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/) →
+<- **이전**: [588. TCP 오프로드 엔진 (TOE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)
+**다음**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/) ->
 
 ---

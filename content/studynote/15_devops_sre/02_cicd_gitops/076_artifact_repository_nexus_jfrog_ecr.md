@@ -24,11 +24,11 @@ tags = ["studynote-devops"]
 빌드 산출물을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 디스크나 개발자 노트북에 둔 채 배포하면 재현성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 동시에 무너진다. 운영 장애가 발생했을 때 동일한 소스와 동일한 의존성으로 다시 빌드한 결과가 과거 배포본과 다를 수 있기 때문이다. 그래서 중앙 저장소에 올릴 때는 해시, 서명, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 남겨야 한다.
 
 ```text
-┌────────────────────── 배포 가능한 바이너리의 생명주기 ──────────────────────┐
-│ Git 소스 ─▶ CI 빌드 ─▶ 테스트/서명 ─▶ 아티팩트 저장소 ─▶ 프로모션 ─▶ CD 배포 │
-│                ▲                         │                   │             │
-│                └── 같은 소스, 같은 결과를 재사용 ──────────────┘             │
-└──────────────────────────────────────────────────────────────────────────────┘
++---------------------- 배포 가능한 바이너리의 생명주기 ----------------------+
+| Git 소스 --> CI 빌드 --> 테스트/서명 --> 아티팩트 저장소 --> 프로모션 --> CD 배포 |
+|                ^                         |                   |             |
+|                +-- 같은 소스, 같은 결과를 재사용 --------------+             |
++------------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "배포는 빌드 결과를 가져오는 행위"라는 점이다. 배포 서버가 다시 빌드를 시작하면 환경 차이와 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 때문에 동일성을 잃는다.
@@ -47,16 +47,16 @@ tags = ["studynote-devops"]
 | [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) DB | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 태그, 승격 기록 관리 | 누가 언제 배포했는지 추적 |
 | [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Cache | 외부 저장소 대행 | 빌드 속도와 외부 장애 흡수 |
 | [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 오래된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정리 | 저장비 절감, 규정 준수 |
-| Promotion Flow | dev → stage → prod 이동 | 재빌드 없이 승격만 수행 |
+| Promotion Flow | dev -> stage -> prod 이동 | 재빌드 없이 승격만 수행 |
 
 ```text
-┌────────────── 저장소 내부 구조 ──────────────┐
-│ 업로드된 아티팩트                              │
-│   ├─ Blob(실제 바이너리)                      │
-│   ├─ Checksum(SHA-256)                        │
-│   ├─ Signature(서명)                         │
-│   └─ Metadata(버전/태그/권한/승격 이력)       │
-└───────────────────────────────────────────────┘
++-------------- 저장소 내부 구조 --------------+
+| 업로드된 아티팩트                              |
+|   +- Blob(실제 바이너리)                      |
+|   +- Checksum(SHA-256)                        |
+|   +- Signature(서명)                         |
+|   +- Metadata(버전/태그/권한/승격 이력)       |
++-----------------------------------------------+
 ```
 
 실무에서는 태그(tag)보다 불변 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(digest)를 더 신뢰해야 한다. `latest` 같은 가변 태그는 사람이 읽기 쉽지만, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 재현성 측면에서는 위험하다. 배포 승인 과정이 길어질수록 "같은 태그가 다른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가리키는" 사고가 커진다.
@@ -126,20 +126,20 @@ Nexus와 JFrog Artifactory는 범용 패키지 저장에 강하고, Amazon ECR�
 
 ```text
 소스 코드 관리
-    │
-    ▼
+    |
+    v
 CI 빌드/테스트
-    │
-    ▼
+    |
+    v
 패키지 저장소(Nexus/JFrog)
-    │
-    ▼
+    |
+    v
 컨테이너 레지스트리(ECR)
-    │
-    ▼
+    |
+    v
 승격/서명/보안 스캔
-    │
-    ▼
+    |
+    v
 재현 가능한 배포와 롤백
 ```
 
@@ -157,7 +157,7 @@ CI 빌드/테스트
 
 **진행 상황**: 76 / 373
 
-← **이전**: [75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)
-**다음**: [77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/077_unit_testing_automation_junit_pytest_mocking/) →
+<- **이전**: [75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)
+**다음**: [77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/077_unit_testing_automation_junit_pytest_mocking/) ->
 
 ---

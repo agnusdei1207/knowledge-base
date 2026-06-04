@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Source of Truth      │──▶│ Pipeline Gate        │──▶│ Release Control      │──▶│ Telemetry Loop       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Source of Truth      |--->| Pipeline Gate        |--->| Release Control      |--->| Telemetry Loop       |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석기 자동화가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Source of Truth      │──▶│ Pipeline Gate        │──▶│ Release Control      │──▶│ Telemetry Loop       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Source of Truth      |--->| Pipeline Gate        |--->| Release Control      |--->| Telemetry Loop       |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Error Rate]
-    │
-    ▼
+    |
+    v
 [카나리 분석기 자동화]
-    │
-    ├──▶ [Kayenta]
-    ├──▶ [Traffic Split]
-    └──▶ [Auto Rollback]
+    |
+    +---> [Kayenta]
+    +---> [Traffic Split]
+    +---> [Auto Rollback]
 ```
 
 이 흐름도는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석기 자동화가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 268 / 373
 
-← **이전**: [267. 부하 테스트 (Load Testing) 및 스트레스 테스트 CI 파이프라인 임베드 (JMeter, k6)](/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/)
-**다음**: [269. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스트)](/knowledge-base/studynote/15_devops_sre/05_devsecops/269_mutation_testing_kill/) →
+<- **이전**: [267. 부하 테스트 (Load Testing) 및 스트레스 테스트 CI 파이프라인 임베드 (JMeter, k6)](/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/)
+**다음**: [269. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스트)](/knowledge-base/studynote/15_devops_sre/05_devsecops/269_mutation_testing_kill/) ->
 
 ---

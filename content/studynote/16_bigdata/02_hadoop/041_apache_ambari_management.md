@@ -73,17 +73,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Hadoop 클러스터 수동 관리 — XML 설정 파일 직접 편집의 복잡성]
-    │
-    ▼
+    |
+    v
 [Apache Ambari — 웹 UI·REST API 기반 중앙 집중 클러스터 관리]
-    │
-    ▼
+    |
+    v
 [Ambari Blueprints — JSON 템플릿으로 클러스터 프로비저닝 자동화]
-    │
-    ▼
+    |
+    v
 [Cloudera Manager / CDP — 엔터프라이즈급 관리 플랫폼으로 발전]
-    │
-    ▼
+    |
+    v
 [Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리]
 ```
 Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 웹 UI와 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 단순화한 관리 플랫폼으로, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 통합 관리로 진화하고 있다.
@@ -99,7 +99,7 @@ Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843
 
 **진행 상황**: 41 / 262
 
-← **이전**: [18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/040_apache_flume/)
-**다음**: [Cloudera CDP (Cloudera Data Platform)](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/) →
+<- **이전**: [18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/040_apache_flume/)
+**다음**: [Cloudera CDP (Cloudera Data Platform)](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/) ->
 
 ---

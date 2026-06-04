@@ -34,27 +34,27 @@ Spark 2.0에서 등장한 <strong><a href="/knowledge-base/studynote/16_bigdata/
 ### [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) 실행 모델
 
 ```
-  ┌────────────────────────────────────────────────────────────┐
-  │               Structured Streaming 처리 모델                │
-  ├────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  소스 (Kafka/File/Socket)                                   │
-  │       │ 새 데이터 계속 유입                                  │
-  │       ▼                                                     │
-  │  Input Table (무한히 쌓이는 테이블 추상화)                   │
-  │  ┌──────────────────────────────────────────────────────┐  │
-  │  │ T=0 │ event_1, event_2                               │  │
-  │  │ T=1 │ event_3, event_4, event_5                      │  │
-  │  │ T=2 │ event_6                                        │  │
-  │  │ ... │ (계속 쌓임)                                     │  │
-  │  └──────────────────────────────────────────────────────┘  │
-  │       │ 동일한 DataFrame 쿼리 적용                           │
-  │       ▼                                                     │
-  │  Result Table (쿼리 결과 테이블)                             │
-  │       │                                                     │
-  │       ▼ 마이크로 배치마다 업데이트                            │
-  │  Output (Console/File/Kafka/DB 등)                          │
-  └────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------+
+  |               Structured Streaming 처리 모델                |
+  +------------------------------------------------------------+
+  |                                                             |
+  |  소스 (Kafka/File/Socket)                                   |
+  |       | 새 데이터 계속 유입                                  |
+  |       v                                                     |
+  |  Input Table (무한히 쌓이는 테이블 추상화)                   |
+  |  +------------------------------------------------------+  |
+  |  | T=0 | event_1, event_2                               |  |
+  |  | T=1 | event_3, event_4, event_5                      |  |
+  |  | T=2 | event_6                                        |  |
+  |  | ... | (계속 쌓임)                                     |  |
+  |  +------------------------------------------------------+  |
+  |       | 동일한 DataFrame 쿼리 적용                           |
+  |       v                                                     |
+  |  Result Table (쿼리 결과 테이블)                             |
+  |       |                                                     |
+  |       v 마이크로 배치마다 업데이트                            |
+  |  Output (Console/File/Kafka/DB 등)                          |
+  +------------------------------------------------------------+
 ```
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소스 연동 코드
@@ -158,7 +158,7 @@ query.awaitTermination()
 <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a>(<a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a>) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 ```python
 # 이벤트 시간 vs 처리 시간
-# 이벤트: 15:00:00에 발생 → 네트워크 지연으로 15:00:30에 도착
+# 이벤트: 15:00:00에 발생 -> 네트워크 지연으로 15:00:30에 도착
 # 워터마크 10분 설정: 15:10:00 이후에는 15:00:00 이벤트를 늦은 데이터로 처리
 
 windowed = df \
@@ -173,7 +173,7 @@ windowed = df \
 # 워터마크 있으면: 허용 시간 초과한 지연 데이터는 버리고 상태 메모리 정리
 ```
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> → Spark → S3 파이프라인</strong>:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> -> Spark -> S3 파이프라인</strong>:
 ```python
 # Delta Lake로 실시간 데이터 저장 (ACID 트랜잭션 지원)
 orders.writeStream \
@@ -227,15 +227,15 @@ Spark Structured Streaming은 "빅데이터 [배치 처리](/knowledge-base/stud
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-배치 처리 (지연 ↑, 실시간성 ↓)
-    │
-    ▼
+배치 처리 (지연 ^, 실시간성 v)
+    |
+    v
 Spark Streaming: 마이크로배치 (준실시간)
-    │
-    ▼
+    |
+    v
 Structured Streaming: DataFrame API + Event-Time + Watermark
-    │
-    ▼
+    |
+    v
 Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장
 ```
 2. 마이크로 배치는 10초마다 영상을 묶어서 분석하는 것, 연속 처리는 프레임마다 즉시 분석하는 거야.
@@ -247,7 +247,7 @@ Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장
 
 **진행 상황**: 217 / 371
 
-← **이전**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/)
-**다음**: [219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/219_data_lake/) →
+<- **이전**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/)
+**다음**: [219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/219_data_lake/) ->
 
 ---

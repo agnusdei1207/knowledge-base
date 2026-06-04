@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) 아키텍처 결정 기록은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 요구·시나리오 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 관점·패턴 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 평가·결정 기록 │
-└──────────────┘
++--------------+
+| 요구·시나리오 |
++------+-------+
+       |
++------v-------+
+| 관점·패턴 설계 |
++------+-------+
+       |
++------v-------+
+| 평가·결정 기록 |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 집을 짓기 전에 방 배치와 동선을 함께 그려 보는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 결정 추적 | 영향 추적을 근거로 선택안과 파급효과를 기록한다. | 나중에 다시 설명할 수 있어야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 뷰·패턴     │ 시나리오     │ 결정 기록    │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 뷰·패턴     | 시나리오     | 결정 기록    |
++------------+------------+------------+
 ```
 
 또한 [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) 아키텍처 결정 기록은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 결정 배경, 대안 비교, 영향 추적, 의사결정 추적성
-[구두 설계 결정] → [문서화된 [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)] → [지식 그래프형 의사결정 관리]
+[구두 설계 결정] -> [문서화된 [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)] -> [지식 그래프형 의사결정 관리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) 아키텍처 결정 기록은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 431 / 530
 
-← **이전**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
-**다음**: [354. 객체지향 SOLID 5원칙 (SOLID Principles)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/354_solid_5/) →
+<- **이전**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
+**다음**: [354. 객체지향 SOLID 5원칙 (SOLID Principles)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/354_solid_5/) ->
 
 ---

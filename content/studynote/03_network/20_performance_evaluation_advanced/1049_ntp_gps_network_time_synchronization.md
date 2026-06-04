@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
+    |
+    v
 [NTP / GPS 동기화]
-    │
-    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
+    |
+    +---> [RDMA / RoCE 스토리지 서버 네트워킹]
 ```
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 
 ```text
 [IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
+    |
+    v
 [NTP / GPS 동기화]
-    │
-    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
+    |
+    +---> [RDMA / RoCE 스토리지 서버 네트워킹]
 ```
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 
 ```text
 [선행 개념: IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
+    |
+    v
 [현재 개념: NTP / GPS 동기화]
-    │
-    ├──▶ [확장 A: RDMA / RoCE 스토리지 서버 네트워킹]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: RDMA / RoCE 스토리지 서버 네트워킹]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 IEEE 1588 PTP 시각 동기망에서 출발해 현재 메커니즘을 정교화하고, 이후 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 
 **진행 상황**: 153 / 1120
 
-← **이전**: [1048. IEEE 1588 PTP 시각 동기망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1048_ptp_ieee_1588_precision_time_protocol_sync/)
-**다음**: [104. CSMA (Carrier Sense Multiple Access) 반송파 감지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) →
+<- **이전**: [1048. IEEE 1588 PTP 시각 동기망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1048_ptp_ieee_1588_precision_time_protocol_sync/)
+**다음**: [104. CSMA (Carrier Sense Multiple Access) 반송파 감지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [브로드캐스트 스톰]
-    │
-    ▼
+    |
+    v
 [LACP 이더채널 포트 논리 그룹화]
-    │
-    └──▶ [VLAN 간 라우팅]
+    |
+    +---> [VLAN 간 라우팅]
 ```
 
 - **📢 섹션 요약 비유**: LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [브로드캐스트 스톰]
-    │
-    ▼
+    |
+    v
 [LACP 이더채널 포트 논리 그룹화]
-    │
-    └──▶ [VLAN 간 라우팅]
+    |
+    +---> [VLAN 간 라우팅]
 ```
 
 - **📢 섹션 요약 비유**: LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 ```text
 [선행 개념: 브로드캐스트 스톰]
-    │
-    ▼
+    |
+    v
 [현재 개념: LACP 이더채널 포트 논리 그룹화]
-    │
-    ├──▶ [확장 A: VLAN 간 라우팅]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: VLAN 간 라우팅]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)는 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 **진행 상황**: 207 / 1120
 
-← **이전**: [1097. 브로드캐스트 스톰 (루프 발생)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)
-**다음**: [1099. VLAN 간 라우팅](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1099_inter_vlan_routing_router_on_a_stick/) →
+<- **이전**: [1097. 브로드캐스트 스톰 (루프 발생)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)
+**다음**: [1099. VLAN 간 라우팅](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1099_inter_vlan_routing_router_on_a_stick/) ->
 
 ---

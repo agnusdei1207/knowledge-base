@@ -31,15 +31,15 @@ ChatOps는 이런 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 ```text
 사용자
-  ↓ /deploy, /incident, /metrics
+  v /deploy, /incident, /metrics
 Slack / Teams
-  ↓
+  v
 Bot
-  ├─ CI/CD (Continuous Integration/Continuous Delivery)
-  ├─ Monitoring
-  ├─ Incident Management
-  └─ Infra / Runbook
-  ↓
+  +- CI/CD (Continuous Integration/Continuous Delivery)
+  +- Monitoring
+  +- Incident Management
+  +- Infra / Runbook
+  v
 결과를 같은 채널에 게시
 ```
 
@@ -116,13 +116,13 @@ ChatOps는 운영을 대화형 협업으로 바꿔 주고, 그 과정에서 공�
 
 ```text
 Slack / Teams
-   ↓
+   v
 Bot / Slash Command
-   ↓
+   v
 CI/CD / Monitoring / Incident
-   ↓
+   v
 Shared Channel
-   ↓
+   v
 Audit Trail
 ```
 
@@ -132,11 +132,11 @@ Audit Trail
 
 ```text
 터미널 / 이메일
-   ↓
+   v
 대시보드 분산 운영
-   ↓
+   v
 ChatOps
-   ↓
+   v
 ChatOps + Runbook Automation
 ```
 
@@ -154,7 +154,7 @@ ChatOps는 반 친구들이 메모를 따로 보내지 않고, 칠판 한 곳에
 
 **진행 상황**: 60 / 373
 
-← **이전**: [59. Argo CD / Flux - GitOps 지속적 배포](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/059_argocd_flux/)
-**다음**: [61. Helm Charts (헬름 차트) - 쿠버네티스 패키징](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/) →
+<- **이전**: [59. Argo CD / Flux - GitOps 지속적 배포](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/059_argocd_flux/)
+**다음**: [61. Helm Charts (헬름 차트) - 쿠버네티스 패키징](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/) ->
 
 ---

@@ -66,7 +66,7 @@ n 상태 체인의 전이 행렬은 n×n [확률](/knowledge-base/studynote/08_a
 πP = π,  Σπᵢ = 1,  πᵢ ≥ 0
 ```
 
-에르고딕 체인에서는 t → ∞ 일 때 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 π⁽⁰⁾에 무관하게 <strong>π⁽⁰⁾P^t → π</strong>가 성립한다.
+에르고딕 체인에서는 t -> ∞ 일 때 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 π⁽⁰⁾에 무관하게 <strong>π⁽⁰⁾P^t -> π</strong>가 성립한다.
 
 <strong>믹싱 타임(Mixing Time)</strong>은 현재 분포와 정상 분포의 전변동 거리(Total Variation Distance)가 ε 이하로 줄어드는 데 필요한 최소 단계 수다.
 
@@ -80,17 +80,17 @@ t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
 
 ```
          0.3
-    ┌─────────────┐
-    │             ▼
-  ┌─┴──┐  0.5  ┌────┐
-  │ A  │──────▶│ B  │
-  └────┘       └─┬──┘
-    ▲     0.2    │
-    │  ┌────┐   │0.6
-    └──│ C  │◀──┘
-  0.4  └────┘
-       │  ▲
-       └──┘
+    +-------------+
+    |             v
+  +-+--+  0.5  +----+
+  | A  |------->| B  |
+  +----+       +-+--+
+    ^     0.2    |
+    |  +----+   |0.6
+    +--| C  |<---+
+  0.4  +----+
+       |  ^
+       +--+
         0.4
 ```
 
@@ -121,7 +121,7 @@ t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
 - **정상 분포 π**: 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 PageRank 점수
 
 ```
-PageRank(i) = (1-d)/N + d · Σ_{j→i} PageRank(j)/|out(j)|
+PageRank(i) = (1-d)/N + d · Σ_{j->i} PageRank(j)/|out(j)|
 ```
 
 d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수
@@ -132,25 +132,25 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 ## Ⅴ. 응용 분야
 
-<strong>텍스트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 바이그램(Bigram) 모델에서 현재 단어 → 다음 단어 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 문장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 이전 언어 모델의 핵심.
+<strong>텍스트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 바이그램(Bigram) 모델에서 현재 단어 -> 다음 단어 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 문장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 이전 언어 모델의 핵심.
 
 **대기 이론 (Queuing Theory)**: M/M/1 큐 — 포아송 도착, 지수 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 서버 1개. 정상 분포로 평균 대기 시간, 큐 길이 분석.
 
 <strong>강화학습 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/">Markov Decision Process</a>)</strong>: 환경을 마르코프 체인으로 모델링. 에이전트의 행동에 따라 상태가 전이되고 보상을 받는 구조.
 
 ```
-┌──────────────────────────────────────────────────────┐
-│              마르코프 체인 응용 계층                   │
-├────────────────┬────────────────┬────────────────────┤
-│  텍스트 생성   │   대기 이론    │    강화학습 MDP    │
-│ (언어 모델)    │ (M/M/1 큐)    │   (Q-Learning)     │
-├────────────────┴────────────────┴────────────────────┤
-│                  마르코프 체인                         │
-│         (전이 행렬 P + 정상 분포 π)                   │
-├──────────────────────────────────────────────────────┤
-│                   MCMC 샘플링                         │
-│       (Metropolis-Hastings / Gibbs)                   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|              마르코프 체인 응용 계층                   |
++----------------+----------------+--------------------+
+|  텍스트 생성   |   대기 이론    |    강화학습 MDP    |
+| (언어 모델)    | (M/M/1 큐)    |   (Q-Learning)     |
++----------------+----------------+--------------------+
+|                  마르코프 체인                         |
+|         (전이 행렬 P + 정상 분포 π)                   |
++------------------------------------------------------+
+|                   MCMC 샘플링                         |
+|       (Metropolis-Hastings / Gibbs)                   |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 마르코프 체인 응용은 "규칙 하나로 다 설명하는 만능 레시피"다. 날씨 예측이든, 구글 검색이든, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임 플레이든 — "현재만 보면 미래가 결정된다"는 단 하나의 원리가 모든 것을 가능하게 한다.
@@ -174,17 +174,17 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 ```text
 [확률 과정 (Stochastic Process) — 시간에 따라 상태가 확률적으로 변화]
-    │
-    ▼
+    |
+    v
 [마르코프 체인 (Markov Chain) — 미래 상태가 현재 상태만 의존 (마르코프 성질)]
-    │
-    ▼
+    |
+    v
 [정상 분포 (Stationary Distribution) — 장기 실행 후 수렴하는 확률 분포]
-    │
-    ▼
+    |
+    v
 [은닉 마르코프 모델 (HMM — Hidden Markov Model) — 상태 관측 불가 환경에 확장]
-    │
-    ▼
+    |
+    v
 [마르코프 결정 과정 (MDP — Markov Decision Process) — 강화학습 이론 기반]
 ```
 
@@ -202,7 +202,7 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 **진행 상황**: 140 / 175
 
-← **이전**: [10. 중심 극한 정리 (CLT, Central Limit Theorem) — 표본 평균의 정규성](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)
-**다음**: [12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/) →
+<- **이전**: [10. 중심 극한 정리 (CLT, Central Limit Theorem) — 표본 평균의 정규성](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)
+**다음**: [12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/) ->
 
 ---

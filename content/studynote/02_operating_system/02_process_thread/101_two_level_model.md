@@ -32,28 +32,28 @@ tags = ["studynote-operating-system"]
 두 수준 모델은 사용자 영역과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역 사이에 <strong>LWP (Lightweight <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong> 라는 가상 프로세서 계층을 두어 동적 매핑과 정적 바인딩을 동시에 조율한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   두 수준 (Two-level) 모델 아키텍처 구조                   │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [사용자 공간: User Space]                                                │
-│  ┌─ 동적 할당 (Unbound Thread) ─┐     ┌─ 정적 할당 (Bound Thread) ─┐     │
-│  │   U1      U2      U3      U4   │     │            U5            │     │
-│  └───│───────│───────│───────│────┘     └────────────│─────────────┘     │
-│      └───────┴───┬───┴───────┘                       │                   │
-│ =================│===================================│================ │
-│ [중간 계층: LWP Layer] ▼  다중화 (Multiplexing)           ▼ 독점 (Binding)  │
-│                ┌───┐   ┌───┐                       ┌───┐                 │
-│                │LWP│   │LWP│                       │LWP│                 │
-│                └───┘   └───┘                       └───┘                 │
-│                  │       │                           │                   │
-│ =================│=======│===========================│================ │
-│ [커널 공간: Kernel Space]  ▼                           ▼                   │
-│                ┌───┐   ┌───┐                       ┌───┐                 │
-│                │KT1│   │KT2│                       │KT3│                 │
-│                └───┘   └───┘                       └───┘                 │
-│                 (CPU 0 스케줄링)                     (CPU 1 스케줄링)         │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                   두 수준 (Two-level) 모델 아키텍처 구조                   |
++------------------------------------------------------------------------+
+|                                                                        |
+| [사용자 공간: User Space]                                                |
+|  +- 동적 할당 (Unbound Thread) -+     +- 정적 할당 (Bound Thread) -+     |
+|  |   U1      U2      U3      U4   |     |            U5            |     |
+|  +---|-------|-------|-------|----+     +------------|-------------+     |
+|      +-------+---+---+-------+                       |                   |
+| =================|===================================|================ |
+| [중간 계층: LWP Layer] v  다중화 (Multiplexing)           v 독점 (Binding)  |
+|                +---+   +---+                       +---+                 |
+|                |LWP|   |LWP|                       |LWP|                 |
+|                +---+   +---+                       +---+                 |
+|                  |       |                           |                   |
+| =================|=======|===========================|================ |
+| [커널 공간: Kernel Space]  v                           v                   |
+|                +---+   +---+                       +---+                 |
+|                |KT1|   |KT2|                       |KT3|                 |
+|                +---+   +---+                       +---+                 |
+|                 (CPU 0 스케줄링)                     (CPU 1 스케줄링)         |
++------------------------------------------------------------------------+
 ```
 
 이 구조도의 핵심은 크게 두 가지 흐름이다. 첫째, U1~U4 (언바운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 가용한 LWP 위에서 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 의해 시분할 방식으로 동기화된다. 둘째, U5 (바운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점부터 고정된 LWP 및 KT3와 1:1로 직결된다.
@@ -118,20 +118,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 다대일 (Many-to-One) 모델
-    │
-    ▼
+    |
+    v
 단일 스레드 블로킹 시 전체 프로세스 정지 한계
-    │
-    ▼
+    |
+    v
 일대일 (One-to-One) 모델 등장 (자원 폭증 문제 발생)
-    │
-    ▼
+    |
+    v
 다대다 (Many-to-Many) 모델 고안 (자원 최적화)
-    │
-    ▼
+    |
+    v
 두 수준 (Two-level) 모델 진화 (특정 스레드의 1:1 결합 지원)
-    │
-    ▼
+    |
+    v
 현대 언어 런타임 (Goroutine, Erlang)의 스케줄링 철학으로 계승
 ```
 
@@ -146,7 +146,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 101 / 800
 
-← **이전**: [100. 다대다 (Many-to-Many) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)
-**다음**: [102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)](/knowledge-base/studynote/02_operating_system/02_process_thread/102_implicit_threading/) →
+<- **이전**: [100. 다대다 (Many-to-Many) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)
+**다음**: [102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)](/knowledge-base/studynote/02_operating_system/02_process_thread/102_implicit_threading/) ->
 
 ---

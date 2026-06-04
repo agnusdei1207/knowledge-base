@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 강제 접근은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 강제 접근을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `바인드 변수 적용 하드 파싱 회피`·`반정규화 성능 트레이드오프 파생 컬럼 설계`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 강제 접근을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [바인드 변수 적용 하드 파싱 회피]
-    │
-    ▼
+    |
+    v
 [옵티마이저 힌트 사용 인덱스 강제 접근]
-    │
-    ├──▶ [반정규화 성능 트레이드오프 파생 컬럼 설계]
-    └──▶ [팩트 테이블 차원 모델 비즈니스 수치 저장]
+    |
+    +---> [반정규화 성능 트레이드오프 파생 컬럼 설계]
+    +---> [팩트 테이블 차원 모델 비즈니스 수치 저장]
 ```
 
 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피에서 출발한 논점이 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 강제 접근에서 핵심 판단으로 모이고, 이후 반정규화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파생 컬럼 설계·[팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 511 / 600
 
-← **이전**: [510. 바인드 변수 적용 하드 파싱 회피 (Lock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)
-**다음**: [512. 반정규화 성능 트레이드오프 파생 컬럼 설계 (Deadlock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/512_deadlock/) →
+<- **이전**: [510. 바인드 변수 적용 하드 파싱 회피 (Lock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)
+**다음**: [512. 반정규화 성능 트레이드오프 파생 컬럼 설계 (Deadlock)](/knowledge-base/studynote/05_database/04_transactions_concurrency/512_deadlock/) ->
 
 ---

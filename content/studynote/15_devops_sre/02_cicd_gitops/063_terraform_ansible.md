@@ -103,13 +103,13 @@ Terraform과 Ansible을 적절히 분리하면 인프라는 더 예측 가능해
 
 ```text
 Infrastructure as Code
-  ↓
+  v
 Terraform
-  ↓
+  v
 State / Provider
-  ↓
+  v
 Ansible
-  ↓
+  v
 Configuration Management
 ```
 
@@ -119,11 +119,11 @@ Configuration Management
 
 ```text
 수동 서버 설정
-  ↓
+  v
 스크립트 자동화
-  ↓
+  v
 Terraform / Ansible
-  ↓
+  v
 GitOps / IaC
 ```
 
@@ -141,7 +141,7 @@ Ansible은 그 집 안을 깔끔하게 정리하는 도구예요.
 
 **진행 상황**: 63 / 373
 
-← **이전**: [62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)
-**다음**: [64. Git Flow - 5개 브랜치 전략과 릴리스 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/064_git_flow_branch_strategy_release/) →
+<- **이전**: [62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)
+**다음**: [64. Git Flow - 5개 브랜치 전략과 릴리스 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/064_git_flow_branch_strategy_release/) ->
 
 ---

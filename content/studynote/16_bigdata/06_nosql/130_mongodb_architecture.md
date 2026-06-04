@@ -29,15 +29,15 @@ tags = ["studynote-bigdata"]
 ### WiredTiger 스토리지 엔진 특징
 
 ```text
-┌────────────────────────────────────────────────────┐
-│          WiredTiger 스토리지 엔진 (기본값)            │
-├────────────────────────────────────────────────────┤
-│  ■ 잠금 수준: 문서(Document) 수준 — 행 잠금보다 세밀   │
-│  ■ 압축: Snappy/zlib/zstd 지원 (스토리지 50~80% 절감)│
-│  ■ MVCC: 읽기/쓰기 충돌 없음                        │
-│  ■ 캐시: 기본 50% RAM 할당 (wiredTigerCacheSizeGB)  │
-│  ■ 저널: 100ms 간격 Journaling (내구성 보장)         │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|          WiredTiger 스토리지 엔진 (기본값)            |
++----------------------------------------------------+
+|  ■ 잠금 수준: 문서(Document) 수준 — 행 잠금보다 세밀   |
+|  ■ 압축: Snappy/zlib/zstd 지원 (스토리지 50~80% 절감)|
+|  ■ MVCC: 읽기/쓰기 충돌 없음                        |
+|  ■ 캐시: 기본 50% RAM 할당 (wiredTigerCacheSizeGB)  |
+|  ■ 저널: 100ms 간격 Journaling (내구성 보장)         |
++----------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**
@@ -50,57 +50,57 @@ tags = ["studynote-bigdata"]
 ### [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 구조 및 장애 조치
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                 MongoDB ReplicaSet 구조                   │
-│                                                          │
-│  ┌─────────────┐    복제     ┌─────────────┐             │
-│  │  Primary    │ ──────────→ │ Secondary 1 │             │
-│  │  (읽기/쓰기) │             │  (읽기 가능) │             │
-│  └─────────────┘             └─────────────┘             │
-│         │                          │                     │
-│         │  복제                    │                     │
-│         ↓                          ↓                     │
-│  ┌─────────────┐          ┌──────────────┐               │
-│  │ Secondary 2 │          │   Arbiter    │               │
-│  │ (읽기 가능) │          │ (투표만, 데이터 │              │
-│  └─────────────┘          │  저장 안 함)  │               │
-│                            └──────────────┘               │
-│                                                          │
-│  ■ 장애 조치(Failover) 과정:                              │
-│    1. Primary 다운 감지 (heartbeat 실패)                  │
-│    2. Secondaries + Arbiter 투표 (과반수 득표)             │
-│    3. 새 Primary 선출 (보통 10~30초)                      │
-│    4. 클라이언트 자동 재연결                               │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                 MongoDB ReplicaSet 구조                   |
+|                                                          |
+|  +-------------+    복제     +-------------+             |
+|  |  Primary    | -----------> | Secondary 1 |             |
+|  |  (읽기/쓰기) |             |  (읽기 가능) |             |
+|  +-------------+             +-------------+             |
+|         |                          |                     |
+|         |  복제                    |                     |
+|         v                          v                     |
+|  +-------------+          +--------------+               |
+|  | Secondary 2 |          |   Arbiter    |               |
+|  | (읽기 가능) |          | (투표만, 데이터 |              |
+|  +-------------+          |  저장 안 함)  |               |
+|                            +--------------+               |
+|                                                          |
+|  ■ 장애 조치(Failover) 과정:                              |
+|    1. Primary 다운 감지 (heartbeat 실패)                  |
+|    2. Secondaries + Arbiter 투표 (과반수 득표)             |
+|    3. 새 Primary 선출 (보통 10~30초)                      |
+|    4. 클라이언트 자동 재연결                               |
++----------------------------------------------------------+
 ```
 
 ### [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 전체 구조
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                  MongoDB Sharding 아키텍처                  │
-│                                                            │
-│  [Application]                                             │
-│       │                                                    │
-│       ↓                                                    │
-│  ┌──────────────────────────────────┐                      │
-│  │     Mongos (Query Router)        │  ← 여러 개 배치 가능  │
-│  └──────────────────────────────────┘                      │
-│       │ 샤드 키 기반 라우팅                                   │
-│       ├────────────────┬───────────────┐                   │
-│       ↓                ↓               ↓                   │
-│  ┌─────────┐     ┌─────────┐    ┌─────────┐               │
-│  │ Shard 1 │     │ Shard 2 │    │ Shard 3 │               │
-│  │(RSset1) │     │(RSset2) │    │(RSset3) │               │
-│  │ Chunk   │     │ Chunk   │    │ Chunk   │               │
-│  │ 0~33%  │     │ 34~66%  │    │ 67~100% │               │
-│  └─────────┘     └─────────┘    └─────────┘               │
-│       ↑                ↑               ↑                   │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │         Config Servers (ReplicaSet)                 │   │
-│  │   샤드 메타데이터: 청크 범위, 샤드 위치 정보 저장        │   │
-│  └─────────────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                  MongoDB Sharding 아키텍처                  |
+|                                                            |
+|  [Application]                                             |
+|       |                                                    |
+|       v                                                    |
+|  +----------------------------------+                      |
+|  |     Mongos (Query Router)        |  <- 여러 개 배치 가능  |
+|  +----------------------------------+                      |
+|       | 샤드 키 기반 라우팅                                   |
+|       +----------------+---------------+                   |
+|       v                v               v                   |
+|  +---------+     +---------+    +---------+               |
+|  | Shard 1 |     | Shard 2 |    | Shard 3 |               |
+|  |(RSset1) |     |(RSset2) |    |(RSset3) |               |
+|  | Chunk   |     | Chunk   |    | Chunk   |               |
+|  | 0~33%  |     | 34~66%  |    | 67~100% |               |
+|  +---------+     +---------+    +---------+               |
+|       ^                ^               ^                   |
+|  +-----------------------------------------------------+   |
+|  |         Config Servers (ReplicaSet)                 |   |
+|  |   샤드 메타데이터: 청크 범위, 샤드 위치 정보 저장        |   |
+|  +-----------------------------------------------------+   |
++------------------------------------------------------------+
 ```
 
 ### [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
@@ -159,16 +159,16 @@ nearest            : 네트워크 지연 최소 노드
 
 ```text
 데이터 볼륨 < 1TB / 쓰기 TPS < 10K?
-        │
-   YES ─┼─ NO ──→ Sharding 도입 필요
-        │         (최소 3 Shard × ReplicaSet)
-        ↓
+        |
+   YES -+- NO ---> Sharding 도입 필요
+        |         (최소 3 Shard × ReplicaSet)
+        v
 단순 ReplicaSet (1 Primary + 2 Secondary)
-        │
-읽기 부하 높음? ──YES──→ Secondary 읽기 분산 + ReadPreference
-        │
+        |
+읽기 부하 높음? --YES---> Secondary 읽기 분산 + ReadPreference
+        |
        NO
-        ↓
+        v
 기본 구성 유지, 모니터링 기반 단계적 확장
 ```
 
@@ -210,7 +210,7 @@ MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---:|:---:|:---|
 | WiredTiger | 스토리지 엔진 | [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/), 문서 수준 잠금 |
-| Oplog ([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) Log) | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘 | Primary → Secondary 변경 전파 |
+| Oplog ([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) Log) | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘 | Primary -> Secondary 변경 전파 |
 | 청크(Chunk) | [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 단위 | 기본 128MB, 분할/마이그레이션 |
 | [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 청크 위치 정보 관리 |
 | ReadPreference | 읽기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | Secondary 읽기 활용 |
@@ -219,17 +219,17 @@ MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 ```text
 [문서 지향 DB (Document-Oriented DB)]
-    │
-    ▼
+    |
+    v
 [WiredTiger 스토리지 엔진 — MVCC]
-    │
-    ▼
+    |
+    v
 [레플리카 셋 (Replica Set) — 자동 장애 조치]
-    │
-    ▼
+    |
+    v
 [샤딩 (Sharding) — 수평 확장]
-    │
-    ▼
+    |
+    v
 [Atlas (클라우드 MongoDB) — 서버리스 Document DB]
 ```
 
@@ -246,7 +246,7 @@ MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 **진행 상황**: 130 / 262
 
-← **이전**: [129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore](/knowledge-base/studynote/16_bigdata/06_nosql/129_document_db/)
-**다음**: [131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB](/knowledge-base/studynote/16_bigdata/06_nosql/131_column_family_db/) →
+<- **이전**: [129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore](/knowledge-base/studynote/16_bigdata/06_nosql/129_document_db/)
+**다음**: [131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB](/knowledge-base/studynote/16_bigdata/06_nosql/131_column_family_db/) ->
 
 ---

@@ -45,26 +45,26 @@ tags = ["studynote-computer-architecture"]
 이 그림은 FHE용 모듈러 곱셈기가 왜 "큰 곱셈기 1개"보다 "많은 lane + 감소 + 메모리" 구조로 설계되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│       FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Ciphertext Coefficients                                                    │
-│        │                                                                   │
-│        ▼                                                                   │
-│ RNS Split ──▶ Lane 0 (q0) ──┐                                              │
-│             Lane 1 (q1) ──┼──▶ Mod Multiply ─▶ Mod Reduce ─▶ NTT / iNTT    │
-│             Lane 2 (q2) ──┤                         │                        │
-│             ...           ├─────────────────────────┘                        │
-│             Lane N (qN) ──┘                                                  │
-│                                      │                                       │
-│                                      ▼                                       │
-│                       Rescale / Relinearize / Key Switching                  │
-│                                      │                                       │
-│                                      ▼                                       │
-│                            Next Ciphertext Stage                             │
-│                                                                            │
-│ 병목 포인트: reduction latency · memory bandwidth · lane utilization        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|       FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리       |
++----------------------------------------------------------------------------+
+| Ciphertext Coefficients                                                    |
+|        |                                                                   |
+|        v                                                                   |
+| RNS Split ---> Lane 0 (q0) --+                                              |
+|             Lane 1 (q1) --+---> Mod Multiply --> Mod Reduce --> NTT / iNTT    |
+|             Lane 2 (q2) --+                         |                        |
+|             ...           +-------------------------+                        |
+|             Lane N (qN) --+                                                  |
+|                                      |                                       |
+|                                      v                                       |
+|                       Rescale / Relinearize / Key Switching                  |
+|                                      |                                       |
+|                                      v                                       |
+|                            Next Ciphertext Stage                             |
+|                                                                            |
+| 병목 포인트: reduction latency · memory bandwidth · lane utilization        |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 모듈러 감소를 "진짜 나눗셈"으로 하지 않는다는 점이다. FHE에서는 같은 모듈러스 집합에 대해 반복 계산이 많으므로, 미리 준비한 상수와 시프트·곱셈 조합으로 감소를 처리하는 것이 훨씬 효율적이다. 또한 NTT와 곱셈기를 가깝게 배치하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부 메모리까지 내보내지 않고 바로 다음 스테이지로 전달할 수 있어, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력을 함께 줄일 수 있다.
@@ -115,7 +115,7 @@ FHE용 모듈러 곱셈기를 이해하려면 범용 다중정밀 산술과 무�
 - 특정 파라미터 세트에만 지나치게 고정돼 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요구 변경에 대응하지 못하는 제품화
 - 암호 연산기라고 해서 부채널 (Side Channel)과 공유 자원 누설 가능성을 가볍게 보는 운영
 
-기술사 관점에서는 "FHE는 느리다 → 곱셈기만 빠르면 된다"라는 단순화가 가장 위험하다. 실제 시스템은 산술, 메모리, 스킴 선택, 보안 격리, 비용이 얽혀 움직인다. 따라서 모듈러 곱셈기는 채택의 충분조건이 아니라, FHE 시스템 전체를 성립시키는 핵심 전제조건으로 봐야 한다.
+기술사 관점에서는 "FHE는 느리다 -> 곱셈기만 빠르면 된다"라는 단순화가 가장 위험하다. 실제 시스템은 산술, 메모리, 스킴 선택, 보안 격리, 비용이 얽혀 움직인다. 따라서 모듈러 곱셈기는 채택의 충분조건이 아니라, FHE 시스템 전체를 성립시키는 핵심 전제조건으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 암호화된 계산 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 여는 일은 냉동창고 물류센터를 짓는 것과 같다. 지게차 한 대만 빠르다고 되는 것이 아니라, 냉장 설비·입고 동선·적재 공간이 함께 맞아야 물류가 실제로 돈이 된다.
 
@@ -149,20 +149,20 @@ FHE용 대규모 모듈러 곱셈기가 성숙하면, 지금까지 "가능하지
 
 ```text
 큰 정수 모듈러 산술
-        │
-        ▼
+        |
+        v
 잔여수계 (RNS) 기반 분해
-        │
-        ▼
+        |
+        v
 병렬 모듈러 곱셈 + Montgomery / Barrett 감소
-        │
-        ▼
+        |
+        v
 NTT 결합형 FHE 산술 파이프라인
-        │
-        ▼
+        |
+        v
 재선형화 · 부트스트래핑 통합 가속
-        │
-        ▼
+        |
+        v
 암호화된 AI 추론 · 프라이버시 데이터 처리
 ```
 
@@ -180,7 +180,7 @@ NTT 결합형 FHE 산술 파이프라인
 
 **진행 상황**: 617 / 803
 
-← **이전**: [616. 영지식 증명 (ZKP) 가속 반도체 (ZK-Rollup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/616_zkp_hardware_accelerator/)
-**다음**: [618. SOA (Service Oriented Architecture) HW 고려사항](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) →
+<- **이전**: [616. 영지식 증명 (ZKP) 가속 반도체 (ZK-Rollup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/616_zkp_hardware_accelerator/)
+**다음**: [618. SOA (Service Oriented Architecture) HW 고려사항](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) ->
 
 ---

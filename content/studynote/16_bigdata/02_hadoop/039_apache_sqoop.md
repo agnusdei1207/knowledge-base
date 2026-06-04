@@ -71,20 +71,20 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [수동 ETL 스크립트 — JDBC 기반 수동 데이터 추출·적재, 유지보수 부담]
-    │
-    ▼
+    |
+    v
 [Apache Sqoop — RDBMS ↔ 하둡 MapReduce 병렬 대용량 데이터 전송 자동화]
-    │
-    ▼
+    |
+    v
 [Apache Flume — 로그·스트림 실시간 수집, HDFS·HBase 적재 파이프라인]
-    │
-    ▼
+    |
+    v
 [Apache Kafka Connect — 분산 커넥터 프레임워크, RDBMS·클라우드 소스 실시간 CDC]
-    │
-    ▼
+    |
+    v
 [CDC (Change Data Capture) — Debezium 기반 변경분만 스트리밍 추출·전달]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 Ingestion — Apache Iceberg·Delta Lake 직접 ACID 적재]
 ```
 이 흐름은 수동 JDBC 스크립트에서 Sqoop [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치 전송으로 자동화된 뒤, 실시간 CDC와 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 직접 적재로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 기술의 발전을 보여준다.
@@ -100,7 +100,7 @@ tags = ["hadoop", "studynote-bigdata"]
 
 **진행 상황**: 39 / 262
 
-← **이전**: [16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅](/knowledge-base/studynote/16_bigdata/02_hadoop/038_apache_pig/)
-**다음**: [18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/040_apache_flume/) →
+<- **이전**: [16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅](/knowledge-base/studynote/16_bigdata/02_hadoop/038_apache_pig/)
+**다음**: [18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/040_apache_flume/) ->
 
 ---

@@ -20,9 +20,9 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 L3: ODD 내 시스템 완전 제어 (Hands-free, Eyes-off)
-  → 한계 인식 시: Takeover Request (10초+)
-  → 운전자 무응답 시: Fallback (감속·정차)
-  → 법적 책임: 시스템 (ODD 내)
+  -> 한계 인식 시: Takeover Request (10초+)
+  -> 운전자 무응답 시: Fallback (감속·정차)
+  -> 법적 책임: 시스템 (ODD 내)
 ```
 
 - **📢 섹션 요약 비유**: L3는 <strong>특정 구간 대리운전</strong>이다. 정해진 구간에서만 맡기고, 구간 끝나면 운전자가 받는다.
@@ -48,10 +48,10 @@ L3는 <strong>자율주행 책임 전환의 분기점</strong>이며, ODD 정의
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[L2 ADAS (2015)] → [L3 Mercedes Drive Pilot (2023)]
-    → [L3 Honda SENSING Elite (2021)]
-    → [L3 ODD 확대 (고속도로→도심)]
-    → [현재: L3→L4 전환 연구]
+[L2 ADAS (2015)] -> [L3 Mercedes Drive Pilot (2023)]
+    -> [L3 Honda SENSING Elite (2021)]
+    -> [L3 ODD 확대 (고속도로->도심)]
+    -> [현재: L3->L4 전환 연구]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ L3는 <strong>자율주행 책임 전환의 분기점</strong>이며, ODD 정의
 
 **진행 상황**: 137 / 552
 
-← **이전**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/)
-**다음**: [138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/138_autonomous_vehicle_level_4_high_automation/) →
+<- **이전**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/)
+**다음**: [138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/138_autonomous_vehicle_level_4_high_automation/) ->
 
 ---

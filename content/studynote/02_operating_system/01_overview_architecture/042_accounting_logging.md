@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 > **핵심 인사이트**
 > 1. OS 회계(Accounting)는 프로세스별 CPU 시간·메모리 사용량·I/O 횟수 등 자원 소비를 측정·기록하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능으로, 과금(Billing)·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석·보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 기반 데이터를 제공한다.
 > 2. 시스템 로깅([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/))은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메시지·시스템 이벤트·오류를 시간 순서로 기록하여 장애 원인 분석(Post-mortem Analysis)·보안 침해 탐지·규제 컴플라이언스([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), ISO 27001)에 활용하는 핵심 운영 인프라다.
-> 3. 현대 시스템에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 단순 텍스트 파일에서 구조화된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)→ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Logstash·[Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/))·OpenTelemetry로 진화했으며, "관찰가능성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 3기둥"([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·Traces·[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 하나로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 실천이 됐다.
+> 3. 현대 시스템에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 단순 텍스트 파일에서 구조화된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)->ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Logstash·[Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/))·OpenTelemetry로 진화했으며, "관찰가능성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 3기둥"([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·Traces·[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 하나로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 실천이 됐다.
 
 ---
 
@@ -55,11 +55,11 @@ Linux 프로세스 회계:
 ```
 Linux 로깅 아키텍처:
 
-커널 → [dmesg 링 버퍼] → 부팅 로그
-     ↓
-커널/사용자 공간 → syslog() 시스템 콜 → rsyslog/syslog-ng
-     ↓
-서비스 (systemd) → [journald] → /var/log/journal
+커널 -> [dmesg 링 버퍼] -> 부팅 로그
+     v
+커널/사용자 공간 -> syslog() 시스템 콜 -> rsyslog/syslog-ng
+     v
+서비스 (systemd) -> [journald] -> /var/log/journal
 
 /var/log 주요 파일:
   /var/log/messages : 일반 시스템 메시지 (RHEL)
@@ -112,10 +112,10 @@ Facility (시설):
 로그 수집 파이프라인:
 
 [앱/서버]
-  → Filebeat / Fluentd (수집)
-  → Logstash / Fluentd (변환/필터)
-  → Elasticsearch (저장/인덱싱)
-  → Kibana (시각화/검색)
+  -> Filebeat / Fluentd (수집)
+  -> Logstash / Fluentd (변환/필터)
+  -> Elasticsearch (저장/인덱싱)
+  -> Kibana (시각화/검색)
 
 클라우드 네이티브:
   AWS CloudWatch Logs
@@ -127,7 +127,7 @@ OpenTelemetry:
   벤더 중립 표준 (CNCF 프로젝트)
 ```
 
-> 📢 **섹션 요약 비유**: 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) → ELK는 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템 — 산더미 책([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 저자·제목·장르(필드)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 1초에 원하는 책 검색.
+> 📢 **섹션 요약 비유**: 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> ELK는 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템 — 산더미 책([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 저자·제목·장르(필드)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 1초에 원하는 책 검색.
 
 ---
 
@@ -188,27 +188,27 @@ Linux 감사 시스템 (auditd):
 
 2. DB 로그 확인:
   MySQL slow query log 확인
-  → 09:05~09:28 특정 쿼리 30초 이상 실행
+  -> 09:05~09:28 특정 쿼리 30초 이상 실행
 
 3. OS 시스템 로그:
   /var/log/syslog 확인
-  → 09:04 디스크 I/O 경보 로그 발견
+  -> 09:04 디스크 I/O 경보 로그 발견
   "I/O error on device sdb, logical block 12345"
 
 4. 커널 로그 (dmesg):
-  → 디스크 불량 섹터 감지 로그 발견
-  → RAID 배열 재구성 시작 → I/O 지연 → 쿼리 지연
+  -> 디스크 불량 섹터 감지 로그 발견
+  -> RAID 배열 재구성 시작 -> I/O 지연 -> 쿼리 지연
 
 근본 원인:
-  물리 디스크 불량 섹터 → RAID 재구성
-  → DB I/O 지연 → 쿼리 타임아웃 → API 지연
+  물리 디스크 불량 섹터 -> RAID 재구성
+  -> DB I/O 지연 -> 쿼리 타임아웃 -> API 지연
 
 해결:
   디스크 교체 완료 (11:00)
   재발 방지: 디스크 S.M.A.R.T 모니터링 추가
 ```
 
-> 📢 **섹션 요약 비유**: [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)은 의료 부검 — 애플리케이션(증상)→DB(기관)→OS(조직)→하드웨어(세포) 순서로 원인을 파고들어 근본 원인 발견.
+> 📢 **섹션 요약 비유**: [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)은 의료 부검 — 애플리케이션(증상)->DB(기관)->OS(조직)->하드웨어(세포) 순서로 원인을 파고들어 근본 원인 발견.
 
 ---
 
@@ -238,7 +238,7 @@ Linux 감사 시스템 (auditd):
 ```
 [syslog 표준화 (BSD Unix, 1980s)]
 프로세스 회계, syslog 도입
-RFC 3164 (2001) → RFC 5424 (2009)
+RFC 3164 (2001) -> RFC 5424 (2009)
       |
       v
 [ELK Stack 등장 (Elasticsearch 2010, Kibana 2013)]
@@ -273,7 +273,7 @@ AIOps: 이상 탐지 자동화
 
 **진행 상황**: 42 / 800
 
-← **이전**: [041. 자원 할당 (Resource Allocation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)
-**다음**: [043. 보호와 보안 (Protection & Security)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) →
+<- **이전**: [041. 자원 할당 (Resource Allocation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)
+**다음**: [043. 보호와 보안 (Protection & Security)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) ->
 
 ---

@@ -33,9 +33,9 @@ tags = ["studynote-design-supervision"]
 | 생체 정보 | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시 (템플릿 비교) | 원본 저장 금지 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 비밀번호를 양방향 암호화로 저장하는 것은 "금고에 열쇠와 돈을 같이 넣어두는 것"이다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시만이 유일한 안전한 선택이다.
@@ -44,46 +44,46 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│              비밀번호 해시 + 솔트 저장 흐름                  │
-│                                                            │
-│  사용자 입력: "password123"                                  │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────────┐                      │
-│  │  솔트 생성 (16바이트 난수)         │                      │
-│  │  Salt = "a8f3c2e1b7d9f4a2..."    │                      │
-│  └──────────────┬───────────────────┘                      │
-│                 │                                          │
-│                 ▼                                          │
-│  ┌──────────────────────────────────┐                      │
-│  │  Hash( "password123" + Salt )    │                      │
-│  │  또는 BCrypt(password, salt, 12) │  ← 반복 횟수(Cost) 12  │
-│  └──────────────┬───────────────────┘                      │
-│                 │                                          │
-│                 ▼                                          │
-│  DB 저장: { salt: "a8f3c2...", hash: "9b2f4a..." }         │
-│                                                            │
-│  검증 시: Hash( 입력값 + 저장된 Salt ) == 저장된 Hash?       │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              비밀번호 해시 + 솔트 저장 흐름                  |
+|                                                            |
+|  사용자 입력: "password123"                                  |
+|       |                                                    |
+|       v                                                    |
+|  +----------------------------------+                      |
+|  |  솔트 생성 (16바이트 난수)         |                      |
+|  |  Salt = "a8f3c2e1b7d9f4a2..."    |                      |
+|  +--------------+-------------------+                      |
+|                 |                                          |
+|                 v                                          |
+|  +----------------------------------+                      |
+|  |  Hash( "password123" + Salt )    |                      |
+|  |  또는 BCrypt(password, salt, 12) |  <- 반복 횟수(Cost) 12  |
+|  +--------------+-------------------+                      |
+|                 |                                          |
+|                 v                                          |
+|  DB 저장: { salt: "a8f3c2...", hash: "9b2f4a..." }         |
+|                                                            |
+|  검증 시: Hash( 입력값 + 저장된 Salt ) == 저장된 Hash?       |
++------------------------------------------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────┐
-│  솔트 미적용 (취약)                           │
-│                                             │
-│  "password123" → SHA-256 → 0x5baa61...      │
-│  "password123" → SHA-256 → 0x5baa61...      │
-│  (동일 비밀번호 = 동일 해시 → 테이블 조회 가능) │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  솔트 미적용 (취약)                           |
+|                                             |
+|  "password123" -> SHA-256 -> 0x5baa61...      |
+|  "password123" -> SHA-256 -> 0x5baa61...      |
+|  (동일 비밀번호 = 동일 해시 -> 테이블 조회 가능) |
++---------------------------------------------+
 
-┌─────────────────────────────────────────────┐
-│  솔트 적용 (안전)                             │
-│                                             │
-│  "password123" + Salt_A → 0x9b2f4a...       │
-│  "password123" + Salt_B → 0xc7d3e8...       │
-│  (동일 비밀번호도 다른 해시 → 테이블 무효화)   │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  솔트 적용 (안전)                             |
+|                                             |
+|  "password123" + Salt_A -> 0x9b2f4a...       |
+|  "password123" + Salt_B -> 0xc7d3e8...       |
+|  (동일 비밀번호도 다른 해시 -> 테이블 무효화)   |
++---------------------------------------------+
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 유형 | 키 길이 / 반복 | 보안 수준 | 감리 판정 |
@@ -110,26 +110,26 @@ tags = ["studynote-design-supervision"]
 | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) | 전체 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) | 암호화 수준 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기준 | 2.6.4 항목 |
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│              암호화 키 관리 3계층 구조                       │
-│                                                            │
-│  ┌────────────────────────────┐                            │
-│  │  마스터 키 (Master Key)     │  ← HSM/KMS 관리            │
-│  └─────────────┬──────────────┘                            │
-│                │ 암호화                                     │
-│                ▼                                           │
-│  ┌────────────────────────────┐                            │
-│  │  데이터 암호화 키 (DEK)     │  ← 애플리케이션 레이어      │
-│  └─────────────┬──────────────┘                            │
-│                │ 암호화                                     │
-│                ▼                                           │
-│  ┌────────────────────────────┐                            │
-│  │  실제 데이터 (암호문)        │  ← DB 저장                 │
-│  └────────────────────────────┘                            │
-│                                                            │
-│  HSM: Hardware Security Module                             │
-│  KMS: Key Management Service                               │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              암호화 키 관리 3계층 구조                       |
+|                                                            |
+|  +----------------------------+                            |
+|  |  마스터 키 (Master Key)     |  <- HSM/KMS 관리            |
+|  +-------------+--------------+                            |
+|                | 암호화                                     |
+|                v                                           |
+|  +----------------------------+                            |
+|  |  데이터 암호화 키 (DEK)     |  <- 애플리케이션 레이어      |
+|  +-------------+--------------+                            |
+|                | 암호화                                     |
+|                v                                           |
+|  +----------------------------+                            |
+|  |  실제 데이터 (암호문)        |  <- DB 저장                 |
+|  +----------------------------+                            |
+|                                                            |
+|  HSM: Hardware Security Module                             |
+|  KMS: Key Management Service                               |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 암호화 키를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 같은 DB에 저장하는 것은 "금고 비밀번호를 금고 안에 넣어두는 것"이다. 키는 반드시 분리된 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/))에 보관해야 한다.
@@ -139,7 +139,7 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 1. <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 비밀번호 컬럼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
    - [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/): 32자, SHA-256: 64자, BCrypt: 60자 ($2a$ 접두사 포함)
-   - 컬럼 길이가 32자이면 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 사용 의심 → 즉시 지적
+   - 컬럼 길이가 32자이면 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 사용 의심 -> 즉시 지적
 
 2. <strong>소스코드 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: `MessageDigest.getInstance("MD5")` 등 취약 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 탐색
 
@@ -186,7 +186,7 @@ tags = ["studynote-design-supervision"]
 | 연관 개념 | 레인보우 테이블 ([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/)) | 해시 역산 사전 공격 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-비밀 관리 → 암호화 해시 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 감리 → [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/)·[HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 운영
+비밀 관리 -> 암호화 해시 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 감리 -> [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/)·[HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 운영
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 비밀번호를 그냥 저장하는 건 일기장에 "내 비밀번호는 1234야"라고 쓰는 것과 같아.
@@ -199,7 +199,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 313 / 530
 
-← **이전**: [251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/251_secure_coding_sql_xss_csrf/)
-**다음**: [253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/253_exception_handling_info_leak/) →
+<- **이전**: [251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/251_secure_coding_sql_xss_csrf/)
+**다음**: [253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/253_exception_handling_info_leak/) ->
 
 ---

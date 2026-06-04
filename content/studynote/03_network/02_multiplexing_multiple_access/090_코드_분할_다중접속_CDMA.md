@@ -41,22 +41,22 @@ CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_syst
 송신측에서는 느린 속도의 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 매우 빠른 속도의 암호 코드(Chip)를 곱(XOR)하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체로 넓게 확산시킨다. 이 확산된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 대기 중의 다른 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들과 섞여 노이즈처럼 보인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           CDMA 확산 및 역확산 (Spread / Despread) 원리       │
-├──────────────────────────────────────────────────────────────┤
-│ [송신부: 대역 확산]                                            │
-│ 협대역 데이터 (Data)                                           │
-│       │                                                      │
-│       ▼ (XOR 내적)       무선 공간 (섞임)                       │
-│ 직교 코드 (Code) ──────▶ [퍼진 신호 + 타인 신호 + 잡음] ──────┐│
-│                                                              ││
-│ [수신부: 역확산 및 복원]                                         ││
-│ 원본 복원 데이터 ◀────── (XOR 내적) ◀────────────────────────┘│
-│                         정확히 같은 직교 코드 (Code) 적용         │
-│                                                              │
-│ * 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,             │
-│         남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           CDMA 확산 및 역확산 (Spread / Despread) 원리       |
++--------------------------------------------------------------+
+| [송신부: 대역 확산]                                            |
+| 협대역 데이터 (Data)                                           |
+|       |                                                      |
+|       v (XOR 내적)       무선 공간 (섞임)                       |
+| 직교 코드 (Code) -------> [퍼진 신호 + 타인 신호 + 잡음] ------+|
+|                                                              ||
+| [수신부: 역확산 및 복원]                                         ||
+| 원본 복원 데이터 <------- (XOR 내적) <-------------------------+|
+|                         정확히 같은 직교 코드 (Code) 적용         |
+|                                                              |
+| * 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,             |
+|         남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.    |
++--------------------------------------------------------------+
 ```
 
 수신부는 자신과 약속된 정확한 코드를 다시 곱해 역확산(Despread)을 수행한다. 이때 직교성의 수학적 마법에 의해 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 적분 시 0에 수렴하여 배경 잡음(Noise Floor)으로 가라앉고, 나의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 원래 에너지로 증폭되어 깨끗하게 분리된다.
@@ -120,17 +120,17 @@ CDMA는 주파수라는 한정된 부동산을 물리적으로 쪼개야 한다�
 
 ```text
 자원의 물리적 분할 (FDMA / TDMA)
-    │
-    ▼
+    |
+    v
 DSSS (직접 대역 확산) 기반의 항재밍 군사 기술
-    │
-    ▼
+    |
+    v
 CDMA 상용화 · 자원 공유 및 왈시 코드 직교성 부여
-    │
-    ▼
+    |
+    v
 W-CDMA / CDMA2000 (3G 초고속 동기/비동기 진화)
-    │
-    ▼
+    |
+    v
 OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)
 ```
 
@@ -148,7 +148,7 @@ OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)
 
 **진행 상황**: 90 / 1120
 
-← **이전**: [89. TDMA (Time Division Multiple Access) - 슬롯 할당](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)
-**다음**: [91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) →
+<- **이전**: [89. TDMA (Time Division Multiple Access) - 슬롯 할당](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)
+**다음**: [91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) ->
 
 ---

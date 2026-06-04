@@ -146,7 +146,7 @@ AV/에이전트 중심        Falco 오픈소스 등장             Cilium + Fal
 
 **진행 상황**: 332 / 373
 
-← **이전**: [331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark](/knowledge-base/studynote/15_devops_sre/05_devsecops/331_cspm/)
-**다음**: [333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform](/knowledge-base/studynote/15_devops_sre/05_devsecops/333_cnapp/) →
+<- **이전**: [331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark](/knowledge-base/studynote/15_devops_sre/05_devsecops/331_cspm/)
+**다음**: [333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform](/knowledge-base/studynote/15_devops_sre/05_devsecops/333_cnapp/) ->
 
 ---

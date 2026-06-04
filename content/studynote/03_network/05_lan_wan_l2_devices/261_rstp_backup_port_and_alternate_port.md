@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [RSTP]
-    │
-    ▼
+    |
+    v
 [백업 포트, 대체 포트 추가]
-    │
-    └──▶ [MSTP]
+    |
+    +---> [MSTP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> Alternate와 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 축구 경기의 </strong>"벤치 대기 멤버"**입니다. 주전 선수([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), DP)가 부상으로 쓰러지면 코치가 감독에게 물어보거나 회의할 필요 없이 즉각 경기장으로 뛰어 들어가 빈자리를 완벽히 메꿉니다.
@@ -46,23 +46,23 @@ tags = ["studynote-network"]
 - **동작 방식**: 평소에는 데이터를 버리는 Discarding(차단) 상태에 머물러 있다. 그러나 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 선로가 툭 끊기는 순간, [RSTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/) 알고리즘은 50초 타이머를 싹 무시하고 Alternate [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 0.01초 만에 <strong>Forwarding 상태의 RP로 신분 상승</strong>시킨다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Alternate Port의 즉각 승계 도식                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │             [ Root Bridge (대장) ]                             │
- │               /               \                             │
- │             DP                 DP                           │
- │             /                   \                           │
- │      RP ↙                         ↘ Alternate Port (대기중)  │
- │   [ 스위치 B ] ────────(예비선)──────── [ 스위치 C ]                 │
- │                                                             │
- │   * 장애 발생! (스위치 C와 대장 사이의 선로가 끊어짐)                 │
- │   스위치 C: "헉! 내 유일한 RP가 죽었다! 하지만 내겐 스페어가 있지!"      │
- │             (스위치 B와 연결된 Alternate Port를 즉시 RP로 변경!)   │
- │                                                             │
- │   * 복구 완료! (1초 만에 스위치 B를 거쳐 대장으로 가는 우회로 개통)       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Alternate Port의 즉각 승계 도식                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |             [ Root Bridge (대장) ]                             |
+ |               /               \                             |
+ |             DP                 DP                           |
+ |             /                   \                           |
+ |      RP ↙                         ↘ Alternate Port (대기중)  |
+ |   [ 스위치 B ] --------(예비선)-------- [ 스위치 C ]                 |
+ |                                                             |
+ |   * 장애 발생! (스위치 C와 대장 사이의 선로가 끊어짐)                 |
+ |   스위치 C: "헉! 내 유일한 RP가 죽었다! 하지만 내겐 스페어가 있지!"      |
+ |             (스위치 B와 연결된 Alternate Port를 즉시 RP로 변경!)   |
+ |                                                             |
+ |   * 복구 완료! (1초 만에 스위치 B를 거쳐 대장으로 가는 우회로 개통)       |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) - "지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP)의 스페어"
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: RSTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 백업 포트, 대체 포트 추가]
-    │
-    ├──▶ [확장 A: MSTP]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: MSTP]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가는 RSTP에서 출발해 현재 메커니즘을 정교화하고, 이후 MSTP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 382 / 1120
 
-← **이전**: [260. RSTP (Rapid STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/)
-**다음**: [262. MSTP (Multiple STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/262_mstp_multiple_stp_ieee_802_1s/) →
+<- **이전**: [260. RSTP (Rapid STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/)
+**다음**: [262. MSTP (Multiple STP)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/262_mstp_multiple_stp_ieee_802_1s/) ->
 
 ---

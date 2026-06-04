@@ -39,9 +39,9 @@ tags = ["studynote-design-supervision"]
 | **Caretaker** | Memento를 보관하지만 내용을 읽지 않음 | 사진 앨범 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 게임 세이브 기능 — 캐릭터(Originator)가 자기 상태를 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/))로 저장하고, 세이브 슬롯(Caretaker)이 보관하고, 로드(restore)하면 그 시점으로 복원된다.
@@ -51,13 +51,13 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
   Originator                     Caretaker
-  ──────────────                 ──────────────────
+  --------------                 ------------------
   - state                        - history: Stack<Memento>
   + save(): Memento              + push(m: Memento)
   + restore(m: Memento)          + pop(): Memento
-        │                               │
-        └───── creates ────────►  Memento
-                                  ──────────────────
+        |                               |
+        +----- creates --------►  Memento
+                                  ------------------
                                   - state (private)
                                   + getState() [Originator only]
 ```
@@ -66,50 +66,50 @@ tags = ["studynote-design-supervision"]
   [ 작업 흐름 ]
 
   (1) 초기 상태: "Hello"
-       │ save() → Memento("Hello")
-       │ history: [M1("Hello")]
+       | save() -> Memento("Hello")
+       | history: [M1("Hello")]
 
   (2) 입력: "Hello World"
-       │ save() → Memento("Hello World")
-       │ history: [M1("Hello"), M2("Hello World")]
+       | save() -> Memento("Hello World")
+       | history: [M1("Hello"), M2("Hello World")]
 
   (3) 입력: "Hello World!!!"
-       │ save() → Memento("Hello World!!!")
-       │ history: [M1, M2, M3("Hello World!!!")]
+       | save() -> Memento("Hello World!!!")
+       | history: [M1, M2, M3("Hello World!!!")]
 
   (4) Ctrl+Z (Undo)
-       │ history.pop() → M3
-       │ restore(M2) → 텍스트 = "Hello World"
+       | history.pop() -> M3
+       | restore(M2) -> 텍스트 = "Hello World"
 
   (5) Ctrl+Z (Undo)
-       │ restore(M1) → 텍스트 = "Hello"
+       | restore(M1) -> 텍스트 = "Hello"
 ```
 
 ```
   Command + Memento = 완전한 Undo/Redo 시스템
 
-  ┌─────────────────────────────────────────────────────┐
-  │  UndoManager (Caretaker)                            │
-  │                                                     │
-  │  undoStack: Stack<Command>                          │
-  │  redoStack: Stack<Command>                          │
-  │                                                     │
-  │  execute(cmd):                                      │
-  │    memento = originator.save()                      │
-  │    cmd.setMemento(memento)                          │
-  │    cmd.execute()                                    │
-  │    undoStack.push(cmd)                              │
-  │                                                     │
-  │  undo():                                            │
-  │    cmd = undoStack.pop()                            │
-  │    originator.restore(cmd.getMemento())             │
-  │    redoStack.push(cmd)                              │
-  │                                                     │
-  │  redo():                                            │
-  │    cmd = redoStack.pop()                            │
-  │    cmd.execute()                                    │
-  │    undoStack.push(cmd)                              │
-  └─────────────────────────────────────────────────────┘
+  +-----------------------------------------------------+
+  |  UndoManager (Caretaker)                            |
+  |                                                     |
+  |  undoStack: Stack<Command>                          |
+  |  redoStack: Stack<Command>                          |
+  |                                                     |
+  |  execute(cmd):                                      |
+  |    memento = originator.save()                      |
+  |    cmd.setMemento(memento)                          |
+  |    cmd.execute()                                    |
+  |    undoStack.push(cmd)                              |
+  |                                                     |
+  |  undo():                                            |
+  |    cmd = undoStack.pop()                            |
+  |    originator.restore(cmd.getMemento())             |
+  |    redoStack.push(cmd)                              |
+  |                                                     |
+  |  redo():                                            |
+  |    cmd = redoStack.pop()                            |
+  |    cmd.execute()                                    |
+  |    undoStack.push(cmd)                              |
+  +-----------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -147,19 +147,19 @@ tags = ["studynote-design-supervision"]
 
 ```
   일반 Memento:
-  State1(100MB) → State2(100MB) → State3(100MB)
-  → Undo 3단계 = 300MB 필요
+  State1(100MB) -> State2(100MB) -> State3(100MB)
+  -> Undo 3단계 = 300MB 필요
 
   Incremental Memento (증분 저장):
-  State1(100MB) → Delta1(변경분만, ~1KB) → Delta2(~1KB)
-  → Undo 3단계 = 100MB + 2KB 필요
+  State1(100MB) -> Delta1(변경분만, ~1KB) -> Delta2(~1KB)
+  -> Undo 3단계 = 100MB + 2KB 필요
 
   구현: 변경된 필드만 저장, 역순으로 적용
 ```
 
 ```
   DB Transaction    ↔    Memento Pattern
-  ────────────────────────────────────────
+  ----------------------------------------
   BEGIN                  originator.save()
   UPDATE/INSERT          실행
   ROLLBACK               originator.restore(memento)
@@ -188,8 +188,8 @@ tags = ["studynote-design-supervision"]
 | 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 잘못된 연산 후 이전 상태로 복원 |
 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지원 | DB [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 동일한 원리의 메모리 내 구현 |
 
-- **메모리 사용**: 상태가 크거나 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 깊이가 깊을수록 메모리 급증 → 최대 히스토리 수 제한 필요
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: Deep Copy 비용 → 증분 저장 또는 [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 고려
+- **메모리 사용**: 상태가 크거나 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 깊이가 깊을수록 메모리 급증 -> 최대 히스토리 수 제한 필요
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: Deep Copy 비용 -> 증분 저장 또는 [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 고려
 - **캡슐화**: Java에서는 내부 클래스, C++에서는 `friend` 키워드로 구현
 
 [Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) ([메멘토](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/)) 패턴은 <strong>캡슐화를 지키면서 역사를 기록</strong>하는 우아한 해법이다. 텍스트 에디터의 Ctrl+Z, 게임 세이브·로드, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 등 "시간을 되돌리는" 모든 기능의 설계 근간이다. [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 패턴과 결합하면 완전한 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) 시스템이 완성된다.
@@ -211,7 +211,7 @@ tags = ["studynote-design-supervision"]
 | 연관 개념 | Encapsulation (캡슐화) | Memento가 보존하는 핵심 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-상태 캡슐화 → [메멘토 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/) → [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)·[Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)
+상태 캡슐화 -> [메멘토 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/398_process/) -> [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)·[Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 그림 그리다가 망했을 때 "되돌리기" 버튼을 누르면 이전 그림으로 돌아가죠?
@@ -224,7 +224,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 266 / 530
 
-← **이전**: [204. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/204_iterator_pattern/)
-**다음**: [206. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/206_interpreter_pattern/) →
+<- **이전**: [204. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/204_iterator_pattern/)
+**다음**: [206. 해석자 패턴 (Interpreter Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/206_interpreter_pattern/) ->
 
 ---

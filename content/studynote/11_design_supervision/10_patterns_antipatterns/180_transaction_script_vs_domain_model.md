@@ -43,21 +43,21 @@ Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowl
 아래 그림은 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 예시에서 두 방식의 구조 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Business logic placement                                             │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Transaction Script            │ Domain Model                         │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ OrderService.placeOrder()     │ OrderAppService.placeOrder()         │
-│   - load customer             │   - load customer / products         │
-│   - validate items            │   - create Order aggregate           │
-│   - calculate discount        │ Order aggregate                      │
-│   - reserve stock             │   - validate items                   │
-│   - save order                │   - calculate discount               │
-│   - publish event             │   - reserve stock / change status    │
-│                               │   - enforce invariants               │
-│ Logic concentrated in script  │ Logic encapsulated in domain object  │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Business logic placement                                             |
++-------------------------------+--------------------------------------+
+| Transaction Script            | Domain Model                         |
++-------------------------------+--------------------------------------+
+| OrderService.placeOrder()     | OrderAppService.placeOrder()         |
+|   - load customer             |   - load customer / products         |
+|   - validate items            |   - create Order aggregate           |
+|   - calculate discount        | Order aggregate                      |
+|   - reserve stock             |   - validate items                   |
+|   - save order                |   - calculate discount               |
+|   - publish event             |   - reserve stock / change status    |
+|                               |   - enforce invariants               |
+| Logic concentrated in script  | Logic encapsulated in domain object  |
++-------------------------------+--------------------------------------+
 ```
 
 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model의 핵심은 객체를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상자처럼 두지 않는 것이다. 주문 객체가 주문 총액 계산, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 취소 가능 여부 판단을 직접 책임지면, 규칙은 주문이라는 개념 근처에 응집된다. 이때 Repository 패턴이 함께 쓰이면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 저장 기술보다 비즈니스 의미에 집중할 수 있다.
@@ -147,18 +147,18 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ```text
 Simple CRUD use cases
-        │
-        ▼
+        |
+        v
 Transaction Script for fast delivery
-        │
-        ▼
+        |
+        v
 Rules increase and start to overlap
-        │
-        ├─ duplicated validation
-        ├─ state transition complexity
-        └─ growing God Service
-        │
-        ▼
+        |
+        +- duplicated validation
+        +- state transition complexity
+        +- growing God Service
+        |
+        v
 Domain Model + Repository + richer business encapsulation
 ```
 
@@ -176,7 +176,7 @@ Domain Model + Repository + richer business encapsulation
 
 **진행 상황**: 236 / 530
 
-← **이전**: [179. 레파지토리 패턴 (Repository Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/)
-**다음**: [181. 유닛 오브 워크 패턴 (Unit of Work Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) →
+<- **이전**: [179. 레파지토리 패턴 (Repository Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/)
+**다음**: [181. 유닛 오브 워크 패턴 (Unit of Work Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/181_unit_of_work_pattern/) ->
 
 ---

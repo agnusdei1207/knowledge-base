@@ -29,19 +29,19 @@ tags = ["data_engineering"]
 [기존 2-Tier 아키텍처의 한계와 데이터 레이크하우스의 통합]
 
 [과거: 2-Tier 아키텍처 (데이터 이중 복제 및 ETL 병목)]
-다양한 소스 ──> [ Data Lake (S3/HDFS) ] ──(복잡한 ETL 복사)──> [ Data Warehouse ]
+다양한 소스 --> [ Data Lake (S3/HDFS) ] --(복잡한 ETL 복사)--> [ Data Warehouse ]
                 - 저렴하지만 ACID 불가                           - 비싸고 정형 데이터만 가능
                 - ML/AI 엔지니어 사용                            - BI/SQL 분석가 사용
-                             └─────────────────(데이터 불일치 및 지연 발생)
+                             +-----------------(데이터 불일치 및 지연 발생)
 
 [현재: Data Lakehouse 단일 아키텍처]
-다양한 소스 ──> ┌───────────────────────────────────────────────┐
-               │              [ Data Lakehouse ]               │
-               │  [ ACID Transaction / Open Table Format ]     │ <─ 트랜잭션 계층 추가
-               │  [ Cloud Object Storage (S3, Parquet)   ]     │ <─ 레이크의 저렴한 스토리지
-               └───────────────────────┬───────────────────────┘
-                                       │ (단일 복사본으로 동시 지원)
-                     ┌─────────────────┴─────────────────┐
+다양한 소스 --> +-----------------------------------------------+
+               |              [ Data Lakehouse ]               |
+               |  [ ACID Transaction / Open Table Format ]     | <- 트랜잭션 계층 추가
+               |  [ Cloud Object Storage (S3, Parquet)   ]     | <- 레이크의 저렴한 스토리지
+               +-----------------------+-----------------------+
+                                       | (단일 복사본으로 동시 지원)
+                     +-----------------+-----------------+
                  [ ML / AI 파이프라인 ]             [ BI / 실시간 SQL 분석 ]
 ```
 이 도식은 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)가 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 불필요한 물리적 이동([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))을 근절하는지를 보여줍니다. 기존에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어는 레이크를 보고, 비즈니스 분석가는 DW를 보았기 때문에 동일한 '매출액'에 대해 서로 다른 숫자를 리포팅하는 문제가 빈번했습니다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 단일 스토리지(S3) 원본 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 계층을 올려, 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Update)하면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델과 BI 대시보드 양쪽에 실시간으로 정합성 있게 반영되는 단일 진실 공급원(SSOT)을 완성합니다.
@@ -67,21 +67,21 @@ tags = ["data_engineering"]
 ```text
 [오픈 테이블 포맷 (예: Apache Iceberg/Delta)의 트랜잭션 원리]
 
-[ SQL: UPDATE users SET status='VIP' WHERE id = 5 ]  ──> (레이크하우스 엔진에 인입)
+[ SQL: UPDATE users SET status='VIP' WHERE id = 5 ]  --> (레이크하우스 엔진에 인입)
 
-                       ┌───────── [ Metadata / Transaction Log 계층 ] ─────────┐
-                       │ 1. 스냅샷 V1: [File_A.parquet], [File_B.parquet]      │
-                       │ 2. 엔진이 ID=5가 포함된 File_A를 메모리로 읽어옴      │
-                       │ 3. 상태를 수정한 새로운 [File_A_v2.parquet] 생성      │
-                       │ 4. 스냅샷 V2 커밋: [File_A_v2.parquet], [File_B.parquet]│
-                       └──────────────────────────┬────────────────────────────┘
-                                                  │ (포인터 변경 / 기존 파일 유지)
-       ┌──────────────────────────────────────────▼──────────────────────────────────┐
-       │ [ S3 Object Storage ]                                                       │
-       │  (File_A.parquet) <─ 기존 파일은 놔둠 (Time Travel 용도 보존)               │
-       │  (File_A_v2.parquet) <─ 신규 파일 기록                                      │
-       │  (File_B.parquet)                                                           │
-       └─────────────────────────────────────────────────────────────────────────────┘
+                       +--------- [ Metadata / Transaction Log 계층 ] ---------+
+                       | 1. 스냅샷 V1: [File_A.parquet], [File_B.parquet]      |
+                       | 2. 엔진이 ID=5가 포함된 File_A를 메모리로 읽어옴      |
+                       | 3. 상태를 수정한 새로운 [File_A_v2.parquet] 생성      |
+                       | 4. 스냅샷 V2 커밋: [File_A_v2.parquet], [File_B.parquet]|
+                       +--------------------------+----------------------------+
+                                                  | (포인터 변경 / 기존 파일 유지)
+       +------------------------------------------v----------------------------------+
+       | [ S3 Object Storage ]                                                       |
+       |  (File_A.parquet) <- 기존 파일은 놔둠 (Time Travel 용도 보존)               |
+       |  (File_A_v2.parquet) <- 신규 파일 기록                                      |
+       |  (File_B.parquet)                                                           |
+       +-----------------------------------------------------------------------------+
 ```
 이 흐름도는 객체 스토리지(S3)의 치명적 단점인 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 일부만 수정(In-place Update) 불가' 문제를 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)가 어떻게 우회하는지를 보여줍니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부의 레코드 하나를 지우기 위해 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 덮어쓰면 읽기-쓰기 충돌([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 발생합니다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 계층은 변경된 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 조용히 옆에 만들고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 '포인터'만 V1에서 V2로 순간적으로 스위칭(Commit)합니다. 이를 통해 다수의 분석가가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 던지는 중에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊김 없이 업데이트되는 완벽한 <strong>ACID <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">격리성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>을 달성합니다.
 
@@ -122,13 +122,13 @@ tags = ["data_engineering"]
 [레이크하우스 테이블 포맷 선택 의사결정 트리]
 
 [도입 목적과 기존 생태계 분석]
-         ↓
+         v
 [Q1. Databricks 환경에 종속되어도 무방하며, 가장 성숙한 상용 성능이 필요한가?]
- ├── (Yes) ──> [ Delta Lake 선택 ]: Spark 최적화 및 벤더 지원(Databricks)이 가장 강력함
- └── (No) ─> [Q2. CDC 실시간 스트리밍 처리와 잦은 Update/Upsert가 주력인가?]
-               ├── (Yes) ──> [ Apache Hudi 선택 ]: 레코드 수준의 점진적 업서트(Upsert)에 독보적 강점
-               └── (No) ─> [Q3. 엔진에 종속되지 않는 범용성과 완벽한 메타데이터 확장이 중요한가?]
-                            └──> [ Apache Iceberg 선택 ]: Snowflake, Trino 등 다양한 엔진과의 완벽한 호환성 (최근 대세)
+ +-- (Yes) --> [ Delta Lake 선택 ]: Spark 최적화 및 벤더 지원(Databricks)이 가장 강력함
+ +-- (No) -> [Q2. CDC 실시간 스트리밍 처리와 잦은 Update/Upsert가 주력인가?]
+               +-- (Yes) --> [ Apache Hudi 선택 ]: 레코드 수준의 점진적 업서트(Upsert)에 독보적 강점
+               +-- (No) -> [Q3. 엔진에 종속되지 않는 범용성과 완벽한 메타데이터 확장이 중요한가?]
+                            +--> [ Apache Iceberg 선택 ]: Snowflake, Trino 등 다양한 엔진과의 완벽한 호환성 (최근 대세)
 ```
 이 의사결정 흐름도는 기술사적 관점에서 특정 벤더에 종속([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))되지 않는 아키텍처 설계의 중요성을 보여줍니다. 최근 실무에서는 특정 연산 엔진(Spark)에 강하게 묶인 포맷보다, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 설계가 가장 깔끔하여 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진(Athena, Trino, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))이든 자유롭게 붙일 수 있는 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/">Apache Iceberg</a></strong>가 사실상의 산업 표준(De facto Standard)으로 급부상하고 있습니다.
 
@@ -147,7 +147,7 @@ tags = ["data_engineering"]
 | 기대 효과 구분 | 도입 전 ([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 2-Tier) | 도입 후 (To-Be [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)) |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | 레이크와 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 간 지표 불일치로 인한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 및 혼란 | 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본(SSOT) 기반으로 전사 지표의 완벽한 일치 보장 |
-| **운영/유지보수 비용** | 레이크 → [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 간 끝없는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 개발/수정 비용 발생 | 직접 테이블 포맷 위에서 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하므로 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 계층 절반 이상 증발 |
+| **운영/유지보수 비용** | 레이크 -> [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 간 끝없는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 개발/수정 비용 발생 | 직접 테이블 포맷 위에서 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하므로 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 계층 절반 이상 증발 |
 
 **미래 전망 및 결론**
 앞으로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계는 '저장은 개방형 포맷(Iceberg/Delta)을 사용한 객체 스토리지'에 고정해 두고, 그 위에서 연산만 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 등 다양한 상용 엔진들이 치열하게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경쟁을 벌이는 형태로 재편될 것입니다. [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)는 더 이상 특정 벤더의 마케팅 용어가 아니라, 스토리지 독점주의를 깨고 기업에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 완전한 소유권을 돌려주는 <strong>개방성(Openness)의 상징</strong>이 되었습니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 훈련과 실시간 비즈니스 의사결정이 밀리초 단위로 융합되는 현대 기업 환경에서, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 선택이 아닌 생존을 위한 필수 아키텍처로 자리매김하고 있습니다.
@@ -166,17 +166,17 @@ tags = ["data_engineering"]
 
 ```text
 [데이터 웨어하우스 (DW) — ACID, 고비용 스키마 고정]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake) — 저비용, 무결성 부재]
-    │
-    ▼
+    |
+    v
 [오픈 테이블 포맷 (Apache Iceberg / Delta Lake)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 (Data Lakehouse) — DW+Lake 통합]
-    │
-    ▼
+    |
+    v
 [컴퓨팅·스토리지 분리 (Compute-Storage Separation)]
 ```
 
@@ -193,7 +193,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 8 / 258
 
-← **이전**: [7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이](/knowledge-base/studynote/14_data_engineering/01_infrastructure/007_data_lake/)
-**다음**: [9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) →
+<- **이전**: [7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이](/knowledge-base/studynote/14_data_engineering/01_infrastructure/007_data_lake/)
+**다음**: [9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ->
 
 ---

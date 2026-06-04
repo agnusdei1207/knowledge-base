@@ -71,17 +71,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Supervised Learning (지도 학습)]
-    │
-    ▼
+    |
+    v
 [Ensemble (앙상블)]
-    │
-    ▼
+    |
+    v
 [Neural Networks (신경망)]
-    │
-    ▼
+    |
+    v
 [Confusion Matrix (혼동 행렬)]
-    │
-    ▼
+    |
+    v
 [SMOTE (불균형 처리)]
 ```
 
@@ -98,7 +98,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 104 / 262
 
-← **이전**: [회귀 분석 (Regression Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/103_regression_analysis/)
-**다음**: [군집화 (Clustering) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) →
+<- **이전**: [회귀 분석 (Regression Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/103_regression_analysis/)
+**다음**: [군집화 (Clustering) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃, A/B 테스팅은 새 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 모델을 한 번에 전면 교체하지 않고, 실트래픽 아래에서 기술적 안전성과 비즈니스 효과를 단계적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 런타임 서빙 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: AI는 500 오류 없이도 추천 품질 저하, 유해 응답, 편향 확대처럼 "조용한 실패"를 낼 수 있으므로, 오프라인 점수만으로는 배포 판단을 내리기 어렵다.
-> 3. **판단 포인트**: Shadow는 노출 없이 동작 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), Canary는 제한된 실제 노출로 위험 통제, A/B는 통계적으로 성과 비교를 수행하므로, 세 기법은 대체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 Shadow → [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) → A/B 순의 게이트로 조합하는 편이 안전하다.
+> 3. **판단 포인트**: Shadow는 노출 없이 동작 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), Canary는 제한된 실제 노출로 위험 통제, A/B는 통계적으로 성과 비교를 수행하므로, 세 기법은 대체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 Shadow -> [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) -> A/B 순의 게이트로 조합하는 편이 안전하다.
 
 ---
 
@@ -36,29 +36,29 @@ tags = ["studynote-ai"]
 아래 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 런타임 배포의 단계별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Runtime rollout ladder                                              │
-├──────────────────────────────────────────────────────────────────────┤
-│ User request                                                        │
-│      │                                                              │
-│      ▼                                                              │
-│  Traffic router / feature parity check                              │
-│      │                                                              │
-│      ├─ Champion model (v1) ----------------------> user response   │
-│      │                                                              │
-│      └─ Challenger model (v2)                                       │
-│           ├─ Shadow  : mirrored only, log output diff               │
-│           ├─ Canary  : 1~5% real exposure, guardrail check          │
-│           └─ A/B test: randomized cohorts, KPI comparison           │
-│                                                                      │
-│ Metrics: latency, error, unsafe rate, business conversion           │
-│ Gate   : auto rollback / traffic promotion                          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Runtime rollout ladder                                              |
++----------------------------------------------------------------------+
+| User request                                                        |
+|      |                                                              |
+|      v                                                              |
+|  Traffic router / feature parity check                              |
+|      |                                                              |
+|      +- Champion model (v1) ----------------------> user response   |
+|      |                                                              |
+|      +- Challenger model (v2)                                       |
+|           +- Shadow  : mirrored only, log output diff               |
+|           +- Canary  : 1~5% real exposure, guardrail check          |
+|           +- A/B test: randomized cohorts, KPI comparison           |
+|                                                                      |
+| Metrics: latency, error, unsafe rate, business conversion           |
+| Gate   : auto rollback / traffic promotion                          |
++----------------------------------------------------------------------+
 ```
 
 Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Traffic Mirroring)다. 챌린저 모델은 실제 요청을 받지만 사용자에게 응답을 보내지 않는다. 이때 중요한 구현 규칙은 "비동기 fire-and-forget"이다. 즉 챔피언 응답이 준비되면 바로 사용자에게 보내고, 챌린저의 처리 시간은 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 영향을 주지 않도록 격리해야 한다. 또한 결제, 알림 발송, 캐시 갱신 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부작용은 섀도우 경로에서 차단하거나 샌드박스로 우회해야 한다.
 
-[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) Rollout은 일부 사용자에게만 실제 결과를 노출해 위험 반경을 줄인다. 보통 1% → 5% → [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% → 50%처럼 단계적으로 트래픽을 늘리며, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) 위반, 안전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반, 고객 불만, 에러율 상승이 있으면 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다. A/B Testing은 이보다 목적이 다르다. [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)가 "안전하게 배포할 수 있는가"를 보는 단계라면, A/B는 통계적으로 유의미한 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) 개선이 있는가를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 단계다.
+[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) Rollout은 일부 사용자에게만 실제 결과를 노출해 위험 반경을 줄인다. 보통 1% -> 5% -> [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% -> 50%처럼 단계적으로 트래픽을 늘리며, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) 위반, 안전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반, 고객 불만, 에러율 상승이 있으면 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다. A/B Testing은 이보다 목적이 다르다. [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)가 "안전하게 배포할 수 있는가"를 보는 단계라면, A/B는 통계적으로 유의미한 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) 개선이 있는가를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 단계다.
 
 | 기법 | 사용자 노출 | 주 지표 | 핵심 질문 | 구현 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -96,7 +96,7 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 
 | 실무 시나리오 | 권장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 이유 |
 | :--- | :--- | :--- |
-| 추천/검색 랭킹 모델 | Shadow → [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) → A/B | 기술 안정성과 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), 전환율을 모두 봐야 함 |
+| 추천/검색 랭킹 모델 | Shadow -> [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) -> A/B | 기술 안정성과 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), 전환율을 모두 봐야 함 |
 | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 챗봇 | 긴 Shadow + 소규모 [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) + 유해성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반과 브랜드 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 큼 |
 | 사기 탐지 모델 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Shadow 점수 비교 후 제한적 [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | 잘못된 차단/승인은 즉시 비용 발생 |
 | 수요예측·배치 모델 | Shadow 또는 Backtest 중심, 필요 시 [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | 온라인 직접 노출보다 후행 정확도 중요 |
@@ -150,21 +150,21 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 
 ```text
 오프라인 평가
-    │
-    ▼
+    |
+    v
 Shadow Deployment
-    │
-    ├─ 출력 차이 분석
-    ├─ 지연시간·안전성 검증
-    └─ 부작용 격리 확인
-    │
-    ▼
+    |
+    +- 출력 차이 분석
+    +- 지연시간·안전성 검증
+    +- 부작용 격리 확인
+    |
+    v
 Canary Rollout
-    │
-    ▼
+    |
+    v
 A/B Testing
-    │
-    ▼
+    |
+    v
 Full Rollout 또는 Multi-Armed Bandit 최적화
 ```
 
@@ -182,7 +182,7 @@ Full Rollout 또는 Multi-Armed Bandit 최적화
 
 **진행 상황**: 184 / 420
 
-← **이전**: [183. 하이퍼파라미터 오토튜닝과 NAS (AutoML)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/183_automl_nas/)
-**다음**: [185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/185_tensor_core_gpu/) →
+<- **이전**: [183. 하이퍼파라미터 오토튜닝과 NAS (AutoML)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/183_automl_nas/)
+**다음**: [185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/185_tensor_core_gpu/) ->
 
 ---

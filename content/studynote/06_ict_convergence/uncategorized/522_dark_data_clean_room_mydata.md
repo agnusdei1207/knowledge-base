@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)([Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))는 수집됐으나 활용되지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(전체의 80%+)이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸([Data Clean Room](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/))은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 미공유 상태에서 두 기업이 집계 분석을 교환하고, [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 개인이 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제권을 직접 행사하는 제도다.
-> 2. **가치**: 세 개념은 각각 "잠든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨우기 → 안전한 협업 분석 → 개인 주권 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 패러다임의 연속 진화를 나타낸다.
+> 2. **가치**: 세 개념은 각각 "잠든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨우기 -> 안전한 협업 분석 -> 개인 주권 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 패러다임의 연속 진화를 나타낸다.
 > 3. **판단 포인트**: 기술사 논술에서 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)·[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 컴플라이언스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 가치 사이의 트레이드오프, 그리고 클린 룸의 기술적 구현([차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/), 집계 임계값)을 핵심 근거로 제시한다.
 
 ---
@@ -33,17 +33,17 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 ```
   기업 A (원시 데이터)          기업 B (원시 데이터)
-        │                              │
-        ▼                              ▼
-  ┌─────────────────────────────────────────┐
-  │            데이터 클린 룸               │
-  │  ┌──────────┐      ┌──────────────┐    │
-  │  │집계 엔진  │◄────►│ 쿼리 검증기  │    │
-  │  │(k-익명성)│      │(임계값 적용) │    │
-  │  └──────────┘      └──────────────┘    │
-  │        │ 집계 결과만 반환               │
-  └────────┼────────────────────────────────┘
-           ▼
+        |                              |
+        v                              v
+  +-----------------------------------------+
+  |            데이터 클린 룸               |
+  |  +----------+      +--------------+    |
+  |  |집계 엔진  |◄----►| 쿼리 검증기  |    |
+  |  |(k-익명성)|      |(임계값 적용) |    |
+  |  +----------+      +--------------+    |
+  |        | 집계 결과만 반환               |
+  +--------+--------------------------------+
+           v
     공동 인사이트 (원시 데이터 미공유)
 ```
 
@@ -80,7 +80,7 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 <strong>국내 <a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> 현황</strong>: 2022년 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 본격 시행. 은행·카드·보험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본인 동의 하에 제3자 플랫폼(뱅크샐러드, 토스)으로 전송. 2024년 의료 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)(PHR, Personal Health Record) 시범 확대.
 
 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/">다크 데이터</a> 관리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
-1. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) 구축 → 태깅·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+1. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) 구축 -> 태깅·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 2. ROT(Redundant, Obsolete, Trivial) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 삭제
 3. 잠재 가치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)([Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))에 보관
 
@@ -113,7 +113,7 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ROT 데이터 · 데이터 카탈로그] → [다크 데이터 · 클린 룸] → [열람권 · 삭제권]
+[ROT 데이터 · 데이터 카탈로그] -> [다크 데이터 · 클린 룸] -> [열람권 · 삭제권]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -128,7 +128,7 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 **진행 상황**: 522 / 552
 
-← **이전**: [521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)](/knowledge-base/studynote/06_ict_convergence/uncategorized/521_homomorphic_encryption_post_quantum_crypto/)
-**다음**: [523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)](/knowledge-base/studynote/06_ict_convergence/uncategorized/523_dataops_feature_flag_citizen_developer/) →
+<- **이전**: [521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)](/knowledge-base/studynote/06_ict_convergence/uncategorized/521_homomorphic_encryption_post_quantum_crypto/)
+**다음**: [523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)](/knowledge-base/studynote/06_ict_convergence/uncategorized/523_dataops_feature_flag_citizen_developer/) ->
 
 ---

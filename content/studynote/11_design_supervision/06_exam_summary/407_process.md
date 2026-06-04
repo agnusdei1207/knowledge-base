@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 일시 장애에는 점진적 재시도로 대응하고, 지속 장애에는 회로 차단으로 빠르게 실패하게 만드는 복원력 패턴 조합이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 호출이 많아질수록 순간적인 네트워크 오류와 장기 장애를 같은 방식으로 처리하면 장애가 폭발한다. 이 개념이 필요한 이유는 장애 종류에 따라 재시도와 차단을 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 무한 재시도는 장애를 더 키우고, 차단 없는 호출은 다운스트림을 계속 압박한다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Failure   │──▶│   Retry    │──▶│  Recover   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Failure   |--->|   Retry    |--->|  Recover   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│   Call   │──▶│  Guard   │──▶│  Retry   │──▶│ Fallback │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|   Call   |--->|  Guard   |--->|  Retry   |--->| Fallback |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) | 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[단순 재호출] → [리트라이+차단] → [복원력 기반 통신]
+[단순 재호출] -> [리트라이+차단] -> [복원력 기반 통신]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 친구 집 문을 두드리다 안 열리면 잠시 쉬고, 계속 없으면 오늘은 그만두는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 485 / 530
 
-← **이전**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/)
-**다음**: [408. 디스럽터 패턴 (Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/408_process/) →
+<- **이전**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/)
+**다음**: [408. 디스럽터 패턴 (Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/408_process/) ->
 
 ---

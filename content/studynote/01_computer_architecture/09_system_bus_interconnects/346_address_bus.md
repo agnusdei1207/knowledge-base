@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 먼저 의미를 정하는 순서를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Address-first bus transaction sequence               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU ── address=0x4000_1000 ──▶ Address Bus ──▶ Address Decoder      │
-│  │                                                                   │
-│  └── control=READ ───────────▶ Control Bus ─────▶ target select      │
-│                                                                      │
-│ Selected target only ─────────▶ Data Bus ─────────▶ CPU              │
-│                                                                      │
-│ Key point: address decides the destination before data can move.     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                Address-first bus transaction sequence               |
++----------------------------------------------------------------------+
+| CPU -- address=0x4000_1000 ---> Address Bus ---> Address Decoder      |
+|  |                                                                   |
+|  +-- control=READ ------------> Control Bus ------> target select      |
+|                                                                      |
+| Selected target only ----------> Data Bus ----------> CPU              |
+|                                                                      |
+| Key point: address decides the destination before data can move.     |
++----------------------------------------------------------------------+
 ```
 
 이 흐름의 핵심은 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 운반하지 않더라도, 어떤 장치가 응답할 자격이 있는지를 먼저 정한다는 점이다. 따라서 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계가 흔들리면 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)와 [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)가 정상이어도 잘못된 장치가 응답하거나, 아무 장치도 선택되지 않는 치명적 오류가 발생한다.
@@ -59,16 +59,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 주소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 상위 영역 선택과 하위 오프셋으로 나뉘는 전형적 구조를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Address interpretation model                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ A31 .............. A20 │ A19 ................................. A0   │
-│ ── region select ───── │ ─────────── offset inside region ───────   │
-│                                                                      │
-│ 0000_0000_xxx...  -> main memory                                     │
-│ 1111_0000_xxx...  -> MMIO region                                     │
-│ 1111_1111_xxx...  -> firmware / reserved                             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Address interpretation model                     |
++----------------------------------------------------------------------+
+| A31 .............. A20 | A19 ................................. A0   |
+| -- region select ----- | ----------- offset inside region -------   |
+|                                                                      |
+| 0000_0000_xxx...  -> main memory                                     |
+| 1111_0000_xxx...  -> MMIO region                                     |
+| 1111_1111_xxx...  -> firmware / reserved                             |
++----------------------------------------------------------------------+
 ```
 
 이 구조는 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 큰 구역을 정하고, 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 그 안의 세부 위치를 지정하는 방식이다. 그래서 시스템 설계자는 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 단순히 늘리는 것만이 아니라, 어느 구간을 메모리 맵 I/O (Memory-Mapped Input/Output), 어느 구간을 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 어느 구간을 주기억장치에 배정할지까지 함께 설계해야 한다. 결국 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 물리 폭과 주소 맵 정책이 합쳐져 실제 시스템의 접근 질서를 만든다.
@@ -144,20 +144,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 주소 지정 필요
-    │
-    ▼
+    |
+    v
 주소 버스 (Address Bus) · 주소 공간 (Address Space)
-    │
-    ▼
+    |
+    v
 주소 디코더 (Address Decoder) · 칩 선택 (Chip Select)
-    │
-    ▼
+    |
+    v
 MMU (Memory Management Unit) · 가상 메모리 (Virtual Memory)
-    │
-    ▼
+    |
+    v
 MMIO (Memory-Mapped Input/Output) · PCIe address mapping
-    │
-    ▼
+    |
+    v
 IOMMU · CXL memory expansion
 ```
 
@@ -175,7 +175,7 @@ IOMMU · CXL memory expansion
 
 **진행 상황**: 347 / 803
 
-← **이전**: [345. 데이터 버스 (Data Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)
-**다음**: [347. 제어 버스 (Control Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/) →
+<- **이전**: [345. 데이터 버스 (Data Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)
+**다음**: [347. 제어 버스 (Control Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/) ->
 
 ---

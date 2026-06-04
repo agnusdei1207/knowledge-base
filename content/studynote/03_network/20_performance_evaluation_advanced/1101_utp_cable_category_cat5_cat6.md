@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [스위치 포트 미러링]
-    │
-    ▼
+    |
+    v
 [UTP 배선 카테고리]
-    │
-    └──▶ [광섬유 싱글모드 다중모드]
+    |
+    +---> [광섬유 싱글모드 다중모드]
 ```
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ tags = ["studynote-network"]
 
 ```text
 [스위치 포트 미러링]
-    │
-    ▼
+    |
+    v
 [UTP 배선 카테고리]
-    │
-    └──▶ [광섬유 싱글모드 다중모드]
+    |
+    +---> [광섬유 싱글모드 다중모드]
 ```
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스위치 포트 미러링]
-    │
-    ▼
+    |
+    v
 [현재 개념: UTP 배선 카테고리]
-    │
-    ├──▶ [확장 A: 광섬유 싱글모드 다중모드]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 광섬유 싱글모드 다중모드]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 211 / 1120
 
-← **이전**: [1100. 스위치 포트 미러링 (SPAN/TAP)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)
-**다음**: [1102. 광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/) →
+<- **이전**: [1100. 스위치 포트 미러링 (SPAN/TAP)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)
+**다음**: [1102. 광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/) ->
 
 ---

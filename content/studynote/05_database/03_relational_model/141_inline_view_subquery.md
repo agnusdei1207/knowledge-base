@@ -23,7 +23,7 @@ SELECT e.name, e.sal, t.max_sal
 FROM emp e
 JOIN (SELECT dept_id, MAX(sal) AS max_sal FROM emp GROUP BY dept_id) t
   ON e.dept_id = t.dept_id AND e.sal = t.max_sal;
-  → 인라인 뷰 t = 부서별 최고 급여 가상 테이블
+  -> 인라인 뷰 t = 부서별 최고 급여 가상 테이블
 ```
 
 - **📢 섹션 요약 비유**: 인라인 뷰는 <strong>임시 메모</strong>이다. 복잡한 계산 결과를 메모(가상 테이블)에 적어두고 본 작업에 활용한다.
@@ -49,9 +49,9 @@ JOIN (SELECT dept_id, MAX(sal) AS max_sal FROM emp GROUP BY dept_id) t
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[기본 서브쿼리] → [인라인 뷰 (SQL-92)]
-    → [CTE (SQL:1999)] → [Materialized CTE]
-    → [현재: 옵티마이저 자동 인라인/CTE 변환]
+[기본 서브쿼리] -> [인라인 뷰 (SQL-92)]
+    -> [CTE (SQL:1999)] -> [Materialized CTE]
+    -> [현재: 옵티마이저 자동 인라인/CTE 변환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ JOIN (SELECT dept_id, MAX(sal) AS max_sal FROM emp GROUP BY dept_id) t
 
 **진행 상황**: 141 / 600
 
-← **이전**: [140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/140_sql_subquery/)
-**다음**: [142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환](/knowledge-base/studynote/05_database/03_relational_model/142_scalar_subquery/) →
+<- **이전**: [140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/140_sql_subquery/)
+**다음**: [142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환](/knowledge-base/studynote/05_database/03_relational_model/142_scalar_subquery/) ->
 
 ---

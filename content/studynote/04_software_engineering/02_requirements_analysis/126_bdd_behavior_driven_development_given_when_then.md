@@ -19,21 +19,21 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    BDD 시나리오 예시                                  │
-├───────────────────────────────────────────────────────┤
-│  Feature: 로그인                                      │
-│                                                       │
-│  Scenario: 올바른 비밀번호로 로그인                   │
-│    Given 사용자 "홍길동"이 등록되어 있다              │
-│    When 아이디 "hong"과 비밀번호 "1234"로 로그인     │
-│    Then 대시보드 페이지가 표시된다                    │
-│                                                       │
-│  Scenario: 잘못된 비밀번호                            │
-│    Given 사용자 "홍길동"이 등록되어 있다              │
-│    When 아이디 "hong"과 비밀번호 "wrong"으로 로그인  │
-│    Then "비밀번호가 틀립니다" 메시지가 표시된다       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    BDD 시나리오 예시                                  |
++-------------------------------------------------------+
+|  Feature: 로그인                                      |
+|                                                       |
+|  Scenario: 올바른 비밀번호로 로그인                   |
+|    Given 사용자 "홍길동"이 등록되어 있다              |
+|    When 아이디 "hong"과 비밀번호 "1234"로 로그인     |
+|    Then 대시보드 페이지가 표시된다                    |
+|                                                       |
+|  Scenario: 잘못된 비밀번호                            |
+|    Given 사용자 "홍길동"이 등록되어 있다              |
+|    When 아이디 "hong"과 비밀번호 "wrong"으로 로그인  |
+|    Then "비밀번호가 틀립니다" 메시지가 표시된다       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BDD는 연극의 <strong>대본(시나리오)</strong>이다. 감독(PO)·배우(개발자)·관객(QA) 모두가 같은 대본을 보고 연습(테스트)한다.
@@ -94,18 +94,18 @@ BDD는 <strong>"살아있는 문서(Living <a href="/knowledge-base/studynote/04
 
 ```text
 [TDD (Kent Beck, 2003)]
-    │
-    ▼
+    |
+    v
 [BDD (Dan North, 2006) — Given/When/Then]
-    │
-    ▼
+    |
+    v
 [Cucumber (2008) — BDD 자동화 대표]
-    │
-    ▼
+    |
+    v
 [Living Documentation (2015~)]
-    │
-    ▼
-[현재: AI BDD — 자연어 요구사항 → 자동 시나리오 생성]
+    |
+    v
+[현재: AI BDD — 자연어 요구사항 -> 자동 시나리오 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -119,7 +119,7 @@ BDD는 <strong>"살아있는 문서(Living <a href="/knowledge-base/studynote/04
 
 **진행 상황**: 126 / 973
 
-← **이전**: [125. 12 Factor App - 클라우드 네이티브 애플리케이션 설계 12원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/125_12_factor_app_cloud_native_architecture/)
-**다음**: [127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) →
+<- **이전**: [125. 12 Factor App - 클라우드 네이티브 애플리케이션 설계 12원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/125_12_factor_app_cloud_native_architecture/)
+**다음**: [127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) ->
 
 ---

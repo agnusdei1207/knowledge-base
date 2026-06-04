@@ -65,11 +65,11 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [선행 개념: HDFS, 마스터-워커 분산 아키텍처]
-    │
-    ▼
+    |
+    v
 [핵심 기술: FsImage, Edits Log, HA (High Availability), 주키퍼(Zookeeper)]
-    │
-    ▼
+    |
+    v
 [확장 및 응용: HDFS Federation, Split Brain, Fencing, 작은 파일 병목]
 ```
 
@@ -86,7 +86,7 @@ tags = ["hadoop", "studynote-bigdata"]
 
 **진행 상황**: 25 / 262
 
-← **이전**: [02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템](/knowledge-base/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/)
-**다음**: [04. Apache ZooKeeper - 분산 코디네이션의 간호사](/knowledge-base/studynote/16_bigdata/02_hadoop/026_apache_zookeeper/) →
+<- **이전**: [02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템](/knowledge-base/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/)
+**다음**: [04. Apache ZooKeeper - 분산 코디네이션의 간호사](/knowledge-base/studynote/16_bigdata/02_hadoop/026_apache_zookeeper/) ->
 
 ---

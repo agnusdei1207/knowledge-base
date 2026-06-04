@@ -97,11 +97,11 @@ tags = ["studynote-design-supervision"]
 
 ```text
 모집단
-   ↓
+   v
 표본 추출
-   ↓
+   v
 표본 검사
-   ↓
+   v
 전체 품질 추정
 ```
 
@@ -109,11 +109,11 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 전수 조사 중심 → 비용과 시간이 과도
-2. 통계적 표본 추출 → 현실적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 정착
-3. 층화 / 체계적 샘플링 → 대표성 향상
-4. 이상 탐지와 결합 → 위험 표본을 더 잘 찾음
-5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 감리 → 효율과 신뢰를 함께 확보
+1. 전수 조사 중심 -> 비용과 시간이 과도
+2. 통계적 표본 추출 -> 현실적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 정착
+3. 층화 / 체계적 샘플링 -> 대표성 향상
+4. 이상 탐지와 결합 -> 위험 표본을 더 잘 찾음
+5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 감리 -> 효율과 신뢰를 함께 확보
 
 ---
 
@@ -129,7 +129,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 86 / 530
 
-← **이전**: [57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_data_migration_success_verification/)
-**다음**: [58. 감리인의 독립성 (Independence) 및 객관성 원칙](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_auditor_independence_objectivity/) →
+<- **이전**: [57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_data_migration_success_verification/)
+**다음**: [58. 감리인의 독립성 (Independence) 및 객관성 원칙](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_auditor_independence_objectivity/) ->
 
 ---

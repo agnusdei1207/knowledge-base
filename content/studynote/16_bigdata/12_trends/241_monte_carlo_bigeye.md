@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) (Monte Carlo, Bigeye) [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 빅데이터 환경에서 [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 기준           │──▶│ 실행           │──▶│ 증거           │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 기준           |--->| 실행           |--->| 증거           |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 출입 검사대처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 증거 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 기준           │──▶│ 실행           │──▶│ 증거           │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 기준           |--->| 실행           |--->| 증거           |
++--------------+   +--------------+   +--------------+
 ```
 
 Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 
 
 ```text
 [몬테카를로 시뮬레이션 (Monte Carlo Simulation) — 불확실성 수치화]
-    │
-    ▼
+    |
+    v
 [데이터 관측 가능성 (Data Observability) — BigEye/Monte Carlo 플랫폼]
-    │
-    ▼
+    |
+    v
 [데이터 신선도 (Data Freshness) — 자동 감지]
-    │
-    ▼
+    |
+    v
 [데이터 품질 알림 (Data Quality Alert) — 이상 조기 경보]
-    │
-    ▼
+    |
+    v
 [AI 기반 데이터 신뢰성 (AI-driven Data Reliability) — 자동 복구]
 ```
 
@@ -138,7 +138,7 @@ Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 
 
 **진행 상황**: 241 / 262
 
-← **이전**: [235. Databricks vs Snowflake (레이크하우스 vs DW 진영 경쟁)](/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/)
-**다음**: [30. 데이터 민주화 — 모든 사람을 위한 데이터 접근](/knowledge-base/studynote/16_bigdata/13_intro_trends/242_data_democratization/) →
+<- **이전**: [235. Databricks vs Snowflake (레이크하우스 vs DW 진영 경쟁)](/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/)
+**다음**: [30. 데이터 민주화 — 모든 사람을 위한 데이터 접근](/knowledge-base/studynote/16_bigdata/13_intro_trends/242_data_democratization/) ->
 
 ---

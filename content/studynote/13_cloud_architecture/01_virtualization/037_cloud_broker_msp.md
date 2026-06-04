@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 > **핵심 인사이트**
 > 1. 클라우드 브로커(Cloud Broker)는 기업과 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)) 사이에서 중개·통합·조율 역할을 하는 존재로, NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-145에서 5가지 역할 중 하나로 정의되어 있다.
 > 2. MSP([Managed Service Provider](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/))는 고객의 클라우드 인프라를 대신 관리·운영하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, 클라우드 도입 후 운영 복잡성을 외부에 위임하는 대표적 방식이며, 멀티클라우드 환경에서 더욱 중요해지고 있다.
-> 3. 기업은 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 직접 사용(DIY)→MSP 위임→풀아웃소싱의 스펙트럼에서 역량·비용·제어권을 고려해 적절한 파트너십 모델을 선택해야 한다.
+> 3. 기업은 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 직접 사용(DIY)->MSP 위임->풀아웃소싱의 스펙트럼에서 역량·비용·제어권을 고려해 적절한 파트너십 모델을 선택해야 한다.
 
 ---
 
@@ -218,7 +218,7 @@ CNCF FinOps Foundation
 
 **진행 상황**: 36 / 371
 
-← **이전**: [036. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/036_migration_6r/)
-**다음**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/) →
+<- **이전**: [036. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/036_migration_6r/)
+**다음**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/) ->
 
 ---

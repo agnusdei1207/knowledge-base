@@ -45,24 +45,24 @@ MDX (Multidimensional Expressions)는 [OLAP](/knowledge-base/studynote/12_it_man
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/) 3차원 큐브 구조
 
 ```
-  ┌────────────────────────────────────────────────┐
-  │           MOLAP Cube: Sales                    │
-  │                                                │
-  │         제품 차원 (Product)                     │
-  │        ┌─────┬─────┬─────┐                    │
-  │       /│     │     │     │/                   │
-  │      / └─────┴─────┴─────┘                    │
-  │  시간 / ──────────────────▶ 지역 차원 (Region)  │
-  │  차원 ┌─────┬─────┬─────┐                      │
-  │ (Time)│2022 │2023 │2024 │                      │
-  │       ├─────┼─────┼─────┤                      │
-  │       │ 서울 │ 부산 │ 대구 │  각 셀 = 사전 집계값 │
-  │       ├─────┼─────┼─────┤  (합계, 평균, 최대 등) │
-  │       │ ... │ ... │ ... │                      │
-  │       └─────┴─────┴─────┘                      │
-  │  큐브 빌드: 야간 배치 (수시간)                   │
-  │  조회 응답: <1초 (사전 집계 인덱스)              │
-  └────────────────────────────────────────────────┘
+  +------------------------------------------------+
+  |           MOLAP Cube: Sales                    |
+  |                                                |
+  |         제품 차원 (Product)                     |
+  |        +-----+-----+-----+                    |
+  |       /|     |     |     |/                   |
+  |      / +-----+-----+-----+                    |
+  |  시간 / -------------------> 지역 차원 (Region)  |
+  |  차원 +-----+-----+-----+                      |
+  | (Time)|2022 |2023 |2024 |                      |
+  |       +-----+-----+-----+                      |
+  |       | 서울 | 부산 | 대구 |  각 셀 = 사전 집계값 |
+  |       +-----+-----+-----+  (합계, 평균, 최대 등) |
+  |       | ... | ... | ... |                      |
+  |       +-----+-----+-----+                      |
+  |  큐브 빌드: 야간 배치 (수시간)                   |
+  |  조회 응답: <1초 (사전 집계 인덱스)              |
+  +------------------------------------------------+
 ```
 
 ### [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -130,17 +130,17 @@ MDX (Multidimensional Expressions)는 [OLAP](/knowledge-base/studynote/12_it_man
 
 ```
 평면 2D 리포트 한계 - 다차원 분석 필요성
-    │
-    ▼
+    |
+    v
 MOLAP - 전용 큐브 스토리지 (빠른 쿼리, 공간 비용)
-    │
-    ▼
+    |
+    v
 ROLAP - RDB 기반 스타 스키마 (확장성, 느린 쿼리)
-    │
-    ▼
+    |
+    v
 HOLAP - MOLAP+ROLAP 하이브리드 계층화
-    │
-    ▼
+    |
+    v
 현대 OLAP (Druid, ClickHouse) - 실시간 집계 진화
 ```
 
@@ -158,7 +158,7 @@ HOLAP - MOLAP+ROLAP 하이브리드 계층화
 
 **진행 상황**: 307 / 482
 
-← **이전**: [306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/306_data_governance_3_elements/)
-**다음**: [308. AI BI 증강 분석 자동화 (Augmented Analytics)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/308_ai_bi_augmented_analytics/) →
+<- **이전**: [306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/306_data_governance_3_elements/)
+**다음**: [308. AI BI 증강 분석 자동화 (Augmented Analytics)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/308_ai_bi_augmented_analytics/) ->
 
 ---

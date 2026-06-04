@@ -47,8 +47,8 @@ A(s, a) = Q(s, a) - V(s)
 
 - Q(s,a): 상태 s에서 행동 a를 했을 때의 Q-가치 (행동 가치)
 - V(s): 상태 s에서의 평균 가치 (상태 가치)
-- A(s,a) > 0: 이 행동이 평균보다 좋음 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 증가
-- A(s,a) < 0: 이 행동이 평균보다 나쁨 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소
+- A(s,a) > 0: 이 행동이 평균보다 좋음 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 증가
+- A(s,a) < 0: 이 행동이 평균보다 나쁨 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소
 
 TD (Temporal Difference) 오류로 이점 함수 근사:
 
@@ -59,42 +59,42 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 ### A2C [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      A2C 구조                               │
-│                                                             │
-│  환경(Environment)                                          │
-│       │ s_t                      │ R_t, s_{t+1}            │
-│       ▼                          ▼                          │
-│  ┌─────────────┐          ┌──────────────┐                 │
-│  │   Actor     │          │   Critic     │                 │
-│  │   π_θ(a|s)  │          │   V_φ(s)     │                 │
-│  └──────┬──────┘          └──────┬───────┘                 │
-│         │ a_t                    │ V(s_t), V(s_{t+1})      │
-│         │                        ▼                          │
-│         │              A_t = R_t + γV(s_{t+1}) - V(s_t)   │
-│         │                        │                          │
-│         ▼                        ▼                          │
-│  Actor 손실: -A_t·log π_θ(a_t|s_t)                         │
-│  Critic 손실: (A_t)²   (TD 오류 제곱)                        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                      A2C 구조                               |
+|                                                             |
+|  환경(Environment)                                          |
+|       | s_t                      | R_t, s_{t+1}            |
+|       v                          v                          |
+|  +-------------+          +--------------+                 |
+|  |   Actor     |          |   Critic     |                 |
+|  |   π_θ(a|s)  |          |   V_φ(s)     |                 |
+|  +------+------+          +------+-------+                 |
+|         | a_t                    | V(s_t), V(s_{t+1})      |
+|         |                        v                          |
+|         |              A_t = R_t + γV(s_{t+1}) - V(s_t)   |
+|         |                        |                          |
+|         v                        v                          |
+|  Actor 손실: -A_t·log π_θ(a_t|s_t)                         |
+|  Critic 손실: (A_t)^   (TD 오류 제곱)                        |
++-------------------------------------------------------------+
 ```
 
 ### 업데이트 수식
 
 <strong>Actor (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 네트워크) 업데이트</strong>:
 ```
-θ ← θ + α_actor · A(s_t, a_t) · ∇_θ log π_θ(a_t|s_t)
+θ <- θ + α_actor · A(s_t, a_t) · ∇_θ log π_θ(a_t|s_t)
 ```
 
 **Critic (가치 네트워크) 업데이트**:
 ```
-φ ← φ - α_critic · ∇_φ (R_t + γ·V_φ(s_{t+1}) - V_φ(s_t))²
+φ <- φ - α_critic · ∇_φ (R_t + γ·V_φ(s_{t+1}) - V_φ(s_t))^
 ```
 
 | 구성 요소 | 네트워크 | 목적 함수 | 학습 방향 |
 |:---|:---|:---|:---|
-| 행동자 (Actor) | π_θ(a\|s) | -A·log π (최대화) | 이점 높은 행동 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)↑ |
-| 비평자 (Critic) | V_φ(s) | TD 오류² (최소화) | 정확한 가치 추정 |
+| 행동자 (Actor) | π_θ(a\|s) | -A·log π (최대화) | 이점 높은 행동 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)^ |
+| 비평자 (Critic) | V_φ(s) | TD 오류^ (최소화) | 정확한 가치 추정 |
 
 - **📢 섹션 요약 비유**: Actor는 "어떤 길을 선택할지" 결정하는 운전자이고, Critic은 "이 길이 평균보다 얼마나 좋은지"를 실시간으로 평가하는 내비게이션이다. 운전자는 내비게이션 점수(이점 함수)를 보고 좋은 길 선택을 강화한다.
 
@@ -127,8 +127,8 @@ r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)  (확률비)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **OpenAI Gym 환경 적용 예시**:
-- 연속 행동 공간(Continuous Action Space): Mujoco 로봇 제어 → [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)/SAC 적합
-- 이산 행동 공간(Discrete Action Space): Atari 게임 → A2C/[A3C](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)/[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 적합
+- 연속 행동 공간(Continuous Action Space): Mujoco 로봇 제어 -> [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)/SAC 적합
+- 이산 행동 공간(Discrete Action Space): Atari 게임 -> A2C/[A3C](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)/[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 적합
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> 보너스(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a> Bonus)</strong>: Actor 손실에 H(π)를 더해 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 촉진:
 ```
@@ -170,7 +170,7 @@ PPO는 OpenAI의 ChatGPT 학습에 사용된 [RLHF](/knowledge-base/studynote/14
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [Actor-Critic (A2C) 와 Advantage] → [최적화·운영 자동화]
+[데이터 전처리] -> [Actor-Critic (A2C) 와 Advantage] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -185,7 +185,7 @@ PPO는 OpenAI의 ChatGPT 학습에 사용된 [RLHF](/knowledge-base/studynote/14
 
 **진행 상황**: 373 / 420
 
-← **이전**: [372. 벨만 방정식 (Bellman Equation)](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)
-**다음**: [374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)](/knowledge-base/studynote/10_ai/05_data_science_ml/374_vae_reparameterization/) →
+<- **이전**: [372. 벨만 방정식 (Bellman Equation)](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)
+**다음**: [374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)](/knowledge-base/studynote/10_ai/05_data_science_ml/374_vae_reparameterization/) ->
 
 ---

@@ -18,22 +18,22 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-연봉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): [3000, 3200, 3500, 3800, [4000](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/), **100,000,000**]. 산술 평균 = 16,670,917원 → 현실과 동떨어진 숫자. 중앙값 = 3,650원 → 실제 중심을 정확히 반영. 이것이 로버스트 통계의 존재 이유다.
+연봉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): [3000, 3200, 3500, 3800, [4000](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/), **100,000,000**]. 산술 평균 = 16,670,917원 -> 현실과 동떨어진 숫자. 중앙값 = 3,650원 -> 실제 중심을 정확히 반영. 이것이 로버스트 통계의 존재 이유다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│     산술 평균 vs 중앙값: 이상치 저항성 비교             │
-├───────────────────────────────────────────────────────┤
-│  데이터: [3, 3.2, 3.5, 3.8, 4, 100,000]              │
-│                                                       │
-│  산술 평균: 16,670  ← 이상치 1개에 폭발 💥            │
-│  중앙값:    3.65    ← 이상치에 무덤덤 😌              │
-│  절사 평균: 3.5     ← 양극단 제거 후 평균             │
-│                                                       │
-│  붕괴점(Breakdown Point):                             │
-│   평균:  0%  (이상치 1개로 ∞ 왜곡 가능)               │
-│   중앙값: 50% (절반이 오염돼도 유효!)                  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|     산술 평균 vs 중앙값: 이상치 저항성 비교             |
++-------------------------------------------------------+
+|  데이터: [3, 3.2, 3.5, 3.8, 4, 100,000]              |
+|                                                       |
+|  산술 평균: 16,670  <- 이상치 1개에 폭발 💥            |
+|  중앙값:    3.65    <- 이상치에 무덤덤 😌              |
+|  절사 평균: 3.5     <- 양극단 제거 후 평균             |
+|                                                       |
+|  붕괴점(Breakdown Point):                             |
+|   평균:  0%  (이상치 1개로 ∞ 왜곡 가능)               |
+|   중앙값: 50% (절반이 오염돼도 유효!)                  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 산술 평균은 반 평균 키를 구할 때 **거인 1명이 끼면 모두가 농구 선수가 되는** 환상을 만든다. 중앙값은 거인을 무시하고 <strong>진짜 가운데 키</strong>를 알려준다.
@@ -74,7 +74,7 @@ tags = ["studynote-dataengineering"]
 
 ### 활용 시나리오
 1. **연봉 통계**: 중앙값 사용 (상위 1%가 평균을 왜곡하므로).
-2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: MAD 기반 Z-score → 전통 표준편차보다 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 강건.
+2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: MAD 기반 Z-score -> 전통 표준편차보다 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 강건.
 3. **ML 전처리**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 시 중앙값·IQR 사용 (RobustScaler).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -102,17 +102,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [고전 통계 (평균·표준편차) — 정규 분포 가정]
-    │
-    ▼
+    |
+    v
 [Tukey (1960s) — 탐색적 데이터 분석, 중앙값·IQR 강조]
-    │
-    ▼
+    |
+    v
 [Huber (1964) — M-추정량, 이상치 가중치 축소]
-    │
-    ▼
+    |
+    v
 [붕괴점 이론 (Hampel, 1970s) — 로버스트 추정량 평가 체계]
-    │
-    ▼
+    |
+    v
 [현재: ML 전처리 표준 — RobustScaler, MAD 기반 이상 탐지]
 ```
 
@@ -127,7 +127,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 112 / 258
 
-← **이전**: [111. 마르코프 체인 (Markov Chain) - 전이 행렬과 상태 확률 수렴](/knowledge-base/studynote/14_data_engineering/02_math_mining/111_markov_chain_transition_matrix/)
-**다음**: [113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거](/knowledge-base/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/) →
+<- **이전**: [111. 마르코프 체인 (Markov Chain) - 전이 행렬과 상태 확률 수렴](/knowledge-base/studynote/14_data_engineering/02_math_mining/111_markov_chain_transition_matrix/)
+**다음**: [113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거](/knowledge-base/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/) ->
 
 ---

@@ -32,27 +32,27 @@ tags = ["enterprise_systems"]
 3PL은 단순히 트럭을 빌려주는 것이 아니라 재고 관리, 창고 운영(Fulfillment), 포장, 반품 처리까지 물류의 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 전담한다. 나아가 4PL은 3PL의 실행력에 <strong>IT 및 비즈니스 컨설팅 역량</strong>을 결합하여, 화주의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 아키텍처를 진단하고 재설계하는 두뇌 역할까지 수행한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  물류 아웃소싱의 진화 단계                   │
-├──────────────────────────────────────────────────────────────┤
-│ [ 4PL ] 제4자 물류 = 3PL + IT 컨설팅 (SCM 재설계)            │
-│  "A창고를 닫고 B창고를 열면 연간 20억이 절감됩니다." 제안    │
-│    ▲                                                         │
-│    │ IT 솔루션 및 공급망 최적화 역량 결합                    │
-│    │                                                         │
-│ [ 3PL ] 제3자 물류 = 외부 전문 물류 기업 (종합 아웃소싱)     │
-│  "재고 보관, 포장, 배송, 반품까지 우리가 다 해드립니다."     │
-│    ▲                                                         │
-│    │ 자산 매각 및 외부 아웃소싱 단행                         │
-│    │                                                         │
-│ [ 2PL ] 제2자 물류 = 물류 자회사 독립                        │
-│  "그룹사 내에 물류만 전담하는 계열사를 새로 만들자."         │
-│    ▲                                                         │
-│    │ 내부 물류 부서의 분리 독립                              │
-│    │                                                         │
-│ [ 1PL ] 제1자 물류 = 자사 물류                               │
-│  "우리 회사 직원이, 우리 회사 트럭으로 직접 배달한다."       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  물류 아웃소싱의 진화 단계                   |
++--------------------------------------------------------------+
+| [ 4PL ] 제4자 물류 = 3PL + IT 컨설팅 (SCM 재설계)            |
+|  "A창고를 닫고 B창고를 열면 연간 20억이 절감됩니다." 제안    |
+|    ^                                                         |
+|    | IT 솔루션 및 공급망 최적화 역량 결합                    |
+|    |                                                         |
+| [ 3PL ] 제3자 물류 = 외부 전문 물류 기업 (종합 아웃소싱)     |
+|  "재고 보관, 포장, 배송, 반품까지 우리가 다 해드립니다."     |
+|    ^                                                         |
+|    | 자산 매각 및 외부 아웃소싱 단행                         |
+|    |                                                         |
+| [ 2PL ] 제2자 물류 = 물류 자회사 독립                        |
+|  "그룹사 내에 물류만 전담하는 계열사를 새로 만들자."         |
+|    ^                                                         |
+|    | 내부 물류 부서의 분리 독립                              |
+|    |                                                         |
+| [ 1PL ] 제1자 물류 = 자사 물류                               |
+|  "우리 회사 직원이, 우리 회사 트럭으로 직접 배달한다."       |
++--------------------------------------------------------------+
 ```
 
 이 흐름은 단순한 '실행(Execution)'의 위탁에서 '기획 및 최적화(Planning & Optimization)'의 위탁으로 아웃소싱의 무게 중심이 이동하고 있음을 보여준다.
@@ -112,17 +112,17 @@ tags = ["enterprise_systems"]
 
 ```text
 1PL (First Party Logistics) - 고정비 부담 증가 및 비핵심 업무 과다
-    │
-    ▼
+    |
+    v
 2PL (Second Party Logistics) - 물류 자회사 설립을 통한 전문화 시도
-    │
-    ▼
+    |
+    v
 3PL (Third Party Logistics) - 외부 전문 물류 기업을 통한 자산 유동화 및 원가 절감
-    │
-    ▼
+    |
+    v
 4PL (Fourth Party Logistics) - IT 및 SCM 컨설팅 결합으로 공급망 아키텍처 재설계
-    │
-    ▼
+    |
+    v
 지능형 디지털 물류 (AI, 블록체인 기반의 자율 예측 및 추적 네트워크 구축)
 ```
 이 흐름도는 기업이 자산을 소유하는 방식에서 지식을 활용하는 방식으로 물류 패러다임이 옮겨가고 있음을 나타낸다.
@@ -138,7 +138,7 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 101 / 482
 
-← **이전**: [100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/100_cross_docking_logistics/)
-**다음**: [102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/) →
+<- **이전**: [100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/100_cross_docking_logistics/)
+**다음**: [102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/) ->
 
 ---

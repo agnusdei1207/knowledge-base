@@ -39,17 +39,17 @@ LoadBalancer [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas
 | <strong>External Traffic <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | `Local` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 없는 노드를 거치지 않고 직접 목적지 노드로 트래픽을 보내 SNAT 핑퐁 최소화 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름        │
-├──────────────────────────────────────────────────────────────┤
-│ [클라이언트] ──▶ (포트 80/443, 공인 IP)                      │
-│                                                              │
-│       ▼ AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)      │
-│                                                              │
-│       ├──▶ [노드 A] (포트 31000) ──▶ 파드 없음 (핑퐁 발생)   │
-│       │                                                      │
-│       └──▶ [노드 B] (포트 31000) ──▶ (kube-proxy) ──▶ [파드] │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름        |
++--------------------------------------------------------------+
+| [클라이언트] ---> (포트 80/443, 공인 IP)                      |
+|                                                              |
+|       v AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)      |
+|                                                              |
+|       +---> [노드 A] (포트 31000) ---> 파드 없음 (핑퐁 발생)   |
+|       |                                                      |
+|       +---> [노드 B] (포트 31000) ---> (kube-proxy) ---> [파드] |
++--------------------------------------------------------------+
 ```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 K8s는 내부적으로 NodePort와 ClusterIP를 함께 할당한다. 이후 클라우드 LB는 노드의 IP와 해당 NodePort를 백엔드 타겟 그룹으로 묶어, 외부 트래픽을 클러스터 내부로 밀어 넣는다.
@@ -115,17 +115,17 @@ LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operat
 
 ```text
 서비스 노출의 기초
-    │
-    ▼
+    |
+    v
 NodePort (노드포트) · 단일 노드 IP 의존
-    │
-    ▼
+    |
+    v
 LoadBalancer (로드밸런서) · 외부 L4 장비 연동 및 공인 IP 자동화
-    │
-    ▼
+    |
+    v
 externalTrafficPolicy: Local · SNAT 방지 및 최적화
-    │
-    ▼
+    |
+    v
 Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대화
 ```
 
@@ -141,7 +141,7 @@ Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대�
 
 **진행 상황**: 92 / 371
 
-← **이전**: [92. NodePort - 워커 노드의 특정 물리 포트 외부 노출](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/092_nodeport_kubernetes_service_external_access/)
-**다음**: [94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) →
+<- **이전**: [92. NodePort - 워커 노드의 특정 물리 포트 외부 노출](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/092_nodeport_kubernetes_service_external_access/)
+**다음**: [94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ->
 
 ---

@@ -31,12 +31,12 @@ tags = ["studynote-ai"]
 | 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/): [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 취약 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)으로 저차원 밀집 표현 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 "쇼핑몰에서 손님이 어떤 상품을 클릭할지 예측하는 점원"이다. 단순히 나이·성별만 보면 부족하고, "30대 남성이 스포츠 신발을 자주 보던 패턴"처럼 조합 패턴을 읽어야 정확하다.
@@ -49,21 +49,21 @@ tags = ["studynote-ai"]
 
 ```
   입력 (Sparse Features: UserID, ItemID, Category, ...)
-  ┌──────────────────────────────────────────────────────┐
-  │             Embedding Layer (공유 임베딩)             │
-  │  [e_1]  [e_2]  [e_3]  [e_4]  ...  [e_d]            │
-  └────────────┬───────────────────────────┬─────────────┘
-               │                           │
-  ┌────────────▼────────┐  ┌───────────────▼─────────────┐
-  │   FM 컴포넌트        │  │      DNN 컴포넌트            │
-  │                     │  │                             │
-  │ y_FM = <w,x>        │  │ Layer 1: ReLU(W1·e + b1)   │
-  │   + Σᵢ<ΣⱼVᵢ·Vⱼ·xᵢxⱼ│  │ Layer 2: ReLU(W2·h1 + b2) │
-  │ (1차 + 2차 상호작용) │  │ Layer 3: σ(W3·h2 + b3)    │
-  └────────────┬────────┘  └───────────────┬─────────────┘
-               │                           │
-               └──────────┬────────────────┘
-                           ▼
+  +------------------------------------------------------+
+  |             Embedding Layer (공유 임베딩)             |
+  |  [e_1]  [e_2]  [e_3]  [e_4]  ...  [e_d]            |
+  +------------+---------------------------+-------------+
+               |                           |
+  +------------v--------+  +---------------v-------------+
+  |   FM 컴포넌트        |  |      DNN 컴포넌트            |
+  |                     |  |                             |
+  | y_FM = <w,x>        |  | Layer 1: ReLU(W1·e + b1)   |
+  |   + Σᵢ<ΣⱼVᵢ·Vⱼ·xᵢxⱼ|  | Layer 2: ReLU(W2·h1 + b2) |
+  | (1차 + 2차 상호작용) |  | Layer 3: σ(W3·h2 + b3)    |
+  +------------+--------+  +---------------+-------------+
+               |                           |
+               +----------+----------------+
+                           v
                     y = sigmoid(y_FM + y_DNN)
                     (최종 CTR 예측값)
 ```
@@ -73,13 +73,13 @@ tags = ["studynote-ai"]
 FM 의 2차 상호작용 항:
 
 ```
-  기존 Polynomial Model: Σᵢ Σⱼ wᵢⱼ · xᵢ · xⱼ  → 파라미터 O(d²)
+  기존 Polynomial Model: Σᵢ Σⱼ wᵢⱼ · xᵢ · xⱼ  -> 파라미터 O(d^)
 
-  FM 분해:             Σᵢ Σⱼ <Vᵢ, Vⱼ> · xᵢ · xⱼ → 파라미터 O(kd)
+  FM 분해:             Σᵢ Σⱼ <Vᵢ, Vⱼ> · xᵢ · xⱼ -> 파라미터 O(kd)
   where <Vᵢ, Vⱼ> = Σf vᵢf · vⱼf  (잠재 벡터 내적)
 
   FM 전개를 통한 효율적 계산: O(kd) 복잡도 달성
-  = 1/2 · (||Σᵢ vᵢxᵢ||² - Σᵢ ||vᵢ||²xᵢ²)
+  = 1/2 · (||Σᵢ vᵢxᵢ||^ - Σᵢ ||vᵢ||^xᵢ^)
 ```
 
 ### Wide & Deep vs DeepFM 비교
@@ -107,7 +107,7 @@ FM 의 2차 상호작용 항:
 | xDeepFM | 2018 | CIN (Compressed Interaction Network) | 연산 비용 증가 |
 | AutoInt | 2019 | [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/) 상호작용 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 비용 |
 
-- **📢 섹션 요약 비유**: 추천 모델의 진화는 "간단한 곱셈기(FM) → 기억력+직관의 결합(Wide&Deep) → 공유 두뇌의 이중 시각(DeepFM) → 모든 연결 동시 분석([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반)" 으로 점점 복잡해지는 과정이다.
+- **📢 섹션 요약 비유**: 추천 모델의 진화는 "간단한 곱셈기(FM) -> 기억력+직관의 결합(Wide&Deep) -> 공유 두뇌의 이중 시각(DeepFM) -> 모든 연결 동시 분석([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반)" 으로 점점 복잡해지는 과정이다.
 
 ---
 
@@ -157,7 +157,7 @@ DeepFM 은 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_rec
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)] → [최적화·운영 자동화]
+[데이터 전처리] -> [DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -172,7 +172,7 @@ DeepFM 은 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_rec
 
 **진행 상황**: 340 / 420
 
-← **이전**: [339. Word2Vec (Word2vec)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)
-**다음**: [341. 고유값 분해 (Eigenvalue Decomposition, EVD)](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/) →
+<- **이전**: [339. Word2Vec (Word2vec)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)
+**다음**: [341. 고유값 분해 (Eigenvalue Decomposition, EVD)](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/) ->
 
 ---

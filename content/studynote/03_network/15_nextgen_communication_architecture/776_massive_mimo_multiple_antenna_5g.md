@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [MEC 기반 가속 통신망 라우팅 최적]
-    │
-    ▼
+    |
+    v
 [Massive MIMO 대거 다중 배열 안테…]
-    │
-    └──▶ [빔포밍 트래킹 기술 체계]
+    |
+    +---> [빔포밍 트래킹 기술 체계]
 ```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [MEC 기반 가속 통신망 라우팅 최적]
-    │
-    ▼
+    |
+    v
 [Massive MIMO 대거 다중 배열 안테…]
-    │
-    └──▶ [빔포밍 트래킹 기술 체계]
+    |
+    +---> [빔포밍 트래킹 기술 체계]
 ```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MEC 기반 가속 통신망 라우팅 최적]
-    │
-    ▼
+    |
+    v
 [현재 개념: Massive MIMO 대거 다중 배열 안테…]
-    │
-    ├──▶ [확장 A: 빔포밍 트래킹 기술 체계]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 빔포밍 트래킹 기술 체계]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적에서 출발해 현재 메커니즘을 정교화하고, 이후 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 897 / 1120
 
-← **이전**: [775. MEC 기반 가속 통신망 라우팅 최적 (User Plane Function UPF 로컬 엣지 트래픽 인터셉트 전환 백홀 지연](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/775_mec_mobile_edge_computing_upf_local_breakout/)
-**다음**: [777. 빔포밍 트래킹 기술 체계 (Beam Tracking 개별 단말 핀포인트 추적 지향 전력량 최적화 증폭/간섭억제 타겟 통신 품질](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/777_beam_tracking_beamforming_5g_mmwave/) →
+<- **이전**: [775. MEC 기반 가속 통신망 라우팅 최적 (User Plane Function UPF 로컬 엣지 트래픽 인터셉트 전환 백홀 지연](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/775_mec_mobile_edge_computing_upf_local_breakout/)
+**다음**: [777. 빔포밍 트래킹 기술 체계 (Beam Tracking 개별 단말 핀포인트 추적 지향 전력량 최적화 증폭/간섭억제 타겟 통신 품질](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/777_beam_tracking_beamforming_5g_mmwave/) ->
 
 ---

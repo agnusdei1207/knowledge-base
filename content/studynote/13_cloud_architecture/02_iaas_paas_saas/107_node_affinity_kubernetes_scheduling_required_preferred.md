@@ -32,17 +32,17 @@ tags = ["studynote-cloud-architecture"]
 노드 어피니티는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 명세(Spec)에 작성되며, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이를 읽고 노드의 라벨과 연산자(`In`, `NotIn`, `Exists` 등)를 통해 조건을 평가한다. 가장 중요한 것은 조건의 '강도(Strength)'와 '실행 중 변경 시 처리 방법(Execution phase)'이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Node Affinity: 스케줄러의 노드 필터링 및 점수화      │
-├──────────────────────────────────────────────────────────────┤
-│ [파드 생성 요청] ─▶ API Server ─▶ [Kube-Scheduler]          │
-│                                           │                  │
-│  1. Required (강제 필터링)                │                  │
-│     - 조건 불일치 노드는 후보에서 제외 ◀──┘                  │
-│                                           │                  │
-│  2. Preferred (선호도 점수화)             ▼                  │
-│     - 통과된 노드들에 가중치 합산 ───▶ [최고 점수 노드 선택] │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Node Affinity: 스케줄러의 노드 필터링 및 점수화      |
++--------------------------------------------------------------+
+| [파드 생성 요청] --> API Server --> [Kube-Scheduler]          |
+|                                           |                  |
+|  1. Required (강제 필터링)                |                  |
+|     - 조건 불일치 노드는 후보에서 제외 <---+                  |
+|                                           |                  |
+|  2. Preferred (선호도 점수화)             v                  |
+|     - 통과된 노드들에 가중치 합산 ----> [최고 점수 노드 선택] |
++--------------------------------------------------------------+
 ```
 
 1. **강제 조건 (Required)**: `requiredDuringSchedulingIgnoredDuringExecution`
@@ -62,7 +62,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 비교 항목 | 노드 어피니티 (Node [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) | [테인트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)와 톨러레이션 (Taints and Tolerations) |
 | :--- | :--- | :--- |
-| **주체와 방향** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ─▶ 노드 (끌어당김, Attraction) | 노드 ─▶ [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) (밀어냄, Repulsion) |
+| **주체와 방향** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) --> 노드 (끌어당김, Attraction) | 노드 --> [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) (밀어냄, Repulsion) |
 | **목적** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 **특정 노드에** 배치하고 싶을 때 | 특정 노드에 <strong>아무 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>나 들어오는 것을</strong> 막을 때 |
 | **실패 시 결과** | 조건 불일치 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 배치 실패 | 톨러레이션 없으면 노드 진입 불가 |
 | **결합 사용** | "나는 전용 DB 서버에만 갈래" | "여기는 전용 DB 서버니 딴 놈들 오지마" |
@@ -108,17 +108,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 NodeSelector (단순 라벨 매칭)
-    │
-    ▼
+    |
+    v
 Node Affinity (연산자, 강제/선호 조건 도입)
-    │
-    ▼
+    |
+    v
 Taint & Toleration (노드 차원의 방어선 구축)
-    │
-    ▼
+    |
+    v
 Pod Affinity / Anti-Affinity (파드 간 결합/분리 규칙 확장)
-    │
-    ▼
+    |
+    v
 Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)
 ```
 
@@ -134,7 +134,7 @@ Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)
 
 **진행 상황**: 106 / 371
 
-← **이전**: [106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)
-**다음**: [108. K8s 프로브(Probes) 생명주기 관리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/108_kubernetes_probes_liveness_readiness_startup_health_check/) →
+<- **이전**: [106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)
+**다음**: [108. K8s 프로브(Probes) 생명주기 관리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/108_kubernetes_probes_liveness_readiness_startup_health_check/) ->
 
 ---

@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [자유 공간 광통신 / 레이저 통신]
-    │
-    ▼
+    |
+    v
 [이더넷 물리 계층 표준]
-    │
-    └──▶ [10BASE-T, 100BASE-TX]
+    |
+    +---> [10BASE-T, 100BASE-TX]
 ```
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,8 +43,8 @@ tags = ["studynote-network"]
 
 ```text
        100      BASE      -      TX
-      ─────    ──────           ────
-        │         │               │
+      -----    ------           ----
+        |         |               |
   ① 속도(Speed)  ② 전송 방식    ③ 매체 특성 (Medium)
 ```
 
@@ -77,14 +77,14 @@ tags = ["studynote-network"]
 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 내부에는 <strong>PHY 칩</strong>과 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 칩</strong>이 존재합니다.
 
 ```text
-┌───────────────── NIC (Network Interface Card) ────────────────┐
-│                                                               │
-│  ┌──────────┐ MII/GMII  ┌──────────┐        ┌──────────────┐  │
-│  │ MAC Chip │◀────────▶│ PHY Chip │◀──────▶│ RJ-45 / SFP  │  │
-│  │ (Layer 2)│ Interface │ (Layer 1)│   MDI  │ Connector    │  │
-│  └──────────┘           └──────────┘        └──────┬───────┘  │
-└────────────────────────────────────────────────────┼──────────┘
-                                                     │
++----------------- NIC (Network Interface Card) ----------------+
+|                                                               |
+|  +----------+ MII/GMII  +----------+        +--------------+  |
+|  | MAC Chip |<---------->| PHY Chip |<-------->| RJ-45 / SFP  |  |
+|  | (Layer 2)| Interface | (Layer 1)|   MDI  | Connector    |  |
+|  +----------+           +----------+        +------+-------+  |
++----------------------------------------------------+----------+
+                                                     |
                                                UTP / 광케이블
 ```
 
@@ -136,12 +136,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 자유 공간 광통신 / 레이저 통신]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이더넷 물리 계층 표준]
-    │
-    ├──▶ [확장 A: 10BASE-T, 100BASE-TX]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 10BASE-T, 100BASE-TX]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준는 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/) / 레이저 통신에서 출발해 현재 메커니즘을 정교화하고, 이후 10BASE-T, 100BASE-TX와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 258 / 1120
 
-← **이전**: [136. 자유 공간 광통신 (FSO, Free Space Optics) / 레이저 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)
-**다음**: [138. 10BASE-T, 100BASE-TX (Fast Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/) →
+<- **이전**: [136. 자유 공간 광통신 (FSO, Free Space Optics) / 레이저 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)
+**다음**: [138. 10BASE-T, 100BASE-TX (Fast Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/) ->
 
 ---

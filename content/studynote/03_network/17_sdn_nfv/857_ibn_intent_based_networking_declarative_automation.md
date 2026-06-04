@@ -29,11 +29,11 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 
 ```text
 [OpenFlow Flow Table]
-    │
-    ▼
+    |
+    v
 [IBN]
-    │
-    └──▶ [SDDC]
+    |
+    +---> [SDDC]
 ```
 
 - **📢 섹션 요약 비유**: IBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 
 ```text
 [OpenFlow Flow Table]
-    │
-    ▼
+    |
+    v
 [IBN]
-    │
-    └──▶ [SDDC]
+    |
+    +---> [SDDC]
 ```
 
 - **📢 섹션 요약 비유**: IBN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ IBN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ```text
 [선행 개념: OpenFlow Flow Table]
-    │
-    ▼
+    |
+    v
 [현재 개념: IBN]
-    │
-    ├──▶ [확장 A: SDDC]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: SDDC]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 IBN는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) Flow Table에서 출발해 현재 메커니즘을 정교화하고, 이후 SDDC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ IBN는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_s
 
 **진행 상황**: 978 / 1120
 
-← **이전**: [856. OpenFlow 플로우 테이블](/knowledge-base/studynote/03_network/17_sdn_nfv/856_openflow_flow_table_match_action_stats/)
-**다음**: [858. 소프트웨어 정의 데이터센터 (SDDC)](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) →
+<- **이전**: [856. OpenFlow 플로우 테이블](/knowledge-base/studynote/03_network/17_sdn_nfv/856_openflow_flow_table_match_action_stats/)
+**다음**: [858. 소프트웨어 정의 데이터센터 (SDDC)](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) ->
 
 ---

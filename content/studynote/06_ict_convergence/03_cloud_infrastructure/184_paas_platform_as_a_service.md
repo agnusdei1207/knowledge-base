@@ -26,17 +26,17 @@ PaaS는 사용자가 "서버를 만들고 운영하는 일"보다 "애플리케�
 아래 그림은 IaaS와 PaaS 사이에서 책임 경계가 어디로 이동하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Responsibility boundary                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Layer                         IaaS             PaaS                │
-│ Application code              User             User                │
-│ Application config            User             User                │
-│ Runtime / middleware          User             Provider            │
-│ OS patch / image management   User             Provider            │
-│ VM / storage / network        Provider         Provider            │
-│ Physical data center          Provider         Provider            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Responsibility boundary                                            |
++--------------------------------------------------------------------+
+| Layer                         IaaS             PaaS                |
+| Application code              User             User                |
+| Application config            User             User                |
+| Runtime / middleware          User             Provider            |
+| OS patch / image management   User             Provider            |
+| VM / storage / network        Provider         Provider            |
+| Physical data center          Provider         Provider            |
++--------------------------------------------------------------------+
 ```
 
 이 차이는 단순 편의성의 문제가 아니다. 책임 경계가 위로 올라갈수록 팀은 더 빠르게 기능을 배포할 수 있지만, 동시에 플랫폼이 정한 규칙을 더 많이 받아들여야 한다. 그래서 PaaS의 본질은 "쉬운 서버"가 아니라 <strong>관리 대상이 실행 환경에서 애플리케이션 경계로 올라온 모델</strong>이다.
@@ -50,22 +50,22 @@ PaaS는 사용자가 "서버를 만들고 운영하는 일"보다 "애플리케�
 PaaS의 핵심 원리는 배포 단위를 서버가 아니라 애플리케이션 릴리스로 바꾸는 것이다. 사용자는 소스 코드, 실행 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/), 또는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 올리고, 플랫폼은 이를 빌드·패키징·배포·확장 가능한 실행 환경으로 전환한다. 이때 빌드팩 (Buildpack) 기반 플랫폼은 코드에서 필요한 런타임을 추론하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 플랫폼은 표준화된 이미지를 받아 동일한 운영 계약 아래 실행한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Typical PaaS deployment flow                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Source repo / artifact / container image                           │
-│        │                                                          │
-│        ▼                                                          │
-│ Build service or buildpack                                         │
-│        │                                                          │
-│        ▼                                                          │
-│ Release image + environment binding                                │
-│        │                                                          │
-│        ├─▶ Router / load balancer                                  │
-│        ├─▶ Runtime instances / auto scaling                        │
-│        ├─▶ Logs / metrics / health checks                          │
-│        └─▶ Managed add-ons : DBaaS, cache, message queue           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Typical PaaS deployment flow                                       |
++--------------------------------------------------------------------+
+| Source repo / artifact / container image                           |
+|        |                                                          |
+|        v                                                          |
+| Build service or buildpack                                         |
+|        |                                                          |
+|        v                                                          |
+| Release image + environment binding                                |
+|        |                                                          |
+|        +--> Router / load balancer                                  |
+|        +--> Runtime instances / auto scaling                        |
+|        +--> Logs / metrics / health checks                          |
+|        +--> Managed add-ons : DBaaS, cache, message queue           |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -114,23 +114,23 @@ PaaS를 이해하려면 다른 클라우드 모델과의 차이를 함께 봐야
 아래 의사결정 흐름은 PaaS 적합성을 빠르게 가르는 기준을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When PaaS is a good fit                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Need OS / kernel / custom network control?                         │
-│        ├─ Yes ─▶ IaaS or CaaS first                                │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Standard web/API workload and small ops team?                      │
-│        ├─ Yes ─▶ PaaS                                              │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Need scale-to-zero event execution?                                │
-│        ├─ Yes ─▶ FaaS (Function as a Service)                      │
-│        └─ No  ─▶ Reconsider PaaS or container platform             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When PaaS is a good fit                                            |
++--------------------------------------------------------------------+
+| Need OS / kernel / custom network control?                         |
+|        +- Yes --> IaaS or CaaS first                                |
+|        +- No                                                       |
+|             |                                                      |
+|             v                                                      |
+| Standard web/API workload and small ops team?                      |
+|        +- Yes --> PaaS                                              |
+|        +- No                                                       |
+|             |                                                      |
+|             v                                                      |
+| Need scale-to-zero event execution?                                |
+|        +- Yes --> FaaS (Function as a Service)                      |
+|        +- No  --> Reconsider PaaS or container platform             |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -182,17 +182,17 @@ PaaS가 잘 맞는 조직에서는 출시 속도, 운영 [일관성](/knowledge-
 
 ```text
 온프레미스 운영 부담
-        │
-        ▼
+        |
+        v
 IaaS (Infrastructure as a Service)
-        │
-        ▼
+        |
+        v
 PaaS (Platform as a Service)
-        │
-        ├──────────────► Buildpack · 자동 배포 · Auto Scaling
-        ├──────────────► DBaaS · 로그 · 모니터링 통합
-        ├──────────────► Container-based PaaS
-        └──────────────► FaaS · Internal Developer Platform
+        |
+        +--------------► Buildpack · 자동 배포 · Auto Scaling
+        +--------------► DBaaS · 로그 · 모니터링 통합
+        +--------------► Container-based PaaS
+        +--------------► FaaS · Internal Developer Platform
 ```
 
 이 흐름은 인프라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)가 점점 올라가면서 사용자가 직접 관리해야 하는 범위가 줄어드는 방향을 보여 준다.
@@ -209,7 +209,7 @@ PaaS (Platform as a Service)
 
 **진행 상황**: 184 / 552
 
-← **이전**: [183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)
-**다음**: [185. SaaS (Software as a Service) - 완제품 소프트웨어 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/) →
+<- **이전**: [183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)
+**다음**: [185. SaaS (Software as a Service) - 완제품 소프트웨어 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/) ->
 
 ---

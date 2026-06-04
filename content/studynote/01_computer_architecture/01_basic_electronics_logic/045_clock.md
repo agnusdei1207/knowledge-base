@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 > **핵심 인사이트**
 > 1. 클럭(Clock)은 디지털 시스템의 심장박동 — 모든 순차 회로([플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), CPU)가 클럭 에지(Rising/Falling Edge)에 동기화되어 동작하며, 클럭 없이는 연산의 순서와 타이밍을 보장할 수 없다.
-> 2. [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)([Clock Frequency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 — GHz 단위 주파수는 초당 사이클 수이며, [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)(T=1/f) 안에 모든 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 완료되어야 하므로 주파수 ↑ = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ↑이지만 발열·소비전력도 ↑
+> 2. [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)([Clock Frequency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 — GHz 단위 주파수는 초당 사이클 수이며, [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)(T=1/f) 안에 모든 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 완료되어야 하므로 주파수 ^ = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ^이지만 발열·소비전력도 ^
 > 3. 클럭 스큐([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 셋업/홀드 타임은 고속 설계의 핵심 제약 — 클럭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 칩 전체에 동시 도달하지 않아 발생하는 타이밍 오류로, 현대 VLSI 설계에서 클럭 트리 합성(CTS)으로 해결한다.
 
 ---
@@ -21,19 +21,19 @@ tags = ["studynote-computer-architecture"]
 ```
 클럭 신호 파형:
 
-HIGH (1) ───┐   ┌───┐   ┌───
-            │   │   │   │
-LOW  (0) ───┘   └───┘   └───
+HIGH (1) ---+   +---+   +---
+            |   |   |   |
+LOW  (0) ---+   +---+   +---
 
-주기(T): Rising Edge → 다음 Rising Edge
+주기(T): Rising Edge -> 다음 Rising Edge
 주파수(f): f = 1/T  (Hz, MHz, GHz)
 
 예: 3 GHz CPU
   T = 1/3GHz = 0.333 ns (나노초)
 
 클럭 에지:
-  Rising Edge  (↑): 0→1 전환 — 대부분 순차 회로 트리거
-  Falling Edge (↓): 1→0 전환 — 일부 회로 사용
+  Rising Edge  (^): 0->1 전환 — 대부분 순차 회로 트리거
+  Falling Edge (v): 1->0 전환 — 일부 회로 사용
 
 듀티 사이클 (Duty Cycle):
   HIGH 시간 / 전체 주기 × 100%
@@ -55,14 +55,14 @@ LOW  (0) ───┘   └───┘   └───
 
 타이밍 다이어그램:
            tsu  th
-           |←→| |←→|
-Data: ─────XXXX│XXXX─────
-              ↑
+           |<-->| |<-->|
+Data: -----XXXX|XXXX-----
+              ^
           Clock Edge
 
 위반 결과:
-  셋업 타임 위반: 데이터 캡처 실패 → 오동작
-  홀드 타임 위반: 데이터 변질 → 오동작
+  셋업 타임 위반: 데이터 캡처 실패 -> 오동작
+  홀드 타임 위반: 데이터 변질 -> 오동작
 
 Critical Path (임계 경로):
   두 플립플롭 사이 최장 조합 논리 경로
@@ -71,7 +71,7 @@ Critical Path (임계 경로):
   T ≥ tclk-q + t_combinational + tsu
 
   예: tclk-q=0.1ns, 조합논리=2.5ns, tsu=0.1ns
-      T_min = 2.7ns → f_max = 370 MHz
+      T_min = 2.7ns -> f_max = 370 MHz
 ```
 
 > 📢 **섹션 요약 비유**: 셋업/홀드 타임은 사진 찍기 규칙 — 셔터(클럭 에지) 전에 피사체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 멈춰야 하고(셋업), 셔터 후에도 잠깐 유지해야(홀드) 블러 없는 사진이 나와요.
@@ -90,23 +90,23 @@ Critical Path (임계 경로):
   - 온도/공정 변이
 
 클럭 스큐 영향:
-  FF1 ─(긴 배선)─→ 클럭 도착: t+δ
-  FF2 ─(짧은 배선)→ 클럭 도착: t
+  FF1 -(긴 배선)--> 클럭 도착: t+δ
+  FF2 -(짧은 배선)-> 클럭 도착: t
 
   δ = 클럭 스큐 (Clock Skew)
 
-  긍정적 스큐: 데이터 경로와 같은 방향 → 도움
-  부정적 스큐: 데이터 경로와 반대 방향 → 해로움
+  긍정적 스큐: 데이터 경로와 같은 방향 -> 도움
+  부정적 스큐: 데이터 경로와 반대 방향 -> 해로움
 
 클럭 트리 합성 (CTS, Clock Tree Synthesis):
   목표: 모든 플립플롭에 클럭 동시 도달
 
   방법: 버퍼 트리 구조
         클럭 소스
-           │
-       ┌───┴───┐
+           |
+       +---+---+
      BUF     BUF
-    ┌─┴─┐   ┌─┴─┐
+    +-+-+   +-+-+
    FF  FF   FF  FF
 
   현대 CPU: 수십억 개 플립플롭
@@ -130,18 +130,18 @@ Critical Path (임계 경로):
   목적: 소비전력 감소
 
   메커니즘:
-  Enable ─┐
-           AND Gate → 게이팅된 클럭
-  Clock  ─┘
+  Enable -+
+           AND Gate -> 게이팅된 클럭
+  Clock  -+
 
-  효과: 동적 전력 P = α × C × V² × f
-  클럭 비활성 → α(활동 인자) = 0 → P = 0
+  효과: 동적 전력 P = α × C × V^ × f
+  클럭 비활성 -> α(활동 인자) = 0 -> P = 0
 
 DVFS (Dynamic Voltage Frequency Scaling):
   동적 전압-주파수 조절
 
-  부하 낮을 때: f↓, V↓ → 전력 절감 (V² 효과!)
-  부하 높을 때: f↑, V↑ → 성능 최대화
+  부하 낮을 때: fv, Vv -> 전력 절감 (V^ 효과!)
+  부하 높을 때: f^, V^ -> 성능 최대화
 
   스마트폰 CPU: 코어당 DVFS 독립 조절
 
@@ -169,7 +169,7 @@ Qualcomm Snapdragon SoC 클럭 구조:
 클럭 소스:
   TCXO (Temperature-Compensated Crystal Oscillator): 19.2 MHz
   PLL (Phase-Locked Loop): 주파수 체배
-  → CPU 코어: 19.2 MHz → 3.2 GHz 체배
+  -> CPU 코어: 19.2 MHz -> 3.2 GHz 체배
 
 클럭 도메인:
   CPU Big Core:  3.2 GHz (고성능, DVFS)
@@ -184,10 +184,10 @@ Qualcomm Snapdragon SoC 클럭 구조:
   게임:      CPU Big 3.2 GHz, GPU 900 MHz
 
 열 제어 (Thermal Throttling):
-  온도 > 90°C → 주파수 자동 감소
-  클럭 ↓ = 성능 ↓ + 발열 ↓
+  온도 > 90+C -> 주파수 자동 감소
+  클럭 v = 성능 v + 발열 v
 
-  스마트폰 방열 한계 → 지속 성능 < 피크 성능
+  스마트폰 방열 한계 -> 지속 성능 < 피크 성능
 
 검증 (Timing Closure):
   EDA 도구: Synopsys PrimeTime
@@ -259,7 +259,7 @@ UCIe 인터페이스 클럭
 
 **진행 상황**: 45 / 803
 
-← **이전**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/)
-**다음**: [046. 에지 트리거 — Edge Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/) →
+<- **이전**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/)
+**다음**: [046. 에지 트리거 — Edge Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/) ->
 
 ---

@@ -35,18 +35,18 @@ tags = ["studynote-ai"]
   | β2 | 2차 감쇠율 | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) |
   | ε | 안정화 상수 | 0 나눔 방지 |
 
-  ┌──────── g_t ────────┐
-  │                     │
-  ▼                     ▼
-┌───────┐           ┌───────┐
-│ m_t   │           │ v_t   │
-└──┬────┘           └──┬────┘
-   ▼                    ▼
-┌───────┐           ┌───────┐
-│ 보정  │           │ 보정  │
-└──┬────┘           └──┬────┘
-   └───────┬───────────┘
-           ▼
+  +-------- g_t --------+
+  |                     |
+  v                     v
++-------+           +-------+
+| m_t   |           | v_t   |
++--+----+           +--+----+
+   v                    v
++-------+           +-------+
+| 보정  |           | 보정  |
++--+----+           +--+----+
+   +-------+-----------+
+           v
       θ 업데이트
 
   업데이트는 대략 `theta_next = theta - alpha * m / (sqrt(v) + epsilon)`로 이해하면 된다.
@@ -99,7 +99,7 @@ Adam은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_de
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-그래디언트 → 1차 모멘트 → 2차 모멘트 → bias correction → 파라미터 갱신
+그래디언트 -> 1차 모멘트 -> 2차 모멘트 -> bias correction -> 파라미터 갱신
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -114,7 +114,7 @@ Adam은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_de
 
 **진행 상황**: 86 / 420
 
-← **이전**: [85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법](/knowledge-base/studynote/10_ai/01_ai_basics/085_adaptive_learning_rate_adagrad_rmsprop/)
-**다음**: [87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) →
+<- **이전**: [85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법](/knowledge-base/studynote/10_ai/01_ai_basics/085_adaptive_learning_rate_adagrad_rmsprop/)
+**다음**: [87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) ->
 
 ---

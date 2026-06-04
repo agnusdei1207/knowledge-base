@@ -51,26 +51,26 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a> 분할</strong>: `<Segment Number (s), Offset (d)>`
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 CPU의 세그멘테이션 주소 변환 아키텍처                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 1. CPU가 논리 주소를 쏜다 ]                                         │
-  │   - "세그먼트 2번 (예: Data 영역)의 500번째 바이트를 읽어라!"              │
-  │   - s = 2, d = 500                                                │
-  │                                                                   │
-  │  [ 2. MMU의 Segment Table 조회 및 Protection ]                      │
-  │   - 세그먼트 테이블의 2번 인덱스를 조회한다.                              │
-  │   - [ 2번 엔트리 ] Base: 4000 (시작 주소), Limit: 1000 (세그먼트 길이) │
-  │                                                                   │
-  │   ★ 방어 로직 (Limit Check):                                        │
-  │     - Offset(500) < Limit(1000) 인가? -> YES (합격!)               │
-  │     - 만약 1500을 요구했다면? -> 남의 배열 침범! (Segmentation Fault!) │
-  │                                                                   │
-  │  [ 3. 물리 주소 조립 및 RAM 접근 ]                                     │
-  │   - 물리 주소 = Base(4000) + Offset(500) = 4500                     │
-  │   - 램의 4500번지 데이터를 CPU로 반환!                                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 CPU의 세그멘테이션 주소 변환 아키텍처                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 1. CPU가 논리 주소를 쏜다 ]                                         |
+  |   - "세그먼트 2번 (예: Data 영역)의 500번째 바이트를 읽어라!"              |
+  |   - s = 2, d = 500                                                |
+  |                                                                   |
+  |  [ 2. MMU의 Segment Table 조회 및 Protection ]                      |
+  |   - 세그먼트 테이블의 2번 인덱스를 조회한다.                              |
+  |   - [ 2번 엔트리 ] Base: 4000 (시작 주소), Limit: 1000 (세그먼트 길이) |
+  |                                                                   |
+  |   ★ 방어 로직 (Limit Check):                                        |
+  |     - Offset(500) < Limit(1000) 인가? -> YES (합격!)               |
+  |     - 만약 1500을 요구했다면? -> 남의 배열 침범! (Segmentation Fault!) |
+  |                                                                   |
+  |  [ 3. 물리 주소 조립 및 RAM 접근 ]                                     |
+  |   - 물리 주소 = Base(4000) + Offset(500) = 4500                     |
+  |   - 램의 4500번지 데이터를 CPU로 반환!                                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에서는 테이블에 반드시 **Limit(길이)** 값이 들어가야 한다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 무조건 4KB로 크기가 고정되어 있지만, 세그먼트는 100바이트짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)일 수도, 10MB짜리 메인 함수일 수도 있기 때문이다. 범위를 넘어서는 불법 메모리 접근을 쳐내는 이 위대한 하드웨어 인터럽트의 이름이, 오늘날 C 프로그래머들을 공포에 떨게 하는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault (세그폴트)</strong>의 어원이다.
@@ -130,26 +130,26 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 보호 및 공유 아키텍처 설계의 이해             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [해커로부터 코드를 방어하고, 효율적인 라이브러리 공유 구조를 원함]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      코드(Text), 데이터(Data), 힙(Heap)의 논리적 경계(권한)를 나눌 것인가?   │
-  │          ├─ 예 ─────▶ [Segmentation 철학 도입]                     │
-  │          │            (현대 OS는 페이징 위에서 VMA(Virtual Memory Area) │
-  │          │             라는 소프트웨어 구조체로 세그먼트를 흉내 내어 관리함) │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      메모리 파편화(OOM)를 방어하여 서버를 수년간 무중단으로 돌려야 하는가?        │
-  │          ├──▶ [Paging 절대 우위 적용]                              │
-  │          │    결론: 물리적 메모리 관리는 100% 4KB 페이징에 맡겨 외부 단편화를│
-  │          │          멸종시키고, 논리적 보안은 OS의 가상 메모리 테이블에     │
-  │          │          R/W/X 권한 비트를 박아 세그멘테이션을 에뮬레이션한다.  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 보호 및 공유 아키텍처 설계의 이해             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [해커로부터 코드를 방어하고, 효율적인 라이브러리 공유 구조를 원함]              |
+  |                |                                                  |
+  |                v                                                  |
+  |      코드(Text), 데이터(Data), 힙(Heap)의 논리적 경계(권한)를 나눌 것인가?   |
+  |          +- 예 ------> [Segmentation 철학 도입]                     |
+  |          |            (현대 OS는 페이징 위에서 VMA(Virtual Memory Area) |
+  |          |             라는 소프트웨어 구조체로 세그먼트를 흉내 내어 관리함) |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      메모리 파편화(OOM)를 방어하여 서버를 수년간 무중단으로 돌려야 하는가?        |
+  |          +---> [Paging 절대 우위 적용]                              |
+  |          |    결론: 물리적 메모리 관리는 100% 4KB 페이징에 맡겨 외부 단편화를|
+  |          |          멸종시키고, 논리적 보안은 OS의 가상 메모리 테이블에     |
+  |          |          R/W/X 권한 비트를 박아 세그멘테이션을 에뮬레이션한다.  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 망해서 지금은 안 쓰잖아요?"라는 답변은 절반만 맞다. 하드웨어 레벨의 물리적 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 망했지만, 소프트웨어 레벨의 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(Logical <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>은 ELF 바이너리 포맷(리눅스 실행파일) 내부에 텍스트, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 섹션으로 나뉘어 현대 프로그래밍의 뼈대로 시퍼렇게 살아 숨 쉬고 있다.
@@ -194,12 +194,12 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ```text
 [다단계 페이지 테이블 사이즈 줄이기]
-    │
-    ▼
+    |
+    v
 [세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)]
-    │
-    ├──▶ [요구 페이징 (Demand Paging)]
-    └──▶ [페이지 폴트 (Page Fault) ISR]
+    |
+    +---> [요구 페이징 (Demand Paging)]
+    +---> [페이지 폴트 (Page Fault) ISR]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -216,7 +216,7 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 **진행 상황**: 718 / 800
 
-← **이전**: [717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)](/knowledge-base/studynote/02_operating_system/11_exam_summary/717_hierarchical_paging_multi_level/)
-**다음**: [719. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/) →
+<- **이전**: [717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)](/knowledge-base/studynote/02_operating_system/11_exam_summary/717_hierarchical_paging_multi_level/)
+**다음**: [719. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/) ->
 
 ---

@@ -70,17 +70,17 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ```text
 [트리 (Tree) — 비선형 계층 구조]
-    │
-    ▼
+    |
+    v
 [이진 트리 (Binary Tree) — 최대 자식 2개]
-    │
-    ▼
+    |
+    v
 [이진 탐색 트리 (BST, Binary Search Tree)]
-    │
-    ▼
+    |
+    v
 [균형 이진 트리 (AVL / Red-Black Tree)]
-    │
-    ▼
+    |
+    v
 [B-트리 / B+트리 (B-Tree) — 데이터베이스 인덱스]
 ```
 
@@ -97,7 +97,7 @@ tags = ["datastructure", "studynote-algorithm"]
 
 **진행 상황**: 60 / 175
 
-← **이전**: [덱 (Deque, Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/059_deque/)
-**다음**: [이진 탐색 트리 (Binary Search Tree, BST)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) →
+<- **이전**: [덱 (Deque, Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/059_deque/)
+**다음**: [이진 탐색 트리 (Binary Search Tree, BST)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) ->
 
 ---

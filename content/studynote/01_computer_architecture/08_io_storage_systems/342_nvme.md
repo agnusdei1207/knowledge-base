@@ -45,27 +45,27 @@ NVMe의 핵심은 <strong>제어 경로를 단순하게 하고, <a href="/knowle
 아래 그림은 NVMe가 왜 멀티코어와 잘 맞는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    NVMe 큐 기반 I/O 처리 구조                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU Core 0            CPU Core 1            CPU Core 2                    │
-│    │                     │                     │                           │
-│    ▼                     ▼                     ▼                           │
-│ SQ 0 / CQ 0          SQ 1 / CQ 1          SQ 2 / CQ 2                     │
-│    └──────────────┬──────┴──────────────┬──────┘                           │
-│                   ▼                     ▼                                  │
-│             [ Host Memory Queue Pair Array ]                               │
-│                               │                                            │
-│                     Doorbell Register Write                                │
-│                               │                                            │
-│                               ▼                                            │
-│                    [ NVMe Controller on PCIe ]                             │
-│                               │                                            │
-│                     DMA Read/Write Data Blocks                             │
-│                               │                                            │
-│                               ▼                                            │
-│                      [ NAND Flash / Media ]                                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    NVMe 큐 기반 I/O 처리 구조                              |
++----------------------------------------------------------------------------+
+| CPU Core 0            CPU Core 1            CPU Core 2                    |
+|    |                     |                     |                           |
+|    v                     v                     v                           |
+| SQ 0 / CQ 0          SQ 1 / CQ 1          SQ 2 / CQ 2                     |
+|    +--------------+------+--------------+------+                           |
+|                   v                     v                                  |
+|             [ Host Memory Queue Pair Array ]                               |
+|                               |                                            |
+|                     Doorbell Register Write                                |
+|                               |                                            |
+|                               v                                            |
+|                    [ NVMe Controller on PCIe ]                             |
+|                               |                                            |
+|                     DMA Read/Write Data Blocks                             |
+|                               |                                            |
+|                               v                                            |
+|                      [ NAND Flash / Media ]                                |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 매번 CPU를 통과하는 것이 아니라, 큐와 DMA를 중심으로 흐른다는 점이다. 그래서 NVMe는 빠른 매체를 단순히 “연결”하는 것이 아니라, 명령 발행과 완료 처리까지 포함한 전체 I/O 경로를 짧게 만든다.
@@ -159,21 +159,21 @@ NVMe를 적절히 도입하면 시스템은 더 짧은 [응답 시간](/knowledg
 
 ```text
 HDD 중심 인터페이스
-    │
-    ▼
+    |
+    v
 AHCI (Advanced Host Controller Interface) · SATA (Serial ATA)
-    │
-    ▼
+    |
+    v
 SSD (Solid State Drive) 대중화
-    │
-    ▼
+    |
+    v
 PCIe (Peripheral Component Interconnect Express) 기반 NVMe
-    │
-    ├─▶ 다중 큐 · 저지연 I/O
-    ├─▶ M.2 · U.2 폼팩터 확산
-    └─▶ 서버 · 워크스테이션 고성능 스토리지
-    │
-    ▼
+    |
+    +--> 다중 큐 · 저지연 I/O
+    +--> M.2 · U.2 폼팩터 확산
+    +--> 서버 · 워크스테이션 고성능 스토리지
+    |
+    v
 NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처
 ```
 
@@ -191,7 +191,7 @@ NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처
 
 **진행 상황**: 343 / 803
 
-← **이전**: [341. SATA (Serial ATA)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)
-**다음**: [343. NVMe-oF (NVMe over Fabrics)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/343_nvme_of/) →
+<- **이전**: [341. SATA (Serial ATA)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)
+**다음**: [343. NVMe-oF (NVMe over Fabrics)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/343_nvme_of/) ->
 
 ---

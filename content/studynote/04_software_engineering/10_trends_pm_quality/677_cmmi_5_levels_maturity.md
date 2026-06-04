@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CMMI 성숙도 5단계 (초기-관리-                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  CMMI 성숙도 5단계 (초기-관리-                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -63,19 +63,19 @@ CMMI는 연속적 표현(Continuous Representation)과 단계적 표현(Staged R
 | **레벨 5** | **최적화 (Optimizing)** | 지속적 개선, 신기술 도입, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 원인 분석 및 예방 | 원인 분석 및 해결, 조직 성과 혁신 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CMMI 성숙도 5단계 진화 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ [Lv.5 최적화] 지속적 개선 ────▶ (미래를 대비하는 조직)       │
-│      ▲                                                       │
-│ [Lv.4 정량적] 통계적 통제 ────▶ (숫자로 말하는 조직)        │
-│      ▲                                                       │
-│ [Lv.3 정 의] 조직 표준화 ────▶ (매뉴얼로 일하는 조직)       │
-│      ▲                                                       │
-│ [Lv.2 관 리] 프로젝트 통제 ──▶ (기본은 지키는 팀)          │
-│      ▲                                                       │
-│ [Lv.1 초 기] 임기응변 ───────▶ (혼돈의 카오스)            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  CMMI 성숙도 5단계 진화 흐름                 |
++--------------------------------------------------------------+
+| [Lv.5 최적화] 지속적 개선 -----> (미래를 대비하는 조직)       |
+|      ^                                                       |
+| [Lv.4 정량적] 통계적 통제 -----> (숫자로 말하는 조직)        |
+|      ^                                                       |
+| [Lv.3 정 의] 조직 표준화 -----> (매뉴얼로 일하는 조직)       |
+|      ^                                                       |
+| [Lv.2 관 리] 프로젝트 통제 ---> (기본은 지키는 팀)          |
+|      ^                                                       |
+| [Lv.1 초 기] 임기응변 --------> (혼돈의 카오스)            |
++--------------------------------------------------------------+
 ```
 
 단계가 올라갈수록 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 감소하고, 생산성과 품질의 예측 가능성은 높아진다. 각 단계는 하위 단계의 목표를 모두 달성해야만 인정받을 수 있다.
@@ -154,21 +154,21 @@ CMMI를 성공적으로 내재화하면 프로젝트의 납기 준수율이 획�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 CMMI 성숙도 5단계 (초기-관리-정의-정량-최적) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ CMMI 성숙도 5단계 (초기-관리-정의-정량-최적) 개념 정립
 
 **진행 상황**: 850 / 973
 
-← **이전**: [676. EVM (Earned Value Management) SPI, CPI 계산](/knowledge-base/studynote/04_software_engineering/uncategorized/676_evm_earned_value_management/)
-**다음**: [678. SPICE 프로세스 역량 평가](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/678_spice_process_capability/) →
+<- **이전**: [676. EVM (Earned Value Management) SPI, CPI 계산](/knowledge-base/studynote/04_software_engineering/uncategorized/676_evm_earned_value_management/)
+**다음**: [678. SPICE 프로세스 역량 평가](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/678_spice_process_capability/) ->
 
 ---

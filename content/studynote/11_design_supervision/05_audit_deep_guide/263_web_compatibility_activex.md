@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 ActiveX 제거 감리는 웹 표준(Web Standards)과 액티브엑스(ActiveX) 제거 전환 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 멀티 디바이스와 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 요구가 확대되면서 화면 예쁨보다 과업 성공률과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 중요성이 커졌다. 특히 브라우저 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 기준선으로 정리되지 않으면 표준 대체 아키텍처는 사람 의존 절차로 흩어지고, 최종적으로 사용자 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 사용자 이탈, 민원 증가, 심사 반려가 반복된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 브라우저 호환성 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 표준 대체 아키텍처 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 사용자 접근성 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 브라우저 호환성 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 표준 대체 아키텍처 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 사용자 접근성 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 ActiveX 제거 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 사용자 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 브라우저 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 표준 대체 아키텍처, 사용자 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[브라우저 호환성] → [웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 ActiveX 제거 감리] → [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
+[브라우저 호환성] -> [웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 ActiveX 제거 감리] -> [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 브라우저 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 324 / 530
 
-← **이전**: [262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/)
-**다음**: [264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/264_audit_corrective_action_major_minor/) →
+<- **이전**: [262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/)
+**다음**: [264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/264_audit_corrective_action_major_minor/) ->
 
 ---

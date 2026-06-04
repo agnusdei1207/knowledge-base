@@ -28,16 +28,16 @@ tags = ["studynote-software-engineering"]
 다음은 KISS (Keep It Simple의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  KISS (Keep It Simple                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  KISS (Keep It Simple                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 KISS (Keep It Simple가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -133,21 +133,21 @@ KISS (Keep It Simple, Stupid) 원칙은 '어떻게 빠르게 짜는가'가 아�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 KISS (Keep It Simple, Stupid) 원칙 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -161,7 +161,7 @@ KISS (Keep It Simple, Stupid) 원칙 개념 정립
 
 **진행 상황**: 249 / 973
 
-← **이전**: [248. DRY (Don't Repeat Yourself) 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/248_dry_dont_repeat_yourself_principle/)
-**다음**: [250. YAGNI (You Aren't Gonna Need It) 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/250_yagni_you_arent_gonna_need_it/) →
+<- **이전**: [248. DRY (Don't Repeat Yourself) 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/248_dry_dont_repeat_yourself_principle/)
+**다음**: [250. YAGNI (You Aren't Gonna Need It) 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/250_yagni_you_arent_gonna_need_it/) ->
 
 ---

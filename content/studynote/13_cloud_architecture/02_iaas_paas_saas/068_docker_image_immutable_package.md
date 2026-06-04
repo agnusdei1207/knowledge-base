@@ -31,9 +31,9 @@ tags = ["studynote-cloud"]
 
 ```text
 Dockerfile
-  ↓ build
+  v build
 Image Layers
-  ↓ run
+  v run
 Container
 ```
 
@@ -106,11 +106,11 @@ Container
 
 ```text
 Dockerfile
-  ↓
+  v
 Docker Image
-  ↓
+  v
 Container
-  ↓
+  v
 Registry
 ```
 
@@ -120,11 +120,11 @@ Registry
 
 ```text
 Build Artifact
-  ↓
+  v
 Docker Image
-  ↓
+  v
 Container
-  ↓
+  v
 Immutable Deployment
 ```
 
@@ -142,7 +142,7 @@ Immutable Deployment
 
 **진행 상황**: 67 / 371
 
-← **이전**: [67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/)
-**다음**: [69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/) →
+<- **이전**: [67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/)
+**다음**: [69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/) ->
 
 ---

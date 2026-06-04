@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [크로스 사이트 요청 위조]
-    │
-    ▼
+    |
+    v
 [APT (Advanced Persistent…]
-    │
-    └──▶ [버퍼 오버플로우 공격]
+    |
+    +---> [버퍼 오버플로우 공격]
 ```
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [크로스 사이트 요청 위조]
-    │
-    ▼
+    |
+    v
 [APT (Advanced Persistent…]
-    │
-    └──▶ [버퍼 오버플로우 공격]
+    |
+    +---> [버퍼 오버플로우 공격]
 ```
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 크로스 사이트 요청 위조]
-    │
-    ▼
+    |
+    v
 [현재 개념: APT (Advanced Persistent…]
-    │
-    ├──▶ [확장 A: 버퍼 오버플로우 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 버퍼 오버플로우 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 크로스 사이트 요청 위조에서 출발해 현재 메커니즘을 정교화하고, 이후 [버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 851 / 1120
 
-← **이전**: [729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)](/knowledge-base/studynote/03_network/14_network_security_threats/729_csrf_defense_token_samesite_cookie/)
-**다음**: [731. 버퍼 오버플로우 공격 (서비스 다운/원격코드 실행 위협망 타격)](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/) →
+<- **이전**: [729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)](/knowledge-base/studynote/03_network/14_network_security_threats/729_csrf_defense_token_samesite_cookie/)
+**다음**: [731. 버퍼 오버플로우 공격 (서비스 다운/원격코드 실행 위협망 타격)](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/) ->
 
 ---

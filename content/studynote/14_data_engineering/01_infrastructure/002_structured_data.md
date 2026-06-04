@@ -27,10 +27,10 @@ tags = ["data_engineering"]
 [전통적 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 환경과 RDBMS 한계 도식도]
 ```text
 [기업 업무 시스템]                    [정형 데이터의 흐름]
- ERP / SAP  ──>  [OLTP DB]  ──>  [정기 배치 ETL]  ──>  [Data Warehouse]
+ ERP / SAP  -->  [OLTP DB]  -->  [정기 배치 ETL]  -->  [Data Warehouse]
 (정형 거래)       (실시간 갱신)      (야간DW이전)          (경영분석Reporting)
-     │                │                  │                      │
-     └───── 트랜잭션 ACID 보존 ─┴────── 매일 수십GB ──────────┴───── BI 대시보드
+     |                |                  |                      |
+     +----- 트랜잭션 ACID 보존 -+------ 매일 수십GB ----------+----- BI 대시보드
 ```
 이 도식은 전통적인 기업의 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 보여준다. ERP나업paeos에서 발생한 정형 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)( Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing ) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 실시간으로 저장되고, 야간에 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)( Extract, Transform, Load ) 작업을 통해 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse로 이전되어 경영진용 BI 리포팅에 활용된다. 이러한 배치 처리는 하룻밤 사이에 모든 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 DW에 반영되어야 하므로 일(日) 단위 분석만 가능하다는 속도(Velocity) 한계가 존재한다.
 
@@ -52,28 +52,28 @@ tags = ["data_engineering"]
 [정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 OLTP에서 OLAP로의 이동 아키텍처]
 ```text
 [OLTP 계층 - 실시간 정형 거래 처리]
-┌─────────────────────────────────────────────────────┐
-│  웹/App  ──>  [Load Balancer]  ──>  [MySQL Primary] │
-│                    │                  │              │
-│                 읽기 전용              │ RAID 1 복제  │
-│                    ↓                   ↓              │
-│              [MySQL Replica 1]  [MySQL Replica 2]     │
-│                  (샤딩/Sharding 수평 확장)            │
-└─────────────────────────────────────────────────────┘
-                        │ 야간 ETL / CDC
-                        ↓ (아마존 DMS, Debezium)
-┌─────────────────────────────────────────────────────┐
-│  [OLAP 계층 - 분석용 데이터 웨어하우스]              │
-│                                                     │
-│  Snowflake / Redshift / BigQuery                    │
-│  ┌─────────┬─────────┬─────────┬─────────┐         │
-│  │ Fact    │ Fact    │ Dim     │ Dim     │         │
-│  │ Sales   │ Inventory│ Customer│ Product │         │
-│  └─────────┴─────────┴─────────┴─────────┘         │
-│       (스타 스키마 / 눈송이 스키마 구성)             │
-└─────────────────────────────────────────────────────┘
-                        │
-                        ↓ (BI 도구: Tableau, Looker)
++-----------------------------------------------------+
+|  웹/App  -->  [Load Balancer]  -->  [MySQL Primary] |
+|                    |                  |              |
+|                 읽기 전용              | RAID 1 복제  |
+|                    v                   v              |
+|              [MySQL Replica 1]  [MySQL Replica 2]     |
+|                  (샤딩/Sharding 수평 확장)            |
++-----------------------------------------------------+
+                        | 야간 ETL / CDC
+                        v (아마존 DMS, Debezium)
++-----------------------------------------------------+
+|  [OLAP 계층 - 분석용 데이터 웨어하우스]              |
+|                                                     |
+|  Snowflake / Redshift / BigQuery                    |
+|  +---------+---------+---------+---------+         |
+|  | Fact    | Fact    | Dim     | Dim     |         |
+|  | Sales   | Inventory| Customer| Product |         |
+|  +---------+---------+---------+---------+         |
+|       (스타 스키마 / 눈송이 스키마 구성)             |
++-----------------------------------------------------+
+                        |
+                        v (BI 도구: Tableau, Looker)
               [경영진 대시보드 / 자가 보고서]
 ```
 이 구조는 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간 거래 환경( [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) )에서 분석 환경( [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) )으로 어떻게 흐르는지를 보여준다. [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매일 밤 또는 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)( [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) )를 통해 실시간으로 DW로 이전되며, DW에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 테이블이 분석에 유리한 다차원 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)로 재구성된다. [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 환경에서는고빈교역적 단일 레코드 접근에 최적화된 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 필수적이고, [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 환경에서는 대규모 스캔과 집계에 적합한 컬럼 스토어 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 핵심이다.
@@ -96,20 +96,20 @@ tags = ["data_engineering"]
 
 [현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 정형-반정형-[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)의 공존 구조]
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                     통합 데이터 플랫폼 (Modern Data Stack)           │
-├──────────────────┬──────────────────┬────────────────────────────────┤
-│   [정형 데이터]     │  [반정형 데이터]    │     [비정형 데이터]            │
-│   Oracle / MySQL  │  Kafka / MongoDB │     S3 / HDFS                  │
-│   Snowflake        │  Elasticsearch   │     Vector DB (Pinecone)       │
-│   (OLAP DW)        │  (로그/스트림)    │     (AI Training Data)         │
-├──────────────────┴──────────────────┴────────────────────────────────┤
-│                    공통 메타데이터 계층 (Data Catalog / Lineage)      │
-│                    AWS Glue / Amundsen / DataHub                     │
-├─────────────────────────────────────────────────────────────────────┤
-│                    통합 쿼리 엔진 (Federated Query)                  │
-│                    Trino / Presto / Apache Drill                    │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|                     통합 데이터 플랫폼 (Modern Data Stack)           |
++------------------+------------------+--------------------------------+
+|   [정형 데이터]     |  [반정형 데이터]    |     [비정형 데이터]            |
+|   Oracle / MySQL  |  Kafka / MongoDB |     S3 / HDFS                  |
+|   Snowflake        |  Elasticsearch   |     Vector DB (Pinecone)       |
+|   (OLAP DW)        |  (로그/스트림)    |     (AI Training Data)         |
++------------------+------------------+--------------------------------+
+|                    공통 메타데이터 계층 (Data Catalog / Lineage)      |
+|                    AWS Glue / Amundsen / DataHub                     |
++---------------------------------------------------------------------+
+|                    통합 쿼리 엔진 (Federated Query)                  |
+|                    Trino / Presto / Apache Drill                    |
++---------------------------------------------------------------------+
 ```
 이 다이어그램은 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 세 가지수거류형가 공존하면서 통합되는 구조를 보여준다. 각기 다른 저장소에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 있지만, [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)( [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) )와 [Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)( [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) ) 기술을 통해 논리적으로 단일 뷰( Single [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) )를 제공한다. 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전통적인 RDBMS와 DW에서 가장 효율적으로 처리되고, [반정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)는 Kafka나 [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 같은 스트림/[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 특화 시스템에서, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)는 S3와 Vector DB에서 각각 관리된다.
 
@@ -128,20 +128,20 @@ tags = ["data_engineering"]
 [정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 조회 최적화를 위한 실무 의사결정 트리]
 ```text
 [SQL 查询 실행 계획 분석]
-        │
-        ├── [Full Table Scan 발생?]
-        │       └── Yes ──> [적합한 인덱스 추가 검토]
-        │                      ├─ B-Tree (등치/범위 검색)
-        │                      └─ 복합 인덱스 (선행 열 우선)
-        │
-        ├── [JOIN 비용 과다?]
-        │       └── Yes ──> [조인 순서 최적화 / 힌트 사용]
-        │                      ├─ 드라이빙 테이블 선정
-        │                      └─ 중첩 루프 vs 해시 조인 vs 정렬 병합
-        │
-        └── [정규화 vs 역정규화 판단]
-                ├── OLTP (거래 처리) ──> 3NF 정규화
-                └── OLAP (분석 처리) ──> 역정규화 (합성키, 누적으로드)
+        |
+        +-- [Full Table Scan 발생?]
+        |       +-- Yes --> [적합한 인덱스 추가 검토]
+        |                      +- B-Tree (등치/범위 검색)
+        |                      +- 복합 인덱스 (선행 열 우선)
+        |
+        +-- [JOIN 비용 과다?]
+        |       +-- Yes --> [조인 순서 최적화 / 힌트 사용]
+        |                      +- 드라이빙 테이블 선정
+        |                      +- 중첩 루프 vs 해시 조인 vs 정렬 병합
+        |
+        +-- [정규화 vs 역정규화 판단]
+                +-- OLTP (거래 처리) --> 3NF 정규화
+                +-- OLAP (분석 처리) --> 역정규화 (합성키, 누적으로드)
 ```
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 SQL 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 진단하고 해결하는프로세스를 보여준다. 먼저 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)( EXPLAIN )을 분석하여 Full Table Scan이 발생하면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 검토하고, [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 비용이 높으면 조인 순서와 알고리즘을 변경하며, 시스템 목적에 따라 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 전략을 선택한다. 이러한 튜닝은 수십억 행의 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어의 핵심 역량이다.
 
@@ -152,9 +152,9 @@ tags = ["data_engineering"]
 
 | 관점 | 기대 효과 (Before & After) | 정량 지표 |
 |:---|:---|:---|
-| 인프라 비용 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) RDBMS 라이선스 → 클라우드 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)) | DB 유지보수 비용 50% 절감 |
-| 분석 속도 | 일 배칭 → 실시간 스트리밍 SQL 조회 | 조회 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 90% 단축 |
-| 확장성 | 수직 확장 ([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 한계 → 자동확전 (Auto-scaling) | 피크 타임 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 10배 향상 |
+| 인프라 비용 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) RDBMS 라이선스 -> 클라우드 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)) | DB 유지보수 비용 50% 절감 |
+| 분석 속도 | 일 배칭 -> 실시간 스트리밍 SQL 조회 | 조회 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 90% 단축 |
+| 확장성 | 수직 확장 ([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 한계 -> 자동확전 (Auto-scaling) | 피크 타임 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 10배 향상 |
 
 미래에는 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 관리에서도 머신러닝이 활용되어, 조회 패턴을 학습하여 자동으로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추천하고 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 전략을 최적화하는 <strong>자율 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>( Autonomous <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> )</strong>가 표준이 될 것이다. 또한, 정형과비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합적으로 조회하는 [Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 기술이 성숙하면서, 사용자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치를기에せず SQL 하나로 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 수 있는 세상이 올 것이다.
 
@@ -174,17 +174,17 @@ tags = ["data_engineering"]
 
 ```text
 [관계형 데이터베이스 (RDBMS)]
-    │
-    ▼
+    |
+    v
 [OLTP (Online Transaction Processing)]
-    │
-    ▼
+    |
+    v
 [OLAP (Online Analytical Processing)]
-    │
-    ▼
+    |
+    v
 [스키마 온 라이트 (Schema-on-Write)]
-    │
-    ▼
+    |
+    v
 [데이터 웨어하우스 (Data Warehouse)]
 ```
 
@@ -201,7 +201,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 2 / 258
 
-← **이전**: [1. 빅데이터 3V / 5V - 볼륨(Volume), 속도(Velocity), 다양성(Variety), + 진실성(Veracity),](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)
-**다음**: [3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/) →
+<- **이전**: [1. 빅데이터 3V / 5V - 볼륨(Volume), 속도(Velocity), 다양성(Variety), + 진실성(Veracity),](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)
+**다음**: [3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/) ->
 
 ---

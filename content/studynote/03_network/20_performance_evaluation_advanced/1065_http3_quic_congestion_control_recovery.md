@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [ESNI]
-    │
-    ▼
+    |
+    v
 [HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    └──▶ [마이크로서비스 서비스 메시 패싱]
+    |
+    +---> [마이크로서비스 서비스 메시 패싱]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [ESNI]
-    │
-    ▼
+    |
+    v
 [HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    └──▶ [마이크로서비스 서비스 메시 패싱]
+    |
+    +---> [마이크로서비스 서비스 메시 패싱]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ESNI]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    ├──▶ [확장 A: 마이크로서비스 서비스 메시 패싱]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 마이크로서비스 서비스 메시 패싱]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식는 ESNI에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 171 / 1120
 
-← **이전**: [1064. ESNI (TLS 1.3 평문 노출 보안)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/)
-**다음**: [1066. 마이크로서비스 서비스 메시 패싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1066_microservices_service_mesh_architecture/) →
+<- **이전**: [1064. ESNI (TLS 1.3 평문 노출 보안)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/)
+**다음**: [1066. 마이크로서비스 서비스 메시 패싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1066_microservices_service_mesh_architecture/) ->
 
 ---

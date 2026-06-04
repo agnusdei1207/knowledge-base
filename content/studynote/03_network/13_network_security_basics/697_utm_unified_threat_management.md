@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [WAF]
-    │
-    ▼
+    |
+    v
 [UTM]
-    │
-    └──▶ [NGFW]
+    |
+    +---> [NGFW]
 ```
 
 - **📢 섹션 요약 비유**: UTM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 
 ```text
 [WAF]
-    │
-    ▼
+    |
+    v
 [UTM]
-    │
-    └──▶ [NGFW]
+    |
+    +---> [NGFW]
 ```
 
 - **📢 섹션 요약 비유**: UTM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ UTM는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ```text
 [선행 개념: WAF]
-    │
-    ▼
+    |
+    v
 [현재 개념: UTM]
-    │
-    ├──▶ [확장 A: NGFW]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: NGFW]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 UTM는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 NGFW와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ UTM는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 NGFW�
 
 **진행 상황**: 818 / 1120
 
-← **이전**: [696. WAF (Web Application Firewall, 애플리케이션L7 특화)](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)
-**다음**: [698. NGFW (Next-Generation Firewall, 차세대 방화벽 시그니처 융합 모델 딥 패킷 파싱 애플리케이션 ID 제어](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/) →
+<- **이전**: [696. WAF (Web Application Firewall, 애플리케이션L7 특화)](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)
+**다음**: [698. NGFW (Next-Generation Firewall, 차세대 방화벽 시그니처 융합 모델 딥 패킷 파싱 애플리케이션 ID 제어](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/) ->
 
 ---

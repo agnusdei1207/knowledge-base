@@ -20,16 +20,16 @@ tags = ["studynote-computer-architecture"]
 
 ```
   A3 B3    A2 B2    A1 B1    A0 B0
-  │  │     │  │     │  │     │  │
- [FA3]←C3─[FA2]←C2─[FA1]←C1─[FA0]←Cin=0
-  │        │        │        │
+  |  |     |  |     |  |     |  |
+ [FA3]<-C3-[FA2]<-C2-[FA1]<-C1-[FA0]<-Cin=0
+  |        |        |        |
   S3       S2       S1       S0
-  │
+  |
   Cout
 ```
 
 - <strong>FA (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">Full Adder</a>)</strong> 하나가 1비트 합(Sum)과 캐리(Carry Out) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-- Carry Out이 다음 FA의 Carry In으로 전달 → 물결처럼 전파
+- Carry Out이 다음 FA의 Carry In으로 전달 -> 물결처럼 전파
 - n-bit 합산 시 FA를 n개 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결
 
 ### [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) (FA 단일)
@@ -54,7 +54,7 @@ FA 1개 지연: Sum = 2t, Carry = 2t
 n-bit RCA 총 지연:
   - S0 : 2t
   - S1 : 2t + 2t = 4t   (C1 전파 후)
-  - Sn-1: 2n·t           ← O(n) 선형 증가
+  - Sn-1: 2n·t           <- O(n) 선형 증가
 ```
 
 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | RCA [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | CLA [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
@@ -63,7 +63,7 @@ n-bit RCA 총 지연:
 | 8-bit   | 16t     | 5t      |
 | 32-bit  | 64t     | 8t      |
 
-- **Critical Path**: 최하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리 → 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 경로
+- **Critical Path**: 최하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리 -> 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 경로
 
 > 📢 **섹션 요약 비유**: 릴레이 경기처럼 바통을 한 명씩 전달 — 선수가 많을수록 총 시간이 선형 증가.
 
@@ -74,8 +74,8 @@ n-bit RCA 총 지연:
 ### 3-1. CLA ([Carry Lookahead Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))
 
 ```
-Generate: Gi = Ai AND Bi   → 이 자리에서 캐리 생성
-Propagate: Pi = Ai XOR Bi  → 입력 캐리를 다음 자리로 전달
+Generate: Gi = Ai AND Bi   -> 이 자리에서 캐리 생성
+Propagate: Pi = Ai XOR Bi  -> 입력 캐리를 다음 자리로 전달
 
 C1 = G0 + P0·C0
 C2 = G1 + P1·G0 + P1·P0·C0
@@ -89,7 +89,7 @@ C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
 
 ```
 3개 숫자(A, B, C) 동시 합산:
-  CSA: (A, B, C) → (Sum, Carry) 병렬 생성
+  CSA: (A, B, C) -> (Sum, Carry) 병렬 생성
   최종 RCA/CLA로 Sum + Carry 처리
 ```
 
@@ -139,19 +139,19 @@ endmodule
 
 ```
 리플 캐리 가산기 (RCA)
-├── 구성 단위: FA (Full Adder)
-│   ├── Half Adder (HA) × 2 + OR
-│   └── 입력: A, B, Cin / 출력: Sum, Cout
-├── 성능 병목: 캐리 전파 지연 O(n)
-├── 개선
-│   ├── CLA (Carry Lookahead Adder) → O(log n)
-│   │   ├── Generate (Gi)
-│   │   └── Propagate (Pi)
-│   └── CSA (Carry Save Adder) → 3→2 압축
-└── 응용
-    ├── ALU (Arithmetic Logic Unit)
-    ├── 곱셈기 (부분 합 합산)
-    └── FPU (부동소수점 가산)
++-- 구성 단위: FA (Full Adder)
+|   +-- Half Adder (HA) × 2 + OR
+|   +-- 입력: A, B, Cin / 출력: Sum, Cout
++-- 성능 병목: 캐리 전파 지연 O(n)
++-- 개선
+|   +-- CLA (Carry Lookahead Adder) -> O(log n)
+|   |   +-- Generate (Gi)
+|   |   +-- Propagate (Pi)
+|   +-- CSA (Carry Save Adder) -> 3->2 압축
++-- 응용
+    +-- ALU (Arithmetic Logic Unit)
+    +-- 곱셈기 (부분 합 합산)
+    +-- FPU (부동소수점 가산)
 ```
 
 ---
@@ -160,23 +160,23 @@ endmodule
 
 ```
 [반가산기 HA]
-      │ 캐리 처리 한계
-      ▼
-[전가산기 FA] → Cin 포함 1비트 합산
-      │ 직렬 연결
-      ▼
-[RCA (Ripple Carry Adder)] → 단순·저비용·O(n) 지연
-      │ 속도 개선 필요
-      ├──────────────────────────────┐
-      ▼                              ▼
+      | 캐리 처리 한계
+      v
+[전가산기 FA] -> Cin 포함 1비트 합산
+      | 직렬 연결
+      v
+[RCA (Ripple Carry Adder)] -> 단순·저비용·O(n) 지연
+      | 속도 개선 필요
+      +------------------------------+
+      v                              v
 [CLA (Carry Lookahead)]        [CSA (Carry Save)]
-O(log n) 지연·병렬 캐리        3→2 압축·곱셈기 내부
-      │
-      ▼
+O(log n) 지연·병렬 캐리        3->2 압축·곱셈기 내부
+      |
+      v
 [계층적 CLA / Kogge-Stone / Brent-Kung]
 초고속 VLSI 가산기 설계
-      │
-      ▼
+      |
+      v
 [현대 CPU ALU / FPU / GPU]
 GHz 클럭에서 1사이클 가산
 ```
@@ -195,7 +195,7 @@ GHz 클럭에서 1사이클 가산
 
 **진행 상황**: 35 / 803
 
-← **이전**: [전가산기 (Full Adder) 와 리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)
-**다음**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) →
+<- **이전**: [전가산기 (Full Adder) 와 리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)
+**다음**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) ->
 
 ---

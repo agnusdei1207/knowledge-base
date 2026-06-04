@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [저궤도 위성망 스타링크]
-    │
-    ▼
+    |
+    v
 [위성 통신 핸드오버와 ISL]
-    │
-    └──▶ [V2X]
+    |
+    +---> [V2X]
 ```
 
 - **📢 섹션 요약 비유**: 우체부가 산골짜기(바다)에 들어갔을 때 우체국(지상국)이 없으면 편지를 못 전하던 것을, 우체부들끼리(위성) 무전기를 쳐서 릴레이로 편지를 건네주어 지구 반대편까지 전달하는 셈이다.
@@ -41,20 +41,20 @@ tags = ["studynote-network"]
 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) 망과 위성 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 메커니즘은 3차원 공간에서의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 트래킹의 결합이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [ 우주 (Space Segment) ]                    │
-│                                                              │
-│      (이동 방향 ▶)                      (이동 방향 ▶)       │
-│   [ 위성 1 (퇴역 예정) ]  ◀─(ISL: 레이저)─▶  [ 위성 2 (새로 진입) ] │
-│          │                                      ▲           │
-│          ▼ (신호 약해짐)                         │ (신호 강해짐)│
-├──────────┼──────────────────────────────────────┼───────────┤
-│          │        [ 지상 (Ground Segment) ]     │           │
-│          └────────────────┐  ┌────────────────┘           │
-│                           │  │                               │
-│                        [ 지상 단말 ]                         │
-│               (위상배열 안테나: 빔포밍 트래킹)               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  [ 우주 (Space Segment) ]                    |
+|                                                              |
+|      (이동 방향 ->)                      (이동 방향 ->)       |
+|   [ 위성 1 (퇴역 예정) ]  <--(ISL: 레이저)-->  [ 위성 2 (새로 진입) ] |
+|          |                                      ^           |
+|          v (신호 약해짐)                         | (신호 강해짐)|
++----------+--------------------------------------+-----------+
+|          |        [ 지상 (Ground Segment) ]     |           |
+|          +----------------+  +----------------+           |
+|                           |  |                               |
+|                        [ 지상 단말 ]                         |
+|               (위상배열 안테나: 빔포밍 트래킹)               |
++--------------------------------------------------------------+
 ```
 
 1. <strong>위성 간 링크 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>)</strong>: 진공 상태인 우주에서는 빛의 산란이 없으므로 레이저(Optical Communication)를 쏘아 위성 간 수 Gbps~Tbps의 속도로 데이터를 전송한다. 빛의 속도는 광케이블 유리 속보다 진공 상태에서 약 1.5배 빠르기 때문에, 런던-뉴욕 간 통신 시 해저 광케이블보다 우주 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 더 빠른 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성할 수 있다.
@@ -124,12 +124,12 @@ ISL과 정밀 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mo
 
 ```text
 [선행 개념: 저궤도 위성망 스타링크]
-    │
-    ▼
+    |
+    v
 [현재 개념: 위성 통신 핸드오버와 ISL]
-    │
-    ├──▶ [확장 A: V2X]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: V2X]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)와 ISL는 [저궤도 위성망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) 스타링크에서 출발해 현재 메커니즘을 정교화하고, 이후 V2X와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ ISL과 정밀 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mo
 
 **진행 상황**: 125 / 1120
 
-← **이전**: [1022. 저궤도 위성망 (LEO)과 스타링크](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/)
-**다음**: [1024. V2X (Vehicle-to-Everything)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1024_v2x_vehicle_to_everything/) →
+<- **이전**: [1022. 저궤도 위성망 (LEO)과 스타링크](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/)
+**다음**: [1024. V2X (Vehicle-to-Everything)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1024_v2x_vehicle_to_everything/) ->
 
 ---

@@ -55,16 +55,16 @@ MIL-HDBK-217의 기본 사고방식은 <strong>부품 단위 고장률을 계산
 아래 흐름은 MIL-HDBK-217 계산이 왜 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예산 편성"으로 불리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ BOM -> Base rate(λb) -> Pi factors(πT, πE, πQ) -> Part λp       │
-│                                   │                              │
-│                                   └──────────────┐               │
-│                                                  ▼               │
-│                     Sum of all part rates = λsys                │
-│                                                  │               │
-│                                                  ▼               │
-│                         MTBF / reliability budget                │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| BOM -> Base rate(λb) -> Pi factors(πT, πE, πQ) -> Part λp       |
+|                                   |                              |
+|                                   +--------------+               |
+|                                                  v               |
+|                     Sum of all part rates = λsys                |
+|                                                  |               |
+|                                                  v               |
+|                         MTBF / reliability budget                |
++------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 어디서 고장률이 커지는지 역추적이 가능하다는 점이다. 예를 들어 같은 전원보드라도 접합 온도가 높은 전해 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 팬, 커넥터가 전체 예측 고장률을 지배할 수 있다. 즉 MIL-HDBK-217은 단순 계산법이 아니라 "어떤 부품이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 병목인가"를 찾는 분해 도구이기도 하다.
@@ -149,20 +149,20 @@ MIL-HDBK-217의 가장 큰 효과는 [신뢰성](/knowledge-base/studynote/04_so
 
 ```text
 부품 목록(BOM)
-    │
-    ▼
+    |
+    v
 MIL-HDBK-217 Part Count
-    │
-    ▼
+    |
+    v
 Part Stress Analysis
-    │
-    ▼
+    |
+    v
 ALT · HALT · 현장 고장 데이터
-    │
-    ▼
+    |
+    v
 Telcordia SR-332 · FIDES
-    │
-    ▼
+    |
+    v
 Physics of Failure · 데이터 기반 신뢰성 공학
 ```
 
@@ -178,7 +178,7 @@ Physics of Failure · 데이터 기반 신뢰성 공학
 
 **진행 상황**: 762 / 803
 
-← **이전**: [760. HASS (Highly Accelerated Stress Screen)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/760_hass/)
-**다음**: [762. 가속 수명 시험 (ALT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) →
+<- **이전**: [760. HASS (Highly Accelerated Stress Screen)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/760_hass/)
+**다음**: [762. 가속 수명 시험 (ALT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [WPAN]
-    │
-    ▼
+    |
+    v
 [블루투스]
-    │
-    └──▶ [블루투스 버전]
+    |
+    +---> [블루투스 버전]
 ```
 
 - **📢 섹션 요약 비유**: 블루투스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [WPAN]
-    │
-    ▼
+    |
+    v
 [블루투스]
-    │
-    └──▶ [블루투스 버전]
+    |
+    +---> [블루투스 버전]
 ```
 
 - **📢 섹션 요약 비유**: 블루투스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: WPAN]
-    │
-    ▼
+    |
+    v
 [현재 개념: 블루투스]
-    │
-    ├──▶ [확장 A: 블루투스 버전]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 블루투스 버전]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 블루투스는 WPAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스 버전](/knowledge-base/studynote/03_network/12_iot_wpan_edge/606_bluetooth_edr_hs_speed_extension/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 726 / 1120
 
-← **이전**: [604. WPAN (Wireless Personal Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)
-**다음**: [606. 블루투스 버전](/knowledge-base/studynote/03_network/12_iot_wpan_edge/606_bluetooth_edr_hs_speed_extension/) →
+<- **이전**: [604. WPAN (Wireless Personal Area Network)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)
+**다음**: [606. 블루투스 버전](/knowledge-base/studynote/03_network/12_iot_wpan_edge/606_bluetooth_edr_hs_speed_extension/) ->
 
 ---

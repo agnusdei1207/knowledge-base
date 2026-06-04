@@ -33,9 +33,9 @@ tags = ["database"]
 | [Identifying](/knowledge-base/studynote/05_database/02_modeling_normalization/087_identifying_vs_non_identifying_relationship/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 종속 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 부모 키 포함 |
 | Total Participation | 반드시 부모와 연결 | 존재 의존성 |
 
-┌──────────────┐      ╔════════════════╗
-│  주문(Order) │══◇══▶║ 주문항목(Line) ║
-└──────────────┘      ╚════════════════╝
++--------------+      +----------------+
+|  주문(Order) |--◇--->| 주문항목(Line) |
++--------------+      +----------------+
        PK: order_id           partial [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/): line_no
 - **📢 섹션 요약 비유**: 부분 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 부모 키를 같이 본다.
 
@@ -85,7 +85,7 @@ tags = ["database"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-부모 개체 선택 → 부분 식별자 정의 → 식별 관계 연결 → 복합 키 생성 → 약한 개체 완성
+부모 개체 선택 -> 부분 식별자 정의 -> 식별 관계 연결 -> 복합 키 생성 -> 약한 개체 완성
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -100,7 +100,7 @@ tags = ["database"]
 
 **진행 상황**: 86 / 600
 
-← **이전**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/)
-**다음**: [87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)](/knowledge-base/studynote/05_database/02_modeling_normalization/087_identifying_vs_non_identifying_relationship/) →
+<- **이전**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/)
+**다음**: [87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)](/knowledge-base/studynote/05_database/02_modeling_normalization/087_identifying_vs_non_identifying_relationship/) ->
 
 ---

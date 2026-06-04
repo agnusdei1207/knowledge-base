@@ -31,40 +31,40 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-트랙·섹터·실린더의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 “원형 경로 → 그 경로의 조각 → 여러 면의 같은 반지름 묶음”으로 이해하면 가장 쉽다. 하나의 플래터 표면을 위에서 보면 동심원들이 트랙이고, 각 트랙을 각도 기준으로 자른 조각이 섹터다. 여러 플래터를 옆에서 보면, 액추에이터 암 (Actuator Arm)이 모든 헤드를 같은 반지름으로 동시에 움직이므로, 같은 반지름의 트랙들이 묶여 하나의 실린더가 된다.
+트랙·섹터·실린더의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 “원형 경로 -> 그 경로의 조각 -> 여러 면의 같은 반지름 묶음”으로 이해하면 가장 쉽다. 하나의 플래터 표면을 위에서 보면 동심원들이 트랙이고, 각 트랙을 각도 기준으로 자른 조각이 섹터다. 여러 플래터를 옆에서 보면, 액추에이터 암 (Actuator Arm)이 모든 헤드를 같은 반지름으로 동시에 움직이므로, 같은 반지름의 트랙들이 묶여 하나의 실린더가 된다.
 
 아래 그림은 같은 데이터를 두 관점에서 보여준다. 위쪽은 플래터 한 장의 평면 구조, 아래쪽은 여러 플래터를 세로로 본 구조다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 트랙, 섹터, 실린더의 물리 관계                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Top View: 플래터 한 면]                                                   │
-│                                                                            │
-│          ┌────────────── Sector (섹터) ──────────────┐                     │
-│          ▼                                            ▼                     │
-│      ┌──────────────────────────────────────────────┐                       │
-│      │                  outer track                 │                       │
-│      │      ┌────────────────────────────────┐      │                       │
-│      │      │          middle track          │      │                       │
-│      │      │      ┌────────────────┐        │      │                       │
-│      │      │      │ inner track    │        │      │                       │
-│      │      │      └────────────────┘        │      │                       │
-│      │      └────────────────────────────────┘      │                       │
-│      └──────────────────────────────────────────────┘                       │
-│                   ▲                                                         │
-│                   └─ Track (트랙: 동심원 기록 경로)                         │
-│                                                                            │
-│ [Side View: 여러 플래터]                                                    │
-│                                                                            │
-│   Head 0 ──▶ ┌────────────────────┐   Platter 0 upper                       │
-│   Head 1 ──▶ └────────────────────┘   Platter 0 lower                       │
-│                │                │                                            │
-│   Head 2 ──▶ ┌─┼────────────────┼─┐ Platter 1 upper                         │
-│   Head 3 ──▶ └─┼────────────────┼─┘ Platter 1 lower                         │
-│                │                │                                            │
-│               same radius across surfaces  =  Cylinder (실린더)            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 트랙, 섹터, 실린더의 물리 관계                            |
++----------------------------------------------------------------------------+
+| [Top View: 플래터 한 면]                                                   |
+|                                                                            |
+|          +-------------- Sector (섹터) --------------+                     |
+|          v                                            v                     |
+|      +----------------------------------------------+                       |
+|      |                  outer track                 |                       |
+|      |      +--------------------------------+      |                       |
+|      |      |          middle track          |      |                       |
+|      |      |      +----------------+        |      |                       |
+|      |      |      | inner track    |        |      |                       |
+|      |      |      +----------------+        |      |                       |
+|      |      +--------------------------------+      |                       |
+|      +----------------------------------------------+                       |
+|                   ^                                                         |
+|                   +- Track (트랙: 동심원 기록 경로)                         |
+|                                                                            |
+| [Side View: 여러 플래터]                                                    |
+|                                                                            |
+|   Head 0 ---> +--------------------+   Platter 0 upper                       |
+|   Head 1 ---> +--------------------+   Platter 0 lower                       |
+|                |                |                                            |
+|   Head 2 ---> +-+----------------+-+ Platter 1 upper                         |
+|   Head 3 ---> +-+----------------+-+ Platter 1 lower                         |
+|                |                |                                            |
+|               same radius across surfaces  =  Cylinder (실린더)            |
++----------------------------------------------------------------------------+
 ```
 
 이 구조가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결되는 이유는 헤드 이동 비용과 회전 대기 비용이 다르기 때문이다. 다른 트랙으로 가려면 기계적으로 헤드가 움직여야 하므로 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 필요하지만, 같은 실린더 안에서 다른 면으로 바꾸는 것은 주로 헤드 스위칭 (Head Switching)으로 처리되어 훨씬 저렴하다. 따라서 연속 데이터가 같은 실린더 주변에 배치되면 대기 시간이 크게 줄고, 흩어져 있으면 HDD는 같은 양의 데이터도 훨씬 느리게 처리한다.
@@ -150,23 +150,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 플래터 (Platter) 기반 자기 기록
-    │
-    ▼
+    |
+    v
 트랙 (Track) · 섹터 (Sector) · 실린더 (Cylinder)
-    │
-    ▼
+    |
+    v
 CHS (Cylinder-Head-Sector) 주소 체계
-    │
-    ▼
+    |
+    v
 탐색 시간 (Seek Time) · 회전 지연 (Rotational Latency)
-    │
-    ▼
+    |
+    v
 LBA (Logical Block Addressing) · 디스크 스케줄링
-    │
-    ▼
+    |
+    v
 ZBR (Zoned Bit Recording) · 4KB 물리 섹터 · 고밀도 HDD
-    │
-    ▼
+    |
+    v
 SSD와의 역할 분화 · 계층형 스토리지
 ```
 
@@ -184,7 +184,7 @@ SSD와의 역할 분화 · 계층형 스토리지
 
 **진행 상황**: 324 / 803
 
-← **이전**: [322. 하드 디스크 드라이브 (HDD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/322_hdd/)
-**다음**: [324. 탐색 시간 (Seek Time)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) →
+<- **이전**: [322. 하드 디스크 드라이브 (HDD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/322_hdd/)
+**다음**: [324. 탐색 시간 (Seek Time)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) ->
 
 ---

@@ -96,11 +96,11 @@ tags = ["software_engineering"]
 
 ```text
 표준 방법론
-   ↓
+   v
 프로젝트 특성 분석
-   ↓
+   v
 절차 / 산출물 / 승인 조정
-   ↓
+   v
 테일러링 적용
 ```
 
@@ -108,11 +108,11 @@ tags = ["software_engineering"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 표준 방법론 → 공통 기준 마련
-2. 프로젝트 특성 반영 → 맞춤 조정 필요
-3. 테일러링 → 절차와 산출물 최적화
-4. 승인과 추적성 → 조정의 정당성 확보
-5. 지속적 재검토 → 변화에 맞춰 방법론 갱신
+1. 표준 방법론 -> 공통 기준 마련
+2. 프로젝트 특성 반영 -> 맞춤 조정 필요
+3. 테일러링 -> 절차와 산출물 최적화
+4. 승인과 추적성 -> 조정의 정당성 확보
+5. 지속적 재검토 -> 변화에 맞춰 방법론 갱신
 
 ---
 
@@ -128,7 +128,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 58 / 973
 
-← **이전**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/knowledge-base/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)
-**다음**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) →
+<- **이전**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/knowledge-base/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)
+**다음**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ->
 
 ---

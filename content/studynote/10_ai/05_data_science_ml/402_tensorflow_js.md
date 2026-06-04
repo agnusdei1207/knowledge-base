@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **인프라 비용 절감**: 중앙 서버의 CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원 대신 사용자의 디바이스 자원을 활용하여 서빙 비용 최소화
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: TensorFlow.js는 거대한 공장(서버)에 주문서를 보내 결과를 기다리는 대신, 집 거실(브라우저)에 미니 조리 도구를 갖다 놓고 직접 요리하는 것과 같다.
@@ -52,22 +52,22 @@ TensorFlow.js는 상위 레벨의 Layers API와 하위 레벨의 Core API로 구
 ```text
 [ TensorFlow.js 실행 아키텍처 ]
 
-   ┌──────────────────────────────────────────┐
-   │             User Application (JS)        │
-   └──────────────────────────────────────────┘
-           │                        │
-   ┌───────────────────┐    ┌──────────────────┐
-   │    Layers API     │    │     Core API     │
-   └───────────────────┘    └──────────────────┘
-           └───────────┬────────────┘
-                       ▼
-   ┌──────────────────────────────────────────┐
-   │             TensorFlow.js Engine         │
-   └──────────────────────────────────────────┘
-           │            │           │
-   ┌───────────┐  ┌───────────┐  ┌────────────┐
-   │   WebGL   │  │   WASM    │  │   WebGPU   │  ◀── Hardware Acceleration
-   └───────────┘  └───────────┘  └────────────┘
+   +------------------------------------------+
+   |             User Application (JS)        |
+   +------------------------------------------+
+           |                        |
+   +-------------------+    +------------------+
+   |    Layers API     |    |     Core API     |
+   +-------------------+    +------------------+
+           +-----------+------------+
+                       v
+   +------------------------------------------+
+   |             TensorFlow.js Engine         |
+   +------------------------------------------+
+           |            |           |
+   +-----------+  +-----------+  +------------+
+   |   WebGL   |  |   WASM    |  |   WebGPU   |  <--- Hardware Acceleration
+   +-----------+  +-----------+  +------------+
 ```
 
 **최적화 기술**:
@@ -129,7 +129,7 @@ TensorFlow.js는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [TensorFlow.js (브라우저 딥러닝 서빙)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [TensorFlow.js (브라우저 딥러닝 서빙)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ TensorFlow.js는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 
 **진행 상황**: 402 / 420
 
-← **이전**: [401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)](/knowledge-base/studynote/10_ai/05_data_science_ml/401_smt_vs_nmt/)
-**다음**: [403. RLHF 보상 모델 (Reward Model)](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) →
+<- **이전**: [401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)](/knowledge-base/studynote/10_ai/05_data_science_ml/401_smt_vs_nmt/)
+**다음**: [403. RLHF 보상 모델 (Reward Model)](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) ->
 
 ---

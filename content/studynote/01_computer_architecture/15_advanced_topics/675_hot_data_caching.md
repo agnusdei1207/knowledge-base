@@ -41,13 +41,13 @@ tags = ["studynote-computer-architecture"]
 | [Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) | 먼저 캐시에 쓰고 나중에 원본 반영 | 폭주 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 흡수에 유리 | 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 방지 설계 필요 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Client -> Cache lookup -> hit -> return                                     │
-│                      │                                                       │
-│                      └-> miss -> Backend -> fill cache -> return             │
-│                           │                 │                                │
-│                           └-> invalidation / Time To Live (TTL) / guard      │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Client -> Cache lookup -> hit -> return                                     |
+|                      |                                                       |
+|                      +-> miss -> Backend -> fill cache -> return             |
+|                           |                 |                                |
+|                           +-> invalidation / Time To Live (TTL) / guard      |
++------------------------------------------------------------------------------+
 ```
 
 여기서 [Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)), 무효화, 퇴출 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심 제어점이 된다. 퇴출 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로는 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)), [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))가 자주 쓰이며, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 잡아둘지 결정한다. 또한 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간은 `적중률 × 캐시 지연 + 실패율 × (캐시 지연 + 원본 지연)`으로 볼 수 있으므로, 예를 들어 캐시 0.2밀리초·원본 3밀리초 환경에서 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 95%면 평균 응답은 약 0.35밀리초 수준까지 내려간다.
@@ -130,17 +130,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 지역성 (Locality) 인식
-        │
-        ▼
+        |
+        v
 CPU cache / DRAM buffer
-        │
-        ▼
+        |
+        v
 데이터베이스 buffer pool / page cache
-        │
-        ▼
+        |
+        v
 애플리케이션·분산 캐시 계층
-        │
-        ▼
+        |
+        v
 예측 기반 hot-set 관리 + CDN edge caching
 ```
 
@@ -158,7 +158,7 @@ CPU cache / DRAM buffer
 
 **진행 상황**: 676 / 803
 
-← **이전**: [674. 스토리지 티어링 (Storage Tiering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/)
-**다음**: [676. 콜드 데이터 (Cold Data) 아카이빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) →
+<- **이전**: [674. 스토리지 티어링 (Storage Tiering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/)
+**다음**: [676. 콜드 데이터 (Cold Data) 아카이빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
+    |
+    v
 [6G 융합 테라헤르츠 예측 지표망]
-    │
-    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    |
+    +---> [위성 기반 도심항공교통 라우팅 통신 구조 모…]
 ```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,16 +48,16 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 - **왜 필요한가?**: 지구 반대편에 있는 원격 수술 로봇의 칼날이나, 우주 공간의 위성 궤도를 조종할 때, 인간의 신경 반사 속도보다 네트워크 속도가 미세하게 더 빠르거나 완벽히 일치하여 100% 완벽한 촉각(Haptic) 통신(인터넷으로 물건의 감촉을 전달)을 구현하기 위함입니다.
 
 ### 3. 천문학적 밀집도와 1,000 km/h 고속 이동성
-- 5G는 1제곱킬로미터(km²)당 100만 대의 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 수용했습니다. 6G는 10배인 <strong>1,000만 대(천장, 바닥, 옷, 안경, 피부 속 센서까지 모조리 접속)</strong>를 동시에 뻗지 않고 소화해야 합니다.
+- 5G는 1제곱킬로미터(km^)당 100만 대의 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 수용했습니다. 6G는 10배인 <strong>1,000만 대(천장, 바닥, 옷, 안경, 피부 속 센서까지 모조리 접속)</strong>를 동시에 뻗지 않고 소화해야 합니다.
 - 5G는 시속 500km KTX 정도에서 터졌습니다. 6G는 **마하 1에 가까운 시속 1,000km로 날아가는 하이퍼루프나 에어택시, 여객기** 안에서도 1Tbps 넷플릭스가 끊기지 않는 끈질긴 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 방어 및 빔 트래킹(추적) 기술을 요구합니다.
 
 ```text
 [정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
+    |
+    v
 [6G 융합 테라헤르츠 예측 지표망]
-    │
-    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    |
+    +---> [위성 기반 도심항공교통 라우팅 통신 구조 모…]
 ```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 
 ```text
 [선행 개념: 정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
+    |
+    v
 [현재 개념: 6G 융합 테라헤르츠 예측 지표망]
-    │
-    ├──▶ [확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망는 정보통신 기술사 최근 기출 토픽 기반에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 기반 도심항공교통](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 
 **진행 상황**: 230 / 1120
 
-← **이전**: [1118. 정보통신 기술사 최근 기출 토픽 기반](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1118_recent_it_communication_infrastructure_trends/)
-**다음**: [111. ALOHA (순수 알로하)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) →
+<- **이전**: [1118. 정보통신 기술사 최근 기출 토픽 기반](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1118_recent_it_communication_infrastructure_trends/)
+**다음**: [111. ALOHA (순수 알로하)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-ai"]
 
 ```text
 Foundation Model = 대규모 데이터 + 대규모 파라미터 + 자기지도 학습
-  → 범용 표현 학습 → 다양한 하위 작업에 적응
+  -> 범용 표현 학습 -> 다양한 하위 작업에 적응
   예: GPT-4(텍스트), CLIP(이미지+텍스트), Codex(코드)
 ```
 
@@ -34,7 +34,7 @@ Foundation Model = 대규모 데이터 + 대규모 파라미터 + 자기지도 �
 |:---|:---|
 | **사전 학습** | 대규모 비라벨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Transfer** | 하위 작업에 적응 |
-| **Emergent** | 규모↑ → 새 능력 출현 |
+| **Emergent** | 규모^ -> 새 능력 출현 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a></strong> | 텍스트+이미지+오디오 |
 
 ---
@@ -53,15 +53,15 @@ Foundation Model은 <strong>현대 AI의 패러다임</strong>이며, 규모의 
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/">Emergent Abilities</a></strong> | 규모 확대 시 창발 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong> | 하위 작업 적응 |
 | **Scaling Law** | 규모와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a></strong> | 사전 학습 → 전이 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a></strong> | 사전 학습 -> 전이 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Word2Vec (2013)] → [BERT (2018)] → [GPT-3 (2020)]
-    → [Foundation Model 명명 (Stanford HAI, 2021)]
-    → [GPT-4 / Gemini (2023~2024)]
-    → [현재: 오픈소스 FM — Llama·Mistral·Qwen]
+[Word2Vec (2013)] -> [BERT (2018)] -> [GPT-3 (2020)]
+    -> [Foundation Model 명명 (Stanford HAI, 2021)]
+    -> [GPT-4 / Gemini (2023~2024)]
+    -> [현재: 오픈소스 FM — Llama·Mistral·Qwen]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ Foundation Model은 <strong>현대 AI의 패러다임</strong>이며, 규모의 
 
 **진행 상황**: 130 / 420
 
-← **이전**: [129. Position-wise FFN - Transformer 내 2층 MLP 비선형 변환](/knowledge-base/studynote/10_ai/02_dl_architecture_new/129_position_wise_feed_forward_ffnn/)
-**다음**: [131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/131_self_supervised_learning/) →
+<- **이전**: [129. Position-wise FFN - Transformer 내 2층 MLP 비선형 변환](/knowledge-base/studynote/10_ai/02_dl_architecture_new/129_position_wise_feed_forward_ffnn/)
+**다음**: [131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/131_self_supervised_learning/) ->
 
 ---

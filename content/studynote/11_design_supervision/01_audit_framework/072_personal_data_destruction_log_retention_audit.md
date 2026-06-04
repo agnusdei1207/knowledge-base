@@ -31,9 +31,9 @@ tags = ["studynote-design"]
 
 ```text
 Data Lifecycle
-  ↓
+  v
 Retention Policy
-  ↓
+  v
 Destruction / Archiving
 ```
 
@@ -104,11 +104,11 @@ Destruction / Archiving
 
 ```text
 Retention Policy
-  ↓
+  v
 Destruction
-  ↓
+  v
 Audit Trail
-  ↓
+  v
 Compliance
 ```
 
@@ -118,11 +118,11 @@ Compliance
 
 ```text
 Data Lifecycle
-  ↓
+  v
 Retention
-  ↓
+  v
 Destruction
-  ↓
+  v
 Compliance Audit
 ```
 
@@ -140,7 +140,7 @@ Compliance Audit
 
 **진행 상황**: 111 / 530
 
-← **이전**: [71. 소스코드 난독화 적용 여부 점검 - 금융/모바일 앱 보안](/knowledge-base/studynote/11_design_supervision/01_audit_framework/071_source_code_obfuscation_audit/)
-**다음**: [73. 서버/OS/DB 패치 및 취약점 스캐닝 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/073_server_os_db_patch_vulnerability_scan/) →
+<- **이전**: [71. 소스코드 난독화 적용 여부 점검 - 금융/모바일 앱 보안](/knowledge-base/studynote/11_design_supervision/01_audit_framework/071_source_code_obfuscation_audit/)
+**다음**: [73. 서버/OS/DB 패치 및 취약점 스캐닝 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/073_server_os_db_patch_vulnerability_scan/) ->
 
 ---

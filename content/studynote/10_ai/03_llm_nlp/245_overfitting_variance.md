@@ -29,7 +29,7 @@ tags = ["studynote-ai"]
 | 훈련 오차 | 매우 낮음 (≈ 0) | 낮음 |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 | 훈련 오차 대비 크게 높음 | 훈련 오차와 유사 |
 | 오차 격차(Gap) | 두 오차 간 격차가 크게 벌어짐 | 격차 최소 |
-| 학습 곡선 | 훈련↓ / [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)↑ 갈라짐 | 수렴하며 근접 |
+| 학습 곡선 | 훈련v / [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)^ 갈라짐 | 수렴하며 근접 |
 
 ### 1.3 과대적합이 발생하는 주요 원인
 - 모델 복잡도 과도 (너무 많은 파라미터, 깊은 트리)
@@ -38,12 +38,12 @@ tags = ["studynote-ai"]
 - [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부재
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 과대적합은 수능 특정 기출문제만 통째로 외운 수험생과 같다. 그 문제들은 100점이지만, 조금이라도 변형된 새 문제 앞에서는 속수무책이다.
@@ -56,23 +56,23 @@ tags = ["studynote-ai"]
 
 ```
   오차
-  │
-  │  총 오차 = 편향² + 분산 + 노이즈
-  │
-  │   ╲  분산(Variance)
-  │    ╲          ╱
-  │     ╲        ╱
-  │      ╲      ╱  편향(Bias)
-  │       ╲    ╱
-  │        ╲  ╱
-  │     최적점╲╱
-  └─────────────────────────── 모델 복잡도
-       단순  ←→  복잡
+  |
+  |  총 오차 = 편향^ + 분산 + 노이즈
+  |
+  |   ╲  분산(Variance)
+  |    ╲          ╱
+  |     ╲        ╱
+  |      ╲      ╱  편향(Bias)
+  |       ╲    ╱
+  |        ╲  ╱
+  |     최적점╲╱
+  +--------------------------- 모델 복잡도
+       단순  <-->  복잡
   [과소적합]     [과대적합]
 ```
 
-- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 → 과소적합
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 모델이 복잡하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 → 과대적합
+- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 -> 과소적합
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 모델이 복잡하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 -> 과대적합
 - 둘은 반비례 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이므로 **트레이드오프(Trade-off)** 존재
 
 ### 2.2 과대적합 완화 기법
@@ -89,18 +89,18 @@ tags = ["studynote-ai"]
 ### 2.3 학습 곡선 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 해석
 
 ```
-┌──────────────────────────────────────────────┐
-│          학습 곡선 - 과대적합 패턴              │
-│                                              │
-│  오차                                         │
-│  ↑                                           │
-│  │  ─ ─ ─ ─ ─ ─ ─ ─ ─    ← 검증 오차 (높음)   │
-│  │                                           │
-│  │                                           │
-│  │ ─────────────────────  ← 훈련 오차 (낮음)   │
-│  └────────────────────────────────→ 에폭     │
-│        훈련 데이터 증가 / 반복 학습              │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|          학습 곡선 - 과대적합 패턴              |
+|                                              |
+|  오차                                         |
+|  ^                                           |
+|  |  - - - - - - - - -    <- 검증 오차 (높음)   |
+|  |                                           |
+|  |                                           |
+|  | ---------------------  <- 훈련 오차 (낮음)   |
+|  +---------------------------------> 에폭     |
+|        훈련 데이터 증가 / 반복 학습              |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 높다는 것은 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 결과가 들쑥날쑥하다는 뜻이다. 마치 같은 요리사가 날씨에 따라 음식 맛이 완전히 달라지는 상황—오늘은 미슐랭, 내일은 급식이다.
@@ -121,8 +121,8 @@ tags = ["studynote-ai"]
 | 해결 방향 | 모델 단순화, 규제 | 모델 복잡화, 특성 추가 |
 
 ### 3.2 규제화 공식 비교
-- **L2 (Ridge)**: `손실함수 + λΣw²` → [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 유지
-- <strong>L1 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong>: `손실함수 + λΣ|w|` → 일부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만들어 특성 선택 효과
+- **L2 (Ridge)**: `손실함수 + λΣw^` -> [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 유지
+- <strong>L1 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong>: `손실함수 + λΣ|w|` -> 일부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만들어 특성 선택 효과
 - **ElasticNet**: L1 + L2 혼합
 
 - **📢 섹션 요약 비유**: 과대적합은 공책을 달달 외웠지만 시험장에서 "왜?" 라고 묻는 서술형 문제 앞에 굳어버리는 학생이고, 과소적합은 공책 자체를 읽지 않아 객관식도 틀리는 학생이다.
@@ -141,7 +141,7 @@ tags = ["studynote-ai"]
 
 ```
 훈련 시 (Dropout 적용):        추론 시 (Dropout 미적용):
-  [입력] → [○][○][×][○][×]       [입력] → [○][○][○][○][○]
+  [입력] -> [○][○][×][○][×]       [입력] -> [○][○][○][○][○]
            (× = 비활성화)                 (전체 뉴런 사용)
 ```
 
@@ -164,7 +164,7 @@ tags = ["studynote-ai"]
 - 훈련 오차와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차의 격차 최소화
 
 ### 5.2 결론
-과대적합은 모든 ML 모델이 직면하는 본질적 도전이다. [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)를 이해하고, L1/L2 규제, [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 등 상황에 맞는 기법을 선택하는 능력이 ML 엔지니어의 핵심 역량이다. 기술사 시험에서는 과대적합 원인 → 진단 방법 → 해결 기법을 체계적으로 서술할 수 있어야 한다.
+과대적합은 모든 ML 모델이 직면하는 본질적 도전이다. [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)를 이해하고, L1/L2 규제, [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 등 상황에 맞는 기법을 선택하는 능력이 ML 엔지니어의 핵심 역량이다. 기술사 시험에서는 과대적합 원인 -> 진단 방법 -> 해결 기법을 체계적으로 서술할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 과대적합 방지는 학생에게 "이 문제만 외우지 말고 개념을 이해해라"고 가르치는 것이다. 규제([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 그 훈육 과정에서 쓰이는 채점 기준이고, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)는 "이제 그만 외워도 돼"라는 선생님의 말이다.
 
@@ -184,7 +184,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [과대 적합 (Overfitting)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [과대 적합 (Overfitting)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -199,7 +199,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 245 / 420
 
-← **이전**: [244. 강화 학습 (Reinforcement Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/244_reinforcement_learning_mdp/)
-**다음**: [246. 과소 적합 (Underfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/) →
+<- **이전**: [244. 강화 학습 (Reinforcement Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/244_reinforcement_learning_mdp/)
+**다음**: [246. 과소 적합 (Underfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/) ->
 
 ---

@@ -27,7 +27,7 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 
 **SBT 특성**:
 - 발급(Mint)은 Issuer만 가능
-- 전송(Transfer) 불가 → 코드 레벨에서 막음
+- 전송(Transfer) 불가 -> 코드 레벨에서 막음
 - 취소(Revoke)는 Issuer·Holder 합의 또는 Issuer 단독 가능
 - 공개 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영구 저장
 
@@ -40,22 +40,22 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 ### SBT 발급·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 구조
 
 ```
-┌────────────────────────────────────────────────────┐
-│                SBT 생명주기                         │
-│                                                    │
-│  Issuer (발급자: 대학, 기업, 정부)                  │
-│    │ mint(soulAddress, tokenId, metadata)          │
-│    ▼                                               │
-│  Soul 지갑 (수신자 주소, 변경 불가 귀속)             │
-│    │ transfer() → REVERT (전송 불가)                │
-│    │                                               │
-│  Verifier (검증자)                                  │
-│    │ 블록체인에서 직접 조회                          │
-│    │ ownerOf(tokenId) → Soul 주소 확인              │
-│    │ tokenURI → 자격증 메타데이터 확인               │
-│    ▼                                               │
-│  검증 완료 (오프체인 API 없이 온체인 직접)           │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|                SBT 생명주기                         |
+|                                                    |
+|  Issuer (발급자: 대학, 기업, 정부)                  |
+|    | mint(soulAddress, tokenId, metadata)          |
+|    v                                               |
+|  Soul 지갑 (수신자 주소, 변경 불가 귀속)             |
+|    | transfer() -> REVERT (전송 불가)                |
+|    |                                               |
+|  Verifier (검증자)                                  |
+|    | 블록체인에서 직접 조회                          |
+|    | ownerOf(tokenId) -> Soul 주소 확인              |
+|    | tokenURI -> 자격증 메타데이터 확인               |
+|    v                                               |
+|  검증 완료 (오프체인 API 없이 온체인 직접)           |
++----------------------------------------------------+
 ```
 
 ### SBT vs VC(Verifiable Credential) 비교
@@ -94,8 +94,8 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 ```solidity
 interface IERC5192 {
     function locked(uint256 tokenId) external view returns (bool);
-    // locked() = true → 전송 불가 (SBT)
-    // locked() = false → 전송 가능 (일반 NFT)
+    // locked() = true -> 전송 불가 (SBT)
+    // locked() = false -> 전송 가능 (일반 NFT)
 }
 ```
 
@@ -116,9 +116,9 @@ interface IERC5192 {
 | **신용 이력** | 대출·연체 이력 | 낮음 (노출 위험) |
 
 ### 기술사 핵심 판단
-1. **"VC vs SBT 언제 쓰나?"**: 공개 무방한 자격증 → SBT 적합, 민감 정보 → VC + [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 적합
-2. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 충돌</strong>: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 vs 잊힐 권리 → SBT의 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
-3. **Soul 지갑 분실**: SBT는 Soul 주소에 귀속 → 주소 분실 시 자격 증명 접근 불가 → 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요
+1. **"VC vs SBT 언제 쓰나?"**: 공개 무방한 자격증 -> SBT 적합, 민감 정보 -> VC + [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 적합
+2. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 충돌</strong>: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 vs 잊힐 권리 -> SBT의 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
+3. **Soul 지갑 분실**: SBT는 Soul 주소에 귀속 -> 주소 분실 시 자격 증명 접근 불가 -> 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요
 4. <strong>DeSoc(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 사회)</strong>: 비탈릭 부테린의 장기 비전, SBT 기반 신용·평판 시스템
 
 - **📢 섹션 요약 비유**: — "SBT는 공개 벽에 내 이름을 새기는 것 — 자랑스러운 내용은 좋지만, 부끄러운 내용도 지우지 못한다는 것을 기억해야 한다.
@@ -153,7 +153,7 @@ SBT는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/2
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [SBT 소울바운드 토큰과 신원 인증] → [SBT의 Soul 주소 익명화에 활용]
+[관계 설명] -> [SBT 소울바운드 토큰과 신원 인증] -> [SBT의 Soul 주소 익명화에 활용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -168,7 +168,7 @@ SBT는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/2
 
 **진행 상황**: 543 / 552
 
-← **이전**: [542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/542_multisig_account_abstraction_erc4337/)
-**다음**: [544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/544_web3_decentralized_platform_economy/) →
+<- **이전**: [542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/542_multisig_account_abstraction_erc4337/)
+**다음**: [544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/544_web3_decentralized_platform_economy/) ->
 
 ---

@@ -23,15 +23,15 @@ tags = ["studynote-design-supervision"]
 - OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (수 ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))
 - [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드 증가
 
-초당 1,000개 요청이 들어오는 서버에서 매 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 초당 1,000번의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸이 발생 → 실제 처리보다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 비용이 더 커지는 역설.
+초당 1,000개 요청이 들어오는 서버에서 매 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 초당 1,000번의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸이 발생 -> 실제 처리보다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 비용이 더 커지는 역설.
 
 ```
 사전 스레드 생성:
-  Pool 초기화 → N개 스레드를 미리 생성하여 대기(IDLE) 상태로 유지
+  Pool 초기화 -> N개 스레드를 미리 생성하여 대기(IDLE) 상태로 유지
 
 요청 처리:
-  요청 도착 → Work Queue에 삽입 → 유휴 스레드가 작업 꺼내 실행
-              → 실행 완료 → 스레드 Pool로 반환 (소멸 X, 재사용 O)
+  요청 도착 -> Work Queue에 삽입 -> 유휴 스레드가 작업 꺼내 실행
+              -> 실행 완료 -> 스레드 Pool로 반환 (소멸 X, 재사용 O)
 ```
 
 - 웹 서버의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 처리
@@ -40,9 +40,9 @@ tags = ["studynote-design-supervision"]
 - [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 병렬화
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 택시 회사에서 손님이 올 때마다 기사를 새로 고용하는 것이 아니라, 기사들을 대기실(Pool)에 준비시켜두고 호출이 오면 배차하는 것이 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이다.
@@ -51,27 +51,27 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                   Thread Pool Architecture                     │
-│                                                                │
-│  ┌──────────────┐    submit()    ┌──────────────────────────┐  │
-│  │   Client     │───────────────▶│     Work Queue           │  │
-│  │  (호출자)    │                │  [Task1][Task2][Task3]..  │  │
-│  └──────────────┘                └────────────┬─────────────┘  │
-│                                               │                │
-│                         ┌─────────────────────┘                │
-│                         │ 작업 가져가기 (take)                   │
-│                         ▼                                      │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                   Thread Pool                           │   │
-│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐           │   │
-│  │  │ Thread-1  │  │ Thread-2  │  │ Thread-N  │  (IDLE)   │   │
-│  │  │ [Task1]   │  │ [Task2]   │  │  대기 중   │           │   │
-│  │  └───────────┘  └───────────┘  └───────────┘           │   │
-│  │                                                         │   │
-│  │  corePoolSize ~ maximumPoolSize (동적 확장 구간)         │   │
-│  └─────────────────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                   Thread Pool Architecture                     |
+|                                                                |
+|  +--------------+    submit()    +--------------------------+  |
+|  |   Client     |---------------->|     Work Queue           |  |
+|  |  (호출자)    |                |  [Task1][Task2][Task3]..  |  |
+|  +--------------+                +------------+-------------+  |
+|                                               |                |
+|                         +---------------------+                |
+|                         | 작업 가져가기 (take)                   |
+|                         v                                      |
+|  +---------------------------------------------------------+   |
+|  |                   Thread Pool                           |   |
+|  |  +-----------+  +-----------+  +-----------+           |   |
+|  |  | Thread-1  |  | Thread-2  |  | Thread-N  |  (IDLE)   |   |
+|  |  | [Task1]   |  | [Task2]   |  |  대기 중   |           |   |
+|  |  +-----------+  +-----------+  +-----------+           |   |
+|  |                                                         |   |
+|  |  corePoolSize ~ maximumPoolSize (동적 확장 구간)         |   |
+|  +---------------------------------------------------------+   |
++----------------------------------------------------------------+
 ```
 
 | 파라미터 | 설명 | 기본값/권장 |
@@ -112,10 +112,10 @@ I/O 바운드 작업:  N_threads = N_cpu × (1 + 대기시간 / 처리시간)
 
 ```
 스레드 기아 시나리오:
-  Task A (풀 점유) → 내부에서 Task B를 submit()
-  → Task B는 큐에서 대기
-  → 그러나 모든 스레드가 Task A로 점유되어 Task B를 실행할 스레드 없음
-  → Task A는 Task B 완료를 기다림 → 교착 상태(Deadlock)
+  Task A (풀 점유) -> 내부에서 Task B를 submit()
+  -> Task B는 큐에서 대기
+  -> 그러나 모든 스레드가 Task A로 점유되어 Task B를 실행할 스레드 없음
+  -> Task A는 Task B 완료를 기다림 -> 교착 상태(Deadlock)
 
 해결책:
   1. 독립 스레드 풀 사용 (작업 유형별 풀 분리)
@@ -198,7 +198,7 @@ Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [Th
 | 측정 도구 | Micrometer / [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 지표 모니터링 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-작업 큐 → 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 패턴 → Executor [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
+작업 큐 -> 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 패턴 -> Executor [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 놀이공원에서 놀이기구 마다 안전요원이 항상 대기(Pool)해 있어서 줄 서는 손님(요청)이 오면 바로 운행(처리)할 수 있어.
@@ -211,7 +211,7 @@ Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [Th
 
 **진행 상황**: 276 / 530
 
-← **이전**: [214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/)
-**다음**: [216. 모나드 패턴 (Monad / Functional Programming Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/216_monad_functional_pattern/) →
+<- **이전**: [214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/)
+**다음**: [216. 모나드 패턴 (Monad / Functional Programming Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/216_monad_functional_pattern/) ->
 
 ---

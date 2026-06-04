@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [자율-구동 네트워크]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 병목 검증]
-    │
-    └──▶ [퍼시스턴트 토폴로지 관리]
+    |
+    +---> [퍼시스턴트 토폴로지 관리]
 ```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [자율-구동 네트워크]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 병목 검증]
-    │
-    └──▶ [퍼시스턴트 토폴로지 관리]
+    |
+    +---> [퍼시스턴트 토폴로지 관리]
 ```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -114,12 +114,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 자율-구동 네트워크]
-    │
-    ▼
+    |
+    v
 [현재 개념: 디지털 트윈 병목 검증]
-    │
-    ├──▶ [확장 A: 퍼시스턴트 토폴로지 관리]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 퍼시스턴트 토폴로지 관리]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)는 [자율-구동 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -136,7 +136,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1024 / 1120
 
-← **이전**: [902. 자율-구동 네트워크 (ADN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)
-**다음**: [904. 퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) →
+<- **이전**: [902. 자율-구동 네트워크 (ADN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)
+**다음**: [904. 퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) ->
 
 ---

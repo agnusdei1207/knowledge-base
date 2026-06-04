@@ -27,19 +27,19 @@ RZ (Return to Zero):
   데이터: 1  0  1  1  0  1
 
   RZ 단극성 (Unipolar RZ):
-  |¯| |¯|¯| |¯|
+  |+| |+|+| |+|
   0               (1=+V 전반, 0=0V 내내, 0V로 복귀)
 
   RZ 양극성 (Bipolar RZ / AMI 변형):
-  |¯|  |-|¯|  |-|
+  |+|  |-|+|  |-|
        (1=교대로 +V/-V, 0=0V)
 ```
 
 | 구분      | 1 표현          | 0 표현    | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)     |
 |---------|---------------|--------|----------|
 | NRZ-L   | +V 유지        | -V 유지  | 불가      |
-| RZ 단극성 | +V → 0V       | 0V 유지  | 가능      |
-| RZ 양극성 | ±V → 0V 교대   | 0V 유지  | 가능      |
+| RZ 단극성 | +V -> 0V       | 0V 유지  | 가능      |
+| RZ 양극성 | ±V -> 0V 교대   | 0V 유지  | 가능      |
 
 > 📢 **섹션 요약 비유**: NRZ가 도로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(초록/빨강 계속 유지)이라면, RZ는 점멸 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 — 항상 중간에 한 번씩 꺼졌다가 켜져서 리듬을 알 수 있다.
 
@@ -57,7 +57,7 @@ NRZ:
 
 RZ:
   비트 주기 = 1μs이지만
-  신호 전환 = 비트 당 2번 (1MHz → 0V, 다음 비트)
+  신호 전환 = 비트 당 2번 (1MHz -> 0V, 다음 비트)
   대역폭 요구 ≈ 1MHz  (NRZ의 2배!)
 
 결론:
@@ -211,7 +211,7 @@ NRZ 효율 + 클락 정보 내포
 
 **진행 상황**: 38 / 1120
 
-← **이전**: [037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩](/knowledge-base/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)
-**다음**: [039. 맨체스터 / 차분 맨체스터 인코딩](/knowledge-base/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/) →
+<- **이전**: [037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩](/knowledge-base/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)
+**다음**: [039. 맨체스터 / 차분 맨체스터 인코딩](/knowledge-base/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/) ->
 
 ---

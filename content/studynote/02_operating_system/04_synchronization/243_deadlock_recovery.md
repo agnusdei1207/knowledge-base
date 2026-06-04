@@ -27,13 +27,13 @@ tags = ["studynote-operating-system"]
 ```text
   [교착 상태 복구(Recovery)의 2가지 근본적 접근법]
 
-  [ 1. 프로세스 종료 (Process Termination) ] ─▶ 깡패식 접근
+  [ 1. 프로세스 종료 (Process Termination) ] --> 깡패식 접근
   - 방법 A: "다 죽여!" (데드락에 연루된 모든 프로세스 동시 사살)
-    ▶ 장점: 확실함 / 단점: 그동안 했던 연산 다 날아감 (피해 막심)
+    -> 장점: 확실함 / 단점: 그동안 했던 연산 다 날아감 (피해 막심)
   - 방법 B: "원 풀릴 때까지 한 놈씩 죽여!" (희생자 골라 죽이기)
-    ▶ 장점: 피해 최소화 / 단점: 죽일 때마다 데드락 탐지 알고리즘을 또 돌려봐야 함
+    -> 장점: 피해 최소화 / 단점: 죽일 때마다 데드락 탐지 알고리즘을 또 돌려봐야 함
 
-  [ 2. 자원 선점 (Resource Preemption) ] ─▶ 신사적 접근
+  [ 2. 자원 선점 (Resource Preemption) ] --> 신사적 접근
   - 방법: "프로세스는 살려둘 테니, 네가 쥐고 있는 자원(Lock)만 내놔!"
   - 문제점: 뺏긴 놈이 쓰던 데이터를 10분 전으로 되돌려야 함 (Rollback).
            일반 C/Java 프로그램은 이런 타임머신 기능이 없음.
@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 
 ### [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제3원칙: [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지
 가장 만만한 놈(비용이 싼 놈)만 계속 희생자로 고르다 보면, <strong>그 불쌍한 놈은 평생 10초 돌고 죽고, 10초 돌고 죽기를 반복하며 영원히 작업을 못 끝내는 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a></strong>에 빠진다.
-▶ **해결책**: 희생자 선정 공식에 반드시 <strong>"지금까지 희생자로 선정된 횟수 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Count)"를 가산점</strong>으로 넣어서, 3번 이상 죽은 놈은 무적 방패를 씌워주어야 한다.
+-> **해결책**: 희생자 선정 공식에 반드시 <strong>"지금까지 희생자로 선정된 횟수 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Count)"를 가산점</strong>으로 넣어서, 3번 이상 죽은 놈은 무적 방패를 씌워주어야 한다.
 
 - **📢 섹션 요약 비유**: 은행 강도를 잡기 위해 인질 1명을 희생시켜야 한다면([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)), 나이 든 사람보다 구하기 쉬운 사람, 혹은 이미 다친 사람을 먼저 구하는 식의 피도 눈물도 없는 공학적 계산이 들어갑니다. 단, 매번 같은 사람만 희생시키면 그 사람은 너무 억울하니까([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 몇 번 희생된 사람은 다음엔 무조건 살려주는 보상 제도가 필요합니다.
 
@@ -99,22 +99,22 @@ tags = ["studynote-operating-system"]
    - **실무 조치**: K8s는 복잡하게 락을 뺏고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하지 않는다. 아예 그 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체를 <strong>SIGKILL로 통째로 폭파(Abort)</strong>시키고, 깨끗한 새 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 복제해 띄워버린다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대에는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체가 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))이므로 가능한, 가장 무식하지만 완벽한 형태의 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 아키텍처다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     실무에서 데드락(Deadlock) 에러를 맞이하는 백엔드 아키텍처      │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [ MySQL InnoDB에서 Deadlock Found 에러 발생! ]                   │
-  │                │                                                   │
-  │                ▼ [ 1차 방어막: Application Retry ]                 │
-  │     ▶ `try-catch` 또는 `@Retryable`로 감싸서 3번까지 재시도.       │
-  │     ▶ 효과: 데드락은 타이밍 문제이므로 100ms 뒤에 다시 쏘면        │
-  │             대부분 정상적으로 통과됨. (유저는 에러를 못 느낌)      │
-  │                │                                                   │
-  │                ▼ [ 2차 방어막: 코드 구조 리팩토링 ]                │
-  │     ▶ 데드락이 하루에 100번 이상 터진다면 재시도 오버헤드가 큼.    │
-  │     ▶ 조치: 트랜잭션 길이를 짧게 쪼개거나(Short Transaction),      │
-  │            테이블 업데이트 순서(Lock Ordering)를 알파벳순으로 통일!│
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     실무에서 데드락(Deadlock) 에러를 맞이하는 백엔드 아키텍처      |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [ MySQL InnoDB에서 Deadlock Found 에러 발생! ]                   |
+  |                |                                                   |
+  |                v [ 1차 방어막: Application Retry ]                 |
+  |     -> `try-catch` 또는 `@Retryable`로 감싸서 3번까지 재시도.       |
+  |     -> 효과: 데드락은 타이밍 문제이므로 100ms 뒤에 다시 쏘면        |
+  |             대부분 정상적으로 통과됨. (유저는 에러를 못 느낌)      |
+  |                |                                                   |
+  |                v [ 2차 방어막: 코드 구조 리팩토링 ]                |
+  |     -> 데드락이 하루에 100번 이상 터진다면 재시도 오버헤드가 큼.    |
+  |     -> 조치: 트랜잭션 길이를 짧게 쪼개거나(Short Transaction),      |
+  |            테이블 업데이트 순서(Lock Ordering)를 알파벳순으로 통일!|
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보자는 데드락 에러가 나면 무서워서 락을 다 풀어버리거나 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 포기한다. 시니어는 데드락 에러가 나는 것을 "DB가 일 잘하고 있네"라며 자연스러운 일상으로 받아들이고, 에러 발생 시 부드럽게 재시도(Retry)하는 래퍼(Wrapper) 코드를 짜서 시스템의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)을 올리는 데 집중한다.
 
@@ -128,7 +128,7 @@ tags = ["studynote-operating-system"]
 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 시스템에 잘 구현해 두면, 평상시에는 락 순서나 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 무거운 제약 없이 <strong>최고 속도(100% 스루풋)로 자원을 남용</strong>하다가, 만에 하나 터지는 데드락 지뢰만 외과 수술처럼 정밀 타격하여 제거함으로써 극한의 성능과 안정성이라는 두 마리 토끼를 잡을 수 있다.
 
 ### 결론 및 미래 전망
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리의 4단계 진화(예방 ─▶ 회피 ─▶ 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ─▶ 무시)는 결국 "버그를 완벽히 막는 비용이, 버그가 터졌을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 비용보다 비싸다"는 컴퓨터 공학의 절대 진리를 증명하는 과정이었다.
+[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리의 4단계 진화(예방 --> 회피 --> 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) --> 무시)는 결국 "버그를 완벽히 막는 비용이, 버그가 터졌을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 비용보다 비싸다"는 컴퓨터 공학의 절대 진리를 증명하는 과정이었다.
 미래의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델인 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">소프트웨어 트랜잭셔널 메모리</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">STM</a>)</strong>와 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> 패턴</strong>은 아예 이 "탐지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"의 철학을 언어와 아키텍처의 기본 문법으로 흡수했다. 처음부터 데드락을 겁내지 않고 낙관적(Optimistic)으로 막무가내로 연산한 뒤, 충돌이 나면 뒤도 안 돌아보고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 '실패를 가정한 설계(Design for Failure)'가 21세기 시스템 공학의 영원한 패러다임이 되었다.
 
 - **📢 섹션 요약 비유**: 옛날엔 도자기를 구울 때 금이 가지 않게(예방/회피) 며칠 밤낮을 온도계만 쳐다봤습니다. 지금의 공장(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 일단 1만 개의 도자기를 미친 속도로 구워낸 뒤, 금이 간 몇 개만 망치로 깨서(Kill) 버리는 것이 훨씬 돈을 많이 번다는 것을 깨달은 것입니다.
@@ -148,12 +148,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [우선순위 역전 (Priority Inversion)]
-    │
-    ▼
+    |
+    v
 [교착 상태 복구 (Deadlock Recovery)]
-    │
-    ├──▶ [우선순위 올림 (Priority Ceiling Protocol)]
-    └──▶ [고전적 동기화 문제들]
+    |
+    +---> [우선순위 올림 (Priority Ceiling Protocol)]
+    +---> [고전적 동기화 문제들]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -170,7 +170,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 243 / 800
 
-← **이전**: [242. 교착 상태 탐지 (Deadlock Detection)](/knowledge-base/studynote/02_operating_system/04_synchronization/242_deadlock_detection/)
-**다음**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) →
+<- **이전**: [242. 교착 상태 탐지 (Deadlock Detection)](/knowledge-base/studynote/02_operating_system/04_synchronization/242_deadlock_detection/)
+**다음**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) ->
 
 ---

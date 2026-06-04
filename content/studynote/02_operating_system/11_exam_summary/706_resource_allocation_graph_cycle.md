@@ -51,19 +51,19 @@ tags = ["studynote-operating-system"]
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 법은 매우 직관적이다. 자원(사각형) 안에 있는 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))의 개수는 그 자원의 <strong>인스턴스(개수)</strong>를 의미한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 자원 할당 그래프 (RAG) 점과 선의 의미                   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ P1 ] ────(요청 간선)────▶ [ R1 (점 1개) ]                     │
-  │     ▲                             │                               │
-  │     │                             │                               │
-  │     └────────(할당 간선)──────────┘                               │
-  │                                                                   │
-  │  해석: P1이 R1에게 자원을 달라고 요청(->)했는데, R1 안의 유일한 자원 1개가 │
-  │        이미 P1 자신에게 할당(<-)되어 있다.                             │
-  │        (일반적인 락 획득 상태)                                       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 자원 할당 그래프 (RAG) 점과 선의 의미                   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ P1 ] ----(요청 간선)-----> [ R1 (점 1개) ]                     |
+  |     ^                             |                               |
+  |     |                             |                               |
+  |     +--------(할당 간선)----------+                               |
+  |                                                                   |
+  |  해석: P1이 R1에게 자원을 달라고 요청(->)했는데, R1 안의 유일한 자원 1개가 |
+  |        이미 P1 자신에게 할당(<-)되어 있다.                             |
+  |        (일반적인 락 획득 상태)                                       |
+  +-------------------------------------------------------------------+
 ```
 
 ---
@@ -125,25 +125,25 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템의 교착 상태(Deadlock) 해결 전략 선택 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드/멀티프로세스 환경의 교착 상태 방어 아키텍처 수립]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      OS 커널 단에서 실시간으로 자원 할당 그래프(RAG)를 그려서 사이클을 찾는가?│
-  │          ├─ 예 ─────▶ [엄청난 성능 오버헤드 (O(N^2))]                 │
-  │          │            결론: Windows, Linux 등 현대 범용 OS는 이 방식을   │
-  │          │                  아예 포기함 (타조 알고리즘 적용).            │
-  │          └─ 아니오 ──▶ 그럼 누가 이 귀찮은 사이클 탐지를 하는가?           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │             [응용 프로그램 또는 DBMS 레벨에 위임]                      │
-  │             1) DB: 트랜잭션 락은 짧으므로 WFG 기반 실시간 감지 & Kill 적용 │
-  │             2) 앱: 개발자가 Lock Ordering 규칙(원형 대기 부정)을 소스코드  │
-  │                    에 강제하여 원천적으로 사이클 생성을 차단               │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 시스템의 교착 상태(Deadlock) 해결 전략 선택 플로우          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티스레드/멀티프로세스 환경의 교착 상태 방어 아키텍처 수립]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      OS 커널 단에서 실시간으로 자원 할당 그래프(RAG)를 그려서 사이클을 찾는가?|
+  |          +- 예 ------> [엄청난 성능 오버헤드 (O(N^2))]                 |
+  |          |            결론: Windows, Linux 등 현대 범용 OS는 이 방식을   |
+  |          |                  아예 포기함 (타조 알고리즘 적용).            |
+  |          +- 아니오 ---> 그럼 누가 이 귀찮은 사이클 탐지를 하는가?           |
+  |                |                                                  |
+  |                v                                                  |
+  |             [응용 프로그램 또는 DBMS 레벨에 위임]                      |
+  |             1) DB: 트랜잭션 락은 짧으므로 WFG 기반 실시간 감지 & Kill 적용 |
+  |             2) 앱: 개발자가 Lock Ordering 규칙(원형 대기 부정)을 소스코드  |
+  |                    에 강제하여 원천적으로 사이클 생성을 차단               |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드를 아무리 뒤져봐도 "데드락 사이클 탐지" 로직은 없다. OS가 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 1ms마다 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색을 돌리면 컴퓨터가 멈출 것이다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 모델은 OS가 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 만든 것이 아니라, "개발자 너희들이 머릿속으로 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그려보고 사이클이 안 나게 코드를 짜라"고 던져준 수학적 분석 도구(Modeling Tool)에 가깝다.
@@ -189,12 +189,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [교착 상태 4가지 조건]
-    │
-    ▼
+    |
+    v
 [자원 할당 그래프 사이클 (Resource Allocation Graph Cycle)]
-    │
-    ├──▶ [은행원 알고리즘 안전 상태]
-    └──▶ [교착 상태 무시 (타조 알고리즘)]
+    |
+    +---> [은행원 알고리즘 안전 상태]
+    +---> [교착 상태 무시 (타조 알고리즘)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -211,7 +211,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 706 / 800
 
-← **이전**: [705. 교착 상태 4가지 조건 (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/11_exam_summary/705_deadlock_four_necessary_conditions/)
-**다음**: [707. 은행원 알고리즘 안전 상태 (Bankers Algorithm Safe State)](/knowledge-base/studynote/02_operating_system/11_exam_summary/707_bankers_algorithm_safe_state/) →
+<- **이전**: [705. 교착 상태 4가지 조건 (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/11_exam_summary/705_deadlock_four_necessary_conditions/)
+**다음**: [707. 은행원 알고리즘 안전 상태 (Bankers Algorithm Safe State)](/knowledge-base/studynote/02_operating_system/11_exam_summary/707_bankers_algorithm_safe_state/) ->
 
 ---

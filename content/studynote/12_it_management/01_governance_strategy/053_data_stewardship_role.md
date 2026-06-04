@@ -32,9 +32,9 @@ tags = ["studynote-it-management"]
 스튜어드는 오너와 달리 최종 책임자는 아니지만, 운영의 첫 번째 실무 담당자다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 품질 규칙, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 이슈 트래킹을 현장에서 다룬다.
 
 ```text
-Data Owner → Policy / Accountability
-Data Steward → Definition / Quality / Issue Handling
-Data Custodian → System Operation
+Data Owner -> Policy / Accountability
+Data Steward -> Definition / Quality / Issue Handling
+Data Custodian -> System Operation
 ```
 
 | 역할 | 책임 | 예시 |
@@ -111,14 +111,14 @@ Data Custodian → System Operation
 
 ```text
 정책 수립
-    │
-    ▼
+    |
+    v
 Data Owner
-    │
-    ▼
+    |
+    v
 Data Steward
-    │
-    ▼
+    |
+    v
 카탈로그 / 품질 / 이슈 처리
 ```
 
@@ -136,7 +136,7 @@ Data Steward
 
 **진행 상황**: 96 / 587
 
-← **이전**: [53. 데이터 스튜어드십 (Data Stewardship)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship/)
-**다음**: [54. IT 감사 (IT Audit)](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/) →
+<- **이전**: [53. 데이터 스튜어드십 (Data Stewardship)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship/)
+**다음**: [54. IT 감사 (IT Audit)](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/) ->
 
 ---

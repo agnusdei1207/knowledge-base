@@ -33,11 +33,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 1초 단위 원본
-   ↓
+   v
 1분 집계
-   ↓
+   v
 1시간 집계
-   ↓
+   v
 장기 보관
 ```
 
@@ -94,11 +94,11 @@ TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ```text
 원본 시계열 데이터
-   ↓
+   v
 다운샘플링
-   ↓
+   v
 집계 데이터
-   ↓
+   v
 보존 정책
 ```
 
@@ -106,11 +106,11 @@ TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 고해상도 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 저장 비용 증가
-2. 다운샘플링 → 요약 저장으로 비용 절감
-3. 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기 관리
-4. Continuous Query → 자동 집계와 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
-5. 계층적 보관 → 최근/중간/장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리
+1. 고해상도 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 저장 비용 증가
+2. 다운샘플링 -> 요약 저장으로 비용 절감
+3. 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기 관리
+4. Continuous Query -> 자동 집계와 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+5. 계층적 보관 -> 최근/중간/장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리
 
 ---
 
@@ -126,7 +126,7 @@ TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cl
 
 **진행 상황**: 57 / 258
 
-← **이전**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/)
-**다음**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) →
+<- **이전**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/)
+**다음**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) ->
 
 ---

@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 윈도우가 단순한 저장 공간이 아니라, "앞으로 볼 수 있는 범위" 자체라는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     OoO window = visible in-flight range                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Fetch → Decode → Rename → [ ROB (Reorder Buffer) / Issue Queue /          │
-│                               LSQ (Load-Store Queue) / Physical Register   │
-│                               File ] → Execute → Commit                    │
-│                           └──────── current OoO window ────────┘          │
-│                                                                            │
-│ oldest in-flight op                                            youngest op │
-│      │                                                                │    │
-│      ▼                                                                ▼    │
-│   head of ROB  ───────────────── visible future instructions ─────▶  tail   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                     OoO window = visible in-flight range                  |
++----------------------------------------------------------------------------+
+| Fetch -> Decode -> Rename -> [ ROB (Reorder Buffer) / Issue Queue /          |
+|                               LSQ (Load-Store Queue) / Physical Register   |
+|                               File ] -> Execute -> Commit                    |
+|                           +-------- current OoO window --------+          |
+|                                                                            |
+| oldest in-flight op                                            youngest op |
+|      |                                                                |    |
+|      v                                                                v    |
+|   head of ROB  ----------------- visible future instructions ------>  tail   |
++----------------------------------------------------------------------------+
 ```
 
 따라서 윈도우는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 저장한다"는 뜻보다 "가로막힌 지점을 우회할 선택지를 얼마나 확보하느냐"에 더 가깝다. 결국 넓은 윈도우는 고성능 코어가 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고, 그 시간을 다른 일로 메우게 하는 기본 조건이 된다.
@@ -54,19 +54,19 @@ tags = ["studynote-computer-architecture"]
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. <strong>필요한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a> ≈ 숨기고 싶은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> × 그동안 유지하고 싶은 유효 발급률</strong>이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   How a large window hides a long-latency load            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ ROB order : [LD miss][ADD][MUL][ADD][BR][LD][ADD][ST][XOR][CMP]...       │
-│               wait      ready ready ready ?   ready ready ready ready     │
-│                                                                            │
-│ issue now :                ADD ─▶ arithmetic unit                          │
-│                             MUL ─▶ multiply unit                            │
-│                              LD ─▶ address unit                             │
-│                                                                            │
-│ rule : older LD is still unresolved, but younger independent ops can run   │
-│        as long as data / branch / memory-order constraints allow it        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   How a large window hides a long-latency load            |
++----------------------------------------------------------------------------+
+| ROB order : [LD miss][ADD][MUL][ADD][BR][LD][ADD][ST][XOR][CMP]...       |
+|               wait      ready ready ready ?   ready ready ready ready     |
+|                                                                            |
+| issue now :                ADD --> arithmetic unit                          |
+|                             MUL --> multiply unit                            |
+|                              LD --> address unit                             |
+|                                                                            |
+| rule : older LD is still unresolved, but younger independent ops can run   |
+|        as long as data / branch / memory-order constraints allow it        |
++----------------------------------------------------------------------------+
 ```
 
 | 윈도우를 제한하는 요소 | 역할 | 포화 시 나타나는 현상 |
@@ -147,24 +147,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 In-order execution
-      │
-      ▼
+      |
+      v
 Scoreboarding
-      │
-      ▼
+      |
+      v
 OoO execution + reorder buffer
-      │
-      ▼
+      |
+      v
 Larger instruction windows
-      │
-      ▼
+      |
+      v
 ROB / IQ / LSQ co-scaling
-      │
-      ▼
+      |
+      v
 Latency-tolerant clustered OoO cores
 ```
 
-이 흐름은 "순차 실행 → [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 → 윈도우 확대 → 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
+이 흐름은 "순차 실행 -> [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 -> 윈도우 확대 -> 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -178,7 +178,7 @@ Latency-tolerant clustered OoO cores
 
 **진행 상황**: 502 / 803
 
-← **이전**: [501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/501_superscalar_issue_queue/)
-**다음**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/) →
+<- **이전**: [501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/501_superscalar_issue_queue/)
+**다음**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/) ->
 
 ---

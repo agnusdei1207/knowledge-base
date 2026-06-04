@@ -27,15 +27,15 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 이 그림은 ESS가 남는 전력을 흡수해 피크 시간에 다시 공급하는 "시간 이동" 장치임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│             ESS time-shift: store now, use later                │
-├──────────────────────────────────────────────────────────────────┤
-│ Low demand / surplus power   ──▶ [ Charge ESS ]                 │
-│                                                                  │
-│ High demand / peak tariff    ◀── [ Discharge ESS ]              │
-│                                                                  │
-│ Goal: flatten load, reduce curtailment, support grid stability  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             ESS time-shift: store now, use later                |
++------------------------------------------------------------------+
+| Low demand / surplus power   ---> [ Charge ESS ]                 |
+|                                                                  |
+| High demand / peak tariff    <--- [ Discharge ESS ]              |
+|                                                                  |
+| Goal: flatten load, reduce curtailment, support grid stability  |
++------------------------------------------------------------------+
 ```
 
 즉 ESS는 단순한 비상 배터리가 아니라, 전력 품질과 경제성을 동시에 다루는 운영 장치다. 없으면 계통은 더 자주 흔들리고, 사업자는 전력 요금과 설비 비용을 더 크게 부담하게 된다.
@@ -46,7 +46,7 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-배터리형 ESS는 보통 셀 (Cell) → [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) → 랙 (Rack) → [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위로 확장되며, 그 위에 전력변환장치 ([PCS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/), [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System), 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System), 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이 결합된다. BMS는 셀 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
+배터리형 ESS는 보통 셀 (Cell) -> [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) -> 랙 (Rack) -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위로 확장되며, 그 위에 전력변환장치 ([PCS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/), [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System), 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System), 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이 결합된다. BMS는 셀 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-------- | :--- | :---------- |
@@ -59,19 +59,19 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 아래 구조는 ESS가 단순 배터리 상자가 아니라 "저장-변환-제어-[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"가 함께 움직이는 시스템임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                    Battery ESS architecture                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Grid / Solar / Wind                                             │
-│        │                                                        │
-│        ▼                                                        │
-│   [ PCS ] <──── command ──── [ EMS ]                            │
-│        │                           │                            │
-│        ▼                           │                            │
-│ [ Battery Rack ] <────────────── [ BMS ]                        │
-│        │                                                        │
-│        └── sensors: voltage / current / temperature             │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                    Battery ESS architecture                     |
++------------------------------------------------------------------+
+| Grid / Solar / Wind                                             |
+|        |                                                        |
+|        v                                                        |
+|   [ PCS ] <---- command ---- [ EMS ]                            |
+|        |                           |                            |
+|        v                           |                            |
+| [ Battery Rack ] <-------------- [ BMS ]                        |
+|        |                                                        |
+|        +-- sensors: voltage / current / temperature             |
++------------------------------------------------------------------+
 ```
 
 실무에서는 응답 속도와 저장 시간이 함께 중요하다. 리튬이온 기반 ESS는 수 밀리초~수초 수준으로 빠르게 반응해 주파수 조정 (FR, Frequency Regulation)에 유리하고, 왕복 효율도 대체로 85~95% 수준으로 높다. 반면 저장 시간이 길어질수록 설비 비용, 열관리, 수명 열화가 더 큰 설계 이슈가 된다.
@@ -147,17 +147,17 @@ ESS를 제대로 보려면 [UPS](/knowledge-base/studynote/01_computer_architect
 
 ```text
 부하 변동 · 재생에너지 확대
-    │
-    ▼
+    |
+    v
 ESS (Energy Storage System)
-    │
-    ▼
+    |
+    v
 BMS · PCS · EMS 통합 제어
-    │
-    ▼
+    |
+    v
 피크 절감 · 주파수 조정 · 출력 평탄화
-    │
-    ▼
+    |
+    v
 VPP (Virtual Power Plant) · 스마트 그리드
 ```
 
@@ -175,7 +175,7 @@ VPP (Virtual Power Plant) · 스마트 그리드
 
 **진행 상황**: 164 / 552
 
-← **이전**: [163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)
-**다음**: [165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) →
+<- **이전**: [163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)
+**다음**: [165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) ->
 
 ---

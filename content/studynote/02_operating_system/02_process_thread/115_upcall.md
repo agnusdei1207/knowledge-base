@@ -27,34 +27,34 @@ tags = ["studynote-operating-system"]
 업콜과 기존 시그널 기반 통지의 차이를 시각화하면 업콜이 왜 필요한지 명확히 이해할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│          시그널 (Signal) vs 업콜 (Upcall) 비교 구조                │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  [시그널 기반 통지 (기존 방식)]                                    │
-│                                                                    │
-│  커널 ──(sig=SIGIO, val=fd번호)──▶ 프로세스                        │
-│         전달 정보: 정수 1개 (fd 번호)                              │
-│         핸들러: 시그널 안전 함수만 호출 가능                       │
-│         문제: 복잡한 스레드 재스케줄링 로직 실행 불가              │
-│                                                                    │
-│  [업콜 기반 통지 (스케줄러 액티베이션)]                            │
-│                                                                    │
-│  커널 ──(upcall_type, LWP번호, UT정보, 이벤트상세)──▶              │
-│         유저 라이브러리의 업콜 핸들러                              │
-│         전달 정보: 구조체 (다양한 메타데이터 포함)                 │
-│         핸들러: 일반 유저 함수와 동일한 환경에서 실행              │
-│         장점: 스레드 스케줄링, LWP 할당 등 복잡한 로직 수행 가능   │
-│                                                                    │
-│  ┌────────────────────────────────────────────────────────┐        │
-│  │                                                        │        │
-│  │  시그널:   "뭐가 바뀌었는진 모르겠고, 일단 알려줄게!"       │   │
-│  │  업콜:     "UT-3이 I/O 블로킹됐고, LWP-1이 선점당했고,   │      │
-│  │            현재 레디 큐에 UT-1, UT-4가 있으니             │     │
-│  │            LWP-2에 UT-1을 올려!" (상세한 지시 가능)          │  │
-│  │                                                        │        │
-│  └────────────────────────────────────────────────────────┘        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|          시그널 (Signal) vs 업콜 (Upcall) 비교 구조                |
++--------------------------------------------------------------------+
+|                                                                    |
+|  [시그널 기반 통지 (기존 방식)]                                    |
+|                                                                    |
+|  커널 --(sig=SIGIO, val=fd번호)---> 프로세스                        |
+|         전달 정보: 정수 1개 (fd 번호)                              |
+|         핸들러: 시그널 안전 함수만 호출 가능                       |
+|         문제: 복잡한 스레드 재스케줄링 로직 실행 불가              |
+|                                                                    |
+|  [업콜 기반 통지 (스케줄러 액티베이션)]                            |
+|                                                                    |
+|  커널 --(upcall_type, LWP번호, UT정보, 이벤트상세)--->              |
+|         유저 라이브러리의 업콜 핸들러                              |
+|         전달 정보: 구조체 (다양한 메타데이터 포함)                 |
+|         핸들러: 일반 유저 함수와 동일한 환경에서 실행              |
+|         장점: 스레드 스케줄링, LWP 할당 등 복잡한 로직 수행 가능   |
+|                                                                    |
+|  +--------------------------------------------------------+        |
+|  |                                                        |        |
+|  |  시그널:   "뭐가 바뀌었는진 모르겠고, 일단 알려줄게!"       |   |
+|  |  업콜:     "UT-3이 I/O 블로킹됐고, LWP-1이 선점당했고,   |      |
+|  |            현재 레디 큐에 UT-1, UT-4가 있으니             |     |
+|  |            LWP-2에 UT-1을 올려!" (상세한 지시 가능)          |  |
+|  |                                                        |        |
+|  +--------------------------------------------------------+        |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 시그널과 업콜의 가장 큰 차이는 "전달할 수 있는 정보의 풍부함"과 "핸들러의 실행 자유도"에 있다. 시그널은 단일 정수값만 전달할 수 있어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어떤 이유로 상태가 변했는지"를 상세히 알려줄 수 없다. 또한 시그널 핸들러 내에서는 비동기 시그널 안전 (Async-[signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)-safe) 함수만 호출할 수 있어 메모리 할당이나 락 획득 같은 복잡한 작업이 불가능하다. 반면 업콜 핸들러는 일반적인 유저 모드 함수 환경에서 실행되므로, 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 자신의 내부 자료구조(레디 큐, [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))를 자유롭게 조작하여 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 재스케줄링과 LWP 재할당을 수행할 수 있다. 이것이 업콜이 복잡한 M:N [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 시스템에서 필수적인 이유다.
@@ -80,47 +80,47 @@ tags = ["studynote-operating-system"]
 업콜이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 영역으로 제어권을 넘기는 과정은 일반적인 시스템 콜의 귀환과 유사하지만, 호출 주체가 반대라는 점이 결정적으로 다르다. 다음은 세 가지 이벤트 유형별 업콜 동작 흐름이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              세 가지 이벤트 유형별 업콜 동작 흐름                       │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  [이벤트 1: 블로킹 (Block)]                                             │
-│                                                                         │
-│  UT-A (LWP-1 위 실행) ──read() 시스템 콜──▶ 커널                        │
-│                                                │                        │
-│                              I/O 미완료 → LWP-1 Block                   │
-│                                                │                        │
-│                              업콜 발생! ──────▶ [LWP-2 위에서]          │
-│                                                │                        │
-│  핸들러: UT-A를 대기 큐로 이동, UT-B를 LWP-2에 할당                     │
-│                                                                         │
-│  ─────────────────────────────────────────────────                      │
-│                                                                         │
-│  [이벤트 2: 언블로킹 (Unblock)]                                         │
-│                                                                         │
-│  디스크 I/O 완료 ──▶ 커널이 완료 감지                                   │
-│                        │                                                │
-│              LWP-1을 Ready 큐로 복원                                    │
-│                        │                                                │
-│              업콜 발생! ──────▶ [LWP-1 위에서]                          │
-│                        │                                                │
-│  핸들러: UT-A를 레디 큐로 이동, LWP-1에서 UT-A 실행 재개                │
-│                                                                         │
-│  ─────────────────────────────────────────────────                      │
-│                                                                         │
-│  [이벤트 3: 선점 (Preempt)]                                             │
-│                                                                         │
-│  타이머 인터럽트 / 우선순위 높은 프로세스 도착                          │
-│                        │                                                │
-│  커널이 LWP-1 강제 회수                                                 │
-│                        │                                                │
-│  업콜 발생! ──────▶ [다른 LWP 위에서]                                   │
-│                        │                                                │
-│  핸들러: UT-B를 레디 큐로 보존, 남은 LWP에서 다른 UT 계속 실행          │
-│                                                                         │
-│  핵심: 모든 경우에 커널이 먼저 이벤트를 감지하고 유저 라이브러리에      │
-│        제어권을 넘겨 적절히 대응하도록 함                               │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|              세 가지 이벤트 유형별 업콜 동작 흐름                       |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  [이벤트 1: 블로킹 (Block)]                                             |
+|                                                                         |
+|  UT-A (LWP-1 위 실행) --read() 시스템 콜---> 커널                        |
+|                                                |                        |
+|                              I/O 미완료 -> LWP-1 Block                   |
+|                                                |                        |
+|                              업콜 발생! -------> [LWP-2 위에서]          |
+|                                                |                        |
+|  핸들러: UT-A를 대기 큐로 이동, UT-B를 LWP-2에 할당                     |
+|                                                                         |
+|  -------------------------------------------------                      |
+|                                                                         |
+|  [이벤트 2: 언블로킹 (Unblock)]                                         |
+|                                                                         |
+|  디스크 I/O 완료 ---> 커널이 완료 감지                                   |
+|                        |                                                |
+|              LWP-1을 Ready 큐로 복원                                    |
+|                        |                                                |
+|              업콜 발생! -------> [LWP-1 위에서]                          |
+|                        |                                                |
+|  핸들러: UT-A를 레디 큐로 이동, LWP-1에서 UT-A 실행 재개                |
+|                                                                         |
+|  -------------------------------------------------                      |
+|                                                                         |
+|  [이벤트 3: 선점 (Preempt)]                                             |
+|                                                                         |
+|  타이머 인터럽트 / 우선순위 높은 프로세스 도착                          |
+|                        |                                                |
+|  커널이 LWP-1 강제 회수                                                 |
+|                        |                                                |
+|  업콜 발생! -------> [다른 LWP 위에서]                                   |
+|                        |                                                |
+|  핸들러: UT-B를 레디 큐로 보존, 남은 LWP에서 다른 UT 계속 실행          |
+|                                                                         |
+|  핵심: 모든 경우에 커널이 먼저 이벤트를 감지하고 유저 라이브러리에      |
+|        제어권을 넘겨 적절히 대응하도록 함                               |
++-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도는 업콜이 세 가지 핵심 이벤트에서 어떻게 작동하는지를 보여준다. 블로킹 이벤트에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 LWP를 대기 상태로 전환한 뒤, 남아있는 다른 LWP(또는 새로 할당된 LWP) 위에서 업콜 핸들러를 실행한다. 핸들러는 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 내부 자료구조에 접근하여 차단된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)로 옮기고 실행 가능한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 LWP에 재할당한다. 언블로킹 이벤트에서는 I/O 완료를 감지한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 대기 중이던 LWP를 복원하고 업콜을 발생시킨다. 선점 이벤트에서는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 높은 우선순위 프로세스의 도착으로 LWP를 강제 회수하지만, 업콜을 통해 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 현재 실행 중이던 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 레디 큐에 안전하게 보존할 수 있게 한다. 이 세 가지 경로 모두에서 업콜은 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 먼저 상황을 인지하고 유저가 대응하게 만드는" 협력적 스케줄링의 핵심 수단이다.
@@ -141,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 상향 호출 (Upcall) | 시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) |
 |:---|:---|:---|:---|
-| **통지 방향** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) → 유저 (능동) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) → 유저 (능동) | 유저 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (수동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) |
+| **통지 방향** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 유저 (능동) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 유저 (능동) | 유저 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (수동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) |
 | **전달 정보량** | 풍부 (구조체 전달) | 극히 제한적 (정수 1개) | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시점의 상태만 |
 | <strong>응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 이벤트 즉시 (비동기) | 이벤트 즉시 (비동기) | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 주기에 따른 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | **CPU 낭비** | 없음 (이벤트 구동) | 없음 (이벤트 구동) | 큼 (주기적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요) |
@@ -151,43 +151,43 @@ tags = ["studynote-operating-system"]
 세 가지 통지 메커니즘이 동일한 I/O 완료 상황에서 어떻게 다르게 반응하는지를 시간축으로 비교한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│       통지 메커니즘별 I/O 완료 응답 시간 비교                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  시간: ──────────────────────────────────────────▶                          │
-│                                                                             │
-│  I/O 완료 시점:                ▼                                            │
-│                             │                                               │
-│  ┌──────────────────────────────────────────────────────┐                   │
-│  │ [업콜 (Upcall)]                                          │               │
-│  │  I/O 완료 ──▶ 커널 즉시 감지 ──▶ 업콜 발생 ──▶ 핸들러 실행   │           │
-│  │  응답 지연: ─────┤████├──── 최소 (마이크로초 수준)             │         │
-│  │                                                       │                  │
-│  │  핸들러에서: UT 상태 변경 + LWP 재할당 (복잡한 로직 수행 가능)  │        │
-│  └──────────────────────────────────────────────────────┘                   │
-│                                                                             │
-│  ┌──────────────────────────────────────────────────────┐                   │
-│  │ [시그널 (Signal)]                                        │               │
-│  │  I/O 완료 ──▶ 커널 즉시 감지 ──▶ SIGIO 전송 ──▶ 핸들러 실행   │          │
-│  │  응답 지연: ─────┤████├──── 최소                        │                │
-│  │                                                       │                  │
-│  │  핸들러에서: "시그널 받음" 정도만 확인, 복잡한 로직 수행 불가   │        │
-│  └──────────────────────────────────────────────────────┘                   │
-│                                                                             │
-│  ┌──────────────────────────────────────────────────────┐                   │
-│  │ [폴링 (Polling)]                                        │                │
-│  │  I/O 완료 ──▶ 커널 감지 (유저 모름!)                       │             │
-│  │             │                                             │              │
-│  │             ▼                                             │              │
-│  │  유저가 주기적 확인: ──────┤    ├──▶ 드디어 발견!             │          │
-│  │  응답 지연: ─────┤░░░░░░░░░░░░░████├──── 최대 폴링 주기만큼    │         │
-│  │                                                       │                  │
-│  │  문제: I/O가 완료되었어도 폴링 주기 전까지는 무시됨 (CPU 낭비)  │        │
-│  └──────────────────────────────────────────────────────┘                   │
-│                                                                             │
-│  결론: 업콜 = 시그널의 즉시성 + 풍부한 정보 + 높은 핸들러 자유도            │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|       통지 메커니즘별 I/O 완료 응답 시간 비교                               |
++-----------------------------------------------------------------------------+
+|                                                                             |
+|  시간: ------------------------------------------->                          |
+|                                                                             |
+|  I/O 완료 시점:                v                                            |
+|                             |                                               |
+|  +------------------------------------------------------+                   |
+|  | [업콜 (Upcall)]                                          |               |
+|  |  I/O 완료 ---> 커널 즉시 감지 ---> 업콜 발생 ---> 핸들러 실행   |           |
+|  |  응답 지연: -----+████+---- 최소 (마이크로초 수준)             |         |
+|  |                                                       |                  |
+|  |  핸들러에서: UT 상태 변경 + LWP 재할당 (복잡한 로직 수행 가능)  |        |
+|  +------------------------------------------------------+                   |
+|                                                                             |
+|  +------------------------------------------------------+                   |
+|  | [시그널 (Signal)]                                        |               |
+|  |  I/O 완료 ---> 커널 즉시 감지 ---> SIGIO 전송 ---> 핸들러 실행   |          |
+|  |  응답 지연: -----+████+---- 최소                        |                |
+|  |                                                       |                  |
+|  |  핸들러에서: "시그널 받음" 정도만 확인, 복잡한 로직 수행 불가   |        |
+|  +------------------------------------------------------+                   |
+|                                                                             |
+|  +------------------------------------------------------+                   |
+|  | [폴링 (Polling)]                                        |                |
+|  |  I/O 완료 ---> 커널 감지 (유저 모름!)                       |             |
+|  |             |                                             |              |
+|  |             v                                             |              |
+|  |  유저가 주기적 확인: ------+    +---> 드디어 발견!             |          |
+|  |  응답 지연: -----+░░░░░░░░░░░░░████+---- 최대 폴링 주기만큼    |         |
+|  |                                                       |                  |
+|  |  문제: I/O가 완료되었어도 폴링 주기 전까지는 무시됨 (CPU 낭비)  |        |
+|  +------------------------------------------------------+                   |
+|                                                                             |
+|  결론: 업콜 = 시그널의 즉시성 + 풍부한 정보 + 높은 핸들러 자유도            |
++-----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 타임라인 비교는 세 가지 통지 메커니즘이 I/O 완료 이벤트에 얼마나 빠르고 풍부하게 반응하는지를 명확히 보여준다. 시그널과 업콜은 모두 이벤트 구동 (Event-driven) 방식으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 최소화되지만, 시그널은 전달할 수 있는 정보가 정수 1개로 제한되어 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 "무엇을 어떻게 해야 하는지"를 스스로 판단해야 한다. 반면 업콜은 이벤트 유형, 관련 LWP 번호, 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 상태 정보 등이 담긴 구조체를 전달하므로 핸들러가 즉각적이고 정확한 스케줄링 결정을 내릴 수 있다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 가장 단순하지만 I/O 완료 후 최대 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 주기만큼의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하고, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 루프 자체가 CPU를 낭비하므로 고성능 시스템에는 부적합하다.
@@ -253,12 +253,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]
-    │
-    ▼
+    |
+    v
 [상향 호출 (Upcall)]
-    │
-    ├──▶ [협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)]
-    └──▶ [프로세스 간 통신 (IPC, Inter-Process Communication)]
+    |
+    +---> [협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)]
+    +---> [프로세스 간 통신 (IPC, Inter-Process Communication)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -275,7 +275,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 115 / 800
 
-← **이전**: [114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/)
-**다음**: [116. 협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) →
+<- **이전**: [114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/)
+**다음**: [116. 협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) ->
 
 ---

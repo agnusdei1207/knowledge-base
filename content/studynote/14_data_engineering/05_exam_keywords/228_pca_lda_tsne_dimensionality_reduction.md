@@ -23,15 +23,15 @@ tags = ["studynote-data-engineering"]
 차원이 증가할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 간 거리가 모두 비슷해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 희소해져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 역설적으로 저하된다.
 
 ```
-차원 수  │  단위 정육면체에서 전체 부피의 1% 커버하는 변 길이
-─────────┼────────────────────────────────────────────────
-    2    │   0.10  (10%)
-   10    │   0.63  (63%)
-  100    │   0.955 (95.5%)
- 1000    │   0.995 (99.5%)
+차원 수  |  단위 정육면체에서 전체 부피의 1% 커버하는 변 길이
+---------+------------------------------------------------
+    2    |   0.10  (10%)
+   10    |   0.63  (63%)
+  100    |   0.955 (95.5%)
+ 1000    |   0.995 (99.5%)
 ```
 
-→ 고차원에서는 "근접 이웃"의 의미가 약해지고, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)·클러스터링·회귀 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+-> 고차원에서는 "근접 이웃"의 의미가 약해지고, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)·클러스터링·회귀 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 
 📢 **섹션 요약 비유**: 차원의 저주는 "도서관 책이 2D 평면에서 3D 공간, 그 다음 4D, 5D... 로 흩어질수록 찾고 싶은 책이 너무 멀어지는 것"이다. [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 "다시 2D 선반으로 책을 정렬"하는 것이다.
 
@@ -45,31 +45,31 @@ PCA는 비지도(Unsupervised) 선형 [차원 축소](/knowledge-base/studynote/
 
 ```
 PCA 알고리즘 흐름:
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 ① 데이터 중심화 (평균 빼기, Mean Centering)
-        ↓
+        v
 ② 공분산 행렬 계산 (Covariance Matrix)
-        ↓
+        v
 ③ 고유값 분해 (Eigenvalue Decomposition) 또는 SVD
-        ↓
+        v
 ④ 고유벡터(Eigenvector) = 주성분 방향 축
    고유값(Eigenvalue)    = 해당 축의 설명 분산량
-        ↓
+        v
 ⑤ 설명 분산 누적 비율 확인 (Explained Variance Ratio)
    보통 PC들이 95% 이상 설명하는 수까지 선택
-        ↓
+        v
 ⑥ 원본 데이터를 선택된 PC 공간으로 투영
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 
 Scree Plot (스크리 플롯):
   설명 분산
-    │
- 80%│ ●
-    │  ●
- 40%│    ●
-    │      ●──●──●──●
-    └──────────────────
-      PC1 PC2 PC3 PC4  (엘보우 이후 완만 → 거기서 자름)
+    |
+ 80%| ●
+    |  ●
+ 40%|    ●
+    |      ●--●--●--●
+    +------------------
+      PC1 PC2 PC3 PC4  (엘보우 이후 완만 -> 거기서 자름)
 ```
 
 ### 2-2. LDA (Linear Discriminant Analysis, [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))
@@ -79,17 +79,17 @@ LDA는 지도(Supervised) 선형 [차원 축소](/knowledge-base/studynote/14_da
 ```
 LDA 목표:
          클래스 간 분산 (SB)
-최대화: ─────────────────────
+최대화: ---------------------
          클래스 내 분산 (SW)
 
 PCA와의 차이:
-┌─────────────────────────────────────────────────────┐
-│ PCA: 레이블 무관, 전체 분산 최대화 (비지도)          │
-│ LDA: 레이블 사용, 클래스 분리 최대화 (지도)          │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+| PCA: 레이블 무관, 전체 분산 최대화 (비지도)          |
+| LDA: 레이블 사용, 클래스 분리 최대화 (지도)          |
++-----------------------------------------------------+
 
 최대 축 수: min(클래스 수 - 1, 특성 수)
-→ 클래스가 3개이면 최대 2개의 판별 축 가능
+-> 클래스가 3개이면 최대 2개의 판별 축 가능
 ```
 
 ### 2-3. t-SNE (t-Distributed Stochastic Neighbor [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))
@@ -98,14 +98,14 @@ t-SNE는 비선형 비지도 [시각화](/knowledge-base/studynote/16_bigdata/01
 
 ```
 t-SNE 핵심 아이디어:
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 ① 고차원: 데이터 포인트 간 유사도를 가우시안 확률로 계산
 ② 저차원: 유사도를 t-분포(꼬리 두터운 분포)로 표현
 ③ KL Divergence를 최소화하여 고·저차원 확률 분포 정렬
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 
 t-분포를 쓰는 이유:
-고차원→저차원 시 "군집 간 거리가 찌그러지는 문제(Crowding Problem)"를
+고차원->저차원 시 "군집 간 거리가 찌그러지는 문제(Crowding Problem)"를
 t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 ```
 
@@ -117,7 +117,7 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 | 목적 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 | 클래스 분리 | 군집 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 구조 보존 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | 출력 차원 | 자유 | 클래스수-1 | 2D/3D 주로 | 자유 |
 | 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 변환 가능 | 변환 가능 | 불가 | 가능 (近似) |
-| 계산 복잡도 | O(min(n,d)³) | O(nd²) | O(n²) | O(n log n) |
+| 계산 복잡도 | O(min(n,d)³) | O(nd^) | O(n^) | O(n log n) |
 | 해석 가능성 | 중간 | 높음 | 낮음 | 낮음 |
 
 📢 **섹션 요약 비유**: PCA는 "그림자로 3D 물체를 가장 잘 표현하는 조명 각도 찾기", LDA는 "두 그룹이 가장 잘 구분되는 조명 각도 찾기", t-SNE는 "가까운 것끼리 뭉치도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 손으로 배치하는 것"이다.
@@ -130,8 +130,8 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 
 ```
 목적별 선택 기준
-────────────────────────────────────────────────────────
-고차원 전처리 → 모델 성능 개선    : PCA
+--------------------------------------------------------
+고차원 전처리 -> 모델 성능 개선    : PCA
   (선형 관계 가정, 빠른 변환 필요)
 
 분류 전 특성 변환                 : LDA
@@ -142,7 +142,7 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 
 대용량 데이터 + 빠른 속도         : UMAP
   (t-SNE보다 10~100× 빠름, 전역 구조 보존)
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 ```
 
 ### 3-2. PCA와 SVD의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -157,7 +157,7 @@ U: 왼쪽 특이벡터 (데이터 포인트의 좌표)
 Vᵀ: 오른쪽 특이벡터 = PCA의 주성분 축
 
 PCA 주성분 = V의 열벡터
-분산 = (특이값)² / (n-1)
+분산 = (특이값)^ / (n-1)
 ```
 
 ### 3-3. t-SNE 하이퍼파라미터 실무
@@ -181,9 +181,9 @@ PCA 주성분 = V의 열벡터
 [입력] 100×100 픽셀 얼굴 이미지 = 10,000 차원
 
 [PCA 적용]
-① 10,000 차원 → PCA → 상위 50개 주성분 선택
+① 10,000 차원 -> PCA -> 상위 50개 주성분 선택
 ② 설명 분산: PC1~PC50 = 95.2% 설명
-③ 압축 비율: 10,000 → 50 = 200배 압축
+③ 압축 비율: 10,000 -> 50 = 200배 압축
 
 [활용]
 - Eigenface (고유얼굴): 얼굴 인식의 고전 방법
@@ -196,7 +196,7 @@ PCA 주성분 = V의 열벡터
 [입력] 고객 행동 특성 50개 차원 (클릭·구매·방문 패턴)
 
 [t-SNE 적용]
-50차원 → t-SNE → 2차원 시각화
+50차원 -> t-SNE -> 2차원 시각화
 
 [결과]
 2D 산점도에서 5개 군집 발견:
@@ -206,7 +206,7 @@ PCA 주성분 = V의 열벡터
   ● 신규 고객 군집
   ● 고가치 VIP 군집
 
-→ 각 군집에 맞는 맞춤형 마케팅 전략 수립
+-> 각 군집에 맞는 맞춤형 마케팅 전략 수립
 ```
 
 📢 **섹션 요약 비유**: t-SNE로 고객을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 것은 "수백 가지 특성의 고객들을 2D 지도에 비슷한 고객끼리 가깝게 배치하는 것"이다. 지도를 보면 어느 고객 동네가 어디 있는지 한눈에 파악된다.
@@ -258,14 +258,14 @@ PCA 주성분 = V의 열벡터
 
 ```text
 고차원 데이터 (차원의 저주)
-    │
-    ▼
+    |
+    v
 차원 축소
-    ├─► PCA: 분산 최대화 선형 투영 (비지도)
-    ├─► LDA: 클래스 분리 최대화 투영 (지도)
-    └─► t-SNE / UMAP: 비선형 시각화 (2D/3D)
-    │
-    ▼
+    +-► PCA: 분산 최대화 선형 투영 (비지도)
+    +-► LDA: 클래스 분리 최대화 투영 (지도)
+    +-► t-SNE / UMAP: 비선형 시각화 (2D/3D)
+    |
+    v
 응용: 시각화 · 노이즈 제거 · 피처 압축
 ```
 2. LDA는 "고양이와 개를 가장 잘 구분하는 방향으로 그림자를 만드는 것"으로, 처음부터 어떤 동물인지 알고 시작한다.
@@ -277,7 +277,7 @@ PCA 주성분 = V의 열벡터
 
 **진행 상황**: 228 / 258
 
-← **이전**: [227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)
-**다음**: [229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/) →
+<- **이전**: [227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)
+**다음**: [229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/) ->
 
 ---

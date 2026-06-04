@@ -31,11 +31,11 @@ t-검정은 그 차이를 통계적으로 평가한다.
 
 ```text
 Samples
-  ↓
+  v
 t Statistic
-  ↓
+  v
 p-value
-  ↓
+  v
 Decision
 ```
 
@@ -106,11 +106,11 @@ t-검정을 이해하면 두 집단 비교를 더 체계적으로 수행할 수 
 
 ```text
 Samples
-  ↓
+  v
 t-Test
-  ↓
+  v
 p-value
-  ↓
+  v
 Decision
 ```
 
@@ -120,11 +120,11 @@ Decision
 
 ```text
 Mean Difference
-  ↓
+  v
 t-Test
-  ↓
+  v
 Hypothesis Test
-  ↓
+  v
 Statistical Inference
 ```
 
@@ -142,7 +142,7 @@ t-검정은 그런 검사예요.
 
 **진행 상황**: 70 / 258
 
-← **이전**: [69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)
-**다음**: [71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) →
+<- **이전**: [69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)
+**다음**: [71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) ->
 
 ---

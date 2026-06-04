@@ -24,20 +24,20 @@ KVM (Kernel-based Virtual Machine, 2007):
   Type 1 하이퍼바이저 (베어메탈 수준 성능)
 
 구성 요소:
-  ┌─────────────────────────────────────┐
-  │           Guest OS (VM)             │
-  │  앱  앱  앱                         │
-  └──────────────┬──────────────────────┘
-                 │ QEMU-KVM
-  ┌──────────────▼──────────────────────┐
-  │     Linux 커널 (KVM 모듈)           │
-  │  kvm.ko: CPU/메모리 가상화          │
-  │  QEMU: I/O 에뮬레이션               │
-  └──────────────┬──────────────────────┘
-                 │
-  ┌──────────────▼──────────────────────┐
-  │     하드웨어 (Intel VT-x/AMD-V)     │
-  └─────────────────────────────────────┘
+  +-------------------------------------+
+  |           Guest OS (VM)             |
+  |  앱  앱  앱                         |
+  +--------------+----------------------+
+                 | QEMU-KVM
+  +--------------v----------------------+
+  |     Linux 커널 (KVM 모듈)           |
+  |  kvm.ko: CPU/메모리 가상화          |
+  |  QEMU: I/O 에뮬레이션               |
+  +--------------+----------------------+
+                 |
+  +--------------v----------------------+
+  |     하드웨어 (Intel VT-x/AMD-V)     |
+  +-------------------------------------+
 
 libvirt:
   KVM/QEMU 관리 API
@@ -247,7 +247,7 @@ VM과 컨테이너를 혼용하는 구조
 
 **진행 상황**: 38 / 371
 
-← **이전**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/)
-**다음**: [040. 클라우드 네이티브 (Cloud Native)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/) →
+<- **이전**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/)
+**다음**: [040. 클라우드 네이티브 (Cloud Native)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/) ->
 
 ---

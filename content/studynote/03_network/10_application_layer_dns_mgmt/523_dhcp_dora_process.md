@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP 포트 67, 68]
-    │
-    ▼
+    |
+    v
 [DHCP 과정 4단계]
-    │
-    └──▶ [DHCP Relay Agent]
+    |
+    +---> [DHCP Relay Agent]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -39,14 +39,14 @@ tags = ["studynote-network"]
 ```text
 [ Client ]                                  [ DHCP Server ]
 (IP 없음)                                    (IP Pool 관리)
-   │     1. DHCP Discover (Broadcast) ────────────▶│
-   │                                               │
-   │◀─────────── 2. DHCP Offer (Broadcast/Unicast) │
-   │                                               │
-   │     3. DHCP Request (Broadcast) ─────────────▶│
-   │                                               │
-   │◀─────────── 4. DHCP Ack (Broadcast/Unicast)   │
-   │                                               │
+   |     1. DHCP Discover (Broadcast) ------------->|
+   |                                               |
+   |<------------ 2. DHCP Offer (Broadcast/Unicast) |
+   |                                               |
+   |     3. DHCP Request (Broadcast) -------------->|
+   |                                               |
+   |<------------ 4. DHCP Ack (Broadcast/Unicast)   |
+   |                                               |
 (IP 할당 완료!)
 ```
 
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DHCP 포트 67, 68]
-    │
-    ▼
+    |
+    v
 [현재 개념: DHCP 과정 4단계]
-    │
-    ├──▶ [확장 A: DHCP Relay Agent]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DHCP Relay Agent]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 644 / 1120
 
-← **이전**: [522. DHCP (Dynamic Host Configuration Protocol) 포트 67, 68](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)
-**다음**: [524. DHCP Relay Agent (DHCP 릴레이)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/524_dhcp_relay_agent/) →
+<- **이전**: [522. DHCP (Dynamic Host Configuration Protocol) 포트 67, 68](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)
+**다음**: [524. DHCP Relay Agent (DHCP 릴레이)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/524_dhcp_relay_agent/) ->
 
 ---

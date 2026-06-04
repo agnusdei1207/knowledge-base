@@ -34,14 +34,14 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 
 ```
 [Push 배포 흐름]
-개발자 → Git Push → CI 빌드 → kubectl apply → 쿠버네티스 클러스터
-                              ↑
+개발자 -> Git Push -> CI 빌드 -> kubectl apply -> 쿠버네티스 클러스터
+                              ^
                       파이프라인이 kubeconfig 보유 (보안 위험)
 
 [Pull 배포 흐름]
-개발자 → Git Push → CI 빌드 → 이미지 레지스트리 푸시
-                                        ↓
-쿠버네티스 클러스터 ← ArgoCD/Flux 에이전트 감시·동기화 ← Git 저장소
+개발자 -> Git Push -> CI 빌드 -> 이미지 레지스트리 푸시
+                                        v
+쿠버네티스 클러스터 <- ArgoCD/Flux 에이전트 감시·동기화 <- Git 저장소
   (내부 에이전트가 당겨옴, 자격 증명 외부 노출 없음)
 ```
 
@@ -121,12 +121,12 @@ Pull 기반 GitOps는 클러스터 자격 증명의 외부 노출을 차단하�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-Push 모델: CI 서버 → 클러스터 직접 배포 (자격증명 외부 노출)
-    │
-    ▼
-Pull 모델: ArgoCD/Flux → Git 감시 → 클러스터 자율 동기화
-    │
-    ▼
+Push 모델: CI 서버 -> 클러스터 직접 배포 (자격증명 외부 노출)
+    |
+    v
+Pull 모델: ArgoCD/Flux -> Git 감시 -> 클러스터 자율 동기화
+    |
+    v
 보안 강화: 클러스터 자격증명 외부 비노출
 ```
 2. Pull 배포는 아이가 엄마가 적어준 메모(Git)를 보고 스스로 방을 정리하는 방식이에요.
@@ -138,7 +138,7 @@ Pull 모델: ArgoCD/Flux → Git 감시 → 클러스터 자율 동기화
 
 **진행 상황**: 167 / 371
 
-← **이전**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/)
-**다음**: [169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/169_iac_infrastructure_as_code_terraform/) →
+<- **이전**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/)
+**다음**: [169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/169_iac_infrastructure_as_code_terraform/) ->
 
 ---

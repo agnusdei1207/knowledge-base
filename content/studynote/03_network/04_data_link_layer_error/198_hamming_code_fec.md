@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [버스트 에러 검출 능력 유지]
-    │
-    ▼
+    |
+    v
 [해밍 코드]
-    │
-    └──▶ [리드-솔로몬 코드]
+    |
+    +---> [리드-솔로몬 코드]
 ```
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -57,11 +57,11 @@ tags = ["studynote-network"]
 
 ```text
 [버스트 에러 검출 능력 유지]
-    │
-    ▼
+    |
+    v
 [해밍 코드]
-    │
-    └──▶ [리드-솔로몬 코드]
+    |
+    +---> [리드-솔로몬 코드]
 ```
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 버스트 에러 검출 능력 유지]
-    │
-    ▼
+    |
+    v
 [현재 개념: 해밍 코드]
-    │
-    ├──▶ [확장 A: 리드-솔로몬 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 리드-솔로몬 코드]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지에서 출발해 현재 메커니즘을 정교화하고, 이후 [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 319 / 1120
 
-← **이전**: [197. 버스트 에러 (Burst Error) 검출 능력 유지](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)
-**다음**: [199. 리드-솔로몬 코드 (Reed-Solomon Code)](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/) →
+<- **이전**: [197. 버스트 에러 (Burst Error) 검출 능력 유지](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)
+**다음**: [199. 리드-솔로몬 코드 (Reed-Solomon Code)](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/) ->
 
 ---

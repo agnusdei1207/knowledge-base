@@ -39,22 +39,22 @@ tags = ["studynote-computer-architecture"]
 부울 대수에는 일반 십진법에는 없는 **흡수 법칙(Absorption Law, $A + A \cdot B = A$)**이나 **보수 법칙($A + A' = 1$)** 같은 특수 법칙이 존재한다. 이 법칙들을 칼처럼 휘두르면 엄청나게 길고 복잡한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 전선 한 가닥으로 날려버릴 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         부울 대수 법칙을 활용한 물리적 하드웨어 간소화           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [요구사항 수식]   F = A·B + A·B'                             │
-│   (물리 회로: AND 게이트 2개, OR 게이트 1개, NOT 게이트 1개 소모) │
-│                                                              │
-│   ================= [부울 대수 연금술 발동] ==================     │
-│   F = A·(B + B')  <-- 분배 법칙으로 A를 묶어냄                     │
-│     = A·(1)       <-- 보수 법칙 (나와 반대의 합은 무조건 1)          │
-│     = A          <-- 최종 압축 완료!                            │
-│   ========================================================== │
-│                                                              │
-│   [최적화 도면] F = A                                         │
-│   (게이트가 아예 필요 없음! 그냥 A를 전선으로 이으면 100% 동일 동작) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         부울 대수 법칙을 활용한 물리적 하드웨어 간소화           |
++--------------------------------------------------------------+
+|                                                              |
+|   [요구사항 수식]   F = A·B + A·B'                             |
+|   (물리 회로: AND 게이트 2개, OR 게이트 1개, NOT 게이트 1개 소모) |
+|                                                              |
+|   ================= [부울 대수 연금술 발동] ==================     |
+|   F = A·(B + B')  <-- 분배 법칙으로 A를 묶어냄                     |
+|     = A·(1)       <-- 보수 법칙 (나와 반대의 합은 무조건 1)          |
+|     = A          <-- 최종 압축 완료!                            |
+|   ========================================================== |
+|                                                              |
+|   [최적화 도면] F = A                                         |
+|   (게이트가 아예 필요 없음! 그냥 A를 전선으로 이으면 100% 동일 동작) |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: "나는 과일을 좋아하고, **그리고** 나는 사과를 포함한 과일을 좋아해"라고 길게 말할(복잡한 회로) 필요 없이, 부울 대수 칼로 쓱싹 잘라 "그냥 너 과일 좋아한다는 거잖아"(단순 회로)라고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해버리는 완벽한 다이어트 과정이다.
@@ -114,17 +114,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [논리 명제 (Proposition) — 참/거짓]
-    │
-    ▼
+    |
+    v
 [부울 대수 (Boolean Algebra) — AND·OR·NOT 법칙]
-    │
-    ▼
+    |
+    v
 [논리 게이트 (Logic Gate) — CMOS 트랜지스터 실현]
-    │
-    ▼
-[논리 합성 (Logic Synthesis) — RTL → 넷리스트 자동 생성]
-    │
-    ▼
+    |
+    v
+[논리 합성 (Logic Synthesis) — RTL -> 넷리스트 자동 생성]
+    |
+    v
 [AI 주도 합성 (RL 기반 Gate Optimization) — 미래 진화]
 ```
 조지 불의 추상 수학이 섀논에 의해 전기 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 연결되고, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 도구로 자동화되어 수십억 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 칩의 설계 기반을 이루며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화로 진화하는 흐름이다.
@@ -141,7 +141,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 22 / 803
 
-← **이전**: [21. 디지털 시스템 vs 아날로그 시스템](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/021_digital_vs_analog/)
-**다음**: [23. 드모르간의 법칙 (De Morgan's Law)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/023_demorgans_law/) →
+<- **이전**: [21. 디지털 시스템 vs 아날로그 시스템](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/021_digital_vs_analog/)
+**다음**: [23. 드모르간의 법칙 (De Morgan's Law)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/023_demorgans_law/) ->
 
 ---

@@ -42,16 +42,16 @@ BPMN의 기본 문법은 이벤트(Event), 액티비티(Activity), 게이트웨�
 아래 그림은 고객 요청이 접수된 뒤 사람 승인과 시스템 자동 처리, 그리고 외부 기관과의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환이 BPMN에서 어떻게 구분되는지 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Pool: Company                                                       │
-│   Lane: Sales     [Start] -> [Review Task] -> <XOR> ----> [End]    │
-│                                 │                                   │
-│   Lane: Finance                 └--------> [Approve Task]           │
-│                                                 │                   │
-│   Lane: System                               [Service Task]         │
-│                                                 │                   │
-│ Pool: Credit Agency                  - - - Message Flow - - -       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Pool: Company                                                       |
+|   Lane: Sales     [Start] -> [Review Task] -> <XOR> ----> [End]    |
+|                                 |                                   |
+|   Lane: Finance                 +--------> [Approve Task]           |
+|                                                 |                   |
+|   Lane: System                               [Service Task]         |
+|                                                 |                   |
+| Pool: Credit Agency                  - - - Message Flow - - -       |
++----------------------------------------------------------------------+
 ```
 
 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 2.0이 중요한 이유는 단지 시각 표준이어서가 아니라, XML (eXtensible Markup Language) 기반 교환 형식을 통해 모델을 도구 간에 옮기고 일부 엔진에서는 실행까지 연계할 수 있기 때문이다. 다만 모든 BPMN이 곧바로 실행 가능한 것은 아니며, 모델링 목적이 커뮤니케이션인지 실행 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)인지에 따라 상세 수준을 조절해야 한다.
@@ -121,17 +121,17 @@ BPMN을 잘 사용하면 설계 문서와 운영 모델 사이의 거리가 줄�
 
 ```text
 Flowchart 기반 절차 표현
-    │
-    ▼
+    |
+    v
 BPMN 1.x 표준화
-    │
-    ▼
+    |
+    v
 BPMN 2.0 · XML interchange
-    │
-    ▼
+    |
+    v
 Executable Process Model · WfMS
-    │
-    ▼
+    |
+    v
 BPMN + DMN + Mining 연계
 ```
 
@@ -149,7 +149,7 @@ BPMN + DMN + Mining 연계
 
 **진행 상황**: 203 / 482
 
-← **이전**: [202. BPM 라이프사이클 (Business Process Management Lifecycle)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/)
-**다음**: [204. 워크플로우 관리 시스템 (Workflow Management System)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/) →
+<- **이전**: [202. BPM 라이프사이클 (Business Process Management Lifecycle)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/)
+**다음**: [204. 워크플로우 관리 시스템 (Workflow Management System)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/) ->
 
 ---

@@ -30,25 +30,25 @@ tags = ["studynote-network"]
 이러한 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 도입 이전과 이후의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 노출 차이를 구조도로 시각화하면 터널 모드가 왜 강력한 보안을 제공하는지 직관적으로 알 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         IPSec 미적용 vs 터널 모드 적용 시 패킷 노출 비교        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [IPSec 미적용 (평문 전송)]                                     │
-  │  출발지(내부PC) ────▶ 라우터 ────▶ [인터넷] ────▶ 라우터 ────▶ 목적지 │
-  │    (10.0.0.2)                             (192.168.0.2)     │
-  │                                                             │
-  │  패킷: [ 원본 IP 헤더 (10.0.0.2 → 192.168.0.2) | 평문 데이터 ]    │
-  │  ⚠ 해커: "아하, A회사의 10.0.0.2가 B회사의 192.168.0.2와 통신 중이군"│
-  │                                                             │
-  │  [IPSec 터널 모드 (VPN 거점 간 통신)]                           │
-  │  출발지(내부PC) ────▶ 보안 GW ──▶ [인터넷] ──▶ 보안 GW ────▶ 목적지 │
-  │                 (203.0.113.1)         (198.51.100.1)        │
-  │                                                             │
-  │  패킷: [ 새 IP 헤더 (203.0.113.1 → 198.51.100.1) | ESP | ... │
-  │          ... | 암호화된(원본 IP 헤더 + 데이터) | ESP Trailer ]    │
-  │  ✅ 해커: "GW 간 통신(203.x → 198.x)만 보이고, 내부는 완전히 암호화됨"│
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         IPSec 미적용 vs 터널 모드 적용 시 패킷 노출 비교        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [IPSec 미적용 (평문 전송)]                                     |
+  |  출발지(내부PC) -----> 라우터 -----> [인터넷] -----> 라우터 -----> 목적지 |
+  |    (10.0.0.2)                             (192.168.0.2)     |
+  |                                                             |
+  |  패킷: [ 원본 IP 헤더 (10.0.0.2 -> 192.168.0.2) | 평문 데이터 ]    |
+  |  ⚠ 해커: "아하, A회사의 10.0.0.2가 B회사의 192.168.0.2와 통신 중이군"|
+  |                                                             |
+  |  [IPSec 터널 모드 (VPN 거점 간 통신)]                           |
+  |  출발지(내부PC) -----> 보안 GW ---> [인터넷] ---> 보안 GW -----> 목적지 |
+  |                 (203.0.113.1)         (198.51.100.1)        |
+  |                                                             |
+  |  패킷: [ 새 IP 헤더 (203.0.113.1 -> 198.51.100.1) | ESP | ... |
+  |          ... | 암호화된(원본 IP 헤더 + 데이터) | ESP Trailer ]    |
+  |  ✅ 해커: "GW 간 통신(203.x -> 198.x)만 보이고, 내부는 완전히 암호화됨"|
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** IPSec이 적용되지 않은 평문 통신에서는 사설 IP 대역이 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)될 수 없거나 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 거치더라도 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 정보가 그대로 노출되어 트래픽 분석 공격에 취약하다. [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널 모드는 내부 PC에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 패킷 전체를 암호화 ([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 처리)하고, 인터넷 횡단을 위해 보안 게이트웨이 (GW)의 공인 IP로 구성된 '새로운 IP 헤더'를 앞에 붙인다. 이로 인해 인터넷 구간에서는 두 게이트웨이 간의 터널 통신만이 관찰되며, 실제 통신하는 내부 호스트의 IP 구조나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용은 완벽하게 은닉된다. 따라서 트래픽 분석(Traffic Analysis) 및 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Eavesdropping)을 효과적으로 방어할 수 있다.
@@ -67,15 +67,15 @@ tags = ["studynote-network"]
 | **터널 모드 (Tunnel Mode)** | 네트워크 간 (Site-to-Site) 트래픽 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 전체 원본 패킷 암호화 후 새로운 IP 헤더 추가 | [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) | 편지를 새 봉투에 넣기 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP Header</strong> | 터널 모드에서 인터넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 담당 | 출발지/목적지 보안 GW의 IP 주소 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) / [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) | 택배 겉면의 배송지 주소 |
 | **Original IP Header** | 내부 사설망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 보존 | 터널 모드 시 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 안에 암호화되어 은닉됨 | [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) / [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) | 택배 안의 실제 목적지 주소 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPSec</a> Gateway</strong> | 터널 모드의 암/복호화 종단점 | 패킷 수신 → 캡슐화 해제 → 내부망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)/[AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) | 각국의 세관/물류센터 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPSec</a> Gateway</strong> | 터널 모드의 암/복호화 종단점 | 패킷 수신 -> 캡슐화 해제 -> 내부망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)/[AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) | 각국의 세관/물류센터 |
 
 ```text
 [SNMP MIB 구조]
-    │
-    ▼
+    |
+    v
 [IPSec 터널/수송 모드]
-    │
-    └──▶ [AH]
+    |
+    +---> [AH]
 ```
 
 - **📢 섹션 요약 비유**: [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -87,31 +87,31 @@ tags = ["studynote-network"]
 수송 모드와 터널 모드의 가장 큰 차이는 원래의 IP 헤더를 암호화 대상에 포함시키는지 여부와, 새로운 IP 헤더를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는지에 있다. 이 물리적인 패킷 레이아웃의 차이가 네트워크 토폴로지에서의 역할 (호스트 vs 라우터)을 결정짓는다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │             IPSec 수송 모드 vs 터널 모드 패킷 구조 (ESP 적용 시)     │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │ [원본 패킷 (Original Packet)]                                      │
-  │ ┌───────────────┬───────────────┬──────────────────────────────┐ │
-  │ │ Orig IP Header│   TCP Header  │             Data             │ │
-  │ └───────────────┴───────────────┴──────────────────────────────┘ │
-  │                                                                  │
-  │ [수송 모드 (Transport Mode) + ESP]                                 │
-  │                 ←────────────── 암호화 구간 ─────────────────→   │
-  │ ┌───────────────┬───────┬───────────────┬──────────────┬───────┐ │
-  │ │ Orig IP Header│  ESP  │   TCP Header  │     Data     │  ESP  │ │
-  │ │ (인증 안 됨)   │ Header│               │              │Trailer│ │
-  │ └───────────────┴───────┴───────────────┴──────────────┴───────┘ │
-  │                 ←────────────────── 인증 구간 ─────────────────→   │
-  │                                                                  │
-  │ [터널 모드 (Tunnel Mode) + ESP]                                    │
-  │                         ←───────────── 암호화 구간 ───────────────→│
-  │ ┌───────────────┬───────┬───────────────┬──────────────┬───────┐ │
-  │ │ New IP Header │  ESP  │ Orig IP Header│ TCP + Data   │  ESP  │ │
-  │ │ (GW 공인 IP)   │ Header│ (내부 사설 IP)│              │Trailer│ │
-  │ └───────────────┴───────┴───────────────┴──────────────┴───────┘ │
-  │                         ←──────────────── 인증 구간 ────────────────→│
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |             IPSec 수송 모드 vs 터널 모드 패킷 구조 (ESP 적용 시)     |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  | [원본 패킷 (Original Packet)]                                      |
+  | +---------------+---------------+------------------------------+ |
+  | | Orig IP Header|   TCP Header  |             Data             | |
+  | +---------------+---------------+------------------------------+ |
+  |                                                                  |
+  | [수송 모드 (Transport Mode) + ESP]                                 |
+  |                 <--------------- 암호화 구간 ------------------>   |
+  | +---------------+-------+---------------+--------------+-------+ |
+  | | Orig IP Header|  ESP  |   TCP Header  |     Data     |  ESP  | |
+  | | (인증 안 됨)   | Header|               |              |Trailer| |
+  | +---------------+-------+---------------+--------------+-------+ |
+  |                 <------------------- 인증 구간 ------------------>   |
+  |                                                                  |
+  | [터널 모드 (Tunnel Mode) + ESP]                                    |
+  |                         <-------------- 암호화 구간 ---------------->|
+  | +---------------+-------+---------------+--------------+-------+ |
+  | | New IP Header |  ESP  | Orig IP Header| TCP + Data   |  ESP  | |
+  | | (GW 공인 IP)   | Header| (내부 사설 IP)|              |Trailer| |
+  | +---------------+-------+---------------+--------------+-------+ |
+  |                         <----------------- 인증 구간 ----------------->|
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 원본 패킷에 ESP를 적용할 때, 수송 모드는 기존 IP 헤더와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 사이에 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더를 끼워 넣는다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부분만 암호화되므로 통신하는 실제 호스트의 IP 정보는 외부에 그대로 노출된다. 따라서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 숨길 필요가 없는 단일 호스트 간 통신에 적합하다. 반면, 하단의 터널 모드는 원본 패킷 전체 (원본 IP 헤더 + [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) + [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 암호화 영역 안에 가두고, 가장 앞에 보안 게이트웨이의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 위한 '새로운 IP 헤더 ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP Header)'를 덧붙인다. 인터넷 구간의 라우터들은 이 새로운 IP 헤더만을 보고 패킷을 전달하며, 내부의 원본 IP 헤더는 복호화되기 전까지 안전하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다. 이러한 캡슐화 구조 때문에 터널 모드는 네트워크 오버헤드 (추가 헤더 크기 20 Bytes)가 수송 모드보다 크다.
@@ -138,22 +138,22 @@ tags = ["studynote-network"]
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 모드의 선택은 단순히 보안 레벨의 차이가 아니라 네트워크 아키텍처 상의 적용 위치와 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 통과 여부를 결정짓는 핵심 아키텍처 트레이드오프다. 터널 모드와 수송 모드를 네트워크 토폴로지 관점에서 비교하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────┐
-  │             네트워크 토폴로지에서의 수송/터널 모드 적용 위치          │
-  ├─────────────────────────────────────────────────────────────────┤
-  │                                                                 │
-  │ [수송 모드: End-to-End 통신]                                      │
-  │  ┌────────┐       IPSec 수송 모드 터널        ┌────────┐       │
-  │  │ Host A │◀═══════════════════════════════▶│ Host B │       │
-  │  └────────┘   (인터넷 구간: 실제 IP로 라우팅)   └────────┘       │
-  │  * 각 호스트가 IPSec 암/복호화 부하를 직접 처리                       │
-  │                                                                 │
-  │ [터널 모드: Site-to-Site 통신]                                    │
-  │  ┌────────┐     ┌──────┐    IPSec 터널    ┌──────┐    ┌────────┐│
-  │  │ Host A │────▶│ GW A │◀══════════════▶│ GW B │◀───│ Host B ││
-  │  └────────┘ 평문 └──────┘ (인터넷 구간)    └──────┘ 평문 └────────┘│
-  │  * 보안 GW가 암/복호화 대행, 내부 호스트는 IPSec 동작을 인지하지 못함      │
-  └─────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------+
+  |             네트워크 토폴로지에서의 수송/터널 모드 적용 위치          |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  | [수송 모드: End-to-End 통신]                                      |
+  |  +--------+       IPSec 수송 모드 터널        +--------+       |
+  |  | Host A |<--------------------------------->| Host B |       |
+  |  +--------+   (인터넷 구간: 실제 IP로 라우팅)   +--------+       |
+  |  * 각 호스트가 IPSec 암/복호화 부하를 직접 처리                       |
+  |                                                                 |
+  | [터널 모드: Site-to-Site 통신]                                    |
+  |  +--------+     +------+    IPSec 터널    +------+    +--------+|
+  |  | Host A |----->| GW A |<---------------->| GW B |<----| Host B ||
+  |  +--------+ 평문 +------+ (인터넷 구간)    +------+ 평문 +--------+|
+  |  * 보안 GW가 암/복호화 대행, 내부 호스트는 IPSec 동작을 인지하지 못함      |
+  +-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 수송 모드는 단말 호스트 A와 B가 직접 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association)를 맺고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 이는 각 단말에 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 클라이언트가 설치되어야 하며, 각 단말의 CPU 자원을 소모한다는 의미다. 반면, 터널 모드에서는 내부 호스트들은 평문으로 통신하며 보안 게이트웨이 (GW A, GW B)가 거대한 파이프라인(터널)을 만들어 암/복호화 처리를 대행한다. 이 경우 단말에는 별도 소프트웨어가 필요 없으며 중앙 집중적인 보안 관리가 가능하다. 실무 기업 환경에서 지사 간 (Site-to-Site) VPN을 구축할 때는 압도적으로 터널 모드가 많이 사용된다.
@@ -176,24 +176,24 @@ tags = ["studynote-network"]
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 실무에서 가장 흔하게 발생하는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경 통과 문제를 해결하는 [NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) ([NAT Traversal](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/)) 적용 시의 캡슐화 변화를 도식화하면 문제의 원인과 해결책이 명확해진다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 NAT 환경을 위한 NAT-T 패킷 캡슐화 구조                 │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [문제]: 순수 ESP 패킷은 포트(TCP/UDP) 정보가 암호화되어 있어 NAT 불가     │
-  │  [IP Header] + [ESP Header] + [Encrypted Payload(TCP+Data)]      │
-  │                                                                  │
-  │  [해결]: NAT-T (UDP Encapsulation) 적용                            │
-  │  NAT 장비가 포트 변환(PAT)을 수행할 수 있도록 평문 UDP 포트(4500) 추가    │
-  │                                                                  │
-  │  ┌───────────────┬──────────────┬───────┬──────────────┬───────┐ │
-  │  │ New IP Header │  UDP Header  │  ESP  │  Encrypted   │  ESP  │ │
-  │  │ (Src/Dst IP)  │ (Src/Dst 4500│ Header│  Payload     │Trailer│ │
-  │  └───────────────┴──────────────┴───────┴──────────────┴───────┘ │
-  │                                                                  │
-  │  판단: NAT 통과가 필수적인 현대 인터넷 환경에서 IPSec VPN 구성 시,         │
-  │        NAT-T 지원 여부와 방화벽 UDP 4500 포트 개방은 필수 체크리스트다.   │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 NAT 환경을 위한 NAT-T 패킷 캡슐화 구조                 |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [문제]: 순수 ESP 패킷은 포트(TCP/UDP) 정보가 암호화되어 있어 NAT 불가     |
+  |  [IP Header] + [ESP Header] + [Encrypted Payload(TCP+Data)]      |
+  |                                                                  |
+  |  [해결]: NAT-T (UDP Encapsulation) 적용                            |
+  |  NAT 장비가 포트 변환(PAT)을 수행할 수 있도록 평문 UDP 포트(4500) 추가    |
+  |                                                                  |
+  |  +---------------+--------------+-------+--------------+-------+ |
+  |  | New IP Header |  UDP Header  |  ESP  |  Encrypted   |  ESP  | |
+  |  | (Src/Dst IP)  | (Src/Dst 4500| Header|  Payload     |Trailer| |
+  |  +---------------+--------------+-------+--------------+-------+ |
+  |                                                                  |
+  |  판단: NAT 통과가 필수적인 현대 인터넷 환경에서 IPSec VPN 구성 시,         |
+  |        NAT-T 지원 여부와 방화벽 UDP 4500 포트 개방은 필수 체크리스트다.   |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비(특히 PAT)는 내부 사설 IP를 공인 IP로 변환할 뿐만 아니라, 여러 세션을 구분하기 위해 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 변환해야 한다. 그러나 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 패킷 ([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))은 L4 헤더가 암호화되어 있어 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 읽거나 수정할 수 없다. 이 병목을 해결하기 위해 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T는 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 패킷 전체를 평문의 표준 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 4500)로 다시 감싼다. 이제 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비는 이 외부 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 변환하여 세션을 유지할 수 있으며, 수신 측 게이트웨이는 외부 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더를 벗겨내고 정상적으로 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 처리를 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다. 실무에서 "VPN이 맺어지지만 통신이 안 된다"는 장애의 대부분이 이 [NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) 관련 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 누락이다.
@@ -232,22 +232,22 @@ tags = ["studynote-network"]
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 아키텍처의 진화 방향을 시각화하면 기존 정적 구성에서 동적·소프트웨어 정의 기반으로 중심축이 이동함을 알 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │              IPSec 기반 VPN 아키텍처 진화 로드맵                    │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [과거: 정적 구성]       [현재: 클라우드 연동]     [미래: 동적 SD-WAN]  │
-  │   CLI 기반 수동 터널        Transit GW 연동         컨트롤러 기반 터널링 │
-  │   단일 회선 이중화          다중 터널 (BGP)         애플리케이션 인지 라우팅│
-  │         │                     │                       │          │
-  │         ▼                     ▼                       ▼          │
-  │ ┌───────────────┐     ┌───────────────┐       ┌───────────────┐  │
-  │ │ Site-to-Site  │ ──▶ │ Cloud-to-Site │ ───▶  │ SD-WAN Fabric │  │
-  │ │ (IPSec Tunnel)│     │ (Route-Based) │       │ (Zero Trust)  │  │
-  │ └───────────────┘     └───────────────┘       └───────────────┘  │
-  │                                                                  │
-  │  초점 이동: "연결 자체의 보안" → "복잡한 클라우드/멀티 지사 간 동적 라우팅"│
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |              IPSec 기반 VPN 아키텍처 진화 로드맵                    |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [과거: 정적 구성]       [현재: 클라우드 연동]     [미래: 동적 SD-WAN]  |
+  |   CLI 기반 수동 터널        Transit GW 연동         컨트롤러 기반 터널링 |
+  |   단일 회선 이중화          다중 터널 (BGP)         애플리케이션 인지 라우팅|
+  |         |                     |                       |          |
+  |         v                     v                       v          |
+  | +---------------+     +---------------+       +---------------+  |
+  | | Site-to-Site  | ---> | Cloud-to-Site | ---->  | SD-WAN Fabric |  |
+  | | (IPSec Tunnel)|     | (Route-Based) |       | (Zero Trust)  |  |
+  | +---------------+     +---------------+       +---------------+  |
+  |                                                                  |
+  |  초점 이동: "연결 자체의 보안" -> "복잡한 클라우드/멀티 지사 간 동적 라우팅"|
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 터널 모드 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN은 엔지니어가 명령어를 쳐서 고정된 IP 간에 단일 터널을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 정적인 방식이었다. 현재는 기업 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 AWS, Azure 등 퍼블릭 클라우드를 연결하기 위해 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 결합된 동적 터널 모드가 주류를 이룬다. 미래(현재 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중)에는 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 컨트롤러가 중앙에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 내리면, 전 세계의 수백 개 지사 엣지 장비들이 서로 거미줄 같은 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널 메쉬 ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))를 자동으로 형성하고 트래픽 상태에 따라 가장 빠른 터널을 선택해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 형태로 진화하고 있다. 터널 모드는 이 거대한 가상 네트워크 패브릭을 지탱하는 흔들림 없는 기반 기술이다.
@@ -269,12 +269,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SNMP MIB 구조]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPSec 터널/수송 모드]
-    │
-    ├──▶ [확장 A: AH]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: AH]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드는 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 AH와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -291,7 +291,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1100 / 1120
 
-← **이전**: [978. SNMP MIB 구조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/978_snmp_mib_management_information_base_oid_asn1/)
-**다음**: [980. AH (Authentication Header)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/980_ah_authentication_header/) →
+<- **이전**: [978. SNMP MIB 구조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/978_snmp_mib_management_information_base_oid_asn1/)
+**다음**: [980. AH (Authentication Header)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/980_ah_authentication_header/) ->
 
 ---

@@ -76,15 +76,15 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 [검증 단계]
   ① G_sub 평가치 산출 : h(G_sub) = 0 이므로 f(G_sub) = g(G_sub) > f*
-           │
-           ▼
+           |
+           v
   ② 노드 N 평가치 산출 : f(N) = g(N) + h(N)
-           │
-           ▼
+           |
+           v
   ③ 허용적 성질 대입 : h(N) <= h*(N) 이므로,
     f(N) = g(N) + h(N) <= g(N) + h*(N) = f*
-           │
-           ▼
+           |
+           v
   ④ 최종 비교 판단 : f(N) <= f* < f(G_sub)
     => 결과: 알고리즘은 언제나 가짜 목표 G_sub를 선택하기 전에,
        반드시 노드 N을 먼저 확장(Expand)하게 된다. (최적해 우회 원천 차단)
@@ -120,12 +120,12 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 ```text
 [맵 구조에 따른 휴리스틱 함수 결정]
 [이동 형태: 격자(Grid)형 타일 맵인가?]
- ├─ [Yes] ─► [대각선 이동이 허용되는가?]
- │            ├─ [No (상하좌우만)] ─► 맨해튼 거리 (Manhattan Distance) 적용
- │            │                       h = |x1-x2| + |y1-y2|
- │            └─ [Yes (대각선가능)] ─► 체비셰프 거리 (Chebyshev Distance) 적용
- │                                    h = max(|x1-x2|, |y1-y2|)
- └─ [No (자유 각도 공간)] ─► 유클리디안 거리 (Euclidean Distance) 적용
+ +- [Yes] -► [대각선 이동이 허용되는가?]
+ |            +- [No (상하좌우만)] -► 맨해튼 거리 (Manhattan Distance) 적용
+ |            |                       h = |x1-x2| + |y1-y2|
+ |            +- [Yes (대각선가능)] -► 체비셰프 거리 (Chebyshev Distance) 적용
+ |                                    h = max(|x1-x2|, |y1-y2|)
+ +- [No (자유 각도 공간)] -► 유클리디안 거리 (Euclidean Distance) 적용
                              h = sqrt((x1-x2)^2 + (y1-y2)^2)
 ```
 
@@ -158,17 +158,17 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 ```text
 [맹목적 탐색 (Blind Search: BFS/DFS) — 휴리스틱 없음, 전수 탐색]
-    │
-    ▼
+    |
+    v
 [정보 탐색 (Informed Search) — 휴리스틱 함수 h(n) 활용]
-    │
-    ▼
+    |
+    v
 [허용적 휴리스틱 (Admissible Heuristic) — h(n) ≤ h*(n), 과대평가 금지]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 (A* Search) — f(n)=g(n)+h(n), 최적해 보장]
-    │
-    ▼
+    |
+    v
 [일관적 휴리스틱 (Consistent Heuristic) — 삼각 부등식, A* 효율 극대화]
 ```
 허용적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)은 A*가 최적해를 보장하기 위한 필수 조건으로, 실제 비용을 절대 과대평가하지 않는 추정 함수의 성질이다.
@@ -183,7 +183,7 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 **진행 상황**: 18 / 420
 
-← **이전**: [17. A* (A-Star) 알고리즘 - f(n) = g(n) + h(n), 시작점부터의 실제 비용 g(n)과 목표까지의 예상 비용 h(n)을](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
-**다음**: [19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/) →
+<- **이전**: [17. A* (A-Star) 알고리즘 - f(n) = g(n) + h(n), 시작점부터의 실제 비용 g(n)과 목표까지의 예상 비용 h(n)을](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
+**다음**: [19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/) ->
 
 ---

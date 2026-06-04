@@ -45,23 +45,23 @@ Airflow의 핵심 구성은 [DAG](/knowledge-base/studynote/06_ict_convergence/0
 아래 그림은 Airflow가 "작업을 직접 처리하는 엔진"이 아니라 "상태와 순서를 제어하는 플랫폼"이라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Apache Airflow control plane                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ DAG code (.py)                                                      │
-│    │ parse                                                          │
-│    ▼                                                                │
-│ Scheduler <-> Metadata DB <-> Web UI                               │
-│    │ create task instances                                          │
-│    ▼                                                                │
-│ Executor (Local / Celery / Kubernetes)                              │
-│    │ dispatch                                                       │
-│    ├─ SQL task                                                      │
-│    ├─ Spark submit                                                  │
-│    └─ Python / Bash task                                            │
-│    ▼                                                                │
-│ Worker / Pod -> log + state -> queued / running / success / retry   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Apache Airflow control plane                                        |
++----------------------------------------------------------------------+
+| DAG code (.py)                                                      |
+|    | parse                                                          |
+|    v                                                                |
+| Scheduler <-> Metadata DB <-> Web UI                               |
+|    | create task instances                                          |
+|    v                                                                |
+| Executor (Local / Celery / Kubernetes)                              |
+|    | dispatch                                                       |
+|    +- SQL task                                                      |
+|    +- Spark submit                                                  |
+|    +- Python / Bash task                                            |
+|    v                                                                |
+| Worker / Pod -> log + state -> queued / running / success / retry   |
++----------------------------------------------------------------------+
 ```
 
 Airflow의 중요한 원리는 세 가지다. 첫째, DAG가 있으므로 선행 작업이 완료되어야 후행 작업이 실행된다. 둘째, 실패한 작업은 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 알림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 통제된다. 셋째, 실행 날짜(Logical Date)와 백필 개념 덕분에 "오늘 못 돌린 어제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 다시 계산할 수 있다.
@@ -84,7 +84,7 @@ Airflow는 다른 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) Pipelines | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반 ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 모델 학습·서빙과의 연계, 자원 격리 | 범용 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 운영에는 과하거나 복잡할 수 있음 |
 | Prefect | 현대적 Python [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | 유연한 동적 흐름, 개발 경험 우수 | Airflow만큼 넓은 생태계는 아님 |
 
-실무에서는 Airflow와 MLflow를 함께 쓰는 구성이 흔하다. Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집→전처리→학습 호출을 관리하고, 학습 코드 내부에서는 MLflow가 파라미터와 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기록하는 식이다. 즉 Airflow가 "언제 무엇을 돌릴지"를 맡고, MLflow가 "무엇이 가장 좋은 결과였는지"를 기록한다.
+실무에서는 Airflow와 MLflow를 함께 쓰는 구성이 흔하다. Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집->전처리->학습 호출을 관리하고, 학습 코드 내부에서는 MLflow가 파라미터와 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기록하는 식이다. 즉 Airflow가 "언제 무엇을 돌릴지"를 맡고, MLflow가 "무엇이 가장 좋은 결과였는지"를 기록한다.
 
 또한 Airflow는 스트리밍 엔진과도 구분해야 한다. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Flink, Spark Structured Streaming은 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에 가깝고, Airflow는 분·시간·일 단위의 배치 제어에 더 적합하다. 배치 제어와 실시간 처리를 한 도구로 모두 해결하려 하면 아키텍처가 흔들린다.
 
@@ -152,18 +152,18 @@ Airflow를 도입하면 배치 [파이프](/knowledge-base/studynote/02_operatin
 
 ```text
 Cron 기반 단일 스크립트
-    │
-    ▼
+    |
+    v
 DAG 기반 의존성 관리
-    │
-    ├─ retry / alert / SLA
-    ├─ logical date / backfill
-    └─ metadata-driven observability
-    │
-    ▼
+    |
+    +- retry / alert / SLA
+    +- logical date / backfill
+    +- metadata-driven observability
+    |
+    v
 분산 Executor와 외부 처리 엔진 연동
-    │
-    ▼
+    |
+    v
 ETL + MLOps 파이프라인 오케스트레이션
 ```
 
@@ -181,7 +181,7 @@ ETL + MLOps 파이프라인 오케스트레이션
 
 **진행 상황**: 181 / 420
 
-← **이전**: [180. MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)
-**다음**: [182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/182_spark_ray_distributed/) →
+<- **이전**: [180. MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)
+**다음**: [182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/182_spark_ray_distributed/) ->
 
 ---

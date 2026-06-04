@@ -33,14 +33,14 @@ tags = ["studynote-cloud"]
 [ Guest VM A ]      [ Guest VM B ]
       \                  /
        \  1. 취약점 악용 /
-        ▼               ▼
+        v               v
           [ Hypervisor / KVM ]
-                 │
-                 │ 2. Ring -1 권한 획득
-                 ▼
+                 |
+                 | 2. Ring -1 권한 획득
+                 v
               [ Host OS ]
-                 │
-                 ▼
+                 |
+                 v
            [ Hardware / Memory ]
 ```
 
@@ -109,13 +109,13 @@ Cloud [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_con
 
 ```text
 Multi-tenancy
-   ↓
+   v
 Hypervisor
-   ↓
+   v
 VM Escape
-   ↓
+   v
 Nitro / Firecracker
-   ↓
+   v
 Confidential Computing
 ```
 
@@ -125,13 +125,13 @@ Confidential Computing
 
 ```text
 가상화 확산
-   ↓
+   v
 하이퍼바이저 취약점
-   ↓
+   v
 VENOM / Cloudburst
-   ↓
+   v
 MicroVM / Nitro
-   ↓
+   v
 Confidential Computing
 ```
 
@@ -149,7 +149,7 @@ Confidential Computing
 
 **진행 상황**: 59 / 371
 
-← **이전**: [59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)
-**다음**: [61. 컨테이너 (Container) - 경량 가상화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/061_container_lightweight_virtualization/) →
+<- **이전**: [59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)
+**다음**: [61. 컨테이너 (Container) - 경량 가상화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/061_container_lightweight_virtualization/) ->
 
 ---

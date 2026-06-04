@@ -24,9 +24,9 @@ tags = ["studynote-design-supervision"]
 
 ```
 동기 블로킹(Sync Blocking)
-  └→ 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제
-       └→ 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행
-            └→ Proactor — 완료 이벤트, OS가 I/O 수행
+  +-> 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제
+       +-> 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행
+            +-> Proactor — 완료 이벤트, OS가 I/O 수행
 ```
 
 Proactor 패턴의 핵심 동기:
@@ -43,9 +43,9 @@ Proactor 패턴의 핵심 동기:
 | 복잡도 | 상대적으로 단순 | 비교적 복잡(버퍼 수명 관리) |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: Reactor는 "손님이 도착하면 알려줘, 내가 문을 열게(readiness)" 이고 Proactor는 "손님을 안으로 모시고 자리까지 안내한 다음 나한테 알려줘(completion)" 다.
@@ -63,43 +63,43 @@ Proactor 패턴의 핵심 동기:
 | Completion Handler (완료 핸들러) | 비즈니스 로직 수행 (읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 등) |
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                        Proactor Pattern                      │
-│                                                              │
-│  ┌──────────────┐   1. 비동기 I/O 요청 + Handler 등록        │
-│  │  Initiator   │─────────────────────────────────────┐     │
-│  └──────────────┘                                     │     │
-│                                                       ▼     │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              OS Kernel (비동기 오퍼레이션 프로세서)       │  │
-│  │   2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등)        │  │
-│  └───────────────────────┬────────────────────────────────┘  │
-│                          │ 3. I/O 완료 → 결과를 큐에 삽입     │
-│                          ▼                                   │
-│  ┌─────────────────────────────────────────────────────────┐ │
-│  │          Completion Event Queue (완료 이벤트 큐)          │ │
-│  │   [결과 데이터 A] [결과 데이터 B] [결과 데이터 C] ...      │ │
-│  └───────────────────────┬─────────────────────────────────┘ │
-│                          │ 4. 이벤트 디큐(Dequeue)            │
-│                          ▼                                   │
-│  ┌──────────────┐   5. Handler 호출   ┌──────────────────┐   │
-│  │   Proactor   │────────────────────▶│ Completion       │   │
-│  │ (이벤트 루프) │                     │ Handler          │   │
-│  └──────────────┘                     │ (비즈니스 로직)   │   │
-│                                       └──────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                        Proactor Pattern                      |
+|                                                              |
+|  +--------------+   1. 비동기 I/O 요청 + Handler 등록        |
+|  |  Initiator   |-------------------------------------+     |
+|  +--------------+                                     |     |
+|                                                       v     |
+|  +--------------------------------------------------------+  |
+|  |              OS Kernel (비동기 오퍼레이션 프로세서)       |  |
+|  |   2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등)        |  |
+|  +-----------------------+--------------------------------+  |
+|                          | 3. I/O 완료 -> 결과를 큐에 삽입     |
+|                          v                                   |
+|  +---------------------------------------------------------+ |
+|  |          Completion Event Queue (완료 이벤트 큐)          | |
+|  |   [결과 데이터 A] [결과 데이터 B] [결과 데이터 C] ...      | |
+|  +-----------------------+---------------------------------+ |
+|                          | 4. 이벤트 디큐(Dequeue)            |
+|                          v                                   |
+|  +--------------+   5. Handler 호출   +------------------+   |
+|  |   Proactor   |--------------------->| Completion       |   |
+|  | (이벤트 루프) |                     | Handler          |   |
+|  +--------------+                     | (비즈니스 로직)   |   |
+|                                       +------------------+   |
++--------------------------------------------------------------+
 ```
 
 ```
-CreateIoCompletionPort()   ← IOCP 생성 및 소켓 연결
-       │
-WSARecv(overlapped)        ← 비동기 수신 시작 (버퍼를 OS에 미리 제공)
-       │
-       └→ [OS가 비동기로 TCP 수신 수행]
-              │
-       GetQueuedCompletionStatus()  ← 스레드 풀 워커가 완료 대기
-              │
-       완료 이벤트 수신 → 수신된 데이터로 비즈니스 로직 처리
+CreateIoCompletionPort()   <- IOCP 생성 및 소켓 연결
+       |
+WSARecv(overlapped)        <- 비동기 수신 시작 (버퍼를 OS에 미리 제공)
+       |
+       +-> [OS가 비동기로 TCP 수신 수행]
+              |
+       GetQueuedCompletionStatus()  <- 스레드 풀 워커가 완료 대기
+              |
+       완료 이벤트 수신 -> 수신된 데이터로 비즈니스 로직 처리
 ```
 
 ```cpp
@@ -110,7 +110,7 @@ socket.async_read_some(
         if (!ec) process(buf, bytes);
     }
 );
-// io_context.run() → Proactor 역할 (완료 이벤트 디스패치)
+// io_context.run() -> Proactor 역할 (완료 이벤트 디스패치)
 ```
 
 - **📢 섹션 요약 비유**: 음식 배달 앱에서 주문 후 내가 직접 음식을 가지러 가면 Reactor, 배달원이 문 앞까지 갖다주고 "배달 완료" 알림을 보내면 Proactor다.
@@ -139,7 +139,7 @@ socket.async_read_some(
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 **1. Windows IOCP 기반 서버**
-- AcceptEx → WSARecv/WSASend → GetQueuedCompletionStatus 루프
+- AcceptEx -> WSARecv/WSASend -> GetQueuedCompletionStatus 루프
 - [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기는 보통 CPU 코어 수의 2배 (I/O 완료 후 CPU 처리 고려)
 
 <strong>2. Linux <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 5.1+)</strong>
@@ -197,7 +197,7 @@ Proactor 패턴은 비동기 I/O의 정점에 해당하는 아키텍처 패턴�
 | 연관 개념 | Half-Sync/Half-Async | 비동기 수신 + 동기 처리 계층 분리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-비동기 I/O 완료 → 프로액터 패턴 → Completion 기반 서버
+비동기 I/O 완료 -> 프로액터 패턴 -> Completion 기반 서버
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레스토랑에서 음식을 주문하면, 셰프(OS)가 다 만들어서 테이블에 직접 가져다 줄 때 "다 됐어요!" 라고 알려주는 것이 Proactor야.
@@ -210,7 +210,7 @@ Proactor 패턴은 비동기 I/O의 정점에 해당하는 아키텍처 패턴�
 
 **진행 상황**: 274 / 530
 
-← **이전**: [212. 리액터 패턴 (Reactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/)
-**다음**: [214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/) →
+<- **이전**: [212. 리액터 패턴 (Reactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/212_reactor_pattern/)
+**다음**: [214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/) ->
 
 ---

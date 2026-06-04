@@ -32,11 +32,11 @@ tags = ["network"]
 
 ```text
 Data
-  ↓ XOR / Multiply
+  v XOR / Multiply
 PN Sequence
-  ↓
+  v
 Spread Signal
-  ↓
+  v
 Despread with Same PN
 ```
 
@@ -107,11 +107,11 @@ DSSS는 간섭에 강하고 다중 사용자 환경에서 유리하다. 그래�
 
 ```text
 PN Sequence
-  ↓
+  v
 DSSS
-  ↓
+  v
 Despreading
-  ↓
+  v
 CDMA
 ```
 
@@ -121,11 +121,11 @@ CDMA
 
 ```text
 Spread Spectrum
-  ↓
+  v
 DSSS
-  ↓
+  v
 Processing Gain
-  ↓
+  v
 CDMA
 ```
 
@@ -143,7 +143,7 @@ DSSS는 그런 통신 방법이에요.
 
 **진행 상황**: 69 / 1120
 
-← **이전**: [68. 스펙트럼 확산 (Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)
-**다음**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/) →
+<- **이전**: [68. 스펙트럼 확산 (Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)
+**다음**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 SLAM = 지도 작성(Mapping) + 위치 추정(Localization) 동시 수행
-  센서 → 특징점 추출 → 지도 업데이트 → 위치 보정 → 반복
+  센서 -> 특징점 추출 -> 지도 업데이트 -> 위치 보정 -> 반복
 ```
 
 - **📢 섹션 요약 비유**: SLAM은 <strong>눈을 가린 채 손으로 더듬으며 방 지도를 그리면서 내 위치를 파악</strong>하는 것이다.
@@ -55,9 +55,9 @@ SLAM은 <strong>GPS 없는 환경에서 위치·공간을 인식하는 유일한
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[EKF-SLAM (1990s)] → [PTAM (2007)] → [ORB-SLAM (2015)]
-    → [Deep SLAM (2018~, DL 기반)]
-    → [현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성]
+[EKF-SLAM (1990s)] -> [PTAM (2007)] -> [ORB-SLAM (2015)]
+    -> [Deep SLAM (2018~, DL 기반)]
+    -> [현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -71,7 +71,7 @@ SLAM은 <strong>GPS 없는 환경에서 위치·공간을 인식하는 유일한
 
 **진행 상황**: 131 / 552
 
-← **이전**: [130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/130_6dof_tracking_pitch_yaw_roll/)
-**다음**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/) →
+<- **이전**: [130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/130_6dof_tracking_pitch_yaw_roll/)
+**다음**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/) ->
 
 ---

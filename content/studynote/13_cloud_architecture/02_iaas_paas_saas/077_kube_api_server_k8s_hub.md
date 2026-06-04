@@ -28,7 +28,7 @@ tags = ["studynote-cloud"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-요청은 `인증(Authentication) → 인가(Authorization) → 승인(Admission) → 저장(etcd) → 감시(Watch)` 순서로 흐른다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server는 단순 전달기가 아니라, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하고 상태를 기록하고 변경을 배포하는 관문이다.
+요청은 `인증(Authentication) -> 인가(Authorization) -> 승인(Admission) -> 저장(etcd) -> 감시(Watch)` 순서로 흐른다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server는 단순 전달기가 아니라, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하고 상태를 기록하고 변경을 배포하는 관문이다.
 
 | 단계 | 역할 | 관련 요소 |
 | :--- | :--- | :--- |
@@ -40,18 +40,18 @@ tags = ["studynote-cloud"]
 
 ```text
 kubectl / controller / kubelet
-           │
-           ▼
-  ┌──────────────────┐
-  │  Kube-API Server  │
-  └───────┬──────────┘
-          │ authn / authz / admission
-          ▼
+           |
+           v
+  +------------------+
+  |  Kube-API Server  |
+  +-------+----------+
+          | authn / authz / admission
+          v
          etcd
-          │
-          ├─ watch ▶ controller manager
-          ├─ watch ▶ scheduler
-          └─ watch ▶ kubelet
+          |
+          +- watch -> controller manager
+          +- watch -> scheduler
+          +- watch -> kubelet
 ```
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server는 원하는 상태([desired state](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))를 수락하고, 그 상태를 etcd에 저장한 뒤, 다른 컴포넌트가 watch로 반응하게 만든다. 그래서 Kubernetes의 제어는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server를 중심으로 수렴한다.
@@ -105,14 +105,14 @@ Kube-[API](/knowledge-base/studynote/02_operating_system/01_overview_architectur
 
 ```text
 kubectl / controller / kubelet
-    │
-    ▼
+    |
+    v
 Kube-API Server
-    │
-    ▼
-인증 → 인가 → 승인 → 저장(etcd)
-    │
-    ▼
+    |
+    v
+인증 -> 인가 -> 승인 -> 저장(etcd)
+    |
+    v
 Watch 기반 제어평면 반응
 ```
 
@@ -128,7 +128,7 @@ Watch 기반 제어평면 반응
 
 **진행 상황**: 76 / 371
 
-← **이전**: [76. K8s 마스터 노드 컴포넌트 4가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/076_kubernetes_master_node_components/)
-**다음**: [78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) →
+<- **이전**: [76. K8s 마스터 노드 컴포넌트 4가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/076_kubernetes_master_node_components/)
+**다음**: [78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) ->
 
 ---

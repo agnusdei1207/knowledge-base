@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: AI의 역사는 "규칙 기반(Rule-Based) → 통계 학습 → 딥러닝"의 패러다임 변화로 요약되며, 각 단계는 이전 방법의 한계를 극복하는 과정이었다.
+> 1. **본질**: AI의 역사는 "규칙 기반(Rule-Based) -> 통계 학습 -> 딥러닝"의 패러다임 변화로 요약되며, 각 단계는 이전 방법의 한계를 극복하는 과정이었다.
 > 2. **가치**: [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)(Turing Test)는 AI의 지능을 행동적으로 정의했고, [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 규칙 기반 AI의 전성기를 이끌었으며, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))는 불확실성과 모호성을 수치화하는 프레임워크를 제공했다.
 > 3. **판단 포인트**: [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 특정 과제에서 인간을 초월하지만 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI, Artificial General Intelligence)은 아직 미실현 개념이며, 각 방법론의 적용 범위와 한계를 이해하는 것이 기술사 수준의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단력이다.
 
@@ -20,27 +20,27 @@ tags = ["studynote-data-engineering"]
 
 ```
 AI 발전 타임라인
-─────────────────────────────────────────────────────────────────
-1950s │ AI 개념 탄생
-      │ Turing Test (1950, Alan Turing)
-      │ "기계가 생각할 수 있는가?"
-─────────────────────────────────────────────────────────────────
-1960s │ 기호 AI (Symbolic AI) / LISP 언어
-~70s  │ 논리·규칙 기반 문제 해결
-      │ 1차 AI 겨울 (자금 삭감)
-─────────────────────────────────────────────────────────────────
-1980s │ 전문가 시스템 (Expert System) 전성기
-      │ MYCIN (의료 진단), XCON (컴퓨터 설정)
-      │ 2차 AI 겨울
-─────────────────────────────────────────────────────────────────
-1990s │ 통계 기반 머신러닝 부상
-~2000s│ SVM, 랜덤 포레스트, 나이브 베이즈
-      │ 인터넷 데이터 축적 시작
-─────────────────────────────────────────────────────────────────
-2012+ │ 딥러닝 (Deep Learning) 혁명
-      │ AlexNet → AlphaGo → GPT → LLM
-      │ GPU 병렬 연산 + 빅데이터 + 알고리즘 발전
-─────────────────────────────────────────────────────────────────
+-----------------------------------------------------------------
+1950s | AI 개념 탄생
+      | Turing Test (1950, Alan Turing)
+      | "기계가 생각할 수 있는가?"
+-----------------------------------------------------------------
+1960s | 기호 AI (Symbolic AI) / LISP 언어
+~70s  | 논리·규칙 기반 문제 해결
+      | 1차 AI 겨울 (자금 삭감)
+-----------------------------------------------------------------
+1980s | 전문가 시스템 (Expert System) 전성기
+      | MYCIN (의료 진단), XCON (컴퓨터 설정)
+      | 2차 AI 겨울
+-----------------------------------------------------------------
+1990s | 통계 기반 머신러닝 부상
+~2000s| SVM, 랜덤 포레스트, 나이브 베이즈
+      | 인터넷 데이터 축적 시작
+-----------------------------------------------------------------
+2012+ | 딥러닝 (Deep Learning) 혁명
+      | AlexNet -> AlphaGo -> GPT -> LLM
+      | GPU 병렬 연산 + 빅데이터 + 알고리즘 발전
+-----------------------------------------------------------------
 ```
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 암기 달인(규칙 기반)에서 경험 학습자(ML), 그리고 직관적 천재(딥러닝)로 발전한 과정이다. 각 세대는 이전 세대의 "이것만큼은 못 하네"를 극복하며 진화했다.
@@ -53,16 +53,16 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 
 ```
 심판관
-  │
-  │ 텍스트 질문
-  ├──────────────────→ 인간 (A)
-  │                     텍스트 응답
-  │ 텍스트 질문
-  └──────────────────→ 기계 (B)
+  |
+  | 텍스트 질문
+  +-------------------> 인간 (A)
+  |                     텍스트 응답
+  | 텍스트 질문
+  +-------------------> 기계 (B)
                          텍스트 응답
 
 심판관이 A와 B를 구별 못 하면
-→ 기계 B는 인간과 동등한 지능을 보인다고 판정
+-> 기계 B는 인간과 동등한 지능을 보인다고 판정
 ```
 
 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>의 한계:</strong>
@@ -75,38 +75,38 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 1980년대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전성기를 이끈 규칙 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이다.
 
 ```
-┌───────────────────────────────────────────────────────────┐
-│                 전문가 시스템 아키텍처                         │
-│                                                           │
-│  사용자                                                    │
-│    │ 입력                                                  │
-│    ▼                                                      │
-│  ┌─────────────────┐                                      │
-│  │  사용자 인터페이스 │                                     │
-│  └────────┬────────┘                                      │
-│           │                                               │
-│  ┌────────▼────────┐     ┌──────────────────────────┐    │
-│  │   추론 엔진      │ ←→ │     지식 베이스            │    │
-│  │ (Inference      │     │   (Knowledge Base)        │    │
-│  │  Engine)        │     │                           │    │
-│  │                 │     │  사실 (Facts):             │    │
-│  │  순방향 연쇄:   │     │    열=38.5도, 기침=있음    │    │
-│  │  사실→결론      │     │  규칙 (Rules):             │    │
-│  │                 │     │    IF 열>38 AND 기침       │    │
-│  │  역방향 연쇄:   │     │    THEN 독감 가능성        │    │
-│  │  결론←사실      │     └──────────────────────────┘    │
-│  └─────────────────┘                                      │
-│           │                                               │
-│    결론·설명 출력                                           │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|                 전문가 시스템 아키텍처                         |
+|                                                           |
+|  사용자                                                    |
+|    | 입력                                                  |
+|    v                                                      |
+|  +-----------------+                                      |
+|  |  사용자 인터페이스 |                                     |
+|  +--------+--------+                                      |
+|           |                                               |
+|  +--------v--------+     +--------------------------+    |
+|  |   추론 엔진      | <--> |     지식 베이스            |    |
+|  | (Inference      |     |   (Knowledge Base)        |    |
+|  |  Engine)        |     |                           |    |
+|  |                 |     |  사실 (Facts):             |    |
+|  |  순방향 연쇄:   |     |    열=38.5도, 기침=있음    |    |
+|  |  사실->결론      |     |  규칙 (Rules):             |    |
+|  |                 |     |    IF 열>38 AND 기침       |    |
+|  |  역방향 연쇄:   |     |    THEN 독감 가능성        |    |
+|  |  결론<-사실      |     +--------------------------+    |
+|  +-----------------+                                      |
+|           |                                               |
+|    결론·설명 출력                                           |
++-----------------------------------------------------------+
 ```
 
 ### [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) 추론 방식
 
 | 추론 방식 | 방향 | 동작 원리 | 적합 상황 |
 |:---|:---|:---|:---|
-| 순방향 연쇄 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 사실 → 결론 | 알려진 사실에서 가능한 결론 도출 | 진단, 계획 |
-| 역방향 연쇄 ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) | 결론 → 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 목표 결론을 증명할 사실 탐색 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 |
+| 순방향 연쇄 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 사실 -> 결론 | 알려진 사실에서 가능한 결론 도출 | 진단, 계획 |
+| 역방향 연쇄 ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) | 결론 -> 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 목표 결론을 증명할 사실 탐색 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 |
 
 ### [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))
 
@@ -114,20 +114,20 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 
 ```
 전통 2값 논리 (Crisp Logic):
-  온도 37°C → 정상(1) 또는 발열(0)  ← 경계 불분명
+  온도 37+C -> 정상(1) 또는 발열(0)  <- 경계 불분명
 
 퍼지 논리 (Fuzzy Logic):
-  온도 37°C → 정상(0.7), 미열(0.3), 고열(0.0)
+  온도 37+C -> 정상(0.7), 미열(0.3), 고열(0.0)
 
 소속 함수 (Membership Function) 예시:
 
  μ(x)
-  1.0 │ 정상      미열       고열
-      │ ╲        ╱╲        ╱
-  0.5 │  ╲      ╱  ╲      ╱
-      │   ╲    ╱    ╲    ╱
-  0.0 │    ╲  ╱      ╲  ╱
-      └──────────────────── 온도 (°C)
+  1.0 | 정상      미열       고열
+      | ╲        ╱╲        ╱
+  0.5 |  ╲      ╱  ╲      ╱
+      |   ╲    ╱    ╲    ╱
+  0.0 |    ╲  ╱      ╲  ╱
+      +-------------------- 온도 (+C)
        36   37  38   39  40
 
 언어 변수 (Linguistic Variable): "차갑다", "따뜻하다", "뜨겁다"
@@ -227,14 +227,14 @@ AI는 단일 패러다임으로 설명되지 않는다. [튜링 테스트](/know
 
 ```text
 규칙 기반 AI: 전문가 시스템 · 퍼지 논리
-    │
-    ▼
+    |
+    v
 기계 학습: 통계 기반 패턴 인식
-    │
-    ▼
+    |
+    v
 딥러닝: 신경망 · CNN · RNN · Transformer
-    │
-    ▼
+    |
+    v
 AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
 ```
 2. [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 의사 선생님이 알고 있는 진단 규칙("열이 38도 이상이고 기침이 있으면 독감 의심")을 컴퓨터에 입력해 컴퓨터가 의사처럼 진단하게 만든 것이다.
@@ -246,7 +246,7 @@ AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
 
 **진행 상황**: 235 / 258
 
-← **이전**: [234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/234_master_data_management_mdm_golden_record_clean_room/)
-**다음**: [236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) →
+<- **이전**: [234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/234_master_data_management_mdm_golden_record_clean_room/)
+**다음**: [236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) ->
 
 ---

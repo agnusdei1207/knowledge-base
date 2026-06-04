@@ -19,20 +19,20 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    QoS Class 결정 규칙                                │
-├───────────────────────────────────────────────────────┤
-│  [Guaranteed] requests == limits (CPU + Memory 모두)  │
-│   → 최우선 보호, Eviction 가장 마지막               │
-│                                                       │
-│  [Burstable] requests < limits (일부만 설정도 포함)   │
-│   → 중간 우선순위                                     │
-│                                                       │
-│  [BestEffort] requests·limits 없음                    │
-│   → 최저 우선순위, Eviction 1순위                    │
-│                                                       │
-│  Eviction 순서: BestEffort → Burstable → Guaranteed  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    QoS Class 결정 규칙                                |
++-------------------------------------------------------+
+|  [Guaranteed] requests == limits (CPU + Memory 모두)  |
+|   -> 최우선 보호, Eviction 가장 마지막               |
+|                                                       |
+|  [Burstable] requests < limits (일부만 설정도 포함)   |
+|   -> 중간 우선순위                                     |
+|                                                       |
+|  [BestEffort] requests·limits 없음                    |
+|   -> 최저 우선순위, Eviction 1순위                    |
+|                                                       |
+|  Eviction 순서: BestEffort -> Burstable -> Guaranteed  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이다. 1등석(Guaranteed)은 오버부킹 시에도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되고, 이코노미(BestEffort)부터 내려야 한다.
@@ -110,17 +110,17 @@ resources:
 
 ```text
 [K8s 초기 (리소스 미설정, OOMKill 빈발)]
-    │
-    ▼
+    |
+    v
 [QoS Class 도입 (2016~) — 3등급 Eviction 우선순위]
-    │
-    ▼
+    |
+    v
 [LimitRange/ResourceQuota (네임스페이스 관리)]
-    │
-    ▼
+    |
+    v
 [VPA (2019~) — requests/limits 자동 조정]
-    │
-    ▼
+    |
+    v
 [현재: Karpenter — 노드 자체를 자동 스케일링]
 ```
 
@@ -135,7 +135,7 @@ resources:
 
 **진행 상황**: 119 / 371
 
-← **이전**: [119. K8s 선언적 API (Declarative API) - Desired State·Reconciliation Loop](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/119_kubernetes_declarative_api/)
-**다음**: [121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) →
+<- **이전**: [119. K8s 선언적 API (Declarative API) - Desired State·Reconciliation Loop](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/119_kubernetes_declarative_api/)
+**다음**: [121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) ->
 
 ---

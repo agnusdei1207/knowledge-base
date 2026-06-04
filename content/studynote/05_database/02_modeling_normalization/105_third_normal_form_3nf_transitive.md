@@ -37,18 +37,18 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 이행적 종속 존재 ($X \rightarrow Y \rightarrow Z$) | 직접 종속만 존재 ($X \rightarrow Y$, $Y \rightarrow Z$) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  3NF 분리 전후의 종속성 변화                 │
-├──────────────────────────────────────────────────────────────┤
-│ [ 분리 전: 꼬리물기 종속 ]                                   │
-│  사번(PK) ───결정──▶ 부서코드 ───결정──▶ 부서명/위치       │
-│  (X)                   (Y)                 (Z)               │
-│                                                              │
-│ [ 분리 후: 독립된 테이블과 FK 참조 ]                         │
-│  사원 테이블: 사번(PK) ───결정──▶ 부서코드(FK)             │
-│                                      │                       │
-│  부서 테이블: 부서코드(PK) ───결정──▶ 부서명/위치          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  3NF 분리 전후의 종속성 변화                 |
++--------------------------------------------------------------+
+| [ 분리 전: 꼬리물기 종속 ]                                   |
+|  사번(PK) ---결정---> 부서코드 ---결정---> 부서명/위치       |
+|  (X)                   (Y)                 (Z)               |
+|                                                              |
+| [ 분리 후: 독립된 테이블과 FK 참조 ]                         |
+|  사원 테이블: 사번(PK) ---결정---> 부서코드(FK)             |
+|                                      |                       |
+|  부서 테이블: 부서코드(PK) ---결정---> 부서명/위치          |
++--------------------------------------------------------------+
 ```
 
 테이블 분리 시, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)의 매개체가 되었던 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(부서코드)은 원래 테이블(사원)에 외래키(FK)로 남고, 새로 만들어진 테이블(부서)에서는 기본키(PK)가 된다. 이를 통해 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 언제든 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)/복원할 수 있다.
@@ -109,17 +109,17 @@ tags = ["database"]
 
 ```text
 비정규 릴레이션 (중복과 이상 현상의 온상)
-    │
-    ▼
+    |
+    v
 제1정규형 (1NF) · 원자값 확보
-    │
-    ▼
+    |
+    v
 제2정규형 (2NF) · 부분 함수 종속 제거
-    │
-    ▼
+    |
+    v
 제3정규형 (3NF) · 이행적 함수 종속 제거 (실무 표준)
-    │
-    ▼
+    |
+    v
 BCNF 및 반정규화 · 결정자 오류 해결 또는 성능을 위한 의도적 통합
 ```
 
@@ -135,7 +135,7 @@ BCNF 및 반정규화 · 결정자 오류 해결 또는 성능을 위한 의도�
 
 **진행 상황**: 105 / 600
 
-← **이전**: [104. 제2정규형 (2NF) - 1NF 만족 및 부분 함수 종속 제거 (완전 함수 종속화)](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)
-**다음**: [106. BCNF (Boyce-Codd Normal Form) - 3NF 만족 및 모든 결정자가 후보키 (강한 3NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/) →
+<- **이전**: [104. 제2정규형 (2NF) - 1NF 만족 및 부분 함수 종속 제거 (완전 함수 종속화)](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)
+**다음**: [106. BCNF (Boyce-Codd Normal Form) - 3NF 만족 및 모든 결정자가 후보키 (강한 3NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/) ->
 
 ---

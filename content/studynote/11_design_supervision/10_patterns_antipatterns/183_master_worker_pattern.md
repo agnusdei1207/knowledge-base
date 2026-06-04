@@ -44,29 +44,29 @@ tags = ["studynote-design-supervision"]
 아래 그림은 마스터-워커의 실행 루프를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Master-Worker execution loop                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client submits large job                                            │
-│        │                                                            │
-│        ▼                                                            │
-│ Master                                                              │
-│  - partition job                                                    │
-│  - enqueue tasks                                                    │
-│  - track state / timeout                                            │
-│        │                                                            │
-│        ▼                                                            │
-│     Task Queue                                                      │
-│    ┌───────┬───────┬───────┐                                        │
-│    ▼       ▼       ▼                                               │
-│ Worker A Worker B Worker C                                         │
-│   │       │       │                                                 │
-│   ├─ heartbeat / ack -> Master                                     │
-│   └─ result / failure -> Collector / retry                         │
-│        │                                                            │
-│        ▼                                                            │
-│ Master aggregates and emits final result                            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Master-Worker execution loop                                        |
++----------------------------------------------------------------------+
+| Client submits large job                                            |
+|        |                                                            |
+|        v                                                            |
+| Master                                                              |
+|  - partition job                                                    |
+|  - enqueue tasks                                                    |
+|  - track state / timeout                                            |
+|        |                                                            |
+|        v                                                            |
+|     Task Queue                                                      |
+|    +-------+-------+-------+                                        |
+|    v       v       v                                               |
+| Worker A Worker B Worker C                                         |
+|   |       |       |                                                 |
+|   +- heartbeat / ack -> Master                                     |
+|   +- result / failure -> Collector / retry                         |
+|        |                                                            |
+|        v                                                            |
+| Master aggregates and emits final result                            |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 세 가지다. 첫째, 작업 단위를 너무 크게 잡으면 특정 워커가 오래 붙잡아 두는 straggler가 생기고, 너무 잘게 쪼개면 스케줄링 오버헤드가 커진다. 둘째, 실패 재할당이 가능하려면 작업이 멱등적(Idempotent)이거나 중복 처리 방지 장치가 있어야 한다. 셋째, 워커를 단순하게 유지할수록 수평 확장과 교체가 쉬워진다.
@@ -153,21 +153,21 @@ tags = ["studynote-design-supervision"]
 
 ```text
 대량 작업 발생
-    │
-    ▼
+    |
+    v
 Job partitioning
-    │
-    ▼
+    |
+    v
 Master scheduling + Task Queue
-    │
-    ├─ Worker execution
-    ├─ Heartbeat / timeout detection
-    └─ Retry / reassignment
-    │
-    ▼
+    |
+    +- Worker execution
+    +- Heartbeat / timeout detection
+    +- Retry / reassignment
+    |
+    v
 Result aggregation
-    │
-    ▼
+    |
+    v
 Scale-Out + High Availability master 설계
 ```
 
@@ -185,7 +185,7 @@ Scale-Out + High Availability master 설계
 
 **진행 상황**: 239 / 530
 
-← **이전**: [182. 지연 로딩 (Lazy Loading)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)
-**다음**: [184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/184_event_bus_pubsub/) →
+<- **이전**: [182. 지연 로딩 (Lazy Loading)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)
+**다음**: [184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/184_event_bus_pubsub/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
+    |
+    v
 [하이퍼바이저와 가상 스위치]
-    │
-    └──▶ [무손실 이더넷]
+    |
+    +---> [무손실 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
+    |
+    v
 [하이퍼바이저와 가상 스위치]
-    │
-    └──▶ [무손실 이더넷]
+    |
+    +---> [무손실 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 하이퍼바이저와 가상 스위치]
-    │
-    ├──▶ [확장 A: 무손실 이더넷]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 무손실 이더넷]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 랙 인식 토폴로지 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 연…에서 출발해 현재 메커니즘을 정교화하고, 이후 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 965 / 1120
 
-← **이전**: [843. 하둡 (Hadoop) 랙 인식](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)
-**다음**: [845. 무손실 이더넷 (Lossless Ethernet)](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/) →
+<- **이전**: [843. 하둡 (Hadoop) 랙 인식](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)
+**다음**: [845. 무손실 이더넷 (Lossless Ethernet)](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/) ->
 
 ---

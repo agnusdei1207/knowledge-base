@@ -45,24 +45,24 @@ tags = ["studynote-operating-system"]
 아래 그림은 단기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 핵심 루프를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   short-term scheduling decision loop                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Running task                                                               │
-│    │                                                                       │
-│    ├─ time slice expires / block / wakeup interrupt                        │
-│    ▼                                                                       │
-│ Kernel entry ─▶ save context ─▶ Ready Queue ─▶ pick next task              │
-│                                                    │                       │
-│                                                    ▼                       │
-│                                               Dispatcher                   │
-│                                                    │                       │
-│                                                    ▼                       │
-│                                             restore context                │
-│                                                    │                       │
-│                                                    ▼                       │
-│                                                 Running                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   short-term scheduling decision loop                      |
++----------------------------------------------------------------------------+
+| Running task                                                               |
+|    |                                                                       |
+|    +- time slice expires / block / wakeup interrupt                        |
+|    v                                                                       |
+| Kernel entry --> save context --> Ready Queue --> pick next task              |
+|                                                    |                       |
+|                                                    v                       |
+|                                               Dispatcher                   |
+|                                                    |                       |
+|                                                    v                       |
+|                                             restore context                |
+|                                                    |                       |
+|                                                    v                       |
+|                                                 Running                    |
++----------------------------------------------------------------------------+
 ```
 
 이 그림에서 중요한 점은 스케줄링 결정이 길어질수록 사용자 작업이 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU를 쓰는 시간이 늘어난다는 것이다. 그래서 Linux의 CFS (Completely Fair Scheduler)처럼 자료구조를 정교하게 쓰더라도, 호출 빈도가 매우 높다는 사실을 항상 염두에 두어야 한다. 또한 멀티코어 환경에서는 단순히 "다음 프로세스"만 고르는 것이 아니라 어느 코어에 둘지, 캐시 친화성을 유지할지, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 비용을 줄일지도 함께 고려한다.
@@ -79,7 +79,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 단기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) | [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) |
 | :--- | :--- | :--- | :--- |
-| 주 역할 | Ready → Running 선택 | 메모리 혼잡 완화 | 시스템 진입량 조절 |
+| 주 역할 | Ready -> Running 선택 | 메모리 혼잡 완화 | 시스템 진입량 조절 |
 | 실행 빈도 | 매우 높음 | 중간 | 낮음 |
 | 주요 자원 | CPU 시간 | 메모리 + 디스크 | 전체 시스템 부하 |
 | 핵심 지표 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 공정성 | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 완화 | [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) |
@@ -139,17 +139,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 시분할 시스템 (Time-sharing System)
-        │
-        ▼
+        |
+        v
 Ready Queue + 선점형 스케줄링
-        │
-        ▼
+        |
+        v
 RR / Priority / CFS
-        │
-        ▼
+        |
+        v
 멀티코어 · NUMA · CPU Affinity
-        │
-        ▼
+        |
+        v
 에너지 인지 스케줄링
 ```
 
@@ -167,7 +167,7 @@ RR / Priority / CFS
 
 **진행 상황**: 161 / 800
 
-← **이전**: [160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)
-**다음**: [162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) →
+<- **이전**: [160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)
+**다음**: [162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) ->
 
 ---

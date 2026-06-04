@@ -49,7 +49,7 @@ UFP(Unadjusted [FP](/knowledge-base/studynote/12_it_management/05_security_compl
 
 ### 2.1 적용 시점과 방법
 
-개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(요구사항 불명확) → 상세 분석 없이 기능 유형만 카운트.
+개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(요구사항 불명확) -> 상세 분석 없이 기능 유형만 카운트.
 
 <strong>평균 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 적용</strong>:
 UFP_간이 = EI×4 + EO×5 + EQ×4 + ILF×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) + EIF×7
@@ -111,10 +111,10 @@ COSMIC(ISO 19761)은 [데이터](/knowledge-base/studynote/05_database/01_db_arc
 
 | 이동 유형 | 설명                        |
 |-----------|-----------------------------|
-| Entry (E)  | 사용자 → 소프트웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 |
-| Exit (X)   | 소프트웨어 → 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출력 |
-| Read (R)   | [영구 저장소](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) → 소프트웨어 읽기  |
-| Write (W)  | 소프트웨어 → [영구 저장소](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)  |
+| Entry (E)  | 사용자 -> 소프트웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 |
+| Exit (X)   | 소프트웨어 -> 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출력 |
+| Read (R)   | [영구 저장소](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) -> 소프트웨어 읽기  |
+| Write (W)  | 소프트웨어 -> [영구 저장소](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)  |
 
 CFP(COSMIC [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) = Σ(E+X+R+W) × 1 (단위: Cosmic [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/), CFP)
 
@@ -153,19 +153,19 @@ ISBSG(International Software [Benchmarking](/knowledge-base/studynote/07_enterpr
 
 ```
 기능점수 (FP)
-├── IFPUG 방식
-│   ├── UFP (EI, EO, EQ, ILF, EIF)
-│   ├── VAF (14 GSC × 영향도)
-│   └── AFP = UFP × VAF
-├── COSMIC (ISO 19761)
-│   └── E, X, R, W 데이터 이동
-├── 비교 방법론
-│   ├── 간이법 (평균 가중치)
-│   └── 상세법 (복잡도 판별)
-└── 활용 지표
-    ├── 생산성 (FP/PM)
-    ├── 비용 (원/FP)
-    └── 결함 밀도 (결함/FP)
++-- IFPUG 방식
+|   +-- UFP (EI, EO, EQ, ILF, EIF)
+|   +-- VAF (14 GSC × 영향도)
+|   +-- AFP = UFP × VAF
++-- COSMIC (ISO 19761)
+|   +-- E, X, R, W 데이터 이동
++-- 비교 방법론
+|   +-- 간이법 (평균 가중치)
+|   +-- 상세법 (복잡도 판별)
++-- 활용 지표
+    +-- 생산성 (FP/PM)
+    +-- 비용 (원/FP)
+    +-- 결함 밀도 (결함/FP)
 ```
 
 ---
@@ -174,17 +174,17 @@ ISBSG(International Software [Benchmarking](/knowledge-base/studynote/07_enterpr
 
 ```
 LOC 기반 측정 (1960s) — 기술 종속적
-     │  사용자 관점 필요
-     ▼
+     |  사용자 관점 필요
+     v
 Function Point — Albrecht (IBM, 1979)
-     │  복잡도 조정 필요
-     ▼
+     |  복잡도 조정 필요
+     v
 IFPUG FP (VAF, 1984 ~) — 비즈니스 정보 시스템 표준
-     │  실시간/임베디드 한계
-     ▼
+     |  실시간/임베디드 한계
+     v
 COSMIC FP (ISO 19761, 2003) — 데이터 이동 기반
-     │  AI/ML 크기 측정 한계
-     ▼
+     |  AI/ML 크기 측정 한계
+     v
 SNAP (비기능 요구사항 포인트) + FP 혼용 (현재)
 ```
 
@@ -204,7 +204,7 @@ SNAP (비기능 요구사항 포인트) + FP 혼용 (현재)
 
 **진행 상황**: 50 / 973
 
-← **이전**: [049. 기능 점수 — Function Point (FP) Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/049_function_point_fp_estimation/)
-**다음**: [51. 델파이 기법 (Delphi Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) →
+<- **이전**: [049. 기능 점수 — Function Point (FP) Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/049_function_point_fp_estimation/)
+**다음**: [51. 델파이 기법 (Delphi Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ->
 
 ---

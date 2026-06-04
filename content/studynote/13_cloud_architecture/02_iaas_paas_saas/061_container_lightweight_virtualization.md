@@ -31,13 +31,13 @@ tags = ["studynote-cloud"]
 
 ```text
 애플리케이션 + 라이브러리
-        ↓
+        v
 컨테이너 이미지
-        ↓
+        v
 컨테이너 런타임
-        ↓
+        v
 호스트 OS 커널 공유
-        ↓
+        v
 논리적 격리된 프로세스
 ```
 
@@ -107,13 +107,13 @@ tags = ["studynote-cloud"]
 
 ```text
 Image
-   ↓
+   v
 Container Runtime
-   ↓
+   v
 Namespace / cgroups
-   ↓
+   v
 Docker / Kubernetes
-   ↓
+   v
 Cloud Native
 ```
 
@@ -123,13 +123,13 @@ Cloud Native
 
 ```text
 VM
-   ↓
+   v
 Linux Container
-   ↓
+   v
 Docker
-   ↓
+   v
 Kubernetes
-   ↓
+   v
 Cloud Native
 ```
 
@@ -147,7 +147,7 @@ Cloud Native
 
 **진행 상황**: 60 / 371
 
-← **이전**: [60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/)
-**다음**: [62. 컨테이너 vs 가상머신(VM)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/062_container_vs_vm_architecture/) →
+<- **이전**: [60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/)
+**다음**: [62. 컨테이너 vs 가상머신(VM)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/062_container_vs_vm_architecture/) ->
 
 ---

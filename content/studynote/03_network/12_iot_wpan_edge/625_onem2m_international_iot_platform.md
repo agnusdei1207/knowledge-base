@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    ▼
+    |
+    v
 [oneM2M 아키텍처]
-    │
-    └──▶ [엣지 컴퓨팅]
+    |
+    +---> [엣지 컴퓨팅]
 ```
 
 - **📢 섹션 요약 비유**: oneM2M 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ oneM2M 아키텍처의 알파이자 오메가입니다.
 
 ```text
 [LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    ▼
+    |
+    v
 [oneM2M 아키텍처]
-    │
-    └──▶ [엣지 컴퓨팅]
+    |
+    +---> [엣지 컴퓨팅]
 ```
 
 - **📢 섹션 요약 비유**: oneM2M 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -111,12 +111,12 @@ oneM2M 아키텍처는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 ```text
 [선행 개념: LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    ▼
+    |
+    v
 [현재 개념: oneM2M 아키텍처]
-    │
-    ├──▶ [확장 A: 엣지 컴퓨팅]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 엣지 컴퓨팅]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 oneM2M 아키텍처는 [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘에서 출발해 현재 메커니즘을 정교화하고, 이후 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -133,7 +133,7 @@ oneM2M 아키텍처는 [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_i
 
 **진행 상황**: 746 / 1120
 
-← **이전**: [624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘](/knowledge-base/studynote/03_network/12_iot_wpan_edge/624_lwm2m_lightweight_m2m_device_management/)
-**다음**: [626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/626_edge_computing_fog_computing_iot/) →
+<- **이전**: [624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘](/knowledge-base/studynote/03_network/12_iot_wpan_edge/624_lwm2m_lightweight_m2m_device_management/)
+**다음**: [626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/626_edge_computing_fog_computing_iot/) ->
 
 ---

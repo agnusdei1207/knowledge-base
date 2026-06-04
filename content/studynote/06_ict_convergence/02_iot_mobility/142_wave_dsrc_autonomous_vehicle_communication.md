@@ -22,7 +22,7 @@ tags = ["studynote-ict-convergence"]
 DSRC: 5.9GHz 전용 대역, 802.11p
   통신 범위: ~300m (직접)
   지연: <10ms (안전 메시지)
-  vs C-V2X: 5G NR, 기지국+직접, 대역 효율↑
+  vs C-V2X: 5G NR, 기지국+직접, 대역 효율^
 ```
 
 - **📢 섹션 요약 비유**: DSRC는 <strong>워키토키(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>)</strong>, C-V2X는 <strong>스마트폰(기지국+직접)</strong>이다.
@@ -48,10 +48,10 @@ DSRC는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mob
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[DSRC 802.11p (2010)] → [WAVE 표준 (IEEE 1609)]
-    → [FCC 5.9GHz 재배정 (2020)]
-    → [C-V2X 부상 (2020~)]
-    → [현재: C-V2X 주류 — DSRC 축소]
+[DSRC 802.11p (2010)] -> [WAVE 표준 (IEEE 1609)]
+    -> [FCC 5.9GHz 재배정 (2020)]
+    -> [C-V2X 부상 (2020~)]
+    -> [현재: C-V2X 주류 — DSRC 축소]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ DSRC는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mob
 
 **진행 상황**: 142 / 552
 
-← **이전**: [141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)
-**다음**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) →
+<- **이전**: [141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)
+**다음**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) ->
 
 ---

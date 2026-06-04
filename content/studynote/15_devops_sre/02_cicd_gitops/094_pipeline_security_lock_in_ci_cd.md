@@ -39,24 +39,24 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 | 4. 이미지 서명 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | Cosign 등으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지에 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 서명 추가 | 변조된 이미지가 운영 환경(K8s)에 배포되는 것 차단 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Secure CI/CD Pipeline Lock-in Flow             │
-├──────────────────────────────────────────────────────────────┤
-│ [개발자] ─▶ (Git Commit) ─▶ [ 저장소 (Branch Protection) ] │
-│                                          │                   │
-│ ┌────────────────────────────────────────▼─────────────────┐ │
-│ │                  CI Build Pipeline                       │ │
-│ │  (1) 일회성 노드 (Ephemeral Node) 할당                   │ │
-│ │  (2) 코드 취약점 자동 검사 (SAST/SCA Scan)               │ │
-│ │  (3) 이미지 빌드 및 서명 생성 (Image Signing)            │ │
-│ └────────────────────────────────────────┬─────────────────┘ │
-│                                          │ 락인 통과 및 서명 │
-│ ┌────────────────────────────────────────▼─────────────────┐ │
-│ │               CD Deployment & Runtime                    │ │
-│ │  [ Artifact Registry ] ──▶ [ K8s Admission Controller ]  │ │
-│ │                               (서명 검증 후 배포 허가)   │ │
-│ └──────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Secure CI/CD Pipeline Lock-in Flow             |
++--------------------------------------------------------------+
+| [개발자] --> (Git Commit) --> [ 저장소 (Branch Protection) ] |
+|                                          |                   |
+| +----------------------------------------v-----------------+ |
+| |                  CI Build Pipeline                       | |
+| |  (1) 일회성 노드 (Ephemeral Node) 할당                   | |
+| |  (2) 코드 취약점 자동 검사 (SAST/SCA Scan)               | |
+| |  (3) 이미지 빌드 및 서명 생성 (Image Signing)            | |
+| +----------------------------------------+-----------------+ |
+|                                          | 락인 통과 및 서명 |
+| +----------------------------------------v-----------------+ |
+| |               CD Deployment & Runtime                    | |
+| |  [ Artifact Registry ] ---> [ K8s Admission Controller ]  | |
+| |                               (서명 검증 후 배포 허가)   | |
+| +----------------------------------------------------------+ |
++--------------------------------------------------------------+
 ```
 
 가장 핵심적인 원리는 한 번 빌드된 이미지는 변경할 수 없다는 '불변성(Immutability)'과, 암호화 키를 통한 '증명(Attestation)'이다. K8s 클러스터 앞단에 있는 Admission Controller는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 정상적으로 찍어준 '서명 도장'이 없는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실행을 가차 없이 거부한다.
@@ -123,21 +123,21 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 
 ```text
 전통적 런타임 보안 방어 (WAF, IDS)
-    │
-    ▼
+    |
+    v
 Shift-Left 사상 · DevSecOps 태동
-    │
-    ▼
+    |
+    v
 SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용
-    │
-    ▼
+    |
+    v
 일회성 러너 (Ephemeral Node) · SBOM 의무화
-    │
-    ▼
+    |
+    v
 아티팩트 서명 (Image Signing) · SLSA 레벨 보증 체계
 ```
 
-이 흐름도는 "사후 탐지 → 사전 예방 → 스캔 자동화 → 환경 격리 → [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명"으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 방어 체계가 진화하는 과정을 보여준다.
+이 흐름도는 "사후 탐지 -> 사전 예방 -> 스캔 자동화 -> 환경 격리 -> [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명"으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 방어 체계가 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +151,7 @@ SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용
 
 **진행 상황**: 94 / 373
 
-← **이전**: [93. 스핀네이커 (Spinnaker)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/)
-**다음**: [95. 시크릿 매니저 (Secret Manager)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) →
+<- **이전**: [93. 스핀네이커 (Spinnaker)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/)
+**다음**: [95. 시크릿 매니저 (Secret Manager)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) ->
 
 ---

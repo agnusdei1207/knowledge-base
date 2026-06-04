@@ -31,19 +31,19 @@ tags = ["data_engineering"]
 [스키마 온 라이트의 엄격한 방어막 아키텍처]
 
        [ Source Data (정상, 오염, 포맷 불량 혼재) ]
-                       ↓
-┌────────────────────────────────────────────────────────┐
-│ [ ETL Pipeline / Data Validator ] (문지기 역할)        │
-│ 1. 형변환: "String -> Integer"                         │ (변환 및 정제 오버헤드 발생)
-│ 2. 필터링: "나이 컬럼에 문자가 있으면 Reject"          │
-└──────────────────────┬─────────────────────────────────┘
-                       │ (통과한 순도 100% 정제 데이터만 허용)
-                       ▼
-┌────────────────────────────────────────────────────────┐
-│ [ Data Warehouse / RDBMS ] (Schema-on-Write)           │
-│ CREATE TABLE users (age INT NOT NULL, name VARCHAR);   │ (사전 정의된 테이블 레이아웃)
-└──────────────────────┬─────────────────────────────────┘
-                       │ (읽기 오버헤드 제로, 인덱스 활용)
+                       v
++--------------------------------------------------------+
+| [ ETL Pipeline / Data Validator ] (문지기 역할)        |
+| 1. 형변환: "String -> Integer"                         | (변환 및 정제 오버헤드 발생)
+| 2. 필터링: "나이 컬럼에 문자가 있으면 Reject"          |
++----------------------+---------------------------------+
+                       | (통과한 순도 100% 정제 데이터만 허용)
+                       v
++--------------------------------------------------------+
+| [ Data Warehouse / RDBMS ] (Schema-on-Write)           |
+| CREATE TABLE users (age INT NOT NULL, name VARCHAR);   | (사전 정의된 테이블 레이아웃)
++----------------------+---------------------------------+
+                       | (읽기 오버헤드 제로, 인덱스 활용)
              [ BI / 고속 SQL 분석가 ]
 ```
 이 도식은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트가 작동하는 전형적인 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 파이프라인의 구조를 보여줍니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DB에 진입하기 전에 구조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 타입 캐스팅, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건(Not Null, [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) 등)의 살벌한 검열을 거칩니다. 이 과정에서 파이프라인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생하지만, 톨게이트를 통과해 내부에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '단일 진실 공급원(SSOT)'으로서의 무결점을 획득합니다. 분석가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨져 있을까 봐 걱정할 필요 없이 인덱스가 타는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)만 작성하면 됩니다.
@@ -72,11 +72,11 @@ tags = ["data_engineering"]
 (사전 스키마 정의: ID INT(4byte), Status CHAR(2byte), Age INT(4byte))
 
 [ Disk Page Block (4KB) 내부 구조 ]
-┌──────┬──────────────────────┬──────────────────────┬──────────────────────┐
-│ Header│ Record 1 (10 bytes)  │ Record 2 (10 bytes)  │ Record 3 (10 bytes)  │
-│ 메타 │ [0001][OK][0025]     │ [0002][ER][0030]     │ [0003][OK][0021]     │
-└──────┴──────────────────────┴──────────────────────┴──────────────────────┘
-         ↑ (Offset: +0)         ↑ (Offset: +10)        ↑ (Offset: +20)
++------+----------------------+----------------------+----------------------+
+| Header| Record 1 (10 bytes)  | Record 2 (10 bytes)  | Record 3 (10 bytes)  |
+| 메타 | [0001][OK][0025]     | [0002][ER][0030]     | [0003][OK][0021]     |
++------+----------------------+----------------------+----------------------+
+         ^ (Offset: +0)         ^ (Offset: +10)        ^ (Offset: +20)
 ```
 이 도식은 엔진이 왜 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제하는지 그 물리적 이유를 보여줍니다. [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) 같은 가변 길이 텍스트 파일은 100만 번째 레코드를 찾으려면 파일의 처음부터 쉼표와 괄호를 일일이 파싱하며 읽어야 합니다(Full Scan). 반면, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트에서는 레코드 길이가 정확히 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Byte로 고정(Fix)되어 있으므로, 옵티마이저는 `(목표 행 번호) * 10 Byte`라는 단순한 오프셋 수식만으로 디스크의 특정 블록으로 즉시 점프(Random Access)할 수 있습니다. 즉, 쓸 때 고생한 덕분에 읽을 때 파싱 오버헤드가 제로(0)가 되는 경이로운 읽기 최적화를 달성합니다.
 
@@ -118,17 +118,17 @@ tags = ["data_engineering"]
 [스키마 불일치(Mismatch) 예방 및 자동화 파이프라인 트리]
 
 [ 운영 DB 컬럼 추가 (Schema Change 발생) ]
-         ↓
+         v
 [ ETL 추출 과정 (Extract) ]
-         ↓
+         v
 [Q1. 타겟 DW와 소스의 스키마 메타데이터가 일치하는가?]
- ├── (Yes) ──> [ 정상 적재 (Load) 진행 ]
- └── (No) ─> [Q2. 파이프라인에 스키마 자동 진화(Schema Evolution) 로직이 있는가?]
-               ├── (No) ──> [ 장애 발생 및 Alert 발송 ] -> 엔지니어가 수동으로 ALTER TABLE 수행 (다운타임 발생)
-               └── (Yes) ─> [ Schema Evolution 실행 ]
-                            ├── 1. 타겟 DW에 자동으로 신규 컬럼 ALTER ADD
-                            └── 2. 기존 데이터의 해당 컬럼은 NULL로 채움 (역방향 호환성 유지)
-                            └──> [ 중단 없이 정상 적재 재개 ]
+ +-- (Yes) --> [ 정상 적재 (Load) 진행 ]
+ +-- (No) -> [Q2. 파이프라인에 스키마 자동 진화(Schema Evolution) 로직이 있는가?]
+               +-- (No) --> [ 장애 발생 및 Alert 발송 ] -> 엔지니어가 수동으로 ALTER TABLE 수행 (다운타임 발생)
+               +-- (Yes) -> [ Schema Evolution 실행 ]
+                            +-- 1. 타겟 DW에 자동으로 신규 컬럼 ALTER ADD
+                            +-- 2. 기존 데이터의 해당 컬럼은 NULL로 채움 (역방향 호환성 유지)
+                            +--> [ 중단 없이 정상 적재 재개 ]
 ```
 이 의사결정 흐름도는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트의 경직성을 어떻게 소프트웨어 엔지니어링으로 우회할 것인가를 보여줍니다. 실무에서는 개발팀과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀 간의 소통 부재로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 에러가 일상적으로 발생합니다. 이를 극복하기 위해 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/))은 `mergeSchema=true` 같은 옵션을 제공하여, 새로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 컬럼이 타겟 테이블에 없다면 자동으로 테이블 구조를 진화시키는([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution) 유연성을 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 환경에 부여하고 있습니다.
 
@@ -167,20 +167,20 @@ tags = ["data_engineering"]
 
 ```text
 [스키마 온 라이트 (Schema-on-Write) — 저장 전 스키마 강제 적용]
-    │
-    ▼
+    |
+    v
 [데이터 웨어하우스 (DW) — 정형 스키마 기반 분석 저장소]
-    │
-    ▼
+    |
+    v
 [스키마 온 리드 (Schema-on-Read) — 저장 후 읽기 시 스키마 적용]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake) — 원시 데이터 유연 저장]
-    │
-    ▼
+    |
+    v
 [레이크하우스 (Lakehouse) — 스키마 온 라이트 + 리드 통합]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인별 분산 스키마 자율 관리]
 ```
 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 사전에 보장하며, [스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)와의 상호 보완을 통해 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메시라는 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처로 수렴했다.
@@ -196,7 +196,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 10 / 258
 
-← **이전**: [9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)
-**다음**: [11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능](/knowledge-base/studynote/14_data_engineering/01_infrastructure/011_distributed_computing_scale_out/) →
+<- **이전**: [9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)
+**다음**: [11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능](/knowledge-base/studynote/14_data_engineering/01_infrastructure/011_distributed_computing_scale_out/) ->
 
 ---

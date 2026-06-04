@@ -21,12 +21,12 @@ tags = ["studynote-ict-convergence"]
 
 ### 전통 조직 vs [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)
 
-전통 기업: CEO → 이사회 → 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 규칙이 코드화되어 <strong>24/7 온체인 투표</strong>로 실시간 의사결정이 가능하다.
+전통 기업: CEO -> 이사회 -> 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 규칙이 코드화되어 <strong>24/7 온체인 투표</strong>로 실시간 의사결정이 가능하다.
 
 **DAO가 필요한 이유**:
-- [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파라미터 변경(이자율, 수수료) → 커뮤니티 합의 필요
-- 트레저리(Treasury) 자금 집행 → 투명한 거버넌스
-- [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드 → 코드 변경의 민주적 승인
+- [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파라미터 변경(이자율, 수수료) -> 커뮤니티 합의 필요
+- 트레저리(Treasury) 자금 집행 -> 투명한 거버넌스
+- [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드 -> 코드 변경의 민주적 승인
 
 - **📢 섹션 요약 비유**: — "DAO는 사장 없는 회사 — 직원(토큰 홀더) 모두가 주주이자 의결권자이고, 회사 규칙([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))이 자동으로 집행된다.
 
@@ -37,27 +37,27 @@ tags = ["studynote-ict-convergence"]
 ### [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 프로세스
 
 ```
-┌─────────────────────────────────────────────────────┐
-│            DAO 거버넌스 사이클                       │
-│                                                     │
-│  1. 제안(Proposal)                                  │
-│     토큰 홀더 → 스마트 컨트랙트에 제안 제출         │
-│     (최소 토큰 보유량 요건: Proposal Threshold)      │
-│                                                     │
-│  2. 투표(Voting Period, 예: 3일~7일)                 │
-│     홀더: 찬성(For) / 반대(Against) / 기권(Abstain) │
-│     위임(Delegation): 투표권 위임 가능               │
-│                                                     │
-│  3. 쿼럼(Quorum) 달성 확인                          │
-│     예: 전체 공급량의 4% 이상 참여 필요              │
-│                                                     │
-│  4. 타임락(Timelock, 예: 2일~7일)                   │
-│     승인된 제안 → 즉시 실행 아님 → 대기             │
-│     이 기간 긴급 철회(Guardian) 가능                │
-│                                                     │
-│  5. 실행(Execution)                                 │
-│     타임락 만료 → 스마트 컨트랙트 자동 실행          │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|            DAO 거버넌스 사이클                       |
+|                                                     |
+|  1. 제안(Proposal)                                  |
+|     토큰 홀더 -> 스마트 컨트랙트에 제안 제출         |
+|     (최소 토큰 보유량 요건: Proposal Threshold)      |
+|                                                     |
+|  2. 투표(Voting Period, 예: 3일~7일)                 |
+|     홀더: 찬성(For) / 반대(Against) / 기권(Abstain) |
+|     위임(Delegation): 투표권 위임 가능               |
+|                                                     |
+|  3. 쿼럼(Quorum) 달성 확인                          |
+|     예: 전체 공급량의 4% 이상 참여 필요              |
+|                                                     |
+|  4. 타임락(Timelock, 예: 2일~7일)                   |
+|     승인된 제안 -> 즉시 실행 아님 -> 대기             |
+|     이 기간 긴급 철회(Guardian) 가능                |
+|                                                     |
+|  5. 실행(Execution)                                 |
+|     타임락 만료 -> 스마트 컨트랙트 자동 실행          |
++-----------------------------------------------------+
 ```
 
 ### 주요 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 비교
@@ -79,9 +79,9 @@ tags = ["studynote-ict-convergence"]
 
 ```
 취약 컨트랙트: splitDAO() 함수
-공격자: ETH 출금 → 잔액 차감 전 재진입 → 반복 출금
+공격자: ETH 출금 -> 잔액 차감 전 재진입 -> 반복 출금
 피해: 360만 ETH ($6000만, 당시 ETH 공급의 15%)
-결과: 이더리움 하드포크 → ETH / ETC 분리
+결과: 이더리움 하드포크 -> ETH / ETC 분리
 교훈: DAO 컨트랙트 보안 감사 필수, 타임락 도입
 ```
 
@@ -89,7 +89,7 @@ tags = ["studynote-ict-convergence"]
 
 | 공격 유형 | 방법 | 방어 방법 |
 |:---|:---|:---|
-| **플래시론 거버넌스 공격** | 거대 토큰 임시 확보 → 투표 조작 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 투표 (보유 기간 기준) |
+| **플래시론 거버넌스 공격** | 거대 토큰 임시 확보 -> 투표 조작 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 투표 (보유 기간 기준) |
 | **매수 공격(Bribery)** | 투표권 외부 매수 | 위임 투표 분산화 |
 | **저쿼럼 통과** | 참여율 낮을 때 소수로 통과 | 쿼럼 최소 요건 높이기 |
 | **악의적 업그레이드** | 코드 변경으로 자산 탈취 | 타임락 + Guardian |
@@ -108,7 +108,7 @@ tags = ["studynote-ict-convergence"]
 4. **위임 구조**: 전문 위임자(Delegate) 생태계 활성화 필요
 
 ### 기술사 핵심 판단
-- DAO는 법인격이 없어 법적 보호가 없음 → Wyoming [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 등 법적 구조 연구 필요
+- DAO는 법인격이 없어 법적 보호가 없음 -> Wyoming [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 등 법적 구조 연구 필요
 - 투표 참여율(Voter Apathy) 문제: Compound [COMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) 투표 참여율 2~5% 수준
 - **프로그래밍 가능한 규칙의 한계**: 정성적 판단이 필요한 사안은 코드화 어려움
 - **멀티시그(Multi-Sig) 병용**: 긴급 대응을 위한 Gnosis [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 기반 관리자 키
@@ -145,7 +145,7 @@ DAO는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [DAO 탈중앙화 자율 조직] → [DAO 규칙 집행 자동화 기반]
+[관계 설명] -> [DAO 탈중앙화 자율 조직] -> [DAO 규칙 집행 자동화 기반]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -160,7 +160,7 @@ DAO는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 
 **진행 상황**: 484 / 552
 
-← **이전**: [483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/483_did_decentralized_identity_w3c_vc_vp/)
-**다음**: [485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/485_blockchain_attack_51_eclipse_sybil/) →
+<- **이전**: [483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/483_did_decentralized_identity_w3c_vc_vp/)
+**다음**: [485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/485_blockchain_attack_51_eclipse_sybil/) ->
 
 ---

@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 로우해머의 기본 배치를 단순화해 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ DRAM disturbance: aggressor rows shake a victim row                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Row A  : hammered again and again                                          │
-│ Row B  : victim row, charge decays faster                                  │
-│ Row C  : hammered again and again                                          │
-│                                                                            │
-│ Repeated activations of A/C within one refresh window                      │
-│                    └────────────▶ bit flips may appear in B                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| DRAM disturbance: aggressor rows shake a victim row                       |
++----------------------------------------------------------------------------+
+| Row A  : hammered again and again                                          |
+| Row B  : victim row, charge decays faster                                  |
+| Row C  : hammered again and again                                          |
+|                                                                            |
+| Repeated activations of A/C within one refresh window                      |
+|                    +-------------> bit flips may appear in B                |
++----------------------------------------------------------------------------+
 ```
 
 즉 로우해머는 "읽으면 안 되는 것을 읽는" 공격이 아니라, "건드리면 안 되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 흔들어 값 자체를 바꾸는" 공격이다. 그래서 하드웨어 보안에서는 정보 유출뿐 아니라 정보 변조를 만드는 물리 공격면으로 따로 기억해야 한다.
@@ -60,18 +60,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 공격자가 실제로 노리는 반복 패턴을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Rowhammer cycle: open-close-open-close before refresh catches up          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Aggressor Row A   -> activate -> precharge                                 │
-│ Aggressor Row C   -> activate -> precharge                                 │
-│ Aggressor Row A   -> activate -> precharge                                 │
-│ Aggressor Row C   -> activate -> precharge                                 │
-│        ... repeated many times within one refresh interval                 │
-│                                                                            │
-│ Victim Row B sits between A and C                                          │
-│        └────────────▶ charge loss accumulates -> threshold crossed -> flip │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Rowhammer cycle: open-close-open-close before refresh catches up          |
++----------------------------------------------------------------------------+
+| Aggressor Row A   -> activate -> precharge                                 |
+| Aggressor Row C   -> activate -> precharge                                 |
+| Aggressor Row A   -> activate -> precharge                                 |
+| Aggressor Row C   -> activate -> precharge                                 |
+|        ... repeated many times within one refresh interval                 |
+|                                                                            |
+| Victim Row B sits between A and C                                          |
+|        +-------------> charge loss accumulates -> threshold crossed -> flip |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 때문에 로우해머는 메모리 컨트롤러, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 물리 배치, 리프레시 회로를 모두 함께 본다. 또한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만 뒤집혀도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리나 권한 플래그가 변조될 수 있으므로, "한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정도는 괜찮다"는 직관이 통하지 않는다.
@@ -149,16 +149,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 DRAM 미세화 · 전하 간섭 증가
-        │
-        ▼
+        |
+        v
 Disturbance Error 발견
-        │
-        ▼
+        |
+        v
 로우해머 공격 (Rowhammer)
-        │
-        ├────────▶ Double-sided · Half-Double · Blacksmith
-        │
-        └────────▶ TRR · ECC · On-Die ECC · 행 배치 격리
+        |
+        +---------> Double-sided · Half-Double · Blacksmith
+        |
+        +---------> TRR · ECC · On-Die ECC · 행 배치 격리
 ```
 
 이 흐름은 "고집적 메모리의 물리 한계"가 "실제 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 공격"으로 이어지고, 다시 메모리 컨트롤러와 시스템 소프트웨어가 함께 방어를 진화시키는 과정을 보여 준다.
@@ -175,7 +175,7 @@ Disturbance Error 발견
 
 **진행 상황**: 484 / 803
 
-← **이전**: [483. 스펙터 (Spectre)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)
-**다음**: [485. 물리적 복제 방지 기능 (PUF)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) →
+<- **이전**: [483. 스펙터 (Spectre)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)
+**다음**: [485. 물리적 복제 방지 기능 (PUF)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) ->
 
 ---

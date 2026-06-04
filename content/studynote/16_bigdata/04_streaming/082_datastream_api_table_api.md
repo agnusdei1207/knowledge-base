@@ -22,16 +22,16 @@ tags = ["studynote-bigdata"]
 ### 1. Flink [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층 구조
 
 ```
-사용자 편의성 ↑          ↑ 표현력
-┌────────────────────────────────────────┐
-│  SQL (문자열 SQL 쿼리)                  │  ← 가장 선언적
-├────────────────────────────────────────┤
-│  Table API (Java/Scala/Python DSL)     │
-├────────────────────────────────────────┤
-│  DataStream / DataSet API              │  ← 세밀한 제어
-├────────────────────────────────────────┤
-│  Stateful Functions (저수준)           │  ← 가장 강력한 제어
-└────────────────────────────────────────┘
+사용자 편의성 ^          ^ 표현력
++----------------------------------------+
+|  SQL (문자열 SQL 쿼리)                  |  <- 가장 선언적
++----------------------------------------+
+|  Table API (Java/Scala/Python DSL)     |
++----------------------------------------+
+|  DataStream / DataSet API              |  <- 세밀한 제어
++----------------------------------------+
+|  Stateful Functions (저수준)           |  <- 가장 강력한 제어
++----------------------------------------+
 ```
 
 ### 2. 각 API의 사용 상황
@@ -83,7 +83,7 @@ env.execute("UserActivityAggregation");
 // Java Table API + SQL 예시
 StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
-// DataStream → Table 변환
+// DataStream -> Table 변환
 Table eventTable = tableEnv.fromDataStream(
     stream,
     Schema.newBuilder()
@@ -100,7 +100,7 @@ Table result = tableEnv.sqlQuery(
     "GROUP BY user_id, TUMBLE(rowtime, INTERVAL '5' MINUTE)"
 );
 
-// Table → DataStream 변환 (다시 저수준으로)
+// Table -> DataStream 변환 (다시 저수준으로)
 DataStream<Row> outputStream = tableEnv.toDataStream(result);
 ```
 
@@ -149,7 +149,7 @@ AND b.event_time BETWEEN a.event_time AND a.event_time + INTERVAL '30' MINUTE;
 ### 2. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 간 상호 변환
 
 ```java
-// Table → DataStream (복잡한 로직 처리 후 Table로 복귀)
+// Table -> DataStream (복잡한 로직 처리 후 Table로 복귀)
 DataStream<Row> ds = tableEnv.toDataStream(table);
 DataStream<Row> processed = ds.process(new ComplexProcessFunction());
 Table backToTable = tableEnv.fromDataStream(processed);
@@ -222,17 +222,17 @@ Flink의 DataStream API와 Table [API](/knowledge-base/studynote/02_operating_sy
 
 ```text
 [Flink RDD]
-    │
-    ▼
+    |
+    v
 [DataStream API]
-    │
-    ▼
+    |
+    v
 [Table API/SQL]
-    │
-    ▼
+    |
+    v
 [통합 스트리밍]
-    │
-    ▼
+    |
+    v
 [Kappa 아키텍처]
 ```
 
@@ -248,7 +248,7 @@ Flink에는 두 가지 요리 방법이 있어요. Table [API](/knowledge-base/s
 
 **진행 상황**: 82 / 262
 
-← **이전**: [06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph](/knowledge-base/studynote/16_bigdata/04_streaming/081_flink_architecture/)
-**다음**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/knowledge-base/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/) →
+<- **이전**: [06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph](/knowledge-base/studynote/16_bigdata/04_streaming/081_flink_architecture/)
+**다음**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/knowledge-base/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/) ->
 
 ---

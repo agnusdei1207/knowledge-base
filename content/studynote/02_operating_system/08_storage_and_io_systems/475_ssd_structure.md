@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 패러다임 붕괴</strong>: 바늘 동선을 짜던 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFQ)들이 무더기로 실직당하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O(Multi-queue)의 시대가 벼락처럼 도래함.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│        SSD 내부의 물리적/논리적 계층 구조 (Cell -> Page -> Block)           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ [ 1. 셀 (Cell) ] - 가장 작은 모래알 (1비트 ~ 4비트 저장)                    │
-│   전자가 갇혀있으면 0, 비어있으면 1 (SLC, MLC, TLC, QLC)                    │
-│                                                                             │
-│ [ 2. 페이지 (Page) ] - 책의 한 페이지 (보통 4KB ~ 16KB 크기)                │
-│   ┌─[Cell][Cell][Cell][Cell]... ┐ ◀ 이 줄 묶음이 1개의 Page!                │
-│   🔥 핵심 룰 1: 읽기(Read)와 쓰기(Write)는 무조건 [Page 단위]로 수행!       │
-│                                                                             │
-│ [ 3. 블록 (Block) ] - 책 한 권 (수십~수백 개의 Page 묶음. 수 MB)            │
-│   ┌────────────────────────────────┐                                        │
-│   │ [ Page 1 ] [ Page 2 ] [ Page 3 ] ... │                                  │
-│   └────────────────────────────────┘                                        │
-│   ☠️ 핵심 룰 2: 지우기(Erase)는 무조건 무식하게 [Block 단위]로만 수행!      │
-│     (페이지 1장만 지우고 싶어도, 블록 전체를 날려버려야 하는 끔찍한 제약)   │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|        SSD 내부의 물리적/논리적 계층 구조 (Cell -> Page -> Block)           |
++-----------------------------------------------------------------------------+
+|                                                                             |
+| [ 1. 셀 (Cell) ] - 가장 작은 모래알 (1비트 ~ 4비트 저장)                    |
+|   전자가 갇혀있으면 0, 비어있으면 1 (SLC, MLC, TLC, QLC)                    |
+|                                                                             |
+| [ 2. 페이지 (Page) ] - 책의 한 페이지 (보통 4KB ~ 16KB 크기)                |
+|   +-[Cell][Cell][Cell][Cell]... + <- 이 줄 묶음이 1개의 Page!                |
+|   🔥 핵심 룰 1: 읽기(Read)와 쓰기(Write)는 무조건 [Page 단위]로 수행!       |
+|                                                                             |
+| [ 3. 블록 (Block) ] - 책 한 권 (수십~수백 개의 Page 묶음. 수 MB)            |
+|   +--------------------------------+                                        |
+|   | [ Page 1 ] [ Page 2 ] [ Page 3 ] ... |                                  |
+|   +--------------------------------+                                        |
+|   ☠️ 핵심 룰 2: 지우기(Erase)는 무조건 무식하게 [Block 단위]로만 수행!      |
+|     (페이지 1장만 지우고 싶어도, 블록 전체를 날려버려야 하는 끔찍한 제약)   |
++-----------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "읽고 쓰는 건 낱장([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 되는데, 지우는 건 무조건 책 한 권(Block)을 통째로 불태워야 한다"는 이 미친 비대칭성([Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/))이 바로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구조의 알파요 오메가다. 이 거지 같은 하드웨어의 생리적 약점을 덮어주기 위해 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기판 안에는 컴퓨터 본체의 CPU를 뺨치는 초고지능 두뇌([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) Controller + [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))가 쉬지 않고 땀을 뻘뻘 흘리며 사기([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))를 치고 있다.
 
@@ -105,13 +105,13 @@ SSD를 살 때 가격을 결정하는 낸드 셀의 저장 계급도다.
 QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>해야 한다. "이게 3단계 높이인가? 4단계 높이인가?"를 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 미세하게 넣었다 뺐다 하며 저울질(Read/Write) 하느라 속도가 처참하게 곤두박질친다. 게다가 미세 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 계속 때려 박으니 칩이 금방 닳아서 죽어버린다(Wear-out). 이를 속이기 위해 제조사들은 TLC/QLC 드라이브 앞단에 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시(가짜 고속도로)를 10GB쯤 깔아서 벤치마크 사기를 치는 것이 현대 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 설계의 어두운 이면이다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 플래시 타입│ 가격 (용량)   │ 읽기/쓰기 렉 │ 데이터 보존력(수명)│
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ SLC      │ 💰 미치게 비쌈 │ 🚀 0 딜레이  │ 🟢 대대손손 물려줌  │
-│ TLC      │ 💵 아주 합리적 │ 🟢 쓸 만함   │ 🟡 3~5년 거뜬함     │
-│ QLC      │ 🪙 껌값 수준  │ 🐢 숨 막힘   │ ☠️ 토렌트 돌리면 사망│
-└──────────┴────────────┴────────────┴───────────────────────────┘
++----------+------------+------------+---------------------------+
+| 플래시 타입| 가격 (용량)   | 읽기/쓰기 렉 | 데이터 보존력(수명)|
++----------+------------+------------+---------------------------+
+| SLC      | 💰 미치게 비쌈 | 🚀 0 딜레이  | 🟢 대대손손 물려줌  |
+| TLC      | 💵 아주 합리적 | 🟢 쓸 만함   | 🟡 3~5년 거뜬함     |
+| QLC      | 🪙 껌값 수준  | 🐢 숨 막힘   | ☠️ 토렌트 돌리면 사망|
++----------+------------+------------+---------------------------+
 ```
 **[매트릭스 해설]** 자본주의 시장은 결국 용량(가격)이 이긴다. 느려 터진 TLC와 QLC의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 스위칭 렉을 어떻게든 가려보려고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 제조사들은 컨트롤러 칩 안에 ARM 코어를 2개, 3개씩 박아넣고 램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))을 기가바이트 단위로 발라가며 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 칩 인터리빙(채널 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 흑마술을 피 터지게 쥐어짜고 있는 중이다.
 
@@ -173,12 +173,12 @@ QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>
 
 ```text
 [리눅스 I/O 스케줄러]
-    │
-    ▼
+    |
+    v
 [솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
-    │
-    ├──▶ [플래시 메모리 한계]
-    └──▶ [가비지 컬렉션 (Garbage Collection in SSD)]
+    |
+    +---> [플래시 메모리 한계]
+    +---> [가비지 컬렉션 (Garbage Collection in SSD)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -195,7 +195,7 @@ QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>
 
 **진행 상황**: 475 / 800
 
-← **이전**: [474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/474_linux_io_schedulers/)
-**다음**: [476. 플래시 메모리 한계 - 덮어쓰기 불가(Erase-before-write), 쓰기 횟수 제한(Wear-out)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/) →
+<- **이전**: [474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/474_linux_io_schedulers/)
+**다음**: [476. 플래시 메모리 한계 - 덮어쓰기 불가(Erase-before-write), 쓰기 횟수 제한(Wear-out)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/) ->
 
 ---

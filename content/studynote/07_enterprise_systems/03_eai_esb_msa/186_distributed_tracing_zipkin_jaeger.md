@@ -36,18 +36,18 @@ tags = ["studynote-enterprise"]
 아래 그림은 요청 흐름과 추적 수집 흐름을 함께 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Request path and tracing pipeline                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ Client -> Gateway -> Order -> Payment -> DB                        │
-│            │         │          │                                  │
-│            │         │          └─ span-4 : SQL                    │
-│            │         └──────────── span-3 : payment call           │
-│            └────────────────────── span-2 : order handler          │
-│ trace-1 ───────────────────────── span-1 : gateway                 │
-│                                                                    │
-│ Services export spans -> Collector -> Storage -> Zipkin / Jaeger   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Request path and tracing pipeline                                  |
++--------------------------------------------------------------------+
+| Client -> Gateway -> Order -> Payment -> DB                        |
+|            |         |          |                                  |
+|            |         |          +- span-4 : SQL                    |
+|            |         +------------ span-3 : payment call           |
+|            +---------------------- span-2 : order handler          |
+| trace-1 ------------------------- span-1 : gateway                 |
+|                                                                    |
+| Services export spans -> Collector -> Storage -> Zipkin / Jaeger   |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -144,17 +144,17 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 
 ```text
 모놀리식 디버깅 한계 없음
-        │
-        ▼
+        |
+        v
 MSA 확산과 로그 파편화
-        │
-        ▼
+        |
+        v
 Trace ID · Span 기반 문맥 전파
-        │
-        ▼
+        |
+        v
 Zipkin / Jaeger 수집 · 시각화
-        │
-        ▼
+        |
+        v
 OpenTelemetry 기반 통합 관측성
 ```
 
@@ -172,7 +172,7 @@ OpenTelemetry 기반 통합 관측성
 
 **진행 상황**: 186 / 482
 
-← **이전**: [185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/185_log_aggregation_fluentd_elasticsearch/)
-**다음**: [187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/187_strangler_fig_pattern_msa_migration/) →
+<- **이전**: [185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/185_log_aggregation_fluentd_elasticsearch/)
+**다음**: [187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/187_strangler_fig_pattern_msa_migration/) ->
 
 ---

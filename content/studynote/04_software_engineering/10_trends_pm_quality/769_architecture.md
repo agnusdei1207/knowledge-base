@@ -24,9 +24,9 @@ tags = ["studynote-software-engineering"]
 반대로 이런 구조가 없으면 검토는 형식만 남고, 숫자와 문서와 현장이 서로 어긋난다. 그래서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식은 단순 설명이 아니라, 실제 운영에서 판단선을 세우는 도구로 읽어야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 이 그림은 입력이 결과로 바로 가는 것이 아니라, 중간의 기준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거치며 의미가 바뀐다는 점을 보여준다.
@@ -43,7 +43,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 주제의 핵심은 요구사항 → 구성 요소 → 운영 결과의 흐름을 끊김 없이 이어 주는 것이다. [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) 도구 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)(DD) 표기법에서 가장 먼저 봐야 할 것은 구성 요소가 아니라 경계다. 무엇을 입력으로 받고, 무엇을 처리하며, 무엇을 증거로 남기는지 정리해야 전체 구조가 보인다.
+이 주제의 핵심은 요구사항 -> 구성 요소 -> 운영 결과의 흐름을 끊김 없이 이어 주는 것이다. [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) 도구 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)(DD) 표기법에서 가장 먼저 봐야 할 것은 구성 요소가 아니라 경계다. 무엇을 입력으로 받고, 무엇을 처리하며, 무엇을 증거로 남기는지 정리해야 전체 구조가 보인다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
@@ -52,9 +52,9 @@ tags = ["studynote-software-engineering"]
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)과(와) requirements traceability은 이 흐름을 보강하는 대표 축이다. 하나는 기준을 넓히는 관점이고, 다른 하나는 실행을 좁히는 관점이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -131,21 +131,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 구조적 분석 도구 데이터 사전(DD) 표기법 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 942 / 973
 
-← **이전**: [768. 럼바우 객체 모델링 (객체/동적/기능 모델)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/768_rumbaugh_omt_object_dynamic_functional/)
-**다음**: [770. 페트리 넷 병행/비동기 시스템 정형 명세](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/770_petri_net_formal_specification/) →
+<- **이전**: [768. 럼바우 객체 모델링 (객체/동적/기능 모델)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/768_rumbaugh_omt_object_dynamic_functional/)
+**다음**: [770. 페트리 넷 병행/비동기 시스템 정형 명세](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/770_petri_net_formal_specification/) ->
 
 ---

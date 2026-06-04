@@ -54,26 +54,26 @@ tags = ["studynote-operating-system"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/">KPTI</a> 방어 원리 (과거 KAISER 패치)</strong>
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 KPTI (Kernel Page Table Isolation) 방어 구조           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [KPTI 적용 전 (Meltdown 취약)]                                       │
-  │   - User Mode 실행 중일 때의 Page Table:                             │
-  │     [ 유저 메모리 영역 ] + [ 커널 메모리 영역 통째로 매핑 (권한으로만 통제) ]   │
-  │     (CPU가 몰래 커널 영역을 읽어서 캐시에 올릴 수 있음)                     │
-  │                                                                   │
-  │  [KPTI 적용 후 (Meltdown 방어 성공)]                                  │
-  │   - 리눅스는 프로세스당 2개의 세트(Shadow Page Table)를 운영한다.          │
-  │                                                                   │
-  │   1. User Mode 실행 중일 때의 Page Table:                            │
-  │      [ 유저 메모리 영역 ] + [ 텅 빈 커널 영역 (인터럽트 진입점 등 극히 일부만 남김)]│
-  │      (해커가 비순차적 실행을 시도해도 아예 매핑된 주소가 없으므로 캐시에 못 올림) │
-  │                                                                   │
-  │   2. 시스템 콜 호출 -> Kernel Mode 진입 시 (Tramp 과정):                 │
-  │      - CR3 레지스터를 조작하여 [진짜 커널 페이지 테이블]로 스위칭(Swap)함.    │
-  │      - 작업이 끝나고 User Mode로 돌아갈 때 다시 [유저용 빈 테이블]로 스위칭. │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 KPTI (Kernel Page Table Isolation) 방어 구조           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [KPTI 적용 전 (Meltdown 취약)]                                       |
+  |   - User Mode 실행 중일 때의 Page Table:                             |
+  |     [ 유저 메모리 영역 ] + [ 커널 메모리 영역 통째로 매핑 (권한으로만 통제) ]   |
+  |     (CPU가 몰래 커널 영역을 읽어서 캐시에 올릴 수 있음)                     |
+  |                                                                   |
+  |  [KPTI 적용 후 (Meltdown 방어 성공)]                                  |
+  |   - 리눅스는 프로세스당 2개의 세트(Shadow Page Table)를 운영한다.          |
+  |                                                                   |
+  |   1. User Mode 실행 중일 때의 Page Table:                            |
+  |      [ 유저 메모리 영역 ] + [ 텅 빈 커널 영역 (인터럽트 진입점 등 극히 일부만 남김)]|
+  |      (해커가 비순차적 실행을 시도해도 아예 매핑된 주소가 없으므로 캐시에 못 올림) |
+  |                                                                   |
+  |   2. 시스템 콜 호출 -> Kernel Mode 진입 시 (Tramp 과정):                 |
+  |      - CR3 레지스터를 조작하여 [진짜 커널 페이지 테이블]로 스위칭(Swap)함.    |
+  |      - 작업이 끝나고 User Mode로 돌아갈 때 다시 [유저용 빈 테이블]로 스위칭. |
+  +-------------------------------------------------------------------+
 ```
 **결과 및 대가**: [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)은 완벽히 막혔지만, 시스템 콜이나 인터럽트가 발생할 때마다 무거운 CR3 스위칭([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Flush 유발)이 발생하므로 <strong>I/O가 잦은 시스템(DB, 파일서버)에서 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 최대 30% 폭락</strong>했다. (최신 CPU에서는 하드웨어로 고쳐서 KPTI를 끌 수 있다: `pti=off`)
 
@@ -90,25 +90,25 @@ tags = ["studynote-operating-system"]
 해커가 훈련시킨 예측기를 바보로 만들기 위해 컴파일러(GCC)가 코드를 기괴하게 꼬아버린다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Retpoline (Return Trampoline) 방어 구조                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [일반적인 간접 분기 코드 (Spectre 취약)]                               │
-  │   jmp *%rax  // CPU 분기 예측기가 개입하여 해커가 훈련시킨 곳으로 추측 실행함.│
-  │                                                                   │
-  │  [Retpoline이 적용된 기괴한 코드 (Spectre 방어)]                         │
-  │   call  set_up_target      // 1. call 명령으로 현재 주소를 스택에 푸시     │
-  │   capture_speculation:                                            │
-  │   pause                    // 3. 분기 예측기가 이쪽으로 추측 실행을 오면, │
-  │   jmp capture_speculation  //    이 '무한 루프(트램펄린)'에 가둬버림!! │
-  │                                                                   │
-  │   set_up_target:                                                  │
-  │   mov %rax, (%rsp)         // 2. 아까 스택에 넣은 복귀 주소를 내가 진짜 가야 할│
-  │                            //    올바른 목적지(%rax) 주소로 몰래 덮어씀.  │
-  │   ret                      // 4. ret 명령 수행. CPU는 스택에서 꺼낸    │
-  │                            //    진짜 목적지로 안전하게 점프함.          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Retpoline (Return Trampoline) 방어 구조                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [일반적인 간접 분기 코드 (Spectre 취약)]                               |
+  |   jmp *%rax  // CPU 분기 예측기가 개입하여 해커가 훈련시킨 곳으로 추측 실행함.|
+  |                                                                   |
+  |  [Retpoline이 적용된 기괴한 코드 (Spectre 방어)]                         |
+  |   call  set_up_target      // 1. call 명령으로 현재 주소를 스택에 푸시     |
+  |   capture_speculation:                                            |
+  |   pause                    // 3. 분기 예측기가 이쪽으로 추측 실행을 오면, |
+  |   jmp capture_speculation  //    이 '무한 루프(트램펄린)'에 가둬버림!! |
+  |                                                                   |
+  |   set_up_target:                                                  |
+  |   mov %rax, (%rsp)         // 2. 아까 스택에 넣은 복귀 주소를 내가 진짜 가야 할|
+  |                            //    올바른 목적지(%rax) 주소로 몰래 덮어씀.  |
+  |   ret                      // 4. ret 명령 수행. CPU는 스택에서 꺼낸    |
+  |                            //    진짜 목적지로 안전하게 점프함.          |
+  +-------------------------------------------------------------------+
 ```
 **결과 및 대가**: CPU의 똑똑한 '간접 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기([BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))' 사용을 원천 차단하고, 대신 방어가 쉬운 '복귀 예측기(RSB)'를 이용해 무한 루프 늪으로 유인하는 천재적 해킹 기법(을 이용한 방어)이다. 구글 덕분에 [스펙터](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) v2 방어 시 인텔이 내놓은 마이크로코드 패치([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 대폭락)를 쓰지 않고도, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 거의 0에 가깝게 막아냈다.
 
@@ -153,27 +153,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 부채널 공격 완화 (Mitigations) 튜닝 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 엔터프라이즈 서버 프로비저닝 (Linux 커널 5.x 이상 적용)]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      이 서버가 외부에 노출되어 있거나, 신뢰할 수 없는 임의의 코드를 실행하는가? │
-  │      (예: 퍼블릭 클라우드 호스트 노드, 웹 호스팅, 샌드박스, 브라우저 환경)       │
-  │          ├─ 예 ─────▶ [모든 Mitigations 강제 유지 (보안 최우선)]        │
-  │          │            (성능이 30% 떨어지더라도 절대 끄면 안 됨)           │
-  │          └─ 아니오 (예: 방화벽 내부의 폐쇄된 전용 DB 서버, 스토리지 서버)    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      하드웨어 CPU가 멜트다운/스펙터 취약점을 실리콘 레벨에서 고친 세대인가?   │
-  │      (lscpu 쳤을 때 Vulnerabilities 항목에 Not affected 가 뜨는가?)      │
-  │          ├─ 예 ─────▶ [자동으로 완화 조치 꺼짐 (성능 손실 없음)]          │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ `mitigations=off` 커널 파라미터 적용 검토         │
-  │                         (보안 책임자의 승인 하에 KPTI, IBPB 해제 -> 성능 복구)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 부채널 공격 완화 (Mitigations) 튜닝 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 엔터프라이즈 서버 프로비저닝 (Linux 커널 5.x 이상 적용)]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      이 서버가 외부에 노출되어 있거나, 신뢰할 수 없는 임의의 코드를 실행하는가? |
+  |      (예: 퍼블릭 클라우드 호스트 노드, 웹 호스팅, 샌드박스, 브라우저 환경)       |
+  |          +- 예 ------> [모든 Mitigations 강제 유지 (보안 최우선)]        |
+  |          |            (성능이 30% 떨어지더라도 절대 끄면 안 됨)           |
+  |          +- 아니오 (예: 방화벽 내부의 폐쇄된 전용 DB 서버, 스토리지 서버)    |
+  |                |                                                  |
+  |                v                                                  |
+  |      하드웨어 CPU가 멜트다운/스펙터 취약점을 실리콘 레벨에서 고친 세대인가?   |
+  |      (lscpu 쳤을 때 Vulnerabilities 항목에 Not affected 가 뜨는가?)      |
+  |          +- 예 ------> [자동으로 완화 조치 꺼짐 (성능 손실 없음)]          |
+  |          |                                                        |
+  |          +- 아니오 ---> `mitigations=off` 커널 파라미터 적용 검토         |
+  |                         (보안 책임자의 승인 하에 KPTI, IBPB 해제 -> 성능 복구)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드 사업자(AWS) 입장에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 노드는 남(고객)의 코드를 실행하는 곳이므로 무조건 방어막을 켜야 한다. 하지만 내가 임대한 닫힌 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(EC2) 안에서 오직 내가 짠 신뢰할 수 있는 앱만 띄운다면, 그 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안에서는 다른 해커 프로세스가 내 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 훔쳐볼 가능성이 제로에 가깝다. 이럴 때 `mitigations=off`를 주어 잃어버린 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 공짜로 되찾는 것은 클라우드 인프라 엔지니어들의 널리 알려진 최적화 팁이다.
@@ -220,12 +220,12 @@ Meltdown과 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hard
 
 ```text
 [제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
-    │
-    ▼
+    |
+    v
 [부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)]
-    │
-    ├──▶ [하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식]
-    └──▶ [소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법]
+    |
+    +---> [하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식]
+    +---> [소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -242,7 +242,7 @@ Meltdown과 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hard
 
 **진행 상황**: 668 / 800
 
-← **이전**: [667. 제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)
-**다음**: [669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) →
+<- **이전**: [667. 제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)
+**다음**: [669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) ->
 
 ---

@@ -37,34 +37,34 @@ tags = ["studynote-bigdata"]
 빅데이터의 핵심 특성을 설명하는 3V 모델은 다음과 같이 구성된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                    빅데이터 3V 모델 구조                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   [Volume: 규모]              [Velocity: 속도]                  │
-│   ┌─────────────────┐          ┌─────────────────┐               │
-│   │ 수십 페타바이트 │          │ 초당 수백만 건  │               │
-│   │ ~ 제타바이트   │          │ 이벤트 생성     │               │
-│   │ 단위 데이터    │          │ 처리           │               │
-│   └─────────────────┘          └─────────────────┘               │
-│                                                                 │
-│                    [Variety: 다양성]                             │
-│          ┌─────────────────────────────────────┐                │
-│          │  비정형 데이터     반정형 데이터       │                │
-│          │  ┌─────────┐    ┌─────────┐         │                │
-│          │  │ SNS тек스트 │  │  JSON   │         │                │
-│          │  │ 이미지    │    │  XML    │         │                │
-│          │  │ 동영상    │    │  로그   │         │                │
-│          │  │ 음성     │    │         │         │                │
-│          │  └─────────┘    └─────────┘         │                │
-│          │  + 정형 데이터 (RDBMS)               │                │
-│          └─────────────────────────────────────┘                │
-│                                                                 │
-│   추가 V 확장:                                                   │
-│   [Veracity: 진실성] → 데이터 품질, 신뢰성                         │
-│   [Value: 가치]      → 분석을 통해 도출되는 비즈니스 가치           │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                    빅데이터 3V 모델 구조                           |
++-----------------------------------------------------------------+
+|                                                                 |
+|   [Volume: 규모]              [Velocity: 속도]                  |
+|   +-----------------+          +-----------------+               |
+|   | 수십 페타바이트 |          | 초당 수백만 건  |               |
+|   | ~ 제타바이트   |          | 이벤트 생성     |               |
+|   | 단위 데이터    |          | 처리           |               |
+|   +-----------------+          +-----------------+               |
+|                                                                 |
+|                    [Variety: 다양성]                             |
+|          +-------------------------------------+                |
+|          |  비정형 데이터     반정형 데이터       |                |
+|          |  +---------+    +---------+         |                |
+|          |  | SNS тек스트 |  |  JSON   |         |                |
+|          |  | 이미지    |    |  XML    |         |                |
+|          |  | 동영상    |    |  로그   |         |                |
+|          |  | 음성     |    |         |         |                |
+|          |  +---------+    +---------+         |                |
+|          |  + 정형 데이터 (RDBMS)               |                |
+|          +-------------------------------------+                |
+|                                                                 |
+|   추가 V 확장:                                                   |
+|   [Veracity: 진실성] -> 데이터 품질, 신뢰성                         |
+|   [Value: 가치]      -> 분석을 통해 도출되는 비즈니스 가치           |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 3V 모델에서 [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) (규모)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양의 절대적 크기를 의미한다. 2010년대에 형성된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)총량적 팽창 속도는 기하급수적이며, 매일 전 세계에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양은 약 3.3자이트 (3.3ZB)에 달한다. Velocity (속도)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주기와 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 시간을 의미한다. 실시간 금융 거래, [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 센서, 소셜 미디어 스트림은 초당 수백만 건의 이벤트를 쏟아내며, 전통적인 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 방식으로는 감당할 수 없는 흐름을 형성한다. Variety (다양성)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태의 이질성을 의미한다. 구조화된 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), 비정형 이미지·동영상·텍스트가 혼재하며, 이를 통합적으로 처리할 수 있는 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)-[less](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 접근이 필수적이다.
@@ -92,53 +92,53 @@ tags = ["studynote-bigdata"]
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 네트워크를 통한 통신, 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 부분적 장애 감내, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 등 단일 시스템에서는 존재하지 않는 복잡성이 추가된다. 따라서 빅데이터 아키텍처는 이러한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 복잡성을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 개발자에게 단일 시스템과 유사한 프로그래밍 모델을 제공하는 것이 핵심 목표다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              빅데이터 분산 처리 아키텍처 전체 흐름                  │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [데이터 소스 계층]                                              │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐               │
-│  │ RDBMS  │ │  로그   │ │  SNS   │ │ 센서   │               │
-│  │  기존   │ │  파일   │ │ 스트림  │ │ IoT    │               │
-│  │ 데이터  │ │         │ │         │ │        │               │
-│  └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘               │
-│       │           │           │           │                      │
-│       ▼           ▼           ▼           ▼                      │
-│  [데이터 수집: Flume / Sqoop / Kafka Connect]                    │
-│                         │                                         │
-│                         ▼                                         │
-│  [분산 스토리지: HDFS / S3 / MinIO]                              │
-│       │                     │                    │                 │
-│       ▼                     ▼                    ▼                │
-│  ┌─────────┐          ┌─────────┐          ┌─────────┐            │
-│  │ Datanode│          │ Datanode│          │ Datanode│            │
-│  │ Block 1 │          │ Block 2 │          │ Block 3 │            │
-│  │ 복제 3개│          │ 복제 3개│          │ 복제 3개│            │
-│  └─────────┘          └─────────┘          └─────────┘            │
-│       │                     │                    │                 │
-│       └─────────────────────┼────────────────────┘                │
-│                             ▼                                     │
-│  [리소스 매니저: YARN / Mesos]                                    │
-│       │                                                         │
-│       ▼                                                         │
-│  ┌─────────────────────────────────────────────────┐            │
-│  │         분산 연산 엔진 (MapReduce / Spark)        │            │
-│  │                                                 │            │
-│  │   [Map Task 1] [Map Task 2] [Map Task 3] ...   │            │
-│  │        │           │           │                │            │
-│  │        └───────────┼───────────┘                │            │
-│  │                    ▼                            │            │
-│  │              [Shuffle & Sort]                  │            │
-│  │                    │                            │            │
-│  │        ┌───────────┼───────────┐                │            │
-│  │        ▼           ▼           ▼                │            │
-│  │   [Reduce 1] [Reduce 2] [Reduce 3] ...          │            │
-│  └─────────────────────────────────────────────────┘            │
-│                             │                                     │
-│                             ▼                                     │
-│                    [결과: HDFS / DB / BI]                       │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              빅데이터 분산 처리 아키텍처 전체 흐름                  |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [데이터 소스 계층]                                              |
+|  +---------+ +---------+ +---------+ +---------+               |
+|  | RDBMS  | |  로그   | |  SNS   | | 센서   |               |
+|  |  기존   | |  파일   | | 스트림  | | IoT    |               |
+|  | 데이터  | |         | |         | |        |               |
+|  +----+----+ +----+----+ +----+----+ +----+----+               |
+|       |           |           |           |                      |
+|       v           v           v           v                      |
+|  [데이터 수집: Flume / Sqoop / Kafka Connect]                    |
+|                         |                                         |
+|                         v                                         |
+|  [분산 스토리지: HDFS / S3 / MinIO]                              |
+|       |                     |                    |                 |
+|       v                     v                    v                |
+|  +---------+          +---------+          +---------+            |
+|  | Datanode|          | Datanode|          | Datanode|            |
+|  | Block 1 |          | Block 2 |          | Block 3 |            |
+|  | 복제 3개|          | 복제 3개|          | 복제 3개|            |
+|  +---------+          +---------+          +---------+            |
+|       |                     |                    |                 |
+|       +---------------------+--------------------+                |
+|                             v                                     |
+|  [리소스 매니저: YARN / Mesos]                                    |
+|       |                                                         |
+|       v                                                         |
+|  +-------------------------------------------------+            |
+|  |         분산 연산 엔진 (MapReduce / Spark)        |            |
+|  |                                                 |            |
+|  |   [Map Task 1] [Map Task 2] [Map Task 3] ...   |            |
+|  |        |           |           |                |            |
+|  |        +-----------+-----------+                |            |
+|  |                    v                            |            |
+|  |              [Shuffle & Sort]                  |            |
+|  |                    |                            |            |
+|  |        +-----------+-----------+                |            |
+|  |        v           v           v                |            |
+|  |   [Reduce 1] [Reduce 2] [Reduce 3] ...          |            |
+|  +-------------------------------------------------+            |
+|                             |                                     |
+|                             v                                     |
+|                    [결과: HDFS / DB / BI]                       |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처에서 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)이 아니라 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 형성한다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 계층에서 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에 먼저 저장되며, 연산 엔진은 이 스토리지에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 처리한다. 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Triple [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 구조는 특정 노드 장애 시에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실을 방지하며, 리소스 매니저가 클러스터 전체의 CPU와 메모리를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 분할하여 여러 작업에 동시에 할당한다. 특히 Shuffle 단계가 네트워크를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재분배하므로, 이 구간이 가장 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 구간이 되며 최적화의 핵심 초점이 된다. 실무에서는 이 흐름을 파악한 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 먼저 튜닝하는 것이 일반적이다.
@@ -148,41 +148,41 @@ tags = ["studynote-bigdata"]
 MapReduce의 가장 중요한 설계 원칙은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산 중심으로 이동시키지 말고, 연산을 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/)으로 이동시켜라"다. 수십 테라바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크로 전송하면 엄청난 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 따라서 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 블록으로 쪼개 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드에 저장하고, 각 노드에서 로컬로 연산을 수행한 뒤 결과만 취합하는 방식이 핵심이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              데이터 지역성 (Data Locality) 동작 원리              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [네임노드 (NameNode) - 메타데이터 관리자]                         │
-│       │                                                          │
-│       │  ① job.submit() → 작업 요청                               │
-│       │  ② 데이터 블록 위치 정보 반환 (Block Map)                  │
-│       ▼                                                          │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │                    연산 코어 로직                          │   │
-│  │                                                          │   │
-│  │   TaskTracker A          TaskTracker B        TaskTracker C│   │
-│  │   ┌─────────────┐       ┌─────────────┐      ┌─────────────┐│   │
-│  │   │ 로컬 블록 1 │       │ 로컬 블록 2 │      │ 로컬 블록 3 ││   │
-│  │   │ apple:1     │       │ banana:1    │      │ cherry:1    ││   │
-│  │   │ banana:1    │       │ apple:1     │      │ apple:1     ││   │
-│  │   └─────────────┘       └─────────────┘      └─────────────┘│   │
-│  │         │                    │                     │        │   │
-│  │         └────────────────────┼─────────────────────┘        │   │
-│  │                              ▼                               │   │
-│  │                    [Shuffle: 네트워크 전송]                  │   │
-│  │                              │                               │   │
-│  │              ┌───────────────┼───────────────┐               │   │
-│  │              ▼               ▼               ▼               │   │
-│  │        ┌──────────┐    ┌──────────┐    ┌──────────┐           │   │
-│  │        │ Reduce A │    │ Reduce B │    │ Reduce C │           │   │
-│  │        │ apple:3  │    │banana:2  │    │ cherry:1 │           │   │
-│  │        └──────────┘    └──────────┘    └──────────┘           │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│  핵심 이점: 3TB 데이터 처리 시 네트워크 전송량 3TB → 0 (로컬 연산) │
-│  대역폭 절약: 전체 클러스터 병목 구간인 Shuffle 구간만 최적화     │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              데이터 지역성 (Data Locality) 동작 원리              |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [네임노드 (NameNode) - 메타데이터 관리자]                         |
+|       |                                                          |
+|       |  ① job.submit() -> 작업 요청                               |
+|       |  ② 데이터 블록 위치 정보 반환 (Block Map)                  |
+|       v                                                          |
+|  +----------------------------------------------------------+   |
+|  |                    연산 코어 로직                          |   |
+|  |                                                          |   |
+|  |   TaskTracker A          TaskTracker B        TaskTracker C|   |
+|  |   +-------------+       +-------------+      +-------------+|   |
+|  |   | 로컬 블록 1 |       | 로컬 블록 2 |      | 로컬 블록 3 ||   |
+|  |   | apple:1     |       | banana:1    |      | cherry:1    ||   |
+|  |   | banana:1    |       | apple:1     |      | apple:1     ||   |
+|  |   +-------------+       +-------------+      +-------------+|   |
+|  |         |                    |                     |        |   |
+|  |         +--------------------+---------------------+        |   |
+|  |                              v                               |   |
+|  |                    [Shuffle: 네트워크 전송]                  |   |
+|  |                              |                               |   |
+|  |              +---------------+---------------+               |   |
+|  |              v               v               v               |   |
+|  |        +----------+    +----------+    +----------+           |   |
+|  |        | Reduce A |    | Reduce B |    | Reduce C |           |   |
+|  |        | apple:3  |    |banana:2  |    | cherry:1 |           |   |
+|  |        +----------+    +----------+    +----------+           |   |
+|  +----------------------------------------------------------+   |
+|                                                                 |
+|  핵심 이점: 3TB 데이터 처리 시 네트워크 전송량 3TB -> 0 (로컬 연산) |
+|  대역폭 절약: 전체 클러스터 병목 구간인 Shuffle 구간만 최적화     |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)의 진가는 물리적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용 절약에서 드러난다. 3TB의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 단어 개수를 세는 Job을 생각해보면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 네트워크로 이동시키면 3TB의 WAN/LAN 트래픽이 발생한다. 그러나 블록 단위 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 후 각 노드에서 Map 연산을 수행하면, 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 움직이지 않고 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)만 각 노드에 배포된다. 오직 Map의 결과 (최종 결과보다 훨씬 작은 용량)만이 네트워크를 통해 Reduce 노드로 이동한다. 이것이 바로 구글과 야후가 수천 대의 싸구려 서버로 수 페타바이트를 처리할 수 있었던 핵심 설계 비결이다.
@@ -210,46 +210,46 @@ RDBMS와 빅데이터는 상호 배타적이지 않다. 실제로 대부분의 �
 ### 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 엔진 발전 비교
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│         데이터 처리 엔진 발전 과정: Hadoop MR → Spark → Flink      │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [1세대: Hadoop MapReduce]                                       │
-│  ┌─────────────────────────────────────────────────┐           │
-│  │  디스크 I/O 바쁜 배치 처리                        │           │
-│  │                                                 │           │
-│  │  Map → [Disk Write] → Shuffle → [Disk Read] → Reduce     │   │
-│  │                     │                              │           │
-│  │              네트워크 + 디스크 병목                   │           │
-│  └─────────────────────────────────────────────────┘           │
-│  특징: 내구성 높음, 확장성优异, 반복処理에 비효율                   │
-│                                                                 │
-│  [2세대: Apache Spark]                                          │
-│  ┌─────────────────────────────────────────────────┐           │
-│  │  인메모리 기반의 고속 반복 처리                    │           │
-│  │                                                 │           │
-│  │  Map → [Memory] → Shuffle → [Memory] → Reduce            │   │
-│  │            │                    │                         │   │
-│  │       RDD 캐싱           캐시된 데이터 재사용              │           │
-│  └─────────────────────────────────────────────────┘           │
-│  특징: MapReduce 대비 10~100배高速, ML/반복 알고리즘 최적화       │
-│                                                                 │
-│  [3세대: Apache Flink]                                          │
-│  ┌─────────────────────────────────────────────────┐           │
-│  │ ネイティブ 스트리밍 + 배치 통합                      │           │
-│  │                                                 │           │
-│  │  [Event Stream] → Process → [State] → Output              │   │
-│  │       │                                         │           │
-│  │  Event-Time 윈도우       정확히 한 번 (Exactly-once) 처리  │   │
-│  └─────────────────────────────────────────────────┘           │
-│  특징: 진정한 실시간 처리, 지연 시간 밀리초 단위                    │
-│                                                                 │
-│  선택 기준:                                                      │
-│  - 일별 배치 처리: Hadoop MR (安定的, 보간)                       │
-│  - 대화형 분석: Spark (高速, SQL 지원)                           │
-│  - 순수 실시간: Flink (낮은 지연, 정확한 결과)                    │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|         데이터 처리 엔진 발전 과정: Hadoop MR -> Spark -> Flink      |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [1세대: Hadoop MapReduce]                                       |
+|  +-------------------------------------------------+           |
+|  |  디스크 I/O 바쁜 배치 처리                        |           |
+|  |                                                 |           |
+|  |  Map -> [Disk Write] -> Shuffle -> [Disk Read] -> Reduce     |   |
+|  |                     |                              |           |
+|  |              네트워크 + 디스크 병목                   |           |
+|  +-------------------------------------------------+           |
+|  특징: 내구성 높음, 확장성优异, 반복処理에 비효율                   |
+|                                                                 |
+|  [2세대: Apache Spark]                                          |
+|  +-------------------------------------------------+           |
+|  |  인메모리 기반의 고속 반복 처리                    |           |
+|  |                                                 |           |
+|  |  Map -> [Memory] -> Shuffle -> [Memory] -> Reduce            |   |
+|  |            |                    |                         |   |
+|  |       RDD 캐싱           캐시된 데이터 재사용              |           |
+|  +-------------------------------------------------+           |
+|  특징: MapReduce 대비 10~100배高速, ML/반복 알고리즘 최적화       |
+|                                                                 |
+|  [3세대: Apache Flink]                                          |
+|  +-------------------------------------------------+           |
+|  | ネイティブ 스트리밍 + 배치 통합                      |           |
+|  |                                                 |           |
+|  |  [Event Stream] -> Process -> [State] -> Output              |   |
+|  |       |                                         |           |
+|  |  Event-Time 윈도우       정확히 한 번 (Exactly-once) 처리  |   |
+|  +-------------------------------------------------+           |
+|  특징: 진정한 실시간 처리, 지연 시간 밀리초 단위                    |
+|                                                                 |
+|  선택 기준:                                                      |
+|  - 일별 배치 처리: Hadoop MR (安定的, 보간)                       |
+|  - 대화형 분석: Spark (高速, SQL 지원)                           |
+|  - 순수 실시간: Flink (낮은 지연, 정확한 결과)                    |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 각 세대의 처리 엔진은 이전 세대의 한계를 극복하는 방향으로 진화했다. [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce는 디스크 기반 처리로 내구성은 높지만, 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반복 연산하는 기계학습 (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 워크로드에서는 디스크 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드가 심각한 병목이 됐다. Spark는 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) ([Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))를 통해 메모리에 중간 결과를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 이 문제를 해결했지만, 여전히 Micro-batch 기반이라 진정한 의미의 실시간에는 한계가 있다. Flink는 스트림 우선 ([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-first) 아키텍처로 이 문제를 근본적으로 해결하며, Event-Time 윈도우와 상태 관리 기능을 내장하여 스트리밍 처리에서 가장 진보한 엔진으로 평가받는다.
@@ -273,31 +273,31 @@ RDBMS와 빅데이터는 상호 배타적이지 않다. 실제로 대부분의 �
 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 설계 시 가장 중요한 판단은 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), 결과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) (Accuracy) 사이의 트레이드오프다. 마이크로 배치 (Micro-batch) 방식은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 상대적으로 크고, 네이티브 스트리밍 방식은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 낮지만 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 낮을 수 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│           실시간 사기 거래 탐지 아키텍처 의사결정 트리              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [결제 이벤트 발생]                                               │
-│       │                                                         │
-│       ▼                                                         │
-│  ┌─────────────┐   카드사 API        ┌─────────────┐           │
-│  │  Kafka Topic │ ───────────────▶ │  승인 서버   │           │
-│  │  (결제 이벤트) │                    │             │           │
-│  └──────┬──────┘                    └──────▲──────┘           │
-│         │                                  │                   │
-│         ▼                                  │                   │
-│  ┌─────────────┐                    ┌─────┴─────┐            │
-│  │ Flink 스트리밍│ ──── Redis ────▶ │ 실시간 차단 │            │
-│  │  5분 윈도우   │   (의심 점수)      │  판단       │            │
-│  └─────────────┘                    └────────────┘            │
-│                                                                 │
-│  의사결정 체크리스트:                                             │
-│  ├─ 지연 요구사항: < 100ms → Native Streaming (Flink)           │
-│  ├─ 처리량 요구사항: > 10만 TPS → Kafka + Micro-batch (Spark)   │
-│  ├─ 정확성 요구사항: 재현 가능성 필요 → Checkpoint 필수          │
-│  └─ 운영 복잡도: 팀 역량 + 유지보수 편의성 고려                   │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|           실시간 사기 거래 탐지 아키텍처 의사결정 트리              |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [결제 이벤트 발생]                                               |
+|       |                                                         |
+|       v                                                         |
+|  +-------------+   카드사 API        +-------------+           |
+|  |  Kafka Topic | ----------------> |  승인 서버   |           |
+|  |  (결제 이벤트) |                    |             |           |
+|  +------+------+                    +------^------+           |
+|         |                                  |                   |
+|         v                                  |                   |
+|  +-------------+                    +-----+-----+            |
+|  | Flink 스트리밍| ---- Redis -----> | 실시간 차단 |            |
+|  |  5분 윈도우   |   (의심 점수)      |  판단       |            |
+|  +-------------+                    +------------+            |
+|                                                                 |
+|  의사결정 체크리스트:                                             |
+|  +- 지연 요구사항: < 100ms -> Native Streaming (Flink)           |
+|  +- 처리량 요구사항: > 10만 TPS -> Kafka + Micro-batch (Spark)   |
+|  +- 정확성 요구사항: 재현 가능성 필요 -> Checkpoint 필수          |
+|  +- 운영 복잡도: 팀 역량 + 유지보수 편의성 고려                   |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처에서 핵심은 승인 서버와 분석 시스템이 완전히 분리되어 있다는 점이다. 승인 서버는 금융 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 본무 책임이 있으므로, 분석 시스템의 부하가 직접적으로 승인レイテン시에 영향을 주면 안 된다. 따라서 Kafka를 통한 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 구조가 필수적이다. Flink는 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) backend로 RocksDB를 사용하여 상태를 디스크에 영속화하므로, Flink 장애 시에도 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능하다. Redis는 순수 인메모리 KV 스토어로 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 우수하여 승인 서버의 블로킹 없는고속 조회에 적합하다.
@@ -361,14 +361,14 @@ RDBMS와 빅데이터는 상호 배타적이지 않다. 실제로 대부분의 �
 
 ```text
 [3V]
-    │
-    ▼
+    |
+    v
 [5V/7V]
-    │
-    ▼
+    |
+    v
 [Hadoop/MapReduce]
-    │
-    ▼
+    |
+    v
 [Spark/Flink]
 ```
 
@@ -388,8 +388,8 @@ RDBMS와 빅데이터는 상호 배타적이지 않다. 실제로 대부분의 �
 
 **진행 상황**: 1 / 262
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 5V — 3V + Veracity(정확성) + Value(가치)](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) →
+**다음**: [2. 5V — 3V + Veracity(정확성) + Value(가치)](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) ->
 
 ---

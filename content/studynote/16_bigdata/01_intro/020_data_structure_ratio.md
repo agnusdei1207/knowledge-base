@@ -68,20 +68,20 @@ tags = ["bigdata"]
 [비정형 데이터의 정형화 파이프라인 (Dark Data to Insight)]
 
 [입력: 비정형 데이터] (음성 녹음 파일, SNS 이미지)
-        │
-        ▼ (원시 저장)
+        |
+        v (원시 저장)
 [Data Lake / Object Storage] --- (무한 용량, 저비용 보관)
-        │
-        ▼ (특징 추출 및 벡터화 / AI 모델 적용)
+        |
+        v (특징 추출 및 벡터화 / AI 모델 적용)
 [AI / ML Pipeline 계층]
- ├─ STT (Speech-to-Text)  : 음성 -> 텍스트
- ├─ NLP (감성 분석)       : 텍스트 -> "불만(Negative)", "긍정(Positive)" 분류
- └─ CNN (이미지 인식)     : 이미지 -> "파손된 상품" 객체 검출
-        │
-        ▼ (추출된 메타데이터의 반정형/정형화)
+ +- STT (Speech-to-Text)  : 음성 -> 텍스트
+ +- NLP (감성 분석)       : 텍스트 -> "불만(Negative)", "긍정(Positive)" 분류
+ +- CNN (이미지 인식)     : 이미지 -> "파손된 상품" 객체 검출
+        |
+        v (추출된 메타데이터의 반정형/정형화)
 [NoSQL / Data Warehouse] --- (예: 고객ID | 불만여부 | 상품파손 | 발생시간)
-        │
-        ▼ (통합 분석)
+        |
+        v (통합 분석)
 [BI Dashboard / LLM Prompt Context]
 ```
 
@@ -130,18 +130,18 @@ tags = ["bigdata"]
 [비정형 데이터 비용/네트워크 최적화 의사결정 트리]
 
 [대용량 비정형 데이터 발생 (CCTV, 센서)]
-       │
-       ├─ (모두 중앙 클라우드로 전송?) ──> [네트워크 마비, Storage 비용 폭발] (안티패턴)
-       │
-       ▼ (엣지 필터링 도입)
+       |
+       +- (모두 중앙 클라우드로 전송?) --> [네트워크 마비, Storage 비용 폭발] (안티패턴)
+       |
+       v (엣지 필터링 도입)
 [Edge Node에서 1차 가공 / 필터링]
-       │
-       ├─ 정상 패턴 ──> [폐기 또는 24시간 후 자동 덮어쓰기]
-       │
-       ▼ 이상 패턴 / 요약 메타데이터
+       |
+       +- 정상 패턴 --> [폐기 또는 24시간 후 자동 덮어쓰기]
+       |
+       v 이상 패턴 / 요약 메타데이터
 [저비용 Object Storage 적재 (Data Lake)]
-       │
-       ▼ (포맷 변환: CSV -> Parquet 압축)
+       |
+       v (포맷 변환: CSV -> Parquet 압축)
 [Data Lakehouse 기반 AI 통합 예측 모델 학습]
 ```
 
@@ -179,17 +179,17 @@ tags = ["bigdata"]
 
 ```text
 [정형 데이터 (Structured) — RDBMS 행/열 구조, 전체의 약 20%]
-    │
-    ▼
+    |
+    v
 [반정형 데이터 (Semi-structured) — JSON/XML/CSV, 스키마 유연]
-    │
-    ▼
+    |
+    v
 [비정형 데이터 (Unstructured) — 텍스트·이미지·동영상, 전체의 약 80%]
-    │
-    ▼
+    |
+    v
 [다크 데이터 (Dark Data) — 수집됐으나 활용되지 않는 방치 데이터]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake) — 모든 형태 원시 저장, Schema-on-Read 분석]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80%가 비정형임에도 불구하고 대부분이 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)로 방치되며, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) 방식이 이를 활용하는 현대 아키텍처 표준이다.
@@ -205,7 +205,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 20 / 262
 
-← **이전**: [19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성](/knowledge-base/studynote/16_bigdata/01_intro/019_data_de_identification/)
-**다음**: [21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB](/knowledge-base/studynote/16_bigdata/01_intro/021_zettabyte_era_data_explosion/) →
+<- **이전**: [19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성](/knowledge-base/studynote/16_bigdata/01_intro/019_data_de_identification/)
+**다음**: [21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB](/knowledge-base/studynote/16_bigdata/01_intro/021_zettabyte_era_data_explosion/) ->
 
 ---

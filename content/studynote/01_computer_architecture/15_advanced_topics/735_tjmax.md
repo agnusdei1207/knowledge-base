@@ -30,35 +30,35 @@ TjMax는 통상 <strong>Tjunction Max <a href="/knowledge-base/studynote/10_ai/0
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-최신 CPU는 die 내부 여러 지점에 DTS (Digital Thermal Sensor)를 두고, PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))가 이 값을 읽어 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조절한다. 특히 인텔 계열에서는 절대 온도보다 <strong>TjMax까지 남은 거리(distance to TjMax)</strong>를 보고하는 방식이 널리 쓰인다. 예를 들어 TjMax가 100°C이고 margin이 15°C라면, 모니터링 도구는 이를 현재 약 85°C로 환산해 보여 준다.
+최신 CPU는 die 내부 여러 지점에 DTS (Digital Thermal Sensor)를 두고, PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))가 이 값을 읽어 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조절한다. 특히 인텔 계열에서는 절대 온도보다 <strong>TjMax까지 남은 거리(distance to TjMax)</strong>를 보고하는 방식이 널리 쓰인다. 예를 들어 TjMax가 100+C이고 margin이 15+C라면, 모니터링 도구는 이를 현재 약 85+C로 환산해 보여 준다.
 
 | 상태 | TjMax와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 대표 하드웨어 동작 |
 | :--- | :--- | :--- |
-| 충분한 여유 | 20°C 이상 남음 | 터보 부스트와 [TVB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/733_tvb/) 유지 가능 |
-| 경계 접근 | 5~20°C 남음 | 팬 가속, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·배수 보수화 |
-| TjMax 도달 | 0°C 남음 | PROCHOT# 활성, [thermal throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) |
-| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 실패 | 0°C 이하로 더 상승 | THERMTRIP# 등 강제 셧다운 경로 |
+| 충분한 여유 | 20+C 이상 남음 | 터보 부스트와 [TVB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/733_tvb/) 유지 가능 |
+| 경계 접근 | 5~20+C 남음 | 팬 가속, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·배수 보수화 |
+| TjMax 도달 | 0+C 남음 | PROCHOT# 활성, [thermal throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) |
+| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 실패 | 0+C 이하로 더 상승 | THERMTRIP# 등 강제 셧다운 경로 |
 
 이 그림은 센서 값이 어떻게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작으로 이어지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        Hotspot sensing -> control -> protect: TjMax는 제어 기준점이다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Core / Cache Hotspot]                                                     │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [DTS : distance to TjMax 측정]                                             │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [PCU / Firmware] ---- margin 충분 ----> boost 유지                         │
-│          │                                                                 │
-│          ├─ margin 감소 -----------> 배수·전압 하향                        │
-│          │                                                                 │
-│          ├─ margin = 0 -----------> PROCHOT# / throttling                  │
-│          │                                                                 │
-│          └─ 보호 실패 ------------> THERMTRIP# / emergency shutdown        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        Hotspot sensing -> control -> protect: TjMax는 제어 기준점이다      |
++----------------------------------------------------------------------------+
+| [Core / Cache Hotspot]                                                     |
+|          |                                                                 |
+|          v                                                                 |
+| [DTS : distance to TjMax 측정]                                             |
+|          |                                                                 |
+|          v                                                                 |
+| [PCU / Firmware] ---- margin 충분 ----> boost 유지                         |
+|          |                                                                 |
+|          +- margin 감소 -----------> 배수·전압 하향                        |
+|          |                                                                 |
+|          +- margin = 0 -----------> PROCHOT# / throttling                  |
+|          |                                                                 |
+|          +- 보호 실패 ------------> THERMTRIP# / emergency shutdown        |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 TjMax가 단순 경고선이 아니라는 점이다. 이 값은 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 로직의 기준점이며, 운영체제가 응답하기 전에 CPU가 먼저 행동할 수 있다.
@@ -86,7 +86,7 @@ TjMax를 정확히 이해하려면 Tcase, package [temperature](/knowledge-base/
 
 실무에서는 TjMax에 잠깐 닿았다는 사실만으로 즉시 불량 판정을 내리면 안 된다. 현대 CPU는 TjMax 근처에서 스로틀링하며 스스로를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하도록 설계되어 있어, 짧은 피크는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작의 일부일 수 있다. 그러나 장시간 지속적으로 PROCHOT#가 걸리거나, workload 대비 너무 빨리 TjMax에 도달한다면 쿨러 장착 불량, 팬 제어 오류, [TIM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) 열화, 먼지 누적, 과도한 PL2 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 같은 원인을 의심해야 한다.
 
-기술사 답안에서는 단순히 "온도가 100°C라서 위험"이라고 쓰기보다, <strong>어떤 센서 값인지와 어떤 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 단계가 발동했는지</strong>를 구분해야 한다. 패키지 평균값이 아니라 특정 코어 hotspot만 치솟을 수도 있고, AVX 부하처럼 국소 전력 밀도가 높은 작업은 전력 자체보다 hotspot 형성 속도가 더 문제가 되기도 한다. 서버와 워크스테이션에서는 sustained margin을, 노트북에서는 소음·표면 온도·배터리까지 함께 봐야 한다.
+기술사 답안에서는 단순히 "온도가 100+C라서 위험"이라고 쓰기보다, <strong>어떤 센서 값인지와 어떤 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 단계가 발동했는지</strong>를 구분해야 한다. 패키지 평균값이 아니라 특정 코어 hotspot만 치솟을 수도 있고, AVX 부하처럼 국소 전력 밀도가 높은 작업은 전력 자체보다 hotspot 형성 속도가 더 문제가 되기도 한다. 서버와 워크스테이션에서는 sustained margin을, 노트북에서는 소음·표면 온도·배터리까지 함께 봐야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -132,17 +132,17 @@ TjMax 기준이 명확해야 CPU는 가능한 한 빠르게 달리면서도 실�
 
 ```text
 단순 온도 다이오드 모니터링
-        │
-        ▼
+        |
+        v
 DTS 기반 per-core 온도 감지
-        │
-        ▼
+        |
+        v
 TjMax 기준 thermal throttling
-        │
-        ▼
+        |
+        v
 PROCHOT# / THERMTRIP# 하드웨어 보호
-        │
-        ▼
+        |
+        v
 hotspot·상승률 반영 예측형 열 제어
 ```
 
@@ -160,7 +160,7 @@ hotspot·상승률 반영 예측형 열 제어
 
 **진행 상황**: 736 / 803
 
-← **이전**: [734. PL1, PL2 (Power Limit 1, 2)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/734_pl1_pl2_power_limits/)
-**다음**: [736. 히트스프레더 (IHS, Integrated Heat Spreader)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/736_ihs_integrated_heat_spreader/) →
+<- **이전**: [734. PL1, PL2 (Power Limit 1, 2)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/734_pl1_pl2_power_limits/)
+**다음**: [736. 히트스프레더 (IHS, Integrated Heat Spreader)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/736_ihs_integrated_heat_spreader/) ->
 
 ---

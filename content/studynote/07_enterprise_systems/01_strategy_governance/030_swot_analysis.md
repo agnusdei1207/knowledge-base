@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SWOT 분석은 내부 요인(Strengths 강점, Weaknesses 약점)과 외부 요인(Opportunities 기회, Threats 위협)을 체계적으로 파악하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 도출하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 프레임워크다.
 > 2. **가치**: SWOT의 진가는 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 아닌 SO(강점-기회), [ST](/knowledge-base/studynote/09_security/12_identity_threat_advanced/587_st/)(강점-위협), WO(약점-기회), WT(약점-위협) 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 매트릭스(TOWS Matrix)를 통한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출이다.
-> 3. **판단 포인트**: SWOT의 한계는 정적 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이라는 점이다. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에는 SWOT → PESTLE → TOWS 통합 분석으로 동적 환경 변화까지 반영하는 것이 실무 표준이다.
+> 3. **판단 포인트**: SWOT의 한계는 정적 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이라는 점이다. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에는 SWOT -> PESTLE -> TOWS 통합 분석으로 동적 환경 변화까지 반영하는 것이 실무 표준이다.
 
 ---
 
@@ -20,13 +20,13 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 SWOT 매트릭스:
-              │  내부 (+)       │  내부 (-)
-  ────────────┼─────────────────┼──────────────────
-  외부 (+)   │  SO: 공격 전략  │  WO: 만회 전략
-  기회        │  (강점×기회)    │  (약점 보완×기회)
-  ────────────┼─────────────────┼──────────────────
-  외부 (-)   │  ST: 다각화전략 │  WT: 방어 전략
-  위협        │  (강점×위협대응)│  (약점×위협 최소화)
+              |  내부 (+)       |  내부 (-)
+  ------------+-----------------+------------------
+  외부 (+)   |  SO: 공격 전략  |  WO: 만회 전략
+  기회        |  (강점×기회)    |  (약점 보완×기회)
+  ------------+-----------------+------------------
+  외부 (-)   |  ST: 다각화전략 |  WT: 방어 전략
+  위협        |  (강점×위협대응)|  (약점×위협 최소화)
 ```
 
 - **📢 섹션 요약 비유**: SWOT는 작전 회의 4단계다. 아군 강점·약점(내부)과 전장 기회·위협(외부)을 파악하고, 4가지 작전 방향(SO·[ST](/knowledge-base/studynote/09_security/12_identity_threat_advanced/587_st/)·WO·WT)을 도출한다.
@@ -52,8 +52,8 @@ SWOT 매트릭스:
 기회(O): AI 규제 완화, 아시아 시장 성장
 위협(T): 글로벌 빅테크 경쟁, 데이터 보호 규제
 
-→ SO 전략: AI 기술×아시아 시장 진출
-→ WT 전략: 글로벌 파트너십으로 경쟁 회피
+-> SO 전략: AI 기술×아시아 시장 진출
+-> WT 전략: 글로벌 파트너십으로 경쟁 회피
 ```
 
 - **📢 섹션 요약 비유**: TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 무술 대련이다. 내 강점(빠른 발)과 상대 약점(느린 반응)을 결합해 공격 기회를 만들고, 내 약점(짧은 팔)과 상대 강점(긴 팔)의 조합에서는 방어 전술을 선택한다.
@@ -83,7 +83,7 @@ SWOT 매트릭스:
 2단계: 5 Forces — 산업 구조 분석
   (경쟁사/공급자/구매자/대체재/신규진입)
 
-3단계: SWOT → TOWS — 전략 방향 도출
+3단계: SWOT -> TOWS — 전략 방향 도출
 
 4단계: BSC (Balanced ScoreCard) — 전략 실행 지표
   (재무/고객/프로세스/학습성장)
@@ -123,17 +123,17 @@ SWOT 매트릭스:
 
 ```text
 [SWOT — 내외부 4분면 전략 분석]
-    │
-    ▼
+    |
+    v
 [TOWS 매트릭스 — 4가지 전략 방향 도출]
-    │
-    ▼
+    |
+    v
 [PESTLE + 5 Forces — 거시·산업 환경 통합]
-    │
-    ▼
+    |
+    v
 [BSC + OKR — 전략을 실행 가능한 목표로]
-    │
-    ▼
+    |
+    v
 [Dynamic SWOT — AI 기반 실시간 전략 업데이트]
 ```
 
@@ -149,7 +149,7 @@ SWOT 매트릭스:
 
 **진행 상황**: 30 / 482
 
-← **이전**: [29. 포터의 5 Forces 모델 (Porter Five Forces)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/029_five_forces_model/)
-**다음**: [31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/031_3c_analysis/) →
+<- **이전**: [29. 포터의 5 Forces 모델 (Porter Five Forces)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/029_five_forces_model/)
+**다음**: [31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/031_3c_analysis/) ->
 
 ---

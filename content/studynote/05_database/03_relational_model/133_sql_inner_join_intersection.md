@@ -21,7 +21,7 @@ tags = ["studynote-database"]
 ```text
 SELECT e.name, d.dept_name
 FROM emp e INNER JOIN dept d ON e.dept_id = d.id
-→ 양쪽 모두 매칭되는 행만 반환 (교집합)
+-> 양쪽 모두 매칭되는 행만 반환 (교집합)
 ```
 
 - **📢 섹션 요약 비유**: INNER JOIN은 **양쪽 명단에 모두 있는 사람만** 뽑는 것이다.
@@ -57,9 +57,9 @@ INNER JOIN은 <strong>SQL의 가장 기본 연산</strong>이며, [인덱스](/k
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Cartesian Product] → [Theta Join (조건)] → [Equi-Join (=)]
-    → [INNER JOIN (SQL-92)] → [Hash/Merge Join 최적화]
-    → [현재: Adaptive Join — 런타임 최적 알고리즘 선택]
+[Cartesian Product] -> [Theta Join (조건)] -> [Equi-Join (=)]
+    -> [INNER JOIN (SQL-92)] -> [Hash/Merge Join 최적화]
+    -> [현재: Adaptive Join — 런타임 최적 알고리즘 선택]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -73,7 +73,7 @@ INNER JOIN은 <strong>SQL의 가장 기본 연산</strong>이며, [인덱스](/k
 
 **진행 상황**: 133 / 600
 
-← **이전**: [132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF](/knowledge-base/studynote/05_database/03_relational_model/132_sql_join_types_overview/)
-**다음**: [134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합](/knowledge-base/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/) →
+<- **이전**: [132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF](/knowledge-base/studynote/05_database/03_relational_model/132_sql_join_types_overview/)
+**다음**: [134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합](/knowledge-base/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/) ->
 
 ---

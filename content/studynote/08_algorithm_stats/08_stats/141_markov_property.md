@@ -51,10 +51,10 @@ P(X > s+t | X > s) = P(X > t)
 
 ```
 숨겨진 상태 (Hidden States):
-Z_1 ──▶ Z_2 ──▶ Z_3 ──▶ Z_4   ← 마르코프 체인
- │        │        │        │
- ▼        ▼        ▼        ▼
-X_1      X_2      X_3      X_4   ← 관측값 (Observations)
+Z_1 ---> Z_2 ---> Z_3 ---> Z_4   <- 마르코프 체인
+ |        |        |        |
+ v        v        v        v
+X_1      X_2      X_3      X_4   <- 관측값 (Observations)
 ```
 
 - **숨겨진 상태 Z_t**: 직접 관측 불가, 마르코프 성질 만족
@@ -64,9 +64,9 @@ X_1      X_2      X_3      X_4   ← 관측값 (Observations)
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Initial <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: π_i = P(Z_1=i)
 
 **3가지 핵심 문제**:
-1. **평가 (Evaluation)**: 주어진 모델 λ에서 관측 시퀀스 X의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
-2. **디코딩 (Decoding)**: 가장 가능성 높은 숨겨진 상태 시퀀스 → <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/">Viterbi</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
-3. <strong>학습 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 관측 시퀀스로 모델 파라미터 추정 → <strong>Baum-Welch (EM <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>
+1. **평가 (Evaluation)**: 주어진 모델 λ에서 관측 시퀀스 X의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) -> <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
+2. **디코딩 (Decoding)**: 가장 가능성 높은 숨겨진 상태 시퀀스 -> <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/">Viterbi</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
+3. <strong>학습 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 관측 시퀀스로 모델 파라미터 추정 -> <strong>Baum-Welch (EM <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>
 
 📢 **섹션 요약 비유**: HMM은 "모스 부호 해독기"와 같다. 삐- 삐- 삐삐(관측값)만 들리고 실제 의도(숨겨진 상태)는 안 보이지만, 패턴과 전환 규칙을 학습해 "무슨 말인지"를 추론해낸다.
 
@@ -109,15 +109,15 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> 풀이 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
 ```
-┌──────────────────────────────────────────────────────┐
-│              MDP 풀이 방법                             │
-├──────────────────┬───────────────────────────────────┤
-│   모델 기반 (Model-Based)  │  모델 프리 (Model-Free)  │
-├──────────────────┼───────────────────────────────────┤
-│ Value Iteration  │  Q-Learning (TD 학습)              │
-│ Policy Iteration │  SARSA                             │
-│ (DP 사용)        │  Policy Gradient                   │
-└──────────────────┴───────────────────────────────────┘
++------------------------------------------------------+
+|              MDP 풀이 방법                             |
++------------------+-----------------------------------+
+|   모델 기반 (Model-Based)  |  모델 프리 (Model-Free)  |
++------------------+-----------------------------------+
+| Value Iteration  |  Q-Learning (TD 학습)              |
+| Policy Iteration |  SARSA                             |
+| (DP 사용)        |  Policy Gradient                   |
++------------------+-----------------------------------+
 ```
 
 **Value Iteration**: V_{k+1}(s) = max_a [R(s,a) + γ·Σ P(s'|s,a)·V_k(s')]를 수렴까지 반복.
@@ -142,14 +142,14 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 <strong>POMDP (Partially Observable <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a>)</strong>: 관측이 불완전한 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) — HMM과 MDP를 결합한 형태로, 자율 주행, 의료 진단 AI에 활용된다.
 
 ```
-┌─────────────────────────────────────────────────┐
-│           마르코프 성질 기반 모델 계층            │
-├──────────────┬────────────┬─────────────────────┤
-│    마르코프  │   HMM      │        MDP          │
-│    체인      │ (관측 숨김)│  (행동 + 보상)       │
-│  (기반)      │            │                     │
-└──────────────┴────────────┴─────────────────────┘
-                       ↓
++-------------------------------------------------+
+|           마르코프 성질 기반 모델 계층            |
++--------------+------------+---------------------+
+|    마르코프  |   HMM      |        MDP          |
+|    체인      | (관측 숨김)|  (행동 + 보상)       |
+|  (기반)      |            |                     |
++--------------+------------+---------------------+
+                       v
                POMDP (통합 모델)
 ```
 
@@ -161,7 +161,7 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 마르코프 성질 | [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) | 성질 → 체인 정의 |
+| 마르코프 성질 | [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) | 성질 -> 체인 정의 |
 | 마르코프 성질 | 무기억성 (지수 분포) | 연속 버전의 마르코프 성질 |
 | HMM | Baum-Welch | 파라미터 추정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | HMM | [Viterbi](/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/) | 디코딩 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
@@ -175,17 +175,17 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 ```text
 [확률 과정 (Stochastic Process) — 시간에 따라 변하는 확률 모델]
-    │
-    ▼
+    |
+    v
 [마르코프 성질 (Markov Property) — 현재 상태만 의존]
-    │
-    ▼
+    |
+    v
 [마르코프 연쇄 (Markov Chain) — 이산 상태 전이 모델]
-    │
-    ▼
+    |
+    v
 [은닉 마르코프 모델 (HMM, Hidden Markov Model) — 숨은 상태 추정]
-    │
-    ▼
+    |
+    v
 [마르코프 결정 과정 (MDP, Markov Decision Process) — 강화학습 의사결정]
 ```
 
@@ -203,7 +203,7 @@ MDP는 미로 게임에서 "지금 어디 있는지"만 보고 최선의 방향�
 
 **진행 상황**: 141 / 175
 
-← **이전**: [11. 마르코프 체인 (Markov Chain) — 전이 확률, 정상 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)
-**다음**: [13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정](/knowledge-base/studynote/08_algorithm_stats/08_stats/142_em_algorithm/) →
+<- **이전**: [11. 마르코프 체인 (Markov Chain) — 전이 확률, 정상 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)
+**다음**: [13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정](/knowledge-base/studynote/08_algorithm_stats/08_stats/142_em_algorithm/) ->
 
 ---

@@ -51,26 +51,26 @@ tags = ["studynote-operating-system"]
 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `count++`를 거의 동시에 1번씩 실행하여, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 10에서 최종값 12를 기대하는 상황을 간트 차트로 분해해 본다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션             │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [공유 메모리 변수: count = 10]                                        │
-  │                                                                        │
-  │   스레드 A (Core 0)                      스레드 B (Core 1)             │
-  │  ─────────────────────────────────────────────────────────             │
-  │  1. LOAD R_A, [count] (R_A = 10)                                       │
-  │  2. ADD R_A, 1        (R_A = 11)                                       │
-  │  ====================== 💥 스레드 교체 ======================          │
-  │                                  1. LOAD R_B, [count] (R_B = 10)       │
-  │                                  2. ADD R_B, 1        (R_B = 11)       │
-  │                                  3. STORE [count], R_B(count=11됨)     │
-  │  ==================== 💥 스레드 다시 교체 =====================        │
-  │  3. STORE [count], R_A (count에 11을 덮어씀!)                          │
-  │                                                                        │
-  │  🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.      │
-  │     (스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)│
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |         타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션             |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |  [공유 메모리 변수: count = 10]                                        |
+  |                                                                        |
+  |   스레드 A (Core 0)                      스레드 B (Core 1)             |
+  |  ---------------------------------------------------------             |
+  |  1. LOAD R_A, [count] (R_A = 10)                                       |
+  |  2. ADD R_A, 1        (R_A = 11)                                       |
+  |  ====================== 💥 스레드 교체 ======================          |
+  |                                  1. LOAD R_B, [count] (R_B = 10)       |
+  |                                  2. ADD R_B, 1        (R_B = 11)       |
+  |                                  3. STORE [count], R_B(count=11됨)     |
+  |  ==================== 💥 스레드 다시 교체 =====================        |
+  |  3. STORE [count], R_A (count에 11을 덮어씀!)                          |
+  |                                                                        |
+  |  🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.      |
+  |     (스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)|
+  +------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 전 세계 전산망을 가장 괴롭히는 Race Condition의 1번 타자, '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)' 패턴이다. A가 메모리에서 10을 가져가서 자기만의 계산 공간([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에서 11을 쥐고 있는 동안, 메모리에 적힌 값은 아직 10이다. 이 빈틈을 노리고 B가 10을 가져가 버렸기 때문에 운명이 꼬인 것이다.
 
@@ -117,26 +117,26 @@ tags = ["studynote-operating-system"]
    - **아키텍처 결단**: 이를 막기 위해 `Double-Checked Locking` 패턴을 쓰거나, 락 오버헤드가 싫다면 아예 클래스 로딩 시점에 미리 만들어버리는(Eager Initialization) 방식으로 JVM 스펙을 이용해 경쟁 조건을 회피한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │     경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계   │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [ Level 4: 공유를 아예 포기한다 (Share Nothing) ]                   │
-  │     ▶ 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용   │
-  │     ▶ 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!   │
-  │                                                                       │
-  │   [ Level 3: 상태를 바꿀 수 없게 만든다 (Immutability) ]              │
-  │     ▶ 방법: String, final, 불변 객체 사용                             │
-  │     ▶ 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸. │
-  │                                                                       │
-  │   [ Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free) ]             │
-  │     ▶ 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용             │
-  │     ▶ 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.           │
-  │                                                                       │
-  │   [ Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock) ]           │
-  │     ▶ 방법: Mutex, Semaphore, Synchronized 남발                       │
-  │     ▶ 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.│
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |     경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계   |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   [ Level 4: 공유를 아예 포기한다 (Share Nothing) ]                   |
+  |     -> 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용   |
+  |     -> 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!   |
+  |                                                                       |
+  |   [ Level 3: 상태를 바꿀 수 없게 만든다 (Immutability) ]              |
+  |     -> 방법: String, final, 불변 객체 사용                             |
+  |     -> 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸. |
+  |                                                                       |
+  |   [ Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free) ]             |
+  |     -> 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용             |
+  |     -> 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.           |
+  |                                                                       |
+  |   [ Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock) ]           |
+  |     -> 방법: Mutex, Semaphore, Synchronized 남발                       |
+  |     -> 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.|
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보 개발자는 공유 변수를 보면 반사적으로 `Mutex`부터 떡칠한다. 하지만 베테랑 아키텍트는 "이 변수를 꼭 10개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 '공유'해야만 하는가?"를 먼저 고민한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 10개에게 각자 도마(Thread-Local)를 하나씩 사주고 마지막에 결과만 취합(Map-Reduce)하면 락을 아예 안 쓰고도 경쟁 조건을 피해 갈 수 있다. 최고의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 락을 쓰지 않는 설계다.
 
@@ -170,12 +170,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
-    │
-    ▼
+    |
+    v
 [경쟁 조건 (Race Condition)]
-    │
-    ├──▶ [동적 우선순위 승급 (Priority Boost)]
-    └──▶ [태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
+    |
+    +---> [동적 우선순위 승급 (Priority Boost)]
+    +---> [태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -192,7 +192,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 213 / 800
 
-← **이전**: [212. 동기화 (Synchronization) 메커니즘](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
-**다음**: [214. 임계 구역 (Critical Section)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) →
+<- **이전**: [212. 동기화 (Synchronization) 메커니즘](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
+**다음**: [214. 임계 구역 (Critical Section)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ->
 
 ---

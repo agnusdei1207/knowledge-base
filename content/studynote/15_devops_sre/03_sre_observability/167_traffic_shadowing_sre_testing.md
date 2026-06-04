@@ -26,16 +26,16 @@ tags = ["studynote-devops-sre"]
 아래 그림은 운영 요청이 어떻게 본 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 섀도우 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 나뉘는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 트래픽 섀도잉의 기본 발상                     │
-├──────────────────────────────────────────────────────────────┤
-│ Client Request                                               │
-│      │                                                       │
-│      ▼                                                       │
-│ Gateway / Proxy                                              │
-│   ├──▶ Primary Service (응답 사용) ──▶ User                  │
-│   └──▶ Shadow Service  (응답 폐기) ──▶ Metrics / Logs        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 트래픽 섀도잉의 기본 발상                     |
++--------------------------------------------------------------+
+| Client Request                                               |
+|      |                                                       |
+|      v                                                       |
+| Gateway / Proxy                                              |
+|   +---> Primary Service (응답 사용) ---> User                  |
+|   +---> Shadow Service  (응답 폐기) ---> Metrics / Logs        |
++--------------------------------------------------------------+
 ```
 
 즉, 섀도잉은 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이라기보다 <strong>운영 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>에 가깝다. 신버전의 정확도, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 자원 사용량을 사용자 영향 없이 먼저 관찰한 뒤, 이후 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)나 블루-그린 전환 여부를 판단하는 데 사용한다.
@@ -53,21 +53,21 @@ tags = ["studynote-devops-sre"]
 아래 그림은 실무형 섀도잉 아키텍처를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               실무형 트래픽 섀도잉 아키텍처                  │
-├──────────────────────────────────────────────────────────────┤
-│ User Request                                                 │
-│      │                                                       │
-│      ▼                                                       │
-│ Ingress / Service Mesh                                       │
-│   ├──▶ v1 Primary ───────────────▶ Real Database / Real Queue │
-│   │        │                                                  │
-│   │        └──────────────▶ Response to User                 │
-│   │                                                          │
-│   └──▶ v2 Shadow ───────────────▶ Shadow Database / Stub Queue│
-│            │                                                  │
-│            └──────────────▶ Metrics, Logs, Diff Result       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               실무형 트래픽 섀도잉 아키텍처                  |
++--------------------------------------------------------------+
+| User Request                                                 |
+|      |                                                       |
+|      v                                                       |
+| Ingress / Service Mesh                                       |
+|   +---> v1 Primary ----------------> Real Database / Real Queue |
+|   |        |                                                  |
+|   |        +---------------> Response to User                 |
+|   |                                                          |
+|   +---> v2 Shadow ----------------> Shadow Database / Stub Queue|
+|            |                                                  |
+|            +---------------> Metrics, Logs, Diff Result       |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -96,7 +96,7 @@ tags = ["studynote-devops-sre"]
 
 또한 섀도잉은 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))와 강하게 연결된다. 단순히 요청을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 것만으로는 충분하지 않고, 지표 ([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 트레이스 (Traces), 응답 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)이 함께 돌아가야 한다. 그래서 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 섀도잉을 하나의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능이 아니라 <strong>관측 기반 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>으로 보는 편이 더 정확하다.
 
-즉, 이상적인 배포 순서는 보통 "섀도잉으로 내부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)로 사용자 영향 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 전체 전환"이다. 시험에서도 이 연결 흐름을 제시하면 단일 기법 암기보다 더 입체적인 답이 된다.
+즉, 이상적인 배포 순서는 보통 "섀도잉으로 내부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)로 사용자 영향 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 전체 전환"이다. 시험에서도 이 연결 흐름을 제시하면 단일 기법 암기보다 더 입체적인 답이 된다.
 
 - **📢 섹션 요약 비유**: 섀도잉은 무대 뒤 리허설, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 소규모 시범 공연, 블루-그린은 공연장을 통째로 바꾸는 일과 같다. 모두 새 공연을 준비하지만 관객에게 보여 주는 시점과 범위가 다르다.
 
@@ -153,17 +153,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 스테이징 한계 인식
-    │
-    ▼
+    |
+    v
 트래픽 미러링 · 트래픽 섀도잉 (Traffic Shadowing)
-    │
-    ▼
+    |
+    v
 메트릭 · 로그 · 트레이스 기반 비교
-    │
-    ▼
+    |
+    v
 디프 테스트 (Diff Test) · 자동 이상 탐지
-    │
-    ▼
+    |
+    v
 카나리 배포 (Canary Deployment) · 점진적 전환
 ```
 
@@ -181,7 +181,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 167 / 373
 
-← **이전**: [166. 분산 락 병목 관측 (Distributed Lock Observability)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/166_distributed_lock_bottleneck_observability/)
-**다음**: [168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/168_event_sourcing_replay_monitoring/) →
+<- **이전**: [166. 분산 락 병목 관측 (Distributed Lock Observability)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/166_distributed_lock_bottleneck_observability/)
+**다음**: [168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/168_event_sourcing_replay_monitoring/) ->
 
 ---

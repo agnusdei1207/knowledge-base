@@ -39,15 +39,15 @@ gRPC는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_ema
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | 추적과 오류 분석 | interceptors, trace [context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) |
 
 ```text
-┌──────────────┐   proto      ┌──────────────┐   codegen    ┌──────────────┐
-│ API Contract │ ───────────▶ │ Client Stub  │ ───────────▶ │ Service Call │
-└──────────────┘              └──────────────┘              └──────────────┘
-        │                              │                             │
-        │ versioning                   │ HTTP/2 stream               │ trace
-        ▼                              ▼                             ▼
-┌──────────────┐              ┌──────────────┐              ┌──────────────┐
-│ Message Types│ ◀──────────▶ │ Server Stub  │ ◀──────────▶ │ Observability│
-└──────────────┘              └──────────────┘              └──────────────┘
++--------------+   proto      +--------------+   codegen    +--------------+
+| API Contract | ------------> | Client Stub  | ------------> | Service Call |
++--------------+              +--------------+              +--------------+
+        |                              |                             |
+        | versioning                   | HTTP/2 stream               | trace
+        v                              v                             v
++--------------+              +--------------+              +--------------+
+| Message Types| <------------> | Server Stub  | <------------> | Observability|
++--------------+              +--------------+              +--------------+
 ```
 
 핵심 원리는 계약 우선(Contract-first)과 이진 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화다. 필드 번호를 바꾸지 않고 새 필드를 추가하는 방식으로 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 유지해야 하며, 언어별 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 녹여야 한다. 내부망에서는 gRPC가 강력하지만, 브라우저 직접 호출이나 외부 파트너 연동은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/GraphQL이 더 적합할 수 있다.
@@ -118,18 +118,18 @@ gRPC를 적절히 적용하면 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ```text
 REST/JSON APIs
-   │
-   ▼
+   |
+   v
 Contract-first Schema
-   │
-   ▼
+   |
+   v
 gRPC + Protocol Buffers
-   │
-   ▼
+   |
+   v
 Streaming / Service Mesh / OpenTelemetry Integration
 ```
 
-이 흐름은 “개방형 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) → 계약 명세 강화 → 고성능 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) → 운영 통합”으로 내부 통신이 성숙하는 방향을 보여준다.
+이 흐름은 “개방형 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) -> 계약 명세 강화 -> 고성능 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) -> 운영 통합”으로 내부 통신이 성숙하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Streaming / Service Mesh / OpenTelemetry Integration
 
 **진행 상황**: 353 / 373
 
-← **이전**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
-**다음**: [354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/354_process/) →
+<- **이전**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
+**다음**: [354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/354_process/) ->
 
 ---

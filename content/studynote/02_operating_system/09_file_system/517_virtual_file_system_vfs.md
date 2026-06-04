@@ -26,29 +26,29 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시스템 콜이 어떻게 VFS 통역기를 거쳐 실제 외계어 디스크 기계로 하달되는지 객체지향 렌더 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 파일 I/O 엔진의 만능 통역기 : VFS 아키텍처                       │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  [ 최상단 유저 뷰 (Application Layer 결속) ]                                     │
-  │     개발자: "야 나 `open("/a.txt")`, `read()` 할게!"                             │
-  │       | (표준 POSIX 시스템 콜 1방 타결 빔 투하!)                                 │
-  │       ▼                                                                          │
-  │  =============================================================                   │
-  │                                                                                  │
-  │  [ VFS (Virtual File System 가상 통역막) ]                                       │
-  │     "접수 완료! 근데 a.txt 가 속한 디스크 포맷(마운트)이 뭐지? 함수 포인터 락백!"│
-  │     (내부적으로 "Ext4를 위한 read()", "FAT을 위한 read()" 스위칭 라우팅!)        │
-  │       |                  |                |                                      │
-  │  =====▼==================▼================▼===================                   │
-  │                                                                                  │
-  │  [ 하위 계층 : 찐 (Real) 물리 파일 시스템 구현 모터 드라이버 포팅 렌더 ]         │
-  │   [ 리눅스 하드 ext4     [ USB의 FAT32        [ 클라우드 외부 NFS                │
-  │     드라이버 모듈 ]         드라이버 모듈 ]        드라이버 모듈 ]               │
-  │          |                   |                  |                                │
-  │   ( 디스크 섹터 100번   ( USB 플래시 메모리 0번  ( TCP 랜선 소켓 I/O 패킷        │
-  │     바늘 헤드 이동 쓰기! )  셀 칩셋 전류 제어 )      발사 전송 타격! )           │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 파일 I/O 엔진의 만능 통역기 : VFS 아키텍처                       |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |  [ 최상단 유저 뷰 (Application Layer 결속) ]                                     |
+  |     개발자: "야 나 `open("/a.txt")`, `read()` 할게!"                             |
+  |       | (표준 POSIX 시스템 콜 1방 타결 빔 투하!)                                 |
+  |       v                                                                          |
+  |  =============================================================                   |
+  |                                                                                  |
+  |  [ VFS (Virtual File System 가상 통역막) ]                                       |
+  |     "접수 완료! 근데 a.txt 가 속한 디스크 포맷(마운트)이 뭐지? 함수 포인터 락백!"|
+  |     (내부적으로 "Ext4를 위한 read()", "FAT을 위한 read()" 스위칭 라우팅!)        |
+  |       |                  |                |                                      |
+  |  =====v==================v================v===================                   |
+  |                                                                                  |
+  |  [ 하위 계층 : 찐 (Real) 물리 파일 시스템 구현 모터 드라이버 포팅 렌더 ]         |
+  |   [ 리눅스 하드 ext4     [ USB의 FAT32        [ 클라우드 외부 NFS                |
+  |     드라이버 모듈 ]         드라이버 모듈 ]        드라이버 모듈 ]               |
+  |          |                   |                  |                                |
+  |   ( 디스크 섹터 100번   ( USB 플래시 메모리 0번  ( TCP 랜선 소켓 I/O 패킷        |
+  |     바늘 헤드 이동 쓰기! )  셀 칩셋 전류 제어 )      발사 전송 타격! )           |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스는 모든 것을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 취급한다고 배운다(Everything is a [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)). 키보드 입력, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 출력, 심지어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 등 모든 것이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다! 어떻게 그게 가능할까? VFS라는 거대한 인터페이스 객체를 세웠기 때문이다! VFS 껍데기는 내부에 "진짜 디스크 I/O 함수 주막표(Function Pointer Table 다형성 렌더)" 를 품고 있다. 유저가 `write()` 를 치면 VFS는 묻지도 따지지도 않고, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 객체 껍데기에 매달린 함수 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 장부를 까 봐서 "아 이건 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 칩에 기록하는 드라이버 코드로 점프해 쏴라!" 라며 포워딩([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 다형성 Polymorphism 마법 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Vtable 적용) 시키는 C언어 객체 지향 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 시스템의 화룡점정이란 결착이다.
@@ -140,12 +140,12 @@ VFS (Virtual [File](/knowledge-base/studynote/02_operating_system/09_file_system
 
 ```text
 [마운트 (Mount) 메커니즘]
-    │
-    ▼
+    |
+    v
 [VFS (Virtual File System)]
-    │
-    ├──▶ [VFS 객체]
-    └──▶ [디스크 상의 구조]
+    |
+    +---> [VFS 객체]
+    +---> [디스크 상의 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -162,7 +162,7 @@ VFS (Virtual [File](/knowledge-base/studynote/02_operating_system/09_file_system
 
 **진행 상황**: 517 / 800
 
-← **이전**: [516. 마운트 (Mount) 메커니즘 - 다른 파일 시스템을 디렉터리 트리의 특정 지점에 연결](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)
-**다음**: [518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/) →
+<- **이전**: [516. 마운트 (Mount) 메커니즘 - 다른 파일 시스템을 디렉터리 트리의 특정 지점에 연결](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)
+**다음**: [518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/) ->
 
 ---

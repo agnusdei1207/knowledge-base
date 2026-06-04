@@ -35,11 +35,11 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ```
 기존 RDBMS 한계
-┌─────────────────────────────────────────┐
-│ 정형 데이터(행·열) ←───── Variety 충돌  │
-│ 수직 확장(고가 서버) ←─── Volume 충돌   │
-│ 배치 처리(야간 ETL) ←──── Velocity 충돌 │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+| 정형 데이터(행·열) <------ Variety 충돌  |
+| 수직 확장(고가 서버) <---- Volume 충돌   |
+| 배치 처리(야간 ETL) <----- Velocity 충돌 |
++-----------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 빅데이터는 "소방호스로 물을 받아야 하는데 컵 밖에 없는 상황"이다. 컵(RDBMS)을 아무리 크게 만들어도 소방호스(3V)를 감당할 수 없어서, 아예 저수지(빅데이터 플랫폼)를 파야 한다.
@@ -56,10 +56,10 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 | 규모 단위 | 크기 | 대표 사례 |
 |:---|:---|:---|
-| Terabyte (TB) | 10¹² Bytes | 중소기업 연간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| Terabyte (TB) | 10¹^ Bytes | 중소기업 연간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 | Petabyte (PB) | 10¹⁵ Bytes | 페이스북 일일 업로드 이미지 |
 | Exabyte (EB) | 10¹⁸ Bytes | 글로벌 인터넷 트래픽/월 |
-| Zettabyte (ZB) | 10²¹ Bytes | 전 세계 연간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)량 |
+| Zettabyte (ZB) | 10^¹ Bytes | 전 세계 연간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)량 |
 
 #### Velocity (속도)
 
@@ -67,11 +67,11 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ```
 속도 스펙트럼
-┌──────────────────────────────────────────────────────┐
-│  배치(Batch)  →  마이크로배치  →  스트리밍  →  실시간 │
-│  (1일 주기)       (수 초)        (수 밀리초)  (< 1ms) │
-│  Hive           Spark           Kafka        Flink   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  배치(Batch)  ->  마이크로배치  ->  스트리밍  ->  실시간 |
+|  (1일 주기)       (수 초)        (수 밀리초)  (< 1ms) |
+|  Hive           Spark           Kafka        Flink   |
++------------------------------------------------------+
 ```
 
 #### Variety (다양성)
@@ -87,16 +87,16 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 ### 5V: Veracity와 Value의 추가
 
 ```
-3V → 5V 진화
-         ┌────────────────────────────────────┐
-         │           5V 프레임워크             │
-         │                                    │
-         │  Volume  ──────────────────────┐   │
-         │  Velocity ─────────────────────┤   │
-         │  Variety  ─────────────────────┤──▶│ Value (궁극 목적)
-         │  Veracity ─────────────────────┤   │ 비즈니스 인사이트
-         │  (신뢰성 검증)                 │   │
-         └────────────────────────────────┴───┘
+3V -> 5V 진화
+         +------------------------------------+
+         |           5V 프레임워크             |
+         |                                    |
+         |  Volume  ----------------------+   |
+         |  Velocity ---------------------+   |
+         |  Variety  ---------------------+--->| Value (궁극 목적)
+         |  Veracity ---------------------+   | 비즈니스 인사이트
+         |  (신뢰성 검증)                 |   |
+         +--------------------------------+---+
 ```
 
 | V 특성 | 영문 | 정의 | 핵심 기술 |
@@ -125,15 +125,15 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ```
 V-기술 매핑 아키텍처
-┌─────────┬─────────────────────────────────────────────┐
-│   V     │  핵심 기술 스택                               │
-├─────────┼─────────────────────────────────────────────┤
-│ Volume  │  HDFS → S3/GCS → Delta Lake (콜드/핫 계층화) │
-│ Velocity│  Kafka → Spark Streaming → Flink (지연 최소) │
-│ Variety │  Schema Registry → Avro/Parquet → Catalog    │
-│ Veracity│  Great Expectations → dbt test → Data Lineage│
-│ Value   │  Spark MLlib → BI 대시보드 → A/B 테스트       │
-└─────────┴─────────────────────────────────────────────┘
++---------+---------------------------------------------+
+|   V     |  핵심 기술 스택                               |
++---------+---------------------------------------------+
+| Volume  |  HDFS -> S3/GCS -> Delta Lake (콜드/핫 계층화) |
+| Velocity|  Kafka -> Spark Streaming -> Flink (지연 최소) |
+| Variety |  Schema Registry -> Avro/Parquet -> Catalog    |
+| Veracity|  Great Expectations -> dbt test -> Data Lineage|
+| Value   |  Spark MLlib -> BI 대시보드 -> A/B 테스트       |
++---------+---------------------------------------------+
 ```
 
 ### 빅데이터 vs 전통 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) 비교
@@ -161,7 +161,7 @@ V-기술 매핑 아키텍처
 | [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) | 클릭스트림 5TB/일 | S3 + [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 계층화 | 저장 비용 70% 절감 |
 | Velocity | 실시간 재고·가격 변동 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink | 200ms 이내 재고 반영 |
 | Variety | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이미지, CSV | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore | 통합 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리 |
-| Veracity | 중복 주문, 봇 트래픽 | Great Expectations | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 95% → 99% |
+| Veracity | 중복 주문, 봇 트래픽 | Great Expectations | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 95% -> 99% |
 | Value | 개인화 추천 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 향상 | [Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/) | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) (Click-Through Rate) 23% 향상 |
 
 ### 기술사 논술 핵심 포인트
@@ -182,8 +182,8 @@ V-기술 매핑 아키텍처
 | 효과 영역 | 구체적 내용 |
 |:---|:---|
 | 비용 절감 | 범용 하드웨어([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))로 스토리지 비용 60~80% 절감 |
-| 의사결정 속도 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)(T+1 보고) → 실시간 대시보드(실시간 분석) |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 범위 | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)만 → 비정형 포함 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 |
+| 의사결정 속도 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)(T+1 보고) -> 실시간 대시보드(실시간 분석) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 범위 | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)만 -> 비정형 포함 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 |
 | 비즈니스 가치 | ML 기반 예측 모델로 수익 예측 정확도 향상 |
 | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | Veracity 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리로 잘못된 의사결정 방지 |
 
@@ -220,15 +220,15 @@ V-기술 매핑 아키텍처
 
 ```text
 빅데이터 3V: Volume · Velocity · Variety
-    │
-    ▼
+    |
+    v
 확장 5V: + Veracity (정확성) + Value (가치)
-    │
-    ▼
-처리 기술: Hadoop → Spark → Flink (실시간)
-    │
-    ▼
-저장 아키텍처: Data Lake → Lakehouse → Data Mesh
+    |
+    v
+처리 기술: Hadoop -> Spark -> Flink (실시간)
+    |
+    v
+저장 아키텍처: Data Lake -> Lakehouse -> Data Mesh
 ```
 2. <strong>Veracity(진실성)</strong>는 잘못 인쇄된 책을 걸러내는 품질 검사관이고, <strong>Value(가치)</strong>는 그 많은 책들로 결국 유용한 지식을 얻는 것이에요.
 3. 빅데이터 시스템은 이 다섯 가지 문제를 모두 해결하는 "슈퍼 도서관 관리 시스템"이에요!
@@ -239,7 +239,7 @@ V-기술 매핑 아키텍처
 
 **진행 상황**: 201 / 258
 
-← **이전**: [200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성](/knowledge-base/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/)
-**다음**: [202. 스케일 아웃 (Scale-Out) 분산 수평 확장](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) →
+<- **이전**: [200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성](/knowledge-base/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/)
+**다음**: [202. 스케일 아웃 (Scale-Out) 분산 수평 확장](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ->
 
 ---

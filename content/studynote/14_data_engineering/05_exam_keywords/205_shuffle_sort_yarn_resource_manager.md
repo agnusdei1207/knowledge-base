@@ -20,38 +20,38 @@ tags = ["studynote-data-engineering"]
 
 ### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 처리 단계 개요
 
-MapReduce는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map → Shuffle & Sort → Reduce 세 단계로 처리한다.
+MapReduce는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map -> Shuffle & Sort -> Reduce 세 단계로 처리한다.
 
 ```
 MapReduce 전체 흐름
-┌──────────────────────────────────────────────────────────────┐
-│  입력 데이터 (HDFS)                                           │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
-│  │  Split 1  │  │  Split 2  │  │  Split 3  │                   │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                   │
-│       │              │              │                         │
-│  ┌────▼─────┐  ┌────▼─────┐  ┌────▼─────┐                   │
-│  │  Map 1    │  │  Map 2    │  │  Map 3    │  ← Map 단계      │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                   │
-│       │              │              │                         │
-│  ┌────▼──────────────▼──────────────▼─────┐                  │
-│  │         셔플 & 정렬 (Shuffle & Sort)      │  ← 핵심 병목   │
-│  │   키별 파티셔닝 + 정렬 + 네트워크 전송     │                 │
-│  └────┬──────────────┬───────────────────┘                   │
-│       │              │                                        │
-│  ┌────▼─────┐  ┌────▼─────┐                                  │
-│  │ Reduce 1  │  │ Reduce 2  │  ← Reduce 단계                  │
-│  └────┬─────┘  └────┬─────┘                                  │
-│       │              │                                        │
-│  ┌────▼──────────────▼─────┐                                  │
-│  │     출력 (HDFS 저장)      │                                  │
-│  └──────────────────────────┘                                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  입력 데이터 (HDFS)                                           |
+|  +----------+  +----------+  +----------+                   |
+|  |  Split 1  |  |  Split 2  |  |  Split 3  |                   |
+|  +----+-----+  +----+-----+  +----+-----+                   |
+|       |              |              |                         |
+|  +----v-----+  +----v-----+  +----v-----+                   |
+|  |  Map 1    |  |  Map 2    |  |  Map 3    |  <- Map 단계      |
+|  +----+-----+  +----+-----+  +----+-----+                   |
+|       |              |              |                         |
+|  +----v--------------v--------------v-----+                  |
+|  |         셔플 & 정렬 (Shuffle & Sort)      |  <- 핵심 병목   |
+|  |   키별 파티셔닝 + 정렬 + 네트워크 전송     |                 |
+|  +----+--------------+-------------------+                   |
+|       |              |                                        |
+|  +----v-----+  +----v-----+                                  |
+|  | Reduce 1  |  | Reduce 2  |  <- Reduce 단계                  |
+|  +----+-----+  +----+-----+                                  |
+|       |              |                                        |
+|  +----v--------------v-----+                                  |
+|  |     출력 (HDFS 저장)      |                                  |
+|  +--------------------------+                                 |
++--------------------------------------------------------------+
 ```
 
 ### 왜 셔플이 병목인가?
 
-셔플은 모든 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력이 모든 Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 이동해야 하는 <strong>All-to-All 통신 패턴</strong>이다. 노드 N개가 있을 때 최악의 경우 N² 개의 네트워크 연결이 생성된다.
+셔플은 모든 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력이 모든 Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 이동해야 하는 <strong>All-to-All 통신 패턴</strong>이다. 노드 N개가 있을 때 최악의 경우 N^ 개의 네트워크 연결이 생성된다.
 
 📢 **섹션 요약 비유**: 셔플은 "반 전체 학생(Map)이 각자 쓴 답을 과목별로 정리해서 과목 담당 교사(Reduce)에게 전달하는 것"이다. 영어 답지는 영어 선생님께, 수학은 수학 선생님께. 100명 학생 × 10개 과목 = 1,000번 이동이 발생한다.
 
@@ -63,19 +63,19 @@ MapReduce 전체 흐름
 
 ```
 셔플 & 정렬 상세 흐름
-┌─────────────────────────────────────────────────────────────┐
-│  Map 태스크 측 (Map-Side):                                   │
-│  Map 출력 → 순환 버퍼(80MB) → 파티셔닝(키 해시) → 정렬      │
-│           → 스필(Spill to Disk, 버퍼 80% 찰 때)              │
-│           → 여러 스필 파일 병합(Merge Sort) → 로컬 디스크    │
-│                                                             │
-│  네트워크 전송 (Network Transfer):                           │
-│  HTTP로 Reduce 태스크에게 Map 출력 전송                       │
-│                                                             │
-│  Reduce 태스크 측 (Reduce-Side):                             │
-│  여러 Map의 출력 수신 → 병합 정렬(Merge Sort)                │
-│  → 키별 그룹화 → Reduce 함수 호출                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Map 태스크 측 (Map-Side):                                   |
+|  Map 출력 -> 순환 버퍼(80MB) -> 파티셔닝(키 해시) -> 정렬      |
+|           -> 스필(Spill to Disk, 버퍼 80% 찰 때)              |
+|           -> 여러 스필 파일 병합(Merge Sort) -> 로컬 디스크    |
+|                                                             |
+|  네트워크 전송 (Network Transfer):                           |
+|  HTTP로 Reduce 태스크에게 Map 출력 전송                       |
+|                                                             |
+|  Reduce 태스크 측 (Reduce-Side):                             |
+|  여러 Map의 출력 수신 -> 병합 정렬(Merge Sort)                |
+|  -> 키별 그룹화 -> Reduce 함수 호출                           |
++-------------------------------------------------------------+
 ```
 
 | 셔플 세부 단계 | 설명 | 최적화 방법 |
@@ -84,7 +84,7 @@ MapReduce 전체 흐름
 | 정렬 (Map-Side) | Map 출력을 키 기준 정렬 | 인메모리 정렬 버퍼 크기 증가 |
 | 스필 (Spill) | 버퍼 가득 차면 디스크에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 버퍼 크기 늘려 스필 횟수 감소 |
 | 병합 (Merge) | 스필 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 병합 정렬 | Combiner로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 사전 축소 |
-| 네트워크 전송 | Map → Reduce [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Snappy/LZ4)으로 전송량 감소 |
+| 네트워크 전송 | Map -> Reduce [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Snappy/LZ4)으로 전송량 감소 |
 | Reduce-Side 정렬 | 수신된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최종 병합 정렬 | 충분한 Reduce 힙 메모리 확보 |
 
 ### Combiner: 셔플 최적화의 핵심
@@ -93,16 +93,16 @@ Combiner는 Map 출력을 Reduce로 보내기 전에 같은 노드에서 사전 
 
 ```
 Combiner 효과
-┌─────────────────────────────────────────────────────────────┐
-│  Combiner 없음:                                             │
-│  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             │
-│  → 셔플: apple 3개 + banana 1개 전송 (4건)                   │
-│                                                             │
-│  Combiner 있음:                                             │
-│  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             │
-│  → Combine: (apple,3),(banana,1)                           │
-│  → 셔플: (apple,3),(banana,1) 전송 (2건, 50% 감소!)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Combiner 없음:                                             |
+|  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             |
+|  -> 셔플: apple 3개 + banana 1개 전송 (4건)                   |
+|                                                             |
+|  Combiner 있음:                                             |
+|  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             |
+|  -> Combine: (apple,3),(banana,1)                           |
+|  -> 셔플: (apple,3),(banana,1) 전송 (2건, 50% 감소!)          |
++-------------------------------------------------------------+
 ```
 
 > ⚠️ **주의**: Combiner는 결합법칙과 교환법칙이 성립하는 연산(합계, 최댓값)에만 적용 가능. 평균값 계산에 직접 적용하면 잘못된 결과가 나온다.
@@ -111,32 +111,32 @@ Combiner 효과
 
 ```
 YARN 전체 아키텍처
-┌────────────────────────────────────────────────────────────────┐
-│                                                                │
-│  ┌────────────────────────────────────────────────────────┐   │
-│  │              ResourceManager (클러스터 1대)              │   │
-│  │  ┌─────────────────────┐  ┌─────────────────────────┐  │   │
-│  │  │  Scheduler           │  │  ApplicationManager      │  │   │
-│  │  │  (자원 할당 결정)     │  │  (애플리케이션 생명주기) │  │   │
-│  │  └─────────────────────┘  └─────────────────────────┘  │   │
-│  └────────────────────────────────────────────────────────┘   │
-│              │ 자원 할당        │ AM 시작                       │
-│              ▼                  ▼                              │
-│  ┌──────────────────┐  ┌──────────────────┐                   │
-│  │   NodeManager 1   │  │   NodeManager 2   │ (각 워커 노드)    │
-│  │  ┌────────────┐   │  │  ┌────────────┐   │                  │
-│  │  │ Container   │   │  │  │ Container   │   │                  │
-│  │  │ (AM 또는    │   │  │  │ (Task 실행) │   │                  │
-│  │  │  Task 실행) │   │  │  └────────────┘   │                  │
-│  │  └────────────┘   │  └──────────────────┘                   │
-│  └──────────────────┘                                          │
-│              │ 태스크 시작 요청                                   │
-│              ▼                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  ApplicationMaster (앱별 1개)                             │  │
-│  │  → 구체적인 태스크 계획 수립, Container 요청, 진행 모니터링│  │
-│  └──────────────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                                                                |
+|  +--------------------------------------------------------+   |
+|  |              ResourceManager (클러스터 1대)              |   |
+|  |  +---------------------+  +-------------------------+  |   |
+|  |  |  Scheduler           |  |  ApplicationManager      |  |   |
+|  |  |  (자원 할당 결정)     |  |  (애플리케이션 생명주기) |  |   |
+|  |  +---------------------+  +-------------------------+  |   |
+|  +--------------------------------------------------------+   |
+|              | 자원 할당        | AM 시작                       |
+|              v                  v                              |
+|  +------------------+  +------------------+                   |
+|  |   NodeManager 1   |  |   NodeManager 2   | (각 워커 노드)    |
+|  |  +------------+   |  |  +------------+   |                  |
+|  |  | Container   |   |  |  | Container   |   |                  |
+|  |  | (AM 또는    |   |  |  | (Task 실행) |   |                  |
+|  |  |  Task 실행) |   |  |  +------------+   |                  |
+|  |  +------------+   |  +------------------+                   |
+|  +------------------+                                          |
+|              | 태스크 시작 요청                                   |
+|              v                                                  |
+|  +----------------------------------------------------------+  |
+|  |  ApplicationMaster (앱별 1개)                             |  |
+|  |  -> 구체적인 태스크 계획 수립, Container 요청, 진행 모니터링|  |
+|  +----------------------------------------------------------+  |
++----------------------------------------------------------------+
 ```
 
 | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 대비 |
@@ -164,17 +164,17 @@ YARN 전체 아키텍처
 
 ```
 YARN 멀티 프레임워크 지원
-┌─────────────────────────────────────────────────────────────┐
-│                    YARN 클러스터                             │
-│                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │MapReduce  │  │  Spark   │  │   Tez    │  │   MPI    │   │
-│  │(배치 ETL) │  │(ML, SQL) │  │(Hive 최적)│  │(고성능   │   │
-│  │          │  │          │  │          │  │  계산)    │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-│                                                             │
-│  공통: 모두 YARN ApplicationMaster로 구현됨                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    YARN 클러스터                             |
+|                                                             |
+|  +----------+  +----------+  +----------+  +----------+   |
+|  |MapReduce  |  |  Spark   |  |   Tez    |  |   MPI    |   |
+|  |(배치 ETL) |  |(ML, SQL) |  |(Hive 최적)|  |(고성능   |   |
+|  |          |  |          |  |          |  |  계산)    |   |
+|  +----------+  +----------+  +----------+  +----------+   |
+|                                                             |
+|  공통: 모두 YARN ApplicationMaster로 구현됨                  |
++-------------------------------------------------------------+
 ```
 
 ### 셔플 최적화 종합 비교
@@ -197,28 +197,28 @@ YARN 멀티 프레임워크 지원
 
 ```
 셔플 병목 진단 체크리스트
-┌──────────────────────────────────────────────────────────┐
-│  1. 셔플 시간 비중 확인:                                  │
-│     Job 총 시간 중 Shuffle: XX% → 40% 이상이면 병목       │
-│                                                          │
-│  2. 데이터 스큐 확인:                                     │
-│     Reduce 태스크 완료 시간 편차 → 편차 크면 파티셔닝 문제 │
-│                                                          │
-│  3. 스필 횟수 확인:                                       │
-│     mapreduce.map.sort.spill.percent 모니터링             │
-│     → 스필 빈번하면 Map 버퍼 크기(io.sort.mb) 증가 필요   │
-│                                                          │
-│  4. 네트워크 사용률 확인:                                  │
-│     셔플 중 네트워크 포화 → 압축 설정 확인                 │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  1. 셔플 시간 비중 확인:                                  |
+|     Job 총 시간 중 Shuffle: XX% -> 40% 이상이면 병목       |
+|                                                          |
+|  2. 데이터 스큐 확인:                                     |
+|     Reduce 태스크 완료 시간 편차 -> 편차 크면 파티셔닝 문제 |
+|                                                          |
+|  3. 스필 횟수 확인:                                       |
+|     mapreduce.map.sort.spill.percent 모니터링             |
+|     -> 스필 빈번하면 Map 버퍼 크기(io.sort.mb) 증가 필요   |
+|                                                          |
+|  4. 네트워크 사용률 확인:                                  |
+|     셔플 중 네트워크 포화 -> 압축 설정 확인                 |
++----------------------------------------------------------+
 ```
 
 ### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 자원 계획 실무
 
 | 항목 | 계획 방법 | 권장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 |:---|:---|:---|
-| [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 메모리 | 물리 메모리의 80% [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 할당 (20%는 OS용) | 128GB 서버 → [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 102GB |
-| vCPU 할당 | [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/) 고려 실제 코어 × 1.5~2 | 16코어 → [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 24 vCPU |
+| [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 메모리 | 물리 메모리의 80% [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 할당 (20%는 OS용) | 128GB 서버 -> [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 102GB |
+| vCPU 할당 | [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/) 고려 실제 코어 × 1.5~2 | 16코어 -> [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 24 vCPU |
 | AM 메모리 | 2~4GB (Spark AM은 더 필요할 수 있음) | 서비스별 조정 |
 | 최대 [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 크기 | 단일 Executor/Mapper 최대 크기 | 물리 메모리의 50% 이내 |
 
@@ -238,10 +238,10 @@ YARN 멀티 프레임워크 지원
 
 | 효과 영역 | 내용 |
 |:---|:---|
-| 자원 활용률 향상 | Slot 기반(고정) → [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 기반(가변), 자원 낭비 40% 감소 |
-| 프레임워크 유연성 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 전용 → Spark·Tez·MPI·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 통합 운영 |
+| 자원 활용률 향상 | Slot 기반(고정) -> [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 기반(가변), 자원 낭비 40% 감소 |
+| 프레임워크 유연성 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 전용 -> Spark·Tez·MPI·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 통합 운영 |
 | 운영 단순화 | 단일 클러스터에서 다중 워크로드 통합 관리 |
-| 확장성 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 4,000 노드 한계 → 수만 노드 지원 |
+| 확장성 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 4,000 노드 한계 -> 수만 노드 지원 |
 
 ### 셔플 최적화 효과
 
@@ -278,17 +278,17 @@ YARN 멀티 프레임워크 지원
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-MapReduce 셔플: Map 출력 → 네트워크 전송 → Reduce 입력
-    │ 네트워크·디스크 병목
-    ▼
+MapReduce 셔플: Map 출력 -> 네트워크 전송 -> Reduce 입력
+    | 네트워크·디스크 병목
+    v
 YARN: 자원 관리 분리 (ResourceManager + NodeManager)
-    ├─► ApplicationMaster: 잡별 독립 관리
-    └─► 컨테이너 기반 자원 할당
-    │
-    ▼
+    +-► ApplicationMaster: 잡별 독립 관리
+    +-► 컨테이너 기반 자원 할당
+    |
+    v
 Spark Shuffle: Sort-Based · Tungsten Off-Heap 최적화
-    │
-    ▼
+    |
+    v
 AQE (Adaptive Query Execution): 런타임 최적화
 ```
 2. Combiner는 "출발 전에 같은 선생님한테 갈 카드를 미리 묶어두는 것"이에요. 100장이 10묶음이 되면 훨씬 빠르게 전달할 수 있어요.
@@ -300,7 +300,7 @@ AQE (Adaptive Query Execution): 런타임 최적화
 
 **진행 상황**: 205 / 258
 
-← **이전**: [204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/204_namenode_metadata_mapreduce_disk_bottleneck/)
-**다음**: [206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) →
+<- **이전**: [204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/204_namenode_metadata_mapreduce_disk_bottleneck/)
+**다음**: [206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) ->
 
 ---

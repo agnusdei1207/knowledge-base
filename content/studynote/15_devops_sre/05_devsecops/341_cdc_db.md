@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준화 → 순서 보장 전파 → 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
+CDC의 핵심 원리는 `트랜잭션 로그 읽기 -> 변경 이벤트 표준화 -> 순서 보장 전파 -> 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -41,15 +41,15 @@ CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준�
 다음 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC가 애플리케이션 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 안정적인 이유를 보여준다.
 
 ```text
-┌──────────────┐   binlog/WAL   ┌──────────────┐   ordered    ┌──────────────┐
-│ Source DB    │ ─────────────▶ │ CDC Connector│ ───────────▶ │ Event Stream │
-└──────────────┘                └──────────────┘              └──────────────┘
-       │                                 │                             │
-       │ schema change                   │ offset checkpoint           │ replay
-       ▼                                 ▼                             ▼
-┌──────────────┐                ┌──────────────┐              ┌──────────────┐
-│ Schema Reg.  │                │ Offset Store │              │ Target DB    │
-└──────────────┘                └──────────────┘              └──────────────┘
++--------------+   binlog/WAL   +--------------+   ordered    +--------------+
+| Source DB    | --------------> | CDC Connector| ------------> | Event Stream |
++--------------+                +--------------+              +--------------+
+       |                                 |                             |
+       | schema change                   | offset checkpoint           | replay
+       v                                 v                             v
++--------------+                +--------------+              +--------------+
+| Schema Reg.  |                | Offset Store |              | Target DB    |
++--------------+                +--------------+              +--------------+
 ```
 
 이 구조에서 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 기준은 “마지막으로 성공한 오프셋(offset)이 어디인가”다. 소비자가 중복 이벤트를 받을 수 있으므로 타깃 반영은 Upsert, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드, 이벤트 키 기반 멱등 처리가 필수다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 자주 바뀌는 조직이라면 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 자체보다 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry와 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 전체 안정성을 좌우한다.
@@ -120,18 +120,18 @@ CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자�
 
 ```text
 Batch ETL
-   │
-   ▼
+   |
+   v
 Log-based CDC
-   │
-   ▼
+   |
+   v
 Event Streaming + Schema Registry
-   │
-   ▼
+   |
+   v
 Zero-downtime Migration / Real-time Analytics
 ```
 
-이 흐름은 “일괄 복사 → 변경분 추적 → 스트림 표준화 → 무중단 활용”으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 방향을 보여준다.
+이 흐름은 “일괄 복사 -> 변경분 추적 -> 스트림 표준화 -> 무중단 활용”으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ Zero-downtime Migration / Real-time Analytics
 
 **진행 상황**: 341 / 373
 
-← **이전**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/)
-**다음**: [342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/) →
+<- **이전**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/)
+**다음**: [342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/) ->
 
 ---

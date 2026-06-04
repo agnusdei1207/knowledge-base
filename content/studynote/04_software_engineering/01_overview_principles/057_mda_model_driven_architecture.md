@@ -32,11 +32,11 @@ MDA는 모델을 세 단계로 나눈다.
 
 ```text
 CIM (Computation Independent Model)
-   ↓
+   v
 PIM (Platform Independent Model)
-   ↓
+   v
 PSM (Platform Specific Model)
-   ↓
+   v
 코드 생성
 ```
 
@@ -88,11 +88,11 @@ MDA의 장점은 재사용성과 플랫폼 독립성이다. 반대로 한계는 
 
 ```text
 CIM
-   ↓
+   v
 PIM
-   ↓
+   v
 PSM
-   ↓
+   v
 코드 생성 / 유지보수
 ```
 
@@ -100,11 +100,11 @@ PSM
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 코드 중심 개발 → 플랫폼 의존성 증가
-2. 모델 중심 사고 → 업무와 기술 분리
-3. [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) / [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) / PSM → [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 정립
-4. 변환 도구와 템플릿 → 자동 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 확산
-5. 모델 주도 엔지니어링 → 대규모 시스템 설계의 표준화 시도
+1. 코드 중심 개발 -> 플랫폼 의존성 증가
+2. 모델 중심 사고 -> 업무와 기술 분리
+3. [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) / [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) / PSM -> [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 정립
+4. 변환 도구와 템플릿 -> 자동 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 확산
+5. 모델 주도 엔지니어링 -> 대규모 시스템 설계의 표준화 시도
 
 ---
 
@@ -120,7 +120,7 @@ MDA는 그림으로 집을 먼저 그리는 거예요.
 
 **진행 상황**: 57 / 973
 
-← **이전**: [56. TOGAF EA Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/)
-**다음**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) →
+<- **이전**: [56. TOGAF EA Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/)
+**다음**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) ->
 
 ---

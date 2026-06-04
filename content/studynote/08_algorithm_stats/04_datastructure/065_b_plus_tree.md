@@ -56,17 +56,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [이진 탐색 트리 (BST) — 탐색 O(log N), 불균형 시 O(N) 성능 저하]
-    │
-    ▼
+    |
+    v
 [B-트리 (B-Tree) — 다중 분기로 디스크 I/O 최소화, 내부 노드 데이터 보유]
-    │
-    ▼
+    |
+    v
 [B+ 트리 (B+ Tree) — 데이터 리프 집중, 리프 연결 리스트로 범위 쿼리 최적화]
-    │
-    ▼
+    |
+    v
 [DBMS 클러스터드 인덱스 (Clustered Index) — B+ 트리 기반 물리 정렬 저장]
-    │
-    ▼
+    |
+    v
 [LSM 트리 (Log-Structured Merge Tree) — B+ 트리 대안, 쓰기 집약 NoSQL 최적화]
 ```
 
@@ -83,7 +83,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 65 / 175
 
-← **이전**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)
-**다음**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/) →
+<- **이전**: [B-트리 (B-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)
+**다음**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/) ->
 
 ---

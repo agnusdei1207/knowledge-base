@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [흐름 제어]
-    │
-    ▼
+    |
+    v
 [슬라이딩 윈도우 프로토콜 개념]
-    │
-    └──▶ [윈도우 크기, 송신/수신 윈도우]
+    |
+    +---> [윈도우 크기, 송신/수신 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [흐름 제어]
-    │
-    ▼
+    |
+    v
 [슬라이딩 윈도우 프로토콜 개념]
-    │
-    └──▶ [윈도우 크기, 송신/수신 윈도우]
+    |
+    +---> [윈도우 크기, 송신/수신 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 흐름 제어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 슬라이딩 윈도우 프로토콜 개념]
-    │
-    ├──▶ [확장 A: 윈도우 크기, 송신/수신 윈도우]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 윈도우 크기, 송신/수신 윈도우]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념는 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 335 / 1120
 
-← **이전**: [213. 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
-**다음**: [215. 윈도우 크기 (Window Size), 송신/수신 윈도우](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) →
+<- **이전**: [213. 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
+**다음**: [215. 윈도우 크기 (Window Size), 송신/수신 윈도우](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) ->
 
 ---

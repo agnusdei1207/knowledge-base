@@ -31,11 +31,11 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Mode
-  ↓
+  v
 MUX / XOR
-  ↓
+  v
 Flip-Flop Chain
-  ↓
+  v
 Count Up or Down
 ```
 
@@ -106,13 +106,13 @@ M=1 -> Down
 
 ```text
 Mode Signal
-   ↓
+   v
 MUX / XOR
-   ↓
+   v
 Flip-Flop Chain
-   ↓
+   v
 Up/Down Count
-   ↓
+   v
 State Control
 ```
 
@@ -122,11 +122,11 @@ State Control
 
 ```text
 Up Counter
-   ↓
+   v
 Down Counter
-   ↓
+   v
 Up/Down Counter
-   ↓
+   v
 Mode-driven Control
 ```
 
@@ -144,7 +144,7 @@ Mode-driven Control
 
 **진행 상황**: 62 / 803
 
-← **이전**: [61. 비동기식 카운터 (리플 카운터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/061_asynchronous_counter/)
-**다음**: [63. 링 카운터 (Ring Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/063_ring_counter/) →
+<- **이전**: [61. 비동기식 카운터 (리플 카운터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/061_asynchronous_counter/)
+**다음**: [63. 링 카운터 (Ring Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/063_ring_counter/) ->
 
 ---

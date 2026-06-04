@@ -81,17 +81,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [그래프 이론 (Graph Theory) — 정점/엣지 모델]
-    │
-    ▼
+    |
+    v
 [스파크 GraphX (Apache Spark GraphX) — 분산 그래프 처리]
-    │
-    ▼
+    |
+    v
 [Pregel API (Pregel Computation Model) — 정점 중심 반복]
-    │
-    ▼
+    |
+    v
 [PageRank / 연결 요소 (PageRank / Connected Components) — 대표 알고리즘]
-    │
-    ▼
+    |
+    v
 [그래프프레임즈 (GraphFrames) — 데이터프레임 기반 확장]
 ```
 
@@ -108,7 +108,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 63 / 262
 
-← **이전**: [스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/)
-**다음**: [스파크 배포 모드 (Spark Deployment Modes)](/knowledge-base/studynote/16_bigdata/03_spark/064_spark_deployment_modes/) →
+<- **이전**: [스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/)
+**다음**: [스파크 배포 모드 (Spark Deployment Modes)](/knowledge-base/studynote/16_bigdata/03_spark/064_spark_deployment_modes/) ->
 
 ---

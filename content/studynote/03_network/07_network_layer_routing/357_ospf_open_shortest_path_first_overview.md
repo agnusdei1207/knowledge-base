@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    ▼
+    |
+    v
 [OSPF]
-    │
-    └──▶ [OSPF 인접성, Hello 패킷, LSA,…]
+    |
+    +---> [OSPF 인접성, Hello 패킷, LSA,…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> OSPF는 모든 시민이 참여하여 실시간 교통 정보(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a>)를 중앙 서버 없이 서로 100% 동기화해 나누는 </strong>"[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Open) Waze 내비게이션"**입니다. 내 눈으로 도시 전체가 막히는지 뚫렸는지 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 운전대를 돌립니다.
@@ -57,20 +57,20 @@ OSPF가 길의 1등과 2등을 가르는 점수([메트릭](/knowledge-base/stud
 - *실무 팁*: 요즘은 1Gbps, 10Gbps 망이 흔한데 저 공식을 그대로 쓰면 전부 다 Cost 1로 동점이 되어 버린다(기가비트와 10기가비트를 구별 못 함). 그래서 실무에서는 기준 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8$을 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)}$ 등으로 강제로 높이는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`auto-cost reference-bandwidth`)를 반드시 박아 넣어야 최신 고속망을 제대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP (Hop) vs OSPF (Cost) 라우팅 판단 차이         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ] ──── (1.5Mbps T1 전용선) ───▶ [ 목적지 ]     │
- │        │                                              ▲     │
- │        └── (1Gbps 광랜) ──▶ [중간 라우터] ── (1Gbps) ──┘     │
- │                                                             │
- │   * RIP의 멍청함: "윗길은 라우터 0대(1점), 아랫길은 라우터 1대(2점)네!" │
- │                 ──▶ 느려터진 윗길로 데이터 쏘다가 망함.          │
- │                                                             │
- │   * OSPF의 똑똑함: "윗길 Cost=64, 아랫길 Cost=1+1=2 네!"         │
- │                 ──▶ 당연히 Cost가 싼 1Gbps 아랫길로 우회함.      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RIP (Hop) vs OSPF (Cost) 라우팅 판단 차이         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 라우터 ] ---- (1.5Mbps T1 전용선) ----> [ 목적지 ]     |
+ |        |                                              ^     |
+ |        +-- (1Gbps 광랜) ---> [중간 라우터] -- (1Gbps) --+     |
+ |                                                             |
+ |   * RIP의 멍청함: "윗길은 라우터 0대(1점), 아랫길은 라우터 1대(2점)네!" |
+ |                 ---> 느려터진 윗길로 데이터 쏘다가 망함.          |
+ |                                                             |
+ |   * OSPF의 똑똑함: "윗길 Cost=64, 아랫길 Cost=1+1=2 네!"         |
+ |                 ---> 당연히 Cost가 싼 1Gbps 아랫길로 우회함.      |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 무한 루프의 완벽한 차단
@@ -134,12 +134,12 @@ OSPF는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    ▼
+    |
+    v
 [현재 개념: OSPF]
-    │
-    ├──▶ [확장 A: OSPF 인접성, Hello 패킷, LSA,…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: OSPF 인접성, Hello 패킷, LSA,…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 OSPF는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPF 인접성, Hello 패킷, LSA,…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ OSPF는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/35
 
 **진행 상황**: 478 / 1120
 
-← **이전**: [356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor](/knowledge-base/studynote/03_network/07_network_layer_routing/356_eigrp_features_bounded_update_unequal_cost_load_balancing/)
-**다음**: [358. OSPF 인접성(Adjacency), Hello 패킷, LSA (Link State Advertisement), LSDB 교환](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) →
+<- **이전**: [356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor](/knowledge-base/studynote/03_network/07_network_layer_routing/356_eigrp_features_bounded_update_unequal_cost_load_balancing/)
+**다음**: [358. OSPF 인접성(Adjacency), Hello 패킷, LSA (Link State Advertisement), LSDB 교환](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) ->
 
 ---

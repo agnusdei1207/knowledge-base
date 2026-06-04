@@ -33,10 +33,10 @@ SVM의 경계는 초평면(Hyperplane)이다. 2차원에서는 선, 3차원 이�
 
 ```text
 클래스 A  ● ● ●
-            ↑ 마진
-         ─── 초평면 ───
-            ↓ 마진
-클래스 B  ▲ ▲ ▲
+            ^ 마진
+         --- 초평면 ---
+            v 마진
+클래스 B  ^ ^ ^
 ```
 
 마진이 넓을수록 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 흔들릴 가능성이 줄어든다.
@@ -83,11 +83,11 @@ SVM은 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 ```text
 데이터 포인트
-   ↓
+   v
 초평면
-   ↓
+   v
 마진 최대화
-   ↓
+   v
 서포트 벡터 / 커널 트릭
 ```
 
@@ -95,11 +95,11 @@ SVM은 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 선형 분리 문제 → 초평면 필요
-2. 마진 최대화 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
-3. 서포트 벡터 → 경계 결정점 축소
-4. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) → 비선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 확장
-5. 실전 튜닝 → 소프트 마진과 파라미터 조절
+1. 선형 분리 문제 -> 초평면 필요
+2. 마진 최대화 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+3. 서포트 벡터 -> 경계 결정점 축소
+4. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) -> 비선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 확장
+5. 실전 튜닝 -> 소프트 마진과 파라미터 조절
 
 ---
 
@@ -115,7 +115,7 @@ SVM은 두 무리를 가장 안전하게 나누는 선을 찾는 거예요.
 
 **진행 상황**: 58 / 420
 
-← **이전**: [57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기](/knowledge-base/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/)
-**다음**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) →
+<- **이전**: [57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기](/knowledge-base/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/)
+**다음**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ->
 
 ---

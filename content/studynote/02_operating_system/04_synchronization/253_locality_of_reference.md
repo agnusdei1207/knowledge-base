@@ -33,8 +33,8 @@ tags = ["studynote-operating-system"]
 
   (2) 실제 인간이 짜는 전형적인 프로그램의 지역성
   메모리 주소: [ 10] [ 11] [ 12] [ 10] [ 11] [ 12] [ 13]
-  ▶ 10번지를 불렀더니 바로 옆의 11, 12, 13번지를 부른다 (공간적 지역성)
-  ▶ 10, 11, 12번지를 썼더니 1초 뒤에 또 10, 11, 12번지를 부른다 (시간적 지역성)
+  -> 10번지를 불렀더니 바로 옆의 11, 12, 13번지를 부른다 (공간적 지역성)
+  -> 10, 11, 12번지를 썼더니 1초 뒤에 또 10, 11, 12번지를 부른다 (시간적 지역성)
   캐시 적중률: 95% 이상! (캐시에 한 번 올려두면 미친 듯이 뽕을 뽑음)
 ```
 **[다이어그램 해설]** 컴퓨터 구조론에서 이 지역성의 법칙은 물리학의 만유인력과 같다. 의도한 게 아니라, 인간이 생각하고 코드를 짜는 방식(루프, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 순차적 실행) 자체가 자연스럽게 이 두 가지 지역성을 뿜어내게 되어 있다.
@@ -76,25 +76,25 @@ tags = ["studynote-operating-system"]
 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 극대화하기 위해 하드웨어는 메인 메모리와 캐시 간의 전송 단위를 `블록(Block)` 단위로 묶어버렸다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         캐시 라인(64 Byte)을 통한 공간적 지역성의 '무임승차' 원리   │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ 메인 메모리 (RAM) ]                                             │
-  │   주소 1000: Data A (4B)                                            │
-  │   주소 1004: Data B (4B)                                            │
-  │   주소 1008: Data C (4B)                                            │
-  │                                                                     │
-  │   [ CPU의 요청과 하드웨어의 오지랖 ]                                │
-  │   1. CPU: "메모리야, 주소 1000번지의 Data A 좀 줘!"                 │
-  │   2. Cache Controller: "옙! 근데 A만 주면 정 없으니, 어차피 곧      │
-  │      찾을 것 같은 B랑 C까지 포함해서 **64바이트를 통째로** 캐시에   │
-  │      올려드리겠습니다!" (이것이 1개의 Cache Line)                   │
-  │                                                                     │
-  │   3. CPU: "이제 주소 1004번지 Data B 줘!"                           │
-  │   4. Cache Controller: "아까 A 가져갈 때 덤으로 캐시에 올려놨죠?    │
-  │      RAM까지 갈 필요 없이 캐시에서 0.1ns 만에 드시죠!" (Cache Hit)  │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         캐시 라인(64 Byte)을 통한 공간적 지역성의 '무임승차' 원리   |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [ 메인 메모리 (RAM) ]                                             |
+  |   주소 1000: Data A (4B)                                            |
+  |   주소 1004: Data B (4B)                                            |
+  |   주소 1008: Data C (4B)                                            |
+  |                                                                     |
+  |   [ CPU의 요청과 하드웨어의 오지랖 ]                                |
+  |   1. CPU: "메모리야, 주소 1000번지의 Data A 좀 줘!"                 |
+  |   2. Cache Controller: "옙! 근데 A만 주면 정 없으니, 어차피 곧      |
+  |      찾을 것 같은 B랑 C까지 포함해서 **64바이트를 통째로** 캐시에   |
+  |      올려드리겠습니다!" (이것이 1개의 Cache Line)                   |
+  |                                                                     |
+  |   3. CPU: "이제 주소 1004번지 Data B 줘!"                           |
+  |   4. Cache Controller: "아까 A 가져갈 때 덤으로 캐시에 올려놨죠?    |
+  |      RAM까지 갈 필요 없이 캐시에서 0.1ns 만에 드시죠!" (Cache Hit)  |
+  +---------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 책상에 앉아서 "지우개 하나 가져다줘"라고 심부름을 시켰더니, 똑똑한 조수(하드웨어)가 "어차피 지우개 쓰면 곧 연필이랑 자도 쓰실 거잖아요?" 하고 연필통 전체(64바이트 캐시 라인)를 책상 위에 올려주는 센스입니다.
@@ -148,27 +148,27 @@ tags = ["studynote-operating-system"]
    이 단순한 루프 순서 하나가 딥러닝 행렬 곱셈 연산에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수만 배까지 차이 나게 만든다. <strong>"메모리가 어떻게 연속되어 있는가"</strong>를 이해하고 코딩하는 자만이 하드웨어의 축복을 받는다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     성능 최적화(Performance Tuning)를 위한 아키텍트의 공간 재배치   │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 게임 내 10만 개의 총알(Bullet) 객체 업데이트 로직 구현]│
-  │                                                                     │
-  │   [ ❌ OOP (객체 지향) 기반의 낡은 설계 (AoS 패턴) ]                │
-  │     - class Bullet { bool isActive; float x,y,z; Mesh m; }          │
-  │     - Bullet 배열을 순회하며 isActive가 true인 것만 x++ 처리.       │
-  │     - 🚨 문제: 객체 안에 안 쓰는 무거운 데이터(Mesh)가 섞여 있어,   │
-  │             캐시 라인 64B 안에 정작 필요한 x,y 좌표는 1개만 들어옴. │
-  │             (Cache Miss 폭발)                                       │
-  │                                                                     │
-  │   [ ✅ DoD (데이터 지향) 기반의 현대적 설계 (SoA 패턴) ]            │
-  │     - class BulletSystem {                                          │
-  │           bool[] isActive;                                          │
-  │           float[] x, y, z;                                          │
-  │       }                                                             │
-  │     - ✅ 해결: x 배열만 쫙 순회함. 64B 캐시 라인 안에 x 좌표가      │
-  │             16개씩 꽉꽉 차서 무임승차함! (공간적 지역성 1000% 획득) │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     성능 최적화(Performance Tuning)를 위한 아키텍트의 공간 재배치   |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 게임 내 10만 개의 총알(Bullet) 객체 업데이트 로직 구현]|
+  |                                                                     |
+  |   [ ❌ OOP (객체 지향) 기반의 낡은 설계 (AoS 패턴) ]                |
+  |     - class Bullet { bool isActive; float x,y,z; Mesh m; }          |
+  |     - Bullet 배열을 순회하며 isActive가 true인 것만 x++ 처리.       |
+  |     - 🚨 문제: 객체 안에 안 쓰는 무거운 데이터(Mesh)가 섞여 있어,   |
+  |             캐시 라인 64B 안에 정작 필요한 x,y 좌표는 1개만 들어옴. |
+  |             (Cache Miss 폭발)                                       |
+  |                                                                     |
+  |   [ ✅ DoD (데이터 지향) 기반의 현대적 설계 (SoA 패턴) ]            |
+  |     - class BulletSystem {                                          |
+  |           bool[] isActive;                                          |
+  |           float[] x, y, z;                                          |
+  |       }                                                             |
+  |     - ✅ 해결: x 배열만 쫙 순회함. 64B 캐시 라인 안에 x 좌표가      |
+  |             16개씩 꽉꽉 차서 무임승차함! (공간적 지역성 1000% 획득) |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 전통적인 객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 은 인간이 이해하긴 좋지만, 메모리를 파편화시켜 CPU 캐시 입장에선 쥐약이다. 메모리 계층 구조를 극한으로 쥐어짜는 게임 엔진(Unity DOTS 등)이나 HFT(고주파 거래) 시스템은 구조체를 버리고 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 열(Column) 단위의 연속된 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SoA</a>)</strong>로 찢어서 관리한다. 인간의 편의([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))를 버리고 하드웨어의 식성(지역성)에 맞춘 극단적 아키텍처다.
 
@@ -202,12 +202,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [이벤트 객체 (Event Object)]
-    │
-    ▼
+    |
+    v
 [참조의 지역성 (Locality of Reference)]
-    │
-    ├──▶ [RCU (Read-Copy-Update)]
-    └──▶ [SeqLock (순차 락)]
+    |
+    +---> [RCU (Read-Copy-Update)]
+    +---> [SeqLock (순차 락)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -224,7 +224,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 253 / 800
 
-← **이전**: [252. 메모리 계층 구조 (Memory Hierarchy)](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)
-**다음**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) →
+<- **이전**: [252. 메모리 계층 구조 (Memory Hierarchy)](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)
+**다음**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ->
 
 ---

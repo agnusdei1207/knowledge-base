@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAT-T]
-    │
-    ▼
+    |
+    v
 [SSL VPN / TLS VPN]
-    │
-    └──▶ [DMVPN]
+    |
+    +---> [DMVPN]
 ```
 
 - **📢 섹션 요약 비유**: ** SSL VPN은 재택근무 직원들에게 지급되는 **"만능 웹브라우저 마스터키"**입니다. 복잡한 드라이버 설치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 지식 1도 없이, 네이버 로그인하듯 아이디/비번만 치면 화면이 휙 바뀌면서 사내 그룹웨어 인트라넷 한가운데로 공간 이동을 시켜줍니다.
@@ -52,11 +52,11 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 
 ```text
 [NAT-T]
-    │
-    ▼
+    |
+    v
 [SSL VPN / TLS VPN]
-    │
-    └──▶ [DMVPN]
+    |
+    +---> [DMVPN]
 ```
 
 - **📢 섹션 요약 비유**: [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -74,20 +74,20 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 통과</strong> | 빡셈 ([NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) 세팅 등 개고생 필요) | <strong>프리패스 (모든 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>이 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 443은 열어둠)</strong> |
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                SSL VPN (터널 모드)의 가상 랜카드 마법            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 노트북 (집) ]                                            │
- │   물리 랜카드 (192.168.0.5 - 집 공유기가 줌)                     │
- │      │                                                      │
- │      ▼ (AnyConnect 접속 완료 순간!)                             │
- │   가상 랜카드 짠! (10.1.1.99 - 회사 방화벽이 던져줌)               │
- │                                                             │
- │   * 뇌구조: "난 이제부터 10.1.1.99 다! 회사 서버로 가는 모든 패킷은    │
- │            TCP 443번(HTTPS) 암호화 상자에 싸서, 물리 랜카드를 통해   │
- │            집 공유기를 프리패스로 통과시켜 회사 방화벽에 쏜다!!"       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                SSL VPN (터널 모드)의 가상 랜카드 마법            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 노트북 (집) ]                                            |
+ |   물리 랜카드 (192.168.0.5 - 집 공유기가 줌)                     |
+ |      |                                                      |
+ |      v (AnyConnect 접속 완료 순간!)                             |
+ |   가상 랜카드 짠! (10.1.1.99 - 회사 방화벽이 던져줌)               |
+ |                                                             |
+ |   * 뇌구조: "난 이제부터 10.1.1.99 다! 회사 서버로 가는 모든 패킷은    |
+ |            TCP 443번(HTTPS) 암호화 상자에 싸서, 물리 랜카드를 통해   |
+ |            집 공유기를 프리패스로 통과시켜 회사 방화벽에 쏜다!!"       |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 교두보
@@ -137,12 +137,12 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 
 ```text
 [선행 개념: NAT-T]
-    │
-    ▼
+    |
+    v
 [현재 개념: SSL VPN / TLS VPN]
-    │
-    ├──▶ [확장 A: DMVPN]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: DMVPN]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T에서 출발해 현재 메커니즘을 정교화하고, 이후 DMVPN와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 
 **진행 상황**: 506 / 1120
 
-← **이전**: [384. NAT-T (NAT Traversal)](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/)
-**다음**: [386. DMVPN (Dynamic Multipoint VPN)](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) →
+<- **이전**: [384. NAT-T (NAT Traversal)](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/)
+**다음**: [386. DMVPN (Dynamic Multipoint VPN)](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) ->
 
 ---

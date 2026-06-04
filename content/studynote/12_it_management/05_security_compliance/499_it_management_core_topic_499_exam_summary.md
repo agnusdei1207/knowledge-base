@@ -22,34 +22,34 @@ tags = ["studynote-it-management"]
 IT 경영관리(Information Technology Management & Governance)는 기업의 미션·목표 달성을 위해 IT 자원의 투자·위험·성과를 통합적으로 의사결정하는 프레임워크입니다. 2020년 이후 COVID-19 팬데믹, 원격근무 급증, 생성형 AI 도입으로 IT 부서는 단순 비용센터(Cost Center)에서 **전략적 가치 창출 센터(Value Driver)**로 역할이 전환되었습니다. Gartner(2023)에 따르면 글로벌 IT 지출은 4.6조 USD에 달하며, 이 중 약 30%가 ROI 검증 없이 집행되는 것으로 나타나 IT 거버넌스 강화의紧迫성이 대두되고 있습니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          IT 경영관리 4계층 구조 (Strategy-to-Operation)       │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ① 전략 정렬 계층 (Strategy Layer)                       │  │
-│  │  • Business Strategy ↔ IT Strategy 정렬               │  │
-│  │  • Ward & Peppard Balanced Scorecard, Henderson 모델   │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↕ 양방향 피드백                     │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ② 포트폴리오·투자 계층 (Portfolio Layer)                │  │
-│  │  • Demand Mgmt → Portfolio Prioritization → Funding    │  │
-│  │  • Build/Buy/Rent, App rationalization, BIM/BI          │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↕ RACI/거버넌스 위원회              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ③ 운영·서비스 계층 (Operation Layer)                    │  │
-│  │  • ITIL 4 SVS(서비스 가치 시스템)                       │  │
-│  │  • SLA/OLA/UC, Incident→Problem→Change                 │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↕ KPI/CSF 측정                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ④ 성과·리스크 계층 (Performance & Risk Layer)           │  │
-│  │  • COBIT 2019 EDM, ISO 38500, ISMS-P, NIST CSF         │  │
-│  │  • KPI 트리 + Risk Register + Compliance Dashboard     │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-        │                                              │
++--------------------------------------------------------------+
+|          IT 경영관리 4계층 구조 (Strategy-to-Operation)       |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  | ① 전략 정렬 계층 (Strategy Layer)                       |  |
+|  |  • Business Strategy ↔ IT Strategy 정렬               |  |
+|  |  • Ward & Peppard Balanced Scorecard, Henderson 모델   |  |
+|  +--------------------------------------------------------+  |
+|                          ↕ 양방향 피드백                     |
+|  +--------------------------------------------------------+  |
+|  | ② 포트폴리오·투자 계층 (Portfolio Layer)                |  |
+|  |  • Demand Mgmt -> Portfolio Prioritization -> Funding    |  |
+|  |  • Build/Buy/Rent, App rationalization, BIM/BI          |  |
+|  +--------------------------------------------------------+  |
+|                          ↕ RACI/거버넌스 위원회              |
+|  +--------------------------------------------------------+  |
+|  | ③ 운영·서비스 계층 (Operation Layer)                    |  |
+|  |  • ITIL 4 SVS(서비스 가치 시스템)                       |  |
+|  |  • SLA/OLA/UC, Incident->Problem->Change                 |  |
+|  +--------------------------------------------------------+  |
+|                          ↕ KPI/CSF 측정                    |
+|  +--------------------------------------------------------+  |
+|  | ④ 성과·리스크 계층 (Performance & Risk Layer)           |  |
+|  |  • COBIT 2019 EDM, ISO 38500, ISMS-P, NIST CSF         |  |
+|  |  • KPI 트리 + Risk Register + Compliance Dashboard     |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
+        |                                              |
    이사회(Board)                              감사위원회(Audit)
    ↕ CISO/CHRO                                ↕ 내부감사
    CIO/CTO/CDO(Chief Digital Officer)        DPO
@@ -61,7 +61,7 @@ IT 경영관리(Information Technology Management & Governance)는 기업의 미
 |---|---|---|
 | **관점** | 비용관리 + 안정성 우선 | 가치창출 + 민첩성 우선 |
 | **구조** | Waterfall, 연단위 예산 | Agile+DevOps, 분기 롤링 |
-| **거버넌스** | 중앙 CIO独裁 | 이사회→CDO→Federated 모델 |
+| **거버넌스** | 중앙 CIO独裁 | 이사회->CDO->Federated 모델 |
 | **성과측정** | 가용성(Uptime), 예산 준수 | ROIT, NPS, Time-to-Market, ETV(Enterprise Tech Value) |
 | **리스크** | 정보보호·재해복구 | AI 윤리, 서드파티(4th Party), ESG 데이터 |
 | **투자평가** | NPV/IRR 단일기준 | TCO 3~5년 + 옵션가치(Real Option) |
@@ -75,62 +75,62 @@ IT 경영관리(Information Technology Management & Governance)는 기업의 미
 COBIT 2019는 IT 거버넌스의 사실표준(de facto standard)으로, **Governance System**과 **Governance Framework**의 이원 구조를 채택합니다. 핵심 구성요소는 다음과 같습니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              COBIT 2019 거버넌스 시스템 5개 도메인                │
-│                                                                  │
-│   ┌────────────────┐    ┌────────────────┐    ┌────────────────┐ │
-│   │  EDM           │    │  APO           │    │  BAI           │ │
-│   │  Evaluate,     │    │  Align, Plan,  │    │  Build,        │ │
-│   │  Direct,       │───▶│  Organize      │───▶│  Acquire,      │ │
-│   │  Monitor       │    │  (13 objectives)│    │  Implement     │ │
-│   │  (5 objectives)│    └────────────────┘    │  (11 objectives│ │
-│   └────────┬───────┘             │             └───────┬────────┘ │
-│            │                     ▼                     ▼          │
-│            │           ┌────────────────┐    ┌────────────────┐ │
-│            │           │  DSS           │    │  MEA           │ │
-│            └──────────▶│  Deliver,      │───▶│  Monitor,      │ │
-│                        │  Service,      │    │  Evaluate,     │ │
-│                        │  Support       │    │  Assess        │ │
-│                        │  (6 objectives)│    │  (4 objectives)│ │
-│                        └────────────────┘    └────────────────┘ │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │ 7가지 구성요소(Components) - Principles, Processes,      │    │
-│  │ Goals Cascade, Components, Focus Areas, Design Factors,  │    │
-│  │ Source → Goals → Components → Capability 36-Level Map    │    │
-│  └──────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              COBIT 2019 거버넌스 시스템 5개 도메인                |
+|                                                                  |
+|   +----------------+    +----------------+    +----------------+ |
+|   |  EDM           |    |  APO           |    |  BAI           | |
+|   |  Evaluate,     |    |  Align, Plan,  |    |  Build,        | |
+|   |  Direct,       |---->|  Organize      |---->|  Acquire,      | |
+|   |  Monitor       |    |  (13 objectives)|    |  Implement     | |
+|   |  (5 objectives)|    +----------------+    |  (11 objectives| |
+|   +--------+-------+             |             +-------+--------+ |
+|            |                     v                     v          |
+|            |           +----------------+    +----------------+ |
+|            |           |  DSS           |    |  MEA           | |
+|            +----------->|  Deliver,      |---->|  Monitor,      | |
+|                        |  Service,      |    |  Evaluate,     | |
+|                        |  Support       |    |  Assess        | |
+|                        |  (6 objectives)|    |  (4 objectives)| |
+|                        +----------------+    +----------------+ |
+|                                                                  |
+|  +----------------------------------------------------------+    |
+|  | 7가지 구성요소(Components) - Principles, Processes,      |    |
+|  | Goals Cascade, Components, Focus Areas, Design Factors,  |    |
+|  | Source -> Goals -> Components -> Capability 36-Level Map    |    |
+|  +----------------------------------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 ### ITIL 4 Service Value System (SVS)
 
 ```text
         Opportunity/Demand
-                │
-                ▼
-   ┌──────────────────────────┐
-   │   Plan ─ Improve         │ ◀── Continual Improvement (CSI)
-   │   Engagement &          │     Registr 기반 PDCA
-   │   Value Stream          │
-   └──────────────────────────┘
-                │
-                ▼
-   ┌──────────────────────────────────────────┐
-   │   Service Value Chain (SVC)              │
-   │                                          │
-   │  Plan → Engage → Design&Transition →     │
-   │  Obtain/Build → Deliver&Support          │
-   └──────────────────────────────────────────┘
-                │                   ▲
-                ▼                   │
-   ┌──────────────────────┐  ┌──────────────┐
-   │ Practices (34개)     │  │ Guiding      │
-   │  • Incident Mgmt     │  │ Principles   │
-   │  • Change Enablement │  │ (7개 원칙)   │
-   │  • Service Level Mgmt│  │              │
-   │  • Problem Mgmt      │  │              │
-   │  • Svc Request Fulfill│ │              │
-   └──────────────────────┘  └──────────────┘
+                |
+                v
+   +--------------------------+
+   |   Plan - Improve         | <--- Continual Improvement (CSI)
+   |   Engagement &          |     Registr 기반 PDCA
+   |   Value Stream          |
+   +--------------------------+
+                |
+                v
+   +------------------------------------------+
+   |   Service Value Chain (SVC)              |
+   |                                          |
+   |  Plan -> Engage -> Design&Transition ->     |
+   |  Obtain/Build -> Deliver&Support          |
+   +------------------------------------------+
+                |                   ^
+                v                   |
+   +----------------------+  +--------------+
+   | Practices (34개)     |  | Guiding      |
+   |  • Incident Mgmt     |  | Principles   |
+   |  • Change Enablement |  | (7개 원칙)   |
+   |  • Service Level Mgmt|  |              |
+   |  • Problem Mgmt      |  |              |
+   |  • Svc Request Fulfill| |              |
+   +----------------------+  +--------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -159,8 +159,8 @@ COBIT 2019는 IT 거버넌스의 사실표준(de facto standard)으로, **Govern
    ※ Hidden Cost: 사용자 학습, 다운타임, 통합, 거버넌스 오버헤드
 
 4) Capability Level (PAM, 0~5)
-   Level 0: Incomplete → 1: Performed → 2: Managed →
-   3: Established → 4: Predictable → 5: Optimizing
+   Level 0: Incomplete -> 1: Performed -> 2: Managed ->
+   3: Established -> 4: Predictable -> 5: Optimizing
 
 5) Real Option Valuation (ROV) - Agile 프로젝트 가치
    Call Option = max(S-K, 0)  ※ S=프로젝트 가치, K=추가 투자비
@@ -189,29 +189,29 @@ COBIT 2019는 IT 거버넌스의 사실표준(de facto standard)으로, **Govern
 ### IT 거버넌스 ↔ 엔터프라이즈 아키텍처 ↔ Agile ↔ DevSecOps
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                                                          │
-│   ┌─────────────┐       ┌──────────────┐                 │
-│   │ IT 거버넌스 │ ◀────▶│   EA(TOGAF)  │                 │
-│   │  (COBIT)    │       │  ADM 사이클  │                 │
-│   └──────┬──────┘       └──────┬───────┘                 │
-│          │ 원칙·정책 제공       │ 표준·참조모델            │
-│          ▼                     ▼                         │
-│   ┌──────────────┐    ┌──────────────┐                   │
-│   │  Portfolio   │───▶│  Delivery    │                   │
-│   │  Mgmt (APO)  │    │  (Agile/SAFe)│                   │
-│   └──────────────┘    └──────┬───────┘                   │
-│                              │  CI/CD Pipeline           │
-│                              ▼                           │
-│                       ┌──────────────┐                   │
-│                       │   DevSecOps   │                   │
-│                       │ (Build→Test→  │                   │
-│                       │  Deploy→Mnt)  │
++----------------------------------------------------------+
+|                                                          |
+|   +-------------+       +--------------+                 |
+|   | IT 거버넌스 | <------>|   EA(TOGAF)  |                 |
+|   |  (COBIT)    |       |  ADM 사이클  |                 |
+|   +------+------+       +------+-------+                 |
+|          | 원칙·정책 제공       | 표준·참조모델            |
+|          v                     v                         |
+|   +--------------+    +--------------+                   |
+|   |  Portfolio   |---->|  Delivery    |                   |
+|   |  Mgmt (APO)  |    |  (Agile/SAFe)|                   |
+|   +--------------+    +------+-------+                   |
+|                              |  CI/CD Pipeline           |
+|                              v                           |
+|                       +--------------+                   |
+|                       |   DevSecOps   |                   |
+|                       | (Build->Test->  |                   |
+|                       |  Deploy->Mnt)  |
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 499 / 800
 
-← **이전**: [498. IT 경영 관리 핵심 토픽 498번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/498_it_management_core_topic_498_exam_summary/)
-**다음**: [500. IT 경영 관리 핵심 토픽 500번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/500_it_management_core_topic_500_exam_summary/) →
+<- **이전**: [498. IT 경영 관리 핵심 토픽 498번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/498_it_management_core_topic_498_exam_summary/)
+**다음**: [500. IT 경영 관리 핵심 토픽 500번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/500_it_management_core_topic_500_exam_summary/) ->
 
 ---

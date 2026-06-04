@@ -34,24 +34,24 @@ DIP를 구현하는 핵심 메커니즘은 '[추상화](/knowledge-base/studynot
 아래 다이어그램은 DIP가 위배된 상황과 준수된 상황의 의존성 화살표 변화를 명확히 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [DIP 적용 전후의 의존성 변화]                 │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 전통적 방식 (DIP 위배): 고수준이 저수준에 끌려다님             │
-│                                                              │
-│   [ OrderService ] ───────── 의존 ────────▶ [ MySQLRepository ] │
-│    (고수준 정책)                              (저수준 구현체)  │
-│                                                              │
-│ 2. DIP 준수 방식 (의존성 역전): 양쪽 모두 추상화에 의존            │
-│                                                              │
-│   [ OrderService ] ───────── 의존 ────────▶ << Interface >> │
-│    (고수준 정책)         (추상화 주도권)      [ OrderRepository ] │
-│                                                  ▲           │
-│                                                  │ 구현       │
-│                                                  │           │
-│                                          [ OracleRepository ]│
-│                                           (저수준 구현체)     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  [DIP 적용 전후의 의존성 변화]                 |
++--------------------------------------------------------------+
+| 1. 전통적 방식 (DIP 위배): 고수준이 저수준에 끌려다님             |
+|                                                              |
+|   [ OrderService ] --------- 의존 ---------> [ MySQLRepository ] |
+|    (고수준 정책)                              (저수준 구현체)  |
+|                                                              |
+| 2. DIP 준수 방식 (의존성 역전): 양쪽 모두 추상화에 의존            |
+|                                                              |
+|   [ OrderService ] --------- 의존 ---------> << Interface >> |
+|    (고수준 정책)         (추상화 주도권)      [ OrderRepository ] |
+|                                                  ^           |
+|                                                  | 구현       |
+|                                                  |           |
+|                                          [ OracleRepository ]|
+|                                           (저수준 구현체)     |
++--------------------------------------------------------------+
 ```
 
 위 구조에서 `OrderService`는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 무엇이든 신경 쓰지 않고 오직 `OrderRepository` 인터페이스의 명세만 호출한다. 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인 `OracleRepository`가 그 인터페이스를 구현하며 의존성이 역전(Inversion)된다.
@@ -114,17 +114,17 @@ DIP를 시스템 전반에 올바르게 적용하면 플러그인(Plug-in) 구�
 
 ```text
 절차적 지향 (하향식 강결합)
-    │
-    ▼
+    |
+    v
 객체지향 설계의 등장 (캡슐화와 다형성)
-    │
-    ▼
+    |
+    v
 SOLID 원칙 정립: DIP (Dependency Inversion Principle)
-    │
-    ▼
+    |
+    v
 프레임워크 주도 개발: IoC (제어의 역전) 및 DI (의존성 주입)
-    │
-    ▼
+    |
+    v
 헥사고날 / 클린 아키텍처 (플러그인 기반 아키텍처 완성)
 ```
 
@@ -140,7 +140,7 @@ SOLID 원칙 정립: DIP (Dependency Inversion Principle)
 
 **진행 상황**: 155 / 530
 
-← **이전**: [106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)
-**다음**: [107. 반복 금지 원칙 (DRY, Don't Repeat Yourself)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/107_dry_dont_repeat_yourself/) →
+<- **이전**: [106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)
+**다음**: [107. 반복 금지 원칙 (DRY, Don't Repeat Yourself)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/107_dry_dont_repeat_yourself/) ->
 
 ---

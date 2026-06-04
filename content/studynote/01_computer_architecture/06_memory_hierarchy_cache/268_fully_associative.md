@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 완전 연관 사상에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 사라지고, 왜 검색 범위가 전체 캐시가 되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Fully Associative: no fixed index, any block can use any cache line │
-├──────────────────────────────────────────────────────────────────────┤
-│ address = [ Tag ][ Block Offset ]                                   │
-│            │         │                                               │
-│            │         └─ line 내부 바이트 선택                        │
-│            │                                                         │
-│            └────── requested tag ────────────────────────────────┐    │
-│                                                                  │    │
-│ cache line 0   : [valid][tag A][data] ── compare ─────────────┐  │    │
-│ cache line 1   : [valid][tag B][data] ── compare ─────────────┼──┼──▶ OR ─▶ hit
-│ cache line 2   : [valid][tag C][data] ── compare ─────────────┤  │    │
-│ ...                                                          ... │    │
-│ cache line N-1 : [valid][tag X][data] ── compare ─────────────┘  │    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Fully Associative: no fixed index, any block can use any cache line |
++----------------------------------------------------------------------+
+| address = [ Tag ][ Block Offset ]                                   |
+|            |         |                                               |
+|            |         +- line 내부 바이트 선택                        |
+|            |                                                         |
+|            +------ requested tag --------------------------------+    |
+|                                                                  |    |
+| cache line 0   : [valid][tag A][data] -- compare -------------+  |    |
+| cache line 1   : [valid][tag B][data] -- compare -------------+--+---> OR --> hit
+| cache line 2   : [valid][tag C][data] -- compare -------------+  |    |
+| ...                                                          ... |    |
+| cache line N-1 : [valid][tag X][data] -- compare -------------+  |    |
++----------------------------------------------------------------------+
 ```
 
 핵심은 저장 위치를 주소의 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 정하는 것이 아니라, 빈 라인과 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 정한다는 점이다. 그래서 공간 활용은 좋아지지만, 적중 여부를 확인할 때는 전체 후보를 동시에 살펴봐야 한다.
@@ -66,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 miss 처리 흐름
-1) 모든 태그 비교 → miss 확인
+1) 모든 태그 비교 -> miss 확인
 2) 빈 라인 있으면 즉시 적재
 3) 빈 라인 없으면 교체 정책으로 victim 선택
 4) 새 태그/데이터 기록 후 valid 갱신
@@ -152,24 +152,24 @@ miss 처리 흐름
 
 ```text
 캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        └─ 충돌 미스 증가
-        │
-        ├─▶ 완전 연관 사상 (Fully Associative)
-        │        │
-        │        ├─ 충돌 미스 제거
-        │        └─ CAM · 교체 정책 비용 증가
-        │
-        ▼
+        |
+        +--> 직접 사상 (Direct Mapping)
+        |        |
+        |        +- 충돌 미스 증가
+        |
+        +--> 완전 연관 사상 (Fully Associative)
+        |        |
+        |        +- 충돌 미스 제거
+        |        +- CAM · 교체 정책 비용 증가
+        |
+        v
 집합 연관 사상 (Set Associative Mapping)
-        │
-        ▼
+        |
+        v
 TLB · Victim Cache · TCAM 응용
 ```
 
-이 흐름은 "단순 배치 → 충돌 문제 노출 → 자유도 극대화 → 현실적 절충과 특수 응용"으로 이어지는 설계 진화를 보여준다.
+이 흐름은 "단순 배치 -> 충돌 문제 노출 -> 자유도 극대화 -> 현실적 절충과 특수 응용"으로 이어지는 설계 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +183,7 @@ TLB · Victim Cache · TCAM 응용
 
 **진행 상황**: 268 / 803
 
-← **이전**: [267. 직접 사상 (Direct Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)
-**다음**: [269. 집합 연관 사상 (Set Associative Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/) →
+<- **이전**: [267. 직접 사상 (Direct Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)
+**다음**: [269. 집합 연관 사상 (Set Associative Mapping)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/) ->
 
 ---

@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **거대 모델 학습 가속**: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반의 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습에 필수적인 고속 행렬 연산 자원 제공
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 일반 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어가 한 번에 한 칸씩 색칠하는 붓이라면, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 도장을 찍듯이 한 번에 수십 칸의 행렬을 채워버리는 대형 스탬프와 같다.
@@ -54,16 +54,16 @@ tags = ["studynote-ai"]
 [ 텐서 코어 연산 메커니즘 (Mixed Precision) ]
 
    Input A (FP16)  x  Input B (FP16)  +  Input C (FP32)
-   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-   │ 4x4 Matrix  │    │ 4x4 Matrix  │    │ 4x4 Matrix  │
-   └─────────────┘    └─────────────┘    └─────────────┘
-          │                  │                  │
-          └────────┬─────────┘                  │
-                   ▼                            │
-        [ Tensor Core Unit ] ◀──────────────────┘
-                   │
-                   ▼
-            Output D (FP32) ◀── 고정밀 누산 결과
+   +-------------+    +-------------+    +-------------+
+   | 4x4 Matrix  |    | 4x4 Matrix  |    | 4x4 Matrix  |
+   +-------------+    +-------------+    +-------------+
+          |                  |                  |
+          +--------+---------+                  |
+                   v                            |
+        [ Tensor Core Unit ] <-------------------+
+                   |
+                   v
+            Output D (FP32) <--- 고정밀 누산 결과
 ```
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 수학 문제를 풀 때 암산 대신 전용 계산기를 쓰는 것과 같다. 특히 '곱하기'와 '더하기'가 동시에 되는 마법의 계산기다.
@@ -121,7 +121,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [텐서 코어 (Tensor Core)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [텐서 코어 (Tensor Core)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -136,7 +136,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 406 / 420
 
-← **이전**: [405. 파이프라인 병렬화 (GPipe)](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)
-**다음**: [407. 코사인 어닐링 (Cosine Annealing Scheduler)](/knowledge-base/studynote/10_ai/05_data_science_ml/407_cosine_annealing/) →
+<- **이전**: [405. 파이프라인 병렬화 (GPipe)](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)
+**다음**: [407. 코사인 어닐링 (Cosine Annealing Scheduler)](/knowledge-base/studynote/10_ai/05_data_science_ml/407_cosine_annealing/) ->
 
 ---

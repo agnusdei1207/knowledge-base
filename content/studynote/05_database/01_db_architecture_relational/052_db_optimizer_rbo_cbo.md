@@ -32,22 +32,22 @@ SQL은 "무엇을 가져올지"만 말하고 "어떻게 가져올지"는 말하�
 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 입력은 SQL의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조이고, 출력은 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이다. 이 사이에서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 통계 정보, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유무, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)), 카디널리티 (Cardinality), 조인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 평가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               SQL -> 실행 계획 -> 실제 실행 흐름             │
-├──────────────────────────────────────────────────────────────┤
-│ SQL 문                                                        │
-│   │                                                           │
-│   ▼                                                           │
-│ Parser / Rewrite                                              │
-│   │                                                           │
-│   ▼                                                           │
-│ Optimizer                                                     │
-│   │   ├─ 통계 정보 확인                                       │
-│   │   ├─ 접근 경로 비교                                       │
-│   │   └─ 조인 순서/알고리즘 선택                              │
-│   ▼                                                           │
-│ Execution Plan -> Executor                                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               SQL -> 실행 계획 -> 실제 실행 흐름             |
++--------------------------------------------------------------+
+| SQL 문                                                        |
+|   |                                                           |
+|   v                                                           |
+| Parser / Rewrite                                              |
+|   |                                                           |
+|   v                                                           |
+| Optimizer                                                     |
+|   |   +- 통계 정보 확인                                       |
+|   |   +- 접근 경로 비교                                       |
+|   |   +- 조인 순서/알고리즘 선택                              |
+|   v                                                           |
+| Execution Plan -> Executor                                    |
++--------------------------------------------------------------+
 ```
 
 | 판단 요소 | 의미 | 왜 중요한가 |
@@ -128,17 +128,17 @@ RBO와 CBO는 최적화 철학이 다르다. RBO는 미리 정한 규칙에 따�
 
 ```text
 SQL 문
-    │
-    ▼
+    |
+    v
 Parser / Rewrite
-    │
-    ▼
+    |
+    v
 RBO (Rule-Based Optimizer)
-    │
-    ▼
+    |
+    v
 CBO (Cost-Based Optimizer)
-    │
-    ▼
+    |
+    v
 실행 계획 (Execution Plan) · 실행 엔진
 ```
 
@@ -156,7 +156,7 @@ CBO (Cost-Based Optimizer)
 
 **진행 상황**: 52 / 600
 
-← **이전**: [51. 로깅 엔진 (Logging 엔진)](/knowledge-base/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/)
-**다음**: [53. DB 파서와 파스 트리 (DB Parser Parse Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/053_db_parser_parse_tree/) →
+<- **이전**: [51. 로깅 엔진 (Logging 엔진)](/knowledge-base/studynote/05_database/01_db_architecture_relational/051_logging_engine_wal_redo_undo/)
+**다음**: [53. DB 파서와 파스 트리 (DB Parser Parse Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/053_db_parser_parse_tree/) ->
 
 ---

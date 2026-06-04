@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-쓰기 모델: INSERT/UPDATE → 정규화 RDBMS (정합성↑)
-이벤트 발행: Outbox → Kafka → 프로젝션
-읽기 모델: SELECT → 비정규화 뷰/ElasticSearch (성능↑)
+쓰기 모델: INSERT/UPDATE -> 정규화 RDBMS (정합성^)
+이벤트 발행: Outbox -> Kafka -> 프로젝션
+읽기 모델: SELECT -> 비정규화 뷰/ElasticSearch (성능^)
 ```
 
 - **📢 섹션 요약 비유**: CQRS는 <strong>도서관의 서고(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>, <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 정리)와 열람실(읽기, 빠른 검색)</strong>을 분리하는 것이다.
@@ -40,17 +40,17 @@ CQRS는 <strong>읽기·<a href="/knowledge-base/studynote/13_cloud_architecture
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 명령·조회 분리 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a></strong> | CQRS와 자연 결합 |
-| **Projection** | 이벤트→읽기 모델 변환 |
+| **Projection** | 이벤트->읽기 모델 변환 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a></strong> | 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | <strong>Materialized <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a></strong> | 읽기 최적화 뷰 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[CRUD (단일 모델)] → [CQS (Bertrand Meyer, 1988)]
-    → [CQRS (Greg Young, 2010)]
-    → [CQRS + Event Sourcing (2012~)]
-    → [현재: Axon Framework — CQRS+ES 통합]
+[CRUD (단일 모델)] -> [CQS (Bertrand Meyer, 1988)]
+    -> [CQRS (Greg Young, 2010)]
+    -> [CQRS + Event Sourcing (2012~)]
+    -> [현재: Axon Framework — CQRS+ES 통합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ CQRS는 <strong>읽기·<a href="/knowledge-base/studynote/13_cloud_architecture
 
 **진행 상황**: 138 / 371
 
-← **이전**: [138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/138_event_sourcing_msa/)
-**다음**: [140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/) →
+<- **이전**: [138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/138_event_sourcing_msa/)
+**다음**: [140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/) ->
 
 ---

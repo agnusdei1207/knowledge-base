@@ -26,29 +26,29 @@ tags = ["studynote-operating-system"]
 해커가 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/)나 버퍼 오버플로우를 통해 루트 권한을 획득하더라도, 단순히 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 데몬을 띄워놓으면 관리자가 `ps`, `netstat`, `ls` 같은 기본 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치거나 백신을 돌렸을 때 즉각 감지된다. 공격자는 "OS 자체가 거짓말을 하게 만들면 아무도 나를 찾을 수 없다"는 발상을 하게 되었다. 이를 위해 해커는 관리자가 사용하는 진단 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 정보를 요청할 때, 그 응답값을 중간에서 조작(Hooking)하여 악성코드의 존재만 쏙 빼고 정상인 것처럼 반환하게 만드는 [커널 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/360_kernel_rootkit/)을 탄생시켰다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      정상적인 시스템 모니터링 vs 루트킷 감염 시의 은폐 과정 │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [정상 시스템 (루트킷 없음)]                               │
-│  관리자 ──(명령: ps -ef)──▶ OS 커널 (시스템 콜 처리)      │
-│                                 │                          │
-│  OS 응답: "현재 프로세스는 [httpd], [sshd], [hack_bot] 임" │
-│  => 관리자: "어? hack_bot? 악성코드 발견! 삭제!"           │
-│                                                            │
-│  [커널 루트킷 감염 시스템 (OS 자체의 신뢰 붕괴)]           │
-│  관리자 ──(명령: ps -ef)──▶ OS 커널 ──┐                   │
-│                                          ▼                 │
-│                              ╔═════════════════════════╗   │
-│                              ║ [루트킷의 System Call Hook] ║ │
-│                              ║ OS가 수집한 목록 중         ║ │
-│                              ║ 'hack_bot' 항목만 삭제함!   ║ │
-│                              ╚═══════════╦═════════════╝   │
-│                                          │                 │
-│  조작된 응답 ◀───────────────────────────┘                 │
-│  "현재 프로세스는 [httpd], [sshd] 임 (거짓말)"             │
-│  => 관리자: "음, 내 서버는 완벽히 깨끗하군!"               │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      정상적인 시스템 모니터링 vs 루트킷 감염 시의 은폐 과정 |
++------------------------------------------------------------+
+|                                                            |
+|  [정상 시스템 (루트킷 없음)]                               |
+|  관리자 --(명령: ps -ef)---> OS 커널 (시스템 콜 처리)      |
+|                                 |                          |
+|  OS 응답: "현재 프로세스는 [httpd], [sshd], [hack_bot] 임" |
+|  => 관리자: "어? hack_bot? 악성코드 발견! 삭제!"           |
+|                                                            |
+|  [커널 루트킷 감염 시스템 (OS 자체의 신뢰 붕괴)]           |
+|  관리자 --(명령: ps -ef)---> OS 커널 --+                   |
+|                                          v                 |
+|                              +-------------------------+   |
+|                              | [루트킷의 System Call Hook] | |
+|                              | OS가 수집한 목록 중         | |
+|                              | 'hack_bot' 항목만 삭제함!   | |
+|                              +-----------+-------------+   |
+|                                          |                 |
+|  조작된 응답 <----------------------------+                 |
+|  "현재 프로세스는 [httpd], [sshd] 임 (거짓말)"             |
+|  => 관리자: "음, 내 서버는 완벽히 깨끗하군!"               |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 루트킷의 본질적인 공포, 즉 "OS가 관리자를 속인다"는 메커니즘을 보여준다. 유저 영역의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`ls`, `ps`)들은 결국 하드디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 메모리의 프로세스 정보를 읽기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 시스템 콜을 요청해야 한다. [커널 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/360_kernel_rootkit/)은 이 연결 고리의 정중앙을 장악(후킹)하여, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 정상적으로 읽어온 결과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 자신의 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 악성 네트워크 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 정보만 지워버린 뒤 유저에게 돌려준다. 관리자는 OS가 제공하는 도구를 100% 신뢰하지만, 그 도구의 근간이 되는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 부패했으므로 악성코드를 절대 눈치챌 수 없다.
@@ -73,30 +73,30 @@ tags = ["studynote-operating-system"]
 초기이자 가장 널리 쓰인 [커널 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/360_kernel_rootkit/)의 동작 방식은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 내부에 존재하는 <strong>시스템 콜 테이블(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a> Table)</strong> 의 함수 포인터를 조작하는 것이다. 리눅스에서 `sys_call_table`은 각 시스템 콜 번호(예: `sys_read`, `sys_getdents`)와 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수의 주소를 매핑해둔 거대한 배열이다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      LKM 기반 System Call Table 후킹 및 은폐 메커니즘      │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [1. 정상적인 커널 상태 (Hooking 전)]                      │
-│   유저 요청: ls 명령 (시스템 콜: sys_getdents 호출)        │
-│                │                                           │
-│  [ sys_call_table 배열 (커널 메모리) ]                     │
-│  인덱스 77 : [ 0xffffffff81234000 ] ──▶ 진짜 sys_getdents()│
-│                                           (모든 파일 반환) │
-│                                                            │
-│  [2. 루트킷(LKM) 적재 및 테이블 조작 (Hooking 후)]         │
-│   해커가 메모리 보호(CR0 레지스터 WP 비트)를 해제하고,     │
-│   배열의 포인터를 자신이 만든 악성 함수로 덮어씀.          │
-│                                                            │
-│  [ 변조된 sys_call_table ]                                 │
-│  인덱스 77 : [ 0xffffffffc0011000 ] ──▶ 악성 fake_getdents() │
-│                                            │               │
-│                    ┌───────────────────────┘               │
-│                    ▼                                       │
-│      ① 진짜 sys_getdents() 를 백그라운드에서 몰래 호출     │
-│      ② 결과 리스트에서 "rootkit_virus.ko" 텍스트 삭제 처리 │
-│      ③ 깔끔하게 조작된 결과를 유저의 'ls' 명령에 반환      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      LKM 기반 System Call Table 후킹 및 은폐 메커니즘      |
++------------------------------------------------------------+
+|                                                            |
+|  [1. 정상적인 커널 상태 (Hooking 전)]                      |
+|   유저 요청: ls 명령 (시스템 콜: sys_getdents 호출)        |
+|                |                                           |
+|  [ sys_call_table 배열 (커널 메모리) ]                     |
+|  인덱스 77 : [ 0xffffffff81234000 ] ---> 진짜 sys_getdents()|
+|                                           (모든 파일 반환) |
+|                                                            |
+|  [2. 루트킷(LKM) 적재 및 테이블 조작 (Hooking 후)]         |
+|   해커가 메모리 보호(CR0 레지스터 WP 비트)를 해제하고,     |
+|   배열의 포인터를 자신이 만든 악성 함수로 덮어씀.          |
+|                                                            |
+|  [ 변조된 sys_call_table ]                                 |
+|  인덱스 77 : [ 0xffffffffc0011000 ] ---> 악성 fake_getdents() |
+|                                            |               |
+|                    +-----------------------+               |
+|                    v                                       |
+|      ① 진짜 sys_getdents() 를 백그라운드에서 몰래 호출     |
+|      ② 결과 리스트에서 "rootkit_virus.ko" 텍스트 삭제 처리 |
+|      ③ 깔끔하게 조작된 결과를 유저의 'ls' 명령에 반환      |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/)(적재 가능 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 루트킷이 어떻게 OS의 눈과 귀를 가리는지 보여준다. 유저 영역의 `ls` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 목록을 읽기 위해 시스템 콜 `sys_getdents`(또는 `getdents64`)를 호출한다. 루트킷은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 방지(WP, Write-Protect) 기능을 해제한 뒤, 시스템 콜 테이블 배열에서 `sys_getdents`가 위치한 인덱스의 함수 포인터를 자신이 작성한 가짜 함수(`fake_getdents`)의 주소로 덮어쓴다. 이제부터 시스템 내의 모든 `ls` 명령은 해커의 가짜 함수를 거치게 된다. 가짜 함수는 진짜 함수를 몰래 실행해 전체 목록을 받아온 뒤, 자신의 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름만 쏙 빼고 결과를 반환하므로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상에서 루트킷은 완벽히 투명해진다(Invisible).
@@ -122,22 +122,22 @@ tags = ["studynote-operating-system"]
 현대의 최상위 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 해커들은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 넘어 아예 메인보드의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))나 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 레벨에 감염되는 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/">부트킷</a>(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/">Bootkit</a>)</strong>이나 [가상화 하이퍼바이저](/knowledge-base/studynote/02_operating_system/11_exam_summary/743_virtualization_hypervisor/) 층에 숨는 초고도화된 기술까지 사용한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      운영체제 권한 계층(Ring Architecture)과 루트킷의 깊이 │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│   [ 하드웨어 (Ring -1 / -2) ] ──▶ Firmware/Hypervisor Rootkit │
-│        (운영체제조차 자신의 아래에 하이퍼바이저가 있는지 모름) │
-│           ▲                                                │
-│   [ OS 커널 (Ring 0) ] ─────────▶ Kernel Rootkit (LKM, DKOM)│
-│        (시스템 콜, 파일시스템, 프로세스 스케줄러 완전 장악) │
-│           ▲                                                │
-│   [ 유저 공간 (Ring 3) ] ───────▶ User Rootkit (LD_PRELOAD) │
-│        (일반적인 백신, 앱, 관리자 명령어 실행 영역)        │
-│                                                            │
-│  ※ 핵심 원리: "높은 권한(아래쪽 계층)은 낮은 권한(위쪽 계층)을│
-│               완벽하게 기만하고 속일 수 있다."             │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      운영체제 권한 계층(Ring Architecture)과 루트킷의 깊이 |
++------------------------------------------------------------+
+|                                                            |
+|   [ 하드웨어 (Ring -1 / -2) ] ---> Firmware/Hypervisor Rootkit |
+|        (운영체제조차 자신의 아래에 하이퍼바이저가 있는지 모름) |
+|           ^                                                |
+|   [ OS 커널 (Ring 0) ] ----------> Kernel Rootkit (LKM, DKOM)|
+|        (시스템 콜, 파일시스템, 프로세스 스케줄러 완전 장악) |
+|           ^                                                |
+|   [ 유저 공간 (Ring 3) ] --------> User Rootkit (LD_PRELOAD) |
+|        (일반적인 백신, 앱, 관리자 명령어 실행 영역)        |
+|                                                            |
+|  ※ 핵심 원리: "높은 권한(아래쪽 계층)은 낮은 권한(위쪽 계층)을|
+|               완벽하게 기만하고 속일 수 있다."             |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 다이어그램은 루트킷의 파괴력이 컴퓨터구조의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 링([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Ring)과 직결되어 있음을 보여준다. 백신([Anti-Virus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)) 프로그램은 보통 Ring 0([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))와 Ring 3(유저)에 걸쳐 동작한다. 만약 루트킷이 유저 모드(Ring 3)에 있다면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 권한을 빌려 쉽게 탐지하고 삭제할 수 있다. 하지만 루트킷이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드(Ring 0)를 먼저 장악해버리면, 같은 Ring 0에 있는 백신에게 거짓 정보를 주어 무력화시킨다. 한발 더 나아가, [부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/)([Bootkit](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/))처럼 OS가 로드되기 전인 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 층(Ring -1)에 자리 잡으면, OS를 포맷하고 재설치해도 루트킷이 살아남아 계속해서 시스템을 감염시키는 좀비 같은 생명력을 가지게 된다.
@@ -206,12 +206,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [샌드박싱 (Sandboxing) 기술 커널 래퍼]
-    │
-    ▼
+    |
+    v
 [루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)]
-    │
-    ├──▶ [사용자 인증 (Authentication) 요소]
-    └──▶ [비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]
+    |
+    +---> [사용자 인증 (Authentication) 요소]
+    +---> [비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -228,7 +228,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 603 / 800
 
-← **이전**: [602. 샌드박싱 (Sandboxing) 기술 커널 래퍼](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)
-**다음**: [604. 사용자 인증 (Authentication) 요소 - Something you know, have, are](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) →
+<- **이전**: [602. 샌드박싱 (Sandboxing) 기술 커널 래퍼](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)
+**다음**: [604. 사용자 인증 (Authentication) 요소 - Something you know, have, are](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) ->
 
 ---

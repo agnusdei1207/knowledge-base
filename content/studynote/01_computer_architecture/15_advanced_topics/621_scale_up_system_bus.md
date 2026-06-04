@@ -43,21 +43,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 4소켓 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 서버에서 "로컬 메모리"와 "원격 메모리" 경로가 어떻게 달라지는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        4-Socket NUMA: local DRAM is near, remote DRAM crosses links       │
-├────────────────────────────────────────────────────────────────────────────┤
-│  [CPU0]──UPI/IF──[CPU1]                                                   │
-│    │              │                                                       │
-│  DRAM0          DRAM1                                                     │
-│    │              │                                                       │
-│  [CPU2]──UPI/IF──[CPU3]                                                   │
-│    │              │                                                       │
-│  DRAM2          DRAM3                                                     │
-│                                                                            │
-│  Local path  : CPU0 -> DRAM0                                              │
-│  Remote path : CPU0 -> UPI/IF -> CPU1 -> DRAM1                            │
-│  Coherence   : cache state must be checked before remote data is used     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        4-Socket NUMA: local DRAM is near, remote DRAM crosses links       |
++----------------------------------------------------------------------------+
+|  [CPU0]--UPI/IF--[CPU1]                                                   |
+|    |              |                                                       |
+|  DRAM0          DRAM1                                                     |
+|    |              |                                                       |
+|  [CPU2]--UPI/IF--[CPU3]                                                   |
+|    |              |                                                       |
+|  DRAM2          DRAM3                                                     |
+|                                                                            |
+|  Local path  : CPU0 -> DRAM0                                              |
+|  Remote path : CPU0 -> UPI/IF -> CPU1 -> DRAM1                            |
+|  Coherence   : cache state must be checked before remote data is used     |
++----------------------------------------------------------------------------+
 ```
 
 실제 운영에서는 로컬 메모리 접근이 대략 수십에서 100ns 안팎인 반면, 원격 메모리는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 홉과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 추가되어 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 보인다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 가상 머신 메모리, 분석 엔진 스레드를 해당 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치하는 것이 중요하다. 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 결국 "모든 CPU를 한 방에 모으는 기술"이 아니라, <strong>멀어진 메모리 거리를 인터커넥트와 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 제어로 견디게 만드는 기술</strong>이다.
@@ -125,17 +125,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 버스 기반 SMP
-    │
-    ▼
+    |
+    v
 NUMA + 소켓별 메모리 컨트롤러
-    │
-    ▼
+    |
+    v
 QPI/UPI · Infinity Fabric
-    │
-    ▼
+    |
+    v
 NUMA 스케줄링 · 디렉터리 기반 일관성 최적화
-    │
-    ▼
+    |
+    v
 CXL 기반 메모리 확장
 ```
 
@@ -153,7 +153,7 @@ CXL 기반 메모리 확장
 
 **진행 상황**: 621 / 803
 
-← **이전**: [620. 서버리스 컴퓨팅 컨테이너 분리 하드웨어 기술](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/620_serverless_hw_isolation/)
-**다음**: [622. 스케일 아웃 (Scale-Out) 클러스터 망](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/622_scale_out_cluster/) →
+<- **이전**: [620. 서버리스 컴퓨팅 컨테이너 분리 하드웨어 기술](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/620_serverless_hw_isolation/)
+**다음**: [622. 스케일 아웃 (Scale-Out) 클러스터 망](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/622_scale_out_cluster/) ->
 
 ---

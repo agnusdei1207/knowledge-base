@@ -45,20 +45,20 @@ IHS가 필요한 두 번째 이유는 열 밀도다. die 위 특정 코어나 ch
 이 그림은 IHS가 열 경로에서 어떤 위치를 차지하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Transistor Junction]                                                      │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [Silicon Die / Chiplet]                                                    │
-│          │  internal TIM or solder                                         │
-│          ▼                                                                 │
-│ [IHS : copper + nickel cap]  -> lateral heat spreading                     │
-│          │  external TIM                                                   │
-│          ▼                                                                 │
-│ [Heatsink / Cold Plate] -> [Fin / Radiator] -> [Airflow / Coolant]         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다          |
++----------------------------------------------------------------------------+
+| [Transistor Junction]                                                      |
+|          |                                                                 |
+|          v                                                                 |
+| [Silicon Die / Chiplet]                                                    |
+|          |  internal TIM or solder                                         |
+|          v                                                                 |
+| [IHS : copper + nickel cap]  -> lateral heat spreading                     |
+|          |  external TIM                                                   |
+|          v                                                                 |
+| [Heatsink / Cold Plate] -> [Fin / Radiator] -> [Airflow / Coolant]         |
++----------------------------------------------------------------------------+
 ```
 
 즉 좋은 IHS 구조는 "열을 빨리 빼는 것"과 "압력을 안전하게 받는 것"을 동시에 만족해야 한다.
@@ -130,17 +130,17 @@ IHS가 잘 설계되면 CPU는 작은 die에서 발생한 높은 열밀도를 �
 
 ```text
 Bare Die 패키지
-        │
-        ▼
+        |
+        v
 금속 IHS 도입
-        │
-        ▼
+        |
+        v
 Soldered IHS / 고성능 TIM
-        │
-        ▼
+        |
+        v
 Chiplet hotspot 대응 패키징
-        │
-        ▼
+        |
+        v
 고급 cold plate · vapor chamber 결합 구조
 ```
 
@@ -158,7 +158,7 @@ Chiplet hotspot 대응 패키징
 
 **진행 상황**: 737 / 803
 
-← **이전**: [735. TjMax (Tunction Max Temperature)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/)
-**다음**: [737. 서멀 페이스트 (TIM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) →
+<- **이전**: [735. TjMax (Tunction Max Temperature)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/)
+**다음**: [737. 서멀 페이스트 (TIM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) ->
 
 ---

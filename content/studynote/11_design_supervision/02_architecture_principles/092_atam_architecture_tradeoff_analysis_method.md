@@ -41,21 +41,21 @@ ATAM의 핵심 메커니즘은 '시나리오(Scenario)' 기반의 [검증](/know
 | <strong>비위험 요소 (Non-<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 현재 시나리오에서는 충분히 안전하다고 판명된 설계 결정 | "웹 서버 3대로는 현재 목표인 동시 접속 1만 명 처리에 문제없다." |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ATAM 작동 원리: 시나리오 투영 및 타협점 도출         │
-├──────────────────────────────────────────────────────────────┤
-│ [품질 속성 시나리오]           [아키텍처 설계도]                │
-│ "초당 1만 건 결제 시          (DB 동기화 암호화 로직)          │
-│  0.5초 이내 응답"      ─────▶                              │
-│                                      │                       │
-│                                      ▼                       │
-│                        [분석 결과: 충돌 발생!]                │
-│                        성능(응답 지연) vs 보안(암호화)         │
-│                                      │                       │
-│                                      ▼                       │
-│                        [Trade-off Point 식별 및 타협]        │
-│                        "야간 배치(비동기)로 변경 합의"         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ATAM 작동 원리: 시나리오 투영 및 타협점 도출         |
++--------------------------------------------------------------+
+| [품질 속성 시나리오]           [아키텍처 설계도]                |
+| "초당 1만 건 결제 시          (DB 동기화 암호화 로직)          |
+|  0.5초 이내 응답"      ------>                              |
+|                                      |                       |
+|                                      v                       |
+|                        [분석 결과: 충돌 발생!]                |
+|                        성능(응답 지연) vs 보안(암호화)         |
+|                                      |                       |
+|                                      v                       |
+|                        [Trade-off Point 식별 및 타협]        |
+|                        "야간 배치(비동기)로 변경 합의"         |
++--------------------------------------------------------------+
 ```
 
 이처럼 ATAM은 막연한 "좋은 설계"를 찾는 것이 아니라, 구체적인 시나리오를 바탕으로 아키텍트의 설계 결정이 어떤 결과를 초래하는지 수학적/논리적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 정밀 타격 회의다.
@@ -119,17 +119,17 @@ ATAM을 성공적으로 수행하면 프로젝트 후반부에 발생하는 아�
 
 ```text
 비기능 요구사항 정의 (품질 속성)
-    │
-    ▼
+    |
+    v
 품질 속성 시나리오 (Quality Attribute Scenario) 작성
-    │
-    ▼
-SAAM (단일 속성 검증) ──▶ ATAM (Architecture Trade-off Analysis Method, 다중 속성/상충 분석)
-    │
-    ▼
+    |
+    v
+SAAM (단일 속성 검증) ---> ATAM (Architecture Trade-off Analysis Method, 다중 속성/상충 분석)
+    |
+    v
 CBAM (Cost Benefit Analysis Method, 경제성/비용 분석)
-    │
-    ▼
+    |
+    v
 아키텍처 확정 및 SAD (Software Architecture Document) 반영
 ```
 
@@ -147,7 +147,7 @@ CBAM (Cost Benefit Analysis Method, 경제성/비용 분석)
 
 **진행 상황**: 135 / 530
 
-← **이전**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/)
-**다음**: [93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/093_atam_phases_initialization_evaluation_analysis_reporting/) →
+<- **이전**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/)
+**다음**: [93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/093_atam_phases_initialization_evaluation_analysis_reporting/) ->
 
 ---

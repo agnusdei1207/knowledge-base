@@ -29,20 +29,20 @@ tags = ["bigdata"]
 
 ```text
 [기존 중앙집중형 구조의 한계]
-┌──────────────────────────────────────┐
-│        Global Tech Giant Cloud       │
-│  ┌──────────┐ ┌──────────┐ ┌───────┐ │
-│  │ EU Data  │ │ US Data  │ │ AI    │ │ <- 벤더 락인 (Vendor Lock-in),
-│  │ (Locked) │ │ (Locked) │ │ Model │ │    통제권 상실, 데이터 유출 우려
-│  └──────────┘ └──────────┘ └───────┘ │
-└──────────────────────────────────────┘
-                   ▲
++--------------------------------------+
+|        Global Tech Giant Cloud       |
+|  +----------+ +----------+ +-------+ |
+|  | EU Data  | | US Data  | | AI    | | <- 벤더 락인 (Vendor Lock-in),
+|  | (Locked) | | (Locked) | | Model | |    통제권 상실, 데이터 유출 우려
+|  +----------+ +----------+ +-------+ |
++--------------------------------------+
+                   ^
 [EU 유럽 데이터 전략: 연합형 구조 (Gaia-X & Data Spaces)]
-┌──────────┐       ┌──────────┐       ┌──────────┐
-│ Provider │ <===> │ Gaia-X   │ <===> │ Consumer │
-│ (Node A) │       │ Trust    │       │ (Node B) │
-│ Own Data │       │ Framework│       │ Analytics│
-└──────────┘       └──────────┘       └──────────┘
++----------+       +----------+       +----------+
+| Provider | <===> | Gaia-X   | <===> | Consumer |
+| (Node A) |       | Trust    |       | (Node B) |
+| Own Data |       | Framework|       | Analytics|
++----------+       +----------+       +----------+
 ```
 
 이 도식의 핵심은 중앙의 거대 저장소를 없애고, 참여 노드 간의 'Trust Framework (신뢰 프레임워크)'를 중간 매개체로 두어 [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)-to-Peer로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환한다는 점이다. 따라서 [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)는 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 가서 어떻게 쓰이는지 정확히 통제할 수 있으며, 클라우드 제공자에 종속되지 않고 자유롭게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이동할 수 있다.
@@ -73,14 +73,14 @@ tags = ["bigdata"]
 [Gaia-X Sovereign Data Exchange Architecture]
 
 1. Self-Description 등록
-   [Data Provider] ───────(Meta Data & Policies)──────> [Federated Catalogue]
-          │                                                    │
-          │ 2. DID 기반 신원 인증                                │ 3. 서비스 검색 및 조회
-          ▼                                                    ▼
-   [Identity & Trust Anchor (Clearing House)] <──────── [Data Consumer]
-          │
-          │ 4. 규제 준수 및 자격 증명 (Verifiable Credentials)
-          ▼
+   [Data Provider] -------(Meta Data & Policies)------> [Federated Catalogue]
+          |                                                    |
+          | 2. DID 기반 신원 인증                                | 3. 서비스 검색 및 조회
+          v                                                    v
+   [Identity & Trust Anchor (Clearing House)] <-------- [Data Consumer]
+          |
+          | 4. 규제 준수 및 자격 증명 (Verifiable Credentials)
+          v
    [Compliance & Certification Node]
 
           5. P2P 데이터 전송 (Data Usage Control 강제)
@@ -129,17 +129,17 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 ```text
 [Data Usage Control 의사결정 플로우]
 [데이터 접근 요청]
-   │
-   ▼
-[DID 검증 및 토큰 발급] ──(실패)──> [접근 거부]
-   │
-   ▼ (성공)
-[Usage Policy 엔진 평가] ──(목적 외 사용)──> [접근 거부]
-   │ (예: 30일 후 폐기, 암호화 상태로만 연산)
-   ▼
+   |
+   v
+[DID 검증 및 토큰 발급] --(실패)--> [접근 거부]
+   |
+   v (성공)
+[Usage Policy 엔진 평가] --(목적 외 사용)--> [접근 거부]
+   | (예: 30일 후 폐기, 암호화 상태로만 연산)
+   v
 [데이터 암호화 채널 P2P 전송]
-   │
-   ▼
+   |
+   v
 [Consumer 환경에서 실행 후 자동 파기 강제 (TEE 활용)]
 ```
 
@@ -179,17 +179,17 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 
 ```text
 [개인정보 보호 규정 (GDPR) — EU 역내 데이터 처리 권리 및 역외 이전 통제 기준]
-    │
-    ▼
+    |
+    v
 [유럽 데이터 전략 (European Data Strategy, 2020) — 데이터 단일 시장, 인간 중심 데이터 경제]
-    │
-    ▼
+    |
+    v
 [Gaia-X — EU 연합 클라우드 인프라, 데이터 주권 기반 연동 생태계]
-    │
-    ▼
+    |
+    v
 [데이터 스페이스 (Data Spaces) — 분야별(산업·의료·농업 등) 신뢰 데이터 공유 공간]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스법 / 데이터법 (DGA / Data Act) — 공공·민간 데이터 접근 제도화, 데이터 중개자 규율]
 ```
 이 흐름은 GDPR의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 원칙을 기반으로 유럽이 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 산업 활용을 동시에 추구하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단일 시장을 설계하고, Gaia-X·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스로 구체화하는 EU [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전 경로를 보여준다.
@@ -205,7 +205,7 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 
 **진행 상황**: 16 / 262
 
-← **이전**: [15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)](/knowledge-base/studynote/16_bigdata/01_intro/015_open_data_principles/)
-**다음**: [17. 국가 데이터 정책 — 데이터기본법, 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/01_intro/017_national_data_policy/) →
+<- **이전**: [15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)](/knowledge-base/studynote/16_bigdata/01_intro/015_open_data_principles/)
+**다음**: [17. 국가 데이터 정책 — 데이터기본법, 데이터 산업 진흥법](/knowledge-base/studynote/16_bigdata/01_intro/017_national_data_policy/) ->
 
 ---

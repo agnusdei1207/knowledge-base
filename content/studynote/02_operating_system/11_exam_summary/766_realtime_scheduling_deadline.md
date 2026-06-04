@@ -36,29 +36,29 @@ tags = ["studynote-operating-system"]
   - 1970년대 Liu와 Layland가 발표한 논문에서 RM과 [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 수학적으로 증명되었고, 항공우주, 군사, 통신 장비를 위한 VxWorks, QNX 같은 상용 RTOS의 뼈대가 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 Hard Real-Time vs Soft Real-Time 의 차이             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ Hard Real-Time (하드 실시간) ] - 군사, 의료, 자율주행           │
-  │   - 마감 시간(Deadline) 준수 실패 시: 🚨 재앙(Catastrophe) 발생!   │
-  │   - 가치: 늦게 나온 결과는 쓰레기. 생명이나 재산 피해 직결.              │
-  │   - 사례: 자동차 브레이크 제어, 심장 박동기, 로켓 자세 제어              │
-  │                                                             │
-  │     요청     Deadline (반드시 여기 전에 끝나야 함!)                 │
-  │      ▼          ▼                                           │
-  │      [████████] | <안전>                                     │
-  │      [████████████████] <재앙! 차가 부딪힘!>                    │
-  │                                                             │
-  │  [ Soft Real-Time (소프트 실시간) ] - 멀티미디어, 금융             │
-  │   - 마감 시간 준수 실패 시: 📉 품질 저하(Degradation), 약간 짜증 남.  │
-  │   - 가치: 늦게 나와도 유효하지만 시스템의 가치가 떨어짐.                 │
-  │   - 사례: 유튜브 스트리밍(버퍼링 렉), 주식 시세 업데이트                │
-  │                                                             │
-  │     요청     Deadline                                       │
-  │      ▼          ▼                                           │
-  │      [████████████████] <품질 저하: 영상 끊김 렉 발생, 하지만 안 죽음>│
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 Hard Real-Time vs Soft Real-Time 의 차이             |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ Hard Real-Time (하드 실시간) ] - 군사, 의료, 자율주행           |
+  |   - 마감 시간(Deadline) 준수 실패 시: 🚨 재앙(Catastrophe) 발생!   |
+  |   - 가치: 늦게 나온 결과는 쓰레기. 생명이나 재산 피해 직결.              |
+  |   - 사례: 자동차 브레이크 제어, 심장 박동기, 로켓 자세 제어              |
+  |                                                             |
+  |     요청     Deadline (반드시 여기 전에 끝나야 함!)                 |
+  |      v          v                                           |
+  |      [████████] | <안전>                                     |
+  |      [████████████████] <재앙! 차가 부딪힘!>                    |
+  |                                                             |
+  |  [ Soft Real-Time (소프트 실시간) ] - 멀티미디어, 금융             |
+  |   - 마감 시간 준수 실패 시: 📉 품질 저하(Degradation), 약간 짜증 남.  |
+  |   - 가치: 늦게 나와도 유효하지만 시스템의 가치가 떨어짐.                 |
+  |   - 사례: 유튜브 스트리밍(버퍼링 렉), 주식 시세 업데이트                |
+  |                                                             |
+  |     요청     Deadline                                       |
+  |      v          v                                           |
+  |      [████████████████] <품질 저하: 영상 끊김 렉 발생, 하지만 안 죽음>|
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 실시간 스케줄링을 이해하는 첫 단추는 하드(Hard)와 소프트(Soft)의 척박한 차이를 깨닫는 것이다. 하드 실시간은 수학적 한계가 명확하다. 만약 시스템(CPU) 자원보다 들어온 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 너무 많아 데드라인을 도저히 못 맞출 것 같으면, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 아예 새로운 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 입장(Admission)을 단호하게 거부(Reject)해야 한다(Admission Control). 반면 소프트 실시간은 일반 OS에서 우선순위(Priority)만 살짝 높여주는 방식으로 "최대한 빨리해볼게"라는 노력(Best-effort)을 가미하는 수준이다.
@@ -81,24 +81,24 @@ tags = ["studynote-operating-system"]
 ### 2대 핵심 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) vs [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 RM (정적 우선순위) vs EDF (동적 우선순위) 비교          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │   [ 조건 ]                                                          │
-  │   Task 1: 실행시간(t) 1, 주기(p)=2  (50% 사용)                       │
-  │   Task 2: 실행시간(t) 2, 주기(p)=5  (40% 사용)    -> 총 90% 사용 가능? │
-  │                                                                   │
-  │   1. RM (Rate Monotonic) - "주기가 짧은 놈이 최고 권력!"                │
-  │      - Task 1의 주기가 더 짧으므로 고정 1순위 부여.                       │
-  │      - Task 2는 Task 1이 쉴 때만 실행됨.                               │
-  │      - 한계점: 총 CPU 사용률이 약 69% (ln 2)를 넘어가면, 이론적으로 100%   │
-  │               데드라인 보장을 못 함. 위 조건(90%)에서는 스케줄링 실패(재앙) 날 수 있음.│
-  │                                                                   │
-  │   2. EDF (Earliest Deadline First) - "마감이 급한 놈이 최고 권력!"       │
-  │      - 실행 시점마다 "누구 데드라인이 제일 코앞이지?"를 계산해 우선순위를 동적 변경.│
-  │      - 한계점: 런타임 계산 오버헤드가 무겁다.                              │
-  │      - 장점: CPU 사용률 100%까지 완벽하게 스케줄링 가능! 위 90% 조건도 성공.  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 RM (정적 우선순위) vs EDF (동적 우선순위) 비교          |
+  +-------------------------------------------------------------------+
+  |   [ 조건 ]                                                          |
+  |   Task 1: 실행시간(t) 1, 주기(p)=2  (50% 사용)                       |
+  |   Task 2: 실행시간(t) 2, 주기(p)=5  (40% 사용)    -> 총 90% 사용 가능? |
+  |                                                                   |
+  |   1. RM (Rate Monotonic) - "주기가 짧은 놈이 최고 권력!"                |
+  |      - Task 1의 주기가 더 짧으므로 고정 1순위 부여.                       |
+  |      - Task 2는 Task 1이 쉴 때만 실행됨.                               |
+  |      - 한계점: 총 CPU 사용률이 약 69% (ln 2)를 넘어가면, 이론적으로 100%   |
+  |               데드라인 보장을 못 함. 위 조건(90%)에서는 스케줄링 실패(재앙) 날 수 있음.|
+  |                                                                   |
+  |   2. EDF (Earliest Deadline First) - "마감이 급한 놈이 최고 권력!"       |
+  |      - 실행 시점마다 "누구 데드라인이 제일 코앞이지?"를 계산해 우선순위를 동적 변경.|
+  |      - 한계점: 런타임 계산 오버헤드가 무겁다.                              |
+  |      - 장점: CPU 사용률 100%까지 완벽하게 스케줄링 가능! 위 90% 조건도 성공.  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 방식은 매우 심플하다. 10초마다 도는 센서와 50초마다 도는 카메라가 있다면, 자주 도는 10초짜리 센서에게 하드코딩된 왕의 권력을 준다. 구현이 너무 쉬워서 산업계(RTOS)에서 가장 사랑받는 고전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하지만 이 방식은 CPU를 100% 꽉 채워 쓰지 못하는 수학적 결함이 있다. 이를 돌파한 것이 EDF다. EDF는 "너의 원래 주기가 뭐든 상관없고, 지금 당장 제출 마감이 제일 임박한 놈부터 꺼내 쓰자"는 극단적 효율주의다. EDF는 CPU 100% 한계치까지 모든 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 테트리스처럼 완벽하게 데드라인 안에 구겨 넣을 수 있는 '최적(Optimal)' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
@@ -141,28 +141,28 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/">CPU Affinity</a> / 격리 튜닝)</strong>: 실시간(RT) 환경에서 코어 이동(Migration)은 쥐약이다. 캐시 미스와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 오버헤드가 예측 불가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 낳기 때문이다. 리눅스 부팅 파라미터인 `isolcpus`를 사용해 코어 14, 15번을 일반 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)에서 아예 격리(블랙홀화)시킨다. 그리고 자율주행 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 이 14, 15번 코어에만 강제로 Pinning(친화성 고정) 시킨다. 이렇게 하면 해당 코어는 100% 무중단, 무간섭의 완전한 '하드 실시간 전용 칩'으로 돌변하여 극단적인 결정론적(Deterministic) 타이밍을 보장하게 된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안전한 리얼타임(RT) 아키텍처 설계를 위한 의사결정 트리    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 1밀리초의 지연도 허용하지 않는 시스템을 구축한다 ]                      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      표준 리눅스(Vanilla Kernel)를 그냥 써도 되는가?                   │
-  │          ├─ 예 ──▶ 🚨 [안티패턴!] 바닐라 커널은 깊은 커널 락(BKL) 때문에 │
-  │          │          데드라인 보장 불가. 반드시 `PREEMPT_RT` 패치 적용!   │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스케줄링 알고리즘 선택                                           │
-  │          ├─ 태스크 주기가 일정하고 구현이 심플해야 함 ──▶ [ SCHED_FIFO ] │
-  │          │                                                        │
-  │          └─ 동적인 주파수와 100% 완벽한 CPU 활용, 악성 루프 차단이 필요함 │
-  │                                    │                              │
-  │                                    ▼                              │
-  │                            [ SCHED_DEADLINE (EDF 기반) 적용 ]      │
-  │                     ※ 단, Admission Control 계산(이용률 100% 미만) 필수 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안전한 리얼타임(RT) 아키텍처 설계를 위한 의사결정 트리    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 1밀리초의 지연도 허용하지 않는 시스템을 구축한다 ]                      |
+  |                |                                                  |
+  |                v                                                  |
+  |      표준 리눅스(Vanilla Kernel)를 그냥 써도 되는가?                   |
+  |          +- 예 ---> 🚨 [안티패턴!] 바닐라 커널은 깊은 커널 락(BKL) 때문에 |
+  |          |          데드라인 보장 불가. 반드시 `PREEMPT_RT` 패치 적용!   |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      스케줄링 알고리즘 선택                                           |
+  |          +- 태스크 주기가 일정하고 구현이 심플해야 함 ---> [ SCHED_FIFO ] |
+  |          |                                                        |
+  |          +- 동적인 주파수와 100% 완벽한 CPU 활용, 악성 루프 차단이 필요함 |
+  |                                    |                              |
+  |                                    v                              |
+  |                            [ SCHED_DEADLINE (EDF 기반) 적용 ]      |
+  |                     ※ 단, Admission Control 계산(이용률 100% 미만) 필수 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자는 `nice` 값을 -20으로 주면 실시간이 되는 줄 착각하지만, 진정한 아키텍트는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 선점(Preemption) 모델부터 뜯어고친다. [PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치를 바르지 않은 리눅스에서 데드라인을 논하는 것은 사상누각이다. 그 후 낡은 `SCHED_FIFO` 대신 최첨단 [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) 기반의 `SCHED_DEADLINE`을 통해 앱 단위가 아닌 '시간 단위'의 강제 통제권을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 쥐여주는 것이 자율주행차나 드론 인프라 설계의 글로벌 표준(Autosar, ROS2)이다.
@@ -211,12 +211,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [SELinux 보안 강제 접근 통제]
-    │
-    ▼
+    |
+    v
 [실시간 스케줄링 마감 시간 (Deadline)]
-    │
-    ├──▶ [스핀락 멀티 프로세서 전용 활용]
-    └──▶ [CAS (Compare And Swap) 명령어 기초]
+    |
+    +---> [스핀락 멀티 프로세서 전용 활용]
+    +---> [CAS (Compare And Swap) 명령어 기초]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -233,7 +233,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 766 / 800
 
-← **이전**: [765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)](/knowledge-base/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/)
-**다음**: [767. 스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)](/knowledge-base/studynote/02_operating_system/11_exam_summary/767_spinlock_smp_multiprocessor/) →
+<- **이전**: [765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)](/knowledge-base/studynote/02_operating_system/11_exam_summary/765_selinux_mac_mandatory_access_control/)
+**다음**: [767. 스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)](/knowledge-base/studynote/02_operating_system/11_exam_summary/767_spinlock_smp_multiprocessor/) ->
 
 ---

@@ -32,18 +32,18 @@ tags = ["studynote-ai"]
 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 <strong>필터(Filter 또는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong>, <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>)</strong>, <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong>이라는 세 가지 핵심 요소로 작동한다. 필터가 입력 이미지 위를 슬라이딩하며 원소 간 곱(Element-wise Multiplication)의 합(내적)을 구하여 하나의 스칼라 값을 도출하고, 이 결과들을 모아 새로운 2차원 행렬인 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)을 만든다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   합성곱 연산과 파라미터의 역할                        │
-├────────────────────────────────────────────────────────────────────────┤
-│  [입력 이미지 (Input)]        [필터 (Filter)]        [특성 맵 (Map)]   │
-│  ┌─┬─┬─┬─┐ (Padding=0)        ┌─┬─┐               ┌─┬─┬─┐              │
-│  │1│0│1│0│                    │1│0│               │2│1│3│              │
-│  ├─┼─┼─┼─┤ (Stride=1)  (내적) ├─┼─┤     ====>     ├─┼─┼─┤              │
-│  │0│1│1│1│ *────────* ──────▶ │0│1│               │1│2│2│              │
-│  ├─┼─┼─┼─┤                    └─┴─┘               ├─┼─┼─┤              │
-│  │1│0│1│0│                                        │1│1│1│              │
-│  └─┴─┴─┴─┘                                        └─┴─┴─┘              │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                   합성곱 연산과 파라미터의 역할                        |
++------------------------------------------------------------------------+
+|  [입력 이미지 (Input)]        [필터 (Filter)]        [특성 맵 (Map)]   |
+|  +-+-+-+-+ (Padding=0)        +-+-+               +-+-+-+              |
+|  |1|0|1|0|                    |1|0|               |2|1|3|              |
+|  +-+-+-+-+ (Stride=1)  (내적) +-+-+     ====>     +-+-+-+              |
+|  |0|1|1|1| *--------* -------> |0|1|               |1|2|2|              |
+|  +-+-+-+-+                    +-+-+               +-+-+-+              |
+|  |1|0|1|0|                                        |1|1|1|              |
+|  +-+-+-+-+                                        +-+-+-+              |
++------------------------------------------------------------------------+
 ```
 
 이 그림은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)가 어떻게 돋보기의 보폭을 결정하고, 필터가 어떻게 이미지를 스캔하는지 보여준다. [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)를 키우면 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기가 작아지며 공간 정보가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다. 반대로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 원본 이미지 주변에 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-[padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 덧대어, 테두리 부분의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 막고 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 입력과 동일하게 유지하는 역할을 한다.
@@ -105,17 +105,17 @@ tags = ["studynote-ai"]
 
 ```text
 MLP (다층 퍼셉트론) · 공간 정보 손실
-    │
-    ▼
+    |
+    v
 LeNet-5 (초기 CNN) · 합성곱 층(Conv) 개념 정립
-    │
-    ▼
+    |
+    v
 VGGNet · 작은 3x3 필터(Filter)의 깊은 누적
-    │
-    ▼
+    |
+    v
 ResNet · 잔차 연결과 패딩(Padding)을 통한 초심층망
-    │
-    ▼
+    |
+    v
 Vision Transformer (ViT) · 합성곱 한계 극복을 위한 어텐션 도입
 ```
 
@@ -131,7 +131,7 @@ Vision Transformer (ViT) · 합성곱 한계 극복을 위한 어텐션 도입
 
 **진행 상황**: 96 / 420
 
-← **이전**: [95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처](/knowledge-base/studynote/10_ai/01_ai_basics/095_cnn_convolutional_neural_network_image_recognition/)
-**다음**: [97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) →
+<- **이전**: [95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처](/knowledge-base/studynote/10_ai/01_ai_basics/095_cnn_convolutional_neural_network_image_recognition/)
+**다음**: [97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ->
 
 ---

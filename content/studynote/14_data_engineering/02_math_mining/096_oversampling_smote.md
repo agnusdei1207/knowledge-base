@@ -39,20 +39,20 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 | <strong>합성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 0과 1 사이 난수 $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$를 곱해 더하기 | $X_{[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)} = X_i + \[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \times (X_j - X_i)$ 선형 보간 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SMOTE 데이터 합성 메커니즘                 │
-├──────────────────────────────────────────────────────────────┤
-│               [다수 클래스 밀집 구역]                        │
-│                                                              │
-│       A (원본)                                              │
-│         ＼ (벡터 차이)                                       │
-│          ＼                                                  │
-│           ★ (새로 합성된 데이터: X_new)                     │
-│            ＼                                                │
-│              B (K-NN 이웃)                                   │
-│                                                              │
-│  ※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  SMOTE 데이터 합성 메커니즘                 |
++--------------------------------------------------------------+
+|               [다수 클래스 밀집 구역]                        |
+|                                                              |
+|       A (원본)                                              |
+|         ＼ (벡터 차이)                                       |
+|          ＼                                                  |
+|           ★ (새로 합성된 데이터: X_new)                     |
+|            ＼                                                |
+|              B (K-NN 이웃)                                   |
+|                                                              |
+|  ※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨 |
++--------------------------------------------------------------+
 ```
 
 이 과정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기존 공간 밖으로 튀어나가지 않으면서도, 소수 클래스가 차지하는 결정 영역([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))을 넓혀주는 효과를 낸다. 모델은 특정 점이 아니라 넓은 덩어리로서 소수 클래스의 특징을 학습하게 된다.
@@ -117,21 +117,21 @@ SMOTE를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 
 ```text
 클래스 불균형 (Class Imbalance) 발생
-    │
-    ▼
+    |
+    v
 단순 복사 (Random Over-sampling) 및 과적합 부작용
-    │
-    ▼
+    |
+    v
 SMOTE (선형 보간을 통한 가상 데이터 합성)
-    │
-    ▼
+    |
+    v
 Borderline-SMOTE / ADASYN (경계선 및 밀도 기반 개선)
-    │
-    ▼
+    |
+    v
 SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
 ```
 
-이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 방식이 단순한 양적 확장에서 "품질 개선 → 경계선 정밀 타격 → 노이즈 제거 융합"으로 정교해지는 과정을 보여준다.
+이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 방식이 단순한 양적 확장에서 "품질 개선 -> 경계선 정밀 타격 -> 노이즈 제거 융합"으로 정교해지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
 
 **진행 상황**: 96 / 258
 
-← **이전**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/)
-**다음**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) →
+<- **이전**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/)
+**다음**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) ->
 
 ---

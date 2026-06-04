@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 멀티코어 시스템에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 주소 변환 캐시의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추기 위한 절차다. 각 코어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 자신의 TLB에 최근 가상 주소 → [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 번역 결과를 따로 저장한다. 문제는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 바뀌어도 다른 코어의 TLB는 자동으로 바뀌지 않는 경우가 많다는 점이다.
+[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 멀티코어 시스템에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 주소 변환 캐시의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추기 위한 절차다. 각 코어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 자신의 TLB에 최근 가상 주소 -> [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 번역 결과를 따로 저장한다. 문제는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 바뀌어도 다른 코어의 TLB는 자동으로 바뀌지 않는 경우가 많다는 점이다.
 
 예를 들어 한 스레드가 `munmap()`으로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 해제하거나 `mprotect()`로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 제거했는데, 다른 코어의 TLB에 예전 번역이 남아 있다면 어떤 일이 생길까. 이미 다른 용도로 재할당된 물리 프레임을 계속 쓰거나, 더 이상 허용되지 않은 권한으로 접근하는 심각한 오류가 발생할 수 있다. 즉 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보조 기능"이 아니라 <strong>정확성을 위해 반드시 필요한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 절차</strong>다.
 
@@ -36,21 +36,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 비용이 어디서 커지는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Initiator Core        Remote Core A           Remote Core B          │
-│      │                    │                        │                 │
-│ PTE update               run                      run                │
-│ local invalidate         │                        │                 │
-│ IPI / invalidate ─────▶ trap                     │                 │
-│      │                    flush local TLB         │                 │
-│ IPI / invalidate ───────────────────────────────▶ trap              │
-│      │                    done ────────────────▶  │                 │
-│ wait for all done        │                        flush local TLB    │
-│      │                    │                        done ──────────▶  │
-│ resume only after every stale translation is gone                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다   |
++----------------------------------------------------------------------+
+| Initiator Core        Remote Core A           Remote Core B          |
+|      |                    |                        |                 |
+| PTE update               run                      run                |
+| local invalidate         |                        |                 |
+| IPI / invalidate ------> trap                     |                 |
+|      |                    flush local TLB         |                 |
+| IPI / invalidate --------------------------------> trap              |
+|      |                    done ----------------->  |                 |
+| wait for all done        |                        flush local TLB    |
+|      |                    |                        done ----------->  |
+| resume only after every stale translation is gone                   |
++----------------------------------------------------------------------+
 ```
 
 | 단계 | 실제 작업 | 왜 비싼가 |
@@ -137,18 +137,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 코어의 로컬 TLB flush
-        │
-        ▼
+        |
+        v
 멀티코어 공유 주소 공간
-        │
-        ▼
+        |
+        v
 TLB 슈팅다운 (IPI 기반 원격 invalidate)
-        │
-        ├─▶ ASID / PCID 기반 대상 축소
-        ├─▶ range-based invalidate
-        ├─▶ hardware broadcast invalidate
-        │
-        ▼
+        |
+        +--> ASID / PCID 기반 대상 축소
+        +--> range-based invalidate
+        +--> hardware broadcast invalidate
+        |
+        v
 가상화·many-core 시대의 확장형 번역 캐시 일관성
 ```
 
@@ -166,7 +166,7 @@ TLB 슈팅다운 (IPI 기반 원격 invalidate)
 
 **진행 상황**: 518 / 803
 
-← **이전**: [517. 거대 페이지 (Huge Page)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)
-**다음**: [519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/519_iommu_overhead/) →
+<- **이전**: [517. 거대 페이지 (Huge Page)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)
+**다음**: [519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/519_iommu_overhead/) ->
 
 ---

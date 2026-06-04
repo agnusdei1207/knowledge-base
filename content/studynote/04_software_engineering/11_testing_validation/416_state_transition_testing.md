@@ -25,21 +25,21 @@ tags = ["studynote-software-engineering"]
 이러한 유한 상태 기계(Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)로 돌아가는 소프트웨어를 정복하기 위해 테스터는 화이트보드에 동그라미(상태)와 화살표(이벤트)를 그려 넣으며 객체가 태어나서 죽을 때까지의 <strong>흐름(Flow)</strong>을 추적합니다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a> 테스트(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">State Transition</a> Testing)</strong>입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  쇼핑몰 주문의 상태 전이 모델 예시                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [이벤트: 결제하기]               [이벤트: 상품 출발]        │
-│  (주문 대기) ─────────▶ (결제 완료) ─────────▶ (배송 중)    │
-│       │                    │                       │         │
-│       │                    │                       ▼         │
-│       │ [취소 버튼]         │ [이벤트: 구매자 취소]    (반품 신청) │
-│       ▼                    ▼                                 │
-│  (주문 취소) ◀──────── (결제 환불)                         │
-│                                                              │
-│  ※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기            │
-│     해커가 URL 파라미터 조작으로 [결제 환불] 화살표를 찌른다면?!       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  쇼핑몰 주문의 상태 전이 모델 예시                |
++--------------------------------------------------------------+
+|                                                              |
+|       [이벤트: 결제하기]               [이벤트: 상품 출발]        |
+|  (주문 대기) ----------> (결제 완료) ----------> (배송 중)    |
+|       |                    |                       |         |
+|       |                    |                       v         |
+|       | [취소 버튼]         | [이벤트: 구매자 취소]    (반품 신청) |
+|       v                    v                                 |
+|  (주문 취소) <--------- (결제 환불)                         |
+|                                                              |
+|  ※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기            |
+|     해커가 URL 파라미터 조작으로 [결제 환불] 화살표를 찌른다면?!       |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 자판기 플러그를 막 꽂았을 때(대기 상태), 동전을 중간쯤 넣었을 때(입금 상태), 캔이 떨어지고 있을 때(방출 상태). 이 똑같은 자판기 앞에서 "취소 버튼"을 눌러도 자판기가 처한 '기분(상태)'에 따라 환불해 주거나 무시하는 등 다른 반응을 하는 것을 추적하는 심리관찰 카메라입니다.
@@ -146,21 +146,21 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 상태 전이 테스트 (State Transition Testing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +174,7 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 
 **진행 상황**: 423 / 973
 
-← **이전**: [415. 의사 결정 테이블 (Decision Table) - 복잡한 논리적 조건들의 조합을 표로 구성하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/)
-**다음**: [416. 상태 전이 테스트 (State Transition Testing) - 객체의 상태 변화 시나리오 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/416_state_transition_testing/) →
+<- **이전**: [415. 의사 결정 테이블 (Decision Table) - 복잡한 논리적 조건들의 조합을 표로 구성하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/)
+**다음**: [416. 상태 전이 테스트 (State Transition Testing) - 객체의 상태 변화 시나리오 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/416_state_transition_testing/) ->
 
 ---

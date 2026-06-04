@@ -37,11 +37,11 @@ tags = ["studynote-network"]
 
 ```text
 [ARQ 프로토콜 종류]
-    │
-    ▼
+    |
+    v
 [정지-대기 ARQ]
-    │
-    └──▶ [GBN ARQ]
+    |
+    +---> [GBN ARQ]
 ```
 
 - **📢 섹션 요약 비유**: 정지-대기 ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -61,11 +61,11 @@ tags = ["studynote-network"]
 
 ```text
 [ARQ 프로토콜 종류]
-    │
-    ▼
+    |
+    v
 [정지-대기 ARQ]
-    │
-    └──▶ [GBN ARQ]
+    |
+    +---> [GBN ARQ]
 ```
 
 - **📢 섹션 요약 비유**: ** 정지-대기 ARQ는 **'도르래 바구니로 벽돌 나르기'**입니다. 내가 2층에 있는 인부에게 바구니로 벽돌을 1장 올려주면(송신), 인부가 그 벽돌을 빼고 "빈 바구니 내려보냈다(ACK)!"라고 소리칠 때까지 나는 빈둥거리며 놀아야 합니다. 내 손에 벽돌 1만 장이 있어도 한 번에 1장씩만 올려야 하므로, 공사(통신) 속도가 우주 최악으로 느린 답답한 시스템입니다.
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ARQ 프로토콜 종류]
-    │
-    ▼
+    |
+    v
 [현재 개념: 정지-대기 ARQ]
-    │
-    ├──▶ [확장 A: GBN ARQ]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: GBN ARQ]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 정지-대기 ARQ는 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 GBN ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 329 / 1120
 
-← **이전**: [207. ARQ 프로토콜 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/207_arq_protocol_types_overview/)
-**다음**: [209. GBN ARQ (Go-Back-N ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) →
+<- **이전**: [207. ARQ 프로토콜 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/207_arq_protocol_types_overview/)
+**다음**: [209. GBN ARQ (Go-Back-N ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) ->
 
 ---

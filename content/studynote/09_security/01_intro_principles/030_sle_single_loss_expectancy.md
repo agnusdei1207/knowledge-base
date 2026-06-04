@@ -31,7 +31,7 @@ tags = ["studynote-security"]
   - 연간 화재 발생 빈도(ARO): 0.1회/년 (10년에 1번)
   - ALE = 6,000만 × 0.1 = 600만 원/년
 
-  → 화재 억제 시스템 설치 비용 < 600만 원/년 이면 투자 정당화
+  -> 화재 억제 시스템 설치 비용 < 600만 원/년 이면 투자 정당화
 ```
 
 - **📢 섹션 요약 비유**: [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산은 자동차 보험료 산정과 같다. 사고 시 수리비(SLE)에 연간 사고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(ARO)을 곱해서 연간 기대 손실([ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/))을 산출하고, 이를 기준으로 보험료(보안 투자)를 정당화한다.
@@ -50,8 +50,8 @@ tags = ["studynote-security"]
   - 통제 후 ALE (After)
   = 순 절감액 (Value of Safeguard)
 
-  순 절감액 > 0 → 투자 타당
-  순 절감액 < 0 → 투자 불필요 (과잉 투자)
+  순 절감액 > 0 -> 투자 타당
+  순 절감액 < 0 -> 투자 불필요 (과잉 투자)
 ```
 
 ### 자산 가치 산정 요소
@@ -93,8 +93,8 @@ tags = ["studynote-security"]
   ARO = 0.3 (3년에 1번 발생)
   ALE = 7억 × 0.3 = 2.1억 원/년
 
-  → 백업 솔루션 구축 비용 연 5,000만 원 < 2.1억 원
-     → 투자 타당 (1.6억 원/년 절감)
+  -> 백업 솔루션 구축 비용 연 5,000만 원 < 2.1억 원
+     -> 투자 타당 (1.6억 원/년 절감)
 ```
 
 ### FAIR (Factor Analysis of Information [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))
@@ -139,17 +139,17 @@ FAIR = 현대화된 정량적 위험 분석 표준
 
 ```text
 [정성적 위험 분석 — 위험 매트릭스, 색상 등급]
-    │
-    ▼
+    |
+    v
 [SLE / ALE — 단일·연간 손실 기대값 정량화]
-    │
-    ▼
+    |
+    v
 [FAIR — 확률 분포 기반 현대 정량적 위험 분석]
-    │
-    ▼
+    |
+    v
 [몬테카를로 시뮬레이션 — 위험 범위 확률 분포]
-    │
-    ▼
+    |
+    v
 [CTEM — AI 기반 실시간 연속 위협 노출 관리]
 ```
 
@@ -165,7 +165,7 @@ FAIR = 현대화된 정량적 위험 분석 표준
 
 **진행 상황**: 30 / 1108
 
-← **이전**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/)
-**다음**: [31. ARO와 위험 정량화 — 연간 발생률의 의미](/knowledge-base/studynote/09_security/01_intro_principles/031_aro_annual_rate_of_occurrence/) →
+<- **이전**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/)
+**다음**: [31. ARO와 위험 정량화 — 연간 발생률의 의미](/knowledge-base/studynote/09_security/01_intro_principles/031_aro_annual_rate_of_occurrence/) ->
 
 ---

@@ -30,12 +30,12 @@ tags = ["studynote-ai"]
 | [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) FP8 | 행렬 FP8 (H100) | 3,958 TFLOPS | 추론 특화 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 "계산기 대신 행렬 덧셈 전용 슈퍼 계산기"다. 일반 계산기([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Core)로 행렬 덧셈을 하면 하나씩 더해야 하지만, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 4×4 블록을 한 번에 처리한다.
@@ -48,24 +48,24 @@ tags = ["studynote-ai"]
 
 ```
   텐서 코어 WMMA 연산: D = A × B + C
-  ┌─────────────────────────────────────────────────────────┐
-  │ A (FP16, 16×16) × B (FP16, 16×16) + C (FP32, 16×16)   │
-  │ ─────────────────────────────────────────────────────── │
-  │              D (FP32, 16×16)                            │
-  │  한 클록 사이클에 16×16×16 = 4,096 회 FMA 수행          │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  | A (FP16, 16×16) × B (FP16, 16×16) + C (FP32, 16×16)   |
+  | ------------------------------------------------------- |
+  |              D (FP32, 16×16)                            |
+  |  한 클록 사이클에 16×16×16 = 4,096 회 FMA 수행          |
+  +---------------------------------------------------------+
 
   GPU SM (Streaming Multiprocessor) 내부 구조
-  ┌───────────────────────────────────────┐
-  │          SM (A100 기준)               │
-  │  ┌──────────────┐  ┌──────────────┐  │
-  │  │  CUDA Core   │  │ Tensor Core  │  │
-  │  │    × 128     │  │    × 4       │  │
-  │  └──────────────┘  └──────────────┘  │
-  │  ┌──────────────────────────────┐    │
-  │  │    L1 Cache / Shared Memory  │    │
-  │  └──────────────────────────────┘    │
-  └───────────────────────────────────────┘
+  +---------------------------------------+
+  |          SM (A100 기준)               |
+  |  +--------------+  +--------------+  |
+  |  |  CUDA Core   |  | Tensor Core  |  |
+  |  |    × 128     |  |    × 4       |  |
+  |  +--------------+  +--------------+  |
+  |  +------------------------------+    |
+  |  |    L1 Cache / Shared Memory  |    |
+  |  +------------------------------+    |
+  +---------------------------------------+
 ```
 
 ### [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 포맷 비교
@@ -83,19 +83,19 @@ tags = ["studynote-ai"]
 ### 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습 ([Mixed Precision Training](/knowledge-base/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/)) 흐름
 
 ```
-  ┌──────────────────────────────────────────────────────────┐
-  │           Mixed Precision Training 파이프라인             │
-  ├──────────────────────────────────────────────────────────┤
-  │  FP32 마스터 가중치  ──▶  FP16 복사본 생성               │
-  │         │                        │                       │
-  │         │              순전파 (FP16 텐서 코어 가속)       │
-  │         │                        │                       │
-  │         │              역전파 (FP16 그래디언트 계산)      │
-  │         │                        │                       │
-  │         │     Loss Scaling 적용  │  (FP16 언더플로우 방지)│
-  │         │                        │                       │
-  │         └──◀ FP32 변환 후 가중치 업데이트 ───────────────┘
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |           Mixed Precision Training 파이프라인             |
+  +----------------------------------------------------------+
+  |  FP32 마스터 가중치  --->  FP16 복사본 생성               |
+  |         |                        |                       |
+  |         |              순전파 (FP16 텐서 코어 가속)       |
+  |         |                        |                       |
+  |         |              역전파 (FP16 그래디언트 계산)      |
+  |         |                        |                       |
+  |         |     Loss Scaling 적용  |  (FP16 언더플로우 방지)|
+  |         |                        |                       |
+  |         +--<- FP32 변환 후 가중치 업데이트 ---------------+
+  +----------------------------------------------------------+
 ```
 
 ### Loss Scaling (손실 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)) 필요성
@@ -123,7 +123,7 @@ FP16 의 최솟값 약 6×[10](/knowledge-base/studynote/02_operating_system/08_
 | Ampere 3세대 | A100 | BF16, TF32 추가 | 312 TFLOPS |
 | Hopper 4세대 | H100 | FP8 추가 | 3,958 TFLOPS |
 
-- **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 세대는 "연필(FP32) → 볼펜(FP16) → 레이저 프린터(FP8)" 로의 진화처럼, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 조금 희생하는 대신 속도를 폭발적으로 높이는 방향으로 발전한다.
+- **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 세대는 "연필(FP32) -> 볼펜(FP16) -> 레이저 프린터(FP8)" 로의 진화처럼, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 조금 희생하는 대신 속도를 폭발적으로 높이는 방향으로 발전한다.
 
 ---
 
@@ -183,7 +183,7 @@ for batch in dataloader:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [텐서 코어 (Tensor Core)] → [최적화·운영 자동화]
+[데이터 전처리] -> [텐서 코어 (Tensor Core)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -198,7 +198,7 @@ for batch in dataloader:
 
 **진행 상황**: 336 / 420
 
-← **이전**: [335. 오토인코더 (Autoencoder)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)
-**다음**: [337. RLHF (Reinforcement Learning from Human Feedback)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/337_rlhf/) →
+<- **이전**: [335. 오토인코더 (Autoencoder)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)
+**다음**: [337. RLHF (Reinforcement Learning from Human Feedback)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/337_rlhf/) ->
 
 ---

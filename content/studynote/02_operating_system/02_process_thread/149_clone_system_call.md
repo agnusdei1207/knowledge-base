@@ -31,22 +31,22 @@ tags = ["studynote-operating-system"]
 `clone()` 시스템 콜의 핵심은 매개변수로 전달되는 `flags`의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking) 조합이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          clone() 시스템 콜의 아키텍처와 자원 공유 플래그 맵핑        │
-├─────────────────────────────────────────────────────────────┤
-│  long clone(unsigned long flags, void *child_stack, ...);   │
-│                                                             │
-│ [ 자원 관리 4대 핵심 플래그 (CLONE_*) ]                          │
-│                                                             │
-│  1. CLONE_VM      : 메모리 공간(Address Space) 공유 여부          │
-│  2. CLONE_FS      : 파일 시스템(루트, 현재 디렉토리) 공유 여부       │
-│  3. CLONE_FILES   : 열린 파일 디스크립터(FD) 테이블 공유 여부        │
-│  4. CLONE_SIGHAND : 시그널 핸들러 공유 여부                       │
-│                                                             │
-│ [ 스택(Stack)의 철칙 ]                                        │
-│  ★ 스레드든 프로세스든 각자의 실행 흐름을 보장해야 하므로,             │
-│    `child_stack` 매개변수로 반드시 **새로운 깡통 스택**을 줘야 한다!     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          clone() 시스템 콜의 아키텍처와 자원 공유 플래그 맵핑        |
++-------------------------------------------------------------+
+|  long clone(unsigned long flags, void *child_stack, ...);   |
+|                                                             |
+| [ 자원 관리 4대 핵심 플래그 (CLONE_*) ]                          |
+|                                                             |
+|  1. CLONE_VM      : 메모리 공간(Address Space) 공유 여부          |
+|  2. CLONE_FS      : 파일 시스템(루트, 현재 디렉토리) 공유 여부       |
+|  3. CLONE_FILES   : 열린 파일 디스크립터(FD) 테이블 공유 여부        |
+|  4. CLONE_SIGHAND : 시그널 핸들러 공유 여부                       |
+|                                                             |
+| [ 스택(Stack)의 철칙 ]                                        |
+|  ★ 스레드든 프로세스든 각자의 실행 흐름을 보장해야 하므로,             |
+|    `child_stack` 매개변수로 반드시 **새로운 깡통 스택**을 줘야 한다!     |
++-------------------------------------------------------------+
 ```
 
 **[내부 동작 메커니즘]**
@@ -113,17 +113,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 초기 Unix fork() 시스템 콜 / 부모의 모든 자원을 100% 딥 카피(Copy)하는 무거운 생성
-    │
-    ▼
+    |
+    v
 Copy-On-Write (COW) 도입 / 읽기만 할 땐 부모 페이지를 가리키다, 쓸 때만 물리적 복사로 튜닝
-    │
-    ▼
+    |
+    v
 경량 프로세스(LWP)와 스레드 요구 증대 / 잦은 Context Switch 오버헤드와 통신 랙 발생
-    │
-    ▼
+    |
+    v
 리눅스 clone() 시스템 콜 대통합 / 자원의 '복사(Copy)' 대신 정밀한 플래그 기반 '공유(Share)' 튜닝 아키텍처 완성
-    │
-    ▼
+    |
+    v
 Namespace 플래그 (CLONE_NEW*) 확장 / 도커(Docker) 컨테이너 격리의 핵심 심장으로 진화 폭발 🚀
 ```
 
@@ -139,7 +139,7 @@ Namespace 플래그 (CLONE_NEW*) 확장 / 도커(Docker) 컨테이너 격리의 
 
 **진행 상황**: 149 / 800
 
-← **이전**: [148. 재진입 가능 코드 (Reentrant Code / Pure Code)](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/)
-**다음**: [150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) →
+<- **이전**: [148. 재진입 가능 코드 (Reentrant Code / Pure Code)](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/)
+**다음**: [150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) ->
 
 ---

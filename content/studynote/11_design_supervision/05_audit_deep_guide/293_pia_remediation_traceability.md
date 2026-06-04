@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/) 조치 추적성 감리는 [개인정보 영향평가](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)([Privacy Impact Assessment](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/), [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/)) 지적사항 조치 추적 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용이 확대되면서 수집보다 최소화, 추적성, 파기까지 포함한 프라이버시 관리가 핵심이 되었다. 특히 지적사항 관리가 기준선으로 정리되지 않으면 통제 매핑은 사람 의존 절차로 흩어지고, 최종적으로 주체 위험 저감이 남지 않아 의사결정이 감각에 의존하게 된다. 통제가 약하면 과도한 이용, 비인가 노출, 법규 위반이 빠르게 발생한다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 지적사항 관리 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 통제 매핑 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 주체 위험 저감 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 지적사항 관리 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 통제 매핑 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 주체 위험 저감 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/) 조치 추적성 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 주체 위험 저감을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 지적사항 관리, 통제 매핑, 주체 위험 저감은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[지적사항 관리] → PIA 조치 추적성 감리] → [프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))]
+[지적사항 관리] -> PIA 조치 추적성 감리] -> [프라이버시 바이 디자인([Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 지적사항 관리는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 354 / 530
 
-← **이전**: [292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/292_log_integrity_worm_forensics/)
-**다음**: [294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/294_test_data_masking_nonprod/) →
+<- **이전**: [292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/292_log_integrity_worm_forensics/)
+**다음**: [294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/294_test_data_masking_nonprod/) ->
 
 ---

@@ -34,31 +34,31 @@ tags = ["studynote-bigdata"]
 ### Superset [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  Apache Superset 아키텍처                    │
-├──────────────────────────────────────────────────────────────┤
-│  프론트엔드 (React + TypeScript)                             │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  SQL Lab: 고급 SQL 에디터                               │ │
-│  │  Chart Builder: 데이터셋 기반 차트 제작                 │ │
-│  │  Dashboard: 차트 조합·공유                              │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  백엔드 (Python Flask)                                       │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Superset Core: 쿼리 실행, 보안, API                   │ │
-│  │  Celery: 비동기 쿼리 실행, 캐시 갱신                   │ │
-│  │  SQLAlchemy: 다양한 DB 연결                             │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  인프라                                                      │
-│  ┌────────────────┬───────────────┬──────────────────────┐  │
-│  │ Redis          │ PostgreSQL/   │ 데이터 소스           │  │
-│  │ (캐시+메시지큐)│ MySQL         │ (Druid, ClickHouse,   │  │
-│  │                │ (메타데이터)  │  BigQuery, Snowflake, │  │
-│  │                │               │  Trino, PostgreSQL)   │  │
-│  └────────────────┴───────────────┴──────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  Apache Superset 아키텍처                    |
++--------------------------------------------------------------+
+|  프론트엔드 (React + TypeScript)                             |
+|  +--------------------------------------------------------+ |
+|  |  SQL Lab: 고급 SQL 에디터                               | |
+|  |  Chart Builder: 데이터셋 기반 차트 제작                 | |
+|  |  Dashboard: 차트 조합·공유                              | |
+|  +--------------------------------------------------------+ |
+|                          |                                   |
+|  백엔드 (Python Flask)                                       |
+|  +--------------------------------------------------------+ |
+|  |  Superset Core: 쿼리 실행, 보안, API                   | |
+|  |  Celery: 비동기 쿼리 실행, 캐시 갱신                   | |
+|  |  SQLAlchemy: 다양한 DB 연결                             | |
+|  +--------------------------------------------------------+ |
+|                          |                                   |
+|  인프라                                                      |
+|  +----------------+---------------+----------------------+  |
+|  | Redis          | PostgreSQL/   | 데이터 소스           |  |
+|  | (캐시+메시지큐)| MySQL         | (Druid, ClickHouse,   |  |
+|  |                | (메타데이터)  |  BigQuery, Snowflake, |  |
+|  |                |               |  Trino, PostgreSQL)   |  |
+|  +----------------+---------------+----------------------+  |
++-------------------------------------------------------------+
 ```
 
 ### SQL Lab: 핵심 기능
@@ -81,17 +81,17 @@ Superset의 차트 제작 흐름:
 
 ```
 [데이터 소스 연결]
-      │
-      ▼
+      |
+      v
 [데이터셋 생성]
   테이블 직접 연결 또는 SQL로 가상 데이터셋 생성
   (비즈니스 로직을 SQL로 표현)
-      │
-      ▼
+      |
+      v
 [차트 제작 (Chart Builder)]
-  데이터셋 선택 → 차트 유형 선택 → 필드 드래그앤드롭
-      │
-      ▼
+  데이터셋 선택 -> 차트 유형 선택 -> 필드 드래그앤드롭
+      |
+      v
 [대시보드 구성]
   차트들을 드래그앤드롭으로 배치
 ```
@@ -170,7 +170,7 @@ Superset 보안 계층:
 | 영역 | 효과 |
 |:---|:---|
 | **비용** | 상용 BI 도구 대비 라이선스 비용 0 |
-| **유연성** | 완전 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) → 내부 필요에 맞게 수정 |
+| **유연성** | 완전 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) -> 내부 필요에 맞게 수정 |
 | **분석 속도** | SQL Lab으로 즉각적인 탐색적 분석 |
 | **생태계** | 현대 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 깊은 통합 |
 
@@ -198,20 +198,20 @@ Apache Superset은 <strong>기술 팀 주도 <a href="/knowledge-base/studynote/
 
 ```text
 [BI 도구]
-    │
-    ▼
+    |
+    v
 [시각화]
-    │
-    ▼
+    |
+    v
 [Apache Superset]
-    │
-    ▼
+    |
+    v
 [SQL Lab]
-    │
-    ▼
+    |
+    v
 [대시보드]
-    │
-    ▼
+    |
+    v
 [셀프서비스 분석]
 ```
 
@@ -229,7 +229,7 @@ Apache Superset은 <strong>기술 팀 주도 <a href="/knowledge-base/studynote/
 
 **진행 상황**: 167 / 262
 
-← **이전**: [166. Looker / Looker Studio — LookML 시맨틱 레이어 BI](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/)
-**다음**: [168. Grafana — 메트릭/로그/추적 통합 관측성 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) →
+<- **이전**: [166. Looker / Looker Studio — LookML 시맨틱 레이어 BI](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/)
+**다음**: [168. Grafana — 메트릭/로그/추적 통합 관측성 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) ->
 
 ---

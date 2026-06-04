@@ -23,23 +23,23 @@ tags = ["studynote-bigdata"]
 ```text
 RDBMS 한계 vs NoSQL 트레이드오프:
 
-┌─────────────────────────────────────────────────────────┐
-│  RDBMS (Oracle, PostgreSQL)                             │
-│  ✅ ACID 트랜잭션  ✅ SQL  ✅ JOIN                       │
-│  ❌ 수직 확장 한계  ❌ 샤딩 복잡성  ❌ 멀티 리전 쓰기     │
-└─────────────────────────────────────────────────────────┘
-                        ↓ 부족한 것
-┌─────────────────────────────────────────────────────────┐
-│  NoSQL (Cassandra, MongoDB)                             │
-│  ✅ 수평 확장  ✅ 멀티 리전  ✅ 높은 가용성               │
-│  ❌ 완전한 ACID  ❌ JOIN  ❌ 복잡한 쿼리                  │
-└─────────────────────────────────────────────────────────┘
-                        ↓ 해결책
-┌─────────────────────────────────────────────────────────┐
-│  NewSQL                                                 │
-│  ✅ ACID 트랜잭션  ✅ SQL  ✅ JOIN                       │
-│  ✅ 수평 확장  ✅ 멀티 리전  ✅ 고가용성                  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  RDBMS (Oracle, PostgreSQL)                             |
+|  ✅ ACID 트랜잭션  ✅ SQL  ✅ JOIN                       |
+|  ❌ 수직 확장 한계  ❌ 샤딩 복잡성  ❌ 멀티 리전 쓰기     |
++---------------------------------------------------------+
+                        v 부족한 것
++---------------------------------------------------------+
+|  NoSQL (Cassandra, MongoDB)                             |
+|  ✅ 수평 확장  ✅ 멀티 리전  ✅ 높은 가용성               |
+|  ❌ 완전한 ACID  ❌ JOIN  ❌ 복잡한 쿼리                  |
++---------------------------------------------------------+
+                        v 해결책
++---------------------------------------------------------+
+|  NewSQL                                                 |
+|  ✅ ACID 트랜잭션  ✅ SQL  ✅ JOIN                       |
+|  ✅ 수평 확장  ✅ 멀티 리전  ✅ 고가용성                  |
++---------------------------------------------------------+
 ```
 
 ### 대표 [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 솔루션
@@ -62,56 +62,56 @@ RDBMS 한계 vs NoSQL 트레이드오프:
 ### [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 아키텍처
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              CockroachDB 분산 아키텍처                        │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │             SQL Layer (모든 노드에서 실행)             │   │
-│  │  PostgreSQL 프로토콜 → SQL 파싱 → 실행 계획            │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                         │                                   │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │          Distribution Layer                         │   │
-│  │  트랜잭션 코디네이션, 범위(Range) 기반 라우팅            │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                         │                                   │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │          Replication Layer (Raft 합의)               │  │
-│  │  Range(64MB) 단위 복제 → Raft 그룹 → 과반수 쓰기 확인   │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                         │                                   │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │          Storage Layer (Pebble/RocksDB)              │  │
-│  │  MVCC 기반 키-값 저장, 타임스탬프로 버전 관리            │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                             │
-│  지역 파티셔닝:                                               │
-│  PARTITION BY LIST (region) → KR 데이터 → 서울 DC           │
-│  → 데이터 주권(Data Sovereignty) 준수                         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              CockroachDB 분산 아키텍처                        |
+|                                                             |
+|  +-----------------------------------------------------+   |
+|  |             SQL Layer (모든 노드에서 실행)             |   |
+|  |  PostgreSQL 프로토콜 -> SQL 파싱 -> 실행 계획            |   |
+|  +-----------------------------------------------------+   |
+|                         |                                   |
+|  +-----------------------------------------------------+   |
+|  |          Distribution Layer                         |   |
+|  |  트랜잭션 코디네이션, 범위(Range) 기반 라우팅            |   |
+|  +-----------------------------------------------------+   |
+|                         |                                   |
+|  +------------------------------------------------------+  |
+|  |          Replication Layer (Raft 합의)               |  |
+|  |  Range(64MB) 단위 복제 -> Raft 그룹 -> 과반수 쓰기 확인   |  |
+|  +------------------------------------------------------+  |
+|                         |                                   |
+|  +------------------------------------------------------+  |
+|  |          Storage Layer (Pebble/RocksDB)              |  |
+|  |  MVCC 기반 키-값 저장, 타임스탬프로 버전 관리            |  |
+|  +------------------------------------------------------+  |
+|                                                             |
+|  지역 파티셔닝:                                               |
+|  PARTITION BY LIST (region) -> KR 데이터 -> 서울 DC           |
+|  -> 데이터 주권(Data Sovereignty) 준수                         |
++-------------------------------------------------------------+
 ```
 
 ### [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/) [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) (Hybrid Transactional/Analytical Processing) 아키텍처
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  TiDB HTAP 아키텍처                           │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │                    TiDB (SQL Layer)                    │  │
-│  │            MySQL 호환 SQL 파서 + 옵티마이저              │  │
-│  └────────────────────────────────────────────────────────┘  │
-│            │ OLTP 쓰기              │ OLAP 분석               │
-│            ↓                        ↓                        │
-│  ┌──────────────────┐    ┌────────────────────────────────┐  │
-│  │  TiKV (행 기반)  │    │    TiFlash (컬럼 기반 복제)     │  │
-│  │  Raft 합의       │───→│    실시간 동기화                │  │
-│  │  OLTP 최적화     │    │    OLAP/집계 최적화             │  │
-│  └──────────────────┘    └────────────────────────────────┘  │
-│                                                              │
-│  * TiSpark: TiKV/TiFlash에 직접 접근하는 Spark 커넥터         │
-│  * 데이터 이동 없이 실시간 OLTP+OLAP 동시 처리                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  TiDB HTAP 아키텍처                           |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  |                    TiDB (SQL Layer)                    |  |
+|  |            MySQL 호환 SQL 파서 + 옵티마이저              |  |
+|  +--------------------------------------------------------+  |
+|            | OLTP 쓰기              | OLAP 분석               |
+|            v                        v                        |
+|  +------------------+    +--------------------------------+  |
+|  |  TiKV (행 기반)  |    |    TiFlash (컬럼 기반 복제)     |  |
+|  |  Raft 합의       |---->|    실시간 동기화                |  |
+|  |  OLTP 최적화     |    |    OLAP/집계 최적화             |  |
+|  +------------------+    +--------------------------------+  |
+|                                                              |
+|  * TiSpark: TiKV/TiFlash에 직접 접근하는 Spark 커넥터         |
+|  * 데이터 이동 없이 실시간 OLTP+OLAP 동시 처리                 |
++--------------------------------------------------------------+
 ```
 
 ### [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 개요
@@ -119,10 +119,10 @@ RDBMS 한계 vs NoSQL 트레이드오프:
 ```text
 Raft 합의 과정 (쓰기 확인):
 
-1. 클라이언트 → Leader에게 쓰기 요청
-2. Leader → 모든 Follower에게 로그 복제 요청
+1. 클라이언트 -> Leader에게 쓰기 요청
+2. Leader -> 모든 Follower에게 로그 복제 요청
 3. 과반수(Quorum) 응답 수신
-4. Leader가 Commit 확인 → 클라이언트에 응답
+4. Leader가 Commit 확인 -> 클라이언트에 응답
 5. 비동기로 남은 Follower에 Commit 전파
 
 특징:
@@ -142,15 +142,15 @@ Raft 합의 과정 (쓰기 확인):
 
 ```text
 TrueTime API:
-  TT.now() → [earliest, latest] 시간 구간 반환
+  TT.now() -> [earliest, latest] 시간 구간 반환
   (GPS + 원자시계로 글로벌 불확실성 수 밀리초 이하)
 
 외부 일관성(External Consistency):
   트랜잭션 T1이 커밋된 후 시작된 T2는
   항상 T1의 변경사항을 반드시 읽음
 
-→ 분산 MVCC 타임스탬프 기반 직렬화 (Serializability)
-→ 글로벌 선형화(Global Linearizability) 보장
+-> 분산 MVCC 타임스탬프 기반 직렬화 (Serializability)
+-> 글로벌 선형화(Global Linearizability) 보장
 ```
 
 ### [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) vs RDBMS vs [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 포지셔닝
@@ -181,9 +181,9 @@ CREATE TABLE user_data (
     user_info JSONB,
     PRIMARY KEY (region, id)
 ) PARTITION BY LIST (region) (
-    PARTITION kr VALUES IN ('KR'),  -- 한국 데이터 → 서울 DC
-    PARTITION us VALUES IN ('US'),  -- 미국 데이터 → 버지니아 DC
-    PARTITION eu VALUES IN ('EU')   -- 유럽 데이터 → 아일랜드 DC
+    PARTITION kr VALUES IN ('KR'),  -- 한국 데이터 -> 서울 DC
+    PARTITION us VALUES IN ('US'),  -- 미국 데이터 -> 버지니아 DC
+    PARTITION eu VALUES IN ('EU')   -- 유럽 데이터 -> 아일랜드 DC
 );
 
 -- 각 파티션을 특정 지역 존에 고정
@@ -248,17 +248,17 @@ NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표�
 
 ```text
 [전통 RDBMS (MySQL/PostgreSQL) — ACID 보장, 수직 확장 한계]
-    │
-    ▼
+    |
+    v
 [NoSQL (Cassandra / MongoDB) — 수평 확장·고가용성, 일관성 타협(BASE)]
-    │
-    ▼
+    |
+    v
 [NewSQL (CockroachDB / TiDB / YugabyteDB) — ACID + 수평 확장, SQL 인터페이스 유지]
-    │
-    ▼
+    |
+    v
 [분산 트랜잭션 프로토콜 (Raft / Paxos + 2PC) — 분산 환경에서도 직렬화 일관성 보장]
-    │
-    ▼
+    |
+    v
 [HTAP (Hybrid Transactional/Analytical Processing) — 트랜잭션·분석을 단일 엔진에서 처리]
 ```
 이 흐름은 RDBMS와 NoSQL의 양립 불가능해 보이던 확장성-[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 트레이드오프를 NewSQL이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)으로 해소하고, 나아가 HTAP으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 분석을 통합하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 패러다임의 진화를 보여준다.
@@ -274,7 +274,7 @@ NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표�
 
 **진행 상황**: 138 / 262
 
-← **이전**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/knowledge-base/studynote/16_bigdata/06_nosql/137_multi_model_db/)
-**다음**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/) →
+<- **이전**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/knowledge-base/studynote/16_bigdata/06_nosql/137_multi_model_db/)
+**다음**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/) ->
 
 ---

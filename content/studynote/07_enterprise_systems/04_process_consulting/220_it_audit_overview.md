@@ -42,22 +42,22 @@ IT 감리는 보통 계획 수립, 기준 대비 점검, 결과 보고, 시정 �
 아래 다이어그램은 감리가 한 번의 검사보다 반복적 통제 루프에 가깝다는 점을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ IT Audit closed-loop                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Plan criteria  -> scope / risk / artifacts                        │
-│       │                                                            │
-│       ▼                                                            │
-│ Review evidence -> requirements / design / code / operations      │
-│       │                                                            │
-│       ▼                                                            │
-│ Report findings -> mandatory / recommended                        │
-│       │                                                            │
-│       ▼                                                            │
-│ Correct actions -> owner / due date / proof                       │
-│       │                                                            │
-│       └───────────── re-check and close ──────────────────────────┘
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| IT Audit closed-loop                                              |
++--------------------------------------------------------------------+
+| Plan criteria  -> scope / risk / artifacts                        |
+|       |                                                            |
+|       v                                                            |
+| Review evidence -> requirements / design / code / operations      |
+|       |                                                            |
+|       v                                                            |
+| Report findings -> mandatory / recommended                        |
+|       |                                                            |
+|       v                                                            |
+| Correct actions -> owner / due date / proof                       |
+|       |                                                            |
+|       +------------- re-check and close --------------------------+
++--------------------------------------------------------------------+
 ```
 
 감리의 실제 힘은 마지막 단계에 있다. 문제를 적어 두는 것만으로는 품질이 올라가지 않으며, 시정 조치 여부를 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 통제가 된다. 그래서 감리는 보고서 행사보다 훨씬 운영적인 활동이다.
@@ -130,17 +130,17 @@ IT 감리는 QA (Quality Assurance), 내부 통제, 컴플라이언스 점검과
 
 ```text
 Project Governance Need
-    │
-    ▼
+    |
+    v
 Independent Review
-    │
-    ▼
+    |
+    v
 Effectiveness · Efficiency · Security
-    │
-    ▼
+    |
+    v
 Corrective Action and Re-check
-    │
-    ▼
+    |
+    v
 Risk-controlled Operations
 ```
 
@@ -158,7 +158,7 @@ Risk-controlled Operations
 
 **진행 상황**: 220 / 482
 
-← **이전**: [219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)
-**다음**: [221. ISACA (정보시스템 감사 통제 협회) 및 CISA (국제 공인 정보시스템 감사사) 프레임워크](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/221_isaca_cisa_framework/) →
+<- **이전**: [219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)
+**다음**: [221. ISACA (정보시스템 감사 통제 협회) 및 CISA (국제 공인 정보시스템 감사사) 프레임워크](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/221_isaca_cisa_framework/) ->
 
 ---

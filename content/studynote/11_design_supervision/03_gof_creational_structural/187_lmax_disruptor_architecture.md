@@ -24,21 +24,21 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 디스럽터는 이 세 가지 문제를 근본적으로 해결한다: ① 고정 크기 링 버퍼로 GC 부담 제거, ② [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스로 잠금 경쟁 제거, ③ [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)로 CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         LMAX 디스럽터 링 버퍼 구조                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│         ┌───┬───┬───┬───┬───┬───┬───┬───┐                 │
-│         │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │  Ring Buffer    │
-│         └───┴───┴───┴───┴───┴───┴───┴───┘                 │
-│              ↑                  ↑                           │
-│         Producer             Consumer                       │
-│         (쓰기 시퀀스)          (읽기 시퀀스)                  │
-│                                                             │
-│  - 고정 크기 (2의 거듭제곱) → 인덱스 계산: seq & (size-1)   │
-│  - 덮어쓰기(Overwrite) 방지: Consumer가 뒤처지면 Producer 대기│
-│  - Lock-free CAS 시퀀스 업데이트                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         LMAX 디스럽터 링 버퍼 구조                           |
++-------------------------------------------------------------+
+|                                                             |
+|         +---+---+---+---+---+---+---+---+                 |
+|         | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |  Ring Buffer    |
+|         +---+---+---+---+---+---+---+---+                 |
+|              ^                  ^                           |
+|         Producer             Consumer                       |
+|         (쓰기 시퀀스)          (읽기 시퀀스)                  |
+|                                                             |
+|  - 고정 크기 (2의 거듭제곱) -> 인덱스 계산: seq & (size-1)   |
+|  - 덮어쓰기(Overwrite) 방지: Consumer가 뒤처지면 Producer 대기|
+|  - Lock-free CAS 시퀀스 업데이트                           |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전통 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 병원 대기 번호표(잠금+순서 보장)라면, 디스럽터의 링 버퍼는 회전 초밥 벨트(미리 준비된 슬롯에 직접 접근)처럼 대기 없이 빠르게 처리한다.
@@ -57,19 +57,19 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 | Wait [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 소비자 대기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | BusySpin(저지연) vs [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(CPU 절약) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       디스럽터 처리 흐름                                     │
-├─────────────────────────────────────────────────────────────┤
-│  Producer                                                   │
-│  1. Sequencer.next() → 다음 슬롯 번호 획득 (CAS)            │
-│  2. Ring Buffer[slot]에 이벤트 데이터 작성                  │
-│  3. Sequencer.publish(slot) → 소비자에게 가시화             │
-│                                                             │
-│  Consumer (Event Processor)                                 │
-│  1. Barrier.waitFor(seq) → 가용 이벤트 확인                 │
-│  2. Ring Buffer[seq]에서 이벤트 읽기                        │
-│  3. onEvent(event) 처리                                     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       디스럽터 처리 흐름                                     |
++-------------------------------------------------------------+
+|  Producer                                                   |
+|  1. Sequencer.next() -> 다음 슬롯 번호 획득 (CAS)            |
+|  2. Ring Buffer[slot]에 이벤트 데이터 작성                  |
+|  3. Sequencer.publish(slot) -> 소비자에게 가시화             |
+|                                                             |
+|  Consumer (Event Processor)                                 |
+|  1. Barrier.waitFor(seq) -> 가용 이벤트 확인                 |
+|  2. Ring Buffer[seq]에서 이벤트 읽기                        |
+|  3. onEvent(event) 처리                                     |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 공항 수하물 컨베이어 벨트(링 버퍼)에서 수하물(이벤트)이 순환하며, 각 승객(소비자)이 자신의 수하물 번호(시퀀스)를 확인하고 바로 가져간다. 줄(잠금) 없이 빠르게 처리된다.
@@ -117,7 +117,7 @@ LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측
 
 ### 📌 관련 개념 맵
 
-[전통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] → [LMAX 디스럽터] → [링 버퍼·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)] → [Log4j2 비동기 로거] → [HFT 시스템 적용]
+[전통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX 디스럽터] -> [링 버퍼·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)] -> [Log4j2 비동기 로거] -> [HFT 시스템 적용]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -128,7 +128,7 @@ LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[BlockingQueue [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] → [LMAX Disruptor 공개(2011)] → [Ring Buffer·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)] → [Log4j2 통합] → [HFT·[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 표준] → [Aeron 메시지 시스템]
+[BlockingQueue [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX Disruptor 공개(2011)] -> [Ring Buffer·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)] -> [Log4j2 통합] -> [HFT·[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 표준] -> [Aeron 메시지 시스템]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측
 
 **진행 상황**: 244 / 530
 
-← **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/)
-**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/187_lmax_disruptor_pattern/) →
+<- **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/)
+**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/187_lmax_disruptor_pattern/) ->
 
 ---

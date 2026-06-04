@@ -29,17 +29,17 @@ tags = ["database"]
 
 ```text
 [과거: 종속성과 중복성의 늪]
-App A (C언어) ───[종속]──> Employee.dat (고정길이 텍스트) ──┐
-App B (Java)  ───[종속]──> Employee.bin (바이너리 포맷)   ──┴── 데이터 중복 & 불일치!
+App A (C언어) ---[종속]--> Employee.dat (고정길이 텍스트) --+
+App B (Java)  ---[종속]--> Employee.bin (바이너리 포맷)   --+-- 데이터 중복 & 불일치!
 
 [현재: DBMS를 통한 추상화와 독립성]
-App A (C언어) ───[SQL]──┐
-                        ▼
+App A (C언어) ---[SQL]--+
+                        v
                +-----------------+
 App B (Java)  -+-> DBMS Engine   +-> DB (통합된 Employee 테이블)
                +-----------------+
-                        ▲
-App C (Python) ─[SQL]───┘
+                        ^
+App C (Python) -[SQL]---+
 ```
 이 도식의 핵심은 DBMS가 도입되면서 애플리케이션이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 물리적 포맷이나 경로를 알 필요가 완전히 사라졌다는 점입니다. 오직 표준화된 질의어(SQL)를 DBMS에 던지기만 하면, DBMS가 내부적으로 최적의 경로를 찾아 I/O를 수행합니다. 이로 인해 개발 생산성은 극적으로 향상되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 확장되거나 변경되어도 애플리케이션은 영향을 받지 않습니다. 실무에서는 이 구조 덕분에 무중단 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 마이그레이션이 가능해지며, DB 스토리지 계층을 클라우드로 변경해도 애플리케이션은 동일하게 작동합니다.
 
@@ -63,25 +63,25 @@ DBMS가 사용자의 질의를 받아 [데이터](/knowledge-base/studynote/05_d
 
 ```text
 [Client Request: SELECT * FROM Users WHERE id = 1]
-        │
-        ▼
-┌────── Query Processor Layer ──────┐
-│  1. Parser (구문 분석 및 파스 트리)│
-│               ↓                   │
-│  2. Optimizer (실행 계획 Cost계산) │ ◁── 통계 정보 (Statistics) 참조
-│               ↓                   │
-│  3. Execution Engine (플랜 실행)   │
-└───────────────┬───────────────────┘
-                │ Page Request (id=1 데이터가 있는 블록 요청)
-                ▼
-┌────── Storage Manager Layer ──────┐
-│  4. Transaction/Lock Manager      │ ◁── 락 충돌 검사 (S-Lock 획득)
-│               ↓                   │
-│  5. Buffer Manager (Memory Pool)  │ ◁── 캐시 히트 검사 (있으면 즉시 반환)
-│               ↓                   │ (Miss 시 디스크 I/O)
-│  6. Disk I/O & Recovery Manager   │
-└───────────────┬───────────────────┘
-                ▼
+        |
+        v
++------ Query Processor Layer ------+
+|  1. Parser (구문 분석 및 파스 트리)|
+|               v                   |
+|  2. Optimizer (실행 계획 Cost계산) | ◁-- 통계 정보 (Statistics) 참조
+|               v                   |
+|  3. Execution Engine (플랜 실행)   |
++---------------+-------------------+
+                | Page Request (id=1 데이터가 있는 블록 요청)
+                v
++------ Storage Manager Layer ------+
+|  4. Transaction/Lock Manager      | ◁-- 락 충돌 검사 (S-Lock 획득)
+|               v                   |
+|  5. Buffer Manager (Memory Pool)  | ◁-- 캐시 히트 검사 (있으면 즉시 반환)
+|               v                   | (Miss 시 디스크 I/O)
+|  6. Disk I/O & Recovery Manager   |
++---------------+-------------------+
+                v
       [ Physical Data Files ]
 ```
 이 흐름도의 핵심은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리가 '비용 계산([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))'과 '상태 제어([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/Buffer)'라는 두 가지 주요 관문을 거친다는 것입니다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 아무리 단순해도, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 통계 정보를 바탕으로 잘못된 플랜(예: Full Table Scan)을 짜면 시스템은 순식간에 병목에 빠집니다. 또한 버퍼 매니저에서 캐시 미스가 다수 발생하면 느린 물리적 디스크 I/O가 큐에 쌓이면서 전체 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 기하급수적으로 증가합니다. 실무에서는 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 상의 어느 지점에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하는지([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 대기인지, Disk I/O 대기인지)를 정확히 추적하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 출발점입니다.
@@ -114,9 +114,9 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
  [Data] [Data] [Data] ...
 
 [NoSQL: LSM-Tree 구조의 쓰기 최적화]
-   (Memory) [ MemTable ] ── 가득 차면 ──> 디스크로 순차 기록 (Flush)
-                                             │
-   (Disk)   [ SSTable 1 ] [ SSTable 2 ] <────┘
+   (Memory) [ MemTable ] -- 가득 차면 --> 디스크로 순차 기록 (Flush)
+                                             |
+   (Disk)   [ SSTable 1 ] [ SSTable 2 ] <----+
             => (장점) 쓰기 요청을 메모리에만 남기고 순차 파일 기록하므로 초고속 쓰기 가능.
                (단점) 읽기 시 여러 SSTable을 뒤져야 해서 읽기(Read) 성능 페널티 존재.
 ```
@@ -138,9 +138,9 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 
 ```text
 [DBMS 장애 전파와 방어 아키텍처]
-(위험) App A, B, C (각각 1000개 요청) ───> [ DBMS ] (Connection 3000개 폭주 -> 다운)
+(위험) App A, B, C (각각 1000개 요청) ---> [ DBMS ] (Connection 3000개 폭주 -> 다운)
 
-(안전) App A, B, C ──> [ Connection Pool (Max 100 제한) ] ──> [ DBMS ] (안정적 처리)
+(안전) App A, B, C --> [ Connection Pool (Max 100 제한) ] --> [ DBMS ] (안정적 처리)
                              ↳ 101번째 요청은 대기(Wait) -> App 레벨에서 타임아웃 처리
 ```
 이 도식은 부하가 발생했을 때 DBMS를 죽일 것인가, 애플리케이션에서 요청을 튕겨낼(Fail-fast) 것인가를 결정하는 장애 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 핵심을 보여줍니다. 실무에서는 DBMS가 인프라의 가장 깊은 곳에 있는 최종 보루이므로 절대 죽어서는 안 됩니다. 따라서 커넥션 풀을 통한 유량 제어와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(Query [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 선택이 아닌 필수입니다.
@@ -180,17 +180,17 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 
 ```text
 [데이터 독립성 (Data Independence)]
-    │
-    ▼
+    |
+    v
 [쿼리 옵티마이저 (Query Optimizer)]
-    │
-    ▼
+    |
+    v
 [트랜잭션 (Transaction)]
-    │
-    ▼
+    |
+    v
 [버퍼 풀 (Buffer Pool)]
-    │
-    ▼
+    |
+    v
 [스토어드 프로시저 (Stored Procedure)]
 ```
 
@@ -207,7 +207,7 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 
 **진행 상황**: 3 / 600
 
-← **이전**: [2. 데이터베이스 (Database)의 정의 - 통합(Integrated), 저장(Stored), 운영(Operational), 공용(Shared)](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)
-**다음**: [4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) →
+<- **이전**: [2. 데이터베이스 (Database)의 정의 - 통합(Integrated), 저장(Stored), 운영(Operational), 공용(Shared)](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)
+**다음**: [4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) ->
 
 ---

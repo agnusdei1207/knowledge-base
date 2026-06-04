@@ -42,28 +42,28 @@ tags = ["studynote-security"]
 *(※ $P_i$: 평문 블록, $C_i$: 암호문 블록, $E_K$: 키 K로 암호화, $\oplus$: 배타적 논리합(XOR))*
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CBC 모드 vs CTR 모드 암호화 흐름 비교       │
-├──────────────────────────────────────────────────────────────┤
-│ [CBC 모드: 직렬 연결 구조]                                   │
-│  IV(초기화 벡터)                                             │
-│   │                                                          │
-│   ▼        ┌─────┐                 ┌─────┐                   │
-│ (XOR) ─▶ [암호기(E)] ──(C1)─▶ (XOR) ─▶ [암호기(E)] ──(C2)─▶  │
-│   ▲                          ▲                               │
-│ 평문(P1)                   평문(P2)                          │
-│                                                              │
-│ [CTR 모드: 병렬 카운터 구조]                                 │
-│  Nonce+1                    Nonce+2                          │
-│   │                          │                               │
-│   ▼                          ▼                               │
-│ [암호기(E)]                [암호기(E)]                       │
-│   │                          │                               │
-│   ▼                          ▼                               │
-│ (XOR) ───────────(C1)      (XOR) ──────────(C2)              │
-│   ▲                          ▲                               │
-│ 평문(P1)                   평문(P2)                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  CBC 모드 vs CTR 모드 암호화 흐름 비교       |
++--------------------------------------------------------------+
+| [CBC 모드: 직렬 연결 구조]                                   |
+|  IV(초기화 벡터)                                             |
+|   |                                                          |
+|   v        +-----+                 +-----+                   |
+| (XOR) --> [암호기(E)] --(C1)--> (XOR) --> [암호기(E)] --(C2)-->  |
+|   ^                          ^                               |
+| 평문(P1)                   평문(P2)                          |
+|                                                              |
+| [CTR 모드: 병렬 카운터 구조]                                 |
+|  Nonce+1                    Nonce+2                          |
+|   |                          |                               |
+|   v                          v                               |
+| [암호기(E)]                [암호기(E)]                       |
+|   |                          |                               |
+|   v                          v                               |
+| (XOR) -----------(C1)      (XOR) ----------(C2)              |
+|   ^                          ^                               |
+| 평문(P1)                   평문(P2)                          |
++--------------------------------------------------------------+
 ```
 위 다이어그램에서 보듯, CBC는 앞 블록의 결과($C_1$)가 나와야만 다음 블록($P_2$)의 암호화를 시작할 수 있어 <strong>속도 병목(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong>이 발생 단점이 있다. 반면 CTR은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값만 알면 모든 블록을 <strong>동시(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>)</strong>에 암호화할 수 있다.
 
@@ -130,27 +130,27 @@ tags = ["studynote-security"]
 
 ```text
 평문 독립 암호화 (패턴 노출 취약점)
-    │
-    ▼
+    |
+    v
 ECB (Electronic Codebook) 배제
-    │
-    ▼
+    |
+    v
 블록 체이닝 도입 (패턴 은닉, IV 사용)
-    │
-    ├─▶ CBC (Cipher Block Chaining) : 직렬 처리, 패딩 필요 (과거 표준)
-    └─▶ CFB, OFB : 스트림 암호화 방식으로 변환, 패딩 불필요
-             │
-             ▼
+    |
+    +--> CBC (Cipher Block Chaining) : 직렬 처리, 패딩 필요 (과거 표준)
+    +--> CFB, OFB : 스트림 암호화 방식으로 변환, 패딩 불필요
+             |
+             v
 병렬 처리 요구 증가 및 Nonce / Counter 도입
-             │
-             ▼
+             |
+             v
 CTR (Counter) : 완전 병렬 암호화, 오류 전파 없음
-             │
-             ▼
+             |
+             v
 기밀성과 무결성 동시 보장 요구
-             │
-             ▼
-AEAD (Authenticated Encryption with Associated Data) ─▶ GCM, CCM 모드로 발전 (현대 표준)
+             |
+             v
+AEAD (Authenticated Encryption with Associated Data) --> GCM, CCM 모드로 발전 (현대 표준)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -165,7 +165,7 @@ AEAD (Authenticated Encryption with Associated Data) ─▶ GCM, CCM 모드로 �
 
 **진행 상황**: 88 / 1108
 
-← **이전**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/)
-**다음**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) →
+<- **이전**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/)
+**다음**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ->
 
 ---

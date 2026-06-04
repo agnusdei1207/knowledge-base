@@ -33,9 +33,9 @@ tags = ["studynote-operating-system"]
 
 ```text
 Guest OS
-   ↓ Hypercall
+   v Hypercall
 Hypervisor
-   ↓
+   v
 Hardware
 ```
 
@@ -88,11 +88,11 @@ Hardware
 
 ```text
 게스트 OS 수정
-   ↓
+   v
 Hypercall
-   ↓
+   v
 오버헤드 감소
-   ↓
+   v
 반가상화 / 하드웨어 보조 가상화
 ```
 
@@ -100,11 +100,11 @@ Hypercall
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 전가상화의 높은 비용 → 대안 필요
-2. 반가상화와 Hypercall → 직접 협력 구조
-3. Xen의 대중화 → 기술 표준 형성
-4. Virtio와 결합 → 현대 클라우드 최적화
-5. [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) → 호환성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형
+1. 전가상화의 높은 비용 -> 대안 필요
+2. 반가상화와 Hypercall -> 직접 협력 구조
+3. Xen의 대중화 -> 기술 표준 형성
+4. Virtio와 결합 -> 현대 클라우드 최적화
+5. [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) -> 호환성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형
 
 ---
 
@@ -120,7 +120,7 @@ Hypercall
 
 **진행 상황**: 58 / 800
 
-← **이전**: [57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)
-**다음**: [59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) →
+<- **이전**: [57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)
+**다음**: [59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) ->
 
 ---

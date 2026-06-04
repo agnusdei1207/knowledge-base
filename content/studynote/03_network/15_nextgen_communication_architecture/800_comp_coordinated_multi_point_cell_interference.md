@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [동적 스펙트럼 공유 기술]
-    │
-    ▼
+    |
+    v
 [주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    └──▶ [데이터센터 3-Tier 아키텍처]
+    |
+    +---> [데이터센터 3-Tier 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [동적 스펙트럼 공유 기술]
-    │
-    ▼
+    |
+    v
 [주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    └──▶ [데이터센터 3-Tier 아키텍처]
+    |
+    +---> [데이터센터 3-Tier 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 동적 스펙트럼 공유 기술]
-    │
-    ▼
+    |
+    v
 [현재 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ├──▶ [확장 A: 데이터센터 3-Tier 아키텍처]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 데이터센터 3-Tier 아키텍처]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 주파수 집성 기술 고급 모델 연대 전방위 고…는 동적 스펙트럼 공유 기술에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 921 / 1120
 
-← **이전**: [799. 동적 스펙트럼 공유 기술 (DSS 진화 4G/5G 주파수 시간 단위 혼용 운영 자원 배분 유연성 통신 기술 방식 도입 전파 배급](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/799_dss_dynamic_spectrum_sharing_4g_5g/)
-**다음**: [801. 데이터센터 (Data Center) 3-Tier 아키텍처](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) →
+<- **이전**: [799. 동적 스펙트럼 공유 기술 (DSS 진화 4G/5G 주파수 시간 단위 혼용 운영 자원 배분 유연성 통신 기술 방식 도입 전파 배급](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/799_dss_dynamic_spectrum_sharing_4g_5g/)
+**다음**: [801. 데이터센터 (Data Center) 3-Tier 아키텍처](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) ->
 
 ---

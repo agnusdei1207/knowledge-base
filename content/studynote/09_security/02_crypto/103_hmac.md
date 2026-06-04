@@ -41,19 +41,19 @@ tags = ["studynote-security"]
 | **외부 해시 (Outer Hash)** | `Hash((K ⊕ opad) || Inner_Hash_Result)` $\rightarrow$ 길이 연장 공격을 수학적으로 차단 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           HMAC의 이중 샌드위치 방어 아키텍처 (XOR & Hash)    │
-├──────────────────────────────────────────────────────────────┤
-│ [1차: 내부 방어벽]                                           │
-│  ( 비밀키 ⊕ ipad )  +  [ 원본 메시지 ] ──▶ [ Hash 엔진 ]     │
-│                                                 │            │
-│                                                 ▼            │
-│ [2차: 외부 방어벽]                        (1차 해시 덩어리)  │
-│  ( 비밀키 ⊕ opad )  +  [ 1차 해시 덩어리 ] ──▶ [ Hash 엔진 ] │
-│                                                 │            │
-│                                                 ▼            │
-│                                         ★ [ 최종 HMAC 태그 ] │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           HMAC의 이중 샌드위치 방어 아키텍처 (XOR & Hash)    |
++--------------------------------------------------------------+
+| [1차: 내부 방어벽]                                           |
+|  ( 비밀키 ⊕ ipad )  +  [ 원본 메시지 ] ---> [ Hash 엔진 ]     |
+|                                                 |            |
+|                                                 v            |
+| [2차: 외부 방어벽]                        (1차 해시 덩어리)  |
+|  ( 비밀키 ⊕ opad )  +  [ 1차 해시 덩어리 ] ---> [ Hash 엔진 ] |
+|                                                 |            |
+|                                                 v            |
+|                                         ★ [ 최종 HMAC 태그 ] |
++--------------------------------------------------------------+
 ```
 
 이 기묘한 이중 구조 덕분에 내부에 사용된 해시 엔진([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 등)에 다소 취약점이 발견되더라도, 밖을 감싼 두 번째 껍질 구조가 방어선을 유지하여 전체 HMAC의 안전성이 훼손되지 않는 기적 같은 방어력을 발휘한다.
@@ -115,14 +115,14 @@ HMAC은 공개키 기반의 [전자서명](/knowledge-base/studynote/03_network/
 
 ```text
 단방향 해시 함수 (SHA-1, SHA-2) · 무결성 제공, 위조에 무방비
-    │
-    ▼ (비밀키 결합 시도 및 취약점 발견)
+    |
+    v (비밀키 결합 시도 및 취약점 발견)
 단순 결합 MAC · `Hash(K||M)` 시도, 길이 연장 공격에 붕괴
-    │
-    ▼ (안전한 키 혼입 구조의 발명)
+    |
+    v (안전한 키 혼입 구조의 발명)
 HMAC (Hash-based MAC) · XOR 패딩과 이중 해시 샌드위치 구조로 완벽 방어
-    │
-    ▼ (실무 플랫폼 적용)
+    |
+    v (실무 플랫폼 적용)
 JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 매커니즘으로 안착
 ```
 
@@ -140,7 +140,7 @@ JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 �
 
 **진행 상황**: 156 / 1108
 
-← **이전**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/)
-**다음**: [104. NMAC (Nested MAC)](/knowledge-base/studynote/09_security/02_crypto/104_nmac/) →
+<- **이전**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/)
+**다음**: [104. NMAC (Nested MAC)](/knowledge-base/studynote/09_security/02_crypto/104_nmac/) ->
 
 ---

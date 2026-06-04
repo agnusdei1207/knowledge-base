@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 > **핵심 인사이트**
 > 1. 테스트 계획서(Test Plan)는 무엇을, 어떻게, 언제, 누가 테스트할지를 정의한 테스트의 "헌법" — IEEE 829 표준이 테스트 계획서 구조를 정의하며, 잘 작성된 계획서는 QA팀과 개발팀 간 기대 불일치를 예방한다.
-> 2. [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)([Test Scenario](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/))는 사용자 관점의 실제 동작 흐름을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) — 단순 기능 테스트(버튼 클릭)를 넘어 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 비즈니스 흐름(회원가입→로그인→결제→환불)을 시뮬레이션하며, 높은 커버리지와 실질적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지를 동시에 달성한다.
+> 2. [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)([Test Scenario](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/))는 사용자 관점의 실제 동작 흐름을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) — 단순 기능 테스트(버튼 클릭)를 넘어 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 비즈니스 흐름(회원가입->로그인->결제->환불)을 시뮬레이션하며, 높은 커버리지와 실질적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지를 동시에 달성한다.
 > 3. [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) vs [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 구분 — Verification은 "올바르게 만들었는가(스펙 준수)", Validation은 "올바른 것을 만들었는가(사용자 요구 충족)". 두 활동 모두 필수이며, V&V([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))는 소프트웨어 품질의 양대 축이다.
 
 ---
@@ -94,13 +94,13 @@ vs 테스트 케이스:
 시나리오 작성 기법:
 
 유스케이스 기반:
-  기능 명세의 유스케이스 → 시나리오 도출
+  기능 명세의 유스케이스 -> 시나리오 도출
 
 경계값 분석:
   입력 경계 (최솟값, 최댓값, 경계+1)
 
 동등 분할:
-  유사 입력 그룹 → 대표값 선택
+  유사 입력 그룹 -> 대표값 선택
 
 탐색적 테스팅:
   테스터가 직관+경험으로 자유롭게 탐색
@@ -108,7 +108,7 @@ vs 테스트 케이스:
 
 시나리오 우선순위:
   위험 기반 (Risk-Based):
-  빈도×영향도 → 높은 위험 시나리오 우선
+  빈도×영향도 -> 높은 위험 시나리오 우선
 ```
 
 > 📢 **섹션 요약 비유**: [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)는 영화 시나리오 — 영화(시스템)에서 주인공(사용자)이 경험하는 장면(비즈니스 흐름)을 순서대로 기술. 시나리오마다 여러 테이크(케이스)!
@@ -151,15 +151,15 @@ Validation (타당성 확인):
 V 모델 (V-Model):
 
 개발                  테스트
-요구분석    →    인수 테스트 (UAT)
-  ↓         ↑
-시스템 설계  →   시스템 테스트
-  ↓         ↑
-아키텍처    →   통합 테스트
-  ↓         ↑
-상세 설계   →   단위 테스트
-  ↓         ↑
-  구현  →→→→→→→→→→
+요구분석    ->    인수 테스트 (UAT)
+  v         ^
+시스템 설계  ->   시스템 테스트
+  v         ^
+아키텍처    ->   통합 테스트
+  v         ^
+상세 설계   ->   단위 테스트
+  v         ^
+  구현  ->->->->->->->->->->
 
 좌측 V: 개발(Verification)
 우측 V: 테스트(Validation)
@@ -212,10 +212,10 @@ V 모델 (V-Model):
   JS: Istanbul/nyc
 
   CI/CD 파이프라인 통합:
-  커버리지 < 목표 → 빌드 실패
+  커버리지 < 목표 -> 빌드 실패
 ```
 
-> 📢 **섹션 요약 비유**: 테스트 커버리지는 건물 검사 점검표 — 점검 항목(구문)을 모두 체크했나, 양쪽 문(분기) 모두 열어봤나, 각 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 독립 동작(MC/DC). 더 꼼꼼할수록 비용↑!
+> 📢 **섹션 요약 비유**: 테스트 커버리지는 건물 검사 점검표 — 점검 항목(구문)을 모두 체크했나, 양쪽 문(분기) 모두 열어봤나, 각 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 독립 동작(MC/DC). 더 꼼꼼할수록 비용^!
 
 ---
 
@@ -249,9 +249,9 @@ V 모델 (V-Model):
 3. 시스템 테스트:
    범위: 전체 앱 기능
    주요 시나리오:
-   - 로그인 → 잔액 조회 → 이체 → 거래 내역
+   - 로그인 -> 잔액 조회 -> 이체 -> 거래 내역
    - 생체인증(Face ID/지문) 로그인
-   - 5회 비밀번호 실패 → 계정 잠금
+   - 5회 비밀번호 실패 -> 계정 잠금
    - 대용량 거래 내역 (10,000건) 페이징
 
 4. 성능 테스트:
@@ -340,7 +340,7 @@ AI 기반 테스트 케이스 자동 생성
 
 **진행 상황**: 69 / 530
 
-← **이전**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/)
-**다음**: [47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/047_rtm_bidirectional_traceability_validation/) →
+<- **이전**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/)
+**다음**: [47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/047_rtm_bidirectional_traceability_validation/) ->
 
 ---

@@ -19,17 +19,17 @@ tags = ["studynote-computer-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│              7종 기본 논리 게이트                      │
-├──────────────────────────────────────────────────────┤
-│ AND  : A·B  — 둘 다 1일 때만 1                       │
-│ OR   : A+B  — 하나라도 1이면 1                       │
-│ NOT  : Ā    — 반전 (Inverter)                        │
-│ NAND : NOT(A·B) — AND의 반전, 기능 완전              │
-│ NOR  : NOT(A+B) — OR의 반전, 기능 완전               │
-│ XOR  : A⊕B  — 다르면 1 (짝수 패리티)                │
-│ XNOR : NOT(A⊕B) — 같으면 1 (홀수 패리티)            │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|              7종 기본 논리 게이트                      |
++------------------------------------------------------+
+| AND  : A·B  — 둘 다 1일 때만 1                       |
+| OR   : A+B  — 하나라도 1이면 1                       |
+| NOT  : Ā    — 반전 (Inverter)                        |
+| NAND : NOT(A·B) — AND의 반전, 기능 완전              |
+| NOR  : NOT(A+B) — OR의 반전, 기능 완전               |
+| XOR  : A⊕B  — 다르면 1 (짝수 패리티)                |
+| XNOR : NOT(A⊕B) — 같으면 1 (홀수 패리티)            |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트는 디지털 세계의 레고 블록이다. 7종류 블록을 조합하면 계산기, 게임기, 스마트폰 CPU까지 모두 만들 수 있다.
@@ -116,17 +116,17 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 ```text
 [불 대수 — 논리 연산의 수학적 기반]
-    │
-    ▼
+    |
+    v
 [기본 논리 게이트 — AND/OR/NOT/NAND/NOR/XOR]
-    │
-    ▼
+    |
+    v
 [조합 논리 회로 — 가산기, MUX, 디코더]
-    │
-    ▼
+    |
+    v
 [순차 논리 회로 — 플립플롭, 레지스터, 카운터]
-    │
-    ▼
+    |
+    v
 [양자 게이트 — 중첩/얽힘 기반 양자 연산]
 ```
 
@@ -142,7 +142,7 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 **진행 상황**: 27 / 803
 
-← **이전**: [26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/026_minterm_maxterm/)
-**다음**: [28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/028_and_or_not/) →
+<- **이전**: [26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/026_minterm_maxterm/)
+**다음**: [28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/028_and_or_not/) ->
 
 ---

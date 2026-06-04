@@ -32,9 +32,9 @@ SW 개발보안([시큐어 코딩](/knowledge-base/studynote/12_it_management/05
 - KISA(한국인터넷진흥원, Korea Internet & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Agency) 취약점 진단 기준
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 "식당 주문서에 '모든 메뉴를 공짜로 주세요'라고 적어 요리사를 혼란에 빠트리는 것"이다. 입력 칸을 신뢰하지 않는 것이 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)의 출발점이다.
@@ -43,73 +43,73 @@ SW 개발보안([시큐어 코딩](/knowledge-base/studynote/12_it_management/05
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│                    요청 처리 파이프라인                      │
-│                                                            │
-│  [사용자 입력]                                              │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────┐                          │
-│  │  1. 입력값 화이트리스트 검증   │  ← 허용 문자만 통과       │
-│  │     (Whitelist Validation)   │                          │
-│  └──────────────┬───────────────┘                          │
-│                 │                                          │
-│                 ▼                                          │
-│  ┌──────────────────────────────┐                          │
-│  │  2. PreparedStatement 사용   │  ← ? 플레이스홀더 바인딩  │
-│  │     (Parameterized Query)    │                          │
-│  └──────────────┬───────────────┘                          │
-│                 │                                          │
-│                 ▼                                          │
-│  ┌──────────────────────────────┐                          │
-│  │  3. 최소 권한 DB 계정 사용    │  ← SELECT 전용 계정       │
-│  │     (Least Privilege)        │                          │
-│  └──────────────┬───────────────┘                          │
-│                 │                                          │
-│                 ▼                                          │
-│            [DB 실행 완료]                                   │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                    요청 처리 파이프라인                      |
+|                                                            |
+|  [사용자 입력]                                              |
+|       |                                                    |
+|       v                                                    |
+|  +------------------------------+                          |
+|  |  1. 입력값 화이트리스트 검증   |  <- 허용 문자만 통과       |
+|  |     (Whitelist Validation)   |                          |
+|  +--------------+---------------+                          |
+|                 |                                          |
+|                 v                                          |
+|  +------------------------------+                          |
+|  |  2. PreparedStatement 사용   |  <- ? 플레이스홀더 바인딩  |
+|  |     (Parameterized Query)    |                          |
+|  +--------------+---------------+                          |
+|                 |                                          |
+|                 v                                          |
+|  +------------------------------+                          |
+|  |  3. 최소 권한 DB 계정 사용    |  <- SELECT 전용 계정       |
+|  |     (Least Privilege)        |                          |
+|  +--------------+---------------+                          |
+|                 |                                          |
+|                 v                                          |
+|            [DB 실행 완료]                                   |
++------------------------------------------------------------+
 ```
 
 XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우저에서 실행되는 공격이다. 방어의 핵심은 <strong>출력 시점의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>별 인코딩</strong>이다.
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│               XSS 방어 필터 흐름                            │
-│                                                            │
-│  입력: <script>alert('XSS')</script>                        │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────┐                              │
-│  │   HTML 컨텍스트 인코딩    │                              │
-│  │   < → &lt;               │                              │
-│  │   > → &gt;               │                              │
-│  │   " → &quot;             │                              │
-│  │   ' → &#x27;             │                              │
-│  └──────────────┬───────────┘                              │
-│                 │                                          │
-│  출력: &lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt; │
-│       → 브라우저: 텍스트로 표시 (실행 불가)                  │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|               XSS 방어 필터 흐름                            |
+|                                                            |
+|  입력: <script>alert('XSS')</script>                        |
+|       |                                                    |
+|       v                                                    |
+|  +--------------------------+                              |
+|  |   HTML 컨텍스트 인코딩    |                              |
+|  |   < -> &lt;               |                              |
+|  |   > -> &gt;               |                              |
+|  |   " -> &quot;             |                              |
+|  |   ' -> &#x27;             |                              |
+|  +--------------+-----------+                              |
+|                 |                                          |
+|  출력: &lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt; |
+|       -> 브라우저: 텍스트로 표시 (실행 불가)                  |
++------------------------------------------------------------+
 ```
 
 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰([CSRF Token](/knowledge-base/studynote/09_security/05_web_app_security/478_csrf_token/))은 서버가 생성한 난수값을 폼(Form) 히든 필드에 삽입하여 위조 요청을 차단한다.
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│              CSRF 토큰 검증 흐름                             │
-│                                                            │
-│  [서버] 세션 생성 시 토큰 발급                               │
-│       │  Token = "a3f9b2c1d8e7..."                         │
-│       ▼                                                    │
-│  [클라이언트] 폼에 히든 필드로 포함                          │
-│       │  <input type="hidden" name="_csrf" value="..."/>   │
-│       ▼                                                    │
-│  [요청 수신] 서버에서 토큰 일치 검증                         │
-│       │                                                    │
-│       ├── 토큰 일치 → 요청 처리                              │
-│       └── 토큰 불일치 → 403 Forbidden 반환                  │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              CSRF 토큰 검증 흐름                             |
+|                                                            |
+|  [서버] 세션 생성 시 토큰 발급                               |
+|       |  Token = "a3f9b2c1d8e7..."                         |
+|       v                                                    |
+|  [클라이언트] 폼에 히든 필드로 포함                          |
+|       |  <input type="hidden" name="_csrf" value="..."/>   |
+|       v                                                    |
+|  [요청 수신] 서버에서 토큰 일치 검증                         |
+|       |                                                    |
+|       +-- 토큰 일치 -> 요청 처리                              |
+|       +-- 토큰 불일치 -> 403 Forbidden 반환                  |
++------------------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -168,7 +168,7 @@ XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우
 ## Ⅴ. 기대효과 및 결론
 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 진단이 체계적으로 수행되면 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)을 통한 DB 탈취, XSS를 통한 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/)), CSRF를 통한 권한 남용이 코드 레벨에서 원천 차단된다. 행정안전부 통계에 따르면 공공기관 침해사고의 약 40%가 웹 취약점에서 발생하며, 특히 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)과 XSS가 주를 이룬다. 감리 단계에서 조기 발견 시 수정 비용은 운영 단계 대비 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하로 절감된다.
 
-감리인은 자동화 도구([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)) 결과와 수동 코드리뷰를 병행하고, 특히 **입력 처리→DB 연동→출력 렌더링** 전 경로를 추적하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 분석(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Flow Analysis)</strong>을 핵심 점검 방법으로 적용해야 한다.
+감리인은 자동화 도구([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)) 결과와 수동 코드리뷰를 병행하고, 특히 **입력 처리->DB 연동->출력 렌더링** 전 경로를 추적하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 분석(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Flow Analysis)</strong>을 핵심 점검 방법으로 적용해야 한다.
 
 확장 방향은 ① [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
 
@@ -188,7 +188,7 @@ XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우
 | 연관 개념 | KISA 취약점 진단 | 공공기관 법적 점검 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) → [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) SQL/[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)/[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 진단 → [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)·보안 테스트
+[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) -> [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) SQL/[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)/[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 진단 -> [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)·보안 테스트
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 마법 주문서에 "내 말을 무조건 따라!"라고 쓴 쪽지를 몰래 끼워 넣는 속임수야.
@@ -201,7 +201,7 @@ XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우
 
 **진행 상황**: 312 / 530
 
-← **이전**: [250. 메시지 패싱과 위임 (Message Passing & Delegation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/250_message_passing_delegation/)
-**다음**: [252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/252_encryption_hash_salt_audit/) →
+<- **이전**: [250. 메시지 패싱과 위임 (Message Passing & Delegation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/250_message_passing_delegation/)
+**다음**: [252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/252_encryption_hash_salt_audit/) ->
 
 ---

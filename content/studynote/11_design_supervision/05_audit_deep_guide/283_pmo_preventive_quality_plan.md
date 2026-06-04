@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 예방적 품질통제 계획은 프로젝트 관리 조직([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/), [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))의 예방적 품질 통제 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 대형 정보화 사업에서 일정·범위·품질을 동시에 맞추기 위해 정량 기반 프로젝트 통제가 필수 역량이 되었다. 특히 품질 게이트가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 이슈 에스컬레이션은 사람 의존 절차로 흩어지고, 최종적으로 거버넌스 주기가 남지 않아 의사결정이 감각에 의존하게 된다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 책임자가 약하면 변화가 누적되어 일정 지연과 계약 분쟁으로 이어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 품질 게이트 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 이슈 에스컬레이션 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 거버넌스 주기 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 품질 게이트 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 이슈 에스컬레이션 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 거버넌스 주기 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 예방적 품질통제 계획은 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 거버넌스 주기를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 품질 게이트, 이슈 에스컬레이션, 거버넌스 주기는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[품질 게이트] → PMO 예방적 품질통제 계획] → [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
+[품질 게이트] -> PMO 예방적 품질통제 계획] -> [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 품질 게이트는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 344 / 530
 
-← **이전**: [282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/282_cocomo_ii_effort_estimation/)
-**다음**: [284. 위험등록부 모니터링 감리 (Risk Register Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/) →
+<- **이전**: [282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/282_cocomo_ii_effort_estimation/)
+**다음**: [284. 위험등록부 모니터링 감리 (Risk Register Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/284_risk_register_monitoring/) ->
 
 ---

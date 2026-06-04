@@ -42,20 +42,20 @@ tags = ["studynote-enterprise"]
 아래 흐름은 형식지가 조직 지식으로 작동하는 최소 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Explicit knowledge lifecycle                                 │
-├──────────────────────────────────────────────────────────────┤
-│ Expert know-how                                              │
-│      │                                                       │
-│      ▼                                                       │
-│ Externalize -> template / rule / checklist                   │
-│      │                                                       │
-│      ▼                                                       │
-│ KMS / Wiki repository                                        │
-│      │                                                       │
-│      ├─> Search / RAG retrieval                              │
-│      └─> Review / update / retire                            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Explicit knowledge lifecycle                                 |
++--------------------------------------------------------------+
+| Expert know-how                                              |
+|      |                                                       |
+|      v                                                       |
+| Externalize -> template / rule / checklist                   |
+|      |                                                       |
+|      v                                                       |
+| KMS / Wiki repository                                        |
+|      |                                                       |
+|      +-> Search / RAG retrieval                              |
+|      +-> Review / update / retire                            |
++--------------------------------------------------------------+
 ```
 
 즉 형식지의 핵심 원리는 "표현 가능성"과 "반복 가능성"이다. 그러나 문서가 많아질수록 품질 편차와 중복이 커지므로, 검색 구조와 거버넌스가 없으면 저장소는 곧 문서 무덤이 된다.
@@ -126,16 +126,16 @@ tags = ["studynote-enterprise"]
 
 ```text
 Tacit know-how
-  │
-  ▼
+  |
+  v
 Externalization
-  │
-  ▼
+  |
+  v
 Explicit knowledge
-  │
-  ├─> KMS / Wiki / SOP
-  │
-  ▼
+  |
+  +-> KMS / Wiki / SOP
+  |
+  v
 RAG-enabled enterprise knowledge use
 ```
 
@@ -151,7 +151,7 @@ RAG-enabled enterprise knowledge use
 
 **진행 상황**: 129 / 482
 
-← **이전**: [128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/)
-**다음**: [130. SECI 모델 - 노나카의 조직 지식 창조 이론](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/130_seci_model_knowledge_creation/) →
+<- **이전**: [128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/)
+**다음**: [130. SECI 모델 - 노나카의 조직 지식 창조 이론](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/130_seci_model_knowledge_creation/) ->
 
 ---

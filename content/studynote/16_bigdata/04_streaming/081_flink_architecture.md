@@ -42,35 +42,35 @@ tags = ["studynote-bigdata"]
 ### 1. Flink 클러스터 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  클라이언트 (Client)                                             │
-│  · 사용자 코드 컴파일 → JobGraph 생성                            │
-│  · JobGraph를 JobManager에 제출                                  │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ JobGraph 제출
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  JobManager (마스터)                                             │
-│                                                                 │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────┐  │
-│  │ Dispatcher       │  │  JobMaster        │  │ ResourceMgr  │  │
-│  │ (잡 수신·등록)   │  │  (잡 조율·실행)   │  │ (자원 관리)  │  │
-│  └──────────────────┘  └──────────────────┘  └──────────────┘  │
-│                                                                 │
-│  · Checkpoint Coordinator (체크포인트 조율)                      │
-│  · High Availability: ZooKeeper 기반 리더 선출                  │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ Task 배포
-                ┌────────────┼────────────┐
-                ▼            ▼            ▼
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│  TaskManager 1  │ │  TaskManager 2  │ │  TaskManager N  │
-│                 │ │                 │ │                 │
-│  Task Slot: 4   │ │  Task Slot: 4   │ │  Task Slot: 4   │
-│  ┌───┐ ┌───┐   │ │  ┌───┐ ┌───┐   │ │  ...            │
-│  │T1 │ │T2 │   │ │  │T3 │ │T4 │   │ │                 │
-│  └───┘ └───┘   │ │  └───┘ └───┘   │ │                 │
-└─────────────────┘ └─────────────────┘ └─────────────────┘
++-----------------------------------------------------------------+
+|  클라이언트 (Client)                                             |
+|  · 사용자 코드 컴파일 -> JobGraph 생성                            |
+|  · JobGraph를 JobManager에 제출                                  |
++----------------------------+------------------------------------+
+                             | JobGraph 제출
+                             v
++-----------------------------------------------------------------+
+|  JobManager (마스터)                                             |
+|                                                                 |
+|  +------------------+  +------------------+  +--------------+  |
+|  | Dispatcher       |  |  JobMaster        |  | ResourceMgr  |  |
+|  | (잡 수신·등록)   |  |  (잡 조율·실행)   |  | (자원 관리)  |  |
+|  +------------------+  +------------------+  +--------------+  |
+|                                                                 |
+|  · Checkpoint Coordinator (체크포인트 조율)                      |
+|  · High Availability: ZooKeeper 기반 리더 선출                  |
++----------------------------+------------------------------------+
+                             | Task 배포
+                +------------+------------+
+                v            v            v
++-----------------+ +-----------------+ +-----------------+
+|  TaskManager 1  | |  TaskManager 2  | |  TaskManager N  |
+|                 | |                 | |                 |
+|  Task Slot: 4   | |  Task Slot: 4   | |  Task Slot: 4   |
+|  +---+ +---+   | |  +---+ +---+   | |  ...            |
+|  |T1 | |T2 |   | |  |T3 | |T4 |   | |                 |
+|  +---+ +---+   | |  +---+ +---+   | |                 |
++-----------------+ +-----------------+ +-----------------+
 ```
 
 ### 2. 핵심 구성 요소
@@ -88,21 +88,21 @@ tags = ["studynote-bigdata"]
 
 ```
 사용자 코드 (DataStream/Table API)
-    │
-    ▼
+    |
+    v
 StreamGraph (논리적 연산자 DAG)
-    │ 연산자 체이닝 (Operator Chaining)
-    ▼
-JobGraph (체이닝 최적화된 DAG, 클라이언트→JobManager 전송)
-    │ 병렬도(Parallelism) 적용
-    ▼
+    | 연산자 체이닝 (Operator Chaining)
+    v
+JobGraph (체이닝 최적화된 DAG, 클라이언트->JobManager 전송)
+    | 병렬도(Parallelism) 적용
+    v
 ExecutionGraph (물리적 실행 계획, 태스크 인스턴스 포함)
-    │
-    ▼
+    |
+    v
 TaskManager의 Task Slot에 배포·실행
 ```
 
-<strong>연산자 체이닝(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 → [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
+<strong>연산자 체이닝(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 -> [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
 
 **📢 섹션 요약 비유**
 > Flink 아키텍처는 "건설 현장 구조"와 같다. JobManager는 현장 소장(전체 조율), ResourceManager는 인력 파견 회사(TaskSlot 관리), TaskManager는 각 시공팀(실제 작업), [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Slot은 팀원 개인(격리된 실행 공간)이다.
@@ -142,7 +142,7 @@ TaskManager의 Task Slot에 배포·실행
 - [ ] JobManager HA [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 기반 리더 선출 구성
 - [ ] TaskManager 메모리 튜닝: `taskmanager.memory.process.size` (최소 4GB 권장)
 - [ ] TaskSlot 수 = CPU 코어 수 (일반적으로 1:1)
-- [ ] [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend: 상태 크기가 수 GB 초과 → RocksDB 선택
+- [ ] [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend: 상태 크기가 수 GB 초과 -> RocksDB 선택
 - [ ] 체크포인트 간격: 기본 10초 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)-오버헤드 트레이드오프)
 - [ ] [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도(Parallelism): TaskSlot 총 수와 일치하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -174,7 +174,7 @@ high-availability.zookeeper.path.root: /flink
 
 ### 2. 결론
 
-Flink 아키텍처의 핵심은 <strong>JobManager의 중앙 조율 + TaskManager의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 실행 + <a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a> 기반 상태 내구성</strong>이다. 기술사 답안에서는 JobManager/TaskManager/TaskSlot의 역할을 명확히 구분하고, 연산자 체이닝과 JobGraph→ExecutionGraph 변환 과정, 그리고 HA 설계 고려사항을 함께 서술하면 완성도 높은 답안이 된다.
+Flink 아키텍처의 핵심은 <strong>JobManager의 중앙 조율 + TaskManager의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 실행 + <a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a> 기반 상태 내구성</strong>이다. 기술사 답안에서는 JobManager/TaskManager/TaskSlot의 역할을 명확히 구분하고, 연산자 체이닝과 JobGraph->ExecutionGraph 변환 과정, 그리고 HA 설계 고려사항을 함께 서술하면 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
 > Flink 클러스터는 "세계적인 교향악단"과 같다. 지휘자(JobManager)가 악보(JobGraph)를 보며 각 파트(TaskManager)에 지시하고, 각 단원(TaskSlot)이 자기 파트를 정확히 연주한다. 지휘자가 쓰러져도(HA) 부지휘자(Standby JobManager)가 즉시 지휘봉을 잡는다.
@@ -195,14 +195,14 @@ Flink 아키텍처의 핵심은 <strong>JobManager의 중앙 조율 + TaskManage
 
 ```text
 [배치 처리 (Batch Processing)]
-    │
-    ▼
+    |
+    v
 [스트림 처리 (Stream Processing)]
-    │
-    ▼
+    |
+    v
 [Apache Flink (Apache Flink)]
-    │
-    ▼
+    |
+    v
 [이벤트 시간 (Event Time)]
 ```
 
@@ -217,7 +217,7 @@ Flink 클러스터는 큰 공장 같아요. 사장님(JobManager)이 공장 전�
 
 **진행 상황**: 81 / 262
 
-← **이전**: [05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복](/knowledge-base/studynote/16_bigdata/04_streaming/080_streaming_necessity/)
-**다음**: [07. DataStream API / Table API & SQL — Flink 두 계층 처리](/knowledge-base/studynote/16_bigdata/04_streaming/082_datastream_api_table_api/) →
+<- **이전**: [05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복](/knowledge-base/studynote/16_bigdata/04_streaming/080_streaming_necessity/)
+**다음**: [07. DataStream API / Table API & SQL — Flink 두 계층 처리](/knowledge-base/studynote/16_bigdata/04_streaming/082_datastream_api_table_api/) ->
 
 ---

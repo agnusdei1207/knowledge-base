@@ -26,20 +26,20 @@ Kafka + Flink 조합은 "이벤트를 잃지 않고 모으는 계층"과 "그 �
 아래 구조는 Kafka가 "이벤트를 보존"하고 Flink가 "시간 의미를 계산"하는 역할을 각각 맡는다는 점을 보여준다. 실시간 파이프라인의 핵심은 빠르게 읽는 것보다, 시간이 뒤엉킨 이벤트를 비즈니스적으로 올바른 결과로 정리하는 데 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Kafka + Flink 실시간 파이프라인                               │
-├──────────────────────────────────────────────────────────────┤
-│ App / Sensor / Event Source                                  │
-│          │                                                   │
-│          ▼                                                   │
-│ Kafka Topic (Partitioned Log)                                │
-│          │                                                   │
-│          ▼                                                   │
-│ Flink Source ─▶ keyBy ─▶ Watermark ─▶ Window / State         │
-│                                   │                          │
-│                                   ├─▶ Alert / Online Feature │
-│                                   └─▶ Lake / Warehouse Sink  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Kafka + Flink 실시간 파이프라인                               |
++--------------------------------------------------------------+
+| App / Sensor / Event Source                                  |
+|          |                                                   |
+|          v                                                   |
+| Kafka Topic (Partitioned Log)                                |
+|          |                                                   |
+|          v                                                   |
+| Flink Source --> keyBy --> Watermark --> Window / State         |
+|                                   |                          |
+|                                   +--> Alert / Online Feature |
+|                                   +--> Lake / Warehouse Sink  |
++--------------------------------------------------------------+
 ```
 
 특히 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ML) 파이프라인에서는 이벤트가 언제 처리되었는지보다 "언제 발생했는지"가 더 중요하다. 사용자 클릭이 늦게 도착하더라도 실제 발생 시각 기준으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 구매 전환, 실시간 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 계산해야 모델 입력과 사후 분석이 일치하기 때문이다. 그래서 Kafka + Flink에서 Watermark와 Window는 단순 API가 아니라 시간 정의 자체라고 볼 수 있다.
@@ -63,17 +63,17 @@ Kafka + Flink의 핵심은 [파티션](/knowledge-base/studynote/02_operating_sy
 Watermark의 핵심 수식은 보통 `watermark = 지금까지 본 최대 event time - 허용 지연`이다. 그러나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서는 이 Watermark가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)마다 따로 계산된 뒤, 전체 연산자는 보통 "활성 입력 중 최소 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)"를 사용한다. 즉 빠른 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 하나가 아니라 가장 늦은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 창 종료를 결정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 파티션별 Watermark가 하나로 합쳐지는 방식                     │
-├──────────────────────────────────────────────────────────────┤
-│ 허용 지연 = 1분                                               │
-│                                                              │
-│ Partition A : 10:00 ─ 10:02 ─ 10:05      WM_A = 10:04        │
-│ Partition B : 10:01 ─ 10:03 ─ 10:04      WM_B = 10:03        │
-│                                                              │
-│ Global Watermark = min(WM_A, WM_B) = 10:03                  │
-│ Window [10:00, 10:03) 는 Global Watermark > 10:03일 때 종료  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 파티션별 Watermark가 하나로 합쳐지는 방식                     |
++--------------------------------------------------------------+
+| 허용 지연 = 1분                                               |
+|                                                              |
+| Partition A : 10:00 - 10:02 - 10:05      WM_A = 10:04        |
+| Partition B : 10:01 - 10:03 - 10:04      WM_B = 10:03        |
+|                                                              |
+| Global Watermark = min(WM_A, WM_B) = 10:03                  |
+| Window [10:00, 10:03) 는 Global Watermark > 10:03일 때 종료  |
++--------------------------------------------------------------+
 ```
 
 이 구조 때문에 유휴 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Idleness)을 처리하지 않으면 전체 Watermark가 멈출 수 있다. 예를 들어 한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 더 이상 이벤트가 없는데 "아직 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올지도 모른다"고 간주되면, 다른 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 아무리 앞으로 나아가도 창이 닫히지 않는다. 실무에서 Watermark가 느리다고 느껴질 때는 대개 계산식보다 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 편차와 유휴 입력 처리가 원인이다.
@@ -129,15 +129,15 @@ Kafka + Flink를 제대로 이해하려면 시간 기준과 엔진 역할의 경
 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 미리 정해야 한다. 허용 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 안에 들어오면 기존 결과를 업데이트하고, 조금 더 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 사이드 출력으로 보내 보정 배치에 합류시키며, 매우 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 남기고 버리는 방식이 흔하다. 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 명시하지 않으면 운영 중 "왜 숫자가 뒤늦게 바뀌었는가"라는 갈등이 반복된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 늦은 데이터 처리 경로                                         │
-├──────────────────────────────────────────────────────────────┤
-│ Late Event                                                    │
-│    │                                                          │
-│    ├─ 허용 지연 이내 ─▶ Window 재계산 / 결과 갱신             │
-│    ├─ 약간 초과      ─▶ Side Output → 보정 파이프라인         │
-│    └─ 크게 초과      ─▶ Drop / Audit Log                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 늦은 데이터 처리 경로                                         |
++--------------------------------------------------------------+
+| Late Event                                                    |
+|    |                                                          |
+|    +- 허용 지연 이내 --> Window 재계산 / 결과 갱신             |
+|    +- 약간 초과      --> Side Output -> 보정 파이프라인         |
+|    +- 크게 초과      --> Drop / Audit Log                      |
++--------------------------------------------------------------+
 ```
 
 체크리스트는 다음과 같다.
@@ -182,18 +182,18 @@ Kafka + Flink 기반 Event Time 처리는 순서가 뒤엉킨 현실 세계의 �
 
 ```text
 이벤트 발생
-    │
-    ▼
+    |
+    v
 Kafka Append Log
-    │
-    ▼
+    |
+    v
 Timestamp Assign / Watermark 계산
-    │
-    ▼
+    |
+    v
 Keyed Window State
-    │
-    ├─▶ 실시간 결과 출력
-    └─▶ Replay / Backfill 검증
+    |
+    +--> 실시간 결과 출력
+    +--> Replay / Backfill 검증
 ```
 
 이 흐름은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장, 시간 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 추정, 상태 기반 집계, 재처리 가능성이 하나의 파이프라인으로 연결되는 구조를 보여준다.
@@ -210,7 +210,7 @@ Keyed Window State
 
 **진행 상황**: 179 / 258
 
-← **이전**: [178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)
-**다음**: [180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화](/knowledge-base/studynote/14_data_engineering/04_mlops/180_cdc_debezium_binlog_realtime_sync/) →
+<- **이전**: [178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)
+**다음**: [180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화](/knowledge-base/studynote/14_data_engineering/04_mlops/180_cdc_debezium_binlog_realtime_sync/) ->
 
 ---

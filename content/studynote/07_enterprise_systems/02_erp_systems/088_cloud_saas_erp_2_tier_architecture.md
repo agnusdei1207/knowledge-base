@@ -38,23 +38,23 @@ tags = ["enterprise_systems"]
 | <strong>유지보수(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>)</strong> | 내부 IT 조직이 전담 (고비용) | 구독료 지불, 벤더가 업데이트 (저비용) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    2-Tier ERP 데이터 동기화 아키텍처         │
-├──────────────────────────────────────────────────────────────┤
-│  [Tier 1: 본사 글로벌 ERP] (SAP S/4HANA, Oracle 등)          │
-│    ▲      │                                                  │
-│    │ 실적 │ 마스터 데이터 (품목, 고객, 환율 등) 하향 전파    │
-│    │ 결산 │ (MDM 통제)                                       │
-│    │ 상향 │                                                  │
-│    │      ▼                                                  │
-│ ┌─ API / EAI / Batch 연동 계층 ────────────────────────────┐ │
-│ │                                                            │ │
-│ │  ┌────────────┐   ┌────────────┐   ┌────────────┐        │ │
-│ │  │ Tier 2     │   │ Tier 2     │   │ Tier 2     │        │ │
-│ │  │ (A국 지사) │   │ (B국 지사) │   │ (C국 자회사│        │ │
-│ │  │ SaaS ERP   │   │ SaaS ERP   │   │ SaaS ERP   │        │ │
-│ │  └────────────┘   └────────────┘   └────────────┘        │ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    2-Tier ERP 데이터 동기화 아키텍처         |
++--------------------------------------------------------------+
+|  [Tier 1: 본사 글로벌 ERP] (SAP S/4HANA, Oracle 등)          |
+|    ^      |                                                  |
+|    | 실적 | 마스터 데이터 (품목, 고객, 환율 등) 하향 전파    |
+|    | 결산 | (MDM 통제)                                       |
+|    | 상향 |                                                  |
+|    |      v                                                  |
+| +- API / EAI / Batch 연동 계층 ----------------------------+ |
+| |                                                            | |
+| |  +------------+   +------------+   +------------+        | |
+| |  | Tier 2     |   | Tier 2     |   | Tier 2     |        | |
+| |  | (A국 지사) |   | (B국 지사) |   | (C국 자회사|        | |
+| |  | SaaS ERP   |   | SaaS ERP   |   | SaaS ERP   |        | |
+| |  +------------+   +------------+   +------------+        | |
++--------------------------------------------------------------+
 ```
 이 아키텍처가 굴러가기 위한 필수 원리는 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a> (Master <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> 이다. 본사가 품목 코드나 고객 코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 지사로 뿌려주어야만, 나중에 지사들이 올려보낸 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본사에서 깨짐 없이 합산(Consolidation)할 수 있다.
 
@@ -119,17 +119,17 @@ tags = ["enterprise_systems"]
 
 ```text
 Single Instance ERP (단일 글로벌 롤아웃) · 막대한 TCO 및 지연
-    │
-    ▼
+    |
+    v
 SaaS ERP의 성숙 (보안, 현지 규제 자동화)
-    │
-    ▼
+    |
+    v
 2-Tier ERP Architecture (본사 코어 통제 + 지사 민첩성 확보)
-    │
-    ▼
+    |
+    v
 Side-by-Side Extensibility (SaaS 코어는 건드리지 않고 외부 PaaS에서 확장 기능 개발)
-    │
-    ▼
+    |
+    v
 Composable ERP / Postmodern ERP (비즈니스 모듈별로 다양한 SaaS를 조립하여 사용)
 ```
 
@@ -145,7 +145,7 @@ Composable ERP / Postmodern ERP (비즈니스 모듈별로 다양한 SaaS를 조
 
 **진행 상황**: 88 / 482
 
-← **이전**: [87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
-**다음**: [89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/089_postmodern_erp_best_of_breed/) →
+<- **이전**: [87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
+**다음**: [89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/089_postmodern_erp_best_of_breed/) ->
 
 ---

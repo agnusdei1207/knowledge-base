@@ -23,11 +23,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 [배경 문제]
-    │
-    ▼
+    |
+    v
 [멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess Architecture)]
-    │
-    ▼
+    |
+    v
 [운영체제의 제어 가능성 향상]
 ```
 
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 | 결과/출력 | 사용자나 다른 하위 계층에 전달되는 효과 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 |
 
 ```text
-[입력] ──▶ [커널 처리] ──▶ [상태 갱신] ──▶ [결과]
+[입력] ---> [커널 처리] ---> [상태 갱신] ---> [결과]
 ```
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -100,12 +100,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [좀비 스레드 (Zombie Thread)]
-    │
-    ▼
+    |
+    v
 [멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess Architecture)]
-    │
-    ├──▶ [멀티스레드 아키텍처 오버헤드 (락 경합 등)]
-    └──▶ [액터 모델 (Actor Model)]
+    |
+    +---> [멀티스레드 아키텍처 오버헤드 (락 경합 등)]
+    +---> [액터 모델 (Actor Model)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -122,7 +122,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 137 / 800
 
-← **이전**: [136. 좀비 스레드 (Zombie Thread)](/knowledge-base/studynote/02_operating_system/02_process_thread/136_zombie_thread/)
-**다음**: [138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/) →
+<- **이전**: [136. 좀비 스레드 (Zombie Thread)](/knowledge-base/studynote/02_operating_system/02_process_thread/136_zombie_thread/)
+**다음**: [138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/) ->
 
 ---

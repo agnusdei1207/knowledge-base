@@ -35,42 +35,42 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│             Multi-Tier Data Lake 아키텍처                       │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [소스 시스템]                                                  │
-│  (DB, 이벤트, API, 파일)                                        │
-│          │ 수집 (Kafka / Spark / Airflow)                      │
-│          ▼                                                      │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥉 BRONZE LAYER                                          │  │
-│  │  - 원시 데이터 그대로 저장 (스키마 변경 없음)               │  │
-│  │  - append-only (삭제·수정 없음)                            │  │
-│  │  - 수집 타임스탬프 메타데이터 추가                          │  │
-│  │  예: s3://datalake/bronze/orders/2026/04/21/              │  │
-│  └──────────────────┬───────────────────────────────────────┘  │
-│                     │ 변환 (Spark, dbt)                        │
-│                     ▼                                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥈 SILVER LAYER                                          │  │
-│  │  - 중복 제거, null 처리, 타입 통일                         │  │
-│  │  - 테이블 조인, 비즈니스 키 정의                            │  │
-│  │  - SCD (Slowly Changing Dimension) 적용                   │  │
-│  │  예: Delta Table: sales.silver.orders_cleaned             │  │
-│  └──────────────────┬───────────────────────────────────────┘  │
-│                     │ 집계 (Spark SQL, dbt)                    │
-│                     ▼                                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥇 GOLD LAYER                                            │  │
-│  │  - 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)       │  │
-│  │  - Star/Snowflake 스키마 최적화                            │  │
-│  │  - BI 도구 직접 연결                                       │  │
-│  │  예: Delta Table: sales.gold.daily_revenue                │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                     │                                          │
-│            [BI / ML / 분석 소비자]                              │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|             Multi-Tier Data Lake 아키텍처                       |
++----------------------------------------------------------------+
+|                                                                |
+|  [소스 시스템]                                                  |
+|  (DB, 이벤트, API, 파일)                                        |
+|          | 수집 (Kafka / Spark / Airflow)                      |
+|          v                                                      |
+|  +----------------------------------------------------------+  |
+|  |  🥉 BRONZE LAYER                                          |  |
+|  |  - 원시 데이터 그대로 저장 (스키마 변경 없음)               |  |
+|  |  - append-only (삭제·수정 없음)                            |  |
+|  |  - 수집 타임스탬프 메타데이터 추가                          |  |
+|  |  예: s3://datalake/bronze/orders/2026/04/21/              |  |
+|  +------------------+---------------------------------------+  |
+|                     | 변환 (Spark, dbt)                        |
+|                     v                                          |
+|  +----------------------------------------------------------+  |
+|  |  🥈 SILVER LAYER                                          |  |
+|  |  - 중복 제거, null 처리, 타입 통일                         |  |
+|  |  - 테이블 조인, 비즈니스 키 정의                            |  |
+|  |  - SCD (Slowly Changing Dimension) 적용                   |  |
+|  |  예: Delta Table: sales.silver.orders_cleaned             |  |
+|  +------------------+---------------------------------------+  |
+|                     | 집계 (Spark SQL, dbt)                    |
+|                     v                                          |
+|  +----------------------------------------------------------+  |
+|  |  🥇 GOLD LAYER                                            |  |
+|  |  - 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)       |  |
+|  |  - Star/Snowflake 스키마 최적화                            |  |
+|  |  - BI 도구 직접 연결                                       |  |
+|  |  예: Delta Table: sales.gold.daily_revenue                |  |
+|  +----------------------------------------------------------+  |
+|                     |                                          |
+|            [BI / ML / 분석 소비자]                              |
++----------------------------------------------------------------+
 ```
 
 **계층별 상세 특성**
@@ -101,7 +101,7 @@ tags = ["studynote-bigdata"]
 **연관 기술 연결**
 
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a></strong>: Databricks에서 Bronze/Silver/Gold를 Delta Lake로 구현한 공식 패턴
-- <strong>dbt (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> build tool)</strong>: Silver→Gold 변환을 SQL로 선언적 구현
+- <strong>dbt (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> build tool)</strong>: Silver->Gold 변환을 SQL로 선언적 구현
 - **AutoLoader**: Bronze 계층에 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 적재
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> 도구 (Great Expectations, Soda)</strong>: Silver 계층 진입 시 품질 검사
 
@@ -145,7 +145,7 @@ tags = ["studynote-bigdata"]
 
 Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)의 핵심 설계 원칙으로, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Medallion Architecture로 표준화되어 있다. 기술사 시험에서는 **각 계층의 역할과 소비자 분리**, **Bronze의 append-only 원칙**, <strong>Silver의 품질 변환(<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a>·중복 제거)</strong>이 핵심 논점이다.
 
-> 📢 **섹션 요약 비유**: 다중 계층은 물 정수 시스템과 같다. 강물(Bronze)→ 1차 여과(Silver)→ 정수 완료(Gold) 단계를 거치면서 각 단계의 물 품질이 명확히 보장되고, 오염 단계를 즉시 특정할 수 있다.
+> 📢 **섹션 요약 비유**: 다중 계층은 물 정수 시스템과 같다. 강물(Bronze)-> 1차 여과(Silver)-> 정수 완료(Gold) 단계를 거치면서 각 단계의 물 품질이 명확히 보장되고, 오염 단계를 즉시 특정할 수 있다.
 
 ---
 
@@ -166,17 +166,17 @@ Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base
 
 ```text
 [단일 스토리지 한계]
-    │
-    ▼
+    |
+    v
 [Hot/Warm/Cold 티어 분류]
-    │
-    ▼
+    |
+    v
 [멀티 티어 아키텍처]
-    │
-    ▼
+    |
+    v
 [자동 라이프사이클 정책]
-    │
-    ▼
+    |
+    v
 [비용 최적화]
 ```
 
@@ -193,7 +193,7 @@ Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base
 
 **진행 상황**: 151 / 262
 
-← **이전**: [150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)
-**다음**: [152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층](/knowledge-base/studynote/16_bigdata/07_data_lake/152_medallion_architecture/) →
+<- **이전**: [150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)
+**다음**: [152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층](/knowledge-base/studynote/16_bigdata/07_data_lake/152_medallion_architecture/) ->
 
 ---

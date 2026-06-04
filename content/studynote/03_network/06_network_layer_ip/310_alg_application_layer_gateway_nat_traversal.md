@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [헤어핀 NAT]
-    │
-    ▼
+    |
+    v
 [ALG]
-    │
-    └──▶ [STUN, TURN, ICE]
+    |
+    +---> [STUN, TURN, ICE]
 ```
 
 - **📢 섹션 요약 비유**: ** ALG는 택배 상자 겉면(헤더)만 스캔하는 게 아니라 상자를 뜯어서 내용물에 적힌 보증서 주소(L7 페이로드)까지 일일이 수정 테이프로 지우고 **"공인 IP"로 새로 적어 넣는 극한의 스캔 검수반**입니다.
@@ -54,22 +54,22 @@ tags = ["studynote-network"]
 4. 이 주소는 사설 IP이므로 인터넷상에서 라우팅되지 못하고 쓰레기통에 폐기된다. <strong>사용자는 "<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 목록은 보이는데 다운로드가 안 눌려요!"라며 절규한다.</strong>
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ALG 모듈의 FTP 패킷 내용물(L7) 조작 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC (사설) ]  ────▶  [ 공유기 (ALG 작동 중!) ] ────▶ [ FTP 서버 ] │
- │                                                             │
- │   [ IP 헤더 (Src: 192.168.0.5) ]  │ (1) 헤더를 211.x 공인IP로 변환 │
- │   [ 페이로드 (PORT 192.168.0.5) ]   │ (2) 앗! 내용물도 192네? 변환!   │
- │                                                             │
- │                            ▼ 공유기 통과 후 변조된 패킷           │
- │                                                             │
- │   [ IP 헤더 (Src: 211.x.x.x 공인) ] ── (정상 변환)               │
- │   [ 페이로드 (PORT 211.x.x.x) ]      ── (ALG가 개입하여 화이트 칠함) │
- │                                                             │
- │   ▶ 결과: FTP 서버는 아무것도 모른 채 211.x.x.x로 데이터를 잘 쏴준다! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ALG 모듈의 FTP 패킷 내용물(L7) 조작 도식           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC (사설) ]  ----->  [ 공유기 (ALG 작동 중!) ] -----> [ FTP 서버 ] |
+ |                                                             |
+ |   [ IP 헤더 (Src: 192.168.0.5) ]  | (1) 헤더를 211.x 공인IP로 변환 |
+ |   [ 페이로드 (PORT 192.168.0.5) ]   | (2) 앗! 내용물도 192네? 변환!   |
+ |                                                             |
+ |                            v 공유기 통과 후 변조된 패킷           |
+ |                                                             |
+ |   [ IP 헤더 (Src: 211.x.x.x 공인) ] -- (정상 변환)               |
+ |   [ 페이로드 (PORT 211.x.x.x) ]      -- (ALG가 개입하여 화이트 칠함) |
+ |                                                             |
+ |   -> 결과: FTP 서버는 아무것도 모른 채 211.x.x.x로 데이터를 잘 쏴준다! |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. ALG의 부하와 수동 모드(Passive Mode)의 등장
@@ -136,12 +136,12 @@ ALG는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: 헤어핀 NAT]
-    │
-    ▼
+    |
+    v
 [현재 개념: ALG]
-    │
-    ├──▶ [확장 A: STUN, TURN, ICE]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: STUN, TURN, ICE]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 ALG는 헤어핀 NAT에서 출발해 현재 메커니즘을 정교화하고, 이후 STUN, TURN, ICE와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ ALG는 헤어핀 NAT에서 출발해 현재 메커니즘을 정교화하고, 이
 
 **진행 상황**: 431 / 1120
 
-← **이전**: [309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)](/knowledge-base/studynote/03_network/06_network_layer_ip/309_hairpin_nat_loopback/)
-**다음**: [311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)](/knowledge-base/studynote/03_network/06_network_layer_ip/311_stun_turn_ice_nat_traversal_webrtc/) →
+<- **이전**: [309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)](/knowledge-base/studynote/03_network/06_network_layer_ip/309_hairpin_nat_loopback/)
+**다음**: [311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)](/knowledge-base/studynote/03_network/06_network_layer_ip/311_stun_turn_ice_nat_traversal_webrtc/) ->
 
 ---

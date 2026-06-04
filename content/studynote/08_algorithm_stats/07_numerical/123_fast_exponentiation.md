@@ -21,13 +21,13 @@ tags = ["studynote-algorithm-stats"]
 ```
 나이브한 방법 (O(b)):
   a^8 = a × a × a × a × a × a × a × a
-  → 7번 곱셈 (b-1번)
+  -> 7번 곱셈 (b-1번)
 
 반복 제곱법 원리:
   a^8 = (a^4)^2 = ((a^2)^2)^2
 
-  a^1 → a^2(제곱) → a^4(제곱) → a^8(제곱)
-  → 3번 곱셈 (log₂ 8 = 3)
+  a^1 -> a^2(제곱) -> a^4(제곱) -> a^8(제곱)
+  -> 3번 곱셈 (log₂ 8 = 3)
 
 일반화 (이진 지수):
   b = 13 = 1101₂ = 8 + 4 + 1
@@ -41,7 +41,7 @@ tags = ["studynote-algorithm-stats"]
   a^8 = (a^4)^2
 
   b의 이진수 표현의 각 비트가 1인 위치의 값 곱하기
-  → 곱셈 횟수 = log₂(b) + popcount(b) - 1 ≈ O(log b)
+  -> 곱셈 횟수 = log₂(b) + popcount(b) - 1 ≈ O(log b)
 
 구현:
 
@@ -68,7 +68,7 @@ tags = ["studynote-algorithm-stats"]
   a^1000000:
   나이브: 999,999번 곱셈
   반복 제곱: 20번 (log₂ 1,000,000 ≈ 20)
-  → 50,000배 빠름
+  -> 50,000배 빠름
 ```
 
 > 📢 **섹션 요약 비유**: 반복 제곱법 = 종이 접기 — 종이 한 번 접으면 2배, 두 번 4배, 10번 1024배. a^1024는 1023번 곱하기 대신 10번 제곱으로! 이진수가 핵심!
@@ -84,12 +84,12 @@ tags = ["studynote-algorithm-stats"]
   나이브 문제:
   a = 2, b = 1000, m = 10^9 + 7
   a^b = 2^1000 = 10^301 자리 수!
-  → 메모리, 처리 불가
+  -> 메모리, 처리 불가
 
 핵심 성질:
   (a × b) mod m = ((a mod m) × (b mod m)) mod m
 
-  → 각 단계에서 mod 취하면 수의 크기를 m 이하로 유지
+  -> 각 단계에서 mod 취하면 수의 크기를 m 이하로 유지
 
 모듈러 거듭제곱 구현:
   def mod_pow(a, b, m):
@@ -147,7 +147,7 @@ RSA 암호화:
   [1 1]^n = 행렬 A의 n제곱
   [1 0]
 
-  A^n을 빠른 거듭제곱으로 계산 → O(log n)
+  A^n을 빠른 거듭제곱으로 계산 -> O(log n)
 
 구현:
   def mat_mul(A, B, mod):
@@ -181,7 +181,7 @@ RSA 암호화:
 응용:
   선형 점화식 일반 풀이:
   a[n] = c1*a[n-1] + c2*a[n-2] + ... + ck*a[n-k]
-  → k×k 행렬 거듭제곱으로 O(k³ log n) 해결
+  -> k×k 행렬 거듭제곱으로 O(k³ log n) 해결
 
   타일링 문제, 계단 오르기, 경로 수 계산...
 ```
@@ -195,11 +195,11 @@ RSA 암호화:
 ```
 패턴 1: 대용량 거듭제곱 mod p
   문제: a^b mod (10^9+7) 계산 (b ≤ 10^18)
-  → pow(a, b, 10**9+7)
+  -> pow(a, b, 10**9+7)
 
 패턴 2: 모듈러 역원 (Modular Inverse)
   a^(p-2) mod p = a의 역원 (페르마 소정리, p는 소수)
-  → pow(a, p-2, p)
+  -> pow(a, p-2, p)
 
 패턴 3: 이항계수 mod p
   C(n, k) mod p:
@@ -215,15 +215,15 @@ RSA 암호화:
 
 패턴 5: 경우의 수 mod p (곱의 역원)
   P(n, k) = n! / (n-k)!
-  → fact[n] * pow(fact[n-k], MOD-2, MOD) % MOD
+  -> fact[n] * pow(fact[n-k], MOD-2, MOD) % MOD
 
 주의사항:
-  Python pow(a, b, m)은 C 최적화됨 → 빠름
+  Python pow(a, b, m)은 C 최적화됨 -> 빠름
   직접 구현보다 pow() 내장 우선 사용
 
   mod 연산: 각 단계에서 취하지 않으면 수 폭발
   a = 2, b = 10^18, mod 없으면:
-  → 10^(3×10^17) 자리 수 → 불가능
+  -> 10^(3×10^17) 자리 수 -> 불가능
 ```
 
 > 📢 **섹션 요약 비유**: 코딩테스트 거듭제곱 패턴 — "큰 수 mod p" = pow(a,b,m). "모듈러 역원" = pow(a,p-2,p). "이항계수" = 팩토리얼 × 역원×역원. 3가지 패턴 암기로 80% 해결!
@@ -248,7 +248,7 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
 
   k의 이진수 표현에서:
   각 비트: 0이면 2배(Double), 1이면 2배 후 덧셈(Add)
-  → O(log k) 번 연산
+  -> O(log k) 번 연산
 
 서명 검증 과정:
   1. 서명 (r, s) 수신
@@ -267,7 +267,7 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
   블록 1개 ~2000 거래 검증: 수 초
 
 결론:
-  고대 반복 제곱법 → 현대 블록체인 보안의 기반
+  고대 반복 제곱법 -> 현대 블록체인 보안의 기반
   RSA 암호화, ECDSA, ECC 모두 빠른 거듭제곱 필수
 ```
 
@@ -338,7 +338,7 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
 
 **진행 상황**: 123 / 175
 
-← **이전**: [003. 소수 판별 — Primality Test](/knowledge-base/studynote/08_algorithm_stats/07_numerical/122_primality_test/)
-**다음**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/) →
+<- **이전**: [003. 소수 판별 — Primality Test](/knowledge-base/studynote/08_algorithm_stats/07_numerical/122_primality_test/)
+**다음**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/) ->
 
 ---

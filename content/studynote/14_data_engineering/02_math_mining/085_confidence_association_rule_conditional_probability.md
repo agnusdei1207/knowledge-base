@@ -32,8 +32,8 @@ tags = ["math-mining", "studynote-data-engineering"]
 기본 공식은 `confidence(X -> Y) = support(X ∩ Y) / support(X) = P(Y|X)`다. Support는 전체 거래 중 X와 Y가 함께 나온 비율이고, Lift는 실제 동시 발생이 우연 대비 얼마나 강한지 보여 준다. Confidence는 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)이므로, 후건 Y의 기본 등장률이 높으면 과대평가되기 쉽다.
 
 ```text
-X 발생 ─┬─ Y 발생
-       └─ Y 미발생
+X 발생 -+- Y 발생
+       +- Y 미발생
 confidence = count(X∩Y) / count(X)
 ```
 
@@ -108,15 +108,15 @@ Confidence를 이해하면 [연관 규칙](/knowledge-base/studynote/16_bigdata/
 
 ```text
 거래 데이터
-   ↓
+   v
 항목 빈도 계산
-   ↓
+   v
 연관 규칙 후보 생성
-   ↓
+   v
 Support / Confidence / Lift 평가
-   ↓
+   v
 규칙 필터링
-   ↓
+   v
 실무 적용
 ```
 
@@ -132,7 +132,7 @@ Support / Confidence / Lift 평가
 
 **진행 상황**: 85 / 258
 
-← **이전**: [84. 지지도 (Support) - 연관 규칙 평가 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)
-**다음**: [86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) →
+<- **이전**: [84. 지지도 (Support) - 연관 규칙 평가 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)
+**다음**: [86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ->
 
 ---

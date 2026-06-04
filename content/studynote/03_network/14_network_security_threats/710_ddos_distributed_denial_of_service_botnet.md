@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DoS]
-    │
-    ▼
+    |
+    v
 [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    └──▶ [SYN Flood 공격]
+    |
+    +---> [SYN Flood 공격]
 ```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [DoS]
-    │
-    ▼
+    |
+    v
 [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    └──▶ [SYN Flood 공격]
+    |
+    +---> [SYN Flood 공격]
 ```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DoS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    ├──▶ [확장 A: SYN Flood 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SYN Flood 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 DoS에서 출발해 현재 메커니즘을 정교화하고, 이후 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 831 / 1120
 
-← **이전**: [709. DoS (Denial of Service 가용성 타격 위협 목적)](/knowledge-base/studynote/03_network/14_network_security_threats/709_dos_denial_of_service_availability/)
-**다음**: [711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)](/knowledge-base/studynote/03_network/14_network_security_threats/711_syn_flood_attack_backlog_queue/) →
+<- **이전**: [709. DoS (Denial of Service 가용성 타격 위협 목적)](/knowledge-base/studynote/03_network/14_network_security_threats/709_dos_denial_of_service_availability/)
+**다음**: [711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)](/knowledge-base/studynote/03_network/14_network_security_threats/711_syn_flood_attack_backlog_queue/) ->
 
 ---

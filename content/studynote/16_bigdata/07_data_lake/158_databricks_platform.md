@@ -37,35 +37,35 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│               Databricks Lakehouse Platform                       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              사용자 인터페이스 레이어                      │    │
-│  │  Notebooks │ Databricks SQL │ ML Experiments │ Workflows │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              컴퓨팅 레이어                                │    │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │    │
-│  │  │ All-Purpose  │  │ Job Cluster  │  │  SQL          │   │    │
-│  │  │ Cluster      │  │  (배치 전용) │  │  Warehouse   │   │    │
-│  │  │ (개발/탐색)   │  │              │  │  (BI 전용)   │   │    │
-│  │  └──────────────┘  └──────────────┘  └──────────────┘   │    │
-│  │           Apache Spark + Photon Engine (C++ 벡터화)      │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              데이터/ML 레이어                              │    │
-│  │  Delta Lake │ Unity Catalog │ MLflow │ Feature Store     │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              클라우드 스토리지 레이어                      │    │
-│  │   AWS S3  │  Azure ADLS Gen2  │  Google Cloud Storage    │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|               Databricks Lakehouse Platform                       |
++------------------------------------------------------------------+
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |              사용자 인터페이스 레이어                      |    |
+|  |  Notebooks | Databricks SQL | ML Experiments | Workflows |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |              컴퓨팅 레이어                                |    |
+|  |  +--------------+  +--------------+  +--------------+   |    |
+|  |  | All-Purpose  |  | Job Cluster  |  |  SQL          |   |    |
+|  |  | Cluster      |  |  (배치 전용) |  |  Warehouse   |   |    |
+|  |  | (개발/탐색)   |  |              |  |  (BI 전용)   |   |    |
+|  |  +--------------+  +--------------+  +--------------+   |    |
+|  |           Apache Spark + Photon Engine (C++ 벡터화)      |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |              데이터/ML 레이어                              |    |
+|  |  Delta Lake | Unity Catalog | MLflow | Feature Store     |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |              클라우드 스토리지 레이어                      |    |
+|  |   AWS S3  |  Azure ADLS Gen2  |  Google Cloud Storage    |    |
+|  +---------------------------------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 **핵심 제품·기능 상세**
@@ -138,7 +138,7 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 | 효과 | 내용 |
 |:---|:---|
 | 통합 플랫폼 효율 | 여러 도구 연동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 제거, 단일 보안·거버넌스 |
-| ML 가속 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Feature Store로 ML 실험→배포 사이클 단축 |
+| ML 가속 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Feature Store로 ML 실험->배포 사이클 단축 |
 | 비용 최적화 | [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + Spot 인스턴스 + 작업 완료 종료 |
 | 오픈 포맷 | Delta/Iceberg로 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 최소화 |
 
@@ -166,17 +166,17 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
 
 ```text
 [Apache Spark — 인메모리 분산 처리 엔진, 배치·스트림 통합]
-    │
-    ▼
+    |
+    v
 [Databricks (Managed Spark) — Spark 완전 관리형 클라우드 플랫폼, 자동 최적화]
-    │
-    ▼
+    |
+    v
 [Delta Lake — ACID 트랜잭션·스키마 진화·타임 트래블 지원 오픈 테이블 포맷]
-    │
-    ▼
+    |
+    v
 [레이크하우스 (Lakehouse) — 데이터 레이크의 유연성 + 데이터 웨어하우스의 ACID·성능 통합]
-    │
-    ▼
+    |
+    v
 [Unity Catalog + MLflow — 데이터·모델 거버넌스 통합, 엔드투엔드 AI/ML 파이프라인]
 ```
 이 흐름은 순수 Spark 엔진이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 보장의 한계를 드러내자 Delta Lake의 ACID가 이를 보완하고, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 통합 거버넌스로 발전하는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼의 진화 계보를 보여준다.
@@ -192,7 +192,7 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
 
 **진행 상황**: 158 / 262
 
-← **이전**: [157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc](/knowledge-base/studynote/16_bigdata/07_data_lake/157_data_analysis_services/)
-**다음**: [159. Snowflake on Data Lake — External Table과 Iceberg 지원](/knowledge-base/studynote/16_bigdata/07_data_lake/159_snowflake_data_lake/) →
+<- **이전**: [157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc](/knowledge-base/studynote/16_bigdata/07_data_lake/157_data_analysis_services/)
+**다음**: [159. Snowflake on Data Lake — External Table과 Iceberg 지원](/knowledge-base/studynote/16_bigdata/07_data_lake/159_snowflake_data_lake/) ->
 
 ---

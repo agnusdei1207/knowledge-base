@@ -32,18 +32,18 @@ SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_el
 SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 핵심은 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Edge-Triggered)다. 입력 S와 R은 클럭이 활성되는 찰나에만 출력 Q를 바꾸고, 그 외의 시간에는 내부 상태를 유지한다. 내부적으로는 두 래치를 엇갈리게 연결한 마스터-슬레이브 (Master-Slave) 구조나 [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) 구조를 사용할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SR 플립플롭의 상태 갱신 규칙                │
-├──────────────────────────────────────────────────────────────┤
-│ CLK 에지에서만 S/R 평가                                     │
-│                                                              │
-│ S  R  | Q(next) | 의미                                       │
-│ ------+---------+------------------------------------------  │
-│ 0  0  |   Q     | 유지                                       │
-│ 1  0  |   1     | Set                                        │
-│ 0  1  |   0     | Reset                                      │
-│ 1  1  |   ?     | 금지 상태 (불능/불확정)                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 SR 플립플롭의 상태 갱신 규칙                |
++--------------------------------------------------------------+
+| CLK 에지에서만 S/R 평가                                     |
+|                                                              |
+| S  R  | Q(next) | 의미                                       |
+| ------+---------+------------------------------------------  |
+| 0  0  |   Q     | 유지                                       |
+| 1  0  |   1     | Set                                        |
+| 0  1  |   0     | Reset                                      |
+| 1  1  |   ?     | 금지 상태 (불능/불확정)                    |
++--------------------------------------------------------------+
 ```
 
 | 항목 | 의미 | 설계 포인트 |
@@ -123,17 +123,17 @@ SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_el
 
 ```text
 SR 래치 (Set-Reset Latch)
-    │
-    ▼
+    |
+    v
 SR 플립플롭 (Set-Reset Flip-Flop)
-    │
-    ▼
+    |
+    v
 JK 플립플롭 (JK Flip-Flop)
-    │
-    ▼
+    |
+    v
 D 플립플롭 (D Flip-Flop)
-    │
-    ▼
+    |
+    v
 레지스터 (Register) · 파이프라인 (Pipeline)
 ```
 
@@ -151,7 +151,7 @@ D 플립플롭 (D Flip-Flop)
 
 **진행 상황**: 52 / 803
 
-← **이전**: [51. 플립플롭 (Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
-**다음**: [53. D 플립플롭 (D Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/) →
+<- **이전**: [51. 플립플롭 (Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
+**다음**: [53. D 플립플롭 (D Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/) ->
 
 ---

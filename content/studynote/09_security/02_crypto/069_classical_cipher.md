@@ -31,9 +31,9 @@ tags = ["studynote-security"]
 
 ```text
 Plaintext
-  ↓
+  v
 Substitution / Transposition
-  ↓
+  v
 Ciphertext
 ```
 
@@ -104,11 +104,11 @@ Ciphertext
 
 ```text
 Plaintext
-  ↓
+  v
 Classical Cipher
-  ↓
+  v
 Substitution / Transposition
-  ↓
+  v
 Modern Cryptography
 ```
 
@@ -118,11 +118,11 @@ Modern Cryptography
 
 ```text
 Classical Cipher
-  ↓
+  v
 Frequency Analysis
-  ↓
+  v
 Modern Cipher
-  ↓
+  v
 Cryptography
 ```
 
@@ -140,7 +140,7 @@ Cryptography
 
 **진행 상황**: 69 / 1108
 
-← **이전**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/)
-**다음**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/) →
+<- **이전**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/)
+**다음**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/) ->
 
 ---

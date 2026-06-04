@@ -31,7 +31,7 @@ L5: 완전 자율 (모든 조건, 핸들 불필요)
 
 ## Ⅱ~Ⅴ. 결론
 
-SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</strong>이며, L3→L4 전환이 현재 산업의 핵심 과제이다.
+SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</strong>이며, L3->L4 전환이 현재 산업의 핵심 과제이다.
 
 ---
 
@@ -48,10 +48,10 @@ SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</s
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[L1 크루즈컨트롤 (2000s)] → [L2 ADAS (Tesla AP, 2015)]
-    → [L3 조건부 자율 (Mercedes, 2023)]
-    → [L4 로보택시 (Waymo, 2024)]
-    → [현재: L5 연구 — 범용 자율주행 (미달성)]
+[L1 크루즈컨트롤 (2000s)] -> [L2 ADAS (Tesla AP, 2015)]
+    -> [L3 조건부 자율 (Mercedes, 2023)]
+    -> [L4 로보택시 (Waymo, 2024)]
+    -> [현재: L5 연구 — 범용 자율주행 (미달성)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</s
 
 **진행 상황**: 135 / 552
 
-← **이전**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/)
-**다음**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/) →
+<- **이전**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/)
+**다음**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/) ->
 
 ---

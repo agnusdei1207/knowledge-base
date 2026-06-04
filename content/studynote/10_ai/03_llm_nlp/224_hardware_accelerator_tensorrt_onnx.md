@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이 절박함에서 탄생한 것이 서로 다른 프레임워크 간의 번역기인 <strong>ONNX (Open Neural Network Exchange)</strong>와, 그 번역된 모델을 NVIDIA GPU의 영혼까지 끌어내어 미친 듯이 가속시키는 **TensorRT** [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PyTorch 모델은 '이케아 조립식 가구'다. 부품을 떼었다 붙였다(학습) 하기엔 너무 편하지만, 매번 나사를 조이고 흔들거려서 실전에서 타고 다니기엔 위험하다. ONNX는 이 가구의 '전 세계 공통 설계도'다. TensorRT는 이 설계도를 받아서, 쓸데없는 나사들을 다 용접해 버리고 가장 가벼운 카본 소재([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))로 깎아내어 <strong>실전 레이싱용 스포츠카(Inference 엔진)</strong>로 완벽하게 개조해 버리는 궁극의 튜닝 공장이다.
@@ -45,28 +45,28 @@ tags = ["studynote-ai"]
 개발자의 PyTorch 코드가 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 실전 엔진(TensorRT)으로 변환되는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 서빙 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 2단계 컴파일 과정을 거친다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           PyTorch ─▶ ONNX ─▶ TensorRT 가속 변환 아키텍처 도해           │
-├──────────────────────────────────────────────────────────────┤
-│  [1단계: 표준 포맷 변환 (Export to ONNX)]                        │
-│   * 입력: 무겁고 복잡한 PyTorch (또는 TensorFlow) 모델 (`.pt` 파일)  │
-│   * 변환: PyTorch의 뇌 구조(연산 그래프)를 전 세계 표준어인 ONNX로 번역! │
-│   ─▶ 출력: `model.onnx` (프레임워크에 종속되지 않는 깔끔한 설계도 완성)  │
-│                                                              │
-│  [2단계: 하드웨어 극한 튜닝 (TensorRT Compilation)]               │
-│   * 입력: `model.onnx` 파일을 NVIDIA TensorRT 컴파일러에 쑤셔 넣음.      │
-│                                                              │
-│   ▼ [TensorRT의 3대 흑마술 발동]                                 │
-│     1. Layer Fusion (층 융합): Conv층 + BatchNorm층 + ReLU층을      │
-│        각각 계산 안 하고 1개의 거대한 수학 공식으로 합체! (메모리 I/O 박살)│
-│     2. Precision Calibration (양자화): FP32(32비트)를 INT8(8비트)로 │
-│        압축! 정확도는 1% 떨어지는데 속도는 4배 폭발!                   │
-│     3. Kernel Auto-Tuning: "지금 이 모델 돌릴 GPU가 T4야? A100이야?" │
-│        하드웨어 칩셋에 제일 잘 맞는 알고리즘을 지가 알아서 테스트하고 고름!   │
-│                                                              │
-│  [최종 배포: Inference Engine]                                  │
-│   ─▶ 출력: `model.trt` (오직 추론 속도만을 위해 태어난 괴물 엔진 파일 완성)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           PyTorch --> ONNX --> TensorRT 가속 변환 아키텍처 도해           |
++--------------------------------------------------------------+
+|  [1단계: 표준 포맷 변환 (Export to ONNX)]                        |
+|   * 입력: 무겁고 복잡한 PyTorch (또는 TensorFlow) 모델 (`.pt` 파일)  |
+|   * 변환: PyTorch의 뇌 구조(연산 그래프)를 전 세계 표준어인 ONNX로 번역! |
+|   --> 출력: `model.onnx` (프레임워크에 종속되지 않는 깔끔한 설계도 완성)  |
+|                                                              |
+|  [2단계: 하드웨어 극한 튜닝 (TensorRT Compilation)]               |
+|   * 입력: `model.onnx` 파일을 NVIDIA TensorRT 컴파일러에 쑤셔 넣음.      |
+|                                                              |
+|   v [TensorRT의 3대 흑마술 발동]                                 |
+|     1. Layer Fusion (층 융합): Conv층 + BatchNorm층 + ReLU층을      |
+|        각각 계산 안 하고 1개의 거대한 수학 공식으로 합체! (메모리 I/O 박살)|
+|     2. Precision Calibration (양자화): FP32(32비트)를 INT8(8비트)로 |
+|        압축! 정확도는 1% 떨어지는데 속도는 4배 폭발!                   |
+|     3. Kernel Auto-Tuning: "지금 이 모델 돌릴 GPU가 T4야? A100이야?" |
+|        하드웨어 칩셋에 제일 잘 맞는 알고리즘을 지가 알아서 테스트하고 고름!   |
+|                                                              |
+|  [최종 배포: Inference Engine]                                  |
+|   --> 출력: `model.trt` (오직 추론 속도만을 위해 태어난 괴물 엔진 파일 완성)|
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (Layer Fusion과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Auto-Tuning)</strong>:
@@ -139,7 +139,7 @@ TensorRT와 ONNX 생태계는 무겁고 느려터진 [인공지능](/knowledge-b
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [하드웨어 가속 컴파일러 (TensorRT / ONNX)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [하드웨어 가속 컴파일러 (TensorRT / ONNX)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ TensorRT와 ONNX 생태계는 무겁고 느려터진 [인공지능](/knowledge-b
 
 **진행 상황**: 224 / 420
 
-← **이전**: [223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)](/knowledge-base/studynote/10_ai/03_llm_nlp/223_kv_cache_pagedattention/)
-**다음**: [225. 환각 정량 측정 프레임워크 (RAGAS)](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) →
+<- **이전**: [223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)](/knowledge-base/studynote/10_ai/03_llm_nlp/223_kv_cache_pagedattention/)
+**다음**: [225. 환각 정량 측정 프레임워크 (RAGAS)](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) ->
 
 ---

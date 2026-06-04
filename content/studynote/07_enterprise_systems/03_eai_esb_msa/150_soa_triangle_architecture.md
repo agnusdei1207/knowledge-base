@@ -39,32 +39,32 @@ tags = ["studynote-enterprise-systems"]
 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)앵글의 마법은 개발 코딩 시점(Static)이 아니라, 시스템이 돌아가는 '런타임(Runtime)' 찰나에 모든 주소가 낚아채지는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩(Late Binding)에 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         SOA 3요소 트라이앵글: Publish ➔ Find ➔ Bind 런타임 동적(Dynamic) 도해 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 🗂️ [ 1. Service Registry (UDDI / 배민 앱 중앙 도서관) ]            │
-  │   - 저장소: [서비스 이름: 연봉계산기] | [스펙: WSDL 문서] | [현재 IP: 10.1.1.2]│
-  │                                                             │
-  │       (2. Find 검색 🔍)  ↗️               ↖️ (1. Publish 등록 📢)│
-  │                          /                    \             │
-  │                         /                      \            │
-  │ 👨‍💻 [ 3. Service Requester ]  ──(3. Bind 호출 ⚡)──▶ 🛠️ [ 2. Service Provider ]│
-  │     (서비스 요청자 / 소비자)                           (서비스 제공자 / 백엔드)│
-  │                                                             │
-  │        ======= [ 🚀 런타임(Runtime) 0.1초 컷 핑퐁 시나리오 ] ========│
-  │                                                             │
-  │ 1️⃣ [ Publish ]: 백엔드 팀 왈 "야 나 오늘 `환율 계산 API` v2.0 새로 런칭함! │
-  │     내 최신 IP랑 리턴 값 규격(WSDL) 중앙 UDDI 장부에 덮어쓰기(Publish) 쾅!"   │
-  │                                                             │
-  │ 2️⃣ [ Find ]: 쇼핑몰(Requester) 왈 "어? 결제해야 하는데 환율 계산기 어딨지? │
-  │     UDDI야! `환율 계산` 이란 이름 가진 놈 현재 IP 좀 (Find) 줘봐!"         │
-  │     ➔ UDDI: "ㅇㅇ 아까 등록된 10.1.1.2 핑 쓩!"                         │
-  │                                                             │
-  │ 3️⃣ [ Bind & Invoke ]: 쇼핑몰 왈 "오케이 주소 땄다! 자 이제 도서관 넌 빠져 ㅋ. │
-  │     야 10.1.1.2 (Provider)! 내가 다이렉트로(Bind) SOAP XML 봉투에 데이터  │
-  │     담아 쏠 테니까 1,000달러 원화로 계산해서 빨리 뱉어내 쾅!!!"                │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         SOA 3요소 트라이앵글: Publish ➔ Find ➔ Bind 런타임 동적(Dynamic) 도해 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 🗂️ [ 1. Service Registry (UDDI / 배민 앱 중앙 도서관) ]            |
+  |   - 저장소: [서비스 이름: 연봉계산기] | [스펙: WSDL 문서] | [현재 IP: 10.1.1.2]|
+  |                                                             |
+  |       (2. Find 검색 🔍)  ↗️               ↖️ (1. Publish 등록 📢)|
+  |                          /                    \             |
+  |                         /                      \            |
+  | 👨‍💻 [ 3. Service Requester ]  --(3. Bind 호출 ⚡)---> 🛠️ [ 2. Service Provider ]|
+  |     (서비스 요청자 / 소비자)                           (서비스 제공자 / 백엔드)|
+  |                                                             |
+  |        ======= [ 🚀 런타임(Runtime) 0.1초 컷 핑퐁 시나리오 ] ========|
+  |                                                             |
+  | 1️⃣ [ Publish ]: 백엔드 팀 왈 "야 나 오늘 `환율 계산 API` v2.0 새로 런칭함! |
+  |     내 최신 IP랑 리턴 값 규격(WSDL) 중앙 UDDI 장부에 덮어쓰기(Publish) 쾅!"   |
+  |                                                             |
+  | 2️⃣ [ Find ]: 쇼핑몰(Requester) 왈 "어? 결제해야 하는데 환율 계산기 어딨지? |
+  |     UDDI야! `환율 계산` 이란 이름 가진 놈 현재 IP 좀 (Find) 줘봐!"         |
+  |     ➔ UDDI: "ㅇㅇ 아까 등록된 10.1.1.2 핑 쓩!"                         |
+  |                                                             |
+  | 3️⃣ [ Bind & Invoke ]: 쇼핑몰 왈 "오케이 주소 땄다! 자 이제 도서관 넌 빠져 ㅋ. |
+  |     야 10.1.1.2 (Provider)! 내가 다이렉트로(Bind) SOAP XML 봉투에 데이터  |
+  |     담아 쏠 테니까 1,000달러 원화로 계산해서 빨리 뱉어내 쾅!!!"                |
+  +-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/">3대 쇳덩이 표준 헌법: [WSDL</a>, <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/">SOAP</a>, UDDI의 3각 동맹]</strong>
@@ -150,17 +150,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 모놀리식 / P2P 강결합 점대점 하드코딩 쇳덩이 지옥 💀 / 타 부서 서버 IP 바뀔 때마다 내 코드 100군데 밤새 수정하고 재배포 치다 타 죽음 💥
-    │
-    ▼
+    |
+    v
 SOA 3요소 트라이앵글 대관식 ✨ / IP 하드코딩 사살! "도서관(Registry)에 Publish 치고, 런타임에 Find 해서, 다이렉트 P2P로 Bind 꽂아라 쾅!!" ➔ 동적 지연 바인딩(Late Binding) 무결점 회피 기동 록온 완료
-    │
-    ▼
+    |
+    v
 XML / SOAP 뚱뚱한 껍데기 오버헤드 + UDDI 관료제 갱신 지연 랙(Cache Stale) 병목 붕괴 파국 💀
-    │
-    ▼
+    |
+    v
 MSA 마이크로서비스 JSON/REST API 나노 다이어트 다이내믹 찢기 칼질 🚀
-    │
-    ▼
+    |
+    v
 K8s 클라우드 Service Discovery + API Gateway 대통일 / "야 개발자야 넌 Find & Bind 로직 아예 코드 1줄도 짜지 마 ㅋ 인프라 껍데기(Proxy) 봇한테 통신망 라우팅 짬처리 오프로딩(Off-load) 시켜 100% 완벽 자율 융합 쳐버림 쾅!!"
 ```
 
@@ -176,7 +176,7 @@ K8s 클라우드 Service Discovery + API Gateway 대통일 / "야 개발자야 �
 
 **진행 상황**: 150 / 482
 
-← **이전**: [149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/149_service_characteristics_soa/)
-**다음**: [151. UDDI (Universal Description, Discovery and Integration) - SOA 서비스 레지스트리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/151_uddi_universal_description_discovery_integration/) →
+<- **이전**: [149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/149_service_characteristics_soa/)
+**다음**: [151. UDDI (Universal Description, Discovery and Integration) - SOA 서비스 레지스트리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/151_uddi_universal_description_discovery_integration/) ->
 
 ---

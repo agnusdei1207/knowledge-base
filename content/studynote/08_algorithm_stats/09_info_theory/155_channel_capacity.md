@@ -54,12 +54,12 @@ C = B · log₂(1 + S/N)   [bits/s]
 
 ```
        신호 X                   수신 신호 Y
-   ┌──────────┐   +잡음 N(0,σ²)   ┌──────────┐
-   │  송신기   │─────────────────►│  수신기   │
-   └──────────┘                   └──────────┘
-         │                              │
+   +----------+   +잡음 N(0,σ^)   +----------+
+   |  송신기   |-----------------►|  수신기   |
+   +----------+                   +----------+
+         |                              |
     P(X) 최적화                   I(X;Y) 계산
-    ─────────────────────────────────────
+    -------------------------------------
     C = max I(X;Y)
 ```
 
@@ -74,11 +74,11 @@ C = B · log₂(1 + S/N)   [bits/s]
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> (Binary Symmetric Channel, 이진 대칭 채널)</strong>:
 
 ```
-  0 ────(1-p)──► 0
-    ╲─────p────► 1
+  0 ----(1-p)--► 0
+    ╲-----p----► 1
 
-  1 ────(1-p)──► 1
-    ╲─────p────► 0
+  1 ----(1-p)--► 1
+    ╲-----p----► 0
 
 C_BSC = 1 - H_b(p)   여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)
 ```
@@ -86,11 +86,11 @@ C_BSC = 1 - H_b(p)   여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)
 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/">BEC</a> (Binary Erasure Channel, 이진 소거 채널)</strong>:
 
 ```
-  0 ──(1-ε)──► 0
-    ╲──(ε)───► ? (소거)
+  0 --(1-ε)--► 0
+    ╲--(ε)---► ? (소거)
 
-  1 ──(1-ε)──► 1
-    ╲──(ε)───► ? (소거)
+  1 --(1-ε)--► 1
+    ╲--(ε)---► ? (소거)
 
 C_BEC = 1 - ε
 ```
@@ -101,18 +101,18 @@ BEC는 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_
 
 ```
 용량 C [bits/s]
-   ▲
-   │        ─ ─ ─ ─ ─   (SNR ↑)
-   │      ─ ─ ─ ─ ─
-   │    ─ ─ ─ ─ ─         B 증가: 선형 이득
-   │  ─ ─ ─ ─
-   └────────────────────► 대역폭 B [Hz]
+   ^
+   |        - - - - -   (SNR ^)
+   |      - - - - -
+   |    - - - - -         B 증가: 선형 이득
+   |  - - - -
+   +--------------------► 대역폭 B [Hz]
 
 SNR 증가: 로그 이득 (수확 체감)
 ```
 
-- B를 2배로 → C도 약 2배 (선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
-- SNR을 2배로 → C는 1 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 증가 ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
+- B를 2배로 -> C도 약 2배 (선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
+- SNR을 2배로 -> C는 1 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 증가 ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
 
 실무적 시사점: 고SNR 환경에서는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장이 더 효율적.
 
@@ -136,7 +136,7 @@ SNR 증가: 로그 이득 (수확 체감)
 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">Multiple-Input Multiple-Output</a>)</strong> 에서 N_T 송신, N_R 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/):
 
 ```
-C_MIMO = Σᵢ log₂(1 + λᵢ·P/(N_T·σ²))
+C_MIMO = Σᵢ log₂(1 + λᵢ·P/(N_T·σ^))
 ```
 
 여기서 λᵢ는 채널 행렬 H의 특이값 (Singular Values). [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)로 용량을 min(N_T, N_R)배 확장 가능.
@@ -149,7 +149,7 @@ C_MIMO = Σᵢ log₂(1 + λᵢ·P/(N_T·σ²))
 
 ### [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크 설계 시나리오
 
-목표: 1km² 셀에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
+목표: 1km^ 셀에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
 
 ```
 필요 조건:
@@ -206,14 +206,14 @@ Massive MIMO 32×32 = 최대 32개 스트림:
 
 ```text
 [신호대잡음비 (SNR, Signal-to-Noise Ratio)]
-    │
-    ▼
+    |
+    v
 [섀넌 용량 (Shannon Capacity)]
-    │
-    ▼
+    |
+    v
 [채널 부호화 (Channel Coding)]
-    │
-    ▼
+    |
+    v
 [오류 정정 (Error Correction)]
 ```
 
@@ -230,7 +230,7 @@ Massive MIMO 32×32 = 최대 32개 스트림:
 
 **진행 상황**: 155 / 175
 
-← **이전**: [5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)
-**다음**: [7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/) →
+<- **이전**: [5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)
+**다음**: [7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/) ->
 
 ---

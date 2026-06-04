@@ -28,19 +28,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 다단계가 필요한지를 보여준다. 코드·힙·스택처럼 일부 구간만 쓰는 프로세스라면, 빈 가상 주소 구간의 하위 테이블은 아예 만들지 않아도 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 가상 주소 공간                                                            │
-│ ┌──── 코드 ────┬──────────── 미사용 ────────────┬── 힙 ──┬──── 스택 ────┐ │
-│ └─────┬────────┴────────────────────────────────┴───┬────┴──────┬───────┘ │
-│       │                                             │           │         │
-│       ▼                                             ▼           ▼         │
-│   [하위 테이블 생성]                            [미생성]   [하위 테이블 생성] │
-│                                                                    [생성] │
-│                                                                            │
-│ 상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위          |
++----------------------------------------------------------------------------+
+| 가상 주소 공간                                                            |
+| +---- 코드 ----+------------ 미사용 ------------+-- 힙 --+---- 스택 ----+ |
+| +-----+--------+--------------------------------+---+----+------+-------+ |
+|       |                                             |           |         |
+|       v                                             v           v         |
+|   [하위 테이블 생성]                            [미생성]   [하위 테이블 생성] |
+|                                                                    [생성] |
+|                                                                            |
+| 상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL  |
++----------------------------------------------------------------------------+
 ```
 
 즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 아끼는 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 메타데이터를 희소하게 유지하는 기법</strong>이라는 점이 중요하다. 그래서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 커질수록 그 가치가 더 커진다.
@@ -66,22 +66,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 MMU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 워크 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk)를 수행하는 순서를 압축한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            4단계 페이지 테이블 워크 (Page Table Walk) 흐름               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 가상 주소                                                                 │
-│ ┌──── L4 ────┬──── L3 ────┬──── L2 ────┬──── L1 ────┬──── Offset ─────┐ │
-│ └────┬───────┴────┬───────┴────┬───────┴────┬───────┴────────┬────────┘ │
-│      ▼            ▼            ▼            ▼                ▼          │
-│   [L4 테이블] -> [L3 테이블] -> [L2 테이블] -> [L1 PTE] -> [Frame+Off] │
-│      │            │            │            │                           │
-│      └─ 없으면 페이지 폴트 또는 미매핑 영역 판단                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            4단계 페이지 테이블 워크 (Page Table Walk) 흐름               |
++----------------------------------------------------------------------------+
+| 가상 주소                                                                 |
+| +---- L4 ----+---- L3 ----+---- L2 ----+---- L1 ----+---- Offset -----+ |
+| +----+-------+----+-------+----+-------+----+-------+--------+--------+ |
+|      v            v            v            v                v          |
+|   [L4 테이블] -> [L3 테이블] -> [L2 테이블] -> [L1 PTE] -> [Frame+Off] |
+|      |            |            |            |                           |
+|      +- 없으면 페이지 폴트 또는 미매핑 영역 판단                        |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 병목은 명확하다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 CPU는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하기 전에 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 여러 번 읽어야 한다. 하지만 반대로 보면, 사용하지 않는 주소 범위는 하위 테이블을 아예 만들지 않으므로 프로세스별 메모리 오버헤드를 크게 낮출 수 있다. 결국 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 <strong>메모리 절약과 추가 메모리 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 비용을 맞바꾸는 구조적 타협</strong>이다.
 
-- **📢 섹션 요약 비유**: 건물 호수를 찾기 위해 시청 → 구청 → 동사무소 → 관리사무소를 차례로 거치는 셈이다. 절차는 길어지지만, 전국 모든 건물 정보를 한 건물 관리실에 몰아넣지 않아도 된다는 장점이 생긴다.
+- **📢 섹션 요약 비유**: 건물 호수를 찾기 위해 시청 -> 구청 -> 동사무소 -> 관리사무소를 차례로 거치는 셈이다. 절차는 길어지지만, 전국 모든 건물 정보를 한 건물 관리실에 몰아넣지 않아도 된다는 장점이 생긴다.
 
 ---
 
@@ -157,18 +157,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 페이지 테이블
-        │
-        ▼
+        |
+        v
 페이지 테이블 크기 폭증 문제
-        │
-        ▼
+        |
+        v
 다단계 페이지 테이블
-        │
-        ├──────────────▶ TLB (Translation Lookaside Buffer) 최적화
-        │
-        ├──────────────▶ Huge Page 기반 워크 깊이 축소
-        │
-        └──────────────▶ 역 페이지 테이블 · Nested Paging 확장
+        |
+        +---------------> TLB (Translation Lookaside Buffer) 최적화
+        |
+        +---------------> Huge Page 기반 워크 깊이 축소
+        |
+        +---------------> 역 페이지 테이블 · Nested Paging 확장
 ```
 
 이 흐름은 "단순 번역 장부"에서 출발해, 주소 공간 확장 문제를 해결하고, 이후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 대응으로 확장되는 진화를 보여준다.
@@ -185,7 +185,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 289 / 803
 
-← **이전**: [288. 페이지 테이블 (Page Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/288_page_table/)
-**다음**: [290. 역 페이지 테이블 (Inverted Page Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/290_inverted_page_table/) →
+<- **이전**: [288. 페이지 테이블 (Page Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/288_page_table/)
+**다음**: [290. 역 페이지 테이블 (Inverted Page Table)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/290_inverted_page_table/) ->
 
 ---

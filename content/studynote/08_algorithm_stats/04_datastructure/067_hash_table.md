@@ -44,21 +44,21 @@ key = "Alice"
 hash("Alice") % 7 = 3
 
 배열(버킷) 크기 m = 7:
-┌───┬─────────┐
-│ 0 │  null   │
-├───┼─────────┤
-│ 1 │ "Bob"→42│
-├───┼─────────┤
-│ 2 │  null   │
-├───┼─────────┤
-│ 3 │"Alice"→35│  ← hash("Alice")%7
-├───┼─────────┤
-│ 4 │  null   │
-├───┼─────────┤
-│ 5 │"Carol"→28│
-├───┼─────────┤
-│ 6 │  null   │
-└───┴─────────┘
++---+---------+
+| 0 |  null   |
++---+---------+
+| 1 | "Bob"->42|
++---+---------+
+| 2 |  null   |
++---+---------+
+| 3 |"Alice"->35|  <- hash("Alice")%7
++---+---------+
+| 4 |  null   |
++---+---------+
+| 5 |"Carol"->28|
++---+---------+
+| 6 |  null   |
++---+---------+
 ```
 
 ### [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 설계 원칙
@@ -83,17 +83,17 @@ hash("Alice") % 7 = 3
 ```
 α (부하 계수) = n (원소 수) / m (버킷 수)
 
-α < 0.75  →  성능 양호 (Java HashMap 기본 임계값)
-α ≥ 0.75  →  리해싱: 새 배열 2배 크기로 생성 후 전체 재삽입
-           →  O(n) 비용, 분할상환 O(1) 삽입 유지
+α < 0.75  ->  성능 양호 (Java HashMap 기본 임계값)
+α ≥ 0.75  ->  리해싱: 새 배열 2배 크기로 생성 후 전체 재삽입
+           ->  O(n) 비용, 분할상환 O(1) 삽입 유지
 ```
 
 ### Java HashMap 내부 구조
 
 ```
 초기: 배열 + 연결 리스트(체이닝)
-체인 길이 ≥ 8 이고 버킷 수 ≥ 64  →  레드-블랙 트리로 자동 변환
-레드-블랙 트리 노드 수 ≤ 6        →  다시 연결 리스트로 복원
+체인 길이 ≥ 8 이고 버킷 수 ≥ 64  ->  레드-블랙 트리로 자동 변환
+레드-블랙 트리 노드 수 ≤ 6        ->  다시 연결 리스트로 복원
 
 장점: O(n) 체인 충돌 시 O(log n)으로 격하 방지
 ```
@@ -128,18 +128,18 @@ hash("Alice") % 7 = 3
 
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/">해시 인덱스</a></strong>: Equality 조건 검색(WHERE id = 42)에 최적
 - **캐시 (Cache)**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) HSET, Memcached 내부 키-값 저장
-- **컴파일러 심볼 테이블**: 변수·함수 이름 → 주소·타입 매핑
+- **컴파일러 심볼 테이블**: 변수·함수 이름 -> 주소·타입 매핑
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블</strong>: IP 해시 기반 로드밸런서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 어피니티
 - **Python dict / Java HashMap / C++ unordered_map**: 언어 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
 
 ### 기술사 판단 기준
 
 ```
-빠른 등가 검색 (=) + 순서 불필요   →  해시 테이블
-범위 쿼리 + 정렬 순회 필요          →  B+ 트리 (DB 인덱스) / 트리맵
-삽입 빈도 높음 + 충돌 제어 중요     →  체이닝 (부하율 1 이상도 허용)
-메모리 제한 + 캐시 효율 중요        →  오픈 어드레싱 (선형 탐사)
-확률적 멤버십 검사 + 공간 절약      →  블룸 필터
+빠른 등가 검색 (=) + 순서 불필요   ->  해시 테이블
+범위 쿼리 + 정렬 순회 필요          ->  B+ 트리 (DB 인덱스) / 트리맵
+삽입 빈도 높음 + 충돌 제어 중요     ->  체이닝 (부하율 1 이상도 허용)
+메모리 제한 + 캐시 효율 중요        ->  오픈 어드레싱 (선형 탐사)
+확률적 멤버십 검사 + 공간 절약      ->  블룸 필터
 ```
 
 📢 **섹션 요약 비유**: 해시 테이블의 충돌은 번호표가 겹치는 상황—발권기가 같은 번호를 두 번 주면 해결책은 번호 옆에 대기 줄을 세우는 것(체이닝)이거나, 빈 번호를 자동 배정하는 것(오픈 어드레싱)이다.
@@ -172,17 +172,17 @@ hash("Alice") % 7 = 3
 
 ```text
 [직접 주소 테이블 (Direct Address Table) — 키 값을 인덱스로 직접 사용, 메모리 낭비 심함]
-    │
-    ▼
+    |
+    v
 [해시 테이블 (Hash Table) — 해시 함수로 키를 압축해 O(1) 평균 탐색·삽입]
-    │
-    ▼
+    |
+    v
 [체이닝 / 오픈 어드레싱 — 충돌 해결 전략, 부하 계수(Load Factor) 관리가 핵심]
-    │
-    ▼
+    |
+    v
 [블룸 필터 (Bloom Filter) — 확률적 해시 기반 집합 멤버십 판단, 메모리 극소화]
-    │
-    ▼
+    |
+    v
 [분산 해시 테이블 (DHT) / 일관된 해싱 — 노드 추가·삭제 시 리밸런싱 최소화, 분산 캐시 기반]
 ```
 
@@ -200,7 +200,7 @@ hash("Alice") % 7 = 3
 
 **진행 상황**: 67 / 175
 
-← **이전**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/)
-**다음**: [개방 주소법 (Open Addressing)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) →
+<- **이전**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/)
+**다음**: [개방 주소법 (Open Addressing)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) ->
 
 ---

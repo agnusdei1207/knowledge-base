@@ -53,28 +53,28 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 
 ```
   기업 A (광고주)                    기업 B (퍼블리셔)
-  ┌──────────────────┐              ┌──────────────────┐
-  │ 고객 구매 데이터   │              │ 방문자 행동 로그   │
-  │ (해시 처리 후)     │              │ (해시 처리 후)     │
-  │ email_hash, age  │              │ email_hash, page  │
-  └────────┬─────────┘              └────────┬─────────┘
-           │  해시 키만 제공                   │  해시 키만 제공
-           └──────────────┬──────────────────┘
-                          ▼
-           ┌───────────────────────────────────┐
-           │        DATA CLEAN ROOM            │
-           │  (격리 실행 환경 / TEE)             │
-           │  ① 해시 키 기반 익명 조인           │
-           │  ② 집계 쿼리 실행                  │
-           │  ③ k-anonymity 임계값 적용          │
-           │  ④ Differential Privacy 노이즈 추가 │
-           └──────────────┬────────────────────┘
-                          ▼
-           ┌────────────────────────────────────┐
-           │  집계 결과만 반환                   │
-           │  예) "캠페인 전환율: 12%"            │
-           │  원시 PII는 어느 쪽도 볼 수 없음      │
-           └────────────────────────────────────┘
+  +------------------+              +------------------+
+  | 고객 구매 데이터   |              | 방문자 행동 로그   |
+  | (해시 처리 후)     |              | (해시 처리 후)     |
+  | email_hash, age  |              | email_hash, page  |
+  +--------+---------+              +--------+---------+
+           |  해시 키만 제공                   |  해시 키만 제공
+           +--------------+------------------+
+                          v
+           +-----------------------------------+
+           |        DATA CLEAN ROOM            |
+           |  (격리 실행 환경 / TEE)             |
+           |  ① 해시 키 기반 익명 조인           |
+           |  ② 집계 쿼리 실행                  |
+           |  ③ k-anonymity 임계값 적용          |
+           |  ④ Differential Privacy 노이즈 추가 |
+           +--------------+--------------------+
+                          v
+           +------------------------------------+
+           |  집계 결과만 반환                   |
+           |  예) "캠페인 전환율: 12%"            |
+           |  원시 PII는 어느 쪽도 볼 수 없음      |
+           +------------------------------------+
 ```
 
 ### 클린 룸 유형 비교
@@ -114,8 +114,8 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
-| 집계 결과에서 개인 역추적 | 소규모 그룹 → PII 노출 | [k-anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) 임계값 강제 |
-| 무한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 허용 | DP 예산 소진 → 프라이버시 붕괴 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 횟수·유형 제한 |
+| 집계 결과에서 개인 역추적 | 소규모 그룹 -> PII 노출 | [k-anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) 임계값 강제 |
+| 무한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 허용 | DP 예산 소진 -> 프라이버시 붕괴 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 횟수·유형 제한 |
 
 📢 **섹션 요약 비유**: 프라이버시 예산은 통장 잔고다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날릴 때마다 잔고가 줄어들고, 다 쓰면 더 이상 조회할 수 없다.
 
@@ -143,17 +143,17 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 
 ```
 쿠키 기반 광고 타겟팅 (서드파티 데이터)
-    │
-    ▼
+    |
+    v
 개인정보 규제 강화 (GDPR, 쿠키리스 시대)
-    │
-    ▼
+    |
+    v
 Data Clean Room - 원시 데이터 비공개 협업 분석
-    │
-    ▼
+    |
+    v
 MPC/차분 프라이버시/동형암호 프라이버시 기술 통합
-    │
-    ▼
+    |
+    v
 Snowflake/Google Ads DCR 플랫폼 상용화
 ```
 
@@ -171,7 +171,7 @@ Snowflake/Google Ads DCR 플랫폼 상용화
 
 **진행 상황**: 305 / 482
 
-← **이전**: [304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/304_realtime_cdp_architecture/)
-**다음**: [306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/306_data_governance_3_elements/) →
+<- **이전**: [304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/304_realtime_cdp_architecture/)
+**다음**: [306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/306_data_governance_3_elements/) ->
 
 ---

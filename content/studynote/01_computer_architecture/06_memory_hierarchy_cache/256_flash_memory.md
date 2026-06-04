@@ -26,22 +26,22 @@ tags = ["studynote-computer-architecture"]
 아래 구조는 플래시 셀이 왜 전기를 꺼도 기억을 잃지 않는지를 보여준다. 단순히 0과 1을 기록하는 것이 아니라, 절연막 안쪽에 전하를 가둬 문턱전압 (Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))을 바꾸는 방식이라는 점이 중요하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      플래시 셀의 기억 원리: 절연막 안 전하가 문턱전압을 바꿈      │
-├──────────────────────────────────────────────────────────────┤
-│ Control Gate                                                 │
-│      │                                                       │
-│      ▼                                                       │
-│  ┌─────────────── 절연막 (Oxide) ───────────────┐            │
-│  │   Floating Gate / Charge Trap               │            │
-│  │   - 전하가 갇히면: 셀을 켜기 더 어려움       │            │
-│  │   - 전하가 없으면: 셀을 켜기 쉬움            │            │
-│  └──────────────────────────────────────────────┘            │
-│      │                                                       │
-│ Source ───────────────── Channel ───────────────── Drain      │
-│                                                              │
-│ 읽기 시: 약한 전압으로 전류 통과 여부 확인 → 0/1 판단          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      플래시 셀의 기억 원리: 절연막 안 전하가 문턱전압을 바꿈      |
++--------------------------------------------------------------+
+| Control Gate                                                 |
+|      |                                                       |
+|      v                                                       |
+|  +--------------- 절연막 (Oxide) ---------------+            |
+|  |   Floating Gate / Charge Trap               |            |
+|  |   - 전하가 갇히면: 셀을 켜기 더 어려움       |            |
+|  |   - 전하가 없으면: 셀을 켜기 쉬움            |            |
+|  +----------------------------------------------+            |
+|      |                                                       |
+| Source ----------------- Channel ----------------- Drain      |
+|                                                              |
+| 읽기 시: 약한 전압으로 전류 통과 여부 확인 -> 0/1 판단          |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기계적 움직임이 아니라 전하의 유무와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 분포로 표현된다는 점이다. 그래서 플래시는 충격에 강하고 대기 전력이 낮지만, 전하를 넣고 빼는 과정에서 절연막이 서서히 손상되어 수명 한계가 생긴다.
@@ -67,24 +67,24 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 운영체제가 단순한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 보내더라도, 실제 플래시 내부에서는 훨씬 복잡한 절차가 수행된다는 사실을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         플래시 쓰기 경로: 덮어쓰기 대신 새 위치에 다시 기록        │
-├──────────────────────────────────────────────────────────────┤
-│ Host Write 4KB                                               │
-│     │                                                        │
-│     ▼                                                        │
-│ FTL (Flash Translation Layer) 가 빈 페이지 탐색               │
-│     │                                                        │
-│     ├─ 유효 페이지 충분함 ─────▶ 새 페이지 Program            │
-│     │                                │                        │
-│     │                                └─ 기존 페이지 Invalid    │
-│     │                                                         │
-│     └─ 빈 공간 부족 ────────▶ Garbage Collection              │
-│                                  │                            │
-│                                  ├─ 유효 페이지 복사          │
-│                                  ├─ 블록 Erase               │
-│                                  └─ 재배치 후 Program        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         플래시 쓰기 경로: 덮어쓰기 대신 새 위치에 다시 기록        |
++--------------------------------------------------------------+
+| Host Write 4KB                                               |
+|     |                                                        |
+|     v                                                        |
+| FTL (Flash Translation Layer) 가 빈 페이지 탐색               |
+|     |                                                        |
+|     +- 유효 페이지 충분함 ------> 새 페이지 Program            |
+|     |                                |                        |
+|     |                                +- 기존 페이지 Invalid    |
+|     |                                                         |
+|     +- 빈 공간 부족 ---------> Garbage Collection              |
+|                                  |                            |
+|                                  +- 유효 페이지 복사          |
+|                                  +- 블록 Erase               |
+|                                  +- 재배치 후 Program        |
++--------------------------------------------------------------+
 ```
 
 이 구조 때문에 플래시의 실성능은 원시 셀 속도만으로 판단할 수 없다. [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)), [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)), 웨어 레벨링 ([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)), 오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) (Over-Provisioning)이 함께 설계되어야 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 지연과 수명이 안정된다. 특히 프로그램/지우기 횟수인 P/E 사이클 (Program/Erase Cycle)이 셀 수명을 결정하므로, 제어 알고리즘은 특정 블록에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 집중되지 않도록 분산시켜야 한다.
@@ -185,21 +185,21 @@ NOR 플래시의 강점은 XIP (eXecute In Place)다. 즉 코드를 램으로 �
 
 ```text
 비휘발성 메모리 요구
-    │
-    ▼
+    |
+    v
 EEPROM (Electrically Erasable Programmable Read Only Memory)
-    │
-    ▼
+    |
+    v
 플래시 메모리 (Block Erase + High Density)
-    │
-    ├─▶ NOR Flash ─▶ XIP (eXecute In Place) · 펌웨어 저장
-    │
-    └─▶ NAND Flash ─▶ SSD (Solid State Drive) · 모바일 저장장치
-                              │
-                              ▼
+    |
+    +--> NOR Flash --> XIP (eXecute In Place) · 펌웨어 저장
+    |
+    +--> NAND Flash --> SSD (Solid State Drive) · 모바일 저장장치
+                              |
+                              v
 FTL · Wear Leveling · ECC
-                              │
-                              ▼
+                              |
+                              v
 3D NAND · 고용량 QLC · 스토리지 계층 최적화
 ```
 
@@ -217,7 +217,7 @@ FTL · Wear Leveling · ECC
 
 **진행 상황**: 256 / 803
 
-← **이전**: [255. ROM (Read Only Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)
-**다음**: [257. NAND 플래시 (NAND Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) →
+<- **이전**: [255. ROM (Read Only Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)
+**다음**: [257. NAND 플래시 (NAND Flash)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) ->
 
 ---

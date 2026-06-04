@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: 인출 사이클 (Fetch Cycle)은 CPU (Central Processing Unit)가 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 가리키는 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 메모리 계층에서 읽어와, 해독 가능한 내부 상태로 넘기는 프론트엔드의 출발점이다.
 > 2. **가치**: 모든 명령은 인출을 먼저 거치므로, 이 단계의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 곧 파이프라인 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하로 이어지며 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)의 효과도 여기서 결정된다.
-> 3. **판단 포인트**: 인출 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순히 메모리를 빨리 읽는 문제가 아니라, `PC 생성 → 명령어 캐시 적중 → 정렬된 전달 → 다음 PC 예측`이 끊기지 않도록 설계하는 문제다.
+> 3. **판단 포인트**: 인출 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순히 메모리를 빨리 읽는 문제가 아니라, `PC 생성 -> 명령어 캐시 적중 -> 정렬된 전달 -> 다음 PC 예측`이 끊기지 않도록 설계하는 문제다.
 
 ---
 
@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 인출이 단순 복사가 아니라, "다음 위치 결정"과 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 확보"를 동시에 수행하는 출발 단계임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    인출 사이클이 맡는 두 가지 책임                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1) 어디를 읽을지 결정                    2) 읽은 명령어를 내부로 전달     │
-│                                                                            │
-│ PC ──▶ 주소 생성 ──▶ 메모리 계층 ──▶ 명령어 수신 ──▶ 명령어 보관 버퍼       │
-│ │                          │                           │                    │
-│ └──────────── 다음 PC 갱신 ◀┴──── 적중/미스 판단 ─────┘                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    인출 사이클이 맡는 두 가지 책임                        |
++----------------------------------------------------------------------------+
+| 1) 어디를 읽을지 결정                    2) 읽은 명령어를 내부로 전달     |
+|                                                                            |
+| PC ---> 주소 생성 ---> 메모리 계층 ---> 명령어 수신 ---> 명령어 보관 버퍼       |
+| |                          |                           |                    |
+| +------------ 다음 PC 갱신 <-+---- 적중/미스 판단 -----+                    |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽는 순간과 동시에 다음 PC도 준비해야 한다는 점이다. 그래서 인출 단계는 항상 현재 한 건만 보는 것이 아니라, 다음 접근을 끊기지 않게 유지하는 예측과 버퍼링까지 함께 포함한다.
@@ -45,7 +45,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-기본적인 인출 경로는 `PC → 메모리 주소 레지스터 (Memory Address Register, MAR) → 메모리 버퍼 레지스터 (Memory Buffer Register, MBR/MDR) → 명령어 레지스터 (Instruction Register, IR)`로 설명할 수 있다. 현대 CPU에서는 이 흐름이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시, 인출 큐, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기까지 확장되지만, 본질은 "주소를 내보내고, 읽어오고, 내부에 고정한다"는 세 단계다.
+기본적인 인출 경로는 `PC -> 메모리 주소 레지스터 (Memory Address Register, MAR) -> 메모리 버퍼 레지스터 (Memory Buffer Register, MBR/MDR) -> 명령어 레지스터 (Instruction Register, IR)`로 설명할 수 있다. 현대 CPU에서는 이 흐름이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시, 인출 큐, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기까지 확장되지만, 본질은 "주소를 내보내고, 읽어오고, 내부에 고정한다"는 세 단계다.
 
 | 구성 요소 | 역할 | 핵심 설계 포인트 |
 | :--- | :--- | :--- |
@@ -59,19 +59,19 @@ tags = ["studynote-computer-architecture"]
 고전적 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)으로 보면 인출은 보통 아래 순서로 표현된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   인출 사이클의 전형적 마이크로 오퍼레이션                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ T0 : MAR ← PC                                                              │
-│ T1 : MBR ← M[MAR] , PC ← PC + 1 또는 PC + 명령어 길이                      │
-│ T2 : IR  ← MBR                                                             │
-│                                                                            │
-│ 현대 확장                                                                   │
-│ T0' : 명령어 캐시와 변환 색인 버퍼 (Translation Lookaside Buffer, TLB) 조회 │
-│       , 분기 예측기로 다음 PC 계산                                          │
-│ T1' : Fetch Buffer 적재, 정렬/경계 처리                                    │
-│ T2' : Decode Stage로 다중 명령어 전달                                      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   인출 사이클의 전형적 마이크로 오퍼레이션                |
++----------------------------------------------------------------------------+
+| T0 : MAR <- PC                                                              |
+| T1 : MBR <- M[MAR] , PC <- PC + 1 또는 PC + 명령어 길이                      |
+| T2 : IR  <- MBR                                                             |
+|                                                                            |
+| 현대 확장                                                                   |
+| T0' : 명령어 캐시와 변환 색인 버퍼 (Translation Lookaside Buffer, TLB) 조회 |
+|       , 분기 예측기로 다음 PC 계산                                          |
+| T1' : Fetch Buffer 적재, 정렬/경계 처리                                    |
+| T2' : Decode Stage로 다중 명령어 전달                                      |
++----------------------------------------------------------------------------+
 ```
 
 이 흐름에서 중요한 병목은 세 가지다. 첫째, 메모리 계층 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길면 IR이 비어 디코더가 놀게 된다. 둘째, [가변 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/172_variable_length_instruction/) 구조에서는 읽어 온 바이트를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계에 맞게 재정렬해야 한다. 셋째, 분기 명령이 섞이면 `PC + 4` 같은 단순 증가만으로는 다음 인출 위치를 확정할 수 없어 예측기가 개입해야 한다.
@@ -96,15 +96,15 @@ tags = ["studynote-computer-architecture"]
 또한 인출은 폰 노이만 구조와 수정 하버드 구조를 비교할 때도 핵심이 된다. 단일 메모리·단일 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 같은 통로를 두고 경쟁해 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/) ([Structural Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))가 생긴다. 반면 현대 CPU는 보통 L1 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 L1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 분리해, 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 동시에 진행되도록 만든다.
 
 ```text
-┌─────────────────────────────┬──────────────────────────────────────────────┐
-│ 단일 통로 구조              │ 분리된 통로 구조                             │
-├─────────────────────────────┼──────────────────────────────────────────────┤
-│ Fetch ─┐                    │ Fetch ─────▶ L1 I-Cache                      │
-│        ├─▶ 공용 메모리/버스 │                                              │
-│ Data  ─┘                    │ Data  ─────▶ L1 D-Cache                      │
-├─────────────────────────────┼──────────────────────────────────────────────┤
-│ 동시 접근 시 충돌           │ 명령어·데이터 동시 공급 가능                 │
-└─────────────────────────────┴──────────────────────────────────────────────┘
++-----------------------------+----------------------------------------------+
+| 단일 통로 구조              | 분리된 통로 구조                             |
++-----------------------------+----------------------------------------------+
+| Fetch -+                    | Fetch ------> L1 I-Cache                      |
+|        +--> 공용 메모리/버스 |                                              |
+| Data  -+                    | Data  ------> L1 D-Cache                      |
++-----------------------------+----------------------------------------------+
+| 동시 접근 시 충돌           | 명령어·데이터 동시 공급 가능                 |
++-----------------------------+----------------------------------------------+
 ```
 
 이 비교가 중요한 이유는, 파이프라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 대부분이 실행 유닛 추가만으로는 달성되지 않기 때문이다. 앞단에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 안정적으로 넣어 주지 못하면 뒤단의 고성능 자원은 놀게 된다. 그래서 인출은 캐시, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 파이프라인 설계와 모두 연결되는 프론트엔드 핵심 개념이다.
@@ -167,20 +167,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 프로그램 카운터 (PC) 기반 순차 인출
-    │
-    ▼
+    |
+    v
 메모리 주소 레지스터 (MAR) · 명령어 레지스터 (IR)
-    │
-    ▼
+    |
+    v
 명령어 캐시 (I-Cache) 기반 저지연 인출
-    │
-    ▼
+    |
+    v
 분기 예측기 (Branch Predictor) · 프리페치 (Prefetch)
-    │
-    ▼
+    |
+    v
 다중 명령어 인출 폭 · Fetch Buffer
-    │
-    ▼
+    |
+    v
 마이크로 오퍼레이션 캐시 (uOP Cache) 중심 프론트엔드 최적화
 ```
 
@@ -198,7 +198,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 208 / 803
 
-← **이전**: [207. 명령어 사이클 (Instruction Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/207_instruction_cycle/)
-**다음**: [209. 해독 사이클 (Decode Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/209_decode_cycle/) →
+<- **이전**: [207. 명령어 사이클 (Instruction Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/207_instruction_cycle/)
+**다음**: [209. 해독 사이클 (Decode Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/209_decode_cycle/) ->
 
 ---

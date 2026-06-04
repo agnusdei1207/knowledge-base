@@ -19,15 +19,15 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    메타데이터 유형                                    │
-├───────────────────────────────────────────────────────┤
-│  [기술 메타데이터]   스키마·컬럼·타입·인덱스         │
-│  [비즈니스 메타데이터] 용어 정의·담당자·분류         │
-│  [운영 메타데이터]   ETL 실행 이력·데이터 품질·리니지│
-│                                                       │
-│  → 데이터 카탈로그: 3가지 메타데이터를 통합 검색     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    메타데이터 유형                                    |
++-------------------------------------------------------+
+|  [기술 메타데이터]   스키마·컬럼·타입·인덱스         |
+|  [비즈니스 메타데이터] 용어 정의·담당자·분류         |
+|  [운영 메타데이터]   ETL 실행 이력·데이터 품질·리니지|
+|                                                       |
+|  -> 데이터 카탈로그: 3가지 메타데이터를 통합 검색     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 도서관의 <strong>카드 목록</strong>이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 자체가 아니라 "이 책이 어디에 있고, 누가 썼고, 무슨 내용인지"를 알려준다.
@@ -41,7 +41,7 @@ tags = ["studynote-database"]
 | 기능 | 설명 |
 |:---|:---|
 | **검색·디스커버리** | 키워드로 테이블·컬럼 검색 |
-| **리니지** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처→변환→목적지 추적 |
+| **리니지** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처->변환->목적지 추적 |
 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a></strong> | 용어 정의·표준 관리 |
 | **소유권** | [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)·담당팀 |
 | **품질 점수** | 테이블별 품질 지표 |
@@ -82,7 +82,7 @@ MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_secur
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | 현대적 MMS |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a></strong> | 출처→변환→목적지 추적 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a></strong> | 출처->변환->목적지 추적 |
 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a></strong> | 용어·정의 표준 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | MMS의 상위 관리 체계 |
 
@@ -90,17 +90,17 @@ MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_secur
 
 ```text
 [수동 데이터 사전 (엑셀, 2000s)]
-    │
-    ▼
+    |
+    v
 [메타데이터 리포지토리 (2010s)]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 (DataHub/Amundsen, 2018~)]
-    │
-    ▼
+    |
+    v
 [Active Metadata (2022~) — 자동 메타데이터 수집·활용]
-    │
-    ▼
+    |
+    v
 [현재: AI 카탈로그 — 자연어로 데이터 검색·이해]
 ```
 
@@ -115,7 +115,7 @@ MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_secur
 
 **진행 상황**: 125 / 600
 
-← **이전**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/)
-**다음**: [126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) →
+<- **이전**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/)
+**다음**: [126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) ->
 
 ---

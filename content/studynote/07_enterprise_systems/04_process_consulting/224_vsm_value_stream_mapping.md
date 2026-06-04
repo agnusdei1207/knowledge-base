@@ -26,17 +26,17 @@ tags = ["studynote-enterprise"]
 아래 예시는 IT 전달 흐름에서 흔히 나타나는 문제를 단순화한 것이다. 순수 작업 시간은 짧지만, 큐 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))와 승인 대기 때문에 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 급격히 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Example value stream                                         │
-├──────────────────────────────────────────────────────────────┤
-│ Request ──4d──▶ Analysis ──6d──▶ Dev ──5d──▶ Test ──3d──▶ Go │
-│           wait        work+wait       work+wait      wait    │
-│                                                              │
-│ Total Lead Time  = 18d                                       │
-│ Pure Process Time = 6d                                       │
-│ Wait Time         = 12d                                      │
-│ PCE               = 6 / 18 = 33.3%                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Example value stream                                         |
++--------------------------------------------------------------+
+| Request --4d---> Analysis --6d---> Dev --5d---> Test --3d---> Go |
+|           wait        work+wait       work+wait      wait    |
+|                                                              |
+| Total Lead Time  = 18d                                       |
+| Pure Process Time = 6d                                       |
+| Wait Time         = 12d                                      |
+| PCE               = 6 / 18 = 33.3%                           |
++--------------------------------------------------------------+
 ```
 
 이 그림이 말하는 바는 명확하다. 개발 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 높이는 것보다, 승인 대기를 절반 줄이는 것이 전체 고객 경험에 더 큰 영향을 줄 수 있다. 그래서 VSM은 속도를 올리는 기법이기보다 대기를 없애는 기법에 가깝다.
@@ -60,18 +60,18 @@ VSM의 핵심 원리는 가치 흐름을 단계별 상자와 시간선으로 나
 아래 구조는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵을 미래 상태 맵으로 바꿀 때 무엇을 줄여야 하는지 보여 준다. VSM은 공정을 더 많이 추가하는 방식이 아니라, 불필요한 queue와 재작업을 걷어내는 방식으로 개선한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Current state to future state                                │
-├──────────────────────────────────────────────────────────────┤
-│ Customer need                                                │
-│      │                                                       │
-│      ▼                                                       │
-│ Backlog ─▶ Design ─▶ Dev ─▶ Test ─▶ Release                  │
-│   │         │        │       │        │                      │
-│   ├─ queue ─┼─ queue ┼─ wait ┼─ rework┤                      │
-│   ▼         ▼        ▼       ▼        ▼                      │
-│ future state removes queue, limits WIP, shortens feedback    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Current state to future state                                |
++--------------------------------------------------------------+
+| Customer need                                                |
+|      |                                                       |
+|      v                                                       |
+| Backlog --> Design --> Dev --> Test --> Release                  |
+|   |         |        |       |        |                      |
+|   +- queue -+- queue +- wait +- rework+                      |
+|   v         v        v       v        v                      |
+| future state removes queue, limits WIP, shortens feedback    |
++--------------------------------------------------------------+
 ```
 
 따라서 좋은 VSM은 예쁜 상자보다 숫자가 중요하다. 특히 WIP 제한과 handoff 축소, 첫 통과 품질 향상은 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 크게 줄이는 대표 레버다.
@@ -144,21 +144,21 @@ VSM의 가장 큰 효과는 조직이 "누가 느린가" 대신 "어디서 멈�
 
 ```text
 Process visibility
-      │
-      ▼
+      |
+      v
 Lead Time / Process Time
-      │
-      ▼
+      |
+      v
 Waste and bottleneck finding
-      │
-      ▼
+      |
+      v
 Future State design
-      │
-      ▼
+      |
+      v
 Continuous flow improvement
 ```
 
-이 흐름은 "보이게 만들기 → 재기 → 병목 찾기 → 미래 상태 설계"라는 VSM의 개선 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여 준다.
+이 흐름은 "보이게 만들기 -> 재기 -> 병목 찾기 -> 미래 상태 설계"라는 VSM의 개선 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +172,7 @@ Continuous flow improvement
 
 **진행 상황**: 224 / 482
 
-← **이전**: [223. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/223_dora_metrics_agile/)
-**다음**: [225. TCO 분석 (Total Cost of Ownership Analysis)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/225_tco_analysis_cloud_migration/) →
+<- **이전**: [223. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/223_dora_metrics_agile/)
+**다음**: [225. TCO 분석 (Total Cost of Ownership Analysis)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/225_tco_analysis_cloud_migration/) ->
 
 ---

@@ -43,33 +43,33 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────┐
-│              온디바이스 AI 스택               │
-│                                              │
-│  ┌─────────┐  경량화  ┌──────────────────┐  │
-│  │  원본    │ ───────► │  경량 모델        │  │
-│  │  LLM    │          │ ┌──────────────┐ │  │
-│  │  (70B)  │ 양자화   │ │ INT4 Weight  │ │  │
-│  └─────────┘ 프루닝   │ │ 4GB VRAM     │ │  │
-│              증류     │ └──────────────┘ │  │
-│                       └──────────────────┘  │
-│                              │               │
-│                       ┌──────▼──────┐        │
-│                       │  NPU 가속   │        │
-│                       │(Hexagon/ANE)│        │
-│                       └─────────────┘        │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|              온디바이스 AI 스택               |
+|                                              |
+|  +---------+  경량화  +------------------+  |
+|  |  원본    | -------► |  경량 모델        |  |
+|  |  LLM    |          | +--------------+ |  |
+|  |  (70B)  | 양자화   | | INT4 Weight  | |  |
+|  +---------+ 프루닝   | | 4GB VRAM     | |  |
+|              증류     | +--------------+ |  |
+|                       +------------------+  |
+|                              |               |
+|                       +------v------+        |
+|                       |  NPU 가속   |        |
+|                       |(Hexagon/ANE)|        |
+|                       +-------------+        |
++----------------------------------------------+
 ```
 
 **모델 경량화 3대 기법**
 
-<strong>1. <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32 → INT8 → INT4로 낮춤
-- FP32(32bit) → INT4(4bit): 메모리 87.5% 절감, 추론 속도 2~4배 향상
+<strong>1. <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32 -> INT8 -> INT4로 낮춤
+- FP32(32bit) -> INT4(4bit): 메모리 87.5% 절감, 추론 속도 2~4배 향상
 - 도구: GGUF(llama.cpp), AWQ, GPTQ
 
 <strong>2. 프루닝(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)</strong>: 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(~0에 가까운 값) 제거
-- 구조적 프루닝: 뉴런/레이어 단위 제거 → 하드웨어 최적화 용이
-- 비구조적 프루닝: 개별 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 → 높은 압축률, 하드웨어 지원 필요
+- 구조적 프루닝: 뉴런/레이어 단위 제거 -> 하드웨어 최적화 용이
+- 비구조적 프루닝: 개별 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 -> 높은 압축률, 하드웨어 지원 필요
 
 <strong>3. <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">지식 증류</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a>)</strong>: 대형 교사(Teacher) 모델의 소프트 레이블(Soft Label)로 소형 학생(Student) 모델 학습
 - DistilBERT: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 40% 파라미터 감소, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 97% 유지
@@ -121,10 +121,10 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 **기술사 판단 포인트**
 
-1. **배터리/발열 제약**: INT4 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로도 연속 추론 시 스마트폰 발열 → 쓰로틀링(Throttling) 대응 설계
+1. **배터리/발열 제약**: INT4 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로도 연속 추론 시 스마트폰 발열 -> 쓰로틀링(Throttling) 대응 설계
 2. **모델 업데이트**: 온디바이스 모델 패치 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — OTA([Over-the-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 업데이트 메커니즘
-3. **보안**: 기기 내 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 탈취 → 암호화 스토리지, [Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) 활용
-4. **Hybrid 아키텍처**: 간단한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) → 온디바이스, 복잡한 요청 → 클라우드 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 설계 권장
+3. **보안**: 기기 내 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 탈취 -> 암호화 스토리지, [Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) 활용
+4. **Hybrid 아키텍처**: 간단한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) -> 온디바이스, 복잡한 요청 -> 클라우드 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 설계 권장
 
 - **📢 섹션 요약 비유**: 스마트폰은 강력한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서를 품고 싶지만 배터리가 하루 버텨야 한다 — 균형이 설계의 핵심이다.
 
@@ -151,7 +151,7 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[온디바이스 AI · 7B 이하 소형 언어 모델] → [온디바이스 AI · SLM 엣지 추론] → [포맷 · llama.cpp 경량 모델 포맷]
+[온디바이스 AI · 7B 이하 소형 언어 모델] -> [온디바이스 AI · SLM 엣지 추론] -> [포맷 · llama.cpp 경량 모델 포맷]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -166,7 +166,7 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 **진행 상황**: 472 / 552
 
-← **이전**: [471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/)
-**다음**: [473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/) →
+<- **이전**: [471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/471_federated_learning_privacy_gradient_aggregation/)
+**다음**: [473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/473_blockchain_merkle_tree_hash_integrity/) ->
 
 ---

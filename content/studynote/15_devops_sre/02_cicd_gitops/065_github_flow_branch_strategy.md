@@ -31,11 +31,11 @@ tags = ["studynote-devops"]
 
 ```text
 main
-  ↑
+  ^
 feature branch
-  ↓ PR / CI
+  v PR / CI
 merge
-  ↓
+  v
 deploy
 ```
 
@@ -101,11 +101,11 @@ GitHub Flow는 팀이 빠르게 변경하고 빨리 배포하는 데 적합하�
 
 ```text
 feature branch
-  ↓
+  v
 Pull Request
-  ↓
+  v
 main
-  ↓
+  v
 Continuous Deployment
 ```
 
@@ -115,11 +115,11 @@ Continuous Deployment
 
 ```text
 Git Flow
-  ↓
+  v
 GitHub Flow
-  ↓
+  v
 Trunk-based Development
-  ↓
+  v
 CI/CD
 ```
 
@@ -137,7 +137,7 @@ GitHub Flow는 그런 단순한 브랜치 방법이에요.
 
 **진행 상황**: 65 / 373
 
-← **이전**: [64. Git Flow - 5개 브랜치 전략과 릴리스 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/064_git_flow_branch_strategy_release/)
-**다음**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) →
+<- **이전**: [64. Git Flow - 5개 브랜치 전략과 릴리스 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/064_git_flow_branch_strategy_release/)
+**다음**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) ->
 
 ---

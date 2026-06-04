@@ -11,8 +11,8 @@ tags = ["studynote-security"]
 
 > **핵심 인사이트**
 > 1. SABSA(Sherwood Applied Business [Security Architecture](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/))는 [자크만 프레임워크](/knowledge-base/studynote/09_security/01_intro_principles/041_zachman_framework/)([Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/))를 보안에 특화 적용한 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 방법론으로, 비즈니스 요구사항에서 시작하여 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)·물리·기술 계층까지 "위에서 아래로([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))" 보안을 설계하는 완전한 생명주기 프레임워크다.
-> 2. SABSA의 6대 계층(Contextual→Conceptual→Logical→Physical→[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)→Operational)과 6대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 열(What/How/Where/Who/When/Why)의 36셀 매트릭스는 비즈니스 컨텍스트부터 운영 절차까지 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 완전성을 보장한다.
-> 3. SABSA의 가장 강력한 특징은 "비즈니스 목표 → [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) → [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) → 보안 통제"로 이어지는 추적 가능성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))으로, 각 보안 투자가 어떤 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 해소하는지 경영진에게 설명할 수 있다.
+> 2. SABSA의 6대 계층(Contextual->Conceptual->Logical->Physical->[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)->Operational)과 6대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 열(What/How/Where/Who/When/Why)의 36셀 매트릭스는 비즈니스 컨텍스트부터 운영 절차까지 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 완전성을 보장한다.
+> 3. SABSA의 가장 강력한 특징은 "비즈니스 목표 -> [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) -> [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) -> 보안 통제"로 이어지는 추적 가능성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))으로, 각 보안 투자가 어떤 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 해소하는지 경영진에게 설명할 수 있다.
 
 ---
 
@@ -27,7 +27,7 @@ SABSA (Sherwood Applied Business Security Architecture):
 
 핵심 철학:
   "보안은 비즈니스를 위해 존재한다"
-  기술 보안 솔루션 → 비즈니스 요구사항 역추적
+  기술 보안 솔루션 -> 비즈니스 요구사항 역추적
   불가능 (Top-down 설계 필요)
 
 SABSA vs 타 프레임워크:
@@ -116,8 +116,8 @@ SABSA 속성 분류 (Security Attributes):
   비즈니스 속성에서 보안 속성 도출
 
   예: "고객 신뢰 유지" (비즈니스 속성)
-   → "데이터 무결성 보장" (보안 속성)
-   → "DB 접근 감사 + 변경 불가 로그" (통제)
+   -> "데이터 무결성 보장" (보안 속성)
+   -> "DB 접근 감사 + 변경 불가 로그" (통제)
 ```
 
 > 📢 **섹션 요약 비유**: SABSA 6질문은 보안 6하원칙 — 무엇을(What), 어떻게(How), 어디서(Where), 누가(Who), 언제(When), 왜(Why) 보호하는가.
@@ -129,7 +129,7 @@ SABSA 속성 분류 (Security Attributes):
 ```
 SABSA 추적 가능성 (Traceability):
 
-비즈니스 목표 → 보안 통제 추적:
+비즈니스 목표 -> 보안 통제 추적:
 
 Level 1 (Contextual):
   비즈니스 리스크: "고객 개인정보 유출 시 법적 책임"
@@ -150,12 +150,12 @@ Level 6 (Operational):
   운영 절차: 분기별 접근 권한 리뷰 SOP
 
 가치:
-  각 보안 투자 → 비즈니스 리스크 해소 연결
+  각 보안 투자 -> 비즈니스 리스크 해소 연결
   보안 ROI 설명 가능
   감사(Audit) 시 근거 제공
 
 SABSA Business Attributes Profile:
-  비즈니스 요구사항 → 보안 속성으로 변환
+  비즈니스 요구사항 -> 보안 속성으로 변환
   표준 약 40개 비즈니스 속성 카탈로그
 ```
 
@@ -169,7 +169,7 @@ SABSA Business Attributes Profile:
 금융기관 클라우드 보안 아키텍처 SABSA 적용:
 
 배경:
-  레거시 온프레미스 → AWS 클라우드 전환
+  레거시 온프레미스 -> AWS 클라우드 전환
   SABSA 기반 클라우드 보안 설계
 
 Level 1 (Contextual) 분석:
@@ -268,7 +268,7 @@ LLM 보안 위협 비즈니스 영향 분석
 
 **진행 상황**: 42 / 1108
 
-← **이전**: [041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처](/knowledge-base/studynote/09_security/01_intro_principles/041_zachman_framework/)
-**다음**: [043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/043_osa/) →
+<- **이전**: [041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처](/knowledge-base/studynote/09_security/01_intro_principles/041_zachman_framework/)
+**다음**: [043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/043_osa/) ->
 
 ---

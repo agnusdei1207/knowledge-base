@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 - AQE는 Spark 3.0의 핵심 기능으로, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 도중에 수집된 실제 통계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 동적으로 변경한다.
-- 셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 합병(Coalesce), 조인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경(Shuffle → Broadcast), 조인 스큐(Skew) 자동 최적화라는 3대 핵심 기능을 제공한다.
+- 셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 합병(Coalesce), 조인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경(Shuffle -> Broadcast), 조인 스큐(Skew) 자동 최적화라는 3대 핵심 기능을 제공한다.
 - 정적 최적화(Catalyst)의 한계인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 예측 불확실성을 극복하여 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 획기적으로 향상시킨다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
@@ -59,17 +59,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [정적 쿼리 계획 (Static Query Plan) — CBO]
-    │
-    ▼
+    |
+    v
 [런타임 통계 수집 (Runtime Statistics)]
-    │
-    ▼
+    |
+    v
 [적응형 쿼리 실행 (AQE, Adaptive Query Execution)]
-    │
-    ▼
+    |
+    v
 [파티션 병합 / 스큐 조인 최적화 (Skew Join)]
-    │
-    ▼
+    |
+    v
 [ML 기반 자동 튜닝 엔진 (Auto-tuning)]
 ```
 
@@ -86,7 +86,7 @@ Spark [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attentio
 
 **진행 상황**: 59 / 262
 
-← **이전**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/)
-**다음**: [Spark Streaming (DStream) 아키텍처](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) →
+<- **이전**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/)
+**다음**: [Spark Streaming (DStream) 아키텍처](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) ->
 
 ---

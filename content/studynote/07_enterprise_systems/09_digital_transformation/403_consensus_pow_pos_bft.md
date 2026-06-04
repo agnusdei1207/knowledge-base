@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 기술 시연에 머물고 운영 설계가 비는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 PoW PoS [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     분산 합의 PoW PoS…의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [분산 합의 PoW PoS…] ─────▶ [분산 합의 PoW PoS…] ─────▶ [기술 내재화]                  │
-│      │                           │                           │
-│      └────────▶ [기술 시연에 머물고 운영…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     분산 합의 PoW PoS…의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [분산 합의 PoW PoS…] ------> [분산 합의 PoW PoS…] ------> [기술 내재화]                  |
+|      |                           |                           |
+|      +---------> [기술 시연에 머물고 운영…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 PoW PoS [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [분산 합의 PoW PoS…] ─────▶ [Distributed Consens…] ─────▶ [BFT]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [분산 합의 PoW PoS…] ------> [Distributed Consens…] ------> [BFT]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 PoW PoS [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ tags = ["studynote-enterprise"]
 
 ```text
 [분산 합의 PoW PoS… 정리]
-    │
-    ▼
+    |
+    v
 [분산 합의 PoW PoS… 적용]
-    │
-    ├──▶ [Distributed Consens… 최적화]
-    └──▶ [플랫폼 기반 서비스화 확장]
+    |
+    +---> [Distributed Consens… 최적화]
+    +---> [플랫폼 기반 서비스화 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 403 / 482
 
-← **이전**: [402. 블록체인 DLT 머클 트리 분산 원장 (Blockchain / DLT)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/)
-**다음**: [404. 스마트 컨트랙트 튜링 완전성 가스비 (Smart Contract)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/404_smart_contract_turing_gas/) →
+<- **이전**: [402. 블록체인 DLT 머클 트리 분산 원장 (Blockchain / DLT)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/402_blockchain_dlt_merkle_tree/)
+**다음**: [404. 스마트 컨트랙트 튜링 완전성 가스비 (Smart Contract)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/404_smart_contract_turing_gas/) ->
 
 ---

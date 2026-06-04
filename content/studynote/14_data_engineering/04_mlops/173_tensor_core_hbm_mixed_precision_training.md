@@ -42,23 +42,23 @@ step time ≈ max(compute time, memory time, communication time)
 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 기반 학습은 메모리 계층과 연산 계층이 타일 단위로 협력하면서 동작한다. HBM에서 읽어 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 L2 캐시, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 레지스터로 옮긴 뒤, [Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) 안의 Tensor Core가 작은 블록 행렬 곱을 반복 수행한다. 이때 중요한 점은 단순 곱셈 속도보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재사용을 얼마나 늘려 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 왕복을 줄이느냐</strong>다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Data path for tensor computation                 │
-├────────────────────────────────────────────────────────────────────┤
-│ HBM3 / HBM2e                                                      │
-│   │  large capacity, TB/s bandwidth                               │
-│   ▼                                                                │
-│ L2 cache                                                           │
-│   │                                                                │
-│   ▼                                                                │
-│ Shared memory / registers inside SM                               │
-│   │  tile reuse                                                    │
-│   ▼                                                                │
-│ Tensor Core matrix multiply-accumulate                            │
-│   │                                                                │
-│   ▼                                                                │
-│ FP32 accumulator / optimizer update path                          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                   Data path for tensor computation                 |
++--------------------------------------------------------------------+
+| HBM3 / HBM2e                                                      |
+|   |  large capacity, TB/s bandwidth                               |
+|   v                                                                |
+| L2 cache                                                           |
+|   |                                                                |
+|   v                                                                |
+| Shared memory / registers inside SM                               |
+|   |  tile reuse                                                    |
+|   v                                                                |
+| Tensor Core matrix multiply-accumulate                            |
+|   |                                                                |
+|   v                                                                |
+| FP32 accumulator / optimizer update path                          |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 병목 |
@@ -71,25 +71,25 @@ step time ≈ max(compute time, memory time, communication time)
 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습의 핵심은 "모든 연산을 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 바꾼다"가 아니다. 보통 순전파와 역전파의 대규모 행렬 연산은 FP16 또는 BF16으로 실행하고, 누산과 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 업데이트는 FP32 경로를 유지한다. FP16은 표현 범위가 좁아 작은 그래디언트가 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))될 수 있으므로 손실 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Loss Scaling)이 필요하고, BF16은 지수부가 FP32와 같아 대형 모델 학습에서 더 안정적이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Mixed precision training flow                      │
-├────────────────────────────────────────────────────────────────────┤
-│ FP32 master weights                                                │
-│        │ cast                                                      │
-│        ▼                                                           │
-│ BF16 / FP16 weights + activations                                  │
-│        │                                                           │
-│        ▼                                                           │
-│ Tensor Core forward / backward                                     │
-│        │                                                           │
-│        ▼                                                           │
-│ gradients                                                          │
-│   ├─ FP16 path -> loss scaling / unscaling                         │
-│   └─ BF16 path -> usually no scaling needed                        │
-│        │                                                           │
-│        ▼                                                           │
-│ FP32 optimizer update                                              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Mixed precision training flow                      |
++--------------------------------------------------------------------+
+| FP32 master weights                                                |
+|        | cast                                                      |
+|        v                                                           |
+| BF16 / FP16 weights + activations                                  |
+|        |                                                           |
+|        v                                                           |
+| Tensor Core forward / backward                                     |
+|        |                                                           |
+|        v                                                           |
+| gradients                                                          |
+|   +- FP16 path -> loss scaling / unscaling                         |
+|   +- BF16 path -> usually no scaling needed                        |
+|        |                                                           |
+|        v                                                           |
+| FP32 optimizer update                                              |
++--------------------------------------------------------------------+
 ```
 
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 장점 | 주의점 | 대표 용도 |
@@ -143,23 +143,23 @@ Tensor Core와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/
 실무에서 가장 먼저 해야 할 일은 "어떤 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 학습할 것인가"보다 "어디서 병목이 나는가"를 측정하는 것이다. [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 사용률, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시간 비중, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 통신 시간을 함께 봐야 한다. 학습이 느린 이유가 연산 부족인지, 메모리 병목인지, 통신 병목인지 구분하지 않으면 장비만 바꾸고도 기대 성능을 못 얻는다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Practical decision sequence                        │
-├────────────────────────────────────────────────────────────────────┤
-│ unstable training?                                                 │
-│   ├─ yes -> BF16 first, then inspect sensitive ops                 │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ low Tensor Core utilization?                                       │
-│   ├─ yes -> check kernel path, shape alignment, library support    │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ near-peak HBM bandwidth?                                           │
-│   ├─ yes -> optimize memory movement, fusion, FlashAttention       │
-│   └─ no  -> inspect communication / data pipeline                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Practical decision sequence                        |
++--------------------------------------------------------------------+
+| unstable training?                                                 |
+|   +- yes -> BF16 first, then inspect sensitive ops                 |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| low Tensor Core utilization?                                       |
+|   +- yes -> check kernel path, shape alignment, library support    |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| near-peak HBM bandwidth?                                           |
+|   +- yes -> optimize memory movement, fusion, FlashAttention       |
+|   +- no  -> inspect communication / data pipeline                  |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -221,19 +221,19 @@ Tensor Core와 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 ```text
 FP32-only training
-    │
-    ▼
+    |
+    v
 Tensor Core acceleration + mixed precision
-    ├─ FP16: high throughput, needs scaling
-    └─ BF16: training-friendly default
-    │
-    ▼
+    +- FP16: high throughput, needs scaling
+    +- BF16: training-friendly default
+    |
+    v
 HBM-aware kernel optimization
-    ├─ fusion
-    ├─ FlashAttention
-    └─ activation checkpointing
-    │
-    ▼
+    +- fusion
+    +- FlashAttention
+    +- activation checkpointing
+    |
+    v
 FP8 / Transformer Engine / larger-scale model training
 ```
 
@@ -251,7 +251,7 @@ FP8 / Transformer Engine / larger-scale model training
 
 **진행 상황**: 173 / 258
 
-← **이전**: [172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)](/knowledge-base/studynote/14_data_engineering/04_mlops/172_distributed_training_data_model_parallelism/)
-**다음**: [174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/) →
+<- **이전**: [172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)](/knowledge-base/studynote/14_data_engineering/04_mlops/172_distributed_training_data_model_parallelism/)
+**다음**: [174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/) ->
 
 ---

@@ -31,34 +31,34 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-두 패턴의 차이는 연결 구조보다 <strong>확장 방향</strong>에서 가장 선명하게 드러난다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 `Abstraction ↔ Implementor`의 두 계층을 만들고, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 `Context → Strategy`의 한 방향 교체 지점을 만든다.
+두 패턴의 차이는 연결 구조보다 <strong>확장 방향</strong>에서 가장 선명하게 드러난다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 `Abstraction ↔ Implementor`의 두 계층을 만들고, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 `Context -> Strategy`의 한 방향 교체 지점을 만든다.
 
 아래 그림은 왜 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)가 2차원 확장이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 1차원 교체인지 보여준다.
 
 ```text
-┌──────────────────────────── Bridge ────────────────────────────┐
-│ Abstraction                                                    │
-│   ├── RemoteControl                                            │
-│   └── AdvancedRemoteControl                                    │
-│            │ has-a                                              │
-│            ▼                                                    │
-│ Implementor                                                    │
-│   ├── TV                                                        │
-│   └── Radio                                                     │
-│ Result: Remote 종류와 Device 종류가 독립 확장                  │
-└────────────────────────────────────────────────────────────────┘
++---------------------------- Bridge ----------------------------+
+| Abstraction                                                    |
+|   +-- RemoteControl                                            |
+|   +-- AdvancedRemoteControl                                    |
+|            | has-a                                              |
+|            v                                                    |
+| Implementor                                                    |
+|   +-- TV                                                        |
+|   +-- Radio                                                     |
+| Result: Remote 종류와 Device 종류가 독립 확장                  |
++----------------------------------------------------------------+
 
-┌─────────────────────────── Strategy ───────────────────────────┐
-│ Context                                                        │
-│   └── PaymentService                                           │
-│            │ uses                                               │
-│            ▼                                                    │
-│ Strategy                                                       │
-│   ├── CardPaymentStrategy                                      │
-│   ├── AccountTransferStrategy                                  │
-│   └── SimplePayStrategy                                        │
-│ Result: 동일 문맥에서 결제 알고리즘만 교체                     │
-└────────────────────────────────────────────────────────────────┘
++--------------------------- Strategy ---------------------------+
+| Context                                                        |
+|   +-- PaymentService                                           |
+|            | uses                                               |
+|            v                                                    |
+| Strategy                                                       |
+|   +-- CardPaymentStrategy                                      |
+|   +-- AccountTransferStrategy                                  |
+|   +-- SimplePayStrategy                                        |
+| Result: 동일 문맥에서 결제 알고리즘만 교체                     |
++----------------------------------------------------------------+
 ```
 
 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 구현 세부사항을 직접 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)하지 않고 구현자 인터페이스에 위임한다. 그래서 `RemoteControl` 계열이 늘어나도 `TV`, `Radio` 계열과 곱셈으로 증가하지 않는다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 품고 있다가 상황에 따라 다른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 교체한다. 핵심은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 책임은 유지하고, 변하는 계산 방식만 외부 객체로 분리한다는 점이다.
@@ -104,10 +104,10 @@ tags = ["studynote-design-supervision"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 변화 축이 둘 이상이며 서로 독립적으로 증가하는가? → [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 우선 검토
-2. 동일 문맥에서 규칙·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 바꾸면 되는가? → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선 검토
-3. 새로운 경우 추가 시 기존 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 수정해야 하는가? → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 누락 가능성 점검
-4. 조합 클래스 수가 `M × N`으로 늘어나는가? → [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 필요성 점검
+1. 변화 축이 둘 이상이며 서로 독립적으로 증가하는가? -> [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 우선 검토
+2. 동일 문맥에서 규칙·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 바꾸면 되는가? -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선 검토
+3. 새로운 경우 추가 시 기존 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 수정해야 하는가? -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 누락 가능성 점검
+4. 조합 클래스 수가 `M × N`으로 늘어나는가? -> [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 필요성 점검
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -145,15 +145,15 @@ tags = ["studynote-design-supervision"]
 
 ```text
 상속 중심 설계
-    │
-    ▼
+    |
+    v
 조합 폭발 · 조건 분기 증가
-    │
-    ├── 구조 분리 필요 ──▶ 브리지 패턴 (Bridge Pattern)
-    │
-    └── 알고리즘 교체 필요 ──▶ 전략 패턴 (Strategy Pattern)
-                                  │
-                                  ▼
+    |
+    +-- 구조 분리 필요 ---> 브리지 패턴 (Bridge Pattern)
+    |
+    +-- 알고리즘 교체 필요 ---> 전략 패턴 (Strategy Pattern)
+                                  |
+                                  v
 합성 우선 설계 · OCP · DIP 강화
 ```
 
@@ -171,7 +171,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 221 / 530
 
-← **이전**: [164. 어댑터 vs 퍼사드 (Adapter vs Facade)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/164_adapter_vs_facade/)
-**다음**: [166. 데코레이터 vs 프록시 (Decorator vs Proxy)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/166_decorator_vs_proxy/) →
+<- **이전**: [164. 어댑터 vs 퍼사드 (Adapter vs Facade)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/164_adapter_vs_facade/)
+**다음**: [166. 데코레이터 vs 프록시 (Decorator vs Proxy)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/166_decorator_vs_proxy/) ->
 
 ---

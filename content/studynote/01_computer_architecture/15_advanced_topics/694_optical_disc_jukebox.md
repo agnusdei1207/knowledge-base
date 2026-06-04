@@ -31,25 +31,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-광 디스크 주크박스의 내부는 크게 **디스크 슬롯**, **로봇 피커**, **광 디스크 드라이브**, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 소프트웨어</strong>로 나뉜다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 어느 디스크에 있는지 기록하고, 로봇 피커는 그 정보를 바탕으로 디스크를 집어 드라이브에 넣는다. 읽기 요청은 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 조회 → 디스크 운반 → 드라이브 장착 → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근" 순서로 진행되며, 이 과정 때문에 응답 시간이 하드디스크보다 훨씬 길다.
+광 디스크 주크박스의 내부는 크게 **디스크 슬롯**, **로봇 피커**, **광 디스크 드라이브**, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 소프트웨어</strong>로 나뉜다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 어느 디스크에 있는지 기록하고, 로봇 피커는 그 정보를 바탕으로 디스크를 집어 드라이브에 넣는다. 읽기 요청은 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 조회 -> 디스크 운반 -> 드라이브 장착 -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근" 순서로 진행되며, 이 과정 때문에 응답 시간이 하드디스크보다 훨씬 길다.
 
 아래 그림은 주크박스가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내 오는 기본 구조를 단순화한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Optical disc jukebox path                      │
-├────────────────────────────────────────────────────────────────────┤
-│ [Slot001][Slot002][Slot003] ... [SlotNNN]                         │
-│      ▲                           │                                │
-│      │ pick                      │ return                         │
-│      └──────────── Robot arm ────┘                                │
-│                        │                                           │
-│                        ▼                                           │
-│                  [Drive A] [Drive B]                               │
-│                        │                                           │
-│                        ▼                                           │
-│                 Archive server / catalog                           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Optical disc jukebox path                      |
++--------------------------------------------------------------------+
+| [Slot001][Slot002][Slot003] ... [SlotNNN]                         |
+|      ^                           |                                |
+|      | pick                      | return                         |
+|      +------------ Robot arm ----+                                |
+|                        |                                           |
+|                        v                                           |
+|                  [Drive A] [Drive B]                               |
+|                        |                                           |
+|                        v                                           |
+|                 Archive server / catalog                           |
++--------------------------------------------------------------------+
 ```
 
 동작 원리는 단순하지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 분명하다. 광 디스크 한 장의 용량은 보통 수십 기가바이트에서 많아야 수백 기가바이트 수준이므로, 큰 아카이브를 만들려면 많은 장수를 관리해야 한다. 반면 디스크는 서가에 꽂혀 있을 때 전력을 거의 쓰지 않고, 기록이 끝난 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)는 비교적 안정적으로 장기 보존할 수 있다. 즉 주크박스는 "대용량을 빠르게 제공"하는 장비가 아니라, <strong>기계적 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 감수하고 보존 특성을 얻는 장비</strong>다.
@@ -124,17 +124,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Single optical disc archive
-    │
-    ▼
+    |
+    v
 WORM optical media
-    │
-    ▼
+    |
+    v
 Robotic jukebox automation
-    │
-    ▼
+    |
+    v
 Cold archive management
-    │
-    ▼
+    |
+    v
 Hybrid long-term archive with migration planning
 ```
 
@@ -152,7 +152,7 @@ Hybrid long-term archive with migration planning
 
 **진행 상황**: 695 / 803
 
-← **이전**: [693. WORM (Write Once Read Many) 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/)
-**다음**: [695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/695_storage_topology/) →
+<- **이전**: [693. WORM (Write Once Read Many) 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/)
+**다음**: [695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/695_storage_topology/) ->
 
 ---

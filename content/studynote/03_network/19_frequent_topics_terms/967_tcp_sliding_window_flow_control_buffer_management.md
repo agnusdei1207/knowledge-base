@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트]
-    │
-    ▼
+    |
+    v
 [TCP 슬라이딩 윈도우]
-    │
-    └──▶ [TCP 쓰리웨이 핸드셰이크]
+    |
+    +---> [TCP 쓰리웨이 핸드셰이크]
 ```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트]
-    │
-    ▼
+    |
+    v
 [TCP 슬라이딩 윈도우]
-    │
-    └──▶ [TCP 쓰리웨이 핸드셰이크]
+    |
+    +---> [TCP 쓰리웨이 핸드셰이크]
 ```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 멀티캐스트]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 슬라이딩 윈도우]
-    │
-    ├──▶ [확장 A: TCP 쓰리웨이 핸드셰이크]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: TCP 쓰리웨이 핸드셰이크]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1088 / 1120
 
-← **이전**: [966. 멀티캐스트 (IGMP, PIM)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/966_multicast_igmp_pim_routing_snooping_dense_sparse/)
-**다음**: [968. TCP 쓰리웨이 핸드셰이크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/968_tcp_three_way_handshake_syn_ack_established/) →
+<- **이전**: [966. 멀티캐스트 (IGMP, PIM)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/966_multicast_igmp_pim_routing_snooping_dense_sparse/)
+**다음**: [968. TCP 쓰리웨이 핸드셰이크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/968_tcp_three_way_handshake_syn_ack_established/) ->
 
 ---

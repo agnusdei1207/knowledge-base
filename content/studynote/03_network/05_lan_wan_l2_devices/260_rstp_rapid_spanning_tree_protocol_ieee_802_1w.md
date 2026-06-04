@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [포트 패스트 / BPDU Guard]
-    │
-    ▼
+    |
+    v
 [RSTP]
-    │
-    └──▶ [백업 포트, 대체 포트 추가]
+    |
+    +---> [백업 포트, 대체 포트 추가]
 ```
 
 - **📢 섹션 요약 비유**: <strong> RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>)를 혁파하고, </strong>"플랜 B(대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 결재 시스템"**입니다.
@@ -41,9 +41,9 @@ tags = ["studynote-network"]
 
 ### 1. 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 축소와 통합
 RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 상태를 3가지로 압축해 직관성을 높였다.
-- Disabled, [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/), Listening ──▶ **Discarding (차단/버림)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지도 않고, MAC도 안 배우는 그냥 차단 상태로 통폐합.
-- [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ──▶ <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> (학습)</strong>: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소만 배우는 상태 (유지).
-- Forwarding ──▶ **Forwarding (전송)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정상 전송 (유지).
+- Disabled, [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/), Listening ---> **Discarding (차단/버림)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지도 않고, MAC도 안 배우는 그냥 차단 상태로 통폐합.
+- [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ---> <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> (학습)</strong>: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소만 배우는 상태 (유지).
+- Forwarding ---> **Forwarding (전송)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정상 전송 (유지).
 
 ### 2. Proposal / Agreement (제안과 동의 메커니즘)
 구형 STP는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열기 위해 Listening(15초), [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)(15초)의 '고정 타이머'를 하염없이 기다렸다.
@@ -53,21 +53,21 @@ RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base
 - **결과**: 이 대화가 끝나자마자 타이머 대기 없이 1~2초 내에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 Forwarding으로 확 열린다(Sync).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RSTP의 Proposal/Agreement 과정                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스위치 A ]                                   [ 스위치 B ] │
- │      │ 1. 야 나랑 문 열자! (Proposal BPDU 발송)         │     │
- │      ├────────────────────────────────────────▶ │     │
- │      │                                          │     │
- │      │ 2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)     │     │
- │      │    ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)      │     │
- │      │ ◀────────────────────────────────────────┤     │
- │      │                                          │     │
- │   [ Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!) ]    │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RSTP의 Proposal/Agreement 과정                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 스위치 A ]                                   [ 스위치 B ] |
+ |      | 1. 야 나랑 문 열자! (Proposal BPDU 발송)         |     |
+ |      +-----------------------------------------> |     |
+ |      |                                          |     |
+ |      | 2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)     |     |
+ |      |    ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)      |     |
+ |      | <-----------------------------------------+     |
+ |      |                                          |     |
+ |   [ Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!) ]    |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 플랜 B의 상시 준비: Alternate Port와 [Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/)
@@ -136,12 +136,12 @@ RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: 포트 패스트 / BPDU Guard]
-    │
-    ▼
+    |
+    v
 [현재 개념: RSTP]
-    │
-    ├──▶ [확장 A: 백업 포트, 대체 포트 추가]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 백업 포트, 대체 포트 추가]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 RSTP는 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard에서 출발해 현재 메커니즘을 정교화하고, 이후 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ RSTP는 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_de
 
 **진행 상황**: 381 / 1120
 
-← **이전**: [259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/)
-**다음**: [261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/) →
+<- **이전**: [259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/)
+**다음**: [261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/) ->
 
 ---

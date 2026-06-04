@@ -42,27 +42,27 @@ tags = ["studynote-algorithm"]
 ```
 배열: [7, 2, 15, 4, 9, 11, 3]     목표: 9
 
-단계 1:  i=0 → arr[0]=7  → 7 ≠ 9 → 계속
-단계 2:  i=1 → arr[1]=2  → 2 ≠ 9 → 계속
-단계 3:  i=2 → arr[2]=15 → 15 ≠ 9 → 계속
-단계 4:  i=3 → arr[3]=4  → 4 ≠ 9 → 계속
-단계 5:  i=4 → arr[4]=9  → 9 = 9 → 반환(4) ✓
+단계 1:  i=0 -> arr[0]=7  -> 7 ≠ 9 -> 계속
+단계 2:  i=1 -> arr[1]=2  -> 2 ≠ 9 -> 계속
+단계 3:  i=2 -> arr[2]=15 -> 15 ≠ 9 -> 계속
+단계 4:  i=3 -> arr[3]=4  -> 4 ≠ 9 -> 계속
+단계 5:  i=4 -> arr[4]=9  -> 9 = 9 -> 반환(4) ✓
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 선형 탐색 포인터 이동
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  배열:    [ 7 ] [ 2 ] [15 ] [ 4 ] [ 9 ] [11 ] [ 3 ]        │
-│  인덱스:    0     1     2     3     4     5     6            │
-│                                                             │
-│  탐색 진행 →→→→→→→→→→→→→→→→→→→→→→→                         │
-│   i=0: 7≠9  i=1: 2≠9  i=2: 15≠9  i=3: 4≠9                 │
-│                                                             │
-│                               i=4: 9=9  ← Found!           │
-│                               ↓                            │
-│                            반환: 4                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  배열:    [ 7 ] [ 2 ] [15 ] [ 4 ] [ 9 ] [11 ] [ 3 ]        |
+|  인덱스:    0     1     2     3     4     5     6            |
+|                                                             |
+|  탐색 진행 ->->->->->->->->->->->->->->->->->->->->->->->                         |
+|   i=0: 7≠9  i=1: 2≠9  i=2: 15≠9  i=3: 4≠9                 |
+|                                                             |
+|                               i=4: 9=9  <- Found!           |
+|                               v                            |
+|                            반환: 4                          |
++-------------------------------------------------------------+
 ```
 
 ### Sentinel(감시자) 최적화
@@ -114,15 +114,15 @@ Sentinel: arr[n] = target;   while (arr[i] != target)   // 범위 검사 제거
 
 **시나리오 1**: 소규모 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (n=16)
 - [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 캐시에서 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- n=16 수준이면 선형 탐색이 캐시 라인 전체를 L1 캐시에 적재 → [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 빠를 수 있음
+- n=16 수준이면 선형 탐색이 캐시 라인 전체를 L1 캐시에 적재 -> [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 빠를 수 있음
 
 **시나리오 2**: DB 풀 테이블 스캔 (Full Table Scan)
-- SQL `WHERE` 절에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 컬럼 조건 → 내부적으로 선형 탐색
-- 대용량 테이블에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 → [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계로 이진/[해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) 전환이 필수
+- SQL `WHERE` 절에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 컬럼 조건 -> 내부적으로 선형 탐색
+- 대용량 테이블에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 -> [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계로 이진/[해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) 전환이 필수
 
 **시나리오 3**: 단일 탐색 후 대용량 정렬
 - 리스트가 한 번만 탐색된다면: 정렬 O(n log n) + [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) O(log n) > 선형 탐색 O(n)
-- 여러 번 탐색: 정렬 비용을 분할 상각 → [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)이 유리
+- 여러 번 탐색: 정렬 비용을 분할 상각 -> [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)이 유리
 
 ### 기술사 판단 기준
 
@@ -161,14 +161,14 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 ```text
 [이진 탐색 (Binary Search)]
-    │
-    ▼
+    |
+    v
 [해시 탐색 (Hash Search)]
-    │
-    ▼
+    |
+    v
 [Sentinel 최적화]
-    │
-    ▼
+    |
+    v
 [풀 테이블 스캔 (Full Table Scan)]
 ```
 
@@ -186,7 +186,7 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 **진행 상황**: 30 / 175
 
-← **이전**: [18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/)
-**다음**: [2. 이진 탐색 (Binary Search) — O(log n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) →
+<- **이전**: [18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/)
+**다음**: [2. 이진 탐색 (Binary Search) — O(log n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ->
 
 ---

@@ -34,29 +34,29 @@ tags = ["network"]
 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시스템은 개루프(Open Loop)와 폐루프(Closed Loop) 전력 제어라는 정밀한 이중 방어 아키텍처를 통해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 레벨을 평탄화(Equalization)한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        CDMA 폐루프 전력 제어 (Closed Loop Power Control)       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [제어국 / 상위 계층] (Outer Loop: 타겟 품질 재설정)          │
-│                │ (FER, BLER 기반으로 Target SIR 동적 변경)      │
-│                ▼                                             │
-│       [기지국 (Node B)] ─────────────────────────┐           │
-│       │ 1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정│           │
-│       │ 2. 목표치(Target SIR)와 실시간 비교          │           │
-│       │ 3. 전력 조절 명령 (TPC Bit) 생성            │           │
-│       └────────────────┬─────────────────────────┘           │
-│                        │                                     │
-│ (Down-link) 초당 1,500회 │ TPC Bit 전송 (0: 올림, 1: 내림)      │
-│                        ▼                                     │
-│       [단말기 (UE)] ─────────────────────────────┐           │
-│       │ 1. 기지국 명령 수신                          │           │
-│       │ 2. 송신 전력을 ±1dB 단위로 즉각 증감 조정     │           │
-│       └────────────────┬─────────────────────────────┘           │
-│                        │ (Up-link) 평탄화된 출력으로 데이터 쏨  │
-│                        ▼                                     │
-│             [ 다시 기지국으로 피드백 순환 (Inner Loop) ]          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        CDMA 폐루프 전력 제어 (Closed Loop Power Control)       |
++--------------------------------------------------------------+
+|                                                              |
+|       [제어국 / 상위 계층] (Outer Loop: 타겟 품질 재설정)          |
+|                | (FER, BLER 기반으로 Target SIR 동적 변경)      |
+|                v                                             |
+|       [기지국 (Node B)] -------------------------+           |
+|       | 1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정|           |
+|       | 2. 목표치(Target SIR)와 실시간 비교          |           |
+|       | 3. 전력 조절 명령 (TPC Bit) 생성            |           |
+|       +----------------+-------------------------+           |
+|                        |                                     |
+| (Down-link) 초당 1,500회 | TPC Bit 전송 (0: 올림, 1: 내림)      |
+|                        v                                     |
+|       [단말기 (UE)] -----------------------------+           |
+|       | 1. 기지국 명령 수신                          |           |
+|       | 2. 송신 전력을 ±1dB 단위로 즉각 증감 조정     |           |
+|       +----------------+-----------------------------+           |
+|                        | (Up-link) 평탄화된 출력으로 데이터 쏨  |
+|                        v                                     |
+|             [ 다시 기지국으로 피드백 순환 (Inner Loop) ]          |
++--------------------------------------------------------------+
 ```
 
 1. **개루프 전력 제어 (Open Loop)**: 단말기가 처음 전원을 켤 때 기지국 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하여 스스로 대략적인 송신 전력을 맞춘다. 오차가 커서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 충돌 방지에만 쓰인다.
@@ -118,20 +118,20 @@ CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_comput
 
 ```text
 근거리 단말기의 강한 신호 송출
-    │
-    ▼
+    |
+    v
 원거리 단말기 신호 차폐 (근거리-원거리 문제 발생)
-    │
-    ▼
+    |
+    v
 단말기 자체 판단 기반 전력 초기화 (개루프 전력 제어)
-    │
-    ▼
+    |
+    v
 기지국-단말기 간 1,500회/초 피드백 (내부 폐루프 전력 제어)
-    │
-    ▼
+    |
+    v
 FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)
-    │
-    ▼
+    |
+    v
 4G/5G OFDMA 셀 간 간섭 조정(Fractional Power Control)으로 진화
 ```
 
@@ -147,7 +147,7 @@ FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)
 
 **진행 상황**: 92 / 1120
 
-← **이전**: [91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)
-**다음**: [93. 셀 호흡 (Cell Breathing) 현상](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) →
+<- **이전**: [91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)
+**다음**: [93. 셀 호흡 (Cell Breathing) 현상](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) ->
 
 ---

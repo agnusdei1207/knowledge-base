@@ -19,16 +19,16 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│     JSON vs. Avro vs. Protobuf 비교                    │
-├─────────────────┬──────────────────────────────────────┤
-│ 형식            │ 특징                                  │
-├─────────────────┼──────────────────────────────────────┤
-│ JSON            │ 사람이 읽기 쉬움, 크기 큼, 파싱 느림 │
-│ Avro            │ 바이너리, 스키마 분리, Hadoop 친화    │
-│ Protobuf        │ 바이너리, 스키마 필드 번호 기반, gRPC │
-│ Thrift          │ 바이너리, RPC 통합, Meta 오리지널     │
-└─────────────────┴──────────────────────────────────────┘
++--------------------------------------------------------+
+|     JSON vs. Avro vs. Protobuf 비교                    |
++-----------------+--------------------------------------+
+| 형식            | 특징                                  |
++-----------------+--------------------------------------+
+| JSON            | 사람이 읽기 쉬움, 크기 큼, 파싱 느림 |
+| Avro            | 바이너리, 스키마 분리, Hadoop 친화    |
+| Protobuf        | 바이너리, 스키마 필드 번호 기반, gRPC |
+| Thrift          | 바이너리, RPC 통합, Meta 오리지널     |
++-----------------+--------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 형식 선택은 국제 소포 포장 방식이다. JSON은 큰 종이 박스(사람이 읽기 쉽지만 부피가 크다), Avro/Protobuf는 진공 포장(작고 빠르지만 기계만 읽을 수 있다).
@@ -42,13 +42,13 @@ tags = ["studynote-bigdata"]
 ```text
 Avro:
   - 스키마를 .avsc 파일(JSON)로 별도 정의
-  - 데이터에 스키마 없음 → Schema Registry에서 참조
+  - 데이터에 스키마 없음 -> Schema Registry에서 참조
   - 스키마 진화: 필드 추가/제거 + default값으로 backward/forward 호환
 
 Protobuf:
   - .proto 파일에 스키마 정의
   - 각 필드에 고유 번호 (field=1, field=2...)
-  - 번호 기반 인코딩 → 필드명 변경해도 호환 유지
+  - 번호 기반 인코딩 -> 필드명 변경해도 호환 유지
 
 Thrift:
   - .thrift 파일에 데이터 + 서비스(RPC) 정의
@@ -94,16 +94,16 @@ Thrift:
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) + Avro
 
 ```text
-Producer → [Avro 직렬화] → Kafka 토픽
-              ↑ 스키마 등록/조회
+Producer -> [Avro 직렬화] -> Kafka 토픽
+              ^ 스키마 등록/조회
            Schema Registry
-              ↓ 스키마 조회/역직렬화
-Consumer ← [Avro 역직렬화] ← Kafka 토픽
+              v 스키마 조회/역직렬화
+Consumer <- [Avro 역직렬화] <- Kafka 토픽
 ```
 
 ### [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) + Protobuf
 - [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 고속 통신: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 + Protobuf 바이너리.
-- .proto → 각 언어 클라이언트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
+- .proto -> 각 언어 클라이언트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 - 스트리밍 지원: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·양방향 스트리밍.
 
 - **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)+Protobuf는 국제 은행 간 SWIFT 전문(電文) 시스템이다. 표준화된 형식(Protobuf)으로 빠르고 정확하게 정보를 전달하고, 수신 측은 자동으로 해석(역직렬화)한다.
@@ -138,17 +138,17 @@ Consumer ← [Avro 역직렬화] ← Kafka 토픽
 
 ```text
 [JSON/XML — 텍스트 직렬화, 사람 가독성, 크기 비효율]
-    │
-    ▼
+    |
+    v
 [Avro/Protobuf/Thrift — 바이너리 직렬화, 효율성]
-    │
-    ▼
+    |
+    v
 [Schema Registry — 스키마 버전 중앙 관리]
-    │
-    ▼
+    |
+    v
 [gRPC + Protobuf — 마이크로서비스 표준 RPC]
-    │
-    ▼
+    |
+    v
 [Apache Arrow — 컬럼형 인메모리 분석 직렬화]
 ```
 
@@ -164,7 +164,7 @@ Consumer ← [Avro 역직렬화] ← Kafka 토픽
 
 **진행 상황**: 49 / 262
 
-← **이전**: [26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰](/knowledge-base/studynote/16_bigdata/02_hadoop/048_hdfs_viewfs/)
-**다음**: [28. Hadoop 보안 — Kerberos, Ranger, Atlas](/knowledge-base/studynote/16_bigdata/02_hadoop/050_hadoop_security_kerberos_ranger_atlas/) →
+<- **이전**: [26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰](/knowledge-base/studynote/16_bigdata/02_hadoop/048_hdfs_viewfs/)
+**다음**: [28. Hadoop 보안 — Kerberos, Ranger, Atlas](/knowledge-base/studynote/16_bigdata/02_hadoop/050_hadoop_security_kerberos_ranger_atlas/) ->
 
 ---

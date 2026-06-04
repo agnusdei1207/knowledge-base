@@ -30,32 +30,32 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/">SMTP</a> 인프라의 교체 불가능성</strong>: 전 세계에 이미 깔린 수백만 대의 구형 [SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 메일 서버 하드웨어를 다 부수고 8비트 지원 서버로 교체하는 건 불가능했다. 하드웨어를 놔둔 채 소프트웨어([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포장법)만 바꾸는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          MIME을 통한 바이너리(그림) 파일의 이메일 전송 아키텍처        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 👨‍💻 송신자 (강아지.jpg 전송) ]                                │
-│   1. 강아지 사진은 01010011 같은 8비트 컴퓨터 바이너리 덩어리임.         │
-│   2. 🌟 MIME 인코더(Base64) 작동!                              │
-│      ➔ 8비트 그림 파일을 7비트 영어 알파벳 "aB9xZ..." 로 강제 번역함.    │
-│                                                             │
-│   3. MIME 헤더 부착 (우체국 송장 붙이기)                          │
-│      Content-Type: image/jpeg                               │
-│      Content-Transfer-Encoding: base64                      │
-│                                                             │
-│         ▼ (SMTP 서버는 이걸 그냥 평범한 영어 텍스트 편지인 줄 알고 배달함) │
-│                                                             │
-│ [ 🏢 구형 SMTP 메일 서버망 ]                                   │
-│   "음~ 영어 알파벳(aB9xZ...)이군. 통과!"                            │
-│                                                             │
-│         ▼                                                   │
-│ [ 👩‍💻 수신자 (Outlook, Gmail) ]                              │
-│   1. 받은 편지를 열어보니 "aB9xZ..." 라는 이상한 영어만 잔뜩 있음.        │
-│   2. 🌟 MIME 헤더 판독!                                        │
-│      "아하! 이건 그냥 글씨가 아니라 Base64로 압축된 JPEG 사진이구나!"     │
-│   3. 디코딩(Decoding) 수행 ➔ 영어를 다시 01010011 로 복원시킴.         │
-│   4. 화면에 예쁜 강아지 사진 🐶 출력!                              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          MIME을 통한 바이너리(그림) 파일의 이메일 전송 아키텍처        |
++-------------------------------------------------------------+
+|                                                             |
+| [ 👨‍💻 송신자 (강아지.jpg 전송) ]                                |
+|   1. 강아지 사진은 01010011 같은 8비트 컴퓨터 바이너리 덩어리임.         |
+|   2. 🌟 MIME 인코더(Base64) 작동!                              |
+|      ➔ 8비트 그림 파일을 7비트 영어 알파벳 "aB9xZ..." 로 강제 번역함.    |
+|                                                             |
+|   3. MIME 헤더 부착 (우체국 송장 붙이기)                          |
+|      Content-Type: image/jpeg                               |
+|      Content-Transfer-Encoding: base64                      |
+|                                                             |
+|         v (SMTP 서버는 이걸 그냥 평범한 영어 텍스트 편지인 줄 알고 배달함) |
+|                                                             |
+| [ 🏢 구형 SMTP 메일 서버망 ]                                   |
+|   "음~ 영어 알파벳(aB9xZ...)이군. 통과!"                            |
+|                                                             |
+|         v                                                   |
+| [ 👩‍💻 수신자 (Outlook, Gmail) ]                              |
+|   1. 받은 편지를 열어보니 "aB9xZ..." 라는 이상한 영어만 잔뜩 있음.        |
+|   2. 🌟 MIME 헤더 판독!                                        |
+|      "아하! 이건 그냥 글씨가 아니라 Base64로 압축된 JPEG 사진이구나!"     |
+|   3. 디코딩(Decoding) 수행 ➔ 영어를 다시 01010011 로 복원시킴.         |
+|   4. 화면에 예쁜 강아지 사진 🐶 출력!                              |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** MIME의 천재성은 '인터넷의 낡은 혈관([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))'을 뜯어고치지 않고도 멀티미디어 시대를 열어젖힌 데 있다. 컴퓨터가 다루는 모든 사진, 음악, 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 결국 8비트 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 덩어리다. 이것을 6비트씩 잘게 쪼개어 사람이 읽을 수 있는 안전한 64개의 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 알파벳(A~Z, a~z, 0~9, +, /)으로 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매핑해 버리는 기술이 바로 <strong>Base64 인코딩</strong>이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량이 33% 뻥튀기되는 단점이 있지만, 우체국(서버) 검문소에서 에러를 뿜지 않고 무사히 통과하게 만드는 가장 완벽하고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 밀수(?) 기법이다.
@@ -87,11 +87,11 @@ MIME은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 [SMTPS, POP3S, IMAPS]
-    │
-    ▼
+    |
+    v
 [MIME]
-    │
-    └──▶ [S/MIME]
+    |
+    +---> [S/MIME]
 ```
 
 - **📢 섹션 요약 비유**: MIME의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -133,30 +133,30 @@ MIME를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
    - **판단**: 멀티파트 파싱(Parsing) 아키텍처의 한계다. 톰캣 같은 WAS 서버는 `multipart` 로 들어오는 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Boundary 묶음)를 분석하기 위해 일단 전체를 서버의 메모리(RAM)에 다 부어놓고 쪼개려는 멍청한 짓(In-Memory Buffer)을 시도한다. 아키텍트는 스프링의 `MaxFileSize` 와 `MaxRequestSize` 리미트를 걸고, 일정 용량(예: 1MB)이 넘어가는 멀티파트 청크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메모리에 올리지 않고 즉각 서버의 디스크(Temp 폴더)에 쪼가리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 내려쓰게(Spill-to-disk) 하는 스트리밍 파싱 튜닝을 박아야 서버 폭파를 막을 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: HTTP 파일 업로드 시 멀티파트(Multipart) 패킷 구조 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 📡 [ HTTP Request Header ]                                  │
-  │ POST /upload HTTP/1.1                                       │
-  │ Host: www.company.com                                       │
-  │ Content-Type: multipart/form-data; boundary=---WebKitForm123│ ◀─ 🌟 경계선 선언 │
-  │                                                             │
-  │ 📡 [ HTTP Request Body (본문) ]                               │
-  │ ----WebKitForm123  ◀─ (첫 번째 칸 시작)                        │
-  │ Content-Disposition: form-data; name="username"             │
-  │                                                             │
-  │ Hong Gil Dong  (텍스트 데이터)                                  │
-  │                                                             │
-  │ ----WebKitForm123  ◀─ (두 번째 칸 시작 - 사진 파일)              │
-  │ Content-Disposition: form-data; name="profile_pic"; filename="me.jpg"│
-  │ Content-Type: image/jpeg                                    │
-  │                                                             │
-  │ (여기부터는 Base64로 암호화된 JPEG 사진의 외계어 바이너리 덤프가 쏟아짐...) │
-  │ ffi9x81#@9zx*(*!@&z...                                      │
-  │                                                             │
-  │ ----WebKitForm123-- ◀─ (🌟 맨 뒤에 -- 가 붙으면 전송 끝을 의미함)  │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: HTTP 파일 업로드 시 멀티파트(Multipart) 패킷 구조 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 📡 [ HTTP Request Header ]                                  |
+  | POST /upload HTTP/1.1                                       |
+  | Host: www.company.com                                       |
+  | Content-Type: multipart/form-data; boundary=---WebKitForm123| <-- 🌟 경계선 선언 |
+  |                                                             |
+  | 📡 [ HTTP Request Body (본문) ]                               |
+  | ----WebKitForm123  <-- (첫 번째 칸 시작)                        |
+  | Content-Disposition: form-data; name="username"             |
+  |                                                             |
+  | Hong Gil Dong  (텍스트 데이터)                                  |
+  |                                                             |
+  | ----WebKitForm123  <-- (두 번째 칸 시작 - 사진 파일)              |
+  | Content-Disposition: form-data; name="profile_pic"; filename="me.jpg"|
+  | Content-Type: image/jpeg                                    |
+  |                                                             |
+  | (여기부터는 Base64로 암호화된 JPEG 사진의 외계어 바이너리 덤프가 쏟아짐...) |
+  | ffi9x81#@9zx*(*!@&z...                                      |
+  |                                                             |
+  | ----WebKitForm123-- <-- (🌟 맨 뒤에 -- 가 붙으면 전송 끝을 의미함)  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 여러분이 브라우저에서 '사진 첨부' 버튼을 누르고 '업로드'를 때릴 때, 보이지 않는 인터넷 전선 속에서 날아가는 실제 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷의 쌩얼([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이다. 이 구조 자체가 1992년 이메일에 사진을 넣기 위해 발명된 MIME 규격과 토씨 하나 틀리지 않고 100% 완벽하게 똑같다. 백엔드 서버(Node.js, Spring)는 이 패킷을 받으면 저 `--WebKitForm123` 이라는 고유한 바코드(Boundary) 문자열을 칼로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무 썰듯이 숭덩숭덩 자른 뒤, 앞칸은 DB에 이름으로 넣고 뒤칸은 AWS S3 클라우드에 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 예쁘게 잘라서 저장하는 파싱(Parsing) 노동을 수행하는 것이다.
@@ -207,12 +207,12 @@ MIME를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ```text
 [선행 개념: SMTPS, POP3S, IMAPS]
-    │
-    ▼
+    |
+    v
 [현재 개념: MIME]
-    │
-    ├──▶ [확장 A: S/MIME]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: S/MIME]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 MIME는 SMTPS, POP3S, IMAPS에서 출발해 현재 메커니즘을 정교화하고, 이후 S/MIME와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -229,7 +229,7 @@ MIME는 SMTPS, POP3S, IMAPS에서 출발해 현재 메커니즘을 정교화하�
 
 **진행 상황**: 613 / 1120
 
-← **이전**: [491. SMTPS, POP3S, IMAPS (보안 캡슐화)](/knowledge-base/studynote/03_network/09_application_layer_web_email/491_smtps_pop3s_imaps_secure_email/)
-**다음**: [493. S/MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/493_smime_secure_multipurpose_internet_mail_extensions/) →
+<- **이전**: [491. SMTPS, POP3S, IMAPS (보안 캡슐화)](/knowledge-base/studynote/03_network/09_application_layer_web_email/491_smtps_pop3s_imaps_secure_email/)
+**다음**: [493. S/MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/493_smime_secure_multipurpose_internet_mail_extensions/) ->
 
 ---

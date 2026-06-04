@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [에일리어싱]
-    │
-    ▼
+    |
+    v
 [펄스부호변조]
-    │
-    └──▶ [다중화기 / 역다중화기]
+    |
+    +---> [다중화기 / 역다중화기]
 ```
 
 - **📢 섹션 요약 비유**: 펄스부호변조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ tags = ["studynote-network"]
 
 ```text
 [에일리어싱]
-    │
-    ▼
+    |
+    v
 [펄스부호변조]
-    │
-    └──▶ [다중화기 / 역다중화기]
+    |
+    +---> [다중화기 / 역다중화기]
 ```
 
 - **📢 섹션 요약 비유**: 펄스부호변조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 에일리어싱]
-    │
-    ▼
+    |
+    v
 [현재 개념: 펄스부호변조]
-    │
-    ├──▶ [확장 A: 다중화기 / 역다중화기]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 다중화기 / 역다중화기]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 펄스부호변조는 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1064 / 1120
 
-← **이전**: [942. 에일리어싱 (Aliasing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/942_aliasing_nyquist_sampling_theorem_distortion/)
-**다음**: [944. 다중화기 (MUX) / 역다중화기 (DEMUX)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) →
+<- **이전**: [942. 에일리어싱 (Aliasing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/942_aliasing_nyquist_sampling_theorem_distortion/)
+**다음**: [944. 다중화기 (MUX) / 역다중화기 (DEMUX)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) ->
 
 ---

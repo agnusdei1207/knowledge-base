@@ -36,33 +36,33 @@ tags = ["studynote-operating-system"]
   - LAN(근거리 통신망) 시대의 도래와 함께 썬 마이크로시스템즈의 "네트워크가 곧 컴퓨터다(The Network is the Computer)"라는 사상을 현실화한 기술이며, 오늘날 AWS EFS 같은 관리형 클라우드 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 시스템의 표준 뼈대로 자리 잡았다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 VFS와 RPC를 융합한 NFS의 투명한 동작 아키텍처         │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 클라이언트 (Client PC) ]                                   │
-  │                                                             │
-  │    App: `read(fd, buf, 1024)` 호출 (난 로컬 디스크인줄 앎)         │
-  │            │                                                │
-  │            ▼                                                │
-  │    [ VFS (Virtual File System) 계층 ]                       │
-  │    "어? 이 파일은 로컬(ext4)이 아니라 NFS 타입으로 마운트됐네?"        │
-  │            │ (분기)                                          │
-  │            ▼                                                │
-  │    [ NFS Client 모듈 ]                                       │
-  │    read() 함수를 RPC(원격 프로시저 호출) 네트워크 패킷으로 캡슐화 포장    │
-  │            │ "안녕? 파일핸들 X의 1024번지부터 읽어줘!"              │
-  │  ==========│================ (TCP/IP 네트워크) ===============│
-  │            ▼                                                │
-  │   [ 파일 서버 (NFS Server) ]                                   │
-  │                                                             │
-  │    [ NFS Server Daemon (nfsd) ]                             │
-  │    RPC 패킷 해독 -> 진짜 로컬 VFS로 `read()` 찔러넣음                │
-  │            │                                                │
-  │            ▼                                                │
-  │    [ 로컬 파일 시스템 (ext4) & 디스크 ]                            │
-  │    데이터 읽어서 역순으로 네트워크를 통해 클라이언트로 배달 슝~ 🚀          │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 VFS와 RPC를 융합한 NFS의 투명한 동작 아키텍처         |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 클라이언트 (Client PC) ]                                   |
+  |                                                             |
+  |    App: `read(fd, buf, 1024)` 호출 (난 로컬 디스크인줄 앎)         |
+  |            |                                                |
+  |            v                                                |
+  |    [ VFS (Virtual File System) 계층 ]                       |
+  |    "어? 이 파일은 로컬(ext4)이 아니라 NFS 타입으로 마운트됐네?"        |
+  |            | (분기)                                          |
+  |            v                                                |
+  |    [ NFS Client 모듈 ]                                       |
+  |    read() 함수를 RPC(원격 프로시저 호출) 네트워크 패킷으로 캡슐화 포장    |
+  |            | "안녕? 파일핸들 X의 1024번지부터 읽어줘!"              |
+  |  ==========|================ (TCP/IP 네트워크) ===============|
+  |            v                                                |
+  |   [ 파일 서버 (NFS Server) ]                                   |
+  |                                                             |
+  |    [ NFS Server Daemon (nfsd) ]                             |
+  |    RPC 패킷 해독 -> 진짜 로컬 VFS로 `read()` 찔러넣음                |
+  |            |                                                |
+  |            v                                                |
+  |    [ 로컬 파일 시스템 (ext4) & 디스크 ]                            |
+  |    데이터 읽어서 역순으로 네트워크를 통해 클라이언트로 배달 슝~ 🚀          |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라이언트 애플리케이션 입장에서는 이 과정이 완벽하게 은폐(투명성, Transparency)되어 있다. 일반 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽듯 코딩했는데, 밑단에서 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 기찻길을 틀어버린다. 로컬 디스크 드라이버로 갈 신호를 낚아채어 네트워크 랜카드를 통해 태평양 너머의 서버로 날려버린다. 이 모든 통신의 근간인 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">Remote Procedure Call</a>)</strong>는 마치 네트워크 건너편 서버의 함수를 내 컴퓨터에 있는 함수처럼 편하게 호출하게 해주는 통신 규격이다. NFS는 이 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 위에서 동작하는 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력 특화된 원격 심부름꾼'이다.
@@ -82,30 +82,30 @@ tags = ["studynote-operating-system"]
 3. **클라이언트의 멱살 캐리**: 클라이언트가 읽기를 원하면 멍청한 서버에게 매번 이렇게 풀센텐스(Full [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))로 쏴줘야 한다. *"서버야, 내가 누구냐면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 핸들 X를 가진 놈인데, 예전에 내가 어디까지 읽었는진 네가 모를 테니까 내가 기억해 왔어. 100번지 오프셋부터 50바이트만 읽어서 리턴해 줘!"*
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 NFS Stateless 서버의 기적적인 장애 복원력 시나리오      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 상황: 클라이언트가 원격 파일을 복사하다가 💥 서버의 전원 코드가 뽑힘! ] │
-  │                                                                   │
-  │  1. 클라이언트: "핸들 X, 오프셋 100번지 데이터 줘!" ──▶ (네트워크 요청)   │
-  │                                                                   │
-  │  2. 서버 전원 나감 ☠️ (네트워크 응답 없음)                               │
-  │                                                                   │
-  │  3. 클라이언트 반응: "어? 응답이 없네? 올 때까지 계속 재시도(Retry)해야지!"│
-  │     - (App은 블로킹 된 채로 뻗지 않고 하염없이 버팀. Soft 마운트면 에러냄)│
-  │                                                                   │
-  │  4. (10분 뒤) 서버 재부팅 완료 🔄                                      │
-  │     - 서버 메모리는 텅 빔. 클라이언트가 누군지 기억상실증.                    │
-  │                                                                   │
-  │  5. 클라이언트: "핸들 X, 오프셋 100번지 데이터 줘!" (무한 츠쿠요미 요청 중)│
-  │                                                                   │
-  │  6. 서버: "너 누군지 모르겠지만 네가 요청한 핸들 X 주소로 디스크 찾아서 줄게."│
-  │     ──▶ 🟢 즉각 정상 응답 및 복사 101번지부터 완벽히 작업 속개!           │
-  │                                                                   │
-  │  ▶ 결론: 서버가 미쳐서 재부팅 되어도, 복잡한 세션 복구/재연결 핑퐁 없이    │
-  │          10분 동안 일시 정지됐다가 아무 일 없던 듯 파일 복사가 이어지는 기적! │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 NFS Stateless 서버의 기적적인 장애 복원력 시나리오      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 상황: 클라이언트가 원격 파일을 복사하다가 💥 서버의 전원 코드가 뽑힘! ] |
+  |                                                                   |
+  |  1. 클라이언트: "핸들 X, 오프셋 100번지 데이터 줘!" ---> (네트워크 요청)   |
+  |                                                                   |
+  |  2. 서버 전원 나감 ☠️ (네트워크 응답 없음)                               |
+  |                                                                   |
+  |  3. 클라이언트 반응: "어? 응답이 없네? 올 때까지 계속 재시도(Retry)해야지!"|
+  |     - (App은 블로킹 된 채로 뻗지 않고 하염없이 버팀. Soft 마운트면 에러냄)|
+  |                                                                   |
+  |  4. (10분 뒤) 서버 재부팅 완료 🔄                                      |
+  |     - 서버 메모리는 텅 빔. 클라이언트가 누군지 기억상실증.                    |
+  |                                                                   |
+  |  5. 클라이언트: "핸들 X, 오프셋 100번지 데이터 줘!" (무한 츠쿠요미 요청 중)|
+  |                                                                   |
+  |  6. 서버: "너 누군지 모르겠지만 네가 요청한 핸들 X 주소로 디스크 찾아서 줄게."|
+  |     ---> 🟢 즉각 정상 응답 및 복사 101번지부터 완벽히 작업 속개!           |
+  |                                                                   |
+  |  -> 결론: 서버가 미쳐서 재부팅 되어도, 복잡한 세션 복구/재연결 핑퐁 없이    |
+  |          10분 동안 일시 정지됐다가 아무 일 없던 듯 파일 복사가 이어지는 기적! |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 시나리오는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 왜 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))나 무상태 설계가 세상을 지배했는지 보여주는 원초적 예시다. 만약 Stateful [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버(예: Windows SMB/CIFS 구버전)였다면, 서버가 재부팅되는 순간 서버 메모리에 있던 "클라이언트의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보"가 다 날아가 버린다. 클라이언트가 "아까 이어서 줘!"라고 해봤자 서버는 "너 누구야? 연결 처음부터 다시 맺어([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Expired)"라며 매몰차게 에러를 뱉고, 클라이언트의 다운로드는 99%에서 취소(Crash)된다. [무상태성](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)은 이 끔찍한 네트워크의 불안정성을 완벽한 재시도(Idempotent Retry)의 마법으로 덮어버린 것이다.
@@ -149,27 +149,27 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (보안 격리)**: 이를 막기 위해 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버의 익스포트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(`/etc/exports`)에는 반드시 <strong><code>root_squash</code> (루트 짓누르기)</strong> 옵션이 기본으로 활성화되어 있다. 이 옵션이 켜져 있으면 클라이언트에서 당당하게 UID 0(root)으로 접근해도, [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버가 문지기에서 그 신분을 무권한 유령 계정인 `nobody(UID 65534)`로 강등(Squash)시켜 버려 루트 권한 해킹의 싹을 잘라버린다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 네트워크 파일 공유 프로토콜 도입 아키텍트 결정 트리           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 여러 대의 머신이 스토리지 하나를 공유해야 한다 ]                        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유할 클라이언트들이 주로 Windows OS 중심의 사무 환경인가?             │
-  │          ├─ 예 ─────▶ [ SMB / CIFS (Samba) 채택 ]                   │
-  │          │             (윈도우 AD 인증과 완벽 호환, Stateful 구조)         │
-  │          └─ 아니오 (Linux/UNIX 중심의 백엔드 서버 팜 환경이다)             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      하나의 파일에 여러 서버가 동시에 쓰기(Write)를 시도하여 락 관리가 필수인가? │
-  │          ├─ 아니오 ──▶ [ NFS v3 채택 가능 ]                           │
-  │          │             (가볍고 무상태의 탄력성으로 정적 미디어 서빙 등에 적합)    │
-  │          │                                                        │
-  │          └─ 예 ─────▶ [ NFS v4 채택 강제! ]                           │
-  │                        - TCP 단일 포트로 클라우드 방화벽(VPC) 구성 용이      │
-  │                        - 파일 락(Lease) 내장으로 동시 수정 꼬임 원천 방어    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 네트워크 파일 공유 프로토콜 도입 아키텍트 결정 트리           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 여러 대의 머신이 스토리지 하나를 공유해야 한다 ]                        |
+  |                |                                                  |
+  |                v                                                  |
+  |      공유할 클라이언트들이 주로 Windows OS 중심의 사무 환경인가?             |
+  |          +- 예 ------> [ SMB / CIFS (Samba) 채택 ]                   |
+  |          |             (윈도우 AD 인증과 완벽 호환, Stateful 구조)         |
+  |          +- 아니오 (Linux/UNIX 중심의 백엔드 서버 팜 환경이다)             |
+  |                |                                                  |
+  |                v                                                  |
+  |      하나의 파일에 여러 서버가 동시에 쓰기(Write)를 시도하여 락 관리가 필수인가? |
+  |          +- 아니오 ---> [ NFS v3 채택 가능 ]                           |
+  |          |             (가볍고 무상태의 탄력성으로 정적 미디어 서빙 등에 적합)    |
+  |          |                                                        |
+  |          +- 예 ------> [ NFS v4 채택 강제! ]                           |
+  |                        - TCP 단일 포트로 클라우드 방화벽(VPC) 구성 용이      |
+  |                        - 파일 락(Lease) 내장으로 동시 수정 꼬임 원천 방어    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 수많은 클라우드 초보자들이 AWS 환경에서 NAS를 붙일 때 보안 그룹([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 규칙이 자꾸 막혀서 며칠을 밤샌다. 그 원인은 구형 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) v3가 rpcbind를 쓰느라 접속할 때마다 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 수만 개씩 열어대기 때문이다. 현대 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)에서 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 여는 것은 미친 짓이다. 따라서 인프라 아키텍트는 묻지도 따지지도 않고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2049 하나만 얌전하게 쓰는 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) v4를 표준으로 강제해야 클라우드 네트워크 아키텍처와 평화롭게 공존할 수 있다.
@@ -218,12 +218,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [오브젝트 스토리지 메타데이터 분리]
-    │
-    ▼
+    |
+    v
 [네트워크 파일 시스템 (NFS) 무상태 (Stateless)]
-    │
-    ├──▶ [파티션 MBR GPT 크기 제한]
-    └──▶ [클라우드 컴퓨팅 OS 자원 풀링]
+    |
+    +---> [파티션 MBR GPT 크기 제한]
+    +---> [클라우드 컴퓨팅 OS 자원 풀링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -240,7 +240,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 774 / 800
 
-← **이전**: [773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/)
-**다음**: [775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/) →
+<- **이전**: [773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)](/knowledge-base/studynote/02_operating_system/11_exam_summary/773_object_storage_metadata_decoupling/)
+**다음**: [775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/775_partition_mbr_gpt_size_limit/) ->
 
 ---

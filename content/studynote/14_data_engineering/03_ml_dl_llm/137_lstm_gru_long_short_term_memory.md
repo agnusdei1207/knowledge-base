@@ -45,16 +45,16 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | 3 Gate + Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong> | 2 Gate (경량) |
 | <strong>Cell <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 장기 기억 고속도로 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 문제 → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 해결 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 문제 -> [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 해결 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong> | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 대체 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Vanilla RNN (1986)] → [LSTM (Hochreiter, 1997)]
-    → [GRU (Cho, 2014)] → [Seq2Seq+Attention (2014)]
-    → [Transformer (2017) — LSTM 대체]
-    → [현재: xLSTM/Mamba — LSTM 르네상스]
+[Vanilla RNN (1986)] -> [LSTM (Hochreiter, 1997)]
+    -> [GRU (Cho, 2014)] -> [Seq2Seq+Attention (2014)]
+    -> [Transformer (2017) — LSTM 대체]
+    -> [현재: xLSTM/Mamba — LSTM 르네상스]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -68,7 +68,7 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 **진행 상황**: 137 / 258
 
-← **이전**: [136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/136_rnn_recurrent_neural_network/)
-**다음**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/) →
+<- **이전**: [136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/136_rnn_recurrent_neural_network/)
+**다음**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/) ->
 
 ---

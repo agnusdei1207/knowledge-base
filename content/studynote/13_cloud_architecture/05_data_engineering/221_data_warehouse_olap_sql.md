@@ -24,20 +24,20 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [기업 데이터 흐름]
-┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│  ERP 시스템  │  │  CRM 시스템  │  │  SCM 시스템  │
-│  (운영 DB)  │  │  (운영 DB)  │  │  (운영 DB)  │
-└──────┬──────┘  └──────┬──────┘  └──────┬──────┘
-       │                │                │
-       └────────────────┼────────────────┘
-                        ↓  ETL (야간 배치)
-               ┌────────────────┐
-               │  Data Warehouse │
-               │  (통합·정제 데이터)│
-               └───────┬────────┘
-                       │
-            ┌──────────┼──────────┐
-            ↓          ↓          ↓
++-------------+  +-------------+  +-------------+
+|  ERP 시스템  |  |  CRM 시스템  |  |  SCM 시스템  |
+|  (운영 DB)  |  |  (운영 DB)  |  |  (운영 DB)  |
++------+------+  +------+------+  +------+------+
+       |                |                |
+       +----------------+----------------+
+                        v  ETL (야간 배치)
+               +----------------+
+               |  Data Warehouse |
+               |  (통합·정제 데이터)|
+               +-------+--------+
+                       |
+            +----------+----------+
+            v          v          v
          BI 도구    OLAP 분석   데이터 마트
         (Tableau) (집계쿼리)  (부서별 뷰)
 ```
@@ -51,24 +51,24 @@ tags = ["studynote-cloud-architecture"]
 ### 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처 (스토리지-컴퓨팅 분리)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│              클라우드 DW 아키텍처                       │
-│                                                      │
-│  소스 시스템 → ETL/ELT → ┌──────────────────────┐   │
-│                          │  공유 스토리지 계층     │   │
-│                          │  (S3/GCS/Azure Blob)  │   │
-│                          │  컬럼 압축 Parquet     │   │
-│                          └──────────┬───────────┘   │
-│                                     │               │
-│          ┌──────────────────────────┴─────┐         │
-│          │     컴퓨팅 클러스터 (독립 스케일)│         │
-│          │  ┌────────┐  ┌────────┐         │         │
-│          │  │ 가상웨어│  │ 가상웨어│  ...    │         │
-│          │  │ 하우스 1│  │ 하우스 2│         │         │
-│          │  │(BI팀)  │  │(데이터팀)│         │         │
-│          │  └────────┘  └────────┘         │         │
-│          └────────────────────────────────┘         │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|              클라우드 DW 아키텍처                       |
+|                                                      |
+|  소스 시스템 -> ETL/ELT -> +----------------------+   |
+|                          |  공유 스토리지 계층     |   |
+|                          |  (S3/GCS/Azure Blob)  |   |
+|                          |  컬럼 압축 Parquet     |   |
+|                          +----------+-----------+   |
+|                                     |               |
+|          +--------------------------+-----+         |
+|          |     컴퓨팅 클러스터 (독립 스케일)|         |
+|          |  +--------+  +--------+         |         |
+|          |  | 가상웨어|  | 가상웨어|  ...    |         |
+|          |  | 하우스 1|  | 하우스 2|         |         |
+|          |  |(BI팀)  |  |(데이터팀)|         |         |
+|          |  +--------+  +--------+         |         |
+|          +--------------------------------+         |
++------------------------------------------------------+
 ```
 
 ### 핵심 기술 요소
@@ -76,7 +76,7 @@ tags = ["studynote-cloud-architecture"]
 | 구성 요소 | 역할 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/">Star Schema</a>)</strong> | [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) + [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 구조, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 단순화 |
-| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a></strong> | [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 저장 효율 ↑ / 조인 복잡도 ↑ |
+| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a></strong> | [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 저장 효율 ^ / 조인 복잡도 ^ |
 | **컬럼 지향 저장** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 시 필요 열만 읽어 I/O 절감 |
 | **MPP (Massively Parallel Processing)** | 수백 노드 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리 |
 | <strong>구체화 뷰 (Materialized <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong> | 반복 집계 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 사전 계산 저장 |
@@ -120,16 +120,16 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [Star Schema - 팩트 중심 비정규화]
-           ┌──────────────┐
-           │  날짜 차원    │
-           └──────┬───────┘
-                  │
-┌──────────┐  ┌───┴──────────────┐  ┌──────────┐
-│ 상품 차원 │──│  매출 팩트 테이블  │──│ 고객 차원 │
-└──────────┘  │ (주문ID, 날짜ID,  │  └──────────┘
-              │  상품ID, 고객ID,  │
-              │  금액, 수량)      │
-              └──────────────────┘
+           +--------------+
+           |  날짜 차원    |
+           +------+-------+
+                  |
++----------+  +---+--------------+  +----------+
+| 상품 차원 |--|  매출 팩트 테이블  |--| 고객 차원 |
++----------+  | (주문ID, 날짜ID,  |  +----------+
+              |  상품ID, 고객ID,  |
+              |  금액, 수량)      |
+              +------------------+
 ```
 
 ### 실무 적용 지침
@@ -158,7 +158,7 @@ tags = ["studynote-cloud-architecture"]
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 대비 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~1000배 빠른 응답 |
 | <strong>운영 DB <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 인한 운영 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간섭 제거 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 전사 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 정의 통일, 부서간 숫자 불일치 제거 |
-| **의사결정 속도** | 임원 대시보드 T+1일 → T+수분 단위 갱신 |
+| **의사결정 속도** | 임원 대시보드 T+1일 -> T+수분 단위 갱신 |
 
 ### 한계 및 주의점
 
@@ -191,13 +191,13 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 OLTP (트랜잭션 처리, 행 기반)
-    │
-    ▼
+    |
+    v
 Data Warehouse: OLAP · Star/Snowflake 스키마
-    ├─► BigQuery · Snowflake · Redshift
-    └─► Schema-on-Write · 컬럼 지향 저장
-    │
-    ▼
+    +-► BigQuery · Snowflake · Redshift
+    +-► Schema-on-Write · 컬럼 지향 저장
+    |
+    v
 Lakehouse: DW + Lake 통합 (Delta Lake · Iceberg)
 ```
 2. 마치 도서관 사서처럼, 밤마다([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 야간 배치) 각 교실(운영 DB)에서 중요한 내용을 가져와 도서관([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 깔끔하게 분류해 넣는다.
@@ -209,7 +209,7 @@ Lakehouse: DW + Lake 통합 (Delta Lake · Iceberg)
 
 **진행 상황**: 220 / 371
 
-← **이전**: [220. 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/220_schema_on_read_data_lake/)
-**다음**: [222. 스키마 온 라이트 (Schema-on-Write)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/222_schema_on_write_etl_warehouse/) →
+<- **이전**: [220. 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/220_schema_on_read_data_lake/)
+**다음**: [222. 스키마 온 라이트 (Schema-on-Write)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/222_schema_on_write_etl_warehouse/) ->
 
 ---

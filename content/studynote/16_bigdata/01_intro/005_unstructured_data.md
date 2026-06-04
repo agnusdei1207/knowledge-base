@@ -31,12 +31,12 @@ tags = ["bigdata"]
 [데이터 유형 스펙트럼과 비중]
 
    정형 데이터 (20% 미만)      반정형 데이터 (브릿지 역할)      비정형 데이터 (80% 이상 집중)
-  ┌──────────────────┐    ┌─────────────────────┐    ┌──────────────────────────┐
-  │ - RDBMS Tables   │    │ - JSON, XML, HTML   │    │ - SNS 텍스트, 고객 리뷰  │
-  │ - Excel CSV      │    │ - NoSQL Documents   │    │ - 이미지(JPG), 영상(MP4) │
-  │ - 정산/회계 장부 │ => │ - 센서 발생 로그    │ => │ - 콜센터 음성, 위성 사진 │
-  └────────┬─────────┘    └──────────┬──────────┘    └─────────────┬────────────┘
-           │                         │                             │
+  +------------------+    +---------------------+    +--------------------------+
+  | - RDBMS Tables   |    | - JSON, XML, HTML   |    | - SNS 텍스트, 고객 리뷰  |
+  | - Excel CSV      |    | - NoSQL Documents   |    | - 이미지(JPG), 영상(MP4) |
+  | - 정산/회계 장부 | => | - 센서 발생 로그    | => | - 콜센터 음성, 위성 사진 |
+  +--------+---------+    +----------+----------+    +-------------+------------+
+           |                         |                             |
     [ SQL 직접 쿼리 ]         [ Key-Value 탐색 ]           [ 메타데이터 / AI 파싱 필수 ]
 ```
 
@@ -63,18 +63,18 @@ tags = ["bigdata"]
 이 흐름도는 비정형 데이터(텍스트/이미지)가 AI 임베딩 모델을 거쳐 수치화된 고차원 벡터로 변환되고 Vector DB에 저장되는 내부 동작을 보여준다.
 
 [비정형 원시 데이터]
- 1. 텍스트: "제품 품질이 훌륭합니다"  ────┐
- 2. 이미지: [강아지 사진.jpg]         ────┼──>  [ Embedding Model (BERT, ResNet) ]
-                                          │     (수백 차원의 실수 배열 공간으로 매핑)
-[데이터 변환 및 저장]                       ▼
- ┌─────────────────────────────────────────────────────────────┐
- │ Vector DB (Milvus, Pinecone 등)                             │
- │  - ID: doc_001                                              │
- │  - Vector: [0.12, -0.44, 0.89, ... , 0.31] (768차원)        │
- │  - Metadata: { "type": "review", "date": "2024-05" }        │
- └──────────────────────────┬──────────────────────────────────┘
-                            │ (시맨틱 유사도 검색: 코사인 유사도, L2 거리 연산)
-                            ▼
+ 1. 텍스트: "제품 품질이 훌륭합니다"  ----+
+ 2. 이미지: [강아지 사진.jpg]         ----+-->  [ Embedding Model (BERT, ResNet) ]
+                                          |     (수백 차원의 실수 배열 공간으로 매핑)
+[데이터 변환 및 저장]                       v
+ +-------------------------------------------------------------+
+ | Vector DB (Milvus, Pinecone 등)                             |
+ |  - ID: doc_001                                              |
+ |  - Vector: [0.12, -0.44, 0.89, ... , 0.31] (768차원)        |
+ |  - Metadata: { "type": "review", "date": "2024-05" }        |
+ +--------------------------+----------------------------------+
+                            | (시맨틱 유사도 검색: 코사인 유사도, L2 거리 연산)
+                            v
  [Application] "비슷한 긍정 리뷰를 찾아줘" => (벡터 공간 내 최단 거리 탐색 반환)
 ```
 
@@ -116,14 +116,14 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 이 아키텍처는 비정형 이미지 파일을 저장할 때, 각 스토리지의 한계를 상호 보완하기 위해 시스템을 융합하는 분산 저장 패턴을 보여준다.
 
 [User Upload: 제품 사진.jpg + "강력 추천합니다" 텍스트]
-        │
-        ├─> (1) 대용량 원본 파일 저장 (비용 절감)
-        │      => [ Object Storage (S3) ] -> 반환된 URL: https://s3.../img.jpg
-        │
-        ├─> (2) 구조화된 메타데이터 및 URL 맵핑 저장 (유연성 확보)
-        │      => [ NoSQL (MongoDB) ] -> { id: 1, url: "...", tags: ["electronics"] }
-        │
-        └─> (3) 텍스트 형태소 파싱 및 역색인 (초고속 전문 검색 지원)
+        |
+        +-> (1) 대용량 원본 파일 저장 (비용 절감)
+        |      => [ Object Storage (S3) ] -> 반환된 URL: https://s3.../img.jpg
+        |
+        +-> (2) 구조화된 메타데이터 및 URL 맵핑 저장 (유연성 확보)
+        |      => [ NoSQL (MongoDB) ] -> { id: 1, url: "...", tags: ["electronics"] }
+        |
+        +-> (3) 텍스트 형태소 파싱 및 역색인 (초고속 전문 검색 지원)
                => [ Elasticsearch ] -> "강력", "추천" 키워드에 id 1 매핑
 ```
 
@@ -141,13 +141,13 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 이 의사결정 트리는 다양한 포맷이 섞여 들어오는 로그(비정형/반정형) 파이프라인에서 장애를 격리하고 처리하기 위한 운영 플로우를 보여준다.
 
 [웹/앱 로그 스트림 유입 (JSON, Plain Text 혼재)]
-        ↓
+        v
 [로그 수집 에이전트 (Fluentd / Logstash)]
-        ↓
-[정규식 파싱 시도 (Grok Pattern)] ──(패턴 매칭 실패?)──> [Yes] ─> 폐기 금지! -> Dead Letter Queue (S3 원시 보관)
-        ↓ [No]                                                      (추후 수동 분석 또는 패턴 업데이트 후 재처리)
-[Elasticsearch 역색인 적재] ──(Dynamic Mapping 충돌?)──> [Yes] ─> Type 에러 경고 발생 (숫자에 문자가 들어옴 등)
-        ↓ [No]
+        v
+[정규식 파싱 시도 (Grok Pattern)] --(패턴 매칭 실패?)--> [Yes] -> 폐기 금지! -> Dead Letter Queue (S3 원시 보관)
+        v [No]                                                      (추후 수동 분석 또는 패턴 업데이트 후 재처리)
+[Elasticsearch 역색인 적재] --(Dynamic Mapping 충돌?)--> [Yes] -> Type 에러 경고 발생 (숫자에 문자가 들어옴 등)
+        v [No]
 [Kibana 대시보드 시각화 및 로그 모니터링]
 ```
 
@@ -180,17 +180,17 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 
 ```text
 [Object Storage]
-    │
-    ▼
+    |
+    v
 [Vector Database]
-    │
-    ▼
+    |
+    v
 [Inverted Index (역색인)]
-    │
-    ▼
+    |
+    v
 [Schema-on-Read]
-    │
-    ▼
+    |
+    v
 [Dead Letter Queue (DLQ)]
 ```
 
@@ -207,7 +207,7 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 
 **진행 상황**: 5 / 262
 
-← **이전**: [4. 빅데이터 도입 필요성 — 데이터 폭증(제타바이트 시대), 비정형 데이터 급증](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/)
-**다음**: [6. 반정형 데이터 — JSON/XML/HTML/CSV — 스키마 부분 보유](/knowledge-base/studynote/16_bigdata/01_intro/006_semi_structured_data/) →
+<- **이전**: [4. 빅데이터 도입 필요성 — 데이터 폭증(제타바이트 시대), 비정형 데이터 급증](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/)
+**다음**: [6. 반정형 데이터 — JSON/XML/HTML/CSV — 스키마 부분 보유](/knowledge-base/studynote/16_bigdata/01_intro/006_semi_structured_data/) ->
 
 ---

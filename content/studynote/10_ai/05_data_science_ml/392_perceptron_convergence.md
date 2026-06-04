@@ -24,11 +24,11 @@ tags = ["studynote-ai"]
 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙:
 ```
 y = sign(w·x + b)
-오분류 시: w ← w + η·y_true·x
-           b ← b + η·y_true
+오분류 시: w <- w + η·y_true·x
+           b <- b + η·y_true
 ```
 
-선형 분리 가능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 반드시 수렴, 불가능 → 무한 루프
+선형 분리 가능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 반드시 수렴, 불가능 -> 무한 루프
 
 - **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 정리는 "점선으로 나눌 수 있는 두 팀이 있으면, [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 심판이 반드시 공정한 선을 찾아낸다"는 보장이다.
 
@@ -50,39 +50,39 @@ y = sign(w·x + b)
 ```
 t번째 업데이트 후:
 w(t)·w* ≥ t·γ          (w가 w* 방향으로 성장)
-||w(t)||² ≤ t·R²        (w의 크기 상한)
+||w(t)||^ ≤ t·R^        (w의 크기 상한)
 
 코사인 유사도 cos(θ):
 cos(θ) = w(t)·w* / ||w(t)||
-       ≥ t·γ / √(t·R²) = √t·(γ/R)
+       ≥ t·γ / √(t·R^) = √t·(γ/R)
 
 cos(θ) ≤ 1 이므로:
-√t·(γ/R) ≤ 1  →  t ≤ (R/γ)²
+√t·(γ/R) ≤ 1  ->  t ≤ (R/γ)^
 
-최대 업데이트 횟수 T ≤ (R/γ)²
+최대 업데이트 횟수 T ≤ (R/γ)^
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  2D 선형 분리 가능 예시                               │
-│                                                      │
-│  ●  ●                                               │
-│  ●    ●   ← 클래스 +1                               │
-│        ┆  ←  결정 경계 (w·x + b = 0)                │
-│  ○    ○  ← 클래스 -1                               │
-│  ○  ○                                               │
-│                                                      │
-│  마진 γ: 결정 경계에서 가장 가까운 점까지 거리        │
-│  γ가 클수록 수렴 빠름: T ≤ (R/γ)²                   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  2D 선형 분리 가능 예시                               |
+|                                                      |
+|  ●  ●                                               |
+|  ●    ●   <- 클래스 +1                               |
+|        ┆  <-  결정 경계 (w·x + b = 0)                |
+|  ○    ○  <- 클래스 -1                               |
+|  ○  ○                                               |
+|                                                      |
+|  마진 γ: 결정 경계에서 가장 가까운 점까지 거리        |
+|  γ가 클수록 수렴 빠름: T ≤ (R/γ)^                   |
++------------------------------------------------------+
 ```
 
 | 개념 | 정의 | 수렴과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
 | 선형 분리 가능성 | 초평면으로 두 클래스 분리 | 수렴 필요 조건 |
-| 마진 γ | 결정 경계에서 가장 가까운 점 거리 | γ↑: 수렴 더 빠름 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반경 R | 원점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최대 거리 | R↑: 수렴 느려짐 |
-| 최대 업데이트 수 | T ≤ (R/γ)² | 수렴 보장 상한 |
+| 마진 γ | 결정 경계에서 가장 가까운 점 거리 | γ^: 수렴 더 빠름 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반경 R | 원점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최대 거리 | R^: 수렴 느려짐 |
+| 최대 업데이트 수 | T ≤ (R/γ)^ | 수렴 보장 상한 |
 
 - **📢 섹션 요약 비유**: 마진이 클수록 수렴이 빠른 것은 "선을 그을 여유 공간이 넓을수록 올바른 선을 빨리 찾는다"는 직관과 일치한다.
 
@@ -90,10 +90,10 @@ cos(θ) ≤ 1 이므로:
 
 ## Ⅲ. 비교 및 연결
 
-**XOR 문제**: 선형 분리 불가능 → [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 불가 → [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) 필요
-**SVM으로의 발전**: 마진 γ 최대화 = 수렴 보장 강화 → 하드 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
-**Minsky & Papert (1969)**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 XOR 한계 비판 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 암흑기 촉발
-<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 발견</strong>: MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 XOR 해결 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 르네상스
+**XOR 문제**: 선형 분리 불가능 -> [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 불가 -> [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) 필요
+**SVM으로의 발전**: 마진 γ 최대화 = 수렴 보장 강화 -> 하드 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
+**Minsky & Papert (1969)**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 XOR 한계 비판 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 암흑기 촉발
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 발견</strong>: MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 XOR 해결 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 르네상스
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -108,13 +108,13 @@ cos(θ) ≤ 1 이므로:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 수렴 정리는 현대 딥러닝과 직접 연관은 적지만, 다음 개념의 기초:
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> 마진 최대화</strong>: 수렴 속도 향상의 극한 → 최적 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> 마진 최대화</strong>: 수렴 속도 향상의 극한 -> 최적 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
 2. <strong>선형 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>기 이론</strong>: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), 선형 SVM의 이론적 기반
-3. <strong>표현 능력 (Representational <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong>: 단층 → 다층으로 확장의 필요성
+3. <strong>표현 능력 (Representational <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong>: 단층 -> 다층으로 확장의 필요성
 
 기술사 포인트: 수렴 정리의 가정(선형 분리 가능), 결론(유한 스텝 수렴), 마진과 수렴 속도의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정확히 설명.
 
-- **📢 섹션 요약 비유**: T ≤ (R/γ)²는 "운동장(R)이 넓을수록, 팀 간 거리(γ)가 가까울수록 선 찾기가 어렵다"는 직관을 수식으로 표현한 것이다.
+- **📢 섹션 요약 비유**: T ≤ (R/γ)^는 "운동장(R)이 넓을수록, 팀 간 거리(γ)가 가까울수록 선 찾기가 어렵다"는 직관을 수식으로 표현한 것이다.
 
 ---
 
@@ -140,7 +140,7 @@ cos(θ) ≤ 1 이므로:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)] → [최적화·운영 자동화]
+[데이터 전처리] -> [퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -155,7 +155,7 @@ cos(θ) ≤ 1 이므로:
 
 **진행 상황**: 392 / 420
 
-← **이전**: [391. 디퓨전 역과정 (Reverse Diffusion Process)](/knowledge-base/studynote/10_ai/05_data_science_ml/391_diffusion_reverse_process/)
-**다음**: [393. t-SNE / UMAP (TSNE UMAP)](/knowledge-base/studynote/10_ai/05_data_science_ml/393_tsne_umap/) →
+<- **이전**: [391. 디퓨전 역과정 (Reverse Diffusion Process)](/knowledge-base/studynote/10_ai/05_data_science_ml/391_diffusion_reverse_process/)
+**다음**: [393. t-SNE / UMAP (TSNE UMAP)](/knowledge-base/studynote/10_ai/05_data_science_ml/393_tsne_umap/) ->
 
 ---

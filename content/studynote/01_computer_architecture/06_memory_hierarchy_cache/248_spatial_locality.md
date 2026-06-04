@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 하나의 요청이 주변 주소 전체를 가져오게 만드는 이유를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        공간적 지역성: 한 번의 미스로 주변 데이터까지 확보           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 메모리 주소:   1000 1004 1008 1012 1016 1020 1024 1028              │
-│ CPU 요청:      [1008]                                               │
-│                    │                                                 │
-│                    ▼                                                 │
-│ 캐시 적재:     [1000 1004 1008 1012 1016 1020 1024 1028]            │
-│ 결과:          현재 값은 즉시 사용, 다음 접근은 캐시 히트 가능      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        공간적 지역성: 한 번의 미스로 주변 데이터까지 확보           |
++----------------------------------------------------------------------+
+| 메모리 주소:   1000 1004 1008 1012 1016 1020 1024 1028              |
+| CPU 요청:      [1008]                                               |
+|                    |                                                 |
+|                    v                                                 |
+| 캐시 적재:     [1000 1004 1008 1012 1016 1020 1024 1028]            |
+| 결과:          현재 값은 즉시 사용, 다음 접근은 캐시 히트 가능      |
++----------------------------------------------------------------------+
 ```
 
 핵심은 CPU가 1008만 원한 것이 아니라, 하드웨어가 1008 주변까지 함께 준비해 둔다는 점이다. 만약 프로그램이 1008 다음에 1012, 1016을 읽는다면 첫 미스 이후에는 훨씬 빠르게 처리된다. 반대로 주소가 매번 멀리 점프하면 이 가정은 깨지고 캐시 효율도 급격히 떨어진다.
@@ -62,16 +62,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 공간적 지역성이 캐시 라인과 프리페치를 어떻게 정당화하는지 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          캐시 라인과 프리페치의 동작 논리                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) CPU가 주소 0x1008 요청                                            │
-│ 2) L1 캐시 미스 발생                                                 │
-│ 3) 메모리에서 0x1000~0x103F 캐시 라인 적재                           │
-│ 4) CPU는 0x1008 사용                                                 │
-│ 5) 다음 접근이 0x100C, 0x1010이면 히트                               │
-│ 6) 패턴이 계속되면 다음 라인 0x1040~0x107F를 미리 프리페치           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          캐시 라인과 프리페치의 동작 논리                           |
++----------------------------------------------------------------------+
+| 1) CPU가 주소 0x1008 요청                                            |
+| 2) L1 캐시 미스 발생                                                 |
+| 3) 메모리에서 0x1000~0x103F 캐시 라인 적재                           |
+| 4) CPU는 0x1008 사용                                                 |
+| 5) 다음 접근이 0x100C, 0x1010이면 히트                               |
+| 6) 패턴이 계속되면 다음 라인 0x1040~0x107F를 미리 프리페치           |
++----------------------------------------------------------------------+
 ```
 
 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 페치에도 같은 원리가 적용된다. 프로그램 카운터가 보통 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 진행하므로, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 역시 주변 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 함께 읽는다. 따라서 공간적 지역성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시뿐 아니라 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시, 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 프리페치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 전체를 떠받치는 기본 가정이다.
@@ -156,21 +156,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 메모리 지연 문제
-    │
-    ▼
+    |
+    v
 인접 주소 재사용 관찰
-    │
-    ▼
+    |
+    v
 공간적 지역성 (Spatial Locality)
-    │
-    ├─▶ 캐시 라인 (Cache Line) 단위 적재
-    │
-    ├─▶ 프리페치 (Prefetch) 최적화
-    │
-    └─▶ 데이터 레이아웃 개선
-          │
-          ▼
-      AoS → SoA · 타일링 · 연속 버퍼 설계
+    |
+    +--> 캐시 라인 (Cache Line) 단위 적재
+    |
+    +--> 프리페치 (Prefetch) 최적화
+    |
+    +--> 데이터 레이아웃 개선
+          |
+          v
+      AoS -> SoA · 타일링 · 연속 버퍼 설계
 ```
 
 이 흐름은 "관찰된 접근 패턴"이 하드웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 소프트웨어 배치 전략으로 동시에 확장되는 과정을 보여준다.
@@ -187,7 +187,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 248 / 803
 
-← **이전**: [247. 시간적 지역성 (Temporal Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)
-**다음**: [249. 순차적 지역성 (Sequential Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) →
+<- **이전**: [247. 시간적 지역성 (Temporal Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)
+**다음**: [249. 순차적 지역성 (Sequential Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ->
 
 ---

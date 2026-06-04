@@ -61,33 +61,33 @@ tags = ["studynote-operating-system"]
 1986년 R. K. Treiber가 고안한 단일 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반의 락 프리 LIFO(Last-In-First-Out) 구조다. Head(Top) 포인터 갱신에 CAS를 사용한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 락 프리 스택 (Treiber Stack)의 Push 연산             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 초기 상태]                                                │
-  │   Top ────▶ [Node A] ────▶ [Node B] ────▶ null                    │
-  │                                                                   │
-  │  [상황 2: 스레드 1의 Push 시도]                                     │
-  │   1. 새로운 Node X 생성                                             │
-  │   2. old_top = Top (현재 Top인 Node A의 주소를 기억)                 │
-  │   3. Node X의 next를 old_top(Node A)으로 연결                       │
-  │                                                                   │
-  │        Top ────▶ [Node A] ────▶ [Node B] ────▶ null               │
-  │                    ▲                                              │
-  │     [Node X] ──────┘ (연결 완료. 이제 Top만 X를 가리키면 됨)           │
-  │                                                                   │
-  │  [상황 3: CAS를 통한 찰나의 승부 (동시 접근)]                          │
-  │   - 스레드 1: CAS( &Top, old_top(A), Node X ) 실행!                 │
-  │                                                                   │
-  │   만약 그 사이에 스레드 2가 끼어들어 Top을 다른 노드로 바꾸지 않았다면:        │
-  │   - CAS 성공! (Top의 값이 A이므로 X로 바꿈)                           │
-  │   - 최종 상태: Top ────▶ [Node X] ────▶ [Node A] ────▶ [Node B]     │
-  │                                                                   │
-  │   만약 스레드 2가 끼어들어 Top을 C로 바꿔버렸다면:                        │
-  │   - CAS 실패! (Top의 값이 A가 아니라 C임)                             │
-  │   - 스레드 1은 실패를 인지하고 다시 2번 단계부터 무한 루프(while) 반복!       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 락 프리 스택 (Treiber Stack)의 Push 연산             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 초기 상태]                                                |
+  |   Top -----> [Node A] -----> [Node B] -----> null                    |
+  |                                                                   |
+  |  [상황 2: 스레드 1의 Push 시도]                                     |
+  |   1. 새로운 Node X 생성                                             |
+  |   2. old_top = Top (현재 Top인 Node A의 주소를 기억)                 |
+  |   3. Node X의 next를 old_top(Node A)으로 연결                       |
+  |                                                                   |
+  |        Top -----> [Node A] -----> [Node B] -----> null               |
+  |                    ^                                              |
+  |     [Node X] ------+ (연결 완료. 이제 Top만 X를 가리키면 됨)           |
+  |                                                                   |
+  |  [상황 3: CAS를 통한 찰나의 승부 (동시 접근)]                          |
+  |   - 스레드 1: CAS( &Top, old_top(A), Node X ) 실행!                 |
+  |                                                                   |
+  |   만약 그 사이에 스레드 2가 끼어들어 Top을 다른 노드로 바꾸지 않았다면:        |
+  |   - CAS 성공! (Top의 값이 A이므로 X로 바꿈)                           |
+  |   - 최종 상태: Top -----> [Node X] -----> [Node A] -----> [Node B]     |
+  |                                                                   |
+  |   만약 스레드 2가 끼어들어 Top을 C로 바꿔버렸다면:                        |
+  |   - CAS 실패! (Top의 값이 A가 아니라 C임)                             |
+  |   - 스레드 1은 실패를 인지하고 다시 2번 단계부터 무한 루프(while) 반복!       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 연산은 구조상 항상 맨 앞(Top)에서만 일어난다. 내가 새 노드를 만들어 기존 Top을 가리키게 하는 작업은 내 로컬 메모리에서 일어나므로 안전하다. 진짜 위험한 순간은 공용 변수인 `Top`이 내가 만든 새 노드를 가리키게 방향을 트는 단 한순간이다. 이 찰나를 CAS로 보호한다. CAS가 실패했다는 것은 내가 작업하는 수 마이크로초 사이에 누군가 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣거나 뺐다는 뜻이다. 락킹([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 환경이라면 락을 기다렸겠지만, 락 프리에서는 쿨하게 실패를 인정하고 바뀐 Top을 기준으로 작업을 다시 시도한다.
@@ -99,32 +99,32 @@ tags = ["studynote-operating-system"]
 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 한쪽(Top)만 신경 쓰면 되지만, 큐([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))는 넣는 곳(Tail)과 빼는 곳(Head) 두 군데를 관리해야 하므로 훨씬 복잡하다. 1996년 Maged M. Michael과 Michael L. Scott이 고안한 MS 큐가 사실상 업계 표준이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 락 프리 큐 (MS Queue)의 Enqueue 연산 원리            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [초기 상태: Head와 Tail 포인터가 존재]                              │
-  │   Head ────▶ [Dummy Node] ────▶ [Node A] ◀──── Tail              │
-  │                                                                   │
-  │  [Enqueue 동작 - 2단계 CAS 전략]                                    │
-  │   단순히 Tail 포인터만 바꾸면 되는 게 아니라, 마지막 노드의 next 포인터도    │
-  │   바꿔야 하므로 '두 번의 CAS'가 필요하다는 것이 난관!                      │
-  │                                                                   │
-  │   스레드 1 (Node B 삽입 시도):                                       │
-  │   1. old_tail = Tail 읽기 (Node A)                                │
-  │   2. CAS( &old_tail->next, null, Node B ) 시도                     │
-  │      - 성공 시: Node A의 next가 Node B를 가리킴 (논리적 큐 삽입 완료)   │
-  │                                                                   │
-  │      상태: [Node A] ────▶ [Node B] (하지만 Tail은 아직 A를 가리킴)  │
-  │                            ▲                                      │
-  │   3. CAS( &Tail, old_tail, Node B ) 시도                            │
-  │      - Tail 포인터를 Node B로 옮김. (구조적 정리 완료)                 │
-  │                                                                   │
-  │  [협력(Cooperation) 메커니즘]                                       │
-  │   만약 스레드 1이 2번(논리적 삽입)까지만 성공하고 죽어버리면 큐가 망가질까?   │
-  │   아니다! 스레드 2가 삽입하러 왔다가 Tail의 next가 null이 아님을 발견하면,   │
-  │   스레드 2가 대신 스레드 1의 3번 작업(Tail 갱신)을 도와서 수행해준다!        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 락 프리 큐 (MS Queue)의 Enqueue 연산 원리            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [초기 상태: Head와 Tail 포인터가 존재]                              |
+  |   Head -----> [Dummy Node] -----> [Node A] <----- Tail              |
+  |                                                                   |
+  |  [Enqueue 동작 - 2단계 CAS 전략]                                    |
+  |   단순히 Tail 포인터만 바꾸면 되는 게 아니라, 마지막 노드의 next 포인터도    |
+  |   바꿔야 하므로 '두 번의 CAS'가 필요하다는 것이 난관!                      |
+  |                                                                   |
+  |   스레드 1 (Node B 삽입 시도):                                       |
+  |   1. old_tail = Tail 읽기 (Node A)                                |
+  |   2. CAS( &old_tail->next, null, Node B ) 시도                     |
+  |      - 성공 시: Node A의 next가 Node B를 가리킴 (논리적 큐 삽입 완료)   |
+  |                                                                   |
+  |      상태: [Node A] -----> [Node B] (하지만 Tail은 아직 A를 가리킴)  |
+  |                            ^                                      |
+  |   3. CAS( &Tail, old_tail, Node B ) 시도                            |
+  |      - Tail 포인터를 Node B로 옮김. (구조적 정리 완료)                 |
+  |                                                                   |
+  |  [협력(Cooperation) 메커니즘]                                       |
+  |   만약 스레드 1이 2번(논리적 삽입)까지만 성공하고 죽어버리면 큐가 망가질까?   |
+  |   아니다! 스레드 2가 삽입하러 왔다가 Tail의 next가 null이 아님을 발견하면,   |
+  |   스레드 2가 대신 스레드 1의 3번 작업(Tail 갱신)을 도와서 수행해준다!        |
+  +-------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(탑 쌓기)이 내가 블록을 얹을 때 누가 치지 않았나 눈치 보는 게임이라면, 큐(줄 서기)는 앞사람(Tail) 어깨에 손을 얹은 뒤([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 1), 줄의 안내판(Tail 포인터)을 내 자리로 끌어오는([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 2) 2단계 눈치 게임입니다. 만약 내가 안내판을 못 끌어오고 쓰러지면 뒷사람이 대신 끌어와 줍니다(협력).
@@ -164,29 +164,29 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 동시성 자료구조(큐/스택) 설계 의사결정 플로우              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 환경에서 공유 자료구조 병목 발생 (성능 저하)]                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      생산자(Producer)와 소비자(Consumer)가 각각 1개뿐인가? (SPSC)       │
-  │          ├─ 예 ─────▶ [메모리 배리어 기반 락프리 링 버퍼 (가장 빠름)]   │
-  │          │                                                        │
-  │          └─ 아니오 (다대다, 다대일 등 MPMC 환경)                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      충돌(Contention) 발생 빈도가 낮고, I/O 대기가 섞여 있는가?           │
-  │          ├─ 예 ─────▶ [전통적 Mutex + 조건 변수(Condition Variable)] │
-  │          │            (구현이 안전하고 OS가 훌륭히 스케줄링해 줌)          │
-  │          └─ 아니오 (극단적인 초고속 연산, 마이크로초 지연도 불허)          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │           [CAS 기반 Lock-Free Queue (MS Queue) 적용]               │
-  │           ※ 주의사항: C++ 등에서는 메모리 누수 방지를 위해 Hazard Pointer │
-  │                        나 Epoch Based Reclamation 인프라 필수 구축   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 동시성 자료구조(큐/스택) 설계 의사결정 플로우              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티스레드 환경에서 공유 자료구조 병목 발생 (성능 저하)]                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      생산자(Producer)와 소비자(Consumer)가 각각 1개뿐인가? (SPSC)       |
+  |          +- 예 ------> [메모리 배리어 기반 락프리 링 버퍼 (가장 빠름)]   |
+  |          |                                                        |
+  |          +- 아니오 (다대다, 다대일 등 MPMC 환경)                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      충돌(Contention) 발생 빈도가 낮고, I/O 대기가 섞여 있는가?           |
+  |          +- 예 ------> [전통적 Mutex + 조건 변수(Condition Variable)] |
+  |          |            (구현이 안전하고 OS가 훌륭히 스케줄링해 줌)          |
+  |          +- 아니오 (극단적인 초고속 연산, 마이크로초 지연도 불허)          |
+  |                |                                                  |
+  |                v                                                  |
+  |           [CAS 기반 Lock-Free Queue (MS Queue) 적용]               |
+  |           ※ 주의사항: C++ 등에서는 메모리 누수 방지를 위해 Hazard Pointer |
+  |                        나 Epoch Based Reclamation 인프라 필수 구축   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "락 프리가 무조건 빠르다"는 주니어 개발자의 착각이다. 극심한 병목 상황에서는 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 실패로 인한 `while(1)` 무한 재시도 루프를 돌며 CPU를 100% 태우는 [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) 유사 증상을 겪고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 Mutex보다 더 느려질 수 있다. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 꼬리표(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 잡아야 하는 극단적 상황에서만 전문가의 손길(ABA 방어, [False sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) 방어)을 거쳐 락 프리를 도입하는 것이 기술사적 정답이다.
@@ -233,12 +233,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]
-    │
-    ▼
+    |
+    v
 [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘 (Lock Free Stack Queue)]
-    │
-    ├──▶ [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
-    └──▶ [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
+    |
+    +---> [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
+    +---> [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -255,7 +255,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 634 / 800
 
-← **이전**: [633. 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)](/knowledge-base/studynote/02_operating_system/10_security/633_live_patching_ksplice/)
-**다음**: [635. 동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)](/knowledge-base/studynote/02_operating_system/10_security/635_concurrency_debugging_tsan/) →
+<- **이전**: [633. 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)](/knowledge-base/studynote/02_operating_system/10_security/633_live_patching_ksplice/)
+**다음**: [635. 동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)](/knowledge-base/studynote/02_operating_system/10_security/635_concurrency_debugging_tsan/) ->
 
 ---

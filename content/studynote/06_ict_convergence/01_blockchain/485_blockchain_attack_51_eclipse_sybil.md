@@ -24,12 +24,12 @@ tags = ["studynote-ict-convergence"]
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 공격은 공략 계층에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다:
 
 ```
-┌──────────────────────────────────────────────┐
-│  응용 계층(Application): 스마트 컨트랙트 취약점 │
-│  합의 계층(Consensus): 51% 공격, Long-range  │
-│  네트워크 계층(Network): 이클립스 공격         │
-│  신원 계층(Identity): 시빌 공격               │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  응용 계층(Application): 스마트 컨트랙트 취약점 |
+|  합의 계층(Consensus): 51% 공격, Long-range  |
+|  네트워크 계층(Network): 이클립스 공격         |
+|  신원 계층(Identity): 시빌 공격               |
++----------------------------------------------+
 ```
 
 이 세 공격은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술사 시험에서 가장 자주 출제되는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 문제다.
@@ -44,36 +44,36 @@ tags = ["studynote-ict-convergence"]
 
 ```
 51% 공격 (Proof-of-Work)
-┌────────────────────────────────────────────┐
-│ 공격자: 네트워크 해시레이트 51% 이상 확보    │
-│                                            │
-│ 일반 체인: A→B→C→D (공개)                 │
-│ 공격 체인: A→B→C'→D'→E' (비공개)          │
-│                                            │
-│ 이중 지불(Double Spending):                │
-│ 공개 체인에 Tx 승인 → 수신 확인             │
-│ 은밀히 더 긴 체인 구성 → 공개 브로드캐스트  │
-│ → 원래 Tx 취소, 코인 이중 사용              │
-└────────────────────────────────────────────┘
++--------------------------------------------+
+| 공격자: 네트워크 해시레이트 51% 이상 확보    |
+|                                            |
+| 일반 체인: A->B->C->D (공개)                 |
+| 공격 체인: A->B->C'->D'->E' (비공개)          |
+|                                            |
+| 이중 지불(Double Spending):                |
+| 공개 체인에 Tx 승인 -> 수신 확인             |
+| 은밀히 더 긴 체인 구성 -> 공개 브로드캐스트  |
+| -> 원래 Tx 취소, 코인 이중 사용              |
++--------------------------------------------+
 
 이클립스 공격 (Eclipse Attack)
-┌────────────────────────────────────────────┐
-│ 피해 노드의 모든 P2P 연결을 공격자 노드로   │
-│ 독점 대체                                   │
-│                                            │
-│ 정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐           │
-│ 정상 노드 ─ ─ [피해 노드] ─ ─ ─ 공격자 노드 │
-│ 정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘           │
-│                                            │
-│ 결과: 피해 노드에 거짓 블록·트랜잭션 전달   │
-└────────────────────────────────────────────┘
++--------------------------------------------+
+| 피해 노드의 모든 P2P 연결을 공격자 노드로   |
+| 독점 대체                                   |
+|                                            |
+| 정상 노드 - - - - - - - - - +           |
+| 정상 노드 - - [피해 노드] - - - 공격자 노드 |
+| 정상 노드 - - - - - - - - - +           |
+|                                            |
+| 결과: 피해 노드에 거짓 블록·트랜잭션 전달   |
++--------------------------------------------+
 
 시빌 공격 (Sybil Attack)
-┌────────────────────────────────────────────┐
-│ 단일 공격자가 수천 개의 가짜 노드 ID 생성   │
-│ → P2P 네트워크 과반 점유                   │
-│ → 투표 메커니즘 장악, 라우팅 오염           │
-└────────────────────────────────────────────┘
++--------------------------------------------+
+| 단일 공격자가 수천 개의 가짜 노드 ID 생성   |
+| -> P2P 네트워크 과반 점유                   |
+| -> 투표 메커니즘 장악, 라우팅 오염           |
++--------------------------------------------+
 ```
 
 ### 공격 비교표
@@ -101,7 +101,7 @@ tags = ["studynote-ict-convergence"]
 ### PoS에서의 51% 공격
 - 전체 스테이킹 금액의 33%+ 확보 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 공격 가능
 - 67%+ 확보 시 이중 투표(Double Vote) 가능
-- 단, 슬래싱으로 담보 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 소각 → 공격 비용이 공격 수익 초과 가능
+- 단, 슬래싱으로 담보 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 소각 -> 공격 비용이 공격 수익 초과 가능
 
 ### [이클립스 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/) 방어
 
@@ -128,8 +128,8 @@ tags = ["studynote-ict-convergence"]
 ### 기술사 핵심 판단 포인트
 1. **소규모 PoW 코인의 취약성**: 총 해시레이트가 낮으면 51% 공격 현실적 가능
 2. **이클립스 + 51% 연계**: 피해 노드를 이클립스 후 51% 공격 타이밍에 거짓 블록 전달
-3. **PoS 시빌 비용**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 32 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 요건이 시빌 방어선 → 저렴화 시 위협 증가
-4. **거버넌스 공격**: 시빌+플래시론으로 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 투표 조작 → 온체인 거버넌스 특유 위협
+3. **PoS 시빌 비용**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 32 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 요건이 시빌 방어선 -> 저렴화 시 위협 증가
+4. **거버넌스 공격**: 시빌+플래시론으로 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 투표 조작 -> 온체인 거버넌스 특유 위협
 
 - **📢 섹션 요약 비유**: — "작은 동네 선거(소규모 코인)는 돈 조금으로 조작 가능하지만, 대통령 선거(비트코인)는 수백억을 써도 조작이 어렵다.
 
@@ -162,7 +162,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [블록체인 공격: 51% · 이클립스] → [시빌 공격의 경제적 방어선]
+[관계 설명] -> [블록체인 공격: 51% · 이클립스] -> [시빌 공격의 경제적 방어선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -177,7 +177,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 485 / 552
 
-← **이전**: [484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/484_dao_decentralized_autonomous_organization/)
-**다음**: [486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/486_iot_sensor_network_comprehensive/) →
+<- **이전**: [484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/484_dao_decentralized_autonomous_organization/)
+**다음**: [486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/486_iot_sensor_network_comprehensive/) ->
 
 ---

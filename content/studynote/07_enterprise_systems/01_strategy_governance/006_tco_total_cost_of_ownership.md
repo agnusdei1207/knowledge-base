@@ -63,18 +63,18 @@ TCO를 구성하는 요소는 크게 직접 비용([Direct](/knowledge-base/stud
 이 도식은 온프레미스(On-Premise) 환경과 클라우드(Cloud) 환경에서 시간이 지남에 따라 TCO 누적 곡선이 어떻게 교차(Crossover)하는지를 보여주는 타이밍/흐름 그래프이다.
 
 비용 (Cost)
-  │
-  │      [온프레미스 누적 TCO]
-  │      ↗────────────────────> (초기 막대 비용 + 매년 유지보수비)
-  │    ↗       (교차점)
-  │  ↗           X
-  │↗           /   [클라우드 누적 TCO]
-  ││         /     ────────────────────> (초기 비용 제로, 사용량 비례 증가)
-  ││       /
-  ││     /
-  ││   /
-  │├─── CAPEX 장벽 (하드웨어 구매)
-  └┴─────────────────────────────────────── 시간 (Time)
+  |
+  |      [온프레미스 누적 TCO]
+  |      ↗--------------------> (초기 막대 비용 + 매년 유지보수비)
+  |    ↗       (교차점)
+  |  ↗           X
+  |↗           /   [클라우드 누적 TCO]
+  ||         /     --------------------> (초기 비용 제로, 사용량 비례 증가)
+  ||       /
+  ||     /
+  ||   /
+  |+--- CAPEX 장벽 (하드웨어 구매)
+  ++--------------------------------------- 시간 (Time)
      0년        3년        5년
 ```
 
@@ -99,15 +99,15 @@ IT 경영전략에서 TCO는 단독으로 쓰이지 않고, [ROI](/knowledge-bas
 ```text
 이 매트릭스는 CAPEX 중심의 전통적 IT와 OPEX 중심의 클라우드 IT 간의 TCO 구조 차이와 이에 따른 거버넌스 판단 포인트를 대조한다.
 
-┌──────────┬──────────────────────────┬──────────────────────────┬────────────────────────┐
-│ 항목     │ 온프레미스 (CAPEX 중심)  │ 클라우드 (OPEX 중심)     │ 실무 판단 포인트       │
-├──────────┼──────────────────────────┼──────────────────────────┼────────────────────────┤
-│ 초기비용 │ 매우 높음 (서버 대량구매)│ 거의 없음 (구독형)       │ 초기 현금 유동성 한계  │
-│ 증설방식 │ Scale-up 위주, 수주 소요 │ Scale-out 위주, 즉시 할당│ 트래픽 변동(스파이크)성│
-│ 매몰비용 │ 높음 (폐기 시 손실 큼)   │ 낮음 (즉각 자원 반환)    │ 비즈니스 철수 시 리스크│
-│ 통제권   │ 자사 완벽 통제, 보안 우수│ 벤더 종속, 블랙박스화    │ 컴플라이언스 민감도    │
-│ TCO 산정 │ 감가상각 기반 예측 용이  │ 사용량 기반 예측 어려움  │ FinOps(재무운영) 역량  │
-└──────────┴──────────────────────────┴──────────────────────────┴────────────────────────┘
++----------+--------------------------+--------------------------+------------------------+
+| 항목     | 온프레미스 (CAPEX 중심)  | 클라우드 (OPEX 중심)     | 실무 판단 포인트       |
++----------+--------------------------+--------------------------+------------------------+
+| 초기비용 | 매우 높음 (서버 대량구매)| 거의 없음 (구독형)       | 초기 현금 유동성 한계  |
+| 증설방식 | Scale-up 위주, 수주 소요 | Scale-out 위주, 즉시 할당| 트래픽 변동(스파이크)성|
+| 매몰비용 | 높음 (폐기 시 손실 큼)   | 낮음 (즉각 자원 반환)    | 비즈니스 철수 시 리스크|
+| 통제권   | 자사 완벽 통제, 보안 우수| 벤더 종속, 블랙박스화    | 컴플라이언스 민감도    |
+| TCO 산정 | 감가상각 기반 예측 용이  | 사용량 기반 예측 어려움  | FinOps(재무운영) 역량  |
++----------+--------------------------+--------------------------+------------------------+
 ```
 
 이 구조의 핵심은 IT 자원의 지불 방식(CAPEX vs OPEX)에 따라 TCO의 변동성과 재무적 예측 가능성이 극명하게 갈린다는 점이다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 크지만 5년간의 감가상각표를 통해 매년 정해진 비용만 장부에 반영되므로 예측이 안정적이다. 반면 클라우드는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 없이 시작하지만, 네트워크 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)(아웃바운드 트래픽)나 스토리지 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 비용 등 예측 불가능한 변수에 의해 청구서 폭탄(Bill Shock)을 맞을 위험이 크다. 따라서 최신 IT 환경에서는 클라우드 비용을 실시간으로 추적하고 이상 징후를 탐지하는 FinOps가 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관리의 핵심으로 부상하였다.
@@ -129,16 +129,16 @@ IT 경영전략에서 TCO는 단독으로 쓰이지 않고, [ROI](/knowledge-bas
 이 도식은 조직이 클라우드 마이그레이션 TCO를 평가하고 최적화해 나가는 FinOps 의사결정 트리를 보여준다.
 
 [TCO 산정 및 평가]
-        │
-   (단순 Lift & Shift?) ──Yes──> [경고] 단기 TCO 상승 확정 ──> [재설계 권고]
-        │
+        |
+   (단순 Lift & Shift?) --Yes--> [경고] 단기 TCO 상승 확정 --> [재설계 권고]
+        |
         No (클라우드 네이티브 적용)
-        ↓
-[자원 최적화 (Right Sizing)] ──> 안 쓰는 자원 자동 종료 (Scheduling)
-        ↓
-[할인 모델 적용 (Commitment)] ──> Reserved Instance (약정 할인) 구매
-        ↓
-[지속적 모니터링 (FinOps)] ──> 예산 초과 알람, 부서별 과금 (Chargeback)
+        v
+[자원 최적화 (Right Sizing)] --> 안 쓰는 자원 자동 종료 (Scheduling)
+        v
+[할인 모델 적용 (Commitment)] --> Reserved Instance (약정 할인) 구매
+        v
+[지속적 모니터링 (FinOps)] --> 예산 초과 알람, 부서별 과금 (Chargeback)
 ```
 
 이 흐름의 핵심은 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 절감이 단 한 번의 아키텍처 설계로 끝나는 것이 아니라, 도입 이후에도 지속적인 가시성 확보와 할인 요율 적용을 통해 끝없이 최적화(Optimize)해 나가는 순환 과정이라는 점이다. 따라서 클라우드 환경의 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관리는 IT 부서만의 업무가 아니라 재무, 개발, 비즈니스 부서가 협력하는 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)(Finance + [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 문화로 승화되어야 한다. 실무에서는 태깅(Tagging) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 엄격히 적용하여 누가 어떤 자원을 써서 TCO를 높이고 있는지 명확히 추적해야 한다.
@@ -173,14 +173,14 @@ IT 경영전략에서 TCO는 단독으로 쓰이지 않고, [ROI](/knowledge-bas
 
 ```text
 [직접 비용 (Direct Cost)]
-    │
-    ▼
+    |
+    v
 [간접 비용 (Indirect Cost)]
-    │
-    ▼
+    |
+    v
 [TCO 분석 (TCO Analysis)]
-    │
-    ▼
+    |
+    v
 [투자 회수 (ROI, Return on Investment)]
 ```
 
@@ -196,7 +196,7 @@ IT 경영전략에서 TCO는 단독으로 쓰이지 않고, [ROI](/knowledge-bas
 
 **진행 상황**: 6 / 482
 
-← **이전**: [5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/)
-**다음**: [7. 섀도우 IT (Shadow IT) - IT 부서의 통제를 벗어나 현업 부서가 임의로 도입해 사용하는 SaaS/소프트웨어 (보안 및](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/007_shadow_it/) →
+<- **이전**: [5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/)
+**다음**: [7. 섀도우 IT (Shadow IT) - IT 부서의 통제를 벗어나 현업 부서가 임의로 도입해 사용하는 SaaS/소프트웨어 (보안 및](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/007_shadow_it/) ->
 
 ---

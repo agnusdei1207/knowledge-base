@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 SOW 범위관리 감리는 작업범위기술서(Statement of Work, SOW) 기반 범위 통제 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 대형 정보화 사업에서 일정·범위·품질을 동시에 맞추기 위해 정량 기반 프로젝트 통제가 필수 역량이 되었다. 특히 산출물 경계가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 변경 통제는 사람 의존 절차로 흩어지고, 최종적으로 수용 기준이 남지 않아 의사결정이 감각에 의존하게 된다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 책임자가 약하면 변화가 누적되어 일정 지연과 계약 분쟁으로 이어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 산출물 경계 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 변경 통제 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 수용 기준 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 산출물 경계 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 변경 통제 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 수용 기준 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: SOW 범위관리 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ SOW 범위관리 감리의 핵심 원리는 기준, 실행, 증적을 하나의 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 수용 기준을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 산출물 경계, 변경 통제, 수용 기준은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ SOW 범위관리 감리를 충실히 적용하면 프로젝트 변동성을 줄�
 - 확장 개념: 성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[산출물 경계] → [SOW 범위관리 감리] → [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
+[산출물 경계] -> [SOW 범위관리 감리] -> [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 산출물 경계는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ SOW 범위관리 감리를 충실히 적용하면 프로젝트 변동성을 줄�
 
 **진행 상황**: 347 / 530
 
-← **이전**: [285. EVM 일정성과 감리 (EVM Schedule Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/285_evm_schedule_performance/)
-**다음**: [287. 감리 프레임워크 3.0 애자일 전환 (Audit Framework 3.0 Agile Transition)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/287_audit_framework_3_0_agile/) →
+<- **이전**: [285. EVM 일정성과 감리 (EVM Schedule Performance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/285_evm_schedule_performance/)
+**다음**: [287. 감리 프레임워크 3.0 애자일 전환 (Audit Framework 3.0 Agile Transition)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/287_audit_framework_3_0_agile/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [RARP]
-    │
-    ▼
+    |
+    v
 [Proxy ARP]
-    │
-    └──▶ [Gratuitous ARP]
+    |
+    +---> [Gratuitous ARP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> ARP는 멍청한 직원이 타 부서(다른 서브넷) 팀장 연락처를 같은 층 사내 방송(브로드캐스트)으로 찾을 때, 옆 부서 사정까지 꿰뚫고 있는 </strong>비서실장(라우터)이 "그 사람 서류 나한테 줘, 내가 전달해 줄게"라며 비서실장 명함(라우터 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 건네는 완벽한 대행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
@@ -44,26 +44,26 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> B (192.168.2.20/24)</strong>: 사실 라우터 건너편 옆 동네에 있음.
 - **라우터**: 중간에서 양쪽 망을 연결.
 
-1. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) B와 통신하려 한다. "같은 동네네? 브로드캐스트로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 물어보자!" ──▶ `ARP Req (Who has 192.168.2.20?)`
+1. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) B와 통신하려 한다. "같은 동네네? 브로드캐스트로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 물어보자!" ---> `ARP Req (Who has 192.168.2.20?)`
 2. 라우터가 이 멍청한 방송을 듣는다. 라우터의 속마음: "어휴, 쟤는 마스크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 잘못했네. 192.168.2.0 망은 내 뒤쪽 포트에 있는데... 내가 대답 안 해주면 쟤 평생 통신 못 하겠지?"
-3. 라우터가 대답한다 ──▶ `ARP Reply (192.168.2.20 is at [라우터의 MAC 주소])`
+3. 라우터가 대답한다 ---> `ARP Reply (192.168.2.20 is at [라우터의 MAC 주소])`
 4. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A는 아무 의심 없이 라우터 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 목적지로 적어 패킷을 쏘고, 라우터는 이를 받아 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) B로 정상 포워딩해 준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                프록시 ARP가 켜져 있을 때 PC의 ARP 테이블          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\Users\Admin> arp -a                                    │
- │                                                             │
- │   인터넷 주소         물리적 주소           유형                │
- │   192.168.1.1       AA-BB-CC-00-00-01 (라우터 MAC)          │
- │   192.168.2.20      AA-BB-CC-00-00-01 (어? 라우터 MAC이네?)  │
- │   192.168.3.50      AA-BB-CC-00-00-01 (어? 또 라우터 MAC?)   │
- │                                                             │
- │   ▶ 결과: 밖으로 나가는 모든 IP들의 목적지 MAC이 라우터 MAC으로   │
- │          도배(도용)되어 버리는 현상이 발생한다!                     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                프록시 ARP가 켜져 있을 때 PC의 ARP 테이블          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   C:\Users\Admin> arp -a                                    |
+ |                                                             |
+ |   인터넷 주소         물리적 주소           유형                |
+ |   192.168.1.1       AA-BB-CC-00-00-01 (라우터 MAC)          |
+ |   192.168.2.20      AA-BB-CC-00-00-01 (어? 라우터 MAC이네?)  |
+ |   192.168.3.50      AA-BB-CC-00-00-01 (어? 또 라우터 MAC?)   |
+ |                                                             |
+ |   -> 결과: 밖으로 나가는 모든 IP들의 목적지 MAC이 라우터 MAC으로   |
+ |          도배(도용)되어 버리는 현상이 발생한다!                     |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP의 부작용 (끄는 것이 권장됨)
@@ -130,12 +130,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: RARP]
-    │
-    ▼
+    |
+    v
 [현재 개념: Proxy ARP]
-    │
-    ├──▶ [확장 A: Gratuitous ARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: Gratuitous ARP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP는 RARP에서 출발해 현재 메커니즘을 정교화하고, 이후 Gratuitous ARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 436 / 1120
 
-← **이전**: [314. RARP (Reverse ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/314_rarp_reverse_arp_mac_to_ip/)
-**다음**: [316. Gratuitous ARP (G-ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/) →
+<- **이전**: [314. RARP (Reverse ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/314_rarp_reverse_arp_mac_to_ip/)
+**다음**: [316. Gratuitous ARP (G-ARP)](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/) ->
 
 ---

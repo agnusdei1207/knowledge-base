@@ -37,25 +37,25 @@ tags = ["studynote-dataengineering"]
 | **지니 이득 (Gini Gain)** | 분할 전 부모 불순도 - 분할 후 가중 평균 불순도 | 이 값이 가장 커지는 분할(질문)을 선택하여 노드를 쪼갠다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           지니 불순도 기반의 의사결정 트리 분할 과정 시각화          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [부모 노드] 100개 데이터 (고양이 50마리, 강아지 50마리)       │
-│    => 확률 0.5, 0.5 -> Gini = 1 - (0.5^2 + 0.5^2) = 0.5      │
-│        │                                                     │
-│        │ <질문: "몸무게가 10kg 이상인가?">                      │
-│        ▼                                                     │
-│ 2. [자식 노드 A] 40개 데이터        [자식 노드 B] 60개 데이터       │
-│    고양이: 5, 강아지: 35            고양이: 45, 강아지: 15          │
-│    Gini = 1 - (1/8)^2 - (7/8)^2    Gini = 1 - (3/4)^2 - (1/4)^2  │
-│         = 0.218                         = 0.375              │
-│                                                              │
-│ 3. [가중 평균 지니 계산]                                         │
-│    (40/100)*0.218 + (60/100)*0.375 = 0.3122                  │
-│                                                              │
-│ 4. [지니 이득(Gain)]                                            │
-│    0.5 - 0.3122 = 0.1878 (이 값이 가장 큰 질문을 최종 선택!)      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           지니 불순도 기반의 의사결정 트리 분할 과정 시각화          |
++--------------------------------------------------------------+
+| 1. [부모 노드] 100개 데이터 (고양이 50마리, 강아지 50마리)       |
+|    => 확률 0.5, 0.5 -> Gini = 1 - (0.5^2 + 0.5^2) = 0.5      |
+|        |                                                     |
+|        | <질문: "몸무게가 10kg 이상인가?">                      |
+|        v                                                     |
+| 2. [자식 노드 A] 40개 데이터        [자식 노드 B] 60개 데이터       |
+|    고양이: 5, 강아지: 35            고양이: 45, 강아지: 15          |
+|    Gini = 1 - (1/8)^2 - (7/8)^2    Gini = 1 - (3/4)^2 - (1/4)^2  |
+|         = 0.218                         = 0.375              |
+|                                                              |
+| 3. [가중 평균 지니 계산]                                         |
+|    (40/100)*0.218 + (60/100)*0.375 = 0.3122                  |
+|                                                              |
+| 4. [지니 이득(Gain)]                                            |
+|    0.5 - 0.3122 = 0.1878 (이 값이 가장 큰 질문을 최종 선택!)      |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 분할 기준이 어떻게 수학적으로 선택되는지 보여준다. 모델은 모든 가능한 질문(특성)과 기준값에 대해 이 가중 평균 지니 연산을 수백만 번 수행하며 트리 구조를 완성해 나간다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 연산이 없기 때문에 이 수백만 번의 반복이 CPU에서 엄청나게 빠르게 처리된다.
@@ -121,17 +121,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 정보 이론 (Information Theory - 불확실성의 측정)
-    │
-    ▼
+    |
+    v
 엔트로피와 정보 이득 (초기 ID3 알고리즘의 노드 분할 척도)
-    │
-    ▼
+    |
+    v
 지니 불순도 (Gini Impurity - 로그 연산을 제거하여 계산 효율성을 극대화)
-    │
-    ▼
+    |
+    v
 CART (Classification and Regression Trees) 알고리즘 (지니 기반 이진 분할 정립)
-    │
-    ▼
+    |
+    v
 앙상블 학습 (Random Forest, XGBoost 등에서 피처 평가 및 대규모 병렬 트리의 코어 연산으로 확장)
 ```
 
@@ -147,7 +147,7 @@ CART (Classification and Regression Trees) 알고리즘 (지니 기반 이진 �
 
 **진행 상황**: 108 / 258
 
-← **이전**: [텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)](/knowledge-base/studynote/14_data_engineering/02_math_mining/107_tensorflow_array_tensor/)
-**다음**: [109. 유클리드 거리 vs 맨해튼 거리 (Euclidean vs Manhattan Distance)](/knowledge-base/studynote/14_data_engineering/02_math_mining/109_euclidean_vs_manhattan_distance/) →
+<- **이전**: [텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)](/knowledge-base/studynote/14_data_engineering/02_math_mining/107_tensorflow_array_tensor/)
+**다음**: [109. 유클리드 거리 vs 맨해튼 거리 (Euclidean vs Manhattan Distance)](/knowledge-base/studynote/14_data_engineering/02_math_mining/109_euclidean_vs_manhattan_distance/) ->
 
 ---

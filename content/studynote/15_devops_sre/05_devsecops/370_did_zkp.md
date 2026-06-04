@@ -30,21 +30,21 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              DID/VC/VP 생태계 구조                               │
-├──────────────────────────────────────────────────────────────────┤
-│  [발급기관 (Issuer)] — 대학, 병원, 정부                         │
-│  VC (Verifiable Credential) 발급 + 디지털 서명                  │
-│         │                                                        │
-│  [소유자 (Holder)] — 사용자 디바이스 지갑(Wallet)               │
-│  VC 보관, VP (Verifiable Presentation) 구성                     │
-│         │                                                        │
-│  [검증자 (Verifier)] — 서비스 제공자                            │
-│  VP 서명 검증 + ZKP로 최소 정보 확인                            │
-│         │                                                        │
-│  [DID Registry] — 블록체인 or 분산 네트워크                     │
-│  DID Document (공개키, 서비스 엔드포인트) 저장                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              DID/VC/VP 생태계 구조                               |
++------------------------------------------------------------------+
+|  [발급기관 (Issuer)] — 대학, 병원, 정부                         |
+|  VC (Verifiable Credential) 발급 + 디지털 서명                  |
+|         |                                                        |
+|  [소유자 (Holder)] — 사용자 디바이스 지갑(Wallet)               |
+|  VC 보관, VP (Verifiable Presentation) 구성                     |
+|         |                                                        |
+|  [검증자 (Verifier)] — 서비스 제공자                            |
+|  VP 서명 검증 + ZKP로 최소 정보 확인                            |
+|         |                                                        |
+|  [DID Registry] — 블록체인 or 분산 네트워크                     |
+|  DID Document (공개키, 서비스 엔드포인트) 저장                  |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소                          | 역할                                           | 표준            |
@@ -85,9 +85,9 @@ tags = ["studynote-devops-sre"]
 5. 규제 준수: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) [Right to be Forgotten](/knowledge-base/studynote/09_security/16_data_privacy/794_right_to_be_forgotten/) 대응
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- 모든 VC를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 저장 → [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반
-- [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 없이 VC만 발급 → 신원 소유권 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화 효과 없음
-- [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 없는 VC 제시 → 불필요한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 과잉 공개
+- 모든 VC를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 저장 -> [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반
+- [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 없이 VC만 발급 -> 신원 소유권 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화 효과 없음
+- [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 없는 VC 제시 -> 불필요한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 과잉 공개
 
 - 📢 섹션 요약 비유: 모든 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 저장하는 것은 주민등록증을 투명한 유리 케이스에 넣어 공개 전시하는 것과 같다.
 
@@ -117,20 +117,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 중앙화 신원 (구글, 정부 IdP)
-    │
-    ▼
+    |
+    v
 연합 신원 (SAML, OAuth2, OIDC)
-    │
-    ▼
+    |
+    v
 DID (W3C 표준, 분산 식별자)
-    │
-    ▼
+    |
+    v
 VC/VP (검증 가능한 자격증명/발표)
-    │
-    ▼
+    |
+    v
 ZKP (선택적 공개, BBS+/zk-SNARK)
-    │
-    ▼
+    |
+    v
 MyData + FIDO2 통합 자기주권 신원 생태계
 ```
 
@@ -146,7 +146,7 @@ MyData + FIDO2 통합 자기주권 신원 생태계
 
 **진행 상황**: 370 / 373
 
-← **이전**: [369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)](/knowledge-base/studynote/15_devops_sre/05_devsecops/369_dlt_bft/)
-**다음**: [371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/371_process/) →
+<- **이전**: [369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)](/knowledge-base/studynote/15_devops_sre/05_devsecops/369_dlt_bft/)
+**다음**: [371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/371_process/) ->
 
 ---

@@ -19,8 +19,8 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-공유 DB: 서비스 A·B·C → 같은 DB (커플링)
-DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)
+공유 DB: 서비스 A·B·C -> 같은 DB (커플링)
+DB per Service: A->DB_A, B->DB_B, C->DB_C (독립)
   서비스 간: API·이벤트로만 통신
 ```
 
@@ -34,7 +34,7 @@ DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)
 |:---|:---|:---|
 | **커플링** | 높음 | **낮음** |
 | **배포** | 종속 | **독립** |
-| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 가능 | <strong>불가 → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>/이벤트</strong> |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 가능 | <strong>불가 -> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>/이벤트</strong> |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | Strong | **Eventual** |
 
 ---
@@ -58,10 +58,10 @@ DB per Service는 <strong>MSA의 <a href="/knowledge-base/studynote/05_database/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[공유 DB (모노리스)] → [DB per Service (MSA, 2014~)]
-    → [Saga 패턴 (분산 트랜잭션)]
-    → [CQRS + Event Sourcing (2016~)]
-    → [현재: 데이터 메시 — 도메인별 데이터 소유]
+[공유 DB (모노리스)] -> [DB per Service (MSA, 2014~)]
+    -> [Saga 패턴 (분산 트랜잭션)]
+    -> [CQRS + Event Sourcing (2016~)]
+    -> [현재: 데이터 메시 — 도메인별 데이터 소유]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ DB per Service는 <strong>MSA의 <a href="/knowledge-base/studynote/05_database/
 
 **진행 상황**: 130 / 371
 
-← **이전**: [130. Bulkhead 패턴 - 격벽으로 장애 격리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/130_bulkhead_pattern/)
-**다음**: [132. Polyglot Persistence - MSA 서비스별 최적 DB 선택](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/) →
+<- **이전**: [130. Bulkhead 패턴 - 격벽으로 장애 격리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/130_bulkhead_pattern/)
+**다음**: [132. Polyglot Persistence - MSA 서비스별 최적 DB 선택](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/) ->
 
 ---

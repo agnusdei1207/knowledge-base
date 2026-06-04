@@ -19,18 +19,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    SLO → Error Budget → 의사결정                     │
-├───────────────────────────────────────────────────────┤
-│  SLO = 99.9% (30일 기준)                              │
-│  Error Budget = 0.1% = 43.2분/월                     │
-│                                                       │
-│  [Budget 남음 (장애 10분만 발생)]                     │
-│   → 피처 개발 계속! 카나리 배포 승인!                │
-│                                                       │
-│  [Budget 소진 (장애 50분 발생)]                       │
-│   → 피처 개발 중단! 안정화·테스트·관측성 개선!       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    SLO -> Error Budget -> 의사결정                     |
++-------------------------------------------------------+
+|  SLO = 99.9% (30일 기준)                              |
+|  Error Budget = 0.1% = 43.2분/월                     |
+|                                                       |
+|  [Budget 남음 (장애 10분만 발생)]                     |
+|   -> 피처 개발 계속! 카나리 배포 승인!                |
+|                                                       |
+|  [Budget 소진 (장애 50분 발생)]                       |
+|   -> 피처 개발 중단! 안정화·테스트·관측성 개선!       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SLO는 <strong>합격 기준(90점)</strong>이고, Error Budget은 <strong>틀려도 되는 문제 수(10문제)</strong>이다. 10문제 이상 틀리면 보충 수업(안정화)을 받아야 한다.
@@ -44,7 +44,7 @@ tags = ["studynote-devops-sre"]
 2. **사용자 기대 기반**: 내부 도구는 99.5%, 결제는 99.99%.
 3. **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) < [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)**: 내부 목표가 계약보다 엄격해야 여유 확보.
 
-### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) → [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) → [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) → [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체인
+### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) -> [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) -> [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체인
 
 | 단계 | 정의 | 예 |
 |:---|:---|:---|
@@ -97,17 +97,17 @@ SLO는 <strong>SRE의 가장 핵심적 의사결정 도구</strong>이며, Error
 
 ```text
 [가용성 99.999% 목표 (전통, ~2010s)]
-    │
-    ▼
+    |
+    v
 [SRE SLO 개념 (Google, 2003~2016)]
-    │
-    ▼
+    |
+    v
 [Error Budget 기반 의사결정 (Accelerate, 2018)]
-    │
-    ▼
+    |
+    v
 [Burn Rate Alert (2020~) — Budget 소진 속도 알림]
-    │
-    ▼
+    |
+    v
 [현재: OpenSLO — SLO를 코드로 정의 (SLO as Code)]
 ```
 
@@ -122,7 +122,7 @@ SLO는 <strong>SRE의 가장 핵심적 의사결정 도구</strong>이며, Error
 
 **진행 상황**: 123 / 373
 
-← **이전**: [122. SLI (Service Level Indicator) - 서비스 수준 측정 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/122_sli_service_level_indicator/)
-**다음**: [124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임](/knowledge-base/studynote/15_devops_sre/03_sre_observability/124_sla_service_level_agreement/) →
+<- **이전**: [122. SLI (Service Level Indicator) - 서비스 수준 측정 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/122_sli_service_level_indicator/)
+**다음**: [124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임](/knowledge-base/studynote/15_devops_sre/03_sre_observability/124_sla_service_level_agreement/) ->
 
 ---

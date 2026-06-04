@@ -42,41 +42,41 @@ LLM은 다음 토큰(Token)을 예측하는 [확률](/knowledge-base/studynote/0
 
 ### 2.1 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)(Retrieval Augmented Generation) 구조
 
-RAG는 세 단계로 구성된다: <strong>검색(Retrieval) → 증강(Augmentation) → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Generation)</strong>.
+RAG는 세 단계로 구성된다: <strong>검색(Retrieval) -> 증강(Augmentation) -> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Generation)</strong>.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    RAG 파이프라인 (RAG Pipeline)                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사용자 질의(Query)                                               │
-│        │                                                         │
-│        ▼                                                         │
-│  ┌───────────────┐    임베딩(Embedding)     ┌──────────────────┐ │
-│  │  쿼리 인코더   │ ─────────────────────► │  벡터 DB         │ │
-│  │(Query Encoder)│                         │ (Vector DB)      │ │
-│  └───────────────┘                         │  Pinecone/       │ │
-│                                            │  Weaviate/Milvus │ │
-│                                            └────────┬─────────┘ │
-│                                                     │           │
-│                                          유사도 검색(Top-K)      │
-│                                                     │           │
-│                                                     ▼           │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │             컨텍스트 주입(Context Injection)               │   │
-│  │  프롬프트 = "다음 문서를 참고하여 답하라: [검색문서1,2,3]  │   │
-│  │             + 사용자 질의"                                 │   │
-│  └────────────────────────┬─────────────────────────────────┘   │
-│                           │                                      │
-│                           ▼                                      │
-│                   ┌───────────────┐                              │
-│                   │    LLM 생성   │                              │
-│                   │ (Generation)  │                              │
-│                   └───────────────┘                              │
-│                           │                                      │
-│                           ▼                                      │
-│                   사실 기반 응답(Grounded Response)               │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                    RAG 파이프라인 (RAG Pipeline)                 |
++-----------------------------------------------------------------+
+|                                                                  |
+|  사용자 질의(Query)                                               |
+|        |                                                         |
+|        v                                                         |
+|  +---------------+    임베딩(Embedding)     +------------------+ |
+|  |  쿼리 인코더   | ---------------------► |  벡터 DB         | |
+|  |(Query Encoder)|                         | (Vector DB)      | |
+|  +---------------+                         |  Pinecone/       | |
+|                                            |  Weaviate/Milvus | |
+|                                            +--------+---------+ |
+|                                                     |           |
+|                                          유사도 검색(Top-K)      |
+|                                                     |           |
+|                                                     v           |
+|  +----------------------------------------------------------+   |
+|  |             컨텍스트 주입(Context Injection)               |   |
+|  |  프롬프트 = "다음 문서를 참고하여 답하라: [검색문서1,2,3]  |   |
+|  |             + 사용자 질의"                                 |   |
+|  +------------------------+---------------------------------+   |
+|                           |                                      |
+|                           v                                      |
+|                   +---------------+                              |
+|                   |    LLM 생성   |                              |
+|                   | (Generation)  |                              |
+|                   +---------------+                              |
+|                           |                                      |
+|                           v                                      |
+|                   사실 기반 응답(Grounded Response)               |
++-----------------------------------------------------------------+
 ```
 
 ### 2.2 벡터 DB([Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)) 핵심 개념
@@ -141,15 +141,15 @@ RAG는 세 단계로 구성된다: <strong>검색(Retrieval) → 증강(Augmenta
 ### 4.2 할루시네이션 감지 및 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
-┌────────────────────────────────────────────────────────┐
-│              할루시네이션 방어 계층                      │
-├────────────┬──────────────────────────────────────────┤
-│ 입력 계층  │ 질의 분류 → 검색 필요성 판단              │
-│ 검색 계층  │ 하이브리드 검색(벡터 + BM25 키워드)       │
-│ 생성 계층  │ 소스 인용 강제(Citation Grounding)        │
-│ 검증 계층  │ NLI(자연어 추론) 기반 사실 검증            │
-│ 출력 계층  │ 신뢰도 점수(Confidence Score) 사용자 노출 │
-└────────────┴──────────────────────────────────────────┘
++--------------------------------------------------------+
+|              할루시네이션 방어 계층                      |
++------------+------------------------------------------+
+| 입력 계층  | 질의 분류 -> 검색 필요성 판단              |
+| 검색 계층  | 하이브리드 검색(벡터 + BM25 키워드)       |
+| 생성 계층  | 소스 인용 강제(Citation Grounding)        |
+| 검증 계층  | NLI(자연어 추론) 기반 사실 검증            |
+| 출력 계층  | 신뢰도 점수(Confidence Score) 사용자 노출 |
++------------+------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: RAG는 오픈북 시험(Open Book Exam)으로 바꾸는 것이다. 모든 것을 외워야 했던 기존 방식 대신, 시험장에 자료집(외부 DB)을 들고 들어가 참조하며 답변한다. 자료집의 품질(벡터 DB)과 빠르게 찾는 능력([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 검색)이 좋아야 좋은 점수를 받는다.
@@ -183,7 +183,7 @@ RAG는 단순 문서 검색에서 <strong>에이전틱 <a href="/knowledge-base/
 | 문제 | 할루시네이션([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | LLM이 사실과 다른 그럴듯한 답변 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | 해결책 | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)(Retrieval Augmented Generation) | 외부 문서 검색 후 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 주입 |
 | 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 벡터 DB([Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)) | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터 저장·검색 특화 DB |
-| 핵심 기술 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) | 텍스트→고차원 벡터 변환 |
+| 핵심 기술 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) | 텍스트->고차원 벡터 변환 |
 | 유사도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) | 근사 최근접 이웃 검색, O(log N) |
 | 고도화 기법 | [Advanced RAG](/knowledge-base/studynote/10_ai/03_llm_nlp/218_rag_advanced_techniques/) | HyDE, Multi-query, Re-ranking |
 | 평가 프레임워크 | [RAGAS](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) | Faithfulness·Relevancy·[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 측정 |
@@ -196,13 +196,13 @@ RAG는 단순 문서 검색에서 <strong>에이전틱 <a href="/knowledge-base/
 
 ```text
 LLM 할루시네이션 (사실과 다른 생성)
-    │
-    ▼
-RAG: 외부 문서 검색 → 컨텍스트로 생성
-    ├─► Vector DB: FAISS · Pinecone · Weaviate
-    └─► Chunking · Embedding · Re-ranking
-    │
-    ▼
+    |
+    v
+RAG: 외부 문서 검색 -> 컨텍스트로 생성
+    +-► Vector DB: FAISS · Pinecone · Weaviate
+    +-► Chunking · Embedding · Re-ranking
+    |
+    v
 Advanced RAG: Self-RAG · Corrective RAG · Graph RAG
 ```
 2. RAG는 그 학생에게 시험 중에 도서관을 이용할 수 있게 해주는 거예요. 책에서 관련 내용을 찾아서 그걸 보고 답을 쓰니까 훨씬 정확해지죠.
@@ -214,7 +214,7 @@ Advanced RAG: Self-RAG · Corrective RAG · Graph RAG
 
 **진행 상황**: 251 / 258
 
-← **이전**: [250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)
-**다음**: [252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) →
+<- **이전**: [250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)
+**다음**: [252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ->
 
 ---

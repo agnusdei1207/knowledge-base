@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 운영체제가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 구조적으로 어떻게 찢어 방어해 내는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 분해하면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────┐
-  │                 파일 시스템 이름 공간(Namespace) 충돌 분리 아키텍처 진화   │
-  ├────────────────────────────────────────────────────────────────────────────┤
-  │                                                                            │
-  │  [ 지옥의 1단계 (Single-Level Directory) : 무분별한 믹서기 ]               │
-  │    (System Directory)                                                      │
-  │     └─ 📄 UserA_prog.c                                                     │
-  │     └─ 📄 UserB_prog.c  ◀ "prog.c" 이름이 겹치니까 억지로 User 이름붙임    │
-  │     └─ 📄 kernel.bin                                                       │
-  │     => 🚨 파일이 1만 개가 넘어가 검색 불가. 이름 짓기 노이로제(제한) 폭발! │
-  │                                                                            │
-  │  =============================================================             │
-  │                                                                            │
-  │  [ 구원의 2단계 (Two-Level Directory) : MFD와 UFD 개인방 찢기 분할 ]       │
-  │                                                                            │
-  │             [ MFD (Master File Directory - 시스템 최고 대장 목차) ]        │
-  │              /                 |                 \                         │
-  │    (User 1 전용 방 UFD)  (User 2 전용 방 UFD)   (User 3 전용 방)           │
-  │     [ Bob (밥) ]        [ Alice (앨리스) ]     [ Tom (톰) ]                │
-  │     /        \            /          \             |                       │
-  │ 📄 test.txt 📄 run.exe 📄 test.txt 📄 hello.c  📄 test.txt                 │
-  │                                                                            │
-  │  => 💡 기적 완성: Bob 의 `test.txt` 와 Alice 의 `test.txt` 는 서로         │
-  │     완벽히 다른 방에 살고 있으므로 경로상 절대 충돌하지 않음! (격리 락백)  │
-  └────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------+
+  |                 파일 시스템 이름 공간(Namespace) 충돌 분리 아키텍처 진화   |
+  +----------------------------------------------------------------------------+
+  |                                                                            |
+  |  [ 지옥의 1단계 (Single-Level Directory) : 무분별한 믹서기 ]               |
+  |    (System Directory)                                                      |
+  |     +- 📄 UserA_prog.c                                                     |
+  |     +- 📄 UserB_prog.c  <- "prog.c" 이름이 겹치니까 억지로 User 이름붙임    |
+  |     +- 📄 kernel.bin                                                       |
+  |     => 🚨 파일이 1만 개가 넘어가 검색 불가. 이름 짓기 노이로제(제한) 폭발! |
+  |                                                                            |
+  |  =============================================================             |
+  |                                                                            |
+  |  [ 구원의 2단계 (Two-Level Directory) : MFD와 UFD 개인방 찢기 분할 ]       |
+  |                                                                            |
+  |             [ MFD (Master File Directory - 시스템 최고 대장 목차) ]        |
+  |              /                 |                 \                         |
+  |    (User 1 전용 방 UFD)  (User 2 전용 방 UFD)   (User 3 전용 방)           |
+  |     [ Bob (밥) ]        [ Alice (앨리스) ]     [ Tom (톰) ]                |
+  |     /        \            /          \             |                       |
+  | 📄 test.txt 📄 run.exe 📄 test.txt 📄 hello.c  📄 test.txt                 |
+  |                                                                            |
+  |  => 💡 기적 완성: Bob 의 `test.txt` 와 Alice 의 `test.txt` 는 서로         |
+  |     완벽히 다른 방에 살고 있으므로 경로상 절대 충돌하지 않음! (격리 락백)  |
+  +----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이전 1단계 모델에서 프로그래머는 친구 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름과 안 겹치려고 `P_1_Final_Really_Test.c` 처럼 해괴망측한 변태적 길이의 이름을 지어야 했다. 하지만 2단계 구조로 오프셋 트리가 격리 분리되자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부적으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 진짜 경로(Path) 규칙이 `사용자이름 + 파일이름 (예: /Alice/test.txt)` 으로 확립 덧붙여졌다. 덕분에 사용자의 눈엔 똑같은 `test.txt` 처럼 보일지언정, 기계 OS 입장에서는 맨 앞의 UFD 헤더 방 주소가 서로 다르므로 완벽하게 격리 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 되는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 혁신 마스킹 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이 구현 장착된 것이다.
@@ -137,12 +137,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [디렉터리 (Directory) 구조]
-    │
-    ▼
+    |
+    v
 [1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)]
-    │
-    ├──▶ [트리 구조 디렉터리 (Tree-structured Directory)]
-    └──▶ [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
+    |
+    +---> [트리 구조 디렉터리 (Tree-structured Directory)]
+    +---> [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 507 / 800
 
-← **이전**: [506. 디렉터리 (Directory) 구조 - 심볼 테이블 (이름 -> 항목 번역)](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)
-**다음**: [508. 트리 구조 디렉터리 (Tree-structured Directory) - 계층 구조, 현재 디렉터리 개념](/knowledge-base/studynote/02_operating_system/09_file_system/508_tree_structured_directory/) →
+<- **이전**: [506. 디렉터리 (Directory) 구조 - 심볼 테이블 (이름 -> 항목 번역)](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)
+**다음**: [508. 트리 구조 디렉터리 (Tree-structured Directory) - 계층 구조, 현재 디렉터리 개념](/knowledge-base/studynote/02_operating_system/09_file_system/508_tree_structured_directory/) ->
 
 ---

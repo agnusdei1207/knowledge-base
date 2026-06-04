@@ -46,32 +46,32 @@ tags = ["studynote-cloud"]
 K8s [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) 한가운데서 도대체 컨트롤러는 어떻게 돌아가는지 그 내부의 피 땀 눈물 파이프라인을 뜯어보자.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         Kube-Controller-Manager의 상태 조정(Reconciliation) 무한 루프│
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [ 1. 목표 상태 (Desired State) ] - 🌟 완벽한 이상향           │
-  │     - 엔지니어가 `yaml`로 던진 내용이 `etcd` 금고에 박혀있음.         │
-  │     - "Nginx 웹서버 팟(Pod) 복제본 개수는 무조건 5개(Replica=5)!"     │
-  │                                                               │
-  │       ▲ (비교: Compare)                                       │
-  │   ┌───┴─────────────────────────────────────────────┐         │
-  │   │  ⚙️ 컨트롤러 매니저 봇 (0.1초마다 미친 듯이 빙글빙글 도는 루프!)  │         │
-  │   │     "목표는 5개인데... 지금 현장(Current)은 몇 개인가?"          │         │
-  │   └───┬─────────────────────────────────────────────┘         │
-  │       ▼ (감시: Watch)                                         │
-  │                                                               │
-  │   [ 2. 현재 상태 (Current State) ] - 💥 참혹한 현실           │
-  │     - 워커 노드 3번이 갑자기 정전으로 죽음. 그 안에 있던 팟 2개 즉사.     │
-  │     - K8s 클러스터 내의 살아있는 Nginx 팟은 [3개]밖에 없음!           │
-  │                                                               │
-  │  =============================================================│
-  │   [ 3. 격차 해소 (Act / Reconcile) ] - 몽둥이질 시작!             │
-  │     - 컨트롤러: "어? 목표(5)와 현실(3)에 Gap(-2)이 생겼잖아!!"        │
-  │     - 컨트롤러는 API Server에게 즉시 긴급 결재 서류를 들이밈.           │
-  │       "야 API야! 빨리 +2개 만들라고 스케줄러한테 지시해!!!"             │
-  │     ▶ (결과): 빈 서버에 팟 2개가 새로 뿅 솟아나면서 기어코 현실이 5개로 맞춰짐! │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         Kube-Controller-Manager의 상태 조정(Reconciliation) 무한 루프|
+  +---------------------------------------------------------------+
+  |                                                               |
+  |   [ 1. 목표 상태 (Desired State) ] - 🌟 완벽한 이상향           |
+  |     - 엔지니어가 `yaml`로 던진 내용이 `etcd` 금고에 박혀있음.         |
+  |     - "Nginx 웹서버 팟(Pod) 복제본 개수는 무조건 5개(Replica=5)!"     |
+  |                                                               |
+  |       ^ (비교: Compare)                                       |
+  |   +---+---------------------------------------------+         |
+  |   |  ⚙️ 컨트롤러 매니저 봇 (0.1초마다 미친 듯이 빙글빙글 도는 루프!)  |         |
+  |   |     "목표는 5개인데... 지금 현장(Current)은 몇 개인가?"          |         |
+  |   +---+---------------------------------------------+         |
+  |       v (감시: Watch)                                         |
+  |                                                               |
+  |   [ 2. 현재 상태 (Current State) ] - 💥 참혹한 현실           |
+  |     - 워커 노드 3번이 갑자기 정전으로 죽음. 그 안에 있던 팟 2개 즉사.     |
+  |     - K8s 클러스터 내의 살아있는 Nginx 팟은 [3개]밖에 없음!           |
+  |                                                               |
+  |  =============================================================|
+  |   [ 3. 격차 해소 (Act / Reconcile) ] - 몽둥이질 시작!             |
+  |     - 컨트롤러: "어? 목표(5)와 현실(3)에 Gap(-2)이 생겼잖아!!"        |
+  |     - 컨트롤러는 API Server에게 즉시 긴급 결재 서류를 들이밈.           |
+  |       "야 API야! 빨리 +2개 만들라고 스케줄러한테 지시해!!!"             |
+  |     -> (결과): 빈 서버에 팟 2개가 새로 뿅 솟아나면서 기어코 현실이 5개로 맞춰짐! |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 여기서 중요한 팩트 폭행 한 가지. Kube-Controller-Manager는 직접 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우지(Run) 않는다. 이 녀석 역시 오직 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Server의 귀에 대고 "2개 더 필요해"라고 속삭이기만 할 뿐이다.</strong> K8s의 모든 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 컨트롤러, 큐블릿)는 서로 1:1로 절대 말 섞지 않고 무조건 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 거쳐서(Decoupling) 일한다. 뇌세포를 파편화시킨 이 독립적 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계 덕분에 K8s는 그 어떤 장애 앞에서도 전체가 뻗지 않는 견고함을 지니게 된 것이다.
@@ -141,15 +141,15 @@ K8s [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 ```text
 수동 인프라 관리 (장애 시 수동 복구)
-    │
-    ▼
-Controller Manager: 선언적 상태 → 조정 루프 (Reconciliation)
-    ├─► ReplicaSet Controller: Pod 수 유지
-    ├─► Deployment Controller: 롤링 업데이트
-    ├─► Node Controller: 노드 상태 감시
-    └─► Job/CronJob Controller: 배치 작업 관리
-    │
-    ▼
+    |
+    v
+Controller Manager: 선언적 상태 -> 조정 루프 (Reconciliation)
+    +-► ReplicaSet Controller: Pod 수 유지
+    +-► Deployment Controller: 롤링 업데이트
+    +-► Node Controller: 노드 상태 감시
+    +-► Job/CronJob Controller: 배치 작업 관리
+    |
+    v
 Custom Controller · Operator Pattern
 ```
 2. 그래서 똑똑한 <strong>'마법의 청소기 요정(컨트롤러 매니저)'</strong>을 한 명 고용했어요! 이 요정은 1초도 안 자고 내 책상 주변을 뱅글뱅글 돕니다(무한 컨트롤 루프).
@@ -161,7 +161,7 @@ Custom Controller · Operator Pattern
 
 **진행 상황**: 79 / 371
 
-← **이전**: [79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
-**다음**: [81. K8s 워커 노드 컴포넌트 3가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/081_k8s_worker_node_components/) →
+<- **이전**: [79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
+**다음**: [81. K8s 워커 노드 컴포넌트 3가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/081_k8s_worker_node_components/) ->
 
 ---

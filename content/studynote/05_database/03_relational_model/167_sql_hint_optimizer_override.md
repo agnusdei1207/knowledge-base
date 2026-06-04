@@ -26,18 +26,18 @@ tags = ["studynote-database"]
 아래 그림은 힌트가 왜 등장했는지 보여 준다. 핵심은 힌트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸는 기능이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 선택지를 제한해 잘못된 길을 피하게 만든다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             힌트의 등장 배경: 자율 선택이 항상 정답은 아님           │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL 요청                                                             │
-│   │                                                                  │
-│   ├─ 통계 정확 ───────────────▶ CBO 자율 선택 ───────────────▶ 안정     │
-│   │                                                                  │
-│   └─ 통계 왜곡·데이터 편향 ─▶ 잘못된 계획 선택 ───────────────▶ 지연     │
-│                                   ▲                                  │
-│                                   │                                  │
-│                         Hint = 탐색 공간 보정 / 강제                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             힌트의 등장 배경: 자율 선택이 항상 정답은 아님           |
++----------------------------------------------------------------------+
+| SQL 요청                                                             |
+|   |                                                                  |
+|   +- 통계 정확 ----------------> CBO 자율 선택 ----------------> 안정     |
+|   |                                                                  |
+|   +- 통계 왜곡·데이터 편향 --> 잘못된 계획 선택 ----------------> 지연     |
+|                                   ^                                  |
+|                                   |                                  |
+|                         Hint = 탐색 공간 보정 / 강제                   |
++----------------------------------------------------------------------+
 ```
 
 따라서 힌트는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 부정하는 개념이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 잘못 판단할 가능성이 높은 지점에 제한적으로 개입하는 장치로 이해하는 것이 맞다.
@@ -48,7 +48,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-힌트의 핵심 원리는 `SQL 파싱 → 힌트 해석 → 후보 계획 축소 → 비용 계산 → 실행 계획 확정` 흐름이다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 원래 여러 접근 경로를 비교하지만, 힌트가 들어오면 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 우선 고려하거나 특정 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 먼저 평가한다. 다만 모든 힌트가 무조건 강제되는 것은 아니며, 문법 오류, 별칭 불일치, 적용 불가능한 상황에서는 조용히 무시될 수 있다.
+힌트의 핵심 원리는 `SQL 파싱 -> 힌트 해석 -> 후보 계획 축소 -> 비용 계산 -> 실행 계획 확정` 흐름이다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 원래 여러 접근 경로를 비교하지만, 힌트가 들어오면 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 우선 고려하거나 특정 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 먼저 평가한다. 다만 모든 힌트가 무조건 강제되는 것은 아니며, 문법 오류, 별칭 불일치, 적용 불가능한 상황에서는 조용히 무시될 수 있다.
 
 | 힌트 계열 | 대표 예시 | 제어 대상 | 주의할 점 |
 | :--- | :--- | :--- | :--- |
@@ -61,20 +61,20 @@ tags = ["studynote-database"]
 아래 그림은 힌트가 실행 단계가 아니라 <strong>최적화 단계</strong>에 개입한다는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 힌트가 개입하는 위치: 실행 전 최적화 단계             │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                             │
-│   SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...               │
-│      │                                                               │
-│      ▼                                                               │
-│ Parser ──▶ Hint Resolver ──▶ Optimizer Search Space ──▶ Final Plan    │
-│               │                    │                     │             │
-│               │                    ├─ join order 제한    │             │
-│               │                    ├─ access path 제한   │             │
-│               │                    └─ join method 우선   │             │
-│               └─ alias·scope 불일치 시 무시                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 힌트가 개입하는 위치: 실행 전 최적화 단계             |
++----------------------------------------------------------------------+
+| SQL Text                                                             |
+|   SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...               |
+|      |                                                               |
+|      v                                                               |
+| Parser ---> Hint Resolver ---> Optimizer Search Space ---> Final Plan    |
+|               |                    |                     |             |
+|               |                    +- join order 제한    |             |
+|               |                    +- access path 제한   |             |
+|               |                    +- join method 우선   |             |
+|               +- alias·scope 불일치 시 무시                              |
++----------------------------------------------------------------------+
 ```
 
 실무적으로 중요한 포인트는 힌트가 "정답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"하는 것이 아니라, <strong>후보군을 줄여서 특정 계획으로 수렴시키는 것</strong>이라는 점이다. 예를 들어 `LEADING(c o)`는 고객 테이블을 구동 테이블로 먼저 읽게 만들고, `INDEX(o IDX_ORDER_DT)`는 주문 테이블에 대해 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하도록 유도한다. 이 조합은 소량 탐색형 온라인 거래 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서는 매우 유효할 수 있지만, 대량 집계 환경에서는 오히려 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 전체 스캔이 더 나을 수 있다.
@@ -161,15 +161,15 @@ tags = ["studynote-database"]
 
 ```text
 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer)
-    │
-    ▼
+    |
+    v
 비용 기반 옵티마이저 (CBO, Cost Based Optimizer)
-    │
-    ├─ 통계 정보 · 히스토그램
-    ├─ 실행 계획 (Execution Plan)
-    └─ 힌트 (Hint)
-    │
-    ▼
+    |
+    +- 통계 정보 · 히스토그램
+    +- 실행 계획 (Execution Plan)
+    +- 힌트 (Hint)
+    |
+    v
 SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리
 ```
 
@@ -187,7 +187,7 @@ SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리
 
 **진행 상황**: 167 / 600
 
-← **이전**: [166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)
-**다음**: [168. 데이터 딕셔너리 통계 정보 (Statistics) - 테이블 건수, 블록 수, 인덱스 높이, 클러스터링 팩터 등](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) →
+<- **이전**: [166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)
+**다음**: [168. 데이터 딕셔너리 통계 정보 (Statistics) - 테이블 건수, 블록 수, 인덱스 높이, 클러스터링 팩터 등](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) ->
 
 ---

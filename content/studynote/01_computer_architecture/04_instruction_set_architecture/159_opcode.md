@@ -43,21 +43,21 @@ Opcode는 보통 [명령어](/knowledge-base/studynote/01_computer_architecture/
 아래 그림은 Opcode가 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바뀌는 흐름을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  opcode decode: bits become actions                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Instruction Register                                                       │
-│ [ opcode | register field | immediate / address ]                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Decoder                                                                    │
-│   ├──▶ ALU select        (add, and, shift, compare)                        │
-│   ├──▶ Register control  (read / write enable)                             │
-│   ├──▶ Memory control    (load / store)                                    │
-│   └──▶ Control flow      (branch / trap / privilege check)                 │
-│                                                                            │
-│ Unassigned pattern ──▶ Illegal Opcode Exception / reserved handling        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  opcode decode: bits become actions                        |
++----------------------------------------------------------------------------+
+| Instruction Register                                                       |
+| [ opcode | register field | immediate / address ]                          |
+|      |                                                                     |
+|      v                                                                     |
+| Decoder                                                                    |
+|   +---> ALU select        (add, and, shift, compare)                        |
+|   +---> Register control  (read / write enable)                             |
+|   +---> Memory control    (load / store)                                    |
+|   +---> Control flow      (branch / trap / privilege check)                 |
+|                                                                            |
+| Unassigned pattern ---> Illegal Opcode Exception / reserved handling        |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 Opcode가 단순 숫자가 아니라 여러 하드웨어 블록을 동시에 여는 제어 열쇠라는 점이다. 예를 들어 산술 명령은 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 경로를 활성화하고, 분기 명령은 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신 로직을 활성화한다. 반대로 정의되지 않은 Opcode는 불법 연산 코드 예외 (Illegal Opcode Exception)를 유발해 잘못된 실행이나 권한 오남용을 막는다.
@@ -129,19 +129,19 @@ Opcode를 이해할 때는 [명령어](/knowledge-base/studynote/01_computer_arc
 
 ```text
 저장 프로그램 방식
-    │
-    ▼
+    |
+    v
 명령어 (Instruction)
-    │
-    ├── Opcode + Operand
-    │
-    ▼
+    |
+    +-- Opcode + Operand
+    |
+    v
 디코더 (Instruction Decoder)
-    │
-    ▼
+    |
+    v
 고정 길이 인코딩 · 확장 Opcode · 마이크로 연산 분해
-    │
-    ▼
+    |
+    v
 SIMD 확장 · 특권 명령 · 하위 호환 ISA 진화
 ```
 
@@ -159,7 +159,7 @@ SIMD 확장 · 특권 명령 · 하위 호환 ISA 진화
 
 **진행 상황**: 159 / 803
 
-← **이전**: [158. 명령어 (Instruction)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
-**다음**: [160. 피연산자 (Operand)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) →
+<- **이전**: [158. 명령어 (Instruction)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
+**다음**: [160. 피연산자 (Operand)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) ->
 
 ---

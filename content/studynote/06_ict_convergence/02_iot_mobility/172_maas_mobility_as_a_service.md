@@ -28,14 +28,14 @@ tags = ["studynote-ict-convergence"]
 이 그림은 파편화된 이동과 통합된 이동의 차이를 한눈에 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Door-to-door mobility: fragmented vs integrated           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Legacy : map app -> rail app -> taxi app -> separate tickets/pay    │
-│ MaaS   : one app -> plan -> reserve -> pay once -> transfer guide   │
-│                                                                      │
-│ value  : the journey becomes the service, not each vehicle alone     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Door-to-door mobility: fragmented vs integrated           |
++----------------------------------------------------------------------+
+| Legacy : map app -> rail app -> taxi app -> separate tickets/pay    |
+| MaaS   : one app -> plan -> reserve -> pay once -> transfer guide   |
+|                                                                      |
+| value  : the journey becomes the service, not each vehicle alone     |
++----------------------------------------------------------------------+
 ```
 
 결국 MaaS의 출발점은 "교통수단이 많다"가 아니라 "여정이 끊긴다"는 문제 인식이다. 그래서 성공 여부는 교통수단 개수보다도, 끊어진 여정을 얼마나 매끄럽게 잇는지로 평가해야 한다.
@@ -46,7 +46,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MaaS의 기술 구조는 보통 <strong>교통 공급 계층 → <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/">데이터 표준화</a> 계층 → 여정 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 계층 → 결제·정산 계층 → 사용자·<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 계층</strong>으로 나뉜다. 여기서 가장 중요한 것은 중간 계층이 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모음집이 아니라, 서로 다른 운송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하나의 여정으로 조합하는 오케스트레이터라는 점이다.
+MaaS의 기술 구조는 보통 <strong>교통 공급 계층 -> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/">데이터 표준화</a> 계층 -> 여정 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 계층 -> 결제·정산 계층 -> 사용자·<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 계층</strong>으로 나뉜다. 여기서 가장 중요한 것은 중간 계층이 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모음집이 아니라, 서로 다른 운송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하나의 여정으로 조합하는 오케스트레이터라는 점이다.
 
 | 계층 | 주요 구성 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -61,20 +61,20 @@ MaaS는 보통 정보 통합에서 시작해 거래 통합으로, 그다음에�
 아래 구조는 MaaS가 실제로 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 바꾸는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Core MaaS stack: from transport supply to journey         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Bus / Metro / Rail / Taxi / PM / Car share                           │
-│           │ real-time location, seats, fares                         │
-│           ▼                                                          │
-│   data standardization (GTFS, APIs, IDs, fare rules)                │
-│           ▼                                                          │
-│   routing + booking + disruption handling                            │
-│           ▼                                                          │
-│   one payment -> clearing house -> settlement to each operator       │
-│           ▼                                                          │
-│   traveler app / operator console / city policy dashboard            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Core MaaS stack: from transport supply to journey         |
++----------------------------------------------------------------------+
+| Bus / Metro / Rail / Taxi / PM / Car share                           |
+|           | real-time location, seats, fares                         |
+|           v                                                          |
+|   data standardization (GTFS, APIs, IDs, fare rules)                |
+|           v                                                          |
+|   routing + booking + disruption handling                            |
+|           v                                                          |
+|   one payment -> clearing house -> settlement to each operator       |
+|           v                                                          |
+|   traveler app / operator console / city policy dashboard            |
++----------------------------------------------------------------------+
 ```
 
 여기서 난도가 가장 높은 구간은 정산이다. 사용자는 한 번만 결제하지만, 백엔드는 철도·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)·택시·PM 사업자에게 요금과 수수료를 각각 나눠야 한다. 그래서 MaaS는 길찾기 알고리즘만 잘 만든다고 완성되는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라, <strong>정산과 책임 분배까지 설계된 거래 플랫폼</strong>이어야 한다.
@@ -112,19 +112,19 @@ MaaS는 비슷한 용어와 자주 섞여 쓰이지만, 초점이 다르다. 길
 아래 결정 흐름은 MaaS를 "진짜 통합"으로 볼 수 있는 최소 조건을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Can a mobility service become MaaS?                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ public transit data open and reliable?                               │
-│        ├─ no  -> super-app or TaaS only                              │
-│        └─ yes                                                         │
-│ unified booking/payment possible?                                    │
-│        ├─ no  -> information integration level                       │
-│        └─ yes                                                         │
-│ settlement/governance agreed?                                        │
-│        ├─ no  -> pilot remains fragile                               │
-│        └─ yes -> MaaS scaling candidate                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Can a mobility service become MaaS?                  |
++----------------------------------------------------------------------+
+| public transit data open and reliable?                               |
+|        +- no  -> super-app or TaaS only                              |
+|        +- yes                                                         |
+| unified booking/payment possible?                                    |
+|        +- no  -> information integration level                       |
+|        +- yes                                                         |
+| settlement/governance agreed?                                        |
+|        +- no  -> pilot remains fragile                               |
+|        +- yes -> MaaS scaling candidate                              |
++----------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -176,17 +176,17 @@ MaaS를 제대로 구현하면 사용자는 앱 전환과 중복 결제 없이 �
 
 ```text
 Fragmented transport services
-    │
-    ▼
+    |
+    v
 Open data + standardized APIs
-    │
-    ▼
+    |
+    v
 Integrated routing / booking / payment
-    │
-    ▼
+    |
+    v
 Subscription, incentives, demand management
-    │
-    ▼
+    |
+    v
 City-scale MaaS linked with C-ITS and Smart City
 ```
 
@@ -204,7 +204,7 @@ City-scale MaaS linked with C-ITS and Smart City
 
 **진행 상황**: 172 / 552
 
-← **이전**: [171. 스마트 시티 (Smart City) 플랫폼 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/)
-**다음**: [173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) →
+<- **이전**: [171. 스마트 시티 (Smart City) 플랫폼 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/)
+**다음**: [173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) ->
 
 ---

@@ -20,10 +20,10 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Jaeger 아키텍처:
-  OTel SDK → Collector → Storage(ES/Cassandra) → UI
+  OTel SDK -> Collector -> Storage(ES/Cassandra) -> UI
 Zipkin 아키텍처:
-  SDK → Transport(HTTP/Kafka) → Storage(ES) → UI
-Tempo: OTel → S3/GCS (인덱스 없음, 저비용)
+  SDK -> Transport(HTTP/Kafka) -> Storage(ES) -> UI
+Tempo: OTel -> S3/GCS (인덱스 없음, 저비용)
 ```
 
 - **📢 섹션 요약 비유**: Jaeger/Zipkin은 <strong>비행 관제탑</strong>이다. 모든 비행기(요청)의 경로·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·이상을 **한눈에** [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링한다.
@@ -49,15 +49,15 @@ Jaeger는 <strong>K8s 트레이싱의 <a href="/knowledge-base/studynote/15_devo
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Dapper (Google, 2010)] → [Zipkin (Twitter, 2012)]
-    → [Jaeger (Uber/CNCF, 2017)]
-    → [Grafana Tempo (2020, 저비용)]
-    → [현재: OTel 수렴 — 백엔드 교체 자유]
+[Dapper (Google, 2010)] -> [Zipkin (Twitter, 2012)]
+    -> [Jaeger (Uber/CNCF, 2017)]
+    -> [Grafana Tempo (2020, 저비용)]
+    -> [현재: OTel 수렴 — 백엔드 교체 자유]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Jaeger/Zipkin은 <strong>비행 관제탑</strong>이에요. 모든 비행기(요청) 경로를 봐요.
-2. "이 비행기는 <strong>서울 공항에서 2시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>됐네!</strong>" → 병목 발견!
+2. "이 비행기는 <strong>서울 공항에서 2시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>됐네!</strong>" -> 병목 발견!
 3. OTel로 계측하면 **관제탑(백엔드)을 자유롭게** 바꿀 수 있어요!
 
 ---
@@ -66,7 +66,7 @@ Jaeger는 <strong>K8s 트레이싱의 <a href="/knowledge-base/studynote/15_devo
 
 **진행 상황**: 145 / 373
 
-← **이전**: [144. Context Propagation & Trace ID 전파 상세](/knowledge-base/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/)
-**다음**: [146. OpenTelemetry (OTel) - 관측 가능성 통합 표준](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) →
+<- **이전**: [144. Context Propagation & Trace ID 전파 상세](/knowledge-base/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/)
+**다음**: [146. OpenTelemetry (OTel) - 관측 가능성 통합 표준](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ->
 
 ---

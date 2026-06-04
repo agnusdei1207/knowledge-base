@@ -41,25 +41,25 @@ tags = ["studynote-ai"]
 MCTS는 시간(컴퓨팅 파워)이 허락하는 한 아래의 4단계 과정을 무한히 반복하여 트리를 키우고(통계를 업데이트하고), 시간이 다 되면 가장 성공률이 높은(방문 횟수가 많은) 루트 노드의 자식을 선택합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ MCTS 4단계 순환 아키텍처 (AlphaGo 모델) ]          │
-│                                                             │
-│       [1. Selection]                [2. Expansion]          │
-│          선택                          확장                 │
-│           (O) UCB1 ◀─────┐               (O)              │
-│          ／ ＼           │              ／ ＼             │
-│   승률높은 (O)  ( )       │             (O)  (N) <-- 신규 노드 │
-│        ／ ＼             │            ／ ＼               │
-│       (O)  ( )           │           (O)  ( )             │
-│                          │                                │
-│       [4. Backpropagation]          [3. Simulation]         │
-│          역전파 (업데이트)  │               무작위 시뮬레이션      │
-│         (+1 Win)         │                (N)             │
-│          ／ ＼           │                 |  <-- Random  │
-│        (+1)  ( )         │                 |      Playout │
-│        ／ ＼             │                 |              │
-│      (+1)  ( ) ──────────┘                Win! (승리)     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ MCTS 4단계 순환 아키텍처 (AlphaGo 모델) ]          |
+|                                                             |
+|       [1. Selection]                [2. Expansion]          |
+|          선택                          확장                 |
+|           (O) UCB1 <------+               (O)              |
+|          ／ ＼           |              ／ ＼             |
+|   승률높은 (O)  ( )       |             (O)  (N) <-- 신규 노드 |
+|        ／ ＼             |            ／ ＼               |
+|       (O)  ( )           |           (O)  ( )             |
+|                          |                                |
+|       [4. Backpropagation]          [3. Simulation]         |
+|          역전파 (업데이트)  |               무작위 시뮬레이션      |
+|         (+1 Win)         |                (N)             |
+|          ／ ＼           |                 |  <-- Random  |
+|        (+1)  ( )         |                 |      Playout |
+|        ／ ＼             |                 |              |
+|      (+1)  ( ) ----------+                Win! (승리)     |
++-------------------------------------------------------------+
 ```
 
 1. <strong>선택 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>: 루트 노드에서 출발하여 승률 통계가 유망한(UCT 공식 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 자식 노드를 골라 끝단(Leaf)까지 내려갑니다.
@@ -145,18 +145,18 @@ UCT 공식은 이 두 가지의 [가중치](/knowledge-base/studynote/10_ai/03_l
 
 ```text
 [완전 탐색 (BFS/DFS — 지수적 폭발)]
-    │
-    ▼
+    |
+    v
 [Minimax / Alpha-Beta Pruning (적대적 탐색 — 결정론적)]
-    │
-    ▼
-[MCTS (선택→확장→시뮬레이션→역전파 — UCT 균형)]
-    │
-    ▼
+    |
+    v
+[MCTS (선택->확장->시뮬레이션->역전파 — UCT 균형)]
+    |
+    v
 [AlphaGo (MCTS + Policy/Value Network 융합)]
-    │
-    ▼
-[AlphaZero / AlphaFold (자기 대국 학습 → 단백질 구조 예측)]
+    |
+    v
+[AlphaZero / AlphaFold (자기 대국 학습 -> 단백질 구조 예측)]
 ```
 완전 탐색의 지수적 폭발을 Minimax가 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로, MCTS가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 탐색으로 극복했고, AlphaGo는 MCTS에 딥러닝을 융합해 바둑을 정복한 뒤 AlphaFold로 단백질 구조 예측까지 확장했다.
 
@@ -175,7 +175,7 @@ UCT 공식은 이 두 가지의 [가중치](/knowledge-base/studynote/10_ai/03_l
 
 **진행 상황**: 21 / 420
 
-← **이전**: [20. 알파-베타 가지치기 (Alpha-Beta Pruning) - 미니맥스 트리에서 탐색할 필요가 없는 가지를 잘라내어 연산량 감소](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)
-**다음**: [22. MCTS 4단계 - 선택(Selection) -> 확장(Expansion) -> 시뮬레이션(Simulation) -> 역전파(Backpropagation)](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) →
+<- **이전**: [20. 알파-베타 가지치기 (Alpha-Beta Pruning) - 미니맥스 트리에서 탐색할 필요가 없는 가지를 잘라내어 연산량 감소](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)
+**다음**: [22. MCTS 4단계 - 선택(Selection) -> 확장(Expansion) -> 시뮬레이션(Simulation) -> 역전파(Backpropagation)](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) ->
 
 ---

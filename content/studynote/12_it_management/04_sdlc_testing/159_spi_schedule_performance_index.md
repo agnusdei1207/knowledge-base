@@ -32,16 +32,16 @@ SPI는 프로젝트가 계획한 속도로 [진행](/knowledge-base/studynote/02
 SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준으로 해야 한다. 이 시점까지 계획되었던 가치가 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value, 계획 가치)이고, 실제로 완료한 작업의 계획 가치가 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value, 획득 가치)다. 따라서 SPI는 "해야 했던 만큼 했는가"를 보는 지표다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              상태 시점에서 보는 SPI 계산 구조                       │
-├──────────────────────────────────────────────────────────────────────┤
-│  계획선(PV) : 0 ──────── 40 ──────── 80 ──────── 120                │
-│                             ▲ 상태 시점                              │
-│  실제선(EV) : 0 ──────── 30 ──────── 65                              │
-│                                                                     │
-│  SPI = EV / PV = 65 / 80 = 0.8125                                   │
-│  → 계획된 진도의 81.25%만 달성                                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              상태 시점에서 보는 SPI 계산 구조                       |
++----------------------------------------------------------------------+
+|  계획선(PV) : 0 -------- 40 -------- 80 -------- 120                |
+|                             ^ 상태 시점                              |
+|  실제선(EV) : 0 -------- 30 -------- 65                              |
+|                                                                     |
+|  SPI = EV / PV = 65 / 80 = 0.8125                                   |
+|  -> 계획된 진도의 81.25%만 달성                                      |
++----------------------------------------------------------------------+
 ```
 
 이 그림은 SPI가 시간 자체가 아니라 <strong>가치 기준의 진도 효율</strong>을 본다는 점을 보여 준다. 같은 한 달 경과라도 작업 가치가 큰 활동을 많이 끝냈는지, 작은 활동만 많이 끝냈는지에 따라 SPI는 달라진다.
@@ -56,8 +56,8 @@ SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준�
 ### 간단 계산 예시
 
 - BAC (Budget at Completion, 총예산) = 1,000만 원
-- 상태 시점의 계획 완료율 = 60% → [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) = 600만 원
-- 실제 완료율 = 45% → [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) = 450만 원
+- 상태 시점의 계획 완료율 = 60% -> [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) = 600만 원
+- 실제 완료율 = 45% -> [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) = 450만 원
 - **SPI = 450 / 600 = 0.75**
 
 이는 계획 대비 75% 진도만 확보했다는 뜻이며, 현재 속도가 유지되면 일정 만회가 어렵다는 신호다. 다만 SPI는 추세 지표이므로 한 시점 값만 보지 말고 주간·월간 추이를 함께 봐야 한다.
@@ -137,20 +137,20 @@ SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03
 
 ```text
 WBS · CPM · PERT로 일정 기준선 수립
-    │
-    ▼
+    |
+    v
 EVM (Earned Value Management)
-    │
-    ├─▶ PV · EV · AC
-    │
-    ▼
+    |
+    +--> PV · EV · AC
+    |
+    v
 SV · CPI · SPI
-    │
-    ▼
+    |
+    v
 후반부 보완: ES 기반 SPI(t) · 완료 일정 재예측
 ```
 
-이 흐름은 "일정 계획 수립 → 가치 기반 통제 → 지표화 → 후반부 정밀 보완"이라는 관리 체계를 한눈에 정리한다.
+이 흐름은 "일정 계획 수립 -> 가치 기반 통제 -> 지표화 -> 후반부 정밀 보완"이라는 관리 체계를 한눈에 정리한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ SV · CPI · SPI
 
 **진행 상황**: 273 / 587
 
-← **이전**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)
-**다음**: [160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/) →
+<- **이전**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)
+**다음**: [160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [처리량 수식화]
-    │
-    ▼
+    |
+    v
 [Erlang]
-    │
-    └──▶ [호손율 / 블로킹 확률]
+    |
+    +---> [호손율 / 블로킹 확률]
 ```
 
 - **📢 섹션 요약 비유**: Erlang는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [처리량 수식화]
-    │
-    ▼
+    |
+    v
 [Erlang]
-    │
-    └──▶ [호손율 / 블로킹 확률]
+    |
+    +---> [호손율 / 블로킹 확률]
 ```
 
 - **📢 섹션 요약 비유**: Erlang의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ Erlang는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 ```text
 [선행 개념: 처리량 수식화]
-    │
-    ▼
+    |
+    v
 [현재 개념: Erlang]
-    │
-    ├──▶ [확장 A: 호손율 / 블로킹 확률]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 호손율 / 블로킹 확률]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 Erlang는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화에서 출발해 현재 메커니즘을 정교화하고, 이후 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ Erlang는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_arch
 
 **진행 상황**: 104 / 1120
 
-← **이전**: [1003. 처리량 (Throughput) 수식화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1003_throughput_goodput_bandwidth_formula/)
-**다음**: [1005. 호손율 / 블로킹 확률 (Blocking Probability)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1005_blocking_probability_erlang_b_qos_call_drop/) →
+<- **이전**: [1003. 처리량 (Throughput) 수식화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1003_throughput_goodput_bandwidth_formula/)
+**다음**: [1005. 호손율 / 블로킹 확률 (Blocking Probability)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1005_blocking_probability_erlang_b_qos_call_drop/) ->
 
 ---

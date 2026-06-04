@@ -100,12 +100,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [리눅스 inotify 시스템]
-    │
-    ▼
+    |
+    v
 [보호 (Protection) vs 보안 (Security)의 개념 차이]
-    │
-    ├──▶ [보호 도메인 (Protection Domain)]
-    └──▶ [접근 제어 행렬 (Access Matrix)]
+    |
+    +---> [보호 도메인 (Protection Domain)]
+    +---> [접근 제어 행렬 (Access Matrix)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -124,7 +124,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 571 / 800
 
-← **이전**: [570. 리눅스 inotify 시스템 (Inotify File Monitoring)](/knowledge-base/studynote/02_operating_system/09_file_system/570_inotify_file_monitoring/)
-**다음**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) →
+<- **이전**: [570. 리눅스 inotify 시스템 (Inotify File Monitoring)](/knowledge-base/studynote/02_operating_system/09_file_system/570_inotify_file_monitoring/)
+**다음**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ->
 
 ---

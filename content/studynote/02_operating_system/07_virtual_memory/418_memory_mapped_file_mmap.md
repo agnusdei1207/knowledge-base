@@ -28,22 +28,22 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 융합</strong>: 어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템이 스왑 디스크를 램처럼 매핑하는 짓([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 잘하니까, 스왑 대신 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 꽂아버려도 완벽히 똑같이 돌겠다는 천재적인 깨달음.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        고전적 read() vs mmap()의 데이터 복사(Zero-Copy) 시각화      │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ ▶ 1. 고전적 read() 궤적 (비효율의 극치)                             │
-│   하드디스크 ──복사1──▶ [ OS 커널 램 (Page Cache) ]                 │
-│                         └──복사2──▶ [ 유저 램 (내 앱 배열) ]        │
-│   ⚠ 단점: 복사 2번! 램 점유율 2배! 속도 느림!                       │
-│                                                                     │
-│ ▶ 2. mmap() 궤적 (Zero-Copy 마법)                                   │
-│   하드디스크 ──복사1──▶ [ OS 커널 램 (Page Cache) ]                 │
-│                              ▲                                      │
-│   [ 유저 램 (가상 주소 포인터) ] ──┘ (복사 안 함! 화살표만 연결함!) │
-│   ✅ 장점: 램 복사 0회! (Zero-Copy). 유저가 포인터를 찌르면         │
-│            OS 커널 램의 데이터가 다이렉트로 수정됨. (빛의 속도)     │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|        고전적 read() vs mmap()의 데이터 복사(Zero-Copy) 시각화      |
++---------------------------------------------------------------------+
+|                                                                     |
+| -> 1. 고전적 read() 궤적 (비효율의 극치)                             |
+|   하드디스크 --복사1---> [ OS 커널 램 (Page Cache) ]                 |
+|                         +--복사2---> [ 유저 램 (내 앱 배열) ]        |
+|   ⚠ 단점: 복사 2번! 램 점유율 2배! 속도 느림!                       |
+|                                                                     |
+| -> 2. mmap() 궤적 (Zero-Copy 마법)                                   |
+|   하드디스크 --복사1---> [ OS 커널 램 (Page Cache) ]                 |
+|                              ^                                      |
+|   [ 유저 램 (가상 주소 포인터) ] --+ (복사 안 함! 화살표만 연결함!) |
+|   ✅ 장점: 램 복사 0회! (Zero-Copy). 유저가 포인터를 찌르면         |
+|            OS 커널 램의 데이터가 다이렉트로 수정됨. (빛의 속도)     |
++---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** `mmap`은 복사(Copy)를 혐오하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 해커들의 예술 작품이다. 유저 프로세스의 가상 주소(PTE)를 슬쩍 조작해서, 그 화살표가 가리키는 끝단이 내 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이 아니라 OS가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 올려둔 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)으로 향하게 만든다. 유저 앱은 자기 변수를 고친다고 생각하지만, 사실은 OS 심장부에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직빵으로 후드려 패고 있는 셈이다.
 
@@ -96,13 +96,13 @@ tags = ["studynote-operating-system"]
 - 시스템 콜 0회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회. <strong>세상에서 존재하는 가장 빠르고 폭력적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">프로세스 간 통신</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>) 채널이 바로 이 <code>mmap</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>다.</strong>
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 통신 방식  │ 커널 개입 횟수│ 데이터 복사 횟수│ 속도 한계          │
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ Pipe(파이프)│ 매번 개입 (느림)│ 2번 (커널 거침) │ 메가바이트 급   │
-│ Socket   │ 매번 개입 (느림)│ 2번 + 네트워킹 │ 킬로바이트 급       │
-│ **mmap** │ **초기 1번 끝**│ **0번(Zero!)**│ **램 스피드(기가급)** │
-└──────────┴────────────┴────────────┴──────────────────────────────┘
++----------+------------+------------+------------------------------+
+| 통신 방식  | 커널 개입 횟수| 데이터 복사 횟수| 속도 한계          |
++----------+------------+------------+------------------------------+
+| Pipe(파이프)| 매번 개입 (느림)| 2번 (커널 거침) | 메가바이트 급   |
+| Socket   | 매번 개입 (느림)| 2번 + 네트워킹 | 킬로바이트 급       |
+| **mmap** | **초기 1번 끝**| **0번(Zero!)**| **램 스피드(기가급)** |
++----------+------------+------------+------------------------------+
 ```
 **[매트릭스 해설]** 로컬 머신에서 안드로이드 카메라 앱의 1초에 60장씩 뿜어내는 4K 무압축 프레임(수십 MB)을 렌더링 앱으로 넘길 때, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 쓰면 폰이 불타며 폭발한다. 무조건 안드로이드의 `Ashmem`이나 `mmap`을 통해 물리적 복사 없이 껍데기 포인터만 던져주는 메모리 맵 공유를 써야만 실시간 60프레임이 유지된다.
 
@@ -160,12 +160,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
-    │
-    ▼
+    |
+    v
 [메모리 매핑 파일 (Memory-Mapped Files, mmap)]
-    │
-    ├──▶ [파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능]
-    └──▶ [메모리 맵 I/O (Memory-Mapped I/O)]
+    |
+    +---> [파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능]
+    +---> [메모리 맵 I/O (Memory-Mapped I/O)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -182,7 +182,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 418 / 800
 
-← **이전**: [417. 페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델 - 상한/하한 설정하여 동적 프레임 할당 조절](/knowledge-base/studynote/02_operating_system/07_virtual_memory/417_page_fault_frequency/)
-**다음**: [419. 파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능 (mmap Shared Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/419_mmap_shared_memory/) →
+<- **이전**: [417. 페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델 - 상한/하한 설정하여 동적 프레임 할당 조절](/knowledge-base/studynote/02_operating_system/07_virtual_memory/417_page_fault_frequency/)
+**다음**: [419. 파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능 (mmap Shared Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/419_mmap_shared_memory/) ->
 
 ---

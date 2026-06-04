@@ -22,19 +22,19 @@ tags = ["studynote-bigdata"]
 대규모 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Amazon, LinkedIn 등)에서 수억 건의 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·장바구니를 실시간으로 처리하기 위한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장소가 필요해졌다. RDBMS는 행 잠금(Row [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 오버헤드로 인해 이 요구를 충족시키지 못했다.
 
 ### 핵심 개념
-[키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)([Key-Value Store](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/))는 고유한 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 임의의 값(Value)을 쌍으로 저장한다. 내부 구조는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)(DHT, Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))로, `해시(key) → 노드 위치`를 결정하여 O(1) 접근을 보장한다.
+[키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)([Key-Value Store](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/))는 고유한 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 임의의 값(Value)을 쌍으로 저장한다. 내부 구조는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)(DHT, Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))로, `해시(key) -> 노드 위치`를 결정하여 O(1) 접근을 보장한다.
 
 ```text
-┌─────────────────────────────────────────────────┐
-│       키-값 데이터베이스 기본 구조                  │
-├────────────────────┬────────────────────────────┤
-│        KEY         │          VALUE             │
-├────────────────────┼────────────────────────────┤
-│ session:user_1234  │ {"name":"홍길동","cart":[]} │
-│ product:SKU-9900   │ {"price":29900,"stock":50} │
-│ rate_limit:ip_x    │ 142                        │
-│ leaderboard:score  │ [sorted member list]       │
-└────────────────────┴────────────────────────────┘
++-------------------------------------------------+
+|       키-값 데이터베이스 기본 구조                  |
++--------------------+----------------------------+
+|        KEY         |          VALUE             |
++--------------------+----------------------------+
+| session:user_1234  | {"name":"홍길동","cart":[]} |
+| product:SKU-9900   | {"price":29900,"stock":50} |
+| rate_limit:ip_x    | 142                        |
+| leaderboard:score  | [sorted member list]       |
++--------------------+----------------------------+
   핵심: Key = 유일 식별자, Value = 임의 형식(바이너리 가능)
 ```
 
@@ -57,21 +57,21 @@ tags = ["studynote-bigdata"]
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) (DHT, Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))
 
 ```text
-┌────────────────────────────────────────────────────┐
-│           일관된 해싱 (Consistent Hashing) 링        │
-│                                                    │
-│              Node A (0°)                           │
-│             ╱                                      │
-│    Node D ──●────────────────●── Node B            │
-│   (270°)    │                │    (90°)            │
-│             │   Hash Ring    │                     │
-│             │   (0~2^32)     │                     │
-│    Node C ──●────────────────                      │
-│   (180°)                                           │
-│                                                    │
-│  Key "user:123" → hash(key) → 위치 → Node B 담당    │
-│  노드 추가/제거 시 일부 키만 재배치 (최소 이동)          │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|           일관된 해싱 (Consistent Hashing) 링        |
+|                                                    |
+|              Node A (0+)                           |
+|             ╱                                      |
+|    Node D --●----------------●-- Node B            |
+|   (270+)    |                |    (90+)            |
+|             |   Hash Ring    |                     |
+|             |   (0~2^32)     |                     |
+|    Node C --●----------------                      |
+|   (180+)                                           |
+|                                                    |
+|  Key "user:123" -> hash(key) -> 위치 -> Node B 담당    |
+|  노드 추가/제거 시 일부 키만 재배치 (최소 이동)          |
++----------------------------------------------------+
 ```
 
 ### 핵심 연산
@@ -87,23 +87,23 @@ tags = ["studynote-bigdata"]
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 구조
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│              DynamoDB 내부 구조                        │
-│                                                      │
-│  테이블 (Table)                                       │
-│  ┌───────────────────────────────────────────────┐   │
-│  │  PK(파티션 키) + SK(정렬 키, 선택)              │   │
-│  │                                               │   │
-│  │  hash(PK) → Partition 1, 2, 3 ...             │   │
-│  │                                               │   │
-│  │  Partition 1   Partition 2   Partition 3      │   │
-│  │  [item A]      [item D]      [item G]          │   │
-│  │  [item B]      [item E]      [item H]          │   │
-│  │  [item C]      [item F]      [item I]          │   │
-│  └───────────────────────────────────────────────┘   │
-│                                                      │
-│  * 파티션 키 카디널리티(Cardinality)가 낮으면 핫 파티션 위험│
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|              DynamoDB 내부 구조                        |
+|                                                      |
+|  테이블 (Table)                                       |
+|  +-----------------------------------------------+   |
+|  |  PK(파티션 키) + SK(정렬 키, 선택)              |   |
+|  |                                               |   |
+|  |  hash(PK) -> Partition 1, 2, 3 ...             |   |
+|  |                                               |   |
+|  |  Partition 1   Partition 2   Partition 3      |   |
+|  |  [item A]      [item D]      [item G]          |   |
+|  |  [item B]      [item E]      [item H]          |   |
+|  |  [item C]      [item F]      [item I]          |   |
+|  +-----------------------------------------------+   |
+|                                                      |
+|  * 파티션 키 카디널리티(Cardinality)가 낮으면 핫 파티션 위험|
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**
@@ -156,15 +156,15 @@ tags = ["studynote-bigdata"]
 Q. 키-값 DB 선택 기준은?
 
        복잡한 쿼리 필요?
-            │
-      YES ──┼── NO
-      │          │
+            |
+      YES --+-- NO
+      |          |
  Document/   단순 키 조회
- Column DB        │
+ Column DB        |
             낮은 지연 필요?
-                 │
-           YES ──┼── NO (지속성 중요)
-           │              │
+                 |
+           YES --+-- NO (지속성 중요)
+           |              |
          Redis         DynamoDB
      (인메모리)        (영구 저장)
 ```
@@ -207,17 +207,17 @@ Q. 키-값 DB 선택 기준은?
 
 ```text
 [CAP 정리 (CAP Theorem)]
-    │
-    ▼
+    |
+    v
 [일관된 해싱 (Consistent Hashing)]
-    │
-    ▼
+    |
+    v
 [TTL (Time To Live)]
-    │
-    ▼
+    |
+    v
 [CRDT (Conflict-free Replicated Data Type)]
-    │
-    ▼
+    |
+    v
 [Polyglot Persistence]
 ```
 
@@ -234,7 +234,7 @@ Q. 키-값 DB 선택 기준은?
 
 **진행 상황**: 127 / 262
 
-← **이전**: [PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/126_pacelc_theorem_extended_cap/)
-**다음**: [128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버](/knowledge-base/studynote/16_bigdata/06_nosql/128_redis/) →
+<- **이전**: [PACELC 정리 (PACELC Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/126_pacelc_theorem_extended_cap/)
+**다음**: [128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버](/knowledge-base/studynote/16_bigdata/06_nosql/128_redis/) ->
 
 ---

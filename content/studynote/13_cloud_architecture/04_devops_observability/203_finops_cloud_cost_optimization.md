@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)(Financial Operations)는 클라우드 비용의 가시성(Inform) → 최적화(Optimize) → 지속 운영(Operate) 3단계 라이프사이클을 통해 기술·재무·비즈니스 팀이 협력하여 클라우드 지출을 최적화하는 프레임워크다.
+> 1. **본질**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)(Financial Operations)는 클라우드 비용의 가시성(Inform) -> 최적화(Optimize) -> 지속 운영(Operate) 3단계 라이프사이클을 통해 기술·재무·비즈니스 팀이 협력하여 클라우드 지출을 최적화하는 프레임워크다.
 > 2. **가치**: 단순 비용 절감이 아니라 "비즈니스 가치 대비 클라우드 지출 효율"을 최대화하는 것이 목적이며, 개발 속도와 비용 효율의 균형이 핵심이다.
 > 3. **판단 포인트**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 성숙도의 첫 단계는 태깅(Tagging) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 리소스에 팀·환경·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 태그가 없으면 비용 할당이 불가능하고, 최적화 출발점을 찾을 수 없다.
 
@@ -34,19 +34,19 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 ### [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 라이프사이클 3단계
 
 ```
-  ┌──────────────────────────────────────────────────────┐
-  │                FinOps 라이프사이클                     │
-  │                                                      │
-  │   ┌──────────┐    ┌──────────┐    ┌──────────┐      │
-  │   │ 1. INFORM │───→│2.OPTIMIZE│───→│3. OPERATE│      │
-  │   │           │    │          │    │          │      │
-  │   │ 비용 가시화│    │ 최적화   │    │ 지속 관리 │      │
-  │   │ - 태깅    │    │ - RI 구매│    │ - 예산    │      │
-  │   │ - 대시보드│    │ - 스팟   │    │ - 이상 감지│     │
-  │   │ - 팀별    │    │ - 사이징 │    │ - 주기 검토│     │
-  │   │   할당    │    │ - 정책   │    │ - 문화    │      │
-  │   └──────────┘    └──────────┘    └──────────┘      │
-  └──────────────────────────────────────────────────────┘
+  +------------------------------------------------------+
+  |                FinOps 라이프사이클                     |
+  |                                                      |
+  |   +----------+    +----------+    +----------+      |
+  |   | 1. INFORM |---->|2.OPTIMIZE|---->|3. OPERATE|      |
+  |   |           |    |          |    |          |      |
+  |   | 비용 가시화|    | 최적화   |    | 지속 관리 |      |
+  |   | - 태깅    |    | - RI 구매|    | - 예산    |      |
+  |   | - 대시보드|    | - 스팟   |    | - 이상 감지|     |
+  |   | - 팀별    |    | - 사이징 |    | - 주기 검토|     |
+  |   |   할당    |    | - 정책   |    | - 문화    |      |
+  |   +----------+    +----------+    +----------+      |
+  +------------------------------------------------------+
 ```
 
 ### 단계별 핵심 활동
@@ -61,18 +61,18 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 
 ```
   비용 최적화 기법
-  ├── 즉시 가능 (0~1개월)
-  │   ├── 미사용 인스턴스·볼륨 삭제 (Idle/Zombie Resources)
-  │   ├── 개발/테스트 환경 야간·주말 자동 셧다운
-  │   └── 과다 프로비저닝 인스턴스 다운사이징
-  ├── 단기 (1~3개월)
-  │   ├── Reserved Instance(RI) / Savings Plans 구매
-  │   ├── Spot Instance 활용 (배치 워크로드)
-  │   └── 스토리지 계층화 (S3 IA / Glacier)
-  └── 장기 (3개월~)
-      ├── 아키텍처 최적화 (서버리스 전환)
-      ├── 멀티 클라우드 비용 비교·이전
-      └── FinOps 문화 내재화
+  +-- 즉시 가능 (0~1개월)
+  |   +-- 미사용 인스턴스·볼륨 삭제 (Idle/Zombie Resources)
+  |   +-- 개발/테스트 환경 야간·주말 자동 셧다운
+  |   +-- 과다 프로비저닝 인스턴스 다운사이징
+  +-- 단기 (1~3개월)
+  |   +-- Reserved Instance(RI) / Savings Plans 구매
+  |   +-- Spot Instance 활용 (배치 워크로드)
+  |   +-- 스토리지 계층화 (S3 IA / Glacier)
+  +-- 장기 (3개월~)
+      +-- 아키텍처 최적화 (서버리스 전환)
+      +-- 멀티 클라우드 비용 비교·이전
+      +-- FinOps 문화 내재화
 ```
 
 📢 **섹션 요약 비유**: 비용 최적화 기법의 3단계는 집 에너지 절약과 같다. 즉시: 안 쓰는 방 전등 끄기. 단기: 전기 계약을 심야 전기로 바꾸기. 장기: 단열재 시공하고 태양광 패널 설치하기.
@@ -139,7 +139,7 @@ def lambda_handler(event, context):
 
 **기술사 판단 포인트**:
 - 단위 비용(Unit Economics): 요청 당 비용, 사용자 당 비용으로 클라우드 지출을 비즈니스 지표와 연결
-- [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 성숙도 레벨: Crawl(기초 가시성) → Walk(최적화 시작) → Run(완전 자동화 거버넌스)
+- [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 성숙도 레벨: Crawl(기초 가시성) -> Walk(최적화 시작) -> Run(완전 자동화 거버넌스)
 - 차지백(Chargeback) vs 쇼백(Showback): 비용을 팀에 실제 청구하거나 투명하게 보여주는 두 접근법
 
 📢 **섹션 요약 비유**: 단위 비용(Unit Economics)은 배달 앱에서 "배달 1건당 비용"을 추적하는 것과 같다. 총 비용이 아니라 건당 비용이 줄어야 비즈니스 효율이 개선되고 있다는 것을 알 수 있다.
@@ -180,14 +180,14 @@ FinOps는 "클라우드 청구서를 줄이는 것"이 아니라 "클라우드 �
 
 ```text
 클라우드 비용 급증 (통제 불가)
-    │
-    ▼
-FinOps: Inform → Optimize → Operate 사이클
-    ├─► 비용 가시성: 태깅 · 차지백 · 쇼백
-    ├─► 최적화: RI · Spot · 오토스케일링 · 라이트사이징
-    └─► 거버넌스: 예산 알림 · 정책 자동화
-    │
-    ▼
+    |
+    v
+FinOps: Inform -> Optimize -> Operate 사이클
+    +-► 비용 가시성: 태깅 · 차지백 · 쇼백
+    +-► 최적화: RI · Spot · 오토스케일링 · 라이트사이징
+    +-► 거버넌스: 예산 알림 · 정책 자동화
+    |
+    v
 Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정
 ```
 2. 먼저 어디서 돈이 나가는지 보고(Inform), 안 쓰는 장치 끄고(Optimize), 매달 계속 확인하는(Operate) 3단계야.
@@ -199,7 +199,7 @@ Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정
 
 **진행 상황**: 202 / 371
 
-← **이전**: [202. SPACE 프레임워크 (SPACE Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/202_space_framework_agile_performance/)
-**다음**: [204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/204_pod_security_psa_psp_kubernetes/) →
+<- **이전**: [202. SPACE 프레임워크 (SPACE Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/202_space_framework_agile_performance/)
+**다음**: [204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/204_pod_security_psa_psp_kubernetes/) ->
 
 ---

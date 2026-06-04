@@ -28,20 +28,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어떻게 계층적으로 묶여 실행과 협업의 단위로 바뀌는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        GPU 스레드 조직: 실행 단위와 협업 단위의 분리         │
-├──────────────────────────────────────────────────────────────┤
-│ Grid                                                        │
-│  ├─ Block 0  ─┬─ Warp 0  ─ Thread 0  ... Thread 31          │
-│  │            ├─ Warp 1  ─ Thread 32 ... Thread 63          │
-│  │            └─ Shared Memory + __syncthreads() 가능       │
-│  ├─ Block 1  ─┬─ Warp 0  ─ Thread 0  ... Thread 31          │
-│  │            └─ 다른 SM에 배치될 수 있으며 Block 0과 분리   │
-│  └─ ...                                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Warp  = 실행 스케줄링 최소 단위                             │
-│ Block = 협업·동기화·자원 할당 최소 단위                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        GPU 스레드 조직: 실행 단위와 협업 단위의 분리         |
++--------------------------------------------------------------+
+| Grid                                                        |
+|  +- Block 0  -+- Warp 0  - Thread 0  ... Thread 31          |
+|  |            +- Warp 1  - Thread 32 ... Thread 63          |
+|  |            +- Shared Memory + __syncthreads() 가능       |
+|  +- Block 1  -+- Warp 0  - Thread 0  ... Thread 31          |
+|  |            +- 다른 SM에 배치될 수 있으며 Block 0과 분리   |
+|  +- ...                                                    |
++--------------------------------------------------------------+
+| Warp  = 실행 스케줄링 최소 단위                             |
+| Block = 협업·동기화·자원 할당 최소 단위                     |
++--------------------------------------------------------------+
 ```
 
 핵심은 블록과 워프가 같은 계층을 다른 말로 부르는 것이 아니라는 점이다. 워프는 "같이 달리는 묶음"이고, 블록은 "같은 작업실을 쓰는 묶음"이다. 따라서 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 설계할 때는 항상 "이 코드는 워프 관점에서 잘 실행되는가"와 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 블록 관점에서 잘 협업되는가"를 동시에 봐야 한다.
@@ -65,23 +65,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 블록이 [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 안에 배치될 때 실제로 어떤 자원 제약을 받는지 압축해서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              Block 배치와 Warp 실행의 실제 모습              │
-├──────────────────────────────────────────────────────────────┤
-│ SM                                                          │
-│  ├─ 자원 한도: Registers / Shared Memory / Max Threads      │
-│  ├─ Block A (256 threads)                                   │
-│  │   ├─ Warp 0                                               │
-│  │   ├─ Warp 1                                               │
-│  │   ├─ ...                                                  │
-│  │   └─ Warp 7                                               │
-│  ├─ Block B (256 threads)                                   │
-│  │   └─ 동일 방식으로 분해                                   │
-│  └─ Warp Scheduler: 준비된 Warp를 번갈아 실행                │
-├──────────────────────────────────────────────────────────────┤
-│ Block이 너무 크면  : 동시에 올라갈 Block 수 감소             │
-│ Block이 너무 작으면: Warp 수 부족 또는 자원 단편화 발생      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              Block 배치와 Warp 실행의 실제 모습              |
++--------------------------------------------------------------+
+| SM                                                          |
+|  +- 자원 한도: Registers / Shared Memory / Max Threads      |
+|  +- Block A (256 threads)                                   |
+|  |   +- Warp 0                                               |
+|  |   +- Warp 1                                               |
+|  |   +- ...                                                  |
+|  |   +- Warp 7                                               |
+|  +- Block B (256 threads)                                   |
+|  |   +- 동일 방식으로 분해                                   |
+|  +- Warp Scheduler: 준비된 Warp를 번갈아 실행                |
++--------------------------------------------------------------+
+| Block이 너무 크면  : 동시에 올라갈 Block 수 감소             |
+| Block이 너무 작으면: Warp 수 부족 또는 자원 단편화 발생      |
++--------------------------------------------------------------+
 ```
 
 여기서 중요한 정량 감각은 다음과 같다. 블록 크기가 48이면 하드웨어는 이를 1.5 워프로 처리할 수 없으므로 실제로는 2개 워프로 본다. 즉 48개 중 32개는 첫 번째 워프를 채우지만, 나머지 16개는 두 번째 워프에 들어가고 16개 슬롯은 비어 있는 셈이다. 그래서 블록 크기를 32의 배수로 잡는 것이 기본 원칙이 된다.
@@ -164,17 +164,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 CUDA (Compute Unified Device Architecture)
-    │
-    ▼
+    |
+    v
 SM (Streaming Multiprocessor) 기반 실행 모델
-    │
-    ├─▶ Warp : SIMT (Single Instruction Multiple Threads) 실행
-    │          │
-    │          └─▶ Warp Divergence · Memory Coalescing
-    │
-    └─▶ Thread Block : Shared Memory · Barrier 동기화
-               │
-               └─▶ Occupancy 최적화 · Thread Block Cluster 확장
+    |
+    +--> Warp : SIMT (Single Instruction Multiple Threads) 실행
+    |          |
+    |          +--> Warp Divergence · Memory Coalescing
+    |
+    +--> Thread Block : Shared Memory · Barrier 동기화
+               |
+               +--> Occupancy 최적화 · Thread Block Cluster 확장
 ```
 
 이 흐름은 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 실행 모델이 SM을 중심으로 갈라져, 한쪽은 워프 기반 실행 효율로, 다른 한쪽은 블록 기반 협업 효율로 발전하는 구조를 보여준다.
@@ -191,7 +191,7 @@ SM (Streaming Multiprocessor) 기반 실행 모델
 
 **진행 상황**: 423 / 803
 
-← **이전**: [421. 스트리밍 멀티프로세서 (SM)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)
-**다음**: [423. SIMT (Single Instruction Multiple Threads)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) →
+<- **이전**: [421. 스트리밍 멀티프로세서 (SM)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)
+**다음**: [423. SIMT (Single Instruction Multiple Threads)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) ->
 
 ---

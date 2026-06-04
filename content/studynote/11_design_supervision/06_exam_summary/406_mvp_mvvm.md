@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)·MVVM 패턴 ([Model-View-Presenter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/211_mvp_mvvm_architecture_frontend/) and Model-View-ViewModel)은 View와 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식에 따라 Presenter 또는 ViewModel을 두어 UI 로직을 분리하는 패턴군이다. 복잡한 UI에서는 MVC만으로 이벤트 처리와 상태 바인딩을 깔끔하게 다루기 어려워졌다. 이 개념이 필요한 이유는 UI 로직과 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 책임을 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 View가 상태 조작과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 포맷팅까지 모두 떠안아 테스트가 어려워진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│    User    │──▶│    MVx     │──▶│   State    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|    User    |--->|    MVx     |--->|   State    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│   View   │──▶│  Binder  │──▶│  Model   │──▶│   Sync   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|   View   |--->|  Binder  |--->|  Model   |--->|   Sync   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 프레젠터 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)·MVVM 패턴 ([Model-View-Presenter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/211_mvp_mvvm_architecture_frontend/) and Model-View-ViewModel)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[수동 화면 갱신] → MVP/MVVM] → [상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 고도화]
+[수동 화면 갱신] -> MVP/MVVM] -> [상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 고도화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)·MVVM 패턴 ([Model-View-Presenter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/211_mvp_mvvm_architecture_frontend/) and Model-View-ViewModel)은 칠판에 직접 쓰는 대신 반장이 정리하거나 전광판이 자동으로 바뀌게 하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 484 / 530
 
-← **이전**: [405. MVC 패턴 (Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/)
-**다음**: [407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/407_process/) →
+<- **이전**: [405. MVC 패턴 (Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/)
+**다음**: [407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/407_process/) ->
 
 ---

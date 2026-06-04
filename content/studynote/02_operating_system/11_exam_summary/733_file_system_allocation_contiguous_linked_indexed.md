@@ -109,28 +109,28 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 워크로드 특성에 따른 파일 할당(File System) 아키텍처      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 스토리지 서버(SAN/NAS) 포맷 시 파일 시스템 아키텍처 선택]            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      주로 저장되는 파일이 '작고(Small)' 개수가 '무수히 많은가(Millions)'?    │
-  │          ├─ 예 ─────▶ [인덱스(i-node) 최적화 FS 필수]                 │
-  │          │            (ReiserFS, XFS 등 inode 동적 할당 FS 적용 또는       │
-  │          │             ext4 포맷 시 inode ratio 극대화 튜닝)            │
-  │          └─ 아니오 (기가바이트 단위의 거대한 파일이 주를 이룬다)              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      거대 파일들을 '임의 접근(Random Access)'으로 자주 뒤섞어서 읽는가?        │
-  │      (예: RDBMS 데이터 파일, 가상머신 이미지)                             │
-  │          ├─ 예 ─────▶ [색인 할당(Indexed) + B-Tree 구조 적용]         │
-  │          │            (ZFS, Btrfs 같은 고성능 B-Tree 인덱스 파일 시스템)    │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ (순차 접근 위주의 동영상, 백업 파일)                 │
-  │                         [연속 할당(Extent)이 지원되는 ext4 / XFS 사용]    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 워크로드 특성에 따른 파일 할당(File System) 아키텍처      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 스토리지 서버(SAN/NAS) 포맷 시 파일 시스템 아키텍처 선택]            |
+  |                |                                                  |
+  |                v                                                  |
+  |      주로 저장되는 파일이 '작고(Small)' 개수가 '무수히 많은가(Millions)'?    |
+  |          +- 예 ------> [인덱스(i-node) 최적화 FS 필수]                 |
+  |          |            (ReiserFS, XFS 등 inode 동적 할당 FS 적용 또는       |
+  |          |             ext4 포맷 시 inode ratio 극대화 튜닝)            |
+  |          +- 아니오 (기가바이트 단위의 거대한 파일이 주를 이룬다)              |
+  |                |                                                  |
+  |                v                                                  |
+  |      거대 파일들을 '임의 접근(Random Access)'으로 자주 뒤섞어서 읽는가?        |
+  |      (예: RDBMS 데이터 파일, 가상머신 이미지)                             |
+  |          +- 예 ------> [색인 할당(Indexed) + B-Tree 구조 적용]         |
+  |          |            (ZFS, Btrfs 같은 고성능 B-Tree 인덱스 파일 시스템)    |
+  |          |                                                        |
+  |          +- 아니오 ---> (순차 접근 위주의 동영상, 백업 파일)                 |
+  |                         [연속 할당(Extent)이 지원되는 ext4 / XFS 사용]    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "그냥 리눅스 깔 때 기본인 ext4 쓰면 되는 거 아니야?"라는 마인드는 레거시 환경에서만 통한다. 1초에 수만 개의 이미지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장하는 서버에 [색인 할당](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/)의 오버헤드를 그대로 맞으면 디스크 IOPS가 터진다. 아키텍트는 저장될 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **크기, 개수, 접근 패턴(순차 vs 랜덤)** 3가지를 분석해 디스크 할당 철학을 디자인해야 한다.
@@ -176,12 +176,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [가비지 컬렉션 블록 지우기]
-    │
-    ▼
+    |
+    v
 [파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)]
-    │
-    ├──▶ [FAT 방식 연결 할당 최적화]
-    └──▶ [i-node 직접/간접 포인터 인덱스]
+    |
+    +---> [FAT 방식 연결 할당 최적화]
+    +---> [i-node 직접/간접 포인터 인덱스]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -198,7 +198,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 733 / 800
 
-← **이전**: [732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)](/knowledge-base/studynote/02_operating_system/11_exam_summary/732_garbage_collection_block_erase/)
-**다음**: [734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/734_fat_file_allocation_table_optimization/) →
+<- **이전**: [732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)](/knowledge-base/studynote/02_operating_system/11_exam_summary/732_garbage_collection_block_erase/)
+**다음**: [734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/734_fat_file_allocation_table_optimization/) ->
 
 ---

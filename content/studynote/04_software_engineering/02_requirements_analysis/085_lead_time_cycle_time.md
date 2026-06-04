@@ -31,7 +31,7 @@ tags = ["software_engineering"]
 리드 타임은 보통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time + Cycle Time으로 쪼갤 수 있다. 사이클 타임은 실제 작업 구간의 길이이므로, 코드 작성·테스트·병합 같은 실행 시간을 본다. 흐름 효율(Flow Efficiency)은 `Cycle Time / Lead Time`으로 표현할 수 있어, 전체 시간 중 실제 일한 비율을 보여 준다.
 
 ```text
-요청 ───── 대기 ───── 착수 ── 작업 ── 완료
+요청 ----- 대기 ----- 착수 -- 작업 -- 완료
  |<----------- Lead Time ------------>|
               |<----- Cycle Time ----->|
 ```
@@ -100,15 +100,15 @@ tags = ["software_engineering"]
 
 ```text
 요청 접수
-   ↓
+   v
 대기열 / 우선순위 조정
-   ↓
+   v
 작업 착수
-   ↓
+   v
 실행 / 검증 / 병합
-   ↓
+   v
 완료 인도
-   ↓
+   v
 Lead Time / Cycle Time 분석
 ```
 
@@ -124,7 +124,7 @@ Lead Time / Cycle Time 분석
 
 **진행 상황**: 85 / 973
 
-← **이전**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)
-**다음**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) →
+<- **이전**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)
+**다음**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) ->
 
 ---

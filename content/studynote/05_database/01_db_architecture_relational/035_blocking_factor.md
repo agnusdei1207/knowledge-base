@@ -81,8 +81,8 @@ B-Tree 인덱스 노드:
   블록 크기 = 4 KB
 
   차수(Order) n: n*10 + (n+1)*6 <= 4096
-  → n = 251 (한 노드에 251개 키)
-  → 트리 깊이 = log_251(10,000,000) ≈ 3.5 ≈ 4 레벨
+  -> n = 251 (한 노드에 251개 키)
+  -> 트리 깊이 = log_251(10,000,000) ≈ 3.5 ≈ 4 레벨
 ```
 
 > 📢 **섹션 요약 비유**: 도서관 서가(블록)에 책(레코드)을 얼마나 꽂을 수 있는지 — BF가 높으면 서가 수가 줄어 찾기도 빠르다.
@@ -111,7 +111,7 @@ PostgreSQL 기본 페이지(블록) 크기 = 8 KB
 BF = floor(8192 / 100) = 81개 (헤더 공간 제외 실제는 ~70개)
 
 테이블 최적화:
-1. 컬럼 정렬: 큰 타입 먼저 배치 → 패딩 최소화
+1. 컬럼 정렬: 큰 타입 먼저 배치 -> 패딩 최소화
 2. FILLFACTOR: 업데이트 많은 테이블은 70-80%로 설정
    (HOT Update를 위한 여유 공간 확보)
 3. TOAST: 큰 값(> 2KB)은 별도 테이블에 오프라인 저장
@@ -159,7 +159,7 @@ B-Tree 차수 = BF 응용 (키+포인터 개수)
       |
       v
 [SSD/NVMe 시대]
-랜덤 I/O 성능 향상 → 블록 크기 최적 재검토
+랜덤 I/O 성능 향상 -> 블록 크기 최적 재검토
       |
       v
 [분산 파일 시스템 (HDFS, S3)]
@@ -181,7 +181,7 @@ MapReduce / Spark 처리 단위 기반
 
 **진행 상황**: 35 / 600
 
-← **이전**: [레코드 길이 · 파일 조직 방식 (Record Length & File Organization)](/knowledge-base/studynote/05_database/01_db_architecture_relational/034_record_length/)
-**다음**: [036. B-트리 (B-Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/036_b_tree/) →
+<- **이전**: [레코드 길이 · 파일 조직 방식 (Record Length & File Organization)](/knowledge-base/studynote/05_database/01_db_architecture_relational/034_record_length/)
+**다음**: [036. B-트리 (B-Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/036_b_tree/) ->
 
 ---

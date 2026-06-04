@@ -11,8 +11,8 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠재 공간(Latent Space)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 N(μ,σ²)로 인코딩하고, 그 분포에서 샘플링한 잠재 변수(Latent Variable) z를 디코딩하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)을 학습한다.
-> 2. **가치**: 재파라미터화 트릭(Reparameterization Trick) z = μ + ε·σ (ε~N(0,1))는 샘플링 과정을 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 가능한 형태로 변환하여 μ와 σ²에 대한 그래디언트 계산을 가능하게 한다.
+> 1. **본질**: [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠재 공간(Latent Space)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 N(μ,σ^)로 인코딩하고, 그 분포에서 샘플링한 잠재 변수(Latent Variable) z를 디코딩하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)을 학습한다.
+> 2. **가치**: 재파라미터화 트릭(Reparameterization Trick) z = μ + ε·σ (ε~N(0,1))는 샘플링 과정을 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 가능한 형태로 변환하여 μ와 σ^에 대한 그래디언트 계산을 가능하게 한다.
 > 3. **판단 포인트**: ELBO (Evidence Lower Bound) = 재구성 손실(Reconstruction Loss) + KLD ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)) 규제의 두 항 균형이 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 학습의 핵심으로, KLD는 잠재 분포를 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) N(0,I)에 가깝게 당기는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 역할을 한다.
 
 ---
@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 
 일반 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/), AE)는 입력 x를 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 잠재 벡터 z로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 x̂로 복원한다. 이 잠재 공간(Latent Space)은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점들로 채워지지만, **점 사이 공간은 비어** 있어 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하기 어렵다.
 
-VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 잠재 공간(Probabilistic Latent Space)</strong>으로 해결한다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 단일 벡터 z가 아닌 분포의 파라미터 (μ, σ²)를 출력하고, z는 이 분포에서 샘플링된다. 이로써 잠재 공간 전체가 연속적으로 채워지고, 임의의 점에서 샘플링해 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
+VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 잠재 공간(Probabilistic Latent Space)</strong>으로 해결한다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 단일 벡터 z가 아닌 분포의 파라미터 (μ, σ^)를 출력하고, z는 이 분포에서 샘플링된다. 이로써 잠재 공간 전체가 연속적으로 채워지고, 임의의 점에서 샘플링해 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
-그러나 샘플링 과정(z ~ N(μ, σ²))은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Stochastic) 연산으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 불가능하다. <strong>재파라미터화 트릭(Reparameterization Trick)</strong>은 이 문제를 우회하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 경로를 살린다.
+그러나 샘플링 과정(z ~ N(μ, σ^))은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Stochastic) 연산으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 불가능하다. <strong>재파라미터화 트릭(Reparameterization Trick)</strong>은 이 문제를 우회하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 경로를 살린다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 일반 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)가 여행 사진을 특정 장소 좌표로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것이라면, VAE는 사진을 "이 지역 어딘가의 좌표 분포"로 표현한다. 분포로 표현하면 그 지역의 아직 가보지 않은 곳도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
@@ -43,36 +43,36 @@ VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_sta
 ### [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 구조
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  입력 x                                                    │
-│    │                                                       │
-│  ┌─▼──────────────┐                                        │
-│  │  인코더(Encoder) │  q_φ(z|x)                             │
-│  │  (신경망 f_φ)    │                                        │
-│  └──┬──────────┬──┘                                        │
-│     ▼          ▼                                           │
-│    μ(x)       log σ²(x)   (분포 파라미터)                   │
-│     │          │                                           │
-│     └─────┬────┘                                           │
-│           │ 재파라미터화 트릭                                 │
-│           │ ε ~ N(0, I)                                    │
-│           │ z = μ + ε ⊙ σ                                  │
-│           ▼                                                │
-│         z (잠재 변수)                                        │
-│           │                                                │
-│  ┌────────▼────────┐                                       │
-│  │  디코더(Decoder) │  p_θ(x|z)                             │
-│  │  (신경망 g_θ)    │                                        │
-│  └────────┬────────┘                                       │
-│           ▼                                                │
-│         x̂ (재구성 출력)                                     │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  입력 x                                                    |
+|    |                                                       |
+|  +-v--------------+                                        |
+|  |  인코더(Encoder) |  q_φ(z|x)                             |
+|  |  (신경망 f_φ)    |                                        |
+|  +--+----------+--+                                        |
+|     v          v                                           |
+|    μ(x)       log σ^(x)   (분포 파라미터)                   |
+|     |          |                                           |
+|     +-----+----+                                           |
+|           | 재파라미터화 트릭                                 |
+|           | ε ~ N(0, I)                                    |
+|           | z = μ + ε ⊙ σ                                  |
+|           v                                                |
+|         z (잠재 변수)                                        |
+|           |                                                |
+|  +--------v--------+                                       |
+|  |  디코더(Decoder) |  p_θ(x|z)                             |
+|  |  (신경망 g_θ)    |                                        |
+|  +--------+--------+                                       |
+|           v                                                |
+|         x̂ (재구성 출력)                                     |
++------------------------------------------------------------+
 ```
 
 ### 재파라미터화 트릭
 
 ```
-문제: z ~ N(μ, σ²)는 샘플링 연산 → 역전파 불가
+문제: z ~ N(μ, σ^)는 샘플링 연산 -> 역전파 불가
 
 해결: z = μ + ε · σ,  ε ~ N(0, I)
      (확률적 부분 ε을 그래디언트 흐름 밖으로 분리)
@@ -89,15 +89,15 @@ VAE의 목적: log p_θ(x) 최대화 ([데이터](/knowledge-base/studynote/05_d
 
 ```
 log p_θ(x) ≥ E_q[log p_θ(x|z)] - KL(q_φ(z|x) || p(z))
-                  ↑                        ↑
+                  ^                        ^
           재구성 손실                   KLD 규제
         (Reconstruction Loss)    (KL Divergence)
 ```
 
-**KLD 항 계산** (q_φ ~ N(μ, σ²), p ~ N(0, I)):
+**KLD 항 계산** (q_φ ~ N(μ, σ^), p ~ N(0, I)):
 
 ```
-KL(N(μ,σ²) || N(0,I)) = -½ Σⱼ (1 + log σ²ⱼ - μ²ⱼ - σ²ⱼ)
+KL(N(μ,σ^) || N(0,I)) = -½ Σⱼ (1 + log σ^ⱼ - μ^ⱼ - σ^ⱼ)
 ```
 
 | 손실 항 | 역할 | 역할 최소화 결과 |
@@ -115,7 +115,7 @@ KL(N(μ,σ²) || N(0,I)) = -½ Σⱼ (1 + log σ²ⱼ - μ²ⱼ - σ²ⱼ)
 | 구분 | AE ([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) |
 |:---|:---|:---|:---|
 | 잠재 공간 | 불연속 점들 | 연속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 없음 (직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 | 불가 | z ~ N(0,I)에서 샘플링 | 노이즈 → [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 |
+| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 | 불가 | z ~ N(0,I)에서 샘플링 | 노이즈 -> [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 |
 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 재구성만 | ELBO (재구성+KLD) | [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) |
 | 학습 안정성 | 안정적 | 안정적 | 불안정 (모드 붕괴) |
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 | 블러리(Blurry) | 블러리 | 선명(Sharp) |
@@ -134,7 +134,7 @@ KL(N(μ,σ²) || N(0,I)) = -½ Σⱼ (1 + log σ²ⱼ - μ²ⱼ - σ²ⱼ)
 - [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 분리(Disentanglement): β-VAE에서 KLD [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) β > 1 증가 시 잠재 변수별 독립 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 학습 (표정, 조명 분리 등)
 
 **구현 주의사항**:
-1. log σ² 대신 σ²를 직접 출력하면 수치 불안정 → 반드시 log σ² 출력 후 exp로 변환
+1. log σ^ 대신 σ^를 직접 출력하면 수치 불안정 -> 반드시 log σ^ 출력 후 exp로 변환
 2. KLD [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 어닐링(β annealing): 초반에 β를 0으로 시작해 점진적 증가로 학습 안정화
 3. 재구성 손실: 픽셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면 BCE (Binary [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)), 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면 [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) 사용
 
@@ -172,7 +172,7 @@ VAE의 재파라미터화 트릭은 [확률](/knowledge-base/studynote/08_algori
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -187,7 +187,7 @@ VAE의 재파라미터화 트릭은 [확률](/knowledge-base/studynote/08_algori
 
 **진행 상황**: 374 / 420
 
-← **이전**: [373. Actor-Critic (A2C) 와 Advantage](/knowledge-base/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/)
-**다음**: [375. GAN 손실 함수 미니맥스 (Minimax Loss)](/knowledge-base/studynote/10_ai/05_data_science_ml/375_gan_loss_function/) →
+<- **이전**: [373. Actor-Critic (A2C) 와 Advantage](/knowledge-base/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/)
+**다음**: [375. GAN 손실 함수 미니맥스 (Minimax Loss)](/knowledge-base/studynote/10_ai/05_data_science_ml/375_gan_loss_function/) ->
 
 ---

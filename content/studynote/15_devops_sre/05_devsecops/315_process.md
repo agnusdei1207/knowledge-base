@@ -28,16 +28,16 @@ Helm의 핵심 구성:
 | values.yaml  | 파라미터 기본값 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)                          |
 
 ```
-┌────────────────────────────────────────────────────┐
-│                   Helm 동작 흐름                   │
-│                                                    │
-│  Chart (템플릿)                                    │
-│     + values.yaml  ──render──▶  K8s 매니페스트    │
-│                                      │             │
-│                               kubectl apply        │
-│                                      │             │
-│                                  Release 생성       │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|                   Helm 동작 흐름                   |
+|                                                    |
+|  Chart (템플릿)                                    |
+|     + values.yaml  --render--->  K8s 매니페스트    |
+|                                      |             |
+|                               kubectl apply        |
+|                                      |             |
+|                                  Release 생성       |
++----------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -49,13 +49,13 @@ Helm의 핵심 구성:
 
 ```
 mychart/
-├── Chart.yaml          # 메타데이터 (이름, 버전, appVersion)
-├── values.yaml         # 기본 파라미터 값
-├── templates/
-│   ├── deployment.yaml # Go 템플릿 매니페스트
-│   ├── service.yaml
-│   └── _helpers.tpl    # 재사용 템플릿 정의
-└── charts/             # 의존 Sub-Chart
++-- Chart.yaml          # 메타데이터 (이름, 버전, appVersion)
++-- values.yaml         # 기본 파라미터 값
++-- templates/
+|   +-- deployment.yaml # Go 템플릿 매니페스트
+|   +-- service.yaml
+|   +-- _helpers.tpl    # 재사용 템플릿 정의
++-- charts/             # 의존 Sub-Chart
 ```
 
 Go 템플릿 예시 (`deployment.yaml`):
@@ -123,10 +123,10 @@ helm history my-nginx      # 릴리스 이력 조회
 
 ```
 Helm Package Manager
-    ├── Chart → 패키지 구조 (Chart.yaml, values.yaml, templates/)
-    ├── Repository → ArtifactHub, Bitnami, OCI Registry
-    ├── Release → install / upgrade / rollback
-    └── Helmfile / ArgoCD → GitOps 기반 Helm 관리
+    +-- Chart -> 패키지 구조 (Chart.yaml, values.yaml, templates/)
+    +-- Repository -> ArtifactHub, Bitnami, OCI Registry
+    +-- Release -> install / upgrade / rollback
+    +-- Helmfile / ArgoCD -> GitOps 기반 Helm 관리
 ```
 
 > 🧒 **어린이 비유**
@@ -138,7 +138,7 @@ Helm Package Manager
 
 **진행 상황**: 315 / 373
 
-← **이전**: [PV PVC PersistentVolume](/knowledge-base/studynote/15_devops_sre/05_devsecops/314_pv_pvc/)
-**다음**: [SRE Site Reliability 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/) →
+<- **이전**: [PV PVC PersistentVolume](/knowledge-base/studynote/15_devops_sre/05_devsecops/314_pv_pvc/)
+**다음**: [SRE Site Reliability 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/) ->
 
 ---

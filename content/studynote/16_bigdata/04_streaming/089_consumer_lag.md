@@ -25,10 +25,10 @@ tags = ["studynote-bigdata"]
 Kafka Topic "orders":
   파티션 0: 최신 오프셋 = 10,000 (Producer가 여기까지 씀)
   파티션 0: Consumer 커밋 오프셋 = 9,500 (Consumer가 여기까지 읽음)
-  → Lag = 10,000 - 9,500 = 500 (메시지 500개 미처리)
+  -> Lag = 10,000 - 9,500 = 500 (메시지 500개 미처리)
 
-파티션 1: 최신 = 8,000, 커밋 = 8,000 → Lag = 0
-파티션 2: 최신 = 12,000, 커밋 = 11,000 → Lag = 1,000
+파티션 1: 최신 = 8,000, 커밋 = 8,000 -> Lag = 0
+파티션 2: 최신 = 12,000, 커밋 = 11,000 -> Lag = 1,000
 
 총 Consumer Lag = 500 + 0 + 1,000 = 1,500
 ```
@@ -36,7 +36,7 @@ Kafka Topic "orders":
 ### 2. Consumer Lag이 중요한 이유
 
 - <strong>실시간 처리 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong>: Lag이 크면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)가 낮아짐
-- **장애 예측**: Lag 급증 → 처리 병목 → 잠재적 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)/장애 전조
+- **장애 예측**: Lag 급증 -> 처리 병목 -> 잠재적 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)/장애 전조
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>: 지속적인 Lag 증가 = Consumer 추가 또는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최적화 필요
 
 **📢 섹션 요약 비유**
@@ -130,14 +130,14 @@ spec:
 
 ```
 Kafka Cluster
-    ↓ JMX Metrics 수집
+    v JMX Metrics 수집
 JMX Exporter (Prometheus)
-    ↓
-Prometheus → Grafana 대시보드
-    ↓ Lag > 임계값
-AlertManager → PagerDuty / Slack 알림
-    ↓ Lag 지속 증가
-KEDA / Custom HPA → Consumer Pod 스케일아웃
+    v
+Prometheus -> Grafana 대시보드
+    v Lag > 임계값
+AlertManager -> PagerDuty / Slack 알림
+    v Lag 지속 증가
+KEDA / Custom HPA -> Consumer Pod 스케일아웃
 ```
 
 ### 2. 알림 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
@@ -198,17 +198,17 @@ Consumer Lag는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/1
 
 ```text
 [Kafka 프로듀서 (Producer) — 토픽 파티션에 메시지 비동기 발행]
-    │
-    ▼
+    |
+    v
 [오프셋 (Offset) — 파티션 내 메시지 위치, LEO vs 커밋 오프셋 구분]
-    │
-    ▼
+    |
+    v
 [Consumer Lag — LEO - Current Offset, 소비 지연 누적량 정량 측정]
-    │
-    ▼
+    |
+    v
 [컨슈머 그룹 모니터링 — Burrow·kafka-consumer-groups로 실시간 Lag 추적]
-    │
-    ▼
+    |
+    v
 [자동 스케일링 (KEDA) — Lag 임계값 기반 컨슈머 인스턴스 수평 확장·축소]
 ```
 
@@ -225,7 +225,7 @@ Consumer Lag는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/1
 
 **진행 상황**: 89 / 262
 
-← **이전**: [13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)](/knowledge-base/studynote/16_bigdata/04_streaming/088_kafka_partitioning/)
-**다음**: [15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR](/knowledge-base/studynote/16_bigdata/04_streaming/090_kafka_mirrormaker2/) →
+<- **이전**: [13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)](/knowledge-base/studynote/16_bigdata/04_streaming/088_kafka_partitioning/)
+**다음**: [15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR](/knowledge-base/studynote/16_bigdata/04_streaming/090_kafka_mirrormaker2/) ->
 
 ---

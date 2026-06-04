@@ -22,38 +22,38 @@ tags = ["studynote-ai"]
 RNN은 h_t = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 사용한다. 이를 T 시간 단계로 펼치면 T개의 층을 가진 깊은 네트워크가 된다. BPTT는 이 펼쳐진 네트워크에서 각 시간 단계의 그래디언트를 체인 룰로 계산하고, W_h가 공유되므로 모든 시간 단계의 그래디언트를 합산한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: BPTT는 "긴 전화 게임의 책임 역추적"이다. 100명이 릴레이로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달했을 때 오류가 생기면, 오류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 100명 → 99명 → ... → 1번으로 거슬러 올라가며 각자의 잘못(그래디언트)을 계산한다.
+- **📢 섹션 요약 비유**: BPTT는 "긴 전화 게임의 책임 역추적"이다. 100명이 릴레이로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달했을 때 오류가 생기면, 오류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 100명 -> 99명 -> ... -> 1번으로 거슬러 올라가며 각자의 잘못(그래디언트)을 계산한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              BPTT 수식 전개                              │
-├──────────────────────────────────────────────────────────┤
-│  Forward:  h_t = tanh(W_h·h_{t-1} + W_x·x_t)          │
-│            y_t = W_y·h_t                                │
-│                                                          │
-│  Loss:     L = Σₜ Lₜ(y_t, ŷ_t)                        │
-│                                                          │
-│  Backward: ∂Lₜ/∂h_k = (∂Lₜ/∂h_t) · Πᵢ₌ₖ₊₁ᵗ W_hᵀ·diag(1-hᵢ²)│
-│            (tanh 도함수: 1-tanh²)                       │
-│                                                          │
-│  기울기 소실: |W_h| < 1 → Πᵀ|W_h|ᵀ → 0              │
-│  기울기 폭발: |W_h| > 1 → Πᵀ|W_h|ᵀ → ∞              │
-│                                                          │
-│  Truncated BPTT: T_bptt << T로 자른 후 BPTT 적용       │
-│  → 메모리·계산 절감, 단기 의존성만 학습               │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              BPTT 수식 전개                              |
++----------------------------------------------------------+
+|  Forward:  h_t = tanh(W_h·h_{t-1} + W_x·x_t)          |
+|            y_t = W_y·h_t                                |
+|                                                          |
+|  Loss:     L = Σₜ Lₜ(y_t, ŷ_t)                        |
+|                                                          |
+|  Backward: ∂Lₜ/∂h_k = (∂Lₜ/∂h_t) · Πᵢ₌ₖ₊₁ᵗ W_hᵀ·diag(1-hᵢ^)|
+|            (tanh 도함수: 1-tanh^)                       |
+|                                                          |
+|  기울기 소실: |W_h| < 1 -> Πᵀ|W_h|ᵀ -> 0              |
+|  기울기 폭발: |W_h| > 1 -> Πᵀ|W_h|ᵀ -> ∞              |
+|                                                          |
+|  Truncated BPTT: T_bptt << T로 자른 후 BPTT 적용       |
+|  -> 메모리·계산 절감, 단기 의존성만 학습               |
++----------------------------------------------------------+
 ```
 
 | 문제 | 조건 | 증상 | 해결책 |
@@ -69,7 +69,7 @@ RNN은 h_t = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_
 
 그래디언트 클리핑(Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)): ||g|| > threshold이면 g = g·(threshold/||g||)로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 폭발을 방지한다. PyTorch의 nn.utils.clip_grad_norm_(parameters, max_norm)으로 구현. LSTM은 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통한 덧셈 구조로 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)을 구조적으로 해결한다. 시간적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 불가능한 BPTT의 순차적 특성이 Transformer가 Self-Attention으로 대체한 핵심 이유다.
 
-- **📢 섹션 요약 비유**: Transformer가 RNN을 대체한 이유는 "릴레이 경주 → 동시 달리기"다. RNN의 BPTT는 100명이 순서대로 달리는 릴레이(순차 처리). Transformer의 Self-Attention은 100명이 동시에 달리는 경주([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리). 동시 달리기가 훨씬 빠르다.
+- **📢 섹션 요약 비유**: Transformer가 RNN을 대체한 이유는 "릴레이 경주 -> 동시 달리기"다. RNN의 BPTT는 100명이 순서대로 달리는 릴레이(순차 처리). Transformer의 Self-Attention은 100명이 동시에 달리는 경주([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리). 동시 달리기가 훨씬 빠르다.
 
 ---
 
@@ -101,7 +101,7 @@ BPTT는 시퀀스 모델링의 핵심 [알고리즘](/knowledge-base/studynote/0
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [BPTT (Backpropagation Through Time)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [BPTT (Backpropagation Through Time)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -116,7 +116,7 @@ BPTT는 시퀀스 모델링의 핵심 [알고리즘](/knowledge-base/studynote/0
 
 **진행 상황**: 370 / 420
 
-← **이전**: [369. 배치 정규화 (Batch Normalization) in CNN](/knowledge-base/studynote/10_ai/05_data_science_ml/369_cnn_batch_norm/)
-**다음**: [371. LSTM 셀 게이트 수식 (LSTM CELL MATH)](/knowledge-base/studynote/10_ai/05_data_science_ml/371_lstm_cell_math/) →
+<- **이전**: [369. 배치 정규화 (Batch Normalization) in CNN](/knowledge-base/studynote/10_ai/05_data_science_ml/369_cnn_batch_norm/)
+**다음**: [371. LSTM 셀 게이트 수식 (LSTM CELL MATH)](/knowledge-base/studynote/10_ai/05_data_science_ml/371_lstm_cell_math/) ->
 
 ---

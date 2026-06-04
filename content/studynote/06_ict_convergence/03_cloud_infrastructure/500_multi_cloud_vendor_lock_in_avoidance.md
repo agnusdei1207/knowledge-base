@@ -40,16 +40,16 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 관리 계층</strong>:
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│              Management Plane (관리 계층)                   │
-│  FinOps Dashboard │ Security CSPM │ Policy Engine          │
-├────────────────────────────────────────────────────────────┤
-│  Abstraction Layer (추상화 계층)                            │
-│  Terraform(IaC) │ Kubernetes │ Service Mesh(Istio)         │
-├──────────────┬──────────────────┬──────────────────────────┤
-│    AWS       │      Azure       │         GCP              │
-│  EC2/S3/RDS  │  VM/Blob/CosmDB  │  GCE/GCS/BigQuery        │
-└──────────────┴──────────────────┴──────────────────────────┘
++------------------------------------------------------------+
+|              Management Plane (관리 계층)                   |
+|  FinOps Dashboard | Security CSPM | Policy Engine          |
++------------------------------------------------------------+
+|  Abstraction Layer (추상화 계층)                            |
+|  Terraform(IaC) | Kubernetes | Service Mesh(Istio)         |
++--------------+------------------+--------------------------+
+|    AWS       |      Azure       |         GCP              |
+|  EC2/S3/RDS  |  VM/Blob/CosmDB  |  GCE/GCS/BigQuery        |
++--------------+------------------+--------------------------+
 ```
 
 | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형 | 원인 | 회피 기술 |
@@ -122,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Terraform · HCL] → [멀티 클라우드 전략과 벤더 종속성 회피] → [온프레미스 연동 · VPN]
+[Terraform · HCL] -> [멀티 클라우드 전략과 벤더 종속성 회피] -> [온프레미스 연동 · VPN]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -137,7 +137,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 500 / 552
 
-← **이전**: [499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/499_cloud_service_models_iaas_paas_saas_faas/)
-**다음**: [501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/501_docker_container_lightweight_os_isolation/) →
+<- **이전**: [499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/499_cloud_service_models_iaas_paas_saas_faas/)
+**다음**: [501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/501_docker_container_lightweight_os_isolation/) ->
 
 ---

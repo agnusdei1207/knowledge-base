@@ -33,8 +33,8 @@ RTM (Requirements Traceability Matrix):
   REQ-004    | 동시 로그인 제한  | DS-08     | session.py| TC-016, 017
 
   추적 방향:
-    순방향: 요구사항 → 설계 → 코드 → 테스트
-    역방향: 테스트 → 코드 → 설계 → 요구사항
+    순방향: 요구사항 -> 설계 -> 코드 -> 테스트
+    역방향: 테스트 -> 코드 -> 설계 -> 요구사항
 
 RTM의 목적:
   1. 요구사항 완전성 검증: 모든 요구사항이 구현됐는가?
@@ -53,20 +53,20 @@ RTM의 목적:
 추적성 유형:
 
 1. 순방향 추적성 (Forward Traceability):
-   요구사항 → 설계 → 구현 → 테스트
+   요구사항 -> 설계 -> 구현 -> 테스트
 
    "REQ-001 로그인 요구사항이 어디에 구현됐나?"
-   REQ-001 → DS-02(설계) → auth.py(구현) → TC-001(테스트)
+   REQ-001 -> DS-02(설계) -> auth.py(구현) -> TC-001(테스트)
 
    용도:
      요구사항 누락 탐지 (구현 안 된 요구사항)
      구현 완성도 확인
 
 2. 역방향 추적성 (Backward Traceability):
-   테스트 → 구현 → 설계 → 요구사항
+   테스트 -> 구현 -> 설계 -> 요구사항
 
    "TC-001 테스트 케이스는 어떤 요구사항을 위한 것인가?"
-   TC-001 → auth.py → DS-02 → REQ-001
+   TC-001 -> auth.py -> DS-02 -> REQ-001
 
    용도:
      불필요한 기능 탐지 (요구사항 없는 구현)
@@ -78,7 +78,7 @@ RTM의 목적:
    고품질 RTM의 기준
 
 4. 부모-자식 추적성 (Vertical):
-   고수준 요구사항(Business) → 시스템 요구사항 → 소프트웨어 요구사항
+   고수준 요구사항(Business) -> 시스템 요구사항 -> 소프트웨어 요구사항
 
    적용: 항공, 방산, 의료 분야 계층적 요구사항
 
@@ -106,15 +106,15 @@ RTM 작성 절차:
   요구사항 유형 분류: 기능(F), 비기능(NF), 인터페이스(I)
 
 2단계: 설계 산출물 연결:
-  SRS(요구사항 명세서) → SDS(설계 명세서)
+  SRS(요구사항 명세서) -> SDS(설계 명세서)
   각 요구사항이 설계 섹션 번호와 연결
 
 3단계: 구현 모듈 연결:
-  설계 → 소스 파일/모듈/클래스
+  설계 -> 소스 파일/모듈/클래스
   JIRA 이슈 번호와 연결 (Agile 환경)
 
 4단계: 테스트 케이스 연결:
-  각 요구사항 → 최소 1개 테스트 케이스
+  각 요구사항 -> 최소 1개 테스트 케이스
   TC-001, TC-002 ...
 
 5단계: 상태 추적:
@@ -158,11 +158,11 @@ Polarion ALM (Siemens):
 
 Azure DevOps (Microsoft):
   특징: 코드 커밋 ↔ 요구사항 링크
-  Epic → Feature → User Story → Task → PR ← Test Case
+  Epic -> Feature -> User Story -> Task -> PR <- Test Case
   CI/CD 파이프라인과 통합
 
   실무: Work Item ID 참조로 자동 추적
-  PR 설명: "Fixes #123" → 요구사항 자동 링크
+  PR 설명: "Fixes #123" -> 요구사항 자동 링크
 
 GitHub Projects:
   소규모 팀, 간단한 RTM
@@ -189,17 +189,17 @@ GitHub Projects:
 
 RTM 구조 (의료기기 SW):
   사용자 필요성 (User Need, UN)
-    ↓
+    v
   소프트웨어 시스템 요구사항 (System Requirement, SRS)
-    ↓
+    v
   소프트웨어 아키텍처 (Architecture, ARCH)
-    ↓
+    v
   소프트웨어 유닛 (Unit, UNIT)
-    ↓
+    v
   단위 테스트 (Unit Test, UT)
-    ↓
+    v
   통합 테스트 (Integration Test, IT)
-    ↓
+    v
   시스템 테스트 (System Test, ST)
 
 샘플 RTM:
@@ -214,7 +214,7 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
 
 실제 FDA 지적 사항 (483 Observation):
   "RTM이 요구사항과 시험 케이스 간 연계를 완전히 보여주지 않음"
-  → 제품 출시 지연 → 수억원 비용 발생
+  -> 제품 출시 지연 -> 수억원 비용 발생
   교훈: RTM 완전성 = 인증 선행 조건
 ```
 
@@ -227,8 +227,8 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
 ```
 요구사항 추적성 매트릭스 (RTM)
 +-- 추적 방향
-|   +-- 순방향: 요구사항→설계→구현→테스트
-|   +-- 역방향: 테스트→구현→설계→요구사항
+|   +-- 순방향: 요구사항->설계->구현->테스트
+|   +-- 역방향: 테스트->구현->설계->요구사항
 |   +-- 양방향 (완전 RTM)
 +-- 도구
 |   +-- IBM DOORS, Jama, Polarion
@@ -245,7 +245,7 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
 
 ```
 [폭포수 개발 모델 (1970s)]
-요구사항 → 설계 → 구현 → 테스트 순서
+요구사항 -> 설계 -> 구현 -> 테스트 순서
 추적성 수동 관리
       |
       v
@@ -265,7 +265,7 @@ Azure DevOps, Jira Epic-Story-Task 링크
       |
       v
 [현재: AI 기반 RTM 자동화]
-LLM으로 요구사항 → 테스트 케이스 자동 생성
+LLM으로 요구사항 -> 테스트 케이스 자동 생성
 변경 영향 AI 분석 (GitHub Copilot 통합)
 ```
 
@@ -283,7 +283,7 @@ LLM으로 요구사항 → 테스트 케이스 자동 생성
 
 **진행 상황**: 62 / 530
 
-← **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/042_test_plan_result_verification/)
-**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_sampling_audit_technique/) →
+<- **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/042_test_plan_result_verification/)
+**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_sampling_audit_technique/) ->
 
 ---

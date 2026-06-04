@@ -31,11 +31,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 4-Way Handshake]
-    │
-    ▼
+    |
+    v
 [TIME_WAIT 상태]
-    │
-    └──▶ [CLOSE_WAIT / LAST_ACK 상태]
+    |
+    +---> [CLOSE_WAIT / LAST_ACK 상태]
 ```
 
 - **📢 섹션 요약 비유**: <strong> TIME_WAIT은 폭파 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 누른 뒤 </strong>"안전 구역에서 1분간 폭발을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 깐깐한 폭파범"**입니다. 내가 누른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(ACK)가 불발이 나서 폭탄(서버)이 안 터졌으면 다시 눌러줘야 하고, 혹시 날아오는 파편(유령 패킷)이 있으면 무사히 다 떨어질 때까지 가드 올리고 버티는 필수 대기 시간입니다.
@@ -49,24 +49,24 @@ tags = ["studynote-network"]
 - **왜 곱하기 2인가?**: 서버가 나한테 `FIN`을 보내느라 걸리는 최대 시간 1MSL + 내가 다시 서버한테 `ACK`를 보내느라 걸리는 최대 시간 1MSL = **도합 2 MSL (보통 60초 ~ 120초)** 동안 넉넉하게 대기해야 어떤 불상사도 막을 수 있다고 설계자들([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))이 계산했다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                서버의 구원자: TIME_WAIT의 마지막 ACK 재전송         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 나 (Active Close) ]                          [ 서버 ]      │
- │    (TIME_WAIT 상태 진입)                                      │
- │        │ ── (마지막 찐막 ACK 발송!) ─(해저 컷!)─▶ ❌ 닿지 않음!  │
- │        │                                         (LAST_ACK) │
- │        │                                                    │
- │        │ ◀── "야! 네 마지막 인사 안 왔어 다시 줘!" [FIN 재전송] ── │
- │                                                             │
- │   * 만약 내가 TIME_WAIT 안 하고 꺼졌다면?                       │
- │     서버는 대답을 평생 못 듣고 LAST_ACK 좀비로 서버 메모리 폭발함!     │
- │                                                             │
- │   * TIME_WAIT으로 멍때리고 있던 나:                             │
- │     "어이구, 아까 내 인사가 증발했구나. 옛다 다시 받아라!"           │
- │        │ ── (마지막 ACK를 다시 쏴줌!!) ───────▶ (서버 CLOSED) │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                서버의 구원자: TIME_WAIT의 마지막 ACK 재전송         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 나 (Active Close) ]                          [ 서버 ]      |
+ |    (TIME_WAIT 상태 진입)                                      |
+ |        | -- (마지막 찐막 ACK 발송!) -(해저 컷!)--> ❌ 닿지 않음!  |
+ |        |                                         (LAST_ACK) |
+ |        |                                                    |
+ |        | <--- "야! 네 마지막 인사 안 왔어 다시 줘!" [FIN 재전송] -- |
+ |                                                             |
+ |   * 만약 내가 TIME_WAIT 안 하고 꺼졌다면?                       |
+ |     서버는 대답을 평생 못 듣고 LAST_ACK 좀비로 서버 메모리 폭발함!     |
+ |                                                             |
+ |   * TIME_WAIT으로 멍때리고 있던 나:                             |
+ |     "어이구, 아까 내 인사가 증발했구나. 옛다 다시 받아라!"           |
+ |        | -- (마지막 ACK를 다시 쏴줌!!) --------> (서버 CLOSED) |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: TIME_WAIT 상태의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -132,12 +132,12 @@ TIME_WAIT 상태는 전송 계층을 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: TCP 4-Way Handshake]
-    │
-    ▼
+    |
+    v
 [현재 개념: TIME_WAIT 상태]
-    │
-    ├──▶ [확장 A: CLOSE_WAIT / LAST_ACK 상태]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: CLOSE_WAIT / LAST_ACK 상태]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 TIME_WAIT 상태는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake에서 출발해 현재 메커니즘을 정교화하고, 이후 CLOSE_WAIT / LAST_ACK 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ TIME_WAIT 상태는 [TCP](/knowledge-base/studynote/03_network/08_transport_laye
 
 **진행 상황**: 540 / 1120
 
-← **이전**: [418. TCP 4-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/418_tcp_4_way_handshake_connection_termination/)
-**다음**: [420. CLOSE_WAIT / LAST_ACK 상태](/knowledge-base/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/) →
+<- **이전**: [418. TCP 4-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/418_tcp_4_way_handshake_connection_termination/)
+**다음**: [420. CLOSE_WAIT / LAST_ACK 상태](/knowledge-base/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/) ->
 
 ---

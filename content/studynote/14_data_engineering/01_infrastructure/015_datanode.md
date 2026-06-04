@@ -32,11 +32,11 @@ tags = ["data_engineering"]
 
 [전통적 엔터프라이즈 스토리지]        [HDFS DataNode 기반 분산 스토리지]
   비용: 10억 원 / 확장불가              비용: 1억 원 (100대) / 무한 확장
-    ┌─────────────────┐               ┌──────┐ ┌──────┐ ┌──────┐
-    │ RAID 컨트롤러   │               │DN 1  │ │DN 2  │ │DN 3  │ ...
-    │ 특수 이중화 파워│   ──────>     │Disk A│ │Disk B│ │Disk C│
-    │ 고성능 SAN 디스크│               │Disk B│ │Disk C│ │Disk D│
-    └─────────────────┘               └──────┘ └──────┘ └──────┘
+    +-----------------+               +------+ +------+ +------+
+    | RAID 컨트롤러   |               |DN 1  | |DN 2  | |DN 3  | ...
+    | 특수 이중화 파워|   ------>     |Disk A| |Disk B| |Disk C|
+    | 고성능 SAN 디스크|               |Disk B| |Disk C| |Disk D|
+    +-----------------+               +------+ +------+ +------+
   (이 박스가 타버리면 회사 마비)       (DN 2가 불타도 1과 3에 복제본 존재!)
 ```
 
@@ -64,18 +64,18 @@ tags = ["data_engineering"]
 [데이터노드 3중 복제 파이프라인 (Data Pipelining) 메커니즘]
 
    HDFS Client                  DataNode 1                DataNode 2                DataNode 3
-       │                            │                         │                         │
-       │---- 블록A 패킷 1 쓰기 ---->│ (디스크 캐싱)             │                         │
-       │                            │====== 릴레이 복사 ======>│ (디스크 캐싱)             │
-       │---- 블록A 패킷 2 쓰기 ---->│                         │====== 릴레이 복사 ======>│
-       │                            │                         │                         │
+       |                            |                         |                         |
+       |---- 블록A 패킷 1 쓰기 ---->| (디스크 캐싱)             |                         |
+       |                            |====== 릴레이 복사 ======>| (디스크 캐싱)             |
+       |---- 블록A 패킷 2 쓰기 ---->|                         |====== 릴레이 복사 ======>|
+       |                            |                         |                         |
       ... (네트워크 스트리밍으로 동시에 흘러감. 1번이 다 받고 2번 주는 게 아님!) ...
-       │                            │                         │                         │
-       │<==== ACK 패킷 수신 성공 == │<==== ACK 수신 성공 ==== │<==== ACK 수신 성공 ==== │
-       │ (최종 3개 노드 복제 완료)   │                         │                         │
+       |                            |                         |                         |
+       |<==== ACK 패킷 수신 성공 == |<==== ACK 수신 성공 ==== |<==== ACK 수신 성공 ==== |
+       | (최종 3개 노드 복제 완료)   |                         |                         |
 ```
 
-이 흐름의 핵심은 '스트리밍 릴레이(Streaming Relay)' 방식에 있다. 만약 128MB 블록을 DataNode 1이 완전히 다 내려받은 뒤에야 DataNode 2로 복사를 시작한다면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시간이 3배로 지연될 것이다. 하지만 HDFS는 128MB 블록을 아주 작은 64KB 패킷 단위로 쪼개어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(수도관)에 물을 흘리듯 1번 → 2번 → 3번으로 동시에 흘려보낸다. 따라서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 극대화하며 단일 서버에 복사하는 시간과 거의 비슷한 속도로 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 동시에 디스크에 안착시킨다. 이 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통신이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 소프트웨어 공학의 백미다.
+이 흐름의 핵심은 '스트리밍 릴레이(Streaming Relay)' 방식에 있다. 만약 128MB 블록을 DataNode 1이 완전히 다 내려받은 뒤에야 DataNode 2로 복사를 시작한다면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시간이 3배로 지연될 것이다. 하지만 HDFS는 128MB 블록을 아주 작은 64KB 패킷 단위로 쪼개어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(수도관)에 물을 흘리듯 1번 -> 2번 -> 3번으로 동시에 흘려보낸다. 따라서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 극대화하며 단일 서버에 복사하는 시간과 거의 비슷한 속도로 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 동시에 디스크에 안착시킨다. 이 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통신이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 소프트웨어 공학의 백미다.
 
 > 📢 **섹션 요약 비유**: 불을 끌 때 소방수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드)들이 일렬로 서서 양동이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷)를 다음 사람에게 휙휙 던져가며 연속으로 전달하는 '버킷 릴레이' 방식과 똑같습니다. 한 명이 다 채우고 다음 사람에게 주러 뛰어가지 않기에 압도적으로 빠릅니다.
 
@@ -100,10 +100,10 @@ tags = ["data_engineering"]
 ❌ 나쁜 설계 (원격 연산)                 ✅ 우수한 설계 (하둡 데이터 지역성)
   [연산 서버군] (CPU)                     [하둡 통합 노드 군단] (CPU + DataNode)
    Spark 1  Spark 2                     서버 A: [Spark Task] + [DataNode (블록A)]
-     ▲        ▲                           └─ (로컬 메모리로 빛의 속도 로드)
-     │ 1TB    │ 1TB
-   ──┴────────┴── (네트워크 폭발!)      서버 B: [Spark Task] + [DataNode (블록B)]
-     │        │                           └─ (자신의 디스크에서 스스로 연산)
+     ^        ^                           +- (로컬 메모리로 빛의 속도 로드)
+     | 1TB    | 1TB
+   --+--------+-- (네트워크 폭발!)      서버 B: [Spark Task] + [DataNode (블록B)]
+     |        |                           +- (자신의 디스크에서 스스로 연산)
   [DataNode1] [DataNode2]               ===> 💥네트워크 대역폭 사용량 '제로' 근접!
 ```
 
@@ -125,17 +125,17 @@ A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 
 [데이터노드 디스크 용량 불균형(Skew) 발생 시 의사결정 및 조치 플로우]
 
 [모니터링 경보: 특정 데이터노드군 Disk 사용량 90% 돌파, 신규 노드는 10%]
-         ↓
+         v
 [네트워크 대역폭(Network Bandwidth) 한가한 야간 시간대 진입 확인]
-         ↓
+         v
 [ HDFS Balancer 실행 명령어 투입 (`hdfs balancer -threshold 5`) ]
-         ↓
- ┌──────────────────────(Balancer 동작 로직)────────────────────────┐
- │ 1. 과부하 노드(90%)에서 잉여 노드(10%)로 블록 단위 복사본 이동 시작   │
- │ 2. 너무 빨리 이동하면 서비스 마비되므로 초당 50MB 속도 제한(Throttle) │
- │ 3. 모든 노드의 사용률 편차가 ±5% 이내가 될 때까지 며칠간 은밀히 수행  │
- └──────────────────────────────────────────────────────────────────┘
-         ↓
+         v
+ +----------------------(Balancer 동작 로직)------------------------+
+ | 1. 과부하 노드(90%)에서 잉여 노드(10%)로 블록 단위 복사본 이동 시작   |
+ | 2. 너무 빨리 이동하면 서비스 마비되므로 초당 50MB 속도 제한(Throttle) |
+ | 3. 모든 노드의 사용률 편차가 ±5% 이내가 될 때까지 며칠간 은밀히 수행  |
+ +------------------------------------------------------------------+
+         v
 [모든 데이터노드 디스크 밸런스 60%대로 수렴 완료. 맵리듀스 분산 효율 100% 정상화]
 ```
 
@@ -173,17 +173,17 @@ A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 
 
 ```text
 [HDFS (Hadoop Distributed File System) — 대용량 데이터를 분산 저장하는 파일시스템]
-    │
-    ▼
+    |
+    v
 [데이터노드 (DataNode) — 블록 단위 실제 데이터 저장·서빙, 3초마다 하트비트 전송]
-    │
-    ▼
+    |
+    v
 [네임노드 (NameNode) — 블록 메타데이터 관리·위치 안내, DataNode 감시 사령탑]
-    │
-    ▼
+    |
+    v
 [복제 계수 (Replication Factor=3) + 랙 인지 — 데이터 손실 방지를 위한 물리적 분산 배치]
-    │
-    ▼
+    |
+    v
 [데이터 지역성 (Data Locality) — 연산을 데이터 위치로 이동, 네트워크 I/O 최소화]
 ```
 
@@ -200,7 +200,7 @@ A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 
 
 **진행 상황**: 15 / 258
 
-← **이전**: [14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)
-**다음**: [16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) →
+<- **이전**: [14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)
+**다음**: [16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ->
 
 ---

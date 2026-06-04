@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPS 시그니처 정규식]
-    │
-    ▼
+    |
+    v
 [웹쉘 탐지 프로토콜 파서]
-    │
-    └──▶ [블록체인 가십 프로토콜 P2P 연결]
+    |
+    +---> [블록체인 가십 프로토콜 P2P 연결]
 ```
 
 - **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPS 시그니처 정규식]
-    │
-    ▼
+    |
+    v
 [웹쉘 탐지 프로토콜 파서]
-    │
-    └──▶ [블록체인 가십 프로토콜 P2P 연결]
+    |
+    +---> [블록체인 가십 프로토콜 P2P 연결]
 ```
 
 - **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IPS 시그니처 정규식]
-    │
-    ▼
+    |
+    v
 [현재 개념: 웹쉘 탐지 프로토콜 파서]
-    │
-    ├──▶ [확장 A: 블록체인 가십 프로토콜 P2P 연결]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 블록체인 가십 프로토콜 P2P 연결]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서는 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 190 / 1120
 
-← **이전**: [1081. IPS 시그니처 정규식](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1081_ips_signature_regular_expression_regex/)
-**다음**: [1083. 블록체인 가십 프로토콜 P2P 연결](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1083_blockchain_gossip_protocol_p2p_network/) →
+<- **이전**: [1081. IPS 시그니처 정규식](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1081_ips_signature_regular_expression_regex/)
+**다음**: [1083. 블록체인 가십 프로토콜 P2P 연결](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1083_blockchain_gossip_protocol_p2p_network/) ->
 
 ---

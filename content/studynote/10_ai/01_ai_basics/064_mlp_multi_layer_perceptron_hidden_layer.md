@@ -31,9 +31,9 @@ MLP는 은닉층을 넣어 입력 공간을 새로운 특징 공간으로 바꾸
 
 ```text
 Input Layer
-  ↓
+  v
 Hidden Layer(s)
-  ↓
+  v
 Output Layer
 ```
 
@@ -107,11 +107,11 @@ MLP는 선형 분리 불가능 문제를 해결하며 신경망 시대를 열었
 
 ```text
 Perceptron
-  ↓
+  v
 Hidden Layer
-  ↓
+  v
 MLP
-  ↓
+  v
 Nonlinear Representation
 ```
 
@@ -121,11 +121,11 @@ Nonlinear Representation
 
 ```text
 XOR Problem
-  ↓
+  v
 Hidden Layer
-  ↓
+  v
 MLP
-  ↓
+  v
 Deep Learning
 ```
 
@@ -143,7 +143,7 @@ MLP는 그렇게 더 똑똑하게 나누는 모델이에요.
 
 **진행 상황**: 64 / 420
 
-← **이전**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/knowledge-base/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/)
-**다음**: [65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/) →
+<- **이전**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/knowledge-base/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/)
+**다음**: [65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/) ->
 
 ---

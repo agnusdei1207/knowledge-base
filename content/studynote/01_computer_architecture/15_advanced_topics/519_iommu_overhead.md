@@ -36,27 +36,27 @@ IOMMU는 장치가 보는 IOVA (I/O Virtual Address)를 실제 물리 주소로 
 이 그림은 오버헤드가 어디에서 생기는지 한눈에 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          DMA fast path와 map/unmap control path가 함께 비용을 만든다 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Device DMA (IOVA)                                                    │
-│      │                                                               │
-│      ▼                                                               │
-│ [ device translation cache via ATS ]                                 │
-│      │ hit                                                           │
-│      ├──────────────────────────────▶ translated request             │
-│      │ miss                                                          │
-│      ▼                                                               │
-│ [ IOMMU IOTLB ]                                                      │
-│      │ hit                                                           │
-│      ├──────────────────────────────▶ translated request             │
-│      │ miss                                                          │
-│      ▼                                                               │
-│ I/O page walk in memory  ─────────▶ fill IOTLB ───────▶ memory       │
-│                                                                      │
-│ Driver / Kernel path                                                 │
-│   pin pages → map buffer list → DMA start → unmap → IOTLB invalidate │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          DMA fast path와 map/unmap control path가 함께 비용을 만든다 |
++----------------------------------------------------------------------+
+| Device DMA (IOVA)                                                    |
+|      |                                                               |
+|      v                                                               |
+| [ device translation cache via ATS ]                                 |
+|      | hit                                                           |
+|      +-------------------------------> translated request             |
+|      | miss                                                          |
+|      v                                                               |
+| [ IOMMU IOTLB ]                                                      |
+|      | hit                                                           |
+|      +-------------------------------> translated request             |
+|      | miss                                                          |
+|      v                                                               |
+| I/O page walk in memory  ----------> fill IOTLB --------> memory       |
+|                                                                      |
+| Driver / Kernel path                                                 |
+|   pin pages -> map buffer list -> DMA start -> unmap -> IOTLB invalidate |
++----------------------------------------------------------------------+
 ```
 
 | 비용원 | 언제 커지는가 | 대표 증상 | 완화 방향 |
@@ -143,20 +143,20 @@ IOMMU를 잘 설계하고 튜닝하면, 장치 격리와 고성능 I/O를 동시
 
 ```text
 물리 주소 기반 전통 DMA
-        │
-        ▼
+        |
+        v
 가상화 · DMA 공격 대응 필요
-        │
-        ▼
+        |
+        v
 IOMMU (VT-d / AMD-Vi / ARM System Memory Management Unit)
-        │
-        ├─▶ IOTLB · huge page 최적화
-        ├─▶ ATS / PRI / PASID
-        │
-        ▼
+        |
+        +--> IOTLB · huge page 최적화
+        +--> ATS / PRI / PASID
+        |
+        v
 VFIO · SR-IOV · SVA
-        │
-        ▼
+        |
+        v
 CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역
 ```
 
@@ -174,7 +174,7 @@ CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역
 
 **진행 상황**: 519 / 803
 
-← **이전**: [518. TLB 슈팅다운 (TLB Shootdown)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/518_tlb_shootdown/)
-**다음**: [520. PCIe 스위치 패브릭 (PCIe Switch Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/520_pcie_switch_fabric/) →
+<- **이전**: [518. TLB 슈팅다운 (TLB Shootdown)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/518_tlb_shootdown/)
+**다음**: [520. PCIe 스위치 패브릭 (PCIe Switch Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/520_pcie_switch_fabric/) ->
 
 ---

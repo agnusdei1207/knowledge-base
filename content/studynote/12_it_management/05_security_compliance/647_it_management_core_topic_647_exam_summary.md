@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리는 COBIT 2019, ITIL 4, ISO/IEC 38500 등 거버넌스 프레임워크를 통해 **전략(Strategy) → 아키텍처(Architecture) → 포트폴리오(Portfolio) → 운영(Operation) → 가치(Value)** 의 Value Governance Chain을 구현하고, BSC(Balanced Scorecard)와 KPI 트리 구조로 전략-전술-운영을 연동하는 경영 과학이다.
+> 1. **본질**: IT 경영 관리는 COBIT 2019, ITIL 4, ISO/IEC 38500 등 거버넌스 프레임워크를 통해 **전략(Strategy) -> 아키텍처(Architecture) -> 포트폴리오(Portfolio) -> 운영(Operation) -> 가치(Value)** 의 Value Governance Chain을 구현하고, BSC(Balanced Scorecard)와 KPI 트리 구조로 전략-전술-운영을 연동하는 경영 과학이다.
 > 2. **가치**: 성숙도 모델 기반 Gap Analysis 수행 시 평균 **23~35%의 IT 비용 절감**(Gartner 2023), EA 기반 중복 투자 제거로 **TCO 18~27% 감소**, ITIL 도입으로 **MTTR 40~60% 단축**, COBIT 통제 항목 100% 매핑 시 **컴플라이언스 감사 소요 시간 70% 절감** 효과를 기대할 수 있다.
 > 3. **판단 포인트**: 중앙집중식(COE) vs 분산식(Federated) 거버넌스 모델, Build vs Buy vs Rent 의사결정 프레임워크, Run-the-Business(60~70%) vs Change-the-Business(20~30%) vs Grow-the-Business(5~10%) IT 예산 배분 비율, 그리고 사이버보안 위험과 비즈니스 민첩성(Business Agility) 간의 Trade-off가 핵심 설계 변수이다.
 
@@ -28,49 +28,49 @@ tags = ["studynote-it-management"]
 ```text
 [ IT 경영 관리 Value Governance Chain ]
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │  Strategy Layer (전략 계층)                                  │
-  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐    │
-  │  │ Business    │  │ IT Strategy  │  │ Digital         │    │
-  │  │ Vision/Mission│─│ Alignment   │─│ Transformation  │    │
-  │  │ (BV/BM)     │  │ (SAM, BSP)   │  │ Roadmap (DX)    │    │
-  │  └─────────────┘  └──────────────┘  └─────────────────┘    │
-  └────────────────────────┬────────────────────────────────────┘
-                           │ Cascade (연결)
-  ┌────────────────────────┴────────────────────────────────────┐
-  │  Architecture Layer (아키텍처 계층)                          │
-  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐    │
-  │  │ EA (TOGAF)  │  │ Solution     │  │ Technology      │    │
-  │  │ ADM Cycle   │─│ Architecture │─│ Reference Model │    │
-  │  │ B/D/A/T     │  │ (SA)         │  │ (TRM)           │    │
-  │  └─────────────┘  └──────────────┘  └─────────────────┘    │
-  └────────────────────────┬────────────────────────────────────┘
-                           │ Trace (추적)
-  ┌────────────────────────┴────────────────────────────────────┐
-  │  Portfolio Layer (포트폴리오 계층)                          │
-  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐    │
-  │  │ Demand      │  │ Investment   │  │ Risk &          │    │
-  │  │ Management  │─│ Prioritization│─│ Compliance      │    │
-  │  │ (DMM)       │  │ (NPV, IRR)   │  │ (ISO 27001)     │    │
-  │  └─────────────┘  └──────────────┘  └─────────────────┘    │
-  └────────────────────────┬────────────────────────────────────┘
-                           │ Operate (운영)
-  ┌────────────────────────┴────────────────────────────────────┐
-  │  Operation Layer (운영 계층)                                 │
-  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐    │
-  │  │ Service     │  │ Incident/    │  │ SLA/OLA/UC      │    │
-  │  │ Desk (ITIL4)│─│ Problem Mgmt │─│ (Service Level) │    │
-  │  └─────────────┘  └──────────────┘  └─────────────────┘    │
-  └────────────────────────┬────────────────────────────────────┘
-                           │ Measure (측정)
-  ┌────────────────────────┴────────────────────────────────────┐
-  │  Value Layer (가치 계층)                                    │
-  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐    │
-  │  │ Benefits    │  │ KPI / OKR    │  │ Realized Value  │    │
-  │  │ Realization │─│ Scorecard    │─│ (BSC 4 Perspective)│  │
-  │  │ (BRM)       │  │ (BSC)        │  │                 │    │
-  │  └─────────────┘  └──────────────┘  └─────────────────┘    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |  Strategy Layer (전략 계층)                                  |
+  |  +-------------+  +--------------+  +-----------------+    |
+  |  | Business    |  | IT Strategy  |  | Digital         |    |
+  |  | Vision/Mission|-| Alignment   |-| Transformation  |    |
+  |  | (BV/BM)     |  | (SAM, BSP)   |  | Roadmap (DX)    |    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  +------------------------+------------------------------------+
+                           | Cascade (연결)
+  +------------------------+------------------------------------+
+  |  Architecture Layer (아키텍처 계층)                          |
+  |  +-------------+  +--------------+  +-----------------+    |
+  |  | EA (TOGAF)  |  | Solution     |  | Technology      |    |
+  |  | ADM Cycle   |-| Architecture |-| Reference Model |    |
+  |  | B/D/A/T     |  | (SA)         |  | (TRM)           |    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  +------------------------+------------------------------------+
+                           | Trace (추적)
+  +------------------------+------------------------------------+
+  |  Portfolio Layer (포트폴리오 계층)                          |
+  |  +-------------+  +--------------+  +-----------------+    |
+  |  | Demand      |  | Investment   |  | Risk &          |    |
+  |  | Management  |-| Prioritization|-| Compliance      |    |
+  |  | (DMM)       |  | (NPV, IRR)   |  | (ISO 27001)     |    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  +------------------------+------------------------------------+
+                           | Operate (운영)
+  +------------------------+------------------------------------+
+  |  Operation Layer (운영 계층)                                 |
+  |  +-------------+  +--------------+  +-----------------+    |
+  |  | Service     |  | Incident/    |  | SLA/OLA/UC      |    |
+  |  | Desk (ITIL4)|-| Problem Mgmt |-| (Service Level) |    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  +------------------------+------------------------------------+
+                           | Measure (측정)
+  +------------------------+------------------------------------+
+  |  Value Layer (가치 계층)                                    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  |  | Benefits    |  | KPI / OKR    |  | Realized Value  |    |
+  |  | Realization |-| Scorecard    |-| (BSC 4 Perspective)|  |
+  |  | (BRM)       |  | (BSC)        |  |                 |    |
+  |  +-------------+  +--------------+  +-----------------+    |
+  +-------------------------------------------------------------+
 ```
 
 **구 시대(Old Paradigm) vs 신 시대(New Paradigm) 비교**
@@ -99,64 +99,64 @@ IT 경영 관리의 핵심 메커니즘은 **"전략의 연결(Strategic Alignme
 ```text
 [ COBIT 2019 Governance & Management Objectives 체계 ]
 
-  ┌────────────────────────────────────────────────────────────┐
-  │  EDM (Evaluate, Direct, Monitor) - 거버넌스 5개 영역       │
-  │  ┌──────────────────────────────────────────────────────┐  │
-  │  │ EDM01 - 거버넌스 프레임워크 설정 및 유지              │  │
-  │  │ EDM02 - Benefits Delivery 보장                        │  │
-  │  │ EDM03 - Risk Optimization 보장                        │  │
-  │  │ EDM04 - Resource Optimization 보장                    │  │
-  │  │ EDM05 - Stakeholder Transparency 보장                 │  │
-  │  └──────────────────────────────────────────────────────┘  │
-  └────────────────────────┬───────────────────────────────────┘
-                           │ 40 Governance & Management Objectives
-  ┌────────────────────────┴───────────────────────────────────┐
-  │  Align, Plan, Organize (APO) - 14개 관리 실무              │
-  │  APO01~14: 관리 프레임워크, 전략, 아키텍처, 혁신, 포트폴리오│
-  │             예산, 인간자원, 관계, 합의, 공급자, 품질, 위험  │
-  │             보안, 데이터                                      │
-  ├────────────────────────────────────────────────────────────┤
-  │  Build, Acquire, Implement (BAI) - 11개 관리 실무           │
-  │  BAI01~11: 관리 프로그램, 요구사항 정의, 솔루션 식별/구축,  │
-  │             가용성/용량, 조직 변경, 변경, 변경 수락/전환,   │
-  │             지식, 자산, 구성, 프로젝트                        │
-  ├────────────────────────────────────────────────────────────┤
-  │  Deliver, Service, Support (DSS) - 6개 관리 실무            │
-  │  DSS01~06: 운영, 서비스 요청/사고, 문제, 연속성,             │
-  │             보안 서비스, 비즈니스 통제                        │
-  ├────────────────────────────────────────────────────────────┤
-  │  Monitor, Evaluate, Assess (MEA) - 4개 관리 실무            │
-  │  MEA01~04: 성과/규제 준수/통제 시스템/목표 모니터링         │
-  └────────────────────────────────────────────────────────────┘
-       │
-       ▼
-  ┌────────────────────────────────────────────────────────────┐
-  │  Components: 7가지(원리, 정책, 프로세스, 조직구조, 문화,    │
-  │  정보, 사람/기술/시설) × 40목표 = 280개 통제 포인트         │
-  └────────────────────────────────────────────────────────────┘
-       │
-       ▼
-  ┌────────────────────────────────────────────────────────────┐
-  │  Focus Area: 산업/규제별 맞춤(예: DevOps, Risks,        │
-  │  Compliance, Information Security, Digital Transformation) │
-  └────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------+
+  |  EDM (Evaluate, Direct, Monitor) - 거버넌스 5개 영역       |
+  |  +------------------------------------------------------+  |
+  |  | EDM01 - 거버넌스 프레임워크 설정 및 유지              |  |
+  |  | EDM02 - Benefits Delivery 보장                        |  |
+  |  | EDM03 - Risk Optimization 보장                        |  |
+  |  | EDM04 - Resource Optimization 보장                    |  |
+  |  | EDM05 - Stakeholder Transparency 보장                 |  |
+  |  +------------------------------------------------------+  |
+  +------------------------+-----------------------------------+
+                           | 40 Governance & Management Objectives
+  +------------------------+-----------------------------------+
+  |  Align, Plan, Organize (APO) - 14개 관리 실무              |
+  |  APO01~14: 관리 프레임워크, 전략, 아키텍처, 혁신, 포트폴리오|
+  |             예산, 인간자원, 관계, 합의, 공급자, 품질, 위험  |
+  |             보안, 데이터                                      |
+  +------------------------------------------------------------+
+  |  Build, Acquire, Implement (BAI) - 11개 관리 실무           |
+  |  BAI01~11: 관리 프로그램, 요구사항 정의, 솔루션 식별/구축,  |
+  |             가용성/용량, 조직 변경, 변경, 변경 수락/전환,   |
+  |             지식, 자산, 구성, 프로젝트                        |
+  +------------------------------------------------------------+
+  |  Deliver, Service, Support (DSS) - 6개 관리 실무            |
+  |  DSS01~06: 운영, 서비스 요청/사고, 문제, 연속성,             |
+  |             보안 서비스, 비즈니스 통제                        |
+  +------------------------------------------------------------+
+  |  Monitor, Evaluate, Assess (MEA) - 4개 관리 실무            |
+  |  MEA01~04: 성과/규제 준수/통제 시스템/목표 모니터링         |
+  +------------------------------------------------------------+
+       |
+       v
+  +------------------------------------------------------------+
+  |  Components: 7가지(원리, 정책, 프로세스, 조직구조, 문화,    |
+  |  정보, 사람/기술/시설) × 40목표 = 280개 통제 포인트         |
+  +------------------------------------------------------------+
+       |
+       v
+  +------------------------------------------------------------+
+  |  Focus Area: 산업/규제별 맞춤(예: DevOps, Risks,        |
+  |  Compliance, Information Security, Digital Transformation) |
+  +------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **거버넌스 시스템(Governance System)** | 이사회-경영진-IT의 3계층 의사결정 구조 정의 | COBIT 2019의 EDM→APO→BAI→DSS→MEA 5개 도메인, RACI 매트릭스 적용 |
+| **거버넌스 시스템(Governance System)** | 이사회-경영진-IT의 3계층 의사결정 구조 정의 | COBIT 2019의 EDM->APO->BAI->DSS->MEA 5개 도메인, RACI 매트릭스 적용 |
 | **전략 연동 메커니즘(Alignment Engine)** | BV/BS(Business Vision/Strategy)와 IT Strategy의 양방향 매핑 | SAM(Sam-Zhang 모델), BSP(Business Scenario Planning), PESTEL 분석, SWOT-Cross 매트릭스 |
 | **아키텍처 프레임워크(EA Framework)** | Business-Data-Application-Technology 4계층 일관성 보장 | TOGAF ADM 8단계(Phase A~H: Architecture Vision, Business/Information/Technology Architecture, Opportunities/Solutions, Migration Planning, Implementation Governance, Architecture Change Management) + Zachman 6×6 매트릭스 |
 | **포트폴리오 관리(Portfolio Mgmt)** | 투자 의사결정 및 자원 배분의 최적화 | PCM(Priority/Capacity Model): 80/20 Pareto, WSJF(Weighted Shortest Job First), RICE(Reach/Impact/Confidence/Effort), NPV/IRR 계산, FinOps(클라우드 비용 가시화) |
-| **성과 측정 체계(Performance Mgmt)** | BSC 4관점(재무/고객/내부/학습성장)의 KPI 도출 | Cascading Scorecard: BSC → Strategy Map → Initiative → KPI → Target → Actual, 4CX(Cause-Effect Chain), OKR(Quarter 단위) |
+| **성과 측정 체계(Performance Mgmt)** | BSC 4관점(재무/고객/내부/학습성장)의 KPI 도출 | Cascading Scorecard: BSC -> Strategy Map -> Initiative -> KPI -> Target -> Actual, 4CX(Cause-Effect Chain), OKR(Quarter 단위) |
 | **위험 및 컴플라이언스(GRC)** | 위험 식별-평가-대응-모니터링의 PDCA | ISO 31000(리스크 매니지먼트), ISO 27001(ISMS), NIST CSF 2.0(Identify/Protect/Detect/Respond/Recover + Govern), 한국 ISMS-P 인증 |
-| **IT 서비스 운영(ITSMOps)** | 서비스 수명주기 관리 및 SLA 준수 | ITIL 4 Service Value System(SVS): Opportunity/Demand→Value→Service Value Chain(Plan/Engage/Design&Transition/Obtain/Build/Deliver&Support)→Value |
+| **IT 서비스 운영(ITSMOps)** | 서비스 수명주기 관리 및 SLA 준수 | ITIL 4 Service Value System(SVS): Opportunity/Demand->Value->Service Value Chain(Plan/Engage/Design&Transition/Obtain/Build/Deliver&Support)->Value |
 
 **핵심 알고리즘 및 의사결정 공식**
 
 ```text
 [ IT 투자 우선순위 산정 공식 (예시) ]
-─────────────────────────────────────────────────────────
+---------------------------------------------------------
 1. NPV (Net Present Value):
    NPV = Σ [ CFt / (1+r)^t ] - C0
    (CFt: t년도 현금흐름, r: 할인율(가중평균자본비용 WACC), C0: 초기투자)
@@ -173,7 +173,7 @@ IT 경영 관리의 핵심 메커니즘은 **"전략의 연결(Strategic Alignme
 
 5. IT 포트폴리오 위험 조정 수익률:
    Sharpe-IT Ratio = (R_portfolio - R_riskfree) / σ_portfolio
-─────────────────────────────────────────────────────────
+---------------------------------------------------------
 [ BSC 4관점 KPI 예시 ]
 - 재무: IT 비용/매출 비율(%), CapEx 회수 기간
 - 고객: CX-IT 만족도(NPS), 서비스 요청 해결률(%), 가용률(99.9% SLA)
@@ -192,14 +192,14 @@ IT 경영 관리의 핵심 메커니즘은 **"전략의 연결(Strategic Alignme
 | **목적** | IT 거버넌스 및 관리(Governance & Management) | IT 서비스 관리(Service Management) | IT 거버넌스 원칙(Governance Principles) |
 | **관점** | What(어떤 목표/통제?) | How(어떻게 서비스 운영?) | Why(왜 거버넌스가 필요한가?) |
 | **구조** | EDM + 4개 도메인(APO/BAI/DSS/MEA), 40개 목표 | SVS(Service Value System), 34개 Practice | 6가지 원칙(Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior) |
-| **적용 계층** | 이사회/경영진 → IT 전 부서 | ITSM 실무자/서비스 운영팀 | 이사회/경영진 |
+| **적용 계층** | 이사회/경영진 -> IT 전 부서 | ITSM 실무자/서비스 운영팀 | 이사회/경영진 |
 | **성숙도 측정** | CMMI 5단계, PAM(Process Assessment Model) | ITIL Maturity Model | 자체 자가진단 체크리스트 |
 | **강점** | 컴플라이언스 매핑,
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 647 / 800
 
-← **이전**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/)
-**다음**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/) →
+<- **이전**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/)
+**다음**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/) ->
 
 ---

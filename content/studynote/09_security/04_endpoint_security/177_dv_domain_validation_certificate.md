@@ -42,22 +42,22 @@ DV의 핵심 원리는 간단하다. CA는 신청자가 [도메인](/knowledge-b
 아래 그림은 DV가 실제로 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DV issuance and renewal loop                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ ACME client                                                          │
-│   ├─ generate key pair + CSR                                         │
-│   ├─ request cert for example.com                                    │
-│   ▼                                                                  │
-│ CA                                                                   │
-│   ├─ send challenge: HTTP-01 / DNS-01 / TLS-ALPN-01                  │
-│   ├─ verify domain control from public Internet                      │
-│   ├─ issue certificate + log issuance to CT                          │
-│   └─ renew before short lifetime expires                             │
-│                                                                      │
-│ Proven: domain control + encrypted channel                           │
-│ Not proven: legal organization, business legitimacy, brand identity  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| DV issuance and renewal loop                                         |
++----------------------------------------------------------------------+
+| ACME client                                                          |
+|   +- generate key pair + CSR                                         |
+|   +- request cert for example.com                                    |
+|   v                                                                  |
+| CA                                                                   |
+|   +- send challenge: HTTP-01 / DNS-01 / TLS-ALPN-01                  |
+|   +- verify domain control from public Internet                      |
+|   +- issue certificate + log issuance to CT                          |
+|   +- renew before short lifetime expires                             |
+|                                                                      |
+| Proven: domain control + encrypted channel                           |
+| Not proven: legal organization, business legitimacy, brand identity  |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 발급 시간이 짧고 갱신이 자동이라는 점이다. 반면 수명이 짧은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 자동화가 깨지면 만료 사고로 바로 이어지므로, DV 운영의 핵심 역량은 "한 번 발급받는 기술"보다 "계속 무중단으로 갱신하는 운영"에 있다.
@@ -147,23 +147,23 @@ DV [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/30
 
 ```text
 평문 HTTP 확산
-    │
-    ▼
+    |
+    v
 HTTPS 보급 필요
-    │
-    ▼
+    |
+    v
 ACME 자동화 도입
-    │
-    ▼
+    |
+    v
 DV (Domain Validation) 대량 발급
-    ├─ 무료화
-    ├─ 자동 갱신
-    └─ 짧은 수명 인증서 운영
-    │
-    ▼
+    +- 무료화
+    +- 자동 갱신
+    +- 짧은 수명 인증서 운영
+    |
+    v
 조직 신원 공백 인식
-    │
-    ▼
+    |
+    v
 OV / EV · CT 모니터링 · CAA · 피싱 대응의 다층 보완
 ```
 
@@ -181,7 +181,7 @@ OV / EV · CT 모니터링 · CAA · 피싱 대응의 다층 보완
 
 **진행 상황**: 230 / 1108
 
-← **이전**: [176. EV (Extended Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/176_ev_extended_validation_certificate/)
-**다음**: [178. OV (Organization Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/) →
+<- **이전**: [176. EV (Extended Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/176_ev_extended_validation_certificate/)
+**다음**: [178. OV (Organization Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/) ->
 
 ---

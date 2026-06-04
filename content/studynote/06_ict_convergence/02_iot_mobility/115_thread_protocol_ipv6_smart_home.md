@@ -19,18 +19,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Zigbee vs Thread: IP 연결성 차이                    │
-├───────────────────────────────────────────────────────┤
-│  [Zigbee]                                             │
-│   센서 ──Zigbee──▶ 게이트웨이 ──프로토콜 변환──▶ IP   │
-│   디바이스에 IP 주소 없음                             │
-│                                                       │
-│  [Thread]                                             │
-│   센서 ──Thread(IPv6)──▶ Border Router ──▶ IP         │
-│   디바이스에 IPv6 주소 있음 → 직접 통신!              │
-│   프로토콜 변환 불필요                                │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Zigbee vs Thread: IP 연결성 차이                    |
++-------------------------------------------------------+
+|  [Zigbee]                                             |
+|   센서 --Zigbee---> 게이트웨이 --프로토콜 변환---> IP   |
+|   디바이스에 IP 주소 없음                             |
+|                                                       |
+|  [Thread]                                             |
+|   센서 --Thread(IPv6)---> Border Router ---> IP         |
+|   디바이스에 IPv6 주소 있음 -> 직접 통신!              |
+|   프로토콜 변환 불필요                                |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Zigbee는 통역사(게이트웨이)가 필요한 외국어이고, Thread는 세계 공용어([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 쓰는 디바이스라 통역 없이 바로 대화 가능하다.
@@ -46,7 +46,7 @@ tags = ["studynote-ict-convergence"]
 | **Border Router** | [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ↔ Wi-Fi/[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 연결, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 | **Leader** | 네트워크 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (자동 선출) |
 | **Router** | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 상시 전원 |
-| **End Device (Sleepy)** | 배터리 센서, Sleep→Wake 간헐 전송 |
+| **End Device (Sleepy)** | 배터리 센서, Sleep->Wake 간헐 전송 |
 
 ### [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) vs [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) vs [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/)
 
@@ -75,8 +75,8 @@ tags = ["studynote-ict-convergence"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) + [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 시나리오
-- Google Nest [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) → [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Border Router 역할 → [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 센서·조명 직접 제어.
-- Apple HomePod → [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Border Router 내장 → [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 디바이스 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 연결.
+- Google Nest [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) -> [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Border Router 역할 -> [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 센서·조명 직접 제어.
+- Apple HomePod -> [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Border Router 내장 -> [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 디바이스 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 연결.
 
 ---
 
@@ -100,17 +100,17 @@ Thread는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer
 
 ```text
 [IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC]
-    │
-    ▼
+    |
+    v
 [Thread 1.0 (2015, Google Nest) — IPv6 메시]
-    │
-    ▼
+    |
+    v
 [Thread 1.2 (2019) — 상용 Border Router 확산]
-    │
-    ▼
+    |
+    v
 [Matter + Thread (2022~) — Apple·Google·Amazon 채택]
-    │
-    ▼
+    |
+    v
 [현재: Thread 1.3 — 대규모 상용 배포, Matter 핵심 인프라]
 ```
 
@@ -125,7 +125,7 @@ Thread는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer
 
 **진행 상황**: 115 / 552
 
-← **이전**: [114. 블루투스 저전력 (BLE, Bluetooth Low Energy)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/114_ble_bluetooth_low_energy_beacon/)
-**다음**: [116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/116_matter_smart_home_standard/) →
+<- **이전**: [114. 블루투스 저전력 (BLE, Bluetooth Low Energy)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/114_ble_bluetooth_low_energy_beacon/)
+**다음**: [116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/116_matter_smart_home_standard/) ->
 
 ---

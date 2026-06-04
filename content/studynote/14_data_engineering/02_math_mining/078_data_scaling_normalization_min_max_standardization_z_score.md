@@ -22,9 +22,9 @@ tags = ["studynote-data-engineering"]
 특성 값의 크기가 너무 다르면 거리 기반 모델과 경사 하강 기반 모델이 특정 특성에 끌린다. 그래서 scaling이 먼저 필요하다.
 이 노트에서는 normalization을 Min-Max Scaling 의미로, standardization을 Z-Score Standardization 의미로 구분해 읽으면 혼동이 줄어든다.
 ```text
-원본 값 ─▶ 이상치 확인 ─▶ 스케일러 선택 ─▶ 변환 ─▶ 모델 입력
-          ├─ Min-Max → [0, 1]
-          └─ Z-Score → 평균0 / 표준편차1
+원본 값 --> 이상치 확인 --> 스케일러 선택 --> 변환 --> 모델 입력
+          +- Min-Max -> [0, 1]
+          +- Z-Score -> 평균0 / 표준편차1
 ```
 
 - **📢 섹션 요약 비유**: 큰 숫자와 작은 숫자를 그대로 넣으면 모델이 한쪽만 본다.
@@ -103,17 +103,17 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 ```text
 원본 데이터
-  │
-  ▼
+  |
+  v
 통계 계산 (min/max 또는 평균/표준편차)
-  │
-  ▼
+  |
+  v
 스케일러 적용
-  │
-  ▼
+  |
+  v
 모델 학습/추론
-  │
-  ▼
+  |
+  v
 분포 변화 모니터링
 ```
 
@@ -129,7 +129,7 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 **진행 상황**: 78 / 258
 
-← **이전**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/)
-**다음**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) →
+<- **이전**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/)
+**다음**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) ->
 
 ---

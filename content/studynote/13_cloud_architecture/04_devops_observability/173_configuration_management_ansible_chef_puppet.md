@@ -26,18 +26,18 @@ tags = ["studynote-cloud-architecture"]
 아래 그림은 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)가 자동화 스택에서 어디에 놓이는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Where configuration management fits              │
-├─────────────────────────────┬──────────────────────────────────────┤
-│ Provisioning                │ VM, network, subnet, load balancer  │
-│                             │ example: Terraform                  │
-├─────────────────────────────┼──────────────────────────────────────┤
-│ Configuration management    │ package, file, user, service state  │
-│                             │ example: Ansible, Chef, Puppet      │
-├─────────────────────────────┼──────────────────────────────────────┤
-│ Application delivery        │ artifact rollout, version switch    │
-│                             │ example: CI/CD pipeline             │
-└─────────────────────────────┴──────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                   Where configuration management fits              |
++-----------------------------+--------------------------------------+
+| Provisioning                | VM, network, subnet, load balancer  |
+|                             | example: Terraform                  |
++-----------------------------+--------------------------------------+
+| Configuration management    | package, file, user, service state  |
+|                             | example: Ansible, Chef, Puppet      |
++-----------------------------+--------------------------------------+
+| Application delivery        | artifact rollout, version switch    |
+|                             | example: CI/CD pipeline             |
++-----------------------------+--------------------------------------+
 ```
 
 즉 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)는 "인프라를 만든 뒤 아무도 손대지 않는다"는 가정이 깨지는 순간 본격적으로 중요해진다. 특히 전통적인 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버, 보안 장비, 사내 미들웨어, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)처럼 장기 생명주기를 가진 자산에서는 여전히 핵심 역할을 한다.
@@ -53,18 +53,18 @@ tags = ["studynote-cloud-architecture"]
 도구별 아키텍처는 제어 모델에서 갈린다. Ansible은 컨트롤 노드가 대상 서버에 SSH로 접속해 작업을 밀어 넣는 푸시 (Push) 모델이다. 반면 Chef와 Puppet은 보통 에이전트가 서버 안에 상주하거나 주기적으로 동작해 중앙 서버에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 받아오는 풀 (Pull) 기반 수렴 모델에 가깝다. 이 차이는 단순 연결 방식이 아니라, "상태를 누가 언제 다시 맞추는가"에 직접 영향을 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Convergence model by tool                       │
-├───────────────────────────────┬────────────────────────────────────┤
-│ Ansible                       │ Chef / Puppet                      │
-├───────────────────────────────┼────────────────────────────────────┤
-│ Control node                  │ Policy server / master            │
-│   │                           │        ▲                          │
-│   ├─ SSH push --------------> │        │ periodic pull            │
-│   ├─ module execution         │   agent on each node              │
-│   └─ run on demand            │   continuous convergence          │
-│                               │   compliance-friendly             │
-└───────────────────────────────┴────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Convergence model by tool                       |
++-------------------------------+------------------------------------+
+| Ansible                       | Chef / Puppet                      |
++-------------------------------+------------------------------------+
+| Control node                  | Policy server / master            |
+|   |                           |        ^                          |
+|   +- SSH push --------------> |        | periodic pull            |
+|   +- module execution         |   agent on each node              |
+|   +- run on demand            |   continuous convergence          |
+|                               |   compliance-friendly             |
++-------------------------------+------------------------------------+
 ```
 
 | 비교 축 | [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | Chef | Puppet |
@@ -98,14 +98,14 @@ tags = ["studynote-cloud-architecture"]
 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구는 다른 자동화 계층과도 경계가 분명해야 한다. [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))는 서버를 만들고 네트워크를 연결하는 데 강하고, 이미지 빌더인 Packer는 베이스 이미지를 굽는 데 강하며, GitOps는 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 Git으로 운영하는 통제 모델이다. [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)는 이들 사이에서 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 계속 일관되게 맞추는 역할"을 담당한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     Related automation layers                      │
-├─────────────────────────────┬──────────────────────────────────────┤
-│ Terraform / IaC             │ create infrastructure               │
-│ Packer / image build        │ bake reusable base image            │
-│ Config management           │ converge OS / middleware state      │
-│ CI/CD / GitOps              │ release application and policy      │
-└─────────────────────────────┴──────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                     Related automation layers                      |
++-----------------------------+--------------------------------------+
+| Terraform / IaC             | create infrastructure               |
+| Packer / image build        | bake reusable base image            |
+| Config management           | converge OS / middleware state      |
+| CI/CD / GitOps              | release application and policy      |
++-----------------------------+--------------------------------------+
 ```
 
 이 연결 관점이 중요한 이유는, [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구에 모든 문제를 집어넣으면 자동화가 오히려 흐려지기 때문이다. 예를 들어 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 안에 무거운 원격 셸을 넣거나, [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) [Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) 안에서 네트워크 토폴로지까지 모두 만들기 시작하면 책임 경계가 흐려진다. 좋은 설계는 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수렴, 배포"를 나누되 서로 잘 연결하는 구조다.
@@ -119,17 +119,17 @@ tags = ["studynote-cloud-architecture"]
 실무에서 가장 흔한 성공 패턴은 "Terraform으로 만들고, [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)·Chef·Puppet으로 맞추고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD로 배포한다"는 분리 구조다. 이렇게 하면 인프라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 실패와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구성 실패, 애플리케이션 릴리스를 서로 독립적으로 추적할 수 있다. 또한 Git 저장소 구조도 [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 코드, 애플리케이션 배포 코드를 분리해야 변경 리뷰가 쉬워진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Practical operating pipeline                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Git change                                                         │
-│   │                                                                │
-│   ├─ IaC pipeline ----------> VM / subnet / security group         │
-│   ├─ Config pipeline -------> package / file / service baseline    │
-│   └─ Release pipeline ------> app artifact / rollout               │
-│                                                                    │
-│ Periodic run or agent check -> detect drift -> converge again      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                   Practical operating pipeline                     |
++--------------------------------------------------------------------+
+| Git change                                                         |
+|   |                                                                |
+|   +- IaC pipeline ----------> VM / subnet / security group         |
+|   +- Config pipeline -------> package / file / service baseline    |
+|   +- Release pipeline ------> app artifact / rollout               |
+|                                                                    |
+| Periodic run or agent check -> detect drift -> converge again      |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -156,7 +156,7 @@ tags = ["studynote-cloud-architecture"]
 - 비멱등 셸 스크립트로 "한 번만 성공하는 자동화"를 만드는 것
 - [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구로 네트워크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 애플리케이션 릴리스까지 모든 책임을 섞는 것
 
-기술사 답안에서는 "Ansible이 쉽다" 수준에서 멈추지 말고, **에이전트 유무 → 제어 모델 → 지속 수렴 여부 → 드리프트 통제 → IaC와의 경계** 순서로 설명하면 깊이가 살아난다. 결국 도구 비교는 기능 목록이 아니라 운영 책임 설계의 문제다.
+기술사 답안에서는 "Ansible이 쉽다" 수준에서 멈추지 말고, **에이전트 유무 -> 제어 모델 -> 지속 수렴 여부 -> 드리프트 통제 -> IaC와의 경계** 순서로 설명하면 깊이가 살아난다. 결국 도구 비교는 기능 목록이 아니라 운영 책임 설계의 문제다.
 
 - **📢 섹션 요약 비유**: 학교를 운영할 때 학생 명단을 만드는 일, 교실 규칙을 유지하는 일, 수업 자료를 배포하는 일은 서로 다르다. [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구는 그중 "모든 교실이 같은 규칙을 지키게 하는 생활지도부"에 가깝다.
 
@@ -190,17 +190,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 Manual SSH and shell script
-    │
-    ▼
+    |
+    v
 Configuration management
-    ├─ Ansible: push, agentless, fast adoption
-    ├─ Chef: recipe-driven, reusable logic
-    └─ Puppet: policy-driven, continuous convergence
-    │
-    ▼
+    +- Ansible: push, agentless, fast adoption
+    +- Chef: recipe-driven, reusable logic
+    +- Puppet: policy-driven, continuous convergence
+    |
+    v
 IaC separation + secret management + drift control
-    │
-    ▼
+    |
+    v
 Immutable image / GitOps / policy as code coexistence
 ```
 
@@ -218,7 +218,7 @@ Immutable image / GitOps / policy as code coexistence
 
 **진행 상황**: 172 / 371
 
-← **이전**: [172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/172_declarative_vs_imperative_infrastructure/)
-**다음**: [174. 데브섹옵스 (DevSecOps, Shift-Left Security)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/174_devsecops_shift_left_security/) →
+<- **이전**: [172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/172_declarative_vs_imperative_infrastructure/)
+**다음**: [174. 데브섹옵스 (DevSecOps, Shift-Left Security)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/174_devsecops_shift_left_security/) ->
 
 ---

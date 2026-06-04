@@ -24,11 +24,11 @@ SW 개발보안 진단은 KISA [47개 보안 약점](/knowledge-base/studynote/0
 특히 공공사업이나 대형 구축 사업처럼 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 편차, 보안 이슈가 함께 얽히는 환경에서는 문서 한 장의 적합 여부보다 실행 흔적의 정합성이 더 중요하다. 따라서 SW 개발보안 진단은 단순 점검표가 아니라, 기준·증거·조치가 하나의 폐루프로 돌아가는 통제 구조로 이해해야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Baseline     │──▶│ Evidence     │──▶│ Finding      │
-└──────┬───────┘   └──────────────┘   └──────┬───────┘
-       │                                     │
-       └──────────────▶ Corrective Action ◀──┘
++--------------+   +--------------+   +--------------+
+| Baseline     |--->| Evidence     |--->| Finding      |
++------+-------+   +--------------+   +------+-------+
+       |                                     |
+       +---------------> Corrective Action <---+
 ```
 
 이 그림은 한 번의 판정으로 끝나는 활동이 아니라, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 증거 수집, 시정조치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 연속 흐름임을 보여 준다.
@@ -110,14 +110,14 @@ SW 개발보안 진단을 제대로 적용하면 품질 편차를 앞단에서 �
 
 ```text
 [선행 개념: 기준선 수립]
-    │
-    ▼
+    |
+    v
 [현재 개념: SW 개발보안 진단]
-    │
-    ├──▶ [확장 A: 시큐어 코딩]
-    └──▶ [확장 B: 자동화 점검]
-            │
-            ▼
+    |
+    +---> [확장 A: 시큐어 코딩]
+    +---> [확장 B: 자동화 점검]
+            |
+            v
         [다음 단계: 지속적 개선]
 ```
 
@@ -135,7 +135,7 @@ SW 개발보안 진단을 제대로 적용하면 품질 편차를 앞단에서 �
 
 **진행 상황**: 45 / 530
 
-← **이전**: [감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_audit_quality_management/)
-**다음**: [035. PMO vs 감리 차이점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/) →
+<- **이전**: [감리 품질 관리 (Audit Quality Management)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_audit_quality_management/)
+**다음**: [035. PMO vs 감리 차이점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/035_pmo_vs_audit_difference/) ->
 
 ---

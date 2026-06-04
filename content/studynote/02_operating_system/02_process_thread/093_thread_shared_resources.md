@@ -31,29 +31,29 @@ tags = ["studynote-operating-system"]
 프로세스의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 레이아웃 내에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 오직 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 영역과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 상태만 분리하고, 나머지 모든 영역을 100% 공유한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│               프로세스 내 스레드 간 자원 공유 아키텍처                  │
-├─────────────────────────────────────────────────────────────────────────┤
-│  [ 운영체제가 할당한 단일 프로세스 (Process) 가상 주소 공간 ]             │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────┐            │
-│  │  Code (Text)  : 프로그램 명령어 (읽기 전용, 100% 공유)       │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  Data (BSS/Init): 전역 변수, 정적 변수 (읽기/쓰기 공유)        │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  Heap         : 동적 할당 메모리 공간 (객체 포인터 공유)      │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  [공유 시스템 자원] 열린 파일 목록 (FD Table), 시그널 정보      │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  ↓ (Heap은 아래로 확장)                           (Stack은 ↑) │            │
-│  │                                                         │            │
-│  │ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │            │
-│  │ │  Thread 1    │  │  Thread 2    │  │  Thread 3    │    │            │
-│  │ │   Stack      │  │   Stack      │  │   Stack      │    │            │
-│  │ │  (독립 할당)   │  │  (독립 할당)   │  │  (독립 할당)   │    │            │
-│  │ └──────────────┘  └──────────────┘  └──────────────┘    │            │
-│  └─────────────────────────────────────────────────────────┘            │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|               프로세스 내 스레드 간 자원 공유 아키텍처                  |
++-------------------------------------------------------------------------+
+|  [ 운영체제가 할당한 단일 프로세스 (Process) 가상 주소 공간 ]             |
+|                                                                         |
+|  +---------------------------------------------------------+            |
+|  |  Code (Text)  : 프로그램 명령어 (읽기 전용, 100% 공유)       |            |
+|  +---------------------------------------------------------+            |
+|  |  Data (BSS/Init): 전역 변수, 정적 변수 (읽기/쓰기 공유)        |            |
+|  +---------------------------------------------------------+            |
+|  |  Heap         : 동적 할당 메모리 공간 (객체 포인터 공유)      |            |
+|  +---------------------------------------------------------+            |
+|  |  [공유 시스템 자원] 열린 파일 목록 (FD Table), 시그널 정보      |            |
+|  +---------------------------------------------------------+            |
+|  |  v (Heap은 아래로 확장)                           (Stack은 ^) |            |
+|  |                                                         |            |
+|  | +--------------+  +--------------+  +--------------+    |            |
+|  | |  Thread 1    |  |  Thread 2    |  |  Thread 3    |    |            |
+|  | |   Stack      |  |   Stack      |  |   Stack      |    |            |
+|  | |  (독립 할당)   |  |  (독립 할당)   |  |  (독립 할당)   |    |            |
+|  | +--------------+  +--------------+  +--------------+    |            |
+|  +---------------------------------------------------------+            |
++-------------------------------------------------------------------------+
 ```
 
 코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 영역은 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동일한 명령어를 읽어들이는(Fetch) 바탕이 되며, 전역 변수가 놓인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 영역과 런타임에 객체가 생성되는 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역은 메모리 주소(포인터)만 알면 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)든 즉각 읽고 쓸 수 있다. 또한 프로세스 단위로 [열린 파일 테이블](/knowledge-base/studynote/02_operating_system/09_file_system/521_open_file_table/) ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor Table)을 공유하기 때문에, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1이 연 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2가 권한 없이 곧바로 이어서 쓸 수 있다. 이 구조 덕분에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환 시 무거운 캐시 플러시 (Cache Flush)나 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 교체가 일어나지 않아 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 가능해진다.
@@ -115,17 +115,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 다중 프로세스의 메모리 낭비 및 무거운 IPC 병목
-    │
-    ▼
+    |
+    v
 스레드 (Thread) 등장 · 주소 공간 (Code/Data/Heap) 공유 메커니즘
-    │
-    ▼
+    |
+    v
 경쟁 상태 (Race Condition) 발생 · 결함 격리 실패
-    │
-    ▼
+    |
+    v
 뮤텍스 (Mutex), 세마포어 (Semaphore)를 통한 동기화 제어
-    │
-    ▼
+    |
+    v
 락 프리 (Lock-free) 자료구조 및 TLS (Thread Local Storage) 도입 (현대적 최적화)
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 93 / 800
 
-← **이전**: [92. 스레드 (Thread) - 경량 프로세스 (LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
-**다음**: [94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택](/knowledge-base/studynote/02_operating_system/02_process_thread/094_thread_independent_resources/) →
+<- **이전**: [92. 스레드 (Thread) - 경량 프로세스 (LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
+**다음**: [94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택](/knowledge-base/studynote/02_operating_system/02_process_thread/094_thread_independent_resources/) ->
 
 ---

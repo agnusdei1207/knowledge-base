@@ -40,25 +40,25 @@ tags = ["studynote-cloud-architecture"]
 | DB 변경 스트림 | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Streams, Firestore | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) | 재시도 후 DLQ |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  이벤트 트리거 실행 아키텍처                         │
-│                                                                      │
-│  이벤트 소스               이벤트 버스/큐           Lambda 함수      │
-│                                                                      │
-│  [S3 업로드]  ──push──►  [S3 이벤트 알림]  ──►  [이미지 변환 fn]   │
-│                                                                      │
-│  [HTTP 요청]  ──push──►  [API Gateway]     ──►  [API 처리 fn]      │
-│                                                                      │
-│  [메시지 발행]──push──►  [SQS 큐]          ──►  [메시지 처리 fn]   │
-│                               │ (폴링)           ↑ 배치 처리        │
-│                               └─────────────────►│ (최대 10,000건)  │
-│                                                                      │
-│  [크론 스케줄]──push──►  [EventBridge]     ──►  [배치 집계 fn]     │
-│                                                                      │
-│  [DDB 변경]   ──poll──►  [DDB Streams]     ──►  [CDC 처리 fn]     │
-│                                                   ↓ 실패 시         │
-│                                              [DLQ (SQS)]            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  이벤트 트리거 실행 아키텍처                         |
+|                                                                      |
+|  이벤트 소스               이벤트 버스/큐           Lambda 함수      |
+|                                                                      |
+|  [S3 업로드]  --push--►  [S3 이벤트 알림]  --►  [이미지 변환 fn]   |
+|                                                                      |
+|  [HTTP 요청]  --push--►  [API Gateway]     --►  [API 처리 fn]      |
+|                                                                      |
+|  [메시지 발행]--push--►  [SQS 큐]          --►  [메시지 처리 fn]   |
+|                               | (폴링)           ^ 배치 처리        |
+|                               +-----------------►| (최대 10,000건)  |
+|                                                                      |
+|  [크론 스케줄]--push--►  [EventBridge]     --►  [배치 집계 fn]     |
+|                                                                      |
+|  [DDB 변경]   --poll--►  [DDB Streams]     --►  [CDC 처리 fn]     |
+|                                                   v 실패 시         |
+|                                              [DLQ (SQS)]            |
++----------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 이벤트 소스 매핑은 회사 콜센터 배차 시스템 — 전화(이벤트)가 오면 자동으로 적합한 상담원([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))에게 연결하고, 실패하면 DLQ(메모지)에 남긴다.
@@ -88,13 +88,13 @@ DLQ (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastr
 
 **이벤트 기반 이미지 처리 파이프라인 예시**
 1. 사용자가 S3에 원본 이미지 업로드
-2. S3 ObjectCreated 이벤트 → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
-3. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): 이미지 리사이즈 → 썸네일 S3 저장 → SQS 메시지 발행
-4. SQS → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): DB [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 업데이트
-5. [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Streams → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network) 캐시 무효화
+2. S3 ObjectCreated 이벤트 -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+3. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): 이미지 리사이즈 -> 썸네일 S3 저장 -> SQS 메시지 발행
+4. SQS -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): DB [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 업데이트
+5. [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Streams -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network) 캐시 무효화
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>) 보장 설계</strong>
-- 비동기 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 "최소 1회(At-Least-Once)" 실행 보장 → 중복 호출 가능
+- 비동기 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 "최소 1회(At-Least-Once)" 실행 보장 -> 중복 호출 가능
 - 처리 함수에 이벤트 ID 기반 중복 체크 로직 필수
 - DynamoDB의 ConditionalExpression으로 멱등 처리 구현
 
@@ -129,12 +129,12 @@ DLQ (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastr
 
 ```text
 폴링 (주기적 확인, 비효율)
-    │
-    ▼
+    |
+    v
 이벤트 트리거: S3 · API Gateway · SQS · CloudWatch
-    │
-    ▼
-이벤트 소싱 + CQRS → 이벤트 기반 아키텍처 (EDA)
+    |
+    v
+이벤트 소싱 + CQRS -> 이벤트 기반 아키텍처 (EDA)
 ```
 2. 종소리마다 다른 행동이 연결되어 있어요 — 아침 종([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청), 점심 종([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)), 화재경보(S3 업로드).
 3. 선생님(개발자)은 어떤 종에 어떤 행동을 연결할지 규칙만 만들면, 이후엔 자동으로 돌아가요.
@@ -145,7 +145,7 @@ DLQ (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastr
 
 **진행 상황**: 154 / 371
 
-← **이전**: [154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/154_stateless_serverless_external_storage/)
-**다음**: [156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/156_serverless_vendor_lockin_knative/) →
+<- **이전**: [154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/154_stateless_serverless_external_storage/)
+**다음**: [156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/156_serverless_vendor_lockin_knative/) ->
 
 ---

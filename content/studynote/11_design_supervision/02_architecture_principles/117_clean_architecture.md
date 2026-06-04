@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))는 로버트 마틴(Robert C. Martin)이 2012년 제안한 아키텍처로, 엔티티(Entity)→유스케이스(Use Case)→인터페이스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Interface [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))→프레임워크 계층으로 구성된 동심원 구조에서 의존성이 항상 안쪽([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 향해야 한다는 의존성 규칙(Dependency Rule)을 핵심으로 한다.
+> 1. **본질**: [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))는 로버트 마틴(Robert C. Martin)이 2012년 제안한 아키텍처로, 엔티티(Entity)->유스케이스(Use Case)->인터페이스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Interface [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))->프레임워크 계층으로 구성된 동심원 구조에서 의존성이 항상 안쪽([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 향해야 한다는 의존성 규칙(Dependency Rule)을 핵심으로 한다.
 > 2. **가치**: 비즈니스 규칙이 프레임워크, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), UI에 독립적이므로 어떤 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 바뀌어도 핵심 비즈니스 로직은 변하지 않는다. 이는 시스템의 장기 생존성과 테스트 용이성을 동시에 확보한다.
 > 3. **판단 포인트**: [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)의 가장 흔한 위반은 유스케이스나 엔티티 계층에 Spring 어노테이션이나 JPA 엔티티가 침투하는 것이다. "안쪽 원은 바깥쪽 원을 절대 알면 안 된다"는 단 하나의 규칙이 모든 판단의 기준이다.
 
@@ -24,25 +24,25 @@ tags = ["studynote-design-supervision"]
 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)가 해결하는 핵심 문제는 기술적 선택이 비즈니스 결정에 종속되어야 함에도 현실에서는 종종 반대가 되는 현상이다. 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 프레임워크를 먼저 결정하고 비즈니스 로직을 그 위에 맞추는 방식은 기술이 바뀔 때 비즈니스 로직도 함께 흔들리는 취약한 구조를 만든다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        클린 아키텍처 동심원 구조                             │
-├─────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────┐         │
-│  │  프레임워크·드라이버 (Frameworks & Drivers)     │         │
-│  │  ┌────────────────────────────────────────┐   │         │
-│  │  │  인터페이스 어댑터 (Interface Adapters)  │   │         │
-│  │  │  ┌────────────────────────────────┐    │   │         │
-│  │  │  │  유스케이스 (Use Cases)          │    │   │         │
-│  │  │  │  ┌──────────────────────────┐  │    │   │         │
-│  │  │  │  │    엔티티 (Entities)      │  │    │   │         │
-│  │  │  │  │  (핵심 비즈니스 규칙)     │  │    │   │         │
-│  │  │  │  └──────────────────────────┘  │    │   │         │
-│  │  │  └────────────────────────────────┘    │   │         │
-│  │  └────────────────────────────────────────┘   │         │
-│  └───────────────────────────────────────────────┘         │
-│                                                             │
-│  의존성 방향: 항상 ─────────────────────────────▶ 안쪽     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        클린 아키텍처 동심원 구조                             |
++-------------------------------------------------------------+
+|  +-----------------------------------------------+         |
+|  |  프레임워크·드라이버 (Frameworks & Drivers)     |         |
+|  |  +----------------------------------------+   |         |
+|  |  |  인터페이스 어댑터 (Interface Adapters)  |   |         |
+|  |  |  +--------------------------------+    |   |         |
+|  |  |  |  유스케이스 (Use Cases)          |    |   |         |
+|  |  |  |  +--------------------------+  |    |   |         |
+|  |  |  |  |    엔티티 (Entities)      |  |    |   |         |
+|  |  |  |  |  (핵심 비즈니스 규칙)     |  |    |   |         |
+|  |  |  |  +--------------------------+  |    |   |         |
+|  |  |  +--------------------------------+    |   |         |
+|  |  +----------------------------------------+   |         |
+|  +-----------------------------------------------+         |
+|                                                             |
+|  의존성 방향: 항상 ------------------------------> 안쪽     |
++-------------------------------------------------------------+
 ```
 
 의존성 규칙(Dependency Rule)은 "소스 코드 의존성은 항상 안쪽 원을 향해야 하며, 안쪽 원은 바깥쪽 원의 어떤 것도 알면 안 된다"는 단 하나의 규칙이다. 이 규칙 하나가 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) 전체를 정의한다.
@@ -63,20 +63,20 @@ tags = ["studynote-design-supervision"]
 | 프레임워크·드라이버 | 웹, DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연동 / 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 변경 | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│     경계를 넘는 데이터 흐름: DTO로 계층 격리                │
-├─────────────────────────────────────────────────────────────┤
-│  [Web Controller]                                           │
-│       │ HTTP 요청 → Request DTO                             │
-│       ▼                                                     │
-│  [Use Case Interactor] ← Input Port interface               │
-│       │ Domain Entity 사용                                  │
-│       ▼                                                     │
-│  [Output Port interface] → Presenter/Repository 어댑터       │
-│       │ Response DTO                                        │
-│       ▼                                                     │
-│  [Presenter/View]                                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|     경계를 넘는 데이터 흐름: DTO로 계층 격리                |
++-------------------------------------------------------------+
+|  [Web Controller]                                           |
+|       | HTTP 요청 -> Request DTO                             |
+|       v                                                     |
+|  [Use Case Interactor] <- Input Port interface               |
+|       | Domain Entity 사용                                  |
+|       v                                                     |
+|  [Output Port interface] -> Presenter/Repository 어댑터       |
+|       | Response DTO                                        |
+|       v                                                     |
+|  [Presenter/View]                                           |
++-------------------------------------------------------------+
 ```
 
 계층 경계를 넘을 때는 반드시 DTO ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 객체)를 사용한다. 엔티티 객체가 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층으로 그대로 전달되면 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 구조가 외부에 노출되어 결합이 발생한다.
@@ -131,7 +131,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[의존성 역전] → [클린 아키텍처] → [유스케이스 중심 설계] → DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델] → MSA 내부 구조]
+[의존성 역전] -> [클린 아키텍처] -> [유스케이스 중심 설계] -> DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델] -> MSA 내부 구조]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -142,7 +142,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[기술 의존 비즈니스 로직 문제] → [클린 아키텍처 제안(마틴)] → [의존성 규칙·동심원 구조] → [DDD와 결합] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 표준 구조] → [아키텍처 피트니스 함수 자동 검증]
+[기술 의존 비즈니스 로직 문제] -> [클린 아키텍처 제안(마틴)] -> [의존성 규칙·동심원 구조] -> [DDD와 결합] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 표준 구조] -> [아키텍처 피트니스 함수 자동 검증]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -156,7 +156,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 173 / 530
 
-← **이전**: [116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/116_hexagonal_architecture_ports_and_adapters/)
-**다음**: [118. 어니언 아키텍처 (Onion Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/118_onion_architecture/) →
+<- **이전**: [116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/116_hexagonal_architecture_ports_and_adapters/)
+**다음**: [118. 어니언 아키텍처 (Onion Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/118_onion_architecture/) ->
 
 ---

@@ -92,11 +92,11 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 State Diagram
-  ↓
+  v
 State Table
-  ↓
+  v
 Logic Synthesis
-  ↓
+  v
 Sequential Circuit
 ```
 
@@ -106,11 +106,11 @@ Sequential Circuit
 
 ```text
 상태도
-  ↓
+  v
 상태표
-  ↓
+  v
 상태 머신
-  ↓
+  v
 순차 회로
 ```
 
@@ -128,7 +128,7 @@ Sequential Circuit
 
 **진행 상황**: 66 / 803
 
-← **이전**: [65. 상태도 (State Diagram)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)
-**다음**: [67. 무어 머신 (Moore Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/) →
+<- **이전**: [65. 상태도 (State Diagram)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)
+**다음**: [67. 무어 머신 (Moore Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/) ->
 
 ---

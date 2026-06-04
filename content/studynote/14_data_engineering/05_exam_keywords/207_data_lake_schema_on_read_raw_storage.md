@@ -40,38 +40,38 @@ tags = ["studynote-data-engineering"]
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 계층 구조
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   데이터 레이크 아키텍처                  │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌──────────┐  │
-│  │ 정형    │  │ 반구조화 │  │비구조화 │  │스트리밍  │  │
-│  │ CSV/DB  │  │JSON/XML │  │이미지/  │  │ 이벤트   │  │
-│  │         │  │         │  │동영상   │  │ 로그     │  │
-│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬─────┘  │
-│       │            │             │              │        │
-│       └────────────┴─────────────┴──────────────┘        │
-│                            │                             │
-│                   ┌────────▼────────┐                   │
-│                   │   수집 계층      │                   │
-│                   │ (Ingest Layer)  │                   │
-│                   └────────┬────────┘                   │
-│                            │                             │
-│  ┌─────────────────────────▼─────────────────────────┐  │
-│  │              저장 계층 (Storage Layer)             │  │
-│  │   Raw Zone  │  Curated Zone  │  Consumption Zone  │  │
-│  │ (원본 보존)  │ (클렌징·변환)   │  (분석 서빙)       │  │
-│  └─────────────────────────┬─────────────────────────┘  │
-│                            │                             │
-│  ┌─────────────────────────▼─────────────────────────┐  │
-│  │              처리 계층 (Processing Layer)          │  │
-│  │   Spark  │  Hive  │  Presto  │  Flink  │  Athena  │  │
-│  └─────────────────────────┬─────────────────────────┘  │
-│                            │                             │
-│  ┌─────────────────────────▼─────────────────────────┐  │
-│  │           분석/소비 계층 (Analytics Layer)         │  │
-│  │  BI 도구  │  ML 파이프라인  │  Ad-hoc 쿼리         │  │
-│  └───────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                   데이터 레이크 아키텍처                  |
++---------------------------------------------------------+
+|  +---------+  +---------+  +---------+  +----------+  |
+|  | 정형    |  | 반구조화 |  |비구조화 |  |스트리밍  |  |
+|  | CSV/DB  |  |JSON/XML |  |이미지/  |  | 이벤트   |  |
+|  |         |  |         |  |동영상   |  | 로그     |  |
+|  +----+----+  +----+----+  +----+----+  +----+-----+  |
+|       |            |             |              |        |
+|       +------------+-------------+--------------+        |
+|                            |                             |
+|                   +--------v--------+                   |
+|                   |   수집 계층      |                   |
+|                   | (Ingest Layer)  |                   |
+|                   +--------+--------+                   |
+|                            |                             |
+|  +-------------------------v-------------------------+  |
+|  |              저장 계층 (Storage Layer)             |  |
+|  |   Raw Zone  |  Curated Zone  |  Consumption Zone  |  |
+|  | (원본 보존)  | (클렌징·변환)   |  (분석 서빙)       |  |
+|  +-------------------------+-------------------------+  |
+|                            |                             |
+|  +-------------------------v-------------------------+  |
+|  |              처리 계층 (Processing Layer)          |  |
+|  |   Spark  |  Hive  |  Presto  |  Flink  |  Athena  |  |
+|  +-------------------------+-------------------------+  |
+|                            |                             |
+|  +-------------------------v-------------------------+  |
+|  |           분석/소비 계층 (Analytics Layer)         |  |
+|  |  BI 도구  |  ML 파이프라인  |  Ad-hoc 쿼리         |  |
+|  +---------------------------------------------------+  |
++---------------------------------------------------------+
 ```
 
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 핵심 특성 비교
@@ -103,7 +103,7 @@ tags = ["studynote-data-engineering"]
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a>)</strong>
 - [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에서 채택
-- 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 → 읽기 시 Spark/Hive에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의
+- 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 -> 읽기 시 Spark/Hive에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의
 - 유연성 극대화, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution) 지원
 - [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 변환 비용 발생, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 어려움
 
@@ -115,7 +115,7 @@ tags = ["studynote-data-engineering"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 저하 | [데이터 프로파일링](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/267_data_profiling/)·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 파이프라인 |
 | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과다 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 추적 |
 | [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 부재 | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 구현 |
-| 수명 주기 관리 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 티어링(Hot→Warm→Cold) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| 수명 주기 관리 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 티어링(Hot->Warm->Cold) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프는 <strong>색인 없는 창고</strong>다. 물건을 많이 쌓을수록 찾기가 더 어려워진다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 거버넌스는 창고의 라벨링 시스템이다.
 
@@ -125,23 +125,23 @@ tags = ["studynote-data-engineering"]
 
 ### 클라우드 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 구현 패턴
 
-**AWS 패턴**: S3 → Glue Crawler([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자동 추출) → Athena([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)) → QuickSight([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))
+**AWS 패턴**: S3 -> Glue Crawler([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자동 추출) -> Athena([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)) -> QuickSight([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))
 
-**Azure 패턴**: ADLS Gen2 → Azure Purview(거버넌스) → Synapse Analytics(통합 분석) → [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)
+**Azure 패턴**: ADLS Gen2 -> Azure Purview(거버넌스) -> Synapse Analytics(통합 분석) -> [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)
 
-**구글 패턴**: Cloud Storage → Dataflow(스트리밍 처리) → [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) → [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/)
+**구글 패턴**: Cloud Storage -> Dataflow(스트리밍 처리) -> [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) -> [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/)
 
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 존(Zone) 설계
 
 ```
-Raw Zone        → Curated Zone   → Consumption Zone
+Raw Zone        -> Curated Zone   -> Consumption Zone
 (원본 보존)       (표준화·클렌징)   (목적별 뷰)
 변경 불가         품질 검증 완료    BI·ML 최적화
 ```
 
 ### 기술사 판단 포인트
 
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a></strong>: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지원 부재 → [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg로 보완
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a></strong>: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지원 부재 -> [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg로 보완
 2. **거버넌스 프레임워크**: DAMA-DMBOK 기준 [데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/)([Data Stewardship](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/)) 역할 정의
 3. **비용 최적화**: 지능형 스토리지 계층화(Intelligent Tiering)로 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) 비용 절감
 
@@ -164,7 +164,7 @@ Raw Zone        → Curated Zone   → Consumption Zone
 
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 빅데이터 시대의 <strong>중앙 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장소</strong>로서 유연성과 확장성에서 탁월하다. 그러나 "일단 저장하고 나중에 생각하자"는 접근은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프로 이어진다. 성공적인 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 기술적 구현과 함께 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>, <a href="/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/">메타데이터 관리</a>, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/">접근 통제</a></strong>를 처음부터 내재화해야 한다. 현대에는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)([Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)) 패턴으로 진화하여 웨어하우스의 신뢰성과 레이크의 유연성을 결합하는 방향으로 발전 중이다.
 
-📢 **섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 진화는 <strong>야영지 → 마을 → 도시</strong>와 같다. 처음엔 자유롭게 텐트를 치지만, 결국 도시 계획(거버넌스)이 필요해진다.
+📢 **섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 진화는 <strong>야영지 -> 마을 -> 도시</strong>와 같다. 처음엔 자유롭게 텐트를 치지만, 결국 도시 계획(거버넌스)이 필요해진다.
 
 ---
 
@@ -188,14 +188,14 @@ Raw Zone        → Curated Zone   → Consumption Zone
 
 ```text
 파일 서버 · RDBMS (구조화 데이터만)
-    │
-    ▼
+    |
+    v
 Data Lake: Schema-on-Read · 원시 데이터 저장 (S3 · HDFS)
-    │ 데이터 늪 (Data Swamp) 위험
-    ▼
+    | 데이터 늪 (Data Swamp) 위험
+    v
 Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
-    │
-    ▼
+    |
+    v
 Data Mesh: 도메인별 분산 소유권 + 자기 서빙 인프라
 ```
 2. 놀고 싶을 때 방에 들어가서 "오늘은 레고만 꺼낼래"하고 그때 골라 쓰는 거야. 미리 정리 안 해도 돼.
@@ -207,7 +207,7 @@ Data Mesh: 도메인별 분산 소유권 + 자기 서빙 인프라
 
 **진행 상황**: 207 / 258
 
-← **이전**: [206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)
-**다음**: [208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/) →
+<- **이전**: [206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)
+**다음**: [208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/) ->
 
 ---

@@ -29,13 +29,13 @@ tags = ["security"]
 
 ```text
 [기존 구조: 단일 장애점(SPOF) 존재]
-User ──> (라우터) ──> (웹 서버) ──> [DB 서버(장애발생!)] ──> 전체 서비스 마비 (가용성 0%)
-                                        ▲ 병목 및 파괴 지점
+User --> (라우터) --> (웹 서버) --> [DB 서버(장애발생!)] --> 전체 서비스 마비 (가용성 0%)
+                                        ^ 병목 및 파괴 지점
 
 [가용성 확보 구조: 다중화(Redundancy) 및 부하 분산]
-               ┌─> (웹 서버 A) ─┐      ┌─> (DB Primary)
-User ──> [L4 LB]                ├─[HA]─┤
-               └─> (웹 서버 B) ─┘      └─> (DB Replica) (자동 Failover 전환)
+               +-> (웹 서버 A) -+      +-> (DB Primary)
+User --> [L4 LB]                +-[HA]-+
+               +-> (웹 서버 B) -+      +-> (DB Replica) (자동 Failover 전환)
 ```
 
 이 그림의 핵심은 장애를 원천적으로 100% 막는 것은 물리적으로 불가능하므로, 시스템 구조 내에 존재하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure)을 식별하고 대체 자원(Redundancy)을 배치하여 우회 경로를 만들어야 한다는 점이다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나가 고장나면 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동작하고, 메인 DB가 멈추면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB가 즉각 승격([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))되어 사용자는 장애를 전혀 인지하지 못하게 만드는 것이 고가용성(HA) 설계의 핵심이다.
@@ -60,18 +60,18 @@ User ──> [L4 LB]                ├─[HA]─┤
 
 ```text
 [Botnet] (100Gbps 정크 트래픽) =====>       (임계치 초과 알람)
-[정상 User] (10Mbps 정상 요청) ────>  [Edge 라우터 / BGP]
-                                             │
-   ┌─────────────────────────────────────────┘ (BGP 라우팅 우회 선언)
-   │
-   ▼
+[정상 User] (10Mbps 정상 요청) ---->  [Edge 라우터 / BGP]
+                                             |
+   +-----------------------------------------+ (BGP 라우팅 우회 선언)
+   |
+   v
 [Scrubbing Center (DDoS 방어 센터)]
-   ├─ 1. 패킷 사이즈/Rate 검사 ────> (UDP Flood, ICMP 드랍)
-   ├─ 2. 프로토콜 검사 ────────────> (SYN Flood 방어 - SYN Cookie 적용)
-   ├─ 3. L7 행위 검사 ─────────────> (HTTP Slowloris 차단)
-   │
-   ▼
-[정상 User 트래픽만 생존] ───────> [기업 Web Server] (가용성 유지 완료)
+   +- 1. 패킷 사이즈/Rate 검사 ----> (UDP Flood, ICMP 드랍)
+   +- 2. 프로토콜 검사 ------------> (SYN Flood 방어 - SYN Cookie 적용)
+   +- 3. L7 행위 검사 -------------> (HTTP Slowloris 차단)
+   |
+   v
+[정상 User 트래픽만 생존] -------> [기업 Web Server] (가용성 유지 완료)
 ```
 
 이 흐름의 핵심은 기업 내부의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 대역폭만으로는 수백 기가비트에 달하는 현대의 DDoS 공격을 버틸 수 없다는 점이다. 회선 자체가 가득 차버리는([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) Saturation) 상황에서는 서버 단의 방어 로직이 의미가 없다. 따라서 실무에서는 공격 트래픽을 아예 기업망 외부의 대규모 글로벌 클라우드([스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)나 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 라우팅을 우회시켜, 그곳에서 오물을 걸러낸 뒤 맑은 물(정상 트래픽)만 파이프로 들여보내는 아웃오브밴드(Out-of-band) 방어 구조를 필수적으로 채택한다.
@@ -87,16 +87,16 @@ User ──> [L4 LB]                ├─[HA]─┤
 <strong>1. <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 아키텍처 모드 비교 매트릭스</strong>
 
 ```text
-┌────────────┬─────────────────────────────┬─────────────┬───────────────┐
-│ 구성 방식  │ 동작 특징 및 원리           │ 장점 / 단점 │ 실무 적용 판단│
-├────────────┼─────────────────────────────┼─────────────┼───────────────┤
-│ Active-    │ 메인 시스템만 처리, 예비는  │ 구성이 단순 / │ 데이터베이스, │
-│ Standby    │ 대기 상태. 장애 시 Failover │ 자원 50% 낭비 │ 상태 저장 세션│
-├────────────┼─────────────────────────────┼─────────────┼───────────────┤
-│ Active-    │ 모든 노드가 동시 트래픽 처리│ 리소스 100% │ 무상태(Stateless)
-│ Active     │ 로드밸런서로 부하 완벽 분산 │ 활용 / DB 등  │ 웹 서버, API  │
-│            │                             │ 동기화 복잡함 │ 게이트웨이    │
-└────────────┴─────────────────────────────┴─────────────┴───────────────┘
++------------+-----------------------------+-------------+---------------+
+| 구성 방식  | 동작 특징 및 원리           | 장점 / 단점 | 실무 적용 판단|
++------------+-----------------------------+-------------+---------------+
+| Active-    | 메인 시스템만 처리, 예비는  | 구성이 단순 / | 데이터베이스, |
+| Standby    | 대기 상태. 장애 시 Failover | 자원 50% 낭비 | 상태 저장 세션|
++------------+-----------------------------+-------------+---------------+
+| Active-    | 모든 노드가 동시 트래픽 처리| 리소스 100% | 무상태(Stateless)
+| Active     | 로드밸런서로 부하 완벽 분산 | 활용 / DB 등  | 웹 서버, API  |
+|            |                             | 동기화 복잡함 | 게이트웨이    |
++------------+-----------------------------+-------------+---------------+
 ```
 
 이 매트릭스의 핵심은 Active-Active 구성이 무조건 좋은 것은 아니라는 점이다. 상태가 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 웹 서버는 Active-Active로 쉽게 늘릴 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 Active-Active로 구성하면 양쪽에서 동시 쓰기가 발생할 때 심각한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 충돌([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해)과 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합 오버헤드를 유발한다. 따라서 실무에서는 프론트엔드는 Active-Active로, 백엔드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 Active-Standby 구조로 혼용하여 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 밸런스를 맞춘다.
@@ -124,11 +124,11 @@ User ──> [L4 LB]                ├─[HA]─┤
 
 ```text
          (정상 응답률 하락 감지)
-[CLOSED] ───────────────────────> [OPEN] (요청 즉시 차단, Fallback 응답)
-(정상 통신)                         │
-   ▲                               │ (일정 시간(Timeout) 대기)
-   │                               ▼
-   └──────── (테스트 패킷 성공) ── [HALF-OPEN] (소량의 테스트 요청만 허용)
+[CLOSED] -----------------------> [OPEN] (요청 즉시 차단, Fallback 응답)
+(정상 통신)                         |
+   ^                               | (일정 시간(Timeout) 대기)
+   |                               v
+   +-------- (테스트 패킷 성공) -- [HALF-OPEN] (소량의 테스트 요청만 허용)
 ```
 
 이 상태 전이도의 핵심은 "망가진 서버에 계속 채찍질을 하면 완전히 죽어버린다"는 엔지니어링 원리다. 장애가 난 백엔드 서버가 스스로 회복할 시간을 주기 위해 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 애플리케이션 프록시가 알아서 트래픽을 차단(OPEN)해주는 것이 역설적으로 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 살리는 길이다. 실무에서는 이러한 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 체계 설계 유무가 초급 아키텍처와 고급 아키텍처를 가르는 기준이 된다.
@@ -164,17 +164,17 @@ User ──> [L4 LB]                ├─[HA]─┤
 
 ```text
 [SPOF (Single Point of Failure)]
-    │
-    ▼
+    |
+    v
 [서킷 브레이커 (Circuit Breaker)]
-    │
-    ▼
+    |
+    v
 [DDoS (Distributed Denial of Service)]
-    │
-    ▼
+    |
+    v
 [재해 복구 (Disaster Recovery)]
-    │
-    ▼
+    |
+    v
 [CDN (Content Delivery Network)]
 ```
 
@@ -191,7 +191,7 @@ User ──> [L4 LB]                ├─[HA]─┤
 
 **진행 상황**: 4 / 1108
 
-← **이전**: [3. 무결성 (Integrity) — 해시, 전자서명, MAC, HMAC, 체크섬](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)
-**다음**: [5. 인증성 (Authenticity) — 신원 확인, PKI, 디지털 서명, 메시지 인증](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) →
+<- **이전**: [3. 무결성 (Integrity) — 해시, 전자서명, MAC, HMAC, 체크섬](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)
+**다음**: [5. 인증성 (Authenticity) — 신원 확인, PKI, 디지털 서명, 메시지 인증](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) ->
 
 ---

@@ -47,21 +47,21 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 감각별 채널이 어떻게 서로 다른 시간 요구를 가지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Tele-haptics + digital olfaction pipeline                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Operator hand                                                     │
-│   │                                                               │
-│   ├─ position / force intent ─▶ Edge controller ─▶ Remote robot   │
-│   │          (sub-ms local capture)        (local servo loop)     │
-│   │                                                               │
-│   └◀─ force / vibration feedback ◀──────────── sensors ◀──────────┘
-│        target: kinesthetic loop often needs sub-10ms RTT          │
-│                                                                    │
-│ Remote smell sensor ─▶ recipe encoding ─▶ scent renderer           │
-│                              │                                     │
-│                              └─ slower side channel, timestamp sync│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Tele-haptics + digital olfaction pipeline                         |
++--------------------------------------------------------------------+
+| Operator hand                                                     |
+|   |                                                               |
+|   +- position / force intent --> Edge controller --> Remote robot   |
+|   |          (sub-ms local capture)        (local servo loop)     |
+|   |                                                               |
+|   +<-- force / vibration feedback <------------- sensors <-----------+
+|        target: kinesthetic loop often needs sub-10ms RTT          |
+|                                                                    |
+| Remote smell sensor --> recipe encoding --> scent renderer           |
+|                              |                                     |
+|                              +- slower side channel, timestamp sync|
++--------------------------------------------------------------------+
 ```
 
 광역망에서는 빛의 속도 한계 때문에 전 세계 어디서나 1ms 왕복을 보장할 수 없다. 그래서 실제 설계는 "원격 로봇 근처에서 국소 제어 루프를 닫고, 사용자에게는 엣지에서 안정화된 피드백을 제공하는 구조"로 간다. 여기에 시간 영역 패시비티 (Time-domain Passivity) 나 예측 보상, 가상 스프링/댐퍼 모델을 더해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겨도 손의 감각이 폭주하지 않도록 만든다.
@@ -146,22 +146,22 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 Hand / device intent capture
-        │
-        ▼
+        |
+        v
 Position-force packetization + timestamp
-        │
-        ├──────────────► URLLC + edge control path
-        │                     │
-        │                     ▼
-        │               remote actuation + force feedback
-        │
-        └──────────────► olfactory recipe channel
-                              │
-                              ▼
+        |
+        +--------------► URLLC + edge control path
+        |                     |
+        |                     v
+        |               remote actuation + force feedback
+        |
+        +--------------► olfactory recipe channel
+                              |
+                              v
                     scent rendering + multimodal sync
 ```
 
-이 흐름도는 "사용자 의도 캡처 → 촉각 제어 루프 → 후각 부가 채널 → 최종 감각 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"라는 텔레햅틱 시스템의 이중 경로를 보여 준다.
+이 흐름도는 "사용자 의도 캡처 -> 촉각 제어 루프 -> 후각 부가 채널 -> 최종 감각 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"라는 텔레햅틱 시스템의 이중 경로를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ Position-force packetization + timestamp
 
 **진행 상황**: 178 / 552
 
-← **이전**: [177. HMD (Head Mounted Display) 시선 추적(Eye Tracking), 포비티드 렌더링 (Foveated Rendering](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/177_hmd_eye_tracking_foveated_rendering/)
-**다음**: [179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/179_bci_brain_computer_interface/) →
+<- **이전**: [177. HMD (Head Mounted Display) 시선 추적(Eye Tracking), 포비티드 렌더링 (Foveated Rendering](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/177_hmd_eye_tracking_foveated_rendering/)
+**다음**: [179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/179_bci_brain_computer_interface/) ->
 
 ---

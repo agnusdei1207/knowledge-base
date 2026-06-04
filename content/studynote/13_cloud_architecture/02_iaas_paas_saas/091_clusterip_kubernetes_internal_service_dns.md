@@ -39,23 +39,23 @@ ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 | **Kube-proxy** | 노드 레벨에서 트래픽을 가로채어 엔드포인트에 등록된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin) 방식으로 패킷을 전달한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ClusterIP를 통한 파드 간 통신 흐름도              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Frontend Pod]                                              │
-│         │ 1. HTTP GET http://backend-svc                     │
-│         ▼                                                    │
-│  [CoreDNS] ─▶ 2. DNS 질의: backend-svc -> 10.96.0.10 반환    │
-│         │                                                    │
-│         ▼ 3. 트래픽 전송 (Dest: 10.96.0.10)                  │
-│  [Kube-proxy (iptables/IPVS)] ◀─ 4. 규칙 매칭 및 로드밸런싱 │
-│         │                                                    │
-│         ├───────────────┬───────────────┐                    │
-│         ▼               ▼               ▼ 5. 파드로 전달     │
-│    [Backend 1]     [Backend 2]     [Backend 3]               │
-│    (10.1.1.2)      (10.1.1.5)      (10.1.1.9)                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ClusterIP를 통한 파드 간 통신 흐름도              |
++--------------------------------------------------------------+
+|                                                              |
+|  [Frontend Pod]                                              |
+|         | 1. HTTP GET http://backend-svc                     |
+|         v                                                    |
+|  [CoreDNS] --> 2. DNS 질의: backend-svc -> 10.96.0.10 반환    |
+|         |                                                    |
+|         v 3. 트래픽 전송 (Dest: 10.96.0.10)                  |
+|  [Kube-proxy (iptables/IPVS)] <-- 4. 규칙 매칭 및 로드밸런싱 |
+|         |                                                    |
+|         +---------------+---------------+                    |
+|         v               v               v 5. 파드로 전달     |
+|    [Backend 1]     [Backend 2]     [Backend 3]               |
+|    (10.1.1.2)      (10.1.1.5)      (10.1.1.9)                |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 트래픽은 실제로는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 노드의 네트워크 스택을 거쳐 대상 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 바로 라우팅된다. ClusterIP라는 물리적 장비가 존재하는 것이 아니라, 각 노드의 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 규칙에 의해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 라우팅이 성립하는 것이다.
@@ -120,17 +120,17 @@ ClusterIP를 적극적으로 활용하면 [MSA](/knowledge-base/studynote/01_com
 
 ```text
 파드 IP 변경에 따른 통신 단절 문제
-    │
-    ▼
+    |
+    v
 ClusterIP (내부용 가상 IP 및 로드밸런싱)
-    │
-    ▼
+    |
+    v
 CoreDNS 연동 (FQDN을 통한 이름 기반 서비스 디스커버리)
-    │
-    ▼
+    |
+    v
 NodePort / LoadBalancer (클러스터 외부 트래픽 유입으로 확장)
-    │
-    ▼
+    |
+    v
 Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)
 ```
 
@@ -146,7 +146,7 @@ Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)
 
 **진행 상황**: 90 / 371
 
-← **이전**: [90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
-**다음**: [92. NodePort - 워커 노드의 특정 물리 포트 외부 노출](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/092_nodeport_kubernetes_service_external_access/) →
+<- **이전**: [90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
+**다음**: [92. NodePort - 워커 노드의 특정 물리 포트 외부 노출](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/092_nodeport_kubernetes_service_external_access/) ->
 
 ---

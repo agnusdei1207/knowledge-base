@@ -21,23 +21,23 @@ tags = ["studynote-dataengineering"]
 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원 이미지 공간에서 랜덤 픽셀을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 99.99%가 의미 없는 노이즈다. 의미 있는 "얼굴 사진"은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원 중 극히 작은 부분(~100차원 매니폴드)에 모여있다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    매니폴드 가설 직관적 이해                            │
-├───────────────────────────────────────────────────────┤
-│  [3D 공간의 2D 매니폴드]                              │
-│                                                       │
-│   3D 좌표(x,y,z)로 표현된 데이터가                    │
-│   실제로는 곡면(2D 매니폴드) 위에만 분포              │
-│                                                       │
-│   ╭──────╮                                            │
-│   │ ○ ○  │  ← 데이터 점들이 곡면 위에 밀집            │
-│   │○  ○ ○│                                            │
-│   ╰──────╯                                            │
-│                                                       │
-│   본질적 차원 (Intrinsic Dimension) = 2               │
-│   외형적 차원 (Ambient Dimension) = 3                 │
-│   → 3D 데이터를 2D로 축소해도 정보 손실 최소!        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    매니폴드 가설 직관적 이해                            |
++-------------------------------------------------------+
+|  [3D 공간의 2D 매니폴드]                              |
+|                                                       |
+|   3D 좌표(x,y,z)로 표현된 데이터가                    |
+|   실제로는 곡면(2D 매니폴드) 위에만 분포              |
+|                                                       |
+|   +------+                                            |
+|   | ○ ○  |  <- 데이터 점들이 곡면 위에 밀집            |
+|   |○  ○ ○|                                            |
+|   +------+                                            |
+|                                                       |
+|   본질적 차원 (Intrinsic Dimension) = 2               |
+|   외형적 차원 (Ambient Dimension) = 3                 |
+|   -> 3D 데이터를 2D로 축소해도 정보 손실 최소!        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 지구 표면은 3D 공간에 있지만 사실상 2D 곡면(매니폴드)이다. 위도·경도 2개만으로 지구 위 모든 위치를 표현할 수 있다.
@@ -57,7 +57,7 @@ tags = ["studynote-dataengineering"]
 
 ### 차원의 저주 vs 매니폴드 가설
 
-차원의 저주: 차원이 높을수록 데이터가 희박해져 학습이 어려움. 매니폴드 가설: 실제 데이터는 저차원에 밀집 → 축소하면 학습이 쉬워짐.
+차원의 저주: 차원이 높을수록 데이터가 희박해져 학습이 어려움. 매니폴드 가설: 실제 데이터는 저차원에 밀집 -> 축소하면 학습이 쉬워짐.
 
 - **📢 섹션 요약 비유**: 차원의 저주는 "도서관(100만 권)에서 책 1권 찾기"이고, 매니폴드 가설은 "실제로 읽히는 책은 한 서가에만 있다"는 발견이다.
 
@@ -76,8 +76,8 @@ tags = ["studynote-dataengineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 활용 시나리오
-1. <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>: t-SNE/UMAP으로 고차원 임베딩을 2D로 투영 → 클러스터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-2. **전처리**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)/Autoencoder로 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 후 ML 학습 → 과적합 방지, 속도 향상.
+1. <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>: t-SNE/UMAP으로 고차원 임베딩을 2D로 투영 -> 클러스터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+2. **전처리**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)/Autoencoder로 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 후 ML 학습 -> 과적합 방지, 속도 향상.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 모델</strong>: [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))가 매니폴드의 잠재 공간(Latent Space)에서 새 데이터를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 
 ---
@@ -102,17 +102,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [PCA (Pearson, 1901) — 선형 차원 축소]
-    │
-    ▼
+    |
+    v
 [매니폴드 가설 (2000s) — 고차원 데이터의 저차원 구조 가정]
-    │
-    ▼
+    |
+    v
 [t-SNE (2008) — 비선형 시각화]
-    │
-    ▼
+    |
+    v
 [Autoencoder / VAE (2013~) — 딥러닝 매니폴드 학습]
-    │
-    ▼
+    |
+    v
 [현재: Diffusion Model — 잠재 공간에서 고품질 생성]
 ```
 
@@ -127,7 +127,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 113 / 258
 
-← **이전**: [112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량](/knowledge-base/studynote/14_data_engineering/02_math_mining/112_robust_statistics_median_trimmed_mean/)
-**다음**: [114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/) →
+<- **이전**: [112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량](/knowledge-base/studynote/14_data_engineering/02_math_mining/112_robust_statistics_median_trimmed_mean/)
+**다음**: [114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/) ->
 
 ---

@@ -29,7 +29,7 @@ tags = ["studynote-algorithm"]
 d_H(u, v) = 해밍 무게(u XOR v)
 
 예: u = 1011, v = 1100
-    u XOR v = 0111 → d_H = 3
+    u XOR v = 0111 -> d_H = 3
 ```
 
 <strong>최소 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> d_min</strong>:
@@ -55,7 +55,7 @@ d_H(u, v) = 해밍 무게(u XOR v)
   p₂ = d₁ XOR d₃ XOR d₄  (위치 2, 3, 6, 7)
   p₃ = d₂ XOR d₃ XOR d₄  (위치 4, 5, 6, 7)
 
-시드롬 = p₃p₂p₁ (3비트) → 오류 위치 직접 지시 (1~7)
+시드롬 = p₃p₂p₁ (3비트) -> 오류 위치 직접 지시 (1~7)
 ```
 
 | d_min | 특성 | 예 |
@@ -68,23 +68,23 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 ```
 선형 블록 코드 (Linear Block Code)
-    ├── 체계적 코드 (Systematic Code)
-    │    ├── 해밍 코드 (Hamming Code)
-    │    ├── BCH 코드 (Bose-Chaudhuri-Hocquenghem)
-    │    └── Reed-Solomon (RS) 코드
-    │
-    └── 비체계적 코드
-         └── 저밀도 패리티 검사 (LDPC)
+    +-- 체계적 코드 (Systematic Code)
+    |    +-- 해밍 코드 (Hamming Code)
+    |    +-- BCH 코드 (Bose-Chaudhuri-Hocquenghem)
+    |    +-- Reed-Solomon (RS) 코드
+    |
+    +-- 비체계적 코드
+         +-- 저밀도 패리티 검사 (LDPC)
 
 합성곱 코드 (Convolutional Code)
-    └── 비터비 (Viterbi) 디코딩 → 터보 코드의 구성 요소
+    +-- 비터비 (Viterbi) 디코딩 -> 터보 코드의 구성 요소
 ```
 
 ### Reed-Solomon (RS) 코드 — 버스트 오류 강함
 
 - 심볼([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 단위 코드 — [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류보다 심볼 오류 정정
 - RS(255, 223): 32심볼까지 오류 정정 가능 (버스트 오류에 강함)
-- CD/DVD: RS + 인터리빙 → 스크래치 같은 연속 오류 극복
+- CD/DVD: RS + 인터리빙 -> 스크래치 같은 연속 오류 극복
 - QR 코드: 네 가지 오류 정정 레벨 (L/M/Q/H)
 
 📢 **섹션 요약 비유**: Reed-Solomon 코드는 "낱말 단위 맞춤법 교정기"다 — 알파벳([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))이 아닌 단어(심볼) 단위로 오류를 처리하므로 연속 오류(긁힌 CD)에 더 강하다.
@@ -126,9 +126,9 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 ```
 64비트 데이터 + 8비트 ECC 비트 = 72비트 DIMM
-→ 1비트 정정 + 2비트 검출
-→ 단일 비트 오류: 자동 정정 (시스템 계속 동작)
-→ 2비트 오류: 검출 후 패닉 (데이터 변조 방지)
+-> 1비트 정정 + 2비트 검출
+-> 단일 비트 오류: 자동 정정 (시스템 계속 동작)
+-> 2비트 오류: 검출 후 패닉 (데이터 변조 방지)
 ```
 
 ### [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 요구사항
@@ -138,15 +138,15 @@ d_H(u, v) = 해밍 무게(u XOR v)
 | [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) (1비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁶ | BCH t=4 |
 | MLC (2비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁴ | BCH t=24 |
 | TLC (3비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻³ | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 필수 |
-| QLC (4비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻² | 강력한 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) |
+| QLC (4비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻^ | 강력한 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) |
 
 TLC/QLC는 셀당 오류율이 높아 LDPC가 필수 — BCH로는 부족.
 
 ### 기술사 판단 포인트
 
-1. <strong>"메모리 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 코드는?"</strong> → 해밍 기반 SECDED (64+8=72비트)
-2. <strong>"CD 표면 긁혔을 때 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복원 코드는?"</strong> → Reed-Solomon + 인터리빙
-3. <strong>"5G에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/제어 채널 부호가 다른 이유는?"</strong> → 블록 길이와 오류 특성 차이 ([LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) vs 폴라)
+1. <strong>"메모리 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 코드는?"</strong> -> 해밍 기반 SECDED (64+8=72비트)
+2. <strong>"CD 표면 긁혔을 때 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복원 코드는?"</strong> -> Reed-Solomon + 인터리빙
+3. <strong>"5G에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/제어 채널 부호가 다른 이유는?"</strong> -> 블록 길이와 오류 특성 차이 ([LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) vs 폴라)
 
 📢 **섹션 요약 비유**: SSD의 TLC가 LDPC를 필수로 쓰는 것은 "더 많이 쓸수록 더 강한 지우개가 필요하다"는 것과 같다 — 셀에 더 많은 정보를 쓸수록 오류가 많아져 더 강력한 ECC가 필요하다.
 
@@ -169,7 +169,7 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 | 개념 | 수식/조건 | 응용 |
 |:---|:---|:---|
 | [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) d_H | 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | 정정 능력 기준 |
-| 최소 거리 d_min | ≥ 2t+1 → t비트 정정 | 코드 설계 |
+| 최소 거리 d_min | ≥ 2t+1 -> t비트 정정 | 코드 설계 |
 | 해밍(7,4) | k=4, n=7, R=4/7 | 메모리 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 원형 |
 | Reed-Solomon | 심볼 단위, GF 산술 | CD/DVD/[RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) |
 | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티, 신뢰 전파 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) TLC/QLC |
@@ -181,17 +181,17 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 
 ```text
 [신호 전송 오류 발생]
-    │
-    ▼
+    |
+    v
 [오류 감지(패리티 비트)]
-    │
-    ▼
+    |
+    v
 [오류 정정 코드(Hamming Code)]
-    │
-    ▼
+    |
+    v
 [BCH/Reed-Solomon]
-    │
-    ▼
+    |
+    v
 [현대 통신/RAID 응용]
 ```
 
@@ -209,7 +209,7 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 
 **진행 상황**: 158 / 175
 
-← **이전**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/)
-**다음**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) →
+<- **이전**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/)
+**다음**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) ->
 
 ---

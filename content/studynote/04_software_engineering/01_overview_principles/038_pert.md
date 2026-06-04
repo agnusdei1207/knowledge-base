@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 > **핵심 인사이트**
 > 1. [PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)(Program Evaluation and [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique)는 3점 추정(낙관·비관·최빈)을 베타 분포로 모델링해 불확실한 프로젝트의 기간 기대치와 표준편차를 계산하고, 완료 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 정량적으로 추정하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 일정 관리 기법이다.
-> 2. PERT의 핵심 수식: 기대치 μ = (o + 4m + p) / 6, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) σ² = ((p-o)/6)², 표준편차 σ = (p-o)/6 — 최빈치(m)에 4배 가중치를 부여해 현실적 추정치에 집중하면서도 불확실성([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 표현한다.
+> 2. PERT의 핵심 수식: 기대치 μ = (o + 4m + p) / 6, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) σ^ = ((p-o)/6)^, 표준편차 σ = (p-o)/6 — 최빈치(m)에 4배 가중치를 부여해 현실적 추정치에 집중하면서도 불확실성([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 표현한다.
 > 3. PERT는 CPM과 결합해 임계 경로의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 완료 기간을 계산하는 데 사용되며, R&D·신제품 개발처럼 과거 경험이 없어 확정적 기간 추정이 불가능한 프로젝트에서 필수적이다.
 
 ---
@@ -35,7 +35,7 @@ tags = ["studynote-software-engineering"]
   σ = (p - o) / 6
 
 분산 (Variance):
-  σ² = ((p - o) / 6)²
+  σ^ = ((p - o) / 6)^
 ```
 
 | 예시 작업    | o(낙관) | m(최빈) | p(비관) | [TE](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)=(o+4m+p)/6 | σ=(p-o)/6 |
@@ -80,7 +80,7 @@ CPM:
   여러 작업의 합계 -> 기대치와 분산 모두 합산
 
   TE_프로젝트 = ΣTE_i  (임계 경로 작업들)
-  σ²_프로젝트 = Σσ²_i
+  σ^_프로젝트 = Σσ^_i
 
 완료 확률 계산 (정규분포 근사):
   D = 목표 완료 기간
@@ -95,7 +95,7 @@ CPM:
 
 ```
 예시:
-  임계 경로: A-B-D-F (TE=25일, σ²=4, σ=2)
+  임계 경로: A-B-D-F (TE=25일, σ^=4, σ=2)
   목표: 28일 내 완료
 
   Z = (28 - 25) / 2 = 1.5
@@ -144,7 +144,7 @@ PERT 한계:
 
 임계 경로 합계:
   TE = 2.0+4.67+10.67+4.0+2.0 = 23.34주
-  σ² = 0.11+2.79+5.43+0.45+0.11 = 8.89
+  σ^ = 0.11+2.79+5.43+0.45+0.11 = 8.89
   σ = √8.89 = 2.98주
 
 완료 확률:
@@ -166,7 +166,7 @@ PERT
 |   +-- TE = (o+4m+p)/6
 |   +-- σ = (p-o)/6
 +-- 임계 경로 확률
-|   +-- TE, σ² 합산
+|   +-- TE, σ^ 합산
 |   +-- Z 통계 -> 완료 확률
 +-- PERT vs CPM
 |   +-- 확률적 vs 확정적
@@ -218,7 +218,7 @@ JIRA + ML 기반 스프린트 예측
 
 **진행 상황**: 38 / 973
 
-← **이전**: [037. CPM — 임계 경로 기법 (Critical Path Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/)
-**다음**: [039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) →
+<- **이전**: [037. CPM — 임계 경로 기법 (Critical Path Method)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/)
+**다음**: [039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) ->
 
 ---

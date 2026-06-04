@@ -22,20 +22,20 @@ tags = ["studynote-network"]
 - **개념**: LAPD (Link Access Procedure on the D channel)는 ISDN 환경에서 사용자와 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간의 호([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 및 소량의 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하기 위한 계층 2 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크) 규격이다. 주로 ISDN의 D(Delta) 채널 위에서 동작한다.
 - **필요성**: 기존 통신망은 전화선 하나당 전화기 한 대만 연결되는 점대점 구조였다. 그러나 ISDN은 하나의 물리 회선(BRI 기준 2B+D)에 최대 8대의 단말기를 병렬로 연결(다중점 접속)할 수 있어야 했다. 따라서 어느 단말기가 보내는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)인지, 그것이 음성 호 제어인지 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 분기([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))할 방법이 절실했다.
 - **비유**: LAPD는 큰 사무실의 '내선 전화 교환원'과 같다. 외부에서 들어오는 굵은 케이블(물리 링크) 하나를 받아서, "이건 1번 자리 팩스로(TEI 1, SAPI 16)", "저건 2번 자리 전화기로(TEI 2, SAPI 0)" 분류하여 정확히 꽂아주는 역할을 한다.
-- **발전 과정**: LAPB가 점대점([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신에 특화되었다면, LAPD는 점대다중점(Point-to-Multipoint) 환경을 위해 HDLC의 주소 필드를 확장(1바이트 → 2바이트)하여 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 기능을 추가한 형태로 발전했다.
+- **발전 과정**: LAPB가 점대점([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신에 특화되었다면, LAPD는 점대다중점(Point-to-Multipoint) 환경을 위해 HDLC의 주소 필드를 확장(1바이트 -> 2바이트)하여 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 기능을 추가한 형태로 발전했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                 ISDN 인터페이스와 LAPD의 위치             │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │   [TE1 (단말기1)] ─┐                                      │
-  │   [TE2 (단말기2)] ─┼── S/T 인터페이스 (멀티드롭) ── [NT1/네트워크] │
-  │   [TE3 (단말기3)] ─┘                                      │
-  │                                                         │
-  │  * B 채널 (64kbps): 실제 음성/데이터 전송 (투명하게 통과) │
-  │  * D 채널 (16kbps): 호 제어 신호 전송 (LAPD 프로토콜 사용)│
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |                 ISDN 인터페이스와 LAPD의 위치             |
+  +---------------------------------------------------------+
+  |                                                         |
+  |   [TE1 (단말기1)] -+                                      |
+  |   [TE2 (단말기2)] -+-- S/T 인터페이스 (멀티드롭) -- [NT1/네트워크] |
+  |   [TE3 (단말기3)] -+                                      |
+  |                                                         |
+  |  * B 채널 (64kbps): 실제 음성/데이터 전송 (투명하게 통과) |
+  |  * D 채널 (16kbps): 호 제어 신호 전송 (LAPD 프로토콜 사용)|
+  +---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LAPD는 하나의 도로(D 채널) 위에 여러 대의 마을버스(단말기)가 동시에 달릴 수 있도록, 각 버스마다 고유한 노선 번호(TEI/SAPI)를 부여하는 정교한 교통 통제 시스템입니다.
@@ -60,21 +60,21 @@ LAPD 프레임 구조의 가장 큰 특징은 [HDLC](/knowledge-base/studynote/0
 하나의 ISDN 회선에 여러 대의 전화기([TE](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/))가 물려있을 때, 외부에서 호([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))가 들어오면 네트워크(NT)는 어떻게 특정 전화기를 울리게 할까?
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │               LAPD의 SAPI/TEI 기반 데이터 분기 구조             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │                 물리적 D 채널 (16kbps 또는 64kbps)            │
-  │                           │                                   │
-  │       ┌───────────────────┴───────────────────┐               │
-  │       ▼ [SAPI: 0] (호 제어)                   ▼ [SAPI: 16]    │
-  │    호 제어 처리기                         X.25 패킷 처리기    │
-  │       │                                       │               │
-  │   ┌───┼───┐                               ┌───┴───┐           │
-  │   ▼   ▼   ▼                               ▼       ▼           │
-  │ TEI:1 TEI:2 TEI:127                     TEI:1   TEI:3         │
-  │(전화1)(전화2)(브로드캐스트)                (단말1) (단말3)        │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |               LAPD의 SAPI/TEI 기반 데이터 분기 구조             |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |                 물리적 D 채널 (16kbps 또는 64kbps)            |
+  |                           |                                   |
+  |       +-------------------+-------------------+               |
+  |       v [SAPI: 0] (호 제어)                   v [SAPI: 16]    |
+  |    호 제어 처리기                         X.25 패킷 처리기    |
+  |       |                                       |               |
+  |   +---+---+                               +---+---+           |
+  |   v   v   v                               v       v           |
+  | TEI:1 TEI:2 TEI:127                     TEI:1   TEI:3         |
+  |(전화1)(전화2)(브로드캐스트)                (단말1) (단말3)        |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** LAPD 수신단은 먼저 프레임의 SAPI 값을 읽어 이 프레임이 음성 전화를 연결하기 위한 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)'인지, 아니면 인터넷을 하기 위한 '패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'인지 논리적으로 분류한다. 그 다음 TEI 값을 읽어 정확히 어떤 물리적 단말기를 향한 것인지 찾아간다. TEI 값이 127인 경우는 연결된 모든 단말기에게 전송하는 브로드캐스트(Broadcast) 용도로, 주로 외부에서 전화가 걸려왔을 때 모든 전화기를 동시에 울리게(Ring) 할 때 사용된다.
@@ -145,12 +145,12 @@ LAPD는 통신 역사상 처음으로 '음성 호 제어 [신호](/knowledge-bas
 
 ```text
 [선행 개념: LAPB]
-    │
-    ▼
+    |
+    v
 [현재 개념: LAPD]
-    │
-    ├──▶ [확장 A: PPP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: PPP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 LAPD는 LAPB에서 출발해 현재 메커니즘을 정교화하고, 이후 PPP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ LAPD는 LAPB에서 출발해 현재 메커니즘을 정교화하고, 이후 PPP�
 
 **진행 상황**: 344 / 1120
 
-← **이전**: [222. LAPB (Link Access Procedure Balanced)](/knowledge-base/studynote/03_network/04_data_link_layer_error/222_lapb_link_access_procedure_balanced/)
-**다음**: [224. PPP (Point-to-Point Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) →
+<- **이전**: [222. LAPB (Link Access Procedure Balanced)](/knowledge-base/studynote/03_network/04_data_link_layer_error/222_lapb_link_access_procedure_balanced/)
+**다음**: [224. PPP (Point-to-Point Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) ->
 
 ---

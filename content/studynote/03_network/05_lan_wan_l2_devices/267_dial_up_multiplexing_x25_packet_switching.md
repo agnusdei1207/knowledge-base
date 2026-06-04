@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [전용선 기초]
-    │
-    ▼
+    |
+    v
 [다이얼업 다중화, X.25]
-    │
-    └──▶ [프레임 릴레이]
+    |
+    +---> [프레임 릴레이]
 ```
 
 - **📢 섹션 요약 비유**: ** X.25는 통신망의 **"원조 카풀(Carpool) 시스템"**입니다. 혼자 길을 독점([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))하는 대신, 잘게 쪼갠 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 통신사라는 하나의 큰 버스에 동승하여 배송비를 획기적으로 낮췄습니다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [전용선 기초]
-    │
-    ▼
+    |
+    v
 [다이얼업 다중화, X.25]
-    │
-    └──▶ [프레임 릴레이]
+    |
+    +---> [프레임 릴레이]
 ```
 
 - **📢 섹션 요약 비유**: 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -71,20 +71,20 @@ X.25는 사용자 쪽 장비와 통신사 쪽 장비를 엄격히 분리했다.
 - **Hop-by-Hop 검사**: 라우터 A에서 라우터 B로 패킷이 넘어가면, B는 포장을 다 뜯어서 에러가 없는지 꼼꼼히 확인한 뒤, A에게 "잘 받았어(ACK)!"라고 대답한다. 그다음 B가 C로 보낼 때 똑같은 짓을 반복한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                X.25의 무거운 에러 검사 (Hop-by-Hop)           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ DTE ] ──▶ [ 라우터 1 ] ──▶ [ 라우터 2 ] ──▶ [ 라우터 3 ]   │
- │                                                             │
- │   1) 라우터 1 도착: "에러 검사... OK!" -> DTE에 수신 확인(ACK) 보냄 │
- │   2) 라우터 2 도착: "에러 검사... OK!" -> 라우터 1에 ACK 보냄      │
- │   3) 라우터 3 도착: "에러 검사... OK!" -> 라우터 2에 ACK 보냄      │
- │                                                             │
- │   ▶ 결과: 너무 철저해서 데이터가 절대 안 깨지지만, 각 노드마다   │
- │          검사하고 확인증(ACK) 써주느라 통신 속도가 64Kbps를       │
- │          넘지 못하는 치명적인 속도 병목 발생.                   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                X.25의 무거운 에러 검사 (Hop-by-Hop)           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ DTE ] ---> [ 라우터 1 ] ---> [ 라우터 2 ] ---> [ 라우터 3 ]   |
+ |                                                             |
+ |   1) 라우터 1 도착: "에러 검사... OK!" -> DTE에 수신 확인(ACK) 보냄 |
+ |   2) 라우터 2 도착: "에러 검사... OK!" -> 라우터 1에 ACK 보냄      |
+ |   3) 라우터 3 도착: "에러 검사... OK!" -> 라우터 2에 ACK 보냄      |
+ |                                                             |
+ |   -> 결과: 너무 철저해서 데이터가 절대 안 깨지지만, 각 노드마다   |
+ |          검사하고 확인증(ACK) 써주느라 통신 속도가 64Kbps를       |
+ |          넘지 못하는 치명적인 속도 병목 발생.                   |
+ +-------------------------------------------------------------+
 ```
 
 ### 4. X.25의 몰락
@@ -134,12 +134,12 @@ X.25는 사용자 쪽 장비와 통신사 쪽 장비를 엄격히 분리했다.
 
 ```text
 [선행 개념: 전용선 기초]
-    │
-    ▼
+    |
+    v
 [현재 개념: 다이얼업 다중화, X.25]
-    │
-    ├──▶ [확장 A: 프레임 릴레이]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 프레임 릴레이]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초에서 출발해 현재 메커니즘을 정교화하고, 이후 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ X.25는 사용자 쪽 장비와 통신사 쪽 장비를 엄격히 분리했다.
 
 **진행 상황**: 388 / 1120
 
-← **이전**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)
-**다음**: [268. 프레임 릴레이 (Frame Relay)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) →
+<- **이전**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)
+**다음**: [268. 프레임 릴레이 (Frame Relay)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) ->
 
 ---

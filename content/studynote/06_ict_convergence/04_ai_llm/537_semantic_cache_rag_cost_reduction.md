@@ -19,14 +19,14 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-표준 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 파이프라인은 매 질의마다 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 벡터 DB 검색 → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출을 반복한다. 이 과정에서:
+표준 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 파이프라인은 매 질의마다 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 벡터 DB 검색 -> [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출을 반복한다. 이 과정에서:
 
 - GPT-4o [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 비용: 약 $5~$15/100만 토큰
 - 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/): 1~5초 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 포함)
 - 동일/유사 질의 반복: FAQ 시나리오에서 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 질의가 전체 트래픽의 60~80%
 
 **정확 일치(Exact Match) 캐시의 한계**
-- "삼성전자 주가는 얼마야?" vs "삼성전자 현재 주가 알려줘" → 문자열 다름 → 캐시 미스
+- "삼성전자 주가는 얼마야?" vs "삼성전자 현재 주가 알려줘" -> 문자열 다름 -> 캐시 미스
 - [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)는 두 질의가 의미적으로 동일함을 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 유사도로 판별
 
 - **📢 섹션 요약 비유**: 정확 캐시는 "같은 단어만" 재사용, [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)는 "같은 의미라면" 재사용 — 스마트한 기억력이다.
@@ -36,35 +36,35 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              시맨틱 캐시 RAG 파이프라인                   │
-│                                                         │
-│  사용자 질의                                             │
-│      │                                                  │
-│      ▼                                                  │
-│  임베딩 생성(Embedding)                                  │
-│      │                                                  │
-│      ▼                                                  │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │         시맨틱 캐시 조회                          │    │
-│  │  코사인 유사도 ≥ 임계치(예: 0.92)?               │    │
-│  │  ┌─── YES ───┐         ┌─── NO ────┐            │    │
-│  │  │캐시 히트  │         │캐시 미스  │            │    │
-│  │  │저장 답변  │         │LLM 호출   │            │    │
-│  │  │즉시 반환  │         │답변 생성  │            │    │
-│  │  └───────────┘         └─────┬─────┘            │    │
-│  │                              │ 캐시 저장         │    │
-│  └──────────────────────────────┼──────────────────┘    │
-│                                 │                       │
-│                            사용자 응답                   │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              시맨틱 캐시 RAG 파이프라인                   |
+|                                                         |
+|  사용자 질의                                             |
+|      |                                                  |
+|      v                                                  |
+|  임베딩 생성(Embedding)                                  |
+|      |                                                  |
+|      v                                                  |
+|  +-------------------------------------------------+    |
+|  |         시맨틱 캐시 조회                          |    |
+|  |  코사인 유사도 ≥ 임계치(예: 0.92)?               |    |
+|  |  +--- YES ---+         +--- NO ----+            |    |
+|  |  |캐시 히트  |         |캐시 미스  |            |    |
+|  |  |저장 답변  |         |LLM 호출   |            |    |
+|  |  |즉시 반환  |         |답변 생성  |            |    |
+|  |  +-----------+         +-----+-----+            |    |
+|  |                              | 캐시 저장         |    |
+|  +------------------------------+------------------+    |
+|                                 |                       |
+|                            사용자 응답                   |
++---------------------------------------------------------+
 ```
 
 **핵심 구성 요소**
 
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 모델</strong>: 질의를 벡터로 변환. text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-3-small, BGE-M3 등
 2. <strong>벡터 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/">유사도 검색</a></strong>: FAISS 또는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 벡터 인덱스에서 가장 가까운 캐시 항목 검색
-3. <strong>유사도 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a>(Threshold)</strong>: 0.90~0.95 일반적. 낮으면 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)↑ but 부정확 답변↑
+3. <strong>유사도 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a>(Threshold)</strong>: 0.90~0.95 일반적. 낮으면 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)^ but 부정확 답변^
 
 ### [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 주요 구현체
 
@@ -114,8 +114,8 @@ tags = ["studynote-ict-convergence"]
 **기술사 판단 포인트**
 
 1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 튜닝</strong>: 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 질의 샘플로 오프라인 평가 후 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 결정 — 비즈니스 리스크에 맞게 조정
-2. **캐시 워밍(Cache Warming)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작 전 예상 FAQ를 미리 캐시에 적재 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 캐시 미스 방지
-3. <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/">멀티테넌트</a> 격리</strong>: 사용자별 캐시 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 분리 → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 혼재 방지
+2. **캐시 워밍(Cache Warming)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작 전 예상 FAQ를 미리 캐시에 적재 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 캐시 미스 방지
+3. <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/">멀티테넌트</a> 격리</strong>: 사용자별 캐시 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 분리 -> [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 혼재 방지
 4. **모니터링**: [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율, 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 오답율을 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + Grafana로 실시간 추적
 
 - **📢 섹션 요약 비유**: 캐시 무효화는 도서관 책 업데이트 — 새 판이 나오면 이전 정보를 알려주던 사서는 즉시 새 책으로 교체해야 한다.
@@ -143,7 +143,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[시맨틱 캐시 기반 · 질의 벡터 변환] → [시맨틱 캐시 RAG 비용 · 지연 절감] → [적용 파이프라인 · 검색 증강 생성]
+[시맨틱 캐시 기반 · 질의 벡터 변환] -> [시맨틱 캐시 RAG 비용 · 지연 절감] -> [적용 파이프라인 · 검색 증강 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -158,7 +158,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 537 / 552
 
-← **이전**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/)
-**다음**: [538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/538_adversarial_examples_differential_privacy/) →
+<- **이전**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/)
+**다음**: [538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/538_adversarial_examples_differential_privacy/) ->
 
 ---

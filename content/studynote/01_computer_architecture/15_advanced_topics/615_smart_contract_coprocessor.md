@@ -34,22 +34,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서의 전형적 분업 구조를 나타낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Smart contract verification coprocessor: split rules and math       │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Node CPU / VM Scheduler ]                                          │
-│        │ gas / state / exception control                             │
-│        ▼                                                             │
-│ [ Command Queue ] -> [ Data Mover ] -> [ Hash Engine ]               │
-│                                  │   [ Signature Engine ]            │
-│                                  │   [ State Proof Engine ]          │
-│                                  │   [ Precompile Unit ]             │
-│                                  ▼                                   │
-│                         [ Verified Result Buffer ]                   │
-│                                  │                                   │
-│                                  ▼                                   │
-│                     [ Host commits state transition ]                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Smart contract verification coprocessor: split rules and math       |
++----------------------------------------------------------------------+
+| [ Node CPU / VM Scheduler ]                                          |
+|        | gas / state / exception control                             |
+|        v                                                             |
+| [ Command Queue ] -> [ Data Mover ] -> [ Hash Engine ]               |
+|                                  |   [ Signature Engine ]            |
+|                                  |   [ State Proof Engine ]          |
+|                                  |   [ Precompile Unit ]             |
+|                                  v                                   |
+|                         [ Verified Result Buffer ]                   |
+|                                  |                                   |
+|                                  v                                   |
+|                     [ Host commits state transition ]                |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -130,17 +130,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 소프트웨어 블록체인 노드
-    │
-    ▼
+    |
+    v
 해시 · 서명 · 상태 증명 검증 병목
-    │
-    ▼
+    |
+    v
 암호 프리컴파일 · 전용 검증 엔진
-    │
-    ▼
+    |
+    v
 스마트 컨트랙트 검증 보조 코프로세서
-    │
-    ▼
+    |
+    v
 롤업 시퀀서 · zkEVM · TEE 결합 노드
 ```
 
@@ -156,7 +156,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 615 / 803
 
-← **이전**: [614. 페이지 랭크 알고리즘 하드웨어 맵핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/614_pagerank_hw_mapping/)
-**다음**: [616. 영지식 증명 (ZKP) 가속 반도체 (ZK-Rollup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/616_zkp_hardware_accelerator/) →
+<- **이전**: [614. 페이지 랭크 알고리즘 하드웨어 맵핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/614_pagerank_hw_mapping/)
+**다음**: [616. 영지식 증명 (ZKP) 가속 반도체 (ZK-Rollup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/616_zkp_hardware_accelerator/) ->
 
 ---

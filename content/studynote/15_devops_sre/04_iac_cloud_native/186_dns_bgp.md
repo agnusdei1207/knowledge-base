@@ -36,27 +36,27 @@ tags = ["studynote-devops-sre"]
 아래 그림은 DNS와 BGP를 통합 감시하는 대표 구조다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                  DNS + BGP 통합 모니터링망 구성                             │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ [External DNS Probes]      [Recursive Resolvers]      [Route Collectors]   │
-│         │                           │                         │              │
-│         ├──────────────┬────────────┴──────────────┬─────────┘              │
-│         ▼              ▼                           ▼                        │
-│  Answer Diff      TTL Drift / NXDOMAIN      Origin AS / AS Path            │
-│         │              │                           │                        │
-│         └──────────────┴──────────────┬────────────┘                        │
-│                                       ▼                                     │
-│                         [Correlation / Detection Engine]                    │
-│                                       │                                     │
-│                  ┌────────────────────┼────────────────────┐                │
-│                  ▼                    ▼                    ▼                │
-│          DNSSEC Validate       RPKI Validate      Baseline Compare         │
-│                  │                    │                    │                │
-│                  └────────────────────┴────────────────────┘                │
-│                                       ▼                                     │
-│                         [Alert / Ticket / Traffic Mitigation]               │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                  DNS + BGP 통합 모니터링망 구성                             |
++------------------------------------------------------------------------------+
+| [External DNS Probes]      [Recursive Resolvers]      [Route Collectors]   |
+|         |                           |                         |              |
+|         +--------------+------------+--------------+---------+              |
+|         v              v                           v                        |
+|  Answer Diff      TTL Drift / NXDOMAIN      Origin AS / AS Path            |
+|         |              |                           |                        |
+|         +--------------+--------------+------------+                        |
+|                                       v                                     |
+|                         [Correlation / Detection Engine]                    |
+|                                       |                                     |
+|                  +--------------------+--------------------+                |
+|                  v                    v                    v                |
+|          DNSSEC Validate       RPKI Validate      Baseline Compare         |
+|                  |                    |                    |                |
+|                  +--------------------+--------------------+                |
+|                                       v                                     |
+|                         [Alert / Ticket / Traffic Mitigation]               |
++------------------------------------------------------------------------------+
 ```
 
 | 관측 항목 | 의미 | 이상 징후 예시 |
@@ -144,21 +144,21 @@ tags = ["studynote-devops-sre"]
 
 ```text
 단순 가용성 모니터링
-    │
-    ▼
+    |
+    v
 DNS 응답 무결성 점검 · DNSSEC
-    │
-    ▼
+    |
+    v
 BGP 경로 관측 · RPKI · ROA 검증
-    │
-    ▼
+    |
+    v
 Passive DNS + Route Collector 상관분석
-    │
-    ▼
+    |
+    v
 인터넷 외부 의존성 관측 · 공격/장애 통합 대응
 ```
 
-이 흐름은 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 인터넷 이름/경로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 외부 인터넷 전체 관측”으로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관측 범위가 넓어지는 과정을 보여준다.
+이 흐름은 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 인터넷 이름/경로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 외부 인터넷 전체 관측”으로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관측 범위가 넓어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +172,7 @@ Passive DNS + Route Collector 상관분석
 
 **진행 상황**: 186 / 373
 
-← **이전**: [185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/185_network_jitter/)
-**다음**: [187. OOM (Out of Memory) 킬러 커널 로그 파싱 알람](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/187_oom_out_of_memory/) →
+<- **이전**: [185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/185_network_jitter/)
+**다음**: [187. OOM (Out of Memory) 킬러 커널 로그 파싱 알람](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/187_oom_out_of_memory/) ->
 
 ---

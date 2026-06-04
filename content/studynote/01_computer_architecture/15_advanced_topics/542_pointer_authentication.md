@@ -43,21 +43,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 주소가 어떻게 서명되고 다시 검증되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      PAC 서명 흐름: 주소만 같아도 안 되고, 문맥이 같아야 통과한다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Unsigned Pointer + Modifier(SP / Type) + Secret Key                │
-│               │                                                     │
-│               ├─ PAC 생성 명령 ───────▶ [ PAC bits | Virtual Addr ] │
-│               │                                 │                   │
-│               │                                 ▼                   │
-│               │                          메모리·스택 저장           │
-│               │                                 │                   │
-│               └─ 인증 명령 직전 재계산 ◀────────┘                   │
-│                                                 │                   │
-│                              match ─────────────┼──▶ 정상 사용      │
-│                              mismatch ──────────┴──▶ invalid ptr    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      PAC 서명 흐름: 주소만 같아도 안 되고, 문맥이 같아야 통과한다      |
++----------------------------------------------------------------------+
+| Unsigned Pointer + Modifier(SP / Type) + Secret Key                |
+|               |                                                     |
+|               +- PAC 생성 명령 --------> [ PAC bits | Virtual Addr ] |
+|               |                                 |                   |
+|               |                                 v                   |
+|               |                          메모리·스택 저장           |
+|               |                                 |                   |
+|               +- 인증 명령 직전 재계산 <---------+                   |
+|                                                 |                   |
+|                              match -------------+---> 정상 사용      |
+|                              mismatch ----------+---> invalid ptr    |
++----------------------------------------------------------------------+
 ```
 
 실무에서 가장 널리 쓰이는 형태는 리턴 주소 서명이다. 함수 진입 시 `PACIASP`처럼 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)를 문맥으로 섞어 리턴 주소를 서명하고, 함수 복귀 직전에 `AUTIASP`로 다시 검증한다. 이렇게 하면 공격자가 다른 함수에서 훔친 리턴 주소를 그대로 붙여 넣거나, 동일 주소라도 다른 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이에서 재사용하는 공격을 더 어렵게 만들 수 있다.
@@ -137,17 +137,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 ASLR (Address Space Layout Randomization) · NX (No-eXecute)
-                    │
-                    ▼
+                    |
+                    v
 소프트웨어 CFI (Control-Flow Integrity)
-                    │
-                    ▼
+                    |
+                    v
 PAC (Pointer Authentication Code)
-                    │
-                    ▼
+                    |
+                    v
 BTI (Branch Target Identification)
-                    │
-                    ▼
+                    |
+                    v
 MTE (Memory Tagging Extension) · 통합 하드웨어 메모리 방어
 ```
 
@@ -165,7 +165,7 @@ MTE (Memory Tagging Extension) · 통합 하드웨어 메모리 방어
 
 **진행 상황**: 542 / 803
 
-← **이전**: [541. 스택 스매싱 프로텍터 (Stack Smashing Protector)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/541_stack_smashing_protector/)
-**다음**: [543. 양자 내성 암호 가속기 (PQC Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/543_pqc_accelerator/) →
+<- **이전**: [541. 스택 스매싱 프로텍터 (Stack Smashing Protector)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/541_stack_smashing_protector/)
+**다음**: [543. 양자 내성 암호 가속기 (PQC Accelerator)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/543_pqc_accelerator/) ->
 
 ---

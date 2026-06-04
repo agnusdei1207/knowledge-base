@@ -32,20 +32,20 @@ tags = ["studynote-operating-system"]
 그리드의 핵심은 이기종 자원을 표준 인터페이스로 감싸는 미들웨어 (Middleware)다. 미들웨어가 자원 검색, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 작업 스케줄링, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 중재해 주기 때문에, 사용자 입장에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 자원이 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 보인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             그리드 컴퓨팅의 자원 연합 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│ [기관 A 클러스터]   [기관 B 스토리지]   [기관 C 서버팜]      │
-│        \                 |                  /                │
-│         \                |                 /                 │
-│          └────────── [그리드 미들웨어] ──────────┘           │
-│                         │                                    │
-│                         ▼                                    │
-│              가상 조직 (VO, Virtual Organization)            │
-│                         │                                    │
-│                         ▼                                    │
-│          작업 브로커 · 스케줄러 · 보안 · 데이터 이동         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             그리드 컴퓨팅의 자원 연합 구조                   |
++--------------------------------------------------------------+
+| [기관 A 클러스터]   [기관 B 스토리지]   [기관 C 서버팜]      |
+|        \                 |                  /                |
+|         \                |                 /                 |
+|          +---------- [그리드 미들웨어] ----------+           |
+|                         |                                    |
+|                         v                                    |
+|              가상 조직 (VO, Virtual Organization)            |
+|                         |                                    |
+|                         v                                    |
+|          작업 브로커 · 스케줄러 · 보안 · 데이터 이동         |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 대표 포인트 |
@@ -127,17 +127,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 클러스터 컴퓨팅 (Cluster Computing)
-    │
-    ▼
+    |
+    v
 그리드 컴퓨팅 (Grid Computing)
-    │
-    ▼
+    |
+    v
 유틸리티 컴퓨팅 (Utility Computing)
-    │
-    ▼
+    |
+    v
 클라우드 · 연합 클라우드
-    │
-    ▼
+    |
+    v
 에지 그리드 · 연구 데이터 스페이스
 ```
 
@@ -155,7 +155,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 51 / 800
 
-← **이전**: [P2P 시스템 (Peer-to-Peer System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/050_p2p_system/)
-**다음**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) →
+<- **이전**: [P2P 시스템 (Peer-to-Peer System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/050_p2p_system/)
+**다음**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) ->
 
 ---

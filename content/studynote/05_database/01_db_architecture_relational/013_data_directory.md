@@ -31,17 +31,17 @@ tags = ["database"]
 [그림 1: 메타데이터 저장소의 권한별 격리 구조]
 
 [일반 사용자 / DBA] (질의, 권한 요청)
-        │
-        ▼ (SELECT 허용)
-┌──────────────────────────────────────┐  <─ 시스템 카탈로그 (System Catalog)
-│      데이터 사전 (Data Dictionary)   │     : 논리적 스키마, 뷰, 사용자 통계 등
-│      (사용자 접근 가능 영역)         │
-├──────────────────────────────────────┤  <─ [엄격한 접근 통제벽]
-│    데이터 디렉터리 (Data Directory)  │     : 물리적 블록 주소, 시스템 내부 포인터,
-│      (DBMS 시스템 전용 영역)         │       B-Tree 노드 물리적 연결 정보 등
-└──────────────────────────────────────┘
-        ▲ (내부 제어, DDL에 의한 자동 변경)
-        │
+        |
+        v (SELECT 허용)
++--------------------------------------+  <- 시스템 카탈로그 (System Catalog)
+|      데이터 사전 (Data Dictionary)   |     : 논리적 스키마, 뷰, 사용자 통계 등
+|      (사용자 접근 가능 영역)         |
++--------------------------------------+  <- [엄격한 접근 통제벽]
+|    데이터 디렉터리 (Data Directory)  |     : 물리적 블록 주소, 시스템 내부 포인터,
+|      (DBMS 시스템 전용 영역)         |       B-Tree 노드 물리적 연결 정보 등
++--------------------------------------+
+        ^ (내부 제어, DDL에 의한 자동 변경)
+        |
 [DBMS 내부 엔진 (Storage/Execution Engine)]
 ```
 
@@ -67,18 +67,18 @@ tags = ["database"]
 [그림 2: DDL 실행 시 데이터 사전과 데이터 디렉터리의 동작 흐름도]
 
 [사용자] "CREATE TABLE EMP (ID INT);"
-   │
-   ▼
+   |
+   v
 [DBMS 파서 & 실행기]
-   │
-   ├─ 1. [데이터 사전 (Data Dictionary)] 접근
-   │     : 'EMP' 테이블명 중복 여부 확인, 논리적 스키마(ID INT) 메타데이터 INSERT
-   │
-   └─ 2. [스토리지 엔진 (Storage Engine)] 호출
-         │
-         ▼
+   |
+   +- 1. [데이터 사전 (Data Dictionary)] 접근
+   |     : 'EMP' 테이블명 중복 여부 확인, 논리적 스키마(ID INT) 메타데이터 INSERT
+   |
+   +- 2. [스토리지 엔진 (Storage Engine)] 호출
+         |
+         v
       [데이터 디렉터리 (Data Directory)] 내부 동작
-         : 빈 공간(Free Extent) 탐색 → 논리 테이블 'EMP'와 할당된 물리적 디스크 블록 주소 매핑
+         : 빈 공간(Free Extent) 탐색 -> 논리 테이블 'EMP'와 할당된 물리적 디스크 블록 주소 매핑
          : 내부 포인터 연결 정보 시스템만 은밀하게 갱신 (사용자 접근 불가)
 ```
 
@@ -103,14 +103,14 @@ tags = ["database"]
 [그림 3: DBMS와 OS 메모리 보호 아키텍처의 유사성 비교]
 
    [DBMS 아키텍처]                           [OS 아키텍처]
-┌──────────────────┐ User/DBA 쿼리 허용  ┌──────────────────┐ User Application 허용
-│  Data Dictionary │ <-----------------> │  /proc, sysfs    │ (상태 모니터링)
-├──────────────────┤                     ├──────────────────┤
-│ - - (격리벽) - - │                     │ - (System Call)- │ (Mode Switch)
-├──────────────────┤                     ├──────────────────┤
-│  Data Directory  │ <-----------------> │  Kernel Memory   │ (OS만 조작 가능)
-│ (물리적 포인터)  │ System Engine 독점  │ (페이지 테이블 등)│
-└──────────────────┘                     └──────────────────┘
++------------------+ User/DBA 쿼리 허용  +------------------+ User Application 허용
+|  Data Dictionary | <-----------------> |  /proc, sysfs    | (상태 모니터링)
++------------------+                     +------------------+
+| - - (격리벽) - - |                     | - (System Call)- | (Mode Switch)
++------------------+                     +------------------+
+|  Data Directory  | <-----------------> |  Kernel Memory   | (OS만 조작 가능)
+| (물리적 포인터)  | System Engine 독점  | (페이지 테이블 등)|
++------------------+                     +------------------+
 ```
 
 이 도식은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 매커니즘이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘과 설계적으로 동일한 궤를 가지고 있음을 보여준다. 두 구조 모두 하위 레벨의 복잡한 물리적 제어를 은닉함으로써, 사용자 레벨의 응용 프로그램이 안전하고 일관된 인터페이스만을 사용하도록 강제한다. 따라서 시스템 엔지니어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 손상을 OS [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))과 동급의 치명적 장애로 간주해야 한다.
@@ -133,20 +133,20 @@ tags = ["database"]
 [그림 4: 데이터베이스 장애 복구 판단 트리]
 
 [장애 발생: 데이터 쿼리 실패]
-          │
-          ▼
+          |
+          v
 [장애 원인이 메타데이터와 관련이 있는가?]
-   ├─ 아니오 ──> (일반적인 트랜잭션 롤백, 데이터 Redo 적용)
-   │
-   └─ 예
-      ▼
+   +- 아니오 --> (일반적인 트랜잭션 롤백, 데이터 Redo 적용)
+   |
+   +- 예
+      v
    [접근 불가 영역 판단]
-      ├─ 데이터 사전(딕셔너리) 뷰 훼손 ──> [논리적 손상] 딕셔너리 뷰 재컴파일 스크립트 실행 (복구 용이)
-      │
-      └─ 데이터 디렉터리 블록 손상/Lost ──> [물리적 치명상]
-            │                                  ▼
-            │                         (시스템 인스턴스 Down 발생)
-            │                         (Full System Recovery 또는 Block Media Recovery 요망)
+      +- 데이터 사전(딕셔너리) 뷰 훼손 --> [논리적 손상] 딕셔너리 뷰 재컴파일 스크립트 실행 (복구 용이)
+      |
+      +- 데이터 디렉터리 블록 손상/Lost --> [물리적 치명상]
+            |                                  v
+            |                         (시스템 인스턴스 Down 발생)
+            |                         (Full System Recovery 또는 Block Media Recovery 요망)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 장애의 양상에 따라 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 손상 부위를 진단하는 과정을 보여준다. [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 깨진 것은 껍데기가 벗겨진 것에 불과하여 스크립트로 재생성이 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(물리적 포인터 블록)의 손상은 뼈대가 부러진 것이라 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동원한 복잡한 미디어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필수적임을 시사한다.
@@ -173,17 +173,17 @@ tags = ["database"]
 
 ```text
 [데이터 딕셔너리 (Data Dictionary) — DB 메타데이터의 중앙 저장소]
-    │
-    ▼
+    |
+    v
 [시스템 카탈로그 (System Catalog) — DBMS 내부 데이터 딕셔너리 구현체]
-    │
-    ▼
+    |
+    v
 [메타데이터 관리 (Metadata Management) — 스키마·통계·권한 정보 통합 관리]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 (Data Governance) — 정책 기반의 메타데이터 품질 관리]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 (Data Catalog) — 비즈니스 맥락 추가, 데이터 검색·계보 제공]
 ```
 
@@ -200,7 +200,7 @@ tags = ["database"]
 
 **진행 상황**: 13 / 600
 
-← **이전**: [12. 메타데이터 (Metadata) - 데이터에 대한 데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)
-**다음**: [14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) →
+<- **이전**: [12. 메타데이터 (Metadata) - 데이터에 대한 데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)
+**다음**: [14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) ->
 
 ---

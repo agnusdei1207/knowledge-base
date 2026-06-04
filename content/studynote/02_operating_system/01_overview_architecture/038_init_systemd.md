@@ -229,7 +229,7 @@ tini, dumb-init: 컨테이너용 경량 init
 
 **진행 상황**: 38 / 800
 
-← **이전**: [037. 시스템 데몬 (System Daemon)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/)
-**다음**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/) →
+<- **이전**: [037. 시스템 데몬 (System Daemon)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/)
+**다음**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/) ->
 
 ---

@@ -36,19 +36,19 @@ tags = ["studynote-data-engineering"]
 | **FN (False Negative)** | 실제 양성인데 모델이 <strong>음성</strong>으로 틀림 | **가짜 음성 (2종 오류, 미탐)** |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           혼동 행렬 (Confusion Matrix) 구조와 오답의 성격    │
-├──────────────────────────────────────────────────────────────┤
-│                     [ 실제 클래스 (Actual) ]                 │
-│                 Positive (1)          Negative (0)           │
-│              ┌─────────────────┬───────────────────┐         │
-│  [모델 예측] │ True Positive   │ False Positive    │         │
-│ Positive (1) │ (TP) 맞춤!      │ (FP) 1종 오류 🚨  │         │
-│              ├─────────────────┼───────────────────┤         │
-│  [모델 예측] │ False Negative  │ True Negative     │         │
-│ Negative (0) │ (FN) 2종 오류 🚨│ (TN) 맞춤!        │         │
-│              └─────────────────┴───────────────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           혼동 행렬 (Confusion Matrix) 구조와 오답의 성격    |
++--------------------------------------------------------------+
+|                     [ 실제 클래스 (Actual) ]                 |
+|                 Positive (1)          Negative (0)           |
+|              +-----------------+-------------------+         |
+|  [모델 예측] | True Positive   | False Positive    |         |
+| Positive (1) | (TP) 맞춤!      | (FP) 1종 오류 🚨  |         |
+|              +-----------------+-------------------+         |
+|  [모델 예측] | False Negative  | True Negative     |         |
+| Negative (0) | (FN) 2종 오류 🚨| (TN) 맞춤!        |         |
+|              +-----------------+-------------------+         |
++--------------------------------------------------------------+
 ```
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 만든 결과물을 4가지 범주로 쪼개어, 단순 정답(TP, TN) 외에 모델이 저지른 두 가지 치명적 실수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN)의 위치를 보여준다. 모든 고급 평가 지표는 오직 이 4개의 변수 조합으로 계산된다.
 
@@ -109,17 +109,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 정확도 (Accuracy)의 착시 현상 발견
-    │
-    ▼
+    |
+    v
 혼동 행렬 (Confusion Matrix) 도입 · 오류의 세분화 (FP, FN)
-    │
-    ▼
+    |
+    v
 파생 지표 생성 (Precision, Recall, F1-Score)
-    │
-    ▼
+    |
+    v
 임계값 (Threshold) 변화에 따른 동적 평가 (ROC Curve)
-    │
-    ▼
+    |
+    v
 비용 함수 (Cost Matrix) 결합 및 비즈니스 최적화
 ```
 
@@ -136,7 +136,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 89 / 258
 
-← **이전**: [88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/088_k_fold_cross_validation_overfitting_generalization/)
-**다음**: [분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score](/knowledge-base/studynote/14_data_engineering/02_math_mining/090_accuracy_precision_recall_f1_score/) →
+<- **이전**: [88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/088_k_fold_cross_validation_overfitting_generalization/)
+**다음**: [분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score](/knowledge-base/studynote/14_data_engineering/02_math_mining/090_accuracy_precision_recall_f1_score/) ->
 
 ---

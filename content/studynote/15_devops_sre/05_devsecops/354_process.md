@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) Layer | 사용자 흐름 추적 | [tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/), JS error correlation |
 
 ```text
-┌──────────────┐   route      ┌──────────────┐   compose   ┌──────────────┐
-│ Shell App    │ ───────────▶ │ Product MFE  │ ──────────▶ │ User Screen  │
-└──────────────┘              └──────────────┘             └──────────────┘
-        │                             ▲                            │
-        │ shared auth                 │ shared UI                  │ telemetry
-        ▼                             │                            ▼
-┌──────────────┐              ┌──────────────┐             ┌──────────────┐
-│ Design System│ ───────────▶ │ Cart / My MFE│ ──────────▶ │ Observability│
-└──────────────┘              └──────────────┘             └──────────────┘
++--------------+   route      +--------------+   compose   +--------------+
+| Shell App    | ------------> | Product MFE  | -----------> | User Screen  |
++--------------+              +--------------+             +--------------+
+        |                             ^                            |
+        | shared auth                 | shared UI                  | telemetry
+        v                             |                            v
++--------------+              +--------------+             +--------------+
+| Design System| ------------> | Cart / My MFE| -----------> | Observability|
++--------------+              +--------------+             +--------------+
 ```
 
 핵심 원리는 “독립성”과 “[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)”의 균형이다. 각 팀이 독립 배포하되, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙·디자인 토큰·에러 처리 기준은 공통으로 유지해야 한다. 그렇지 않으면 사용자는 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라 서로 다른 사이트를 억지로 붙인 느낌을 받게 된다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Monolithic Frontend
-   │
-   ▼
+   |
+   v
 Domain-based UI Split
-   │
-   ▼
+   |
+   v
 Shell + Shared Design System
-   │
-   ▼
+   |
+   v
 Micro Frontend with Independent Delivery
 ```
 
-이 흐름은 “단일 앱 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 → 공통 기반 확보 → 독립 배포 프론트엔드”로 성숙하는 과정을 보여준다.
+이 흐름은 “단일 앱 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 -> 공통 기반 확보 -> 독립 배포 프론트엔드”로 성숙하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Micro Frontend with Independent Delivery
 
 **진행 상황**: 354 / 373
 
-← **이전**: [353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)](/knowledge-base/studynote/15_devops_sre/05_devsecops/353_grpc/)
-**다음**: [355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)](/knowledge-base/studynote/15_devops_sre/05_devsecops/355_architecture/) →
+<- **이전**: [353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)](/knowledge-base/studynote/15_devops_sre/05_devsecops/353_grpc/)
+**다음**: [355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)](/knowledge-base/studynote/15_devops_sre/05_devsecops/355_architecture/) ->
 
 ---

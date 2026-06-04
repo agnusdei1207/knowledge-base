@@ -26,13 +26,13 @@ STP와 MTP는 같은 "[성능](/knowledge-base/studynote/04_software_engineering
 이 그림은 같은 예산에서도 목표가 달라지면 칩 구성이 달라짐을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ STP Focus -> Big Core Few -> Fast Response / Low Thread Count             │
-│ MTP Focus -> Small Core Many -> High Throughput / Lower Per-Thread Speed  │
-│ Serial Section Exists -> 결국 일부 구간은 STP가 전체 체감을 결정           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다        |
++----------------------------------------------------------------------------+
+| STP Focus -> Big Core Few -> Fast Response / Low Thread Count             |
+| MTP Focus -> Small Core Many -> High Throughput / Lower Per-Thread Speed  |
+| Serial Section Exists -> 결국 일부 구간은 STP가 전체 체감을 결정           |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: STP는 서류 한 장을 가장 빨리 배달하는 오토바이 한 대이고, MTP는 상자를 한꺼번에 실어 나르는 트럭 여러 대다. 무엇을 옮기느냐에 따라 더 좋은 탈것이 달라진다.
@@ -56,13 +56,13 @@ STP를 끌어올리려면 보통 더 넓은 [superscalar](/knowledge-base/studyn
 이 그림은 STP와 MTP가 서로 다른 곳에 실리콘 예산을 쓰는 방식을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│     Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Big Core]   -> Wide Decode -> Large OoO -> Large Cache -> High STP       │
-│ [Many Cores] -> Core x N   -> Shared LLC -> High Thread Count -> High MTP │
-│                         but Memory / Coherence limits stop linear scaling  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|     Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다         |
++----------------------------------------------------------------------------+
+| [Big Core]   -> Wide Decode -> Large OoO -> Large Cache -> High STP       |
+| [Many Cores] -> Core x N   -> Shared LLC -> High Thread Count -> High MTP |
+|                         but Memory / Coherence limits stop linear scaling  |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: STP 중심 코어는 한 명의 숙련 장인에게 최고 장비를 몰아주는 방식이고, MTP 중심 코어는 적당한 장비를 여러 사람에게 나눠주는 방식이다. 같은 예산이라도 "깊이"와 "수"의 배분이 다르다.
@@ -141,20 +141,20 @@ STP와 MTP를 올바르게 구분하면 시스템은 더 높은 점수보다 <st
 
 ```text
 주파수 상승 중심 성능 향상
-        │
-        ▼
+        |
+        v
 큰 OoO 코어로 STP 확대
-        │
-        ▼
+        |
+        v
 멀티코어 확산으로 MTP 본격화
-        │
-        ▼
+        |
+        v
 SMT · Shared LLC · NUMA 최적화
-        │
-        ▼
+        |
+        v
 Hybrid Core · QoS-Aware Scheduling
-        │
-        ▼
+        |
+        v
 Domain-Specific Accelerator와 역할 분담
 ```
 
@@ -172,7 +172,7 @@ Domain-Specific Accelerator와 역할 분담
 
 **진행 상황**: 570 / 803
 
-← **이전**: [569. 멀티코어 칩 온도 불균형 (Thermal Gradient)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/569_thermal_gradient_dark_silicon/)
-**다음**: [571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/571_instruction_prefetch_buffer/) →
+<- **이전**: [569. 멀티코어 칩 온도 불균형 (Thermal Gradient)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/569_thermal_gradient_dark_silicon/)
+**다음**: [571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/571_instruction_prefetch_buffer/) ->
 
 ---

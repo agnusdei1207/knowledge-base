@@ -43,21 +43,21 @@ tags = ["studynote-enterprise"]
 아래 그림은 제품 오너십과 기능 전문성이 교차하는 매트릭스 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Squad matrix                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Product axis                                                         │
-│   Squad A  -> PO + FE + BE + Ops                                     │
-│   Squad B  -> PO + FE + BE + Ops                                     │
-│   Squad C  -> PO + FE + BE + Ops                                     │
-│                                                                      │
-│ Skill axis                                                           │
-│   FE Chapter  -> standards / coaching / review                       │
-│   BE Chapter  -> standards / coaching / review                       │
-│   Ops Chapter -> platform / reliability / tooling                    │
-│                                                                      │
-│ Rule: Squad decides "what now", Chapter aligns "how well"           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Squad matrix                                                         |
++----------------------------------------------------------------------+
+| Product axis                                                         |
+|   Squad A  -> PO + FE + BE + Ops                                     |
+|   Squad B  -> PO + FE + BE + Ops                                     |
+|   Squad C  -> PO + FE + BE + Ops                                     |
+|                                                                      |
+| Skill axis                                                           |
+|   FE Chapter  -> standards / coaching / review                       |
+|   BE Chapter  -> standards / coaching / review                       |
+|   Ops Chapter -> platform / reliability / tooling                    |
+|                                                                      |
+| Rule: Squad decides "what now", Chapter aligns "how well"           |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 본질은 "두 명의 상사"를 만드는 것이 아니라, 의사결정 축을 분리하는 데 있다. 스쿼드는 제품 목표와 우선순위를, 챕터는 기술 품질과 전문성 성장을 담당한다. 이 분리가 명확해야 스쿼드의 자율성과 전사 표준화가 동시에 성립한다.
@@ -140,17 +140,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Functional silo organization
-        │
-        ▼
+        |
+        v
 Dev and Ops collaboration
-        │
-        ▼
+        |
+        v
 BizDevOps product squad
-        │
-        ▼
+        |
+        v
 Chapter / platform-supported scaling
-        │
-        ▼
+        |
+        v
 Team topology and autonomous product flow
 ```
 
@@ -168,7 +168,7 @@ Team topology and autonomous product flow
 
 **진행 상황**: 231 / 482
 
-← **이전**: [230. 바이모달 IT (Bimodal IT)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/230_bimodal_it_gartner/)
-**다음**: [232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) →
+<- **이전**: [230. 바이모달 IT (Bimodal IT)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/230_bimodal_it_gartner/)
+**다음**: [232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) ->
 
 ---

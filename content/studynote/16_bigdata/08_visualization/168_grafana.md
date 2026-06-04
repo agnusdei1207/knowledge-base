@@ -25,22 +25,22 @@ tags = ["studynote-bigdata"]
 
 ```
 관측성 3대 기둥:
-┌──────────────────────────────────────────────────────┐
-│  1. 메트릭 (Metrics)                                 │
-│     - CPU, 메모리, 요청 수, 응답 시간, 오류율         │
-│     - 시계열 데이터 (시간 + 숫자값)                   │
-│     - "무슨 일이 일어나고 있나?" → 양적 측정           │
-│                                                      │
-│  2. 로그 (Logs)                                      │
-│     - 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)    │
-│     - 비정형 텍스트 + 타임스탬프                      │
-│     - "왜 이런 일이 일어났나?" → 상세 이유             │
-│                                                      │
-│  3. 추적 (Traces)                                    │
-│     - 분산 서비스 간 요청 흐름 추적                   │
-│     - Span 연결 (A서비스 → B서비스 → DB 순서)         │
-│     - "어디서 느렸나?" → 병목 위치 식별               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  1. 메트릭 (Metrics)                                 |
+|     - CPU, 메모리, 요청 수, 응답 시간, 오류율         |
+|     - 시계열 데이터 (시간 + 숫자값)                   |
+|     - "무슨 일이 일어나고 있나?" -> 양적 측정           |
+|                                                      |
+|  2. 로그 (Logs)                                      |
+|     - 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)    |
+|     - 비정형 텍스트 + 타임스탬프                      |
+|     - "왜 이런 일이 일어났나?" -> 상세 이유             |
+|                                                      |
+|  3. 추적 (Traces)                                    |
+|     - 분산 서비스 간 요청 흐름 추적                   |
+|     - Span 연결 (A서비스 -> B서비스 -> DB 순서)         |
+|     - "어디서 느렸나?" -> 병목 위치 식별               |
++------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 관측성 3기둥은 **자동차 계기판·블랙박스·GPS** 조합과 같다. 계기판([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))으로 이상을 감지하고, 블랙박스([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))로 원인을 파악하며, GPS(추적)로 어느 경로에서 문제가 생겼는지 추적한다.
@@ -52,31 +52,31 @@ tags = ["studynote-bigdata"]
 ### LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                     LGTM 스택 구조                           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  데이터 수집                                                 │
-│  ┌────────────┬──────────────┬─────────────────────────────┐ │
-│  │Prometheus  │ Promtail/    │ OpenTelemetry / Jaeger /    │ │
-│  │(메트릭 수집)│ Fluentbit   │ Zipkin                      │ │
-│  │Pull 기반   │ (로그 수집)  │ (추적 데이터 수집)           │ │
-│  └─────┬──────┴──────┬───────┴──────────────┬──────────────┘ │
-│        │             │                       │               │
-│  저장  ▼             ▼                       ▼               │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────────────┐   │
-│  │  Mimir   │  │  Loki    │  │         Tempo            │   │
-│  │(메트릭   │  │(로그     │  │(추적 데이터 저장)          │   │
-│  │ 장기저장)│  │ 집계·저장)│  │TraceQL 쿼리 지원          │   │
-│  └──────────┘  └──────────┘  └──────────────────────────┘   │
-│        │             │                       │               │
-│  시각화 ▼             ▼                       ▼               │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │                    Grafana UI                          │  │
-│  │  PromQL / LogQL / TraceQL 통합 쿼리                    │  │
-│  │  Explore, Dashboard, Alerting                         │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     LGTM 스택 구조                           |
++--------------------------------------------------------------+
+|                                                              |
+|  데이터 수집                                                 |
+|  +------------+--------------+-----------------------------+ |
+|  |Prometheus  | Promtail/    | OpenTelemetry / Jaeger /    | |
+|  |(메트릭 수집)| Fluentbit   | Zipkin                      | |
+|  |Pull 기반   | (로그 수집)  | (추적 데이터 수집)           | |
+|  +-----+------+------+-------+--------------+--------------+ |
+|        |             |                       |               |
+|  저장  v             v                       v               |
+|  +----------+  +----------+  +--------------------------+   |
+|  |  Mimir   |  |  Loki    |  |         Tempo            |   |
+|  |(메트릭   |  |(로그     |  |(추적 데이터 저장)          |   |
+|  | 장기저장)|  | 집계·저장)|  |TraceQL 쿼리 지원          |   |
+|  +----------+  +----------+  +--------------------------+   |
+|        |             |                       |               |
+|  시각화 v             v                       v               |
+|  +--------------------------------------------------------+  |
+|  |                    Grafana UI                          |  |
+|  |  PromQL / LogQL / TraceQL 통합 쿼리                    |  |
+|  |  Explore, Dashboard, Alerting                         |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 ### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 비교
@@ -217,17 +217,17 @@ Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11
 
 ```text
 [메트릭 수집 (Metrics) — Prometheus Pull 방식]
-    │
-    ▼
+    |
+    v
 [로그 집계 (Log Aggregation) — Loki]
-    │
-    ▼
+    |
+    v
 [분산 추적 (Distributed Tracing) — Tempo]
-    │
-    ▼
+    |
+    v
 [Grafana 대시보드 — 통합 관측성 (Unified Observability)]
-    │
-    ▼
+    |
+    v
 [LGTM 스택 (Loki + Grafana + Tempo + Mimir)]
 ```
 
@@ -245,7 +245,7 @@ Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11
 
 **진행 상황**: 168 / 262
 
-← **이전**: [167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab](/knowledge-base/studynote/16_bigdata/08_visualization/167_apache_superset/)
-**다음**: [169. Kibana — ELK Stack 시각화 로그 분석 도구](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) →
+<- **이전**: [167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab](/knowledge-base/studynote/16_bigdata/08_visualization/167_apache_superset/)
+**다음**: [169. Kibana — ELK Stack 시각화 로그 분석 도구](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) ->
 
 ---

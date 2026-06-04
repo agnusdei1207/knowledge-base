@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 딥러닝 모델이 10개 클래스를 예측할 때, 모델 출력 분포 Q와 실제 정답 분포 P의 차이를 어떻게 수치화할까? 단순 정확도(Accuracy)는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 사용 불가하다. 이때 정보 이론([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))에서 온 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))가 등장한다. 정보 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P)는 분포 P의 평균 놀라움(정보량)이고, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q)는 실제 분포 P를 모른 채 분포 Q를 기준으로 코딩할 때 필요한 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수다. 둘의 차이가 KLD다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 정답 분포 P는 "실제 날씨 패턴"이고, 모델 예측 Q는 "기상청 예보"다. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 기상청 예보를 믿고 우산을 챙길 때 평균적으로 얼마나 손해([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 보는지 측정하는 것이고, KLD는 그 손해에서 원래 날씨 패턴이 가진 불확실성을 뺀 순수 예보 오차다.
@@ -44,18 +44,18 @@ tags = ["studynote-ai"]
 KLD:           D_KL(P||Q) = Σ p(x) · log[p(x)/q(x)]
                            = H(P,Q) - H(P)
 
-┌─────────────────────────────────────────────────┐
-│         H(P,Q) = H(P) + D_KL(P||Q)              │
-│                                                 │
-│  P = [1,0,0] (정답: 고양이)                      │
-│  Q = [0.7, 0.2, 0.1] (모델 예측)                │
-│                                                 │
-│  H(P,Q) = -(1·log0.7 + 0·log0.2 + 0·log0.1)    │
-│         = -log(0.7) ≈ 0.357 (bits)              │
-│                                                 │
-│  H(P) = 0 (원핫 분포는 엔트로피=0)              │
-│  D_KL = 0.357 - 0 = 0.357                       │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|         H(P,Q) = H(P) + D_KL(P||Q)              |
+|                                                 |
+|  P = [1,0,0] (정답: 고양이)                      |
+|  Q = [0.7, 0.2, 0.1] (모델 예측)                |
+|                                                 |
+|  H(P,Q) = -(1·log0.7 + 0·log0.2 + 0·log0.1)    |
+|         = -log(0.7) ≈ 0.357 (bits)              |
+|                                                 |
+|  H(P) = 0 (원핫 분포는 엔트로피=0)              |
+|  D_KL = 0.357 - 0 = 0.357                       |
++-------------------------------------------------+
 ```
 
 | 지표 | 수식 | 특성 |
@@ -105,7 +105,7 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [교차 엔트로피와 KLD (Kullback-Leibler Divergence)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [교차 엔트로피와 KLD (Kullback-Leibler Divergence)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -120,7 +120,7 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 **진행 상황**: 347 / 420
 
-← **이전**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)
-**다음**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/10_ai/05_data_science_ml/348_mle/) →
+<- **이전**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)
+**다음**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/10_ai/05_data_science_ml/348_mle/) ->
 
 ---

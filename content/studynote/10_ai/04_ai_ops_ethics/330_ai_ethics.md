@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 이 모든 사례의 공통점은 <strong>AI가 학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 내재된 사회적 편향을 흡수하거나 증폭시킨다</strong>는 것이다. AI가 단순 도구가 아닌 의사결정 주체로 부상하는 시대에, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리는 사회 정의의 문제가 됐다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향은 AI가 사회의 거울이 되는 문제다. 왜곡된 거울(편향된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 현실을 왜곡해서 보여준다. 그러나 거울과 달리 AI는 수백만 명의 의사결정에 영향을 미치므로, 거울 왜곡이 사회적 불평등을 구조화하고 증폭시키는 결과를 낳는다.
@@ -39,33 +39,33 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         AI 윤리 핵심 원칙 및 실천 체계                               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  1. 공정성 (Fairness):                                            │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ 인구통계학적 동등 (Demographic Parity): 그룹 간 합격률 동등  │    │
-│  │ 기회 균등 (Equal Opportunity): 그룹 간 True Positive율 동등 │    │
-│  │ 보정 (Calibration): 예측 확률이 실제 결과와 일치            │    │
-│  │ ※ 세 가지 공정성을 동시에 만족하는 것은 수학적으로 불가능!    │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  2. 투명성 (Transparency):                                        │
-│  - XAI(LIME, SHAP)로 설명 제공                                   │
-│  - 알고리즘 감사(Algorithm Audit) 의무화                           │
-│  - 데이터 출처·훈련 방법 공개 (모델 카드, 데이터시트)               │
-│                                                                  │
-│  3. 책임성 (Accountability):                                      │
-│  - AI 결정에 의한 피해 구제 메커니즘                               │
-│  - Human-in-the-Loop 의무화 (고위험 AI)                          │
-│  - 알고리즘 영향 평가(AIA, Algorithmic Impact Assessment)         │
-│                                                                  │
-│  4. 프라이버시 (Privacy):                                          │
-│  - GDPR/PIPA 준수 (학습 데이터 동의·목적 제한)                    │
-│  - 연합 학습·차등 프라이버시로 프라이버시 보존 학습                 │
-│  - 잊혀질 권리(Right to Erasure): 학습 데이터 삭제 요청 대응       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         AI 윤리 핵심 원칙 및 실천 체계                               |
++------------------------------------------------------------------+
+|                                                                  |
+|  1. 공정성 (Fairness):                                            |
+|  +---------------------------------------------------------+    |
+|  | 인구통계학적 동등 (Demographic Parity): 그룹 간 합격률 동등  |    |
+|  | 기회 균등 (Equal Opportunity): 그룹 간 True Positive율 동등 |    |
+|  | 보정 (Calibration): 예측 확률이 실제 결과와 일치            |    |
+|  | ※ 세 가지 공정성을 동시에 만족하는 것은 수학적으로 불가능!    |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  2. 투명성 (Transparency):                                        |
+|  - XAI(LIME, SHAP)로 설명 제공                                   |
+|  - 알고리즘 감사(Algorithm Audit) 의무화                           |
+|  - 데이터 출처·훈련 방법 공개 (모델 카드, 데이터시트)               |
+|                                                                  |
+|  3. 책임성 (Accountability):                                      |
+|  - AI 결정에 의한 피해 구제 메커니즘                               |
+|  - Human-in-the-Loop 의무화 (고위험 AI)                          |
+|  - 알고리즘 영향 평가(AIA, Algorithmic Impact Assessment)         |
+|                                                                  |
+|  4. 프라이버시 (Privacy):                                          |
+|  - GDPR/PIPA 준수 (학습 데이터 동의·목적 제한)                    |
+|  - 연합 학습·차등 프라이버시로 프라이버시 보존 학습                 |
+|  - 잊혀질 권리(Right to Erasure): 학습 데이터 삭제 요청 대응       |
++------------------------------------------------------------------+
 ```
 
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리 원칙 | 기술적 구현 | 조직적 구현 |
@@ -83,10 +83,10 @@ tags = ["studynote-ai"]
 ## Ⅲ. 비교 및 연결
 
 <strong>EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act 위험 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계</strong>:
-- <strong>금지 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 사회 신용 시스템, 서브리미널 조작, 취약 계층 착취 → 전면 금지
-- <strong>고위험 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 의료, 채용, 신용평가, 사법, 국경 통제 → 엄격한 투명성·감독 요구
-- **제한 위험**: 챗봇, [딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 콘텐츠 표시 의무
-- **최소 위험**: 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 스팸 필터 → 자율 규제
+- <strong>금지 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 사회 신용 시스템, 서브리미널 조작, 취약 계층 착취 -> 전면 금지
+- <strong>고위험 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 의료, 채용, 신용평가, 사법, 국경 통제 -> 엄격한 투명성·감독 요구
+- **제한 위험**: 챗봇, [딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/) -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 콘텐츠 표시 의무
+- **최소 위험**: 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 스팸 필터 -> 자율 규제
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -133,7 +133,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [AI 윤리 (AI Ethics)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [AI 윤리 (AI Ethics)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 330 / 420
 
-← **이전**: [329. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/)
-**다음**: [331. 멀티모달 AI (Multimodal AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/331_multimodal_ai/) →
+<- **이전**: [329. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/)
+**다음**: [331. 멀티모달 AI (Multimodal AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/331_multimodal_ai/) ->
 
 ---

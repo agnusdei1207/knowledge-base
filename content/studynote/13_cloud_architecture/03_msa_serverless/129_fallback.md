@@ -19,15 +19,15 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Fallback 전략 유형                                 │
-├───────────────────────────────────────────────────────┤
-│  1. 캐시 반환: 이전 성공 응답 캐시                   │
-│  2. 기본값: 정적 기본 데이터 반환                    │
-│  3. 대체 서비스: 다른 서비스 호출                    │
-│  4. 기능 비활성화: 해당 기능 숨김                    │
-│  5. 에러 안내: 사용자에게 상태 안내                  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Fallback 전략 유형                                 |
++-------------------------------------------------------+
+|  1. 캐시 반환: 이전 성공 응답 캐시                   |
+|  2. 기본값: 정적 기본 데이터 반환                    |
+|  3. 대체 서비스: 다른 서비스 호출                    |
+|  4. 기능 비활성화: 해당 기능 숨김                    |
+|  5. 에러 안내: 사용자에게 상태 안내                  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Fallback은 <strong>비상식량</strong>이다. 정상 배달([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 안 오면 비상식량(캐시·기본값)으로 버틴다.
@@ -57,8 +57,8 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) Open 시 → Fallback 자동 호출.
-- Netflix: 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 → Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 목록(캐시) 반환.
+- [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) Open 시 -> Fallback 자동 호출.
+- Netflix: 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 -> Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 목록(캐시) 반환.
 - Resilience4j: `@Fallback` 어노테이션.
 
 ---
@@ -83,10 +83,10 @@ Fallback은 <strong>MSA에서 사용자 경험을 지키는 마지막 방어선<
 
 ```text
 [직접 에러 반환 (~2010s)]
-    → [Hystrix Fallback (2012~)]
-    → [Resilience4j Fallback (2018~)]
-    → [서비스 메시 Fallback (Istio, 2020~)]
-    → [현재: AI Fallback — 상황별 최적 대체 자동 선택]
+    -> [Hystrix Fallback (2012~)]
+    -> [Resilience4j Fallback (2018~)]
+    -> [서비스 메시 Fallback (Istio, 2020~)]
+    -> [현재: AI Fallback — 상황별 최적 대체 자동 선택]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -100,7 +100,7 @@ Fallback은 <strong>MSA에서 사용자 경험을 지키는 마지막 방어선<
 
 **진행 상황**: 128 / 371
 
-← **이전**: [128. Circuit Breaker - MSA 장애 전파 차단 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/128_circuit_breaker/)
-**다음**: [130. Bulkhead 패턴 - 격벽으로 장애 격리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/130_bulkhead_pattern/) →
+<- **이전**: [128. Circuit Breaker - MSA 장애 전파 차단 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/128_circuit_breaker/)
+**다음**: [130. Bulkhead 패턴 - 격벽으로 장애 격리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/130_bulkhead_pattern/) ->
 
 ---

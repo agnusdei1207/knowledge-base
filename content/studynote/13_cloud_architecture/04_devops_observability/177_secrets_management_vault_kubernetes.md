@@ -24,16 +24,16 @@ tags = ["studynote-cloud-architecture"]
 문제가 커지는 이유는 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)이 한 번만 저장되지 않기 때문이다. 개발자가 로컬 `.env`에 넣고, 파이프라인이 배포 변수로 복사하고, [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트가 다시 렌더링하고, Pod가 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 주입받으면 같은 값의 복사본이 여러 지점에 남는다. 유출 이후에는 어떤 경로로 퍼졌는지 추적하기 어려워지고, 비밀번호 회전(Rotation)도 "값 하나 변경"이 아니라 다수 애플리케이션의 재배포 작업으로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Secret Sprawl: 복사본이 늘수록 회수 비용이 커진다            │
-├──────────────────────────────────────────────────────────────┤
-│ Source Repo    ─┐                                           │
-│ CI Variable    ─┼─▶ app.yaml ─▶ Pod env ─▶ Log / Crash dump │
-│ Docker Image   ─┤                                           │
-│ Wiki / Chat    ─┘                                           │
-│                                                              │
-│ 유출 이후 해야 할 일: 탐색, 폐기, 회전, 재배포, 감사          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Secret Sprawl: 복사본이 늘수록 회수 비용이 커진다            |
++--------------------------------------------------------------+
+| Source Repo    -+                                           |
+| CI Variable    -+--> app.yaml --> Pod env --> Log / Crash dump |
+| Docker Image   -+                                           |
+| Wiki / Chat    -+                                           |
+|                                                              |
+| 유출 이후 해야 할 일: 탐색, 폐기, 회전, 재배포, 감사          |
++--------------------------------------------------------------+
 ```
 
 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret이 등장한 이유도 바로 이 배포 문제를 줄이기 위해서다. 다만 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret은 "클러스터 안에 값을 전달하는 기본 객체"이지, 자격 증명 수명주기 전체를 관리하는 플랫폼은 아니다. Base64 인코딩 자체는 보안이 아니며, 실제 안전성은 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 암호화, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), [네임스페이스 격리](/knowledge-base/studynote/02_operating_system/02_process_thread/151_namespace_isolation/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 설정이 함께 있어야 확보된다.
@@ -57,25 +57,25 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 아래 그림은 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 기반 런타임 주입 구조를 보여준다. 중요한 점은 애플리케이션이 장기 토큰을 이미지에 담지 않고, Pod의 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Account를 이용해 순간적으로 필요한 자격 증명만 받아 쓴다는 점이다.
 
 ```text
-┌──────────────────── Pod ────────────────────┐
-│ App Container reads /vault/secrets/db       │
-│ Vault Agent authenticates and renews lease  │
-└──────────────────────┬──────────────────────┘
-                       │ ServiceAccount JWT
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Vault Kubernetes Auth                        │
-│ verify JWT → map role → attach policy        │
-└──────────────────────┬──────────────────────┘
-                       │ allow: database/creds/app
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Secret Engine                                │
-│ KV v2 / Database / PKI                       │
-│ issue secret + TTL + revoke handle           │
-└───────────────┬──────────────────────────────┘
-                ├────────▶ Audit Log
-                └────────▶ Renewal / Revoke
++-------------------- Pod --------------------+
+| App Container reads /vault/secrets/db       |
+| Vault Agent authenticates and renews lease  |
++----------------------+----------------------+
+                       | ServiceAccount JWT
+                       v
++----------------------------------------------+
+| Vault Kubernetes Auth                        |
+| verify JWT -> map role -> attach policy        |
++----------------------+----------------------+
+                       | allow: database/creds/app
+                       v
++----------------------------------------------+
+| Secret Engine                                |
+| KV v2 / Database / PKI                       |
+| issue secret + TTL + revoke handle           |
++---------------+------------------------------+
+                +---------> Audit Log
+                +---------> Renewal / Revoke
 ```
 
 정적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)과 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)의 차이도 중요하다. [Key Value](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) (KV) 엔진은 미리 저장된 비밀번호를 전달하지만, [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 엔진은 DB에 임시 계정을 새로 만들어 30분·1시간처럼 짧은 TTL로 내보낼 수 있다. 전자는 배포 단순성이 강점이고, 후자는 유출 시 피해 반경을 줄이는 데 강하다.
@@ -164,17 +164,17 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 
 ```text
 하드코딩된 비밀번호 · .env 파일
-    │
-    ▼
+    |
+    v
 Kubernetes Secret + etcd 암호화
-    │
-    ▼
+    |
+    v
 외부 저장소 연동 (External Secrets / CSI)
-    │
-    ▼
+    |
+    v
 Vault 동적 시크릿 · Lease · Rotation
-    │
-    ▼
+    |
+    v
 Workload Identity 기반 Zero Trust secret delivery
 ```
 
@@ -192,7 +192,7 @@ Workload Identity 기반 Zero Trust secret delivery
 
 **진행 상황**: 176 / 371
 
-← **이전**: [176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/176_container_image_vulnerability_scanning/)
-**다음**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/) →
+<- **이전**: [176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/176_container_image_vulnerability_scanning/)
+**다음**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/) ->
 
 ---

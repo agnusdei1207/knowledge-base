@@ -26,28 +26,28 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 육상 경기 이어달리기에서 배턴 터치(Baton Pass). 2번 주자는 마음만 급해서 먼저 달릴 수 없고, 1번 주자([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A)가 도착하여 배턴([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 건네줄 때까지 지정선(Wait)에서 강제 대기해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         초기값 0 세마포어를 활용한 A → B 순서 제어             │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  Semaphore sync = 0;  // ★ 핵심: 초기값을 0으로 시작           │
-│                                                                │
-│  [스레드 A (선행 요건)]       [스레드 B (의존 요건)]           │
-│                                                                │
-│                               (먼저 스케줄링 되어 도착 시)     │
-│                               sync.wait();  // -1 감소시도     │
-│                               // 0이므로 Blocked(수면 대기)    │
-│                                                                │
-│  작업_A() 실행;                                                │
-│  (A의 연산 완료)                                               │
-│  sync.signal();  // +1 증가                                    │
-│  // 0 > 1 (잠든 B 깨움!)                                       │
-│                                                                │
-│                               (B는 이제 깨어나 통과)           │
-│                               작업_B() 실행;                   │
-│                                                                │
-│  결과: 스케줄러가 B를 먼저 던져놔도 확실하게 A 먼저 실행됨.    │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         초기값 0 세마포어를 활용한 A -> B 순서 제어             |
++----------------------------------------------------------------+
+|                                                                |
+|  Semaphore sync = 0;  // ★ 핵심: 초기값을 0으로 시작           |
+|                                                                |
+|  [스레드 A (선행 요건)]       [스레드 B (의존 요건)]           |
+|                                                                |
+|                               (먼저 스케줄링 되어 도착 시)     |
+|                               sync.wait();  // -1 감소시도     |
+|                               // 0이므로 Blocked(수면 대기)    |
+|                                                                |
+|  작업_A() 실행;                                                |
+|  (A의 연산 완료)                                               |
+|  sync.signal();  // +1 증가                                    |
+|  // 0 > 1 (잠든 B 깨움!)                                       |
+|                                                                |
+|                               (B는 이제 깨어나 통과)           |
+|                               작업_B() 실행;                   |
+|                                                                |
+|  결과: 스케줄러가 B를 먼저 던져놔도 확실하게 A 먼저 실행됨.    |
++----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 순서 제어 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 영화 세트장의 슬레이트(딱장이) — "액션!"([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 외치기 전까지 배우(후행 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))들은 감정만 잡고 정지(Wait)해 있다가, 신호가 떨어져야만 연기를 시작합니다.
@@ -61,22 +61,22 @@ tags = ["studynote-operating-system"]
 단방향을 넘어 A와 B가 서로 특정 지점까지 도착했음을 핑퐁처럼 알려야 할 때 2개의 '0' [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 교차로 투입된다. (이 패턴은 현대의 장벽 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Barrier)나 Promise/Future 구조의 원류가 되었다.)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         A와 B의 교차 랑데부 순서 동기화                      │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Semaphore A_도착 = 0;                                       │
-│  Semaphore B_도착 = 0;                                       │
-│                                                              │
-│  [스레드 A]                   [스레드 B]                     │
-│  PartA_1 실행                 PartB_1 실행                   │
-│                                                              │
-│  A_도착.signal()              B_도착.signal()                │
-│  B_도착.wait()                A_도착.wait()                  │
-│                                                              │
-│  // 서로의 1번 파트가 완료되어야만 아래로 같이 뚫고 내려감   │
-│  PartA_2 실행                 PartB_2 실행                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         A와 B의 교차 랑데부 순서 동기화                      |
++--------------------------------------------------------------+
+|                                                              |
+|  Semaphore A_도착 = 0;                                       |
+|  Semaphore B_도착 = 0;                                       |
+|                                                              |
+|  [스레드 A]                   [스레드 B]                     |
+|  PartA_1 실행                 PartB_1 실행                   |
+|                                                              |
+|  A_도착.signal()              B_도착.signal()                |
+|  B_도착.wait()                A_도착.wait()                  |
+|                                                              |
+|  // 서로의 1번 파트가 완료되어야만 아래로 같이 뚫고 내려감   |
+|  PartA_2 실행                 PartB_2 실행                   |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 랑데부는 군첩 작전 시 양쪽 문 밀고 들어가기 — A가 한쪽 문에 도착해서 "나 왔어([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))", B도 반대쪽 문에서 "나도 왔어([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))" 해야만 서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Wait) 풀고 발로 차고(Part_2) 침투합니다.
@@ -136,12 +136,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-    │
-    ▼
+    |
+    v
 [세마포어를 이용한 순서 제어 (Ordering)]
-    │
-    ├──▶ [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
-    └──▶ [재진입 가능 락 (Reentrant Lock / Recursive Lock)]
+    |
+    +---> [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
+    +---> [재진입 가능 락 (Reentrant Lock / Recursive Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -158,7 +158,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 277 / 800
 
-← **이전**: [276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)
-**다음**: [278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)](/knowledge-base/studynote/02_operating_system/04_synchronization/278_binary_semaphore_vs_mutex/) →
+<- **이전**: [276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)
+**다음**: [278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)](/knowledge-base/studynote/02_operating_system/04_synchronization/278_binary_semaphore_vs_mutex/) ->
 
 ---

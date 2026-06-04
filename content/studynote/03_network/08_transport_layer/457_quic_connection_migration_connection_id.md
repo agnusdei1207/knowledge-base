@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [HOL 블로킹 문제 해결]
-    │
-    ▼
+    |
+    v
 [QUIC 연결 마이그레이션]
-    │
-    └──▶ [TLS 1.3 기본 내장]
+    |
+    +---> [TLS 1.3 기본 내장]
 ```
 
 - **📢 섹션 요약 비유**: ** QUIC의 연결 마이그레이션은 VIP 손님이 **"택시(와이파이)에서 내려 헬기([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 갈아타더라도, 호텔 지배인(서버)이 손님의 여권 번호(Connection ID)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 멈춤 없이 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 실어주는 007급 논스톱 호송 작전"**입니다.
@@ -51,22 +51,22 @@ tags = ["studynote-network"]
    "어? IP가 `200.2.2.2`네? 처음 보는 놈인데? 잠깐, 겉면에 CID가 `#ABC-123`이잖아? 야 이거 아까 와이파이로 영상 다운받고 있던 걔야! 연결 끊지 말고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) IP로 쏜 패킷 그대로 받아주고 다운로드 이어서 쏴줘!"
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs QUIC 모바일 로밍 시나리오 비교             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP의 로밍 실패 (로딩 지옥) ]                             │
- │   WiFi (IP: A) ───(다운로드 50% 진행 중)───▶ 서버               │
- │                                                             │
- │   LTE (IP: B) 로 변경됨! ──(나머지 줘!)──▶ 서버: "뉘신지? (RST)"  │
- │   ▶ 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!      │
- │                                                             │
- │   [ 최신 QUIC의 Connection Migration (로밍 마법) ]              │
- │   WiFi (IP: A) ───(다운로드 50% 진행 중, CID: 99)──▶ 서버      │
- │                                                             │
- │   LTE (IP: B) 로 변경됨! ──(CID: 99 들고 쏨!)──▶ 서버: "오 어서와"│
- │   ▶ 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP vs QUIC 모바일 로밍 시나리오 비교             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 구형 TCP의 로밍 실패 (로딩 지옥) ]                             |
+ |   WiFi (IP: A) ---(다운로드 50% 진행 중)----> 서버               |
+ |                                                             |
+ |   LTE (IP: B) 로 변경됨! --(나머지 줘!)---> 서버: "뉘신지? (RST)"  |
+ |   -> 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!      |
+ |                                                             |
+ |   [ 최신 QUIC의 Connection Migration (로밍 마법) ]              |
+ |   WiFi (IP: A) ---(다운로드 50% 진행 중, CID: 99)---> 서버      |
+ |                                                             |
+ |   LTE (IP: B) 로 변경됨! --(CID: 99 들고 쏨!)---> 서버: "오 어서와"|
+ |   -> 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 치명적 약점 방어: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 추적 방지 (Privacy [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
@@ -135,12 +135,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HOL 블로킹 문제 해결]
-    │
-    ▼
+    |
+    v
 [현재 개념: QUIC 연결 마이그레이션]
-    │
-    ├──▶ [확장 A: TLS 1.3 기본 내장]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TLS 1.3 기본 내장]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제 해결에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 578 / 1120
 
-← **이전**: [456. HOL (Head-of-Line) 블로킹 문제 해결 (독립적 스트림 처리 적용)](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)
-**다음**: [458. TLS 1.3 기본 내장](/knowledge-base/studynote/03_network/08_transport_layer/458_quic_tls_1_3_integration/) →
+<- **이전**: [456. HOL (Head-of-Line) 블로킹 문제 해결 (독립적 스트림 처리 적용)](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)
+**다음**: [458. TLS 1.3 기본 내장](/knowledge-base/studynote/03_network/08_transport_layer/458_quic_tls_1_3_integration/) ->
 
 ---

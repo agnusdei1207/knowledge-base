@@ -19,32 +19,32 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 보면, `P1 → 프린터(R1)`, `프린터(R1) → P2` 처럼 사람이 사물을 요구하거나 사물이 사람에게 귀속된 복잡한 그림이 그려진다.
+[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 보면, `P1 -> 프린터(R1)`, `프린터(R1) -> P2` 처럼 사람이 사물을 요구하거나 사물이 사람에게 귀속된 복잡한 그림이 그려진다.
 
 하지만 데드락 감시 데몬 입장에선 "프린터 건, 스캐너 건 나발이건 알 바 아니고, **결국 P1이 P2가 나가주길 기다리고 있는 거잖아?**" 라는 핵심만 있으면 된다.
-따라서 중간에 낀 '사물(자원)' 노드를 생략하고, `P1 → P2` 라는 다이렉트 화살표로 그림을 단축시켜 버린다. 이것이 바로 <strong>대기 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Wait-for <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>, WFG)</strong>다.
+따라서 중간에 낀 '사물(자원)' 노드를 생략하고, `P1 -> P2` 라는 다이렉트 화살표로 그림을 단축시켜 버린다. 이것이 바로 <strong>대기 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Wait-for <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>, WFG)</strong>다.
 
 **💡 비유**: 복잡한 사각관계 막장 드라마 인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도. "철수가 영희의 집문서(자원)를 원하고, 그 집문서는 민수 명의(할당)로 되어 있다"는 긴 문장([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))을, 변호사가 쓱 보고 "그냥 철수가 민수(결재권자)를 기다린다(Wait-for)"는 단 한 줄로 칠판에 요약(WFG)해 버리는 것.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         RAG (자원 할당) → WFG (대기 그래프)의 압축 과정        │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [거추장스러운 RAG 도면]                                       │
-│  (P1) ───요청───▶ [자원A] ───할당───▶ (P2)                     │
-│  (P2) ───요청───▶ [자원B] ───할당───▶ (P3)                     │
-│  (P3) ───요청───▶ [자원C] ───할당───▶ (P1)                     │
-│                                                                │
-│  [▼ 자원 A, B, C 정점(Node) 삭제 및 간선 축약 (WFG)]           │
-│  (P1) ───기다림(Wait-for)───▶ (P2)                             │
-│   ▲                              │                             │
-│   │                              ▼                             │
-│   └───────◀ (P3) ◀──────────────┘                              │
-│                                                                │
-│  ▶ 결과: P1, P2, P3 3명의 노드로만 이루어진 완벽한 삼각형      │
-│           (사이클)이 한눈에 파악됨! → [데드락 탐지 발동!]      │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         RAG (자원 할당) -> WFG (대기 그래프)의 압축 과정        |
++----------------------------------------------------------------+
+|                                                                |
+|  [거추장스러운 RAG 도면]                                       |
+|  (P1) ---요청----> [자원A] ---할당----> (P2)                     |
+|  (P2) ---요청----> [자원B] ---할당----> (P3)                     |
+|  (P3) ---요청----> [자원C] ---할당----> (P1)                     |
+|                                                                |
+|  [v 자원 A, B, C 정점(Node) 삭제 및 간선 축약 (WFG)]           |
+|  (P1) ---기다림(Wait-for)----> (P2)                             |
+|   ^                              |                             |
+|   |                              v                             |
+|   +-------<- (P3) <---------------+                              |
+|                                                                |
+|  -> 결과: P1, P2, P3 3명의 노드로만 이루어진 완벽한 삼각형      |
+|           (사이클)이 한눈에 파악됨! -> [데드락 탐지 발동!]      |
++----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 중간 마진(자원)을 쏙 빼고, 순수하게 빚진 자와 빚쟁이(프로세스 간)의 목줄 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 남겨 탐정(OS)이 한눈에 연속 살인 고리를 파악하게 돕는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 지도입니다.
@@ -118,12 +118,12 @@ WFG의 최대 장점은 컴퓨터 과학의 가장 기본이자 극도로 최적
 
 ```text
 [교착 상태 탐지 (Deadlock Detection)]
-    │
-    ▼
+    |
+    v
 [대기 그래프 (Wait-for Graph)]
-    │
-    ├──▶ [탐지 알고리즘의 오버헤드]
-    └──▶ [교착 상태 복구 (Recovery from Deadlock)]
+    |
+    +---> [탐지 알고리즘의 오버헤드]
+    +---> [교착 상태 복구 (Recovery from Deadlock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -140,7 +140,7 @@ WFG의 최대 장점은 컴퓨터 과학의 가장 기본이자 극도로 최적
 
 **진행 상황**: 305 / 800
 
-← **이전**: [304. 교착 상태 탐지 (Deadlock Detection) - 알고리즘을 주기적으로 실행하여 데드락 확인](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)
-**다음**: [306. 탐지 알고리즘의 오버헤드 (Detection Overhead)](/knowledge-base/studynote/02_operating_system/05_deadlock/306_detection_overhead/) →
+<- **이전**: [304. 교착 상태 탐지 (Deadlock Detection) - 알고리즘을 주기적으로 실행하여 데드락 확인](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)
+**다음**: [306. 탐지 알고리즘의 오버헤드 (Detection Overhead)](/knowledge-base/studynote/02_operating_system/05_deadlock/306_detection_overhead/) ->
 
 ---

@@ -33,29 +33,29 @@ tags = ["studynote-operating-system"]
 운영체제가 RAM을 2배 퍼먹던 낡은 시대와 융합시킨 클라우드 시대를 비교하면 캐시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 렌더가 어떻게 진화했는지 팩트 검증이 쏟아진다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 "왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"    │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  ❌ [ 과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더) ]               │
-  │     가상 메모리 (Page Cache) : `A.txt 데이터(4KB)` [복사본 1 보관]             │
-  │        ↓ 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)                       │
-  │     블록 디바이스 (Buffer Cache): `A.txt 데이터(4KB)` [복사본 2 보관]          │
-  │        ↓                                                                       │
-  │     하드 디스크 원본                                                           │
-  │   => RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)                     │
-  │                                                                                │
-  │  =========================▼===================================                 │
-  │                                                                                │
-  │  ✅ [ 현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백) ]        │
-  │                                                                                │
-  │     [[ 통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!) ]]     │
-  │        - 파일 I/O (read/write 스왑 콜) ───┐                                    │
-  │        - 블록 I/O (디스크 드라이버 콜) ────┼▶ `A.txt (4KB 데이터)` 1개만!      │
-  │        - 메모리 맵 (mmap 페이징 마스킹 콜) ─┘   (포인터로 공유 쉐어링 컷!)     │
-  │                                                                                │
-  │   => 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!      │
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 "왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"    |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |  ❌ [ 과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더) ]               |
+  |     가상 메모리 (Page Cache) : `A.txt 데이터(4KB)` [복사본 1 보관]             |
+  |        v 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)                       |
+  |     블록 디바이스 (Buffer Cache): `A.txt 데이터(4KB)` [복사본 2 보관]          |
+  |        v                                                                       |
+  |     하드 디스크 원본                                                           |
+  |   => RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)                     |
+  |                                                                                |
+  |  =========================v===================================                 |
+  |                                                                                |
+  |  ✅ [ 현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백) ]        |
+  |                                                                                |
+  |     [[ 통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!) ]]     |
+  |        - 파일 I/O (read/write 스왑 콜) ---+                                    |
+  |        - 블록 I/O (디스크 드라이버 콜) ----+-> `A.txt (4KB 데이터)` 1개만!      |
+  |        - 메모리 맵 (mmap 페이징 마스킹 콜) -+   (포인터로 공유 쉐어링 컷!)     |
+  |                                                                                |
+  |   => 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!      |
+  +--------------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -138,12 +138,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [그룹화 (Grouping) / 계수 (Counting) 기법]
-    │
-    ▼
+    |
+    v
 [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
-    │
-    ├──▶ [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
-    └──▶ [동기화 I/O (O_SYNC / fsync)]
+    |
+    +---> [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+    +---> [동기화 I/O (O_SYNC / fsync)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -160,7 +160,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 536 / 800
 
-← **이전**: [535. 그룹화 (Grouping) / 계수 (Counting) 기법](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)
-**다음**: [537. 미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/) →
+<- **이전**: [535. 그룹화 (Grouping) / 계수 (Counting) 기법](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)
+**다음**: [537. 미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/) ->
 
 ---

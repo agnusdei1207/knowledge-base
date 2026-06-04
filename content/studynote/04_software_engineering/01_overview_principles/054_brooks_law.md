@@ -110,14 +110,14 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 ```text
 일정 지연
-    │
-    ▼
+    |
+    v
 인력 추가
-    │
-    ▼
+    |
+    v
 의사소통 증가
-    │
-    ▼
+    |
+    v
 더 큰 지연
 ```
 
@@ -135,7 +135,7 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 **진행 상황**: 54 / 973
 
-← **이전**: [053. 백파이어링 기법 (Backfiring Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/)
-**다음**: [55. Zachman Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) →
+<- **이전**: [053. 백파이어링 기법 (Backfiring Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/)
+**다음**: [55. Zachman Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) ->
 
 ---

@@ -246,7 +246,7 @@ AI 기반 OKR 진행도 자동 추적 도구 등장
 
 **진행 상황**: 72 / 587
 
-← **이전**: [40. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)
-**다음**: [041. AARRR 퍼널 / 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_aarrr_funnel/) →
+<- **이전**: [40. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)
+**다음**: [041. AARRR 퍼널 / 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_aarrr_funnel/) ->
 
 ---

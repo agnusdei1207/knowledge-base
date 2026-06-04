@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [mDNS / LMNR]
-    │
-    ▼
+    |
+    v
 [DHCP 포트 67, 68]
-    │
-    └──▶ [DHCP 과정 4단계]
+    |
+    +---> [DHCP 과정 4단계]
 ```
 
 - **📢 섹션 요약 비유**: DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [mDNS / LMNR]
-    │
-    ▼
+    |
+    v
 [DHCP 포트 67, 68]
-    │
-    └──▶ [DHCP 과정 4단계]
+    |
+    +---> [DHCP 과정 4단계]
 ```
 
 - **📢 섹션 요약 비유**: DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -109,12 +109,12 @@ DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_sy
 
 ```text
 [선행 개념: mDNS / LMNR]
-    │
-    ▼
+    |
+    v
 [현재 개념: DHCP 포트 67, 68]
-    │
-    ├──▶ [확장 A: DHCP 과정 4단계]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DHCP 과정 4단계]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68는 [mDNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/) / LMNR에서 출발해 현재 메커니즘을 정교화하고, 이후 DHCP 과정 4단계와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -131,7 +131,7 @@ DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_sy
 
 **진행 상황**: 643 / 1120
 
-← **이전**: [521. mDNS (Multicast DNS) / LMNR](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/)
-**다음**: [523. DHCP 과정 4단계 (DORA)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) →
+<- **이전**: [521. mDNS (Multicast DNS) / LMNR](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/)
+**다음**: [523. DHCP 과정 4단계 (DORA)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ->
 
 ---

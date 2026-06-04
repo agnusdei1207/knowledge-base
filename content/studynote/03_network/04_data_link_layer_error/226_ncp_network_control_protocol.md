@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [LCP]
-    │
-    ▼
+    |
+    v
 [NCP]
-    │
-    └──▶ [PAP]
+    |
+    +---> [PAP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> NCP는 아파트 입주 시 계약(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a>)을 마친 후, 실제로 전구에 불이 들어오게 하려고 </strong>"전기/수도/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(IP, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 개통하는 마지막 행정 절차"**입니다.
@@ -44,11 +44,11 @@ NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 
 
 ```text
 [LCP]
-    │
-    ▼
+    |
+    v
 [NCP]
-    │
-    └──▶ [PAP]
+    |
+    +---> [PAP]
 ```
 
 - **📢 섹션 요약 비유**: NCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -63,22 +63,22 @@ NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 
 3. <strong>NCP (Network Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (IP 주소 등 할당). 이 단계가 성공해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램이 교환된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                     PPP 연결 상태 천이도                    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [Dead] ────(물리적 연결)───▶ [Establish]                  │
- │                                    │  (LCP 협상 진행)       │
- │                                    ▼                        │
- │  ┌─────────────── [Authenticate] ◀─┘                        │
- │  │ (인증 실패)        │                                     │
- │  ▼                    ▼ (인증 성공 또는 인증 없음)          │
- │ [Terminate] ◀────── [Network]  (NCP 협상 진행)              │
- │                       │                                     │
- │                       ▼ (IPCP 등 NCP 설정 완료)             │
- │                     [Open]  ◀─── 실제 IP 데이터 전송 상태!  │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                     PPP 연결 상태 천이도                    |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [Dead] ----(물리적 연결)----> [Establish]                  |
+ |                                    |  (LCP 협상 진행)       |
+ |                                    v                        |
+ |  +--------------- [Authenticate] <--+                        |
+ |  | (인증 실패)        |                                     |
+ |  v                    v (인증 성공 또는 인증 없음)          |
+ | [Terminate] <------- [Network]  (NCP 협상 진행)              |
+ |                       |                                     |
+ |                       v (IPCP 등 NCP 설정 완료)             |
+ |                     [Open]  <---- 실제 IP 데이터 전송 상태!  |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. IPCP (IP Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 동작 방식
@@ -133,12 +133,12 @@ NCP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 [선행 개념: LCP]
-    │
-    ▼
+    |
+    v
 [현재 개념: NCP]
-    │
-    ├──▶ [확장 A: PAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: PAP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 NCP는 LCP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ NCP는 LCP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAP와
 
 **진행 상황**: 347 / 1120
 
-← **이전**: [225. LCP (Link Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)
-**다음**: [227. PAP (Password Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) →
+<- **이전**: [225. LCP (Link Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)
+**다음**: [227. PAP (Password Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) ->
 
 ---

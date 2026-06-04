@@ -30,27 +30,27 @@ tags = ["design_supervision"]
 다음 다이어그램은 4대 감리 영역이 어떻게 상호 연결되어 있는지 보여주는 아키텍처 도식이다.
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│            [4대 감리 영역 상호 연결 아키텍처]            │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │                    [사업관리]                      │  │
-│  │              (일정/예산/품질/인력)                  │  │
-│  └────────────────────┬─────────────────────────────┘  │
-│                       │                                │
-│         ┌─────────────┼─────────────┐                  │
-│         │             │             │                  │
-│         ▼             ▼             ▼                  │
-│  ┌───────────┐  ┌───────────┐  ┌───────────┐          │
-│  │ 응용시스템 │  │  DB/보안  │  │ 인프라/보안│          │
-│  │  (기능/UI) │  │ (모델/성능)│  │ (용량/장애)│          │
-│  └───────────┘  └───────────┘  └───────────┘          │
-│         │             │             │                  │
-│         └─────────────┼─────────────┘                  │
-│                       │                                │
-│                 [最终 산출물]                          │
-│               (통합 시스템 & 서비스)                   │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|            [4대 감리 영역 상호 연결 아키텍처]            |
+|                                                         |
+|  +--------------------------------------------------+  |
+|  |                    [사업관리]                      |  |
+|  |              (일정/예산/품질/인력)                  |  |
+|  +--------------------+-----------------------------+  |
+|                       |                                |
+|         +-------------+-------------+                  |
+|         |             |             |                  |
+|         v             v             v                  |
+|  +-----------+  +-----------+  +-----------+          |
+|  | 응용시스템 |  |  DB/보안  |  | 인프라/보안|          |
+|  |  (기능/UI) |  | (모델/성능)|  | (용량/장애)|          |
+|  +-----------+  +-----------+  +-----------+          |
+|         |             |             |                  |
+|         +-------------+-------------+                  |
+|                       |                                |
+|                 [最终 산출물]                          |
+|               (통합 시스템 & 서비스)                   |
++---------------------------------------------------------+
 ```
 
 이 도식의 핵심은 4대 감리 영역이 모두 발주자가 요구하는 최종 산출물(통합 시스템)을 만들어내기 위해 유기적으로 연결되어 있다는 점이다. 사업관리는 전체의골가(骨子) 역할을 하고, 응용시스템은 몸통(肌肉), DB/보안은 혈액과 면역체계(순환/방어), 인프라/보안은 뼈대(支持構造) 역할을 한다. 어느 한 영역이 무너지면 전체 시스템의건전성에영향을 미친다.
@@ -78,24 +78,24 @@ tags = ["design_supervision"]
 [4대 감리 영역별 대표 问题点 분석]
 
 ■ 사업관리
-  ├─ 일정 초과 (진척 보고와 실제 차이)
-  ├─ 예산 불일치 (변경 Orders 관리 미흡)
-  └─ 산출물 부실 (중간 Deliverables 미제출)
+  +- 일정 초과 (진척 보고와 실제 차이)
+  +- 예산 불일치 (변경 Orders 관리 미흡)
+  +- 산출물 부실 (중간 Deliverables 미제출)
 
 ■ 응용시스템
-  ├─ 요구사항 미충족 (요구사항 추적 미흡)
-  ├─ 화면 불일치 (설계도면과 구현 차이)
-  └─ 测试 부실 (覆盖率不足, 시나리오 미실행)
+  +- 요구사항 미충족 (요구사항 추적 미흡)
+  +- 화면 불일치 (설계도면과 구현 차이)
+  +- 测试 부실 (覆盖率不足, 시나리오 미실행)
 
 ■ DB/보안
-  ├─ ERD 불완전 (정규화 미실시, 관계 누락)
-  ├─ 성능 저하 (인덱스 미생성, 쿼리 비효율)
-  └─ 백업 미실시 (백업 주기 미준수, 복구 테스트 미실시)
+  +- ERD 불완전 (정규화 미실시, 관계 누락)
+  +- 성능 저하 (인덱스 미생성, 쿼리 비효율)
+  +- 백업 미실시 (백업 주기 미준수, 복구 테스트 미실시)
 
 ■ 시스템아키텍처/보안
-  ├─ 용량 미달 (초과 사용자 고려不足)
-  ├─ 보안 취약 (시큐어 코딩 미흡, 패치 미실시)
-  └─ DR 미비 (RTO/RPO 목표 미달,演练 미실시)
+  +- 용량 미달 (초과 사용자 고려不足)
+  +- 보안 취약 (시큐어 코딩 미흡, 패치 미실시)
+  +- DR 미비 (RTO/RPO 목표 미달,演练 미실시)
 ```
 
 이 분석의 핵심은 각 영역에서 반복적으로 나타나는 문제점을 pattern화하여, 감리초기에 이러한 문제의주사마적를 발현하면심층 조사를 실시하는 것이다. 예를 들어, 사업관리에서 진척 보고와 실제사이 불일치가 보이면, 응용시스템의 산출물 완성도도 함께 의심해봐야 한다.
@@ -112,10 +112,10 @@ tags = ["design_supervision"]
 
 | 원인 영역 | 결과 영역 | 복합 문제 시나리오 | [감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) |
 |:---|:---|:---|:---|
-| **사업관리 → 응용시스템** | 일정 압박으로 인해 테스트 시간 부족 → 화면 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 미실시 → 종료 감리에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 | 프로젝트 통제 부실이 산출물품질직접영향 |
-| **사업관리 → DB/보안** | 예산 삭감 pressure로 DB 용량산정을 하향 수정 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 시 disk Full 발생 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 | 자원 배분의 비합리성이 시스템 신뢰성 훼손 |
-| **응용시스템 → DB/보안** | 응용시스템의 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 로직 부실 → DB CPU 100% 점유 → 타 시스템에도 영향 | 계층 간 Boundary Violation로 인한 연쇄적 영향 |
-| **DB/보안 → 시스템보안** | DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반으로 법적リ스크 | 수거 관리 부실이 보안/법적 문제로 확대 |
+| **사업관리 -> 응용시스템** | 일정 압박으로 인해 테스트 시간 부족 -> 화면 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 미실시 -> 종료 감리에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 | 프로젝트 통제 부실이 산출물품질직접영향 |
+| **사업관리 -> DB/보안** | 예산 삭감 pressure로 DB 용량산정을 하향 수정 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 시 disk Full 발생 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 | 자원 배분의 비합리성이 시스템 신뢰성 훼손 |
+| **응용시스템 -> DB/보안** | 응용시스템의 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 로직 부실 -> DB CPU 100% 점유 -> 타 시스템에도 영향 | 계층 간 Boundary Violation로 인한 연쇄적 영향 |
+| **DB/보안 -> 시스템보안** | DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 -> [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반으로 법적リ스크 | 수거 관리 부실이 보안/법적 문제로 확대 |
 
 이러한 영역 간복합문제의종적를 분석하면 다음과 같은프로세스도(프로세스도)로 표현할 수 있다.
 
@@ -123,19 +123,19 @@ tags = ["design_supervision"]
 [영역 간 연쇄적 问题 발생 流程]
 
 [사업관리 문제]
-    │ (일정 초과, 예산 부족)
-    ▼
+    | (일정 초과, 예산 부족)
+    v
 [응용시스템 영향]
-    │ (테스트 시간 부족, 화면 미완성)
-    ▼
+    | (테스트 시간 부족, 화면 미완성)
+    v
 [DB/보안 문제]
-    │ (대량 데이터 처리 부하, 백업 누락)
-    ▼
+    | (대량 데이터 처리 부하, 백업 누락)
+    v
 [시스템아키텍처/보안 문제]
-    │ (용량 초과, 장애 발생, 보안 침해)
-    ▼
+    | (용량 초과, 장애 발생, 보안 침해)
+    v
 [最终 피해]
-    │ (서비스 중단, 데이터 유실, 법적 책임)
+    | (서비스 중단, 데이터 유실, 법적 책임)
 ```
 
 이프로세스의 핵심은 "사업관리 영역의 문제"가 시발점인 경우가 많다는 점이다. PM 영역이건전하면 응용, DB, 보안 순으로 문제가사전 방지되므로, 감리 시 PM 영역의 점검을특별주의해야 한다.
@@ -154,7 +154,7 @@ tags = ["design_supervision"]
 
 **2. 영역별 우선순위 판단: "어떤 영역부터 감리를 실시해야 하는가?"**
 *   **상황**: 감리 일정이 빠듯하여 4개 영역을 동시에 진행하기 어렵다. 어떤 영역을 먼저, 어떤 영역을 나중에 처리해야 하는가?
-*   **기술사적 판단**: 일반적으로 사업관리 → 응용시스템 → DB/보안 → 시스템아키텍처/보안 순으로 진행하는 것이 효율적이다. 왜냐하면 선행 영역의 문제가 후행 영역에 영향을 미치기 때문이다. 다만, 프로젝트 특성에 따라 달라질 수 있다. 예를 들어, DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 핵심인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 시스템이라면 DB/보안 영역을 선행처리해야 할 수도 있다.
+*   **기술사적 판단**: 일반적으로 사업관리 -> 응용시스템 -> DB/보안 -> 시스템아키텍처/보안 순으로 진행하는 것이 효율적이다. 왜냐하면 선행 영역의 문제가 후행 영역에 영향을 미치기 때문이다. 다만, 프로젝트 특성에 따라 달라질 수 있다. 예를 들어, DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 핵심인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 시스템이라면 DB/보안 영역을 선행처리해야 할 수도 있다.
 
 **3. 영역 통합 판단: "이 문제는 단일 영역으로 해결 가능한가, 다중 영역련합 대응이 필요한가?"**
 *   **상황**: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출가의사안이 발생했는데, 이것이 응용시스템의 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 미흡 때문인지(응용시스템 영역), DB의 권한 관리 부실 때문인지(DB/보안 영역), 인프라의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 미흡 때문인지(시스템보안 영역) 불분명하다.
@@ -163,13 +163,13 @@ tags = ["design_supervision"]
 ```text
 [복합 문제 조사 流程]
  1. 문제 현상 파악 (Performance 저하/보안 사고/데이터 유실)
-      │
+      |
  2. 관련 영역 식별 (4개 중 관련 영역 선별)
-      │
+      |
  3. 각 영역 동시 조사 (병렬 조사로 时间 단축)
-      │
+      |
  4.Root Cause 분석 (영역 간 인과관계 정리)
-      │
+      |
  5. 책임 소재 및 시정 조치 결정 (단일/공동 책임 판정)
 ```
 
@@ -208,20 +208,20 @@ tags = ["design_supervision"]
 
 ```text
 [감리 목적 정의 (Audit Purpose Definition)]
-    │
-    ▼
+    |
+    v
 [감리 도메인 분류 (Audit Domain Classification)]
-    │
-    ▼
+    |
+    v
 [감리 영역별 점검항목 (Audit Checklist)]
-    │
-    ▼
+    |
+    v
 [감리 결과 보고 (Audit Reporting)]
-    │
-    ▼
+    |
+    v
 [시정 조치 (Corrective Action)]
-    │
-    ▼
+    |
+    v
 [품질 보증 (Quality Assurance)]
 ```
 
@@ -238,7 +238,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 7 / 530
 
-← **이전**: [6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/)
-**다음**: [8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) →
+<- **이전**: [6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/)
+**다음**: [8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) ->
 
 ---

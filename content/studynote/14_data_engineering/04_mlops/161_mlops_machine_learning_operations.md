@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 개발(Dev)과 운영(Ops)을 통합하여, 실험실 모델을 신뢰할 수 있는 프로덕션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 자동화하는 전체 생명주기 관리 체계다.
 > 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))을 더해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·코드·모델 3축을 동시에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고, [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)에 자동으로 반응함으로써 운영 비용을 절감하고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 지속 보장한다.
-> 3. **판단 포인트**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도(Level 0→2)가 높을수록 자동화 범위가 넓어지고 재현성(Reproducibility)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))이 강화되나, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인프라 투자와 조직 문화 변화가 선행되어야 한다.
+> 3. **판단 포인트**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도(Level 0->2)가 높을수록 자동화 범위가 넓어지고 재현성(Reproducibility)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))이 강화되나, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인프라 투자와 조직 문화 변화가 선행되어야 한다.
 
 ---
 
@@ -26,12 +26,12 @@ tags = ["studynote-data-engineering"]
 
 ```
 전통 소프트웨어           ML 시스템
-┌─────────────────┐     ┌──────────────────────────────┐
-│   Code (코드)   │     │  Code  │  Data  │  Model     │
-│   버전 관리     │     │  코드  │  데이터│  모델       │
-│   테스트/배포   │     │  변화  │  변화  │  드리프트   │
-└─────────────────┘     └──────────────────────────────┘
-        ↓                           ↓
++-----------------+     +------------------------------+
+|   Code (코드)   |     |  Code  |  Data  |  Model     |
+|   버전 관리     |     |  코드  |  데이터|  모델       |
+|   테스트/배포   |     |  변화  |  변화  |  드리프트   |
++-----------------+     +------------------------------+
+        v                           v
   CI/CD 충분           CI / CD / CT (3축 자동화) 필요
 ```
 
@@ -73,32 +73,32 @@ tags = ["studynote-data-engineering"]
 ### 2.2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 전체 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        MLOps 생명주기                            │
-├──────────┬──────────┬──────────┬──────────┬──────────┬──────────┤
-│  데이터  │  피처    │  모델    │  모델    │  서빙    │  모니터  │
-│  수집    │  엔지니  │  학습    │  평가    │  배포    │  링      │
-│  검증    │  어링    │  실험    │  검증    │  &API    │  알람    │
-├──────────┴──────────┴──────────┴──────────┴──────────┴──────────┤
-│                     자동화 레이어                                 │
-│   CI (코드/데이터 검증) │ CD (모델 배포) │ CT (자동 재학습)      │
-├─────────────────────────────────────────────────────────────────┤
-│                     인프라 레이어                                 │
-│   피처 스토어 │ 모델 레지스트리 │ 실험 추적 │ 오케스트레이션     │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                        MLOps 생명주기                            |
++----------+----------+----------+----------+----------+----------+
+|  데이터  |  피처    |  모델    |  모델    |  서빙    |  모니터  |
+|  수집    |  엔지니  |  학습    |  평가    |  배포    |  링      |
+|  검증    |  어링    |  실험    |  검증    |  &API    |  알람    |
++----------+----------+----------+----------+----------+----------+
+|                     자동화 레이어                                 |
+|   CI (코드/데이터 검증) | CD (모델 배포) | CT (자동 재학습)      |
++-----------------------------------------------------------------+
+|                     인프라 레이어                                 |
+|   피처 스토어 | 모델 레지스트리 | 실험 추적 | 오케스트레이션     |
++-----------------------------------------------------------------+
 ```
 
 ### 2.3 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 3단계 (Google [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 모델)
 
 ```
 Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD 파이프라인)
-┌────────────────────┐     ┌────────────────────────┐  ┌──────────────────────────┐
-│ 데이터 사이언티스트│     │  자동화된 ML 파이프라인 │  │  CI/CD + CT 완전 자동화  │
-│ 가 수동으로        │     │  데이터 → 학습 → 배포  │  │  코드 변경만으로         │
-│ 데이터 처리        │ →   │  자동화                 │→ │  전체 파이프라인 실행    │
-│ → 모델 학습        │     │  CT 자동 재학습         │  │  다중 팀 협업 가능       │
-│ → 수동 배포        │     │  실험 추적              │  │  모델 레지스트리 연동    │
-└────────────────────┘     └────────────────────────┘  └──────────────────────────┘
++--------------------+     +------------------------+  +--------------------------+
+| 데이터 사이언티스트|     |  자동화된 ML 파이프라인 |  |  CI/CD + CT 완전 자동화  |
+| 가 수동으로        |     |  데이터 -> 학습 -> 배포  |  |  코드 변경만으로         |
+| 데이터 처리        | ->   |  자동화                 |-> |  전체 파이프라인 실행    |
+| -> 모델 학습        |     |  CT 자동 재학습         |  |  다중 팀 협업 가능       |
+| -> 수동 배포        |     |  실험 추적              |  |  모델 레지스트리 연동    |
++--------------------+     +------------------------+  +--------------------------+
   특징: Jupyter Notebook     특징: Kubeflow, MLflow       특징: 완전 자동화
   한계: 재현 불가, 느림       한계: 파이프라인만 자동화    수준: 대규모 ML 서비스
 ```
@@ -117,24 +117,24 @@ Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD
 ### 2.4 핵심 구성요소 상세
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MLOps 핵심 구성요소                           │
-├────────────────┬────────────────────────────────────────────────┤
-│ 데이터 파이프  │  데이터 수집 → 검증(Great Expectations)        │
-│ 라인           │  → 전처리 → 피처 스토어 저장                   │
-├────────────────┼────────────────────────────────────────────────┤
-│ 모델 학습      │  실험 추적(MLflow) → 하이퍼파라미터 튜닝        │
-│ 파이프라인     │  → 분산 학습(Horovod) → 모델 평가              │
-├────────────────┼────────────────────────────────────────────────┤
-│ 모델 레지스트  │  버전 관리 → Staging → Production              │
-│ 리             │  → Archived 상태 전이                          │
-├────────────────┼────────────────────────────────────────────────┤
-│ 모델 서빙      │  REST/gRPC API → 동적 배치 → A/B 테스트        │
-│ 플랫폼         │  → 카나리 배포 → 롤백                          │
-├────────────────┼────────────────────────────────────────────────┤
-│ 모니터링       │  데이터 드리프트 → 모델 성능 → 인프라 메트릭   │
-│ & 알람         │  → 자동 재학습 트리거                          │
-└────────────────┴────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                    MLOps 핵심 구성요소                           |
++----------------+------------------------------------------------+
+| 데이터 파이프  |  데이터 수집 -> 검증(Great Expectations)        |
+| 라인           |  -> 전처리 -> 피처 스토어 저장                   |
++----------------+------------------------------------------------+
+| 모델 학습      |  실험 추적(MLflow) -> 하이퍼파라미터 튜닝        |
+| 파이프라인     |  -> 분산 학습(Horovod) -> 모델 평가              |
++----------------+------------------------------------------------+
+| 모델 레지스트  |  버전 관리 -> Staging -> Production              |
+| 리             |  -> Archived 상태 전이                          |
++----------------+------------------------------------------------+
+| 모델 서빙      |  REST/gRPC API -> 동적 배치 -> A/B 테스트        |
+| 플랫폼         |  -> 카나리 배포 -> 롤백                          |
++----------------+------------------------------------------------+
+| 모니터링       |  데이터 드리프트 -> 모델 성능 -> 인프라 메트릭   |
+| & 알람         |  -> 자동 재학습 트리거                          |
++----------------+------------------------------------------------+
 ```
 
 ### 2.5 주요 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도구 생태계
@@ -167,24 +167,24 @@ Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD
 
 ```
 데이터 드리프트 감지
-        │
-        ▼
+        |
+        v
   CT 트리거 발동
-        │
-        ▼
+        |
+        v
 피처 스토어에서 최신 피처 조회
-        │
-        ▼
+        |
+        v
   모델 재학습 실행
-        │
-        ▼
+        |
+        v
 모델 레지스트리에 새 버전 등록
-        │
-        ▼
-카나리 배포 → A/B 테스트 → 전체 배포
-        │
-        ▼
-  모니터링 → 이상 시 롤백
+        |
+        v
+카나리 배포 -> A/B 테스트 -> 전체 배포
+        |
+        v
+  모니터링 -> 이상 시 롤백
 ```
 
 ### 3.3 ML 프로젝트 실패 원인 Top 5
@@ -210,7 +210,7 @@ Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD
 | **기반 구축** | 1~3개월 | 실험 추적 도구 도입, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 |
 | **파이프라인 자동화** | 3~6개월 | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 구축, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) 도입 |
 | **서빙 자동화** | 6~12개월 | A/B 테스트, [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) |
-| **완전 자동화** | 12개월+ | 드리프트 감지 → [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) → 배포 전 과정 자동화 |
+| **완전 자동화** | 12개월+ | 드리프트 감지 -> [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) -> 배포 전 과정 자동화 |
 
 ### 4.2 기술사 시험 핵심 포인트
 
@@ -228,21 +228,21 @@ Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD
 
 ```
 사용자 행동 데이터 (실시간)
-        │
-        ▼
-Kafka → Spark Streaming → 피처 스토어 (Feast)
-                                │
-                                ├─→ 오프라인 스토어 (S3/BigQuery)
-                                │         → 주기적 모델 재학습
-                                │
-                                └─→ 온라인 스토어 (Redis)
-                                          → 실시간 추천 API
+        |
+        v
+Kafka -> Spark Streaming -> 피처 스토어 (Feast)
+                                |
+                                +--> 오프라인 스토어 (S3/BigQuery)
+                                |         -> 주기적 모델 재학습
+                                |
+                                +--> 온라인 스토어 (Redis)
+                                          -> 실시간 추천 API
 
 모델 재학습 파이프라인 (Kubeflow)
-  데이터 검증 → 피처 추출 → 학습 → 평가 → 모델 레지스트리 등록
-                                              → 카나리 배포 (5%)
-                                              → A/B 테스트 (CTR 비교)
-                                              → 전체 배포 또는 롤백
+  데이터 검증 -> 피처 추출 -> 학습 -> 평가 -> 모델 레지스트리 등록
+                                              -> 카나리 배포 (5%)
+                                              -> A/B 테스트 (CTR 비교)
+                                              -> 전체 배포 또는 롤백
 ```
 
 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도입은 수작업 요리사에서 HACCP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 식품공장으로 전환하는 것과 같다. 맛(모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 유지하면서 위생([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질), 레시피 이력 관리(실험 추적), 자동 이상 감지(드리프트 모니터링)까지 모두 갖춰야 진정한 대량 생산(스케일아웃)이 가능하다.
@@ -266,7 +266,7 @@ Kafka → Spark Streaming → 피처 스토어 (Feast)
 1. **조직 문화**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트와 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어 간 협업 문화
 2. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·접근 제어 체계
 3. **표준화**: 재사용 가능한 파이프라인 컴포넌트와 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의
-4. **점진적 도입**: Level 0 → Level 1 → Level 2 단계적 전환
+4. **점진적 도입**: Level 0 -> Level 1 -> Level 2 단계적 전환
 
 ### 5.3 결론
 
@@ -305,22 +305,22 @@ MLOps는 ML 프로젝트가 PoC (Proof of [Concept](/knowledge-base/studynote/14
 
 ```text
 DevOps (코드 CI/CD)
-    │
-    ▼
+    |
+    v
 MLOps Level 0 — 수동 ML 파이프라인
-    │
-    ▼
+    |
+    v
 MLOps Level 1 — ML 파이프라인 자동화 (CT 도입)
-    ├─► 피처 스토어 (훈련/서빙 일관성)
-    ├─► 모델 레지스트리 (버전 관리)
-    └─► 드리프트 모니터링 (데이터/컨셉)
-    │
-    ▼
+    +-► 피처 스토어 (훈련/서빙 일관성)
+    +-► 모델 레지스트리 (버전 관리)
+    +-► 드리프트 모니터링 (데이터/컨셉)
+    |
+    v
 MLOps Level 2 — CI/CD/CT 완전 자동화
-    ├─► A/B 테스트 · 카나리 배포 · 자동 롤백
-    └─► 실험 추적 (MLflow · W&B)
-    │
-    ▼
+    +-► A/B 테스트 · 카나리 배포 · 자동 롤백
+    +-► 실험 추적 (MLflow · W&B)
+    |
+    v
 LLMOps — 프롬프트 관리 · RAG 파이프라인 · PEFT 스케줄링
 ```
 
@@ -330,7 +330,7 @@ LLMOps — 프롬프트 관리 · RAG 파이프라인 · PEFT 스케줄링
 
 **진행 상황**: 161 / 258
 
-← **이전**: [160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)
-**다음**: [162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) →
+<- **이전**: [160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)
+**다음**: [162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ->
 
 ---

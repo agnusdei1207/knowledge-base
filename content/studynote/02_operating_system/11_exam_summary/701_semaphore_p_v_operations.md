@@ -139,29 +139,29 @@ void signal(semaphore *S) {
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 동시성 제어 객체 (Mutex vs Semaphore) 선택 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 환경에서 보호하거나 순서를 맞춰야 할 자원 발생]                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      보호해야 할 자원이 "동시에 단 1명만" 접근해야 하는 배타적 자원인가?         │
-  │      (예: 전역 변수 증가, 파일 하나에 동시에 쓰기)                           │
-  │          ├─ 예 ─────▶ [Mutex (뮤텍스) 선택 권장]                     │
-  │          │            (우선순위 역전 방지 및 소유권에 의한 에러 추적 용이)       │
-  │          └─ 아니오 (자원이 여러 개 거나, 접근 순서 제어가 필요하다)            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      자원의 개수가 N개(2개 이상) 인가? (예: DB 커넥션 풀, 워커 스레드 수)       │
-  │          ├─ 예 ─────▶ [Counting Semaphore (초깃값 N) 선택]           │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      특정 스레드 A가 끝난 후에만 스레드 B가 실행되어야 하는가? (실행 순서 동기화) │
-  │          ├──▶ [Binary Semaphore (초깃값 0) 선택]                     │
-  │          │    (A가 끝나며 V(1)를 날려주면, B가 P(0->-1)로 기다리다 깨어남)  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 동시성 제어 객체 (Mutex vs Semaphore) 선택 플로우         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티스레드 환경에서 보호하거나 순서를 맞춰야 할 자원 발생]                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      보호해야 할 자원이 "동시에 단 1명만" 접근해야 하는 배타적 자원인가?         |
+  |      (예: 전역 변수 증가, 파일 하나에 동시에 쓰기)                           |
+  |          +- 예 ------> [Mutex (뮤텍스) 선택 권장]                     |
+  |          |            (우선순위 역전 방지 및 소유권에 의한 에러 추적 용이)       |
+  |          +- 아니오 (자원이 여러 개 거나, 접근 순서 제어가 필요하다)            |
+  |                |                                                  |
+  |                v                                                  |
+  |      자원의 개수가 N개(2개 이상) 인가? (예: DB 커넥션 풀, 워커 스레드 수)       |
+  |          +- 예 ------> [Counting Semaphore (초깃값 N) 선택]           |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      특정 스레드 A가 끝난 후에만 스레드 B가 실행되어야 하는가? (실행 순서 동기화) |
+  |          +---> [Binary Semaphore (초깃값 0) 선택]                     |
+  |          |    (A가 끝나며 V(1)를 날려주면, B가 P(0->-1)로 기다리다 깨어남)  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 초깃값을 1로 주면 뮤텍스랑 똑같으니까, 그냥 평생 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)만 쓰면 안 되나?" 이것은 매우 위험한 생각이다. [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 소유권이 없기 때문에, 버그가 난 엉뚱한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `V 연산`을 막 호출해서 잠긴 문을 다 부수고 열어버릴 수 있다. 뮤텍스는 오직 문을 잠근 놈만이 문을 열 수 있도록 OS가 철저히 감시하므로, 배타적 통제([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))에는 무조건 뮤텍스를 쓰는 것이 아키텍처의 정석이다.
@@ -207,12 +207,12 @@ void signal(semaphore *S) {
 
 ```text
 [스핀락 바쁜 대기 (Busy Wait)]
-    │
-    ▼
+    |
+    v
 [세마포어 P, V 연산 (Semaphore P V Operations)]
-    │
-    ├──▶ [모니터 (Monitor) 동기화 추상화]
-    └──▶ [생산자 소비자 유한 버퍼]
+    |
+    +---> [모니터 (Monitor) 동기화 추상화]
+    +---> [생산자 소비자 유한 버퍼]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -229,7 +229,7 @@ void signal(semaphore *S) {
 
 **진행 상황**: 701 / 800
 
-← **이전**: [700. 스핀락 바쁜 대기 (Busy Wait)](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/)
-**다음**: [702. 모니터 (Monitor) 동기화 추상화](/knowledge-base/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/) →
+<- **이전**: [700. 스핀락 바쁜 대기 (Busy Wait)](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/)
+**다음**: [702. 모니터 (Monitor) 동기화 추상화](/knowledge-base/studynote/02_operating_system/11_exam_summary/702_monitor_synchronization_abstraction/) ->
 
 ---

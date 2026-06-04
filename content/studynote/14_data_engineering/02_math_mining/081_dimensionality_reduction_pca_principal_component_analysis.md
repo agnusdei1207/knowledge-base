@@ -96,21 +96,21 @@ PCA는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-고차원 데이터 → 차원의 저주 (과적합 · 계산 폭발)
-    │
-    ▼
+고차원 데이터 -> 차원의 저주 (과적합 · 계산 폭발)
+    |
+    v
 선형 차원 축소
-    ├─► PCA: 분산 최대화 직교 축 투영 (비지도)
-    └─► LDA: 클래스 간 분리 최대화 (지도)
-    │
-    ▼
+    +-► PCA: 분산 최대화 직교 축 투영 (비지도)
+    +-► LDA: 클래스 간 분리 최대화 (지도)
+    |
+    v
 비선형 차원 축소
-    ├─► t-SNE: 지역 구조 보존 (시각화 특화)
-    ├─► UMAP: 전역+지역 구조 보존 (t-SNE보다 빠름)
-    └─► AutoEncoder: 신경망 기반 잠재 공간 학습
-    │
-    ▼
-딥러닝 임베딩 → VAE / Diffusion → 잠재 공간 표현 학습
+    +-► t-SNE: 지역 구조 보존 (시각화 특화)
+    +-► UMAP: 전역+지역 구조 보존 (t-SNE보다 빠름)
+    +-► AutoEncoder: 신경망 기반 잠재 공간 학습
+    |
+    v
+딥러닝 임베딩 -> VAE / Diffusion -> 잠재 공간 표현 학습
 ```
 
 ---
@@ -119,7 +119,7 @@ PCA는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 **진행 상황**: 81 / 258
 
-← **이전**: [80. 다중 공선성 (Multicollinearity) 및 VIF 지수](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)
-**다음**: [82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/) →
+<- **이전**: [80. 다중 공선성 (Multicollinearity) 및 VIF 지수](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)
+**다음**: [82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/) ->
 
 ---

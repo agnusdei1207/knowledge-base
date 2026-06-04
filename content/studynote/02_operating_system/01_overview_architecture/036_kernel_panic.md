@@ -187,7 +187,7 @@ VM 자동 재시작, Auto Scaling 그룹 복구
 
 **진행 상황**: 36 / 800
 
-← **이전**: [035. 코어 덤프 (Core Dump)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/)
-**다음**: [037. 시스템 데몬 (System Daemon)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/) →
+<- **이전**: [035. 코어 덤프 (Core Dump)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/)
+**다음**: [037. 시스템 데몬 (System Daemon)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/) ->
 
 ---

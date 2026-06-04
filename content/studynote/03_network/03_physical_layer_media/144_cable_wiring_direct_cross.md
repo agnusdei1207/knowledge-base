@@ -38,11 +38,11 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ```text
 [Auto-MDIX]
-    │
-    ▼
+    |
+    v
 [케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    └──▶ [DSU / CSU]
+    |
+    +---> [DSU / CSU]
 ```
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ```text
 [Auto-MDIX]
-    │
-    ▼
+    |
+    v
 [케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    └──▶ [DSU / CSU]
+    |
+    +---> [DSU / CSU]
 ```
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -134,12 +134,12 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ```text
 [선행 개념: Auto-MDIX]
-    │
-    ▼
+    |
+    v
 [현재 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    ├──▶ [확장 A: DSU / CSU]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: DSU / CSU]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 케이블 배선: 다이렉트 케이블 vs 크로스오…는 Auto-MDIX에서 출발해 현재 메커니즘을 정교화하고, 이후 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 **진행 상황**: 265 / 1120
 
-← **이전**: [143. Auto-MDIX (크로스 케이블 자동 인식)](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/)
-**다음**: [145. DSU (Digital Service Unit) / CSU (Channel Service Unit)](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) →
+<- **이전**: [143. Auto-MDIX (크로스 케이블 자동 인식)](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/)
+**다음**: [145. DSU (Digital Service Unit) / CSU (Channel Service Unit)](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) ->
 
 ---

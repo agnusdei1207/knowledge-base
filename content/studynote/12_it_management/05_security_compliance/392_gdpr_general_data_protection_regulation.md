@@ -26,55 +26,55 @@ GDPR(General Data Protection Regulation, EU 2016/679)은 1995년 Data Protection
 **필요성** 측면에서 GDPR은 단순한 컴플라이언스를 넘어 **Privacy by Design & by Default(Art. 25)**, **Data Protection Impact Assessment(Art. 35)**, **Records of Processing Activities(Art. 30)**, **Accountability Principle(Art. 5(2))** 등 조직 거버넌스 차원의 통제 체계를 요구한다. 2024년 5월 기준 GDPR 위반으로 부과된 누적 과징금은 **€5.88B**( enforcementtracker.com), 1,679건 통지,其中 Meta(€1.2B 2023.5 Ireland DPC), Amazon(€746M 2021.7 Luxembourg CNPD), Google(€50M 2019 France CNIL) 등 빅테크뿐 아니라 B2B SaaS·핀테크·헬스케어까지 적용 범위가 확대되었다. **반대급부(quid pro quo)**로 GDPR을 충족하는 조직은 EU Digital Single Market(5억 인구, GDP €15조)에 대한 무제한 접근권, ISO/IEC 27701:2019 PIMS 인증과의 매핑을 통한 글로벌 거버넌스 통합, 그리고 GDPR Art. 42(인증) 및 Art. 46(BCRs) 활용 시 본·지사 간 일관된 처리 표준 확보가 가능하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                GDPR 4-주체(Stakeholder) 관계 및 데이터 라이프사이클            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   ┌────────────┐                                ┌───────────────────┐         │
-│   │ Data Subject│◄───── Art.13/14 Notice ─────│   Joint Controllers│         │
-│   │ (정보주체)  │      (투명성 원칙)            │   (공동 컨트롤러)   │         │
-│   │             │                                │  ex) 메타+픽셀 통합│         │
-│   │ · 8대 권리  │      ┌──────────────┐          │  Art. 26 JCA 체결   │        │
-│   │ · 동의/거부 │      │  Consent Mgmt│          └─────────┬─────────┘        │
-│   │ · 이동성    │      │  (CMP/PIM)   │                    │                  │
-│   └──────┬──────┘      └──────┬───────┘                    │                  │
-│          │                     │                            │                  │
-│          │ withdraw            │ granular opt-in            │ DPA              │
-│          ▼                     ▼                            ▼                  │
-│   ┌──────────────────────────────────────────────────────────────┐           │
-│   │          Controller (컨트롤러, 처리 목적·수단 결정자)           │           │
-│   │   · Art. 5(2) Accountability                                  │           │
-│   │   · Art. 30 RoPA 유지                                        │           │
-│   │   · Art. 35 DPIA 시행 (고위험 시)                            │           │
-│   │   · Art. 37 DPO 선임 (필요 시점)                              │           │
-│   │   · Art. 33/34 침해 통지 (72h 이내 감독청, 고위험 시 주체)      │           │
-│   └────────────────────┬─────────────────────────────────────────┘           │
-│                        │ Art. 28 DPA (Data Processing Agreement)              │
-│                        ▼                                                         │
-│   ┌──────────────────────────────────────────────────────────────┐           │
-│   │          Processor (프로세서, 처리자)                            │           │
-│   │   · AWS/Azure/GCP (Infrastructure)                            │           │
-│   │   · SaaS Provider (Application)                                │           │
-│   │   · Sub-processor 체인 관리                                    │           │
-│   │   · Art. 32 보안조치 (암호화·접근통제·테스트)                   │           │
-│   │   · Art. 28(3)(a-h) 8개 의무 준수                             │           │
-│   └────────────────────┬─────────────────────────────────────────┘           │
-│                        │                                                       │
-│          ┌─────────────┼─────────────┬──────────────┬──────────────┐         │
-│          ▼             ▼             ▼              ▼              ▼         │
-│   ┌───────────┐ ┌───────────┐ ┌────────────┐ ┌──────────┐ ┌──────────┐        │
-│   │ Cloud(IaaS)│ │ DataLake  │ │ Analytics  │ │  CRM/ERP │ │   API    │        │
-│   │ AWS Frankfurt│ │ EU-West-1│ │ Snowflake  │ │ Salesforce│ │ Edge/IoT │       │
-│   │ AES-256+KMS│ │ Token화  │ │ 차분처리    │ │ Field-Lvl │ │ EdgeComp.│       │
-│   └───────────┘ └───────────┘ └────────────┘ └──────────┘ └──────────┘        │
-│                                                                              │
-│   ┌──────────────────────────────────────────────────────────────┐           │
-│   │   Supervisory Authority (감독청, SA) + EDPB (유럽보호이사회)    │           │
-│   │   · One-Stop-Shop (주감독청, Art. 56)                          │           │
-│   │   · Cross-Border Investigation (Art. 60)                      │           │
-│   │   · Consistency Mechanism (Art. 63~76)                        │           │
-│   └──────────────────────────────────────────────────────────────┘           │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                GDPR 4-주체(Stakeholder) 관계 및 데이터 라이프사이클            |
++------------------------------------------------------------------------------+
+|                                                                              |
+|   +------------+                                +-------------------+         |
+|   | Data Subject|◄----- Art.13/14 Notice -----|   Joint Controllers|         |
+|   | (정보주체)  |      (투명성 원칙)            |   (공동 컨트롤러)   |         |
+|   |             |                                |  ex) 메타+픽셀 통합|         |
+|   | · 8대 권리  |      +--------------+          |  Art. 26 JCA 체결   |        |
+|   | · 동의/거부 |      |  Consent Mgmt|          +---------+---------+        |
+|   | · 이동성    |      |  (CMP/PIM)   |                    |                  |
+|   +------+------+      +------+-------+                    |                  |
+|          |                     |                            |                  |
+|          | withdraw            | granular opt-in            | DPA              |
+|          v                     v                            v                  |
+|   +--------------------------------------------------------------+           |
+|   |          Controller (컨트롤러, 처리 목적·수단 결정자)           |           |
+|   |   · Art. 5(2) Accountability                                  |           |
+|   |   · Art. 30 RoPA 유지                                        |           |
+|   |   · Art. 35 DPIA 시행 (고위험 시)                            |           |
+|   |   · Art. 37 DPO 선임 (필요 시점)                              |           |
+|   |   · Art. 33/34 침해 통지 (72h 이내 감독청, 고위험 시 주체)      |           |
+|   +--------------------+-----------------------------------------+           |
+|                        | Art. 28 DPA (Data Processing Agreement)              |
+|                        v                                                         |
+|   +--------------------------------------------------------------+           |
+|   |          Processor (프로세서, 처리자)                            |           |
+|   |   · AWS/Azure/GCP (Infrastructure)                            |           |
+|   |   · SaaS Provider (Application)                                |           |
+|   |   · Sub-processor 체인 관리                                    |           |
+|   |   · Art. 32 보안조치 (암호화·접근통제·테스트)                   |           |
+|   |   · Art. 28(3)(a-h) 8개 의무 준수                             |           |
+|   +--------------------+-----------------------------------------+           |
+|                        |                                                       |
+|          +-------------+-------------+--------------+--------------+         |
+|          v             v             v              v              v         |
+|   +-----------+ +-----------+ +------------+ +----------+ +----------+        |
+|   | Cloud(IaaS)| | DataLake  | | Analytics  | |  CRM/ERP | |   API    |        |
+|   | AWS Frankfurt| | EU-West-1| | Snowflake  | | Salesforce| | Edge/IoT |       |
+|   | AES-256+KMS| | Token화  | | 차분처리    | | Field-Lvl | | EdgeComp.|       |
+|   +-----------+ +-----------+ +------------+ +----------+ +----------+        |
+|                                                                              |
+|   +--------------------------------------------------------------+           |
+|   |   Supervisory Authority (감독청, SA) + EDPB (유럽보호이사회)    |           |
+|   |   · One-Stop-Shop (주감독청, Art. 56)                          |           |
+|   |   · Cross-Border Investigation (Art. 60)                      |           |
+|   |   · Consistency Mechanism (Art. 63~76)                        |           |
+|   +--------------------------------------------------------------+           |
++------------------------------------------------------------------------------+
 ```
 
 **구시대와 신시대의 비교 (Old vs New Paradigm)**:
@@ -96,59 +96,59 @@ GDPR(General Data Protection Regulation, EU 2016/679)은 1995년 Data Protection
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-GDPR의 기술적 아키텍처는 **원칙(Principle) → 적법성(Lawful Basis) → 통제(Control) → 권리(Rights) → 전송(Transfer) → 책임(Accountability)**의 6계층 피라미드로 구성된다. 각 계층은 ISO/IEC 27701 PIMS, NIST Privacy Framework v1.0, ISO/IEC 27001:2022 Annex A 5.34~5.37(Privacy & PII Controls)와 직접 매핑된다.
+GDPR의 기술적 아키텍처는 **원칙(Principle) -> 적법성(Lawful Basis) -> 통제(Control) -> 권리(Rights) -> 전송(Transfer) -> 책임(Accountability)**의 6계층 피라미드로 구성된다. 각 계층은 ISO/IEC 27701 PIMS, NIST Privacy Framework v1.0, ISO/IEC 27001:2022 Annex A 5.34~5.37(Privacy & PII Controls)와 직접 매핑된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│      GDPR 6-Layer Privacy Architecture (Six-Layer Pyramid)                  │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│                          ┌────────────────────┐                              │
-│                          │  Layer 6: Account- │                              │
-│                          │  ability & Enforce │  Art.5(2), 24, 30, 35, 37     │
-│                          │  (RoPA, DPIA, DPO) │  EDPB, SA, 4%/€20M Fine      │
-│                          └─────────┬──────────┘                              │
-│                                    │                                          │
-│                    ┌───────────────┴────────────────┐                        │
-│                    │  Layer 5: Cross-Border Transfer │  Art. 44~49           │
-│                    │  (Adequacy, SCCs 2021/914,     │  Schrems II TIA        │
-│                    │   BCRs, derogations Art. 49)   │  Supplementary Measures│
-│                    └───────────────┬────────────────┘                        │
-│                                    │                                          │
-│              ┌─────────────────────┴─────────────────────┐                    │
-│              │  Layer 4: Data Subject Rights (Art.12~23) │                    │
-│              │  Art.13/14 Notice · Art.15 SAR (30일)    │                    │
-│              │  Art.16 Rectification · Art.17 Erasure   │                    │
-│              │  Art.18 Restriction · Art.20 Portability  │                    │
-│              │  Art.21 Object · Art.22 ADM Opt-out       │                    │
-│              └─────────────────────┬─────────────────────┘                    │
-│                                    │                                          │
-│        ┌───────────────────────────┴───────────────────────────┐              │
-│        │  Layer 3: Technical & Organizational Measures (TOMs)  │              │
-│        │  Art. 25 PbD/PbDefault · Art. 32 보안조치             │              │
-│        │  Encryption AES-256/RSA-4096, Pseudonymization        │              │
-│        │  Tokenization(HMAC), K-anonymity, Differential Privacy│              │
-│        │  Access Control(RBAC/ABAC), DLP, IRM, WAF             │              │
-│        └───────────────────────────┬───────────────────────────┘              │
-│                                    │                                          │
-│   ┌────────────────────────────────┴────────────────────────────────┐         │
-│   │  Layer 2: Lawful Bases (Art. 6/9/10)                             │         │
-│   │  (a) Consent    (b) Contract   (c) Legal Obligation             │         │
-│   │  (d) Vital Int. (e) Public Int. (f) Legitimate Interest (LIA)   │         │
-│   │  + Art.9 Special: 명시적 동의·계약·중요공익·연구·건강 등         │         │
-│   └────────────────────────────────┬────────────────────────────────┘         │
-│                                    │                                          │
-│ ┌──────────────────────────────────┴──────────────────────────────────────┐   │
-│ │  Layer 1: 7 Principles (Art. 5(1))                                      │   │
-│ │  ① Lawfulness, Fairness, Transparency (합법성·공정성·투명성)              │   │
-│ │  ② Purpose Limitation (목적 제한)                                         │   │
-│ │  ③ Data Minimization (데이터 최소화)                                      │   │
-│ │  ④ Accuracy (정확성)                                                     │   │
-│ │  ⑤ Storage Limitation (저장 기간 제한)                                   │   │
-│ │  ⑥ Integrity & Confidentiality (무결성·기밀성)                            │   │
-│ │  ⑦ Accountability (책임성)                                              │   │
-│ └─────────────────────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|      GDPR 6-Layer Privacy Architecture (Six-Layer Pyramid)                  |
++------------------------------------------------------------------------------+
+|                                                                              |
+|                          +--------------------+                              |
+|                          |  Layer 6: Account- |                              |
+|                          |  ability & Enforce |  Art.5(2), 24, 30, 35, 37     |
+|                          |  (RoPA, DPIA, DPO) |  EDPB, SA, 4%/€20M Fine      |
+|                          +---------+----------+                              |
+|                                    |                                          |
+|                    +---------------+----------------+                        |
+|                    |  Layer 5: Cross-Border Transfer |  Art. 44~49           |
+|                    |  (Adequacy, SCCs 2021/914,     |  Schrems II TIA        |
+|                    |   BCRs, derogations Art. 49)   |  Supplementary Measures|
+|                    +---------------+----------------+                        |
+|                                    |                                          |
+|              +---------------------+---------------------+                    |
+|              |  Layer 4: Data Subject Rights (Art.12~23) |                    |
+|              |  Art.13/14 Notice · Art.15 SAR (30일)    |                    |
+|              |  Art.16 Rectification · Art.17 Erasure   |                    |
+|              |  Art.18 Restriction · Art.20 Portability  |                    |
+|              |  Art.21 Object · Art.22 ADM Opt-out       |                    |
+|              +---------------------+---------------------+                    |
+|                                    |                                          |
+|        +---------------------------+---------------------------+              |
+|        |  Layer 3: Technical & Organizational Measures (TOMs)  |              |
+|        |  Art. 25 PbD/PbDefault · Art. 32 보안조치             |              |
+|        |  Encryption AES-256/RSA-4096, Pseudonymization        |              |
+|        |  Tokenization(HMAC), K-anonymity, Differential Privacy|              |
+|        |  Access Control(RBAC/ABAC), DLP, IRM, WAF             |              |
+|        +---------------------------+---------------------------+              |
+|                                    |                                          |
+|   +--------------------------------+--------------------------------+         |
+|   |  Layer 2: Lawful Bases (Art. 6/9/10)                             |         |
+|   |  (a) Consent    (b) Contract   (c) Legal Obligation             |         |
+|   |  (d) Vital Int. (e) Public Int. (f) Legitimate Interest (LIA)   |         |
+|   |  + Art.9 Special: 명시적 동의·계약·중요공익·연구·건강 등         |         |
+|   +--------------------------------+--------------------------------+         |
+|                                    |                                          |
+| +----------------------------------+--------------------------------------+   |
+| |  Layer 1: 7 Principles (Art. 5(1))                                      |   |
+| |  ① Lawfulness, Fairness, Transparency (합법성·공정성·투명성)              |   |
+| |  ② Purpose Limitation (목적 제한)                                         |   |
+| |  ③ Data Minimization (데이터 최소화)                                      |   |
+| |  ④ Accuracy (정확성)                                                     |   |
+| |  ⑤ Storage Limitation (저장 기간 제한)                                   |   |
+| |  ⑥ Integrity & Confidentiality (무결성·기밀성)                            |   |
+| |  ⑦ Accountability (책임성)                                              |   |
+| +-------------------------------------------------------------------------+   |
++------------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -157,7 +157,7 @@ GDPR의 기술적 아키텍처는 **원칙(Principle) → 적법성(Lawful Basis
 
 **진행 상황**: 392 / 800
 
-← **이전**: [391. SOC 2 서비스 조직 통제 보고서](/knowledge-base/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/)
-**다음**: [393. 개인정보보호법 PIPA 국내 규제 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/) →
+<- **이전**: [391. SOC 2 서비스 조직 통제 보고서](/knowledge-base/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/)
+**다음**: [393. 개인정보보호법 PIPA 국내 규제 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/) ->
 
 ---

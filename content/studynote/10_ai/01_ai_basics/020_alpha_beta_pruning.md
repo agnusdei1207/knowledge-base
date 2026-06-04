@@ -114,15 +114,15 @@ tags = ["ai"]
 [실무 운영 플로우: 강력한 체스 엔진의 탐색 파이프라인]
 
 [상태 노드 확장]
-       │
-       ▼
-[Move Ordering 적용] ── (킬러 무브, 상대방 기물 포획 등 '좋아보이는 수'부터 정렬)
-       │
-       ▼
-[Transposition Table 검사] ── (이미 과거에 연산해 본 판인지 Zobrist 캐시 확인)
-       │ (Hit) ──► 즉시 결과 반환 (연산 0)
-       ▼ (Miss)
-[알파-베타 가지치기 재귀 실행] ── (α >= β 발동 시 Cut-off)
+       |
+       v
+[Move Ordering 적용] -- (킬러 무브, 상대방 기물 포획 등 '좋아보이는 수'부터 정렬)
+       |
+       v
+[Transposition Table 검사] -- (이미 과거에 연산해 본 판인지 Zobrist 캐시 확인)
+       | (Hit) --► 즉시 결과 반환 (연산 0)
+       v (Miss)
+[알파-베타 가지치기 재귀 실행] -- (α >= β 발동 시 Cut-off)
 ```
 
 이 운영 플로우는 순수한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 실무에서 어떻게 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 진화하는지 명확히 보여준다. 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)는 맨눈으로 수천만 노드를 줄여주고, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)과 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 정렬이 그 위에서 부스터 역할을 하여 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 ms 단위로 통제한다.
@@ -151,17 +151,17 @@ tags = ["ai"]
 
 ```text
 [게임 트리 (Game Tree) — 경우의 수 전체 탐색 공간]
-    │
-    ▼
+    |
+    v
 [미니맥스 알고리즘 (Minimax) — 상대 최선 방어 전제로 나의 최대 이익 탐색]
-    │
-    ▼
-[알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요한 가지 제거, O(b^d) → O(b^(d/2))]
-    │
-    ▼
+    |
+    v
+[알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요한 가지 제거, O(b^d) -> O(b^(d/2))]
+    |
+    v
 [Move Ordering (노드 정렬) — 유망한 수 선탐색으로 가지치기 효율 극대화]
-    │
-    ▼
+    |
+    v
 [MCTS (Monte Carlo Tree Search) — 확률 시뮬레이션 기반 AlphaGo의 탐색 전략]
 ```
 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)의 지수적 탐색 공간을 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로 절반 수준으로 줄이고, Move Ordering으로 효율을 극대화한 뒤 MCTS로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 탐색까지 확장되었다.
@@ -177,7 +177,7 @@ tags = ["ai"]
 
 **진행 상황**: 20 / 420
 
-← **이전**: [19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/)
-**다음**: [21. 몬테카를로 트리 탐색 (MCTS, Monte Carlo Tree Search) - 바둑(알파고) 등 경우의 수가 방대한 게임에서](/knowledge-base/studynote/10_ai/01_ai_basics/021_monte_carlo_tree_search_mcts/) →
+<- **이전**: [19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/)
+**다음**: [21. 몬테카를로 트리 탐색 (MCTS, Monte Carlo Tree Search) - 바둑(알파고) 등 경우의 수가 방대한 게임에서](/knowledge-base/studynote/10_ai/01_ai_basics/021_monte_carlo_tree_search_mcts/) ->
 
 ---

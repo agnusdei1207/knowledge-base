@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 그냥 "제일 많이 팔린 베스트셀러 1위"를 멍청하게 모든 사람에게 보여주었다. 하지만 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 도입되면서 판이 뒤집혔다. 내가 어제 새벽 2시에 로맨스 영화를 보다가 10분 만에 껐던 행동, 스크롤을 내리다 강아지 영상에서 3초간 손가락을 멈췄던 미세한 체류 시간(Implicit Feedback)조차 딥러닝 망에 흡수되어 수억 차원의 취향 벡터(Vector)로 조각된다. 지금 이 순간에도 인스타그램 릴스와 틱톡의 추천 AI는 "도파민을 1초라도 더 터뜨려 앱에 체류하게 만들겠다"는 단 하나의 살인적인 목적 함수([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))를 향해 당신의 뇌 구조를 실시간으로 해킹하고 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 추천 시스템은 옷 가게의 '신들린 눈치 100단 점원'이다. 옛날 바보 점원은 손님이 오면 무조건 벽에 걸린 마네킹(베스트셀러) 옷만 사라고 앵무새처럼 외쳤다. 신들린 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 점원은 손님이 매장에 들어와서 청바지 쪽으로 5초 눈길을 주고, 니트를 살짝 만져보고 내려놓은 그 찰나의 순간들을 매의 눈으로 스캔한다. 그리고 손님이 입을 열기도 전에 창고로 뛰어가 "손님, 방금 보신 바지에 이 셔츠 입으면 무조건 지갑을 여실 겁니다"라며 찰떡같은 옷(초개인화 추천)을 딱 1개 안겨주어 영혼까지 털어가는 무서운 지갑 사냥꾼이다.
@@ -43,26 +43,26 @@ tags = ["studynote-ai"]
 추천 시스템을 쌓아 올린 두 개의 거대한 고전적 철학 기둥이 있다. 바로 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/">콘텐츠 기반 필터링</a> (CBF)</strong>과 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/">협업 필터링</a> (CF)</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           추천 시스템의 2대 근본 철학과 딥러닝 융합 아키텍처 도해          │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 콘텐츠 기반 필터링 (CBF: Content-Based Filtering) - 우직한 덕후] │
-│   * 철학: "네가 아이언맨(SF, 액션)을 봤어? 그럼 다른 유저가 뭘 보든 상관없고, │
-│            그냥 장르가 똑같은 트랜스포머(SF, 액션)를 추천할게!"           │
-│   * 장단점: 혼자서도 추천 가능(콜드스타트 방어). 하지만 맨날 뻔한 것만 추천함. │
-│                                                              │
-│  [2. 협업 필터링 (CF: Collaborative Filtering) - 핑퐁 눈치 게임]  │
-│   * 철학: "너랑 영화 취향이 99% 똑같은 A라는 유저를 내가 뒤져서 찾았어.   │
-│            근데 A가 어제 '인터스텔라'를 보고 5점을 줬네? 그럼 너도 백퍼 좋아할걸!"│
-│   * 장단점: 내가 생각지도 못한 소름 돋는 명작을 추천해 줌. 근데 내가 아무 기록이│
-│            없는 '신규 유저'면 짝을 못 찾아서 바보가 됨(콜드스타트 지옥).  │
-│                                                              │
-│  [3. 딥러닝 융합 괴수: DeepFM (Deep Factorization Machine)]       │
-│   * 철학: "둘 다 섞어버려!" 유저의 취향 엑셀 표(CF)와, 상품의 속성(CBF)을 │
-│           거대한 딥러닝 신경망(DNN)에 왕창 때려 넣음.                   │
-│   * 마법: 신경망이 알아서 "아, 비 오는 날(상황) + 20대 여자(유저) + 로맨스(콘텐츠)"│
-│           라는 3차원의 숨겨진 비선형 공식을 혼자 깨우쳐서 극한의 확률(CTR)을 뿜어냄!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           추천 시스템의 2대 근본 철학과 딥러닝 융합 아키텍처 도해          |
++--------------------------------------------------------------+
+|  [1. 콘텐츠 기반 필터링 (CBF: Content-Based Filtering) - 우직한 덕후] |
+|   * 철학: "네가 아이언맨(SF, 액션)을 봤어? 그럼 다른 유저가 뭘 보든 상관없고, |
+|            그냥 장르가 똑같은 트랜스포머(SF, 액션)를 추천할게!"           |
+|   * 장단점: 혼자서도 추천 가능(콜드스타트 방어). 하지만 맨날 뻔한 것만 추천함. |
+|                                                              |
+|  [2. 협업 필터링 (CF: Collaborative Filtering) - 핑퐁 눈치 게임]  |
+|   * 철학: "너랑 영화 취향이 99% 똑같은 A라는 유저를 내가 뒤져서 찾았어.   |
+|            근데 A가 어제 '인터스텔라'를 보고 5점을 줬네? 그럼 너도 백퍼 좋아할걸!"|
+|   * 장단점: 내가 생각지도 못한 소름 돋는 명작을 추천해 줌. 근데 내가 아무 기록이|
+|            없는 '신규 유저'면 짝을 못 찾아서 바보가 됨(콜드스타트 지옥).  |
+|                                                              |
+|  [3. 딥러닝 융합 괴수: DeepFM (Deep Factorization Machine)]       |
+|   * 철학: "둘 다 섞어버려!" 유저의 취향 엑셀 표(CF)와, 상품의 속성(CBF)을 |
+|           거대한 딥러닝 신경망(DNN)에 왕창 때려 넣음.                   |
+|   * 마법: 신경망이 알아서 "아, 비 오는 날(상황) + 20대 여자(유저) + 로맨스(콘텐츠)"|
+|           라는 3차원의 숨겨진 비선형 공식을 혼자 깨우쳐서 극한의 확률(CTR)을 뿜어냄!|
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a>와 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 공간)</strong>:
@@ -85,7 +85,7 @@ tags = ["studynote-ai"]
 
 | 처리 단계 (Stage) | 1단계: 검색 / 후보 추출 (Retrieval / Candidate Generation) | 2단계: 순위 매기기 / 재랭킹 (Ranking / Scoring) |
 |:---|:---|:---|
-| **다루는 아이템 수** | **전체 1억 개 ─▶ 1,000개로 대충 빠르게 솎아냄** | **1,000개 ─▶ 최정예 10개로 정밀하게 쥐어짜 냄** |
+| **다루는 아이템 수** | **전체 1억 개 --> 1,000개로 대충 빠르게 솎아냄** | **1,000개 --> 최정예 10개로 정밀하게 쥐어짜 냄** |
 | **핵심 철학 (목표)** | "놓치는 좋은 상품이 없게 그물을 넓게 던지자!" (높은 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/), [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 우선) | "이 유저가 1등으로 결제 버튼을 누를 단 1개의 상품을 찾아라!" ([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 우선) |
 | <strong>사용하는 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 아키텍처</strong> | 가볍고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)인 모델. 쌍둥이 신경망(Two-Tower), <strong>벡터 DB(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/">ANN</a> 검색)</strong>, 또는 고전적 CF 협업 행렬 | 엄청 무겁고 깊은 딥러닝 괴물 모델. **DeepFM, DIN**, 또는 거대 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(Attention) 뇌 |
 | <strong>연산 속도와 랙(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| 1억 개를 뒤져야 하므로 오직 빛의 속도(0.01초)를 내는 가벼운 선형 내적 연산만 허용 | 1,000개만 평가하면 되니까 무거운 비선형 딥러닝 수식을 써도 0.05초 컷으로 방어 가능 |
@@ -135,7 +135,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [추천 시스템 (Recommendation System)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [추천 시스템 (Recommendation System)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 211 / 420
 
-← **이전**: [210. 개체명 인식 (NER, Named Entity Recognition)](/knowledge-base/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/)
-**다음**: [212. 오토인코더 (Autoencoder) 구조](/knowledge-base/studynote/10_ai/03_llm_nlp/212_autoencoder/) →
+<- **이전**: [210. 개체명 인식 (NER, Named Entity Recognition)](/knowledge-base/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/)
+**다음**: [212. 오토인코더 (Autoencoder) 구조](/knowledge-base/studynote/10_ai/03_llm_nlp/212_autoencoder/) ->
 
 ---

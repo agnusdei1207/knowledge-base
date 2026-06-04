@@ -26,32 +26,32 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이 얽힌 무한 나선 구조를 탐색할 때 어떻게 늪에 빠지거나 탈출하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────┐
-  │                 파일 I/O 엔진의 재앙 뷰 : 폴더 순환(Cycle) 루프 뫼비우스   │
-  ├────────────────────────────────────────────────────────────────────────────┤
-  │                                                                            │
-  │  [ 일반 그래프의 자유 (재귀 고리의 탄생) ]                                 │
-  │                                                                            │
-  │       [ / ] (Root 부모 대장 폴더)                                          │
-  │        |                                                                   │
-  │     [ Alice 방 ] ◀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ (돌아오는 링크 포탈!)                 │
-  │        |                              ┆                                    │
-  │   `team_docs` 방                       ┆                                   │
-  │        |                              ┆                                    │
-  │    [ Bob 빙 ]  ───────────────────────╯  (밥이 앨리스를 찍고 있다 록백!)   │
-  │                                                                            │
-  │  =============================================================             │
-  │                                                                            │
-  │  [ 백업 OS 스크립트 'tar' 데몬의 탐색 멸망 타임아웃 지연 ]                 │
-  │                                                                            │
-  │     🤖 로봇(tar): "파일 복사 압축하려고 루트 폴더부터 스캔 시작!"          │
-  │        1. Root 들어감 ──▶ 2. Alice 방 읽음 ──▶ 3. doc 방 ──▶               │
-  │        4. Bob 방 읽음 ──▶ 5. 다시 어? Alice 방 링크네 탑승! ──▶            │
-  │        6. doc 방 ──▶ 7. Bob ──▶ 8. Alice...                                │
-  │                                                                            │
-  │  => 🚨 결과: 디스크 공간은 10MB 뿐인데, 압축 파일(tar) 용량이 1TB 가       │
-  │             넘어가고 서버 메모리(RAM) 100% OOM(Out of Mem) 폭발 터짐 사망! │
-  └────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------+
+  |                 파일 I/O 엔진의 재앙 뷰 : 폴더 순환(Cycle) 루프 뫼비우스   |
+  +----------------------------------------------------------------------------+
+  |                                                                            |
+  |  [ 일반 그래프의 자유 (재귀 고리의 탄생) ]                                 |
+  |                                                                            |
+  |       [ / ] (Root 부모 대장 폴더)                                          |
+  |        |                                                                   |
+  |     [ Alice 방 ] <-┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ (돌아오는 링크 포탈!)                 |
+  |        |                              ┆                                    |
+  |   `team_docs` 방                       ┆                                   |
+  |        |                              ┆                                    |
+  |    [ Bob 빙 ]  -----------------------+  (밥이 앨리스를 찍고 있다 록백!)   |
+  |                                                                            |
+  |  =============================================================             |
+  |                                                                            |
+  |  [ 백업 OS 스크립트 'tar' 데몬의 탐색 멸망 타임아웃 지연 ]                 |
+  |                                                                            |
+  |     🤖 로봇(tar): "파일 복사 압축하려고 루트 폴더부터 스캔 시작!"          |
+  |        1. Root 들어감 ---> 2. Alice 방 읽음 ---> 3. doc 방 --->               |
+  |        4. Bob 방 읽음 ---> 5. 다시 어? Alice 방 링크네 탑승! --->            |
+  |        6. doc 방 ---> 7. Bob ---> 8. Alice...                                |
+  |                                                                            |
+  |  => 🚨 결과: 디스크 공간은 10MB 뿐인데, 압축 파일(tar) 용량이 1TB 가       |
+  |             넘어가고 서버 메모리(RAM) 100% OOM(Out of Mem) 폭발 터짐 사망! |
+  +----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)에 링크를 걸어 사이클(루프 폐쇄 회로)을 만들어 버리면, 컴퓨터 프로그램 특유의 트리 순회(Traverse [Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 탐색) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 영원히 종료(Exit condition) 조건을 밟지 못하고 끝없는 꼬리 물기 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 공간을 잡아먹으며 시스템을 아작 낸다. 이 때문에 윈도우 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기나 리눅스 `find /` 봇은 이런 괴망 구조를 맞닥뜨릴 것에 대비해서, 코드 내부에 <strong>"이미 어제 다녀온 방 번호(Inode)는 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>에 적어두고, 이 뫼비우스 링크 문을 열었을 때 이미 적힌 방번호 늪이면? 에러 뿜고 그 가지를 패스 포기 탈출해라!"</strong> 라는 순환 방지 스킵 예외 로직 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) S/W를 절대 강박 탑재하게 되었다.
@@ -139,12 +139,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [심볼릭 링크 (Symbolic Link / Soft Link)]
-    │
-    ▼
+    |
+    v
 [일반 그래프 디렉터리 (순환 허용) (General Graph Directory)]
-    │
-    ├──▶ [파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
-    └──▶ [MBR (Master Boot Record) vs GPT (GUID Partition Table)]
+    |
+    +---> [파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
+    +---> [MBR (Master Boot Record) vs GPT (GUID Partition Table)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -161,7 +161,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 513 / 800
 
-← **이전**: [512. 심볼릭 링크 (Symbolic Link / Soft Link) - 경로명을 값으로 가짐, 윈도우의 바로가기](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/)
-**다음**: [514. 파티션 (Partition) / 슬라이스 / 볼륨 (Volume)](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) →
+<- **이전**: [512. 심볼릭 링크 (Symbolic Link / Soft Link) - 경로명을 값으로 가짐, 윈도우의 바로가기](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/)
+**다음**: [514. 파티션 (Partition) / 슬라이스 / 볼륨 (Volume)](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ->
 
 ---

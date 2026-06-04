@@ -61,26 +61,26 @@ tags = ["studynote-operating-system"]
 선점(강제로 뺏기)이 성립하려면 소프트웨어(OS)의 힘만으로는 안 되고 <strong>하드웨어의 지원</strong>이 절대적으로 필요하다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 선점형 스케줄링의 강제 탈취 메커니즘                   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황: 악성 앱 A가 `while(true)`를 돌며 CPU 100% 독점 중]             │
-  │                                                                   │
-  │  1. 하드웨어 타이머 (APIC Timer)                                     │
-  │     - 메인보드의 시계 칩이 10ms(타임 슬라이스)마다 전기 신호를 발생시킴.        │
-  │     - "띠딕! 10ms 지났다!"                                          │
-  │                                                                   │
-  │  2. 인터럽트 발생 (Hardware Interrupt)                               │
-  │     - CPU는 악성 앱 A의 코드를 실행하다가 이 전기 신호를 맞고 강제로 멈춤.    │
-  │     - 제어권이 즉시 OS 커널(ISR: Interrupt Service Routine)로 넘어감! │
-  │                                                                   │
-  │  3. 커널 스케줄러 개입 (Context Switch)                              │
-  │     - OS: "A야, 네 시간(10ms) 다 썼어. 방 빼."                        │
-  │     - A의 레지스터를 강제로 PCB에 저장하고, 앱 B를 메모리에서 깨움.          │
-  │                                                                   │
-  │  [결과] 아무리 지독한 무한 루프 코드도 하드웨어 타이머 앞에서는 10ms짜리에 불과함.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 선점형 스케줄링의 강제 탈취 메커니즘                   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황: 악성 앱 A가 `while(true)`를 돌며 CPU 100% 독점 중]             |
+  |                                                                   |
+  |  1. 하드웨어 타이머 (APIC Timer)                                     |
+  |     - 메인보드의 시계 칩이 10ms(타임 슬라이스)마다 전기 신호를 발생시킴.        |
+  |     - "띠딕! 10ms 지났다!"                                          |
+  |                                                                   |
+  |  2. 인터럽트 발생 (Hardware Interrupt)                               |
+  |     - CPU는 악성 앱 A의 코드를 실행하다가 이 전기 신호를 맞고 강제로 멈춤.    |
+  |     - 제어권이 즉시 OS 커널(ISR: Interrupt Service Routine)로 넘어감! |
+  |                                                                   |
+  |  3. 커널 스케줄러 개입 (Context Switch)                              |
+  |     - OS: "A야, 네 시간(10ms) 다 썼어. 방 빼."                        |
+  |     - A의 레지스터를 강제로 PCB에 저장하고, 앱 B를 메모리에서 깨움.          |
+  |                                                                   |
+  |  [결과] 아무리 지독한 무한 루프 코드도 하드웨어 타이머 앞에서는 10ms짜리에 불과함.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자는 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 주기적으로 프로세스를 감시한다"고 생각하지만 틀렸다. CPU가 악성 코드를 돌리고 있을 때는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 코드도 멈춰(휴면) 있다! 오직 외부에서 강제로 때려주는 <strong>물리적 알람(타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)</strong>만이 멈춰있는 OS의 영혼을 CPU로 다시 불러들여 심판의 철퇴(선점)를 내리게 할 수 있다.
@@ -127,27 +127,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템 요구사항에 따른 선점/비선점 모드 튜닝 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 산업용 임베디드 또는 클라우드 OS 환경 구축]                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      초저지연 응답 속도(UI/UX, 실시간 제어)가 시스템의 생명인가?             │
-  │          ├─ 예 ─────▶ [완벽한 선점형(Fully Preemptive) 아키텍처]      │
-  │          │            대책: 타임 슬라이스를 잘게 쪼개고, 커널 내부 코드조차   │
-  │          │                  언제든 강제로 뺏기도록(Preempt_RT) 튜닝      │
-  │          └─ 아니오 (슈퍼컴퓨터 과학 연산, 딥러닝 AI 학습, 하둡 배치)        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      CPU 캐시가 날아가는 문맥 교환 오버헤드를 0으로 만들어야 하는가?           │
-  │          ├─ 예 ─────▶ [비선점에 가까운 튜닝 (Throughput 우선)]        │
-  │          │            대책 1: CFS 스케줄러의 타임 슬라이스를 100ms 이상으로 증가│
-  │          │            대책 2: 특정 코어는 `isolcpus`로 선점 스케줄러에서 배제 │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 일반적인 서버/데스크탑 균형 설정 (디폴트 유지)      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 시스템 요구사항에 따른 선점/비선점 모드 튜닝 플로우         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 산업용 임베디드 또는 클라우드 OS 환경 구축]                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      초저지연 응답 속도(UI/UX, 실시간 제어)가 시스템의 생명인가?             |
+  |          +- 예 ------> [완벽한 선점형(Fully Preemptive) 아키텍처]      |
+  |          |            대책: 타임 슬라이스를 잘게 쪼개고, 커널 내부 코드조차   |
+  |          |                  언제든 강제로 뺏기도록(Preempt_RT) 튜닝      |
+  |          +- 아니오 (슈퍼컴퓨터 과학 연산, 딥러닝 AI 학습, 하둡 배치)        |
+  |                |                                                  |
+  |                v                                                  |
+  |      CPU 캐시가 날아가는 문맥 교환 오버헤드를 0으로 만들어야 하는가?           |
+  |          +- 예 ------> [비선점에 가까운 튜닝 (Throughput 우선)]        |
+  |          |            대책 1: CFS 스케줄러의 타임 슬라이스를 100ms 이상으로 증가|
+  |          |            대책 2: 특정 코어는 `isolcpus`로 선점 스케줄러에서 배제 |
+  |          |                                                        |
+  |          +- 아니오 ---> 일반적인 서버/데스크탑 균형 설정 (디폴트 유지)      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 많은 사람이 "선점형이 무조건 더 좋은 최신 기술"이라고 착각한다. 선점형은 '응답성'을 위해 'CPU 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'을 깎아 먹는 이율배반적 구조다. 빅데이터 분석이나 그래픽 렌더링 팜에서는 OS가 중간중간 끼어들어 CPU를 뺏는 선점 행위가 오히려 방해만 된다. 아키텍트는 워크로드에 맞춰 선점의 빈도([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) Rate)를 의도적으로 낮추는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 지향 튜닝을 할 줄 알아야 한다.
@@ -193,12 +193,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [CPU 바운드 vs I/O 바운드]
-    │
-    ▼
+    |
+    v
 [선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)]
-    │
-    ├──▶ [FCFS 호위 효과 (Convoy Effect)]
-    └──▶ [SJF 기아 (Starvation) 발생]
+    |
+    +---> [FCFS 호위 효과 (Convoy Effect)]
+    +---> [SJF 기아 (Starvation) 발생]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -215,7 +215,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 687 / 800
 
-← **이전**: [686. CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)](/knowledge-base/studynote/02_operating_system/11_exam_summary/686_cpu_bound_vs_io_bound_workload/)
-**다음**: [688. FCFS 호위 효과 (Convoy Effect)](/knowledge-base/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/) →
+<- **이전**: [686. CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)](/knowledge-base/studynote/02_operating_system/11_exam_summary/686_cpu_bound_vs_io_bound_workload/)
+**다음**: [688. FCFS 호위 효과 (Convoy Effect)](/knowledge-base/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/) ->
 
 ---

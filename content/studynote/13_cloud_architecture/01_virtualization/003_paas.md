@@ -29,12 +29,12 @@ tags = ["cloud_architecture"]
 
 ```text
 [IaaS 환경에서의 배포 병목 (개발자 인지 부하 발생)]
-개발자 로직 완성 → OS 버전/의존성 확인 → Nginx/Tomcat 설치 → 방화벽/LB 수동 연동 → 배포 완료
-                   ▲ (인프라 및 미들웨어 설정에 시간 70% 소모)
+개발자 로직 완성 -> OS 버전/의존성 확인 -> Nginx/Tomcat 설치 -> 방화벽/LB 수동 연동 -> 배포 완료
+                   ^ (인프라 및 미들웨어 설정에 시간 70% 소모)
 
 [PaaS 환경에서의 배포 파이프라인 (골든 패스)]
-개발자 로직(Git Push) ──(PaaS 엔진 자동화)──> 컨테이너 빌드 & 무중단 라우팅 결합 → 배포 완료
-                   ▲ (비즈니스 로직에 시간 100% 집중)
+개발자 로직(Git Push) --(PaaS 엔진 자동화)--> 컨테이너 빌드 & 무중단 라우팅 결합 -> 배포 완료
+                   ^ (비즈니스 로직에 시간 100% 집중)
 ```
 
 이 흐름의 핵심은 소프트웨어 개발 생명주기에서 '환경 구성(Configuration)' 단계를 클라우드 벤더의 표준화된 자동화 파이프라인으로 위임한다는 것이다. 실무에서는 개발자가 Git 저장소에 코드를 밀어 넣기만 하면 PaaS가 언어(Node.js, Python 등)를 자동 감지하여 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 감싸고, 오토스케일링 및 로드밸런서를 붙여 즉시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능한 상태로 만든다. 따라서 개발팀은 인프라 장애나 패치 걱정 없이 하루에도 수십 번의 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD)를 안전하게 수행할 수 있다.
@@ -58,27 +58,27 @@ tags = ["cloud_architecture"]
 ```text
 이 도식은 전형적인 PaaS(App Platform) 배포 파이프라인으로, 코드가 어떻게 이미지로 변환되어 라우팅되는지 핵심 계층 구조를 나타낸다.
 
-┌────────────── [Developer Workspace / 개발자 공간] ──────────────┐
-│  Git Push (Source Code: Java, Python, Node.js)      │
-└───────────────────────│─────────────────────────────┘
-                        ▼ (Webhook Trigger)
-┌────────────── [PaaS Control Engine / PaaS 엔진] ──────────────┐
-│ 1. [Buildpack / 빌드팩] : 코드 분석 및 라이브러리 다운로드 │
-│ 2. [Container Registry / 컨테이너 레지스트리] : 실행 불변 이미지 저장   │
-│ 3. [Scheduler / 스케줄러] : 여유 노드 탐색 및 인스턴스 배치  │
-└───────────────────────│─────────────────────────────┘
-                        ▼ (Deploy)
-┌────────────── [PaaS Runtime Cluster / 런타임 클러스터] ─────────────┐
-│ [External Load Balancer / 외부 로드밸런서] ────────┐                │
-│    │                               │                │
-│  [ App Instance (V1) ]    [ App Instance (V2) ]     │
-│    ├─ Runtime / OS          ├─ Runtime / OS         │
-│    └─ IaaS VM (Hidden)      └─ IaaS VM (Hidden)     │
-│                                                     │
-│ ┌──────────────── [Managed DB / 관리형 DB] ─────────────────┐ │
-│ │  Master RDS  <====(Sync)====> Standby RDS     │ │
-│ └─────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
++-------------- [Developer Workspace / 개발자 공간] --------------+
+|  Git Push (Source Code: Java, Python, Node.js)      |
++-----------------------|-----------------------------+
+                        v (Webhook Trigger)
++-------------- [PaaS Control Engine / PaaS 엔진] --------------+
+| 1. [Buildpack / 빌드팩] : 코드 분석 및 라이브러리 다운로드 |
+| 2. [Container Registry / 컨테이너 레지스트리] : 실행 불변 이미지 저장   |
+| 3. [Scheduler / 스케줄러] : 여유 노드 탐색 및 인스턴스 배치  |
++-----------------------|-----------------------------+
+                        v (Deploy)
++-------------- [PaaS Runtime Cluster / 런타임 클러스터] -------------+
+| [External Load Balancer / 외부 로드밸런서] --------+                |
+|    |                               |                |
+|  [ App Instance (V1) ]    [ App Instance (V2) ]     |
+|    +- Runtime / OS          +- Runtime / OS         |
+|    +- IaaS VM (Hidden)      +- IaaS VM (Hidden)     |
+|                                                     |
+| +---------------- [Managed DB / 관리형 DB] -----------------+ |
+| |  Master RDS  <====(Sync)====> Standby RDS     | |
+| +-------------------------------------------------+ |
++-----------------------------------------------------+
 ```
 
 이 구조도의 핵심은 가장 하단의 물리 서버([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 영역이 개발자의 시야에서 완벽히 숨겨져(Hidden) 있다는 점이다. 개발자는 OS에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속을 할 필요가 없으며, [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 컨트롤 엔진이 무중단 [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)([Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/))나 블루-그린(Blue-Green) 배포까지 제어한다. 또한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(Managed DB) 역시 PaaS의 범주로 보며, 클러스터 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 및 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))이 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 레벨에서 통제된다. 따라서 인프라 전담 인력이 부족한 스타트업이나, 비즈니스 로직 혁신이 최우선인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 조직에서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준 최고의 효율을 낼 수 있다.
@@ -102,15 +102,15 @@ PaaS는 높은 생산성을 주지만, [IaaS](/knowledge-base/studynote/06_ict_c
 이 매트릭스는 클라우드 스택이 상위로 갈수록 운영 오버헤드는 줄지만, 특정 벤더 아키텍처에 갇히게 되는 '종속성의 함정'을 시각화한다.
 
 생산성/자동화 수준
-  ▲
-  │                          [ SaaS ] (Office 365) - 완제품
-  │                           /
-  │            [ PaaS / FaaS ] (Heroku, Lambda) - 로직만 작성
-  │             /
-  │  [ IaaS ] (EC2, VPC) - 모든 환경 제어 가능
-  │   /
-  │ /
-  └─────────────────────────────────────► 자유도 / 커스텀 제어권
+  ^
+  |                          [ SaaS ] (Office 365) - 완제품
+  |                           /
+  |            [ PaaS / FaaS ] (Heroku, Lambda) - 로직만 작성
+  |             /
+  |  [ IaaS ] (EC2, VPC) - 모든 환경 제어 가능
+  |   /
+  | /
+  +-------------------------------------► 자유도 / 커스텀 제어권
            (Lock-in 리스크 상승)
 ```
 
@@ -131,14 +131,14 @@ PaaS는 높은 생산성을 주지만, [IaaS](/knowledge-base/studynote/06_ict_c
 이 흐름도는 PaaS 인스턴스가 파괴되더라도 시스템 일관성을 유지하기 위해 데이터 영속성을 외부로 빼낸 모범 설계다.
 
 [Client Request / 클라이언트 요청]
-        ↓
-[PaaS Load Balancer / PaaS 로드밸런서] ──(Round Robin)──┐
-        ↓                               ↓
-┌─[PaaS Instance A / 인스턴스 A]─┐           ┌─[PaaS Instance B / 인스턴스 B]─┐
-│ (Stateless Logic)   │           │ (Stateless Logic)   │
-└─┬─────────┬─────────┘           └─┬─────────┬─────────┘
-  │ Session │ File                  │ Session │ File
-  ▼         ▼                       ▼         ▼
+        v
+[PaaS Load Balancer / PaaS 로드밸런서] --(Round Robin)--+
+        v                               v
++-[PaaS Instance A / 인스턴스 A]-+           +-[PaaS Instance B / 인스턴스 B]-+
+| (Stateless Logic)   |           | (Stateless Logic)   |
++-+---------+---------+           +-+---------+---------+
+  | Session | File                  | Session | File
+  v         v                       v         v
 [Redis]   [S3 Object / S3 객체]   [Redis]   [S3 Object / S3 객체]
 (캐시)    (스토리지)              (캐시)    (스토리지)
 ```
@@ -174,17 +174,17 @@ PaaS는 높은 생산성을 주지만, [IaaS](/knowledge-base/studynote/06_ict_c
 
 ```text
 [12-Factor App]
-    │
-    ▼
+    |
+    v
 [서버리스 (Serverless / FaaS)]
-    │
-    ▼
+    |
+    v
 [마이크로서비스 아키텍처 (MSA)]
-    │
-    ▼
+    |
+    v
 [플랫폼 엔지니어링 (Platform Engineering)]
-    │
-    ▼
+    |
+    v
 [컨테이너 (Container) & 쿠버네티스]
 ```
 
@@ -201,7 +201,7 @@ PaaS는 높은 생산성을 주지만, [IaaS](/knowledge-base/studynote/06_ict_c
 
 **진행 상황**: 2 / 371
 
-← **이전**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/002_iaas/)
-**다음**: [4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/004_saas/) →
+<- **이전**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/002_iaas/)
+**다음**: [4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/004_saas/) ->
 
 ---

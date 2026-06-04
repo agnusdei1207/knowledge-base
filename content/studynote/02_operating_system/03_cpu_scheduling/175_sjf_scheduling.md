@@ -26,14 +26,14 @@ SJF 스케줄링은 이름 그대로 가장 빨리 끝날 작업을 먼저 보�
 아래 그림은 같은 작업 집합이라도 정렬 기준이 바뀌면 대기 비용이 어떻게 달라지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same jobs, different ordering cost                                │
-├────────────────────────────────────────────────────────────────────┤
-│ jobs : P1(12)  P2(2)  P3(1)  P4(3)                                │
-│ FCFS : [P1............][P2][P3][P4]                               │
-│ SJF  : [P3][P2][P4][P1............]                               │
-│ idea : many short waits shrink more than one long wait grows      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Same jobs, different ordering cost                                |
++--------------------------------------------------------------------+
+| jobs : P1(12)  P2(2)  P3(1)  P4(3)                                |
+| FCFS : [P1............][P2][P3][P4]                               |
+| SJF  : [P3][P2][P4][P1............]                               |
+| idea : many short waits shrink more than one long wait grows      |
++--------------------------------------------------------------------+
 ```
 
 즉 SJF의 핵심은 "공정한 도착 순서"보다 "총 대기 시간의 합"을 더 중요하게 본다는 점이다. 배치 처리처럼 처리량과 평균 대기 시간이 중요한 환경에서는 이 기준이 강력한 설계 논리가 된다.
@@ -47,15 +47,15 @@ SJF 스케줄링은 이름 그대로 가장 빨리 끝날 작업을 먼저 보�
 SJF가 평균 대기 시간을 줄이는 이유는 교환 논리로 설명할 수 있다. 현재 줄에서 긴 작업 A와 짧은 작업 B가 인접해 있고 `A > B`라면, A를 먼저 두는 것보다 B를 먼저 두는 편이 뒤에 누적되는 대기 시간이 더 작다. 이 교환을 가능한 곳마다 반복하면 결국 burst 길이 오름차순 배열이 되고, 그것이 SJF 순서다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why shorter-first lowers average waiting                          │
-├────────────────────────────────────────────────────────────────────┤
-│ current order : A(long) -> B(short)                               │
-│ total wait    : W + (W + A)                                       │
-│ swapped order : B(short) -> A(long)                               │
-│ total wait    : W + (W + B)                                       │
-│ since A > B, swapped total wait is smaller                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why shorter-first lowers average waiting                          |
++--------------------------------------------------------------------+
+| current order : A(long) -> B(short)                               |
+| total wait    : W + (W + A)                                       |
+| swapped order : B(short) -> A(long)                               |
+| total wait    : W + (W + B)                                       |
+| since A > B, swapped total wait is smaller                        |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 동시에 도착한 네 프로세스 `P1=6ms`, `P2=8ms`, `P3=7ms`, `P4=3ms`를 생각해 보자.
@@ -100,28 +100,28 @@ SJF를 제대로 이해하려면 [FCFS](/knowledge-base/studynote/02_operating_s
 대표적인 근사 방법이 지수 평균 ([Exponential Averaging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/))이다. 과거 CPU burst 길이를 이용해 다음 burst를 예측한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Burst prediction for SJF-like behavior                             │
-├────────────────────────────────────────────────────────────────────┤
-│ tau(n+1) = alpha * t(n) + (1 - alpha) * tau(n)                    │
-│                                                                    │
-│ t(n)   : last actual burst                                         │
-│ tau(n) : previous prediction                                       │
-│ alpha  : weight for recency                                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Burst prediction for SJF-like behavior                             |
++--------------------------------------------------------------------+
+| tau(n+1) = alpha * t(n) + (1 - alpha) * tau(n)                    |
+|                                                                    |
+| t(n)   : last actual burst                                         |
+| tau(n) : previous prediction                                       |
+| alpha  : weight for recency                                        |
++--------------------------------------------------------------------+
 ```
 
 아래 판단 흐름은 SJF를 직접 쓸지, 근사할지, 피할지를 정리한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Can SJF be used directly?                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ burst length known or predictable?                                 │
-│   ├─ yes -> SJF / SRTF candidate                                   │
-│   │         └─ add aging or wait cap if starvation risk is high    │
-│   └─ no  -> RR / MLFQ / fair scheduling                            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Can SJF be used directly?                                          |
++--------------------------------------------------------------------+
+| burst length known or predictable?                                 |
+|   +- yes -> SJF / SRTF candidate                                   |
+|   |         +- add aging or wait cap if starvation risk is high    |
+|   +- no  -> RR / MLFQ / fair scheduling                            |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -171,18 +171,18 @@ SJF 계열이 잘 맞는 환경에서는 평균 대기 시간과 평균 turnarou
 
 ```text
 convoy effect in FCFS
-    │
-    ▼
+    |
+    v
 CPU burst length as priority
-    │
-    ▼
+    |
+    v
 SJF ordering
-    │
-    ├──────────────▶ lower average waiting time
-    │
-    ├──────────────▶ SRTF preemption
-    │
-    └──────────────▶ burst prediction + MLFQ approximation
+    |
+    +---------------> lower average waiting time
+    |
+    +---------------> SRTF preemption
+    |
+    +---------------> burst prediction + MLFQ approximation
 ```
 
 이 흐름도는 SJF가 FCFS의 병목을 해결하기 위해 등장했고, 이후 선점형 확장과 예측 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 진화해 현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계 원리로 남았음을 보여 준다.
@@ -199,7 +199,7 @@ SJF ordering
 
 **진행 상황**: 175 / 800
 
-← **이전**: [174. 호위 효과 (Convoy Effect) - FCFS의 단점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)
-**다음**: [176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/) →
+<- **이전**: [174. 호위 효과 (Convoy Effect) - FCFS의 단점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)
+**다음**: [176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/) ->
 
 ---

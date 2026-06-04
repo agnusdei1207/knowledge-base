@@ -21,15 +21,15 @@ tags = ["studynote-ai"]
 
 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3(175B 파라미터)를 FP32로 저장하면 700GB, FP16이면 350GB의 VRAM이 필요하다. 이는 고가의 A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8~16장이 필요한 수준이다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>는 이 거대한 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 INT8(8비트 정수) 또는 INT4(4비트)로 낮춰 용량을 획기적으로 줄인다.
 
-FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4로 변환하면 8배 축소(87.5GB)된다. 단, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 낮아지므로 정확도 손실(Accuracy Loss)이 발생하며, 이를 최소화하는 것이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 핵심이다.
+FP32 -> INT8로 변환 시 용량이 4배 축소(700GB -> 175GB)되고, INT4로 변환하면 8배 축소(87.5GB)된다. 단, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 낮아지므로 정확도 손실(Accuracy Loss)이 발생하며, 이를 최소화하는 것이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 핵심이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 고해상도 사진(FP32, 24MB)을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장(INT8, 6MB)하는 것이다. 용량은 4배 줄지만 화질(정확도)이 약간 떨어진다. 잘 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 육안으로 거의 차이를 모르고(QAT), 허술하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 화질이 눈에 띄게 나빠진다(PTQ 부주의). 화질 손실 없는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 목표다.
@@ -39,35 +39,35 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         양자화 (Quantization) 수식 및 변환 구조                      │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  FP32 → INT8 변환 수식:                                           │
-│  Q(x) = Round(x / scale + zero_point)                           │
-│  Dequantize: x̂ = (Q(x) - zero_point) × scale                   │
-│                                                                  │
-│  예시: x = 1.234 (FP32)                                          │
-│  scale = 0.01, zero_point = 0                                    │
-│  Q(1.234) = Round(1.234/0.01) = Round(123.4) = 123 (INT8)       │
-│  Dequantize: 123 × 0.01 = 1.23 (≈ 1.234, 정밀도 약간 손실)        │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  정밀도별 표현 범위:                                       │    │
-│  │  FP32: ±3.4×10^38, 소수점 7자리 정밀도 (4 bytes/값)      │    │
-│  │  FP16: ±65,504,   소수점 3자리 정밀도 (2 bytes/값)        │    │
-│  │  BF16: ±3.4×10^38, 소수점 2자리 정밀도 (2 bytes/값)      │    │
-│  │  INT8: -128~127,  정수만 표현 가능   (1 byte/값)          │    │
-│  │  INT4: -8~7,     정수 16개만 표현   (0.5 bytes/값)        │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  PTQ (Post-Training Quantization):                              │
-│  학습 완료 모델 → 보정 데이터셋(Calibration) → 스케일 계산 → 양자화   │
-│                                                                  │
-│  QAT (Quantization-Aware Training):                             │
-│  학습 중 양자화 시뮬레이션(Fake Quantization) → 양자화 오류 반영 학습  │
-│  순전파: FP32, 역전파: 양자화 오류 기울기 포함                       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         양자화 (Quantization) 수식 및 변환 구조                      |
++------------------------------------------------------------------+
+|                                                                  |
+|  FP32 -> INT8 변환 수식:                                           |
+|  Q(x) = Round(x / scale + zero_point)                           |
+|  Dequantize: x̂ = (Q(x) - zero_point) × scale                   |
+|                                                                  |
+|  예시: x = 1.234 (FP32)                                          |
+|  scale = 0.01, zero_point = 0                                    |
+|  Q(1.234) = Round(1.234/0.01) = Round(123.4) = 123 (INT8)       |
+|  Dequantize: 123 × 0.01 = 1.23 (≈ 1.234, 정밀도 약간 손실)        |
+|                                                                  |
+|  +---------------------------------------------------------+    |
+|  |  정밀도별 표현 범위:                                       |    |
+|  |  FP32: ±3.4×10^38, 소수점 7자리 정밀도 (4 bytes/값)      |    |
+|  |  FP16: ±65,504,   소수점 3자리 정밀도 (2 bytes/값)        |    |
+|  |  BF16: ±3.4×10^38, 소수점 2자리 정밀도 (2 bytes/값)      |    |
+|  |  INT8: -128~127,  정수만 표현 가능   (1 byte/값)          |    |
+|  |  INT4: -8~7,     정수 16개만 표현   (0.5 bytes/값)        |    |
+|  +---------------------------------------------------------+    |
+|                                                                  |
+|  PTQ (Post-Training Quantization):                              |
+|  학습 완료 모델 -> 보정 데이터셋(Calibration) -> 스케일 계산 -> 양자화   |
+|                                                                  |
+|  QAT (Quantization-Aware Training):                             |
+|  학습 중 양자화 시뮬레이션(Fake Quantization) -> 양자화 오류 반영 학습  |
+|  순전파: FP32, 역전파: 양자화 오류 기울기 포함                       |
++------------------------------------------------------------------+
 ```
 
 | 방법 | 적용 시점 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 구현 복잡도 | 사용 사례 |
@@ -107,7 +107,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 **정확도 손실 허용 기준 (규제 관점)**: 의료·금융 AI에서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 인한 정확도 저하가 실제 의사 결정에 미치는 영향을 사전 평가하고, EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등 규제에서 요구하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준을 충족하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-- **📢 섹션 요약 비유**: 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 비행기 경량화 테스트와 같다. 기체를 10kg 가볍게 만들면([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 연료 효율이 오르지만(속도↑), 구조 강도가 0.1%라도 약해지면 안 된다(의료 정확도 절대 유지). 엔지니어(개발자)는 경량화 전후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 법적 기준에 맞게 문서화해야 한다.
+- **📢 섹션 요약 비유**: 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 비행기 경량화 테스트와 같다. 기체를 10kg 가볍게 만들면([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 연료 효율이 오르지만(속도^), 구조 강도가 0.1%라도 약해지면 안 된다(의료 정확도 절대 유지). 엔지니어(개발자)는 경량화 전후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 법적 기준에 맞게 문서화해야 한다.
 
 ---
 
@@ -132,7 +132,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [모델 양자화 (Quantization)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [모델 양자화 (Quantization)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 **진행 상황**: 312 / 420
 
-← **이전**: [311. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/)
-**다음**: [313. SLM (Small Language Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) →
+<- **이전**: [311. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/)
+**다음**: [313. SLM (Small Language Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) ->
 
 ---

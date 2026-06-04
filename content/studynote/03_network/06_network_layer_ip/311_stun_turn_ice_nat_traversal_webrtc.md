@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [ALG]
-    │
-    ▼
+    |
+    v
 [STUN, TURN, ICE]
-    │
-    └──▶ [ARP]
+    |
+    +---> [ARP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 횡단 기술은 각자의 요새(사설망)에 틀어박혀 밖으로 나올 수 없는 두 성주가, 서로 직접 대화하기 위해 </strong>거울로 햇빛을 반사시켜 위치를 알리거나(STUN), 전령을 띄워(TURN) 어떻게든 소통의 다리를 놓는 눈물겨운 공병 작전**입니다.
@@ -60,24 +60,24 @@ tags = ["studynote-network"]
 - WebRTC는 이 ICE 프레임워크를 기본 탑재하고 있어, 개발자가 별도로 셋업하지 않아도 알아서 최적의 통신망을 찾아낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 WebRTC의 ICE 구동 (NAT 횡단) 시나리오            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A (사설 10.x) ]                       [ PC B (사설 192.x) ] │
- │         │                                            │        │
- │         │   1. 내 공인 IP가 뭐야?                      │        │
- │         ├────────────────▶ [ STUN 서버 ] ◀──────────┤        │
- │         │                   (거울 역할)                │        │
- │         │                                            │        │
- │         │   2. 서로 공인 IP 알아냄 -> P2P 직통 시도!      │        │
- │         └─────── (방화벽 때문에 실패 X) ───────────────┘        │
- │                                                             │
- │         3. ICE 왈: "안 되겠다, 3안(TURN)으로 간다!"                 │
- │         │                                            │        │
- │         └─────────▶  [ TURN 중계 서버 ]  ◀───────────┘        │
- │                      (모든 데이터 패킷을 중계)                  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 WebRTC의 ICE 구동 (NAT 횡단) 시나리오            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC A (사설 10.x) ]                       [ PC B (사설 192.x) ] |
+ |         |                                            |        |
+ |         |   1. 내 공인 IP가 뭐야?                      |        |
+ |         +-----------------> [ STUN 서버 ] <-----------+        |
+ |         |                   (거울 역할)                |        |
+ |         |                                            |        |
+ |         |   2. 서로 공인 IP 알아냄 -> P2P 직통 시도!      |        |
+ |         +------- (방화벽 때문에 실패 X) ---------------+        |
+ |                                                             |
+ |         3. ICE 왈: "안 되겠다, 3안(TURN)으로 간다!"                 |
+ |         |                                            |        |
+ |         +---------->  [ TURN 중계 서버 ]  <------------+        |
+ |                      (모든 데이터 패킷을 중계)                  |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** ICE는 **"만남 주선 앱"<strong>입니다. 두 남녀가 같은 동네면 바로 카페에서 만나게 해주고(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>), 다른 동네면 서로의 주소를 알려줘서 중간 지점에서 만나게 해주며(STUN), 상대방 부모님이 너무 엄해서 외출이 안 되면(Symmetric <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>), 앱 관리자가 </strong>직접 편지를 배달(TURN)**해 주는 완벽한 매칭 알고리즘입니다.
@@ -138,12 +138,12 @@ STUN, TURN, ICE는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡�
 
 ```text
 [선행 개념: ALG]
-    │
-    ▼
+    |
+    v
 [현재 개념: STUN, TURN, ICE]
-    │
-    ├──▶ [확장 A: ARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: ARP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 STUN, TURN, ICE는 ALG에서 출발해 현재 메커니즘을 정교화하고, 이후 ARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ STUN, TURN, ICE는 ALG에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 432 / 1120
 
-← **이전**: [310. ALG (Application Layer Gateway)](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)
-**다음**: [312. ARP (Address Resolution Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) →
+<- **이전**: [310. ALG (Application Layer Gateway)](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)
+**다음**: [312. ARP (Address Resolution Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ->
 
 ---

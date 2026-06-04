@@ -30,19 +30,19 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│              SAST / DAST / IAST 파이프라인 배치                  │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [코드 커밋]──▶[SAST]──▶[빌드]──▶[단위테스트]──▶[스테이징 배포]│
-│       │          │                                    │        │
-│      PR 생성    정적 분석                         [DAST]       │
-│                소스코드에서                      [IAST]        │
-│                SQL Injection                  동적 공격        │
-│                XSS 패턴 탐지                   시뮬레이션       │
-│                하드코딩 시크릿                  런타임 내부      │
-│                                                모니터링         │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|              SAST / DAST / IAST 파이프라인 배치                  |
++----------------------------------------------------------------+
+|                                                                |
+|  [코드 커밋]--->[SAST]--->[빌드]--->[단위테스트]--->[스테이징 배포]|
+|       |          |                                    |        |
+|      PR 생성    정적 분석                         [DAST]       |
+|                소스코드에서                      [IAST]        |
+|                SQL Injection                  동적 공격        |
+|                XSS 패턴 탐지                   시뮬레이션       |
+|                하드코딩 시크릿                  런타임 내부      |
+|                                                모니터링         |
++----------------------------------------------------------------+
 ```
 
 | 항목 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) | [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) | [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) |
@@ -119,8 +119,8 @@ tags = ["studynote-devops-sre"]
 
 ```text
 수동 보안 검수 시대         SAST/DAST 자동화             AI 보안 분석 시대
-──────────────────   ──────────────────────────   ───────────────────────
-수동 코드 리뷰        →  SAST CI 통합 (SonarQube) →  AI 기반 취약점 분류
+------------------   --------------------------   -----------------------
+수동 코드 리뷰        ->  SAST CI 통합 (SonarQube) ->  AI 기반 취약점 분류
 침투 테스터 전담           DAST 스테이징 자동화          Semgrep 커스텀 룰
 운영 후 취약점 발견         IAST 하이브리드 접근          CNAPP 내 SAST 통합
                             False Positive 관리           LLM 코드 보안 리뷰
@@ -138,7 +138,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 326 / 373
 
-← **이전**: [325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat](/knowledge-base/studynote/11_design_supervision/06_exam_summary/325_audit/)
-**다음**: [327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance](/knowledge-base/studynote/11_design_supervision/06_exam_summary/327_process/) →
+<- **이전**: [325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat](/knowledge-base/studynote/11_design_supervision/06_exam_summary/325_audit/)
+**다음**: [327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance](/knowledge-base/studynote/11_design_supervision/06_exam_summary/327_process/) ->
 
 ---

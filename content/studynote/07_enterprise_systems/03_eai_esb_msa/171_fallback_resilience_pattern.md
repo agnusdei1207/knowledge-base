@@ -28,16 +28,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 원래 경로와 폴백 경로가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Primary path and fallback path split                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ User -> Product API -> Recommendation service                        │
-│                         │                                            │
-│                         ├─ success -> personalized list              │
-│                         └─ fail/open breaker -> cached popular list  │
-│                                                                      │
-│ goal: keep the page usable without pretending the dependency is fine │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Primary path and fallback path split                 |
++----------------------------------------------------------------------+
+| User -> Product API -> Recommendation service                        |
+|                         |                                            |
+|                         +- success -> personalized list              |
+|                         +- fail/open breaker -> cached popular list  |
+|                                                                      |
+| goal: keep the page usable without pretending the dependency is fine |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "정상 응답처럼 보이게 속이는 것"이 아니라, <strong>사용 가능한 최소 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준을 유지하는 것</strong>이다. 그래서 폴백 응답은 가능한 한 출처와 한계를 분명히 가져야 한다.
@@ -64,16 +64,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 실패 감지에서 폴백 응답까지의 전형적인 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Timeout and circuit breaker decide when fallback runs         │
-├──────────────────────────────────────────────────────────────────────┤
-│ request -> timeout -> retry?(limited) -> circuit breaker -> fallback │
-│                                                        │             │
-│                                                        ├─ cache      │
-│                                                        ├─ default    │
-│                                                        ├─ secondary  │
-│                                                        └─ feature off│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Timeout and circuit breaker decide when fallback runs         |
++----------------------------------------------------------------------+
+| request -> timeout -> retry?(limited) -> circuit breaker -> fallback |
+|                                                        |             |
+|                                                        +- cache      |
+|                                                        +- default    |
+|                                                        +- secondary  |
+|                                                        +- feature off|
++----------------------------------------------------------------------+
 ```
 
 즉 폴백은 장애 회피 그 자체가 아니라, 이미 실패가 감지된 후 <strong>사용자와 시스템에 가장 덜 위험한 응답 형태로 착지시키는 기술</strong>이다.
@@ -163,14 +163,14 @@ tags = ["studynote-enterprise"]
 
 ```text
 Remote call failure
-    │
-    ▼
+    |
+    v
 Timeout / Retry / Circuit Breaker
-    │
-    ├─ safe read path  -> cache / default / secondary source
-    └─ unsafe write    -> fail fast / compensation flow
-    │
-    ▼
+    |
+    +- safe read path  -> cache / default / secondary source
+    +- unsafe write    -> fail fast / compensation flow
+    |
+    v
 Graceful degradation with observability
 ```
 
@@ -188,7 +188,7 @@ Graceful degradation with observability
 
 **진행 상황**: 171 / 482
 
-← **이전**: [170. 서킷 브레이커 (Circuit Breaker) 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/170_circuit_breaker_pattern/)
-**다음**: [172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/172_polyglot_persistence/) →
+<- **이전**: [170. 서킷 브레이커 (Circuit Breaker) 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/170_circuit_breaker_pattern/)
+**다음**: [172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/172_polyglot_persistence/) ->
 
 ---

@@ -31,26 +31,26 @@ tags = ["studynote-bigdata"]
 ### LDA [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              LDA (Latent Dirichlet Allocation) 원리                │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  [생성 가정]                                                        │
-│  각 문서는 여러 주제의 혼합 (α: 문서-주제 분포의 디리클레 파라미터)│
-│  각 주제는 단어들의 분포 (β: 주제-단어 분포의 디리클레 파라미터)  │
-│                                                                    │
-│  문서 d1: 70% 정치, 20% 경제, 10% 스포츠                           │
-│  문서 d2: 10% 정치, 80% 기술, 10% 과학                             │
-│                                                                    │
-│  주제 "기술": {AI 0.15, 데이터 0.12, 알고리즘 0.10, ...}           │
-│  주제 "정치": {대통령 0.12, 선거 0.11, 정당 0.09, ...}             │
-│                                                                    │
-│  → 관측된 단어들에서 역으로 추론 (변분 추론/깁스 샘플링)           │
-│                                                                    │
-│  하이퍼파라미터:                                                    │
-│  α (작을수록 문서가 소수 주제에 집중)                               │
-│  β (작을수록 주제가 소수 단어에 집중)                               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              LDA (Latent Dirichlet Allocation) 원리                |
++--------------------------------------------------------------------+
+|                                                                    |
+|  [생성 가정]                                                        |
+|  각 문서는 여러 주제의 혼합 (α: 문서-주제 분포의 디리클레 파라미터)|
+|  각 주제는 단어들의 분포 (β: 주제-단어 분포의 디리클레 파라미터)  |
+|                                                                    |
+|  문서 d1: 70% 정치, 20% 경제, 10% 스포츠                           |
+|  문서 d2: 10% 정치, 80% 기술, 10% 과학                             |
+|                                                                    |
+|  주제 "기술": {AI 0.15, 데이터 0.12, 알고리즘 0.10, ...}           |
+|  주제 "정치": {대통령 0.12, 선거 0.11, 정당 0.09, ...}             |
+|                                                                    |
+|  -> 관측된 단어들에서 역으로 추론 (변분 추론/깁스 샘플링)           |
+|                                                                    |
+|  하이퍼파라미터:                                                    |
+|  α (작을수록 문서가 소수 주제에 집중)                               |
+|  β (작을수록 주제가 소수 단어에 집중)                               |
++--------------------------------------------------------------------+
 ```
 
 ### 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
@@ -93,10 +93,10 @@ tags = ["studynote-bigdata"]
 
 ### 적용 시나리오
 
-1. **소셜 미디어 트렌드 분석**: 트위터/인스타 포스트 LDA 분석 → 이슈 주제 자동 탐지
-2. <strong>고객 피드백 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 수만 건 CS 상담 내용 BERTopic [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) → 문제 유형 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
-3. **학술 트렌드 맵핑**: 10년간 논문 초록 LDA → 연구 분야별 관심도 변화 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 문서 분석</strong>: 법령·공시문서 NMF 토픽 추출 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향 자동 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
+1. **소셜 미디어 트렌드 분석**: 트위터/인스타 포스트 LDA 분석 -> 이슈 주제 자동 탐지
+2. <strong>고객 피드백 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 수만 건 CS 상담 내용 BERTopic [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) -> 문제 유형 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+3. **학술 트렌드 맵핑**: 10년간 논문 초록 LDA -> 연구 분야별 관심도 변화 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 문서 분석</strong>: 법령·공시문서 NMF 토픽 추출 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향 자동 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -116,7 +116,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|
 | 탐색적 인사이트 | 사전 지식 없이 대규모 텍스트의 주제 지형 파악 |
 | 자동 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | K개 주제로 신규 문서 자동 태깅 |
-| 트렌드 조기 감지 | 특정 주제의 증가 추세 → 비즈니스 기회·위험 감지 |
+| 트렌드 조기 감지 | 특정 주제의 증가 추세 -> 비즈니스 기회·위험 감지 |
 | 연구 방향 수립 | 학술 문헌 지형에서 연구 공백 영역 발견 |
 | 콘텐츠 추천 | 문서의 주제 분포 기반 유사 문서 추천 |
 
@@ -142,20 +142,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [TF-IDF (Term Frequency-Inverse Document Frequency) — 단어 빈도 기반 문서 표현]
-    │
-    ▼
+    |
+    v
 [LSA (Latent Semantic Analysis) — SVD 기반 잠재 의미 추출, 동의어·유사어 포착]
-    │
-    ▼
+    |
+    v
 [LDA (Latent Dirichlet Allocation) — 확률적 생성 모델, 문서별 토픽 혼합 비율]
-    │
-    ▼
+    |
+    v
 [NMF (Non-negative Matrix Factorization) — 비음수 분해, 해석 가능한 토픽 추출]
-    │
-    ▼
+    |
+    v
 [BERTopic — 사전 학습 BERT 임베딩 + 클러스터링, 맥락 의미 기반 토픽 발견]
-    │
-    ▼
+    |
+    v
 [동적 토픽 모델 (Dynamic Topic Model) — 시간 흐름에 따른 토픽 진화 추적]
 ```
 이 흐름은 단어 빈도 통계에서 출발하여 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델로 발전하고, [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 활용한 맥락 기반 토픽 발견으로 수렴하는 자연어 처리 주제 모델링의 진화를 보여준다.
@@ -171,7 +171,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 116 / 262
 
-← **이전**: [112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약](/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/)
-**다음**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) →
+<- **이전**: [112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약](/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/)
+**다음**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ->
 
 ---

@@ -24,23 +24,23 @@ DIP는 로버트 마틴(Robert C. Martin)이 정립한 [SOLID](/knowledge-base/s
 DIP가 없으면 시스템은 "구현 세부 사항의 노예"가 된다. 인프라 기술이 바뀔 때마다 테스트를 다시 작성해야 하고, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))에서 실제 DB 연결이 필수가 되는 불합리한 상황이 생긴다. DIP는 인터페이스라는 계약을 중간에 삽입하여 이 의존성의 방향을 역전시킨다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             DIP 적용 전후 의존성 방향 비교                    │
-├──────────────────────────────────────────────────────────────┤
-│ [Before] 고수준 → 저수준 직접 의존 (강결합)                  │
-│                                                              │
-│  OrderService ────────────────────▶ MySQLRepository          │
-│  (비즈니스 정책)                      (인프라 구현체)         │
-│                                                              │
-│ [After]  고수준 → 추상화 ← 저수준 구현 (의존성 역전)          │
-│                                                              │
-│  OrderService ──▶ <<interface>>                              │
-│  (비즈니스 정책)   OrderRepository ◀── MySQLRepository       │
-│                   (추상화 계약)         (저수준 구현체)        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             DIP 적용 전후 의존성 방향 비교                    |
++--------------------------------------------------------------+
+| [Before] 고수준 -> 저수준 직접 의존 (강결합)                  |
+|                                                              |
+|  OrderService ---------------------> MySQLRepository          |
+|  (비즈니스 정책)                      (인프라 구현체)         |
+|                                                              |
+| [After]  고수준 -> 추상화 <- 저수준 구현 (의존성 역전)          |
+|                                                              |
+|  OrderService ---> <<interface>>                              |
+|  (비즈니스 정책)   OrderRepository <--- MySQLRepository       |
+|                   (추상화 계약)         (저수준 구현체)        |
++--------------------------------------------------------------+
 ```
 
-위 구조에서 `OrderService`는 인터페이스만 바라보며, 어떤 구현체가 연결되든 무관하다. 의존성의 화살표가 제어 흐름(고수준 → 저수준)과 반대 방향으로 역전된 것이 핵심이다.
+위 구조에서 `OrderService`는 인터페이스만 바라보며, 어떤 구현체가 연결되든 무관하다. 의존성의 화살표가 제어 흐름(고수준 -> 저수준)과 반대 방향으로 역전된 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 벽에 특정 가전제품 전용 선을 납땜하는 대신 규격화된 콘센트(인터페이스)를 설치하는 것과 같다. 선풍기든 청소기든 규격만 맞으면 교체가 자유롭다.
 
@@ -58,19 +58,19 @@ DIP를 실현하는 데는 두 단계가 필요하다. 첫째, 고수준 [모듈
 | IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 런타임에 구현체 주입 | Spring, Guice 등 프레임워크 활용 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          DIP + DI 런타임 흐름도                              │
-├─────────────────────────────────────────────────────────────┤
-│  [IoC 컨테이너]                                             │
-│        │ 의존성 주입(DI)                                    │
-│        ▼                                                    │
-│  [OrderService]──uses──▶[OrderRepository Interface]         │
-│                                  ▲                          │
-│                    ┌─────────────┴──────────────┐           │
-│                    │                            │           │
-│           [MySQLRepository]          [MockRepository]       │
-│           (실제 운영 환경)             (단위 테스트 환경)    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          DIP + DI 런타임 흐름도                              |
++-------------------------------------------------------------+
+|  [IoC 컨테이너]                                             |
+|        | 의존성 주입(DI)                                    |
+|        v                                                    |
+|  [OrderService]--uses--->[OrderRepository Interface]         |
+|                                  ^                          |
+|                    +-------------+--------------+           |
+|                    |                            |           |
+|           [MySQLRepository]          [MockRepository]       |
+|           (실제 운영 환경)             (단위 테스트 환경)    |
++-------------------------------------------------------------+
 ```
 
 컴파일 시점에는 `OrderService`가 `OrderRepository` 인터페이스에만 의존하고, 런타임에 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 `MySQLRepository`를 주입한다. 테스트 시에는 동일 인터페이스를 구현한 `MockRepository`를 주입하여 DB 없이 빠른 검증이 가능해진다.
@@ -127,7 +127,7 @@ DIP를 체계적으로 적용하면 시스템 전체가 플러그인(plug-in) �
 
 ### 📌 관련 개념 맵
 
-SOLID 원칙] → DIP] → [IoC 컨테이너] → DI 프레임워크(Spring)] → [헥사고날/클린 아키텍처]
+SOLID 원칙] -> DIP] -> [IoC 컨테이너] -> DI 프레임워크(Spring)] -> [헥사고날/클린 아키텍처]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -138,7 +138,7 @@ SOLID 원칙] → DIP] → [IoC 컨테이너] → DI 프레임워크(Spring)] �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[절차적 강결합 (하향식 직접 의존)] → [객체지향 캡슐화·다형성] → SOLID 원칙 정립([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))] → [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 패턴 확산] → [헥사고날·클린 아키텍처] → [플러그인 기반 마이크로서비스]
+[절차적 강결합 (하향식 직접 의존)] -> [객체지향 캡슐화·다형성] -> SOLID 원칙 정립([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 패턴 확산] -> [헥사고날·클린 아키텍처] -> [플러그인 기반 마이크로서비스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +152,7 @@ SOLID 원칙] → DIP] → [IoC 컨테이너] → DI 프레임워크(Spring)] �
 
 **진행 상황**: 154 / 530
 
-← **이전**: [105. ISP (Interface Segregation Principle, 인터페이스 분리 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/105_isp_interface_segregation_principle/)
-**다음**: [106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/) →
+<- **이전**: [105. ISP (Interface Segregation Principle, 인터페이스 분리 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/105_isp_interface_segregation_principle/)
+**다음**: [106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/) ->
 
 ---

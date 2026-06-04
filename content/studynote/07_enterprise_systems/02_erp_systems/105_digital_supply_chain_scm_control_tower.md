@@ -37,22 +37,22 @@ tags = ["enterprise_systems"]
 | **통합 가시성 (Visibility)** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 공급사부터 최종 고객([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 위치, 온도, 재고 상태 실시간 매핑 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            SCM 컨트롤 타워의 감지-판단-실행 메커니즘         │
-├──────────────────────────────────────────────────────────────┤
-│ [ IoT 데이터 파이프라인 ]                                    │
-│  원자재 공장 ──▶ 항만 ──▶ 해상 운송 ──▶ 조립 공장 ──▶ 유통    │
-│       ▲            ▲         ▲           ▲           ▲      │
-│       │            │         │           │           │      │
-│       └────────────┴─────────┴───────────┴───────────┘      │
-│                 (실시간 데이터 100% 동기화)                   │
-│                              ▼                               │
-│ [ SCM 컨트롤 타워 대시보드 ]                                 │
-│  🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"│
-│                              │                               │
-│                              ▼                               │
-│  💡 대안 시뮬레이션 ─▶ "선박 화물을 항공편으로 긴급 우회하라"│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            SCM 컨트롤 타워의 감지-판단-실행 메커니즘         |
++--------------------------------------------------------------+
+| [ IoT 데이터 파이프라인 ]                                    |
+|  원자재 공장 ---> 항만 ---> 해상 운송 ---> 조립 공장 ---> 유통    |
+|       ^            ^         ^           ^           ^      |
+|       |            |         |           |           |      |
+|       +------------+---------+-----------+-----------+      |
+|                 (실시간 데이터 100% 동기화)                   |
+|                              v                               |
+| [ SCM 컨트롤 타워 대시보드 ]                                 |
+|  🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"|
+|                              |                               |
+|                              v                               |
+|  💡 대안 시뮬레이션 --> "선박 화물을 항공편으로 긴급 우회하라"|
++--------------------------------------------------------------+
 ```
 
 가장 밑단의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 단순 위치뿐 아니라 냉동 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실시간 온도, 습도, 진동까지 잡아낸다. 중앙의 컨트롤 타워는 이 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 외부 뉴스(날씨, 파업)를 결합하여, 문제가 터지기 전에 "이대로 가면 3일 뒤 납기를 맞출 수 없다"고 선제적 예측을 내놓는 것이 핵심 원리다.
@@ -112,17 +112,17 @@ tags = ["enterprise_systems"]
 
 ```text
 전통적 선형 SCM (단절된 사일로 구조)
-    │
-    ▼
+    |
+    v
 가시성 확보 (Visibility) · IoT 센서를 통한 E2E 모니터링 대시보드
-    │
-    ▼
+    |
+    v
 예측형 SCM (Predictive) · AI 빅데이터 분석을 통한 리스크 사전 경보
-    │
-    ▼
+    |
+    v
 SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안 시뮬레이션
-    │
-    ▼
+    |
+    v
 자율형 공급망 (Autonomous Supply Chain) · 무개입(Zero-Touch) 자동 실행 네트워크
 ```
 
@@ -138,7 +138,7 @@ SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안
 
 **진행 상황**: 105 / 482
 
-← **이전**: [104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/)
-**다음**: [106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/106_blockchain_scm_traceability_cold_chain/) →
+<- **이전**: [104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/)
+**다음**: [106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/106_blockchain_scm_traceability_cold_chain/) ->
 
 ---

@@ -26,16 +26,16 @@ tags = ["studynote-ict-convergence"]
 NIST의 5대 특징은 서로 떨어진 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 흐름으로 연결된다. 아래 그림은 왜 클라우드가 단순한 원격 자산이 아니라 유틸리티 운영 모델인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Utility cloud, not just remote servers                             │
-├────────────────────────────────────────────────────────────────────┤
-│ user request -> self-service portal -> shared pool -> scale -> meter│
-│                                                                    │
-│ missing self-service => ticket-based outsourcing                   │
-│ missing pooling      => simple hosting                             │
-│ missing elasticity   => fixed-capacity rental                      │
-│ missing metering     => flat lease, weak utility model             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Utility cloud, not just remote servers                             |
++--------------------------------------------------------------------+
+| user request -> self-service portal -> shared pool -> scale -> meter|
+|                                                                    |
+| missing self-service => ticket-based outsourcing                   |
+| missing pooling      => simple hosting                             |
+| missing elasticity   => fixed-capacity rental                      |
+| missing metering     => flat lease, weak utility model             |
++--------------------------------------------------------------------+
 ```
 
 여기서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))는 사람이 콘솔에서 클릭하는 경로와 자동화 도구가 호출하는 경로를 함께 포함한다. 즉 클라우드는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 서버"가 아니라 "표준화된 방식으로 즉시 요청하고, 공유 자원에서 받아 쓰며, 쓰는 만큼 측정되는 운영 체계"라고 기억해야 한다.
@@ -59,23 +59,23 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 아래 그림은 5대 특징이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정에서 어떻게 이어지는지 압축한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ NIST five characteristics in one provisioning loop                 │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. request via portal or API                                       │
-│        │                                                           │
-│        ▼                                                           │
-│ 2. allocate from pooled compute / storage / network resources      │
-│        │                                                           │
-│        ▼                                                           │
-│ 3. expose service over standard network access                     │
-│        │                                                           │
-│        ▼                                                           │
-│ 4. scale out or in as workload changes                             │
-│        │                                                           │
-│        ▼                                                           │
-│ 5. meter usage for billing, governance, and optimization           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| NIST five characteristics in one provisioning loop                 |
++--------------------------------------------------------------------+
+| 1. request via portal or API                                       |
+|        |                                                           |
+|        v                                                           |
+| 2. allocate from pooled compute / storage / network resources      |
+|        |                                                           |
+|        v                                                           |
+| 3. expose service over standard network access                     |
+|        |                                                           |
+|        v                                                           |
+| 4. scale out or in as workload changes                             |
+|        |                                                           |
+|        v                                                           |
+| 5. meter usage for billing, governance, and optimization           |
++--------------------------------------------------------------------+
 ```
 
 특히 [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)은 단순히 하드웨어를 많이 모아 두는 개념이 아니다. 물리 서버 여러 대를 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 필요한 순간에 재할당할 수 있어야 한다. 그래서 클라우드의 핵심 역량은 "장비가 많다"가 아니라 <strong>자원을 빠르게 조합하고 회수하는 자동화된 풀 관리 능력</strong>이다.
@@ -111,14 +111,14 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 실무에서는 5대 특징을 단순 암기보다 <strong>설계 점검표</strong>로 써야 한다. 예를 들어 주문형 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 필요하다면 콘솔 클릭만 허용하는 것이 아니라, 승인 정책이 내장된 IaC와 표준 템플릿이 있어야 한다. 신속한 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을 기대한다면 애플리케이션 상태를 외부화하고 자동 확장 규칙을 설계해야 하며, 측정 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살리려면 자원 태깅과 비용 가시화 체계가 준비되어야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Cloud adoption works only when design matches the five traits      │
-├────────────────────────────────────────────────────────────────────┤
-│ self-service -> API / IaC / guardrails                             │
-│ pooling      -> tenant isolation / capacity abstraction            │
-│ elasticity   -> stateless design / automated scale rules           │
-│ metering     -> tagging / showback / cost visibility               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Cloud adoption works only when design matches the five traits      |
++--------------------------------------------------------------------+
+| self-service -> API / IaC / guardrails                             |
+| pooling      -> tenant isolation / capacity abstraction            |
+| elasticity   -> stateless design / automated scale rules           |
+| metering     -> tagging / showback / cost visibility               |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -171,23 +171,23 @@ NIST 5대 특징이 제대로 구현되면 인프라는 준비 시간, 확장 �
 
 ```text
 가상화 · 자동화 · 표준 네트워크
-        │
-        ▼
+        |
+        v
 주문형 셀프 서비스
-        │
-        ▼
+        |
+        v
 광범위한 네트워크 접근
-        │
-        ▼
+        |
+        v
 자원 풀링
-        │
-        ▼
+        |
+        v
 신속한 탄력성
-        │
-        ▼
+        |
+        v
 측정 가능한 서비스
-        │
-        ▼
+        |
+        v
 클라우드 네이티브 · 서버리스 · 비용 최적화 운영
 ```
 
@@ -203,7 +203,7 @@ NIST 5대 특징이 제대로 구현되면 인프라는 준비 시간, 확장 �
 
 **진행 상황**: 181 / 552
 
-← **이전**: [180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/180_drone_swarm_control_algorithm/)
-**다음**: [182. 클라우드 서비스 모델 (Cloud Service Models) 개요](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/182_cloud_service_models_overview/) →
+<- **이전**: [180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/180_drone_swarm_control_algorithm/)
+**다음**: [182. 클라우드 서비스 모델 (Cloud Service Models) 개요](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/182_cloud_service_models_overview/) ->
 
 ---

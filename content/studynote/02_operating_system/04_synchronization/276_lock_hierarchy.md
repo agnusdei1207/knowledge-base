@@ -52,24 +52,24 @@ tags = ["studynote-operating-system"]
 - 그제야 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2가 A 락을 잡고 정상적으로 작업을 시작한다. **데드락 완전 소멸!**
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           Lock Hierarchy를 통한 데드락 원천 봉쇄 시각화                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│ ❌ [ 락 순서가 없을 때 (데드락 쾅!) ]                                      │
-│   스레드 1 (A->B) :  [Lock A] 꽉 쥠  ──(기다림)──▶ [Lock B] 필요           │
-│   스레드 2 (B->A) :  [Lock B] 꽉 쥠  ──(기다림)──▶ [Lock A] 필요           │
-│   *(서로 꼬리 물기, 시스템 마비)*                                          │
-│                                                                            │
-│ 🛡️ [ 락 계층화 적용 후 (항상 고유번호가 작은 놈부터 잡을 것!) ]            │
-│   * A번호=1, B번호=2                                                       │
-│   스레드 1 (A->B) :  [Lock A (1번)] 획득 성공!                             │
-│   스레드 2 (B->A) :  나도 무조건 1번부터 잡아야해! [Lock A (1번)] 요청!    │
-│                    -> "앗 스레드1이 쓰고 있네? 조용히 밖에서 기다리자..."  │
-│                                                                            │
-│   스레드 1 (A->B) :  [Lock B (2번)] 마저 획득 성공 -> 송금 완료!           │
-│   스레드 2 (B->A) :  드디어 [Lock A], [Lock B] 획득 성공 -> 송금 완료!     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           Lock Hierarchy를 통한 데드락 원천 봉쇄 시각화                    |
++----------------------------------------------------------------------------+
+|                                                                            |
+| ❌ [ 락 순서가 없을 때 (데드락 쾅!) ]                                      |
+|   스레드 1 (A->B) :  [Lock A] 꽉 쥠  --(기다림)---> [Lock B] 필요           |
+|   스레드 2 (B->A) :  [Lock B] 꽉 쥠  --(기다림)---> [Lock A] 필요           |
+|   *(서로 꼬리 물기, 시스템 마비)*                                          |
+|                                                                            |
+| 🛡️ [ 락 계층화 적용 후 (항상 고유번호가 작은 놈부터 잡을 것!) ]            |
+|   * A번호=1, B번호=2                                                       |
+|   스레드 1 (A->B) :  [Lock A (1번)] 획득 성공!                             |
+|   스레드 2 (B->A) :  나도 무조건 1번부터 잡아야해! [Lock A (1번)] 요청!    |
+|                    -> "앗 스레드1이 쓰고 있네? 조용히 밖에서 기다리자..."  |
+|                                                                            |
+|   스레드 1 (A->B) :  [Lock B (2번)] 마저 획득 성공 -> 송금 완료!           |
+|   스레드 2 (B->A) :  드디어 [Lock A], [Lock B] 획득 성공 -> 송금 완료!     |
++----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 데드락은 '내가 자원을 쥔 상태에서 남의 자원을 뺏으려 할 때' 터진다. 순서화 규칙을 강제하면, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2는 자신의 자원(B)을 아예 손에 쥐기도 전에(점유 전) 남의 자원(A) 문 앞에서 차단당한다. 구조적으로 '[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))' 상태가 환형으로 엮이는 고리를 수학적으로 싹둑 끊어버린 것이다.
@@ -132,12 +132,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [락 경합 (Lock Contention) 모니터링 도구]
-    │
-    ▼
+    |
+    v
 [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-    │
-    ├──▶ [세마포어를 이용한 순서 제어 (Ordering)]
-    └──▶ [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
+    |
+    +---> [세마포어를 이용한 순서 제어 (Ordering)]
+    +---> [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 276 / 800
 
-← **이전**: [275. 락 경합 (Lock Contention) 모니터링 도구](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)
-**다음**: [277. 세마포어를 이용한 순서 제어 (Ordering)](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) →
+<- **이전**: [275. 락 경합 (Lock Contention) 모니터링 도구](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)
+**다음**: [277. 세마포어를 이용한 순서 제어 (Ordering)](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) ->
 
 ---

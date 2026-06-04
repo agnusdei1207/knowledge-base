@@ -26,34 +26,34 @@ tags = ["studynote-it-management"]
 특히 2024년 EU AI Act, 한국 AI 기본법(2026 시행 예정), DORA(Digital Operational Resilience Act), 개인정보보호법 개정 등 규제 환경이 급격히 강화되면서, **IT Compliance & Risk Management**가 IT 경영의 핵심 의사결정 변수로 부상했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│          IT 경영 관리 4-Layer 통합 거버넌스 아키텍처              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  L1. 전략 정렬 (Strategic Alignment)                             │
-│  ┌─────────────────────────────────────────────────────┐        │
-│  │ Business Strategy ↔ IT Strategy ↔ Digital Strategy │        │
-│  │ [Ward & Peppard IS/IT 전략 모델]                    │        │
-│  └─────────────────────────────────────────────────────┘        │
-│                          │                                      │
-│  L2. 거버넌스 체계 (Governance Framework)                       │
-│  ┌─────────────────────────────────────────────────────┐        │
-│  │  COBIT 2019 ─┬─ ITIL 4 ─┬─ ISO/IEC 38500          │        │
-│  │              ├─ NIST CSF ├─ TOGAF/EA               │        │
-│  │              └─ ISO 27001 ├─ CMMI/Agile           │        │
-│  └─────────────────────────────────────────────────────┘        │
-│                          │                                      │
-│  L3. 운영 통제 (Operational Control)                            │
-│  ┌─────────────────────────────────────────────────────┐        │
-│  │ ITSM │ SRE │ FinOps │ DevSecOps │ AIOps │ MLOps    │        │
-│  └─────────────────────────────────────────────────────┘        │
-│                          │                                      │
-│  L4. 가치 측정 (Value Measurement)                              │
-│  ┌─────────────────────────────────────────────────────┐        │
-│  │ KPI/KRI │ SLI/SLO/SLA │ TBM │ Balanced Scorecard   │        │
-│  └─────────────────────────────────────────────────────┘        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|          IT 경영 관리 4-Layer 통합 거버넌스 아키텍처              |
++-----------------------------------------------------------------+
+|                                                                 |
+|  L1. 전략 정렬 (Strategic Alignment)                             |
+|  +-----------------------------------------------------+        |
+|  | Business Strategy ↔ IT Strategy ↔ Digital Strategy |        |
+|  | [Ward & Peppard IS/IT 전략 모델]                    |        |
+|  +-----------------------------------------------------+        |
+|                          |                                      |
+|  L2. 거버넌스 체계 (Governance Framework)                       |
+|  +-----------------------------------------------------+        |
+|  |  COBIT 2019 -+- ITIL 4 -+- ISO/IEC 38500          |        |
+|  |              +- NIST CSF +- TOGAF/EA               |        |
+|  |              +- ISO 27001 +- CMMI/Agile           |        |
+|  +-----------------------------------------------------+        |
+|                          |                                      |
+|  L3. 운영 통제 (Operational Control)                            |
+|  +-----------------------------------------------------+        |
+|  | ITSM | SRE | FinOps | DevSecOps | AIOps | MLOps    |        |
+|  +-----------------------------------------------------+        |
+|                          |                                      |
+|  L4. 가치 측정 (Value Measurement)                              |
+|  +-----------------------------------------------------+        |
+|  | KPI/KRI | SLI/SLO/SLA | TBM | Balanced Scorecard   |        |
+|  +-----------------------------------------------------+        |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 **전통적 IT 운영 vs 현대적 IT 경영 비교**:
@@ -68,55 +68,55 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리는 **전략 → 거버넌스 → 운영 → 측정**의 4단계 피드백 루프(Closed-loop Control System)로 구성되며, 각 단계는 PDCA(Deming Cycle) 및 COBIT의 **EDM(evaluate, direct, monitor)** → **APO(align, plan, organize)** → **BAI(build, acquire, implement)** → **DSS(deliver, service, support)** → **MEA(monitor, evaluate, assess)**의 5개 도메인과 매핑된다.
+IT 경영 관리는 **전략 -> 거버넌스 -> 운영 -> 측정**의 4단계 피드백 루프(Closed-loop Control System)로 구성되며, 각 단계는 PDCA(Deming Cycle) 및 COBIT의 **EDM(evaluate, direct, monitor)** -> **APO(align, plan, organize)** -> **BAI(build, acquire, implement)** -> **DSS(deliver, service, support)** -> **MEA(monitor, evaluate, assess)**의 5개 도메인과 매핑된다.
 
 ```text
 COBIT 2019 Governance & Management Objectives 연계 구조
-═══════════════════════════════════════════════════════════
+-----------------------------------------------------------
 
   [Board / Executive]         [Management]            [Operational]
-         │                         │                         │
-         ▼                         ▼                         ▼
-   ┌──────────┐              ┌──────────┐             ┌──────────┐
-   │  EDM 01  │──정책지침──▶│  APO 01  │──전략수립──▶│  BAI 01  │
-   │ 거버넌스 │              │ 관리체계 │             │ 프로그램  │
-   │ Framework│              │           │             │          │
-   └──────────┘              └──────────┘             └──────────┘
-         │                         │                         │
-         │                         ▼                         ▼
-         │                  ┌──────────┐             ┌──────────┐
-         │                  │  APO 12  │──위험관리──▶│  DSS 01  │
-         │                  │   리스크  │             │ 운영관리  │
-         │                  └──────────┘             └──────────┘
-         │                         │                         │
-         │                         ▼                         ▼
-         │                  ┌──────────┐             ┌──────────┐
-         └─────────피드백──▶│  MEA 01  │◀─성과측정─│  MEA 02  │
-                            │성과모니터│             │내부통제  │
-                            └──────────┘             └──────────┘
+         |                         |                         |
+         v                         v                         v
+   +----------+              +----------+             +----------+
+   |  EDM 01  |--정책지침--->|  APO 01  |--전략수립--->|  BAI 01  |
+   | 거버넌스 |              | 관리체계 |             | 프로그램  |
+   | Framework|              |           |             |          |
+   +----------+              +----------+             +----------+
+         |                         |                         |
+         |                         v                         v
+         |                  +----------+             +----------+
+         |                  |  APO 12  |--위험관리--->|  DSS 01  |
+         |                  |   리스크  |             | 운영관리  |
+         |                  +----------+             +----------+
+         |                         |                         |
+         |                         v                         v
+         |                  +----------+             +----------+
+         +---------피드백--->|  MEA 01  |<--성과측정-|  MEA 02  |
+                            |성과모니터|             |내부통제  |
+                            +----------+             +----------+
 
-═══════════════════════════════════════════════════════════
-   ↑                              │                      │
-   └─── 전략 정렬 (Alignment) ◀────┴───── 가치 전달 (Value) ┘
+-----------------------------------------------------------
+   ^                              |                      |
+   +--- 전략 정렬 (Alignment) <-----+----- 가치 전달 (Value) +
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **COBIT 2019** | 거버넌스·관리 목표 체계(40개 Objective) | EDM/APO/BAI/DSS/MEA 5도메인, 7개 컴포넌트(Principles/Processes/Organizational Structures/Information/People/Skills/Culture), Focus Area 40+ (DevOps, Risk, Security, Digital 등) |
-| **ITIL 4** | IT 서비스 관리(Service Value System) | SVS(Value/Organization/People/Information/Partner/Technology → Opportunity/Demand/Value), 34개 Practice, Service Value Chain(Plan→Engage→Design→Obtain→Build→Transition→Deliver→Support), 4D 모델(Direct/Design/Develop/Deliver) |
+| **ITIL 4** | IT 서비스 관리(Service Value System) | SVS(Value/Organization/People/Information/Partner/Technology -> Opportunity/Demand/Value), 34개 Practice, Service Value Chain(Plan->Engage->Design->Obtain->Build->Transition->Deliver->Support), 4D 모델(Direct/Design/Develop/Deliver) |
 | **ISO/IEC 38500** | IT 거버넌스 국제 표준 | 6원칙(Responsibility/Strategy/Acquisition/Performance/Conformance/Human Behavior), **E-D-M(Evaluate-Direct-Monitor)** 3단계 모델, 5Governance Model |
-| **TOGAF ADM** | 엔터프라이즈 아키텍처 | Preliminary→A(비전)→B(비즈니스)→C(데이터/앱)→D(기술)→E(기회)→F(마이그레이션)→G(구현)→H(변화관리)→Requirements Mgmt, ADM Cycle |
+| **TOGAF ADM** | 엔터프라이즈 아키텍처 | Preliminary->A(비전)->B(비즈니스)->C(데이터/앱)->D(기술)->E(기회)->F(마이그레이션)->G(구현)->H(변화관리)->Requirements Mgmt, ADM Cycle |
 | **TBM (Apptio)** | IT 비용 투명성 | IT 비용 분류(Tower/Cost Pool/Consumer Model), 단가 책정(Unit Cost), Showback/Chargeback, FinOps 통합 |
-| **FinOps** | 클라우드 비용 거버넌스 | Inform→Optimize→Operate 3단계, CUD(Committed Use Discount), RI(Reserved Instance), Karpenter/스팟 인스턴스 자동화, Real-time Cost Anomaly Detection |
+| **FinOps** | 클라우드 비용 거버넌스 | Inform->Optimize->Operate 3단계, CUD(Committed Use Discount), RI(Reserved Instance), Karpenter/스팟 인스턴스 자동화, Real-time Cost Anomaly Detection |
 | **AIOps** | 지능형 IT 운영 | ML 기반 이상 탐지, Event Correlation (예: Moogsoft, Splunk ITSI, Dynatrace, New Relic), 자동 Remediation(Runbook Automation), Predictive Maintenance |
 | **DevSecOps** | 보안 내재화 파이프라인 | SAST(Static)/DAST(Dynamic)/SCA(Software Composition Analysis)/IaC Scan(Terraform, KICS)/Container Scan(Trivy, Grype), SBOM, SLSA, Sigstore |
 
 **핵심 원리 상세**:
-1. **Ward & Peppard의 IS/IT 전략 정렬 모델**: 외부 환경(Porter 5 Forces, PESTEL) 분석 → 내부 환경(Value Chain, IS/IT 자원) 분석 → **IS/IT 전략** 도출 → **IT 포트폴리오**(Application, Infrastructure, Investment) 결정
+1. **Ward & Peppard의 IS/IT 전략 정렬 모델**: 외부 환경(Porter 5 Forces, PESTEL) 분석 -> 내부 환경(Value Chain, IS/IT 자원) 분석 -> **IS/IT 전략** 도출 -> **IT 포트폴리오**(Application, Infrastructure, Investment) 결정
 2. **Henderson & Venkatraman의 SAM(Strategic Alignment Model)**: **Business Strategy ↔ IT Strategy**와 **Organizational Infrastructure & Processes ↔ IS Infrastructure & Processes**의 4분면 교차 정렬
-3. **COBIT 2019 Goals Cascade**: Stakeholder Needs → Enterprise Goals → Alignment Goals → Management Goals → Component/Process Goals의 5단계 인과 체인
+3. **COBIT 2019 Goals Cascade**: Stakeholder Needs -> Enterprise Goals -> Alignment Goals -> Management Goals -> Component/Process Goals의 5단계 인과 체인
 4. **ITIL 4 Service Value Chain**: 6개 핵심 Activity(Plan/Engage/Design & Transition/Obtain/Build/Deliver/Support) + **Value Stream** 단위의 End-to-End 흐름 최적화
-5. **TBM Tower 모델**: Tower(예: Server, Storage, Network, Application, End User, Shared Services) → Cost Pool(HW/SW/Labor/External) → Consumer(BU/Service/Project) 3계층 비용 가시화
+5. **TBM Tower 모델**: Tower(예: Server, Storage, Network, Application, End User, Shared Services) -> Cost Pool(HW/SW/Labor/External) -> Consumer(BU/Service/Project) 3계층 비용 가시화
 
 - **📢 섹션 요약 비유**: IT 거버넌스 프레임워크는 마치 **신체 신경계**와 같다. COBIT 2019는 **뇌(EDM 의사결정)**, ITIL 4는 **소화계(서비스 가치 흐름)**, ISO 38500은 **척수(원칙과 통제)**, TOGAF는 **골격(아키텍처)**, AIOps는 **면역계(자동 방어)** 역할을 하며, KPI/BSC는 **혈액순환을 통한 산소(정보) 전달** 시스템이라 할 수 있다.
 
@@ -136,12 +136,12 @@ COBIT 2019 Governance & Management Objectives 연계 구조
 | **상호보완** | ISO 38500 + TOGAF + NIST | COBIT + DevOps + SRE | COBIT + ITIL + ISO 27001 | ITIL + DevSecOps + SAFe |
 
 **연계 시스템**:
-- **EA(Enterprise Architecture)**: TOGAF/Zachman/DoDAF로 **현재(As-Is)/미래(To-Be) 간 갭** 분석 → COBIT 2019의 **APO 04(Managed Innovation)** 및 **BAI 03(Managed Solutions)**에 EA 결과 반영
-- **프로젝트 관리**: PMBOK/PRINCE2/Agile/Scrum/SAFe/Kanban → **COBIT BAI 01~11(Managed Programs/Projects)**과 연계, **PPM(Portfolio/Program/Project)** 계층화
-- **정보보안 거버넌스**: ISO 27001(정보보호 경영체계) + NIST CSF(Identify/Protect/Detect/Respond/Recover) + ISMS-P → **COBIT EDM 03(Compliance)** + **APO 12~13(Risk/Security)** 통합
-- **클라우드 거버넌스**: FinOps Foundation + Cloud Custodian + AWS Well-Architected + Azure CAF + GCP CAF → **TBM + FinOps** 비용 최적화, **Shared Responsibility Model** 보안 통제
-- **AI 거버넌스**: NIST AI RMF + ISO/IEC 42001(AI Management System) + EU AI Act → MLOps 플랫폼(Kubeflow/MLflow/SageMaker), Model Card, Explainability(LIME/SHAP), AI 윤리 위원회
-- **ESG·지속가능성**: GRI/SASB/TCFD/ISSB + ISO 14001 + Green IT KPI(PUE/CUE/WUE/Carbon Usage Effectiveness) → DCIM, Liquid Cooling, Carbon-Aware Computing
+- **EA(Enterprise Architecture)**: TOGAF/Zachman/DoDAF로 **현재(As-Is)/미래(To-Be) 간 갭** 분석 -> COBIT 2019의 **APO 04(Managed Innovation)** 및 **BAI 03(Managed Solutions)**에 EA 결과 반영
+- **프로젝트 관리**: PMBOK/PRINCE2/Agile/Scrum/SAFe/Kanban -> **COBIT BAI 01~11(Managed Programs/Projects)**과 연계, **PPM(Portfolio/Program/Project)** 계층화
+- **정보보안 거버넌스**: ISO 27001(정보보호 경영체계) + NIST CSF(Identify/Protect/Detect/Respond/Recover) + ISMS-P -> **COBIT EDM 03(Compliance)** + **APO 12~13(Risk/Security)** 통합
+- **클라우드 거버넌스**: FinOps Foundation + Cloud Custodian + AWS Well-Architected + Azure CAF + GCP CAF -> **TBM + FinOps** 비용 최적화, **Shared Responsibility Model** 보안 통제
+- **AI 거버넌스**: NIST AI RMF + ISO/IEC 42001(AI Management System) + EU AI Act -> MLOps 플랫폼(Kubeflow/MLflow/SageMaker), Model Card, Explainability(LIME/SHAP), AI 윤리 위원회
+- **ESG·지속가능성**: GRI/SASB/TCFD/ISSB + ISO 14001 + Green IT KPI(PUE/CUE/WUE/Carbon Usage Effectiveness) -> DCIM, Liquid Cooling, Carbon-Aware Computing
 
 - **📢 섹션 요약 비유**: COBIT과 ITIL의 관계는 마치 **헌법(COBIT)과 민법(ITIL)**의 관계와 같다. 헌법이 국가 운영의 근본 원칙(거버넌스)을 정의하면, 민법은 일상적 거래·계약(서비스 운영)의 세부 규정을 다룬다. 두 법이 함께 작동해야 사회(기업 IT)가 안정적으로 운영된다.
 
@@ -154,7 +154,7 @@ COBIT 2019 Governance & Management Objectives 연계 구조
 
 **진행 상황**: 596 / 800
 
-← **이전**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/)
-**다음**: [597. IT 경영 관리 핵심 토픽 597번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/597_it_management_core_topic_597_exam_summary/) →
+<- **이전**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/)
+**다음**: [597. IT 경영 관리 핵심 토픽 597번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/597_it_management_core_topic_597_exam_summary/) ->
 
 ---

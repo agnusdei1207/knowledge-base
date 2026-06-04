@@ -38,12 +38,12 @@ tags = ["studynote-ai"]
   편향(Bias): 모델이 실제 패턴에서 벗어난 정도
   분산(Variance): 데이터 변화에 민감한 정도
 
-  복잡한 모델: 편향↓, 분산↑ (과적합)
-  단순한 모델: 편향↑, 분산↓ (과소적합)
+  복잡한 모델: 편향v, 분산^ (과적합)
+  단순한 모델: 편향^, 분산v (과소적합)
 
   앙상블 목표:
-  배깅 → 분산 감소
-  부스팅 → 편향 감소
+  배깅 -> 분산 감소
+  부스팅 -> 편향 감소
 
 앙상블 방법:
   배깅 (Bagging): 병렬, 분산 감소
@@ -60,10 +60,10 @@ tags = ["studynote-ai"]
 
 ```
 Bagging (Bootstrap Aggregating):
-  부트스트랩 샘플 → 독립 모델 → 결합
+  부트스트랩 샘플 -> 독립 모델 -> 결합
 
 부트스트랩 샘플링:
-  원본 데이터 N개 → 복원 추출로 N개 샘플
+  원본 데이터 N개 -> 복원 추출로 N개 샘플
 
   특성:
   약 63.2%의 원본 데이터 포함 (중복 허용)
@@ -80,14 +80,14 @@ Bagging (Bootstrap Aggregating):
   독립적 모델 T개의 평균:
   Var(평균) = Var(개별) / T
 
-  → 모델 수가 많을수록 분산 감소
+  -> 모델 수가 많을수록 분산 감소
 
 Random Forest (랜덤 포레스트):
   배깅 + 특성 무작위 선택
 
   개선:
   각 분기점: 전체 특성 중 √m개만 무작위 선택
-  → 트리 간 상관관계 감소 → 추가 분산 감소
+  -> 트리 간 상관관계 감소 -> 추가 분산 감소
 
   OOB 평가:
   각 트리의 OOB 샘플로 교차 검증 대체
@@ -110,10 +110,10 @@ Random Forest (랜덤 포레스트):
 
 ```
 Boosting:
-  이전 모델의 오류에 집중 → 순차적 편향 감소
+  이전 모델의 오류에 집중 -> 순차적 편향 감소
 
 AdaBoost:
-  틀린 샘플의 가중치 증가 → 다음 모델이 집중
+  틀린 샘플의 가중치 증가 -> 다음 모델이 집중
 
   1. 균등 가중치로 모델 1 훈련
   2. 오분류 샘플 가중치 증가
@@ -145,18 +145,18 @@ XGBoost (Extreme Gradient Boosting):
 
 LightGBM:
   Leaf-wise 트리 성장 (XGBoost: Level-wise)
-  → 더 빠른 학습, 더 낮은 메모리
+  -> 더 빠른 학습, 더 낮은 메모리
 
   GOSS (Gradient-based One-Side Sampling):
   큰 그래디언트 샘플 유지, 작은 것 일부만
-  → 정확도 유지하며 속도 향상
+  -> 정확도 유지하며 속도 향상
 
 CatBoost:
   카테고리 변수 자동 처리
   Ordered Boosting: 데이터 누설 방지
 ```
 
-> 📢 **섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) = 약점 집중 훈련 — 시험에서 틀린 문제에 집중. 다음 모델이 이전 모델의 오류(잔차)를 공략. 100번 반복 → 점점 정확해짐!
+> 📢 **섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) = 약점 집중 훈련 — 시험에서 틀린 문제에 집중. 다음 모델이 이전 모델의 오류(잔차)를 공략. 100번 반복 -> 점점 정확해짐!
 
 ---
 
@@ -168,7 +168,7 @@ CatBoost:
 
 절차:
   1. N개 기본 모델 (SVM, RF, LGBM 등) 훈련
-  2. 각 모델의 예측값 → 새로운 특성
+  2. 각 모델의 예측값 -> 새로운 특성
   3. 메타 모델(보통 선형 회귀/로지스틱): 예측값 결합
 
   예:
@@ -187,8 +187,8 @@ CatBoost:
 
 방법 비교:
   방법     순서   목표    대표 알고리즘
-  배깅     병렬   분산↓   Random Forest
-  부스팅   순차   편향↓   XGBoost, LightGBM
+  배깅     병렬   분산v   Random Forest
+  부스팅   순차   편향v   XGBoost, LightGBM
   스태킹   2단계  둘 다   Blending
   보팅     병렬   안정    Voting Classifier
 
@@ -239,7 +239,7 @@ Kaggle Credit Risk 대회 앙상블 전략:
 
 Optuna 하이퍼파라미터 최적화:
   각 모델 파라미터 자동 탐색
-  50~100 trial → 최적 파라미터
+  50~100 trial -> 최적 파라미터
 
 결과:
   단일 LightGBM: 0.791
@@ -252,7 +252,7 @@ Optuna 하이퍼파라미터 최적화:
   LightGBM + XGBoost: 상관관계 0.85 (낮은 편)
 ```
 
-> 📢 **섹션 요약 비유**: Kaggle [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사결정 위원회 — LightGBM(내과 전문의), XGBoost(외과), CatBoost(영상의학과). 각자 다른 오류 → 스태킹으로 AUC 0.791→0.818. 다양성이 핵심!
+> 📢 **섹션 요약 비유**: Kaggle [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사결정 위원회 — LightGBM(내과 전문의), XGBoost(외과), CatBoost(영상의학과). 각자 다른 오류 -> 스태킹으로 AUC 0.791->0.818. 다양성이 핵심!
 
 ---
 
@@ -271,7 +271,7 @@ Optuna 하이퍼파라미터 최적화:
 +-- 보팅 (다수결)
 +-- 이론
     +-- 편향-분산 트레이드오프
-    +-- 약한 학습기 → 강한 학습기
+    +-- 약한 학습기 -> 강한 학습기
 ```
 
 ---
@@ -309,7 +309,7 @@ Leaf-wise, 카테고리 변수
 
 1. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사 그룹 진료 — 여러 의사가 각자 진단 후 다수결. 한 의사 실수를 다른 의사가 보완. 혼자보다 정확!
 2. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) = 여론조사 집계 — 100개 독립 조사 평균. 과적합 방지, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소. 모두 같은 답 = 무의미하니 무작위 특성 추가!
-3. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(XGBoost) = 약점 집중 훈련 — 틀린 문제에 집중. 이전 오류(잔차)를 다음 모델이 공략. 100회 반복 → 최강 모델!
+3. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(XGBoost) = 약점 집중 훈련 — 틀린 문제에 집중. 이전 오류(잔차)를 다음 모델이 공략. 100회 반복 -> 최강 모델!
 
 ---
 
@@ -317,7 +317,7 @@ Leaf-wise, 카테고리 변수
 
 **진행 상황**: 49 / 420
 
-← **이전**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/)
-**다음**: [보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/050_voting_hard_soft_ensemble/) →
+<- **이전**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/)
+**다음**: [보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/050_voting_hard_soft_ensemble/) ->
 
 ---

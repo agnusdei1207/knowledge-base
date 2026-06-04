@@ -34,37 +34,37 @@ tags = ["studynote-network"]
   2. **Root 서버의 디도스(DDoS) 생존 방벽**: 만약 전 세계 80억 인구가 치는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 Root 서버가 직접 '[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적'으로 다 찾아주느라 1명당 5초씩 붙잡고([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 락킹) 있으면 Root 서버는 1분 만에 불타 파산한다. "난 절대 1초 이상 손님 안 받아 묻지 마 꺼져 컷!"(Iterative 강제 락킹)만이 중앙 권력의 유일한 생존 법칙이었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 재귀(Recursive) ➔ 반복(Iterative) 혼종 꼬리물기 융합 도면 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 📱 [ 1. 철수 스마트폰 (Client / Stub Resolver) ]                  │
-  │     |                                                       │
-  │     | 🚀 "야 KT야! 나 딴 놈 모름! `www.daum.net` 찐 IP 무조건 내놔!"│
-  │     | 🌟 [ Recursive Query (재귀적 질의 1방 컷 투척 쾅!) ]          │
-  │     ▼                                                       │
-  │ 🤖 [ 2. KT Local DNS (대행업체 Recursive 봇 / 168.126.63.1) ]   │
-  │   - 뇌 발동: "아씨 내 캐시 램(RAM)에 daum 주소 없네 ㅠ 내가 발품 팔아야지 노가다 시작 💦"│
-  │                                                             │
-  │        ======= [ 🛡️ 여기서부턴 KT 봇의 3단 Iterative(반복) 핑퐁 헬파티 💥 ] ========│
-  │                                                             │
-  │   ① KT 봇 ➔ 👑 [ Root DNS (`.`) ] 찌름!                         │
-  │      - Root 왈: "난 몰라! 저기 `.net` 관리하는 놈 IP(1.1.1.1) 줄게 걔한테 가 쓩!" │
-  │      - 🌟 [ Iterative Query (반복적 대답 - 위임 정보 Referral 토스 컷!) ] │
-  │                                                             │
-  │   ② KT 봇 ➔ 🥇 [ TLD DNS (`.net`) ] (1.1.1.1) 찌름!            │
-  │      - TLD 왈: "난 몰라! `daum` 관리하는 진짜 네임서버 IP(2.2.2.2) 줄게 일로 꺼져!"│
-  │      - 🌟 [ Iterative Query (반복적 대답 - 위임 정보 토스 컷!) ]         │
-  │                                                             │
-  │   ③ KT 봇 ➔ 🥈 [ SLD DNS (`daum.net`) ] (2.2.2.2) 찌름!         │
-  │      - SLD 왈: "오! `www` 는 내 구역 맞음 ㅋ 찐 IP [121.53.105.193] 여깄다 쾅!"│
-  │      - 🌟 [ Iterative Query (반복적 대답 - 최종 정답 Authoritative Answer) ]│
-  │                                                             │
-  │        ======= [ ✨ 대행업체 봇의 배달 완료 (Recursive 완성 🚀) ] ======== │
-  │                                                             │
-  │ 🤖 [ KT Local DNS ] ➔ "휴 3번 뺑뺑이 좆빡세네 ㅠ 야 철수야 여기 찐 IP 1방에 처먹어 쓩!"│
-  │ 📱 [ 철수 스마트폰 ] ➔ (폰은 단 1번 패킷 쏘고 IP 받아냄 개꿀딱 무지성 쾌속 접속!)  │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 재귀(Recursive) ➔ 반복(Iterative) 혼종 꼬리물기 융합 도면 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 📱 [ 1. 철수 스마트폰 (Client / Stub Resolver) ]                  |
+  |     |                                                       |
+  |     | 🚀 "야 KT야! 나 딴 놈 모름! `www.daum.net` 찐 IP 무조건 내놔!"|
+  |     | 🌟 [ Recursive Query (재귀적 질의 1방 컷 투척 쾅!) ]          |
+  |     v                                                       |
+  | 🤖 [ 2. KT Local DNS (대행업체 Recursive 봇 / 168.126.63.1) ]   |
+  |   - 뇌 발동: "아씨 내 캐시 램(RAM)에 daum 주소 없네 ㅠ 내가 발품 팔아야지 노가다 시작 💦"|
+  |                                                             |
+  |        ======= [ 🛡️ 여기서부턴 KT 봇의 3단 Iterative(반복) 핑퐁 헬파티 💥 ] ========|
+  |                                                             |
+  |   ① KT 봇 ➔ 👑 [ Root DNS (`.`) ] 찌름!                         |
+  |      - Root 왈: "난 몰라! 저기 `.net` 관리하는 놈 IP(1.1.1.1) 줄게 걔한테 가 쓩!" |
+  |      - 🌟 [ Iterative Query (반복적 대답 - 위임 정보 Referral 토스 컷!) ] |
+  |                                                             |
+  |   ② KT 봇 ➔ 🥇 [ TLD DNS (`.net`) ] (1.1.1.1) 찌름!            |
+  |      - TLD 왈: "난 몰라! `daum` 관리하는 진짜 네임서버 IP(2.2.2.2) 줄게 일로 꺼져!"|
+  |      - 🌟 [ Iterative Query (반복적 대답 - 위임 정보 토스 컷!) ]         |
+  |                                                             |
+  |   ③ KT 봇 ➔ 🥈 [ SLD DNS (`daum.net`) ] (2.2.2.2) 찌름!         |
+  |      - SLD 왈: "오! `www` 는 내 구역 맞음 ㅋ 찐 IP [121.53.105.193] 여깄다 쾅!"|
+  |      - 🌟 [ Iterative Query (반복적 대답 - 최종 정답 Authoritative Answer) ]|
+  |                                                             |
+  |        ======= [ ✨ 대행업체 봇의 배달 완료 (Recursive 완성 🚀) ] ======== |
+  |                                                             |
+  | 🤖 [ KT Local DNS ] ➔ "휴 3번 뺑뺑이 좆빡세네 ㅠ 야 철수야 여기 찐 IP 1방에 처먹어 쓩!"|
+  | 📱 [ 철수 스마트폰 ] ➔ (폰은 단 1번 패킷 쏘고 IP 받아냄 개꿀딱 무지성 쾌속 접속!)  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 핑퐁 친다며, 근데 내 폰은 왜 한 번만 찌름?" 주니어의 인지 부조화를 찢어발기는 십자 융합 도해다.
@@ -108,11 +108,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 계층적 분산 구조 (루트]
-    │
-    ▼
+    |
+    v
 [재귀적 질의 vs 반복적 질의]
-    │
-    └──▶ [정방향 조회 vs 역방향 조회]
+    |
+    +---> [정방향 조회 vs 역방향 조회]
 ```
 
 - **📢 섹션 요약 비유**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 질의 vs 반복적 질의의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -200,12 +200,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DNS 계층적 분산 구조 (루트]
-    │
-    ▼
+    |
+    v
 [현재 개념: 재귀적 질의 vs 반복적 질의]
-    │
-    ├──▶ [확장 A: 정방향 조회 vs 역방향 조회]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: 정방향 조회 vs 역방향 조회]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 질의 vs 반복적 질의는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 계층적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조 (루트에서 출발해 현재 메커니즘을 정교화하고, 이후 [정방향 조회](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/513_forward_reverse_dns_lookup/) vs 역방향 조회와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -222,7 +222,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 633 / 1120
 
-← **이전**: [511. DNS (Domain Name System) 계층적 분산 구조 (루트](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)
-**다음**: [513. 정방향 조회 (FQDN -> IP) vs 역방향 조회 (IP -> FQDN, in-addr.arpa)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/513_forward_reverse_dns_lookup/) →
+<- **이전**: [511. DNS (Domain Name System) 계층적 분산 구조 (루트](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)
+**다음**: [513. 정방향 조회 (FQDN -> IP) vs 역방향 조회 (IP -> FQDN, in-addr.arpa)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/513_forward_reverse_dns_lookup/) ->
 
 ---

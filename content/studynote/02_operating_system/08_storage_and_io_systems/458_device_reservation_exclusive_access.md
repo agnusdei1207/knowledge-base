@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong>Device <a href="/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/">File Locking</a></strong>: OS가 `/dev/cdrom` 같은 장치 파일에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 접근 권한 자체를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서 틀어막아버리는 원시적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 도입.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        단독 장치(CD 레코더)를 둘러싼 예약(Reservation) 및 거부 시각화│
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 상황: 물리적인 CD-ROM 레코더 1대 존재 ]                            │
-│                                                                      │
-│ ▶ 1. 예약 성공 (Reservation Granted)                                 │
-│  - 앱 A(네로 버닝롬) : "`open('/dev/cdrom')` 혼자 쓸게 예약!"        │
-│  - OS 커널 : "지금 빈 기계니까 너 써. 장치에 🔒Lock 건다."           │
-│  - 앱 A ──(레이저로 CD를 신나게 굽기 시작)──▶ CD-ROM                 │
-│                                                                      │
-│ ▶ 2. 무자비한 거부 (Exclusive Access Denied)                         │
-│  - 0.1초 뒤, 앱 B(음악 플레이어) : "나 CD 트레이 좀 열어줘!"         │
-│  - OS 커널 : "미쳤냐? A가 굽는 중인데 문 열면 CD 뻑나! 꺼져!"        │
-│  - OS 커널 ──💥 즉시 에러(EBUSY / Access Denied) ──▶ 앱 B            │
-│  - 앱 B는 무한 대기(Block)하거나, 튕겨서 에러 창을 띄움.             │
-│                                                                      │
-│ ▶ 3. 반환 (Release)                                                  │
-│  - 앱 A가 굽기 완료. `close('/dev/cdrom')` 호출.                     │
-│  - OS 커널 : "🔒Lock 해제! 자 이제 다음 사람 와서 써라!"             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        단독 장치(CD 레코더)를 둘러싼 예약(Reservation) 및 거부 시각화|
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 상황: 물리적인 CD-ROM 레코더 1대 존재 ]                            |
+|                                                                      |
+| -> 1. 예약 성공 (Reservation Granted)                                 |
+|  - 앱 A(네로 버닝롬) : "`open('/dev/cdrom')` 혼자 쓸게 예약!"        |
+|  - OS 커널 : "지금 빈 기계니까 너 써. 장치에 🔒Lock 건다."           |
+|  - 앱 A --(레이저로 CD를 신나게 굽기 시작)---> CD-ROM                 |
+|                                                                      |
+| -> 2. 무자비한 거부 (Exclusive Access Denied)                         |
+|  - 0.1초 뒤, 앱 B(음악 플레이어) : "나 CD 트레이 좀 열어줘!"         |
+|  - OS 커널 : "미쳤냐? A가 굽는 중인데 문 열면 CD 뻑나! 꺼져!"        |
+|  - OS 커널 --💥 즉시 에러(EBUSY / Access Denied) ---> 앱 B            |
+|  - 앱 B는 무한 대기(Block)하거나, 튕겨서 에러 창을 띄움.             |
+|                                                                      |
+| -> 3. 반환 (Release)                                                  |
+|  - 앱 A가 굽기 완료. `close('/dev/cdrom')` 호출.                     |
+|  - OS 커널 : "🔒Lock 해제! 자 이제 다음 사람 와서 써라!"             |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가상 메모리나 CPU 스케줄러가 '어떻게든 속여서 같이 쓰게 만들어주는' 평화주의자라면, 단독 장치 제어는 '안 되는 건 절대 안 돼'라고 철퇴를 내리는 독재자다. 앱 B 입장에서는 시스템이 먹통이 된 것 같아 불쾌하지만, 저 철퇴가 없었다면 CD 수십 장이 뻑나고 공장 기계가 폭발하는 하드웨어 대형 참사를 맞았을 것이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(UX)을 포기하고 하드웨어의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 수호한 가장 원초적인 방어막이다.
 
@@ -100,12 +100,12 @@ tags = ["studynote-operating-system"]
 - 독점 앱은 영문도 모른 채 `I/O Interrupted Error`를 맞고 피를 토하며 뻗어버리지만, 시스템 전체가 데드락에 빠져 죽는 것보다는 한 놈 희생시키는 것이 백배 이득이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 위기 상황  │ 멍청한 OS 대처│ 똑똑한 OS 대처 │ 결과적 차이           │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 앱이 락 안품│ 영원히 기다림 │ 타임아웃(Timeout)│ 특정 앱만 에러 처리│
-│ 데드락 꼬임│ 화면 완전 멈춤│ 락 강제 부수기 💥│ 남은 놈들 살려냄    │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
++----------+------------+------------+--------------------------------+
+| 위기 상황  | 멍청한 OS 대처| 똑똑한 OS 대처 | 결과적 차이           |
++----------+------------+------------+--------------------------------+
+| 앱이 락 안품| 영원히 기다림 | 타임아웃(Timeout)| 특정 앱만 에러 처리|
+| 데드락 꼬임| 화면 완전 멈춤| 락 강제 부수기 💥| 남은 놈들 살려냄    |
++----------+------------+------------+--------------------------------+
 ```
 **[매트릭스 해설]** 단독 장치 예약은 필연적으로 인간(프로그래머)의 실수로 인해 시스템이 터지는 버그를 유발한다. 그래서 OS는 앱에게 "네가 혼자 다 써!"라고 권한을 주면서도, 뒤로는 몰래 초시계([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 켜두고 "10초 안에 방 안 빼면 내가 강제로 문 부수고 들어간다"는 예비 키(Revoke)를 항상 손에 쥐고 있어야만 시스템의 영속성이 보장된다.
 
@@ -168,12 +168,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
-    │
-    ▼
+    |
+    v
 [예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)]
-    │
-    ├──▶ [블로킹 I/O (Blocking I/O)]
-    └──▶ [논블로킹 I/O (Non-blocking I/O)]
+    |
+    +---> [블로킹 I/O (Blocking I/O)]
+    +---> [논블로킹 I/O (Non-blocking I/O)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -190,7 +190,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 458 / 800
 
-← **이전**: [457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)
-**다음**: [459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/459_blocking_io/) →
+<- **이전**: [457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)
+**다음**: [459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/459_blocking_io/) ->
 
 ---

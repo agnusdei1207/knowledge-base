@@ -24,21 +24,21 @@ tags = ["studynote-design-supervision"]
 실세계 예시: ① 유튜브 구독 알림(Subject: 유튜버, [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/): 구독자), ② 주식 가격 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Subject: 주가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/): 차트·알림·봇), ③ MVC 패턴의 Model-View 통신(Model이 Subject, View가 [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), ④ 스프링의 ApplicationEvent-ApplicationListener.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│            옵저버 패턴 구조                                  │
-├─────────────────────────────────────────────────────────────┤
-│  Subject (발행자)                                           │
-│  + registerObserver(o: Observer)                            │
-│  + removeObserver(o: Observer)                              │
-│  + notifyObservers()                                        │
-│       │                                                     │
-│       │ (1:N 통지)                                          │
-│       ├──→ Observer A: update(data)                         │
-│       ├──→ Observer B: update(data)                         │
-│       └──→ Observer C: update(data)                         │
-│                                                             │
-│  Subject는 Observer 인터페이스만 알고 구체 클래스 모름      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|            옵저버 패턴 구조                                  |
++-------------------------------------------------------------+
+|  Subject (발행자)                                           |
+|  + registerObserver(o: Observer)                            |
+|  + removeObserver(o: Observer)                              |
+|  + notifyObservers()                                        |
+|       |                                                     |
+|       | (1:N 통지)                                          |
+|       +---> Observer A: update(data)                         |
+|       +---> Observer B: update(data)                         |
+|       +---> Observer C: update(data)                         |
+|                                                             |
+|  Subject는 Observer 인터페이스만 알고 구체 클래스 모름      |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 신문사(Subject)가 구독자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 새 호(이벤트)를 발송한다. 신문사는 구독자 명단(인터페이스)만 관리하고, 각 구독자가 신문을 어떻게 읽는지 알 필요가 없다.
@@ -56,20 +56,20 @@ tags = ["studynote-design-supervision"]
 | EventBus (비동기) | 느슨한 결합, 비동기 처리 | 매우 낮음 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링 ApplicationEvent 기반 옵저버                   │
-├─────────────────────────────────────────────────────────────┤
-│  // Subject (이벤트 발행)                                   │
-│  @Service class OrderService {                              │
-│    applicationEventPublisher.publishEvent(                  │
-│      new OrderCompletedEvent(orderId));                     │
-│  }                                                          │
-│                                                             │
-│  // Observer (이벤트 구독)                                  │
-│  @EventListener class EmailNotificationService {            │
-│    void onOrderCompleted(OrderCompletedEvent event) { ... } │
-│  }                                                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       스프링 ApplicationEvent 기반 옵저버                   |
++-------------------------------------------------------------+
+|  // Subject (이벤트 발행)                                   |
+|  @Service class OrderService {                              |
+|    applicationEventPublisher.publishEvent(                  |
+|      new OrderCompletedEvent(orderId));                     |
+|  }                                                          |
+|                                                             |
+|  // Observer (이벤트 구독)                                  |
+|  @EventListener class EmailNotificationService {            |
+|    void onOrderCompleted(OrderCompletedEvent event) { ... } |
+|  }                                                          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 알림 시스템(Subject)이 이벤트를 발생시키면 이메일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·SMS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·푸시 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))가 각자의 방식으로 처리한다. 알림 시스템은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부를 알 필요 없다.
@@ -81,7 +81,7 @@ tags = ["studynote-design-supervision"]
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 통신 방향 | 1:N (Subject → Observers) | N:N (모두 ↔ [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) |
+| 통신 방향 | 1:N (Subject -> Observers) | N:N (모두 ↔ [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) |
 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | Subject ↔ [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 낮음 | 모든 객체 ↔ [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) |
 | 적합한 경우 | 이벤트 통지, 구독 | 복잡한 객체 간 협력 |
 
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[이벤트 기반 통신] → [옵저버 패턴] → [스프링 ApplicationEvent] → [리액티브 프로그래밍(RxJava)] → [메시지 브로커([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))]
+[이벤트 기반 통신] -> [옵저버 패턴] -> [스프링 ApplicationEvent] -> [리액티브 프로그래밍(RxJava)] -> [메시지 브로커([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -126,7 +126,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)(1994)] → [MVC Model-View 통신] → [이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(EventBus)] → [RxJava·[Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Reactor] → Kafka 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 옵저버]
+[GoF [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)(1994)] -> [MVC Model-View 통신] -> [이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(EventBus)] -> [RxJava·[Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Reactor] -> Kafka 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 옵저버]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 253 / 530
 
-← **이전**: [191. 행위 패턴 개요 (Behavioral Patterns Overview)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/191_behavioral_patterns_overview/)
-**다음**: [193. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/193_strategy_pattern/) →
+<- **이전**: [191. 행위 패턴 개요 (Behavioral Patterns Overview)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/191_behavioral_patterns_overview/)
+**다음**: [193. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/193_strategy_pattern/) ->
 
 ---

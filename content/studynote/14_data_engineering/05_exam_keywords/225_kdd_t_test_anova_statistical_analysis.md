@@ -23,14 +23,14 @@ tags = ["studynote-data-engineering"]
 KDD는 1996년 Fayyad et al.이 정의한 5단계 지식 발견 프레임워크다. 단순한 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)([Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))이 아니라, 전처리부터 해석까지 포함하는 완전한 파이프라인이다.
 
 ```
-┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐
-│ ① Selection│───→│②Preprocess│───→│③Transform │───→│④Data Mining───→│⑤Interpret │
-│  (선택)   │    │ (전처리)  │    │  (변환)   │    │ (데이터  │    │ /Evaluate │
-│           │    │           │    │           │    │  마이닝) │    │  (해석)   │
-│ 분석 목적에│    │ 결측값 처리│    │ 정규화    │    │ 패턴 탐색│    │ 비즈니스  │
-│ 맞는 데이터│    │ 이상값 제거│    │ 차원 축소 │    │ 분류·군집│    │ 적용 가능 │
-│ 하위집합  │    │ 노이즈 제거│    │ 특성 공학 │    │ 회귀·연관│    │ 여부 검증 │
-└───────────┘    └───────────┘    └───────────┘    └───────────┘    └───────────┘
++-----------+    +-----------+    +-----------+    +-----------+    +-----------+
+| ① Selection|---->|②Preprocess|---->|③Transform |---->|④Data Mining---->|⑤Interpret |
+|  (선택)   |    | (전처리)  |    |  (변환)   |    | (데이터  |    | /Evaluate |
+|           |    |           |    |           |    |  마이닝) |    |  (해석)   |
+| 분석 목적에|    | 결측값 처리|    | 정규화    |    | 패턴 탐색|    | 비즈니스  |
+| 맞는 데이터|    | 이상값 제거|    | 차원 축소 |    | 분류·군집|    | 적용 가능 |
+| 하위집합  |    | 노이즈 제거|    | 특성 공학 |    | 회귀·연관|    | 여부 검증 |
++-----------+    +-----------+    +-----------+    +-----------+    +-----------+
 ```
 
 📢 **섹션 요약 비유**: KDD는 "금광에서 금 캐는 과정"이다. 산([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 선택하고, 흙(노이즈)을 제거하고, 돌을 분쇄(변환)하고, 금맥(패턴)을 찾고, 순도 검사(해석)를 한다.
@@ -43,23 +43,23 @@ KDD는 1996년 Fayyad et al.이 정의한 5단계 지식 발견 프레임워크�
 
 ```
 분석 목적: 집단 간 차이가 유의한가?
-         │
-         ▼
+         |
+         v
    변수 유형은?
-    │          │
+    |          |
 수치형(연속)    범주형(이산)
-    │              │
-    ▼              ▼
+    |              |
+    v              v
 집단 수는?     카이제곱 검정
-  │    │       (Chi-Square Test)
+  |    |       (Chi-Square Test)
  2개  3개+
-  │    │
-  ▼    ▼
+  |    |
+  v    v
 T검정  ANOVA
-│     (일원분산분석)
-├─ 독립표본 T검정
-│   (두 집단 평균 비교)
-└─ 대응표본 T검정
+|     (일원분산분석)
++- 독립표본 T검정
+|   (두 집단 평균 비교)
++- 대응표본 T검정
     (동일 집단 전후 비교)
 ```
 
@@ -76,11 +76,11 @@ T검정은 두 집단의 평균 차이가 통계적으로 유의한지 [검증](
 T 통계량 계산:
 ```
        x̄₁ - x̄₂
-t = ─────────────────
-     √(s²/n₁ + s²/n₂)
+t = -----------------
+     √(s^/n₁ + s^/n₂)
 
 x̄₁, x̄₂: 두 집단의 표본 평균
-s²: 합동 표준편차
+s^: 합동 표준편차
 n₁, n₂: 두 집단 표본 크기
 ```
 
@@ -90,10 +90,10 @@ ANOVA는 3개 이상 집단의 평균 차이를 동시에 [검증](/knowledge-ba
 
 ```
 F = 집단 간 분산(Between-Group Variance)
-    ─────────────────────────────────────
+    -------------------------------------
     집단 내 분산(Within-Group Variance)
 
-F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 차이 존재
+F 값 크면 -> 집단 간 차이가 내부 변동보다 크다 -> 유의한 차이 존재
 ```
 
 | 구분 | 검정 통계량 | 귀무가설 | 사후검정 필요 |
@@ -121,7 +121,7 @@ F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 �
   여성         90    110     200
   합계        210    190     400
 
-χ² = Σ (관측값 - 기대값)² / 기대값
+χ^ = Σ (관측값 - 기대값)^ / 기대값
 
 자유도 = (행수-1) × (열수-1) = 1
 ```
@@ -149,7 +149,7 @@ F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 �
 | 검정 | 효과 크기 지표 | 기준 |
 |:---|:---|:---|
 | T검정 | Cohen's d | 0.2 소, 0.5 중, 0.8 대 |
-| [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | η² (에타 제곱) | 0.01 소, 0.06 중, 0.14 대 |
+| [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | η^ (에타 제곱) | 0.01 소, 0.06 중, 0.14 대 |
 | 카이제곱 | Cramér's V | 0~1 사이, 클수록 강한 연관 |
 
 📢 **섹션 요약 비유**: p-value는 "유죄 vs 무죄 판결"이고, 효과 크기는 "형량"이다. 유죄(p < 0.05)라도 형량이 작으면(효과 크기 small) 실제로 중요하지 않을 수 있다.
@@ -175,10 +175,10 @@ F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 �
 H₀: μ대조군 = μ실험군
 H₁: μ대조군 ≠ μ실험군
 
-결과: t = 4.2, p = 0.00003 → p < 0.05이므로 귀무가설 기각
-Cohen's d = 0.24 → 소~중 효과 크기
+결과: t = 4.2, p = 0.00003 -> p < 0.05이므로 귀무가설 기각
+Cohen's d = 0.24 -> 소~중 효과 크기
 
-결론: 통계적으로 유의하나 효과 크기는 작음 → 배포 결정 시 비용-편익 분석 추가 필요
+결론: 통계적으로 유의하나 효과 크기는 작음 -> 배포 결정 시 비용-편익 분석 추가 필요
 ```
 
 ### 4-2. KDD-통계 분석 통합 파이프라인
@@ -206,7 +206,7 @@ KDD 프로세스와 통계 검정의 결합은 <strong><a href="/knowledge-base/
 | 대립가설 (H₁) | 차이 있음, 효과 있음 |
 | 유의수준 (α) | 보통 0.05 (5% 오류 허용) |
 | [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) | 귀무가설이 참일 때 관측값 이상 극단값 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
-| 결정 기준 | p < α → 귀무가설 기각 |
+| 결정 기준 | p < α -> 귀무가설 기각 |
 
 기술사 시험에서 KDD는 **"5단계 프로세스 + 각 단계별 기법 매핑"** 으로, 통계 검정은 **"검정 선택 기준(변수 유형·집단 수) + 가정·한계"** 를 중심으로 서술해야 한다.
 
@@ -218,7 +218,7 @@ KDD 프로세스와 통계 검정의 결합은 <strong><a href="/knowledge-base/
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 프로세스 | KDD 5단계 | 선택→전처리→변환→마이닝→해석 |
+| 프로세스 | KDD 5단계 | 선택->전처리->변환->마이닝->해석 |
 | 검정 | 독립표본 T검정 | 두 독립 집단 평균 비교 |
 | 검정 | 대응표본 T검정 | 동일 집단 전후 비교 |
 | 검정 | One-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 3개 이상 집단 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) |
@@ -238,15 +238,15 @@ KDD 프로세스와 통계 검정의 결합은 <strong><a href="/knowledge-base/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-KDD 프로세스: 데이터 선택 → 전처리 → 변환 → 마이닝 → 평가
-    │
-    ▼
+KDD 프로세스: 데이터 선택 -> 전처리 -> 변환 -> 마이닝 -> 평가
+    |
+    v
 통계 검정
-    ├─► T-Test: 두 집단 평균 비교
-    ├─► ANOVA: 세 집단 이상 분산 분석
-    └─► 카이제곱: 범주형 변수 독립성 검정
-    │
-    ▼
+    +-► T-Test: 두 집단 평균 비교
+    +-► ANOVA: 세 집단 이상 분산 분석
+    +-► 카이제곱: 범주형 변수 독립성 검정
+    |
+    v
 유의수준(α) · p-value · 1종/2종 오류
 ```
 2. 3개 반 이상 비교할 때는 T검정을 여러 번 쓰면 오류가 쌓이므로, ANOVA라는 한 번에 모두 비교하는 방법을 쓴다.
@@ -258,7 +258,7 @@ KDD 프로세스: 데이터 선택 → 전처리 → 변환 → 마이닝 → �
 
 **진행 상황**: 225 / 258
 
-← **이전**: [224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/224_data_lineage_flow_catalog_tagging/)
-**다음**: [226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) →
+<- **이전**: [224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/224_data_lineage_flow_catalog_tagging/)
+**다음**: [226. 피어슨 상관 (Pearson Correlation) 회귀 R^ 결정계수 다중공선성 VIF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) ->
 
 ---

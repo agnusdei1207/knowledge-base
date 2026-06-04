@@ -36,17 +36,17 @@ tags = ["studynote-devops-sre"]
 마이크로버스트의 본질은 큐 이론으로 간단히 표현할 수 있다. 유입 속도 (arrival rate)가 유출 속도 ([service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) rate)를 아주 짧게라도 크게 넘으면, 그 차이만큼 큐에 쌓인다. 그리고 `초과 트래픽 = (유입률 - 유출률) × 지속 시간`이 버퍼 크기를 넘는 순간 패킷 손실이나 [Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking이 발생한다. 지속 시간이 짧아도 차이가 크면 충분히 장애가 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    How a microburst is created                     │
-├────────────────────────────────────────────────────────────────────┤
-│ sender A ----\                                                     │
-│ sender B -----\                                                    │
-│ sender C ------> [switch / NIC queue] ---> [1 Gbps egress]        │
-│ sender D -----/            │                                       │
-│ sender E ----/             ├─ queue grows                         │
-│                            ├─ buffer fills                        │
-│                            └─ drop / ECN / latency spike          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    How a microburst is created                     |
++--------------------------------------------------------------------+
+| sender A ----\                                                     |
+| sender B -----\                                                    |
+| sender C ------> [switch / NIC queue] ---> [1 Gbps egress]        |
+| sender D -----/            |                                       |
+| sender E ----/             +- queue grows                         |
+|                            +- buffer fills                        |
+|                            +- drop / ECN / latency spike          |
++--------------------------------------------------------------------+
 ```
 
 관측도 같은 원리로 풀어야 한다. 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)레이트만으로는 부족하고, 큐 깊이, 드롭 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 순간 최대 전송률, 패킷 수, 재전송, Explicit Congestion Notification (ECN) 마크를 함께 봐야 한다. 특히 초당 또는 밀리초 단위 시계열이 없으면 마이크로버스트는 거의 보이지 않는다.
@@ -88,23 +88,23 @@ tags = ["studynote-devops-sre"]
 실무에서는 먼저 "어디서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 만들어지는가"를 찾아야 한다. [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 구조인지, 정시 배치인지, 무지터 재시도인지, 단일 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)인지에 따라 처방이 달라진다. 클라우드 환경에서는 네트워크 장비 내부 큐를 모두 볼 수 없는 경우가 많으므로, 호스트 측 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/), 애플리케이션 큐 길이, 고해상도 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 조합해 우회적으로 진단해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Mitigation decision flow                        │
-├────────────────────────────────────────────────────────────────────┤
-│ synchronized senders?                                              │
-│   ├─ yes -> add jitter / stagger schedule                          │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ single hot consumer or partition?                                  │
-│   ├─ yes -> shard / queue / spread load                            │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ network queue overflow?                                            │
-│   ├─ yes -> pacing / ECN / AQM / token bucket                      │
-│   └─ no  -> inspect app timeout and retry policy                   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Mitigation decision flow                        |
++--------------------------------------------------------------------+
+| synchronized senders?                                              |
+|   +- yes -> add jitter / stagger schedule                          |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| single hot consumer or partition?                                  |
+|   +- yes -> shard / queue / spread load                            |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| network queue overflow?                                            |
+|   +- yes -> pacing / ECN / AQM / token bucket                      |
+|   +- no  -> inspect app timeout and retry policy                   |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 대응 매트릭스
@@ -112,7 +112,7 @@ tags = ["studynote-devops-sre"]
 | 원인 패턴 | 권장 대응 | 이유 |
 | :--- | :--- | :--- |
 | 정각 크론, 배치 완료 동시 전송 | 지터 추가, [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 시작 시점을 흩뜨려 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 원인 제거 |
-| 다수 생산자 → 단일 소비자 | 큐잉, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), backpressure | 한 지점에 몰리는 [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 완화 |
+| 다수 생산자 -> 단일 소비자 | 큐잉, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), backpressure | 한 지점에 몰리는 [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 완화 |
 | 무지터 재시도 | exponential backoff + jitter | 실패가 또 다른 burst를 만들지 않게 함 |
 | 링크 레벨 혼잡 | token bucket, pacing, ECN, AQM | 순간 유입률 자체를 부드럽게 만듦 |
 | 관측 해상도 부족 | 1s 이하 계측, 히스토그램, max [metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 평균에 숨어 있는 피크를 드러냄 |
@@ -165,20 +165,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Average utilization monitoring
-    │
-    ▼
+    |
+    v
 Need for burst-aware visibility
-    ├─ queue depth
-    ├─ max throughput
-    └─ retransmit / drop / timeout burst
-    │
-    ▼
+    +- queue depth
+    +- max throughput
+    +- retransmit / drop / timeout burst
+    |
+    v
 Root-cause analysis
-    ├─ fan-in
-    ├─ thundering herd
-    └─ retry synchronization
-    │
-    ▼
+    +- fan-in
+    +- thundering herd
+    +- retry synchronization
+    |
+    v
 Jitter + pacing + queueing + congestion signaling
 ```
 
@@ -196,7 +196,7 @@ Jitter + pacing + queueing + congestion signaling
 
 **진행 상황**: 173 / 373
 
-← **이전**: [172. 프로비저닝 병목 (Cold Start) 관측 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/172_cold_start_provisioning_bottleneck/)
-**다음**: [174. 런북/플레이북 (Runbook/Playbook)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/174_runbook_playbook_incident_management/) →
+<- **이전**: [172. 프로비저닝 병목 (Cold Start) 관측 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/172_cold_start_provisioning_bottleneck/)
+**다음**: [174. 런북/플레이북 (Runbook/Playbook)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/174_runbook_playbook_incident_management/) ->
 
 ---

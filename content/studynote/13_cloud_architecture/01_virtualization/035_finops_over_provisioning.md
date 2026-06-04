@@ -204,7 +204,7 @@ Green Cloud FinOps 통합 추세
 
 **진행 상황**: 34 / 371
 
-← **이전**: [온디맨드·예약·스팟 인스턴스 (On-Demand · Reserved · Spot Instances)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/034_ondemand_reserved_spot_instances/)
-**다음**: [036. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/036_migration_6r/) →
+<- **이전**: [온디맨드·예약·스팟 인스턴스 (On-Demand · Reserved · Spot Instances)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/034_ondemand_reserved_spot_instances/)
+**다음**: [036. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/036_migration_6r/) ->
 
 ---

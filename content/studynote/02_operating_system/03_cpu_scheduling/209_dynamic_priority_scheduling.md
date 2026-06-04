@@ -36,7 +36,7 @@ tags = ["studynote-operating-system"]
   시간:  0초        10초       20초       30초
   P_A:  우선순위1  우선순위3   우선순위5  우선순위8  (CPU를 너무 써서 권력 삭감 ↘)
   P_B:  우선순위9  우선순위6   우선순위3  우선순위1  (오래 굶었다고 권력 상승 ↗)
-  ▶ 결과: 30초 시점에서 P_B가 P_A를 역전하여 CPU를 탈환함! (기아 방지)
+  -> 결과: 30초 시점에서 P_B가 P_A를 역전하여 CPU를 탈환함! (기아 방지)
 ```
 **[다이어그램 해설]** 동적 시스템에서는 "영원한 1등도, 영원한 꼴찌도 없다." [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 끊임없이 프로세스들의 행동거지를 감시하여 빚(CPU 사용)과 저축(대기 시간)을 덧셈 뺄셈한다. 이 동적인 교차(Cross) 덕분에 수백 개의 잡다한 프로세스가 띄워져 있어도 우리 컴퓨터 화면이 부드럽게 돌아가는 것이다.
 
@@ -64,20 +64,20 @@ tags = ["studynote-operating-system"]
 현대 OS는 이 동적인 점수를 1차원 배열이 아닌 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">다단계 피드백 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">MLFQ</a>, Multilevel Feedback <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>라는 3차원 엘리베이터로 구현했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처        │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ VIP 큐 (Priority 0~9) ]  ◀── (I/O 완료 시 즉각 Boost 됨)        │
-  │        ▼ CPU를 너무 많이 쓰면?                                      │
-  │   [ 중간 큐 (Priority 10~19) ]                                      │
-  │        ▼ 또 타임 퀀텀을 꽉 채워 쓰면?                               │
-  │   [ 바닥 큐 (Priority 20~29) ] ── (오래 굶으면 Aging 되어 ─┐        │
-  │                                   위로 다시 끌어올려짐)   │         │
-  │                                                      │              │
-  │   🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직        │  │
-  │      "런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. ◀───┘  │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처        |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [ VIP 큐 (Priority 0~9) ]  <--- (I/O 완료 시 즉각 Boost 됨)        |
+  |        v CPU를 너무 많이 쓰면?                                      |
+  |   [ 중간 큐 (Priority 10~19) ]                                      |
+  |        v 또 타임 퀀텀을 꽉 채워 쓰면?                               |
+  |   [ 바닥 큐 (Priority 20~29) ] -- (오래 굶으면 Aging 되어 -+        |
+  |                                   위로 다시 끌어올려짐)   |         |
+  |                                                      |              |
+  |   🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직        |  |
+  |      "런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. <----+  |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 동적 우선순위의 핵심은 '자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(Auto-Sorter)'다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 프로세스를 직접 실행해 보기 전에는 이 녀석이 착한지 나쁜지 모른다. 일단 실행시켜 보고 행동하는 꼬라지(I/O 양보 vs CPU 독점)를 평가하여, 그에 걸맞은 층수(큐)로 계속 이사(Migration)를 시키는 것이 동적 스케줄링의 진수다.
 
@@ -117,28 +117,28 @@ tags = ["studynote-operating-system"]
    - **아키텍처 혁명**: 프로세스가 실행된 물리적 시간에 가중치를 곱한 <strong><code>vruntime</code></strong> 단 하나만 기록한다. 1초에 수백 번씩 이 `vruntime` 값들이 앞서거니 뒤서거니 하며 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree) 안에서 동적으로 자리를 바꾼다. 즉, CFS는 "우선순위를 조작하는 것"이 아니라, "시간이 흐르는 속도 자체를 동적으로 비틀어버리는" 궁극의 상대성 이론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │     부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤]│
-  │                │                                                       │
-  │                ▼ 운영체제 동적 튜닝(Renice) 개입                       │
-  │   단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?      │
-  │          ├─ [예]                                                       │
-  │          │   ▶ 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.      │
-  │          │                                                             │
-  │          └─ [아니오 (여전히 버벅임!)]                                  │
-  │                 │                                                      │
-  │                 ▼ (근본 원인 분석)                                     │
-  │             "아! 백업 프로세스가 디스크 I/O를 일으킬 때마다            │
-  │              스케줄러가 '오 I/O 바운드네!'라고 착각하고                │
-  │              동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"         │
-  │                 │                                                      │
-  │                 ▼ [실무 아키텍트의 철퇴 조치]                          │
-  │             1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.      │
-  │             2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!    │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |     부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리       |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |   [장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤]|
+  |                |                                                       |
+  |                v 운영체제 동적 튜닝(Renice) 개입                       |
+  |   단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?      |
+  |          +- [예]                                                       |
+  |          |   -> 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.      |
+  |          |                                                             |
+  |          +- [아니오 (여전히 버벅임!)]                                  |
+  |                 |                                                      |
+  |                 v (근본 원인 분석)                                     |
+  |             "아! 백업 프로세스가 디스크 I/O를 일으킬 때마다            |
+  |              스케줄러가 '오 I/O 바운드네!'라고 착각하고                |
+  |              동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"         |
+  |                 |                                                      |
+  |                 v [실무 아키텍트의 철퇴 조치]                          |
+  |             1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.      |
+  |             2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!    |
+  +------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 무서운 점은 '오뚝이' 같다는 것이다. 개발자가 아무리 권력을 낮춰놔도, 그 프로세스가 I/O 대기(Sleep)를 하는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 동적 보너스 시스템이 발동해 권력을 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시켜 상위 큐로 밀어 올린다. 이를 막기 위해서는 CPU 스케줄링뿐만 아니라 I/O 스케줄링 지분까지 묶어버리는 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 같은 하드코어한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 기술이 필수적이다.
 
@@ -171,12 +171,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [비례 배분 스케줄링 (Proportionate Share Scheduling)]
-    │
-    ▼
+    |
+    v
 [POSIX 스케줄링 API (Dynamic Priority Scheduling)]
-    │
-    ├──▶ [리눅스 O(1) 스케줄러]
-    └──▶ [리눅스 CFS (Completely Fair Scheduler)]
+    |
+    +---> [리눅스 O(1) 스케줄러]
+    +---> [리눅스 CFS (Completely Fair Scheduler)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 209 / 800
 
-← **이전**: [208. 비례 배분 스케줄링 (Proportionate Share Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/)
-**다음**: [210. 휴리스틱 (Heuristics) 기반 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) →
+<- **이전**: [208. 비례 배분 스케줄링 (Proportionate Share Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/)
+**다음**: [210. 휴리스틱 (Heuristics) 기반 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ->
 
 ---

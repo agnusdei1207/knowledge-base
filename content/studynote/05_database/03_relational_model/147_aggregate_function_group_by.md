@@ -23,9 +23,9 @@ tags = ["studynote-database"]
 비즈니스 현장에서 "이번 달 총 매출은 얼마인가?", "지역별 평균 배송 시간은?", "가장 많이 팔린 상품은?" 같은 질문은 집계 없이 답할 수 없다. 집계 함수는 이런 질문에 SQL 한 문장으로 답하는 능력을 제공한다.
 
 **집계 함수 없으면 발생하는 문제**:
-- 애플리케이션 레이어에서 루프를 돌며 합산 → 수백만 건 처리 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 재앙
-- RDBMS의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계 최적화를 우회 → 전체 테이블 스캔 반복
-- 코드 복잡도 증가 → 버그 유입 및 유지보수 비용 급증
+- 애플리케이션 레이어에서 루프를 돌며 합산 -> 수백만 건 처리 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 재앙
+- RDBMS의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계 최적화를 우회 -> 전체 테이블 스캔 반복
+- 코드 복잡도 증가 -> 버그 유입 및 유지보수 비용 급증
 
 - **📢 섹션 요약 비유**: 집계 함수는 **'창고 재고 조사 시 스캐너로 모든 상자를 찍고 총계를 내는 자동화 장치'** 와 같습니다. 직원이 하나씩 세는 대신 스캐너(집계 함수)가 순식간에 총합, 평균, 최대·최소를 뽑아냅니다.
 
@@ -50,23 +50,23 @@ tags = ["studynote-database"]
 SQL 실행 논리 순서 (집계 관련)
 
   ① FROM        — 테이블 읽기
-  │
-  ▼
+  |
+  v
   ② WHERE       — 행 단위 필터 (집계 전!)
-  │
-  ▼
+  |
+  v
   ③ GROUP BY    — 그룹 단위 묶기
-  │
-  ▼
+  |
+  v
   ④ 집계 함수   — SUM, AVG, MAX 등 계산
-  │
-  ▼
+  |
+  v
   ⑤ HAVING     — 그룹 단위 필터 (집계 후!)
-  │
-  ▼
+  |
+  v
   ⑥ SELECT     — 출력 열 선택
-  │
-  ▼
+  |
+  v
   ⑦ ORDER BY   — 정렬
 ```
 
@@ -115,7 +115,7 @@ FROM   employees;
 
 ```sql
 -- 주의: AVG는 NULL을 제외하고 계산한다
--- 실제 데이터: [100, 200, NULL, 300] → AVG = (100+200+300)/3 = 200
+-- 실제 데이터: [100, 200, NULL, 300] -> AVG = (100+200+300)/3 = 200
 -- NULL을 0으로 처리하려면: AVG(COALESCE(score, 0))
 ```
 
@@ -175,21 +175,21 @@ FROM   employees;
 
 ```text
 단순 SELECT 조회 (개별 행)
-    │
-    ▼
+    |
+    v
 집계 함수 SUM / AVG / MAX / MIN / COUNT
-    │
-    ▼
+    |
+    v
 GROUP BY — 그룹별 집계
-    │
-    ├─► HAVING — 집계 후 필터링
-    │
-    ├─► 윈도우 함수 OVER (PARTITION BY) — 행 유지 집계
-    │
-    ▼
+    |
+    +-► HAVING — 집계 후 필터링
+    |
+    +-► 윈도우 함수 OVER (PARTITION BY) — 행 유지 집계
+    |
+    v
 Materialized View / ROLLUP / CUBE — 사전 집계
-    │
-    ▼
+    |
+    v
 OLAP 엔진 / 컬럼 스토어 / 데이터 웨어하우스
 ```
 
@@ -205,7 +205,7 @@ OLAP 엔진 / 컬럼 스토어 / 데이터 웨어하우스
 
 **진행 상황**: 147 / 600
 
-← **이전**: [146. PARTITION BY & ORDER BY - Window 함수 핵심 절](/knowledge-base/studynote/05_database/03_relational_model/146_window_function_partition_by_order_by/)
-**다음**: [148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건](/knowledge-base/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/) →
+<- **이전**: [146. PARTITION BY & ORDER BY - Window 함수 핵심 절](/knowledge-base/studynote/05_database/03_relational_model/146_window_function_partition_by_order_by/)
+**다음**: [148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건](/knowledge-base/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/) ->
 
 ---

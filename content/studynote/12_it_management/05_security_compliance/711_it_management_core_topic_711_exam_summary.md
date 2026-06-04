@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: COBIT 2019의 EDM(Evaluate-Direct-Monitor) 사이클과 ITIL 4의 Service Value System(SVS)을 결합한 **이중 거버넌스 체계**로, IT 전략과 비즈니스 가치를 정렬(Alignment)하는 메커니즘.
-> 2. **가치**: ISACA 보고 기준 IT 거버넌스 성숙도 4단계 이상 도달 시 프로젝트 성공률 **38%→72%**, ROI 평균 **2.4배**, 보안사고 **56% 감축**.
+> 2. **가치**: ISACA 보고 기준 IT 거버넌스 성숙도 4단계 이상 도달 시 프로젝트 성공률 **38%->72%**, ROI 평균 **2.4배**, 보안사고 **56% 감축**.
 > 3. **판단 포인트**: 중앙집중형(Centralized) vs 분산형(Federated) 거버넌스, **Build vs Buy vs SaaS**, BSC 기반 KPI 4관점(재무/고객/내부/학습성장) 간 가중치(Weight) 배분, 그리고 Zero-Trust 보안정책과의 통합 여부.
 
 ---
@@ -24,23 +24,23 @@ tags = ["studynote-it-management"]
 ```text
 [전통적 IT 관리 vs 현대 IT 경영 관리 패러다임 비교]
 
-  ┌─────────────────────────┐         ┌─────────────────────────────┐
-  │  전통적 IT 관리 (2000s)  │         │  현대 IT 경영 관리 (2020s)   │
-  ├─────────────────────────┤         ├─────────────────────────────┤
-  │  CIO: "서버 관리자"      │   →→→   │  CIO: "CDO 겸직 / 이사회 멤버"│
-  │  Cost Center (비용)     │   →→→   │  Value Center (가치창출)    │
-  │  CapEx 중심 일회성 투자  │   →→→   │  OpEx 중심 지속적 혁신      │
-  │  ITIL v3 (프로세스)     │   →→→   │  ITIL 4 + COBIT 2019 + EA   │
-  │  SLA: 가용성 99.9%      │   →→→   │  SLO: 고객 경험(NPS/UX)기반 │
-  │  Project 단위 관리       │   →→→   │  Product/Platform 단위 관리  │
-  └─────────────────────────┘         └─────────────────────────────┘
-              │                                       │
-              └─────────── 디지털 전환(DX) ────────────┘
-                          │
-              ┌───────────▼────────────┐
-              │  정보화 사업 관리 법령   │
-              │  (클라우드, 데이터3법)   │
-              └────────────────────────┘
+  +-------------------------+         +-----------------------------+
+  |  전통적 IT 관리 (2000s)  |         |  현대 IT 경영 관리 (2020s)   |
+  +-------------------------+         +-----------------------------+
+  |  CIO: "서버 관리자"      |   ->->->   |  CIO: "CDO 겸직 / 이사회 멤버"|
+  |  Cost Center (비용)     |   ->->->   |  Value Center (가치창출)    |
+  |  CapEx 중심 일회성 투자  |   ->->->   |  OpEx 중심 지속적 혁신      |
+  |  ITIL v3 (프로세스)     |   ->->->   |  ITIL 4 + COBIT 2019 + EA   |
+  |  SLA: 가용성 99.9%      |   ->->->   |  SLO: 고객 경험(NPS/UX)기반 |
+  |  Project 단위 관리       |   ->->->   |  Product/Platform 단위 관리  |
+  +-------------------------+         +-----------------------------+
+              |                                       |
+              +----------- 디지털 전환(DX) ------------+
+                          |
+              +-----------v------------+
+              |  정보화 사업 관리 법령   |
+              |  (클라우드, 데이터3법)   |
+              +------------------------+
 ```
 
 법적·제도적 배경으로 **「전자정부법」, 「정보시스템 효율적 도입·운영 지침(행안부)」「클라우드컴퓨팅법(2023.9)」「데이터산업법」「개인정보보호법」** 등이 IT 경영의 필수 통제 항목이 되었으며, ISMS-P 인증, CSAP(클라우드 보안인증), 데이터 거버넌스 표준(ISO 11179) 준수 여부가 사업 승격의 핵심 평가지표로 작동.
@@ -56,35 +56,35 @@ tags = ["studynote-it-management"]
 ```text
 [IT 경영 관리 통합 아키텍처 - 5 Layer Reference Model]
 
-   ┌──────────────────────────────────────────────────────┐
-   │ Layer 5: 거버넌스 의사결정 (Board/CIO Steering)       │
-   │   - EDM: Evaluate(평가) → Direct(지시) → Monitor(감시)│
-   │   - BSC KPI: 재무/고객/내부프로세스/학습성장           │
-   ├──────────────────────────────────────────────────────┤
-   │ Layer 4: 전략기획 (IT Strategy & Portfolio)            │
-   │   - SAM(Strategic Alignment Model) : Henderson &       │
-   │     Venkatraman 4관점(IT Strategy/IS Strategy/         │
-   │     Organzation Infrastructure/Process)               │
-   │   - IT Portfolio: Demand(41%) vs Supply(59%)          │
-   │   - Build 30% / Buy 50% / SaaS 20% (이상적 비율)      │
-   ├──────────────────────────────────────────────────────┤
-   │ Layer 3: 프로세스 운영 (COBIT 2019 40개 프로세스)      │
-   │   - EDM(5) / APO(14) / BAI(11) / DSS(6) / MEA(4)      │
-   │   - ITIL 4 SVS: Opportunity/Demand → Value            │
-   │   - 7 Guiding Principles: Focus on Value, Start Where │
-   │     You Are, Progress Iteratively, etc.               │
-   ├──────────────────────────────────────────────────────┤
-   │ Layer 2: 정보·데이터 거버넌스                          │
-   │   - DAMA-DMBOK 11개 지식영역                          │
-   │   - Master Data(MDM), Data Quality(DQ), Metadata      │
-   │   - Data Lineage(계보추적) + Data Catalog              │
-   ├──────────────────────────────────────────────────────┤
-   │ Layer 1: 인프라·기술 (Technology Foundation)            │
-   │   - Hybrid Cloud (Private 40% / Public 60%)           │
-  │   - Zero-Trust Architecture (NIST SP 800-207)          │
-   │   - Container/Kubernetes/Service Mesh (Istio)         │
-   └──────────────────────────────────────────────────────┘
-              ↑           ↑           ↑           ↑
+   +------------------------------------------------------+
+   | Layer 5: 거버넌스 의사결정 (Board/CIO Steering)       |
+   |   - EDM: Evaluate(평가) -> Direct(지시) -> Monitor(감시)|
+   |   - BSC KPI: 재무/고객/내부프로세스/학습성장           |
+   +------------------------------------------------------+
+   | Layer 4: 전략기획 (IT Strategy & Portfolio)            |
+   |   - SAM(Strategic Alignment Model) : Henderson &       |
+   |     Venkatraman 4관점(IT Strategy/IS Strategy/         |
+   |     Organzation Infrastructure/Process)               |
+   |   - IT Portfolio: Demand(41%) vs Supply(59%)          |
+   |   - Build 30% / Buy 50% / SaaS 20% (이상적 비율)      |
+   +------------------------------------------------------+
+   | Layer 3: 프로세스 운영 (COBIT 2019 40개 프로세스)      |
+   |   - EDM(5) / APO(14) / BAI(11) / DSS(6) / MEA(4)      |
+   |   - ITIL 4 SVS: Opportunity/Demand -> Value            |
+   |   - 7 Guiding Principles: Focus on Value, Start Where |
+   |     You Are, Progress Iteratively, etc.               |
+   +------------------------------------------------------+
+   | Layer 2: 정보·데이터 거버넌스                          |
+   |   - DAMA-DMBOK 11개 지식영역                          |
+   |   - Master Data(MDM), Data Quality(DQ), Metadata      |
+   |   - Data Lineage(계보추적) + Data Catalog              |
+   +------------------------------------------------------+
+   | Layer 1: 인프라·기술 (Technology Foundation)            |
+   |   - Hybrid Cloud (Private 40% / Public 60%)           |
+  |   - Zero-Trust Architecture (NIST SP 800-207)          |
+   |   - Container/Kubernetes/Service Mesh (Istio)         |
+   +------------------------------------------------------+
+              ^           ^           ^           ^
           IT Strategy  IT Portfolio  IT Operation  IT Security
           (Plan)        (Build)       (Run)         (Protect)
 ```
@@ -93,9 +93,9 @@ tags = ["studynote-it-management"]
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **EDM (Evaluate, Direct, Monitor)** | 이사회/CIO 의사결정 | 5단계: Benefit Realization(ROI/NPV), Risk Optimization, Resource Optimization, Transparency, Stakeholder Engagement. 목표 계단식 매핑(Cascading Goals): **13개 Enterprise Goals → 13개 Alignment Goals → 40개 Process** |
-| **APO (Align, Plan, Organize)** | 전략 정렬·기획 | 14개 프로세스. **APO01(관리체계)** → APO04(혁신) → APO12(리스크) → APO13(보안). **SAM(Strategic Alignment Model)** 4사분면(Strategy, Infrastructure, Process, IS Strategy) 적용 |
-| **BAI (Build, Acquire, Implement)** | 구축·도입·변경 | 11개 프로세스. **BAI03(솔루션 도입)** 시 Build vs Buy vs SaaS 의사결정 매트릭스 사용. **DevOps 파이프라인**(Plan→Code→Build→Test→Release→Deploy→Operate→Monitor) 통합 |
+| **EDM (Evaluate, Direct, Monitor)** | 이사회/CIO 의사결정 | 5단계: Benefit Realization(ROI/NPV), Risk Optimization, Resource Optimization, Transparency, Stakeholder Engagement. 목표 계단식 매핑(Cascading Goals): **13개 Enterprise Goals -> 13개 Alignment Goals -> 40개 Process** |
+| **APO (Align, Plan, Organize)** | 전략 정렬·기획 | 14개 프로세스. **APO01(관리체계)** -> APO04(혁신) -> APO12(리스크) -> APO13(보안). **SAM(Strategic Alignment Model)** 4사분면(Strategy, Infrastructure, Process, IS Strategy) 적용 |
+| **BAI (Build, Acquire, Implement)** | 구축·도입·변경 | 11개 프로세스. **BAI03(솔루션 도입)** 시 Build vs Buy vs SaaS 의사결정 매트릭스 사용. **DevOps 파이프라인**(Plan->Code->Build->Test->Release->Deploy->Operate->Monitor) 통합 |
 | **DSS (Deliver, Service, Support)** | 운영·지원 | 6개 프로세스. **ITIL 4 SVS(Value Chain: Plan/Engage/Design&Transition/Obtain&Build/Deliver&Support)** 와 직접 매핑. SLA 99.9%, MTTR < 30분, Incident 분류 P1~P4 |
 | **MEA (Monitor, Evaluate, Assess)** | 모니터링·평가 | 4개 프로세스. **Capability Level(0~5) vs Maturity Level(0~5)** 이원 평가. 목표: Capability Level 3(Defined Process) 이상, Maturity Level 3(Managed) 이상 |
 | **ITIL 4 SVS (Service Value System)** | 서비스 가치 창출 | 5개 핵심: **Guiding Principles(7), Governance, Service Value Chain(6), Practices(34), Continual Improvement**. SLO/SLI 기반 **오류 예산(Error Budget)** 운영 |
@@ -123,7 +123,7 @@ TCO = 직접비(Direct: HW/SW/Lic) + 간접비(Indirect: 전력·냉각 30%)
 ```
 NPV = Σ [CFt / (1+r)^t] - C0
   r: 할인율 (WACC 8~12%), t: 연차, CF: 현금흐름
-NPV > 0 → 사업 추진, IRR > Hurdle Rate → 승인
+NPV > 0 -> 사업 추진, IRR > Hurdle Rate -> 승인
 ```
 
 - **📢 섹션 요약 비유**: COBIT의 40개 프로세스는 **병원 진료 체계**와 같습니다. EDM은 **진단 의사(ED)**, APO는 **진료 계획 수립(PA)**, BAI는 **수술/치료(Surgery)**, DSS는 **입원·회복(Recovery)**, MEA는 **재활·사후관리(F/U)** 처럼 환자가 들어와서 퇴원할 때까지의 전 과정을 분업·협업하는 시스템이죠.
@@ -158,10 +158,10 @@ NPV > 0 → 사업 추진, IRR > Hurdle Rate → 승인
 | **리스크** | 일정·품질 실패 | 벤더 종속(Lock-in) | 데이터 반출, 계약종료 |
 
 **결정 트리 의사결정**:
-- 핵심역량 여부? → Yes → **Build**
-- 표준 프로세스인가? → Yes → **Buy**
-- 시장진입 시급성? → 매우 시급 → **SaaS**
-- 데이터 주권(금융/의료)? → 매우 중요 → **Private Build + Cloud**
+- 핵심역량 여부? -> Yes -> **Build**
+- 표준 프로세스인가? -> Yes -> **Buy**
+- 시장진입 시급성? -> 매우 시급 -> **SaaS**
+- 데이터 주권(금융/의료)? -> 매우 중요 -> **Private Build + Cloud**
 
 - **📢 섹션 요약 비유**: Build/Buy/SaaS는 **집 짓기** 와 같습니다. Build는 **직접 시공(주인 장기 거주, 맞춤형)**, Buy는 **모델하우스 구매(주방·욕실 표준, 일부 커스터마이징)**, SaaS는 **서비스드 아파트**(필요한 것만 즉시 사용, 1개월 후 퇴거 자유) — 이 선택이 회사의 10년 운명을 가릅니다.
 
@@ -179,7 +179,7 @@ NPV > 0 → 사업 추진, IRR > Hurdle Rate → 승인
 
 **진행 상황**: 711 / 800
 
-← **이전**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/)
-**다음**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/) →
+<- **이전**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/)
+**다음**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/) ->
 
 ---

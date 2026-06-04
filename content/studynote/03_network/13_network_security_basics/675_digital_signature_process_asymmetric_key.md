@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
+    |
+    v
 [전자서명 생성/검증 프로세스 개요]
-    │
-    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
+    |
+    +---> [공개키 기반 구조 아키텍처 보안 증명 시스템]
 ```
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -57,11 +57,11 @@ tags = ["studynote-network"]
 
 ```text
 [HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
+    |
+    v
 [전자서명 생성/검증 프로세스 개요]
-    │
-    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
+    |
+    +---> [공개키 기반 구조 아키텍처 보안 증명 시스템]
 ```
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
+    |
+    v
 [현재 개념: 전자서명 생성/검증 프로세스 개요]
-    │
-    ├──▶ [확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 796 / 1120
 
-← **이전**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)
-**다음**: [676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) →
+<- **이전**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)
+**다음**: [676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ->
 
 ---

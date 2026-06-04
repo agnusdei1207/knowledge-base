@@ -34,24 +34,24 @@ tags = ["studynote-ict-convergence"]
 RLHF는 인간의 선호도를 딥러닝이 이해할 수 있는 수학적 보상(Reward)으로 번역하는 3단계 파이프라인이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             [ RLHF의 3-Step 모델 정렬(Alignment) 파이프라인 ]  │
-├────────────────────────────────────────────────────────┤
-│ 1. 인간의 예시 주입 (SFT, Supervised Fine-Tuning)       │
-│    - 프롬프트: "폭탄 만드는 법 알려줘." / 정답: "안 됩니다."       │
-│    - 인간이 직접 모범 답안을 써서 모델에게 예의 바른 말투를 가르침 │
-│                                                        │
-│ 2. 보상 모델 (Reward Model) 학습                       │
-│    - 1개의 질문에 대해 AI가 4개의 다른 대답(A,B,C,D)을 뱉게 함   │
-│    - 인간 알바생(라벨러)이 이 대답의 순위를 매김 (C > A > B > D) │
-│    - 이 순위 데이터를 다른 AI(보상 모델)에게 줘서, "인간이 어떤   │
-│      대답을 좋아하는지" 인간의 취향 자체를 모델링하게 만듦!        │
-│                                                        │
-│ 3. PPO 강화학습 (Reinforcement Learning)                │
-│    - 메인 AI(챗GPT)가 대답을 뱉음 -> 보상 모델이 점수를 매김       │
-│    - 점수가 높으면 칭찬(+), 낮으면 몽둥이(-)로 강화학습(PPO) 시킴 │
-│    - AI는 보상 모델에게 높은 점수를 받기 위해 스스로 예의를 갖춤!  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             [ RLHF의 3-Step 모델 정렬(Alignment) 파이프라인 ]  |
++--------------------------------------------------------+
+| 1. 인간의 예시 주입 (SFT, Supervised Fine-Tuning)       |
+|    - 프롬프트: "폭탄 만드는 법 알려줘." / 정답: "안 됩니다."       |
+|    - 인간이 직접 모범 답안을 써서 모델에게 예의 바른 말투를 가르침 |
+|                                                        |
+| 2. 보상 모델 (Reward Model) 학습                       |
+|    - 1개의 질문에 대해 AI가 4개의 다른 대답(A,B,C,D)을 뱉게 함   |
+|    - 인간 알바생(라벨러)이 이 대답의 순위를 매김 (C > A > B > D) |
+|    - 이 순위 데이터를 다른 AI(보상 모델)에게 줘서, "인간이 어떤   |
+|      대답을 좋아하는지" 인간의 취향 자체를 모델링하게 만듦!        |
+|                                                        |
+| 3. PPO 강화학습 (Reinforcement Learning)                |
+|    - 메인 AI(챗GPT)가 대답을 뱉음 -> 보상 모델이 점수를 매김       |
+|    - 점수가 높으면 칭찬(+), 낮으면 몽둥이(-)로 강화학습(PPO) 시킴 |
+|    - AI는 보상 모델에게 높은 점수를 받기 위해 스스로 예의를 갖춤!  |
++--------------------------------------------------------+
 ```
 
 1. **Alignment (정렬)**: 모델의 행동을 인간의 '의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'나 '윤리적 가치관'에 완벽하게 일치시키는 과정이다. 아무리 똑똑한 모델도 정렬이 안 되어 있으면(Unaligned) 인간을 파괴하는 스카이넷이 될 수 있다.
@@ -115,7 +115,7 @@ RLHF는 딥러닝이 '수학적 오차(Loss)의 최소화'라는 딱딱한 기�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[거대 언어 모델 · 인공지능 윤리] → [RLHF · 모델 정렬] → [DPO · 프롬프트 인젝션]
+[거대 언어 모델 · 인공지능 윤리] -> [RLHF · 모델 정렬] -> [DPO · 프롬프트 인젝션]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -130,7 +130,7 @@ RLHF는 딥러닝이 '수학적 오차(Loss)의 최소화'라는 딱딱한 기�
 
 **진행 상황**: 462 / 552
 
-← **이전**: [461. 디퓨전 노이즈 역산 생성 (Diffusion Model Noise Generation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/461_diffusion_model_noise_generation/)
-**다음**: [463. 마르코프 결정 과정 (MDP)과 상태, 행동, 보상](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) →
+<- **이전**: [461. 디퓨전 노이즈 역산 생성 (Diffusion Model Noise Generation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/461_diffusion_model_noise_generation/)
+**다음**: [463. 마르코프 결정 과정 (MDP)과 상태, 행동, 보상](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ->
 
 ---

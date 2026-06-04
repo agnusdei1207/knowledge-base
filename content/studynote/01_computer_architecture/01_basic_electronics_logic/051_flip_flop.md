@@ -32,18 +32,18 @@ tags = ["studynote-computer-architecture"]
 실무에서 가장 많이 쓰는 것은 D 플립플롭 ([D Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/))이다. 내부적으로는 마스터-슬레이브 (Master-Slave) 구조나 펄스 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Pulse-Triggered) 구조를 사용해, 입력 D가 클럭 에지에서만 출력 Q로 반영되도록 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        클럭 에지에서만 데이터가 넘어가는 D 플립플롭          │
-├──────────────────────────────────────────────────────────────┤
-│ D 입력 ──▶ [Master] ──▶ [Slave] ──▶ Q 출력                  │
-│             (준비)        (에지에서 확정)                    │
-│                                                              │
-│ CLK : ___/‾‾‾\___/‾‾‾\___/‾‾‾\___                           │
-│ D   : __11____00______111_____0__                           │
-│ Q   : ____1______0______1_____0__                           │
-│                                                              │
-│ 핵심: Q는 클럭 에지 직후에만 갱신되고, 그 외 시간엔 유지된다 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        클럭 에지에서만 데이터가 넘어가는 D 플립플롭          |
++--------------------------------------------------------------+
+| D 입력 ---> [Master] ---> [Slave] ---> Q 출력                  |
+|             (준비)        (에지에서 확정)                    |
+|                                                              |
+| CLK : ___/‾‾‾\___/‾‾‾\___/‾‾‾\___                           |
+| D   : __11____00______111_____0__                           |
+| Q   : ____1______0______1_____0__                           |
+|                                                              |
+| 핵심: Q는 클럭 에지 직후에만 갱신되고, 그 외 시간엔 유지된다 |
++--------------------------------------------------------------+
 ```
 
 | 항목 | 의미 | 설계 포인트 |
@@ -123,17 +123,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 래치 (Latch)
-    │
-    ▼
+    |
+    v
 플립플롭 (Flip-Flop)
-    │
-    ▼
+    |
+    v
 레지스터 (Register) · 카운터 (Counter)
-    │
-    ▼
+    |
+    v
 파이프라인 (Pipeline) · FSM
-    │
-    ▼
+    |
+    v
 CDC 동기화 · 스캔/유지형 플립플롭
 ```
 
@@ -151,7 +151,7 @@ CDC 동기화 · 스캔/유지형 플립플롭
 
 **진행 상황**: 51 / 803
 
-← **이전**: [D 래치 (D Latch)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/)
-**다음**: [52. SR 플립플롭 (Set-Reset Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/052_sr_flip_flop/) →
+<- **이전**: [D 래치 (D Latch)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/)
+**다음**: [52. SR 플립플롭 (Set-Reset Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/052_sr_flip_flop/) ->
 
 ---

@@ -22,9 +22,9 @@ tags = ["studynote-ai"]
 신경망은 앞으로 예측하고 뒤로 오차를 전파해야 학습할 수 있다. BP ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 이 역방향 계산을 빠르게 수행해 깊은 모델도 실용적으로 만든다.
 오차를 뒤로 돌리지 못하면 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 얼마나 결과에 영향을 줬는지 알 수 없고, 결국 깊이가 깊을수록 학습이 막힌다.
 ```text
-입력 ─▶ 은닉층 ─▶ 출력 ─▶ Loss
-  ▲                     │
-  └──── gradient ◀──────┘
+입력 --> 은닉층 --> 출력 --> Loss
+  ^                     |
+  +---- gradient <-------+
 ```
 
 - **📢 섹션 요약 비유**: 뒤로 돌려 봐야 어떤 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 문제였는지 알 수 있다.
@@ -105,20 +105,20 @@ Autodiff (Automatic Differentiation)는 체인 룰을 자동화한 구현층이�
 
 ```text
 데이터
-  │
-  ▼
+  |
+  v
 Forward pass
-  │
-  ▼
+  |
+  v
 Loss 계산
-  │
-  ▼
+  |
+  v
 Backward pass (BP)
-  │
-  ▼
+  |
+  v
 Optimizer update
-  │
-  ▼
+  |
+  v
 가중치 갱신
 ```
 
@@ -134,7 +134,7 @@ Optimizer update
 
 **진행 상황**: 78 / 420
 
-← **이전**: [77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/077_cross_entropy_error_log_loss/)
-**다음**: [079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/079_optimizer_gradient_descent/) →
+<- **이전**: [77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/077_cross_entropy_error_log_loss/)
+**다음**: [079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/079_optimizer_gradient_descent/) ->
 
 ---

@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트 헬스케어 BAN]
-    │
-    ▼
+    |
+    v
 [수중 통신]
-    │
-    └──▶ [지중 통신]
+    |
+    +---> [지중 통신]
 ```
 
 - **📢 섹션 요약 비유**: 수중 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트 헬스케어 BAN]
-    │
-    ▼
+    |
+    v
 [수중 통신]
-    │
-    └──▶ [지중 통신]
+    |
+    +---> [지중 통신]
 ```
 
 - **📢 섹션 요약 비유**: 수중 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스마트 헬스케어 BAN]
-    │
-    ▼
+    |
+    v
 [현재 개념: 수중 통신]
-    │
-    ├──▶ [확장 A: 지중 통신]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 지중 통신]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 수중 통신는 스마트 헬스케어 BAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1049 / 1120
 
-← **이전**: [927. 무선 인체 통신망 (WBAN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/)
-**다음**: [929. 지중 통신 (자기유도통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/) →
+<- **이전**: [927. 무선 인체 통신망 (WBAN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/)
+**다음**: [929. 지중 통신 (자기유도통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/) ->
 
 ---

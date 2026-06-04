@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 감리 시정조치 Major/Minor 분리는 감리 시정조치의 중대·경미 구분(Major/Minor [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 규정 준수 요구가 높아지면서 문서 존재 여부보다 책임, 증적, 종결 상태를 함께 보는 거버넌스가 중요해졌다. 특히 심각도 기준이 기준선으로 정리되지 않으면 시정 계획은 사람 의존 절차로 흩어지고, 최종적으로 종결 증적이 남지 않아 의사결정이 감각에 의존하게 된다. 형식 점검에 머무르면 같은 지적사항이 반복되고 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 신뢰도도 떨어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 심각도 기준 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 시정 계획 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 종결 증적 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 심각도 기준 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 시정 계획 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 종결 증적 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 감리 시정조치 Major/Minor 분리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 종결 증적을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 심각도 기준, 시정 계획, 종결 증적은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 지속 통제 자동화(Continuous Controls Monitoring)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[심각도 기준] → [감리 시정조치 Major/Minor 분리] → [지속 통제 자동화(Continuous Controls Monitoring)]
+[심각도 기준] -> [감리 시정조치 Major/Minor 분리] -> [지속 통제 자동화(Continuous Controls Monitoring)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 심각도 기준은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 325 / 530
 
-← **이전**: [263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/263_web_compatibility_activex/)
-**다음**: [265. 감리 이견 조율 및 중재 (Audit Dispute Mediation)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/265_audit_dispute_mediation/) →
+<- **이전**: [263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/263_web_compatibility_activex/)
+**다음**: [265. 감리 이견 조율 및 중재 (Audit Dispute Mediation)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/265_audit_dispute_mediation/) ->
 
 ---

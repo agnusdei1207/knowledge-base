@@ -137,7 +137,7 @@ VPN 원격 접근            NetworkPolicy (K8s)            서비스 메시 통
 
 **진행 상황**: 330 / 373
 
-← **이전**: [329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp](/knowledge-base/studynote/11_design_supervision/06_exam_summary/329_process/)
-**다음**: [331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark](/knowledge-base/studynote/15_devops_sre/05_devsecops/331_cspm/) →
+<- **이전**: [329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp](/knowledge-base/studynote/11_design_supervision/06_exam_summary/329_process/)
+**다음**: [331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark](/knowledge-base/studynote/15_devops_sre/05_devsecops/331_cspm/) ->
 
 ---

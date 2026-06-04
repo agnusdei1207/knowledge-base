@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 서버 섀시의 fan wall은 단순 편의장치가 아니라 생존 장치다. 1U/2U 랙 서버는 작은 공간에 CPU, DIMM (Dual Inline Memory [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 밀집 배치하므로, 40 mm 또는 60 mm급 고속 팬이 강한 정압으로 앞에서 뒤로 공기를 밀어 넣는다. 이때 팬 하나가 멈추면 특정 냉각 구역의 온도가 짧은 시간 안에 급상승할 수 있다.
 
-문제는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버가 이런 고장 때문에 전원을 내릴 수 없다는 점이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속 돌아가는 상태에서 팬을 교체해야 SLA와 운영 목표를 지킬 수 있다. 그래서 엔터프라이즈 서버는 팬을 납땜된 부품이 아니라, <strong>고장 감지 → 경보 → 무정지 교체 → 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>가 가능한 현장 교체 가능 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 설계한다.
+문제는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버가 이런 고장 때문에 전원을 내릴 수 없다는 점이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속 돌아가는 상태에서 팬을 교체해야 SLA와 운영 목표를 지킬 수 있다. 그래서 엔터프라이즈 서버는 팬을 납땜된 부품이 아니라, <strong>고장 감지 -> 경보 -> 무정지 교체 -> 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>가 가능한 현장 교체 가능 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 설계한다.
 
 즉 팬 핫스왑은 "편하게 뽑는 구조"가 아니라, <strong>냉각 장애를 운영 장애로 번지지 않게 막는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 설계</strong>다.
 - **📢 섹션 요약 비유**: 고속도로를 달리는 버스의 엔진 냉각팬이 멈췄을 때, 버스를 세우지 않고도 예비 팬으로 버티며 정차지에서 바로 갈아 끼우는 구조와 같다. 목적은 편의가 아니라 승객을 멈추지 않게 하는 것이다.
@@ -44,19 +44,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 서버 fan wall이 고장 시 어떻게 airflow를 유지하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      Hot-swap fan wall keeps airflow while one failed module is replaced  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Front intake -> [F1][F2][F3][F4] -> CPU / DIMM / VRM zone -> Rear exhaust │
-│                         X                                                  │
-│                     failed module                                          │
-│                                                                            │
-│ BMC action:                                                                │
-│   1) detect tach loss                                                      │
-│   2) boost F1,F2,F4                                                        │
-│   3) technician removes F3 cartridge                                       │
-│   4) new F3 inserted, airflow normalizes                                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      Hot-swap fan wall keeps airflow while one failed module is replaced  |
++----------------------------------------------------------------------------+
+| Front intake -> [F1][F2][F3][F4] -> CPU / DIMM / VRM zone -> Rear exhaust |
+|                         X                                                  |
+|                     failed module                                          |
+|                                                                            |
+| BMC action:                                                                |
+|   1) detect tach loss                                                      |
+|   2) boost F1,F2,F4                                                        |
+|   3) technician removes F3 cartridge                                       |
+|   4) new F3 inserted, airflow normalizes                                   |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 팬 교체 순간에도 냉각 경로가 완전히 무너지지 않도록 <strong>감시, 여유 용량, 기계적 정렬</strong>이 한 세트로 동작한다는 점이다.
@@ -131,17 +131,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Fixed non-serviceable chassis fan
-        │
-        ▼
+        |
+        v
 Redundant fan wall
-        │
-        ▼
+        |
+        v
 Blind-mate hot-swap fan module
-        │
-        ▼
+        |
+        v
 BMC-driven thermal zoning and automatic boost
-        │
-        ▼
+        |
+        v
 Predictive maintenance and closed-loop service orchestration
 ```
 
@@ -159,7 +159,7 @@ Predictive maintenance and closed-loop service orchestration
 
 **진행 상황**: 741 / 803
 
-← **이전**: [739. 히트파이프 (Heatpipe)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/)
-**다음**: [741. 이중화 전원 공급 장치 (Redundant Power Supply)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/741_redundant_power_supply/) →
+<- **이전**: [739. 히트파이프 (Heatpipe)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/)
+**다음**: [741. 이중화 전원 공급 장치 (Redundant Power Supply)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/741_redundant_power_supply/) ->
 
 ---

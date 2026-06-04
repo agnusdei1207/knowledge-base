@@ -27,16 +27,16 @@ tags = ["studynote-software-engineering"]
 다음은 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Ant의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  안티 코럽션 레이어 (ACL, Ant                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  안티 코럽션 레이어 (ACL, Ant                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Ant가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -139,21 +139,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 안티 코럽션 레이어 (ACL, Anti-Corruption Layer) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -167,7 +167,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 224 / 973
 
-← **이전**: [223. 컨텍스트 매핑 (Context Mapping) - 컨텍스트 간의 연동 관계 정의](/knowledge-base/studynote/04_software_engineering/04_testing_quality/223_context_mapping_bounded_context_integration/)
-**다음**: [225. CQRS (Command Query Responsibility Segregation) - 명령과 조회 모델 분리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/225_cqrs_command_query_responsibility_segregation/) →
+<- **이전**: [223. 컨텍스트 매핑 (Context Mapping) - 컨텍스트 간의 연동 관계 정의](/knowledge-base/studynote/04_software_engineering/04_testing_quality/223_context_mapping_bounded_context_integration/)
+**다음**: [225. CQRS (Command Query Responsibility Segregation) - 명령과 조회 모델 분리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/225_cqrs_command_query_responsibility_segregation/) ->
 
 ---

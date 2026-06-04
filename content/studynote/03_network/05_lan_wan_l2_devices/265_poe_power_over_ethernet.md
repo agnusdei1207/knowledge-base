@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [PAgP]
-    │
-    ▼
+    |
+    v
 [PoE]
-    │
-    └──▶ [전용선 기초]
+    |
+    +---> [전용선 기초]
 ```
 
 - **📢 섹션 요약 비유**: ** PoE는 **"통신선과 전기선을 샴쌍둥이처럼 한 몸으로 합쳐버린 기적의 케이블링"**입니다. 천장에 콘센트 구멍을 뚫는 전기 기사를 부를 필요 없이, 네트워크 엔지니어 혼자서 선 하나로 불을 켤 수 있습니다.
@@ -56,21 +56,21 @@ PoE 생태계는 전기를 뿜어주는 장비와 받는 장비로 나뉜다.
 | **IEEE 802.3bt** | UPoE / PoE++ | **60 W ~ 90 W** | 소형 스마트 TV, 최새로운 유형의 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 빌딩 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명 |
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    PoE (Power over Ethernet) 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PoE 지원 스위치 (PSE) ]                                    │
- │        │   ▲                                                │
- │        │   │ 콘센트(220V)에서 전기를 왕창 끌어옴                    │
- │        │                                                    │
- │        ▼ (UTP 랜선 1가닥으로 데이터(Data) + 전력(Power) 동시 전송)  │
- │   ========================================                  │
- │                                                             │
- │   [ 무선 공유기 (PD) ]  ◀── 천장에 매달려 있음. 220V 플러그 없음!    │
- │       (Wi-Fi 팡팡!)                                           │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                    PoE (Power over Ethernet) 도식               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PoE 지원 스위치 (PSE) ]                                    |
+ |        |   ^                                                |
+ |        |   | 콘센트(220V)에서 전기를 왕창 끌어옴                    |
+ |        |                                                    |
+ |        v (UTP 랜선 1가닥으로 데이터(Data) + 전력(Power) 동시 전송)  |
+ |   ========================================                  |
+ |                                                             |
+ |   [ 무선 공유기 (PD) ]  <--- 천장에 매달려 있음. 220V 플러그 없음!    |
+ |       (Wi-Fi 팡팡!)                                           |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: PoE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: PAgP]
-    │
-    ▼
+    |
+    v
 [현재 개념: PoE]
-    │
-    ├──▶ [확장 A: 전용선 기초]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 전용선 기초]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전�
 
 **진행 상황**: 386 / 1120
 
-← **이전**: [264. PAgP (Port Aggregation Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/)
-**다음**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) →
+<- **이전**: [264. PAgP (Port Aggregation Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/)
+**다음**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) ->
 
 ---

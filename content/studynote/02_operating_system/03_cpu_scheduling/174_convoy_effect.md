@@ -26,14 +26,14 @@ tags = ["studynote-operating-system"]
 아래 그림은 긴 작업 하나가 어떻게 짧은 작업들과 I/O 장치까지 동시에 묶어 두는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Convoy effect in one ready queue                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ CPU        : [ long CPU-bound job P1 ........................... ] │
-│ Ready Queue:                      [P2][P3][P4] short jobs wait    │
-│ I/O device : idle ----------------------------------------------  │
-│ result     : one long burst dictates the pace of everyone         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Convoy effect in one ready queue                                  |
++--------------------------------------------------------------------+
+| CPU        : [ long CPU-bound job P1 ........................... ] |
+| Ready Queue:                      [P2][P3][P4] short jobs wait    |
+| I/O device : idle ----------------------------------------------  |
+| result     : one long burst dictates the pace of everyone         |
++--------------------------------------------------------------------+
 ```
 
 핵심은 뒤에 있는 작업들이 단지 늦게 끝나는 것에서 그치지 않는다는 점이다. 짧은 작업들이 CPU를 받지 못하니 I/O 요청도 늦게 발생하고, 그동안 I/O 장치는 놀게 된다. 즉 convoy effect는 한 줄이 막히는 현상이 아니라, 시스템 안의 여러 자원을 엇박자로 만드는 구조적 병목이다.
@@ -49,14 +49,14 @@ tags = ["studynote-operating-system"]
 예를 들어 P1은 `CPU 20ms`, P2와 P3는 `CPU 1ms + I/O 6ms`라고 하자. 모두 동시에 도착했는데 FCFS가 P1을 먼저 잡으면 다음과 같은 흐름이 나온다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Resource desynchronization caused by convoy effect                │
-├────────────────────────────────────────────────────────────────────┤
-│ time : 0................20 21 22......27 28                       │
-│ CPU  : [P1..............][P2][P3][ idle ][P2][P3]                 │
-│ I/O  : [idle............][P2 I/O......][P3 I/O......]             │
-│ wait : P2 starts after 20ms, P3 starts after 21ms                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Resource desynchronization caused by convoy effect                |
++--------------------------------------------------------------------+
+| time : 0................20 21 22......27 28                       |
+| CPU  : [P1..............][P2][P3][ idle ][P2][P3]                 |
+| I/O  : [idle............][P2 I/O......][P3 I/O......]             |
+| wait : P2 starts after 20ms, P3 starts after 21ms                 |
++--------------------------------------------------------------------+
 ```
 
 위 도식에서 0~20ms 동안 I/O 장치는 사실상 쉬고 있다. 반대로 22~27ms 구간에는 짧은 작업들이 모두 I/O로 빠져 CPU가 놀게 된다. 즉 시스템은 두 자원을 동시에 잘 쓰는 대신, 한쪽이 바쁘면 다른 쪽이 쉬는 나쁜 리듬에 빠진다.
@@ -100,18 +100,18 @@ tags = ["studynote-operating-system"]
 아래 판단 흐름은 언제 convoy effect를 적극적으로 의심해야 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When to suspect convoy effect                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ mixed heavy and light jobs in one FIFO queue?                     │
-│   ├─ yes ─▶ split queues or add preemption                        │
-│   └─ no                                                           │
-│        │                                                          │
-│        ▼                                                          │
-│ response time critical?                                           │
-│   ├─ yes ─▶ RR / MLFQ / priority scheduling                       │
-│   └─ no  ─▶ FCFS acceptable for bounded batch jobs                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When to suspect convoy effect                                     |
++--------------------------------------------------------------------+
+| mixed heavy and light jobs in one FIFO queue?                     |
+|   +- yes --> split queues or add preemption                        |
+|   +- no                                                           |
+|        |                                                          |
+|        v                                                          |
+| response time critical?                                           |
+|   +- yes --> RR / MLFQ / priority scheduling                       |
+|   +- no  --> FCFS acceptable for bounded batch jobs                |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -161,19 +161,19 @@ tags = ["studynote-operating-system"]
 
 ```text
 mixed job lengths
-    │
-    ▼
+    |
+    v
 long job at FIFO head
-    │
-    ├──────────────▶ short jobs wait in ready queue
-    ├──────────────▶ I/O devices stay idle
-    ▼
+    |
+    +---------------> short jobs wait in ready queue
+    +---------------> I/O devices stay idle
+    v
 bursty release of short jobs
-    │
-    ▼
+    |
+    v
 CPU / I/O imbalance · poor response time
-    │
-    ▼
+    |
+    v
 preemption · class separation · MLFQ
 ```
 
@@ -191,7 +191,7 @@ preemption · class separation · MLFQ
 
 **진행 상황**: 174 / 800
 
-← **이전**: [173. FCFS (First-Come, First-Served) 스케줄링 - 비선점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)
-**다음**: [175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) →
+<- **이전**: [173. FCFS (First-Come, First-Served) 스케줄링 - 비선점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)
+**다음**: [175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ->
 
 ---

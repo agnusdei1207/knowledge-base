@@ -24,15 +24,15 @@ tags = ["studynote-computer-architecture"]
 이 공격이 성립하는 핵심은 알고리즘이 아니라 구현이다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 테이블 조회, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 지수 연산의 분기, lookup table 기반 코드처럼 비밀 값이 접근 주소를 바꾸면, 수학적으로 안전한 알고리즘도 실제 시스템에서는 시간을 통해 정보를 흘릴 수 있다. 특히 멀티코어와 클라우드 환경에서는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 공유 때문에 프로세스나 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 경계를 넘는 누출까지 가능하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Cache hierarchy turns latency into information              │
-├──────────────────────────────────────────────────────────────┤
-│ L1 hit   :   ~4 cycles                                      │
-│ L2 hit   :  ~12 cycles                                      │
-│ L3 hit   :  ~40+ cycles                                     │
-│ DRAM     : 150~300+ cycles                                  │
-│ => secret-dependent access pattern becomes measurable       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Cache hierarchy turns latency into information              |
++--------------------------------------------------------------+
+| L1 hit   :   ~4 cycles                                      |
+| L2 hit   :  ~12 cycles                                      |
+| L3 hit   :  ~40+ cycles                                     |
+| DRAM     : 150~300+ cycles                                  |
+| => secret-dependent access pattern becomes measurable       |
++--------------------------------------------------------------+
 ```
 
 이 차이는 평소엔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화지만, 공격자에게는 관측 가능한 신호다. 따라서 “빠르게 만들었다”는 사실만으로도 새로운 공격면이 생길 수 있다.
@@ -54,20 +54,20 @@ tags = ["studynote-computer-architecture"]
 | lookup table | 비밀 의존 주소 선택 | 키 비트가 접근 패턴으로 새어 나감 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Secret -> address choice -> cache state -> latency          │
-├──────────────────────────────────────────────────────────────┤
-│ secret bit                                                  │
-│    │                                                        │
-│    ▼                                                        │
-│ table index / branch target                                 │
-│    │                                                        │
-│    ▼                                                        │
-│ cache line hit or miss                                      │
-│    │                                                        │
-│    ▼                                                        │
-│ measured time -> statistical inference                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Secret -> address choice -> cache state -> latency          |
++--------------------------------------------------------------+
+| secret bit                                                  |
+|    |                                                        |
+|    v                                                        |
+| table index / branch target                                 |
+|    |                                                        |
+|    v                                                        |
+| cache line hit or miss                                      |
+|    |                                                        |
+|    v                                                        |
+| measured time -> statistical inference                      |
++--------------------------------------------------------------+
 ```
 
 예를 들어 AES의 테이블 기반 구현은 평문과 키의 조합이 다른 캐시 라인을 만지게 만들 수 있다. 공격자는 같은 연산을 수천 번 반복 측정해 어떤 라인이나 세트가 더 자주 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 되었는지 분석하고, 그 편향으로 키 후보를 줄여 나간다. 즉 한 번의 측정보다 <strong>반복 측정에서 드러나는 패턴</strong>이 핵심이다.
@@ -145,24 +145,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 CPU-DRAM 속도 격차
-  │
-  ▼
+  |
+  v
 캐시 계층 구조
-  │
-  ▼
+  |
+  v
 Hit / Miss 지연 차이
-  │
-  ▼
+  |
+  v
 Secret-dependent Access
-  │
-  ▼
+  |
+  v
 Prime+Probe · Flush+Reload · Evict+Time
-  │
-  ▼
+  |
+  v
 Constant-time · Cache Isolation
 ```
 
-이 흐름은 “[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 → 시간 차이 → 정보 누출 → 구조적 방어”로 이어지는 캐시 타이밍 공격의 본질을 보여준다.
+이 흐름은 “[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 -> 시간 차이 -> 정보 누출 -> 구조적 방어”로 이어지는 캐시 타이밍 공격의 본질을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +176,7 @@ Constant-time · Cache Isolation
 
 **진행 상황**: 775 / 803
 
-← **이전**: [773. EMFI (Electromagnetic Fault Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/)
-**다음**: [775. Prime+Probe 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/775_prime_probe/) →
+<- **이전**: [773. EMFI (Electromagnetic Fault Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/)
+**다음**: [775. Prime+Probe 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/775_prime_probe/) ->
 
 ---

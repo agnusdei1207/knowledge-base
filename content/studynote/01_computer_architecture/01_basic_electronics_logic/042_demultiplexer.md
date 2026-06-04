@@ -20,12 +20,12 @@ tags = ["studynote-computer-architecture"]
 
 ```
 디멀티플렉서 (Demultiplexer, DEMUX):
-  입력(D) 1개 → 출력(Y) 여러 개 중 1개로 분배
+  입력(D) 1개 -> 출력(Y) 여러 개 중 1개로 분배
   선택 신호(S)로 출력 경로 결정
 
 MUX vs DEMUX:
-  MUX: 여러 입력 → 1개 출력 (선택)
-  DEMUX: 1개 입력 → 여러 출력 중 1개 (분배)
+  MUX: 여러 입력 -> 1개 출력 (선택)
+  DEMUX: 1개 입력 -> 여러 출력 중 1개 (분배)
 
 1:4 DEMUX 진리표:
   S1 S0 | Y3 Y2 Y1 Y0
@@ -42,7 +42,7 @@ MUX vs DEMUX:
   Y3 = D · S1 · S0
 
 1:2^n DEMUX:
-  n개 선택 신호 → 2^n개 출력
+  n개 선택 신호 -> 2^n개 출력
   1:2 DEMUX: 선택 1개, 출력 2개
   1:4 DEMUX: 선택 2개, 출력 4개
   1:8 DEMUX: 선택 3개, 출력 8개
@@ -57,25 +57,25 @@ MUX vs DEMUX:
 ```
 1:4 DEMUX 게이트 회로:
 
-  D ──┬─────────────────────────────────────────
-      │         AND
-      ├──→ S1' · S0' · D ──→ Y0
-      │         AND
-      ├──→ S1' · S0  · D ──→ Y1
-      │         AND
-      ├──→ S1  · S0' · D ──→ Y2
-      │         AND
-      └──→ S1  · S0  · D ──→ Y3
+  D --+-----------------------------------------
+      |         AND
+      +---> S1' · S0' · D ---> Y0
+      |         AND
+      +---> S1' · S0  · D ---> Y1
+      |         AND
+      +---> S1  · S0' · D ---> Y2
+      |         AND
+      +---> S1  · S0  · D ---> Y3
 
-  S0 ──┬── NOT(S0') ──┬
-        │              │
-        └──────────────┘
-  S1 ──┬── NOT(S1') ──┬
-        │              │
-        └──────────────┘
+  S0 --+-- NOT(S0') --+
+        |              |
+        +--------------+
+  S1 --+-- NOT(S1') --+
+        |              |
+        +--------------+
 
 디코더와 DEMUX 관계:
-  디코더: n 입력 → 2^n 출력 (활성 출력 1개)
+  디코더: n 입력 -> 2^n 출력 (활성 출력 1개)
   DEMUX: 디코더 + Enable(D 입력) 결합
 
   구현: 2-to-4 디코더 + D를 Enable로 연결
@@ -96,26 +96,26 @@ DEMUX 확장:
 MUX-DEMUX 통신 시스템:
 
 시분할 다중화 (TDM):
-  송신측:   I0 ─┐
-            I1 ─┤ MUX ──[단일 채널]──→ DEMUX ─┬→ O0
-            I2 ─┤                              ├→ O1
-            I3 ─┘                              ├→ O2
-                                               └→ O3
+  송신측:   I0 -+
+            I1 -+ MUX --[단일 채널]---> DEMUX -+-> O0
+            I2 -+                              +-> O1
+            I3 -+                              +-> O2
+                                               +-> O3
 
   MUX 선택 신호 = DEMUX 선택 신호 (동기화)
   동일한 클록으로 순서대로 전환
 
 메모리 주소 디코딩:
-  CPU 주소 버스 → DEMUX → 각 메모리 칩 CS 신호
+  CPU 주소 버스 -> DEMUX -> 각 메모리 칩 CS 신호
   주소 상위 비트로 메모리 블록 선택
 
-  예: A15-A14 = 00 → RAM 0 선택
-              = 01 → RAM 1 선택
-              = 10 → ROM 선택
-              = 11 → I/O 장치 선택
+  예: A15-A14 = 00 -> RAM 0 선택
+              = 01 -> RAM 1 선택
+              = 10 -> ROM 선택
+              = 11 -> I/O 장치 선택
 
 디지털 통신 역다중화:
-  광섬유 단일 채널 → DEMUX → 여러 수신자
+  광섬유 단일 채널 -> DEMUX -> 여러 수신자
   DWDM (파장분할다중화) 역다중화
 ```
 
@@ -129,19 +129,19 @@ MUX-DEMUX 통신 시스템:
 DEMUX를 이용한 논리함수 구현:
 
 모든 2^n 입력 조합에 대응하는 최소항(Minterm) 생성
-→ 출력을 OR 게이트로 조합하면 임의 함수 구현
+-> 출력을 OR 게이트로 조합하면 임의 함수 구현
 
 예: F(A, B) = A'B + AB' (XOR)
 
   1:4 DEMUX + OR 게이트:
 
-  A → S1, B → S0, D = 1
+  A -> S1, B -> S0, D = 1
 
-  Y0 = m0(A=0,B=0) = A'B' → 0
-  Y1 = m1(A=0,B=1) = A'B  → 1 ─┐
-  Y2 = m2(A=1,B=0) = AB'  → 1 ─┤ OR → F = XOR
-  Y3 = m3(A=1,B=1) = AB   → 0  │
-                                │
+  Y0 = m0(A=0,B=0) = A'B' -> 0
+  Y1 = m1(A=0,B=1) = A'B  -> 1 -+
+  Y2 = m2(A=1,B=0) = AB'  -> 1 -+ OR -> F = XOR
+  Y3 = m3(A=1,B=1) = AB   -> 0  |
+                                |
   F = Y1 + Y2 = A'B + AB' = A XOR B ✓
 
 장점:
@@ -257,7 +257,7 @@ AXI 버스 DEMUX/MUX 구현
 
 **진행 상황**: 42 / 803
 
-← **이전**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)
-**다음**: [043. 비교기 (Comparator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) →
+<- **이전**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)
+**다음**: [043. 비교기 (Comparator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ->
 
 ---

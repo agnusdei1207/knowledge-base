@@ -40,11 +40,11 @@ tags = ["studynote-ai"]
 ```text
 정답 원-핫: [0 0 1]
 예측 확률 : [0.1 0.2 0.7]
-               │
-               ▼
+               |
+               v
       정답 클래스의 log(p)만 평가
-               │
-               ▼
+               |
+               v
          확률이 높을수록 손실 감소
 ```
 
@@ -105,17 +105,17 @@ cross-entropy는 "정답을 맞히는가"뿐 아니라 "얼마나 틀리게 확�
 
 ```text
 원-핫 정답
-    │
-    ▼
+    |
+    v
 예측 확률(sigmoid / softmax)
-    │
-    ▼
+    |
+    v
 Cross-Entropy Error
-    │
-    ▼
+    |
+    v
 역전파 / MLE (Maximum Likelihood Estimation)
-    │
-    ▼
+    |
+    v
 더 나은 분류 확률
 ```
 
@@ -131,7 +131,7 @@ Cross-Entropy Error
 
 **진행 상황**: 77 / 420
 
-← **이전**: [76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)
-**다음**: [78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산](/knowledge-base/studynote/10_ai/01_ai_basics/078_backpropagation_chain_rule_gradient/) →
+<- **이전**: [76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)
+**다음**: [78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산](/knowledge-base/studynote/10_ai/01_ai_basics/078_backpropagation_chain_rule_gradient/) ->
 
 ---

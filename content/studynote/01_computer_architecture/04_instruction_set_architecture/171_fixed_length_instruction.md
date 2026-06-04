@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 고정 길이가 전단부 단순화와 직결되는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Fixed-length memory layout                                  │
-├──────────────────────────────────────────────────────────────┤
-│ 0x1000 : [ instruction 32b ]                                │
-│ 0x1004 : [ instruction 32b ]                                │
-│ 0x1008 : [ instruction 32b ]                                │
-│ 0x100C : [ instruction 32b ]                                │
-│ next PC = current PC + 4                                    │
-│ no boundary search -> prefetch stays simple                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Fixed-length memory layout                                  |
++--------------------------------------------------------------+
+| 0x1000 : [ instruction 32b ]                                |
+| 0x1004 : [ instruction 32b ]                                |
+| 0x1008 : [ instruction 32b ]                                |
+| 0x100C : [ instruction 32b ]                                |
+| next PC = current PC + 4                                    |
+| no boundary search -> prefetch stays simple                 |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 위치를 찾는 연산"이 거의 사라진다는 점이다. 전단부는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 의미를 해석하기도 전에 경계를 잃지 않는다. 그래서 깊은 파이프라인, 다중 발행 (Multi-Issue), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 같은 구조와 결합하기 쉽다.
@@ -58,15 +58,15 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 고정 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 파이프라인 전단부에서 어떤 식으로 시간을 절약하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Front-end timing with fixed width                           │
-├──────────────────────────────────────────────────────────────┤
-│ Fetch  : read 32b at PC                                     │
-│ Decode : opcode[31:26], rs, rt, imm positions are known     │
-│ Rename : source/dest fields are found without extra scan    │
-│ Branch : target = PC + 4 + offset rule                      │
-│ Result : stage balance is easier than variable-length front │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Front-end timing with fixed width                           |
++--------------------------------------------------------------+
+| Fetch  : read 32b at PC                                     |
+| Decode : opcode[31:26], rs, rt, imm positions are known     |
+| Rename : source/dest fields are found without extra scan    |
+| Branch : target = PC + 4 + offset rule                      |
+| Result : stage balance is easier than variable-length front |
++--------------------------------------------------------------+
 ```
 
 예를 들어 MIPS나 기본 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 32비트 고정 길이를 바탕으로 전단부를 단순화한다. 덕분에 하드웨어는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 어디서 끝나는가"보다 "읽은 명령을 어떻게 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리할까"에 더 많은 자원을 쓸 수 있다. 이것이 고정 길이가 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 철학과 잘 맞는 이유다.
@@ -102,18 +102,18 @@ tags = ["studynote-computer-architecture"]
 실무에서는 "이 ISA가 어느 병목을 먼저 줄여야 하는가"를 기준으로 판단해야 한다. 고성능 CPU, 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor, DSP), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기처럼 전단부가 매우 자주 반복되고 다중 발행이 중요한 환경에서는 고정 길이가 특히 유리하다. 반대로 플래시 메모리와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 더 큰 제약인 초소형 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/), MCU)에서는 코드 밀도가 더 중요할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Fixed length adoption questions                             │
-├──────────────────────────────────────────────────────────────┤
-│ Is front-end frequency / issue width the main bottleneck?   │
-│   ├─ yes -> fixed length strongly preferred                 │
-│   └─ no                                                     │
-│       │                                                     │
-│       ▼                                                     │
-│ Is code size or flash capacity the tighter limit?           │
-│   ├─ yes -> compressed / mixed-width review                 │
-│   └─ no  -> fixed length keeps hardware simpler             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Fixed length adoption questions                             |
++--------------------------------------------------------------+
+| Is front-end frequency / issue width the main bottleneck?   |
+|   +- yes -> fixed length strongly preferred                 |
+|   +- no                                                     |
+|       |                                                     |
+|       v                                                     |
+| Is code size or flash capacity the tighter limit?           |
+|   +- yes -> compressed / mixed-width review                 |
+|   +- no  -> fixed length keeps hardware simpler             |
++--------------------------------------------------------------+
 ```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -163,17 +163,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 비트폭 통일
-    │
-    ▼
+    |
+    v
 명령어 경계 예측 가능
-    │
-    ▼
+    |
+    v
 인출 · 해독 단순화
-    │
-    ├──────────────▶ 파이프라인 고속화
-    ├──────────────▶ 분기 주소 계산 단순화
-    ├──────────────▶ 디코더 전력 절감
-    ▼
+    |
+    +---------------> 파이프라인 고속화
+    +---------------> 분기 주소 계산 단순화
+    +---------------> 디코더 전력 절감
+    v
 압축 명령어 · 혼합 형식으로 코드 밀도 보완
 ```
 
@@ -191,7 +191,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 171 / 803
 
-← **이전**: [170. 명령어 형식 (Instruction Format)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)
-**다음**: [172. 가변 길이 명령어 (Variable-Length Instruction)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/172_variable_length_instruction/) →
+<- **이전**: [170. 명령어 형식 (Instruction Format)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)
+**다음**: [172. 가변 길이 명령어 (Variable-Length Instruction)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/172_variable_length_instruction/) ->
 
 ---

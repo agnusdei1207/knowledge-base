@@ -26,17 +26,17 @@ K-익명성은 공개 또는 내부 공유 [데이터](/knowledge-base/studynote
 단순 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 제거가 실패하는 이유는 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와의 결합 공격 때문이다. 공개 명부, 사회관계망 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Social Network [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), SNS), 기사, 내부 조직도처럼 따로 존재하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 준식별자를 맞대면 특정 개인을 재식별할 수 있다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인에서는 사람 이름을 지우는 것보다, 공개 후에도 특정 개인이 두드러지지 않게 만드는 구조가 더 중요하다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Re-identification path                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Shared dataset : age / sex / zip / diagnosis                      │
-│ External data  : voter roll / SNS / public registry               │
-│                 join on quasi-identifiers                         │
-│                               │                                   │
-│                               ▼                                   │
-│                    one person inferred                            │
-│ K-anonymity breaks this path by forcing each QI group size >= k   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Re-identification path                                            |
++--------------------------------------------------------------------+
+| Shared dataset : age / sex / zip / diagnosis                      |
+| External data  : voter roll / SNS / public registry               |
+|                 join on quasi-identifiers                         |
+|                               |                                   |
+|                               v                                   |
+|                    one person inferred                            |
+| K-anonymity breaks this path by forcing each QI group size >= k   |
++--------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: K-익명성은 운동장에서 모자를 같은 색으로 맞춰 쓰게 하는 것과 같다. 멀리서 보면 누가 누구인지 바로 집어내기 어렵게 만들어, 특정 아이가 눈에 띄지 않게 숨겨 준다.
@@ -57,32 +57,32 @@ k      : minimum crowd size to hide an individual
 실무 파이프라인은 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 시작한다. 이름, 이메일, 전화번호 같은 직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 나이, 위치, 직군 같은 준식별자를 구분하고, 이후 규칙 엔진이 필드별 변환 전략을 적용한다. 이때 같은 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 여러 테이블에 걸쳐 반복된다면 결정적 마스킹 (Deterministic Masking)이나 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)를 써서 [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)을 보존해야 하며, 외부 공개용이라면 K-익명성·L-다양성·T-근접성을 추가로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Privacy transformation pipeline                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Source Database / Files / Feature Store                          │
-│            │                                                      │
-│            ▼                                                      │
-│ Discovery & classification                                        │
-│  ├─ direct identifiers                                            │
-│  └─ quasi-identifiers / sensitive attributes                      │
-│            │                                                      │
-│            ▼                                                      │
-│ Policy engine                                                     │
-│  ├─ deterministic masking / tokenization                          │
-│  ├─ generalization / suppression                                  │
-│  ├─ format-preserving encryption                                  │
-│  └─ k-anonymity / l-diversity checks                              │
-│            │                                                      │
-│            ▼                                                      │
-│ Validation                                                        │
-│  ├─ privacy risk                                                  │
-│  ├─ referential integrity                                         │
-│  └─ analytics / model utility                                     │
-│            │                                                      │
-│            ▼                                                      │
-│ Development/Test copy / Shared dataset / model training set       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Privacy transformation pipeline                                   |
++--------------------------------------------------------------------+
+| Source Database / Files / Feature Store                          |
+|            |                                                      |
+|            v                                                      |
+| Discovery & classification                                        |
+|  +- direct identifiers                                            |
+|  +- quasi-identifiers / sensitive attributes                      |
+|            |                                                      |
+|            v                                                      |
+| Policy engine                                                     |
+|  +- deterministic masking / tokenization                          |
+|  +- generalization / suppression                                  |
+|  +- format-preserving encryption                                  |
+|  +- k-anonymity / l-diversity checks                              |
+|            |                                                      |
+|            v                                                      |
+| Validation                                                        |
+|  +- privacy risk                                                  |
+|  +- referential integrity                                         |
+|  +- analytics / model utility                                     |
+|            |                                                      |
+|            v                                                      |
+| Development/Test copy / Shared dataset / model training set       |
++--------------------------------------------------------------------+
 ```
 
 | 기법 | 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는가 | 장점 | 한계 |
@@ -169,20 +169,20 @@ K-익명성과 마스킹은 비슷해 보이지만 질문이 다르다. K-익명
 
 ```text
 개인정보 탐지 · 분류
-    │
-    ▼
+    |
+    v
 가명화 · 토큰화 · 일반화
-    │
-    ▼
+    |
+    v
 K-익명성 검증
-    │
-    ▼
+    |
+    v
 L-다양성 · T-근접성 보강
-    │
-    ▼
+    |
+    v
 데이터 품질 · 기계학습 유용성 검증
-    │
-    ▼
+    |
+    v
 안전한 개발·분석·공유 파이프라인 운영
 ```
 
@@ -198,7 +198,7 @@ L-다양성 · T-근접성 보강
 
 **진행 상황**: 185 / 258
 
-← **이전**: [184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)](/knowledge-base/studynote/14_data_engineering/04_mlops/184_differential_privacy_noise_statistical_defense/)
-**다음**: [186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/) →
+<- **이전**: [184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)](/knowledge-base/studynote/14_data_engineering/04_mlops/184_differential_privacy_noise_statistical_defense/)
+**다음**: [186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/) ->
 
 ---

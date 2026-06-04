@@ -24,33 +24,33 @@ tags = ["studynote-it-management"]
 특히 **클라우드, AI, 데이터 거버넌스, ESG-IT, 제로트러스트** 등 4차 산업혁명 기술의 도입이 가속화되면서, 단순히 기술 도입을 넘어 **Value Realization(가치 실현)**을 체계적으로 관리할 수 있는 경영 프레임워크가 요구된다. ISO/IEC 38500(2015)이 명시한 **"Evaluate-Direct-Monitor"** 3원칙과 COBIT 2019의 **"Governance System & Components"** 5도메인(EDM, APO, BAI, DSS, MEA) 체계가 이를 뒷받침한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│          IT 경영 관리 5계층 프레임워크 (5-Layer Model)            │
-├─────────────────────────────────────────────────────────────────┤
-│  L1. 전략(Strategy)    : IT Vision, Portfolio, BAM, Innovation  │
-│      │                       (BSC 4관점, OKR, McFarlan Grid)     │
-│      ▼                                                          │
-│  L2. 거버넌스(Governance): COBIT 2019, ISO 38500, GRC, 정책체계  │
-│      │                       (RACI, Three Lines of Defense)      │
-│      ▼                                                          │
-│  L3. 아키텍처(Architecture): TOGAF ADM, Zachman, FEAF, DoDAF    │
-│      │                          (BIZ-APP-DATA-TECH Layering)    │
-│      ▼                                                          │
-│  L4. 운영(Operation)     : ITIL 4 SVS, DevOps, SRE, FinOps      │
-│      │                       (34 Practice, 4D 모델)              │
-│      ▼                                                          │
-│  L5. 개선(Improvement)   : CSI, Kaizen, Lean IT, TMMi, CMMI     │
-│                              (7-Step Improvement Process)        │
-└─────────────────────────────────────────────────────────────────┘
-        │                        │                        │
-        ▼                        ▼                        ▼
++-----------------------------------------------------------------+
+|          IT 경영 관리 5계층 프레임워크 (5-Layer Model)            |
++-----------------------------------------------------------------+
+|  L1. 전략(Strategy)    : IT Vision, Portfolio, BAM, Innovation  |
+|      |                       (BSC 4관점, OKR, McFarlan Grid)     |
+|      v                                                          |
+|  L2. 거버넌스(Governance): COBIT 2019, ISO 38500, GRC, 정책체계  |
+|      |                       (RACI, Three Lines of Defense)      |
+|      v                                                          |
+|  L3. 아키텍처(Architecture): TOGAF ADM, Zachman, FEAF, DoDAF    |
+|      |                          (BIZ-APP-DATA-TECH Layering)    |
+|      v                                                          |
+|  L4. 운영(Operation)     : ITIL 4 SVS, DevOps, SRE, FinOps      |
+|      |                       (34 Practice, 4D 모델)              |
+|      v                                                          |
+|  L5. 개선(Improvement)   : CSI, Kaizen, Lean IT, TMMi, CMMI     |
+|                              (7-Step Improvement Process)        |
++-----------------------------------------------------------------+
+        |                        |                        |
+        v                        v                        v
   Value Realization          Risk Management          Capability Mgmt
   (ROI/NPV/EVA)             (ISO 27005/31000)         (Maturity Model)
 ```
 
 **구(舊) vs 신(新) 패러다임**:
-- **구(舊)**: IT = Cost Center(비용 센터) → 무조건 절감·통제 중심, "No"라는 답이 80%
-- **신(新)**: IT = Value Center(가치 센터) → ROI 극대화·혁신 주도, "How"라는 답이 80%
+- **구(舊)**: IT = Cost Center(비용 센터) -> 무조건 절감·통제 중심, "No"라는 답이 80%
+- **신(新)**: IT = Value Center(가치 센터) -> ROI 극대화·혁신 주도, "How"라는 답이 80%
 - 예: 과거 "데이터센터 자가 운영" vs 현재 "FinOps 기반 멀티클라우드(비용 최적화 23~37%)"
 
 - **📢 섹션 요약 비유**: IT 경영 관리는 **자동차의 계기판(Cockpit)**과 같다. 엔진(기술)만 좋다고 차가 잘 달리는 것이 아니라, 속도계·RPM·연료·엔진온도·경고등(지표)을 통합적으로 보여주는 **종합 계기판**이 있어야 운전자가 올바른 판단을 내릴 수 있다. COBIT가 이 계기판의 설계도라면, ITIL은 정비 매뉴얼, TOGAF는 차체 설계도인 셈이다.
@@ -64,33 +64,33 @@ tags = ["studynote-it-management"]
 COBIT 2019는 **40개의 관리 목표(Management Objective)**와 **5개 거버넌스 목표(EDM: Evaluate-Direct-Monitor)**로 구성되며, **연속적 조정(Continuous Adjustment)**을 통해 조직의 7가지 구성요소(Principles, Goals, Components, Focus Areas, Design Factors, Issues/Risk, Performance)를 연결한다.
 
 ```text
-        ┌────────────────────────────────────────────┐
-        │         COBIT 2019 Core Model & Workflow    │
-        └────────────────────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────┐
-        ▼                   ▼                   ▼
-  ┌─────────┐         ┌─────────┐         ┌─────────┐
-  │  EDM 05 │         │  APO 12 │         │  BAI 11 │
-  │Governance│        │ Managed│         │ Managed│
-  │ System   │        │ Risk    │         │ Projects│
-  └────┬────┘         └────┬────┘         └────┬────┘
-       │                   │                   │
-       ▼                   ▼                   ▼
+        +--------------------------------------------+
+        |         COBIT 2019 Core Model & Workflow    |
+        +--------------------------------------------+
+                            |
+        +-------------------+-------------------+
+        v                   v                   v
+  +---------+         +---------+         +---------+
+  |  EDM 05 |         |  APO 12 |         |  BAI 11 |
+  |Governance|        | Managed|         | Managed|
+  | System   |        | Risk    |         | Projects|
+  +----+----+         +----+----+         +----+----+
+       |                   |                   |
+       v                   v                   v
    RACI Matrix         ISO 31000            PRINCE2/MSP
    (Responsible,      (Risk=Threat×         (Stage/Work
     Accountable,       Vulnerability×       Boundary)
     Consulted,         Asset Value)
     Informed)
-       │                   │                   │
-       └───────────────────┼───────────────────┘
-                           ▼
-              ┌──────────────────────────┐
-              │   Performance Management  │
-              │  (CSF/KPI, Maturity Level)│
-              │  - Lag/Lead Indicator     │
-              │  - CMMI 1~5 Level        │
-              └──────────────────────────┘
+       |                   |                   |
+       +-------------------+-------------------+
+                           v
+              +--------------------------+
+              |   Performance Management  |
+              |  (CSF/KPI, Maturity Level)|
+              |  - Lag/Lead Indicator     |
+              |  - CMMI 1~5 Level        |
+              +--------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -106,36 +106,36 @@ COBIT 2019는 **40개의 관리 목표(Management Objective)**와 **5개 거버�
 기술사 시험에서 자주 등장하는 정량 가치 평가식:
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│ 1) 총소유비용(TCO) = 직접비 + 간접비 + 기회비용 + 위험비용  │
-│    TCO = CapEx + OpEx + Downtime Cost + Risk Exposure    │
-│                                                          │
-│ 2) 투자수익률(ROI) = (총이익 - 총비용) / 총비용 × 100     │
-│    ROI = (Benefit - Cost) / Cost × 100                   │
-│                                                          │
-│ 3) 순현재가치(NPV) = Σ [CFₜ / (1+r)ᵗ] - 초기투자         │
-│    (할인율 r: WACC 가중평균자본비용 6~12% 적용)            │
-│                                                          │
-│ 4) 내부수익률(IRR): NPV=0이 되는 할인율, r>WACC일 때 수용  │
-│                                                          │
-│ 5) 경제적부가가치(EVA) = NOPAT - (WACC × 투자자본)        │
-│                                                          │
-│ 6) Payback Period(투자회수기간) = 초기투자 / 연 현금흐름   │
-│                                                          │
-│ 7) IT Balanced Scorecard (Kaplan & Norton 4관점)         │
-│    - 재무(Financial): TCO 절감률, ROIC                   │
-│    - 고객(Customer): SLA 준수율, NPS                     │
-│    - 내부프로세스(Internal): MTTR, 변경 성공률           │
-│    - 학습성장(Learning): 직원역량지수, 인증 보유율        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+| 1) 총소유비용(TCO) = 직접비 + 간접비 + 기회비용 + 위험비용  |
+|    TCO = CapEx + OpEx + Downtime Cost + Risk Exposure    |
+|                                                          |
+| 2) 투자수익률(ROI) = (총이익 - 총비용) / 총비용 × 100     |
+|    ROI = (Benefit - Cost) / Cost × 100                   |
+|                                                          |
+| 3) 순현재가치(NPV) = Σ [CFₜ / (1+r)ᵗ] - 초기투자         |
+|    (할인율 r: WACC 가중평균자본비용 6~12% 적용)            |
+|                                                          |
+| 4) 내부수익률(IRR): NPV=0이 되는 할인율, r>WACC일 때 수용  |
+|                                                          |
+| 5) 경제적부가가치(EVA) = NOPAT - (WACC × 투자자본)        |
+|                                                          |
+| 6) Payback Period(투자회수기간) = 초기투자 / 연 현금흐름   |
+|                                                          |
+| 7) IT Balanced Scorecard (Kaplan & Norton 4관점)         |
+|    - 재무(Financial): TCO 절감률, ROIC                   |
+|    - 고객(Customer): SLA 준수율, NPS                     |
+|    - 내부프로세스(Internal): MTTR, 변경 성공률           |
+|    - 학습성장(Learning): 직원역량지수, 인증 보유율        |
++----------------------------------------------------------+
 ```
 
 ### C. ITIL 4 Service Value System (SVS)
 
-ITIL 4는 **Opportunity/Demand → Value**로 연결하는 7개 컴포넌트 체계를 갖는다:
+ITIL 4는 **Opportunity/Demand -> Value**로 연결하는 7개 컴포넌트 체계를 갖는다:
 1. **Guiding Principles**(7원칙: Focus on value, Start where you are, Progress iteratively, etc.)
 2. **Governance**(거버넌스)
-3. **Service Value Chain**(Plan→Engage→Design&Transition→Obtain/Build→Deliver&Support→Improve 6단계)
+3. **Service Value Chain**(Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support->Improve 6단계)
 4. **Practices**(34개: Incident, Problem, Change Enablement, Service Desk, Continual Improvement 등)
 5. **Continual Improvement**(CSI 등록부)
 6. **Technologies & Organization**
@@ -151,7 +151,7 @@ ITIL 4는 **Opportunity/Demand → Value**로 연결하는 7개 컴포넌트 체
 | 구분 | **COBIT 2019** | **ITIL 4** | **ISO/IEC 38500** | **PMBOK 7** | **TOGAF 9.2/10** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **주 목적** | IT 거버넌스·관리 | IT 서비스 운영 | IT 의사결정 거버넌스 원칙 | 프로젝트 관리 표준 | EA(엔터프라이즈 아키텍처) |
-| **계층** | 전략→운영 전계층 | 운영·서비스 중심 | 원칙·거버넌스 최상위 | 프로젝트 단위 | 아키텍처 단위 |
+| **계층** | 전략->운영 전계층 | 운영·서비스 중심 | 원칙·거버넌스 최상위 | 프로젝트 단위 | 아키텍처 단위 |
 | **핵심 단위** | 40 Mgmt Objective | 34 Practice | 6 Principles | 12 Principle + 8 Domain | ADM 8 Phase |
 | **성숙도 모델** | CMMI 0~5 매핑 | 4D 모델 | 자체 평가 지표 | OPM3 | ARM(Architecture Repository) |
 | **강점** | ROI·위험 정량화 | 서비스 운영 노하우 | 법률·컴플라이언스 | 프로젝트 실행 | 비즈니스-기술 정합 |
@@ -163,40 +163,40 @@ ITIL 4는 **Opportunity/Demand → Value**로 연결하는 7개 컴포넌트 체
 | 구분 | **McFarlan Grid** | **Gartner Hype Cycle** | **Ward & Peppard BSP** | **Henderson Venkatraman** |
 | :--- | :--- | :--- | :--- | :--- |
 | **축** | 현재/미래 전략적 영향 | 기대 vs. 시간 | 내부/외부 환경 | 전략/운영 vs. IT |
-| **사분면** | Strategic / Turnaround / Factory / Support | Innovation Trigger → Peak → Trough → Slope → Plateau | IS/IT 전략 매트릭스 | 4관점(Strategic, Info, Process, Infrastructure) |
+| **사분면** | Strategic / Turnaround / Factory / Support | Innovation Trigger -> Peak -> Trough -> Slope -> Plateau | IS/IT 전략 매트릭스 | 4관점(Strategic, Info, Process, Infrastructure) |
 | **용도** | IT 포트폴리오 분류 | 기술 투자 타이밍 | 전략적 정보시스템 계획 | 전략적 IT 정렬 |
 | **한계** | 정성적, 주관 | 예측 실패 사례 多 | 동적 환경 반영 약함 | 조직 변화 반영 부족 |
 
 ### C. 다른 시스템·도구와의 통합
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│       IT 경영관리 통합 스택 (Integrated IT Management Stack) │
-├────────────────────────────────────────────────────────────┤
-│  상위 거버넌스: GRC 플랫폼 (RSA Archer, ServiceNow GRC)    │
-│        │                                                   │
-│        ▼                                                   │
-│  전략/포트폴리오:   TracIT, Planview, Clarity PPM            │
-│        │                                                   │
-│        ▼                                                   │
-│  EA/아키텍처:       LeanIX, MEGA HOPEX, BiZZdesign          │
-│        │                                                   │
-│        ▼                                                   │
-│  프로젝트:          MS Project Online, Jira, Azure DevOps   │
-│        │                                                   │
-│        ▼                                                   │
-│  서비스 운영:       ServiceNow, BMC Remedy, Jira SM          │
-│        │                                                   │
-│        ▼                                                   │
-│  모니터링/AIOps:    Datadog, Splunk, Dynatrace, PagerDuty   │
-│        │                                                   │
-│        ▼                                                   │
-│  보안
++------------------------------------------------------------+
+|       IT 경영관리 통합 스택 (Integrated IT Management Stack) |
++------------------------------------------------------------+
+|  상위 거버넌스: GRC 플랫폼 (RSA Archer, ServiceNow GRC)    |
+|        |                                                   |
+|        v                                                   |
+|  전략/포트폴리오:   TracIT, Planview, Clarity PPM            |
+|        |                                                   |
+|        v                                                   |
+|  EA/아키텍처:       LeanIX, MEGA HOPEX, BiZZdesign          |
+|        |                                                   |
+|        v                                                   |
+|  프로젝트:          MS Project Online, Jira, Azure DevOps   |
+|        |                                                   |
+|        v                                                   |
+|  서비스 운영:       ServiceNow, BMC Remedy, Jira SM          |
+|        |                                                   |
+|        v                                                   |
+|  모니터링/AIOps:    Datadog, Splunk, Dynatrace, PagerDuty   |
+|        |                                                   |
+|        v                                                   |
+|  보안
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 444 / 800
 
-← **이전**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/)
-**다음**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/) →
+<- **이전**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/)
+**다음**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/) ->
 
 ---

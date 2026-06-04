@@ -30,27 +30,27 @@ tags = ["studynote-operating-system"]
 운영체제가 고작 4MB 폭발 한도선 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 장부를 여러 개 이어 붙여 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 어떻게 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 맵핑으로 우겨넣는지 두 모형 렌더 스왑을 까보면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────┐
-  │                 색인 한계 분쇄: "무식하게 옆으로 잇거나, 위로 계층을 쌓아라!"   │
-  ├─────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                 │
-  │  1️⃣ [ 연결 색인 (Linked Scheme 옆으로 기차놀이 잇기 스왑) ]                    │
-  │     [[인덱스 1권 (1번~100번 주소)]] ──(마지막에 꼬리표 링크 띠용)──┐            │
-  │                                                        │                        │
-  │     ┌─▶▶▶────────────────────────────────────────────────┘                      │
-  │     │                                                                           │
-  │     └─▶ [[인덱스 2권 (101번~200번 주소)]] ──(링크)─▶ [[인덱스 3권]]             │
-  │  =========================▼===================================                  │
-  │                                                                                 │
-  │  2️⃣ [ 다중 수준 색인 (Multilevel Scheme 피라미드 조직도 렌더 결착) ]           │
-  │                        [[ 최상위 인덱스 (대빵 1단계 블록) ]]                    │
-  │                        /            |             \                             │
-  │           (그 밑 부하 수첩 타격)  (부하 수첩)          (부하 수첩)              │
-  │           [[2단계 인덱스 1호]]   [[2단계 인덱스 2호]]   [[2단계 인덱스 3호]]    │
-  │            /  |  |  \                / | | \                                    │
-  │     (실제 철판 물리 우주 데이터 블록 10만 개가 와라락 매달려 팽창 복사 생성!)   │
-  │                                                                                 │
-  └─────────────────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------------------+
+  |                 색인 한계 분쇄: "무식하게 옆으로 잇거나, 위로 계층을 쌓아라!"   |
+  +---------------------------------------------------------------------------------+
+  |                                                                                 |
+  |  1️⃣ [ 연결 색인 (Linked Scheme 옆으로 기차놀이 잇기 스왑) ]                    |
+  |     [[인덱스 1권 (1번~100번 주소)]] --(마지막에 꼬리표 링크 띠용)--+            |
+  |                                                        |                        |
+  |     +-->->->------------------------------------------------+                      |
+  |     |                                                                           |
+  |     +--> [[인덱스 2권 (101번~200번 주소)]] --(링크)--> [[인덱스 3권]]             |
+  |  =========================v===================================                  |
+  |                                                                                 |
+  |  2️⃣ [ 다중 수준 색인 (Multilevel Scheme 피라미드 조직도 렌더 결착) ]           |
+  |                        [[ 최상위 인덱스 (대빵 1단계 블록) ]]                    |
+  |                        /            |             \                             |
+  |           (그 밑 부하 수첩 타격)  (부하 수첩)          (부하 수첩)              |
+  |           [[2단계 인덱스 1호]]   [[2단계 인덱스 2호]]   [[2단계 인덱스 3호]]    |
+  |            /  |  |  \                / | | \                                    |
+  |     (실제 철판 물리 우주 데이터 블록 10만 개가 와라락 매달려 팽창 복사 생성!)   |
+  |                                                                                 |
+  +---------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 1️⃣ 연결 색인은 이전 장에서 배운 [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 징검다리와 똑같이 생겼다. 그저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 잇는 게 아니라, **"주소가 적힌 장부들끼리 기차 꼬리 잇기를 했다"** 는 점만 다르다. 즉, 구현은 쉬우나 "저기 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 500번째 장부를 펴라 점프!" 할 때 1번 장부부터 계속 다음장 다음장.. 을 500번 밟고 거쳐 가야 하는 순차 탐색 오버헤드 최악 속도 늪 기전을 물려받았다. 하단의 2️⃣ 다중 수준 색인은 DB의 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 족보 트리와 일치한다. 맨 꼭대기 Root 장부를 읽어 0.1초 만에 "[Ah](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/), 네가 찾는 주소는 오른쪽 3번째 브랜치(Branch 하위 블록)에 있구나 스왑 타격!" 하고 트리 가지를 타고 다이렉트로 $O(\log N)$ 속도 만에 지수 뻥튀기 공간으로 다이브(Random Access 직접 타격 무결 보장) 꽂을 수 있는 완벽한 클라우드 확장 통달 뼈대인 셈이다.
@@ -153,12 +153,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [색인 할당 (Indexed Allocation)]
-    │
-    ▼
+    |
+    v
 [색인 블록 크기 한계 해결]
-    │
-    ├──▶ [유닉스 i-node (Index Node) 매커니즘]
-    └──▶ [i-node 직접 블록 (Direct Blocks)]
+    |
+    +---> [유닉스 i-node (Index Node) 매커니즘]
+    +---> [i-node 직접 블록 (Direct Blocks)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -175,7 +175,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 527 / 800
 
-← **이전**: [526. 색인 할당 (Indexed Allocation) - 모든 블록 포인터를 색인 블록(Index Block) 하나에 모아 저장](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/)
-**다음**: [528. 유닉스 i-node (Index Node) 매커니즘 - 파일 메타데이터 및 다중 접근 포인터 보유](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) →
+<- **이전**: [526. 색인 할당 (Indexed Allocation) - 모든 블록 포인터를 색인 블록(Index Block) 하나에 모아 저장](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/)
+**다음**: [528. 유닉스 i-node (Index Node) 매커니즘 - 파일 메타데이터 및 다중 접근 포인터 보유](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) ->
 
 ---

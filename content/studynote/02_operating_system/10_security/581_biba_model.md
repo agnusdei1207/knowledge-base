@@ -147,12 +147,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [벨-라파둘라 모델 (Bell-LaPadula)]
-    │
-    ▼
+    |
+    v
 [비바 모델 (Biba Model)]
-    │
-    ├──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-    └──▶ [SELinux]
+    |
+    +---> [리눅스 보안 모듈 (LSM, Linux Security Modules)]
+    +---> [SELinux]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -173,7 +173,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 581 / 800
 
-← **이전**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)
-**다음**: [582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조](/knowledge-base/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/) →
+<- **이전**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)
+**다음**: [582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조](/knowledge-base/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/) ->
 
 ---

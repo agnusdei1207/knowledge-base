@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ▼
+    |
+    v
 [포트 번호]
-    │
-    └──▶ [Well-Known 포트, Registere…]
+    |
+    +---> [Well-Known 포트, Registere…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호는 하나의 라디오 기기(IP) 안에서 방송국을 구별하는 </strong>"FM 주파수 채널"**입니다. 내 컴퓨터는 80번 주파수로는 웹서버 방송을 내보내고, 21번 주파수로는 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방송을 내보내어, 시청자(클라이언트)가 다이얼만 돌리면 원하는 서비스를 골라 들을 수 있게 해줍니다.
@@ -57,22 +57,22 @@ tags = ["studynote-network"]
   - 출발지는 `80`, 목적지는 내 PC의 `54321`이 되어 패킷이 날아오고, 내 윈도우는 "아! 54321번? 이거 아까 크롬 첫 번째 탭이 요청한 거네!"라며 정확히 그 탭에 사진을 띄워준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                명령 프롬프트(CMD) `netstat`을 통한 포트 확인      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\> netstat -ano                                         │
- │                                                             │
- │   프로토콜  로컬 주소(나)           외부 주소(서버)         상태       │
- │   TCP    192.168.0.5:51234   223.130.200.10:443   ESTABLISHED │
- │   TCP    192.168.0.5:51235   142.250.190.14:80    ESTABLISHED │
- │   TCP    0.0.0.0:3389        0.0.0.0:*            LISTENING   │
- │                                                             │
- │   * 51234, 51235: 내 크롬이 임시로 발급받은 출발지 포트 번호들.     │
- │   * 443(HTTPS), 80(HTTP): 내가 접속한 네이버, 구글의 목적지 포트.   │
- │   * LISTENING: 내 PC가 3389번(원격 데스크톱) 포트 문을 열어놓고     │
- │               누군가 밖에서 접속해 오기를 귀를 열고 기다리는 상태! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                명령 프롬프트(CMD) `netstat`을 통한 포트 확인      |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   C:\> netstat -ano                                         |
+ |                                                             |
+ |   프로토콜  로컬 주소(나)           외부 주소(서버)         상태       |
+ |   TCP    192.168.0.5:51234   223.130.200.10:443   ESTABLISHED |
+ |   TCP    192.168.0.5:51235   142.250.190.14:80    ESTABLISHED |
+ |   TCP    0.0.0.0:3389        0.0.0.0:*            LISTENING   |
+ |                                                             |
+ |   * 51234, 51235: 내 크롬이 임시로 발급받은 출발지 포트 번호들.     |
+ |   * 443(HTTPS), 80(HTTP): 내가 접속한 네이버, 구글의 목적지 포트.   |
+ |   * LISTENING: 내 PC가 3389번(원격 데스크톱) 포트 문을 열어놓고     |
+ |               누군가 밖에서 접속해 오기를 귀를 열고 기다리는 상태! |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))의 알파와 오메가
@@ -139,12 +139,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 포트 번호]
-    │
-    ├──▶ [확장 A: Well-Known 포트, Registere…]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: Well-Known 포트, Registere…]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…에서 출발해 현재 메커니즘을 정교화하고, 이후 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 523 / 1120
 
-← **이전**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)
-**다음**: [403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)](/knowledge-base/studynote/03_network/08_transport_layer/403_port_categories_well_known_registered_dynamic/) →
+<- **이전**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)
+**다음**: [403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)](/knowledge-base/studynote/03_network/08_transport_layer/403_port_categories_well_known_registered_dynamic/) ->
 
 ---

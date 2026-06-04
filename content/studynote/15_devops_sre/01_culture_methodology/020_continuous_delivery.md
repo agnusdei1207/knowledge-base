@@ -31,16 +31,16 @@ tags = ["devops_sre"]
 이 도식은 코드 커밋 이후의 밸류 스트림(Value Stream)에서 인간 개입에 의한 병목(Waiting Time)이 어떻게 제거되는지를 보여준다.
 
 [과거: 배포 스크립트 수동 실행 (장애 유발)]
-CI(빌드 완료) ──> [운영자 이메일 수신] ──(주말 대기)──> [새벽 SSH 접속 및 명령어 타이핑] ──> 💥 (설정 누락 장애)
-                   ▲ 인간 개입 (병목, 에러)
+CI(빌드 완료) --> [운영자 이메일 수신] --(주말 대기)--> [새벽 SSH 접속 및 명령어 타이핑] --> 💥 (설정 누락 장애)
+                   ^ 인간 개입 (병목, 에러)
 
 [현대: 지속적 전달 (Continuous Delivery) 파이프라인]
-CI(빌드 완료) ──> [Image Registry 업로드] ──> [Staging 자동 배포 및 E2E 테스트]
-                                                            │
-                                  ✅ (테스트 통과) ─────────┘
-                                  │
-                  [Manual Approval Gate (Slack 알람/승인)] ──> [Prod 무중단 배포]
-                                  ▲ 비즈니스적 결정만 남음
+CI(빌드 완료) --> [Image Registry 업로드] --> [Staging 자동 배포 및 E2E 테스트]
+                                                            |
+                                  ✅ (테스트 통과) ---------+
+                                  |
+                  [Manual Approval Gate (Slack 알람/승인)] --> [Prod 무중단 배포]
+                                  ^ 비즈니스적 결정만 남음
 ```
 
 이 흐름의 핵심은 '배포의 기술적 준비'와 '배포의 비즈니스적 의사결정'을 분리(Decoupling)한다는 점이다. 개발과 테스트가 끝났다고 마케팅 이벤트도 안 했는데 상용에 즉시 오픈할 수는 없다. CD는 시스템이 항상 배포 가능한(Always Deployable) 상태로 대기하게 만들고, 버튼 한 번만 누르면 수 초 내에 동일한 자동화 로직으로 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)를 보장한다.
@@ -66,20 +66,20 @@ CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/1
 ```text
 이 도식은 외부 파이프라인(Jenkins)이 클러스터에 직접 푸시하지 않고, 클러스터 내부의 에이전트(ArgoCD)가 Git의 매니페스트 변화를 스스로 감지하여 동기화하는 가장 안전한 CD 구조를 나타낸다.
 
-┌─────── CI Pipeline ────────┐            ┌─────── Git Repository ────────┐
-│ 1. 코드 빌드/테스트        │            │ [ Manifest Repo (YAML) ]      │
-│ 2. Docker Image Push       │ ──(Update) │ image: myapp:v2.0 (태그 수정) │
-│ 3. 매니페스트 Git Repo 수정│            └───────┬───────────────────────┘
-└────────────────────────────┘                    │ (3) Pull & Sync
-                                                  ↓
-                                 ┌──────── K8s Cluster (Prod) ──────────┐
-  (외부망에서 내부망으로의       │  ┌── CD Controller (ArgoCD) ──────┐  │
-   방화벽 오픈 불필요 - 보안성)  │  │ 1. Git과 Cluster 상태 차이 감지│  │
-                                 │  │ 2. K8s API 서버에 v2.0 배포 지시│ │
-                                 │  └─────────────┬──────────────────┘  │
-                                 │                ↓                     │
-                                 │      [ Web App Pods (v2.0) ]         │
-                                 └──────────────────────────────────────┘
++------- CI Pipeline --------+            +------- Git Repository --------+
+| 1. 코드 빌드/테스트        |            | [ Manifest Repo (YAML) ]      |
+| 2. Docker Image Push       | --(Update) | image: myapp:v2.0 (태그 수정) |
+| 3. 매니페스트 Git Repo 수정|            +-------+-----------------------+
++----------------------------+                    | (3) Pull & Sync
+                                                  v
+                                 +-------- K8s Cluster (Prod) ----------+
+  (외부망에서 내부망으로의       |  +-- CD Controller (ArgoCD) ------+  |
+   방화벽 오픈 불필요 - 보안성)  |  | 1. Git과 Cluster 상태 차이 감지|  |
+                                 |  | 2. K8s API 서버에 v2.0 배포 지시| |
+                                 |  +-------------+------------------+  |
+                                 |                v                     |
+                                 |      [ Web App Pods (v2.0) ]         |
+                                 +--------------------------------------+
 ```
 
 이 구조의 핵심은 단일 진실 공급원([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))을 오직 Git으로 한정하는 것이다. 전통적인 푸시(Push) 방식에서는 해커가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버를 탈취하면 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)에 저장된 클러스터 접속 키(Kubeconfig)를 이용해 전체 운영망을 날려버릴 수 있었다. 반면 풀(Pull) 기반 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 방식에서는 클러스터 내부의 에이전트만 Git을 읽기 모드로 당겨오므로(Pull), 크리덴셜([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보)이 클러스터 밖으로 절대 유출되지 않아 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) 원칙을 완벽히 준수한다.
@@ -130,15 +130,15 @@ CD 영역에서는 딜리버리(Delivery)와 [디플로이먼트](/knowledge-bas
 아래 다이어그램은 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 위한 세 가지 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 트레이드오프를 비교한다.
 
 ```text
-┌──────────┬───────────────────────┬─────────────────────────┬──────────────────────┐
-│ 배포 전략│ 롤링 (Rolling Update) │ 블루/그린 (Blue/Green)  │ 카나리 (Canary)      │
-├──────────┼───────────────────────┼─────────────────────────┼──────────────────────┤
-│ 라우팅   │ 1대씩 순차 교체       │ 전면 스위칭 (100% 이동) │ 1% -> 10% 점진 확대  │
-│ 롤백 속도│ 매우 느림             │ 1초 (즉시 라우팅 원복)  │ 1초 (에러 감지 자동) │
-│ 자원 요구│ 110% (여유분만 필요)  │ 200% (동일 환경 2벌 필요)│ 110%                 │
-│ 단점     │ 구/신버전 혼재로 DB   │ 클라우드 비용(Cost) 2배 │ 복잡한 모니터링 메트릭│
-│          │ 하위호환성 필수       │ 일시적 낭비 발생        │ 임계치 튜닝 필요     │
-└──────────┴───────────────────────┴─────────────────────────┴──────────────────────┘
++----------+-----------------------+-------------------------+----------------------+
+| 배포 전략| 롤링 (Rolling Update) | 블루/그린 (Blue/Green)  | 카나리 (Canary)      |
++----------+-----------------------+-------------------------+----------------------+
+| 라우팅   | 1대씩 순차 교체       | 전면 스위칭 (100% 이동) | 1% -> 10% 점진 확대  |
+| 롤백 속도| 매우 느림             | 1초 (즉시 라우팅 원복)  | 1초 (에러 감지 자동) |
+| 자원 요구| 110% (여유분만 필요)  | 200% (동일 환경 2벌 필요)| 110%                 |
+| 단점     | 구/신버전 혼재로 DB   | 클라우드 비용(Cost) 2배 | 복잡한 모니터링 메트릭|
+|          | 하위호환성 필수       | 일시적 낭비 발생        | 임계치 튜닝 필요     |
++----------+-----------------------+-------------------------+----------------------+
 ```
 
 이 매트릭스에서 알 수 있듯, 비용과 안전성은 정비례하지 않는다. 최근 대규모 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 하드웨어를 2배로 유지해야 하는 블루/그린의 재무적 압박([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 이슈)을 피하기 위해, [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 같은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))를 활용하여 트래픽의 단 1%만 신버전으로 흘려보내고 에러율 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(5xx)을 실시간 관측하여 이상이 없으면 100%로 점진 오픈하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong>가 SRE의 가장 이상적인 표준으로 자리매김했다.
@@ -165,19 +165,19 @@ CD 영역에서는 딜리버리(Delivery)와 [디플로이먼트](/knowledge-bas
 이 도식은 배포 후 카나리 분석기(Spinnaker Kayenta 등)가 실시간 메트릭을 평가하여 배포를 승격(Promote)시킬지 롤백할지 자동 판단하는 흐름이다.
 
 [ CD Pipeline: 카나리 파드 생성 (트래픽 5% 할당) ]
-   │
-   ├─ [5분간 관측 (Prometheus Metics)]
-   │       ↓
-   ├─ Q1. HTTP 5xx 에러율이 이전 버전(Baseline) 대비 증가했는가?
-   │   ├─ Yes ──> ❌ 카나리 파괴 및 자동 롤백 (안전망 가동)
-   │   └─ No ───> ↓
-   │
-   ├─ Q2. P99 Latency(응답 지연 시간)가 임계치(예: 500ms)를 초과했는가?
-   │   ├─ Yes ──> ❌ 메모리 병목 의심, 자동 롤백 및 슬랙 경보
-   │   └─ No ───> ↓
-   │
-   └─ ✅ 통계적 검증 통과 (Confidence Score 95%+)
-          ↓
+   |
+   +- [5분간 관측 (Prometheus Metics)]
+   |       v
+   +- Q1. HTTP 5xx 에러율이 이전 버전(Baseline) 대비 증가했는가?
+   |   +- Yes --> ❌ 카나리 파괴 및 자동 롤백 (안전망 가동)
+   |   +- No ---> v
+   |
+   +- Q2. P99 Latency(응답 지연 시간)가 임계치(예: 500ms)를 초과했는가?
+   |   +- Yes --> ❌ 메모리 병목 의심, 자동 롤백 및 슬랙 경보
+   |   +- No ---> v
+   |
+   +- ✅ 통계적 검증 통과 (Confidence Score 95%+)
+          v
    [ 트래픽 100% 점진 전환 및 구버전 파드 삭제 (Success) ]
 ```
 
@@ -214,17 +214,17 @@ CD 영역에서는 딜리버리(Delivery)와 [디플로이먼트](/knowledge-bas
 
 ```text
 [CI (Continuous Integration) — 자동 빌드·테스트·아티팩트 생성]
-    │
-    ▼
+    |
+    v
 [CD (Continuous Delivery) — 배포 가능 상태 유지, 수동 최종 승인]
-    │
-    ▼
+    |
+    v
 [CD (Continuous Deployment) — 승인 없이 운영 자동 배포]
-    │
-    ▼
+    |
+    v
 [GitOps (ArgoCD / Flux) — Git을 단일 진실 원천으로 선언적 클러스터 동기화]
-    │
-    ▼
+    |
+    v
 [DORA Metrics — 배포 빈도·변경 리드 타임·실패율·복구 시간으로 성과 측정]
 ```
 CI로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 CD(Delivery/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))로 자동화하고, GitOps로 선언적 관리를 구현한 뒤 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics로 조직의 배포 역량을 측정한다.
@@ -240,7 +240,7 @@ CI로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_orien
 
 **진행 상황**: 20 / 373
 
-← **이전**: [19. 지속적 통합 (CI, Continuous Integration) - 다수 개발자의 코드를 메인 브랜치에 수시로 병합하고 자동 빌드/테스트를](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)
-**다음**: [21. 지속적 배포 (CD, Continuous Deployment) - 수동 승인조차 생략하고 테스트를 통과한 모든 코드를 프로덕션](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/021_continuous_deployment_cd/) →
+<- **이전**: [19. 지속적 통합 (CI, Continuous Integration) - 다수 개발자의 코드를 메인 브랜치에 수시로 병합하고 자동 빌드/테스트를](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)
+**다음**: [21. 지속적 배포 (CD, Continuous Deployment) - 수동 승인조차 생략하고 테스트를 통과한 모든 코드를 프로덕션](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/021_continuous_deployment_cd/) ->
 
 ---

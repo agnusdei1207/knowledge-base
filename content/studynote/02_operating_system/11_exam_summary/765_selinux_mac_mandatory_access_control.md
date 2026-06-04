@@ -35,32 +35,32 @@ tags = ["studynote-operating-system"]
   - 2000년대 초반, 미국 정부([NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/))가 국가 기밀 시스템을 리눅스로 구축하려다 "Root가 너무 위험하다"며 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 강력한 통제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 붙여서 오픈소스로 기증한 것이 SELinux다. (이후 Red Hat/CentOS 진영의 표준이 됨).
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 DAC (기존) vs MAC (SELinux) 방어 구조 비교           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 해커 침투: 웹 서버(Nginx)의 RCE(원격 코드 실행) 취약점 악용 ]           │
-  │                                                             │
-  │  [ 1. 기존 Linux (DAC 환경) ]                                  │
-  │   해커 ──▶ Nginx 장악 ──▶ `/etc/passwd` 읽기 시도                  │
-  │            (www-data 권한)   │                               │
-  │                            ▼                               │
-  │                     [ DAC 권한 검사 ] - 성공! (Others 읽기 가능)│
-  │                            ▼                               │
-  │                     🚨 해커가 비밀번호 파일 탈취 (해킹 성공)         │
-  │                                                             │
-  │  [ 2. SELinux (MAC 환경) ]                                    │
-  │   해커 ──▶ Nginx 장악 ──▶ `/etc/passwd` 읽기 시도                  │
-  │        (httpd_t 라벨)        │   (passwd_file_t 라벨)        │
-  │                            ▼                               │
-  │                     [ DAC 권한 검사 ] - 통과                    │
-  │                            ▼                               │
-  │                  🛡️ [ SELinux 정책 검사 ]                      │
-  │           "웹 서버(httpd_t)가 비밀번호 파일(passwd_file_t)을    │
-  │            읽어도 된다는 정책(Policy)이 등록되어 있는가?"          │
-  │                            ▼                               │
-  │            NO! (차단됨) ──▶ ⛔ 권한 거부 (Permission Denied)     │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 DAC (기존) vs MAC (SELinux) 방어 구조 비교           |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 해커 침투: 웹 서버(Nginx)의 RCE(원격 코드 실행) 취약점 악용 ]           |
+  |                                                             |
+  |  [ 1. 기존 Linux (DAC 환경) ]                                  |
+  |   해커 ---> Nginx 장악 ---> `/etc/passwd` 읽기 시도                  |
+  |            (www-data 권한)   |                               |
+  |                            v                               |
+  |                     [ DAC 권한 검사 ] - 성공! (Others 읽기 가능)|
+  |                            v                               |
+  |                     🚨 해커가 비밀번호 파일 탈취 (해킹 성공)         |
+  |                                                             |
+  |  [ 2. SELinux (MAC 환경) ]                                    |
+  |   해커 ---> Nginx 장악 ---> `/etc/passwd` 읽기 시도                  |
+  |        (httpd_t 라벨)        |   (passwd_file_t 라벨)        |
+  |                            v                               |
+  |                     [ DAC 권한 검사 ] - 통과                    |
+  |                            v                               |
+  |                  🛡️ [ SELinux 정책 검사 ]                      |
+  |           "웹 서버(httpd_t)가 비밀번호 파일(passwd_file_t)을    |
+  |            읽어도 된다는 정책(Policy)이 등록되어 있는가?"          |
+  |                            v                               |
+  |            NO! (차단됨) ---> ⛔ 권한 거부 (Permission Denied)     |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 바로 "강제(Mandatory)"라는 단어의 위력이다. 위 그림에서 `/etc/passwd` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 기본적으로 누구나 읽을 수 있게(`-rw-r--r--`) 되어 있어서 1차 관문(DAC)은 쉽게 통과한다. 하지만 SELinux는 2차 관문으로 동작한다. Nginx 프로세스의 이마에 붙은 부적(`httpd_t`)과 타겟 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 부적(`passwd_file_t`)을 비교하여, "웹 서버가 왜 비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 건드려?"라며 차단해 버린다. 해커가 웹 서버를 완전히 장악했음에도 불구하고, 그 웹 서버라는 감옥(Sandbox) 안에서 한 발자국도 밖으로 나갈 수 없게 되는 것이다.
@@ -89,35 +89,35 @@ SELinux는 시스템의 모든 요소에 `User:Role:Type:Level` 형식의 긴 �
 SELinux는 독자적으로 돌지 않고, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 보안 프레임워크인 <strong>LSM (Linux <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Modules)</strong> 위에서 훅(Hook)으로 동작한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 LSM(Linux Security Modules) 기반 SELinux 동작 흐름    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   App의 `open("/var/www/index.html")` 시스템 콜 호출                │
-  │                 │                                                 │
-  │                 ▼                                                 │
-  │   [ 리눅스 VFS (가상 파일 시스템) 계층 ]                              │
-  │   1. DAC 검사 (rwxr-xr-x 검사) ────▶ 실패 시 즉시 EACCES 에러 반환      │
-  │                 │ (통과)                                            │
-  │                 ▼                                                 │
-  │   2. LSM Hook 호출 (`security_inode_permission()`)                │
-  │                 │                                                 │
-  │                 ▼                                                 │
-  │   [ SELinux 엔진 (AVC - Access Vector Cache) ]                     │
-  │   - 주체: 프로세스의 보안 라벨 (`httpd_t`) 확인                        │
-  │   - 객체: 파일의 보안 라벨 (`httpd_sys_content_t`) 확인                │
-  │   - 판단: "이 조합에 대한 Allow 규칙이 있는가?"                          │
-  │                 │                                                 │
-  │      결과 캐시 히트? ──(YES)──▶ 즉시 허용/차단 결과 반환                  │
-  │                 │ (NO)                                            │
-  │                 ▼                                                 │
-  │   [ SELinux 보안 서버 (Security Server) ]                         │
-  │   - 메모리에 로드된 수만 줄의 거대한 정책(Policy) 데이터베이스 풀스캔       │
-  │   - `allow httpd_t httpd_sys_content_t : file { read };` 룰 확인   │
-  │                 │                                                 │
-  │                 ▼                                                 │
-  │   3. VFS로 결과 반환 ──▶ 최종 하드웨어 디스크 접근 승인/거부                │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 LSM(Linux Security Modules) 기반 SELinux 동작 흐름    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   App의 `open("/var/www/index.html")` 시스템 콜 호출                |
+  |                 |                                                 |
+  |                 v                                                 |
+  |   [ 리눅스 VFS (가상 파일 시스템) 계층 ]                              |
+  |   1. DAC 검사 (rwxr-xr-x 검사) -----> 실패 시 즉시 EACCES 에러 반환      |
+  |                 | (통과)                                            |
+  |                 v                                                 |
+  |   2. LSM Hook 호출 (`security_inode_permission()`)                |
+  |                 |                                                 |
+  |                 v                                                 |
+  |   [ SELinux 엔진 (AVC - Access Vector Cache) ]                     |
+  |   - 주체: 프로세스의 보안 라벨 (`httpd_t`) 확인                        |
+  |   - 객체: 파일의 보안 라벨 (`httpd_sys_content_t`) 확인                |
+  |   - 판단: "이 조합에 대한 Allow 규칙이 있는가?"                          |
+  |                 |                                                 |
+  |      결과 캐시 히트? --(YES)---> 즉시 허용/차단 결과 반환                  |
+  |                 | (NO)                                            |
+  |                 v                                                 |
+  |   [ SELinux 보안 서버 (Security Server) ]                         |
+  |   - 메모리에 로드된 수만 줄의 거대한 정책(Policy) 데이터베이스 풀스캔       |
+  |   - `allow httpd_t httpd_sys_content_t : file { read };` 룰 확인   |
+  |                 |                                                 |
+  |                 v                                                 |
+  |   3. VFS로 결과 반환 ---> 최종 하드웨어 디스크 접근 승인/거부                |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** SELinux는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 목구멍(LSM)에 필터를 끼워 넣은 구조다. 일반 권한 검사(DAC)를 통과하더라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 진짜 디스크 드라이버를 부르기 직전 마지막 순간에 LSM 훅이 가로챈다. [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 엔진은 이 요청이 '[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)'에 어긋나는지 판단한다. 이때 수만 줄의 규칙을 매번 검색하면 서버가 엄청나게 느려질 것이므로, 한 번 판단한 결과는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 내의 <strong>AVC (Access Vector Cache)</strong>라는 고속 캐시에 저장해 두고 재사용한다. 덕분에 SELinux를 켜도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하는 1~2% 미만에 불과하다.
@@ -161,26 +161,26 @@ SELinux는 독자적으로 돌지 않고, 리눅스 [커널](/knowledge-base/stu
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> 복원)</strong>: 임시로 `chcon` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 써서 라벨을 바꿀 수 있지만, 재부팅하면 날아간다. 영구적인 조치를 위해 `semanage fcontext -a -t httpd_sys_content_t "/data/website(/.*)?"` 로 룰을 추가하고, `restorecon -Rv /data/website` 명령을 때려서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 정식으로 웹 서버용 바코드(라벨)를 찍어주어야 완벽히 해결된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SELinux 트러블슈팅의 정석 (아키텍트 행동 트리)             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 서비스가 원인 모를 권한 에러(Permission Denied)로 죽었다! ]            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      `getenforce` 명령어로 SELinux가 Enforcing(강제) 상태인지 확인        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      `setenforce 0` (Permissive 모드로 임시 전환) 후 서비스 다시 실행       │
-  │          ├─ 그래도 안 됨 ──▶ [ 일반 파일 권한(chmod)이나 오타 문제임 ]      │
-  │          │                                                        │
-  │          └─ 잘 됨! ─────▶ [ 🚨 SELinux 범인 확정. (setenforce 1 복구) ] │
-  │                │                                                  │
-  │                ▼ [해결 3단계 플랜]                                   │
-  │      1. `tail -f /var/log/audit/audit.log | grep denied` 확인     │
-  │      2. `audit2allow -w -a` 명령어로 커널이 추천하는 해결책(Boolean 등) 확인│
-  │      3. 추천된 `setsebool` 이나 `semanage fcontext` 적용하여 영구 해결     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SELinux 트러블슈팅의 정석 (아키텍트 행동 트리)             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 서비스가 원인 모를 권한 에러(Permission Denied)로 죽었다! ]            |
+  |                |                                                  |
+  |                v                                                  |
+  |      `getenforce` 명령어로 SELinux가 Enforcing(강제) 상태인지 확인        |
+  |                |                                                  |
+  |                v                                                  |
+  |      `setenforce 0` (Permissive 모드로 임시 전환) 후 서비스 다시 실행       |
+  |          +- 그래도 안 됨 ---> [ 일반 파일 권한(chmod)이나 오타 문제임 ]      |
+  |          |                                                        |
+  |          +- 잘 됨! ------> [ 🚨 SELinux 범인 확정. (setenforce 1 복구) ] |
+  |                |                                                  |
+  |                v [해결 3단계 플랜]                                   |
+  |      1. `tail -f /var/log/audit/audit.log | grep denied` 확인     |
+  |      2. `audit2allow -w -a` 명령어로 커널이 추천하는 해결책(Boolean 등) 확인|
+  |      3. 추천된 `setsebool` 이나 `semanage fcontext` 적용하여 영구 해결     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "SELinux를 끄세요"는 구글 검색에 가장 많이 나오는 엉터리 조언이다. 아키텍트라면 SELinux를 '디버깅 모드(Permissive)'로만 살짝 바꿔서 원인이 맞는지 확인한 후, 반드시 다시 켜고(Enforcing) 근본적인 라벨링 룰을 고쳐야 한다. 리눅스에는 `audit2allow`라는 천재적인 도구가 내장되어 있어서, 로그에 찍힌 에러를 분석하여 "이거 허용하려면 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 치면 돼"라고 정답(Rule)을 알려준다. 이를 적극 활용하는 것이 실무의 핵심이다.
@@ -229,12 +229,12 @@ SELinux는 독자적으로 돌지 않고, 리눅스 [커널](/knowledge-base/stu
 
 ```text
 [ASLR 메모리 레이아웃 난수화]
-    │
-    ▼
+    |
+    v
 [SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)]
-    │
-    ├──▶ [실시간 스케줄링 마감 시간 (Deadline)]
-    └──▶ [스핀락 멀티 프로세서 전용 활용]
+    |
+    +---> [실시간 스케줄링 마감 시간 (Deadline)]
+    +---> [스핀락 멀티 프로세서 전용 활용]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -251,7 +251,7 @@ SELinux는 독자적으로 돌지 않고, 리눅스 [커널](/knowledge-base/stu
 
 **진행 상황**: 765 / 800
 
-← **이전**: [764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/764_aslr_memory_layout_randomization/)
-**다음**: [766. 실시간 스케줄링 마감 시간 (Deadline)](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) →
+<- **이전**: [764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/764_aslr_memory_layout_randomization/)
+**다음**: [766. 실시간 스케줄링 마감 시간 (Deadline)](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) ->
 
 ---

@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. **MFU의 파멸**: 실제 프로그램은 특정 코드를 처음부터 끝까지 영원히 반복하는 성향(Locality)이 99%라는 진리가 밝혀지며 완벽한 흑역사로 전락함.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        MFU 알고리즘의 치명적 헛발질 (자해 공갈) 런타임 시각화         │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 상황: 램 프레임 3개 / 프로그램이 For 루프를 미친 듯이 도는 중 ]     │
-│                                                                       │
-│ ▶ 1. 램의 현재 상태 (Count 누적치)                                    │
-│   [ Page A (Count 5,000) ]: for문의 조건 변수 (i < 10000)             │
-│   [ Page B (Count 4,999) ]: for문 안의 핵심 덧셈 명령어               │
-│   [ Page C (Count 1)     ]: 방금 막 램에 올라온 에러 로깅 함수        │
-│                                                                       │
-│ ▶ 2. 램이 꽉 차서 쫓아낼 놈을 고를 때 (Page Fault 발생)               │
-│   OS의 MFU 판단: "어? Page A가 5천 번이나 불렸네? 이제 단물 다        │
-│                 빠졌을 테니 Page A 너 스왑으로 나가!"                 │
-│                                                                       │
-│ ▶ 3. 0.001초 뒤 참사 터짐                                             │
-│   CPU: "자 for문 다음 바퀴 돌자. 변수 i (Page A) 어딨어?"             │
-│   OS: "헐 방금 내가 버렸는데... 다시 디스크에서 가져올게 (8ms 렉)"    │
-│   가져온 Page A의 카운트는 다시 1로 리셋됨.                           │
-│   그다음 바퀴엔 카운트 4999인 Page B가 가장 높으니 B가 쫓겨남!        │
-│                                                                       │
-│ 💥 결론: 영원히 램에 박혀있어야 할 시스템의 척추(코어 변수)를         │
-│    가장 먼저 뽀개버리는 엽기적인 연쇄 스래싱(Thrashing) 자살극.       │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        MFU 알고리즘의 치명적 헛발질 (자해 공갈) 런타임 시각화         |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ 상황: 램 프레임 3개 / 프로그램이 For 루프를 미친 듯이 도는 중 ]     |
+|                                                                       |
+| -> 1. 램의 현재 상태 (Count 누적치)                                    |
+|   [ Page A (Count 5,000) ]: for문의 조건 변수 (i < 10000)             |
+|   [ Page B (Count 4,999) ]: for문 안의 핵심 덧셈 명령어               |
+|   [ Page C (Count 1)     ]: 방금 막 램에 올라온 에러 로깅 함수        |
+|                                                                       |
+| -> 2. 램이 꽉 차서 쫓아낼 놈을 고를 때 (Page Fault 발생)               |
+|   OS의 MFU 판단: "어? Page A가 5천 번이나 불렸네? 이제 단물 다        |
+|                 빠졌을 테니 Page A 너 스왑으로 나가!"                 |
+|                                                                       |
+| -> 3. 0.001초 뒤 참사 터짐                                             |
+|   CPU: "자 for문 다음 바퀴 돌자. 변수 i (Page A) 어딨어?"             |
+|   OS: "헐 방금 내가 버렸는데... 다시 디스크에서 가져올게 (8ms 렉)"    |
+|   가져온 Page A의 카운트는 다시 1로 리셋됨.                           |
+|   그다음 바퀴엔 카운트 4999인 Page B가 가장 높으니 B가 쫓겨남!        |
+|                                                                       |
+| 💥 결론: 영원히 램에 박혀있어야 할 시스템의 척추(코어 변수)를         |
+|    가장 먼저 뽀개버리는 엽기적인 연쇄 스래싱(Thrashing) 자살극.       |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** MFU의 논리적 전제는 "많이 쓰인 것은 과거의 유물이다"라는 것이다. 그러나 컴퓨터 과학의 제1법칙인 '[참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)([Locality of Reference](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))'은 "많이 쓰인 것은 미래에도 미친 듯이 쓰인다"고 말하고 있다. MFU는 이 우주 법칙을 정면으로 역행했기에, 시뮬레이션을 돌려보면 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)(무작위 쫓아내기)보다도 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 수십 배 더 터지는 압도적인 꼴찌 성적표를 받게 된다.
 
@@ -99,12 +99,12 @@ MFU는 LFU와 완벽하게 똑같이 램을 1바이트 읽을 때마다 [페이�
 **결과**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개발자와 CPU 칩셋 설계자가 합심하여 이 MFU [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 논문을 찢어버리고 교과서의 '잘못된 예시' 코너에 영구 박제해버렸다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 알고리즘   │ 신규 페이지 보호│ 코어 변수 보호 │ 최종 평가 (EAT) │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ LFU      │ ☠️ 보호 못 함 │ 🟢 철통 방어  │ 보통 (에이징 필요)   │
-│ MFU      │ 🟢 철통 방어  │ ☠️ 즉각 사살  │ 최악 (서버 파괴)     │
-└──────────┴────────────┴────────────┴────────────────────────────┘
++----------+------------+------------+----------------------------+
+| 알고리즘   | 신규 페이지 보호| 코어 변수 보호 | 최종 평가 (EAT) |
++----------+------------+------------+----------------------------+
+| LFU      | ☠️ 보호 못 함 | 🟢 철통 방어  | 보통 (에이징 필요)   |
+| MFU      | 🟢 철통 방어  | ☠️ 즉각 사살  | 최악 (서버 파괴)     |
++----------+------------+------------+----------------------------+
 ```
 **[매트릭스 해설]** LFU의 단점을 극복하기 위해 역발상을 한 것까지는 칭찬할 만하지만, 그 반대급부로 날아간 '코어 변수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)'의 가치가 너무나 우주적으로 거대했다. 컴퓨터는 신입사원(새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 챙기기 위해 사장님(코어 변수)을 해고하는 시스템을 결코 용납하지 않는다.
 
@@ -161,12 +161,12 @@ MFU (Most Frequently Used) [알고리즘](/knowledge-base/studynote/08_algorithm
 
 ```text
 [LFU (Least Frequently Used) 알고리즘]
-    │
-    ▼
+    |
+    v
 [MFU (Most Frequently Used) 알고리즘]
-    │
-    ├──▶ [에이징 (Aging) 기반 페이지 교체 로직]
-    └──▶ [스래싱 (Thrashing)]
+    |
+    +---> [에이징 (Aging) 기반 페이지 교체 로직]
+    +---> [스래싱 (Thrashing)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -183,7 +183,7 @@ MFU (Most Frequently Used) [알고리즘](/knowledge-base/studynote/08_algorithm
 
 **진행 상황**: 410 / 800
 
-← **이전**: [409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/409_lfu_algorithm/)
-**다음**: [411. 에이징 (Aging) 기반 페이지 교체 로직](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) →
+<- **이전**: [409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/409_lfu_algorithm/)
+**다음**: [411. 에이징 (Aging) 기반 페이지 교체 로직](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ->
 
 ---

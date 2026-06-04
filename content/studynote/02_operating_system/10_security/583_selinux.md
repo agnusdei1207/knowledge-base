@@ -138,12 +138,12 @@ SELinux은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overv
 
 ```text
 [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-    │
-    ▼
+    |
+    v
 [SELinux]
-    │
-    ├──▶ [AppArmor]
-    └──▶ [시스템 보안 위협 유형]
+    |
+    +---> [AppArmor]
+    +---> [시스템 보안 위협 유형]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -162,7 +162,7 @@ SELinux은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overv
 
 **진행 상황**: 583 / 800
 
-← **이전**: [582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조](/knowledge-base/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/)
-**다음**: [584. AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/) →
+<- **이전**: [582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조](/knowledge-base/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/)
+**다음**: [584. AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/) ->
 
 ---

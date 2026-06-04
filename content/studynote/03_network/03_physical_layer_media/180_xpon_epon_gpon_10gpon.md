@@ -25,14 +25,14 @@ xPON은 **"국사에서 가입자까지 광을 1:1로 전부 깔지 않고, 중�
 또한 가입자망은 백본보다 가입자 수가 훨씬 많아, "한 명당 얼마에 연결할 수 있는가"가 중요한 영역이다. PON은 이 마지막 구간에서 비용을 낮추면서도, 세대별 규격 교체로 1G급에서 10G급 이상으로 자연스럽게 발전할 수 있어 오늘날 광가입자망의 표준적 선택지가 되었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ 왜 PON이 필요한가                                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Point-to-Point FTTH : 가입자마다 전용 광 1쌍 필요                   │
-│ PON                : 국사에서 1가닥 -> 분배기 1:N -> 여러 가입자    │
-│                                                                    │
-│ 결과: 포트 수, 광섬유 수, 현장 전원 장비 수를 크게 줄일 수 있다.    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| 왜 PON이 필요한가                                                   |
++--------------------------------------------------------------------+
+| Point-to-Point FTTH : 가입자마다 전용 광 1쌍 필요                   |
+| PON                : 국사에서 1가닥 -> 분배기 1:N -> 여러 가입자    |
+|                                                                    |
+| 결과: 포트 수, 광섬유 수, 현장 전원 장비 수를 크게 줄일 수 있다.    |
++--------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: xPON은 아파트마다 개인 전용 수도관을 따로 묻는 대신, 굵은 본관에서 수동 분배기를 써 여러 세대로 나누는 방식과 같다. 물줄기를 나누는 장치가 전기를 먹지 않으니 관리가 훨씬 단순해진다.
@@ -54,20 +54,20 @@ PON의 핵심 구성은 국사 측 OLT, 중간의 ODN (Optical Distribution Netw
 아래 그림은 PON의 공유 구조와 상향/하향 동작을 한눈에 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PON shared access architecture                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ [ OLT ]                                                            │
-│    │ feeder fiber                                                   │
-│    ▼                                                                │
-│ [ Passive Splitter 1:N ]                                            │
-│   ├────────▶ [ ONU/ONT #1 ]                                         │
-│   ├────────▶ [ ONU/ONT #2 ]                                         │
-│   └────────▶ [ ONU/ONT #N ]                                         │
-│                                                                    │
-│ Downstream : OLT가 모두에게 전송 -> 각 ONU가 자기 프레임만 수신     │
-│ Upstream   : ONU들이 시간 슬롯을 나눠 전송 -> OLT가 취합            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| PON shared access architecture                                      |
++--------------------------------------------------------------------+
+| [ OLT ]                                                            |
+|    | feeder fiber                                                   |
+|    v                                                                |
+| [ Passive Splitter 1:N ]                                            |
+|   +---------> [ ONU/ONT #1 ]                                         |
+|   +---------> [ ONU/ONT #2 ]                                         |
+|   +---------> [ ONU/ONT #N ]                                         |
+|                                                                    |
+| Downstream : OLT가 모두에게 전송 -> 각 ONU가 자기 프레임만 수신     |
+| Upstream   : ONU들이 시간 슬롯을 나눠 전송 -> OLT가 취합            |
++--------------------------------------------------------------------+
 ```
 
 실제 품질은 단순 선로 속도보다 <strong>분기비와 광예산</strong>에 크게 좌우된다. 분기비를 크게 잡으면 한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)당 더 많은 가입자를 붙일 수 있지만, 스플리터 손실이 커져 도달 거리와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 여유가 줄어든다. 또한 상향은 공유 매체이므로, "10G-PON이면 모든 가입자가 항상 10Gbps를 쓴다"가 아니라 <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>적으로 배분한다</strong>는 관점으로 이해해야 정확하다.
@@ -114,17 +114,17 @@ GPON  -> 멀티서비스와 사업자 운용성
 4. **분기비와 거리에서 광예산이 충분한가?** 고속 규격을 도입해도 광손실이 맞지 않으면 품질이 불안정해진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ xPON selection flow                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ need low-cost shared FTTH?                                          │
-│   ├─ no  -> point-to-point fiber or active Ethernet                 │
-│   └─ yes                                                            │
-│        ├─ existing GPON ODN reuse is critical? -> 10G-PON          │
-│        ├─ simple Ethernet operations matter? -> EPON               │
-│        ├─ carrier-grade multi-service control? -> GPON             │
-│        └─ high symmetric bandwidth needed? -> XGS-PON              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| xPON selection flow                                                 |
++--------------------------------------------------------------------+
+| need low-cost shared FTTH?                                          |
+|   +- no  -> point-to-point fiber or active Ethernet                 |
+|   +- yes                                                            |
+|        +- existing GPON ODN reuse is critical? -> 10G-PON          |
+|        +- simple Ethernet operations matter? -> EPON               |
+|        +- carrier-grade multi-service control? -> GPON             |
+|        +- high symmetric bandwidth needed? -> XGS-PON              |
++--------------------------------------------------------------------+
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -168,13 +168,13 @@ xPON의 가장 큰 효과는 **광가입자망의 단가를 낮추면서도 세�
 
 ```text
 점대점 FTTH 비용 부담
-        │
-        ▼
+        |
+        v
 PON (Passive Optical Network) 수동 분기
-        │
-        ├──────────────▶ EPON (Ethernet 중심)
-        ├──────────────▶ GPON (사업자 멀티서비스)
-        └──────────────▶ 10G-PON / XGS-PON (고속화·공존)
+        |
+        +---------------> EPON (Ethernet 중심)
+        +---------------> GPON (사업자 멀티서비스)
+        +---------------> 10G-PON / XGS-PON (고속화·공존)
 ```
 
 이 흐름도는 가입자망에서 비용 절감을 위해 수동 분기 구조가 도입되고, 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요구에 따라 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심과 사업자 중심, 그리고 10G급 고속화 계열로 발전한 흐름을 보여 준다.
@@ -191,7 +191,7 @@ PON (Passive Optical Network) 수동 분기
 
 **진행 상황**: 301 / 1120
 
-← **이전**: [179. 전력선 통신 (PLC, Power Line Communication)](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/)
-**다음**: [181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/) →
+<- **이전**: [179. 전력선 통신 (PLC, Power Line Communication)](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/)
+**다음**: [181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/181_data_link_layer_roles/) ->
 
 ---

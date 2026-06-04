@@ -37,17 +37,17 @@ tags = ["studynote-ai"]
 | **추론 (Inference)** | 모든 뉴런 100% 활성화 (Drop 없음) | $y = f(pW \cdot x)$ ([스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 보정) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           드롭아웃 동작 방식: 훈련 시 랜덤 셧다운          │
-├──────────────────────────────────────────────────────────────┤
-│ [일반 신경망]              [드롭아웃 적용 훈련 (p=0.5)]      │
-│  ○ ─ ○ ─ ○                 ○ ─ Ｘ ─ ○ (활성)           │
-│  │ ╳ │ ╳ │                 │   │ ╳ │                 │
-│  ○ ─ ○ ─ ○      ====>      Ｘ ─ ○ ─ Ｘ (기절)           │
-│  │ ╳ │ ╳ │                 │ ╳ │   │                 │
-│  ○ ─ ○ ─ ○                 ○ ─ ○ ─ ○ (활성)           │
-│ (모두 연결됨)              (랜덤하게 끊어진 연결망)          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           드롭아웃 동작 방식: 훈련 시 랜덤 셧다운          |
++--------------------------------------------------------------+
+| [일반 신경망]              [드롭아웃 적용 훈련 (p=0.5)]      |
+|  ○ - ○ - ○                 ○ - Ｘ - ○ (활성)           |
+|  | ╳ | ╳ |                 |   | ╳ |                 |
+|  ○ - ○ - ○      ====>      Ｘ - ○ - Ｘ (기절)           |
+|  | ╳ | ╳ |                 | ╳ |   |                 |
+|  ○ - ○ - ○                 ○ - ○ - ○ (활성)           |
+| (모두 연결됨)              (랜덤하게 끊어진 연결망)          |
++--------------------------------------------------------------+
 ```
 
 추론 시에는 모든 뉴런을 사용하므로, 훈련 때보다 출력값이 $1/p$배 커지게 된다. 따라서 실전에서는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 $p$를 곱해주는 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Scaling)을 수행하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 크기를 균일하게 맞춘다.
@@ -111,17 +111,17 @@ tags = ["studynote-ai"]
 
 ```text
 과적합 (Overfitting) 발생
-    │
-    ▼
+    |
+    v
 L1/L2 정규화 (Regularization) · 조기 종료 (Early Stopping)
-    │
-    ▼
+    |
+    v
 드롭아웃 (Dropout) 도입 (무작위 뉴런 비활성화)
-    │
-    ▼
+    |
+    v
 공간 드롭아웃 (Spatial Dropout) · 드롭커넥트 (DropConnect)
-    │
-    ▼
+    |
+    v
 확률적 깊이 (Stochastic Depth) · 활성 정규화 진화
 ```
 
@@ -139,7 +139,7 @@ L1/L2 정규화 (Regularization) · 조기 종료 (Early Stopping)
 
 **진행 상황**: 92 / 420
 
-← **이전**: [91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)
-**다음**: [93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍](/knowledge-base/studynote/10_ai/01_ai_basics/093_early_stopping_overfitting_validation_loss/) →
+<- **이전**: [91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)
+**다음**: [93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍](/knowledge-base/studynote/10_ai/01_ai_basics/093_early_stopping_overfitting_validation_loss/) ->
 
 ---

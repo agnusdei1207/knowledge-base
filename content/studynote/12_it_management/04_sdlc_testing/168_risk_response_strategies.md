@@ -26,15 +26,15 @@ tags = ["studynote-it-management"]
 아래 그림은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이 왜 별도 의사결정 단계로 필요한지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          리스크 관리에서 '대응'이 필요한 이유                │
-├──────────────────────────────────────────────────────────────┤
-│ 식별만 한 상태 : "이런 위험이 있다"                         │
-│ 대응까지 한 상태 : "누가, 언제, 무엇으로 막을지 정했다"      │
-│                                                              │
-│ 리스크 미대응 ──▶ 발생 시 즉흥 대응 ──▶ 일정·비용 충격 확대    │
-│ 리스크 대응 ──▶ 사전 준비 ──▶ 충격 완화 또는 기회 확대         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          리스크 관리에서 '대응'이 필요한 이유                |
++--------------------------------------------------------------+
+| 식별만 한 상태 : "이런 위험이 있다"                         |
+| 대응까지 한 상태 : "누가, 언제, 무엇으로 막을지 정했다"      |
+|                                                              |
+| 리스크 미대응 ---> 발생 시 즉흥 대응 ---> 일정·비용 충격 확대    |
+| 리스크 대응 ---> 사전 준비 ---> 충격 완화 또는 기회 확대         |
++--------------------------------------------------------------+
 ```
 
 또한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 부정적 사건인 위협 (Threat)만이 아니라 긍정적 사건인 기회 (Opportunity)도 포함한다. 그래서 좋은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리는 "문제를 막는 기술"이면서 동시에 "유리한 가능성을 의도적으로 키우는 기술"이기도 하다.
@@ -45,22 +45,22 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응은 보통 `식별 → 분석 → 전략 선택 → 실행계획 → 모니터링` 흐름으로 운영된다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 기준은 네 가지다. 첫째, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수 있는가. 둘째, 제3자가 더 잘 감당할 수 있는가. 셋째, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 영향을 줄일 수 있는가. 넷째, 대응 비용보다 감수 비용이 더 작은가. 이 기준에 따라 위협에는 회피·전가·완화·수용을, 기회에는 활용·공유·강화·수용을 적용한다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응은 보통 `식별 -> 분석 -> 전략 선택 -> 실행계획 -> 모니터링` 흐름으로 운영된다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 기준은 네 가지다. 첫째, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수 있는가. 둘째, 제3자가 더 잘 감당할 수 있는가. 셋째, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 영향을 줄일 수 있는가. 넷째, 대응 비용보다 감수 비용이 더 작은가. 이 기준에 따라 위협에는 회피·전가·완화·수용을, 기회에는 활용·공유·강화·수용을 적용한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              리스크 대응 전략 선택 흐름                      │
-├──────────────────────────────────────────────────────────────┤
-│ 리스크 식별                                                   │
-│      │                                                       │
-│      ▼                                                       │
-│ 확률·영향·원인 분석                                           │
-│      │                                                       │
-│      ├─ 원인을 제거 가능? ───────────────▶ 회피 (Avoid)       │
-│      ├─ 제3자가 더 잘 관리? ────────────▶ 전가 (Transfer)    │
-│      ├─ 확률/영향 축소 가능? ───────────▶ 완화 (Mitigate)    │
-│      └─ 위 세 가지보다 감수가 합리적? ───▶ 수용 (Accept)     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              리스크 대응 전략 선택 흐름                      |
++--------------------------------------------------------------+
+| 리스크 식별                                                   |
+|      |                                                       |
+|      v                                                       |
+| 확률·영향·원인 분석                                           |
+|      |                                                       |
+|      +- 원인을 제거 가능? ----------------> 회피 (Avoid)       |
+|      +- 제3자가 더 잘 관리? -------------> 전가 (Transfer)    |
+|      +- 확률/영향 축소 가능? ------------> 완화 (Mitigate)    |
+|      +- 위 세 가지보다 감수가 합리적? ----> 수용 (Accept)     |
++--------------------------------------------------------------+
 ```
 
 | 위협 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 대표 수단 | 주의점 |
@@ -153,20 +153,20 @@ tags = ["studynote-it-management"]
 
 ```text
 리스크 식별 (Risk Identification)
-    │
-    ▼
+    |
+    v
 정성·정량 분석 (Probability · Impact · EMV)
-    │
-    ▼
+    |
+    v
 위협 대응: Avoid · Transfer · Mitigate · Accept
-    │
-    ▼
+    |
+    v
 기회 대응: Exploit · Share · Enhance · Accept
-    │
-    ▼
+    |
+    v
 잔여 리스크 · 2차 리스크 관리
-    │
-    ▼
+    |
+    v
 모니터링 · 트리거 실행 · 교훈 반영
 ```
 
@@ -184,7 +184,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 282 / 587
 
-← **이전**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)
-**다음**: [169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/) →
+<- **이전**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)
+**다음**: [169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/) ->
 
 ---

@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Access Object, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 접근 세부 구현을 캡슐화해 비즈니스 로직과 분리하는 패턴이다. SQL, 연결 관리, 매핑 규칙이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드에 섞이면 핵심 규칙보다 저장소 세부사항이 더 많은 코드를 차지한다. 이 개념이 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 책임을 전용 계층에 격리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 저장소 변경이 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직 수정과 테스트 비용 증가로 이어진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│    Data    │──▶│    DAO     │──▶│  Boundary  │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|    Data    |--->|    DAO     |--->|  Boundary  |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Caller  │──▶│ Contract │──▶│   DAO    │──▶│  Store   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Caller  |--->| Contract |--->|   DAO    |--->|  Store   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 매핑 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Access Object, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[서비스 내부 SQL] → DAO 분리] → [저장소 캡슐화]
+[서비스 내부 SQL] -> DAO 분리] -> [저장소 캡슐화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 객체 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Access Object, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/))은 교실 대표가 선생님께 출석표를 대신 전달하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 480 / 530
 
-← **이전**: [401. 데이터 전송 객체 (Data Transfer Object, DTO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/401_process/)
-**다음**: [403. 안티 패턴 (Anti-Patterns)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/) →
+<- **이전**: [401. 데이터 전송 객체 (Data Transfer Object, DTO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/401_process/)
+**다음**: [403. 안티 패턴 (Anti-Patterns)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/) ->
 
 ---

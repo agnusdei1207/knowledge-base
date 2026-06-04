@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. **PLT와 GOT의 도입**: 이를 해결하기 위해 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 PLT (Procedure Linkage Table)라는 스터브 묶음과 GOT (Global Offset Table)라는 빈 주소록을 만들어, 실행 중(Run-time)에 주소를 채워 넣는 우아한 아키텍처가 탄생했다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│     정적 링킹 방식과 스터브(Stub)를 활용한 동적 링킹 비교         │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [정적 링킹의 실행 파일 내부]                                      │
-│  ...                                                              │
-│  CALL 0x400500 (내부 printf 코드 주소로 직접 점프)                │
-│  ...                                                              │
-│  0x400500: [printf 함수의 거대한 기계어 코드 덩어리 존재]         │
-│                                                                   │
-│ [동적 링킹의 실행 파일 내부 (Stub 존재)]                          │
-│  ...                                                              │
-│  CALL 0x400100 (내부 Stub 주소로 점프)                            │
-│  ...                                                              │
-│  0x400100 [printf Stub]:                                          │
-│      "진짜 주소 알아? 모르면 OS 불러서 DLL에서 찾아!"             │
-│      "찾았으면 그 주소로 점프해!"                                 │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|     정적 링킹 방식과 스터브(Stub)를 활용한 동적 링킹 비교         |
++-------------------------------------------------------------------+
+|                                                                   |
+| [정적 링킹의 실행 파일 내부]                                      |
+|  ...                                                              |
+|  CALL 0x400500 (내부 printf 코드 주소로 직접 점프)                |
+|  ...                                                              |
+|  0x400500: [printf 함수의 거대한 기계어 코드 덩어리 존재]         |
+|                                                                   |
+| [동적 링킹의 실행 파일 내부 (Stub 존재)]                          |
+|  ...                                                              |
+|  CALL 0x400100 (내부 Stub 주소로 점프)                            |
+|  ...                                                              |
+|  0x400100 [printf Stub]:                                          |
+|      "진짜 주소 알아? 모르면 OS 불러서 DLL에서 찾아!"             |
+|      "찾았으면 그 주소로 점프해!"                                 |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 단순한 차이가 프로그램의 크기를 수십 MB에서 수십 KB로 줄이는 마법을 부린다. 동적 링킹을 사용하는 프로그램은 자신이 `printf`를 사용할 줄 안다고 믿지만, 실제로는 `printf`의 "껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))"만 가지고 있다. 이 껍데기가 런타임에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 도움을 받아 진짜 도서관(Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 책 위치를 찾아주는 똑똑한 내비게이션 역할을 한다.
 
@@ -71,29 +71,29 @@ tags = ["studynote-operating-system"]
 스터브 코드는 한 번 찾은 주소를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))하여 두 번째 호출부터는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 없애는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding)</strong> 기법을 위해 아주 정교하게 설계되어 있다. 이 과정은 PLT와 GOT의 상호작용으로 이루어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              공유 라이브러리 호출 시 Stub(PLT/GOT)의 동작 흐름       │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [메인 코드]                                                          │
-│ CALL printf@PLT ───────┐                                             │
-│                        ▼                                             │
-│                [ PLT (Stub 코드) ]                                   │
-│ printf@PLT: JMP *printf@GOT ────┐ (GOT에 적힌 주소로 점프)           │
-│                                 │                                    │
-│   ┌─────────────────────────────┘                                    │
-│   │                                                                  │
-│   ▼ 1. 최초 호출 시 (주소를 모름)                                    │
-│ [ GOT (주소록) ] ──▶ 동적 링커로 다시 돌아감!                        │
-│                   동적 링커: "아, 아직 주소를 안 찾았구나."          │
-│                   → 메모리에서 printf를 찾음                         │
-│                   → GOT의 빈칸을 printf 실제 주소로 덮어씀 (갱신!)   │
-│                   → 진짜 printf 실행                                 │
-│                                                                      │
-│   ▼ 2. 두 번째 호출 시 (주소를 앎)                                   │
-│ [ GOT (주소록) ] ──▶ 진짜 printf 코드로 다이렉트 점프!               │
-│                   (동적 링커 개입 없음, 오버헤드 0)                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              공유 라이브러리 호출 시 Stub(PLT/GOT)의 동작 흐름       |
++----------------------------------------------------------------------+
+|                                                                      |
+| [메인 코드]                                                          |
+| CALL printf@PLT -------+                                             |
+|                        v                                             |
+|                [ PLT (Stub 코드) ]                                   |
+| printf@PLT: JMP *printf@GOT ----+ (GOT에 적힌 주소로 점프)           |
+|                                 |                                    |
+|   +-----------------------------+                                    |
+|   |                                                                  |
+|   v 1. 최초 호출 시 (주소를 모름)                                    |
+| [ GOT (주소록) ] ---> 동적 링커로 다시 돌아감!                        |
+|                   동적 링커: "아, 아직 주소를 안 찾았구나."          |
+|                   -> 메모리에서 printf를 찾음                         |
+|                   -> GOT의 빈칸을 printf 실제 주소로 덮어씀 (갱신!)   |
+|                   -> 진짜 printf 실행                                 |
+|                                                                      |
+|   v 2. 두 번째 호출 시 (주소를 앎)                                   |
+| [ GOT (주소록) ] ---> 진짜 printf 코드로 다이렉트 점프!               |
+|                   (동적 링커 개입 없음, 오버헤드 0)                  |
++----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 메커니즘은 해커들이 가장 좋아하는 시스템 해킹 기법(GOT Overwrite)의 무대이기도 하다. 프로그램이 실행될 때 수천 개의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 주소를 미리 다 찾아놓으면 부팅이 너무 느려진다. 따라서 최초로 함수가 호출될 때만 동적 링커가 개입하여(느림) 주소를 찾고, 그 결과를 변수(GOT)에 저장해 둔다. 두 번째부터는 스터브(PLT)가 바로 GOT 값을 읽어 실제 메모리로 점프하므로 일반 함수 호출과 속도 차이가 거의 없어진다.
@@ -133,12 +133,12 @@ tags = ["studynote-operating-system"]
 | **역할** | JUMP 명령을 수행하는 로직 | 실제 메모리 주소를 담고 있는 그릇 |
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────────┐
-│ 구성요소   │ 저장 내용   │ 런타임 변경 여부│ 보안적 위협           │
-├──────────┼────────────┼────────────┼───────────────────────────────┤
-│ PLT        │ JUMP 코드   │ 변경 안 됨 (R-X) │ 낮음 (실행만 됨)     │
-│ GOT        │ 주소 데이터 │ 계속 변경됨 (RW-)│ 매우 높음 (조작 타겟)│
-└──────────┴────────────┴────────────┴───────────────────────────────┘
++----------+------------+------------+-------------------------------+
+| 구성요소   | 저장 내용   | 런타임 변경 여부| 보안적 위협           |
++----------+------------+------------+-------------------------------+
+| PLT        | JUMP 코드   | 변경 안 됨 (R-X) | 낮음 (실행만 됨)     |
+| GOT        | 주소 데이터 | 계속 변경됨 (RW-)| 매우 높음 (조작 타겟)|
++----------+------------+------------+-------------------------------+
 ```
 **[매트릭스 해설]** PLT는 "저기로 점프해"라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체이므로 프로그램이 실행되는 동안 변하지 않는다. 반면 GOT는 "저기가 어디냐면..."이라는 주소값이 적힌 장부이므로, 최초 호출 시 동적 링커에 의해 값이 덮어써져야(Write) 한다. 이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(Write)' 때문에 해커들이 GOT의 값을 악성 코드 주소로 변조하는 공격(GOT Overwrite)이 성행했고, 이를 막기 위해 현대 OS는 [RELRO](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)([Relocation Read-Only](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)) 같은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법을 강제하고 있다.
 
@@ -198,12 +198,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [동적 연결 (Dynamic Linking)]
-    │
-    ▼
+    |
+    v
 [공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
-    │
-    ├──▶ [정적 연결 (Static Linking)]
-    └──▶ [스와핑 (Swapping)]
+    |
+    +---> [정적 연결 (Static Linking)]
+    +---> [스와핑 (Swapping)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -220,7 +220,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 333 / 800
 
-← **이전**: [332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)
-**다음**: [334. 정적 연결 (Static Linking)](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) →
+<- **이전**: [332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)
+**다음**: [334. 정적 연결 (Static Linking)](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ->
 
 ---

@@ -29,25 +29,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무어의 법칙은 "칩이 저절로 빨라진다"는 주문이 아니라, <strong>미세화 → 집적도 증가 → 기능 확장 → 비용 구조 변화</strong>라는 연쇄 효과다. 선폭이 줄어들면 같은 다이 (Die) 면적에 더 많은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣을 수 있고, 설계자는 그 여유를 더 깊은 파이프라인, 더 큰 캐시, 더 많은 코어, 더 정교한 예측 회로에 배분한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 배선 길이 감소와 게이트 축소 덕분에 지연시간도 함께 줄어들었지만, 시간이 갈수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정만이 아니라 아키텍처 선택과 전력 제어에 더 크게 의존하게 되었다.
+무어의 법칙은 "칩이 저절로 빨라진다"는 주문이 아니라, <strong>미세화 -> 집적도 증가 -> 기능 확장 -> 비용 구조 변화</strong>라는 연쇄 효과다. 선폭이 줄어들면 같은 다이 (Die) 면적에 더 많은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣을 수 있고, 설계자는 그 여유를 더 깊은 파이프라인, 더 큰 캐시, 더 많은 코어, 더 정교한 예측 회로에 배분한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 배선 길이 감소와 게이트 축소 덕분에 지연시간도 함께 줄어들었지만, 시간이 갈수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정만이 아니라 아키텍처 선택과 전력 제어에 더 크게 의존하게 되었다.
 
 아래 그림은 무어의 법칙이 단순한 숫자 증가가 아니라, 설계 선택지를 어떻게 넓혀 왔는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Moore's Law: same die area, more design options over time    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Old node         Smaller node          Denser chip                   │
-│   1x area   ──▶    1x area       ──▶   more transistors             │
-│                                                                      │
-│ More transistors are spent on:                                       │
-│   ├─ larger cache                                                     │
-│   ├─ more cores                                                       │
-│   ├─ wider execution units                                            │
-│   └─ better control logic (branch, prefetch, security, AI blocks)    │
-│                                                                      │
-│ Result: more function per chip, lower cost per function              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Moore's Law: same die area, more design options over time    |
++----------------------------------------------------------------------+
+| Old node         Smaller node          Denser chip                   |
+|   1x area   --->    1x area       --->   more transistors             |
+|                                                                      |
+| More transistors are spent on:                                       |
+|   +- larger cache                                                     |
+|   +- more cores                                                       |
+|   +- wider execution units                                            |
+|   +- better control logic (branch, prefetch, security, AI blocks)    |
+|                                                                      |
+| Result: more function per chip, lower cost per function              |
++----------------------------------------------------------------------+
 ```
 
 이 흐름이 오래 유지될 수 있었던 배경에는 포토리소그래피 (Photolithography) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상, 공정 수율 개선, 설계 자동화 (Electronic Design Automation, [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)), 대규모 생산 경제가 있었다. 즉 무어의 법칙은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 숫자만의 이야기가 아니라, 제조·설계·경제가 동시에 맞물릴 때만 성립한다.
@@ -126,21 +126,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 개별 트랜지스터 시대
-    │
-    ▼
+    |
+    v
 집적회로 (Integrated Circuit, IC) 확산
-    │
-    ▼
+    |
+    v
 무어의 법칙 (Moore's Law)
 : 집적도 증가 · 기능당 비용 하락
-    │
-    ├──▶ 데나드 스케일링 (Dennard Scaling)
-    │     : 고클럭 시대 뒷받침
-    │
-    ▼
+    |
+    +---> 데나드 스케일링 (Dennard Scaling)
+    |     : 고클럭 시대 뒷받침
+    |
+    v
 전력의 벽 (Power Wall) · 공정 비용 급등
-    │
-    ▼
+    |
+    v
 멀티코어 · 칩렛 · 2.5D/3D 패키징 · More than Moore
 ```
 
@@ -156,7 +156,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 146 / 803
 
-← **이전**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/)
-**다음**: [147. 황의 법칙 (Hwang's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/) →
+<- **이전**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/)
+**다음**: [147. 황의 법칙 (Hwang's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/) ->
 
 ---

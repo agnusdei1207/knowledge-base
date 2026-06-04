@@ -43,27 +43,27 @@ Facebook, Google, Netflix 등은 수천 개의 [피처 플래그](/knowledge-bas
 ### [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 동작 구조
 
 ```
-  ┌─────────────────────────────────────────────────────┐
-  │              Feature Flag 관리 서버                   │
-  │  (LaunchDarkly / Unleash / AWS AppConfig)            │
-  │                                                      │
-  │  플래그 정의: new_checkout_flow                       │
-  │    - 기본값: OFF                                     │
-  │    - 대상: user_segment = "beta_users"               │
-  │    - 가중치: 10% 랜덤 사용자                          │
-  └──────────────────────┬──────────────────────────────┘
-                         │ SDK 폴링 or 웹훅
-                         ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                 애플리케이션 코드                       │
-  │                                                      │
-  │  if (featureFlag.isEnabled("new_checkout_flow",      │
-  │                             currentUser)) {          │
-  │      showNewCheckout();   // 신기능                  │
-  │  } else {                                            │
-  │      showOldCheckout();   // 기존 기능               │
-  │  }                                                   │
-  └──────────────────────────────────────────────────────┘
+  +-----------------------------------------------------+
+  |              Feature Flag 관리 서버                   |
+  |  (LaunchDarkly / Unleash / AWS AppConfig)            |
+  |                                                      |
+  |  플래그 정의: new_checkout_flow                       |
+  |    - 기본값: OFF                                     |
+  |    - 대상: user_segment = "beta_users"               |
+  |    - 가중치: 10% 랜덤 사용자                          |
+  +----------------------+------------------------------+
+                         | SDK 폴링 or 웹훅
+                         v
+  +------------------------------------------------------+
+  |                 애플리케이션 코드                       |
+  |                                                      |
+  |  if (featureFlag.isEnabled("new_checkout_flow",      |
+  |                             currentUser)) {          |
+  |      showNewCheckout();   // 신기능                  |
+  |  } else {                                            |
+  |      showOldCheckout();   // 기존 기능               |
+  |  }                                                   |
+  +------------------------------------------------------+
 ```
 
 ### LaunchDarkly SDK 예시 (Java)
@@ -148,7 +148,7 @@ if (showNewUI) {
 |:---|:---|
 | 배포·출시 분리 | 기술 일정과 비즈니스 일정의 독립적 관리 |
 | 즉각적 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 재배포 없이 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) OFF로 기능 비활성화 |
-| 안전한 점진 출시 | 내부 → 베타 → 전체 단계적 기능 노출 |
+| 안전한 점진 출시 | 내부 -> 베타 -> 전체 단계적 기능 노출 |
 | A/B 테스트 통합 | 기능 효과를 데이터로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 현대 DevOps에서 "소프트웨어 출시의 리모컨"이 되었다. 적절히 관리되면 팀의 배포 자신감과 실험 문화를 혁신적으로 높이지만, 관리 없이 방치하면 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)로 시스템 신뢰성을 위협한다.
@@ -176,13 +176,13 @@ if (showNewUI) {
 
 ```text
 Feature Branch + 배포 = 기능 공개 (분리 불가)
-    │
-    ▼
+    |
+    v
 Feature Flag: 코드 배포 ≠ 기능 공개 (Decouple)
-    ├─► LaunchDarkly · Unleash · ConfigCat
-    └─► A/B Testing · Percentage Rollout
-    │
-    ▼
+    +-► LaunchDarkly · Unleash · ConfigCat
+    +-► A/B Testing · Percentage Rollout
+    |
+    v
 Trunk-Based Development + Feature Flag = CD 극대화
 ```
 2. "이제 팔아도 돼"라는 신호가 오면 상자만 뜯으면 바로 판매 시작, 문제 생기면 다시 포장해서 치우면 돼.
@@ -194,7 +194,7 @@ Trunk-Based Development + Feature Flag = CD 극대화
 
 **진행 상황**: 195 / 371
 
-← **이전**: [195. 카나리 배포 (Canary Release)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/)
-**다음**: [197. 다크 론칭 (Dark Launching)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) →
+<- **이전**: [195. 카나리 배포 (Canary Release)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/)
+**다음**: [197. 다크 론칭 (Dark Launching)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) ->
 
 ---

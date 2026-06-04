@@ -31,33 +31,33 @@ tags = ["studynote-operating-system"]
 사용자가 명령어를 쳤을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 VFS와 유저 공간의 FUSE 데몬 사이에서 어떻게 요청이 하늘을 날아다니는지 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "유저: 파일 열어! -> 커널: FUSE 데몬아 열어줘! -> 데몬: 열었어! -> 커널: 유저야 여깄어!" │
-  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                                          │
-  │  🚨 [ 1. 사용자 앱 (Client: "cat /mnt/구글드라이브/file.txt" 얍! ) ]                                     │
-  │                                                                                                          │
-  │  ======= ( ⬇️ ① 시스템 콜 스위칭 장벽 통과 랙! ) =====================                                   │
-  │                                                                                                          │
-  │  ✅ [ 커널 공간 (Kernel Space 통치 록백) ]                                                               │
-  │      - VFS 봇: "오케이 파일 읽기다. 주소가... 앗? 이거 ext4가 아니라                                     │
-  │                FUSE 가짜 마운트네? 야 패킷(명령어) 싸서 위로 던져라 컷!"                                 │
-  │        => (/dev/fuse 브릿지 모듈을 통해 위로 토스 스루풋 폭발)                                           │
-  │                                                                                                          │
-  │  ======= ( ⬆️ ② 커널 -> 유저로 탈출 스위칭 록백!! ) ==================                                   │
-  │                                                                                                          │
-  │  🔥 [ 유저 공간 (User Space: 백그라운드 FUSE 데몬 봇 빔!) ]                                              │
-  │      - Google-Drive-FS 데몬 (파이썬/C 작성):                                                             │
-  │        "커널한테 패킷 왔다! 인터넷 API 때려서 구글 서버에서 파일 다운받아!"                              │
-  │      - 1초 뒤 다 받음: "커널아 다 받았어, 여기 데이터! (결과 리턴)"                                      │
-  │                                                                                                          │
-  │  ======= ( ⬇️ ③ 유저 -> 커널로 재진입 스위치 연산 늪!! ) ==============                                  │
-  │                                                                                                          │
-  │  ✅ [ 커널 공간 다시 입성 VFS 렌더 ]                                                                     │
-  │      - VFS: "답장 왔네! 자, 대기하던 클라이언트 앱아 가져가라!"                                          │
-  │                                                                                                          │
-  │  ======= ( ⬆️ ④ 커널 -> 사용자 앱 최종 통달!! ) =====================                                    │
-  └──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------------------------------+
+  |                 "유저: 파일 열어! -> 커널: FUSE 데몬아 열어줘! -> 데몬: 열었어! -> 커널: 유저야 여깄어!" |
+  +----------------------------------------------------------------------------------------------------------+
+  |                                                                                                          |
+  |  🚨 [ 1. 사용자 앱 (Client: "cat /mnt/구글드라이브/file.txt" 얍! ) ]                                     |
+  |                                                                                                          |
+  |  ======= ( ⬇️ ① 시스템 콜 스위칭 장벽 통과 랙! ) =====================                                   |
+  |                                                                                                          |
+  |  ✅ [ 커널 공간 (Kernel Space 통치 록백) ]                                                               |
+  |      - VFS 봇: "오케이 파일 읽기다. 주소가... 앗? 이거 ext4가 아니라                                     |
+  |                FUSE 가짜 마운트네? 야 패킷(명령어) 싸서 위로 던져라 컷!"                                 |
+  |        => (/dev/fuse 브릿지 모듈을 통해 위로 토스 스루풋 폭발)                                           |
+  |                                                                                                          |
+  |  ======= ( ⬆️ ② 커널 -> 유저로 탈출 스위칭 록백!! ) ==================                                   |
+  |                                                                                                          |
+  |  🔥 [ 유저 공간 (User Space: 백그라운드 FUSE 데몬 봇 빔!) ]                                              |
+  |      - Google-Drive-FS 데몬 (파이썬/C 작성):                                                             |
+  |        "커널한테 패킷 왔다! 인터넷 API 때려서 구글 서버에서 파일 다운받아!"                              |
+  |      - 1초 뒤 다 받음: "커널아 다 받았어, 여기 데이터! (결과 리턴)"                                      |
+  |                                                                                                          |
+  |  ======= ( ⬇️ ③ 유저 -> 커널로 재진입 스위치 연산 늪!! ) ==============                                  |
+  |                                                                                                          |
+  |  ✅ [ 커널 공간 다시 입성 VFS 렌더 ]                                                                     |
+  |      - VFS: "답장 왔네! 자, 대기하던 클라이언트 앱아 가져가라!"                                          |
+  |                                                                                                          |
+  |  ======= ( ⬆️ ④ 커널 -> 사용자 앱 최종 통달!! ) =====================                                    |
+  +----------------------------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 일반 ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 `유저 앱 -> 커널 VFS -> 하드디스크 읽기 -> 끝` 이다(장벽 1번 왕복). 그런데 FUSE 기반 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 이 망할 놈의 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-User 공간의 장벽(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> 을 무려 4번이나 처뚫고 지나가야 한다. 메모리 블록을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 배열로 카피(Copy_to_user 병목)해야 하니 속도가 미친 듯이 떨어질 수밖에 없다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 파단 I/O [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)). 이 미친 오버헤드를 극복하기 위해서라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 FUSE 모듈은 536장의 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 풀([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 빔)을 기생적으로 빨아먹어 "두 번 다시 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 핑퐁 하지 않기" 전략으로 살아남고 있다 도출 증명.
@@ -140,12 +140,12 @@ FUSE (Filesystem in Userspace)은 [파일](/knowledge-base/studynote/02_operatin
 
 ```text
 [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
-    │
-    ▼
+    |
+    v
 [FUSE (Filesystem in Userspace)]
-    │
-    ├──▶ [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
-    └──▶ [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
+    |
+    +---> [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
+    +---> [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -162,7 +162,7 @@ FUSE (Filesystem in Userspace)은 [파일](/knowledge-base/studynote/02_operatin
 
 **진행 상황**: 554 / 800
 
-← **이전**: [553. 분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)
-**다음**: [555. 백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) →
+<- **이전**: [553. 분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)
+**다음**: [555. 백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) ->
 
 ---

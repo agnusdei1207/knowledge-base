@@ -62,34 +62,34 @@ tags = ["studynote-operating-system"]
 디스크의 물리적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/))이 어떻게 램(RAM)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 트리로 올라오는지에 대한 아키텍처다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Windows Registry Hive 마운트 메커니즘              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [물리적 디스크 (Physical Storage)]                                   │
-  │   - C:\Windows\System32\config\SYSTEM   (부팅/드라이버 설정)          │
-  │   - C:\Windows\System32\config\SOFTWARE (프로그램 설치 정보)          │
-  │   - C:\Users\Admin\NTUSER.DAT           (Admin 유저 개인 설정)        │
-  │                                                                   │
-  │  ==========▼ (부팅 및 로그인 시 커널에 로드됨) =========================│
-  │                                                                   │
-  │  [Windows Kernel (Configuration Manager)]                         │
-  │                                                                   │
-  │   (가상 트리 조립 - Virtual Registry Tree)                          │
-  │   [\REGISTRY] (루트)                                              │
-  │      ├── \MACHINE                                                 │
-  │      │     ├── \SYSTEM   ◀── (디스크의 SYSTEM 파일 전체가 여기 마운트됨) │
-  │      │     └── \SOFTWARE ◀── (디스크의 SOFTWARE 파일 전체가 마운트됨) │
-  │      │                                                            │
-  │      └── \USER                                                    │
-  │            └── \S-1-5-21... (Admin SID) ◀── (NTUSER.DAT 가 마운트됨)│
-  │                                                                   │
-  │  ==========▼ (API를 통해 유저 스페이스에 노출) =========================│
-  │                                                                   │
-  │  [User Space (애플리케이션 및 regedit)]                               │
-  │   - HKEY_LOCAL_MACHINE\SYSTEM  (가상화된 뷰를 통해 접근)               │
-  │   - HKEY_CURRENT_USER          (현재 로그인 유저의 SID로 자동 점프)       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Windows Registry Hive 마운트 메커니즘              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [물리적 디스크 (Physical Storage)]                                   |
+  |   - C:\Windows\System32\config\SYSTEM   (부팅/드라이버 설정)          |
+  |   - C:\Windows\System32\config\SOFTWARE (프로그램 설치 정보)          |
+  |   - C:\Users\Admin\NTUSER.DAT           (Admin 유저 개인 설정)        |
+  |                                                                   |
+  |  ==========v (부팅 및 로그인 시 커널에 로드됨) =========================|
+  |                                                                   |
+  |  [Windows Kernel (Configuration Manager)]                         |
+  |                                                                   |
+  |   (가상 트리 조립 - Virtual Registry Tree)                          |
+  |   [\REGISTRY] (루트)                                              |
+  |      +-- \MACHINE                                                 |
+  |      |     +-- \SYSTEM   <--- (디스크의 SYSTEM 파일 전체가 여기 마운트됨) |
+  |      |     +-- \SOFTWARE <--- (디스크의 SOFTWARE 파일 전체가 마운트됨) |
+  |      |                                                            |
+  |      +-- \USER                                                    |
+  |            +-- \S-1-5-21... (Admin SID) <--- (NTUSER.DAT 가 마운트됨)|
+  |                                                                   |
+  |  ==========v (API를 통해 유저 스페이스에 노출) =========================|
+  |                                                                   |
+  |  [User Space (애플리케이션 및 regedit)]                               |
+  |   - HKEY_LOCAL_MACHINE\SYSTEM  (가상화된 뷰를 통해 접근)               |
+  |   - HKEY_CURRENT_USER          (현재 로그인 유저의 SID로 자동 점프)       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(`mount /dev/sda1 /mnt`)와 완전히 똑같은 개념이다. 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Configuration Manager(CM)는 부팅 시 디스크에 흩어진 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `Paged Pool`(메모리)로 읽어 들인다. 그리고 `\REGISTRY\MACHINE\SYSTEM` 이라는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 경로에 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찰칵 끼워 넣는다. 사용자가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인하면 그 사람 폴더의 `NTUSER.DAT`를 찾아 `\REGISTRY\USER\<SID>`에 동적으로 추가 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)한다. 이 구조 덕분에 "내가 바탕화면을 빨간색으로 바꿨다고 해서, 다른 계정으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인한 동생의 바탕화면이 빨개지는 일"이 완벽하게 방지된다.
@@ -145,25 +145,25 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Windows 애플리케이션 설정 저장소 아키텍처 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 Windows 데스크톱/서버용 애플리케이션 개발 시 설정값 저장 방식 선택] │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      애플리케이션이 OS의 부팅이나 하드웨어, 타 프로세스(COM)와 깊게 엮이는가? │
-  │          ├─ 예 ─────▶ [Registry 사용 강제 (HKLM / HKCU)]             │
-  │          │            - 드라이버 설정, 시스템 서비스 등록 등은 레지스트리가 필수 │
-  │          └─ 아니오 (단순한 독립형(Standalone) 유저 애플리케이션이다)      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      사용자가 설정 파일을 직접 에디터로 고치거나, 클라우드(Git)로 백업해야 하는가?│
-  │          ├─ 예 ─────▶ [JSON / YAML / XML 형태의 로컬 파일 사용 권장]   │
-  │          │            (예: `%APPDATA%\MyApp\config.json`)           │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 레지스트리 사용 가능 (단, 성능 이슈로 남용 금지)      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Windows 애플리케이션 설정 저장소 아키텍처 플로우           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 Windows 데스크톱/서버용 애플리케이션 개발 시 설정값 저장 방식 선택] |
+  |                |                                                  |
+  |                v                                                  |
+  |      애플리케이션이 OS의 부팅이나 하드웨어, 타 프로세스(COM)와 깊게 엮이는가? |
+  |          +- 예 ------> [Registry 사용 강제 (HKLM / HKCU)]             |
+  |          |            - 드라이버 설정, 시스템 서비스 등록 등은 레지스트리가 필수 |
+  |          +- 아니오 (단순한 독립형(Standalone) 유저 애플리케이션이다)      |
+  |                |                                                  |
+  |                v                                                  |
+  |      사용자가 설정 파일을 직접 에디터로 고치거나, 클라우드(Git)로 백업해야 하는가?|
+  |          +- 예 ------> [JSON / YAML / XML 형태의 로컬 파일 사용 권장]   |
+  |          |            (예: `%APPDATA%\MyApp\config.json`)           |
+  |          |                                                        |
+  |          +- 아니오 ---> 레지스트리 사용 가능 (단, 성능 이슈로 남용 금지)      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 마이크로소프트조차도 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)의 남용을 후회하고 있다. [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 윈도우 앱이 '포터블(Portable)' 해지는 것을 막는 최대 족쇄다. 요즘 개발되는 윈도우 애플리케이션이나 게임들은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 전혀 건드리지 않고 자신의 설치 폴더나 `%APPDATA%` 폴더에 `json`이나 `ini` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 저장하는 과거 리눅스식 방식으로 회귀(리눅스화)하고 있다. 아키텍트는 글로벌 OS 세팅은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에, 앱 종속적 세팅은 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 분리 저장하는 투 트랙(Two-track) 설계를 지향해야 한다.
@@ -210,12 +210,12 @@ Windows [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/2
 
 ```text
 [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
-    │
-    ▼
+    |
+    v
 [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
-    │
-    ├──▶ [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
-    └──▶ [제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
+    |
+    +---> [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
+    +---> [제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -232,7 +232,7 @@ Windows [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/2
 
 **진행 상황**: 665 / 800
 
-← **이전**: [664. Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)](/knowledge-base/studynote/02_operating_system/10_security/664_windows_kernel_apc_dpc_irql/)
-**다음**: [666. 보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조](/knowledge-base/studynote/02_operating_system/10_security/666_secure_enclave_trustzone_sgx_tee/) →
+<- **이전**: [664. Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)](/knowledge-base/studynote/02_operating_system/10_security/664_windows_kernel_apc_dpc_irql/)
+**다음**: [666. 보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조](/knowledge-base/studynote/02_operating_system/10_security/666_secure_enclave_trustzone_sgx_tee/) ->
 
 ---

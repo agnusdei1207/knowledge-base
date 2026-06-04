@@ -22,41 +22,41 @@ tags = ["studynote-ai"]
 암 진단 AI에서 임계값(threshold)을 낮추면 모든 환자를 양성으로 예측해 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)=TPR)은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0%지만 거짓 양성([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))도 폭발한다. 반대로 임계값을 높이면 확실한 케이스만 양성으로 예측해 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))는 높지만 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 낮아진다. 어떤 임계값이 최적인가? ROC 곡선은 임계값 전체 범위에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 담아 모델의 고유 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 임계값 독립적으로 평가한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: ROC 곡선은 "암 진단 기준의 엄격도 조절 다이얼"이다. 다이얼을 느슨하게 하면 더 많은 환자를 잡지만(TPR↑) 정상인도 많이 걸린다(FPR↑). 다이얼을 조이면 정상인은 안 걸리지만 환자도 놓친다. ROC 곡선은 이 다이얼의 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지도다.
+- **📢 섹션 요약 비유**: ROC 곡선은 "암 진단 기준의 엄격도 조절 다이얼"이다. 다이얼을 느슨하게 하면 더 많은 환자를 잡지만(TPR^) 정상인도 많이 걸린다(FPR^). 다이얼을 조이면 정상인은 안 걸리지만 환자도 놓친다. ROC 곡선은 이 다이얼의 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지도다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  TPR, FPR 수식 및 혼동 행렬 (Confusion Matrix)           │
-├──────────────────────────────────────────────────────────┤
-│                 예측 양성    예측 음성                    │
-│  실제 양성  │   TP          FN         │                 │
-│  실제 음성  │   FP          TN         │                 │
-│                                                          │
-│  TPR (True Positive Rate = Sensitivity = Recall):       │
-│  TPR = TP / (TP + FN)                                   │
-│                                                          │
-│  FPR (False Positive Rate = 1 - Specificity):           │
-│  FPR = FP / (FP + TN)                                   │
-│                                                          │
-│  ROC 공간: X축=FPR, Y축=TPR                             │
-│  AUC = ∫₀¹ TPR(FPR) d(FPR)                             │
-│  = P(score(pos) > score(neg))  (Wilcoxon 통계량)        │
-│                                                          │
-│  임계값 변화 방향:                                      │
-│  낮게 → 우상단(FPR↑, TPR↑) / 높게 → 좌하단            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  TPR, FPR 수식 및 혼동 행렬 (Confusion Matrix)           |
++----------------------------------------------------------+
+|                 예측 양성    예측 음성                    |
+|  실제 양성  |   TP          FN         |                 |
+|  실제 음성  |   FP          TN         |                 |
+|                                                          |
+|  TPR (True Positive Rate = Sensitivity = Recall):       |
+|  TPR = TP / (TP + FN)                                   |
+|                                                          |
+|  FPR (False Positive Rate = 1 - Specificity):           |
+|  FPR = FP / (FP + TN)                                   |
+|                                                          |
+|  ROC 공간: X축=FPR, Y축=TPR                             |
+|  AUC = ∫₀¹ TPR(FPR) d(FPR)                             |
+|  = P(score(pos) > score(neg))  (Wilcoxon 통계량)        |
+|                                                          |
+|  임계값 변화 방향:                                      |
+|  낮게 -> 우상단(FPR^, TPR^) / 높게 -> 좌하단            |
++----------------------------------------------------------+
 ```
 
 | 지표 | 수식 | AUC 적합성 |
@@ -112,7 +112,7 @@ ROC/AUC는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classif
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)] → [최적화·운영 자동화]
+[데이터 전처리] -> [ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -127,7 +127,7 @@ ROC/AUC는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classif
 
 **진행 상황**: 362 / 420
 
-← **이전**: [361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)](/knowledge-base/studynote/10_ai/05_data_science_ml/361_multicollinearity_vif/)
-**다음**: [363. 소프트맥스 역전파 (Softmax Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/363_softmax_backprop/) →
+<- **이전**: [361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)](/knowledge-base/studynote/10_ai/05_data_science_ml/361_multicollinearity_vif/)
+**다음**: [363. 소프트맥스 역전파 (Softmax Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/363_softmax_backprop/) ->
 
 ---

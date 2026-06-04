@@ -31,26 +31,26 @@ tags = ["studynote-software-engineering"]
 전통적인 시간(Hours) 추정과 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) 기반의 상대적 추정 방식의 본질적 차이를 시각화하면, 왜 애자일이 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)를 선택했는지 알 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         절대적 시간 추정 vs 상대적 스토리 포인트 추정 비교          │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [상황] "로그인 화면에 구글 소셜 로그인을 추가하라"                │
-  │                                                              │
-  │  1. 절대적 시간 추정 (Man-Hours)                               │
-  │     - 시니어 개발자: "API 연동해본 적 있어서 4시간이면 됩니다."     │
-  │     - 주니어 개발자: "OAuth 문서부터 봐야 해서 3일(24시간) 걸려요."│
-  │     ▶ 결과: 추정 불가, 누가 작업하느냐에 따라 일정이 널뛰기함.      │
-  │                                                              │
-  │  2. 상대적 스토리 포인트 추정 (Story Point)                     │
-  │     - 기준 스토리 식별: "일반 ID/PW 로그인 화면 구현" = 2 포인트    │
-  │     - 팀 합의 (플래닝 포커): "소셜 로그인은 ID/PW보다 토큰 검증도    │
-  │       있고 예외 처리가 많으니 약 2.5배 복잡하다. 5포인트 주자!"      │
-  │     ▶ 결과: 5 포인트 (작업자가 시니어든 주니어든 '크기'는 불변)     │
-  │                                                              │
-  │  💡 시사점: 시간은 '속도(Velocity)'의 영역이므로 사람마다 다르지만, │
-  │             포인트는 '거리(Distance)'의 영역이므로 모두가 동일하다.│
-  └──────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------+
+  |         절대적 시간 추정 vs 상대적 스토리 포인트 추정 비교          |
+  +--------------------------------------------------------------+
+  |                                                              |
+  |  [상황] "로그인 화면에 구글 소셜 로그인을 추가하라"                |
+  |                                                              |
+  |  1. 절대적 시간 추정 (Man-Hours)                               |
+  |     - 시니어 개발자: "API 연동해본 적 있어서 4시간이면 됩니다."     |
+  |     - 주니어 개발자: "OAuth 문서부터 봐야 해서 3일(24시간) 걸려요."|
+  |     -> 결과: 추정 불가, 누가 작업하느냐에 따라 일정이 널뛰기함.      |
+  |                                                              |
+  |  2. 상대적 스토리 포인트 추정 (Story Point)                     |
+  |     - 기준 스토리 식별: "일반 ID/PW 로그인 화면 구현" = 2 포인트    |
+  |     - 팀 합의 (플래닝 포커): "소셜 로그인은 ID/PW보다 토큰 검증도    |
+  |       있고 예외 처리가 많으니 약 2.5배 복잡하다. 5포인트 주자!"      |
+  |     -> 결과: 5 포인트 (작업자가 시니어든 주니어든 '크기'는 불변)     |
+  |                                                              |
+  |  💡 시사점: 시간은 '속도(Velocity)'의 영역이므로 사람마다 다르지만, |
+  |             포인트는 '거리(Distance)'의 영역이므로 모두가 동일하다.|
+  +--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 비교는 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) 도입의 철학적 배경을 명확히 보여준다. 시간 단위 추정은 추정하는 주체의 기술적 숙련도, 당일의 컨디션, 회사의 방해 요소 등 무수히 많은 변수에 오염되어 있다. 따라서 관리가 불가능하다. 반면 상대적 복잡도는 요구사항 자체의 속성이므로 작업자가 누구든 변하지 않는다. 팀은 "이 작업이 얼마나 복잡한가?"(포인트)에만 합의하고, "그래서 몇 일이 걸리는가?"는 지난 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에서 팀이 소화해 낸 평균 포인트(벨로시티) 데이터를 통해 통계적으로 산출(나눗셈)하는 것이 핵심이다.
@@ -154,21 +154,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 스토리 포인트 플래닝 포커 합의 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 833 / 973
 
-← **이전**: [662. XP 테스트 주도 개발 (TDD) 리팩토링](/knowledge-base/studynote/04_software_engineering/uncategorized/662_xp_tdd_refactoring/)
-**다음**: [664. 대규모 애자일 SAFe, LeSS](/knowledge-base/studynote/04_software_engineering/uncategorized/664_scaled_agile_safe_less/) →
+<- **이전**: [662. XP 테스트 주도 개발 (TDD) 리팩토링](/knowledge-base/studynote/04_software_engineering/uncategorized/662_xp_tdd_refactoring/)
+**다음**: [664. 대규모 애자일 SAFe, LeSS](/knowledge-base/studynote/04_software_engineering/uncategorized/664_scaled_agile_safe_less/) ->
 
 ---

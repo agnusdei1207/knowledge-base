@@ -33,11 +33,11 @@ Type 1 하이퍼바이저는 하드웨어 바로 위에서 실행되고, VM을 �
 
 ```text
 Physical Hardware
-      ▲
-      │
+      ^
+      |
 Bare Metal Hypervisor
-   ├─ VM1 → Guest OS → Apps
-   └─ VM2 → Guest OS → Apps
+   +- VM1 -> Guest OS -> Apps
+   +- VM2 -> Guest OS -> Apps
 ```
 
 | 요소 | 역할 | 포인트 |
@@ -116,14 +116,14 @@ Bare Metal Hypervisor
 
 ```text
 물리 서버
-    │
-    ▼
+    |
+    v
 Type 1 하이퍼바이저
-    │
-    ▼
+    |
+    v
 가상 머신
-    │
-    ▼
+    |
+    v
 데이터센터 / 클라우드
 ```
 
@@ -141,7 +141,7 @@ Type 1 하이퍼바이저
 
 **진행 상황**: 55 / 800
 
-← **이전**: [54. 하이퍼바이저 (Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)
-**다음**: [56. 호스트드 하이퍼바이저 (Hosted Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/056_hosted_hypervisor/) →
+<- **이전**: [54. 하이퍼바이저 (Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)
+**다음**: [56. 호스트드 하이퍼바이저 (Hosted Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/056_hosted_hypervisor/) ->
 
 ---

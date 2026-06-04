@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 비직렬 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) (Non-[serial Schedule](/knowledge-base/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/))은 인터리빙 방식 병행 실행에 초점을 맞춘 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 비직렬 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `직렬 스케줄`·`직렬 가능 스케줄`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 비직렬 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [직렬 스케줄]
-    │
-    ▼
+    |
+    v
 [비직렬 스케줄]
-    │
-    ├──▶ [직렬 가능 스케줄]
-    └──▶ [충돌 직렬 가능성]
+    |
+    +---> [직렬 가능 스케줄]
+    +---> [충돌 직렬 가능성]
 ```
 
 [직렬 스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/)에서 출발한 논점이 비직렬 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)에서 핵심 판단으로 모이고, 이후 [직렬 가능 스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/211_serializable_schedule_concurrency_control_goal/)·[충돌 직렬 가능성](/knowledge-base/studynote/05_database/04_transactions_concurrency/212_conflict_serializable_schedule_operation_swap/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 210 / 600
 
-← **이전**: [209. 직렬 스케줄 (Serial Schedule)](/knowledge-base/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/)
-**다음**: [211. 직렬 가능 스케줄 (Serializable Schedule)](/knowledge-base/studynote/05_database/04_transactions_concurrency/211_serializable_schedule_concurrency_control_goal/) →
+<- **이전**: [209. 직렬 스케줄 (Serial Schedule)](/knowledge-base/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/)
+**다음**: [211. 직렬 가능 스케줄 (Serializable Schedule)](/knowledge-base/studynote/05_database/04_transactions_concurrency/211_serializable_schedule_concurrency_control_goal/) ->
 
 ---

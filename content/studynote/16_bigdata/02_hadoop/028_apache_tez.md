@@ -32,41 +32,41 @@ tags = ["bigdata"]
 왜 Tez가 빠른지, 두 엔진이 3단계의 복잡한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리할 때의 아키텍처 차이를 통해 증명한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 MapReduce vs Tez 파이프라인 아키텍처 비교              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 1. 전통적 MapReduce 방식 (단절된 실행) ]                           │
-  │                                                                   │
-  │    (데이터) ──▶ [ Map 1 ] ──▶ [ Reduce 1 ]                          │
-  │                                    │  ◀ [ 디스크 저장 및 읽기 쾅! ]      │
-  │                                    ▼                               │
-  │               [ Map 2 ] ──▶ [ Reduce 2 ]                          │
-  │                                    │  ◀ [ 디스크 저장 및 읽기 쾅! ]      │
-  │                                    ▼                               │
-  │               [ Map 3 ] ──▶ [ Reduce 3 ] ──▶ (최종 결과)            │
-  │    * 끔찍한 오버헤드: 각 Job마다 JVM(컨테이너)을 새로 띄웠다 죽였다 반복함. │
-  │                                                                   │
-  │  ===============================================================  │
-  │                                                                   │
-  │  [ 2. Apache Tez 방식 (DAG 기반 스트림 파이프라인) ]                  │
-  │                                                                   │
-  │                 (데이터)                                            │
-  │                    │                                              │
-  │                    ▼                                              │
-  │                 [ Map 1 ]                                         │
-  │                    │ ◀ (메모리로 즉시 토스! 디스크 I/O 없음!)              │
-  │                    ▼                                              │
-  │      ┌──────── [ Reduce 1 ] ───────┐                              │
-  │      │                             │                              │
-  │      ▼ (메모리)                      ▼ (메모리)                       │
-  │  [ Map 2 ]                     [ Map 3 ]                          │
-  │      │                             │                              │
-  │      └───────────┐   ┌─────────────┘                              │
-  │                    ▼   ▼                                           │
-  │                 [ Reduce 2 ] ────▶ (최종 결과)                      │
-  │    * 눈부신 진화: 작업을 큰 덩어리(DAG)로 묶어 컨테이너 재사용 (Hot JVM).  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 MapReduce vs Tez 파이프라인 아키텍처 비교              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 1. 전통적 MapReduce 방식 (단절된 실행) ]                           |
+  |                                                                   |
+  |    (데이터) ---> [ Map 1 ] ---> [ Reduce 1 ]                          |
+  |                                    |  <- [ 디스크 저장 및 읽기 쾅! ]      |
+  |                                    v                               |
+  |               [ Map 2 ] ---> [ Reduce 2 ]                          |
+  |                                    |  <- [ 디스크 저장 및 읽기 쾅! ]      |
+  |                                    v                               |
+  |               [ Map 3 ] ---> [ Reduce 3 ] ---> (최종 결과)            |
+  |    * 끔찍한 오버헤드: 각 Job마다 JVM(컨테이너)을 새로 띄웠다 죽였다 반복함. |
+  |                                                                   |
+  |  ===============================================================  |
+  |                                                                   |
+  |  [ 2. Apache Tez 방식 (DAG 기반 스트림 파이프라인) ]                  |
+  |                                                                   |
+  |                 (데이터)                                            |
+  |                    |                                              |
+  |                    v                                              |
+  |                 [ Map 1 ]                                         |
+  |                    | <- (메모리로 즉시 토스! 디스크 I/O 없음!)              |
+  |                    v                                              |
+  |      +-------- [ Reduce 1 ] -------+                              |
+  |      |                             |                              |
+  |      v (메모리)                      v (메모리)                       |
+  |  [ Map 2 ]                     [ Map 3 ]                          |
+  |      |                             |                              |
+  |      +-----------+   +-------------+                              |
+  |                    v   v                                           |
+  |                 [ Reduce 2 ] -----> (최종 결과)                      |
+  |    * 눈부신 진화: 작업을 큰 덩어리(DAG)로 묶어 컨테이너 재사용 (Hot JVM).  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 복잡한 `JOIN`이나 멀티 `GROUP BY`가 들어간 SQL을 처리하려면 여러 단계의 연산이 필수다. MapReduce는 무조건 M-R이라는 한 쌍의 구속복을 입고, 단계가 끝날 때마다 하드디스크([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))에 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쿵쿵 내려찍었다(물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생).
@@ -158,14 +158,14 @@ Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국([Hadoop](/k
 
 ```text
 [MapReduce (MapReduce)]
-    │
-    ▼
+    |
+    v
 [DAG (Directed Acyclic Graph)]
-    │
-    ▼
+    |
+    v
 [Apache Tez (Apache Tez)]
-    │
-    ▼
+    |
+    v
 [실시간 처리 (Real-Time Processing)]
 ```
 
@@ -177,7 +177,7 @@ Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국([Hadoop](/k
 
 **진행 상황**: 28 / 262
 
-← **이전**: [05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화](/knowledge-base/studynote/16_bigdata/02_hadoop/027_oozie_airflow/)
-**다음**: [07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리](/knowledge-base/studynote/16_bigdata/02_hadoop/029_datanode_block_storage_heartbeat/) →
+<- **이전**: [05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화](/knowledge-base/studynote/16_bigdata/02_hadoop/027_oozie_airflow/)
+**다음**: [07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리](/knowledge-base/studynote/16_bigdata/02_hadoop/029_datanode_block_storage_heartbeat/) ->
 
 ---

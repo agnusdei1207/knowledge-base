@@ -21,7 +21,7 @@ tags = ["software_engineering"]
 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 기능을 바꾸지 않고 구조를 바꾸는 활동이다. [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 "이 코드가 앞으로 더 아파질 가능성이 높다"는 경고로 보면 된다.
 빠르게만 만든 코드는 수정할수록 더 느려진다. 그래서 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))가 안전망이 된다.
 ```text
-냄새 탐지 → 테스트 확보 → 작은 변경 → 회귀 검증 → 유지보수성 향상
+냄새 탐지 -> 테스트 확보 -> 작은 변경 -> 회귀 검증 -> 유지보수성 향상
 ```
 
 - **📢 섹션 요약 비유**: 냄새는 버그보다 먼저 구조의 피로를 알린다.
@@ -103,17 +103,17 @@ TDD와 CI가 있으면 characterization test(캐릭터라이제이션 테스트)
 
 ```text
 스멜 발견
-  │
-  ▼
+  |
+  v
 테스트 확보
-  │
-  ▼
+  |
+  v
 작은 리팩토링
-  │
-  ▼
+  |
+  v
 회귀 검증
-  │
-  ▼
+  |
+  v
 CI 통과 후 반영
 ```
 
@@ -129,7 +129,7 @@ CI 통과 후 반영
 
 **진행 상황**: 78 / 973
 
-← **이전**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)
-**다음**: [079. 메타포 (Metaphor - XP Practice)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/) →
+<- **이전**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)
+**다음**: [079. 메타포 (Metaphor - XP Practice)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/) ->
 
 ---

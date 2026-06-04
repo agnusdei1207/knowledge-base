@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보통신기술사(PE, Professional 엔진er) ICT 신기술 영역은 Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모빌리티, 클라우드 인프라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 등 5대 축의 키워드를 각 영역 고유의 원리와 융합 관계까지 파악해야 논술에서 깊이 있는 답안이 나온다.
-> 2. **가치**: 개별 기술을 고립적으로 암기하는 것보다 "상위 패러다임 → 핵심 원리 → 비교 분석 → 실무 적용"의 4단계 프레임으로 묶어 이해하면 처음 보는 융합 문제에도 유연하게 대응할 수 있다.
+> 2. **가치**: 개별 기술을 고립적으로 암기하는 것보다 "상위 패러다임 -> 핵심 원리 -> 비교 분석 -> 실무 적용"의 4단계 프레임으로 묶어 이해하면 처음 보는 융합 문제에도 유연하게 대응할 수 있다.
 > 3. **판단 포인트**: 논술 채점의 차별화 포인트는 기술 정의가 아니라 <strong>한계와 트레이드오프를 정확히 짚는 것</strong>이다—어떤 조건에서 이 기술이 최선인지·아닌지를 논하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 ---
@@ -32,26 +32,26 @@ tags = ["studynote-ict-convergence"]
 ### ICT 5대 축 키워드 맵
 
 ```
-┌─────────────────────────────────────────────────────┐
-│          ICT 신기술 5대 축 통합 프레임워크            │
-│                                                     │
-│  ① Web3/블록체인   ② IoT/모빌리티   ③ 클라우드      │
-│  DLT, BFT, ZKP    LPWAN, MQTT      쿠버네티스       │
-│  DeFi, NFT, DID   Digital Twin     IaC, MSA        │
-│  DAO, Layer2      V2X, 5G/6G       CQRS, FinOps    │
-│        │               │                │          │
-│        └───────────────┴────────────────┘          │
-│                        │                           │
-│              ④ AI/LLM  │  ⑤ 데이터 과학            │
-│         Transformer    │  통계 검정                 │
-│         RAG, LoRA      │  ML 알고리즘               │
-│         RLHF, MoE      │  최적화 이론               │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|          ICT 신기술 5대 축 통합 프레임워크            |
+|                                                     |
+|  ① Web3/블록체인   ② IoT/모빌리티   ③ 클라우드      |
+|  DLT, BFT, ZKP    LPWAN, MQTT      쿠버네티스       |
+|  DeFi, NFT, DID   Digital Twin     IaC, MSA        |
+|  DAO, Layer2      V2X, 5G/6G       CQRS, FinOps    |
+|        |               |                |          |
+|        +---------------+----------------+          |
+|                        |                           |
+|              ④ AI/LLM  |  ⑤ 데이터 과학            |
+|         Transformer    |  통계 검정                 |
+|         RAG, LoRA      |  ML 알고리즘               |
+|         RLHF, MoE      |  최적화 이론               |
++-----------------------------------------------------+
 ```
 
 | 축 | 핵심 약어(전체 명칭) | 시험 빈출 키워드 |
 |:---:|:---|:---|
-| Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/)(Distributed Ledger Technology), [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)), [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity) | PoW→PoS 전환, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) |
+| Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/)(Distributed Ledger Technology), [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)), [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity) | PoW->PoS 전환, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) |
 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모빌리티 | [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)(Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network), [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)), [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)(Cyber-Physical System) | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), NTN(Non-Terrestrial Network), 자율주행 레벨 |
 | 클라우드 인프라 | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation) | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)), [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)([Low-Rank Adaptation](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)), [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback), MoE(Mixture of Experts) | 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 |
@@ -111,7 +111,7 @@ ICT 신기술을 5대 축과 교차 관계로 통합 이해하면, 처음 보는
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[핵심 약어 · 연결 개념] → [정보통신기술사 ICT 신기술 통합 정리] → [RAG · LoRA]
+[핵심 약어 · 연결 개념] -> [정보통신기술사 ICT 신기술 통합 정리] -> [RAG · LoRA]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -126,7 +126,7 @@ ICT 신기술을 5대 축과 교차 관계로 통합 이해하면, 처음 보는
 
 **진행 상황**: 550 / 552
 
-← **이전**: [549. LLM 컨텍스트 윈도우 확장과 긴 문맥 처리 (LLM Context Window Extension Long Context)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/549_llm_context_window_extension_long_context/)
-**다음**: [551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)](/knowledge-base/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/) →
+<- **이전**: [549. LLM 컨텍스트 윈도우 확장과 긴 문맥 처리 (LLM Context Window Extension Long Context)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/549_llm_context_window_extension_long_context/)
+**다음**: [551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)](/knowledge-base/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/) ->
 
 ---

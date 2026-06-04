@@ -26,19 +26,19 @@ Test-and-Set은 잠금 변수의 <strong>이전 값 <a href="/knowledge-base/stu
 아래 그림은 왜 단순한 조건 검사만으로는 락을 만들 수 없는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      소프트웨어식 잠금의 실패: 읽기와 쓰기 사이 틈이 존재함         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 초기 lock = 0                                                       │
-│                                                                      │
-│ Core A                    시간 축                     Core B         │
-│  read lock = 0     ─────────────────────────▶         read lock = 0  │
-│  "들어가도 되겠네"                                     "나도 되겠네" │
-│  write lock = 1    ─────────────────────────▶         write lock = 1 │
-│  critical section  ─────────────────────────▶         critical section│
-│                                                                      │
-│ 결과: 둘 다 진입하여 상호 배제 실패                                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      소프트웨어식 잠금의 실패: 읽기와 쓰기 사이 틈이 존재함         |
++----------------------------------------------------------------------+
+| 초기 lock = 0                                                       |
+|                                                                      |
+| Core A                    시간 축                     Core B         |
+|  read lock = 0     -------------------------->         read lock = 0  |
+|  "들어가도 되겠네"                                     "나도 되겠네" |
+|  write lock = 1    -------------------------->         write lock = 1 |
+|  critical section  -------------------------->         critical section|
+|                                                                      |
+| 결과: 둘 다 진입하여 상호 배제 실패                                  |
++----------------------------------------------------------------------+
 ```
 
 그래서 Test-and-Set은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이를 소프트웨어에 맡기지 않는다. 하드웨어가 해당 메모리 위치를 잠시 독점하고, **이전 값을 반환하면서 동시에 잠금 값을 기록** 하도록 만들어 "승자 1명, 패자 다수" 구조를 강제한다.
@@ -62,23 +62,23 @@ Test-and-Set의 전형적 의미는 `old = *lock; *lock = 1; return old;` 이다
 아래 그림은 성공과 실패가 어떻게 갈리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Test-and-Set의 원자적 승자 결정 흐름                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 공유 변수 lock = 0                                                  │
-│                                                                      │
-│ Core A                  Cache Coherence               Core B         │
-│   │                           │                         │            │
-│   ├─ T&S(lock) 요청 ─────────▶│                         │            │
-│   │                           ├─ lock line 독점 부여    │            │
-│   │                           │                         ├─ T&S 요청  │
-│   │◀──────── old=0, write=1 ──┤                         │            │
-│   │   락 획득 성공             │                         │            │
-│   │                           ├─ 이후 관측 값은 1       │            │
-│   │                           │───────────────▶         │            │
-│   │                           │                         │◀─ old=1    │
-│   │                           │                         │   획득 실패 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              Test-and-Set의 원자적 승자 결정 흐름                   |
++----------------------------------------------------------------------+
+| 공유 변수 lock = 0                                                  |
+|                                                                      |
+| Core A                  Cache Coherence               Core B         |
+|   |                           |                         |            |
+|   +- T&S(lock) 요청 ---------->|                         |            |
+|   |                           +- lock line 독점 부여    |            |
+|   |                           |                         +- T&S 요청  |
+|   |<--------- old=0, write=1 --+                         |            |
+|   |   락 획득 성공             |                         |            |
+|   |                           +- 이후 관측 값은 1       |            |
+|   |                           |---------------->         |            |
+|   |                           |                         |<-- old=1    |
+|   |                           |                         |   획득 실패 |
++----------------------------------------------------------------------+
 ```
 
 이 메커니즘 덕분에 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))의 기본 코드가 성립한다.
@@ -167,19 +167,19 @@ Test-and-Set의 가장 큰 의미는 "[상호 배제](/knowledge-base/studynote/
 
 ```text
 경합 조건 (Race Condition)
-        │
-        ▼
+        |
+        v
 원자적 읽기-수정-쓰기 (Atomic RMW)
-        │
-        ▼
+        |
+        v
 Test-and-Set 기반 스핀락
-        │
-        ├──────────────▶ TTAS · Back-off
-        │
-        ▼
+        |
+        +---------------> TTAS · Back-off
+        |
+        v
 CAS · LL/SC 기반 락프리 구조
-        │
-        ▼
+        |
+        v
 확장형 동기화: Queue Lock · HTM (Hardware Transactional Memory)
 ```
 
@@ -197,7 +197,7 @@ CAS · LL/SC 기반 락프리 구조
 
 **진행 상황**: 415 / 803
 
-← **이전**: [413. 하드웨어 동기화 (Hardware Synchronization)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/)
-**다음**: [415. Compare-and-Swap (CAS) 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/) →
+<- **이전**: [413. 하드웨어 동기화 (Hardware Synchronization)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/)
+**다음**: [415. Compare-and-Swap (CAS) 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/) ->
 
 ---

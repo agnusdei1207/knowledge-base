@@ -54,12 +54,12 @@ k-Fold 교차 검증 (k=5):
 불균형 데이터 (암 양성: 5%, 음성: 95%):
 
   일반 k-Fold:
-  폴드1: 양성 2%, 음성 98%  ← 클래스 비율 불균일
+  폴드1: 양성 2%, 음성 98%  <- 클래스 비율 불균일
   폴드3: 양성 8%, 음성 92%
 
   Stratified k-Fold:
-  모든 폴드: 양성 5%, 음성 95%  ← 비율 유지
-  → 더 공정하고 안정적인 평가
+  모든 폴드: 양성 5%, 음성 95%  <- 비율 유지
+  -> 더 공정하고 안정적인 평가
 ```
 
 - **📢 섹션 요약 비유**: Stratified k-Fold는 비례 대표 선거다. 각 지역(폴드)에서 인구 비율에 맞는 의석(클래스 비율)을 배분하여 전체 대표성이 왜곡되지 않게 한다.
@@ -97,7 +97,7 @@ k-Fold 교차 검증 (k=5):
   외부 폴드1: [검증] | 내부: [폴드A|폴드B|폴드C]로 파라미터 선택
   외부 폴드2: [검증] | 내부: [폴드A|폴드B|폴드C]로 파라미터 선택
   ...
-  → 편향 없는 최종 성능 추정
+  -> 편향 없는 최종 성능 추정
 ```
 
 ### Python 구현
@@ -149,17 +149,17 @@ scores = cross_val_score(model, X, y, cv=tss, scoring='rmse')
 
 ```text
 [Hold-out — 단순 고정 분할, 높은 분산]
-    │
-    ▼
+    |
+    v
 [k-Fold — 순환 검증, 낮은 분산]
-    │
-    ▼
+    |
+    v
 [Stratified/TimeSeriesSplit — 데이터 특성 맞춤 분할]
-    │
-    ▼
+    |
+    v
 [Nested CV — 하이퍼파라미터·평가 공정 이중 루프]
-    │
-    ▼
+    |
+    v
 [AutoML 병렬 CV — 수천 번 자동 탐색 최적화]
 ```
 
@@ -175,7 +175,7 @@ scores = cross_val_score(model, X, y, cv=tss, scoring='rmse')
 
 **진행 상황**: 31 / 420
 
-← **이전**: [30. 검증 세트 — 하이퍼파라미터 튜닝의 심판](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/)
-**다음**: [의사결정 트리 (Decision Tree)](/knowledge-base/studynote/10_ai/01_ai_basics/032_decision_tree/) →
+<- **이전**: [30. 검증 세트 — 하이퍼파라미터 튜닝의 심판](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/)
+**다음**: [의사결정 트리 (Decision Tree)](/knowledge-base/studynote/10_ai/01_ai_basics/032_decision_tree/) ->
 
 ---

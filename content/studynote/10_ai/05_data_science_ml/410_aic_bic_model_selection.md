@@ -24,11 +24,11 @@ tags = ["studynote-ai"]
 특히 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/), 회귀, 시계열, 혼합모형([GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/))처럼 후보 모델이 여러 개일 때, 단순 점수만 비교하면 파라미터 수가 많은 모델이 무조건 유리해진다. 정보 기준은 이런 편향을 보정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Model Selection via Information Criteria      │
-├──────────────────────────────────────────────────────────────┤
-│ Candidate model → Likelihood fit → Complexity penalty → Score│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 Model Selection via Information Criteria      |
++--------------------------------------------------------------+
+| Candidate model -> Likelihood fit -> Complexity penalty -> Score|
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 시험 점수만 보고 반을 편성하면 인원만 많은 반이 유리해진다. AIC/BIC는 학생 수가 많아질수록 생기는 "과밀 보정"이다.
@@ -47,12 +47,12 @@ tags = ["studynote-ai"]
 여기서 `k`는 파라미터 수, `n`은 샘플 수, `L`은 우도다. `n`이 커질수록 BIC의 패널티가 더 커지므로, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 BIC가 더 보수적으로 동작한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 AIC vs BIC Penalty Strength                  │
-├──────────────────────────────────────────────────────────────┤
-│ AIC:  2k              → predictive / flexible               │
-│ BIC:  k ln(n)         → parsimonious / conservative          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 AIC vs BIC Penalty Strength                  |
++--------------------------------------------------------------+
+| AIC:  2k              -> predictive / flexible               |
+| BIC:  k ln(n)         -> parsimonious / conservative          |
++--------------------------------------------------------------+
 ```
 
 ### 후보 모델 비교 절차
@@ -125,7 +125,7 @@ AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)] → [최적화·운영 자동화]
+[데이터 전처리] -> [AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시
 
 **진행 상황**: 410 / 420
 
-← **이전**: [409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)](/knowledge-base/studynote/10_ai/05_data_science_ml/409_kmeans_elbow_silhouette/)
-**다음**: [411. 편자기상관함수 (PACF, Partial Autocorrelation Function)](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/) →
+<- **이전**: [409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)](/knowledge-base/studynote/10_ai/05_data_science_ml/409_kmeans_elbow_silhouette/)
+**다음**: [411. 편자기상관함수 (PACF, Partial Autocorrelation Function)](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/) ->
 
 ---

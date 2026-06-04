@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) (Anti-Patterns)은 반복해서 등장하지만 장기적으로 비용과 결함을 키우는 나쁜 설계 해법의 유형이다. 초기에는 빠른 우회처럼 보이지만 시간이 지날수록 변경 비용과 이해 비용을 폭증시키는 코드 냄새가 누적된다. 이 개념이 필요한 이유는 나쁜 반복 해법을 조기에 식별하고 끊는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 스파게티 코드, 갓 클래스, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비처럼 책임과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권이 무너져 장애 대응이 어려워진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Growth   │──▶│   Smell    │──▶│    Risk    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|   Growth   |--->|   Smell    |--->|    Risk    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Module  │──▶│  Smell   │──▶│  Couple  │──▶│   Fail   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Module  |--->|  Smell   |--->|  Couple  |--->|   Fail   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 리팩터링 | [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) (Anti-Patterns)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[임시 우회 누적] → [안티 패턴 인식] → [점진적 구조 개선]
+[임시 우회 누적] -> [안티 패턴 인식] -> [점진적 구조 개선]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) (Anti-Patterns)은 책상 위에 물건을 아무 데나 쌓아 두다가 찾을 수 없게 되는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 481 / 530
 
-← **이전**: [402. 데이터 접근 객체 (Data Access Object, DAO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/402_process/)
-**다음**: [404. 테스트 더블 (Test Double)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/404_process/) →
+<- **이전**: [402. 데이터 접근 객체 (Data Access Object, DAO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/402_process/)
+**다음**: [404. 테스트 더블 (Test Double)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/404_process/) ->
 
 ---

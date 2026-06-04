@@ -36,19 +36,19 @@ tags = ["studynote-design-supervision"]
 아래 그림은 여러 클라이언트가 같은 공유 객체를 사용하되, 위치와 크기 같은 값은 외부에서 따로 전달하는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Shared object holds only reusable state                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client A: pos(10,20), size=12 ─┐                                    │
-│ Client B: pos(10,40), size=12 ─┼─▶ Flyweight Factory ─▶ Glyph "A"  │
-│ Client C: pos(10,60), size=18 ─┘                       │            │
-│                                                         ├─ intrinsic │
-│                                                         │  font, path│
-│                                                         │  bitmap    │
-│                                                         └─ extrinsic │
-│                                                            x, y, size│
-│                                                            from call │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Shared object holds only reusable state                             |
++----------------------------------------------------------------------+
+| Client A: pos(10,20), size=12 -+                                    |
+| Client B: pos(10,40), size=12 -+--> Flyweight Factory --> Glyph "A"  |
+| Client C: pos(10,60), size=18 -+                       |            |
+|                                                         +- intrinsic |
+|                                                         |  font, path|
+|                                                         |  bitmap    |
+|                                                         +- extrinsic |
+|                                                            x, y, size|
+|                                                            from call |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -136,22 +136,22 @@ tags = ["studynote-design-supervision"]
 
 ```text
 Repeated Objects Explosion
-         │
-         ▼
+         |
+         v
 Intrinsic / Extrinsic State Split
-         │
-         ▼
+         |
+         v
 Flyweight Factory + Shared Cache
-         │
-         ├──▶ String Pool
-         ├──▶ Rendering Symbol Reuse
-         └──▶ Game Tile / Glyph Sharing
-         │
-         ▼
+         |
+         +---> String Pool
+         +---> Rendering Symbol Reuse
+         +---> Game Tile / Glyph Sharing
+         |
+         v
 Memory Footprint Reduction + Scalable Rendering
 ```
 
-이 흐름은 "객체 폭증 문제 인식 → 상태 분리 → 공유 관리 → 대량 렌더링 최적화"로 이어지는 적용 맥락을 보여준다.
+이 흐름은 "객체 폭증 문제 인식 -> 상태 분리 -> 공유 관리 -> 대량 렌더링 최적화"로 이어지는 적용 맥락을 보여준다.
 
 ### 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ Memory Footprint Reduction + Scalable Rendering
 
 **진행 상황**: 213 / 530
 
-← **이전**: [156. 파사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/)
-**다음**: [158. 프록시 패턴 (Proxy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) →
+<- **이전**: [156. 파사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/)
+**다음**: [158. 프록시 패턴 (Proxy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) ->
 
 ---

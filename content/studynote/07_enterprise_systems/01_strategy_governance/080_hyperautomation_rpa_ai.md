@@ -32,23 +32,23 @@ tags = ["studynote-enterprise-systems"]
 하이퍼오토메이션은 비정형의 카오스(인간의 세계)를 정형화된 질서(기계의 세계)로 끌고 내려오는 폭포수 아키텍처다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           하이퍼오토메이션 (RPA + AI) 융합 처리 아키텍처             │
-├────────────────────────────────────────────────────────┤
-│   [ 1단계: 비정형 데이터 유입 (카오스) ]                      │
-│    - 이메일: "제품 고장 났어요. 교환 환불 좀 (영수증 사진 첨부)"     │
-│             │                                          │
-│             ▼                                          │
-│   [ 2단계: AI Cognitive Services (뇌와 눈의 개입) ]        │
-│    - NLP (자연어 처리): "고장, 환불" ➔ [의도: 반품 처리] 분류    │
-│    - OCR (이미지 인식): 사진 속 영수증 ➔ [금액: 5만 원, 날짜 추출]│
-│             │  (비정형 ➔ 정형 데이터셋(JSON)으로 변환 완료!)  │
-│             ▼                                          │
-│   [ 3단계: RPA Bot (손발의 무자비한 실행) ]                 │
-│    - 봇이 JSON 데이터를 넘겨받음                              │
-│    - 사내 ERP(SAP) 화면 오픈 ➔ 반품 메뉴 클릭 ➔ 5만 원 자동 환불│
-│    - 고객에게 "환불 처리되었습니다" 이메일 발송 광클릭            │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           하이퍼오토메이션 (RPA + AI) 융합 처리 아키텍처             |
++--------------------------------------------------------+
+|   [ 1단계: 비정형 데이터 유입 (카오스) ]                      |
+|    - 이메일: "제품 고장 났어요. 교환 환불 좀 (영수증 사진 첨부)"     |
+|             |                                          |
+|             v                                          |
+|   [ 2단계: AI Cognitive Services (뇌와 눈의 개입) ]        |
+|    - NLP (자연어 처리): "고장, 환불" ➔ [의도: 반품 처리] 분류    |
+|    - OCR (이미지 인식): 사진 속 영수증 ➔ [금액: 5만 원, 날짜 추출]|
+|             |  (비정형 ➔ 정형 데이터셋(JSON)으로 변환 완료!)  |
+|             v                                          |
+|   [ 3단계: RPA Bot (손발의 무자비한 실행) ]                 |
+|    - 봇이 JSON 데이터를 넘겨받음                              |
+|    - 사내 ERP(SAP) 화면 오픈 ➔ 반품 메뉴 클릭 ➔ 5만 원 자동 환불|
+|    - 고객에게 "환불 처리되었습니다" 이메일 발송 광클릭            |
++--------------------------------------------------------+
 ```
 
 여기서 핵심은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 직접 바닥부터 만드는 것이 아니다. UiPath, Automation Anywhere 같은 최신 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 플랫폼들은 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 '드래그 앤 드롭'으로 조립할 수 있게 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> Understanding (문서 이해)</strong>이나 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Center</strong> 같은 쇳덩어리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 기본 탑재하여 제공한다. 아키텍트는 블록만 끼워 맞추면 끝난다.
@@ -111,21 +111,21 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 전통적 IT 자동화(배치 스크립트, API)의 레거시 통합 한계 직면
-    │
-    ▼
-화면 껍데기(UI)를 조작하는 단순 매크로 ──▶ RPA (Robotic Process Automation) 1.0 전성기
-    │
-    ▼
+    |
+    v
+화면 껍데기(UI)를 조작하는 단순 매크로 ---> RPA (Robotic Process Automation) 1.0 전성기
+    |
+    v
 비정형 데이터(사진, 이메일, 문서)를 만나면 RPA가 먹통이 되는 쇳덩어리 한계 봉착
-    │
-    ▼
-AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방에 배치 ──▶ 지능 부여
-    │
-    ▼
+    |
+    v
+AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방에 배치 ---> 지능 부여
+    |
+    v
 프로세스 마이닝 기반의 자동화 대상 발굴부터, 인간과의 협업(HITL)까지 포함한 '하이퍼오토메이션' 세계관 확립
 ```
 
-이 흐름도는 "손발(매크로)의 발전 → 맹점(비정형) 직면 → 눈과 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 장착 → 전체 업무 프로세스를 통째로 자동화하는 엔터프라이즈의 진화"라는 지능형 자동화의 역사적 궤적을 보여준다.
+이 흐름도는 "손발(매크로)의 발전 -> 맹점(비정형) 직면 -> 눈과 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 장착 -> 전체 업무 프로세스를 통째로 자동화하는 엔터프라이즈의 진화"라는 지능형 자동화의 역사적 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방�
 
 **진행 상황**: 80 / 482
 
-← **이전**: [079. RPA (Robotic Process Automation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/079_rpa_robotic_process_automation/)
-**다음**: [81. ERP (Enterprise Resource Planning)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) →
+<- **이전**: [079. RPA (Robotic Process Automation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/079_rpa_robotic_process_automation/)
+**다음**: [81. ERP (Enterprise Resource Planning)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ->
 
 ---

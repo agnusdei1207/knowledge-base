@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 음성 / 로그 / 이미지
-        ↓
+        v
 NLP / OCR / STT
-        ↓
+        v
 태깅 / 스키마화
-        ↓
+        v
 Data Catalog
 ```
 
@@ -111,13 +111,13 @@ B사 데이터 -- hash/token --/
 
 ```text
 Dark Data
-   ↓
+   v
 Metadata / Catalog
-   ↓
+   v
 Privacy Clean Room
-   ↓
+   v
 Aggregated Insight
-   ↓
+   v
 Business Activation
 ```
 
@@ -127,13 +127,13 @@ Business Activation
 
 ```text
 음성 / 로그 / 이미지
-   ↓
+   v
 NLP / OCR / STT
-   ↓
+   v
 카탈로그 / 메타데이터
-   ↓
+   v
 Clean Room
-   ↓
+   v
 안전한 데이터 결합
 ```
 
@@ -151,7 +151,7 @@ AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.
 
 **진행 상황**: 60 / 258
 
-← **이전**: [59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색](/knowledge-base/studynote/14_data_engineering/01_infrastructure/059_bloom_filter_false_positive_disk_io/)
-**다음**: [61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM](/knowledge-base/studynote/14_data_engineering/02_math_mining/061_data_mining_framework_kdd_crisp_dm/) →
+<- **이전**: [59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색](/knowledge-base/studynote/14_data_engineering/01_infrastructure/059_bloom_filter_false_positive_disk_io/)
+**다음**: [61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM](/knowledge-base/studynote/14_data_engineering/02_math_mining/061_data_mining_framework_kdd_crisp_dm/) ->
 
 ---

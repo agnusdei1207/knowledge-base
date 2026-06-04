@@ -31,11 +31,11 @@ tags = ["studynote-network"]
 
 ```text
 [ISN 무작위 할당 이유]
-    │
-    ▼
+    |
+    v
 [TCP 4-Way Handshake]
-    │
-    └──▶ [TIME_WAIT 상태]
+    |
+    +---> [TIME_WAIT 상태]
 ```
 
 - **📢 섹션 요약 비유**: ** 4단계 종료 과정은 뷔페 식당의 **"영업 종료 안내"**입니다. 지배인이 "영업 끝났습니다(FIN)"라고 안내해도, 손님 입의 음식을 뺏진 않습니다. 손님은 "네 알겠습니다(ACK)"라고 한 뒤, 접시에 남은 고기(남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 천천히 다 먹고 나서야 "잘 먹고 갑니다(FIN)"라고 인사하고, 지배인이 "안녕히 가세요(ACK)" 해야 비로소 문이 닫힙니다.
@@ -71,29 +71,29 @@ tags = ["studynote-network"]
   - 클라이언트는 이 ACK를 쏘고 나서 바로 꺼지지 않는다! <strong><code>TIME_WAIT</code></strong>라는 특수 상태에 빠져서 허공을 멍하니 1분 이상 쳐다보며 대기한다. (왜 대기하는지는 다음 장에서 배운다).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 4-Way Handshake 상태 변화 흐름도              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 클라이언트 (Active Close) ]               [ 서버 (Passive Close) ]│
- │      (ESTABLISHED)                            (ESTABLISHED) │
- │           │                                         │       │
- │           │ 1. [FIN] "나 끊을게"                      │       │
- │           ├───────────────────────────────────────▶ │       │
- │    (FIN_WAIT_1)                               (CLOSE_WAIT)  │
- │           │ 2. [ACK] "어 알았어 (근데 남은 거 줌)"       │       │
- │           ◀───────────────────────────────────────┤       │
- │    (FIN_WAIT_2)                                     │       │
- │           │         ... (남은 데이터 찌꺼기 전송) ...   │       │
- │           │                                         │       │
- │           │ 3. [FIN] "나도 다 줬다 찐막 끊자!"         │       │
- │           ◀───────────────────────────────────────┤       │
- │    (TIME_WAIT)                                 (LAST_ACK)   │
- │           │ 4. [ACK] "잘 가~!"                      │       │
- │           ├───────────────────────────────────────▶ │       │
- │           │                                      (CLOSED)   │
- │    (2MSL 대기 후 CLOSED)                                     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 4-Way Handshake 상태 변화 흐름도              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 클라이언트 (Active Close) ]               [ 서버 (Passive Close) ]|
+ |      (ESTABLISHED)                            (ESTABLISHED) |
+ |           |                                         |       |
+ |           | 1. [FIN] "나 끊을게"                      |       |
+ |           +----------------------------------------> |       |
+ |    (FIN_WAIT_1)                               (CLOSE_WAIT)  |
+ |           | 2. [ACK] "어 알았어 (근데 남은 거 줌)"       |       |
+ |           <----------------------------------------+       |
+ |    (FIN_WAIT_2)                                     |       |
+ |           |         ... (남은 데이터 찌꺼기 전송) ...   |       |
+ |           |                                         |       |
+ |           | 3. [FIN] "나도 다 줬다 찐막 끊자!"         |       |
+ |           <----------------------------------------+       |
+ |    (TIME_WAIT)                                 (LAST_ACK)   |
+ |           | 4. [ACK] "잘 가~!"                      |       |
+ |           +----------------------------------------> |       |
+ |           |                                      (CLOSED)   |
+ |    (2MSL 대기 후 CLOSED)                                     |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 4-Way Handshake는 무전기 통신의 **"오버 앤 아웃"**입니다. 내가 "할 말 다 했음, 오버(FIN)"라고 하면 상대는 "알겠음, 근데 내 할 말은 어쩌고 저쩌고~ 끝, 오버(FIN)"라고 합니다. 마지막으로 내가 "다 잘 들었음, 통신 끝 아웃!(ACK)"이라고 해야 비로소 무전기의 전원이 완전히 꺼집니다.
@@ -154,12 +154,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ISN 무작위 할당 이유]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 4-Way Handshake]
-    │
-    ├──▶ [확장 A: TIME_WAIT 상태]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TIME_WAIT 상태]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유에서 출발해 현재 메커니즘을 정교화하고, 이후 TIME_WAIT 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -176,7 +176,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 539 / 1120
 
-← **이전**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/)
-**다음**: [419. TIME_WAIT 상태 (기본 2MSL 대기)](/knowledge-base/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/) →
+<- **이전**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/)
+**다음**: [419. TIME_WAIT 상태 (기본 2MSL 대기)](/knowledge-base/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/) ->
 
 ---

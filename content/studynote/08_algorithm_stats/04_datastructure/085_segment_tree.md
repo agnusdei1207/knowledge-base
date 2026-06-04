@@ -19,21 +19,21 @@ tags = ["studynote-algorithm-stats"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         세그먼트 트리 구조 (배열 합)                       │
-├──────────────────────────────────────────────────────────┤
-│  배열: [1, 3, 5, 7, 9, 11]                               │
-│                                                           │
-│              [36]       ← 전체 합 (인덱스 1)             │
-│            /       \                                     │
-│         [16]       [20]  ← 좌우 절반                     │
-│        /    \     /    \                                  │
-│      [4]   [12] [9]  [11] ← 쿼터                        │
-│     /  \  /  \  /  \                                     │
-│   [1] [3][5][7][9][11] ← 리프 노드 (원소)                │
-│                                                           │
-│  구간 합 [1..4]: 루트→[16]→[4]+[12] = 16 → O(log n)      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         세그먼트 트리 구조 (배열 합)                       |
++----------------------------------------------------------+
+|  배열: [1, 3, 5, 7, 9, 11]                               |
+|                                                           |
+|              [36]       <- 전체 합 (인덱스 1)             |
+|            /       \                                     |
+|         [16]       [20]  <- 좌우 절반                     |
+|        /    \     /    \                                  |
+|      [4]   [12] [9]  [11] <- 쿼터                        |
+|     /  \  /  \  /  \                                     |
+|   [1] [3][5][7][9][11] <- 리프 노드 (원소)                |
+|                                                           |
+|  구간 합 [1..4]: 루트->[16]->[4]+[12] = 16 -> O(log n)      |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 회사 조직도 합산이다. CEO(루트)는 전체 합을 알고, 부장(중간 노드)은 자기 팀 합을 알며, 직원(리프)은 자신의 값을 안다. 특정 팀 합을 알려면 최소한의 상사만 물어보면 된다.
@@ -70,9 +70,9 @@ class SegmentTree:
 ### 레이지 프로파게이션 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Propagation)
 
 ```text
-문제: 구간 [l, r] 전체에 +k 업데이트 → 순진하게 하면 O(n)
-해결: 업데이트를 지연(lazy) 저장 → 필요할 때만 전파
-→ 구간 업데이트도 O(log n) 가능
+문제: 구간 [l, r] 전체에 +k 업데이트 -> 순진하게 하면 O(n)
+해결: 업데이트를 지연(lazy) 저장 -> 필요할 때만 전파
+-> 구간 업데이트도 O(log n) 가능
 ```
 
 - **📢 섹션 요약 비유**: 레이지 프로파게이션은 일괄 업무 처리다. 100명 직원 급여를 일일이 바꾸는 대신, "팀 전체 +[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 인상" 메모만 남겨두고 실제 계산은 각 직원 급여를 조회할 때만 한다.
@@ -99,15 +99,15 @@ class SegmentTree:
 ```text
 구간 최솟값 (Range Minimum Query):
   세그먼트 트리 리프 = 원소, 내부 = min(자식)
-  → 구간 최솟값 O(log n), 업데이트 O(log n)
+  -> 구간 최솟값 O(log n), 업데이트 O(log n)
 
 구간 최솟값 + Offline: 스파스 테이블 (O(1) 쿼리, O(n log n) 전처리)
 
 구간 업데이트 + 구간 합: 레이지 프로파게이션 필수
 
 지속 세그먼트 트리 (Persistent Segment Tree):
-  시간축 버전 관리 → 과거 시점 쿼리 O(log n)
-  → 오프라인 쿼리, K번째 원소 찾기
+  시간축 버전 관리 -> 과거 시점 쿼리 O(log n)
+  -> 오프라인 쿼리, K번째 원소 찾기
 ```
 
 - **📢 섹션 요약 비유**: 지속 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 시간 여행 가능한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 트리의 모든 과거 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 O(log n) 공간으로 유지해서 "3단계 전 상태의 구간 합이 얼마였나?"를 빠르게 조회할 수 있다.
@@ -142,17 +142,17 @@ class SegmentTree:
 
 ```text
 [배열 선형 탐색 — 구간 쿼리 O(n)]
-    │
-    ▼
+    |
+    v
 [누적 합 — 정적 구간 합 O(1) 쿼리]
-    │
-    ▼
+    |
+    v
 [세그먼트 트리 — 동적 구간 쿼리·업데이트 O(log n)]
-    │
-    ▼
+    |
+    v
 [레이지 프로파게이션 — 구간 업데이트 O(log n)]
-    │
-    ▼
+    |
+    v
 [지속 세그먼트 트리 — 시간축 버전 관리]
 ```
 
@@ -168,7 +168,7 @@ class SegmentTree:
 
 **진행 상황**: 85 / 175
 
-← **이전**: [29. 덱 (Deque — Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/)
-**다음**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) →
+<- **이전**: [29. 덱 (Deque — Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/)
+**다음**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ->
 
 ---

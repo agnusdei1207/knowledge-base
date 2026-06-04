@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정규 표현식 (Regex, Regular Expression)은 정규 문법 (Regular Grammar)으로 표현되는 패턴을 NFA (Non-deterministic Finite Automaton) → DFA (Deterministic Finite Automaton) 변환 파이프라인으로 컴파일하여 O(n) 시간에 텍스트 매칭을 수행하는 패턴 매칭 언어다.
+> 1. **본질**: 정규 표현식 (Regex, Regular Expression)은 정규 문법 (Regular Grammar)으로 표현되는 패턴을 NFA (Non-deterministic Finite Automaton) -> DFA (Deterministic Finite Automaton) 변환 파이프라인으로 컴파일하여 O(n) 시간에 텍스트 매칭을 수행하는 패턴 매칭 언어다.
 > 2. **가치**: 복잡한 문자열 패턴을 선언적으로 기술하고, 그 패턴을 최적 자동자로 컴파일하면 O(n) 선형 시간 매칭이 보장된다. 단, 역참조(Backreference)는 정규 언어를 벗어나 NP-완전 최악 케이스를 유발한다.
 > 3. **판단 포인트**: 역참조를 쓰지 않으면 DFA 기반 O(n) 매칭이 보장되며, 역참조·중첩 수량자 사용 시 PCRE 엔진의 지수 폭발([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/))에 주의해야 한다.
 
@@ -25,10 +25,10 @@ tags = ["studynote-algorithm"]
 
 | 요소 | 의미 | 예시 |
 |:---|:---|:---|
-| `.` | 임의 한 문자 | `a.c` → "abc", "aXc" |
-| `*` | 0회 이상 반복 (탐욕적) | `ab*` → "a", "ab", "abbb" |
-| `+` | 1회 이상 반복 | `ab+` → "ab", "abbb" |
-| `?` | 0회 또는 1회 | `colou?r` → "color", "colour" |
+| `.` | 임의 한 문자 | `a.c` -> "abc", "aXc" |
+| `*` | 0회 이상 반복 (탐욕적) | `ab*` -> "a", "ab", "abbb" |
+| `+` | 1회 이상 반복 | `ab+` -> "ab", "abbb" |
+| `?` | 0회 또는 1회 | `colou?r` -> "color", "colour" |
 | `|` | 선택 (OR) | `cat\|dog` |
 | `[]` | 문자 클래스 | `[a-z]`, `[0-9]` |
 | `^` / `$` | 행 시작/끝 앵커 | `^Hello` |
@@ -44,30 +44,30 @@ tags = ["studynote-algorithm"]
 
 ```
 정규 표현식 패턴
-        │
-        ▼
-┌───────────────────┐
-│  파싱 (Parsing)   │  → 추상 구문 트리 (AST)
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ Thompson 구성법   │  → NFA (Non-deterministic FA)
-│ (NFA 구축)        │
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ 부분집합 구성법   │  → DFA (Deterministic FA)
-│ (Subset Const.)   │
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ DFA 최소화        │  → 최소 DFA (상태 수 최소화)
-└───────────────────┘
-        │
-        ▼
+        |
+        v
++-------------------+
+|  파싱 (Parsing)   |  -> 추상 구문 트리 (AST)
++-------------------+
+        |
+        v
++-------------------+
+| Thompson 구성법   |  -> NFA (Non-deterministic FA)
+| (NFA 구축)        |
++-------------------+
+        |
+        v
++-------------------+
+| 부분집합 구성법   |  -> DFA (Deterministic FA)
+| (Subset Const.)   |
++-------------------+
+        |
+        v
++-------------------+
+| DFA 최소화        |  -> 최소 DFA (상태 수 최소화)
++-------------------+
+        |
+        v
      텍스트 매칭: O(n)
 ```
 
@@ -77,10 +77,10 @@ tags = ["studynote-algorithm"]
 NFA (ε = 엡실론 전이):
 
       ε         ε    b    ε
-  ───→[q0]─a─▶[q1]─────▶[q2]────▶[q4]─d─▶[q5]*
-                │    c              ▲
-                └──────────▶[q3]───┘
-                            ε 전이 허용 → 비결정성
+  ---->[q0]-a-->[q1]------>[q2]----->[q4]-d-->[q5]*
+                |    c              ^
+                +----------->[q3]---+
+                            ε 전이 허용 -> 비결정성
 
 NFA 특성:
 - 동일 상태에서 같은 입력으로 여러 전이 가능
@@ -94,14 +94,14 @@ NFA 특성:
 DFA (결정적):
 
         a         b,c        d
-  ─→[S]───▶[A]───────▶[B]*───▶[C]*
-                 ↑    |
-                 └────┘ (b 또는 c 반복)
+  -->[S]---->[A]-------->[B]*---->[C]*
+                 ^    |
+                 +----+ (b 또는 c 반복)
 
 DFA 특성:
 - 각 상태에서 각 입력에 대해 정확히 하나의 전이
 - 상태 수 최악 O(2^m) (부분집합 구성)
-- 매칭: O(n) ← 각 텍스트 문자당 상태 전이 1회
+- 매칭: O(n) <- 각 텍스트 문자당 상태 전이 1회
 ```
 
 ### 탐욕적 vs 게으른 수량자
@@ -110,10 +110,10 @@ DFA 특성:
 텍스트: "<h1>제목</h1>"
 
 탐욕적 (Greedy): <.*>
-  가능한 한 많이 매칭 → "<h1>제목</h1>" 전체
+  가능한 한 많이 매칭 -> "<h1>제목</h1>" 전체
 
 게으른 (Lazy): <.*?>
-  가능한 한 적게 매칭 → "<h1>" 첫 태그만
+  가능한 한 적게 매칭 -> "<h1>" 첫 태그만
 ```
 
 📢 **섹션 요약 비유**: NFA는 여러 경로를 동시에 시도하는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐험대, DFA는 미리 최적 경로를 외운 안내원—DFA가 텍스트를 더 빠르게 통과하지만 지도(상태) 크기가 더 크다.
@@ -139,9 +139,9 @@ DFA 특성:
 텍스트: "aaaaab"
 
 백트래킹:
-  "aaaaab" → 매칭 실패 시 가능한 모든 분할 시도
+  "aaaaab" -> 매칭 실패 시 가능한 모든 분할 시도
   a|aaaa, aa|aaa, ...
-  → 지수적 백트래킹 O(2^n)
+  -> 지수적 백트래킹 O(2^n)
 
 실제 공격: Cloudflare 2019년 장애의 원인 중 하나
 
@@ -154,13 +154,13 @@ DFA 특성:
 ### 표현력: Chomsky 계층
 
 ```
-정규 언어 (Regular)     ← 정규 표현식 커버 범위
-  ⊂ 문맥 자유 언어 (Context-Free)  ← CFG, 파서
+정규 언어 (Regular)     <- 정규 표현식 커버 범위
+  ⊂ 문맥 자유 언어 (Context-Free)  <- CFG, 파서
     ⊂ 문맥 민감 언어 (Context-Sensitive)
       ⊂ 재귀 가산 언어 (Recursively Enumerable)
 
 중첩 괄호 "(((a)))"는 정규 언어가 아님
-→ 정규 표현식으로 완전히 처리 불가 (파서 필요)
+-> 정규 표현식으로 완전히 처리 불가 (파서 필요)
 ```
 
 📢 **섹션 요약 비유**: 역참조가 포함된 정규 표현식은 단순 패턴 필터에 "과거를 기억하는 능력"을 추가한 것—이 기억이 정규 언어의 경계를 넘어 지수 복잡도 함정을 만든다.
@@ -180,11 +180,11 @@ DFA 특성:
 ### 기술사 판단 기준
 
 ```
-단순 패턴 검색 (역참조 없음)      →  정규 표현식 O(n) 보장
-중첩 수량자·역참조 필요           →  ReDoS 위험, 타임아웃 설정
-중첩 괄호·재귀 구조 파싱          →  CFG 파서 (정규 표현식 한계)
-다중 패턴 동시 매칭               →  아호-코라식 (Aho-Corasick)
-안전한 RE 엔진 필요 (서비스)      →  RE2 또는 Go regexp (DFA 기반)
+단순 패턴 검색 (역참조 없음)      ->  정규 표현식 O(n) 보장
+중첩 수량자·역참조 필요           ->  ReDoS 위험, 타임아웃 설정
+중첩 괄호·재귀 구조 파싱          ->  CFG 파서 (정규 표현식 한계)
+다중 패턴 동시 매칭               ->  아호-코라식 (Aho-Corasick)
+안전한 RE 엔진 필요 (서비스)      ->  RE2 또는 Go regexp (DFA 기반)
 ```
 
 📢 **섹션 요약 비유**: 정규 표현식의 ReDoS는 문어발 수량자로 작성한 패턴이 텍스트를 분석할 때 미로를 헤매는 것—안전한 DFA 엔진(RE2)은 미로 대신 일직선 길을 제공한다.
@@ -205,7 +205,7 @@ DFA 특성:
 |:---|:---|
 | NFA (Non-deterministic Finite Automaton) | 정규 표현식의 직접 컴파일 결과 |
 | DFA (Deterministic Finite Automaton) | NFA 변환 후 O(n) 매칭 구조 |
-| Thompson 구성법 | 정규 표현식 → NFA 변환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| Thompson 구성법 | 정규 표현식 -> NFA 변환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) | 역참조·중첩 수량자의 보안 취약점 |
 | [아호-코라식](/knowledge-base/studynote/08_algorithm_stats/05_string/098_aho_corasick/) | 다중 패턴 DFA 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | Chomsky 계층 | 정규 표현식의 표현력 한계 이론 |
@@ -216,17 +216,17 @@ DFA 특성:
 
 ```text
 [정규 언어 (Regular Language) — 유한 오토마타(FA)로 인식 가능한 패턴 집합]
-    │
-    ▼
+    |
+    v
 [NFA (Nondeterministic Finite Automaton) — 정규 표현식을 자동 변환]
-    │
-    ▼
+    |
+    v
 [DFA (Deterministic Finite Automaton) — NFA를 결정적 오토마타로 변환, 매칭 수행]
-    │
-    ▼
+    |
+    v
 [PCRE (Perl Compatible Regular Expressions) — 역참조·룩어헤드 확장, 실무 표준]
-    │
-    ▼
+    |
+    v
 [ReDoS (정규식 서비스 거부) 취약점 — 지수적 백트래킹 악용 보안 위협 대응]
 ```
 
@@ -244,7 +244,7 @@ DFA 특성:
 
 **진행 상황**: 104 / 175
 
-← **이전**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/)
-**다음**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/) →
+<- **이전**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/)
+**다음**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/) ->
 
 ---

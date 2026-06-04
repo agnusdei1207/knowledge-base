@@ -23,20 +23,20 @@ tags = ["studynote-devops-sre"]
 전통적인 폭포수(Waterfall) 방식에서는 6~12개월마다 대규모 릴리스를 하나씩 내보내며, 이로 인해 누적된 버그와 대규모 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 위험이 상시 존재한다. 배포 빈도를 높이면 변경 규모가 작아져 문제 발생 시 원인 추적이 쉬워지고, 사용자 피드백을 빠르게 반영하는 린 사이클([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Cycle)이 완성된다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            DORA 4대 메트릭 상호 관계                         │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  속도 (Velocity)                                           │
-│  ├─ 배포 빈도 (Deployment Frequency)  ← 이번 주제          │
-│  └─ 변경 리드 타임 (MLT: Mean Lead Time for Changes)       │
-│                                                            │
-│  안정성 (Stability)                                        │
-│  ├─ 변경 실패율 (CFR: Change Failure Rate)                  │
-│  └─ 서비스 복구 시간 (MTTR: Mean Time To Restore)          │
-│                                                            │
-│  핵심 통찰: Elite 팀 = 속도 높음 + 안정성 높음 (트레이드오프 없음!)│
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|            DORA 4대 메트릭 상호 관계                         |
++------------------------------------------------------------+
+|                                                            |
+|  속도 (Velocity)                                           |
+|  +- 배포 빈도 (Deployment Frequency)  <- 이번 주제          |
+|  +- 변경 리드 타임 (MLT: Mean Lead Time for Changes)       |
+|                                                            |
+|  안정성 (Stability)                                        |
+|  +- 변경 실패율 (CFR: Change Failure Rate)                  |
+|  +- 서비스 복구 시간 (MTTR: Mean Time To Restore)          |
+|                                                            |
+|  핵심 통찰: Elite 팀 = 속도 높음 + 안정성 높음 (트레이드오프 없음!)|
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 배포 빈도는 식당의 신메뉴 출시 속도와 같다. 6개월마다 대형 메뉴 개편(대규모 릴리스)을 하는 식당보다, 매주 작은 개선(잦은 소규모 배포)을 하는 식당이 고객 취향 변화에 훨씬 빠르게 적응한다.
@@ -57,24 +57,24 @@ tags = ["studynote-devops-sre"]
 ### 고빈도 배포를 가능하게 하는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Elite 팀의 고빈도 배포 지원 아키텍처                   │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  코드 커밋 (Git Push)                                        │
-│       │                                                      │
-│       ▼                                                      │
-│  CI Pipeline: 빌드 → 단위테스트 → 통합테스트 → 이미지 빌드     │
-│       │  (GitHub Actions / Jenkins / CircleCI)               │
-│       ▼                                                      │
-│  CD Pipeline: 스테이징 배포 → E2E 테스트 → 프로덕션 배포       │
-│       │  (ArgoCD / Spinnaker / Flux)                         │
-│       ▼                                                      │
-│  Feature Flag: 특정 사용자에게만 신기능 활성화                  │
-│       │  (LaunchDarkly / Unleash)                            │
-│       ▼                                                      │
-│  카나리 배포: 5% 트래픽 → 점진적 확대 → 100%                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Elite 팀의 고빈도 배포 지원 아키텍처                   |
++--------------------------------------------------------------+
+|                                                              |
+|  코드 커밋 (Git Push)                                        |
+|       |                                                      |
+|       v                                                      |
+|  CI Pipeline: 빌드 -> 단위테스트 -> 통합테스트 -> 이미지 빌드     |
+|       |  (GitHub Actions / Jenkins / CircleCI)               |
+|       v                                                      |
+|  CD Pipeline: 스테이징 배포 -> E2E 테스트 -> 프로덕션 배포       |
+|       |  (ArgoCD / Spinnaker / Flux)                         |
+|       v                                                      |
+|  Feature Flag: 특정 사용자에게만 신기능 활성화                  |
+|       |  (LaunchDarkly / Unleash)                            |
+|       v                                                      |
+|  카나리 배포: 5% 트래픽 -> 점진적 확대 -> 100%                   |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Elite 팀의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 컨베이어 벨트 공장이다. 개발자가 코드를 올리면 자동으로 테스트·검사·포장·배송이 끊임없이 이루어져 하루에도 수십 번 소비자(사용자) 손에 제품이 전달된다.
@@ -103,7 +103,7 @@ tags = ["studynote-devops-sre"]
 
 1. **현상 진단**: [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency = 월 1회, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) = 4시간, [CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) = 15%.
 2. <strong>병목 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 수동 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 3일 소요, QA팀 승인 대기 2일.
-3. **자동화 도입**: [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화(Selenium + JUnit) → 20분으로 단축.
+3. **자동화 도입**: [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화(Selenium + JUnit) -> 20분으로 단축.
 4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 분리</strong>: 주문·결제·상품 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립 배포 단위로 분리.
 5. **결과 3개월 후**: [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency = 일 5회, [CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) = 3%, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) = 15분.
 
@@ -140,24 +140,24 @@ tags = ["studynote-devops-sre"]
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 배포 빈도를 높이는 핵심 자동화 인프라 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a></strong> | 배포와 기능 릴리스를 분리하여 안전한 고빈도 배포 실현 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong> | 트래픽 일부에만 신버전 적용으로 위험 최소화 |
-| <strong>변경 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> (MLT)</strong> | 코드 커밋 → 프로덕션 배포까지의 시간; DF와 상호 강화 |
+| <strong>변경 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> (MLT)</strong> | 코드 커밋 -> 프로덕션 배포까지의 시간; DF와 상호 강화 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간; 고빈도 배포 팀은 소규모 변경으로 MTTR도 짧음 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [수동 배포 (빅뱅 릴리스) — 수개월 주기, 고위험]
-    │
-    ▼
+    |
+    v
 [CI 자동화 — 빌드·테스트 자동화, 주 1회 가능]
-    │
-    ▼
+    |
+    v
 [CD + MSA — 독립 서비스 배포, 일 수 회]
-    │
-    ▼
+    |
+    v
 [Feature Flag + 카나리 — On Demand 안전 배포]
-    │
-    ▼
+    |
+    v
 [플랫폼 엔지니어링 + AI 코드 어시스턴트 — 배포 자동화 극한]
 ```
 수동 대규모 배포에서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리, Feature Flag를 거쳐 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조로 극한의 배포 빈도를 달성하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙화 흐름이다.
@@ -174,7 +174,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 23 / 373
 
-← **이전**: [22. 지속적 피드백 (Continuous Feedback)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/)
-**다음**: [24. Lead Time for Changes — 변경 리드 타임](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/) →
+<- **이전**: [22. 지속적 피드백 (Continuous Feedback)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/)
+**다음**: [24. Lead Time for Changes — 변경 리드 타임](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/) ->
 
 ---

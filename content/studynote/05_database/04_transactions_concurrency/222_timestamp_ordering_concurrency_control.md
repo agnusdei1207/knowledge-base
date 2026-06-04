@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [타임스탬프 순서](/knowledge-base/studynote/05_database/07_exam_summary/452_timestamp_ordering/) (Timestamp [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) 기법은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 진입 시간에 맞춰 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 (비관적 제어 아님, 락 없음)에 초점을 맞춘 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [타임스탬프 순서](/knowledge-base/studynote/05_database/07_exam_summary/452_timestamp_ordering/) 기법을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `강건한 2PL`·`낙관적 동시성 제어`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 [타임스탬프 순서](/knowledge-base/studynote/05_database/07_exam_summary/452_timestamp_ordering/) 기법을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [강건한 2PL]
-    │
-    ▼
+    |
+    v
 [타임스탬프 순서 기법]
-    │
-    ├──▶ [낙관적 동시성 제어]
-    └──▶ [다중 버전 동시성 제어]
+    |
+    +---> [낙관적 동시성 제어]
+    +---> [다중 버전 동시성 제어]
 ```
 
 강건한 2PL에서 출발한 논점이 [타임스탬프 순서](/knowledge-base/studynote/05_database/07_exam_summary/452_timestamp_ordering/) 기법에서 핵심 판단으로 모이고, 이후 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)·다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 222 / 600
 
-← **이전**: [221. 강건한 2PL (Rigorous 2PL)](/knowledge-base/studynote/05_database/04_transactions_concurrency/221_rigorous_2pl_strict_locking_protocol/)
-**다음**: [223. 낙관적 동시성 제어 (Optimistic Concurrency Control)](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) →
+<- **이전**: [221. 강건한 2PL (Rigorous 2PL)](/knowledge-base/studynote/05_database/04_transactions_concurrency/221_rigorous_2pl_strict_locking_protocol/)
+**다음**: [223. 낙관적 동시성 제어 (Optimistic Concurrency Control)](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) ->
 
 ---

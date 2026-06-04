@@ -32,26 +32,26 @@ tags = ["studynote-computer-architecture"]
 내장형 프로그램의 핵심은 '모든 것은 메모리에 있다'는 절대 원칙이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           내장형 프로그램(Stored-program) 실행 아키텍처         │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 메인 메모리 (Memory) ]                                │
-│   번지   값(0과 1)    해석(인간의 눈)                      │
-│   0100 : 00101011 ──▶ (명령어) ADD R1, R2               │
-│   0101 : 11001100 ──▶ (명령어) JUMP 0200                │
-│   ...                                                  │
-│   0200 : 00000101 ──▶ (데이터) 숫자 '5'                  │
-│                                                        │
-│            ▲  (버스를 통해 이동)  ▼                       │
-│ ═══════════════════════════════════════════════════════│
-│                                                        │
-│  [ CPU (제어장치 + 연산장치) ]                           │
-│   1. Fetch(가져오기): PC(프로그램 카운터)가 가리키는 0100번지에서  │
-│      '00101011'을 가져온다.                              │
-│   2. Decode(해독): 제어장치가 "이건 덧셈 명령이군!" 하고 해석한다.│
-│   3. Execute(실행): 더한다. PC를 0101번지로 1 증가시킨다.    │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           내장형 프로그램(Stored-program) 실행 아키텍처         |
++--------------------------------------------------------+
+|                                                        |
+|  [ 메인 메모리 (Memory) ]                                |
+|   번지   값(0과 1)    해석(인간의 눈)                      |
+|   0100 : 00101011 ---> (명령어) ADD R1, R2               |
+|   0101 : 11001100 ---> (명령어) JUMP 0200                |
+|   ...                                                  |
+|   0200 : 00000101 ---> (데이터) 숫자 '5'                  |
+|                                                        |
+|            ^  (버스를 통해 이동)  v                       |
+| -------------------------------------------------------|
+|                                                        |
+|  [ CPU (제어장치 + 연산장치) ]                           |
+|   1. Fetch(가져오기): PC(프로그램 카운터)가 가리키는 0100번지에서  |
+|      '00101011'을 가져온다.                              |
+|   2. Decode(해독): 제어장치가 "이건 덧셈 명령이군!" 하고 해석한다.|
+|   3. Execute(실행): 더한다. PC를 0101번지로 1 증가시킨다.    |
++--------------------------------------------------------+
 ```
 
 메모리에 들어있는 `00101011`이라는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열은 그것이 '덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'인지, 아니면 그냥 '숫자 43'인지 기계는 알 수 없다. 오직 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오는 시점(Fetch)에 접근하면 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 취급되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 시점([Operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) Fetch)에 접근하면 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 취급될 뿐이다. 이 지독한 동등성(Equivalence)이 내장형 구조의 가장 위대한 아키텍처적 유연성이다.
@@ -114,21 +114,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전선 연결(Patching) 기반의 하드와이어드 프로그래밍 (ENIAC 시대)
-    │
-    ▼
+    |
+    v
 잦은 고장 및 재설정의 극심한 비효율성 직면
-    │
-    ▼
+    |
+    v
 프로그램 명령어를 데이터처럼 취급하자는 아이디어 대두 (Turing & Von Neumann)
-    │
-    ▼
-명령어와 데이터를 메인 메모리에 저장하여 순차 실행 ──▶ 내장형 프로그램 (Stored-program) 확립
-    │
-    ▼
-하드웨어-소프트웨어의 완벽한 분리 ──▶ 범용 컴퓨터 시대 및 소프트웨어 산업의 폭발적 팽창
+    |
+    v
+명령어와 데이터를 메인 메모리에 저장하여 순차 실행 ---> 내장형 프로그램 (Stored-program) 확립
+    |
+    v
+하드웨어-소프트웨어의 완벽한 분리 ---> 범용 컴퓨터 시대 및 소프트웨어 산업의 폭발적 팽창
 ```
 
-이 흐름도는 "딱딱한 기계적 조작 → 유연한 정보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 중심의 제어 → 소프트웨어의 독립과 범용 컴퓨터의 탄생"이라는 IT 역사상 가장 거대한 패러다임 전환을 보여준다.
+이 흐름도는 "딱딱한 기계적 조작 -> 유연한 정보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 중심의 제어 -> 소프트웨어의 독립과 범용 컴퓨터의 탄생"이라는 IT 역사상 가장 거대한 패러다임 전환을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 125 / 803
 
-← **이전**: [124. 폰 노이만 아키텍처 (Von Neumann Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)
-**다음**: [126. 하버드 아키텍처 (Harvard Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/) →
+<- **이전**: [124. 폰 노이만 아키텍처 (Von Neumann Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)
+**다음**: [126. 하버드 아키텍처 (Harvard Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/) ->
 
 ---

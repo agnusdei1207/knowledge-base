@@ -47,13 +47,13 @@ K-NN은 학습 시간은 거의 없지만, 예측할 때 모든 [데이터](/kno
 
 ```text
 학습 데이터 저장
-      ↓
+      v
 새 샘플 입력
-      ↓
+      v
 모든 점과 거리 계산
-      ↓
+      v
 가장 가까운 K개 선택
-      ↓
+      v
 다수결 또는 평균
 ```
 
@@ -95,13 +95,13 @@ K-NN은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classifica
 
 ```text
 원본 데이터 저장
-      ↓
+      v
 거리 계산
-      ↓
+      v
 K 이웃 선택
-      ↓
+      v
 다수결 / 평균
-      ↓
+      v
 분류 / 회귀 출력
 ```
 
@@ -109,11 +109,11 @@ K 이웃 선택
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 비모수 통계와 패턴 인식 → K-NN의 기초
-2. 게으른 학습([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) → 학습 대신 저장 중심 방식 확립
-3. 차원의 저주 → 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 인식
-4. KD-Tree (k-dimensional tree)와 Ball Tree → 탐색 가속
-5. 벡터 검색과 유사도 추천 → 대규모 실무 활용으로 확장
+1. 비모수 통계와 패턴 인식 -> K-NN의 기초
+2. 게으른 학습([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) -> 학습 대신 저장 중심 방식 확립
+3. 차원의 저주 -> 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 인식
+4. KD-Tree (k-dimensional tree)와 Ball Tree -> 탐색 가속
+5. 벡터 검색과 유사도 추천 -> 대규모 실무 활용으로 확장
 
 ---
 
@@ -129,7 +129,7 @@ K-NN은 새 친구가 오면 옆에 있는 친구들만 보고 누구와 비슷�
 
 **진행 상황**: 56 / 420
 
-← **이전**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/knowledge-base/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/)
-**다음**: [57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기](/knowledge-base/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/) →
+<- **이전**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/knowledge-base/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/)
+**다음**: [57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기](/knowledge-base/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/) ->
 
 ---

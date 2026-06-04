@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 두 네트워크가 적대적으로 학습하면서 G의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질이 점점 향상된다. 경찰(D)과 위조지폐범(G)의 게임 비유로 유명하다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: GAN은 위조지폐범(G)과 경찰(D)의 쫓고 쫓기는 게임이다. 경찰은 진짜/가짜를 구별하는 눈을 키우고, 위조지폐범은 더 정교한 지폐를 만든다. 이 게임이 끝나면 위조지폐범은 진짜와 구별 불가능한 지폐를 만들 수 있게 된다.
@@ -49,22 +49,22 @@ min_G max_D V(D, G) = E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]
 ```
 
 **판별자 D의 목표 (최대화)**:
-- log D(x): 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) x를 올바르게 1(실제)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 높을수록 좋음
-- log(1 - D(G(z))): 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) G(z)를 올바르게 0(가짜)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → D(G(z))=0이면 log(1)=0 최대
+- log D(x): 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) x를 올바르게 1(실제)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 높을수록 좋음
+- log(1 - D(G(z))): 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) G(z)를 올바르게 0(가짜)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> D(G(z))=0이면 log(1)=0 최대
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 G의 목표 (최소화)</strong>:
-- log(1 - D(G(z))) 최소화 → D(G(z))=1이 되도록 D를 속임
+- log(1 - D(G(z))) 최소화 -> D(G(z))=1이 되도록 D를 속임
 - 실용적 구현: log(D(G(z))) 최대화 (Non-saturating Loss) — 학습 초반 그래디언트 소실 방지
 
 ```
-┌───────────────────────────────────────────────────────────┐
-│  z ~ p_z  →  [Generator G]  →  G(z) (가짜)               │
-│                                  │                        │
-│  x ~ p_data (실제)  ────────────►[Discriminator D]        │
-│                                  │                        │
-│              D(x) → 1 (실제)    D(G(z)) → 0 (가짜)        │
-│              ↑ D 학습 방향         ↑ G는 D(G(z)) → 1 목표   │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|  z ~ p_z  ->  [Generator G]  ->  G(z) (가짜)               |
+|                                  |                        |
+|  x ~ p_data (실제)  ------------►[Discriminator D]        |
+|                                  |                        |
+|              D(x) -> 1 (실제)    D(G(z)) -> 0 (가짜)        |
+|              ^ D 학습 방향         ^ G는 D(G(z)) -> 1 목표   |
++-----------------------------------------------------------+
 ```
 
 ### 내쉬 균형 (Nash Equilibrium) 분석
@@ -74,14 +74,14 @@ min_G max_D V(D, G) = E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]
 D*_G(x) = p_data(x) / (p_data(x) + p_G(x))
 ```
 
-G가 최적화되면 p_G = p_data → D*(x) = 1/2 (판별 불가능)
+G가 최적화되면 p_G = p_data -> D*(x) = 1/2 (판별 불가능)
 
 목적 함수를 JS 발산(Jensen-Shannon Divergence)으로 표현:
 ```
 min_G V(G, D*_G) = -log(4) + 2 · JSD(p_data || p_G)
 ```
 
-JSD(p_data || p_G) ≥ 0이고 p_data = p_G일 때만 0이므로, G는 p_G → p_data를 학습한다.
+JSD(p_data || p_G) ≥ 0이고 p_data = p_G일 때만 0이므로, G는 p_G -> p_data를 학습한다.
 
 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 측도(Measure) | 장점 | 단점 |
 |:---|:---|:---|:---|
@@ -95,11 +95,11 @@ JSD(p_data || p_G) ≥ 0이고 p_data = p_G일 때만 0이므로, G는 p_G → p
 분포 p_data가 다양한 모드(Multi-modal)를 가질 때, G가 D를 속이는 데 충분한 일부 모드만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 나머지를 무시하는 현상:
 
 ```
-┌────────────────────────────────────────────────────────┐
-│  p_data:  ●      ●        ●       ● (4개 군집)         │
-│                                                        │
-│  p_G:     ●                          (1개만 생성)      │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  p_data:  ●      ●        ●       ● (4개 군집)         |
+|                                                        |
+|  p_G:     ●                          (1개만 생성)      |
++--------------------------------------------------------+
 ```
 
 ### WGAN (Wasserstein [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 개선
@@ -136,7 +136,7 @@ max_D (E[D(x)] - E[D(G(z))])   s.t. ||D||_L ≤ 1 (Lipschitz 제약)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **학습 안정화 기법**:
-1. 스펙트럼 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Spectral [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)): D의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 스펙트럼 노름을 1로 제한 → Lipschitz 제약 만족
+1. 스펙트럼 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Spectral [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)): D의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 스펙트럼 노름을 1로 제한 -> Lipschitz 제약 만족
 2. 그래디언트 패널티(Gradient Penalty, WGAN-GP): D의 그래디언트 노름 = 1 제약을 소프트하게 적용
 3. Feature Matching: D의 중간 레이어 통계를 실제/가짜 간 일치시키는 추가 손실
 4. Progressive Growing (ProGAN): 저해상도부터 시작해 점진적으로 해상도 증가
@@ -175,7 +175,7 @@ GAN과 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alp
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [GAN 손실 함수 미니맥스 (Minimax Loss)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [GAN 손실 함수 미니맥스 (Minimax Loss)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -190,7 +190,7 @@ GAN과 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alp
 
 **진행 상황**: 375 / 420
 
-← **이전**: [374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)](/knowledge-base/studynote/10_ai/05_data_science_ml/374_vae_reparameterization/)
-**다음**: [376. 마르코프 체인 (Markov Chain)](/knowledge-base/studynote/10_ai/05_data_science_ml/376_markov_chain/) →
+<- **이전**: [374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)](/knowledge-base/studynote/10_ai/05_data_science_ml/374_vae_reparameterization/)
+**다음**: [376. 마르코프 체인 (Markov Chain)](/knowledge-base/studynote/10_ai/05_data_science_ml/376_markov_chain/) ->
 
 ---

@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 2023년 메타(Meta)와 마이크로소프트(MS) 연구진은 미친 역발상을 냈다. <strong>"쓰레기 텍스트를 수천억 개 먹이고 모델 크기만 1조 개로 키운 바보 뚱땡이 대신, 아주 작고 날렵한 80억 개짜리 뇌를 만들고 교과서처럼 완벽한 최고급 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 조기 교육시키면 뚱땡이를 이길 수 있지 않을까?"</strong> 이 철학에서 탄생한 것이 MS의 [Phi](/knowledge-base/studynote/09_security/17_framework_compliance/864_phi/)-3, 메타의 Llama 3 8B 같은 <strong>슬림 언어 모델 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/">SLM</a>)</strong>이다. 이들은 고작 4GB의 스마트폰 램(RAM)에 쏙 들어가면서도, 몇 년 전 거대한 뚱땡이 모델들을 학살하는 벤치마크 점수를 내며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시장의 지각변동을 일으켰다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LLM이 대학교 도서관의 10만 권짜리 전공서적을 다 외운 '거대하지만 대답이 10초 걸리는 교수님'이라면, SLM은 족집게 수능 요약집 100권만 달달 외우고 훈련한 '번개같이 빠른 고3 천재 수험생'이다. 교수님은 우주의 기원도 설명할 수 있지만 돈이 많이 들고 무겁다. 하지만 우리가 당장 필요한 건 내 눈앞의 영어 숙제를 0.1초 만에 번역해 주는 일(특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))이므로, 유지비가 0원인 고3 수험생([SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/))을 스마트폰 주머니에 넣고 다니는 게 100배 이득인 시대가 온 것이다.
@@ -43,22 +43,22 @@ tags = ["studynote-ai"]
 SLM이 크기가 1/100로 쪼그라들었음에도 거대 모델급의 지능을 뿜어낼 수 있는 것은 두 가지 위대한 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 수술(혁명) 덕분이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           슬림 언어 모델 (SLM)을 천재로 만드는 2대 연금술 아키텍처      │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 데이터의 질적 혁명 (Textbooks Are All You Need)]            │
-│   * 과거 LLM: 레딧, 트위터에 굴러다니는 욕설 섞인 쓰레기 잡동사니 데이터를  │
-│              그냥 무식하게 10조 개 쓸어 담아 뚱뚱한 뇌를 강제 훈련시킴.    │
-│   * SLM 마법: 인터넷 쓰레기를 다 버리고, 진짜 사람이 정성껏 쓴 교과서 데이터와│
-│              위키백과, 고품질 코드만 정밀 필터링하여 작고 똘똘한 뇌에 밀어넣음!│
-│                                                              │
-│  [2. 지식 증류 (Knowledge Distillation) - 거인의 어깨 빌리기]      │
-│   * 어떻게 꼬마 모델이 어려운 미적분(추론 능력)을 푸는가?                 │
-│   * 선생님(GPT-4 등 천재 LLM)에게 문제를 풀게 하고 그 "정답과 해설지"를    │
-│     수백만 개 만들어냄(합성 데이터 Synthetic Data).                  │
-│   * 꼬마 모델(SLM)은 선생님의 논리 전개 방식(해설지)을 수만 번 흉내 내며   │
-│     스펀지처럼 사고방식을 빨아들여 스스로 깊은 추론 능력을 득도함!           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           슬림 언어 모델 (SLM)을 천재로 만드는 2대 연금술 아키텍처      |
++--------------------------------------------------------------+
+|  [1. 데이터의 질적 혁명 (Textbooks Are All You Need)]            |
+|   * 과거 LLM: 레딧, 트위터에 굴러다니는 욕설 섞인 쓰레기 잡동사니 데이터를  |
+|              그냥 무식하게 10조 개 쓸어 담아 뚱뚱한 뇌를 강제 훈련시킴.    |
+|   * SLM 마법: 인터넷 쓰레기를 다 버리고, 진짜 사람이 정성껏 쓴 교과서 데이터와|
+|              위키백과, 고품질 코드만 정밀 필터링하여 작고 똘똘한 뇌에 밀어넣음!|
+|                                                              |
+|  [2. 지식 증류 (Knowledge Distillation) - 거인의 어깨 빌리기]      |
+|   * 어떻게 꼬마 모델이 어려운 미적분(추론 능력)을 푸는가?                 |
+|   * 선생님(GPT-4 등 천재 LLM)에게 문제를 풀게 하고 그 "정답과 해설지"를    |
+|     수백만 개 만들어냄(합성 데이터 Synthetic Data).                  |
+|   * 꼬마 모델(SLM)은 선생님의 논리 전개 방식(해설지)을 수만 번 흉내 내며   |
+|     스펀지처럼 사고방식을 빨아들여 스스로 깊은 추론 능력을 득도함!           |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (Chinchilla 법칙의 재해석)**:
@@ -132,7 +132,7 @@ LLM과 SLM은 크기에 따라 완전히 다른 서버 아키텍처 생태계([D
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [슬림 언어 모델 (SLM, Small Language Model)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [슬림 언어 모델 (SLM, Small Language Model)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ LLM과 SLM은 크기에 따라 완전히 다른 서버 아키텍처 생태계([D
 
 **진행 상황**: 203 / 420
 
-← **이전**: [202. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/03_llm_nlp/202_on_device_ai/)
-**다음**: [204. 그래프 신경망 (GNN)](/knowledge-base/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/) →
+<- **이전**: [202. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/03_llm_nlp/202_on_device_ai/)
+**다음**: [204. 그래프 신경망 (GNN)](/knowledge-base/studynote/10_ai/03_llm_nlp/204_gnn_graph_neural_network/) ->
 
 ---

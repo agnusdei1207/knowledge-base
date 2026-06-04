@@ -109,7 +109,7 @@ Build-Measure-Learn 루프:
   Slack: 게임 회사 내부 채팅 툴 -> B2B SaaS
 ```
 
-> 📢 **섹션 요약 비유**: BML 루프는 과학 실험 — 가설 세우고(Build) → 실험하고(Measure) → 결과 분석(Learn) → 가설 수정 반복.
+> 📢 **섹션 요약 비유**: BML 루프는 과학 실험 — 가설 세우고(Build) -> 실험하고(Measure) -> 결과 분석(Learn) -> 가설 수정 반복.
 
 ---
 
@@ -239,7 +239,7 @@ MVP -> MLP (Minimum Lovable Product)
 
 **진행 상황**: 40 / 482
 
-← **이전**: [039. BML 루프 심화 — 린 스타트업 측정 지표](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/039_lean_startup_bml_loop/)
-**다음**: [041. 피벗 (Pivot) — 전략적 방향 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/) →
+<- **이전**: [039. BML 루프 심화 — 린 스타트업 측정 지표](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/039_lean_startup_bml_loop/)
+**다음**: [041. 피벗 (Pivot) — 전략적 방향 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/) ->
 
 ---

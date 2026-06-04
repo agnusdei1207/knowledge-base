@@ -25,7 +25,7 @@ tags = ["studynote-ai"]
 
 ```
   Av = λv
-  ─────────────────────────────
+  -----------------------------
   A : n×n 정방 행렬
   v : 고유벡터 (방향 불변)
   λ : 고유값 (스케일 배율)
@@ -48,40 +48,40 @@ tags = ["studynote-ai"]
 
 ```
   대칭 행렬 A (n×n) 의 EVD:
-  ┌──────────────────────────────────────────────────────┐
-  │                                                      │
-  │   A  =  Q  ·  Λ  ·  Qᵀ                             │
-  │  ─── ──────  ─────  ──────                           │
-  │  n×n   n×n   n×n    n×n                             │
-  │                                                      │
-  │  Q = [v₁ | v₂ | ... | vₙ]  고유벡터 열 행렬         │
-  │      └── 직교 정규 행렬: QQᵀ = I ──┘                 │
-  │                                                      │
-  │       ┌λ₁  0   0 ┐                                  │
-  │  Λ =  │ 0  λ₂  0 │  대각 고유값 행렬                 │
-  │       └ 0   0  λ₃┘  (λ₁ ≥ λ₂ ≥ ... ≥ λₙ 정렬)     │
-  │                                                      │
-  └──────────────────────────────────────────────────────┘
+  +------------------------------------------------------+
+  |                                                      |
+  |   A  =  Q  ·  Λ  ·  Qᵀ                             |
+  |  --- ------  -----  ------                           |
+  |  n×n   n×n   n×n    n×n                             |
+  |                                                      |
+  |  Q = [v₁ | v₂ | ... | vₙ]  고유벡터 열 행렬         |
+  |      +-- 직교 정규 행렬: QQᵀ = I --+                 |
+  |                                                      |
+  |       +λ₁  0   0 +                                  |
+  |  Λ =  | 0  λ₂  0 |  대각 고유값 행렬                 |
+  |       + 0   0  λ₃+  (λ₁ ≥ λ₂ ≥ ... ≥ λₙ 정렬)     |
+  |                                                      |
+  +------------------------------------------------------+
 ```
 
 ### 스펙트럼 정리 (Spectral Theorem)
 
 실수 **대칭 행렬** 은 항상 직교 고유벡터 기저를 가지며, 모든 고유값은 실수다.
 
-- **증명 핵심**: A = Aᵀ → 서로 다른 고유값에 대응하는 고유벡터는 반드시 직교 (vᵢ · vⱼ = 0, i≠j)
-- **실용 의미**: 공분산 행렬 (Σ = XᵀX) 은 항상 대칭 → EVD 항상 적용 가능
+- **증명 핵심**: A = Aᵀ -> 서로 다른 고유값에 대응하는 고유벡터는 반드시 직교 (vᵢ · vⱼ = 0, i≠j)
+- **실용 의미**: 공분산 행렬 (Σ = XᵀX) 은 항상 대칭 -> EVD 항상 적용 가능
 
 ### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 와의 연결
 
 ```
   PCA (Principal Component Analysis) 절차:
-  ┌─────────────────────────────────────────────────────────┐
-  │  1. 데이터 X (m×n) 중심화: X' = X - mean(X)            │
-  │  2. 공분산 행렬: C = (1/m) X'ᵀX'  (n×n 대칭 행렬)     │
-  │  3. EVD: C = QΛQᵀ                                      │
-  │  4. 상위 k개 고유벡터 선택 (λ₁ ≥ λ₂ ≥ ... ≥ λₖ)      │
-  │  5. 투영: Z = X' · Q[:, :k]  (m×k 저차원 표현)        │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |  1. 데이터 X (m×n) 중심화: X' = X - mean(X)            |
+  |  2. 공분산 행렬: C = (1/m) X'ᵀX'  (n×n 대칭 행렬)     |
+  |  3. EVD: C = QΛQᵀ                                      |
+  |  4. 상위 k개 고유벡터 선택 (λ₁ ≥ λ₂ ≥ ... ≥ λₖ)      |
+  |  5. 투영: Z = X' · Q[:, :k]  (m×k 저차원 표현)        |
+  +---------------------------------------------------------+
 ```
 
 | EVD 결과 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 해석 |
@@ -145,7 +145,7 @@ top_k_eigvec = eigenvectors[:, idx[:k]]
 
 - [Av](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = λv 수식과 기하학적 의미 (방향 불변, 크기만 변화)
 - 스펙트럼 정리: 실수 대칭 행렬의 직교 분해 보장
-- [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 와의 연결: 공분산 행렬 EVD → 주성분 추출
+- [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 와의 연결: 공분산 행렬 EVD -> 주성분 추출
 - EVD vs [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/): 적용 가능한 행렬 형태의 차이
 - 헤시안 최대 고유값과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 안정성 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
@@ -180,7 +180,7 @@ top_k_eigvec = eigenvectors[:, idx[:k]]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [고유값 분해 (Eigenvalue Decomposition, EVD)] → [최적화·운영 자동화]
+[데이터 전처리] -> [고유값 분해 (Eigenvalue Decomposition, EVD)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -195,7 +195,7 @@ top_k_eigvec = eigenvectors[:, idx[:k]]
 
 **진행 상황**: 341 / 420
 
-← **이전**: [340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/340_deepfm_recommendation/)
-**다음**: [342. 특이값 분해 (SVD, Singular Value Decomposition)](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/) →
+<- **이전**: [340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/340_deepfm_recommendation/)
+**다음**: [342. 특이값 분해 (SVD, Singular Value Decomposition)](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/) ->
 
 ---

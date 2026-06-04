@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 > **핵심 인사이트**
-> 1. 소프트웨어 프로젝트 위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))→분석(Analysis)→대응(Response)→모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
+> 1. 소프트웨어 프로젝트 위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))->분석(Analysis)->대응(Response)->모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
 > 2. 위험은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.
 > 3. [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)의 4가지(회피·전가·완화·수용)는 각각 비용과 잔존 위험의 트레이드오프가 다르며, PMBOK과 ISO 21502는 이를 프로젝트 성공의 핵심 역량으로 정의하고 공공 IT 사업 감리의 필수 점검 항목으로 규정한다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
   팀 전체 참여, 판단 없이 자유 제안
 
 델파이 기법 (Delphi):
-  전문가 익명 설문 → 수렴
+  전문가 익명 설문 -> 수렴
   편향 없는 전문가 합의
 
 인터뷰 (Interview):
@@ -69,7 +69,7 @@ tags = ["studynote-software-engineering"]
 
 몬테카를로 시뮬레이션:
   불확실성 분포 모델링
-  1만 회 시뮬레이션 → 확률 분포 산출
+  1만 회 시뮬레이션 -> 확률 분포 산출
   프로젝트 완료 날짜 80% 신뢰 구간
 ```
 
@@ -84,7 +84,7 @@ tags = ["studynote-software-engineering"]
 
 1. 회피 (Avoidance):
    위험을 발생시키는 요인 제거
-   예: 신기술 사용 포기 → 검증된 기술로 대체
+   예: 신기술 사용 포기 -> 검증된 기술로 대체
    비용: 높음 / 잔존 위험: 없음
 
 2. 전가 (Transfer):
@@ -124,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 위험 트리거 (Risk Trigger):
   위험 발생 전 조기 경보 신호
-  예: 핵심 개발자 이직 면접 소문 → 인력 위험 트리거
+  예: 핵심 개발자 이직 면접 소문 -> 인력 위험 트리거
 
 잔존 위험 (Residual Risk):
   대응 후 남은 위험
@@ -132,7 +132,7 @@ tags = ["studynote-software-engineering"]
 
 2차 위험 (Secondary Risk):
   대응 활동 자체가 만든 새 위험
-  예: 크로스 트레이닝 → 기존 담당자 업무 지연
+  예: 크로스 트레이닝 -> 기존 담당자 업무 지연
 
 위험 레지스터 (Risk Register):
   ID, 설명, 확률, 영향도, RE, 대응, 담당자, 상태
@@ -235,7 +235,7 @@ PERT/CPM 불확실성 개념
 
 **진행 상황**: 41 / 973
 
-← **이전**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/)
-**다음**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) →
+<- **이전**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/)
+**다음**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) ->
 
 ---

@@ -53,14 +53,14 @@ Monad (모나드):
   3. 중첩 컨텍스트를 평탄화하는 flatMap() / bind() 연산
 
 수학적 표현:
-  M<A>.flatMap(A → M<B>) → M<B>
+  M<A>.flatMap(A -> M<B>) -> M<B>
   (컨텍스트 안의 값 A를 받아 새 컨텍스트 M<B>를 반환하는 함수를 적용하면 중첩 없이 M<B> 반환)
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 모나드는 "선물 상자 공장" — 상자 안의 내용물을 바꾸려면 직접 상자를 열지 않고, 공장(map/flatMap)에 요청하면 공장이 안전하게 내용물을 교체한 새 상자를 돌려준다.
@@ -75,39 +75,39 @@ Monad (모나드):
 | Associativity (결합 법칙) | `(m.flatMap(f)).flatMap(g) == m.flatMap(x -> f(x).flatMap(g))` | flatMap 체이닝 순서가 바뀌어도 결과는 동일 |
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Java Monad Implementations                     │
-│                                                                 │
-│  Optional<T>          — 값의 존재 여부 컨텍스트 (null 안전)      │
-│    wrap:    Optional.of(value)                                  │
-│    map:     .map(f)     → Optional<U>                           │
-│    flatMap: .flatMap(f) → Optional<U>  (중첩 Optional 방지)     │
-│    unwrap:  .orElse()                                           │
-│                                                                 │
-│  Stream<T>            — 반복 연산 컨텍스트 (0..N개 값)           │
-│    wrap:    Stream.of(a, b, c)                                  │
-│    map:     .map(f)     → Stream<U>                             │
-│    flatMap: .flatMap(f) → Stream<U>  (중첩 스트림 평탄화)        │
-│    unwrap:  .collect(), .forEach(), .reduce()                   │
-│                                                                 │
-│  CompletableFuture<T> — 비동기 컨텍스트 (미래 값)               │
-│    wrap:    CompletableFuture.completedFuture(value)            │
-│    map:     .thenApply(f)  → CF<U>                              │
-│    flatMap: .thenCompose(f)→ CF<U>  (중첩 Future 방지)          │
-│    unwrap:  .get(), .join()                                     │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  Java Monad Implementations                     |
+|                                                                 |
+|  Optional<T>          — 값의 존재 여부 컨텍스트 (null 안전)      |
+|    wrap:    Optional.of(value)                                  |
+|    map:     .map(f)     -> Optional<U>                           |
+|    flatMap: .flatMap(f) -> Optional<U>  (중첩 Optional 방지)     |
+|    unwrap:  .orElse()                                           |
+|                                                                 |
+|  Stream<T>            — 반복 연산 컨텍스트 (0..N개 값)           |
+|    wrap:    Stream.of(a, b, c)                                  |
+|    map:     .map(f)     -> Stream<U>                             |
+|    flatMap: .flatMap(f) -> Stream<U>  (중첩 스트림 평탄화)        |
+|    unwrap:  .collect(), .forEach(), .reduce()                   |
+|                                                                 |
+|  CompletableFuture<T> — 비동기 컨텍스트 (미래 값)               |
+|    wrap:    CompletableFuture.completedFuture(value)            |
+|    map:     .thenApply(f)  -> CF<U>                              |
+|    flatMap: .thenCompose(f)-> CF<U>  (중첩 Future 방지)          |
+|    unwrap:  .get(), .join()                                     |
++-----------------------------------------------------------------+
 ```
 
 ```
 map():
   Optional<String> name = Optional.of("Alice");
   Optional<Integer> len = name.map(s -> s.length()); // Optional<Integer>
-  // f: T → U  →  결과: M<U>
+  // f: T -> U  ->  결과: M<U>
 
 flatMap():
   Optional<String> name = Optional.of("Alice");
   Optional<User> user = name.flatMap(n -> findUser(n));
-  // f: T → M<U>  →  결과: M<U> (중첩 Optional<Optional<User>> 방지)
+  // f: T -> M<U>  ->  결과: M<U> (중첩 Optional<Optional<User>> 방지)
 ```
 
 - **📢 섹션 요약 비유**: map()은 상자 안의 사과를 주스로 바꾸는 것, flatMap()은 상자 안에 또 상자가 들어있을 때 안쪽 상자를 꺼내 하나의 상자로 합치는 것이다.
@@ -168,7 +168,7 @@ List<List<Integer>> nested = List.of(
     List.of(4, 5, 6)
 );
 List<Integer> flat = nested.stream()
-    .flatMap(Collection::stream)  // [[1,2,3],[4,5,6]] → [1,2,3,4,5,6]
+    .flatMap(Collection::stream)  // [[1,2,3],[4,5,6]] -> [1,2,3,4,5,6]
     .collect(Collectors.toList());
 ```
 
@@ -222,7 +222,7 @@ Java에서 모나드를 이해하면 `Optional`, `Stream`, `CompletableFuture`�
 | 연관 개념 | 커링 (Currying) | 함수 합성과 부분 적용의 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-함수 합성 → 모나드 패턴 → Effect 시스템
+함수 합성 -> 모나드 패턴 -> Effect 시스템
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 모나드는 마법 상자야 — 상자 안에 선물(값)이 있는지 없는지 직접 열어보지 않아도, 상자에게 "이 선물을 리본(함수)으로 꾸며줘"라고 부탁하면 상자가 알아서 해줘.
@@ -235,7 +235,7 @@ Java에서 모나드를 이해하면 `Optional`, `Stream`, `CompletableFuture`�
 
 **진행 상황**: 277 / 530
 
-← **이전**: [215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/)
-**다음**: [217. 커링과 지연 평가 (Currying and Lazy Evaluation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/217_currying_lazy_evaluation/) →
+<- **이전**: [215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/)
+**다음**: [217. 커링과 지연 평가 (Currying and Lazy Evaluation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/217_currying_lazy_evaluation/) ->
 
 ---

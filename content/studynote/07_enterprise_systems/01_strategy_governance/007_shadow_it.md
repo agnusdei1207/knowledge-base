@@ -29,14 +29,14 @@ tags = ["enterprise_systems"]
 이 도식은 섀도우 IT가 발생하고 데이터가 유출되는 전형적인 우회 경로를 시각화한 상태 전이도이다.
 
 [공식 IT 거버넌스 경로]
-(현업 부서) ──요청──> [IT/보안 부서 검토] ──(수 주 소요)──> [승인된 기업용 사내망 시스템]
-                              │
+(현업 부서) --요청--> [IT/보안 부서 검토] --(수 주 소요)--> [승인된 기업용 사내망 시스템]
+                              |
                     (병목 및 도입 지연 발생)
-                              │
-[섀도우 IT 발생 경로]         ▼ 우회
-(현업 부서) ──법인카드 즉시 결제 ──> (방화벽 미통제) ──> [인가되지 않은 외부 SaaS]
-     │                                                     │
-     └──> 기업 내부 민감 데이터(고객정보, 소스코드) 업로드 ─┘ (데이터 유출/Shadow Data 발생)
+                              |
+[섀도우 IT 발생 경로]         v 우회
+(현업 부서) --법인카드 즉시 결제 --> (방화벽 미통제) --> [인가되지 않은 외부 SaaS]
+     |                                                     |
+     +--> 기업 내부 민감 데이터(고객정보, 소스코드) 업로드 -+ (데이터 유출/Shadow Data 발생)
 ```
 
 이 흐름의 핵심은 섀도우 IT가 악의적인 의도보다는 '업무 생산성 향상'이라는 선의의 목적에서 출발하며, 중앙 IT 부서의 느린 조달 프로세스(병목 지점)가 그 근본 원인이라는 점이다. 이런 배치는 IT 부서가 통제하는 경계(Perimeter) 보안망 밖에서 자원이 소비됨을 의미한다. 따라서 기존의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 VPN만으로는 클라우드로 직접 향하는 트래픽을 막거나 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 없다. 실무에서는 현업의 혁신 속도를 저해하지 않으면서도 보안 통제를 적용하는 브로커(Broker) 기술의 도입이 필수적이다.
@@ -53,7 +53,7 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 
 | 핵심 구성 요소 | 역할 및 동작 방식 | 통제 대상 | 한계 및 극복 방안 | 비유 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a> Discovery</strong> | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/)(보안 웹 게이트웨이) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석하여 임직원이 접속하는 수만 개의 비인가 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 리스트를 자동 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 가시성 확보 및 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 스코어링 | 모바일 망 직접 접속 시 탐지 불가 → 엔드포인트 에이전트 결합 | 클라우드 사용 명세서 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a> Discovery</strong> | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/)(보안 웹 게이트웨이) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석하여 임직원이 접속하는 수만 개의 비인가 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 리스트를 자동 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 가시성 확보 및 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 스코어링 | 모바일 망 직접 접속 시 탐지 불가 -> 엔드포인트 에이전트 결합 | 클라우드 사용 명세서 |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong> | 사용자와 클라우드 사이에서 인라인(Inline)으로 트래픽을 실시간 감시 및 차단 ([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 연동) | 업로드 차단, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어 | SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 복호화에 따른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 현상 발생 | 고속도로 검문소 |
 | <strong>Reverse <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong> | 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앞단에 위치하여, 사외 기기(BYOD)에서 회사 공식 SaaS로 접근하는 것을 제어 | 비인가 기기의 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) | 비인가 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(섀도우 IT) 제어에는 부적합함 | 건물 출입 게이트 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Integration</strong> | OAuth 등을 통해 대상 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(예: Office 365)와 직접 연동하여 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비동기(Out-of-band)로 검사 | 미사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)) 보안 | 실시간 차단 불가 (업로드 후 삭제됨) | 창고 내부 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 스캔 |
@@ -63,21 +63,21 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 이 도식은 CASB를 기반으로 섀도우 IT를 탐지하고 관리형으로 전환하는 통합 보안 아키텍처(API + Proxy 하이브리드)를 보여준다.
 
        [내부 사용자 / BYOD]
-              │
+              |
       (트래픽 및 로그인 요청)
-              │
-  ┌───────────▼─────────────────────────────────────┐
-  │         [CASB (Cloud Access Security Broker)]   │
-  │  1. Log Analyzer (방화벽 로그 연동 -> SaaS 탐지)│
-  │  2. Forward Proxy (실시간 데이터 유출 방지 DLP) │
-  │  3. API Scanner (비동기 데이터 스캔 및 격리)    │
-  └───────────┬───────────────────────────┬─────────┘
-              │(차단 및 제어)             │(API 연동)
-      ┌───────▼───────┐           ┌───────▼───────┐
-      │   비인가 SaaS │           │   인가된 SaaS │
-      │ (Shadow IT)   │           │(Sanctioned IT)│
-      │ 예: 개인 Drop │           │예: 기업용 M365│
-      └───────────────┘           └───────────────┘
+              |
+  +-----------v-------------------------------------+
+  |         [CASB (Cloud Access Security Broker)]   |
+  |  1. Log Analyzer (방화벽 로그 연동 -> SaaS 탐지)|
+  |  2. Forward Proxy (실시간 데이터 유출 방지 DLP) |
+  |  3. API Scanner (비동기 데이터 스캔 및 격리)    |
+  +-----------+---------------------------+---------+
+              |(차단 및 제어)             |(API 연동)
+      +-------v-------+           +-------v-------+
+      |   비인가 SaaS |           |   인가된 SaaS |
+      | (Shadow IT)   |           |(Sanctioned IT)|
+      | 예: 개인 Drop |           |예: 기업용 M365|
+      +---------------+           +---------------+
              차단됨                     통제 하에 사용
 ```
 
@@ -102,15 +102,15 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 이 매트릭스는 섀도우 IT를 발견한 이후 IT 부서가 취해야 할 대응 전략을 '위험도'와 '비즈니스 가치'를 기준으로 분류한 포트폴리오(Action Matrix)이다.
 
 위험도 (Risk)
-  ▲
-  │ [즉시 차단 / 폐기]            │ [양성화 및 표준화]
-높│ (개인용 메신저로 설계도 공유) │ (유용한 협업 SaaS, 보안 결여됨)
-  │ Action: 방화벽 블랙리스트 등록│ Action: 기업용 라이선스 일괄 구매 후 전환
-  ├───────────────────────────────┼────────────────────────────────────
-  │ [묵인 및 가이드라인 제시]     │ [공식 카탈로그 편입]
-낮│ (사내 식당 메뉴 크롤링 봇)    │ (오픈소스 시각화 도구, 데이터 유출 無)
-  │ Action: 망분리된 독립 환경 제공Action: 서비스 카탈로그에 등록하여 타 부서 전파
-  └───────────────────────────────┴────────────────────────────────────▶ 비즈니스 가치 (Value)
+  ^
+  | [즉시 차단 / 폐기]            | [양성화 및 표준화]
+높| (개인용 메신저로 설계도 공유) | (유용한 협업 SaaS, 보안 결여됨)
+  | Action: 방화벽 블랙리스트 등록| Action: 기업용 라이선스 일괄 구매 후 전환
+  +-------------------------------+------------------------------------
+  | [묵인 및 가이드라인 제시]     | [공식 카탈로그 편입]
+낮| (사내 식당 메뉴 크롤링 봇)    | (오픈소스 시각화 도구, 데이터 유출 無)
+  | Action: 망분리된 독립 환경 제공Action: 서비스 카탈로그에 등록하여 타 부서 전파
+  +-------------------------------+-------------------------------------> 비즈니스 가치 (Value)
                  낮음                                   높음
 ```
 
@@ -135,18 +135,18 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 이 도식은 섀도우 IT 발견 시 IT 거버넌스 위원회가 수행해야 할 실무 운영 의사결정 트리(Decision Tree)를 보여준다.
 
 [신규 섀도우 IT (SaaS) 접속 로그 탐지]
-        │
-        ▼
-<중복 시스템인가?> ──Yes──> [기존 공식 시스템(대체제) 사용 안내 및 포워딩]
-        │ No
-        ▼
-<컴플라이언스(개인정보) 위반 위험인가?> ──Yes──> [즉각 차단 (Forward Proxy Drop)]
-        │ No
-        ▼
-<비즈니스 생산성 향상 입증?> ──No──> [사용 자제 권고 및 모니터링 유지]
-        │ Yes
-        ▼
-[공식 IT 카탈로그 편입 (Sanctioning)] ──> 보안 스펙 협상 -> 통합 결제 -> SSO 연동
+        |
+        v
+<중복 시스템인가?> --Yes--> [기존 공식 시스템(대체제) 사용 안내 및 포워딩]
+        | No
+        v
+<컴플라이언스(개인정보) 위반 위험인가?> --Yes--> [즉각 차단 (Forward Proxy Drop)]
+        | No
+        v
+<비즈니스 생산성 향상 입증?> --No--> [사용 자제 권고 및 모니터링 유지]
+        | Yes
+        v
+[공식 IT 카탈로그 편입 (Sanctioning)] --> 보안 스펙 협상 -> 통합 결제 -> SSO 연동
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 통제의 목적이 '억압'이 아니라 '안전한 통합'에 있다는 점이다. 실무 담당자는 탐지된 섀도우 IT가 현재 회사 내에 존재하는 공식 시스템으로 대체 가능한지 먼저 판단해야 한다(기능 중복 제거). 대체할 수 없는 혁신적인 툴이라면, 보안 부서가 개입하여 해당 벤더가 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/), ISO 27001 등의 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 갖추었는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 사내 인프라([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/))와 연결해 주는 조력자(Enabler) 역할을 수행해야 한다.
@@ -181,17 +181,17 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 
 ```text
 [공식 IT 거버넌스 (Official IT Governance)]
-    │
-    ▼
+    |
+    v
 [사용자 주도 기술 도입 (User-driven Tech Adoption)]
-    │
-    ▼
+    |
+    v
 [섀도 IT (Shadow IT)]
-    │
-    ▼
+    |
+    v
 [IT 거버넌스 리스크 (IT Governance Risk)]
-    │
-    ▼
+    |
+    v
 [합리적 IT 통제 (Rationalized IT Control)]
 ```
 
@@ -208,7 +208,7 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 
 **진행 상황**: 7 / 482
 
-← **이전**: [6. 총 소유 비용 (TCO, Total Cost of Ownership) - 하드웨어/소프트웨어 구매 비용 외 운영, 유지보수, 교육](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)
-**다음**: [8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/008_isp_information_strategy_planning/) →
+<- **이전**: [6. 총 소유 비용 (TCO, Total Cost of Ownership) - 하드웨어/소프트웨어 구매 비용 외 운영, 유지보수, 교육](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)
+**다음**: [8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/008_isp_information_strategy_planning/) ->
 
 ---

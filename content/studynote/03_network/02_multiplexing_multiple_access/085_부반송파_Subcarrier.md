@@ -110,15 +110,15 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 데이터 분할
-   ↓
+   v
 부반송파에 매핑
-   ↓
+   v
 IFFT로 시간영역 변환
-   ↓
+   v
 CP 추가
-   ↓
+   v
 무선 전송
-   ↓
+   v
 FFT 복원 / 등화
 ```
 
@@ -134,7 +134,7 @@ FFT 복원 / 등화
 
 **진행 상황**: 85 / 1120
 
-← **이전**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/)
-**다음**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) →
+<- **이전**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/)
+**다음**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ->
 
 ---

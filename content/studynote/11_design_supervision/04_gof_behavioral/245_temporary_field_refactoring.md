@@ -21,18 +21,18 @@ tags = ["studynote-design-supervision"]
 임시 필드 (Temporary Field) 는 객체의 전체 수명 동안 필요한 것이 아니라, 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수행 시 임시로 필요한 데이터를 클래스 수준 필드로 선언하는 패턴이다. 매개변수 전달 대신 필드를 통해 '전역 변수처럼' 공유하는 구현 편의에서 발생한다.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  임시 필드 발생 시나리오                                │
-├─────────────────────────────────────────────────────────┤
-│  1. 알고리즘이 여러 메서드로 분리될 때                  │
-│     → 중간 결과를 필드로 저장해 메서드 간 공유          │
-│                                                         │
-│  2. 성능 최적화 목적 캐시 필드                          │
-│     → 계산 결과를 필드에 보관하나 무효화 조건 불명확    │
-│                                                         │
-│  3. 콜백이나 이벤트 핸들러를 위한 상태 저장             │
-│     → 처리 전/후만 유효한 컨텍스트 데이터              │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  임시 필드 발생 시나리오                                |
++---------------------------------------------------------+
+|  1. 알고리즘이 여러 메서드로 분리될 때                  |
+|     -> 중간 결과를 필드로 저장해 메서드 간 공유          |
+|                                                         |
+|  2. 성능 최적화 목적 캐시 필드                          |
+|     -> 계산 결과를 필드에 보관하나 무효화 조건 불명확    |
+|                                                         |
+|  3. 콜백이나 이벤트 핸들러를 위한 상태 저장             |
+|     -> 처리 전/후만 유효한 컨텍스트 데이터              |
++---------------------------------------------------------+
 ```
 
 - **NullPointerException 위험**: 필드가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되지 않은 상태에서 메서드 호출 시 NPE 발생
@@ -46,42 +46,42 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [ 문제 있는 구조 — 임시 필드 사용 ]
-┌────────────────────────────────────────────────────────┐
-│  class RouteCalculator {                               │
-│    private Graph   _graph;     ← 임시 (calculateRoute  │
-│    private Node    _start;     ← 임시  호출 중에만     │
-│    private Node    _end;       ← 임시  유효)           │
-│    private List<Node> _path;   ← 임시                  │
-│                                                        │
-│    void calculateRoute(g, s, e) {                      │
-│      _graph=g; _start=s; _end=e;  // 설정              │
-│      _initializeNodes();          // _graph 사용        │
-│      _findPath();                 // _start,_end 사용   │
-│      _optimizePath();             // _path 사용         │
-│    }                                                   │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
-          ↓ 처방: 메서드 객체화 (Replace Method with Method Object)
-┌────────────────────────────────────────────────────────┐
-│  class RouteCalculation {   ← 계산 컨텍스트 클래스     │
-│    private final Graph   graph;   ← 생성자에서 설정    │
-│    private final Node    start;   ← (항상 유효)        │
-│    private final Node    end;                          │
-│    private List<Node>    path;    ← 계산 중 내부 상태  │
-│                                                        │
-│    RouteCalculation(g, s, e) { this.graph=g; ... }     │
-│    List<Node> calculate() {                            │
-│      initializeNodes(); findPath(); optimizePath();    │
-│      return path;                                      │
-│    }                                                   │
-│  }                                                     │
-│                                                        │
-│  class RouteCalculator {                               │
-│    List<Node> calculateRoute(g, s, e) {                │
-│      return new RouteCalculation(g,s,e).calculate();   │
-│    }                                                   │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  class RouteCalculator {                               |
+|    private Graph   _graph;     <- 임시 (calculateRoute  |
+|    private Node    _start;     <- 임시  호출 중에만     |
+|    private Node    _end;       <- 임시  유효)           |
+|    private List<Node> _path;   <- 임시                  |
+|                                                        |
+|    void calculateRoute(g, s, e) {                      |
+|      _graph=g; _start=s; _end=e;  // 설정              |
+|      _initializeNodes();          // _graph 사용        |
+|      _findPath();                 // _start,_end 사용   |
+|      _optimizePath();             // _path 사용         |
+|    }                                                   |
+|  }                                                     |
++--------------------------------------------------------+
+          v 처방: 메서드 객체화 (Replace Method with Method Object)
++--------------------------------------------------------+
+|  class RouteCalculation {   <- 계산 컨텍스트 클래스     |
+|    private final Graph   graph;   <- 생성자에서 설정    |
+|    private final Node    start;   <- (항상 유효)        |
+|    private final Node    end;                          |
+|    private List<Node>    path;    <- 계산 중 내부 상태  |
+|                                                        |
+|    RouteCalculation(g, s, e) { this.graph=g; ... }     |
+|    List<Node> calculate() {                            |
+|      initializeNodes(); findPath(); optimizePath();    |
+|      return path;                                      |
+|    }                                                   |
+|  }                                                     |
+|                                                        |
+|  class RouteCalculator {                               |
+|    List<Node> calculateRoute(g, s, e) {                |
+|      return new RouteCalculation(g,s,e).calculate();   |
+|    }                                                   |
+|  }                                                     |
++--------------------------------------------------------+
 ```
 
 | 임시 필드 유형 | 권장 처방 | 이유 |
@@ -106,11 +106,11 @@ tags = ["studynote-design-supervision"]
 임시 필드가 "이 객체가 유효하지 않은 상태"를 표현하는 경우, [널 객체 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/) ([Null Object Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/)) 또는 옵셔널 (Optional) 패턴으로 해결할 수 있다.
 
 ```
-임시 필드 → null → NullPointerException
-               ↓ 처방
-임시 필드 → Optional<T> → 명시적 부재 처리
+임시 필드 -> null -> NullPointerException
+               v 처방
+임시 필드 -> Optional<T> -> 명시적 부재 처리
 또는
-        → NullObject (기본 행동 제공)
+        -> NullObject (기본 행동 제공)
 ```
 
 - **📢 섹션 요약 비유**: 식당 예약 테이블에 "비어있음" 팻말을 정확히 세워두는 것 — null 팻말이 없으면 손님이 임의로 앉아버린다.
@@ -182,7 +182,7 @@ class RequestContext {
 | 연관 개념 | Optional | null 필드의 명시적 표현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-희소 상태 → 임시 필드 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) → [context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)/[specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 분리
+희소 상태 -> 임시 필드 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) -> [context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)/[specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 분리
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 숙제할 때만 꺼내는 색연필을 책상 서랍이 아닌 거실 테이블 위에 두면 가족이 치워버릴 수 있다.
@@ -195,7 +195,7 @@ class RequestContext {
 
 **진행 상황**: 306 / 530
 
-← **이전**: [244. 데이터 클럼프 리팩토링 (Data Clumps Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/)
-**다음**: [246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/246_refused_bequest_lsp_violation/) →
+<- **이전**: [244. 데이터 클럼프 리팩토링 (Data Clumps Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/)
+**다음**: [246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/246_refused_bequest_lsp_violation/) ->
 
 ---

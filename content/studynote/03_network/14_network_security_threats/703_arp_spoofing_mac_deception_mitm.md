@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
+    |
+    v
 [ARP 스푸핑]
-    │
-    └──▶ [IP 스푸핑]
+    |
+    +---> [IP 스푸핑]
 ```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
+    |
+    v
 [ARP 스푸핑]
-    │
-    └──▶ [IP 스푸핑]
+    |
+    +---> [IP 스푸핑]
 ```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARP 스푸핑]
-    │
-    ├──▶ [확장 A: IP 스푸핑]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: IP 스푸핑]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석에서 출발해 현재 메커니즘을 정교화하고, 이후 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 824 / 1120
 
-← **이전**: [702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석](/knowledge-base/studynote/03_network/14_network_security_threats/702_spoofing_concept_deception/)
-**다음**: [704. IP 스푸핑 (IP Spoofing)](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/) →
+<- **이전**: [702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석](/knowledge-base/studynote/03_network/14_network_security_threats/702_spoofing_concept_deception/)
+**다음**: [704. IP 스푸핑 (IP Spoofing)](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/) ->
 
 ---

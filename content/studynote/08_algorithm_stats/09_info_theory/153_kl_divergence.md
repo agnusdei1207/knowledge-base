@@ -50,36 +50,36 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
 
 ```
        H(P)          D_KL(P‖Q)
-    ┌─────────┐    ┌─────────────┐
-    │ 엔트로피 │ +  │ KL 다이버전스│ = H(P,Q) 크로스 엔트로피
-    └─────────┘    └─────────────┘
+    +---------+    +-------------+
+    | 엔트로피 | +  | KL 다이버전스| = H(P,Q) 크로스 엔트로피
+    +---------+    +-------------+
        (고정)          (최소화 대상)
 ```
 
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a> H(P,Q) = H(P) + D_KL(P‖Q)</strong>
-- P가 실제 분포, Q가 모델 분포 → 학습은 D_KL 최소화 = [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 (H(P) 고정)
+- P가 실제 분포, Q가 모델 분포 -> 학습은 D_KL 최소화 = [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 (H(P) 고정)
 
 ### 순방향 vs 역방향 KL
 
 ```
 순방향 KL (Forward KL): D_KL(P‖Q)
 "P가 있는 곳에 Q도 있어야 한다"
-→ Q가 P의 모든 모드를 커버 (zero-avoiding)
-→ 평균 탐색 (mean-seeking)
+-> Q가 P의 모든 모드를 커버 (zero-avoiding)
+-> 평균 탐색 (mean-seeking)
 
 역방향 KL (Reverse KL): D_KL(Q‖P)
 "Q가 있는 곳에 P도 있어야 한다"
-→ Q가 P의 한 모드에 집중 (zero-forcing)
-→ 모드 탐색 (mode-seeking)
+-> Q가 P의 한 모드에 집중 (zero-forcing)
+-> 모드 탐색 (mode-seeking)
 ```
 
 ```
 분포 P (다봉)   분포 Q (단봉 가우시안)
-   ┌──┐  ┌──┐
-   │  │  │  │           Q₁ (순방향 KL)   Q₂ (역방향 KL)
-   │  │  │  │        ┌──────────────┐   ┌────┐
-   │  │  │  │        │  넓게 커버   │   │한모│
-   └──┘  └──┘        └──────────────┘   └────┘
+   +--+  +--+
+   |  |  |  |           Q₁ (순방향 KL)   Q₂ (역방향 KL)
+   |  |  |  |        +--------------+   +----+
+   |  |  |  |        |  넓게 커버   |   |한모|
+   +--+  +--+        +--------------+   +----+
     모드1  모드2          평균 탐색         모드 탐색
 ```
 
@@ -105,7 +105,7 @@ Jensen 부등식 + log의 오목성 (concavity):
 |:---|:---|:---:|:---|:---|
 | KL 다이버전스 | Σ P log(P/Q) | ❌ | [0, ∞) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), 변분 추론 |
 | JS 다이버전스 | (KL(P‖M)+KL(Q‖M))/2 | ✅ | [0, 1] | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 이론적 분석 |
-| 헬링거 거리 | √(Σ(√p-√q)²/2) | ✅ | [0, 1] | 통계 검정 |
+| 헬링거 거리 | √(Σ(√p-√q)^/2) | ✅ | [0, 1] | 통계 검정 |
 | 전변동 거리 | ½Σ\|p-q\| | ✅ | [0, 1] | 통계 검정 |
 | 와서스테인 거리 | Earth Mover Distance | ✅ | [0, ∞) | WGAN |
 
@@ -123,12 +123,12 @@ L = E[log p(x|z)]  -  D_KL(q(z|x) ‖ p(z))
 
 - q(z|x): [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) (근사 사후 분포)
 - p(z): 사전 분포 (표준 정규분포 N(0,I))
-- KL 항이 잠재 공간을 정규분포에 가깝게 강제 → 매끄러운 잠재 공간
+- KL 항이 잠재 공간을 정규분포에 가깝게 강제 -> 매끄러운 잠재 공간
 
 가우시안 q, p에 대해 해석적 공식:
 
 ```
-D_KL(N(μ,σ²) ‖ N(0,1)) = ½(σ² + μ² - 1 - log σ²)
+D_KL(N(μ,σ^) ‖ N(0,1)) = ½(σ^ + μ^ - 1 - log σ^)
 ```
 
 📢 **섹션 요약 비유**: VAE의 KL 항은 "캐릭터 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 품질 관리"다 — 원본 캐릭터(x)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(z)하고 복원할 때, KL 항은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간이 너무 제멋대로 뭉치지 않도록 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한다.
@@ -145,7 +145,7 @@ D_KL(N(μ,σ²) ‖ N(0,1)) = ½(σ² + μ² - 1 - log σ²)
 최적화: q*(z) = argmin_{q∈Q} D_KL(q(z) ‖ p(z|x))
 ```
 
-역방향 KL 사용 → q가 p의 한 모드에 집중하는 경향 (모드 붕괴).
+역방향 KL 사용 -> q가 p의 한 모드에 집중하는 경향 (모드 붕괴).
 
 ### [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))
 
@@ -162,7 +162,7 @@ L_KD = D_KL(T ‖ S) = Σ T(x)·log(T(x)/S(x))
 두 실험군의 클릭 분포 P_A, P_B 비교:
 
 ```
-D_KL(P_A ‖ P_B) 크면 → 두 군의 행동 분포가 유의미하게 다름
+D_KL(P_A ‖ P_B) 크면 -> 두 군의 행동 분포가 유의미하게 다름
 ```
 
 📢 **섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 KL 최소화는 "제자가 스승 흉내 내기"다 — 학생(S)이 스승(T)의 답변 패턴을 최대한 따라 하도록 학습하는 것이 KL 최소화다.
@@ -173,7 +173,7 @@ D_KL(P_A ‖ P_B) 크면 → 두 군의 행동 분포가 유의미하게 다름
 
 KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 ML의 중심 손실 개념</strong>이다. 비대칭성을 이해하고 방향을 올바르게 선택하는 것이 실무 설계의 핵심:
 
-- **D_KL(P‖Q)**: P(실제)를 기준으로 Q(모델)를 평가 → MLE와 동치
+- **D_KL(P‖Q)**: P(실제)를 기준으로 Q(모델)를 평가 -> MLE와 동치
 - **D_KL(Q‖P)**: 변분 추론, 모드 집중 원할 때
 
 "KL 다이버전스 ≥ 0"인 깁스 부등식은 단순하지만 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/) 전체 부등식 체계의 기반이 된다.
@@ -198,20 +198,20 @@ KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_st
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [KL 다이버전스 D_KL(P‖Q)]
-    │
-    ▼
+    |
+    v
 [JS 다이버전스]
-    │
-    ▼
+    |
+    v
 [VAE 손실]
-    │
-    ▼
+    |
+    v
 [변분 추론]
-    │
-    ▼
+    |
+    v
 [지식 증류]
 ```
 
@@ -220,7 +220,7 @@ KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_st
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **KL 다이버전스는 "지도의 오차"**: 실제 지형(P)을 모형 지도(Q)로 만들 때, 지도가 틀릴수록 KL이 커진다.
-2. **비대칭성은 "오해의 방향"**: 내가 너를 오해하는 정도(P→Q)와 네가 나를 오해하는 정도(Q→P)는 다를 수 있다.
+2. **비대칭성은 "오해의 방향"**: 내가 너를 오해하는 정도(P->Q)와 네가 나를 오해하는 정도(Q->P)는 다를 수 있다.
 3. **KL=0이면 "완벽한 복사본"**: 두 분포가 완전히 같으면 정보 손실이 전혀 없다.
 
 ---
@@ -229,7 +229,7 @@ KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_st
 
 **진행 상황**: 153 / 175
 
-← **이전**: [3. 상호 정보량 (Mutual Information) — 공유 정보 측정](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/)
-**다음**: [5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) →
+<- **이전**: [3. 상호 정보량 (Mutual Information) — 공유 정보 측정](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/)
+**다음**: [5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) ->
 
 ---

@@ -28,21 +28,21 @@ CISC (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/0
 아래 그림은 CISC가 왜 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧지만 CPU 내부 일감은 무거운 구조"인지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           CISC one instruction, many internal steps                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Program view                                                               │
-│   ADD [A], [B]        -> one instruction                                   │
-│                                                                            │
-│ CPU internal work                                                          │
-│   1) read memory B                                                         │
-│   2) read memory A                                                         │
-│   3) execute add in ALU                                                    │
-│   4) write result back to memory A                                         │
-│                                                                            │
-│ Result                                                                     │
-│   short code, but long decode/control/execution path                       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           CISC one instruction, many internal steps                        |
++----------------------------------------------------------------------------+
+| Program view                                                               |
+|   ADD [A], [B]        -> one instruction                                   |
+|                                                                            |
+| CPU internal work                                                          |
+|   1) read memory B                                                         |
+|   2) read memory A                                                         |
+|   3) execute add in ALU                                                    |
+|   4) write result back to memory A                                         |
+|                                                                            |
+| Result                                                                     |
+|   short code, but long decode/control/execution path                       |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 개수 감소가 곧 하드웨어 단순화는 아니라는 점</strong>이다. 프로그래머가 한 줄만 써도, 중앙처리장치(CPU, Central Processing Unit) 내부에서는 여러 단계의 제어와 메모리 왕복이 필요할 수 있다. 즉 CISC는 소프트웨어의 부담을 줄이는 대신, 하드웨어가 복잡성을 떠안는 구조다.
@@ -69,27 +69,27 @@ CISC의 핵심은 단순히 "[명령어](/knowledge-base/studynote/01_computer_a
 아래 그림은 현대 CISC 프로세서의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 전략을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Modern CISC execution flow                                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ External instruction stream                                                │
-│   x86 CISC instruction bytes                                               │
-│            │                                                               │
-│            ▼                                                               │
-│   Front-end decoder                                                        │
-│   - find instruction boundary                                              │
-│   - decode addressing mode                                                 │
-│   - split into micro-operations                                            │
-│            │                                                               │
-│            ▼                                                               │
-│   Internal engine                                                          │
-│   - register rename                                                        │
-│   - out-of-order scheduling                                                │
-│   - execution units                                                        │
-│            │                                                               │
-│            ▼                                                               │
-│   retire / commit                                                          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               Modern CISC execution flow                                   |
++----------------------------------------------------------------------------+
+| External instruction stream                                                |
+|   x86 CISC instruction bytes                                               |
+|            |                                                               |
+|            v                                                               |
+|   Front-end decoder                                                        |
+|   - find instruction boundary                                              |
+|   - decode addressing mode                                                 |
+|   - split into micro-operations                                            |
+|            |                                                               |
+|            v                                                               |
+|   Internal engine                                                          |
+|   - register rename                                                        |
+|   - out-of-order scheduling                                                |
+|   - execution units                                                        |
+|            |                                                               |
+|            v                                                               |
+|   retire / commit                                                          |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 오늘날 CISC는 과거처럼 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통째로 천천히 실행하는 구조"에 머물지 않는다. 대신 복잡한 바깥 형식을 유지하여 기존 소프트웨어를 살리고, 내부에서는 단순 실행 단위로 재구성해 높은 클럭과 병렬성을 확보한다. 결국 현대 CISC의 본질은 <strong>복잡한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 그 자체보다, 복잡함을 감추는 번역 계층</strong>에 있다.
@@ -185,17 +185,17 @@ CISC의 가장 큰 효과는 역사적으로 <strong>코드 밀도 향상, 프�
 
 ```text
 메모리 비용 높음 · 컴파일러 미성숙
-              │
-              ▼
+              |
+              v
 복합 명령어 · 가변 길이 명령어 · 풍부한 주소 지정
-              │
-              ▼
+              |
+              v
 마이크로코드 기반 제어
-              │
-              ▼
+              |
+              v
 x86 호환성 축적
-              │
-              ▼
+              |
+              v
 마이크로 연산 변환 · 비순차 실행 · 내부 RISC화
 ```
 
@@ -213,7 +213,7 @@ x86 호환성 축적
 
 **진행 상황**: 196 / 803
 
-← **이전**: [195. RISC (Reduced Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)
-**다음**: [197. 로드/스토어 아키텍처 (Load-Store Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/) →
+<- **이전**: [195. RISC (Reduced Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)
+**다음**: [197. 로드/스토어 아키텍처 (Load-Store Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/) ->
 
 ---

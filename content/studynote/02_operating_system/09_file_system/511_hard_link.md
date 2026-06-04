@@ -26,28 +26,28 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 증식시킬 때 용량을 안 쓰고 어떻게 주소표(Inode)로 장난을 치는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 분해도로 보면 아래와 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │                 파일 증식의 2가지 뷰 : Copy vs 하드 링크 (Hard Link)          │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │  [ 1. Copy (cp a.txt b.txt) : 무식한 물리 복제 낭비 폭주 ]                    │
-  │     [이름: a.txt] ---> (Inode 10) ---> [하드디스크: 안녕 10GB]                │
-  │     [이름: b.txt] ---> (Inode 22) ---> [하드디스크: 안녕 10GB]                │
-  │     💡 총 디스크 소비량 = 20GB. 서로 끊어진 완전 남남(비동기화) 파일          │
-  │                                                                               │
-  │  =============================================================                │
-  │                                                                               │
-  │  [ 2. 하드 링크 (ln a.txt b.txt) : 인조인간 클론 단일 인스턴스 마법 ]         │
-  │     ┌─ (1번 경로 폴더) ───┐                                                   │
-  │     │ [이름: a.txt]   │──↘ (둘이 똑같은 주소를 찌름!)                         │
-  │     └─────────────────┘   ↘                                                   │
-  │                           (📍 Inode: 500) ──▶ [ 진짜 "안녕" 10GB 데이터]      │
-  │     ┌─ (2번 경로 폴더) ───┐   ↗               (Reference Count: 2)            │
-  │     │ [이름: b.txt]   │──↗                                                    │
-  │     └─────────────────┘                                                       │
-  │     💡 총 디스크 소비량 = 10GB. 이름 2개, Inode표 1개, 데이터 1개!            │
-  │        원가(I/O 스로틀) 1초 컷으로 파일 2개를 만드는 미친 가성비 무결 구조.   │
-  └───────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------+
+  |                 파일 증식의 2가지 뷰 : Copy vs 하드 링크 (Hard Link)          |
+  +-------------------------------------------------------------------------------+
+  |                                                                               |
+  |  [ 1. Copy (cp a.txt b.txt) : 무식한 물리 복제 낭비 폭주 ]                    |
+  |     [이름: a.txt] ---> (Inode 10) ---> [하드디스크: 안녕 10GB]                |
+  |     [이름: b.txt] ---> (Inode 22) ---> [하드디스크: 안녕 10GB]                |
+  |     💡 총 디스크 소비량 = 20GB. 서로 끊어진 완전 남남(비동기화) 파일          |
+  |                                                                               |
+  |  =============================================================                |
+  |                                                                               |
+  |  [ 2. 하드 링크 (ln a.txt b.txt) : 인조인간 클론 단일 인스턴스 마법 ]         |
+  |     +- (1번 경로 폴더) ---+                                                   |
+  |     | [이름: a.txt]   |--↘ (둘이 똑같은 주소를 찌름!)                         |
+  |     +-----------------+   ↘                                                   |
+  |                           (📍 Inode: 500) ---> [ 진짜 "안녕" 10GB 데이터]      |
+  |     +- (2번 경로 폴더) ---+   ↗               (Reference Count: 2)            |
+  |     | [이름: b.txt]   |--↗                                                    |
+  |     +-----------------+                                                       |
+  |     💡 총 디스크 소비량 = 10GB. 이름 2개, Inode표 1개, 데이터 1개!            |
+  |        원가(I/O 스로틀) 1초 컷으로 파일 2개를 만드는 미친 가성비 무결 구조.   |
+  +-------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 `ls -i` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳐보면 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 앞에 고유의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호(Inode Number)가 난수처럼 각각 다르게 뜬다. 그러나 하드 링크로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 묶으면 `a.txt` 와 `b.txt` 는 겉모습은 달라도 맨 앞의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호가 일치하는 샴쌍둥이 유전자를 지닌다. 이 둘 사이엔 "원본" 이란 개념 락 자체가 없다. A가 지워져도 B는 원본으로서 영원히 유지되고 작동하며, 마지막 1개의 링크 문이 무너질 때까지([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트 = 0) 하드디스크의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 지옥 끝까지 생존 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다.
@@ -135,12 +135,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
-    │
-    ▼
+    |
+    v
 [하드 링크 (Hard Link)]
-    │
-    ├──▶ [심볼릭 링크 (Symbolic Link / Soft Link)]
-    └──▶ [일반 그래프 디렉터리 (순환 허용)]
+    |
+    +---> [심볼릭 링크 (Symbolic Link / Soft Link)]
+    +---> [일반 그래프 디렉터리 (순환 허용)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -157,7 +157,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 511 / 800
 
-← **이전**: [510. 비순환 그래프 디렉터리 (Acyclic Graph Directory) - 링크를 통한 디렉터리/파일 공유](/knowledge-base/studynote/02_operating_system/09_file_system/510_acyclic_graph_directory_link/)
-**다음**: [512. 심볼릭 링크 (Symbolic Link / Soft Link) - 경로명을 값으로 가짐, 윈도우의 바로가기](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/) →
+<- **이전**: [510. 비순환 그래프 디렉터리 (Acyclic Graph Directory) - 링크를 통한 디렉터리/파일 공유](/knowledge-base/studynote/02_operating_system/09_file_system/510_acyclic_graph_directory_link/)
+**다음**: [512. 심볼릭 링크 (Symbolic Link / Soft Link) - 경로명을 값으로 가짐, 윈도우의 바로가기](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/) ->
 
 ---

@@ -27,11 +27,11 @@ tags = ["studynote-algorithm"]
 문자열: "ABCDE"
 
 부분수열 (Subsequence): 순서 유지, 연속 불필요
-  "ACE", "BD", "ABCDE", "A", ""  ← 모두 유효
+  "ACE", "BD", "ABCDE", "A", ""  <- 모두 유효
 
 부분 문자열 (Substring): 순서 유지, 연속 필수
-  "ABC", "BCD", "CDE"            ← 연속된 것만 유효
-  "ACE"                           ← X (연속 아님)
+  "ABC", "BCD", "CDE"            <- 연속된 것만 유효
+  "ACE"                           <- X (연속 아님)
 ```
 
 📢 **섹션 요약 비유**: LCS는 두 악보에서 같은 음표들이 같은 순서로 나타나는 가장 긴 멜로디를 찾는 것—연속일 필요 없이 순서만 지키면 된다.
@@ -69,11 +69,11 @@ LCS 길이 = dp[7][5] = 4
 
 ```
 dp 테이블 역추적:
-  dp[7][5]=4: s1[6]='B'==s2[4]='B' → 'B' 선택, dp[6][4]로 이동
-  dp[6][4]=3: s1[5]='A'==s2[3]='A' → 'A' 선택, dp[5][3]으로 이동
-  dp[5][3]=2: s1[4]='D'≠s2[2]='C' → max 방향(dp[4][3])으로 이동
-  dp[4][3]=2: s1[3]='B'≠s2[2]='C' → max 방향(dp[3][3])으로 이동
-  dp[3][3]=2: s1[2]='C'==s2[2]='C' → 'C' 선택, dp[2][2]로 이동
+  dp[7][5]=4: s1[6]='B'==s2[4]='B' -> 'B' 선택, dp[6][4]로 이동
+  dp[6][4]=3: s1[5]='A'==s2[3]='A' -> 'A' 선택, dp[5][3]으로 이동
+  dp[5][3]=2: s1[4]='D'≠s2[2]='C' -> max 방향(dp[4][3])으로 이동
+  dp[4][3]=2: s1[3]='B'≠s2[2]='C' -> max 방향(dp[3][3])으로 이동
+  dp[3][3]=2: s1[2]='C'==s2[2]='C' -> 'C' 선택, dp[2][2]로 이동
   dp[2][2]=1: s1[1]='B'==s2[1]='D'? 아니오, dp[1][2] 방향
   ...
   LCS = "BCAB" (4글자)
@@ -83,8 +83,8 @@ dp 테이블 역추적:
 
 ```
 dp 테이블 전체 O(mn)이 불필요한 경우:
-  LCS 길이만 필요 → 이전 행 하나만 유지 O(min(m,n))
-  LCS 복원 필요   → 전체 테이블 O(mn) 또는 Hirschberg 알고리즘 O(mn) 시간 O(min(m,n)) 공간
+  LCS 길이만 필요 -> 이전 행 하나만 유지 O(min(m,n))
+  LCS 복원 필요   -> 전체 테이블 O(mn) 또는 Hirschberg 알고리즘 O(mn) 시간 O(min(m,n)) 공간
 ```
 
 📢 **섹션 요약 비유**: DP 테이블은 두 서열을 격자판 위에 놓고 공통 체크포인트를 이어가는 게임—각 칸은 "여기까지의 최선 공통 경로 길이"를 기억한다.
@@ -118,8 +118,8 @@ LCS 길이 = L, 두 문자열 길이 m, n이면:
 ```
 git diff는 LCS 기반 Myers 알고리즘 사용:
   두 파일 버전을 줄(line) 단위로 LCS 계산
-  LCS에 없는 줄 → 삭제(-)
-  상대방에만 있는 줄 → 추가(+)
+  LCS에 없는 줄 -> 삭제(-)
+  상대방에만 있는 줄 -> 추가(+)
 
 예:
   파일1: [a, b, c, d]
@@ -145,11 +145,11 @@ git diff는 LCS 기반 Myers 알고리즘 사용:
 ### 기술사 판단 기준
 
 ```
-두 파일/서열 비교 + 공통 구조 추출      →  LCS O(mn)
-두 문자열 변환 최소 비용                →  편집 거리 O(mn)
-단일 시퀀스 증가 부분수열 최장화        →  LIS O(n log n)
-연속 공통 부분 문자열                   →  LCS Substring 또는 서픽스 배열
-빠른 LCS (큰 파일, 주로 동일)          →  Myers 알고리즘 O(nd)
+두 파일/서열 비교 + 공통 구조 추출      ->  LCS O(mn)
+두 문자열 변환 최소 비용                ->  편집 거리 O(mn)
+단일 시퀀스 증가 부분수열 최장화        ->  LIS O(n log n)
+연속 공통 부분 문자열                   ->  LCS Substring 또는 서픽스 배열
+빠른 LCS (큰 파일, 주로 동일)          ->  Myers 알고리즘 O(nd)
 ```
 
 📢 **섹션 요약 비유**: LCS는 두 음악가가 각자 연주한 악보에서 공통 악절을 찾는 작업—멀리 떨어진 음표도 순서만 같으면 공통으로 인정한다.
@@ -181,17 +181,17 @@ LCS는 두 시퀀스의 공통 구조를 추출하는 핵심 DP [알고리즘](/
 
 ```text
 [단순 비교(완전 탐색)]
-    │
-    ▼
+    |
+    v
 [동적 프로그래밍(DP)]
-    │
-    ▼
+    |
+    v
 [LCS 점화식]
-    │
-    ▼
+    |
+    v
 [LCS 역추적]
-    │
-    ▼
+    |
+    v
 [편집 거리(Edit Distance) 응용]
 ```
 
@@ -209,7 +209,7 @@ LCS는 부분수열 비교를 동적 계획법으로 풀며 역추적과 [편집
 
 **진행 상황**: 102 / 175
 
-← **이전**: [8. LZ77 / LZ78 / LZW — 사전 기반 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/101_lz77_lz78_lzw/)
-**다음**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/) →
+<- **이전**: [8. LZ77 / LZ78 / LZW — 사전 기반 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/101_lz77_lz78_lzw/)
+**다음**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/) ->
 
 ---

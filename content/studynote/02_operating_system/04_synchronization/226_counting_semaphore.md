@@ -29,14 +29,14 @@ tags = ["studynote-operating-system"]
 
   [ 자원 상황: DB Connection Pool 크기 = 3개 (Semaphore S = 3) ]
 
-   스레드 1: wait() 호출  → (S = 2) [DB 커넥션 1개 사용]
-   스레드 2: wait() 호출  → (S = 1) [DB 커넥션 2개 사용]
-   스레드 3: wait() 호출  → (S = 0) [DB 커넥션 3개 사용]
+   스레드 1: wait() 호출  -> (S = 2) [DB 커넥션 1개 사용]
+   스레드 2: wait() 호출  -> (S = 1) [DB 커넥션 2개 사용]
+   스레드 3: wait() 호출  -> (S = 0) [DB 커넥션 3개 사용]
 
    풀 고갈 (Pool Exhausted)
 
-   스레드 4: wait() 호출  → (S < 0이므로 현재 스레드를 Sleep)
-   스레드 5: wait() 호출  → (S < 0이므로 현재 스레드를 Sleep)
+   스레드 4: wait() 호출  -> (S < 0이므로 현재 스레드를 Sleep)
+   스레드 5: wait() 호출  -> (S < 0이므로 현재 스레드를 Sleep)
 
    [ 자원 반환 ]
     스레드 2가 DB사용을 끝내고 signal() 호출!
@@ -102,29 +102,29 @@ void signal(semaphore *S) {
 ### 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 대표적 활용: Bounded Buffer (생산자-소비자)
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │     3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴          │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  버퍼 크기 N = 5                                                     │
-  │                                                                      │
-  │  semaphore mutex = 1;        // 버퍼 자체의 상호 배제용               │
-  │  semaphore empty = N;         // 빈 공간 카운트 (초기: 5)            │
-  │  semaphore full = 0;          // 채워진 공간 카운트 (초기: 0)        │
-  │                                                                      │
-  │  [생산자 (Producer)]                [소비자 (Consumer)]               │
-  │                                                                      │
-  │  wait(empty);                      wait(full);                       │
-  │  wait(mutex);                     wait(mutex);                      │
-  │  // 버퍼에 데이터 삽입                  // 버퍼에서 데이터 꺼냄      │
-  │  signal(mutex);                   signal(mutex);                    │
-  │  signal(full);                    signal(empty);                    │
-  │                                                                      │
-  │  핵심 원리:                                                          │
-  │  - empty는 "버퍼에 빈자리가 있나?"를 카운트 → 생산자가 wait (남은 빈칸 줄음) │
-  │  - full은 "버퍼에 데이터가 있나?"를 카운트 → 소비자가 wait (남은 데이터 줄음) │
-  │  - mutex는 버퍼 데이터 자체의 충돌 방지만 담당                        │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |     3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴          |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  버퍼 크기 N = 5                                                     |
+  |                                                                      |
+  |  semaphore mutex = 1;        // 버퍼 자체의 상호 배제용               |
+  |  semaphore empty = N;         // 빈 공간 카운트 (초기: 5)            |
+  |  semaphore full = 0;          // 채워진 공간 카운트 (초기: 0)        |
+  |                                                                      |
+  |  [생산자 (Producer)]                [소비자 (Consumer)]               |
+  |                                                                      |
+  |  wait(empty);                      wait(full);                       |
+  |  wait(mutex);                     wait(mutex);                      |
+  |  // 버퍼에 데이터 삽입                  // 버퍼에서 데이터 꺼냄      |
+  |  signal(mutex);                   signal(mutex);                    |
+  |  signal(full);                    signal(empty);                    |
+  |                                                                      |
+  |  핵심 원리:                                                          |
+  |  - empty는 "버퍼에 빈자리가 있나?"를 카운트 -> 생산자가 wait (남은 빈칸 줄음) |
+  |  - full은 "버퍼에 데이터가 있나?"를 카운트 -> 소비자가 wait (남은 데이터 줄음) |
+  |  - mutex는 버퍼 데이터 자체의 충돌 방지만 담당                        |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 패턴의 아름다움은 3-way 카운팅에 있다. empty=N, full=0으로 시작하면, 생산자는 빈자리가 생길 때까지 (empty--) 대기하고, 소비자는 데이터가 채워질 때까지 (full--) 대기한다. 5개의 버퍼가 모두 채워지면 empty가 0이 되어 생산자가 blocks, 소비자가 하나씩 빼먹으면 empty가 증가하여 생산자가 깨어난다. 이 피드백 루프가 별도의 명시적Synchronization 없이 자동으로 생산자와 소비자의 속도를 맞추어 준다.
@@ -247,12 +247,12 @@ try {
 
 ```text
 [피터슨의 해결책 (Peterson's Algorithm)]
-    │
-    ▼
+    |
+    v
 [카운팅 세마포어 (Counting Semaphore)]
-    │
-    ├──▶ [하드웨어 명령어 기반 동기화]
-    └──▶ [Test-and-Set 명령어]
+    |
+    +---> [하드웨어 명령어 기반 동기화]
+    +---> [Test-and-Set 명령어]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -269,7 +269,7 @@ try {
 
 **진행 상황**: 226 / 800
 
-← **이전**: [225. 이진 세마포어 (Binary Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)
-**다음**: [227. 바쁜 대기 (Busy Waiting)](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/) →
+<- **이전**: [225. 이진 세마포어 (Binary Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)
+**다음**: [227. 바쁜 대기 (Busy Waiting)](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/) ->
 
 ---

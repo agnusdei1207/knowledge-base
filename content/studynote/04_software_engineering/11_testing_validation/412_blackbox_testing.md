@@ -25,17 +25,17 @@ tags = ["studynote-software-engineering"]
 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)는 이 껍데기 박스(소프트웨어) 속 안에 기어가 들어있든 외계인이 들어있든 관심 없습니다. 오로지 <strong>"명세서에 <code>a</code>라는 지폐를 넣으면 <code>콜라</code>가 나온다"</strong>라고 쓰여 있으니, 정말 `a`를 넣어서 `콜라`가 나오는지 100번 눌러보고, 일부러 `수표`를 넣어보고, `돌멩이`를 넣어봐서 뱉어내는가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 작업입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  블랙박스 테스트의 도식도                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 입력 (Input) ] ──▶  [ 💻 ⬛⬛⬛⬛⬛⬛⬛⬛⬛ 💻 ]  ──▶ [ 출력 (Output) ] │
-│   - 나이: 25             ( 안에서 if/for 문이         - 성인 인증 성공?!   │
-│   - 메뉴: 커피              어떻게 도는지는            - 주문 영수증 인쇄?!  │
-│   - 한도초과 카드           철저히 무시, 알 수 없음 )    - 결제 실패 문자?!   │
-│                                                              │
-│       ※ 판정 기준: 오로지 '요구사항 명세서'에 적힌 대로 행동하는가?        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  블랙박스 테스트의 도식도                       |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 입력 (Input) ] --->  [ 💻 ⬛⬛⬛⬛⬛⬛⬛⬛⬛ 💻 ]  ---> [ 출력 (Output) ] |
+|   - 나이: 25             ( 안에서 if/for 문이         - 성인 인증 성공?!   |
+|   - 메뉴: 커피              어떻게 도는지는            - 주문 영수증 인쇄?!  |
+|   - 한도초과 카드           철저히 무시, 알 수 없음 )    - 결제 실패 문자?!   |
+|                                                              |
+|       ※ 판정 기준: 오로지 '요구사항 명세서'에 적힌 대로 행동하는가?        |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이 상자 안에 마법사가 숨어서 요리를 하는지, 로봇이 요리를 하는지는 내 알 바 아닙니다. 레시피 북(명세서)에 "10원 넣으면 핫도그 나온다"라고 적혀 있으니, 10원 넣어서 핫도그 나오는지만 입구와 출구에서 감시하는 무서운 평가단입니다.
@@ -137,21 +137,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 블랙박스 테스트 (Black-box Test / 명세 기반 테스트) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +165,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 416 / 973
 
-← **이전**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)
-**다음**: [413. 동등 분할 (Equivalence Partitioning)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/413_equivalence_partitioning/) →
+<- **이전**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)
+**다음**: [413. 동등 분할 (Equivalence Partitioning)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/413_equivalence_partitioning/) ->
 
 ---

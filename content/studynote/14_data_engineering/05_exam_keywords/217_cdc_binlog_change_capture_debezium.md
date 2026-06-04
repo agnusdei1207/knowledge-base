@@ -31,12 +31,12 @@ tags = ["studynote-data-engineering"]
 
 ```
 레거시 방식 (전체 복사):
-  소스 DB ──[매시간 전체 SELECT]──► DW / 타겟 시스템
+  소스 DB --[매시간 전체 SELECT]--► DW / 타겟 시스템
   - 100만 건 테이블에서 변경된 100건 찾기 위해 100만 건 스캔
   - 잦은 배치로 DB 부하 급증
 
 CDC 방식 (로그 기반):
-  소스 DB ──[변경된 100건만 캡처]──► Kafka ──► DW / 타겟
+  소스 DB --[변경된 100건만 캡처]--► Kafka --► DW / 타겟
   - DB 복제 로그에서 변경 이벤트만 읽음
   - 소스 DB에 추가 부하 없음
   - 실시간 (수 초 이내)
@@ -52,7 +52,7 @@ CDC 방식 (로그 기반):
 
 | 방식 | 동작 원리 | DB 부하 | DELETE 감지 | 실시간성 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 기반</strong> | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) → 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블 | 높음 | 가능 | 가능 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 기반</strong> | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) -> 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블 | 높음 | 가능 | 가능 |
 | **타임스탬프 기반** | `WHERE updated_at > ?` | 중간 | 불가 | 준실시간 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 기반</strong> | DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 | 거의 없음 | 가능 | 실시간 |
 
@@ -62,14 +62,14 @@ MySQL의 Binlog(Binary Log)는 MySQL [복제](/knowledge-base/studynote/14_data_
 
 ```
 MySQL 서버
-├── InnoDB 스토리지
-│   └── 실제 데이터 변경
-└── Binlog (Binary Log)
-    ├── ROW 이벤트: 행 수준 변경 상세 기록
-    │   INSERT: 새 행의 모든 컬럼값
-    │   UPDATE: 이전 행값(before) + 이후 행값(after)
-    │   DELETE: 삭제된 행의 모든 컬럼값
-    └── 이진 형식으로 순서 기록
++-- InnoDB 스토리지
+|   +-- 실제 데이터 변경
++-- Binlog (Binary Log)
+    +-- ROW 이벤트: 행 수준 변경 상세 기록
+    |   INSERT: 새 행의 모든 컬럼값
+    |   UPDATE: 이전 행값(before) + 이후 행값(after)
+    |   DELETE: 삭제된 행의 모든 컬럼값
+    +-- 이진 형식으로 순서 기록
 ```
 
 <strong>Binlog 형식 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
@@ -85,10 +85,10 @@ PostgreSQL은 WAL(Write-Ahead Log)을 통해 모든 변경을 기록한다. CDC�
 
 ```
 PostgreSQL 서버
-├── WAL (Write-Ahead Log)
-│   └── 모든 변경 작업의 순서 기록
-└── 논리 복제 슬롯 (Logical Replication Slot)
-    └── Debezium이 이 슬롯을 통해 변경 스트림 구독
++-- WAL (Write-Ahead Log)
+|   +-- 모든 변경 작업의 순서 기록
++-- 논리 복제 슬롯 (Logical Replication Slot)
+    +-- Debezium이 이 슬롯을 통해 변경 스트림 구독
 ```
 
 ### 2.4 Debezium + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) CDC 파이프라인
@@ -96,31 +96,31 @@ PostgreSQL 서버
 Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) CDC 플랫폼으로, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect Source Connector로 동작한다.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                 CDC 파이프라인 전체 흐름                       │
-│                                                             │
-│  ┌──────────────┐    ┌───────────────────────────────────┐  │
-│  │ MySQL/PgSQL  │    │        Kafka Connect               │  │
-│  │  소스 DB     │    │  ┌─────────────────────────────┐  │  │
-│  │              │    │  │   Debezium Source Connector  │  │  │
-│  │  Binlog/WAL  │───►│  │  DB변경 → Kafka 이벤트 변환  │  │  │
-│  │              │    │  └─────────────────────────────┘  │  │
-│  └──────────────┘    └───────────────────┬───────────────┘  │
-│                                          │                  │
-│                       ┌──────────────────▼──────────────┐   │
-│                       │         Apache Kafka             │   │
-│                       │  토픽: dbserver.mydb.orders      │   │
-│                       │  { op: "u", before: {...},       │   │
-│                       │    after: {...}, ts_ms: ... }    │   │
-│                       └──────────────────┬──────────────┘   │
-│                                          │                  │
-│              ┌───────────────────────────┼──────────────┐   │
-│              ▼                           ▼              ▼   │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────┐ │
-│  │  DW (Snowflake)  │  │  Elasticsearch   │  │  캐시 DB  │ │
-│  │  (Sink Connector)│  │  (검색 인덱스)   │  │  (Redis)  │ │
-│  └──────────────────┘  └──────────────────┘  └───────────┘ │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 CDC 파이프라인 전체 흐름                       |
+|                                                             |
+|  +--------------+    +-----------------------------------+  |
+|  | MySQL/PgSQL  |    |        Kafka Connect               |  |
+|  |  소스 DB     |    |  +-----------------------------+  |  |
+|  |              |    |  |   Debezium Source Connector  |  |  |
+|  |  Binlog/WAL  |---►|  |  DB변경 -> Kafka 이벤트 변환  |  |  |
+|  |              |    |  +-----------------------------+  |  |
+|  +--------------+    +-------------------+---------------+  |
+|                                          |                  |
+|                       +------------------v--------------+   |
+|                       |         Apache Kafka             |   |
+|                       |  토픽: dbserver.mydb.orders      |   |
+|                       |  { op: "u", before: {...},       |   |
+|                       |    after: {...}, ts_ms: ... }    |   |
+|                       +------------------+--------------+   |
+|                                          |                  |
+|              +---------------------------+--------------+   |
+|              v                           v              v   |
+|  +------------------+  +------------------+  +-----------+ |
+|  |  DW (Snowflake)  |  |  Elasticsearch   |  |  캐시 DB  | |
+|  |  (Sink Connector)|  |  (검색 인덱스)   |  |  (Redis)  | |
+|  +------------------+  +------------------+  +-----------+ |
++-------------------------------------------------------------+
 ```
 
 ### 2.5 Debezium 이벤트 구조
@@ -157,7 +157,7 @@ Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_
 
 | 패턴 | 설명 | 도구 |
 |:---|:---|:---|
-| <strong>실시간 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)→[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | Debezium + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + dbt |
+| <strong>실시간 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)->[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | Debezium + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + dbt |
 | **캐시 무효화** | DB 변경 시 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 자동 업데이트 | Debezium + [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sink |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a></strong> | DB 변경을 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트로 발행 | Debezium + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 | <strong>검색 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | DB 변경을 Elasticsearch에 즉시 반영 | Debezium + ES Sink |
@@ -181,7 +181,7 @@ Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_
 
 | 항목 | 주의점 | 해법 |
 |:---|:---|:---|
-| <strong>WAL 슬롯 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 컨슈머가 느리면 WAL 슬롯 쌓임 → DB 디스크 풀 | 컨슈머 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
+| <strong>WAL 슬롯 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 컨슈머가 느리면 WAL 슬롯 쌓임 -> DB 디스크 풀 | 컨슈머 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변화</strong> | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 변경 시 이벤트 구조 불일치 | [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) + Avro 사용 |
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a></strong> | 첫 실행 시 전체 테이블 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) (부하) | 오프 피크 타임 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
 | <strong>토픽 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong> | 동일 키 변경 순서 보장 필요 | 기본키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) |
@@ -214,7 +214,7 @@ Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_
 
 | 효과 | 내용 |
 |:---|:---|
-| **실시간성** | 배치 대비 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 시간 단위 → 초 단위로 단축 |
+| **실시간성** | 배치 대비 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 시간 단위 -> 초 단위로 단축 |
 | **DB 부하 감소** | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 제거로 소스 DB CPU 20~50% 절감 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | DELETE 포함 모든 변경 100% 캡처 |
 | **아키텍처 단순화** | 여러 시스템에 동시 전파로 N개 배치 파이프라인 통합 |
@@ -246,17 +246,17 @@ Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_
 
 ```text
 배치 ETL (주기적 전체 복사)
-    │
-    ▼
+    |
+    v
 CDC: 변경분만 실시간 캡처
-    ├─► 로그 기반: MySQL Binlog · PostgreSQL WAL
-    └─► Debezium: Kafka Connect 기반 CDC 커넥터
-    │
-    ▼
+    +-► 로그 기반: MySQL Binlog · PostgreSQL WAL
+    +-► Debezium: Kafka Connect 기반 CDC 커넥터
+    |
+    v
 Outbox 패턴: 트랜잭션 보장 이벤트 발행
-    │
-    ▼
-실시간 OLTP → OLAP 동기화 · 캐시 무효화
+    |
+    v
+실시간 OLTP -> OLAP 동기화 · 캐시 무효화
 ```
 2. MySQL Binlog는 도서관의 '대출 기록지'야 — 어떤 책이 언제 누가 빌려갔고, 반납됐는지 순서대로 적혀 있어.
 3. Debezium은 이 기록지를 읽어서 Kafka라는 방송 시스템으로 변환하는 '방송 번역사'야 — 그러면 여러 시스템이 동시에 소식을 들을 수 있어!
@@ -267,7 +267,7 @@ Outbox 패턴: 트랜잭션 보장 이벤트 발행
 
 **진행 상황**: 217 / 258
 
-← **이전**: [216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)
-**다음**: [218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/) →
+<- **이전**: [216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)
+**다음**: [218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/) ->
 
 ---

@@ -38,19 +38,19 @@ Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/knowledge
 | **Release (릴리스)** | 배포 인스턴스 | 차트와 값이 결합되어 K8s 클러스터 내에 실제 구동 중인 패키지의 상태 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Helm 렌더링 메커니즘: Template + Values             │
-├──────────────────────────────────────────────────────────────┤
-│ [templates/deployment.yaml]                                  │
-│   image: {{ .Values.image.repository }}:{{ .Values.image.tag }}│
-│                           │                                  │
-│                           ▼ (Helm Client 엔진 결합)           │
-│                           │                                  │
-│ [values.yaml]             │                                  │
-│   image:                  │                                  │
-│     repository: nginx     │ ──▶ [최종 렌더링된 YAML K8s 전송]  │
-│     tag: 1.25.0           │      image: nginx:1.25.0         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Helm 렌더링 메커니즘: Template + Values             |
++--------------------------------------------------------------+
+| [templates/deployment.yaml]                                  |
+|   image: {{ .Values.image.repository }}:{{ .Values.image.tag }}|
+|                           |                                  |
+|                           v (Helm Client 엔진 결합)           |
+|                           |                                  |
+| [values.yaml]             |                                  |
+|   image:                  |                                  |
+|     repository: nginx     | ---> [최종 렌더링된 YAML K8s 전송]  |
+|     tag: 1.25.0           |      image: nginx:1.25.0         |
++--------------------------------------------------------------+
 ```
 
 Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 K8s [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))에 저장한다. 이를 통해 `helm upgrade`로 안전하게 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리거나, 실패 시 `helm rollback`으로 이전 릴리스 상태의 전체 YAML 묶음을 즉시 원복([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))할 수 있다.
@@ -115,17 +115,17 @@ Helm을 도입하면 [쿠버네티스](/knowledge-base/studynote/06_ict_converge
 
 ```text
 Static YAML Manifests (수동 작성 및 kubectl 배포)
-    │
-    ▼
+    |
+    v
 Helm Chart (패키지 묶음 및 Go Template 기반 변수 렌더링)
-    │
-    ▼
+    |
+    v
 Artifact Hub (공개 차트 공유 생태계 및 앱스토어화)
-    │
-    ▼
+    |
+    v
 Helm v3 Architecture (서버리스 클라이언트 렌더링 구조로 보안 강화)
-    │
-    ▼
+    |
+    v
 GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
 ```
 
@@ -141,7 +141,7 @@ GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
 
 **진행 상황**: 92 / 373
 
-← **이전**: [91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/)
-**다음**: [93. 스핀네이커 (Spinnaker)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/) →
+<- **이전**: [91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/)
+**다음**: [93. 스핀네이커 (Spinnaker)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/) ->
 
 ---

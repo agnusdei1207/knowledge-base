@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 감리 결과 공시와 책임조치 이행보증은 감리 결과 공시와 책임 조치 이행 보증(Accountability Assurance) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 규정 준수 요구가 높아지면서 문서 존재 여부보다 책임, 증적, 종결 상태를 함께 보는 거버넌스가 중요해졌다. 특히 공시 범위가 기준선으로 정리되지 않으면 책임 추적은 사람 의존 절차로 흩어지고, 최종적으로 계약 이행 보증이 남지 않아 의사결정이 감각에 의존하게 된다. 형식 점검에 머무르면 같은 지적사항이 반복되고 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 신뢰도도 떨어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 공시 범위 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 책임 추적 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 계약 이행 보증 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 공시 범위 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 책임 추적 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 계약 이행 보증 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 감리 결과 공시와 책임조치 이행보증은 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 계약 이행 보증을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 공시 범위, 책임 추적, 계약 이행 보증은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 지속 통제 자동화(Continuous Controls Monitoring)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[공시 범위] → [감리 결과 공시와 책임조치 이행보증] → [지속 통제 자동화(Continuous Controls Monitoring)]
+[공시 범위] -> [감리 결과 공시와 책임조치 이행보증] -> [지속 통제 자동화(Continuous Controls Monitoring)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 공시 범위는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 363 / 530
 
-← **이전**: [301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/)
-**다음**: [302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit_disclosure_accountability_procurement/) →
+<- **이전**: [301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/)
+**다음**: [302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit_disclosure_accountability_procurement/) ->
 
 ---

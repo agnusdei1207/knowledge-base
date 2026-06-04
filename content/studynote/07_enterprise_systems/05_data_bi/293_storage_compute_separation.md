@@ -31,16 +31,16 @@ tags = ["studynote-enterprise"]
 이 아키텍처의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층(Persistence Layer)은 영구적이고 안정적인 공유 스토리지를 활용하고, 연산 계층(Execution Layer)은 필요에 따라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸되는 일시적(Ephemeral)인 구조를 갖는 것이다.
 
 ```text
-┌───────────────────────────┐      ┌───────────────────────────┐
-│     연산 계층 (Compute)    │      │     연산 계층 (Compute)    │
-│ [Cluster A - Marketing]   │      │ [Cluster B - Finance]     │
-└─────────────┬─────────────┘      └─────────────┬─────────────┘
-              │                                  │
-              ▼          네트워크 전송           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  공유 스토리지 계층 (Shared Storage)          │
-│ [Object Storage / Cloud Data Lake / S3 / Blob Storage]       │
-└──────────────────────────────────────────────────────────────┘
++---------------------------+      +---------------------------+
+|     연산 계층 (Compute)    |      |     연산 계층 (Compute)    |
+| [Cluster A - Marketing]   |      | [Cluster B - Finance]     |
++-------------+-------------+      +-------------+-------------+
+              |                                  |
+              v          네트워크 전송           v
++--------------------------------------------------------------+
+|                  공유 스토리지 계층 (Shared Storage)          |
+| [Object Storage / Cloud Data Lake / S3 / Blob Storage]       |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 특징 | 역할 |
@@ -107,17 +107,17 @@ tags = ["studynote-enterprise"]
 
 ```
 온프레미스 공유 스토리지 (SAN/NAS) 병목
-    │
-    ▼
+    |
+    v
 Hadoop HDFS - 데이터 로컬리티 강제 결합
-    │
-    ▼
+    |
+    v
 S3/GCS/ADLS 오브젝트 스토리지 분리 등장
-    │
-    ▼
+    |
+    v
 Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장
-    │
-    ▼
+    |
+    v
 Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
 ```
 
@@ -134,7 +134,7 @@ Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
 
 **진행 상황**: 293 / 482
 
-← **이전**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/)
-**다음**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/) →
+<- **이전**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/)
+**다음**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/) ->
 
 ---

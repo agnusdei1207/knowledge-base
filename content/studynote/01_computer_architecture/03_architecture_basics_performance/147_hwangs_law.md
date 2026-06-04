@@ -29,7 +29,7 @@ tags = ["studynote-computer-architecture"]
 | 대상 | CPU [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 | [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) 집적도([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/칩) |
 | 주기 | 약 2년 2배 | 약 1년 2배 |
 | 메커니즘 | 공정 미세화(Scaling) | 셀 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(MLC·TLC·QLC) + 공정 |
-| 현황 | 2010년대 이후 둔화 | 2D 한계 → 3D V-NAND 전환 |
+| 현황 | 2010년대 이후 둔화 | 2D 한계 -> 3D V-NAND 전환 |
 
 - **📢 섹션 요약 비유**: 황의 법칙은 **'매년 서랍 깊이가 2배로 늘어나는 마법 책상'** 입니다. 서랍이 작아 사진 몇 장만 들어갔던 초창기에서, 매년 두 배씩 깊어지면서 수만 장의 고해상도 사진과 동영상을 통째로 쓸어 담을 수 있게 된 스토리지 성장의 기적입니다.
 
@@ -45,31 +45,31 @@ tags = ["studynote-computer-architecture"]
 전압 레벨 수에 따른 1셀당 비트 수 및 트레이드오프
 
   SLC (Single Level Cell)   MLC (Multi Level Cell)   TLC/QLC
-  ┌────────────────────┐    ┌──────────────────────┐  ┌────────────────┐
-  │  전압 2단계 → 1bit  │    │  전압 4단계 → 2bit   │  │ 8/16단계 → 3/4bit│
-  │  수명: 100K P/E     │    │  수명:   10K P/E     │  │ 수명: 1K~3K P/E │
-  │  속도: 빠름          │    │  속도:   중간        │  │ 속도: 느림      │
-  │  용량: 적음          │    │  용량:   중간        │  │ 용량: 최대      │
-  └────────────────────┘    └──────────────────────┘  └────────────────┘
+  +--------------------+    +----------------------+  +----------------+
+  |  전압 2단계 -> 1bit  |    |  전압 4단계 -> 2bit   |  | 8/16단계 -> 3/4bit|
+  |  수명: 100K P/E     |    |  수명:   10K P/E     |  | 수명: 1K~3K P/E |
+  |  속도: 빠름          |    |  속도:   중간        |  | 속도: 느림      |
+  |  용량: 적음          |    |  용량:   중간        |  | 용량: 최대      |
+  +--------------------+    +----------------------+  +----------------+
 ```
 
 같은 면적의 칩에 더 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 구겨 넣기 위해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 세분화한다. [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)(Single Level Cell)는 셀당 1비트, MLC(Multi Level Cell)는 2비트, TLC(Triple Level Cell)는 3비트, QLC(Quad Level Cell)는 4비트를 저장한다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 늘수록 용량은 늘지만, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 판별 오류 가능성 증가로 속도·수명이 감소한다.
 
-### 2. 2D → 3D 전환: V-NAND의 등장
+### 2. 2D -> 3D 전환: V-NAND의 등장
 
 평면 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 20nm 이하에서 인접 셀 간 전기 누설([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))과 제조 수율 문제로 한계를 맞았다. 해결책은 **수직 적층(3D V-NAND)** 이었다.
 
 ```text
 2D NAND (평면)                      3D V-NAND (수직 적층)
-┌──────────────────────┐            ┌────────────────────────┐
-│ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓  │            │ Layer 256              │
-│ (셀이 미세할수록 간섭↑) │            │ Layer 255              │
-│                      │            │ ···                    │
-│  한계: ~20nm 이하 붕괴 │            │ Layer 2                │
-└──────────────────────┘            │ Layer 1 (기판)          │
-                                    └────────────────────────┘
-  동일 면적, 셀 간격 ↓                 수직 구멍(Channel Hole)으로
-  → 크로스톡(Crosstalk) ↑            셀을 관통 연결 → 간섭↓, 수명↑
++----------------------+            +------------------------+
+| ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓  |            | Layer 256              |
+| (셀이 미세할수록 간섭^) |            | Layer 255              |
+|                      |            | ···                    |
+|  한계: ~20nm 이하 붕괴 |            | Layer 2                |
++----------------------+            | Layer 1 (기판)          |
+                                    +------------------------+
+  동일 면적, 셀 간격 v                 수직 구멍(Channel Hole)으로
+  -> 크로스톡(Crosstalk) ^            셀을 관통 연결 -> 간섭v, 수명^
 ```
 
 삼성전자가 2013년 처음 상용화한 V-NAND는 셀을 24층부터 시작해 현재 200층 이상으로 쌓으며 집적도를 유지하고 있다. 황의 법칙의 수직 연장이다.
@@ -88,14 +88,14 @@ tags = ["studynote-computer-architecture"]
 
 | 법칙 | 예측 대상 | 한계 요인 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) |
 |:---|:---|:---|:---|
-| 무어의 법칙(Moore's Law) | CPU [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 | 열벽([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall), 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | 2년 → 3~4년으로 느려짐 |
-| 황의 법칙(Hwang's Law) | NAND 집적도 | 2D 공정 한계 → 3D로 전환 | 3D 적층으로 연명 중 |
+| 무어의 법칙(Moore's Law) | CPU [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 | 열벽([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall), 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | 2년 -> 3~4년으로 느려짐 |
+| 황의 법칙(Hwang's Law) | NAND 집적도 | 2D 공정 한계 -> 3D로 전환 | 3D 적층으로 연명 중 |
 | 구스타프슨의 법칙(Gustafson's Law) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 확장성 | 순차 병목([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) | 클라우드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에 유효 |
 | 덴나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 전력 밀도 | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 급증 | 2004년경 붕괴 |
 
 ### 연결 개념 흐름
 
-낸드 플래시 수요 폭발 → 황의 법칙 성립 → 2D 미세화 한계 → V-NAND 3D 적층 → TLC·QLC 셀 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) → 엔터프라이즈 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 티어링(Tiering) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
+낸드 플래시 수요 폭발 -> 황의 법칙 성립 -> 2D 미세화 한계 -> V-NAND 3D 적층 -> TLC·QLC 셀 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) -> 엔터프라이즈 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 티어링(Tiering) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
 
 - **📢 섹션 요약 비유**: 무어의 법칙이 **'두뇌(CPU)를 2년마다 똑똑하게 만드는 계획'** 이라면, 황의 법칙은 **'기억 서랍(NAND)을 1년마다 두 배 크게 만드는 계획'** 입니다. 둘 다 물리 한계에 부딪혔지만, 해결 방향은 달랐습니다 — CPU는 코어를 여럿으로 쪼갰고, NAND는 하늘을 향해 층을 쌓았습니다.
 
@@ -144,24 +144,24 @@ tags = ["studynote-computer-architecture"]
 | **V-NAND (Vertical NAND)** | 2D 미세화 한계 극복을 위한 수직 적층 기술; 황의 법칙의 물리적 연장 |
 | **MLC / TLC / QLC** | 1셀당 저장 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 늘려 집적도를 높이는 다중 레벨 셀 기술 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">Flash Translation Layer</a>)</strong> | 낸드 플래시 수명 관리(웨어 레벨링, [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))를 담당하는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) |
-| <strong>덴나드 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/">Dennard Scaling</a>)</strong> | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 축소 시 전력 밀도 일정 → 2004년 붕괴; 황의 법칙과 무어의 법칙 쇠퇴의 공통 원인 |
+| <strong>덴나드 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/">Dennard Scaling</a>)</strong> | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 축소 시 전력 밀도 일정 -> 2004년 붕괴; 황의 법칙과 무어의 법칙 쇠퇴의 공통 원인 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-디지털 멀티미디어 폭발 → 낸드 플래시 수요 급증
-    │
-    ▼
+디지털 멀티미디어 폭발 -> 낸드 플래시 수요 급증
+    |
+    v
 황의 법칙 (Hwang's Law) — 1년 2배 집적도 성장
-    │
-    ├─► SLC → MLC → TLC → QLC (셀 다중화)
-    │
-    └─► 2D 공정 미세화 → 20nm 물리 한계
-              │
-              ▼
+    |
+    +-► SLC -> MLC -> TLC -> QLC (셀 다중화)
+    |
+    +-► 2D 공정 미세화 -> 20nm 물리 한계
+              |
+              v
         3D V-NAND (Vertical NAND) 수직 적층
-              │
-              ▼
+              |
+              v
         200층+ 적층 / PLC 연구 / SCM 융합
 ```
 
@@ -177,7 +177,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 147 / 803
 
-← **이전**: [146. 무어의 법칙 (Moore's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/146_moores_law/)
-**다음**: [148. 데나드 스케일링 (Dennard Scaling)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) →
+<- **이전**: [146. 무어의 법칙 (Moore's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/146_moores_law/)
+**다음**: [148. 데나드 스케일링 (Dennard Scaling)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ->
 
 ---

@@ -31,15 +31,15 @@ Docker는 "내 PC에서는 되는데 서버에서는 안 된다"는 문제를 �
 
 ```text
 Docker CLI
-  ↓
+  v
 dockerd
-  ↓
+  v
 containerd
-  ↓
+  v
 runc
-  ↓
+  v
 Namespaces + cgroups
-  ↓
+  v
 Container
 ```
 
@@ -115,13 +115,13 @@ Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반�
 
 ```text
 Docker CLI
-  ↓
+  v
 dockerd
-  ↓
+  v
 containerd / runc
-  ↓
+  v
 Linux Kernel
-  ↓
+  v
 Container
 ```
 
@@ -131,11 +131,11 @@ Container
 
 ```text
 수동 배포
-  ↓
+  v
 스크립트 배포
-  ↓
+  v
 Docker
-  ↓
+  v
 Container Platform
 ```
 
@@ -153,7 +153,7 @@ Container Platform
 
 **진행 상황**: 63 / 800
 
-← **이전**: [62. 컨트롤 그룹 (cgroups) - 자원 할당 제어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)
-**다음**: [64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/064_rootfs_overlayfs/) →
+<- **이전**: [62. 컨트롤 그룹 (cgroups) - 자원 할당 제어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)
+**다음**: [64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/064_rootfs_overlayfs/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [헤더 체크섬]
-    │
-    ▼
+    |
+    v
 [IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    └──▶ [클래스 A, B, C, D, E]
+    |
+    +---> [클래스 A, B, C, D, E]
 ```
 
 - **📢 섹션 요약 비유**: <strong> IP 고갈 문제는 석유 고갈과 같습니다. 매장량(43억 개)은 정해져 있는데 초창기에 기름을 물 쓰듯 펑펑 쓰다가(Classful), 바닥이 보일 즈음이 되어서야 </strong>연비 좋은 하이브리드카(CIDR)를 만들고 카풀([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 강제**하며 버티고 있는 형국입니다.
@@ -43,9 +43,9 @@ tags = ["studynote-network"]
 IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번호(Host ID)"로 나뉜다.
 초창기 학자들은 이 경계선을 유연하게 옮길 생각을 못 하고, 칼같이 8비트(1바이트) 단위로만 경계를 쪼개어 A, B, C 클래스로 고정(Hardcoding)해 버렸다.
 
-- **A 클래스**: `[Net 8비트] . [Host 24비트]` ──▶ 1개 동네에 무려 <strong>16,777,214대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (초대기업용)
-- **B 클래스**: `[Net 16비트] . [Host 16비트]` ──▶ 1개 동네에 <strong>65,534대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (대학, 중견기업용)
-- **C 클래스**: `[Net 24비트] . [Host 8비트]` ──▶ 1개 동네에 <strong>254대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (소규모 PC방, 소기업용)
+- **A 클래스**: `[Net 8비트] . [Host 24비트]` ---> 1개 동네에 무려 <strong>16,777,214대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (초대기업용)
+- **B 클래스**: `[Net 16비트] . [Host 16비트]` ---> 1개 동네에 <strong>65,534대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (대학, 중견기업용)
+- **C 클래스**: `[Net 24비트] . [Host 8비트]` ---> 1개 동네에 <strong>254대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (소규모 PC방, 소기업용)
 
 ### 2. 주소 낭비의 치명적 딜레마
 전 세계 대부분의 회사는 직원 수가 300명 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명 사이다.
@@ -55,20 +55,20 @@ IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번�
 이런 짓을 전 세계 수만 개의 기업이 저지르자, 1990년대 중반에 이미 "이대로면 몇 년 안에 B 클래스가 멸종한다!"라는 경고가 떴다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 클라스풀(Classful) 낭비의 극단적 예시            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 직원 300명인 회사 ]                                       │
- │                                                             │
- │   요구사항: IP 300개 필요.                                    │
- │   C클래스 (254개) ──▶ "모자라! 이거 안 해!"                   │
- │   B클래스 (65,534개) ──▶ "이거 줘!" ──▶ [ 300개 사용 | 65,234개 낭비! ] │
- │                                                             │
- │   * 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작      │
- │          16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서   │
- │          순식간에 B 클래스가 씨가 말라버림.                      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 클라스풀(Classful) 낭비의 극단적 예시            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 직원 300명인 회사 ]                                       |
+ |                                                             |
+ |   요구사항: IP 300개 필요.                                    |
+ |   C클래스 (254개) ---> "모자라! 이거 안 해!"                   |
+ |   B클래스 (65,534개) ---> "이거 줘!" ---> [ 300개 사용 | 65,234개 낭비! ] |
+ |                                                             |
+ |   * 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작      |
+ |          16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서   |
+ |          순식간에 B 클래스가 씨가 말라버림.                      |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 고갈을 막기 위한 3대 생명 연장술의 등장
@@ -135,12 +135,12 @@ IP 주소 고갈 문제, 클라스풀 주소체계는 네트워크 계층과 IP�
 
 ```text
 [선행 개념: 헤더 체크섬]
-    │
-    ▼
+    |
+    v
 [현재 개념: IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    ├──▶ [확장 A: 클래스 A, B, C, D, E]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 클래스 A, B, C, D, E]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 IP 주소 고갈 문제, 클라스풀 주소체계는 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 클래스 A, B, C, D, E와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ IP 주소 고갈 문제, 클라스풀 주소체계는 [헤더 체크섬](/knowle
 
 **진행 상황**: 418 / 1120
 
-← **이전**: [296. 헤더 체크섬 (Header Checksum)](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)
-**다음**: [298. 클래스 A, B, C, D (멀티캐스트), E (실험용)](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) →
+<- **이전**: [296. 헤더 체크섬 (Header Checksum)](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)
+**다음**: [298. 클래스 A, B, C, D (멀티캐스트), E (실험용)](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) ->
 
 ---

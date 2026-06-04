@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **결과적 고통**: 부팅하자마자 폴트가 수십 번 터지며 앱이 켜지는 데 한참이 걸려 UX(사용자 경험)를 끔찍하게 깎아 먹었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        일반 요구 페이징 vs 순수 요구 페이징의 런타임 시작 과정           │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 프로세스 P (총 10페이지) 실행 버튼 클릭! ]                             │
-│                                                                          │
-│ ▶ 1. 일반 요구 페이징 (적당한 타협)                                      │
-│  - OS: "음, main 함수가 있는 0번, 1번 페이지는 램에 넣어줄게."           │
-│  - 램 상태: [ Pg 0 ] [ Pg 1 ] (V 비트 켜짐)                              │
-│  - 실행: 스무스하게 시작하다가 중간에 Pg 2 부를 때 렉(Fault) 한 번 남.   │
-│                                                                          │
-│ ▶ 2. 순수 요구 페이징 (Pure Demand Paging)                               │
-│  - OS: "램? 국물도 없다. 테이블 전부 I 비트 박고 일단 CPU 굴려!"         │
-│  - 램 상태: [ 텅 빔 ] (10개 다 Invalid)                                  │
-│  - 실행 과정:                                                            │
-│    💥 0.0001초: CPU가 1번째 줄 읽으려다 Page Fault 터짐! (디스크행)      │
-│    💥 0.0010초: 0번 페이지 가져와서 다시 시작. 근데 변수 읽으려다        │
-│               또 5번 페이지 Fault 터짐! (디스크행)                       │
-│    💥 0.0020초: 5번 가져왔더니 스택 필요해서 9번 Fault 터짐!             │
-│  - 결과: 초기 1초 동안 미친 듯이 버벅대다가(소나기), 한참 뒤에 평온해짐. │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|        일반 요구 페이징 vs 순수 요구 페이징의 런타임 시작 과정           |
++--------------------------------------------------------------------------+
+|                                                                          |
+| [ 프로세스 P (총 10페이지) 실행 버튼 클릭! ]                             |
+|                                                                          |
+| -> 1. 일반 요구 페이징 (적당한 타협)                                      |
+|  - OS: "음, main 함수가 있는 0번, 1번 페이지는 램에 넣어줄게."           |
+|  - 램 상태: [ Pg 0 ] [ Pg 1 ] (V 비트 켜짐)                              |
+|  - 실행: 스무스하게 시작하다가 중간에 Pg 2 부를 때 렉(Fault) 한 번 남.   |
+|                                                                          |
+| -> 2. 순수 요구 페이징 (Pure Demand Paging)                               |
+|  - OS: "램? 국물도 없다. 테이블 전부 I 비트 박고 일단 CPU 굴려!"         |
+|  - 램 상태: [ 텅 빔 ] (10개 다 Invalid)                                  |
+|  - 실행 과정:                                                            |
+|    💥 0.0001초: CPU가 1번째 줄 읽으려다 Page Fault 터짐! (디스크행)      |
+|    💥 0.0010초: 0번 페이지 가져와서 다시 시작. 근데 변수 읽으려다        |
+|               또 5번 페이지 Fault 터짐! (디스크행)                       |
+|    💥 0.0020초: 5번 가져왔더니 스택 필요해서 9번 Fault 터짐!             |
+|  - 결과: 초기 1초 동안 미친 듯이 버벅대다가(소나기), 한참 뒤에 평온해짐. |
++--------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 곡선은 초반에 절벽처럼 떨어졌다가 나중에 평탄해진다. 시작하자마자 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(변수), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(함수)를 세팅하느라 무더기로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터진다. 하지만 이 고통스러운 '소나기(Burst of [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Faults)' 시기가 지나고 나면, 프로그램이 궤도에 올라 자기만의 '[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'을 램에 다 모아두어 폴트율이 극도로 낮아지게 된다.
 
@@ -104,12 +104,12 @@ tags = ["studynote-operating-system"]
 - 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 이 초반의 100% 절벽 구간을 몸으로 온전히 때우겠다는 살신성인의 전략이다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 정책       │ 부팅 속도(UX)│ 램 공간 절약 │ 하드디스크 무리 │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ Pure Demand│ ☠️ 최악    │ ⭐ 최고 방어 │ ☠️ 드르륵 파괴됨  │
-│ Prepaging  │ ⭐ 쾌적    │ 🔴 낭비 큼   │ 🟢 수명 절약      │
-└──────────┴────────────┴────────────┴───────────────────────┘
++----------+------------+------------+-----------------------+
+| 정책       | 부팅 속도(UX)| 램 공간 절약 | 하드디스크 무리 |
++----------+------------+------------+-----------------------+
+| Pure Demand| ☠️ 최악    | ⭐ 최고 방어 | ☠️ 드르륵 파괴됨  |
+| Prepaging  | ⭐ 쾌적    | 🔴 낭비 큼   | 🟢 수명 절약      |
++----------+------------+------------+-----------------------+
 ```
 **[매트릭스 해설]** 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절에는 절대 쓸 수 없는 금기였다. 암(Arm)이 한 번 움직일 때([Seek time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 주변 걸 다 긁어와야([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) 이득인데, 바보처럼 1번 폴트 나고 4KB 읽고, 또 돌아가서 4KB 읽고를 반복하면 하드디스크가 소음을 내며 터져나갔다. 이 극단적 방법은 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 등장하여 랜덤 액세스(Random Access) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 사라진 현대에 와서야 그럭저럭 비벼볼 만한 이론이 되었다.
 
@@ -166,12 +166,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [요구 페이징 (Demand Paging)]
-    │
-    ▼
+    |
+    v
 [순수 요구 페이징 (Pure Demand Paging)]
-    │
-    ├──▶ [선행 페이징 (Prepaging)]
-    └──▶ [유효-무효 비트 (Valid-Invalid Bit)]
+    |
+    +---> [선행 페이징 (Prepaging)]
+    +---> [유효-무효 비트 (Valid-Invalid Bit)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 384 / 800
 
-← **이전**: [383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/383_demand_paging/)
-**다음**: [385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) →
+<- **이전**: [383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/383_demand_paging/)
+**다음**: [385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) ->
 
 ---

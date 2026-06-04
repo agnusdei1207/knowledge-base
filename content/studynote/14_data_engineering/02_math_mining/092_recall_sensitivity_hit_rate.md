@@ -37,21 +37,21 @@ tags = ["studynote-data-engineering"]
 | **계산 공식** | 실제 양성 중 맞춘 비율 | $\text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)} = \frac{TP}{TP + FN}$ | 미탐(FN) 최소화가 핵심 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)         │
-├──────────────────────────────────────────────────────────────┤
-│                  [Predicted Class (예측)]                     │
-│               Positive (+)        Negative (-)               │
-│             ┌───────────────┬────────────────┐               │
-│ [Actual]    │ TP (진짜 양성) │ FN (위음성, 놓침)│ ──▶ 이 둘의 합이 │
-│ Positive(+) │ (모델이 찾음)  │ (재현율 깎아먹음)│      분모가 됨    │
-│             ├───────────────┼────────────────┤               │
-│ [Actual]    │ FP (위양성)   │ TN (진짜 음성) │               │
-│ Negative(-) │               │                │               │
-│             └───────────────┴────────────────┘               │
-│                                                              │
-│  ※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)         |
++--------------------------------------------------------------+
+|                  [Predicted Class (예측)]                     |
+|               Positive (+)        Negative (-)               |
+|             +---------------+----------------+               |
+| [Actual]    | TP (진짜 양성) | FN (위음성, 놓침)| ---> 이 둘의 합이 |
+| Positive(+) | (모델이 찾음)  | (재현율 깎아먹음)|      분모가 됨    |
+|             +---------------+----------------+               |
+| [Actual]    | FP (위양성)   | TN (진짜 음성) |               |
+| Negative(-) |               |                |               |
+|             +---------------+----------------+               |
+|                                                              |
+|  ※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜     |
++--------------------------------------------------------------+
 ```
 
 재현율을 인위적으로 높이는 방법은 간단하다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 임계값(Threshold)을 낮춰서 모델이 조금만 의심스러워도 모두 "양성(Positive)"이라고 예측하게 만들면 된다. 이렇게 하면 놓치는 것인 FN(False Negative)은 사라지지만, 가짜를 진짜라고 우기는 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(False Positive) 오탐이 급증하게 된다.
@@ -116,17 +116,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Confusion Matrix (분류 결과의 기초 매트릭스)
-    │
-    ▼
+    |
+    v
 Recall (실제 참을 놓치지 않는 성능, FN 최소화) & Precision (오탐 최소화)
-    │
-    ▼
+    |
+    v
 F1-Score (두 지표의 조화 평균을 통한 단일 평가 지표)
-    │
-    ▼
+    |
+    v
 PR Curve (Precision-Recall 곡선)
-    │
-    ▼
+    |
+    v
 Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여)
 ```
 
@@ -142,7 +142,7 @@ Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여
 
 **진행 상황**: 92 / 258
 
-← **이전**: [정밀도와 재현율의 트레이드오프: 임계값 조절 전략](/knowledge-base/studynote/14_data_engineering/02_math_mining/091_precision_vs_recall_tradeoff/)
-**다음**: [F1-Score: 정밀도와 재현율의 균형 잡힌 심판](/knowledge-base/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/) →
+<- **이전**: [정밀도와 재현율의 트레이드오프: 임계값 조절 전략](/knowledge-base/studynote/14_data_engineering/02_math_mining/091_precision_vs_recall_tradeoff/)
+**다음**: [F1-Score: 정밀도와 재현율의 균형 잡힌 심판](/knowledge-base/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/) ->
 
 ---

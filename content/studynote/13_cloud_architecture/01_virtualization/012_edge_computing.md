@@ -28,14 +28,14 @@ tags = ["cloud_architecture"]
 아래 다이어그램은 중앙 집중형 구조가 겪는 과부하 문제와 엣지 도입 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽의 극적인 필터링 효과를 시각화한 것이다.
 
 ```text
-┌────────────── 기존 중앙 집중형 (Cloud-Centric) ───────────────┐
-│ [IoT Devices / IoT 기기] ============ (100% 원시 데이터) ===========> [Cloud DB / 클라우드 DB] │
-│ 1,000대의 CCTV         대역폭 포화 / 응답 지연 발생             적체 병목 │
-├────────────── 엣지 분산 처리형 (Edge-Centric) ────────────────┤
-│ [IoT Devices / IoT 기기] ──> [Edge Gateway / 엣지 게이트웨이] ──(1% 요약 메타만 전송)──> [Cloud DB / 클라우드 DB] │
-│                  * 로컬 연산 및 AI 분석                            │
-│                  * 99%의 무의미한 영상 데이터 현장 즉각 폐기         │
-└─────────────────────────────────────────────────────────┘
++-------------- 기존 중앙 집중형 (Cloud-Centric) ---------------+
+| [IoT Devices / IoT 기기] ============ (100% 원시 데이터) ===========> [Cloud DB / 클라우드 DB] |
+| 1,000대의 CCTV         대역폭 포화 / 응답 지연 발생             적체 병목 |
++-------------- 엣지 분산 처리형 (Edge-Centric) ----------------+
+| [IoT Devices / IoT 기기] --> [Edge Gateway / 엣지 게이트웨이] --(1% 요약 메타만 전송)--> [Cloud DB / 클라우드 DB] |
+|                  * 로컬 연산 및 AI 분석                            |
+|                  * 99%의 무의미한 영상 데이터 현장 즉각 폐기         |
++---------------------------------------------------------+
 ```
 
 이 흐름의 핵심 지표는 '전송량의 삭감'과 '연산의 전진 배치'이다. 엣지 노드는 단순한 네트워크 라우터가 아니라, 스스로 필터링 정책을 적용하고 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론을 실행하는 지능형 관문(Gatekeeper)이다. 따라서 중앙 클라우드는 거대한 I/O 병목에서 해방되어 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 모델 학습에만 집중할 수 있게 되며, 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다.
@@ -62,18 +62,18 @@ tags = ["cloud_architecture"]
 아래 도식은 엣지 노드(Gateway) 내부에서 이루어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 처리 및 통제 흐름도이다.
 
 ```text
-[Sensor Data Stream / 데이터 스트림] ──MQTT──> ┌──────── Edge Node (Gateway) ────────┐
-                               │ 1. [Ingestion Buffer / 수집 버퍼] (시계열 수집) │
-                               │             ↓                       │
-                               │ 2. [Stream Processing Engine / 스트림 처리 엔진]       │
-                               │    - Filter (노이즈/중복 데이터 제거) │
-                               │    - Aggregation (1분 단위 평균 요약)│
-                               │             ↓                       │
-                               │ 3. [AI Inference / AI 추론] (로컬 모델 추론)  │
-                               │     ──(이상 징후 감지 시)──> 현장 로봇 즉시 정지 제어 │
-                               └─────────────┬───────────────────────┘
-                                             │ (이상 이벤트 로그 및 요약 통계만 전송)
-                                             ▼ HTTPS / gRPC
+[Sensor Data Stream / 데이터 스트림] --MQTT--> +-------- Edge Node (Gateway) --------+
+                               | 1. [Ingestion Buffer / 수집 버퍼] (시계열 수집) |
+                               |             v                       |
+                               | 2. [Stream Processing Engine / 스트림 처리 엔진]       |
+                               |    - Filter (노이즈/중복 데이터 제거) |
+                               |    - Aggregation (1분 단위 평균 요약)|
+                               |             v                       |
+                               | 3. [AI Inference / AI 추론] (로컬 모델 추론)  |
+                               |     --(이상 징후 감지 시)--> 현장 로봇 즉시 정지 제어 |
+                               +-------------+-----------------------+
+                                             | (이상 이벤트 로그 및 요약 통계만 전송)
+                                             v HTTPS / gRPC
                                    [Central Cloud Platform / 중앙 클라우드]
 ```
 
@@ -89,15 +89,15 @@ tags = ["cloud_architecture"]
 
 #### Cloud vs Edge 핵심 트레이드오프 비교 매트릭스
 
-┌──────────┬───────────────┬────────────────┬──────────────────┐
-│ 기준 지표│ [Cloud Computing](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) │ [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) │ 실무 아키텍처 판단 기준 │
-├──────────┼───────────────┼────────────────┼──────────────────┤
-│ [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)│ 100ms ~ 수 초   │ 1ms ~ 10ms     │ 실시간 생존성 제어 필수 여부│
-│ [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)   │ 막대한 비용 소모│ 극히 적은 비용 절감│ 발생하는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 볼륨 │
-│ 연산 능력│ 사실상 무한대   │ H/W 제한적, 경량급│ 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능성│
-│ [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)   │ 중앙 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)│ 노드별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 생존  │ 네트워크 단절 시 독립 구동 여부│
-│ 보안 환경│ 중앙의 강력한 방어│ 기기 탈취 물리적 위험│ 기기가 놓인 공간의 물리적 보안 수준│
-└──────────┴───────────────┴────────────────┴──────────────────┘
++----------+---------------+----------------+------------------+
+| 기준 지표| [Cloud Computing](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) | [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | 실무 아키텍처 판단 기준 |
++----------+---------------+----------------+------------------+
+| [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)| 100ms ~ 수 초   | 1ms ~ 10ms     | 실시간 생존성 제어 필수 여부|
+| [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)   | 막대한 비용 소모| 극히 적은 비용 절감| 발생하는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 볼륨 |
+| 연산 능력| 사실상 무한대   | H/W 제한적, 경량급| 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능성|
+| [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)   | 중앙 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)| 노드별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 생존  | 네트워크 단절 시 독립 구동 여부|
+| 보안 환경| 중앙의 강력한 방어| 기기 탈취 물리적 위험| 기기가 놓인 공간의 물리적 보안 수준|
++----------+---------------+----------------+------------------+
 
 이 매트릭스에서 알 수 있듯 가장 큰 트레이드오프는 연산력과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 교환이다. 클라우드는 막강한 GPU를 제공하지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 존재한다. 실무에서는 이를 극복하기 위해 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 '학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))'은 클라우드의 무한한 자원으로 돌리고, 완료된 모델을 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 등을 통해 가볍게 깎아내어 엣지로 배포한 뒤 현장에서는 '추론(Inference)'만 수행하는 하이브리드 패턴 모델이 가장 완벽한 융합으로 평가받는다.
 
@@ -120,14 +120,14 @@ tags = ["cloud_architecture"]
 
 ```text
 [데이터 스트림 발생 이벤트]
-         │
+         |
 [통신 단절 시 생명이나 기계 파손 등 치명적 사고로 직결되는가?]
- ├─ (Yes) ──> [Device Edge 계층: 초정밀 하드웨어 칩(PLC) 직접 제어 배포]
- │
- └─ (No) ──> [데이터의 전송 볼륨이 네트워크 대역폭 허용 비용을 초과하는가? (CCTV 등)]
-              ├─ (Yes) ──> [Thick Edge 계층: 엣지 NPU로 현장 영상 분석 후 로그만 중앙 전송]
-              │
-              └─ (No)  ──> [클라우드 데이터 호수(Data Lake)로 즉시 다이렉트 스트리밍]
+ +- (Yes) --> [Device Edge 계층: 초정밀 하드웨어 칩(PLC) 직접 제어 배포]
+ |
+ +- (No) --> [데이터의 전송 볼륨이 네트워크 대역폭 허용 비용을 초과하는가? (CCTV 등)]
+              +- (Yes) --> [Thick Edge 계층: 엣지 NPU로 현장 영상 분석 후 로그만 중앙 전송]
+              |
+              +- (No)  --> [클라우드 데이터 호수(Data Lake)로 즉시 다이렉트 스트리밍]
 ```
 
 이 의사결정 나무는 무조건 엣지가 좋다는 맹신을 방지한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 파일이나 온도 센서 값처럼 트래픽 크기가 매우 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 구태여 엣지에 필터링 인프라를 구축할 필요 없이 클라우드로 직접 보내 일괄 분석하는 것이 시스템 설계 복잡도를 낮추는 현명한 실무 판단이다.
@@ -164,17 +164,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [클라우드 중앙 집중 (Cloud Centralized) — 원격 처리 중심]
-    │
-    ▼
+    |
+    v
 [엣지 컴퓨팅 (Edge Computing) — 현장 가까운 처리]
-    │
-    ▼
+    |
+    v
 [포그 컴퓨팅 (Fog Computing) — 계층적 분산]
-    │
-    ▼
+    |
+    v
 [MEC (Multi-access Edge Computing) — 5G 통합 엣지]
-    │
-    ▼
+    |
+    v
 [엣지 AI (Edge AI) — 온디바이스 추론]
 ```
 
@@ -191,7 +191,7 @@ tags = ["cloud_architecture"]
 
 **진행 상황**: 11 / 371
 
-← **이전**: [11. 분산 클라우드 (Distributed Cloud) - 퍼블릭 클라우드 서비스를 다양한 물리적 위치(엣지, 고객사 데이터센터)에](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/011_distributed_cloud/)
-**다음**: [13. 포그 컴퓨팅 (Fog Computing) - 엣지와 클라우드 사이의 로컬 네트워크(게이트웨이) 단에서 1차 데이터 처리](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/013_fog_computing/) →
+<- **이전**: [11. 분산 클라우드 (Distributed Cloud) - 퍼블릭 클라우드 서비스를 다양한 물리적 위치(엣지, 고객사 데이터센터)에](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/011_distributed_cloud/)
+**다음**: [13. 포그 컴퓨팅 (Fog Computing) - 엣지와 클라우드 사이의 로컬 네트워크(게이트웨이) 단에서 1차 데이터 처리](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/013_fog_computing/) ->
 
 ---

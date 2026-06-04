@@ -32,7 +32,7 @@ tags = ["studynote-network"]
 표본화는 시간축에서 신호를 끊어 값만 읽는다. 샘플링 주파수는 원신호의 최고 주파수의 최소 두 배 이상이어야 한다.
 
 ```text
-Analog Signal → Sampling → Discrete-Time Samples
+Analog Signal -> Sampling -> Discrete-Time Samples
 ```
 
 | 항목 | 의미 | 포인트 |
@@ -110,14 +110,14 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 ```text
 연속 신호
-    │
-    ▼
+    |
+    v
 표본화
-    │
-    ▼
+    |
+    v
 양자화
-    │
-    ▼
+    |
+    v
 부호화 / 디지털 신호
 ```
 
@@ -135,7 +135,7 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 **진행 상황**: 56 / 1120
 
-← **이전**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/knowledge-base/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/)
-**다음**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) →
+<- **이전**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/knowledge-base/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/)
+**다음**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ->
 
 ---

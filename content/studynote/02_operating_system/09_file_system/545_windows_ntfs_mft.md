@@ -31,34 +31,34 @@ tags = ["studynote-operating-system"]
 NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 MFT 장부에서 어떻게 극명하게 차별 대우(스왑 부스트)하는지 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "1KB짜리 메모장? 디스크에 쓰지 마! 그냥 내 프론트 장부 칸에 쑤셔넣어!" │
-  ├────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                        │
-  │  [ NTFS 심장부: MFT (Master File Table 1층 로비 거대 장부) ]                           │
-  │    * MFT의 한 칸(Record) 크기 = 보통 1024 Bytes (1KB) 지정                             │
-  │                                                                                        │
-  │  =========================▼===================================                         │
-  │                                                                                        │
-  │  ✅ [ CASE 1: 500 Byte 짜리 초소형 메모장 '인사.txt' 저장 빔! ]                        │
-  │                                                                                        │
-  │      [ MFT 테이블 12번 Record 칸 (1KB) ]                                               │
-  │        ├─ 헤더 메타정보: "파일이름: 인사.txt, 날짜, 권한(ACL)"                         │
-  │        └─ 실제 데이터: "안녕하세요 반갑습니다!" [Resident 결속 스왑!]                  │
-  │       => (디스크 데이터 구역 안 감! MFT 장부 켤 때 이미 파일 본문 0.1초 로딩 끝!)      │
-  │                                                                                        │
-  │  =========================▼===================================                         │
-  │                                                                                        │
-  │  🔥 [ CASE 2: 3GB 짜리 거대 영화 '매트릭스.mp4' 저장 폭쇄 렌더!! ]                     │
-  │                                                                                        │
-  │      [ MFT 테이블 13번 Record 칸 (1KB) ]                                               │
-  │        ├─ 헤더 메타정보: "명칭: 매트릭스.mp4, 권한, 크기 3GB"                          │
-  │        └─ 클러스터 포인터: [Data Run 화살표!] (Non-Resident 탈출 랙)                   │
-  │                                    │                                                   │
-  │                                    ▼ (모터 탐색 이동 $O(1)$)                           │
-  │        [[ 디스크 저 멀리 진짜 바닥 (Data Area) 구역 ]]                                 │
-  │           => 3GB 데이터 블록 징~ 쾅쾅 연속 저장 파이프 발동                            │
-  └────────────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------------+
+  |                 "1KB짜리 메모장? 디스크에 쓰지 마! 그냥 내 프론트 장부 칸에 쑤셔넣어!" |
+  +----------------------------------------------------------------------------------------+
+  |                                                                                        |
+  |  [ NTFS 심장부: MFT (Master File Table 1층 로비 거대 장부) ]                           |
+  |    * MFT의 한 칸(Record) 크기 = 보통 1024 Bytes (1KB) 지정                             |
+  |                                                                                        |
+  |  =========================v===================================                         |
+  |                                                                                        |
+  |  ✅ [ CASE 1: 500 Byte 짜리 초소형 메모장 '인사.txt' 저장 빔! ]                        |
+  |                                                                                        |
+  |      [ MFT 테이블 12번 Record 칸 (1KB) ]                                               |
+  |        +- 헤더 메타정보: "파일이름: 인사.txt, 날짜, 권한(ACL)"                         |
+  |        +- 실제 데이터: "안녕하세요 반갑습니다!" [Resident 결속 스왑!]                  |
+  |       => (디스크 데이터 구역 안 감! MFT 장부 켤 때 이미 파일 본문 0.1초 로딩 끝!)      |
+  |                                                                                        |
+  |  =========================v===================================                         |
+  |                                                                                        |
+  |  🔥 [ CASE 2: 3GB 짜리 거대 영화 '매트릭스.mp4' 저장 폭쇄 렌더!! ]                     |
+  |                                                                                        |
+  |      [ MFT 테이블 13번 Record 칸 (1KB) ]                                               |
+  |        +- 헤더 메타정보: "명칭: 매트릭스.mp4, 권한, 크기 3GB"                          |
+  |        +- 클러스터 포인터: [Data Run 화살표!] (Non-Resident 탈출 랙)                   |
+  |                                    |                                                   |
+  |                                    v (모터 탐색 이동 $O(1)$)                           |
+  |        [[ 디스크 저 멀리 진짜 바닥 (Data Area) 구역 ]]                                 |
+  |           => 3GB 데이터 블록 징~ 쾅쾅 연속 저장 파이프 발동                            |
+  +----------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단의 <strong>NTFS MFT <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong> 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기에 따라 MFT 레코드 내 상주 여부를 결정한다. 1KB 미만의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 <strong>Resident <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>(내장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 뼈대)</strong> 로 불리며, 디스크의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역(Clusters)을 전혀 소모하지 않고 MFT 레코드 속에 이름표와 실제 내용이 완전히 결합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다. 이는 디스크 헤드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아서 이동([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))할 필요조차 없이, MFT 색인을 찾는 순간 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 1타 2피로 빨려오는 극단적 $O(1)$ 로딩 캐시 성능을 창출해 냈다 도출.
@@ -142,12 +142,12 @@ NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 ```text
 [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
-    │
-    ▼
+    |
+    v
 [윈도우 NTFS]
-    │
-    ├──▶ [데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
-    └──▶ [파일 시스템 접근 제어 (Access Control)]
+    |
+    +---> [데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
+    +---> [파일 시스템 접근 제어 (Access Control)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -164,7 +164,7 @@ NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 **진행 상황**: 545 / 800
 
-← **이전**: [544. AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)](/knowledge-base/studynote/02_operating_system/09_file_system/544_afs_smb_cifs_file_system/)
-**다음**: [546. 데이터 중복 제거 (Data Deduplication) 파일 시스템 기능](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) →
+<- **이전**: [544. AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)](/knowledge-base/studynote/02_operating_system/09_file_system/544_afs_smb_cifs_file_system/)
+**다음**: [546. 데이터 중복 제거 (Data Deduplication) 파일 시스템 기능](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) ->
 
 ---

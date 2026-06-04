@@ -49,30 +49,30 @@ Insight:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 네트워크 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 그린 결과"가 아니라, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델링과 분석을 거친 뒤 시각 채널에 매핑한 결과다. 일반적인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 엣지 목록 수집 → 노드/엣지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 정리 → [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 지표 계산 → 레이아웃 배치 → 색·크기·두께 인코딩 → 인터랙션 추가 순서로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
+좋은 네트워크 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 그린 결과"가 아니라, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델링과 분석을 거친 뒤 시각 채널에 매핑한 결과다. 일반적인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 엣지 목록 수집 -> 노드/엣지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 정리 -> [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 지표 계산 -> 레이아웃 배치 -> 색·크기·두께 인코딩 -> 인터랙션 추가 순서로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│               Network visualization analysis pipeline             │
-├────────────────────────────────────────────────────────────────────┤
-│ edge list / graph database                                        │
-│        │                                                          │
-│        ▼                                                          │
-│ graph metrics                                                     │
-│  - degree / betweenness / community                               │
-│        │                                                          │
-│        ▼                                                          │
-│ layout engine                                                     │
-│  - force / hierarchical / circular / geographic                   │
-│        │                                                          │
-│        ▼                                                          │
-│ visual encoding                                                   │
-│  - size, color, label, edge width                                 │
-│        │                                                          │
-│        ▼                                                          │
-│ interaction                                                       │
-│  - zoom, filter, highlight, drill-down                            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|               Network visualization analysis pipeline             |
++--------------------------------------------------------------------+
+| edge list / graph database                                        |
+|        |                                                          |
+|        v                                                          |
+| graph metrics                                                     |
+|  - degree / betweenness / community                               |
+|        |                                                          |
+|        v                                                          |
+| layout engine                                                     |
+|  - force / hierarchical / circular / geographic                   |
+|        |                                                          |
+|        v                                                          |
+| visual encoding                                                   |
+|  - size, color, label, edge width                                 |
+|        |                                                          |
+|        v                                                          |
+| interaction                                                       |
+|  - zoom, filter, highlight, drill-down                            |
++--------------------------------------------------------------------+
 ```
 
 | 시각 요소 | 무엇을 담기 좋은가 | 대표 지표 예시 |
@@ -119,15 +119,15 @@ Insight:
 실무에서 가장 흔한 실패는 "원본 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그대로 올리면 통찰이 나온다"는 기대다. 대규모 네트워크는 필터, 샘플링, 커뮤니티 집계, 라벨 축소가 먼저다. 특히 사기 거래, 보안 이벤트, 호출 토폴로지처럼 엣지가 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저가치 엣지를 줄이지 않으면 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 분석 도구가 아니라 노이즈 발생기가 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Practical layout selection flow                  │
-├────────────────────────────────────────────────────────────────────┤
-│ What is the main question?                                        │
-│   ├─ community / hub discovery -> force-directed                  │
-│   ├─ dependency / call order  -> hierarchical                     │
-│   ├─ very dense relation map   -> matrix or aggregated clusters   │
-│   └─ geographic movement       -> geo layout + network overlay    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  Practical layout selection flow                  |
++--------------------------------------------------------------------+
+| What is the main question?                                        |
+|   +- community / hub discovery -> force-directed                  |
+|   +- dependency / call order  -> hierarchical                     |
+|   +- very dense relation map   -> matrix or aggregated clusters   |
+|   +- geographic movement       -> geo layout + network overlay    |
++--------------------------------------------------------------------+
 ```
 
 | 상황 | 권장 판단 | 이유 |
@@ -186,17 +186,17 @@ Insight:
 
 ```text
 Edge list / graph database
-    │
-    ▼
+    |
+    v
 Graph metrics (centrality, community, path)
-    │
-    ▼
+    |
+    v
 Layout selection (force / hierarchical / matrix)
-    │
-    ▼
+    |
+    v
 Visual encoding (size, color, label, width)
-    │
-    ▼
+    |
+    v
 Interactive exploration and large-scale aggregation
 ```
 
@@ -214,7 +214,7 @@ Interactive exploration and large-scale aggregation
 
 **진행 상황**: 172 / 262
 
-← **이전**: [171. Plotly / Dash — Python 기반 인터랙티브 시각화 프레임워크](/knowledge-base/studynote/16_bigdata/08_visualization/171_plotly_dash/)
-**다음**: [173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl](/knowledge-base/studynote/16_bigdata/08_visualization/173_geospatial_visualization/) →
+<- **이전**: [171. Plotly / Dash — Python 기반 인터랙티브 시각화 프레임워크](/knowledge-base/studynote/16_bigdata/08_visualization/171_plotly_dash/)
+**다음**: [173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl](/knowledge-base/studynote/16_bigdata/08_visualization/173_geospatial_visualization/) ->
 
 ---

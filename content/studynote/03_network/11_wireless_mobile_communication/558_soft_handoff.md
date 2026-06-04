@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [하드 핸드오버]
-    │
-    ▼
+    |
+    v
 [소프트 핸드오버]
-    │
-    └──▶ [호 수락 제어]
+    |
+    +---> [호 수락 제어]
 ```
 
 - **📢 섹션 요약 비유**: 서커스 공중그네를 탈 때, 예전 방식(Hard)은 타고 있던 그네를 허공에서 손에서 완전히 놓은 뒤 날아가서 다음 그네를 잡는 아찔한 방식입니다. 반면 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 오른손으로 다음 그네를 꽉 잡은(Make) 상태에서, 안전하게 왼손의 예전 그네를 놓는(Break) 절대 떨어지지 않는 방식입니다.
@@ -54,24 +54,24 @@ tags = ["studynote-network"]
    - 폰이 B 기지국 쪽으로 완전히 넘어와서, A 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 쓸모없을 만큼 약해지면(T_DROP 이하), 그때서야 조용히 A와의 연결을 끊어버린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│           하드 핸드오버 vs 소프트 핸드오버의 제어 흐름 시각화  │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│ ❌ [ 하드 핸드오버 (Break before Make) ]                       │
-│   단말기 ──(A 주파수)──▶ 기지국 A                              │
-│            (뚝 끊어짐! 침묵의 0.1초)                           │
-│   단말기 ──(B 주파수)──▶ 기지국 B                              │
-│                                                                │
-│                                                                │
-│ 🛡️ [ 소프트 핸드오버 (Make before break) ]                     │
-│   1단계: 단말기 ━━━━━━▶ 기지국 A                               │
-│                                                                │
-│   2단계: 단말기 ━━┳━━━▶ 기지국 A  (동시에 2개 기지국과 통신!)  │
-│                 ┗━━━▶ 기지국 B                                 │
-│                                                                │
-│   3단계: 단말기 ━━━━━━▶ 기지국 B  (안전하게 A를 끊음)          │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|           하드 핸드오버 vs 소프트 핸드오버의 제어 흐름 시각화  |
++----------------------------------------------------------------+
+|                                                                |
+| ❌ [ 하드 핸드오버 (Break before Make) ]                       |
+|   단말기 --(A 주파수)---> 기지국 A                              |
+|            (뚝 끊어짐! 침묵의 0.1초)                           |
+|   단말기 --(B 주파수)---> 기지국 B                              |
+|                                                                |
+|                                                                |
+| 🛡️ [ 소프트 핸드오버 (Make before break) ]                     |
+|   1단계: 단말기 ━━━━━━-> 기지국 A                               |
+|                                                                |
+|   2단계: 단말기 ━━┳━━━-> 기지국 A  (동시에 2개 기지국과 통신!)  |
+|                 ┗━━━-> 기지국 B                                 |
+|                                                                |
+|   3단계: 단말기 ━━━━━━-> 기지국 B  (안전하게 A를 끊음)          |
++----------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -137,12 +137,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 하드 핸드오버]
-    │
-    ▼
+    |
+    v
 [현재 개념: 소프트 핸드오버]
-    │
-    ├──▶ [확장 A: 호 수락 제어]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 호 수락 제어]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [호 수락 제어](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 679 / 1120
 
-← **이전**: [557. 하드 핸드오버 (Hard Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)
-**다음**: [559. 호 수락 제어 (CAC, Call Admission Control)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/) →
+<- **이전**: [557. 하드 핸드오버 (Hard Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)
+**다음**: [559. 호 수락 제어 (CAC, Call Admission Control)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/) ->
 
 ---

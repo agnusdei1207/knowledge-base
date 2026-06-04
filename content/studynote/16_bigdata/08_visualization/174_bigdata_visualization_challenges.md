@@ -26,16 +26,16 @@ tags = ["studynote-bigdata"]
 아래 그림은 왜 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 그리는 방식이 실패하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Why raw plotting fails at big scale               │
-├────────────────────────────────────────────────────────────────────┤
-│ 1,000,000,000 records                                              │
-│          │                                                         │
-│          ├─ if drawn raw -> overplotting, browser stall            │
-│          └─ if reduced well -> pattern, trend, anomaly visible     │
-│                                                                    │
-│ Screen budget = limited pixels + limited attention                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Why raw plotting fails at big scale               |
++--------------------------------------------------------------------+
+| 1,000,000,000 records                                              |
+|          |                                                         |
+|          +- if drawn raw -> overplotting, browser stall            |
+|          +- if reduced well -> pattern, trend, anomaly visible     |
+|                                                                    |
+| Screen budget = limited pixels + limited attention                 |
++--------------------------------------------------------------------+
 ```
 
 따라서 빅데이터 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 필요성은 "많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 본다"가 아니라, <strong>대규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에서 의사결정에 필요한 구조만 빠르게 꺼낸다</strong>에 가깝다. 운영 대시보드에서는 이상 급증을 빨리 봐야 하고, 분석 대시보드에서는 상관관계와 분포를 탐색해야 하며, 실시간 스트리밍 화면에서는 최신 변화만 부드럽게 보여 줘야 한다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 목적에 따라 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 방식이 달라진다.
@@ -49,21 +49,21 @@ tags = ["studynote-bigdata"]
 실무 아키텍처는 보통 `원시 데이터 -> 질의/집계 엔진 -> 화면 친화적 표현 -> 렌더링 계층`으로 나뉜다. 여기서 중요한 것은 가능한 한 앞단에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양을 줄이고, 뒤단에서는 [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이나 스트리밍 렌더링으로 부드럽게 보여 주는 것이다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 브라우저 한곳에 떠넘기지 않고, 저장·질의·전송·표현 계층으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   Big-data visualization pipeline                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Raw events / logs / metrics                                          │
-│          │                                                           │
-│          ▼                                                           │
-│ OLAP engine / stream window / pre-aggregation                        │
-│          │                                                           │
-│          ├─ rollup / cube / tile / bin / sample                      │
-│          ▼                                                           │
-│ API response shaped for chart                                        │
-│          │                                                           │
-│          ▼                                                           │
-│ WebGL / Canvas / server raster / progressive UI                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   Big-data visualization pipeline                    |
++----------------------------------------------------------------------+
+| Raw events / logs / metrics                                          |
+|          |                                                           |
+|          v                                                           |
+| OLAP engine / stream window / pre-aggregation                        |
+|          |                                                           |
+|          +- rollup / cube / tile / bin / sample                      |
+|          v                                                           |
+| API response shaped for chart                                        |
+|          |                                                           |
+|          v                                                           |
+| WebGL / Canvas / server raster / progressive UI                      |
++----------------------------------------------------------------------+
 ```
 
 핵심 기법은 각각 역할이 다르다.
@@ -79,13 +79,13 @@ tags = ["studynote-bigdata"]
 줌과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 함께 바뀌는 경우에는 Level of Detail 설계가 중요하다. 멀리 볼 때는 구역 단위 집계, 중간 줌에서는 헥사곤 밀도, 가까이 갈 때만 개별 포인트를 보여 주는 식이다. 이렇게 해야 한 화면에 필요한 정보만 남고, 브라우저도 버틴다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Zoom-aware data reduction                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Far zoom   -> region rollup / top-N summary                        │
-│ Mid zoom   -> grid / hexbin / sampled points                       │
-│ Near zoom  -> filtered raw records + drill-down                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Zoom-aware data reduction                       |
++--------------------------------------------------------------------+
+| Far zoom   -> region rollup / top-N summary                        |
+| Mid zoom   -> grid / hexbin / sampled points                       |
+| Near zoom  -> filtered raw records + drill-down                    |
++--------------------------------------------------------------------+
 ```
 
 이때 중요한 통찰은 "[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 최종 렌더링 기술만의 문제가 아니다"라는 점이다. Apache Druid, Apache Pinot, ClickHouse 같은 [Online Analytical Processing](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/) ([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 엔진의 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 구조, 스트리밍 윈도우 집계, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 맞아야 진짜 인터랙티브 대시보드가 된다.
@@ -127,22 +127,22 @@ tags = ["studynote-bigdata"]
 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양보다 먼저 사용자 행위를 본다. 사용자가 전체 추세를 빠르게 훑는지, 특정 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 클릭해 원인까지 파고드는지, 실시간 스트림을 보는지에 따라 아키텍처가 달라진다. 대시보드에서 매번 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 브라우저로 보내는 것은 거의 항상 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Practical visualization decision flow             │
-├────────────────────────────────────────────────────────────────────┤
-│ need exact record inspection?                                      │
-│   ├─ yes -> filter hard first, then show raw subset                │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ need global pattern fast? -> aggregate / bin / sample             │
-│       │                                                            │
-│       ▼                                                            │
-│ > 1M interactive points? -> WebGL or server-side raster           │
-│       │                                                            │
-│       ▼                                                            │
-│ real-time stream? -> windowed aggregation + progressive rendering  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Practical visualization decision flow             |
++--------------------------------------------------------------------+
+| need exact record inspection?                                      |
+|   +- yes -> filter hard first, then show raw subset                |
+|   +- no                                                            |
+|       |                                                            |
+|       v                                                            |
+| need global pattern fast? -> aggregate / bin / sample             |
+|       |                                                            |
+|       v                                                            |
+| > 1M interactive points? -> WebGL or server-side raster           |
+|       |                                                            |
+|       v                                                            |
+| real-time stream? -> windowed aggregation + progressive rendering  |
++--------------------------------------------------------------------+
 ```
 
 실무 판단 포인트는 다음과 같다.
@@ -189,17 +189,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 Raw point plotting
-    │
-    ▼
+    |
+    v
 Aggregation / sampling / binning
-    │
-    ▼
+    |
+    v
 GPU-aware rendering and progressive UI
-    │
-    ▼
+    |
+    v
 Zoom-aware drill-down and crossfilter analytics
-    │
-    ▼
+    |
+    v
 Real-time big-data dashboards with sub-second interaction
 ```
 
@@ -215,7 +215,7 @@ Real-time big-data dashboards with sub-second interaction
 
 **진행 상황**: 174 / 262
 
-← **이전**: [173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl](/knowledge-base/studynote/16_bigdata/08_visualization/173_geospatial_visualization/)
-**다음**: [175. 빅데이터 플랫폼 선택 기준 (Big Data Platform Selection Criteria)](/knowledge-base/studynote/16_bigdata/09_platform/175_platform_selection_criteria/) →
+<- **이전**: [173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl](/knowledge-base/studynote/16_bigdata/08_visualization/173_geospatial_visualization/)
+**다음**: [175. 빅데이터 플랫폼 선택 기준 (Big Data Platform Selection Criteria)](/knowledge-base/studynote/16_bigdata/09_platform/175_platform_selection_criteria/) ->
 
 ---

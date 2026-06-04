@@ -28,15 +28,15 @@ tags = ["studynote-enterprise"]
 아래 그림은 MSA에서 왜 별도의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 패턴이 필요한지를 보여 준다. 업무는 하나처럼 보이지만, 실제 저장소 경계는 여러 개로 나뉘어 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One business action, many local databases                          │
-├────────────────────────────────────────────────────────────────────┤
-│ Order Service DB      Payment Service DB      Inventory Service DB │
-│       │                       │                        │            │
-│       └──────────── business success must span all ───────────────┘│
-│                                                                    │
-│ In typical MSA, no single ACID transaction covers all three       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| One business action, many local databases                          |
++--------------------------------------------------------------------+
+| Order Service DB      Payment Service DB      Inventory Service DB |
+|       |                       |                        |            |
+|       +------------ business success must span all ---------------+|
+|                                                                    |
+| In typical MSA, no single ACID transaction covers all three       |
++--------------------------------------------------------------------+
 ```
 
 따라서 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)의 필요성은 단순히 "비동기라서 멋있다"가 아니다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 분리로 잃어버린 전역 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을, 이벤트와 보상이라는 다른 철학으로 다시 조립하는 방식</strong>이기 때문에 중요하다.
@@ -62,17 +62,17 @@ tags = ["studynote-enterprise"]
 아래 그림은 성공 경로와 실패 시 보상 경로를 함께 보여 준다. 포인트는 실패가 난 지점보다 앞서 성공한 단계들이 <strong>역순 보상</strong>으로 정리된다는 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Saga forward flow and compensation                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ [1] Order create        -> commit                                  │
-│ [2] Inventory reserve   -> commit                                  │
-│ [3] Payment authorize   -> FAIL                                    │
-│                                                                    │
-│ compensation path:                                                 │
-│    [2c] Release inventory -> commit                                │
-│    [1c] Cancel order      -> commit                                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Saga forward flow and compensation                                 |
++--------------------------------------------------------------------+
+| [1] Order create        -> commit                                  |
+| [2] Inventory reserve   -> commit                                  |
+| [3] Payment authorize   -> FAIL                                    |
+|                                                                    |
+| compensation path:                                                 |
+|    [2c] Release inventory -> commit                                |
+|    [1c] Cancel order      -> commit                                |
++--------------------------------------------------------------------+
 ```
 
 구현 방식은 크게 두 갈래다. **코레오그래피 (Choreography)** 는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들이 이벤트를 보고 스스로 다음 행동을 결정하는 방식이고, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong> 은 중앙 오케스트레이터가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 명령을 보내며 상태를 관리하는 방식이다. 전자는 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추기 쉽지만 흐름 가시성이 떨어질 수 있고, 후자는 통제가 쉽지만 중앙 조정 로직이 두꺼워질 수 있다.
@@ -162,22 +162,22 @@ tags = ["studynote-enterprise"]
 
 ```text
 비즈니스 요청 발생
-        │
-        ▼
+        |
+        v
 로컬 트랜잭션 1 커밋
-        │
-        ▼
+        |
+        v
 이벤트 / 명령으로 다음 단계 전달
-        │
-        ▼
+        |
+        v
 로컬 트랜잭션 연쇄 실행
-        │
-        ├───────────────► 실패 발생 -> 보상 트랜잭션 역순 실행
-        ▼
+        |
+        +---------------► 실패 발생 -> 보상 트랜잭션 역순 실행
+        v
 최종적 일관성 수렴
 ```
 
-이 흐름은 "업무 요청 → 로컬 커밋 연쇄 → 실패 시 보상 → 최종 상태 수렴"이라는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)의 운영 사고방식을 보여 준다.
+이 흐름은 "업무 요청 -> 로컬 커밋 연쇄 -> 실패 시 보상 -> 최종 상태 수렴"이라는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)의 운영 사고방식을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -191,7 +191,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 175 / 482
 
-← **이전**: [174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/174_distributed_transaction_2pc_limit/)
-**다음**: [176. 코레오그래피 사가 (Choreography Saga) - 중앙 통제 없이 각 서비스가 비동기 이벤트를 발행/구독 (Pub/Sub,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/176_choreography_saga_pub_sub/) →
+<- **이전**: [174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/174_distributed_transaction_2pc_limit/)
+**다음**: [176. 코레오그래피 사가 (Choreography Saga) - 중앙 통제 없이 각 서비스가 비동기 이벤트를 발행/구독 (Pub/Sub,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/176_choreography_saga_pub_sub/) ->
 
 ---

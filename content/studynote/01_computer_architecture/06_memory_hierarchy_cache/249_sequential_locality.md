@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-순차적 지역성은 최근 접근한 주소의 **바로 다음 주소** 또는 <strong>일정한 간격의 다음 주소</strong>를 계속 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 접근 특성이다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))이 "근처를 본다"는 넓은 개념이라면, 순차적 지역성은 그중에서도 <strong>직선으로 전진하는 경우</strong>를 가리킨다. 즉, `A → A+4 → A+8`처럼 방향과 보폭이 읽히는 순간, 하드웨어는 다음 접근을 매우 높은 확률로 예측할 수 있다.
+순차적 지역성은 최근 접근한 주소의 **바로 다음 주소** 또는 <strong>일정한 간격의 다음 주소</strong>를 계속 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 접근 특성이다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))이 "근처를 본다"는 넓은 개념이라면, 순차적 지역성은 그중에서도 <strong>직선으로 전진하는 경우</strong>를 가리킨다. 즉, `A -> A+4 -> A+8`처럼 방향과 보폭이 읽히는 순간, 하드웨어는 다음 접근을 매우 높은 확률로 예측할 수 있다.
 
 이 개념이 중요한 이유는 현대 시스템의 병목이 계산보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동에 자주 있기 때문이다. 중앙처리장치인 CPU (Central Processing Unit)는 수 ns 단위로 연산하지만, 주기억장치인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)은 그보다 훨씬 느리다. 순차적 지역성이 있으면 CPU는 캐시가 채워 둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊김 없이 소비할 수 있고, 없으면 매번 메모리 응답을 기다리느라 파이프라인이 비게 된다.
 
@@ -28,15 +28,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)과 순차적 지역성의 차이를 주소 흐름 관점에서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Address access pattern                                               │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ Spatial locality      │ 100, 104, 112, 108                          │
-│                       │ "nearby addresses, but order may vary"      │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ Sequential locality   │ 100 → 104 → 108 → 112 → 116                │
-│                       │ "nearby addresses with clear direction"     │
-└───────────────────────┴──────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Address access pattern                                               |
++-----------------------+----------------------------------------------+
+| Spatial locality      | 100, 104, 112, 108                          |
+|                       | "nearby addresses, but order may vary"      |
++-----------------------+----------------------------------------------+
+| Sequential locality   | 100 -> 104 -> 108 -> 112 -> 116                |
+|                       | "nearby addresses with clear direction"     |
++-----------------------+----------------------------------------------+
 ```
 
 핵심은 <strong>인접성만으로는 부족하고, 방향성이 붙을 때 예측 가능성이 급격히 커진다</strong>는 점이다. 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이라도 앞에서 뒤로 차례대로 읽는 경우와, 인덱스를 불규칙하게 건너뛰며 읽는 경우는 하드웨어 입장에서 전혀 다른 난이도를 가진다.
@@ -47,7 +47,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-순차적 지역성이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀌는 과정은 보통 <strong>캐시 라인 적재 → 패턴 감지 → 선행 인출</strong>의 3단계로 일어난다. 먼저 CPU가 어떤 주소를 읽으면 캐시는 그 주소 하나만 가져오지 않고, 해당 주소가 속한 캐시 라인 전체를 가져온다. 이때 바로 옆 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 함께 올라오므로, 연속 접근은 첫 번째 미스 이후 여러 번의 히트로 이어진다.
+순차적 지역성이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀌는 과정은 보통 <strong>캐시 라인 적재 -> 패턴 감지 -> 선행 인출</strong>의 3단계로 일어난다. 먼저 CPU가 어떤 주소를 읽으면 캐시는 그 주소 하나만 가져오지 않고, 해당 주소가 속한 캐시 라인 전체를 가져온다. 이때 바로 옆 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 함께 올라오므로, 연속 접근은 첫 번째 미스 이후 여러 번의 히트로 이어진다.
 
 그다음 단계에서 프리페처가 움직인다. 하드웨어 프리페처는 최근 주소들의 차이를 관찰해 `+4`, `+4`, `+4` 같은 일정한 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))를 감지한다. 패턴이 확인되면 CPU가 아직 요청하지 않은 다음 캐시 라인을 미리 가져오므로, CPU는 체감상 메모리 대기 없이 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소비하게 된다.
 
@@ -61,15 +61,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 순차적 지역성이 하드웨어 안에서 어떻게 활용되는지를 보여준다.
 
 ```text
-┌────────────┐    miss/hit    ┌──────────────┐    next-line hint
-│ CPU load   │ ─────────────▶ │ L1 cache     │ ────────────────┐
-└────────────┘                 └──────────────┘                 │
-       │                            │ line fill                 │
-       │ address history            ▼                           ▼
-       │                     ┌──────────────┐          ┌──────────────┐
-       └──────────────────▶  │ Prefetcher   │ ───────▶ │ Memory system│
-                             │ stride detect│          │ DRAM / LLC    │
-                             └──────────────┘          └──────────────┘
++------------+    miss/hit    +--------------+    next-line hint
+| CPU load   | --------------> | L1 cache     | ----------------+
++------------+                 +--------------+                 |
+       |                            | line fill                 |
+       | address history            v                           v
+       |                     +--------------+          +--------------+
+       +------------------->  | Prefetcher   | --------> | Memory system|
+                             | stride detect|          | DRAM / LLC    |
+                             +--------------+          +--------------+
 ```
 
 이 구조의 장점은 <strong>지연시간 자체를 없애는 것</strong>이 아니라, 지연이 드러나기 전에 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 관점에서 숨기는 것</strong>이다. 따라서 순차적 지역성은 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스트리밍, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 연속 실행 같은 작업에서 큰 효과를 낸다. 반대로 분기가 많거나 포인터 체인이 길면 다음 주소가 끊기므로 프리페처가 확신을 잃고 효과가 급격히 떨어진다.
@@ -149,19 +149,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 지역성 원리
-    │
-    ├─ 시간적 지역성 (Temporal Locality)
-    └─ 공간적 지역성 (Spatial Locality)
-                     │
-                     ▼
+    |
+    +- 시간적 지역성 (Temporal Locality)
+    +- 공간적 지역성 (Spatial Locality)
+                     |
+                     v
           순차적 지역성 (Sequential Locality)
-                     │
-                     ├─ 캐시 라인 적재
-                     ├─ 프리페처 (Prefetcher)
-                     └─ 스트리밍 / 벡터화 / 순차 I/O
+                     |
+                     +- 캐시 라인 적재
+                     +- 프리페처 (Prefetcher)
+                     +- 스트리밍 / 벡터화 / 순차 I/O
 ```
 
-이 흐름은 "인접성 이해 → 방향성 강화 → 하드웨어 선행 최적화 → 고처리량 활용"으로 개념이 확장되는 과정을 보여준다.
+이 흐름은 "인접성 이해 -> 방향성 강화 -> 하드웨어 선행 최적화 -> 고처리량 활용"으로 개념이 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 249 / 803
 
-← **이전**: [248. 공간적 지역성 (Spatial Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)
-**다음**: [250. SRAM (Static RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) →
+<- **이전**: [248. 공간적 지역성 (Spatial Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)
+**다음**: [250. SRAM (Static RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) ->
 
 ---

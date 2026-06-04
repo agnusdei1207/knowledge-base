@@ -32,18 +32,18 @@ tags = ["studynote-software-engineering"]
 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)의 핵심 원칙은 네 가지다. **익명성**, **반복성**, **통제된 피드백**, <strong>통계적 집계</strong>다. 전문가들이 서로의 신분과 발언 강도에 영향을 받지 않게 만들고, 중재자는 라운드마다 요약된 정보만 제공해 판단을 개선하게 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                델파이 기법의 반복 수렴 구조                  │
-├──────────────────────────────────────────────────────────────┤
-│ 문제 정의                                                   │
-│    │                                                         │
-│    ▼                                                         │
-│ 전문가 1차 응답  →  중재자 요약/통계  →  2차 재응답         │
-│    ^                                   │                    │
-│    └──────────── 필요 시 반복 ──────────┘                    │
-│                                                              │
-│ 최종 산출: 합의 범위, 중앙값/평균, 주요 가정                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                델파이 기법의 반복 수렴 구조                  |
++--------------------------------------------------------------+
+| 문제 정의                                                   |
+|    |                                                         |
+|    v                                                         |
+| 전문가 1차 응답  ->  중재자 요약/통계  ->  2차 재응답         |
+|    ^                                   |                    |
+|    +------------ 필요 시 반복 ----------+                    |
+|                                                              |
+| 최종 산출: 합의 범위, 중앙값/평균, 주요 가정                 |
++--------------------------------------------------------------+
 ```
 
 | 원칙 | 의미 | 실무 포인트 |
@@ -123,17 +123,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 전문가 판단 (Expert Judgment)
-    │
-    ▼
+    |
+    v
 델파이 기법 (Delphi Method)
-    │
-    ▼
+    |
+    v
 Wideband Delphi
-    │
-    ▼
+    |
+    v
 WBS · PERT · 리스크 분석
-    │
-    ▼
+    |
+    v
 Monte Carlo 기반 예측 정교화
 ```
 
@@ -151,7 +151,7 @@ Monte Carlo 기반 예측 정교화
 
 **진행 상황**: 51 / 973
 
-← **이전**: [기능점수 간이법 vs 상세법 (FP Simple vs Detailed)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/050_fp_simple_vs_detailed/)
-**다음**: [52. 와이드밴드 델파이 (Wideband Delphi)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) →
+<- **이전**: [기능점수 간이법 vs 상세법 (FP Simple vs Detailed)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/050_fp_simple_vs_detailed/)
+**다음**: [52. 와이드밴드 델파이 (Wideband Delphi)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) ->
 
 ---

@@ -33,31 +33,31 @@ tags = ["studynote-network"]
   [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 기본 동작 모델을 시각화하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │              해시 함수를 이용한 데이터 무결성 검증 원리                │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [송신자 (다운로드 서버)]                                        │
-  │   1. 원본 파일 (Ubuntu.iso, 2GB) ────────┐                    │
-  │   2. 원본 파일에 SHA-256 함수 적용           │                    │
-  │      결과: 8b4e... (32바이트 다이제스트)     │                    │
-  │                                       ▼                    │
-  │                     인터넷 망 (변조 가능성 존재)                 │
-  │                                       ▼                    │
-  │  [수신자 (사용자)]                        │                    │
-  │   3. 다운로드 완료된 파일 (Ubuntu.iso) ◀──┘                    │
-  │   4. 수신된 파일에 직접 SHA-256 함수 적용                        │
-  │      계산 결과: 8b4e... (H1)                                 │
-  │                                                             │
-  │   5. 홈페이지에 게시된 원본 해시값(H2)과 직접 계산한 값(H1) 비교      │
-  │      H1 == H2 : 무결성 보장 (1비트도 안 틀리고 안전함!)            │
-  │      H1 != H2 : 변조됨! (다운로드 중 깨졌거나 악성코드 주입됨)       │
-  │                                                             │
-  │  * 쇄도 효과 (Avalanche Effect):                            │
-  │    "Hello"  → SHA256 → 185f8db32271fe25f561a6fc938b...       │
-  │    "hello"  → SHA256 → 2cf24dba5fb0a30e26e83b2ac5b9...       │
-  │     ▲ 대소문자 1개만 바뀌어도 출력값은 100% 달라짐 (유추 불가)       │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |              해시 함수를 이용한 데이터 무결성 검증 원리                |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [송신자 (다운로드 서버)]                                        |
+  |   1. 원본 파일 (Ubuntu.iso, 2GB) --------+                    |
+  |   2. 원본 파일에 SHA-256 함수 적용           |                    |
+  |      결과: 8b4e... (32바이트 다이제스트)     |                    |
+  |                                       v                    |
+  |                     인터넷 망 (변조 가능성 존재)                 |
+  |                                       v                    |
+  |  [수신자 (사용자)]                        |                    |
+  |   3. 다운로드 완료된 파일 (Ubuntu.iso) <---+                    |
+  |   4. 수신된 파일에 직접 SHA-256 함수 적용                        |
+  |      계산 결과: 8b4e... (H1)                                 |
+  |                                                             |
+  |   5. 홈페이지에 게시된 원본 해시값(H2)과 직접 계산한 값(H1) 비교      |
+  |      H1 == H2 : 무결성 보장 (1비트도 안 틀리고 안전함!)            |
+  |      H1 != H2 : 변조됨! (다운로드 중 깨졌거나 악성코드 주입됨)       |
+  |                                                             |
+  |  * 쇄도 효과 (Avalanche Effect):                            |
+  |    "Hello"  -> SHA256 -> 185f8db32271fe25f561a6fc938b...       |
+  |    "hello"  -> SHA256 -> 2cf24dba5fb0a30e26e83b2ac5b9...       |
+  |     ^ 대소문자 1개만 바뀌어도 출력값은 100% 달라짐 (유추 불가)       |
+  +-------------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 흐름도는 왜 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신에서 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 필수적인지를 보여준다. 2GB의 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 SHA-256 함수를 통과하면 불과 32바이트(256비트)의 고정된 문자열로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다. 만약 해커가 다운로드 중인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 단 1비트의 악성 코드를 몰래 끼워 넣었다 하더라도, 수신자가 해시를 다시 돌려보면 쇄도 효과(Avalanche Effect)에 의해 완전히 엉뚱한 해시값이 튀어나온다. 따라서 수신자는 복잡한 암호 복호화 과정을 거칠 필요 없이, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 끝난 후 해시값 하나만 비교해 봄으로써 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 순수성을 완벽하게 입증할 수 있다.
@@ -74,41 +74,41 @@ tags = ["studynote-network"]
 
 | 보안 요건 | 설명 | 의미 및 수식 | 비유 |
 |:---|:---|:---|:---|
-| <strong>역상 저항성 (Pre-image <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong> | 해시값 $h$가 주어졌을 때, $H(m) = h$를 만족하는 원본 메시지 $m$을 찾는 것이 계산상 불가능해야 한다. | 일방향성 보장 (출력 → 입력 불가) | 갈아 만든 고기 패티를 보고 원래 소의 생김새를 그릴 수 없음 |
+| <strong>역상 저항성 (Pre-image <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong> | 해시값 $h$가 주어졌을 때, $H(m) = h$를 만족하는 원본 메시지 $m$을 찾는 것이 계산상 불가능해야 한다. | 일방향성 보장 (출력 -> 입력 불가) | 갈아 만든 고기 패티를 보고 원래 소의 생김새를 그릴 수 없음 |
 | <strong>제2 역상 저항성 (2nd Pre-image <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong> | 원본 메시지 $m1$이 주어졌을 때, $H(m1) = H(m2)$를 만족하는 다른 메시지 $m2$를 찾는 것이 불가능해야 한다. | 약한 충돌 내성 (원본과 같은 해시를 갖는 가짜 위조 방지) | 내 지문과 똑같은 지문을 가진 다른 사람을 찾아내는 것은 불가능함 |
 | <strong>충돌 저항성 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong> | 해시값이 같은 임의의 두 메시지 짝 $(m1, m2)$를 찾아내는 것이 계산상 불가능해야 한다. (비둘기집 원리에 의해 무조건 존재는 하지만 찾는 것은 불가능) | 강한 충돌 내성 (생일 공격 방어) | 아무나 두 명을 골랐는데 둘의 지문이 우연히 똑같을 확률은 0에 수렴함 |
 
 널리 쓰이는 SHA-256(Secure Hash [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 256-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))은 메시지를 512비트 블록 단위로 쪼개고, 64번의 반복적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산(라운드)을 통해 상태 값([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 256비트)을 계속 업데이트해 나가는 Merkle-Damgård 구조 또는 그 변형을 사용한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 SHA-256 해시 함수의 압축 블록 동작 구조                │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  1. 패딩(Padding): 원본 메시지의 길이를 512의 배수로 맞춤              │
-  │     [ Message ] + [ 100...00 ] + [ 원본 길이(64bit) ] = 512 x N   │
-  │                                                                  │
-  │  2. 초기값(IV): 8개의 32비트 레지스터 (A~H) 초기화 (소수의 제곱근 등)     │
-  │                                                                  │
-  │  3. 압축 함수 (Compression Function) 블록 처리                      │
-  │                                                                  │
-  │     [ 이전 해시값 (H_i-1) ] ──────────┐                           │
-  │            │                          │                           │
-  │            ▼                          ▼                           │
-  │       ┌────────┐                 ┌─────────┐                      │
-  │       │  W_0   │                 │         │                      │
-  │       ├────────┤                 │         │                      │
-  │       │  W_1   │ ──(메시지 스케줄)─▶│ 64번의  │                      │
-  │       │  ...   │                 │ 라운드 연산│                      │
-  │       │  W_63  │                 │         │                      │
-  │       └────────┘                 └─────────┘                      │
-  │    [ 512bit 메시지 블록(M_i) ]          │                           │
-  │                                       ▼                           │
-  │                                   [ H_i ] ──(+Mod 2^32)──▶ 다음 블록│
-  │                                                                  │
-  │  4. 연산 세부: Ch(Choose), Maj(Majority), Σ(Sigma) 등 비트 논리 조합 │
-  │     A_new = T1 + T2,  E_new = D + T1  (비선형 비트 쉬프트/XOR 극대화)│
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 SHA-256 해시 함수의 압축 블록 동작 구조                |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  1. 패딩(Padding): 원본 메시지의 길이를 512의 배수로 맞춤              |
+  |     [ Message ] + [ 100...00 ] + [ 원본 길이(64bit) ] = 512 x N   |
+  |                                                                  |
+  |  2. 초기값(IV): 8개의 32비트 레지스터 (A~H) 초기화 (소수의 제곱근 등)     |
+  |                                                                  |
+  |  3. 압축 함수 (Compression Function) 블록 처리                      |
+  |                                                                  |
+  |     [ 이전 해시값 (H_i-1) ] ----------+                           |
+  |            |                          |                           |
+  |            v                          v                           |
+  |       +--------+                 +---------+                      |
+  |       |  W_0   |                 |         |                      |
+  |       +--------+                 |         |                      |
+  |       |  W_1   | --(메시지 스케줄)-->| 64번의  |                      |
+  |       |  ...   |                 | 라운드 연산|                      |
+  |       |  W_63  |                 |         |                      |
+  |       +--------+                 +---------+                      |
+  |    [ 512bit 메시지 블록(M_i) ]          |                           |
+  |                                       v                           |
+  |                                   [ H_i ] --(+Mod 2^32)---> 다음 블록|
+  |                                                                  |
+  |  4. 연산 세부: Ch(Choose), Maj(Majority), Σ(Sigma) 등 비트 논리 조합 |
+  |     A_new = T1 + T2,  E_new = D + T1  (비선형 비트 쉬프트/XOR 극대화)|
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** SHA-256은 512비트(64바이트) 단위로 메시지를 잘라 먹으면서 소화시키는 구조다. 핵심은 64번이나 반복되는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 함수 내부의 라운드 연산이다. 매 라운드마다 메시지의 일부분(W_t)과 이전 상태 값(A~H)이 복잡한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 순환(Right Rotate)과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산(AND, XOR)을 통해 마구 뒤섞인다. 이 과정에서 한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 작은 변화가 다음 라운드에서는 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 변화로 증폭되고, 64라운드가 끝나면 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흔적은 완전히 사라진 난수 같은 256비트 다이제스트만 남게 된다. 이 수학적 혼돈 믹서기 덕분에 충돌을 역산해 내는 것이 불가능해진다.
@@ -121,33 +121,33 @@ tags = ["studynote-network"]
 이를 막기 위해 고안된 것이 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/505_password_storage_kdf_salt/)), 즉 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)과 솔팅 기법이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         안전한 비밀번호 저장을 위한 솔트(Salt)와 키 스트레칭         │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [취약한 구조 (단순 해시)]                                     │
-  │    "1234" ────(SHA256)────▶ 03ac67... (테이블 매칭 시 즉각 털림) │
-  │                                                           │
-  │  [안전한 구조 (Bcrypt / PBKDF2 아키텍처)]                       │
-  │                                                           │
-  │             1. 무작위 Salt (사용자마다 다름) 생성                │
-  │                ex) "s@L+9x!"                              │
-  │                     │                                     │
-  │  "1234" ────────────┼────▶ [ 해시 함수 ]                    │
-  │  (비밀번호)                    (1회 차)                      │
-  │                                │                          │
-  │                                ▼                          │
-  │                          [ 해시 함수 ]                    │
-  │                            (2회 차) ◀──(이 과정을 WorkFactor │
-  │                                │        만큼 1만 번~ 반복!)│
-  │                                ▼                          │
-  │                          [ 해시 함수 ]                    │
-  │                           (10,000회)                      │
-  │                                │                          │
-  │                                ▼                          │
-  │                  DB 저장값: $2b$10$s@L+9x!...             │
-  │                          (알고리즘+비용+솔트+최종 해시값)         │
-  └───────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------+
+  |         안전한 비밀번호 저장을 위한 솔트(Salt)와 키 스트레칭         |
+  +-----------------------------------------------------------+
+  |                                                           |
+  |  [취약한 구조 (단순 해시)]                                     |
+  |    "1234" ----(SHA256)-----> 03ac67... (테이블 매칭 시 즉각 털림) |
+  |                                                           |
+  |  [안전한 구조 (Bcrypt / PBKDF2 아키텍처)]                       |
+  |                                                           |
+  |             1. 무작위 Salt (사용자마다 다름) 생성                |
+  |                ex) "s@L+9x!"                              |
+  |                     |                                     |
+  |  "1234" ------------+-----> [ 해시 함수 ]                    |
+  |  (비밀번호)                    (1회 차)                      |
+  |                                |                          |
+  |                                v                          |
+  |                          [ 해시 함수 ]                    |
+  |                            (2회 차) <---(이 과정을 WorkFactor |
+  |                                |        만큼 1만 번~ 반복!)|
+  |                                v                          |
+  |                          [ 해시 함수 ]                    |
+  |                           (10,000회)                      |
+  |                                |                          |
+  |                                v                          |
+  |                  DB 저장값: $2b$10$s@L+9x!...             |
+  |                          (알고리즘+비용+솔트+최종 해시값)         |
+  +-----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 위 아키텍처는 해커의 두 가지 무기를 완벽하게 무력화한다. 첫째, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>)</strong>의 도입이다. 사용자마다 무작위로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 문자열([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 비밀번호에 이어 붙여 해시하므로, 똑같이 "1234"를 쓰는 두 명의 사용자도 DB에 저장되는 해시값은 완전히 달라진다. 이로써 해커가 미리 만들어둔 레인보우 테이블은 휴지조각이 된다. 둘째, <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a>(<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>, Work Factor)</strong>이다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 한 번 돌리고 마는 게 아니라, 나온 결과값을 다시 입력으로 넣어 1만 번, 10만 번씩 반복 연산하게 만든다. 이렇게 고의로 시스템을 '느리게' 만들면(예: 연산에 0.1초 소요), 정상 사용자가 로그인할 때 0.1초 기다리는 건 문제없지만, 초당 수십억 번 대입 공격을 하려던 해커는 연산 속도가 1/10만으로 토막 나 사실상 크래킹이 불가능해진다.
@@ -195,33 +195,33 @@ tags = ["studynote-network"]
 비밀번호 저장 아키텍처에서 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할 것인지는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 연산 자원의 트레이드오프 결정이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │              실무 비밀번호 보호 및 해시 알고리즘 선택 플로우               │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [해시 함수의 사용 목적 식별]                                           │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      대용량 파일의 무결성 검증 또는 전자서명 생성용인가?                      │
-  │          ├─ 예 ─────▶ [SHA-256, SHA-3 등 표준 암호학적 해시 사용]      │
-  │          │                     │                                   │
-  │          │                     └─▶ (빠른 속도와 충돌 저항성이 핵심)         │
-  │          │                                                         │
-  │          └─ 아니오 (비밀번호를 DB에 안전하게 저장할 목적)                   │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      FIPS/NIST 등 엄격한 컴플라이언스(공공/금융) 규제를 적용받는가?            │
-  │          ├─ 예 ─────▶ [PBKDF2 (SHA-256 기반) 사용 + 개별 Salt 적용]   │
-  │          │                     │                                   │
-  │          │                     └─▶ 반복 횟수(Iteration)는 수만 번 이상 설정│
-  │          │                                                         │
-  │          └─ 아니오 (일반 엔터프라이즈 / 스타트업 환경)                      │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │         [Bcrypt (가장 널리 쓰임) 또는 Argon2id (최고의 보안성) 적용]        │
-  │                                                                    │
-  │   최종 판단: 비밀번호 저장 시 절대 단순 SHA-256을 단독으로 쓰지 말 것!          │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |              실무 비밀번호 보호 및 해시 알고리즘 선택 플로우               |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [해시 함수의 사용 목적 식별]                                           |
+  |                  |                                                 |
+  |                  v                                                 |
+  |      대용량 파일의 무결성 검증 또는 전자서명 생성용인가?                      |
+  |          +- 예 ------> [SHA-256, SHA-3 등 표준 암호학적 해시 사용]      |
+  |          |                     |                                   |
+  |          |                     +--> (빠른 속도와 충돌 저항성이 핵심)         |
+  |          |                                                         |
+  |          +- 아니오 (비밀번호를 DB에 안전하게 저장할 목적)                   |
+  |                  |                                                 |
+  |                  v                                                 |
+  |      FIPS/NIST 등 엄격한 컴플라이언스(공공/금융) 규제를 적용받는가?            |
+  |          +- 예 ------> [PBKDF2 (SHA-256 기반) 사용 + 개별 Salt 적용]   |
+  |          |                     |                                   |
+  |          |                     +--> 반복 횟수(Iteration)는 수만 번 이상 설정|
+  |          |                                                         |
+  |          +- 아니오 (일반 엔터프라이즈 / 스타트업 환경)                      |
+  |                  |                                                 |
+  |                  v                                                 |
+  |         [Bcrypt (가장 널리 쓰임) 또는 Argon2id (최고의 보안성) 적용]        |
+  |                                                                    |
+  |   최종 판단: 비밀번호 저장 시 절대 단순 SHA-256을 단독으로 쓰지 말 것!          |
+  +--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초급 개발자가 가장 많이 하는 실수가 "로그인 비밀번호를 SHA-256으로 암호화해서 넣었다"고 보안 점검을 통과하려 하는 것이다. 의사결정 플로우에서 명확히 구분하듯, SHA-256은 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용'으로는 훌륭하지만 '패스워드 저장용'으로는 실격이다(너무 빠르기 때문). 패스워드 저장에는 일부러 시스템 자원을 잡아먹도록 설계된 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/)(Bcrypt 등)를 써야 한다. 단, 공공기관이나 보수적인 금융권은 NIST(미국표준기술연구소) 승인을 받은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 허용하는 경우가 많아, 보안성은 Bcrypt에 밀리더라도 컴플라이언스 통과를 위해 PBKDF2를 선택해야 하는 아키텍처적 타협이 발생한다.
@@ -247,7 +247,7 @@ tags = ["studynote-network"]
 | **운영** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 파라미터 변조 시 서버 오동작 빈발 | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 서명으로 비정상 요청 앞단에서 드롭 | 불법 요청 차단으로 <strong>백엔드 리소스 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 및 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 확보</strong> |
 
 ### 미래 전망
-- **양자 컴퓨터와 해시 충돌의 한계**: [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))는 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의해 완전히 붕괴될 위기에 처해 있으나, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 대칭키 암호는 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))의 영향을 받아 보안 강도가 절반(예: 256비트 → 128비트로 하락)으로 줄어들 뿐이다. 따라서 미래 양자 시대의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 바꾸기보다는, 다이제스트 길이를 단순히 두 배로 늘린 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 512비트 등으로 마이그레이션하는 방향으로 부드럽게 진화할 것이다.
+- **양자 컴퓨터와 해시 충돌의 한계**: [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))는 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의해 완전히 붕괴될 위기에 처해 있으나, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 대칭키 암호는 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))의 영향을 받아 보안 강도가 절반(예: 256비트 -> 128비트로 하락)으로 줄어들 뿐이다. 따라서 미래 양자 시대의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 바꾸기보다는, 다이제스트 길이를 단순히 두 배로 늘린 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 512비트 등으로 마이그레이션하는 방향으로 부드럽게 진화할 것이다.
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a>)과의 결합</strong>: [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 암호학적 트리의 밑바탕이다. 자신의 비밀번호를 서버에 보내지 않고도 "나는 비밀번호를 알고 있다"는 사실만을 증명하는 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 내에서, [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))와 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 결합하여 사용자 프라이버시의 극단적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계를 완성해 나갈 것이다.
 
 ### 참고 표준
@@ -258,20 +258,20 @@ tags = ["studynote-network"]
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 복호화할 필요가 없다는 그 단순한 '일방향성' 덕분에 암호학에서 가장 가볍고 광범위하게 쓰이는 도구가 되었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 변조를 막는 방패([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 비대칭키의 서명 속도를 높여주는 지름길([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) 최적화), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 블록을 사슬처럼 엮어내는 접착제, 그리고 수십억 명의 비밀번호를 안전하게 땅속에 묻어두는 타임캡슐(Bcrypt)까지, 디지털 신뢰 네트워크의 모든 구석구석에 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 흐르고 있다. 역산이 불가능하다는 이 수학적 비대칭성이 무너지지 않는 한, 정보보안의 근간은 흔들리지 않을 것이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │              해시 함수 패러다임과 응용 분야의 확장 (1990 ~ 2030+)     │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [과거: 검증]             [현재: 방어와 증명]        [미래: 분산 신뢰]      │
-  │                                                                │
-  │  체크섬 / MD5          → Bcrypt / SHA-256    → SHA-3 / ZKP 결합     │
-  │                                                                │
-  │  - 파일 전송 오류 확인      - 무차별 대입 공격 방어    - 영지식 증명 회로 구성  │
-  │  - 단순 패스워드 저장       - 블록체인 채굴(PoW)     - 양자 내성 해시 서명    │
-  │  - 디지털 서명 보조        - JWT 및 API 인증 (HMAC) - 거대 Merkle 트리 검증  │
-  │                                                                │
-  │  핵심 동인: "손상 확인 도구"에서 "시스템의 보안 아키텍처 그 자체"로 진화 중 │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |              해시 함수 패러다임과 응용 분야의 확장 (1990 ~ 2030+)     |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [과거: 검증]             [현재: 방어와 증명]        [미래: 분산 신뢰]      |
+  |                                                                |
+  |  체크섬 / MD5          -> Bcrypt / SHA-256    -> SHA-3 / ZKP 결합     |
+  |                                                                |
+  |  - 파일 전송 오류 확인      - 무차별 대입 공격 방어    - 영지식 증명 회로 구성  |
+  |  - 단순 패스워드 저장       - 블록체인 채굴(PoW)     - 양자 내성 해시 서명    |
+  |  - 디지털 서명 보조        - JWT 및 API 인증 (HMAC) - 거대 Merkle 트리 검증  |
+  |                                                                |
+  |  핵심 동인: "손상 확인 도구"에서 "시스템의 보안 아키텍처 그 자체"로 진화 중 |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 위상은 단순한 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 도구에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 신뢰 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 자체로 격상되었다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 시절에는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 전송 중 깨졌는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 보조 도구에 불과했다. 하지만 현재 SHA-256은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이라는 수백조 원 규모의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 네트워크를 지탱하는 채굴의 근간(PoW)이자, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 문지기([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) 역할을 한다. 미래에는 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))과 결합되어, 내 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본을 한 번도 네트워크에 전송하지 않으면서도 내 나이가 19세 이상임을 증명해 내는 마법 같은 프라이버시 기술의 수학적 엔진으로 진화할 것이다.
@@ -293,12 +293,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 대칭키 / 비대칭키 구조 비교]
-    │
-    ▼
+    |
+    v
 [현재 개념: 해시 함수]
-    │
-    ├──▶ [확장 A: 전자 서명]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 전자 서명]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 대칭키 / 비대칭키 구조 비교에서 출발해 현재 메커니즘을 정교화하고, 이후 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -315,7 +315,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1108 / 1120
 
-← **이전**: [986. 대칭키 / 비대칭키 구조 비교](/knowledge-base/studynote/03_network/19_frequent_topics_terms/986_symmetric_asymmetric_key/)
-**다음**: [988. 전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) →
+<- **이전**: [986. 대칭키 / 비대칭키 구조 비교](/knowledge-base/studynote/03_network/19_frequent_topics_terms/986_symmetric_asymmetric_key/)
+**다음**: [988. 전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) ->
 
 ---

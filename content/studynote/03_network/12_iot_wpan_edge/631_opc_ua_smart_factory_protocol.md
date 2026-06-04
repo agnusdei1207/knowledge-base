@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [산업용 이더넷 표준]
-    │
-    ▼
+    |
+    v
 [OPC UA]
-    │
-    └──▶ [TSN]
+    |
+    +---> [TSN]
 ```
 
 - **📢 섹션 요약 비유**: OPC UA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [산업용 이더넷 표준]
-    │
-    ▼
+    |
+    v
 [OPC UA]
-    │
-    └──▶ [TSN]
+    |
+    +---> [TSN]
 ```
 
 - **📢 섹션 요약 비유**: 스마트 팩토리를 거대한 국제 회의장이라고 생각해보세요. 예전에는 각국 대표(지멘스, 로봇, 센서)들이 각자의 모국어로만 말해서 의사소통이 불가능했습니다(Classic OPC 한계). OPC UA는 모든 대표에게 100% 암호화가 보장되는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 무전기를 나눠주고, 서로 완벽하게 통역이 되는 '영어(만국 공용어)'로만 대화하게 규칙을 정하여 회의장 전체를 하나로 묶어버리는 시스템입니다.
@@ -117,12 +117,12 @@ OPC UA는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ```text
 [선행 개념: 산업용 이더넷 표준]
-    │
-    ▼
+    |
+    v
 [현재 개념: OPC UA]
-    │
-    ├──▶ [확장 A: TSN]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: TSN]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 OPC UA는 [산업용 이더넷 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/630_industrial_ethernet_profinet_ethercat_modbus/)에서 출발해 현재 메커니즘을 정교화하고, 이후 TSN와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ OPC UA는 [산업용 이더넷 표준](/knowledge-base/studynote/03_network/12_i
 
 **진행 상황**: 752 / 1120
 
-← **이전**: [630. 산업용 이더넷 표준 (Industrial Ethernet)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/630_industrial_ethernet_profinet_ethercat_modbus/)
-**다음**: [632. TSN (Time-Sensitive Networking)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/632_tsn_time_sensitive_networking_ieee/) →
+<- **이전**: [630. 산업용 이더넷 표준 (Industrial Ethernet)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/630_industrial_ethernet_profinet_ethercat_modbus/)
+**다음**: [632. TSN (Time-Sensitive Networking)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/632_tsn_time_sensitive_networking_ieee/) ->
 
 ---

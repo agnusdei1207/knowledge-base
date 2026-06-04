@@ -26,15 +26,15 @@ ARM Cortex-R 시리즈는 ARM 프로파일 중 실시간 제어를 담당하는 
 아래 그림은 Cortex-R이 "입력 사건에서 제어 출력까지의 시간"을 짧고 예측 가능하게 유지하려는 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sensor / IRQ / DMA Event                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Fast Interrupt Path · MPU Check · Predictable Scheduling    │
-├──────────────────────────────────────────────────────────────┤
-│ Cortex-R Core(s) · TCM · Optional Lockstep / ECC            │
-├──────────────────────────────────────────────────────────────┤
-│ Motor Drive · SSD Flash Control · Modem Timing              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sensor / IRQ / DMA Event                                    |
++--------------------------------------------------------------+
+| Fast Interrupt Path · MPU Check · Predictable Scheduling    |
++--------------------------------------------------------------+
+| Cortex-R Core(s) · TCM · Optional Lockstep / ECC            |
++--------------------------------------------------------------+
+| Motor Drive · SSD Flash Control · Modem Timing              |
++--------------------------------------------------------------+
 ```
 
 즉 Cortex-R은 "빨라 보이는 프로세서"가 아니라, 시간 약속을 지키는 프로세서로 이해해야 한다. 이 차이가 실시간 시스템에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치 하나보다 더 중요하다.
@@ -62,13 +62,13 @@ Cortex-R의 핵심은 [지연](/knowledge-base/studynote/03_network/01_data_comm
 아래 그림은 Cortex-R이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 오류를 동시에 다루는 방식을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Event ─▶ Fast IRQ ─▶ Control Code in TCM ─▶ Output Action   │
-│                 │                                            │
-│                 └──▶ MPU / ECC / Lockstep Check             │
-│                                                             │
-│ Goal: short path + bounded latency + fault detection        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Event --> Fast IRQ --> Control Code in TCM --> Output Action   |
+|                 |                                            |
+|                 +---> MPU / ECC / Lockstep Check             |
+|                                                             |
+| Goal: short path + bounded latency + fault detection        |
++--------------------------------------------------------------+
 ```
 
 요약하면 Cortex-R의 아키텍처는 "기능을 많이 넣기"보다 "시간과 오류를 통제하기"에 최적화되어 있다.
@@ -152,17 +152,17 @@ Cortex-R을 적절히 쓰면 시스템은 빠를 뿐 아니라 예측 가능해�
 
 ```text
 인터럽트 기반 임베디드 제어
-    │
-    ▼
+    |
+    v
 MPU · TCM 중심 실시간 코어
-    │
-    ▼
+    |
+    v
 SSD / 모뎀 / 자동차 제어 확산
-    │
-    ▼
+    |
+    v
 락스텝 · ECC · 안전 진단 강화
-    │
-    ▼
+    |
+    v
 소프트웨어 정의 차량 · 산업 실시간 플랫폼
 ```
 
@@ -180,7 +180,7 @@ SSD / 모뎀 / 자동차 제어 확산
 
 **진행 상황**: 655 / 803
 
-← **이전**: [653. ARM Cortex-A 시리즈 특징](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/653_arm_cortex_a_series/)
-**다음**: [655. ARM Cortex-M 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/655_arm_cortex_m_series/) →
+<- **이전**: [653. ARM Cortex-A 시리즈 특징](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/653_arm_cortex_a_series/)
+**다음**: [655. ARM Cortex-M 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/655_arm_cortex_m_series/) ->
 
 ---

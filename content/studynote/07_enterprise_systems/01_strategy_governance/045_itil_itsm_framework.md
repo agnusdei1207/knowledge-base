@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 > **핵심 인사이트**
 > 1. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)([IT Infrastructure Library](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/))은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))의 사실상 표준 프레임워크 — 영국 정부 CCTA가 1980년대 개발하고 현재 Axelos가 관리하며, IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 제공·지원·개선하는 모범 사례([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 집합이다.
 > 2. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4(2019)의 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 시스템(SVS)과 [4차원 모델](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) — 기존 프로세스 중심에서 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·Lean을 통합한 가치 공동 창출 관점으로 진화하며, 34개 관리 관행(Practice)으로 구성된다.
-> 3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 구현의 핵심 도전은 도구(Tool) 도입보다 문화(Culture) 변화 — ServiceNow 같은 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 플랫폼만 도입한다고 ITIL이 작동하지 않으며, 인시던트 → 변경 → [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)의 프로세스 규율이 필요하다.
+> 3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 구현의 핵심 도전은 도구(Tool) 도입보다 문화(Culture) 변화 — ServiceNow 같은 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 플랫폼만 도입한다고 ITIL이 작동하지 않으며, 인시던트 -> 변경 -> [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)의 프로세스 규율이 필요하다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-enterprise-systems"]
 ITIL 발전 역사:
 
 ITIL v1 (1989): 영국 정부 CCTA
-  31권의 책자 → IT 운영 모범 사례
+  31권의 책자 -> IT 운영 모범 사례
 
 ITIL v2 (2000): 표준화·통합
   서비스 지원 + 서비스 전달 핵심
@@ -40,7 +40,7 @@ ITIL 4 (2019): 가치 중심 + 애자일
 ITIL 4 구조:
 
 서비스 가치 시스템 (SVS):
-  외부 기회/수요 → 가치 창출
+  외부 기회/수요 -> 가치 창출
 
   구성 요소:
   - 거버넌스 (Governance)
@@ -69,8 +69,8 @@ ITIL 4 주요 관리 관행:
   목적: 비정상적 서비스 복구
 
   흐름:
-  인시던트 발생 → 분류/우선순위
-  → 조사/진단 → 해결 → 종료
+  인시던트 발생 -> 분류/우선순위
+  -> 조사/진단 -> 해결 -> 종료
 
   SLA 준수:
   P1 (Critical): 1시간 내 해결
@@ -80,7 +80,7 @@ ITIL 4 주요 관리 관행:
 문제 관리 (Problem Management):
   목적: 인시던트 근본 원인 제거
 
-  반응적: 반복 인시던트 → 근본 원인 분석
+  반응적: 반복 인시던트 -> 근본 원인 분석
   예방적: 잠재 문제 사전 식별
 
   RCA (Root Cause Analysis):
@@ -103,7 +103,7 @@ ITIL 4 주요 관리 관행:
 변경 설정 관리 (CMDB):
   CI (Configuration Item): IT 구성 요소
   CMDB: CI 정보·관계 데이터베이스
-  → 변경 영향 분석 기반
+  -> 변경 영향 분석 기반
 ```
 
 > 📢 **섹션 요약 비유**: [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 관행들은 병원 운영 — [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)(응급실 접수), 인시던트(응급 처치), [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)(병원균 박멸), [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(수술 계획 승인)!
@@ -173,23 +173,23 @@ ITSM 플랫폼 대표: ServiceNow
 
 CMDB 활용:
   CI 관계 맵:
-  서버A ──(호스팅)──> 애플리케이션X
-  애플리케이션X ──(의존)──> 데이터베이스Y
+  서버A --(호스팅)--> 애플리케이션X
+  애플리케이션X --(의존)--> 데이터베이스Y
 
   변경 영향 분석:
-  "서버A 패치 → 어떤 서비스 영향?"
-  → CMDB 관계 조회 → 영향 범위 자동 계산
+  "서버A 패치 -> 어떤 서비스 영향?"
+  -> CMDB 관계 조회 -> 영향 범위 자동 계산
 
 인시던트 자동화:
-  모니터링 경보 → ServiceNow API → 인시던트 자동 생성
-  AI 분류기 → 우선순위·담당자 자동 배정
+  모니터링 경보 -> ServiceNow API -> 인시던트 자동 생성
+  AI 분류기 -> 우선순위·담당자 자동 배정
 
   MTTR 단축:
-  수동 생성: 15분 → 자동 생성: 2분
+  수동 생성: 15분 -> 자동 생성: 2분
 
 지식 관리:
-  반복 인시던트 → 지식 베이스 문서화
-  → 검색 → 1차 해결율 향상
+  반복 인시던트 -> 지식 베이스 문서화
+  -> 검색 -> 1차 해결율 향상
 
   KPI:
   FCR (First Contact Resolution): 70%+ 목표
@@ -213,7 +213,7 @@ CMDB 활용:
 
 현황 문제:
   - IT 장애 시 담당자 파악에 1시간+
-  - 변경 관리 없이 배포 → 장애 빈발
+  - 변경 관리 없이 배포 -> 장애 빈발
   - MTTR: 평균 4시간
   - 장애 원인 분석 없이 임시 처방 반복
 
@@ -227,22 +227,22 @@ Phase 1 (1-2개월): 기반 구축
 Phase 2 (3-4개월): 프로세스 확립
   인시던트 관리: 우선순위 체계, SLA 설정
   변경 관리: CAB 구성, 변경 절차
-  서비스 데스크: 헬프데스크 → SPOC 전환
+  서비스 데스크: 헬프데스크 -> SPOC 전환
 
 Phase 3 (5-6개월): 자동화
-  모니터링 → 인시던트 자동 생성
+  모니터링 -> 인시던트 자동 생성
   표준 변경 자동 승인
   AI 기반 분류·배정
 
 결과 (1년 후):
-  MTTR: 4시간 → 45분 (배정 자동화 효과)
+  MTTR: 4시간 -> 45분 (배정 자동화 효과)
   변경 관련 장애: 40% 감소
-  FCR: 45% → 68%
+  FCR: 45% -> 68%
   장애 재발률: 60% 감소 (문제 관리 효과)
 
 핵심 교훈:
   "도구는 20%, 프로세스와 문화가 80%"
-  CAB 참석자 저항 → 변경 관리 문화 정착 6개월 소요
+  CAB 참석자 저항 -> 변경 관리 문화 정착 6개월 소요
   CMDB 정확도 유지가 지속 과제
 ```
 
@@ -311,7 +311,7 @@ SRE와 ITSM 융합
 
 **진행 상황**: 45 / 482
 
-← **이전**: [044. 기업 애자일 경영](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/044_agile_management_enterprise/)
-**다음**: [046. IT 서비스 관리 — ITSM 심화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/046_itsm_it_service_management/) →
+<- **이전**: [044. 기업 애자일 경영](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/044_agile_management_enterprise/)
+**다음**: [046. IT 서비스 관리 — ITSM 심화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/046_itsm_it_service_management/) ->
 
 ---

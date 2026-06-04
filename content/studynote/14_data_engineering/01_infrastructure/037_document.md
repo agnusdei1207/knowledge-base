@@ -127,7 +127,7 @@ pipeline = [
 result = list(orders.aggregate(pipeline))
 ```
 
-> 📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인은 컨베이어 벨트 — 데이터가 필터링(match)→[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(group)→변환 단계를 거쳐 최종 결과로 나온다.
+> 📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인은 컨베이어 벨트 — 데이터가 필터링(match)->[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(group)->변환 단계를 거쳐 최종 결과로 나온다.
 
 ---
 
@@ -248,7 +248,7 @@ Vector Search 추가 (AI 임베딩 저장)
 
 **진행 상황**: 37 / 258
 
-← **이전**: [036. 키-값 저장소 (Key-Value Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)
-**다음**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/) →
+<- **이전**: [036. 키-값 저장소 (Key-Value Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)
+**다음**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/) ->
 
 ---

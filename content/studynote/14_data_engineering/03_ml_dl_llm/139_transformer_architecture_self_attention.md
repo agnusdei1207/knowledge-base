@@ -20,8 +20,8 @@ tags = ["studynote-dataengineering"]
 
 ```text
 Transformer = Encoder + Decoder
-  Encoder: [Multi-Head Self-Attention → FFN] × N
-  Decoder: [Masked Self-Attention → Cross-Attention → FFN] × N
+  Encoder: [Multi-Head Self-Attention -> FFN] × N
+  Decoder: [Masked Self-Attention -> Cross-Attention -> FFN] × N
   + Positional Encoding (순서 정보)
 ```
 
@@ -48,10 +48,10 @@ Transformer는 <strong>현대 AI의 기반 아키텍처</strong>이며, [BERT](/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Seq2Seq+Attention (2014)] → [Transformer (2017, Google)]
-    → [BERT (Encoder, 2018)] → [GPT-2/3 (Decoder, 2019~)]
-    → [T5 (Enc-Dec, 2019)] → [GPT-4/LLM (2023~)]
-    → [현재: Mamba/RWKV — Transformer 대안 탐색]
+[Seq2Seq+Attention (2014)] -> [Transformer (2017, Google)]
+    -> [BERT (Encoder, 2018)] -> [GPT-2/3 (Decoder, 2019~)]
+    -> [T5 (Enc-Dec, 2019)] -> [GPT-4/LLM (2023~)]
+    -> [현재: Mamba/RWKV — Transformer 대안 탐색]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Transformer는 <strong>현대 AI의 기반 아키텍처</strong>이며, [BERT](/
 
 **진행 상황**: 139 / 258
 
-← **이전**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/)
-**다음**: [140. Self-Attention·Multi-Head·Positional Encoding 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/140_self_attention_multihead_positional_encoding/) →
+<- **이전**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/)
+**다음**: [140. Self-Attention·Multi-Head·Positional Encoding 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/140_self_attention_multihead_positional_encoding/) ->
 
 ---

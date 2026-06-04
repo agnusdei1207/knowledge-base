@@ -32,17 +32,17 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  현재 상태 VSM 예시 (소프트웨어)                  │
-├──────────────────────────────────────────────────────────────────┤
-│  고객 요청 → [기획] → [설계] → [개발] → [코드 리뷰] → [QA] → 배포│
-│            PT:2h     PT:4h    PT:3d    PT:4h          PT:2d     │
-│            WT:2d     WT:1d    WT:0d    WT:3d           WT:5d     │
-│                                                                  │
-│  총 리드타임: ~15d  │  총 처리시간: ~3.5d  │  PCE: ~23%          │
-│                                                                  │
-│  PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                  현재 상태 VSM 예시 (소프트웨어)                  |
++------------------------------------------------------------------+
+|  고객 요청 -> [기획] -> [설계] -> [개발] -> [코드 리뷰] -> [QA] -> 배포|
+|            PT:2h     PT:4h    PT:3d    PT:4h          PT:2d     |
+|            WT:2d     WT:1d    WT:0d    WT:3d           WT:5d     |
+|                                                                  |
+|  총 리드타임: ~15d  |  총 처리시간: ~3.5d  |  PCE: ~23%          |
+|                                                                  |
+|  PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100       |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소           | 정의                                      | 목표               |
@@ -53,14 +53,14 @@ tags = ["studynote-devops-sre"]
 | PCE                 | PT / [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) × 100 (%)                  | > 25% 목표         |
 | Kaizen Burst        | 개선 기회 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 마크 (번개 모양)           | WT가 큰 구간에 배치|
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a> 맵 → 미래 상태 맵 전환 단계</strong>
+<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a> 맵 -> 미래 상태 맵 전환 단계</strong>
 1. [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵 작성: 모든 단계의 PT·WT·재고·핸드오프 수 측정
 2. PCE 계산 및 낭비 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 3. 카이젠 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 표시: WT가 가장 큰 2~3개 구간
 4. 미래 상태 맵: 자동화·단계 통합으로 목표 리드타임 설계
 5. 구현 로드맵: 카이젠 프로젝트 우선순위화
 
-[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4지표와의 연결: 변경 리드타임([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/))은 VSM의 개발→배포 구간, 배포 빈도는 VSM의 릴리스 주기, MTTR은 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) VSM과 직결된다.
+[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4지표와의 연결: 변경 리드타임([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/))은 VSM의 개발->배포 구간, 배포 빈도는 VSM의 릴리스 주기, MTTR은 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) VSM과 직결된다.
 
 - �� 섹션 요약 비유: PCE는 8시간 근무 중 실제로 일한 시간 비율이다. 대부분 회의 대기·승인 대기로 채워진다면, 일하는 방식이 아니라 기다리는 구조를 바꿔야 한다.
 
@@ -76,7 +76,7 @@ tags = ["studynote-devops-sre"]
 | 팀 참여            | 전문가 중심                 | 전체 가치 흐름 참여자 워크숍        |
 | 지속성             | 일회성 프로젝트             | 반복 측정·개선 사이클               |
 
-VSM은 Platform 엔진ering과도 연결된다. [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DevEx) 개선을 위해 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))를 구축할 때, VSM으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 가장 큰 WT 구간(예: 환경 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 3일 → 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 15분)을 플랫폼 기능 개발 우선순위로 삼는다.
+VSM은 Platform 엔진ering과도 연결된다. [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DevEx) 개선을 위해 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))를 구축할 때, VSM으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 가장 큰 WT 구간(예: 환경 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 3일 -> 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 15분)을 플랫폼 기능 개발 우선순위로 삼는다.
 
 - 📢 섹션 요약 비유: VSM은 음식점 운영 컨설팅에서 주방 동선 분석이다. 셰프 실력(처리 속도)보다 재료 가져오는 경로(대기 시간)를 줄이면 테이블 회전율이 더 빨리 오른다.
 
@@ -97,9 +97,9 @@ VSM은 Platform 엔진ering과도 연결된다. [개발자 경험](/knowledge-ba
 - 재작업(Rework) 루프 발견: 테스트 자동화로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 상류에서 차단
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- PCE 측정 없이 "모든 단계 동시에 개선" → 리소스 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 효과 미미
-- [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵만 그리고 미래 상태 맵 없음 → 개선 방향 부재
-- 처리 시간(PT)만 줄이고 대기 시간(WT) 무시 → 진짜 병목 미해결
+- PCE 측정 없이 "모든 단계 동시에 개선" -> 리소스 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 효과 미미
+- [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵만 그리고 미래 상태 맵 없음 -> 개선 방향 부재
+- 처리 시간(PT)만 줄이고 대기 시간(WT) 무시 -> 진짜 병목 미해결
 
 - 📢 섹션 요약 비유: [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 없이 개선하는 것은 눈 감고 집 청소하는 것이다. 어디가 더럽고 어디가 깨끗한지 보지 않고 청소 도구만 바꾸면 같은 곳만 반복해서 닦는다.
 
@@ -132,24 +132,24 @@ VSM은 Platform 엔진ering과도 연결된다. [개발자 경험](/knowledge-ba
 
 ```text
 린 (Lean) 제조 — Toyota Production System
-    │
-    ▼
+    |
+    v
 VSM (Value Stream Mapping) — 흐름 시각화·낭비 식별
-    │
-    ▼
+    |
+    v
 PCE 측정 — 처리시간/리드타임 비율
-    │
-    ▼
+    |
+    v
 카이젠 버스트 — 우선순위 개선 구간 선정
-    │
-    ▼
+    |
+    v
 DevOps DORA 지표 — 변경 리드타임·배포 빈도 연결
-    │
-    ▼
+    |
+    v
 Value Stream Management 플랫폼 — 실시간 자동 측정
 ```
 
-흐름은 "제조 린 → 소프트웨어 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) → 정량 지표 → 자동화 → 플랫폼 통합"으로 발전한다.
+흐름은 "제조 린 -> 소프트웨어 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) -> 정량 지표 -> 자동화 -> 플랫폼 통합"으로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ Value Stream Management 플랫폼 — 실시간 자동 측정
 
 **진행 상황**: 360 / 373
 
-← **이전**: [359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)](/knowledge-base/studynote/15_devops_sre/05_devsecops/359_metric/)
-**다음**: [361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected](/knowledge-base/studynote/15_devops_sre/05_devsecops/361_architecture/) →
+<- **이전**: [359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)](/knowledge-base/studynote/15_devops_sre/05_devsecops/359_metric/)
+**다음**: [361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected](/knowledge-base/studynote/15_devops_sre/05_devsecops/361_architecture/) ->
 
 ---

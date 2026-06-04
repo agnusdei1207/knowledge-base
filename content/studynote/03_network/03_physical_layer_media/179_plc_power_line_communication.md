@@ -43,19 +43,19 @@ PLC의 핵심 원리는 <strong>저주파 전력과 고주파 <a href="/knowledg
 아래 그림은 전력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 선에서 어떻게 공존하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PLC signal coexistence on one wire                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ [user data] -> PLC modem -> coupling circuit -> power line         │
-│                                          │                         │
-│                                  50/60Hz power already flowing     │
-│                                          │                         │
-│                            same copper conductor carries both      │
-│                                          │                         │
-│ receiver side                            ▼                         │
-│   power line -> filter split -> low-pass  -> appliance power       │
-│                             └> band-pass -> PLC demodulator        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| PLC signal coexistence on one wire                                 |
++--------------------------------------------------------------------+
+| [user data] -> PLC modem -> coupling circuit -> power line         |
+|                                          |                         |
+|                                  50/60Hz power already flowing     |
+|                                          |                         |
+|                            same copper conductor carries both      |
+|                                          |                         |
+| receiver side                            v                         |
+|   power line -> filter split -> low-pass  -> appliance power       |
+|                             +> band-pass -> PLC demodulator        |
++--------------------------------------------------------------------+
 ```
 
 주파수 대역과 용도에 따라 PLC는 크게 두 갈래로 나뉜다.
@@ -107,17 +107,17 @@ PLC는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot
 - 외부 전파 방사와 규제 대응이 중요한 경우
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PLC adoption checklist                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Need communication but rewiring is difficult?                      │
-│   ├─ no  -> use dedicated copper/fiber or wireless                 │
-│   └─ yes                                                           │
-│        ├─ same transformer / same building zone? -> continue       │
-│        ├─ noise level manageable? -> PLC candidate                 │
-│        ├─ required rate low to moderate? -> good fit               │
-│        └─ strict high-bandwidth backbone? -> avoid PLC             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| PLC adoption checklist                                             |
++--------------------------------------------------------------------+
+| Need communication but rewiring is difficult?                      |
+|   +- no  -> use dedicated copper/fiber or wireless                 |
+|   +- yes                                                           |
+|        +- same transformer / same building zone? -> continue       |
+|        +- noise level manageable? -> PLC candidate                 |
+|        +- required rate low to moderate? -> good fit               |
+|        +- strict high-bandwidth backbone? -> avoid PLC             |
++--------------------------------------------------------------------+
 ```
 
 실무 판단의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치보다 <strong>환경 적합성</strong>이다. PLC는 조건이 맞으면 매우 경제적이지만, 조건이 틀리면 링크 품질이 들쭉날쭉해 운영 비용이 더 커질 수 있다. 따라서 현장 시험, 분전 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 잡음 계측, 규제 검토가 선행되어야 한다.
@@ -154,16 +154,16 @@ PLC의 가장 큰 효과는 <strong>기존 전력 인프라를 활용해 통신 
 
 ```text
 기존 전력선 재활용 필요
-        │
-        ▼
+        |
+        v
 전력 대역과 데이터 대역 분리
-        │
-        ▼
+        |
+        v
 PLC (Power Line Communication)
-        │
-        ├──────────────▶ 협대역 PLC와 스마트 그리드
-        ├──────────────▶ 광대역 PLC와 홈 네트워크
-        └──────────────▶ 하이브리드 유선/무선 보완망
+        |
+        +---------------> 협대역 PLC와 스마트 그리드
+        +---------------> 광대역 PLC와 홈 네트워크
+        +---------------> 하이브리드 유선/무선 보완망
 ```
 
 이 흐름도는 PLC가 "전력선 재사용"에서 출발해, 용도에 따라 협대역·광대역으로 갈라지고 다른 매질과 결합하는 방향으로 발전해 왔음을 보여 준다.
@@ -180,7 +180,7 @@ PLC (Power Line Communication)
 
 **진행 상황**: 300 / 1120
 
-← **이전**: [178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)
-**다음**: [180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON](/knowledge-base/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/) →
+<- **이전**: [178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)
+**다음**: [180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON](/knowledge-base/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/) ->
 
 ---

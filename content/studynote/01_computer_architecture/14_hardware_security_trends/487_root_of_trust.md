@@ -26,16 +26,16 @@ Root of Trust (RoT)는 시스템이 맨 처음 믿고 시작하는 최소한의 
 아래 그림은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 왜 끝없이 재귀될 수 없는지, 그리고 어디에서 RoT가 등장하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Trust cannot recurse forever                                               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ OS image    <- verified by bootloader                                      │
-│ Bootloader  <- verified by firmware                                        │
-│ Firmware    <- verified by Boot ROM + immutable key                        │
-│                                                                            │
-│ The last line has no earlier verifier.                                     │
-│ That immutable anchor is the Root of Trust.                                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Trust cannot recurse forever                                               |
++----------------------------------------------------------------------------+
+| OS image    <- verified by bootloader                                      |
+| Bootloader  <- verified by firmware                                        |
+| Firmware    <- verified by Boot ROM + immutable key                        |
+|                                                                            |
+| The last line has no earlier verifier.                                     |
+| That immutable anchor is the Root of Trust.                                |
++----------------------------------------------------------------------------+
 ```
 
 따라서 RoT의 핵심 질문은 단순하다. "제일 처음 실행되는 코드와 제일 처음 쓰이는 키는 누가 지키는가?" 이 질문에 답하지 못하면 상위 계층 보안은 강해 보여도 실제로는 공중에 떠 있는 구조가 된다.
@@ -61,17 +61,17 @@ RoT를 더 세분화하면 RoT for Measurement, RoT for Storage, RoT for Reporti
 아래 그림은 RoT가 부팅과 증명에 개입하는 전형적 흐름이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ RoT-driven boot and remote verification flow                               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Power on                                                                   │
-│   -> Boot ROM reads immutable key / hash                                   │
-│   -> verify firmware signature                                             │
-│   -> measure stage into PCR / log                                          │
-│   -> release next-stage execution                                          │
-│   -> protected keys become usable only after valid boot                    │
-│   -> remote attestation token proves state to a remote verifier            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| RoT-driven boot and remote verification flow                               |
++----------------------------------------------------------------------------+
+| Power on                                                                   |
+|   -> Boot ROM reads immutable key / hash                                   |
+|   -> verify firmware signature                                             |
+|   -> measure stage into PCR / log                                          |
+|   -> release next-stage execution                                          |
+|   -> protected keys become usable only after valid boot                    |
+|   -> remote attestation token proves state to a remote verifier            |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 본질은 신뢰가 "점프"하지 않고 "계승"된다는 데 있다. 한 단계가 다음 단계를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 신뢰를 넘겨주고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패 시에는 부팅 차단·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드 진입·키 비공개 같은 보수적 동작으로 전환한다. 즉 RoT는 단순 저장소가 아니라, 실행 허가와 상태 증명까지 통제하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 시작점이다.
@@ -148,18 +148,18 @@ RoT를 올바르게 설계하면 [부팅 무결성](/knowledge-base/studynote/09
 
 ```text
 불변 부트 코드
-        │
-        ▼
+        |
+        v
 Root of Trust (RoT)
-        │
-        ├────────▶ Secure Boot
-        │
-        └────────▶ Measured Boot
-                     │
-                     ▼
+        |
+        +---------> Secure Boot
+        |
+        +---------> Measured Boot
+                     |
+                     v
 Attestation
-        │
-        ▼
+        |
+        v
 Silicon RoT · DICE · 클라우드 플랫폼 신뢰 검증
 ```
 
@@ -177,7 +177,7 @@ Silicon RoT · DICE · 클라우드 플랫폼 신뢰 검증
 
 **진행 상황**: 487 / 803
 
-← **이전**: [486. 난수 생성기 (TRNG)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)
-**다음**: [488. 시스템 관리 모드 (SMM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/488_smm/) →
+<- **이전**: [486. 난수 생성기 (TRNG)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)
+**다음**: [488. 시스템 관리 모드 (SMM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/488_smm/) ->
 
 ---

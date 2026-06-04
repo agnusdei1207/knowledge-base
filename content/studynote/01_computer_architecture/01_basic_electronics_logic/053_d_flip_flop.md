@@ -32,18 +32,18 @@ tags = ["studynote-computer-architecture"]
 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 보통 master-slave [latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/) 구조나 edge-triggered 구조로 구현된다. 클록이 변할 때만 입력을 받아들이고, 나머지 시간에는 출력을 유지한다.
 
 ```text
-┌──────────────────────────────┐
-│        D Flip-Flop           │
-├──────────────────────────────┤
-│ D ──▶ [Master] ──▶ [Slave] ──▶ Q
-│ CLK ────────────────────────▶
-└──────────────────────────────┘
++------------------------------+
+|        D Flip-Flop           |
++------------------------------+
+| D ---> [Master] ---> [Slave] ---> Q
+| CLK ------------------------->
++------------------------------+
 ```
 
 | 클록 상태 | D | Q(next) |
 | :--- | :--- | :--- |
-| ↑ 엣지 | 0 | 0 |
-| ↑ 엣지 | 1 | 1 |
+| ^ 엣지 | 0 | 0 |
+| ^ 엣지 | 1 | 1 |
 | 비엣지 | X | 유지 |
 
 핵심 원리는 "레벨이 아니라 엣지"다. 이 덕분에 동기식 시스템에서 모든 상태를 같은 기준 시점에 갱신할 수 있다.
@@ -115,14 +115,14 @@ D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 
 ```text
 S/R 플립플롭
-    │
-    ▼
+    |
+    v
 D 래치
-    │
-    ▼
+    |
+    v
 D 플립플롭
-    │
-    ▼
+    |
+    v
 레지스터 / 파이프라인 / FSM
 ```
 
@@ -140,7 +140,7 @@ D 플립플롭
 
 **진행 상황**: 53 / 803
 
-← **이전**: [52. SR 플립플롭 (Set-Reset Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/052_sr_flip_flop/)
-**다음**: [54. J-K 플립플롭 (J-K Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/054_jk_flip_flop/) →
+<- **이전**: [52. SR 플립플롭 (Set-Reset Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/052_sr_flip_flop/)
+**다음**: [54. J-K 플립플롭 (J-K Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/054_jk_flip_flop/) ->
 
 ---

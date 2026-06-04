@@ -47,10 +47,10 @@ n번의 독립 베르누이 시행 (Bernoulli Trial) 에서 성공 횟수.
 B(1000, 0.05): E[X]=50, σ=√(1000×0.05×0.95)≈6.89
 ```
 
-**이항 분포 → 포아송 근사**: n 크고 p 작을 때 (np=λ 고정)
+**이항 분포 -> 포아송 근사**: n 크고 p 작을 때 (np=λ 고정)
 
 ```
-C(n,k)·pᵏ·(1-p)^(n-k) → e^(-λ)·λᵏ/k!   as n→∞, p→0
+C(n,k)·pᵏ·(1-p)^(n-k) -> e^(-λ)·λᵏ/k!   as n->∞, p->0
 ```
 
 📢 **섹션 요약 비유**: 이항 분포는 "100개의 불량품 검사에서 불량이 몇 개나 나올까"를 모델링한다 — 동전 던지기를 n번 했을 때 앞면 횟수와 같은 구조다.
@@ -93,10 +93,10 @@ E[X] = λ,   Var[X] = λ   (평균 = 분산!)
 ### [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) ([Normal Distribution](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/))
 
 ```
-X ~ N(μ, σ²)
-f(x) = (1/σ√2π) · exp(-(x-μ)²/2σ²)
+X ~ N(μ, σ^)
+f(x) = (1/σ√2π) · exp(-(x-μ)^/2σ^)
 
-E[X] = μ,   Var[X] = σ²
+E[X] = μ,   Var[X] = σ^
 ```
 
 - 자연 현상의 대부분이 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)를 따름 (키, 측정 오차 등)
@@ -110,7 +110,7 @@ X ~ Exp(λ)
 f(x) = λ·e^(-λx),   x ≥ 0
 F(x) = 1 - e^(-λx)
 
-E[X] = 1/λ,   Var[X] = 1/λ²
+E[X] = 1/λ,   Var[X] = 1/λ^
 ```
 
 **무기억성 (Memoryless Property)**:
@@ -118,7 +118,7 @@ E[X] = 1/λ,   Var[X] = 1/λ²
 P(X > s+t | X > s) = P(X > t)
 
 해석: "이미 s초 기다렸어도, 앞으로 t초 더 기다릴 확률은 처음부터 t초 기다릴 확률과 같다"
-→ 지수 분포가 유일한 연속형 무기억 분포!
+-> 지수 분포가 유일한 연속형 무기억 분포!
 ```
 
 <strong>포아송-지수 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: 포아송 과정에서 <strong>사건 간 대기 시간</strong>이 지수 분포를 따름.
@@ -129,7 +129,7 @@ P(X > s+t | X > s) = P(X > t)
 X ~ U(a, b)
 f(x) = 1/(b-a),   a ≤ x ≤ b
 
-E[X] = (a+b)/2,   Var[X] = (b-a)²/12
+E[X] = (a+b)/2,   Var[X] = (b-a)^/12
 ```
 
 - 모든 값이 동일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 기반
@@ -142,27 +142,27 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 ## Ⅳ. 분포 형태 비교 다이어그램
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  주요 분포 형태 비교 (개략적 PDF/PMF)                       │
-│                                                            │
-│  이항 B(10,0.3)    포아송(λ=3)      정규 N(0,1)            │
-│                                                            │
-│    │ ■              │ ■              │   ╭──╮              │
-│    │ ■■             │ ██             │  ╭╯  ╰╮             │
-│    │ ███            │ ███            │ ╭╯    ╰╮            │
-│    │ ████           │ ████           │╭╯      ╰╮           │
-│    └──────→ k       └──────→ k       └──────────→ x        │
-│    (이산, 유한)     (이산, 무한)     (연속, 대칭)           │
-│                                                            │
-│  지수 Exp(λ=1)      균등 U(0,1)                            │
-│                                                            │
-│    │\               │ ────────       │                    │
-│    │ \              │ │      │       │                    │
-│    │  \             │ │      │       │                    │
-│    │   \            │ │      │       │                    │
-│    └────→ x         └─┴──────┴──→ x  │                    │
-│    (오른쪽 꼬리)    (균일 높이)       │                    │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  주요 분포 형태 비교 (개략적 PDF/PMF)                       |
+|                                                            |
+|  이항 B(10,0.3)    포아송(λ=3)      정규 N(0,1)            |
+|                                                            |
+|    | ■              | ■              |   +--+              |
+|    | ■■             | ██             |  ++  ++             |
+|    | ███            | ███            | ++    ++            |
+|    | ████           | ████           |++      ++           |
+|    +-------> k       +-------> k       +-----------> x        |
+|    (이산, 유한)     (이산, 무한)     (연속, 대칭)           |
+|                                                            |
+|  지수 Exp(λ=1)      균등 U(0,1)                            |
+|                                                            |
+|    |\               | --------       |                    |
+|    | \              | |      |       |                    |
+|    |  \             | |      |       |                    |
+|    |   \            | |      |       |                    |
+|    +-----> x         +-+------+---> x  |                    |
+|    (오른쪽 꼬리)    (균일 높이)       |                    |
++------------------------------------------------------------+
 ```
 
 ---
@@ -182,22 +182,22 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 ### 분포 간 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  주요 분포 간 관계                                          │
-│                                                            │
-│  Bernoulli(p) ──→ Binomial B(n,p)                         │
-│                        │                                  │
-│                  n→∞,p→0,np=λ  │                          │
-│                        ↓                                  │
-│                  Poisson(λ) ──→ 도착 시간 → Exp(λ)        │
-│                        │                                  │
-│                  n→∞ (CLT)  │                              │
-│                        ↓                                  │
-│                  Normal N(μ,σ²)                            │
-│                        │                                  │
-│               X=e^Y → Log-Normal                          │
-│               X²합산 → Chi-squared (카이제곱)              │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  주요 분포 간 관계                                          |
+|                                                            |
+|  Bernoulli(p) ---> Binomial B(n,p)                         |
+|                        |                                  |
+|                  n->∞,p->0,np=λ  |                          |
+|                        v                                  |
+|                  Poisson(λ) ---> 도착 시간 -> Exp(λ)        |
+|                        |                                  |
+|                  n->∞ (CLT)  |                              |
+|                        v                                  |
+|                  Normal N(μ,σ^)                            |
+|                        |                                  |
+|               X=e^Y -> Log-Normal                          |
+|               X^합산 -> Chi-squared (카이제곱)              |
++------------------------------------------------------------+
 ```
 
 ### 각 분포 요약 비교표
@@ -207,9 +207,9 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 | Bernoulli(p) | p | p | p(1-p) | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | B(n,p) | n,p | np | np(1-p) | A/B 테스트 |
 | Poisson(λ) | λ | λ | λ | 네트워크 부하 |
-| N(μ,σ²) | μ,σ | μ | σ² | 오차, 자연 현상 |
-| Exp(λ) | λ | 1/λ | 1/λ² | 대기 시간, 수명 |
-| U(a,b) | a,b | (a+b)/2 | (b-a)²/12 | 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| N(μ,σ^) | μ,σ | μ | σ^ | 오차, 자연 현상 |
+| Exp(λ) | λ | 1/λ | 1/λ^ | 대기 시간, 수명 |
+| U(a,b) | a,b | (a+b)/2 | (b-a)^/12 | 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 📢 **섹션 요약 비유**: 각 분포는 자연의 특정 패턴을 담은 레시피다 — 이항은 "n번 던진 결과", 포아송은 "단위 시간 내 드문 사건", 정규는 "많은 요인의 합", 지수는 "다음 사건까지 기다림", 균등은 "완전한 무작위".
 
@@ -232,17 +232,17 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 
 ```text
 [베르누이 시행 (Bernoulli Trial) — 성공/실패]
-    │
-    ▼
+    |
+    v
 [이항 분포 (Binomial Distribution) — n회 반복]
-    │
-    ▼
+    |
+    v
 [포아송 분포 (Poisson Distribution) — 희귀 사건]
-    │
-    ▼
+    |
+    v
 [정규 분포 (Normal Distribution) — CLT 극한]
-    │
-    ▼
+    |
+    v
 [MLE 최대 우도 추정 (Maximum Likelihood Estimation)]
 ```
 
@@ -260,7 +260,7 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 
 **진행 상황**: 137 / 175
 
-← **이전**: [7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
-**다음**: [9. 정규 분포 (Normal Distribution) — 68-95-99.7 규칙](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) →
+<- **이전**: [7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
+**다음**: [9. 정규 분포 (Normal Distribution) — 68-95-99.7 규칙](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) ->
 
 ---

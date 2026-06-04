@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [MEC]
-    │
-    ▼
+    |
+    v
 [클라우드 네이티브 네트워크]
-    │
-    └──▶ [QoS / QoE 차이 비교]
+    |
+    +---> [QoS / QoE 차이 비교]
 ```
 
 - **📢 섹션 요약 비유**: 매일 수십 번씩 텐트를 쳤다 접었다 하는 유목민 캠핑장([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))에서, 텐트를 칠 때마다 즉석에서 수도관과 전기선을 표준 규격으로 딱 맞게 꽂아주는 만능 어댑터가 CNI다.
@@ -41,22 +41,22 @@ tags = ["studynote-network"]
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에서 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인은 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)(노드 관리자)의 지시를 받아 작동한다. 주요 역할은 <strong>IP 주소 할당 (IPAM: IP Address <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>과 <strong>네트워크 인터페이스(veth pair) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다.
 
 ```text
-┌───────────────────────────────── [ Kubernetes Node ] ─────────────────────────────────┐
-│                                                                                       │
-│  ┌─────────────────────────┐               ┌───────────────────────────────────────┐  │
-│  │       Pod A (App)       │               │              Pod B (DB)               │  │
-│  │  ┌───────────────────┐  │               │  ┌─────────────────────────────────┐  │  │
-│  │  │  eth0 (10.0.1.2)  │  │               │  │         eth0 (10.0.1.3)         │  │  │
-│  │  └─────────┬─────────┘  │               │  └────────────────┬────────────────┘  │  │
-│  └────────────┼────────────┘               └───────────────────┼───────────────────┘  │
-│               │ (veth pair)                                    │ (veth pair)          │
-│  ┌────────────┴────────────────────────────────────────────────┴────────────┐         │
-│  │                          CNI Plugin (e.g., Calico)                         │         │
-│  │                      [ IPAM / Routing / Network Policy ]                   │         │
-│  └────────────┬─────────────────────────────────────────────────────────────┘         │
-│               │                                                                       │
-│        [ 물리 NIC (eth0) ] ────────────────────────▶ 외부 네트워크 / 다른 노드        │
-└───────────────────────────────────────────────────────────────────────────────────────┘
++--------------------------------- [ Kubernetes Node ] ---------------------------------+
+|                                                                                       |
+|  +-------------------------+               +---------------------------------------+  |
+|  |       Pod A (App)       |               |              Pod B (DB)               |  |
+|  |  +-------------------+  |               |  +---------------------------------+  |  |
+|  |  |  eth0 (10.0.1.2)  |  |               |  |         eth0 (10.0.1.3)         |  |  |
+|  |  +---------+---------+  |               |  +----------------+----------------+  |  |
+|  +------------+------------+               +-------------------+-------------------+  |
+|               | (veth pair)                                    | (veth pair)          |
+|  +------------+------------------------------------------------+------------+         |
+|  |                          CNI Plugin (e.g., Calico)                         |         |
+|  |                      [ IPAM / Routing / Network Policy ]                   |         |
+|  +------------+-------------------------------------------------------------+         |
+|               |                                                                       |
+|        [ 물리 NIC (eth0) ] -------------------------> 외부 네트워크 / 다른 노드        |
++---------------------------------------------------------------------------------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 시</strong>: Kubelet이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임을 통해 Pod를 띄우면, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인을 호출한다. CNI는 가상 랜선(veth pair)을 만들어 한쪽은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안(eth0)에, 한쪽은 호스트 네트워크에 연결하고 IP 대역 대장에서 IP를 하나 꺼내 부여한다.
@@ -126,12 +126,12 @@ CNI는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_i
 
 ```text
 [선행 개념: MEC]
-    │
-    ▼
+    |
+    v
 [현재 개념: 클라우드 네이티브 네트워크]
-    │
-    ├──▶ [확장 A: QoS / QoE 차이 비교]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: QoS / QoE 차이 비교]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워크는 MEC에서 출발해 현재 메커니즘을 정교화하고, 이후 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ CNI는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_i
 
 **진행 상황**: 100 / 1120
 
-← **이전**: [99. Massive MIMO (대규모 다중 안테나)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)
-**다음**: [1001. QoS / QoE 차이 비교](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1001_qos_qoe_difference/) →
+<- **이전**: [99. Massive MIMO (대규모 다중 안테나)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)
+**다음**: [1001. QoS / QoE 차이 비교](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1001_qos_qoe_difference/) ->
 
 ---

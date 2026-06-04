@@ -24,15 +24,15 @@ tags = ["studynote-design-supervision"]
 특히 토큰, 탈중앙 금융, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)), NFT ([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)) 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 "코드가 곧 운영 규칙"이 되므로, 보안은 개발 완료 후 점검 항목이 아니라 아키텍처 시작점이어야 한다. 따라서 기술사 답안에서는 왜 온체인으로 올리는지, 무엇을 오프체인에 남기는지, 누가 긴급 정지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 권한을 갖는지를 먼저 정리하는 것이 중요하다.
 
 ```text
-┌───────────────┐      ┌──────────────────────┐      ┌──────────────────┐
-│ User Wallet   │ ───▶ │ Smart Contract Core  │ ───▶ │ Blockchain State │
-└───────────────┘      └──────────────────────┘      └──────────────────┘
-        ▲                         ▲
-        │                         │
-┌───────────────┐      ┌──────────────────────┐
-│ Frontend / UI │ ───▶ │ Oracle / Off-chain   │
-└───────────────┘      │ Service / Indexer    │
-                       └──────────────────────┘
++---------------+      +----------------------+      +------------------+
+| User Wallet   | ----> | Smart Contract Core  | ----> | Blockchain State |
++---------------+      +----------------------+      +------------------+
+        ^                         ^
+        |                         |
++---------------+      +----------------------+
+| Frontend / UI | ----> | Oracle / Off-chain   |
++---------------+      | Service / Indexer    |
+                       +----------------------+
 ```
 
 이 그림은 DApp이 단일 프로그램이 아니라, 사용자 서명과 체인 로직, 그리고 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계가 동시에 맞물리는 구조임을 보여 준다.
@@ -52,20 +52,20 @@ tags = ["studynote-design-supervision"]
 | 오프체인 연계 계층 | 프론트엔드, 오라클, 인덱서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석을 담당 | 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 관리자 권한 남용, 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로 점검 |
 
 ```text
-┌───────────────────┐
-│ Business Intent   │
-└───────────────────┘
-          │
-          ▼
-┌───────────────────┐      event / log      ┌───────────────────┐
-│ Contract Logic    │ ────────────────────▶ │ Monitor / Indexer │
-└───────────────────┘                       └───────────────────┘
-          │
-          │ state change
-          ▼
-┌───────────────────┐ ◀──────────────────── ┌───────────────────┐
-│ Chain Ledger      │      oracle input     │ Off-chain Service │
-└───────────────────┘                       └───────────────────┘
++-------------------+
+| Business Intent   |
++-------------------+
+          |
+          v
++-------------------+      event / log      +-------------------+
+| Contract Logic    | ---------------------> | Monitor / Indexer |
++-------------------+                       +-------------------+
+          |
+          | state change
+          v
++-------------------+ <--------------------- +-------------------+
+| Chain Ledger      |      oracle input     | Off-chain Service |
++-------------------+                       +-------------------+
 ```
 
 따라서 좋은 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안은 "컨트랙트만 안전한가"가 아니라 <strong>서명-실행-모니터링-<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>의 폐루프가 완성되었는가로 판단해야 한다.
@@ -158,7 +158,7 @@ DApp은 전통 웹앱보다 "무조건 우월한 구조"가 아니라, <strong>�
 
 **진행 상황**: 518 / 530
 
-← **이전**: [439. 웹어셈블리 브라우저 프런트엔드 가속 모듈 (WebAssembly Browser Front-End Acceleration Module)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/439_process/)
-**다음**: [441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/441_mlops/) →
+<- **이전**: [439. 웹어셈블리 브라우저 프런트엔드 가속 모듈 (WebAssembly Browser Front-End Acceleration Module)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/439_process/)
+**다음**: [441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/441_mlops/) ->
 
 ---

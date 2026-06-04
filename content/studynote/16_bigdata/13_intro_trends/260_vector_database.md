@@ -23,8 +23,8 @@ tags = ["studynote-bigdata"]
   텍스트, 이미지, 오디오를 고차원 벡터로 표현
 
   예:
-  "고양이" → [0.2, -0.5, 0.8, 0.1, ..., 0.3] (1536차원)
-  "강아지" → [0.3, -0.4, 0.7, 0.2, ..., 0.4]
+  "고양이" -> [0.2, -0.5, 0.8, 0.1, ..., 0.3] (1536차원)
+  "강아지" -> [0.3, -0.4, 0.7, 0.2, ..., 0.4]
 
   유사한 의미 = 가까운 벡터 위치
 
@@ -43,7 +43,7 @@ tags = ["studynote-bigdata"]
   텍스트 검색에서 가장 많이 사용
 
 유클리드 거리 (L2 Distance):
-  d = √Σ(ai - bi)²
+  d = √Σ(ai - bi)^
 
   낮을수록 유사 (0: 동일)
 
@@ -53,9 +53,9 @@ tags = ["studynote-bigdata"]
   정규화된 벡터에서 코사인 유사도와 동일
 
 차원의 저주 (Curse of Dimensionality):
-  차원 증가 → 모든 점이 "비슷한 거리"로 수렴
+  차원 증가 -> 모든 점이 "비슷한 거리"로 수렴
   고차원 벡터 검색이 어려운 이유
-  → ANN 알고리즘으로 극복
+  -> ANN 알고리즘으로 극복
 ```
 
 > 📢 **섹션 요약 비유**: 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 좌표가 같은 방향을 가리키는 정도!
@@ -78,8 +78,8 @@ ANN (Approximate Nearest Neighbor):
   레이어 2+: 더 적은 노드 (고속 탐색)
 
   검색:
-  최상위 레이어에서 시작 → 대략적 근처
-  레이어 내려가며 정밀화 → O(log N)
+  최상위 레이어에서 시작 -> 대략적 근처
+  레이어 내려가며 정밀화 -> O(log N)
 
   장점:
   최고 성능/리콜 균형
@@ -94,11 +94,11 @@ ANN (Approximate Nearest Neighbor):
   k-means 클러스터링으로 인덱스
 
   구조:
-  n개 클러스터 → 각 클러스터 센트로이드
+  n개 클러스터 -> 각 클러스터 센트로이드
   벡터를 가장 가까운 클러스터에 할당
 
   검색:
-  쿼리 → 가장 가까운 k개 클러스터 찾기
+  쿼리 -> 가장 가까운 k개 클러스터 찾기
   해당 클러스터 내에서만 탐색
 
   장점: 메모리 효율적
@@ -110,7 +110,7 @@ ANN (Approximate Nearest Neighbor):
   목적: 메모리 절감 (50~100배)
 
   768차원 float32 (3072바이트)
-  → PQ 후 96바이트 (32배 압축)
+  -> PQ 후 96바이트 (32배 압축)
 
   일반적으로 HNSW 또는 IVF와 결합
 
@@ -173,7 +173,7 @@ ChromaDB (오픈소스):
   적합: 개발/프로토타이핑, RAG 실험
 
 Qdrant (오픈소스, Rust):
-  Rust 구현 → 높은 성능, 낮은 메모리
+  Rust 구현 -> 높은 성능, 낮은 메모리
   필터링 성능 우수
 
   적합: 고성능 프로덕션
@@ -203,17 +203,17 @@ RAG (Retrieval-Augmented Generation):
 RAG 동작 흐름:
 
 인덱싱 단계 (Indexing):
-  문서 → 청크(Chunk) 분할 (500~2000 토큰)
-  청크 → 임베딩 모델 → 벡터
-  벡터 → 벡터 DB 저장 + 원본 텍스트 메타데이터
+  문서 -> 청크(Chunk) 분할 (500~2000 토큰)
+  청크 -> 임베딩 모델 -> 벡터
+  벡터 -> 벡터 DB 저장 + 원본 텍스트 메타데이터
 
 검색 단계 (Retrieval):
-  사용자 질의 → 임베딩 → 쿼리 벡터
-  쿼리 벡터 → 벡터 DB 유사도 검색 → 상위 K개 청크
+  사용자 질의 -> 임베딩 -> 쿼리 벡터
+  쿼리 벡터 -> 벡터 DB 유사도 검색 -> 상위 K개 청크
 
 생성 단계 (Generation):
   시스템 프롬프트 + 검색된 K개 청크 + 사용자 질의
-  → LLM → 답변
+  -> LLM -> 답변
 
 구현 예 (LangChain + ChromaDB):
   from langchain.vectorstores import Chroma
@@ -236,15 +236,15 @@ RAG 동작 흐름:
 
 Hybrid Search:
   BM25 (키워드) + 벡터 (의미) 결합
-  → 더 정확한 검색
+  -> 더 정확한 검색
 
 Re-ranking:
-  검색 결과 → Cross-Encoder로 재순위화
-  → 정밀도 향상
+  검색 결과 -> Cross-Encoder로 재순위화
+  -> 정밀도 향상
 
 HyDE (Hypothetical Document Embeddings):
-  질의로 가상 답변 생성 → 답변으로 검색
-  → 검색 정확도 향상
+  질의로 가상 답변 생성 -> 답변으로 검색
+  -> 검색 정확도 향상
 ```
 
 > 📢 **섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = 오픈북 시험 — LLM이 암기(학습)만으로 답하면 오류. RAG는 관련 책 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(검색)를 펼쳐보고 답변. 사내 문서, 최신 정보도 LLM이 활용!
@@ -265,7 +265,7 @@ HyDE (Hypothetical Document Embeddings):
 아키텍처:
 
 인덱싱 파이프라인:
-  SharePoint + Confluence 문서 → LangChain Loader
+  SharePoint + Confluence 문서 -> LangChain Loader
   청킹: RecursiveCharacterTextSplitter (512 tokens, overlap 50)
   임베딩: text-embedding-3-large (3072차원)
   저장: Weaviate (자체 배포, 50만 × 3072차원)
@@ -274,12 +274,12 @@ HyDE (Hypothetical Document Embeddings):
   인덱스(HNSW): 추가 ~3GB
 
 검색 API:
-  쿼리 → 임베딩 → Weaviate ANN 검색 (top-5)
+  쿼리 -> 임베딩 -> Weaviate ANN 검색 (top-5)
   Hybrid Search (BM25 + 벡터, α=0.5)
   Re-ranking (cross-encoder)
 
 생성:
-  GPT-4o → 검색된 5개 청크 + 질의
+  GPT-4o -> 검색된 5개 청크 + 질의
   응답 + 출처 문서 링크 제공
 
 보안:
@@ -290,7 +290,7 @@ HyDE (Hypothetical Document Embeddings):
 결과:
   질의 응답 시간: P99 2.3초 (LLM 포함)
   정확도 (관련성): 89% (HR팀 평가)
-  직원 정보 탐색 시간: 2.5시간 → 15분 (83% 감소)
+  직원 정보 탐색 시간: 2.5시간 -> 15분 (83% 감소)
 
   도입 6개월:
   일 평균 질의: 3,000건
@@ -365,7 +365,7 @@ LLM 지식 한계 극복
 
 **진행 상황**: 260 / 262
 
-← **이전**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/knowledge-base/studynote/16_bigdata/13_intro_trends/259_realtime_olap/)
-**다음**: [049. 지식 그래프 — Knowledge Graph](/knowledge-base/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/) →
+<- **이전**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/knowledge-base/studynote/16_bigdata/13_intro_trends/259_realtime_olap/)
+**다음**: [049. 지식 그래프 — Knowledge Graph](/knowledge-base/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/) ->
 
 ---

@@ -32,30 +32,30 @@ tags = ["studynote-software-engineering"]
 전문가 대면 회의의 실패 모드와 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)의 해결 구조를 대조해 보면 이 기법의 본질적 가치가 드러난다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         대면 토론의 왜곡 vs 델파이 기법의 필터링 구조         │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │ 1. 기존 대면 회의 (Face-to-Face Meeting)                │
-  │                                                         │
-  │   [전문가 A (시니어)] ─"이건 10개월 걸려!"─┐                 │
-  │   [전문가 B (주니어)] ─(속마음: 20개월..)─┼▶ "네, 10개월!" │
-  │   [전문가 C (타부서)] ─(분위기상...) ────┘  (왜곡된 합의)  │
-  │    ⚠ 후광 효과, 체면, 침묵의 나선 이론 발동                 │
-  │                                                         │
-  │ 2. 델파이 기법 (Delphi Method)                           │
-  │                                                         │
-  │   [전문가 A] ──(15개월, 비밀)──▶│                     │
-  │   [전문가 B] ──(25개월, 비밀)──▶│ 중재자 (조정역)        │
-  │   [전문가 C] ──(10개월, 비밀)──▶│ 익명 취합 및 피드백    │
-  │                                 │                     │
-  │   ◀── (피드백: 평균은 16개월, 최고 25 최저 10입니다.  ──   │
-  │          왜 25개월이라 생각했는지 논리를 익명 공유합니다)     │
-  │                                                         │
-  │   [전문가 A] ──(18개월) ───▶ │                        │
-  │   [전문가 B] ──(20개월) ───▶ │ 2차 취합 → 의견 수렴    │
-  │   [전문가 C] ──(15개월) ───▶ │ ✅ 편견 없는 객관적 합의 │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         대면 토론의 왜곡 vs 델파이 기법의 필터링 구조         |
+  +---------------------------------------------------------+
+  |                                                         |
+  | 1. 기존 대면 회의 (Face-to-Face Meeting)                |
+  |                                                         |
+  |   [전문가 A (시니어)] -"이건 10개월 걸려!"-+                 |
+  |   [전문가 B (주니어)] -(속마음: 20개월..)-+-> "네, 10개월!" |
+  |   [전문가 C (타부서)] -(분위기상...) ----+  (왜곡된 합의)  |
+  |    ⚠ 후광 효과, 체면, 침묵의 나선 이론 발동                 |
+  |                                                         |
+  | 2. 델파이 기법 (Delphi Method)                           |
+  |                                                         |
+  |   [전문가 A] --(15개월, 비밀)--->|                     |
+  |   [전문가 B] --(25개월, 비밀)--->| 중재자 (조정역)        |
+  |   [전문가 C] --(10개월, 비밀)--->| 익명 취합 및 피드백    |
+  |                                 |                     |
+  |   <--- (피드백: 평균은 16개월, 최고 25 최저 10입니다.  --   |
+  |          왜 25개월이라 생각했는지 논리를 익명 공유합니다)     |
+  |                                                         |
+  |   [전문가 A] --(18개월) ----> |                        |
+  |   [전문가 B] --(20개월) ----> | 2차 취합 -> 의견 수렴    |
+  |   [전문가 C] --(15개월) ----> | ✅ 편견 없는 객관적 합의 |
+  +---------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 상단의 대면 회의 모델에서는 권력 구조와 집단 압력이라는 노이즈가 전문가의 순수한 직관을 오염시킨다. 하단의 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)에서는 '[중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))'라는 프록시가 개입하여 이 노이즈를 완벽히 차단한다. 전문가들은 자신의 이름이 노출되지 않으므로 상사의 눈치를 보지 않고 소신껏 추정치를 낸다. 가장 중요한 부분은 피드백 단계인데, 단순히 평균값만 알려주는 것이 아니라 양극단(최고/최저)의 추정치를 낸 전문가의 '기술적 논거'를 익명으로 전체에게 배포한다는 점이다. 이를 통해 다른 전문가들은 자신이 놓쳤던 리스크나 과대평가한 요소를 깨닫고 다음 라운드에서 자발적으로 추정치를 수정하게 되며, 점진적으로 통계적 수렴이 일어난다.
@@ -159,21 +159,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 델파이 기법 (Delphi Method) 전문가 합의 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -187,7 +187,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 847 / 973
 
-← **이전**: [673. 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF)](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)
-**다음**: [675. 프로젝트 관리 WBS, CPM, PERT](/knowledge-base/studynote/04_software_engineering/uncategorized/675_project_management_wbs_cpm_pert/) →
+<- **이전**: [673. 기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF)](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)
+**다음**: [675. 프로젝트 관리 WBS, CPM, PERT](/knowledge-base/studynote/04_software_engineering/uncategorized/675_project_management_wbs_cpm_pert/) ->
 
 ---

@@ -35,9 +35,9 @@ Lambda의 핵심 문제:
           .window(TumblingEventTimeWindows.of(Time.hours(1)))
           .sum("amount")
 
-  → 비즈니스 규칙이 바뀌면 두 곳을 모두 수정
-  → 버그가 배치에서 수정되도 실시간에는 반영 안 될 수 있음
-  → 두 결과가 미묘하게 다른 경우 디버깅 어려움
+  -> 비즈니스 규칙이 바뀌면 두 곳을 모두 수정
+  -> 버그가 배치에서 수정되도 실시간에는 반영 안 될 수 있음
+  -> 두 결과가 미묘하게 다른 경우 디버깅 어려움
 ```
 
 ### 2. Kappa의 핵심 통찰
@@ -48,7 +48,7 @@ Lambda의 핵심 문제:
 Kappa 제안:
   1. Kafka에 원본 데이터를 이뮤터블 로그로 영구 보존
   2. 스트리밍 엔진(Flink/Spark Streaming) 하나만 운영
-  3. 로직 변경 또는 오류 재처리 → Kafka 오프셋 0에서 재생(Replay)
+  3. 로직 변경 또는 오류 재처리 -> Kafka 오프셋 0에서 재생(Replay)
   4. 새 버전 스트리밍 잡을 병렬 실행 후 교체
 ```
 
@@ -63,29 +63,29 @@ Kappa 제안:
 
 ```
 원본 이벤트 스트림
-     │
-     ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Apache Kafka (Immutable Event Log)                          │
-│                                                             │
-│  Topic "events": 오프셋 0 ~~~~~~~~~~~~~~~~~~~~~~~~~→ 현재   │
-│                  (모든 과거 데이터 영구 보존)               │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-              ┌────────────┴────────────┐
-              │ 현재 처리               │ 재처리(로직 변경 시)
-              ▼                         ▼
-     ┌─────────────────┐      ┌─────────────────┐
-     │ Streaming Job v1 │      │ Streaming Job v2 │
-     │ (현재 실행 중)   │      │ (오프셋 0부터)   │
-     └────────┬─────────┘      └────────┬─────────┘
-              │ 결과 저장               │ 결과 저장 (신규 테이블)
-              ▼                         ▼
-     ┌─────────────────┐      ┌─────────────────┐
-     │  Output Table v1 │      │  Output Table v2 │
-     │  (현재 서빙)     │      │  (검증 완료 후   │
-     └─────────────────┘      │   v1 대체)       │
-                               └─────────────────┘
+     |
+     v
++-------------------------------------------------------------+
+|  Apache Kafka (Immutable Event Log)                          |
+|                                                             |
+|  Topic "events": 오프셋 0 ~~~~~~~~~~~~~~~~~~~~~~~~~-> 현재   |
+|                  (모든 과거 데이터 영구 보존)               |
++--------------------------+----------------------------------+
+                           |
+              +------------+------------+
+              | 현재 처리               | 재처리(로직 변경 시)
+              v                         v
+     +-----------------+      +-----------------+
+     | Streaming Job v1 |      | Streaming Job v2 |
+     | (현재 실행 중)   |      | (오프셋 0부터)   |
+     +--------+---------+      +--------+---------+
+              | 결과 저장               | 결과 저장 (신규 테이블)
+              v                         v
+     +-----------------+      +-----------------+
+     |  Output Table v1 |      |  Output Table v2 |
+     |  (현재 서빙)     |      |  (검증 완료 후   |
+     +-----------------+      |   v1 대체)       |
+                               +-----------------+
 ```
 
 ### 2. 재처리(Reprocessing) 절차
@@ -103,7 +103,7 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 | 조건 | 설명 | 위반 시 문제 |
 |:---|:---|:---|
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 무한 보존 | 전체 히스토리 Kafka에 보존 | 재처리 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
-| 멱등적 처리 | 같은 이벤트 재처리해도 같은 결과 | 중복 처리 → 오염된 결과 |
+| 멱등적 처리 | 같은 이벤트 재처리해도 같은 결과 | 중복 처리 -> 오염된 결과 |
 | 충분한 재처리 용량 | 재처리 시 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소비 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 재처리 시간이 너무 길면 실용성 없음 |
 
 **📢 섹션 요약 비유**
@@ -130,9 +130,9 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 실제 많은 기업이 사용하는 절충안:
   "주요 파이프라인은 Kappa, 복잡한 집계만 배치"
 
-  Kafka → Flink (실시간, 표준 사례) → 결과 DB
-  ↓ 특정 복잡 집계에만
-  S3/Delta Lake (배치, 월별 전체 통계) → DW
+  Kafka -> Flink (실시간, 표준 사례) -> 결과 DB
+  v 특정 복잡 집계에만
+  S3/Delta Lake (배치, 월별 전체 통계) -> DW
 ```
 
 **📢 섹션 요약 비유**
@@ -156,7 +156,7 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 |:---|:---|
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 장기 보존 스토리지 비용 | 배치 시스템 운영 비용 제거 |
 | 재처리 시 일시 클러스터 비용 | 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 개발 비용 절감 |
-| 복잡 배치 집계 재설계 비용 | 버그 수정 → 단일 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) |
+| 복잡 배치 집계 재설계 비용 | 버그 수정 -> 단일 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) |
 
 **📢 섹션 요약 비유**
 > [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 도입 결정은 "집 청소 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 하나 vs 방마다 다른 청소 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 두 개"이다. 하나로 통일하면 규칙이 단순하지만, 각방 전용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만큼 세밀하지 않을 수 있다. 집의 크기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복잡도)에 맞는 선택이 중요하다.
@@ -169,8 +169,8 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 코드 유지보수 비용 | 배치 + 실시간 개별 유지 → 실시간 단일로 50% 절감 |
-| 배포 복잡도 감소 | 두 시스템의 별도 배포 → 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 배포 |
+| 코드 유지보수 비용 | 배치 + 실시간 개별 유지 -> 실시간 단일로 50% 절감 |
+| 배포 복잡도 감소 | 두 시스템의 별도 배포 -> 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 배포 |
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | 배치/실시간 결과 불일치 제거 |
 
 ### 2. 결론
@@ -196,18 +196,18 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 
 ```text
 [Lambda Architecture (배치 레이어 + 스피드 레이어 이중화)]
-    │
-    ▼
+    |
+    v
 [Kappa Architecture (단일 스트리밍 파이프라인)]
-    │
-    ▼
+    |
+    v
 [Apache Kafka (Immutable 이벤트 로그 — 무한 보존)]
-    │
-    ▼
+    |
+    v
 [Apache Flink (Exactly-Once 보장 스트림 처리 엔진)]
-    │
-    ▼
-[Tiered Storage (콜드 저장) → Replay (재처리) 기반 보정]
+    |
+    v
+[Tiered Storage (콜드 저장) -> Replay (재처리) 기반 보정]
 ```
 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 복잡성을 해소하기 위해 Kappa는 Kafka의 불변 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 Flink의 Exactly-Once 스트리밍만으로 배치와 실시간을 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합한다.
 
@@ -221,7 +221,7 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 
 **진행 상황**: 96 / 262
 
-← **이전**: [20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)
-**다음**: [22. 스트리밍 SQL (Streaming SQL) — ksqlDB/Flink SQL/Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/04_streaming/097_streaming_sql/) →
+<- **이전**: [20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)
+**다음**: [22. 스트리밍 SQL (Streaming SQL) — ksqlDB/Flink SQL/Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/04_streaming/097_streaming_sql/) ->
 
 ---

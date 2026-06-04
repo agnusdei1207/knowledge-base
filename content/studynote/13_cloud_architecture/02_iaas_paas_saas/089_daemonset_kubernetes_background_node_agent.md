@@ -35,18 +35,18 @@ tags = ["studynote-cloud-architecture"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/">Rolling Update</a>)</strong> | 노드별로 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 종료하고 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 에이전트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 무중단 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합   │
-├──────────────────────────────────────────────────────────────┤
-│ [K8s Master]                                                 │
-│  DaemonSet Controller ──감지──▶ New Node Added             │
-│        │                                                     │
-│        ▼ (Pod 자동 주입)                                     │
-│ [Node 1]          [Node 2]          [Node 3 (신규)]          │
-│ ┌─────────┐       ┌─────────┐       ┌─────────┐              │
-│ │ Pod (A) │       │ Pod (A) │       │ Pod (A) │              │
-│ └─────────┘       └─────────┘       └─────────┘              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합   |
++--------------------------------------------------------------+
+| [K8s Master]                                                 |
+|  DaemonSet Controller --감지---> New Node Added             |
+|        |                                                     |
+|        v (Pod 자동 주입)                                     |
+| [Node 1]          [Node 2]          [Node 3 (신규)]          |
+| +---------+       +---------+       +---------+              |
+| | Pod (A) |       | Pod (A) |       | Pod (A) |              |
+| +---------+       +---------+       +---------+              |
++--------------------------------------------------------------+
 ```
 이 그림은 클러스터에 `Node 3`가 추가될 때, 데몬셋 컨트롤러가 자동으로 동일한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) `(A)`를 할당하는 무인 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 구조를 보여준다.
 
@@ -104,17 +104,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 디플로이먼트 (Deployment)의 무작위 스케줄링 한계
-    │
-    ▼
+    |
+    v
 노드와의 1:1 강제 결합 필요성 대두
-    │
-    ▼
+    |
+    v
 데몬셋 (DaemonSet) 등장 · 자동 프로비저닝
-    │
-    ▼
+    |
+    v
 노드 어피니티 (Node Affinity) 결합 · 조건부 데몬셋
-    │
-    ▼
+    |
+    v
 관측성 에이전트 및 CNI/CSI 플러그인 표준 배포 모델로 정착
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 88 / 371
 
-← **이전**: [88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/)
-**다음**: [90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) →
+<- **이전**: [88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/)
+**다음**: [90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ->
 
 ---

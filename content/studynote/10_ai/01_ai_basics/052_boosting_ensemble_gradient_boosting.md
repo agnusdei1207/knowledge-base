@@ -32,19 +32,19 @@ tags = ["studynote-ai"]
 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 약한 학습기를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결한다. AdaBoost는 오답 샘플에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 올리고, Gradient Boosting은 잔차 (Residual)를 다음 모델의 타깃으로 삼는다. 이 반복 덕분에 최종 예측이 정답에 수렴한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 부스팅의 순차적 오차 보정                   │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 데이터 → Tree 1 → 잔차 계산 → Tree 2 → 잔차 계산       │
-│                     → Tree 3 → ... → 최종 앙상블           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 부스팅의 순차적 오차 보정                   |
++--------------------------------------------------------------+
+| 입력 데이터 -> Tree 1 -> 잔차 계산 -> Tree 2 -> 잔차 계산       |
+|                     -> Tree 3 -> ... -> 최종 앙상블           |
++--------------------------------------------------------------+
 ```
 
 | 항목 | 의미 | 영향 |
 | :--- | :--- | :--- |
 | 약한 학습기 | 얕은 결정 트리 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 보완에 적합 |
 | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) | 각 모델의 기여 정도 | 낮을수록 안정적 |
-| 반복 수 | 몇 번 보정할지 | 많을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↑, 과적합↑ |
+| 반복 수 | 몇 번 보정할지 | 많을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)^, 과적합^ |
 | 잔차 | 남은 오차 | 다음 모델의 학습 대상 |
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 |
@@ -125,17 +125,17 @@ tags = ["studynote-ai"]
 
 ```text
 약한 학습기
-    │
-    ▼
+    |
+    v
 AdaBoost
-    │
-    ▼
+    |
+    v
 Gradient Boosting
-    │
-    ▼
+    |
+    v
 XGBoost / LightGBM / CatBoost
-    │
-    ▼
+    |
+    v
 정형 데이터 고정밀 앙상블
 ```
 
@@ -153,7 +153,7 @@ XGBoost / LightGBM / CatBoost
 
 **진행 상황**: 52 / 420
 
-← **이전**: [051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)](/knowledge-base/studynote/10_ai/01_ai_basics/051_bagging_bootstrap_aggregating_random_forest/)
-**다음**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/) →
+<- **이전**: [051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)](/knowledge-base/studynote/10_ai/01_ai_basics/051_bagging_bootstrap_aggregating_random_forest/)
+**다음**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/) ->
 
 ---

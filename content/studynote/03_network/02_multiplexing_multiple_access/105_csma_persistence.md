@@ -32,27 +32,27 @@ tags = ["network"]
 세 가지 지속 방식 (Persistence Methods)은 채널 상태를 감지한 직후의 행동 트리 로직으로 구분된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          CSMA 지속 방식의 상태 전이 및 로직 분기 다이어그램  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ Carrier Sense (채널 상태 감지) ]                           │
-│        │                                                     │
-│        ├─▶ 1. 1-Persistent CSMA                              │
-│        │      - 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송 (100%)│
-│        │      - 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시 │
-│        │                                                     │
-│        ├─▶ 2. Non-Persistent CSMA                            │
-│        │      - 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송       │
-│        │      - 채널 Busy? ──(Yes)──▶ 감시 중단 후 랜덤 대기 │
-│        │                                (Random Backoff)     │
-│        │                                                     │
-│        └─▶ 3. p-Persistent CSMA                              │
-│               - 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시 │
-│               - 채널 Idle? ──(Yes)──▶ 확률 p 로 전송 시도    │
-│                                      확률 1-p 로 다음 슬롯 대기│
-│                                      (다음 슬롯에서도 다시 확률)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          CSMA 지속 방식의 상태 전이 및 로직 분기 다이어그램  |
++--------------------------------------------------------------+
+|                                                              |
+| [ Carrier Sense (채널 상태 감지) ]                           |
+|        |                                                     |
+|        +--> 1. 1-Persistent CSMA                              |
+|        |      - 채널 Idle? --(Yes)---> 즉시 데이터 전송 (100%)|
+|        |      - 채널 Busy? --(Yes)---> Idle 될 때까지 지속 감시 |
+|        |                                                     |
+|        +--> 2. Non-Persistent CSMA                            |
+|        |      - 채널 Idle? --(Yes)---> 즉시 데이터 전송       |
+|        |      - 채널 Busy? --(Yes)---> 감시 중단 후 랜덤 대기 |
+|        |                                (Random Backoff)     |
+|        |                                                     |
+|        +--> 3. p-Persistent CSMA                              |
+|               - 채널 Busy? --(Yes)---> Idle 될 때까지 지속 감시 |
+|               - 채널 Idle? --(Yes)---> 확률 p 로 전송 시도    |
+|                                      확률 1-p 로 다음 슬롯 대기|
+|                                      (다음 슬롯에서도 다시 확률)|
++--------------------------------------------------------------+
 ```
 
 1. **1-Persistent (1-지속)**: 집착도가 가장 높다. 채널이 비면 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1($100\%$)로 즉시 덤벼든다. 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 가장 짧지만, 대기 중이던 2개 이상의 노드가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 비는 순간 동시에 쏘기 때문에 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 환경에서 충돌 가능성이 극도로 높다.
@@ -114,18 +114,18 @@ CSMA의 세 가지 지속 방식은 네트워크 참여자들이 공용 자원([
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-ALOHA (눈치 안 보고 무조건 전송 ──▶ 잦은 충돌)
-    │
-    ▼
+ALOHA (눈치 안 보고 무조건 전송 ---> 잦은 충돌)
+    |
+    v
 CSMA (전송 전 채널 감시 시작, 지속 방식의 필요성 대두)
-    │
-    ▼
+    |
+    v
 지속 방식 분화 (1-Persistent, Non-Persistent, p-Persistent)
-    │
-    ▼
+    |
+    v
 이더넷 CSMA/CD (유선망: 1-Persistent 채택 및 충돌 시 즉각 중단)
-    │
-    ▼
+    |
+    v
 무선랜 CSMA/CA 및 BEB (무선망: p-Persistent 진화형 동적 백오프 알고리즘)
 ```
 
@@ -141,7 +141,7 @@ CSMA (전송 전 채널 감시 시작, 지속 방식의 필요성 대두)
 
 **진행 상황**: 165 / 1120
 
-← **이전**: [1059. 디지털 트윈 및 관제 시스템 연동](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1059_digital_twin_network_management_simulation/)
-**다음**: [1060. 양자 암호 키 분배 (QKD 인프라 기반망)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1060_qkd_quantum_key_distribution_network/) →
+<- **이전**: [1059. 디지털 트윈 및 관제 시스템 연동](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1059_digital_twin_network_management_simulation/)
+**다음**: [1060. 양자 암호 키 분배 (QKD 인프라 기반망)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1060_qkd_quantum_key_distribution_network/) ->
 
 ---

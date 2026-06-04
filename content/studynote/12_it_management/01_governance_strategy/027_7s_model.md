@@ -19,20 +19,20 @@ tags = ["studynote-it-management"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│           McKinsey 7S 모델 구조                       │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│              [Shared Values]                          │
-│             /       |       \                         │
-│      [Strategy] [Structure] [Systems]                 │
-│             \       |       /                         │
-│          [Style] [Staff] [Skills]                     │
-│                                                       │
-│  하드 S (하드웨어): Strategy, Structure, Systems      │
-│  소프트 S (소프트웨어): Shared Values, Style, Staff,  │
-│                         Skills                        │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|           McKinsey 7S 모델 구조                       |
++------------------------------------------------------+
+|                                                       |
+|              [Shared Values]                          |
+|             /       |       \                         |
+|      [Strategy] [Structure] [Systems]                 |
+|             \       |       /                         |
+|          [Style] [Staff] [Skills]                     |
+|                                                       |
+|  하드 S (하드웨어): Strategy, Structure, Systems      |
+|  소프트 S (소프트웨어): Shared Values, Style, Staff,  |
+|                         Skills                        |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 7S 모델은 오케스트라 조율이다. 악기([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 자리 배치(Structure), 악보(Systems), 연주 스타일(Style), 단원(Staff), 연주 실력(Skills), 화음(Shared Values) — 7가지가 조화를 이뤄야 아름다운 음악이 나온다.
@@ -114,17 +114,17 @@ tags = ["studynote-it-management"]
 
 ```text
 [전통 조직 분석 — 구조·전략 중심]
-    │
-    ▼
+    |
+    v
 [McKinsey 7S — 하드+소프트 7요소 통합 분석]
-    │
-    ▼
+    |
+    v
 [DT 맥락 적용 — AI·클라우드 도입 시 7S 정합성 점검]
-    │
-    ▼
+    |
+    v
 [데이터 기반 7S 진단 — 설문·성과 데이터 정량 분석]
-    │
-    ▼
+    |
+    v
 [AI 조직 분석 — 자동화된 정합성 평가 및 개선 추천]
 ```
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 47 / 587
 
-← **이전**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)
-**다음**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) →
+<- **이전**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)
+**다음**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) ->
 
 ---

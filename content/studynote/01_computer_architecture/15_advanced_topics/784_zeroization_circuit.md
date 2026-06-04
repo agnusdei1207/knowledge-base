@@ -44,22 +44,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 zeroization 경로의 전형적인 구성을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  Zeroization path: detect, isolate, then erase            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Tamper Sensors / Authorized Zeroize Command                               │
-│                 │                                                         │
-│                 ▼                                                         │
-│        Always-On Tamper Controller                                        │
-│                 │                                                         │
-│       ┌─────────┼───────────┬───────────────┐                             │
-│       ▼         ▼           ▼               ▼                             │
-│   Reg/SRAM   Cache/Buffers  Backup RAM   NVM key slots / wrap key        │
-│   clear      scrub/reset    clear        erase or invalidate             │
-│       └───────────────┬───────────────┬────────────────┘                  │
-│                       ▼               ▼                                    │
-│                 Tamper latch     Reboot lockout                           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  Zeroization path: detect, isolate, then erase            |
++----------------------------------------------------------------------------+
+| Tamper Sensors / Authorized Zeroize Command                               |
+|                 |                                                         |
+|                 v                                                         |
+|        Always-On Tamper Controller                                        |
+|                 |                                                         |
+|       +---------+-----------+---------------+                             |
+|       v         v           v               v                             |
+|   Reg/SRAM   Cache/Buffers  Backup RAM   NVM key slots / wrap key        |
+|   clear      scrub/reset    clear        erase or invalidate             |
+|       +---------------+---------------+----------------+                  |
+|                       v               v                                    |
+|                 Tamper latch     Reboot lockout                           |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 속도와 범위다. 센서가 울린 뒤 수 밀리초 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 프로빙이나 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 캡처에 시간을 줄 수 있고, 일부 저장소만 지우면 다른 복사본이 남아 공격 가치가 유지된다. 그래서 고신뢰 장치는 "비밀이 어디에 몇 번 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되는지"를 아키텍처 단계에서부터 줄이고, zeroize 경로도 그 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 경로를 따라 설계한다.
@@ -80,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 zeroization은 [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)와 직접 연결된다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 침입을 감지해도, 그 신호가 메인 프로세서를 거쳐 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 루틴으로만 처리된다면 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정이나 glitch 공격으로 우회될 수 있다. 반대로 always-on controller가 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·광 센서·전원 이상을 직접 받아 독립 경로로 비밀을 지우면, 공격자는 단순 우회로 얻는 이득이 크게 줄어든다.
 
-즉 zeroization은 단독 기능이 아니라 "탐지 → 판정 → 소거 → 재부팅 차단"으로 이어지는 물리 보안 체인의 마지막 단계다. 이 연결을 이해해야 실제 설계 판단이 가능하다.
+즉 zeroization은 단독 기능이 아니라 "탐지 -> 판정 -> 소거 -> 재부팅 차단"으로 이어지는 물리 보안 체인의 마지막 단계다. 이 연결을 이해해야 실제 설계 판단이 가능하다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 삭제가 사람이 직접 서류를 찢는 일이라면, 하드웨어 zeroization은 침입 경보와 연결된 자동 파쇄기다. 사람이 놀라 멈춰도 기계는 계속 움직여야 한다.
 
@@ -135,19 +135,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 탬퍼 감지
-    │
-    ▼
+    |
+    v
 Always-on controller
-    │
-    ├──▶ Reg/SRAM clear
-    ├──▶ Cache/DMA scrub
-    ├──▶ Backup RAM erase
-    └──▶ NVM crypto erase / slot invalidate
-    │
-    ▼
+    |
+    +---> Reg/SRAM clear
+    +---> Cache/DMA scrub
+    +---> Backup RAM erase
+    +---> NVM crypto erase / slot invalidate
+    |
+    v
 Tamper latch · reboot lockout
-    │
-    ▼
+    |
+    v
 안전한 재프로비저닝
 ```
 
@@ -165,7 +165,7 @@ Tamper latch · reboot lockout
 
 **진행 상황**: 785 / 803
 
-← **이전**: [783. 안티 탬퍼 (Anti-Tamper) 메시/쉴드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)
-**다음**: [785. 보안 키 소거 (Secure Key Erasure)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/785_secure_key_erasure/) →
+<- **이전**: [783. 안티 탬퍼 (Anti-Tamper) 메시/쉴드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)
+**다음**: [785. 보안 키 소거 (Secure Key Erasure)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/785_secure_key_erasure/) ->
 
 ---

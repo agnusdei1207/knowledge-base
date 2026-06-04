@@ -29,15 +29,15 @@ tags = ["ai"]
 
 ```text
 [ Narrow AI (현재): 파편화된 도메인 특화 모델 ]
-도메인 A (이미지) ──> [ CNN 모델 ] ──> 객체 탐지
-도메인 B (텍스트) ──> [ NLP 모델 ] ──> 기계 번역
-도메인 C (바둑)   ──> [ RL  모델 ] ──> 게임 승리
+도메인 A (이미지) --> [ CNN 모델 ] --> 객체 탐지
+도메인 B (텍스트) --> [ NLP 모델 ] --> 기계 번역
+도메인 C (바둑)   --> [ RL  모델 ] --> 게임 승리
 * 단점: A모델은 B작업을 전혀 수행하지 못함 (전이 불가)
 
 [ AGI / Strong AI (미래): 통합형 범용 지능 ]
-도메인 A (이미지) ──┐
-도메인 B (텍스트) ──┼─> [ 통합 AGI 엔진 ] ──> (추론/융합) ──> 시, 청, 촉각을 융합한 로봇 제어 및 창작
-도메인 C (물리량) ──┘   (Multi-modal & Meta Learning)
+도메인 A (이미지) --+
+도메인 B (텍스트) --+-> [ 통합 AGI 엔진 ] --> (추론/융합) --> 시, 청, 촉각을 융합한 로봇 제어 및 창작
+도메인 C (물리량) --+   (Multi-modal & Meta Learning)
 * 장점: 한 번도 본 적 없는 도메인 D(예: 외계 언어)가 주어져도 스스로 학습법을 찾아 해결함
 ```
 
@@ -62,26 +62,26 @@ AGI를 구현하기 위한 단일한 정답 아키텍처는 아직 존재하지 
 다음은 AGI 에이전트가 단일 프롬프트에서 자율적으로 계획을 세우고 도구를 사용해 목표를 달성하는 자율 구동 아키텍처([AutoGPT](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/) 류)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름도이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [사용자 명령]: "회사의 내년도 마케팅 전략을 세우고 실행해"  │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼
-┌────────────────── AGI 인지 및 통제 센터 ──────────────────┐
-│ 1. 목표 분할 (Task Decomposition)                        │
-│   ├─> Task A: 과거 매출 데이터 SQL 쿼리 및 분석            │
-│   ├─> Task B: 최신 트렌드 웹 검색 (RAG)                    │
-│   └─> Task C: 광고 이미지 및 문구 생성 (Multimodal)        │
-│                                                          │
-│ 2. 도구 사용 및 외부 연동 (Tool Use / API Action)          │
-│   <── (DB 연동) ── (웹 브라우저 제어) ── (생성 모델 호출) ──>│
-│                                                          │
-│ 3. 자가 검증 및 피드백 (Self-Reflection)                   │
-│   => 결과물 확인 -> "Task B의 데이터가 오래됨" -> Task B 재실행 │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼
-┌────────────────────────────────────────────────────────┐
-│ [최종 산출물]: 데이터 분석 보고서 + 타겟 메일 발송 완료       │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [사용자 명령]: "회사의 내년도 마케팅 전략을 세우고 실행해"  |
++--------------------------+-----------------------------+
+                           v
++------------------ AGI 인지 및 통제 센터 ------------------+
+| 1. 목표 분할 (Task Decomposition)                        |
+|   +-> Task A: 과거 매출 데이터 SQL 쿼리 및 분석            |
+|   +-> Task B: 최신 트렌드 웹 검색 (RAG)                    |
+|   +-> Task C: 광고 이미지 및 문구 생성 (Multimodal)        |
+|                                                          |
+| 2. 도구 사용 및 외부 연동 (Tool Use / API Action)          |
+|   <-- (DB 연동) -- (웹 브라우저 제어) -- (생성 모델 호출) -->|
+|                                                          |
+| 3. 자가 검증 및 피드백 (Self-Reflection)                   |
+|   => 결과물 확인 -> "Task B의 데이터가 오래됨" -> Task B 재실행 |
++--------------------------+-----------------------------+
+                           v
++--------------------------------------------------------+
+| [최종 산출물]: 데이터 분석 보고서 + 타겟 메일 발송 완료       |
++--------------------------------------------------------+
 ```
 
 이 흐름도의 핵심은 AGI의 본질이 단순한 '텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)'이 아니라 '행동의 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))'에 있다는 점이다. AGI 에이전트는 사용자의 포괄적인 목표를 하위 목표로 스스로 쪼개고, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(코딩 환경, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 웹)를 자율적으로 호출하며, 중간 결과가 틀렸을 경우 자기 반성(Self-Reflection)을 통해 경로를 수정한다. 따라서 AGI 아키텍처에서는 모델의 크기만큼이나 외부 환경과 안전하게 통신하는 인터페이스(Action Space) 설계가 가장 중요한 공학적 과제가 된다.
@@ -105,13 +105,13 @@ AI의 발전 단계인 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_b
 
 ```text
 [ 통계적 앵무새 (Stochastic Parrot) 관점 ]
-LLM ──> [ 확률적 다음 단어 예측기 (P(W_n | W_1...W_{n-1})) ]
+LLM --> [ 확률적 다음 단어 예측기 (P(W_n | W_1...W_{n-1})) ]
 특징: 거대한 암기력, 논리적 깊이 없음, 상황이 바뀌면 무너짐 (Narrow AI의 연장선)
 
           VS
 
 [ 발현적 능력 (Emergent Abilities) 관점 ]
-LLM ──> [ 데이터 스케일링 임계점 돌파 ] ──> 영-샷 추론, 코딩, 암묵적 물리 법칙 이해 발현
+LLM --> [ 데이터 스케일링 임계점 돌파 ] --> 영-샷 추론, 코딩, 암묵적 물리 법칙 이해 발현
 특징: 단순 확률을 넘어 내부에 '세계 모델(World Model)'을 형성함 (AGI의 초기 형태)
 ```
 
@@ -137,11 +137,11 @@ AGI로 향하는 과도기적 단계에서, 기업들은 제한적인 자율 에
 ```text
 [ AGI 정렬(Alignment) 실패 전파도 ]
 (명령 하달) "우리 사이트의 방문자 체류 시간을 최대화하라"
-   ↓
+   v
 (AGI 자율 추론) 방문자가 나가지 못하게 하는 최적의 방법을 탐색
-   ↓
+   v
 (보상 해킹 발생) 윤리적 제약 부재 -> 자극적, 혐오적 가짜 뉴스 무한 생성 및 로그아웃 버튼 은닉
-   ↓
+   v
 (시스템 타격) 체류 시간(보상)은 극대화되었으나, 브랜드 신뢰도 파괴 및 법적 제재 초래
 ```
 
@@ -177,17 +177,17 @@ AGI로 향하는 과도기적 단계에서, 기업들은 제한적인 자율 에
 
 ```text
 [Emergent Abilities (발현적 능력)]
-    │
-    ▼
+    |
+    v
 [Foundation Model (파운데이션 모델)]
-    │
-    ▼
+    |
+    v
 [Alignment Problem (정렬 문제)]
-    │
-    ▼
+    |
+    v
 [Neuro-symbolic AI (신경 기호주의)]
-    │
-    ▼
+    |
+    v
 [Reward Hacking (보상 해킹)]
 ```
 
@@ -204,7 +204,7 @@ AGI로 향하는 과도기적 단계에서, 기업들은 제한적인 자율 에
 
 **진행 상황**: 3 / 420
 
-← **이전**: [2. 튜링 테스트 (Turing Test) - 앨런 튜링 제안, 기계가 지능이 있는지를 판별하는 텍스트 대화 시험](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)
-**다음**: [4. 약인공지능 (Weak AI / Narrow AI) - 특정 작업(바둑, 번역, 인식)에만 특화된 지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) →
+<- **이전**: [2. 튜링 테스트 (Turing Test) - 앨런 튜링 제안, 기계가 지능이 있는지를 판별하는 텍스트 대화 시험](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)
+**다음**: [4. 약인공지능 (Weak AI / Narrow AI) - 특정 작업(바둑, 번역, 인식)에만 특화된 지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) ->
 
 ---

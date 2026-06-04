@@ -37,14 +37,14 @@ tags = ["studynote-ict-convergence"]
 
 ```
                   보안(Security)
-                       ▲
+                       ^
                       / \
                      /   \
                     /     \
                    /  ???  \
          비트코인  /         \ 솔라나
          이더리움 /           \
-                ▼─────────────▼
+                v-------------v
     탈중앙화                확장성
  (Decentralization)      (Scalability)
           BNB Chain (확장성+보안 우선)
@@ -63,9 +63,9 @@ tags = ["studynote-ict-convergence"]
 ### [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) ↔ 확장성 트레이드오프 메커니즘
 
 ```
-노드 수 증가 → 메시지 전파 지연 증가 → 합의 속도 하락
-블록 크기 증가 → 다운로드/처리 부담 증가 → 일반 노드 탈락 → 탈중앙화 약화
-블록 시간 감소 → 고성능 노드 필요 → 탈중앙화 약화
+노드 수 증가 -> 메시지 전파 지연 증가 -> 합의 속도 하락
+블록 크기 증가 -> 다운로드/처리 부담 증가 -> 일반 노드 탈락 -> 탈중앙화 약화
+블록 시간 감소 -> 고성능 노드 필요 -> 탈중앙화 약화
 ```
 
 - **📢 섹션 요약 비유**: — "솔라나는 F1 경주차 — 매우 빠르지만 일반인이 운전([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 참여가 어렵고, 비트코인은 자전거 — 느리지만 누구나 탈 수 있다.
@@ -78,10 +78,10 @@ tags = ["studynote-ict-convergence"]
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 방법 | 트릴레마 해결 |
 |:---|:---|:---|
-| <strong>L2 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">롤업</a></strong> | 실행 L2, 보안 L1 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) L1 활용 |
+| <strong>L2 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">롤업</a></strong> | 실행 L2, 보안 L1 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | 확장성 ^, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) L1 활용 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/">모듈러 블록체인</a></strong> | 실행/합의/[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층 분리 | 각 계층이 전문화로 최적화 |
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | L1 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 유지 시도 |
-| **앱체인(App-chain)** | 전용 체인 + 보안 임대 | 확장성 ↑, 보안 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | L1 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 | 확장성 ^, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 유지 시도 |
+| **앱체인(App-chain)** | 전용 체인 + 보안 임대 | 확장성 ^, 보안 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
 
 ### Nakamoto 계수(Nakamoto Coefficient)
 
@@ -99,16 +99,16 @@ tags = ["studynote-ict-convergence"]
 ### 기술사 핵심 판단 시나리오
 
 **시나리오 1: 글로벌 결제 플랫폼**
-→ 확장성 우선 → Ethereum L2(Arbitrum) 선택
-→ 이유: L1 보안 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) + 높은 TPS + 낮은 수수료
+-> 확장성 우선 -> Ethereum L2(Arbitrum) 선택
+-> 이유: L1 보안 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) + 높은 TPS + 낮은 수수료
 
 **시나리오 2: 국가 투표 시스템**
-→ 보안+[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 우선 → Ethereum L1 또는 Tendermint 기반 허가형
-→ 이유: 낮은 TPS 감수, 검열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·보안 최우선
+-> 보안+[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 우선 -> Ethereum L1 또는 Tendermint 기반 허가형
+-> 이유: 낮은 TPS 감수, 검열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·보안 최우선
 
 <strong>시나리오 3: 기업 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 관리</strong>
-→ 효율성 우선 → [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) (허가형)
-→ 이유: [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 희생, 고성능·프라이버시 확보
+-> 효율성 우선 -> [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) (허가형)
+-> 이유: [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 희생, 고성능·프라이버시 확보
 
 ### 트릴레마 너머 — 추가 고려 요소
 - **프라이버시(Privacy)**: 공개 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 투명성 vs 기업 기밀
@@ -147,7 +147,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [블록체인 트릴레마: 확장성-탈중앙화-보안] → [분산 시스템 유사 트레이드오프]
+[관계 설명] -> [블록체인 트릴레마: 확장성-탈중앙화-보안] -> [분산 시스템 유사 트레이드오프]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -162,7 +162,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 482 / 552
 
-← **이전**: [481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/481_sharding_l1_parallel_processing/)
-**다음**: [483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/483_did_decentralized_identity_w3c_vc_vp/) →
+<- **이전**: [481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/481_sharding_l1_parallel_processing/)
+**다음**: [483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/483_did_decentralized_identity_w3c_vc_vp/) ->
 
 ---

@@ -140,7 +140,7 @@ Kubernetes 높은 진입   Team Topologies 이론             Backstage 생태�
 
 **진행 상황**: 338 / 373
 
-← **이전**: [337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker](/knowledge-base/studynote/15_devops_sre/05_devsecops/337_audit/)
-**다음**: [339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark](/knowledge-base/studynote/15_devops_sre/05_devsecops/339_hdfs/) →
+<- **이전**: [337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker](/knowledge-base/studynote/15_devops_sre/05_devsecops/337_audit/)
+**다음**: [339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark](/knowledge-base/studynote/15_devops_sre/05_devsecops/339_hdfs/) ->
 
 ---

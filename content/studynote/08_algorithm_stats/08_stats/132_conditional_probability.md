@@ -32,25 +32,25 @@ P(A|B) = P(A∩B) / P(B),   단 P(B) > 0
 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 표본공간을 <strong>B로 축소</strong>한 후, 그 안에서 A가 차지하는 비율이다.
 
 ```
-┌──────────────────────────────────────────────────┐
-│  원래 표본공간 Ω                                  │
-│  ┌────────────────────────┐                      │
-│  │                        │                      │
-│  │    A    │ A∩B │   B    │                      │
-│  │ (A만)   │(교집합)│(B만) │                      │
-│  │         │      │       │                      │
-│  └────────────────────────┘                      │
-│                                                  │
-│  B가 주어졌을 때: 표본공간이 B로 축소됨           │
-│                                                  │
-│  ┌──────────────────┐                            │
-│  │ 축소된 공간 B     │                            │
-│  │   │  A∩B  │      │                            │
-│  │   └───────┘      │                            │
-│  └──────────────────┘                            │
-│                                                  │
-│  P(A|B) = 넓이(A∩B) / 넓이(B)                   │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  원래 표본공간 Ω                                  |
+|  +------------------------+                      |
+|  |                        |                      |
+|  |    A    | A∩B |   B    |                      |
+|  | (A만)   |(교집합)|(B만) |                      |
+|  |         |      |       |                      |
+|  +------------------------+                      |
+|                                                  |
+|  B가 주어졌을 때: 표본공간이 B로 축소됨           |
+|                                                  |
+|  +------------------+                            |
+|  | 축소된 공간 B     |                            |
+|  |   |  A∩B  |      |                            |
+|  |   +-------+      |                            |
+|  +------------------+                            |
+|                                                  |
+|  P(A|B) = 넓이(A∩B) / 넓이(B)                   |
++--------------------------------------------------+
 ```
 
 **예시**: 주사위를 던져 짝수(B)가 나왔을 때, 6이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(A)?
@@ -112,17 +112,17 @@ P(나는 밥을 먹었다)
 수형도 (Tree Diagram) 는 여러 단계로 이어지는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 직관적으로 표현한다.
 
 ```
-                    ┌─── P(A₁∩B₁) = 0.6×0.9 = 0.54
-          ┌─ B₁(0.9)┤
-          │          └─── P(A₁∩B̄₁) = 0.6×0.1 = 0.06
+                    +--- P(A₁∩B₁) = 0.6×0.9 = 0.54
+          +- B₁(0.9)+
+          |          +--- P(A₁∩B̄₁) = 0.6×0.1 = 0.06
     A₁(0.6)
-   /        \         ┌─── P(A₁∩B₂) 계산 오류 방지 위해
-  /           \       │    별도 가지로 표현
+   /        \         +--- P(A₁∩B₂) 계산 오류 방지 위해
+  /           \       |    별도 가지로 표현
  /             \
-시작            ┌─ B₁(0.4)┐
-   \            │          └─ P(A₂∩B₁) = 0.4×0.4 = 0.16
-    A₂(0.4)────┤
-                └─ B̄₁(0.6)──── P(A₂∩B̄₁) = 0.4×0.6 = 0.24
+시작            +- B₁(0.4)+
+   \            |          +- P(A₂∩B₁) = 0.4×0.4 = 0.16
+    A₂(0.4)----+
+                +- B̄₁(0.6)---- P(A₂∩B̄₁) = 0.4×0.6 = 0.24
 
 P(B₁) = P(B₁|A₁)·P(A₁) + P(B₁|A₂)·P(A₂)
       = 0.9×0.6 + 0.4×0.4 = 0.54+0.16 = 0.70
@@ -159,7 +159,7 @@ WHERE region = 'Seoul' AND amount > 100000;
 
 ```
 P(amount > 100K | region = 'Seoul')
-  ≠ P(amount > 100K)  ← 지역별 소비 패턴이 다르면 조건부
+  ≠ P(amount > 100K)  <- 지역별 소비 패턴이 다르면 조건부
 
 추정 방법:
   단순 독립 가정: P(A∩B) ≈ P(A)·P(B)
@@ -186,11 +186,11 @@ P(amount > 100K | region = 'Seoul')
 
 검사의 잘못된 주장:
   "혈액형이 일치하므로 무죄 확률은 10%다"
-  → P(무죄 | 혈액형 일치) = 0.1 ← 완전히 다른 확률!
+  -> P(무죄 | 혈액형 일치) = 0.1 <- 완전히 다른 확률!
 
 베이즈 정리로 올바른 계산:
   P(무죄 | 증거) = P(증거 | 무죄) · P(무죄) / P(증거)
-  → 유죄 추정(Prior)과 증거의 특이성(Likelihood)을 모두 고려해야 함
+  -> 유죄 추정(Prior)과 증거의 특이성(Likelihood)을 모두 고려해야 함
 ```
 
 <strong>조건부 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> vs 결합 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> vs 주변 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 비교</strong>:
@@ -222,20 +222,20 @@ P(amount > 100K | region = 'Seoul')
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [조건부 확률]
-    │
-    ▼
+    |
+    v
 [연쇄 법칙]
-    │
-    ▼
+    |
+    v
 [조건부 독립]
-    │
-    ▼
+    |
+    v
 [선택도 추정]
-    │
-    ▼
+    |
+    v
 [검사자 오류]
 ```
 
@@ -253,7 +253,7 @@ P(amount > 100K | region = 'Seoul')
 
 **진행 상황**: 132 / 175
 
-← **이전**: [2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트](/knowledge-base/studynote/08_algorithm_stats/08_stats/131_bayes_theorem/)
-**다음**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) →
+<- **이전**: [2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트](/knowledge-base/studynote/08_algorithm_stats/08_stats/131_bayes_theorem/)
+**다음**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) ->
 
 ---

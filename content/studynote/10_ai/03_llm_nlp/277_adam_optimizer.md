@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp의 적응형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a></strong>을 결합하여 두 장점을 모두 취한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Adam은 슈퍼 내비게이션이다. 이전에 자주 다닌 방향(1차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))을 기억하고, 최근 도로 상황(2차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))에 맞게 속도를 자동 조절하며, 처음 출발할 때의 부정확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(편향 보정)도 스스로 교정한다.
@@ -49,7 +49,7 @@ Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp�
    m_t = β1 · m_{t-1} + (1 - β1) · ∇L(w_t)
 
 2단계: 2차 모멘텀 (기울기 제곱 지수 이동 평균)
-   v_t = β2 · v_{t-1} + (1 - β2) · (∇L(w_t))²
+   v_t = β2 · v_{t-1} + (1 - β2) · (∇L(w_t))^
 
 3단계: 편향 보정 (Bias Correction)
    m̂_t = m_t / (1 - β1^t)
@@ -71,24 +71,24 @@ Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp�
 ### Adam 내부 동작 흐름
 
 ```
-┌───────────────────────────────────────────────────────┐
-│                  Adam 알고리즘 흐름                    │
-│                                                       │
-│  기울기 ∇L(w)                                         │
-│      │                                                │
-│      ├──→ [1차 모멘텀] m_t = β1·m + (1-β1)·∇L       │
-│      │         → 기울기 방향의 이동 평균 (관성)        │
-│      │                                                │
-│      └──→ [2차 모멘텀] v_t = β2·v + (1-β2)·(∇L)²    │
-│                → 기울기 크기의 이동 평균 (RMSProp)     │
-│                                                       │
-│  편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)         │
-│       ↓                                               │
-│  가중치 갱신: w = w - α · m̂ / (√v̂ + ε)             │
-│                                                       │
-│  효과: 자주 등장하는 파라미터 → 작은 학습률          │
-│        드물게 등장하는 파라미터 → 큰 학습률           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|                  Adam 알고리즘 흐름                    |
+|                                                       |
+|  기울기 ∇L(w)                                         |
+|      |                                                |
+|      +---> [1차 모멘텀] m_t = β1·m + (1-β1)·∇L       |
+|      |         -> 기울기 방향의 이동 평균 (관성)        |
+|      |                                                |
+|      +---> [2차 모멘텀] v_t = β2·v + (1-β2)·(∇L)^    |
+|                -> 기울기 크기의 이동 평균 (RMSProp)     |
+|                                                       |
+|  편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)         |
+|       v                                               |
+|  가중치 갱신: w = w - α · m̂ / (√v̂ + ε)             |
+|                                                       |
+|  효과: 자주 등장하는 파라미터 -> 작은 학습률          |
+|        드물게 등장하는 파라미터 -> 큰 학습률           |
++-------------------------------------------------------+
 ```
 
 ### 편향 보정([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) Correction)의 필요성
@@ -96,9 +96,9 @@ Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp�
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시점(t가 작을 때) m_0 = 0, v_0 = 0으로 시작하므로, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 추정값이 0 방향으로 편향</strong>된다. 편향 보정은 이를 실제 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)에 가깝게 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)하는 과정이다.
 
 ```
-t=1: β1=0.9 → (1-β1^1) = 0.1 → m̂ = m/0.1 = 10배 확대
-t=10: (1-β1^10) ≈ 0.65 → 점점 보정 감소
-t→∞: (1-β1^∞) → 1.0 → 보정 불필요
+t=1: β1=0.9 -> (1-β1^1) = 0.1 -> m̂ = m/0.1 = 10배 확대
+t=10: (1-β1^10) ≈ 0.65 -> 점점 보정 감소
+t->∞: (1-β1^∞) -> 1.0 -> 보정 불필요
 ```
 
 - **📢 섹션 요약 비유**: 편향 보정은 새벽에 체온계가 실온 온도에 맞춰져 있을 때 보정하는 것과 같다. 막 시작했을 때는 체온계([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))가 실제보다 낮게 표시되므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 값을 올려서 읽고 시간이 지나면 자연스럽게 정확해진다.
@@ -141,7 +141,7 @@ AdamW:  w = w · (1 - α·λ) - α · m̂/(√v̂+ε)   (올바른 Weight Decay)
    - 원인: 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 일부 파라미터에 과도하게 큰 업데이트를 허용
    - 대응: 학습 후반에 SGD로 전환하는 SWATS 기법, 또는 AdamW 사용
 
-2. **메모리 사용량**: m, v 두 변수를 추가로 저장 → SGD 대비 약 2배 메모리 소비
+2. **메모리 사용량**: m, v 두 변수를 추가로 저장 -> SGD 대비 약 2배 메모리 소비
 
 3. **수렴 보장 없음**: 특정 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에서 수렴하지 않는 이론적 사례 존재
 
@@ -191,7 +191,7 @@ Adam이 딥러닝 표준 [옵티마이저](/knowledge-base/studynote/05_database
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [Adam (Adaptive Moment Estimation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [Adam (Adaptive Moment Estimation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -206,7 +206,7 @@ Adam이 딥러닝 표준 [옵티마이저](/knowledge-base/studynote/05_database
 
 **진행 상황**: 277 / 420
 
-← **이전**: [276. 모멘텀 (Momentum)](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)
-**다음**: [278. 과적합 방지 기법 (Regularization Techniques) 모음](/knowledge-base/studynote/10_ai/03_llm_nlp/278_regularization_overview/) →
+<- **이전**: [276. 모멘텀 (Momentum)](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)
+**다음**: [278. 과적합 방지 기법 (Regularization Techniques) 모음](/knowledge-base/studynote/10_ai/03_llm_nlp/278_regularization_overview/) ->
 
 ---

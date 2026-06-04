@@ -32,22 +32,22 @@ tags = ["studynote-operating-system"]
 이 도식은 사용자 애플리케이션이 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 거쳐 시스템 호출 인터페이스에 도달하고, 최종적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하는 계층적 흐름을 보여준다.
 
 ```text
-  ┌────────────────────────────────────────────────────────┐
-  │              User Application (User Mode)              │
-  └──────────────────────────┬─────────────────────────────┘
-                             ▼ (API Call: e.g., printf)
-  ┌────────────────────────────────────────────────────────┐
-  │           Standard Library (e.g., libc, Win32)         │
-  └──────────────────────────┬─────────────────────────────┘
-                             ▼ (System Call: e.g., write)
-  ┌────────────────────────────────────────────────────────┐
-  │ [SYSTEM CALL INTERFACE] — Trap / Mode Switch (Bit=0)   │
-  └──────────────────────────┬─────────────────────────────┘
-                             ▼ (Kernel Entry)
-  ┌────────────────────────────────────────────────────────┐
-  │              OS Kernel (Kernel Mode)                   │
-  │  [FS] [Net] [Process] [Memory] [I/O Driver]            │
-  └────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------+
+  |              User Application (User Mode)              |
+  +--------------------------+-----------------------------+
+                             v (API Call: e.g., printf)
+  +--------------------------------------------------------+
+  |           Standard Library (e.g., libc, Win32)         |
+  +--------------------------+-----------------------------+
+                             v (System Call: e.g., write)
+  +--------------------------------------------------------+
+  | [SYSTEM CALL INTERFACE] — Trap / Mode Switch (Bit=0)   |
+  +--------------------------+-----------------------------+
+                             v (Kernel Entry)
+  +--------------------------------------------------------+
+  |              OS Kernel (Kernel Mode)                   |
+  |  [FS] [Net] [Process] [Memory] [I/O Driver]            |
+  +--------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 대부분의 프로그래머는 시스템 호출을 직접 호출하기보다 `libc`와 같은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수를 사용한다. 예를 들어 `printf()`를 호출하면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부에서 최종적으로 `write()`라는 시스템 호출을 발생시킨다. 시스템 호출 인터페이스는 이 요청을 받아 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 유도하고, CPU 모드 비트를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 전환시킨 후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 해당 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘긴다. 이러한 계층 구조는 애플리케이션이 하드웨어의 세부 사항을 몰라도 일관된 방식으로 자원을 사용할 수 있게 하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 모든 요청을 중앙에서 검증할 수 있는 강력한 보안 경계를 형성한다.
@@ -74,13 +74,13 @@ tags = ["studynote-operating-system"]
 ```text
  [A. Register]          [B. Stack]               [C. Block/Table]
   CPU Regs               User Stack               Memory Block
- ┌──────────┐           ┌──────────┐             ┌──────────┐
- │ EAX: #5  │           │ Param 3  │             │ Param 1  │
- │ EBX: Arg1│           │ Param 2  │             │ Param 2  │
- │ ECX: Arg2│           │ Param 1  │             │ Param 3  │
- └────┬─────┘           └────┬─────┘             └────┬─────┘
-      │                      │         Address              │
-      └──────▶ [ Kernel ] ◀──┴───────────(EBX)──────────────┘
+ +----------+           +----------+             +----------+
+ | EAX: #5  |           | Param 3  |             | Param 1  |
+ | EBX: Arg1|           | Param 2  |             | Param 2  |
+ | ECX: Arg2|           | Param 1  |             | Param 3  |
+ +----+-----+           +----+-----+             +----+-----+
+      |                      |         Address              |
+      +-------> [ Kernel ] <---+-----------(EBX)--------------+
 ```
 
 **[다이어그램 해설]** 시스템 호출은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)과 유사하지만 모드가 바뀌므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 방식이 독특하다. ① <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 방식</strong>은 가장 빠르지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 개수만큼만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있어 단순한 호출에 쓰인다. ② <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 방식</strong>은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 사용자 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 읽어가는 방식으로, 매개변수 개수에 제한이 없지만 메모리 접근 오버헤드가 있다. ③ <strong>블록/테이블 방식</strong>은 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리의 특정 블록에 저장하고, 그 시작 주소값만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 담아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기는 방식이다. 현대의 리눅스나 윈도우는 효율성을 위해 주로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식을 기본으로 하되, 복잡한 구조체는 블록 방식을 혼용하여 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출한다. 이 메커니즘은 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규약'을 형성한다.
@@ -127,11 +127,11 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 ```text
 [Sync System Call]                  [Async io_uring]
  User Space   Kernel Space           User Space   Kernel Space
-     │             │                     │             │
-  1. Call ──▶ Trap │                  1. Push to SQ ──▶│
-     │        Wait │                     │             │ 2. Kernel Polling
-  2. Ret  ◀── Mode │                  3. Pop from CQ ◀─┤
-     │       Switch│                     │             │
+     |             |                     |             |
+  1. Call ---> Trap |                  1. Push to SQ --->|
+     |        Wait |                     |             | 2. Kernel Polling
+  2. Ret  <--- Mode |                  3. Pop from CQ <--+
+     |       Switch|                     |             |
  (N번 반복 시 N번 전환)                 (한 번의 전환으로 Batch 처리)
 ```
 
@@ -162,12 +162,12 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 `strace`를 통해 병목 지점을 찾아내는 실무적인 분석 단계를 보여준다.
 
 ```text
- [Start Trace] ──▶ [Filter Syscalls] ──▶ [Analyze Latency] ──▶ [Identify Bottleneck]
-      │                 │                     │                      │
-      ▼                 ▼                     ▼                      ▼
+ [Start Trace] ---> [Filter Syscalls] ---> [Analyze Latency] ---> [Identify Bottleneck]
+      |                 |                     |                      |
+      v                 v                     v                      v
   strace -p PID     -e trace=open,read     -T (Time Spent)       read() takes 2s!
-                                                                     │
-                                                                     ▼
+                                                                     |
+                                                                     v
                                                          [Action: Check Disk I/O]
 ```
 
@@ -215,17 +215,17 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 ```text
 [사용자 프로그램 (User Program) — 서비스 요청 발생]
-    │
-    ▼
+    |
+    v
 [시스템 콜 (System Call) — 소프트웨어 인터럽트로 커널 진입점 호출]
-    │
-    ▼
+    |
+    v
 [커널 모드 전환 (Kernel Mode Switch) — CPU 특권 수준 변경, 컨텍스트 저장]
-    │
-    ▼
+    |
+    v
 [커널 서비스 처리 (OS Kernel Service) — 파일 I/O, 메모리 할당, 프로세스 관리]
-    │
-    ▼
+    |
+    v
 [사용자 모드 복귀 (Return to User Mode) — 결과값 반환, 컨텍스트 복원]
 ```
 
@@ -244,7 +244,7 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 **진행 상황**: 13 / 800
 
-← **이전**: [12. 모드 비트 (Mode Bit)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)
-**다음**: [14. API (Application Programming Interface), POSIX 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) →
+<- **이전**: [12. 모드 비트 (Mode Bit)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)
+**다음**: [14. API (Application Programming Interface), POSIX 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ->
 
 ---

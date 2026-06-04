@@ -19,23 +19,23 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           IDP 아키텍처 (내부 개발자 플랫폼)             │
-├────────────────────────────────────────────────────────┤
-│  개발자 인터페이스 레이어                               │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │ 개발자 포털 (Backstage) — 카탈로그·문서·자동화  │ │
-│  └──────────────────────────────────────────────────┘ │
-│                    ↓                                   │
-│  셀프 서비스 자동화 레이어                              │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │ Terraform/Crossplane — 인프라 프로비저닝          │ │
-│  │ GitHub Actions/ArgoCD — CI/CD 파이프라인          │ │
-│  │ Kubernetes Operator — 서비스 배포 자동화          │ │
-│  └──────────────────────────────────────────────────┘ │
-│                    ↓                                   │
-│  인프라 플랫폼 레이어 (Kubernetes, Cloud, 모니터링)     │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           IDP 아키텍처 (내부 개발자 플랫폼)             |
++--------------------------------------------------------+
+|  개발자 인터페이스 레이어                               |
+|  +--------------------------------------------------+ |
+|  | 개발자 포털 (Backstage) — 카탈로그·문서·자동화  | |
+|  +--------------------------------------------------+ |
+|                    v                                   |
+|  셀프 서비스 자동화 레이어                              |
+|  +--------------------------------------------------+ |
+|  | Terraform/Crossplane — 인프라 프로비저닝          | |
+|  | GitHub Actions/ArgoCD — CI/CD 파이프라인          | |
+|  | Kubernetes Operator — 서비스 배포 자동화          | |
+|  +--------------------------------------------------+ |
+|                    v                                   |
+|  인프라 플랫폼 레이어 (Kubernetes, Cloud, 모니터링)     |
++--------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IDP는 개발자용 자동화 마트다. 개발자가 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 하나 주세요"라고 주문하면 플랫폼이 자동으로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 완료해서 바로 사용할 수 있게 해준다.
@@ -65,7 +65,7 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
   3. CI/CD 파이프라인 자동 설정
   4. Kubernetes 네임스페이스 자동 프로비저닝
   5. 표준 모니터링·알림 자동 연결
-  → 개발자는 비즈니스 로직만 작성
+  -> 개발자는 비즈니스 로직만 작성
 ```
 
 - **📢 섹션 요약 비유**: Golden Path는 이케아 조립 설명서다. 복잡한 가구([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 인프라)를 스스로 설계하는 대신, 잘 정리된 단계별 가이드를 따라 누구나 쉽게 완성할 수 있다.
@@ -131,18 +131,18 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[전통 운영팀 — 개발자 요청 → 수동 인프라 설정]
-    │
-    ▼
+[전통 운영팀 — 개발자 요청 -> 수동 인프라 설정]
+    |
+    v
 [DevOps — 개발·운영 협업, 자동화 파이프라인]
-    │
-    ▼
+    |
+    v
 [플랫폼 엔지니어링 — IDP + Golden Path + 셀프 서비스]
-    │
-    ▼
+    |
+    v
 [개발자 포털 (Backstage) — 통합 서비스 카탈로그]
-    │
-    ▼
+    |
+    v
 [AI 플랫폼 엔지니어링 — 의도 기반 자동 인프라 추천]
 ```
 
@@ -158,7 +158,7 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 
 **진행 상황**: 28 / 373
 
-← **이전**: [27. SPACE 프레임워크 — 개발자 생산성 5차원 측정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/027_space_framework/)
-**다음**: [29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/) →
+<- **이전**: [27. SPACE 프레임워크 — 개발자 생산성 5차원 측정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/027_space_framework/)
+**다음**: [29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/) ->
 
 ---

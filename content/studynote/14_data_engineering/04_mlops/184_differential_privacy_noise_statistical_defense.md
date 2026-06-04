@@ -26,14 +26,14 @@ tags = ["studynote-data-engineering"]
 이 그림은 왜 단순 집계 공개만으로는 방어가 안 되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Differencing attack without differential privacy                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Query A : 서울 30대 평균 연봉 = 5,000만 원                         │
-│ Query B : 같은 집단에서 한 사람 제외 = 4,990만 원                  │
-│ Difference -> 제외된 한 사람의 기여를 근사 가능                    │
-│ DP 적용  -> 결과마다 보정 노이즈 추가 -> 차이를 개인 정보로 환산 불가 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Differencing attack without differential privacy                   |
++--------------------------------------------------------------------+
+| Query A : 서울 30대 평균 연봉 = 5,000만 원                         |
+| Query B : 같은 집단에서 한 사람 제외 = 4,990만 원                  |
+| Difference -> 제외된 한 사람의 기여를 근사 가능                    |
+| DP 적용  -> 결과마다 보정 노이즈 추가 -> 차이를 개인 정보로 환산 불가 |
++--------------------------------------------------------------------+
 ```
 
 따라서 DP는 "조금 틀린 통계"를 만드는 기술이 아니라, 통계 결과를 통해 개인이 역추론되지 않도록 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 자체를 조절하는 수학적 약속이다. 공개 통계, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 분석, 텔레메트리 수집, 기계학습 모델 학습에서 DP가 중요한 이유도 여기에 있다.
@@ -53,22 +53,22 @@ Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D') ∈ S] + δ
 δ : 아주 드문 예외 확률, 보통 매우 작게 설정
 ```
 
-여기서 중요한 계산 단위는 민감도 `Δf`다. 예를 들어 개수 집계의 전역 민감도는 보통 1이고, 평균은 값의 범위를 미리 제한해야 민감도를 계산할 수 있다. 그래서 DP 시스템은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 공개하는 대신 <strong>값 경계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> → 민감도 계산 → 노이즈 주입 → 예산 회계</strong> 순서로 동작한다.
+여기서 중요한 계산 단위는 민감도 `Δf`다. 예를 들어 개수 집계의 전역 민감도는 보통 1이고, 평균은 값의 범위를 미리 제한해야 민감도를 계산할 수 있다. 그래서 DP 시스템은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 공개하는 대신 <strong>값 경계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> -> 민감도 계산 -> 노이즈 주입 -> 예산 회계</strong> 순서로 동작한다.
 
 이 그림은 질의 공개 파이프라인을 압축해 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Differential privacy release pipeline                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Raw Data                                                           │
-│    │                                                               │
-│    ├─ clamp / bound individual contribution                        │
-│    ├─ compute sensitivity Δf                                       │
-│    ├─ apply mechanism (Laplace / Gaussian / Exponential)           │
-│    ├─ update privacy accountant                                    │
-│    └─ release noisy statistic or train noisy model                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Differential privacy release pipeline                              |
++--------------------------------------------------------------------+
+| Raw Data                                                           |
+|    |                                                               |
+|    +- clamp / bound individual contribution                        |
+|    +- compute sensitivity Δf                                       |
+|    +- apply mechanism (Laplace / Gaussian / Exponential)           |
+|    +- update privacy accountant                                    |
+|    +- release noisy statistic or train noisy model                 |
++--------------------------------------------------------------------+
 ```
 
 | 메커니즘 | 적용 대상 | 핵심 아이디어 | 대표 활용 |
@@ -80,15 +80,15 @@ Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D') ∈ S] + δ
 글로벌 DP와 로컬 DP의 차이도 아키텍처에서 중요하다. 글로벌 DP는 중앙 서버를 신뢰하고, 서버가 집계 뒤 노이즈를 추가한다. 로컬 DP는 사용자 단말이 먼저 노이즈를 넣고 서버로 보내므로 서버를 덜 신뢰해도 되지만, 같은 정확도를 얻으려면 훨씬 더 많은 표본이 필요하다.
 
 ```text
-┌──────────────────────────────┐      ┌──────────────────────────────┐
-│ Global DP                    │      │ Local DP                     │
-├──────────────────────────────┤      ├──────────────────────────────┤
-│ 원시 데이터 중앙 수집         │      │ 각 사용자가 먼저 노이즈 추가   │
-│        │                     │      │        │                     │
-│ 중앙 집계 후 노이즈 추가      │      │ 서버는 무작위 응답을 집계      │
-│        │                     │      │        │                     │
-│ 정확도 높음, 신뢰 서버 필요   │      │ 정확도 낮음, 신뢰 서버 부담 적음│
-└──────────────────────────────┘      └──────────────────────────────┘
++------------------------------+      +------------------------------+
+| Global DP                    |      | Local DP                     |
++------------------------------+      +------------------------------+
+| 원시 데이터 중앙 수집         |      | 각 사용자가 먼저 노이즈 추가   |
+|        |                     |      |        |                     |
+| 중앙 집계 후 노이즈 추가      |      | 서버는 무작위 응답을 집계      |
+|        |                     |      |        |                     |
+| 정확도 높음, 신뢰 서버 필요   |      | 정확도 낮음, 신뢰 서버 부담 적음|
++------------------------------+      +------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DP 메커니즘은 음식 무게를 잴 때 저울 위에 일정한 흔들림을 일부러 만드는 것과 같다. 흔들림의 폭은 마음대로가 아니라 저울 민감도와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준에 맞춰 계산되어야 의미가 있다.
@@ -175,20 +175,20 @@ DP가 주는 가장 큰 이점은 "배경지식을 가진 공격자 앞에서도
 
 ```text
 익명화 · 마스킹 중심 비식별화
-    │
-    ▼
+    |
+    v
 차분 공격과 재식별 위험 인식
-    │
-    ▼
+    |
+    v
 차분 프라이버시 수학 모델 도입
-    │
-    ▼
+    |
+    v
 민감도 보정 노이즈 · 예산 회계
-    │
-    ▼
+    |
+    v
 공개 통계 · 로컬 텔레메트리 · DP-SGD 적용
-    │
-    ▼
+    |
+    v
 연합 학습 · 프라이버시 강화 분석으로 확장
 ```
 
@@ -204,7 +204,7 @@ DP가 주는 가장 큰 이점은 "배경지식을 가진 공격자 앞에서도
 
 **진행 상황**: 184 / 258
 
-← **이전**: [183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)
-**다음**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) →
+<- **이전**: [183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)
+**다음**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) ->
 
 ---

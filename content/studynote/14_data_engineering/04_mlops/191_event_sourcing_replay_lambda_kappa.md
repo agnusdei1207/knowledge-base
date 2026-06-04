@@ -37,16 +37,16 @@ tags = ["studynote-data-engineering"]
 ### 1.3 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 이벤트 스트림 개념
 
 ```
-시간 흐름 →
-┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐
-│E1    │→ │E2    │→ │E3    │→ │E4    │→ │E5    │
-│주문생성│  │결제완료│  │배송시작│  │배송완료│  │리뷰작성│
-└──────┘  └──────┘  └──────┘  └──────┘  └──────┘
-     ↓ Replay(재현)
-┌─────────────────────────────────┐
-│ 현재 상태 = 순서대로 이벤트 적용     │
-│ 언제든 원하는 시점 상태 재현 가능    │
-└─────────────────────────────────┘
+시간 흐름 ->
++------+  +------+  +------+  +------+  +------+
+|E1    |-> |E2    |-> |E3    |-> |E4    |-> |E5    |
+|주문생성|  |결제완료|  |배송시작|  |배송완료|  |리뷰작성|
++------+  +------+  +------+  +------+  +------+
+     v Replay(재현)
++---------------------------------+
+| 현재 상태 = 순서대로 이벤트 적용     |
+| 언제든 원하는 시점 상태 재현 가능    |
++---------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 "가계부"와 같다. 잔액만 적어두면 과거를 알 수 없지만, 입출금 내역을 모두 기록하면 어느 날의 잔액이든 계산해낼 수 있다.
@@ -61,29 +61,29 @@ Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트�
 
 ```
 데이터 소스
-    │
-    ├─────────────────────────────┐
-    │                             │
-    ▼                             ▼
-┌─────────────────┐   ┌─────────────────┐
-│  배치 레이어      │   │  스피드 레이어    │
-│  (Batch Layer)  │   │  (Speed Layer)  │
-│                 │   │                 │
-│ HDFS / S3       │   │ Kafka + Flink   │
-│ Spark Batch     │   │ 실시간 처리       │
-│ 고정확도         │   │ 저지연           │
-│ 고지연(시간~일)  │   │ 근사치(최근 데이터)│
-└────────┬────────┘   └────────┬────────┘
-         │                     │
-         ▼                     ▼
-┌─────────────────────────────────┐
-│          서빙 레이어              │
-│         (Serving Layer)         │
-│                                 │
-│  배치 뷰(Batch View) +           │
-│  실시간 뷰(Realtime View) 병합    │
-│  → 사용자 쿼리 응답               │
-└─────────────────────────────────┘
+    |
+    +-----------------------------+
+    |                             |
+    v                             v
++-----------------+   +-----------------+
+|  배치 레이어      |   |  스피드 레이어    |
+|  (Batch Layer)  |   |  (Speed Layer)  |
+|                 |   |                 |
+| HDFS / S3       |   | Kafka + Flink   |
+| Spark Batch     |   | 실시간 처리       |
+| 고정확도         |   | 저지연           |
+| 고지연(시간~일)  |   | 근사치(최근 데이터)|
++--------+--------+   +--------+--------+
+         |                     |
+         v                     v
++---------------------------------+
+|          서빙 레이어              |
+|         (Serving Layer)         |
+|                                 |
+|  배치 뷰(Batch View) +           |
+|  실시간 뷰(Realtime View) 병합    |
+|  -> 사용자 쿼리 응답               |
++---------------------------------+
 ```
 
 | 레이어 | 역할 | 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
@@ -98,29 +98,29 @@ Jay Kreps([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kaf
 
 ```
 데이터 소스
-    │
-    ▼
-┌─────────────────────────────────┐
-│         메시지 큐(Kafka)          │
-│   이벤트 영구 보관 (무한 보존)      │
-│   파티셔닝, 순서 보장              │
-└────────────────┬────────────────┘
-                 │
-        ┌────────┴────────┐
-        │                 │
-        ▼                 ▼
-┌──────────────┐  ┌──────────────┐
-│ 실시간 처리   │  │ 재처리(Replay) │
-│ (Consumer v1)│  │ (Consumer v2) │
-│ 현재 로직 적용│  │ 새 로직 소급  │
-└──────┬───────┘  └──────┬───────┘
-       │                 │
-       └────────┬────────┘
-                ▼
-┌─────────────────────────────────┐
-│          서빙 레이어              │
-│   단일 스트림 처리 결과 조회        │
-└─────────────────────────────────┘
+    |
+    v
++---------------------------------+
+|         메시지 큐(Kafka)          |
+|   이벤트 영구 보관 (무한 보존)      |
+|   파티셔닝, 순서 보장              |
++----------------+----------------+
+                 |
+        +--------+--------+
+        |                 |
+        v                 v
++--------------+  +--------------+
+| 실시간 처리   |  | 재처리(Replay) |
+| (Consumer v1)|  | (Consumer v2) |
+| 현재 로직 적용|  | 새 로직 소급  |
++------+-------+  +------+-------+
+       |                 |
+       +--------+--------+
+                v
++---------------------------------+
+|          서빙 레이어              |
+|   단일 스트림 처리 결과 조회        |
++---------------------------------+
 ```
 
 ### 2.3 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs 카파 비교
@@ -139,24 +139,24 @@ Jay Kreps([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kaf
 CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/): [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Query: 읽기)를 분리하는 패턴이다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)과 결합하면 강력한 시스템을 구성한다.
 
 ```
-┌─────────────────────────────────────────────────┐
-│                   CQRS + 이벤트 소싱              │
-│                                                 │
-│  클라이언트                                       │
-│    │                                            │
-│    ├──── Command(쓰기) ──→ Command Handler       │
-│    │                           │                │
-│    │                           ▼                │
-│    │                    이벤트 스토어             │
-│    │                    (Kafka/EventStore)       │
-│    │                           │                │
-│    │                     Projection             │
-│    │                    (읽기 모델 생성)          │
-│    │                           │                │
-│    │                           ▼                │
-│    └──── Query(읽기) ──→  Read DB(최적화)        │
-│                           (Redis/Elasticsearch) │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|                   CQRS + 이벤트 소싱              |
+|                                                 |
+|  클라이언트                                       |
+|    |                                            |
+|    +---- Command(쓰기) ---> Command Handler       |
+|    |                           |                |
+|    |                           v                |
+|    |                    이벤트 스토어             |
+|    |                    (Kafka/EventStore)       |
+|    |                           |                |
+|    |                     Projection             |
+|    |                    (읽기 모델 생성)          |
+|    |                           |                |
+|    |                           v                |
+|    +---- Query(읽기) --->  Read DB(최적화)        |
+|                           (Redis/Elasticsearch) |
++-------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 두 개의 주방에서 요리하는 레스토랑(빠른 패스트푸드 창구 + 정성스러운 정식 주방)이고, 카파는 한 주방에서 빠르고 정확하게 모든 요리를 처리하는 효율적 주방이다.
@@ -171,17 +171,17 @@ CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_de
 [기존 로직 v1 처리 중]
 Kafka Topic: order-events (offset 0 ~ 100,000)
 
-오프셋 0  ──→ 이벤트 소비 ──→ 로직 v1 적용 ──→ DB 저장
+오프셋 0  ---> 이벤트 소비 ---> 로직 v1 적용 ---> DB 저장
 
 [새 로직 v2 적용 필요]
-          ┌─────────────────────────────────┐
-          │  새 컨슈머 그룹(Consumer Group)  │
-          │  오프셋 0부터 재시작              │
-          │  오프셋 0 ──→ 로직 v2 적용       │
-          │  오프셋 1 ──→ 로직 v2 적용       │
-          │      ...                        │
-          │  오프셋 100,000 ──→ v2 완료      │
-          └─────────────────────────────────┘
+          +---------------------------------+
+          |  새 컨슈머 그룹(Consumer Group)  |
+          |  오프셋 0부터 재시작              |
+          |  오프셋 0 ---> 로직 v2 적용       |
+          |  오프셋 1 ---> 로직 v2 적용       |
+          |      ...                        |
+          |  오프셋 100,000 ---> v2 완료      |
+          +---------------------------------+
 
 결과: v2 기준 전체 히스토리 재계산 완료
 v1 결과와 병행 운영 후 전환 (Blue/Green)
@@ -230,21 +230,21 @@ v1 결과와 병행 운영 후 전환 (Blue/Green)
 [주문 시스템 예시]
 
 사용자 주문
-    │
-    ▼
+    |
+    v
 Order Command Handler
-    │ OrderCreated 이벤트 발행
-    ▼
+    | OrderCreated 이벤트 발행
+    v
 Kafka Topic: order-events
- ├─ Partition 0: userId % N
- ├─ 무기한 보존(log.retention.ms=-1)
- └─ Log Compaction 활성화
+ +- Partition 0: userId % N
+ +- 무기한 보존(log.retention.ms=-1)
+ +- Log Compaction 활성화
 
-    │
-    ├──→ Consumer Group A: 재고 Projection → Redis
-    ├──→ Consumer Group B: 결제 Projection → PostgreSQL
-    ├──→ Consumer Group C: 검색 Projection → Elasticsearch
-    └──→ Consumer Group D: 분석 Projection → ClickHouse
+    |
+    +---> Consumer Group A: 재고 Projection -> Redis
+    +---> Consumer Group B: 결제 Projection -> PostgreSQL
+    +---> Consumer Group C: 검색 Projection -> Elasticsearch
+    +---> Consumer Group D: 분석 Projection -> ClickHouse
 ```
 
 ### 4.3 재처리(Replay) 운영 절차
@@ -287,23 +287,23 @@ Kafka Topic: order-events
 이벤트 소싱/스트림 아키텍처 의사결정 트리
 
 스트림 처리 필요?
-├─ NO  → 전통 CRUD + 배치 ETL
-└─ YES → 실시간 정확도 요구?
-          ├─ 높음 + 복잡 집계 → 람다 아키텍처
-          │   (배치 + 스트림 병렬 운영)
-          └─ 보통 + 운영 단순화 → 카파 아키텍처
++- NO  -> 전통 CRUD + 배치 ETL
++- YES -> 실시간 정확도 요구?
+          +- 높음 + 복잡 집계 -> 람다 아키텍처
+          |   (배치 + 스트림 병렬 운영)
+          +- 보통 + 운영 단순화 -> 카파 아키텍처
               (스트림 단일 경로)
-              └─ 이력/감사 필요? → 이벤트 소싱 결합
+              +- 이력/감사 필요? -> 이벤트 소싱 결합
 ```
 
 ### 5.3 현업 채택 현황
 
 | 기업 | 아키텍처 | 용도 |
 |:---|:---|:---|
-| Netflix | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) → 카파 전환 | 실시간 추천 |
+| Netflix | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) -> 카파 전환 | 실시간 추천 |
 | LinkedIn | 카파 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반) | 사용자 활동 스트림 |
 | Uber | [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) + [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) | 실시간 주문/위치 처리 |
-| Airbnb | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) → Flink 기반 카파 | 가격 최적화 |
+| Airbnb | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) -> Flink 기반 카파 | 가격 최적화 |
 
 ### 5.4 결론 요약
 
@@ -323,7 +323,7 @@ Kafka Topic: order-events
 | 설계 패턴 | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) | 명령과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 분리 |
 | 인프라 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | 이벤트 스토어 + 메시지 큐 |
 | 재처리 | Replay (재현) | 오프셋 리셋 후 재처리 |
-| 표현 변환 | Projection (프로젝션) | 이벤트 → 읽기 모델 변환 |
+| 표현 변환 | Projection (프로젝션) | 이벤트 -> 읽기 모델 변환 |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리 | [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -334,19 +334,19 @@ Kafka Topic: order-events
 
 ```text
 CRUD 기반 상태 저장 (현재 상태만 유지)
-    │
-    ▼
+    |
+    v
 이벤트 소싱 (Event Sourcing): 모든 변화를 이벤트로 기록
-    ├─► 이벤트 스토어: 불변 로그 (Kafka · EventStoreDB)
-    └─► 상태 재구성: 이벤트 리플레이 (Replay)
-    │
-    ▼
+    +-► 이벤트 스토어: 불변 로그 (Kafka · EventStoreDB)
+    +-► 상태 재구성: 이벤트 리플레이 (Replay)
+    |
+    v
 람다 아키텍처: Batch Layer + Speed Layer 분리
-    │
-    ▼
+    |
+    v
 카파 아키텍처: Speed Layer만으로 통합 (Kafka 중심)
-    │
-    ▼
+    |
+    v
 CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리
 ```
 2. [람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 두 개의 창구가 있는 은행이에요. 빠른 창구(스트림)와 정확한 창구(배치) 두 곳에서 결과를 합쳐요.
@@ -358,7 +358,7 @@ CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리
 
 **진행 상황**: 191 / 258
 
-← **이전**: [190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)
-**다음**: [192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망](/knowledge-base/studynote/14_data_engineering/04_mlops/192_edge_ai_onnx_tensorrt_model_serialization/) →
+<- **이전**: [190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)
+**다음**: [192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망](/knowledge-base/studynote/14_data_engineering/04_mlops/192_edge_ai_onnx_tensorrt_model_serialization/) ->
 
 ---

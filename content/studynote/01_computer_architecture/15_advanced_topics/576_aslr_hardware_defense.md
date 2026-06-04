@@ -44,20 +44,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 우회가 어떻게 차단되는지 단계별로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ ASLR bypass mitigation pipeline                                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [process launch]                                                           │
-│   ├─ random code / heap / stack / library bases                            │
-│   └─ 64-bit entropy                                                        │
-│                                                                            │
-│ [attacker tries de-randomization]                                          │
-│   ├─ info leak                   ──▶ pointer redaction needed              │
-│   ├─ speculative side channel    ──▶ KPTI / predictor control             │
-│   └─ direct code reuse           ──▶ NX / CET / PAC / BTI                 │
-│                                                                            │
-│ Result: "find address" and "use leaked address" both become harder         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| ASLR bypass mitigation pipeline                                            |
++----------------------------------------------------------------------------+
+| [process launch]                                                           |
+|   +- random code / heap / stack / library bases                            |
+|   +- 64-bit entropy                                                        |
+|                                                                            |
+| [attacker tries de-randomization]                                          |
+|   +- info leak                   ---> pointer redaction needed              |
+|   +- speculative side channel    ---> KPTI / predictor control             |
+|   +- direct code reuse           ---> NX / CET / PAC / BTI                 |
+|                                                                            |
+| Result: "find address" and "use leaked address" both become harder         |
++----------------------------------------------------------------------------+
 ```
 
 즉 하드웨어 기반 우회 방어의 요체는 두 단계다. 첫째, 주소가 잘 안 보이게 한다. 둘째, 일부 주소가 드러나도 그 정보만으로는 안정적인 공격 체인을 만들기 어렵게 한다. 이 둘이 함께 있을 때 ASLR은 단순 장식이 아니라 실제 공격 비용을 크게 높이는 방어선이 된다.
@@ -137,17 +137,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 DEP / NX
-    │
-    ▼
+    |
+    v
 ASLR · PIE
-    │
-    ▼
+    |
+    v
 64비트 고엔트로피 · KASLR
-    │
-    ▼
+    |
+    v
 KPTI · 투기 실행 완화
-    │
-    ▼
+    |
+    v
 CET / PAC / BTI · 세분화 재무작위화
 ```
 
@@ -165,7 +165,7 @@ CET / PAC / BTI · 세분화 재무작위화
 
 **진행 상황**: 576 / 803
 
-← **이전**: [575. 가상 주소 공간 분리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/575_virtual_address_isolation/)
-**다음**: [577. 분기 목표 주입 (Branch Target Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/577_branch_target_injection/) →
+<- **이전**: [575. 가상 주소 공간 분리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/575_virtual_address_isolation/)
+**다음**: [577. 분기 목표 주입 (Branch Target Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/577_branch_target_injection/) ->
 
 ---

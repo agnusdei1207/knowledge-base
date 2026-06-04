@@ -44,19 +44,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 작은 열원이 어떻게 넓은 평면 방열 면적으로 바뀌는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      Vapor chamber spreads one hotspot into a wide condenser area         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Top skin / condenser area                                                 │
-│ ┌────────────────────────────────────────────────────────────────────────┐ │
-│ │ vapor spreads laterally  ---> ---> --->                               │ │
-│ │                                                                        │ │
-│ │   [hotspot]  evaporate  =>  vapor transport  =>  condense at edges    │ │
-│ │                                                                        │ │
-│ │ liquid return through wick  <--- <--- <---                            │ │
-│ └────────────────────────────────────────────────────────────────────────┘ │
-│ Bottom skin / evaporator area                                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      Vapor chamber spreads one hotspot into a wide condenser area         |
++----------------------------------------------------------------------------+
+| Top skin / condenser area                                                 |
+| +------------------------------------------------------------------------+ |
+| | vapor spreads laterally  ---> ---> --->                               | |
+| |                                                                        | |
+| |   [hotspot]  evaporate  =>  vapor transport  =>  condense at edges    | |
+| |                                                                        | |
+| | liquid return through wick  <--- <--- <---                            | |
+| +------------------------------------------------------------------------+ |
+| Bottom skin / evaporator area                                            |
++----------------------------------------------------------------------------+
 ```
 
 따라서 베이퍼 체임버는 "얇은 구조에서 넓은 면적을 살리는" 데 특히 강하다.
@@ -129,17 +129,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Solid copper spreader
-        │
-        ▼
+        |
+        v
 Heatpipe-based transport
-        │
-        ▼
+        |
+        v
 Flat vapor chamber for 2D spreading
-        │
-        ▼
+        |
+        v
 Hybrid VC + graphite / fin integration
-        │
-        ▼
+        |
+        v
 Package-level and ultra-thin composite vapor chambers
 ```
 
@@ -157,7 +157,7 @@ Package-level and ultra-thin composite vapor chambers
 
 **진행 상황**: 739 / 803
 
-← **이전**: [737. 서멀 페이스트 (TIM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/)
-**다음**: [739. 히트파이프 (Heatpipe)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/) →
+<- **이전**: [737. 서멀 페이스트 (TIM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/)
+**다음**: [739. 히트파이프 (Heatpipe)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/) ->
 
 ---

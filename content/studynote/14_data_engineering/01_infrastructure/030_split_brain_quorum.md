@@ -22,21 +22,21 @@ tags = ["studynote-data-engineering"]
 스플릿 브레인 시나리오:
 
   정상:
-  [Node1(M)] ── [Node2] ── [Node3]
+  [Node1(M)] -- [Node2] -- [Node3]
   M = Master, 모두 연결
 
   네트워크 파티션:
-  [Node1(M)] ✗✗✗✗✗ [Node2(M)] ── [Node3]
-      │                    │
-      │                    │
+  [Node1(M)] ✗✗✗✗✗ [Node2(M)] -- [Node3]
+      |                    |
+      |                    |
   "내가 마스터!"        "내가 마스터!"
   독립 쓰기 수행        독립 쓰기 수행
-  → 데이터 충돌!
+  -> 데이터 충돌!
 
 쿼럼 해결:
   3노드 클러스터 쿼럼 = 2
-  Node1 단독: 쿼럼 없음 → 읽기 전용
-  Node2+3: 쿼럼 있음 → 정상 운영
+  Node1 단독: 쿼럼 없음 -> 읽기 전용
+  Node2+3: 쿼럼 있음 -> 정상 운영
 ```
 
 - **📢 섹션 요약 비유**: [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)은 전화 불통된 두 지사가 각자 독립적으로 결정하는 것이다. 둘 다 "내가 본사 지시를 받은 책임자"라고 주장하며 다른 결정을 내리면 혼란이 생긴다.
@@ -58,16 +58,16 @@ tags = ["studynote-data-engineering"]
 
 ```text
 리더 선출:
-  1. 팔로워 타임아웃 → 후보자 전환
+  1. 팔로워 타임아웃 -> 후보자 전환
   2. 후보자가 전체에 투표 요청
-  3. 과반수 투표 획득 → 리더 선출
+  3. 과반수 투표 획득 -> 리더 선출
   4. 리더가 하트비트 전송 (팔로워 안정화)
 
 로그 복제:
-  1. 클라이언트 → 리더에 쓰기 요청
-  2. 리더 → 팔로워에 로그 항목 복제
-  3. 과반수 수신 확인 → 커밋
-  4. 리더 → 클라이언트에 성공 응답
+  1. 클라이언트 -> 리더에 쓰기 요청
+  2. 리더 -> 팔로워에 로그 항목 복제
+  3. 과반수 수신 확인 -> 커밋
+  4. 리더 -> 클라이언트에 성공 응답
 ```
 
 - **📢 섹션 요약 비유**: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 리더 선출은 반장 선거다. 아무도 없으면 후보가 손 들고, 반 과반수 이상의 동의를 받으면 반장(리더)이 된다. 과반수 없이는 아무도 반장이 될 수 없다.
@@ -95,19 +95,19 @@ tags = ["studynote-data-engineering"]
 min-replicas-to-write 1
 min-replicas-max-lag 10
 
-→ 최소 1개 복제본이 10초 이내 응답해야 쓰기 허용
-→ 마스터 고립 시 쓰기 거부 (스플릿 브레인 방지)
+-> 최소 1개 복제본이 10초 이내 응답해야 쓰기 허용
+-> 마스터 고립 시 쓰기 거부 (스플릿 브레인 방지)
 
 Sentinel 쿼럼:
-  3 Sentinel → 2개 동의 시 마스터 다운 판단
-  → 페일오버 수행
+  3 Sentinel -> 2개 동의 시 마스터 다운 판단
+  -> 페일오버 수행
 ```
 
 ### [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 쿼럼 실패 대응
 
 ```text
 상황: 5노드 중 3노드 장애 (쿼럼 3 요구)
-→ etcd 쓰기/읽기 불가 (Kubernetes 제어 플레인 중단)
+-> etcd 쓰기/읽기 불가 (Kubernetes 제어 플레인 중단)
 
 복구:
   1. 장애 노드 복구 시 자동 재합류
@@ -147,17 +147,17 @@ Sentinel 쿼럼:
 
 ```text
 [스플릿 브레인 — 네트워크 파티션 시 독립 동작 충돌]
-    │
-    ▼
+    |
+    v
 [쿼럼 — 과반수 합의로 단일 파티션 활성화]
-    │
-    ▼
+    |
+    v
 [Paxos/Raft — 쿼럼 기반 분산 합의 알고리즘]
-    │
-    ▼
+    |
+    v
 [etcd/ZooKeeper — 쿼럼 기반 분산 코디네이션 서비스]
-    │
-    ▼
+    |
+    v
 [BFT/HotStuff — 블록체인 Byzantine 내성 합의]
 ```
 
@@ -173,7 +173,7 @@ Sentinel 쿼럼:
 
 **진행 상황**: 30 / 258
 
-← **이전**: [29. Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/)
-**다음**: [31. Oozie vs Airflow — 워크플로 스케줄러 비교](/knowledge-base/studynote/14_data_engineering/01_infrastructure/031_apache_oozie_airflow/) →
+<- **이전**: [29. Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/)
+**다음**: [31. Oozie vs Airflow — 워크플로 스케줄러 비교](/knowledge-base/studynote/14_data_engineering/01_infrastructure/031_apache_oozie_airflow/) ->
 
 ---

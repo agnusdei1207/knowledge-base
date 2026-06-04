@@ -32,29 +32,29 @@ tags = ["studynote-software-engineering"]
 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 단순히 아이템을 아무렇게나 던지고 포기하는 '패배'가 아니다. 기업의 미션(축)을 단단히 고정하고 전술(방향)만 바꾸는 구조적인 방법론이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           린 스타트업의 피벗 (Pivot) 의사결정 사이클         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ 비전(Vision) 고정 ] : "세상의 소통 방식을 바꾼다"    │
-│                 │                                            │
-│                 ▼                                            │
-│  ┌─────────────────────────────┐    [ 데이터 수집/측정 ] │
-│  │ MVP (Minimum Viable Product)│ ──────▶ 유저 이탈률 90%  │
-│  │ 출시 (가설 1: 데이팅 앱)    │          특정 기능만 사용 │
-│  └─────────────────────────────┘                         │
-│                 ▲                                            │
-│                 │                                            │
-│                 ├───────── ❌ 고집 (Runway 소진, 파산)       │
-│  [ 피벗 (Pivot) 결단 ]                                       │
-│                 ├───────── 🔄 전략 변경 (가설 2 제안)        │
-│                 │                                            │
-│                 ▼                                            │
-│  ┌─────────────────────────────┐                             │
-│  │ 새로운 MVP 런칭 (가설 2)    │ ──────▶ PMF 도달, 성장      │
-│  │ (예: 동영상 공유 플랫폼)    │                             │
-│  └─────────────────────────────┘                             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           린 스타트업의 피벗 (Pivot) 의사결정 사이클         |
++--------------------------------------------------------------+
+|                                                              |
+|       [ 비전(Vision) 고정 ] : "세상의 소통 방식을 바꾼다"    |
+|                 |                                            |
+|                 v                                            |
+|  +-----------------------------+    [ 데이터 수집/측정 ] |
+|  | MVP (Minimum Viable Product)| -------> 유저 이탈률 90%  |
+|  | 출시 (가설 1: 데이팅 앱)    |          특정 기능만 사용 |
+|  +-----------------------------+                         |
+|                 ^                                            |
+|                 |                                            |
+|                 +--------- ❌ 고집 (Runway 소진, 파산)       |
+|  [ 피벗 (Pivot) 결단 ]                                       |
+|                 +--------- 🔄 전략 변경 (가설 2 제안)        |
+|                 |                                            |
+|                 v                                            |
+|  +-----------------------------+                             |
+|  | 새로운 MVP 런칭 (가설 2)    | -------> PMF 도달, 성장      |
+|  | (예: 동영상 공유 플랫폼)    |                             |
+|  +-----------------------------+                             |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 최소 요건 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))을 통해 시장의 반응을 최대한 빨리, 적은 비용으로 테스트하는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 측정한 후 "고집(Persevere)할 것인가, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 것인가"를 체계적인 미팅을 통해 결정한다. 축이 고정되어 있지 않은 무분별한 사업 전환은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 아니라 단순한 '아이템 널뛰기'일 뿐이다.
@@ -118,17 +118,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 사업 가설 수립 및 MVP 구축 (Build)
-    │
-    ▼
+    |
+    v
 고객 반응 수집 및 핵심 지표 측정 (Measure)
-    │
-    ▼
+    |
+    v
 실패 데이터 확인 및 가설 기각 (Learn)
-    │
-    ▼
+    |
+    v
 피벗 (Pivot) · 줌인, 고객 세분화 등 방향 전환 결단
-    │
-    ▼
+    |
+    v
 시장 적합성 (PMF) 달성 및 스케일업 (Scale-up)
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 91 / 973
 
-← **이전**: [90. 최소 존립 제품 (MVP, Minimum Viable Product)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/)
-**다음**: [92. 대규모 애자일 (Scaled Agile) 프레임워크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) →
+<- **이전**: [90. 최소 존립 제품 (MVP, Minimum Viable Product)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/)
+**다음**: [92. 대규모 애자일 (Scaled Agile) 프레임워크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) ->
 
 ---

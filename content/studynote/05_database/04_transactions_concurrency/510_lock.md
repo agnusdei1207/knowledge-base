@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `클러스터링 팩터 인덱스 효율 평가 지표`·`옵티마이저 힌트 사용 인덱스 강제 접근`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [클러스터링 팩터 인덱스 효율 평가 지표]
-    │
-    ▼
+    |
+    v
 [바인드 변수 적용 하드 파싱 회피]
-    │
-    ├──▶ [옵티마이저 힌트 사용 인덱스 강제 접근]
-    └──▶ [반정규화 성능 트레이드오프 파생 컬럼 설계]
+    |
+    +---> [옵티마이저 힌트 사용 인덱스 강제 접근]
+    +---> [반정규화 성능 트레이드오프 파생 컬럼 설계]
 ```
 
 [클러스터링 팩터](/knowledge-base/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 효율 평가 지표에서 출발한 논점이 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피에서 핵심 판단으로 모이고, 이후 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 강제 접근·반정규화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파생 컬럼 설계 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 510 / 600
 
-← **이전**: [509. 클러스터링 팩터 인덱스 효율 평가 지표 (Data Dictionary)](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)
-**다음**: [511. 옵티마이저 힌트 사용 인덱스 강제 접근 (Two-phase Locking)](/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/) →
+<- **이전**: [509. 클러스터링 팩터 인덱스 효율 평가 지표 (Data Dictionary)](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)
+**다음**: [511. 옵티마이저 힌트 사용 인덱스 강제 접근 (Two-phase Locking)](/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/) ->
 
 ---

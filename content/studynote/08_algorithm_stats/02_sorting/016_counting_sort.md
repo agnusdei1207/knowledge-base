@@ -37,7 +37,7 @@ tags = ["studynote-algorithm"]
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 3단계
 
 1. **Count 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 순회하며 count[v]++ (값 v의 등장 횟수 기록)
-2. **Prefix Sum 단계**: count[i] += count[i-1] (누적합 → 각 값의 마지막 위치)
+2. **Prefix Sum 단계**: count[i] += count[i-1] (누적합 -> 각 값의 마지막 위치)
 3. **Place 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 역순으로 순회하며 output[count[v]-1] = v, count[v]-- (안정 정렬 보장)
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 계수 정렬 동작 과정
@@ -45,19 +45,19 @@ tags = ["studynote-algorithm"]
 ```
 입력: [3, 1, 4, 1, 5, 2, 3, 2]  (k=5)
 
-── 1단계: Count ──────────────────────────────────
+-- 1단계: Count ----------------------------------
 인덱스:  0   1   2   3   4   5
 count: [ 0,  2,  2,  2,  1,  1 ]
-              ↑   ↑   ↑   ↑   ↑
+              ^   ^   ^   ^   ^
               1이  2가  3이  4가  5가
               2번  2번  2번  1번  1번
 
-── 2단계: Prefix Sum ─────────────────────────────
+-- 2단계: Prefix Sum -----------------------------
 인덱스:  0   1   2   3   4   5
 count: [ 0,  2,  4,  6,  7,  8 ]
         누적합: count[i]번째 위치까지가 값 i의 끝
 
-── 3단계: Place (역순 순회로 안정성 보장) ──────────
+-- 3단계: Place (역순 순회로 안정성 보장) ----------
 입력 역순: [2, 3, 2, 5, 1, 4, 1, 3]
  v=2: output[count[2]-1] = output[3] = 2, count[2]=3
  v=3: output[count[3]-1] = output[5] = 3, count[3]=5
@@ -78,7 +78,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 | 안정 정렬 여부 | ✅ 안정 |
 | 제자리 정렬 여부 | ❌ 비제자리 |
 
-📢 **섹션 요약 비유**: 세 단계는 투표 → 집계 → 결과 공고와 같다. 투표함(count)에 표를 넣고(1단계), 누적 집계(2단계)하면, 각 후보의 결과 위치가 확정되어 발표(3단계)만 하면 된다.
+📢 **섹션 요약 비유**: 세 단계는 투표 -> 집계 -> 결과 공고와 같다. 투표함(count)에 표를 넣고(1단계), 누적 집계(2단계)하면, 각 후보의 결과 위치가 확정되어 발표(3단계)만 하면 된다.
 
 ---
 
@@ -111,8 +111,8 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 ### 적합한 사용 사례
 
 **시나리오 1 — 학생 성적 정렬**: 0~100점, n=10만 명
-→ k=101, n=100,000 → O(100,101) ≈ O(n) ✅
-→ 병합 정렬 O(n log n) ≈ 1,700,000 연산 대비 약 17배 빠름
+-> k=101, n=100,000 -> O(100,101) ≈ O(n) ✅
+-> 병합 정렬 O(n log n) ≈ 1,700,000 연산 대비 약 17배 빠름
 
 <strong>시나리오 2 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a>의 서브루틴</strong>: [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 각 자릿수(digit)마다 계수 정렬을 적용하므로, 계수 정렬의 안정성이 전체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확성의 핵심
 
@@ -121,17 +121,17 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 ### 주의사항 (기술사 판단 기준)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  계수 정렬 적용 가능 여부 판단 흐름도                  │
-│                                                      │
-│  입력이 정수인가? ──No──→ 사용 불가 (비교 정렬 사용)  │
-│        │ Yes                                         │
-│  범위 k를 알 수 있는가? ──No──→ 기수 정렬 검토        │
-│        │ Yes                                         │
-│  k = O(n) 수준인가? ──No──→ 메모리 폭발 위험         │
-│        │ Yes                                         │
-│  계수 정렬 사용 ✅                                    │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  계수 정렬 적용 가능 여부 판단 흐름도                  |
+|                                                      |
+|  입력이 정수인가? --No---> 사용 불가 (비교 정렬 사용)  |
+|        | Yes                                         |
+|  범위 k를 알 수 있는가? --No---> 기수 정렬 검토        |
+|        | Yes                                         |
+|  k = O(n) 수준인가? --No---> 메모리 폭발 위험         |
+|        | Yes                                         |
+|  계수 정렬 사용 ✅                                    |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 계수 정렬을 쓸 때는 범위를 먼저 확인해야 한다. 100칸짜리 집계표는 편리하지만, 100억 칸짜리 집계표는 집 자체가 무너진다.
@@ -158,26 +158,26 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | ← 계수 정렬 사용 | 계수 정렬이 서브루틴 |
+| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | <- 계수 정렬 사용 | 계수 정렬이 서브루틴 |
 | [버킷 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) ([Bucket Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)) | 유사 개념 | 구간 분할 방식의 비교 |
-| 안정 정렬 (Stable Sort) | → 성질 | 병합 정렬과 함께 대표 안정 정렬 |
+| 안정 정렬 (Stable Sort) | -> 성질 | 병합 정렬과 함께 대표 안정 정렬 |
 | 비교 기반 하한 정리 | ↔ 돌파 | Ω(n log n) 하한 우회 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [비교 기반 정렬(O(n log n) 하한)]
-    │
-    ▼
+    |
+    v
 [계수 정렬(Counting Sort) — 값의 빈도 활용]
-    │
-    ▼
+    |
+    v
 [누적 카운트 배열 — 위치 계산]
-    │
-    ▼
+    |
+    v
 [안정성 보장 — 같은 값의 상대 순서 유지]
-    │
-    ▼
+    |
+    v
 [기수 정렬(Radix Sort) 확장]
 ```
 
@@ -195,7 +195,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 **진행 상황**: 16 / 175
 
-← **이전**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/)
-**다음**: [10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) →
+<- **이전**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/)
+**다음**: [10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ->
 
 ---

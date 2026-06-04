@@ -24,17 +24,17 @@ DRY는 앤드루 헌트(Andrew Hunt)와 데이비드 토마스(David Thomas)가 
 중복이 쌓이면 버그 수정 한 건이 5군데에서 같은 작업을 반복해야 하는 상황이 만들어진다. 그중 한 곳이라도 빠지면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치나 보안 취약점이 생긴다. DRY는 이 위험을 단일 진실 공급원(Single Source of Truth)으로 봉쇄한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         중복 코드의 문제 전파 구조                           │
-├─────────────────────────────────────────────────────────────┤
-│  요구사항 변경: "세금 계산 방식 변경"                        │
-│                                                             │
-│  [OrderService.calcTax()] ← 수정 ✓                          │
-│  [CartService.calcTax()]  ← 수정 빠뜨림 ✗ → 버그 발생       │
-│  [ReportService.calcTax()]← 수정 빠뜨림 ✗ → 데이터 불일치   │
-│                                                             │
-│  DRY 적용 후: TaxCalculator 단일 클래스 → 한 곳만 수정 ✓    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         중복 코드의 문제 전파 구조                           |
++-------------------------------------------------------------+
+|  요구사항 변경: "세금 계산 방식 변경"                        |
+|                                                             |
+|  [OrderService.calcTax()] <- 수정 ✓                          |
+|  [CartService.calcTax()]  <- 수정 빠뜨림 ✗ -> 버그 발생       |
+|  [ReportService.calcTax()]<- 수정 빠뜨림 ✗ -> 데이터 불일치   |
+|                                                             |
+|  DRY 적용 후: TaxCalculator 단일 클래스 -> 한 곳만 수정 ✓    |
++-------------------------------------------------------------+
 ```
 
 DRY를 적용하지 않으면 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)의 크기만 커지고 응집도는 낮아진다. 요구사항 변경이 여러 파일에 흩어진 중복을 모두 찾아 수정하는 고통스러운 작업으로 이어지기 때문이다.
@@ -55,20 +55,20 @@ DRY를 실현하는 핵심 메커니즘은 추출(Extract)과 [참조](/knowledg
 | 문서 중복 | 코드-문서 불일치 | 자동 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(JavaDoc, Swagger) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         DRY 적용 전후 코드 구조 변화                         │
-├─────────────────────────────────────────────────────────────┤
-│ Before:                                                     │
-│   ServiceA { double tax = price * 0.1; }                    │
-│   ServiceB { double tax = price * 0.1; }   ← 중복           │
-│   ServiceC { double tax = price * 0.1; }                    │
-│                                                             │
-│ After:                                                      │
-│   TaxPolicy { double calc(price) { return price * 0.1; } }  │
-│   ServiceA { tax = TaxPolicy.calc(price); }  ← 단일 참조    │
-│   ServiceB { tax = TaxPolicy.calc(price); }                 │
-│   ServiceC { tax = TaxPolicy.calc(price); }                 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         DRY 적용 전후 코드 구조 변화                         |
++-------------------------------------------------------------+
+| Before:                                                     |
+|   ServiceA { double tax = price * 0.1; }                    |
+|   ServiceB { double tax = price * 0.1; }   <- 중복           |
+|   ServiceC { double tax = price * 0.1; }                    |
+|                                                             |
+| After:                                                      |
+|   TaxPolicy { double calc(price) { return price * 0.1; } }  |
+|   ServiceA { tax = TaxPolicy.calc(price); }  <- 단일 참조    |
+|   ServiceB { tax = TaxPolicy.calc(price); }                 |
+|   ServiceC { tax = TaxPolicy.calc(price); }                 |
++-------------------------------------------------------------+
 ```
 
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 영역에서 DRY는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))로 표현된다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 테이블에 중복 저장하면 업데이트 이상([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))이 발생하므로, 3정규형([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/), [Third Normal Form](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/))까지 적용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 진실 공급원을 보장한다.
@@ -122,7 +122,7 @@ DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보
 
 ### 📌 관련 개념 맵
 
-[코드 품질] → [DRY] → [리팩토링(Extract Method)] → [공통 라이브러리] → [데이터 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(SSOT)]
+[코드 품질] -> [DRY] -> [리팩토링(Extract Method)] -> [공통 라이브러리] -> [데이터 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(SSOT)]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -133,7 +133,7 @@ DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[복사-붙여넣기 프로그래밍] → [코드 중복 문제 인식] → [DRY 원칙 정립] → [Extract Method 리팩토링] → [공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)·내부 패키지] → [모노레포(Monorepo) 전략] → [마이크로서비스 공유 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 관리]
+[복사-붙여넣기 프로그래밍] -> [코드 중복 문제 인식] -> [DRY 원칙 정립] -> [Extract Method 리팩토링] -> [공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)·내부 패키지] -> [모노레포(Monorepo) 전략] -> [마이크로서비스 공유 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 관리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +147,7 @@ DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보
 
 **진행 상황**: 156 / 530
 
-← **이전**: [106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)
-**다음**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/) →
+<- **이전**: [106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)
+**다음**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/) ->
 
 ---

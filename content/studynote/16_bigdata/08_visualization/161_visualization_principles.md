@@ -24,10 +24,10 @@ tags = ["studynote-bigdata"]
 [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 단순히 "예쁜 차트 만들기"가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전달하는 <strong>사실과 이야기를 독자가 정확하고 빠르게 이해</strong>할 수 있도록 시각적으로 인코딩하는 커뮤니케이션 행위다.
 
 잘못된 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 폐해:
-- **절단된 Y축**: 0에서 시작하지 않는 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) → 변화 폭 과장
-- **3D 차트**: 원근법으로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡 → 비율 오해
-- **과도한 색상**: 12가지 색상의 파이 차트 → 색상 구분 불가
-- **차트 정크(Chartjunk)**: 의미 없는 격자선, 그림자, 배경 이미지 → 시선 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
+- **절단된 Y축**: 0에서 시작하지 않는 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) -> 변화 폭 과장
+- **3D 차트**: 원근법으로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡 -> 비율 오해
+- **과도한 색상**: 12가지 색상의 파이 차트 -> 색상 구분 불가
+- **차트 정크(Chartjunk)**: 의미 없는 격자선, 그림자, 배경 이미지 -> 시선 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
 
 **📢 섹션 요약 비유**: [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 <strong>건축 설계도</strong>와 같다. 아름다운 외관(미적 요소)도 중요하지만, 구조([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 정확하게 전달하는 것이 본질이다. 장식이 구조 정보를 가리면 건물을 지을 수 없다.
 
@@ -38,26 +38,26 @@ tags = ["studynote-bigdata"]
 ### Tufte의 5대 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              Edward Tufte 시각화 5대 원칙                    │
-├──────────────┬──────────────────────────────────────────────┤
-│ 원칙         │  내용                                        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 1. 명확성    │ 독자가 즉각적으로 메시지를 파악할 수 있어야 │
-│  (Clarity)   │ 함. 제목·레이블·범례가 자명해야 한다.        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 2. 정확성    │ 데이터를 왜곡하지 않는다. Y축은 0에서 시작,  │
-│  (Accuracy)  │ 원 면적은 데이터 값에 비례해야 한다.         │
-├──────────────┼──────────────────────────────────────────────┤
-│ 3. 효율성    │ Data-Ink Ratio 최대화. 필요 없는 요소는 모두 │
-│  (Efficiency)│ 제거. 격자선을 최소화, 3D 효과 금지.         │
-├──────────────┼──────────────────────────────────────────────┤
-│ 4. 심미성    │ 기능적 아름다움. 불필요한 장식 없이도 보기   │
-│  (Aesthetics)│ 좋은 차트가 가능하다.                        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 5. 접근성    │ 색맹(Color Blindness) 고려. WCAG 명도 대비   │
-│ (Accessibility│ 4.5:1 이상. 색+패턴 이중 인코딩.           │
-└──────────────┴──────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              Edward Tufte 시각화 5대 원칙                    |
++--------------+----------------------------------------------+
+| 원칙         |  내용                                        |
++--------------+----------------------------------------------+
+| 1. 명확성    | 독자가 즉각적으로 메시지를 파악할 수 있어야 |
+|  (Clarity)   | 함. 제목·레이블·범례가 자명해야 한다.        |
++--------------+----------------------------------------------+
+| 2. 정확성    | 데이터를 왜곡하지 않는다. Y축은 0에서 시작,  |
+|  (Accuracy)  | 원 면적은 데이터 값에 비례해야 한다.         |
++--------------+----------------------------------------------+
+| 3. 효율성    | Data-Ink Ratio 최대화. 필요 없는 요소는 모두 |
+|  (Efficiency)| 제거. 격자선을 최소화, 3D 효과 금지.         |
++--------------+----------------------------------------------+
+| 4. 심미성    | 기능적 아름다움. 불필요한 장식 없이도 보기   |
+|  (Aesthetics)| 좋은 차트가 가능하다.                        |
++--------------+----------------------------------------------+
+| 5. 접근성    | 색맹(Color Blindness) 고려. WCAG 명도 대비   |
+| (Accessibility| 4.5:1 이상. 색+패턴 이중 인코딩.           |
++--------------+----------------------------------------------+
 ```
 
 ### 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Pre-attentive [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))
@@ -99,18 +99,18 @@ tags = ["studynote-bigdata"]
 | **ColorBrewer** | 범주형·순서형·발산형 3종, 색맹 옵션 | 지도, 통계 차트 |
 | **IBM Color Palette** | WCAG [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 준수, 8가지 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 팔레트 | 엔터프라이즈 BI |
 
-색상+패턴 이중 인코딩(Dual Encoding): 색상만으로 구분하지 않고, 선의 대시 패턴이나 마커 형태도 동시에 사용 → 색맹 사용자도 구분 가능.
+색상+패턴 이중 인코딩(Dual Encoding): 색상만으로 구분하지 않고, 선의 대시 패턴이나 마커 형태도 동시에 사용 -> 색맹 사용자도 구분 가능.
 
 ### 차트 선택 시작점: What Story Am I Telling?
 
 ```
-비교 → Bar Chart / Column Chart
-추세 → Line Chart / Area Chart
-비율 → Pie (≤5개) / Treemap (계층적)
-분포 → Histogram / Box Plot / Violin
-상관 → Scatter Plot / Bubble Chart
-흐름 → Sankey / Chord Diagram
-지리 → Choropleth / Bubble Map
+비교 -> Bar Chart / Column Chart
+추세 -> Line Chart / Area Chart
+비율 -> Pie (≤5개) / Treemap (계층적)
+분포 -> Histogram / Box Plot / Violin
+상관 -> Scatter Plot / Bubble Chart
+흐름 -> Sankey / Chord Diagram
+지리 -> Choropleth / Bubble Map
 ```
 
 **📢 섹션 요약 비유**: 차트 선택은 <strong>옷 선택</strong>과 같다. 결혼식(비율 이야기)에 정장(파이 차트), 운동(분포 이야기)에 운동복(히스토그램) — 상황에 맞는 옷(차트)을 입어야 한다.
@@ -140,7 +140,7 @@ tags = ["studynote-bigdata"]
 ### 거짓 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 회피
 
 - **절단된 Y축(Truncated Y-axis)**: 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 반드시 0에서 시작 (꺾은선 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 예외 가능)
-- **면적 왜곡**: 버블 차트는 반지름이 아닌 <strong>면적</strong>이 값에 비례해야 함 (반지름 비례 시 2배 값 → 면적 4배)
+- **면적 왜곡**: 버블 차트는 반지름이 아닌 <strong>면적</strong>이 값에 비례해야 함 (반지름 비례 시 2배 값 -> 면적 4배)
 - <strong>선택적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표시</strong>: 불리한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기거나 기간을 조작하는 행위
 
 **📢 섹션 요약 비유**: 절단된 Y축으로 만든 차트는 <strong>키를 발꿈치 들고 재는 것</strong>과 같다. 실제보다 키가 커 보이지만, 사실은 왜곡된 측정이다.
@@ -182,14 +182,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Data-Ink Ratio]
-    │
-    ▼
+    |
+    v
 [Chartjunk]
-    │
-    ▼
+    |
+    v
 [전주의적 속성]
-    │
-    ▼
+    |
+    v
 [게슈탈트 원칙]
 ```
 
@@ -207,7 +207,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 161 / 262
 
-← **이전**: [160. Microsoft Fabric — One Lake 통합 분석 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/)
-**다음**: [162. 차트 유형 선택 (Chart Type Selection) — 비교/추세/비율/분포별 적합 차트](/knowledge-base/studynote/16_bigdata/08_visualization/162_chart_type_selection/) →
+<- **이전**: [160. Microsoft Fabric — One Lake 통합 분석 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/)
+**다음**: [162. 차트 유형 선택 (Chart Type Selection) — 비교/추세/비율/분포별 적합 차트](/knowledge-base/studynote/16_bigdata/08_visualization/162_chart_type_selection/) ->
 
 ---

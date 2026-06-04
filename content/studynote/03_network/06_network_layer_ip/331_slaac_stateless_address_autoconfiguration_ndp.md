@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [EUI-64]
-    │
-    ▼
+    |
+    v
 [SLAAC 무상태 주소 자동 설정]
-    │
-    └──▶ [IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    |
+    +---> [IPv4-IPv6 전환 기술: 듀얼 스택,…]
 ```
 
 - **📢 섹션 요약 비유**: ** SLAAC은 공산국가의 철저한 **"배급제([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))"** 시스템에서 벗어나, 각자가 자기가 쓸 주소를 알아서 만들어 쓰는 완벽한 **"자유 시장 경제(자급자족)"** 시스템으로의 진화입니다.
@@ -58,24 +58,24 @@ tags = ["studynote-network"]
 - 0.1초 만에 전 세계에서 유일한 <strong>128비트 글로벌 유니캐스트 주소(공인 IP)가 완성</strong>되고, 즉시 유튜브를 볼 수 있게 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                NDP(RS/RA)를 통한 SLAAC 조립 마법               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스마트폰 ]                                 [ 라우터 ]      │
- │     │ (내 MAC으로 만든 뒷자리: 1234:5678:9abc:def0)           │
- │     │                                                       │
- │     │ 1. "공인 IP 만들게 앞자리 좀 주소!" (RS 발송)               │
- │     ├─────────────────────────────────────────▶           │
- │     │                                                       │
- │     │ 2. "오냐, 우리 동네는 2001:abcd:0001:0002 란다" (RA 발송) │
- │     ◀─────────────────────────────────────────┤           │
- │                                                             │
- │   3. 스마트폰 왈: "앞자리 받았으니 합체!!"                       │
- │      [앞 64비트] 2001:abcd:0001:0002 : [뒤 64비트] 1234:5678:9abc:def0 │
- │                                                             │
- │   ▶ 결과: DHCP 서버가 없어도 완벽한 공인 IP가 세팅되었다.           │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                NDP(RS/RA)를 통한 SLAAC 조립 마법               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 스마트폰 ]                                 [ 라우터 ]      |
+ |     | (내 MAC으로 만든 뒷자리: 1234:5678:9abc:def0)           |
+ |     |                                                       |
+ |     | 1. "공인 IP 만들게 앞자리 좀 주소!" (RS 발송)               |
+ |     +------------------------------------------>           |
+ |     |                                                       |
+ |     | 2. "오냐, 우리 동네는 2001:abcd:0001:0002 란다" (RA 발송) |
+ |     <------------------------------------------+           |
+ |                                                             |
+ |   3. 스마트폰 왈: "앞자리 받았으니 합체!!"                       |
+ |      [앞 64비트] 2001:abcd:0001:0002 : [뒤 64비트] 1234:5678:9abc:def0 |
+ |                                                             |
+ |   -> 결과: DHCP 서버가 없어도 완벽한 공인 IP가 세팅되었다.           |
+ +-------------------------------------------------------------+
 ```
 
 ### 5. SLAAC의 한계 ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 문제)
@@ -140,12 +140,12 @@ SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 �
 
 ```text
 [선행 개념: EUI-64]
-    │
-    ▼
+    |
+    v
 [현재 개념: SLAAC 무상태 주소 자동 설정]
-    │
-    ├──▶ [확장 A: IPv4-IPv6 전환 기술: 듀얼 스택,…]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 SLAAC 무상태 주소 자동 설정는 EUI-64에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ SLAAC 무상태 주소 자동 설정는 EUI-64에서 출발해 현재 메커니�
 
 **진행 상황**: 452 / 1120
 
-← **이전**: [330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/)
-**다음**: [332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)](/knowledge-base/studynote/03_network/06_network_layer_ip/332_ipv4_ipv6_transition_dual_stack_tunneling_nat64/) →
+<- **이전**: [330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/)
+**다음**: [332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)](/knowledge-base/studynote/03_network/06_network_layer_ip/332_ipv4_ipv6_transition_dual_stack_tunneling_nat64/) ->
 
 ---

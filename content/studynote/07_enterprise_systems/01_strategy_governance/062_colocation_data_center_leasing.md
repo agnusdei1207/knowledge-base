@@ -31,12 +31,12 @@ tags = ["studynote-enterprise"]
 
 ```text
 고객 서버
-   ↓
+   v
 데이터센터 Rack
-   ├─ 전력
-   ├─ 냉각
-   ├─ 네트워크
-   └─ 물리 보안
+   +- 전력
+   +- 냉각
+   +- 네트워크
+   +- 물리 보안
 ```
 
 | 책임 | 고객 | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) |
@@ -105,13 +105,13 @@ tags = ["studynote-enterprise"]
 
 ```text
 Customer-owned Hardware
-   ↓
+   v
 Colocation
-   ↓
+   v
 Direct Connect
-   ↓
+   v
 Hybrid Cloud
-   ↓
+   v
 Private Edge
 ```
 
@@ -121,11 +121,11 @@ Private Edge
 
 ```text
 온프레미스
-   ↓
+   v
 코로케이션
-   ↓
+   v
 Direct Connect
-   ↓
+   v
 하이브리드 클라우드
 ```
 
@@ -143,7 +143,7 @@ Direct Connect
 
 **진행 상황**: 62 / 482
 
-← **이전**: [61. 온프레미스 (On-Premise) 프라이빗 IT 인프라](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)
-**다음**: [63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/) →
+<- **이전**: [61. 온프레미스 (On-Premise) 프라이빗 IT 인프라](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)
+**다음**: [63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/) ->
 
 ---

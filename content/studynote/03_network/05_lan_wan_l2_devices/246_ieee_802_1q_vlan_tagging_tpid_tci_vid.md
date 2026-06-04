@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [가상 랜]
-    │
-    ▼
+    |
+    v
 [IEEE 802.1Q]
-    │
-    └──▶ [접근 포트 / 트렁크 포트]
+    |
+    +---> [접근 포트 / 트렁크 포트]
 ```
 
 - **📢 섹션 요약 비유**: ** 802.1Q 태깅은 수많은 사람들이 섞여서 지나가는 하나의 긴 통로(트렁크)에서, 서로 소속을 헷갈리지 않게 **"빨간색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 파란색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) 이름표(Tag)를 목에 걸어주는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템"**입니다.
@@ -44,27 +44,27 @@ tags = ["studynote-network"]
 - 태그가 삽입되면서 원래 있던 FCS(에러 검출 코드) 값은 틀려지므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 FCS 값을 새롭게 다시 계산하여 맨 꼬리에 덮어쓴다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IEEE 802.1Q 프레임 태깅 구조 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 이더넷 프레임 (Untagged) ]                            │
- │   ┌────────┬────────┬───────┬──────────────────────┬─────┐  │
- │   │목적지MAC│출발지MAC │ Type  │   Payload (IP 패킷)   │ FCS │  │
- │   └────────┴────────┴───────┴──────────────────────┴─────┘  │
- │                       ▲ 여기를 벌리고 끼워 넣음               │
- │                                                             │
- │   [ 802.1Q 태그 이더넷 프레임 (Tagged) ]                       │
- │   ┌────────┬────────┬───────┬───────┬──────────────┬─────┐  │
- │   │목적지MAC│출발지MAC │ 802.1Q│ Type  │ Payload (IP) │ New │  │
- │   │        │        │ TAG(4B│       │              │ FCS │  │
- │   └────────┴────────┴───────┴───────┴──────────────┴─────┘  │
- │                      │       │                              │
- │                      └── ┬ ──┘                              │
- │                           ▼ 4바이트(32비트)의 내부 구조         │
- │                      [ TPID(16) | TCI(16) ]                 │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IEEE 802.1Q 프레임 태깅 구조 도식               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 일반 이더넷 프레임 (Untagged) ]                            |
+ |   +--------+--------+-------+----------------------+-----+  |
+ |   |목적지MAC|출발지MAC | Type  |   Payload (IP 패킷)   | FCS |  |
+ |   +--------+--------+-------+----------------------+-----+  |
+ |                       ^ 여기를 벌리고 끼워 넣음               |
+ |                                                             |
+ |   [ 802.1Q 태그 이더넷 프레임 (Tagged) ]                       |
+ |   +--------+--------+-------+-------+--------------+-----+  |
+ |   |목적지MAC|출발지MAC | 802.1Q| Type  | Payload (IP) | New |  |
+ |   |        |        | TAG(4B|       |              | FCS |  |
+ |   +--------+--------+-------+-------+--------------+-----+  |
+ |                      |       |                              |
+ |                      +-- + --+                              |
+ |                           v 4바이트(32비트)의 내부 구조         |
+ |                      [ TPID(16) | TCI(16) ]                 |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 4바이트(32비트) 태그의 내부 구조
@@ -136,12 +136,12 @@ IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 ```text
 [선행 개념: 가상 랜]
-    │
-    ▼
+    |
+    v
 [현재 개념: IEEE 802.1Q]
-    │
-    ├──▶ [확장 A: 접근 포트 / 트렁크 포트]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 접근 포트 / 트렁크 포트]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_d
 
 **진행 상황**: 367 / 1120
 
-← **이전**: [245. 가상 랜 (VLAN, Virtual LAN)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)
-**다음**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) →
+<- **이전**: [245. 가상 랜 (VLAN, Virtual LAN)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)
+**다음**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) ->
 
 ---

@@ -23,8 +23,8 @@ V&V (Verification and Validation):
 
 Verification (검증, 확인):
   "제품을 올바르게 만들고 있는가?"
-  → 명세서, 설계서, 계획서 준수 여부
-  → 개발 과정의 정확성
+  -> 명세서, 설계서, 계획서 준수 여부
+  -> 개발 과정의 정확성
 
   예:
   설계서대로 코드 작성했는가?
@@ -35,8 +35,8 @@ Verification (검증, 확인):
 
 Validation (검증, 타당성 확인):
   "올바른 제품을 만들었는가?"
-  → 고객 요구사항, 실제 사용 요건 충족
-  → 최종 제품의 적합성
+  -> 고객 요구사항, 실제 사용 요건 충족
+  -> 최종 제품의 적합성
 
   예:
   사용자가 실제 업무에 활용 가능한가?
@@ -47,17 +47,17 @@ Validation (검증, 타당성 확인):
 
 V 모델:
 
-요구분석    ──────────────────────► 인수 테스트
-  │                                      │
-  ▼                                      │
-시스템 설계 ─────────────────── 시스템 테스트
-  │                                      │
-  ▼                                      │
-상세 설계 ─────────────── 통합 테스트    │
-  │                             │        │
-  ▼                             │        │
-구현 ──────────── 단위 테스트   │        │
-                                │        │
+요구분석    ----------------------► 인수 테스트
+  |                                      |
+  v                                      |
+시스템 설계 ------------------- 시스템 테스트
+  |                                      |
+  v                                      |
+상세 설계 --------------- 통합 테스트    |
+  |                             |        |
+  v                             |        |
+구현 ------------ 단위 테스트   |        |
+                                |        |
 좌측: 개발(Verification)  우측: 테스트(Validation)
 ```
 
@@ -144,7 +144,7 @@ V 모델:
   가장 엄격한 공식 검토
 
   6단계 프로세스:
-  계획 → 개요(Overview) → 사전 준비 → 인스펙션 미팅 → 재작업 → 사후 검토
+  계획 -> 개요(Overview) -> 사전 준비 -> 인스펙션 미팅 -> 재작업 -> 사후 검토
 
   역할:
   검토자 (Inspector): 결함 탐지
@@ -160,12 +160,12 @@ V 모델:
 
   자동화 도구와 결합:
   GitHub PR + LGTM + SonarQube
-  → 정적 분석 먼저 → 인간 리뷰
+  -> 정적 분석 먼저 -> 인간 리뷰
 
 효과 연구 (IBM):
   인스펙션: 결함의 60~70% 탐지
   테스팅: 35~40% 탐지
-  → 조합하면 90%+ 탐지 가능
+  -> 조합하면 90%+ 탐지 가능
 ```
 
 > 📢 **섹션 요약 비유**: 공식 검토 강도 — [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(친구에게 설명), 리뷰(팀원 의견 수렴), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(교수님 논문 심사). 강도 높을수록 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지율 상승. 미션 크리티컬은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)!
@@ -180,7 +180,7 @@ CI 파이프라인 기반 자동 검증:
 단계 1: 코드 품질 자동 검증
   SonarQube:
   버그, 보안 취약점, 코드 냄새 자동 탐지
-  커버리지 임계값: 80% 미만 → 빌드 실패
+  커버리지 임계값: 80% 미만 -> 빌드 실패
   기술 부채 점수 계산
 
   ESLint / Checkstyle:
@@ -212,10 +212,10 @@ CI 파이프라인 기반 자동 검증:
 품질 게이트 (Quality Gate):
   SonarQube Quality Gate:
   버그 0, 취약점 0, 커버리지 ≥ 80%
-  → 충족 못 하면 배포 차단
+  -> 충족 못 하면 배포 차단
 
   스테이지 게이트:
-  각 단계 산출물 → 자동/수동 검토 통과 → 다음 단계 진입
+  각 단계 산출물 -> 자동/수동 검토 통과 -> 다음 단계 진입
 ```
 
 > 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 공장 자동 품질 검사 — 컨베이어 벨트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 무게 측정([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)), X선 검사([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 충격 테스트([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)) 자동화. 불량품 자동 걸러내기!
@@ -264,17 +264,17 @@ CI 파이프라인 기반 자동 검증:
 
   코드 인스펙션 샘플링:
   500개 함수 중 50개 인스펙션
-  → 핵심 트랜잭션 처리 로직 결함 2건
+  -> 핵심 트랜잭션 처리 로직 결함 2건
 
 4. 최종 UAT 지원:
-  시나리오 100개 → 94개 통과, 6개 실패
+  시나리오 100개 -> 94개 통과, 6개 실패
   실패 시나리오 수정 후 재검증
 
 감리 효과:
   초기 발견 주요 결함: 127건
   운영 투입 후 예상 장애: 감소
   감리 비용 3억 vs 장애 예상 손실 50억+
-  → ROI 16배
+  -> ROI 16배
 ```
 
 > 📢 **섹션 요약 비유**: 금융 시스템 감리 = 비행기 출발 전 점검 — 요구사항(비행 계획), 설계(정비), 구현(각 부품 점검). [SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) 발견은 이륙 전 엔진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견. 감리 비용 3억, 장애 예방 50억!
@@ -297,7 +297,7 @@ CI 파이프라인 기반 자동 검증:
 |   +-- SAST/DAST (보안)
 |   +-- CI 파이프라인
 +-- 단계별 산출물
-    +-- SRS → 설계서 → 코드 → 테스트 결과
+    +-- SRS -> 설계서 -> 코드 -> 테스트 결과
 ```
 
 ---
@@ -344,7 +344,7 @@ LLM 기반 취약점 탐지
 
 **진행 상황**: 72 / 530
 
-← **이전**: [047. 요구사항 추적 매트릭스 — RTM 심화](/knowledge-base/studynote/11_design_supervision/01_audit_framework/047_rtm_requirements_traceability_matrix_validation/)
-**다음**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/) →
+<- **이전**: [047. 요구사항 추적 매트릭스 — RTM 심화](/knowledge-base/studynote/11_design_supervision/01_audit_framework/047_rtm_requirements_traceability_matrix_validation/)
+**다음**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/) ->
 
 ---

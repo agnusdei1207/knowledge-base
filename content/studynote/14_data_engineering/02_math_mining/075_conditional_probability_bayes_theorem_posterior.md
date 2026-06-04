@@ -105,17 +105,17 @@ Bayes는 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_pro
 
 ```text
 prior
-  │
-  ▼
+  |
+  v
 evidence
-  │
-  ▼
+  |
+  v
 likelihood
-  │
-  ▼
+  |
+  v
 normalization
-  │
-  ▼
+  |
+  v
 posterior
 ```
 
@@ -131,7 +131,7 @@ posterior
 
 **진행 상황**: 75 / 258
 
-← **이전**: [74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/)
-**다음**: [76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) →
+<- **이전**: [74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/)
+**다음**: [76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) ->
 
 ---

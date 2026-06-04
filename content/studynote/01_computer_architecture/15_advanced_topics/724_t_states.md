@@ -43,16 +43,16 @@ T-State의 핵심은 duty cycle 제어다. 예를 들어 100% duty cycle이면 �
 아래 그림은 주파수 자체를 바꾸지 않고도, 유효 실행 시간을 빼먹는 방식으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 낮추는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  T-State의 duty cycle modulation                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ T0 : █ █ █ █ █ █ █ █   → 모든 클럭 주기 사용                        │
-│ T2 : █ █ · █ █ · █ █   → 일부 주기 차단                             │
-│ T4 : █ · █ · █ · █ ·   → 절반만 실제 실행                           │
-│ T7 : █ · · · █ · · ·   → 대부분 주기 차단                           │
-│                                                                    │
-│ █ = 유효 실행 구간      · = 클럭 차단 또는 내부 정지 구간           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  T-State의 duty cycle modulation                    |
++----------------------------------------------------------------------+
+| T0 : █ █ █ █ █ █ █ █   -> 모든 클럭 주기 사용                        |
+| T2 : █ █ · █ █ · █ █   -> 일부 주기 차단                             |
+| T4 : █ · █ · █ · █ ·   -> 절반만 실제 실행                           |
+| T7 : █ · · · █ · · ·   -> 대부분 주기 차단                           |
+|                                                                    |
+| █ = 유효 실행 구간      · = 클럭 차단 또는 내부 정지 구간           |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 요점은 T-State가 "천천히 달리는 것"이 아니라, "달리다가 주기적으로 강제 브레이크를 밟는 것"이라는 점이다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 거칠게 떨어지고, [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) jitter도 커지기 쉽다.
@@ -125,17 +125,17 @@ T-State의 존재 이유는 명확하다. 효율은 나쁘더라도, 실리콘�
 
 ```text
 고정 클럭 시대의 과열 문제
-    │
-    ▼
+    |
+    v
 ACPI T-State 기반 duty modulation
-    │
-    ▼
+    |
+    v
 DVFS · P-State 중심의 효율 제어
-    │
-    ▼
+    |
+    v
 HWP / 전력 한도 기반 정교한 관리
-    │
-    ▼
+    |
+    v
 T-State는 최후 안전장치로 후퇴
 ```
 
@@ -153,7 +153,7 @@ T-State는 최후 안전장치로 후퇴
 
 **진행 상황**: 725 / 803
 
-← **이전**: [723. P-States (Performance States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/)
-**다음**: [725. ACPI S-States (S0 ~ S5)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/725_acpi_s_states/) →
+<- **이전**: [723. P-States (Performance States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/)
+**다음**: [725. ACPI S-States (S0 ~ S5)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/725_acpi_s_states/) ->
 
 ---

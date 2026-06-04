@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP Snooping]
-    │
-    ▼
+    |
+    v
 [NAT/DHCP 결합 환경]
-    │
-    └──▶ [SNMP]
+    |
+    +---> [SNMP]
 ```
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,13 +41,13 @@ tags = ["studynote-network"]
 
 ```text
 [ 내부망 (LAN, 192.168.0.x) ]         [ 공유기 (NAT + DHCP) ]        [ 외부망 (인터넷) ]
-                                      ┌───────────────────┐
-스마트폰 ◀──(192.168.0.10 할당)──────┤ 1. DHCP Server    │
-                                      │                   │
-노트북   ◀──(192.168.0.20 할당)──────┤                   ├──(공인 IP)──▶ 구글 서버
-                                      │ 2. NAT (PAT)      │ 203.24.5.1
-PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 변환  │
-                                      └───────────────────┘
+                                      +-------------------+
+스마트폰 <---(192.168.0.10 할당)------+ 1. DHCP Server    |
+                                      |                   |
+노트북   <---(192.168.0.20 할당)------+                   +--(공인 IP)---> 구글 서버
+                                      | 2. NAT (PAT)      | 203.24.5.1
+PC       --(192.168.0.30 출발)------->| 사설 ➔ 공인 변환  |
+                                      +-------------------+
 ```
 
 1. <strong>내부망 - <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 서버의 역할</strong>
@@ -120,12 +120,12 @@ PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 �
 
 ```text
 [선행 개념: DHCP Snooping]
-    │
-    ▼
+    |
+    v
 [현재 개념: NAT/DHCP 결합 환경]
-    │
-    ├──▶ [확장 A: SNMP]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: SNMP]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 SNMP와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 �
 
 **진행 상황**: 648 / 1120
 
-← **이전**: [526. DHCP Snooping](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/526_dhcp_snooping/)
-**다음**: [528. SNMP (Simple Network Management Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) →
+<- **이전**: [526. DHCP Snooping](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/526_dhcp_snooping/)
+**다음**: [528. SNMP (Simple Network Management Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) ->
 
 ---

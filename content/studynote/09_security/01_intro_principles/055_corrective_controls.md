@@ -32,7 +32,7 @@ tags = ["studynote-security"]
 교정 통제는 탐지 후 대응, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 재설정, 검증으로 이어진다. 단순한 사후 처리보다 재발 방지까지 포함하는 경우가 많다.
 
 ```text
-Incident → Containment → Recovery → Restoration → Verification
+Incident -> Containment -> Recovery -> Restoration -> Verification
 ```
 
 | 수단 | 역할 | 예시 |
@@ -111,14 +111,14 @@ Incident → Containment → Recovery → Restoration → Verification
 
 ```text
 사고 발생
-    │
-    ▼
+    |
+    v
 격리 / 복구
-    │
-    ▼
+    |
+    v
 원상 복원
-    │
-    ▼
+    |
+    v
 검증 / 재발 방지
 ```
 
@@ -136,7 +136,7 @@ Incident → Containment → Recovery → Restoration → Verification
 
 **진행 상황**: 55 / 1108
 
-← **이전**: [54. 탐지 통제 (Detective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)
-**다음**: [56. 억제 통제 (Deterrent Controls) - 위협 행동 억제](/knowledge-base/studynote/09_security/01_intro_principles/056_deterrent_controls/) →
+<- **이전**: [54. 탐지 통제 (Detective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)
+**다음**: [56. 억제 통제 (Deterrent Controls) - 위협 행동 억제](/knowledge-base/studynote/09_security/01_intro_principles/056_deterrent_controls/) ->
 
 ---

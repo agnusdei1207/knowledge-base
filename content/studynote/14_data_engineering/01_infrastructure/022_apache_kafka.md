@@ -40,17 +40,17 @@ tags = ["studynote-data-engineering"]
 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 스토리지는 토픽(Topic)이라는 메시지 카테고리로 구성된다. 각 토픽은 하나 이상의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 나뉘며, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 클러스터 내 여러 브로커에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              [ Apache Kafka 클러스터 아키텍처 ]              │
-│                                                             │
-│  [Producer] ──> [Broker 1] ──> [Broker 2] ──> [Broker 3] │
-│    (발신자)        │ P0(리더)    │ P1(리더)    │ P0(리더)   │
-│                    │ P1(팔로워)  │ P0(팔로워)  │ P1(팔로워) │
-│                    └────────────────────────────────────────┘
-│                              ↑                              │
-│                              │ (컨슈머 그룹 병렬 소비)        │
-│                         [Consumer Group]                     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              [ Apache Kafka 클러스터 아키텍처 ]              |
+|                                                             |
+|  [Producer] --> [Broker 1] --> [Broker 2] --> [Broker 3] |
+|    (발신자)        | P0(리더)    | P1(리더)    | P0(리더)   |
+|                    | P1(팔로워)  | P0(팔로워)  | P1(팔로워) |
+|                    +----------------------------------------+
+|                              ^                              |
+|                              | (컨슈머 그룹 병렬 소비)        |
+|                         [Consumer Group]                     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -68,7 +68,7 @@ tags = ["studynote-data-engineering"]
 [ 토픽: user-events (파티션 3개) ]
 
 [Producer] --> [P0] --> [P1] --> [P2]
-                    ↑       ↑       ↑
+                    ^       ^       ^
                [CG: stats-service]  [CG: fraud-detection]
                (파티션 0,1 할당)     (파티션 2 할당)
 ```
@@ -159,18 +159,18 @@ tags = ["studynote-data-engineering"]
 
 ```text
 [Producer (발신자) — 이벤트/메시지 생성]
-    │
-    ▼
-[토픽 → 파티션 분산 저장 (Append-only Log)]
-    │
-    ▼
+    |
+    v
+[토픽 -> 파티션 분산 저장 (Append-only Log)]
+    |
+    v
 [Broker 클러스터 — 복제(Replication)로 내구성 보장]
-    │
-    ▼
+    |
+    v
 [Consumer Group — 병렬 소비, 오프셋 관리]
-    │
-    ▼
-[Flink / Spark Streaming + CDC → Kappa 아키텍처]
+    |
+    v
+[Flink / Spark Streaming + CDC -> Kappa 아키텍처]
 ```
 Producer가 생성한 이벤트가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장으로 내구성을 확보하고, Consumer Group이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비하며, Flink·Spark와 결합해 실시간 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하는 흐름이다.
 
@@ -189,7 +189,7 @@ Producer가 생성한 이벤트가 [파티션](/knowledge-base/studynote/02_oper
 
 **진행 상황**: 22 / 258
 
-← **이전**: [21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/021_apache_spark_in_memory/)
-**다음**: [23. 지연 평가 (Lazy Evaluation)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) →
+<- **이전**: [21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/021_apache_spark_in_memory/)
+**다음**: [23. 지연 평가 (Lazy Evaluation)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ->
 
 ---

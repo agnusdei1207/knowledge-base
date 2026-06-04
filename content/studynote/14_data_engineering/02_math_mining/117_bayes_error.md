@@ -19,21 +19,21 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    에러 계층 구조                                      │
-├───────────────────────────────────────────────────────┤
-│  베이즈 에러 (이론 하한) ≈ 1%                        │
-│      ↕ 회피 가능 편향 (Avoidable Bias)                │
-│  학습 에러 = 5%                                       │
-│      ↕ 분산 (Variance)                                │
-│  검증 에러 = 8%                                       │
-│                                                       │
-│  회피 가능 편향 = 5% - 1% = 4% → 편향 줄이기 우선    │
-│  분산 = 8% - 5% = 3% → 과적합 줄이기                │
-│                                                       │
-│  전략: 회피 가능 편향 > 분산 → 모델 복잡도 ↑         │
-│        분산 > 회피 가능 편향 → 정규화·데이터 ↑       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    에러 계층 구조                                      |
++-------------------------------------------------------+
+|  베이즈 에러 (이론 하한) ≈ 1%                        |
+|      ↕ 회피 가능 편향 (Avoidable Bias)                |
+|  학습 에러 = 5%                                       |
+|      ↕ 분산 (Variance)                                |
+|  검증 에러 = 8%                                       |
+|                                                       |
+|  회피 가능 편향 = 5% - 1% = 4% -> 편향 줄이기 우선    |
+|  분산 = 8% - 5% = 3% -> 과적합 줄이기                |
+|                                                       |
+|  전략: 회피 가능 편향 > 분산 -> 모델 복잡도 ^         |
+|        분산 > 회피 가능 편향 -> 정규화·데이터 ^       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 베이즈 에러는 도로의 <strong>속도 제한</strong>이다. 아무리 좋은 차(모델)를 가져와도 이 제한([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노이즈)을 넘을 수 없다.
@@ -46,13 +46,13 @@ tags = ["studynote-dataengineering"]
 
 | 구간 | 의미 | 개선 방법 |
 |:---|:---|:---|
-| **학습 에러 - 베이즈** | 회피 가능 편향 | 모델 복잡도 ↑, 학습 시간 ↑ |
+| **학습 에러 - 베이즈** | 회피 가능 편향 | 모델 복잡도 ^, 학습 시간 ^ |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 에러 - 학습 에러</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (과적합) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강, [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) |
 | **베이즈 에러 자체** | 본질적 노이즈 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 추가, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 개선</strong> |
 
 ### Human-level [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Bayes [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)
 
-의료 영상 진단에서 전문의의 에러율 = 1% → 베이즈 에러 ≈ 1%로 추정.
+의료 영상 진단에서 전문의의 에러율 = 1% -> 베이즈 에러 ≈ 1%로 추정.
 
 - **📢 섹션 요약 비유**: 베이즈 에러는 시험의 <strong>만점이 95점인 것</strong>이다. 100점은 존재하지 않으며, 95점에 가까울수록 더 이상 공부(모델 튜닝)보다 시험 문제([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 바꿔야 한다.
 
@@ -63,7 +63,7 @@ tags = ["studynote-dataengineering"]
 | 비교 | 회피 가능 편향 큼 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큼 |
 |:---|:---|:---|
 | **문제** | 과소적합 | 과적합 |
-| **해결** | 모델 복잡도 ↑ | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ↑ |
+| **해결** | 모델 복잡도 ^ | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ^ |
 
 ---
 
@@ -73,7 +73,7 @@ tags = ["studynote-dataengineering"]
 1. 베이즈 에러(≈HLP) 추정.
 2. 학습 에러 측정.
 3. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 에러 측정.
-4. 회피 가능 편향 vs [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 → 우선순위 결정.
+4. 회피 가능 편향 vs [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 -> 우선순위 결정.
 
 ---
 
@@ -97,17 +97,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [베이즈 정리 (1763) — 확률론 기초]
-    │
-    ▼
+    |
+    v
 [베이즈 최적 분류기 (통계학) — 이론적 최소 에러]
-    │
-    ▼
+    |
+    v
 [편향-분산 분해 (1990s) — 에러 원인 분석]
-    │
-    ▼
+    |
+    v
 [Andrew Ng 에러 분석 (2017) — HLP 기반 실무 프레임워크]
-    │
-    ▼
+    |
+    v
 [현재: 데이터 중심 AI — 모델보다 데이터 품질 최적화]
 ```
 
@@ -122,7 +122,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 117 / 258
 
-← **이전**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)
-**다음**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/knowledge-base/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/) →
+<- **이전**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)
+**다음**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/knowledge-base/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/) ->
 
 ---

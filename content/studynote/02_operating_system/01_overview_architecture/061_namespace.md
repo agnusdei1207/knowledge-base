@@ -31,12 +31,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [ Host Kernel ]
-   ├─ PID Namespace  -> 서로 다른 프로세스 번호
-   ├─ NET Namespace  -> 서로 다른 IP / 라우팅
-   ├─ MNT Namespace  -> 서로 다른 루트 파일 시스템
-   ├─ UTS Namespace  -> 서로 다른 호스트 이름
-   ├─ IPC Namespace  -> 서로 다른 공유 메모리 / 메시지 큐
-   └─ USER Namespace -> 서로 다른 UID / GID 매핑
+   +- PID Namespace  -> 서로 다른 프로세스 번호
+   +- NET Namespace  -> 서로 다른 IP / 라우팅
+   +- MNT Namespace  -> 서로 다른 루트 파일 시스템
+   +- UTS Namespace  -> 서로 다른 호스트 이름
+   +- IPC Namespace  -> 서로 다른 공유 메모리 / 메시지 큐
+   +- USER Namespace -> 서로 다른 UID / GID 매핑
 ```
 
 | 네임스페이스 | 격리 대상 | 의미 |
@@ -105,13 +105,13 @@ tags = ["studynote-operating-system"]
 
 ```text
 Host Kernel
-   ↓
+   v
 Namespace
-   ↓
+   v
 Container Isolation
-   ↓
+   v
 Rootless Container
-   ↓
+   v
 Secure Multi-tenancy
 ```
 
@@ -121,13 +121,13 @@ Secure Multi-tenancy
 
 ```text
 chroot
-   ↓
+   v
 Mount Namespace
-   ↓
+   v
 PID / NET / IPC / UTS / USER Namespace
-   ↓
+   v
 Container Runtime
-   ↓
+   v
 Rootless Container
 ```
 
@@ -145,7 +145,7 @@ Rootless Container
 
 **진행 상황**: 61 / 800
 
-← **이전**: [60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/)
-**다음**: [62. 컨트롤 그룹 (cgroups) - 자원 할당 제어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) →
+<- **이전**: [60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/)
+**다음**: [62. 컨트롤 그룹 (cgroups) - 자원 할당 제어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ->
 
 ---

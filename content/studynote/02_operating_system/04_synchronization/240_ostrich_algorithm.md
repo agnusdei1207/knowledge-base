@@ -34,7 +34,7 @@ tags = ["studynote-operating-system"]
 
   [ 무시 비용 (Ostrich Algorithm) ]
    - 방어 코드 0줄: CPU/메모리 성능 100% 효율 달성!
-   - 1년에 1번 데드락 터짐 ─▶ 사용자가 수동으로 재부팅함. (1분 소요)
+   - 1년에 1번 데드락 터짐 --> 사용자가 수동으로 재부팅함. (1분 소요)
    >> 💸 1년 장애 비용: 재부팅 1분 (1만 원)
 
   ✅ 결론: 수학자와 이론가들은 방어를 택하지만,
@@ -102,23 +102,23 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
    - **실무 조치**: 만약 데드락 때문에 숫자가 멈춰있으면, 워치독이 `System.exit(1)`을 때려서 프로세스를 죽여버린다. 밖에서 OS 스크립트(systemd)가 죽은 프로세스를 즉시 재시작시킨다. 데드락 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 짜는 것보다 이 워치독을 다는 것이 개발 기간과 버그 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 1/100로 줄여준다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native) │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ 전통적 관점 ] OS가 막아주거나 코드로 완벽히 막아야 해!          │
-  │        ▶ 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.      │
-  │                                                                     │
-  │   [ 현대 클라우드 관점: Let it crash! (터지게 냅둬라!) ]            │
-  │        │                                                            │
-  │        ▼ 1. 타조 알고리즘(무시)으로 성능 100% 획득                  │
-  │        │                                                            │
-  │        ▼ 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작│
-  │        │                                                            │
-  │        ▼ 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지           │
-  │        │                                                            │
-  │        ▼ 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!       │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native) |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [ 전통적 관점 ] OS가 막아주거나 코드로 완벽히 막아야 해!          |
+  |        -> 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.      |
+  |                                                                     |
+  |   [ 현대 클라우드 관점: Let it crash! (터지게 냅둬라!) ]            |
+  |        |                                                            |
+  |        v 1. 타조 알고리즘(무시)으로 성능 100% 획득                  |
+  |        |                                                            |
+  |        v 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작|
+  |        |                                                            |
+  |        v 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지           |
+  |        |                                                            |
+  |        v 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!       |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어의 철학이자 K8s의 핵심 사상인 <strong>"Let it crash (그냥 죽게 놔둬라)"</strong>는 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 위대함을 실무 인프라 단위로 승격시킨 명언이다. 데드락을 예방하려는 오만(Hubris)을 버리고, 데드락은 언젠간 터지는 자연재해로 인정한 뒤 "얼마나 빨리 장애를 숨기고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최소화)"에 집중하는 것이 현대 아키텍트의 정답이다.
 
@@ -152,12 +152,12 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ```text
 [조건 변수 (Condition Variable)]
-    │
-    ▼
+    |
+    v
 [타조 알고리즘 (Ostrich Algorithm)]
-    │
-    ├──▶ [라이브락 (Livelock)]
-    └──▶ [우선순위 역전 (Priority Inversion)]
+    |
+    +---> [라이브락 (Livelock)]
+    +---> [우선순위 역전 (Priority Inversion)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -174,7 +174,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 **진행 상황**: 240 / 800
 
-← **이전**: [239. 자원 할당 그래프 (Resource Allocation Graph, RAG)](/knowledge-base/studynote/02_operating_system/04_synchronization/239_resource_allocation_graph/)
-**다음**: [241. 은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)](/knowledge-base/studynote/02_operating_system/04_synchronization/241_bankers_algorithm_data_structures/) →
+<- **이전**: [239. 자원 할당 그래프 (Resource Allocation Graph, RAG)](/knowledge-base/studynote/02_operating_system/04_synchronization/239_resource_allocation_graph/)
+**다음**: [241. 은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)](/knowledge-base/studynote/02_operating_system/04_synchronization/241_bankers_algorithm_data_structures/) ->
 
 ---

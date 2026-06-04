@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 > **핵심 인사이트**
 > 1. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)으로 이동시키는 원칙 — [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 = 설계 단계의 100×), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견이 핵심이다.
 > 2. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)은 테스트 피라미드와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))로 구현 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(70%)·[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(20%)·[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) 비율로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만들어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
-> 3. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안)는 보안을 개발 프로세스에 내재화 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))→[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))→[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점)→[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스캔을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
+> 3. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안)는 보안을 개발 프로세스에 내재화 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))->[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))->[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점)->[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스캔을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
 
 ---
 
@@ -22,13 +22,13 @@ tags = ["studynote-devops-sre"]
 결함 수정 비용 곡선:
 
 비용
-↑
+^
 100× |                              ×
      |                        ×
 10×  |                  ×
      |           ×
 1×   |     ×
-─────┼────────────────────────────→
+-----+----------------------------->
     요구   설계   구현   테스트  운영
     분석
 
@@ -41,12 +41,12 @@ IBM 연구 (1970s, 여전히 통용):
 
 시프트 레프트 전략:
   전통 워터폴:
-  요구 → 설계 → 구현 → [테스트] → 운영
+  요구 -> 설계 -> 구현 -> [테스트] -> 운영
                               ^
                           테스트만 마지막에
 
   시프트 레프트:
-  [테스트·보안]→[테스트·보안]→[테스트·보안] → 운영
+  [테스트·보안]->[테스트·보안]->[테스트·보안] -> 운영
   요구          설계          구현
 
   각 단계에서 테스트·보안 활동 수행
@@ -67,10 +67,10 @@ IBM 연구 (1970s, 여전히 통용):
 테스트 피라미드 (Test Pyramid):
 
         /       /  \  E2E 테스트 (10%)
-      /────\  Selenium, Cypress
-     /          /──────────\ 통합 테스트 (20%)
+      /----\  Selenium, Cypress
+     /          /----------\ 통합 테스트 (20%)
    /            \  API 테스트, DB 테스트
-  /──────────────── \ 단위 테스트 (70%)
+  /---------------- \ 단위 테스트 (70%)
  /                    \  JUnit, pytest, Jest
 
 단위 테스트 (Unit Test):
@@ -94,16 +94,16 @@ TDD (Test-Driven Development):
   Red-Green-Refactor 사이클:
 
   Red: 실패하는 테스트 먼저 작성
-  ↓
+  v
   Green: 테스트 통과하는 최소 코드 작성
-  ↓
+  v
   Refactor: 코드 정리 (테스트는 통과 유지)
-  ↓ (다시 Red)
+  v (다시 Red)
 
 CI 파이프라인 통합:
-  커밋 → 단위 테스트 자동 실행 (<5분)
-  PR → 통합 테스트 (<30분)
-  main 브랜치 → E2E 테스트 (<60분)
+  커밋 -> 단위 테스트 자동 실행 (<5분)
+  PR -> 통합 테스트 (<30분)
+  main 브랜치 -> E2E 테스트 (<60분)
   실패 시 즉시 알림
 ```
 
@@ -116,7 +116,7 @@ CI 파이프라인 통합:
 ```
 DevSecOps 파이프라인:
 
-코드 작성 → SAST → 빌드 → SCA → 테스트 → DAST → 배포
+코드 작성 -> SAST -> 빌드 -> SCA -> 테스트 -> DAST -> 배포
 
 1. SAST (Static Application Security Testing):
    코드를 실행 없이 정적 분석
@@ -140,7 +140,7 @@ DevSecOps 파이프라인:
    OWASP Dependency-Check
    Dependabot (GitHub 내장)
 
-   예: Log4j 취약점 (2021) → SCA로 즉시 탐지
+   예: Log4j 취약점 (2021) -> SCA로 즉시 탐지
 
 3. DAST (Dynamic Application Security Testing):
    실행 중인 앱을 외부에서 공격 시뮬레이션
@@ -158,13 +158,13 @@ DevSecOps 파이프라인:
    Grype
 
    CI 통합:
-   docker build → trivy image scan
-   High/Critical CVE → 배포 차단
+   docker build -> trivy image scan
+   High/Critical CVE -> 배포 차단
 
 5. IaC 보안:
    Terraform, CloudFormation 코드 스캔
    Checkov, TFSec: 잘못된 보안 설정 탐지
-   S3 버킷 public → 차단
+   S3 버킷 public -> 차단
 ```
 
 > 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(코드 검사기), [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)(부품 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검사), [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)(완성품 충격 테스트), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(포장 검사). 각 단계마다 검사!
@@ -193,7 +193,7 @@ Stage 2 (CI - 단위 테스트, <10분):
   실패 시: 브랜치 머지 차단
 
 Stage 3 (CI - 통합 테스트, <30분):
-  트리거: PR → main
+  트리거: PR -> main
   - 통합 테스트
   - API 테스트
   - 컨테이너 이미지 빌드 + Trivy 스캔
@@ -229,12 +229,12 @@ Stage 5 (CD - 프로덕션):
 배경:
   빠른 기능 출시 + 금융 보안 규제
   PCI DSS (결제 카드 산업 보안 표준) 준수 필요
-  현황: 수동 보안 검토 → 출시 지연 2주
+  현황: 수동 보안 검토 -> 출시 지연 2주
 
 문제:
   보안팀: "배포 전 보안 검토 필요"
   개발팀: "일정 촉박한데 왜 항상 보안이..."
-  → 갈등, 지연
+  -> 갈등, 지연
 
 DevSecOps 도입:
 
@@ -243,11 +243,11 @@ DevSecOps 도입:
 
   - pr_check.yml:
     Semgrep SAST, Snyk SCA, Trivy
-    Critical → PR 머지 차단
+    Critical -> PR 머지 차단
 
   - staging_deploy.yml:
     OWASP ZAP DAST (API 엔드포인트)
-    고위험 발견 → 알림 + 수동 검토
+    고위험 발견 -> 알림 + 수동 검토
 
 2. 개발자 보안 교육:
   시큐어 코딩 가이드라인 내부 위키
@@ -255,18 +255,18 @@ DevSecOps 도입:
 
 3. 보안 챔피언 제도:
   각 스쿼드(팀)에 보안 담당자 1명 지정
-  → 보안 주도 (보안팀 병목 제거)
+  -> 보안 주도 (보안팀 병목 제거)
 
 결과 (6개월):
   Critical 취약점: 배포 전 평균 99% 탐지
-  출시 지연 (보안 이슈): 2주 → 0.5일
+  출시 지연 (보안 이슈): 2주 -> 0.5일
   PCI DSS 감사: 자동화 증거로 준비 시간 70% 절감
-  개발팀 보안 이슈 인지율: 30% → 85%
+  개발팀 보안 이슈 인지율: 30% -> 85%
 
 ROI:
   보안 침해 방지 비용 (추정): 수십억
   DevSecOps 구축 비용: 5천만원
-  보안팀 코드 리뷰 시간: 주 40시간 → 5시간
+  보안팀 코드 리뷰 시간: 주 40시간 -> 5시간
 ```
 
 > 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡기!
@@ -339,7 +339,7 @@ SAST/DAST/SCA 자동화
 
 **진행 상황**: 45 / 373
 
-← **이전**: [044. TDD & BDD — 테스트 주도 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/044_tdd_bdd_test_driven_behavior_driven_development/)
-**다음**: [046. ChatOps — 봇 기반 협업 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/) →
+<- **이전**: [044. TDD & BDD — 테스트 주도 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/044_tdd_bdd_test_driven_behavior_driven_development/)
+**다음**: [046. ChatOps — 봇 기반 협업 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/) ->
 
 ---

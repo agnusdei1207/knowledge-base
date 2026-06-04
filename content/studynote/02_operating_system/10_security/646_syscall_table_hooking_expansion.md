@@ -48,10 +48,10 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ```text
   [메모리 주소]         [함수 포인터 (sys_call_table)]
-  0xffffffff81a00000 ──▶ sys_read  (번호 0)
-  0xffffffff81a00008 ──▶ sys_write (번호 1)
-  0xffffffff81a00010 ──▶ sys_open  (번호 2)
-  0xffffffff81a00018 ──▶ sys_close (번호 3)
+  0xffffffff81a00000 ---> sys_read  (번호 0)
+  0xffffffff81a00008 ---> sys_write (번호 1)
+  0xffffffff81a00010 ---> sys_open  (번호 2)
+  0xffffffff81a00018 ---> sys_close (번호 3)
   ...
 ```
 
@@ -60,32 +60,32 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 이용해 `sys_open`을 `my_sys_open`으로 후킹하는 과정이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템 콜 테이블 조작 (Hooking) 아키텍처                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. 테이블 주소 탐색 (Hunting)]                                       │
-  │   - 커널 2.6 이후 sys_call_table은 외부 모듈에 노출(Export)되지 않음.     │
-  │   - 해커(또는 백신)는 메모리를 직접 브루트포싱 스캔하거나, kallsyms를 뒤져서│
-  │     테이블의 물리적 주소를 알아낸다.                                    │
-  │                                                                   │
-  │  [2. 메모리 쓰기 보호 해제 (Bypassing Protection)]                       │
-  │   - sys_call_table이 있는 메모리 페이지는 Read-Only(읽기 전용)이다.     │
-  │   - CPU의 CR0 레지스터에서 'WP (Write Protect)' 비트를 강제로 0으로 끔.  │
-  │     ( asm volatile("cli; mov %0, %%cr0"::"r"(cr0)); )             │
-  │                                                                   │
-  │  [3. 주소 바꿔치기 (Pointer Replacement)]                             │
-  │   - original_sys_open = sys_call_table[__NR_open]; (원본 백업)      │
-  │   - sys_call_table[__NR_open] = my_sys_open;       (가짜 함수로 교체)│
-  │                                                                   │
-  │   [결과: 애플리케이션의 open() 호출 흐름 변경]                             │
-  │   User App ──▶ syscall(2) ──▶ sys_call_table[2] ──▶ my_sys_open() │
-  │                                                         │         │
-  │                                (내가 만든 악성/보안 로직 실행: 로그 남기기) │
-  │                                                         │         │
-  │                                       original_sys_open() ◀──────┘ │
-  │                                       (진짜 파일 열어주고 결과 반환)      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 시스템 콜 테이블 조작 (Hooking) 아키텍처                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [1. 테이블 주소 탐색 (Hunting)]                                       |
+  |   - 커널 2.6 이후 sys_call_table은 외부 모듈에 노출(Export)되지 않음.     |
+  |   - 해커(또는 백신)는 메모리를 직접 브루트포싱 스캔하거나, kallsyms를 뒤져서|
+  |     테이블의 물리적 주소를 알아낸다.                                    |
+  |                                                                   |
+  |  [2. 메모리 쓰기 보호 해제 (Bypassing Protection)]                       |
+  |   - sys_call_table이 있는 메모리 페이지는 Read-Only(읽기 전용)이다.     |
+  |   - CPU의 CR0 레지스터에서 'WP (Write Protect)' 비트를 강제로 0으로 끔.  |
+  |     ( asm volatile("cli; mov %0, %%cr0"::"r"(cr0)); )             |
+  |                                                                   |
+  |  [3. 주소 바꿔치기 (Pointer Replacement)]                             |
+  |   - original_sys_open = sys_call_table[__NR_open]; (원본 백업)      |
+  |   - sys_call_table[__NR_open] = my_sys_open;       (가짜 함수로 교체)|
+  |                                                                   |
+  |   [결과: 애플리케이션의 open() 호출 흐름 변경]                             |
+  |   User App ---> syscall(2) ---> sys_call_table[2] ---> my_sys_open() |
+  |                                                         |         |
+  |                                (내가 만든 악성/보안 로직 실행: 로그 남기기) |
+  |                                                         |         |
+  |                                       original_sys_open() <-------+ |
+  |                                       (진짜 파일 열어주고 결과 반환)      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 테이블 후킹의 본질은 포인터 치환이다. 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열기 위해 `open()`을 부르면, CPU는 무조건 테이블의 2번 칸(`sys_call_table[2]`)에 적힌 주소로 점프한다. 거기를 내 함수 주소로 바꿔놓으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 오픈 행위가 내 함수를 거쳐 가게 된다. 내 함수 안에서 "누가 /etc/passwd를 열려 하네? 에러(-EPERM)를 던져서 막아야지!"라고 차단하면 훌륭한 백신(HIPS)이 되고, "어라, 해커인 내가 숨겨둔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 보려 하네? [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없는 척해야지!"라고 속이면 최악의 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이 된다.
@@ -141,26 +141,26 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 커널 레벨 행위 감시(Hooking) 기술 선정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [커널의 특정 동작(파일 접근, 네트워크 통신)을 실시간으로 감시/차단 필요]   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      감시 대상이 단순히 '로깅(Logging)'과 '추적' 목적인가?              │
-  │          ├─ 예 ─────▶ [Kprobes / Tracepoint / eBPF (퍼포먼스 툴) 적용]│
-  │          │            (시스템을 멈추지 않고 데이터를 안전하게 빼옴)      │
-  │          └─ 아니오 (행위를 사전에 분석하고 '차단(Deny)'해야 함)           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      보안 정책을 강제(Enforce)하여 악성 행위를 막아야 하는가?              │
-  │          ├─ 예 ─────▶ [LSM (AppArmor, SELinux, BPF-LSM) 프레임워크 적용] │
-  │          │            (커널이 공식 제공하는 시스템 콜 직전의 검문소)        │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ sys_call_table 후킹을 고려? ──▶ [절대 금지!]    │
-  │                         (최신 커널에서는 방어 메커니즘으로 인해 패닉 보장)  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 커널 레벨 행위 감시(Hooking) 기술 선정 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [커널의 특정 동작(파일 접근, 네트워크 통신)을 실시간으로 감시/차단 필요]   |
+  |                |                                                  |
+  |                v                                                  |
+  |      감시 대상이 단순히 '로깅(Logging)'과 '추적' 목적인가?              |
+  |          +- 예 ------> [Kprobes / Tracepoint / eBPF (퍼포먼스 툴) 적용]|
+  |          |            (시스템을 멈추지 않고 데이터를 안전하게 빼옴)      |
+  |          +- 아니오 (행위를 사전에 분석하고 '차단(Deny)'해야 함)           |
+  |                |                                                  |
+  |                v                                                  |
+  |      보안 정책을 강제(Enforce)하여 악성 행위를 막아야 하는가?              |
+  |          +- 예 ------> [LSM (AppArmor, SELinux, BPF-LSM) 프레임워크 적용] |
+  |          |            (커널이 공식 제공하는 시스템 콜 직전의 검문소)        |
+  |          |                                                        |
+  |          +- 아니오 ---> sys_call_table 후킹을 고려? ---> [절대 금지!]    |
+  |                         (최신 커널에서는 방어 메커니즘으로 인해 패닉 보장)  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** `sys_call_table` 후킹은 학부생들의 해킹 과제용이거나 악의적 공격자([루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))들의 전유물이다. 실무 인프라 엔지니어링에서는 이를 '어떻게 구현할까'가 아니라 <strong>'시스템이 이런 공격을 당했는지 어떻게 탐지할까'</strong>에 집중해야 한다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구(예: `chkrootkit`)는 주기적으로 현재 메모리의 `sys_call_table` 포인터들이 정상적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Text 영역(`_stext` ~ `_etext`) 범위 내에 있는지를 검사하여, 범위를 벗어난 주소(해커 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 주소)가 발견되면 후킹 당했음을 알람으로 띄운다.
@@ -207,12 +207,12 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ```text
 [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
-    │
-    ▼
+    |
+    v
 [리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
-    │
-    ├──▶ [NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계]
-    └──▶ [프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조]
+    |
+    +---> [NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계]
+    +---> [프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -229,7 +229,7 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 **진행 상황**: 646 / 800
 
-← **이전**: [645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제](/knowledge-base/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/)
-**다음**: [647. NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)](/knowledge-base/studynote/02_operating_system/10_security/647_numa_aware_allocator_page_migration/) →
+<- **이전**: [645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제](/knowledge-base/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/)
+**다음**: [647. NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)](/knowledge-base/studynote/02_operating_system/10_security/647_numa_aware_allocator_page_migration/) ->
 
 ---

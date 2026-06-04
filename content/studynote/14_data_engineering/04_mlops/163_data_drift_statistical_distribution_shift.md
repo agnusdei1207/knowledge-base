@@ -24,16 +24,16 @@ tags = ["studynote-data-engineering"]
 
 ```
 학습 시점 데이터 분포            운영 시점 데이터 분포
-        ↓                               ↓
-┌──────────────────┐         ┌──────────────────────┐
-│    정상 범위      │         │    분포 이동           │
-│        ██        │         │         ██            │
-│       ████       │         │        ████           │
-│      ██████      │   →     │       ██████          │
-│     ████████     │  시간   │      ████████         │
-│    ██████████    │  경과   │     ██████████        │
-│   ████████████   │         │   ████████████        │
-└──────────────────┘         └──────────────────────┘
+        v                               v
++------------------+         +----------------------+
+|    정상 범위      |         |    분포 이동           |
+|        ██        |         |         ██            |
+|       ████       |         |        ████           |
+|      ██████      |   ->     |       ██████          |
+|     ████████     |  시간   |      ████████         |
+|    ██████████    |  경과   |     ██████████        |
+|   ████████████   |         |   ████████████        |
++------------------+         +----------------------+
   평균: μ=0, σ=1               평균: μ=1.5, σ=1.3
                                 (분포가 오른쪽으로 이동)
 ```
@@ -43,7 +43,7 @@ tags = ["studynote-data-engineering"]
 | 원인 | 구체적 사례 |
 |:---|:---|
 | **계절/트렌드 변화** | 겨울에 학습한 고객 구매 모델이 여름에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
-| **사용자 행동 변화** | 스마트폰 보급으로 웹 접속 패턴이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)→모바일로 이동 |
+| **사용자 행동 변화** | 스마트폰 보급으로 웹 접속 패턴이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)->모바일로 이동 |
 | **외부 경제 변화** | 금리 인상으로 주택 구매 패턴 변화 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 변화</strong> | 센서 교체로 측정 값의 단위/범위 변화 |
 | **새로운 사용자 유입** | 마케팅 캠페인으로 전혀 다른 인구통계 유입 |
@@ -58,25 +58,25 @@ tags = ["studynote-data-engineering"]
 
 | 종류 | 정의 | 수식 | 예시 |
 |:---|:---|:---|:---|
-| **Covariate Shift** | 입력 변수 X의 분포 변화 | P_train(X) ≠ P_serve(X) | 나이 분포가 20대→40대로 이동 |
-| <strong>Prior <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a> Shift</strong> | 출력(레이블) Y의 분포 변화 | P_train(Y) ≠ P_serve(Y) | 사기 비율이 1%→5%로 증가 |
+| **Covariate Shift** | 입력 변수 X의 분포 변화 | P_train(X) ≠ P_serve(X) | 나이 분포가 20대->40대로 이동 |
+| <strong>Prior <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a> Shift</strong> | 출력(레이블) Y의 분포 변화 | P_train(Y) ≠ P_serve(Y) | 사기 비율이 1%->5%로 증가 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">Concept Drift</a></strong> | 입출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y\|X)의 변화 | P_train(Y\|X) ≠ P_serve(Y\|X) | 같은 신용점수여도 상환 능력 변화 |
 
 ```
 드리프트 종류별 영향
-┌───────────────────────────────────────────────────────────┐
-│  Covariate Shift:   입력 분포만 변화                       │
-│  X: ████ → X: ████████    (새 패턴의 입력 데이터 증가)    │
-│  P(Y|X) 관계는 동일 → 새 분포에 맞는 재학습으로 해결      │
-├───────────────────────────────────────────────────────────┤
-│  Prior Prob Shift:  레이블 분포만 변화                     │
-│  Y=0: 99%, Y=1: 1% → Y=0: 95%, Y=1: 5%                  │
-│  클래스 불균형 변화 → 임계값 재조정 또는 재학습            │
-├───────────────────────────────────────────────────────────┤
-│  Concept Drift:     관계 자체가 변화 (가장 치명적!)        │
-│  고소득 = 고상환능력 → 고소득이어도 상환 능력 불안정       │
-│  P(Y|X) 변화 → 반드시 재학습 필요                         │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|  Covariate Shift:   입력 분포만 변화                       |
+|  X: ████ -> X: ████████    (새 패턴의 입력 데이터 증가)    |
+|  P(Y|X) 관계는 동일 -> 새 분포에 맞는 재학습으로 해결      |
++-----------------------------------------------------------+
+|  Prior Prob Shift:  레이블 분포만 변화                     |
+|  Y=0: 99%, Y=1: 1% -> Y=0: 95%, Y=1: 5%                  |
+|  클래스 불균형 변화 -> 임계값 재조정 또는 재학습            |
++-----------------------------------------------------------+
+|  Concept Drift:     관계 자체가 변화 (가장 치명적!)        |
+|  고소득 = 고상환능력 -> 고소득이어도 상환 능력 불안정       |
+|  P(Y|X) 변화 -> 반드시 재학습 필요                         |
++-----------------------------------------------------------+
 ```
 
 ### 2.2 드리프트 감지 방법
@@ -89,11 +89,11 @@ PSI는 두 분포 간 차이를 단일 숫자로 표현하는 가장 널리 쓰�
 PSI = Σ (기대 비율 - 실제 비율) × ln(기대 비율 / 실제 비율)
 
 PSI 해석 기준:
-┌──────────────────────────────────────────────┐
-│  PSI < 0.1    │ 안정 (분포 변화 미미)         │
-│  0.1 ≤ PSI < 0.2 │ 주의 (경미한 드리프트)    │
-│  PSI ≥ 0.2    │ 경보 (재학습 강력 권고)       │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  PSI < 0.1    | 안정 (분포 변화 미미)         |
+|  0.1 ≤ PSI < 0.2 | 주의 (경미한 드리프트)    |
+|  PSI ≥ 0.2    | 경보 (재학습 강력 권고)       |
++----------------------------------------------+
 ```
 
 #### KS Test (Kolmogorov-Smirnov Test)
@@ -103,7 +103,7 @@ KS 통계량 = max|F1(x) - F2(x)|
   (두 누적분포함수의 최대 차이)
 
 p-value < 0.05: 두 분포가 통계적으로 유의미하게 다름
-                → 드리프트 감지됨
+                -> 드리프트 감지됨
 ```
 
 #### [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/))
@@ -140,23 +140,23 @@ MMD는 두 분포에서 추출한 샘플로
 ### 2.4 드리프트 모니터링 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  드리프트 모니터링 시스템                      │
-├──────────────┬───────────────────────────────────────────────┤
-│   서빙 서버   │  실시간 요청 데이터 로깅                       │
-│  (Inference) │  → S3/BigQuery 저장                           │
-├──────────────┼───────────────────────────────────────────────┤
-│   드리프트   │  주기적 배치 실행 (예: 매시간)                  │
-│   감지 엔진  │  학습 데이터 분포 vs 최근 서빙 데이터 분포      │
-│              │  PSI / KS Test / KL Divergence 계산           │
-├──────────────┼───────────────────────────────────────────────┤
-│   알람 시스  │  임계값 초과 시                                │
-│   템         │  → Slack/PagerDuty 알람                       │
-│              │  → CT 파이프라인 자동 트리거                   │
-├──────────────┼───────────────────────────────────────────────┤
-│   대시보드   │  피처별 PSI 시계열 시각화                      │
-│   (Grafana)  │  드리프트 히스토리 추적                        │
-└──────────────┴───────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  드리프트 모니터링 시스템                      |
++--------------+-----------------------------------------------+
+|   서빙 서버   |  실시간 요청 데이터 로깅                       |
+|  (Inference) |  -> S3/BigQuery 저장                           |
++--------------+-----------------------------------------------+
+|   드리프트   |  주기적 배치 실행 (예: 매시간)                  |
+|   감지 엔진  |  학습 데이터 분포 vs 최근 서빙 데이터 분포      |
+|              |  PSI / KS Test / KL Divergence 계산           |
++--------------+-----------------------------------------------+
+|   알람 시스  |  임계값 초과 시                                |
+|   템         |  -> Slack/PagerDuty 알람                       |
+|              |  -> CT 파이프라인 자동 트리거                   |
++--------------+-----------------------------------------------+
+|   대시보드   |  피처별 PSI 시계열 시각화                      |
+|   (Grafana)  |  드리프트 히스토리 추적                        |
++--------------+-----------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 혈액검사와 같다. 정상 범위(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)에서 얼마나 벗어났는지를 PSI라는 혈액 지표로 수치화하고, 0.2를 넘으면 재치료(재학습) 처방을 내린다.
@@ -181,11 +181,11 @@ MMD는 두 분포에서 추출한 샘플로
 모든 피처를 동일 가중치로 모니터링하는 것은 비효율적!
 
 피처 중요도 기반 우선순위:
-┌─────────────────────────────────────────────────────┐
-│  Tier 1 (중요 피처): SHAP 상위 10개 → 매시간 모니터 │
-│  Tier 2 (일반 피처): SHAP 상위 50개 → 매일 모니터  │
-│  Tier 3 (저중요 피처): 나머지 → 매주 모니터         │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  Tier 1 (중요 피처): SHAP 상위 10개 -> 매시간 모니터 |
+|  Tier 2 (일반 피처): SHAP 상위 50개 -> 매일 모니터  |
+|  Tier 3 (저중요 피처): 나머지 -> 매주 모니터         |
++-----------------------------------------------------+
 ```
 
 ### 3.3 드리프트 감지 도구 비교
@@ -253,27 +253,27 @@ else:
 
 <strong>Q. 드리프트 감지와 모델 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하의 인과관계를 설명하시오.</strong>
 
-드리프트 감지 → 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 인과관계는 <strong>Covariate Shift와 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a> Drift에서만 성립</strong>한다. Covariate Shift의 경우 새로운 분포 영역은 모델이 학습하지 못한 영역이므로 외삽(Extrapolation) 오류가 발생한다. [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift의 경우 모델의 기본 가정 자체가 깨지므로 직접적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어진다. 그러나 드리프트가 감지됐다고 해서 반드시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 것은 아니며, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표와 함께 모니터링</strong>하는 것이 중요하다.
+드리프트 감지 -> 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 인과관계는 <strong>Covariate Shift와 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a> Drift에서만 성립</strong>한다. Covariate Shift의 경우 새로운 분포 영역은 모델이 학습하지 못한 영역이므로 외삽(Extrapolation) 오류가 발생한다. [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift의 경우 모델의 기본 가정 자체가 깨지므로 직접적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어진다. 그러나 드리프트가 감지됐다고 해서 반드시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 것은 아니며, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표와 함께 모니터링</strong>하는 것이 중요하다.
 
 ### 4.3 드리프트 모니터링 실무 설계
 
 ```
-┌────────────────────────────────────────────────────────┐
-│           드리프트 모니터링 설계 프레임워크              │
-├──────────────┬─────────────────────────────────────────┤
-│  데이터 수집  │  서빙 요청 데이터 샘플링 (1~10%)        │
-│              │  레이블 있을 때 정답도 수집              │
-├──────────────┼─────────────────────────────────────────┤
-│  감지 주기   │  실시간: 스트리밍 이상치 감지             │
-│              │  배치: PSI/KS 일 1회 계산               │
-├──────────────┼─────────────────────────────────────────┤
-│  알람 정책   │  Tier 1: PSI > 0.2 → 즉시 재학습 트리거 │
-│              │  Tier 2: PSI > 0.1 → 강화 모니터링      │
-│              │  Tier 3: PSI < 0.1 → 정상              │
-├──────────────┼─────────────────────────────────────────┤
-│  보고 체계   │  일간 드리프트 리포트 → 자동 이메일 발송  │
-│              │  월간 피처 중요도 리뷰 → 피처 재설계     │
-└──────────────┴─────────────────────────────────────────┘
++--------------------------------------------------------+
+|           드리프트 모니터링 설계 프레임워크              |
++--------------+-----------------------------------------+
+|  데이터 수집  |  서빙 요청 데이터 샘플링 (1~10%)        |
+|              |  레이블 있을 때 정답도 수집              |
++--------------+-----------------------------------------+
+|  감지 주기   |  실시간: 스트리밍 이상치 감지             |
+|              |  배치: PSI/KS 일 1회 계산               |
++--------------+-----------------------------------------+
+|  알람 정책   |  Tier 1: PSI > 0.2 -> 즉시 재학습 트리거 |
+|              |  Tier 2: PSI > 0.1 -> 강화 모니터링      |
+|              |  Tier 3: PSI < 0.1 -> 정상              |
++--------------+-----------------------------------------+
+|  보고 체계   |  일간 드리프트 리포트 -> 자동 이메일 발송  |
+|              |  월간 피처 중요도 리뷰 -> 피처 재설계     |
++--------------+-----------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 드리프트 모니터링은 공장의 품질관리 시스템과 같다. 제품(모델 출력)이 불량이 되기 전에 원자재(입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 규격 검사를 통해 PSI 수치로 이상을 미리 잡아낸다. PSI 0.2 초과는 원자재 불량 경보와 같고, 즉시 공정(재학습)을 멈추고 원인을 찾는다.
@@ -293,7 +293,7 @@ else:
 
 ### 5.2 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 ML 시스템 운영의 <strong>조기 경보 시스템</strong>이다. PSI는 금융 등 규제 업계에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 표준 지표이며, KS Test와 KL Divergence를 보조로 활용하면 다양한 분포 변화를 포착할 수 있다. 무엇보다 드리프트 감지 → [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 자동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)의 연계가 실질적 비즈니스 가치를 만든다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 ML 시스템 운영의 <strong>조기 경보 시스템</strong>이다. PSI는 금융 등 규제 업계에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 표준 지표이며, KS Test와 KL Divergence를 보조로 활용하면 다양한 분포 변화를 포착할 수 있다. 무엇보다 드리프트 감지 -> [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 자동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)의 연계가 실질적 비즈니스 가치를 만든다.
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 모니터링은 스마트 체온계와 같다. 몸 상태(모델 입력)가 정상(36.5도)에서 벗어나기 시작하면 즉시 알람을 울리고, 38도(PSI 0.2) 이상이면 병원(재학습)에 즉시 가도록 안내한다.
 
@@ -325,22 +325,22 @@ else:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-학습 데이터 분포 P(x) ← 모델 학습 시점
-    │
-    ▼
-운영 데이터 분포 Q(x) ← 시간 경과 후 변화
-    │
-    ▼
+학습 데이터 분포 P(x) <- 모델 학습 시점
+    |
+    v
+운영 데이터 분포 Q(x) <- 시간 경과 후 변화
+    |
+    v
 드리프트 유형 분류
-    ├─► Covariate Shift: P(X) ≠ Q(X) (입력 분포 변화)
-    ├─► Prior Probability Shift: P(Y) ≠ Q(Y) (레이블 분포 변화)
-    └─► Concept Drift: P(Y|X) ≠ Q(Y|X) (관계 자체 변화)
-    │
-    ▼
+    +-► Covariate Shift: P(X) ≠ Q(X) (입력 분포 변화)
+    +-► Prior Probability Shift: P(Y) ≠ Q(Y) (레이블 분포 변화)
+    +-► Concept Drift: P(Y|X) ≠ Q(Y|X) (관계 자체 변화)
+    |
+    v
 감지 도구: PSI · KS Test · KL Divergence · Evidently AI
-    │
-    ▼
-CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포
+    |
+    v
+CT 트리거 발동 -> 자동 재학습 -> 평가 게이트 -> 배포
 ```
 
 ---
@@ -349,7 +349,7 @@ CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포
 
 **진행 상황**: 163 / 258
 
-← **이전**: [162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)
-**다음**: [164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) →
+<- **이전**: [162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)
+**다음**: [164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ->
 
 ---

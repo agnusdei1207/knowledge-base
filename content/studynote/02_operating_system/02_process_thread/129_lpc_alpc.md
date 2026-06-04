@@ -31,38 +31,38 @@ tags = ["studynote-operating-system"]
 LPC와 ALPC의 구조적 차이를 시각화하면, ALPC가 기존 LPC의 어떤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 해결했는지 명확히 파악할 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │              LPC vs ALPC — 메시지 전달 경로 비교                      │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │ [LPC (기존)]                                                          │
-  │                                                                       │
-  │   Client Process ──▶ LPC Port ──▶ [Kernel Copy] ──▶ Server Process    │
-  │        │                  │                   │                       │
-  │        │           ┌──────┴────────┐         │                        │
-  │        │           │ User Buffer   │────────▶│ Kernel Buffer          │
-  │        │           │ (메시지 작성)  │  copy   │ (1차 복사)            │
-  │        │           └───────────────┘         │                        │
-  │        │                                    ▼                         │
-  │        │                          ┌────────────────┐                  │
-  │        │                          │ Kernel Buffer  │                  │
-  │        │                          │ (2차 복사)      │──▶ Server       │
-  │        │                          └────────────────┘                  │
-  │        │                                                              │
-  │        └── ⚠ 버퍼 2회 복사 (Double Copy) → 성능 오버헤드              │
-  │                                                                       │
-  │ [ALPC (개선)]                                                         │
-  │                                                                       │
-  │   Client Process ──▶ ALPC Port ──▶ [Zero-Copy / Direct]               │
-  │        │                  │              │                            │
-  │        │           ┌──────┴──────┐       │                            │
-  │        │           │ Shared      │◀──────┤ DMA/Mapping                │
-  │        │           │ Message     │       │                            │
-  │        │           │ Region      │──────▶│ Server (직접 접근)         │
-  │        │           └─────────────┘       │                            │
-  │        │                                                              │
-  │        └── ✅ 버퍼 재사용 + Zero-Copy → 지연 시간 최소화              │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |              LPC vs ALPC — 메시지 전달 경로 비교                      |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  | [LPC (기존)]                                                          |
+  |                                                                       |
+  |   Client Process ---> LPC Port ---> [Kernel Copy] ---> Server Process    |
+  |        |                  |                   |                       |
+  |        |           +------+--------+         |                        |
+  |        |           | User Buffer   |--------->| Kernel Buffer          |
+  |        |           | (메시지 작성)  |  copy   | (1차 복사)            |
+  |        |           +---------------+         |                        |
+  |        |                                    v                         |
+  |        |                          +----------------+                  |
+  |        |                          | Kernel Buffer  |                  |
+  |        |                          | (2차 복사)      |---> Server       |
+  |        |                          +----------------+                  |
+  |        |                                                              |
+  |        +-- ⚠ 버퍼 2회 복사 (Double Copy) -> 성능 오버헤드              |
+  |                                                                       |
+  | [ALPC (개선)]                                                         |
+  |                                                                       |
+  |   Client Process ---> ALPC Port ---> [Zero-Copy / Direct]               |
+  |        |                  |              |                            |
+  |        |           +------+------+       |                            |
+  |        |           | Shared      |<-------+ DMA/Mapping                |
+  |        |           | Message     |       |                            |
+  |        |           | Region      |------->| Server (직접 접근)         |
+  |        |           +-------------+       |                            |
+  |        |                                                              |
+  |        +-- ✅ 버퍼 재사용 + Zero-Copy -> 지연 시간 최소화              |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 LPC는 클라이언트의 유저 버퍼에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼로 메시지를 복사하고, 다시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 서버의 유저 버퍼로 복사하는 2회 복사 (Double Copy) 구조를 갖는다. 이 중간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼를 거치는 과정에서 CPU 사이클이 낭비되고, 대용량 메시지의 경우 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 발생한다. ALPC는 이를 세 가지 방법으로 개선한다. 첫째, 작은 메시지는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 메시지 큐에 직접 삽입하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 중개를 생략한다. 둘째, 대용량 메시지는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 영역 (Shared Message Region)을 할당하여 클라이언트와 서버가 동일 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 매핑받아 Zero-Copy로 접근하게 한다. 셋째, 메시지 버퍼를 매번 새로 할당하지 않고 풀 (Pool)에서 재사용하여 메모리 할당 오버헤드를 제거한다. 이러한 최적화 덕분에 ALPC는 LPC 대비 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 30~50% 단축되었다.
@@ -86,42 +86,42 @@ LPC와 ALPC의 구조적 차이를 시각화하면, ALPC가 기존 LPC의 어떤
 LPC/ALPC의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 연결 수립 과정과 메시지 교환 흐름을 아키텍처 다이어그램으로 시각화하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 중개하는 3-way 핸드셰이크 구조와 메시지 유형별 전달 경로가 명확해진다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │           ALPC 포트 연결 및 메시지 교환 아키텍처                       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [Server Process]                [Kernel (ALPC Manager)]               │
-  │  ┌─────────────────┐            ┌──────────────────────┐               │
-  │  │ Connection Port │◀─── 1 ────│ NtCreatePort()       │                │
-  │  │ (접수 창구)      │   Accept  │ (포트 객체 생성)       │             │
-  │  └────────┬────────┘   Request  └──────────┬───────────┘               │
-  │           │                       2          │                         │
-  │           │                       │          │                         │
-  │           ▼                       │          │                         │
-  │  ┌─────────────────┐             │          │                          │
-  │  │ Communication   │◀─────── Connection ────│                          │
-  │  │ Port (서버 측)   │   3. NtConnectPort()   │                         │
-  │  └────────┬────────┘      NtAcceptConnectPort()│                       │
-  │           │               NtCompleteConnectPort()│                     │
-  │           │                      │             │                       │
-  │           │  4. 메시지 전달        │             │                     │
-  │           │◀─────────────────────┤             │                       │
-  │           │  NtRequestWaitReply  │             │                       │
-  │           │  Port() ───────────▶│             │                        │
-  │           │◀─ Reply ────────────┤             │                        │
-  │           │                      │             │                       │
-  │  [Client Process]               │             │                        │
-  │  ┌─────────────────┐             │             │                       │
-  │  │ Communication   │─── 4 ──────▶│             │                       │
-  │  │ Port (클라이언트) │  Request   └─────────────┘                      │
-  │  └─────────────────┘                                                   │
-  │                                                                        │
-  │  메시지 유형:                                                          │
-  │  ├─ LPC_REQUEST          : 클라이언트 → 서버 요청                      │
-  │  ├─ LPC_REPLY            : 서버 → 클라이언트 응답                      │
-  │  ├─ LPC_DATAGRAM         : 단방향 메시지 (응답 불필요)                 │
-  │  └─ LPC_CONNECTION_REQUEST: 최초 연결 요청                             │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |           ALPC 포트 연결 및 메시지 교환 아키텍처                       |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |  [Server Process]                [Kernel (ALPC Manager)]               |
+  |  +-----------------+            +----------------------+               |
+  |  | Connection Port |<---- 1 ----| NtCreatePort()       |                |
+  |  | (접수 창구)      |   Accept  | (포트 객체 생성)       |             |
+  |  +--------+--------+   Request  +----------+-----------+               |
+  |           |                       2          |                         |
+  |           |                       |          |                         |
+  |           v                       |          |                         |
+  |  +-----------------+             |          |                          |
+  |  | Communication   |<-------- Connection ----|                          |
+  |  | Port (서버 측)   |   3. NtConnectPort()   |                         |
+  |  +--------+--------+      NtAcceptConnectPort()|                       |
+  |           |               NtCompleteConnectPort()|                     |
+  |           |                      |             |                       |
+  |           |  4. 메시지 전달        |             |                     |
+  |           |<----------------------+             |                       |
+  |           |  NtRequestWaitReply  |             |                       |
+  |           |  Port() ------------>|             |                        |
+  |           |<-- Reply ------------+             |                        |
+  |           |                      |             |                       |
+  |  [Client Process]               |             |                        |
+  |  +-----------------+             |             |                       |
+  |  | Communication   |--- 4 ------->|             |                       |
+  |  | Port (클라이언트) |  Request   +-------------+                      |
+  |  +-----------------+                                                   |
+  |                                                                        |
+  |  메시지 유형:                                                          |
+  |  +- LPC_REQUEST          : 클라이언트 -> 서버 요청                      |
+  |  +- LPC_REPLY            : 서버 -> 클라이언트 응답                      |
+  |  +- LPC_DATAGRAM         : 단방향 메시지 (응답 불필요)                 |
+  |  +- LPC_CONNECTION_REQUEST: 최초 연결 요청                             |
+  +------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** ALPC 통신은 크게 연결 수립 (Connection Setup)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 (Message Exchange) 두 단계로 나뉜다. 서버 프로세스가 `NtCreatePort()` 시스템 콜을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 Connection Port를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `LPC_PORT` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체를 할당하고 연결 요청 대기 큐를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화한다. 클라이언트가 `NtConnectPort()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 서버에게 연결 요청 메시지를 전달하고, 서버가 `NtAcceptConnectPort()`로 승인하면 양쪽에 각각 Communication Port가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이후 클라이언트는 `NtRequestWaitReplyPort()`를 호출하여 요청 메시지를 전송하고 서버의 응답을 동기적으로 대기한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 ALPC 매니저는 이 과정에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 블로킹/언블로킹하여 동기화를 관리한다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신이 필요한 경우 `LPC_DATAGRAM` 유형을 사용하여 응답 대기 없이 메시지를 전달할 수도 있다.
@@ -136,7 +136,7 @@ ALPC는 기존 LPC 대비 세 가지 핵심 최적화를 도입하여 [성능](/
 
 ③ <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드 메시지 직접 전달 (Kernel-Mode Message Pass-Through)</strong>: 발신자와 수신자가 모두 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드이면, 메시지를 유저-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 넘나들지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 버퍼에서 직접 전달하여 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드를 최소화한다.
 
-① 클라이언트가 `NtRequestWaitReplyPort()` 호출 → ② ALPC 매니저가 메시지를 Lookaside List에서 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)된 버퍼에 복사 (소형 메시지) 또는 섹션 객체 매핑 (대형 메시지) → ③ 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기 상태에서 웨이크업하여 메시지 수신 큐로 전달 → ④ 서버 처리 후 응답 메시지를 동일 경로로 반환 → ⑤ 클라이언트 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 언블로킹.
+① 클라이언트가 `NtRequestWaitReplyPort()` 호출 -> ② ALPC 매니저가 메시지를 Lookaside List에서 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)된 버퍼에 복사 (소형 메시지) 또는 섹션 객체 매핑 (대형 메시지) -> ③ 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기 상태에서 웨이크업하여 메시지 수신 큐로 전달 -> ④ 서버 처리 후 응답 메시지를 동일 경로로 반환 -> ⑤ 클라이언트 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 언블로킹.
 
 - **📢 섹션 요약 비유**: 우체국이 편지 봉투(버퍼)를 매번 새로 만들지 않고 재사용 봉투 풀을 운영하고, 큰 소포는 복사(초안 작성)하지 않고 원본을 직접 전달하는 것이 ALPC의 핵심 최적화와 같습니다.
 
@@ -174,35 +174,35 @@ LPC/ALPC는 Windows [커널](/knowledge-base/studynote/02_operating_system/01_ov
 LPC/ALPC가 Windows [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)에서 어떤 위치를 차지하는지 전체 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 생태계 맵으로 시각화하면, 각 메커니즘의 적용 범위가 명확해진다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────┐
-  │           Windows IPC 생태계에서 ALPC의 위치                             │
-  ├──────────────────────────────────────────────────────────────────────────┤
-  │                                                                          │
-  │  ┌────────────────────────────────────────────────────────────────┐      │
-  │  │                 Windows IPC 메커니즘 계층도                       │   │
-  │  │                                                                 │     │
-  │  │  [고성능 / 로컬 전용]                                            │    │
-  │  │  ┌──────────────────────────────────────────┐                  │      │
-  │  │  │           ALPC / LPC                      │ ◀─ 커널 직접 경로   │  │
-  │  │  │  (서브시스템 통신, CSRSS, LSASS, Smss.exe) │                  │    │
-  │  │  └──────────────────────────────────────────┘                  │      │
-  │  │       │                                                          │    │
-  │  │       ▼  [성능 / 기능 트레이드오프]                               │   │
-  │  │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │       │
-  │  │  │ Named Pipe     │  │ Mailslot       │  │ Shared Memory  │   │       │
-  │  │  │ (순차적 스트림) │  │ (단방향 다중)   │  │ (최고 성능)    │   │     │
-  │  │  └───────┬────────┘  └────────────────┘  └────────────────┘   │       │
-  │  │          │                                                        │   │
-  │  │          ▼  [네트워크 지원]                                        │  │
-  │  │  ┌──────────────────────────────────────────┐                  │      │
-  │  │  │     RPC (Remote Procedure Call)            │                  │    │
-  │  │  │  (분산 환경, DCOM, WMI, WinRM)              │ ◀─ 네트워크 경로  │  │
-  │  │  └──────────────────────────────────────────┘                  │      │
-  │  │                                                                 │     │
-  │  │  지연 시간:  ALPC < Shared Mem < Named Pipe < Mailslot < RPC    │     │
-  │  │  기능성  :  RPC > Named Pipe > ALPC > Shared Memory              │    │
-  │  └────────────────────────────────────────────────────────────────┘      │
-  └──────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------+
+  |           Windows IPC 생태계에서 ALPC의 위치                             |
+  +--------------------------------------------------------------------------+
+  |                                                                          |
+  |  +----------------------------------------------------------------+      |
+  |  |                 Windows IPC 메커니즘 계층도                       |   |
+  |  |                                                                 |     |
+  |  |  [고성능 / 로컬 전용]                                            |    |
+  |  |  +------------------------------------------+                  |      |
+  |  |  |           ALPC / LPC                      | <-- 커널 직접 경로   |  |
+  |  |  |  (서브시스템 통신, CSRSS, LSASS, Smss.exe) |                  |    |
+  |  |  +------------------------------------------+                  |      |
+  |  |       |                                                          |    |
+  |  |       v  [성능 / 기능 트레이드오프]                               |   |
+  |  |  +----------------+  +----------------+  +----------------+   |       |
+  |  |  | Named Pipe     |  | Mailslot       |  | Shared Memory  |   |       |
+  |  |  | (순차적 스트림) |  | (단방향 다중)   |  | (최고 성능)    |   |     |
+  |  |  +-------+--------+  +----------------+  +----------------+   |       |
+  |  |          |                                                        |   |
+  |  |          v  [네트워크 지원]                                        |  |
+  |  |  +------------------------------------------+                  |      |
+  |  |  |     RPC (Remote Procedure Call)            |                  |    |
+  |  |  |  (분산 환경, DCOM, WMI, WinRM)              | <-- 네트워크 경로  |  |
+  |  |  +------------------------------------------+                  |      |
+  |  |                                                                 |     |
+  |  |  지연 시간:  ALPC < Shared Mem < Named Pipe < Mailslot < RPC    |     |
+  |  |  기능성  :  RPC > Named Pipe > ALPC > Shared Memory              |    |
+  |  +----------------------------------------------------------------+      |
+  +--------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Windows [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 생태계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 기능성 사이의 트레이드오프 스펙트럼으로 구성된다. 최상단에 ALPC가 위치하며, 동일 기기 내에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경유의 최단 경로를 제공하지만 네트워크 확장은 불가능하다. [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))는 ALPC 대비 구조는 더 단순하지만 동기화를 애플리케이션이 직접 관리해야 하므로 편의성이 떨어진다. Named Pipe는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 네임스페이스와 통합되어 관리가 용이하고 네트워크 경로 (NPFS, Named [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)를 통해 원격 접속도 지원한다. 하단의 RPC는 기능성이 가장 높아 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 복잡한 통신을 처리하지만, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 경유로 인해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 가장 크다. 실무에서는 통신 범위 (로컬 vs 원격), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 보안 요구사항에 따라 적절한 계층의 IPC를 선택해야 한다.
@@ -222,33 +222,33 @@ LPC/ALPC가 Windows [프로세스 간 통신](/knowledge-base/studynote/02_opera
 ALPC 도입 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성을 판단하기 위한 의사결정 플로우를 시각화하면, [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘 선택의 기준이 명확해진다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │           Windows 환경 IPC 메커니즘 선택 의사결정 플로우                │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [IPC 요구사항 식별]                                                    │
-  │         │                                                               │
-  │         ▼                                                               │
-  │  통신 대상이 동일 기기 내의 프로세스인가?                               │
-  │     ├─ 아니오 ──▶ [RPC / Named Pipe (네트워크 경유)]                    │
-  │     │                                                                   │
-  │     └─ 예 ──▶ 초당 메시지 빈도가 10,000건 이상인가?                     │
-  │                    ├─ 아니오 ──▶ [Named Pipe / COM]                     │
-  │                    │               (관리 편의성 우선)                   │
-  │                    │                                                    │
-  │                    └─ 예 ──▶ 단일 메시지 크기가 4KB 이하인가?           │
-  │                               ├─ 예 ──▶ [ALPC 소형 메시지 경로]         │
-  │                               │          (포트 큐 직접 전달)            │
-  │                               │                                         │
-  │                               └─ 아니오 ─▶ [ALPC 대용량 경로]           │
-  │                                           (Section Object Zero-Copy)    │
-  │                                                                         │
-  │  ⚠ 추가 고려사항:                                                       │
-  │  · 서버 프로세스가 단일 포트 병목 가능성이 있는가?                      │
-  │    → ALPC 다중 포트 분산 또는 Named Pipe + 스레드 풀 검토               │
-  │  · 크로스 플랫폼 이식성이 필요한가?                                     │
-  │    → Unix Domain Socket (WSL2 / Linux) 또는 gRPC 선택                   │
-  └─────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------+
+  |           Windows 환경 IPC 메커니즘 선택 의사결정 플로우                |
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |  [IPC 요구사항 식별]                                                    |
+  |         |                                                               |
+  |         v                                                               |
+  |  통신 대상이 동일 기기 내의 프로세스인가?                               |
+  |     +- 아니오 ---> [RPC / Named Pipe (네트워크 경유)]                    |
+  |     |                                                                   |
+  |     +- 예 ---> 초당 메시지 빈도가 10,000건 이상인가?                     |
+  |                    +- 아니오 ---> [Named Pipe / COM]                     |
+  |                    |               (관리 편의성 우선)                   |
+  |                    |                                                    |
+  |                    +- 예 ---> 단일 메시지 크기가 4KB 이하인가?           |
+  |                               +- 예 ---> [ALPC 소형 메시지 경로]         |
+  |                               |          (포트 큐 직접 전달)            |
+  |                               |                                         |
+  |                               +- 아니오 --> [ALPC 대용량 경로]           |
+  |                                           (Section Object Zero-Copy)    |
+  |                                                                         |
+  |  ⚠ 추가 고려사항:                                                       |
+  |  · 서버 프로세스가 단일 포트 병목 가능성이 있는가?                      |
+  |    -> ALPC 다중 포트 분산 또는 Named Pipe + 스레드 풀 검토               |
+  |  · 크로스 플랫폼 이식성이 필요한가?                                     |
+  |    -> Unix Domain Socket (WSL2 / Linux) 또는 gRPC 선택                   |
+  +-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 의사결정 흐름의 핵심은 "ALPC가 항상 최선은 아니다"라는 점이다. ALPC는 동일 기기 내 고빈도 소형 메시지 통신에 최적화되어 있지만, 서버 프로세스가 단일 ALPC [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 모든 요청을 처리하는 구조이므로 서버 측의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 한계에 직면할 수 있다. 또한 Windows 전용 API이므로, WSL2 (Windows Subsystem for Linux) 환경이나 크로스 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 설계할 때는 Unix [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Socket이나 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 같은 표준 기반 IPC를 선택해야 한다. 실무에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 도구 (Windows [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Analyzer, ETW: Event [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) for Windows)를 통해 실제 병목 지점을 먼저 식별하고, 오버헤드가 실제 문제인 경우에만 ALPC로 전환하는 점진적 접근이 바람직하다.
@@ -302,12 +302,12 @@ LPC/ALPC는 Windows NT [커널](/knowledge-base/studynote/02_operating_system/01
 
 ```text
 [마샬링 (Marshalling) / 언마샬링 (Unmarshalling)]
-    │
-    ▼
+    |
+    v
 [로컬 프로시저 호출 (LPC, Local Procedure Call) / ALPC (Windows)]
-    │
-    ├──▶ [신호 (Signal)]
-    └──▶ [메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
+    |
+    +---> [신호 (Signal)]
+    +---> [메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -324,7 +324,7 @@ LPC/ALPC는 Windows NT [커널](/knowledge-base/studynote/02_operating_system/01
 
 **진행 상황**: 129 / 800
 
-← **이전**: [128. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)](/knowledge-base/studynote/02_operating_system/02_process_thread/128_marshalling_unmarshalling/)
-**다음**: [130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) →
+<- **이전**: [128. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)](/knowledge-base/studynote/02_operating_system/02_process_thread/128_marshalling_unmarshalling/)
+**다음**: [130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) ->
 
 ---

@@ -36,17 +36,17 @@ tags = ["studynote-devops-sre"]
 이 그림은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스 실험의 제어 루프를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ DR + Chaos GameDay control loop                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"       │
-│ 2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인     │
-│ 3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리                  │
-│ 4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격            │
-│ 5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험            │
-│                                                                    │
-│ Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| DR + Chaos GameDay control loop                                    |
++--------------------------------------------------------------------+
+| 1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"       |
+| 2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인     |
+| 3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리                  |
+| 4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격            |
+| 5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험            |
+|                                                                    |
+| Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로                |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 시 핵심 질문 |
@@ -137,17 +137,17 @@ DR과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architec
 
 ```text
 탁상형 DR 점검
-    │
-    ▼
+    |
+    v
 스크립트 기반 복구 훈련
-    │
-    ▼
+    |
+    v
 관측성 기반 GameDay
-    │
-    ▼
+    |
+    v
 운영 환경 일부 트래픽 카오스 검증
-    │
-    ▼
+    |
+    v
 지속적 복원력 검증 · 자동화된 런북 개선
 ```
 
@@ -163,7 +163,7 @@ DR과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architec
 
 **진행 상황**: 184 / 373
 
-← **이전**: [183. 데이터 손실 제로 (Zero Data Loss) 아키텍처](/knowledge-base/studynote/15_devops_sre/03_sre_observability/183_zero_data_loss_architecture/)
-**다음**: [185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/185_network_jitter/) →
+<- **이전**: [183. 데이터 손실 제로 (Zero Data Loss) 아키텍처](/knowledge-base/studynote/15_devops_sre/03_sre_observability/183_zero_data_loss_architecture/)
+**다음**: [185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/185_network_jitter/) ->
 
 ---

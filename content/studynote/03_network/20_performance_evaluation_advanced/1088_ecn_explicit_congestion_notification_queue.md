@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    ▼
+    |
+    v
 [ECN 징후 큐 통지]
-    │
-    └──▶ [DiffServ DSCP 분류 PHB]
+    |
+    +---> [DiffServ DSCP 분류 PHB]
 ```
 
 - **📢 섹션 요약 비유**: ECN 징후 큐 통지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    ▼
+    |
+    v
 [ECN 징후 큐 통지]
-    │
-    └──▶ [DiffServ DSCP 분류 PHB]
+    |
+    +---> [DiffServ DSCP 분류 PHB]
 ```
 
 - **📢 섹션 요약 비유**: ECN 징후 큐 통지의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ ECN 징후 큐 통지는 [성능](/knowledge-base/studynote/04_software_engineer
 
 ```text
 [선행 개념: BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    ▼
+    |
+    v
 [현재 개념: ECN 징후 큐 통지]
-    │
-    ├──▶ [확장 A: DiffServ DSCP 분류 PHB]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: DiffServ DSCP 분류 PHB]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 ECN 징후 큐 통지는 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ ECN 징후 큐 통지는 [BBR](/knowledge-base/studynote/03_network/08_transport
 
 **진행 상황**: 196 / 1120
 
-← **이전**: [1087. BBR 구글 TCP 동적 모델 지연 기반 혼잡](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1087_bbr_google_tcp_congestion_control_delay_based/)
-**다음**: [1089. DiffServ DSCP 분류 PHB](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1089_diffserv_dscp_classification_phb_qos/) →
+<- **이전**: [1087. BBR 구글 TCP 동적 모델 지연 기반 혼잡](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1087_bbr_google_tcp_congestion_control_delay_based/)
+**다음**: [1089. DiffServ DSCP 분류 PHB](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1089_diffserv_dscp_classification_phb_qos/) ->
 
 ---

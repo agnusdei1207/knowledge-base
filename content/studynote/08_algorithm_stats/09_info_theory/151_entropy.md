@@ -54,19 +54,19 @@ H(X) = -Σ_{x∈X} p(x)·log₂p(x)   [단위: bit]
 
 ```
 H(p)
-1.0 │        *
-    │      *   *
-0.8 │    *       *
-    │  *           *
-0.6 │*               *
-    │                  *
-0.4 │                    *
-0.2 │                      *
-  0 └─────────────────────────►
+1.0 |        *
+    |      *   *
+0.8 |    *       *
+    |  *           *
+0.6 |*               *
+    |                  *
+0.4 |                    *
+0.2 |                      *
+  0 +-------------------------►
   0  0.1  0.3  0.5  0.7  0.9  1.0  p
 ```
 
-p = 0.5일 때 H = 1 (최대), p → 0 또는 p → 1일 때 H → 0.
+p = 0.5일 때 H = 1 (최대), p -> 0 또는 p -> 1일 때 H -> 0.
 
 ### 결합 엔트로피와 조건부 엔트로피
 
@@ -97,13 +97,13 @@ IG(A) = H(부모 노드) - Σ_v [|Sv|/|S| · H(Sv)]
           /             \
 [+++---]               [++--]
 H = 1.0                H = 1.0
-IG = 1.0 - (6/10·1.0 + 4/10·1.0) = 0.0   ← 정보이득 없음
+IG = 1.0 - (6/10·1.0 + 4/10·1.0) = 0.0   <- 정보이득 없음
 
 분기 속성 B
           /             \
 [+++++]               [-----]
 H = 0.0                H = 0.0
-IG = 1.0 - (5/10·0.0 + 5/10·0.0) = 1.0   ← 완벽 분리
+IG = 1.0 - (5/10·0.0 + 5/10·0.0) = 1.0   <- 완벽 분리
 ```
 
 📢 **섹션 요약 비유**: 정보이득은 "정렬 효과"와 같다 — 분기 후 양쪽이 더 순수하게 나뉠수록(정보이득 클수록) 더 좋은 분기 기준이다.
@@ -170,7 +170,7 @@ PP(X) = 2^{H(X)} = 2^{-1/N · Σlog₂p(xᵢ)}
 
 섀넌 엔트로피는 다음 세 가지를 동시에 달성한다:
 
-1. **정량화**: 불확실성을 수치로 표현 → [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교 가능
+1. **정량화**: 불확실성을 수치로 표현 -> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교 가능
 2. **하한 제시**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 불가능한 최솟값을 이론적으로 보장
 3. **설계 기준**: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 손실함수, 특성 선택 기준 제공
 
@@ -196,17 +196,17 @@ PP(X) = 2^{H(X)} = 2^{-1/N · Σlog₂p(xᵢ)}
 
 ```text
 [섀넌 엔트로피 H(X)]
-    │
-    ▼
+    |
+    v
 [결합 엔트로피 H(X,Y)]
-    │
-    ▼
+    |
+    v
 [정보이득 IG]
-    │
-    ▼
+    |
+    v
 [퍼플렉시티 PP]
-    │
-    ▼
+    |
+    v
 [최대 엔트로피 원리]
 ```
 
@@ -224,7 +224,7 @@ PP(X) = 2^{H(X)} = 2^{-1/N · Σlog₂p(xᵢ)}
 
 **진행 상황**: 151 / 175
 
-← **이전**: [1. 정보이론 (Information Theory) — Shannon, 1948](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)
-**다음**: [3. 상호 정보량 (Mutual Information) — 공유 정보 측정](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/) →
+<- **이전**: [1. 정보이론 (Information Theory) — Shannon, 1948](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)
+**다음**: [3. 상호 정보량 (Mutual Information) — 공유 정보 측정](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/) ->
 
 ---

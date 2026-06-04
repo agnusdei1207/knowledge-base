@@ -20,14 +20,14 @@ tags = ["studynote-design-supervision"]
 
 [LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 컨설팅과 감리에서 복잡한 문제를 **겹치지 않게 나누고, 빠짐없이 덮고, 시각적으로 설명하는** 대표 조합이다. LISS는 각 요소의 책임이 서로 독립적이면서도 전체 문제 공간을 포괄해야 함을 강조하고, MECE는 분해된 항목이 상호배타적이고 전체포괄적인지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 로직트리는 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 트리 형태로 보여 주는 도구다.
 
-시험에서는 이 셋을 별개 용어로 암기하기보다 "문제 구조화 절차"로 묶어 쓰는 것이 좋다. 즉 문제 정의 → 분해 기준 선택 → 트리 전개 → 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 실행 대안 도출의 흐름으로 정리하면 답안이 자연스럽다. 감리 보고서나 기술사 서술형에서 특히 강한 이유는, 단순 주장보다 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 근거와 범위 통제</strong>를 함께 보여 줄 수 있기 때문이다.
+시험에서는 이 셋을 별개 용어로 암기하기보다 "문제 구조화 절차"로 묶어 쓰는 것이 좋다. 즉 문제 정의 -> 분해 기준 선택 -> 트리 전개 -> 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 실행 대안 도출의 흐름으로 정리하면 답안이 자연스럽다. 감리 보고서나 기술사 서술형에서 특히 강한 이유는, 단순 주장보다 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 근거와 범위 통제</strong>를 함께 보여 줄 수 있기 때문이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Symptom ──▶ Framing ──▶ Issue Tree ──▶ Hypothesis ──▶ Action │
-├──────────────────────────────────────────────────────────────┤
-│ 현상         질문 정의      구조화 분해      원인 가설      실행안  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Symptom ---> Framing ---> Issue Tree ---> Hypothesis ---> Action |
++--------------------------------------------------------------+
+| 현상         질문 정의      구조화 분해      원인 가설      실행안  |
++--------------------------------------------------------------+
 ```
 
 이 그림은 복잡한 현상이 곧바로 대안으로 가는 것이 아니라, 먼저 질문을 정하고 문제 공간을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 자른 뒤에야 실행안이 나와야 함을 보여 준다.
@@ -47,15 +47,15 @@ tags = ["studynote-design-supervision"]
 | 로직트리 | 문제를 Why/How 축으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 우선순위 연결이 쉬워진다 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Problem: 성능 저하                                             │
-├──────────────────────────────────────────────────────────────┤
-│            ├─ Client 구간                                      │
-│ Root Cause ├─ Network 구간   ← 같은 수준의 분해 기준 유지       │
-│            ├─ Server 구간                                      │
-│            └─ Database 구간                                    │
-│                 └─ 세부 원인 재분해 (병목, 락, I/O, SQL)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Problem: 성능 저하                                             |
++--------------------------------------------------------------+
+|            +- Client 구간                                      |
+| Root Cause +- Network 구간   <- 같은 수준의 분해 기준 유지       |
+|            +- Server 구간                                      |
+|            +- Database 구간                                    |
+|                 +- 세부 원인 재분해 (병목, 락, I/O, SQL)         |
++--------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 트리 모양이 아니라 <strong>분해 차원의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 1차 분해에서 "매출 감소, DB 느림, 경쟁 심화"처럼 서로 다른 차원을 섞으면 트리는 그려져도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 깨진다. 따라서 먼저 차원을 고정하고, 그 다음에 가설과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해야 한다.
@@ -126,17 +126,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 복잡한 현상 인식
-    │
-    ▼
+    |
+    v
 분해 기준 선택
-    │
-    ▼
+    |
+    v
 LISS · MECE 검증
-    │
-    ▼
+    |
+    v
 로직트리 전개
-    │
-    ▼
+    |
+    v
 가설 검증 · 실행 대안 도출
 ```
 
@@ -154,7 +154,7 @@ LISS · MECE 검증
 
 **진행 상황**: 504 / 530
 
-← **이전**: [425. 아키텍처의 개념적 무결성 (Conceptual Integrity)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/425_architecture/)
-**다음**: [427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/427_metric/) →
+<- **이전**: [425. 아키텍처의 개념적 무결성 (Conceptual Integrity)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/425_architecture/)
+**다음**: [427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/427_metric/) ->
 
 ---

@@ -30,30 +30,30 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 RAM에 올려둔 32비트짜리 긴 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 막대기를 어떻게 찰나에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)지연 없이 '연속된 000(사용/빈칸)' 구역을 스캐닝해 뽑아내는지 결착 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "논리 회로가 제일 좋아하는 밥!" 비트 마스크 OR/AND 우회 타격       │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  [[ 1TB 하드디스크 전체를 뜻하는 거대 이진수 비트열 배열 (Array Bits) ]]           │
-  │                                                                                    │
-  │     (규칙: `1` = 우왕 빈방이야 자유!  /  `0` = 사용 중 파일 꽉 참 데들락!)         │
-  │                                                                                    │
-  │  비트 위치:   0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15                      │
-  │  =============================================================                     │
-  │  값(Value) :  0  0  0  1  1  1  0  0  1  1  1  1  0  0  0  1                       │
-  │  -------------------------------------------------------------                     │
-  │                                                                                    │
-  │  1️⃣ CPU 연속 검색 하달 모터 빔 지시!                                              │
-  │   - 커널: "영화 1편 넣게, 연속된 빈 블록(1111) 길이 4칸짜리 공터 빨리 가져와!!"    │
-  │                                                                                    │
-  │  2️⃣ C언어 논리 연산자 비트 쉬프트 마스킹 (Bitwise $O(1)$ 스왑 연성)               │
-  │   - CPU 레지스터에 저 배열 숫자를 단 1워드(32바이트 덩어리 단위) 통째로 쓸어 담어! │
-  │   - 숫자가 0도 아니고 $\ne0$ 조건 필터! `1111` 패턴을 AND 겹쳐 대보면?             │
-  │   - "앗! 8번~11번 위치에 정확히 `1111` 4칸 불빛이 일치 패턴 스왑 적중!!"           │
-  │                                                                                    │
-  │   => 결과: 디스크 모터를 뒤적이지도 않음. RAM 캐시 CPU 레지스터 위상 옥상에서      │
-  │            전기 연산 1방으로 4연속 덩어리 공터를 찾아 익스텐트에 매핑 타격 완료!   │
-  └────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------+
+  |                 "논리 회로가 제일 좋아하는 밥!" 비트 마스크 OR/AND 우회 타격       |
+  +------------------------------------------------------------------------------------+
+  |                                                                                    |
+  |  [[ 1TB 하드디스크 전체를 뜻하는 거대 이진수 비트열 배열 (Array Bits) ]]           |
+  |                                                                                    |
+  |     (규칙: `1` = 우왕 빈방이야 자유!  /  `0` = 사용 중 파일 꽉 참 데들락!)         |
+  |                                                                                    |
+  |  비트 위치:   0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15                      |
+  |  =============================================================                     |
+  |  값(Value) :  0  0  0  1  1  1  0  0  1  1  1  1  0  0  0  1                       |
+  |  -------------------------------------------------------------                     |
+  |                                                                                    |
+  |  1️⃣ CPU 연속 검색 하달 모터 빔 지시!                                              |
+  |   - 커널: "영화 1편 넣게, 연속된 빈 블록(1111) 길이 4칸짜리 공터 빨리 가져와!!"    |
+  |                                                                                    |
+  |  2️⃣ C언어 논리 연산자 비트 쉬프트 마스킹 (Bitwise $O(1)$ 스왑 연성)               |
+  |   - CPU 레지스터에 저 배열 숫자를 단 1워드(32바이트 덩어리 단위) 통째로 쓸어 담어! |
+  |   - 숫자가 0도 아니고 $\ne0$ 조건 필터! `1111` 패턴을 AND 겹쳐 대보면?             |
+  |   - "앗! 8번~11번 위치에 정확히 `1111` 4칸 불빛이 일치 패턴 스왑 적중!!"           |
+  |                                                                                    |
+  |   => 결과: 디스크 모터를 뒤적이지도 않음. RAM 캐시 CPU 레지스터 위상 옥상에서      |
+  |            전기 연산 1방으로 4연속 덩어리 공터를 찾아 익스텐트에 매핑 타격 완료!   |
+  +------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 구조(Linked 534장 예고)는 연속 빈 공간을 찾기 어렵다. 왜냐하면 '3번 방이 비었음' 다음 위치가 '590번이 비었음' 이라고 연결될 수 있기 때문이다(연속 검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 희박 데들락). 그러나 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 벡터 구조는 물리적 방치 순서 그대로 1렬 이진수를 박아놓는다. 만약 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 커널이 이전 장에서 배운 "[익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)([Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 연속 통째 묶기 1줄 마법!)" 를 쓰고 싶다면 어떻게 10번째~100번째까지 빈칸이 연속되어 있단 걸 알아낼까? 바로 저 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 벡터 메모리에 `11111...1` 이 90개 이어진 패턴 덩어리를 1초 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 탐색으로 긁어(Scanning 융합 부스트) 발라내기 때문이며, [익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)벡터는 떼려야 뗄 수 없는 상호 의존 영혼의 짝꿍 쌍둥이 뼈대임을 증명 시스템 락으로 연성한다!
@@ -154,12 +154,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [빈 공간 관리 (Free-Space Management) 알고리즘]
-    │
-    ▼
+    |
+    v
 [비트 벡터 (Bit Vector / Bitmap)]
-    │
-    ├──▶ [연결 리스트 (Linked List) 빈 공간 관리]
-    └──▶ [그룹화 (Grouping) / 계수 (Counting) 기법]
+    |
+    +---> [연결 리스트 (Linked List) 빈 공간 관리]
+    +---> [그룹화 (Grouping) / 계수 (Counting) 기법]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -176,7 +176,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 533 / 800
 
-← **이전**: [532. 빈 공간 관리 (Free-Space Management) 알고리즘](/knowledge-base/studynote/02_operating_system/09_file_system/532_free_space_management/)
-**다음**: [534. 연결 리스트 (Linked List) 빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/534_linked_list_free_space/) →
+<- **이전**: [532. 빈 공간 관리 (Free-Space Management) 알고리즘](/knowledge-base/studynote/02_operating_system/09_file_system/532_free_space_management/)
+**다음**: [534. 연결 리스트 (Linked List) 빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/534_linked_list_free_space/) ->
 
 ---

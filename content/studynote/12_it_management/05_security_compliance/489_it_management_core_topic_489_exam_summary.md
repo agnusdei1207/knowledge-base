@@ -11,165 +11,174 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 경영 관리는 COBIT 2019, ITIL 4, ISO/IEC 38500, PMBOK 7, ISO 21502를 통합 거버넌스 프레임워크로 편입하여, **Value Governance(가치 거버넌스) -> Strategy(전략) -> Portfolio(포트폴리오) -> Program/Project(프로그램/프로젝트) -> Service(서비스) -> Quality & Risk(품질·리스크)** 체계를 엔터프라이즈 아키텍처(EA-SPACE 레이어)와 정렬시키는 **End-to-End 가치사슬(Value Chain) 운영 체계**이다.
+> 2. **가치**: 성숙도 Model(예: CMMI 2.0, ITIL Maturity, COBIT PAM)을 적용 시 **IT 투자 ROI 20~40% 개선, 프로젝트 성공률(삼각제약 내 완료) 28% -> 70% 이상, MTTR 50% 단축, 감사 적발 이슈 60% 감소** 등 정량적 효과와, 경영진-IT 간 **Strategic Alignment(전략적 정합성) 및 Decision Rights(의사결정 권한)**의 명확화로 거버넌스 리스크를 정량화·예측 가능하게 만든다.
+> 3. **판단 포인트**: 핵심 트레이드오프는 **① 표준 채택 범위(Full vs. Core+Customized), ② 거버넌스 모드(中央 집중형 vs. 분산형 Federated), ③ Agile-Waterfall 혼용 비율(Iterative 비율 30~70%), ④ Risk Appetite 설정 수준(보수적 vs. 공격적), ⑤ Metric 구성(Leading vs. Lagging Indicator 비중)**이며, 조직의 Digital Maturity Index(DMI)와 산업 규제(금융·공공·의료)에 따라 최적 조합이 결정된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+IT 경영 관리(Information Technology Management, 이하 ITM)는 단순히 정보시스템을 "운영·유지보수"하는 차원을 넘어, **"비즈니스 가치(Value) 창출"과 "리스크 통제(Risk Control)"라는 두 축을 동시에 최적화**하는 경영 활동이다. 2020년대 이후 Digital Transformation(DX), Cloud Native, AI/ML 도입, ESG·공급망 리스크(Supply Chain Risk), 그리고 **DORA(디지털 운영 복원력 법, EU 2025.01 발효)**·**AI Act(2024.08)**와 같은 글로벌 규제 강화로 인해 ITM은 **선택이 아닌 경영 생존 필수 요소**로 격상되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 489 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존에는 CIO(Chief Information Officer)가 **"IT 부서 관리자"**에 머물렀다면, 현재의 ITM은 **CDO(Chief Digital Officer), CISO(Chief Information Security Officer), CRO(Chief Risk Officer)와 공동 의사결정**을 수행하며, 이사회 수준에서 **Board-level IT Governance(예: NYSE/NASDAQ의 Cyber Oversight 규칙, 한국 상법상 이사회 IT 책임)**를 다룬다. 특히 한국 환경에서는 **전자정부법(행정·공공기관), 개인정보보호법(PIPC), 정보통신망법, 클라우드 보안인증(CSAP), 소프트웨어 진흥법**, 그리고 공공부문 **정보시스템 감리(제33조의2)**와 **중요정보통신기반시설 보호법(사이버 위기 경보 단계)** 등 다층 규제가 적용되어 일반 글로벌 프레임워크보다 **컴플라이언스 가중치**가 훨씬 크다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 핵심 토픽 489번 시험 요약 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        IT 경영 관리 통합 프레임워크 (ITM Holistic Framework)        |
++--------------------------------------------------------------------+
+|                                                                    |
+|   [Board / CEO / Steering Committee]  <--- 의사결정·감독 계층        |
+|          |                                                       |
+|          v                                                       |
+|   +----------------------+                                        |
+|   |  Governance Layer    |  ISO 38500, COBIT 2019, K-ICT BF       |
+|   |  (거버넌스)           |  • 책임·방향·평가 (EDE 원칙)            |
+|   +----------+-----------+                                        |
+|              |                                                    |
+|              v                                                    |
+|   +----------------------+                                        |
+|   |  Strategy & EA Layer |  TOGAF, FEAF, 한국 EA-SPACE            |
+|   |  (전략·아키텍처)      |  • As-Is -> To-Be Gap 분석              |
+|   +----------+-----------+                                        |
+|              |                                                    |
+|              v                                                    |
+|   +----------------------+                                        |
+|   |  Portfolio / PMO     |  PMBOK 7, PRINCE2, ISO 21502          |
+|   |  (투자·프로젝트)      |  • BCG/McKinsey Portfolio Matrix      |
+|   +----------+-----------+                                        |
+|              |                                                    |
+|              v                                                    |
+|   +----------------------+                                        |
+|   |  Service & Operation |  ITIL 4, ISO 20000, DevOps, SRE       |
+|   |  (서비스·운영)        |  • 34 Practices, SVS                   |
+|   +----------+-----------+                                        |
+|              |                                                    |
+|              v                                                    |
+|   +----------------------+                                        |
+|   |  Quality & Risk      |  CMMI 2.0, ISO 27001, NIST CSF 2.0    |
+|   |  (품질·보안·리스크)   |  • BIA, BCP/DR, RTO/RPO               |
+|   +----------------------+                                        |
+|              |                                                    |
+|              v                                                    |
+|   [Value Realization -> KPI/BSC -> 측정 -> Feedback Loop]            |
+|                                                                    |
++--------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가? (Old vs. New Paradigm)**
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **Old Paradigm (2000년대)**: IT는 "Cost Center", 프로젝트 단위 관리, Waterfall 중심, SLA 단순·정성적, 감사는 사후(Ex-post), **Shadow IT 만연**.
+- **New Paradigm (2020~)**: IT는 "Value Center & Business Enabler", **제품 중심(Product-Centric) 운영**, **BizDevOps/Platform Engineering**, **FinOps(클라우드 비용 최적화)**, **Zero Trust 보안**, **Continuous Audit(상시 감사)**, **AI 기반 의사결정(AIOps)**.
+- **New-New (2024~)**: **Generative AI(LLM) 기반 요구사항 분석·코드 생성·테스트 자동화**, **AI 거버넌스(Responsible AI: EU AI Act, NIST AI RMF 1.0)**, **Quantum-safe Cryptography(PQC, NIST FIPS 203/204/205)** 도입, **Carbon-aware Software Engineering(ESG-IT)**.
+
+- **📢 섹션 요약 비유**: IT 경영 관리는 자동차로 치면 **"차량 자체(기술)"가 아니라 "운전 시스템 + 내비게이션 + 보험 + 연료관리 + 정기검사 + 법규준수"를 통틀음**입니다. 아무리 좋은 차(기술)도 운전 시스템(거버넌스)이 없으면 사고(리스크)가 나고, 내비게이션(전략)이 없으면 목적지에 못 갑니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 489번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IT 경영 관리의 아키텍처는 크게 **① 거버넌스 거버(Governer) 의사결정 구조**, **② 프로세스 참조 모델(PRM: Process Reference Model)**, **③ 메트릭/측정 체계**, **④ 개선/학습 루프(PDCA + OODA)**의 4개 레이어로 구성된다.
+
+### A. 거버넌스 의사결정 구조 (Governance Decision Structure)
+
+ISO/IEC 38500의 **6원칙(Evaluate, Direct, Monitor)** + COBIT 2019의 **Governance & Management Objectives(40개 목표)**를 결합한 의사결정 계층이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              IT Management Core Topic 489 Exam Summary 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           3-Lines of Defense (3라인 방어 모델)                |
++--------------------------------------------------------------+
+|                                                              |
+|  [1st Line: 운영/사업부서] -- IT Service Owner, DevOps Team  |
+|       |  - 일상의 리스크 식별·통제                            |
+|       |  - Control Self-Assessment (CSA)                     |
+|       v                                                      |
+|  [2nd Line: IT 리스크·컴플라이언스·보안]                       |
+|       |  - CISO Office, GRC(Governance·Risk·Compliance)      |
+|       |  - 정책·표준·내부통제 framework 관리                  |
+|       v                                                      |
+|  [3rd Line: 내부감사(IA)] -- 내부감사팀 (IIA 표준 준수)        |
+|       |  - Risk-based Audit Plan 수립                         |
+|       |  - 외부감사(예: 회계감사법 §14, 정보시스템 감리법)     |
+|       v                                                      |
+|  [External Assurance] -- KPMG/PwC/Deloitte/EY 등              |
+|       |  - SOC 2 Type II, ISAE 3402, K-ISMS 인증             |
+|       v                                                      |
+|  [Board's Audit Committee / Risk Committee]                  |
+|       - 최종 Oversight (NED: Non-Executive Director)          |
+|                                                              |
++--------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### B. 프로세스 참조 모델 (예: COBIT 2019의 5 Domains, 40 Objectives)
+
+COBIT 2019는 **EDM(5개), APO(14개), BAI(11개), DSS(6개), MEA(4개)** = 총 40개 거버넌스·관리 목표로 구성되며, 각 목표는 **Process Practice -> Activity -> Work Product**의 계층을 가진다.
+
+### C. 메트릭/측정 체계 (Balanced Scorecard + OKR + KPI Tree)
+
+```text
++--------------------------------------------------------------+
+|             KPI 계층 (Top-down Decomposition)                |
++--------------------------------------------------------------+
+|                                                              |
+|  [전략 KPI]  Enterprise Goal (예: 신규 매출 20% 성장)        |
+|      |                                                       |
+|      v  (Cascading via Strategy Map)                         |
+|  [IT 거버넌스 KPI]  Balanced Scorecard 4관점                 |
+|      +- Financial    : IT Cost / Revenue ≤ 3.5%              |
+|      +- Customer     : NPS ≥ 50, CSAT ≥ 4.2/5                |
+|      +- Internal     : MTTR ≤ 30분, 변경 성공률 ≥ 95%        |
+|      +- Learning     : 직원 인증수 ≥ 1.5개/FTE, 역량 Gap ≤ 10%|
+|      |                                                       |
+|      v  (Drill-down via KPI Tree)                            |
+|  [운영 KPI]  Leading vs. Lagging Indicators                  |
+|      +- Leading: 코드 커버리지, 배포 빈도, 변경 실패율       |
+|      +- Lagging: 가동률(Uptime), 인시던트 수, 감사 적발      |
+|      |                                                       |
+|      v                                                       |
+|  [Tactical KPI]  SLA/SLO/SLI  (예: 99.95% 가용, p99 latency) |
+|                                                              |
++--------------------------------------------------------------+
+```
+
+### D. 핵심 원리 Step-by-Step (Plan -> Build -> Run -> Improve)
+
+1. **Plan(계획)**: 비즈니스 전략 -> IT 전략 -> EA -> 포트폴리오 -> 프로젝트(투자 우선순위 결정, NPV/IRR/Payback 분석).
+2. **Build(구축)**: 프로젝트 착수(Charter) -> 요구사항 정의(BABOK v3) -> 설계 -> 구현 -> 테스트(단위/통합/시스템/UAT) -> 인도(Transition).
+3. **Run(운영)**: ITIL 4 Service Value Chain (Plan/Engage/Design&Transition/Obtain&Build/Deliver&Support) -> Incident/Problem/Change/Request Fulfillment.
+4. **Improve(개선)**: CSI(Continual Service Improvement) -> Post-Implementation Review(PIR) -> Lessons Learned -> 표준·자산 재사용(Reusable Asset Library).
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Governance Body (이사회/위험위)** | 최종 의사결정·감독 | ISO 38500 6원칙(Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior) 적용, 사이버 거버넌스(NIST CSF 2.0 GV 함수) |
+| **EA (Enterprise Architecture)** | 전략↔기술 정합 | TOGAF ADM(Architecture Development Method) 8 Phase, **ArchiMate 3.2** 표기, 한국 EA-SPACE(전략·업무·응용·데이터·기술·비용) |
+| **PMO / Portfolio Office** | 투자·프로젝트 통합관리 | PMBOK 7(8 Performance Domains), PRINCE2 7(7 Practices, 7 Principles), **SAFe 6.0(Scaled Agile)** 또는 **Disciplined Agile** |
+| **Service Management** | 서비스 가치 제공 | ITIL 4(34 Practices, 4 Dimensions, SVS: Service Value System), **Site Reliability Engineering(SRE)** — Error Budget, Toil < 50% |
+| **Quality & Risk** | 품질·보안·컴플라이언스 | CMMI 2.0(5 Level, 20 Practice Areas), **ISO 27001:2022(Annex A 93통제)**, NIST CSF 2.0(GV/ID/PR/DE/RS/RC 6함수), ISO 31000(리스크 프로세스) |
+| **Metrics & Reporting** | 측정·보고 | **BSC**, **OKR(Objectives & Key Results)**, **DORA Metrics**(배포빈도, 리드타임, 변경실패율, MTTR), **SPACE 프레임워크**(개발자생산성) |
+| **FinOps** | 클라우드 비용 최적화 | FinOps Foundation Framework(Inform/Optimize/Operate), Reserved/Committed Use, **Karpenter(노드 오토스케일링)**, Spot/Preemptible 활용 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 파라미터/공식**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **가용성(Availability)**: `A = MTBF / (MTBF + MTTR)` -> SLA 99.9%("Three Nines") = 월 43.83분 다운 허용, 99.99%("Four Nines") = 월 4.38분.
+- **ROI**: `ROI = (총이익 - 총비용) / 총비용 × 100` -> 일반적으로 IT 투자 시 3년 Payback 기준 채택.
+- **NPV**: `NPV = Σ [CFt / (1+r)^t] - 초기투자` (WACC 적용).
+- **Risk Score**: `Risk = Likelihood(1~5) × Impact(1~5)` (5×5 매트릭스).
+- **DORA Elite**: 배포빈도 ≥ On-demand(하루 다수), 리드타임 < 1일, 변경실패율 < 15%, MTTR < 1시간.
+- **CMMI Maturity Level**: Level 1(Initial) -> 2(Managed) -> 3(Defined) -> 4(Quantitatively Managed) -> 5(Optimizing). CMMI 2.0부터는 **능력영역(Capability Area)** 기반 4-tier: Incomplete/Performed/Managed/Defined.
+
+- **📢 섹션 요약 비유**: IT 경영 관리 아키텍처는 **"항공우주 산업의 Total System Engineering"**과 같습니다. 비행기(시스템) 하나 띄우는데도 기체(기술)뿐 아니라 관제탑(거버넌스), 비행계획(전략), 파일럿(PMO), 정비(서비스 운영), 사고조사(품질·리스크), 연료비(FinOps) 모두 통합 운영해야 안전한 비행(가치 실현)이 가능합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IT 경영 관리 핵심 토픽 489번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 489번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 489번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 489번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 489번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 489번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 489번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-IT 경영 관리 핵심 토픽 489번 시험 요약 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 489번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+IT 경영 관리
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 489 / 800
 
-← **이전**: [488. IT 경영 관리 핵심 토픽 488번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/488_it_management_core_topic_488_exam_summary/)
-**다음**: [490. IT 경영 관리 핵심 토픽 490번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/490_it_management_core_topic_490_exam_summary/) →
+<- **이전**: [488. IT 경영 관리 핵심 토픽 488번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/488_it_management_core_topic_488_exam_summary/)
+**다음**: [490. IT 경영 관리 핵심 토픽 490번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/490_it_management_core_topic_490_exam_summary/) ->
 
 ---

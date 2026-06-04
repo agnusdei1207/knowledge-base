@@ -19,15 +19,15 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    K-Means (하드) vs GMM (소프트) 클러스터링           │
-├───────────────────────────────────────────────────────┤
-│  [K-Means]              [GMM]                         │
-│   ○○○ ●●●               ○○◐ ◐●●                     │
-│   확정 할당              확률적 할당                   │
-│   "A 아니면 B"           "A에 70%, B에 30%"           │
-│   원형 클러스터만         타원형 클러스터 가능          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    K-Means (하드) vs GMM (소프트) 클러스터링           |
++-------------------------------------------------------+
+|  [K-Means]              [GMM]                         |
+|   ○○○ ●●●               ○○◐ ◐●●                     |
+|   확정 할당              확률적 할당                   |
+|   "A 아니면 B"           "A에 70%, B에 30%"           |
+|   원형 클러스터만         타원형 클러스터 가능          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: K-Means는 학생을 "반드시 A반 또는 B반"에 배정하는 것이고, GMM은 "A반에 70% 속하고 B반에도 30% 속한다"고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 표현하는 것이다.
@@ -42,7 +42,7 @@ tags = ["studynote-dataengineering"]
 |:---|:---|:---|
 | **E-step (Expectation)** | 현재 파라미터로 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Responsibility) 계산 | 학생이 각 반에 속할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산 |
 | **M-step (Maximization)** | 소속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중 평균·공분산·혼합 계수 재추정 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반으로 반 중심·크기 재조정 |
-| **반복** | E→M 반복 → 수렴 | 최적의 반 배정 완성 |
+| **반복** | E->M 반복 -> 수렴 | 최적의 반 배정 완성 |
 
 ### [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 파라미터
 
@@ -52,7 +52,7 @@ tags = ["studynote-dataengineering"]
 | $\Sigma_k$ | k번째 가우시안의 공분산 (모양·방향) |
 | $\pi_k$ | k번째 가우시안의 혼합 계수 (비중) |
 
-- **📢 섹션 요약 비유**: EM은 눈을 가리고 과녁을 맞추는 궁수가, 화살을 쏘고(E) → 눈가리개를 살짝 올려 위치를 조정(M)하는 반복 훈련이다.
+- **📢 섹션 요약 비유**: EM은 눈을 가리고 과녁을 맞추는 궁수가, 화살을 쏘고(E) -> 눈가리개를 살짝 올려 위치를 조정(M)하는 반복 훈련이다.
 
 ---
 
@@ -72,7 +72,7 @@ tags = ["studynote-dataengineering"]
 
 ### 활용 시나리오
 1. **고객 세분화**: 경계 모호한 고객 그룹 (VIP와 일반 사이) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
-2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 정상 분포를 GMM으로 모델링 → 낮은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/).
+2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 정상 분포를 GMM으로 모델링 -> 낮은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/).
 3. **음성 인식**: 음소별 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 모델링 (HMM-[GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)).
 
 ---
@@ -97,17 +97,17 @@ GMM은 K-Means의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 ```text
 [K-Means (1957) — 하드 클러스터링]
-    │
-    ▼
+    |
+    v
 [EM 알고리즘 (1977, Dempster) — 불완전 데이터 MLE]
-    │
-    ▼
+    |
+    v
 [GMM + EM (1990s) — 소프트 클러스터링 표준]
-    │
-    ▼
+    |
+    v
 [Bayesian GMM (2000s) — 자동 K 결정]
-    │
-    ▼
+    |
+    v
 [현재: VAE·Flow — 심층 생성 모델이 GMM을 대체/확장]
 ```
 
@@ -122,7 +122,7 @@ GMM은 K-Means의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 **진행 상황**: 114 / 258
 
-← **이전**: [113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거](/knowledge-base/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)
-**다음**: [115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터](/knowledge-base/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/) →
+<- **이전**: [113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거](/knowledge-base/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)
+**다음**: [115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터](/knowledge-base/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/) ->
 
 ---

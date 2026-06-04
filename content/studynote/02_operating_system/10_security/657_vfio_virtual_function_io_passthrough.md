@@ -49,30 +49,30 @@ tags = ["studynote-operating-system"]
 VFIO는 기존 리눅스의 `/dev` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 `ioctl()` 시스템 콜을 통해 하드웨어를 통제한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 VFIO (Virtual Function I/O) 동작 아키텍처          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [User Space]       QEMU (가상머신 프로세스) 또는 DPDK 애플리케이션        │
-  │                           │                                       │
-  │                           │ ioctl() / mmap() / read / write       │
-  │  =========================▼=======================================│
-  │  [Kernel Space]                                                   │
-  │                 ┌────────────────────────────────────┐            │
-  │                 │             VFIO Core              │            │
-  │                 │  (/dev/vfio/vfio)                  │            │
-  │                 └───────┬────────────────────┬───────┘            │
-  │                         │                    │                    │
-  │         ┌───────────────▼────────┐  ┌────────▼────────────────┐   │
-  │         │ VFIO IOMMU 드라이버      │  │ VFIO PCI 버스 드라이버     │   │
-  │         │ (/dev/vfio/<그룹번호>)   │  │ (인터럽트 및 BAR 제어)      │   │
-  │         └───────────────┬────────┘  └────────┬────────────────┘   │
-  │                         │                    │                    │
-  │  =========================▼====================▼==================│
-  │  [Hardware]             │                    │                    │
-  │                     [ IOMMU ]        [ PCIe 디바이스 (GPU/NIC) ]    │
-  │                     (메모리 격리)       (실제 연산 및 통신)             │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 VFIO (Virtual Function I/O) 동작 아키텍처          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [User Space]       QEMU (가상머신 프로세스) 또는 DPDK 애플리케이션        |
+  |                           |                                       |
+  |                           | ioctl() / mmap() / read / write       |
+  |  =========================v=======================================|
+  |  [Kernel Space]                                                   |
+  |                 +------------------------------------+            |
+  |                 |             VFIO Core              |            |
+  |                 |  (/dev/vfio/vfio)                  |            |
+  |                 +-------+--------------------+-------+            |
+  |                         |                    |                    |
+  |         +---------------v--------+  +--------v----------------+   |
+  |         | VFIO IOMMU 드라이버      |  | VFIO PCI 버스 드라이버     |   |
+  |         | (/dev/vfio/<그룹번호>)   |  | (인터럽트 및 BAR 제어)      |   |
+  |         +---------------+--------+  +--------+----------------+   |
+  |                         |                    |                    |
+  |  =========================v====================v==================|
+  |  [Hardware]             |                    |                    |
+  |                     [ IOMMU ]        [ PCIe 디바이스 (GPU/NIC) ]    |
+  |                     (메모리 격리)       (실제 연산 및 통신)             |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스가 부팅되면 보통 그래픽 카드에는 `nouveau`나 `nvidia` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버가 붙는다. VFIO를 쓰려면 먼저 이 기본 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버의 결합(Binding)을 끊고(Unbind), 텅 빈 디바이스에 `vfio-pci`라는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 드라이버를 꽂는다. 그러면 이 디바이스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 통제를 벗어나, `/dev/vfio/12` 같은 캐릭터 디바이스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 유저 스페이스에 노출된다. QEMU나 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 앱은 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `open()` 한 뒤 `mmap()`으로 디바이스의 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) BAR([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) 영역을 자신의 메모리 공간으로 직접 끌어와서 0과 1을 쓴다. 이때 IOMMU는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 주소를 가로채서 안전한지 실시간으로 검사한다.
@@ -128,27 +128,27 @@ VFIO를 실무에서 다룰 때 가장 사람을 미치게 하는 것이 바로 
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 고성능 I/O 가상화 (Passthrough) 아키텍처 설계 플로우      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [가상머신(VM)에 고대역폭 물리 장치(GPU, 100G NIC, NVMe) 제공 필요]     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      VM의 무중단 실시간 이동(Live Migration) 기능이 필수적인가?           │
-  │          ├─ 예 ─────▶ [VFIO/Passthrough 도입 절대 불가]             │
-  │          │            (물리 장비에 종속되므로 vMotion 불가능)           │
-  │          │            대책: Virtio 반가상화 튜닝(vhost-net)으로 타협     │
-  │          └─ 아니오 (HPC, AI 훈련 등 성능이 최우선이다)                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      물리 장치 1개를 여러 대의 VM이 동시에 나눠 써야 하는가?                │
-  │          ├─ 예 ─────▶ [SR-IOV 활성화 후 생성된 VF를 VFIO로 할당]      │
-  │          │            (또는 NVIDIA vGPU 소프트웨어 적용)                │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 물리 장치 원형 그대로 VFIO-PCI 바인딩 적용       │
-  │                         (1 Device = 1 VM 독점 할당)                   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 고성능 I/O 가상화 (Passthrough) 아키텍처 설계 플로우      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [가상머신(VM)에 고대역폭 물리 장치(GPU, 100G NIC, NVMe) 제공 필요]     |
+  |                |                                                  |
+  |                v                                                  |
+  |      VM의 무중단 실시간 이동(Live Migration) 기능이 필수적인가?           |
+  |          +- 예 ------> [VFIO/Passthrough 도입 절대 불가]             |
+  |          |            (물리 장비에 종속되므로 vMotion 불가능)           |
+  |          |            대책: Virtio 반가상화 튜닝(vhost-net)으로 타협     |
+  |          +- 아니오 (HPC, AI 훈련 등 성능이 최우선이다)                   |
+  |                |                                                  |
+  |                v                                                  |
+  |      물리 장치 1개를 여러 대의 VM이 동시에 나눠 써야 하는가?                |
+  |          +- 예 ------> [SR-IOV 활성화 후 생성된 VF를 VFIO로 할당]      |
+  |          |            (또는 NVIDIA vGPU 소프트웨어 적용)                |
+  |          |                                                        |
+  |          +- 아니오 ---> 물리 장치 원형 그대로 VFIO-PCI 바인딩 적용       |
+  |                         (1 Device = 1 VM 독점 할당)                   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "무조건 VFIO 패스스루가 최고다"라는 생각은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 인프라 유연성을 망치는 지름길이다. 패스스루를 건 VM은 죽박이(Pinning) 신세가 되어 서버 점검 시 대피시킬 수 없다. 따라서 현대 아키텍처에서는 진짜 미친듯한 속도가 필요한 워크로드([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 빅데이터 노드)에만 VFIO를 열어주고, 웹 서버나 WAS 같은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 앱들은 유연성을 위해 Virtio를 사용하는 2-Tier I/O 전략을 채택한다.
@@ -195,12 +195,12 @@ VFIO 프레임워크는 "모든 하드웨어는 [운영체제](/knowledge-base/s
 
 ```text
 [하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례]
-    │
-    ▼
+    |
+    v
 [가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
-    │
-    ├──▶ [Virtio]
-    └──▶ [클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
+    |
+    +---> [Virtio]
+    +---> [클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -217,7 +217,7 @@ VFIO 프레임워크는 "모든 하드웨어는 [운영체제](/knowledge-base/s
 
 **진행 상황**: 657 / 800
 
-← **이전**: [656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory](/knowledge-base/studynote/02_operating_system/10_security/656_hardware_transactional_memory_htm/)
-**다음**: [658. Virtio - 반가상화 I/O 백엔드/프론트엔드 링버퍼(Vring) 디바이스 드라이버 구조](/knowledge-base/studynote/02_operating_system/10_security/658_virtio_paravirtualization_vring/) →
+<- **이전**: [656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory](/knowledge-base/studynote/02_operating_system/10_security/656_hardware_transactional_memory_htm/)
+**다음**: [658. Virtio - 반가상화 I/O 백엔드/프론트엔드 링버퍼(Vring) 디바이스 드라이버 구조](/knowledge-base/studynote/02_operating_system/10_security/658_virtio_paravirtualization_vring/) ->
 
 ---

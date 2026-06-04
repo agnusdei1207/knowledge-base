@@ -21,17 +21,17 @@ tags = ["studynote-ict-convergence"]
 2.4GHz ISM 밴드는 Wi-Fi·[Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)·[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)·전자레인지가 동시에 사용하여 <strong>매우 혼잡</strong>하다. Z-Wave는 이 혼잡을 피해 900MHz(한국 920MHz)에서 단독으로 작동한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    주파수 대역별 혼잡도 비교                            │
-├───────────────────────────────────────────────────────┤
-│  900 MHz ─── Z-Wave 단독 사용 ─── 간섭 거의 없음 ✅  │
-│  2.4 GHz ─── Wi-Fi + Zigbee + BLE + 전자레인지 ──   │
-│              매우 혼잡 ⚠️                              │
-│  5 GHz ───── Wi-Fi 5/6 ─── 벽 관통 약함              │
-│                                                       │
-│  900MHz 장점: 벽 관통력 ↑, 커버리지 ↑, 간섭 ↓       │
-│  900MHz 단점: 속도 100kbps (Zigbee 250kbps보다 느림)  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    주파수 대역별 혼잡도 비교                            |
++-------------------------------------------------------+
+|  900 MHz --- Z-Wave 단독 사용 --- 간섭 거의 없음 ✅  |
+|  2.4 GHz --- Wi-Fi + Zigbee + BLE + 전자레인지 --   |
+|              매우 혼잡 ⚠️                              |
+|  5 GHz ----- Wi-Fi 5/6 --- 벽 관통 약함              |
+|                                                       |
+|  900MHz 장점: 벽 관통력 ^, 커버리지 ^, 간섭 v       |
+|  900MHz 단점: 속도 100kbps (Zigbee 250kbps보다 느림)  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 2.4GHz는 서울 강남 도로(혼잡), Z-Wave의 900MHz는 새벽 시골 도로(한산)이다.
@@ -70,7 +70,7 @@ tags = ["studynote-ict-convergence"]
 
 ### [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) 적합 시나리오
 - **Wi-Fi 밀집 환경**: 아파트·오피스텔에서 Wi-Fi 간섭 없는 스마트 홈 구성.
-- <strong>기존 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/">Z-Wave</a> 인프라</strong>: 수백만 대 설치 기반 → [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) Bridge로 통합.
+- <strong>기존 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/">Z-Wave</a> 인프라</strong>: 수백만 대 설치 기반 -> [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) Bridge로 통합.
 
 ### [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) Alliance는 [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) [Long Range](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)(ZWLR)로 800m 커버리지·2000개 노드를 지원하며, [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 브릿지를 통해 생태계에 편입하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 추진 중.
@@ -97,17 +97,17 @@ Z-Wave는 900MHz 서브 GHz의 <strong>저간섭·고관통력</strong>이라는
 
 ```text
 [Z-Wave 1세대 (2001, Zensys) — 900MHz 스마트 홈 시작]
-    │
-    ▼
+    |
+    v
 [Z-Wave Plus (Gen 5, 2013) — 거리·배터리 개선]
-    │
-    ▼
+    |
+    v
 [Silicon Labs 인수 (2018) — 칩 독점 체제]
-    │
-    ▼
+    |
+    v
 [Z-Wave Long Range (2020~) — 800m, 2000노드]
-    │
-    ▼
+    |
+    v
 [현재: Matter Bridge 통합 — Matter 생태계 편입]
 ```
 
@@ -122,7 +122,7 @@ Z-Wave는 900MHz 서브 GHz의 <strong>저간섭·고관통력</strong>이라는
 
 **진행 상황**: 113 / 552
 
-← **이전**: [112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/112_zigbee_mesh_network_smart_home/)
-**다음**: [114. 블루투스 저전력 (BLE, Bluetooth Low Energy)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/114_ble_bluetooth_low_energy_beacon/) →
+<- **이전**: [112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/112_zigbee_mesh_network_smart_home/)
+**다음**: [114. 블루투스 저전력 (BLE, Bluetooth Low Energy)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/114_ble_bluetooth_low_energy_beacon/) ->
 
 ---

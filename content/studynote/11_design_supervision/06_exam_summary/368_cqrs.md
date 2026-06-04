@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 명령-조회 책임 분리 ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/))은 상태를 바꾸는 명령 모델과 읽기 최적화 조회 모델을 분리하는 설계 방식이다. 복잡한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 동일 모델로 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 동시에 만족시키기 어려워지면서 분리 전략이 등장했다. 이 개념이 필요한 이유는 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 요구사항을 각각 최적화하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙과 조회 최적화가 서로 발목을 잡아 모델이 비대해진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    CQRS    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    CQRS    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) | 명령-조회 책임 분리 ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[단일 CRUD 모델] → CQRS 적용] → [읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화]
+[단일 CRUD 모델] -> CQRS 적용] -> [읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 명령-조회 책임 분리 ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/))은 주문 쓰는 창구와 메뉴 보는 전광판을 따로 두는 식당처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 446 / 530
 
-← **이전**: [367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)
-**다음**: [369. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/369_process/) →
+<- **이전**: [367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)
+**다음**: [369. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/369_process/) ->
 
 ---

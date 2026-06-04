@@ -51,17 +51,17 @@ I(X;Y) = H(X) - H(X|Y)
 ### [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 벤 다이어그램
 
 ```
-     ┌──────────────────────────────────┐
-     │            H(X,Y)                │
-     │  ┌───────────────┐               │
-     │  │    H(X)       │               │
-     │  │  ┌────────────┼────────┐      │
-     │  │  │  I(X;Y)   │ H(Y)   │      │
-     │  │  │            │        │      │
-     │  │H(X|Y)        │H(Y|X)  │      │
-     │  │  └────────────┼────────┘      │
-     │  └───────────────┘               │
-     └──────────────────────────────────┘
+     +----------------------------------+
+     |            H(X,Y)                |
+     |  +---------------+               |
+     |  |    H(X)       |               |
+     |  |  +------------+--------+      |
+     |  |  |  I(X;Y)   | H(Y)   |      |
+     |  |  |            |        |      |
+     |  |H(X|Y)        |H(Y|X)  |      |
+     |  |  +------------+--------+      |
+     |  +---------------+               |
+     +----------------------------------+
 ```
 
 - **I(X;Y)**: X와 Y 원의 교집합 (공유 정보)
@@ -113,7 +113,7 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 | 스피어만 상관계수 ρ | 단조 의존성 | ⚠️ 부분적 |
 | 상호 정보량 I(X;Y) | 모든 의존성 | ✅ 탐지 가능 |
 
-예: X ~ Uniform(-1,1), Y = X² → r ≈ 0이지만 I(X;Y) > 0
+예: X ~ Uniform(-1,1), Y = X^ -> r ≈ 0이지만 I(X;Y) > 0
 
 ### 특성 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 에서의 활용
 
@@ -130,18 +130,18 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 
 ```
 원시 특성
-    │
-    ▼
+    |
+    v
 I(특성ᵢ ; 타깃 Y) 계산
-    │
-    ▼
+    |
+    v
 높은 MI 특성 선택        중복 특성 제거
-(relevance ↑)    ───►   (redundancy ↓)
-    │
-    ▼
+(relevance ^)    ---►   (redundancy v)
+    |
+    v
 MRMR 선택된 특성 부분집합
-    │
-    ▼
+    |
+    v
 모델 학습
 ```
 
@@ -149,7 +149,7 @@ MRMR 선택된 특성 부분집합
 
 - 100개 특성 중 이탈(Y)과 MI 계산
 - 상위 20개 선택 (I ≥ 0.05 bits)
-- 특성 간 NMI로 중복 제거 → 최종 12개 특성
+- 특성 간 NMI로 중복 제거 -> 최종 12개 특성
 - 결과: 모델 정확도 유지하면서 학습 시간 40% 단축
 
 ### 의료 영상에서 등록 (Registration)
@@ -172,7 +172,7 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 실무적으로 중요한 세 축:
 1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a></strong>: I(X;Y)를 최대화하면 최적 통신 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출
-2. **특성 선택**: 높은 MI 특성 → 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) vs 복잡도 균형
+2. **특성 선택**: 높은 MI 특성 -> 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) vs 복잡도 균형
 3. **클러스터링 평가**: NMI로 레이블 없는 평가 가능
 
 양자 정보이론에서는 <strong>양자 상호 정보량 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Mutual Information)</strong> 이 고전 MI의 대응물로, [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) 측정에 활용된다.
@@ -197,20 +197,20 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [상호 정보량 I(X;Y)]
-    │
-    ▼
+    |
+    v
 [NMI]
-    │
-    ▼
+    |
+    v
 [채널 용량 C]
-    │
-    ▼
+    |
+    v
 [KL 다이버전스]
-    │
-    ▼
+    |
+    v
 [MRMR]
 ```
 
@@ -228,7 +228,7 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 **진행 상황**: 152 / 175
 
-← **이전**: [2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)
-**다음**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) →
+<- **이전**: [2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)
+**다음**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) ->
 
 ---

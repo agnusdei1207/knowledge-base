@@ -33,11 +33,11 @@ tags = ["studynote-network"]
 
 ```text
 전압
- 4.0 ┤               ● 3.8V → 4.0V
- 3.0 ┤        ● 2.8V → 3.0V
- 2.0 ┤  ● 2.2V → 2.0V
- 1.0 ┤
- 0.0 └────────────────────────
+ 4.0 +               ● 3.8V -> 4.0V
+ 3.0 +        ● 2.8V -> 3.0V
+ 2.0 +  ● 2.2V -> 2.0V
+ 1.0 +
+ 0.0 +------------------------
        00      01      10     11
 ```
 
@@ -110,11 +110,11 @@ tags = ["studynote-network"]
 
 ```text
 표본화(Sampling)
-   ↓
+   v
 양자화(Quantization)
-   ↓
+   v
 부호화(Encoding)
-   ↓
+   v
 PCM / 코덱 / 전송
 ```
 
@@ -124,13 +124,13 @@ PCM / 코덱 / 전송
 
 ```text
 아날로그 연속파
-   ↓
+   v
 표본화
-   ↓
+   v
 선형 양자화
-   ↓
+   v
 비선형 양자화(μ-law / A-law)
-   ↓
+   v
 PCM 기반 음성 통신
 ```
 
@@ -148,7 +148,7 @@ PCM 기반 음성 통신
 
 **진행 상황**: 59 / 1120
 
-← **이전**: [58. 폴딩 주파수 (Folding Frequency)](/knowledge-base/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/)
-**다음**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) →
+<- **이전**: [58. 폴딩 주파수 (Folding Frequency)](/knowledge-base/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/)
+**다음**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) ->
 
 ---

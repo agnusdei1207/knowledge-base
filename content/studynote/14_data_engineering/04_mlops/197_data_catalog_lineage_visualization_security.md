@@ -26,10 +26,10 @@ tags = ["studynote-data-engineering"]
 데이터 카탈로그가 없는 현실
 
 분석가: "고객 이탈률 분석하려면 어떤 테이블 써야 하나?"
-         → Slack에 질문 → 2시간 기다림
-         → "customer_v2 쓰세요, customer는 deprecated"
-         → "근데 PII가 포함되어 있어서 권한 신청 필요해요"
-         → 권한 신청 → 승인 3일 소요
+         -> Slack에 질문 -> 2시간 기다림
+         -> "customer_v2 쓰세요, customer는 deprecated"
+         -> "근데 PII가 포함되어 있어서 권한 신청 필요해요"
+         -> 권한 신청 -> 승인 3일 소요
 
 총 소요 시간: 데이터 찾기에만 3일 낭비
 ```
@@ -51,17 +51,17 @@ tags = ["studynote-data-engineering"]
 
 [원천 시스템]         [처리]              [소비]
 PostgreSQL(주문DB)
-    │ 원시 데이터
-    ▼
-S3 Bronze Layer   → Spark 변환 →  Silver Layer
-    │                                 │
-    │                        dbt 집계 모델
-    │                                 │
-    │                                 ▼
-    └─────────────────────→ Gold Layer (KPI)
-                                      │
-                           ┌──────────┼──────────┐
-                           ▼          ▼           ▼
+    | 원시 데이터
+    v
+S3 Bronze Layer   -> Spark 변환 ->  Silver Layer
+    |                                 |
+    |                        dbt 집계 모델
+    |                                 |
+    |                                 v
+    +----------------------> Gold Layer (KPI)
+                                      |
+                           +----------+----------+
+                           v          v           v
                         Tableau   ML 모델     REST API
                        (대시보드) (이탈 예측)  (앱 서빙)
 ```
@@ -75,38 +75,38 @@ S3 Bronze Layer   → Spark 변환 →  Silver Layer
 ### 2.1 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 핵심 구성요소
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                  데이터 카탈로그 아키텍처                   │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │              메타데이터 수집 레이어                   │  │
-│  │                                                    │  │
-│  │  커넥터 기반 자동 크롤링:                            │  │
-│  │  ├─ JDBC (Oracle, PostgreSQL, MySQL)               │  │
-│  │  ├─ Hive Metastore / AWS Glue Catalog              │  │
-│  │  ├─ dbt Artifacts (manifest.json)                  │  │
-│  │  ├─ Kafka Schema Registry                          │  │
-│  │  └─ REST API / OpenLineage                         │  │
-│  └──────────────────────────┬─────────────────────────┘  │
-│                             │                            │
-│  ┌──────────────────────────▼─────────────────────────┐  │
-│  │              메타데이터 저장 레이어                   │  │
-│  │                                                    │  │
-│  │  ├─ 기술적 메타데이터: 스키마, 타입, 통계           │  │
-│  │  ├─ 비즈니스 메타데이터: 정의, 소유자, 용어집       │  │
-│  │  ├─ 운영 메타데이터: 접근 로그, 업데이트 이력       │  │
-│  │  └─ 계보 메타데이터: 소스→변환→소비 흐름            │  │
-│  └──────────────────────────┬─────────────────────────┘  │
-│                             │                            │
-│  ┌──────────────────────────▼─────────────────────────┐  │
-│  │                서빙 레이어                           │  │
-│  │                                                    │  │
-│  │  ├─ 검색 엔진 (Elasticsearch)                      │  │
-│  │  ├─ 계보 시각화 (그래프 DB)                         │  │
-│  │  ├─ 보안 정책 엔진 (태그 기반 ABAC)                 │  │
-│  │  └─ REST API / GraphQL                             │  │
-│  └────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                  데이터 카탈로그 아키텍처                   |
+|                                                          |
+|  +----------------------------------------------------+  |
+|  |              메타데이터 수집 레이어                   |  |
+|  |                                                    |  |
+|  |  커넥터 기반 자동 크롤링:                            |  |
+|  |  +- JDBC (Oracle, PostgreSQL, MySQL)               |  |
+|  |  +- Hive Metastore / AWS Glue Catalog              |  |
+|  |  +- dbt Artifacts (manifest.json)                  |  |
+|  |  +- Kafka Schema Registry                          |  |
+|  |  +- REST API / OpenLineage                         |  |
+|  +--------------------------+-------------------------+  |
+|                             |                            |
+|  +--------------------------v-------------------------+  |
+|  |              메타데이터 저장 레이어                   |  |
+|  |                                                    |  |
+|  |  +- 기술적 메타데이터: 스키마, 타입, 통계           |  |
+|  |  +- 비즈니스 메타데이터: 정의, 소유자, 용어집       |  |
+|  |  +- 운영 메타데이터: 접근 로그, 업데이트 이력       |  |
+|  |  +- 계보 메타데이터: 소스->변환->소비 흐름            |  |
+|  +--------------------------+-------------------------+  |
+|                             |                            |
+|  +--------------------------v-------------------------+  |
+|  |                서빙 레이어                           |  |
+|  |                                                    |  |
+|  |  +- 검색 엔진 (Elasticsearch)                      |  |
+|  |  +- 계보 시각화 (그래프 DB)                         |  |
+|  |  +- 보안 정책 엔진 (태그 기반 ABAC)                 |  |
+|  |  +- REST API / GraphQL                             |  |
+|  +----------------------------------------------------+  |
++----------------------------------------------------------+
 ```
 
 ### 2.2 주요 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 제품 비교
@@ -125,22 +125,22 @@ S3 Bronze Layer   → Spark 변환 →  Silver Layer
 ```
 OpenLineage: 계보 메타데이터 수집 오픈 표준
 
-┌──────────────────────────────────────────────────────────┐
-│  OpenLineage 이벤트 흐름                                  │
-│                                                          │
-│  Airflow/Spark/dbt/Flink                                 │
-│  (파이프라인 실행 엔진)                                   │
-│         │ OpenLineage 이벤트 발생                         │
-│         │ { "run": {...}, "job": {...},                  │
-│         │   "inputs": [...], "outputs": [...] }          │
-│         ▼                                                │
-│  OpenLineage API 서버                                    │
-│  (Marquez 또는 플랫폼별 구현)                             │
-│         │ 계보 정보 저장                                  │
-│         ▼                                                │
-│  데이터 카탈로그 (DataHub / OpenMetadata)                 │
-│  → 시각적 계보 그래프 표시                                │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  OpenLineage 이벤트 흐름                                  |
+|                                                          |
+|  Airflow/Spark/dbt/Flink                                 |
+|  (파이프라인 실행 엔진)                                   |
+|         | OpenLineage 이벤트 발생                         |
+|         | { "run": {...}, "job": {...},                  |
+|         |   "inputs": [...], "outputs": [...] }          |
+|         v                                                |
+|  OpenLineage API 서버                                    |
+|  (Marquez 또는 플랫폼별 구현)                             |
+|         | 계보 정보 저장                                  |
+|         v                                                |
+|  데이터 카탈로그 (DataHub / OpenMetadata)                 |
+|  -> 시각적 계보 그래프 표시                                |
++----------------------------------------------------------+
 ```
 
 ### 2.4 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 연계: 태그 기반 접근 제어 ([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))
@@ -165,23 +165,23 @@ OpenLineage: 계보 메타데이터 수집 오픈 표준
 GDPR 삭제권(Right to be Forgotten) 이행 시나리오
 
 사용자: "내 모든 데이터 삭제 요청"
-    │
-    ▼
+    |
+    v
 데이터 카탈로그 조회
-    │ user_id로 태그된 모든 데이터셋 검색
-    ▼
-┌───────────────────────────────────────────────┐
-│  영향받는 데이터 자산 목록 (계보로 자동 추적)    │
-│                                               │
-│  ① PostgreSQL.users 테이블  → 직접 삭제        │
-│  ② S3/bronze/user_events   → 덮어쓰기/삭제    │
-│  ③ Silver.user_profile     → 재처리 필요      │
-│  ④ Gold.customer_360       → 재집계 필요      │
-│  ⑤ ML Feature Store        → 피처 삭제        │
-│  ⑥ Elasticsearch 인덱스    → 인덱스 업데이트   │
-└───────────────────────────────────────────────┘
-    │ 자동화된 삭제 워크플로우 실행
-    ▼
+    | user_id로 태그된 모든 데이터셋 검색
+    v
++-----------------------------------------------+
+|  영향받는 데이터 자산 목록 (계보로 자동 추적)    |
+|                                               |
+|  ① PostgreSQL.users 테이블  -> 직접 삭제        |
+|  ② S3/bronze/user_events   -> 덮어쓰기/삭제    |
+|  ③ Silver.user_profile     -> 재처리 필요      |
+|  ④ Gold.customer_360       -> 재집계 필요      |
+|  ⑤ ML Feature Store        -> 피처 삭제        |
+|  ⑥ Elasticsearch 인덱스    -> 인덱스 업데이트   |
++-----------------------------------------------+
+    | 자동화된 삭제 워크플로우 실행
+    v
 완료 증명 리포트 생성 (규정 준수 감사용)
 ```
 
@@ -201,8 +201,8 @@ SELECT email FROM customers;
 
 -- 정책 정의 (Ranger Policy)
 -- 태그: pii:email
--- 일반 사용자 → MASK_SHOW_FIRST_1 적용
--- 데이터팀 → 원본 표시
+-- 일반 사용자 -> MASK_SHOW_FIRST_1 적용
+-- 데이터팀 -> 원본 표시
 ```
 
 ### 3.3 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 검색 패턴
@@ -212,7 +212,7 @@ SELECT email FROM customers;
 | 키워드 검색 | "고객 이탈" | 관련 테이블, 대시보드, 보고서 |
 | 태그 기반 | `pii:email` | 이메일 포함 모든 자산 |
 | 소유자 기반 | `owner:data-team` | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀 소유 자산 |
-| 계보 기반 | 특정 테이블 → 영향 하위 | 하위 의존 모든 자산 |
+| 계보 기반 | 특정 테이블 -> 영향 하위 | 하위 의존 모든 자산 |
 | 품질 기반 | freshness < 1일 | 최근 업데이트 자산 |
 
 📢 **섹션 요약 비유**: 컬럼 레벨 보안은 신분에 따른 문서 열람 권한과 같다. 일반 직원은 주민번호를 "***-*****"처럼 가린 문서만 볼 수 있고, 인사팀만 원본 서류에 접근할 수 있다.
@@ -226,27 +226,27 @@ SELECT email FROM customers;
 ```
 DataHub 아키텍처 (LinkedIn 오픈소스)
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  데이터 소스 (Kafka, Snowflake, dbt, Airflow, ...)   │
-│         │ OpenLineage / DataHub Ingestion Framework  │
-│         ▼                                            │
-│  Kafka Topic: MetadataChangeEvent (MCE)              │
-│         │ 실시간 메타데이터 이벤트 스트림              │
-│         ▼                                            │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  DataHub GMS (Generalized Metadata Service)  │   │
-│  │  ├─ 메타데이터 저장 (Apache Cassandra)        │   │
-│  │  ├─ 그래프 저장 (Neo4j / MySQL)               │   │
-│  │  └─ 검색 인덱스 (Elasticsearch)               │   │
-│  └──────────────────────────────────────────────┘   │
-│         │                                            │
-│         ▼                                            │
-│  DataHub Frontend (React UI)                         │
-│  ├─ 데이터 검색                                      │
-│  ├─ 계보 시각화                                      │
-│  └─ 정책 관리                                        │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  데이터 소스 (Kafka, Snowflake, dbt, Airflow, ...)   |
+|         | OpenLineage / DataHub Ingestion Framework  |
+|         v                                            |
+|  Kafka Topic: MetadataChangeEvent (MCE)              |
+|         | 실시간 메타데이터 이벤트 스트림              |
+|         v                                            |
+|  +----------------------------------------------+   |
+|  |  DataHub GMS (Generalized Metadata Service)  |   |
+|  |  +- 메타데이터 저장 (Apache Cassandra)        |   |
+|  |  +- 그래프 저장 (Neo4j / MySQL)               |   |
+|  |  +- 검색 인덱스 (Elasticsearch)               |   |
+|  +----------------------------------------------+   |
+|         |                                            |
+|         v                                            |
+|  DataHub Frontend (React UI)                         |
+|  +- 데이터 검색                                      |
+|  +- 계보 시각화                                      |
+|  +- 정책 관리                                        |
++------------------------------------------------------+
 ```
 
 ### 4.2 기술사 관점: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 프레임워크
@@ -266,16 +266,16 @@ DataHub 아키텍처 (LinkedIn 오픈소스)
 데이터 카탈로그 성숙도 4단계
 
 Level 1: 기술적 메타데이터
-  └─ 스키마, 컬럼 타입, 통계 자동 수집
+  +- 스키마, 컬럼 타입, 통계 자동 수집
 
 Level 2: 비즈니스 메타데이터
-  └─ 비즈니스 용어, 소유자, 설명 추가
+  +- 비즈니스 용어, 소유자, 설명 추가
 
 Level 3: 데이터 계보 + 품질
-  └─ 흐름 추적, 이상 감지 연계
+  +- 흐름 추적, 이상 감지 연계
 
 Level 4: 능동적 거버넌스
-  └─ AI 추천, 자동 태깅, 정책 자동 집행
+  +- AI 추천, 자동 태깅, 정책 자동 집행
 ```
 
 ### 4.4 OpenMetadata [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
@@ -315,9 +315,9 @@ columns:
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) | 3일 → 10분 (90% 감소) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) | 3일 -> 10분 (90% 감소) |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 자산 | 중복 파이프라인 40% 제거 |
-| 규정 준수 대응 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제 요청 처리 3일 → 1시간 |
+| 규정 준수 대응 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제 요청 처리 3일 -> 1시간 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | 품질 지표 가시화로 의사결정 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 |
 | 온보딩 시간 | 신규 분석가 생산성 2배 향상 |
 
@@ -327,7 +327,7 @@ columns:
 AI 강화 데이터 카탈로그 기능
 
 1. 자동 태깅 (Auto Tagging)
-   NLP로 컬럼명/설명 분석 → PII 자동 감지
+   NLP로 컬럼명/설명 분석 -> PII 자동 감지
 
 2. 유사 데이터셋 추천 (Similar Assets)
    "이 테이블과 유사한 데이터 3개 추천"
@@ -336,7 +336,7 @@ AI 강화 데이터 카탈로그 기능
    "주문량이 30% 급감한 이유: 결제 서버 장애"
 
 4. 자연어 쿼리 (NL to SQL)
-   "지난달 APAC 지역 상위 10 고객" → SQL 자동 생성
+   "지난달 APAC 지역 상위 10 고객" -> SQL 자동 생성
 ```
 
 ### 5.3 결론 요약
@@ -352,7 +352,7 @@ AI 강화 데이터 카탈로그 기능
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 핵심 시스템 | [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 중앙 관리 시스템 |
-| 기능 | [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보) | 원천 → 소비 흐름 추적 |
+| 기능 | [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보) | 원천 -> 소비 흐름 추적 |
 | 표준 | OpenLineage | 계보 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 오픈 표준 |
 | 제품 | DataHub | LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 플랫폼 |
 | 제품 | Apache Atlas | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 거버넌스 도구 |
@@ -369,19 +369,19 @@ AI 강화 데이터 카탈로그 기능
 
 ```text
 데이터 사일로 · 메타데이터 부재
-    │
-    ▼
+    |
+    v
 데이터 카탈로그
-    ├─► 메타데이터 수집: 스키마 · 통계 · 태그 · 오너
-    ├─► 검색 · 디스커버리: "고객 테이블 어디?"
-    └─► 접근 제어: RBAC · 태그 기반 정책
-    │
-    ▼
+    +-► 메타데이터 수집: 스키마 · 통계 · 태그 · 오너
+    +-► 검색 · 디스커버리: "고객 테이블 어디?"
+    +-► 접근 제어: RBAC · 태그 기반 정책
+    |
+    v
 데이터 계보 (Lineage) 시각화
-    ├─► 업스트림/다운스트림 영향 분석
-    └─► 변경 전 임팩트 평가
-    │
-    ▼
+    +-► 업스트림/다운스트림 영향 분석
+    +-► 변경 전 임팩트 평가
+    |
+    v
 도구: DataHub (LinkedIn) · Amundsen (Lyft) · Unity Catalog
 ```
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 음식 원산지 추적이에요. 내 접시에 올라온 음식이 어느 농장 재료로, 어느 공장에서 만들어졌는지 역방향으로 따라갈 수 있죠.
@@ -393,7 +393,7 @@ AI 강화 데이터 카탈로그 기능
 
 **진행 상황**: 197 / 258
 
-← **이전**: [196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)
-**다음**: [198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방](/knowledge-base/studynote/14_data_engineering/04_mlops/198_knowledge_distillation_soft_target_probability/) →
+<- **이전**: [196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)
+**다음**: [198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방](/knowledge-base/studynote/14_data_engineering/04_mlops/198_knowledge_distillation_soft_target_probability/) ->
 
 ---

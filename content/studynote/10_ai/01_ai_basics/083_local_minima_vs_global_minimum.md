@@ -50,18 +50,18 @@ Loss Function은 모델이 얼마나 틀렸는지를 숫자로 나타내고, Gra
 | BN ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) | 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해 지형을 평탄화 | 안정적 학습, 기울기 전달 개선 |
 
 ```text
-기울기 ↓
-┌──────────────┐
-│ noisy step   │  SGD의 흔들림
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ momentum     │  방향 관성
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ adaptive step│  Adam의 적응 보폭
-└──────────────┘
+기울기 v
++--------------+
+| noisy step   |  SGD의 흔들림
++------+-------+
+       v
++--------------+
+| momentum     |  방향 관성
++------+-------+
+       v
++--------------+
+| adaptive step|  Adam의 적응 보폭
++--------------+
 ```
 
 SGD는 노이즈 덕분에 좁은 골짜기에 갇히지 않는 장점이 있고, Momentum은 지그재그를 줄이며, Adam은 파라미터마다 다른 보폭을 준다. BN은 입력 분포를 안정화해 손실 지형을 덜 거칠게 만들어 준다.
@@ -133,20 +133,20 @@ Local minima, global minimum, saddle point는 서로 다르게 다뤄야 한다.
 
 ```text
 Loss Function
-    │
-    ▼
+    |
+    v
 Gradient Descent
-    │
-    ├──────────────▶ SGD (Stochastic Gradient Descent)
-    │
-    ├──────────────▶ Momentum
-    │
-    ├──────────────▶ Adam (Adaptive Moment Estimation)
-    │
-    └──────────────▶ BN (Batch Normalization)
+    |
+    +---------------> SGD (Stochastic Gradient Descent)
+    |
+    +---------------> Momentum
+    |
+    +---------------> Adam (Adaptive Moment Estimation)
+    |
+    +---------------> BN (Batch Normalization)
 ```
 
-이 흐름은 "문제 정의 → 탐색 → 탈출 보조 → 수렴 안정화"로 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 과정을 보여준다.
+이 흐름은 "문제 정의 -> 탐색 -> 탈출 보조 -> 수렴 안정화"로 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -160,7 +160,7 @@ Gradient Descent
 
 **진행 상황**: 83 / 420
 
-← **이전**: [82. 미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)](/knowledge-base/studynote/10_ai/01_ai_basics/082_mini_batch_size_epoch_iteration/)
-**다음**: [84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화](/knowledge-base/studynote/10_ai/01_ai_basics/084_momentum_optimizer_local_minima_escape/) →
+<- **이전**: [82. 미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)](/knowledge-base/studynote/10_ai/01_ai_basics/082_mini_batch_size_epoch_iteration/)
+**다음**: [84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화](/knowledge-base/studynote/10_ai/01_ai_basics/084_momentum_optimizer_local_minima_escape/) ->
 
 ---

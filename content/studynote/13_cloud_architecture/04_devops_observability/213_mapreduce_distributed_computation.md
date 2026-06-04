@@ -35,35 +35,35 @@ MapReduce는 함수형 프로그래밍의 map()과 reduce() 개념을 [분산](/
 
 ```
   입력 데이터 (HDFS 블록)
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │                   Map 단계                               │
-  │                                                          │
-  │  Split 1: [hello world] → (hello,1) (world,1)           │
-  │  Split 2: [hello hadoop] → (hello,1) (hadoop,1)          │
-  │  Split 3: [world hello] → (world,1) (hello,1)            │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼ Shuffle & Sort (같은 키끼리 모으기)
-  ┌─────────────────────────────────────────────────────────┐
-  │                 Shuffle & Sort 단계                      │
-  │                                                          │
-  │  hadoop: [(hadoop,1)]                                    │
-  │  hello:  [(hello,1), (hello,1), (hello,1)]              │
-  │  world:  [(world,1), (world,1)]                         │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │                  Reduce 단계                             │
-  │                                                          │
-  │  hadoop: sum([1]) = 1                                    │
-  │  hello:  sum([1,1,1]) = 3                               │
-  │  world:  sum([1,1]) = 2                                 │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼
+       |
+       v
+  +---------------------------------------------------------+
+  |                   Map 단계                               |
+  |                                                          |
+  |  Split 1: [hello world] -> (hello,1) (world,1)           |
+  |  Split 2: [hello hadoop] -> (hello,1) (hadoop,1)          |
+  |  Split 3: [world hello] -> (world,1) (hello,1)            |
+  +--------------------------------------------------------+
+       |
+       v Shuffle & Sort (같은 키끼리 모으기)
+  +---------------------------------------------------------+
+  |                 Shuffle & Sort 단계                      |
+  |                                                          |
+  |  hadoop: [(hadoop,1)]                                    |
+  |  hello:  [(hello,1), (hello,1), (hello,1)]              |
+  |  world:  [(world,1), (world,1)]                         |
+  +--------------------------------------------------------+
+       |
+       v
+  +---------------------------------------------------------+
+  |                  Reduce 단계                             |
+  |                                                          |
+  |  hadoop: sum([1]) = 1                                    |
+  |  hello:  sum([1,1,1]) = 3                               |
+  |  world:  sum([1,1]) = 2                                 |
+  +--------------------------------------------------------+
+       |
+       v
   출력: hadoop=1, hello=3, world=2 (HDFS에 저장)
 ```
 
@@ -134,7 +134,7 @@ public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritab
 | 케이스 | 적합 여부 | 이유 |
 |:---|:---:|:---|
 | 수십 TB [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) (1회) | ✅ | 대규모 배치, 결과 재사용 없음 |
-| 반복적 ML 모델 학습 | ❌ | 매 반복 디스크 I/O → 극도로 느림 |
+| 반복적 ML 모델 학습 | ❌ | 매 반복 디스크 I/O -> 극도로 느림 |
 | 실시간 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | ❌ | 배치 모델, 실시간 불가 |
 | 단순 집계 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | ⚠️ | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)/SparkSQL이 더 편리 |
 
@@ -148,8 +148,8 @@ public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritab
 ```
 1. Combiner 활용:
    Reducer에 보내기 전 로컬에서 사전 집계
-   예: Map 결과 (hello,1)(hello,1)(hello,1) → Combiner → (hello,3)
-   → 네트워크 트래픽 대폭 감소
+   예: Map 결과 (hello,1)(hello,1)(hello,1) -> Combiner -> (hello,3)
+   -> 네트워크 트래픽 대폭 감소
 
 2. 적절한 Reducer 수 설정:
    - 너무 적으면: 일부 Reducer에 부하 집중 (Skew)
@@ -214,12 +214,12 @@ MapReduce는 빅데이터 처리의 첫 번째 민주화였다. 구글만 할 �
 
 ```text
 MapReduce 처리 흐름
-    ├─► Map: 데이터 분할 → 키-값 쌍 추출
-    ├─► Shuffle & Sort: 같은 키끼리 모으기
-    └─► Reduce: 집계 · 요약
-    │
-    ▼
-한계: 디스크 I/O 병목 → Spark (In-Memory) 대체
+    +-► Map: 데이터 분할 -> 키-값 쌍 추출
+    +-► Shuffle & Sort: 같은 키끼리 모으기
+    +-► Reduce: 집계 · 요약
+    |
+    v
+한계: 디스크 I/O 병목 -> Spark (In-Memory) 대체
 ```
 2. Shuffle은 같은 시대의 책 목록을 한 사람에게 모아주는 것, Reduce는 그 사람이 최종적으로 합산하는 거야.
 3. 혼자서 모든 책을 찾는 것보다 여러 명이 나눠서 동시에 찾으니([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) 훨씬 빠른 거야!
@@ -230,7 +230,7 @@ MapReduce 처리 흐름
 
 **진행 상황**: 212 / 371
 
-← **이전**: [212. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/212_hdfs_distributed_file_system/)
-**다음**: [214. YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/214_yarn_resource_manager_hadoop/) →
+<- **이전**: [212. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/212_hdfs_distributed_file_system/)
+**다음**: [214. YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/214_yarn_resource_manager_hadoop/) ->
 
 ---

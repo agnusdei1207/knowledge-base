@@ -24,7 +24,7 @@ tags = ["studynote-ict-convergence"]
 ### [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 기본 요소
 
 - **상태 공간 S**: {S₁, S₂, ..., Sₙ} — 시스템이 취할 수 있는 모든 상태.
-- <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> P(i→j)</strong>: 상태 i에서 j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (각 행의 합 = 1).
+- <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> P(i->j)</strong>: 상태 i에서 j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (각 행의 합 = 1).
 - **전이 행렬 (Transition Matrix)**: n×n 행렬, Pᵢⱼ = P(Xₜ₊₁=j | Xₜ=i).
 
 - **📢 섹션 요약 비유**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 기억상실증 여행자 같아. 오늘 어디 있는지는 알지만, 어제 어디서 왔는지는 신경 쓰지 않고 오늘 위치에서만 다음 목적지를 정해.
@@ -37,26 +37,26 @@ tags = ["studynote-ict-convergence"]
 
 ```
 마르코프 체인 상태 유형
-┌───────────────────────────────────────┐
-│  일시적 상태 (Transient)              │
-│  한 번 떠나면 돌아올 보장 없음         │
-├───────────────────────────────────────┤
-│  재귀적 상태 (Recurrent)              │
-│  언제나 반드시 다시 방문              │
-│  ├─ 양성 재귀 (Positive Recurrent)   │
-│  │  평균 재방문 시간 유한 → 정상분포  │
-│  └─ 영 재귀 (Null Recurrent)         │
-│     평균 재방문 시간 무한             │
-├───────────────────────────────────────┤
-│  흡수 상태 (Absorbing)               │
-│  진입 후 탈출 불가: P(i→i) = 1       │
-└───────────────────────────────────────┘
++---------------------------------------+
+|  일시적 상태 (Transient)              |
+|  한 번 떠나면 돌아올 보장 없음         |
++---------------------------------------+
+|  재귀적 상태 (Recurrent)              |
+|  언제나 반드시 다시 방문              |
+|  +- 양성 재귀 (Positive Recurrent)   |
+|  |  평균 재방문 시간 유한 -> 정상분포  |
+|  +- 영 재귀 (Null Recurrent)         |
+|     평균 재방문 시간 무한             |
++---------------------------------------+
+|  흡수 상태 (Absorbing)               |
+|  진입 후 탈출 불가: P(i->i) = 1       |
++---------------------------------------+
 ```
 
 ### 정상 분포 (Stationary Distribution)
 
 전이 행렬 P의 <strong>정상 분포 π</strong>는 π = πP를 만족하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 벡터.
-- **에르고딕 체인(Ergodic Chain)**: 모든 상태가 도달 가능(Irreducible) + 비주기적(Aperiodic) → 유일한 정상 분포 존재.
+- **에르고딕 체인(Ergodic Chain)**: 모든 상태가 도달 가능(Irreducible) + 비주기적(Aperiodic) -> 유일한 정상 분포 존재.
 - 수렴 속도: **혼합 시간(Mixing Time)** = [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포가 정상 분포의 ε-근방에 도달하는 시간.
 
 | 체인 유형 | 조건 | 장기 거동 |
@@ -76,13 +76,13 @@ tags = ["studynote-ict-convergence"]
 **Google PageRank**:
 - 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) = 상태, 하이퍼링크 = 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/).
 - 랜덤 서퍼([Random Surfer](/knowledge-base/studynote/06_ict_convergence/05_data_science/384_pagerank_random_surfer/))가 링크를 따라 이동하는 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/).
-- 댐핑 팩터(Damping Factor) α=0.85: 85% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 링크 클릭, 15%는 임의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동 → 에르고딕성 보장.
+- 댐핑 팩터(Damping Factor) α=0.85: 85% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 링크 클릭, 15%는 임의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동 -> 에르고딕성 보장.
 - 정상 분포 π = PageRank 점수.
 
 ### [MCMC](/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) ([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo)
 
 - 직접 샘플링이 어려운 복잡한 분포에서 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)을 이용해 샘플링.
-- **Metropolis-Hastings**: 제안 분포에서 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 수락/기각 결정.
+- **Metropolis-Hastings**: 제안 분포에서 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 수락/기각 결정.
 - <strong>Gibbs <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 조건부 분포를 순환적으로 샘플링.
 - 수렴 후 체인의 상태 시퀀스 = 목표 분포의 샘플.
 
@@ -95,17 +95,17 @@ tags = ["studynote-ict-convergence"]
 **시나리오 1 - 고객 이탈 분석**:
 - 상태: {활성, 휴면, 이탈(흡수)}.
 - 전이 행렬로 각 상태에서 이탈까지의 기대 전환 횟수 계산.
-- 흡수 체인 분석: 기본 행렬(Fundamental Matrix) N = (I−Q)⁻¹ → 흡수 전 평균 방문 횟수 계산.
-- 활성 고객의 평균 이탈까지 기간 = 8.3개월 → 4개월차 이전 재활성화 캠페인 집중.
+- 흡수 체인 분석: 기본 행렬(Fundamental Matrix) N = (I−Q)⁻¹ -> 흡수 전 평균 방문 횟수 계산.
+- 활성 고객의 평균 이탈까지 기간 = 8.3개월 -> 4개월차 이전 재활성화 캠페인 집중.
 
 **시나리오 2 - 날씨 예측**:
 - 상태: {맑음, 흐림, 비}.
-- 전이 행렬: 맑음 → 맑음 0.7, 맑음 → 흐림 0.2, 맑음 → 비 0.1.
+- 전이 행렬: 맑음 -> 맑음 0.7, 맑음 -> 흐림 0.2, 맑음 -> 비 0.1.
 - 5일 후 날씨 분포 = [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 × P⁵.
 - 정상 분포 수렴 후 맑음 45%, 흐림 35%, 비 20%.
 
 **기술사 판단 포인트**:
-- 전이 행렬 구축: 충분한 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 최대 가능도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)).
+- 전이 행렬 구축: 충분한 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 최대 가능도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)).
 - 비정상성(Non-Stationarity): 시간에 따라 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 변하면 숨겨진 [마르코프 모델](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)(HMM, Hidden [Markov Model](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)) 적용.
 
 - **📢 섹션 요약 비유**: 고객 이탈 분석에서 "지금 이 고객이 휴면 상태야. 이탈까지 평균 몇 개월이나 남았어?"를 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)이 계산해줘. 흡수 상태(이탈)에 빠지기 전 개입 타이밍을 잡는 거야.
@@ -137,7 +137,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[메모리 없음 · MDP] → [마르코프 체인: 흡수 · 에르고딕] → [숨겨진 상태 · Viterbi]
+[메모리 없음 · MDP] -> [마르코프 체인: 흡수 · 에르고딕] -> [숨겨진 상태 · Viterbi]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 516 / 552
 
-← **이전**: [515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)](/knowledge-base/studynote/06_ict_convergence/05_data_science/515_pca_lda_svd_dimensionality_reduction/)
-**다음**: [517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)](/knowledge-base/studynote/06_ict_convergence/05_data_science/517_time_series_arima_stationarity_smoothing/) →
+<- **이전**: [515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)](/knowledge-base/studynote/06_ict_convergence/05_data_science/515_pca_lda_svd_dimensionality_reduction/)
+**다음**: [517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)](/knowledge-base/studynote/06_ict_convergence/05_data_science/517_time_series_arima_stationarity_smoothing/) ->
 
 ---

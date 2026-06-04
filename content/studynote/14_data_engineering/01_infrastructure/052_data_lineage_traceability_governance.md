@@ -32,13 +32,13 @@ tags = ["studynote-data-engineering"]
 리니지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 본다. 소스 테이블, 변환 로직, 타깃 테이블의 연결을 추적하면 역방향으로 원인을 찾고, 순방향으로 영향 범위를 찾을 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    Data Lineage Flow                        │
-├──────────────────────────────────────────────────────────────┤
-│ Source DB → ETL/ELT → Staging → Mart → Dashboard            │
-│     ▲                                         │             │
-│     └──────────── Backward / Forward Trace ───┘             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    Data Lineage Flow                        |
++--------------------------------------------------------------+
+| Source DB -> ETL/ELT -> Staging -> Mart -> Dashboard            |
+|     ^                                         |             |
+|     +------------ Backward / Forward Trace ---+             |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 포인트 |
@@ -118,17 +118,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 원본 데이터
-    │
-    ▼
+    |
+    v
 ETL / ELT
-    │
-    ▼
+    |
+    v
 Staging / Mart
-    │
-    ▼
+    |
+    v
 Dashboard / Report
-    │
-    ▼
+    |
+    v
 Lineage / Catalog / Governance
 ```
 
@@ -146,7 +146,7 @@ Lineage / Catalog / Governance
 
 **진행 상황**: 52 / 258
 
-← **이전**: [51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/051_data_catalog_metadata_discovery/)
-**다음**: [53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/053_dataops_ci_cd_data_pipeline/) →
+<- **이전**: [51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화](/knowledge-base/studynote/14_data_engineering/01_infrastructure/051_data_catalog_metadata_discovery/)
+**다음**: [53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/053_dataops_ci_cd_data_pipeline/) ->
 
 ---

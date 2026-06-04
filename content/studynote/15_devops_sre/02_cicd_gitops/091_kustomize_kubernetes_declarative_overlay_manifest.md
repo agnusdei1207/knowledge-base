@@ -39,27 +39,27 @@ Kustomize는 베이스(Base), 오버레이(Overlays), 그리고 조립 지시서
 | <strong><code>kubectl apply -k</code></strong> | K8s CLI에 기본 내장된 Kustomize 실행 옵션으로, 조립된 최종 매니페스트를 즉시 클러스터에 적용한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          Kustomize의 Base와 Overlay 병합(Merge) 과정        │
-├──────────────────────────────────────────────────────────────┤
-│ [ base/deployment.yaml ]         [ overlays/prod/patch.yaml ]│
-│ apiVersion: apps/v1              apiVersion: apps/v1         │
-│ kind: Deployment                 kind: Deployment            │
-│ metadata:                        metadata:                   │
-│   name: my-app                     name: my-app              │
-│ spec:                            spec:                       │
-│   replicas: 1 ◀────────────────▶   replicas: 10              │
-│                                                              │
-│              Kustomize 엔진 병합 (Merge)                     │
-│                           ▼                                  │
-│ [ 최종 생성된 In-memory YAML (클러스터로 전송됨) ]           │
-│ apiVersion: apps/v1                                          │
-│ kind: Deployment                                             │
-│ metadata:                                                    │
-│   name: my-app                                               │
-│ spec:                                                        │
-│   replicas: 10 (Prod 설정으로 덮어써짐)                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          Kustomize의 Base와 Overlay 병합(Merge) 과정        |
++--------------------------------------------------------------+
+| [ base/deployment.yaml ]         [ overlays/prod/patch.yaml ]|
+| apiVersion: apps/v1              apiVersion: apps/v1         |
+| kind: Deployment                 kind: Deployment            |
+| metadata:                        metadata:                   |
+|   name: my-app                     name: my-app              |
+| spec:                            spec:                       |
+|   replicas: 1 <------------------>   replicas: 10              |
+|                                                              |
+|              Kustomize 엔진 병합 (Merge)                     |
+|                           v                                  |
+| [ 최종 생성된 In-memory YAML (클러스터로 전송됨) ]           |
+| apiVersion: apps/v1                                          |
+| kind: Deployment                                             |
+| metadata:                                                    |
+|   name: my-app                                               |
+| spec:                                                        |
+|   replicas: 10 (Prod 설정으로 덮어써짐)                      |
++--------------------------------------------------------------+
 ```
 
 이 과정에서 Kustomize는 단순 텍스트 치환이 아니라 K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구조를 이해하고 객체 단위의 병합(Strategic Merge Patch)을 수행하기 때문에 구조적 안정성이 매우 높다.
@@ -124,17 +124,17 @@ Kustomize를 사용하면 복사/붙여넣기로 인한 [설정](/knowledge-base
 
 ```text
 YAML 파일의 복사본 증식 및 휴먼 에러 발생
-    │
-    ▼
+    |
+    v
 Helm 도입 (템플릿 변수를 통한 다형성 확보, 가독성 저하)
-    │
-    ▼
+    |
+    v
 Kustomize의 내장 (순수 YAML 보존 + Overlay 패치 방식 채택)
-    │
-    ▼
+    |
+    v
 GitOps(ArgoCD)와의 결합 (선언적 지속적 배포 파이프라인 완성)
-    │
-    ▼
+    |
+    v
 Post-Rendering 전술 (Helm 패키징 위에 Kustomize 패칭을 덮어쓰기)
 ```
 
@@ -150,7 +150,7 @@ Post-Rendering 전술 (Helm 패키징 위에 Kustomize 패칭을 덮어쓰기)
 
 **진행 상황**: 91 / 373
 
-← **이전**: [90. FluxCD - ArgoCD 경쟁 GitOps CD 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/090_fluxcd_gitops_pull_based_kubernetes_deployment/)
-**다음**: [92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/092_helm_kubernetes_package_manager_chart_template/) →
+<- **이전**: [90. FluxCD - ArgoCD 경쟁 GitOps CD 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/090_fluxcd_gitops_pull_based_kubernetes_deployment/)
+**다음**: [92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/092_helm_kubernetes_package_manager_chart_template/) ->
 
 ---

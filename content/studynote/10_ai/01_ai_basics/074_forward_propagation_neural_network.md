@@ -30,9 +30,9 @@ tags = ["ai"]
 
 ```text
 Input
-  ↓ weighted sum
+  v weighted sum
 Activation
-  ↓
+  v
 Output
 ```
 
@@ -71,7 +71,7 @@ Output
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 입력→은닉→출력 흐름을 아는가?
+1. 입력->은닉->출력 흐름을 아는가?
 2. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 편향을 이해하는가?
 3. [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 역할을 아는가?
 4. 손실 계산과 연결하는가?
@@ -104,9 +104,9 @@ Output
 
 ```text
 Input
-  ↓
+  v
 Forward Propagation
-  ↓
+  v
 Output
 ```
 
@@ -116,9 +116,9 @@ Output
 
 ```text
 Neural Network
-  ↓
+  v
 Forward Propagation
-  ↓
+  v
 Backward Propagation
 ```
 
@@ -136,7 +136,7 @@ Backward Propagation
 
 **진행 상황**: 74 / 420
 
-← **이전**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/)
-**다음**: [75. 손실 함수 (Loss Function) - 예측 오차 계산](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) →
+<- **이전**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/)
+**다음**: [75. 손실 함수 (Loss Function) - 예측 오차 계산](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ->
 
 ---

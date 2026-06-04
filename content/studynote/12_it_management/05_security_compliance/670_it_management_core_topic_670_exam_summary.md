@@ -24,41 +24,41 @@ tags = ["studynote-it-management"]
 1990년대 말~2000년대 초반 IT 거버넌스 개념이 정립된 배경에는 **사베린(Sabatext) 사건, 엔론(Enron) 사태, 월드컴(WorldCom) 분식회계** 등 IT 시스템이 회계 부정과 직결된 대형丑闻이 촉매제가 되었다. 이로 인해 SOX법(Sarbanes-Oxley Act, 2002) Section 404가 요구하는 IT 통제 항목이 구체화되었고, ITGI(IT Governance Institute, 현재 ISACA 산하)에서 COBIT이 탄생했다. 한국에서는 **전자정부법(2007)**, **클라우드컴퓨팅법(2012)**, **정보통신망법**, **개인정보보호법(2011)** 등의 규제 환경 변화로 IT 거버넌스의 법적 의무화가 가속화되었다.
 
 ```text
-   [Board of Directors / 이사회]                  ← 최상위 의사결정 기구
-              │
-              │ 거버넌스 지시 (Direct)
-              │ 성과 평가 (Evaluate)              ← ISO/IEC 38500 6원칙 적용
-              │ 모니터링 (Monitor)
-              ▼
-   ┌──────────────────────────┐
-   │ IT Steering Committee    │                  ← CxO 레벨 거버넌스 회의체
-   │ (IT전략위원회)             │
-   │ - CIO, CFO, CEO, COO     │
-   │ - 주요 안건: 투자우선순위,  │
-   │   위험 식별, 컴플라이언스    │
-   └──────────────────────────┘
-              │
-              ├──────────────────────┐
-              ▼                      ▼
-   ┌─────────────────┐     ┌──────────────────┐
-   │ Strategy Layer  │     │  Operating Layer │
-   │ (전략 계층)       │     │  (운영 계층)        │
-   │                  │     │                  │
-   │ • IT Strategy    │     │ • Service Desk   │
-   │ • Portfolio Mgmt │     │ • Incident Mgmt  │
-   │ • Architecture   │     │ • Change Mgmt    │
-   │ • Innovation     │     │ • Problem Mgmt   │
-   │   (Digital Twin) │     │ • SLA Monitoring │
-   └─────────────────┘     └──────────────────┘
-              │                      │
-              └──────────┬───────────┘
-                         ▼
-              ┌──────────────────────┐
-              │  Three Lines Model    │  ← IIA 2020
-              │ 1st: Business Ops    │     1라인: 비즈니스 오너
-              │ 2nd: Risk & Compliance│    2라인: 리스크/컴플라이언스
-              │ 3rd: Internal Audit  │     3라인: 내부감사
-              └──────────────────────┘
+   [Board of Directors / 이사회]                  <- 최상위 의사결정 기구
+              |
+              | 거버넌스 지시 (Direct)
+              | 성과 평가 (Evaluate)              <- ISO/IEC 38500 6원칙 적용
+              | 모니터링 (Monitor)
+              v
+   +--------------------------+
+   | IT Steering Committee    |                  <- CxO 레벨 거버넌스 회의체
+   | (IT전략위원회)             |
+   | - CIO, CFO, CEO, COO     |
+   | - 주요 안건: 투자우선순위,  |
+   |   위험 식별, 컴플라이언스    |
+   +--------------------------+
+              |
+              +----------------------+
+              v                      v
+   +-----------------+     +------------------+
+   | Strategy Layer  |     |  Operating Layer |
+   | (전략 계층)       |     |  (운영 계층)        |
+   |                  |     |                  |
+   | • IT Strategy    |     | • Service Desk   |
+   | • Portfolio Mgmt |     | • Incident Mgmt  |
+   | • Architecture   |     | • Change Mgmt    |
+   | • Innovation     |     | • Problem Mgmt   |
+   |   (Digital Twin) |     | • SLA Monitoring |
+   +-----------------+     +------------------+
+              |                      |
+              +----------+-----------+
+                         v
+              +----------------------+
+              |  Three Lines Model    |  <- IIA 2020
+              | 1st: Business Ops    |     1라인: 비즈니스 오너
+              | 2nd: Risk & Compliance|    2라인: 리스크/컴플라이언스
+              | 3rd: Internal Audit  |     3라인: 내부감사
+              +----------------------+
 ```
 
 기존의 **IT 관리(Management)**가 "기술을 어떻게 효율적으로 굴릴 것인가"의 관점이라면, **IT 거버넌스**는 "기술을 통해 조직의 목적 달성을 어떻게 책임지고 보장할 것인가"의 관점이다. 즉, 관리(Management)는 **효율(Efficiency)**, 거버넌스(Governance)는 **효과(Effectiveness)와 책임(Accountability)**에 초점을 맞춘다. 이는 전통적 IT 운영체제(예: BMC Remedy, Tivoli)에서 탈피해 **GRC(Governance, Risk, Compliance) 통합 플랫폼**(예: SAP GRC, ServiceNow GRC, Archer GRC)으로 진화하는 흐름을 낳았다.
@@ -72,71 +72,71 @@ tags = ["studynote-it-management"]
 IT 거버넌스의 기술적 핵심은 **"누가(Who) 무엇을(What) 언제(When) 어떻게(How) 결정하고, 그 결과를 어떻게 측정(Measure)할 것인가"** 를 메타데이터와 프로세스로 명세화하는 것이다. 이를 위해 COBIT 2019는 5개 도메인 × 40개 관리목표(Management Objective), 7개 컴포넌트(Components), 11개 설계인자(Design Factors)로 구성된 **Governance & Management Objectives 체계**를 제시한다.
 
 ```text
-            ┌─────────────────────────────────────┐
-            │  COBIT 2019 Core Model (40 Objectives)│
-            └─────────────────────────────────────┘
-              │           │           │           │
-   ┌──────────┴──┐  ┌─────┴────┐  ┌───┴────┐  ┌──┴─────────┐
-   │  EDM Domain │  │  APO     │  │  BAI   │  │  DSS       │  │ MEA │
-   │ (5 Goals)   │  │ (14 Goals)│  │(11 Goals)│  │ (6 Goals)  │  │(4)│
-   │             │  │          │  │        │  │            │  │   │
-   │ • EDM01     │  │ • APO01  │  │ • BAI01│  │ • DSS01    │  │   │
-   │  Governance │  │  IT Mgmt │  │  Progm │  │  Operation │  │   │
-   │  Framework  │  │  Framework│ │  Mgmt  │  │            │  │   │
-   │ • EDM02     │  │ • APO02  │  │ • BAI02│  │ • DSS02    │  │   │
-   │  Benefits   │  │  Strategy │  │  Reqmt │  │  Service   │  │   │
-   │  Delivery   │  │  & Portfolio│ │  Mgmt  │  │  Request   │  │   │
-   │ • EDM03     │  │ • APO04  │  │ • BAI03│  │ • DSS05    │  │   │
-   │  Risk Opt   │  │  Innov.  │  │  Sol.  │  │  Security  │  │   │
-   │ • EDM04     │  │ • APO12  │  │  Build │  │   Mgmt     │  │   │
-   │  Resource   │  │  Risk    │  │ • BAI09│  │            │  │   │
-   │  Opt.       │  │  Mgmt    │  │  Asset │  │            │  │   │
-   │ • EDM05     │  │ • APO13  │  │  Mgmt  │  │            │  │   │
-   │  Stakeholder│  │  Security│  │        │  │            │  │   │
-   │  Transp.    │  │  Mgmt    │  │        │  │            │  │   │
-   └─────────────┘  └──────────┘  └────────┘  └────────────┘  └───┘
-            │            │              │              │          │
-            └────────────┴──────┬───────┴──────────────┴──────────┘
-                                ▼
-                  ┌──────────────────────────┐
-                  │  7 Components of          │
-                  │  Governance System        │
-                  │  ─────────────────────    │
-                  │  1. Processes             │
-                  │  2. Organizational Struct. │
-                  │  3. Information Flows     │
-                  │  4. People, Skills,       │
-                  │     Competencies          │
-                  │  5. Policies & Procedures │
-                  │  6. Culture, Ethics,      │
-                  │     Behavior              │
-                  │  7. Services, Infra.,     │
-                  │     Applications          │
-                  └──────────────────────────┘
-                                │
-                                ▼
-                  ┌──────────────────────────┐
-                  │  11 Design Factors        │  ← 조직별 맞춤 튜닝
-                  │  ─────────────────────    │
-                  │  DF1: Enterprise Strategy │
-                  │  DF2: Enterprise Goals    │
-                  │  DF3: Risk Profile        │
-                  │  DF4: I&T Related Issues  │
-                  │  DF5: Threat Landscape    │
-                  │  DF6: Compliance Req.    │
-                  │  DF7: Role of IT         │
-                  │  DF8: IT Sourcing Model   │
-                  │  DF9: IT Implementation   │
-                  │  DF10: Technology Adopt.  │
-                  │  DF11: Size of Enterprise │
-                  └──────────────────────────┘
+            +-------------------------------------+
+            |  COBIT 2019 Core Model (40 Objectives)|
+            +-------------------------------------+
+              |           |           |           |
+   +----------+--+  +-----+----+  +---+----+  +--+---------+
+   |  EDM Domain |  |  APO     |  |  BAI   |  |  DSS       |  | MEA |
+   | (5 Goals)   |  | (14 Goals)|  |(11 Goals)|  | (6 Goals)  |  |(4)|
+   |             |  |          |  |        |  |            |  |   |
+   | • EDM01     |  | • APO01  |  | • BAI01|  | • DSS01    |  |   |
+   |  Governance |  |  IT Mgmt |  |  Progm |  |  Operation |  |   |
+   |  Framework  |  |  Framework| |  Mgmt  |  |            |  |   |
+   | • EDM02     |  | • APO02  |  | • BAI02|  | • DSS02    |  |   |
+   |  Benefits   |  |  Strategy |  |  Reqmt |  |  Service   |  |   |
+   |  Delivery   |  |  & Portfolio| |  Mgmt  |  |  Request   |  |   |
+   | • EDM03     |  | • APO04  |  | • BAI03|  | • DSS05    |  |   |
+   |  Risk Opt   |  |  Innov.  |  |  Sol.  |  |  Security  |  |   |
+   | • EDM04     |  | • APO12  |  |  Build |  |   Mgmt     |  |   |
+   |  Resource   |  |  Risk    |  | • BAI09|  |            |  |   |
+   |  Opt.       |  |  Mgmt    |  |  Asset |  |            |  |   |
+   | • EDM05     |  | • APO13  |  |  Mgmt  |  |            |  |   |
+   |  Stakeholder|  |  Security|  |        |  |            |  |   |
+   |  Transp.    |  |  Mgmt    |  |        |  |            |  |   |
+   +-------------+  +----------+  +--------+  +------------+  +---+
+            |            |              |              |          |
+            +------------+------+-------+--------------+----------+
+                                v
+                  +--------------------------+
+                  |  7 Components of          |
+                  |  Governance System        |
+                  |  ---------------------    |
+                  |  1. Processes             |
+                  |  2. Organizational Struct. |
+                  |  3. Information Flows     |
+                  |  4. People, Skills,       |
+                  |     Competencies          |
+                  |  5. Policies & Procedures |
+                  |  6. Culture, Ethics,      |
+                  |     Behavior              |
+                  |  7. Services, Infra.,     |
+                  |     Applications          |
+                  +--------------------------+
+                                |
+                                v
+                  +--------------------------+
+                  |  11 Design Factors        |  <- 조직별 맞춤 튜닝
+                  |  ---------------------    |
+                  |  DF1: Enterprise Strategy |
+                  |  DF2: Enterprise Goals    |
+                  |  DF3: Risk Profile        |
+                  |  DF4: I&T Related Issues  |
+                  |  DF5: Threat Landscape    |
+                  |  DF6: Compliance Req.    |
+                  |  DF7: Role of IT         |
+                  |  DF8: IT Sourcing Model   |
+                  |  DF9: IT Implementation   |
+                  |  DF10: Technology Adopt.  |
+                  |  DF11: Size of Enterprise |
+                  +--------------------------+
 ```
 
 핵심 메커니즘을 단계별로 살펴보면 다음과 같다.
 
 **1단계: 거버넌스 시스템 설계(Design)** — 11개 Design Factor를 조직의 맥락(Strategy, Goals, Risk, Compliance 등)에 따라 점수화하고, 이를 40개 관리목표의 **우선순위(Priority)와 역량수준(Target Capability Level: 0~5)** 으로 변환한다. Capability Level은 ISO/IEC 15504-2 SPICE 모델을 차용하여 0(Incomplete)~5(Optimizing) 6단계로 평가한다.
 
-**2단계: 목표 계단(Goals Cascade) 연결** — 13개 Enterprise Goals → 13개 Alignment Goals(예: AG01: I&T compliance & support for business) → 40개 Management Objective로 위계적 연계. 이를 통해 **"비즈니스 KPI ↔ IT KPI"** 의 인과관계가 명확해진다. 예: Enterprise Goal "Portfolio of competitive products/services" → AG09 "Delivering programs on time, on budget, meeting quality" → BAI01 "Managed Programs" → KPI: % On-Time Delivery, Cost Variance Index(CVI), Defect Density.
+**2단계: 목표 계단(Goals Cascade) 연결** — 13개 Enterprise Goals -> 13개 Alignment Goals(예: AG01: I&T compliance & support for business) -> 40개 Management Objective로 위계적 연계. 이를 통해 **"비즈니스 KPI ↔ IT KPI"** 의 인과관계가 명확해진다. 예: Enterprise Goal "Portfolio of competitive products/services" -> AG09 "Delivering programs on time, on budget, meeting quality" -> BAI01 "Managed Programs" -> KPI: % On-Time Delivery, Cost Variance Index(CVI), Defect Density.
 
 **3단계: 프로세스 평가(Process Assessment)** — COBIT PAM(Process Assessment Model)을 활용하여 **Process Capability Rating**(0~5)을 측정하고 갭 분석(Gap Analysis) 후 개선 로드맵 도출. PA 2.1 ~ 2.5(Governance) 및 EDM 5개 영역을 우선 점검.
 
@@ -151,7 +151,7 @@ IT 거버넌스의 기술적 핵심은 **"누가(Who) 무엇을(What) 언제(Whe
 | **MEA(Monitor, Evaluate, Assess)** | 성과·컴플라이언스 | 내부통제(SOX 404, ISAE 3402), ISO 27001 통제 매핑, 성과보고 대시보드(예: Power BI + CMMI 성과 지표), 감사 자동화 |
 | **Three Lines Model (IIA 2020)** | 책임·리스크 분리 | 1라인: 업무 수행(제1방어선, Operational Mgmt), 2라인: 리스크·컴플라이언스·IT 거버넌스 부서(제2방어선, Risk Mgmt), 3라인: 내부감사(제3방어선, Internal Audit) — 독립성 보장을 위한 **임원보고 라인** 명세 |
 | **Risk & Security Overlay** | 위험·보안 통합 | ISO 27005 위험평가, NIST CSF 2.0(2024)의 Govern/GI/ID/PR/DE/RS/RC, Zero Trust Architecture(NIST SP 800-207) |
-| **Design Factor Tuner** | 조직 맞춤 튜닝 | 11개 DF에 가중치 적용, RACI 매트릭스 자동 생성, 우선관리목표(Priority) 산출 → 40개 목표 중 **상위 10~15개** 집중 |
+| **Design Factor Tuner** | 조직 맞춤 튜닝 | 11개 DF에 가중치 적용, RACI 매트릭스 자동 생성, 우선관리목표(Priority) 산출 -> 40개 목표 중 **상위 10~15개** 집중 |
 
 특히 **TBM(Technology Business Management)** 프레임워크(TBM Council)는 IT 비용을 4계층 모델(Layer 1: IT Cost ~ Layer 4: Business Value)로 분해하여 **Cost per 사용자, Cost per 거래, Cost per 서비스** 등 서비스 단위 원가회계(Activity-Based Costing, ABC)를 가능케 한다. 이를 통해 **"어떤 IT 서비스가 어떤 사업부(LOB)에 얼마의 가치를 제공하는가"** 를 정량화할 수 있다.
 
@@ -160,7 +160,7 @@ IT 거버넌스의 기술적 핵심은 **"누가(Who) 무엇을(What) 언제(Whe
 
 **진행 상황**: 670 / 800
 
-← **이전**: [669. IT 경영 관리 핵심 토픽 669번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/669_it_management_core_topic_669_exam_summary/)
-**다음**: [671. IT 경영 관리 핵심 토픽 671번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/671_it_management_core_topic_671_exam_summary/) →
+<- **이전**: [669. IT 경영 관리 핵심 토픽 669번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/669_it_management_core_topic_669_exam_summary/)
+**다음**: [671. IT 경영 관리 핵심 토픽 671번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/671_it_management_core_topic_671_exam_summary/) ->
 
 ---

@@ -43,17 +43,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 정상 클럭과 glitch 클럭의 차이를 보여 준다. 한 번의 이른 edge만으로도 critical path는 미완성 값을 저장할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Clock glitch timing                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ normal : ──┐  ┌──┐  ┌──┐  ┌──┐                                     │
-│            └──┘  └──┘  └──┘  └──                                  │
-│ glitch : ──┐  ┌─┐┌──┐  ┌──┐                                       │
-│            └──┘ └┘  └──┘  └──                                    │
-│                    ▲                                               │
-│            early edge latches data too soon                       │
-│            Tglitch < tlogic + tsetup                              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Clock glitch timing                                                |
++--------------------------------------------------------------------+
+| normal : --+  +--+  +--+  +--+                                     |
+|            +--+  +--+  +--+  +--                                  |
+| glitch : --+  +-++--+  +--+                                       |
+|            +--+ ++  +--+  +--                                    |
+|                    ^                                               |
+|            early edge latches data too soon                       |
+|            Tglitch < tlogic + tsetup                              |
++--------------------------------------------------------------------+
 ```
 
 실험실에서는 FPGA나 delay line 기반 [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) generator를 사용해 ns 단위로 edge 위치를 스윕한다. 예를 들어 20MHz MCU라면 nominal period는 50ns인데, critical path slack이 작다면 특정 사이클을 40ns 이하로 줄이는 것만으로도 fault가 날 수 있다. 공격자는 전력 분석이나 GPIO (General-Purpose Input/Output) trigger로 목표 루틴 타이밍을 잡은 뒤, branch compare나 loop update 직전에 glitch를 삽입해 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip을 노린다.
@@ -126,19 +126,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 외부 클럭 접근 / timing trigger 수집
-              │
-              ▼
+              |
+              v
 클럭 글리칭 파라미터 탐색
 : offset / shortened period / extra edge
-              │
-              ▼
+              |
+              v
 타이밍 위반 fault
 : instruction skip / wrong branch / faulty crypto state
-              │
-              ▼
+              |
+              v
 secure boot 우회 · 인증 오판 · fault analysis 발판
-              │
-              ▼
+              |
+              v
 internal clock + monitor + redundancy + tamper lock
 ```
 
@@ -156,7 +156,7 @@ internal clock + monitor + redundancy + tamper lock
 
 **진행 상황**: 773 / 803
 
-← **이전**: [771. 볼티지 글리칭 (Voltage Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/771_voltage_glitching/)
-**다음**: [773. EMFI (Electromagnetic Fault Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/) →
+<- **이전**: [771. 볼티지 글리칭 (Voltage Glitching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/771_voltage_glitching/)
+**다음**: [773. EMFI (Electromagnetic Fault Injection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/) ->
 
 ---

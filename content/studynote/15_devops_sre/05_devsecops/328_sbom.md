@@ -30,28 +30,28 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────┐
-│              SBOM 생성 및 활용 파이프라인          │
-├────────────────────────────────────────────────┤
-│  소스코드 + 의존성 파일                           │
-│          │                                     │
-│          ▼                                     │
-│  ┌────────────────┐                            │
-│  │  SCA 도구       │  (Syft, Trivy, CycloneDX) │
-│  └───────┬────────┘                            │
-│          │                                     │
-│          ▼                                     │
-│  ┌────────────────────────────────────────┐   │
-│  │  SBOM 파일 (SPDX 또는 CycloneDX 형식)  │   │
-│  │  - 컴포넌트명, 버전, 공급자              │   │
-│  │  - 라이선스 (MIT, Apache 2.0, GPL)      │   │
-│  │  - 체크섬 (SHA-256)                     │   │
-│  └──────┬───────────────┬─────────────────┘   │
-│         │               │                      │
-│         ▼               ▼                      │
-│  CVE 취약점 조회    라이선스 컴플라이언스  VEX  │
-│  (NVD, OSV)        분석                악용 가능성│
-└────────────────────────────────────────────────┘
++------------------------------------------------+
+|              SBOM 생성 및 활용 파이프라인          |
++------------------------------------------------+
+|  소스코드 + 의존성 파일                           |
+|          |                                     |
+|          v                                     |
+|  +----------------+                            |
+|  |  SCA 도구       |  (Syft, Trivy, CycloneDX) |
+|  +-------+--------+                            |
+|          |                                     |
+|          v                                     |
+|  +----------------------------------------+   |
+|  |  SBOM 파일 (SPDX 또는 CycloneDX 형식)  |   |
+|  |  - 컴포넌트명, 버전, 공급자              |   |
+|  |  - 라이선스 (MIT, Apache 2.0, GPL)      |   |
+|  |  - 체크섬 (SHA-256)                     |   |
+|  +------+---------------+-----------------+   |
+|         |               |                      |
+|         v               v                      |
+|  CVE 취약점 조회    라이선스 컴플라이언스  VEX  |
+|  (NVD, OSV)        분석                악용 가능성|
++------------------------------------------------+
 ```
 
 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 형식 | 특징 | 주도 기관 |
@@ -129,8 +129,8 @@ SBOM의 본질은 <strong>알 권리의 자동화</strong>다. 내가 사용하�
 
 ```text
 공급망 보안 인식 전          SBOM 표준화 시대            법제화/자동화 시대
-──────────────────    ──────────────────────────   ───────────────────────
-수동 의존성 추적      →  SPDX, CycloneDX 표준    →  EO 14028 의무화
+------------------    --------------------------   -----------------------
+수동 의존성 추적      ->  SPDX, CycloneDX 표준    ->  EO 14028 의무화
 SolarWinds 사고           Syft, Trivy 도구 등장       VEX 도입
 Log4Shell 대응 지연        이미지 레지스트리 통합         SLSA 프레임워크
 ```
@@ -147,7 +147,7 @@ Log4Shell 대응 지연        이미지 레지스트리 통합         SLSA 프
 
 **진행 상황**: 328 / 373
 
-← **이전**: [327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance](/knowledge-base/studynote/11_design_supervision/06_exam_summary/327_process/)
-**다음**: [329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp](/knowledge-base/studynote/11_design_supervision/06_exam_summary/329_process/) →
+<- **이전**: [327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance](/knowledge-base/studynote/11_design_supervision/06_exam_summary/327_process/)
+**다음**: [329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp](/knowledge-base/studynote/11_design_supervision/06_exam_summary/329_process/) ->
 
 ---

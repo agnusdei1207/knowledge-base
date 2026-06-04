@@ -66,18 +66,18 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [단일 서버 한계]
-    │
-    ▼
+    |
+    v
 [분산 처리 필요]
-    │
-    ▼
+    |
+    v
 [MapReduce(Map 단계)]
-    │
-    ▼
+    |
+    v
 [Shuffle/Sort]
-    │
-    ▼
-[Reduce 단계 → Hadoop 에코시스템]
+    |
+    v
+[Reduce 단계 -> Hadoop 에코시스템]
 ```
 
 MapReduce는 단일 서버 한계를 넘어 Map, Shuffle/Sort, Reduce로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행한다.
@@ -93,7 +93,7 @@ MapReduce는 단일 서버 한계를 넘어 Map, Shuffle/Sort, Reduce로 [분산
 
 **진행 상황**: 31 / 262
 
-← **이전**: [08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략](/knowledge-base/studynote/16_bigdata/02_hadoop/030_rack_awareness_fault_tolerance_topology/)
-**다음**: [Map 함수: MapReduce 분산 처리의 시작](/knowledge-base/studynote/16_bigdata/02_hadoop/032_map_function_key_value_output/) →
+<- **이전**: [08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략](/knowledge-base/studynote/16_bigdata/02_hadoop/030_rack_awareness_fault_tolerance_topology/)
+**다음**: [Map 함수: MapReduce 분산 처리의 시작](/knowledge-base/studynote/16_bigdata/02_hadoop/032_map_function_key_value_output/) ->
 
 ---

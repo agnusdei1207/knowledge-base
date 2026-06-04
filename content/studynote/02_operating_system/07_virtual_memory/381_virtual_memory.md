@@ -28,23 +28,23 @@ tags = ["studynote-operating-system"]
   3. **가상 메모리의 선포**: "프로그래머야, 넌 램 용량 신경 쓰지 말고 맘대로 거대하게 짜라. 램에 욱여넣고 빼는 노가다는 OS와 하드웨어가 백그라운드에서 다 알아서 해줄게!"라며 OS가 메모리 관리의 독재권을 쥐게 되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        가상 메모리가 만들어내는 '착시(Illusion)'의 아키텍처             │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 유저 프로그램의 시선 (가상 주소 공간 100GB) ]                         │
-│ [ 0번지  ... (우와 넓다 나 혼자 다 쓴다!) ...  100GB ]                  │
-│                                                                         │
-│                        ↓↓ (MMU의 속임수) ↓↓                             │
-│                                                                         │
-│ [ 실제 물리적 현실 (RAM 16GB + Disk 1TB) ]                              │
-│                                                                         │
-│ ▶ 물리 RAM (16GB): [지금 당장 실행 중인 100MB 쪼가리만 얹혀 있음]       │
-│ ▶ 하드 디스크(Disk): [나머지 99.9GB 쪼가리들이 깊이 잠들어 있음]        │
-│                                                                         │
-│ ✅ 원리: 유저가 램에 없는 쪼가리를 건드리면, OS가 1초 만에 디스크에서   │
-│         그 쪼가리를 램으로 쓱 가져다 놓고 "원래 램에 있었어~" 하고 속임.│
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|        가상 메모리가 만들어내는 '착시(Illusion)'의 아키텍처             |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 유저 프로그램의 시선 (가상 주소 공간 100GB) ]                         |
+| [ 0번지  ... (우와 넓다 나 혼자 다 쓴다!) ...  100GB ]                  |
+|                                                                         |
+|                        vv (MMU의 속임수) vv                             |
+|                                                                         |
+| [ 실제 물리적 현실 (RAM 16GB + Disk 1TB) ]                              |
+|                                                                         |
+| -> 물리 RAM (16GB): [지금 당장 실행 중인 100MB 쪼가리만 얹혀 있음]       |
+| -> 하드 디스크(Disk): [나머지 99.9GB 쪼가리들이 깊이 잠들어 있음]        |
+|                                                                         |
+| ✅ 원리: 유저가 램에 없는 쪼가리를 건드리면, OS가 1초 만에 디스크에서   |
+|         그 쪼가리를 램으로 쓱 가져다 놓고 "원래 램에 있었어~" 하고 속임.|
++-------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가상 메모리의 핵심은 '속임수'다. 100GB짜리 프로그램이 16GB 램 위에서 돌아가는 기적은, 인간의 눈(CPU 연산)이 쫓아갈 수 없는 속도로 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 디스크에서 램으로 교체하는 OS의 타짜 같은 손놀림 덕분이다.
 
@@ -72,24 +72,24 @@ tags = ["studynote-operating-system"]
 5. OS는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 `I` 비트를 `V(Valid)`로 고쳐 쓰고, 방금 멈췄던 CPU 명령어를 "아무 일도 없었던 것처럼" 다시 재실행(Restart [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))시킨다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              가상 메모리의 생명선: 페이지 폴트 처리 흐름도           │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 1. 메모리 접근 ] ──▶ [ 2. PTE 검사 (I 비트 발견!) ]                │
-│                            │                                         │
-│                            ▼ (Page Fault 발생)                       │
-│                      [ 3. OS 커널 개입 ]                             │
-│                            │                                         │
-│                            ▼                                         │
-│        [ 4. 디스크(Swap Area)에서 해당 페이지 읽기 ]                 │
-│                            │ (매우 느림, 수 밀리초 소요)             │
-│                            ▼                                         │
-│        [ 5. 램(RAM)의 빈 프레임에 페이지 적재 ]                      │
-│                            │                                         │
-│                            ▼                                         │
-│        [ 6. PTE 갱신 (I -> V로 수정) 및 CPU 재실행 ]                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              가상 메모리의 생명선: 페이지 폴트 처리 흐름도           |
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 1. 메모리 접근 ] ---> [ 2. PTE 검사 (I 비트 발견!) ]                |
+|                            |                                         |
+|                            v (Page Fault 발생)                       |
+|                      [ 3. OS 커널 개입 ]                             |
+|                            |                                         |
+|                            v                                         |
+|        [ 4. 디스크(Swap Area)에서 해당 페이지 읽기 ]                 |
+|                            | (매우 느림, 수 밀리초 소요)             |
+|                            v                                         |
+|        [ 5. 램(RAM)의 빈 프레임에 페이지 적재 ]                      |
+|                            |                                         |
+|                            v                                         |
+|        [ 6. PTE 갱신 (I -> V로 수정) 및 CPU 재실행 ]                 |
++----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 과정은 가상 메모리의 유일한 아킬레스건이다. 램에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 건 100나노초면 끝나지만, 디스크에서 가져오는 건 10밀리초([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000,000나노초)가 걸린다. 무려 10만 배의 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)이 발생한다. 만약 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 너무 자주 일어나면 CPU는 연산은 못 하고 디스크만 긁어대다 컴퓨터가 완전히 멈춰버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>이라는 끔찍한 병에 걸리게 된다.
@@ -172,12 +172,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [가비지 컬렉션 (Garbage Collection) 기초]
-    │
-    ▼
+    |
+    v
 [가상 메모리 (Virtual Memory) 개념]
-    │
-    ├──▶ [가상 주소 공간 (Virtual Address Space)]
-    └──▶ [요구 페이징 (Demand Paging)]
+    |
+    +---> [가상 주소 공간 (Virtual Address Space)]
+    +---> [요구 페이징 (Demand Paging)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -194,7 +194,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 381 / 800
 
-← **이전**: [380. 가비지 컬렉션 (Garbage Collection) 기초 - 참조 카운팅, Mark-and-Sweep](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)
-**다음**: [382. 가상 주소 공간 (Virtual Address Space)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) →
+<- **이전**: [380. 가비지 컬렉션 (Garbage Collection) 기초 - 참조 카운팅, Mark-and-Sweep](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)
+**다음**: [382. 가상 주소 공간 (Virtual Address Space)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ->
 
 ---

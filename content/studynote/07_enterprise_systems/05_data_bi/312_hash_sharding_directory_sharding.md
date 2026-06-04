@@ -22,7 +22,7 @@ tags = ["studynote-enterprise-systems"]
 
 주요 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):
 - <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/282_embedded_document_pattern/">해시 샤딩</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/282_embedded_document_pattern/">Hash Sharding</a>)</strong>: hash([key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) % N 으로 샤드 결정
-- <strong>범위 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a> (Range <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong>: 키 범위(예: A-M → 샤드1, N-Z → 샤드2)
+- <strong>범위 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a> (Range <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong>: 키 범위(예: A-M -> 샤드1, N-Z -> 샤드2)
 - <strong>디렉토리 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong>: 별도 룩업 테이블로 샤드 매핑
 
 [Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해싱)은 [해시 샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/282_embedded_document_pattern/)의 리샤딩 문제를 해결한다.
@@ -43,8 +43,8 @@ tags = ["studynote-enterprise-systems"]
 
 ### [Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) 가상 노드 (Virtual Node)
 
-단순 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해싱은 노드 수에 따라 불균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능 → 가상 노드(VNode)로 해결.
-각 물리 노드를 100~150개 가상 노드로 링에 배치 → 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보장.
+단순 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해싱은 노드 수에 따라 불균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능 -> 가상 노드(VNode)로 해결.
+각 물리 노드를 100~150개 가상 노드로 링에 배치 -> 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보장.
 
 ```
 Cassandra: 기본 256 VNode/노드
@@ -54,28 +54,28 @@ DynamoDB: 내부 가상 노드 자동 관리
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해시 링
 
 ```
-  ┌─────────────────────────────────────────────────────┐
-  │              Consistent Hash Ring                   │
-  │                     0                               │
-  │              ┌──────┴──────┐                        │
-  │         315  │             │  45                    │
-  │        (VB)  │             │  (VA)                  │
-  │              │    Ring     │                        │
-  │   270 (VC)   │  (0~360)   │  90 (VA)               │
-  │              │             │                        │
-  │        225   │             │  135                   │
-  │        (VB)  └──────┬──────┘  (VC)                 │
-  │                    180                              │
-  │                                                     │
-  │  Node A: VNode @ 45, 90, 180                        │
-  │  Node B: VNode @ 135, 225, 315                      │
-  │  Node C: VNode @ 270, (...)                         │
-  │                                                     │
-  │  Key "user123" → hash → 200 → 시계방향 첫 VNode →   │
-  │  225(VB) → Node B에 저장                            │
-  │                                                     │
-  │  Node C 추가 시: hash(C) 위치 이전 키만 재배치 (1/N) │
-  └─────────────────────────────────────────────────────┘
+  +-----------------------------------------------------+
+  |              Consistent Hash Ring                   |
+  |                     0                               |
+  |              +------+------+                        |
+  |         315  |             |  45                    |
+  |        (VB)  |             |  (VA)                  |
+  |              |    Ring     |                        |
+  |   270 (VC)   |  (0~360)   |  90 (VA)               |
+  |              |             |                        |
+  |        225   |             |  135                   |
+  |        (VB)  +------+------+  (VC)                 |
+  |                    180                              |
+  |                                                     |
+  |  Node A: VNode @ 45, 90, 180                        |
+  |  Node B: VNode @ 135, 225, 315                      |
+  |  Node C: VNode @ 270, (...)                         |
+  |                                                     |
+  |  Key "user123" -> hash -> 200 -> 시계방향 첫 VNode ->   |
+  |  225(VB) -> Node B에 저장                            |
+  |                                                     |
+  |  Node C 추가 시: hash(C) 위치 이전 키만 재배치 (1/N) |
+  +-----------------------------------------------------+
 ```
 
 ### [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 구조
@@ -110,9 +110,9 @@ DynamoDB: 내부 가상 노드 자동 관리
 ### [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 선정: 고카디널리티 + 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) + 애플리케이션 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴
-- [ ] 핫스팟 방지: 타임스탬프를 [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/)로 쓰면 최신 샤드 집중 → 피해야 함
+- [ ] 핫스팟 방지: 타임스탬프를 [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/)로 쓰면 최신 샤드 집중 -> 피해야 함
 - [ ] Cross-Shard Query 최소화: 샤드 간 JOIN은 네트워크 비용 높음
-- [ ] VNode 수 결정: 150 VNode/노드([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 기본) → 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
+- [ ] VNode 수 결정: 150 VNode/노드([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 기본) -> 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
 - [ ] 리밸런싱 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 피크 타임 외 자동 리밸런싱 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -138,10 +138,10 @@ DynamoDB: 내부 가상 노드 자동 관리
 
 ### 한계 및 선결 과제
 
-- Cross-Shard [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), Transaction은 매우 복잡 → 애플리케이션 설계로 최소화
+- Cross-Shard [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), Transaction은 매우 복잡 -> 애플리케이션 설계로 최소화
 - 샤드 재설계 필요 시 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 필요
-- 운영 복잡도 급격 증가 → 완전 관리형 DB([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), Cosmos DB) 검토
-- ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장 어려움 → [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 등 보완 설계 필요
+- 운영 복잡도 급격 증가 -> 완전 관리형 DB([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), Cosmos DB) 검토
+- ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장 어려움 -> [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 등 보완 설계 필요
 
 📢 **섹션 요약 비유**: [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 회사 확장과 같다. 지사가 늘수록 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 늘지만, 본사와 지사 간 협업(Cross-Shard)이 복잡해진다.
 
@@ -160,17 +160,17 @@ DynamoDB: 내부 가상 노드 자동 관리
 
 ```
 단일 DB 서버 한계 - 수평 분할(Sharding) 필요
-    │
-    ▼
+    |
+    v
 Range Sharding - 핫스팟 문제 발생
-    │
-    ▼
+    |
+    v
 Hash Sharding - 균등 분산, 범위 조회 불리
-    │
-    ▼
+    |
+    v
 Directory Sharding - 룩업 테이블 기반 유연한 재분배
-    │
-    ▼
+    |
+    v
 Consistent Hashing + Virtual Node - 확장성 극대화
 ```
 
@@ -188,7 +188,7 @@ Consistent Hashing + Virtual Node - 확장성 극대화
 
 **진행 상황**: 312 / 482
 
-← **이전**: [311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/311_parquet_orc_rle_compression/)
-**다음**: [313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/313_htap_in_memory_architecture/) →
+<- **이전**: [311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/311_parquet_orc_rle_compression/)
+**다음**: [313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/313_htap_in_memory_architecture/) ->
 
 ---

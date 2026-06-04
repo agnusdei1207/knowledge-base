@@ -24,9 +24,9 @@ tags = ["studynote-design-supervision"]
 [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)의 목적은 웹 문서를 사람이 읽는 수준을 넘어 기계가 이해 가능한 의미 단위로 바꾸는 데 있다. 이때 온톨로지는 어떤 개체가 무엇이고 어떤 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 허용되는지 정의하는 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)다. 기술사 답안에서는 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)를 단순 [그래프 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)가 아니라, <strong>의미 모델 + <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> + 추론 규칙</strong>의 결합으로 정리해야 한다.
 
 ```text
-┌───────────┐      ┌───────────┐      ┌───────────┐      ┌───────────┐
-│ Raw Data  │ ───▶ │ Ontology  │ ───▶ │ Triples   │ ───▶ │ Query / AI│
-└───────────┘      └───────────┘      └───────────┘      └───────────┘
++-----------+      +-----------+      +-----------+      +-----------+
+| Raw Data  | ----> | Ontology  | ----> | Triples   | ----> | Query / AI|
++-----------+      +-----------+      +-----------+      +-----------+
 ```
 
 이 그림은 문서와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧바로 질의 결과가 되는 것이 아니라, 먼저 의미 규칙과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델로 정제되어야 한다는 점을 보여 준다.
@@ -46,24 +46,24 @@ tags = ["studynote-design-supervision"]
 | SPARQL/추론 엔진 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 질의와 규칙 기반 탐색 수행 | 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 추론 범위, 출처 추적을 함께 고려 |
 
 ```text
-┌────────────────────┐      ┌────────────────────┐
-│ Ontology Schema    │      │ ETL / Entity Match │
-└────────────────────┘      └────────────────────┘
-          │                           │
-          ▼                           │
-┌────────────────────┐ ◀──────────────┘
-│ RDF Triple Store   │
-└────────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ SPARQL / Reasoning │
-└────────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ Search / Analytics │
-└────────────────────┘
++--------------------+      +--------------------+
+| Ontology Schema    |      | ETL / Entity Match |
++--------------------+      +--------------------+
+          |                           |
+          v                           |
++--------------------+ <---------------+
+| RDF Triple Store   |
++--------------------+
+          |
+          v
++--------------------+
+| SPARQL / Reasoning |
++--------------------+
+          |
+          v
++--------------------+
+| Search / Analytics |
++--------------------+
 ```
 
 따라서 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 아키텍처는 저장소 설계보다 먼저 <strong>용어와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 규칙의 통일</strong>이 선행되어야 성공한다.
@@ -159,7 +159,7 @@ RDF 트리플 구축
 
 **진행 상황**: 521 / 530
 
-← **이전**: [442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/442_architecture/)
-**다음**: [444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/444_sbom/) →
+<- **이전**: [442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/442_architecture/)
+**다음**: [444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/444_sbom/) ->
 
 ---

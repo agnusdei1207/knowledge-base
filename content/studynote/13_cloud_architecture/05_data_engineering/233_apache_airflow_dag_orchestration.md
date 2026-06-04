@@ -18,28 +18,28 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인은 단순히 한 두 개의 작업이 아니다. 실무에서는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추출 → 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 변환 → 테이블 A 적재 → 테이블 B 적재 → BI 갱신 → 슬랙 알림" 같은 복잡한 의존성 체인이 형성된다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인은 단순히 한 두 개의 작업이 아니다. 실무에서는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추출 -> 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 변환 -> 테이블 A 적재 -> 테이블 B 적재 -> BI 갱신 -> 슬랙 알림" 같은 복잡한 의존성 체인이 형성된다.
 
 2014년 Airbnb에서 개발, 현재 Apache 최상위 프로젝트. **"워크플로우를 코드로"** 라는 철학이 핵심이다.
 
 ```
 [복잡한 파이프라인 의존성 예시]
                    extract_crm
-                        │
-          ┌─────────────┼─────────────┐
-          ▼             ▼             ▼
+                        |
+          +-------------+-------------+
+          v             v             v
     validate_crm   extract_erp   extract_ga
-          │             │             │
-          └──────┬───────┘             │
-                 ▼                    │
-          transform_orders            │
-                 │                    │
-                 └──────────┬─────────┘
-                            ▼
+          |             |             |
+          +------+-------+             |
+                 v                    |
+          transform_orders            |
+                 |                    |
+                 +----------+---------+
+                            v
                      load_fact_sales
-                            │
-                 ┌──────────┼──────────┐
-                 ▼          ▼          ▼
+                            |
+                 +----------+----------+
+                 v          v          v
            update_bi   train_ml   send_alert
 ```
 
@@ -54,25 +54,25 @@ tags = ["studynote-cloud-architecture"]
 ### Airflow 시스템 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  Airflow 아키텍처                              │
-│                                                              │
-│  ┌─────────────┐   ┌──────────────┐   ┌──────────────────┐  │
-│  │  Webserver  │   │  Scheduler   │   │   Executor        │  │
-│  │  (UI/API)   │   │  (DAG 파싱   │   │   (Task 실행)     │  │
-│  │  DAG 모니터 │   │   일정 관리)  │   │  ┌────────────┐  │  │
-│  │  실행 로그  │   │              │   │  │Worker 1    │  │  │
-│  └─────────────┘   └──────┬───────┘   │  │Worker 2    │  │  │
-│                            │           │  │Worker 3    │  │  │
-│                            │ Task 큐   │  └────────────┘  │  │
-│  ┌─────────────┐           └──────────▶│                  │  │
-│  │  Metadata   │                       └──────────────────┘  │
-│  │  Database   │◀──────────────────────── 상태 업데이트       │
-│  │ (PostgreSQL)│                                             │
-│  └─────────────┘                                            │
-│                                                              │
-│  DAG 파일 저장소: Git Repo / S3 / Local filesystem           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  Airflow 아키텍처                              |
+|                                                              |
+|  +-------------+   +--------------+   +------------------+  |
+|  |  Webserver  |   |  Scheduler   |   |   Executor        |  |
+|  |  (UI/API)   |   |  (DAG 파싱   |   |   (Task 실행)     |  |
+|  |  DAG 모니터 |   |   일정 관리)  |   |  +------------+  |  |
+|  |  실행 로그  |   |              |   |  |Worker 1    |  |  |
+|  +-------------+   +------+-------+   |  |Worker 2    |  |  |
+|                            |           |  |Worker 3    |  |  |
+|                            | Task 큐   |  +------------+  |  |
+|  +-------------+           +----------->|                  |  |
+|  |  Metadata   |                       +------------------+  |
+|  |  Database   |<------------------------- 상태 업데이트       |
+|  | (PostgreSQL)|                                             |
+|  +-------------+                                            |
+|                                                              |
+|  DAG 파일 저장소: Git Repo / S3 / Local filesystem           |
++--------------------------------------------------------------+
 ```
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 정의 예시
@@ -269,13 +269,13 @@ with DAG('dbt_daily_transform', schedule='0 3 * * *', ...):
 
 ```text
 cron + 쉘 스크립트 (의존관계 관리 불가)
-    │
-    ▼
+    |
+    v
 Airflow: DAG 기반 워크플로 오케스트레이션
-    ├─► Scheduler · Worker · Metadata DB
-    └─► Operator: Python · Bash · K8s · Spark
-    │
-    ▼
+    +-► Scheduler · Worker · Metadata DB
+    +-► Operator: Python · Bash · K8s · Spark
+    |
+    v
 차세대: Dagster · Prefect · Mage (데이터 자산 중심)
 ```
 2. DAG는 집 짓기 공정표다. 기초 공사를 해야 벽을 세울 수 있고, 벽이 있어야 지붕을 올릴 수 있는 것처럼, 각 단계([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))가 순서대로 이루어진다.
@@ -287,7 +287,7 @@ Airflow: DAG 기반 워크플로 오케스트레이션
 
 **진행 상황**: 232 / 371
 
-← **이전**: [232. CDC (Change Data Capture / 변경 데이터 캡처)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/232_cdc_change_data_capture_debezium/)
-**다음**: [234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/) →
+<- **이전**: [232. CDC (Change Data Capture / 변경 데이터 캡처)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/232_cdc_change_data_capture_debezium/)
+**다음**: [234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/) ->
 
 ---

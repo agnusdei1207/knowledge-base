@@ -35,7 +35,7 @@ Apache [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parq
 
 ```
 원본: [A, A, A, A, B, B, C, C, C, C, C]  (11 bytes)
-RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
+RLE:  [(A,4), (B,2), (C,5)]              (3 pairs -> 73% 압축)
 ```
 
 저카디널리티 컬럼(성별: M/F, 상태: [ACTIVE](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/INACTIVE)에서 효율 극대화.
@@ -60,20 +60,20 @@ RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
 
 ```
   행 지향 저장 (Row-based: CSV, JSON)
-  ┌────────────────────────────────────────────────────────────┐
-  │ Row1: [id=1, name="Kim", age=30, city="Seoul", sal=5000]  │
-  │ Row2: [id=2, name="Lee", age=25, city="Busan", sal=4500]  │
-  │ Row3: [id=3, name="Park",age=35, city="Seoul", sal=6000]  │
-  └────────────────────────────────────────────────────────────┘
-  → "age 평균" 쿼리 시 불필요한 name, city, salary도 모두 읽음
+  +------------------------------------------------------------+
+  | Row1: [id=1, name="Kim", age=30, city="Seoul", sal=5000]  |
+  | Row2: [id=2, name="Lee", age=25, city="Busan", sal=4500]  |
+  | Row3: [id=3, name="Park",age=35, city="Seoul", sal=6000]  |
+  +------------------------------------------------------------+
+  -> "age 평균" 쿼리 시 불필요한 name, city, salary도 모두 읽음
 
   컬럼 지향 저장 (Parquet / ORC)
-  ┌─────────┬────────────────┬───────────┬──────────┬──────────┐
-  │ id 컬럼 │   name 컬럼    │ age 컬럼  │city 컬럼 │ sal 컬럼 │
-  │ [1,2,3] │["Kim","Lee",..]│[30,25,35] │[S,B,S]   │[5000,...] │
-  │ RLE/Dict│ Dict Encoding  │ Delta     │ RLE      │ Delta    │
-  └─────────┴────────────────┴───────────┴──────────┴──────────┘
-  → "age 평균" 쿼리 시 age 컬럼만 읽음 (I/O 80% 절감)
+  +---------+----------------+-----------+----------+----------+
+  | id 컬럼 |   name 컬럼    | age 컬럼  |city 컬럼 | sal 컬럼 |
+  | [1,2,3] |["Kim","Lee",..]|[30,25,35] |[S,B,S]   |[5000,...] |
+  | RLE/Dict| Dict Encoding  | Delta     | RLE      | Delta    |
+  +---------+----------------+-----------+----------+----------+
+  -> "age 평균" 쿼리 시 age 컬럼만 읽음 (I/O 80% 절감)
 ```
 
 ### [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) Row Group vs ORC Stripe
@@ -112,8 +112,8 @@ RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
-| 고카디널리티 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 수백만 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) → [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 폭발 | 날짜·카테고리 등으로 제한 |
-| GZIP on Spark | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 불가 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 | Snappy 또는 ZSTD 권장 |
+| 고카디널리티 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 수백만 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) -> [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 폭발 | 날짜·카테고리 등으로 제한 |
+| GZIP on Spark | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 불가 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 | Snappy 또는 ZSTD 권장 |
 
 📢 **섹션 요약 비유**: 고카디널리티 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 사람마다 서랍을 만드는 것이다. 서랍이 백만 개가 되면 서랍장 자체가 무너진다.
 
@@ -142,17 +142,17 @@ RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
 
 ```
 행 기반 저장 (CSV, JSON) - 분석 쿼리 불필요 I/O
-    │
-    ▼
+    |
+    v
 컬럼 기반 저장 (Parquet, ORC) - 컬럼 선택 I/O 최소화
-    │
-    ▼
+    |
+    v
 RLE (Run-Length Encoding) + Dictionary 압축
-    │
-    ▼
+    |
+    v
 Predicate Pushdown + Column Pruning 쿼리 최적화
-    │
-    ▼
+    |
+    v
 Delta Lake/Iceberg - 오픈 테이블 포맷으로 진화
 ```
 
@@ -170,7 +170,7 @@ Delta Lake/Iceberg - 오픈 테이블 포맷으로 진화
 
 **진행 상황**: 311 / 482
 
-← **이전**: [310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/310_neo4j_fraud_detection/)
-**다음**: [312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/312_hash_sharding_directory_sharding/) →
+<- **이전**: [310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/310_neo4j_fraud_detection/)
+**다음**: [312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/312_hash_sharding_directory_sharding/) ->
 
 ---

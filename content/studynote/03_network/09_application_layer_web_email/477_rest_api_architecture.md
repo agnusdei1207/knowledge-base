@@ -31,30 +31,30 @@ tags = ["studynote-network"]
   3. **모바일 시대와 MSA의 도래**: 2010년대 아이폰의 등장과 함께, 웹 브라우저뿐만 아니라 모바일 앱, 스마트 TV 등 다양한 클라이언트가 동일한 백엔드 서버 자원(Resource)을 찔러야 하는 멀티 플랫폼 시대가 열리며 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API가 천하통일을 이루었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          전통적인 RPC 방식 vs RESTful API 설계 비교             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [RPC (행위/함수 호출 중심) 안티패턴]                           │
-│  - 유저 조회 ➔ GET /getUser?id=123                          │
-│  - 유저 생성 ➔ POST /createUser                            │
-│  - 유저 삭제 ➔ GET /deleteUser?id=123 (GET으로 삭제를?!)       │
-│  - 유저 수정 ➔ POST /updateUser                            │
-│  ⚠️ 문제점: URL에 '명사(자원)'와 '동사(행위)'가 뒤섞여 혼돈의 카오스.   │
-│            HTTP 메서드를 전혀 활용하지 못하고 오직 껍데기로만 씀.    │
-│                                                             │
-│ [RESTful (자원과 행위의 완벽한 분리) 표준 패턴]                   │
-│         [자원(명사) URI]          [행위(동사) HTTP Method]       │
-│                                                             │
-│         /users/123       ◀─── [ GET ]    (해당 유저 조회)    │
-│         /users           ◀─── [ POST ]   (새로운 유저 생성)   │
-│         /users/123       ◀─── [ DELETE ] (해당 유저 삭제)    │
-│         /users/123       ◀─── [ PUT ]    (해당 유저 통째 덮어쓰기)│
-│         /users/123       ◀─── [ PATCH ]  (해당 유저 일부만 수정) │
-│                                                             │
-│  🌟 결과: URL은 오직 '무엇(명사)'인지 식별만 하고,               │
-│          '어떻게(동사)' 할지는 HTTP 고유 메서드에 전적으로 위임한다!   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          전통적인 RPC 방식 vs RESTful API 설계 비교             |
++-------------------------------------------------------------+
+|                                                             |
+| [RPC (행위/함수 호출 중심) 안티패턴]                           |
+|  - 유저 조회 ➔ GET /getUser?id=123                          |
+|  - 유저 생성 ➔ POST /createUser                            |
+|  - 유저 삭제 ➔ GET /deleteUser?id=123 (GET으로 삭제를?!)       |
+|  - 유저 수정 ➔ POST /updateUser                            |
+|  ⚠️ 문제점: URL에 '명사(자원)'와 '동사(행위)'가 뒤섞여 혼돈의 카오스.   |
+|            HTTP 메서드를 전혀 활용하지 못하고 오직 껍데기로만 씀.    |
+|                                                             |
+| [RESTful (자원과 행위의 완벽한 분리) 표준 패턴]                   |
+|         [자원(명사) URI]          [행위(동사) HTTP Method]       |
+|                                                             |
+|         /users/123       <---- [ GET ]    (해당 유저 조회)    |
+|         /users           <---- [ POST ]   (새로운 유저 생성)   |
+|         /users/123       <---- [ DELETE ] (해당 유저 삭제)    |
+|         /users/123       <---- [ PUT ]    (해당 유저 통째 덮어쓰기)|
+|         /users/123       <---- [ PATCH ]  (해당 유저 일부만 수정) |
+|                                                             |
+|  🌟 결과: URL은 오직 '무엇(명사)'인지 식별만 하고,               |
+|          '어떻게(동사)' 할지는 HTTP 고유 메서드에 전적으로 위임한다!   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자들이 가장 많이 하는 실수가 URL 안에 `create`, `delete` 같은 동사를 욱여넣는 것이다. 이는 웹의 기본 철학을 무시한 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 방식이다. REST의 핵심은 URI(Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 통해 전 세계 유일한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자로 '명사(자원)'만 콕 집어내고, 그 자원을 지지고 볶는 조작 명령은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜이 태어날 때부터 만들어 둔 `GET, POST, PUT, DELETE` 표준 메서드로 완벽하게 이원화하는 것이다. 이 단순한 제약 하나가 전 세계 모든 개발자들이 별도의 매뉴얼 없이도 API의 목적을 직관적으로 이해할 수 있는 우아한 표준화를 이뤄냈다.
@@ -84,38 +84,38 @@ tags = ["studynote-network"]
 2. **HATEOAS**: 응답 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 안에 <strong>"현재 상태에서 클라이언트가 다음에 어떤 행동을 할 수 있는지"를 알려주는 하이퍼링크 모음</strong>이 동적으로 포함되어야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│        가짜 REST(Level 2) vs 진짜 REST(HATEOAS 포함, Level 3)   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [ ❌ 대다수가 쓰는 가짜 REST API 응답 ]                             │
-│ GET /accounts/123                                             │
-│ {                                                             │
-│    "account_id": "123",                                       │
-│    "balance": 50000,                                          │
-│    "status": "ACTIVE"                                         │
-│ }                                                             │
-│ ➔ 클라이언트는 "이 계좌에 입금하려면 어떤 URL을 찔러야 하지?"를           │
-│    모르기 때문에 스웨거(Swagger)나 API 문서를 직접 찾아봐야 한다.        │
-│    (서버 URL 구조가 바뀌면 클라이언트 앱을 통째로 재배포해야 함 = 강결합) │
-│                                                               │
-│ [ ✅ 진정한 RESTful API 응답 (HATEOAS 적용) ]                     │
-│ GET /accounts/123                                             │
-│ {                                                             │
-│    "account_id": "123",                                       │
-│    "balance": 50000,                                          │
-│    "status": "ACTIVE",                                        │
-│    "_links": {                                                │
-│       "self": { "href": "/accounts/123" },                    │
-│       "deposit": { "href": "/accounts/123/deposit", "method": "POST" }, │
-│       "withdraw": { "href": "/accounts/123/withdraw", "method": "POST" },│
-│       "close": { "href": "/accounts/123/close", "method": "DELETE" }    │
-│    }                                                          │
-│ }                                                             │
-│ ➔ 클라이언트는 API 문서를 볼 필요가 없다! 응답으로 온 `_links` 객체    │
-│    안의 `href`만 보고 버튼 UI를 동적으로 그려내면 끝이다. 서버가 입금 URL을│
-│    `/accounts/123/in`으로 바꿔도 클라이언트 코드는 단 한 줄도 안 고친다. │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|        가짜 REST(Level 2) vs 진짜 REST(HATEOAS 포함, Level 3)   |
++---------------------------------------------------------------+
+|                                                               |
+| [ ❌ 대다수가 쓰는 가짜 REST API 응답 ]                             |
+| GET /accounts/123                                             |
+| {                                                             |
+|    "account_id": "123",                                       |
+|    "balance": 50000,                                          |
+|    "status": "ACTIVE"                                         |
+| }                                                             |
+| ➔ 클라이언트는 "이 계좌에 입금하려면 어떤 URL을 찔러야 하지?"를           |
+|    모르기 때문에 스웨거(Swagger)나 API 문서를 직접 찾아봐야 한다.        |
+|    (서버 URL 구조가 바뀌면 클라이언트 앱을 통째로 재배포해야 함 = 강결합) |
+|                                                               |
+| [ ✅ 진정한 RESTful API 응답 (HATEOAS 적용) ]                     |
+| GET /accounts/123                                             |
+| {                                                             |
+|    "account_id": "123",                                       |
+|    "balance": 50000,                                          |
+|    "status": "ACTIVE",                                        |
+|    "_links": {                                                |
+|       "self": { "href": "/accounts/123" },                    |
+|       "deposit": { "href": "/accounts/123/deposit", "method": "POST" }, |
+|       "withdraw": { "href": "/accounts/123/withdraw", "method": "POST" },|
+|       "close": { "href": "/accounts/123/close", "method": "DELETE" }    |
+|    }                                                          |
+| }                                                             |
+| ➔ 클라이언트는 API 문서를 볼 필요가 없다! 응답으로 온 `_links` 객체    |
+|    안의 `href`만 보고 버튼 UI를 동적으로 그려내면 끝이다. 서버가 입금 URL을|
+|    `/accounts/123/in`으로 바꿔도 클라이언트 코드는 단 한 줄도 안 고친다. |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** HATEOAS는 애플리케이션의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transfer)를 철저하게 하이퍼미디어(Hypermedia, 즉 링크)에 위임한다. 사용자의 계좌 잔고가 0원이 되어 출금(Withdraw)이 불가능해졌다면, 서버는 응답 JSON의 `_links` 목록에서 `withdraw` 링크 자체를 빼버린다. 프론트엔드는 `withdraw` 링크가 없는 것을 보고 출금 버튼을 회색으로 비활성화(Disable)하기만 하면 된다. 클라이언트가 "잔고가 0원이면 출금 불가"라는 비즈니스 로직을 하드코딩으로 들고 있을 필요가 없어진다. 클라이언트와 서버가 서로의 존재를 잊고 극단적으로 느슨하게 결합(Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))하는, 로이 필딩이 꿈꿨던 완벽한 아키텍처다.
@@ -164,30 +164,30 @@ REST가 10년간 천하를 통일했으나, 모바일 시대의 고도화와 함
    - **판단**: [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 표준에서 <strong>PUT은 "전체 교체(Replace)"</strong>를 의미하고, <strong>PATCH는 "부분 수정(Modify)"</strong>을 의미한다. PUT을 쐈다는 것은 "기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 지우고 내가 방금 보낸 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 껍데기 하나로 통째로 덮어써라"는 파괴적 명령이다. 필드 하나만 변경할 때는 아키텍처 규칙상 반드시 PATCH를 써야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 붕괴([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss) 사고를 피할 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 리차드슨 성숙도 모델 (Maturity Model)         │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │ [Level 0: 늪지대 (The Swamp of POX)]                           │
-  │  - URL 하나로 다 퉁침: POST /api/v1/endpoint                    │
-  │  - Body: { "action": "deleteUser", "id": 123 }                 │
-  │  ➔ ❌ 이건 그냥 HTTP라는 터널을 뚫고 SOAP/RPC 짓을 하는 안티패턴.     │
-  │                                                              │
-  │ [Level 1: 자원 (Resources)]                                   │
-  │  - 명사화된 여러 URI 등장: POST /users/123/delete                │
-  │  - 모든 통신을 POST(또는 GET) 하나로만 퉁침.                      │
-  │  ➔ ❌ 동사가 URL에 섞여 있고, 메서드를 활용 못 함.                 │
-  │                                                              │
-  │ [Level 2: HTTP 동사 (HTTP Verbs)] 🌟 대다수 기업의 타협점 🌟      │
-  │  - 자원과 행위의 완벽한 분리: DELETE /users/123                   │
-  │  - GET, POST, PUT, DELETE 상태 코드를 철저히 맞춰 씀.             │
-  │  ➔ ✅ 실무 백엔드 스펙의 표준. (하지만 아직 완벽한 REST는 아님)         │
-  │                                                              │
-  │ [Level 3: 하이퍼미디어 컨트롤 (HATEOAS)] 🚀 진정한 REST의 완성 🚀  │
-  │  - 응답 JSON에 _links 가 있어, 클라이언트가 다음 상태로 전이할 URL을 │
-  │    동적으로 발견하게 만듦.                                       │
-  │  ➔ ✅ 클라이언트와 서버의 극단적인 디커플링 완성. 서버 업그레이드 자유.   │
-└──────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------+
+  |         실무 아키텍처: 리차드슨 성숙도 모델 (Maturity Model)         |
+  +--------------------------------------------------------------+
+  |                                                              |
+  | [Level 0: 늪지대 (The Swamp of POX)]                           |
+  |  - URL 하나로 다 퉁침: POST /api/v1/endpoint                    |
+  |  - Body: { "action": "deleteUser", "id": 123 }                 |
+  |  ➔ ❌ 이건 그냥 HTTP라는 터널을 뚫고 SOAP/RPC 짓을 하는 안티패턴.     |
+  |                                                              |
+  | [Level 1: 자원 (Resources)]                                   |
+  |  - 명사화된 여러 URI 등장: POST /users/123/delete                |
+  |  - 모든 통신을 POST(또는 GET) 하나로만 퉁침.                      |
+  |  ➔ ❌ 동사가 URL에 섞여 있고, 메서드를 활용 못 함.                 |
+  |                                                              |
+  | [Level 2: HTTP 동사 (HTTP Verbs)] 🌟 대다수 기업의 타협점 🌟      |
+  |  - 자원과 행위의 완벽한 분리: DELETE /users/123                   |
+  |  - GET, POST, PUT, DELETE 상태 코드를 철저히 맞춰 씀.             |
+  |  ➔ ✅ 실무 백엔드 스펙의 표준. (하지만 아직 완벽한 REST는 아님)         |
+  |                                                              |
+  | [Level 3: 하이퍼미디어 컨트롤 (HATEOAS)] 🚀 진정한 REST의 완성 🚀  |
+  |  - 응답 JSON에 _links 가 있어, 클라이언트가 다음 상태로 전이할 URL을 |
+  |    동적으로 발견하게 만듦.                                       |
+  |  ➔ ✅ 클라이언트와 서버의 극단적인 디커플링 완성. 서버 업그레이드 자유.   |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리차드슨 성숙도 모델은 우리 회사의 API가 얼마나 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 철학을 잘 준수하는지 채점하는 잣대다. 실무 개발팀의 90%는 Level 2에 머무르며 이를 '[REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'라 칭하고 Swagger 문서에 의존한다. Level 3(HATEOAS)까지 구현하려면 백엔드의 응답 객체 조립 로직이 엄청나게 복잡해지기 때문이다. 실무적 판단으로는 범용 공개 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Github [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 결제 연동 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)를 설계할 때는 무조건 Level 3를 지향하여 파트너사의 스펙 파편화를 막아야 하며, 사내 앱-백엔드 간 폐쇄망 통신용이라면 팀의 피로도를 고려해 Level 2에서 멈추고 Swagger로 문서화하는 타협(Trade-off)이 훨씬 경제적이다.
@@ -238,12 +238,12 @@ REST는 단순한 코딩 스타일이나 트렌드가 아니라, 월드 와이�
 
 ```text
 [선행 개념: 세션]
-    │
-    ▼
+    |
+    v
 [현재 개념: REST API]
-    │
-    ├──▶ [확장 A: GraphQL]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: GraphQL]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)에서 출발해 현재 메커니즘을 정교화하고, 이후 GraphQL와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -260,7 +260,7 @@ REST는 단순한 코딩 스타일이나 트렌드가 아니라, 월드 와이�
 
 **진행 상황**: 598 / 1120
 
-← **이전**: [476. 세션 (Session)](/knowledge-base/studynote/03_network/09_application_layer_web_email/476_session_server_state_sid/)
-**다음**: [478. GraphQL](/knowledge-base/studynote/03_network/09_application_layer_web_email/478_graphql_query_language/) →
+<- **이전**: [476. 세션 (Session)](/knowledge-base/studynote/03_network/09_application_layer_web_email/476_session_server_state_sid/)
+**다음**: [478. GraphQL](/knowledge-base/studynote/03_network/09_application_layer_web_email/478_graphql_query_language/) ->
 
 ---

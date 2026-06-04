@@ -44,19 +44,19 @@ OCSP의 기본 흐름은 단순하다. 클라이언트는 서버가 제시한 �
 아래 그림은 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 접속 중 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의가 개입되는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    OCSP의 기본 검증 흐름                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Browser ── TLS Handshake ──▶ Web Server                             │
-│    │                           │                                    │
-│    │  Certificate + AIA        │                                    │
-│    ▼                           │                                    │
-│ OCSP Request ────────────────▶ Responder                            │
-│    │                           │                                    │
-│    │  Signed Response: good / revoked / unknown                     │
-│    ▼                           │                                    │
-│ Validation Decision ◀──────────┘                                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    OCSP의 기본 검증 흐름                            |
++----------------------------------------------------------------------+
+| Browser -- TLS Handshake ---> Web Server                             |
+|    |                           |                                    |
+|    |  Certificate + AIA        |                                    |
+|    v                           |                                    |
+| OCSP Request -----------------> Responder                            |
+|    |                           |                                    |
+|    |  Signed Response: good / revoked / unknown                     |
+|    v                           |                                    |
+| Validation Decision <-----------+                                    |
++----------------------------------------------------------------------+
 ```
 
 기술적으로 중요한 점은 응답이 <strong>서명되어야 한다</strong>는 것이다. 그렇지 않으면 공격자가 중간에서 "정상"이라고 위조 응답을 보낼 수 있다. 또한 응답에는 `thisUpdate`, `nextUpdate` 같은 시점 정보가 포함되어 캐시 허용 범위를 정한다. 결국 OCSP는 단순 조회가 아니라, <strong>짧은 수명의 서명된 상태 증명서</strong>를 교환하는 구조라고 볼 수 있다.
@@ -135,21 +135,21 @@ OCSP는 폐기 상태를 더 빠르고 가볍게 [확인](/knowledge-base/studyn
 
 ```text
 인증서 만료일 확인만으로는 부족
-    │
-    ▼
+    |
+    v
 CRL (목록 기반 폐기 확인)
-    │
-    ▼
+    |
+    v
 OCSP (실시간 개별 질의)
-    │
-    ▼
+    |
+    v
 OCSP Stapling
-    │
-    ▼
+    |
+    v
 프라이버시 · 가용성 · CT 연계 검증
 ```
 
-이 흐름은 "목록 기반 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 실시간 상태 질의 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 프라이버시 개선"으로 이어지는 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술의 발전 방향을 보여준다.
+이 흐름은 "목록 기반 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 실시간 상태 질의 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 프라이버시 개선"으로 이어지는 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술의 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ OCSP Stapling
 
 **진행 상황**: 216 / 1108
 
-← **이전**: [162. CRL (Certificate Revocation List) — 폐지 인증서 목록](/knowledge-base/studynote/09_security/04_endpoint_security/162_crl_certificate_revocation_list/)
-**다음**: [164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴](/knowledge-base/studynote/09_security/04_endpoint_security/164_ocsp_stapling/) →
+<- **이전**: [162. CRL (Certificate Revocation List) — 폐지 인증서 목록](/knowledge-base/studynote/09_security/04_endpoint_security/162_crl_certificate_revocation_list/)
+**다음**: [164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴](/knowledge-base/studynote/09_security/04_endpoint_security/164_ocsp_stapling/) ->
 
 ---

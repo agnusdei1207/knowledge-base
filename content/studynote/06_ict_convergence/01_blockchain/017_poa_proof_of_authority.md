@@ -25,15 +25,15 @@ tags = ["ict_convergence"]
 
 이 그림은 완전 개방형 시스템과 신원 기반 시스템의 아키텍처적 전제 조건 차이를 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [퍼블릭 합의 (PoW/PoS): 자본/연산력 기반]              │
-│  익명 노드 => 막대한 비용 투입 => 악의적 행동 손해     │
-│   (신뢰의 근거 = 수학적 연산 및 기회비용)              │
-├────────────────────────────────────────────────────────┤
-│ [프라이빗/컨소시엄 합의 (PoA): 신원 기반]              │
-│  실명 인증된 기관 => 평판과 법적 책임 담보 => 블록 생성│
-│   (신뢰의 근거 = 승인된 기관의 권위와 평판)            │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [퍼블릭 합의 (PoW/PoS): 자본/연산력 기반]              |
+|  익명 노드 => 막대한 비용 투입 => 악의적 행동 손해     |
+|   (신뢰의 근거 = 수학적 연산 및 기회비용)              |
++--------------------------------------------------------+
+| [프라이빗/컨소시엄 합의 (PoA): 신원 기반]              |
+|  실명 인증된 기관 => 평판과 법적 책임 담보 => 블록 생성|
+|   (신뢰의 근거 = 승인된 기관의 권위와 평판)            |
++--------------------------------------------------------+
 ```
 이 도식의 핵심은 시스템을 지탱하는 '신뢰의 앵커(Anchor)'가 물리적 자원에서 사회적 신원으로 이동했다는 점이다. 이런 배치는 불필요한 해시 경쟁이나 지분 스테이킹 단계를 생략하게 만들기 때문이며, 따라서 시스템은 오직 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 기록이라는 본연의 기능에만 컴퓨팅 파워를 온전히 집중할 수 있다. 실무에서는 이러한 특성 덕분에 금융권 공동망이나 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유망과 같이 규제 준수([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))가 생명인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 PoA를 우선적으로 채택한다.
 
@@ -59,15 +59,15 @@ PoA 아키텍처는 노드의 신원 [검증](/knowledge-base/studynote/04_softw
 [PoA 블록 생성 및 검증 순차 흐름도]
 
 [Offline KYC] --> (1. 신원 검증 완료) --> [Admin Node / 거버넌스]
-                                               │
-   ┌───────────────────────────────────────────┘
-   │ (2. Validator List 에 공개 키 추가)
-   ↓
+                                               |
+   +-------------------------------------------+
+   | (2. Validator List 에 공개 키 추가)
+   v
 [Validator A] ---- (3. 라운드 1 리더 할당) ----> [블록 N 생성]
 [Validator B] ---- (4. 라운드 2 리더 할당) ----> [블록 N+1 생성]
 [Validator C] ---- (5. 라운드 3 리더 할당) ----> [블록 N+2 생성]
-   │
-   └─ (6. Validator B가 오프라인이거나 악의적 블록 생성 시)
+   |
+   +- (6. Validator B가 오프라인이거나 악의적 블록 생성 시)
         => 시스템이 해당 턴을 스킵하고 C로 이관, B는 리스트에서 제명
 ```
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정에 복잡한 수수료 지불이나 [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/) 과정이 전혀 개입하지 않는다는 점이다. 이런 배치는 각 Validator가 사전에 정해진 시간 간격(예: 5초)에 맞춰 기계적으로 블록을 찍어내기 때문이며, 따라서 네트워크의 레이턴시([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))는 사실상 물리적 네트워크 한계치에 수렴할 만큼 낮아진다. 실무에서는 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 노드들을 서로 다른 클라우드 환경과 지리적 위치에 배치하여, 물리적 재해에 대한 고가용성(HA)을 확보하는 아키텍처를 설계해야 한다.
@@ -78,8 +78,8 @@ PoA 아키텍처는 노드의 신원 [검증](/knowledge-base/studynote/04_softw
 [PoA 상태 전이도: Validator 권한 라이프사이클]
 
 [일반 노드] --(가입 신청)--> [Pending] --(기존 Validator 과반수 찬성)--> [Active Validator]
-                               ^                                               │
-                               │                                               │
+                               ^                                               |
+                               |                                               |
                                +-----------(악의적 행동 / 오프라인)------------+
                                   (권한 박탈 및 평판 붕괴, 법적 제재)
 ```
@@ -104,14 +104,14 @@ PoA는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 PoW와 DPoS가 참여자에게 경제적 인센티브(코인 보상)를 제공하여 네트워크를 유지하는 반면, PoA에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자는 코인 보상을 목표로 하지 않는다. 그들은 네트워크 자체가 원활히 돌아가서 얻는 B2B 비즈니스적 가치(예: 물류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 투명성 확보)를 목적으로 참여한다.
 
 ```text
-┌─────────── [엔터프라이즈 합의 알고리즘 선택 매트릭스] ───────────┐
-│                                                              │
-│ [신뢰 가정] 서로를 전혀 믿지 못함 =======> 서로 어느 정도 신뢰함│
-│ [권한 통제] 완전 개방형 =================> 철저한 허가형(KYC)  │
-│                                                              │
-│  => 선택: [ Public PoW/PoS ]         => 선택: [ Private PoA ]│
-│                                           (Hyperledger, Quorum)
-└──────────────────────────────────────────────────────────────┘
++----------- [엔터프라이즈 합의 알고리즘 선택 매트릭스] -----------+
+|                                                              |
+| [신뢰 가정] 서로를 전혀 믿지 못함 =======> 서로 어느 정도 신뢰함|
+| [권한 통제] 완전 개방형 =================> 철저한 허가형(KYC)  |
+|                                                              |
+|  => 선택: [ Public PoW/PoS ]         => 선택: [ Private PoA ]|
+|                                           (Hyperledger, Quorum)
++--------------------------------------------------------------+
 ```
 이 비교 매트릭스의 핵심은 기업이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 도입할 때, 참여 노드 간의 '신뢰 수준(Trust Assumption)'을 먼저 평가해야 한다는 점이다. 만약 다수의 은행이 연합하여 컨소시엄을 구성한다면, 서로의 신원(지점장)을 이미 알고 있으므로 굳이 자원을 낭비하는 PoW나 DPoS를 쓸 이유가 없다. PoA는 이러한 높은 신뢰 환경에서 가장 오버헤드가 적은 최적의 솔루션이다.
 
@@ -140,13 +140,13 @@ PoW와 DPoS가 참여자에게 경제적 인센티브(코인 보상)를 제공�
 [PoA 단일 장애점(SPOF) 및 운영 리스크 트리]
 
 [Validator 권한 부여]
-       │
-       ├─ (정상) 서로 다른 5개 기업이 각자 노드 운영 => 신뢰 분산 성공
-       │
-       └─ (장애) 모기업 A가 자회사 B, C, D의 노드를 일괄 관리
-                   ↓
+       |
+       +- (정상) 서로 다른 5개 기업이 각자 노드 운영 => 신뢰 분산 성공
+       |
+       +- (장애) 모기업 A가 자회사 B, C, D의 노드를 일괄 관리
+                   v
           [모기업 A 서버 해킹 또는 악의적 변조 발생]
-                   ↓
+                   v
           [과반수 권위(Authority) 장악 및 장부 조작] => 🚨 무늬만 블록체인인 DB로 전락
 ```
 이 그림은 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)이 기술적으로 완벽해도, 거버넌스 분리(Off-chain)에 실패하면 얼마나 쉽게 무너질 수 있는지를 보여준다. 이 도식에서 핵심은 시스템의 안정성이 암호학이 아니라 '운영 주체의 물리적 분리'에 의존한다는 점이다. 따라서 실무에서는 노드의 기술적 세팅뿐만 아니라, 노드를 운영하는 주체들 간의 이해관계 충돌 여부를 법적/제도적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 단계가 시스템 설계의 0순위가 되어야 한다.
@@ -182,20 +182,20 @@ PoW와 DPoS가 참여자에게 경제적 인센티브(코인 보상)를 제공�
 
 ```text
 [PoW (Proof of Work) — 채굴 경쟁, 탈중앙·높은 에너지 소비]
-    │
-    ▼
+    |
+    v
 [PoS (Proof of Stake) — 지분 기반 검증자 선출, 에너지 효율]
-    │
-    ▼
+    |
+    v
 [DPoS (Delegated PoS) — 투표로 대표 검증자 선출, 처리량 향상]
-    │
-    ▼
+    |
+    v
 [PoA (Proof of Authority) — 신원 인증 노드만 합의, 프라이빗 체인 최적화]
-    │
-    ▼
+    |
+    v
 [PBFT (Practical Byzantine Fault Tolerance) — 메시지 교환 기반 최종성 즉시 확보]
-    │
-    ▼
+    |
+    v
 [하이브리드 합의 (Hybrid Consensus) — PoA + 영지식 증명 결합, 프라이버시·성능 동시 달성]
 ```
 이 흐름은 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 개방성·탈중앙성 우선 합의 방식이 기업 환경의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요건을 반영하여 신원 기반 PoA로 수렴하고, 이를 암호학적 프라이버시와 결합하는 방향으로 진화하는 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 발전사를 보여준다.
@@ -204,20 +204,20 @@ PoW와 DPoS가 참여자에게 경제적 인센티브(코인 보상)를 제공�
 
 ```text
 [PoW (Proof of Work) — 채굴 경쟁, 탈중앙·높은 에너지 소비]
-    │
-    ▼
+    |
+    v
 [PoS (Proof of Stake) — 지분 기반 검증자 선출, 에너지 효율]
-    │
-    ▼
+    |
+    v
 [DPoS (Delegated PoS) — 투표로 대표 검증자 선출, 처리량 향상]
-    │
-    ▼
+    |
+    v
 [PoA (Proof of Authority) — 신원 인증 노드만 합의, 프라이빗 체인 최적화]
-    │
-    ▼
+    |
+    v
 [PBFT (Practical Byzantine Fault Tolerance) — 메시지 교환 기반 최종성 즉시 확보]
-    │
-    ▼
+    |
+    v
 [하이브리드 합의 (Hybrid Consensus) — PoA + 영지식 증명 결합, 프라이버시·성능 동시 달성]
 ```
 이 흐름은 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 개방성·탈중앙성 우선 합의 방식이 기업 환경의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요건을 반영하여 신원 기반 PoA로 수렴하고, 이를 암호학적 프라이버시와 결합하는 방향으로 진화하는 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 발전사를 보여준다.
@@ -233,7 +233,7 @@ PoW와 DPoS가 참여자에게 경제적 인센티브(코인 보상)를 제공�
 
 **진행 상황**: 17 / 552
 
-← **이전**: [16. 위임 지분 증명 (DPoS, Delegated PoS) - 대표자(BP)를 투표로 선출해 합의 위임 (빠른 속도, EOS)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/016_dpos_delegated_pos/)
-**다음**: [18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/018_post_proof_of_space_and_time/) →
+<- **이전**: [16. 위임 지분 증명 (DPoS, Delegated PoS) - 대표자(BP)를 투표로 선출해 합의 위임 (빠른 속도, EOS)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/016_dpos_delegated_pos/)
+**다음**: [18. 공간/시간 증명 (PoST, Proof of Space and Time) - 스토리지 자원 증명 (Chia Network)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/018_post_proof_of_space_and_time/) ->
 
 ---

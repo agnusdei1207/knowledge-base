@@ -21,29 +21,29 @@ tags = ["studynote-network"]
 
 - **개념**: C-V2X는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 14([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기반)에서 최초 정의되고 Release 16/17([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 기반)로 진화 중인 차량 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) 기술이다. 기존 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(802.11p)와 동일한 5.9GHz 대역을 쓰지만, 내부 엔진은 완전히 다른 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 칩셋을 사용하여 넓은 커버리지와 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 동시에 달성한다.
 - **필요성**: [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 통신은 기지국이 필요 없는 공짜 망이었지만, 치명적인 한계가 있었다. 와이파이 종특상 차가 수백 대 모이면 허공에서 전파가 꽝꽝 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 현상 때문에 속도가 0에 수렴했다. 또한 가시거리(LOS)가 짧아 1km 앞의 정체 상황을 알려면 차와 차 사이를 수십 번 릴레이로 건너가야만 했다. <strong>"수백 대의 차가 동시에 브레이크를 밟아도 단 1밀리초(ms)의 딜레이나 혼선 없이 전파를 통제해 주고, 반경 10km 앞의 광역 정보까지 한 방에 쏴줄 수 있는 거대한 하늘의 지휘자(기지국)"</strong>가 절실했다.
-- **등장 배경**: ① 자율주행 레벨 4/5 달성을 위한 초저지연(1ms) 및 99.999% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 요구 폭발 → ② 기존 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 진영([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/))의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 혼잡 붕괴 한계 도달 → ③ 퀄컴(Qualcomm), 5GAA([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 자동차 협회) 등 통신 거인들의 주도로, 스마트폰 통신망(Cellular)을 차량 안전 통신망으로 확장하는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 전격 발표.
+- **등장 배경**: ① 자율주행 레벨 4/5 달성을 위한 초저지연(1ms) 및 99.999% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 요구 폭발 -> ② 기존 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 진영([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/))의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 혼잡 붕괴 한계 도달 -> ③ 퀄컴(Qualcomm), 5GAA([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 자동차 협회) 등 통신 거인들의 주도로, 스마트폰 통신망(Cellular)을 차량 안전 통신망으로 확장하는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 전격 발표.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             C-V2X의 핵심: 투 트랙(Two-Track) 인터페이스 융합 시각화    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1. Uu 인터페이스 (Network 통신)] - "거대한 뇌(Brain)와의 대화"      │
-│      * 주파수: 통신사 전용 면허 대역 (LTE/5G 주파수)                   │
-│      * 거리: 반경 3~10km 이상 광역                                  │
-│                                                             │
-│   [T맵/클라우드 서버] ◀===(유선)===▶ [SKT / KT 5G 기지국 안테나]     │
-│                                           │                 │
-│                 (3km 밖 낙석 사고 💥)        │ (Uu 빔)          │
-│                      "다 피해!" ◀═════════╝                 │
-│                                                             │
-│   [2. PC5 인터페이스 (Sidelink 통신)] - "차들끼리의 다이렉트 무전기"   │
-│      * 주파수: 5.9GHz V2X 전용 비면허 대역                          │
-│      * 거리: 300~500m 이내 단거리 (기지국 안 거침! 0.001초 컷!)        │
-│                                                             │
-│   내 자동차 (컴퓨터) ◀═══════════════════(PC5 다이렉트 빔)═════════════▶ 앞 차│
-│           (앞차가 10미터 앞에서 브레이크 콱 밟음! 센서보다 빨리 전파 도달) │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             C-V2X의 핵심: 투 트랙(Two-Track) 인터페이스 융합 시각화    |
++-------------------------------------------------------------+
+|                                                             |
+|   [1. Uu 인터페이스 (Network 통신)] - "거대한 뇌(Brain)와의 대화"      |
+|      * 주파수: 통신사 전용 면허 대역 (LTE/5G 주파수)                   |
+|      * 거리: 반경 3~10km 이상 광역                                  |
+|                                                             |
+|   [T맵/클라우드 서버] <-===(유선)===-> [SKT / KT 5G 기지국 안테나]     |
+|                                           |                 |
+|                 (3km 밖 낙석 사고 💥)        | (Uu 빔)          |
+|                      "다 피해!" <----------+                 |
+|                                                             |
+|   [2. PC5 인터페이스 (Sidelink 통신)] - "차들끼리의 다이렉트 무전기"   |
+|      * 주파수: 5.9GHz V2X 전용 비면허 대역                          |
+|      * 거리: 300~500m 이내 단거리 (기지국 안 거침! 0.001초 컷!)        |
+|                                                             |
+|   내 자동차 (컴퓨터) <--------------------(PC5 다이렉트 빔)--------------> 앞 차|
+|           (앞차가 10미터 앞에서 브레이크 콱 밟음! 센서보다 빨리 전파 도달) |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 아키텍처의 위대함은 스마트폰의 한계인 "기지국이 없으면 깡통"이라는 약점을 <strong>PC5 (Sidelink)</strong>라는 사이드 샛길 통신으로 완벽히 부쉈다는 점이다. 내 차는 평소에 기지국(Uu망)과 연결되어 반경 10km 앞의 광역 교통 체증 지도를 실시간으로 다운로드받는다(V2N). 그러다가 터널이나 산속에 들어가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수신율이 0칸으로 죽어버려도, 내 차 안에 달린 PC5 통신 칩셋은 5.9GHz 대역을 이용해 앞뒤에 있는 자동차 100대와 다이렉트 무전망(Ad-hoc)을 즉석에서 유지하며 브레이크 정보를 교환(V2V). 이 완벽한 이중 생존(Hybrid) 구조가 자율주행의 핵심 뼈대다.
@@ -80,26 +80,26 @@ tags = ["studynote-network"]
 | **예측 및 정밀 측위** | 통신사 기지국 3개가 쏘는 전파(RTK)로 GPS 오차를 보정함. | 터널 안이나 지하 주차장에서도 내 차가 몇 번째 차선에 있는지 **센티미터(cm) 단위로 정밀하게 추적 가능.** |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               C-V2X의 글로벌 패권 전쟁과 WAVE 진영의 몰락           │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [2015년: WAVE(DSRC) 천하]                                     │
-│   미국 교통부: "우리가 10년 동안 5.9GHz 주파수 주고 밀어준 WAVE가 짱이야!   │
-│               모든 신차에 WAVE 칩셋 달아!" (토요타, NXP 만세!)           │
-│                                                               │
-│   [2019년: 거대 자본(5GAA)의 침공]                                 │
-│   5GAA (퀄컴, 포드, 아우디, 중국 정부): "WAVE 같은 옛날 와이파이 기술로      │
-│         자율주행을 한다고? 시대착오적임! 5G 기반 C-V2X로 갈아엎는다!"     │
-│                                                               │
-│   [2023년: 패권의 확정 (WAVE 사망 선고)]                           │
-│   미국 FCC(전파위): "WAVE 안 해! 5.9GHz 주파수 C-V2X 한테 몰빵해 줌!"      │
-│   한국 국토부/과기부: "우리도 5년 넘게 싸웠는데, 대세는 C-V2X네. WAVE 폐기!" │
-│                                                               │
-│   => 결론: 기술적 성숙도(당장 쓸 수 있음)는 WAVE가 앞섰으나, 미래 확장성과    │
-│            통신 거대 자본(퀄컴, 통신사)의 로비를 업은 C-V2X가 글로벌 1티어   │
-│            자율주행 표준으로 최종 승리하며 시장을 장악한 정치·공학의 산물.     │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               C-V2X의 글로벌 패권 전쟁과 WAVE 진영의 몰락           |
++---------------------------------------------------------------+
+|                                                               |
+|   [2015년: WAVE(DSRC) 천하]                                     |
+|   미국 교통부: "우리가 10년 동안 5.9GHz 주파수 주고 밀어준 WAVE가 짱이야!   |
+|               모든 신차에 WAVE 칩셋 달아!" (토요타, NXP 만세!)           |
+|                                                               |
+|   [2019년: 거대 자본(5GAA)의 침공]                                 |
+|   5GAA (퀄컴, 포드, 아우디, 중국 정부): "WAVE 같은 옛날 와이파이 기술로      |
+|         자율주행을 한다고? 시대착오적임! 5G 기반 C-V2X로 갈아엎는다!"     |
+|                                                               |
+|   [2023년: 패권의 확정 (WAVE 사망 선고)]                           |
+|   미국 FCC(전파위): "WAVE 안 해! 5.9GHz 주파수 C-V2X 한테 몰빵해 줌!"      |
+|   한국 국토부/과기부: "우리도 5년 넘게 싸웠는데, 대세는 C-V2X네. WAVE 폐기!" |
+|                                                               |
+|   => 결론: 기술적 성숙도(당장 쓸 수 있음)는 WAVE가 앞섰으나, 미래 확장성과    |
+|            통신 거대 자본(퀄컴, 통신사)의 로비를 업은 C-V2X가 글로벌 1티어   |
+|            자율주행 표준으로 최종 승리하며 시장을 장악한 정치·공학의 산물.     |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 표준 전쟁은 단순한 통신 칩셋 싸움이 아니라, "도로의 지배권"을 누가 쥐느냐의 싸움이었다. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(Wi-Fi)는 무료였지만 각국 정부가 수조 원을 들여 고속도로 가로등마다 공유기([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))를 깔아야 했다. 반면 C-V2X는 "이미 통신사가 깔아놓은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑을 그냥 쓰고, 터널에선 PC5(다이렉트) 쓰면 되잖아?"라는 미친 인프라 가성비를 무기로 내세웠다. 게다가 중국이 국가 차원에서 C-V2X를 단일 표준으로 강제 밀어붙이면서 글로벌 자동차 부품망([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))의 규모의 경제가 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 쪽으로 폭발해 버렸다. 결국 20년 역사의 WAVE는 역사의 뒤안길로 사라지고 있다.
@@ -177,12 +177,12 @@ C-V2X를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ```text
 [선행 개념: WAVE DSRC]
-    │
-    ▼
+    |
+    v
 [현재 개념: C-V2X]
-    │
-    ├──▶ [확장 A: 위성 통신 특징]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 위성 통신 특징]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 C-V2X는 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) DSRC에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 특징와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -199,7 +199,7 @@ C-V2X는 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communic
 
 **진행 상황**: 712 / 1120
 
-← **이전**: [590. WAVE (IEEE 802.11p 무선차량통신) DSRC(단거리전용)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)
-**다음**: [592. 위성 통신 (Satellite Comm.) 특징](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) →
+<- **이전**: [590. WAVE (IEEE 802.11p 무선차량통신) DSRC(단거리전용)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)
+**다음**: [592. 위성 통신 (Satellite Comm.) 특징](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) ->
 
 ---

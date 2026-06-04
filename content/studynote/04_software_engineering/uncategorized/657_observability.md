@@ -33,24 +33,24 @@ tags = ["studynote-software-engineering"]
 기존 모니터링 환경의 한계와 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도입 후의 문제 해결 접근 방식의 차이를 비교 시각화하면 다음과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         모니터링(Monitoring) vs 옵저버빌리티(Observability)        │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [기존: 사일로(Silo) 모니터링]     [현재: 통합 옵저버빌리티]            │
-  │                                                               │
-  │   Alert! (500 Error Rate ↑)                                    │
-  │     │                            ┌─▶ Metrics (CPU Spikes?)    │
-  │     ▼                            │                            │
-  │  [Dashboard] ──> "장애 발생!"    [Trace] (병목 구간 탐색)       │
-  │      X (원인 불명)                  │ Span A ──> Span B (지연!) │
-  │                                  │                            │
-  │  [Log Viewer] ──> 수만 줄 로그    └─▶ Logs (Span B의 상세 에러) │
-  │      X (검색 어려움)                     "DB Connection Pool Full" │
-  │                                                               │
-  │  특징: 각 도구가 분리되어 있음      특징: Trace ID 기반 데이터 상관분석  │
-  │        알려진(Known) 문제 집중        알려지지 않은(Unknown) 문제 탐색 │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         모니터링(Monitoring) vs 옵저버빌리티(Observability)        |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |  [기존: 사일로(Silo) 모니터링]     [현재: 통합 옵저버빌리티]            |
+  |                                                               |
+  |   Alert! (500 Error Rate ^)                                    |
+  |     |                            +--> Metrics (CPU Spikes?)    |
+  |     v                            |                            |
+  |  [Dashboard] --> "장애 발생!"    [Trace] (병목 구간 탐색)       |
+  |      X (원인 불명)                  | Span A --> Span B (지연!) |
+  |                                  |                            |
+  |  [Log Viewer] --> 수만 줄 로그    +--> Logs (Span B의 상세 에러) |
+  |      X (검색 어려움)                     "DB Connection Pool Full" |
+  |                                                               |
+  |  특징: 각 도구가 분리되어 있음      특징: Trace ID 기반 데이터 상관분석  |
+  |        알려진(Known) 문제 집중        알려지지 않은(Unknown) 문제 탐색 |
+  +---------------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 기존 모니터링 환경에서는 대시보드에서 장애 경고(Alert)를 인지한 뒤, 담당자가 수동으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뷰어에 접속해 시간대를 맞춰가며 텍스트를 검색해야 하는 단절된 경험을 겪었다. 반면, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 환경에서는 경고가 발생하면 즉시 해당 시점의 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Trace) 데이터로 진입하여 병목이 발생한 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Span B)를 시각적으로 확인하고, 해당 스팬(Span)에 바인딩된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))을 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 기반으로 즉시 조회하여 "DB Connection Pool Full"이라는 근본 원인(Root Cause)을 원클릭으로 찾아낸다. 이 상관분석(Correlation) 역량이 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 결정짓는 핵심이다.
@@ -154,21 +154,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 옵저버빌리티 로그, 메트릭, 분산 추적(Tracing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 825 / 973
 
-← **이전**: [656. GitOps 인프라 선언적 관리](/knowledge-base/studynote/04_software_engineering/uncategorized/656_gitops_declarative_infrastructure/)
-**다음**: [658. 애자일 스크럼 (Scrum) 역할 분담](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) →
+<- **이전**: [656. GitOps 인프라 선언적 관리](/knowledge-base/studynote/04_software_engineering/uncategorized/656_gitops_declarative_infrastructure/)
+**다음**: [658. 애자일 스크럼 (Scrum) 역할 분담](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) ->
 
 ---

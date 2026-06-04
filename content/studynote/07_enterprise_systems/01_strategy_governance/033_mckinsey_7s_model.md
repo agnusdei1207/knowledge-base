@@ -26,7 +26,7 @@ tags = ["studynote-enterprise"]
      Structure          Systems
       (구조)            (시스템)
          \    Shared    /
-          ── Values ──
+          -- Values --
          /   (공유가치) \
        Staff           Style
       (인력)           (스타일)
@@ -147,19 +147,19 @@ M&A 실패의 70%: 문화(Shared Values·Style) 충돌
 
 ```
 맥킨지 7S 모델
-├── 하드 S (측정 가능)
-│   ├── Strategy (전략)
-│   ├── Structure (구조)
-│   └── Systems (시스템)
-├── 소프트 S (무형)
-│   ├── Shared Values (공유 가치) ← 중심
-│   ├── Style (리더십 스타일)
-│   ├── Staff (인력)
-│   └── Skills (역량)
-└── 활용 맥락
-    ├── 조직 변화 관리
-    ├── M&A 통합 진단
-    └── 디지털 전환 갭 분석
++-- 하드 S (측정 가능)
+|   +-- Strategy (전략)
+|   +-- Structure (구조)
+|   +-- Systems (시스템)
++-- 소프트 S (무형)
+|   +-- Shared Values (공유 가치) <- 중심
+|   +-- Style (리더십 스타일)
+|   +-- Staff (인력)
+|   +-- Skills (역량)
++-- 활용 맥락
+    +-- 조직 변화 관리
+    +-- M&A 통합 진단
+    +-- 디지털 전환 갭 분석
 ```
 
 ---
@@ -167,23 +167,23 @@ M&A 실패의 70%: 문화(Shared Values·Style) 충돌
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              맥킨지 7S 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1980년       │ Peters·Waterman    │ "In Search of Excellence"    │
-│ 1982년       │ 7S 프레임워크 발표 │ 조직 우수성 8대 요인 도출    │
-│ 1990년대     │ 변화 관리 도구화   │ M&A·구조조정 진단에 활용     │
-│ 2000년대     │ IT 전략 연계       │ IT 거버넌스·ERP 도입 분석    │
-│ 2010년대     │ 디지털 전환 적용   │ 디지털화 갭 분석 도구로 부활 │
-│ 2020년대     │ ESG·원격근무       │ Shared Values 중요성 재조명  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              맥킨지 7S 발전 흐름                                 |
++--------------+--------------------+-----------------------------+
+| 1980년       | Peters·Waterman    | "In Search of Excellence"    |
+| 1982년       | 7S 프레임워크 발표 | 조직 우수성 8대 요인 도출    |
+| 1990년대     | 변화 관리 도구화   | M&A·구조조정 진단에 활용     |
+| 2000년대     | IT 전략 연계       | IT 거버넌스·ERP 도입 분석    |
+| 2010년대     | 디지털 전환 적용   | 디지털화 갭 분석 도구로 부활 |
+| 2020년대     | ESG·원격근무       | Shared Values 중요성 재조명  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-7S → Strategy·Structure·Systems(하드) + Value·Style·Staff·Skills(소프트)
-  ↓          ↓                              ↓
+7S -> Strategy·Structure·Systems(하드) + Value·Style·Staff·Skills(소프트)
+  v          v                              v
 M&A 통합   IT 시스템 전환              조직 문화 변화
-  ↓
-7S 갭 분석 → 변화 관리 계획 → 이해관계자 커뮤니케이션
+  v
+7S 갭 분석 -> 변화 관리 계획 -> 이해관계자 커뮤니케이션
 ```
 
 ---
@@ -200,7 +200,7 @@ M&A 통합   IT 시스템 전환              조직 문화 변화
 
 **진행 상황**: 33 / 482
 
-← **이전**: [PEST / STEEP 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/)
-**다음**: [BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/034_bcg_matrix_portfolio/) →
+<- **이전**: [PEST / STEEP 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/)
+**다음**: [BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/034_bcg_matrix_portfolio/) ->
 
 ---

@@ -48,29 +48,29 @@ tags = ["studynote-operating-system"]
 패킷이 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))를 통해 들어와서 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))에 도달하기까지의 과정을 보면 XDP의 위대함이 나타난다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Linux Network Stack과 XDP의 위치 비교              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [User Space]       Application (Nginx, Redis)                    │
-  │  ───────────────────────── ▲ ──────────────────────────────────── │
-  │                            │ (System Call)                        │
-  │  [Kernel Space]       [ Socket Layer ]                            │
-  │                            ▲                                      │
-  │                       [ TCP/IP Layer ]                            │
-  │                            ▲                                      │
-  │                  [ Netfilter / iptables ] ◀── 기존 방화벽 위치      │
-  │                            ▲                                      │
-  │                       [ IP Routing ]                              │
-  │                            ▲                                      │
-  │                [ sk_buff 할당 및 커널 큐 진입 ] ◀── 엄청난 병목 지점   │
-  │                            ▲                                      │
-  │         ★[ XDP Hook (eBPF 프로그램 실행) ]★ ◀── XDP의 위치       │
-  │                            ▲                                      │
-  │  ───────────────────────── ┼ ──────────────────────────────────── │
-  │  [Hardware]                │ (DMA)                                │
-  │                        [ NIC (랜카드) ]                            │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Linux Network Stack과 XDP의 위치 비교              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [User Space]       Application (Nginx, Redis)                    |
+  |  ------------------------- ^ ------------------------------------ |
+  |                            | (System Call)                        |
+  |  [Kernel Space]       [ Socket Layer ]                            |
+  |                            ^                                      |
+  |                       [ TCP/IP Layer ]                            |
+  |                            ^                                      |
+  |                  [ Netfilter / iptables ] <--- 기존 방화벽 위치      |
+  |                            ^                                      |
+  |                       [ IP Routing ]                              |
+  |                            ^                                      |
+  |                [ sk_buff 할당 및 커널 큐 진입 ] <--- 엄청난 병목 지점   |
+  |                            ^                                      |
+  |         ★[ XDP Hook (eBPF 프로그램 실행) ]★ <--- XDP의 위치       |
+  |                            ^                                      |
+  |  ------------------------- + ------------------------------------ |
+  |  [Hardware]                | (DMA)                                |
+  |                        [ NIC (랜카드) ]                            |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 일반적인 패킷은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) $\rightarrow$ `sk_buff` 구조체 동적 할당 $\rightarrow$ IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) $\rightarrow$ iptables 검사 순으로 올라온다. DDoS 공격 패킷 1,000만 개가 들어오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1,000만 개의 `sk_buff` 객체를 메모리에 할당(malloc)하느라 그 자리에서 뻗어버린다. 하지만 <strong>XDP는 <code>sk_buff</code>가 할당되기 직전, 물리 메모리(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 버퍼)에 패킷이 딱 떨어진 원시(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a>) 상태일 때 개입</strong>한다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드가 이 원시 패킷의 IP 헤더만 쓱 읽어보고 악성 IP라면 즉시 버려버린다. 따라서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 아무런 메모리 할당 부하를 받지 않는다.
@@ -133,27 +133,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 네트워크 가속 및 패킷 처리 프레임워크 도입 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [트래픽 초당 천만 패킷(10 Mpps) 이상의 고성능 처리 요구]                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      기존 리눅스의 소켓(Socket) API와 TCP/IP 라우팅 기능을 유지해야 하는가? │
-  │          ├─ 아니오 ────▶ [DPDK 도입 권장 (예: 통신사 5G UPF / vRouter)] │
-  │          │            (커널을 완전 무시하고 커스텀 유저 스택 구축 시 최고 성능)│
-  │          └─ 예 (일부 트래픽만 가속하고, 나머지는 일반 앱 서버로 올려야 함)     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      물리 랜카드(NIC) 드라이버가 XDP Native 모드를 지원하는가?              │
-  │      (Intel ixgbe, i40e, Mellanox mlx5 등 최신 장비)                    │
-  │          ├─ 예 ─────▶ [Native XDP 적용]                             │
-  │          │            (NIC 드라이버 레벨에서 초고속 훅 동작, 성능 최상)     │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Generic XDP (SKB 모드) 적용]                 │
-  │                         (sk_buff가 할당된 후 동작하므로 느림. 테스트 용도로만)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 네트워크 가속 및 패킷 처리 프레임워크 도입 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [트래픽 초당 천만 패킷(10 Mpps) 이상의 고성능 처리 요구]                   |
+  |                |                                                  |
+  |                v                                                  |
+  |      기존 리눅스의 소켓(Socket) API와 TCP/IP 라우팅 기능을 유지해야 하는가? |
+  |          +- 아니오 -----> [DPDK 도입 권장 (예: 통신사 5G UPF / vRouter)] |
+  |          |            (커널을 완전 무시하고 커스텀 유저 스택 구축 시 최고 성능)|
+  |          +- 예 (일부 트래픽만 가속하고, 나머지는 일반 앱 서버로 올려야 함)     |
+  |                |                                                  |
+  |                v                                                  |
+  |      물리 랜카드(NIC) 드라이버가 XDP Native 모드를 지원하는가?              |
+  |      (Intel ixgbe, i40e, Mellanox mlx5 등 최신 장비)                    |
+  |          +- 예 ------> [Native XDP 적용]                             |
+  |          |            (NIC 드라이버 레벨에서 초고속 훅 동작, 성능 최상)     |
+  |          |                                                        |
+  |          +- 아니오 ---> [Generic XDP (SKB 모드) 적용]                 |
+  |                         (sk_buff가 할당된 후 동작하므로 느림. 테스트 용도로만)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** XDP의 진정한 힘은 <strong>"필요한 것만 빼먹고 나머지는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에 양보할 수 있다(XDP_PASS)"</strong>는 점에 있다. DPDK는 한번 도입하면 네트워크 카드 전체를 점유해 버려서 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속이나 일반 `curl` 명령조차 불가능해진다(물리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 분리 필수). 반면 XDP는 80포트 패킷만 XDP로 튕겨내고(TX), 22번 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 패킷이나 내부 통신은 `XDP_PASS`로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 얌전히 올려주어 일반 서버처럼 쓸 수 있는 엄청난 인프라적 유연성을 제공한다.
@@ -200,12 +200,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
-    │
-    ▼
+    |
+    v
 [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
-    │
-    ├──▶ [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
-    └──▶ [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
+    |
+    +---> [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
+    +---> [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -222,7 +222,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 661 / 800
 
-← **이전**: [660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조](/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/)
-**다음**: [662. 안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) →
+<- **이전**: [660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조](/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/)
+**다음**: [662. 안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) ->
 
 ---

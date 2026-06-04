@@ -31,28 +31,28 @@ tags = ["studynote-network"]
   3. **클라이언트/서버 모델의 정착**: 1990년대 PC가 보급되며, 항상 켜져 있는 서버(MTA/MDA)와 필요할 때만 켜서 메일을 읽어가는 클라이언트(MUA)의 역할이 완전히 분리되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          이메일 3대 에이전트(MUA ➔ MTA ➔ MDA) 아키텍처 흐름          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 송신자 (Alice) ]                          [ 수신자 (Bob) ]   │
-│                                                             │
-│   💻 MUA (Outlook 등)                     💻 MUA (Thunderbird) │
-│    │ 1. 메일 작성/발송                      ▲ 5. 메일 읽기       │
-│    │ (SMTP: 25/587)                       │ (IMAP/POP3)      │
-│    ▼                                      │                 │
-│ ┌─ 🏢 송신 측 메일 서버 (naver.com) ─┐    ┌─ 🏢 수신 측 메일 서버 ─┐ │
-│ │                                  │    │                 │ │
-│ │          2. 중계 판단              │    │  4. 사서함 분배   │ │
-│ │ [ MTA ] ──────────────────────▶ │    │ [ MDA ] ──────┘ │
-│ │          3. 인터넷 릴레이 전송       │    │   ▲             │ │
-│ │            (SMTP: 25)            │    │   │ 3. 도착      │ │
-│ └──────────────────────────────────┘    │ [ MTA ]         │ │
-│                                         └─────────────────┘ │
-│                                                             │
-│ 🌟 핵심: MUA는 그저 편지지만 쓴다. MTA는 우체국끼리 짐을 나른다.       │
-│          MDA는 도착한 짐을 Bob의 사서함(DB/폴더)에 정확히 꽂아준다.  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          이메일 3대 에이전트(MUA ➔ MTA ➔ MDA) 아키텍처 흐름          |
++-------------------------------------------------------------+
+|                                                             |
+| [ 송신자 (Alice) ]                          [ 수신자 (Bob) ]   |
+|                                                             |
+|   💻 MUA (Outlook 등)                     💻 MUA (Thunderbird) |
+|    | 1. 메일 작성/발송                      ^ 5. 메일 읽기       |
+|    | (SMTP: 25/587)                       | (IMAP/POP3)      |
+|    v                                      |                 |
+| +- 🏢 송신 측 메일 서버 (naver.com) -+    +- 🏢 수신 측 메일 서버 -+ |
+| |                                  |    |                 | |
+| |          2. 중계 판단              |    |  4. 사서함 분배   | |
+| | [ MTA ] -----------------------> |    | [ MDA ] ------+ |
+| |          3. 인터넷 릴레이 전송       |    |   ^             | |
+| |            (SMTP: 25)            |    |   | 3. 도착      | |
+| +----------------------------------+    | [ MTA ]         | |
+|                                         +-----------------+ |
+|                                                             |
+| 🌟 핵심: MUA는 그저 편지지만 쓴다. MTA는 우체국끼리 짐을 나른다.       |
+|          MDA는 도착한 짐을 Bob의 사서함(DB/폴더)에 정확히 꽂아준다.  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Alice가 Bob에게 메일을 쏠 때의 여정이다.
@@ -106,11 +106,11 @@ MTA가 편지를 상대방 우체국으로 던지려면 주소를 알아야 한�
 
 ```text
 [FTPS]
-    │
-    ▼
+    |
+    v
 [이메일 아키텍처]
-    │
-    └──▶ [SMTP]
+    |
+    +---> [SMTP]
 ```
 
 - **📢 섹션 요약 비유**: 옛날엔 내가 직접 내 손으로 편지를 써서(로컬 MUA) 우체통에 넣었다면, 웹메일은 비서(구글 웹서버)에게 전화를 걸어([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) "이런 내용으로 편지 좀 써서 대신 부쳐줘"라고 시키는 대행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 진화한 셈입니다.
@@ -140,29 +140,29 @@ MTA가 편지를 상대방 우체국으로 던지려면 주소를 알아야 한�
    - **판단**: 과거 선의로 서로의 편지를 중계해주던 낭만의 시대에는 누구나 서버를 타 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 중계해 주는 '오픈 릴레이'가 기본값이었다. 하지만 현재는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. MTA는 반드시 <strong>"우리 회사 직원이 보낸 메일이거나(SASL <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>), 우리 회사 직원을 목적지로 하는 메일"</strong>만 허용하고, 그 외의 제3자 간 중계 요청은 즉시 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션을 끊어버리는 `Reject` [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 철통 방어를 해야 한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │      실무 아키텍처: AWS SES 기반의 클라우드 대량 메일 발송 아키텍처       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [❌ 레거시 자체 MTA 방식 (스팸 차단 위험 극상)]                       │
-  │  사내 마케팅 DB ➔ [사내 Postfix MTA (IP 1개)] ──(10만건 슛)──▶ 구글 MTA │
-  │                   💥 구글: "이 IP 스팸이네. 당장 차단해!" Drop!       │
-  │                                                             │
-  │ [✅ 모던 클라우드 메일 아키텍처 (AWS SES)]                         │
-  │                                                             │
-  │  사내 마케팅 DB (Spring Batch)                                │
-  │        │                                                    │
-  │        ▼ (HTTP REST API / SMTP 포트 587)                    │
-  │ ┌─────────────────────────────────────────────────────────┐ │
-  │ │                      AWS SES (관리형 MTA)                 │ │
-  │ │  - SPF, DKIM 서명 자동 랩핑 (신뢰도 100% 증명)                │ │
-  │ │  - 전용 IP Pool 로드밸런싱 (구글의 차단 임계치 우회)            │ │
-  │ │  - Bounce/Complaint 이벤트 ➔ SQS/Lambda 로 즉각 피드백 반환 │ │
-  │ └─────────────────────────────────────────────────────────┘ │
-  │        │ (클라우드가 평판을 관리하며 부드럽게 릴레이)                 │
-  │        ▼                                                    │
-  │     구글 MTA (Gmail) ➔ "AWS가 서명했네? 깨끗한 메일이군. 통과!" ✅   │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |      실무 아키텍처: AWS SES 기반의 클라우드 대량 메일 발송 아키텍처       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [❌ 레거시 자체 MTA 방식 (스팸 차단 위험 극상)]                       |
+  |  사내 마케팅 DB ➔ [사내 Postfix MTA (IP 1개)] --(10만건 슛)---> 구글 MTA |
+  |                   💥 구글: "이 IP 스팸이네. 당장 차단해!" Drop!       |
+  |                                                             |
+  | [✅ 모던 클라우드 메일 아키텍처 (AWS SES)]                         |
+  |                                                             |
+  |  사내 마케팅 DB (Spring Batch)                                |
+  |        |                                                    |
+  |        v (HTTP REST API / SMTP 포트 587)                    |
+  | +---------------------------------------------------------+ |
+  | |                      AWS SES (관리형 MTA)                 | |
+  | |  - SPF, DKIM 서명 자동 랩핑 (신뢰도 100% 증명)                | |
+  | |  - 전용 IP Pool 로드밸런싱 (구글의 차단 임계치 우회)            | |
+  | |  - Bounce/Complaint 이벤트 ➔ SQS/Lambda 로 즉각 피드백 반환 | |
+  | +---------------------------------------------------------+ |
+  |        | (클라우드가 평판을 관리하며 부드럽게 릴레이)                 |
+  |        v                                                    |
+  |     구글 MTA (Gmail) ➔ "AWS가 서명했네? 깨끗한 메일이군. 통과!" ✅   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 이메일 아키텍처는 인프라 팀의 손을 떠나 완벽한 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 영역으로 넘어갔다. MTA 서버 데몬을 직접 띄워 튜닝하는 것은 미친 짓이다. 기업은 메일 내용만 JSON으로 만들어 AWS SES 같은 거대 플랫폼에 API로 던진다. 그러면 AWS의 거대한 내부 MTA 팜(Farm)이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 키([DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)) 암호화 서명부터 트래픽 조절(Throttling)까지 다 알아서 처리해 주어 99.9%의 편지 도달률(Deliverability)을 획득한다.
@@ -213,12 +213,12 @@ MTA가 편지를 상대방 우체국으로 던지려면 주소를 알아야 한�
 
 ```text
 [선행 개념: FTPS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이메일 아키텍처]
-    │
-    ├──▶ [확장 A: SMTP]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: SMTP]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 이메일 아키텍처는 FTPS에서 출발해 현재 메커니즘을 정교화하고, 이후 SMTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -235,7 +235,7 @@ MTA가 편지를 상대방 우체국으로 던지려면 주소를 알아야 한�
 
 **진행 상황**: 608 / 1120
 
-← **이전**: [486. FTPS (FTP over SSL/TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)
-**다음**: [488. SMTP (Simple Mail Transfer Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) →
+<- **이전**: [486. FTPS (FTP over SSL/TLS)](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)
+**다음**: [488. SMTP (Simple Mail Transfer Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) ->
 
 ---

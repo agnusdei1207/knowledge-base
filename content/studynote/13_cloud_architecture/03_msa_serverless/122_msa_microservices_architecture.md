@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MSA는 <strong>애플리케이션을 비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 단위의 독립 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 분리</strong>하여, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>자체 DB·<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/">코드베이스</a>·배포 파이프라인</strong>을 가지고 독립적으로 개발·배포·[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 아키텍처다.
-> 2. **가치**: 모놀리식에서는 주문 기능 수정이 전체 재배포를 요구하지만, MSA에서는 <strong>주문 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만 독립 배포</strong>하므로 배포 빈도↑·장애 격리↑·팀 자율성↑이 가능하다.
+> 2. **가치**: 모놀리식에서는 주문 기능 수정이 전체 재배포를 요구하지만, MSA에서는 <strong>주문 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만 독립 배포</strong>하므로 배포 빈도^·장애 격리^·팀 자율성^이 가능하다.
 > 3. **판단 포인트**: MSA의 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 복잡도(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a>·<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/">분산 트랜잭션</a>·관측성)</strong>를 관리할 역량이 없으면 오히려 모놀리식보다 비효율적이며, <strong>Conway's Law에 따라 팀 구조를 먼저 분리</strong>해야 한다.
 
 ---
@@ -19,18 +19,18 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    MSA 아키텍처                                       │
-├───────────────────────────────────────────────────────┤
-│  [API Gateway]                                        │
-│     ├─▶ 주문 서비스 (Order) ── DB_Order              │
-│     ├─▶ 결제 서비스 (Payment) ── DB_Payment          │
-│     ├─▶ 재고 서비스 (Inventory) ── DB_Inventory      │
-│     └─▶ 사용자 서비스 (User) ── DB_User              │
-│                                                       │
-│  각 서비스: 독립 배포·스케일링·기술 스택 자유        │
-│  서비스 간 통신: REST / gRPC / 이벤트(Kafka)         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    MSA 아키텍처                                       |
++-------------------------------------------------------+
+|  [API Gateway]                                        |
+|     +--> 주문 서비스 (Order) -- DB_Order              |
+|     +--> 결제 서비스 (Payment) -- DB_Payment          |
+|     +--> 재고 서비스 (Inventory) -- DB_Inventory      |
+|     +--> 사용자 서비스 (User) -- DB_User              |
+|                                                       |
+|  각 서비스: 독립 배포·스케일링·기술 스택 자유        |
+|  서비스 간 통신: REST / gRPC / 이벤트(Kafka)         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 모놀리식은 대형 백화점(모든 매장이 한 건물)이고, MSA는 쇼핑몰(각 매장이 독립 건물, 독립 운영)이다.
@@ -67,8 +67,8 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입 판단
-- ✅ 팀 5+, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡, 배포 빈도 높음 → [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/).
-- ❌ 팀 소규모, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업 → Monolith First.
+- ✅ 팀 5+, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡, 배포 빈도 높음 -> [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/).
+- ❌ 팀 소규모, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업 -> Monolith First.
 
 ---
 
@@ -92,17 +92,17 @@ MSA는 <strong>대규모 조직의 빠른 배포·독립 <a href="/knowledge-bas
 
 ```text
 [모놀리식 (전통)]
-    │
-    ▼
+    |
+    v
 [SOA (2005~) — 서비스 지향, ESB 중심]
-    │
-    ▼
+    |
+    v
 [MSA (2014, Netflix·Amazon) — 경량 서비스 분리]
-    │
-    ▼
+    |
+    v
 [Service Mesh (Istio, 2018~) — 통신 인프라 표준화]
-    │
-    ▼
+    |
+    v
 [현재: Modular Monolith + MSA — 상황별 최적 선택]
 ```
 
@@ -117,7 +117,7 @@ MSA는 <strong>대규모 조직의 빠른 배포·독립 <a href="/knowledge-bas
 
 **진행 상황**: 121 / 371
 
-← **이전**: [121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/)
-**다음**: [123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/123_soa_vs_msa_comparison/) →
+<- **이전**: [121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/)
+**다음**: [123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/123_soa_vs_msa_comparison/) ->
 
 ---

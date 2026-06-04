@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [가시광 통신 라이파이]
-    │
-    ▼
+    |
+    v
 [저궤도 위성망과 스타링크]
-    │
-    └──▶ [위성 통신 핸드오버 (ISL]
+    |
+    +---> [위성 통신 핸드오버 (ISL]
 ```
 
 - **📢 섹션 요약 비유**: 엄청나게 높은 곳에 뜬 아주 밝은 태양 1개(정지궤도)는 빛이 도달하는 데 오래 걸리지만, 아주 낮게 뜬 수만 개의 작은 가로등(저궤도)을 촘촘히 깔면 그림자 없이 즉각적으로 땅을 밝힐 수 있다.
@@ -41,19 +41,19 @@ tags = ["studynote-network"]
 스타링크로 대표되는 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망 아키텍처는 크게 세 가지 요소로 구성된다. 지상 단말(User Terminal), [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 군집(Constellation), 그리고 지상의 게이트웨이(Ground [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│               [ LEO 위성 군집 (고도 500km) ]             │
-│                                                        │
-│  [위성 A] ◀───── (위성 간 레이저 통신, ISL) ─────▶ [위성 B] │
-│   ▲  │                                          ▲  │ │
-│   │  │ (RF 전파: Ku/Ka 대역)                    │  │ │
-│   │  ▼                                          │  ▼ │
-├────────────────────────────────────────────────────────┤
-│┌──────────────┐                          ┌──────────────┐│
-││ 지상 단말기  │                          │ 지상 게이트웨이││
-││(위상배열 안테나)│                          │(인터넷 백본 연결)││
-│└──────────────┘                          └──────────────┘│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|               [ LEO 위성 군집 (고도 500km) ]             |
+|                                                        |
+|  [위성 A] <------ (위성 간 레이저 통신, ISL) ------> [위성 B] |
+|   ^  |                                          ^  | |
+|   |  | (RF 전파: Ku/Ka 대역)                    |  | |
+|   |  v                                          |  v |
++--------------------------------------------------------+
+|+--------------+                          +--------------+|
+|| 지상 단말기  |                          | 지상 게이트웨이||
+||(위상배열 안테나)|                          |(인터넷 백본 연결)||
+|+--------------+                          +--------------+|
++--------------------------------------------------------+
 ```
 
 1. <strong>위상배열 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> (Phased <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">Antenna</a>)</strong>: 지상 단말(접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))은 모터를 돌려 위성을 쫓아가는 것이 아니라, 수백 개의 미세한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자가 전파의 위상(Phase)을 전자적으로 조절하여 눈에 보이지 않는 전파 빔의 방향을 1초에도 수백 번씩 꺾어 날아가는 위성을 정밀하게 추적한다([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)).
@@ -124,12 +124,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 가시광 통신 라이파이]
-    │
-    ▼
+    |
+    v
 [현재 개념: 저궤도 위성망과 스타링크]
-    │
-    ├──▶ [확장 A: 위성 통신 핸드오버 (ISL]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 위성 통신 핸드오버 (ISL]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)망과 스타링크는 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 124 / 1120
 
-← **이전**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)
-**다음**: [1023. 위성 통신 핸드오버와 ISL (Inter-Satellite Link)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/) →
+<- **이전**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)
+**다음**: [1023. 위성 통신 핸드오버와 ISL (Inter-Satellite Link)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/) ->
 
 ---

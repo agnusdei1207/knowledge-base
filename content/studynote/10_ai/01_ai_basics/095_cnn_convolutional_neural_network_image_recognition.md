@@ -32,15 +32,15 @@ tags = ["studynote-ai"]
 CNN은 크게 특징 추출(Feature Extraction) 영역과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 영역으로 나뉜다. 특징 추출은 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)([Convolution Layer](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/))과 [풀링 층](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))의 반복으로 이루어지며, 최종 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/)(Fully Connected Layer)이 담당한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           CNN 파이프라인: 훑어보기와 압축의 반복           │
-├──────────────────────────────────────────────────────────────┤
-│ [Input Image] ─▶ [Convolution Layer] ─▶ [Pooling Layer]    │
-│  2차원 배열      (특징 추출/필터 적용)  (공간 차원 축소) │
-│                                                              │
-│  ─▶ [Convolution] ─▶ [Pooling] ─▶ [Flatten] ─▶ [FC Layer] │
-│      (고차원 특징)    (추가 압축)   (1차원 변환)  (최종 분류)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           CNN 파이프라인: 훑어보기와 압축의 반복           |
++--------------------------------------------------------------+
+| [Input Image] --> [Convolution Layer] --> [Pooling Layer]    |
+|  2차원 배열      (특징 추출/필터 적용)  (공간 차원 축소) |
+|                                                              |
+|  --> [Convolution] --> [Pooling] --> [Flatten] --> [FC Layer] |
+|      (고차원 특징)    (추가 압축)   (1차원 변환)  (최종 분류)|
++--------------------------------------------------------------+
 ```
 
 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 슬라이딩 윈도우(Sliding Window) 방식으로 필터를 이동시키며 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 내적([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)하여 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 단위로 서브샘플링(Subsampling)을 수행하여 특징 맵의 해상도를 낮추고 핵심 정보만 유지한다. 이때 채택된 필터 하나는 전체 이미지 영역에서 동일하게 재사용(Parameter Sharing)되므로 학습 파라미터를 크게 줄인다.
@@ -102,17 +102,17 @@ CNN은 이미지 처리에서 압도적인 연산 효율성과 높은 인식 정
 
 ```text
 전통적 이미지 인식 (Hand-crafted Feature)
-    │
-    ▼
+    |
+    v
 다층 퍼셉트론 (MLP) · 1차원 평탄화의 한계
-    │
-    ▼
+    |
+    v
 합성곱 신경망 (CNN) · 공간 정보 보존 및 파라미터 공유
-    │
-    ▼
+    |
+    v
 심층 합성곱망 (ResNet, VGGNet) · 기울기 소실 극복
-    │
-    ▼
+    |
+    v
 객체 탐지 및 분할 (YOLO, Mask R-CNN)
 ```
 
@@ -130,7 +130,7 @@ CNN은 이미지 처리에서 압도적인 연산 효율성과 높은 인식 정
 
 **진행 상황**: 95 / 420
 
-← **이전**: [94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화](/knowledge-base/studynote/10_ai/01_ai_basics/094_batch_normalization_internal_covariate_shift/)
-**다음**: [96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/) →
+<- **이전**: [94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화](/knowledge-base/studynote/10_ai/01_ai_basics/094_batch_normalization_internal_covariate_shift/)
+**다음**: [96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/) ->
 
 ---

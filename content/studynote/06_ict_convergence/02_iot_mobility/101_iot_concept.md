@@ -37,22 +37,22 @@ IoT 시스템은 크게 3개의 계층으로 구성된다. [데이터](/knowledg
 | **디바이스 계층 (Sensing)** | 아날로그 물리량 측정 및 제어(Actuation) | 센서(온도, 조도, 위치 등), 액추에이터(모터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), RFID |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  IoT의 Sense - Think - Act 루프              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 3. Actuation ]                       [ 2. Processing ]     │
-│  행동 실행 / 제어 ◀───── 명령 ────── 클라우드 / 엣지 서버    │
-│       │                                      ▲               │
-│       │ 물리적 변화 발생                     │ 데이터 분석   │
-│       ▼                                      │               │
-│ [ 현실 세계 (Physical World) ]               │               │
-│       │                                      │               │
-│       │ 물리량 감지                          │ 원격 전송     │
-│       ▼                                      │               │
-│ [ 1. Sensing ]  ──────── 데이터 ──────▶ [ Network (LPWAN) ]  │
-│  센서 단말기                                                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  IoT의 Sense - Think - Act 루프              |
++--------------------------------------------------------------+
+|                                                              |
+| [ 3. Actuation ]                       [ 2. Processing ]     |
+|  행동 실행 / 제어 <------ 명령 ------ 클라우드 / 엣지 서버    |
+|       |                                      ^               |
+|       | 물리적 변화 발생                     | 데이터 분석   |
+|       v                                      |               |
+| [ 현실 세계 (Physical World) ]               |               |
+|       |                                      |               |
+|       | 물리량 감지                          | 원격 전송     |
+|       v                                      |               |
+| [ 1. Sensing ]  -------- 데이터 -------> [ Network (LPWAN) ]  |
+|  센서 단말기                                                 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 현실의 변화를 감지해 디지털로 보내고, 분석된 결과가 다시 현실의 물리적 동작(모터 제어, 온도 조절 등)으로 환원되는 IoT의 본질적 순환 고리를 보여준다.
@@ -111,17 +111,17 @@ IoT 인프라가 제대로 구축되면 기업은 '예측 유지보수(Predictiv
 
 ```text
 M2M (Machine to Machine) - 폐쇄망 단방향 제어
-    │
-    ▼
+    |
+    v
 IoT (Internet of Things) - IP 기반 개방형 초연결 네트워크 구축
-    │
-    ▼
+    |
+    v
 Edge Computing + IoT - 클라우드 부하 분산 및 실시간 처리 확보
-    │
-    ▼
+    |
+    v
 AIoT (AI + IoT) - 단말기 스스로 추론 및 의사결정 수행
-    │
-    ▼
+    |
+    v
 IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 최적화
 ```
 이 흐름도는 단순한 '연결'에서 출발해 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 궁극적으로 사물 자체가 지능을 가지는 방향으로 진화하는 IoT의 궤적을 보여준다.
@@ -137,7 +137,7 @@ IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 �
 
 **진행 상황**: 101 / 552
 
-← **이전**: [100. 양자 내성 블록체인 서명 체계 전환 연구](/knowledge-base/studynote/06_ict_convergence/01_blockchain/100_post_quantum_cryptography_pqc_blockchain/)
-**다음**: [IoT 3대 구성 요소](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/102_iot_3_components/) →
+<- **이전**: [100. 양자 내성 블록체인 서명 체계 전환 연구](/knowledge-base/studynote/06_ict_convergence/01_blockchain/100_post_quantum_cryptography_pqc_blockchain/)
+**다음**: [IoT 3대 구성 요소](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/102_iot_3_components/) ->
 
 ---

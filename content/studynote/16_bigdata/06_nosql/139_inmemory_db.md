@@ -21,20 +21,20 @@ tags = ["studynote-bigdata"]
 ### 메모리 vs 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         스토리지 계층별 접근 지연 (Latency Hierarchy)       │
-│                                                          │
-│  CPU 레지스터     ~0.3ns   ████                          │
-│  L1 캐시         ~1ns     ████                           │
-│  L2 캐시         ~4ns     ████                           │
-│  RAM (DRAM)      ~100ns   ████                           │
-│  NVMe SSD        ~100μs   ████████████████               │
-│  SATA SSD        ~500μs   ████████████████████           │
-│  HDD             ~10ms    ██████████████████████████████ │
-│                                                          │
-│  RAM vs HDD 차이: 약 100,000배                            │
-│  → 인메모리 DB의 성능 우위 근거                            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         스토리지 계층별 접근 지연 (Latency Hierarchy)       |
+|                                                          |
+|  CPU 레지스터     ~0.3ns   ████                          |
+|  L1 캐시         ~1ns     ████                           |
+|  L2 캐시         ~4ns     ████                           |
+|  RAM (DRAM)      ~100ns   ████                           |
+|  NVMe SSD        ~100μs   ████████████████               |
+|  SATA SSD        ~500μs   ████████████████████           |
+|  HDD             ~10ms    ██████████████████████████████ |
+|                                                          |
+|  RAM vs HDD 차이: 약 100,000배                            |
+|  -> 인메모리 DB의 성능 우위 근거                            |
++----------------------------------------------------------+
 ```
 
 ### 인메모리 DB [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
@@ -57,46 +57,46 @@ tags = ["studynote-bigdata"]
 ### Memcached vs [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 아키텍처 심층 비교
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│  Memcached 아키텍처:                                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                  │
-│  │  Thread 1 │  │  Thread 2 │  │  Thread N │  (멀티스레드)  │
-│  └──────────┘  └──────────┘  └──────────┘                  │
-│  단일 해시 테이블, String 타입만, 복제 없음                    │
-│  슬랩 할당자(Slab Allocator): 메모리 단편화 방지              │
-│  LRU 기반 자동 퇴출 (eviction)                              │
-│                                                             │
-│  Redis 아키텍처:                                             │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │  단일 메인 스레드 (이벤트 루프)                          │  │
-│  │  + I/O 스레드 (Redis 6.0+)                             │  │
-│  └───────────────────────────────────────────────────────┘  │
-│  다양한 자료구조, RDB+AOF 영속성, 복제, 클러스터 지원          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Memcached 아키텍처:                                         |
+|  +----------+  +----------+  +----------+                  |
+|  |  Thread 1 |  |  Thread 2 |  |  Thread N |  (멀티스레드)  |
+|  +----------+  +----------+  +----------+                  |
+|  단일 해시 테이블, String 타입만, 복제 없음                    |
+|  슬랩 할당자(Slab Allocator): 메모리 단편화 방지              |
+|  LRU 기반 자동 퇴출 (eviction)                              |
+|                                                             |
+|  Redis 아키텍처:                                             |
+|  +-------------------------------------------------------+  |
+|  |  단일 메인 스레드 (이벤트 루프)                          |  |
+|  |  + I/O 스레드 (Redis 6.0+)                             |  |
+|  +-------------------------------------------------------+  |
+|  다양한 자료구조, RDB+AOF 영속성, 복제, 클러스터 지원          |
++-------------------------------------------------------------+
 ```
 
 ### SAP HANA 인메모리 컬럼 스토어
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              SAP HANA 아키텍처                                │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              Row Store (OLTP 최적화)                    │  │
-│  │  빠른 INSERT/UPDATE, 개별 행 접근                        │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              Column Store (OLAP 최적화)                 │  │
-│  │  컬럼별 압축 (Dictionary + Run-Length Encoding)          │  │
-│  │  SIMD 병렬 집계, 수십억 행 집계도 초고속                   │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │           영속성: 비동기 로그 + 세이브포인트              │  │
-│  │  (서버 재시작 시 약 수분 내 복구)                         │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              SAP HANA 아키텍처                                |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  |              Row Store (OLTP 최적화)                    |  |
+|  |  빠른 INSERT/UPDATE, 개별 행 접근                        |  |
+|  +--------------------------------------------------------+  |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  |              Column Store (OLAP 최적화)                 |  |
+|  |  컬럼별 압축 (Dictionary + Run-Length Encoding)          |  |
+|  |  SIMD 병렬 집계, 수십억 행 집계도 초고속                   |  |
+|  +--------------------------------------------------------+  |
+|                                                              |
+|  +--------------------------------------------------------+  |
+|  |           영속성: 비동기 로그 + 세이브포인트              |  |
+|  |  (서버 재시작 시 약 수분 내 복구)                         |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 ### VoltDB 인메모리 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 특화
@@ -105,7 +105,7 @@ tags = ["studynote-bigdata"]
 VoltDB 설계 원칙:
   1. 단일 스레드 파티션: 잠금 없는(Lock-Free) 처리
   2. 저장 프로시저: Java로 작성, DB 내부 실행
-  3. 동기 복제: 과반수 복제 후 응답 → 내구성 보장
+  3. 동기 복제: 과반수 복제 후 응답 -> 내구성 보장
   4. 파티셔닝: 파티션 키 기반, 크로스 파티션 최소화
 
 성능: 단일 서버 수백만 TPS (단순 트랜잭션 기준)
@@ -156,18 +156,18 @@ Redis maxmemory-policy 옵션:
 
 ```text
 광고 입찰 요청 (100ms 이내 응답 필수)
-        │
-        ↓
-┌──────────────────────────────────────────────────────┐
-│  입찰 엔진 (VoltDB / Redis 기반)                      │
-│  1. 사용자 프로필 조회       (Redis Hash: <1ms)       │
-│  2. 광고 예산 잔액 확인      (Redis 원자 연산: <1ms)   │
-│  3. 예산 차감 + 입찰 기록    (원자 트랜잭션: <2ms)     │
-│  4. 낙찰 결과 반환           (총 <10ms)               │
-└──────────────────────────────────────────────────────┘
-        │
-        ↓
-Kafka (배치 처리용 로그 → BigQuery/Redshift)
+        |
+        v
++------------------------------------------------------+
+|  입찰 엔진 (VoltDB / Redis 기반)                      |
+|  1. 사용자 프로필 조회       (Redis Hash: <1ms)       |
+|  2. 광고 예산 잔액 확인      (Redis 원자 연산: <1ms)   |
+|  3. 예산 차감 + 입찰 기록    (원자 트랜잭션: <2ms)     |
+|  4. 낙찰 결과 반환           (총 <10ms)               |
++------------------------------------------------------+
+        |
+        v
+Kafka (배치 처리용 로그 -> BigQuery/Redshift)
 ```
 
 ### 인메모리 DB 선택 가이드
@@ -191,9 +191,9 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 
 | 구성 | 설명 | 비용 절감 |
 |:---:|:---:|:---:|
-| DB 앞단 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 | 히트율 90%+ → DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 90% 감소 | DB 서버 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) |
-| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 전환 | 스티키 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제거 → 웹 서버 수평 확장 | 인프라 비용 절감 |
-| SAP [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) + HANA | 배치 리포트 24시간 → 실시간 | 비즈니스 민첩성 |
+| DB 앞단 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 | 히트율 90%+ -> DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 90% 감소 | DB 서버 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) |
+| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 전환 | 스티키 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제거 -> 웹 서버 수평 확장 | 인프라 비용 절감 |
+| SAP [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) + HANA | 배치 리포트 24시간 -> 실시간 | 비즈니스 민첩성 |
 
 ### 결론
 인메모리 DB는 현대 고성능 아키텍처에서 "빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"를 담당하는 필수 레이어다. 순수 캐시부터 엔터프라이즈 HTAP까지 스펙트럼이 넓어, 요구 사항의 정확한 분석이 솔루션 선택의 관건이다. 기술사 시험에서는 <strong>RAM vs 디스크 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 차이의 물리적 근거</strong>, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> RDB+AOF <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a> 메커니즘</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>/<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 캐시 교체 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>, <strong>SAP HANA 행/컬럼 이중 스토어 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a> 원리</strong>가 핵심 논점이다.
@@ -217,20 +217,20 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 
 ```text
 [디스크 기반 RDBMS — 영속 저장, I/O 병목, 밀리초~초 단위 응답]
-    │
-    ▼
+    |
+    v
 [캐시 레이어 (Cache Layer) — Memcached 키-값 캐시, DB 부하 분산]
-    │
-    ▼
+    |
+    v
 [인메모리 DB (In-Memory DB) — Redis / SAP HANA, 전체 데이터 RAM 상주, 마이크로초 응답]
-    │
-    ▼
+    |
+    v
 [영속 인메모리 (Persistent In-Memory) — AOF / RDB 스냅샷, 재시작 후 데이터 복구]
-    │
-    ▼
+    |
+    v
 [분산 인메모리 클러스터 (Redis Cluster) — 수평 샤딩·자동 장애 조치, 수백 GB 용량]
-    │
-    ▼
+    |
+    v
 [인메모리 HTAP (SAP HANA / MemSQL) — 트랜잭션 + 분석 워크로드 통합 실시간 처리]
 ```
 이 흐름은 디스크 기반 DB의 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 메모리 캐시로 완화하고, 완전한 인메모리 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확장으로 진화하여 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 분석을 동시에 처리하는 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 아키텍처로 수렴하는 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술의 발전을 보여준다.
@@ -246,7 +246,7 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 
 **진행 상황**: 139 / 262
 
-← **이전**: [138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID](/knowledge-base/studynote/16_bigdata/06_nosql/138_newsql/)
-**다음**: [140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/) →
+<- **이전**: [138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID](/knowledge-base/studynote/16_bigdata/06_nosql/138_newsql/)
+**다음**: [140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/) ->
 
 ---

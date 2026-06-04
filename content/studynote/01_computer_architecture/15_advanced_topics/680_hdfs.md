@@ -41,18 +41,18 @@ HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 | HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 완화 | 액티브-스탠바이 운영 필요 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Client                                                                  │
-│   │ metadata request                                                    │
-│   ▼                                                                      │
-│ NameNode ------------------------------------------------------┐         │
-│   │ block locations                                            │         │
-│   ▼                                                            │         │
-│ DataNode 1  ->  DataNode 2  ->  DataNode 3                     │         │
-│   block copy      block copy      block copy                   │         │
-│                                                                 │         │
-│ write pipeline : client writes once, replicas flow in order     │         │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Client                                                                  |
+|   | metadata request                                                    |
+|   v                                                                      |
+| NameNode ------------------------------------------------------+         |
+|   | block locations                                            |         |
+|   v                                                            |         |
+| DataNode 1  ->  DataNode 2  ->  DataNode 3                     |         |
+|   block copy      block copy      block copy                   |         |
+|                                                                 |         |
+| write pipeline : client writes once, replicas flow in order     |         |
++--------------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 HDFS는 대용량 순차 읽기와 쓰기에서 매우 강하다. 블록 크기를 128메가바이트 또는 256메가바이트처럼 크게 잡으면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수가 줄어들고, 분석 작업은 블록이 있는 노드에서 실행되어 네트워크 이동량도 줄어든다. 대신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간을 자주 수정하거나, 아주 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수백만 개를 관리하는 용도로는 비효율이 커진다.
@@ -139,17 +139,17 @@ HDFS는 값싼 하드웨어 위에서도 대용량 [데이터](/knowledge-base/s
 
 ```text
 Google File System (GFS) 아이디어
-        │
-        ▼
+        |
+        v
 HDFS 블록 복제 기반 분산 파일 저장
-        │
-        ▼
+        |
+        v
 MapReduce / Spark와 결합한 데이터 지역성 분석
-        │
-        ▼
+        |
+        v
 HA NameNode / Federation / 삭제 코딩 확장
-        │
-        ▼
+        |
+        v
 오브젝트 스토리지와 공존하는 현대 데이터 레이크 구조
 ```
 
@@ -167,7 +167,7 @@ HA NameNode / Federation / 삭제 코딩 확장
 
 **진행 상황**: 681 / 803
 
-← **이전**: [679. GlusterFS 분산 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/679_glusterfs/)
-**다음**: [681. Erasure Coding (삭제 코딩) HW 연산](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/) →
+<- **이전**: [679. GlusterFS 분산 스토리지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/679_glusterfs/)
+**다음**: [681. Erasure Coding (삭제 코딩) HW 연산](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/) ->
 
 ---

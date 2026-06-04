@@ -22,15 +22,15 @@ tags = ["studynote-bigdata"]
 ### 1. Pub/Sub 기본 개념
 
 ```
-발행자 (Publisher)  →  토픽 (Topic)  →  구독 (Subscription)  →  구독자 (Subscriber)
+발행자 (Publisher)  ->  토픽 (Topic)  ->  구독 (Subscription)  ->  구독자 (Subscriber)
 
 메시지 흐름:
-  Publisher A ───→ topic: "orders" ───→ subscription: "order-processor" ───→ Consumer
-                                     └──→ subscription: "audit-log"      ───→ Consumer
-                                     └──→ subscription: "analytics"       ───→ Consumer
+  Publisher A ----> topic: "orders" ----> subscription: "order-processor" ----> Consumer
+                                     +---> subscription: "audit-log"      ----> Consumer
+                                     +---> subscription: "analytics"       ----> Consumer
 
-→ 하나의 토픽에서 여러 구독(Subscription)으로 팬아웃(Fan-Out) 지원
-→ 각 Subscription은 독립적으로 메시지를 처리
+-> 하나의 토픽에서 여러 구독(Subscription)으로 팬아웃(Fan-Out) 지원
+-> 각 Subscription은 독립적으로 메시지를 처리
 ```
 
 ### 2. Pub/Sub vs [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) vs Kinesis
@@ -54,16 +54,16 @@ tags = ["studynote-bigdata"]
 ### 1. Pub/Sub 내부 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Google Pub/Sub 글로벌 인프라                                │
-│                                                             │
-│  Publisher ──→ Frontend 서버 (수신) ──→ 메시지 스토리지      │
-│                                         (전 세계 복제)       │
-│                                              │              │
-│                                              ▼              │
-│  구독자가 Pull:  Subscriber ←── Pull API ←── 구독 레이어    │
-│  Push 모드:      구독 레이어 ──── HTTP/gRPC 푸시 ──→ 엔드포인트│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Google Pub/Sub 글로벌 인프라                                |
+|                                                             |
+|  Publisher ---> Frontend 서버 (수신) ---> 메시지 스토리지      |
+|                                         (전 세계 복제)       |
+|                                              |              |
+|                                              v              |
+|  구독자가 Pull:  Subscriber <--- Pull API <--- 구독 레이어    |
+|  Push 모드:      구독 레이어 ---- HTTP/gRPC 푸시 ---> 엔드포인트|
++-------------------------------------------------------------+
 ```
 
 ### 2. Push vs Pull 모드
@@ -115,7 +115,7 @@ future = publisher.publish(
 Pub/Sub는 Apache Beam 기반의 GCP Dataflow (구글 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로)와 함께 사용할 때 Exactly-Once 처리가 가능하다.
 
 ```
-Pub/Sub → Dataflow (Apache Beam) → BigQuery / GCS / Bigtable
+Pub/Sub -> Dataflow (Apache Beam) -> BigQuery / GCS / Bigtable
 
 특징:
   - Dataflow가 Pub/Sub 오프셋을 관리하여 Exactly-Once 보장
@@ -151,7 +151,7 @@ Pub/Sub → Dataflow (Apache Beam) → BigQuery / GCS / Bigtable
 
 ```
 방법 1: Dataflow 파이프라인 사용
-  Pub/Sub → Dataflow → BigQuery
+  Pub/Sub -> Dataflow -> BigQuery
   Dataflow가 checkpoint 기반으로 Exactly-Once 보장
 
 방법 2: 멱등적 Consumer
@@ -197,21 +197,21 @@ Google Pub/Sub는 GCP 생태계에서 <strong>운영 부담이 최소화된 완�
 
 ```text
 [전통 메시지 큐 (MQ, Message Queue) — FIFO 브로커, 단일 소비자, 확장성 제한]
-    │
-    ▼
+    |
+    v
 [발행-구독 패턴 (Pub/Sub Pattern) — 토픽 기반 다수 구독자 분리, 비동기 이벤트]
-    │
-    ▼
+    |
+    v
 [Google Pub/Sub — 글로벌 분산 관리형 메시지 서비스, 99.99% SLA, 자동 확장]
-    │
-    ▼
+    |
+    v
 [Apache Kafka — 오프셋 기반 영속 로그, 스트림 재처리 지원, 자체 운영 필요]
-    │
-    ▼
+    |
+    v
 [Dataflow (Apache Beam) — Pub/Sub 연동 서버리스 스트림 처리, 자동 파이프라인]
-    │
-    ▼
-[BigQuery Streaming Insert — Pub/Sub→Dataflow→BigQuery 실시간 분석 파이프라인]
+    |
+    v
+[BigQuery Streaming Insert — Pub/Sub->Dataflow->BigQuery 실시간 분석 파이프라인]
 ```
 이 흐름은 전통 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐의 확장성 한계를 Pub/Sub 패턴으로 극복하고, GCP 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)로 연결되는 실시간 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처의 발전을 보여준다.
 
@@ -225,7 +225,7 @@ Google Pub/Sub는 학교 방송부(토픽)와 같아요. 방송부(Publisher)가
 
 **진행 상황**: 92 / 262
 
-← **이전**: [16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/)
-**다음**: [18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/093_azure_event_hubs/) →
+<- **이전**: [16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/)
+**다음**: [18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/093_azure_event_hubs/) ->
 
 ---

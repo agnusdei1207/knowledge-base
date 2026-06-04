@@ -41,14 +41,14 @@ tags = ["studynote-enterprise"]
 아래 그림은 BPM이 단순 선형 절차가 아니라, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다시 설계 자산으로 돌아오는 닫힌 루프임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                BPM Lifecycle: closed feedback loop                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Design ─────▶ Execute ─────▶ Monitor ─────▶ Optimize                │
-│ BPMN        Engine/API      KPI/BAM       Mining & BPR             │
-│   ▲                                                          │      │
-│   └──────────── updated model, rule, ownership ──────────────┘      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                BPM Lifecycle: closed feedback loop                  |
++----------------------------------------------------------------------+
+| Design ------> Execute ------> Monitor ------> Optimize                |
+| BPMN        Engine/API      KPI/BAM       Mining & BPR             |
+|   ^                                                          |      |
+|   +------------ updated model, rule, ownership --------------+      |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 병목은 보통 두 곳에서 발생한다. 첫째, 설계 모델이 실제 조직 책임과 다르면 실행 단계에서 승인 대기 시간이 급증한다. 둘째, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 단순 건수 집계에 머물면 왜 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겼는지 알 수 없어 최적화가 감에 의존하게 된다. 따라서 BPM은 프로세스를 그리는 기술이 아니라, 모델·엔진·측정 지표를 함께 운영하는 체계로 이해해야 한다.
@@ -118,17 +118,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 업무 표준화
-    │
-    ▼
+    |
+    v
 BPMN 모델링
-    │
-    ▼
+    |
+    v
 WfMS 실행 · BAM 모니터링
-    │
-    ▼
+    |
+    v
 프로세스 마이닝 · Conformance Checking
-    │
-    ▼
+    |
+    v
 Hyperautomation · Continuous Improvement
 ```
 
@@ -146,7 +146,7 @@ Hyperautomation · Continuous Improvement
 
 **진행 상황**: 202 / 482
 
-← **이전**: [201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/201_enterprise_backup_cloud_storage_tiering/)
-**다음**: [203. BPMN (Business Process Model and Notation)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/) →
+<- **이전**: [201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/201_enterprise_backup_cloud_storage_tiering/)
+**다음**: [203. BPMN (Business Process Model and Notation)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/) ->
 
 ---

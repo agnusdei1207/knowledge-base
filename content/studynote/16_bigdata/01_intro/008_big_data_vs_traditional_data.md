@@ -29,13 +29,13 @@ tags = ["bigdata"]
 이 도식은 데이터가 폭증하는 상황에서 전통적 데이터베이스가 겪는 물리적 한계(스케일업)와, 빅데이터 시스템의 스케일아웃 방식을 비교하여 보여준다.
 
 [전통적 RDBMS: 스케일업(Scale-Up)의 한계]
-[CPU/RAM ↑] ──(비용 기하급수적 증가)──> [Super Server] ──(물리적 임계점 도달)──> 시스템 마비
-                                            ▲ 병목 지점: 특정 성능 이상 확장이 불가능함
+[CPU/RAM ^] --(비용 기하급수적 증가)--> [Super Server] --(물리적 임계점 도달)--> 시스템 마비
+                                            ^ 병목 지점: 특정 성능 이상 확장이 불가능함
 
 [빅데이터 플랫폼: 스케일아웃(Scale-Out)의 유연성]
-[Commodity PC 1] ┐
-[Commodity PC 2] ┼──(선형적 비용 증가)──> [Distributed Cluster] ──(무한 확장 가능)
-[Commodity PC N] ┘                          ▲ 이점: 저렴한 장비 추가만으로 성능 향상
+[Commodity PC 1] +
+[Commodity PC 2] +--(선형적 비용 증가)--> [Distributed Cluster] --(무한 확장 가능)
+[Commodity PC N] +                          ^ 이점: 저렴한 장비 추가만으로 성능 향상
 ```
 이 비교의 핵심은 '비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상관곡선'이다. 스케일업은 하이엔드 장비를 도입해야 하므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 조금만 올라가도 비용이 수십 배 상승하는 반면, 빅데이터의 스케일아웃 구조는 저렴한 범용 x86 서버(Commodity Hardware)를 수백, 수천 대 연결하여 비용을 선형적으로 유지하면서도 무한한 확장을 가능하게 한다.
 
@@ -61,15 +61,15 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 이 도식은 RDBMS의 병목인 Shared-Disk 구조와 빅데이터의 확장성 근간인 Shared-Nothing 분산 구조의 메모리/디스크 레이아웃을 비교한다.
 
 [전통적 DB: Shared-Disk Architecture]
-[Node A (CPU/RAM)] ──┐                    ┌──> 락 경합(Lock Contention) 발생
-[Node B (CPU/RAM)] ──┼──> [SAN Storage] ──┤
-[Node C (CPU/RAM)] ──┘                    └──> 디스크 I/O 대역폭 병목
+[Node A (CPU/RAM)] --+                    +--> 락 경합(Lock Contention) 발생
+[Node B (CPU/RAM)] --+--> [SAN Storage] --+
+[Node C (CPU/RAM)] --+                    +--> 디스크 I/O 대역폭 병목
 
 [빅데이터: Shared-Nothing Architecture]
-[Node A (CPU/RAM + Local Disk)] ──(네트워크)──┐
-[Node B (CPU/RAM + Local Disk)] ──(네트워크)──┼──> [Distributed Coordination (ZooKeeper)]
-[Node C (CPU/RAM + Local Disk)] ──(네트워크)──┘
- ▲ 이점: 데이터가 위치한 노드에서 직접 연산 수행 (Data Locality), 락 경합 없음
+[Node A (CPU/RAM + Local Disk)] --(네트워크)--+
+[Node B (CPU/RAM + Local Disk)] --(네트워크)--+--> [Distributed Coordination (ZooKeeper)]
+[Node C (CPU/RAM + Local Disk)] --(네트워크)--+
+ ^ 이점: 데이터가 위치한 노드에서 직접 연산 수행 (Data Locality), 락 경합 없음
 ```
 이 도식의 핵심은 '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))'이다. 빅데이터 아키텍처에서는 연산을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크로 끌어오는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 노드(Local Disk)로 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)를 보내어 실행한다. 따라서 디스크가 분리되어 있어도 네트워크 병목을 최소화할 수 있다. 반면 Shared-Disk 구조는 노드가 추가될수록 중앙 스토리지의 I/O 병목과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)이 심화되어 확장성이 멈추게 된다.
 
@@ -84,15 +84,15 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 ```text
 이 매트릭스는 RDBMS와 빅데이터 시스템을 데이터의 무결성(일관성)과 확장성 측면에서 비교하여, 시스템 목적에 따른 데이터베이스 선택 기준을 제시한다.
 
-┌────────────┬──────────────────────────┬─────────────────────────┬──────────────┐
-│ 비교 항목  │ 전통적 데이터 (RDBMS)    │ 빅데이터 플랫폼 (NoSQL) │ 실무 판단    │
-├────────────┼──────────────────────────┼─────────────────────────┼──────────────┤
-│ 철학       │ ACID (무결성 최우선)     │ BASE (가용성 최우선)    │ 데이터의 종류│
-│ 스키마     │ 고정 (DDL 변경 어려움)   │ 유연함 (Schema-less)    │ 기획 변경 빈도
-│ 확장성     │ Scale-Up 위주 (수천 TPS) │ Scale-Out 위주 (수백만) │ 트래픽 규모  │
-│ 트랜잭션   │ 복잡한 다중 테이블 트랜잭│ 단일 레코드 트랜잭션    │ 정산/결제 여부
-│ 장애 대응  │ Active-Standby Failover  │ N-Way 복제 (Replication)│ 다운타임 허용도
-└────────────┴──────────────────────────┴─────────────────────────┴──────────────┘
++------------+--------------------------+-------------------------+--------------+
+| 비교 항목  | 전통적 데이터 (RDBMS)    | 빅데이터 플랫폼 (NoSQL) | 실무 판단    |
++------------+--------------------------+-------------------------+--------------+
+| 철학       | ACID (무결성 최우선)     | BASE (가용성 최우선)    | 데이터의 종류|
+| 스키마     | 고정 (DDL 변경 어려움)   | 유연함 (Schema-less)    | 기획 변경 빈도
+| 확장성     | Scale-Up 위주 (수천 TPS) | Scale-Out 위주 (수백만) | 트래픽 규모  |
+| 트랜잭션   | 복잡한 다중 테이블 트랜잭| 단일 레코드 트랜잭션    | 정산/결제 여부
+| 장애 대응  | Active-Standby Failover  | N-Way 복제 (Replication)| 다운타임 허용도
++------------+--------------------------+-------------------------+--------------+
 ```
 이 표의 핵심은 '[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 강도'와 '[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)'의 트레이드오프다. 은행의 계좌 이체처럼 단 1원의 오차도 허용되지 않는 시스템은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되더라도 철저하게 락을 거는 RDBMS(ACID)가 필수적이다. 반면, SNS의 '좋아요' 수나 클릭스트림 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)처럼 몇 초 정도 업데이트가 늦거나 수치가 조금 틀려도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 지장이 없고 트래픽이 폭증하는 시스템은 빅데이터 아키텍처(BASE)를 선택해야 장애 없이 버틸 수 있다.
 
@@ -110,14 +110,14 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 이 의사결정 트리는 신규 서비스 구축 시 데이터의 성격(트랜잭션, 로그, 검색)에 따라 RDBMS와 빅데이터 저장소(NoSQL, 검색엔진)를 어떻게 분배할지 결정하는 아키텍처 플로우다.
 
 [신규 서비스 데이터 스토어 설계 플로우]
-           ↓
+           v
 (복잡한 조인과 100% 무결성이 필요한가? 예: 주문, 결제, 회원)
-   ├── Yes ──> RDBMS (MySQL, PostgreSQL) 할당
-   │              └──> (단, 성능 분산을 위해 CQRS/Read Replica 적용)
-   │
-   └── No ───> (데이터의 형태가 비정형이며 쓰기량이 폭증하는가?)
-                  ├── Yes ──> (실시간 로그/센서) ──> NoSQL (Cassandra, MongoDB)
-                  └── No  ──> (텍스트 전문 검색) ──> Search Engine (Elasticsearch)
+   +-- Yes --> RDBMS (MySQL, PostgreSQL) 할당
+   |              +--> (단, 성능 분산을 위해 CQRS/Read Replica 적용)
+   |
+   +-- No ---> (데이터의 형태가 비정형이며 쓰기량이 폭증하는가?)
+                  +-- Yes --> (실시간 로그/센서) --> NoSQL (Cassandra, MongoDB)
+                  +-- No  --> (텍스트 전문 검색) --> Search Engine (Elasticsearch)
 ```
 이 흐름의 핵심은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리다. 트래픽 폭증이 예상되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 무리하게 RDBMS를 끼워 맞추면 전체 시스템이 다운된다. 반대로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정합성이 중요한 결제 시스템을 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 같은 NoSQL로 구현하면, 애플리케이션 레벨에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 수동으로 관리하느라 코드가 비대해지고 정합성 버그가 쏟아진다.
 
@@ -160,17 +160,17 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 ```text
 [전통적 RDBMS (관계형 DB) — ACID, 정형 데이터]
-    │
-    ▼
+    |
+    v
 [빅데이터 (Big Data) — 3V: Volume/Velocity/Variety]
-    │
-    ▼
+    |
+    v
 [NoSQL / 분산 파일 시스템 (HDFS)]
-    │
-    ▼
+    |
+    v
 [폴리글랏 퍼시스턴스 (Polyglot Persistence)]
-    │
-    ▼
+    |
+    v
 [HTAP / 레이크하우스 (Lakehouse) — 통합 플랫폼]
 ```
 
@@ -188,7 +188,7 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 **진행 상황**: 8 / 262
 
-← **이전**: [7. 빅데이터 생태계 — 수집→저장→처리→분석→시각화→활용](/knowledge-base/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
-**다음**: [9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV](/knowledge-base/studynote/16_bigdata/01_intro/009_data_explosion_factors/) →
+<- **이전**: [7. 빅데이터 생태계 — 수집->저장->처리->분석->시각화->활용](/knowledge-base/studynote/16_bigdata/01_intro/007_big_data_ecosystem/)
+**다음**: [9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV](/knowledge-base/studynote/16_bigdata/01_intro/009_data_explosion_factors/) ->
 
 ---

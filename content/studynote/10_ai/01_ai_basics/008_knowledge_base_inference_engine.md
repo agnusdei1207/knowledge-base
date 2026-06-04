@@ -29,16 +29,16 @@ tags = ["ai"]
 이 도식은 기존의 절차적 프로그래밍과 지식 베이스-추론 엔진 분리 아키텍처의 결합도(Coupling) 차이를 보여준다.
 
 [과거: 강결합 구조]                 [혁신: 분리형 아키텍처]
-┌──────────────────┐               ┌──────────────────┐
-│ Application Code │               │  Inference Engine│<─ (범용 논리 처리기)
-│ ├─ Data (변수)   │               └────────┬─────────┘
-│ ├─ Logic (if문)  │ <── 수정 시            │ (Match & Fire)
-│ └─ UI            │     전체 컴파일 필요   ▼
-└──────────────────┘               ┌──────────────────┐
-                                   │  Knowledge Base  │<─ (지식만 업데이트 가능)
-                                   │ ├─ Facts (사실)  │
-                                   │ └─ Rules (규칙)  │
-                                   └──────────────────┘
++------------------+               +------------------+
+| Application Code |               |  Inference Engine|<- (범용 논리 처리기)
+| +- Data (변수)   |               +--------+---------+
+| +- Logic (if문)  | <-- 수정 시            | (Match & Fire)
+| +- UI            |     전체 컴파일 필요   v
++------------------+               +------------------+
+                                   |  Knowledge Base  |<- (지식만 업데이트 가능)
+                                   | +- Facts (사실)  |
+                                   | +- Rules (규칙)  |
+                                   +------------------+
 ```
 이 도식의 핵심은 비즈니스 로직(Rules)이 애플리케이션 컴파일 영역 바깥(Knowledge Base)으로 빠져나왔다는 점이다. 이런 배치는 프로그래머가 아닌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가(의사, 변호사)도 코드 수정 없이 규칙만 텍스트로 추가/수정할 수 있게 해준다. 따라서 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)이 극대화된다. 실무에서는 이 구조가 현대의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 지점([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Decision Point, [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 등)으로 분리하는 아키텍처 철학과 완벽히 일치한다.
 
@@ -68,17 +68,17 @@ tags = ["ai"]
 이 흐름도는 수천 개의 규칙을 매번 비교하는 성능 병목을 극복하기 위한 Rete 알고리즘의 트리 구조(Network) 컴파일을 시각화한 것이다.
 
 [작업 메모리에 새 Fact 입력: "온도=40도", "연기=감지됨"]
-          │
-          ▼
+          |
+          v
     [Root Node] (트리 입구)
       ↙      ↘
 [온도>30?]   [연기==감지?]  <-- (Alpha Node: 단일 조건 매칭 / 캐싱)
-   │ (True)     │ (True)
-   └─────┬──────┘
-         ▼
+   | (True)     | (True)
+   +-----+------+
+         v
 [온도>30 AND 연기==감지?]   <-- (Beta Node: 복합 조건 조인 매칭)
-         │ (True)
-         ▼
+         | (True)
+         v
 [Action: 화재 알람 울림]    <-- (Terminal Node: 규칙 실행 / Act)
 ```
 이 도식의 핵심은 Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 규칙들을 '조건들의 트리(Tree) 네트워크'로 미리 컴파일해 둔다는 점이다. 이런 배치는 새로운 Fact가 들어왔을 때 전체 규칙을 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)(O(N))하는 대신, 트리 경로를 따라 변경된 부분만 평가하여 매칭 속도를 O(1)에 가깝게 비약적으로 끌어올린다. 따라서 수만 개의 복잡한 비즈니스 룰이 있는 엔터프라이즈 환경에서도 밀리초(ms) 단위의 실시간 추론이 가능해진다. 실무의 Drools 엔진이 바로 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다.
@@ -102,15 +102,15 @@ tags = ["ai"]
 ```text
 이 매트릭스 도식은 시스템 아키텍처 관점에서 상태 관리와 비즈니스 로직이 어떻게 분리/통합되는지 비교한다.
 
-┌──────────────┬────────────────────────┬────────────────────────┐
-│ 아키텍처 패턴│ 데이터/상태 저장소     │ 로직/결정 엔진         │
-├──────────────┼────────────────────────┼────────────────────────┤
-│ 전통적 3-Tier│ RDB (MySQL, Oracle)    │ App Server (Spring, Node)│
-│ (하드코딩)   │ - 정적 데이터만 보관   │ - if/else 로직 하드코딩│
-├──────────────┼────────────────────────┼────────────────────────┤
-│ Rule Engine  │ RDB + Working Memory   │ Inference Engine (Drools)│
-│ (전문가 모델)│ - Fact 로드 및 임시캐시│ - Rete 트리 기반 매칭  │
-└──────────────┴────────────────────────┴────────────────────────┘
++--------------+------------------------+------------------------+
+| 아키텍처 패턴| 데이터/상태 저장소     | 로직/결정 엔진         |
++--------------+------------------------+------------------------+
+| 전통적 3-Tier| RDB (MySQL, Oracle)    | App Server (Spring, Node)|
+| (하드코딩)   | - 정적 데이터만 보관   | - if/else 로직 하드코딩|
++--------------+------------------------+------------------------+
+| Rule Engine  | RDB + Working Memory   | Inference Engine (Drools)|
+| (전문가 모델)| - Fact 로드 및 임시캐시| - Rete 트리 기반 매칭  |
++--------------+------------------------+------------------------+
 ```
 이 비교표의 핵심은 시스템의 복잡도가 증가할수록 '결정 로직' 자체를 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 다루어야 한다는 아키텍처적 진화 방향을 보여준다. 기존 방식에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 바뀌면 서버를 재시작해야 하지만, 룰 엔진 구조에서는 규칙만 핫 디플로이(Hot Deploy)하여 실시간 반영이 가능하다. 실무에서는 보험금 지급 심사나 카드 승인 로직처럼 '비즈니스 부서'가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 자주 변경하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 이 구조가 필수적으로 도입된다.
 
@@ -134,17 +134,17 @@ tags = ["ai"]
 이 도식은 룰 엔진 운영 중 흔히 발생하는 '규칙 충돌(Rule Conflict)' 장애 전파와 이를 방어하는 의사결정 흐름을 보여준다.
 
 [신규 정책 B 추가: "VIP는 무조건 배송비 무료"]
-         │
+         |
 [기존 정책 A 존재: "도서산간 지역은 무조건 배송비 5천원"]
-         │
-         ▼ (Rule Conflict 발생: VIP가 제주도에 살 경우?)
+         |
+         v (Rule Conflict 발생: VIP가 제주도에 살 경우?)
 [추론 엔진 충돌 해소 (Resolve) 단계 진입]
-         ├─ 방어기제 X: 두 규칙 모두 실행 (시스템 에러 또는 이중 과금) -> 💥 장애
-         │
-         └─ 방어기제 O: [Salience (우선순위) 가중치 평가]
-                 ├─ 정책 A 우선순위 100
-                 ├─ 정책 B 우선순위 50
-                 └─ 결론: 배송비 5천원 부과 안전 수행
+         +- 방어기제 X: 두 규칙 모두 실행 (시스템 에러 또는 이중 과금) -> 💥 장애
+         |
+         +- 방어기제 O: [Salience (우선순위) 가중치 평가]
+                 +- 정책 A 우선순위 100
+                 +- 정책 B 우선순위 50
+                 +- 결론: 배송비 5천원 부과 안전 수행
 ```
 이 도식의 핵심은 지식 베이스가 커질수록 기존 규칙과 신규 규칙 간의 모순(Contradiction)을 인간이 육안으로 찾아낼 수 없다는 점이다. 이런 충돌은 컴파일 타임 에러가 아니라 런타임 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러를 유발하므로 시스템에 치명적이다. 따라서 실무 아키텍트는 룰을 배포하기 전에 반드시 시뮬레이션 환경에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))를 돌려 부작용을 검출하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해야 한다.
 
@@ -178,17 +178,17 @@ tags = ["ai"]
 
 ```text
 [사실 (Fact) — 작업 메모리 (Working Memory)]
-    │
-    ▼
+    |
+    v
 [지식 베이스 (Knowledge Base) — 규칙 저장소]
-    │
-    ▼
+    |
+    v
 [추론 엔진 (Inference Engine) — Rete 알고리즘]
-    │
-    ▼
+    |
+    v
 [전문가 시스템 (Expert System) — BRMS]
-    │
-    ▼
+    |
+    v
 [뉴로-심볼릭 AI (Neuro-Symbolic AI) — 딥러닝 + 추론]
 ```
 
@@ -205,7 +205,7 @@ AI의 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge
 
 **진행 상황**: 8 / 420
 
-← **이전**: [7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)
-**다음**: [9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)](/knowledge-base/studynote/10_ai/01_ai_basics/009_expert_system/) →
+<- **이전**: [7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)
+**다음**: [9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)](/knowledge-base/studynote/10_ai/01_ai_basics/009_expert_system/) ->
 
 ---

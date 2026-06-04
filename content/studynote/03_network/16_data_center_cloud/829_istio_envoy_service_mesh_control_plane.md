@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [서비스 메시]
-    │
-    ▼
+    |
+    v
 [Istio]
-    │
-    └──▶ [사이드카 아키텍처]
+    |
+    +---> [사이드카 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: Istio는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ Istio가 1위가 된 결정적 이유는 이 기가 막힌 [데이터](/knowledg
 
 ```text
 [서비스 메시]
-    │
-    ▼
+    |
+    v
 [Istio]
-    │
-    └──▶ [사이드카 아키텍처]
+    |
+    +---> [사이드카 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: Istio의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ Istio는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ```text
 [선행 개념: 서비스 메시]
-    │
-    ▼
+    |
+    v
 [현재 개념: Istio]
-    │
-    ├──▶ [확장 A: 사이드카 아키텍처]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 사이드카 아키텍처]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 Istio는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ Istio는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_securi
 
 **진행 상황**: 950 / 1120
 
-← **이전**: [828. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)
-**다음**: [830. 사이드카 (Sidecar Proxy)](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) →
+<- **이전**: [828. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)
+**다음**: [830. 사이드카 (Sidecar Proxy)](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [SSL VPN / TLS VPN]
-    │
-    ▼
+    |
+    v
 [DMVPN]
-    │
-    └──▶ [WireGuard]
+    |
+    +---> [WireGuard]
 ```
 
 - **📢 섹션 요약 비유**: <strong> DMVPN은 1,000명의 지사장이 사장님(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)에게 일일이 결재를 올리던 수직적 관료제를 부수고, 지사장들끼리 사내 연락처 앱(NHRP)에서 번호를 찾아 </strong>"다이렉트 화상 회의(Spoke-to-Spoke 터널)"**를 열고 일 처리를 끝내게 만든 혁신적인 수평적 조직도입니다.
@@ -63,19 +63,19 @@ tags = ["studynote-network"]
 4. **통신 및 해제**: 기가바이트급 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 광속으로 끝난다. 몇 분 동안 통신이 없으면, 부산 라우터는 뚫어놨던 임시 터널을 스스로 닫아버리고 리소스를 회수한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DMVPN 동적 터널 생성 (Spoke-to-Spoke) 도식         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                          [ 본사 Hub (NHRP 서버) ]              │
- │                            ▲              │                 │
- │            1. 제주도 IP 묻기 │              │ 2. "제주도 IP는 이거야!"│
- │                            │              ▼                 │
- │   [ 부산 Spoke (나) ] ━━━━━━(3. 임시 터널 뻥!!)━━━━━━▶ [ 제주 Spoke ]  │
- │                                                             │
- │   ▶ 결과: 본사 라우터는 그저 전화번호만 알려주는 114 역할만 할 뿐,      │
- │           무거운 실제 트래픽은 본사를 통과하지 않고 지사끼리 직통으로 간다!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                DMVPN 동적 터널 생성 (Spoke-to-Spoke) 도식         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |                          [ 본사 Hub (NHRP 서버) ]              |
+ |                            ^              |                 |
+ |            1. 제주도 IP 묻기 |              | 2. "제주도 IP는 이거야!"|
+ |                            |              v                 |
+ |   [ 부산 Spoke (나) ] ━━━━━━(3. 임시 터널 뻥!!)━━━━━━-> [ 제주 Spoke ]  |
+ |                                                             |
+ |   -> 결과: 본사 라우터는 그저 전화번호만 알려주는 114 역할만 할 뿐,      |
+ |           무거운 실제 트래픽은 본사를 통과하지 않고 지사끼리 직통으로 간다!|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** NHRP 서버(본사)는 114 전화번호 안내소입니다. 부산 지사가 114에 전화를 걸어 "제주도 전화번호 알려주세요"라고 하면 번호만 딱 알려줍니다. 그 후 부산과 제주도가 직접 전화를 걸어(다이렉트 터널) 수다를 떨기 때문에, 114 안내소의 전화선([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 전혀 막히지 않습니다.
@@ -136,12 +136,12 @@ DMVPN는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ```text
 [선행 개념: SSL VPN / TLS VPN]
-    │
-    ▼
+    |
+    v
 [현재 개념: DMVPN]
-    │
-    ├──▶ [확장 A: WireGuard]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: WireGuard]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 DMVPN는 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 WireGuard와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ DMVPN는 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283
 
 **진행 상황**: 507 / 1120
 
-← **이전**: [385. SSL VPN / TLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/385_ssl_tls_vpn_overview/)
-**다음**: [387. WireGuard (와이어가드)](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) →
+<- **이전**: [385. SSL VPN / TLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/385_ssl_tls_vpn_overview/)
+**다음**: [387. WireGuard (와이어가드)](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) ->
 
 ---

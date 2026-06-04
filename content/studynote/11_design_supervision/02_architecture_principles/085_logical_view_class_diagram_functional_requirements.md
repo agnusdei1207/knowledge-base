@@ -36,7 +36,7 @@ tags = ["studynote-design"]
 ```text
 요구사항 -> 유스케이스 -> Boundary/Control/Entity -> 클래스 다이어그램
     |             |                 |                     |
-    └─────────────┴─────────────────┴─────────────────────┘
+    +-------------+-----------------+---------------------+
                  "무엇을 해야 하는가"를 책임으로 분해
 ```
 
@@ -108,15 +108,15 @@ tags = ["studynote-design"]
 
 ```text
 기능 요구사항
-   ↓
+   v
 유스케이스
-   ↓
+   v
 책임 분해
-   ↓
+   v
 논리 뷰
-   ↓
+   v
 클래스 다이어그램
-   ↓
+   v
 컴포넌트/배포 설계
 ```
 
@@ -132,7 +132,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 128 / 530
 
-← **이전**: [84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/)
-**다음**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) →
+<- **이전**: [84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/)
+**다음**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) ->
 
 ---

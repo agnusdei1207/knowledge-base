@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 스캐너 주기 보고 및 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조치 지표은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 지표 정의     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 수집·정합성   │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 해석·조치     │
-└──────────────┘
++--------------+
+| 지표 정의     |
++------+-------+
+       |
++------v-------+
+| 수집·정합성   |
++------+-------+
+       |
++------v-------+
+| 해석·조치     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 체온계 수치를 읽기 전에 언제 어떻게 쟀는지부터 맞추는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 해석·조치 | 재검증 완료율 변화를 원인·개선계획과 연결한다. | 숫자는 행동으로 이어져야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 기준값      │ 수집값      │ 개선값      │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 기준값      | 수집값      | 개선값      |
++------------+------------+------------+
 ```
 
 또한 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 스캐너 주기 보고 및 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조치 지표은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 심각도별 잔존 건수, 조치 기한 준수율, 재검증 완료율, 목표치와 추세
-[단순 건수 보고] → [심각도·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표화] → [예측형 위험 대시보드]
+[단순 건수 보고] -> [심각도·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표화] -> [예측형 위험 대시보드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 스캐너 주기 보고 및 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조치 지표은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 377 / 530
 
-← **이전**: [309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/309_cve_scanner_reporting_remediation/)
-**다음**: [310. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처 (Micro-Segmentation Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) →
+<- **이전**: [309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/309_cve_scanner_reporting_remediation/)
+**다음**: [310. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처 (Micro-Segmentation Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ->
 
 ---

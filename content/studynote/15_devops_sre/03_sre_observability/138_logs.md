@@ -21,8 +21,8 @@ tags = ["studynote-devops-sre"]
 ```text
 비구조화: "2024-01-15 ERROR: Payment failed for user 123"
 구조화(JSON): {"ts":"2024-01-15","level":"ERROR","msg":"Payment failed","user_id":123}
-  → 검색·필터링·분석 용이
-  → 중앙 집중: Loki/ELK로 수집 → 쿼리·대시보드
+  -> 검색·필터링·분석 용이
+  -> 중앙 집중: Loki/ELK로 수집 -> 쿼리·대시보드
 ```
 
 - **📢 섹션 요약 비유**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>비행기 블랙박스</strong>이다. 사고(장애) 후 <strong>원인을 상세히 추적</strong>하는 유일한 기록이다.
@@ -48,10 +48,10 @@ tags = ["studynote-devops-sre"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[파일 로그 (tail -f)] → [syslog (중앙 수집)]
-    → [ELK Stack (2012)] → [Fluentd/Fluent Bit (CNCF)]
-    → [Grafana Loki (2018, 경량)]
-    → [현재: OTel Logs — 메트릭·트레이스 통합]
+[파일 로그 (tail -f)] -> [syslog (중앙 수집)]
+    -> [ELK Stack (2012)] -> [Fluentd/Fluent Bit (CNCF)]
+    -> [Grafana Loki (2018, 경량)]
+    -> [현재: OTel Logs — 메트릭·트레이스 통합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 138 / 373
 
-← **이전**: [137. Grafana - 통합 관측 가능성 시각화 플랫폼](/knowledge-base/studynote/15_devops_sre/03_sre_observability/137_grafana/)
-**다음**: [139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리](/knowledge-base/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/) →
+<- **이전**: [137. Grafana - 통합 관측 가능성 시각화 플랫폼](/knowledge-base/studynote/15_devops_sre/03_sre_observability/137_grafana/)
+**다음**: [139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리](/knowledge-base/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/) ->
 
 ---

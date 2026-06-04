@@ -42,7 +42,7 @@ tags = ["studynote-operating-system"]
 
 ```
 [ 트로이 목마 동작 흐름 ]
-1. 【유포】 악성 코드 + 정상 프로그램 → 래퍼로 포장 → 배포
+1. 【유포】 악성 코드 + 정상 프로그램 -> 래퍼로 포장 -> 배포
 2. 【유도】 사용자가 정상 프로그램으로 오인하여 실행
 3. 【활성화】 악성 코드 부분이 실행
 4. 【潜伏】 백그라운드에서 악의적 작업 수행
@@ -68,7 +68,7 @@ tags = ["studynote-operating-system"]
 
 ```text
 [ 예시 ]
-malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
+malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 ```
 
 **사용되는 기법**:
@@ -81,8 +81,8 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 매 실행 시 악성 코드를 변형하여 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>를 우회</strong>:
 
 ```text
-[ 기존 ] malware.exe (고정 시그니처) → 탐지 가능
-[ 다형성 ] malware_v1.exe, malware_v2.exe, ... (매번 다른 시그니처) → 탐지 어려움
+[ 기존 ] malware.exe (고정 시그니처) -> 탐지 가능
+[ 다형성 ] malware_v1.exe, malware_v2.exe, ... (매번 다른 시그니처) -> 탐지 어려움
 ```
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -133,12 +133,12 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ```text
 [시스템 보안 위협 유형]
-    │
-    ▼
+    |
+    v
 [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-    │
-    ├──▶ [트랩 도어 (Trap Door / Backdoor)]
-    └──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
+    |
+    +---> [트랩 도어 (Trap Door / Backdoor)]
+    +---> [로직 밤 (Logic Bomb) / 타이머 밤]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -157,7 +157,7 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 **진행 상황**: 586 / 800
 
-← **이전**: [585. 시스템 보안 위협 유형 (System Security Threat Types)](/knowledge-base/studynote/02_operating_system/10_security/585_system_security_threat_types/)
-**다음**: [587. 트랩 도어 (Trap Door / Backdoor)](/knowledge-base/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) →
+<- **이전**: [585. 시스템 보안 위협 유형 (System Security Threat Types)](/knowledge-base/studynote/02_operating_system/10_security/585_system_security_threat_types/)
+**다음**: [587. 트랩 도어 (Trap Door / Backdoor)](/knowledge-base/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 > **핵심 인사이트**
 > 1. [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, [플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)가 독점적 지위를 확보하는 핵심 메커니즘이다.
-> 2. 메칼프의 법칙(Metcalfe's Law)은 네트워크의 가치가 연결 노드 수의 제곱(n²)에 비례한다고 주장하며, 이는 플랫폼이 임계 질량(Critical Mass)을 넘으면 기하급수적 성장을 하는 이유를 설명한다.
+> 2. 메칼프의 법칙(Metcalfe's Law)은 네트워크의 가치가 연결 노드 수의 제곱(n^)에 비례한다고 주장하며, 이는 플랫폼이 임계 질량(Critical Mass)을 넘으면 기하급수적 성장을 하는 이유를 설명한다.
 > 3. 양면 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(Two-Sided [Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 플랫폼이 두 사용자 그룹(공급자·소비자) 모두를 동시에 확장해야 효과가 발생하며, 닭-달걀 문제(Chicken-and-Egg Problem)를 극복하는 것이 플랫폼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-enterprise-systems"]
 
 ```
 네트워크 노드 수 = n
-연결 수 = n(n-1)/2 ≈ n²/2 (조합론)
+연결 수 = n(n-1)/2 ≈ n^/2 (조합론)
 
 n=2:  연결 1개   가치 ∝ 4
 n=5:  연결 10개  가치 ∝ 25
@@ -28,11 +28,11 @@ n=10: 연결 45개  가치 ∝ 100
 n=100:연결 4950개 가치 ∝ 10,000
 
 비용 ∝ n (선형 증가)
-가치 ∝ n² (이차 증가)
+가치 ∝ n^ (이차 증가)
 -> 규모가 커질수록 가치/비용 비율이 폭발적 증가
 ```
 
-| 노드 수 | 연결 수 | 가치 (n²) | 사용자당 가치 |
+| 노드 수 | 연결 수 | 가치 (n^) | 사용자당 가치 |
 |--------|--------|---------|------------|
 | 2      | 1      | 4       | 2          |
 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)     | 45     | 100     | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)         |
@@ -137,7 +137,7 @@ n=100:연결 4950개 가치 ∝ 10,000
 
 ```
 네트워크 효과
-+-- 메칼프의 법칙: 가치 ∝ n²
++-- 메칼프의 법칙: 가치 ∝ n^
 +-- 유형
 |   +-- 직접 / 간접 / 양면 / 데이터 NE
 +-- 임계 질량 (Critical Mass)
@@ -157,7 +157,7 @@ n=100:연결 4950개 가치 ∝ 10,000
 ```
 [메칼프의 법칙 (1980s)]
 이더넷 창시자 Robert Metcalfe 제시
-n² 네트워크 가치 이론
+n^ 네트워크 가치 이론
       |
       v
 [인터넷 닷컴 붐 (1990s)]
@@ -191,7 +191,7 @@ GAFA 독점 구조의 핵심 원인
 
 **진행 상황**: 36 / 482
 
-← **이전**: [035. 롱테일 이론 (Long Tail Theory)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/)
-**다음**: [037. 파괴적 혁신 (Disruptive Innovation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/) →
+<- **이전**: [035. 롱테일 이론 (Long Tail Theory)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/)
+**다음**: [037. 파괴적 혁신 (Disruptive Innovation)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/) ->
 
 ---

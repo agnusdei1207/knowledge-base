@@ -42,13 +42,13 @@ tags = ["software_engineering"]
 
 ```text
 고객 가치
-    │
-    ▼
-작은 배치 개발 ──► 빠른 피드백 ──► 학습 강화
-    │                                 │
-    └────────────► 품질 내장 ◄─────────┘
-                    │
-                    ▼
+    |
+    v
+작은 배치 개발 --► 빠른 피드백 --► 학습 강화
+    |                                 |
+    +------------► 품질 내장 ◄---------+
+                    |
+                    v
                흐름 개선 / 낭비 감소
 ```
 
@@ -117,14 +117,14 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
     ### 📈 관련 키워드 및 발전 흐름도
 
     낭비 제거
-    │
-    ▼
+    |
+    v
 작은 배치와 pull 흐름
-    │
-    ▼
+    |
+    v
 빠른 피드백과 학습
-    │
-    ▼
+    |
+    v
 품질 내장과 전체 최적화
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
 
 **진행 상황**: 87 / 973
 
-← **이전**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/)
-**다음**: [88. 가치 스트림 맵 (Value Stream Mapping)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/) →
+<- **이전**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/)
+**다음**: [88. 가치 스트림 맵 (Value Stream Mapping)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/) ->
 
 ---

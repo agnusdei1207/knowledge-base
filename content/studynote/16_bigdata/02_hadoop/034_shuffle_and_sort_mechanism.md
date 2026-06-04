@@ -59,17 +59,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [맵 출력 (Map Output) — 키-값 쌍 생성]
-    │
-    ▼
+    |
+    v
 [파티셔닝 (Partitioning) — 리듀서 할당]
-    │
-    ▼
+    |
+    v
 [정렬 및 병합 (Sort and Merge) — 로컬 디스크 처리]
-    │
-    ▼
+    |
+    v
 [셔플 (Shuffle) — 네트워크 전송]
-    │
-    ▼
+    |
+    v
 [리듀서 입력 (Reducer Input) — 그룹화·집계]
 ```
 
@@ -86,7 +86,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 34 / 262
 
-← **이전**: [Reduce 함수: 분산 데이터의 최종 집계 및 요약](/knowledge-base/studynote/16_bigdata/02_hadoop/033_reduce_function_aggregation_logic/)
-**다음**: [YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층](/knowledge-base/studynote/16_bigdata/02_hadoop/035_yarn_resource_negotiator/) →
+<- **이전**: [Reduce 함수: 분산 데이터의 최종 집계 및 요약](/knowledge-base/studynote/16_bigdata/02_hadoop/033_reduce_function_aggregation_logic/)
+**다음**: [YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층](/knowledge-base/studynote/16_bigdata/02_hadoop/035_yarn_resource_negotiator/) ->
 
 ---

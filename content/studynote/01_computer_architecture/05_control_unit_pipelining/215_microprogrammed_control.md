@@ -44,31 +44,31 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 "기계어 1개가 여러 마이크로단계로 풀리는 과정"을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            매크로 명령어 → 마이크로명령어 시퀀스 변환 흐름          │
-├──────────────────────────────────────────────────────────────────────┤
-│ IR (Instruction Register)                                            │
-│   │                                                                  │
-│   ├─ Opcode ─────▶ 매핑 로직 ─────▶ CAR                              │
-│   │                                  │                               │
-│   │                                  ▼                               │
-│   │                         제어 메모리 (Control Memory)             │
-│   │                                  │                               │
-│   │                                  ▼                               │
-│   │                                 MIR                              │
-│   │                    ┌─────────────┼─────────────┐                  │
-│   │                    │             │             │                  │
-│   │                    ▼             ▼             ▼                  │
-│   │               ALU 제어      레지스터 제어    메모리 제어         │
-│   │            (ALU Control)   (Register File)   (Read/Write)        │
-│   │                                                                  │
-│   └──────────────────── 순서 제어기 ◀─ 상태 플래그 ──────────────────┘
-│                                 │                                    │
-│                                 └──── 다음 CAR 결정                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            매크로 명령어 -> 마이크로명령어 시퀀스 변환 흐름          |
++----------------------------------------------------------------------+
+| IR (Instruction Register)                                            |
+|   |                                                                  |
+|   +- Opcode ------> 매핑 로직 ------> CAR                              |
+|   |                                  |                               |
+|   |                                  v                               |
+|   |                         제어 메모리 (Control Memory)             |
+|   |                                  |                               |
+|   |                                  v                               |
+|   |                                 MIR                              |
+|   |                    +-------------+-------------+                  |
+|   |                    |             |             |                  |
+|   |                    v             v             v                  |
+|   |               ALU 제어      레지스터 제어    메모리 제어         |
+|   |            (ALU Control)   (Register File)   (Read/Write)        |
+|   |                                                                  |
+|   +-------------------- 순서 제어기 <-- 상태 플래그 ------------------+
+|                                 |                                    |
+|                                 +---- 다음 CAR 결정                  |
++----------------------------------------------------------------------+
 ```
 
-[마이크로명령어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)는 보통 두 부류의 정보를 담는다. 첫째는 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 기능 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 적재, 메모리 읽기/쓰기처럼 실제 데이터패스를 움직이는 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 둘째는 다음 주소를 지정하거나 조건 분기를 수행하는 순서 제어 정보다. 그래서 하나의 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `ADD R1, R2`도 내부에서는 `피연산자 읽기 → ALU 덧셈 → 결과 기록 → 다음 명령 복귀`처럼 여러 마이크로단계로 나뉠 수 있다.
+[마이크로명령어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)는 보통 두 부류의 정보를 담는다. 첫째는 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 기능 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 적재, 메모리 읽기/쓰기처럼 실제 데이터패스를 움직이는 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 둘째는 다음 주소를 지정하거나 조건 분기를 수행하는 순서 제어 정보다. 그래서 하나의 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `ADD R1, R2`도 내부에서는 `피연산자 읽기 -> ALU 덧셈 -> 결과 기록 -> 다음 명령 복귀`처럼 여러 마이크로단계로 나뉠 수 있다.
 
 [마이크로명령어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/) 형식은 크게 수평형 (Horizontal [Microinstruction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/))과 수직형 (Vertical [Microinstruction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/))으로 나뉜다. 수평형은 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 넓게 펼쳐 한 번에 많은 하드웨어를 직접 제어하므로 빠르지만 [제어 메모리](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) 폭이 넓어진다. 수직형은 필드를 부호화해 저장 공간을 줄이지만, 다시 해독하는 단계가 필요해 속도 면에서 불리하다.
 
@@ -146,24 +146,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 제어 논리
-    │
-    ▼
+    |
+    v
 하드와이어드 제어 (Hardwired Control)
-    │
-    ├──────────── 복잡 명령 증가 ────────────┐
-    ▼                                        │
-마이크로프로그래밍 (Microprogrammed Control) │
-    │                                        │
-    ▼                                        │
-제어 메모리 (Control Memory)                 │
-    │                                        │
-    ▼                                        │
-마이크로명령어 / 순서 제어기                 │
-    │                                        │
-    ▼                                        │
-마이크로코드 업데이트                         │
-    │                                        │
-    └──── 현대 하이브리드 제어 · μOP 기반 실행 ─┘
+    |
+    +------------ 복잡 명령 증가 ------------+
+    v                                        |
+마이크로프로그래밍 (Microprogrammed Control) |
+    |                                        |
+    v                                        |
+제어 메모리 (Control Memory)                 |
+    |                                        |
+    v                                        |
+마이크로명령어 / 순서 제어기                 |
+    |                                        |
+    v                                        |
+마이크로코드 업데이트                         |
+    |                                        |
+    +---- 현대 하이브리드 제어 · μOP 기반 실행 -+
 ```
 
 이 흐름은 제어 유닛이 단순 배선에서 시작해, 복잡한 명령 지원을 위해 저장형 제어로 확장되고, 다시 현대에는 빠른 경로와 느린 경로를 섞는 혼합 구조로 진화했음을 보여준다.
@@ -180,7 +180,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 215 / 803
 
-← **이전**: [214. 하드와이어드 제어 (Hardwired Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/)
-**다음**: [216. 제어 메모리 (Control Memory)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) →
+<- **이전**: [214. 하드와이어드 제어 (Hardwired Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/)
+**다음**: [216. 제어 메모리 (Control Memory)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) ->
 
 ---

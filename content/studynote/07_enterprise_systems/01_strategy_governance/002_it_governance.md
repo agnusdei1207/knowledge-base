@@ -31,12 +31,12 @@ tags = ["enterprise_systems"]
 ```text
 [IT 거버넌스 부재: 전략적 불일치]      [IT 거버넌스 도입: 전략적 연계]
 
-비즈니스 전략 ────(단절/오해)────┐    비즈니스 전략 ◄──(쌍방향 연계)──► IT 전략
-(원가 절감)                      │    (원가 절감)                       (클라우드 전환)
-                                 ▼         │                                  │
-                          IT 블랙홀 발생   │     [IT 거버넌스 위원회 / 통제]  │
-                                 ▲         ▼                                  ▼
-IT 투자/운영 ───(독단적 결정)────┘    비즈니스 가치 ◄──(가치 전달/측정)── IT 투자/실행
+비즈니스 전략 ----(단절/오해)----+    비즈니스 전략 ◄--(쌍방향 연계)--► IT 전략
+(원가 절감)                      |    (원가 절감)                       (클라우드 전환)
+                                 v         |                                  |
+                          IT 블랙홀 발생   |     [IT 거버넌스 위원회 / 통제]  |
+                                 ^         v                                  v
+IT 투자/운영 ---(독단적 결정)----+    비즈니스 가치 ◄--(가치 전달/측정)-- IT 투자/실행
 (최신 AI 도입)                         창출 달성                         최적 자원 할당
 ```
 *해설: 왼쪽 그림에서는 비즈니스는 원가 절감을 원하지만 IT 부서는 최신 기술([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 도입에 예산을 쏟아부어 가치가 상쇄된다. 오른쪽 그림에서는 IT 거버넌스 체계가 도입되어 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 톱니바퀴처럼 맞물려 돌아가며, IT 투자의 결과가 비즈니스 가치로 정확히 환원되고 있는지 지속적으로 측정된다.*
@@ -60,22 +60,22 @@ IT 거버넌스는 추상적인 선언이 아니라 실체가 있는 아키텍�
 아래의 계층 구조도는 이사회의 지시가 어떻게 실무 IT 운영까지 하향 전파([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))되고, 운영의 결과가 어떻게 상향 보고([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))되는지를 나타내는 IT 거버넌스 책임 구조이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                   이사회 (Board)                       │ (방향 제시, 최종 책임)
-└──────┬──────────────────────────────────────────▲──┘
-       │ [Governance: 지휘 / 통제]                    │
-       ▼                                             │ [Reporting: 투명성/성과]
-┌──────┴──────────────────────────────────────────┴──┐
-│              경영진 / IT 스티어링 위원회               │ (전략 수립, 투자 승인)
-│             (CEO, CIO, CFO, Business Heads)            │
-└──────┬──────────────────────────────────────────▲──┘
-       │ [Management: 관리 / 자원 할당]               │
-       ▼                                             │ [Metrics: KPI / 위험 지표]
-┌──────┴──────────────────────────────────────────┴──┐
-│                   IT 조직 (CIO 주도)                   │ (시스템 구축, 서비스 제공)
-│     - IT 아키텍처 (EA)       - 서비스 관리 (ITSM)      │
-│     - 프로젝트 관리 (PMO)    - 보안 및 위험 통제       │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                   이사회 (Board)                       | (방향 제시, 최종 책임)
++------+------------------------------------------^--+
+       | [Governance: 지휘 / 통제]                    |
+       v                                             | [Reporting: 투명성/성과]
++------+------------------------------------------+--+
+|              경영진 / IT 스티어링 위원회               | (전략 수립, 투자 승인)
+|             (CEO, CIO, CFO, Business Heads)            |
++------+------------------------------------------^--+
+       | [Management: 관리 / 자원 할당]               |
+       v                                             | [Metrics: KPI / 위험 지표]
++------+------------------------------------------+--+
+|                   IT 조직 (CIO 주도)                   | (시스템 구축, 서비스 제공)
+|     - IT 아키텍처 (EA)       - 서비스 관리 (ITSM)      |
+|     - 프로젝트 관리 (PMO)    - 보안 및 위험 통제       |
++--------------------------------------------------------+
 ```
 *해설: 이 도식의 핵심은 '거버넌스(Governance)'와 '관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'의 엄격한 분리이다. 이사회와 경영진은 "무엇을(What) 달성해야 하고, 어떤 규칙을 지켜야 하는가"를 결정(거버넌스)하며, IT 조직은 "어떻게(How) 시스템을 구축하고 운영할 것인가"를 수행(관리)한다. 만약 이사회가 IT의 세부 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)까지 간섭하거나, 반대로 IT 부서가 전사 투자 방향을 임의로 결정한다면 거버넌스 체계는 붕괴된 것이다.*
 
@@ -108,16 +108,16 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 ```text
 [조직 구조 및 문화에 따른 IT 거버넌스 의사결정 권한 모델]
 
-  강함 ◀──────── [ 비즈니스 부서의 자율성 요구 ] ────────► 약함
-       │
- 중앙  │  [ 연방형 (Federal) 거버넌스 ]     [ 중앙 집중형 (Centralized) ]
- 집중  │  - 코어 인프라: IT 중앙 통제       - 모든 IT 예산/의사결정을 CIO가 통제
- 요구  │  - 사업부 앱: 각 부서 자체 예산    - 장점: 표준화, 중복 투자 방지
- (High)│  - *글로벌 대기업의 표준 모델      - 단점: 현업의 민첩성 저하
-       │
- 분산  │  [ 탈중앙형 (Decentralized) ]      [ 무정부 상태 (Anarchy) ]
- 요구  │  - 각 사업부가 독자적 IT 부서 운영 - 공식적인 거버넌스 부재 (섀도우 IT)
- (Low) │  - 장점: 극도의 민첩성 (스타트업)  - 심각한 보안 리스크 및 비용 낭비 발생
+  강함 <--------- [ 비즈니스 부서의 자율성 요구 ] --------► 약함
+       |
+ 중앙  |  [ 연방형 (Federal) 거버넌스 ]     [ 중앙 집중형 (Centralized) ]
+ 집중  |  - 코어 인프라: IT 중앙 통제       - 모든 IT 예산/의사결정을 CIO가 통제
+ 요구  |  - 사업부 앱: 각 부서 자체 예산    - 장점: 표준화, 중복 투자 방지
+ (High)|  - *글로벌 대기업의 표준 모델      - 단점: 현업의 민첩성 저하
+       |
+ 분산  |  [ 탈중앙형 (Decentralized) ]      [ 무정부 상태 (Anarchy) ]
+ 요구  |  - 각 사업부가 독자적 IT 부서 운영 - 공식적인 거버넌스 부재 (섀도우 IT)
+ (Low) |  - 장점: 극도의 민첩성 (스타트업)  - 심각한 보안 리스크 및 비용 낭비 발생
 ```
 *해설: 이 매트릭스는 정답이 하나가 아님을 시사한다. 엄격한 보안과 비용 통제가 중요한 금융권은 '중앙 집중형'이 유리하지만, 빠른 시장 대응이 필요한 테크/플랫폼 기업은 '연방형'이나 '탈중앙형' 모델을 채택한다. 핵심은 무정부 상태(Anarchy)를 피하고 조직의 비즈니스 모델에 맞는 권한 할당(Decision Rights) 맵을 설계하는 것이다.*
 
@@ -144,18 +144,18 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 
 ```text
 [신규 IT 투자 / 프로젝트 요청 접수]
-               ↓
+               v
 [1차 관문: 전략적 연계 검토 (EA 관점)]
 - "전사 비즈니스 방향(예: 모바일 퍼스트)과 일치하는가?"
 - "기존 시스템과 기능이 중복되지 않는가?" (NO -> 반려)
-               ↓ (YES)
+               v (YES)
 [2차 관문: 가치 및 위험 평가 (CFO/CIO)]
 - "예상 ROI, NPV가 기준치를 넘는가?"
 - "보안/컴플라이언스 리스크는 통제 가능한가?" (NO -> 재검토/반려)
-               ↓ (YES)
+               v (YES)
 [3차 관문: IT 거버넌스 위원회 승인]
 - 한정된 예산 내 우선순위 할당 및 스폰서(임원) 지정
-               ↓ (승인)
+               v (승인)
 [포트폴리오 편입 및 실행 (PMO 이관)] ---> (주기적 성과 모니터링 피드백 반복)
 ```
 *해설: 이 흐름도의 핵심은 IT 투자가 단순히 '기술적으로 가능해서' 혹은 '부서장이 강력히 원해서' [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 것을 원천 차단하는 것이다. 3단계의 게이트키핑(Gate-keeping)을 통해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 정렬과 재무적 타당성이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 프로젝트만 살아남게 함으로써 IT 예산의 블랙홀 현상을 방지한다.*
@@ -192,17 +192,17 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 
 ```text
 [IT 거버넌스 5대 도메인]
-    │
-    ▼
+    |
+    v
 [COBIT (Control Objectives for IT)]
-    │
-    ▼
+    |
+    v
 [EA (Enterprise Architecture)]
-    │
-    ▼
+    |
+    v
 [IT 스티어링 위원회 (Steering Committee)]
-    │
-    ▼
+    |
+    v
 [컴플라이언스 (Compliance)]
 ```
 
@@ -219,7 +219,7 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 
 **진행 상황**: 2 / 482
 
-← **이전**: [1. 경영 정보 시스템 (MIS, Management Information System)의 정의](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/001_mis_definition/)
-**다음**: [3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/003_it_governance_5_domains/) →
+<- **이전**: [1. 경영 정보 시스템 (MIS, Management Information System)의 정의](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/001_mis_definition/)
+**다음**: [3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/003_it_governance_5_domains/) ->
 
 ---

@@ -10,7 +10,7 @@ tags = ["studynote-network"]
 +++
 
 > **핵심 인사이트**
-> 1. [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 — BPSK는 2가지 위상(0°/180°)으로 1비트, QPSK는 4가지 위상(0°/90°/180°/270°)으로 2비트를 동시에 전송한다.
+> 1. [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 — BPSK는 2가지 위상(0+/180+)으로 1비트, QPSK는 4가지 위상(0+/90+/180+/270+)으로 2비트를 동시에 전송한다.
 > 2. QPSK는 BPSK와 동일한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))으로 2배 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 — 위상 수를 4개로 늘려 심볼당 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 2배로 높이면서도 BER([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) 성능은 BPSK와 동일하게 유지되는 효율적인 변조 방식이다.
 > 3. 현대 통신에서 QAM(직교진폭변조)으로의 진화 — [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR에서 256-QAM을 사용하면 심볼당 8비트 전송이 가능하지만, [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 요구사항도 급격히 높아지는 트레이드오프가 존재하며, 채널 상태에 따라 QPSK~256-QAM을 적응적으로 선택(AMC)한다.
 
@@ -24,29 +24,29 @@ BPSK 개요:
   2가지 위상 상태로 1비트 전송
 
 위상 매핑:
-  비트 1 → 위상 0°  (cos(2πft))
-  비트 0 → 위상 180° (-cos(2πft))
+  비트 1 -> 위상 0+  (cos(2πft))
+  비트 0 -> 위상 180+ (-cos(2πft))
 
 신호 표현:
   s(t) = A cos(2πft + φ)
 
-  φ = 0°  → 비트 1
-  φ = 180° → 비트 0
+  φ = 0+  -> 비트 1
+  φ = 180+ -> 비트 0
 
 성상도 (Constellation Diagram):
 
   Q축 (허수)
   |
   |
-  ──●──────────────────●── I축 (실수)
+  --●------------------●-- I축 (실수)
   (-1,0)           (+1,0)
   비트 0             비트 1
 
   I축 위 2개 점 (동위상 / 역위상)
 
 수신기 판별:
-  수신 신호의 위상이 0° 근방 → 비트 1
-  수신 신호의 위상이 180° 근방 → 비트 0
+  수신 신호의 위상이 0+ 근방 -> 비트 1
+  수신 신호의 위상이 180+ 근방 -> 비트 0
 
   결정 경계: 허수(Q)축
 
@@ -60,7 +60,7 @@ BER (Bit Error Rate):
   (두 점 간 거리가 최대)
 ```
 
-> 📢 **섹션 요약 비유**: BPSK = 동전 앞뒤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0°) = 1, 뒷면(180°) = 0. 딱 두 가지만 구분하니 잡음에 강해요. 단, 한 번에 1비트만 전송!
+> 📢 **섹션 요약 비유**: BPSK = 동전 앞뒤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0+) = 1, 뒷면(180+) = 0. 딱 두 가지만 구분하니 잡음에 강해요. 단, 한 번에 1비트만 전송!
 
 ---
 
@@ -72,27 +72,27 @@ QPSK 개요:
   = 동일 대역폭에서 BPSK의 2배 처리량
 
 위상 매핑 (Gray Coding):
-  비트 00 → 위상 45°  (+I, +Q)
-  비트 01 → 위상 135° (-I, +Q)
-  비트 11 → 위상 225° (-I, -Q)
-  비트 10 → 위상 315° (+I, -Q)
+  비트 00 -> 위상 45+  (+I, +Q)
+  비트 01 -> 위상 135+ (-I, +Q)
+  비트 11 -> 위상 225+ (-I, -Q)
+  비트 10 -> 위상 315+ (+I, -Q)
 
 성상도 (Constellation Diagram):
 
   Q축
-  ↑
+  ^
   ●   ●   01  |  00
-  (135°)(45°)
-  ──────────── I축
+  (135+)(45+)
+  ------------ I축
   ●   ●   11  |  10
-  (225°)(315°)
+  (225+)(315+)
 
-  4개 점이 원 위에 45° 간격으로 배치
+  4개 점이 원 위에 45+ 간격으로 배치
 
 Gray Coding 이유:
   인접 심볼: 1비트만 다름
-  00 ↔ 01: 1비트 다름 (45°→135°)
-  00 ↔ 10: 1비트 다름 (45°→315°)
+  00 ↔ 01: 1비트 다름 (45+->135+)
+  00 ↔ 10: 1비트 다름 (45+->315+)
 
   오류 발생 시: 대부분 1비트 오류 (2비트 방지)
 
@@ -107,11 +107,11 @@ QPSK vs BPSK 비교:
 
 왜 BER이 같은가?
   QPSK = I채널 BPSK + Q채널 BPSK 독립 동작
-  각 채널: 서로 직교(Orthogonal) → 간섭 없음
-  → 심볼 간 거리 유지 → 동등한 오류 성능
+  각 채널: 서로 직교(Orthogonal) -> 간섭 없음
+  -> 심볼 간 거리 유지 -> 동등한 오류 성능
 ```
 
-> 📢 **섹션 요약 비유**: QPSK = 나침반 4방향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 북(0°)=00, 동(90°)=01, 남(180°)=[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), 서(270°)=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 4방향으로 한 번에 2비트! BPSK와 같은 도로폭으로 2배 짐을 실어요!
+> 📢 **섹션 요약 비유**: QPSK = 나침반 4방향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 북(0+)=00, 동(90+)=01, 남(180+)=[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), 서(270+)=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 4방향으로 한 번에 2비트! BPSK와 같은 도로폭으로 2배 짐을 실어요!
 
 ---
 
@@ -133,7 +133,7 @@ QAM (Quadrature Amplitude Modulation):
   PSK보다 더 많은 심볼 상태 가능
 
   16-QAM 성상도:
-  4×4 격자 → 16개 점
+  4×4 격자 -> 16개 점
   각 점 = 4비트
 
 SNR 요구사항 증가:
@@ -144,7 +144,7 @@ SNR 요구사항 증가:
   64-QAM      | 22.5 dB
   256-QAM     | 28.5 dB
 
-  고차 QAM: 점 간 거리 좁아짐 → 잡음에 취약
+  고차 QAM: 점 간 거리 좁아짐 -> 잡음에 취약
 
 AMC (Adaptive Modulation and Coding):
   채널 상태에 따라 변조 방식 자동 선택
@@ -153,7 +153,7 @@ AMC (Adaptive Modulation and Coding):
   SNR 낮음 (먼 기지국): QPSK or BPSK
 
   5G NR AMC: 실시간 CQI(채널 품질 지시자) 측정
-  → 매 서브프레임(1ms)마다 변조 방식 전환
+  -> 매 서브프레임(1ms)마다 변조 방식 전환
 ```
 
 > 📢 **섹션 요약 비유**: QAM 진화 = 암호 복잡도 증가 — BPSK(2가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)), 256-QAM(256가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)). 가까우면 복잡한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 빠르게, 멀면 단순 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 안전하게. AMC가 자동 선택!
@@ -176,7 +176,7 @@ LTE (4G):
 
   π/2-BPSK: 5G 특수 BPSK
   연속 심볼 간 π/2 위상 회전
-  → PAPR(최대 전력 대 평균 전력비) 감소 → 배터리 효율
+  -> PAPR(최대 전력 대 평균 전력비) 감소 -> 배터리 효율
 
 Wi-Fi 802.11ax (Wi-Fi 6):
   1024-QAM: 10비트/심볼
@@ -190,7 +190,7 @@ Wi-Fi 802.11ax (Wi-Fi 6):
 
 DOCSIS (케이블 인터넷):
   다운링크: 1024-QAM ~ 4096-QAM
-  케이블 = 유선 → 높은 SNR → 고차 QAM 가능
+  케이블 = 유선 -> 높은 SNR -> 고차 QAM 가능
 
 심볼 속도 (Baud Rate) vs 비트 레이트:
   심볼 레이트 = 1000 Baud
@@ -214,21 +214,21 @@ DOCSIS (케이블 인터넷):
   선택 변조: 256-QAM
   코딩률: 948/1024 (약 0.93)
   비트/심볼: 8 × 0.93 ≈ 7.4비트
-  채널 10MHz → 최대 74Mbps
+  채널 10MHz -> 최대 74Mbps
 
 단말 B: 기지국 1km 거리
   측정 CQI: 7 (중간)
   선택 변조: 16-QAM
   코딩률: 476/1024 (약 0.46)
   비트/심볼: 4 × 0.46 ≈ 1.8비트
-  채널 10MHz → 최대 18Mbps
+  채널 10MHz -> 최대 18Mbps
 
 단말 C: 기지국 3km 외곽
   측정 CQI: 2 (낮음)
   선택 변조: QPSK
   코딩률: 120/1024 (약 0.12)
   비트/심볼: 2 × 0.12 ≈ 0.24비트
-  채널 10MHz → 최대 2.4Mbps
+  채널 10MHz -> 최대 2.4Mbps
 
 기지국 스케줄러:
   매 1ms(서브프레임)마다 단말별 CQI 수신
@@ -236,12 +236,12 @@ DOCSIS (케이블 인터넷):
 
   목표: 셀 전체 처리량(Throughput) 최대화
   알고리즘: Proportional Fair (PF) 스케줄링
-  → 처리량 + 공정성 균형
+  -> 처리량 + 공정성 균형
 
 AMC 효과:
   고정 QPSK만 사용 시: 평균 5Mbps
   AMC 적용 시: 평균 35Mbps
-  → 7배 효율 향상
+  -> 7배 효율 향상
 ```
 
 > 📢 **섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) AMC = 도로 상황별 속도 조절 — 고속도로(가까운 기지국)엔 256-QAM으로 질주, 막히는 골목(먼 거리)엔 QPSK로 안전 운행. 매 1ms마다 자동 조정!
@@ -306,7 +306,7 @@ Wi-Fi 6E, 6G 연구
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. BPSK = 동전 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0°)=1, 뒷면(180°)=0. 딱 두 가지라 잡음에 강해요. 단, 한 번에 1비트만!
+1. BPSK = 동전 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0+)=1, 뒷면(180+)=0. 딱 두 가지라 잡음에 강해요. 단, 한 번에 1비트만!
 2. QPSK = 나침반 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 북/동/남/서 4방향으로 한 번에 2비트! BPSK와 같은 도로폭에서 2배 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)!
 3. AMC = 도로 상황별 속도 — 고속도로(256-QAM: 빠름), 골목길(QPSK: 안전). 5G가 매 1ms마다 자동 선택!
 
@@ -316,7 +316,7 @@ Wi-Fi 6E, 6G 연구
 
 **진행 상황**: 48 / 1120
 
-← **이전**: [047. PSK — 위상 편이 변조](/knowledge-base/studynote/03_network/01_data_communication/047_위상_편이_변조_PSK/)
-**다음**: [049. OQPSK / π/4-QPSK — 오프셋 위상 변조](/knowledge-base/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/) →
+<- **이전**: [047. PSK — 위상 편이 변조](/knowledge-base/studynote/03_network/01_data_communication/047_위상_편이_변조_PSK/)
+**다음**: [049. OQPSK / π/4-QPSK — 오프셋 위상 변조](/knowledge-base/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/) ->
 
 ---

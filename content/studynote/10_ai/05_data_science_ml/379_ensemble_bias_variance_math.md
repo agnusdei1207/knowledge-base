@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 예측 오차는 편향² (Bias²) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) + 줄일 수 없는 노이즈 (Irreducible Noise) 세 항의 합으로 분해되며, 편향과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 트레이드오프 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
+> 1. **본질**: 예측 오차는 편향^ (Bias^) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) + 줄일 수 없는 노이즈 (Irreducible Noise) 세 항의 합으로 분해되며, 편향과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 트레이드오프 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
 > 2. **가치**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) (Bootstrap Aggregating)은 독립적 모델 평균으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 1/n 수준으로 감소시키고, Boosting은 약한 학습기를 순차 결합해 편향을 점진적으로 완화한다.
 > 3. **판단 포인트**: 모델 선택 시 과적합(높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 문제라면 [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/), 과소적합(높은 편향) 문제라면 Boosting을 우선 검토하되 각각의 하이퍼파라미터 조정을 병행한다.
 
@@ -21,18 +21,18 @@ tags = ["studynote-ai"]
 
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 일반화 오차(Generalization Error)를 개선하려면 오차의 원천을 정확히 진단해야 한다. 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분해 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)-[Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Decomposition)는 오차를 수학적으로 해부하는 핵심 도구다.
 
-- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델의 예측 평균과 실제 값의 차이 → 모델 복잡도 부족 (과소적합)
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 다른 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련 시 예측값의 변동성 → 모델 복잡도 과잉 (과적합)
+- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델의 예측 평균과 실제 값의 차이 -> 모델 복잡도 부족 (과소적합)
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 다른 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련 시 예측값의 변동성 -> 모델 복잡도 과잉 (과적합)
 
 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법은 이 두 문제를 구조적으로 해결한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 편향은 "과녁 중심에서 체계적으로 빗나가는 것", [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "여기저기 흩어져 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 것"이다. 명중률을 높이려면 두 가지를 동시에 줄여야 한다.
@@ -44,11 +44,11 @@ tags = ["studynote-ai"]
 ### 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분해 수식
 
 ```
-E[(y - ŷ)²] = Bias²(ŷ) + Var(ŷ) + σ²_noise
+E[(y - ŷ)^] = Bias^(ŷ) + Var(ŷ) + σ^_noise
 
 Bias(ŷ)  = E[ŷ] - y_true
-Var(ŷ)   = E[(ŷ - E[ŷ])²]
-σ²_noise = 데이터의 본질적 노이즈 (줄일 수 없음)
+Var(ŷ)   = E[(ŷ - E[ŷ])^]
+σ^_noise = 데이터의 본질적 노이즈 (줄일 수 없음)
 ```
 
 ### Bagging의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 수식
@@ -58,13 +58,13 @@ n개의 독립 부트스트랩 모델 ŷ₁, …, ŷₙ의 평균:
 ```
 ŷ_bag = (1/n) Σᵢ ŷᵢ
 
-Var(ŷ_bag) = σ²/n  (완전 독립 모델 가정)
+Var(ŷ_bag) = σ^/n  (완전 독립 모델 가정)
 
 실제: 트리 간 상관계수 ρ가 있으면
-Var(ŷ_bag) = ρσ² + (1-ρ)σ²/n
+Var(ŷ_bag) = ρσ^ + (1-ρ)σ^/n
 ```
 
-상관계수 ρ를 줄일수록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과 극대화 → Random Forest는 특성 무작위 선택으로 ρ 감소
+상관계수 ρ를 줄일수록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과 극대화 -> Random Forest는 특성 무작위 선택으로 ρ 감소
 
 ### Boosting의 편향 감소 구조
 
@@ -75,17 +75,17 @@ hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 ```
 
 ```
-┌───────────────────────────────────────────────────────┐
-│ Bagging (병렬)                                        │
-│  데이터 → [트리1] ─┐                                  │
-│  데이터 → [트리2] ─┼─ 평균(회귀)/투표(분류) → ŷ_bag  │
-│  데이터 → [트리n] ─┘                                  │
-│                                                       │
-│ Boosting (순차)                                       │
-│  데이터 → [트리1] → 잔차1 →                           │
-│           [트리2] → 잔차2 → ... →                     │
-│           [트리n] → 합산 → ŷ_boost                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+| Bagging (병렬)                                        |
+|  데이터 -> [트리1] -+                                  |
+|  데이터 -> [트리2] -+- 평균(회귀)/투표(분류) -> ŷ_bag  |
+|  데이터 -> [트리n] -+                                  |
+|                                                       |
+| Boosting (순차)                                       |
+|  데이터 -> [트리1] -> 잔차1 ->                           |
+|           [트리2] -> 잔차2 -> ... ->                     |
+|           [트리n] -> 합산 -> ŷ_boost                    |
++-------------------------------------------------------+
 ```
 
 | 방법 | 해결 문제 | 결합 방식 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
@@ -115,16 +115,16 @@ hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
-- n_estimators ↑ → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, 연산 증가
-- max_features ↓ → ρ 감소 (특성 다양성), 편향 소폭 증가
-- max_depth 제한 → 개별 트리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통제
+- n_estimators ^ -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, 연산 증가
+- max_features v -> ρ 감소 (특성 다양성), 편향 소폭 증가
+- max_depth 제한 -> 개별 트리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통제
 
 <strong>XGBoost/LightGBM <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 - n_estimators × learning_rate 균형이 핵심
-- subsample, colsample_bytree → [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 요소 추가로 과적합 방지
-- [early stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) → 과적합 임계점 탐지
+- subsample, colsample_bytree -> [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 요소 추가로 과적합 방지
+- [early stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) -> 과적합 임계점 탐지
 
-기술사 판단: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실이 훈련 손실보다 현저히 높으면(높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) → [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 강화, 훈련 손실 자체가 높으면(높은 편향) → [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 반복 수 증가 또는 모델 복잡도 상향.
+기술사 판단: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실이 훈련 손실보다 현저히 높으면(높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) -> [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 강화, 훈련 손실 자체가 높으면(높은 편향) -> [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 반복 수 증가 또는 모델 복잡도 상향.
 
 - **📢 섹션 요약 비유**: 학습 곡선에서 훈련/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차가 모두 높으면 Boosting으로 "공부량"을 늘리고, 둘의 격차가 크면 Bagging으로 "시험 편차"를 줄여라.
 
@@ -152,7 +152,7 @@ hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [앙상블 편향-분산 (Bias-Variance) 수식] → [최적화·운영 자동화]
+[데이터 전처리] -> [앙상블 편향-분산 (Bias-Variance) 수식] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -167,7 +167,7 @@ hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 
 **진행 상황**: 379 / 420
 
-← **이전**: [378. 동적 시간 워핑 (DTW, Dynamic Time Warping)](/knowledge-base/studynote/10_ai/05_data_science_ml/378_dtw/)
-**다음**: [380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)](/knowledge-base/studynote/10_ai/05_data_science_ml/380_gradient_vanishing_kaiming/) →
+<- **이전**: [378. 동적 시간 워핑 (DTW, Dynamic Time Warping)](/knowledge-base/studynote/10_ai/05_data_science_ml/378_dtw/)
+**다음**: [380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)](/knowledge-base/studynote/10_ai/05_data_science_ml/380_gradient_vanishing_kaiming/) ->
 
 ---

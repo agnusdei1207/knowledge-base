@@ -40,20 +40,20 @@ tags = ["studynote-computer-architecture"]
 | 저장 노드 | 실제 객체 본문 저장 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [삭제 코딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/), 지역 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 내구성 확보 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Client                                                                  │
-│   │                                                                      │
-│   ├─ read / write / delete over HTTP                                     │
-│   ▼                                                                      │
-│ API Gateway -> Auth / Policy -> Metadata / Object ID                     │
-│                                     │                                    │
-│                                     └─ Placement decision                │
-│                                              │                           │
-│                        ┌─────────────────────┼─────────────────────┐     │
-│                        ▼                     ▼                     ▼     │
-│                  Storage Node A        Storage Node B        Storage Node C│
-│                  replica / shard       replica / shard       replica / shard│
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Client                                                                  |
+|   |                                                                      |
+|   +- read / write / delete over HTTP                                     |
+|   v                                                                      |
+| API Gateway -> Auth / Policy -> Metadata / Object ID                     |
+|                                     |                                    |
+|                                     +- Placement decision                |
+|                                              |                           |
+|                        +---------------------+---------------------+     |
+|                        v                     v                     v     |
+|                  Storage Node A        Storage Node B        Storage Node C|
+|                  replica / shard       replica / shard       replica / shard|
++--------------------------------------------------------------------------+
 ```
 
 중요한 점은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템처럼 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간 4킬로바이트만 덮어쓰기”를 기본 전제로 삼지 않는다는 것이다. 객체를 수정할 때는 새 객체 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 만들거나 전체 객체를 다시 써야 하는 경우가 많다. 대신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 수명주기 이동 같은 운영 기능을 매우 크게 확장할 수 있어 클라우드 규모에서 강점을 보인다.
@@ -139,17 +139,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 블록 / 파일 중심 저장
-        │
-        ▼
+        |
+        v
 경로 기반 네임스페이스의 확장 한계
-        │
-        ▼
+        |
+        v
 객체 ID + 메타데이터 기반 저장
-        │
-        ▼
+        |
+        v
 Amazon S3 (Simple Storage Service)형 클라우드 오브젝트 스토리지
-        │
-        ▼
+        |
+        v
 백업 / 데이터 레이크 / 글로벌 콘텐츠 저장의 기본 계층
 ```
 
@@ -167,7 +167,7 @@ Amazon S3 (Simple Storage Service)형 클라우드 오브젝트 스토리지
 
 **진행 상황**: 678 / 803
 
-← **이전**: [676. 콜드 데이터 (Cold Data) 아카이빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)
-**다음**: [678. Ceph 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/678_ceph_architecture/) →
+<- **이전**: [676. 콜드 데이터 (Cold Data) 아카이빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)
+**다음**: [678. Ceph 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/678_ceph_architecture/) ->
 
 ---

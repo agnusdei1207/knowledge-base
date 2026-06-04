@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 전자정부 표준 프레임워크 준수율은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 문제 해석     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 구조 배치     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 판단 문장     │
-└──────────────┘
++--------------+
+| 문제 해석     |
++------+-------+
+       |
++------v-------+
+| 구조 배치     |
++------+-------+
+       |
++------v-------+
+| 판단 문장     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 같은 규격의 플러그를 써야 어디서나 꽂히는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 지침 예외 관리을 통해 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 예외 처리를 확인한다. | 예외는 문서화된 승인으로 다뤄야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 서론 키워드  │ 본론 구조    │ 결론 판단    │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 서론 키워드  | 본론 구조    | 결론 판단    |
++------------+------------+------------+
 ```
 
 또한 전자정부 표준 프레임워크 준수율은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 표준 아키텍처 준수, 공통 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 활용, 지침 예외 관리, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-[개별 개발 표준] → [프레임워크 준수 점검] → [정책·코드 일체형 거버넌스]
+[개별 개발 표준] -> [프레임워크 준수 점검] -> [정책·코드 일체형 거버넌스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 전자정부 표준 프레임워크 준수율은 모두가 같은 규칙의 블록을 쓰는 것과 같아요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 395 / 530
 
-← **이전**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/318_security_audit_control_overview/)
-**다음**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/) →
+<- **이전**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/318_security_audit_control_overview/)
+**다음**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/) ->
 
 ---

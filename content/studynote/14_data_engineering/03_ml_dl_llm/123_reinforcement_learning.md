@@ -19,20 +19,20 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    강화 학습 프레임워크                                │
-├───────────────────────────────────────────────────────┤
-│  [Agent]                                              │
-│   현재 상태 s → 행동 a 선택 (Policy π)               │
-│      │                                                │
-│      ▼                                                │
-│  [Environment]                                        │
-│   행동 a 수행 → 보상 r + 새 상태 s' 반환             │
-│      │                                                │
-│      ▼                                                │
-│  [Agent] 보상 r을 기반으로 Policy 업데이트            │
-│   → 반복하여 누적 보상 최대화                        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    강화 학습 프레임워크                                |
++-------------------------------------------------------+
+|  [Agent]                                              |
+|   현재 상태 s -> 행동 a 선택 (Policy π)               |
+|      |                                                |
+|      v                                                |
+|  [Environment]                                        |
+|   행동 a 수행 -> 보상 r + 새 상태 s' 반환             |
+|      |                                                |
+|      v                                                |
+|  [Agent] 보상 r을 기반으로 Policy 업데이트            |
+|   -> 반복하여 누적 보상 최대화                        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 게임을 처음 하는 아이가 <strong>점수(보상)</strong>를 올리기 위해 여러 버튼을 눌러보면서(시행착오) 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 스스로 터득하는 것이다.
@@ -88,7 +88,7 @@ tags = ["studynote-dataengineering"]
 |:---|:---|
 | **Agent** | 행동을 선택하는 학습 주체 |
 | **Reward** | 행동의 좋고 나쁨을 알려주는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
-| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | 상태→행동 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | 상태->행동 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a></strong> | [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) + 인간 피드백 ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) |
 | <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a></strong> | 실용적 [Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
@@ -96,17 +96,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [Q-Learning (1989) — 테이블 기반]
-    │
-    ▼
+    |
+    v
 [DQN (2013, DeepMind) — 딥 Q-Network]
-    │
-    ▼
+    |
+    v
 [AlphaGo (2016) — 바둑 세계 챔피언 달성]
-    │
-    ▼
+    |
+    v
 [PPO (2017, OpenAI) — 실용적 Policy Gradient]
-    │
-    ▼
+    |
+    v
 [현재: RLHF (ChatGPT) + GRPO — LLM 정렬]
 ```
 
@@ -121,7 +121,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 123 / 258
 
-← **이전**: [122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)
-**다음**: [124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) →
+<- **이전**: [122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)
+**다음**: [124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) ->
 
 ---

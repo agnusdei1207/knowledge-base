@@ -32,28 +32,28 @@ tags = ["studynote-software-engineering"]
 RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'를 시각화하면 다음과 같다. 추적성이 없으면 변경의 파급 효과를 예측할 수 없다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         추적성 부재(단절) vs RTM 기반 양방향 추적성          │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [추적성 부재 시의 혼돈]                                      │
-  │  요구사항 A ──────?─────▶ 설계 X ──────?─────▶ 테스트 1    │
-  │  요구사항 B ──────?─────▶ 구현 Y ──────?─────▶ 테스트 2    │
-  │   (고객 요청 변경 시, 어디를 수정해야 하는지 파악 불가)           │
-  │                                                           │
-  │  [RTM 기반 양방향 추적 (Bidirectional Traceability)]         │
-  │                                                           │
-  │  [Req]       [Design]        [Code]        [Test]         │
-  │  REQ-01 ───▶ DES-101 ──┬──▶ MOD-A ──┬──▶ TC-001 (Pass)   │
-  │  (로그인)     (인증 모듈) │            │                    │
-  │                         └──▶ MOD-B ──┴──▶ TC-002 (Fail)   │
-  │                                                           │
-  │  ◀────────────────── 역방향 추적 (Backward)                  │
-  │    (TC-002 실패 원인은 REQ-01 명세 오류인가? 코드 버그인가?)    │
-  │                                                           │
-  │  순방향 추적 (Forward) ──────────────────▶                  │
-  │    (REQ-01이 모두 구현되고 테스트되었는가? 누락 확인)            │
-  └───────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------+
+  |         추적성 부재(단절) vs RTM 기반 양방향 추적성          |
+  +-----------------------------------------------------------+
+  |                                                           |
+  |  [추적성 부재 시의 혼돈]                                      |
+  |  요구사항 A ------?------> 설계 X ------?------> 테스트 1    |
+  |  요구사항 B ------?------> 구현 Y ------?------> 테스트 2    |
+  |   (고객 요청 변경 시, 어디를 수정해야 하는지 파악 불가)           |
+  |                                                           |
+  |  [RTM 기반 양방향 추적 (Bidirectional Traceability)]         |
+  |                                                           |
+  |  [Req]       [Design]        [Code]        [Test]         |
+  |  REQ-01 ----> DES-101 --+---> MOD-A --+---> TC-001 (Pass)   |
+  |  (로그인)     (인증 모듈) |            |                    |
+  |                         +---> MOD-B --+---> TC-002 (Fail)   |
+  |                                                           |
+  |  <------------------- 역방향 추적 (Backward)                  |
+  |    (TC-002 실패 원인은 REQ-01 명세 오류인가? 코드 버그인가?)    |
+  |                                                           |
+  |  순방향 추적 (Forward) ------------------->                  |
+  |    (REQ-01이 모두 구현되고 테스트되었는가? 누락 확인)            |
+  +-----------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 그림 상단은 추적성이 없을 때 요구사항이 설계와 테스트로 어떻게 연결되는지 알 수 없는 혼돈 상태를 나타낸다. 하단의 RTM 기반 체계에서는 단일 요구사항 (REQ-01)이 설계 문서 (DES-101), 실제 소스 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (MOD-A, MOD-B), 그리고 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) (TC-001, TC-002)와 명시적으로 연결되어 있다. 순방향 추적은 요구사항이 최종 제품에 누락 없이 반영되었는지 보장하며, 역방향 추적은 특정 테스트 실패나 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 요구사항을 위해 존재하는지 근거를 제공한다. 이는 변경 영향도 분석의 핵심 기반이 된다.
@@ -157,21 +157,21 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 요구사항 검증 추적성 매트릭스 (RTM) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
 
 **진행 상황**: 838 / 973
 
-← **이전**: [666. 요구사항 도출 JAD 페르소나](/knowledge-base/studynote/04_software_engineering/uncategorized/666_requirements_jad_persona/)
-**다음**: [668. 비기능 요구사항 아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/uncategorized/668_non_functional_requirements/) →
+<- **이전**: [666. 요구사항 도출 JAD 페르소나](/knowledge-base/studynote/04_software_engineering/uncategorized/666_requirements_jad_persona/)
+**다음**: [668. 비기능 요구사항 아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/uncategorized/668_non_functional_requirements/) ->
 
 ---

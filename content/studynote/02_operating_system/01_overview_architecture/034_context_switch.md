@@ -24,14 +24,14 @@ tags = ["studynote-os"]
 컨텍스트 스위칭 순서:
 
 1. 인터럽트/시스템 콜 발생
-   ↓
-2. 현재 프로세스 A의 CPU 레지스터 상태 → PCB_A에 저장
+   v
+2. 현재 프로세스 A의 CPU 레지스터 상태 -> PCB_A에 저장
    (PC, SP, 범용 레지스터, PSW 등)
-   ↓
+   v
 3. 스케줄러: 다음 프로세스 B 선택
-   ↓
+   v
 4. PCB_B에서 레지스터 상태 복원
-   ↓
+   v
 5. 프로세스 B 실행 재개
 ```
 
@@ -62,13 +62,13 @@ tags = ["studynote-os"]
 ```
 CPU 캐시 콜드 미스:
   프로세스 A의 워킹셋이 캐시에 있음
-  → 스위칭 후 프로세스 B가 캐시 미스 반복
-  → 성능 저하 (캐시 웜업 시간)
+  -> 스위칭 후 프로세스 B가 캐시 미스 반복
+  -> 성능 저하 (캐시 웜업 시간)
 
 TLB 플러시:
-  가상→물리 주소 변환 캐시(TLB) 무효화
-  → 이후 페이지 테이블 접근 비용 증가
-  → ASID(Address Space ID)로 플러시 회피 가능
+  가상->물리 주소 변환 캐시(TLB) 무효화
+  -> 이후 페이지 테이블 접근 비용 증가
+  -> ASID(Address Space ID)로 플러시 회피 가능
 ```
 
 📢 **섹션 요약 비유**: 간접 비용은 새 직원 적응 시간이다 — 직원 교체(스위칭) 자체는 빠르지만, 새 직원이 업무 파악(캐시 웜업)을 다시 해야 하는 시간이 더 크다.
@@ -84,7 +84,7 @@ TLB 플러시:
 | 메모리 맵      | 새 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 로딩     | 공유 (추가 비용 없음)  |
 | 비용           | 무겁다 (마이크로초 수준) | 가볍다 (수백 나노초)   |
 
-<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a>/그린 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a></strong>: 사용자 공간에서 스케줄링 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없어 더욱 빠름 (수십 나노초)
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a>/그린 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a></strong>: 사용자 공간에서 스케줄링 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없어 더욱 빠름 (수십 나노초)
 
 📢 **섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 같은 책의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(공유 주소 공간)이고, 프로세스 전환은 다른 책으로 교체(새 주소 공간·[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)다.
 
@@ -107,7 +107,7 @@ TLB 플러시:
 ### [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 스톰 방지
 
 ```
-문제: 스레드 1,000개 → 컨텍스트 스위치 오버헤드 > 실작업 시간
+문제: 스레드 1,000개 -> 컨텍스트 스위치 오버헤드 > 실작업 시간
 해결:
   1. 스레드 풀 크기 제한
   2. 비동기 I/O (epoll/io_uring) 사용
@@ -140,20 +140,20 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 
 ```
 컨텍스트 스위칭 (Context Switch)
-├── 저장 구조
-│   ├── PCB (Process Control Block)
-│   └── TCB (Thread Control Block)
-├── 비용 분류
-│   ├── 직접 비용 (레지스터 저장/복원)
-│   └── 간접 비용 (캐시 미스, TLB 플러시)
-├── 최적화
-│   ├── 스레드 풀 크기 최적화
-│   ├── 비동기 I/O (epoll, io_uring)
-│   └── 코루틴 (사용자 공간 스케줄링)
-└── 관련 개념
-    ├── 프로세스 스케줄링 (RR, MLFQ)
-    ├── NUMA 토폴로지
-    └── CPU 어피니티 (CPU Affinity)
++-- 저장 구조
+|   +-- PCB (Process Control Block)
+|   +-- TCB (Thread Control Block)
++-- 비용 분류
+|   +-- 직접 비용 (레지스터 저장/복원)
+|   +-- 간접 비용 (캐시 미스, TLB 플러시)
++-- 최적화
+|   +-- 스레드 풀 크기 최적화
+|   +-- 비동기 I/O (epoll, io_uring)
+|   +-- 코루틴 (사용자 공간 스케줄링)
++-- 관련 개념
+    +-- 프로세스 스케줄링 (RR, MLFQ)
+    +-- NUMA 토폴로지
+    +-- CPU 어피니티 (CPU Affinity)
 ```
 
 ---
@@ -161,23 +161,23 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              컨텍스트 스위칭 발전 흐름                           │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ 멀티프로그래밍 시작 │ 최초 컨텍스트 스위치 구현   │
-│ 1970년대     │ Unix 멀티프로세싱   │ PCB 구조 표준화              │
-│ 1990년대     │ 멀티스레딩 OS      │ 경량 TCB 컨텍스트 스위치    │
-│ 2000년대     │ 멀티코어 CPU       │ 코어 수 증가 → 병렬성 활용  │
-│ 2010년대     │ 코루틴/async       │ Go goroutine, Python asyncio|
-│ 2020년대     │ io_uring (Linux)   │ 비동기 I/O로 스위칭 최소화  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              컨텍스트 스위칭 발전 흐름                           |
++--------------+--------------------+-----------------------------+
+| 1960년대     | 멀티프로그래밍 시작 | 최초 컨텍스트 스위치 구현   |
+| 1970년대     | Unix 멀티프로세싱   | PCB 구조 표준화              |
+| 1990년대     | 멀티스레딩 OS      | 경량 TCB 컨텍스트 스위치    |
+| 2000년대     | 멀티코어 CPU       | 코어 수 증가 -> 병렬성 활용  |
+| 2010년대     | 코루틴/async       | Go goroutine, Python asyncio|
+| 2020년대     | io_uring (Linux)   | 비동기 I/O로 스위칭 최소화  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-인터럽트 → 컨텍스트 스위치 → PCB 저장 → 스케줄러 → 다음 프로세스
-    ↓              ↓                ↓           ↓
+인터럽트 -> 컨텍스트 스위치 -> PCB 저장 -> 스케줄러 -> 다음 프로세스
+    v              v                v           v
 타임슬라이스   레지스터 저장    TLB 플러시   우선순위 큐
-    ↓
-스레드 풀 최적화 → 비동기 I/O → 코루틴 → 컨텍스트 스위치 최소화
+    v
+스레드 풀 최적화 -> 비동기 I/O -> 코루틴 -> 컨텍스트 스위치 최소화
 ```
 
 ---
@@ -194,7 +194,7 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 
 **진행 상황**: 34 / 800
 
-← **이전**: [컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)
-**다음**: [035. 코어 덤프 (Core Dump)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) →
+<- **이전**: [컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)
+**다음**: [035. 코어 덤프 (Core Dump)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) ->
 
 ---

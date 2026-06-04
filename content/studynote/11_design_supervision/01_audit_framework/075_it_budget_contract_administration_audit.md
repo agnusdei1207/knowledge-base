@@ -24,11 +24,11 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 감리는 그래서 "얼마를 썼나"보다 "무엇을 근거로 썼나"를 본다.
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│ Budget -> Contract -> Work -> Accept -> Settle          │
-├────────┬───────────┬────────┬─────────┬───────────────┤
-│ limit  │ clauses   │ output │ proof   │ payment       │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+| Budget -> Contract -> Work -> Accept -> Settle          |
++--------+-----------+--------+---------+---------------+
+| limit  | clauses   | output | proof   | payment       |
++---------------------------------------------------------+
 ```
 
 이 흐름이 끊기면 예산 집행은 행정이 되고, 계약은 종이가 되며, 정산은 회계만 남는다.
@@ -110,23 +110,23 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 ```text
 기획
-  │
-  ▼
+  |
+  v
 예산 배정
-  │
-  ▼
+  |
+  v
 계약 체결
-  │
-  ▼
+  |
+  v
 수행·변경 관리
-  │
-  ▼
+  |
+  v
 검수
-  │
-  ▼
+  |
+  v
 정산
-  │
-  ▼
+  |
+  v
 감사 판단
 ```
 
@@ -142,7 +142,7 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 **진행 상황**: 115 / 530
 
-← **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/074_penetration_testing_vulnerability_remediation_audit/)
-**다음**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) →
+<- **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/074_penetration_testing_vulnerability_remediation_audit/)
+**다음**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) ->
 
 ---

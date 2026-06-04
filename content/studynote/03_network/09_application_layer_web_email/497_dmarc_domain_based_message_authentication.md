@@ -30,33 +30,33 @@ tags = ["studynote-network"]
   2. <strong>수신 서버들의 파편화된 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 구글은 스팸함에 넣고, 네이버는 그냥 통과시켜 주는 등 수신 서버마다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 중구난방이었다. DMARC는 송신자(브랜드 주인)가 "내 이름 훔친 메일은 무조건 찢어!"라고 전 세계 서버에 통일된 지시([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 내릴 수 있는 권력을 부여했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          DMARC의 핵심 철학: Alignment (겉과 속이 100% 똑같은가?)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👿 [ 해커의 간악한 사칭 공격 (DMARC가 없는 세상) ]                 │
-│                                                             │
-│  겉봉투 (Return-Path) : admin@hacker.com  (해커의 찐 주소)     │
-│  편지지 도장 (DKIM d=) : hacker.com       (해커의 찐 도장)     │
-│                                                             │
-│  ➔ 수신서버: "오! SPF랑 DKIM 다 패스했네! 무결점 인증 통과야!"         │
-│                                                             │
-│  속편지 이름표 (Header From) : ceo@naver.com (💥 해커가 가짜로 씀!)│
-│                                                             │
-│  ➔ 고객: (아웃룩 화면에 네이버 CEO라고 뜨니까 속아서 클릭함. 대재앙)      │
-│                                                             │
-│        ======= [ 🛡️ DMARC 폴리스의 등장 발동! ] ========         │
-│                                                             │
-│ 🏛️ [ DMARC 검사 로직 (Alignment Check) ]                       │
-│                                                             │
-│ "잠깐! SPF랑 DKIM이 패스한 건 알겠어. 근데 껍데기랑 속이 다르잖아?"        │
-│                                                             │
-│ 1️⃣ SPF Alignment: 겉봉투(hacker.com) ≠ 속편지(naver.com) ➔ ❌ FAIL│
-│ 2️⃣ DKIM Alignment: 도장(hacker.com) ≠ 속편지(naver.com) ➔ ❌ FAIL │
-│                                                             │
-│ 🌟 최종 판결: "속편지(Header From)랑 100% 일치하는 게 단 하나도 없다!   │
-│               이놈은 속을 위장한 사기꾼 껍데기다! 당장 스팸함으로 던져버려!" │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          DMARC의 핵심 철학: Alignment (겉과 속이 100% 똑같은가?)         |
++-------------------------------------------------------------+
+|                                                             |
+| 👿 [ 해커의 간악한 사칭 공격 (DMARC가 없는 세상) ]                 |
+|                                                             |
+|  겉봉투 (Return-Path) : admin@hacker.com  (해커의 찐 주소)     |
+|  편지지 도장 (DKIM d=) : hacker.com       (해커의 찐 도장)     |
+|                                                             |
+|  ➔ 수신서버: "오! SPF랑 DKIM 다 패스했네! 무결점 인증 통과야!"         |
+|                                                             |
+|  속편지 이름표 (Header From) : ceo@naver.com (💥 해커가 가짜로 씀!)|
+|                                                             |
+|  ➔ 고객: (아웃룩 화면에 네이버 CEO라고 뜨니까 속아서 클릭함. 대재앙)      |
+|                                                             |
+|        ======= [ 🛡️ DMARC 폴리스의 등장 발동! ] ========         |
+|                                                             |
+| 🏛️ [ DMARC 검사 로직 (Alignment Check) ]                       |
+|                                                             |
+| "잠깐! SPF랑 DKIM이 패스한 건 알겠어. 근데 껍데기랑 속이 다르잖아?"        |
+|                                                             |
+| 1️⃣ SPF Alignment: 겉봉투(hacker.com) ≠ 속편지(naver.com) ➔ ❌ FAIL|
+| 2️⃣ DKIM Alignment: 도장(hacker.com) ≠ 속편지(naver.com) ➔ ❌ FAIL |
+|                                                             |
+| 🌟 최종 판결: "속편지(Header From)랑 100% 일치하는 게 단 하나도 없다!   |
+|               이놈은 속을 위장한 사기꾼 껍데기다! 당장 스팸함으로 던져버려!" |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 정보보안기사나 기술사 시험에서 DMARC의 동작 원리를 물을 때 핵심은 `p=reject` 같은 단순 문법이 아니다. 바로 <strong>'Alignment(일치성)'</strong>이다. SPF와 DKIM이 아무리 `Pass`가 떠도, 그 패스한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 고객의 눈에 보여지는 실제 주소(`Header From`) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 다르면 DMARC는 가차 없이 `Fail`을 때려버린다. 이 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 아키텍처 덕분에 해커는 더 이상 타 회사의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 사칭할 물리적 가능성이 완전히 소멸했다. (단, 해커가 네이버 서버 자체를 해킹해서 뚫고 들어오면 막을 수 없다).
@@ -105,11 +105,11 @@ DMARC는 의외로 융통성이 있다.
 
 ```text
 [DKIM]
-    │
-    ▼
+    |
+    v
 [DMARC]
-    │
-    └──▶ [웹훅]
+    |
+    +---> [웹훅]
 ```
 
 - **📢 섹션 요약 비유**: DMARC `p=reject` 는 고속도로 톨게이트의 <strong>'타이어 펑크 차단기'</strong>입니다. 하이패스([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))가 안 꽂혀있으면 타이어를 찢어버리죠. 그런데 우리 집 식구들이 하이패스를 달았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)도 안 하고 차단기를 켜면 가족들 차 타이어가 다 찢어집니다(비즈니스 붕괴). 처음엔 `p=none` (경고음만 울림)으로 해놓고 식구들 차에 하이패스를 다 달아준 뒤에야, 마지막에 차단기를 올려 진짜 도둑들 타이어만 찢어발기는 것이 똑똑한 경비원입니다.
@@ -139,29 +139,29 @@ DMARC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
    - **판단**: 죽지 않는다! 여기서 DMARC의 그 유명한 **"둘 중 하나만 살아남으면 살려준다 (Logical OR)"** 아키텍처가 빚을 발한다. SPF는 중간 릴레이 때문에 IP가 변조되어(Alignment Fail) 피투성이가 되었지만, 메일 본문과 제목은 1글자도 바뀌지 않았으므로 거래처가 처음 찍어둔 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/">DKIM</a> 서명 도장은 100% 깨끗하게 살아남아 있다 (Alignment Pass)</strong>. DMARC는 SPF가 죽었더라도 DKIM이 살아있으면 "아, 중간에 누가 토스(전달)했구나!"라고 융통성 있게 알아채고 최종 판결을 <strong>PASS</strong>로 때려주어 메일을 살려낸다. (물론 메일링 리스트에서 제목 꼬리말이 바뀌면 DKIM마저 깨져버리기 때문에 ARC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 도입된 것이다).
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 글로벌 이메일 인증 삼위일체 (Tri-Force) 요약 정리   │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 1️⃣ SPF: "나쁜 차(IP)는 들어올 수 없다" ]                       │
-  │   - 역할: 배달 온 자동차 번호판(IP) 검사.                         │
-  │   - 한계: 도둑놈이 남의 정상 차(클라우드 AWS 등)를 렌트해 오면 뚫림.     │
-  │                                                             │
-  │ [ 2️⃣ DKIM: "위조된 서류(본문)는 들어올 수 없다" ]                  │
-  │   - 역할: 편지지 본문에 찍힌 암호학적 해시 도장(무결성) 검사.            │
-  │   - 한계: 도장도 진짜고 본문도 진짜인데, 사기꾼이 겉봉투만 다른 사람 이름으로│
-  │          바꿔치기해서 속여 먹으면 뚫림.                             │
-  │                                                             │
-  │ [ 3️⃣ DMARC: "껍데기와 알맹이가 다르면 모두 다 찢어버리겠다" ] 🌟 대장 │
-  │   - 역할: SPF의 합격 도메인, DKIM의 합격 도메인이 ➔ 최종 사용자의 눈에 │
-  │          보이는 `Header From(편지지 주소)`과 100% 똑같은지 대조!     │
-  │   - 명령: 다르면 무조건 사형(`p=reject`) 시키고 보안팀에 보고(`rua`)해라! │
-  │                                                             │
-  │ 🌟 아키텍트 최종 결론: 현대 이메일 보안은 이 3가지가 모여야 비로소 완벽한 │
-  │    하나의 우주(생태계)가 된다. 구글과 야후는 2024년부터 이 3가지 셋팅이 1개라도│
-  │    빵꾸난 도메인에서 5천 통 이상 메일이 오면 그냥 싹 다 허공에 버려버리는 │
-  │    극단적인 제로 트러스트(Zero Trust) 정책을 시행해 버렸다!             │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 글로벌 이메일 인증 삼위일체 (Tri-Force) 요약 정리   |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ 1️⃣ SPF: "나쁜 차(IP)는 들어올 수 없다" ]                       |
+  |   - 역할: 배달 온 자동차 번호판(IP) 검사.                         |
+  |   - 한계: 도둑놈이 남의 정상 차(클라우드 AWS 등)를 렌트해 오면 뚫림.     |
+  |                                                             |
+  | [ 2️⃣ DKIM: "위조된 서류(본문)는 들어올 수 없다" ]                  |
+  |   - 역할: 편지지 본문에 찍힌 암호학적 해시 도장(무결성) 검사.            |
+  |   - 한계: 도장도 진짜고 본문도 진짜인데, 사기꾼이 겉봉투만 다른 사람 이름으로|
+  |          바꿔치기해서 속여 먹으면 뚫림.                             |
+  |                                                             |
+  | [ 3️⃣ DMARC: "껍데기와 알맹이가 다르면 모두 다 찢어버리겠다" ] 🌟 대장 |
+  |   - 역할: SPF의 합격 도메인, DKIM의 합격 도메인이 ➔ 최종 사용자의 눈에 |
+  |          보이는 `Header From(편지지 주소)`과 100% 똑같은지 대조!     |
+  |   - 명령: 다르면 무조건 사형(`p=reject`) 시키고 보안팀에 보고(`rua`)해라! |
+  |                                                             |
+  | 🌟 아키텍트 최종 결론: 현대 이메일 보안은 이 3가지가 모여야 비로소 완벽한 |
+  |    하나의 우주(생태계)가 된다. 구글과 야후는 2024년부터 이 3가지 셋팅이 1개라도|
+  |    빵꾸난 도메인에서 5천 통 이상 메일이 오면 그냥 싹 다 허공에 버려버리는 |
+  |    극단적인 제로 트러스트(Zero Trust) 정책을 시행해 버렸다!             |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단순히 스팸을 거르는 필터를 넘어, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 평판(Reputation)을 어떻게 보호하는지 보여주는 아키텍처 삼위일체다. SPF는 길을 지키고, DKIM은 편지지를 지키며, DMARC는 이 둘을 감시하는 경찰청(Rule 엔진) 역할을 한다. 특히 DMARC의 `rua` (Reporting URI) 기능이 압권이다. 전 세계 어딘가에서 우리 회사 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 가짜 메일을 뿌리다 걸리면, 전 세계의 수신 서버(네이버, 다음 등)들이 "야, 어제 중국 텐센트 클라우드 IP에서 너네 회사 사칭 메일 1,000통 쏘다 걸렸어"라고 우리 회사 보안팀에 XML 리포트를 매일 아침 쏴준다. 이 빅데이터를 분석하여 글로벌 해커의 사칭 공격망을 실시간으로 추적하는 CTI(사이버 위협 인텔리전스)가 이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 텍스트 몇 줄에서 시작된다.
@@ -212,12 +212,12 @@ DMARC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ```text
 [선행 개념: DKIM]
-    │
-    ▼
+    |
+    v
 [현재 개념: DMARC]
-    │
-    ├──▶ [확장 A: 웹훅]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: 웹훅]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 DMARC는 DKIM에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -234,7 +234,7 @@ DMARC는 DKIM에서 출발해 현재 메커니즘을 정교화하고, 이후 [�
 
 **진행 상황**: 618 / 1120
 
-← **이전**: [496. DKIM (DomainKeys Identified Mail)](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)
-**다음**: [498. 웹훅 (Webhook)](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) →
+<- **이전**: [496. DKIM (DomainKeys Identified Mail)](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)
+**다음**: [498. 웹훅 (Webhook)](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) ->
 
 ---

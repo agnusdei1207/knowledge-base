@@ -45,20 +45,20 @@ tags = ["studynote-ai"]
 아래 그림은 핵심 구성 요소가 어떻게 하나의 폐루프를 이루는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MLOps closed loop                                                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Raw data ──▶ Feature / data pipeline ──▶ Training / validation       │
-│                 │                                │                   │
-│                 │                                ▼                   │
-│                 │                         Model registry             │
-│                 │                                │ approved          │
-│                 ▼                                ▼                   │
-│          Feature store ◀──────────────── Deployment / Serving API    │
-│                 ▲                                │                   │
-│                 └──── labels / feedback ◀─ Monitoring dashboard ────┘
-│                                  drift, latency, business KPI        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| MLOps closed loop                                                    |
++----------------------------------------------------------------------+
+| Raw data ---> Feature / data pipeline ---> Training / validation       |
+|                 |                                |                   |
+|                 |                                v                   |
+|                 |                         Model registry             |
+|                 |                                | approved          |
+|                 v                                v                   |
+|          Feature store <----------------- Deployment / Serving API    |
+|                 ^                                |                   |
+|                 +---- labels / feedback <-- Monitoring dashboard ----+
+|                                  drift, latency, business KPI        |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 서빙이 끝이 아니라는 점이다. 운영 중 수집된 예측 결과와 실제 라벨, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율, 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))가 다시 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 계층으로 돌아오고, 이상 징후가 감지되면 재학습·재배포·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 중 하나가 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)된다. 그래서 MLOps는 선형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 아니라 <strong>피드백 기반 제어 시스템</strong>에 가깝다.
@@ -148,23 +148,23 @@ tags = ["studynote-ai"]
 
 ```text
 Notebook 실험
-    │
-    ▼
+    |
+    v
 반복 가능한 데이터 / 학습 파이프라인
-    │
-    ▼
+    |
+    v
 Feature Store · Model Registry 도입
-    │
-    ▼
+    |
+    v
 Serving API · Monitoring Dashboard 운영
-    │
-    ▼
+    |
+    v
 CI/CD/CT 기반 자동 승격 · 롤백
-    │
-    ▼
+    |
+    v
 드리프트 대응형 폐루프 MLOps
-    │
-    ▼
+    |
+    v
 LLMOps · 평가 자동화 · 거버넌스 확장
 ```
 
@@ -182,7 +182,7 @@ LLMOps · 평가 자동화 · 거버넌스 확장
 
 **진행 상황**: 177 / 420
 
-← **이전**: [176. 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/176_concept_drift/)
-**다음**: [178. 피처 스토어 (Feature Store)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/178_feature_store/) →
+<- **이전**: [176. 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/176_concept_drift/)
+**다음**: [178. 피처 스토어 (Feature Store)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/178_feature_store/) ->
 
 ---

@@ -38,46 +38,46 @@ Gartner는 2017년 Augmented Analytics를 "AI와 ML이 [데이터](/knowledge-ba
 | 계층 | 기능 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술 |
 |:---|:---|:---|
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 자동화 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 추론, 결측값 처리 | [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델 |
-| 자연어 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 텍스트 → SQL 변환 | NLP, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 기반) |
+| 자연어 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 텍스트 -> SQL 변환 | NLP, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 기반) |
 | 자동 인사이트 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)·트렌드·상관관계 | 통계 검정, 클러스터링 |
 | [예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/) | 시계열 예측 | Prophet, [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스토리텔링 | 수치 → 자동 내러티브 | NLG (자연어 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스토리텔링 | 수치 -> 자동 내러티브 | NLG (자연어 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
 
 ### NLQ 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
 "지난 3개월 지역별 매출 상위 5개 상품" (자연어 입력)
-  → 의도 파악 (Intent Classification)
-  → 엔티티 추출 (기간: 3개월, 차원: 지역, 측도: 매출, Top5)
-  → SQL 자동 생성
-  → DW 쿼리 실행
-  → 결과 시각화 자동 선택 (Bar Chart)
+  -> 의도 파악 (Intent Classification)
+  -> 엔티티 추출 (기간: 3개월, 차원: 지역, 측도: 매출, Top5)
+  -> SQL 자동 생성
+  -> DW 쿼리 실행
+  -> 결과 시각화 자동 선택 (Bar Chart)
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) BI 처리 흐름
 
 ```
   원시 데이터 (DW / Data Mart)
-        │
-        ▼
-  ┌───────────────────────────────────────────────┐
-  │              AI 분석 레이어                    │
-  │  ┌────────────────┐  ┌──────────────────────┐ │
-  │  │   NLQ 엔진     │  │  Auto-Insight Engine │ │
-  │  │  (LLM + NLP)   │  │  (이상치/트렌드/예측) │ │
-  │  └───────┬────────┘  └──────────┬───────────┘ │
-  │          └──────────────┬───────┘             │
-  │                         ▼                     │
-  │  ┌──────────────────────────────────────────┐ │
-  │  │  자동 시각화 선택 + 데이터 스토리텔링 NLG  │ │
-  │  └──────────────────────────────────────────┘ │
-  └─────────────────────────┬─────────────────────┘
-                            ▼
+        |
+        v
+  +-----------------------------------------------+
+  |              AI 분석 레이어                    |
+  |  +----------------+  +----------------------+ |
+  |  |   NLQ 엔진     |  |  Auto-Insight Engine | |
+  |  |  (LLM + NLP)   |  |  (이상치/트렌드/예측) | |
+  |  +-------+--------+  +----------+-----------+ |
+  |          +--------------+-------+             |
+  |                         v                     |
+  |  +------------------------------------------+ |
+  |  |  자동 시각화 선택 + 데이터 스토리텔링 NLG  | |
+  |  +------------------------------------------+ |
+  +-------------------------+---------------------+
+                            v
         비즈니스 사용자 (코딩 불필요)
-        ┌──────────────────────────────┐
-        │  "Q3 판매 급감 원인은?"       │
-        │  → 자동 분석 + 내러티브 생성 │
-        └──────────────────────────────┘
+        +------------------------------+
+        |  "Q3 판매 급감 원인은?"       |
+        |  -> 자동 분석 + 내러티브 생성 |
+        +------------------------------+
 ```
 
 ### 주요 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) BI 도구 비교
@@ -118,7 +118,7 @@ Gartner는 2017년 Augmented Analytics를 "AI와 ML이 [데이터](/knowledge-ba
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 무시하고 NLQ 도입 | 오답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 사용자 불신 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 먼저 확보 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 무시하고 NLQ 도입 | 오답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 사용자 불신 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 먼저 확보 |
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인사이트 무조건 신뢰 | 비즈니스 맥락 없는 인사이트 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수 |
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) BI의 자동 인사이트는 자동차 경고등이다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내도 운전자가 원인을 이해하고 판단해야 한다. 경고등만 믿고 핸들을 놓으면 안 된다.
@@ -146,17 +146,17 @@ Gartner는 2017년 Augmented Analytics를 "AI와 ML이 [데이터](/knowledge-ba
 
 ```
 전통 BI - 수작업 SQL 쿼리 + 정적 대시보드
-    │
-    ▼
+    |
+    v
 셀프서비스 BI (Power BI, Tableau) - 드래그앤드롭
-    │
-    ▼
+    |
+    v
 Augmented Analytics - AI/ML 자동 인사이트 발굴
-    │
-    ▼
+    |
+    v
 NLQ (자연어 쿼리) + Auto-Narrative 리포트
-    │
-    ▼
+    |
+    v
 GenAI BI - LLM 기반 대화형 데이터 분석
 ```
 
@@ -174,7 +174,7 @@ GenAI BI - LLM 기반 대화형 데이터 분석
 
 **진행 상황**: 308 / 482
 
-← **이전**: [307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/307_molap_rolap_holap/)
-**다음**: [309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/309_influxdb_downsampling/) →
+<- **이전**: [307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/307_molap_rolap_holap/)
+**다음**: [309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/309_influxdb_downsampling/) ->
 
 ---

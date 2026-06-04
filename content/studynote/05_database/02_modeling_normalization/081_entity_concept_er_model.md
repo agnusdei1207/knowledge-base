@@ -33,26 +33,26 @@ tags = ["studynote-database"]
 개체는 단순히 철학적 개념으로 끝나지 않고, 철저히 쇳덩어리(DB)의 구성 요소로 1:1 진화([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           개체(Entity)의 개념적/논리적/물리적 진화 아키텍처        │
-├────────────────────────────────────────────────────────┤
-│  [ 1. 개념적 모델링 (E-R 다이어그램) ]                     │
-│        ┌─────────┐                                      │
-│        │   학생  │ ◀── 네모 박스 (Entity Type, 껍데기 틀) │
-│        └─────────┘                                      │
-│                                                        │
-│            ▼ (번역)                                    │
-│  [ 2. 논리적 모델링 (관계형 모델) ]                        │
-│    학생 ( 학번(PK), 이름, 나이 ) ◀── 릴레이션(Relation)     │
-│                                                        │
-│            ▼ (쇳덩어리 생성 명령어)                        │
-│  [ 3. 물리적 데이터베이스 (Oracle, MySQL) ]                │
-│    CREATE TABLE STUDENT (                              │
-│       STUDENT_ID VARCHAR(10) PRIMARY KEY,              │
-│       NAME VARCHAR(50),                                │
-│       AGE NUMBER                                       │
-│    );    ◀── 결국, 개체는 '테이블(Table)'로 완벽하게 융합됨! │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           개체(Entity)의 개념적/논리적/물리적 진화 아키텍처        |
++--------------------------------------------------------+
+|  [ 1. 개념적 모델링 (E-R 다이어그램) ]                     |
+|        +---------+                                      |
+|        |   학생  | <--- 네모 박스 (Entity Type, 껍데기 틀) |
+|        +---------+                                      |
+|                                                        |
+|            v (번역)                                    |
+|  [ 2. 논리적 모델링 (관계형 모델) ]                        |
+|    학생 ( 학번(PK), 이름, 나이 ) <--- 릴레이션(Relation)     |
+|                                                        |
+|            v (쇳덩어리 생성 명령어)                        |
+|  [ 3. 물리적 데이터베이스 (Oracle, MySQL) ]                |
+|    CREATE TABLE STUDENT (                              |
+|       STUDENT_ID VARCHAR(10) PRIMARY KEY,              |
+|       NAME VARCHAR(50),                                |
+|       AGE NUMBER                                       |
+|    );    <--- 결국, 개체는 '테이블(Table)'로 완벽하게 융합됨! |
++--------------------------------------------------------+
 ```
 
 여기서 가장 중요한 것은 <strong>엔티티 타입(Entity Type)</strong>과 <strong>엔티티 인스턴스(Entity Instance)</strong>의 분리다.
@@ -115,21 +115,21 @@ E-R 모델의 개체(Entity)는 카오스(혼돈) 상태의 현실 비즈니스�
 
 ```text
 비정형적이고 복잡한 현실 세계의 비즈니스 요구사항 범람
-    │
-    ▼
+    |
+    v
 요구사항 명세서에서 명사(Noun)와 동사(Verb)를 기계적으로 추출
-    │
-    ▼
+    |
+    v
 추출된 명사들을 자격 조건(업무관련성, 다수 인스턴스, 식별자) 필터망으로 거르기
-    │
-    ▼
-합격한 명사들을 정보공학의 절대 단위인 개체(Entity)로 정의 ──▶ E-R 다이어그램의 뼈대 완성
-    │
-    ▼
+    |
+    v
+합격한 명사들을 정보공학의 절대 단위인 개체(Entity)로 정의 ---> E-R 다이어그램의 뼈대 완성
+    |
+    v
 논리 모델링 단계에서 무기질적인 릴레이션(Table)으로 1:1 변환되어 물리 디스크에 안착
 ```
 
-이 흐름도는 "혼돈의 언어 집합 → 자격 검증을 통한 실체의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(Entity) → 컴퓨터가 이해하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 쇳덩어리(Table)로의 하강"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 본질적 변환 과정을 보여준다.
+이 흐름도는 "혼돈의 언어 집합 -> 자격 검증을 통한 실체의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(Entity) -> 컴퓨터가 이해하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 쇳덩어리(Table)로의 하강"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 본질적 변환 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ E-R 모델의 개체(Entity)는 카오스(혼돈) 상태의 현실 비즈니스�
 
 **진행 상황**: 81 / 600
 
-← **이전**: [080. E-R 모델 (Entity-Relationship Model, 피터 첸)](/knowledge-base/studynote/05_database/02_modeling_normalization/080_er_model_entity_relationship_peter_chen/)
-**다음**: [82. 속성 (Attribute)](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) →
+<- **이전**: [080. E-R 모델 (Entity-Relationship Model, 피터 첸)](/knowledge-base/studynote/05_database/02_modeling_normalization/080_er_model_entity_relationship_peter_chen/)
+**다음**: [82. 속성 (Attribute)](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ->
 
 ---

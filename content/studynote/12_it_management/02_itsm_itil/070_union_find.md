@@ -30,7 +30,7 @@ Union-Find는 그 문제를 빠르게 처리한다.
 
 ```text
 make-set
-  ↓ union
+  v union
 find-set
 ```
 
@@ -101,11 +101,11 @@ Union-Find는 큰 데이터에서도 집합 관계를 효율적으로 처리한�
 
 ```text
 Set
-  ↓
+  v
 Union-Find
-  ↓
+  v
 Path Compression
-  ↓
+  v
 Connectivity
 ```
 
@@ -115,11 +115,11 @@ Connectivity
 
 ```text
 Disjoint Set
-  ↓
+  v
 Union-Find
-  ↓
+  v
 Optimized Find
-  ↓
+  v
 Graph Algorithms
 ```
 
@@ -137,7 +137,7 @@ Union-Find는 그런 도구예요.
 
 **진행 상황**: 124 / 587
 
-← **이전**: [70. ITIL 4 서비스 가치 사슬 (Service Value Chain)](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_service_value_chain/)
-**다음**: [71. 4차원 모델 (Four Dimensions of Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) →
+<- **이전**: [70. ITIL 4 서비스 가치 사슬 (Service Value Chain)](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_service_value_chain/)
+**다음**: [71. 4차원 모델 (Four Dimensions of Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) ->
 
 ---

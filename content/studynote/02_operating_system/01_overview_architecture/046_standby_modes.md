@@ -25,8 +25,8 @@ ACPI (Advanced Configuration and Power Interface):
 
 글로벌 시스템 상태 (G-States):
   G0: 활성 (Working)
-  G1: 슬리핑 (Sleeping) → S1~S4
-  G2: 소프트 파워오프 (Soft Off) → S5
+  G1: 슬리핑 (Sleeping) -> S1~S4
+  G2: 소프트 파워오프 (Soft Off) -> S5
   G3: 메카니컬 파워오프 (전원 완전 차단)
 
 슬리핑 상태 (S-States):
@@ -46,7 +46,7 @@ ACPI (Advanced Configuration and Power Interface):
     소비전력: 1~2W
 
   S4 (Suspend to Disk, STD, Hibernation):
-    RAM → 디스크 저장 → 전원 OFF
+    RAM -> 디스크 저장 -> 전원 OFF
     복귀 시간: 수십초 (디스크에서 로드)
     소비전력: 0W (전원 OFF)
 
@@ -55,9 +55,9 @@ ACPI (Advanced Configuration and Power Interface):
     소비전력: < 1W
 
 Windows 대응:
-  S3 → 절전 (Sleep)
-  S4 → 최대 절전 (Hibernate)
-  Modern Standby → S0ix
+  S3 -> 절전 (Sleep)
+  S4 -> 최대 절전 (Hibernate)
+  Modern Standby -> S0ix
 ```
 
 > 📢 **섹션 요약 비유**: [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State는 회사 퇴근 단계 — S0=열심히 일하는 중, S1=잠깐 자리 비움, S3=퇴근(짐 두고), S4=완전 퇴근([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 끔), S5=전원 off. 빠른 복귀 vs 완전 절전 트레이드오프!
@@ -79,7 +79,7 @@ C-State 계층:
   C7: Enhanced Deep Power Down
   C10: 가장 깊은 절전 (최신 CPU)
 
-  진입: OS 스케줄러 유휴 감지 → Halt 명령
+  진입: OS 스케줄러 유휴 감지 -> Halt 명령
 
   복귀 지연:
   C1: <1 μs, C3: <100 μs, C6: <1 ms, C10: <10ms
@@ -90,8 +90,8 @@ CPU P-State (성능 상태):
   P0: 최고 주파수/전압 (최대 성능)
   P1, P2, ...: 낮은 주파수/전압
 
-  전력: P ≈ α × C × V² × f
-  V 20% 감소 → 전력 36% 감소 (V² 효과)
+  전력: P ≈ α × C × V^ × f
+  V 20% 감소 -> 전력 36% 감소 (V^ 효과)
 
 Linux cpufreq 드라이버:
   Governor (정책):
@@ -119,28 +119,28 @@ Modern Standby (Windows S0ix):
   스마트폰처럼 네트워크 연결 유지하면서 저전력
 
 기존 S3 대비:
-  S3: 네트워크 완전 차단 → 이메일/알림 수신 불가
-  S0ix: 저전력 상태에서 Wi-Fi 유지 → 알림 수신
+  S3: 네트워크 완전 차단 -> 이메일/알림 수신 불가
+  S0ix: 저전력 상태에서 Wi-Fi 유지 -> 알림 수신
 
 S0ix 동작:
-  디스플레이 꺼짐 → 화면 전원 OFF
-  → 앱 정지 (일시 중단)
-  → CPU C10 절전
-  → Wi-Fi 저전력 수신 유지 (Wi-Fi DTIM)
-  → 이메일 도착 → CPU 웨이크업 → 처리 → 다시 C10
+  디스플레이 꺼짐 -> 화면 전원 OFF
+  -> 앱 정지 (일시 중단)
+  -> CPU C10 절전
+  -> Wi-Fi 저전력 수신 유지 (Wi-Fi DTIM)
+  -> 이메일 도착 -> CPU 웨이크업 -> 처리 -> 다시 C10
 
   목표 전력: < 5~10 mW (화면 꺼진 상태)
 
 S0ix 문제:
-  배경 프로세스 미관리 → 전력 소모
+  배경 프로세스 미관리 -> 전력 소모
 
   배터리 드레인 원인:
   - 전력 비효율 드라이버 깨어남
   - 백그라운드 앱 웨이크락 남용
 
   진단 도구:
-  powercfg /sleepstudy → 수면 품질 리포트
-  powercfg /energy → 전력 이슈 진단
+  powercfg /sleepstudy -> 수면 품질 리포트
+  powercfg /energy -> 전력 이슈 진단
 
 Linux: 유사 개념
   SATA Link Power Management
@@ -166,15 +166,15 @@ OS 전력 관리 소프트웨어 스택:
 Linux 전력 관리:
 
   사용자공간: powertop, tlp, laptop-mode-tools
-  ↓
+  v
   커널 전력 관리 서브시스템:
   - pm-utils
   - /sys/power/ 인터페이스
-  ↓
+  v
   디바이스 드라이버 PM 콜백:
   - suspend(), resume()
   - runtime_suspend(), runtime_resume()
-  ↓
+  v
   하드웨어: ACPI, 칩셋
 
 Linux Runtime PM:
@@ -184,8 +184,8 @@ Linux Runtime PM:
   SATA 드라이브: 활동 없으면 스핀다운
 
   커널 코드 패턴:
-  pm_runtime_put_autosuspend(dev) → 절전
-  pm_runtime_get_sync(dev) → 깨우기
+  pm_runtime_put_autosuspend(dev) -> 절전
+  pm_runtime_get_sync(dev) -> 깨우기
 
 Windows 전력 계획:
   균형 (Balanced): 성능-전력 균형
@@ -245,7 +245,7 @@ macOS:
   DisconnectedStandbyEnabled = 1
 
   결과:
-  슬립 중 8시간 드레인: 40% → 4% (정상화)
+  슬립 중 8시간 드레인: 40% -> 4% (정상화)
 
 서버 전력 최적화 (다른 시나리오):
   데이터센터 서버 전력 관리
@@ -307,7 +307,7 @@ Android Doze 고도화
       |
       v
 [미래: AI 전력 예측]
-사용 패턴 학습 → 선제적 절전
+사용 패턴 학습 -> 선제적 절전
 ```
 
 ---
@@ -324,7 +324,7 @@ Android Doze 고도화
 
 **진행 상황**: 46 / 800
 
-← **이전**: [045. 클러스터 시스템 — Cluster System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/045_cluster_system/)
-**다음**: [047. DLM — 분산 잠금 관리자](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/) →
+<- **이전**: [045. 클러스터 시스템 — Cluster System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/045_cluster_system/)
+**다음**: [047. DLM — 분산 잠금 관리자](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/) ->
 
 ---

@@ -44,16 +44,16 @@ tags = ["studynote-operating-system"]
 아래 그림은 "숫자가 작을수록 높은 우선순위"인 시스템에서 노화가 어떻게 기아를 줄이는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Aging example: lower number means higher priority                 │
-├────────────────────────────────────────────────────────────────────┤
-│ waiting time        t0      t1      t2      t3      t4            │
-│ high-priority H      1       1       1       1       1            │
-│ waiting task L       9  ->   7  ->   5  ->   3  ->   1            │
-│ scheduler choice     H       H       H       H      L runs        │
-│                                                                    │
-│ rule: effective priority = max(1, base - aging_step × wait_slots) │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Aging example: lower number means higher priority                 |
++--------------------------------------------------------------------+
+| waiting time        t0      t1      t2      t3      t4            |
+| high-priority H      1       1       1       1       1            |
+| waiting task L       9  ->   7  ->   5  ->   3  ->   1            |
+| scheduler choice     H       H       H       H      L runs        |
+|                                                                    |
+| rule: effective priority = max(1, base - aging_step × wait_slots) |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 포인트는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 버리지 않으면서도 최악 대기 시간을 통제하려는 데 있다. 상위 작업이 계속 들어와도, 오래 기다린 작업은 점점 높은 우선권을 얻는다. 그래서 노화는 엄밀한 의미의 완전 평등이 아니라 <strong>시간이 누적되면 계층 차이를 서서히 지우는 기법</strong>이라고 볼 수 있다.
@@ -135,16 +135,16 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 ```text
 고정 우선순위 · SJF 중심 스케줄링
-        │
-        ▼
+        |
+        v
 하위 작업의 무기한 대기
-        │
-        ▼
+        |
+        v
 노화 (Aging) 도입
-        │
-        ├──────────────▶ bounded waiting 보장 강화
-        ├──────────────▶ MLFQ의 periodic boost
-        └──────────────▶ CFS의 공정 스케줄링 철학으로 발전
+        |
+        +---------------> bounded waiting 보장 강화
+        +---------------> MLFQ의 periodic boost
+        +---------------> CFS의 공정 스케줄링 철학으로 발전
 ```
 
 이 흐름도는 노화가 단순 보정 기법을 넘어, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 공정성 메커니즘으로 발전해 간 과정을 보여 준다.
@@ -161,7 +161,7 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 **진행 상황**: 182 / 800
 
-← **이전**: [181. 기아 상태 (Starvation / Indefinite Blocking)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/181_starvation_indefinite_blocking/)
-**다음**: [183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/183_multilevel_queue_scheduling/) →
+<- **이전**: [181. 기아 상태 (Starvation / Indefinite Blocking)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/181_starvation_indefinite_blocking/)
+**다음**: [183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/183_multilevel_queue_scheduling/) ->
 
 ---

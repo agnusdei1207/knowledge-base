@@ -21,11 +21,11 @@ tags = ["studynote-devops-sre"]
 카오스 실험 5단계:
 
 ```
-1. Steady State 정의 → SLI 기준 정상 상태 지표 선정
-2. 가설 설정 → "노드 하나 장애나도 응답률 99% 유지"
-3. 실험 설계 → 실패 유형 선택
-4. 실험 실행 → 최소 폭발 반경으로 시작 → 점진적 확대
-5. 결과 분석 → Steady State 벗어난 경우 취약점 발견
+1. Steady State 정의 -> SLI 기준 정상 상태 지표 선정
+2. 가설 설정 -> "노드 하나 장애나도 응답률 99% 유지"
+3. 실험 설계 -> 실패 유형 선택
+4. 실험 실행 -> 최소 폭발 반경으로 시작 -> 점진적 확대
+5. 결과 분석 -> Steady State 벗어난 경우 취약점 발견
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -68,14 +68,14 @@ GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를
 
 ## Ⅳ. 카오스 실험의 안전 원칙
 
-1. **최소 폭발 반경**: 스테이징 → 운영 일부 → 전체 순으로 확대
+1. **최소 폭발 반경**: 스테이징 -> 운영 일부 -> 전체 순으로 확대
 2. **자동 중단 장치**: Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 벗어나면 실험 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)
 3. **비즈니스 영향 최소화**: 저트래픽 시간대 실행
 4. **팀 공지**: 실험 전 On-[call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 팀에 사전 통보
 
 ```
 카오스 실험 안전 게이트
-Staging → Canary(5%) → 25% → 50% → 100%
+Staging -> Canary(5%) -> 25% -> 50% -> 100%
           자동 중단 조건 항상 활성화
 ```
 
@@ -101,11 +101,11 @@ Staging → Canary(5%) → 25% → 50% → 100%
 
 ```
 Chaos Engineering
-    ├── Steady State Hypothesis → 실험 기준 정의
-    ├── 장애 주입 → 네트워크/파드/노드/리소스
-    ├── LitmusChaos / Chaos Mesh → K8s 네이티브 도구
-    ├── GameDay → 팀 규모 장애 훈련
-    └── Resilience Engineering → 장애 내성 시스템 설계
+    +-- Steady State Hypothesis -> 실험 기준 정의
+    +-- 장애 주입 -> 네트워크/파드/노드/리소스
+    +-- LitmusChaos / Chaos Mesh -> K8s 네이티브 도구
+    +-- GameDay -> 팀 규모 장애 훈련
+    +-- Resilience Engineering -> 장애 내성 시스템 설계
 ```
 
 > 🧒 **어린이 비유**
@@ -117,7 +117,7 @@ Chaos Engineering
 
 **진행 상황**: 324 / 373
 
-← **이전**: [Prometheus Grafana Monitoring](/knowledge-base/studynote/15_devops_sre/05_devsecops/323_process/)
-**다음**: [325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat](/knowledge-base/studynote/11_design_supervision/06_exam_summary/325_audit/) →
+<- **이전**: [Prometheus Grafana Monitoring](/knowledge-base/studynote/15_devops_sre/05_devsecops/323_process/)
+**다음**: [325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat](/knowledge-base/studynote/11_design_supervision/06_exam_summary/325_audit/) ->
 
 ---

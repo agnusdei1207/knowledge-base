@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [QUIC 연결 마이그레이션]
-    │
-    ▼
+    |
+    v
 [TLS 1.3 기본 내장]
-    │
-    └──▶ [FEC 기능 선택적 포함]
+    |
+    +---> [FEC 기능 선택적 포함]
 ```
 
 - **📢 섹션 요약 비유**: <strong> QUIC에 내장된 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3은 놀이공원 입구의 </strong>"티켓 + 소지품 동시 검사대"**입니다. 예전엔 티켓을 내고([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 접속) 10m를 더 걸어가서 가방 검사([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 협상)를 따로 받아 줄이 길었지만, 지금은 입장 게이트 하나에서 두 가지를 0.1초 만에 스캔하고 들여보내 엄청난 입장 속도를 자랑합니다.
@@ -56,26 +56,26 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
 4. <strong>대기 시간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>) 0초</strong>. 클릭하자마자 화면이 팝업되는 모바일 쾌적함의 정점이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP/TLS 1.2 vs QUIC/TLS 1.3 체감 시간 비교          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 기존 방식 (TCP + TLS 1.2) - 총 3 RTT 소모 ]                 │
- │   클라이언트 ──▶ SYN (TCP 인사)                               │
- │            ◀── SYN-ACK                                      │
- │            ──▶ ACK (TCP 완료) + Client Hello (TLS 인사)      │
- │            ◀── Server Hello (인증서 던져줌)                  │
- │            ──▶ Client Key Exchange (암호키 조율)             │
- │            ◀── Finished (암호화 터널 뚫림!)                   │
- │            ──▶ GET /index.html (비로소 진짜 데이터 요구 ㅠㅠ)    │
- │                                                             │
- │   [ QUIC 방식 (UDP + TLS 1.3) - 단 1 RTT 소모 ]                 │
- │   클라이언트 ──▶ QUIC 인사 + TLS Client Hello + 내 암호키 조각!   │
- │            ◀── QUIC 확인 + TLS Server Hello + 완벽한 터널 뚫림! │
- │            ──▶ GET /index.html (데이터 내놔!!)               │
- │                                                             │
- │   ▶ "왕복 2번(약 100~200ms)의 허송세월을 잘라내버린 기적의 다이어트!" │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP/TLS 1.2 vs QUIC/TLS 1.3 체감 시간 비교          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 기존 방식 (TCP + TLS 1.2) - 총 3 RTT 소모 ]                 |
+ |   클라이언트 ---> SYN (TCP 인사)                               |
+ |            <--- SYN-ACK                                      |
+ |            ---> ACK (TCP 완료) + Client Hello (TLS 인사)      |
+ |            <--- Server Hello (인증서 던져줌)                  |
+ |            ---> Client Key Exchange (암호키 조율)             |
+ |            <--- Finished (암호화 터널 뚫림!)                   |
+ |            ---> GET /index.html (비로소 진짜 데이터 요구 ㅠㅠ)    |
+ |                                                             |
+ |   [ QUIC 방식 (UDP + TLS 1.3) - 단 1 RTT 소모 ]                 |
+ |   클라이언트 ---> QUIC 인사 + TLS Client Hello + 내 암호키 조각!   |
+ |            <--- QUIC 확인 + TLS Server Hello + 완벽한 터널 뚫림! |
+ |            ---> GET /index.html (데이터 내놔!!)               |
+ |                                                             |
+ |   -> "왕복 2번(약 100~200ms)의 허송세월을 잘라내버린 기적의 다이어트!" |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))들의 절망: 페이로드의 완전한 암호화
@@ -141,12 +141,12 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
 
 ```text
 [선행 개념: QUIC 연결 마이그레이션]
-    │
-    ▼
+    |
+    v
 [현재 개념: TLS 1.3 기본 내장]
-    │
-    ├──▶ [확장 A: FEC 기능 선택적 포함]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: FEC 기능 선택적 포함]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장는 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션에서 출발해 현재 메커니즘을 정교화하고, 이후 FEC 기능 선택적 포함와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
 
 **진행 상황**: 579 / 1120
 
-← **이전**: [457. QUIC 연결 마이그레이션 (Connection Migration)](/knowledge-base/studynote/03_network/08_transport_layer/457_quic_connection_migration_connection_id/)
-**다음**: [459. FEC 기능 선택적 포함 (초기)](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) →
+<- **이전**: [457. QUIC 연결 마이그레이션 (Connection Migration)](/knowledge-base/studynote/03_network/08_transport_layer/457_quic_connection_migration_connection_id/)
+**다음**: [459. FEC 기능 선택적 포함 (초기)](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ->
 
 ---

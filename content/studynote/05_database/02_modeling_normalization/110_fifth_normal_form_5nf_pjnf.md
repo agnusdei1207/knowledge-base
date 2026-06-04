@@ -18,20 +18,20 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 단계별로 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거한다: [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)(부분 FD), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)(이행 FD), [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건), [4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)). 4NF까지 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 속성이 순환 꼬리물기(A→B→C→A)</strong>를 하는 특수 구조에서 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생할 수 있다.
+[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 단계별로 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거한다: [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)(부분 FD), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)(이행 FD), [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건), [4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)). 4NF까지 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 속성이 순환 꼬리물기(A->B->C->A)</strong>를 하는 특수 구조에서 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생할 수 있다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│       5NF 수술: 순환 종속 3단 분해                      │
-├───────────────────────────────────────────────────────┤
-│  [원본 R(과목, 강사, 교재)] — 3속성이 기본키           │
-│  → 2개 분해 시 Spurious Tuple 발생 (손실!)            │
-│  → 3개 분해 시 무손실 복원 ✅                          │
-│                                                       │
-│  R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R    │
-│  → 각 테이블에 2속성만 저장 → 갱신 이상 완전 제거     │
-│  → 이것이 5NF (PJ-NF) 달성                           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|       5NF 수술: 순환 종속 3단 분해                      |
++-------------------------------------------------------+
+|  [원본 R(과목, 강사, 교재)] — 3속성이 기본키           |
+|  -> 2개 분해 시 Spurious Tuple 발생 (손실!)            |
+|  -> 3개 분해 시 무손실 복원 ✅                          |
+|                                                       |
+|  R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R    |
+|  -> 각 테이블에 2속성만 저장 -> 갱신 이상 완전 제거     |
+|  -> 이것이 5NF (PJ-NF) 달성                           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 5NF는 결벽증 정리 전문가가 물건을 1종류씩 진공포장하여 서랍 100개에 따로 넣은 무균실이다.
@@ -72,7 +72,7 @@ tags = ["studynote-database"]
 3. 5NF를 실무에 적용하지 않는 이유(3중 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용)를 설명할 수 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **5NF 맹목적 적용**: 수천만 건 테이블을 5NF로 분해하여 3중 조인 → DB CPU 100% → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애.
+- **5NF 맹목적 적용**: 수천만 건 테이블을 5NF로 분해하여 3중 조인 -> DB CPU 100% -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애.
 
 ---
 
@@ -95,17 +95,17 @@ tags = ["studynote-database"]
 
 ```text
 [1NF~3NF (Codd, 1970s) — FD 기반 정규화]
-    │
-    ▼
+    |
+    v
 [BCNF (1974) — 결정자 조건 강화]
-    │
-    ▼
+    |
+    v
 [4NF (Fagin, 1977) — MVD 제거]
-    │
-    ▼
+    |
+    v
 [5NF/PJ-NF (Fagin, 1979) — JD 제거, 정규화 이론 완결]
-    │
-    ▼
+    |
+    v
 [현재: 실무에서는 BCNF~4NF + 역정규화로 성능 최적화]
 ```
 
@@ -120,7 +120,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 110 / 600
 
-← **이전**: [109. 조인 종속성 (Join Dependency, JD) - 제5정규형(5NF)의 수학적 토대](/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/)
-**다음**: [111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) →
+<- **이전**: [109. 조인 종속성 (Join Dependency, JD) - 제5정규형(5NF)의 수학적 토대](/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/)
+**다음**: [111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) ->
 
 ---

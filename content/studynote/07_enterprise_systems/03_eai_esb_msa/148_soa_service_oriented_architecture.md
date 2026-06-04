@@ -31,21 +31,21 @@ tags = ["studynote-enterprise-systems"]
 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)앵글의 심장은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소비자, 그리고 그 둘을 중개하는 거대한 중앙 전화번호부의 핑퐁 아키텍처다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SOA 트라이앵글의 3대 액터 십자 핑퐁 파이프라인 (Publish/Find/Bind) │
-├─────────────────────────────────────────────────────────────┤
-│ 🗄️ [ 1. Service Registry (UDDI / 중앙 공용 서비스 전화번호부 뇌) ]  │
-│   - 포커스: 사내 1,000개의 '서비스(API)' 주소록이 등록된 황금 전화번호부.      │
-│                                                             │
-│         (3. 검색 / Find)  ↗️               ↖️ (1. 등록 / Publish) │
-│                          /                    \             │
-│                         /                      \            │
-│ 👨‍💻 [ 3. Service Requester (소비자) ] ──(2. 호출/Bind)──▶ 🛠️ [ 2. Service Provider (공급자) ]│
-│                                                             │
-│ 1️⃣ Publish: 인사팀 서버가 "내가 방금 [연봉계산기 API] 만들었으니 등록해놔!" 외침│
-│ 2️⃣ Find   : 마케팅 앱이 "연봉계산 API 짠 거 사내에 있어?" UDDI에 검색 조회  │
-│ 3️⃣ Bind   : 마케팅 앱이 찾은 IP 주소(10.1.1.5)로 다이렉트 통신 융합 호출 쓩!!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SOA 트라이앵글의 3대 액터 십자 핑퐁 파이프라인 (Publish/Find/Bind) |
++-------------------------------------------------------------+
+| 🗄️ [ 1. Service Registry (UDDI / 중앙 공용 서비스 전화번호부 뇌) ]  |
+|   - 포커스: 사내 1,000개의 '서비스(API)' 주소록이 등록된 황금 전화번호부.      |
+|                                                             |
+|         (3. 검색 / Find)  ↗️               ↖️ (1. 등록 / Publish) |
+|                          /                    \             |
+|                         /                      \            |
+| 👨‍💻 [ 3. Service Requester (소비자) ] --(2. 호출/Bind)---> 🛠️ [ 2. Service Provider (공급자) ]|
+|                                                             |
+| 1️⃣ Publish: 인사팀 서버가 "내가 방금 [연봉계산기 API] 만들었으니 등록해놔!" 외침|
+| 2️⃣ Find   : 마케팅 앱이 "연봉계산 API 짠 거 사내에 있어?" UDDI에 검색 조회  |
+| 3️⃣ Bind   : 마케팅 앱이 찾은 IP 주소(10.1.1.5)로 다이렉트 통신 융합 호출 쓩!!|
++-------------------------------------------------------------+
 ```
 
 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 아키텍처를 구현하는 3대 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Web [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 표준 헌법.
@@ -115,20 +115,20 @@ SOA는 코드 생산 공학의 관점에서 '혁명'이었다. 기존에는 다�
 
 ```text
 모놀리식 (Monolithic) 스파게티 사일로 / 1통짜리 쇳덩이 코딩, 강결합 도미노 파국
-    │
-    ▼
+    |
+    v
 EAI (Enterprise Application Integration) / 전사 시스템을 허브 앤 스포크(Hub & Spoke)로 단순 연결
-    │
-    ▼
+    |
+    v
 SOA (Service Oriented Architecture) 십자 융합 탄생
  (1) 서비스 찢기 + 재사용(Reuse) 철학 도입
  (2) 3대 표준 웹 서비스 헌법 락킹 (WSDL, SOAP, UDDI)
  (3) 중앙집권 통제 미들웨어 (ESB 버스 오케스트레이션 지휘)
-    │
-    ▼
+    |
+    v
 ESB 오버헤드 폭주 및 뚱뚱한 XML 파싱 CPU 붕괴 (SPOF 병목의 한계)
-    │
-    ▼
+    |
+    v
 MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡통 버스(Kafka), 코레오그래피 무중앙 춤추기
 ```
 
@@ -144,7 +144,7 @@ MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡�
 
 **진행 상황**: 148 / 482
 
-← **이전**: [147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/147_data_application_process_integration_etl_api_bpm/)
-**다음**: [149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/149_service_characteristics_soa/) →
+<- **이전**: [147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/147_data_application_process_integration_etl_api_bpm/)
+**다음**: [149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/149_service_characteristics_soa/) ->
 
 ---

@@ -25,19 +25,19 @@ tags = ["studynote-software-engineering"]
 이를 해결하기 위한 엔지니어링 딜레마가 바로 **"다 돌릴 것인가(Retest-All), 찝어서 돌릴 것인가(Selective Regression)"** 입니다. 이것은 단순한 게으름의 문제가 아닙니다. 한정된 컴퓨팅 자원(Server Farm 빌드 노드 시간)과 '개발 피드백 사이클 속도'를 지키기 위한 고도의 수학적 알고리즘과 아키텍처적 결단입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  회귀 테스트 실행 전략의 극단 비교               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 전체 재테스트 (Retest All)                                 │
-│    "모르겠고, 불안하니까 10만 개 TC 밤새 다 돌려!!"               │
-│    ──▶ 장점 : 100% 안심 보장, 사이드 이펙트 누락 제로             │
-│    ──▶ 단점 : 피드백에 24시간 소요, 개발자들 빌드 기다리다 칼퇴근      │
-│                                                              │
-│ 2. 선택적 테스팅 (Selective Regression Testing)                │
-│    "이번 패치는 결제.java 야. 이와 연결된 TC 500개만 가져와 돌려!!"  │
-│    ──▶ 장점 : 5분 만에 결과 확인 (총알 피드백, 쾌속 전진)           │
-│    ──▶ 단점 : 의존성 파악을 놓친 저기 귀퉁이 모듈에서 버그 터질 위험.  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  회귀 테스트 실행 전략의 극단 비교               |
++--------------------------------------------------------------+
+| 1. 전체 재테스트 (Retest All)                                 |
+|    "모르겠고, 불안하니까 10만 개 TC 밤새 다 돌려!!"               |
+|    ---> 장점 : 100% 안심 보장, 사이드 이펙트 누락 제로             |
+|    ---> 단점 : 피드백에 24시간 소요, 개발자들 빌드 기다리다 칼퇴근      |
+|                                                              |
+| 2. 선택적 테스팅 (Selective Regression Testing)                |
+|    "이번 패치는 결제.java 야. 이와 연결된 TC 500개만 가져와 돌려!!"  |
+|    ---> 장점 : 5분 만에 결과 확인 (총알 피드백, 쾌속 전진)           |
+|    ---> 단점 : 의존성 파악을 놓친 저기 귀퉁이 모듈에서 버그 터질 위험.  |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 범죄자가 섬에 숨어들었다고 할 때, 섬의 나무 100만 그루를 한 그루씩 전부 들춰보는 무식한 수색(Retest All)과, 범죄자가 탄 배가 닿은 동쪽 해안가 근처 나무 1,000그루만 집중적으로 뒤지는 효율적 수색(Selective)의 차이입니다.
@@ -140,21 +140,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +168,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 413 / 973
 
-← **이전**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)
-**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/411_regression_test_strategy/) →
+<- **이전**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)
+**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/411_regression_test_strategy/) ->
 
 ---

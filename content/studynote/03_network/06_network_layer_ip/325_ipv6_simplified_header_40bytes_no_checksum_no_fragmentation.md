@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPv6]
-    │
-    ▼
+    |
+    v
 [IPv6 단순화된 헤더]
-    │
-    └──▶ [트래픽 클래스 / 플로우 레이블]
+    |
+    +---> [트래픽 클래스 / 플로우 레이블]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 헤더의 단순화는 F1 레이싱카의 설계 철학과 똑같습니다. 차체(IP 주소)는 커졌지만, 레이싱(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>) 속도에 방해되는 에어컨, 오디오, 뒷좌석(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 필드)을 몽땅 떼어내어 </strong>오직 달리는 목적 하나에만 최적화된 궁극의 다이어트 머신**을 만든 것입니다.
@@ -59,28 +59,28 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 8. **Destination Address (128비트, 16바이트)**: 목적지 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 헤더 vs IPv4 헤더 다이어트 비교              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 뚱뚱한 IPv4 (최소 20바이트) ]                              │
- │   VER | IHL | TOS | Total Length                            │
- │   ID  | Flags | Fragment Offset   ◀─ 라우터를 미치게 하는 부분  │
- │   TTL | Protocol | Header Checksum ◀─ 라우터를 미치게 하는 부분  │
- │   Source IP (32비트)                                         │
- │   Destination IP (32비트)                                    │
- │                                                             │
- │   ───────────────────────────────────────────────────────── │
- │                                                             │
- │   [ 근육질 IPv6 (고정 40바이트) ]                              │
- │   VER | Traffic Class | Flow Label (20비트 고속터널)           │
- │   Payload Len | Next Header | Hop Limit                     │
- │   Source IPv6 (무려 128비트 깡패 용량)                         │
- │   Destination IPv6 (무려 128비트 깡패 용량)                    │
- │                                                             │
- │   ▶ "주소 크기가 4배나 커졌는데, 군더더기를 싹 다 잘라낸 덕분에       │
- │      오히려 라우터 통과 속도는 더 빨라지는 기적의 다이어트!"           │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IPv6 헤더 vs IPv4 헤더 다이어트 비교              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 뚱뚱한 IPv4 (최소 20바이트) ]                              |
+ |   VER | IHL | TOS | Total Length                            |
+ |   ID  | Flags | Fragment Offset   <-- 라우터를 미치게 하는 부분  |
+ |   TTL | Protocol | Header Checksum <-- 라우터를 미치게 하는 부분  |
+ |   Source IP (32비트)                                         |
+ |   Destination IP (32비트)                                    |
+ |                                                             |
+ |   --------------------------------------------------------- |
+ |                                                             |
+ |   [ 근육질 IPv6 (고정 40바이트) ]                              |
+ |   VER | Traffic Class | Flow Label (20비트 고속터널)           |
+ |   Payload Len | Next Header | Hop Limit                     |
+ |   Source IPv6 (무려 128비트 깡패 용량)                         |
+ |   Destination IPv6 (무려 128비트 깡패 용량)                    |
+ |                                                             |
+ |   -> "주소 크기가 4배나 커졌는데, 군더더기를 싹 다 잘라낸 덕분에       |
+ |      오히려 라우터 통과 속도는 더 빨라지는 기적의 다이어트!"           |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 확장 헤더(Next Header) 시스템은 레고 블록 기차입니다. 기본적으로 </strong>"기관차(40바이트 기본 헤더)"<strong>만 딱 보내서 빛처럼 빠르게 통과시키고, 만약 보안 암호화(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)나 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 같은 특별한 임무가 필요할 때만 기관차 뒤에 </strong>"특수 목적의 객차(확장 헤더)"**를 고리(Next Header 포인터)로 줄줄이 이어 붙여서 통과시키는, 세상에서 가장 유연하고 세련된 포장 시스템입니다.
@@ -141,12 +141,12 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 
 ```text
 [선행 개념: IPv6]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPv6 단순화된 헤더]
-    │
-    ├──▶ [확장 A: 트래픽 클래스 / 플로우 레이블]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 트래픽 클래스 / 플로우 레이블]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 단순화된 헤더는 IPv6에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 
 **진행 상황**: 446 / 1120
 
-← **이전**: [324. IPv6 (Internet Protocol Version 6)](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)
-**다음**: [326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) →
+<- **이전**: [324. IPv6 (Internet Protocol Version 6)](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)
+**다음**: [326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) ->
 
 ---

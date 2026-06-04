@@ -11,8 +11,8 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 거버넌스는 COBIT 2019의 5개 도메인(EDM/APO/BAI/DSS/MEA) 40개 관리목표(Governance & Management Objectives)를 기반으로, **이해관계자 Needs → Enterprise Goals → Alignment Goals → IT Goals → Components**의 Cascade 체계를 통해 기업 전략과 IT를 정렬하는 5단계 위계 구조의 의사결정 프레임워크이다.
-> 2. **가치**: ITIL 4 34개 Practice와 COBIT 2019의 통합 적용 시, IT 서비스 가용성 99.95% → 99.99% 향상(연간 다운타임 약 262분 → 52분 단축), IT 투자 ROI 평균 30~45% 개선, ISO 27001/ISMS-P 인증 획득을 통한 컴플라이언스 비용 약 40% 절감이 검증된 정량 효과이다.
+> 1. **본질**: IT 거버넌스는 COBIT 2019의 5개 도메인(EDM/APO/BAI/DSS/MEA) 40개 관리목표(Governance & Management Objectives)를 기반으로, **이해관계자 Needs -> Enterprise Goals -> Alignment Goals -> IT Goals -> Components**의 Cascade 체계를 통해 기업 전략과 IT를 정렬하는 5단계 위계 구조의 의사결정 프레임워크이다.
+> 2. **가치**: ITIL 4 34개 Practice와 COBIT 2019의 통합 적용 시, IT 서비스 가용성 99.95% -> 99.99% 향상(연간 다운타임 약 262분 -> 52분 단축), IT 투자 ROI 평균 30~45% 개선, ISO 27001/ISMS-P 인증 획득을 통한 컴플라이언스 비용 약 40% 절감이 검증된 정량 효과이다.
 > 3. **판단 포인트**: 조직의 **Maturity Level 1~5** (Initial/Managed/Defined/Quantitatively Managed/Optimizing) 진단 결과에 따라 Process Capability 목표를 설정하되, **Plan/Build/Run(Monitor) 3-Tier 구조**에서 프로세스 자동화율, RACI 매트릭스 명확성, Single Sign-On 통합 여부, 그리고 BSC(Balanced Score Card) 4관점(Financial/Customer/Internal Process/Learning & Growth) 지표 간 인과관계 정의가 핵심 설계 인자이다.
 
 ---
@@ -26,19 +26,19 @@ tags = ["studynote-it-management"]
 ```text
 [기존 IT 관리 패러다임 vs 현대 IT 경영 패러다임 비교]
 
-┌─────────────────────────────┐         ┌─────────────────────────────────┐
-│  Pre-2020 IT 관리 (Legacy)   │         │  Post-2020 IT 경영 (Modern)      │
-├─────────────────────────────┤         ├─────────────────────────────────┤
-│  - CIO가 단독 의사결정        │   →     │ - CxO 협의체 (CISO/CDO/CTO 합동) │
-│  - CapEx 중심 HW 투자        │   →     │ - OpEx 중심 Cloud/SaaS 구독     │
-│  - ITIL v3 5단계 Lifecycle    │   →     │ - ITIL 4 SVS + Value Stream     │
-│  - ISO 27001:2013 통제항목 114개│   →     │ - ISO 27001:2022 93 통제항목    │
-│  - 연 1회 정밀감사            │   →     │ - Continuous Audit (AI 기반)    │
-│  - SI(Systems Integrator) 의존│   →     │ - In-house DevSecOps + MSP 혼합 │
-│  - 모놀리식 ERP (SAP R/3)    │   →     │ - Microservices (Spring Boot/   │
-│                               │         │    MSA) + Composable ERP        │
-└─────────────────────────────┘         └─────────────────────────────────┘
-       ▼                                              ▼
++-----------------------------+         +---------------------------------+
+|  Pre-2020 IT 관리 (Legacy)   |         |  Post-2020 IT 경영 (Modern)      |
++-----------------------------+         +---------------------------------+
+|  - CIO가 단독 의사결정        |   ->     | - CxO 협의체 (CISO/CDO/CTO 합동) |
+|  - CapEx 중심 HW 투자        |   ->     | - OpEx 중심 Cloud/SaaS 구독     |
+|  - ITIL v3 5단계 Lifecycle    |   ->     | - ITIL 4 SVS + Value Stream     |
+|  - ISO 27001:2013 통제항목 114개|   ->     | - ISO 27001:2022 93 통제항목    |
+|  - 연 1회 정밀감사            |   ->     | - Continuous Audit (AI 기반)    |
+|  - SI(Systems Integrator) 의존|   ->     | - In-house DevSecOps + MSP 혼합 |
+|  - 모놀리식 ERP (SAP R/3)    |   ->     | - Microservices (Spring Boot/   |
+|                               |         |    MSA) + Composable ERP        |
++-----------------------------+         +---------------------------------+
+       v                                              v
    운영 효율성만 추구                    비즈니스 가치·리스크·규제·혁신 동시 최적화
    (총 IT 지출 대비 25~35% 가치가치 창출)        (총 IT 지출 대비 50~65% 가치 창출 - Gartner 2023)
 ```
@@ -54,46 +54,46 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019의 Governance System**�
 ```text
 [IT 경영 관리 통합 참조 모델(IRG, Integrated Reference Governance)]
 
-    ┌───────────────────────────────────────────────────────────┐
-    │ Layer 1: Strategic (Strategy & Governance)                 │
-    │  ┌──────────────────────────────────────────────────────┐ │
-    │  │  Enterprise Goals (13개, BSC 4관점)                  │ │
-    │  │  └→ Stakeholder Needs                                │ │
-    │  │     └→ Enterprise Goals Mapping                      │ │
-    │  │        └→ Alignment Goals (13개)                     │ │
-    │  │           └→ IT Goals (13개)                          │ │
-    │  │              └→ Process Goals (40개 M-O)              │ │
-    │  └──────────────────────────────────────────────────────┘ │
-    └──────────────────────┬────────────────────────────────────┘
-                           │ (Cascade Mapping)
-    ┌──────────────────────▼────────────────────────────────────┐
-    │ Layer 2: Tactical (Management Objectives)                  │
-    │  EDM: Evaluate, Direct and Monitor (5개)                  │
-    │   ├─ EDM01 - Governance Framework                         │
-    │   ├─ EDM02 - Benefits Delivery                           │
-    │   ├─ EDM03 - Risk Optimization                            │
-    │   ├─ EDM04 - Resource Optimization                        │
-    │   └─ EDM05 - Stakeholder Transparency                     │
-    │  APO: Align, Plan and Organize (14개)                     │
-    │  BAI: Build, Acquire and Implement (11개)                 │
-    │  DSS: Deliver, Service and Support (6개)                  │
-    │  MEA: Monitor, Evaluate and Assess (4개)                  │
-    └──────────────────────┬────────────────────────────────────┘
-                           │
-    ┌──────────────────────▼────────────────────────────────────┐
-    │ Layer 3: Operational (ITIL 4 Practices)                    │
-    │  General Mgmt(14): Strategy, Portfolio, Risk, Finance...  │
-    │  Service Mgmt(17): Incident, Problem, Change, SLA...      │
-    │  Technical Mgmt(3):  Infra/Platform/Software Dev Mgmt     │
-    └──────────────────────┬────────────────────────────────────┘
-                           │
-    ┌──────────────────────▼────────────────────────────────────┐
-    │ Layer 4: Foundation (Components)                           │
-    │  7 Components: Process / Structure / People / Skill/Info   │
-    │                / Service/Infrastructure/Application       │
-    │  Focus Areas: DevOps, Cybersecurity, Cloud, AI/ML, Privacy │
-    │  + 7 Component Variations (Design Factors)                 │
-    └───────────────────────────────────────────────────────────┘
+    +-----------------------------------------------------------+
+    | Layer 1: Strategic (Strategy & Governance)                 |
+    |  +------------------------------------------------------+ |
+    |  |  Enterprise Goals (13개, BSC 4관점)                  | |
+    |  |  +-> Stakeholder Needs                                | |
+    |  |     +-> Enterprise Goals Mapping                      | |
+    |  |        +-> Alignment Goals (13개)                     | |
+    |  |           +-> IT Goals (13개)                          | |
+    |  |              +-> Process Goals (40개 M-O)              | |
+    |  +------------------------------------------------------+ |
+    +----------------------+------------------------------------+
+                           | (Cascade Mapping)
+    +----------------------v------------------------------------+
+    | Layer 2: Tactical (Management Objectives)                  |
+    |  EDM: Evaluate, Direct and Monitor (5개)                  |
+    |   +- EDM01 - Governance Framework                         |
+    |   +- EDM02 - Benefits Delivery                           |
+    |   +- EDM03 - Risk Optimization                            |
+    |   +- EDM04 - Resource Optimization                        |
+    |   +- EDM05 - Stakeholder Transparency                     |
+    |  APO: Align, Plan and Organize (14개)                     |
+    |  BAI: Build, Acquire and Implement (11개)                 |
+    |  DSS: Deliver, Service and Support (6개)                  |
+    |  MEA: Monitor, Evaluate and Assess (4개)                  |
+    +----------------------+------------------------------------+
+                           |
+    +----------------------v------------------------------------+
+    | Layer 3: Operational (ITIL 4 Practices)                    |
+    |  General Mgmt(14): Strategy, Portfolio, Risk, Finance...  |
+    |  Service Mgmt(17): Incident, Problem, Change, SLA...      |
+    |  Technical Mgmt(3):  Infra/Platform/Software Dev Mgmt     |
+    +----------------------+------------------------------------+
+                           |
+    +----------------------v------------------------------------+
+    | Layer 4: Foundation (Components)                           |
+    |  7 Components: Process / Structure / People / Skill/Info   |
+    |                / Service/Infrastructure/Application       |
+    |  Focus Areas: DevOps, Cybersecurity, Cloud, AI/ML, Privacy |
+    |  + 7 Component Variations (Design Factors)                 |
+    +-----------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -131,28 +131,28 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019의 Governance System**�
 ```text
 [4대 프레임워크 통합 매핑 예시: '사고 관리(Incident Management)' 한 사례]
 
-  ┌─ 기업 목표 ─────────────────────────────────────────┐
-  │  "IT 서비스 중단으로 인한 매출 손실 50% 감축"        │
-  └───────────┬──────────────────────────────────────────┘
-              │ (Cascade)
-  ┌───────────▼──────────────────────────────────────────┐
-  │  Alignment Goal: 정보보안 사고 0건, 가용성 99.99%     │
-  └───────────┬──────────────────────────────────────────┘
-              │
-  ┌───────────▼──────────────────────────────────────────┐
-  │  IT Goal: MTTR(평균 복구시간) 4시간 → 30분 단축       │
-  └───────────┬──────────────────────────────────────────┘
-              │
-  ├─ COBIT DSS02(서비스 요청·사고관리) ─┐
-  ├─ ITIL 4 Incident Mgmt Practice ────┤─→ 3프레임워크 동시 매핑
-  ├─ ISO 27001 A.5.24~26(사고관리) ────┤
-  └─────────────────────────────────────┘
-              │
-  ┌───────────▼──────────────────────────────────────────┐
-  │  구현 도구: PagerDuty + ServiceNow ITSM + Splunk     │
-  │  + Datadog APM + Slack/Teams Pager 연동              │
-  │  SLA: P1 15분, P2 1시간, P3 4시간, P4 24시간         │
-  └──────────────────────────────────────────────────────┘
+  +- 기업 목표 -----------------------------------------+
+  |  "IT 서비스 중단으로 인한 매출 손실 50% 감축"        |
+  +-----------+------------------------------------------+
+              | (Cascade)
+  +-----------v------------------------------------------+
+  |  Alignment Goal: 정보보안 사고 0건, 가용성 99.99%     |
+  +-----------+------------------------------------------+
+              |
+  +-----------v------------------------------------------+
+  |  IT Goal: MTTR(평균 복구시간) 4시간 -> 30분 단축       |
+  +-----------+------------------------------------------+
+              |
+  +- COBIT DSS02(서비스 요청·사고관리) -+
+  +- ITIL 4 Incident Mgmt Practice ----+--> 3프레임워크 동시 매핑
+  +- ISO 27001 A.5.24~26(사고관리) ----+
+  +-------------------------------------+
+              |
+  +-----------v------------------------------------------+
+  |  구현 도구: PagerDuty + ServiceNow ITSM + Splunk     |
+  |  + Datadog APM + Slack/Teams Pager 연동              |
+  |  SLA: P1 15분, P2 1시간, P3 4시간, P4 24시간         |
+  +------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 4대 프레임워크는 **자동차의 4륜 서스펜션**와 같습니다. COBIT은 **핸들**(방향·전략), ITIL은 **엔진**(서비스 실행), ISO 27001은 **브레이크**(안전 통제), CMMI는 **휠 밸런스**(성숙도 균형)에 각각
@@ -160,7 +160,7 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019의 Governance System**�
 
 **진행 상황**: 482 / 800
 
-← **이전**: [481. IT 경영 관리 핵심 토픽 481번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/481_it_management_core_topic_481_exam_summary/)
-**다음**: [483. IT 경영 관리 핵심 토픽 483번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/483_it_management_core_topic_483_exam_summary/) →
+<- **이전**: [481. IT 경영 관리 핵심 토픽 481번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/481_it_management_core_topic_481_exam_summary/)
+**다음**: [483. IT 경영 관리 핵심 토픽 483번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/483_it_management_core_topic_483_exam_summary/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 회복 ([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 장애 발생 전 일관된 상태로 DB 복원 ([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 보장 기법)에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. 로그와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 회복을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `데이터베이스 장애 유형`·`Redo`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 회복을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [데이터베이스 장애 유형]
-    │
-    ▼
+    |
+    v
 [회복]
-    │
-    ├──▶ [Redo]
-    └──▶ [Undo]
+    |
+    +---> [Redo]
+    +---> [Undo]
 ```
 
 [데이터베이스 장애 유형](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/)에서 출발한 논점이 회복에서 핵심 판단으로 모이고, 이후 [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)·[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 233 / 600
 
-← **이전**: [232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/)
-**다음**: [234. Redo (Redo Roll Forward Durability Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) →
+<- **이전**: [232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/)
+**다음**: [234. Redo (Redo Roll Forward Durability Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) ->
 
 ---

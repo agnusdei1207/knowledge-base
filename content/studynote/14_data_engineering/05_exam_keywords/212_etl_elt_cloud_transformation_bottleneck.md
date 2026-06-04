@@ -23,13 +23,13 @@ tags = ["studynote-data-engineering"]
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load)은 1970~80년대 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 시대에 탄생했다. 소스 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(Extract)하고, 중간 서버에서 정제·변환(Transform)한 뒤, 최종 DW에 적재(Load)하는 순서다.
 
 ```
-┌───────────┐    ┌──────────────────────┐    ┌─────────────┐
-│  소스 DB  │───►│  ETL 서버 (변환)     │───►│  DW/목적지  │
-│  ERP/CRM  │    │  데이터 정제         │    │  Teradata   │
-│  파일/API │    │  타입 변환           │    │  Oracle DW  │
-└───────────┘    │  비즈니스 룰 적용    │    └─────────────┘
-                 └──────────────────────┘
-                   ↑ 병목 지점 (Bottleneck)
++-----------+    +----------------------+    +-------------+
+|  소스 DB  |---►|  ETL 서버 (변환)     |---►|  DW/목적지  |
+|  ERP/CRM  |    |  데이터 정제         |    |  Teradata   |
+|  파일/API |    |  타입 변환           |    |  Oracle DW  |
++-----------+    |  비즈니스 룰 적용    |    +-------------+
+                 +----------------------+
+                   ^ 병목 지점 (Bottleneck)
                    처리 용량 = ETL 서버 CPU/메모리
 ```
 
@@ -52,7 +52,7 @@ tags = ["studynote-data-engineering"]
 | **변환 위치** | 중간 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 (외부) | 목적지 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부 |
 | <strong>적재 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 정제된 최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 원시([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 수직/수평 확장 필요 | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 컴퓨팅 탄력적 확장 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | 변환 완료 후 적재 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 큼 | 즉시 적재 → 변환은 별도 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | 변환 완료 후 적재 -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 큼 | 즉시 적재 -> 변환은 별도 |
 | **원본 보존** | 변환 후 원본 불일치 발생 가능 | [Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 항상 보존 |
 | **적합 환경** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 레거시 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)) |
 | **대표 도구** | Informatica, Talend, SSIS | dbt, [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) TRANSFORM |
@@ -60,22 +60,22 @@ tags = ["studynote-data-engineering"]
 ### 2.2 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 상세 흐름
 
 ```
-┌────────────┐   Extract   ┌──────────────────────────────────────┐
-│  소스 시스템│──────────►│            클라우드 DW               │
-│  MySQL/API │             │                                      │
-│  S3/Kafka  │   Load      │  ┌──────────┐   Transform            │
-│            │──────────►│  │ RAW 레이어│──────────────►  │
-└────────────┘             │  └──────────┘                │       │
-                           │                              ▼       │
-                           │                    ┌──────────────┐  │
-                           │                    │ STAGING 레이어│  │
-                           │                    └──────┬───────┘  │
-                           │                           │ dbt/SQL  │
-                           │                           ▼          │
-                           │                    ┌──────────────┐  │
-                           │                    │ MART 레이어   │  │
-                           │                    └──────────────┘  │
-                           └──────────────────────────────────────┘
++------------+   Extract   +--------------------------------------+
+|  소스 시스템|----------►|            클라우드 DW               |
+|  MySQL/API |             |                                      |
+|  S3/Kafka  |   Load      |  +----------+   Transform            |
+|            |----------►|  | RAW 레이어|--------------►  |
++------------+             |  +----------+                |       |
+                           |                              v       |
+                           |                    +--------------+  |
+                           |                    | STAGING 레이어|  |
+                           |                    +------+-------+  |
+                           |                           | dbt/SQL  |
+                           |                           v          |
+                           |                    +--------------+  |
+                           |                    | MART 레이어   |  |
+                           |                    +--------------+  |
+                           +--------------------------------------+
 ```
 
 ### 2.3 dbt ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool)를 활용한 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)
@@ -88,7 +88,7 @@ SELECT
   order_id,
   customer_id,
   CAST(order_date AS DATE)   AS order_date,
-  amount / 100.0             AS amount_usd  -- 센트→달러 변환
+  amount / 100.0             AS amount_usd  -- 센트->달러 변환
 FROM {{ source('raw', 'orders') }}
 WHERE status != 'cancelled'
 ```
@@ -138,12 +138,12 @@ ETL에서 ELT로의 전환은 단순한 순서 변경이 아니라 <strong>책�
 
 ```
 ETL 시대:
-  소스 ──► [ETL 서버가 모든 책임] ──► DW
-           ↑ 병목, 단일 실패점
+  소스 --► [ETL 서버가 모든 책임] --► DW
+           ^ 병목, 단일 실패점
 
 ELT 시대:
-  소스 ──► DW RAW ──► [DW 컴퓨팅이 책임] ──► DW MART
-                      ↑ 탄력적 확장, 원본 보존
+  소스 --► DW RAW --► [DW 컴퓨팅이 책임] --► DW MART
+                      ^ 탄력적 확장, 원본 보존
 ```
 
 ### 3.2 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))와의 연계
@@ -164,15 +164,15 @@ ELT 시대:
 
 ```
 데이터가 민감하고 정제 전 적재가 불가한가?
-       ↓ YES
+       v YES
        ETL (금융·의료 컴플라이언스 환경)
 
-       ↓ NO
+       v NO
 클라우드 DW를 사용하고 대용량인가?
-       ↓ YES
+       v YES
        ELT + dbt (BigQuery, Snowflake, Redshift)
 
-       ↓ NO (온프레미스, 소규모)
+       v NO (온프레미스, 소규모)
        ETL (Informatica, Talend, SSIS)
 ```
 
@@ -182,7 +182,7 @@ ELT 시대:
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) 적재 후 변환 실패 시 오염 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 DW에 체류 |
 | **비용 관리** | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 비용 — 비효율 SQL이 과금 폭탄 |
-| **보안** | 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) 레이어에 노출 → 컬럼 마스킹 필수 |
+| **보안** | 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) 레이어에 노출 -> 컬럼 마스킹 필수 |
 | **거버넌스** | dbt Lineage + [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))로 계보 관리 |
 
 📢 **섹션 요약 비유**: ELT는 반죽([raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 그대로 냉장고에 넣고 나중에 요리하는 방식이라 편리하지만, 냉장고 안이 지저분해지지 않도록 정리 규칙(거버넌스)이 필요하다.
@@ -216,8 +216,8 @@ ELT 시대:
 | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 변환 도구 | dbt ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool) | SQL 기반 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) Transform 프레임워크 |
 | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 엔진 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) | 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 변환 처리 |
 | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) / [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) / Redshift | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 변환을 내부에서 수행 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 | [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) → STAGING → MART | ELT의 3단계 레이어 구조 |
-| 역방향 | [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) → 운영 시스템으로 역방향 이동 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 | [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) -> STAGING -> MART | ELT의 3단계 레이어 구조 |
+| 역방향 | [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> 운영 시스템으로 역방향 이동 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -226,14 +226,14 @@ ELT 시대:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-ETL: Extract → Transform → Load (DW 외부 변환)
-    │ 클라우드 컴퓨팅 저렴화
-    ▼
-ELT: Extract → Load → Transform (DW 내부 변환)
-    ├─► dbt: SQL 기반 변환 자동화
-    └─► BigQuery · Snowflake 컴퓨팅 활용
-    │
-    ▼
+ETL: Extract -> Transform -> Load (DW 외부 변환)
+    | 클라우드 컴퓨팅 저렴화
+    v
+ELT: Extract -> Load -> Transform (DW 내부 변환)
+    +-► dbt: SQL 기반 변환 자동화
+    +-► BigQuery · Snowflake 컴퓨팅 활용
+    |
+    v
 실시간 ETL/ELT: Kafka + Flink 스트리밍 변환
 ```
 2. ELT는 책을 일단 도서관에 다 가져다 넣고, 도서관 안에 있는 빠른 기계로 분류하는 방식이야.
@@ -245,7 +245,7 @@ ELT: Extract → Load → Transform (DW 내부 변환)
 
 **진행 상황**: 212 / 258
 
-← **이전**: [211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/)
-**다음**: [213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/213_data_lakehouse_delta_lake_parquet_acid/) →
+<- **이전**: [211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/)
+**다음**: [213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/213_data_lakehouse_delta_lake_parquet_acid/) ->
 
 ---

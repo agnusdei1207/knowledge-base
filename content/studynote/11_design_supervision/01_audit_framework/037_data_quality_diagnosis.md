@@ -157,7 +157,7 @@ SQL 예시:
   정확성: 고객 소득 데이터 8% 오류 (자동화 수집 오류)
   완전성: 직업 코드 12% NULL (신규 직군 미분류)
   일관성: CRM과 심사 시스템 주소 불일치 15%
-  최신성: 신용점수 갱신 주기 90일 → 90일 전 데이터 사용
+  최신성: 신용점수 갱신 주기 90일 -> 90일 전 데이터 사용
 
 개선:
   소득 수집 API 검증 로직 강화
@@ -231,7 +231,7 @@ Feature Store, Data Contract 등장
 
 **진행 상황**: 50 / 530
 
-← **이전**: [036. 클라우드 기반 감리 (Cloud-Based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_cloud_based_audit/)
-**다음**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/) →
+<- **이전**: [036. 클라우드 기반 감리 (Cloud-Based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_cloud_based_audit/)
+**다음**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/) ->
 
 ---

@@ -20,9 +20,9 @@ tags = ["studynote-design-supervision"]
 특히 마이크로서비스와 사용자 인터페이스가 동시에 복잡해진 환경에서는 동기 호출만으로 처리하면 응답 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쉽게 막히고 병목이 전파된다. 반면 프로미스와 퓨처를 적절히 사용하면 선행 작업이 끝나기를 기다리는 동안 다른 업무를 수행할 수 있어 자원 활용률이 높아진다. 기술사 답안에서는 “비동기화의 목적은 속도 자체가 아니라 블로킹 감소와 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 완화”라는 점을 분명히 적는 것이 좋다.
 
 ```text
-┌─────────────┐   ┌──────────────┐   ┌──────────────┐   ┌─────────────┐
-│ 요청 발생    │──▶│ 비동기 작업 등록 │──▶│ Promise/Future │──▶│ 결과 합성    │
-└─────────────┘   └──────────────┘   └──────────────┘   └─────────────┘
++-------------+   +--------------+   +--------------+   +-------------+
+| 요청 발생    |--->| 비동기 작업 등록 |--->| Promise/Future |--->| 결과 합성    |
++-------------+   +--------------+   +--------------+   +-------------+
 ```
 
 위 구조는 호출 시점과 완료 시점을 분리해도 업무 흐름은 유지된다는 점을 보여 준다. 따라서 감리 시에는 기능 흐름도만 볼 것이 아니라 대기 구간이 어디서 발생하고, 그 대기를 어떤 객체가 책임지는지까지 확인해야 한다.
@@ -38,11 +38,11 @@ tags = ["studynote-design-supervision"]
 | 완료 체인 | 성공·실패 결과를 후속 로직에 전달 | then/compose 계열 연결 시 예외 전파와 보상 처리 규칙 필요 |
 
 ```text
-┌──────────┐   ┌──────────┐   ┌────────────┐   ┌────────────┐
-│ Caller   │──▶│ Executor │──▶│ Future 값   │──▶│ 후속 체인    │
-└──────────┘   └────┬─────┘   └────┬───────┘   └────┬───────┘
-                     │              │                │
-                     └────예외/취소──┴────타임아웃─────┘
++----------+   +----------+   +------------+   +------------+
+| Caller   |--->| Executor |--->| Future 값   |--->| 후속 체인    |
++----------+   +----+-----+   +----+-------+   +----+-------+
+                     |              |                |
+                     +----예외/취소--+----타임아웃-----+
 ```
 
 핵심 원리는 세 가지다. 첫째, 완료 전 상태를 안전하게 보관해야 한다. 둘째, 성공 경로와 실패 경로를 동일한 수준의 설계 요소로 다뤄야 한다. 셋째, 체인이 깊어질수록 추적성이 떨어지므로 로깅, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), 상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 같은 관찰성 장치를 기본값으로 두어야 한다.
@@ -83,13 +83,13 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 미리 받은 교환권처럼 나중에 물건을 찾더라도 추적 번호가 있으면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 안정적으로 굴러간다.
 
 ### 📌 관련 개념 맵
-- 프로미스·퓨처 → 비동기 합성 → 응답성 개선
-- 비동기 합성 → [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)·취소·재시도 → 장애 통제
-- 실행기 설계 → [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀·[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) → 자원 활용 최적화
-- 관찰성 → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이싱·상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) → 운영 추적성 확보
+- 프로미스·퓨처 -> 비동기 합성 -> 응답성 개선
+- 비동기 합성 -> [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)·취소·재시도 -> 장애 통제
+- 실행기 설계 -> [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀·[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) -> 자원 활용 최적화
+- 관찰성 -> [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이싱·상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) -> 운영 추적성 확보
 
 ### 📈 관련 키워드 및 발전 흐름도
-비동기 호출 → 퓨처 → 프로미스 체이닝 → 완료 단계 (Completion Stage) → 반응형 스트림 → 구조적 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) (Structured [Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))
+비동기 호출 -> 퓨처 -> 프로미스 체이닝 -> 완료 단계 (Completion Stage) -> 반응형 스트림 -> 구조적 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) (Structured [Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))
 
 - 핵심 키워드: 비동기, 체이닝, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 취소, 백프레셔, 관찰성
 
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 488 / 530
 
-← **이전**: [409. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/)
-**다음**: [411. 테스트 주도 개발 (Test-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/) →
+<- **이전**: [409. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/)
+**다음**: [411. 테스트 주도 개발 (Test-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/) ->
 
 ---

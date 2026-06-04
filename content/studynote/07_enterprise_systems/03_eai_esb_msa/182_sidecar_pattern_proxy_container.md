@@ -26,14 +26,14 @@ tags = ["studynote-enterprise"]
 아래 그림은 횡단 관심사가 애플리케이션 내부에 섞여 있는 구조와 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)로 분리된 구조를 비교한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Before sidecar vs with sidecar                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ before : app A [retry][auth][log] -> app B [trace][tls][policy]   │
-│ after  : app A -> sidecar A == shared policy ==> sidecar B -> app B│
-│                                                                    │
-│ result : cross-cutting concerns leave the business container       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Before sidecar vs with sidecar                                    |
++--------------------------------------------------------------------+
+| before : app A [retry][auth][log] -> app B [trace][tls][policy]   |
+| after  : app A -> sidecar A == shared policy ==> sidecar B -> app B|
+|                                                                    |
+| result : cross-cutting concerns leave the business container       |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 비즈니스 기능을 대신하지 않는다는 것이다. 주문 계산, 회원 규칙, 정산 로직은 여전히 메인 애플리케이션 책임이고, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 그 주변의 통신·운영·관측 보조 역할을 담당한다.
@@ -47,18 +47,18 @@ tags = ["studynote-enterprise"]
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 환경에서 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 보통 하나의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 함께 배치된다. 둘은 같은 네트워크 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 볼륨을 공유할 수 있으므로, 메인 애플리케이션은 `localhost`로 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 호출하고 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 간다. 이 근접성 덕분에 외부 홉을 추가하지 않고도 공통 기능을 분리할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One Pod with app + sidecar                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ [App Container]      127.0.0.1:8080                                │
-│        │                                                           │
-│        │ shared localhost / volume / lifecycle                     │
-│        ▼                                                           │
-│ [Sidecar Proxy]      127.0.0.1:15001                               │
-│        ├─ outbound : retry / routing / mTLS                        │
-│        ├─ inbound  : auth / rate limit / policy                    │
-│        └─ log file : ship shared data to observability stack       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| One Pod with app + sidecar                                         |
++--------------------------------------------------------------------+
+| [App Container]      127.0.0.1:8080                                |
+|        |                                                           |
+|        | shared localhost / volume / lifecycle                     |
+|        v                                                           |
+| [Sidecar Proxy]      127.0.0.1:15001                               |
+|        +- outbound : retry / routing / mTLS                        |
+|        +- inbound  : auth / rate limit / policy                    |
+|        +- log file : ship shared data to observability stack       |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -103,14 +103,14 @@ tags = ["studynote-enterprise"]
 반대로 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단순한 내부 배치 작업이고, 초고밀도 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이나 극저지연 통신이 핵심이면 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 오버헤드가 부담이 될 수 있다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스마다 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 하나씩 늘어나기 때문에 CPU, 메모리, 디버깅 경로가 모두 증가하기 때문이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When sidecar is a good fit                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Need per-service policy near the app?        -> Sidecar            │
-│ Need node-wide shared collection only?       -> DaemonSet          │
-│ Need one-time startup preparation only?      -> Init Container     │
-│ Need ultra-light in-process helper only?     -> Library            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When sidecar is a good fit                                         |
++--------------------------------------------------------------------+
+| Need per-service policy near the app?        -> Sidecar            |
+| Need node-wide shared collection only?       -> DaemonSet          |
+| Need one-time startup preparation only?      -> Init Container     |
+| Need ultra-light in-process helper only?     -> Library            |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -163,14 +163,14 @@ tags = ["studynote-enterprise"]
 
 ```text
 라이브러리 내부에 공통 기능 내장
-        │
-        ▼
+        |
+        v
 사이드카 패턴 (Sidecar Pattern)
-        │
-        ├──────────────► 프록시 · 로깅 · 설정 동기화 분리
-        ├──────────────► 서비스 메시 (Service Mesh) 확장
-        ├──────────────► mTLS · 관측성 표준화
-        └──────────────► Ambient Mesh / eBPF 방향으로 진화
+        |
+        +--------------► 프록시 · 로깅 · 설정 동기화 분리
+        +--------------► 서비스 메시 (Service Mesh) 확장
+        +--------------► mTLS · 관측성 표준화
+        +--------------► Ambient Mesh / eBPF 방향으로 진화
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -185,7 +185,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 182 / 482
 
-← **이전**: [181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/181_service_mesh_istio_linkerd/)
-**다음**: [183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/183_microservice_chassis_pattern/) →
+<- **이전**: [181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/181_service_mesh_istio_linkerd/)
+**다음**: [183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/183_microservice_chassis_pattern/) ->
 
 ---

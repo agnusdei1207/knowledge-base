@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP 속성]
-    │
-    ▼
+    |
+    v
 [BGP Route Reflector / Co…]
-    │
-    └──▶ [멀티캐스트 라우팅]
+    |
+    +---> [멀티캐스트 라우팅]
 ```
 
 - **📢 섹션 요약 비유**: ** 이 두 가지 꼼수는 거미줄처럼 미친 듯이 엉킨 전화 교환기 선을 가위로 다 잘라버리고, **"중앙 교환수([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))"를 두거나 "지역별 소형 교환국(Confederation)"을 두어 선의 개수를 1/100로 다이어트시키는 획기적인 배선 정리 기술**입니다.
@@ -46,29 +46,29 @@ tags = ["studynote-network"]
 통신사 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 99% 쓴다. (가장 대중적이다).
 망 안에 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))을 지정하고, 나머지를 쫄따구([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)), 반장과 친구인 다른 반장을 비쫄따구(Non-[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))라 부른다.
 
-1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 <strong>쫄따구</strong>한테 받은 엽서 ──▶ 다른 **쫄따구** + <strong>비쫄따구</strong>에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).
-2. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 외부 통신사(**eBGP**)에서 받은 엽서 ──▶ 쫄따구 + 비쫄따구에게 전부 다 반사해 준다!
-3. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 **비쫄따구**(다른 반장)한테 받은 엽서 ──▶ 쫄따구들한테만 반사하고, **또 다른 비쫄따구한테는 절대 주지 않는다.** (반장들끼리 무한 반사하다가 루프 도는 걸 막기 위한 최후의 안전장치다).
+1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 <strong>쫄따구</strong>한테 받은 엽서 ---> 다른 **쫄따구** + <strong>비쫄따구</strong>에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).
+2. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 외부 통신사(**eBGP**)에서 받은 엽서 ---> 쫄따구 + 비쫄따구에게 전부 다 반사해 준다!
+3. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 **비쫄따구**(다른 반장)한테 받은 엽서 ---> 쫄따구들한테만 반사하고, **또 다른 비쫄따구한테는 절대 주지 않는다.** (반장들끼리 무한 반사하다가 루프 도는 걸 막기 위한 최후의 안전장치다).
 
 **RR의 루프 방지**: "어? 스플릿 호라이즌(침묵)을 무시하고 남한테 엽서를 복사해 주면 무한 루프 도는 거 아니야?"
 맞다. 그래서 RR은 엽서를 반사할 때 엽서 겉면에 <strong><code>Originator_ID</code>(최초 작성자 IP)</strong>와 <strong><code>Cluster_List</code>(자기가 거쳐 온 반장들 ID 목록)</strong>라는 특수 도장을 쾅쾅 찍어서 쏜다. 자기가 쓴 글이 도장 찍혀 다시 돌아오면 쓰레기통에 폐기하여 완벽히 루프를 억제한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Route Reflector 도입 시 연결선의 혁명             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 Full-Mesh (라우터 10대) ]                            │
- │   - 각 라우터당 맺어야 할 iBGP TCP 세션: 9개                     │
- │   - 네트워크 전체 세션: (10 * 9) / 2 = 45개 연결선 필요.          │
- │                                                             │
- │   [ 신형 RR 체제 (반장 1대 + 쫄따구 9대) ]                      │
- │   - 쫄따구당 맺어야 할 세션: 오직 반장하고만 "1개"!                   │
- │   - 반장이 맺어야 할 세션: 쫄따구 9명하고 "9개"!                    │
- │   - 네트워크 전체 세션: 단 9개의 연결선으로 평화 달성!               │
- │                                                             │
- │   ▶ "반장(RR)의 라우터 스펙(CPU/RAM)만 빵빵하면 통신사가 평화로워진다!" │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Route Reflector 도입 시 연결선의 혁명             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 구형 Full-Mesh (라우터 10대) ]                            |
+ |   - 각 라우터당 맺어야 할 iBGP TCP 세션: 9개                     |
+ |   - 네트워크 전체 세션: (10 * 9) / 2 = 45개 연결선 필요.          |
+ |                                                             |
+ |   [ 신형 RR 체제 (반장 1대 + 쫄따구 9대) ]                      |
+ |   - 쫄따구당 맺어야 할 세션: 오직 반장하고만 "1개"!                   |
+ |   - 반장이 맺어야 할 세션: 쫄따구 9명하고 "9개"!                    |
+ |   - 네트워크 전체 세션: 단 9개의 연결선으로 평화 달성!               |
+ |                                                             |
+ |   -> "반장(RR)의 라우터 스펙(CPU/RAM)만 빵빵하면 통신사가 평화로워진다!" |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. Confederation (연방제)
@@ -136,12 +136,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: BGP 속성]
-    │
-    ▼
+    |
+    v
 [현재 개념: BGP Route Reflector / Co…]
-    │
-    ├──▶ [확장 A: 멀티캐스트 라우팅]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 멀티캐스트 라우팅]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 489 / 1120
 
-← **이전**: [367. BGP 속성(Attributes)](/knowledge-base/studynote/03_network/07_network_layer_routing/367_bgp_attributes_next_hop_as_path_local_pref_med/)
-**다음**: [369. 멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/) →
+<- **이전**: [367. BGP 속성(Attributes)](/knowledge-base/studynote/03_network/07_network_layer_routing/367_bgp_attributes_next_hop_as_path_local_pref_med/)
+**다음**: [369. 멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/) ->
 
 ---

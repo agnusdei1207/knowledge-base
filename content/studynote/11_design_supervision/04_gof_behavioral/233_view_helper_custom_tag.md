@@ -39,9 +39,9 @@ ${userHelper.renderRoleBadge(user)}
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 요리 레시피에 "계란 3개를 깨서 거품기로 10분 저어라"를 매번 쓰는 대신, "머랭 만들기" 한 단어로 대체하는 것과 같다.
@@ -50,25 +50,25 @@ ${userHelper.renderRoleBadge(user)}
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│                  Presentation Layer                        │
-│                                                            │
-│  ┌──────────────┐   호출    ┌──────────────────────────┐   │
-│  │   JSP / 템플  │──────────▶│  View Helper Class       │   │
-│  │  (표현 전용)  │           │  - formatDate()          │   │
-│  │              │◀──────────│  - renderPagination()    │   │
-│  └──────┬───────┘  HTML 반환│  - maskEmail()           │   │
-│         │                  └──────────────────────────┘   │
-│         │ <myapp:tag>                                      │
-│         ▼                                                  │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │  Custom Tag Library (TLD: Tag Library Descriptor)│      │
-│  │  ┌──────────────┐  ┌──────────────────────────┐  │      │
-│  │  │  Tag Handler  │  │  TagExtraInfo (TEI)      │  │      │
-│  │  │ (doStartTag) │  │  (타입 검사, 변수 선언)    │  │      │
-│  │  └──────────────┘  └──────────────────────────┘  │      │
-│  └──────────────────────────────────────────────────┘      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                  Presentation Layer                        |
+|                                                            |
+|  +--------------+   호출    +--------------------------+   |
+|  |   JSP / 템플  |----------->|  View Helper Class       |   |
+|  |  (표현 전용)  |           |  - formatDate()          |   |
+|  |              |<-----------|  - renderPagination()    |   |
+|  +------+-------+  HTML 반환|  - maskEmail()           |   |
+|         |                  +--------------------------+   |
+|         | <myapp:tag>                                      |
+|         v                                                  |
+|  +--------------------------------------------------+      |
+|  |  Custom Tag Library (TLD: Tag Library Descriptor)|      |
+|  |  +--------------+  +--------------------------+  |      |
+|  |  |  Tag Handler  |  |  TagExtraInfo (TEI)      |  |      |
+|  |  | (doStartTag) |  |  (타입 검사, 변수 선언)    |  |      |
+|  |  +--------------+  +--------------------------+  |      |
+|  +--------------------------------------------------+      |
++------------------------------------------------------------+
 ```
 
 ```java
@@ -123,10 +123,10 @@ public class DateHelper {
 ## Ⅳ. 실무 적용 및 기술사 판단
 ```
 표현 로직 복잡도?
-      │
-      ├── 단순 (포맷, null 처리)  → View Helper 메서드
-      │
-      └── 복잡 (중첩 HTML 생성,  → Custom Tag / Component
+      |
+      +-- 단순 (포맷, null 처리)  -> View Helper 메서드
+      |
+      +-- 복잡 (중첩 HTML 생성,  -> Custom Tag / Component
               이벤트 처리 포함)
 ```
 
@@ -180,7 +180,7 @@ void formatDate_nullInput_returnsDash() {
 | 연관 개념 | React/Vue [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | SPA에서의 뷰 재사용 단위 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-template helper → 뷰헬퍼 커스텀 태그 패턴 → [component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)-based [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)
+template helper -> 뷰헬퍼 커스텀 태그 패턴 -> [component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)-based [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 도장 찍는 것처럼, 자주 쓰는 예쁜 그림(UI 조각)을 미리 만들어 두는 거야.
@@ -193,7 +193,7 @@ template helper → 뷰헬퍼 커스텀 태그 패턴 → [component](/knowledge
 
 **진행 상황**: 294 / 530
 
-← **이전**: [232. MVP/MVVM 데이터 바인딩 (MVP/MVVM Data Binding)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/232_mvp_mvvm_data_binding/)
-**다음**: [234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/234_front_controller_vs_page_controller/) →
+<- **이전**: [232. MVP/MVVM 데이터 바인딩 (MVP/MVVM Data Binding)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/232_mvp_mvvm_data_binding/)
+**다음**: [234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/234_front_controller_vs_page_controller/) ->
 
 ---

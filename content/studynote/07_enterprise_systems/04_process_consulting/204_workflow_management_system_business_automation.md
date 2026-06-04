@@ -42,13 +42,13 @@ WfMS는 이런 문제를 줄이기 위해 "다음 작업을 누구에게, 어떤
 아래 그림은 요청이 접수된 뒤 엔진이 작업을 배분하고, 사용자의 처리 결과와 외부 시스템 응답을 받아 다음 상태를 결정하는 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Request -> Engine -> Worklist(User A) -> Decision -> Engine         │
-│                     │                                  │             │
-│                     └-> API/System Task -------------->│             │
-│                                                        ▼             │
-│                                              Audit Log / SLA         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Request -> Engine -> Worklist(User A) -> Decision -> Engine         |
+|                     |                                  |             |
+|                     +-> API/System Task -------------->|             |
+|                                                        v             |
+|                                              Audit Log / SLA         |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 상태 기반 제어다. 각 업무 건은 "접수", "승인 대기", "반려", "완료" 같은 상태를 가지며, 이벤트가 발생할 때마다 엔진이 허용된 전이만 수행한다. 따라서 WfMS는 단순 알림 시스템이 아니라, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 책임 추적을 함께 관리하는 제어 시스템으로 이해해야 한다.
@@ -118,17 +118,17 @@ WfMS가 안정적으로 정착하면 업무 흐름의 예측 가능성이 높아
 
 ```text
 수기 결재 · 메일 라우팅
-    │
-    ▼
+    |
+    v
 전자결재 시스템
-    │
-    ▼
+    |
+    v
 WfMS · API 연계 자동화
-    │
-    ▼
+    |
+    v
 BPM Suite · Process Mining
-    │
-    ▼
+    |
+    v
 Low-Code Workflow · Hyperautomation
 ```
 
@@ -146,7 +146,7 @@ Low-Code Workflow · Hyperautomation
 
 **진행 상황**: 204 / 482
 
-← **이전**: [203. BPMN (Business Process Model and Notation)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)
-**다음**: [205. 프로세스 마이닝 (Process Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/) →
+<- **이전**: [203. BPMN (Business Process Model and Notation)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)
+**다음**: [205. 프로세스 마이닝 (Process Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/) ->
 
 ---

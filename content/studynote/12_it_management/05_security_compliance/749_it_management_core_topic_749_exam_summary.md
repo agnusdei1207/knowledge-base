@@ -26,37 +26,37 @@ tags = ["studynote-it-management"]
 ```text
 [IT 경영 관리의 5대 도메인 통합 구조]
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │              이사회 / 경영진 (Board Oversight)              │
-  │         ISO/IEC 38500: 6 Principles (책임, 전략, 인수,    │
-  │         성과, 적합, 인적요소) — Evaluate, Direct, Monitor │
-  └──────────────────────────┬──────────────────────────────────┘
-                             │
-       ┌─────────────────────┼─────────────────────┐
-       ▼                     ▼                     ▼
-  ┌─────────┐          ┌──────────┐          ┌──────────┐
-  │  거버   │          │   포트   │          │   서비   │
-  │  넌스   │          │  폴리오  │          │   스     │
-  │ (Govern)│          │  (Plan)  │          │(Deliver) │
-  │         │          │          │          │          │
-  │ COBIT   │          │ TOGAF    │          │ ITIL 4   │
-  │ 2019    │          │ ADM      │          │ SVS      │
-  │ 40 Obj. │          │ Zachman  │          │ 34 Prac. │
-  └────┬────┘          └────┬─────┘          └────┬─────┘
-       │                    │                     │
-       └──────────┬─────────┴──────────┬──────────┘
-                  ▼                    ▼
-            ┌──────────┐         ┌──────────┐
-            │  측정    │         │  위험/   │
-            │(Measure) │         │ 컴플라이│
-            │          │         │  언스    │
-            │ BSC+KPI  │         │          │
-            │ Val IT   │         │ ISO 27001│
-            │ DMMM     │         │ NIST CSF │
-            └──────────┘         └──────────┘
-                  │                    │
-                  └─────────┬──────────┘
-                            ▼
+  +-------------------------------------------------------------+
+  |              이사회 / 경영진 (Board Oversight)              |
+  |         ISO/IEC 38500: 6 Principles (책임, 전략, 인수,    |
+  |         성과, 적합, 인적요소) — Evaluate, Direct, Monitor |
+  +--------------------------+----------------------------------+
+                             |
+       +---------------------+---------------------+
+       v                     v                     v
+  +---------+          +----------+          +----------+
+  |  거버   |          |   포트   |          |   서비   |
+  |  넌스   |          |  폴리오  |          |   스     |
+  | (Govern)|          |  (Plan)  |          |(Deliver) |
+  |         |          |          |          |          |
+  | COBIT   |          | TOGAF    |          | ITIL 4   |
+  | 2019    |          | ADM      |          | SVS      |
+  | 40 Obj. |          | Zachman  |          | 34 Prac. |
+  +----+----+          +----+-----+          +----+-----+
+       |                    |                     |
+       +----------+---------+----------+----------+
+                  v                    v
+            +----------+         +----------+
+            |  측정    |         |  위험/   |
+            |(Measure) |         | 컴플라이|
+            |          |         |  언스    |
+            | BSC+KPI  |         |          |
+            | Val IT   |         | ISO 27001|
+            | DMMM     |         | NIST CSF |
+            +----------+         +----------+
+                  |                    |
+                  +---------+----------+
+                            v
                   [비즈니스 가치 창출 + 리스크 통제]
 ```
 
@@ -75,45 +75,45 @@ IT 경영 관리의 기술적 핵심은 **"누가(Who), 무엇을(What), 어떻�
 ```text
 [3-레이어 거버넌스 아키텍처와 결정 흐름]
 
- ┌──────────────────────────────────────────────────────────────┐
- │  Layer 1: Governance (전략적 의사결정)                       │
- │  ─────────────────────────────────────────                    │
- │  • 이사회 / IT 전략 위원회 (ITSC)                             │
- │  • 역할: Evaluate(평가) → Direct(지시) → Monitor(모니터)     │
- │  • 주기: 분기 / 반기                                          │
- │  • 산출물: IT 전략 청사진, 거버넌스 시스템 章程(Charter)        │
- │                                                              │
- │   [Decision Rights Matrix: RACI 적용]                         │
- │   ┌────────────┬──────┬──────┬──────┬──────┐                 │
- │   │ 결정 영역  │ 이사 │ CEO  │ CIO  │ 사업 │                 │
- │   ├────────────┼──────┼──────┼──────┼──────┤                 │
- │   │ IT 원칙    │  A   │  C   │  R   │  I   │                 │
- │   │ 포트폴리오 │  I   │  A   │  R   │  C   │                 │
- │   │ 아키텍처   │  I   │  A   │  R   │  C   │                 │
- │   │ 투자 >100억│  A   │  R   │  C   │  I   │                 │
- │   │ 인시큐리티 │  A   │  I   │  R   │  C   │                 │
- │   └────────────┴──────┴──────┴──────┴──────┘                 │
- └──────────────────────────┬───────────────────────────────────┘
-                            │  (지시/통제 흐름 ↓)
- ┌──────────────────────────┴───────────────────────────────────┐
- │  Layer 2: Management (전술적 계획·조정)                      │
- │  ─────────────────────────────────────────                    │
- │  • CIO / IT-PMO / EA 팀 / CISO                               │
- │  • 도메인: EDM, APO(Align-Plan-Org), BAI(Build-Acquire-Impl),│
- │           DSS(Deliver-Service-Support), MEA(Monitor-Eval-Ass)│
- │  • 주기: 월간 / 프로젝트 단위                                 │
- │  • 도구: Jira Align, ServiceNow SPM, Apptio, LeanIX         │
- └──────────────────────────┬───────────────────────────────────┘
-                            │  (실행 위임 ↓)
- ┌──────────────────────────┴───────────────────────────────────┐
- │  Layer 3: Operations (일상적 실행)                            │
- │  ─────────────────────────────────────────                    │
- │  • 서비스 데스크 / DevOps 팀 / SRE / 데이터 엔지니어          │
- │  • 자동화: Ansible, Terraform, ArgoCD, AIOps 플랫폼          │
- │  • 측정: SLI/SLO/SLA, Four Golden Signals (Latency,         │
- │           Traffic, Errors, Saturation) — Google SRE 모델    │
- │  • 주기: 실시간 / 일간                                       │
- └──────────────────────────────────────────────────────────────┘
+ +--------------------------------------------------------------+
+ |  Layer 1: Governance (전략적 의사결정)                       |
+ |  -----------------------------------------                    |
+ |  • 이사회 / IT 전략 위원회 (ITSC)                             |
+ |  • 역할: Evaluate(평가) -> Direct(지시) -> Monitor(모니터)     |
+ |  • 주기: 분기 / 반기                                          |
+ |  • 산출물: IT 전략 청사진, 거버넌스 시스템 章程(Charter)        |
+ |                                                              |
+ |   [Decision Rights Matrix: RACI 적용]                         |
+ |   +------------+------+------+------+------+                 |
+ |   | 결정 영역  | 이사 | CEO  | CIO  | 사업 |                 |
+ |   +------------+------+------+------+------+                 |
+ |   | IT 원칙    |  A   |  C   |  R   |  I   |                 |
+ |   | 포트폴리오 |  I   |  A   |  R   |  C   |                 |
+ |   | 아키텍처   |  I   |  A   |  R   |  C   |                 |
+ |   | 투자 >100억|  A   |  R   |  C   |  I   |                 |
+ |   | 인시큐리티 |  A   |  I   |  R   |  C   |                 |
+ |   +------------+------+------+------+------+                 |
+ +--------------------------+-----------------------------------+
+                            |  (지시/통제 흐름 v)
+ +--------------------------+-----------------------------------+
+ |  Layer 2: Management (전술적 계획·조정)                      |
+ |  -----------------------------------------                    |
+ |  • CIO / IT-PMO / EA 팀 / CISO                               |
+ |  • 도메인: EDM, APO(Align-Plan-Org), BAI(Build-Acquire-Impl),|
+ |           DSS(Deliver-Service-Support), MEA(Monitor-Eval-Ass)|
+ |  • 주기: 월간 / 프로젝트 단위                                 |
+ |  • 도구: Jira Align, ServiceNow SPM, Apptio, LeanIX         |
+ +--------------------------+-----------------------------------+
+                            |  (실행 위임 v)
+ +--------------------------+-----------------------------------+
+ |  Layer 3: Operations (일상적 실행)                            |
+ |  -----------------------------------------                    |
+ |  • 서비스 데스크 / DevOps 팀 / SRE / 데이터 엔지니어          |
+ |  • 자동화: Ansible, Terraform, ArgoCD, AIOps 플랫폼          |
+ |  • 측정: SLI/SLO/SLA, Four Golden Signals (Latency,         |
+ |           Traffic, Errors, Saturation) — Google SRE 모델    |
+ |  • 주기: 실시간 / 일간                                       |
+ +--------------------------------------------------------------+
 ```
 
 ### 2-2. 구성 요소별 역할 및 핵심 기술
@@ -122,7 +122,7 @@ IT 경영 관리의 기술적 핵심은 **"누가(Who), 무엇을(What), 어떻�
 | :--- | :--- | :--- |
 | **Governance System (거버넌스 체계)** | IT 의사결정의 권리·책임·절차 정의 | COBIT 2019의 40 Governance/Management Objectives, Design Factors 11종(전략, 목표, 위험, 규모, 컴플라이언스 등), **Capability/Maturity Level(0-5)** 평가 |
 | **Strategy & Portfolio** | IT 투자 우선순위화 및 가치 극대화 | TOGAF ADM 8-Phase, **Stage-Gate(G0~G7)** 거버넌스, BCG/Porter 가치사슬 연계, NPV/IRR/Payback 분석 + **Real Options Valuation** |
-| **Service Value System** | IT 서비스의 End-to-End 가치 전달 | ITIL 4 SVC의 6개 Activity(Plan→Engage→Design&Transition→Obtain/Build→Deliver&Support→Improve), **34 Practices(General+Service+Management)** |
+| **Service Value System** | IT 서비스의 End-to-End 가치 전달 | ITIL 4 SVC의 6개 Activity(Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support->Improve), **34 Practices(General+Service+Management)** |
 | **Risk & Security** | 사이버/운영/규제 리스크의 통합 관리 | ISO 27001:2022 93 Annex A 통제항목, **NIST CSF 2.0의 6 Function(GV-ID-PR-DE-RS-RC)**, FAIR 모델(요인분석 리스크 정량화) |
 | **Performance & Value** | IT 성과와 비즈니스 가치의 정량 측정 | **IT BSC 4관점(Financial-Customer-Internal Process-Learning)**, Val IT의 5단계(value governance-process), DMM(Data Management Maturity) 6단계 |
 
@@ -143,7 +143,7 @@ COBIT 2019의 핵심 혁신은 **"One-size-fits-all 거버넌스"를 거부**하
   Step4: Priority-Goal Matrix(P0~P3) 산출
           P0 = Regulatory 필수, P1 = 전략 핵심, P2 = 차별화, P3 = 옵션
   Step5: Resource Allocation: Budget ∝ (Target_L × Object_Width)
-  Step6: Continuous Monitoring: Δ(현재 측정값 - Target) → 재조정
+  Step6: Continuous Monitoring: Δ(현재 측정값 - Target) -> 재조정
 
   Output: ① 커스터마이즈된 거버넌스 시스템 ② 투자배분 ③ KPI 셋
 ```
@@ -162,7 +162,7 @@ COBIT 2019의 핵심 혁신은 **"One-size-fits-all 거버넌스"를 거부**하
 - **Continuous Compliance**: SOC 2/ISO 27001 통제를 CI/CD 파이프라인에 자동 검증(예: Terraform의 tfsec, Checkov)
 - **Risk-Based Sprint Planning**: User Story별 위험 등급(Low/Med/High) 자동 산정, High 등급은 추가 거버넌스 게이트 적용
 
-- **📢 섹션 요약 비유**: 거버넌스의 3-레이어는 **'항공우주국의 미션 통제(Mission Control)'**와 같다. 발사대(전략)→비행감독관(전술)→우주비행사(운영)로 권한을 위임하되, 텔레메트리(측정)와 Go/No-Go(통제) 신호는 끊임없이 교환된다. DevOps의 자율 로켓(자동화)이 미션의 본질(전략)으로부터 분리되면 임무는 실패한다.
+- **📢 섹션 요약 비유**: 거버넌스의 3-레이어는 **'항공우주국의 미션 통제(Mission Control)'**와 같다. 발사대(전략)->비행감독관(전술)->우주비행사(운영)로 권한을 위임하되, 텔레메트리(측정)와 Go/No-Go(통제) 신호는 끊임없이 교환된다. DevOps의 자율 로켓(자동화)이 미션의 본질(전략)으로부터 분리되면 임무는 실패한다.
 
 ---
 
@@ -178,7 +178,7 @@ COBIT 2019의 핵심 혁신은 **"One-size-fits-all 거버넌스"를 거부**하
 
 **진행 상황**: 749 / 800
 
-← **이전**: [748. IT 경영 관리 핵심 토픽 748번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/748_it_management_core_topic_748_exam_summary/)
-**다음**: [750. IT 경영 관리 핵심 토픽 750번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/750_it_management_core_topic_750_exam_summary/) →
+<- **이전**: [748. IT 경영 관리 핵심 토픽 748번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/748_it_management_core_topic_748_exam_summary/)
+**다음**: [750. IT 경영 관리 핵심 토픽 750번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/750_it_management_core_topic_750_exam_summary/) ->
 
 ---

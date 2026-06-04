@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [슬로우 스타트]
-    │
-    ▼
+    |
+    v
 [임계치]
-    │
-    └──▶ [혼잡 회피]
+    |
+    +---> [혼잡 회피]
 ```
 
 - **📢 섹션 요약 비유**: ** 임계치(ssthresh)는 과속 방지 카메라가 찍히는 **"단속 규정 속도"**입니다. 규정 속도까지는 시원하게 밟고([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)), 규정 속도 근처에 다다르면 단속에 안 걸리게 눈치를 보며 브레이크를 살살 밟아([혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)) 정속 주행을 유지하게 만드는 기준점입니다.
@@ -46,29 +46,29 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 연결이 갓 맺어지면, 내 컴퓨터는 길이 빵빵 뚫려있다고 믿으므로 `ssthresh`를 엄청나게 큰 값(예: 65,535 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))으로 둔다.
 - <strong>1단계 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a>)</strong>: `CWND=1`부터 시작해서 `2, 4, 8, 16...` 미친 듯이 뻥튀기를 시전한다.
 - **사고 발생 (Drop)**: `CWND=32`를 쐈는데 영수증이 안 온다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)).
-- **2단계 (ssthresh의 갱신)**: "앗! 32개 쐈더니 터지네! 그럼 32개의 절반인 <strong>16개</strong>가 이 도로의 안전선이구나!" ──▶ 즉시 <strong><code>ssthresh = 16</code></strong>으로 수정해버린다! (이것이 가장 중요한 갱신 룰이다).
+- **2단계 (ssthresh의 갱신)**: "앗! 32개 쐈더니 터지네! 그럼 32개의 절반인 <strong>16개</strong>가 이 도로의 안전선이구나!" ---> 즉시 <strong><code>ssthresh = 16</code></strong>으로 수정해버린다! (이것이 가장 중요한 갱신 룰이다).
 - **3단계 (재출발과 기어 변속)**: 타임아웃이 났으므로 `CWND=1`로 곤두박질친다. 다시 `1, 2, 4, 8`로 가속한다.
   - 드디어 `CWND = 16`이 되었다!
-  - 뇌구조: "앗! 아까 새로 그어둔 커트라인(16)에 도달했다! 여기서 또 32로 두 배 뛰면 아까처럼 또 사고 나겠지? **이제부터는 곱하기(x2) 금지! 더하기(+1)로 바꾼다!!**" ──▶ `17, 18, 19...`로 조심스레 올라간다.
+  - 뇌구조: "앗! 아까 새로 그어둔 커트라인(16)에 도달했다! 여기서 또 32로 두 배 뛰면 아까처럼 또 사고 나겠지? **이제부터는 곱하기(x2) 금지! 더하기(+1)로 바꾼다!!**" ---> `17, 18, 19...`로 조심스레 올라간다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ssthresh의 갱신과 기어 변속 시각화                │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND                                                        │
- │ 32 |         /(사고 펑!!)                                     │
- │    |       /  |                                             │
- │ 16 |     /    |                 * ─ * ─ * ◀ 혼잡 회피(+1)      │
- │    |   /      |               / ◀ 여기서 기어 변속!! (ssthresh = 16) │
- │  8 | /        |             /                               │
- │  4 |/         |           /                                 │
- │  2 |          |         /                                   │
- │  1 |          * ─ * ─ * ◀ 다시 Slow Start 시작                  │
- │    |____________________________________ 시간(RTT)            │
- │                                                             │
- │   ▶ "ssthresh = MAX( 사고 났을 때의 CWND / 2, 2 MSS )"           │
- │   ▶ "최소한 2개(2 MSS) 밑으로는 커트라인을 깎지 않는다."              │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ssthresh의 갱신과 기어 변속 시각화                |
+ +-------------------------------------------------------------+
+ | CWND                                                        |
+ | 32 |         /(사고 펑!!)                                     |
+ |    |       /  |                                             |
+ | 16 |     /    |                 * - * - * <- 혼잡 회피(+1)      |
+ |    |   /      |               / <- 여기서 기어 변속!! (ssthresh = 16) |
+ |  8 | /        |             /                               |
+ |  4 |/         |           /                                 |
+ |  2 |          |         /                                   |
+ |  1 |          * - * - * <- 다시 Slow Start 시작                  |
+ |    |____________________________________ 시간(RTT)            |
+ |                                                             |
+ |   -> "ssthresh = MAX( 사고 났을 때의 CWND / 2, 2 MSS )"           |
+ |   -> "최소한 2개(2 MSS) 밑으로는 커트라인을 깎지 않는다."              |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 관건
@@ -133,12 +133,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 슬로우 스타트]
-    │
-    ▼
+    |
+    v
 [현재 개념: 임계치]
-    │
-    ├──▶ [확장 A: 혼잡 회피]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 혼잡 회피]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 임계치는 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 552 / 1120
 
-← **이전**: [430. 슬로우 스타트 (Slow Start)](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)
-**다음**: [432. 혼잡 회피 (Congestion Avoidance / AIMD 알고리즘)](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) →
+<- **이전**: [430. 슬로우 스타트 (Slow Start)](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)
+**다음**: [432. 혼잡 회피 (Congestion Avoidance / AIMD 알고리즘)](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) ->
 
 ---

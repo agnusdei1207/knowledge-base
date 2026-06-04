@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 순차 실행과 조건부 분기의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          순차 실행과 조건부 분기의 실행 경로 차이           │
-├──────────────────────────────────────────────────────────────┤
-│ 순차 실행                                                    │
-│   100 ──▶ 101 ──▶ 102 ──▶ 103                                │
-│                                                               │
-│ 조건부 분기                                                   │
-│   100 ──▶ 101 ──▶ [BRANCH if Zero = 1] ──┬─▶ 220             │
-│                                          │                    │
-│                                          └─▶ 102              │
-│                                                               │
-│ 핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          순차 실행과 조건부 분기의 실행 경로 차이           |
++--------------------------------------------------------------+
+| 순차 실행                                                    |
+|   100 ---> 101 ---> 102 ---> 103                                |
+|                                                               |
+| 조건부 분기                                                   |
+|   100 ---> 101 ---> [BRANCH if Zero = 1] --+--> 220             |
+|                                          |                    |
+|                                          +--> 102              |
+|                                                               |
+| 핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다 |
++--------------------------------------------------------------+
 ```
 
 즉 조건부 분기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 바꾸는 명령이라기보다, <strong>다음에 읽을 명령의 위치를 선택하는 명령</strong>이다. 컴퓨터 구조 관점에서 보면 계산의 지능은 산술 명령에서만 생기는 것이 아니라, 이런 경로 선택 명령에서 본격적으로 완성된다.
@@ -49,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-조건부 분기는 보통 <strong>비교 → 상태 기록 → 분기 판단 → <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 갱신</strong>의 순서로 동작한다. 먼저 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 두 값을 비교하거나 뺄셈을 수행하고, 그 결과에 따라 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/) ([Zero Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)), 부호 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Sign [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)), [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)) 같은 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 갱신한다. 이어서 분기 명령은 이 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 목표 주소로 이동할지, 다음 순차 주소로 갈지를 결정한다.
+조건부 분기는 보통 <strong>비교 -> 상태 기록 -> 분기 판단 -> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 갱신</strong>의 순서로 동작한다. 먼저 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 두 값을 비교하거나 뺄셈을 수행하고, 그 결과에 따라 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/) ([Zero Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)), 부호 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Sign [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)), [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)) 같은 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 갱신한다. 이어서 분기 명령은 이 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 목표 주소로 이동할지, 다음 순차 주소로 갈지를 결정한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -61,25 +61,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 조건부 분기의 내부 결정을 한 번에 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           조건부 분기의 내부 결정 흐름                       │
-├──────────────────────────────────────────────────────────────┤
-│ 1) CMP R1, R2                                                │
-│      │                                                        │
-│      ▼                                                        │
-│ 2) ALU 계산: R1 - R2                                          │
-│      │                                                        │
-│      ▼                                                        │
-│ 3) 상태 레지스터 갱신                                         │
-│    ├─ Zero = 1  → 두 값이 같음                               │
-│    ├─ Sign = 1  → 결과가 음수                                 │
-│    └─ Carry = 1 → 자리올림/borrow 조건 발생                  │
-│      │                                                        │
-│      ▼                                                        │
-│ 4) BRANCH if condition true                                   │
-│    ├─ 참  → PC = target address                               │
-│    └─ 거짓 → PC = next sequential address                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           조건부 분기의 내부 결정 흐름                       |
++--------------------------------------------------------------+
+| 1) CMP R1, R2                                                |
+|      |                                                        |
+|      v                                                        |
+| 2) ALU 계산: R1 - R2                                          |
+|      |                                                        |
+|      v                                                        |
+| 3) 상태 레지스터 갱신                                         |
+|    +- Zero = 1  -> 두 값이 같음                               |
+|    +- Sign = 1  -> 결과가 음수                                 |
+|    +- Carry = 1 -> 자리올림/borrow 조건 발생                  |
+|      |                                                        |
+|      v                                                        |
+| 4) BRANCH if condition true                                   |
+|    +- 참  -> PC = target address                               |
+|    +- 거짓 -> PC = next sequential address                     |
++--------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 조건부 분기 명령이 스스로 비교를 끝내는 경우보다, <strong>직전 명령이 남긴 상태를 해석하는 경우가 많다</strong>는 점이다. 그래서 많은 명령 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 `CMP` 다음에 `BEQ`, `BNE`, `BLT` 같은 분기 명령이 자연스럽게 붙는다. 반면 일부 ISA는 비교와 분기를 한 명령으로 묶어 디코드 수를 줄이기도 하는데, 결국 본질은 "조건 판정 결과에 따라 PC를 선택한다"로 동일하다.
@@ -160,17 +160,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차 실행
-    │
-    ▼
+    |
+    v
 비교 명령 (`CMP`) · 상태 레지스터 (Status Register)
-    │
-    ▼
+    |
+    v
 조건부 분기 (Conditional Branch)
-    │
-    ▼
+    |
+    v
 제어 해저드 (Control Hazard) · 분기 예측 (Branch Prediction)
-    │
-    ▼
+    |
+    v
 분기 없는 선택 기법 (CMOV, Predication)
 ```
 
@@ -188,7 +188,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 187 / 803
 
-← **이전**: [186. 제어 흐름 명령어 (Control Flow)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/)
-**다음**: [188. 무조건 분기 (Unconditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/188_unconditional_branch/) →
+<- **이전**: [186. 제어 흐름 명령어 (Control Flow)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/)
+**다음**: [188. 무조건 분기 (Unconditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/188_unconditional_branch/) ->
 
 ---

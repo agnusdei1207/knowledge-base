@@ -20,14 +20,14 @@ tags = ["studynote-design-supervision"]
 전통적 모놀리식 구조는 기능이 많아질수록 핵심 코드가 비대해지고, 일부 고객 맞춤 기능이 전체 배포 안정성을 흔드는 문제가 생긴다. 반면 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 플러그인 수명주기, 공통 이벤트 같은 핵심만 중앙에 남기고 나머지는 확장 모듈로 외부화한다. 따라서 제품 라인업이 많고 기능 실험이 잦은 환경에서 구조적 유연성이 높다.
 
 ```text
-┌──────────────────────────────────────┐
-│            Core Kernel              │
-│  인증 │ 설정 │ 이벤트 │ 확장 포인트 │
-└───────┬─────────┬─────────┬────────┘
-        │         │         │
-   ┌────▼───┐ ┌───▼────┐ ┌──▼─────┐
-   │Plugin A│ │Plugin B│ │Plugin C│
-   └────────┘ └────────┘ └────────┘
++--------------------------------------+
+|            Core Kernel              |
+|  인증 | 설정 | 이벤트 | 확장 포인트 |
++-------+---------+---------+--------+
+        |         |         |
+   +----v---+ +---v----+ +--v-----+
+   |Plugin A| |Plugin B| |Plugin C|
+   +--------+ +--------+ +--------+
 ```
 
 시험 답안에서는 “왜 이 구조가 필요한가”를 플러그인 추가 편의성만으로 쓰면 약하다. 핵심 안정화, 고객별 확장, 기능 실험, 장애 격리라는 네 가지 배경을 함께 적어야 구조 선택 이유가 선명해진다.
@@ -44,15 +44,15 @@ tags = ["studynote-design-supervision"]
 | 이벤트·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결 | 느슨한 결합으로 플러그인 간 직접 의존을 최소화한다. | 순환 의존, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 초기화 순서 위험 검토 |
 
 ```text
-┌───────────────────────────────────────────────┐
-│                  Core Kernel                 │
-├──────────────┬──────────────┬───────────────┤
-│ Service API  │ Event Bus    │ Plugin Manager│
-└──────┬───────┴──────┬───────┴──────┬────────┘
-       │              │              │
-┌──────▼─────┐ ┌──────▼─────┐ ┌──────▼─────┐
-│ UI Plugin  │ │ Auth Plugin│ │ Report Plug│
-└────────────┘ └────────────┘ └────────────┘
++-----------------------------------------------+
+|                  Core Kernel                 |
++--------------+--------------+---------------+
+| Service API  | Event Bus    | Plugin Manager|
++------+-------+------+-------+------+--------+
+       |              |              |
++------v-----+ +------v-----+ +------v-----+
+| UI Plugin  | | Auth Plugin| | Report Plug|
++------------+ +------------+ +------------+
 ```
 
 실무적으로는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 작게 유지하는 절제가 가장 어렵다. 공통 기능이라는 명분으로 점점 많은 비즈니스 로직이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 들어가면 결국 모놀리식과 다를 바 없어지기 때문이다. 따라서 “무엇을 코어에 둘 것인가”와 “무엇을 플러그인으로 밀어낼 것인가”가 기술사의 핵심 판단 포인트다.
@@ -99,13 +99,13 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 단일 제품 코드베이스
-    ↓
+    v
 공통 기능/옵션 기능 분리
-    ↓
+    v
 확장 포인트와 인터페이스 표준화
-    ↓
+    v
 플러그인 생명주기 관리
-    ↓
+    v
 플랫폼 생태계형 제품 구조
 ```
 
@@ -120,7 +120,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 509 / 530
 
-← **이전**: [430. 서버리스 컨테이너 보안 이미지 스캔 (Serverless Container Image Security Scanning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/430_process/)
-**다음**: [432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/432_architecture/) →
+<- **이전**: [430. 서버리스 컨테이너 보안 이미지 스캔 (Serverless Container Image Security Scanning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/430_process/)
+**다음**: [432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/432_architecture/) ->
 
 ---

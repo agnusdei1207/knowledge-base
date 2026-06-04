@@ -25,19 +25,19 @@ tags = ["studynote-software-engineering"]
 하지만 진짜 꼼꼼한 품질보증팀(QA)은 지난주, 작년, 3년 전에 짜놓았던 "B부터 Z까지의 모든 기능이 여전히 멀쩡한지"를 잰걸음으로 전부 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 이렇게 <strong>"시스템의 나쁜 과거 상태로 회귀(Regression)하지 않았음"</strong>을 담보하는 반복 채찍질이 바로 <strong>회귀 테스트(Regression Test)</strong>입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  확인 테스트 vs 회귀 테스트의 차이               │
-├──────────────────────────────────────────────────────────────┤
-│ [버그 수정 상황: "결제 모듈 V2 업데이트" 배포]                      │
-│                                                              │
-│  1) 확인 테스트 (Confirmation Test / Re-test)                   │
-│     - 대상: 방금 고친 "결제 모듈 V2"이 제대로 결제되는지 단독 테스트.   │
-│                                                              │
-│  2) 회귀 테스트 (Regression Test)                              │
-│     - 대상: "로그인, 장바구니, 회원가입, 내정보" 등 이번 작업과         │
-│             별 등급 없어 보이는 **기존 정상 기능들** 전체 점검.        │
-│             (V2 모듈이 엮인 캐시나 DB 테이블을 건드려 터졌을까 봐!)    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  확인 테스트 vs 회귀 테스트의 차이               |
++--------------------------------------------------------------+
+| [버그 수정 상황: "결제 모듈 V2 업데이트" 배포]                      |
+|                                                              |
+|  1) 확인 테스트 (Confirmation Test / Re-test)                   |
+|     - 대상: 방금 고친 "결제 모듈 V2"이 제대로 결제되는지 단독 테스트.   |
+|                                                              |
+|  2) 회귀 테스트 (Regression Test)                              |
+|     - 대상: "로그인, 장바구니, 회원가입, 내정보" 등 이번 작업과         |
+|             별 등급 없어 보이는 **기존 정상 기능들** 전체 점검.        |
+|             (V2 모듈이 엮인 캐시나 DB 테이블을 건드려 터졌을까 봐!)    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 찌그러진 자동차 범퍼 하나를 고쳤을 뿐인데, 혹시 정비사가 실수로 배선을 건드려 와이퍼나 에어컨이 고장 나지 않았을까 의심하며 출고 전에 와이퍼부터 트렁크까지 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 다시 다 눌러보는 깐깐함입니다.
@@ -139,21 +139,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 회귀 테스트 (Regression Test) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -167,7 +167,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 411 / 973
 
-← **이전**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/)
-**다음**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) →
+<- **이전**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/)
+**다음**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) ->
 
 ---

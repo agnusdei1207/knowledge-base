@@ -30,13 +30,13 @@ tags = ["enterprise_systems"]
 
 ```text
 Policies
-  ↓
+  v
 Roles / Stewardship
-  ↓
+  v
 Data Quality / Security
-  ↓
+  v
 Metadata / Lineage
-  ↓
+  v
 Governed Data
 ```
 
@@ -111,11 +111,11 @@ Governed Data
 
 ```text
 Policy
-  ↓
+  v
 Data Governance
-  ↓
+  v
 Quality / Security / Privacy
-  ↓
+  v
 Trusted Data
 ```
 
@@ -125,11 +125,11 @@ Trusted Data
 
 ```text
 Data Management
-  ↓
+  v
 Data Governance
-  ↓
+  v
 Metadata / Lineage
-  ↓
+  v
 Data Trust
 ```
 
@@ -147,7 +147,7 @@ Data Trust
 
 **진행 상황**: 66 / 482
 
-← **이전**: [65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/065_shadow_data_cloud_security/)
-**다음**: [67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) →
+<- **이전**: [65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/065_shadow_data_cloud_security/)
+**다음**: [67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) ->
 
 ---

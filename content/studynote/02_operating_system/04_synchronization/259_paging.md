@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
   [ ❌ 과거: 연속 할당 (외부 단편화 발생) ]
   물리 RAM: [ P1 10M ] [ 빈 10M ] [ P2 20M ] [ 빈 20M ]
-  ▶ 25MB짜리 P3 실행 요청 ─▶ 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음!
+  -> 25MB짜리 P3 실행 요청 --> 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음!
 
   [ ✅ 현대: 페이징 (불연속 할당) ]
   - P3 (25MB) 를 4KB 단위로 잘게 썬다. (약 6,400개의 페이지 생성)
@@ -59,26 +59,26 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 - **$d$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset)**: 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각 안에서의 변위(떨어진 거리). (그 '장' 안에서 몇 번째 '줄'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         MMU의 페이징(Paging) 주소 변환 매커니즘 (가상 ─▶ 물리)         │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [ CPU가 가상 주소 0x1234 를 요청함 ]                                  │
-  │  (가정: 페이지 크기 4KB = 0x1000 이므로 하위 3자리가 Offset임)         │
-  │                                                                        │
-  │  1. 주소 쪼개기: p = 0x1 (페이지 번호 1번), d = 0x234 (오프셋)         │
-  │                                                                        │
-  │  2. 페이지 테이블(Page Table) 조회                                     │
-  │     [ Index ]    [ Frame Number ]    [ Valid ]                         │
-  │       0번           5번                 v                              │
-  │     ▶ 1번           9번 (0x9)          v  ◀ (여기 매핑됨!)             │
-  │       2번          15번                 v                              │
-  │                                                                        │
-  │  3. 물리 주소 합성: Frame(0x9) + Offset(0x234)                         │
-  │     ▶ 🌟 최종 물리 주소: 0x9234                                        │
-  │                                                                        │
-  │  4. RAM의 0x9234 번지에 꽂혀있는 진짜 데이터를 가져와 CPU에 바침.      │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |         MMU의 페이징(Paging) 주소 변환 매커니즘 (가상 --> 물리)         |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |  [ CPU가 가상 주소 0x1234 를 요청함 ]                                  |
+  |  (가정: 페이지 크기 4KB = 0x1000 이므로 하위 3자리가 Offset임)         |
+  |                                                                        |
+  |  1. 주소 쪼개기: p = 0x1 (페이지 번호 1번), d = 0x234 (오프셋)         |
+  |                                                                        |
+  |  2. 페이지 테이블(Page Table) 조회                                     |
+  |     [ Index ]    [ Frame Number ]    [ Valid ]                         |
+  |       0번           5번                 v                              |
+  |     -> 1번           9번 (0x9)          v  <- (여기 매핑됨!)             |
+  |       2번          15번                 v                              |
+  |                                                                        |
+  |  3. 물리 주소 합성: Frame(0x9) + Offset(0x234)                         |
+  |     -> 🌟 최종 물리 주소: 0x9234                                        |
+  |                                                                        |
+  |  4. RAM의 0x9234 번지에 꽂혀있는 진짜 데이터를 가져와 CPU에 바침.      |
+  +------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 여기서 가장 소름 돋는 점은 **오프셋($d$)은 절대 변하지 않는다**는 것이다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에서 1페이지의 50번째 줄에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 메모리 프레임으로 통째로 이사 가도 여전히 그 프레임의 50번째 줄에 있다. 박스 채로 짐을 옮겼기 때문이다. MMU는 단지 "박스 번호(p)"를 "트럭 번호(f)"로 치환하는 단순 문자열 치환 놀이만 할 뿐이다.
 
@@ -124,27 +124,27 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
    - **실무 조치**: 고성능 인메모리 DB를 돌리는 K8s 노드나 베어메탈 서버에서는 무조건 `echo never > /sys/kernel/mm/transparent_hugepage/enabled` 를 때려서 OS의 오지랖(THP)을 강제로 끄는 것이 첫 번째 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 세팅이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     메모리 집약적(Memory-Intensive) 백엔드 서버의 페이징 튜닝 가이드│
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 256GB RAM을 가진 Oracle / JVM 서버 운영]               │
-  │                │                                                    │
-  │                ▼ 운영체제 페이징 최적화 결단                        │
-  │   [ 1. 일반 4KB 페이징 유지 ]                                       │
-  │     ▶ 결과: 수천만 개의 페이지 발생 ─▶ TLB Miss 폭격 ─▶ CPU 낭비    │
-  │                                                                     │
-  │   [ 2. THP (투명한 거대 페이지 - 리눅스 디폴트) 활성화 ]            │
-  │     ▶ 결과: OS가 백그라운드에서 2MB로 뭉치느라 CPU 자원 소모,       │
-  │             메모리 파편화 시 단편화 정리(Defrag) 하느라 서버 멈춤.  │
-  │     ▶ 판정: 🚨 DB 서버에서는 절대 악(Evil). 즉시 비활성화할 것.     │
-  │                                                                     │
-  │   [ 3. 명시적 Huge Pages (Explicit Huge Pages) 수동 셋팅 ]          │
-  │     ▶ 방식: 부팅 시 커널 파라미터로 `hugepages=1000` 강제 할당.     │
-  │     ▶ 결과: 2MB or 1GB 단위로 램을 미리 통째로 썰어둠(Swap도 안됨). │
-  │     ▶ 판정: ✅ TLB Hit Rate 99% 달성, 디스크 스왑 원천 봉쇄.        │
-  │             JVM이나 DB가 날아다니는 최강의 엔터프라이즈 셋팅.       │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     메모리 집약적(Memory-Intensive) 백엔드 서버의 페이징 튜닝 가이드|
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 256GB RAM을 가진 Oracle / JVM 서버 운영]               |
+  |                |                                                    |
+  |                v 운영체제 페이징 최적화 결단                        |
+  |   [ 1. 일반 4KB 페이징 유지 ]                                       |
+  |     -> 결과: 수천만 개의 페이지 발생 --> TLB Miss 폭격 --> CPU 낭비    |
+  |                                                                     |
+  |   [ 2. THP (투명한 거대 페이지 - 리눅스 디폴트) 활성화 ]            |
+  |     -> 결과: OS가 백그라운드에서 2MB로 뭉치느라 CPU 자원 소모,       |
+  |             메모리 파편화 시 단편화 정리(Defrag) 하느라 서버 멈춤.  |
+  |     -> 판정: 🚨 DB 서버에서는 절대 악(Evil). 즉시 비활성화할 것.     |
+  |                                                                     |
+  |   [ 3. 명시적 Huge Pages (Explicit Huge Pages) 수동 셋팅 ]          |
+  |     -> 방식: 부팅 시 커널 파라미터로 `hugepages=1000` 강제 할당.     |
+  |     -> 결과: 2MB or 1GB 단위로 램을 미리 통째로 썰어둠(Swap도 안됨). |
+  |     -> 판정: ✅ TLB Hit Rate 99% 달성, 디스크 스왑 원천 봉쇄.        |
+  |             JVM이나 DB가 날아다니는 최강의 엔터프라이즈 셋팅.       |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 페이징은 너무 위대해서 개발자를 바보로 만들었다. 4KB 단위의 쪼개짐이 내 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 어떤 오버헤드를 가져오는지 잊게 만들었기 때문이다. 하드코어 인프라 아키텍트는 4KB의 족쇄를 풀고, OS에게 "내 DB는 무조건 1GB 단위([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))로 썰어서 던져줘라!"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 수동 제어(Manual Override)를 걸어 궁극의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 탈환한다.
 
@@ -178,12 +178,12 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 
 ```text
 [스케줄러 일드 (sched_yield)]
-    │
-    ▼
+    |
+    v
 [페이징 (Paging)]
-    │
-    ├──▶ [ABA 문제 해결책]
-    └──▶ [장벽 (Barrier) 동기화]
+    |
+    +---> [ABA 문제 해결책]
+    +---> [장벽 (Barrier) 동기화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -200,7 +200,7 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 
 **진행 상황**: 259 / 800
 
-← **이전**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
-**다음**: [260. 페이지 교체 (Page Replacement)](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) →
+<- **이전**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
+**다음**: [260. 페이지 교체 (Page Replacement)](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) ->
 
 ---

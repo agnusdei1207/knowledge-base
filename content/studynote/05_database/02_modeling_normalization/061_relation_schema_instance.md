@@ -30,13 +30,13 @@ tags = ["database"]
 
 ```text
 릴레이션
-├─ Schema (Intension)
-│  ├─ 속성(Attribute)
-│  ├─ 도메인(Domain)
-│  └─ 키(Key)
-└─ Instance (Extension)
-   ├─ Tuple(행)
-   └─ 값(Value)
++- Schema (Intension)
+|  +- 속성(Attribute)
+|  +- 도메인(Domain)
+|  +- 키(Key)
++- Instance (Extension)
+   +- Tuple(행)
+   +- 값(Value)
 ```
 
 | 용어 | 뜻 |
@@ -49,12 +49,12 @@ tags = ["database"]
 
 ```text
 학생 릴레이션
-┌──────┬──────┬──────┬──────┐
-│ 학번 │ 이름 │ 학년 │ 전공 │  ← Schema
-├──────┼──────┼──────┼──────┤
-│ 1001 │ 김철수│  2   │ 컴공 │
-│ 1002 │ 이영희│  1   │ 경영 │
-└──────┴──────┴──────┴──────┘  ← Instance
++------+------+------+------+
+| 학번 | 이름 | 학년 | 전공 |  <- Schema
++------+------+------+------+
+| 1001 | 김철수|  2   | 컴공 |
+| 1002 | 이영희|  1   | 경영 |
++------+------+------+------+  <- Instance
 ```
 
 릴레이션은 단순한 표가 아니라, 각 열의 의미와 각 행의 유일성이 함께 보장되는 구조다. 그래서 키와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건이 매우 중요하다.
@@ -120,13 +120,13 @@ tags = ["database"]
 
 ```text
 Relation
-   ↓
+   v
 Schema / Instance
-   ↓
+   v
 Key / Constraint
-   ↓
+   v
 Normalization
-   ↓
+   v
 RDBMS Design
 ```
 
@@ -136,13 +136,13 @@ RDBMS Design
 
 ```text
 E.F. Codd
-   ↓
+   v
 Relational Model
-   ↓
+   v
 SQL
-   ↓
+   v
 RDBMS
-   ↓
+   v
 Modern Data Design
 ```
 
@@ -160,7 +160,7 @@ Modern Data Design
 
 **진행 상황**: 61 / 600
 
-← **이전**: [60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/060_serverless_database_aurora/)
-**다음**: [62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)](/knowledge-base/studynote/05_database/02_modeling_normalization/062_relation_attribute_degree/) →
+<- **이전**: [60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/060_serverless_database_aurora/)
+**다음**: [62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)](/knowledge-base/studynote/05_database/02_modeling_normalization/062_relation_attribute_degree/) ->
 
 ---

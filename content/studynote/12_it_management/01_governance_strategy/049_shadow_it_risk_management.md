@@ -29,11 +29,11 @@ tags = ["studynote-it-management"]
 
 발생 원인:
   IT 승인 프로세스 지연 (평균 3~6주)
-  → 직원이 즉시 사용 가능한 대안 선택
+  -> 직원이 즉시 사용 가능한 대안 선택
 
   비즈니스 요구 vs IT 표준의 갭:
   "마케팅팀에 어제까지 데이터 보내야 하는데
-   IT가 2주 후에나 승인해준다 → 개인 Dropbox 사용"
+   IT가 2주 후에나 승인해준다 -> 개인 Dropbox 사용"
 
 주요 섀도 IT 사례:
   파일 공유: 개인 Google Drive, Dropbox, OneDrive
@@ -63,16 +63,16 @@ tags = ["studynote-it-management"]
   기밀 데이터 미승인 클라우드 업로드
 
   사례:
-  직원이 고객 DB → 개인 Google Sheets
-  → 고객 정보 유출 가능성
-  → GDPR 위반: €2천만 또는 매출 4% 과징금
+  직원이 고객 DB -> 개인 Google Sheets
+  -> 고객 정보 유출 가능성
+  -> GDPR 위반: €2천만 또는 매출 4% 과징금
 
 2. 접근 통제 리스크:
   퇴직 직원 계정 회수 불가
 
   사례:
   팀원 5명이 공유 Slack 사용
-  퇴직 직원: IT 모름 → 계정 유지 → 내부 채팅 접근
+  퇴직 직원: IT 모름 -> 계정 유지 -> 내부 채팅 접근
 
 3. 컴플라이언스 리스크:
   법적 요건 미충족 서비스 사용
@@ -86,10 +86,10 @@ tags = ["studynote-it-management"]
 
   사례:
   프로젝트 전체 문서를 개인 Notion에 저장
-  담당자 퇴직 → 문서 접근 불가
+  담당자 퇴직 -> 문서 접근 불가
 
 5. 기술 부채:
-  미승인 도구 → 정식 시스템과 통합 어려움
+  미승인 도구 -> 정식 시스템과 통합 어려움
   데이터 사일로 형성
 ```
 
@@ -104,7 +104,7 @@ CASB (Cloud Access Security Broker):
   사용자 ↔ 클라우드 서비스 사이에서 보안 정책 강제
 
 위치:
-  직원 기기 → [CASB] → 클라우드 서비스
+  직원 기기 -> [CASB] -> 클라우드 서비스
 
 기능:
 
@@ -136,7 +136,7 @@ CASB (Cloud Access Security Broker):
 
 4. 사용자 행동 분석 (UEBA):
   이상 패턴 탐지
-  퇴직 예정자의 대량 다운로드 → 알림
+  퇴직 예정자의 대량 다운로드 -> 알림
 
 주요 제품:
   Netskope, Microsoft Defender for Cloud Apps
@@ -161,7 +161,7 @@ CASB (Cloud Access Security Broker):
   "즉시 사용 가능 앱" 목록 제공
 
 2. BYOA (Bring Your Own App) 정책:
-  직원이 앱 추천 → IT가 검토 → 빠른 승인
+  직원이 앱 추천 -> IT가 검토 -> 빠른 승인
 
   기준:
   SOC 2 Type II 인증 여부
@@ -171,16 +171,16 @@ CASB (Cloud Access Security Broker):
 3. SSO 연동 강제:
   승인된 앱은 기업 SSO로 로그인 강제
   개인 계정 사용 불가
-  → 퇴직 시 즉시 접근 차단
+  -> 퇴직 시 즉시 접근 차단
 
 4. 정기 앱 감사:
   분기별 사용 앱 재검토
   미사용 앱 라이선스 해지
-  신규 미승인 앱 발견 → 조치
+  신규 미승인 앱 발견 -> 조치
 
 5. 교육 및 인식:
   섀도 IT 위험 교육 (GDPR, 정보 유출)
-  보고 인센티브: 미승인 앱 발견 → IT 신고
+  보고 인센티브: 미승인 앱 발견 -> IT 신고
 ```
 
 > 📢 **섹션 요약 비유**: 섀도 IT 거버넌스 = 편의점 화장실 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) — "화장실 없다고 근처 카페 몰래 사용(섀도 IT)". 해결책: 화장실 쉽게 사용하게(빠른 승인). 고위험 구역은 잠금(차단). 모든 방문 기록([CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/))!
@@ -214,25 +214,25 @@ IT 기업 CASB 도입 사례:
   개인 ChatGPT 차단
   (대신 기업 Azure OpenAI 배포)
 
-  개인 Google Drive → 기업 Google Workspace로 이전
+  개인 Google Drive -> 기업 Google Workspace로 이전
 
 2. 신속 승인 프로세스:
   48시간 내 승인 SLA 수립
   자주 요청 앱 사전 목록 구성
-  Notion(팀용) → SSO 연동 후 공식 승인
+  Notion(팀용) -> SSO 연동 후 공식 승인
 
 3. DLP 정책:
   코드 파일(.py, .java 등) 외부 업로드 모니터링
   개인 정보 패턴 업로드 차단
 
 결과 (6개월):
-  고위험 섀도 앱: 800개 → 23개
+  고위험 섀도 앱: 800개 -> 23개
   직원 민원: 처음 2주 증가 후 감소
   보안 인시던트: 전년 대비 67% 감소
   직원 만족도: "대안 제공" 덕분에 수용성 높음
 ```
 
-> 📢 **섹션 요약 비유**: [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) 도입 = 회사 복지 개선 + 규정 강화 — 몰래 쓰던 개인 앱 차단하면서 공식 대안(Azure OpenAI, Workspace) 제공. 고위험 800개→23개. "차단만"은 반발, "대안 제공"이 성공!
+> 📢 **섹션 요약 비유**: [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) 도입 = 회사 복지 개선 + 규정 강화 — 몰래 쓰던 개인 앱 차단하면서 공식 대안(Azure OpenAI, Workspace) 제공. 고위험 800개->23개. "차단만"은 반발, "대안 제공"이 성공!
 
 ---
 
@@ -293,7 +293,7 @@ ChatGPT 업무 데이터 입력
 
 1. 섀도 IT = 몰래 쓰는 비공식 창고 — IT 승인(공식 창고) 느려서 개인 클라우드(비공식) 사용. 보이지 않아 관리 불가, 보안 사고 위험!
 2. [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) = 세관 검사대 — 직원이 클라우드로 보내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두 검사. 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 업로드 차단, 미승인 앱 접근 제어!
-3. 해결책 = 빠른 대안 제공 — 차단만 하면 반발. 48시간 승인 + 공식 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구 제공. 고위험 앱 800개→23개 감소!
+3. 해결책 = 빠른 대안 제공 — 차단만 하면 반발. 48시간 승인 + 공식 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구 제공. 고위험 앱 800개->23개 감소!
 
 ---
 
@@ -301,7 +301,7 @@ ChatGPT 업무 데이터 입력
 
 **진행 상황**: 89 / 587
 
-← **이전**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/)
-**다음**: [50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성](/knowledge-base/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence/) →
+<- **이전**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/)
+**다음**: [50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성](/knowledge-base/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence/) ->
 
 ---

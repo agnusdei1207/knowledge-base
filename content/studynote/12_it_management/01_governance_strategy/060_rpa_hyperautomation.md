@@ -31,13 +31,13 @@ RPA는 이런 반복 작업을 GUI(Graphic User Interface) 수준에서 자동�
 
 ```text
 [ 업무 발견 ]
-      ↓
+      v
 [ 프로세스 표준화 ]
-      ↓
+      v
 [ RPA Bot 실행 ]
-      ↓
+      v
 [ 예외 처리 ]
-      ↓
+      v
 [ 오케스트레이션 / CoE ]
 ```
 
@@ -108,13 +108,13 @@ RPA는 당장 체감되는 시간 절감 효과를 주고, [초자동화](/knowl
 
 ```text
 반복 업무
-   ↓
+   v
 RPA
-   ↓
+   v
 Process Mining / AI / BPM
-   ↓
+   v
 Hyperautomation
-   ↓
+   v
 Digital Workforce
 ```
 
@@ -124,13 +124,13 @@ Digital Workforce
 
 ```text
 매크로 / 스크립트
-   ↓
+   v
 RPA
-   ↓
+   v
 Process Mining
-   ↓
+   v
 Hyperautomation
-   ↓
+   v
 Agentic Workflow
 ```
 
@@ -148,7 +148,7 @@ RPA는 귀찮은 숙제를 대신 써 주는 똑똑한 로봇이에요.
 
 **진행 상황**: 104 / 587
 
-← **이전**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it_mode1_mode2_strategy/)
-**다음**: [61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) →
+<- **이전**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it_mode1_mode2_strategy/)
+**다음**: [61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) ->
 
 ---

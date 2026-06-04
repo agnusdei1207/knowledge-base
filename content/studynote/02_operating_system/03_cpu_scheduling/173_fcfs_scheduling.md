@@ -26,13 +26,13 @@ FCFS 스케줄링은 "먼저 온 작업부터 처리한다"는 가장 직관적�
 아래 그림은 FCFS의 기본 실행 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ FCFS ready queue                                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ arrival -> [ P1 ][ P2 ][ P3 ] -> CPU                             │
-│ running process keeps CPU until exit or I/O wait                 │
-│ next dispatch always removes queue head                          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| FCFS ready queue                                                  |
++--------------------------------------------------------------------+
+| arrival -> [ P1 ][ P2 ][ P3 ] -> CPU                             |
+| running process keeps CPU until exit or I/O wait                 |
+| next dispatch always removes queue head                          |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 분명하다. 우선순위 계산도, 예상 burst 길이 추정도 필요 없다. 반면 단점도 분명하다. 앞에 선 작업이 오래 걸리면 뒤에 온 짧은 작업들은 아무리 빨리 끝날 수 있어도 그냥 기다려야 한다. 즉 FCFS는 공정한 순서와 나쁜 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 가질 수 있다.
@@ -48,15 +48,15 @@ FCFS의 핵심은 Ready Queue의 선입선출 보존이다. 새 프로세스는 
 아래 예시는 FCFS가 평균 대기 시간을 어떻게 결정하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example: P1=10ms, P2=3ms, P3=2ms, all arrive at t=0              │
-├────────────────────────────────────────────────────────────────────┤
-│ 0            10        13      15                                │
-│ |---- P1 ----|-- P2 ---|-- P3 -|                                 │
-│ waiting  : P1=0,  P2=10, P3=13                                   │
-│ response : P1=0,  P2=10, P3=13                                   │
-│ turnaround: P1=10, P2=13, P3=15                                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Example: P1=10ms, P2=3ms, P3=2ms, all arrive at t=0              |
++--------------------------------------------------------------------+
+| 0            10        13      15                                |
+| |---- P1 ----|-- P2 ---|-- P3 -|                                 |
+| waiting  : P1=0,  P2=10, P3=13                                   |
+| response : P1=0,  P2=10, P3=13                                   |
+| turnaround: P1=10, P2=13, P3=15                                  |
++--------------------------------------------------------------------+
 ```
 
 위 예시에서 평균 대기 시간은 `(0 + 10 + 13) / 3 = 7.67ms`다. 중요한 점은 P2와 P3가 매우 짧은 작업이어도, 긴 P1 뒤에 서 있다는 이유만으로 응답과 대기가 모두 늦어진다는 것이다. [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) FCFS에서는 첫 프로세스의 burst 길이가 뒤 프로세스들의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 거의 결정한다.
@@ -90,18 +90,18 @@ FCFS는 세 가지 시간 지표와도 직접 연결된다. [비선점](/knowled
 실무에서 FCFS를 채택할지 말지는 "작업 시간이 얼마나 들쭉날쭉한가"로 먼저 판단하는 것이 좋다. 모든 작업이 짧고 비슷하다면 FCFS는 단순하고 안정적이다. 그러나 1ms 작업과 1초 작업이 같은 큐로 들어오면, FCFS는 긴 작업을 기준으로 전체 체감 품질을 떨어뜨린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When is FCFS acceptable?                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ response time critical?                                           │
-│   ├─ yes -> choose preemptive policy                              │
-│   └─ no                                                           │
-│       │                                                           │
-│       ▼                                                           │
-│ job sizes similar and bounded?                                    │
-│   ├─ yes -> FCFS/FIFO reasonable                                  │
-│   └─ no  -> convoy risk; add RR, priority, or class split         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When is FCFS acceptable?                                          |
++--------------------------------------------------------------------+
+| response time critical?                                           |
+|   +- yes -> choose preemptive policy                              |
+|   +- no                                                           |
+|       |                                                           |
+|       v                                                           |
+| job sizes similar and bounded?                                    |
+|   +- yes -> FCFS/FIFO reasonable                                  |
+|   +- no  -> convoy risk; add RR, priority, or class split         |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -150,18 +150,18 @@ FCFS의 가장 큰 효과는 예측 가능한 순서와 낮은 관리 비용이�
 
 ```text
 process arrival
-    │
-    ▼
+    |
+    v
 FIFO ready queue
-    │
-    ▼
+    |
+    v
 head dispatch
-    │
-    ├──────────────▶ run until exit / I/O wait
-    │
-    └──────────────▶ long burst first
-                           │
-                           ▼
+    |
+    +---------------> run until exit / I/O wait
+    |
+    +---------------> long burst first
+                           |
+                           v
                     convoy effect
 ```
 
@@ -179,7 +179,7 @@ head dispatch
 
 **진행 상황**: 173 / 800
 
-← **이전**: [172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)
-**다음**: [174. 호위 효과 (Convoy Effect) - FCFS의 단점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/) →
+<- **이전**: [172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)
+**다음**: [174. 호위 효과 (Convoy Effect) - FCFS의 단점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/) ->
 
 ---

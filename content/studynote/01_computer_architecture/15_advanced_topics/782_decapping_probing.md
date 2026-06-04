@@ -44,23 +44,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 디캡핑 이후 프로빙이 어떻게 연결되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Decap first, then probe the exposed electrical path         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Packaged chip]                                                           │
-│   Mold compound / lid                                                     │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Decap window opened]                                                     │
-│   Exposed die + bond wires + top metal                                    │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Probe station]                                                           │
-│   Microprobe ─────▶ Target pad / bus / sense node                         │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Oscilloscope / logic analyzer / fault injector                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               Decap first, then probe the exposed electrical path         |
++----------------------------------------------------------------------------+
+| [Packaged chip]                                                           |
+|   Mold compound / lid                                                     |
+|        |                                                                  |
+|        v                                                                  |
+| [Decap window opened]                                                     |
+|   Exposed die + bond wires + top metal                                    |
+|        |                                                                  |
+|        v                                                                  |
+| [Probe station]                                                           |
+|   Microprobe ------> Target pad / bus / sense node                         |
+|        |                                                                  |
+|        v                                                                  |
+| Oscilloscope / logic analyzer / fault injector                            |
++----------------------------------------------------------------------------+
 ```
 
 프로빙에서 중요한 것은 "보이는 곳"과 "의미 있는 곳"이 다를 수 있다는 점이다. 외부 핀은 이미 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되었더라도, 내부 테스트 패드나 상단 금속선, 메모리와 보안 엔진 사이의 제어선은 훨씬 가치가 클 수 있다. 또한 고속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 탐침 자체의 기생 성분 때문에 파형이 왜곡될 수 있으므로, 공격자는 접촉 지점과 측정 장비를 매우 정교하게 맞춘다. 결국 디캡핑/프로빙은 화학·기계·전기 측정이 결합된 복합 실험이다.
@@ -137,21 +137,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 패키지 불투명성 의존
-        │
-        ▼
+        |
+        v
 디캡핑 (Decapping)
-        │
-        ▼
+        |
+        v
 다이 노출 · 패시베이션 개구
-        │
-        ▼
+        |
+        v
 프로빙 (Probing) · 내부 노드 측정
-        │
-        ├──▶ FIB (Focused Ion Beam) 수정
-        │
-        └──▶ 역공학 (Reverse Engineering)
-        │
-        ▼
+        |
+        +---> FIB (Focused Ion Beam) 수정
+        |
+        +---> 역공학 (Reverse Engineering)
+        |
+        v
 능동 메시 · 광/화학 센서 · zeroization 대응
 ```
 
@@ -169,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 783 / 803
 
-← **이전**: [781. FIB (Focused Ion Beam) 수정](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)
-**다음**: [783. 안티 탬퍼 (Anti-Tamper) 메시/쉴드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) →
+<- **이전**: [781. FIB (Focused Ion Beam) 수정](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)
+**다음**: [783. 안티 탬퍼 (Anti-Tamper) 메시/쉴드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) ->
 
 ---

@@ -60,13 +60,13 @@ tags = ["studynote-software-engineering"]
 
 ```
          사업 가치
-    낮음 ────────── 높음
-높음 │ 교체/은퇴  │ 현대화  │
-     │            │(재구축) │
-기술 ├────────────┼─────────┤
-부채 │  방치/운영  │리팩토링 │
-낮음 │            │         │
-     └────────────┴─────────┘
+    낮음 ---------- 높음
+높음 | 교체/은퇴  | 현대화  |
+     |            |(재구축) |
+기술 +------------+---------+
+부채 |  방치/운영  |리팩토링 |
+낮음 |            |         |
+     +------------+---------+
 ```
 
 ### 레거시 마이그레이션 5R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Gartner)
@@ -87,11 +87,11 @@ tags = ["studynote-software-engineering"]
 
 | 지표                  | 측정 방법                      | 임계값 예시           |
 |--------------------|-------------------------------|----------------------|
-| 코드 복잡도 ([CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/))     | McCabe 순환 복잡도              | [CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/) > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)  |
-| [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) ([DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/))       | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 / KLOC                  | [DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) > 5 → 재작성      |
-| [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 비율       | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) / 개발 비용            | > 5% → 경보         |
+| 코드 복잡도 ([CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/))     | McCabe 순환 복잡도              | [CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/) > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)  |
+| [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) ([DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/))       | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 / KLOC                  | [DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) > 5 -> 재작성      |
+| [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 비율       | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) / 개발 비용            | > 5% -> 경보         |
 | 변경 요청 빈도       | 주간 CR 수                      | 급증 시 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)    |
-| 커버리지 (Test Cov.) | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 커버리지 비율         | < 30% → 위험         |
+| 커버리지 (Test Cov.) | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 커버리지 비율         | < 30% -> 위험         |
 
 📢 **섹션 요약 비유**: 소프트웨어 건강 지표는 혈액 검사와 같다 — 정상 범위를 벗어나기 시작하면 조기 처방([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))이 수술(재구축)보다 훨씬 저렴하다.
 
@@ -103,13 +103,13 @@ tags = ["studynote-software-engineering"]
 
 ```
 모놀리식 레거시
-     ↓
+     v
 Strangler Fig 패턴: 신규 기능은 마이크로서비스로
-     ↓
+     v
 API Gateway로 레거시·신규 트래픽 라우팅
-     ↓
+     v
 점진적 레거시 기능 대체
-     ↓
+     v
 완전 현대화 완료
 ```
 
@@ -129,22 +129,22 @@ API Gateway로 레거시·신규 트래픽 라우팅
 
 ```
 소프트웨어 노후화 (Software Obsolescence)
-├── 원인
-│   ├── 기술적 부채 (Technical Debt)
-│   ├── 소프트웨어 엔트로피 (Software Entropy)
-│   └── 환경 변화 (End-of-Life 선언)
-├── 측정
-│   ├── 순환 복잡도 (Cyclomatic Complexity, CC)
-│   ├── 결함 밀도 (Defect Density, DD)
-│   └── 기술 부채 비율
-├── 대응 전략 (5R)
-│   ├── Rehost / Replatform / Refactor
-│   ├── Rearchitect
-│   └── Replace
-└── 현대화 패턴
-    ├── Strangler Fig 패턴
-    ├── Branch by Abstraction
-    └── 점진적 마이크로서비스 전환
++-- 원인
+|   +-- 기술적 부채 (Technical Debt)
+|   +-- 소프트웨어 엔트로피 (Software Entropy)
+|   +-- 환경 변화 (End-of-Life 선언)
++-- 측정
+|   +-- 순환 복잡도 (Cyclomatic Complexity, CC)
+|   +-- 결함 밀도 (Defect Density, DD)
+|   +-- 기술 부채 비율
++-- 대응 전략 (5R)
+|   +-- Rehost / Replatform / Refactor
+|   +-- Rearchitect
+|   +-- Replace
++-- 현대화 패턴
+    +-- Strangler Fig 패턴
+    +-- Branch by Abstraction
+    +-- 점진적 마이크로서비스 전환
 ```
 
 ---
@@ -152,18 +152,18 @@ API Gateway로 레거시·신규 트래픽 라우팅
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              소프트웨어 노후화 관리 발전 흐름                    │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ 레거시 문제 인식    │ Y2K, COBOL 마이그레이션 붐   │
-│ 2000년대     │ 기술 부채 개념화    │ W.Cunningham, 부채 측정 도구  │
-│ 2010년대     │ 마이크로서비스 등장 │ Strangler Fig, 점진적 현대화  │
-│ 2020년대     │ 클라우드 5R 전략    │ Gartner 5R, 자동화 분석 도구  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              소프트웨어 노후화 관리 발전 흐름                    |
++--------------+--------------------+-----------------------------+
+| 1990년대     | 레거시 문제 인식    | Y2K, COBOL 마이그레이션 붐   |
+| 2000년대     | 기술 부채 개념화    | W.Cunningham, 부채 측정 도구  |
+| 2010년대     | 마이크로서비스 등장 | Strangler Fig, 점진적 현대화  |
+| 2020년대     | 클라우드 5R 전략    | Gartner 5R, 자동화 분석 도구  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-노후화 → 기술 부채 → 부채 측정 → 5R 전략 → 현대화
-   ↓          ↓           ↓          ↓
+노후화 -> 기술 부채 -> 부채 측정 -> 5R 전략 -> 현대화
+   v          v           v          v
 엔트로피   의도적/비의도  McCabe CC  Strangler Fig
 ```
 
@@ -181,7 +181,7 @@ API Gateway로 레거시·신규 트래픽 라우팅
 
 **진행 상황**: 32 / 973
 
-← **이전**: [31. 소프트웨어 유지보수 유형 — 4가지 변경 분류](/knowledge-base/studynote/04_software_engineering/01_overview_principles/031_software_maintenance_types/)
-**다음**: [기술 부채 (Technical Debt)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/033_technical_debt/) →
+<- **이전**: [31. 소프트웨어 유지보수 유형 — 4가지 변경 분류](/knowledge-base/studynote/04_software_engineering/01_overview_principles/031_software_maintenance_types/)
+**다음**: [기술 부채 (Technical Debt)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/033_technical_debt/) ->
 
 ---

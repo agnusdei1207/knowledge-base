@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))은 시스템 전체에서 인스턴스 하나만 존재하도록 보장하고 전역 접근점을 제공하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리자, 로거처럼 하나의 인스턴스로 충분한 자원을 여러 곳에서 공유하려는 요구가 있다. 이 개념이 필요한 이유는 유일 인스턴스와 접근 경로를 통제하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 여러 인스턴스가 생기면 상태 불일치와 자원 낭비가 발생할 수 있다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Single   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Single   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Single  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Single  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 테스트 격리 | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[여러 인스턴스 생성] → [싱글톤 통제] → [컨테이너 관리]
+[여러 인스턴스 생성] -> [싱글톤 통제] -> [컨테이너 관리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))은 학교 방송실 마이크를 모두가 같이 쓰되 하나만 켜 두는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 460 / 530
 
-← **이전**: [381. 프로토타입 패턴 (Prototype Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/381_prototype_pattern_summary/)
-**다음**: [383. 어댑터 패턴 (Adapter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) →
+<- **이전**: [381. 프로토타입 패턴 (Prototype Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/381_prototype_pattern_summary/)
+**다음**: [383. 어댑터 패턴 (Adapter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
+    |
+    v
 [트래픽 섀도잉 및 카나리 배포]
-    │
-    └──▶ [로드 밸런싱]
+    |
+    +---> [로드 밸런싱]
 ```
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
+    |
+    v
 [트래픽 섀도잉 및 카나리 배포]
-    │
-    └──▶ [로드 밸런싱]
+    |
+    +---> [로드 밸런싱]
 ```
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 트래픽 섀도잉 및 카나리 배포]
-    │
-    ├──▶ [확장 A: 로드 밸런싱]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 로드 밸런싱]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…에서 출발해 현재 메커니즘을 정교화하고, 이후 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 953 / 1120
 
-← **이전**: [831. mTLS (상호 인증 TLS)](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)
-**다음**: [833. 로드 밸런싱 (L4/L7)](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) →
+<- **이전**: [831. mTLS (상호 인증 TLS)](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)
+**다음**: [833. 로드 밸런싱 (L4/L7)](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) ->
 
 ---

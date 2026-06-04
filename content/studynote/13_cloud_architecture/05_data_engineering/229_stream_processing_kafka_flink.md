@@ -23,13 +23,13 @@ tags = ["studynote-cloud-architecture"]
 ```
 [데이터 가치 vs 시간 그래프]
 가치
-│▓▓▓▓▓
-│    ▓▓▓▓
-│        ▓▓▓▓
-│            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-└─────────────────────────────── 시간
+|▓▓▓▓▓
+|    ▓▓▓▓
+|        ▓▓▓▓
+|            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
++------------------------------- 시간
 이벤트 발생시  초    분    시간
-↑ 스트리밍 처리 구간  ↑ 배치 처리 수용 구간
+^ 스트리밍 처리 구간  ^ 배치 처리 수용 구간
 
 실시간성 필요 사례:
 - 신용카드 이상 거래 탐지 (FDS)
@@ -48,45 +48,45 @@ tags = ["studynote-cloud-architecture"]
 ### 스트림 처리 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  스트림 처리 파이프라인                        │
-│                                                             │
-│  이벤트 소스          메시지 브로커          스트림 프로세서    │
-│  ┌──────────┐        ┌──────────┐          ┌────────────┐  │
-│  │ 웹 클릭   │ ─────▶ │  Kafka   │ ───────▶ │   Flink    │  │
-│  │ IoT 센서  │        │  Topic   │          │  (실시간    │  │
-│  │ 결제 이벤트│        │ 파티션   │          │   변환·집계) │  │
-│  └──────────┘        └──────────┘          └─────┬──────┘  │
-│                                                   │         │
-│              ┌────────────────────────────────────┘         │
-│              ▼                                              │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │ 출력 싱크 (Output Sink)                           │      │
-│  │  - Redis (실시간 집계 결과 캐시)                   │      │
-│  │  - Elasticsearch (검색·대시보드)                  │      │
-│  │  - S3/Delta Lake (스트리밍 적재)                  │      │
-│  │  - 알림 시스템 (이상 탐지 경보)                    │      │
-│  └──────────────────────────────────────────────────┘      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  스트림 처리 파이프라인                        |
+|                                                             |
+|  이벤트 소스          메시지 브로커          스트림 프로세서    |
+|  +----------+        +----------+          +------------+  |
+|  | 웹 클릭   | ------> |  Kafka   | --------> |   Flink    |  |
+|  | IoT 센서  |        |  Topic   |          |  (실시간    |  |
+|  | 결제 이벤트|        | 파티션   |          |   변환·집계) |  |
+|  +----------+        +----------+          +-----+------+  |
+|                                                   |         |
+|              +------------------------------------+         |
+|              v                                              |
+|  +--------------------------------------------------+      |
+|  | 출력 싱크 (Output Sink)                           |      |
+|  |  - Redis (실시간 집계 결과 캐시)                   |      |
+|  |  - Elasticsearch (검색·대시보드)                  |      |
+|  |  - S3/Delta Lake (스트리밍 적재)                  |      |
+|  |  - 알림 시스템 (이상 탐지 경보)                    |      |
+|  +--------------------------------------------------+      |
++-------------------------------------------------------------+
 ```
 
 ### 윈도우 처리 유형
 
 ```
 [Tumbling Window - 겹치지 않는 고정 윈도우]
-│ W1  │ W2  │ W3  │ W4  │
-──────────────────────────▶ 시간
+| W1  | W2  | W3  | W4  |
+---------------------------> 시간
 0초  10초  20초  30초  40초
 
 [Sliding Window - 슬라이딩 윈도우]
-│  W1   │
-   │  W2   │
-      │  W3   │
-──────────────────────────▶ 시간
+|  W1   |
+   |  W2   |
+      |  W3   |
+---------------------------> 시간
 매 5초마다 10초 윈도우 집계
 
 [Session Window - 활동 기반 세션 윈도우]
-│─── 세션 1 ───│  │── 세션 2 ──│
+|--- 세션 1 ---|  |-- 세션 2 --|
 활동  ...  활동  gap  활동  활동
 ```
 
@@ -107,10 +107,10 @@ tags = ["studynote-cloud-architecture"]
 이벤트 시간: 09:00 09:01 09:02 ... (지연 이벤트: 09:00 이벤트가 09:05에 도달)
 
 워터마크 = 현재 최대 이벤트 시간 - 허용 지연 시간
-예: 최대 이벤트 시간 09:05, 허용 지연 2분 → 워터마크 = 09:03
+예: 최대 이벤트 시간 09:05, 허용 지연 2분 -> 워터마크 = 09:03
 
-09:03 이전 이벤트는 "완전하다" 판단 → 윈도우 닫기 가능
-09:03 이후 도착한 09:00 이벤트는 "늦음" → 무시 또는 별도 처리
+09:03 이전 이벤트는 "완전하다" 판단 -> 윈도우 닫기 가능
+09:03 이후 도착한 09:00 이벤트는 "늦음" -> 무시 또는 별도 처리
 ```
 
 📢 **섹션 요약 비유**: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 우체국의 "마감 시간"이다. "오후 5시 이전 소인이 찍힌 편지는 오늘 처리한다"는 규칙처럼, [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 이전 시간의 이벤트만 현재 윈도우에서 처리하고, 너무 늦게 도착한 편지([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트)는 별도로 처리한다.
@@ -202,7 +202,7 @@ env.execute("Fraud Detection Pipeline");
 |:---|:---|
 | **아키텍처 복잡성** | 상태 관리, 윈도우 설계, [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 튜닝 필요 |
 | **운영 비용** | 클러스터 상시 가동으로 배치 대비 높은 비용 |
-| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> vs <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 길게 설정할수록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)↑·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)↑ |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> vs <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 길게 설정할수록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)^·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)^ |
 | **재처리 어려움** | 실패 시 이벤트 재처리 복잡 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋 관리) |
 
 📢 **섹션 요약 비유**: 스트림 처리는 24시간 편의점 운영과 같다. 항상 열려있어(상시 클러스터) 언제든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가능하지만, 야간 인건비(고비용)와 야간 운영의 복잡성(아키텍처 복잡도)이 있다. 대부분의 업무는 낮에만 영업하는 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)로 충분하다.
@@ -226,14 +226,14 @@ env.execute("Fraud Detection Pipeline");
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-Batch (지연 처리) → Micro-batch (Spark Streaming)
-    │
-    ▼
+Batch (지연 처리) -> Micro-batch (Spark Streaming)
+    |
+    v
 True Stream: Apache Flink · Kafka Streams
-    ├─► Exactly-Once 보장 · Event-Time 처리
-    └─► Watermark: 늦은 이벤트 처리
-    │
-    ▼
+    +-► Exactly-Once 보장 · Event-Time 처리
+    +-► Watermark: 늦은 이벤트 처리
+    |
+    v
 Unified: Batch + Stream 통합 (Flink · Beam)
 ```
 2. 윈도우는 강의 그물을 일정 구간에 치는 것이다. 10분마다 그물을 걷어서 그 사이 잡힌 물고기를 세면, 10분 단위 어획량(집계)을 알 수 있다.
@@ -245,7 +245,7 @@ Unified: Batch + Stream 통합 (Flink · Beam)
 
 **진행 상황**: 228 / 371
 
-← **이전**: [228. 배치 처리 (Batch Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)
-**다음**: [230. 아파치 카프카 (Apache Kafka)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/230_apache_kafka_distributed_messaging/) →
+<- **이전**: [228. 배치 처리 (Batch Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)
+**다음**: [230. 아파치 카프카 (Apache Kafka)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/230_apache_kafka_distributed_messaging/) ->
 
 ---

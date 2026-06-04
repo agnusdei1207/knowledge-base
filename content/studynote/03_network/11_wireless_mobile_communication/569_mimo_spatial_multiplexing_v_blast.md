@@ -21,26 +21,26 @@ tags = ["studynote-network"]
 
 - **개념**: [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 기술의 꽃인 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))는, 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 여러 개일 때 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아 '안 끊기게(다이버시티)' 하는 방어적 철학을 버리고, 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Layer)을 동시에 같은 주파수/같은 시간에 뿜어내어 통신 속도를 기하급수적으로 올리는 공격적 아키텍처다.
 - **필요성**: 샤논의 법칙(Shannon's Capacity)에 따르면 통신 속도를 올리려면 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 넓히거나 기지국 전력을 미친 듯이 올려야 한다. 하지만 주파수는 조 단위로 비싸고 출력은 인체 유해성 때문에 올릴 수 없다. 엔지니어들은 물리적 한계에 부딪혔다. "주파수도 그대로, 파워도 그대로 둔 채 속도를 4배로 올릴 수 없을까?" 이 말도 안 되는 연금술을 위해, 허공(공간, Space)을 독립된 여러 개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 쪼개는 기하학적 돌파구가 절실했다.
-- **등장 배경**: ① 샤논의 한계에 부딪힌 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 한계와 고화질 멀티미디어([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) 속도 요구 폭발 → ② 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 뿜어내는 수많은 반사파([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 짬뽕 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를, 오히려 행렬(Matrix) 연산으로 분리할 수 있다는 획기적 논문(Telatar, 1999) 발표 → ③ 1998년 벨 연구소가 섞인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 순차적으로 빼서 복원하는 V-BLAST 하드웨어 아키텍처를 입증하며 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)의 상용화 물꼬를 틂.
+- **등장 배경**: ① 샤논의 한계에 부딪힌 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 한계와 고화질 멀티미디어([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) 속도 요구 폭발 -> ② 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 뿜어내는 수많은 반사파([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 짬뽕 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를, 오히려 행렬(Matrix) 연산으로 분리할 수 있다는 획기적 논문(Telatar, 1999) 발표 -> ③ 1998년 벨 연구소가 섞인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 순차적으로 빼서 복원하는 V-BLAST 하드웨어 아키텍처를 입증하며 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)의 상용화 물꼬를 틂.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             다이버시티 방어술 vs 공간 다중화(Multiplexing) 마법 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1. 공간 다이버시티 (Diversity) - "안전과 방어 중심"]               │
-│   전송 데이터: [ A, B, C, D ]                                    │
-│   안테나 1 📡 ── [ A, B, C, D ] ──▶ (수신) 둘 중 찌그러지지     │
-│   안테나 2 📡 ── [ A, B, C, D ] ──▶        않은 놈을 골라잡음!    │
-│   => 결과: 절대 안 끊기지만, 속도는 안테나 1개일 때와 똑같음. (1배속)         │
-│                                                             │
-│   [2. 공간 다중화 (Spatial Multiplexing) - "속도와 공격 중심"]        │
-│   전송 데이터: [ A, B, C, D, E, F, G, H ]                        │
-│   안테나 1 📡 ── [ A, C, E, G ] ──▶ (수신) 공중에서 다 섞여서    │
-│   안테나 2 📡 ── [ B, D, F, H ] ──▶        짬뽕이 되어버림! 💥    │
-│   => 결과: 수신기가 수학 행렬(V-BLAST)로 이 짬뽕을 1번 라인과 2번 라인으로 │
-│            기가 막히게 분리해 냄! 주파수 하나로 속도 2배 뻥튀기 성공! (2배속) │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             다이버시티 방어술 vs 공간 다중화(Multiplexing) 마법 시각화 |
++-------------------------------------------------------------+
+|                                                             |
+|   [1. 공간 다이버시티 (Diversity) - "안전과 방어 중심"]               |
+|   전송 데이터: [ A, B, C, D ]                                    |
+|   안테나 1 📡 -- [ A, B, C, D ] ---> (수신) 둘 중 찌그러지지     |
+|   안테나 2 📡 -- [ A, B, C, D ] --->        않은 놈을 골라잡음!    |
+|   => 결과: 절대 안 끊기지만, 속도는 안테나 1개일 때와 똑같음. (1배속)         |
+|                                                             |
+|   [2. 공간 다중화 (Spatial Multiplexing) - "속도와 공격 중심"]        |
+|   전송 데이터: [ A, B, C, D, E, F, G, H ]                        |
+|   안테나 1 📡 -- [ A, C, E, G ] ---> (수신) 공중에서 다 섞여서    |
+|   안테나 2 📡 -- [ B, D, F, H ] --->        짬뽕이 되어버림! 💥    |
+|   => 결과: 수신기가 수학 행렬(V-BLAST)로 이 짬뽕을 1번 라인과 2번 라인으로 |
+|            기가 막히게 분리해 냄! 주파수 하나로 속도 2배 뻥튀기 성공! (2배속) |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))의 본질은 허공에 쏘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '분할'이다. 기지국은 보낼 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(A~H)을 반으로 쪼개어 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1과 2로 동시에 날린다. 문제는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1번이 쏜 전파와 2번이 쏜 전파가 공중에서 완벽히 뒤섞여버린다는 것이다(Inter-[Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Interference). 예전 같으면 이 섞임은 최악의 노이즈(충돌)로 취급되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통째로 폐기되었다. 하지만 수신 측에 스마트폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 2개 달려있다면? 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 조금씩 다른 각도와 환경을 거쳐 온 섞인 파동(연립 방정식)을 받는다. 스마트폰 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 칩셋은 수신된 두 개의 짬뽕 파동을 행렬 수학(역행렬)으로 돌려버리면, 마법처럼 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1이 쏜 [A, C, E, G]와 2가 쏜 [B, D, F, H]를 완벽히 핀셋으로 갈라낸다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가 없이 공짜로 속도가 2배 뛰는 기적이다.
@@ -67,27 +67,27 @@ tags = ["studynote-network"]
 V-BLAST의 핵심 철학은 <strong>"가장 똘똘한 놈부터 하나씩 빼내자 (SIC, Successive Interference Cancellation)"</strong>다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               V-BLAST의 순차적 간섭 제거 (SIC) 3단계 마법 흐름         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [상황: 수신기에 3개(A, B, C)의 데이터가 짬뽕되어 들어옴]                 │
-│                                                               │
-│   Step 1. (가장 센 놈 찾기 및 추출)                                │
-│   수신기: "섞인 국물 속에서 제일 강하고 뚜렷하게 들리는 게 B네! B부터 건져내자!" │
-│   => 복원 완료 1번 타자: [ B ] 획득                                │
-│                                                               │
-│   Step 2. (간섭 제거 Cancellation) ⭐️ V-BLAST의 핵심!             │
-│   수신기: "이제 B의 진짜 모양을 알아냈으니, 짬뽕 국물 전체에서 B가 만들어낸 │
-│            파동의 흔적(간섭)을 수학적으로 완벽하게 싹 지워버려라!"           │
-│   => 결과: 원래 (A+B+C) 국물이었는데, B가 빠지면서 (A+C)의 맑은 국물이 됨.│
-│                                                               │
-│   Step 3. (다음 타자 반복)                                        │
-│   수신기: "남은 (A+C) 국물에서 보니까 이번엔 A가 더 크네? A 건져내고,       │
-│            국물에서 또 A 지워버려!" => [ A ] 획득                      │
-│                                                               │
-│   => 최종: 남은 맑은 국물 속의 아주 약한 [ C ]까지 완벽하게 분리 성공!        │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               V-BLAST의 순차적 간섭 제거 (SIC) 3단계 마법 흐름         |
++---------------------------------------------------------------+
+|                                                               |
+|   [상황: 수신기에 3개(A, B, C)의 데이터가 짬뽕되어 들어옴]                 |
+|                                                               |
+|   Step 1. (가장 센 놈 찾기 및 추출)                                |
+|   수신기: "섞인 국물 속에서 제일 강하고 뚜렷하게 들리는 게 B네! B부터 건져내자!" |
+|   => 복원 완료 1번 타자: [ B ] 획득                                |
+|                                                               |
+|   Step 2. (간섭 제거 Cancellation) ⭐️ V-BLAST의 핵심!             |
+|   수신기: "이제 B의 진짜 모양을 알아냈으니, 짬뽕 국물 전체에서 B가 만들어낸 |
+|            파동의 흔적(간섭)을 수학적으로 완벽하게 싹 지워버려라!"           |
+|   => 결과: 원래 (A+B+C) 국물이었는데, B가 빠지면서 (A+C)의 맑은 국물이 됨.|
+|                                                               |
+|   Step 3. (다음 타자 반복)                                        |
+|   수신기: "남은 (A+C) 국물에서 보니까 이번엔 A가 더 크네? A 건져내고,       |
+|            국물에서 또 A 지워버려!" => [ A ] 획득                      |
+|                                                               |
+|   => 최종: 남은 맑은 국물 속의 아주 약한 [ C ]까지 완벽하게 분리 성공!        |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** V-BLAST 아키텍처의 SIC(순차적 간섭 제거)는 '노이즈 캔슬링'의 궁극형이다. 3개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마구잡이로 쐈을 때 수신기는 한꺼번에 방정식을 풀려다 망하지 않는다. 가장 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)(SINR)가 좋은 레이어([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림) 1개를 먼저 푼다. 그리고 푼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 "이놈이 나머지 2개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 미쳤을 간섭(Interference)"을 계산해서 짬뽕 파동에서 쓱 지워준다(Cancellation). 그러면 두 번째, 세 번째 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 풀 때는 방해물이 사라진 아주 맑은 상태가 되어, 원래라면 노이즈에 묻혀 죽었을 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들까지 100% 에러 없이 복원된다. 이 단순하지만 무지막지한 발상이 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 속도 혁명을 완성했다.
@@ -113,20 +113,20 @@ V-BLAST의 핵심 철학은 <strong>"가장 똘똘한 놈부터 하나씩 빼내
 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)(V-BLAST)가 성립하려면 연립방정식이 풀려야 한다. 만약 사막 한가운데서 폰을 쓰면 전파가 부딪힐 곳이 없어 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1번과 2번의 전파가 거의 똑같은 궤적으로 폰에 도착한다. (이걸 '채널 상관성(Correlation)이 높다'고 한다). 이 경우 연립방정식이 `x+y=10, 2x+2y=20` 꼴이 되어 수학적으로 풀리지 않는다(Rank=1로 강제 하락). [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)는 아이러니하게도 전파가 빌딩과 벽에 수도 없이 튕겨서 난잡해지는 <strong>도심지(Rich <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a> <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>에서 궤적이 완벽히 엇갈려야만 연립방정식이 풀려 속도가 2배, 4배로 폭발하는 역설적인 기술이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               전파 환경(CQI/RI)에 따른 적응형 MIMO 모드 전환 트랜스포머 │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [상황 1: 폰이 도심 번화가 한복판에 있음 (전파 반사 최고!)]                 │
-│   단말기 ─▶ (기지국에 보고) "지금 전파들 궤적이 기가 막히게 다 달라! Rank 4 돌려!" │
-│   기지국 ─▶ "오케이! 안테나 4개로 서로 다른 유튜브 데이터 4조각 동시에 발사!"     │
-│   (결과: 공간 다중화 모드 발동 ─▶ 속도 400Mbps 폭발! 🚀)                   │
-│                                                               │
-│   [상황 2: 폰이 고속도로를 달리다 산기슭에 진입함 (전파 직선화 및 약화)]         │
-│   단말기 ─▶ "야! 반사파가 없어서 방정식이 안 풀려! 나 속도 포기할게!"             │
-│   기지국 ─▶ "알았어! 속도(다중화) 버리고 안테나 4개로 똑같은 데이터 4번 복사해서 쏨!"│
-│   (결과: 다이버시티(방어) 모드로 즉각 폴백 ─▶ 속도는 100Mbps지만 폰 안 끊김! 🛡️)│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               전파 환경(CQI/RI)에 따른 적응형 MIMO 모드 전환 트랜스포머 |
++---------------------------------------------------------------+
+|                                                               |
+|   [상황 1: 폰이 도심 번화가 한복판에 있음 (전파 반사 최고!)]                 |
+|   단말기 --> (기지국에 보고) "지금 전파들 궤적이 기가 막히게 다 달라! Rank 4 돌려!" |
+|   기지국 --> "오케이! 안테나 4개로 서로 다른 유튜브 데이터 4조각 동시에 발사!"     |
+|   (결과: 공간 다중화 모드 발동 --> 속도 400Mbps 폭발! 🚀)                   |
+|                                                               |
+|   [상황 2: 폰이 고속도로를 달리다 산기슭에 진입함 (전파 직선화 및 약화)]         |
+|   단말기 --> "야! 반사파가 없어서 방정식이 안 풀려! 나 속도 포기할게!"             |
+|   기지국 --> "알았어! 속도(다중화) 버리고 안테나 4개로 똑같은 데이터 4번 복사해서 쏨!"|
+|   (결과: 다이버시티(방어) 모드로 즉각 폴백 --> 속도는 100Mbps지만 폰 안 끊김! 🛡️)|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 현대 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 아키텍처는 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)(속도)와 공간 다이버시티(안정성) 중 하나를 고집하지 않는다. 폰 안의 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 매 밀리초(1ms)마다 지금 허공의 상태가 연립방정식을 풀 수 있을 만큼 난잡한지(Rank Indicator, RI 보고), 에러는 없는지(CQI 보고)를 기지국에 수없이 올린다. 기지국(eNB/gNB)은 이 리포트를 받아보고 "아, 이 폰은 지금 빌딩 숲이니 속도를 4배로 뻥튀기([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))해주자!", "어? 이 폰은 터널 들어갔네. 방정식 안 풀리니까 방어력 몰빵 모드(Transmit Diversity)로 트랜스폼해라!"라며 0.1초마다 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 송신 모드를 마법처럼 휙휙 스위칭한다. 이것이 끊기지도 않으면서 미친 듯이 빠른 현대 모바일 기가비트망의 비밀이다.
@@ -187,12 +187,12 @@ V-BLAST의 핵심 철학은 <strong>"가장 똘똘한 놈부터 하나씩 빼내
 
 ```text
 [선행 개념: 스위칭 빔 vs 적응형 어레이]
-    │
-    ▼
+    |
+    v
 [현재 개념: MIMO 기반 공간 다중화 체계]
-    │
-    ├──▶ [확장 A: WiMAX / 휴대인터넷 개요]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: WiMAX / 휴대인터넷 개요]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기반 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 체계는 [스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/) vs 적응형 어레이에서 출발해 현재 메커니즘을 정교화하고, 이후 [WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/) / 휴대인터넷 개요와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -209,7 +209,7 @@ V-BLAST의 핵심 철학은 <strong>"가장 똘똘한 놈부터 하나씩 빼내
 
 **진행 상황**: 690 / 1120
 
-← **이전**: [568. 스위칭 빔 (Switched Beam) vs 적응형 어레이 (Adaptive Array 안테나)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)
-**다음**: [570. WiMAX (IEEE 802.16) / 휴대인터넷(WiBro) 개요](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/) →
+<- **이전**: [568. 스위칭 빔 (Switched Beam) vs 적응형 어레이 (Adaptive Array 안테나)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)
+**다음**: [570. WiMAX (IEEE 802.16) / 휴대인터넷(WiBro) 개요](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/) ->
 
 ---

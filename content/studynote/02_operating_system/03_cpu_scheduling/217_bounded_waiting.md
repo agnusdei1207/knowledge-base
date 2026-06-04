@@ -28,18 +28,18 @@ tags = ["studynote-operating-system"]
   [한정된 대기(Bounded Waiting)의 파괴 vs 준수 시뮬레이션]
 
   [ ❌ Bounded Waiting 실패 (기아 발생) - LIFO 큐 사용 시 ]
-  1. P1 진입 요청 ─▶ 대기 큐: [P1]
-  2. P2 진입 요청 ─▶ 대기 큐: [P1, P2] (P2가 더 늦게 왔으나 맨 앞을 차지)
-  3. P3 진입 요청 ─▶ 대기 큐: [P1, P2, P3]
-  ▶ 방이 비었을 때: 가장 늦게 온 P3가 먼저 들어감. 계속 새 놈이 오면 P1은 평생 못 들어감!
-  ▶ Bound = 무한대 (∞)
+  1. P1 진입 요청 --> 대기 큐: [P1]
+  2. P2 진입 요청 --> 대기 큐: [P1, P2] (P2가 더 늦게 왔으나 맨 앞을 차지)
+  3. P3 진입 요청 --> 대기 큐: [P1, P2, P3]
+  -> 방이 비었을 때: 가장 늦게 온 P3가 먼저 들어감. 계속 새 놈이 오면 P1은 평생 못 들어감!
+  -> Bound = 무한대 (∞)
 
   [ ✅ Bounded Waiting 달성 (공정성 보장) - FIFO 큐 사용 시 ]
-  1. P1 진입 요청 ─▶ 대기 큐: [P1]
-  2. P2 진입 요청 ─▶ 대기 큐: [P1, P2] (P2는 무조건 P1 뒤에 섬)
-  3. P3 진입 요청 ─▶ 대기 큐: [P1, P2, P3]
-  ▶ 방이 비었을 때: 맨 앞의 P1이 무조건 들어감.
-  ▶ Bound = 내 앞의 대기자 수 (유한함)
+  1. P1 진입 요청 --> 대기 큐: [P1]
+  2. P2 진입 요청 --> 대기 큐: [P1, P2] (P2는 무조건 P1 뒤에 섬)
+  3. P3 진입 요청 --> 대기 큐: [P1, P2, P3]
+  -> 방이 비었을 때: 맨 앞의 P1이 무조건 들어감.
+  -> Bound = 내 앞의 대기자 수 (유한함)
 ```
 **[다이어그램 해설]** 한정된 대기 조건은 "스케줄링의 공정성"을 대변한다. 내가 아무리 찌질한 프로세스라도 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 들어간 이상, 내 위로 새치기하는 놈의 숫자가 딱 정해져 있어야(Bounded) "언젠가는 끝난다"라는 예측이 가능해진다.
 
@@ -105,27 +105,27 @@ tags = ["studynote-operating-system"]
    - `false` (Non-fair 모드, 디폴트): **한정된 대기를 포기하는 모드**. 방금 락을 푼 놈이 캐시가 뜨거우니까 바로 다시 락을 채가는 '새치기'를 허용한다. [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 위험이 있지만, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 10배 이상 빠르기 때문에 스프링 백엔드에서 99% 이 방식을 쓴다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     락(Lock)의 공정성(Fairness)과 처리량(Throughput) 트레이드오프│
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [요구사항: 초당 10만 건 결제 처리 락 로직 구현]                │
-  │                │                                                 │
-  │                ▼ 비즈니스 요건 분석                              │
-  │   "1만 번째 고객이 1초 이상 지연되면 소송이 걸리는가?"           │
-  │          ├─ [예 (엄격한 지연시간 보장 필수)]                     │
-  │          │      │                                                │
-  │          │      ▼ 🚨 Fair Lock 강제 적용 (성능 포기)             │
-  │          │  모두를 FIFO 큐에 일렬로 세움 (Bounded Waiting).      │
-  │          │  ▶ 서버를 10대 더 사서 성능 저하를 돈으로 메꿈.       │
-  │          │                                                       │
-  │          └─ [아니오 (평균 10만 건 처리량이 더 중요함)]           │
-  │                 │                                                │
-  │                 ▼ ✅ Non-fair Lock (디폴트) 적용                 │
-  │             새치기를 전면 허용하여 스레드 깨우는 시간을 삭제함.  │
-  │             ▶ 1명의 고객이 재수 없게 5초 지연될(기아) 수 있으나, │
-  │               나머지 99,999명은 0.1초 만에 결제 완료됨.          │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     락(Lock)의 공정성(Fairness)과 처리량(Throughput) 트레이드오프|
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [요구사항: 초당 10만 건 결제 처리 락 로직 구현]                |
+  |                |                                                 |
+  |                v 비즈니스 요건 분석                              |
+  |   "1만 번째 고객이 1초 이상 지연되면 소송이 걸리는가?"           |
+  |          +- [예 (엄격한 지연시간 보장 필수)]                     |
+  |          |      |                                                |
+  |          |      v 🚨 Fair Lock 강제 적용 (성능 포기)             |
+  |          |  모두를 FIFO 큐에 일렬로 세움 (Bounded Waiting).      |
+  |          |  -> 서버를 10대 더 사서 성능 저하를 돈으로 메꿈.       |
+  |          |                                                       |
+  |          +- [아니오 (평균 10만 건 처리량이 더 중요함)]           |
+  |                 |                                                |
+  |                 v ✅ Non-fair Lock (디폴트) 적용                 |
+  |             새치기를 전면 허용하여 스레드 깨우는 시간을 삭제함.  |
+  |             -> 1명의 고객이 재수 없게 5초 지연될(기아) 수 있으나, |
+  |               나머지 99,999명은 0.1초 만에 결제 완료됨.          |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 컴퓨터 공학 교과서에서는 "한정된 대기를 반드시 지켜라!"라고 가르치지만, 실무 아키텍트는 안다. "공정함(Fairness)은 가장 비싼 오버헤드다." 공정하게 줄을 세우는 행위 자체가 시스템의 스래싱을 유발하므로, 실무의 기본값은 한정된 대기를 살짝 무시(Non-fair)하여 전체 스루풋을 극대화하는 쪽으로 기울어져 있다.
 
@@ -159,12 +159,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
-    │
-    ▼
+    |
+    v
 [한정된 대기 (Bounded Waiting)]
-    │
-    ├──▶ [컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
-    └──▶ [실시간 리눅스 (PREEMPT_RT 패치)]
+    |
+    +---> [컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
+    +---> [실시간 리눅스 (PREEMPT_RT 패치)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -181,7 +181,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 217 / 800
 
-← **이전**: [216. 진행 (Progress)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
-**다음**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/) →
+<- **이전**: [216. 진행 (Progress)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
+**다음**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/) ->
 
 ---

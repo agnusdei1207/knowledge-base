@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)은 일반적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 → 변환 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 적재 → 리포팅의 여러 단계로 구성된다. 각 단계는 이전 단계 완료 후 실행되어야 하는 의존성이 있고, 실패 시 재시도·알림이 필요하다. 이를 [cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 스크립트로 관리하면 의존성 처리, 실패 감지, 재실행이 수작업이 된다.
+[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)은 일반적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 -> 변환 -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 적재 -> 리포팅의 여러 단계로 구성된다. 각 단계는 이전 단계 완료 후 실행되어야 하는 의존성이 있고, 실패 시 재시도·알림이 필요하다. 이를 [cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 스크립트로 관리하면 의존성 처리, 실패 감지, 재실행이 수작업이 된다.
 
 Airflow는 Airbnb가 2014년 개발하고 2016년 Apache 인큐베이터에 기증했다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 Python DAG로 정의하면 의존성·[스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)·재시도를 선언적으로 관리하고, 웹 UI로 실행 상태를 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 있다.
 
@@ -30,25 +30,25 @@ Airflow는 Airbnb가 2014년 개발하고 2016년 Apache 인큐베이터에 기�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                Airflow 아키텍처와 DAG 구성                          │
-├──────────────────────────────────────────────────────────────────┤
-│  Airflow 컴포넌트:                                                 │
-│  웹 서버 (Web Server) → UI · REST API 제공                         │
-│  스케줄러 (Scheduler) → DAG 파싱 · 태스크 스케줄링                  │
-│  실행자 (Executor) → 태스크 실행 방식 결정                           │
-│    SequentialExecutor: 순차 실행 (개발용)                           │
-│    CeleryExecutor: 분산 실행 (Worker 노드 추가 가능)                │
-│    KubernetesExecutor: K8s Pod로 격리 실행                         │
-│  워커 (Worker) → 실제 태스크 실행 프로세스                          │
-│  메타 DB (Metadata DB) → DAG·실행 기록·상태 저장 (PostgreSQL 권장) │
-│                                                                  │
-│  DAG 예시 (Python):                                               │
-│  extract → transform → validate → load                           │
-│  (t1)  →    (t2)    →   (t3)   → (t4)                           │
-│                                                                  │
-│  t1 >> t2 >> t3 >> t4  ← 의존성 선언 (Python 코드)                │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                Airflow 아키텍처와 DAG 구성                          |
++------------------------------------------------------------------+
+|  Airflow 컴포넌트:                                                 |
+|  웹 서버 (Web Server) -> UI · REST API 제공                         |
+|  스케줄러 (Scheduler) -> DAG 파싱 · 태스크 스케줄링                  |
+|  실행자 (Executor) -> 태스크 실행 방식 결정                           |
+|    SequentialExecutor: 순차 실행 (개발용)                           |
+|    CeleryExecutor: 분산 실행 (Worker 노드 추가 가능)                |
+|    KubernetesExecutor: K8s Pod로 격리 실행                         |
+|  워커 (Worker) -> 실제 태스크 실행 프로세스                          |
+|  메타 DB (Metadata DB) -> DAG·실행 기록·상태 저장 (PostgreSQL 권장) |
+|                                                                  |
+|  DAG 예시 (Python):                                               |
+|  extract -> transform -> validate -> load                           |
+|  (t1)  ->    (t2)    ->   (t3)   -> (t4)                           |
+|                                                                  |
+|  t1 >> t2 >> t3 >> t4  <- 의존성 선언 (Python 코드)                |
++------------------------------------------------------------------+
 ```
 
 | 개념               | 설명                              | 역할                      |
@@ -59,7 +59,7 @@ Airflow는 Airbnb가 2014년 개발하고 2016년 Apache 인큐베이터에 기�
 | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Run          | 특정 날짜의 전체 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 실행 인스턴스 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 단위        |
 | XCom             | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 간 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 메커니즘| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 결과 공유           |
 
-- **📢 섹션 요약 비유**: DAG는 요리 레시피다. 재료 손질(t1) → 볶기(t2) → 간 맞추기(t3) 순서가 정해져 있고, 이전 단계가 완료되어야 다음 단계가 시작된다.
+- **📢 섹션 요약 비유**: DAG는 요리 레시피다. 재료 손질(t1) -> 볶기(t2) -> 간 맞추기(t3) 순서가 정해져 있고, 이전 단계가 완료되어야 다음 단계가 시작된다.
 
 ---
 
@@ -81,7 +81,7 @@ Airflow vs 대안 오케스트레이터 비교:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 설계 모범 사례</strong>:
-1. [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)): 같은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Run을 여러 번 실행해도 결과가 동일해야 함 → 덮어쓰기(UPSERT) 기반 설계
+1. [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)): 같은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Run을 여러 번 실행해도 결과가 동일해야 함 -> 덮어쓰기(UPSERT) 기반 설계
 2. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/): 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 독립적으로 성공/실패 판단 가능해야 함
 3. 적절한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 크기: 너무 세분화 (오버헤드) vs 너무 큰 단위 (재시도 시 전체 재실행)
 4. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 관리: Airflow Variables, Connections로 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리
@@ -119,17 +119,17 @@ Airflow 도입으로 [데이터 파이프라인](/knowledge-base/studynote/01_co
 
 ```
 cron 기반 스크립트 (의존성·재시도 관리 어려움)
-    │
-    ▼
+    |
+    v
 Airflow DAG (Python으로 파이프라인 코드화)
-    │
-    ▼
-CeleryExecutor → KubernetesExecutor (분산·격리 실행)
-    │
-    ▼
+    |
+    v
+CeleryExecutor -> KubernetesExecutor (분산·격리 실행)
+    |
+    v
 DataOps: dbt + Airflow + 데이터 품질 테스트 통합
-    │
-    ▼
+    |
+    v
 Prefect · Dagster (현대적 데이터 자산 중심 오케스트레이터)
 ```
 
@@ -145,7 +145,7 @@ Prefect · Dagster (현대적 데이터 자산 중심 오케스트레이터)
 
 **진행 상황**: 319 / 482
 
-← **이전**: [318. SQL 인젝션 (SQL Injection) 방어 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/318_sql_injection_defense/)
-**다음**: [320. GNN + 벡터 DB (Milvus) 기반 추천 시스템](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) →
+<- **이전**: [318. SQL 인젝션 (SQL Injection) 방어 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/318_sql_injection_defense/)
+**다음**: [320. GNN + 벡터 DB (Milvus) 기반 추천 시스템](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) ->
 
 ---

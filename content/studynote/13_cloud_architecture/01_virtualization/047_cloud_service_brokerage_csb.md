@@ -34,7 +34,7 @@ CSB 3대 역할 (Gartner):
 
   예:
   AWS S3 + 암호화 + 접근 통제 + DLP
-  → 기업 규정 준수 스토리지 서비스
+  -> 기업 규정 준수 스토리지 서비스
 
   보안 CSB: 클라우드에 보안 레이어 추가
 
@@ -43,7 +43,7 @@ CSB 3대 역할 (Gartner):
 
   예:
   AWS + Azure + GCP + SaaS 앱들
-  → 단일 대시보드, 단일 청구, 단일 정책
+  -> 단일 대시보드, 단일 청구, 단일 정책
 
   멀티 클라우드 관리 플랫폼
 
@@ -51,12 +51,12 @@ CSB 3대 역할 (Gartner):
   여러 클라우드 간 가격/성능 비교 후 자동 선택
 
   예:
-  컴퓨팅 작업 시작 → CSB가 현재 스팟 가격 비교
+  컴퓨팅 작업 시작 -> CSB가 현재 스팟 가격 비교
   AWS: $0.10/시간, GCP: $0.08/시간
-  → GCP 자동 선택
+  -> GCP 자동 선택
 
   한계: 이식성(Portability) 이슈
-  클라우드별 API 차이 → 이동 어려움
+  클라우드별 API 차이 -> 이동 어려움
 ```
 
 > 📢 **섹션 요약 비유**: CSB는 여행사 — 여러 항공사(클라우드)를 비교해서 좋은 것 골라주고(차익거래), 패키지로 묶어주고(집계), 여행 보험 추가(중개). 소비자는 여행사만 상대!
@@ -134,7 +134,7 @@ CASB 4가지 기둥 (Gartner):
   Shadow IT 탐지:
   "직원들이 승인 안 된 Dropbox 사용 중!"
 
-  5,000명 직원 → 평균 900개 클라우드 서비스 사용 (통계)
+  5,000명 직원 -> 평균 900개 클라우드 서비스 사용 (통계)
 
 2. 규정 준수 (Compliance):
   데이터가 클라우드에서 규정 준수 여부
@@ -193,7 +193,7 @@ FinOps 3단계 (사이클):
   1년 또는 3년 약정
 
   스팟 인스턴스:
-  여분 용량 사용 → 70~90% 절감
+  여분 용량 사용 -> 70~90% 절감
   중단 내성 워크로드 (ML 학습, 배치)
 
 3. 운영 (Operate):
@@ -203,7 +203,7 @@ FinOps 3단계 (사이클):
 
 클라우드 비용 낭비 패턴:
   좀비 리소스: 사용 안 하는 VM (업계 30~40%)
-  과도한 사이즈: m5.4xlarge → m5.xlarge
+  과도한 사이즈: m5.4xlarge -> m5.xlarge
   미사용 예약: 예약하고 안 씀
   데이터 이전 비용: 클라우드 내 네트워크 비용 간과
   개발/테스트 환경: 24×7 실행 (업무 시간만 필요)
@@ -228,7 +228,7 @@ ROI:
 
   문제:
   멀티 클라우드 비용 통합 뷰 없음
-  각 클라우드 별도 거버넌스 → 정책 불일치
+  각 클라우드 별도 거버넌스 -> 정책 불일치
   사용 안 하는 리소스 파악 불가
   보안팀: Shadow IT 우려
 
@@ -251,19 +251,19 @@ CloudHealth (CMP) 도입:
   미사용 RDS 8개 (월 400만원)
   사이즈 초과 60개 (월 800만원)
 
-  → 즉시 조치: 월 2,400만원 절감
+  -> 즉시 조치: 월 2,400만원 절감
 
 CASB (Netskope) 도입:
   Shadow IT 탐지:
   직원들이 사용 중인 미승인 서비스 발견:
-  개인 Dropbox/Google Drive → 업무 파일 공유
+  개인 Dropbox/Google Drive -> 업무 파일 공유
 
   정책:
-  기밀 문서(DLP 분류) → 미승인 클라우드 차단
+  기밀 문서(DLP 분류) -> 미승인 클라우드 차단
   승인 서비스(SharePoint, Box): 허용
 
 결과 (6개월):
-  클라우드 비용: 5억원 → 3.3억원 (34% 절감)
+  클라우드 비용: 5억원 -> 3.3억원 (34% 절감)
   정책 일관성: AWS+Azure 동일 보안 정책
   Shadow IT: 직원 인식 제고 + 공식 채널 사용
   ROI: 솔루션 비용 6개월 내 회수
@@ -335,7 +335,7 @@ AI 비용 예측/최적화
 
 **진행 상황**: 46 / 371
 
-← **이전**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/)
-**다음**: [048. MSP — 클라우드 관리형 서비스 제공자](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/) →
+<- **이전**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/)
+**다음**: [048. MSP — 클라우드 관리형 서비스 제공자](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/) ->
 
 ---

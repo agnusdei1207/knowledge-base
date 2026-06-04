@@ -22,7 +22,7 @@ tags = ["studynote-algorithm"]
 **볼록 함수 (Convex Function)** 정의:
 
 ```
-f: ℝⁿ → ℝ 가 볼록 ⟺
+f: ℝⁿ -> ℝ 가 볼록 ⟺
 ∀ x, y ∈ dom(f), ∀ λ ∈ [0, 1]:
 
 f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)    [Jensen 부등식]
@@ -30,18 +30,18 @@ f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)    [Jensen 부등식]
 
 기하적 의미: **(x, f(x))와 (y, f(y))를 잇는 직선 위에 f가 항상 있거나 아래**
 
-**엄밀한 볼록 (Strictly Convex)**: 등호 없이 < → 유일한 최솟값 보장.
+**엄밀한 볼록 (Strictly Convex)**: 등호 없이 < -> 유일한 최솟값 보장.
 
 ### 볼록 vs 비볼록 함수 비교
 
 ```
 볼록 함수 f₁             비볼록 함수 f₂
 
-      │  ╭─╮              │   ╭─╮
-      │ ╱   ╲             │  ╱   ╲ ╱─╮
-      │╱     ╲            │╲╱     ╱   ╲
-──────┼────────────────   ─┼────╱─────╯──
-      │                   │   지역 최소  전역 최소
+      |  +-+              |   +-+
+      | ╱   ╲             |  ╱   ╲ ╱-+
+      |╱     ╲            |╲╱     ╱   ╲
+------+----------------   -+----╱-----+--
+      |                   |   지역 최소  전역 최소
 
 어떤 접선도 함수 위에 있음   여러 지역 최소 존재 가능
 ```
@@ -64,11 +64,11 @@ f가 볼록 ⟺ f(y) ≥ f(x) + ∇f(x)ᵀ(y-x)    ∀ x, y
 **2차 조건 (이계 미분 가능한 경우)**:
 
 ```
-f가 볼록 ⟺ ∇²f(x) ≽ 0    (헤시안이 양반정치)
-f가 엄밀히 볼록 ⟺ ∇²f(x) ≻ 0  (헤시안이 양정치)
+f가 볼록 ⟺ ∇^f(x) ≽ 0    (헤시안이 양반정치)
+f가 엄밀히 볼록 ⟺ ∇^f(x) ≻ 0  (헤시안이 양정치)
 ```
 
-**헤시안 (Hessian)** 행렬: H_ij = ∂²f/∂xᵢ∂xⱼ
+**헤시안 (Hessian)** 행렬: H_ij = ∂^f/∂xᵢ∂xⱼ
 
 1변수: f''(x) ≥ 0 ⟺ 볼록.
 
@@ -94,14 +94,14 @@ f가 엄밀히 볼록 ⟺ ∇²f(x) ≻ 0  (헤시안이 양정치)
 볼록성을 보존하는 연산:
 
 ```
-f, g 볼록 → αf + βg 볼록 (α,β ≥ 0)
-f 볼록, A 선형 → f(Ax+b) 볼록 (합성)
-f 볼록 → max(f, g) 볼록 (최댓값)
-f 볼록 → 부분집합 합 볼록
+f, g 볼록 -> αf + βg 볼록 (α,β ≥ 0)
+f 볼록, A 선형 -> f(Ax+b) 볼록 (합성)
+f 볼록 -> max(f, g) 볼록 (최댓값)
+f 볼록 -> 부분집합 합 볼록
 ```
 
 자주 쓰이는 볼록 함수:
-- L2 노름: ‖x‖₂ (∇²f = I ≻ 0)
+- L2 노름: ‖x‖₂ (∇^f = I ≻ 0)
 - L1 노름: ‖x‖₁ (볼록, 미분 불가)
 - log-sum-exp: log(Σ exp(xᵢ)) ([소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 분모)
 - 이차 함수: xᵀAx + bᵀx + c (A ≽ 0일 때)
@@ -118,7 +118,7 @@ f 볼록 → 부분집합 합 볼록
 |:---|:---|:---|
 | 전역 최적 보장 | ✅ | ❌ |
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 경사하강, 내점법 등 | SGD + 트릭, 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| 수렴 속도 | O(1/t) ~ O(1/t²) | 보장 없음 |
+| 수렴 속도 | O(1/t) ~ O(1/t^) | 보장 없음 |
 | 예시 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), LP | 신경망, 조합 최적화 |
 
 ### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) — 볼록 이차 프로그래밍 (QP)
@@ -126,20 +126,20 @@ f 볼록 → 부분집합 합 볼록
 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">Support Vector Machine</a>)</strong> 원형 문제:
 
 ```
-minimize   ½‖w‖²
+minimize   ½‖w‖^
 subject to yᵢ(wᵀxᵢ + b) ≥ 1   ∀i
 
-이것은 볼록 QP → 전역 최솟값 반드시 달성!
+이것은 볼록 QP -> 전역 최솟값 반드시 달성!
 ```
 
-KKT (Karush-Kuhn-Tucker) 조건으로 해석적 조건 도출 → 듀얼 문제(Lagrange Dual)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 확장.
+KKT (Karush-Kuhn-Tucker) 조건으로 해석적 조건 도출 -> 듀얼 문제(Lagrange Dual)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 확장.
 
 ### 비볼록 신경망의 실용적 대응
 
 신경망은 비볼록이지만 실무에서 잘 동작하는 이유:
 1. <strong>대부분의 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a>이 비슷한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> (과잉 매개변수 시)
 2. **안장점은 경사하강으로 탈출 가능** (노이즈 + [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))
-3. **배치 정규화가 손실 경관 평탄화** → 더 쉬운 최적화
+3. **배치 정규화가 손실 경관 평탄화** -> 더 쉬운 최적화
 
 📢 **섹션 요약 비유**: SVM이 볼록 QP인 것은 "답이 단 하나인 수학 문제"와 같다 — 풀이 방법이 달라도 항상 같은 최적 해에 도달한다.
 
@@ -150,32 +150,32 @@ KKT (Karush-Kuhn-Tucker) 조건으로 해석적 조건 도출 → 듀얼 문제(
 ### LASSO와 Ridge의 볼록성
 
 ```
-Ridge (L2): f(w) = ‖y - Xw‖² + λ‖w‖²
+Ridge (L2): f(w) = ‖y - Xw‖^ + λ‖w‖^
               볼록, 미분 가능, 해석해 존재: w* = (XᵀX + λI)⁻¹Xᵀy
 
-LASSO (L1): f(w) = ‖y - Xw‖² + λ‖w‖₁
+LASSO (L1): f(w) = ‖y - Xw‖^ + λ‖w‖₁
               볼록, 미분 불가 (w=0 지점), 희소 해(Sparse Solution)
-              → Proximal Gradient 또는 ADMM으로 풀기
+              -> Proximal Gradient 또는 ADMM으로 풀기
 ```
 
-LASSO의 L1 정규화가 희소 해를 만드는 이유: L1 구의 모서리(꼭짓점)에서 최적 해가 만남 → 다수 계수가 정확히 0.
+LASSO의 L1 정규화가 희소 해를 만드는 이유: L1 구의 모서리(꼭짓점)에서 최적 해가 만남 -> 다수 계수가 정확히 0.
 
 ### 포트폴리오 최적화 — 볼록 QP
 
 ```
 maximize  μᵀw  (기대 수익)
-subject to wᵀΣw ≤ σ²  (위험 제약)
+subject to wᵀΣw ≤ σ^  (위험 제약)
            Σwᵢ = 1     (예산 제약)
            wᵢ ≥ 0      (공매도 불가)
 ```
 
-마코위츠 (Markowitz) 평균-분산 모델 = 볼록 QP → 전역 최적 포트폴리오 달성.
+마코위츠 (Markowitz) 평균-분산 모델 = 볼록 QP -> 전역 최적 포트폴리오 달성.
 
 ### 기술사 판단 포인트
 
-1. **"경사하강이 항상 전역 최솟값에 수렴하는 조건?"** → 손실 함수가 볼록 (헤시안 양반정치)
-2. **"신경망에 전역 최적 보장이 없는 이유?"** → 손실 경관이 비볼록 (활성화 함수로 인한 비선형성)
-3. **"LASSO가 Ridge보다 희소 해를 만드는 수학적 이유?"** → L1 구의 꼭짓점(좌표축)에서 최적 해 접촉
+1. **"경사하강이 항상 전역 최솟값에 수렴하는 조건?"** -> 손실 함수가 볼록 (헤시안 양반정치)
+2. **"신경망에 전역 최적 보장이 없는 이유?"** -> 손실 경관이 비볼록 (활성화 함수로 인한 비선형성)
+3. **"LASSO가 Ridge보다 희소 해를 만드는 수학적 이유?"** -> L1 구의 꼭짓점(좌표축)에서 최적 해 접촉
 
 📢 **섹션 요약 비유**: LASSO의 L1 정규화는 "다이아몬드 모서리 충돌"이다 — L2 구(공 모양)와 달리 L1 구(다이아몬드 모양)는 좌표축 위의 뾰족한 모서리에서 등고선과 만나 많은 계수가 0이 된다.
 
@@ -210,17 +210,17 @@ subject to wᵀΣw ≤ σ²  (위험 제약)
 
 ```text
 [볼록 함수 (Convex Function)]
-    │
-    ▼
+    |
+    v
 [헤시안 양반정치 (Hessian PSD)]
-    │
-    ▼
+    |
+    v
 [SVM (Support Vector Machine)]
-    │
-    ▼
+    |
+    v
 [LASSO (L1 Regularization)]
-    │
-    ▼
+    |
+    v
 [비볼록 신경망 (Non-convex Neural Network)]
 ```
 
@@ -238,7 +238,7 @@ subject to wᵀΣw ≤ σ²  (위험 제약)
 
 **진행 상황**: 164 / 175
 
-← **이전**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)
-**다음**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) →
+<- **이전**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)
+**다음**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) ->
 
 ---

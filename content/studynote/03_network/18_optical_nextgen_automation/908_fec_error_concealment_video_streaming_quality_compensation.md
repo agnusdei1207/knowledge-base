@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [화상 회의 지터 버퍼]
-    │
-    ▼
+    |
+    v
 [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    └──▶ [MOS]
+    |
+    +---> [MOS]
 ```
 
 - **📢 섹션 요약 비유**: FEC 실시간 비디오 손실 은닉 기법 미디어…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ FEC 백신을 썼는데도 에러가 나서 3번 비디오/오디오 프레임�
 
 ```text
 [화상 회의 지터 버퍼]
-    │
-    ▼
+    |
+    v
 [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    └──▶ [MOS]
+    |
+    +---> [MOS]
 ```
 
 - **📢 섹션 요약 비유**: FEC 실시간 비디오 손실 은닉 기법 미디어…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ FEC 실시간 비디오 손실 은닉 기법 미디어…는 광통신·차세�
 
 ```text
 [선행 개념: 화상 회의 지터 버퍼]
-    │
-    ▼
+    |
+    v
 [현재 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ├──▶ [확장 A: MOS]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: MOS]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 FEC 실시간 비디오 손실 은닉 기법 미디어…는 화상 회의 지터 버퍼에서 출발해 현재 메커니즘을 정교화하고, 이후 MOS와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ FEC 실시간 비디오 손실 은닉 기법 미디어…는 화상 회의 지�
 
 **진행 상황**: 1029 / 1120
 
-← **이전**: [907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/907_jitter_buffer_video_conferencing_adaptive_playout/)
-**다음**: [909. MOS (Mean Opinion Score 음성/영상 체감 품질 사용자 5점 척도 측정 통신망 평가 주관식 및 E-Model](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/) →
+<- **이전**: [907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/907_jitter_buffer_video_conferencing_adaptive_playout/)
+**다음**: [909. MOS (Mean Opinion Score 음성/영상 체감 품질 사용자 5점 척도 측정 통신망 평가 주관식 및 E-Model](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/) ->
 
 ---

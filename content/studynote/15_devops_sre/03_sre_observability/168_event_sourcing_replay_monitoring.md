@@ -26,16 +26,16 @@ tags = ["studynote-devops-sre"]
 아래 그림은 왜 리플레이 자체가 별도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대상인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         이벤트 소싱 복구에서 관찰해야 하는 대상             │
-├──────────────────────────────────────────────────────────────┤
-│ Event Log ──▶ Replay Worker ──▶ Projection DB               │
-│                                                              │
-│ 질문 1: 몇 % 진행됐는가?                                      │
-│ 질문 2: 초당 몇 건 처리 중인가?                               │
-│ 질문 3: 누락·중복·버전 오류는 없는가?                         │
-│ 질문 4: 언제 읽기 서비스를 다시 열 수 있는가?                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         이벤트 소싱 복구에서 관찰해야 하는 대상             |
++--------------------------------------------------------------+
+| Event Log ---> Replay Worker ---> Projection DB               |
+|                                                              |
+| 질문 1: 몇 % 진행됐는가?                                      |
+| 질문 2: 초당 몇 건 처리 중인가?                               |
+| 질문 3: 누락·중복·버전 오류는 없는가?                         |
+| 질문 4: 언제 읽기 서비스를 다시 열 수 있는가?                 |
++--------------------------------------------------------------+
 ```
 
 결국 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 "다시 읽어 보면 되지" 수준의 단순 작업이 아니다. 대규모 시스템에서는 리플레이가 하나의 장기 배치 작업이 되므로, 일반 배치 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 함께 갖춘 운영 체계가 필요하다.
@@ -51,25 +51,25 @@ tags = ["studynote-devops-sre"]
 특히 리플레이 작업은 "얼마나 빨리"와 "얼마나 정확히"라는 두 축을 동시에 관리해야 한다. 속도만 빠르고 순서 보장이 깨지면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 의미가 없고, 정확도만 강조하다 처리 속도가 너무 느리면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표를 초과한다. 그래서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률, ETA (Estimated Time of Arrival), 이벤트 갭, 중복 적용, 핸들러 실패 수를 함께 봐야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                리플레이 모니터링 아키텍처                    │
-├──────────────────────────────────────────────────────────────┤
-│ Event Store                                                  │
-│    │                                                         │
-│    ▼                                                         │
-│ Snapshot Loader ──▶ Replay Worker ──▶ Projection DB          │
-│                         │                 │                   │
-│                         │                 └─ 정합성 체크      │
-│                         │                                     │
-│                         ├─ progress_total                     │
-│                         ├─ replay_rate_per_sec                │
-│                         ├─ replay_errors_total                │
-│                         ├─ sequence_gap_total                 │
-│                         └─ eta_seconds                        │
-│                                      │                        │
-│                                      ▼                        │
-│                              Dashboard / Alerting             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                리플레이 모니터링 아키텍처                    |
++--------------------------------------------------------------+
+| Event Store                                                  |
+|    |                                                         |
+|    v                                                         |
+| Snapshot Loader ---> Replay Worker ---> Projection DB          |
+|                         |                 |                   |
+|                         |                 +- 정합성 체크      |
+|                         |                                     |
+|                         +- progress_total                     |
+|                         +- replay_rate_per_sec                |
+|                         +- replay_errors_total                |
+|                         +- sequence_gap_total                 |
+|                         +- eta_seconds                        |
+|                                      |                        |
+|                                      v                        |
+|                              Dashboard / Alerting             |
++--------------------------------------------------------------+
 ```
 
 | 핵심 지표 | 의미 | 운영 판단 예시 |
@@ -157,20 +157,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Event Store 축적
-    │
-    ▼
+    |
+    v
 Projection 재구성 필요
-    │
-    ▼
+    |
+    v
 Replay Worker · Snapshot 기반 복구
-    │
-    ▼
+    |
+    v
 Progress · ETA · Error · Gap 모니터링
-    │
-    ▼
+    |
+    v
 정합성 검증 · Blue/Green 전환
-    │
-    ▼
+    |
+    v
 병렬 리플레이 · 자동 복구 운영
 ```
 
@@ -188,7 +188,7 @@ Progress · ETA · Error · Gap 모니터링
 
 **진행 상황**: 168 / 373
 
-← **이전**: [167. 트래픽 섀도잉 (Traffic Shadowing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/)
-**다음**: [169. 클라우드 비용 모니터링 FinOps (Cloud Cost Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/169_finops_cloud_cost_monitoring_sre/) →
+<- **이전**: [167. 트래픽 섀도잉 (Traffic Shadowing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/)
+**다음**: [169. 클라우드 비용 모니터링 FinOps (Cloud Cost Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/169_finops_cloud_cost_monitoring_sre/) ->
 
 ---

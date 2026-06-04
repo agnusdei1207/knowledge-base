@@ -32,7 +32,7 @@ tags = ["studynote-network"]
 반송파는 보통 `s(t)=A cos(2πf_ct+φ)` 형태의 사인파로 표현된다. 정보는 진폭, 주파수, 위상을 바꿔 실린다.
 
 ```text
-정보 신호 → 변조 → 반송파 → 전송 채널 → 복조 → 정보 신호
+정보 신호 -> 변조 -> 반송파 -> 전송 채널 -> 복조 -> 정보 신호
 ```
 
 | 항목 | 의미 | 포인트 |
@@ -111,17 +111,17 @@ tags = ["studynote-network"]
 
 ```text
 정보 신호
-    │
-    ▼
+    |
+    v
 변조
-    │
-    ▼
+    |
+    v
 반송파 실음
-    │
-    ▼
+    |
+    v
 전송 채널
-    │
-    ▼
+    |
+    v
 복조
 ```
 
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 54 / 1120
 
-← **이전**: [53. 성상도 (Constellation Diagram)](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)
-**다음**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/knowledge-base/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/) →
+<- **이전**: [53. 성상도 (Constellation Diagram)](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)
+**다음**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/knowledge-base/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/) ->
 
 ---

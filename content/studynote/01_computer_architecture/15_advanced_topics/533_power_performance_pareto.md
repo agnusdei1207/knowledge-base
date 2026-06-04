@@ -24,18 +24,18 @@ tags = ["studynote-computer-architecture"]
 특히 데너드 스케일링이 멈춘 뒤에는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조금만 올려도 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)이 급격히 증가하고, 온도가 오를수록 누설 전력까지 함께 늘어난다. 이 때문에 설계 공간 탐색 (DSE, Design Space [Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) 결과를 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 순으로 정렬하면, 실제 제품으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어려운 고전력 점이 상위권을 차지하기 쉽다. 파레토 곡선은 이런 착시를 걷어내고 "의미 있는 후보만 남기는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 지도" 역할을 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ same workload, many design points                                   │
-├─────────────────────────────────────────────────────────────────────┤
-│ Performance ↑                                                        │
-│             │                          ● P4                          │
-│             │                     ● P3                              │
-│             │                ● P2        ← Pareto frontier          │
-│             │           ● P1                                          │
-│             │        ○ D1   ○ D2   ← dominated points               │
-│             └────────────────────────────────────────────→ Power      │
-│                    low power                         high power       │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+| same workload, many design points                                   |
++---------------------------------------------------------------------+
+| Performance ^                                                        |
+|             |                          ● P4                          |
+|             |                     ● P3                              |
+|             |                ● P2        <- Pareto frontier          |
+|             |           ● P1                                          |
+|             |        ○ D1   ○ D2   <- dominated points               |
+|             +---------------------------------------------> Power      |
+|                    low power                         high power       |
++---------------------------------------------------------------------+
 ```
 
 여기서 `○`로 표시된 지배점은 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 대비 전력을 더 쓰거나, 같은 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 낮은 후보이므로 채택할 이유가 거의 없다. 반대로 파레토 경계의 점들은 제품 목표와 냉각 조건에 따라 채택 가능성이 있는 "진짜 선택지"다.
@@ -49,17 +49,17 @@ tags = ["studynote-computer-architecture"]
 파레토 곡선은 전력과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만드는 핵심 식에서 출발한다. 전체 전력은 대체로 `P_total = P_dynamic + P_leakage`로 나뉘고, [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 `activity × C × V^2 × f`에 비례한다. 반면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 대체로 사이클당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), [Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)), 주파수, 활성 코어 수의 조합으로 결정된다. 즉 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 캐시 크기, 실행 폭, 코어 수를 어떻게 조합하느냐가 곡선의 형태를 만든다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ power-performance relation                                           │
-├─────────────────────────────────────────────────────────────────────┤
-│ P_total      = P_dynamic + P_leakage                                │
-│ P_dynamic    ≈ activity × C × V^2 × f                               │
-│ Performance  ≈ IPC × f × Active_Cores                               │
-├─────────────────────────────────────────────────────────────────────┤
-│ low-power zone  : leakage share is visible, performance too small   │
-│ knee point      : best gain per watt                                │
-│ high-power zone : voltage + heat rise, marginal gain collapses      │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+| power-performance relation                                           |
++---------------------------------------------------------------------+
+| P_total      = P_dynamic + P_leakage                                |
+| P_dynamic    ≈ activity × C × V^2 × f                               |
+| Performance  ≈ IPC × f × Active_Cores                               |
++---------------------------------------------------------------------+
+| low-power zone  : leakage share is visible, performance too small   |
+| knee point      : best gain per watt                                |
+| high-power zone : voltage + heat rise, marginal gain collapses      |
++---------------------------------------------------------------------+
 ```
 
 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 때문에 파레토 곡선은 보통 세 구간으로 읽는다. 낮은 전력 구간은 전력은 적지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 너무 낮아 비효율적이고, 중간의 knee point는 전력 1당 얻는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 좋다. 반대로 고전력 구간은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 상향과 발열 증가 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 조금 오르는데 전력과 냉각 비용은 크게 증가한다.
@@ -147,16 +147,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Dennard Scaling 기반 주파수 상승
-        │
-        ▼
+        |
+        v
 Power Wall · Thermal Limit 부각
-        │
-        ▼
+        |
+        v
 DSE (Design Space Exploration) + Pareto Frontier
-        │
-        ├────────▶ DVFS · Product Binning
-        ├────────▶ EDP / ED2P 기반 운영점 선택
-        └────────▶ Chiplet · HBM · DSA로 곡선 자체 이동
+        |
+        +---------> DVFS · Product Binning
+        +---------> EDP / ED2P 기반 운영점 선택
+        +---------> Chiplet · HBM · DSA로 곡선 자체 이동
 ```
 
 이 흐름은 "무작정 클럭을 올리던 시대"에서 "가장 가치 있는 운영점을 고르고, 필요하면 곡선 자체를 이동시키는 시대"로의 변화를 보여 준다.
@@ -173,7 +173,7 @@ DSE (Design Space Exploration) + Pareto Frontier
 
 **진행 상황**: 533 / 803
 
-← **이전**: [532. 동적 써멀 관리 (DTM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/)
-**다음**: [534. 무어의 법칙 이후 (More than Moore)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) →
+<- **이전**: [532. 동적 써멀 관리 (DTM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/)
+**다음**: [534. 무어의 법칙 이후 (More than Moore)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) ->
 
 ---

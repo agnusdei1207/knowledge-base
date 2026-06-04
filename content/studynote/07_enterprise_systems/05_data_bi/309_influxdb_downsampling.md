@@ -46,37 +46,37 @@ InfluxDB는 시계열 전용 TSDB ([Time-Series Database](/knowledge-base/studyn
 
 - **Tag** (인덱싱됨): 자주 필터링하는 저카디널리티 값 (host, region, env)
 - **Field** (비인덱싱): 측정 수치 (CPU%, 온도, 응답시간)
-- 고카디널리티 값을 Tag로 쓰면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 폭발 → DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락
+- 고카디널리티 값을 Tag로 쓰면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 폭발 -> DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 계층 ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) Tier)
 
 ```
   실시간 수집 (초당 수천 포인트)
-        │
-        ▼
-  ┌──────────────────────────────────────────────────────────────┐
-  │  Tier 1: Raw (1초 해상도)                                    │
-  │  보관: 30일  스토리지: 100%  용도: 실시간 모니터링·알람       │
-  └───────────────────────────┬──────────────────────────────────┘
-                              │ Continuous Query: MEAN(value) 1분
-                              ▼
-  ┌──────────────────────────────────────────────────────────────┐
-  │  Tier 2: 1분 롤업                                            │
-  │  보관: 1년   스토리지: 1.7%  용도: 일간 트렌드·용량 계획     │
-  └───────────────────────────┬──────────────────────────────────┘
-                              │ Continuous Query: MEAN(value) 1시간
-                              ▼
-  ┌──────────────────────────────────────────────────────────────┐
-  │  Tier 3: 1시간 롤업                                          │
-  │  보관: 5년+  스토리지: 0.03%  용도: 연간 리포트·장기 분석    │
-  └──────────────────────────────────────────────────────────────┘
+        |
+        v
+  +--------------------------------------------------------------+
+  |  Tier 1: Raw (1초 해상도)                                    |
+  |  보관: 30일  스토리지: 100%  용도: 실시간 모니터링·알람       |
+  +---------------------------+----------------------------------+
+                              | Continuous Query: MEAN(value) 1분
+                              v
+  +--------------------------------------------------------------+
+  |  Tier 2: 1분 롤업                                            |
+  |  보관: 1년   스토리지: 1.7%  용도: 일간 트렌드·용량 계획     |
+  +---------------------------+----------------------------------+
+                              | Continuous Query: MEAN(value) 1시간
+                              v
+  +--------------------------------------------------------------+
+  |  Tier 3: 1시간 롤업                                          |
+  |  보관: 5년+  스토리지: 0.03%  용도: 연간 리포트·장기 분석    |
+  +--------------------------------------------------------------+
 ```
 
 ### TSM 스토리지 엔진 (Time-Structured Merge Tree)
 
 InfluxDB는 LSM (Log-Structured Merge Tree) 변형인 TSM 엔진을 사용한다.
-- WAL (Write-Ahead Log) → 인메모리 Cache → TSM [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
-- 시계열 특성상 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 항상 최신 타임스탬프 → [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 극대화
+- WAL (Write-Ahead Log) -> 인메모리 Cache -> TSM [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
+- 시계열 특성상 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 항상 최신 타임스탬프 -> [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 극대화
 
 | TSDB 비교 | [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) | TimescaleDB | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) |
 |:---|:---|:---|:---|
@@ -113,7 +113,7 @@ InfluxDB는 LSM (Log-Structured Merge Tree) 변형인 TSM 엔진을 사용한다
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무기한 보관 | 스토리지 폭발, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 | [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필수 설계 |
-| UUID를 Tag로 사용 | 카디널리티 폭발 → DB 메모리 부족 | Field로 변경 |
+| UUID를 Tag로 사용 | 카디널리티 폭발 -> DB 메모리 부족 | Field로 변경 |
 | 단일 Measurement에 모든 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 태그 조합 폭발 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 Measurement 분리 |
 
 📢 **섹션 요약 비유**: 고카디널리티 Tag는 도서관에서 책마다 새 서가를 만드는 것이다. 서가가 폭발해 도서관이 무너진다.
@@ -122,7 +122,7 @@ InfluxDB는 LSM (Log-Structured Merge Tree) 변형인 TSM 엔진을 사용한다
 
 | 항목 | 다운샘플링 미적용 | 적용 후 |
 |:---|:---|:---|
-| 스토리지 (1년) | 100% | 1초→1분: 1.7%, 1초→1시간: 0.03% |
+| 스토리지 (1년) | 100% | 1초->1분: 1.7%, 1초->1시간: 0.03% |
 | 장기 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 | 수분 (수억 행 스캔) | 수초 (소량 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
 | 인프라 비용 | 매월 증가 | 예측 가능한 고정 비용 |
 
@@ -142,17 +142,17 @@ InfluxDB는 LSM (Log-Structured Merge Tree) 변형인 TSM 엔진을 사용한다
 
 ```
 RDB 시계열 저장 - 쓰기 병목·스토리지 폭증
-    │
-    ▼
+    |
+    v
 시계열 DB 전용 (InfluxDB, Prometheus) 등장
-    │
-    ▼
-고해상도 실시간 데이터 → 시간 경과 후 용량 문제
-    │
-    ▼
+    |
+    v
+고해상도 실시간 데이터 -> 시간 경과 후 용량 문제
+    |
+    v
 Downsampling - 집계 함수로 해상도 단계적 축소
-    │
-    ▼
+    |
+    v
 Retention Policy + CQ (Continuous Query) 자동화
 ```
 
@@ -170,7 +170,7 @@ Retention Policy + CQ (Continuous Query) 자동화
 
 **진행 상황**: 309 / 482
 
-← **이전**: [308. AI BI 증강 분석 자동화 (Augmented Analytics)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/308_ai_bi_augmented_analytics/)
-**다음**: [310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/310_neo4j_fraud_detection/) →
+<- **이전**: [308. AI BI 증강 분석 자동화 (Augmented Analytics)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/308_ai_bi_augmented_analytics/)
+**다음**: [310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/310_neo4j_fraud_detection/) ->
 
 ---

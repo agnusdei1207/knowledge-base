@@ -39,30 +39,30 @@ tags = ["studynote-bigdata"]
 ### 비식별화 기법 스펙트럼
 
 ```
-← 높은 개인정보 보호 │ 낮은 데이터 유용성 ─────────────────────────────
-                     │
-  [Suppression]       │  필드 전체 삭제
-  주민번호 컬럼 제거  │  ○ 완전 보호, ✗ 정보 완전 손실
-                     │
-  [Full Masking]      │  전체 치환 (***로 대체)
-  010-****-****       │  ○ 완전 보호, ✗ 패턴 정보 손실
-                     │
-  [Partial Masking]   │  일부만 표시
-  851231-*******      │  ○ 높은 보호, △ 일부 정보 유지
-                     │
-  [Pseudonymization]  │  일관된 가상 값으로 대체
-  가역적 가명화       │  ○ 중간 보호, ○ 관계 분석 가능
-                     │
-  [Generalization]    │  특정 → 범위로 일반화
-  32세 → 30-39세     │  △ 중간 보호, ○ 통계 분석 가능
-                     │
-  [Aggregation]       │  개인 → 그룹 통계
-  평균·합계·비율      │  △ 낮은 보호, ○ 집계 분석 가능
-                     │
-  [Noise Addition]    │  수치에 랜덤 노이즈 추가
-  연봉+/- 랜덤값     │  △ 낮은 보호, ○ 분포 유지
-                     │
-← 낮은 개인정보 보호  │ 높은 데이터 유용성 ─────────────────────────────
+<- 높은 개인정보 보호 | 낮은 데이터 유용성 -----------------------------
+                     |
+  [Suppression]       |  필드 전체 삭제
+  주민번호 컬럼 제거  |  ○ 완전 보호, ✗ 정보 완전 손실
+                     |
+  [Full Masking]      |  전체 치환 (***로 대체)
+  010-****-****       |  ○ 완전 보호, ✗ 패턴 정보 손실
+                     |
+  [Partial Masking]   |  일부만 표시
+  851231-*******      |  ○ 높은 보호, △ 일부 정보 유지
+                     |
+  [Pseudonymization]  |  일관된 가상 값으로 대체
+  가역적 가명화       |  ○ 중간 보호, ○ 관계 분석 가능
+                     |
+  [Generalization]    |  특정 -> 범위로 일반화
+  32세 -> 30-39세     |  △ 중간 보호, ○ 통계 분석 가능
+                     |
+  [Aggregation]       |  개인 -> 그룹 통계
+  평균·합계·비율      |  △ 낮은 보호, ○ 집계 분석 가능
+                     |
+  [Noise Addition]    |  수치에 랜덤 노이즈 추가
+  연봉+/- 랜덤값     |  △ 낮은 보호, ○ 분포 유지
+                     |
+<- 낮은 개인정보 보호  | 높은 데이터 유용성 -----------------------------
 ```
 
 ### 프라이버시 모델 3종
@@ -77,7 +77,7 @@ k=3 예시:
 30-39 M    135** (3-Anonymity 충족)  고혈압
 30-39 M    135**                     당뇨병
 30-39 M    135**                     고혈압
-→ 3명 중 누구인지 특정 불가
+-> 3명 중 누구인지 특정 불가
 ```
 
 **한계**: [l-다양성](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/)으로 보완 필요 — 같은 그룹 내 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 동일하면 의미 없음
@@ -89,7 +89,7 @@ k=3 예시:
 ```
 l=2 예시:
 나이   성별  병명 (민감속성)
-30-39  M    고혈압   ← l=2: 고혈압/당뇨 2가지 → ✓
+30-39  M    고혈압   <- l=2: 고혈압/당뇨 2가지 -> ✓
 30-39  M    당뇨병
 30-39  M    고혈압
 ```
@@ -187,17 +187,17 @@ l=2 예시:
 
 ```text
 [개인정보 (PII, Personally Identifiable Information) — 식별 가능한 원본 데이터]
-    │
-    ▼
+    |
+    v
 [비식별화 (De-identification) — 직접 식별자 제거 / 간접 식별자 가공]
-    │
-    ▼
+    |
+    v
 [마스킹 (Masking) / 가명처리 (Pseudonymization) / 집계화 (Aggregation)]
-    │
-    ▼
+    |
+    v
 [차분 프라이버시 (Differential Privacy) — 통계 노이즈 추가, 수학적 보장]
-    │
-    ▼
+    |
+    v
 [프라이버시 강화 기술 (PET, Privacy-Enhancing Technology) — 합성 데이터·연합학습]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹·가명처리·집계화의 기법을 결합하여 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)와 PET로 발전하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용과 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 동시에 달성한다.
@@ -213,7 +213,7 @@ l=2 예시:
 
 **진행 상황**: 208 / 262
 
-← **이전**: [201. GDPR Article 89 — 과학적 연구 목적 빅데이터 처리 특례](/knowledge-base/studynote/16_bigdata/10_governance/207_gdpr_article_89/)
-**다음**: [203. 차등 프라이버시 (Differential Privacy) — 통계 쿼리에 수학적 노이즈 추가](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) →
+<- **이전**: [201. GDPR Article 89 — 과학적 연구 목적 빅데이터 처리 특례](/knowledge-base/studynote/16_bigdata/10_governance/207_gdpr_article_89/)
+**다음**: [203. 차등 프라이버시 (Differential Privacy) — 통계 쿼리에 수학적 노이즈 추가](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) ->
 
 ---

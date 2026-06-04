@@ -28,10 +28,10 @@ tags = ["ict_convergence"]
 비잔틴 장군의 문제와 거짓 메시지 전파 상황을 나타낸 도식입니다.
 ```text
       [장군 1 (배신자)] ---- 공격하라! ----> [장군 2]
-            │                                  │
+            |                                  |
          후퇴하라! (거짓말)                공격 전파 (진실)
-            │                                  │
-            ▼                                  ▼
+            |                                  |
+            v                                  v
          [장군 3] <-------- 공격 전파 -------- [장군 4]
                  \                          /
                    ===> [비잔틴 성 (목표)] <===
@@ -54,13 +54,13 @@ BFT를 달성하기 위한 가장 중요한 수학적 대원칙은 전체 노드
 
 3f+1 증명 구조와 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 합의의 내결함성([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 경계를 시각화한 상태도입니다.
 ```text
-┌── 전체 노드 수 N = 4 (장애 허용 f = 1) ─────────────────┐
-│ [정상 노드 A]    [정상 노드 B]    [정상 노드 C]         │
-│       ↑ 진실 동의 (2개) ↑                              │
-│ --------------------------------------------------- │
-│       ↓ 악의적 교란 (1개) ↓                             │
-│ [배신 노드 f]  => 거짓 메시지로 정족수 파괴 시도        │
-└─────────────────────────────────────────────────────┘
++-- 전체 노드 수 N = 4 (장애 허용 f = 1) -----------------+
+| [정상 노드 A]    [정상 노드 B]    [정상 노드 C]         |
+|       ^ 진실 동의 (2개) ^                              |
+| --------------------------------------------------- |
+|       v 악의적 교란 (1개) v                             |
+| [배신 노드 f]  => 거짓 메시지로 정족수 파괴 시도        |
++-----------------------------------------------------+
 * 정족수(Quorum) = 2f + 1 = 3표 필요
 * 정상 노드 수(N-f) = 3개이므로, 배신자 1명을 무시하고 합의 가능
 ```
@@ -74,15 +74,15 @@ BFT를 달성하기 위한 가장 중요한 수학적 대원칙은 전체 노드
 
 CFT(Crash [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))와 BFT의 스펙을 비교한 매트릭스입니다.
 ```text
-┌───────────┬────────────────────────┬────────────────────────┐
-│ 비교 항목 │ CFT (Crash Fault)      │ BFT (Byzantine Fault)  │
-├───────────┼────────────────────────┼────────────────────────┤
-│ 장애 유형 │ 서버 다운, 네트워크 끊김│ 데이터 변조, 해킹, 거짓말│
-│ 방어 공식 │ N ≥ 2f + 1             │ N ≥ 3f + 1             │
-│ 노드 신뢰 │ 내부망 (신뢰도 높음)    │ 외부망 (제로 트러스트)   │
-│ 대표 알고리즘│ Paxos, Raft            │ PBFT, Tendermint         │
-│ 활용 도구 │ Kafka, etcd, Zookeeper │ Hyperledger, 코스모스    │
-└───────────┴────────────────────────┴────────────────────────┘
++-----------+------------------------+------------------------+
+| 비교 항목 | CFT (Crash Fault)      | BFT (Byzantine Fault)  |
++-----------+------------------------+------------------------+
+| 장애 유형 | 서버 다운, 네트워크 끊김| 데이터 변조, 해킹, 거짓말|
+| 방어 공식 | N ≥ 2f + 1             | N ≥ 3f + 1             |
+| 노드 신뢰 | 내부망 (신뢰도 높음)    | 외부망 (제로 트러스트)   |
+| 대표 알고리즘| Paxos, Raft            | PBFT, Tendermint         |
+| 활용 도구 | Kafka, etcd, Zookeeper | Hyperledger, 코스모스    |
++-----------+------------------------+------------------------+
 ```
 CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로, 과반수(2f+1) 동의만 있으면 합의가 성립합니다. 통신 오버헤드가 적어 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 같은 클라우드 인프라의 내부 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 널리 쓰입니다. 반면 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 방식은 노드가 해킹당해 '살아 있으면서 거짓 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뿌리는' 최악의 보안 위협을 막기 위해 훨씬 무거운 3f+1 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)을 수행합니다. 따라서 기업이 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)을 구축할 때, 참여사가 모두 같은 계열사라면 가벼운 CFT([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/))를 써도 되지만, 서로 이해관계가 다른 타 기업이 섞여 있다면 반드시 BFT를 적용하여 담합과 조작을 차단해야 합니다.
 
@@ -104,11 +104,11 @@ CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로,
 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 한계를 극복하기 위한 확장성 튜닝(위임 및 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/))의 의사결정 트리입니다.
 ```text
 [네트워크 노드 수가 100개를 초과하는가?]
-  ├── (No, 100개 미만) --> PBFT (Practical BFT) 원형 그대로 사용
-  │                        (Hyperledger Fabric 등 컨소시엄망)
-  └── (Yes, 수천 개 이상) --> [O(N^2) 통신 폭주로 네트워크 마비 위험]
-             ├── 해결책 A: DPoS (위임 지분 증명) - 21개 대표 노드만 BFT 수행
-             └── 해결책 B: Tendermint - 가십 프로토콜과 BFT 융합
+  +-- (No, 100개 미만) --> PBFT (Practical BFT) 원형 그대로 사용
+  |                        (Hyperledger Fabric 등 컨소시엄망)
+  +-- (Yes, 수천 개 이상) --> [O(N^2) 통신 폭주로 네트워크 마비 위험]
+             +-- 해결책 A: DPoS (위임 지분 증명) - 21개 대표 노드만 BFT 수행
+             +-- 해결책 B: Tendermint - 가십 프로토콜과 BFT 융합
 ```
 이 흐름의 핵심은 노드 수가 증가할 때 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 겪는 치명적인 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 문제를 어떻게 소프트웨어적으로 잘라내느냐([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))입니다. BFT는 안전성은 완벽하지만 브로드캐스트의 저주를 동반합니다. 실무에서는 거대한 네트워크의 모든 노드에게 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 권한을 주지 않고, 지분 투표(DPoS)를 통해 선출된 극소수의 대표자들 사이에서만 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 메시지 교환 체계를 가동시켜 TPS 성능과 합의 안전성이라는 두 마리 토끼를 잡습니다.
 
@@ -141,17 +141,17 @@ CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로,
 
 ```text
 [크래시 장애 허용 (CFT, Crash Fault Tolerance) — 단순 다운만 가정]
-    │
-    ▼
+    |
+    v
 [비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) — 악의적·임의 오류까지 고려]
-    │
-    ▼
+    |
+    v
 [실용 BFT (PBFT, Practical Byzantine Fault Tolerance) — 합의 지연을 줄인 구현]
-    │
-    ▼
+    |
+    v
 [임계값 서명 (Threshold Signature) — 다수 서명을 압축하는 최적화]
-    │
-    ▼
+    |
+    v
 [비동기 BFT (aBFT, Asynchronous BFT) — 시간 가정 없이도 합의]
 ```
 
@@ -168,7 +168,7 @@ CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로,
 
 **진행 상황**: 12 / 552
 
-← **이전**: [11. 합의 알고리즘 (Consensus Algorithm) - 분산 노드 간 상태 일치 달성 매커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)
-**다음**: [13. PBFT (Practical BFT) - 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) →
+<- **이전**: [11. 합의 알고리즘 (Consensus Algorithm) - 분산 노드 간 상태 일치 달성 매커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)
+**다음**: [13. PBFT (Practical BFT) - 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) ->
 
 ---

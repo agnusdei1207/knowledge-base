@@ -32,12 +32,12 @@ CFD는 “얼마나 많이 했는가”보다 “어디서 막히는가”를 �
 | 띠 두께 | 해당 상태의 WIP | 두꺼울수록 체류가 많음 |
 | 상단 곡선 | 총 흐름 | 기울기 변화가 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 변화 |
 
-┌──────────────── CFD 예시 ────────────────┐
-│ 완료  ████████████████████████████████    │
-│ [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)  ████████████████████                │
-│ 개발  ██████████                          │
-│ 대기  ███                                 │
-└───────────────────────────────────────────┘
++---------------- CFD 예시 ----------------+
+| 완료  ████████████████████████████████    |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)  ████████████████████                |
+| 개발  ██████████                          |
+| 대기  ███                                 |
++-------------------------------------------+
          t1        t2        t3        t4
 - **📢 섹션 요약 비유**: 띠의 두께가 곧 체류량이다.
 
@@ -87,7 +87,7 @@ CFD는 작업의 양보다 흐름의 안정성을 보여 준다. 그래서 병�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-입력 증가 → 상태별 누적 집계 → 띠 두께 관찰 → 병목 탐지 → WIP 조정 → 흐름 재측정
+입력 증가 -> 상태별 누적 집계 -> 띠 두께 관찰 -> 병목 탐지 -> WIP 조정 -> 흐름 재측정
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -102,7 +102,7 @@ CFD는 작업의 양보다 흐름의 안정성을 보여 준다. 그래서 병�
 
 **진행 상황**: 86 / 973
 
-← **이전**: [85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)
-**다음**: [87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) →
+<- **이전**: [85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)
+**다음**: [87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) ->
 
 ---

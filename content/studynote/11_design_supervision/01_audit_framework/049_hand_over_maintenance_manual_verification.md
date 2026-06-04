@@ -20,13 +20,13 @@ tags = ["studynote-design-supervision"]
 
 ```
 인수인계 (Hand-Over / System Transition):
-  개발 조직 → 운영 조직으로 시스템 이관
+  개발 조직 -> 운영 조직으로 시스템 이관
 
 인수인계 시점:
   SI 프로젝트: 개발 완료 후 운영 이관
-  클라우드 마이그레이션: 구 시스템 → 신 시스템
+  클라우드 마이그레이션: 구 시스템 -> 신 시스템
   조직 변경: 내부 팀 간 이관
-  아웃소싱: 자체 운영 → 위탁 운영
+  아웃소싱: 자체 운영 -> 위탁 운영
 
 인수인계 범위:
 
@@ -109,8 +109,8 @@ ISO/IEC 14764 유지보수 4유형:
   적응: 12%
   예방: 6%
 
-  → 기능 개선이 가장 많음
-  → 예방 유지보수 비율 낮을수록 기술 부채 증가
+  -> 기능 개선이 가장 많음
+  -> 예방 유지보수 비율 낮을수록 기술 부채 증가
 ```
 
 > 📢 **섹션 요약 비유**: 유지보수 4유형 = 자동차 관리 유형 — 교정(고장 수리), 적응(새 도로 규정 대응), 완전([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 업그레이드), 예방(정기 점검). 65%는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선(완전)이 차지!
@@ -220,7 +220,7 @@ ISO/IEC 14764 유지보수 4유형:
 행정기관 정보시스템 인수인계 감리:
 
 배경:
-  개발사 A → 운영사 B로 이관
+  개발사 A -> 운영사 B로 이관
   시스템: 민원 처리 플랫폼 (일 5만 건)
   계약: 유지보수 SLA P1=4시간, P2=24시간
 
@@ -253,7 +253,7 @@ ISO/IEC 14764 유지보수 4유형:
   또는 자동 Failover(레플리카) 구성
 
 최종 인수인계:
-  이슈 4개 → 조치 완료
+  이슈 4개 -> 조치 완료
   인수인계 완료 서명 + 감리보고서 제출
 
 교훈:
@@ -321,7 +321,7 @@ AI 기반 장애 예측
 
 1. 인수인계 = 건물 열쇠 교환 — 모든 열쇠(계정, 소스코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키) + 관리 매뉴얼 받아야 진정한 이관. 열쇠 하나라도 누락 = 위험!
 2. 유지보수 4유형 = 자동차 관리 — 교정(고장 수리), 적응(도로 규정 변경), 완전([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 업그레이드), 예방(정기 점검). 65%는 완전!
-3. Runbook = 정비 매뉴얼 — "DB 오류 발생 시 1단계→2단계→3단계". 개발자 없어도 운영 가능. 감리 핵심 점검 항목!
+3. Runbook = 정비 매뉴얼 — "DB 오류 발생 시 1단계->2단계->3단계". 개발자 없어도 운영 가능. 감리 핵심 점검 항목!
 
 ---
 
@@ -329,7 +329,7 @@ AI 기반 장애 예측
 
 **진행 상황**: 74 / 530
 
-← **이전**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/)
-**다음**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/) →
+<- **이전**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/)
+**다음**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/) ->
 
 ---

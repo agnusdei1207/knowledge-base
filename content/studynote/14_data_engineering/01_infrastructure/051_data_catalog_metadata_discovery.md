@@ -78,10 +78,10 @@ tags = ["studynote-data-engineering"]
 
 #### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- **클라우드 올인 (AWS)** → Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/): 네이티브 연동, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 최소
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>·멀티클라우드</strong> → DataHub: 확장성, [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 풍부
-- **거버넌스·규제 최우선** → Collibra/Alation: [데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적
-- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a> 레거시</strong> → Apache Atlas: [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집
+- **클라우드 올인 (AWS)** -> Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/): 네이티브 연동, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 최소
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>·멀티클라우드</strong> -> DataHub: 확장성, [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 풍부
+- **거버넌스·규제 최우선** -> Collibra/Alation: [데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적
+- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a> 레거시</strong> -> Apache Atlas: [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집
 
 #### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -107,7 +107,7 @@ tags = ["studynote-data-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">Data Lineage</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원본 → 가공 → 최종 저장까지 흐름 추적; [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 핵심 기능 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">Data Lineage</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원본 -> 가공 -> 최종 저장까지 흐름 추적; [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 핵심 기능 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a>)</strong> | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품화; [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 제품 진열대 역할 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·규정 준수; [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 중앙 통제소 |
 | <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/">메타데이터 관리</a></strong> | 물리적([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)) + 비즈니스(의미) + 운영(갱신 주기) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 통합 |
@@ -116,21 +116,21 @@ tags = ["studynote-data-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-데이터 사일로 → 데이터 늪(Data Swamp) 위기
-    │
-    ▼
+데이터 사일로 -> 데이터 늪(Data Swamp) 위기
+    |
+    v
 데이터 카탈로그 등장
-    ├─► 크롤러 자동 메타데이터 수집 (물리적 메타데이터)
-    ├─► 비즈니스 용어집 (Business Glossary) 수동 매핑
-    └─► 데이터 리니지 — ETL 흐름 시각화
-    │
-    ▼
+    +-► 크롤러 자동 메타데이터 수집 (물리적 메타데이터)
+    +-► 비즈니스 용어집 (Business Glossary) 수동 매핑
+    +-► 데이터 리니지 — ETL 흐름 시각화
+    |
+    v
 데이터 거버넌스 통합 (PII 태깅 · 접근 제어)
-    │
-    ▼
+    |
+    v
 데이터 메시 + 카탈로그 = 데이터 마켓플레이스
-    │
-    ▼
+    |
+    v
 AI 기반 자동 태깅 · LLM 메타데이터 생성 (미래)
 ```
 
@@ -146,7 +146,7 @@ AI 기반 자동 태깅 · LLM 메타데이터 생성 (미래)
 
 **진행 상황**: 51 / 258
 
-← **이전**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/)
-**다음**: [52. 데이터 리니지 (Data Lineage)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/052_data_lineage_traceability_governance/) →
+<- **이전**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/)
+**다음**: [52. 데이터 리니지 (Data Lineage)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/052_data_lineage_traceability_governance/) ->
 
 ---

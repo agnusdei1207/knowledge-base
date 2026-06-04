@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ▼
+    |
+    v
 [TCP 흐름 제어]
-    │
-    └──▶ [윈도우 스케일옵션]
+    |
+    +---> [윈도우 스케일옵션]
 ```
 
 - **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 마트 계산대 위 **"컨베이어 벨트"**입니다. 내 앞에 공간(윈도우)이 허락하는 한, 굳이 점원이 바코드를 다 찍을 때까지 안 기다리고 내 장바구니의 물건을 컨베이어 벨트 위에 한꺼번에 쏟아놓을 수 있게 해주는 궁극의 연속 전송 시스템입니다.
@@ -60,23 +60,23 @@ tags = ["studynote-network"]
 6. 송신자는 기다릴 필요 없이 1번을 지우고, 방금 창문 안에 새로 들어온 <strong>4번 패킷을 즉각 발사</strong>한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                슬라이딩 윈도우의 동작 애니메이션 시각화            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 1단계: 최초 전송 ] (윈도우 크기 3칸)                       │
- │   데이터:  [ 1번 | 2번 | 3번 ] | 4번 | 5번 | 6번                │
- │          └─── 윈도우 ────┘                                  │
- │   동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!                  │
- │                                                             │
- │   [ 2단계: 1번 영수증(ACK) 도착! ]                            │
- │   데이터:  1번 | [ 2번 | 3번 | 4번 ] | 5번 | 6번                │
- │                └─── 윈도우 ────┘                            │
- │   동작: 윈도우가 우측으로 한 칸 밀림(Sliding).                     │
- │        새로 창문 안에 들어온 4번을 즉각 발사!!                     │
- │                                                             │
- │   ▶ "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                슬라이딩 윈도우의 동작 애니메이션 시각화            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 1단계: 최초 전송 ] (윈도우 크기 3칸)                       |
+ |   데이터:  [ 1번 | 2번 | 3번 ] | 4번 | 5번 | 6번                |
+ |          +--- 윈도우 ----+                                  |
+ |   동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!                  |
+ |                                                             |
+ |   [ 2단계: 1번 영수증(ACK) 도착! ]                            |
+ |   데이터:  1번 | [ 2번 | 3번 | 4번 ] | 5번 | 6번                |
+ |                +--- 윈도우 ----+                            |
+ |   동작: 윈도우가 우측으로 한 칸 밀림(Sliding).                     |
+ |        새로 창문 안에 들어온 4번을 즉각 발사!!                     |
+ |                                                             |
+ |   -> "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"      |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. Window 0 ([Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))의 딜레마
@@ -144,12 +144,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 흐름 제어]
-    │
-    ├──▶ [확장 A: 윈도우 스케일옵션]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 윈도우 스케일옵션]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 CLOSE_WAIT / LAST_ACK 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -166,7 +166,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 542 / 1120
 
-← **이전**: [420. CLOSE_WAIT / LAST_ACK 상태](/knowledge-base/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/)
-**다음**: [422. 윈도우 스케일옵션 (Window Scale Option)](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) →
+<- **이전**: [420. CLOSE_WAIT / LAST_ACK 상태](/knowledge-base/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/)
+**다음**: [422. 윈도우 스케일옵션 (Window Scale Option)](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) ->
 
 ---

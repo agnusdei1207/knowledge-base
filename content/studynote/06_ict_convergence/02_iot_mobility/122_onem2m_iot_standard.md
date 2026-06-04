@@ -19,20 +19,20 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    oneM2M 아키텍처                                    │
-├───────────────────────────────────────────────────────┤
-│  [AE — Application Entity]                            │
-│   스마트홈 앱, 환경 모니터링 앱                       │
-│      ↕ Mca 인터페이스                                 │
-│  [CSE — Common Service Entity]                        │
-│   등록·디스커버리·데이터관리·구독·보안                │
-│      ↕ Mcc 인터페이스                                 │
-│  [CSE (다른 노드)]                                    │
-│      ↕ Mcn 인터페이스                                 │
-│  [NSE — Network Service Entity]                       │
-│   전송 네트워크 (LTE, Wi-Fi, LoRa)                   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    oneM2M 아키텍처                                    |
++-------------------------------------------------------+
+|  [AE — Application Entity]                            |
+|   스마트홈 앱, 환경 모니터링 앱                       |
+|      ↕ Mca 인터페이스                                 |
+|  [CSE — Common Service Entity]                        |
+|   등록·디스커버리·데이터관리·구독·보안                |
+|      ↕ Mcc 인터페이스                                 |
+|  [CSE (다른 노드)]                                    |
+|      ↕ Mcn 인터페이스                                 |
+|  [NSE — Network Service Entity]                       |
+|   전송 네트워크 (LTE, Wi-Fi, LoRa)                   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: oneM2M은 IoT의 <strong>안드로이드</strong>다. 스마트폰(디바이스)마다 OS(플랫폼)를 따로 만들 필요 없이, 공통 OS 위에 앱(AE)만 개발하면 된다.
@@ -94,17 +94,17 @@ oneM2M은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_m
 
 ```text
 [독자 IoT 플랫폼 (사일로, 2010s)]
-    │
-    ▼
+    |
+    v
 [oneM2M Release 1 (2015) — 글로벌 IoT 플랫폼 표준]
-    │
-    ▼
+    |
+    v
 [Release 2~4 (2017~2022) — 기능 확장]
-    │
-    ▼
+    |
+    v
 [oneM2M + Matter + LwM2M (IoT 표준 생태계)]
-    │
-    ▼
+    |
+    v
 [현재: AI + oneM2M — 지능형 IoT 플랫폼]
 ```
 
@@ -119,7 +119,7 @@ oneM2M은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_m
 
 **진행 상황**: 122 / 552
 
-← **이전**: [121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/)
-**다음**: [123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) →
+<- **이전**: [121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/)
+**다음**: [123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) ->
 
 ---

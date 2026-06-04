@@ -30,20 +30,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) 3요소가 서로 어떤 역할 분담을 하는지 보여준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 혼자 의미를 갖지 못하고, 주소 지정과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 준비된 뒤에만 실제 값이 흐른다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 시스템 버스에서 데이터 버스가 동작하는 순서         │
-├──────────────────────────────────────────────────────────────────────┤
-│  CPU (Central Processing Unit)                                      │
-│      │                                                              │
-│      ├── 주소 버스 ───────────────▶ 0x1000 번지 지정                │
-│      ├── 제어 버스 ───────────────▶ READ 또는 WRITE 지시            │
-│      │                                                              │
-│      └══ 데이터 버스 ════════════▶ READ: 메모리 → CPU               │
-│                                   WRITE: CPU → 메모리              │
-│                                                                      │
-│  핵심: 주소가 대상을 고르고, 제어가 동작을 정하며, 데이터 버스가    │
-│       최종 값 자체를 운반한다.                                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 시스템 버스에서 데이터 버스가 동작하는 순서         |
++----------------------------------------------------------------------+
+|  CPU (Central Processing Unit)                                      |
+|      |                                                              |
+|      +-- 주소 버스 ----------------> 0x1000 번지 지정                |
+|      +-- 제어 버스 ----------------> READ 또는 WRITE 지시            |
+|      |                                                              |
+|      +-- 데이터 버스 -------------> READ: 메모리 -> CPU               |
+|                                   WRITE: CPU -> 메모리              |
+|                                                                      |
+|  핵심: 주소가 대상을 고르고, 제어가 동작을 정하며, 데이터 버스가    |
+|       최종 값 자체를 운반한다.                                       |
++----------------------------------------------------------------------+
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 이해할 때 가장 중요한 첫 문장은 이것이다. <strong>컴퓨터는 계산 장치이기 전에 이동 장치</strong>이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 그 이동 장치의 중심 혈관이다.
@@ -74,23 +74,23 @@ $$
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 전송 타이밍이 결합되어 실제 처리량이 만들어지는 모습을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  데이터 버스 처리량 = 폭 × 전송 기회                │
-├──────────────────────────────────────────────────────────────────────┤
-│  64-bit Bus = 8 Byte/transfer                                       │
-│                                                                      │
-│  Clock:   ──┐    ┌──    ──┐    ┌──    ──┐    ┌──                    │
-│             └────┘        └────┘        └────┘                      │
-│                                                                      │
-│  SDR:     [  8B  ]      [  8B  ]      [  8B  ]                      │
-│            edge당 1회 전송                                          │
-│                                                                      │
-│  DDR:     [8B][8B]    [8B][8B]    [8B][8B]                           │
-│         상승/하강 edge 모두 사용                                    │
-│                                                                      │
-│  결과: 같은 64-bit 배선이라도 타이밍 활용 방식에 따라               │
-│       초당 전달량이 달라진다.                                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  데이터 버스 처리량 = 폭 × 전송 기회                |
++----------------------------------------------------------------------+
+|  64-bit Bus = 8 Byte/transfer                                       |
+|                                                                      |
+|  Clock:   --+    +--    --+    +--    --+    +--                    |
+|             +----+        +----+        +----+                      |
+|                                                                      |
+|  SDR:     [  8B  ]      [  8B  ]      [  8B  ]                      |
+|            edge당 1회 전송                                          |
+|                                                                      |
+|  DDR:     [8B][8B]    [8B][8B]    [8B][8B]                           |
+|         상승/하강 edge 모두 사용                                    |
+|                                                                      |
+|  결과: 같은 64-bit 배선이라도 타이밍 활용 방식에 따라               |
+|       초당 전달량이 달라진다.                                        |
++----------------------------------------------------------------------+
 ```
 
 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 폭만 넓힌다고 무한히 빨라지지 않는다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)선이 많아질수록 핀 수, 보드 배선, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간 간섭 ([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)), 타이밍 정렬 비용이 함께 증가한다. 그래서 현대 시스템은 로컬 메모리 구간에서는 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 유지하되, 외부 확장 인터페이스로 갈수록 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 같은 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크로 전환하는 방식을 택한다.
@@ -173,20 +173,20 @@ $$
 
 ```text
 시스템 버스 분리
-    │
-    ▼
+    |
+    v
 주소 버스 · 데이터 버스 · 제어 버스
-    │
-    ▼
+    |
+    v
 워드 (Word) · 대역폭 (Bandwidth) · 정렬 (Alignment)
-    │
-    ▼
+    |
+    v
 DDR (Double Data Rate) · 멀티채널 메모리
-    │
-    ▼
+    |
+    v
 DMA (Direct Memory Access) · 캐시 · 프리패치
-    │
-    ▼
+    |
+    v
 PCIe (Peripheral Component Interconnect Express) · NoC (Network-on-Chip)
 ```
 
@@ -204,7 +204,7 @@ PCIe (Peripheral Component Interconnect Express) · NoC (Network-on-Chip)
 
 **진행 상황**: 346 / 803
 
-← **이전**: [344. 버스 (Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)
-**다음**: [346. 주소 버스 (Address Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) →
+<- **이전**: [344. 버스 (Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)
+**다음**: [346. 주소 버스 (Address Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ->
 
 ---

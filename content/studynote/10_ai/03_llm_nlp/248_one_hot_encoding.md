@@ -25,16 +25,16 @@ tags = ["studynote-ai"]
 **문제 예시: 레이블 인코딩의 함정**
 ```
 빨강=0, 초록=1, 파랑=2
-→ 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습
-→ 실제로 색상 간에는 이런 수치적 관계가 없음
+-> 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습
+-> 실제로 색상 간에는 이런 수치적 관계가 없음
 ```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a> 해결책:</strong>
 ```
-빨강 → [1, 0, 0]
-초록 → [0, 1, 0]
-파랑 → [0, 0, 1]
-→ 세 범주는 완전히 독립적인 이진 변수로 표현됨
+빨강 -> [1, 0, 0]
+초록 -> [0, 1, 0]
+파랑 -> [0, 0, 1]
+-> 세 범주는 완전히 독립적인 이진 변수로 표현됨
 ```
 
 ### 1.2 적용 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
@@ -55,29 +55,29 @@ tags = ["studynote-ai"]
 ### 2.1 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 변환 과정
 
 ```
-┌───────────────────────────────────────────────────────┐
-│                원-핫 인코딩 변환                        │
-│                                                       │
-│  원본 데이터:                                           │
-│  ┌───────┬──────┐                                     │
-│  │ 샘플  │ 색상 │                                     │
-│  ├───────┼──────┤                                     │
-│  │  #1   │ 빨강 │                                     │
-│  │  #2   │ 초록 │                                     │
-│  │  #3   │ 파랑 │                                     │
-│  │  #4   │ 빨강 │                                     │
-│  └───────┴──────┘                                     │
-│         ↓ 원-핫 인코딩 적용                              │
-│  ┌───────┬────────┬────────┬────────┐                 │
-│  │ 샘플  │ 빨강   │ 초록   │ 파랑   │                 │
-│  ├───────┼────────┼────────┼────────┤                 │
-│  │  #1   │   1    │   0    │   0    │                 │
-│  │  #2   │   0    │   1    │   0    │                 │
-│  │  #3   │   0    │   0    │   1    │                 │
-│  │  #4   │   1    │   0    │   0    │                 │
-│  └───────┴────────┴────────┴────────┘                 │
-│    n개 범주 → n개 이진 열 생성                           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|                원-핫 인코딩 변환                        |
+|                                                       |
+|  원본 데이터:                                           |
+|  +-------+------+                                     |
+|  | 샘플  | 색상 |                                     |
+|  +-------+------+                                     |
+|  |  #1   | 빨강 |                                     |
+|  |  #2   | 초록 |                                     |
+|  |  #3   | 파랑 |                                     |
+|  |  #4   | 빨강 |                                     |
+|  +-------+------+                                     |
+|         v 원-핫 인코딩 적용                              |
+|  +-------+--------+--------+--------+                 |
+|  | 샘플  | 빨강   | 초록   | 파랑   |                 |
+|  +-------+--------+--------+--------+                 |
+|  |  #1   |   1    |   0    |   0    |                 |
+|  |  #2   |   0    |   1    |   0    |                 |
+|  |  #3   |   0    |   0    |   1    |                 |
+|  |  #4   |   1    |   0    |   0    |                 |
+|  +-------+--------+--------+--------+                 |
+|    n개 범주 -> n개 이진 열 생성                           |
++-------------------------------------------------------+
 ```
 
 ### 2.2 가변수 ([Dummy Variable](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)
@@ -89,8 +89,8 @@ n개 범주에 n개 열을 [생성](/knowledge-base/studynote/02_operating_syste
 
 ```
 n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
-[1, 0, 0]           [1, 0]    ← 파랑은 나머지로 식별
-[0, 1, 0]    →      [0, 1]
+[1, 0, 0]           [1, 0]    <- 파랑은 나머지로 식별
+[0, 1, 0]    ->      [0, 1]
 [0, 0, 1]           [0, 0]
 ```
 
@@ -115,14 +115,14 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 | 기법 | 원리 | 장점 | 단점 | 사용 시기 |
 |:---|:---|:---|:---|:---|
-| 레이블 인코딩 | 범주 → 정수 | 차원 유지, 간단 | 순서 가정 오류 | 트리 기반 모델 |
-| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 범주 → 이진 벡터 | 순서 없음, 명확 | 고차원화 | 선형 모델, 신경망 |
+| 레이블 인코딩 | 범주 -> 정수 | 차원 유지, 간단 | 순서 가정 오류 | 트리 기반 모델 |
+| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 범주 -> 이진 벡터 | 순서 없음, 명확 | 고차원화 | 선형 모델, 신경망 |
 | 순서 인코딩 | 순서 반영 정수 부여 | 순서 정보 포함 | 수동 정의 필요 | 순서형 변수 |
-| 이진 인코딩 | 정수 → 이진수 표현 | 고차원 완화 | 해석 어려움 | 중간 수준 범주 |
+| 이진 인코딩 | 정수 -> 이진수 표현 | 고차원 완화 | 해석 어려움 | 중간 수준 범주 |
 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 밀집 벡터 학습 | 의미 포착, 저차원 | 학습 필요 | NLP, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) |
 
 ### 3.2 차원의 저주와 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
-- 10만 개 사용자 ID를 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) → 10만 차원 희소 행렬 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+- 10만 개 사용자 ID를 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) -> 10만 차원 희소 행렬 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - 대부분 0인 희소 벡터는 메모리 낭비 + 모델 학습 비효율
 - 해결: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) Layer) 또는 해싱 트릭(Hashing Trick)
 
@@ -180,7 +180,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 명목형 변수 / 범주형 → 수치 변환 |
+| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 명목형 변수 / 범주형 -> 수치 변환 |
 | 레이블 인코딩 | 정수 매핑, 순서 오해 / 원-핫과 대안 비교 |
 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), 밀집 벡터 / 고차원 범주 대안 |
 | 다중공선성 | 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), n-1 열 / [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 주의사항 |
@@ -190,7 +190,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [원-핫 인코딩 (One-Hot Encoding)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [원-핫 인코딩 (One-Hot Encoding)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -205,7 +205,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 **진행 상황**: 248 / 420
 
-← **이전**: [247. 독립 변수 (피처) / 종속 변수 (라벨)](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
-**다음**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) →
+<- **이전**: [247. 독립 변수 (피처) / 종속 변수 (라벨)](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
+**다음**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP BIC / CUBIC]
-    │
-    ▼
+    |
+    v
 [BBR]
-    │
-    └──▶ [RTO 측정 방식]
+    |
+    +---> [RTO 측정 방식]
 ```
 
 - **📢 섹션 요약 비유**: <strong> CUBIC은 물통에 물이 꽉 차서 </strong>바닥으로 물이 철철 넘쳐흘러야(Drop)<strong> 비로소 수도꼭지를 잠그는 미련한 짓이라면, BBR은 물통 안에 </strong>초음파 센서([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정)**를 달아 수위가 차오르는 속도를 계산하여, 넘치기 1cm 직전에 수도꼭지 밸브를 유동적으로 싹 조절해 물을 한 방울도 안 버리는 최첨단 밸브 시스템입니다.
@@ -55,24 +55,24 @@ CUBIC은 라우터 버퍼가 꽉 찰 때까지 밀어 넣는다. 라우터 버�
 - 결과적으로 라우터의 대기 줄(버퍼)은 항상 텅텅 빈 쾌적한 상태로 유지되며, 유튜브를 다운받으면서 동시에 롤 게임을 해도 핑이 튀지 않는 쾌적함을 선사한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                패킷 유실(Loss) 상황에서의 BBR vs CUBIC 속도 차이   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: 무선 와이파이에서 패킷 1%가 공중 분해됨 (Loss 1%) ]        │
- │                                                             │
- │   * 구형 CUBIC의 뇌구조:                                        │
- │     "헐! 1%나 유실됐네? 톨게이트 꽉 차서 터졌구나!                  │
- │      속도 당장 반 토막 내서 10Mbps로 확 줄여!!" (바보짓)            │
- │                                                             │
- │   * 최신 BBR의 뇌구조:                                        │
- │     "패킷이 1% 날아갔지만, 핑 타임 재보니까 아까랑 똑같이 10ms 네?     │
- │      이건 톨게이트 막힌 게 아니라 그냥 와이파이 혼선 찌꺼기네 ㅋㅋ      │
- │      야 무시하고 원래 쏘던 대로 1Gbps 풀악셀 계속 밟아라!!"         │
- │                                                             │
- │   ▶ 결과: BBR을 켜면 무선 환경이나 장거리 해외 서버 연결 시 다운로드 │
- │           속도가 수십 배에서 수백 배까지 경이롭게 폭등한다!          │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                패킷 유실(Loss) 상황에서의 BBR vs CUBIC 속도 차이   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황: 무선 와이파이에서 패킷 1%가 공중 분해됨 (Loss 1%) ]        |
+ |                                                             |
+ |   * 구형 CUBIC의 뇌구조:                                        |
+ |     "헐! 1%나 유실됐네? 톨게이트 꽉 차서 터졌구나!                  |
+ |      속도 당장 반 토막 내서 10Mbps로 확 줄여!!" (바보짓)            |
+ |                                                             |
+ |   * 최신 BBR의 뇌구조:                                        |
+ |     "패킷이 1% 날아갔지만, 핑 타임 재보니까 아까랑 똑같이 10ms 네?     |
+ |      이건 톨게이트 막힌 게 아니라 그냥 와이파이 혼선 찌꺼기네 ㅋㅋ      |
+ |      야 무시하고 원래 쏘던 대로 1Gbps 풀악셀 계속 밟아라!!"         |
+ |                                                             |
+ |   -> 결과: BBR을 켜면 무선 환경이나 장거리 해외 서버 연결 시 다운로드 |
+ |           속도가 수십 배에서 수백 배까지 경이롭게 폭등한다!          |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BBR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ```text
 [선행 개념: TCP BIC / CUBIC]
-    │
-    ▼
+    |
+    v
 [현재 개념: BBR]
-    │
-    ├──▶ [확장 A: RTO 측정 방식]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: RTO 측정 방식]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 BBR는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ BBR는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_tra
 
 **진행 상황**: 560 / 1120
 
-← **이전**: [438. TCP BIC / CUBIC](/knowledge-base/studynote/03_network/08_transport_layer/438_tcp_bic_cubic_modern_linux_congestion_control/)
-**다음**: [440. RTO (Retransmission TimeOut) 측정 방식](/knowledge-base/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/) →
+<- **이전**: [438. TCP BIC / CUBIC](/knowledge-base/studynote/03_network/08_transport_layer/438_tcp_bic_cubic_modern_linux_congestion_control/)
+**다음**: [440. RTO (Retransmission TimeOut) 측정 방식](/knowledge-base/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/) ->
 
 ---

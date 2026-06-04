@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [LACP 이더채널 포트 논리 그룹화]
-    │
-    ▼
+    |
+    v
 [VLAN 간 라우팅]
-    │
-    └──▶ [스위치 포트 미러링]
+    |
+    +---> [스위치 포트 미러링]
 ```
 
 - **📢 섹션 요약 비유**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -68,11 +68,11 @@ tags = ["studynote-network"]
 
 ```text
 [LACP 이더채널 포트 논리 그룹화]
-    │
-    ▼
+    |
+    v
 [VLAN 간 라우팅]
-    │
-    └──▶ [스위치 포트 미러링]
+    |
+    +---> [스위치 포트 미러링]
 ```
 
 - **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 쪼개기</strong>는 하나의 커다란 운동장을 영업부와 인사부가 절대 섞이지 못하게 <strong>'유리로 된 10미터짜리 거대한 방음벽'</strong>으로 둘로 쪼개놓은 것입니다. 두 부서는 서로 쳐다만 볼 뿐 평생 엑셀 서류를 건넬 수 없습니다. 서류를 건네주려면(인터-[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 방법이 필요합니다. 1세대 <strong>무식한 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>은 벽마다 사다리 50개를 세워두는 돈지랄입니다. 2세대 <strong>라우터-온-어-스틱(Router-on-a-stick)</strong>은 두 구역 사이에 딱 1개의 <strong>'공용 좁은 계단(스틱, 트렁크 랜선 1개)'</strong>을 세워두고, 꼭대기에 옥탑방 우체국장(라우터)을 앉혀둔 것입니다. 영업부원이 계단을 낑낑대고 올라가서 우체국장에게 서류를 주면, 국장이 도장을 찍어 반대편 인사부 계단으로 굴려 내려줍니다. 하지만 모든 부서원이 이 계단 1개로만 몰리니 계단이 무너질 듯 정체됩니다(스틱 병목). 최종 진화형 3세대 <strong>L3 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (SVI)</strong>는 아예 계단을 싹 다 부수고, 방음벽 유리창 한가운데에 **'빛의 속도로 서류만 통과시켜 주는 마법의 자동 우체통(가상 SVI 인터페이스)'** 구멍을 뚫어버린 것입니다. 부서원이 밖으로 계단을 오르지 않고 벽에 서류를 툭 던지기만 하면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 뱃속 안에서 0.1초 만에 반대편 부서로 서류가 직빵으로 꽂히는 궁극의 고속 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 융합 머신입니다.
@@ -133,12 +133,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: LACP 이더채널 포트 논리 그룹화]
-    │
-    ▼
+    |
+    v
 [현재 개념: VLAN 간 라우팅]
-    │
-    ├──▶ [확장 A: 스위치 포트 미러링]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 스위치 포트 미러링]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 208 / 1120
 
-← **이전**: [1098. LACP 이더채널 포트 논리 그룹화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1098_lacp_etherchannel_link_aggregation_port/)
-**다음**: [109. RTS/CTS (Request To Send / Clear To Send)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/) →
+<- **이전**: [1098. LACP 이더채널 포트 논리 그룹화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1098_lacp_etherchannel_link_aggregation_port/)
+**다음**: [109. RTS/CTS (Request To Send / Clear To Send)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/) ->
 
 ---

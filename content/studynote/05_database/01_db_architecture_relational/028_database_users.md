@@ -19,20 +19,20 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│         DB 사용자 유형 분류                           │
-├──────────────────────────────────────────────────────┤
-│ 1. 최종 사용자 (End User)                            │
-│    - 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행│
-│    - 전문(Sophisticated): SQL 직접 작성              │
-│    - 독립형(Standalone): PC DB 단독 사용             │
-│                                                       │
-│ 2. 응용 프로그래머 (Application Programmer)          │
-│    - 호스트 언어 + 임베디드 SQL / ORM                │
-│                                                       │
-│ 3. DBA (Database Administrator)                      │
-│    - 스키마 정의, 권한 관리, 성능 튜닝               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|         DB 사용자 유형 분류                           |
++------------------------------------------------------+
+| 1. 최종 사용자 (End User)                            |
+|    - 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행|
+|    - 전문(Sophisticated): SQL 직접 작성              |
+|    - 독립형(Standalone): PC DB 단독 사용             |
+|                                                       |
+| 2. 응용 프로그래머 (Application Programmer)          |
+|    - 호스트 언어 + 임베디드 SQL / ORM                |
+|                                                       |
+| 3. DBA (Database Administrator)                      |
+|    - 스키마 정의, 권한 관리, 성능 튜닝               |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DB 사용자 유형은 도서관 이용 방식이다. 일반 독자(최종 사용자)는 사서 안내 창구에서 검색, 연구자(전문 사용자)는 직접 서가를 탐색, 사서([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))는 도서관 전체를 관리한다.
@@ -57,7 +57,7 @@ tags = ["studynote-database"]
 
 예: 주문 처리 앱 서비스 계정
   ✅ SELECT, INSERT, UPDATE on orders, products
-  ❌ DELETE, DROP, ALTER (불필요 → 부여 금지)
+  ❌ DELETE, DROP, ALTER (불필요 -> 부여 금지)
 ```
 
 - **📢 섹션 요약 비유**: [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)은 호텔 열쇠 시스템이다. 투숙객은 본인 방만 열 수 있고, 청소부는 모든 방을 열 수 있지만 금고는 못 열며, 지배인만 모든 것을 열 수 있다.
@@ -82,7 +82,7 @@ tags = ["studynote-database"]
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/">서비스 계정</a></strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)·배치 잡이 DB에 접근하는 비인간 사용자.
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 사이언티스트</strong>: Jupyter Notebook에서 대용량 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 직접 실행.
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> 커넥터</strong>: Debezium이 바이너리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽는 스트리밍 사용자.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Text-to-SQL로 자연어 → SQL 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Text-to-SQL로 자연어 -> SQL 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행.
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 DB 사용자는 자동 주문 봇이다. "지난 달 매출 상위 10개 제품 알려줘"라는 자연어를 SQL로 변환해서 DB에서 자동으로 결과를 가져온다.
 
@@ -116,17 +116,17 @@ Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하�
 
 ```text
 [전통 DB 사용자 — 단순·전문·프로그래머·DBA 4분류]
-    │
-    ▼
+    |
+    v
 [역할 기반 접근 제어 (RBAC) — 사용자 유형별 권한 집합]
-    │
-    ▼
+    |
+    v
 [서비스 계정 — 마이크로서비스·배치 비인간 사용자]
-    │
-    ▼
+    |
+    v
 [데이터 사이언티스트 — Notebook 기반 분석 사용자]
-    │
-    ▼
+    |
+    v
 [AI 에이전트 (Text-to-SQL) — 자연어 DB 조회 사용자]
 ```
 
@@ -142,7 +142,7 @@ Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하�
 
 **진행 상황**: 28 / 600
 
-← **이전**: [27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임](/knowledge-base/studynote/05_database/01_db_architecture_relational/027_database_designer/)
-**다음**: [29. 파일 시스템의 문제점 (File System Problems)](/knowledge-base/studynote/05_database/01_db_architecture_relational/029_file_system_problems/) →
+<- **이전**: [27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임](/knowledge-base/studynote/05_database/01_db_architecture_relational/027_database_designer/)
+**다음**: [29. 파일 시스템의 문제점 (File System Problems)](/knowledge-base/studynote/05_database/01_db_architecture_relational/029_file_system_problems/) ->
 
 ---

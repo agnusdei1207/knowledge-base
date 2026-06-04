@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [책임 연쇄](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) 패턴 ([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern)은 요청 처리자를 체인으로 연결해 누가 처리할지 런타임에 결정하게 만드는 행동 패턴이다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 필터링, 승인 절차처럼 여러 단계가 순차로 관여하는 흐름에서 호출자가 모든 처리자를 알 필요는 없다. 이 개념이 필요한 이유는 요청 처리 파이프라인을 유연하게 구성하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 처리 순서가 고정 코드에 박히고 새 단계 추가 시 중앙 로직을 계속 수정하게 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Chain    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Chain    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Chain   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Chain   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 파이프라인 | [책임 연쇄](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) 패턴 ([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[중앙 분기 처리] → [책임 연쇄 패턴] → [동적 파이프라인]
+[중앙 분기 처리] -> [책임 연쇄 패턴] -> [동적 파이프라인]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [책임 연쇄](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) 패턴 ([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern)은 문제가 생기면 담임, 부장, 교장 순서로 차례차례 전달하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 473 / 530
 
-← **이전**: [394. 상태 패턴 (State Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)
-**다음**: [396. 중재자 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/396_process/) →
+<- **이전**: [394. 상태 패턴 (State Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)
+**다음**: [396. 중재자 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/396_process/) ->
 
 ---

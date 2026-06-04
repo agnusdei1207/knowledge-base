@@ -19,20 +19,20 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    MDM 필요성                                         │
-├───────────────────────────────────────────────────────┤
-│  [MDM 없음]                                           │
-│   ERP: 고객ID=1001, 홍길동                           │
-│   CRM: 고객ID=A99, 길동 홍                           │
-│   DW: ???  → 같은 사람? 다른 사람?                   │
-│                                                       │
-│  [MDM 적용]                                           │
-│   MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"      │
-│   ERP: M001 → 홍길동 ✅                              │
-│   CRM: M001 → 홍길동 ✅                              │
-│   → 전사 일관된 고객 뷰                              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    MDM 필요성                                         |
++-------------------------------------------------------+
+|  [MDM 없음]                                           |
+|   ERP: 고객ID=1001, 홍길동                           |
+|   CRM: 고객ID=A99, 길동 홍                           |
+|   DW: ???  -> 같은 사람? 다른 사람?                   |
+|                                                       |
+|  [MDM 적용]                                           |
+|   MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"      |
+|   ERP: M001 -> 홍길동 ✅                              |
+|   CRM: M001 -> 홍길동 ✅                              |
+|   -> 전사 일관된 고객 뷰                              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MDM은 전사 <strong>주민등록 시스템</strong>이다. 이름이 조금씩 다르게 적힌 주민을 하나의 정확한 레코드로 통합한다.
@@ -94,17 +94,17 @@ MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance
 
 ```text
 [수동 데이터 정제 (엑셀, 2000s)]
-    │
-    ▼
+    |
+    v
 [MDM 솔루션 (Informatica·IBM, 2005~)]
-    │
-    ▼
+    |
+    v
 [클라우드 MDM (Reltio, 2015~)]
-    │
-    ▼
+    |
+    v
 [데이터 메시 + MDM (2020~) — 분산 소유권]
-    │
-    ▼
+    |
+    v
 [현재: AI MDM — 자동 매칭·병합·품질 보정]
 ```
 
@@ -119,7 +119,7 @@ MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance
 
 **진행 상황**: 122 / 600
 
-← **이전**: [121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/121_data_architecture_framework_zachman/)
-**다음**: [123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/123_reference_data_code_tables/) →
+<- **이전**: [121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/121_data_architecture_framework_zachman/)
+**다음**: [123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/123_reference_data_code_tables/) ->
 
 ---

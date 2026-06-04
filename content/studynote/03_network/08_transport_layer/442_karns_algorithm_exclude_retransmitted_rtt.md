@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [RTT, SRTT]
-    │
-    ▼
+    |
+    v
 [칸 알고리즘]
-    │
-    └──▶ [불필요한 재전송 해결 방안]
+    |
+    +---> [불필요한 재전송 해결 방안]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 칸 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 오염된 증거물에 대한 </strong>"법정 증거 능력을 원천 무효화"**하는 판사의 철퇴입니다. "출처가 확실하지 않은 영수증(재전송된 ACK)은 우리 동네 평균 속도(SRTT)를 계산하는 데 단 한 방울도 섞지 말고 즉각 폐기하라!"는 가차 없는 위생 관리법입니다.
@@ -53,24 +53,24 @@ tags = ["studynote-network"]
 - 길이 막혔을 때 스스로 숨을 꾹 참으며 대기 시간을 늘려주는 이 <strong>타이머 백오프(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Backoff)</strong> 기술 덕분에 라우터들은 한숨을 돌릴 수 있게 되었다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                칸 알고리즘(Karn's Algo)의 타임아웃 방어 시퀀스     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 평소 ] (현재 RTO 타이머 = 1초)                              │
- │   - 패킷 전송 -> ACK 무사 도착! -> RTT 측정해서 1.1초로 갱신함.      │
- │                                                             │
- │   [ 꽉 막힌 지옥 ]                                             │
- │   - 패킷 전송 -> 1초 지남 -> 타임아웃 펑! (패킷 잃어버렸어!)           │
- │   - Karn의 개입 1: "오케이 재전송 갈겨! 대신 RTO를 2초(2배)로 늘려 놔!"│
- │   - 2초 지남 -> 타임아웃 또 펑!                                  │
- │   - Karn의 개입 2: "또 재전송해! RTO는 4초(2배)로 또 늘려!!"        │
- │                                                             │
- │   [ 기적의 영수증 도착 ]                                         │
- │   - 재전송 후 드디어 ACK 도착!!                                   │
- │   - Karn의 철퇴: "야! 이거 첫 번째 건지 두 번째 건지 모르잖아!        │
- │                 얘는 RTT 평균 계산식에 절.대. 넣지 마!! 무시해!"    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                칸 알고리즘(Karn's Algo)의 타임아웃 방어 시퀀스     |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 평소 ] (현재 RTO 타이머 = 1초)                              |
+ |   - 패킷 전송 -> ACK 무사 도착! -> RTT 측정해서 1.1초로 갱신함.      |
+ |                                                             |
+ |   [ 꽉 막힌 지옥 ]                                             |
+ |   - 패킷 전송 -> 1초 지남 -> 타임아웃 펑! (패킷 잃어버렸어!)           |
+ |   - Karn의 개입 1: "오케이 재전송 갈겨! 대신 RTO를 2초(2배)로 늘려 놔!"|
+ |   - 2초 지남 -> 타임아웃 또 펑!                                  |
+ |   - Karn의 개입 2: "또 재전송해! RTO는 4초(2배)로 또 늘려!!"        |
+ |                                                             |
+ |   [ 기적의 영수증 도착 ]                                         |
+ |   - 재전송 후 드디어 ACK 도착!!                                   |
+ |   - Karn의 철퇴: "야! 이거 첫 번째 건지 두 번째 건지 모르잖아!        |
+ |                 얘는 RTT 평균 계산식에 절.대. 넣지 마!! 무시해!"    |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> 타이머 백오프(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Backoff)는 화난 여자친구에게 </strong>"다시 카톡 보내는 타이밍"**과 같습니다. 10분 만에 답장이 안 온다고 다시 카톡(재전송)을 보냅니다. 또 안 오면 이번엔 10분이 아니라 **20분을 참고<strong>, 또 안 오면 </strong>40분을 참고** 기다려주는 것이 둘 사이(네트워크)의 완전한 파국을 막는 고도의 눈치 게임(Karn's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))입니다.
@@ -131,12 +131,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: RTT, SRTT]
-    │
-    ▼
+    |
+    v
 [현재 개념: 칸 알고리즘]
-    │
-    ├──▶ [확장 A: 불필요한 재전송 해결 방안]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 불필요한 재전송 해결 방안]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), SRTT에서 출발해 현재 메커니즘을 정교화하고, 이후 [불필요한 재전송](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) 해결 방안와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 563 / 1120
 
-← **이전**: [441. RTT (Round Trip Time), SRTT (Smoothed RTT)](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)
-**다음**: [443. 불필요한 재전송 (Spurious Retransmission) 해결 방안](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) →
+<- **이전**: [441. RTT (Round Trip Time), SRTT (Smoothed RTT)](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)
+**다음**: [443. 불필요한 재전송 (Spurious Retransmission) 해결 방안](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) ->
 
 ---

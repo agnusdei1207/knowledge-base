@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VCS (Version Control System, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템)는 소프트웨어의 소스 코드·문서·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일의 변경 이력을 추적하고, 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 되돌리거나 여러 사람의 변경을 병합하는 협업 도구로, [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))의 핵심 구현체다.
-> 2. **가치**: Git이 지배적인 현대 DVCS (Distributed VCS) 시대에서 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 팀 협업 방식을 결정하는 핵심 아키텍처 결정이다. 단순한 코드 저장소를 넘어 "변경 제안→리뷰→병합→배포"의 전체 소프트웨어 개발 워크플로우를 조직한다.
+> 2. **가치**: Git이 지배적인 현대 DVCS (Distributed VCS) 시대에서 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 팀 협업 방식을 결정하는 핵심 아키텍처 결정이다. 단순한 코드 저장소를 넘어 "변경 제안->리뷰->병합->배포"의 전체 소프트웨어 개발 워크플로우를 조직한다.
 > 3. **판단 포인트**: CVCS (Centralized VCS, 중앙집중형)와 DVCS (Distributed VCS, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형)의 가장 큰 차이는 "오프라인 작업 가능성"과 "[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 여부"다. Git의 로컬 전체 이력 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 서버 장애 시에도 개발을 계속하고 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 가능하게 한다.
 
 ---
@@ -19,21 +19,21 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           VCS 유형 진화                                      │
-├──────────────────────────────────────────────────────────┤
-│ 1세대 LVCS  │ 로컬 버전 관리 (RCS, SCCS)                    │
-│ (Local)     │ 단일 파일 이력, 협업 불가                      │
-│─────────────┼──────────────────────────────────────────── │
-│ 2세대 CVCS  │ 중앙 서버 (SVN, CVS, Perforce)                │
-│ (Central)   │ 단일 서버, 오프라인 작업 불가, SPOF           │
-│─────────────┼──────────────────────────────────────────── │
-│ 3세대 DVCS  │ 분산 (Git, Mercurial)                         │
-│ (Distrib.)  │ 전체 이력 로컬 복제, 오프라인 작업, 빠른 분기  │
-└──────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           VCS 유형 진화                                      |
++----------------------------------------------------------+
+| 1세대 LVCS  | 로컬 버전 관리 (RCS, SCCS)                    |
+| (Local)     | 단일 파일 이력, 협업 불가                      |
+|-------------+-------------------------------------------- |
+| 2세대 CVCS  | 중앙 서버 (SVN, CVS, Perforce)                |
+| (Central)   | 단일 서버, 오프라인 작업 불가, SPOF           |
+|-------------+-------------------------------------------- |
+| 3세대 DVCS  | 분산 (Git, Mercurial)                         |
+| (Distrib.)  | 전체 이력 로컬 복제, 오프라인 작업, 빠른 분기  |
++----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: VCS의 진화는 은행 시스템의 진화다. 개인 장부(LVCS) → 은행 중앙 서버(CVCS) → 각자 완전한 사본을 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장(DVCS/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 유사). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장은 서버가 죽어도 거래가 계속된다.
+- **📢 섹션 요약 비유**: VCS의 진화는 은행 시스템의 진화다. 개인 장부(LVCS) -> 은행 중앙 서버(CVCS) -> 각자 완전한 사본을 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장(DVCS/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 유사). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장은 서버가 죽어도 거래가 계속된다.
 
 ---
 
@@ -43,9 +43,9 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [작업 디렉토리]  git add  [스테이징 영역]  git commit  [로컬 저장소]
-  수정된 파일  ─────────>  변경 준비 파일  ──────────>  커밋 이력
-                                                           │
-                                               git push    ▼
+  수정된 파일  --------->  변경 준비 파일  ---------->  커밋 이력
+                                                           |
+                                               git push    v
                                              [원격 저장소 (GitHub)]
 ```
 
@@ -53,17 +53,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 GitFlow:
-main ──────────────────────────────────── v1.0
-  │                                        │
-  └─ develop ──── feature/A ─── merge ────┘
-                └─ feature/B ─── merge
+main ------------------------------------ v1.0
+  |                                        |
+  +- develop ---- feature/A --- merge ----+
+                +- feature/B --- merge
 
 Trunk-Based:
-main ─── commit ─── commit ─── commit ─── (Feature Flag)
+main --- commit --- commit --- commit --- (Feature Flag)
   (매일 main에 직접 커밋, CI/CD 즉시)
 ```
 
-- **📢 섹션 요약 비유**: GitFlow는 장기 프로젝트의 단계별 관리(건축의 설계→시공→준공 단계), Trunk-Based는 지속적 현장 개선(매일 소량씩 개선하는 린 생산 방식)이다.
+- **📢 섹션 요약 비유**: GitFlow는 장기 프로젝트의 단계별 관리(건축의 설계->시공->준공 단계), Trunk-Based는 지속적 현장 개선(매일 소량씩 개선하는 린 생산 방식)이다.
 
 ---
 
@@ -92,7 +92,7 @@ git checkout -b feature/user-auth
 git add src/auth.py
 git commit -m "feat: JWT 인증 모듈 추가"
 
-# 원격에 푸시 → PR 생성 → 코드 리뷰 → 병합
+# 원격에 푸시 -> PR 생성 -> 코드 리뷰 -> 병합
 git push origin feature/user-auth
 
 # 병합 후 로컬 정리
@@ -135,17 +135,17 @@ GitOps는 VCS(Git)를 인프라 선언적 [설정](/knowledge-base/studynote/15_
 
 ```text
 [LVCS — 로컬 파일 이력 관리]
-    │
-    ▼
+    |
+    v
 [CVCS (SVN) — 중앙 서버 기반 협업]
-    │
-    ▼
+    |
+    v
 [DVCS (Git) — 분산 전체 이력, 경량 브랜치]
-    │
-    ▼
+    |
+    v
 [GitHub/GitLab — PR, CI/CD 통합 플랫폼]
-    │
-    ▼
+    |
+    v
 [GitOps — Git = 인프라 SSOT, 자동 배포]
 ```
 
@@ -161,7 +161,7 @@ GitOps는 VCS(Git)를 인프라 선언적 [설정](/knowledge-base/studynote/15_
 
 **진행 상황**: 26 / 973
 
-← **이전**: [25. 기준선 (Baseline) — 형상 관리의 공식 참조점](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)
-**다음**: [27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/) →
+<- **이전**: [25. 기준선 (Baseline) — 형상 관리의 공식 참조점](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)
+**다음**: [27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/) ->
 
 ---

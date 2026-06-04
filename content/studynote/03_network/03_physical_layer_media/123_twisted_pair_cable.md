@@ -58,14 +58,14 @@ tags = ["studynote-network"]
 
 이 다이어그램은 4쌍의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 내부에서 각 페어의 꼬임 간격(Pitch)이 어떻게 다르게 설계되어 내부 간섭을 막는지를 시각화한다.
 ```text
-┌───────────────── 4-Pair UTP 케이블 내부 레이아웃 ─────────────────┐
-│                                                                 │
-│ 페어 1 (주황) : ♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎ (매우 촘촘함 - 인치당 4회 꼬임)  │
-│ 페어 2 (녹색) : 〰︎〰︎〰︎〰︎〰︎〰︎〰︎〰︎ (조금 느슨함 - 인치당 3회 꼬임)     │
-│ 페어 3 (파랑) : ∿∿∿∿∿∿ (더 느슨함 - 인치당 2.5회 꼬임)            │
-│ 페어 4 (갈색) : ~~~~~ (가장 느슨함 - 인치당 2회 꼬임)              │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++----------------- 4-Pair UTP 케이블 내부 레이아웃 -----------------+
+|                                                                 |
+| 페어 1 (주황) : ♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎ (매우 촘촘함 - 인치당 4회 꼬임)  |
+| 페어 2 (녹색) : 〰︎〰︎〰︎〰︎〰︎〰︎〰︎〰︎ (조금 느슨함 - 인치당 3회 꼬임)     |
+| 페어 3 (파랑) : ∿∿∿∿∿∿ (더 느슨함 - 인치당 2.5회 꼬임)            |
+| 페어 4 (갈색) : ~~~~~ (가장 느슨함 - 인치당 2회 꼬임)              |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 이 구조의 핵심은 4쌍의 페어가 "서로 다른 주기로 꼬여 있다"는 점이다. 만약 모든 페어가 똑같은 촘촘함으로 꼬여 있다면, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 흐르며 발생하는 미세한 전자기장 곡선이 인접한 다른 페어의 굴곡과 완전히 맞물려 동기화되면서 치명적인 간섭([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))을 일으킨다. 각 페어의 꼬임 주기(Pitch)를 수학적으로 서로소 또는 불일치하게 엇갈리게 설계함으로써, 인접 페어 간 전자기장 결합 에너지가 누적되지 않고 상쇄되도록 유도한다. 이것이 단순한 구리선 8가닥이 기가비트 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 전송할 수 있는 숨겨진 마법이다.
 
@@ -108,12 +108,12 @@ tags = ["studynote-network"]
 
 이 다이어그램은 RJ-45 커넥터 결선 시 꼬임 풀림 구간에 따른 노이즈 취약점(Return Loss 병목)을 시각화한다.
 ```text
-[ 스위치 포트 ] ◀──(RJ-45)─── [ 꼬임 풀림 구간 ] ───── [ 정상 꼬임 유지 구간 ]
-                             │                 │
+[ 스위치 포트 ] <---(RJ-45)--- [ 꼬임 풀림 구간 ] ----- [ 정상 꼬임 유지 구간 ]
+                             |                 |
                       ❌ 안티패턴: 너무 김   ✅ 모범시공: 꼬임 유지
                       (노이즈 방벽 붕괴됨)   (외피 속까지 끝까지 꼬임)
-                           ▼                 ▼
-[ EMI 유입 ] ───────> 치명적 신호 왜곡      노이즈 0 상쇄 방어
+                           v                 v
+[ EMI 유입 ] -------> 치명적 신호 왜곡      노이즈 0 상쇄 방어
 ```
 이 흐름에서 알 수 있듯, 통신 인프라 장애의 80%는 케이블 중간이 아니라 양 끝단의 연결부(Termination Point)에서 발생한다. 최고급 Cat.6a 케이블을 사놓고도 커넥터 앞부분의 꼬임을 3cm 이상 풀어버리면 그 케이블의 통신 성능은 Cat.5 수준으로 추락한다. 꼬임 쌍선의 물리적 특성은 '꼬여있을 때만' 발현된다는 점을 기술사적 시공 지침으로 명심해야 한다.
 
@@ -154,12 +154,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 평행 2선식 케이블]
-    │
-    ▼
+    |
+    v
 [현재 개념: 꼬임 쌍선 케이블]
-    │
-    ├──▶ [확장 A: UTP]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: UTP]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 꼬임 쌍선 케이블는 평행 2선식 케이블에서 출발해 현재 메커니즘을 정교화하고, 이후 UTP와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -176,7 +176,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 244 / 1120
 
-← **이전**: [122. 평행 2선식 케이블 (Twin-lead cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/122_twin_lead_cable/)
-**다음**: [124. UTP (Unshielded Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) →
+<- **이전**: [122. 평행 2선식 케이블 (Twin-lead cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/122_twin_lead_cable/)
+**다음**: [124. UTP (Unshielded Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) ->
 
 ---

@@ -80,14 +80,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [기초 통계]
-    │
-    ▼
+    |
+    v
 [분포 분석]
-    │
-    ▼
+    |
+    v
 [상관 분석]
-    │
-    ▼
+    |
+    v
 [시각화 도구]
 ```
 
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 100 / 262
 
-← **이전**: [24. 실시간 OLAP (Real-time OLAP) — Apache Druid/Pinot/ClickHouse](/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/)
-**다음**: [추론 통계 (Inferential Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/101_inferential_statistics/) →
+<- **이전**: [24. 실시간 OLAP (Real-time OLAP) — Apache Druid/Pinot/ClickHouse](/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/)
+**다음**: [추론 통계 (Inferential Statistics)](/knowledge-base/studynote/16_bigdata/05_analysis/101_inferential_statistics/) ->
 
 ---

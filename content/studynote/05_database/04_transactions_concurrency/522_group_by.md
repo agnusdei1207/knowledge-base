@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 3요소 (원칙, 조직, 프로세스)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 실행 계획에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SQL text -> Planner -> Current concept -> Latency            │
-├──────────────────────────────────────────────────────────────┤
-│ Predicate -> path choice -> I/O cost                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SQL text -> Planner -> Current concept -> Latency            |
++--------------------------------------------------------------+
+| Predicate -> path choice -> I/O cost                         |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 3요소를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `동적 SQL 조립 런타임 질의 파서`·`정보 공학 방법론 데이터 주도적 생명 주기`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Parse -> estimate -> current concept -> execute              │
-├──────────────────────────────────────────────────────────────┤
-│ Plan quality -> CPU/I/O balance -> response                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Parse -> estimate -> current concept -> execute              |
++--------------------------------------------------------------+
+| Plan quality -> CPU/I/O balance -> response                  |
++--------------------------------------------------------------+
 ```
 
 핵심은 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 3요소를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [동적 SQL 조립 런타임 질의 파서]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 3요소]
-    │
-    ├──▶ [정보 공학 방법론 데이터 주도적 생명 주기]
-    └──▶ [EER 모델 서브타입 상속 특수화]
+    |
+    +---> [정보 공학 방법론 데이터 주도적 생명 주기]
+    +---> [EER 모델 서브타입 상속 특수화]
 ```
 
 동적 SQL 조립 런타임 질의 파서에서 출발한 논점이 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 3요소에서 핵심 판단으로 모이고, 이후 정보 공학 방법론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도적 생명 주기·[EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 522 / 600
 
-← **이전**: [521. 동적 SQL 조립 런타임 질의 파서 (Join)](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)
-**다음**: [523. 정보 공학 방법론 데이터 주도적 생명 주기 (Subquery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/523_subquery/) →
+<- **이전**: [521. 동적 SQL 조립 런타임 질의 파서 (Join)](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)
+**다음**: [523. 정보 공학 방법론 데이터 주도적 생명 주기 (Subquery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/523_subquery/) ->
 
 ---

@@ -33,11 +33,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 Application
-   ↓
+   v
 Guest OS
-   ↓  특권 명령 시도
+   v  특권 명령 시도
 Hypervisor
-   ↓
+   v
 Physical Hardware
 ```
 
@@ -81,11 +81,11 @@ Physical Hardware
 
 ```text
 게스트 운영체제
-   ↓
+   v
 하이퍼바이저
-   ↓
+   v
 이진 변환 / 트랩 처리
-   ↓
+   v
 하드웨어 보조 가상화
 ```
 
@@ -93,11 +93,11 @@ Physical Hardware
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 특권 명령 문제 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 난제
-2. 이진 변환(Binary Translation) → [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보
-3. [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 앤 에뮬레이트([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) and Emulate) → 가상 장치 처리
-4. VT-x / [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) → [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)의 확산
-5. 클라우드 인프라 → [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기반 데이터센터의 표준화
+1. 특권 명령 문제 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 난제
+2. 이진 변환(Binary Translation) -> [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보
+3. [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 앤 에뮬레이트([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) and Emulate) -> 가상 장치 처리
+4. VT-x / [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) -> [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)의 확산
+5. 클라우드 인프라 -> [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기반 데이터센터의 표준화
 
 ---
 
@@ -113,7 +113,7 @@ Physical Hardware
 
 **진행 상황**: 57 / 800
 
-← **이전**: [56. 호스트드 하이퍼바이저 (Hosted Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/056_hosted_hypervisor/)
-**다음**: [58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) →
+<- **이전**: [56. 호스트드 하이퍼바이저 (Hosted Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/056_hosted_hypervisor/)
+**다음**: [58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) ->
 
 ---

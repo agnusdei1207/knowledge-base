@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    ▼
+    |
+    v
 [HSRP]
-    │
-    └──▶ [VRRP]
+    |
+    +---> [VRRP]
 ```
 
 - **📢 섹션 요약 비유**: ** HSRP는 왕(Virtual IP)의 그림자 역할을 하는 **"카게무샤(대역)"** 2명을 세워두는 전술입니다. 1번 카게무샤가 암살당하면(장애), 대기하던 2번 카게무샤가 즉시 왕의 옷과 가면(가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 뒤집어쓰고 백성들([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 앞에 나타나 국정 혼란을 막아냅니다.
@@ -57,27 +57,27 @@ Active가 죽고 Standby가 권력을 잡았을 때 [스위치](/knowledge-base/
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1초 만에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 테이블을 B 쪽으로 확 꺾어버려 통신이 재개된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                HSRP 트래킹(Tracking) 기능의 기막힌 꼼수          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 인터넷 망 ]                                                 │
- │       ▲ (외부선)                                               │
- │   [ 라우터 A (Active) ] ======== [ 라우터 B (Standby) ]        │
- │       │                               │                     │
- │       └────── [ 스위치 ] ─────────────┘                     │
- │                     ▲ (가상 IP: .254)                          │
- │                 [ 직원 PC ]                                   │
- │                                                             │
- │   * 딜레마: 라우터 A 자체는 안 죽었는데, A의 "외부 인터넷선"이 포크레인에│
- │            끊겼다. A는 살았으니 권력을 B한테 안 넘기고 쥐고 있는다! │
- │            PC의 패킷은 A로 갔다가 인터넷을 못 가고 갇혀 죽는다(블랙홀).│
- │                                                             │
- │   * 해결 (Track): 관리자가 "야 A! 네 외부선(포트) 죽으면, 네 Priority │
- │                 점수 110점에서 강제로 20점 깎아버려(90점)!!" 라고 설정. │
- │   * 결과: 외부선 끊기자마자 A 점수가 90점이 되어 B(100점)보다 낮아짐.  │
- │          B가 Preempt로 즉각 쿠데타를 일으켜 권력을 뺏어와 통신 살려냄! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                HSRP 트래킹(Tracking) 기능의 기막힌 꼼수          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 인터넷 망 ]                                                 |
+ |       ^ (외부선)                                               |
+ |   [ 라우터 A (Active) ] ======== [ 라우터 B (Standby) ]        |
+ |       |                               |                     |
+ |       +------ [ 스위치 ] -------------+                     |
+ |                     ^ (가상 IP: .254)                          |
+ |                 [ 직원 PC ]                                   |
+ |                                                             |
+ |   * 딜레마: 라우터 A 자체는 안 죽었는데, A의 "외부 인터넷선"이 포크레인에|
+ |            끊겼다. A는 살았으니 권력을 B한테 안 넘기고 쥐고 있는다! |
+ |            PC의 패킷은 A로 갔다가 인터넷을 못 가고 갇혀 죽는다(블랙홀).|
+ |                                                             |
+ |   * 해결 (Track): 관리자가 "야 A! 네 외부선(포트) 죽으면, 네 Priority |
+ |                 점수 110점에서 강제로 20점 깎아버려(90점)!!" 라고 설정. |
+ |   * 결과: 외부선 끊기자마자 A 점수가 90점이 되어 B(100점)보다 낮아짐.  |
+ |          B가 Preempt로 즉각 쿠데타를 일으켜 권력을 뺏어와 통신 살려냄! |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. VRRP와 [GLBP](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) (동종 업계 라이벌)
@@ -142,12 +142,12 @@ HSRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    ▼
+    |
+    v
 [현재 개념: HSRP]
-    │
-    ├──▶ [확장 A: VRRP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: VRRP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 HSRP는 [WRED](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/) 혼잡 제어 꼬리 짜르기 제한에서 출발해 현재 메커니즘을 정교화하고, 이후 VRRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -164,7 +164,7 @@ HSRP는 [WRED](/knowledge-base/studynote/03_network/07_network_layer_routing/394
 
 **진행 상황**: 516 / 1120
 
-← **이전**: [394. WRED (Weighted Random Early Detection) 혼잡 제어 꼬리 짜르기 제한](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/)
-**다음**: [396. VRRP (Virtual Router Redundancy Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) →
+<- **이전**: [394. WRED (Weighted Random Early Detection) 혼잡 제어 꼬리 짜르기 제한](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/)
+**다음**: [396. VRRP (Virtual Router Redundancy Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) ->
 
 ---

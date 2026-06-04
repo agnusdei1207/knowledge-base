@@ -29,12 +29,12 @@ tags = ["studynote-ai"]
 이 선언 하나로 인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이라는 학문은 철학자의 몽상에서 벗어나, "인간을 감쪽같이 속일 수 있는 텍스트/비전 대화 시스템을 코드로 짜보자"라는 명확한 타겟([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))을 가진 컴퓨터 공학의 최대 격전지로 진입하게 되었다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)는 '복면가왕' 프로그램이다. 무대 뒤에서 노래 부르는 사람이 잘생겼는지, 춤을 잘 추는지(기계 내부의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리)는 하나도 중요하지 않다. 오직 스피커로 흘러나오는 '목소리(대화, Output)'만 듣고 판정단이 "우와 저건 완벽한 최고급 가수의 감성이야!"라고 속아 넘어가면, 그 사람이 사실 노래 부르는 로봇이라 할지라도 '가왕(인공지능)'으로 인정해 주겠다는 극단적인 결과주의 채점 방식이다.
@@ -46,28 +46,28 @@ tags = ["studynote-ai"]
 [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)를 완벽하게 통과하기 위해, 기계(Computer)는 단순히 사칙연산을 넘어 4가지의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 뇌 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Sub-system)을 동시에 탑재해야만 한다. (현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 조상격 아키텍처)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           튜링 테스트(Imitation Game)의 블라인드 평가 아키텍처 도해        │
-├──────────────────────────────────────────────────────────────┤
-│  [블라인드 벽 (벽 너머엔 누가 있는지 모름)]                              │
-│                                                              │
-│  [인간 심사관 (Interrogator)]                                   │
-│   * 타자기를 치며 묻는다: "너 어제 저녁 뭐 먹었어? 사랑이 뭐라고 생각해?"   │
-│   │                                                          │
-│   ├─▶ (채팅 텍스트 전송) ─▶ [방 A (진짜 인간)] "라면 먹었지. 사랑은 아픔이야." │
-│   │                                                          │
-│   └─▶ (채팅 텍스트 전송) ─▶ [방 B (컴퓨터 AI)]                       │
-│                                                              │
-│  [★ 방 B의 컴퓨터가 튜링 테스트를 통과하기 위해 필요한 4대 AI 모듈]        │
-│   1. 자연어 처리 (NLP): 심사관의 한글/영어 질문을 문법적으로 이해해야 함.   │
-│   2. 지식 표현 (Knowledge Rep.): 인터넷에서 읽은 백과사전 지식을 뇌에 저장. │
-│   3. 자동 추론 (Reasoning): "인간은 밤에 밥을 먹는다"는 지식으로 대답을 추론.│
-│   4. 머신 러닝 (Machine Learning): 대화 중 심사관의 패턴에 맞춰 알아서 적응.│
-│                                                              │
-│  [결과]: 방 B의 AI가 방 A의 인간과 똑같은 텐션으로 완벽한 대답을 뱉어서,     │
-│         심사관이 30% 이상의 확률로 "둘 중 누가 사람인지 모르겠다!"고 하면    │
-│         ─▶ 이 컴퓨터는 튜링 테스트 통과! (인공지능 인증 완료)            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           튜링 테스트(Imitation Game)의 블라인드 평가 아키텍처 도해        |
++--------------------------------------------------------------+
+|  [블라인드 벽 (벽 너머엔 누가 있는지 모름)]                              |
+|                                                              |
+|  [인간 심사관 (Interrogator)]                                   |
+|   * 타자기를 치며 묻는다: "너 어제 저녁 뭐 먹었어? 사랑이 뭐라고 생각해?"   |
+|   |                                                          |
+|   +--> (채팅 텍스트 전송) --> [방 A (진짜 인간)] "라면 먹었지. 사랑은 아픔이야." |
+|   |                                                          |
+|   +--> (채팅 텍스트 전송) --> [방 B (컴퓨터 AI)]                       |
+|                                                              |
+|  [★ 방 B의 컴퓨터가 튜링 테스트를 통과하기 위해 필요한 4대 AI 모듈]        |
+|   1. 자연어 처리 (NLP): 심사관의 한글/영어 질문을 문법적으로 이해해야 함.   |
+|   2. 지식 표현 (Knowledge Rep.): 인터넷에서 읽은 백과사전 지식을 뇌에 저장. |
+|   3. 자동 추론 (Reasoning): "인간은 밤에 밥을 먹는다"는 지식으로 대답을 추론.|
+|   4. 머신 러닝 (Machine Learning): 대화 중 심사관의 패턴에 맞춰 알아서 적응.|
+|                                                              |
+|  [결과]: 방 B의 AI가 방 A의 인간과 똑같은 텐션으로 완벽한 대답을 뱉어서,     |
+|         심사관이 30% 이상의 확률로 "둘 중 누가 사람인지 모르겠다!"고 하면    |
+|         --> 이 컴퓨터는 튜링 테스트 통과! (인공지능 인증 완료)            |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (행동주의적 지능 관점)**:
@@ -138,7 +138,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문제 표현] → [인공지능 (AI)의 정의와 튜링 테스트] → [학습 기반 지능과 결합]
+[문제 표현] -> [인공지능 (AI)의 정의와 튜링 테스트] -> [학습 기반 지능과 결합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 231 / 420
 
-← **이전**: [230. 디지털 트윈 보정 (Calibration) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)
-**다음**: [232. 약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)](/knowledge-base/studynote/10_ai/03_llm_nlp/232_weak_strong_ai_singularity/) →
+<- **이전**: [230. 디지털 트윈 보정 (Calibration) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)
+**다음**: [232. 약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)](/knowledge-base/studynote/10_ai/03_llm_nlp/232_weak_strong_ai_singularity/) ->
 
 ---

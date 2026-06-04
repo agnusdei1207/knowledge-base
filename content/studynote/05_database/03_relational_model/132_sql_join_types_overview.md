@@ -61,9 +61,9 @@ JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_norma
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Cartesian Product (이론)] → [INNER/OUTER JOIN (SQL-92)]
-    → [Lateral Join (SQL:2003)] → [Hash Join 최적화 (2010s)]
-    → [현재: Adaptive Join — DB가 런타임에 최적 알고리즘 선택]
+[Cartesian Product (이론)] -> [INNER/OUTER JOIN (SQL-92)]
+    -> [Lateral Join (SQL:2003)] -> [Hash Join 최적화 (2010s)]
+    -> [현재: Adaptive Join — DB가 런타임에 최적 알고리즘 선택]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -77,7 +77,7 @@ JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_norma
 
 **진행 상황**: 132 / 600
 
-← **이전**: [131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준](/knowledge-base/studynote/05_database/03_relational_model/131_sql_ansi_iso_standard/)
-**다음**: [133. SQL INNER JOIN - 교집합 결합의 기본](/knowledge-base/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/) →
+<- **이전**: [131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준](/knowledge-base/studynote/05_database/03_relational_model/131_sql_ansi_iso_standard/)
+**다음**: [133. SQL INNER JOIN - 교집합 결합의 기본](/knowledge-base/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/) ->
 
 ---

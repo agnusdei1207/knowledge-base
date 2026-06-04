@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP]
-    │
-    ▼
+    |
+    v
 [iBGP, eBGP, BGP Split Ho…]
-    │
-    └──▶ [BGP 속성]
+    |
+    +---> [BGP 속성]
 ```
 
 - **📢 섹션 요약 비유**: ** eBGP는 국경을 넘어 백신(인터넷 정보)을 수입해 오는 **"밀수선"**이고, iBGP 스플릿 호라이즌은 국내에 들어온 백신이 2차, 3차 감염(루프)을 일으키지 못하게 막는 **"접촉 금지법"**입니다. 이 법 때문에 국내 유통은 오직 수입상과 1:1 직거래(Full-Mesh)로만 이루어져야 합니다.
@@ -55,23 +55,23 @@ tags = ["studynote-network"]
 - **정보 전달 (스플릿 호라이즌 룰)**: **"iBGP 피어로부터 학습한 경로는 다른 iBGP 피어에게 절대 광고하지 않는다."** 이것이 알파이자 오메가다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                iBGP 스플릿 호라이즌과 풀 메시(Full-Mesh)의 비극       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 외국(구글) ] ── eBGP ──▶ [ 라우터 A ] (우리나라 관문)           │
- │                                                             │
- │   [ 라우터 A ] ── iBGP ──▶ [ 라우터 B ] ── iBGP ──▶ [ 라우터 C ] │
- │                                                             │
- │   * 멍청한 설계의 최후:                                         │
- │     1. A가 구글 정보를 eBGP로 받아 B에게 iBGP로 준다. (정상)       │
- │     2. B는 이 정보를 C에게 넘겨주지 않고 입을 닫는다. (스플릿 호라이즌)  │
- │     3. C는 인터넷 지도를 못 받아서 인터넷이 끊겨(블랙홀) 버린다!      │
- │                                                             │
- │   * 올바른 풀 메시(Full-Mesh) 설계:                              │
- │     A는 B와도 iBGP를 맺고, "반드시 C와도 별도의 iBGP"를 직접 맺어서  │
- │     지도를 일일이 떠먹여 줘야 한다!                              │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                iBGP 스플릿 호라이즌과 풀 메시(Full-Mesh)의 비극       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 외국(구글) ] -- eBGP ---> [ 라우터 A ] (우리나라 관문)           |
+ |                                                             |
+ |   [ 라우터 A ] -- iBGP ---> [ 라우터 B ] -- iBGP ---> [ 라우터 C ] |
+ |                                                             |
+ |   * 멍청한 설계의 최후:                                         |
+ |     1. A가 구글 정보를 eBGP로 받아 B에게 iBGP로 준다. (정상)       |
+ |     2. B는 이 정보를 C에게 넘겨주지 않고 입을 닫는다. (스플릿 호라이즌)  |
+ |     3. C는 인터넷 지도를 못 받아서 인터넷이 끊겨(블랙홀) 버린다!      |
+ |                                                             |
+ |   * 올바른 풀 메시(Full-Mesh) 설계:                              |
+ |     A는 B와도 iBGP를 맺고, "반드시 C와도 별도의 iBGP"를 직접 맺어서  |
+ |     지도를 일일이 떠먹여 줘야 한다!                              |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. Full-Mesh 구조의 확장성 문제
@@ -139,12 +139,12 @@ iBGP, eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/
 
 ```text
 [선행 개념: BGP]
-    │
-    ▼
+    |
+    v
 [현재 개념: iBGP, eBGP, BGP Split Ho…]
-    │
-    ├──▶ [확장 A: BGP 속성]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: BGP 속성]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 iBGP, eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 BGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ iBGP, eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/
 
 **진행 상황**: 487 / 1120
 
-← **이전**: [365. BGP (Border Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)
-**다음**: [367. BGP 속성(Attributes)](/knowledge-base/studynote/03_network/07_network_layer_routing/367_bgp_attributes_next_hop_as_path_local_pref_med/) →
+<- **이전**: [365. BGP (Border Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)
+**다음**: [367. BGP 속성(Attributes)](/knowledge-base/studynote/03_network/07_network_layer_routing/367_bgp_attributes_next_hop_as_path_local_pref_med/) ->
 
 ---

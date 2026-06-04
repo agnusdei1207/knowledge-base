@@ -34,15 +34,15 @@ tags = ["network"]
 
 ```text
 아날로그 음성
-   ↓
+   v
 압축기(Compressor)
-   ↓
+   v
 PCM (Pulse Code Modulation) 양자화
-   ↓
+   v
 전송
-   ↓
+   v
 신장기(Expander)
-   ↓
+   v
 복원된 음성
 ```
 
@@ -70,13 +70,13 @@ PCM (Pulse Code Modulation) 양자화
 
 ```text
 입력 신호
-   ↓
+   v
 μ-law / A-law 압축
-   ↓
+   v
 8비트 전송
-   ↓
+   v
 μ-law / A-law 신장
-   ↓
+   v
 음성 복원
 ```
 
@@ -122,13 +122,13 @@ G.711 같은 음성 코덱 표준은 이런 컴팬딩 특성을 묶어 전화망
 
 ```text
 음성 신호
-   ↓
+   v
 컴팬딩
-   ↓
+   v
 PCM (Pulse Code Modulation)
-   ↓
+   v
 G.711
-   ↓
+   v
 PSTN 음성망
 ```
 
@@ -138,13 +138,13 @@ PSTN 음성망
 
 ```text
 선형 양자화
-   ↓
+   v
 컴팬딩(Companding)
-   ↓
+   v
 μ-law / A-law
-   ↓
+   v
 음성 코덱 표준
-   ↓
+   v
 IP 기반 음성 서비스
 ```
 
@@ -162,7 +162,7 @@ IP 기반 음성 서비스
 
 **진행 상황**: 61 / 1120
 
-← **이전**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)
-**다음**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) →
+<- **이전**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)
+**다음**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) ->
 
 ---

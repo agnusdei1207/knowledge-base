@@ -30,33 +30,33 @@ tags = ["studynote-network"]
   2. **클라우드 화상 회의(UCaaS)의 폭발**: 기업 콜센터 장비를 브라우저 하나로 때우려는 제네시스(Genesys) 등 클라우드 통신사들의 니즈가 구글의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 배포와 완벽히 맞아떨어졌다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          WebRTC의 NAT 방화벽 뚫기 3단 마법: ICE (STUN / TURN) 융합 도해        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🖥️ [ 앨리스 (공유기 사설 IP 192.168.0.2) ] ── (벽) ── 💻 [ 밥 (사설 IP 10.0.0.5) ]│
-│   - 목표: WebRTC로 서로 P2P(다이렉트) 영상 통화하고 싶음!                   │
-│   - 💥 딜레마: 둘 다 가짜 주소(사설 IP)라서 서로를 인터넷 우주에서 절대 찾을 수 없음.│
-│                                                             │
-│        ======= [ 🌟 ICE 프레임워크 발동 (길 찾기 대작전) ] ======== │
-│                                                             │
-│ 1️⃣ [ STUN 서버 (내비게이션 아저씨) ] ◀──(물어봄)── 앨리스 / 밥               │
-│   - 앨리스: "아저씨, 내 진짜 밖에서 보이는 공인 IP(껍데기 주소) 뭐야?"         │
-│   - STUN: "어! 너네 집 대문 공인 IP는 203.0.113.1 이야! 이거 밥한테 알려줘!"  │
-│   - 성공: 앨리스와 밥이 각자 공인 IP를 카톡(Signaling 서버)으로 교환해서 P2P 직통 성공!│
-│                                                             │
-│ 2️⃣ [ 💥 Symmetric NAT (지옥의 방화벽) 등장 ]                          │
-│   - 회사 방화벽 왈: "어딜 STUN으로 꼼수 부려? P2P 직통 전파 무조건 차단해(Drop)!"│
-│                                                             │
-│ 3️⃣ [ TURN 서버 (비싼 용병 릴레이 서버) ] ◀──(다이렉트 포기하고 릴레이)──       │
-│   - 앨리스: "망했어! 다이렉트(P2P) 안 뚫려! TURN 서버야 네가 그냥 우리 둘 가운데 │
-│            서서 영상 패킷 받아서 100% 다 토스(Bypass) 좀 해줘 ㅠㅠ"           │
-│                                                             │
-│ 🌟 아키텍트 분석: WebRTC의 P2P는 환상이다. 실무의 30%는 방화벽에 막혀 P2P가 깨진다.│
-│   그래서 ICE(구멍 뚫기) 엔진은 일단 공짜인 'STUN'으로 다이렉트 직통(P2P)을 시도하고,│
-│   실패하는 순간 0.1초 만에 비싼 클라우드 트래픽 요금을 태우는 'TURN(릴레이)' 서버로 │
-│   우회시켜 100% 통화 성공을 보장하는 우아한 생존(Resiliency) 융합 머신이다.      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          WebRTC의 NAT 방화벽 뚫기 3단 마법: ICE (STUN / TURN) 융합 도해        |
++-------------------------------------------------------------+
+|                                                             |
+| 🖥️ [ 앨리스 (공유기 사설 IP 192.168.0.2) ] -- (벽) -- 💻 [ 밥 (사설 IP 10.0.0.5) ]|
+|   - 목표: WebRTC로 서로 P2P(다이렉트) 영상 통화하고 싶음!                   |
+|   - 💥 딜레마: 둘 다 가짜 주소(사설 IP)라서 서로를 인터넷 우주에서 절대 찾을 수 없음.|
+|                                                             |
+|        ======= [ 🌟 ICE 프레임워크 발동 (길 찾기 대작전) ] ======== |
+|                                                             |
+| 1️⃣ [ STUN 서버 (내비게이션 아저씨) ] <---(물어봄)-- 앨리스 / 밥               |
+|   - 앨리스: "아저씨, 내 진짜 밖에서 보이는 공인 IP(껍데기 주소) 뭐야?"         |
+|   - STUN: "어! 너네 집 대문 공인 IP는 203.0.113.1 이야! 이거 밥한테 알려줘!"  |
+|   - 성공: 앨리스와 밥이 각자 공인 IP를 카톡(Signaling 서버)으로 교환해서 P2P 직통 성공!|
+|                                                             |
+| 2️⃣ [ 💥 Symmetric NAT (지옥의 방화벽) 등장 ]                          |
+|   - 회사 방화벽 왈: "어딜 STUN으로 꼼수 부려? P2P 직통 전파 무조건 차단해(Drop)!"|
+|                                                             |
+| 3️⃣ [ TURN 서버 (비싼 용병 릴레이 서버) ] <---(다이렉트 포기하고 릴레이)--       |
+|   - 앨리스: "망했어! 다이렉트(P2P) 안 뚫려! TURN 서버야 네가 그냥 우리 둘 가운데 |
+|            서서 영상 패킷 받아서 100% 다 토스(Bypass) 좀 해줘 ㅠㅠ"           |
+|                                                             |
+| 🌟 아키텍트 분석: WebRTC의 P2P는 환상이다. 실무의 30%는 방화벽에 막혀 P2P가 깨진다.|
+|   그래서 ICE(구멍 뚫기) 엔진은 일단 공짜인 'STUN'으로 다이렉트 직통(P2P)을 시도하고,|
+|   실패하는 순간 0.1초 만에 비싼 클라우드 트래픽 요금을 태우는 'TURN(릴레이)' 서버로 |
+|   우회시켜 100% 통화 성공을 보장하는 우아한 생존(Resiliency) 융합 머신이다.      |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "WebRTC는 서버 안 거친다면서 왜 백엔드에 서버를 세팅해야 하나요?"라는 주니어의 무지를 박살 내는 도면이다. 자바스크립트는 브라우저(로컬) 안에서만 돈다. 앨리스가 자기 컴퓨터 마이크를 켰지만, 저기 미국에 있는 밥의 브라우저까지 무슨 주소로 어떻게 뚫고 갈 것인가? 1차로 서로의 스펙(비디오 해상도 등)을 주고받을 <strong>시그널링(Signaling) 서버(주로 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/">웹소켓</a> Node.js)</strong>가 필요하고, 2차로 공유기 주소를 까발려 줄 **STUN 서버**, 마지막으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 너무 빡셀 때 트래픽을 중계해 줄 <strong>TURN 서버</strong>가 무조건 백엔드 인프라에 삼위일체로 세팅되어 있어야만 비로소 "브라우저 화면에 마법처럼 친구 얼굴이 뜨는" 기적이 연성된다.
@@ -97,11 +97,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPTV 멀티캐스트 전송]
-    │
-    ▼
+    |
+    v
 [WebRTC]
-    │
-    └──▶ [CDN]
+    |
+    +---> [CDN]
 ```
 
 - **📢 섹션 요약 비유**: P2P로 10명 화상회의([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))를 하는 건, 내(컴퓨터)가 입으로 똑같은 이야기를 9명 친구한테 돌아가면서 <strong>'9번 반복해서 크게 외치는 짓(업로드 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭발)'</strong>입니다. 숨이 차서 죽습니다. <strong>SFU 아키텍처</strong>는 내 앞에 <strong>'고성능 확성기 마이크(클라우드 릴레이 서버)'</strong>를 하나 딱 둔 겁니다. 나는 작게 한 번만(1개 영상) 말해도, 마이크(SFU 서버)가 알아서 9명한테 미친 듯이 확성([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 시켜주니까 내 목(CPU)이 전혀 아프지 않은 다자간 회의의 꿀템입니다.
@@ -134,30 +134,30 @@ WebRTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
    WebRTC는 밑바닥이 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)([SCTP](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/)) 기반이다. 내가 쏜 키보드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1개가 중간에 유실돼도? "어차피 0.1초 전 낡은 좌표 버려! 다음 들어오는 최신 좌표 그냥 그려!" 라며 쿨하게 재전송을 포기(Unreliable Mode)하고 미친듯한 서브 세컨드(Sub-second, 0.1초 미만) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율로 게임을 렌더링해 버리는, 실시간 게임과 로봇 원격 제어망의 궁극적 해커 무기가 된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 다자간 줌(Zoom) 화상 회의를 지탱하는 SFU 융합 엔진 도면 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 👨‍💻 [ A (나) ] : 1080p 고화질로 쏘고 싶음. 근데 폰으로 보는 놈도 있네?         │
-  │     │                                                       │
-  │     │ 🎥 Simulcast (시뮬캐스트) 발동: 내 CPU가 아예 3개의 화질로 찢어서 쏨!│
-  │     ├──▶ (High: 1080p 영상) ────────┐                         │
-  │     ├──▶ (Mid : 720p 영상)  ────────┼─────┐                   │
-  │     └──▶ (Low : 360p 영상)  ────────┘     │                   │
-  │                                           ▼                   │
-  │        ======= [ ☁️ 클라우드 SFU (Selective Forwarding Unit) ] ========│
-  │                                           │                   │
-  │   - 🧠 지능형 라우팅: "오 A가 3개 화질을 묶어 던졌네! 받을 놈들 스펙 볼까?"     │
-  │   - "B는 빵빵한 PC 랜선이네? ➔ (A의 1080p 고화질 가닥만 라우팅 쓱~)"       │
-  │   - "C는 산속 LTE 구린 폰이네? ➔ (A의 360p 저화질 가닥만 라우팅 쓱~)"       │
-  │                                           │                   │
-  │ 💻 [ B (PC) ] ◀── (1080p) ──┘           └── (360p) ──▶ 📱 [ C (폰) ]│
-  │                                                             │
-  │ 🌟 아키텍트의 극찬: 중앙 서버(SFU)가 동영상을 비싸게 뜯고 재압축(인코딩)하는 미친 │
-  │   짓을 1도 안 한다! A가 애초에 3가닥(시뮬캐스트)으로 쏴주면, SFU는 그냥 받는  │
-  │   놈들 통신망 크기에 맞춰서 가위로 툭툭 '선택적(Selective)'으로 스위칭해서   │
-  │   뿌려만 주는 궁극의 저비용 고성능(Low CPU, High Routing) 아키텍처다.      │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 다자간 줌(Zoom) 화상 회의를 지탱하는 SFU 융합 엔진 도면 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 👨‍💻 [ A (나) ] : 1080p 고화질로 쏘고 싶음. 근데 폰으로 보는 놈도 있네?         |
+  |     |                                                       |
+  |     | 🎥 Simulcast (시뮬캐스트) 발동: 내 CPU가 아예 3개의 화질로 찢어서 쏨!|
+  |     +---> (High: 1080p 영상) --------+                         |
+  |     +---> (Mid : 720p 영상)  --------+-----+                   |
+  |     +---> (Low : 360p 영상)  --------+     |                   |
+  |                                           v                   |
+  |        ======= [ ☁️ 클라우드 SFU (Selective Forwarding Unit) ] ========|
+  |                                           |                   |
+  |   - 🧠 지능형 라우팅: "오 A가 3개 화질을 묶어 던졌네! 받을 놈들 스펙 볼까?"     |
+  |   - "B는 빵빵한 PC 랜선이네? ➔ (A의 1080p 고화질 가닥만 라우팅 쓱~)"       |
+  |   - "C는 산속 LTE 구린 폰이네? ➔ (A의 360p 저화질 가닥만 라우팅 쓱~)"       |
+  |                                           |                   |
+  | 💻 [ B (PC) ] <--- (1080p) --+           +-- (360p) ---> 📱 [ C (폰) ]|
+  |                                                             |
+  | 🌟 아키텍트의 극찬: 중앙 서버(SFU)가 동영상을 비싸게 뜯고 재압축(인코딩)하는 미친 |
+  |   짓을 1도 안 한다! A가 애초에 3가닥(시뮬캐스트)으로 쏴주면, SFU는 그냥 받는  |
+  |   놈들 통신망 크기에 맞춰서 가위로 툭툭 '선택적(Selective)'으로 스위칭해서   |
+  |   뿌려만 주는 궁극의 저비용 고성능(Low CPU, High Routing) 아키텍처다.      |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "줌(Zoom)은 사람 100명이 들어와도 왜 서버가 안 터지고 내 폰은 안 끊기죠?"를 묻는 뼈대인 **SFU + Simulcast (시뮬캐스트)** 융합 방어망이다. 과거 MCU 방식은 서버가 100명의 영상을 하나로 합치느라 서버 CPU가 녹아내렸다. SFU는 그냥 복사기(L7 라우터)다. A가 화질 3개(고/중/저) 버전을 한방에 서버로 쏴버리면, 서버는 인코딩 짬처리를 안 하고, 그냥 C의 네트워크가 구리면 제일 가벼운 360p 파이프라인 밸브만 탁! 열어주고 나머진 끊어버려 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Lag)을 박살 낸다. 화상 회의 클라우드 플랫폼이 인프라 비용(CAPEX)을 90% 깎아내면서도 화질의 반응성을 잡은 미친 소프트웨어 공학의 승리다.
@@ -209,12 +209,12 @@ WebRTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ```text
 [선행 개념: IPTV 멀티캐스트 전송]
-    │
-    ▼
+    |
+    v
 [현재 개념: WebRTC]
-    │
-    ├──▶ [확장 A: CDN]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: CDN]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 WebRTC는 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송에서 출발해 현재 메커니즘을 정교화하고, 이후 CDN와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -231,7 +231,7 @@ WebRTC는 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network
 
 **진행 상황**: 626 / 1120
 
-← **이전**: [504. IPTV 멀티캐스트 (IGMP, PIM) 전송](/knowledge-base/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/)
-**다음**: [506. CDN (Content Delivery/Distribution Network)](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) →
+<- **이전**: [504. IPTV 멀티캐스트 (IGMP, PIM) 전송](/knowledge-base/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/)
+**다음**: [506. CDN (Content Delivery/Distribution Network)](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) ->
 
 ---

@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)과 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) and [Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 긴 비즈니스 흐름을 여러 로컬 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 보상 동작으로 완결하는 방식이다. MSA에서는 전통적 2단계 커밋이 성능과 결합 측면에서 부담이 커져 다른 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 전략이 필요해졌다. 이 개념이 필요한 이유는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 업무 흐름을 보상 가능하게 설계하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 일부 단계만 성공한 채 남아 주문, 결제, 재고 상태가 불일치하게 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    Saga    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    Saga    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) | [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)과 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) and [Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[분산 동기 트랜잭션] → [사가 패턴] → [보상 중심 업무 흐름]
+[분산 동기 트랜잭션] -> [사가 패턴] -> [보상 중심 업무 흐름]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)과 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) and [Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))은 친구들과 릴레이 심부름을 하다가 누가 못 하면 앞사람부터 차례로 되돌리는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 451 / 530
 
-← **이전**: [372. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/)
-**다음**: [374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/) →
+<- **이전**: [372. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/372_service_mesh_summary/)
+**다음**: [374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/374_ddd_bounded_context_aggregate/) ->
 
 ---

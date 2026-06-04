@@ -27,12 +27,12 @@ tags = ["design_supervision"]
 
 ```text
 [계획 부재 시: 무차별 평탄화]
-(한정된 인력) ──분산배치──> [저위험 영역 검토] (시간 낭비)
+(한정된 인력) --분산배치--> [저위험 영역 검토] (시간 낭비)
                        => [고위험 영역 (DB 성능) >>> 병목/방치] => 치명적 장애 통과
 
 [리스크 기반 감리 계획 (Risk-based Audit)]
-(예비 조사 분석) ──식별──> 리스크 High (예: 트랜잭션, 보안) ──집중투입──> [심층 검증]
-                       └> 리스크 Low  (예: 단순 UI)        ──샘플링──> [경량 검증]
+(예비 조사 분석) --식별--> 리스크 High (예: 트랜잭션, 보안) --집중투입--> [심층 검증]
+                       +> 리스크 Low  (예: 단순 UI)        --샘플링--> [경량 검증]
 ```
 
 이 흐름의 핵심은 감리 자원의 '비대칭적 할당(Asymmetric Allocation)'이다. 모든 화면과 테이블을 똑같이 1시간씩 검토하는 것은 낭비다. 계획 수립 단계에서 사업의 뼈대가 되는 코어 뱅킹(Core Banking) 로직이나 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행(Migration) 구간을 고위험으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 이곳에 시니어 아키텍트와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 전문가를 집중 투입하여 병목을 깊게 파고들어야 한다. 실무에서는 이 계획의 성패가 감리 보고서의 깊이(Depth)와 직결된다.
@@ -57,11 +57,11 @@ tags = ["design_supervision"]
 
 ```text
 [입력 데이터] (RFP, 인터뷰, 전월 주간보고서)
-      ↓ (분석 및 정제)
-[리스크 프로파일링] ─(높은 우선순위)─> [핵심 감리 주안점 도출]
-      ↓ (자원 매핑)                            ↓ (검증 도구 선택)
-[영역별 감리원 할당] <══(상호 결합)══> [자동화 진단 툴 배정 (SAST, APM)]
-      ↓ (스케줄링)
+      v (분석 및 정제)
+[리스크 프로파일링] -(높은 우선순위)-> [핵심 감리 주안점 도출]
+      v (자원 매핑)                            v (검증 도구 선택)
+[영역별 감리원 할당] <--(상호 결합)--> [자동화 진단 툴 배정 (SAST, APM)]
+      v (스케줄링)
 [실지 감리 스케줄 보드 (Gantt Chart)] => [감리 계획서 승인 및 착수 회의]
 ```
 
@@ -87,21 +87,21 @@ tags = ["design_supervision"]
 이 매트릭스는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 강도와 시스템 복잡도에 따라 감리 자원을 어떻게 배치하는 것이 최적인지를 보여주는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 매트릭스다.
 
 ```text
-┌──────────────┬────────────────────────┬────────────────────────┐
-│ 리스크/영향도│ 복잡도 Low (단순 UI/CRUD)│ 복잡도 High (분산/코어) │
-├──────────────┼────────────────────────┼────────────────────────┤
-│ High (높음)  │ 자동화 툴 집중 스캐닝  │ 시니어 감리원 밀착 심층 분석 │
-│              │ (웹 접근성, 시큐어코딩)│ (락 경합, 데이터 정합성) │
-├──────────────┼────────────────────────┼────────────────────────┤
-│ Low (낮음)   │ 통계적 샘플링 (10% 추출)│ 구조적 패턴 점검 (경량) │
-│              │ (주니어 감리원 할당)   │ (코드 리뷰 생략)        │
-└──────────────┴────────────────────────┴────────────────────────┘
++--------------+------------------------+------------------------+
+| 리스크/영향도| 복잡도 Low (단순 UI/CRUD)| 복잡도 High (분산/코어) |
++--------------+------------------------+------------------------+
+| High (높음)  | 자동화 툴 집중 스캐닝  | 시니어 감리원 밀착 심층 분석 |
+|              | (웹 접근성, 시큐어코딩)| (락 경합, 데이터 정합성) |
++--------------+------------------------+------------------------+
+| Low (낮음)   | 통계적 샘플링 (10% 추출)| 구조적 패턴 점검 (경량) |
+|              | (주니어 감리원 할당)   | (코드 리뷰 생략)        |
++--------------+------------------------+------------------------+
 ```
 
 이 표에서 가장 주의해야 할 영역은 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) High / 복잡도 High' 영역이다. 이곳은 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 발생하는 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이나, 외부 기관 연계망([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)) 구간이다. 이곳에 주니어 감리원이나 단순 문서 검토를 계획하면 시스템이 붕괴하는 원인을 잡을 수 없다. 반면 '단순 CRUD 화면' 같은 Low/Low 영역은 자동화 진단 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)를 활용하거나 주니어 감리원이 통계적 샘플링으로 빠르게 훑고 지나가도록 계획하여 감리 오버헤드를 낮추는 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 써야 한다.
 
 **과목 융합 관점**:
-- <strong>프로젝트 관리 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/">PMBOK</a>) 연계</strong>: 감리 계획 수립은 PMBOK의 '위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))' 프로세스인 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) → 정성적/정량적 분석 → 대응 계획 수립의 사이클을 정확히 차용한다. 감리원은 프로젝트의 이슈 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Issue [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))를 분석하여 감리 계획의 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(Schedule [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 조정한다.
+- <strong>프로젝트 관리 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/">PMBOK</a>) 연계</strong>: 감리 계획 수립은 PMBOK의 '위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))' 프로세스인 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) -> 정성적/정량적 분석 -> 대응 계획 수립의 사이클을 정확히 차용한다. 감리원은 프로젝트의 이슈 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Issue [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))를 분석하여 감리 계획의 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(Schedule [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 조정한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a> (품질 보증) 연계</strong>: 감리 주안점을 도출할 때 ISO/IEC 25010 (기능성, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/) 등 8대 품질 특성) 프레임워크를 기반으로 각 특성별로 점검할 세부 지표를 계획서에 매핑하여 누락 없는 전방위 품질(QA) 커버리지를 구성한다.
 
 📢 **섹션 요약 비유**: 수능 시험 공부 계획을 짤 때, 1단원부터 무식하게 똑같은 시간으로 정독하는 것(전통적 계획)이 아니라, 내가 자주 틀리는 취약 과목과 배점이 높은 킬러 문항(고위험/고복잡도) 영역에 공부 시간의 80%를 몰아 쓰는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 학습 플래너([위험 기반 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/) 계획)와 같습니다.
@@ -127,12 +127,12 @@ tags = ["design_supervision"]
 이 의사결정 트리는 예비조사의 입력값에 따라 감리 총괄이 계획을 동적으로 변경하는 의사결정 라우팅을 보여준다.
 
 ```text
-[예비조사 시그널 수집] ──(리스크 분석)
-                         ├─> (일정 지연 심각) => [실지 가동 테스트 비중 ⇧, 문서 검토 ⇩]
-                         │
-                         ├─> (보안/데이터 위협) => [해당 도메인 특급 기술자 차출 및 툴 세팅]
-                         │
-                         └─> (요구사항 분쟁 중) => [과업대비표/RTM 추적성 검증에 인력 50% All-in]
+[예비조사 시그널 수집] --(리스크 분석)
+                         +-> (일정 지연 심각) => [실지 가동 테스트 비중 ⇧, 문서 검토 ⇩]
+                         |
+                         +-> (보안/데이터 위협) => [해당 도메인 특급 기술자 차출 및 툴 세팅]
+                         |
+                         +-> (요구사항 분쟁 중) => [과업대비표/RTM 추적성 검증에 인력 50% All-in]
 ```
 
 이 플로우의 핵심은 감리 계획이 템플릿(문서 껍데기)을 채우는 작업이 아니라, 시스템의 '가장 아픈 곳'을 정밀 타격하기 위해 포메이션(Formation)을 짜는 동적 반응 체계라는 점이다. 실무 감리 총괄의 역량은 이 계획 단계에서 사업의 지뢰밭을 얼마나 정확히 예측하고 방어막(감리 인력)을 두텁게 쌓느냐에 달려 있다.
@@ -170,21 +170,21 @@ tags = ["design_supervision"]
 
 ```text
 [감리 요청 — 발주자·감리 의뢰, 감리 범위·목적 정의]
-    │
-    ▼
+    |
+    v
 [예비조사 (Preliminary Survey) — 개발 계획·산출물·리스크 사전 파악]
-    │
-    ▼
+    |
+    v
 [감리 계획 수립 (Audit Planning) — 일정·인력·방법론·점검 항목 확정]
-    │
-    ▼
+    |
+    v
 [감리 수행 — 인터뷰·문서 검토·테스트·현장 확인]
-    │
-    ▼
+    |
+    v
 [감리 보고서 — 결함·개선 권고·사후 조치 계획 작성 및 제출]
 ```
 
-이 흐름은 감리 요청에서 출발해 예비조사로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 파악하고, 계획 수립→수행→보고서 제출로 이어지는 IT 감리 생애 주기의 전 과정을 보여주며, 계획 수립이 성공적 감리의 품질 기반임을 강조한다.
+이 흐름은 감리 요청에서 출발해 예비조사로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 파악하고, 계획 수립->수행->보고서 제출로 이어지는 IT 감리 생애 주기의 전 과정을 보여주며, 계획 수립이 성공적 감리의 품질 기반임을 강조한다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -198,7 +198,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 15 / 530
 
-← **이전**: [013. 확인 감리 (Follow-up Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/)
-**다음**: [15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) →
+<- **이전**: [013. 확인 감리 (Follow-up Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/)
+**다음**: [15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) ->
 
 ---

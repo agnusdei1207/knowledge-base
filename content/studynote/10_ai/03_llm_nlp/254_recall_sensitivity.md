@@ -38,12 +38,12 @@ $$\text{Recall} = \frac{TP}{TP + FN}$$
 이처럼 <strong>FN 비용이 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> 비용보다 압도적으로 큰 경우</strong> [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)을 최우선 지표로 삼는다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 "그물로 고기를 얼마나 많이 건졌나"다. 그물 구멍이 커서 고기를 놓치면(FN) 큰일 나는 상황에서 중요하다.
@@ -55,20 +55,20 @@ $$\text{Recall} = \frac{TP}{TP + FN}$$
 ### [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))과 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 위치
 
 ```
-              ┌────────────────────────────────────────────────┐
-              │           예측값 (Predicted)                   │
-              │       Positive         Negative                │
- ┌────────────┼───────────────────────┬────────────────────────┤
- │ 실  Pos    │  TP (True Positive)   │  FN (False Negative)   │
- │ 제         │  ← 재현율 분자        │  ← 재현율 분모에 포함  │
- │ 값 ────────┼───────────────────────┼────────────────────────┤
- │ (A Neg    │  FP (False Positive)  │  TN (True Negative)    │
- │  ct)       │                       │                        │
- └────────────┴───────────────────────┴────────────────────────┘
+              +------------------------------------------------+
+              |           예측값 (Predicted)                   |
+              |       Positive         Negative                |
+ +------------+-----------------------+------------------------+
+ | 실  Pos    |  TP (True Positive)   |  FN (False Negative)   |
+ | 제         |  <- 재현율 분자        |  <- 재현율 분모에 포함  |
+ | 값 --------+-----------------------+------------------------+
+ | (A Neg    |  FP (False Positive)  |  TN (True Negative)    |
+ |  ct)       |                       |                        |
+ +------------+-----------------------+------------------------+
 
-  Recall(재현율) = TP / (TP + FN)     ← 행 기준 (실제 Pos 행)
-  Precision(정밀도) = TP / (TP + FP)  ← 열 기준 (예측 Pos 열)
-  Specificity(특이도) = TN / (TN + FP) ← 실제 Neg 행
+  Recall(재현율) = TP / (TP + FN)     <- 행 기준 (실제 Pos 행)
+  Precision(정밀도) = TP / (TP + FP)  <- 열 기준 (예측 Pos 열)
+  Specificity(특이도) = TN / (TN + FP) <- 실제 Neg 행
 ```
 
 ### 특이도(Specificity)와 비교
@@ -89,14 +89,14 @@ $$\text{Specificity} = \frac{TN}{TN + [FP](/knowledge-base/studynote/12_it_manag
 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 내부적으로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값을 출력하고, 임계값(Threshold)에 따라 Positive/Negative를 결정한다.
 
 ```
- 임계값 낮춤  ──────────────────────────►  임계값 높임
+ 임계값 낮춤  --------------------------►  임계값 높임
 
- 재현율 ↑  ◄────────── Threshold ──────────► 재현율 ↓
- 정밀도 ↓  ◄────────── 조정 효과 ──────────► 정밀도 ↑
+ 재현율 ^  ◄---------- Threshold ----------► 재현율 v
+ 정밀도 v  ◄---------- 조정 효과 ----------► 정밀도 ^
 ```
 
-- 임계값을 0.3으로 낮추면: 더 많은 샘플을 Positive로 예측 → FN 감소 → Recall 상승
-- 임계값을 0.7로 높이면: Positive 예측이 신중해짐 → [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감소 → [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 상승
+- 임계값을 0.3으로 낮추면: 더 많은 샘플을 Positive로 예측 -> FN 감소 -> Recall 상승
+- 임계값을 0.7로 높이면: Positive 예측이 신중해짐 -> [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감소 -> [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 상승
 
 - **📢 섹션 요약 비유**: 공항 보안 검색대에서 "조금이라도 의심되면 검사"하면 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 높아지지만 멀쩡한 여행자도 많이 잡아내게([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 된다.
 
@@ -110,24 +110,24 @@ $$\text{Specificity} = \frac{TN}{TN + [FP](/knowledge-base/studynote/12_it_manag
 
 ```
   Precision
-     1.0 ┤ ●
-         │  ╲
-     0.8 ┤   ╲
-         │    ╲
-     0.6 ┤     ╲  (이상적 PR 곡선은
-         │      ╲  오른쪽 위로 볼록)
-     0.4 ┤       ╲
-         │        ●
-     0.0 ┼────────────── Recall
+     1.0 + ●
+         |  ╲
+     0.8 +   ╲
+         |    ╲
+     0.6 +     ╲  (이상적 PR 곡선은
+         |      ╲  오른쪽 위로 볼록)
+     0.4 +       ╲
+         |        ●
+     0.0 +-------------- Recall
          0.0  0.5  1.0
 ```
 
 | 상황 | 우선 지표 | 이유 |
 |:---|:---|:---|
-| 암 진단 스크리닝 | Recall ↑ | FN 비용이 치명적 |
-| 스팸 필터 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ↑ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(정상 메일 차단)가 불편 |
-| 신용카드 사기 | Recall ↑ | 사기 놓치는 것이 더 위험 |
-| 콘텐츠 추천 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ↑ | 관련 없는 추천이 신뢰 저하 |
+| 암 진단 스크리닝 | Recall ^ | FN 비용이 치명적 |
+| 스팸 필터 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ^ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(정상 메일 차단)가 불편 |
+| 신용카드 사기 | Recall ^ | 사기 놓치는 것이 더 위험 |
+| 콘텐츠 추천 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ^ | 관련 없는 추천이 신뢰 저하 |
 
 ### F1 스코어와의 연결
 
@@ -145,8 +145,8 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 
 암 검진 AI를 설계할 때 모델 임계값 결정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):
 
-1. **1차 스크리닝**: Recall을 최대한 높여 잠재 환자를 모두 탐지 (임계값 ↓)
-2. **2차 확진**: 1차 통과자 중 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 높은 모델로 재검사 (임계값 ↑)
+1. **1차 스크리닝**: Recall을 최대한 높여 잠재 환자를 모두 탐지 (임계값 v)
+2. **2차 확진**: 1차 통과자 중 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 높은 모델로 재검사 (임계값 ^)
 
 이 2단계 접근으로 전체적인 FN과 FP를 동시에 관리한다.
 
@@ -169,7 +169,7 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 3. **트레이드오프 명시**: [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 중 어느 쪽을 희생하는지 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)와 투명하게 소통
 4. **다중 지표 체계**: Recall, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), F1, AUC를 조합한 종합 평가 체계 구축
 
-기술사 시험에서 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 반드시 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> → 수식 → 트레이드오프 → <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별 우선순위</strong> 순서로 설명하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+기술사 시험에서 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 반드시 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> -> 수식 -> 트레이드오프 -> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별 우선순위</strong> 순서로 설명하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 의사가 "의심 증상이 있으면 일단 검사부터"라고 판단하는 것과 같다. 놓치는 환자가 없도록 그물을 촘촘히 치되, 과잉 진단 비용과의 균형을 항상 고려해야 한다.
 
@@ -189,7 +189,7 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [재현율 (Recall) / 민감도] → [최적화·운영 자동화]
+[데이터 전처리] -> [재현율 (Recall) / 민감도] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -204,7 +204,7 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 
 **진행 상황**: 254 / 420
 
-← **이전**: [253. 정밀도 (Precision)](/knowledge-base/studynote/10_ai/03_llm_nlp/253_precision/)
-**다음**: [255. F1 스코어 (F1-Score)](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) →
+<- **이전**: [253. 정밀도 (Precision)](/knowledge-base/studynote/10_ai/03_llm_nlp/253_precision/)
+**다음**: [255. F1 스코어 (F1-Score)](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) ->
 
 ---

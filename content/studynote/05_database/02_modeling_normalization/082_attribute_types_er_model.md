@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 속성 (Attribute)은 타원, 개체의 특성에 초점을 맞춘 개념이다. 개념 모델링 단계에서는 의미 구조를 먼저 고정해야 이후 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환이 흔들리지 않는다. 업무 용어를 잘못 자르면 중복 컬럼과 모호한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Business term -> Model element -> Data structure             │
-├──────────────────────────────────────────────────────────────┤
-│ Requirement -> Attribute -> Schema quality                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Business term -> Model element -> Data structure             |
++--------------------------------------------------------------+
+| Requirement -> Attribute -> Schema quality                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 속성을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `개체`·`관계`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Concept -> attribute rule -> relation mapping                │
-├──────────────────────────────────────────────────────────────┤
-│ Meaning fix -> decomposition -> implementation               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Concept -> attribute rule -> relation mapping                |
++--------------------------------------------------------------+
+| Meaning fix -> decomposition -> implementation               |
++--------------------------------------------------------------+
 ```
 
 핵심은 속성을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [개체]
-    │
-    ▼
+    |
+    v
 [속성]
-    │
-    ├──▶ [관계]
-    └──▶ [카디널리티 비율]
+    |
+    +---> [관계]
+    +---> [카디널리티 비율]
 ```
 
 개체에서 출발한 논점이 속성에서 핵심 판단으로 모이고, 이후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[카디널리티 비율](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 82 / 600
 
-← **이전**: [081. 개체 개념 (Entity Concept in E-R Model)](/knowledge-base/studynote/05_database/02_modeling_normalization/081_entity_concept_er_model/)
-**다음**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) →
+<- **이전**: [081. 개체 개념 (Entity Concept in E-R Model)](/knowledge-base/studynote/05_database/02_modeling_normalization/081_entity_concept_er_model/)
+**다음**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) ->
 
 ---

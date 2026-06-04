@@ -28,10 +28,10 @@ tags = ["data_engineering"]
 ```text
 [정형 데이터]              [비정형 데이터] (텍스트, 이미지, 음성)
 (RDB 테이블)               (자연어 리뷰 "배송은 느렸지만 제품은 예뻐요")
-     │                          │ (기계가 뜻을 알 수 없음)
- [SQL 쿼리]                     ↓
-     │                  [AI / 딥러닝 모델 개입 필수] => (NLP, Computer Vision)
-     ↓                          │ (문맥, 감정, 객체 추출 연산)
+     |                          | (기계가 뜻을 알 수 없음)
+ [SQL 쿼리]                     v
+     |                  [AI / 딥러닝 모델 개입 필수] => (NLP, Computer Vision)
+     v                          | (문맥, 감정, 객체 추출 연산)
 [명시적 수치/통계]         [암묵적 인사이트 / 추론 모델링] => (추천, 예측 등 고부가가치 창출)
  (가치 한계치 존재)          (무한한 잠재적 비즈니스 가치 보유)
 ```
@@ -52,15 +52,15 @@ tags = ["data_engineering"]
 [비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집부터 벡터 변환, 검색까지의 전체 파이프라인 흐름도]
 ```text
 [1. 원시 비정형 데이터 유입] : 기업 PDF 매뉴얼, 고객 음성 파일
-        ↓ (무제한 적재: ELT 사상)
+        v (무제한 적재: ELT 사상)
 [2. Data Lake (AWS S3)] : URI 기반 단순 객체(Object) 저장 (메타데이터 부착)
-        ↓ (배치/스트리밍 AI 파이프라인 트리거)
+        v (배치/스트리밍 AI 파이프라인 트리거)
 [3. Deep Learning Embedding 변환 연산] (텍스트 -> LLM, 음성 -> STT 후 LLM)
-        ↓
+        v
   [ 0.12, -0.45, 0.88, ... 768차원 벡터 데이터 도출 ]
-        ↓
+        v
 [4. Vector Database 저장 및 검색 인덱싱] (Milvus, Pinecone)
-        ↓ (사용자 "에러 해결법 찾아줘" 자연어 질의 발생)
+        v (사용자 "에러 해결법 찾아줘" 자연어 질의 발생)
 [5. 코사인 유사도 연산을 통한 가장 의미가 비슷한 비정형 원본 매칭 및 반환]
 ```
 이 흐름의 핵심은 "비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 검색할 것인가"라는 난제를 푸는 과정이다. 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 `WHERE name = 'Kim'` 같은 일치 검색이 불가능하다. 따라서 중간의 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 파이프라인이 텍스트나 이미지를 수학적 좌표(벡터)로 변환해 벡터 DB에 넣는다. 이후 사용자가 질문을 하면, 그 질의 역시 벡터로 변환되어 '좌표 공간 상에서 가장 거리가 가까운(의미가 유사한) 문서'를 수학적으로 찾아내어 원본 S3 링크를 반환하는 구조다. 이 과정에서 엄청난 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 부하가 발생한다.
@@ -103,11 +103,11 @@ tags = ["data_engineering"]
 [비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 안전한 활용을 위한 거버넌스 운영 플로우]
 ```text
 [비정형 원본 (이미지/텍스트)]
-       ↓
-[PII 비식별화 파이프라인 (AI 검출기)] ──(실패/예외)──> [격리 큐 (보안팀 수동 검토)]
-       ↓ (마스킹 완료)
+       v
+[PII 비식별화 파이프라인 (AI 검출기)] --(실패/예외)--> [격리 큐 (보안팀 수동 검토)]
+       v (마스킹 완료)
 [메타데이터 태깅 (날짜/분류 키)] => (동시에 Data Catalog DB에 인덱스 등록)
-       ↓
+       v
 [Data Lake (Gold Zone) 적재] => (이후 100일 경과 시 Cold Storage로 자동 하강)
 ```
 이 의사결정 트리는 방치되기 쉬운 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기업의 통제 하에 두기 위한 실무적 가이드라인이다. 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유연성을 핑계로 보안과 메타 관리를 방치하면 대형 컴플라이언스 위반이나 인프라 비용 폭탄을 맞게 된다. 따라서 저장소 앞단에 필수적인 가드레일(마스킹, 태깅)을 두어 품질을 담보해야 한다.
@@ -138,17 +138,17 @@ tags = ["data_engineering"]
 
 ```text
 [데이터 레이크 (Data Lake)]
-    │
-    ▼
+    |
+    v
 [객체 스토리지 (Object Storage)]
-    │
-    ▼
+    |
+    v
 [임베딩 (Embedding)]
-    │
-    ▼
+    |
+    v
 [벡터 데이터베이스 (Vector DB)]
-    │
-    ▼
+    |
+    v
 [다크 데이터 (Dark Data)]
 ```
 
@@ -165,7 +165,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 4 / 258
 
-← **이전**: [3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)
-**다음**: [5. 데이터 웨어하우스 (DW, Data Warehouse) - 전사적 관점의 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/005_data_warehouse/) →
+<- **이전**: [3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)
+**다음**: [5. 데이터 웨어하우스 (DW, Data Warehouse) - 전사적 관점의 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/005_data_warehouse/) ->
 
 ---

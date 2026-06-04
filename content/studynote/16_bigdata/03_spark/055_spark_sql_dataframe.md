@@ -44,30 +44,30 @@ Spark SQL의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 사용자가 던진 SQL은 4단계의 엄격한 최적화 과정을 거쳐 실행됩니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 [ Catalyst Optimizer 실행 파이프라인 ]                      │
-│                 [ Catalyst Optimization Pipeline ]                           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  [ Unresolved Logical Plan ] ──▶ [ Analysis (Analyzer) ] ──▶ [ Resolved LP ]│
-│  (구문 분석 전 계획)              (카탈로그 참조/바인딩)      (확정된 논리 계획)│
-│                                                                   │         │
-│  ┌────────────────────────────────────────────────────────────────┘         │
-│  ▼                                                                          │
-│  [ Logical Optimization ] ──▶ [ Optimized Logical Plan ]                    │
-│  (Rule-based: 필터 푸시다운 등) (최적화된 논리 계획)                        │
-│                                         │                                   │
-│  ┌──────────────────────────────────────┘                                   │
-│  ▼                                                                          │
-│  [ Physical Planning ] ──▶ [ Cost Model ] ──▶ [ Selected Physical Plan ]    │
-│  (여러 물리적 경로 생성)     (비용 기반 선택)     (최종 실행 계획 선정)      │
-│                                                         │                   │
-│  ┌──────────────────────────────────────────────────────┘                   │
-│  ▼                                                                          │
-│  [ Code Generation (Whole-Stage Codegen) ] ──▶ [ Java Bytecode Execution ]  │
-│  (런타임 최적화 코드 생성)                      (실제 분산 실행)            │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                 [ Catalyst Optimizer 실행 파이프라인 ]                      |
+|                 [ Catalyst Optimization Pipeline ]                           |
++-----------------------------------------------------------------------------+
+|                                                                             |
+|  [ Unresolved Logical Plan ] ---> [ Analysis (Analyzer) ] ---> [ Resolved LP ]|
+|  (구문 분석 전 계획)              (카탈로그 참조/바인딩)      (확정된 논리 계획)|
+|                                                                   |         |
+|  +----------------------------------------------------------------+         |
+|  v                                                                          |
+|  [ Logical Optimization ] ---> [ Optimized Logical Plan ]                    |
+|  (Rule-based: 필터 푸시다운 등) (최적화된 논리 계획)                        |
+|                                         |                                   |
+|  +--------------------------------------+                                   |
+|  v                                                                          |
+|  [ Physical Planning ] ---> [ Cost Model ] ---> [ Selected Physical Plan ]    |
+|  (여러 물리적 경로 생성)     (비용 기반 선택)     (최종 실행 계획 선정)      |
+|                                                         |                   |
+|  +------------------------------------------------------+                   |
+|  v                                                                          |
+|  [ Code Generation (Whole-Stage Codegen) ] ---> [ Java Bytecode Execution ]  |
+|  (런타임 최적화 코드 생성)                      (실제 분산 실행)            |
+|                                                                             |
++-----------------------------------------------------------------------------+
 ```
 
 - **Filter Pushdown**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 읽은 후 거르는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 수준에서 미리 필터링하여 네트워크 전송량을 최소화합니다.
@@ -115,18 +115,18 @@ Spark SQL의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 - **판단**: 기존 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 그대로 가져오되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 포맷을 반드시 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a></strong>나 <strong>ORC</strong>로 전환한다. 또한 `spark.sql.shuffle.partitions` 값을 기본값(200)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 수천 개로 조정하여 리소스 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 극대화한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               [ Spark SQL Tuning Checklist ]                │
-│               [ 스파크 SQL 성능 튜닝 체크리스트 ]           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  1. [Data Format]   : Parquet/ORC 사용 및 Partitioning 적용 │
-│  2. [Join Strategy] : 소량 데이터는 Broadcast Join 활용     │
-│  3. [Bucketing]     : 잦은 Join 키는 미리 버케팅하여 저장   │
-│  4. [Caching]       : 반복 사용 DataFrame은 .cache() 처리   │
-│  5. [Plan Check]    : .explain()으로 Shuffle 발생 지점 확인 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               [ Spark SQL Tuning Checklist ]                |
+|               [ 스파크 SQL 성능 튜닝 체크리스트 ]           |
++-------------------------------------------------------------+
+|                                                             |
+|  1. [Data Format]   : Parquet/ORC 사용 및 Partitioning 적용 |
+|  2. [Join Strategy] : 소량 데이터는 Broadcast Join 활용     |
+|  3. [Bucketing]     : 잦은 Join 키는 미리 버케팅하여 저장   |
+|  4. [Caching]       : 반복 사용 DataFrame은 .cache() 처리   |
+|  5. [Plan Check]    : .explain()으로 Shuffle 발생 지점 확인 |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 ---
@@ -156,14 +156,14 @@ Spark SQL은 이제 단순 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_et
 
 ```text
 [Catalyst Optimizer: 쿼리 최적화의 두뇌 (Rule/Cost Based)]
-    │
-    ▼
+    |
+    v
 [Tungsten: 메모리/CPU 효율 극대화의 심장]
-    │
-    ▼
+    |
+    v
 [Broadcast Join: 네트워크 셔플을 피하는 조인 기술]
-    │
-    ▼
+    |
+    v
 [Data Lakehouse: 데이터 레이크와 DW의 장점을 결합한 차세대 아키텍처]
 ```
 
@@ -180,7 +180,7 @@ Spark SQL은 이제 단순 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_et
 
 **진행 상황**: 55 / 262
 
-← **이전**: [03. 지연 평가 (Lazy Evaluation) — 연산 최적화 전략](/knowledge-base/studynote/16_bigdata/03_spark/054_lazy_evaluation/)
-**다음**: [05. Spark SQL — 분산 구조적 쿼리 처리](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) →
+<- **이전**: [03. 지연 평가 (Lazy Evaluation) — 연산 최적화 전략](/knowledge-base/studynote/16_bigdata/03_spark/054_lazy_evaluation/)
+**다음**: [05. Spark SQL — 분산 구조적 쿼리 처리](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) ->
 
 ---

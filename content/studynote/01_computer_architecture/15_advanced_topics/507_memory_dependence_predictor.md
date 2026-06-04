@@ -33,25 +33,25 @@ tags = ["studynote-computer-architecture"]
 
 대부분의 예측기는 로드 명령의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 키로 삼아 과거 충돌 이력을 저장한다. 대표적인 Store Sets 계열에서는 SSIT (Store Set ID Table)가 어떤 로드와 스토어가 같은 충돌 집합에 속하는지 관리하고, LFST (Last Fetched Store Table)가 그 집합에서 가장 최근의 미해결 스토어를 가리킨다. 로드가 디코드되면 예측기는 "이 로드가 기다려야 할 스토어가 있나?"를 먼저 묻고, 있으면 잠시 보류하고 없으면 투기적으로 실행시킨다.
 
-이 구조는 일회성 판단이 아니라 <strong>예측 → 실행 → 위반 감지 → 학습 → <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a></strong>라는 폐루프로 동작한다. 로드가 먼저 나갔다가 나중에 LSQ (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 같은 주소의 오래된 스토어와 충돌한 사실이 확인되면, 예측기는 두 명령의 관계를 더 강하게 기록한다. 반대로 한동안 충돌이 없으면 오래된 관계를 약화시켜 워크로드 단계가 바뀌어도 과거 이력에 과하게 묶이지 않도록 한다.
+이 구조는 일회성 판단이 아니라 <strong>예측 -> 실행 -> 위반 감지 -> 학습 -> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a></strong>라는 폐루프로 동작한다. 로드가 먼저 나갔다가 나중에 LSQ (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 같은 주소의 오래된 스토어와 충돌한 사실이 확인되면, 예측기는 두 명령의 관계를 더 강하게 기록한다. 반대로 한동안 충돌이 없으면 오래된 관계를 약화시켜 워크로드 단계가 바뀌어도 과거 이력에 과하게 묶이지 않도록 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Memory dependence prediction feedback loop                               │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Decode Load PC                                                           │
-│      │                                                                   │
-│      ▼                                                                   │
-│   [SSIT] ---- set id ----> [LFST] ---- unresolved store? ---- yes ----┐ │
-│      │                                             │                    │ │
-│      └---------------- no ------------------------>│ issue load         │ │
-│                                                    ▼                    │ │
-│                                                wait / release           │ │
-│                                                                         │ │
-│ LSQ detects late conflict --------------------------------------------┐ │ │
-│                                                                       ▼ ▼ │
-│                    update relation, raise confidence, age old entries    │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Memory dependence prediction feedback loop                               |
++--------------------------------------------------------------------------+
+| Decode Load PC                                                           |
+|      |                                                                   |
+|      v                                                                   |
+|   [SSIT] ---- set id ----> [LFST] ---- unresolved store? ---- yes ----+ |
+|      |                                             |                    | |
+|      +---------------- no ------------------------>| issue load         | |
+|                                                    v                    | |
+|                                                wait / release           | |
+|                                                                         | |
+| LSQ detects late conflict --------------------------------------------+ | |
+|                                                                       v v |
+|                    update relation, raise confidence, age old entries    |
++--------------------------------------------------------------------------+
 ```
 
 핵심은 예측기가 "주소 자체"를 맞히는 것이 아니라, <strong>어떤 로드가 어떤 종류의 스토어와 자주 엮였는지</strong>를 학습한다는 점이다. 그래서 완벽한 정답기가 아니라, 대기 비용과 재실행 비용 중 더 작은 쪽을 고르는 의사결정기라고 보는 편이 정확하다.
@@ -119,24 +119,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 모든 로드 보수적 대기
-    │
-    ▼
+    |
+    v
 맹목적 투기 실행
-    │
-    ▼
+    |
+    v
 충돌 비트 기반 예측
-    │
-    ▼
+    |
+    v
 스토어 세트 기반 학습
-    │
-    ▼
+    |
+    v
 신뢰도·노화 결합 예측
-    │
-    ▼
+    |
+    v
 하이브리드·ML 기반 예측
 ```
 
-이 흐름은 "무조건 기다리기 → 무조건 내보내기 → 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반영한 선택적 판단"으로 메모리 투기가 정교해지는 과정을 보여준다.
+이 흐름은 "무조건 기다리기 -> 무조건 내보내기 -> 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반영한 선택적 판단"으로 메모리 투기가 정교해지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +150,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 507 / 803
 
-← **이전**: [506. 비순차 메모리 접근 (Out-of-Order Memory Access)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/506_ooo_memory_access/)
-**다음**: [508. 로드-스토어 큐 (Load-Store Queue, LSQ)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) →
+<- **이전**: [506. 비순차 메모리 접근 (Out-of-Order Memory Access)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/506_ooo_memory_access/)
+**다음**: [508. 로드-스토어 큐 (Load-Store Queue, LSQ)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) ->
 
 ---

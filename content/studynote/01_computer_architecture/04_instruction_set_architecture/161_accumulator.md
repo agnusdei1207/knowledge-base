@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 누산기 (Accumulator)는 연산 결과를 임시로 저장하고 다음 연산의 입력으로 다시 사용하는 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)다. 특히 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조인 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 "결과는 일단 누산기에 둔다"는 규칙을 두어, 모든 명령이 목적지 주소를 길게 적지 않아도 되게 만들었다. 즉 누산기는 저장 공간인 동시에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식을 단순화하는 약속이다.
 
-이 개념이 필요했던 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터에서 메모리와 회로 면적이 매우 비쌌기 때문이다. 덧셈 하나를 위해 입력 둘과 출력 하나의 위치를 모두 명시하면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 커지고 디코더도 복잡해진다. 반대로 누산기를 기본 작업대처럼 쓰면 `ADD X`만으로도 `ACC ← ACC + M[X]`를 표현할 수 있어, 작은 하드웨어로도 연속 계산을 수행할 수 있다.
+이 개념이 필요했던 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터에서 메모리와 회로 면적이 매우 비쌌기 때문이다. 덧셈 하나를 위해 입력 둘과 출력 하나의 위치를 모두 명시하면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 커지고 디코더도 복잡해진다. 반대로 누산기를 기본 작업대처럼 쓰면 `ADD X`만으로도 `ACC <- ACC + M[X]`를 표현할 수 있어, 작은 하드웨어로도 연속 계산을 수행할 수 있다.
 
 누산기가 없으면 중간 결과를 매번 메모리에 저장했다가 다시 읽어 와야 하므로 메모리 접근 횟수가 늘고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 떨어진다. 그래서 누산기는 "연산을 어디에 쌓아 둘 것인가"라는 문제에 대한 가장 경제적인 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 해법이었다.
 
@@ -45,19 +45,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 누산기 중심 1-주소 구조가 어떻게 동작하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 accumulator-centered 1-address datapath                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Memory operand M[X] ───────────────▶ ALU input B                           │
-│                                        ▲                                   │
-│                                        │                                   │
-│ Control + opcode ───────────────▶ [ ALU ] ───────────────▶ Accumulator     │
-│                                        ▲                         │          │
-│                                        │                         ├─▶ Flags  │
-│                                        └──────── implicit source ┘          │
-│                                                                            │
-│ Example instruction: ADD X   =>   ACC ← ACC + M[X]                         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 accumulator-centered 1-address datapath                    |
++----------------------------------------------------------------------------+
+| Memory operand M[X] ----------------> ALU input B                           |
+|                                        ^                                   |
+|                                        |                                   |
+| Control + opcode ----------------> [ ALU ] ----------------> Accumulator     |
+|                                        ^                         |          |
+|                                        |                         +--> Flags  |
+|                                        +-------- implicit source +          |
+|                                                                            |
+| Example instruction: ADD X   =>   ACC <- ACC + M[X]                         |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 누산기가 단순 저장소가 아니라 연산 경로를 고정하는 중심점이라는 것이다. 연산 결과는 다시 누산기로 돌아오므로, 연속 계산에서는 빠르게 이어질 수 있다. 대신 여러 독립 연산을 동시에 진행하기 어렵고, 컴파일러도 값을 오래 보존하려면 결국 메모리나 다른 보조 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 써야 한다.
@@ -133,17 +133,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 누산기 (Accumulator)
-        │
-        ▼
+        |
+        v
 1-주소 명령어 구조
-        │
-        ▼
+        |
+        v
 GPR (General Purpose Register) 기반 다주소 ISA
-        │
-        ▼
+        |
+        v
 파이프라인 · ILP (Instruction-Level Parallelism)
-        │
-        ▼
+        |
+        v
 DSP / NPU의 전용 MAC 누산기
 ```
 
@@ -161,7 +161,7 @@ DSP / NPU의 전용 MAC 누산기
 
 **진행 상황**: 161 / 803
 
-← **이전**: [160. 피연산자 (Operand)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)
-**다음**: [162. 범용 레지스터 (GPR)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) →
+<- **이전**: [160. 피연산자 (Operand)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)
+**다음**: [162. 범용 레지스터 (GPR)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) ->
 
 ---

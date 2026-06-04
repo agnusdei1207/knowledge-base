@@ -36,18 +36,18 @@ TPM의 핵심 기능은 안전한 키 저장, 플랫폼 측정, 조건부 키 �
 아래 그림은 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 기반 측정 부팅과 키 해제 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ TPM measured boot and key release                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Power on                                                          │
-│   -> Firmware hash   -> PCR extend                               │
-│   -> Bootloader hash -> PCR extend                               │
-│   -> Kernel hash     -> PCR extend                               │
-│                                                                    │
-│ Sealed key release rule: PCR value must match trusted state       │
-│   Match    -> release disk key / device secret                    │
-│   Mismatch -> deny release, recovery or alert                     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| TPM measured boot and key release                                 |
++--------------------------------------------------------------------+
+| Power on                                                          |
+|   -> Firmware hash   -> PCR extend                               |
+|   -> Bootloader hash -> PCR extend                               |
+|   -> Kernel hash     -> PCR extend                               |
+|                                                                    |
+| Sealed key release rule: PCR value must match trusted state       |
+|   Match    -> release disk key / device secret                    |
+|   Mismatch -> deny release, recovery or alert                     |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 TPM이 단순 저장소가 아니라 <strong>상태를 조건으로 키 사용을 통제하는 장치</strong>라는 점이다. 키 자체를 빼내 쓰게 하는 것이 아니라, "이 장치가 정상 상태일 때만 이 키를 사용하라"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제한다. 따라서 공격자가 디스크만 떼어 가거나 부팅 경로를 바꿔도, 필요한 키를 쉽게 얻지 못한다.
@@ -133,18 +133,18 @@ TPM의 기대효과는 명확하다. 키 [보호](/knowledge-base/studynote/02_o
 
 ```text
 Local key storage problem
-    │
-    ▼
+    |
+    v
 Secure Boot / Measured Boot
-    │
-    ▼
+    |
+    v
 TPM 2.0
   (key sealing + platform measurement)
-    │
-    ▼
+    |
+    v
 Remote Attestation
-    │
-    ▼
+    |
+    v
 Zero Trust endpoint verification
 ```
 
@@ -162,7 +162,7 @@ Zero Trust endpoint verification
 
 **진행 상황**: 211 / 1108
 
-← **이전**: [157. HSM (Hardware Security Module) — 물리적 키 보호](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)
-**다음**: [159. PKI (Public Key Infrastructure) — 공개키 인증서 체계](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) →
+<- **이전**: [157. HSM (Hardware Security Module) — 물리적 키 보호](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)
+**다음**: [159. PKI (Public Key Infrastructure) — 공개키 인증서 체계](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ->
 
 ---

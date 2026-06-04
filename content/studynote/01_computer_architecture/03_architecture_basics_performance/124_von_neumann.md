@@ -32,29 +32,29 @@ tags = ["studynote-computer-architecture"]
 이 아키텍처는 필연적으로 CPU와 메모리를 분리하고 그 사이를 단일한 공용 도로([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 잇는 구조를 취한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           폰 노이만 아키텍처 (내장형 프로그램 구조)            │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│     [ 중앙 처리 장치 (CPU) ]                             │
-│     ┌──────────────────┬──────────────────┐            │
-│     │   제어 장치 (CU)   │   연산 장치 (ALU)  │            │
-│     │ (명령어 해독/제어) │ (실제 덧셈/논리)   │            │
-│     └──────────────────┴──────────────────┘            │
-│                 ▲              │                       │
-│                 │ (명령어/데이터) │ (결과값)               │
-│                 ▼              ▼                       │
-│ ═════════════════ [ 시스템 버스 ] ═════════════════════│
-│                 ▲              ▲                       │
-│                 │              │                       │
-│                 ▼              ▼                       │
-│        [ 메인 메모리 ]      [ 입출력 장치 (I/O) ]        │
-│    (프로그램 명령어 + 데이터)  (키보드, 마우스, 디스플레이)   │
-│                                                        │
-│ * 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이 │
-│   들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야 │
-│   하므로 극심한 교통 체증(Bottleneck)이 발생한다.          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           폰 노이만 아키텍처 (내장형 프로그램 구조)            |
++--------------------------------------------------------+
+|                                                        |
+|     [ 중앙 처리 장치 (CPU) ]                             |
+|     +------------------+------------------+            |
+|     |   제어 장치 (CU)   |   연산 장치 (ALU)  |            |
+|     | (명령어 해독/제어) | (실제 덧셈/논리)   |            |
+|     +------------------+------------------+            |
+|                 ^              |                       |
+|                 | (명령어/데이터) | (결과값)               |
+|                 v              v                       |
+| ----------------- [ 시스템 버스 ] ---------------------|
+|                 ^              ^                       |
+|                 |              |                       |
+|                 v              v                       |
+|        [ 메인 메모리 ]      [ 입출력 장치 (I/O) ]        |
+|    (프로그램 명령어 + 데이터)  (키보드, 마우스, 디스플레이)   |
+|                                                        |
+| * 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이 |
+|   들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야 |
+|   하므로 극심한 교통 체증(Bottleneck)이 발생한다.          |
++--------------------------------------------------------+
 ```
 
 1. **Fetch (인출)**: CPU가 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(예: `ADD`)를 가져온다.
@@ -120,21 +120,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 하드와이어드(Hardwired) 프로그래밍 방식의 물리적 한계 직면
-    │
-    ▼
-내장형 프로그램(Stored-program) 도입 ──▶ 폰 노이만 아키텍처 정립
-    │
-    ▼
-메모리 공유로 인한 순차적 처리 지연 ──▶ 폰 노이만 병목(Bottleneck) 현상 부각
-    │
-    ▼
+    |
+    v
+내장형 프로그램(Stored-program) 도입 ---> 폰 노이만 아키텍처 정립
+    |
+    v
+메모리 공유로 인한 순차적 처리 지연 ---> 폰 노이만 병목(Bottleneck) 현상 부각
+    |
+    v
 데이터와 명령어를 분리하는 하버드 아키텍처 제안
-    │
-    ▼
-현대 CPU의 융합 ──▶ 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택
+    |
+    v
+현대 CPU의 융합 ---> 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택
 ```
 
-이 흐름도는 "범용성 획득 → 구조적 병목에 의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 직면 → 캐시와 하버드 구조 융합을 통한 타협적 진화"로 이어지는 현대 컴퓨팅 하드웨어의 아키텍처 발전사를 보여준다.
+이 흐름도는 "범용성 획득 -> 구조적 병목에 의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 직면 -> 캐시와 하버드 구조 융합을 통한 타협적 진화"로 이어지는 현대 컴퓨팅 하드웨어의 아키텍처 발전사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 124 / 803
 
-← **이전**: [123. 컴퓨터의 4대 핵심 구성요소 (4 Core Components)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/123_4_core_components/)
-**다음**: [125. 내장형 프로그램 (Stored-program Concept)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/) →
+<- **이전**: [123. 컴퓨터의 4대 핵심 구성요소 (4 Core Components)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/123_4_core_components/)
+**다음**: [125. 내장형 프로그램 (Stored-program Concept)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/) ->
 
 ---

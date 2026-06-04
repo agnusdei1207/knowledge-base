@@ -28,21 +28,21 @@ tags = ["studynote-computer-architecture"]
 즉 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법이면서 동시에 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 전략이다. 캐시 히트율이 높아도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 나쁘면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 포화되고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 지나치게 공격적이면 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 복잡도가 폭증한다. 그래서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단독 개념이 아니라 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 장치 메모리 속성과 함께 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              쓰기 정책이 필요한 이유: 빠른 사본과 느린 원본의 충돌  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 값 수정                                                        │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Cache Line 최신화 ───────────────┐                                   │
-│    │                             │                                   │
-│    │ 즉시 동기화                 │ 나중 동기화                      │
-│    ▼                             ▼                                   │
-│ Main Memory도 바로 갱신         캐시에 최신값 유지                  │
-│    │                             │                                   │
-│ 일관성 단순                      버스 절감                           │
-│ 성능 손해                        관리 복잡                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              쓰기 정책이 필요한 이유: 빠른 사본과 느린 원본의 충돌  |
++----------------------------------------------------------------------+
+| CPU가 값 수정                                                        |
+|    |                                                                 |
+|    v                                                                 |
+| Cache Line 최신화 ---------------+                                   |
+|    |                             |                                   |
+|    | 즉시 동기화                 | 나중 동기화                      |
+|    v                             v                                   |
+| Main Memory도 바로 갱신         캐시에 최신값 유지                  |
+|    |                             |                                   |
+| 일관성 단순                      버스 절감                           |
+| 성능 손해                        관리 복잡                           |
++----------------------------------------------------------------------+
 ```
 
 이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단순한 구현 취향이 아니라, <strong>즉시 일치</strong>와 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 반영</strong> 사이의 구조적 선택임을 보여준다. 결국 메모리 계층은 "무조건 빠르게"가 아니라 "어느 계층에서 병목을 감당할지"를 정해야 한다.
@@ -67,30 +67,30 @@ tags = ["studynote-computer-architecture"]
 다만 Write-Back은 추가 장치를 요구한다. 캐시 라인이 수정되었는지 표시하는 [더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/) ([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)), 교체 순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼 (Write Buffer), 멀티코어 환경에서 최신 소유자를 추적하는 MESI (Modified, Exclusive, Shared, Invalid) 같은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 함께 필요하다. 반대로 Write-Through는 구조가 단순하지만 메모리 대역폭을 계속 소비하므로, 실제 구현에서는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼 없이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손해가 매우 크다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Write Hit / Write Miss 결정 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Write Request                                                    │
-│        │                                                             │
-│        ▼                                                             │
-│   Cache Tag Check                                                    │
-│        │                                                             │
-│   ┌────┴────┐                                                        │
-│   │         │                                                        │
-│ Hit       Miss                                                       │
-│   │         │                                                        │
-│   │         ├──────────────┐                                         │
-│   │         │              │                                         │
-│   ▼         ▼              ▼                                         │
-│ Through/Back Allocate    No-Allocate                                 │
-│   │         │              │                                         │
-│   │         ▼              ▼                                         │
-│   │      Bring Line      Write Lower Level                           │
-│   │      Then Update     Without Cache Fill                          │
-│   │                                                                  │
-│   ├─ WT: Cache + Memory now                                          │
-│   └─ WB: Cache only, Dirty=1                                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Write Hit / Write Miss 결정 흐름                    |
++----------------------------------------------------------------------+
+| CPU Write Request                                                    |
+|        |                                                             |
+|        v                                                             |
+|   Cache Tag Check                                                    |
+|        |                                                             |
+|   +----+----+                                                        |
+|   |         |                                                        |
+| Hit       Miss                                                       |
+|   |         |                                                        |
+|   |         +--------------+                                         |
+|   |         |              |                                         |
+|   v         v              v                                         |
+| Through/Back Allocate    No-Allocate                                 |
+|   |         |              |                                         |
+|   |         v              v                                         |
+|   |      Bring Line      Write Lower Level                           |
+|   |      Then Update     Without Cache Fill                          |
+|   |                                                                  |
+|   +- WT: Cache + Memory now                                          |
+|   +- WB: Cache only, Dirty=1                                         |
++----------------------------------------------------------------------+
 ```
 
 이 흐름에서 핵심은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단일 스위치가 아니라 <strong>히트 처리 + 미스 처리</strong>의 조합이라는 점이다. 시험 답안에서도 Write-Through와 Write-Back만 쓰고 끝내면 절반 설명에 머무르고, Allocate 여부까지 연결해야 실제 아키텍처를 설명한 것이 된다.
@@ -171,22 +171,22 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 주기억장치 병목 인식
-    │
-    ▼
+    |
+    v
 캐시 도입
-    │
-    ▼
+    |
+    v
 Write-Through / Write-Back 분화
-    │
-    ├── Write Buffer · Dirty Bit
-    │
-    ▼
+    |
+    +-- Write Buffer · Dirty Bit
+    |
+    v
 Write-Allocate · No-Write-Allocate 최적화
-    │
-    ▼
+    |
+    v
 MESI 기반 캐시 일관성 · DMA 동기화
-    │
-    ▼
+    |
+    v
 비휘발성 메모리 · CXL 기반 이기종 메모리 정책 확장
 ```
 
@@ -204,7 +204,7 @@ MESI 기반 캐시 일관성 · DMA 동기화
 
 **진행 상황**: 275 / 803
 
-← **이전**: [274. FIFO (First-In, First-Out)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/274_fifo/)
-**다음**: [276. Write-Through (동시 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) →
+<- **이전**: [274. FIFO (First-In, First-Out)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/274_fifo/)
+**다음**: [276. Write-Through (동시 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) ->
 
 ---

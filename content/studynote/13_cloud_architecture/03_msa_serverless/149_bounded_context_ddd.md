@@ -39,27 +39,27 @@ tags = ["studynote-cloud-architecture"]
 | 통신 방식 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(동기) 또는 이벤트(비동기) | 느슨한 결합 유지 |
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                     전체 도메인 (E-Commerce)                    │
-│                                                                 │
-│  ┌──────────────────┐   ACL   ┌──────────────────────────┐     │
-│  │  주문 컨텍스트    │◄──────►│    결제 컨텍스트          │     │
-│  │  (Order BC)      │         │    (Payment BC)           │     │
-│  │  ─ Order         │         │  ─ Invoice                │     │
-│  │  ─ OrderItem     │         │  ─ PaymentMethod          │     │
-│  │  [주문 DB]       │         │  [결제 DB]                │     │
-│  └──────────────────┘         └──────────────────────────┘     │
-│          │ Domain Event                    ▲                   │
-│          │ (OrderPlaced)                   │ API               │
-│          ▼                                 │                   │
-│  ┌──────────────────┐         ┌──────────────────────────┐     │
-│  │  재고 컨텍스트    │         │    배송 컨텍스트          │     │
-│  │  (Inventory BC)  │         │    (Shipping BC)          │     │
-│  │  ─ StockItem     │         │  ─ Shipment               │     │
-│  │  ─ Warehouse     │         │  ─ Recipient              │     │
-│  │  [재고 DB]       │         │  [배송 DB]                │     │
-│  └──────────────────┘         └──────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                     전체 도메인 (E-Commerce)                    |
+|                                                                 |
+|  +------------------+   ACL   +--------------------------+     |
+|  |  주문 컨텍스트    |◄------►|    결제 컨텍스트          |     |
+|  |  (Order BC)      |         |    (Payment BC)           |     |
+|  |  - Order         |         |  - Invoice                |     |
+|  |  - OrderItem     |         |  - PaymentMethod          |     |
+|  |  [주문 DB]       |         |  [결제 DB]                |     |
+|  +------------------+         +--------------------------+     |
+|          | Domain Event                    ^                   |
+|          | (OrderPlaced)                   | API               |
+|          v                                 |                   |
+|  +------------------+         +--------------------------+     |
+|  |  재고 컨텍스트    |         |    배송 컨텍스트          |     |
+|  |  (Inventory BC)  |         |    (Shipping BC)          |     |
+|  |  - StockItem     |         |  - Shipment               |     |
+|  |  - Warehouse     |         |  - Recipient              |     |
+|  |  [재고 DB]       |         |  [배송 DB]                |     |
+|  +------------------+         +--------------------------+     |
++-----------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 독립된 왕국 — 왕국마다 화폐 단위가 달라도 국경의 환전소([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)를 통해 교역이 가능하다.
@@ -72,7 +72,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|
 | 관점 | 솔루션 공간 (구현 경계) | 문제 공간 (비즈니스 영역) |
 | 개수 | 설계 선택에 따라 변동 | 비즈니스 구조에 의해 결정 |
-| 1:1 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 권장하나 필수 아님 | 1개 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) → 여러 BC 가능 |
+| 1:1 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 권장하나 필수 아님 | 1개 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) -> 여러 BC 가능 |
 | 핵심 도구 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | 코어/서브/지원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 패턴 종류:
@@ -89,10 +89,10 @@ tags = ["studynote-cloud-architecture"]
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경계 도출 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 이벤트 스토밍 (Event Storming) 세션을 통해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 목록 작성.
-2. 같은 명사가 다른 의미로 쓰이는 충돌 지점 → [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 후보.
+2. 같은 명사가 다른 의미로 쓰이는 충돌 지점 -> [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 후보.
 3. 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 변경 빈도·팀 소유권·독립 배포 요구 사항 검토.
-4. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 작성 후 순환 의존 여부 점검 → 순환 발생 시 경계 재조정.
-5. 단일 DB 공유 여부 점검 → 공유 시 경계 실질적으로 무의미.
+4. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 작성 후 순환 의존 여부 점검 -> 순환 발생 시 경계 재조정.
+5. 단일 DB 공유 여부 점검 -> 공유 시 경계 실질적으로 무의미.
 
 **기술사 시험 포인트**
 - [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)와 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 1:1 대응 원칙을 설명하고, 예외(대형 BC를 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분리)도 언급할 것.
@@ -129,14 +129,14 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 모놀리식: 모든 도메인 용어 혼재
-    │
-    ▼
+    |
+    v
 Bounded Context: 도메인별 독립 모델 경계
-    ├─► Context Map: 관계 정의 (Upstream/Downstream)
-    └─► Anti-Corruption Layer: 번역 계층
-    │
-    ▼
-MSA 서비스 분할 기준 → API 계약
+    +-► Context Map: 관계 정의 (Upstream/Downstream)
+    +-► Anti-Corruption Layer: 번역 계층
+    |
+    v
+MSA 서비스 분할 기준 -> API 계약
 ```
 2. [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 그 '장소의 울타리'예요 — 울타리 안에서는 모두 같은 언어로 이야기해요.
 3. 울타리를 잘 치면, 학교와 병원이 서로 독립적으로 운영되면서도 필요할 때 연락해서 협력할 수 있어요.
@@ -147,7 +147,7 @@ MSA 서비스 분할 기준 → API 계약
 
 **진행 상황**: 148 / 371
 
-← **이전**: [148. 보편적 언어 (Ubiquitous Language)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/148_ubiquitous_language/)
-**다음**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/) →
+<- **이전**: [148. 보편적 언어 (Ubiquitous Language)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/148_ubiquitous_language/)
+**다음**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/) ->
 
 ---

@@ -32,9 +32,9 @@ tags = ["studynote-design-supervision"]
 - **이행 후(After)**: 소스-타겟 비교 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (100% 일치 목표)
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행 감리는 "이삿짐 센터가 물건을 다 옮겼다고 했을 때, 목록을 보고 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것"이다. 트럭이 두 번 다녀간다고 해서 모든 물건이 도착했다고 볼 수 없다.
@@ -43,30 +43,30 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              데이터 이행 무결성 검증 파이프라인               │
-│                                                             │
-│  ┌──────────────┐   ETL   ┌──────────────┐                  │
-│  │  소스 DB      │ ──────► │  타겟 DB      │                  │
-│  │  (Source)    │         │  (Target)    │                  │
-│  └──────┬───────┘         └──────┬───────┘                  │
-│         │                        │                         │
-│         ▼                        ▼                         │
-│  ┌──────────────┐         ┌──────────────┐                  │
-│  │ 소스 체크섬   │         │ 타겟 체크섬   │                  │
-│  │ Count: 1,200 │         │ Count: 1,200 │                  │
-│  │ Sum(금액):   │         │ Sum(금액):   │                  │
-│  │  98,450,000  │         │  98,450,000  │ ← 일치 ✅         │
-│  │ NULL비율: 0% │         │ NULL비율: 0% │                  │
-│  └──────┬───────┘         └──────┬───────┘                  │
-│         │                        │                         │
-│         └──────────┬─────────────┘                         │
-│                    ▼                                        │
-│           ┌──────────────────┐                              │
-│           │  비교 결과 보고서  │                              │
-│           │  (Reconciliation)│                              │
-│           └──────────────────┘                              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              데이터 이행 무결성 검증 파이프라인               |
+|                                                             |
+|  +--------------+   ETL   +--------------+                  |
+|  |  소스 DB      | ------► |  타겟 DB      |                  |
+|  |  (Source)    |         |  (Target)    |                  |
+|  +------+-------+         +------+-------+                  |
+|         |                        |                         |
+|         v                        v                         |
+|  +--------------+         +--------------+                  |
+|  | 소스 체크섬   |         | 타겟 체크섬   |                  |
+|  | Count: 1,200 |         | Count: 1,200 |                  |
+|  | Sum(금액):   |         | Sum(금액):   |                  |
+|  |  98,450,000  |         |  98,450,000  | <- 일치 ✅         |
+|  | NULL비율: 0% |         | NULL비율: 0% |                  |
+|  +------+-------+         +------+-------+                  |
+|         |                        |                         |
+|         +----------+-------------+                         |
+|                    v                                        |
+|           +------------------+                              |
+|           |  비교 결과 보고서  |                              |
+|           |  (Reconciliation)|                              |
+|           +------------------+                              |
++-------------------------------------------------------------+
 ```
 
 ```sql
@@ -85,28 +85,28 @@ WHERE year = 2025;
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│           이행 오류 유형 및 감지 방법                         │
-│                                                             │
-│  ① 누락 (Missing)                                           │
-│     SELECT s.id FROM source s                               │
-│     LEFT JOIN target t ON s.id = t.id                       │
-│     WHERE t.id IS NULL;  ← 타겟에 없는 소스 레코드           │
-│                                                             │
-│  ② 중복 (Duplicate)                                         │
-│     SELECT id, COUNT(*) FROM target                         │
-│     GROUP BY id HAVING COUNT(*) > 1;                        │
-│                                                             │
-│  ③ 값 불일치 (Value Mismatch)                               │
-│     SELECT s.id, s.amount, t.amount                         │
-│     FROM source s JOIN target t ON s.id = t.id              │
-│     WHERE s.amount <> t.amount;                             │
-│                                                             │
-│  ④ 참조 무결성 위반 (Orphan Record)                         │
-│     SELECT o.id FROM orders o                               │
-│     LEFT JOIN customers c ON o.cust_id = c.id               │
-│     WHERE c.id IS NULL;  ← 고아 주문 레코드                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           이행 오류 유형 및 감지 방법                         |
+|                                                             |
+|  ① 누락 (Missing)                                           |
+|     SELECT s.id FROM source s                               |
+|     LEFT JOIN target t ON s.id = t.id                       |
+|     WHERE t.id IS NULL;  <- 타겟에 없는 소스 레코드           |
+|                                                             |
+|  ② 중복 (Duplicate)                                         |
+|     SELECT id, COUNT(*) FROM target                         |
+|     GROUP BY id HAVING COUNT(*) > 1;                        |
+|                                                             |
+|  ③ 값 불일치 (Value Mismatch)                               |
+|     SELECT s.id, s.amount, t.amount                         |
+|     FROM source s JOIN target t ON s.id = t.id              |
+|     WHERE s.amount <> t.amount;                             |
+|                                                             |
+|  ④ 참조 무결성 위반 (Orphan Record)                         |
+|     SELECT o.id FROM orders o                               |
+|     LEFT JOIN customers c ON o.cust_id = c.id               |
+|     WHERE c.id IS NULL;  <- 고아 주문 레코드                  |
++-------------------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -185,7 +185,7 @@ WHERE year = 2025;
 | 연관 개념 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획 ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) Plan) | 이행 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매핑 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 이행 감리 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 체계
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매핑 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 이행 감리 -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 체계
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행 감리는 이사 후 새 집에서 "가져온 물건 목록을 보고 하나씩 체크하는 것"이야.
@@ -198,7 +198,7 @@ WHERE year = 2025;
 
 **진행 상황**: 316 / 530
 
-← **이전**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse 엔진ering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/)
-**다음**: [256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/256_performance_metrics_tps_rsp/) →
+<- **이전**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse 엔진ering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/)
+**다음**: [256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/256_performance_metrics_tps_rsp/) ->
 
 ---

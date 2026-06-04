@@ -44,18 +44,18 @@ ZNS의 기본 단위는 존이다. 각 존은 수십 메가바이트에서 수�
 아래 그림은 존의 상태와 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙을 단순화해 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    ZNS zone write model                     │
-├──────────────────────────────────────────────────────────────┤
-│ Zone A : [D][D][D][D]  Full                                 │
-│ Zone B : [D][D][ ][ ][ ]                                    │
-│                    ^                                         │
-│               Write pointer                                 │
-│                                                              │
-│ Allowed  : append after pointer                             │
-│ Not allow : overwrite middle of written area                │
-│ Reclaim   : reset entire zone                               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    ZNS zone write model                     |
++--------------------------------------------------------------+
+| Zone A : [D][D][D][D]  Full                                 |
+| Zone B : [D][D][ ][ ][ ]                                    |
+|                    ^                                         |
+|               Write pointer                                 |
+|                                                              |
+| Allowed  : append after pointer                             |
+| Not allow : overwrite middle of written area                |
+| Reclaim   : reset entire zone                               |
++--------------------------------------------------------------+
 ```
 
 존 상태는 보통 비어 있음, 열림, 닫힘, 가득 참, 재설정 같은 흐름으로 관리된다. 이 규칙 덕분에 장치는 세밀한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동보다 큰 단위의 순차 적재와 일괄 회수에 집중할 수 있다. 대신 호스트는 어떤 데이터를 어떤 존에 넣었는지, 언제 존을 비울지 스스로 더 잘 알아야 한다.
@@ -129,17 +129,17 @@ ZNS의 기대효과는 세 가지로 [압축](/knowledge-base/studynote/02_opera
 
 ```text
 플래시의 erase-before-write 제약
-    │
-    ▼
+    |
+    v
 일반 SSD의 내부 FTL · GC 은닉
-    │
-    ▼
+    |
+    v
 랜덤 쓰기 비용 증가
-    │
-    ▼
+    |
+    v
 존 단위 순차 기록 노출
-    │
-    ▼
+    |
+    v
 ZNS + zone-aware 소프트웨어 최적화
 ```
 
@@ -157,7 +157,7 @@ ZNS + zone-aware 소프트웨어 최적화
 
 **진행 상황**: 704 / 803
 
-← **이전**: [702. 다중 스트림 쓰기 (Multi-stream Write)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/702_multi_stream_write/)
-**다음**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/) →
+<- **이전**: [702. 다중 스트림 쓰기 (Multi-stream Write)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/702_multi_stream_write/)
+**다음**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/) ->
 
 ---

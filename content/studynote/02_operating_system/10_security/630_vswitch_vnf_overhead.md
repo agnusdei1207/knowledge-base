@@ -55,33 +55,33 @@ tags = ["studynote-operating-system"]
 DPDK는 인텔이 개발한 '유저 모드 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 패킷 처리' 프레임워크다. [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)([Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))에 이 DPDK를 결합한 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">OVS</a>-<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong> 구조가 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │                 전통적 OVS vs OVS-DPDK 가속 아키텍처 비교                  │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [1. 전통적 OVS (Kernel Datapath)]                                       │
-  │   [User Space]       OVS Daemon (ovs-vswitchd)      VNF (가상머신)         │
-  │                          ▲                                ▲           │
-  │ ─────────────────────────┼────────────────────────────────┼────────── │
-  │   [Kernel Space]         ▼ (Netlink)                      ▼           │
-  │                      OVS Kernel Module ◀───(sk_buff)──▶ TAP Device    │
-  │                          ▲                                            │
-  │                      (인터럽트 + 복사)                                    │
-  │   [Hardware]           물리 NIC (pNIC)                                 │
-  │                                                                       │
-  │                                                                       │
-  │  [2. OVS-DPDK (User Space Datapath) - Kernel Bypass]                  │
-  │   [User Space]                                                        │
-  │                      ┌──────────────────────────┐     [공유 메모리]       │
-  │                      │ OVS-DPDK 데몬 (PMD 스레드) │ ◀──(vhost-user)──▶ VNF│
-  │                      └──────────────────────────┘     (복사 없음!)      │
-  │                          ▲                                            │
-  │                          │ 폴링 (Polling) - 인터럽트 없음!                │
-  │ ─────────────────────────┼─────────────────────────────────────────── │
-  │   [Kernel Space]         │ UIO/VFIO (커널 드라이버 무시, 하드웨어 바인딩)     │
-  │                          │                                            │
-  │   [Hardware]           물리 NIC (pNIC의 RX/TX 링 버퍼에 직접 접근)         │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |                 전통적 OVS vs OVS-DPDK 가속 아키텍처 비교                  |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |  [1. 전통적 OVS (Kernel Datapath)]                                       |
+  |   [User Space]       OVS Daemon (ovs-vswitchd)      VNF (가상머신)         |
+  |                          ^                                ^           |
+  | -------------------------+--------------------------------+---------- |
+  |   [Kernel Space]         v (Netlink)                      v           |
+  |                      OVS Kernel Module <----(sk_buff)---> TAP Device    |
+  |                          ^                                            |
+  |                      (인터럽트 + 복사)                                    |
+  |   [Hardware]           물리 NIC (pNIC)                                 |
+  |                                                                       |
+  |                                                                       |
+  |  [2. OVS-DPDK (User Space Datapath) - Kernel Bypass]                  |
+  |   [User Space]                                                        |
+  |                      +--------------------------+     [공유 메모리]       |
+  |                      | OVS-DPDK 데몬 (PMD 스레드) | <---(vhost-user)---> VNF|
+  |                      +--------------------------+     (복사 없음!)      |
+  |                          ^                                            |
+  |                          | 폴링 (Polling) - 인터럽트 없음!                |
+  | -------------------------+------------------------------------------- |
+  |   [Kernel Space]         | UIO/VFIO (커널 드라이버 무시, 하드웨어 바인딩)     |
+  |                          |                                            |
+  |   [Hardware]           물리 NIC (pNIC의 RX/TX 링 버퍼에 직접 접근)         |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적 OVS는 패킷이 물리 NIC에 도착하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패킷을 포장(`sk_buff`)하여 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 보낸다. OVS가 룰을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후 다시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 TAP 디바이스를 통해 VM으로 보낸다. 매 단계가 병목이다.
@@ -137,25 +137,25 @@ SR-IOV가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 VNF 환경 가상 스위치(vSwitch) 가속 튜닝 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [VNF (방화벽/라우터 VM) 성능이 요구 대역폭(Gbps/Mpps)에 미달함]          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      VNF가 하드웨어 종속 및 마이그레이션 불가(Downtime)를 감수할 수 있는가? │
-  │          ├─ 예 ─────▶ [SR-IOV 물리 VF 직접 할당 (성능 최상, 유연성 최하)] │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      호스트 서버의 여유 CPU 코어를 100% 점유(희생)시킬 수 있는가?           │
-  │          ├─ 예 ─────▶ [OVS-DPDK 도입 (PMD 폴링 기반)]              │
-  │          │            (NUMA Pinning, Huge Page 설정 필수 동반)        │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [eBPF / XDP 기반 OVS 오프로드 검토]             │
-  │                         (인터럽트 구동 유지 + sk_buff 할당 전 처리)       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 VNF 환경 가상 스위치(vSwitch) 가속 튜닝 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [VNF (방화벽/라우터 VM) 성능이 요구 대역폭(Gbps/Mpps)에 미달함]          |
+  |                |                                                  |
+  |                v                                                  |
+  |      VNF가 하드웨어 종속 및 마이그레이션 불가(Downtime)를 감수할 수 있는가? |
+  |          +- 예 ------> [SR-IOV 물리 VF 직접 할당 (성능 최상, 유연성 최하)] |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      호스트 서버의 여유 CPU 코어를 100% 점유(희생)시킬 수 있는가?           |
+  |          +- 예 ------> [OVS-DPDK 도입 (PMD 폴링 기반)]              |
+  |          |            (NUMA Pinning, Huge Page 설정 필수 동반)        |
+  |          |                                                        |
+  |          +- 아니오 ---> [eBPF / XDP 기반 OVS 오프로드 검토]             |
+  |                         (인터럽트 구동 유지 + sk_buff 할당 전 처리)       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 아키텍처 설계에서 '공짜 점심'은 없다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 쓰면 유연하지만 느리고, SR-IOV를 쓰면 빠르지만 유연성이 죽는다. DPDK를 쓰면 유연하고 빠르지만 CPU 코어(전기)를 잡아먹는다. 기술사는 시스템의 목적(통신사 코어망인지, 일반 엔터프라이즈 웹 서버인지)에 따라 이 삼각 트레이드오프에서 최적점을 선택해야 한다.
@@ -202,12 +202,12 @@ SR-IOV가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 ```text
 [라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]
-    │
-    ▼
+    |
+    v
 [가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식]
-    │
-    ├──▶ [메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]
-    └──▶ [벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
+    |
+    +---> [메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]
+    +---> [벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -224,7 +224,7 @@ SR-IOV가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 **진행 상황**: 630 / 800
 
-← **이전**: [629. 라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)
-**다음**: [631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약](/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/) →
+<- **이전**: [629. 라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)
+**다음**: [631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약](/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/) ->
 
 ---

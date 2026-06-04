@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 같은 I/O 대기 상황에서 CPU 시간이 어떻게 쓰이는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          CPU 시간 사용 비교: 묻고 기다릴 것인가, 알림만 받을 것인가 │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ 폴링 (Polling)        │ 계산 ─┬─ 확인 ─┬─ 확인 ─┬─ 확인 ─┬─ 확인    │
-│                       │       └──────── 대부분이 바쁜 대기 ────────┘ │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ 인터럽트 구동 I/O     │ 계산 ───── 계산 ───── 계산 ─────▶ 인터럽트 처리 │
-│                       │                  필요 시점에만 개입            │
-└───────────────────────┴──────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          CPU 시간 사용 비교: 묻고 기다릴 것인가, 알림만 받을 것인가 |
++-----------------------+----------------------------------------------+
+| 폴링 (Polling)        | 계산 -+- 확인 -+- 확인 -+- 확인 -+- 확인    |
+|                       |       +-------- 대부분이 바쁜 대기 --------+ |
++-----------------------+----------------------------------------------+
+| 인터럽트 구동 I/O     | 계산 ----- 계산 ----- 계산 ------> 인터럽트 처리 |
+|                       |                  필요 시점에만 개입            |
++-----------------------+----------------------------------------------+
 ```
 
 이 차이는 시스템 전체 설계에도 영향을 준다. CPU가 장치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에 매달리지 않으면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 더 많은 프로세스를 스케줄링할 수 있고, 고가의 연산 자원을 낭비하지 않게 된다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O는 단순히 "편한 알림"이 아니라, 범용 컴퓨터가 다수의 장치와 작업을 동시에 다루게 만든 기본 전제다.
@@ -52,17 +52,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 제어 경로를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               인터럽트 구동 I/O의 제어 흐름                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 장치 컨트롤러 ─▶ 인터럽트 컨트롤러 ─▶ CPU                           │
-│      │                    │                 │                         │
-│      │ 작업 완료          │ 우선순위 판정   │ 현재 문맥 저장          │
-│      ▼                    ▼                 ▼                         │
-│ 상태 레지스터        인터럽트 벡터 번호 ─▶ ISR 실행 ─▶ 복귀 명령      │
-│                                                │                     │
-│                                                └─ 데이터 읽기/ACK    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               인터럽트 구동 I/O의 제어 흐름                         |
++----------------------------------------------------------------------+
+| 장치 컨트롤러 --> 인터럽트 컨트롤러 --> CPU                           |
+|      |                    |                 |                         |
+|      | 작업 완료          | 우선순위 판정   | 현재 문맥 저장          |
+|      v                    v                 v                         |
+| 상태 레지스터        인터럽트 벡터 번호 --> ISR 실행 --> 복귀 명령      |
+|                                                |                     |
+|                                                +- 데이터 읽기/ACK    |
++----------------------------------------------------------------------+
 ```
 
 실제 설계에서는 ISR을 짧게 유지하는 것이 중요하다. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서 오래 계산하면 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고, 전체 응답성이 무너진다. 그래서 일반적으로 ISR은 장치 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 버퍼 이동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 하위 작업 예약 정도만 처리하고, 무거운 처리는 이후의 소프트웨어 경로로 넘긴다.
@@ -155,20 +155,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 프로그램 제어 I/O
-    │
-    ▼
+    |
+    v
 폴링 (Polling)
-    │  CPU 낭비 문제 노출
-    ▼
+    |  CPU 낭비 문제 노출
+    v
 인터럽트 구동 I/O (Interrupt-driven I/O)
-    │  이벤트 기반 반응 확보
-    ├───────────────┐
-    ▼               ▼
+    |  이벤트 기반 반응 확보
+    +---------------+
+    v               v
 APIC / MSI          DMA (Direct Memory Access)
-    │               │
-    │ 멀티코어·고속화 │ 대용량 전송 분리
-    └───────┬───────┘
-            ▼
+    |               |
+    | 멀티코어·고속화 | 대용량 전송 분리
+    +-------+-------+
+            v
 인터럽트 코얼레싱 · 적응형 폴링 · 고성능 I/O 스택
 ```
 
@@ -186,7 +186,7 @@ APIC / MSI          DMA (Direct Memory Access)
 
 **진행 상황**: 315 / 803
 
-← **이전**: [313. 폴링 (Polling)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/313_polling/)
-**다음**: [315. 인터럽트 (Interrupt)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/315_interrupt/) →
+<- **이전**: [313. 폴링 (Polling)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/313_polling/)
+**다음**: [315. 인터럽트 (Interrupt)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/315_interrupt/) ->
 
 ---

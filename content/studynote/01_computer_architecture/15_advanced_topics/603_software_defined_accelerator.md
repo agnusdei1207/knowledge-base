@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 "새 실리콘을 매번 찍을 수 없는 분야"에서 SDA가 등장했는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          Workload changes faster than silicon refresh in many domains     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Algorithm v1 -> fixed accelerator fits                                    │
-│ Algorithm v2 -> dataflow changes                                          │
-│ Algorithm v3 -> precision / memory pattern changes                        │
-│                                                                            │
-│ ASIC : efficient but rigid    SDA : same silicon, new configuration        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          Workload changes faster than silicon refresh in many domains     |
++----------------------------------------------------------------------------+
+| Algorithm v1 -> fixed accelerator fits                                    |
+| Algorithm v2 -> dataflow changes                                          |
+| Algorithm v3 -> precision / memory pattern changes                        |
+|                                                                            |
+| ASIC : efficient but rigid    SDA : same silicon, new configuration        |
++----------------------------------------------------------------------------+
 ```
 
 따라서 SDA의 본질은 "하드웨어를 소프트웨어처럼 만든다"가 아니라, <strong>자주 바뀌는 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙을 감당할 만큼만 하드웨어의 유연성을 열어 둔다</strong>는 데 있다. 범위를 정한 유연성이기 때문에 효율과 적응성을 함께 잡을 수 있다.
@@ -58,15 +58,15 @@ SDA는 보통 컴파일러와 런타임이 만든 [설정](/knowledge-base/study
 이 그림은 SDA가 어떻게 "프로그램을 실행"하는 대신 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Host software -> config -> domain accelerator fabric         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Model / Kernel -> Compiler -> Configuration -> Reconfigurable Fabric      │
-│                                   │                 │                      │
-│ Input DMA -> Local Buffer --------┘                 └------> Output DMA   │
-│                                                     │                      │
-│                                      routing / precision / schedule       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              Host software -> config -> domain accelerator fabric         |
++----------------------------------------------------------------------------+
+| Model / Kernel -> Compiler -> Configuration -> Reconfigurable Fabric      |
+|                                   |                 |                      |
+| Input DMA -> Local Buffer --------+                 +------> Output DMA   |
+|                                                     |                      |
+|                                      routing / precision / schedule       |
++----------------------------------------------------------------------------+
 ```
 
 이 구조는 거대 단위 재구성 아키텍처 ([Coarse-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) Reconfigurable [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CGRA)와 닮은 경우가 많다. 연산 타일이 정수 산술, 행렬 곱셈, 벡터 처리처럼 비교적 큰 단위로 묶여 있기 때문에, FPGA보다 재구성은 빠르고 ASIC보다 유연하다. 대신 소프트웨어가 하드웨어 자원을 잘 배치하지 못하면 이론 성능이 나지 않으므로, 하드웨어만큼 컴파일러가 핵심 자산이 된다.
@@ -146,20 +146,20 @@ SDA를 잘 설계하면 칩 하나가 여러 세대의 워크로드를 더 오�
 
 ```text
 범용 CPU 기반 가속
-    │
-    ▼
+    |
+    v
 Fixed-function accelerator
-    │
-    ▼
+    |
+    v
 FPGA 기반 재구성 가속
-    │
-    ▼
+    |
+    v
 Software-Defined Accelerator
-    │
-    ▼
+    |
+    v
 Compiler-co-designed NPU / DPU
-    │
-    ▼
+    |
+    v
 도메인별 adaptive accelerator ecosystem
 ```
 
@@ -177,7 +177,7 @@ Compiler-co-designed NPU / DPU
 
 **진행 상황**: 603 / 803
 
-← **이전**: [602. 이머전 쿨링 (Immersion Cooling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)
-**다음**: [604. 오픈 소스 IP 코어 (Open Source IP Core)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/604_open_source_ip_core/) →
+<- **이전**: [602. 이머전 쿨링 (Immersion Cooling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)
+**다음**: [604. 오픈 소스 IP 코어 (Open Source IP Core)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/604_open_source_ip_core/) ->
 
 ---

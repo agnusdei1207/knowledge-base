@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [NB-IoT 전력 최적화]
-    │
-    ▼
+    |
+    v
 [블루투스 LE]
-    │
-    └──▶ [지그비 메쉬]
+    |
+    +---> [지그비 메쉬]
 ```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [NB-IoT 전력 최적화]
-    │
-    ▼
+    |
+    v
 [블루투스 LE]
-    │
-    └──▶ [지그비 메쉬]
+    |
+    +---> [지그비 메쉬]
 ```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NB-IoT 전력 최적화]
-    │
-    ▼
+    |
+    v
 [현재 개념: 블루투스 LE]
-    │
-    ├──▶ [확장 A: 지그비 메쉬]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 지그비 메쉬]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화에서 출발해 현재 메커니즘을 정교화하고, 이후 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 135 / 1120
 
-← **이전**: [1031. NB-IoT 전력 최적화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1031_nbiot_psm_edrx_power_saving/)
-**다음**: [1033. 지그비 (Zigbee) 메쉬](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1033_zigbee_mesh_network_802_15_4/) →
+<- **이전**: [1031. NB-IoT 전력 최적화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1031_nbiot_psm_edrx_power_saving/)
+**다음**: [1033. 지그비 (Zigbee) 메쉬](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1033_zigbee_mesh_network_802_15_4/) ->
 
 ---

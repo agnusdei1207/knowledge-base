@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [라우터 구조 판단]
-    │
-    ▼
+    |
+    v
 [CEF 물리적 포워딩 / 하드웨어 스위칭]
-    │
-    └──▶ [라우팅 개요]
+    |
+    +---> [라우팅 개요]
 ```
 
 - **📢 섹션 요약 비유**: <strong> CEF는 전투기가 출격(패킷 인입)하기 전에, 비행기에 필요한 모든 미사일 장착, 연료 주입, 목적지 좌표 입력(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>, 인접 테이블)을 </strong>격납고에서 100% 세팅 완료시켜, 출격 명령이 떨어지자마자 버튼 하나로 튕겨 나갈 수 있게 한 완벽한 사전 준비 시스템**입니다.
@@ -56,26 +56,26 @@ CEF의 놀라운 속도는 CPU가 만들어 낸 RIB([라우팅](/knowledge-base/
 - 이것이 <strong>인접 테이블</strong>이다. 패킷이 FIB를 타고 3번 출구로 딱 나오면, 미리 프린트된 인접 테이블의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 포장지를 풀로 철썩 붙여서 빛의 속도로 밖으로 차버린다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CEF (Cisco Express Forwarding) 원리 요약        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 준비 단계 (사전 계산) ]                                       │
- │   1. 라우팅 테이블 (RIB) ───(컴파일)──▶ [ FIB ] (목적지 IP -> 포트 3) │
- │   2. ARP 테이블 (MAC) ────(컴파일)──▶ [ 인접 테이블 ] (미리 만들어둔 L2 헤더)│
- │                                                             │
- │   [ 실전 단계 (패킷 인입 시 CPU 개입 0%) ]                         │
- │   * 패킷(목적지 8.8.8.8)이 입력 포트로 들어옴!                         │
- │     │                                                       │
- │     ▼ (하드웨어 ASIC 칩이 즉시 낚아챔)                            │
- │   [ FIB 검색 ] "8.8.8.8은 3번 포트로 가야 하네!"                   │
- │     │                                                       │
- │     ▼ (스위칭 패브릭 이동)                                       │
- │   [ 인접 테이블 검색 ] "3번 포트니까 미리 만들어둔 AA:BB MAC 껍데기 씌워!" │
- │     │                                                       │
- │     ▼ (빛의 속도로 출력 포트로 튕겨나감)                              │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                CEF (Cisco Express Forwarding) 원리 요약        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 준비 단계 (사전 계산) ]                                       |
+ |   1. 라우팅 테이블 (RIB) ---(컴파일)---> [ FIB ] (목적지 IP -> 포트 3) |
+ |   2. ARP 테이블 (MAC) ----(컴파일)---> [ 인접 테이블 ] (미리 만들어둔 L2 헤더)|
+ |                                                             |
+ |   [ 실전 단계 (패킷 인입 시 CPU 개입 0%) ]                         |
+ |   * 패킷(목적지 8.8.8.8)이 입력 포트로 들어옴!                         |
+ |     |                                                       |
+ |     v (하드웨어 ASIC 칩이 즉시 낚아챔)                            |
+ |   [ FIB 검색 ] "8.8.8.8은 3번 포트로 가야 하네!"                   |
+ |     |                                                       |
+ |     v (스위칭 패브릭 이동)                                       |
+ |   [ 인접 테이블 검색 ] "3번 포트니까 미리 만들어둔 AA:BB MAC 껍데기 씌워!" |
+ |     |                                                       |
+ |     v (빛의 속도로 출력 포트로 튕겨나감)                              |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** CEF는 패스트푸드점의 **"드라이브 스루(Drive-Thru)"**입니다. 손님이 주문(패킷 인입)하자마자 햄버거를 굽는(CPU 연산) 것이 아니라, 이미 뒤에 완성된 햄버거([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))에 미리 출력해 둔 영수증(인접 테이블)을 붙여 창구에서 1초 만에 바로 던져주는 궁극의 공장형 스위칭입니다.
@@ -136,12 +136,12 @@ CEF 물리적 포워딩 / 하드웨어 스위칭은 [라우팅](/knowledge-base/
 
 ```text
 [선행 개념: 라우터 구조 판단]
-    │
-    ▼
+    |
+    v
 [현재 개념: CEF 물리적 포워딩 / 하드웨어 스위칭]
-    │
-    ├──▶ [확장 A: 라우팅 개요]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 라우팅 개요]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 CEF 물리적 포워딩 / 하드웨어 스위칭는 [라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 개요와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ CEF 물리적 포워딩 / 하드웨어 스위칭는 [라우터 구조 판단](/k
 
 **진행 상황**: 459 / 1120
 
-← **이전**: [337. 라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)
-**다음**: [339. 라우팅 (Routing) 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) →
+<- **이전**: [337. 라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)
+**다음**: [339. 라우팅 (Routing) 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ->
 
 ---

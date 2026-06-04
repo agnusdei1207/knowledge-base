@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암호화폐 지갑(Crypto Wallet)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자산의 소유권을 증명하는 개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 안전하게 보관하는 도구다. 지갑이 "돈을 보관"하는 게 아니라 "소유권 증명서(개인키)를 보관"한다.
-> 2. **가치**: BIP-39 니모닉(Mnemonic)은 128~256비트 엔트로피를 12~24개 단어로 인코딩한 시드 문구(Seed Phrase)다. 니모닉 → 시드 → 마스터키 → 수백만 개 하위키 파생이 가능한 HD(Hierarchical Deterministic) 지갑의 기반이다.
+> 2. **가치**: BIP-39 니모닉(Mnemonic)은 128~256비트 엔트로피를 12~24개 단어로 인코딩한 시드 문구(Seed Phrase)다. 니모닉 -> 시드 -> 마스터키 -> 수백만 개 하위키 파생이 가능한 HD(Hierarchical Deterministic) 지갑의 기반이다.
 > 3. **판단 포인트**: 니모닉 12~24단어는 자산의 모든 것이다. 누출 시 모든 자산 탈취 가능, 분실 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능하다. 니모닉 보안이 곧 자산 보안이며 이것이 "Not your keys, not your coins"의 의미다.
 
 ---
@@ -22,14 +22,14 @@ tags = ["studynote-ict-convergence"]
 지갑 키 계층:
 
   니모닉 (12~24 단어)
-      │ BIP-39: PBKDF2(니모닉 + 패스프레이즈, 2048회 반복)
-      ▼
+      | BIP-39: PBKDF2(니모닉 + 패스프레이즈, 2048회 반복)
+      v
   마스터 시드 (512비트)
-      │ BIP-32: HMAC-SHA512
-      ▼
+      | BIP-32: HMAC-SHA512
+      v
   마스터 키 쌍 (개인키 + 체인코드)
-      │ BIP-44 파생 경로: m/44'/60'/0'/0/0
-      ▼
+      | BIP-44 파생 경로: m/44'/60'/0'/0/0
+      v
   계정별 하위키 (이더리움 주소 수백만 개 생성 가능)
 ```
 
@@ -52,9 +52,9 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 1. 128비트 난수 엔트로피 생성
-2. SHA256 해시의 앞 4비트를 체크섬으로 추가 → 132비트
-3. 11비트씩 분할 → 12개 인덱스
-4. BIP-39 단어 목록 (2048개) 매핑 → 12단어
+2. SHA256 해시의 앞 4비트를 체크섬으로 추가 -> 132비트
+3. 11비트씩 분할 -> 12개 인덱스
+4. BIP-39 단어 목록 (2048개) 매핑 -> 12단어
    예: "abandon abandon abandon ... about"
 
 최종 니모닉:
@@ -98,8 +98,8 @@ tags = ["studynote-ict-convergence"]
 ```text
 ❌ 온라인 저장 (이메일, 클라우드) — 절대 금지
 ❌ 사진 촬영 — 갤러리 해킹 위험
-✅ 종이에 수기 기록 → 내화·방수 금고 보관
-✅ 금속 각인 (Cryptosteel) → 물리적 복제본
+✅ 종이에 수기 기록 -> 내화·방수 금고 보관
+✅ 금속 각인 (Cryptosteel) -> 물리적 복제본
 ✅ 지리적 분산 보관 (2~3곳)
 ```
 
@@ -135,20 +135,20 @@ MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상
 
 ```text
 [페이퍼 월렛 — 개인키 프린트, 단순 보관]
-    │
-    ▼
-[HD 지갑 (BIP-32/39) — 니모닉 → 계층적 키 파생]
-    │
-    ▼
+    |
+    v
+[HD 지갑 (BIP-32/39) — 니모닉 -> 계층적 키 파생]
+    |
+    v
 [하드웨어 지갑 — 오프라인 보안 서명 장치]
-    │
-    ▼
+    |
+    v
 [멀티시그 — 다자 서명 기업 자산 관리]
-    │
-    ▼
+    |
+    v
 [MPC 지갑 — 분산 키 계산, 기관 커스터디 표준]
-    │
-    ▼
+    |
+    v
 [AA (Account Abstraction) — 스마트 컨트랙트 기반 지갑]
 ```
 
@@ -164,7 +164,7 @@ MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상
 
 **진행 상황**: 30 / 552
 
-← **이전**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)
-**다음**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/knowledge-base/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/) →
+<- **이전**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)
+**다음**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/knowledge-base/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/) ->
 
 ---

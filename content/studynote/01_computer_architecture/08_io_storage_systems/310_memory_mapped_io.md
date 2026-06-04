@@ -36,23 +36,23 @@ MMIO의 핵심은 CPU가 주소와 제어 신호를 내보내면, 중간의 주�
 아래 그림은 “같은 명령, 다른 목적지”가 어떻게 결정되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                CPU의 주소 기반 분기: 메모리와 장치의 통합 접근      │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Load/Store                                                      │
-│      │                                                              │
-│      ▼                                                              │
-│ 주소 버스 + 데이터 버스                                              │
-│      │                                                              │
-│      ▼                                                              │
-│ ┌────────────────┐      주소 범위 판별      ┌─────────────────────┐ │
-│ │ 주소 디코더     │ ───────────────────────▶ │ MMIO 장치 레지스터   │ │
-│ └──────┬─────────┘                          └─────────────────────┘ │
-│        │                                                            │
-│        └───────────────────────────────▶ ┌─────────────────────┐    │
-│                                          │ 주기억장치 DRAM      │    │
-│                                          └─────────────────────┘    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                CPU의 주소 기반 분기: 메모리와 장치의 통합 접근      |
++----------------------------------------------------------------------+
+| CPU Load/Store                                                      |
+|      |                                                              |
+|      v                                                              |
+| 주소 버스 + 데이터 버스                                              |
+|      |                                                              |
+|      v                                                              |
+| +----------------+      주소 범위 판별      +---------------------+ |
+| | 주소 디코더     | ------------------------> | MMIO 장치 레지스터   | |
+| +------+---------+                          +---------------------+ |
+|        |                                                            |
+|        +--------------------------------> +---------------------+    |
+|                                          | 주기억장치 DRAM      |    |
+|                                          +---------------------+    |
++----------------------------------------------------------------------+
 ```
 
 MMIO에서 자주 다루는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 크게 세 가지다. 첫째, <strong>제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (Control <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> 는 장치 시작, 중지, 모드 전환 같은 명령을 받는다. 둘째, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a>)</strong> 는 준비 완료, 오류, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 여부를 나타낸다. 셋째, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> 는 실제 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 버퍼 포인터를 담는다. CPU는 이들을 일반 메모리 셀처럼 접근하지만, 장치 입장에서는 이 값이 곧 동작 명령이다.
@@ -95,7 +95,7 @@ MMIO를 정확히 이해하려면 분리형 I/O (Isolated I/O, PMIO)와 비교�
 
 실무에서 MMIO를 쓸 때 가장 흔한 오해는 “메모리처럼 보이니 캐시해도 되고, 읽은 값을 다시 써도 되겠지”라는 생각이다. 하지만 MMIO [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 읽는 순간 상태가 바뀌거나, 쓰는 순간 장치가 즉시 동작을 시작할 수 있다. 그래서 드라이버는 해당 영역을 보통 비캐시(uncacheable) 혹은 강한 순서 보장(strongly ordered) 속성으로 매핑하고, 컴파일러 최적화가 접근을 지워 버리지 않도록 `volatile` 또는 이에 준하는 접근 함수를 사용한다.
 
-특히 멀티코어 시스템에서는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서 보장도 중요하다. 예를 들어 “버퍼 주소 기록 → 길이 기록 → 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 기록” 순서를 지켜야 하는 장치에서, CPU나 컴파일러가 이를 재배열하면 장치는 아직 준비되지 않은 버퍼를 읽을 수 있다. 이때는 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 I/O 배리어를 넣어 순서를 고정해야 한다.
+특히 멀티코어 시스템에서는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서 보장도 중요하다. 예를 들어 “버퍼 주소 기록 -> 길이 기록 -> 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 기록” 순서를 지켜야 하는 장치에서, CPU나 컴파일러가 이를 재배열하면 장치는 아직 준비되지 않은 버퍼를 읽을 수 있다. 이때는 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 I/O 배리어를 넣어 순서를 고정해야 한다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -144,18 +144,18 @@ MMIO의 가장 큰 효과는 하드웨어와 소프트웨어 사이의 접점을
 
 ```text
 분리형 I/O (Isolated I/O)
-        │
-        ▼
+        |
+        v
 메모리 맵 I/O (Memory-Mapped I/O)
-        │
-        ├──▶ 장치 드라이버 (Device Driver) 표준화
-        │
-        ├──▶ DMA (Direct Memory Access) 와 역할 분리
-        │
-        ▼
+        |
+        +---> 장치 드라이버 (Device Driver) 표준화
+        |
+        +---> DMA (Direct Memory Access) 와 역할 분리
+        |
+        v
 캐시 정책 · 메모리 배리어 · MMU 보호 속성
-        │
-        ▼
+        |
+        v
 고속 인터커넥트 기반 통합 장치 제어
 ```
 
@@ -173,7 +173,7 @@ MMIO의 가장 큰 효과는 하드웨어와 소프트웨어 사이의 접점을
 
 **진행 상황**: 311 / 803
 
-← **이전**: [309. 입출력 모듈 (I/O Module)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/309_io_controller/)
-**다음**: [311. 분리형 I/O (Isolated I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/311_isolated_io/) →
+<- **이전**: [309. 입출력 모듈 (I/O Module)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/309_io_controller/)
+**다음**: [311. 분리형 I/O (Isolated I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/311_isolated_io/) ->
 
 ---

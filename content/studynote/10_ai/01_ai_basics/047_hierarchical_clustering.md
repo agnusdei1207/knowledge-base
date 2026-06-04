@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 > **핵심 인사이트**
 > 1. [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)(Hierarchical [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 트리 형태의 덴드로그램(Dendrogram)으로 표현하는 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — k-means와 달리 군집 수를 사전에 결정할 필요 없고, 덴드로그램을 어느 높이에서 자르느냐에 따라 다양한 군집 수를 얻을 수 있다.
-> 2. 응집형(Agglomerative) vs 분리형(Divisive) 두 접근법 — 응집형은 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 독립 군집으로 시작해 유사한 것끼리 합치고(아래→위), 분리형은 전체를 하나의 군집으로 시작해 나누는 방식(위→아래)이다. 실무에서는 응집형이 훨씬 많이 사용된다.
+> 2. 응집형(Agglomerative) vs 분리형(Divisive) 두 접근법 — 응집형은 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 독립 군집으로 시작해 유사한 것끼리 합치고(아래->위), 분리형은 전체를 하나의 군집으로 시작해 나누는 방식(위->아래)이다. 실무에서는 응집형이 훨씬 많이 사용된다.
 > 3. 연결 방법(Linkage)이 군집 모양을 결정 — 단일 연결(Single)은 체인 효과로 길쭉한 군집, 완전 연결(Complete)은 컴팩트한 구형 군집, Ward 연결은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최소화로 균일한 크기 군집을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, Ward 방법이 일반적으로 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 ---
@@ -26,16 +26,16 @@ tags = ["studynote-ai"]
   단계: 가장 유사한 두 군집 합치기
   종료: 모두 하나의 군집 (1개)
 
-  N → N-1 → N-2 → ... → 2 → 1
+  N -> N-1 -> N-2 -> ... -> 2 -> 1
 
-  복잡도: O(n³) 또는 O(n² log n)
+  복잡도: O(n³) 또는 O(n^ log n)
 
 분리형 (Divisive, Top-Down):
   초기: 모든 데이터 = 하나의 군집
   단계: 가장 이질적인 군집 나누기
   종료: 각 포인트가 독립 군집
 
-  1 → 2 → ... → N-1 → N
+  1 -> 2 -> ... -> N-1 -> N
 
   더 복잡, 덜 사용됨
 
@@ -46,10 +46,10 @@ tags = ["studynote-ai"]
   x축: 데이터 포인트
 
   예시:
-  A ─┐
-  B ─┘─┐
-  C ────┘─┐
-  D ──────┘
+  A -+
+  B -+-+
+  C ----+-+
+  D ------+
 
   A와 B가 먼저 합쳐짐 (유사)
   C가 AB에 합쳐짐
@@ -57,12 +57,12 @@ tags = ["studynote-ai"]
 
 군집 수 결정 (덴드로그램 절단):
   덴드로그램을 특정 높이에서 절단
-  → 그 높이의 가지 수 = 군집 수
+  -> 그 높이의 가지 수 = 군집 수
 
   최적 절단: 가장 긴 수직선 위치 (가장 큰 거리 점프)
 ```
 
-> 📢 **섹션 요약 비유**: [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)는 가족 족보 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림. 어느 세대까지 볼지(절단)는 내가 결정!
+> 📢 **섹션 요약 비유**: [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)는 가족 족보 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) -> 가족 -> 씨족 -> 민족 -> 인류. 덴드로그램은 족보 그림. 어느 세대까지 볼지(절단)는 내가 결정!
 
 ---
 
@@ -114,9 +114,9 @@ Ward 연결:
   권장: 일반적으로 Ward 방법이 기본 선택
 
 비교 시각화:
-  단일: A───B───C───D (체인)
-  완전: A─┐ B─┐ (두 덩어리)
-        C─┘ D─┘
+  단일: A---B---C---D (체인)
+  완전: A-+ B-+ (두 덩어리)
+        C-+ D-+
   Ward: 균일한 크기 덩어리
 ```
 
@@ -140,7 +140,7 @@ Ward 연결:
 
   3. n-1 반복:
      - 가장 작은 D[Ci, Cj] 찾기
-     - Ci와 Cj 합병 → Ck
+     - Ci와 Cj 합병 -> Ck
      - 덴드로그램 기록 (합병 거리, 높이)
      - D 업데이트 (Ck와 나머지 군집 거리 재계산)
      - C에서 Ci, Cj 제거, Ck 추가
@@ -165,13 +165,13 @@ Python 구현:
 
 시간 복잡도:
   Naive: O(n³)
-  SLINK (Single): O(n²)
-  CLINK (Complete): O(n²)
-  Ward (Lance-Williams): O(n² log n)
+  SLINK (Single): O(n^)
+  CLINK (Complete): O(n^)
+  Ward (Lance-Williams): O(n^ log n)
 
   n = 10,000:
-  O(n³) = 10^12 → 수 시간
-  → 대규모 데이터: k-means 선호
+  O(n³) = 10^12 -> 수 시간
+  -> 대규모 데이터: k-means 선호
 ```
 
 > 📢 **섹션 요약 비유**: 계층 군집 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 거리 기반 합치기 — 거리표(D) 보면서 가장 가까운 둘을 계속 합쳐요. 족보가 완성될 때까지!
@@ -207,14 +207,14 @@ k-means vs 계층 군집화:
 |------|---------|----------|
 | 군집 수 | 사전 지정 | 사후 결정 |
 | 형태 | 구형 | 임의 |
-| 속도 | O(nk) 빠름 | O(n²) 느림 |
+| 속도 | O(nk) 빠름 | O(n^) 느림 |
 | 해석 | 어려움 | 덴드로그램 |
 | 이상치 | 민감 | 방법에 따라 |
 
 선택 가이드:
   n < 1,000: 계층 군집화 (덴드로그램 시각화)
   n > 10,000: k-means (속도)
-  군집 수 모름: 계층 군집화 → 절단 결정
+  군집 수 모름: 계층 군집화 -> 절단 결정
   구형 군집: k-means
   임의 형태: DBSCAN 또는 계층(단일 연결)
 ```
@@ -240,7 +240,7 @@ k-means vs 계층 군집화:
 
   덴드로그램 분석:
   y=5 높이에서 가장 긴 수직선
-  → 절단 높이 = 5 → 4개 군집 최적
+  -> 절단 높이 = 5 -> 4개 군집 최적
 
 군집 해석 (4개):
   군집 0: VIP 고객 (빈도 높음, 금액 높음, 최근)
@@ -252,7 +252,7 @@ k-means vs 계층 군집화:
   VIP: 프리미엄 멤버십 초대
   충성: 포인트 더블 이벤트
   휴면: 재활성화 캠페인 이메일
-  신규: 첫 구매 할인 → 재구매 유도
+  신규: 첫 구매 할인 -> 재구매 유도
 
 k-means 대비 장점:
   군집 수(4개) 덴드로그램으로 결정
@@ -260,11 +260,11 @@ k-means 대비 장점:
 
   군집 계층 분석:
   VIP와 충성 고객이 먼저 합쳐짐 (유사)
-  → 함께 "우량 고객" 캠페인도 가능
+  -> 함께 "우량 고객" 캠페인도 가능
 
 결과:
   휴면 고객 캠페인 응답률: 12% (업계 평균 5%)
-  신규→충성 전환율: 28% (이전 15%)
+  신규->충성 전환율: 28% (이전 15%)
 ```
 
 > 📢 **섹션 요약 비유**: 고객 세그먼트 분석은 손님 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 덴드로그램으로 VIP·충성·휴면·신규 4그룹 자동 발견. k-means 달리 그룹 수도 자동으로 알아내요!
@@ -310,7 +310,7 @@ k-means 대비 장점:
       |
       v
 [대규모 BIRCH (1996)]
-n² 한계 극복 시도
+n^ 한계 극복 시도
       |
       v
 [현재: 고차원+대규모]
@@ -323,7 +323,7 @@ sklearn 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 계층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 족보 만들기 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림!
+1. 계층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 족보 만들기 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) -> 가족 -> 씨족 -> 민족 -> 인류. 덴드로그램은 족보 그림!
 2. 연결 방법은 반 편성 기준 — Ward는 비슷한 성적끼리 균일 배치, 단일은 친구 한 명이라도 있으면 합류(체인 효과)!
 3. 덴드로그램 절단은 어느 세대까지 볼지 — 덴드로그램을 높이 5에서 자르면 4개 그룹. 내가 원하는 그룹 수를 사후 선택!
 
@@ -333,7 +333,7 @@ sklearn 통합
 
 **진행 상황**: 47 / 420
 
-← **이전**: [046. DBSCAN — 밀도 기반 군집화](/knowledge-base/studynote/10_ai/01_ai_basics/046_dbscan/)
-**다음**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/) →
+<- **이전**: [046. DBSCAN — 밀도 기반 군집화](/knowledge-base/studynote/10_ai/01_ai_basics/046_dbscan/)
+**다음**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/) ->
 
 ---

@@ -303,12 +303,12 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 ```text
 [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
-    │
-    ▼
+    |
+    v
 [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
-    │
-    ├──▶ [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
-    └──▶ [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
+    |
+    +---> [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
+    +---> [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -325,7 +325,7 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 **진행 상황**: 615 / 800
 
-← **이전**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/)
-**다음**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/) →
+<- **이전**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/)
+**다음**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/) ->
 
 ---

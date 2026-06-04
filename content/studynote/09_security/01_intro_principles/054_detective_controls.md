@@ -32,7 +32,7 @@ tags = ["studynote-security"]
 탐지 통제는 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 패턴 탐지, [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), 경보로 이어진다. 정상과 다른 행동을 알아차리는 것이 핵심이다.
 
 ```text
-Event/Log → Detection Rule → Alert → Investigation
+Event/Log -> Detection Rule -> Alert -> Investigation
 ```
 
 | 수단 | 역할 | 예시 |
@@ -111,14 +111,14 @@ Event/Log → Detection Rule → Alert → Investigation
 
 ```text
 이상 발생
-    │
-    ▼
+    |
+    v
 로그/센서
-    │
-    ▼
+    |
+    v
 탐지 규칙
-    │
-    ▼
+    |
+    v
 경보 / 조사
 ```
 
@@ -136,7 +136,7 @@ Event/Log → Detection Rule → Alert → Investigation
 
 **진행 상황**: 54 / 1108
 
-← **이전**: [53. 예방 통제 (Preventive Controls)](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)
-**다음**: [55. 교정 통제 (Corrective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/) →
+<- **이전**: [53. 예방 통제 (Preventive Controls)](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)
+**다음**: [55. 교정 통제 (Corrective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/) ->
 
 ---

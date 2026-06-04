@@ -38,51 +38,51 @@ Yahoo! 연구팀이 2006년~2008년에 걸쳐 대규모 [분산](/knowledge-base
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                [ Apache ZooKeeper 아키텍처 ]                      │
-│                                                                 │
-│  [ZooKeeper Service (앙상블)]                                   │
-│    ┌───────────┐  ┌───────────┐  ┌───────────┐                  │
-│    │  Server 1 │  │  Server 2 │  │  Server 3 │   (3대 기준)       │
-│    │  (Leader) │←─┼─ Quorum ─┼─→│ (Follower)│                  │
-│    │           │  │  (过半数) │  │           │                  │
-│    └───────────┘  └───────────┘  └───────────┘                  │
-│                                                                 │
-│  [앙상블 내부 동작]                                              │
-│    - Leader选举: Zab (ZooKeeper Atomic Broadcast) 프로토콜       │
-│    - 모든 쓰기요청은 Leader에서 처리 → Follower에 전파            │
-│    - 읽기요청은 어떤 Server에서든 처리 (非同步)                   │
-│    - 과반수(Quorum) 서버가 살아 있으면 서비스 지속                │
-│                                                                 │
-│  [ZooKeeper 데이터 모델: znodes]                                 │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  /workers                                            [E]  │   │
-│  │    ├─ /worker-1  { "status": "active" }                [E]  │   │
-│  │    └─ /worker-2  { "status": "idle" }                 [E]  │   │
-│  │  /tasks                                                 │   │
-│  │    ├─ /task-001  { "assignee": "worker-1" }            [E]  │   │
-│  │    └─ /task-002  { "assignee": "" }                   [E]  │   │
-│  │  /leader          { "elected": "server-1" }            [SE] │   │
-│  │                                                              │   │
-│  │  [E] = Ephemeral Node (세션 동안만 존재, 연결 끊으면 자동 삭제) │   │
-│  │  [SE] = Sequential Ephemeral (순번 자동 증가 + 세션 종료 시 삭제) │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│  [주요 활용 사례]                                                │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  ① 리더 선출 (Leader Election)                            │   │
-│  │     /leader 경로에 Sequential Ephemeral 노드 생성          │   │
-│  │     → 가장 작은 sequence number이 리더!                    │   │
-│  │  ② 분산 잠금 (Distributed Lock)                            │   │
-│  │     /lock 경로에 Sequential Ephemeral 노드 생성            │   │
-│  │     → 자신의 순번보다 작은 노드가 없으면 Lock 획득!         │   │
-│  │  ③ 서비스 디스커버리 (Service Discovery)                    │   │
-│  │     /services/{service-name}/{{service-instance}} 등록     │   │
-│  │  ④ 설정 관리 (Configuration Management)                     │   │
-│  │     /config/{service} 경로에 설정 정보 저장               │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                [ Apache ZooKeeper 아키텍처 ]                      |
+|                                                                 |
+|  [ZooKeeper Service (앙상블)]                                   |
+|    +-----------+  +-----------+  +-----------+                  |
+|    |  Server 1 |  |  Server 2 |  |  Server 3 |   (3대 기준)       |
+|    |  (Leader) |<--+- Quorum -+-->| (Follower)|                  |
+|    |           |  |  (过半数) |  |           |                  |
+|    +-----------+  +-----------+  +-----------+                  |
+|                                                                 |
+|  [앙상블 내부 동작]                                              |
+|    - Leader选举: Zab (ZooKeeper Atomic Broadcast) 프로토콜       |
+|    - 모든 쓰기요청은 Leader에서 처리 -> Follower에 전파            |
+|    - 읽기요청은 어떤 Server에서든 처리 (非同步)                   |
+|    - 과반수(Quorum) 서버가 살아 있으면 서비스 지속                |
+|                                                                 |
+|  [ZooKeeper 데이터 모델: znodes]                                 |
+|  +----------------------------------------------------------+   |
+|  |  /workers                                            [E]  |   |
+|  |    +- /worker-1  { "status": "active" }                [E]  |   |
+|  |    +- /worker-2  { "status": "idle" }                 [E]  |   |
+|  |  /tasks                                                 |   |
+|  |    +- /task-001  { "assignee": "worker-1" }            [E]  |   |
+|  |    +- /task-002  { "assignee": "" }                   [E]  |   |
+|  |  /leader          { "elected": "server-1" }            [SE] |   |
+|  |                                                              |   |
+|  |  [E] = Ephemeral Node (세션 동안만 존재, 연결 끊으면 자동 삭제) |   |
+|  |  [SE] = Sequential Ephemeral (순번 자동 증가 + 세션 종료 시 삭제) |   |
+|  +----------------------------------------------------------+   |
+|                                                                 |
+|  [주요 활용 사례]                                                |
+|  +----------------------------------------------------------+   |
+|  |  ① 리더 선출 (Leader Election)                            |   |
+|  |     /leader 경로에 Sequential Ephemeral 노드 생성          |   |
+|  |     -> 가장 작은 sequence number이 리더!                    |   |
+|  |  ② 분산 잠금 (Distributed Lock)                            |   |
+|  |     /lock 경로에 Sequential Ephemeral 노드 생성            |   |
+|  |     -> 자신의 순번보다 작은 노드가 없으면 Lock 획득!         |   |
+|  |  ③ 서비스 디스커버리 (Service Discovery)                    |   |
+|  |     /services/{service-name}/{{service-instance}} 등록     |   |
+|  |  ④ 설정 관리 (Configuration Management)                     |   |
+|  |     /config/{service} 경로에 설정 정보 저장               |   |
+|  +----------------------------------------------------------+   |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 ### 1. Zab ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
@@ -102,7 +102,7 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 ### 3. Quorum (과반수)와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)
 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)에서"과반수(Quorum)"는"[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속되기 위해 필요한 최소한의 정상 서버 수"입니다.
-- **Quorum 계산**: 서버 3대 → 과반수 2대, 서버 5대 → 과반수 3대, 서버 7대 → 과반수 4대
+- **Quorum 계산**: 서버 3대 -> 과반수 2대, 서버 5대 -> 과반수 3대, 서버 7대 -> 과반수 4대
 - <strong>읽기 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>: ZooKeeper는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))을제공하지 않고"임시적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Tentative [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))"을제공합니다. 읽기는 어떤 서버에서든가능하지만, 그 서버가 최신 writes를 반영하지 못할 수 있습니다. 그러나clients는`watch`를 통해 변경 사항을 실시간으로통지받을 수 있어결과적에는 일관된 View를 얻을 수 있습니다.
 
 - **📢 섹션 요약 비유**: ZooKeeper의 Quorum 메커니즘은"합의결정의 [voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 시스템"과 같습니다. 5명의 이사진(서버)이 있는 회사에서 중요한결정적화가 있으면"과반수의찬동이 필요"합니다. 만약 3명 이상이"승인"이라고투표하면결정는통과되고, 나머지 2명의"반대"는 무시됩니다. 하지만 만약 3명 이상이"공사적사에 동의하면서도 각자의 사정을 전달하지 못하는 상황"(네트워크 분할)에 처하면, 두 그룹으로 나뉘어각자"내가 과반수을 차지하고 있다"고 생각하는"분열 뇌(split-brain)"가 발생할 수 있습니다. ZooKeeper는 이러한split-brain를방지하기 위해, 오직 단일 Leader만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 처리하도록하고, Leader의 상태를 전Follower가 항상감시하여,"만약 Leader가 쓰러지면 즉시에 다른 Leader를 선출"하는 메커니즘을 내장하고 있습니다.
@@ -130,9 +130,9 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **필요 용도** | 리더 선출만 필요 → [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)/SimpleServiceRegistry | KV 스토어 + 리더 선출 → [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) |
-| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 요구</strong> | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수 → [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) / [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Quorum | Eventual 허용 → Consul |
-| **규모** | 수십 개 수준 노드 → [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 3~5대 | 수백~수천 노드 → Consul Gossip |
+| **필요 용도** | 리더 선출만 필요 -> [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)/SimpleServiceRegistry | KV 스토어 + 리더 선출 -> [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 요구</strong> | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수 -> [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) / [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Quorum | Eventual 허용 -> Consul |
+| **규모** | 수십 개 수준 노드 -> [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 3~5대 | 수백~수천 노드 -> Consul Gossip |
 | **운영 난이도** | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 전담 관리 역량 필요 | etcd는 Kubernetes와 긴밀 | Consul은 간단한 KV |
 
 *(추가 실무 적용 가이드 - [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 클러스터 구축)*
@@ -182,23 +182,23 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 ```text
 [Apache ZooKeeper 핵심 개념]
-    │
-    ▼
+    |
+    v
 [Znode: ZooKeeper의 기본 데이터 단위 (파일+디렉토리 hybrid)]
-    │
-    ▼
+    |
+    v
 [Watcher: 노드 변경 시 자동 알림]
-    │
-    ▼
+    |
+    v
 [Zab Protocol: Atomic Broadcast + Leader Election]
-    │
-    ▼
+    |
+    v
 [Quorum: 과반수 서버 consensus]
-    │
-    ▼
+    |
+    v
 [Znode 유형 조합]
-    │
-    ▼
+    |
+    v
 [Regular Persistent (P): 영속 비순차 - 설정 정보 저장]
 ```
 
@@ -218,7 +218,7 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 **진행 상황**: 26 / 262
 
-← **이전**: [03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성](/knowledge-base/studynote/16_bigdata/02_hadoop/025_namenode_metadata_spof_ha/)
-**다음**: [05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화](/knowledge-base/studynote/16_bigdata/02_hadoop/027_oozie_airflow/) →
+<- **이전**: [03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성](/knowledge-base/studynote/16_bigdata/02_hadoop/025_namenode_metadata_spof_ha/)
+**다음**: [05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화](/knowledge-base/studynote/16_bigdata/02_hadoop/027_oozie_airflow/) ->
 
 ---

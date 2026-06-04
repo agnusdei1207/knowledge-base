@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리은 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 확장판 (분할 P 시 A/C 대안, 정상 작동 E 시 L([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))/C([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))에 초점을 맞춘 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Coordinator -> Current concept -> Replica result   │
-├──────────────────────────────────────────────────────────────┤
-│ Network delay -> rule -> consistency outcome                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Coordinator -> Current concept -> Replica result   |
++--------------------------------------------------------------+
+| Network delay -> rule -> consistency outcome                 |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `CP 시스템 / AP 시스템 / CA 시스템`·`결과적 일관성`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Prepare -> sync -> current concept -> final decision         │
-├──────────────────────────────────────────────────────────────┤
-│ Local success -> global agreement -> atomicity               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Prepare -> sync -> current concept -> final decision         |
++--------------------------------------------------------------+
+| Local success -> global agreement -> atomicity               |
++--------------------------------------------------------------+
 ```
 
 핵심은 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [CP 시스템 / AP 시스템 / CA 시스템]
-    │
-    ▼
+    |
+    v
 [PACELC 정리]
-    │
-    ├──▶ [결과적 일관성]
-    └──▶ [BASE 속성]
+    |
+    +---> [결과적 일관성]
+    +---> [BASE 속성]
 ```
 
 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 / [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 / [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템에서 출발한 논점이 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리에서 핵심 판단으로 모이고, 이후 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)·BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 255 / 600
 
-← **이전**: [254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)](/knowledge-base/studynote/05_database/04_transactions_concurrency/254_cp_ap_systems/)
-**다음**: [256. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/05_database/04_transactions_concurrency/256_eventual_consistency/) →
+<- **이전**: [254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)](/knowledge-base/studynote/05_database/04_transactions_concurrency/254_cp_ap_systems/)
+**다음**: [256. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/05_database/04_transactions_concurrency/256_eventual_consistency/) ->
 
 ---

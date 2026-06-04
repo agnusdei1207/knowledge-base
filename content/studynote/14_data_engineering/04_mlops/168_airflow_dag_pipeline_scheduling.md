@@ -24,24 +24,24 @@ tags = ["studynote-data-engineering"]
 
 ```
 Airflow 없는 세상 (문제 상황)
-┌────────────────────────────────────────────────────────┐
-│  스크립트 A (00:00 실행)                                │
-│  스크립트 B (01:00 실행)  ← A 완료 확인을 어떻게?      │
-│  스크립트 C (02:00 실행)  ← B 실패 시 C는?             │
-│  → 크론탭(crontab)으로 시간 기반 실행                  │
-│  → 의존성 관리 없음, 실패 재시도 없음                  │
-│  → 파이프라인 현황 가시성 없음                          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  스크립트 A (00:00 실행)                                |
+|  스크립트 B (01:00 실행)  <- A 완료 확인을 어떻게?      |
+|  스크립트 C (02:00 실행)  <- B 실패 시 C는?             |
+|  -> 크론탭(crontab)으로 시간 기반 실행                  |
+|  -> 의존성 관리 없음, 실패 재시도 없음                  |
+|  -> 파이프라인 현황 가시성 없음                          |
++--------------------------------------------------------+
 
 Airflow 도입 후
-┌────────────────────────────────────────────────────────┐
-│  DAG: etl_pipeline                                     │
-│  extract_task → transform_task → load_task             │
-│                    ↓ (실패 시)                          │
-│                 자동 재시도 3회                         │
-│                 → 알람 발송                            │
-│  Web UI로 실시간 현황 모니터링                          │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  DAG: etl_pipeline                                     |
+|  extract_task -> transform_task -> load_task             |
+|                    v (실패 시)                          |
+|                 자동 재시도 3회                         |
+|                 -> 알람 발송                            |
+|  Web UI로 실시간 현황 모니터링                          |
++--------------------------------------------------------+
 ```
 
 ### 1.2 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 개념
@@ -49,24 +49,24 @@ Airflow 도입 후
 ```
 DAG = 방향성(Directed) + 비순환(Acyclic) + 그래프(Graph)
 
-방향성: 작업 A → 작업 B (A가 끝나야 B 시작)
-비순환: A → B → C → A 같은 순환 불가 (무한 루프 방지)
+방향성: 작업 A -> 작업 B (A가 끝나야 B 시작)
+비순환: A -> B -> C -> A 같은 순환 불가 (무한 루프 방지)
 
 예시 DAG:
 extract_data
-     │
-     ├──→ validate_data ──→ load_to_staging
-     │                              │
-     └──→ profile_data             │
-                                   ▼
+     |
+     +---> validate_data ---> load_to_staging
+     |                              |
+     +---> profile_data             |
+                                   v
                            run_dbt_models
-                                   │
-                           ┌───────┴────────┐
-                           ▼               ▼
+                                   |
+                           +-------+--------+
+                           v               v
                     build_marts      send_report
 ```
 
-📢 **섹션 요약 비유**: Airflow는 복잡한 요리 레시피를 자동으로 실행하는 주방 AI와 같다. "재료 손질(extract) → 조리(transform) → 담기(load)" 순서를 코드로 적어두면, AI가 알아서 순서대로 실행하고, 중간에 실패하면 다시 시도하며, 모든 과정을 화면으로 보여준다.
+📢 **섹션 요약 비유**: Airflow는 복잡한 요리 레시피를 자동으로 실행하는 주방 AI와 같다. "재료 손질(extract) -> 조리(transform) -> 담기(load)" 순서를 코드로 적어두면, AI가 알아서 순서대로 실행하고, 중간에 실패하면 다시 시도하며, 모든 과정을 화면으로 보여준다.
 
 ---
 
@@ -75,28 +75,28 @@ extract_data
 ### 2.1 Airflow 핵심 구성요소
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                     Apache Airflow 아키텍처                      │
-├────────────────┬─────────────────────────────────────────────────┤
-│  Web Server    │  Django 기반 Web UI                              │
-│  (Flask)       │  DAG 시각화, 실행 현황, 로그 확인                │
-├────────────────┼─────────────────────────────────────────────────┤
-│  Scheduler     │  DAG 파일 파싱, 트리거 결정                      │
-│                │  스케줄 기반 또는 외부 트리거로 DagRun 생성      │
-├────────────────┼─────────────────────────────────────────────────┤
-│  Executor      │  실제 작업 실행 담당                              │
-│                │  Sequential/Local/Celery/Kubernetes              │
-├────────────────┼─────────────────────────────────────────────────┤
-│  Workers       │  Executor에서 할당받은 Task 실행                  │
-│                │  Celery: Celery Worker                          │
-│                │  K8s: Pod로 Task 실행                           │
-├────────────────┼─────────────────────────────────────────────────┤
-│  Metadata DB   │  DAG 메타데이터, 실행 이력                       │
-│  (PostgreSQL)  │  변수(Variables), 연결(Connections)              │
-├────────────────┼─────────────────────────────────────────────────┤
-│  DAG 파일      │  Python 파일로 정의된 워크플로우                  │
-│  (File System) │  Scheduler가 주기적으로 파싱                     │
-└────────────────┴─────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                     Apache Airflow 아키텍처                      |
++----------------+-------------------------------------------------+
+|  Web Server    |  Django 기반 Web UI                              |
+|  (Flask)       |  DAG 시각화, 실행 현황, 로그 확인                |
++----------------+-------------------------------------------------+
+|  Scheduler     |  DAG 파일 파싱, 트리거 결정                      |
+|                |  스케줄 기반 또는 외부 트리거로 DagRun 생성      |
++----------------+-------------------------------------------------+
+|  Executor      |  실제 작업 실행 담당                              |
+|                |  Sequential/Local/Celery/Kubernetes              |
++----------------+-------------------------------------------------+
+|  Workers       |  Executor에서 할당받은 Task 실행                  |
+|                |  Celery: Celery Worker                          |
+|                |  K8s: Pod로 Task 실행                           |
++----------------+-------------------------------------------------+
+|  Metadata DB   |  DAG 메타데이터, 실행 이력                       |
+|  (PostgreSQL)  |  변수(Variables), 연결(Connections)              |
++----------------+-------------------------------------------------+
+|  DAG 파일      |  Python 파일로 정의된 워크플로우                  |
+|  (File System) |  Scheduler가 주기적으로 파싱                     |
++----------------+-------------------------------------------------+
 ```
 
 ### 2.2 Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 코드 예시
@@ -175,7 +175,7 @@ with DAG(
 | **PythonOperator** | Python 함수 실행 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 |
 | **SparkSubmitOperator** | Spark 잡 제출 | 대용량 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
 | **BigQueryOperator** | [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) SQL 실행 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환, 집계 |
-| **S3ToRedshiftOperator** | S3 → Redshift 복사 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로딩 |
+| **S3ToRedshiftOperator** | S3 -> Redshift 복사 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로딩 |
 | **KubernetesPodOperator** | K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 실행 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 작업 |
 | **DummyOperator** | 빈 작업 (분기 포인트) | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구조화 |
 | **BranchPythonOperator** | [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) | A/B 실행 경로 선택 |
@@ -183,22 +183,22 @@ with DAG(
 ### 2.4 Executor 비교
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│                     Executor 비교                              │
-├──────────────────┬──────────────┬────────────────────────────┤
-│ SequentialExecutor│ 단일 프로세스│ 개발/테스트용, 병렬 불가  │
-├──────────────────┼──────────────┼────────────────────────────┤
-│ LocalExecutor     │ 로컬 멀티프로│ 소규모 운영, 단일 서버    │
-│                   │ 세스 (fork) │ (수십 개 태스크 동시)     │
-├──────────────────┼──────────────┼────────────────────────────┤
-│ CeleryExecutor    │ 분산 워커    │ 중~대규모, 고가용성       │
-│                   │ (RabbitMQ/  │ 워커 수평 확장 가능       │
-│                   │  Redis)     │ 복잡한 설정 필요          │
-├──────────────────┼──────────────┼────────────────────────────┤
-│ KubernetesExecutor│ 태스크별    │ 클라우드 네이티브         │
-│                   │ K8s Pod 생성│ 자원 격리, 동적 스케일링  │
-│                   │             │ 태스크 시작 오버헤드 있음 │
-└──────────────────┴──────────────┴────────────────────────────┘
++---------------------------------------------------------------+
+|                     Executor 비교                              |
++------------------+--------------+----------------------------+
+| SequentialExecutor| 단일 프로세스| 개발/테스트용, 병렬 불가  |
++------------------+--------------+----------------------------+
+| LocalExecutor     | 로컬 멀티프로| 소규모 운영, 단일 서버    |
+|                   | 세스 (fork) | (수십 개 태스크 동시)     |
++------------------+--------------+----------------------------+
+| CeleryExecutor    | 분산 워커    | 중~대규모, 고가용성       |
+|                   | (RabbitMQ/  | 워커 수평 확장 가능       |
+|                   |  Redis)     | 복잡한 설정 필요          |
++------------------+--------------+----------------------------+
+| KubernetesExecutor| 태스크별    | 클라우드 네이티브         |
+|                   | K8s Pod 생성| 자원 격리, 동적 스케일링  |
+|                   |             | 태스크 시작 오버헤드 있음 |
++------------------+--------------+----------------------------+
 ```
 
 📢 **섹션 요약 비유**: Airflow Executor는 배달 시스템과 같다. SequentialExecutor는 혼자 한 명씩 배달(순차), LocalExecutor는 같은 빌딩의 여러 배달원(로컬 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)), CeleryExecutor는 여러 지점의 배달원들([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), KubernetesExecutor는 주문마다 드론을 새로 보내는 방식([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))이다.
@@ -247,25 +247,25 @@ with DAG(
 ### 4.1 Airflow 모범 사례
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  Airflow 모범 사례 (Best Practices)          │
-├──────────────────────────────────────────────────────────────┤
-│  DAG 설계                                                    │
-│  □ 한 DAG당 하나의 논리적 워크플로우만                       │
-│  □ 태스크를 원자적(Atomic)으로 설계 (재시도 안전)            │
-│  □ 비즈니스 로직은 DAG 외부 (Python 모듈)에 위치             │
-│  □ XCom은 소량 데이터만 (대용량은 S3/GCS 경유)              │
-├──────────────────────────────────────────────────────────────┤
-│  성능                                                        │
-│  □ schedule_interval 최소 5분 이상 (너무 잦은 실행 금지)     │
-│  □ max_active_runs로 동시 실행 제한                          │
-│  □ 연결 풀링 (Connections Pool) 활용                         │
-├──────────────────────────────────────────────────────────────┤
-│  운영                                                        │
-│  □ Variables/Connections에 민감 정보 저장 (하드코딩 금지)    │
-│  □ SLA (Service Level Agreement) 설정으로 지연 알람          │
-│  □ 로그 외부화 (S3/GCS)로 장기 보관                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  Airflow 모범 사례 (Best Practices)          |
++--------------------------------------------------------------+
+|  DAG 설계                                                    |
+|  □ 한 DAG당 하나의 논리적 워크플로우만                       |
+|  □ 태스크를 원자적(Atomic)으로 설계 (재시도 안전)            |
+|  □ 비즈니스 로직은 DAG 외부 (Python 모듈)에 위치             |
+|  □ XCom은 소량 데이터만 (대용량은 S3/GCS 경유)              |
++--------------------------------------------------------------+
+|  성능                                                        |
+|  □ schedule_interval 최소 5분 이상 (너무 잦은 실행 금지)     |
+|  □ max_active_runs로 동시 실행 제한                          |
+|  □ 연결 풀링 (Connections Pool) 활용                         |
++--------------------------------------------------------------+
+|  운영                                                        |
+|  □ Variables/Connections에 민감 정보 저장 (하드코딩 금지)    |
+|  □ SLA (Service Level Agreement) 설정으로 지연 알람          |
+|  □ 로그 외부화 (S3/GCS)로 장기 보관                         |
++--------------------------------------------------------------+
 ```
 
 ### 4.2 기술사 시험 핵심 포인트
@@ -286,31 +286,31 @@ KubernetesExecutor는 각 Airflow Task를 독립된 [쿠버네티스](/knowledge
 ### 4.3 실무 배포 구조 (엔터프라이즈)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│              엔터프라이즈 Airflow 배포 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Git (DAG 코드 관리)                                         │
-│       │ CI/CD                                                │
-│       ▼                                                      │
-│  DAG 파일 서버 (NFS/S3)                                      │
-│       │ 마운트                                               │
-│       ▼                                                      │
-│  Airflow Web Server ←── 운영자 모니터링                      │
-│  Airflow Scheduler                                           │
-│       │ 태스크 할당                                          │
-│       ▼                                                      │
-│  ┌─────────────────────────────────────────┐               │
-│  │  Celery Workers (Auto Scaling Group)    │               │
-│  │  Worker 1  Worker 2  ...  Worker N      │               │
-│  └─────────────────────────────────────────┘               │
-│       │                                                      │
-│       ▼                                                      │
-│  외부 시스템: BigQuery, Spark, S3, Redis, ML 서버            │
-│                                                              │
-│  메타데이터: Aurora PostgreSQL (Multi-AZ)                    │
-│  브로커: Redis ElastiCache                                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              엔터프라이즈 Airflow 배포 구조                   |
++--------------------------------------------------------------+
+|                                                              |
+|  Git (DAG 코드 관리)                                         |
+|       | CI/CD                                                |
+|       v                                                      |
+|  DAG 파일 서버 (NFS/S3)                                      |
+|       | 마운트                                               |
+|       v                                                      |
+|  Airflow Web Server <--- 운영자 모니터링                      |
+|  Airflow Scheduler                                           |
+|       | 태스크 할당                                          |
+|       v                                                      |
+|  +-----------------------------------------+               |
+|  |  Celery Workers (Auto Scaling Group)    |               |
+|  |  Worker 1  Worker 2  ...  Worker N      |               |
+|  +-----------------------------------------+               |
+|       |                                                      |
+|       v                                                      |
+|  외부 시스템: BigQuery, Spark, S3, Redis, ML 서버            |
+|                                                              |
+|  메타데이터: Aurora PostgreSQL (Multi-AZ)                    |
+|  브로커: Redis ElastiCache                                   |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 엔터프라이즈 Airflow는 항공사 운항 관리 시스템과 같다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 관제탑, 워커는 비행기 조종사, Web UI는 항공편 현황판이다. CeleryExecutor는 여러 활주로에서 동시에 비행기를 이륙시키고, KubernetesExecutor는 비행마다 새 조종석을 만들어 격리 운항하는 방식이다.
@@ -333,7 +333,7 @@ KubernetesExecutor는 각 Airflow Task를 독립된 [쿠버네티스](/knowledge
 
 Apache Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링과 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 분야에서 사실상 표준(De Facto Standard) 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구다. [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 의존성 관리, 풍부한 [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 생태계, 시각적 모니터링은 복잡한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 운영을 코드로 관리할 수 있게 한다. 실시간 스트리밍이 아닌 배치 파이프라인에서 검증된 선택이다.
 
-📢 **섹션 요약 비유**: Apache Airflow는 복잡한 공사 현장의 공정 관리 시스템과 같다. 기초 공사 → 골조 → 배관 → 마감 순서의 의존성을 DAG로 표현하고, 어느 한 공정이 지연되거나 실패하면 즉시 감리자(운영자)에게 알람을 보내며, 현장 전체 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 실시간으로 한눈에 볼 수 있다.
+📢 **섹션 요약 비유**: Apache Airflow는 복잡한 공사 현장의 공정 관리 시스템과 같다. 기초 공사 -> 골조 -> 배관 -> 마감 순서의 의존성을 DAG로 표현하고, 어느 한 공정이 지연되거나 실패하면 즉시 감리자(운영자)에게 알람을 보내며, 현장 전체 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 실시간으로 한눈에 볼 수 있다.
 
 ---
 
@@ -357,7 +357,7 @@ Apache Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Airflow는 자동 청소 로봇의 청소 순서 프로그램 같아요. "방 청소 → 화장실 청소 → 쓰레기 버리기" 순서를 코드로 적어두면, 매일 새벽에 자동으로 청소를 실행하고 중간에 실패하면 다시 시도해요.
+1. Airflow는 자동 청소 로봇의 청소 순서 프로그램 같아요. "방 청소 -> 화장실 청소 -> 쓰레기 버리기" 순서를 코드로 적어두면, 매일 새벽에 자동으로 청소를 실행하고 중간에 실패하면 다시 시도해요.
 2. DAG는 레고 설명서 같아요. 어느 부품을 먼저 조립해야 다음 부품을 붙일 수 있는지 순서도로 그려두면, 로봇이 알아서 순서대로 조립해요.
 3. Executor는 음식 배달 방법 같아요. 혼자 다 배달하거나(Sequential), 여러 명이 나눠서 하거나(Celery), 각 주문마다 드론을 보내는([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 방법 중 상황에 맞게 골라요.
 
@@ -365,21 +365,21 @@ Apache Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 ```text
 cron + 쉘 스크립트 (원시적 스케줄링)
-    │
-    ▼
+    |
+    v
 Apache Airflow: Python DAG 기반 워크플로우
-    ├─► Scheduler: DAG 실행 스케줄링
-    ├─► Executor: Sequential · Celery · Kubernetes
-    └─► Web UI: 실행 현황 · 로그 · 재시도 관리
-    │
-    ▼
-Airflow + Kubernetes Executor → 동적 Pod 스케일링
-    │
-    ▼
+    +-► Scheduler: DAG 실행 스케줄링
+    +-► Executor: Sequential · Celery · Kubernetes
+    +-► Web UI: 실행 현황 · 로그 · 재시도 관리
+    |
+    v
+Airflow + Kubernetes Executor -> 동적 Pod 스케일링
+    |
+    v
 차세대 오케스트레이터
-    ├─► Dagster: 자산 기반 (Asset-centric)
-    ├─► Prefect: Pythonic, 클라우드 네이티브
-    └─► Mage AI: 통합 데이터 파이프라인
+    +-► Dagster: 자산 기반 (Asset-centric)
+    +-► Prefect: Pythonic, 클라우드 네이티브
+    +-► Mage AI: 통합 데이터 파이프라인
 ```
 
 ---
@@ -388,7 +388,7 @@ Airflow + Kubernetes Executor → 동적 Pod 스케일링
 
 **진행 상황**: 168 / 258
 
-← **이전**: [167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)
-**다음**: [169. 모델 서빙 엔진 (Model Serving 엔진) - TensorFlow Serving, NVIDIA Triton](/knowledge-base/studynote/14_data_engineering/04_mlops/169_model_serving_engine_triton_tensorflow_serving/) →
+<- **이전**: [167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)
+**다음**: [169. 모델 서빙 엔진 (Model Serving 엔진) - TensorFlow Serving, NVIDIA Triton](/knowledge-base/studynote/14_data_engineering/04_mlops/169_model_serving_engine_triton_tensorflow_serving/) ->
 
 ---

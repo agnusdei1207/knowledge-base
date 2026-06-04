@@ -26,19 +26,19 @@ PCIe는 컴퓨터 내부의 확장 장치와 프로세서 계층을 연결하는
 아래 그림은 PCIe가 왜 “[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 확장”이 아니라 “통신 구조 전환”이었는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        공유 버스에서 점대점 스위치 구조로 바뀌는 이유               │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ PCI                   │ PCIe                                         │
-│ (Shared Parallel Bus) │ (Point-to-Point Serial Interconnect)         │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ CPU ─┬─ Device A      │ CPU / Root Complex ─ Switch ─ Device A       │
-│      ├─ Device B      │                        ├────── Device B       │
-│      └─ Device C      │                        └────── Device C       │
-│                       │                                              │
-│ 한 버스를 번갈아 사용  │ 장치별 독립 링크 사용                        │
-│ 충돌·대기 증가         │ 동시 처리·확장성 향상                        │
-└───────────────────────┴──────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        공유 버스에서 점대점 스위치 구조로 바뀌는 이유               |
++-----------------------+----------------------------------------------+
+| PCI                   | PCIe                                         |
+| (Shared Parallel Bus) | (Point-to-Point Serial Interconnect)         |
++-----------------------+----------------------------------------------+
+| CPU -+- Device A      | CPU / Root Complex - Switch - Device A       |
+|      +- Device B      |                        +------ Device B       |
+|      +- Device C      |                        +------ Device C       |
+|                       |                                              |
+| 한 버스를 번갈아 사용  | 장치별 독립 링크 사용                        |
+| 충돌·대기 증가         | 동시 처리·확장성 향상                        |
++-----------------------+----------------------------------------------+
 ```
 
 핵심은 “선 하나를 모두가 나눠 쓰는가”와 “장치마다 통로를 따로 주는가”의 차이다. PCIe는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 단순히 늘린 것이 아니라, 병목이 발생하는 위치 자체를 바꾸었다. 이 변화 덕분에 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 가속기, 네트워크 카드가 동시에 높은 처리량을 요구하는 현대 시스템이 가능해졌다.
@@ -56,22 +56,22 @@ PCIe의 기본 구성은 루트 컴플렉스 ([Root Complex](/knowledge-base/stu
 아래 그림은 PCIe 링크와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층이 어떻게 맞물리는지를 압축해 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  PCIe 링크의 논리 구조와 데이터 흐름                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Application / Driver                                                 │
-│        │                                                             │
-│        ▼                                                             │
-│ Transaction Layer  : 메모리 읽기/쓰기 요청, Completion, DMA         │
-│        │                                                             │
-│        ▼                                                             │
-│ Data Link Layer   : 순서 보장, ACK/NAK, CRC, 재전송                 │
-│        │                                                             │
-│        ▼                                                             │
-│ Physical Layer    : 직렬화, 레인 동기화, 속도 협상, 전기 신호 처리   │
-├──────────────────────────────────────────────────────────────────────┤
-│ x1 / x4 / x8 / x16  ──>  차동 신호 레인 집합  ──>  장치 간 패킷 전달  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  PCIe 링크의 논리 구조와 데이터 흐름                |
++----------------------------------------------------------------------+
+| Application / Driver                                                 |
+|        |                                                             |
+|        v                                                             |
+| Transaction Layer  : 메모리 읽기/쓰기 요청, Completion, DMA         |
+|        |                                                             |
+|        v                                                             |
+| Data Link Layer   : 순서 보장, ACK/NAK, CRC, 재전송                 |
+|        |                                                             |
+|        v                                                             |
+| Physical Layer    : 직렬화, 레인 동기화, 속도 협상, 전기 신호 처리   |
++----------------------------------------------------------------------+
+| x1 / x4 / x8 / x16  -->  차동 신호 레인 집합  -->  장치 간 패킷 전달  |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 PCIe가 단순한 “선”이 아니라, 패킷 기반 계층형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이라는 점이다. 상위에서는 메모리 맵 I/O (Memory-Mapped I/O)처럼 보이지만, 실제 전송은 [TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/) ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Layer Packet)와 DLLP ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer Packet) 같은 패킷으로 처리된다. 이 덕분에 확장성과 오류 복구는 좋아지지만, 순수 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 비해서는 패킷 처리 오버헤드와 지연이 생긴다.
@@ -167,23 +167,23 @@ PCIe의 가장 큰 효과는 확장성과 [호환성](/knowledge-base/studynote/
 
 ```text
 PCI (공유 병렬 버스)
-    │
-    ▼
+    |
+    v
 PCIe Gen1~Gen3
 (점대점 직렬 링크 · 레인 확장)
-    │
-    ▼
+    |
+    v
 PCIe Gen4~Gen6
 (대역폭 증대 · 신호 무결성 고도화 · PAM4)
-    │
-    ▼
+    |
+    v
 NVMe SSD · GPU 가속 · 100G/200G NIC
-    │
-    ▼
+    |
+    v
 CXL · 가속기 패브릭 · 메모리 확장
 ```
 
-이 흐름은 “[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 공유 해소 → 링크 고속화 → 장치 고성능화 → 메모리/가속기 확장”으로 PCIe의 역할이 넓어지는 과정을 보여준다.
+이 흐름은 “[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 공유 해소 -> 링크 고속화 -> 장치 고성능화 -> 메모리/가속기 확장”으로 PCIe의 역할이 넓어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -197,7 +197,7 @@ CXL · 가속기 패브릭 · 메모리 확장
 
 **진행 상황**: 357 / 803
 
-← **이전**: [355. PCI (Peripheral Component Interconnect)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/)
-**다음**: [357. PCIe 레인 (Lanes - x1, x4, x8, x16)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/357_pcie_lanes/) →
+<- **이전**: [355. PCI (Peripheral Component Interconnect)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/)
+**다음**: [357. PCIe 레인 (Lanes - x1, x4, x8, x16)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/357_pcie_lanes/) ->
 
 ---

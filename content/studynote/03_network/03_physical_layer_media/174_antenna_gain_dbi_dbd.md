@@ -25,13 +25,13 @@ tags = ["network"]
 아래 그림은 같은 송신 전력도 공간 분포가 달라지면 체감 성능이 달라진다는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same transmitter power, different spatial shapes                  │
-├────────────────────────────────────────────────────────────────────┤
-│ isotropic reference : spread energy over a sphere                 │
-│ dipole reference    : squeeze more energy toward the horizon      │
-│ high-gain antenna   : concentrate energy into a narrower main lobe│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Same transmitter power, different spatial shapes                  |
++--------------------------------------------------------------------+
+| isotropic reference : spread energy over a sphere                 |
+| dipole reference    : squeeze more energy toward the horizon      |
+| high-gain antenna   : concentrate energy into a narrower main lobe|
++--------------------------------------------------------------------+
 ```
 
 핵심은 전력 총량보다 방향별 전력 밀도가 중요하다는 점이다. 무선 링크는 결국 상대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있는 방향에서 충분한 전력 밀도를 확보해야 성립한다. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득은 송신기 출력보다 앞서 읽어야 하는 공간 설계 지표다.
@@ -58,20 +58,20 @@ tags = ["network"]
 아래 그림은 gain이 어떻게 만들어지는지를 구조적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ What builds antenna gain                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ input power Pt                                                    │
-│   │                                                               │
-│   ├─ mismatch / conductor / dielectric losses                     │
-│   ▼                                                               │
-│ radiated power Prad = Pt × efficiency η                           │
-│   │                                                               │
-│   └─ spatial concentration D                                      │
-│            ▼                                                      │
-│         gain G = η × D                                            │
-│ reference: isotropic -> dBi, half-wave dipole -> dBd             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| What builds antenna gain                                          |
++--------------------------------------------------------------------+
+| input power Pt                                                    |
+|   |                                                               |
+|   +- mismatch / conductor / dielectric losses                     |
+|   v                                                               |
+| radiated power Prad = Pt × efficiency η                           |
+|   |                                                               |
+|   +- spatial concentration D                                      |
+|            v                                                      |
+|         gain G = η × D                                            |
+| reference: isotropic -> dBi, half-wave dipole -> dBd             |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 8 dBi는 주빔 방향 전력 밀도가 등방성 기준 약 `10^(8/10) ≈ 6.3`배라는 뜻이다. 하지만 이것은 "총전력이 6.3배가 되었다"는 말이 아니라, 같은 총전력을 특정 방향에 더 많이 배치했다는 뜻이다. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) gain을 읽을 때는 항상 기준 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 방사 방향을 함께 생각해야 한다.
@@ -105,16 +105,16 @@ dBi와 dBd는 숫자 표기가 비슷해 보여도 기준점이 다르다. dBi�
 아래 판단 흐름은 gain을 단순 숫자가 아니라 배치 전략으로 읽는 방법을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Practical antenna gain choice                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ need wide 360° indoor coverage?                                   │
-│   ├─ yes ─▶ low / medium gain omni                                │
-│   └─ no                                                           │
-│        ├─ corridor / sector ─▶ panel antenna                      │
-│        └─ point-to-point ─▶ high-gain directional antenna         │
-│ after choice: EIRP = Tx power - cable loss + antenna gain         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Practical antenna gain choice                                     |
++--------------------------------------------------------------------+
+| need wide 360+ indoor coverage?                                   |
+|   +- yes --> low / medium gain omni                                |
+|   +- no                                                           |
+|        +- corridor / sector --> panel antenna                      |
+|        +- point-to-point --> high-gain directional antenna         |
+| after choice: EIRP = Tx power - cable loss + antenna gain         |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -165,20 +165,20 @@ dBi와 dBd는 숫자 표기가 비슷해 보여도 기준점이 다르다. dBi�
 
 ```text
 reference antenna
-    │
-    ├──────────────▶ isotropic baseline ─▶ dBi
-    └──────────────▶ dipole baseline    ─▶ dBd
-                           │
-                           ▼
+    |
+    +---------------> isotropic baseline --> dBi
+    +---------------> dipole baseline    --> dBd
+                           |
+                           v
                  gain interpretation
-                           │
-         ┌─────────────────┼─────────────────┐
-         ▼                 ▼                 ▼
+                           |
+         +-----------------+-----------------+
+         v                 v                 v
    directivity        efficiency         beamwidth
-         │                 │                 │
-         └─────────────────┴─────────────────┘
-                           │
-                           ▼
+         |                 |                 |
+         +-----------------+-----------------+
+                           |
+                           v
                  EIRP / link budget / coverage
 ```
 
@@ -196,7 +196,7 @@ reference antenna
 
 **진행 상황**: 295 / 1120
 
-← **이전**: [173. 등방성 안테나 (Isotropic Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/)
-**다음**: [175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)](/knowledge-base/studynote/03_network/03_physical_layer_media/175_eirp_effective_isotropic_radiated_power/) →
+<- **이전**: [173. 등방성 안테나 (Isotropic Antenna)](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/)
+**다음**: [175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)](/knowledge-base/studynote/03_network/03_physical_layer_media/175_eirp_effective_isotropic_radiated_power/) ->
 
 ---

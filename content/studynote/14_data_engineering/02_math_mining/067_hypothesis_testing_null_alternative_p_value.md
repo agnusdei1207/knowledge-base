@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 H0 / H1
-  ↓
+  v
 Test Statistic
-  ↓
+  v
 p-value
-  ↓
+  v
 Decision
 ```
 
@@ -109,11 +109,11 @@ Decision
 
 ```text
 H0 / H1
-  ↓
+  v
 Test Statistic
-  ↓
+  v
 p-value
-  ↓
+  v
 Decision
 ```
 
@@ -123,11 +123,11 @@ Decision
 
 ```text
 Hypothesis
-  ↓
+  v
 Hypothesis Testing
-  ↓
+  v
 p-value / Alpha
-  ↓
+  v
 Statistical Decision
 ```
 
@@ -145,7 +145,7 @@ Statistical Decision
 
 **진행 상황**: 67 / 258
 
-← **이전**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/knowledge-base/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/)
-**다음**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) →
+<- **이전**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/knowledge-base/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/)
+**다음**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) ->
 
 ---

@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 기존 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) I/O와 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 경로의 차이를 압축해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        분산 연산은 계산보다 데이터 교환이 느리면 전체가 같이 멈춘다    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Socket I/O                                                           │
-│   App Buffer → Kernel Buffer → NIC → Network → Kernel → App         │
-│   복사 · 인터럽트 · 문맥 전환이 반복                                │
-│                                                                      │
-│ InfiniBand RDMA                                                      │
-│   Registered Buffer → HCA → InfiniBand Fabric → HCA → Remote Buffer │
-│   CPU는 작업 게시 후 다른 연산 수행                                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        분산 연산은 계산보다 데이터 교환이 느리면 전체가 같이 멈춘다    |
++----------------------------------------------------------------------+
+| Socket I/O                                                           |
+|   App Buffer -> Kernel Buffer -> NIC -> Network -> Kernel -> App         |
+|   복사 · 인터럽트 · 문맥 전환이 반복                                |
+|                                                                      |
+| InfiniBand RDMA                                                      |
+|   Registered Buffer -> HCA -> InfiniBand Fabric -> HCA -> Remote Buffer |
+|   CPU는 작업 게시 후 다른 연산 수행                                 |
++----------------------------------------------------------------------+
 ```
 
 따라서 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 단순히 "빠른 네트워크"가 아니라, 통신 경로에서 CPU를 가능한 한 빼내는 구조라고 보는 편이 정확하다. 이 관점이 있어야 왜 HPC와 AI가 전용 패브릭에 투자하는지 이해된다.
@@ -62,19 +62,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 요청이 어떻게 하드웨어에서 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      등록된 버퍼를 HCA가 직접 옮기고, CPU에는 완료 사실만 알려 준다  │
-├──────────────────────────────────────────────────────────────────────┤
-│ App posts Work Request                                               │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Send Queue ─▶ Local HCA ─▶ IB Switch Fabric ─▶ Remote HCA ─▶ Memory  │
-│    ▲                                             │                   │
-│    └──────────── Completion Queue ◀──────────────┘                   │
-│                                                                      │
-│ 제어 정보: Protection Domain / L_Key / R_Key                         │
-│ 대표 연산: RDMA Write · RDMA Read · Send/Receive                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      등록된 버퍼를 HCA가 직접 옮기고, CPU에는 완료 사실만 알려 준다  |
++----------------------------------------------------------------------+
+| App posts Work Request                                               |
+|    |                                                                 |
+|    v                                                                 |
+| Send Queue --> Local HCA --> IB Switch Fabric --> Remote HCA --> Memory  |
+|    ^                                             |                   |
+|    +------------ Completion Queue <---------------+                   |
+|                                                                      |
+| 제어 정보: Protection Domain / L_Key / R_Key                         |
+| 대표 연산: RDMA Write · RDMA Read · Send/Receive                     |
++----------------------------------------------------------------------+
 ```
 
 실무에서는 신뢰 연결 (Reliable Connection) 모드가 자주 사용되며, 이때 재전송과 순서 보장 상당 부분을 하드웨어가 처리한다. 그 결과 CPU는 패킷마다 개입하지 않고도 매우 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 메시지 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻을 수 있다.
@@ -153,17 +153,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 소켓 기반 복사 중심 통신
-        │
-        ▼
+        |
+        v
 커널 바이패스 · Zero-copy 요구
-        │
-        ▼
+        |
+        v
 인피니밴드 RDMA
-        │
-        ▼
+        |
+        v
 MPI 집합 연산 · GPUDirect RDMA
-        │
-        ▼
+        |
+        v
 대규모 AI 슈퍼클러스터 · 인네트워크 가속
 ```
 
@@ -181,7 +181,7 @@ MPI 집합 연산 · GPUDirect RDMA
 
 **진행 상황**: 522 / 803
 
-← **이전**: [521. NVMe 오버 패브릭 (NVMe-oF)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/521_nvme_of/)
-**다음**: [523. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) →
+<- **이전**: [521. NVMe 오버 패브릭 (NVMe-oF)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/521_nvme_of/)
+**다음**: [523. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) ->
 
 ---

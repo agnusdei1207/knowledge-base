@@ -37,25 +37,25 @@ tags = ["studynote-ict-convergence"]
 
 ```
 [가상 머신 (VM)]
-┌─────────────────────────────────────────┐
-│ 물리 서버                                │
-│  ┌──────────────┐  ┌──────────────┐    │
-│  │ VM 1         │  │ VM 2         │    │
-│  │ (Guest OS)   │  │ (Guest OS)   │    │
-│  └──────────────┘  └──────────────┘    │
-│  ↑ 하이퍼바이저 (VMware/KVM)            │
-│  ↑ Host OS                             │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+| 물리 서버                                |
+|  +--------------+  +--------------+    |
+|  | VM 1         |  | VM 2         |    |
+|  | (Guest OS)   |  | (Guest OS)   |    |
+|  +--------------+  +--------------+    |
+|  ^ 하이퍼바이저 (VMware/KVM)            |
+|  ^ Host OS                             |
++-----------------------------------------+
   오버헤드: CPU 5~10%, 메모리 2~5%, I/O 가변
 
 [베어메탈 클라우드]
-┌─────────────────────────────────────────┐
-│ 물리 서버 (단독 고객 전용)                │
-│  ┌────────────────────────────────────┐ │
-│  │ 고객 OS (직접 실행)                 │ │
-│  └────────────────────────────────────┘ │
-│  하이퍼바이저 없음 → 가상화 오버헤드 없음  │
-└─────────────────────────────────────────┘
++-----------------------------------------+
+| 물리 서버 (단독 고객 전용)                |
+|  +------------------------------------+ |
+|  | 고객 OS (직접 실행)                 | |
+|  +------------------------------------+ |
+|  하이퍼바이저 없음 -> 가상화 오버헤드 없음  |
++-----------------------------------------+
 ```
 
 | 구분 | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) |
@@ -93,7 +93,7 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 **기술사 시험 판단 포인트**:
 1. Noisy Neighbor 문제와 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 오버헤드를 VM의 구조적 한계로 명확히 설명한다.
 2. 베어메탈 vs VM의 트레이드오프([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) vs [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)/비용)를 구체적 수치(CPU 오버헤드 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%)로 기술한다.
-3. 사용 사례별 권장(μs [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 금융 → 베어메탈, 웹 앱 → [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) → [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 의사결정 기준으로 제시한다.
+3. 사용 사례별 권장(μs [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 금융 -> 베어메탈, 웹 앱 -> [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 의사결정 기준으로 제시한다.
 
 **실무 시나리오**: 증권사 초단타 매매(HFT) 시스템 — μs 단위 주문 처리 필요. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 기반 구성 시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 콘텍스트 스위칭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) + Noisy Neighbor 지터가 허용 한계 초과. [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)(IBM Bare Metal, Equinix Metal) 전환 후 P99 레이턴시 40% 개선, 최대 지터 90% 감소.
 
@@ -128,7 +128,7 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[KVM · VMware] → [베어메탈 클라우드 가상화 오버헤드 없는 서비스] → [MPI · RDMA]
+[KVM · VMware] -> [베어메탈 클라우드 가상화 오버헤드 없는 서비스] -> [MPI · RDMA]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -143,7 +143,7 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 
 **진행 상황**: 541 / 552
 
-← **이전**: [540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/540_sddc_hci_software_defined_appliance/)
-**다음**: [542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/542_multisig_account_abstraction_erc4337/) →
+<- **이전**: [540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/540_sddc_hci_software_defined_appliance/)
+**다음**: [542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/542_multisig_account_abstraction_erc4337/) ->
 
 ---

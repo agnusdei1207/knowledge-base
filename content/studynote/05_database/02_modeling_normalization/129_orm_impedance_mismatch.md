@@ -19,20 +19,20 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    임피던스 불일치 지점                                │
-├───────────────────────────────────────────────────────┤
-│  객체 모델:  상속, 다형성, 참조(포인터), 캡슐화      │
-│  관계 모델:  테이블, FK, JOIN, 정규화                │
-│                                                       │
-│  불일치:                                              │
-│   1. 상속 → 테이블? (단일/조인/구분 테이블)          │
-│   2. 객체 참조 → FK + JOIN                            │
-│   3. 객체 그래프 탐색 → SQL N+1 문제                  │
-│   4. 동일성(==) → PK 비교                            │
-│                                                       │
-│  ORM: 이 불일치를 자동 매핑                           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    임피던스 불일치 지점                                |
++-------------------------------------------------------+
+|  객체 모델:  상속, 다형성, 참조(포인터), 캡슐화      |
+|  관계 모델:  테이블, FK, JOIN, 정규화                |
+|                                                       |
+|  불일치:                                              |
+|   1. 상속 -> 테이블? (단일/조인/구분 테이블)          |
+|   2. 객체 참조 -> FK + JOIN                            |
+|   3. 객체 그래프 탐색 -> SQL N+1 문제                  |
+|   4. 동일성(==) -> PK 비교                            |
+|                                                       |
+|  ORM: 이 불일치를 자동 매핑                           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치는 미터법과 인치법의 차이이다. ORM은 자동 단위 변환기이다.
@@ -51,7 +51,7 @@ tags = ["studynote-database"]
 | **Go** | GORM | 경량 |
 
 ### N+1 문제
-- 1번 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 목록 조회 → N번 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 연관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회.
+- 1번 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 목록 조회 -> N번 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 연관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회.
 - 해결: <strong>Eager Loading(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> Fetch)·<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">Batch Size</a></strong>.
 
 - **📢 섹션 요약 비유**: N+1은 식당에서 주문을 1건씩 따로 보내는 것(비효율). [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Fetch는 한 번에 모아서 보내는 것(효율).
@@ -97,17 +97,17 @@ ORM은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_ba
 
 ```text
 [수동 JDBC/SQL (2000s)]
-    │
-    ▼
-[Hibernate (2001~) → JPA 표준 (2006)]
-    │
-    ▼
+    |
+    v
+[Hibernate (2001~) -> JPA 표준 (2006)]
+    |
+    v
 [경량 ORM (MyBatis, 2010s)]
-    │
-    ▼
+    |
+    v
 [Prisma / TypeORM (2018~) — 타입 안전 ORM]
-    │
-    ▼
+    |
+    v
 [현재: AI SQL 생성 — Text-to-SQL (ORM 대안)]
 ```
 
@@ -122,7 +122,7 @@ ORM은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_ba
 
 **진행 상황**: 129 / 600
 
-← **이전**: [128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)](/knowledge-base/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/)
-**다음**: [130. ERD 표기법 비교 (IE·Barker·IDEF1X)](/knowledge-base/studynote/05_database/02_modeling_normalization/130_erd_notation_ie_barker_idef1x/) →
+<- **이전**: [128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)](/knowledge-base/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/)
+**다음**: [130. ERD 표기법 비교 (IE·Barker·IDEF1X)](/knowledge-base/studynote/05_database/02_modeling_normalization/130_erd_notation_ie_barker_idef1x/) ->
 
 ---

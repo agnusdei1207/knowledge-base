@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 슬라이딩 윈도우]
-    │
-    ▼
+    |
+    v
 [TCP 쓰리웨이 핸드셰이크]
-    │
-    └──▶ [혼잡 윈도우]
+    |
+    +---> [혼잡 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [TCP 슬라이딩 윈도우]
-    │
-    ▼
+    |
+    v
 [TCP 쓰리웨이 핸드셰이크]
-    │
-    └──▶ [혼잡 윈도우]
+    |
+    +---> [혼잡 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: TCP 슬라이딩 윈도우]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 쓰리웨이 핸드셰이크]
-    │
-    ├──▶ [확장 A: 혼잡 윈도우]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 혼잡 윈도우]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1089 / 1120
 
-← **이전**: [967. TCP 슬라이딩 윈도우](/knowledge-base/studynote/03_network/19_frequent_topics_terms/967_tcp_sliding_window_flow_control_buffer_management/)
-**다음**: [969. 혼잡 윈도우 (Congestion Window)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/) →
+<- **이전**: [967. TCP 슬라이딩 윈도우](/knowledge-base/studynote/03_network/19_frequent_topics_terms/967_tcp_sliding_window_flow_control_buffer_management/)
+**다음**: [969. 혼잡 윈도우 (Congestion Window)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/) ->
 
 ---

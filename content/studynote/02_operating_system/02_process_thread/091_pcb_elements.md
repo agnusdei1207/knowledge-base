@@ -32,26 +32,26 @@ PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance
 PCB 구조체 내부는 목적에 따라 여러 논리적 구역으로 명확히 나뉜다. 이 구조를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 필요한 정보에 빠르게 접근하고 갱신한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           PCB (Process Control Block) 내부 논리적 레이아웃   │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 식별 및 상태 (Identification & State)                     │
-│    - PID (Process ID): 1045, PPID: 1024                      │
-│    - UID/GID: 사용자 및 그룹 권한 식별                       │
-│    - State: READY, RUNNING, BLOCKED 등 현재 상태             │
-│                                                              │
-│ 2. 스케줄링 정보 (Scheduling Information)                    │
-│    - Priority (우선순위), Nice 값                            │
-│    - 누적 CPU 사용 시간 (vruntime 등)                        │
-│                                                              │
-│ 3. 하드웨어 문맥 (Hardware Context)                          │
-│    - PC (Program Counter): 다음 실행할 기계어 주소           │
-│    - Registers: SP, BP, AX 등 범용 및 상태 플래그 백업       │
-│                                                              │
-│ 4. 메모리 및 I/O 정보 (Memory & I/O)                         │
-│    - Memory Map: 페이지 테이블 포인터 (Base Register 등)     │
-│    - FD (File Descriptor) Table: 열린 파일과 소켓 목록       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           PCB (Process Control Block) 내부 논리적 레이아웃   |
++--------------------------------------------------------------+
+| 1. 식별 및 상태 (Identification & State)                     |
+|    - PID (Process ID): 1045, PPID: 1024                      |
+|    - UID/GID: 사용자 및 그룹 권한 식별                       |
+|    - State: READY, RUNNING, BLOCKED 등 현재 상태             |
+|                                                              |
+| 2. 스케줄링 정보 (Scheduling Information)                    |
+|    - Priority (우선순위), Nice 값                            |
+|    - 누적 CPU 사용 시간 (vruntime 등)                        |
+|                                                              |
+| 3. 하드웨어 문맥 (Hardware Context)                          |
+|    - PC (Program Counter): 다음 실행할 기계어 주소           |
+|    - Registers: SP, BP, AX 등 범용 및 상태 플래그 백업       |
+|                                                              |
+| 4. 메모리 및 I/O 정보 (Memory & I/O)                         |
+|    - Memory Map: 페이지 테이블 포인터 (Base Register 등)     |
+|    - FD (File Descriptor) Table: 열린 파일과 소켓 목록       |
++--------------------------------------------------------------+
 ```
 
 가장 핵심적인 갱신은 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시 3번 영역인 하드웨어 문맥에서 일어난다. 프로세스가 중단될 때 하드웨어와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 협력을 통해 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값들이 이곳에 안전하게 복사(Save)되고, 나중에 다시 이 값들을 CPU로 밀어 넣어(Restore) 실행을 완벽하게 재개한다. FD 테이블은 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 강제로 자원 누수를 막는 회수(Reaping) 루틴의 기준이 된다.
@@ -114,17 +114,17 @@ PCB 요소들이 체계적으로 분리되고 확장됨으로써 [운영체제](
 
 ```text
 프로세스 제어 필요성 등장
-    │
-    ▼
+    |
+    v
 PCB (Process Control Block) 기반 문맥 교환 확립
-    │
-    ▼
+    |
+    v
 권한 분리 및 가상 메모리 보호 필드 (UID, Page Table) 추가
-    │
-    ▼
+    |
+    v
 POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합
-    │
-    ▼
+    |
+    v
 네임스페이스 (Namespace) 필드 확장을 통한 컨테이너 격리 지원
 ```
 
@@ -140,7 +140,7 @@ POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합
 
 **진행 상황**: 91 / 800
 
-← **이전**: [90. 프로세스 제어 블록 (PCB, Process Control Block) / 태스크 제어 블록 (TCB)](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)
-**다음**: [92. 스레드 (Thread) - 경량 프로세스 (LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) →
+<- **이전**: [90. 프로세스 제어 블록 (PCB, Process Control Block) / 태스크 제어 블록 (TCB)](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)
+**다음**: [92. 스레드 (Thread) - 경량 프로세스 (LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ->
 
 ---

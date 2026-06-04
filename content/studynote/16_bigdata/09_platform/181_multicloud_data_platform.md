@@ -28,21 +28,21 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 아래 그림은 멀티클라우드가 필요한 배경을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 멀티클라우드 요구가 생기는 이유                               │
-├──────────────────────────────────────────────────────────────┤
-│ 유럽 데이터 주권   M&A 통합   특정 서비스 최적화   장애 분산 │
-│      │             │              │               │          │
-│      └─────────────┴───────┬──────┴───────────────┘          │
-│                            ▼                                 │
-│            여러 클라우드에 데이터와 워크로드 분산            │
-│                            │                                 │
-│                            ▼                                 │
-│      메타데이터 분열 · 권한 분열 · 이그레스 비용 증가        │
-│                            │                                 │
-│                            ▼                                 │
-│          공통 플랫폼 + 현지 처리 중심의 통합 필요            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 멀티클라우드 요구가 생기는 이유                               |
++--------------------------------------------------------------+
+| 유럽 데이터 주권   M&A 통합   특정 서비스 최적화   장애 분산 |
+|      |             |              |               |          |
+|      +-------------+-------+------+---------------+          |
+|                            v                                 |
+|            여러 클라우드에 데이터와 워크로드 분산            |
+|                            |                                 |
+|                            v                                 |
+|      메타데이터 분열 · 권한 분열 · 이그레스 비용 증가        |
+|                            |                                 |
+|                            v                                 |
+|          공통 플랫폼 + 현지 처리 중심의 통합 필요            |
++--------------------------------------------------------------+
 ```
 
 즉 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 "클라우드를 두 개 이상 쓰자"가 아니라, <strong>여러 클라우드의 필연적 파편화를 줄이기 위한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 운영 해법</strong>으로 이해해야 한다.
@@ -65,21 +65,21 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 아래 구조는 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 전형적인 형태를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Unified Control Plane                                        │
-│ Catalog · Lineage · Policy · IAM Federation · FinOps         │
-└──────────────┬────────────────────┬────────────────────┬─────┘
-               │                    │                    │
-               ▼                    ▼                    ▼
-┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐
-│ AWS Data Plane      │ │ Azure Data Plane    │ │ GCP Data Plane      │
-│ S3 / Iceberg        │ │ ADLS / Warehouse    │ │ GCS / BigQuery      │
-│ Databricks or       │ │ Snowflake or        │ │ Databricks or       │
-│ Snowflake Compute   │ │ Databricks Compute  │ │ Snowflake Compute   │
-│ local processing    │ │ local processing    │ │ local processing    │
-└──────────┬──────────┘ └──────────┬──────────┘ └──────────┬──────────┘
-           │                       │                       │
-           └──── curated share / selective replication ───┘
++--------------------------------------------------------------+
+| Unified Control Plane                                        |
+| Catalog · Lineage · Policy · IAM Federation · FinOps         |
++--------------+--------------------+--------------------+-----+
+               |                    |                    |
+               v                    v                    v
++---------------------+ +---------------------+ +---------------------+
+| AWS Data Plane      | | Azure Data Plane    | | GCP Data Plane      |
+| S3 / Iceberg        | | ADLS / Warehouse    | | GCS / BigQuery      |
+| Databricks or       | | Snowflake or        | | Databricks or       |
+| Snowflake Compute   | | Databricks Compute  | | Snowflake Compute   |
+| local processing    | | local processing    | | local processing    |
++----------+----------+ +----------+----------+ +----------+----------+
+           |                       |                       |
+           +---- curated share / selective replication ---+
 ```
 
 이 구조에서 가장 중요한 설계 선택은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 패턴이다. 첫째, 원칙적으로 계산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 클라우드에서 수행한다. 둘째, 전사 공통 소비가 필요한 결과 집합만 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나 공유한다. 셋째, 원본 전체를 무차별 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 단위로 이동을 제한한다. 이 원칙이 있어야 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 부하를 통제할 수 있다.
@@ -168,21 +168,21 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 ```text
 단일 클라우드 데이터 플랫폼
-    │
-    ▼
+    |
+    v
 지역 규제 · M&A · 벤더 종속 문제 확대
-    │
-    ▼
+    |
+    v
 멀티클라우드 데이터 플랫폼
-    │
-    ├─ Unified Control Plane
-    ├─ Regional Data Plane
-    └─ Selective Sharing / Replication
-    │
-    ▼
+    |
+    +- Unified Control Plane
+    +- Regional Data Plane
+    +- Selective Sharing / Replication
+    |
+    v
 오픈 테이블 포맷 · Data Product · FinOps 결합
-    │
-    ▼
+    |
+    v
 정책 통합형 Data Fabric / 글로벌 거버넌스 확장
 ```
 
@@ -200,7 +200,7 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 **진행 상황**: 181 / 262
 
-← **이전**: [180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)
-**다음**: [182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) →
+<- **이전**: [180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)
+**다음**: [182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) ->
 
 ---

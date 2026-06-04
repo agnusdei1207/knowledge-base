@@ -69,7 +69,7 @@ tags = ["studynote-ai"]
 |--------|------------------------------|-------------------|----------|
 | 선형     | xi·xj                        | 고차원 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)   | C만       |
 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)   | (γxi·xj+r)^d                 | 이미지, 구조적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)| C, γ, d, r|
-| RBF     | exp(-γ‖xi-xj‖²)              | 범용, 비선형        | C, γ     |
+| RBF     | exp(-γ‖xi-xj‖^)              | 범용, 비선형        | C, γ     |
 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)| [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(γxi·xj+r)               | 특정 패턴           | C, γ, r  |
 
 > 📢 **섹션 요약 비유**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보는 렌즈 — 직선 렌즈(선형), 곡선 렌즈([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)), 가우시안 흐림 렌즈(RBF).
@@ -220,7 +220,7 @@ Kernel Methods 연구 지속
 
 **진행 상황**: 37 / 420
 
-← **이전**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/knowledge-base/studynote/10_ai/01_ai_basics/036_support_vector_machine/)
-**다음**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/) →
+<- **이전**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/knowledge-base/studynote/10_ai/01_ai_basics/036_support_vector_machine/)
+**다음**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/) ->
 
 ---

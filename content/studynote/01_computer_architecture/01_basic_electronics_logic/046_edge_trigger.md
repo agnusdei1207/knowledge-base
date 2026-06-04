@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 > **핵심 인사이트**
 > 1. 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Edge Trigger)는 클럭 신호의 엣지(Rising 또는 Falling) 순간에만 데이터를 샘플링하는 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 동작 방식 — 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)([Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/))보다 타이밍 제어가 정밀하며 현대 디지털 회로에서 표준이다.
-> 2. 상승 에지(Rising Edge) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 0→1 전환 순간에 입력 D를 포착해 출력 Q에 저장 — 클럭 사이클당 단 한 번 데이터가 업데이트되므로 레이스 컨디션([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 제거된다.
+> 2. 상승 에지(Rising Edge) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 0->1 전환 순간에 입력 D를 포착해 출력 Q에 저장 — 클럭 사이클당 단 한 번 데이터가 업데이트되므로 레이스 컨디션([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 제거된다.
 > 3. 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 셋업/홀드 타임 제약은 메타스태빌리티(Metastability)를 방지하는 핵심 — 데이터가 에지 직전/직후 일정 시간 동안 안정되어야 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 확정적으로 동작한다.
 
 ---
@@ -23,8 +23,8 @@ tags = ["studynote-computer-architecture"]
   클럭 HIGH 동안 데이터 투명(Transparent)
   클럭 LOW 동안 데이터 잠금(Latched)
 
-  문제: 클럭 HIGH 동안 입력 변화 → 출력 연속 변화
-  → 레이스 컨디션 (Race Condition) 위험
+  문제: 클럭 HIGH 동안 입력 변화 -> 출력 연속 변화
+  -> 레이스 컨디션 (Race Condition) 위험
 
   D Latch 동작:
   CLK=1: Q = D (투명, 따라감)
@@ -35,7 +35,7 @@ tags = ["studynote-computer-architecture"]
   클럭 에지 이후: 출력 유지
 
   Rising Edge D Flip-Flop:
-  CLK: 0→1 전환 순간 → Q = D 포착
+  CLK: 0->1 전환 순간 -> Q = D 포착
   이후: Q 유지 (D 변해도 Q 불변)
 
 비교:
@@ -68,7 +68,7 @@ CLK=1: 마스터 래치 잠금
         슬레이브 래치 투명 (마스터 값 출력)
 
 효과:
-  CLK 상승 에지에서 D → Q 전달
+  CLK 상승 에지에서 D -> Q 전달
   나머지 시간: Q 유지
 
 게이트 수준 구현:
@@ -90,7 +90,7 @@ CLK=1: 마스터 래치 잠금
 타이밍 파라미터:
   tsu (Setup Time): 에지 전 최소 안정 시간
   th (Hold Time): 에지 후 최소 유지 시간
-  tpd (Propagation Delay): 에지 → Q 변화 시간
+  tpd (Propagation Delay): 에지 -> Q 변화 시간
 
   디지털 교과서 전형적 값:
   tsu ≈ 0.1~0.5 ns
@@ -112,8 +112,8 @@ CLK=1: 마스터 래치 잠금
 발생 조건:
   데이터 변화와 클럭 에지가 너무 가까울 때
 
-  Safe:   D 변화 ────────── tsu ── CLK에지
-  Unsafe: D 변화 ─── tsu 위반 ─ CLK에지
+  Safe:   D 변화 ---------- tsu -- CLK에지
+  Unsafe: D 변화 --- tsu 위반 - CLK에지
 
 메타스태빌리티 상태:
   Q = 중간 전압 (예: 0.8V, 정상은 0 or 1.8V)
@@ -126,16 +126,16 @@ CLK=1: 마스터 래치 잠금
 발생 빈도:
   MTBF_meta = exp(C2 × T_resolution) / (C1 × f_clk × f_data)
 
-  → T_resolution 증가 (더 기다림) → MTBF 지수 증가
+  -> T_resolution 증가 (더 기다림) -> MTBF 지수 증가
 
 CDC (Clock Domain Crossing)에서 흔함:
   서로 다른 주파수 도메인 간 신호 전달
-  → 수신 클럭과 데이터 타이밍 무관
+  -> 수신 클럭과 데이터 타이밍 무관
 
 메타스태빌리티 해결:
   1. 2단계 동기화 플립플롭 (2-FF Synchronizer):
-     FF1 → FF2 → 다음 회로
-     FF1에서 메타 발생 → FF2까지 해소 시간 확보
+     FF1 -> FF2 -> 다음 회로
+     FF1에서 메타 발생 -> FF2까지 해소 시간 확보
 
   2. FIFO (비동기 FIFO):
      두 클럭 도메인 사이 버퍼
@@ -156,7 +156,7 @@ FPGA 기본 요소:
   FF (Flip-Flop): 순차 로직
 
   각 LUT마다 D 플립플롭 내장
-  → 설계자 선택적 활용
+  -> 설계자 선택적 활용
 
 Verilog 에지 트리거:
   // Rising Edge D Flip-Flop
@@ -186,7 +186,7 @@ STA (Static Timing Analysis):
 
   WNS (Worst Negative Slack): 최악 타이밍 여유
   WNS > 0: 설계 통과
-  WNS < 0: 타이밍 위반 → 수정 필요
+  WNS < 0: 타이밍 위반 -> 수정 필요
 ```
 
 > 📢 **섹션 요약 비유**: [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 레고 블록 — D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)(레고 블록)을 LUT과 조합해 원하는 순차 회로 구성. Verilog는 레고 조립 설명서!
@@ -213,11 +213,11 @@ STA (Static Timing Analysis):
   set_output_delay 0.1 -clock clk [all_outputs]
 
 Critical Path 분석:
-  FF1 → Adder(32bit) → Comparator → FF2
+  FF1 -> Adder(32bit) -> Comparator -> FF2
 
   타이밍 분해:
   tclk-q (FF1): 0.05 ns
-  조합 논리:    0.38 ns  ← 병목
+  조합 논리:    0.38 ns  <- 병목
   배선 지연:    0.02 ns
   tsu (FF2):   0.03 ns
   총합:         0.48 ns < 0.5 ns ✓
@@ -226,8 +226,8 @@ Critical Path 분석:
 
 최적화 기법:
   파이프라인 삽입:
-  긴 조합 논리 → 중간에 FF 삽입
-  → 각 스테이지 짧아짐 → 주파수 증가
+  긴 조합 논리 -> 중간에 FF 삽입
+  -> 각 스테이지 짧아짐 -> 주파수 증가
 
   로직 리타이밍 (Retiming):
   FF 위치 이동으로 타이밍 균등화
@@ -237,9 +237,9 @@ Critical Path 분석:
 
 최종 검증:
   코너 분석: SS(slow-slow), FF(fast-fast), TT
-  온도: -40°C ~ 125°C
+  온도: -40+C ~ 125+C
   전압: VDD ±10%
-  모든 코너에서 WNS > 0 → 테이프아웃
+  모든 코너에서 WNS > 0 -> 테이프아웃
 ```
 
 > 📢 **섹션 요약 비유**: [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 타이밍 클로저는 100m 허들 — 0.5ns([클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/))라는 시간 안에 모든 신호가 FF에서 다음 FF까지 전달. 허들([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 하나라도 높으면 탈락(타이밍 위반)!
@@ -299,7 +299,7 @@ Pulse Latch (하이브리드)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 정확한 순간 포착 — 클럭이 0→1 바뀌는 그 순간(에지)에만 데이터를 기억해요. 항상 열려있는 문(래치)보다 훨씬 안전!
+1. 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 정확한 순간 포착 — 클럭이 0->1 바뀌는 그 순간(에지)에만 데이터를 기억해요. 항상 열려있는 문(래치)보다 훨씬 안전!
 2. 메타스태빌리티는 동전이 서는 것 — 너무 바쁠 때 데이터가 들어오면(셋업 위반) [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 0도 1도 아닌 중간에 멈출 수 있어요!
 3. FPGA는 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 레고 — Verilog로 "posedge clk"라고 쓰면 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) FF 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). LUT+FF 조합이 디지털 회로의 기본!
 
@@ -309,7 +309,7 @@ Pulse Latch (하이브리드)
 
 **진행 상황**: 46 / 803
 
-← **이전**: [045. 클럭 — Clock Signal](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)
-**다음**: [047. 레벨 트리거 — Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/) →
+<- **이전**: [045. 클럭 — Clock Signal](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)
+**다음**: [047. 레벨 트리거 — Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/) ->
 
 ---

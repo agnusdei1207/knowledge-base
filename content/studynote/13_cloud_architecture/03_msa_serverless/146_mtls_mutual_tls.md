@@ -19,10 +19,10 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-TLS:   클라이언트 → 서버 인증서 검증 (서버만 인증)
+TLS:   클라이언트 -> 서버 인증서 검증 (서버만 인증)
 mTLS:  클라이언트 ↔ 서버 양쪽 인증서 교환·검증
-  → Zero Trust: 내부 네트워크도 암호화
-  Istio: 자동 인증서 발급 → Envoy 사이드카에서 mTLS
+  -> Zero Trust: 내부 네트워크도 암호화
+  Istio: 자동 인증서 발급 -> Envoy 사이드카에서 mTLS
 ```
 
 - **📢 섹션 요약 비유**: TLS는 <strong>신분증 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(서버만)</strong>, mTLS는 <strong>양쪽 모두 신분증 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>이다.
@@ -48,10 +48,10 @@ mTLS는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_securi
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[평문 통신 (~2015)] → [TLS (서버 인증)]
-    → [mTLS (상호 인증, 2017~)]
-    → [Istio 자동 mTLS (2018)]
-    → [현재: SPIFFE/SPIRE — 서비스 ID 표준]
+[평문 통신 (~2015)] -> [TLS (서버 인증)]
+    -> [mTLS (상호 인증, 2017~)]
+    -> [Istio 자동 mTLS (2018)]
+    -> [현재: SPIFFE/SPIRE — 서비스 ID 표준]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ mTLS는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_securi
 
 **진행 상황**: 145 / 371
 
-← **이전**: [145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/145_sidecar_proxy_pattern/)
-**다음**: [147. DDD (Domain-Driven Design) - 도메인 주도 설계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/147_ddd_domain_driven_design/) →
+<- **이전**: [145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/145_sidecar_proxy_pattern/)
+**다음**: [147. DDD (Domain-Driven Design) - 도메인 주도 설계](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/147_ddd_domain_driven_design/) ->
 
 ---

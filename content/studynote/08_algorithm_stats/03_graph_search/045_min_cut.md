@@ -34,12 +34,12 @@ tags = ["studynote-algorithm"]
 
 ```
 1. 임의의 흐름 f와 임의의 컷 (S,T)에 대해: |f| ≤ cap(S,T)
-   → 모든 흐름은 최소 컷 용량을 초과할 수 없음
+   -> 모든 흐름은 최소 컷 용량을 초과할 수 없음
 
-2. 최대 유량 f*가 존재할 때, 잔여 그래프에서 s→t 경로 없음
-   → 소스에서 도달 가능한 정점 집합 S* 정의
-   → S*에서 T*로의 간선은 모두 포화(잔여 용량 0)
-   → 따라서 |f*| = cap(S*, T*)
+2. 최대 유량 f*가 존재할 때, 잔여 그래프에서 s->t 경로 없음
+   -> 소스에서 도달 가능한 정점 집합 S* 정의
+   -> S*에서 T*로의 간선은 모두 포화(잔여 용량 0)
+   -> 따라서 |f*| = cap(S*, T*)
 
 3. 1, 2에서: |f*| = min cap(S,T)
 ```
@@ -47,23 +47,23 @@ tags = ["studynote-algorithm"]
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 최소 컷 도출
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  그래프 (용량):                                           │
-│  S ─(10)→ A ─(8)→ T                                     │
-│  S ─(5)→  B ─(6)→ T                                     │
-│  A ─(4)→  B                                              │
-│                                                          │
-│  최대 유량 실행 후 잔여 그래프:                           │
-│  S→A: 잔여 2 (흐름 8)     A→T: 잔여 0 (포화)            │
-│  S→B: 잔여 1 (흐름 4)     B→T: 잔여 0 (포화)            │
-│                                                          │
-│  BFS로 소스에서 도달 가능한 정점: {S, A, B}               │
-│  도달 불가능: {T}                                        │
-│                                                          │
-│  최소 컷 = S측에서 T측으로의 포화 간선:                   │
-│  {A→T(8), B→T(6)} → 컷 용량 = 8+6 = 14                  │
-│  (= 최대 유량 14)                                        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  그래프 (용량):                                           |
+|  S -(10)-> A -(8)-> T                                     |
+|  S -(5)->  B -(6)-> T                                     |
+|  A -(4)->  B                                              |
+|                                                          |
+|  최대 유량 실행 후 잔여 그래프:                           |
+|  S->A: 잔여 2 (흐름 8)     A->T: 잔여 0 (포화)            |
+|  S->B: 잔여 1 (흐름 4)     B->T: 잔여 0 (포화)            |
+|                                                          |
+|  BFS로 소스에서 도달 가능한 정점: {S, A, B}               |
+|  도달 불가능: {T}                                        |
+|                                                          |
+|  최소 컷 = S측에서 T측으로의 포화 간선:                   |
+|  {A->T(8), B->T(6)} -> 컷 용량 = 8+6 = 14                  |
+|  (= 최대 유량 14)                                        |
++----------------------------------------------------------+
 ```
 
 ### 최소 컷 도출 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
@@ -77,10 +77,10 @@ tags = ["studynote-algorithm"]
 
 | 단계 | 설명 |
 |:---|:---|
-| [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 계산 | Edmonds-Karp O(VE²) |
+| [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 계산 | Edmonds-Karp O(VE^) |
 | 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(V+E) |
 | 컷 간선 수집 | O(E) |
-| 전체 | O(VE²) — [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 지배 |
+| 전체 | O(VE^) — [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 지배 |
 
 📢 **섹션 요약 비유**: 최소 컷 도출은 최대로 물을 보낸 뒤, 소스에서 어디까지 물이 닿는지 표시하는 것이다. 물이 닿는 영역과 안 닿는 영역의 경계가 바로 최소 컷이다.
 
@@ -99,8 +99,8 @@ tags = ["studynote-algorithm"]
 
 ```
 최소 컷 = 네트워크 연결을 끊는 최소 간선 집합
-→ 해당 간선들이 동시에 장애 → 네트워크 분리
-→ 최소 컷 용량 = 네트워크가 견딜 수 있는 최소 대역폭
+-> 해당 간선들이 동시에 장애 -> 네트워크 분리
+-> 최소 컷 용량 = 네트워크가 견딜 수 있는 최소 대역폭
 ```
 
 📢 **섹션 요약 비유**: 최소 컷을 구한다는 것은 "이 링크들만 끊으면 소스와 싱크가 완전히 격리된다"는 최약 지점을 찾는 것이다. 보안 관점에서는 공격하면 가장 효과적인 지점이기도 하다.
@@ -141,7 +141,7 @@ tags = ["studynote-algorithm"]
 
 **핵심 결론**: "최대로 흘릴 수 있는 양 = 최소한으로 막아야 하는 양" — 이 이중성이 네트워크 분석의 핵심 원리다.
 
-📢 **섹션 요약 비유**: 최소 컷은 적군의 보급선을 끊는 군사 전략과 같다. 가장 적은 병력으로(최소 용량) 적의 보급(소스→싱크 흐름)을 완전히 차단할 수 있는 지점이다.
+📢 **섹션 요약 비유**: 최소 컷은 적군의 보급선을 끊는 군사 전략과 같다. 가장 적은 병력으로(최소 용량) 적의 보급(소스->싱크 흐름)을 완전히 차단할 수 있는 지점이다.
 
 ### 📌 관련 개념 맵
 
@@ -158,14 +158,14 @@ tags = ["studynote-algorithm"]
 
 ```text
 [최대 유량 문제 (Max-Flow) — 소스에서 싱크로 보낼 수 있는 최대 흐름]
-    │
-    ▼
+    |
+    v
 [최대 유량-최소 컷 정리 (Max-Flow Min-Cut Theorem) — 두 값이 항상 동일]
-    │
-    ▼
+    |
+    v
 [Karger's Algorithm — 무작위 간선 수축으로 최소 컷 근사]
-    │
-    ▼
+    |
+    v
 [네트워크 분할·이미지 세그멘테이션·클러스터링 응용]
 ```
 최소 컷(Min-Cut)은 [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(Max-Flow)과 동일한 값을 가지며, 네트워크 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 분석과 [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/) 등 다양한 분야에 응용된다.
@@ -182,7 +182,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 45 / 175
 
-← **이전**: [19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)
-**다음**: [20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) →
+<- **이전**: [19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)
+**다음**: [20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) ->
 
 ---

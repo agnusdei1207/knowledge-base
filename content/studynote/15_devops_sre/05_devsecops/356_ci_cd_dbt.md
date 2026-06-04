@@ -187,7 +187,7 @@ Data Mesh (도메인 팀 분산 소유, DataOps 도메인 단위 적용)
 
 **진행 상황**: 356 / 373
 
-← **이전**: [355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)](/knowledge-base/studynote/15_devops_sre/05_devsecops/355_architecture/)
-**다음**: [357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)](/knowledge-base/studynote/15_devops_sre/05_devsecops/357_oom_killed/) →
+<- **이전**: [355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)](/knowledge-base/studynote/15_devops_sre/05_devsecops/355_architecture/)
+**다음**: [357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)](/knowledge-base/studynote/15_devops_sre/05_devsecops/357_oom_killed/) ->
 
 ---

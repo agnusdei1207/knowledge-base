@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAK]
-    │
-    ▼
+    |
+    v
 [피기배킹]
-    │
-    └──▶ [흐름 제어]
+    |
+    +---> [흐름 제어]
 ```
 
 - **📢 섹션 요약 비유**: 피기배킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAK]
-    │
-    ▼
+    |
+    v
 [피기배킹]
-    │
-    └──▶ [흐름 제어]
+    |
+    +---> [흐름 제어]
 ```
 
 - **📢 섹션 요약 비유**: 피기배킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NAK]
-    │
-    ▼
+    |
+    v
 [현재 개념: 피기배킹]
-    │
-    ├──▶ [확장 A: 흐름 제어]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 흐름 제어]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 피기배킹는 NAK에서 출발해 현재 메커니즘을 정교화하고, 이후 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 333 / 1120
 
-← **이전**: [211. NAK (Negative Acknowledgement)](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)
-**다음**: [213. 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) →
+<- **이전**: [211. NAK (Negative Acknowledgement)](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)
+**다음**: [213. 흐름 제어 (Flow Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ->
 
 ---

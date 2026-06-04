@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) / [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) 무중의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  카나리 배포 / 블루-그린 배포 무중                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  카나리 배포 / 블루-그린 배포 무중                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) / [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) 무중가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -60,26 +60,26 @@ tags = ["studynote-software-engineering"]
   4. 만약 Green에서 장애가 발생하면 즉시 라우터를 다시 Blue로 돌려 1초 만에 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다. 이상이 없다면 Blue 자원을 회수한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│               블루-그린 배포(Blue-Green) 라우팅 스위칭            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│                   [ 사용자 트래픽 (100%) ]                        │
-│                              │                                  │
-│                              ▼                                  │
-│                  ┌────────────────────┐                         │
-│                  │  로드 밸런서 (LB)    │                         │
-│                  └────────────────────┘                         │
-│                          │      │                               │
-│              (스위칭 됨) ──┘      └── (연결 끊김, 롤백용 대기)      │
-│              ▼                            ▼                    │
-│   ┌────────────────────┐      ┌────────────────────┐          │
-│   │   [Green 환경 (V2)]  │      │   [Blue 환경 (V1)]   │          │
-│   │   (신규 버전 구동 중)   │      │   (구버전 대기 중)    │          │
-│   └────────────────────┘      └────────────────────┘          │
-│                                                                 │
-│ * 특징: 100% 전환, 즉각적인 롤백, 클라우드 자원(서버) 2배 소모        │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|               블루-그린 배포(Blue-Green) 라우팅 스위칭            |
++-----------------------------------------------------------------+
+|                                                                 |
+|                   [ 사용자 트래픽 (100%) ]                        |
+|                              |                                  |
+|                              v                                  |
+|                  +--------------------+                         |
+|                  |  로드 밸런서 (LB)    |                         |
+|                  +--------------------+                         |
+|                          |      |                               |
+|              (스위칭 됨) --+      +-- (연결 끊김, 롤백용 대기)      |
+|              v                            v                    |
+|   +--------------------+      +--------------------+          |
+|   |   [Green 환경 (V2)]  |      |   [Blue 환경 (V1)]   |          |
+|   |   (신규 버전 구동 중)   |      |   (구버전 대기 중)    |          |
+|   +--------------------+      +--------------------+          |
+|                                                                 |
+| * 특징: 100% 전환, 즉각적인 롤백, 클라우드 자원(서버) 2배 소모        |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -108,26 +108,26 @@ tags = ["studynote-software-engineering"]
 - **특징**: A/B 테스트 (A/B Testing)와 유사해 보이지만, A/B 테스트는 비즈니스 지표(전환율 등)를 비교하기 위함이고, [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 시스템의 에러율(Error Rate), [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 등 '운영 안정성'을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 목적이 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 카나리 배포 (Canary Release) 라우팅 흐름          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│                      [ 사용자 전체 트래픽 ]                   │
-│                               │                             │
-│                  ┌────────────┴───────────┐               │
-│                  │  API Gateway / Ingress │               │
-│                  │ (가중치 기반 라우팅 제어) │               │
-│                  └──────┬─────────────┬───┘               │
-│                         │             │                     │
-│               [ 95% ]   │             │  [ 5% (카나리) ]     │
-│                         ▼             ▼                     │
-│               ┌────────────┐   ┌────────────┐             │
-│               │ 기존 버전(V1) │   │ 신규 버전(V2) │             │
-│               │ (안정성 보장)  │   │ (오류율 모니터링)│             │
-│               └────────────┘   └────────────┘             │
-│                                                             │
-│ * 핵심: 이스티오(Istio) 등 서비스 메쉬를 통한 정밀한 트래픽 가중치 조절 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 카나리 배포 (Canary Release) 라우팅 흐름          |
++-------------------------------------------------------------+
+|                                                             |
+|                      [ 사용자 전체 트래픽 ]                   |
+|                               |                             |
+|                  +------------+-----------+               |
+|                  |  API Gateway / Ingress |               |
+|                  | (가중치 기반 라우팅 제어) |               |
+|                  +------+-------------+---+               |
+|                         |             |                     |
+|               [ 95% ]   |             |  [ 5% (카나리) ]     |
+|                         v             v                     |
+|               +------------+   +------------+             |
+|               | 기존 버전(V1) |   | 신규 버전(V2) |             |
+|               | (안정성 보장)  |   | (오류율 모니터링)|             |
+|               +------------+   +------------+             |
+|                                                             |
+| * 핵심: 이스티오(Istio) 등 서비스 메쉬를 통한 정밀한 트래픽 가중치 조절 |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -149,20 +149,20 @@ tags = ["studynote-software-engineering"]
 - **트레이드오프**: [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/)처럼 자원을 2배로 사용할 필요가 없어 인프라 비용이 저렴하다. 하지만 배포가 진행되는 과도기 동안, 사용자 요청이 로드 밸런서에 의해 구버전(V1)으로 갈 수도 있고 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)으로 갈 수도 있는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 불일치 상태(Version Inconsistency)</strong>가 발생한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  롤링 배포 (Rolling Update) 진행 상태             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [배포 전]  (V1) (V1) (V1) (V1)   # 모두 구버전                 │
-│                                                             │
-│  [배포 1단계] (V2) (V1) (V1) (V1)   # 1대 끄고 V2 기동, 로드 밸런싱│
-│                                                             │
-│  [배포 2단계] (V2) (V2) (V1) (V1)   # 절반 교체 완료             │
-│                                                             │
-│  [완료]     (V2) (V2) (V2) (V2)   # 모두 신버전으로 교체 완료      │
-│                                                             │
-│ * 주의사항: 배포 중 V1과 V2가 동시에 DB를 읽고 쓰므로 DB 하위 호환성 필수 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  롤링 배포 (Rolling Update) 진행 상태             |
++-------------------------------------------------------------+
+|                                                             |
+|  [배포 전]  (V1) (V1) (V1) (V1)   # 모두 구버전                 |
+|                                                             |
+|  [배포 1단계] (V2) (V1) (V1) (V1)   # 1대 끄고 V2 기동, 로드 밸런싱|
+|                                                             |
+|  [배포 2단계] (V2) (V2) (V1) (V1)   # 절반 교체 완료             |
+|                                                             |
+|  [완료]     (V2) (V2) (V2) (V2)   # 모두 신버전으로 교체 완료      |
+|                                                             |
+| * 주의사항: 배포 중 V1과 V2가 동시에 DB를 읽고 쓰므로 DB 하위 호환성 필수 |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -184,7 +184,7 @@ tags = ["studynote-software-engineering"]
 
 | 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 장점 | 단점 (트레이드오프) | 이상적인 도입 환경 |
 |:---:|:---|:---|:---|:---|
-| **빅뱅 (Big Bang)** | 서버 다운 → 배포 → 기동 | 구성이 가장 단순하다. DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 충돌이 없다. | **긴 다운타임.** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 심각한 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 소요. | 심야 점검이 용인되는 사내 B2B 시스템, 레거시 시스템 |
+| **빅뱅 (Big Bang)** | 서버 다운 -> 배포 -> 기동 | 구성이 가장 단순하다. DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 충돌이 없다. | **긴 다운타임.** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 심각한 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 소요. | 심야 점검이 용인되는 사내 B2B 시스템, 레거시 시스템 |
 | **블루-그린 (Blue-Green)** | 트래픽 100% 스위칭 | 가장 빠르고 확실한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 보장. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 불일치 문제 없음. | **인프라 비용 2배.** V1/V2 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구동을 위한 물리적 자원 필요. | 비용 여력이 있고 즉각 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 생명인 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **롤링 (Rolling)** | n대씩 순차 교체 | 인프라 추가 자원이 거의 들지 않음 (비용 최적화). | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 공존 시간(Inconsistency).</strong> [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도가 느림. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 복잡함. | K8s 기본 환경, 자원이 제한된 상태에서 무중단이 필요한 곳 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a>)</strong> | 소수 트래픽부터 점진 노출 | 프로덕션 환경의 실사용자 트래픽으로 안전한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(격리) 가능. | **가장 높은 구축 난이도.** 정밀한 L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 실시간 모니터링 필수. | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처 성숙도가 높고, 신기능 오류 파급력을 최소화하려는 대기업 |
@@ -219,21 +219,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 카나리 배포 / 블루-그린 배포 무중단 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -247,7 +247,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 819 / 973
 
-← **이전**: [650. CI/CD 지속적 통합, 배포 파이프라인](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/650_continuous_integration_build_automation/)
-**다음**: [652. 데브옵스 (DevOps) CALMS 문화](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) →
+<- **이전**: [650. CI/CD 지속적 통합, 배포 파이프라인](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/650_continuous_integration_build_automation/)
+**다음**: [652. 데브옵스 (DevOps) CALMS 문화](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ->
 
 ---

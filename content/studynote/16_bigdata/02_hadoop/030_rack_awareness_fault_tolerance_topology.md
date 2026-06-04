@@ -69,17 +69,17 @@ Block Replication (Factor = 3):
 
 ```text
 [HDFS 복제 (Replication) — 기본 복제 계수 3]
-    │
-    ▼
+    |
+    v
 [랙 인지 (Rack Awareness) — 랙 단위 장애 격리]
-    │
-    ▼
+    |
+    v
 [복제본 배치 정책 (Replica Placement Policy)]
-    │
-    ▼
+    |
+    v
 [가용 영역 (AZ, Availability Zone) — 클라우드 확장]
-    │
-    ▼
+    |
+    v
 [리전 복제 (Cross-Region Replication) — 지역 재해 대비]
 ```
 
@@ -96,7 +96,7 @@ Block Replication (Factor = 3):
 
 **진행 상황**: 30 / 262
 
-← **이전**: [07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리](/knowledge-base/studynote/16_bigdata/02_hadoop/029_datanode_block_storage_heartbeat/)
-**다음**: [09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델](/knowledge-base/studynote/16_bigdata/02_hadoop/031_mapreduce_programming_model_parallel_processing/) →
+<- **이전**: [07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리](/knowledge-base/studynote/16_bigdata/02_hadoop/029_datanode_block_storage_heartbeat/)
+**다음**: [09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델](/knowledge-base/studynote/16_bigdata/02_hadoop/031_mapreduce_programming_model_parallel_processing/) ->
 
 ---

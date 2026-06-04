@@ -18,22 +18,22 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 성숙도 단계는 "무슨 일이 있었나(기술) → 왜 그랬나(진단) → 무슨 일이 일어날 것인가(예측) → 어떻게 해야 하나(처방)"로 발전한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 성숙도 단계는 "무슨 일이 있었나(기술) -> 왜 그랬나(진단) -> 무슨 일이 일어날 것인가(예측) -> 어떻게 해야 하나(처방)"로 발전한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            데이터 분석 성숙도 모델                            │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  Level 4: 처방 분석 (Prescriptive) — "어떻게 해야 하나?"     │
-│           ↑ 최적화·시뮬레이션, 고난이도                       │
-│  Level 3: ★예측 분석 (Predictive) — "무슨 일이 생길까?"       │
-│           ↑ ML·통계 모델, 미래 확률 추정                     │
-│  Level 2: 진단 분석 (Diagnostic) — "왜 그랬나?"              │
-│           ↑ 원인 분석, 상관관계 탐색                          │
-│  Level 1: 기술 분석 (Descriptive) — "무슨 일이 있었나?"       │
-│           ↑ BI 리포트, 대시보드                              │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|            데이터 분석 성숙도 모델                            |
++------------------------------------------------------------+
+|                                                            |
+|  Level 4: 처방 분석 (Prescriptive) — "어떻게 해야 하나?"     |
+|           ^ 최적화·시뮬레이션, 고난이도                       |
+|  Level 3: ★예측 분석 (Predictive) — "무슨 일이 생길까?"       |
+|           ^ ML·통계 모델, 미래 확률 추정                     |
+|  Level 2: 진단 분석 (Diagnostic) — "왜 그랬나?"              |
+|           ^ 원인 분석, 상관관계 탐색                          |
+|  Level 1: 기술 분석 (Descriptive) — "무슨 일이 있었나?"       |
+|           ^ BI 리포트, 대시보드                              |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기술 분석은 어제의 날씨를 보는 것, 진단 분석은 왜 비가 왔는지 분석, 예측 분석은 내일의 날씨 예보, [처방 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/)은 "내일 비가 오니 우산을 가져가라"는 자동화 조언이다.
@@ -54,16 +54,16 @@ tags = ["studynote-bigdata"]
 ### 예측 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```text
-[데이터 수집] → [EDA·전처리] → [특성 공학(Feature Engineering)]
-     │
-     ▼
-[모델 학습] → [검증 (Cross-validation)] → [배포]
-     │
-     ▼
-[예측 서빙] → [모니터링(Drift 탐지)] → [재학습]
+[데이터 수집] -> [EDA·전처리] -> [특성 공학(Feature Engineering)]
+     |
+     v
+[모델 학습] -> [검증 (Cross-validation)] -> [배포]
+     |
+     v
+[예측 서빙] -> [모니터링(Drift 탐지)] -> [재학습]
 ```
 
-- **📢 섹션 요약 비유**: 예측 모델 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 날씨 예보 시스템과 같다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(기상 센서) → 전처리(이상값 제거) → 모델 학습(수치 예보) → 예보 서빙 → 정확도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) → 모델 업데이트(재학습).
+- **📢 섹션 요약 비유**: 예측 모델 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 날씨 예보 시스템과 같다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(기상 센서) -> 전처리(이상값 제거) -> 모델 학습(수치 예보) -> 예보 서빙 -> 정확도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) -> 모델 업데이트(재학습).
 
 ---
 
@@ -90,7 +90,7 @@ tags = ["studynote-bigdata"]
 2. **특성 공학**: 24시간 롤링 윈도우 통계(평균, 표준편차, 최대값).
 3. **레이블**: 고장 24시간 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Positive(1), 정상 운행 Negative(0).
 4. **모델**: XGBoost [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델 ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 92%, [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 87%).
-5. **결과**: 예방 정비 실시 → 비계획 다운타임 60% 감소, 연간 8억 원 절감.
+5. **결과**: 예방 정비 실시 -> 비계획 다운타임 60% 감소, 연간 8억 원 절감.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 예측 모델을 학습 시점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 프로덕션에 배포하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage). 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 학습에 포함되면 실제 환경에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락한다. 반드시 시간 기반 Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분할(시간 순서 엄수)을 사용해야 한다.
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
 | 기대효과 | 내용 | 수치 예시 |
 |:---|:---|:---|
 | **비용 절감** | 예지 보전, 재고 최적화 | 다운타임 60% 감소 |
-| **수익 향상** | 수요 예측 → 기회 포착 | 재고 부족 30% 감소 |
+| **수익 향상** | 수요 예측 -> 기회 포착 | 재고 부족 30% 감소 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 감소</strong> | 신용 위험 사전 탐지 | 부실 대출 40% 감소 |
 
 예측 분석은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 결합하여 예측 결과를 자연어로 설명하는 "설명 가능한 예측 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Explainable Predictive [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))"로 발전하고 있으며, 규제 산업(금융·의료)에서 모델 해석 가능성 요건이 강화되고 있다.
@@ -127,17 +127,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [기술 분석 — 과거 데이터 집계, BI 대시보드]
-    │
-    ▼
+    |
+    v
 [예측 분석 — ML/통계 모델, 미래 확률 추정]
-    │
-    ▼
+    |
+    v
 [처방 분석 — 최적 행동 추천, 자동화 의사결정]
-    │
-    ▼
+    |
+    v
 [AutoML — 모델 자동 탐색, 특성 자동 선택]
-    │
-    ▼
+    |
+    v
 [XAI + 예측 분석 — 규제 대응 설명 가능 예측]
 ```
 
@@ -153,7 +153,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 46 / 262
 
-← **이전**: [23. 추천 시스템 알고리즘 (Recommendation System Algorithms)](/knowledge-base/studynote/16_bigdata/02_hadoop/045_recommendation_system_algorithms/)
-**다음**: [25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/) →
+<- **이전**: [23. 추천 시스템 알고리즘 (Recommendation System Algorithms)](/knowledge-base/studynote/16_bigdata/02_hadoop/045_recommendation_system_algorithms/)
+**다음**: [25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/) ->
 
 ---

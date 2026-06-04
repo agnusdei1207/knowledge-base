@@ -61,34 +61,34 @@ tags = ["studynote-operating-system"]
 [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))을 구축하고, 디스크 1개가 고장 났을 때 시스템이 안 멈추는지 테스트하는 과정이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 커널 블록 디바이스 에러 주입 (Fault Injection) 아키텍처     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [User Space (테스트 환경 세팅)]                                        │
-  │   - root: `echo 10 > /sys/kernel/debug/fail_make_request/probability` │
-  │          (디스크에 I/O를 날릴 때 10% 확률로 실패하게 만들라!)             │
-  │   - root: `echo 1 > /sys/block/sda/sda1/make-it-fail`             │
-  │          (타겟은 오직 /dev/sda1 디스크로 한정한다)                      │
-  │                                                                   │
-  │  [Kernel Space (Block Layer)]                                     │
-  │   - 파일 시스템(ext4)이 /dev/sda1에 파일 Write를 시도 (BIO 구조체 생성)    │
-  │                                                                   │
-  │   - 커널 블록 레이어 `submit_bio()` 함수 내부:                           │
-  │      if (should_fail(&fail_make_request, bio->bi_iter.bi_size)) { │
-  │          // 난수 생성기가 10% 확률에 당첨됨을 확인                         │
-  │          bio->bi_status = BLK_STS_IOERR;  ◀ (가짜 I/O 에러 주입!)   │
-  │          bio_endio(bio);                  ◀ (하드웨어로 안 보내고 즉시 반환)│
-  │          return;                                                  │
-  │      }                                                            │
-  │                                                                   │
-  │  [Hardware (무사함)]                                                │
-  │   - 실제 물리 디스크(sda)는 아무런 망치질도 당하지 않고 평온함.               │
-  │                                                                   │
-  │  [테스트 결과 확인]                                                  │
-  │   - 파일 시스템이나 RAID 모듈은 "-EIO" 에러를 받고 당황함.                │
-  │   - 정상적인 RAID라면 sda를 버리고 sdb(미러)로 데이터를 우회시켜야 성공!       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 커널 블록 디바이스 에러 주입 (Fault Injection) 아키텍처     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [User Space (테스트 환경 세팅)]                                        |
+  |   - root: `echo 10 > /sys/kernel/debug/fail_make_request/probability` |
+  |          (디스크에 I/O를 날릴 때 10% 확률로 실패하게 만들라!)             |
+  |   - root: `echo 1 > /sys/block/sda/sda1/make-it-fail`             |
+  |          (타겟은 오직 /dev/sda1 디스크로 한정한다)                      |
+  |                                                                   |
+  |  [Kernel Space (Block Layer)]                                     |
+  |   - 파일 시스템(ext4)이 /dev/sda1에 파일 Write를 시도 (BIO 구조체 생성)    |
+  |                                                                   |
+  |   - 커널 블록 레이어 `submit_bio()` 함수 내부:                           |
+  |      if (should_fail(&fail_make_request, bio->bi_iter.bi_size)) { |
+  |          // 난수 생성기가 10% 확률에 당첨됨을 확인                         |
+  |          bio->bi_status = BLK_STS_IOERR;  <- (가짜 I/O 에러 주입!)   |
+  |          bio_endio(bio);                  <- (하드웨어로 안 보내고 즉시 반환)|
+  |          return;                                                  |
+  |      }                                                            |
+  |                                                                   |
+  |  [Hardware (무사함)]                                                |
+  |   - 실제 물리 디스크(sda)는 아무런 망치질도 당하지 않고 평온함.               |
+  |                                                                   |
+  |  [테스트 결과 확인]                                                  |
+  |   - 파일 시스템이나 RAID 모듈은 "-EIO" 에러를 받고 당황함.                |
+  |   - 정상적인 RAID라면 sda를 버리고 sdb(미러)로 데이터를 우회시켜야 성공!       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 디스크 케이블을 진짜로 뺐다 꽂았다 하면 장비가 고장 나거나 다른 사람의 테스트를 방해한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프레임워크는 소프트웨어(블록 레이어) 단계에서 I/O 패킷(BIO)을 인터셉트하여, 진짜 디스크로 내려보내기 전에 "이거 디스크가 망가졌다고 뻥치고 위로 돌려보내!"라고 가짜 에러를 날린다. 덕분에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 확률의 배드 섹터 발생 같은 극도로 재현하기 힘든 하드웨어 장애 상황을 소프트웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 1초 만에 만들어 낼 수 있다.
@@ -133,28 +133,28 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 카오스 테스팅(결함 주입) 전략 도입 플로우                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로 개발된 마이크로서비스 또는 인프라의 내결함성(Fault Tolerance) 검증]  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      테스트 환경이 프로덕션(운영)인가, Staging/QA 환경인가?                │
-  │          ├─ 운영 ───▶ [Blast Radius(폭발 반경) 통제 필수]             │
-  │          │            - 절대 커널 레벨 패닉 유도 금지 (서버 자체가 죽음)   │
-  │          │            - 네트워크 지연(Latency)이나 파드(Pod) 종료 위주로 테스트│
-  │          │                                                        │
-  │          └─ QA/개발 ─▶ 시스템 밑바닥의 장애를 모사해야 하는가?              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      파일 시스템 코어, 디바이스 드라이버, 메모리 릭(Leak) 등 하위 레벨 검증 필요 │
-  │          ├─ 예 ─────▶ [Kernel Fault Injection (failslab, fail_io) 적용]│
-  │          │            (커널 컴파일 시 옵션 켜야 하므로 전용 QA 이미지 필요)   │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [eBPF 기반 에러 주입 (예: Chaos Mesh)]        │
-  │                         특정 프로세스의 시스템 콜(open, read)만 후킹해 에러 발생│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 카오스 테스팅(결함 주입) 전략 도입 플로우                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로 개발된 마이크로서비스 또는 인프라의 내결함성(Fault Tolerance) 검증]  |
+  |                |                                                  |
+  |                v                                                  |
+  |      테스트 환경이 프로덕션(운영)인가, Staging/QA 환경인가?                |
+  |          +- 운영 ----> [Blast Radius(폭발 반경) 통제 필수]             |
+  |          |            - 절대 커널 레벨 패닉 유도 금지 (서버 자체가 죽음)   |
+  |          |            - 네트워크 지연(Latency)이나 파드(Pod) 종료 위주로 테스트|
+  |          |                                                        |
+  |          +- QA/개발 --> 시스템 밑바닥의 장애를 모사해야 하는가?              |
+  |                |                                                  |
+  |                v                                                  |
+  |      파일 시스템 코어, 디바이스 드라이버, 메모리 릭(Leak) 등 하위 레벨 검증 필요 |
+  |          +- 예 ------> [Kernel Fault Injection (failslab, fail_io) 적용]|
+  |          |            (커널 컴파일 시 옵션 켜야 하므로 전용 QA 이미지 필요)   |
+  |          |                                                        |
+  |          +- 아니오 ---> [eBPF 기반 에러 주입 (예: Chaos Mesh)]        |
+  |                         특정 프로세스의 시스템 콜(open, read)만 후킹해 에러 발생|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자는 운영 서버에 대고 `kill -9`를 날리는 것이 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)이라고 착각한다. 진정한 카오스 테스팅은 "시스템이 이 에러를 극복할 수 있다"는 확신([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))을 먼저 설계하고, 이를 증명하기 위해 바늘 찌르듯 아주 정교하게(Targeted) 에러를 주입하는 것이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 폭발 반경이 호스트 전체이므로 운영(Production) 환경에서는 절대 금물이며, 오직 샌드박싱된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서만 쓰여야 한다.
@@ -201,12 +201,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식]
-    │
-    ▼
+    |
+    v
 [소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법]
-    │
-    ├──▶ [시스템 프로그램과 응용 프로그램의 차이]
-    └──▶ [일괄 처리 시스템 (Batch Processing System) 성능 지표]
+    |
+    +---> [시스템 프로그램과 응용 프로그램의 차이]
+    +---> [일괄 처리 시스템 (Batch Processing System) 성능 지표]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -223,7 +223,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 670 / 800
 
-← **이전**: [669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/)
-**다음**: [671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)](/knowledge-base/studynote/02_operating_system/11_exam_summary/671_system_program_vs_application_program/) →
+<- **이전**: [669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/)
+**다음**: [671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)](/knowledge-base/studynote/02_operating_system/11_exam_summary/671_system_program_vs_application_program/) ->
 
 ---

@@ -21,33 +21,33 @@ tags = ["studynote-network"]
 
 - **개념**: WLAN 아키텍처는 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 역할을 '허공의 전파'로 대체하기 위해 IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 워킹그룹에서 정의한 논리적 구조다. 기본 셀 단위인 BSS와, 이들을 묶어주는 DS(분배 시스템), 그리고 그 총합인 ESS로 구성된다.
 - **필요성**: 커피숍 하나를 덮는 와이파이는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 한 대([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))면 충분하다. 하지만 10층짜리 대형 사옥에 와이파이를 깔려면 AP가 100대는 필요하다. 만약 각 AP가 독자적인 네트워크라면 직원이 노트북을 들고 1층에서 2층으로 갈 때마다 IP가 바뀌고 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결이 끊어지는 대참사가 발생한다. 따라서 이 100대의 AP를 뒤에서 몰래 하나의 거대한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)처럼 엮어주는 상위 레벨의 논리적 묶음([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/))이 필수적이었다.
-- **등장 배경**: ① 케이블의 물리적 한계를 벗어나려는 근거리 무선망 요구 → ② [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 없이 기기끼리 묶는 임시망(Ad-hoc)의 제어 불능 및 충돌 한계 → ③ 유선망([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))과 무선망을 브릿징(Bridging)하는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 중심의 인프라스트럭처 기반 WLAN 표준화 완료.
+- **등장 배경**: ① 케이블의 물리적 한계를 벗어나려는 근거리 무선망 요구 -> ② [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 없이 기기끼리 묶는 임시망(Ad-hoc)의 제어 불능 및 충돌 한계 -> ③ 유선망([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))과 무선망을 브릿징(Bridging)하는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 중심의 인프라스트럭처 기반 WLAN 표준화 완료.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             WLAN의 점진적 확장 아키텍처 (BSS ─▶ ESS) 시각화          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1단계: BSS (Basic Service Set) - "하나의 방"]                 │
-│      ┌──────────── BSS 1 ────────────┐                      │
-│      │        (무선: 802.11)         │                      │
-│      │  📱(폰) ◀──▶ 📡(AP 1) ◀──▶ 💻(노트북) │                      │
-│      └───────────────────────────────┘                      │
-│      * 특징: AP 한 대가 관할하는 가장 기본적인 단위.                       │
-│                                                             │
-│   [2단계: ESS (Extended Service Set) - "하나의 거대한 빌딩"]          │
-│                    [인터넷 / 유선망]                             │
-│                           ▲                                 │
-│          ┌────────────────┴──────────────────┐              │
-│          │  DS (Distribution System, 유선 랜) │              │
-│          └────────┬─────────────────┬────────┘              │
-│                   │                 │                       │
-│           ┌───── BSS 1 ────┐┌───── BSS 2 ────┐              │
-│           │       📡(AP 1)  ││       📡(AP 2)  │              │
-│           │ 📱 ──(이동)────▶││ ───(도착)──▶ 📱 │              │
-│           └────────────────┘└────────────────┘              │
-│      * 특징: 사용자는 AP1에서 AP2로 넘어가도 IP를 잃지 않고 통신 유지(로밍)!  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             WLAN의 점진적 확장 아키텍처 (BSS --> ESS) 시각화          |
++-------------------------------------------------------------+
+|                                                             |
+|   [1단계: BSS (Basic Service Set) - "하나의 방"]                 |
+|      +------------ BSS 1 ------------+                      |
+|      |        (무선: 802.11)         |                      |
+|      |  📱(폰) <----> 📡(AP 1) <----> 💻(노트북) |                      |
+|      +-------------------------------+                      |
+|      * 특징: AP 한 대가 관할하는 가장 기본적인 단위.                       |
+|                                                             |
+|   [2단계: ESS (Extended Service Set) - "하나의 거대한 빌딩"]          |
+|                    [인터넷 / 유선망]                             |
+|                           ^                                 |
+|          +----------------+------------------+              |
+|          |  DS (Distribution System, 유선 랜) |              |
+|          +--------+-----------------+--------+              |
+|                   |                 |                       |
+|           +----- BSS 1 ----++----- BSS 2 ----+              |
+|           |       📡(AP 1)  ||       📡(AP 2)  |              |
+|           | 📱 --(이동)----->|| ---(도착)---> 📱 |              |
+|           +----------------++----------------+              |
+|      * 특징: 사용자는 AP1에서 AP2로 넘어가도 IP를 잃지 않고 통신 유지(로밍)!  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** BSS는 하나의 "셀(Cell)"과 같다. [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 안의 기기들은 반드시 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)([Access Point](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 통해서만 서로 대화할 수 있다. 만약 폰이 바로 옆에 있는 노트북에 사진을 보내려 해도, 전파를 AP로 쏜 뒤 AP가 다시 노트북으로 쏴주는 '별 모양(Star Topology)' 통신을 한다. ESS는 이 AP들의 등 뒤에 꽂힌 굵은 랜선(DS, 분배 시스템)을 묶어낸 집합체다. 밖에서 볼 때 10층짜리 빌딩([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) 안에는 수백 개의 AP가 있지만, 사용자에게는 `Samsung_Guest`라는 단 하나의 와이파이(SSID)로만 보인다. 사용자가 걸어 다니면 단말기는 뒤에서 조용히 AP1과 연결을 끊고 AP2로 갈아타는 짓([Roaming](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/))을 하지만, 위에서 DS가 IP를 잡아주고 있기 때문에 사용자는 끊김을 느끼지 못한다.
@@ -75,24 +75,24 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 와이파이 망을 구축할 때 가장 많이 헷갈리는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 3형제의 아키텍처를 정확히 구분해야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               WLAN 식별자 (Identifier)의 계층적 구조 시각화          │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [ESS (거대한 사옥 네트워크)]                                    │
-│   - 이름: ESSID = "SAMSUNG_CORP" (사람이 읽기 쉬운 문자열, 최대 32바이트) │
-│                                                               │
-│          ┌─────────────────────── DS (유선 백본) ──────────────────────┐│
-│          │                                                           ││
-│    [BSS 1 (1층 로비)]                [BSS 2 (2층 사무실)]            ││
-│    - AP1 기계 MAC: aa:bb:cc:11       - AP2 기계 MAC: aa:bb:cc:22 ││
-│    - BSSID = "aa:bb:cc:11"           - BSSID = "aa:bb:cc:22"     ││
-│    - 발산하는 SSID = "SAMSUNG_CORP"    - 발산하는 SSID = "SAMSUNG_CORP"││
-│                                                               │
-│   => 폰의 판단: "어? SSID(SAMSUNG_CORP)가 똑같은 이름으로 2개나 잡히네?"     │
-│                 "근데 BSSID(MAC)를 까보니까 AP가 서로 다르구나!"            │
-│                 "나는 지금 신호가 더 센 BSSID aa:bb:cc:11 에 붙어야지!"   │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               WLAN 식별자 (Identifier)의 계층적 구조 시각화          |
++---------------------------------------------------------------+
+|                                                               |
+|   [ESS (거대한 사옥 네트워크)]                                    |
+|   - 이름: ESSID = "SAMSUNG_CORP" (사람이 읽기 쉬운 문자열, 최대 32바이트) |
+|                                                               |
+|          +----------------------- DS (유선 백본) ----------------------+|
+|          |                                                           ||
+|    [BSS 1 (1층 로비)]                [BSS 2 (2층 사무실)]            ||
+|    - AP1 기계 MAC: aa:bb:cc:11       - AP2 기계 MAC: aa:bb:cc:22 ||
+|    - BSSID = "aa:bb:cc:11"           - BSSID = "aa:bb:cc:22"     ||
+|    - 발산하는 SSID = "SAMSUNG_CORP"    - 발산하는 SSID = "SAMSUNG_CORP"||
+|                                                               |
+|   => 폰의 판단: "어? SSID(SAMSUNG_CORP)가 똑같은 이름으로 2개나 잡히네?"     |
+|                 "근데 BSSID(MAC)를 까보니까 AP가 서로 다르구나!"            |
+|                 "나는 지금 신호가 더 센 BSSID aa:bb:cc:11 에 붙어야지!"   |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** <strong>SSID(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Set <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong>는 인간을 위한 이름표다. 우리가 카페에서 찾는 '스타벅스_와이파이'가 바로 SSID다. 엄밀히 말해 [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 모델에서는 여러 개의 AP가 똑같은 SSID를 뿜어대므로 이를 <strong>ESSID</strong>라고도 부른다. 반면 <strong>BSSID(Basic <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Set <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong>는 기계를 위한 이름표다. 각 AP의 고유한 무선 랜카드 '[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(48비트)'다. 내 스마트폰이 1층에서 2층으로 걸어갈 때 화면 위쪽의 와이파이 아이콘(SSID)은 안 바뀌지만, 스마트폰 내부 무선 칩셋은 1층 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(BSSID 1)를 버리고 2층 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(BSSID 2)로 잽싸게 갈아타는 이사 작업을 수행하고 있다. 이 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)의 분리가 WLAN [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 아키텍처의 핵심이다.
@@ -116,21 +116,21 @@ WLAN(와이파이)의 [BSS](/knowledge-base/studynote/02_operating_system/02_pro
 WLAN의 BSS는 통제받지 않는 시장통이다. 무전기처럼 "나 말한다!" 하고 쏘기([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 때문에, 하나의 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 밑에 100대의 폰이 모이면 서로 눈치를 보느라 아무도 데이터를 못 쏘는 최악의 속도 저하(Collisions)가 터진다. 반면 셀룰러(기지국)는 경찰관이 교통 통제를 하듯 100명의 폰에게 "너 1번, 너 2번" 시간과 주파수(PRB)를 완벽히 통제해서 쏴주기 때문에 수만 명이 모여도 망이 터지지 않는다. 이 근본적인 아키텍처 차이 때문에 넓은 핫스팟에는 무조건 셀룰러가, 좁고 쾌적한 실내에는 와이파이가 쓰이는 것이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               WLAN의 숨은 포탈(Portal) 아키텍처 시각화                │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [무선 BSS]                   [유선 DS]                 [외부 망]   │
-│   (802.11 전파)            (802.3 이더넷 랜선)           (TCP/IP 인터넷)│
-│                                                               │
-│      📱 ──(무선)──▶ 📡 AP ──(랜선)──▶ 스위치(DS) ──(랜선)──▶ 🚪 [포탈] │
-│                                                               │
-│                                                          (라우터)   │
-│   * 🚪 포탈(Portal)의 역할:                                       │
-│   "야! 여기부턴 무선 LAN (802.11) 세상이 아니라 진짜 밖(802.3 이더넷)이야!" │
-│   무선 프레임(802.11)의 껍데기를 다 벗겨버리고, 유선 프레임(802.3)으로     │
-│   완전히 포장지를 갈아 끼워서 진짜 인터넷 밖으로 내보내는 '현관문' 역할.       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               WLAN의 숨은 포탈(Portal) 아키텍처 시각화                |
++---------------------------------------------------------------+
+|                                                               |
+|   [무선 BSS]                   [유선 DS]                 [외부 망]   |
+|   (802.11 전파)            (802.3 이더넷 랜선)           (TCP/IP 인터넷)|
+|                                                               |
+|      📱 --(무선)---> 📡 AP --(랜선)---> 스위치(DS) --(랜선)---> 🚪 [포탈] |
+|                                                               |
+|                                                          (라우터)   |
+|   * 🚪 포탈(Portal)의 역할:                                       |
+|   "야! 여기부턴 무선 LAN (802.11) 세상이 아니라 진짜 밖(802.3 이더넷)이야!" |
+|   무선 프레임(802.11)의 껍데기를 다 벗겨버리고, 유선 프레임(802.3)으로     |
+|   완전히 포장지를 갈아 끼워서 진짜 인터넷 밖으로 내보내는 '현관문' 역할.       |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 표준 문서를 읽다 보면 <strong>Portal (포탈)</strong>이라는 신비한 용어가 나온다. BSS와 DS를 묶어 만든 [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 네트워크는 결국 집 안의 '로컬 망'일 뿐이다. 이 로컬 망에서 유튜브 서버(외부)로 나가려면 논리적인 현관문을 통과해야 하는데, 이 관문이 포탈이다. 실무에서는 보통 <strong>인터넷 공유기(라우터)</strong>가 포탈 역할을 겸한다. 스마트폰이 허공으로 쏜 데이터는 802.11이라는 특별한 껍데기([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 헤더)를 입고 있다. 포탈은 이 껍데기를 찢어버리고, 전 세계 유선 통신 규격인 802.3([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 껍데기로 갈아 끼워주는 완벽한 번역기(Translation [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 역할을 수행한다.
@@ -193,12 +193,12 @@ WLAN의 BSS는 통제받지 않는 시장통이다. 무전기처럼 "나 말한�
 
 ```text
 [선행 개념: WiMAX / 휴대인터넷 개요]
-    │
-    ▼
+    |
+    v
 [현재 개념: 무선 LAN 구조 분산: BSS, ESS]
-    │
-    ├──▶ [확장 A: AP / DS]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: AP / DS]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS는 [WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/) / 휴대인터넷 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) / DS와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -215,7 +215,7 @@ WLAN의 BSS는 통제받지 않는 시장통이다. 무전기처럼 "나 말한�
 
 **진행 상황**: 692 / 1120
 
-← **이전**: [570. WiMAX (IEEE 802.16) / 휴대인터넷(WiBro) 개요](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/)
-**다음**: [572. AP (Access Point) / DS (Distribution System, 분배 시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) →
+<- **이전**: [570. WiMAX (IEEE 802.16) / 휴대인터넷(WiBro) 개요](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/)
+**다음**: [572. AP (Access Point) / DS (Distribution System, 분배 시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ->
 
 ---

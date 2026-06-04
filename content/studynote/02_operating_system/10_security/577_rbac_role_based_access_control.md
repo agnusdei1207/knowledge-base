@@ -155,12 +155,12 @@ roleRef:
 
 ```text
 [자격 증명 리스트 (Capability List / Ticket)]
-    │
-    ▼
+    |
+    v
 [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-    │
-    ├──▶ [임의적 접근 제어 (DAC, Discretionary Access Control)]
-    └──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
+    |
+    +---> [임의적 접근 제어 (DAC, Discretionary Access Control)]
+    +---> [강제적 접근 제어 (MAC, Mandatory Access Control)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -179,7 +179,7 @@ roleRef:
 
 **진행 상황**: 577 / 800
 
-← **이전**: [576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)](/knowledge-base/studynote/02_operating_system/10_security/576_capability_list/)
-**다음**: [578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/) →
+<- **이전**: [576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)](/knowledge-base/studynote/02_operating_system/10_security/576_capability_list/)
+**다음**: [578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/) ->
 
 ---

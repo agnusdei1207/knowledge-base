@@ -36,24 +36,24 @@ NIST는 인터넷 생태계의 다양성을 위해 투트랙 전략을 꺼내 �
 2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/">FFT</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/">고속 푸리에 변환</a>) 엔진의 찰나 연산</strong>: 오디오 주파수 분석이나 통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에 쓰이는 공학 공식인 '푸리에 변환([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/))'을 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 가우스 샘플링 과정에 끌고 들어왔다. 이 복잡한 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 엔진을 돌리면 끔찍하게 큰 차원의 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈 과정을 순식간에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 가볍게 뚫어버린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────────┐
-│           PQC 서명 3대장의 십자 융합 특성 (크기와 복잡성의 트레이드오프) 시각화 도해   │
-├────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                │
-│ [ 🚀 ML-DSA (Dilithium) - 대규모 클라우드 범용 황제 ]                              │
-│   - 공개키 + 서명 크기: 약 3,700 Byte (미친 덤프트럭 🐘)                            │
-│   - 개발 난이도: "정수(Integer) 계산만 써서 구현 쉬움 ㅋ 초보도 짬."               │
-│   - 포지션: 덩치 커도 상관없는 구글 서버, PC, 최신 웹 브라우저의 100% 장악 메인 무기.  │
-│                                                                                │
-│ [ 🏎️ FN-DSA (Falcon) - 좁은 골목길 다이어트 대장 ]                                │
-│   - 공개키 + 서명 크기: 약 1,500 Byte (과거 RSA급 초박형! 🪶)                      │
-│   - 개발 난이도: "지옥 ☠️ 실수(Float) 부동소수점 수학 계산하다 CPU 반올림 꼬여서 미침."│
-│   - 포지션: 코딩하기 토 나오지만, 좁아터진 스마트 카드 칩셋, IoT 통신망의 유일한 구원 투수.│
-│                                                                                │
-│ [ 🛡️ SLH-DSA (SPHINCS+) - 무지성 콘크리트 플랜 B 방패 ]                          │
-│   - 공개키 + 서명 크기: 약 17,000 Byte (건물만 한 괴물 크기 🦖)                      │
-│   - 포지션: 만약 미래 수학자가 격자 암호를 다 깨부수면, 마지막으로 대피할 해시(Hash) 벙커.│
-└────────────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------------+
+|           PQC 서명 3대장의 십자 융합 특성 (크기와 복잡성의 트레이드오프) 시각화 도해   |
++--------------------------------------------------------------------------------+
+|                                                                                |
+| [ 🚀 ML-DSA (Dilithium) - 대규모 클라우드 범용 황제 ]                              |
+|   - 공개키 + 서명 크기: 약 3,700 Byte (미친 덤프트럭 🐘)                            |
+|   - 개발 난이도: "정수(Integer) 계산만 써서 구현 쉬움 ㅋ 초보도 짬."               |
+|   - 포지션: 덩치 커도 상관없는 구글 서버, PC, 최신 웹 브라우저의 100% 장악 메인 무기.  |
+|                                                                                |
+| [ 🏎️ FN-DSA (Falcon) - 좁은 골목길 다이어트 대장 ]                                |
+|   - 공개키 + 서명 크기: 약 1,500 Byte (과거 RSA급 초박형! 🪶)                      |
+|   - 개발 난이도: "지옥 ☠️ 실수(Float) 부동소수점 수학 계산하다 CPU 반올림 꼬여서 미침."|
+|   - 포지션: 코딩하기 토 나오지만, 좁아터진 스마트 카드 칩셋, IoT 통신망의 유일한 구원 투수.|
+|                                                                                |
+| [ 🛡️ SLH-DSA (SPHINCS+) - 무지성 콘크리트 플랜 B 방패 ]                          |
+|   - 공개키 + 서명 크기: 약 17,000 Byte (건물만 한 괴물 크기 🦖)                      |
+|   - 포지션: 만약 미래 수학자가 격자 암호를 다 깨부수면, 마지막으로 대피할 해시(Hash) 벙커.|
++--------------------------------------------------------------------------------+
 ```
 
 위의 다이어그램에서 보듯, 팔콘의 공개키와 서명을 합친 크기(약 1.5KB 이내)는 과거 우리가 쓰던 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 서명의 덩치와 거의 맞먹을 정도로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 기적의 수치다. 과거 네트워크 장비들의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 뼈대를 교체하지 않고도 양자 내성 시대에 안착할 수 있는 최고의 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 호환성을 제공한다.
@@ -121,21 +121,21 @@ NIST는 인터넷 생태계의 다양성을 위해 투트랙 전략을 꺼내 �
 
 ```text
 RSA-2048 전자서명 / 서명 크기가 256바이트로 작고 얇아 IoT 스마트 카드 생태계 평정
-    │
-    ▼
+    |
+    v
 쇼어 알고리즘 (Shor's Algorithm)의 양자 컴퓨터 위협 대두 / RSA/ECC 100% 멸망 사형 선고
-    │
-    ▼
+    |
+    v
 [NIST PQC 공모전 양자 내성 서명 격돌]
- 후보 1: Dilithium (딜리슘) ─▶ 튼튼하지만 크기가 2.4KB 폭증 🐘 (네트워크 병목 붕괴)
- 후보 2: FALCON (팔콘)      ─▶ FFT 수학 다이어트로 RSA급 초소형 660바이트 달성 🪶
-    │
-    ▼
+ 후보 1: Dilithium (딜리슘) --> 튼튼하지만 크기가 2.4KB 폭증 🐘 (네트워크 병목 붕괴)
+ 후보 2: FALCON (팔콘)      --> FFT 수학 다이어트로 RSA급 초소형 660바이트 달성 🪶
+    |
+    v
 [2024년 NIST 투트랙 최종 표준 채택 확정]
  범용 1대장: ML-DSA (Dilithium 딜리슘) 표준 확정
  니치 마켓 구원 투수: FN-DSA (Falcon 팔콘) 표준 확정
-    │
-    ▼
+    |
+    v
 클라우드망(딜리슘)과 엣지/IoT 소형 센서망(팔콘)의 거대한 투트랙 하이브리드 PQC 생태계 안착
 ```
 
@@ -151,7 +151,7 @@ RSA-2048 전자서명 / 서명 크기가 256바이트로 작고 얇아 IoT 스�
 
 **진행 상황**: 201 / 1108
 
-← **이전**: [147. CRYSTALS-Dilithium (ML-DSA) — 격자 기반 디지털 서명](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)
-**다음**: [149. SPHINCS+ (SLH-DSA) — 무상태 해시 기반 양자 내성 서명 최후의 방패](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/) →
+<- **이전**: [147. CRYSTALS-Dilithium (ML-DSA) — 격자 기반 디지털 서명](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)
+**다음**: [149. SPHINCS+ (SLH-DSA) — 무상태 해시 기반 양자 내성 서명 최후의 방패](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/) ->
 
 ---

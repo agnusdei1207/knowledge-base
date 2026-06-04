@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [Destination Unreachable…]
-    │
-    ▼
+    |
+    v
 [Echo Request/Reply / Sou…]
-    │
-    └──▶ [Redirect 메시지]
+    |
+    +---> [Redirect 메시지]
 ```
 
 - **📢 섹션 요약 비유**: ** 핑(Ping) 테스트는 잠수함이 어두운 바닷속에서 쏘는 **"음파 탐지기(Sonar)"**입니다. '핑~' 하고 음파를 쐈을 때 적 잠수함에 맞고 튕겨 돌아오면, 적이 살아있고 거리가 얼마나 되는지 정확히 탐지할 수 있습니다.
@@ -48,24 +48,24 @@ tags = ["studynote-network"]
 3. **결과 계산**: 내 PC는 쏜 시간과 받은 시간의 차이([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))를 밀리초(ms) 단위로 화면에 출력한다. (예: `time=30ms`)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Ping의 실패 메시지별 원인 분석 (T/S)              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1) Reply from 8.8.8.8: bytes=32 time=30ms TTL=115         │
- │      ▶ Type 0 (Echo Reply) 무사 도착! 통신 100% 정상.             │
- │                                                             │
- │   2) Request timed out (요청 시간 초과)                       │
- │      ▶ 목적지가 죽었거나, 방화벽이 Ping을 먹어 치워버렸음(Drop).     │
- │                                                             │
- │   3) Destination net unreachable (대상 네트워크 도달 불가)     │
- │      ▶ 가는 길 중간에 라우터가 길을 못 찾아 Type 3 (Unreachable) │
- │        에러를 대신 뱉어준 상황.                                │
- │                                                             │
- │   4) TTL expired in transit (전송 중 TTL 만료)               │
- │      ▶ 핑이 가다가 중간에 루핑이 돌아서 라우터가 쏴 죽이고(Type 11)   │
- │        시체 통지서를 날린 상황.                                │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Ping의 실패 메시지별 원인 분석 (T/S)              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1) Reply from 8.8.8.8: bytes=32 time=30ms TTL=115         |
+ |      -> Type 0 (Echo Reply) 무사 도착! 통신 100% 정상.             |
+ |                                                             |
+ |   2) Request timed out (요청 시간 초과)                       |
+ |      -> 목적지가 죽었거나, 방화벽이 Ping을 먹어 치워버렸음(Drop).     |
+ |                                                             |
+ |   3) Destination net unreachable (대상 네트워크 도달 불가)     |
+ |      -> 가는 길 중간에 라우터가 길을 못 찾아 Type 3 (Unreachable) |
+ |        에러를 대신 뱉어준 상황.                                |
+ |                                                             |
+ |   4) TTL expired in transit (전송 중 TTL 만료)               |
+ |      -> 핑이 가다가 중간에 루핑이 돌아서 라우터가 쏴 죽이고(Type 11)   |
+ |        시체 통지서를 날린 상황.                                |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 해커들의 스머프(Smurf) 공격과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 대응
@@ -134,12 +134,12 @@ Echo Request/Reply / Sou…는 네트워크 계층과 IP를 이해할 때 핵심
 
 ```text
 [선행 개념: Destination Unreachable…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Echo Request/Reply / Sou…]
-    │
-    ├──▶ [확장 A: Redirect 메시지]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: Redirect 메시지]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 Echo Request/Reply / Sou…는 Destination Unreachable…에서 출발해 현재 메커니즘을 정교화하고, 이후 Redirect 메시지와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ Echo Request/Reply / Sou…는 Destination Unreachable…에서 출발해 현재
 
 **진행 상황**: 443 / 1120
 
-← **이전**: [321. Destination Unreachable (목적지 도달 불가](/knowledge-base/studynote/03_network/06_network_layer_ip/321_destination_unreachable_port_host_prohibited/)
-**다음**: [323. Redirect 메시지](/knowledge-base/studynote/03_network/06_network_layer_ip/323_redirect_message_better_route_notification/) →
+<- **이전**: [321. Destination Unreachable (목적지 도달 불가](/knowledge-base/studynote/03_network/06_network_layer_ip/321_destination_unreachable_port_host_prohibited/)
+**다음**: [323. Redirect 메시지](/knowledge-base/studynote/03_network/06_network_layer_ip/323_redirect_message_better_route_notification/) ->
 
 ---

@@ -48,22 +48,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 터보부스트가 단순히 "유휴 코어 전력을 뺏어온다" 수준을 넘어, 여러 제한 조건을 동시에 통과해야 하는 제어 경로임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│               Turbo Boost decision: headroom must exist               │
-├────────────────────────────────────────────────────────────────────────┤
-│ Workload arrives                                                      │
-│    │                                                                  │
-│    ├─ active core count acceptable?                                   │
-│    ├─ package power below PL1 / PL2 window?                           │
-│    ├─ current below electrical limit?                                 │
-│    └─ temperature below TjMax?                                        │
-│                 │ yes                                                 │
-│                 ▼                                                     │
-│          raise turbo bin for active cores                             │
-│                 │                                                     │
-│                 ▼                                                     │
-│      limit hit -> step down to lower bin or base clock                │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|               Turbo Boost decision: headroom must exist               |
++------------------------------------------------------------------------+
+| Workload arrives                                                      |
+|    |                                                                  |
+|    +- active core count acceptable?                                   |
+|    +- package power below PL1 / PL2 window?                           |
+|    +- current below electrical limit?                                 |
+|    +- temperature below TjMax?                                        |
+|                 | yes                                                 |
+|                 v                                                     |
+|          raise turbo bin for active cores                             |
+|                 |                                                     |
+|                 v                                                     |
+|      limit hit -> step down to lower bin or base clock                |
++------------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 터보부스트는 "짧은 반응성"에 특히 강하다. 브라우저 탭 전환, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 코드 컴파일의 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구간, 게임의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)처럼 순간 피크가 많은 작업에서 사용자 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올린다. 하지만 냉각이 약하거나 OEM (Original Equipment Manufacturer)이 PL1/PL2를 보수적으로 잡아 두면 같은 CPU도 실제 터보 유지 폭이 크게 달라질 수 있다.
@@ -143,23 +143,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고정 클럭 CPU
-    │
-    ▼
+    |
+    v
 Advanced Configuration and Power Interface (ACPI) P-State 기반 주파수 제어
-    │
-    ▼
+    |
+    v
 Turbo Boost
 : 남는 전력·열 헤드룸을 순간 성능으로 환원
-    │
-    ▼
+    |
+    v
 하드웨어 자율 제어 강화
 : Intel Speed Shift · 더 짧은 제어 주기
-    │
-    ▼
+    |
+    v
 TVB · 플랫폼별 전력 제한 최적화 · 세대별 정교화
 ```
 
-이 흐름은 "정적 스펙 → 조건부 부스트 → 더 빠른 하드웨어 자율 제어"로 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리가 발전한 과정을 나타낸다.
+이 흐름은 "정적 스펙 -> 조건부 부스트 -> 더 빠른 하드웨어 자율 제어"로 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리가 발전한 과정을 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -173,7 +173,7 @@ TVB · 플랫폼별 전력 제한 최적화 · 세대별 정교화
 
 **진행 상황**: 731 / 803
 
-← **이전**: [729. AMD Cool'n'Quiet](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/729_cool_n_quiet/)
-**다음**: [731. AMD 프리시전 부스트 (Precision Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/731_amd_precision_boost/) →
+<- **이전**: [729. AMD Cool'n'Quiet](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/729_cool_n_quiet/)
+**다음**: [731. AMD 프리시전 부스트 (Precision Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/731_amd_precision_boost/) ->
 
 ---

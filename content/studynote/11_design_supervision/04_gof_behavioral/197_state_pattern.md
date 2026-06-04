@@ -19,27 +19,27 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-주문 처리 시스템에서 주문 상태(접수→처리→배송→완료·취소)에 따라 가능한 동작이 다르다. 상태별 조건 분기로 구현하면: `if (state == "접수") { ... } else if (state == "처리") { ... }` — 상태 수 증가로 코드가 폭발하고, 새 상태 추가 시 여러 곳을 수정해야 한다.
+주문 처리 시스템에서 주문 상태(접수->처리->배송->완료·취소)에 따라 가능한 동작이 다르다. 상태별 조건 분기로 구현하면: `if (state == "접수") { ... } else if (state == "처리") { ... }` — 상태 수 증가로 코드가 폭발하고, 새 상태 추가 시 여러 곳을 수정해야 한다.
 
 [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 각 상태를 `OrderState` 인터페이스의 구현 클래스(`ReceivedState`, `ProcessingState`, `ShippedState`, `CancelledState`)로 캡슐화한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              상태 패턴 구조                                   │
-├─────────────────────────────────────────────────────────────┤
-│  Context (Order)                                            │
-│  - state: OrderState                                        │
-│  + setState(s: OrderState): void                            │
-│  + process(): void { state.process(this); }                 │
-│  + cancel(): void  { state.cancel(this); }                  │
-│                                                             │
-│  OrderState (인터페이스)                                     │
-│  + process(ctx: Order): void                                │
-│  + cancel(ctx: Order): void                                 │
-│       ▲                                                     │
-│  ReceivedState  ProcessingState  ShippedState  CancelledState│
-│  (각 상태에서 가능한 동작 구현 + 다음 상태 전이 결정)       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              상태 패턴 구조                                   |
++-------------------------------------------------------------+
+|  Context (Order)                                            |
+|  - state: OrderState                                        |
+|  + setState(s: OrderState): void                            |
+|  + process(): void { state.process(this); }                 |
+|  + cancel(): void  { state.cancel(this); }                  |
+|                                                             |
+|  OrderState (인터페이스)                                     |
+|  + process(ctx: Order): void                                |
+|  + cancel(ctx: Order): void                                 |
+|       ^                                                     |
+|  ReceivedState  ProcessingState  ShippedState  CancelledState|
+|  (각 상태에서 가능한 동작 구현 + 다음 상태 전이 결정)       |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 신호등([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(빨강·노랑·초록)에 따라 동작이 다르고, 각 상태가 다음 상태로의 전이 규칙을 결정한다.
@@ -57,18 +57,18 @@ tags = ["studynote-design-supervision"]
 | 상태 머신 프레임워크 | 선언적 전이 정의 | 학습 곡선 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       주문 상태 전이 다이어그램                               │
-├─────────────────────────────────────────────────────────────┤
-│  [접수] → process() → [처리중] → ship() → [배송중]          │
-│     │                    │                    │             │
-│  cancel()            cancel()             (취소 불가)       │
-│     │                    │                                  │
-│     ▼                    ▼                                  │
-│  [취소됨]            [취소됨]                                │
-│                                            → complete()     │
-│                                               [완료]        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       주문 상태 전이 다이어그램                               |
++-------------------------------------------------------------+
+|  [접수] -> process() -> [처리중] -> ship() -> [배송중]          |
+|     |                    |                    |             |
+|  cancel()            cancel()             (취소 불가)       |
+|     |                    |                                  |
+|     v                    v                                  |
+|  [취소됨]            [취소됨]                                |
+|                                            -> complete()     |
+|                                               [완료]        |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 주문([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에게 동작을 위임하고, 상태 객체가 다음 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 결정한다. 주문 시스템은 상태 내부 구현을 알 필요 없다.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[조건 분기 폭발 문제] → [상태 패턴] → OCP 달성] → [스프링 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine] → [워크플로우 엔진]
+[조건 분기 폭발 문제] -> [상태 패턴] -> OCP 달성] -> [스프링 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine] -> [워크플로우 엔진]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -126,13 +126,13 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(1994)] → [유한 상태 기계(FSM)] → [스프링 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine] → [워크플로우 [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 엔진] → [이벤트 소싱 상태 관리]
+[GoF [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(1994)] -> [유한 상태 기계(FSM)] -> [스프링 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine] -> [워크플로우 [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 엔진] -> [이벤트 소싱 상태 관리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 신호등처럼, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(빨강·초록·노랑)에 따라 동작이 달라지는 것이에요.
 2. 각 상태가 다음 상태로의 전환 규칙을 스스로 결정해요.
-3. 주문 처리 시스템(접수→처리→배송→완료)이 바로 이 패턴을 사용해요!
+3. 주문 처리 시스템(접수->처리->배송->완료)이 바로 이 패턴을 사용해요!
 
 ---
 
@@ -140,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 258 / 530
 
-← **이전**: [196. 커맨드 패턴 (Command Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/)
-**다음**: [198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/198_state_vs_strategy/) →
+<- **이전**: [196. 커맨드 패턴 (Command Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/)
+**다음**: [198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/198_state_vs_strategy/) ->
 
 ---

@@ -28,17 +28,17 @@ tags = ["data_engineering"]
 ```text
 [전사 데이터 구조의 한계와 데이터 마트의 워크로드 격리]
 
-┌─────────────────── 기존: 전사 DW 직접 쿼리 (병목 발생) ─────────────────┐
-│ [Sales App] ─┐                                                        │
-│ [HR App]    ─┼─> [ Enterprise Data Warehouse ] <── (Slow Query!) ── [ BI / Analytics ]
-│ [ERP App]   ─┘   (수백 개 정규화 테이블, 조인 지옥)                   │
-└───────────────────────────────────────────────────────────────────────┘
-                                   ↓ (아키텍처 개선)
-┌─────────────────── 개선: 데이터 마트를 통한 워크로드 분산 ────────────────┐
-│                   ┌─> [ Sales Data Mart ]  <── (Fast!) ── [ Sales BI ]│
-│ [ EDW ] ──────────┼─> [ HR Data Mart ]     <── (Fast!) ── [ HR BI ]   │
-│ (통합 저장소)     └─> [ Finance Data Mart] <── (Fast!) ── [ Fin BI ]  │
-└───────────────────────────────────────────────────────────────────────┘
++------------------- 기존: 전사 DW 직접 쿼리 (병목 발생) -----------------+
+| [Sales App] -+                                                        |
+| [HR App]    -+-> [ Enterprise Data Warehouse ] <-- (Slow Query!) -- [ BI / Analytics ]
+| [ERP App]   -+   (수백 개 정규화 테이블, 조인 지옥)                   |
++-----------------------------------------------------------------------+
+                                   v (아키텍처 개선)
++------------------- 개선: 데이터 마트를 통한 워크로드 분산 ----------------+
+|                   +-> [ Sales Data Mart ]  <-- (Fast!) -- [ Sales BI ]|
+| [ EDW ] ----------+-> [ HR Data Mart ]     <-- (Fast!) -- [ HR BI ]   |
+| (통합 저장소)     +-> [ Finance Data Mart] <-- (Fast!) -- [ Fin BI ]  |
++-----------------------------------------------------------------------+
 ```
 이 도식은 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)가 어떻게 전사 시스템의 읽기 부하를 분산시키고 각 부서의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 격리 보장하는지를 보여줍니다. 기존에는 모든 무거운 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 단일 EDW로 집중되어 락 경합과 리소스 고갈이 빈번했습니다. 마트 계층을 도입하면 장애를 부서 단위로 격리할 수 있으며, 각 도메인에 최적화된 맞춤형 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 제공하여 BI 대시보드의 렌더링 속도를 밀리초 단위로 끌어올릴 수 있습니다.
 
@@ -109,13 +109,13 @@ tags = ["data_engineering"]
 [독립형 마트의 사일로 위협 vs 종속형 마트의 정합성]
 
 [A. 독립형 (Independent) - 안티패턴]
-운영 DB ─(ETL)─> [ Data Mart 영업 ] ──> 영업 BI (매출: 100억)
-운영 DB ─(ETL)─> [ Data Mart 재무 ] ──> 재무 BI (매출: 95억)
+운영 DB -(ETL)-> [ Data Mart 영업 ] --> 영업 BI (매출: 100억)
+운영 DB -(ETL)-> [ Data Mart 재무 ] --> 재무 BI (매출: 95억)
 ===> 부서별 로직 차이로 "데이터 사일로(Silo)" 및 신뢰도 하락 발생
 
 [B. 종속형 (Dependent) - 권장 아키텍처]
-운영 DB ─(ETL)─> [ EDW (통합/정제) ] ─(추출)─> [ Data Mart 영업 ]
-                                     ─(추출)─> [ Data Mart 재무 ]
+운영 DB -(ETL)-> [ EDW (통합/정제) ] -(추출)-> [ Data Mart 영업 ]
+                                     -(추출)-> [ Data Mart 재무 ]
 ===> 중앙 통제를 통해 "단일 진실 공급원(SSOT)" 기반 파생 보장
 ```
 이 비교도는 단기적인 구축 속도와 장기적인 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 사이의 트레이드오프를 보여줍니다. 독립형 방식(A)은 EDW가 없어도 되므로 구축이 매우 빠르지만, 부서마다 '매출'을 정의하는 기준(예: 부가세 포함 여부)이 달라져 전사 회의에서 지표가 어긋나는 치명적 결함을 낳습니다. 반면 종속형 방식(B)은 EDW라는 거대한 필터를 거치므로 일관성이 완벽히 보장됩니다. 실무에서는 B 방식을 기본으로 하되, 클라우드 환경에서는 물리적 이동 없이 '[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)'만 생성하는 가상 마트(Virtual Mart)로 비용을 상쇄합니다.
@@ -137,12 +137,12 @@ tags = ["data_engineering"]
 [SCD(Slowly Changing Dimension) 전략 의사결정 트리]
 
 [차원 데이터 변경 이벤트 발생 (예: 주소, 등급 변경)]
-         ↓
+         v
 [Q1. 과거 데이터(Fact) 분석 시, 과거 시점의 상태가 필요한가?]
- ├── (No) ──> [SCD Type 1 적용]: 기존 레코드 단순 UPDATE (덮어쓰기) => 이력 유실
- └── (Yes) ─> [Q2. 이력 추적 테이블 관리에 리소스를 투자할 수 있는가?]
-               ├── (No) ──> [SCD Type 3 적용]: 현재값/과거값 컬럼 분리 추가
-               └── (Yes) ─> [SCD Type 2 적용]: 신규 레코드 INSERT 및 유효기간(Start/End Date) 플래그 관리
+ +-- (No) --> [SCD Type 1 적용]: 기존 레코드 단순 UPDATE (덮어쓰기) => 이력 유실
+ +-- (Yes) -> [Q2. 이력 추적 테이블 관리에 리소스를 투자할 수 있는가?]
+               +-- (No) --> [SCD Type 3 적용]: 현재값/과거값 컬럼 분리 추가
+               +-- (Yes) -> [SCD Type 2 적용]: 신규 레코드 INSERT 및 유효기간(Start/End Date) 플래그 관리
 ```
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지키기 위한 핵심 의사결정 과정을 나타냅니다. 실무적으로 마케팅이나 재무 분석에서는 특정 시점(Point-in-Time)의 고객 상태를 아는 것이 필수적이므로, 레코드 자체를 새로 생성하고 이력 기간(Valid_From, Valid_To)을 명시하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a></strong> 적용이 표준입니다. 이는 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)의 복잡도를 높이지만, 비즈니스 인텔리전스의 신뢰도를 결정짓는 가장 중요한 방어선이 됩니다. 또한 서로 다른 마트 간 교차 분석을 위해서는 '[Conformed Dimension](/knowledge-base/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/)(전사 공통 차원)'을 반드시 사전에 정의해야 합니다.
 
@@ -181,14 +181,14 @@ tags = ["data_engineering"]
 
 ```text
 [데이터 웨어하우스 (Data Warehouse)]
-    │
-    ▼
+    |
+    v
 [데이터 마트 (Data Mart)]
-    │
-    ▼
+    |
+    v
 [OLAP (Online Analytical Processing)]
-    │
-    ▼
+    |
+    v
 [BI (Business Intelligence)]
 ```
 
@@ -204,7 +204,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 6 / 258
 
-← **이전**: [5. 데이터 웨어하우스 (DW, Data Warehouse) - 전사적 관점의 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/005_data_warehouse/)
-**다음**: [7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이](/knowledge-base/studynote/14_data_engineering/01_infrastructure/007_data_lake/) →
+<- **이전**: [5. 데이터 웨어하우스 (DW, Data Warehouse) - 전사적 관점의 비즈니스 인텔리전스(BI)를 위한 통합/주제별/시계열 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/005_data_warehouse/)
+**다음**: [7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이](/knowledge-base/studynote/14_data_engineering/01_infrastructure/007_data_lake/) ->
 
 ---

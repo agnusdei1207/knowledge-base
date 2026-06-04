@@ -31,9 +31,9 @@ tags = ["studynote-cloud"]
 
 ```text
 Build Image
-  ↓ push
+  v push
 Registry
-  ↓ pull
+  v pull
 Deploy
 ```
 
@@ -105,9 +105,9 @@ Deploy
 
 ```text
 Image
-  ↓ push/pull
+  v push/pull
 Container Registry
-  ↓
+  v
 Deployment
 ```
 
@@ -117,11 +117,11 @@ Deployment
 
 ```text
 Docker Hub
-  ↓
+  v
 Container Registry
-  ↓
+  v
 ECR
-  ↓
+  v
 CI/CD Deployment
 ```
 
@@ -139,7 +139,7 @@ CI/CD Deployment
 
 **진행 상황**: 69 / 371
 
-← **이전**: [69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/)
-**다음**: [71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/071_oci_open_container_initiative_standard/) →
+<- **이전**: [69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/)
+**다음**: [71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/071_oci_open_container_initiative_standard/) ->
 
 ---

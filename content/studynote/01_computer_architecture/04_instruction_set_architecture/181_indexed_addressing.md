@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)만 바꾸며 연속 원소를 순회하는 구조를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same instruction, changing index register                         │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction : LOAD R1, TABLE(IX)                                  │
-│                                                                    │
-│ iter 0      : IX = 0   -> EA = TABLE + 0   -> element[0]          │
-│ iter 1      : IX = 4   -> EA = TABLE + 4   -> element[1]          │
-│ iter 2      : IX = 8   -> EA = TABLE + 8   -> element[2]          │
-│ iter 3      : IX = 12  -> EA = TABLE + 12  -> element[3]          │
-│                                                                    │
-│ only IX changes; instruction encoding stays the same              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Same instruction, changing index register                         |
++--------------------------------------------------------------------+
+| instruction : LOAD R1, TABLE(IX)                                  |
+|                                                                    |
+| iter 0      : IX = 0   -> EA = TABLE + 0   -> element[0]          |
+| iter 1      : IX = 4   -> EA = TABLE + 4   -> element[1]          |
+| iter 2      : IX = 8   -> EA = TABLE + 8   -> element[2]          |
+| iter 3      : IX = 12  -> EA = TABLE + 12  -> element[3]          |
+|                                                                    |
+| only IX changes; instruction encoding stays the same              |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 <strong>주소의 고정 부분과 가변 부분을 분리했다</strong>는 점이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 시작 위치는 그대로 두고, 루프가 돌 때마다 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)만 증가시키면 다음 원소가 선택된다. 따라서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 주소 지정은 메모리 접근을 단순한 덧셈으로 만들면서도, 고급 언어의 `for` 루프와 자연스럽게 맞물린다.
@@ -61,21 +61,21 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 주소 지정이 단순 덧셈을 넘어, 원소 크기와 결합해 실제 주소를 만드는 과정을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Indexed addressing data path                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction field : BASE = 0x1000                                 │
-│ index register    : IX   = 3                                      │
-│ element size      : SCALE = 4 bytes                               │
-│                                                                    │
-│ IX ----> [scale] ----┐                                            │
-│                      ▼                                            │
-│                 offset = 12                                       │
-│                      │                                            │
-│ BASE --------------> (+) -----------------> EA = 0x100C           │
-│                                                   │                │
-│                                                   └-> cache/mem   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Indexed addressing data path                                      |
++--------------------------------------------------------------------+
+| instruction field : BASE = 0x1000                                 |
+| index register    : IX   = 3                                      |
+| element size      : SCALE = 4 bytes                               |
+|                                                                    |
+| IX ----> [scale] ----+                                            |
+|                      v                                            |
+|                 offset = 12                                       |
+|                      |                                            |
+| BASE --------------> (+) -----------------> EA = 0x100C           |
+|                                                   |                |
+|                                                   +-> cache/mem   |
++--------------------------------------------------------------------+
 ```
 
 여기서 중요한 함정은 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>가 곧바로 주소가 아니라는 점</strong>이다. 원소 번호 `3`은 정수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 실제로는 `12`바이트 떨어진 위치를 의미할 수 있다. 일부 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))는 이 스케일을 하드웨어가 처리하고, 일부는 컴파일러가 미리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 바꿔 넣는다. 구현은 달라도 본질은 같다. <strong>반복마다 바뀌는 주소 성분을 별도 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>에 둔다</strong>는 점이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 주소 지정의 핵심이다.
@@ -120,16 +120,16 @@ tags = ["studynote-computer-architecture"]
 아래 결정 흐름은 어떤 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)을 우선 선택할지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Addressing choice for real code                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ target is a fixed-size sequence?                                  │
-│   ├─ yes -> changing part is element number? -> Indexed           │
-│   └─ no                                                           │
-│       ├─ stable region + small field offset? -> Base + disp       │
-│       ├─ branch near current instruction? -> PC-relative          │
-│       └─ next address stored in memory object? -> Register indirect│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Addressing choice for real code                                   |
++--------------------------------------------------------------------+
+| target is a fixed-size sequence?                                  |
+|   +- yes -> changing part is element number? -> Indexed           |
+|   +- no                                                           |
+|       +- stable region + small field offset? -> Base + disp       |
+|       +- branch near current instruction? -> PC-relative          |
+|       +- next address stored in memory object? -> Register indirect|
++--------------------------------------------------------------------+
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -172,20 +172,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 절대 주소를 매번 적는 비효율
-        │
-        ▼
+        |
+        v
 기준 주소와 가변 위치의 분리
-        │
-        ▼
+        |
+        v
 인덱스 레지스터 기반 주소 계산
-        │
-        ▼
+        |
+        v
 스케일드 인덱싱과 배열·테이블 순회
-        │
-        ▼
+        |
+        v
 베이스+인덱스+변위 결합 주소 지정
-        │
-        ▼
+        |
+        v
 루프 최적화 · 캐시 친화 접근 · 벡터화
 ```
 
@@ -203,7 +203,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 181 / 803
 
-← **이전**: [180. 베이스 레지스터 주소 지정 (Base Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/180_base_register_addressing/)
-**다음**: [182. PC 상대 주소 지정 (PC-Relative)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/) →
+<- **이전**: [180. 베이스 레지스터 주소 지정 (Base Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/180_base_register_addressing/)
+**다음**: [182. PC 상대 주소 지정 (PC-Relative)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/) ->
 
 ---

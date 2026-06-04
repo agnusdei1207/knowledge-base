@@ -26,16 +26,16 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 이 그림은 전체 재구성과 동적 재구성이 무엇을 멈추고 무엇을 유지하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Full reload vs dynamic partial reconfiguration             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Full reload                                                              │
-│   [entire FPGA offline] -> load full bitstream -> restart all functions  │
-│                                                                          │
-│ Dynamic partial reconfiguration                                          │
-│   [static shell alive] + [reconfigurable area swapped]                   │
-│   external links, control path, memory path keep running                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                Full reload vs dynamic partial reconfiguration             |
++----------------------------------------------------------------------------+
+| Full reload                                                              |
+|   [entire FPGA offline] -> load full bitstream -> restart all functions  |
+|                                                                          |
+| Dynamic partial reconfiguration                                          |
+|   [static shell alive] + [reconfigurable area swapped]                   |
+|   external links, control path, memory path keep running                 |
++----------------------------------------------------------------------------+
 ```
 
 결국 이 기술의 필요성은 단순한 "기능 변경 가능"보다 더 구체적이다. <strong>중단 없는 하드웨어 교체</strong>가 가능해야만, FPGA가 단순 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 장치를 넘어 현장 운용형 가속기로 자리 잡을 수 있다.
@@ -59,17 +59,17 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 아래 그림은 정적 쉘과 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), 그리고 재구성 시퀀스가 어떻게 연결되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                             FPGA device                                   │
-├──────────────────────────────┬─────────────────────────────────────────────┤
-│ Static region                │ Reconfigurable partition (RP)              │
-│ - clocks / reset             │   [ RM_A ]  <->  [ RM_B ]  <->  [ RM_C ]   │
-│ - host / memory interface    │   same boundary, different hardware        │
-│ - reconfig controller        │                                             │
-├──────────────┬───────────────┴─────────────────────────────────────────────┤
-│ bitstream    │ quiesce -> decouple -> load via ICAP -> local reset        │
-│ storage      │ -> resume traffic                                           │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                             FPGA device                                   |
++------------------------------+---------------------------------------------+
+| Static region                | Reconfigurable partition (RP)              |
+| - clocks / reset             |   [ RM_A ]  <->  [ RM_B ]  <->  [ RM_C ]   |
+| - host / memory interface    |   same boundary, different hardware        |
+| - reconfig controller        |                                             |
++--------------+---------------+---------------------------------------------+
+| bitstream    | quiesce -> decouple -> load via ICAP -> local reset        |
+| storage      | -> resume traffic                                           |
++----------------------------------------------------------------------------+
 ```
 
 핵심 시퀀스도 정형화되어 있다. 먼저 RP로 들어가는 트래픽을 멈추고 경계 신호를 decouple한 뒤, 부분 비트스트림을 ICAP으로 밀어 넣는다. 이후 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 내부 상태를 local reset으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하고 경계 연결을 다시 열어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 재개한다. 이때 재구성 시간은 대략 `부분 비트스트림 크기 / 구성 대역폭`으로 계산할 수 있으므로, 4메가바이트 비트스트림을 초당 800메가바이트로 쓴다면 이론상 약 5밀리초가 기본 하한이 된다.
@@ -152,17 +152,17 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 ```text
 전체 FPGA 재프로그램
-        │
-        ▼
+        |
+        v
 부분 비트스트림 개념 도입
-        │
-        ▼
+        |
+        v
 정적 쉘 + RP 분할 설계
-        │
-        ▼
+        |
+        v
 동적 부분 재구성 기반 가속기 교체
-        │
-        ▼
+        |
+        v
 클라우드 FPGA 셸 · 현장 복구 · 하드웨어 가상화
 ```
 
@@ -180,7 +180,7 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 **진행 상황**: 606 / 803
 
-← **이전**: [605. 고수준 합성 (HLS, High-Level Synthesis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/605_high_level_synthesis/)
-**다음**: [607. 클럭 도메인 교차 (CDC, Clock Domain Crossing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) →
+<- **이전**: [605. 고수준 합성 (HLS, High-Level Synthesis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/605_high_level_synthesis/)
+**다음**: [607. 클럭 도메인 교차 (CDC, Clock Domain Crossing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ->
 
 ---

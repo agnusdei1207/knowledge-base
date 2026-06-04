@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [BBR]
-    │
-    ▼
+    |
+    v
 [RTO 측정 방식]
-    │
-    └──▶ [RTT, SRTT]
+    |
+    +---> [RTT, SRTT]
 ```
 
 - **📢 섹션 요약 비유**: ** RTO는 라면 물 끓이기 타이머입니다. 물의 양과 화력(네트워크 상태)이 매번 다르기 때문에, 고정된 시간 3분(고정 타이머)에 무조건 면을 넣는 바보짓을 버리고, 물이 끓는 속도를 실시간으로 눈으로 보며([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정) 면 넣는 타이밍([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))을 유동적으로 바꾸는 셰프의 감각입니다.
@@ -62,24 +62,24 @@ TCP는 영수증이 올 때마다 걸린 시간([RTT](/knowledge-base/studynote/
 - **칸의 해결책**: <strong>"재전송한 패킷에 대해서 날아온 영수증은 출처가 불분명한 썩은 물이니까, 아예 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 측정 공식(타이머 갱신)에 한 방울도 섞지 마라! 무시해라!!"</strong> 이 한마디로 TCP의 계산 오염을 완벽히 차단했다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                칸 알고리즘(Karn's Algorithm) 딜레마 시각화        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC ]                                       [ 목적지 ]   │
- │   1. 1번 패킷 (원본) ────────(엄청 늦게 기어감)────────▶        │
- │                                                             │
- │   2. (3초 타이머 만료!!)                                        │
- │   3. 1번 패킷 (재전송) ────────(빛의 속도로 날아감)───▶        │
- │                                                             │
- │   4. 영수증(ACK) 도착!! ◀────────────────────────       │
- │                                                             │
- │   * 내 PC의 멘붕: "저 영수증은 1번 원본이 3초 만에 만든 걸까,        │
- │                  3번 재전송이 0.1초 만에 만든 걸까? 알 수가 없다!!"  │
- │                                                             │
- │   * 칸의 철칙: "출처가 헷갈리는 영수증은 평균 핑 타임 계산에서 무조건  │
- │               제외(Ignore)시켜 계산 수질 오염을 막아라!!"          │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                칸 알고리즘(Karn's Algorithm) 딜레마 시각화        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC ]                                       [ 목적지 ]   |
+ |   1. 1번 패킷 (원본) --------(엄청 늦게 기어감)--------->        |
+ |                                                             |
+ |   2. (3초 타이머 만료!!)                                        |
+ |   3. 1번 패킷 (재전송) --------(빛의 속도로 날아감)---->        |
+ |                                                             |
+ |   4. 영수증(ACK) 도착!! <-------------------------       |
+ |                                                             |
+ |   * 내 PC의 멘붕: "저 영수증은 1번 원본이 3초 만에 만든 걸까,        |
+ |                  3번 재전송이 0.1초 만에 만든 걸까? 알 수가 없다!!"  |
+ |                                                             |
+ |   * 칸의 철칙: "출처가 헷갈리는 영수증은 평균 핑 타임 계산에서 무조건  |
+ |               제외(Ignore)시켜 계산 수질 오염을 막아라!!"          |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 계산 공식은 사장님의 </strong>"납기일 산정법"<strong>입니다. 직원(네트워크)의 평소 평균 작업 속도(SRTT)에다가, 이 직원이 평소에 얼마나 자주 지각하는지(RTTVAR 편차)를 곱해서 </strong>아주 넉넉하고 합리적인 며칠짜리 데드라인([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))**을 세팅해, 쓸데없는 쪼쪼기(재전송)를 줄이는 고도의 인력 관리 스킬입니다.
@@ -140,12 +140,12 @@ TCP는 영수증이 올 때마다 걸린 시간([RTT](/knowledge-base/studynote/
 
 ```text
 [선행 개념: BBR]
-    │
-    ▼
+    |
+    v
 [현재 개념: RTO 측정 방식]
-    │
-    ├──▶ [확장 A: RTT, SRTT]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: RTT, SRTT]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식는 BBR에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), SRTT와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ TCP는 영수증이 올 때마다 걸린 시간([RTT](/knowledge-base/studynote/
 
 **진행 상황**: 561 / 1120
 
-← **이전**: [439. BBR (Bottleneck Bandwidth and Round-trip propagation time)](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/)
-**다음**: [441. RTT (Round Trip Time), SRTT (Smoothed RTT)](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) →
+<- **이전**: [439. BBR (Bottleneck Bandwidth and Round-trip propagation time)](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/)
+**다음**: [441. RTT (Round Trip Time), SRTT (Smoothed RTT)](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) ->
 
 ---

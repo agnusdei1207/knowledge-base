@@ -36,20 +36,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 마이크로프로세서가 "외부 배선 중심 구조"를 "칩 내부 배선 중심 구조"로 바꿨다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        From board-level CPU to single-chip microprocessor           │
-├──────────────────────────────────────────────────────────────────────┤
-│  Old board system                                                   │
-│  [CU board] ───── external bus ───── [ALU board] ───── [Reg board] │
-│       │                         long path / more noise              │
-│       └────────────── slower clock, bigger size, more faults ──────┘
-│                                                                      │
-│  Single chip                                                         │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │ CU │ Decode │ ALU │ Registers │ L1 Cache │ Internal bus       │  │
-│  └────────────────────────────────────────────────────────────────┘  │
-│            short path / lower latency / higher integration          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        From board-level CPU to single-chip microprocessor           |
++----------------------------------------------------------------------+
+|  Old board system                                                   |
+|  [CU board] ----- external bus ----- [ALU board] ----- [Reg board] |
+|       |                         long path / more noise              |
+|       +-------------- slower clock, bigger size, more faults ------+
+|                                                                      |
+|  Single chip                                                         |
+|  +----------------------------------------------------------------+  |
+|  | CU | Decode | ALU | Registers | L1 Cache | Internal bus       |  |
+|  +----------------------------------------------------------------+  |
+|            short path / lower latency / higher integration          |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 설계 포인트는 단순 집적이 아니라 <strong>병목을 안으로 옮기고 내부 계층으로 관리하는 것</strong>이다. 외부 배선 병목이 줄어든 대신, 이제는 파이프라인, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 발열, 전력 밀도가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 그래서 현대 마이크로프로세서는 단일 연산기보다 "명령 처리 공장"에 가깝다.
@@ -104,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 - 코어 수만 늘리고 메모리 병목을 무시하는 설계
 - 범용 마이크로프로세서가 필요한 곳에 MCU를 억지 적용하거나, 반대로 단순 제어 장치에 과한 프로세서를 넣는 과설계
 
-기술사 답안 관점에서는 "마이크로프로세서의 진화"를 말할 때 <strong>집적 → 캐시/파이프라인 → 멀티코어 → 고집적 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a>/<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/">칩렛</a></strong>의 흐름으로 정리하면 좋다. 단순히 칩이 빨라졌다고 쓰기보다, 왜 클럭 경쟁이 발열 한계에 막혔고 왜 병렬화와 통합 설계로 옮겨갔는지까지 설명해야 완성도가 올라간다.
+기술사 답안 관점에서는 "마이크로프로세서의 진화"를 말할 때 <strong>집적 -> 캐시/파이프라인 -> 멀티코어 -> 고집적 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a>/<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/">칩렛</a></strong>의 흐름으로 정리하면 좋다. 단순히 칩이 빨라졌다고 쓰기보다, 왜 클럭 경쟁이 발열 한계에 막혔고 왜 병렬화와 통합 설계로 옮겨갔는지까지 설명해야 완성도가 올라간다.
 
 - **📢 섹션 요약 비유**: 좋은 프로세서 선택은 무조건 큰 트럭을 사는 일이 아니다. 골목 배달이면 소형차가 맞고, 대형 물류면 트럭이 맞듯이 업무 특성에 맞게 엔진급을 골라야 한다.
 
@@ -136,17 +136,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 보드 단위 CPU 구현
-    │
-    ▼
+    |
+    v
 마이크로프로세서 (Microprocessor)
-    │
-    ├─▶ 캐시 메모리 (Cache Memory)
-    │
-    ├─▶ 파이프라이닝 (Pipelining)
-    │
-    ├─▶ 멀티코어 (Multi-core)
-    │
-    ▼
+    |
+    +--> 캐시 메모리 (Cache Memory)
+    |
+    +--> 파이프라이닝 (Pipelining)
+    |
+    +--> 멀티코어 (Multi-core)
+    |
+    v
 SoC (System on Chip) · 칩렛 (Chiplet)
 ```
 
@@ -164,7 +164,7 @@ SoC (System on Chip) · 칩렛 (Chiplet)
 
 **진행 상황**: 129 / 803
 
-← **이전**: [128. 폰 노이만 병목현상 (Von Neumann Bottleneck)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/128_von_neumann_bottleneck/)
-**다음**: [130. 마이크로컨트롤러 (Microcontroller, MCU)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) →
+<- **이전**: [128. 폰 노이만 병목현상 (Von Neumann Bottleneck)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/128_von_neumann_bottleneck/)
+**다음**: [130. 마이크로컨트롤러 (Microcontroller, MCU)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ->
 
 ---

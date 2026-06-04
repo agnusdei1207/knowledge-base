@@ -35,9 +35,9 @@ tags = ["studynote-design-supervision"]
 | .NET | Dotfuscator, ConfuserEx | 이름 변경, 안티-디버깅 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "책의 내용을 암호로 쓰는 것"이 아니라 "글씨체를 해독하기 어렵게 흘려 쓰는 것"이다. 충분한 시간과 노력이 있으면 해독이 가능하지만, 공격자가 포기하게 만드는 것이 목표다.
@@ -46,68 +46,68 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────┐
-│              난독화 4계층 방어 모델                          │
-│                                                            │
-│  Level 4 ┌──────────────────────────────────────┐          │
-│  (최고)   │  패킹 / 안티-디버깅 / 루트 감지        │          │
-│           │  (Packing / Anti-Debug / Root Check) │          │
-│           └──────────────────────────────────────┘          │
-│  Level 3 ┌──────────────────────────────────────┐          │
-│           │  제어 흐름 난독화                      │          │
-│           │  (Control Flow Obfuscation)           │          │
-│           └──────────────────────────────────────┘          │
-│  Level 2 ┌──────────────────────────────────────┐          │
-│           │  문자열 암호화                         │          │
-│           │  (String Encryption)                  │          │
-│           └──────────────────────────────────────┘          │
-│  Level 1 ┌──────────────────────────────────────┐          │
-│  (기본)   │  이름 변경 (Renaming)                  │          │
-│           │  클래스/메서드/변수명 → a, b, c        │          │
-│           └──────────────────────────────────────┘          │
-│                                                            │
-│  적용 원칙: Level 1은 기본, 금융·의료는 Level 3~4 권장      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              난독화 4계층 방어 모델                          |
+|                                                            |
+|  Level 4 +--------------------------------------+          |
+|  (최고)   |  패킹 / 안티-디버깅 / 루트 감지        |          |
+|           |  (Packing / Anti-Debug / Root Check) |          |
+|           +--------------------------------------+          |
+|  Level 3 +--------------------------------------+          |
+|           |  제어 흐름 난독화                      |          |
+|           |  (Control Flow Obfuscation)           |          |
+|           +--------------------------------------+          |
+|  Level 2 +--------------------------------------+          |
+|           |  문자열 암호화                         |          |
+|           |  (String Encryption)                  |          |
+|           +--------------------------------------+          |
+|  Level 1 +--------------------------------------+          |
+|  (기본)   |  이름 변경 (Renaming)                  |          |
+|           |  클래스/메서드/변수명 -> a, b, c        |          |
+|           +--------------------------------------+          |
+|                                                            |
+|  적용 원칙: Level 1은 기본, 금융·의료는 Level 3~4 권장      |
++------------------------------------------------------------+
 ```
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  원본 코드                 난독화 후                       │
-│                                                          │
-│  if (isValid) {            int x = 0x1A3F;               │
-│    process();              switch(x ^ 0x2B1C) {          │
-│  } else {                    case 0x317C:                │
-│    reject();                   if(!(!isValid))           │
-│  }                               process_a1b2();         │
-│                                  break;                  │
-│                              case 0x4E2A:                │
-│                                  reject_c3d4();          │
-│                            }                             │
-│                                                          │
-│  → 의미: 동일하지만 역공학 시 흐름 추적이 극도로 어려움    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  원본 코드                 난독화 후                       |
+|                                                          |
+|  if (isValid) {            int x = 0x1A3F;               |
+|    process();              switch(x ^ 0x2B1C) {          |
+|  } else {                    case 0x317C:                |
+|    reject();                   if(!(!isValid))           |
+|  }                               process_a1b2();         |
+|                                  break;                  |
+|                              case 0x4E2A:                |
+|                                  reject_c3d4();          |
+|                            }                             |
+|                                                          |
+|  -> 의미: 동일하지만 역공학 시 흐름 추적이 극도로 어려움    |
++----------------------------------------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              앱 무결성 검증 흐름                              │
-│                                                             │
-│  앱 배포 시 서명 값 계산 및 내장                              │
-│       │                                                     │
-│       ▼                                                     │
-│  ┌──────────────────────────────────────┐                   │
-│  │  실행 시 자기 서명 해시 계산           │                   │
-│  │  Hash(APK binary) = H_runtime        │                   │
-│  └─────────────────────┬────────────────┘                   │
-│                        │                                   │
-│       ┌────────────────┴───────────────┐                    │
-│       │                                │                    │
-│       ▼ H_runtime == H_embedded        ▼ H_runtime != H_embedded │
-│  ┌──────────────┐                ┌──────────────┐           │
-│  │  정상 실행    │                │  앱 종료 /   │           │
-│  └──────────────┘                │  서버 보고   │           │
-│                                  └──────────────┘           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              앱 무결성 검증 흐름                              |
+|                                                             |
+|  앱 배포 시 서명 값 계산 및 내장                              |
+|       |                                                     |
+|       v                                                     |
+|  +--------------------------------------+                   |
+|  |  실행 시 자기 서명 해시 계산           |                   |
+|  |  Hash(APK binary) = H_runtime        |                   |
+|  +---------------------+----------------+                   |
+|                        |                                   |
+|       +----------------+---------------+                    |
+|       |                                |                    |
+|       v H_runtime == H_embedded        v H_runtime != H_embedded |
+|  +--------------+                +--------------+           |
+|  |  정상 실행    |                |  앱 종료 /   |           |
+|  +--------------+                |  서버 보고   |           |
+|                                  +--------------+           |
++-------------------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -193,7 +193,7 @@ tags = ["studynote-design-supervision"]
 | 연관 개념 | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/)) | 런타임 자기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-코드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 방어 → [anti-tamper](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)·runtime defense
+코드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 방어 -> [anti-tamper](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)·runtime defense
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "레시피 책을 암호로 써두는 것"처럼 내 요리 비법을 다른 사람이 읽어도 이해 못하게 만드는 거야.
@@ -206,7 +206,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 315 / 530
 
-← **이전**: [253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/253_exception_handling_info_leak/)
-**다음**: [255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/255_data_integrity_migration_audit/) →
+<- **이전**: [253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/253_exception_handling_info_leak/)
+**다음**: [255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/255_data_integrity_migration_audit/) ->
 
 ---

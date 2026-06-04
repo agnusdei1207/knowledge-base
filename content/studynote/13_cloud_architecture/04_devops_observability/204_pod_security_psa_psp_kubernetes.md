@@ -130,7 +130,7 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>PSA 마이그레이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/">PSP</a> → PSA)</strong>:
+<strong>PSA 마이그레이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/">PSP</a> -> PSA)</strong>:
 ```
 1단계: 감사 모드 활성화 (warn + audit)
    - 기존 워크로드가 위반하는 내용을 로그로 수집
@@ -151,12 +151,12 @@ spec:
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 킬 체인 방어 레이어</strong>:
 ```
 공격 단계              방어 수단
-─────────────────────────────────────────
-1. 취약점 코드 실행  → SAST/DAST, 이미지 스캔
-2. 컨테이너 내부 탐색 → Read-only FS, capabilities 제거
-3. 권한 상승 시도    → allowPrivilegeEscalation: false
-4. 호스트 접근 시도  → hostNetwork/PID 금지, seccomp
-5. 클러스터 이동     → NetworkPolicy, RBAC 최소 권한
+-----------------------------------------
+1. 취약점 코드 실행  -> SAST/DAST, 이미지 스캔
+2. 컨테이너 내부 탐색 -> Read-only FS, capabilities 제거
+3. 권한 상승 시도    -> allowPrivilegeEscalation: false
+4. 호스트 접근 시도  -> hostNetwork/PID 금지, seccomp
+5. 클러스터 이동     -> NetworkPolicy, RBAC 최소 권한
 ```
 
 **기술사 판단 포인트**:
@@ -202,15 +202,15 @@ PSA는 K8s 보안의 첫 번째 방어선이다. Restricted 프로파일을 기�
 
 ```text
 PodSecurityPolicy (PSP, 폐지됨)
-    │
-    ▼
+    |
+    v
 Pod Security Admission (PSA): 네임스페이스 레벨 보안
-    ├─► Privileged: 제한 없음
-    ├─► Baseline: 위험 설정 차단
-    └─► Restricted: 최소 권한 강제
-    │
-    ▼
-OPA Gatekeeper · Kyverno → 세밀한 정책 관리
+    +-► Privileged: 제한 없음
+    +-► Baseline: 위험 설정 차단
+    +-► Restricted: 최소 권한 강제
+    |
+    v
+OPA Gatekeeper · Kyverno -> 세밀한 정책 관리
 ```
 2. Restricted 프로파일은 가장 엄격한 규칙이야. 꼭 필요한 장난감(캐퍼빌리티)만 가져올 수 있어.
 3. 특별히 필요한 경우(시스템 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))만 예외로 허용하고, 기본값은 항상 "최소 권한"이야.
@@ -221,7 +221,7 @@ OPA Gatekeeper · Kyverno → 세밀한 정책 관리
 
 **진행 상황**: 203 / 371
 
-← **이전**: [203. 클라우드 비용 최적화 / FinOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/203_finops_cloud_cost_optimization/)
-**다음**: [205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/205_kustomize_helm_opa_gatekeeper_security/) →
+<- **이전**: [203. 클라우드 비용 최적화 / FinOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/203_finops_cloud_cost_optimization/)
+**다음**: [205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/205_kustomize_helm_opa_gatekeeper_security/) ->
 
 ---

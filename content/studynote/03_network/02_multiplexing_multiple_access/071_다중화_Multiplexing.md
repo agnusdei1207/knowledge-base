@@ -32,9 +32,9 @@ tags = ["network"]
 
 ```text
 Signals
-  ↓ MUX
+  v MUX
 Single Medium
-  ↓ DeMUX
+  v DeMUX
 Signals
 ```
 
@@ -106,11 +106,11 @@ MUX는 여러 입력을 합치고, DeMUX는 다시 분리한다. 전송 대역�
 
 ```text
 MUX
-  ↓
+  v
 Multiplexing
-  ↓
+  v
 DeMUX
-  ↓
+  v
 Shared Medium
 ```
 
@@ -120,11 +120,11 @@ Shared Medium
 
 ```text
 TDM / FDM / WDM
-  ↓
+  v
 Multiplexing
-  ↓
+  v
 Efficiency
-  ↓
+  v
 Network Resource Sharing
 ```
 
@@ -142,7 +142,7 @@ Network Resource Sharing
 
 **진행 상황**: 71 / 1120
 
-← **이전**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/)
-**다음**: [72. 공간 분할 다중화 (SDM, Space Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) →
+<- **이전**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/)
+**다음**: [72. 공간 분할 다중화 (SDM, Space Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) ->
 
 ---

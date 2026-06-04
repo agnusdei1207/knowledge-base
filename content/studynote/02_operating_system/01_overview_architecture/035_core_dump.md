@@ -174,7 +174,7 @@ bt / info regs 로 크래시 지점 분석
 
 **진행 상황**: 35 / 800
 
-← **이전**: [컨텍스트 스위칭 (Context Switch) 심화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)
-**다음**: [036. 커널 패닉 (Kernel Panic)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) →
+<- **이전**: [컨텍스트 스위칭 (Context Switch) 심화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)
+**다음**: [036. 커널 패닉 (Kernel Panic)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) ->
 
 ---

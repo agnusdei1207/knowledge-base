@@ -30,11 +30,11 @@ tags = ["database"]
 
 ```text
 Attributes
-  ↓
+  v
 Uniqueness
-  ↓
+  v
 Super Key
-  ↓
+  v
 Minimality Check
 ```
 
@@ -106,11 +106,11 @@ Minimality Check
 
 ```text
 Attributes
-  ↓
+  v
 Super Key
-  ↓
+  v
 Candidate Key
-  ↓
+  v
 Primary Key
 ```
 
@@ -120,11 +120,11 @@ Primary Key
 
 ```text
 Uniqueness
-  ↓
+  v
 Super Key
-  ↓
+  v
 Minimality
-  ↓
+  v
 Key Design
 ```
 
@@ -142,7 +142,7 @@ Key Design
 
 **진행 상황**: 68 / 600
 
-← **이전**: [67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)
-**다음**: [69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) →
+<- **이전**: [67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)
+**다음**: [69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) ->
 
 ---

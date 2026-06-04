@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-ada 등)은 텍스트를 고차원 벡터(768~1536차원)로 변환하여, 의미가 유사한 텍스트가 벡터 공간에서 가까운 위치에 매핑되도록 학습됐다. 벡터 DB는 이 수백만 개의 고차원 벡터를 저장하고, 새 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 벡터와 가장 가까운 K개의 벡터를 밀리초 단위로 찾아주는 특화된 인프라다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전통 DB는 책 제목에서 정확히 일치하는 글자를 찾는 도서관 카드 목록이다. 벡터 DB는 책 내용의 "주제와 분위기"를 냄새로 맡고 "이 책이랑 비슷한 향의 책"을 모두 찾아주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사서다. "해리포터랑 비슷한 마법 소설 추천해줘" 같은 의미 기반 요청에 완벽히 응한다.
@@ -39,30 +39,30 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         벡터 데이터베이스 아키텍처 (색인 + 검색)                       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [색인 파이프라인 (오프라인)]                                         │
-│  텍스트 문서 → 임베딩 모델 → 768차원 벡터 → 벡터 DB 저장               │
-│  "사과는 맛있다" → [0.12, -0.34, ..., 0.89] (768 float 숫자)       │
-│  "애플은 달콤하다" → [0.11, -0.35, ..., 0.91] (비슷한 벡터!)         │
-│                                                                  │
-│  [검색 파이프라인 (온라인)]                                           │
-│  쿼리: "빨간 과일" → 임베딩 → [0.10, -0.33, ..., 0.88]              │
-│         │                                                        │
-│  ANN 검색 알고리즘 (HNSW / IVF-PQ)                                 │
-│         │                                                        │
-│  Top-K 유사 벡터 반환: "사과는 맛있다"(유사도 0.98), "애플은 달콤하다"(0.96)│
-│                                                                  │
-│  HNSW (Hierarchical Navigable Small World):                     │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  레이어 0 (가장 성긴 그래프): 큰 점프로 대략적 위치 파악     │    │
-│  │  레이어 1 (중간 밀도):        점점 가까운 노드로 이동        │    │
-│  │  레이어 N (가장 촘촘한 그래프): 최종 최근접 이웃 확정        │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│  복잡도: O(log N) 검색 (완전 검색 O(N) 대비 압도적 속도)             │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         벡터 데이터베이스 아키텍처 (색인 + 검색)                       |
++------------------------------------------------------------------+
+|                                                                  |
+|  [색인 파이프라인 (오프라인)]                                         |
+|  텍스트 문서 -> 임베딩 모델 -> 768차원 벡터 -> 벡터 DB 저장               |
+|  "사과는 맛있다" -> [0.12, -0.34, ..., 0.89] (768 float 숫자)       |
+|  "애플은 달콤하다" -> [0.11, -0.35, ..., 0.91] (비슷한 벡터!)         |
+|                                                                  |
+|  [검색 파이프라인 (온라인)]                                           |
+|  쿼리: "빨간 과일" -> 임베딩 -> [0.10, -0.33, ..., 0.88]              |
+|         |                                                        |
+|  ANN 검색 알고리즘 (HNSW / IVF-PQ)                                 |
+|         |                                                        |
+|  Top-K 유사 벡터 반환: "사과는 맛있다"(유사도 0.98), "애플은 달콤하다"(0.96)|
+|                                                                  |
+|  HNSW (Hierarchical Navigable Small World):                     |
+|  +---------------------------------------------------------+    |
+|  |  레이어 0 (가장 성긴 그래프): 큰 점프로 대략적 위치 파악     |    |
+|  |  레이어 1 (중간 밀도):        점점 가까운 노드로 이동        |    |
+|  |  레이어 N (가장 촘촘한 그래프): 최종 최근접 이웃 확정        |    |
+|  +---------------------------------------------------------+    |
+|  복잡도: O(log N) 검색 (완전 검색 O(N) 대비 압도적 속도)             |
++------------------------------------------------------------------+
 ```
 
 | 벡터 DB | 특징 | 주요 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
@@ -73,7 +73,7 @@ tags = ["studynote-ai"]
 | [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 대용량 스케일 | IVF-[PQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/), [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
 | [pgvector](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) | PostgreSQL 확장, SQL 통합 | IVFFlat, [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
 
-- **📢 섹션 요약 비유**: [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 고속도로 → 국도 → 골목길을 순차적으로 이용하는 내비게이션과 같다. 먼저 큰 고속도로(레이어 0)로 대략적 목적지 방향을 잡고, 점점 좁은 길(레이어 N)로 들어가 최종 집(최근접 벡터)을 찾는다. 처음부터 골목길만 뒤지면 수억 개의 골목을 다 뒤져야 하지만, 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시간만에 찾는다.
+- **📢 섹션 요약 비유**: [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 고속도로 -> 국도 -> 골목길을 순차적으로 이용하는 내비게이션과 같다. 먼저 큰 고속도로(레이어 0)로 대략적 목적지 방향을 잡고, 점점 좁은 길(레이어 N)로 들어가 최종 집(최근접 벡터)을 찾는다. 처음부터 골목길만 뒤지면 수억 개의 골목을 다 뒤져야 하지만, 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시간만에 찾는다.
 
 ---
 
@@ -125,7 +125,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [벡터 데이터베이스 (Vector Database)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [벡터 데이터베이스 (Vector Database)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 309 / 420
 
-← **이전**: [308. RAG (Retrieval-Augmented Generation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/308_rag/)
-**다음**: [310. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/310_cosine_similarity/) →
+<- **이전**: [308. RAG (Retrieval-Augmented Generation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/308_rag/)
+**다음**: [310. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/310_cosine_similarity/) ->
 
 ---

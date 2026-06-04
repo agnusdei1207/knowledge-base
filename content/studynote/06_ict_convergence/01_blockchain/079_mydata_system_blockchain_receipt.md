@@ -32,26 +32,26 @@ tags = ["studynote-ict-convergence"]
 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 시스템은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름'과 '동의(Consent)의 흐름'을 2-Tier 아키텍처로 철저히 물리적으로 분리한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           마이데이터와 블록체인 영수증(Receipt) 분리 연동 아키텍처 │
-├────────────────────────────────────────────────────────┤
-│   [ 정보 주체 (개인/고객) ]                                │
-│       │ (전송 요구/동의 Consent 클릭)                      │
-│       ▼                                                │
-│   [ 마이데이터 사업자 (핀테크 앱) ]                           │
-│       │                                                │
-│       ├──▶ 1. [ 오프체인 (실제 데이터 전송) ]                │
-│       │       API를 통해 A은행에서 핀테크 앱으로 '금융 데이터' 다이렉트 전송│
-│       │       (절대 블록체인을 거치지 않음. 트래픽 폭발 방어)      │
-│       │                                                │
-│       └──▶ 2. [ 온체인 (블록체인 네트워크) ]                 │
-│               '누가, 언제, 어떤 데이터'를 전송하라고 동의했는지에 대한│
-│               스마트 컨트랙트 발동 ──▶ [ 블록체인 데이터 영수증 발행 ]│
-│                                                        │
-│ * 핵심 논리: 개인정보(PII)는 폐기될 권리(GDPR)가 있으므로 삭제   │
-│   불가능한 블록체인에 절대 올리지 않는다. 오직 동의 사실의 해시값│
-│   (Hash)만 올려 사후 감사(Audit)와 부인 방지(Non-repudiation)용으로 쓴다.│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           마이데이터와 블록체인 영수증(Receipt) 분리 연동 아키텍처 |
++--------------------------------------------------------+
+|   [ 정보 주체 (개인/고객) ]                                |
+|       | (전송 요구/동의 Consent 클릭)                      |
+|       v                                                |
+|   [ 마이데이터 사업자 (핀테크 앱) ]                           |
+|       |                                                |
+|       +---> 1. [ 오프체인 (실제 데이터 전송) ]                |
+|       |       API를 통해 A은행에서 핀테크 앱으로 '금융 데이터' 다이렉트 전송|
+|       |       (절대 블록체인을 거치지 않음. 트래픽 폭발 방어)      |
+|       |                                                |
+|       +---> 2. [ 온체인 (블록체인 네트워크) ]                 |
+|               '누가, 언제, 어떤 데이터'를 전송하라고 동의했는지에 대한|
+|               스마트 컨트랙트 발동 ---> [ 블록체인 데이터 영수증 발행 ]|
+|                                                        |
+| * 핵심 논리: 개인정보(PII)는 폐기될 권리(GDPR)가 있으므로 삭제   |
+|   불가능한 블록체인에 절대 올리지 않는다. 오직 동의 사실의 해시값|
+|   (Hash)만 올려 사후 감사(Audit)와 부인 방지(Non-repudiation)용으로 쓴다.|
++--------------------------------------------------------+
 ```
 
 사용자는 언제든 '[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 종합포털'에 들어가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 기록된 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 열람하고, "어? 내가 이 앱에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 동의를 철회할래"라고 즉시 연결을 끊어버릴 수 있는 중앙 통제소(Control Tower) 권한을 획득한다.
@@ -113,21 +113,21 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 빅테크/금융기관의 개인 데이터 독점 및 실루엣(Silo)화 (플랫폼 경제의 폐해)
-    │
-    ▼
-데이터 3법 개정 및 개인의 '전송 요구권(Data Portability)' 법제화 ──▶ 마이데이터 산업 출범
-    │
-    ▼
+    |
+    v
+데이터 3법 개정 및 개인의 '전송 요구권(Data Portability)' 법제화 ---> 마이데이터 산업 출범
+    |
+    v
 스크래핑(Scraping) 전면 금지 및 표준 오픈 API를 통한 안전한 데이터 유통 체계 확립
-    │
-    ▼
+    |
+    v
 데이터 제공 동의 내역에 대한 위변조 방지 및 부인 방지(Non-repudiation) 필요성 대두
-    │
-    ▼
-블록체인 분산 원장 융합 ──▶ 동의 내역의 스마트 컨트랙트화 (데이터 영수증 / Consent Receipt 발행)
+    |
+    v
+블록체인 분산 원장 융합 ---> 동의 내역의 스마트 컨트랙트화 (데이터 영수증 / Consent Receipt 발행)
 ```
 
-이 흐름도는 "기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점 → 법/제도적 해방([마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) → 안전한 유통망([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 구축 → 유통 사실의 암호학적 신뢰 보증([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))"으로 이어지는 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 거버넌스의 완벽한 진화 궤적을 보여준다.
+이 흐름도는 "기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점 -> 법/제도적 해방([마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) -> 안전한 유통망([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 구축 -> 유통 사실의 암호학적 신뢰 보증([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))"으로 이어지는 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 거버넌스의 완벽한 진화 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 79 / 552
 
-← **이전**: [78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/078_web3_social_network_mastodon_nostr/)
-**다음**: [080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/080_cbdc_offline_payment_protocol/) →
+<- **이전**: [78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/078_web3_social_network_mastodon_nostr/)
+**다음**: [080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/080_cbdc_offline_payment_protocol/) ->
 
 ---

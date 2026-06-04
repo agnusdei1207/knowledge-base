@@ -32,7 +32,7 @@ tags = ["studynote-data-engineering"]
 스토리지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고, 컴퓨트는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 변환을 수행한다. 둘을 분리하면 저장은 크게, 계산은 필요할 때만 확장할 수 있다.
 
 ```text
-Storage Layer ←→ Compute Layer → Query / Transform
+Storage Layer <--> Compute Layer -> Query / Transform
 ```
 
 | 구성 요소 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ Storage Layer ←→ Compute Layer → Query / Transform
 
 ```text
 통합 DW
-    │
-    ▼
+    |
+    v
 컴퓨트/스토리지 분리
-    │
-    ▼
+    |
+    v
 탄력 확장
-    │
-    ▼
+    |
+    v
 클라우드 DW / 레이크하우스
 ```
 
@@ -136,7 +136,7 @@ Storage Layer ←→ Compute Layer → Query / Transform
 
 **진행 상황**: 55 / 258
 
-← **이전**: [54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)
-**다음**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/) →
+<- **이전**: [54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)
+**다음**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/) ->
 
 ---

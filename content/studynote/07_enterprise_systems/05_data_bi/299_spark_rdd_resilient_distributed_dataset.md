@@ -31,10 +31,10 @@ RDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 RDD는 3가지 핵심 특징을 가진다: <strong>Resilient(장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능), Distributed(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장), Dataset(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 집합).</strong>
 
 ```text
-[원본 데이터 (HDFS 등)] ──▶ [RDD 1 (Filter)] ──▶ [RDD 2 (Map)] ──▶ [RDD 3 (Reduce)]
-                                ▲
-                                │ (Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)
-                                └───────────────────────────────────┘
+[원본 데이터 (HDFS 등)] ---> [RDD 1 (Filter)] ---> [RDD 2 (Map)] ---> [RDD 3 (Reduce)]
+                                ^
+                                | (Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)
+                                +-----------------------------------+
 ```
 
 | 주요 메커니즘 | 설명 | 특징 |
@@ -103,17 +103,17 @@ RDD는 빅데이터 처리의 패러다임을 '기록'에서 '계산'으로 바�
 
 ```
 Hadoop MapReduce - 디스크 기반 중간 결과 저장
-    │
-    ▼
+    |
+    v
 Spark RDD - 인메모리 분산 데이터셋 추상화
-    │
-    ▼
+    |
+    v
 Transformation (지연 평가) + Action (실행 트리거)
-    │
-    ▼
+    |
+    v
 DataFrame/Dataset API - 스키마 기반 최적화
-    │
-    ▼
+    |
+    v
 Catalyst Optimizer + Tungsten 메모리 관리
 ```
 
@@ -130,7 +130,7 @@ Catalyst Optimizer + Tungsten 메모리 관리
 
 **진행 상황**: 299 / 482
 
-← **이전**: [298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/298_distributed_processing_framework_mapreduce_spark/)
-**다음**: [300. 실시간 데이터 스트리밍 (Kafka + CDC)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/) →
+<- **이전**: [298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/298_distributed_processing_framework_mapreduce_spark/)
+**다음**: [300. 실시간 데이터 스트리밍 (Kafka + CDC)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/) ->
 
 ---

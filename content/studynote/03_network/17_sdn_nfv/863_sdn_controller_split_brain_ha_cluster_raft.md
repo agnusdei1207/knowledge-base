@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ONOS / OpenDaylight]
-    │
-    ▼
+    |
+    v
 [SDN 분산 컨트롤러 이중화]
-    │
-    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    |
+    +---> [네트워크 슬라이스 오케스트레이터 중앙 논리…]
 ```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [ONOS / OpenDaylight]
-    │
-    ▼
+    |
+    v
 [SDN 분산 컨트롤러 이중화]
-    │
-    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    |
+    +---> [네트워크 슬라이스 오케스트레이터 중앙 논리…]
 ```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studyno
 
 ```text
 [선행 개념: ONOS / OpenDaylight]
-    │
-    ▼
+    |
+    v
 [현재 개념: SDN 분산 컨트롤러 이중화]
-    │
-    ├──▶ [확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 ONOS / OpenDaylight에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studyno
 
 **진행 상황**: 984 / 1120
 
-← **이전**: [862. ONOS / OpenDaylight](/knowledge-base/studynote/03_network/17_sdn_nfv/862_onos_opendaylight_sdn_controller_cluster/)
-**다음**: [864. 네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) →
+<- **이전**: [862. ONOS / OpenDaylight](/knowledge-base/studynote/03_network/17_sdn_nfv/862_onos_opendaylight_sdn_controller_cluster/)
+**다음**: [864. 네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) ->
 
 ---

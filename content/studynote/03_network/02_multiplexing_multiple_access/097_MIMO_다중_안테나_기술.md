@@ -41,20 +41,20 @@ MIMO의 내부 구조는 [신호](/knowledge-base/studynote/02_operating_system/
 MIMO가 지원하는 두 가지 핵심 동작 모드의 메커니즘을 시각화한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           MIMO의 2가지 핵심 동작 모드 (속도 vs 안정성)            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ 1. 공간 다중화 (Spatial Multiplexing) : "전송 속도 배가"        │
-│   [데이터: AB] ─┬─▶ 안테나1 (A 방사) ───(독립 경로)──▶ 수신기 분리│
-│                └─▶ 안테나2 (B 방사) ───(독립 경로)──▶ [복원: AB] │
-│   * 서로 다른 데이터를 병렬로 전송해 대역폭 대비 처리량 극대화      │
-│                                                              │
-│ 2. 공간 다이버시티 (Spatial Diversity) : "수신 신뢰도 극대화"   │
-│   [데이터: X ] ─┬─▶ 안테나1 (X 방사) ───(페이딩)────▶ 수신기 결합│
-│                └─▶ 안테나2 (X 방사) ───(페이딩)────▶ [복원: X ]  │
-│   * 같은 데이터를 중복 전송하여 오류율(PER)을 극단적으로 낮춤     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           MIMO의 2가지 핵심 동작 모드 (속도 vs 안정성)            |
++--------------------------------------------------------------+
+|                                                              |
+| 1. 공간 다중화 (Spatial Multiplexing) : "전송 속도 배가"        |
+|   [데이터: AB] -+--> 안테나1 (A 방사) ---(독립 경로)---> 수신기 분리|
+|                +--> 안테나2 (B 방사) ---(독립 경로)---> [복원: AB] |
+|   * 서로 다른 데이터를 병렬로 전송해 대역폭 대비 처리량 극대화      |
+|                                                              |
+| 2. 공간 다이버시티 (Spatial Diversity) : "수신 신뢰도 극대화"   |
+|   [데이터: X ] -+--> 안테나1 (X 방사) ---(페이딩)-----> 수신기 결합|
+|                +--> 안테나2 (X 방사) ---(페이딩)-----> [복원: X ]  |
+|   * 같은 데이터를 중복 전송하여 오류율(PER)을 극단적으로 낮춤     |
++--------------------------------------------------------------+
 ```
 
 이 흐름도는 MIMO가 전송 환경에 맞춰 어떻게 동작을 변경하는지 보여준다. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 모드는 서로 다른 정보를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 보내 속도를 선형적으로 높이고, 다이버시티 모드는 동일한 정보를 여러 경로로 보내 중간에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 깨져도 무사히 도달할 수 있게 강건성을 보장한다.
@@ -118,17 +118,17 @@ MIMO는 값비싼 물리적 주파수 [대역폭](/knowledge-base/studynote/01_c
 
 ```text
 SISO (단일 안테나, 페이딩에 취약)
-    │
-    ▼
+    |
+    v
 SIMO / MISO (수신 또는 송신 단방향 다이버시티 확보)
-    │
-    ▼
+    |
+    v
 MIMO (다중화와 다이버시티 동시 달성)
-    │
-    ▼
+    |
+    v
 MIMO-OFDM (LTE, 5G 표준 융합 아키텍처)
-    │
-    ▼
+    |
+    v
 Massive MIMO (안테나 수백 개) 및 RIS (6G 지능형 반사 표면)
 ```
 
@@ -144,7 +144,7 @@ Massive MIMO (안테나 수백 개) 및 RIS (6G 지능형 반사 표면)
 
 **진행 상황**: 97 / 1120
 
-← **이전**: [96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/)
-**다음**: [98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/) →
+<- **이전**: [96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/)
+**다음**: [98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/) ->
 
 ---

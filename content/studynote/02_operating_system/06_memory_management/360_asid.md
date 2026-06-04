@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **x86의 늦깎이 반격 (PCID)**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 수만 번 일어나는 클라우드/[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버 시대가 열리자, 인텔도 버티지 못하고 Westmere 아키텍처부터 PCID(Process-[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))라는 이름으로 ASID 개념을 늦게나마 도입해 스위칭 속도 전쟁에 뛰어들었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        ASID 도입 전(Full Flush) vs 도입 후(캐시 생존) 비교             │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ ASID가 없는 옛날 TLB (Context Switch 시) ]                           │
-│  [ 카톡 10번 ] [ 카톡 5번 ] ◀─ (엑셀로 전환!)                          │
-│         ↓↓↓ 무조건 캐시 전체 폭파 (Flush) ↓↓↓                          │
-│  [  텅 빔  ] [  텅 빔  ]  ◀─ (엑셀은 처음부터 다 램 다녀와야 함)       │
-│                                                                        │
-│                                                                        │
-│ [ ASID가 있는 현대 TLB (Context Switch 시) ]                           │
-│  [ ASID: 1 (카톡) | Page 10 ] [ ASID: 1 (카톡) | Page 5 ]              │
-│                                                                        │
-│         ↓↓↓ 엑셀(ASID 2)로 전환! 캐시 안 지움! ↓↓↓                     │
-│                                                                        │
-│  [ ASID: 1 | Page 10 ] [ ASID: 1 | Page 5 ] (그대로 생존)              │
-│  [ ASID: 2 | Page 10 ] ◀─ 엑셀이 새 캐시를 빈자리에 추가함.            │
-│                                                                        │
-│ ✅ 결과: 나중에 다시 엑셀->카톡으로 전환될 때, 카톡의 캐시가           │
-│    그대로 살아있어서 0.1초도 멈추지 않고 즉시 최고 속도로 재개!        │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        ASID 도입 전(Full Flush) vs 도입 후(캐시 생존) 비교             |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ ASID가 없는 옛날 TLB (Context Switch 시) ]                           |
+|  [ 카톡 10번 ] [ 카톡 5번 ] <-- (엑셀로 전환!)                          |
+|         vvv 무조건 캐시 전체 폭파 (Flush) vvv                          |
+|  [  텅 빔  ] [  텅 빔  ]  <-- (엑셀은 처음부터 다 램 다녀와야 함)       |
+|                                                                        |
+|                                                                        |
+| [ ASID가 있는 현대 TLB (Context Switch 시) ]                           |
+|  [ ASID: 1 (카톡) | Page 10 ] [ ASID: 1 (카톡) | Page 5 ]              |
+|                                                                        |
+|         vvv 엑셀(ASID 2)로 전환! 캐시 안 지움! vvv                     |
+|                                                                        |
+|  [ ASID: 1 | Page 10 ] [ ASID: 1 | Page 5 ] (그대로 생존)              |
+|  [ ASID: 2 | Page 10 ] <-- 엑셀이 새 캐시를 빈자리에 추가함.            |
+|                                                                        |
+| ✅ 결과: 나중에 다시 엑셀->카톡으로 전환될 때, 카톡의 캐시가           |
+|    그대로 살아있어서 0.1초도 멈추지 않고 즉시 최고 속도로 재개!        |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** TLB는 용량이 작아서(수백 칸) 금방 차지만, 프로세스 A와 B가 번갈아 가며 실행되는 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 아주 짧은 시간 안에 서로를 오간다. ASID가 있으면 캐시 안에 A와 B의 주소 매핑표가 평화롭게 공존할 수 있다. CPU가 A를 실행할 때는 하드웨어가 "ASID=1"인 줄만 필터링해서 읽고, B를 실행할 때는 "ASID=2"인 줄만 읽어낸다. 남의 줄은 투명인간 취급하므로 보안 사고도 터지지 않는다.
 
@@ -63,21 +63,21 @@ tags = ["studynote-operating-system"]
 TLB는 연관 메모리(CAM) 하드웨어다. ASID가 추가되면서 칩셋 내부의 비교 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)(AND/XOR 회로)가 한 단계 더 정밀해졌다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│              CPU 내부의 ASID 병렬 히트(Hit) 검사 논리 회로            │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 현재 CPU 코어 레지스터 ]                                            │
-│  현재 ASID = 5 (크롬)   |  요청 페이지 P = 100                        │
-│          │                           │                                │
-│          ▼                           ▼                                │
-│ ┌─────────────────── TLB 캐시 내부 ────────────────────┐              │
-│ │ 줄 1: [ ASID: 3 (카톡) ] 비교 [ Page: 100 ] 비교 ──(Miss!) │        │
-│ │ 줄 2: [ ASID: 5 (크롬) ] 비교 [ Page: 100 ] 비교 ──(Hit!)  │        │
-│ │ 줄 3: [ ASID: 5 (크롬) ] 비교 [ Page: 200 ] 비교 ──(Miss!) │        │
-│ └────────────────────────────────────────────────────────┘            │
-│         (※ 수백 개의 방을 하드웨어가 1클럭만에 동시(Parallel) 비교)   │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|              CPU 내부의 ASID 병렬 히트(Hit) 검사 논리 회로            |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ 현재 CPU 코어 레지스터 ]                                            |
+|  현재 ASID = 5 (크롬)   |  요청 페이지 P = 100                        |
+|          |                           |                                |
+|          v                           v                                |
+| +------------------- TLB 캐시 내부 --------------------+              |
+| | 줄 1: [ ASID: 3 (카톡) ] 비교 [ Page: 100 ] 비교 --(Miss!) |        |
+| | 줄 2: [ ASID: 5 (크롬) ] 비교 [ Page: 100 ] 비교 --(Hit!)  |        |
+| | 줄 3: [ ASID: 5 (크롬) ] 비교 [ Page: 200 ] 비교 --(Miss!) |        |
+| +--------------------------------------------------------+            |
+|         (※ 수백 개의 방을 하드웨어가 1클럭만에 동시(Parallel) 비교)   |
++-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 줄 1번을 보면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호는 100으로 똑같지만, ASID가 3이라서 불일치 판정(Miss)이 난다. 즉 크롬이 카톡의 메모리를 훔쳐보는 것을 하드웨어적으로 완벽히 쳐냈다. 줄 2번은 내 ID(5)와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(100)가 둘 다 맞물렸으므로 최종 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 신호를 보내어 물리 프레임 번호를 토해낸다. 이 거대한 AND 조건 게이트가 1나노초 만에 전기적으로 뚫려야 한다.
@@ -115,13 +115,13 @@ TLB는 연관 메모리(CAM) 하드웨어다. ASID가 추가되면서 칩셋 내
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 코드들은 이 글로벌 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켜두어, 어떤 프로세스가 들어오든 상관없이 TLB의 단 1칸만 차지하며 무한히 공유되는 기적의 튜닝을 달성한다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ PTE 성격   │ ASID 일치 여부│ G(글로벌) 비트 │ 최종 판정(Hit)│
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ 유저 데이터 │ 다름 (남의 것)│ 0 (Off)     │ ❌ Miss (보안)  │
-│ 유저 데이터 │ 같음 (내 것) │ 0 (Off)     │ 🟢 Hit           │
-│ OS 커널 코드│ 남의 것/내 것 │ 1 (On, 전역) │ 🟢 무조건 Hit  │
-└──────────┴────────────┴────────────┴────────────────────────┘
++----------+------------+------------+------------------------+
+| PTE 성격   | ASID 일치 여부| G(글로벌) 비트 | 최종 판정(Hit)|
++----------+------------+------------+------------------------+
+| 유저 데이터 | 다름 (남의 것)| 0 (Off)     | ❌ Miss (보안)  |
+| 유저 데이터 | 같음 (내 것) | 0 (Off)     | 🟢 Hit           |
+| OS 커널 코드| 남의 것/내 것 | 1 (On, 전역) | 🟢 무조건 Hit  |
++----------+------------+------------+------------------------+
 ```
 **[매트릭스 해설]** 이 표 하나가 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 사용자 공간이 어떻게 캐시를 우아하게 나눠 쓰고 있는지를 증명한다. 글로벌 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 통해 공통분모([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), DLL)는 한 줄의 캐시로 전 세계 평화를 유지하고, ASID를 통해 서로의 사생활([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 완벽히 격리된 철의 장막을 두른다.
 
@@ -179,12 +179,12 @@ ASID (Address-Space [Identifier](/knowledge-base/studynote/05_database/02_modeli
 
 ```text
 [TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
-    │
-    ▼
+    |
+    v
 [ASID (Address-Space Identifier)]
-    │
-    ├──▶ [다단계 페이징 (Hierarchical Paging)]
-    └──▶ [해시 페이지 테이블 (Hashed Page Table)]
+    |
+    +---> [다단계 페이징 (Hierarchical Paging)]
+    +---> [해시 페이지 테이블 (Hashed Page Table)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -201,7 +201,7 @@ ASID (Address-Space [Identifier](/knowledge-base/studynote/05_database/02_modeli
 
 **진행 상황**: 360 / 800
 
-← **이전**: [359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)
-**다음**: [361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) →
+<- **이전**: [359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)
+**다음**: [361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) ->
 
 ---

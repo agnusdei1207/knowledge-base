@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 > **핵심 인사이트**
 > 1. [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)([The Open Group](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 개발·관리하는 세계 표준 프레임워크로 — 비즈니스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·애플리케이션·기술의 4개 아키텍처 도메인과 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/)) 9단계 사이클로 구성된다.
-> 2. [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))은 예비 단계 → A(비전) → B(비즈니스) → C(정보시스템) → D(기술) → E(기회/해결) → F(마이그레이션) → G(거버넌스) → H([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))의 순환 사이클로 — 아키텍처가 비즈니스 전략과 IT 구현 사이의 단절을 메우는 체계적 접근법이다.
+> 2. [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))은 예비 단계 -> A(비전) -> B(비즈니스) -> C(정보시스템) -> D(기술) -> E(기회/해결) -> F(마이그레이션) -> G(거버넌스) -> H([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))의 순환 사이클로 — 아키텍처가 비즈니스 전략과 IT 구현 사이의 단절을 메우는 체계적 접근법이다.
 > 3. TOGAF의 아키텍처 저장소([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Repository)와 아키텍처 역량 프레임워크(ACF)는 조직이 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 역량을 성숙시키는 로드맵을 제공하며 — IT 거버넌스, 비용 최적화, 비즈니스-IT 정렬의 실질적 도구로 금융·공공·제조 등 대규모 조직에서 광범위하게 활용된다.
 
 ---
@@ -66,7 +66,7 @@ ADM (Architecture Development Method):
 
 A. 아키텍처 비전 (Architecture Vision):
   이해관계자 관심사 파악
-  비즈니스 목표 → 아키텍처 비전 수립
+  비즈니스 목표 -> 아키텍처 비전 수립
   Statement of Architecture Work 승인
 
 B. 비즈니스 아키텍처:
@@ -99,10 +99,10 @@ H. 아키텍처 변경 관리:
   다음 ADM 사이클 트리거
 
 중앙: 아키텍처 요구사항 관리
-  → 모든 단계에서 지속적으로 관리
+  -> 모든 단계에서 지속적으로 관리
 ```
 
-> 📢 **섹션 요약 비유**: [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 9단계는 건물 설계 프로세스 — 비전(설계 콘셉트) → 비즈니스(용도) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/앱(내부 구조) → 기술(자재) → 공사 계획 → 시공 감리 → 준공 후 유지.
+> 📢 **섹션 요약 비유**: [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 9단계는 건물 설계 프로세스 — 비전(설계 콘셉트) -> 비즈니스(용도) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/앱(내부 구조) -> 기술(자재) -> 공사 계획 -> 시공 감리 -> 준공 후 유지.
 
 ---
 
@@ -136,7 +136,7 @@ H. 아키텍처 변경 관리:
   - "보안은 설계 시점에 내재화 (Security by Design)"
 
 이해관계자 관리 (Stakeholder Management):
-  아키텍처 비전: 관심사 → 뷰포인트 → 뷰
+  아키텍처 비전: 관심사 -> 뷰포인트 -> 뷰
 
   CEO: 비즈니스 영향 뷰
   CTO: 기술 스택 뷰
@@ -165,11 +165,11 @@ SABSA와 TOGAF 매핑:
   SABSA (Sherwood Applied Business Security Architecture):
   비즈니스 주도 보안 아키텍처 프레임워크
 
-  TOGAF 계층 → SABSA 계층:
-  비즈니스  → Contextual (Why)
-  데이터    → Conceptual (What)
-  애플리케이션 → Logical (How)
-  기술      → Physical (With what)
+  TOGAF 계층 -> SABSA 계층:
+  비즈니스  -> Contextual (Why)
+  데이터    -> Conceptual (What)
+  애플리케이션 -> Logical (How)
+  기술      -> Physical (With what)
 
 보안 아키텍처 산출물:
   보안 원칙: "최소 권한, 심층 방어, 실패 안전"
@@ -211,12 +211,12 @@ A단계 — 비전:
   비전: "납세자 편의 3배, 시스템 비용 40% 절감"
 
 B단계 — 비즈니스:
-  현행: 종이 신고 → 담당자 입력 → 심사 → 결정
-  목표: 자동 신고 → AI 검증 → 즉시 처리
+  현행: 종이 신고 -> 담당자 입력 -> 심사 -> 결정
+  목표: 자동 신고 -> AI 검증 -> 즉시 처리
 
 C단계 — 정보 시스템:
   데이터: 납세자 마스터, 거래 내역, 과세 DB
-    → 통합 데이터 레이크로 전환
+    -> 통합 데이터 레이크로 전환
   애플리케이션: 신고 포털, AI 심사 엔진, 민원 시스템
 
 D단계 — 기술:
@@ -232,7 +232,7 @@ F단계 — 마이그레이션 계획:
   2029: 메인프레임 폐기
 
 결과 (3년 후):
-  납세자 신고 처리 시간: 14일 → 즉시
+  납세자 신고 처리 시간: 14일 -> 즉시
   IT 운영 비용: 40% 절감
   TOGAF: 3년간의 복잡한 의사결정을 정렬한 나침반
 ```
@@ -248,7 +248,7 @@ TOGAF
 +-- 4 도메인 (BDAT)
 |   +-- Business, Data, Application, Technology
 +-- ADM 9단계
-|   +-- 예비→A→B→C→D→E→F→G→H
+|   +-- 예비->A->B->C->D->E->F->G->H
 +-- 핵심 개념
 |   +-- ABB (논리), SBB (물리)
 |   +-- 아키텍처 원칙
@@ -294,7 +294,7 @@ IaC와 EA 자동화 통합
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. TOGAF는 도시 마스터플랜 — 건물(비즈니스), 도로([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 시설(앱), 인프라(기술) 4개 레이어를 통합 설계하는 표준 계획서예요!
-2. [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 9단계는 건물 설계~시공 과정 — 비전→비즈니스→기술 순서로 설계하고, 마이그레이션 계획으로 단계적으로 옮겨가요.
+2. [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 9단계는 건물 설계~시공 과정 — 비전->비즈니스->기술 순서로 설계하고, 마이그레이션 계획으로 단계적으로 옮겨가요.
 3. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 없이 IT 투자하면 낭비 — 한 팀이 만든 시스템이 다른 팀 시스템과 안 맞으면 다시 만들어야 해요. TOGAF는 이 낭비를 막는 설계도예요!
 
 ---
@@ -303,7 +303,7 @@ IaC와 EA 자동화 통합
 
 **진행 상황**: 44 / 1108
 
-← **이전**: [043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/043_osa/)
-**다음**: [045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0](/knowledge-base/studynote/09_security/01_intro_principles/045_nist_csf_2_0/) →
+<- **이전**: [043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/043_osa/)
+**다음**: [045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0](/knowledge-base/studynote/09_security/01_intro_principles/045_nist_csf_2_0/) ->
 
 ---

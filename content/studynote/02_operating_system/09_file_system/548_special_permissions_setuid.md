@@ -31,32 +31,32 @@ tags = ["studynote-operating-system"]
 해커 유저 `john` 이 SetUID가 걸린 `passwd` 명령을 실행할 때, 터미널 뱃속에서 프로세스 영혼이 어떻게 루트로 바뀌는지 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "실행 전엔 일반인 존(John)! 엔터를 치는 순간 너는 신(Root)이 된다!" │
-  ├─────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                     │
-  │  [ 대상 파일 정보 ] : /usr/bin/passwd  (비밀번호 바꾸는 유틸리티)                   │
-  │     - 소유자: root                                                                  │
-  │     - 권한값: r w s  r - x  r - x  (s 가 SetUID 빙의 마크 4000 빔!)                 │
-  │                                                                                     │
-  │  =========================▼===================================                      │
-  │                                                                                     │
-  │  🚨 [ 일반 유저 존(UID 1000) 의 접속 및 엔터 록백! ]                                │
-  │     $ passwd                                                                        │
-  │                                                                                     │
-  │     [ OS 커널 프로세스 테이블 (Task Struct 스왑 렌더) ]                             │
-  │       ├─ 실제 사용자 (Real UID) = 1000 (존)                                         │
-  │       └─ 🔥 유효 권한 (Effective UID) = 0 (root) 💥 신분 강제 변이!!                │
-  │                                                                                     │
-  │  =========================▼===================================                      │
-  │                                                                                     │
-  │  ✅ [ /etc/shadow 뚫기 성공 빔! ]                                                   │
-  │     - 프로세스: "/etc/shadow 에 새 비밀번호 저장 권한 내놔!"                        │
-  │     - 커널 감시봇 (Effective UID만 봄): "어? 너 0번 Root 신이네? 문 열어!"          │
-  │                                                                                     │
-  │      => 존이 원래 못 건드리는 shadow 파일을 뚫고 들어가 내용 수정 완료 타결!        │
-  │      => 수정 끝나고 프로세스(passwd) 죽는 순간 마패(Effective UID 0) 자동 박탈!     │
-  └─────────────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------------+
+  |                 "실행 전엔 일반인 존(John)! 엔터를 치는 순간 너는 신(Root)이 된다!" |
+  +-------------------------------------------------------------------------------------+
+  |                                                                                     |
+  |  [ 대상 파일 정보 ] : /usr/bin/passwd  (비밀번호 바꾸는 유틸리티)                   |
+  |     - 소유자: root                                                                  |
+  |     - 권한값: r w s  r - x  r - x  (s 가 SetUID 빙의 마크 4000 빔!)                 |
+  |                                                                                     |
+  |  =========================v===================================                      |
+  |                                                                                     |
+  |  🚨 [ 일반 유저 존(UID 1000) 의 접속 및 엔터 록백! ]                                |
+  |     $ passwd                                                                        |
+  |                                                                                     |
+  |     [ OS 커널 프로세스 테이블 (Task Struct 스왑 렌더) ]                             |
+  |       +- 실제 사용자 (Real UID) = 1000 (존)                                         |
+  |       +- 🔥 유효 권한 (Effective UID) = 0 (root) 💥 신분 강제 변이!!                |
+  |                                                                                     |
+  |  =========================v===================================                      |
+  |                                                                                     |
+  |  ✅ [ /etc/shadow 뚫기 성공 빔! ]                                                   |
+  |     - 프로세스: "/etc/shadow 에 새 비밀번호 저장 권한 내놔!"                        |
+  |     - 커널 감시봇 (Effective UID만 봄): "어? 너 0번 Root 신이네? 문 열어!"          |
+  |                                                                                     |
+  |      => 존이 원래 못 건드리는 shadow 파일을 뚫고 들어가 내용 수정 완료 타결!        |
+  |      => 수정 끝나고 프로세스(passwd) 죽는 순간 마패(Effective UID 0) 자동 박탈!     |
+  +-------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 프로세스 자격 검사는 항상 두 얼굴이다. **RUID(Real UID, 넌 진짜 누구냐?)** 와 **EUID(Effective UID, 지금 행사할 수 있는 권력계급이 뭐냐?)** 다. 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 RUID = EUID 다. 하지만 `s (SetUID)` 가 달린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 프로세스 화(실행) 되면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 프로세스의 EUID를 "그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들었던 원주인의 번호(보통 0번 Root)" 로 강제 둔갑 오버라이딩(Overriding 렌더)시켜 버린다. 이 EUID 스왑을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 엑세스 정책망([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 보안 검문소)을 무결하게 우회 통과하는 무적 뷰다 도출.
@@ -149,12 +149,12 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 ```text
 [파일 시스템 접근 제어 (Access Control)]
-    │
-    ▼
+    |
+    v
 [SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)]
-    │
-    ├──▶ [ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
-    └──▶ [리눅스 확장 속성 (Extended Attributes, xattr)]
+    |
+    +---> [ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
+    +---> [리눅스 확장 속성 (Extended Attributes, xattr)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -171,7 +171,7 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 **진행 상황**: 548 / 800
 
-← **이전**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)
-**다음**: [549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) →
+<- **이전**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)
+**다음**: [549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ->
 
 ---

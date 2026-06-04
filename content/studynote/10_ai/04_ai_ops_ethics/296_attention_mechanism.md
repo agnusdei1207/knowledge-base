@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 2015년 바다나우(Bahdanau) 등이 제안한 어텐션 메커니즘은 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 각 시점에서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>의 모든 시점 은닉 상태를 다시 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여, 현재 출력과 가장 관련 있는 입력에 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하는 <strong>동적 문맥 벡터</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 어텐션은 도서관 사서가 특정 질문에 답하기 위해 책장 전체를 훑으며 "이 질문에는 3번 책이 제일 관련 있네, 7번 책도 조금 관련 있어"라고 선별하는 과정이다. Seq2Seq는 미리 요약해둔 쪽지(문맥 벡터) 하나만 보는 반면, 어텐션은 질문할 때마다 책장 전체를 직접 탐색한다.
@@ -39,30 +39,30 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│          어텐션 메커니즘 (Attention Mechanism) 연산 흐름              │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  인코더 은닉 상태: h_1, h_2, ..., h_T (각 입력 토큰별 벡터)           │
-│  디코더 현재 은닉 상태: s_(t-1) (쿼리 역할)                           │
-│                                                                  │
-│  ① 유사도 점수 계산 (Score Function):                               │
-│     e_i = score(s_(t-1), h_i)                                   │
-│     예: e_i = s_(t-1)ᵀ · h_i  (내적, Dot-Product)                │
-│     예: e_i = vᵀ · tanh(W_s·s_(t-1) + W_h·h_i) (Additive/Bahdanau) │
-│                                                                  │
-│  ② 소프트맥스 정규화:                                               │
-│     α_i = exp(e_i) / Σ exp(e_j)   ← 가중치, 합계=1, 0~1 사이      │
-│     "α_i가 클수록 i번 입력에 더 많이 주목"                            │
-│                                                                  │
-│  ③ 문맥 벡터 계산 (Context Vector):                                │
-│     c_t = Σ α_i · h_i   ← 가중 평균 (동적 문맥 벡터!)               │
-│                                                                  │
-│  ④ 디코더 출력:                                                    │
-│     s_t = f(s_(t-1), y_(t-1), c_t)                              │
-│                                                                  │
-│  결과: 디코더 각 시점마다 c_t가 달라짐 → 병목 해소!                    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|          어텐션 메커니즘 (Attention Mechanism) 연산 흐름              |
++------------------------------------------------------------------+
+|                                                                  |
+|  인코더 은닉 상태: h_1, h_2, ..., h_T (각 입력 토큰별 벡터)           |
+|  디코더 현재 은닉 상태: s_(t-1) (쿼리 역할)                           |
+|                                                                  |
+|  ① 유사도 점수 계산 (Score Function):                               |
+|     e_i = score(s_(t-1), h_i)                                   |
+|     예: e_i = s_(t-1)ᵀ · h_i  (내적, Dot-Product)                |
+|     예: e_i = vᵀ · tanh(W_s·s_(t-1) + W_h·h_i) (Additive/Bahdanau) |
+|                                                                  |
+|  ② 소프트맥스 정규화:                                               |
+|     α_i = exp(e_i) / Σ exp(e_j)   <- 가중치, 합계=1, 0~1 사이      |
+|     "α_i가 클수록 i번 입력에 더 많이 주목"                            |
+|                                                                  |
+|  ③ 문맥 벡터 계산 (Context Vector):                                |
+|     c_t = Σ α_i · h_i   <- 가중 평균 (동적 문맥 벡터!)               |
+|                                                                  |
+|  ④ 디코더 출력:                                                    |
+|     s_t = f(s_(t-1), y_(t-1), c_t)                              |
+|                                                                  |
+|  결과: 디코더 각 시점마다 c_t가 달라짐 -> 병목 해소!                    |
++------------------------------------------------------------------+
 ```
 
 | 어텐션 종류 | 점수 함수 | 특징 |
@@ -82,7 +82,7 @@ tags = ["studynote-ai"]
 | 문맥 벡터 | 고정 단일 벡터 | 동적 가중 합산 벡터 | 모든 위치 간 직접 어텐션 |
 | 장거리 의존성 | 취약 | 향상 | 완벽 |
 | 입력 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 방식 | 마지막 은닉 상태만 | 모든 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 상태 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 입력 내부도 서로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Self) |
-| 계산 복잡도 | O(T) | O(T²) | O(T²) |
+| 계산 복잡도 | O(T) | O(T^) | O(T^) |
 
 - **📢 섹션 요약 비유**: Seq2Seq는 연설 요약본만 보는 청중, [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)+어텐션은 연설 원고 전체를 들고 필요할 때마다 찾아보는 청중, Transformer는 연설 중 모든 참석자가 서로의 발언을 동시에 듣고 토론하는 원탁회의다. 정보 접근 방식이 단계적으로 민주화된다.
 
@@ -92,7 +92,7 @@ tags = ["studynote-ai"]
 
 <strong>어텐션 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>: 훈련된 번역 모델의 어텐션 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 히트맵으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면, 번역 시 어떤 소스 단어가 어떤 타겟 단어에 대응되는지 직관적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 이는 모델 디버깅과 설명 가능성([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/), [eXplainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/))에 핵심적으로 활용된다.
 
-**계산 복잡도 주의**: 어텐션은 입력 길이 T에 대해 O(T²) 복잡도를 가지므로, 매우 긴 시퀀스(문서 수천 토큰)에서는 선형 어텐션(Linear Attention), 스파스 어텐션(Sparse Attention) 등 효율적 변형이 필요하다.
+**계산 복잡도 주의**: 어텐션은 입력 길이 T에 대해 O(T^) 복잡도를 가지므로, 매우 긴 시퀀스(문서 수천 토큰)에서는 선형 어텐션(Linear Attention), 스파스 어텐션(Sparse Attention) 등 효율적 변형이 필요하다.
 
 - **📢 섹션 요약 비유**: 어텐션 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 학생 답안지 위에 형광펜으로 "이 답은 교과서 어느 줄을 참고했는가"를 표시하는 것이다. 선생님(개발자)이 어떤 근거로 어떤 답(출력)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)했는지 추적하여 AI의 학습 과정을 투명하게 만든다.
 
@@ -119,7 +119,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [어텐션 메커니즘 (Attention Mechanism)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [어텐션 메커니즘 (Attention Mechanism)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 296 / 420
 
-← **이전**: [295. Seq2Seq (Sequence to Sequence)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/)
-**다음**: [297. 트랜스포머 (Transformer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/297_transformer/) →
+<- **이전**: [295. Seq2Seq (Sequence to Sequence)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/)
+**다음**: [297. 트랜스포머 (Transformer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/297_transformer/) ->
 
 ---

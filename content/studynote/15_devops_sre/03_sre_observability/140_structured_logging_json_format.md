@@ -24,7 +24,7 @@ tags = ["studynote-devops-sre"]
   {"ts":"2024-01-15T10:30:22Z","level":"ERROR",
    "msg":"Payment failed","user_id":123,
    "trace_id":"abc123","service":"payment"}
-→ 필드별 검색: user_id=123 AND level=ERROR
+-> 필드별 검색: user_id=123 AND level=ERROR
 ```
 
 - **📢 섹션 요약 비유**: 비구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 **자유 형식 메모**, 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>엑셀 표</strong>이다. 표가 검색·정렬·분석에 훨씬 유리하다.
@@ -50,10 +50,10 @@ tags = ["studynote-devops-sre"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[printf 로깅 (~2010s)] → [구조화 로깅 (Serilog, 2013)]
-    → [JSON 로그 표준화 (2016~)]
-    → [OTel Log Signal (2023)]
-    → [현재: 구조화 로그 + AI 이상 탐지]
+[printf 로깅 (~2010s)] -> [구조화 로깅 (Serilog, 2013)]
+    -> [JSON 로그 표준화 (2016~)]
+    -> [OTel Log Signal (2023)]
+    -> [현재: 구조화 로그 + AI 이상 탐지]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 140 / 373
 
-← **이전**: [139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리](/knowledge-base/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)
-**다음**: [141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적](/knowledge-base/studynote/15_devops_sre/03_sre_observability/141_distributed_tracing_msa_request_flow/) →
+<- **이전**: [139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리](/knowledge-base/studynote/15_devops_sre/03_sre_observability/139_distributed_logging_efk_elk_stack/)
+**다음**: [141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적](/knowledge-base/studynote/15_devops_sre/03_sre_observability/141_distributed_tracing_msa_request_flow/) ->
 
 ---

@@ -45,22 +45,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 집합 연관 사상이 왜 “전체 탐색이 아닌 제한된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교”인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 4-Way Set Associative: index narrows the set, tags search the ways  │
-├──────────────────────────────────────────────────────────────────────┤
-│ address = [   Tag   ][ Set Index ][ Block Offset ]                  │
-│                        │              │                              │
-│                        │              └─ line 내부 바이트 선택       │
-│                        └──────────────▶ set 42 선택                  │
-│                                                                      │
-│ set 42                                                               │
-│   ┌──────── way 0 : [valid][tag A][data] ── compare ──┐              │
-│   ├──────── way 1 : [valid][tag B][data] ── compare ──┼──▶ hit/miss  │
-│   ├──────── way 2 : [valid][tag C][data] ── compare ──┤              │
-│   └──────── way 3 : [valid][tag D][data] ── compare ──┘              │
-│                                                                      │
-│ miss and set full ─▶ replacement policy picks one victim in set 42   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| 4-Way Set Associative: index narrows the set, tags search the ways  |
++----------------------------------------------------------------------+
+| address = [   Tag   ][ Set Index ][ Block Offset ]                  |
+|                        |              |                              |
+|                        |              +- line 내부 바이트 선택       |
+|                        +---------------> set 42 선택                  |
+|                                                                      |
+| set 42                                                               |
+|   +-------- way 0 : [valid][tag A][data] -- compare --+              |
+|   +-------- way 1 : [valid][tag B][data] -- compare --+---> hit/miss  |
+|   +-------- way 2 : [valid][tag C][data] -- compare --+              |
+|   +-------- way 3 : [valid][tag D][data] -- compare --+              |
+|                                                                      |
+| miss and set full --> replacement policy picks one victim in set 42   |
++----------------------------------------------------------------------+
 ```
 
 핵심은 교체 판단도 세트 단위로만 이루어진다는 점이다. 4-Way 캐시에서 새 블록이 들어왔을 때 쫓겨나는 후보는 캐시 전체 512줄이 아니라, 같은 세트의 4개 웨이뿐이다. 이 덕분에 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 상태 비트와 비교 회로가 통제 가능한 범위에 머무른다. 실무에서는 정확한 LRU보다 의사 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))처럼 더 가벼운 근사 기법을 많이 쓰는 이유도 여기서 나온다.
@@ -141,29 +141,29 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 메모리 계층 구조 (Memory Hierarchy)
-        │
-        ▼
+        |
+        v
 캐시 메모리 (Cache Memory)
-        │
-        ▼
+        |
+        v
 캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        └─ 충돌 미스 증가
-        │
-        ▼
+        |
+        +--> 직접 사상 (Direct Mapping)
+        |        |
+        |        +- 충돌 미스 증가
+        |
+        v
 집합 연관 사상 (Set Associative Mapping)
-        │
-        ├─ 세트 인덱스 (Set Index) · 웨이 (Way)
-        ├─ 교체 정책 (Replacement Policy)
-        └─ 의사 LRU · 웨이 예측 · 캐시 파티셔닝
-        │
-        ▼
+        |
+        +- 세트 인덱스 (Set Index) · 웨이 (Way)
+        +- 교체 정책 (Replacement Policy)
+        +- 의사 LRU · 웨이 예측 · 캐시 파티셔닝
+        |
+        v
 완전 연관 사상 (Fully Associative)과의 비용-성능 절충
 ```
 
-이 흐름은 “단순한 고정 배치 → 충돌 문제 노출 → 제한된 자유도 부여 → 비용 최적화 기법 확장”으로 이어지는 캐시 설계의 발전 방향을 보여준다.
+이 흐름은 “단순한 고정 배치 -> 충돌 문제 노출 -> 제한된 자유도 부여 -> 비용 최적화 기법 확장”으로 이어지는 캐시 설계의 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -177,7 +177,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 269 / 803
 
-← **이전**: [268. 완전 연관 사상 (Fully Associative)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/)
-**다음**: [270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/) →
+<- **이전**: [268. 완전 연관 사상 (Fully Associative)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/)
+**다음**: [270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/) ->
 
 ---

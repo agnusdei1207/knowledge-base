@@ -11,8 +11,8 @@ tags = ["studynote-enterprise-systems"]
 
 > **핵심 인사이트**
 > 1. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))은 Sean Ellis(2010)가 정의한 개념으로, 마케팅·제품·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통합하여 "최소 비용·최단 시간에 지속 가능한 성장"을 달성하는 방법론이며, 모든 결정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
-> 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 핵심 루프는 BML(Build-Measure-Learn) 사이클로, 가설 → A/B 실험 → 분석 → 확장(또는 폐기) 반복이며, 제품·마케팅 채널·온보딩 등 모든 접점을 실험 대상으로 삼는다.
-> 3. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 AARRR 퍼널([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)→Activation→[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)→Referral→Revenue)의 가장 취약한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 집중 개선하는 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뚫기" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심이다.
+> 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 핵심 루프는 BML(Build-Measure-Learn) 사이클로, 가설 -> A/B 실험 -> 분석 -> 확장(또는 폐기) 반복이며, 제품·마케팅 채널·온보딩 등 모든 접점을 실험 대상으로 삼는다.
+> 3. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 AARRR 퍼널([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)->Activation->[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)->Referral->Revenue)의 가장 취약한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 집중 개선하는 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뚫기" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심이다.
 
 ---
 
@@ -63,7 +63,7 @@ C (Confidence): 이 가설이 맞을 확률은?
 E (Ease): 구현 용이성?
 
 ICE 점수 = (I × C × E) / 3
-→ 높은 점수 실험 먼저 실행
+-> 높은 점수 실험 먼저 실행
 
 성장 실험 프로세스:
   1. 분석: AARRR 퍼널 데이터 분석, 이탈 구간 파악
@@ -98,12 +98,12 @@ Content Marketing:
 
 Product-Led Growth (PLG):
   제품 자체가 성장 엔진
-  Freemium → Viral → Paid 전환
-  예: Slack (팀 내 바이럴) → 기업 구독
-      Figma (공유 링크) → 팀 도입
+  Freemium -> Viral -> Paid 전환
+  예: Slack (팀 내 바이럴) -> 기업 구독
+      Figma (공유 링크) -> 팀 도입
 
 채널 선택 원칙 (Bullseye Framework):
-  19개 채널 중 탐색(Outer) → 집중(Bullseye)
+  19개 채널 중 탐색(Outer) -> 집중(Bullseye)
   1~2개 채널에 집중 (분산 지양)
 ```
 
@@ -132,9 +132,9 @@ Product-Led Growth (PLG):
   습관 형성 루프 (Hook Model)
   재활성화 캠페인 (이탈 전 알림)
 
-리텐션 개선 → LTV 개선:
+리텐션 개선 -> LTV 개선:
   LTV = ARPU / Churn Rate
-  Churn Rate 5% → 3%: LTV 67% 증가
+  Churn Rate 5% -> 3%: LTV 67% 증가
 ```
 
 > 📢 **섹션 요약 비유**: 리텐션은 식당 단골 비율 — 새 손님([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))만 많고 다시 안 오면(리텐션 낮음) 식당이 성장하지 못한다.
@@ -157,7 +157,7 @@ Product-Led Growth (PLG):
 
 실험 (ICE 점수 8/10):
   A: 기존 7단계 온보딩
-  B: 3단계 → 즉시 첫 운동 체험 유도
+  B: 3단계 -> 즉시 첫 운동 체험 유도
 
 2주 A/B 테스트 결과:
   A: 24h 핵심 기능 사용 18%, D7 리텐션 12%
@@ -165,9 +165,9 @@ Product-Led Growth (PLG):
   통계: p = 0.003 (유의미)
 
 롤아웃 후 3개월:
-  D7 리텐션: 12% → 21%
-  유료 전환율: 1.5% → 3.2%
-  MRR: 1,200만원 → 2,800만원 (+133%)
+  D7 리텐션: 12% -> 21%
+  유료 전환율: 1.5% -> 3.2%
+  MRR: 1,200만원 -> 2,800만원 (+133%)
 ```
 
 > 📢 **섹션 요약 비유**: 온보딩 A/B 테스트는 가게 진열 실험 — 핵심 상품을 입구에 놓을지(B) 안쪽에 놓을지(A) 실험해서 판매 최적화.
@@ -197,7 +197,7 @@ Product-Led Growth (PLG):
 
 ```
 [Sean Ellis 그로스 해킹 정의 (2010)]
-스타트업 전용 → 전 산업 확산
+스타트업 전용 -> 전 산업 확산
       |
       v
 [Product-Led Growth 대두 (2016~)]
@@ -228,7 +228,7 @@ LLM으로 개인화 온보딩
 
 **진행 상황**: 42 / 482
 
-← **이전**: [041. 피벗 (Pivot) — 전략적 방향 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/)
-**다음**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/) →
+<- **이전**: [041. 피벗 (Pivot) — 전략적 방향 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/)
+**다음**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/) ->
 
 ---

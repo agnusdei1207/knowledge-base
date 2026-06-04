@@ -44,17 +44,17 @@ tags = ["studynote-data-engineering"]
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) vs [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/)
 
 ```
-  ── 스타 스키마 ──          ── 스노우플레이크 스키마 ──
+  -- 스타 스키마 --          -- 스노우플레이크 스키마 --
 
   DimDate                    DimDate
-     │                          │
-  DimCustomer──FactSales──DimProduct       DimCategory
-     │             │                          │
-  DimStore     DimCustomer──FactSales──DimProduct──DimBrand
-                   │             │
+     |                          |
+  DimCustomer--FactSales--DimProduct       DimCategory
+     |             |                          |
+  DimStore     DimCustomer--FactSales--DimProduct--DimBrand
+                   |             |
                DimCity        DimStore
-                │                 │
-            DimRegion          DimCity─DimRegion
+                |                 |
+            DimRegion          DimCity-DimRegion
 ```
 
 | 항목 | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) | [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) |
@@ -73,23 +73,23 @@ tags = ["studynote-data-engineering"]
 
 ```
 SCD 유형 비교
-┌─────────┬──────────────────────────────────────────────────────┐
-│  타입   │  설명                                                 │
-├─────────┼──────────────────────────────────────────────────────┤
-│ Type 0  │ 변경 무시 (정적 차원)                                  │
-├─────────┼──────────────────────────────────────────────────────┤
-│ Type 1  │ 덮어쓰기 - 이전 값 소실, 이력 없음                    │
-│         │ 예: 오타 수정, 참조 데이터 갱신                        │
-├─────────┼──────────────────────────────────────────────────────┤
-│ Type 2  │ 신규 행 추가 - 이력 완전 보존                          │
-│         │ 서로게이트 키(Surrogate Key) + 유효기간(Start/End Date) │
-│         │ 예: 고객 주소 변경, 조직 개편                           │
-├─────────┼──────────────────────────────────────────────────────┤
-│ Type 3  │ 별도 컬럼 추가 - 현재+이전 값만 보존                  │
-│         │ 예: Previous_Region, Current_Region                  │
-├─────────┼──────────────────────────────────────────────────────┤
-│ Type 6  │ Type 1+2+3 복합 (Hybrid SCD)                        │
-└─────────┴──────────────────────────────────────────────────────┘
++---------+------------------------------------------------------+
+|  타입   |  설명                                                 |
++---------+------------------------------------------------------+
+| Type 0  | 변경 무시 (정적 차원)                                  |
++---------+------------------------------------------------------+
+| Type 1  | 덮어쓰기 - 이전 값 소실, 이력 없음                    |
+|         | 예: 오타 수정, 참조 데이터 갱신                        |
++---------+------------------------------------------------------+
+| Type 2  | 신규 행 추가 - 이력 완전 보존                          |
+|         | 서로게이트 키(Surrogate Key) + 유효기간(Start/End Date) |
+|         | 예: 고객 주소 변경, 조직 개편                           |
++---------+------------------------------------------------------+
+| Type 3  | 별도 컬럼 추가 - 현재+이전 값만 보존                  |
+|         | 예: Previous_Region, Current_Region                  |
++---------+------------------------------------------------------+
+| Type 6  | Type 1+2+3 복합 (Hybrid SCD)                        |
++---------+------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 <strong>여권 갱신 기록</strong>과 같다. 새 여권을 발급받아도 이전 여권 정보(주소, 사진)가 기록 안에 남아 있다.
@@ -107,7 +107,7 @@ SCD 유형 비교
 - [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2에서 동일 고객의 여러 버전을 구별
 - 정수형 작은 키로 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
-**예시:** `customer_id (소스 자연키: C001)` → `customer_key (서로게이트키: 10023)`
+**예시:** `customer_id (소스 자연키: C001)` -> `customer_key (서로게이트키: 10023)`
 
 ### [팩트리스 팩트 테이블](/knowledge-base/studynote/05_database/04_transactions_concurrency/576_factless_fact_table_event_tracking_coverage/) ([Factless Fact Table](/knowledge-base/studynote/05_database/04_transactions_concurrency/576_factless_fact_table_event_tracking_coverage/))
 
@@ -131,7 +131,7 @@ SCD 유형 비교
 ### 기술사 판단 포인트
 
 1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a> 선택 기준</strong>: 고객 세그먼트 변경, 지역 재편, 제품 카테고리 변경 시 필수
-2. **스타 vs 스노우플레이크**: BI 도구([Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)) 사용 환경 → 스타 선호; [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 중요 → 스노우플레이크 고려
+2. **스타 vs 스노우플레이크**: BI 도구([Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)) 사용 환경 -> 스타 선호; [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 중요 -> 스노우플레이크 고려
 3. **현대 컬럼 스토어**: [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·Snowflake에서는 비정규화가 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리
 
 📢 **섹션 요약 비유**: [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) 설계는 <strong>이사 때마다 주소록 새 줄을 추가</strong>하는 것이다. 덮어쓰면 예전 주소로 보낸 편지 이력이 사라지지만, 새 줄을 추가하면 언제 어디 살았는지 다 남는다.
@@ -178,19 +178,19 @@ SCD 유형 비교
 
 ```text
 비정규화된 단일 테이블 (분석 비효율)
-    │
-    ▼
+    |
+    v
 차원 모델링
-    ├─► Fact Table: 측정값 (매출 · 수량 · 비용)
-    └─► Dimension Table: 속성 (날짜 · 제품 · 고객)
-    │
-    ▼
+    +-► Fact Table: 측정값 (매출 · 수량 · 비용)
+    +-► Dimension Table: 속성 (날짜 · 제품 · 고객)
+    |
+    v
 Star Schema: 팩트 중심 1단계 조인
-    │
-    ▼
+    |
+    v
 Snowflake Schema: 차원 정규화 (3NF)
-    │
-    ▼
+    |
+    v
 SCD (Slowly Changing Dimension): Type 1/2/3
 ```
 2. [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)은 <strong>장난감 설명서</strong>야. 그 장난감이 뭔지, 누가 샀는지, 언제 샀는지 자세히 설명해줘.
@@ -202,7 +202,7 @@ SCD (Slowly Changing Dimension): Type 1/2/3
 
 **진행 상황**: 210 / 258
 
-← **이전**: [209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)
-**다음**: [211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/) →
+<- **이전**: [209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)
+**다음**: [211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/) ->
 
 ---

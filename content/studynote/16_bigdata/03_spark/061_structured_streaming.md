@@ -86,20 +86,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [배치 처리 (Batch Processing) — 정해진 주기 대규모 데이터 처리]
-    │
-    ▼
+    |
+    v
 [스트리밍 처리 (Streaming) — 실시간 연속 데이터 처리]
-    │
-    ▼
+    |
+    v
 [Spark Streaming (DStream) — RDD 기반 마이크로 배치]
-    │
-    ▼
+    |
+    v
 [Structured Streaming — DataFrame API 기반 연속 처리]
-    │
-    ▼
+    |
+    v
 [워터마크 (Watermark) — 지연 데이터 처리 기준 시간 설정]
-    │
-    ▼
+    |
+    v
 [Delta Live Tables — 선언형 스트리밍 파이프라인 자동화]
 ```
 Structured Streaming은 DStream의 복잡성을 DataFrame API로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 배치와 스트리밍을 통합하는 현대 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 표준이 되었다.
@@ -115,7 +115,7 @@ Structured Streaming은 DStream의 복잡성을 DataFrame API로 [추상화](/kn
 
 **진행 상황**: 61 / 262
 
-← **이전**: [Spark Streaming (DStream) 아키텍처](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)
-**다음**: [스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/) →
+<- **이전**: [Spark Streaming (DStream) 아키텍처](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)
+**다음**: [스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/) ->
 
 ---

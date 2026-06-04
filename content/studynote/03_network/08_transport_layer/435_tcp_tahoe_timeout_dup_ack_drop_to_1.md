@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [빠른 회복]
-    │
-    ▼
+    |
+    v
 [TCP Tahoe 모델]
-    │
-    └──▶ [TCP Reno 모델]
+    |
+    +---> [TCP Reno 모델]
 ```
 
 - **📢 섹션 요약 비유**: ** Tahoe [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 징검다리를 건너다가 발을 한 번 헛디뎌서 발목에 물이 튄(가벼운 유실) 상황인데도, "위험해! 다 무효야!"라며 징검다리 맨 앞(출발선)으로 쫓겨나 처음부터 다시 돌다리를 두드리며([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)) 건너게 만드는 지독한 생존 본능의 산물입니다.
@@ -58,31 +58,31 @@ Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynot
 
 ### 3. Reno의 등장과 Tahoe의 멸종
 몇 년 뒤 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/)(레노)가 등장하며 '[Fast Recovery](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)([빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/))'라는 새로운 무기를 들고나왔다.
-- **Tahoe의 반응 (모든 사고에 대해)**: `CWND = 1` ──▶ [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/). (골짜기 발생).
-- **Reno의 반응 (3 Dup-ACK 사고 시)**: `CWND = ssthresh(절반)` ──▶ Congestion Avoidance(선형 증가). (골짜기 없이 톱니바퀴 모양 유지).
+- **Tahoe의 반응 (모든 사고에 대해)**: `CWND = 1` ---> [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/). (골짜기 발생).
+- **Reno의 반응 (3 Dup-ACK 사고 시)**: `CWND = ssthresh(절반)` ---> Congestion Avoidance(선형 증가). (골짜기 없이 톱니바퀴 모양 유지).
 - 단, Reno도 '[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)'이라는 진짜 대형 사고 앞에서는 Tahoe처럼 똑같이 1로 박살 나고 슬로우 스타트를 한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Tahoe vs TCP Reno 그래프 차이 도식            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 3 Dup-ACK (가벼운 접촉 사고) 발생 시! ]                       │
- │                                                             │
- │   * TCP Tahoe (과거)                                        │
- │   32 |          /|                                          │
- │   16 |        /  |                /                         │
- │    1 |      /    * ─ * ─ * ─ * ─/                           │
- │      |____/_________________________________               │
- │           └─▶ 바닥(1)으로 찍고 슬로우스타트 계단을 밟음 (답답함)      │
- │                                                             │
- │   * TCP Reno (현재 표준)                                      │
- │   32 |          /|                                          │
- │   16 |        /  * ─ * ─ * ─ * ─ * ─                        │
- │    1 |      /                                               │
- │      |____/_________________________________               │
- │           └─▶ 바닥으로 안 가고 16(절반)에서 바로 시작! (초고속!)     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP Tahoe vs TCP Reno 그래프 차이 도식            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 3 Dup-ACK (가벼운 접촉 사고) 발생 시! ]                       |
+ |                                                             |
+ |   * TCP Tahoe (과거)                                        |
+ |   32 |          /|                                          |
+ |   16 |        /  |                /                         |
+ |    1 |      /    * - * - * - * -/                           |
+ |      |____/_________________________________               |
+ |           +--> 바닥(1)으로 찍고 슬로우스타트 계단을 밟음 (답답함)      |
+ |                                                             |
+ |   * TCP Reno (현재 표준)                                      |
+ |   32 |          /|                                          |
+ |   16 |        /  * - * - * - * - * -                        |
+ |    1 |      /                                               |
+ |      |____/_________________________________               |
+ |           +--> 바닥으로 안 가고 16(절반)에서 바로 시작! (초고속!)     |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** Tahoe는 컵에 물을 따르다가 물방울 하나가 넘쳤을 때, **"아차! 넘쳤네!" 하며 컵의 물을 아예 바닥에 싹 다 버리고 처음부터 다시 1방울씩 정성스레 채워 넣는 강박증 환자<strong>입니다. 이 강박증을 고쳐서, 물방울이 넘치면 </strong>딱 넘친 만큼만 물을 살짝 덜어내고(절반) 다시 부드럽게 채우게 만든 것이 Reno**의 유연함입니다.
@@ -143,12 +143,12 @@ Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynot
 
 ```text
 [선행 개념: 빠른 회복]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP Tahoe 모델]
-    │
-    ├──▶ [확장 A: TCP Reno 모델]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP Reno 모델]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델는 [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynot
 
 **진행 상황**: 556 / 1120
 
-← **이전**: [434. 빠른 회복 (Fast Recovery)](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)
-**다음**: [436. TCP Reno (빠른 재전송/빠른 회복 지원) 모델](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) →
+<- **이전**: [434. 빠른 회복 (Fast Recovery)](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)
+**다음**: [436. TCP Reno (빠른 재전송/빠른 회복 지원) 모델](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) ->
 
 ---

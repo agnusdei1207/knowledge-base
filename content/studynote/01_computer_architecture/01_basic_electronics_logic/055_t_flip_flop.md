@@ -32,8 +32,8 @@ T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 T 입력과 클록이 결합되어 현재 Q를 반전하거나 유지한다. D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)에 XOR를 넣어 구현할 수도 있다.
 
 ```text
-T ──▶ Toggle Logic ──▶ Q(next)
-CLK ─────────────────▶
+T ---> Toggle Logic ---> Q(next)
+CLK ------------------>
 ```
 
 | T | Q(next) |
@@ -110,11 +110,11 @@ T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 
 ```text
 JK 플립플롭
-    │
-    ▼
+    |
+    v
 T 플립플롭
-    │
-    ▼
+    |
+    v
 카운터 / 분주기
 ```
 
@@ -132,7 +132,7 @@ T 플립플롭
 
 **진행 상황**: 55 / 803
 
-← **이전**: [54. J-K 플립플롭 (J-K Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/054_jk_flip_flop/)
-**다음**: [56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/056_master_slave_flip_flop/) →
+<- **이전**: [54. J-K 플립플롭 (J-K Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/054_jk_flip_flop/)
+**다음**: [56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/056_master_slave_flip_flop/) ->
 
 ---

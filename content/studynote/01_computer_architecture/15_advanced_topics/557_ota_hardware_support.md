@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-안전한 OTA 경로는 보통 네 가지 층으로 구성된다. 첫째, 수정 불가능한 Boot [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 또는 Root of Trust가 "누가 서명했는가"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 둘째, 플래시 컨트롤러가 활성 슬롯과 대기 슬롯을 분리해 현재 실행 이미지를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 셋째, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 영역이 `downloaded → verified → boot_pending → confirmed` 같은 상태를 저널링한다. 넷째, 첫 부팅 이후 워치독과 헬스 체크가 정상 기동을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못하면 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
+안전한 OTA 경로는 보통 네 가지 층으로 구성된다. 첫째, 수정 불가능한 Boot [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 또는 Root of Trust가 "누가 서명했는가"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 둘째, 플래시 컨트롤러가 활성 슬롯과 대기 슬롯을 분리해 현재 실행 이미지를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 셋째, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 영역이 `downloaded -> verified -> boot_pending -> confirmed` 같은 상태를 저널링한다. 넷째, 첫 부팅 이후 워치독과 헬스 체크가 정상 기동을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못하면 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -44,21 +44,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 OTA에서 "다운로드"와 "부팅 승인"이 왜 분리되어야 하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Active Slot A ── 현재 정상 실행                                             │
-│                                                                              │
-│ Network Rx ─▶ Staging Slot B ─▶ Hash / Signature Verify ─▶ Boot Metadata     │
-│                                │                                │            │
-│                                ├─ fail ────────────────────────▶ keep A      │
-│                                └─ pass ─▶ boot_pending ────────▶ reboot      │
-│                                                                  │            │
-│                                           first boot health check │            │
-│                                                                  ▼            │
-│                                            success ───────────▶ confirm B     │
-│                                            failure/timeout ────▶ rollback A   │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| 안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다 |
++------------------------------------------------------------------------------+
+| Active Slot A -- 현재 정상 실행                                             |
+|                                                                              |
+| Network Rx --> Staging Slot B --> Hash / Signature Verify --> Boot Metadata     |
+|                                |                                |            |
+|                                +- fail -------------------------> keep A      |
+|                                +- pass --> boot_pending ---------> reboot      |
+|                                                                  |            |
+|                                           first boot health check |            |
+|                                                                  v            |
+|                                            success ------------> confirm B     |
+|                                            failure/timeout -----> rollback A   |
++------------------------------------------------------------------------------+
 ```
 
 핵심은 "새 이미지를 썼다"와 "새 이미지가 장치를 안전하게 살렸다"를 다른 상태로 취급하는 것이다. 특히 플래시 지우기 단위가 4KB, 64KB처럼 거칠면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 한 비트만 잘못 써도 부팅 선택이 꼬일 수 있으므로, 상태 플래그는 별도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역에 두고 업데이트 순서를 엄격히 정해야 한다. 또한 단조 증가 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 카운터를 두지 않으면 서명된 구버전 이미지를 다시 올리는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 공격을 막기 어렵다.
@@ -90,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 가장 먼저 해야 할 판단은 이미지 크기와 실패 비용을 같이 보는 것이다. 예를 들어 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 12MB인데 내부 플래시가 16MB뿐이라면, 완전한 듀얼 슬롯은 물리적으로 불가능하다. 이 경우 외부 시리얼 플래시에 스테이징한 뒤 내부로 복사하거나, 블록 단위 Virtual A/B를 써야 하지만, 그만큼 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 복잡도와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트가 늘어난다.
 
-또 하나의 핵심은 "부팅 성공" 정의다. [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 화면이 떴다고 성공으로 처리하면, 애플리케이션이 10초 뒤 크래시해도 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 확정돼 버린다. 그래서 전원 불안정 장치는 보통 `부트 완료 → 주요 서비스 기동 → 네트워크/센서 셀프 테스트 통과` 같은 다단계 헬스 체크를 거친 뒤에만 새 슬롯을 확정한다.
+또 하나의 핵심은 "부팅 성공" 정의다. [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 화면이 떴다고 성공으로 처리하면, 애플리케이션이 10초 뒤 크래시해도 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 확정돼 버린다. 그래서 전원 불안정 장치는 보통 `부트 완료 -> 주요 서비스 기동 -> 네트워크/센서 셀프 테스트 통과` 같은 다단계 헬스 체크를 거친 뒤에만 새 슬롯을 확정한다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -140,20 +140,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공장 수동 플래싱
-        │
-        ▼
+        |
+        v
 단일 슬롯 부트로더 업데이트
-        │
-        ▼
+        |
+        v
 네트워크 OTA 다운로드
-        │
-        ▼
+        |
+        v
 Secure Boot + A/B 슬롯 + Rollback Protection
-        │
-        ▼
+        |
+        v
 Delta / Streaming OTA + Health Check Commit
-        │
-        ▼
+        |
+        v
 원격 증명 기반 Fleet 정책 업데이트
 ```
 
@@ -171,7 +171,7 @@ Delta / Streaming OTA + Health Check Commit
 
 **진행 상황**: 557 / 803
 
-← **이전**: [556. 소프트 에러 복구 매커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/556_soft_error_recovery/)
-**다음**: [558. NMI (Non-Maskable Interrupt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) →
+<- **이전**: [556. 소프트 에러 복구 매커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/556_soft_error_recovery/)
+**다음**: [558. NMI (Non-Maskable Interrupt)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [SQL 인젝션]
-    │
-    ▼
+    |
+    v
 [CSRF 인증 세션 권한 도용]
-    │
-    └──▶ [크로스 사이트 요청 위조]
+    |
+    +---> [크로스 사이트 요청 위조]
 ```
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [SQL 인젝션]
-    │
-    ▼
+    |
+    v
 [CSRF 인증 세션 권한 도용]
-    │
-    └──▶ [크로스 사이트 요청 위조]
+    |
+    +---> [크로스 사이트 요청 위조]
 ```
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 ```text
 [선행 개념: SQL 인젝션]
-    │
-    ▼
+    |
+    v
 [현재 개념: CSRF 인증 세션 권한 도용]
-    │
-    ├──▶ [확장 A: 크로스 사이트 요청 위조]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 크로스 사이트 요청 위조]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 크로스 사이트 요청 위조와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 **진행 상황**: 849 / 1120
 
-← **이전**: [727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단](/knowledge-base/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/)
-**다음**: [729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)](/knowledge-base/studynote/03_network/14_network_security_threats/729_csrf_defense_token_samesite_cookie/) →
+<- **이전**: [727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단](/knowledge-base/studynote/03_network/14_network_security_threats/727_httponly_cookie_xss_defense/)
+**다음**: [729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)](/knowledge-base/studynote/03_network/14_network_security_threats/729_csrf_defense_token_samesite_cookie/) ->
 
 ---

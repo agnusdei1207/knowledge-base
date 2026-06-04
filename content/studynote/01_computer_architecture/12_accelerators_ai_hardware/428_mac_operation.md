@@ -28,21 +28,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 MAC이 별도 회로로 분리되었는지 보여준다. 핵심은 계산식이 아니라 <strong>중간 결과를 어디서 끊느냐</strong>다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                분리 실행과 MAC 실행의 차이: 중간 저장의 유무              │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 분리된 MUL + ADD              │ MAC                                         │
-│                               │                                             │
-│ A, B ─▶ [Multiplier]          │ A, B ─▶ [Multiplier]                        │
-│              │                │              │                              │
-│              ▼                │              ▼                              │
-│        [Temp Register]        │         [Adder] ◀── Accumulator            │
-│              │                │              │                              │
-│              ▼                │              ▼                              │
-│ Temp, C ─▶ [Adder] ─▶ Result  │        Updated Sum                          │
-│                               │                                             │
-│ 추가 저장/읽기 발생           │ 곱셈 결과가 바로 누산 경로로 연결됨         │
-└───────────────────────────────┴────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                분리 실행과 MAC 실행의 차이: 중간 저장의 유무              |
++-------------------------------+--------------------------------------------+
+| 분리된 MUL + ADD              | MAC                                         |
+|                               |                                             |
+| A, B --> [Multiplier]          | A, B --> [Multiplier]                        |
+|              |                |              |                              |
+|              v                |              v                              |
+|        [Temp Register]        |         [Adder] <--- Accumulator            |
+|              |                |              |                              |
+|              v                |              v                              |
+| Temp, C --> [Adder] --> Result  |        Updated Sum                          |
+|                               |                                             |
+| 추가 저장/읽기 발생           | 곱셈 결과가 바로 누산 경로로 연결됨         |
++-------------------------------+--------------------------------------------+
 ```
 
 분리 실행은 제어가 단순하지만, 누적 계산이 길어질수록 임시값 저장과 읽기 비용이 커진다. 반면 MAC은 연산 경로를 짧게 만들어 동일한 수학식을 더 적은 제어 오버헤드와 더 낮은 에너지로 수행한다.
@@ -55,7 +55,7 @@ tags = ["studynote-computer-architecture"]
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 유닛의 내부는 보통 곱셈기 (Multiplier), [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)), 가산기 (Adder), 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 구성된다. 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 가중치가 들어오면 먼저 곱셈이 수행되고, 그 결과가 기존 누산값과 더해져 부분합 (Partial Sum)을 만든다. 이 부분합은 다음 사이클의 입력이 되어 긴 내적을 한 줄로 이어 간다.
 
-핵심은 단순히 `곱한다 → 더한다`가 아니라, <strong>누산 폭과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 어떻게 잡느냐</strong>다. 예를 들어 8비트 정수 (INT8) 두 개를 곱하면 결과는 16비트까지 커질 수 있고, 이것을 수백 번 더하면 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 더 넓은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 가져야 오버플로를 피할 수 있다. 그래서 저정밀 입력을 사용하더라도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 32비트 이상으로 유지하는 설계가 흔하다.
+핵심은 단순히 `곱한다 -> 더한다`가 아니라, <strong>누산 폭과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 어떻게 잡느냐</strong>다. 예를 들어 8비트 정수 (INT8) 두 개를 곱하면 결과는 16비트까지 커질 수 있고, 이것을 수백 번 더하면 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 더 넓은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 가져야 오버플로를 피할 수 있다. 그래서 저정밀 입력을 사용하더라도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 32비트 이상으로 유지하는 설계가 흔하다.
 
 | 구성 요소 | 역할 | 설계 시 주의점 |
 | :-- | :-- | :-- |
@@ -67,24 +67,24 @@ tags = ["studynote-computer-architecture"]
 이 그림은 MAC이 한 번의 계산기가 아니라, 반복되는 내적을 흘려보내는 누산 파이프라인이라는 점을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  MAC 파이프라인: 내적이 만들어지는 흐름                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ x0, w0 ─▶ [×] ─▶ (+) ─▶ s0                                                │
-│                     ▲                                                      │
-│                     │                                                      │
-│                초기값 0                                                    │
-│                                                                            │
-│ x1, w1 ─▶ [×] ─▶ (+) ─▶ s1                                                │
-│                     ▲                                                      │
-│                     │                                                      │
-│                     s0                                                     │
-│                                                                            │
-│ x2, w2 ─▶ [×] ─▶ (+) ─▶ s2  ...  최종 출력 = Σ(xᵢ × wᵢ) + bias            │
-│                     ▲                                                      │
-│                     │                                                      │
-│                     s1                                                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  MAC 파이프라인: 내적이 만들어지는 흐름                   |
++----------------------------------------------------------------------------+
+| x0, w0 --> [×] --> (+) --> s0                                                |
+|                     ^                                                      |
+|                     |                                                      |
+|                초기값 0                                                    |
+|                                                                            |
+| x1, w1 --> [×] --> (+) --> s1                                                |
+|                     ^                                                      |
+|                     |                                                      |
+|                     s0                                                     |
+|                                                                            |
+| x2, w2 --> [×] --> (+) --> s2  ...  최종 출력 = Σ(xᵢ × wᵢ) + bias            |
+|                     ^                                                      |
+|                     |                                                      |
+|                     s1                                                     |
++----------------------------------------------------------------------------+
 ```
 
 이 구조가 중요한 이유는 한 번 계산한 부분합을 버리지 않고 다음 연산으로 즉시 연결하기 때문이다. 그래서 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 충분히 채워져 있을 때는 사이클마다 새 결과를 내보낼 수 있고, 이것이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))의 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))로 확장된다.
@@ -171,24 +171,24 @@ CPU (Central Processing Unit)는 제어 분기와 범용 처리에 강하므로 
 
 ```text
 곱셈기 + 가산기 분리
-        │
-        ▼
+        |
+        v
 MAC (Multiply-Accumulate) 기본 누산 구조
-        │
-        ▼
+        |
+        v
 FMA (Fused Multiply-Add)로 정확도 개선
-        │
-        ▼
+        |
+        v
 SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장
-        │
-        ▼
+        |
+        v
 시스톨릭 어레이 · 텐서 코어 · NPU 대규모 병렬화
-        │
-        ▼
+        |
+        v
 저정밀 양자화 · 희소성 최적화 · 메모리 근접 연산
 ```
 
-이 흐름은 "연산 결합 → 정확도 개선 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화"로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 개념이 성장해 온 과정을 보여준다.
+이 흐름은 "연산 결합 -> 정확도 개선 -> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화"로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 개념이 성장해 온 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -202,7 +202,7 @@ SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장
 
 **진행 상황**: 429 / 803
 
-← **이전**: [427. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)
-**다음**: [429. DLA (Deep Learning Accelerator)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/) →
+<- **이전**: [427. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)
+**다음**: [429. DLA (Deep Learning Accelerator)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/) ->
 
 ---

@@ -140,7 +140,7 @@ Alert Fatigue              Risk Graph 우선순위화         SBOM + CNAPP 연�
 
 **진행 상황**: 333 / 373
 
-← **이전**: [332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/)
-**다음**: [334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego](/knowledge-base/studynote/15_devops_sre/05_devsecops/334_opa_gatekeeper_rego/) →
+<- **이전**: [332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/)
+**다음**: [334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego](/knowledge-base/studynote/15_devops_sre/05_devsecops/334_opa_gatekeeper_rego/) ->
 
 ---

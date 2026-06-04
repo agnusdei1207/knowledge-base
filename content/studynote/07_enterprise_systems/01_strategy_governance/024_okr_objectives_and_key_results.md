@@ -18,20 +18,20 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 수준까지 정렬하고, 분기 단위로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 성과 관리 체계다.
+OKR은 조직의 목표를 계층화(Cascading)하여 회사 -> 팀 -> 개인 수준까지 정렬하고, 분기 단위로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 성과 관리 체계다.
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│               OKR 구조 예시                                │
-├───────────────────────────────────────────────────────────┤
-│  O (Objective): 글로벌 시장에서 사랑받는 제품이 되자        │
-│                                                           │
-│  KR1: NPS(고객 추천 지수) 40 → 70 달성 (Q2까지)           │
-│  KR2: 월간 활성 사용자(MAU) 50만 → 100만 (Q2까지)         │
-│  KR3: 앱스토어 평점 3.8 → 4.5 이상 (Q2까지)              │
-│                                                           │
-│  ※ 달성률 70% = 성공 / 100% = 목표가 너무 낮았다는 신호   │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|               OKR 구조 예시                                |
++-----------------------------------------------------------+
+|  O (Objective): 글로벌 시장에서 사랑받는 제품이 되자        |
+|                                                           |
+|  KR1: NPS(고객 추천 지수) 40 -> 70 달성 (Q2까지)           |
+|  KR2: 월간 활성 사용자(MAU) 50만 -> 100만 (Q2까지)         |
+|  KR3: 앱스토어 평점 3.8 -> 4.5 이상 (Q2까지)              |
+|                                                           |
+|  ※ 달성률 70% = 성공 / 100% = 목표가 너무 낮았다는 신호   |
++-----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: OKR은 등산 계획이다. O는 "에베레스트 등정"이라는 꿈(정성적 방향)이고, KR은 "D+30일까지 베이스캠프 도달, D+60일까지 4캠프 설치"라는 측정 가능한 중간 체크포인트다.
@@ -44,7 +44,7 @@ OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 
 
 | 단계 | 시기 | 활동 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | 분기 초 1주 | 회사→팀→개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) Cascading |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | 분기 초 1주 | 회사->팀->개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) Cascading |
 | **중간 점검** | 분기 중 2회 | 달성률 Check-in, 장애 요인 논의 |
 | **마감 리뷰** | 분기 말 | 달성률 평가, 다음 분기 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 도출 |
 | **연간 회고** | 연말 | 연 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 총 리뷰, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 조정 |
@@ -81,7 +81,7 @@ OKR의 "O는 정성적, KR은 정량적" 원칙은 [BSC](/knowledge-base/studyno
 3. <strong>팀 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> Cascading (2주)</strong>: 각 팀이 회사 OKR과 연계한 팀 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 수립.
 4. <strong>개인 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong>: 팀 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 기반 개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (선택적).
 5. **격주 Check-in**: 15분 스탠드업에서 달성률 업데이트.
-6. **분기말 리뷰**: 달성률 평가 → 다음 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 방향성 도출.
+6. **분기말 리뷰**: 달성률 평가 -> 다음 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 방향성 도출.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - OKR을 성과급·인사 고과에 직접 연결하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 연결하면 구성원이 100% 달성 가능한 쉬운 목표만 세우게 되어 OKR의 "도전적 목표(Moonshot)" 정신이 붕괴된다. Google은 OKR과 보상을 명확히 분리하는 것을 원칙으로 한다.
@@ -94,9 +94,9 @@ OKR의 "O는 정성적, KR은 정량적" 원칙은 [BSC](/knowledge-base/studyno
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **전사 정렬** | 회사→팀→개인 목표 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| **전사 정렬** | 회사->팀->개인 목표 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **집중** | 분기 핵심 3~5개에만 자원 집중 |
-| **투명성** | 전사 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 공개 → 협업·이해 향상 |
+| **투명성** | 전사 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 공개 -> 협업·이해 향상 |
 
 OKR은 원격 근무(Remote Work)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 팀 환경에서 더욱 중요해졌으며, Asana·Notion·Monday.com 등 협업 툴과 통합하여 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 현황을 실시간으로 추적·공유하는 디지털 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 운영이 표준으로 자리 잡고 있다.
 
@@ -112,23 +112,23 @@ OKR은 원격 근무(Remote Work)와 [분산](/knowledge-base/studynote/08_algor
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> (균형성과표)</strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 관점 제공; OKR과 결합 시 강력 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/">MBO</a></strong> | OKR의 전신; 연간 목표 관리 |
 | **Moonshot Goal** | 70% 달성을 성공으로 보는 도전적 목표 원칙 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> Cascading</strong> | 회사→팀→개인 목표 계층화 정렬 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> Cascading</strong> | 회사->팀->개인 목표 계층화 정렬 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [MBO (1954, 드러커) — 연간 목표 관리의 원형]
-    │
-    ▼
+    |
+    v
 [OKR (1970s, 인텔 앤디 그로브) — MBO의 분기형 혁신]
-    │
-    ▼
+    |
+    v
 [구글 OKR 전사 도입 (1999) — 도전적 목표 + 투명 공개]
-    │
-    ▼
+    |
+    v
 [디지털 OKR — Asana/Notion 연동, 실시간 추적]
-    │
-    ▼
+    |
+    v
 [AI 기반 OKR — 진행 예측, 병목 자동 탐지]
 ```
 
@@ -144,7 +144,7 @@ OKR은 원격 근무(Remote Work)와 [분산](/knowledge-base/studynote/08_algor
 
 **진행 상황**: 24 / 482
 
-← **이전**: [23. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/023_strategy_map/)
-**다음**: [25. MBO (Management by Objectives) — 목표 관리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) →
+<- **이전**: [23. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/023_strategy_map/)
+**다음**: [25. MBO (Management by Objectives) — 목표 관리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) ->
 
 ---

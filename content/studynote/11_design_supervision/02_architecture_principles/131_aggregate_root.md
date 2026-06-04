@@ -24,22 +24,22 @@ tags = ["studynote-design-supervision"]
 에그리게이트 루트는 이 에그리게이트의 진입점 역할을 하는 엔티티다. 외부에서는 에그리게이트 루트(Order)만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있고, 내부의 OrderItem에는 Order를 통해서만 접근한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│            에그리게이트 구조 (Order 예시)                     │
-├─────────────────────────────────────────────────────────────┤
-│  외부 서비스 / 리포지토리                                    │
-│       │                                                     │
-│       ▼ (오직 루트만 참조 가능)                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  Order (에그리게이트 루트)                            │    │
-│  │  - orderId (식별자)                                  │    │
-│  │  - status, totalAmount                              │    │
-│  │  ├── OrderItem (내부 엔티티)                         │    │
-│  │  │   - itemId, productId, quantity, price           │    │
-│  │  └── ShippingAddress (값 객체)                       │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  에그리게이트 경계: 단일 트랜잭션으로 일관성 보장            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|            에그리게이트 구조 (Order 예시)                     |
++-------------------------------------------------------------+
+|  외부 서비스 / 리포지토리                                    |
+|       |                                                     |
+|       v (오직 루트만 참조 가능)                             |
+|  +-----------------------------------------------------+    |
+|  |  Order (에그리게이트 루트)                            |    |
+|  |  - orderId (식별자)                                  |    |
+|  |  - status, totalAmount                              |    |
+|  |  +-- OrderItem (내부 엔티티)                         |    |
+|  |  |   - itemId, productId, quantity, price           |    |
+|  |  +-- ShippingAddress (값 객체)                       |    |
+|  +-----------------------------------------------------+    |
+|  에그리게이트 경계: 단일 트랜잭션으로 일관성 보장            |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 에그리게이트는 회사 조직도처럼, 팀장(루트)을 통해서만 팀원(내부 객체)에게 업무 지시(변경)가 전달된다.
@@ -57,15 +57,15 @@ tags = ["studynote-design-supervision"]
 | 독립적 생존 불가 | 부모 없이 존재 불가한 객체 | OrderItem은 Order 없이 불가 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│     에그리게이트 간 참조 패턴 (ID 참조 방식)                 │
-├─────────────────────────────────────────────────────────────┤
-│  [Order Aggregate]          [Product Aggregate]             │
-│  Order { orderId, ... }     Product { productId, ... }      │
-│  OrderItem { productId } ───ID만 참조──> (직접 참조 금지)   │
-│                                                             │
-│  에그리게이트 간 직접 참조 금지 → ID 참조 → 느슨한 결합     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|     에그리게이트 간 참조 패턴 (ID 참조 방식)                 |
++-------------------------------------------------------------+
+|  [Order Aggregate]          [Product Aggregate]             |
+|  Order { orderId, ... }     Product { productId, ... }      |
+|  OrderItem { productId } ---ID만 참조--> (직접 참조 금지)   |
+|                                                             |
+|  에그리게이트 간 직접 참조 금지 -> ID 참조 -> 느슨한 결합     |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 에그리게이트는 성(城) 구조와 같다. 성문(루트)을 통해서만 성 안(에그리게이트)에 들어갈 수 있다.
@@ -77,7 +77,7 @@ tags = ["studynote-design-supervision"]
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 범위 | 좁음 → 충돌 적음 | 넓음 → 충돌 많음 |
+| [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 범위 | 좁음 -> 충돌 적음 | 넓음 -> 충돌 많음 |
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 에그리게이트 간 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 에그리게이트 내 즉시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | 확장성 | 높음 | 낮음 |
 
@@ -111,7 +111,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-DDD 전술적 설계] → [에그리게이트 루트] → [일관성 경계] → [도메인 이벤트] → CQRS+[Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)]
+DDD 전술적 설계] -> [에그리게이트 루트] -> [일관성 경계] -> [도메인 이벤트] -> CQRS+[Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -122,7 +122,7 @@ DDD 전술적 설계] → [에그리게이트 루트] → [일관성 경계] →
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[객체지향 설계 한계] → DDD 전술 패턴] → [에그리게이트·루트] → Event Sourcing 통합] → CQRS [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델] → AI 경계 추천]
+[객체지향 설계 한계] -> DDD 전술 패턴] -> [에그리게이트·루트] -> Event Sourcing 통합] -> CQRS [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델] -> AI 경계 추천]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +136,7 @@ DDD 전술적 설계] → [에그리게이트 루트] → [일관성 경계] →
 
 **진행 상황**: 187 / 530
 
-← **이전**: [130. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/130_bounded_context/)
-**다음**: [132. 엔티티와 값 객체 (Entity and Value Object)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/132_entity_value_object/) →
+<- **이전**: [130. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/130_bounded_context/)
+**다음**: [132. 엔티티와 값 객체 (Entity and Value Object)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/132_entity_value_object/) ->
 
 ---

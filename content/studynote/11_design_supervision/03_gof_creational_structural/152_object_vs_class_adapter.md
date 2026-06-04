@@ -40,34 +40,34 @@ tags = ["studynote-design-supervision"]
 자바(Java)와 C# 스프링 클라우드 제국을 100% 지배 독재하는 영구 0순위 마스터 뼈대다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          객체 어댑터 (Object Adapter) — 런타임 합성/위임 기만 텐트 도해 ✨ │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ Client (우리 최신 시스템) ]                              │
-│   - 호출: `target.request();` 찌르기 툭 핑!                    │
-│            │                                                │
-│            ▼ (오직 Target 인터페이스만 찌름)                       │
-│ ┌────────────────────────┐                                  │
-│ │ 🎯 Target (표준 인터페이스)│                                  │
-│ │ + request()            │                                  │
-│ └────────────────────────┘                                  │
-│            ▲                                                │
-│            ├── (구현 Implements 락킹)                        │
-│            │                                                │
-│ ┌────────────────────────┐      ┌────────────────────────┐  │
-│ │ 🔌 Object Adapter      │  위임  │ 🦖 Adaptee (낡은 레거시 봇)│  │
-│ │  - adaptee: Adaptee    │ ──▶ │ + specificRequest()    │  │
-│ │  + request() {         │ (품음)│                        │  │
-│ │    adaptee.specificReq()│      │                        │  │
-│ │  }                     │      │                        │  │
-│ └────────────────────────┘      └────────────────────────┘  │
-│ 🌟 아키텍트 극딜 (합성의 기적 🚀): `ObjectAdapter` 뱃속에는 `Adaptee` 객체가   │
-│   포인터(has-a)로 들어있다. 밖에서 `request()` 찌르면 ➔ 어댑터가 안에서 몰래 │
-│   자기 뱃속 장기한테 `specificReq()` 짬처리 위임(Delegation)을 날려버린다 쾅!! │
-│   만약 낡은 로봇이 고장 났다? ➔ 런타임 0.01초 찰나에 딴 로봇(Adaptee v2) 객체로 │
-│   생성자(Constructor) 주입 DI 스위칭 찰칵! 갈아 끼우면 무정단 생존 달성 100% 컷✨!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          객체 어댑터 (Object Adapter) — 런타임 합성/위임 기만 텐트 도해 ✨ |
++-------------------------------------------------------------+
+|                                                             |
+| 👨‍💻 [ Client (우리 최신 시스템) ]                              |
+|   - 호출: `target.request();` 찌르기 툭 핑!                    |
+|            |                                                |
+|            v (오직 Target 인터페이스만 찌름)                       |
+| +------------------------+                                  |
+| | 🎯 Target (표준 인터페이스)|                                  |
+| | + request()            |                                  |
+| +------------------------+                                  |
+|            ^                                                |
+|            +-- (구현 Implements 락킹)                        |
+|            |                                                |
+| +------------------------+      +------------------------+  |
+| | 🔌 Object Adapter      |  위임  | 🦖 Adaptee (낡은 레거시 봇)|  |
+| |  - adaptee: Adaptee    | ---> | + specificRequest()    |  |
+| |  + request() {         | (품음)|                        |  |
+| |    adaptee.specificReq()|      |                        |  |
+| |  }                     |      |                        |  |
+| +------------------------+      +------------------------+  |
+| 🌟 아키텍트 극딜 (합성의 기적 🚀): `ObjectAdapter` 뱃속에는 `Adaptee` 객체가   |
+|   포인터(has-a)로 들어있다. 밖에서 `request()` 찌르면 ➔ 어댑터가 안에서 몰래 |
+|   자기 뱃속 장기한테 `specificReq()` 짬처리 위임(Delegation)을 날려버린다 쾅!! |
+|   만약 낡은 로봇이 고장 났다? ➔ 런타임 0.01초 찰나에 딴 로봇(Adaptee v2) 객체로 |
+|   생성자(Constructor) 주입 DI 스위칭 찰칵! 갈아 끼우면 무정단 생존 달성 100% 컷✨!|
++-------------------------------------------------------------+
 ```
 
 ### 2. 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Class [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) — 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Multiple Inheritance) 피바람 💀
@@ -75,29 +75,29 @@ tags = ["studynote-design-supervision"]
 C++ 같이 미친 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 허용하는 고대 유물 언어에서나 쓰이던 쇳덩이 강결합 폭탄이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          클래스 어댑터 (Class Adapter) — 핏줄 융합 이중국적 파국 도해 💀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ Client ] ──▶ 🎯 Target 인터페이스 찌름 툭 ㅋ                │
-│                         ▲               ▲                   │
-│         (implements 구현) │               │ (extends 상속 핏줄 섞기 💥)│
-│                         │               │                   │
-│                ┌────────┴───────────────┴────────┐          │
-│                │      🔌 Class Adapter           │          │
-│                │ + request() {                   │          │
-│                │   this.specificRequest();       │          │
-│                │ }                               │          │
-│                └─────────────────────────────────┘          │
-│                          (위 어댑터가 상속받은 부모)               │
-│                          🦖 Adaptee 클래스                    │
-│                          + specificRequest()                │
-│                                                             │
-│ 🌟 팩폭 메스 🪓: 어댑터 놈이 낡은 `Adaptee` 클래스를 직접 상속(is-a)받아 버렸다!!│
-│   그래서 `this.specificReq()` 라고 걍 지 몸뚱이 함수 부르듯 다이렉트 직통 찌르기│
-│   (Direct Call) 속도는 광속 쾌속 개빠름 🚀. 근데 자바(Java)는 클래스 다중 상속 100% │
-│   원천 금지 불법 에러 사살 컷이라 ➔ 저 짓거리 짜는 순간 컴파일 빨간줄 뻗음 멸망 💀!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          클래스 어댑터 (Class Adapter) — 핏줄 융합 이중국적 파국 도해 💀 |
++-------------------------------------------------------------+
+|                                                             |
+| 👨‍💻 [ Client ] ---> 🎯 Target 인터페이스 찌름 툭 ㅋ                |
+|                         ^               ^                   |
+|         (implements 구현) |               | (extends 상속 핏줄 섞기 💥)|
+|                         |               |                   |
+|                +--------+---------------+--------+          |
+|                |      🔌 Class Adapter           |          |
+|                | + request() {                   |          |
+|                |   this.specificRequest();       |          |
+|                | }                               |          |
+|                +---------------------------------+          |
+|                          (위 어댑터가 상속받은 부모)               |
+|                          🦖 Adaptee 클래스                    |
+|                          + specificRequest()                |
+|                                                             |
+| 🌟 팩폭 메스 🪓: 어댑터 놈이 낡은 `Adaptee` 클래스를 직접 상속(is-a)받아 버렸다!!|
+|   그래서 `this.specificReq()` 라고 걍 지 몸뚱이 함수 부르듯 다이렉트 직통 찌르기|
+|   (Direct Call) 속도는 광속 쾌속 개빠름 🚀. 근데 자바(Java)는 클래스 다중 상속 100% |
+|   원천 금지 불법 에러 사살 컷이라 ➔ 저 짓거리 짜는 순간 컴파일 빨간줄 뻗음 멸망 💀!|
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이 두 개의 뼈대 차이는 <strong>'렌터카(객체 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)'</strong>와 <strong>'자동차 불법 개조 용접(클래스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)'</strong>입니다. 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 맘에 안 드는 차(Adaptee) 타고 다니다 고장 나면 1초 컷 버리고 딴 렌터카로 스위칭(런타임 교체 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 주입) 꿀 빨면 100% 무결점 생존합니다 🚀. 반면 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 내 몸체에 낡은 차 엔진을 인두기로 지져 영구 용접 떡칠(extends [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 강결합 💥) 쳐버린 겁니다! 당장 엔진 직통 제어 속도는 빠르지만, 고장 나는 날엔 엔진 분리 불가라 내 차 통째로 폐차장 압축기 소각 멸망 파산 직행하는 돌이킬 수 없는 생지옥 늪입니다 💀.
@@ -183,17 +183,17 @@ C++ 같이 미친 다중 [상속](/knowledge-base/studynote/04_software_engineer
 
 ```text
 무지성 하드코딩 구시대 / 규격 안 맞는 낡은 B2B 쇳덩이 모듈 가져와 ➔ 내 메인 소스 코드 100군데를 그 낡은 함수명으로 다이렉트 쌩 직통 찌름 강결합 떡칠 파국 터짐 💥
-    │
-    ▼
+    |
+    v
 모듈 업데이트 대재앙 멸망 💀 / 낡은 쇳덩이 모듈 버전 V2로 함수 파라미터 1개 바뀌어 엎어짐 ➔ 내 소스 100군데 싹 다 시뻘겋게 연쇄 살인 컴파일 에러 뻗음 올스탑 동반 타살 야근 재배포 셧다운 뻗음 쾅!!
-    │
-    ▼
+    |
+    v
 GoF 어댑터(Adapter) 껍데기 방폭문 강림 ✨ / "야 낡은 모듈 직접 찌르지 마 다 죽어 쾅! 대문 앞 1mm에 [표준 규격 어댑터 젠더 봇] 1개 허공 렌더링 띄워 찰칵 록온 박고 우회 위임(Delegation) 핑퐁 쳐라 🚀!!"
-    │
-    ▼
+    |
+    v
 클래스 어댑터 (다중 상속) vs 객체 어댑터 (합성) 피 터지는 십자 전쟁 🪓 / 다중 상속 피 섞어 짰다 부모 똥 노출되어 LSP 붕괴 폭사 멸망 터짐 💀 ➔ 자바 제국에서 "상속 쓰지 마 이 씨발 객체 합성(Composition) 변수로만 품어라 쾅!!" 객체 어댑터 1타 쌍피 몰빵 스위칭 통일 선언!
-    │
-    ▼
+    |
+    v
 Spring 프레임워크 AOP 및 DI 융합 제국 (현재) 🚀 / 개발자가 어댑터 껍데기 `new` 치는 노가다 짓거리 싹 다 불태워 소각 오프로드 짬처리 시키고! ➔ Spring IoC 대장 뇌가 런타임 0.001초 유저 클릭 찰나 순간에 [프록시/어댑터 가짜 봇] 지 혼자 오토 허공 무한 복제 띄워 찰칵 주입 조립 록온 쳐버려 ➔ 백엔드 코더는 오직 순수 비즈니스 로직(Core)만 짜며 100% 무결점 스텔스 디커플링 평화 생존 꿀 빨기 극강 다이어트 우주 대통합 완성 ✨
 ```
 
@@ -209,7 +209,7 @@ Spring 프레임워크 AOP 및 DI 융합 제국 (현재) 🚀 / 개발자가 어
 
 **진행 상황**: 208 / 530
 
-← **이전**: [151. 구조 패턴: 어댑터 (Adapter Pattern) - 인터페이스 불일치 융합 변환 젠더](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/)
-**다음**: [153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/153_bridge_pattern/) →
+<- **이전**: [151. 구조 패턴: 어댑터 (Adapter Pattern) - 인터페이스 불일치 융합 변환 젠더](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/)
+**다음**: [153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/153_bridge_pattern/) ->
 
 ---

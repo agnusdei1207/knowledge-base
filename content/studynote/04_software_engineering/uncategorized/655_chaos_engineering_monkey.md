@@ -32,28 +32,28 @@ tags = ["studynote-software-engineering"]
   전통적인 테스팅 환경과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 패러다임 차이를 시각화하면 다음과 같다. 예측 가능한 영역을 넘어선 미지의 영역을 어떻게 대비하는지가 핵심이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [알려진 것 영역 (Known)]          [미지의 영역 (Unknown)]        │
-  │                                                               │
-  │        (단위 테스트)                        (카오스 엔지니어링)      │
-  │     알려진 원인 → 알려진 결과          알려지지 않은 원인 → 미지의 결과 │
-  │   ┌─────────┐      ┌─────────┐     ┌─────────┐      ┌─────────┐   │
-  │   │  Input  │─────▶│ Output  │     │결함 주입│─────▶│시스템반응│   │
-  │   │ (x = 5) │      │ (y = 10)│     │(서버Kill)│      │관찰/학습│   │
-  │   └─────────┘      └─────────┘     └─────────┘      └─────────┘   │
-  │                                                               │
-  │   * 위치: 주로 Staging/Dev 환경      * 위치: Production (운영) 환경 │
-  │   * 목적: 코드의 로직 검증             * 목적: 시스템의 복원력 검증       │
-  │   * 상태: 정적이고 통제됨             * 상태: 동적이고 무작위함         │
-  │                                                               │
-  │  =============================================================│
-  │  장애 발생 시나리오:                                              │
-  │  - 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."     │
-  │  - 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자." │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교             |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |   [알려진 것 영역 (Known)]          [미지의 영역 (Unknown)]        |
+  |                                                               |
+  |        (단위 테스트)                        (카오스 엔지니어링)      |
+  |     알려진 원인 -> 알려진 결과          알려지지 않은 원인 -> 미지의 결과 |
+  |   +---------+      +---------+     +---------+      +---------+   |
+  |   |  Input  |------>| Output  |     |결함 주입|------>|시스템반응|   |
+  |   | (x = 5) |      | (y = 10)|     |(서버Kill)|      |관찰/학습|   |
+  |   +---------+      +---------+     +---------+      +---------+   |
+  |                                                               |
+  |   * 위치: 주로 Staging/Dev 환경      * 위치: Production (운영) 환경 |
+  |   * 목적: 코드의 로직 검증             * 목적: 시스템의 복원력 검증       |
+  |   * 상태: 정적이고 통제됨             * 상태: 동적이고 무작위함         |
+  |                                                               |
+  |  =============================================================|
+  |  장애 발생 시나리오:                                              |
+  |  - 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."     |
+  |  - 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자." |
+  +---------------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 전통적인 테스트는 개발자가 이미 알고 있는 실패 조건(Known-Unknowns)에 대해서만 Assert문을 작성한다. 그러나 클라우드 환경에서는 '우리가 무엇을 모르는지조차 모르는 상태(Unknown-Unknowns)'의 복합 장애가 빈번하다. 예를 들어 "A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 고갈시키고, 결국 C [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 장애로 이어지는" 나비효과는 코드 레벨 테스트로는 발견 불가능하다. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 바로 이 미지의 영역 탐구를 위해, 통제된 모의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 프로덕션 환경에 투척하여 시스템의 숨겨진 취약성(Hidden Vulnerabilities)을 들춰내는 과학적 탐구 과정이다.
@@ -157,21 +157,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 카오스 엔지니어링 카오스 몽키 복원력 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 823 / 973
 
-← **이전**: [654. SRE SLI, SLO, SLA 에러 예산](/knowledge-base/studynote/04_software_engineering/uncategorized/654_sre_sli_slo_sla_error_budget/)
-**다음**: [656. GitOps 인프라 선언적 관리](/knowledge-base/studynote/04_software_engineering/uncategorized/656_gitops_declarative_infrastructure/) →
+<- **이전**: [654. SRE SLI, SLO, SLA 에러 예산](/knowledge-base/studynote/04_software_engineering/uncategorized/654_sre_sli_slo_sla_error_budget/)
+**다음**: [656. GitOps 인프라 선언적 관리](/knowledge-base/studynote/04_software_engineering/uncategorized/656_gitops_declarative_infrastructure/) ->
 
 ---

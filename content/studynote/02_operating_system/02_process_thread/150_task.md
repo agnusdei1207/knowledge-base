@@ -32,29 +32,29 @@ tags = ["studynote-operating-system"]
 리눅스는 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 어떻게 똑같은 `task_struct` 하나로 구워삶는 걸까? 비밀은 '자원 공유 포인터'의 얍삽한 튜닝에 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          리눅스 태스크(Task) 대통합 아키텍처: 프로세스와 스레드의 기만술 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🧠 [ KERNEL SPACE - 무조건 다 task_struct 1개씩 쥐어 줌! ]     │
-│                                                             │
-│   [ Task 1 ] (아빠)                [ Task 2 ] (자식)          │
-│  ┌────────────────┐               ┌────────────────┐        │
-│  │ task_struct    │               │ task_struct    │        │
-│  │ - PID: 1000    │               │ - PID: 1001    │        │
-│  │ - TGID: 1000   │               │ - TGID: 1000   │        │
-│  │ - 램(mm): [0xA] │               │ - 램(mm): [0xA] │        │
-│  └────────────────┘               └────────────────┘        │
-│          │                                 │                │
-│          └───────────────┬─────────────────┘                │
-│                          ▼ (포인터 100% 동일 공유 락킹 ✨)       │
-│                  [ 물리 메모리 RAM 주소 0xA ]                 │
-│                                                             │
-│ 🌟 아키텍트의 팩폭: "보이냐? Task 1과 2는 완전히 다른 별개의 구조체야!│
-│ 근데 뱃속에 있는 [메모리 포인터 주소(mm)]가 똑같은 0xA를 가리키고 있지? │
-│ ➔ **바로 이게 유저들이 바깥에서 '스레드(Thread)'라고 착각해 부르는** │
-│ **기만적 십자 융합의 팩트 정체다 쾅!!! 걍 자원만 쉐어링한 쌍둥이 Task야!**"│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          리눅스 태스크(Task) 대통합 아키텍처: 프로세스와 스레드의 기만술 |
++-------------------------------------------------------------+
+|                                                             |
+| 🧠 [ KERNEL SPACE - 무조건 다 task_struct 1개씩 쥐어 줌! ]     |
+|                                                             |
+|   [ Task 1 ] (아빠)                [ Task 2 ] (자식)          |
+|  +----------------+               +----------------+        |
+|  | task_struct    |               | task_struct    |        |
+|  | - PID: 1000    |               | - PID: 1001    |        |
+|  | - TGID: 1000   |               | - TGID: 1000   |        |
+|  | - 램(mm): [0xA] |               | - 램(mm): [0xA] |        |
+|  +----------------+               +----------------+        |
+|          |                                 |                |
+|          +---------------+-----------------+                |
+|                          v (포인터 100% 동일 공유 락킹 ✨)       |
+|                  [ 물리 메모리 RAM 주소 0xA ]                 |
+|                                                             |
+| 🌟 아키텍트의 팩폭: "보이냐? Task 1과 2는 완전히 다른 별개의 구조체야!|
+| 근데 뱃속에 있는 [메모리 포인터 주소(mm)]가 똑같은 0xA를 가리키고 있지? |
+| ➔ **바로 이게 유저들이 바깥에서 '스레드(Thread)'라고 착각해 부르는** |
+| **기만적 십자 융합의 팩트 정체다 쾅!!! 걍 자원만 쉐어링한 쌍둥이 Task야!**"|
++-------------------------------------------------------------+
 ```
 
 리눅스에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 띄우는 `pthread_create()`를 치면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그냥 평범한 `task_struct`를 하나 더 뚝딱 만들고는 ➔ 부모의 메모리 주소와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 주소를 그대로 복사(포인터 연결)해 줘 버린다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입장에선 "자원 포인터를 공유하고 있는 특이한 프로세스"가 1개 더 생긴 것뿐이다.
@@ -132,17 +132,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 전통 유닉스의 낡은 계급 사회 / 무거운 '프로세스'와 가벼운 '스레드'를 별도 자료구조로 분리 통치 ➔ 문맥 교환(Context Switch) 랙 타임 폭주 파국 💥
-    │
-    ▼
+    |
+    v
 리누스 토르발스의 팩폭 도끼 🪓 / "둘이 뭐가 다름? 걍 메모리 공유만 다르고 달리는 건 똑같잖아 ㅋ 싹 다 통합 찢어 쾅!!"
-    │
-    ▼
+    |
+    v
 태스크(Task) 1원툴 대관식 🚀 / 모든 실행 흐름을 [task_struct] 구조체 1개로 100% 압축 융합 대통일 (스케줄링 극강 최적화 쾌속 발동)
-    │
-    ▼
+    |
+    v
 POSIX 스레드(Pthreads) 호환성 딜레마 / 밖에서는 스레드 취급해 달라고 요구함 ➔ 커널이 [TGID 묶음 사기 기만술] 쉴드를 도입해 밖에서만 프로세스 1개처럼 보이게 포장 세팅 ✨
-    │
-    ▼
+    |
+    v
 cgroups 및 Namespace 융합 록온 / 이 평등한 Task 덩어리들을 K8s 도커 컨테이너 가상 격리망으로 찢어 가두는 21세기 클라우드 0순위 엔진 베이스 캠프로 무한 진화
 ```
 
@@ -158,7 +158,7 @@ cgroups 및 Namespace 융합 록온 / 이 평등한 Task 덩어리들을 K8s 도
 
 **진행 상황**: 150 / 800
 
-← **이전**: [149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)
-**다음**: [151. 네임스페이스 격리 (Namespace Isolation) - 클라우드 컨테이너의 보이지 않는 유리벽](/knowledge-base/studynote/02_operating_system/02_process_thread/151_namespace_isolation/) →
+<- **이전**: [149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)
+**다음**: [151. 네임스페이스 격리 (Namespace Isolation) - 클라우드 컨테이너의 보이지 않는 유리벽](/knowledge-base/studynote/02_operating_system/02_process_thread/151_namespace_isolation/) ->
 
 ---

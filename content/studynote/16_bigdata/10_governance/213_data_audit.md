@@ -23,25 +23,25 @@ tags = ["studynote-bigdata"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 없다면 금융 보고서에 사용된 집계 수치가 잘못 계산되어도 원인을 추적할 수 없고, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 무단으로 접근·수출되어도 사후 파악이 어렵다. 특히 수백 개의 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 얽혀 있는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 더 이상 선택이 아닌 필수다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            데이터 감사 4대 검증 영역                            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  1. 데이터 품질 감사 (Data Quality Audit)                     │
-│     ├─ 정확성: 값이 현실을 올바르게 반영하는가?                 │
-│     ├─ 완전성: 필수 필드가 누락 없이 채워져 있는가?              │
-│     ├─ 일관성: 시스템 간 동일 데이터가 모순되지 않는가?          │
-│     └─ 적시성: 데이터가 지정 시간 내에 갱신되었는가?             │
-│                                                              │
-│  2. 접근 감사 (Access Audit)                                  │
-│     └─ 누가 언제 어떤 데이터에 접근·변경했는가?                 │
-│                                                              │
-│  3. 규정 준수 감사 (Compliance Audit)                         │
-│     └─ GDPR, 개인정보보호법, 금융감독규정 준수 여부              │
-│                                                              │
-│  4. 계보 감사 (Lineage Audit)                                 │
-│     └─ 데이터의 출처→변환→목적지 흐름 추적                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            데이터 감사 4대 검증 영역                            |
++--------------------------------------------------------------+
+|                                                              |
+|  1. 데이터 품질 감사 (Data Quality Audit)                     |
+|     +- 정확성: 값이 현실을 올바르게 반영하는가?                 |
+|     +- 완전성: 필수 필드가 누락 없이 채워져 있는가?              |
+|     +- 일관성: 시스템 간 동일 데이터가 모순되지 않는가?          |
+|     +- 적시성: 데이터가 지정 시간 내에 갱신되었는가?             |
+|                                                              |
+|  2. 접근 감사 (Access Audit)                                  |
+|     +- 누가 언제 어떤 데이터에 접근·변경했는가?                 |
+|                                                              |
+|  3. 규정 준수 감사 (Compliance Audit)                         |
+|     +- GDPR, 개인정보보호법, 금융감독규정 준수 여부              |
+|                                                              |
+|  4. 계보 감사 (Lineage Audit)                                 |
+|     +- 데이터의 출처->변환->목적지 흐름 추적                     |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 식품 이력 추적 시스템과 같다. 식재료(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 농장(소스)에서 공장([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)), 식탁(보고서)까지 모든 과정이 기록되어 문제 발생 시 즉시 원산지를 추적할 수 있다.
@@ -58,29 +58,29 @@ tags = ["studynote-bigdata"]
 | **user_id** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근/변경 주체 | user123 / svc_etl_job |
 | **action** | 수행 작업 유형 | READ, INSERT, UPDATE, DELETE |
 | **resource** | 접근한 테이블/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 | db.orders, s3://bucket/path |
-| **old_value / new_value** | 변경 전후 값 | {amount: 100} → {amount: 200} |
+| **old_value / new_value** | 변경 전후 값 | {amount: 100} -> {amount: 200} |
 | **ip_address** | 접근 출처 IP | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.1.55 |
 | **status** | 성공/실패 | SUCCESS / DENIED |
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 아키텍처
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              데이터 계보 추적 흐름                          │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [원시 데이터 소스]                                        │
-│  CRM DB (고객 정보) ──→ ETL Job (정제) ──→ DW (orders 테이블)│
-│                                          │               │
-│                                          ▼               │
-│                                     BI 보고서 (매출 집계)  │
-│                                                          │
-│  계보 도구가 기록:                                         │
-│  "매출_집계 ← orders ← ETL_job_2026 ← CRM_DB"            │
-│                                                          │
-│  감사 질문: "이 매출 수치는 어디서 왔나?"                   │
-│  → 계보 추적으로 CRM 원본까지 역추적 가능                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              데이터 계보 추적 흐름                          |
++----------------------------------------------------------+
+|                                                          |
+|  [원시 데이터 소스]                                        |
+|  CRM DB (고객 정보) ---> ETL Job (정제) ---> DW (orders 테이블)|
+|                                          |               |
+|                                          v               |
+|                                     BI 보고서 (매출 집계)  |
+|                                                          |
+|  계보 도구가 기록:                                         |
+|  "매출_집계 <- orders <- ETL_job_2026 <- CRM_DB"            |
+|                                                          |
+|  감사 질문: "이 매출 수치는 어디서 왔나?"                   |
+|  -> 계보 추적으로 CRM 원본까지 역추적 가능                    |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 스파게티 한 가닥이 냄비 속 어느 면에서 왔는지 추적하는 것이다. 엉켜있는 수백 개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중에서 특정 숫자의 출처를 끝까지 따라가면 최초 소스를 찾을 수 있다.
@@ -109,7 +109,7 @@ tags = ["studynote-bigdata"]
 금융 기관이 [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 제출용 보고서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행한다.
 
 1. <strong>품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: Great Expectations로 잔액 필드 NOT NULL, 금액 > 0, 날짜 형식 ISO 8601 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
-2. **계보 추적**: OpenLineage로 "월별 거래 합산" 보고서 → [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) Job → 원천 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB 역추적.
+2. **계보 추적**: OpenLineage로 "월별 거래 합산" 보고서 -> [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) Job -> 원천 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB 역추적.
 3. <strong>접근 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 보고서 테이블에 접근한 모든 [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 4. **규정 준수**: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(주민번호, 계좌번호) 접근 이벤트를 별도 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 테이블에 격리 저장, 5년 보관.
 5. **보고서 제출**: [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 보고서 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 다이어그램을 감독 기관에 증적 제출.
@@ -154,17 +154,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 품질 관리 — 수동 검증, 정기 점검]
-    │
-    ▼
+    |
+    v
 [자동화 데이터 품질 — Great Expectations, dbt Test]
-    │
-    ▼
+    |
+    v
 [데이터 계보 (Lineage) — OpenLineage, Apache Atlas]
-    │
-    ▼
+    |
+    v
 [통합 데이터 감사 — 품질+계보+접근 로그 통합 거버넌스]
-    │
-    ▼
+    |
+    v
 [AI 데이터/모델 감사 — 편향 탐지, 공정성 검증]
 ```
 수동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 자동화 품질 검사, 계보 추적, 통합 거버넌스를 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 공정성 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 흐름이다.
@@ -181,7 +181,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 213 / 262
 
-← **이전**: [206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용](/knowledge-base/studynote/16_bigdata/10_governance/212_bigdata_disputes/)
-**다음**: [209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩](/knowledge-base/studynote/16_bigdata/11_industry/214_finance_bigdata/) →
+<- **이전**: [206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용](/knowledge-base/studynote/16_bigdata/10_governance/212_bigdata_disputes/)
+**다음**: [209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩](/knowledge-base/studynote/16_bigdata/11_industry/214_finance_bigdata/) ->
 
 ---

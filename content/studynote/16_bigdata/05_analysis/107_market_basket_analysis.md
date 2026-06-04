@@ -29,32 +29,32 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│               장바구니 분석 전체 파이프라인                     │
-├────────────────────────────────────────────────────────────────┤
-│  [데이터 수집]                                                  │
-│   POS 거래 로그 / 온라인 주문 DB / 클릭스트림                   │
-│          │                                                      │
-│          ▼                                                      │
-│  [전처리]                                                       │
-│   거래 ID 기준 그룹핑 → 항목 집합 (Itemset) 변환               │
-│   이상치 제거 (반품 거래, 테스트 주문 등)                       │
-│          │                                                      │
-│          ▼                                                      │
-│  [빈발 항목 집합 마이닝]                                        │
-│   Apriori / FP-Growth (Frequent Pattern Growth)                 │
-│   → min_support 적용 → 빈발 항목 집합 추출                     │
-│          │                                                      │
-│          ▼                                                      │
-│  [규칙 생성 및 평가]                                            │
-│   Support ≥ 0.01   Confidence ≥ 0.5   Lift ≥ 1.5              │
-│          │                                                      │
-│          ▼                                                      │
-│  [비즈니스 적용]                                                │
-│   ┌─────────────┬──────────────┬────────────────┐              │
-│   │  진열 배치  │  추천 엔진   │  번들 프로모션 │              │
-│   └─────────────┴──────────────┴────────────────┘              │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|               장바구니 분석 전체 파이프라인                     |
++----------------------------------------------------------------+
+|  [데이터 수집]                                                  |
+|   POS 거래 로그 / 온라인 주문 DB / 클릭스트림                   |
+|          |                                                      |
+|          v                                                      |
+|  [전처리]                                                       |
+|   거래 ID 기준 그룹핑 -> 항목 집합 (Itemset) 변환               |
+|   이상치 제거 (반품 거래, 테스트 주문 등)                       |
+|          |                                                      |
+|          v                                                      |
+|  [빈발 항목 집합 마이닝]                                        |
+|   Apriori / FP-Growth (Frequent Pattern Growth)                 |
+|   -> min_support 적용 -> 빈발 항목 집합 추출                     |
+|          |                                                      |
+|          v                                                      |
+|  [규칙 생성 및 평가]                                            |
+|   Support ≥ 0.01   Confidence ≥ 0.5   Lift ≥ 1.5              |
+|          |                                                      |
+|          v                                                      |
+|  [비즈니스 적용]                                                |
+|   +-------------+--------------+----------------+              |
+|   |  진열 배치  |  추천 엔진   |  번들 프로모션 |              |
+|   +-------------+--------------+----------------+              |
++----------------------------------------------------------------+
 ```
 
 ### 핵심 지표 해석 가이드
@@ -100,9 +100,9 @@ tags = ["studynote-bigdata"]
 
 ### 오프라인 매장 적용
 
-- **교차 진열**: {맥주, 안주} [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.2 → 맥주 냉장고 옆에 안주 코너 배치
+- **교차 진열**: {맥주, 안주} [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.2 -> 맥주 냉장고 옆에 안주 코너 배치
 - **체크아웃 구역**: 고신뢰도 소액 아이템을 계산대 근처 배치 (충동구매 유도)
-- **번들 프로모션**: {샴푸, 린스} [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)=0.15 → 묶음 할인 상품 구성
+- **번들 프로모션**: {샴푸, 린스} [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)=0.15 -> 묶음 할인 상품 구성
 
 ### 온라인 이커머스 적용
 
@@ -111,10 +111,10 @@ tags = ["studynote-bigdata"]
 
 ### 기술사 주의사항
 
-1. <strong>희소 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 롱테일 상품은 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)가 극히 낮아 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가 → 카테고리 단위로 집계 후 분석
+1. <strong>희소 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 롱테일 상품은 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)가 극히 낮아 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가 -> 카테고리 단위로 집계 후 분석
 2. **계절성 대응**: 분기별·이벤트별로 별도 모델 운영 (여름 자외선차단제 ≠ 겨울 핫초코)
-3. **인과 혼동 방지**: 높은 Lift가 인과관계를 의미하지 않음 → 비즈니스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
-4. **규칙 폭발 문제**: min_support를 너무 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 수만 개 규칙 발생 → 사후 필터링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
+3. **인과 혼동 방지**: 높은 Lift가 인과관계를 의미하지 않음 -> 비즈니스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
+4. **규칙 폭발 문제**: min_support를 너무 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 수만 개 규칙 발생 -> 사후 필터링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
 
 - **📢 섹션 요약 비유**: 장바구니 분석 결과는 지도일 뿐, 실제 길을 내는 것은 비즈니스 판단이다. 지도가 정확해도 목적지가 틀리면 의미가 없다.
 
@@ -152,17 +152,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [장바구니 데이터 (POS 트랜잭션 — 판매 기록)]
-    │
-    ▼
+    |
+    v
 [연관 규칙 (Association Rules) — 지지도/신뢰도/향상도]
-    │
-    ▼
+    |
+    v
 [Apriori 알고리즘 — 빈발 항목집합 (Frequent Itemset)]
-    │
-    ▼
+    |
+    v
 [FP-Growth — 대용량 패턴 마이닝]
-    │
-    ▼
+    |
+    v
 [협업 필터링 (Collaborative Filtering) — 개인화 추천]
 ```
 
@@ -179,7 +179,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 107 / 262
 
-← **이전**: [103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)
-**다음**: [105. 감성 분석 (Sentiment Analysis) — 긍부정 감정 자동 분류](/knowledge-base/studynote/16_bigdata/05_analysis/108_sentiment_analysis/) →
+<- **이전**: [103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)
+**다음**: [105. 감성 분석 (Sentiment Analysis) — 긍부정 감정 자동 분류](/knowledge-base/studynote/16_bigdata/05_analysis/108_sentiment_analysis/) ->
 
 ---

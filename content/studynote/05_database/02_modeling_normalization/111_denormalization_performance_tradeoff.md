@@ -21,20 +21,20 @@ tags = ["studynote-database"]
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 이상적 세계에서는 "모든 사실을 한 곳에만 저장"하지만, 현실의 수천만 건 주문 테이블에서 고객명을 보여주려면 고객 테이블과 조인해야 한다. 이 조인이 매 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 반복되면 DB가 지친다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      정규화 vs 역정규화 트레이드오프                    │
-├───────────────────────────────────────────────────────┤
-│  [정규화 (3NF)]                                       │
-│   주문(주문ID, 고객ID, 금액)                           │
-│   고객(고객ID, 이름, 주소)                             │
-│   → 고객명 조회 시 JOIN 필요 → 느림                   │
-│   → 이름 변경 시 고객 테이블 1곳만 수정 → 무결성 ✅   │
-│                                                       │
-│  [역정규화]                                           │
-│   주문(주문ID, 고객ID, 고객명, 금액) ← 중복 추가      │
-│   → JOIN 없이 바로 조회 → 빠름 ✅                     │
-│   → 이름 변경 시 주문+고객 둘 다 수정 → 위험 ⚠️      │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      정규화 vs 역정규화 트레이드오프                    |
++-------------------------------------------------------+
+|  [정규화 (3NF)]                                       |
+|   주문(주문ID, 고객ID, 금액)                           |
+|   고객(고객ID, 이름, 주소)                             |
+|   -> 고객명 조회 시 JOIN 필요 -> 느림                   |
+|   -> 이름 변경 시 고객 테이블 1곳만 수정 -> 무결성 ✅   |
+|                                                       |
+|  [역정규화]                                           |
+|   주문(주문ID, 고객ID, 고객명, 금액) <- 중복 추가      |
+|   -> JOIN 없이 바로 조회 -> 빠름 ✅                     |
+|   -> 이름 변경 시 주문+고객 둘 다 수정 -> 위험 ⚠️      |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관에서 책을 1권만 보관하는 것(깨끗), 역정규화는 자주 보는 책을 교실마다 복사본을 두는 것(빠르지만 수정 시 전부 교체해야 함)이다.
@@ -79,12 +79,12 @@ tags = ["studynote-database"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 역정규화 판단 기준
-1. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 빈도</strong>: 해당 조인이 초당 1,000회 이상 → 역정규화 검토.
-2. **테이블 크기**: 수천만 건 이상의 대형 테이블 → 조인 비용 크게 증가.
-3. <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비율</strong>: 읽기 80%+ → 역정규화 효과 극대화.
+1. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 빈도</strong>: 해당 조인이 초당 1,000회 이상 -> 역정규화 검토.
+2. **테이블 크기**: 수천만 건 이상의 대형 테이블 -> 조인 비용 크게 증가.
+3. <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비율</strong>: 읽기 80%+ -> 역정규화 효과 극대화.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **무분별한 역정규화**: 모든 테이블을 합쳐서 하나의 거대 테이블 → [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 폭발, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 의미 상실.
+- **무분별한 역정규화**: 모든 테이블을 합쳐서 하나의 거대 테이블 -> [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 폭발, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 의미 상실.
 
 ---
 
@@ -114,17 +114,17 @@ tags = ["studynote-database"]
 
 ```text
 [정규화 이론 확립 (Codd, 1970s) — 무결성 중심 설계]
-    │
-    ▼
+    |
+    v
 [OLTP 성능 이슈 대두 (1990s) — 대용량 조인 병목]
-    │
-    ▼
+    |
+    v
 [역정규화 실무 패턴 정립 — 중복 컬럼·파생 컬럼·테이블 병합]
-    │
-    ▼
+    |
+    v
 [DW/OLAP Star Schema (2000s) — 분석 환경 전면 역정규화]
-    │
-    ▼
+    |
+    v
 [현재: Materialized View + CQRS — 정규화(쓰기)와 역정규화(읽기) 분리]
 ```
 
@@ -139,7 +139,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 111 / 600
 
-← **이전**: [110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/)
-**다음**: [112. 역정규화 개념 (Denormalization Concept) - 물리 설계 단계의 성능 최적화 패턴](/knowledge-base/studynote/05_database/02_modeling_normalization/112_denormalization_concept/) →
+<- **이전**: [110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/)
+**다음**: [112. 역정규화 개념 (Denormalization Concept) - 물리 설계 단계의 성능 최적화 패턴](/knowledge-base/studynote/05_database/02_modeling_normalization/112_denormalization_concept/) ->
 
 ---

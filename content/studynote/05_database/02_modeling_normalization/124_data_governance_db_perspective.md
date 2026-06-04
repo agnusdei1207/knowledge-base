@@ -19,15 +19,15 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    데이터 거버넌스 프레임워크                          │
-├───────────────────────────────────────────────────────┤
-│  [전략] 데이터 전략·비전·원칙                        │
-│  [조직] CDO · 데이터 스튜어드 · 거버넌스 위원회      │
-│  [정책] 데이터 표준·품질 규칙·보안 정책·접근 제어    │
-│  [프로세스] 메타데이터 관리·MDM·품질 모니터링        │
-│  [기술] 데이터 카탈로그·리니지 추적·DQ 도구          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    데이터 거버넌스 프레임워크                          |
++-------------------------------------------------------+
+|  [전략] 데이터 전략·비전·원칙                        |
+|  [조직] CDO · 데이터 스튜어드 · 거버넌스 위원회      |
+|  [정책] 데이터 표준·품질 규칙·보안 정책·접근 제어    |
+|  [프로세스] 메타데이터 관리·MDM·품질 모니터링        |
+|  [기술] 데이터 카탈로그·리니지 추적·DQ 도구          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도시의 <strong>도로교통법</strong>이다. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 많아지면 법([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·경찰(스튜어드)·신호등(기술)이 없으면 사고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류)가 난다.
@@ -90,17 +90,17 @@ tags = ["studynote-database"]
 
 ```text
 [수동 데이터 관리 (엑셀, 2000s)]
-    │
-    ▼
+    |
+    v
 [DAMA-DMBOK 1판 (2009) — 데이터 관리 표준]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 솔루션 (Collibra, 2015~)]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (2020~) — 분산 거버넌스]
-    │
-    ▼
+    |
+    v
 [현재: AI 거버넌스 — 모델·학습 데이터 품질 관리]
 ```
 
@@ -115,7 +115,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 124 / 600
 
-← **이전**: [123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/123_reference_data_code_tables/)
-**다음**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/) →
+<- **이전**: [123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/123_reference_data_code_tables/)
+**다음**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/) ->
 
 ---

@@ -35,19 +35,19 @@ tags = ["studynote-cloud-architecture"]
 
 ```
   장애 발생
-     │
-     ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                     시간 축                           │
-  │                                                      │
-  │  [최근 백업]──RPO──[장애 발생]──────RTO──[서비스 복구] │
-  │                                                      │
-  │  RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위         │
-  │  RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간          │
-  └──────────────────────────────────────────────────────┘
+     |
+     v
+  +------------------------------------------------------+
+  |                     시간 축                           |
+  |                                                      |
+  |  [최근 백업]--RPO--[장애 발생]------RTO--[서비스 복구] |
+  |                                                      |
+  |  RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위         |
+  |  RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간          |
+  +------------------------------------------------------+
 
-  예: RPO=1시간 → 최대 1시간치 데이터 손실 허용
-      RTO=30분  → 최대 30분간 서비스 중단 허용
+  예: RPO=1시간 -> 최대 1시간치 데이터 손실 허용
+      RTO=30분  -> 최대 30분간 서비스 중단 허용
 ```
 
 ### [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
@@ -63,19 +63,19 @@ tags = ["studynote-cloud-architecture"]
 ### Active-Active 아키텍처
 
 ```
-  ┌──────────────────────────────────────────────────┐
-  │               Global Load Balancer                │
-  │            (AWS Route 53 / CloudFront)            │
-  └────────────┬──────────────────────┬──────────────┘
-               │                      │
-     ┌─────────▼──────────┐  ┌────────▼────────────┐
-     │   리전 A (서울)     │  │   리전 B (도쿄)      │
-     │   [App Cluster]    │  │   [App Cluster]     │
-     │   [DB Primary]     │  │   [DB Primary]      │
-     └─────────┬──────────┘  └────────┬────────────┘
-               │                      │
-               └──────────┬───────────┘
-                           ▼
+  +--------------------------------------------------+
+  |               Global Load Balancer                |
+  |            (AWS Route 53 / CloudFront)            |
+  +------------+----------------------+--------------+
+               |                      |
+     +---------v----------+  +--------v------------+
+     |   리전 A (서울)     |  |   리전 B (도쿄)      |
+     |   [App Cluster]    |  |   [App Cluster]     |
+     |   [DB Primary]     |  |   [DB Primary]      |
+     +---------+----------+  +--------+------------+
+               |                      |
+               +----------+-----------+
+                           v
                    [양방향 DB 동기화]
                    (DynamoDB Global Tables /
                     Aurora Global Database)
@@ -117,7 +117,7 @@ tags = ["studynote-cloud-architecture"]
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a> 목표와 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 매핑</strong>:
 ```
 비즈니스 요구:      권장 전략:
-─────────────────────────────────────────
+-----------------------------------------
 RTO < 1분          Active-Active
 RPO = 0
 
@@ -183,11 +183,11 @@ RPO < 24시간       백업 + 복구 프로세스
 ```text
 RPO (Recovery Point Objective): 허용 데이터 손실량
 RTO (Recovery Time Objective): 복구 소요 시간 목표
-    │
-    ▼
-DR 전략: Backup & Restore → Pilot Light → Warm Standby → Active-Active
-    │
-    ▼
+    |
+    v
+DR 전략: Backup & Restore -> Pilot Light -> Warm Standby -> Active-Active
+    |
+    v
 Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증
 ```
 2. RTO는 게임이 꺼진 후 다시 켜서 이어서 할 수 있게 되는 시간이야. 빠를수록 좋지.
@@ -199,7 +199,7 @@ Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증
 
 **진행 상황**: 208 / 371
 
-← **이전**: [208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/208_immutable_infra_hotfix_no_ssh/)
-**다음**: [210. 빅데이터 3V/5V와 클라우드 데이터 아키텍처](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/210_hadoop_ecosystem_overview/) →
+<- **이전**: [208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/208_immutable_infra_hotfix_no_ssh/)
+**다음**: [210. 빅데이터 3V/5V와 클라우드 데이터 아키텍처](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/210_hadoop_ecosystem_overview/) ->
 
 ---

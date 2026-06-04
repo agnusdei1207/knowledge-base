@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 > **핵심 인사이트**
-> 1. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)([Constructive Cost Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic→Intermediate→Detailed 3단계로 구성된다.
+> 1. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)([Constructive Cost Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic->Intermediate->Detailed 3단계로 구성된다.
 > 2. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II(1995)는 객체 지향과 재사용 기반 개발을 반영한 현대화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — KLOC 대신 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 객체 점수(Object Point)를 지원하고, 22개 비용 드라이버(Cost Driver)로 [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)를 계산하는 더 정교한 모델이다.
 > 3. COCOMO의 본질적 한계는 추정 정확도 — 동일 KLOC라도 언어, 팀 역량, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도에 따라 실제 비용이 3~10배 차이날 수 있으며, COCOMO는 역사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이는 ±50% 이상 오차가 일반적이다.
 
@@ -108,7 +108,7 @@ EAF 계산 예:
   = 1.40 × 0.71 × 0.70 × 0.82 × 0.83 ≈ 0.47
 
   기본 공수의 47%만 필요
-  → 팀 역량이 비용에 미치는 엄청난 영향!
+  -> 팀 역량이 비용에 미치는 엄청난 영향!
 ```
 
 > 📢 **섹션 요약 비유**: EAF는 공사 조건 보정 — 기본 공사비에 "특수 자재([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))×숙련 기술자(ACAP)×좋은 장비(도구)"를 곱해서 실제 비용 계산. 최고 팀은 절반 비용!
@@ -123,7 +123,7 @@ COCOMO II (1995, USC-CSE):
 동기:
   COCOMO I: 1970s-1980s 개발 환경 기반
   1990s: 객체 지향, 재사용, COTS(상용 컴포넌트)
-  → 새 추정 기법 필요
+  -> 새 추정 기법 필요
 
 COCOMO II 모델 계층:
 
@@ -156,7 +156,7 @@ COCOMO II 공수 공식:
   팀 응집성 (TEAM)
   프로세스 성숙도 (PMAT): CMMI 레벨
 
-기능 점수 → KLOC 변환:
+기능 점수 -> KLOC 변환:
   Java: 1 FP ≈ 46 LOC
   C: 1 FP ≈ 128 LOC
   Python: 1 FP ≈ 21 LOC
@@ -205,7 +205,7 @@ COCOMO II 공수 공식:
   설계 완료: ±10~25%
 
   콘 오브 언서틴티(Cone of Uncertainty):
-  프로젝트 진행 → 추정 정확도 향상
+  프로젝트 진행 -> 추정 정확도 향상
   초기 추정 = 범위(Range), 아님 정확값
 ```
 
@@ -247,8 +247,8 @@ COCOMO II 계산:
   팀 692/12 ≈ 58명 필요
 
   현실적 재검토:
-  - 일정 14개월로 조정 → 팀 50명
-  - 또는 범위 축소 (70 KLOC) → 공수 450 PM
+  - 일정 14개월로 조정 -> 팀 50명
+  - 또는 범위 축소 (70 KLOC) -> 공수 450 PM
 
   전문가 검증:
   COCOMO II 결과 ± 30% 범위 내
@@ -330,7 +330,7 @@ ML 기반 추정 연구
 
 **진행 상황**: 47 / 973
 
-← **이전**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/)
-**다음**: [048. COCOMO II — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/) →
+<- **이전**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/)
+**다음**: [048. COCOMO II — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/) ->
 
 ---

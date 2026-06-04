@@ -31,26 +31,26 @@ tags = ["database"]
 이행적 종속은 $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때 (단, $Y$는 $X$에 종속되지만 $X$는 $Y$에 종속되지 않음), 논리적으로 $X \rightarrow Z$ 가 성립하는 구조다. 이 구조를 타파하기 위해 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([Third Normal Form](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)) 분해가 일어난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           이행적 함수적 종속의 구조와 3NF 분해 원리          │
-├──────────────────────────────────────────────────────────────┤
-│ [분해 전: 이상 현상 발생]                                      │
-│                                                              │
-│       ┌─────────결정─────────┐                               │
-│       ▼                      │                               │
-│ [사번(X, PK)] ──▶ [부서코드(Y)] ──▶ [부서명(Z)]               │
-│       └──────────이행적 종속─────────▲                       │
-│                                                              │
-│ ──────────────────────────────────────────────────────────── │
-│ [분해 후: 3NF 적용 (테이블 분리)]                              │
-│                                                              │
-│  사원 테이블 (Emp)                 부서 테이블 (Dept)        │
-│ ┌───────────┬────────────┐      ┌────────────┬───────────┐ │
-│ │ 사번(PK)  │ 부서코드(FK)│  조인 │ 부서코드(PK) │ 부서명    │ │
-│ │ 1001      │ HR         ├──────┤ HR         │ 인사팀    │ │
-│ │ 1002      │ IT         │      │ IT         │ 전산팀    │ │
-│ └───────────┴────────────┘      └────────────┴───────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           이행적 함수적 종속의 구조와 3NF 분해 원리          |
++--------------------------------------------------------------+
+| [분해 전: 이상 현상 발생]                                      |
+|                                                              |
+|       +---------결정---------+                               |
+|       v                      |                               |
+| [사번(X, PK)] ---> [부서코드(Y)] ---> [부서명(Z)]               |
+|       +----------이행적 종속---------^                       |
+|                                                              |
+| ------------------------------------------------------------ |
+| [분해 후: 3NF 적용 (테이블 분리)]                              |
+|                                                              |
+|  사원 테이블 (Emp)                 부서 테이블 (Dept)        |
+| +-----------+------------+      +------------+-----------+ |
+| | 사번(PK)  | 부서코드(FK)|  조인 | 부서코드(PK) | 부서명    | |
+| | 1001      | HR         +------+ HR         | 인사팀    | |
+| | 1002      | IT         |      | IT         | 전산팀    | |
+| +-----------+------------+      +------------+-----------+ |
++--------------------------------------------------------------+
 ```
 
 다이어그램에서 보듯, `부서명(Z)`은 오직 `부서코드(Y)`에만 종속되지만, 분해 전에는 하나의 테이블에 묶여 있어 중복 저장된다. [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 분해는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)를 새로운 테이블의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)로 삼고 종속자(Z)를 데려가 독립시키는 과정이다. 원래 테이블에는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)만 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)(FK)로 남겨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 일관성을 확보한다.
@@ -113,17 +113,17 @@ tags = ["database"]
 
 ```text
 제1정규형 (1NF)
-    │
-    ▼
+    |
+    v
 제2정규형 (2NF) : 부분 함수적 종속 제거
-    │
-    ▼
+    |
+    v
 이행적 함수적 종속 (Transitive Dependency) 진단
-    │
-    ▼
+    |
+    v
 제3정규형 (3NF) : 이행적 함수적 종속 제거 (테이블 분리)
-    │
-    ▼
+    |
+    v
 BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단
 ```
 
@@ -139,7 +139,7 @@ BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단
 
 **진행 상황**: 98 / 600
 
-← **이전**: [97. 부분 함수적 종속 (Partial Functional Dependency) - 복합키의 일부 속성에만 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)
-**다음**: [99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리](/knowledge-base/studynote/05_database/02_modeling_normalization/099_armstrongs_axioms_reflexivity/) →
+<- **이전**: [97. 부분 함수적 종속 (Partial Functional Dependency) - 복합키의 일부 속성에만 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)
+**다음**: [99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리](/knowledge-base/studynote/05_database/02_modeling_normalization/099_armstrongs_axioms_reflexivity/) ->
 
 ---

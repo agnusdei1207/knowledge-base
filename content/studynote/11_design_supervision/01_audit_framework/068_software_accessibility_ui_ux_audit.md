@@ -31,11 +31,11 @@ tags = ["studynote-design"]
 
 ```text
 UI / UX
-  ↓
+  v
 Accessibility
-  ↓
+  v
 Assistive Tech
-  ↓
+  v
 Inclusive Use
 ```
 
@@ -109,11 +109,11 @@ Inclusive Use
 
 ```text
 UI / UX
-  ↓
+  v
 Accessibility
-  ↓
+  v
 Assistive Tech
-  ↓
+  v
 Inclusive Design
 ```
 
@@ -123,11 +123,11 @@ Inclusive Design
 
 ```text
 WCAG
-  ↓
+  v
 Accessibility
-  ↓
+  v
 Inclusive UI
-  ↓
+  v
 User Experience
 ```
 
@@ -145,7 +145,7 @@ User Experience
 
 **진행 상황**: 105 / 530
 
-← **이전**: [68. 소프트웨어 접근성 점검 (Software Accessibility Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/068_software_accessibility_audit/)
-**다음**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/) →
+<- **이전**: [68. 소프트웨어 접근성 점검 (Software Accessibility Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/068_software_accessibility_audit/)
+**다음**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/) ->
 
 ---

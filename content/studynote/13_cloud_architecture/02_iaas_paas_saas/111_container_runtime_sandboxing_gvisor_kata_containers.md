@@ -21,21 +21,21 @@ tags = ["studynote-cloud-architecture"]
 기본 [컨테이너 런타임](/knowledge-base/studynote/02_operating_system/10_security/628_container_runtime_oci/)([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))은 [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)·cgroups로 프로세스를 격리하지만, <strong>호스트 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>을 직접 공유</strong>한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점이 발생하면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안의 악성 코드가 호스트 전체를 장악할 수 있다([Container Escape](/knowledge-base/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)).
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      런타임별 격리 수준 비교                            │
-├───────────────────────────────────────────────────────┤
-│  [runc (기본)]                                        │
-│   Container ──syscall──▶ Host Kernel (직접 접근 ⚠️)  │
-│                                                       │
-│  [gVisor (runsc)]                                     │
-│   Container ──syscall──▶ Sentry(유저커널) ──▶ Kernel  │
-│   시스콜 중간 차단, 200+개만 허용                     │
-│                                                       │
-│  [Kata Containers]                                    │
-│   Container ──▶ [경량 VM (QEMU/Firecracker)]         │
-│                      └──▶ Guest Kernel ──▶ Host      │
-│   완전한 커널 격리, VM 수준 보안                      │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      런타임별 격리 수준 비교                            |
++-------------------------------------------------------+
+|  [runc (기본)]                                        |
+|   Container --syscall---> Host Kernel (직접 접근 ⚠️)  |
+|                                                       |
+|  [gVisor (runsc)]                                     |
+|   Container --syscall---> Sentry(유저커널) ---> Kernel  |
+|   시스콜 중간 차단, 200+개만 허용                     |
+|                                                       |
+|  [Kata Containers]                                    |
+|   Container ---> [경량 VM (QEMU/Firecracker)]         |
+|                      +---> Guest Kernel ---> Host      |
+|   완전한 커널 격리, VM 수준 보안                      |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: runc는 사무실 칸막이(넘어가기 쉬움), gVisor는 유리벽(보이지만 못 넘어감), Kata는 별도 건물(완전 분리)이다.
@@ -71,12 +71,12 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 시나리오
-1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD Runner</strong>: 사용자 제출 코드를 빌드 → gVisor 격리로 악성 코드 차단.
-2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a>)</strong>: [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 함수 실행 → Firecracker (Kata 기반) 격리.
-3. **일반 워크로드**: 신뢰 가능한 내부 앱 → [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) 유지 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선).
+1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD Runner</strong>: 사용자 제출 코드를 빌드 -> gVisor 격리로 악성 코드 차단.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a>)</strong>: [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 함수 실행 -> Firecracker (Kata 기반) 격리.
+3. **일반 워크로드**: 신뢰 가능한 내부 앱 -> [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) 유지 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **모든 파드를 gVisor로 실행**: 시스콜 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 일부 앱 오작동 → [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높은 내부 앱에는 불필요.
+- **모든 파드를 gVisor로 실행**: 시스콜 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 일부 앱 오작동 -> [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높은 내부 앱에는 불필요.
 
 ---
 
@@ -106,17 +106,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 [Docker + runc (2013~) — 커널 공유 컨테이너 표준화]
-    │
-    ▼
+    |
+    v
 [Container Escape 공격 증가 (2017~) — CVE-2019-5736 등]
-    │
-    ▼
+    |
+    v
 [gVisor (2018, Google) — 유저 스페이스 커널 격리]
-    │
-    ▼
+    |
+    v
 [Kata + Firecracker (2018~) — 경량 VM 격리]
-    │
-    ▼
+    |
+    v
 [현재: Confidential Containers — 하드웨어 TEE + 컨테이너]
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 110 / 371
 
-← **이전**: [110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/)
-**다음**: [112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/112_serverless_kubernetes_fargate/) →
+<- **이전**: [110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/)
+**다음**: [112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/112_serverless_kubernetes_fargate/) ->
 
 ---

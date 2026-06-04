@@ -26,14 +26,14 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 서로 다른 클럭이 만나는 순간이 위험한지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  sampling near an edge creates uncertainty                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ src_data : _____/‾‾‾‾‾\________________                                   │
-│ dst_clk  : ─────┐       ─────┐       ─────┐                              │
-│                 ▲                                                    │
-│                 └─ sample too close to transition -> metastability risk  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  sampling near an edge creates uncertainty                |
++----------------------------------------------------------------------------+
+| src_data : _____/‾‾‾‾‾\________________                                   |
+| dst_clk  : -----+       -----+       -----+                              |
+|                 ^                                                    |
+|                 +- sample too close to transition -> metastability risk  |
++----------------------------------------------------------------------------+
 ```
 
 따라서 CDC의 목적은 단순 전달이 아니다. 첫째, 메타스테이빌리티가 내부 로직으로 퍼지지 않게 해야 하고, 둘째, 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 함께 움직일 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지켜야 하며, 셋째, 빠른 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 짧은 이벤트가 느린 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 사라지지 않게 해야 한다.
@@ -57,11 +57,11 @@ tags = ["studynote-computer-architecture"]
 가장 기본인 2단 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기는 다음과 같이 생각하면 된다. 첫 번째 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 위험한 비동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받고, 두 번째 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 한 클럭 뒤에 다시 받아 안정화 시간을 늘린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ src signal -> [sync_ff1] -> [sync_ff2] -> clean dst-domain signal        │
-│                 ^                                                          │
-│                 └─ metastability may start here, but should settle here   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| src signal -> [sync_ff1] -> [sync_ff2] -> clean dst-domain signal        |
+|                 ^                                                          |
+|                 +- metastability may start here, but should settle here   |
++----------------------------------------------------------------------------+
 ```
 
 이 구조가 안전한 이유는 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 낮추기 때문이다. 평균 고장 간격 (Mean Time Between Failures, [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))은 대략 `exp(Tsettle / τ)`에 비례하고, 샘플링 주파수와 이벤트 빈도에 반비례한다. 즉 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 단계가 늘어 수습 시간 `Tsettle`이 길어질수록 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 급격히 줄어든다. 다만 이것은 "없애는 것"이 아니라 "제품 수명보다 충분히 드물게 만드는 것"이라는 점을 잊으면 안 된다.
@@ -145,20 +145,20 @@ fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 �
 
 ```text
 단일 글로벌 클럭 설계
-        │
-        ▼
+        |
+        v
 멀티클럭 SoC 확산
-        │
-        ▼
+        |
+        v
 2단 동기화기 · 핸드셰이크 도입
-        │
-        ▼
+        |
+        v
 그레이 코드 포인터 · 비동기 FIFO
-        │
-        ▼
+        |
+        v
 CDC/RDC 정적 검증 자동화
-        │
-        ▼
+        |
+        v
 GALS 기반 이종 칩 통합
 ```
 
@@ -176,7 +176,7 @@ GALS 기반 이종 칩 통합
 
 **진행 상황**: 607 / 803
 
-← **이전**: [606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)
-**다음**: [608. 비동기식 FIFO (First-In First-Out) 버퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/) →
+<- **이전**: [606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)
+**다음**: [608. 비동기식 FIFO (First-In First-Out) 버퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/) ->
 
 ---

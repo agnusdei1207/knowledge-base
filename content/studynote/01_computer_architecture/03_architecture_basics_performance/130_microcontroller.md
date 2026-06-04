@@ -36,24 +36,24 @@ MCU의 핵심은 "외부 도움을 최소화한 온칩 제어"다. 중앙처리�
 아래 그림은 MCU가 왜 "단일 칩 제어기"라고 불리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 MCU 내부의 기본 제어 경로와 주변장치 구성           │
-├──────────────────────────────────────────────────────────────────────┤
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐                         │
-│  │ Flash    │   │   CPU    │   │  SRAM    │                         │
-│  │ Firmware │◀─▶│  Core    │◀─▶│ Runtime  │                         │
-│  └────┬─────┘   └────┬─────┘   └────┬─────┘                         │
-│       │              │              │                               │
-│  ─────┴──────────────┴──────────────┴────────────────────           │
-│                  Internal Bus / Interconnect                        │
-│  ─────┬──────────────┬──────────────┬──────────────┬────           │
-│       │              │              │              │                │
-│   ┌───▼───┐      ┌───▼───┐      ┌───▼───┐      ┌───▼───┐            │
-│   │ GPIO  │      │ ADC   │      │ Timer │      │ UART  │            │
-│   └───┬───┘      └───┬───┘      └───┬───┘      └───┬───┘            │
-│       │              │              │              │                │
-│   버튼·LED       온도·전압 센서      PWM 모터         디버그·통신      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 MCU 내부의 기본 제어 경로와 주변장치 구성           |
++----------------------------------------------------------------------+
+|  +----------+   +----------+   +----------+                         |
+|  | Flash    |   |   CPU    |   |  SRAM    |                         |
+|  | Firmware |<--->|  Core    |<--->| Runtime  |                         |
+|  +----+-----+   +----+-----+   +----+-----+                         |
+|       |              |              |                               |
+|  -----+--------------+--------------+--------------------           |
+|                  Internal Bus / Interconnect                        |
+|  -----+--------------+--------------+--------------+----           |
+|       |              |              |              |                |
+|   +---v---+      +---v---+      +---v---+      +---v---+            |
+|   | GPIO  |      | ADC   |      | Timer |      | UART  |            |
+|   +---+---+      +---+---+      +---+---+      +---+---+            |
+|       |              |              |              |                |
+|   버튼·LED       온도·전압 센서      PWM 모터         디버그·통신      |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 항상 같은 경로로 흐른다는 것이다. 예를 들어 센서 전압은 ADC를 통해 수치로 변환되고, CPU는 그 값을 기준치와 비교한 뒤, 타이머와 PWM으로 모터 듀티비를 조정한다. 외부 칩과 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 매번 거치지 않기 때문에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 작고, 동작 시간이 상대적으로 예측 가능하다.
@@ -147,20 +147,20 @@ MCU의 가장 큰 효과는 제어 기능을 작고 싸고 안정적으로 현�
 
 ```text
 릴레이·전용 제어회로
-    │
-    ▼
+    |
+    v
 단일 칩 제어기 등장
 (MCU: CPU + Flash + SRAM + GPIO)
-    │
-    ▼
+    |
+    v
 실시간 제어 고도화
 (Timer / PWM / Interrupt / RTOS)
-    │
-    ▼
+    |
+    v
 초저전력·무선 센서 노드
 (IoT / Battery Operation)
-    │
-    ▼
+    |
+    v
 보안·TinyML 결합형 지능형 MCU
 (Secure Boot / Hardware Cryptography / Edge Artificial Intelligence)
 ```
@@ -179,7 +179,7 @@ MCU의 가장 큰 효과는 제어 기능을 작고 싸고 안정적으로 현�
 
 **진행 상황**: 130 / 803
 
-← **이전**: [129. 마이크로프로세서 (Microprocessor)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/)
-**다음**: [131. SoC (System on Chip)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) →
+<- **이전**: [129. 마이크로프로세서 (Microprocessor)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/)
+**다음**: [131. SoC (System on Chip)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ->
 
 ---

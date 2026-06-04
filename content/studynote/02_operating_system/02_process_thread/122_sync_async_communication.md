@@ -25,25 +25,25 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 운영체제에서 IPC는 주로 블로킹(동기식) 모드로 구현되었다. 그러나 네트워크 통신의 보급과 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)의 요구 증대로, 대기 시간 동안 CPU를 낭비하지 않는 비동기(논블로킹) I/O 모델이 필요해졌다. 리눅스의 `O_NONBLOCK` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), `select()`/`epoll()` 시스템 콜, 그리고 Node.js의 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))는 이러한 비동기 통신 모델의 발전 과정이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │       Send/Receive의 4가지 조합에 따른 통신 동기화 모드            │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │                │  Blocking Receive   │  Non-blocking Receive       │
-  │  ──────────────┼────────────────────┼─────────────────────────     │
-  │  Blocking Send │  [Mode 1]           │  [Mode 2]                   │
-  │  (Synchronous) │  Rendezvous         │  Sender 대기                │
-  │                │  (만남의 장소)       │  Receiver 논블로킹         │
-  │  ──────────────┼────────────────────┼─────────────────────────     │
-  │  Non-blocking  │  [Mode 3]           │  [Mode 4]                   │
-  │  Send          │  Sender 논블로킹    │  Fully Non-blocking         │
-  │  (Asynchronous)│  Receiver 대기       │  (완전 비동기)             │
-  │                                                                    │
-  │  [Mode 1: Rendezvous]  양쪽 모두 준비될 때까지 대기                │
-  │  [Mode 2] Sender는 수신 완료까지 대기, Receiver는 바로 리턴        │
-  │  [Mode 3] Sender는 버퍼에 복사 후 리턴, Receiver는 도착까지 대기   │
-  │  [Mode 4] 양쪽 모두 즉시 리턴 (콜백/이벤트 기반 처리 필요)         │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |       Send/Receive의 4가지 조합에 따른 통신 동기화 모드            |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |                |  Blocking Receive   |  Non-blocking Receive       |
+  |  --------------+--------------------+-------------------------     |
+  |  Blocking Send |  [Mode 1]           |  [Mode 2]                   |
+  |  (Synchronous) |  Rendezvous         |  Sender 대기                |
+  |                |  (만남의 장소)       |  Receiver 논블로킹         |
+  |  --------------+--------------------+-------------------------     |
+  |  Non-blocking  |  [Mode 3]           |  [Mode 4]                   |
+  |  Send          |  Sender 논블로킹    |  Fully Non-blocking         |
+  |  (Asynchronous)|  Receiver 대기       |  (완전 비동기)             |
+  |                                                                    |
+  |  [Mode 1: Rendezvous]  양쪽 모두 준비될 때까지 대기                |
+  |  [Mode 2] Sender는 수신 완료까지 대기, Receiver는 바로 리턴        |
+  |  [Mode 3] Sender는 버퍼에 복사 후 리턴, Receiver는 도착까지 대기   |
+  |  [Mode 4] 양쪽 모두 즉시 리턴 (콜백/이벤트 기반 처리 필요)         |
+  +--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 2x2 매트릭스는 송신과 수신의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 속성을 독립적으로 조합하여 도출되는 4가지 통신 모드를 보여준다. <strong>Mode 1 (Rendezvous, 랑데부)</strong>는 송신자와 수신자가 동시에 준비될 때까지 양쪽 모두 대기하는 가장 엄격한 모드다. Ada 프로그래밍 언어의 Rendezvous 개념이 여기서 유래했다. <strong>Mode 2</strong>는 송신자가 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 완료까지 대기하므로 송신 순서가 보장되고, 수신자는 논블로킹이므로 다른 작업을 병행할 수 있다. <strong>Mode 3</strong>는 송신자가 로컬 버퍼에 복사 후 즉시 반환하므로 송신 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높고, 수신자가 블로킹되므로 메시지 도착을 확실하게 감지할 수 있다. <strong>Mode 4 (Fully Non-blocking)</strong>는 양쪽 모두 대기하지 않으므로 최고의 동시성을 제공하지만, 콜백(Callback)이나 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))를 통해 메시지 도착을 비동기적으로 감지하는 추가 메커니즘이 필요하다.
@@ -57,32 +57,32 @@ tags = ["studynote-operating-system"]
 ### 블로킹 vs 논블로킹: 시간선 비교
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │       블로킹 vs 논블로킹 수신(Receive)의 시간선 비교                 │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [블로킹 수신 (Blocking Receive)]                                    │
-  │  Process                                                             │
-  │  ──▶[recv()]──■ 대기 ■──[메시지 도착]──[처리]──▶ 계속 작업           │
-  │         │                 │                │                         │
-  │         │◀── 대기 시간 ──▶│                │                         │
-  │         │  (CPU 유휴)      │                │                        │
-  │                                                                      │
-  │  [논블로킹 수신 (Non-blocking Receive)]                              │
-  │  Process                                                             │
-  │  ──▶[recv()]──▶즉시반환(에러)──▶[다른 작업]──▶[다시 recv()]──▶...    │
-  │         │        (EAGAIN)              │                             │
-  │         └── 0 시간 대기               └── CPU 유효 활용              │
-  │                                                                      │
-  │  [비동기 수신 + 콜백 (Async Receive + Callback)]                     │
-  │  Process                                                             │
-  │  ──▶[async_recv(cb)]──▶[작업 A]──▶[작업 B]──▶...                     │
-  │         │                                               │            │
-  │         └───────── [메시지 도착 시 콜백 cb() 자동 호출] ──▶[처리]    │
-  │                                                                      │
-  │  💡 블로킹은 CPU를 낭비하지만 구현이 단순하고,                       │
-  │     논블로킹은 CPU를 효율적으로 사용하지만 폴링/콜백이 필요함        │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |       블로킹 vs 논블로킹 수신(Receive)의 시간선 비교                 |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [블로킹 수신 (Blocking Receive)]                                    |
+  |  Process                                                             |
+  |  --->[recv()]--■ 대기 ■--[메시지 도착]--[처리]---> 계속 작업           |
+  |         |                 |                |                         |
+  |         |<--- 대기 시간 --->|                |                         |
+  |         |  (CPU 유휴)      |                |                        |
+  |                                                                      |
+  |  [논블로킹 수신 (Non-blocking Receive)]                              |
+  |  Process                                                             |
+  |  --->[recv()]--->즉시반환(에러)--->[다른 작업]--->[다시 recv()]--->...    |
+  |         |        (EAGAIN)              |                             |
+  |         +-- 0 시간 대기               +-- CPU 유효 활용              |
+  |                                                                      |
+  |  [비동기 수신 + 콜백 (Async Receive + Callback)]                     |
+  |  Process                                                             |
+  |  --->[async_recv(cb)]--->[작업 A]--->[작업 B]--->...                     |
+  |         |                                               |            |
+  |         +--------- [메시지 도착 시 콜백 cb() 자동 호출] --->[처리]    |
+  |                                                                      |
+  |  💡 블로킹은 CPU를 낭비하지만 구현이 단순하고,                       |
+  |     논블로킹은 CPU를 효율적으로 사용하지만 폴링/콜백이 필요함        |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 블로킹 수신에서 프로세스는 `recv()` 호출 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 의해 수면(Sleep) 상태로 전환되며, 메시지가 도착하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스를 깨울(Wake-up) 때까지 CPU를 소모하지 않는다. 이는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))과 같이 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 여러 개일 때 유리하다. 대기 중인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 CPU 코어에서 스케줄링 제외되므로 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 코어를 사용할 수 있다. 반면 논블로킹 수신에서 `recv()`는 즉시 반환되므로 프로세스는 대기 시간에 다른 작업을 수행할 수 있지만, 메시지 도착을 확인하기 위해 주기적으로 `recv()`를 반복 호출([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))해야 한다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 불필요한 CPU 소모를 유발하므로, `epoll()`/`kqueue()` 같은 I/O [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 시스템 콜을 사용하거나 콜백(Callback) 기반의 비동기 프레임워크를 활용하는 것이 현대적인 해결책이다.
@@ -96,38 +96,38 @@ tags = ["studynote-operating-system"]
 | **무한 용량 (Unbounded Capacity)** | 무제한 버퍼 | 항상 논블로킹 (즉시 복사) | 버퍼가 비어있으면 블로킹 | 이상적 모델 (실제로는 구현 불가) |
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │      버퍼 용량(Capacity)에 따른 3가지 동기식 통신 변형 모델          │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [무용량 버퍼 (Zero Capacity / Rendezvous)]                          │
-  │  Sender ──▶        (버퍼 없음)        ◀── Receiver                   │
-  │  블로킹         ┌──────────────┐       블로킹                        │
-  │  (대기)         │ 직접 전달     │       (대기)                       │
-  │  ─────────────▶│ (handshake)  │◀──────────────                       │
-  │                └──────────────┘                                      │
-  │  * 양쪽 모두 동시에 준비되어야 전달 가능                             │
-  │  * 가장 엄격한 동기화. 구현은 단순하지만 대기 비용 큼                │
-  │                                                                      │
-  │  [유한 용량 버퍼 (Bounded Capacity)]                                 │
-  │  Sender ──▶  ┌─────────────┐  ──▶ Receiver                           │
-  │  (buf 비면  │ │ [M1][M2][M3]│ │ (buf 있으면                          │
-  │   논블로킹, │ │  size = N   │ │  논블로킹,                           │
-  │   buf 꽉이면 │ └─────────────┘ │  buf 비면                           │
-  │   블로킹)    │   Bounded Queue  │  블로킹)                           │
-  │                                                                      │
-  │  * 가장 실용적인 모델. Pipe, Socket 등 대부분의 IPC가 이 방식        │
-  │  * 버퍼가 가득 차면 역압(Back-pressure)이 송신자에게 전달됨          │
-  │                                                                      │
-  │  [무한 용량 버퍼 (Unbounded Capacity)]                               │
-  │  Sender ──▶  ┌─────────────────────┐  ──▶ Receiver                   │
-  │  항상 논블로킹│ │ [M1][M2]...[Mn]    │ │ (buf 비면 블로킹)           │
-  │              │ │ 무한 확장 (이상적)   │ │                            │
-  │              │ └─────────────────────┘ │                             │
-  │                                                                      │
-  │  * 송신자는 항상 논블로킹 (메모리가 무한하다는 가정)                 │
-  │  * 실제로는 구현 불가. 다만 Bounded를 충분히 크게 설정해 근사 구현   │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |      버퍼 용량(Capacity)에 따른 3가지 동기식 통신 변형 모델          |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [무용량 버퍼 (Zero Capacity / Rendezvous)]                          |
+  |  Sender --->        (버퍼 없음)        <--- Receiver                   |
+  |  블로킹         +--------------+       블로킹                        |
+  |  (대기)         | 직접 전달     |       (대기)                       |
+  |  -------------->| (handshake)  |<---------------                       |
+  |                +--------------+                                      |
+  |  * 양쪽 모두 동시에 준비되어야 전달 가능                             |
+  |  * 가장 엄격한 동기화. 구현은 단순하지만 대기 비용 큼                |
+  |                                                                      |
+  |  [유한 용량 버퍼 (Bounded Capacity)]                                 |
+  |  Sender --->  +-------------+  ---> Receiver                           |
+  |  (buf 비면  | | [M1][M2][M3]| | (buf 있으면                          |
+  |   논블로킹, | |  size = N   | |  논블로킹,                           |
+  |   buf 꽉이면 | +-------------+ |  buf 비면                           |
+  |   블로킹)    |   Bounded Queue  |  블로킹)                           |
+  |                                                                      |
+  |  * 가장 실용적인 모델. Pipe, Socket 등 대부분의 IPC가 이 방식        |
+  |  * 버퍼가 가득 차면 역압(Back-pressure)이 송신자에게 전달됨          |
+  |                                                                      |
+  |  [무한 용량 버퍼 (Unbounded Capacity)]                               |
+  |  Sender --->  +---------------------+  ---> Receiver                   |
+  |  항상 논블로킹| | [M1][M2]...[Mn]    | | (buf 비면 블로킹)           |
+  |              | | 무한 확장 (이상적)   | |                            |
+  |              | +---------------------+ |                             |
+  |                                                                      |
+  |  * 송신자는 항상 논블로킹 (메모리가 무한하다는 가정)                 |
+  |  * 실제로는 구현 불가. 다만 Bounded를 충분히 크게 설정해 근사 구현   |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 용량은 동기식 통신의 동작을 결정하는 핵심 파라미터다. 무용량([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Capacity) 버퍼에서는 랑데부(Rendezvous) 패턴이 발생한다. 이는 악수(Handshake)와 유사하며, 송신자와 수신자가 동시에 통신 지점에 도달해야만 메시지가 전달된다. 유한 용량(Bounded Capacity) 버퍼는 실제 시스템에서 가장 널리 사용되는 모델이다. UNIX [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))의 기본 버퍼 크기(리눅스에서는 64KB)가 대표적인 예이며, 버퍼가 가득 차면 `send()`가 블로킹되어 자연스럽게 역압(Back-pressure)이 발생한다. 무한 용량(Unbounded Capacity) 버퍼는 이상적 모델이지만, 물리적 메모리가 유한하므로 실제로는 구현할 수 없다. 다만, 디스크 기반 영구 큐(예: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 사용하면 근사적으로 무한 용량을 구현할 수 있다.
@@ -211,12 +211,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [간접 통신 (Indirect Communication)]
-    │
-    ▼
+    |
+    v
 [동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]
-    │
-    ├──▶ [파이프 (Pipe)]
-    └──▶ [지명 파이프 (Named Pipe / FIFO)]
+    |
+    +---> [파이프 (Pipe)]
+    +---> [지명 파이프 (Named Pipe / FIFO)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -233,7 +233,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 122 / 800
 
-← **이전**: [121. 간접 통신 (Indirect Communication) - 메일박스/포트 사용](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)
-**다음**: [123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) →
+<- **이전**: [121. 간접 통신 (Indirect Communication) - 메일박스/포트 사용](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)
+**다음**: [123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) ->
 
 ---

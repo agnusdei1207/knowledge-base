@@ -46,34 +46,34 @@ tags = ["studynote-cloud"]
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버가 "야, 집 없는 떠돌이 팟(Pending [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 하나 나왔어. 방 찾아줘!"라고 던지면, 스케줄러는 0.1초 동안 2단계의 가혹한 오디션을 열어 노드(서버)를 뽑는다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         Kube-Scheduler의 최적 워커 노드 배정 (Binding) 파이프라인        │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [ 대기실 ] 떠돌이 팟 (Pod) 생성됨 (nodeName: 비어있음)               │
-  │     - 팟 요구사항(yaml): "나 CPU 4개 필요함, 무조건 SSD 달린 서버에 갈거야!" │
-  │                                                               │
-  │  =============================================================│
-  │   [ 1차 오디션: 필터링 (Filtering / Predicates) ] - "자격 없는 놈 탈락!"│
-  │     - 클러스터 내의 노드 100대를 일렬로 세움.                         │
-  │     - "너 CPU 4개 남아?" ─▶ 노드 30대 탈락! (70대 생존)               │
-  │     - "너 SSD 라벨(Taints) 달려있어?" ─▶ 50대 탈락! (20대 생존)       │
-  │     ▶ 결과: 살아남은 20대의 노드 ─▶ "합격(Feasible Nodes)"           │
-  │                                                               │
-  │  =============================================================│
-  │   [ 2차 오디션: 스코어링 (Scoring / Priorities) ] - "최고의 명당은?"  │
-  │     - 합격한 20대 노드에게 0~100점까지 점수를 매기는 가혹한 뷰티 콘테스트.   │
-  │     - "너 이 팟 받아주면 자원(CPU)이 얼마나 예쁘게 꽉 차?" (점수 부여)     │
-  │     - "이 팟이 좋아하는 DB 팟이 네 서버 안에 같이 살아?" (보너스 점수 +10) │
-  │     - "이 팟이랑 똑같이 생긴 복제본 팟이 이미 네 서버에 있어? 넌 안돼 한 곳에 │
-  │        몰빵하면 터져!" (마이너스 점수 -50)                           │
-  │                                                               │
-  │  =============================================================│
-  │   [ 최종 낙찰 (Binding) ]                                       │
-  │     - 99점으로 1등을 차지한 [노드 15번] 당첨!                          │
-  │     - 스케줄러는 조용히 etcd 장부에 `nodeName: 노드 15번` 이라고 적고 퇴근. │
-  │     - 그 후 15번 노드의 십장(Kubelet)이 이걸 보고 진짜로 도커 팟을 띄움.    │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         Kube-Scheduler의 최적 워커 노드 배정 (Binding) 파이프라인        |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |   [ 대기실 ] 떠돌이 팟 (Pod) 생성됨 (nodeName: 비어있음)               |
+  |     - 팟 요구사항(yaml): "나 CPU 4개 필요함, 무조건 SSD 달린 서버에 갈거야!" |
+  |                                                               |
+  |  =============================================================|
+  |   [ 1차 오디션: 필터링 (Filtering / Predicates) ] - "자격 없는 놈 탈락!"|
+  |     - 클러스터 내의 노드 100대를 일렬로 세움.                         |
+  |     - "너 CPU 4개 남아?" --> 노드 30대 탈락! (70대 생존)               |
+  |     - "너 SSD 라벨(Taints) 달려있어?" --> 50대 탈락! (20대 생존)       |
+  |     -> 결과: 살아남은 20대의 노드 --> "합격(Feasible Nodes)"           |
+  |                                                               |
+  |  =============================================================|
+  |   [ 2차 오디션: 스코어링 (Scoring / Priorities) ] - "최고의 명당은?"  |
+  |     - 합격한 20대 노드에게 0~100점까지 점수를 매기는 가혹한 뷰티 콘테스트.   |
+  |     - "너 이 팟 받아주면 자원(CPU)이 얼마나 예쁘게 꽉 차?" (점수 부여)     |
+  |     - "이 팟이 좋아하는 DB 팟이 네 서버 안에 같이 살아?" (보너스 점수 +10) |
+  |     - "이 팟이랑 똑같이 생긴 복제본 팟이 이미 네 서버에 있어? 넌 안돼 한 곳에 |
+  |        몰빵하면 터져!" (마이너스 점수 -50)                           |
+  |                                                               |
+  |  =============================================================|
+  |   [ 최종 낙찰 (Binding) ]                                       |
+  |     - 99점으로 1등을 차지한 [노드 15번] 당첨!                          |
+  |     - 스케줄러는 조용히 etcd 장부에 `nodeName: 노드 15번` 이라고 적고 퇴근. |
+  |     - 그 후 15번 노드의 십장(Kubelet)이 이걸 보고 진짜로 도커 팟을 띄움.    |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 스케줄러는 자기가 직접 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행(Run)하지 않는다. 이것이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 위대한 **'디커플링(Decoupling, 결합 끊기)'** 철학이다. 스케줄러는 오직 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server에게 "저기 빈칸(`nodeName`)에 노드 15번이라고 글씨 좀 써주세요"라고 부탁(Binding 요청)만 할 뿐이다. 그러면 각 노드에 파견 나가 있는 행동대장([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 1초마다 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 장부를 쳐다보다가 "어라? 15번 노드(내 땅)에 새로 배정된 팟이 생겼네? 당장 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진 돌려라!"라며 망치질을 시작한다. 뇌(스케줄러)와 손발([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 완벽히 쪼개져 서로 알 필요가 없으니 시스템이 뻗어도 연쇄 폭발이 일어나지 않는다.
@@ -141,13 +141,13 @@ tags = ["studynote-cloud"]
 
 ```text
 수동 워크로드 배치 (비효율)
-    │
-    ▼
+    |
+    v
 kube-scheduler: 자동 Pod 배치
-    ├─► Filtering: 적합한 노드 필터링 (taints · affinity)
-    └─► Scoring: 최적 노드 선택 (리소스 균형)
-    │
-    ▼
+    +-► Filtering: 적합한 노드 필터링 (taints · affinity)
+    +-► Scoring: 최적 노드 선택 (리소스 균형)
+    |
+    v
 커스텀 스케줄러 · Gang Scheduling · Descheduler
 ```
 2. 이때 번개처럼 빠른 <strong>'자리 배정 컴퓨터(스케줄러)'</strong>가 짠! 나타납니다. 1초 만에 손님들의 요구사항을 쫙 스캔해요. "뚱뚱한 손님(CPU 많이 먹음)은 넓은 자리! 싸운 친구(반친화성)는 멀리 떨어뜨려!"
@@ -159,7 +159,7 @@ kube-scheduler: 자동 Pod 배치
 
 **진행 상황**: 78 / 371
 
-← **이전**: [78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)
-**다음**: [80. Kube-Controller Manager - 클러스터의 원하는 상태(Desired State)와 현재 상태(Current State)를](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/) →
+<- **이전**: [78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)
+**다음**: [80. Kube-Controller Manager - 클러스터의 원하는 상태(Desired State)와 현재 상태(Current State)를](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/) ->
 
 ---

@@ -44,17 +44,17 @@ tolerations:
 | NoExecute        | 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 축출(Evict)                  |
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Kubernetes Scheduler               │
-│                                                 │
-│  Node-A  [Taint: gpu=true:NoSchedule]          │
-│  ┌──────────────────────────────────────────┐  │
-│  │  Pod-X (Toleration: gpu=true:NoSchedule) │──▶│ ✅ 배치 허용 │
-│  └──────────────────────────────────────────┘  │
-│                                                 │
-│  Pod-Y (Toleration 없음)                        │
-│  ──────────────────────────────────────────▶ ❌ 스케줄 거부 │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|              Kubernetes Scheduler               |
+|                                                 |
+|  Node-A  [Taint: gpu=true:NoSchedule]          |
+|  +------------------------------------------+  |
+|  |  Pod-X (Toleration: gpu=true:NoSchedule) |--->| ✅ 배치 허용 |
+|  +------------------------------------------+  |
+|                                                 |
+|  Pod-Y (Toleration 없음)                        |
+|  -------------------------------------------> ❌ 스케줄 거부 |
++-------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -123,8 +123,8 @@ Kubernetes가 기본 자동 추가하는 Toleration:
 
 | 구성 요소             | 역할                               |
 |-----------------------|------------------------------------|
-| [Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)                 | 노드 → [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 접근 제한 선언         |
-| Toleration            | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) → [Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) 무효화 허용           |
+| [Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)                 | 노드 -> [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 접근 제한 선언         |
+| Toleration            | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) -> [Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) 무효화 허용           |
 | NoSchedule            | 신규 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 차단              |
 | PreferNoSchedule      | [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 비선호(소프트)              |
 | NoExecute             | 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 축출                     |
@@ -135,10 +135,10 @@ Kubernetes가 기본 자동 추가하는 Toleration:
 
 ```
 Taint/Toleration
-    ├── NoSchedule → 신규 파드 배치 제어
-    ├── NoExecute  → 기존 파드 축출 + tolerationSeconds
-    ├── Node Affinity (보완: 파드 주도 선택)
-    └── Pod Disruption Budget (PDB) → 축출 안전 제어
+    +-- NoSchedule -> 신규 파드 배치 제어
+    +-- NoExecute  -> 기존 파드 축출 + tolerationSeconds
+    +-- Node Affinity (보완: 파드 주도 선택)
+    +-- Pod Disruption Budget (PDB) -> 축출 안전 제어
 ```
 
 > 🧒 **어린이 비유**
@@ -150,7 +150,7 @@ Taint/Toleration
 
 **진행 상황**: 312 / 373
 
-← **이전**: [311. 데몬셋 (DaemonSet)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/311_process/)
-**다음**: [HPA CA Autoscaling](/knowledge-base/studynote/15_devops_sre/05_devsecops/313_hpa_ca/) →
+<- **이전**: [311. 데몬셋 (DaemonSet)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/311_process/)
+**다음**: [HPA CA Autoscaling](/knowledge-base/studynote/15_devops_sre/05_devsecops/313_hpa_ca/) ->
 
 ---

@@ -55,24 +55,24 @@ TOCTOU는 주로 [파일](/knowledge-base/studynote/02_operating_system/09_file_
 - 은행 서버: `잔액 = 잔액 - 100만 원` $\rightarrow$ (내 통장 잔고가 마이너스 100만 원이 되며 은행 돈이 털림).
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│           TOCTOU (Time of Check to Time of Use) 공격 흐름 시각화        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 정상 프로그램 (Victim) ]                [ 해커 프로그램 (Attacker) ]  │
-│                                                                         │
-│ 1. Check (검사)                                                         │
-│    "권한이 정상인가?" ───────── (통과)                                  │
-│                                  │                                      │
-│ 2. ⏳ (CPU 스케줄링으로 인한 멈춤 찰나)     💥 해커 난입!               │
-│                                  ├───▶ 1. 정상 파일을 싹 치워버림       │
-│                                  ├───▶ 2. 악성 폭탄 파일로 몰래 교체!   │
-│                                                                         │
-│ 3. Use (사용/실행)                                                      │
-│    파일 삭제 실행! ─────────────── (💣 쾅!) 해커의 폭탄을 실행해버림    │
-│                                                                         │
-│ ★ 핵심: Check와 Use가 분리되어 있으면 무조건 그 사이에 틈이 생긴다.     │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|           TOCTOU (Time of Check to Time of Use) 공격 흐름 시각화        |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 정상 프로그램 (Victim) ]                [ 해커 프로그램 (Attacker) ]  |
+|                                                                         |
+| 1. Check (검사)                                                         |
+|    "권한이 정상인가?" --------- (통과)                                  |
+|                                  |                                      |
+| 2. ⏳ (CPU 스케줄링으로 인한 멈춤 찰나)     💥 해커 난입!               |
+|                                  +----> 1. 정상 파일을 싹 치워버림       |
+|                                  +----> 2. 악성 폭탄 파일로 몰래 교체!   |
+|                                                                         |
+| 3. Use (사용/실행)                                                      |
+|    파일 삭제 실행! --------------- (💣 쾅!) 해커의 폭탄을 실행해버림    |
+|                                                                         |
+| ★ 핵심: Check와 Use가 분리되어 있으면 무조건 그 사이에 틈이 생긴다.     |
++-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) OS에서는 CPU가 언제 내 프로그램의 실행을 멈추고([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 남의 프로그램을 돌릴지 예측할 수 없다. 1번 줄과 3번 줄이 바로 붙어있어도, 그 사이에 운영체제가 100번 넘게 프로그램을 멈췄다 재개할 수 있다. 그 모든 틈새가 해커에게는 문이 활짝 열린 놀이터가 된다.
@@ -137,12 +137,12 @@ TOCTOU 취약점은 개발자가 정적(Static)인 코드의 논리만 맹신하
 
 ```text
 [더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
-    │
-    ▼
+    |
+    v
 [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    │
-    ├──▶ [임계 구역 크기 최소화 기법]
-    └──▶ [락 경합 (Lock Contention) 모니터링 도구]
+    |
+    +---> [임계 구역 크기 최소화 기법]
+    +---> [락 경합 (Lock Contention) 모니터링 도구]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -159,7 +159,7 @@ TOCTOU 취약점은 개발자가 정적(Static)인 코드의 논리만 맹신하
 
 **진행 상황**: 273 / 800
 
-← **이전**: [272. 더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)
-**다음**: [274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)](/knowledge-base/studynote/02_operating_system/04_synchronization/274_critical_section_minimization/) →
+<- **이전**: [272. 더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)
+**다음**: [274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)](/knowledge-base/studynote/02_operating_system/04_synchronization/274_critical_section_minimization/) ->
 
 ---

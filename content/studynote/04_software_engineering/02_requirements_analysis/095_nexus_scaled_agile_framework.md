@@ -38,27 +38,27 @@ tags = ["software_engineering"]
 | **NIT 팀원 구성** | 개별 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [제품 백로그] ──▶  (단 1명의 PO가 전체 우선순위 통제)               │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 🌟 넥서스 통합팀 (NIT : Nexus Integration Team)           │  │
-│  │  - 구성: PO + SM + 각 팀 대표자 1명씩                      │  │
-│  │  - 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리        │  │
-│  └────────────────────────────────────────────────────────┘  │
-│         ▲                    ▲                    ▲         │
-│         │ (코드 제출)          │ (의존성 해결)       │ (CI/CD)  │
-│  ┌────────────┐       ┌────────────┐       ┌────────────┐  │
-│  │ 스크럼 팀 1  │       │ 스크럼 팀 2  │  ...  │ 스크럼 팀 N  │  │
-│  │ (본연의 코딩) │       │ (본연의 코딩) │       │ (본연의 코딩) │  │
-│  └────────────┘       └────────────┘       └────────────┘  │
-│                                                              │
-│  결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조           |
++--------------------------------------------------------------+
+|                                                              |
+|  [제품 백로그] --->  (단 1명의 PO가 전체 우선순위 통제)               |
+|         |                                                    |
+|         v                                                    |
+|  +--------------------------------------------------------+  |
+|  | 🌟 넥서스 통합팀 (NIT : Nexus Integration Team)           |  |
+|  |  - 구성: PO + SM + 각 팀 대표자 1명씩                      |  |
+|  |  - 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리        |  |
+|  +--------------------------------------------------------+  |
+|         ^                    ^                    ^         |
+|         | (코드 제출)          | (의존성 해결)       | (CI/CD)  |
+|  +------------+       +------------+       +------------+  |
+|  | 스크럼 팀 1  |       | 스크럼 팀 2  |  ...  | 스크럼 팀 N  |  |
+|  | (본연의 코딩) |       | (본연의 코딩) |       | (본연의 코딩) |  |
+|  +------------+       +------------+       +------------+  |
+|                                                              |
+|  결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴 |
++--------------------------------------------------------------+
 ```
 
 NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩하지 않는다. 그들은 개별 팀으로 돌아가 가이드를 전파하고, 전체 팀의 빌드가 깨졌을 때 소방수처럼 달려가 해결하는 기술 지원 및 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 네트워크의 중심 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 동작한다.
@@ -123,17 +123,17 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 ```text
 단일 스크럼 (Scrum)의 소규모 고속 딜리버리 성공
-    │
-    ▼
+    |
+    v
 제품 조직의 성장 (3~9개 스크럼 팀 형성)
-    │
-    ▼
+    |
+    v
 팀 간 코드 통합 지옥 (Integration Hell) 및 의존성 충돌 발생
-    │
-    ▼
+    |
+    v
 의존성 해결 전담 부대의 신설 필요성 대두
-    │
-    ▼
+    |
+    v
 넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)
 ```
 
@@ -151,7 +151,7 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 **진행 상황**: 95 / 973
 
-← **이전**: [94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)
-**다음**: [96. Spotify 모델 - Tribe, Squad, Chapter, Guild](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/096_spotify_model_tribe_squad/) →
+<- **이전**: [94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)
+**다음**: [96. Spotify 모델 - Tribe, Squad, Chapter, Guild](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/096_spotify_model_tribe_squad/) ->
 
 ---

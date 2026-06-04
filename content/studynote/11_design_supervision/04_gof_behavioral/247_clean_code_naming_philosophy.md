@@ -42,9 +42,9 @@ int daysSinceLastModification;
 - TODO: 임시 표시 (단, 추적 티켓 번호 병기)
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: "빨간 버튼 누르지 마시오" 대신 버튼 자체에 "비상정지"라고 쓰인 것이 더 믿을 수 있다 — 이름이 경고문보다 강력하다.
@@ -53,31 +53,31 @@ int daysSinceLastModification;
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-나쁨 ◀─────────────────────────────────────────▶ 좋음
-┌────────────┬──────────────┬──────────────────────────┐
-│  암호형    │  주석 의존형  │  자가 설명형             │
-├────────────┼──────────────┼──────────────────────────┤
-│  int d;    │  int d; //일 │  int daysSinceLastVisit; │
-│  void p(); │  // 처리     │  void processPayment();  │
-│  String s; │  // 주소문자 │  String customerAddress; │
-│  List l;   │  // 사용자목 │  List<User> activeUsers; │
-└────────────┴──────────────┴──────────────────────────┘
+나쁨 <-------------------------------------------> 좋음
++------------+--------------+--------------------------+
+|  암호형    |  주석 의존형  |  자가 설명형             |
++------------+--------------+--------------------------+
+|  int d;    |  int d; //일 |  int daysSinceLastVisit; |
+|  void p(); |  // 처리     |  void processPayment();  |
+|  String s; |  // 주소문자 |  String customerAddress; |
+|  List l;   |  // 사용자목 |  List<User> activeUsers; |
++------------+--------------+--------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────────────┐
-│               네이밍 추상화 계층                    │
-├─────────────────────────────────────────────────────┤
-│  패키지/모듈   com.company.billing.invoice          │
-│    ↓                                                │
-│  클래스       InvoiceGenerationService              │
-│    ↓                                                │
-│  메서드       generateMonthlyInvoiceForCustomer()   │
-│    ↓                                                │
-│  변수         customersWithUnpaidBalance            │
-│    ↓                                                │
-│  상수         MAX_INVOICE_LINE_ITEMS = 500          │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|               네이밍 추상화 계층                    |
++-----------------------------------------------------+
+|  패키지/모듈   com.company.billing.invoice          |
+|    v                                                |
+|  클래스       InvoiceGenerationService              |
+|    v                                                |
+|  메서드       generateMonthlyInvoiceForCustomer()   |
+|    v                                                |
+|  변수         customersWithUnpaidBalance            |
+|    v                                                |
+|  상수         MAX_INVOICE_LINE_ITEMS = 500          |
++-----------------------------------------------------+
 ```
 
 이름에 모든 정보를 넣는 것보다 클래스나 메서드의 맥락을 활용해 중복을 줄인다.
@@ -118,10 +118,10 @@ int daysSinceLastModification;
 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 의 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)) 개념을 네이밍에 적용하면, 비즈니스 팀과 개발팀이 동일한 용어를 사용해 소통 오류가 줄어든다.
 
 ```
-비즈니스 용어 → 코드 반영
-"할인쿠폰 적용" → applyCoupon(Coupon coupon)
-"재고 소진"     → isOutOfStock() / deplete(int qty)
-"결제 승인"     → approvePayment(Payment payment)
+비즈니스 용어 -> 코드 반영
+"할인쿠폰 적용" -> applyCoupon(Coupon coupon)
+"재고 소진"     -> isOutOfStock() / deplete(int qty)
+"결제 승인"     -> approvePayment(Payment payment)
 ```
 
 - [ ] 이름만 보고 어떤 값/동작인지 알 수 있는가?
@@ -172,7 +172,7 @@ int daysSinceLastModification;
 | 도구 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) | 이름 품질 규칙 자동 검사 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-의도 드러내기 → [클린 코드](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/) 네이밍 철학 → [ubiquitous language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)
+의도 드러내기 -> [클린 코드](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/) 네이밍 철학 -> [ubiquitous language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 서랍에 "물건들"이라고 적는 것보다 "양말", "속옷", "티셔츠"라고 적으면 열어보지 않아도 뭐가 있는지 안다.
@@ -185,7 +185,7 @@ int daysSinceLastModification;
 
 **진행 상황**: 308 / 530
 
-← **이전**: [246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/246_refused_bequest_lsp_violation/)
-**다음**: [248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/248_refactoring_tdd_safety_net/) →
+<- **이전**: [246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/246_refused_bequest_lsp_violation/)
+**다음**: [248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/248_refactoring_tdd_safety_net/) ->
 
 ---

@@ -34,21 +34,21 @@ tags = ["studynote-ai"]
 다음 그림은 경험 재생이 왜 "수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"과 "학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"을 분리하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        Experience Replay: 수집과 학습을 분리해 데이터 재사용률을 높임      │
-├────────────────────────────────────────────────────────────────────────────┤
-│  Environment ─▶ Actor ─▶ transition 생성 ─▶ Replay Buffer                │
-│                    │                         ┌──────────────────────────┐  │
-│                    │                         │ (s, a, r, s', done) ... │  │
-│                    │                         │ FIFO / Ring Buffer      │  │
-│                    │                         └──────────┬──────────────┘  │
-│                    │                                    │ random sample    │
-│                    └────────────────────────────────────┘                  │
-│                                                         ▼                  │
-│                                              Mini-batch Learner            │
-│                                              ├─ Q-network update           │
-│                                              └─ Target value 계산          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        Experience Replay: 수집과 학습을 분리해 데이터 재사용률을 높임      |
++----------------------------------------------------------------------------+
+|  Environment --> Actor --> transition 생성 --> Replay Buffer                |
+|                    |                         +--------------------------+  |
+|                    |                         | (s, a, r, s', done) ... |  |
+|                    |                         | FIFO / Ring Buffer      |  |
+|                    |                         +----------+--------------+  |
+|                    |                                    | random sample    |
+|                    +------------------------------------+                  |
+|                                                         v                  |
+|                                              Mini-batch Learner            |
+|                                              +- Q-network update           |
+|                                              +- Target value 계산          |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 설계 요소는 아래와 같다.
@@ -129,15 +129,15 @@ tags = ["studynote-ai"]
 
 ```text
 온라인 학습 (Online Learning)
-        │
-        ▼
+        |
+        v
 경험 재생 (Experience Replay)
-        │
-        ├─▶ DQN (Deep Q-Network) 안정화
-        │
-        ├─▶ PER (Prioritized Experience Replay)
-        │
-        └─▶ HER / 분산 리플레이 / 시퀀스 리플레이
+        |
+        +--> DQN (Deep Q-Network) 안정화
+        |
+        +--> PER (Prioritized Experience Replay)
+        |
+        +--> HER / 분산 리플레이 / 시퀀스 리플레이
 ```
 
 이 흐름은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 쓰고 버리는 단계"에서 "중요한 경험을 선별해 반복 활용하는 단계"로 강화학습의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화해 온 과정을 보여준다.
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 169 / 420
 
-← **이전**: [168. 딥 큐 네트워크 (DQN)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/168_dqn/)
-**다음**: [170. 타겟 네트워크 (Target Network)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/) →
+<- **이전**: [168. 딥 큐 네트워크 (DQN)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/168_dqn/)
+**다음**: [170. 타겟 네트워크 (Target Network)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/) ->
 
 ---

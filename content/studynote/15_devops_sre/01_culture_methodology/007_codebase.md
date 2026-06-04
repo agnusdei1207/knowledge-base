@@ -30,28 +30,28 @@ tags = ["devops_sre"]
 [코드베이스 원칙 위반 vs 준수 아키텍처]
 
 ❌ 안티패턴 (다대다 얽힘)
-  [Repo A] ─┐          ┌─▶ App 1 (Production)
-            ├─(빌드)───┤
-  [Repo B] ─┤          ├─▶ App 2 (Staging)
-            │          │
-  [Repo C] ─┘          └─▶ App 3 (Development)
+  [Repo A] -+          +--> App 1 (Production)
+            +-(빌드)---+
+  [Repo B] -+          +--> App 2 (Staging)
+            |          |
+  [Repo C] -+          +--> App 3 (Development)
 
   문제점:
-  - Repo A의 코드가 App 1, 2에 중복 적용 → 버전 불일치
-  - 특정 환경만 수동 패치 → "Production만 다르다" 현상
+  - Repo A의 코드가 App 1, 2에 중복 적용 -> 버전 불일치
+  - 특정 환경만 수동 패치 -> "Production만 다르다" 현상
   - 어떤Repo가 어떤 App에 해당하는지 추적 불가
 
 ✓ 준수 패턴 (1:1 매핑)
-  [Repo A] ──────────────────▶ App 1 (Dev → Staging → Prod)
-                              │ 설정(Config)만 환경별 다름
-  [Repo B] ──────────────────▶ App 2
-                              │ 설정(Config)만 환경별 다름
-  [Repo C] ──────────────────▶ App 3
-                              │ 설정(Config)만 환경별 다름
+  [Repo A] -------------------> App 1 (Dev -> Staging -> Prod)
+                              | 설정(Config)만 환경별 다름
+  [Repo B] -------------------> App 2
+                              | 설정(Config)만 환경별 다름
+  [Repo C] -------------------> App 3
+                              | 설정(Config)만 환경별 다름
 
   장점:
-  - 각 앱의 코드는 단일 Repo에서 관리 → 추적 용이
-  - 설정만 분리하여 환경별 배포 →Reproducibility 보장
+  - 각 앱의 코드는 단일 Repo에서 관리 -> 추적 용이
+  - 설정만 분리하여 환경별 배포 ->Reproducibility 보장
   - VCS 히스토리로 언제든 이전 버전으로Rollback 가능
 ```
 
@@ -77,42 +77,42 @@ tags = ["devops_sre"]
 ```text
 [Git 기반 코드베이스 + CI/CD 파이프라인 연동]
 
-┌─────────────────────────────────────────────────────────────┐
-│                    Git Repository (코드베이스)               │
-│                                                             │
-│   main ──────────────────────────────────────────────────▶  │
-│     │                                                       │
-│     │ feature/user-auth ────────────────────────────────────│
-│     │     │                                                 │
-│     │     └── Pull Request (Code Review) ──────────────────▶│
-│     │                                                       │
-│     └── hotfix/critical-bug ────────────────────────────────│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              │ Webhook (Push Event)
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    CI/CD Pipeline                           │
-│                                                             │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐       │
-│  │ Build   │─▶│  Test   │─▶│ Package │─▶│ Deploy  │       │
-│  │ (소스   │  │ (단위/   │  │ (Docker │  │ (Dev/   │       │
-│  │ 컴파일) │  │ 통합)    │  │ 이미지) │  │ Stag/   │       │
-│  │         │  │         │  │         │  │ Prod)   │       │
-│  └─────────┘  └─────────┘  └─────────┘  └─────────┘       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    환경별 배포 (동일 코드베이스)             │
-│                                                             │
-│   [Dev Environment]    [Staging Environment]   [Prod Env]   │
-│   설정: 개발용 DB      설정: 테스트용 DB       설정: 운영용 DB│
-│   코드: 동일 (main)    코드: 동일 (main)        코드: 동일 (main)│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    Git Repository (코드베이스)               |
+|                                                             |
+|   main --------------------------------------------------->  |
+|     |                                                       |
+|     | feature/user-auth ------------------------------------|
+|     |     |                                                 |
+|     |     +-- Pull Request (Code Review) ------------------->|
+|     |                                                       |
+|     +-- hotfix/critical-bug --------------------------------|
+|                                                             |
++-------------------------------------------------------------+
+                              |
+                              | Webhook (Push Event)
+                              v
++-------------------------------------------------------------+
+|                    CI/CD Pipeline                           |
+|                                                             |
+|  +---------+  +---------+  +---------+  +---------+       |
+|  | Build   |-->|  Test   |-->| Package |-->| Deploy  |       |
+|  | (소스   |  | (단위/   |  | (Docker |  | (Dev/   |       |
+|  | 컴파일) |  | 통합)    |  | 이미지) |  | Stag/   |       |
+|  |         |  |         |  |         |  | Prod)   |       |
+|  +---------+  +---------+  +---------+  +---------+       |
+|                                                             |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+|                    환경별 배포 (동일 코드베이스)             |
+|                                                             |
+|   [Dev Environment]    [Staging Environment]   [Prod Env]   |
+|   설정: 개발용 DB      설정: 테스트용 DB       설정: 운영용 DB|
+|   코드: 동일 (main)    코드: 동일 (main)        코드: 동일 (main)|
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 동일한 코드베이스(main 브랜치)에서 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 달리하여 세 환경에 배포된다는 점이다. 코드 자체는 환경에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 동일하므로"코드의 불일치"로 인한 버그는 원천적으로 발생할 수 없다. 환경 간 차이는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))에만 존재하며, 이것은 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)를 통해 코드와 분리되어 관리된다. [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 통해 코드 변경이 발생하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동으로 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)되어 모든 환경에 일관된 배포가 이루어진다.
@@ -127,8 +127,8 @@ tags = ["devops_sre"]
 
 | 관련 개념 | 코드베이스 원칙과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 시너지 효과 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | MSA는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 독립적Repo보유 → 코드베이스 1:1 원칙천연적 준수 | 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영 가능 |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/">모놀리식 아키텍처</a></strong> | 모놀리스는 단일Repo에 전체 코드 → 1:1 원칙은 준수하지만 규모 확장에 한계 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 코드베이스 분리 필요 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | MSA는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 독립적Repo보유 -> 코드베이스 1:1 원칙천연적 준수 | 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영 가능 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/">모놀리식 아키텍처</a></strong> | 모놀리스는 단일Repo에 전체 코드 -> 1:1 원칙은 준수하지만 규모 확장에 한계 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 코드베이스 분리 필요 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | Git Repo = 단일 진실 공급원 = 코드베이스 원칙의실현형 | Git에 목표 상태를 선언하면 자동 Sync |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 코드베이스의 불변 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 동일한 이미지로 Dev/Prod 환경 동일성 보장 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)와 앱 코드는 분리된 Repo관리가일반적 | 인프라 변경과 앱 변경의 분리된 코드베이스 |
@@ -139,34 +139,34 @@ tags = ["devops_sre"]
 [코드베이스 원칙 + GitOps 결합]
 
   Git Repository (Codebase)
-         │
-         │ main 브랜치 Push
-         ▼
-  ┌───────────────────┐
-  │  CI Pipeline      │
-  │  (Build & Test)   │
-  └─────────┬─────────┘
-            │ Docker Image Push
-            ▼
-  ┌───────────────────┐
-  │  Artifact Registry │  ◀── 이미지 태그 = 코드 버전
-  │  (Docker Hub, ECR) │
-  └─────────┬─────────┘
-            │ Pull (GitOps)
-            ▼
-  ┌───────────────────────────────────┐
-  │  ArgoCD / FluxCD                  │
-  │  (클러스터 내부 에이전트)           │
-  │  - Git의 목표 상태 감시            │
-  │  - 현재 상태와 비교                │
-  │  - 불일치 시 자동 동기화            │
-  └─────────┬─────────────────────────┘
-            │
-            ▼
-  ┌───────────────────────────────────┐
-  │  Kubernetes Cluster               │
-  │  (Production)                     │
-  └───────────────────────────────────┘
+         |
+         | main 브랜치 Push
+         v
+  +-------------------+
+  |  CI Pipeline      |
+  |  (Build & Test)   |
+  +---------+---------+
+            | Docker Image Push
+            v
+  +-------------------+
+  |  Artifact Registry |  <--- 이미지 태그 = 코드 버전
+  |  (Docker Hub, ECR) |
+  +---------+---------+
+            | Pull (GitOps)
+            v
+  +-----------------------------------+
+  |  ArgoCD / FluxCD                  |
+  |  (클러스터 내부 에이전트)           |
+  |  - Git의 목표 상태 감시            |
+  |  - 현재 상태와 비교                |
+  |  - 불일치 시 자동 동기화            |
+  +---------+-------------------------+
+            |
+            v
+  +-----------------------------------+
+  |  Kubernetes Cluster               |
+  |  (Production)                     |
+  +-----------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: 코드베이스 원칙과 GitOps의 결합은"음식 배달 시스템"과 같다.중앙주방(코드베이스)에서 동일한 레시피로 만든 요리를진공랭각포장([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지)하고, 배달 앱([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))이 고객 주소([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터)까지 최적 경로로 자동 배달한다. 중앙주방의 레시피가바르면(코드 변경) 모든 고객의 요리가갱신되고, 배달 속도([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Sync 주기)가 빨라질수록 고객 만족도가 높아진다.
@@ -190,13 +190,13 @@ tags = ["devops_sre"]
 [코드베이스Repo 전략 선택 기준]
 
 조직 규모 | 서비스 수 | 권장Repo 전략 | Trade-off
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 소규모   | 1-5개    | 서비스별Repo  | 단순하지만 분리는 어려움
         |          | (Polyrepo)   |
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 중규모   | 5-20개   | 모노레포     | 일관된 tooling 가능
         |          | (Monorepo)   | 하지만 빌드 복잡성 증가
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 대규모   | 20개 이상 | 모노레포 +   | 확장성 최고
         |          | 자동화된     | 하지만 초기 설정 비용
         |          | 빌드 시스템   | 높음
@@ -240,20 +240,20 @@ tags = ["devops_sre"]
 
 ```text
 [버전 관리 시스템 (VCS, Version Control System)]
-    │
-    ▼
+    |
+    v
 [단일 코드베이스 (Single Codebase)]
-    │
-    ▼
+    |
+    v
 [12팩터 앱 (12-Factor App)]
-    │
-    ▼
+    |
+    v
 [브랜치 전략 (Branching Strategy)]
-    │
-    ▼
+    |
+    v
 [CI/CD 파이프라인 (Continuous Integration/Delivery)]
-    │
-    ▼
+    |
+    v
 [GitOps]
 ```
 
@@ -271,7 +271,7 @@ tags = ["devops_sre"]
 
 **진행 상황**: 7 / 373
 
-← **이전**: [6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/)
-**다음**: [8. 종속성 (Dependencies) 격리 - 모든 종속성은 명시적으로 선언(package.json, pom.xml 등)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) →
+<- **이전**: [6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/)
+**다음**: [8. 종속성 (Dependencies) 격리 - 모든 종속성은 명시적으로 선언(package.json, pom.xml 등)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ->
 
 ---

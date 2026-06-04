@@ -77,17 +77,17 @@ HBase는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 ```text
 [RDBMS (관계형 DB) — 행 기반 스키마, ACID 트랜잭션, 수직 확장 한계]
-    │
-    ▼
+    |
+    v
 [HBase — HDFS 위의 컬럼 패밀리 기반 분산 NoSQL, 수억 행 수평 확장]
-    │
-    ▼
+    |
+    v
 [컬럼 패밀리 (Column Family) — 연관 컬럼 묶음을 동일 HFile에 배치, I/O 최적화]
-    │
-    ▼
-[LSM-Tree (Log-Structured Merge Tree) — MemStore→HFile 계단식 병합으로 고속 쓰기]
-    │
-    ▼
+    |
+    v
+[LSM-Tree (Log-Structured Merge Tree) — MemStore->HFile 계단식 병합으로 고속 쓰기]
+    |
+    v
 [Apache Phoenix — HBase 위에 SQL 레이어를 추가, 기업 데이터 웨어하우스 확장]
 ```
 
@@ -104,7 +104,7 @@ HBase는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 **진행 상황**: 37 / 262
 
-← **이전**: [Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/)
-**다음**: [16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅](/knowledge-base/studynote/16_bigdata/02_hadoop/038_apache_pig/) →
+<- **이전**: [Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/)
+**다음**: [16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅](/knowledge-base/studynote/16_bigdata/02_hadoop/038_apache_pig/) ->
 
 ---

@@ -45,30 +45,30 @@ tags = ["studynote-it-management"]
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 배치, 인터페이스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 망연계를 통과할 때의 공통 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Network linkage reference flow                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Source zone                                                         │
-│   files / records / API events                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ [Collector / Staging]                                               │
-│        │ metadata extraction                                        │
-│        ▼                                                            │
-│ [Inspection] Antivirus + CDR + DLP + schema validation              │
-│        │                                                            │
-│        ├─ reject / quarantine -> audit                              │
-│        └─ pass                                                      │
-│             ▼                                                       │
-│      [Approval / Policy Engine]                                     │
-│             │                                                       │
-│             ▼                                                       │
-│      [Transfer Broker / Relay]                                      │
-│             │                                                       │
-│        one-way or controlled bi-direction                           │
-│             ▼                                                       │
-│ Target zone + SIEM / immutable logs                                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Network linkage reference flow                                      |
++----------------------------------------------------------------------+
+| Source zone                                                         |
+|   files / records / API events                                      |
+|        |                                                            |
+|        v                                                            |
+| [Collector / Staging]                                               |
+|        | metadata extraction                                        |
+|        v                                                            |
+| [Inspection] Antivirus + CDR + DLP + schema validation              |
+|        |                                                            |
+|        +- reject / quarantine -> audit                              |
+|        +- pass                                                      |
+|             v                                                       |
+|      [Approval / Policy Engine]                                     |
+|             |                                                       |
+|             v                                                       |
+|      [Transfer Broker / Relay]                                      |
+|             |                                                       |
+|        one-way or controlled bi-direction                           |
+|             v                                                       |
+| Target zone + SIEM / immutable logs                                 |
++----------------------------------------------------------------------+
 ```
 
 여기서 핵심은 "연결"보다 "중개"다. 보안 수준이 가장 높은 환경에서는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Diode로 물리적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하고, 일반 업무망에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 게이트웨이나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 릴레이가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 양방향 흐름을 제한적으로 제공한다. 즉 망연계는 단일 제품명이 아니라, <strong>분리된 경계 위에 어떤 형태의 안전한 흐름을 설계할지에 대한 아키텍처 패턴</strong>이다.
@@ -155,21 +155,21 @@ tags = ["studynote-it-management"]
 
 ```text
 망분리 도입
-    │
-    ▼
+    |
+    v
 업무상 데이터 교환 필요 발생
-    │
-    ▼
+    |
+    v
 Staging + Inspection + Approval
-    │
-    ├─ 단방향 고보안 -> Data Diode
-    ├─ 파일 교환     -> Transfer Gateway + CDR
-    └─ 시스템 연계   -> API / Message Relay
-    │
-    ▼
+    |
+    +- 단방향 고보안 -> Data Diode
+    +- 파일 교환     -> Transfer Gateway + CDR
+    +- 시스템 연계   -> API / Message Relay
+    |
+    v
 Audit + SIEM + DR 연계
-    │
-    ▼
+    |
+    v
 Zero Trust와 결합한 현대적 경계 운영
 ```
 
@@ -187,7 +187,7 @@ Zero Trust와 결합한 현대적 경계 운영
 
 **진행 상황**: 297 / 587
 
-← **이전**: [182. 망분리 (Network Separation) 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)
-**다음**: [184. 제로 트러스트 아키텍처 (Zero Trust Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) →
+<- **이전**: [182. 망분리 (Network Separation) 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)
+**다음**: [184. 제로 트러스트 아키텍처 (Zero Trust Architecture)](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) ->
 
 ---

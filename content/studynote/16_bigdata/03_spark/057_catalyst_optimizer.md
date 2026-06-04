@@ -56,14 +56,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [논리 계획 (Logical Plan)]
-    │
-    ▼
+    |
+    v
 [물리 계획 (Physical Plan)]
-    │
-    ▼
+    |
+    v
 [Catalyst Optimizer (Catalyst Optimizer)]
-    │
-    ▼
+    |
+    v
 [코드 생성 (Code Generation)]
 ```
 
@@ -79,7 +79,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 57 / 262
 
-← **이전**: [05. Spark SQL — 분산 구조적 쿼리 처리](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)
-**다음**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) →
+<- **이전**: [05. Spark SQL — 분산 구조적 쿼리 처리](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)
+**다음**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) ->
 
 ---

@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시프트 레프트 테스팅 (Shift-L                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  시프트 레프트 테스팅 (Shift-L                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -62,7 +62,7 @@ tags = ["studynote-software-engineering"]
 
 ```text
 요구사항 -> 설계 -> 구현 -> 배포
-   ↑ 테스트를 더 왼쪽으로 이동
+   ^ 테스트를 더 왼쪽으로 이동
 ```
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 많을수록 후반 비용이 줄어든다.
@@ -145,21 +145,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 시프트 레프트 테스팅 (Shift-Left Testing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -173,7 +173,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 523 / 973
 
-← **이전**: [465. 지속적 테스팅 (Continuous Testing) - CI/CD 파이프라인 전 과정에 테스트 자동화 통합](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/)
-**다음**: [466. 시프트 레프트 테스팅 (Shift-Left Testing) - 테스트 활동을 개발 초기(왼쪽) 단계로 당겨 결함 조기 발견](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/) →
+<- **이전**: [465. 지속적 테스팅 (Continuous Testing) - CI/CD 파이프라인 전 과정에 테스트 자동화 통합](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/)
+**다음**: [466. 시프트 레프트 테스팅 (Shift-Left Testing) - 테스트 활동을 개발 초기(왼쪽) 단계로 당겨 결함 조기 발견](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/) ->
 
 ---

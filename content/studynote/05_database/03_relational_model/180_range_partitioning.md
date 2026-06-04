@@ -26,21 +26,21 @@ tags = ["studynote-database"]
 아래 그림은 레인지 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 왜 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기법이 아니라 <strong>시간축을 저장 구조로 옮기는 방법</strong>인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Range partitioning on a growing history table                      │
-├────────────────────────────────────────────────────────────────────┤
-│ Non-partitioned table                                              │
-│   [2019...............................2026 all rows mixed together]│
-│   └─ query: 2026-05 => recent data, but maintenance scope is huge  │
-│                                                                    │
-│ Range-partitioned table                                            │
-│   [P2019][P2020][P2021][P2022][P2023][P2024][P2025][P2026_05]     │
-│                                                   └─ target zone   │
-│                                                                    │
-│ Operational effect                                                 │
-│   query recent month  -> read only matching partition(s)           │
-│   purge expired history -> drop old partition, not row-by-row      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Range partitioning on a growing history table                      |
++--------------------------------------------------------------------+
+| Non-partitioned table                                              |
+|   [2019...............................2026 all rows mixed together]|
+|   +- query: 2026-05 => recent data, but maintenance scope is huge  |
+|                                                                    |
+| Range-partitioned table                                            |
+|   [P2019][P2020][P2021][P2022][P2023][P2024][P2025][P2026_05]     |
+|                                                   +- target zone   |
+|                                                                    |
+| Operational effect                                                 |
+|   query recent month  -> read only matching partition(s)           |
+|   purge expired history -> drop old partition, not row-by-row      |
++--------------------------------------------------------------------+
 ```
 
 핵심은 "최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자주 보고, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 주기적으로 정리한다"는 업무 현실과 저장 구조를 맞춘다는 점이다. 그래서 레인지 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 종류 중에서도 시계열·이력성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 가장 자연스럽게 결합한다.
@@ -54,22 +54,22 @@ tags = ["studynote-database"]
 레인지 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 원리는 단순하지만, 경계 정의가 매우 중요하다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 새 행이 들어오면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, "어느 상한선까지 포함되는가"를 기준으로 저장할 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 결정한다. 예를 들어 월별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이라면 `2026-05-06` 행은 `2026-06-01`보다 작은 값을 담는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)된다. 조회 시에는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 `WHERE order_date >= ... AND order_date < ...` 같은 조건을 보고 관련 없는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 제외하는데, 이 최적화가 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)) 이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Boundary routing and pruning                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ INSERT order_date = 2026-05-06                                     │
-│      │                                                             │
-│      ▼                                                             │
-│ compare with range boundaries                                      │
-│   < 2026-01-01 -> P2025                                            │
-│   < 2026-04-01 -> P2026_Q1                                         │
-│   < 2026-07-01 -> P2026_Q2  ◀──────── stored here                  │
-│   < MAXVALUE   -> P_FUTURE                                         │
-│                                                                    │
-│ SELECT ... WHERE order_date >= 2026-05-01                          │
-│                 AND order_date <  2026-06-01                       │
-│      └─ optimizer skips P2025, P2026_Q1, P_FUTURE                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Boundary routing and pruning                                       |
++--------------------------------------------------------------------+
+| INSERT order_date = 2026-05-06                                     |
+|      |                                                             |
+|      v                                                             |
+| compare with range boundaries                                      |
+|   < 2026-01-01 -> P2025                                            |
+|   < 2026-04-01 -> P2026_Q1                                         |
+|   < 2026-07-01 -> P2026_Q2  <--------- stored here                  |
+|   < MAXVALUE   -> P_FUTURE                                         |
+|                                                                    |
+| SELECT ... WHERE order_date >= 2026-05-01                          |
+|                 AND order_date <  2026-06-01                       |
+|      +- optimizer skips P2025, P2026_Q1, P_FUTURE                  |
++--------------------------------------------------------------------+
 ```
 
 실무에서 자주 보는 구성 요소는 다음과 같다.
@@ -175,24 +175,24 @@ tags = ["studynote-database"]
 
 ```text
 누적 이력 테이블
-        │
-        ▼
+        |
+        v
 파티션 키 선정 (date / amount / sequence)
-        │
-        ▼
+        |
+        v
 경계값 설계 (day / month / quarter / year)
-        │
-        ▼
+        |
+        v
 레인지 파티셔닝 (Range Partitioning)
-        │
-        ├──────────────► 파티션 프루닝 기반 범위 조회 최적화
-        │
-        ├──────────────► DROP / EXCHANGE 기반 보관 주기 운영
-        │
-        └──────────────► Local/Global Index · Composite Partition 확장
+        |
+        +--------------► 파티션 프루닝 기반 범위 조회 최적화
+        |
+        +--------------► DROP / EXCHANGE 기반 보관 주기 운영
+        |
+        +--------------► Local/Global Index · Composite Partition 확장
 ```
 
-이 흐름도는 "시간축이 커진 단일 테이블 → 경계 설계 → range 분할 → 조회/운영 최적화"라는 핵심 발전 경로를 보여 준다.
+이 흐름도는 "시간축이 커진 단일 테이블 -> 경계 설계 -> range 분할 -> 조회/운영 최적화"라는 핵심 발전 경로를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -206,7 +206,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 180 / 600
 
-← **이전**: [179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)
-**다음**: [181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) →
+<- **이전**: [179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)
+**다음**: [181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) ->
 
 ---

@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-양자 위협 대응의 핵심은 `암호 자산 식별 → 위험 분류 → PQC 후보 적용 → 하이브리드 검증 → 점진 전환`이다. 실제 전환은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체만이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인, [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)까지 함께 봐야 한다.
+양자 위협 대응의 핵심은 `암호 자산 식별 -> 위험 분류 -> PQC 후보 적용 -> 하이브리드 검증 -> 점진 전환`이다. 실제 전환은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체만이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인, [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)까지 함께 봐야 한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | Hybrid [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 기존+신규 병행 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 키 크기 |
 
 ```text
-┌──────────────┐   identify   ┌──────────────┐   classify   ┌──────────────┐
-│ Crypto Asset │ ───────────▶ │ Risk Profile │ ───────────▶ │ Migration Plan│
-└──────────────┘              └──────────────┘              └──────────────┘
-        │                              │                              │
-        │ legacy PKI                   │ long-lived data              │ hybrid test
-        ▼                              ▼                              ▼
-┌──────────────┐              ┌──────────────┐              ┌──────────────┐
-│ RSA / ECC    │ ───────────▶ │ PQC Candidate│ ───────────▶ │ Runtime Rollout│
-└──────────────┘              └──────────────┘              └──────────────┘
++--------------+   identify   +--------------+   classify   +--------------+
+| Crypto Asset | ------------> | Risk Profile | ------------> | Migration Plan|
++--------------+              +--------------+              +--------------+
+        |                              |                              |
+        | legacy PKI                   | long-lived data              | hybrid test
+        v                              v                              v
++--------------+              +--------------+              +--------------+
+| RSA / ECC    | ------------> | PQC Candidate| ------------> | Runtime Rollout|
++--------------+              +--------------+              +--------------+
 ```
 
 핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계에 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 추가하는 식이다. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)는 키/서명 크기가 커지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 달라질 수 있으므로, 단순 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Classical Public-key Crypto
-   │
-   ▼
+   |
+   v
 Quantum Threat Awareness
-   │
-   ▼
+   |
+   v
 PQC Standardization
-   │
-   ▼
+   |
+   v
 Crypto Agility + Hybrid Migration
 ```
 
-이 흐름은 “기존 공개키 의존 → 양자 위험 인식 → [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 → 운영 전환”으로 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 성숙하는 방향을 보여준다.
+이 흐름은 “기존 공개키 의존 -> 양자 위험 인식 -> [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 -> 운영 전환”으로 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 성숙하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Crypto Agility + Hybrid Migration
 
 **진행 상황**: 351 / 373
 
-← **이전**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/)
-**다음**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) →
+<- **이전**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/)
+**다음**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ->
 
 ---

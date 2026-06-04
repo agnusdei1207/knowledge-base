@@ -30,18 +30,18 @@ tags = ["data_engineering"]
 
                       [ 📝 NameNode (마스터) ]
                       (오직 RAM에서 장부만 관리)
-                 ┌────────────────────────────────────┐
-                 │ 파일경로 : /user/data/sales.csv      │
-                 │ 블록번호 : Blk_1001, Blk_1002        │
-                 │ 블록위치 : Blk_1001 -> DataNode 2,5  │
-                 └─────────────────▲──────────────────┘
-            주소지 조회 (RPC) ↗      │
-                              │ Heartbeat & Block Report 주기적 보고
-      [HDFS Client]           │      │
-      (Spark, Hive 등)        │      ▼
-          │                   │  [ DataNode 1 ]
-          │                   │  [ DataNode 2 ] (Blk_1001 보유)
-          └────── 실제 거대 파일 직접 전송 ─────>  [ DataNode 5 ] (Blk_1001 보유)
+                 +------------------------------------+
+                 | 파일경로 : /user/data/sales.csv      |
+                 | 블록번호 : Blk_1001, Blk_1002        |
+                 | 블록위치 : Blk_1001 -> DataNode 2,5  |
+                 +-----------------^------------------+
+            주소지 조회 (RPC) ↗      |
+                              | Heartbeat & Block Report 주기적 보고
+      [HDFS Client]           |      |
+      (Spark, Hive 등)        |      v
+          |                   |  [ DataNode 1 ]
+          |                   |  [ DataNode 2 ] (Blk_1001 보유)
+          +------ 실제 거대 파일 직접 전송 ----->  [ DataNode 5 ] (Blk_1001 보유)
                  (NameNode를 거치지 않고 직접 통신!)
 ```
 
@@ -71,14 +71,14 @@ tags = ["data_engineering"]
    [Active NameNode]                               [Secondary NameNode (도우미)]
    RAM : Namespace 유지
    Disk:
-     ├── FsImage (오래된 기준점) --------(다운로드)--------┐
-     └── EditLog (실시간 변경 무한히 쌓임) --(다운로드)----┼─┐
-                                                          │ │ [메모리에서 두 파일 병합 연산!]
-     ┌── (새로운 압축 스냅샷 덮어쓰기 반환!) <─────────[FsImage.new 생성]
-     │
+     +-- FsImage (오래된 기준점) --------(다운로드)--------+
+     +-- EditLog (실시간 변경 무한히 쌓임) --(다운로드)----+-+
+                                                          | | [메모리에서 두 파일 병합 연산!]
+     +-- (새로운 압축 스냅샷 덮어쓰기 반환!) <---------[FsImage.new 생성]
+     |
    Disk 업데이트:
-     ├── FsImage.new (새로운 기준점으로 교체됨)
-     └── EditLog (비워짐! 새로 시작)
+     +-- FsImage.new (새로운 기준점으로 교체됨)
+     +-- EditLog (비워짐! 새로 시작)
                                                   (주기적, 예: 1시간마다 반복)
 ```
 
@@ -105,20 +105,20 @@ tags = ["data_engineering"]
 [NameNode HA (고가용성) 클러스터와 JournalNode의 상태 동기화 구조]
 
    [ ZooKeeper Quorum (상태 감시자, 누가 Active인지 투표) ]
-         │ (헬스 체크)                         │
-         ▼                                   ▼
-┌────────────────────┐              ┌────────────────────┐
-│ Active NameNode    │ <--- 차단 ---│ Standby NameNode   │ (Active가 죽으면
-│ (현재 실제 사령관) │ (Fencing)  │ (대기 중인 부사령관) │ 즉시 권한 승계)
-└────────┬───────────┘              └──────────┬─────────┘
-         │ (EditLog 실시간 쓰기)               │ (EditLog 실시간 읽기/반영)
-         ▼                                   ▼
+         | (헬스 체크)                         |
+         v                                   v
++--------------------+              +--------------------+
+| Active NameNode    | <--- 차단 ---| Standby NameNode   | (Active가 죽으면
+| (현재 실제 사령관) | (Fencing)  | (대기 중인 부사령관) | 즉시 권한 승계)
++--------+-----------+              +----------+---------+
+         | (EditLog 실시간 쓰기)               | (EditLog 실시간 읽기/반영)
+         v                                   v
   ======================================================
   [ JournalNode 1 ]   [ JournalNode 2 ]   [ JournalNode 3 ]
   (양쪽의 장부를 0.1초 단위로 똑같이 일치시키는 중계 공유 디스크 역할)
   ======================================================
-         ▲                                   ▲
-         │ (Block Report 양쪽 모두 전송)       │
+         ^                                   ^
+         | (Block Report 양쪽 모두 전송)       |
     [DataNode 1]                        [DataNode N]
 ```
 
@@ -140,14 +140,14 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 [네임노드 장애 대응 및 OOM 징후 방어 의사결정 트리]
 
 [네임노드 대시보드 경고: Heap Memory 90% 초과, 잦은 Full GC 발생]
-       ↓
+       v
 [데이터노드 추가 증설로 해결 가능한가?]
-  ├─ (No!) ──> 디스크 용량 부족이 아니라, "파일 개수 과다"가 원인임. 워커 추가는 돈 낭비!
-  └─ (조치 진입)
-         ↓
+  +- (No!) --> 디스크 용량 부족이 아니라, "파일 개수 과다"가 원인임. 워커 추가는 돈 낭비!
+  +- (조치 진입)
+         v
  [네임스페이스 분석 (fsimage 파싱 도구 활용)]
-  ├─ (작은 파일이 문제) ──> Spark/Hive로 일배치 병합(Compaction) 잡 예약 수행
-  └─ (물리적 파일 수 자체가 거대함) ──> 램(RAM) 스케일 업 또는 HDFS Federation 구조로 아키텍처 재설계
+  +- (작은 파일이 문제) --> Spark/Hive로 일배치 병합(Compaction) 잡 예약 수행
+  +- (물리적 파일 수 자체가 거대함) --> 램(RAM) 스케일 업 또는 HDFS Federation 구조로 아키텍처 재설계
 ```
 
 이 판단의 핵심은 네임노드는 '[스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(고성능 단일 서버)'의 영역에 갇혀 있다는 점이다. [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리는 훌륭한 스케일 아웃이지만, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 통제하는 네임노드는 메모리 공유의 복잡성 때문에 스케일 아웃이 불가능에 가깝다. 따라서 네임노드 자체의 하드웨어 스펙은 클러스터에서 가장 극단적으로 높은 CPU와 대용량 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) RAM을 장착한 최고가 서버를 투입하는 것이 실무적 정석이다.
@@ -184,17 +184,17 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 ```text
 [HDFS (Hadoop Distributed File System) — 블록 분산 저장·복제 파일 시스템]
-    │
-    ▼
+    |
+    v
 [네임노드 (NameNode) — 파일 메타데이터·블록 매핑 중앙 관리 마스터]
-    │
-    ▼
+    |
+    v
 [데이터노드 (DataNode) — 실제 블록 저장·체크섬 검증·하트비트 전송]
-    │
-    ▼
+    |
+    v
 [HDFS HA (High Availability) — 액티브/스탠바이 NameNode 이중화, SPOF 제거]
-    │
-    ▼
+    |
+    v
 [오브젝트 스토리지 (Object Storage) — S3 호환, NameNode 없는 무한 확장 대안]
 ```
 
@@ -212,7 +212,7 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 **진행 상황**: 14 / 258
 
-← **이전**: [13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)
-**다음**: [15. 데이터노드 (DataNode) - 실제 데이터를 보관하는 수많은 워커 노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) →
+<- **이전**: [13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)
+**다음**: [15. 데이터노드 (DataNode) - 실제 데이터를 보관하는 수많은 워커 노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) ->
 
 ---

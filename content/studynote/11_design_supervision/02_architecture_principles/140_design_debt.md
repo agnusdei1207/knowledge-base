@@ -24,18 +24,18 @@ tags = ["studynote-design-supervision"]
 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 누적되면 새로운 기능을 추가할 때 기존 부채 위에 작업해야 하므로 더 많은 시간이 걸리고(이자 지불), 버그가 더 자주 발생하며(복리 이자), 결국 시스템이 유지보수 불가능한 상태(파산)에 이른다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          기술 부채 사분면 (Martin Fowler)                    │
-├─────────────────────────────────────────────────────────────┤
-│              │ 의도적             │ 비의도적               │
-│  ────────────┼──────────────────────────────────────────── │
-│  신중한 결정 │ "일정 위해 부채    │ "아키텍처를 몰랐다"   │
-│              │ 상환 계획 있음"    │ (즉시 수정 필요)       │
-│  ────────────┼──────────────────────────────────────────── │
-│  무모한 결정 │ "설계할 시간 없다" │ "무엇이 레이어드       │
-│              │ (관리 대상)        │  아키텍처인지?"         │
-│              │                   │ (교육 필요)             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          기술 부채 사분면 (Martin Fowler)                    |
++-------------------------------------------------------------+
+|              | 의도적             | 비의도적               |
+|  ------------+-------------------------------------------- |
+|  신중한 결정 | "일정 위해 부채    | "아키텍처를 몰랐다"   |
+|              | 상환 계획 있음"    | (즉시 수정 필요)       |
+|  ------------+-------------------------------------------- |
+|  무모한 결정 | "설계할 시간 없다" | "무엇이 레이어드       |
+|              | (관리 대상)        |  아키텍처인지?"         |
+|              |                   | (교육 필요)             |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 신용카드([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))로 급하게 물건(기능)을 사면 지금 당장 편리하지만, 이자(추가 개발 비용)가 쌓여 결국 더 많은 돈(시간)을 쓰게 된다.
@@ -54,17 +54,17 @@ tags = ["studynote-design-supervision"]
 | 테스트 부채 | 테스트 부재, 낮은 커버리지 | 테스트 추가 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       기술 부채 상환 우선순위 결정 매트릭스                 │
-├─────────────────────────────────────────────────────────────┤
-│              │ 상환 비용 낮음   │ 상환 비용 높음          │
-│  ────────────┼──────────────────────────────────────────── │
-│  이자율 높음 │ 즉시 상환        │ 계획적 상환 (분기별)    │
-│  (영향 큼)   │ (최우선)         │                         │
-│  ────────────┼──────────────────────────────────────────── │
-│  이자율 낮음 │ 리팩터링 기회에  │ 수용 (부채로 인식만)    │
-│  (영향 작음) │ 함께 상환        │                         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       기술 부채 상환 우선순위 결정 매트릭스                 |
++-------------------------------------------------------------+
+|              | 상환 비용 낮음   | 상환 비용 높음          |
+|  ------------+-------------------------------------------- |
+|  이자율 높음 | 즉시 상환        | 계획적 상환 (분기별)    |
+|  (영향 큼)   | (최우선)         |                         |
+|  ------------+-------------------------------------------- |
+|  이자율 낮음 | 리팩터링 기회에  | 수용 (부채로 인식만)    |
+|  (영향 작음) | 함께 상환        |                         |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 금융 부채처럼, 이자율(영향도)이 높은 부채부터 상환하고 이자율이 낮은 부채는 여력이 생길 때 상환한다. 모든 부채를 당장 갚을 필요는 없다.
@@ -113,7 +113,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[워드 커닝햄 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 개념] → [설계 부채 분류] → SonarQube 가시화] → [아키텍처 피트니스 함수] → AI 자동 부채 감지]
+[워드 커닝햄 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 개념] -> [설계 부채 분류] -> SonarQube 가시화] -> [아키텍처 피트니스 함수] -> AI 자동 부채 감지]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -124,7 +124,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[워드 커닝햄 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)(1992)] → [Martin Fowler [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 사분면] → SonarQube 가시화] → [아키텍처 피트니스 함수] → AI 자동 부채 감지·상환]
+[워드 커닝햄 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)(1992)] -> [Martin Fowler [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 사분면] -> SonarQube 가시화] -> [아키텍처 피트니스 함수] -> AI 자동 부채 감지·상환]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 196 / 530
 
-← **이전**: [139. 개념 무결성 (Conceptual Integrity)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/139_conceptual_integrity/)
-**다음**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/) →
+<- **이전**: [139. 개념 무결성 (Conceptual Integrity)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/139_conceptual_integrity/)
+**다음**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/) ->
 
 ---

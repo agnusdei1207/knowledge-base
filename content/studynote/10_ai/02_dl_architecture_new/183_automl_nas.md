@@ -46,27 +46,27 @@ HPO는 주로 숫자와 범주형 [설정](/knowledge-base/studynote/15_devops_s
 아래 그림은 현대 AutoML의 공통 실행 루프를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ AutoML search loop                                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Search space                                                        │
-│  - HPO: lr, batch, optimizer, dropout                               │
-│  - NAS: depth, width, block, skip connection                        │
-│         │                                                            │
-│         ▼                                                            │
-│ Searcher (random / Bayesian / evolutionary)                          │
-│         │ propose candidate                                           │
-│         ▼                                                            │
-│ Scheduler (ASHA / Hyperband / queue)                                 │
-│         │ launch trials on workers                                    │
-│         ▼                                                            │
-│ Train + validate -> metric + cost + latency                          │
-│         │                                                            │
-│         ├─ poor early signal -> stop early                           │
-│         └─ promising trial  -> continue / promote                    │
-│         ▼                                                            │
-│ Tracker / registry -> best config or architecture                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| AutoML search loop                                                  |
++----------------------------------------------------------------------+
+| Search space                                                        |
+|  - HPO: lr, batch, optimizer, dropout                               |
+|  - NAS: depth, width, block, skip connection                        |
+|         |                                                            |
+|         v                                                            |
+| Searcher (random / Bayesian / evolutionary)                          |
+|         | propose candidate                                           |
+|         v                                                            |
+| Scheduler (ASHA / Hyperband / queue)                                 |
+|         | launch trials on workers                                    |
+|         v                                                            |
+| Train + validate -> metric + cost + latency                          |
+|         |                                                            |
+|         +- poor early signal -> stop early                           |
+|         +- promising trial  -> continue / promote                    |
+|         v                                                            |
+| Tracker / registry -> best config or architecture                    |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 점은 AutoML이 단일 목표만 다루지 않는다는 것이다. 실무에서는 정확도 1점보다 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 20밀리초(ms), 메모리 200메가바이트(MB), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 비용 상한 같은 제약이 더 중요할 때가 많다. 그래서 좋은 AutoML은 "가장 높은 점수"가 아니라 <strong>예산과 제약을 만족하는 최적점</strong>을 찾는 방향으로 설계된다.
@@ -155,21 +155,21 @@ AutoML의 가장 큰 효과는 실험을 체계화한다는 점이다. 사람마
 
 ```text
 수작업 튜닝
-    │
-    ▼
+    |
+    v
 Grid / Random Search
-    │
-    ▼
+    |
+    v
 Bayesian Optimization + Early Stopping
-    │
-    ▼
+    |
+    v
 분산 HPO 자동화
-    │
-    ├─ 정확도 최적화
-    ├─ latency / memory 제약 반영
-    └─ 실험 추적 자동화
-    │
-    ▼
+    |
+    +- 정확도 최적화
+    +- latency / memory 제약 반영
+    +- 실험 추적 자동화
+    |
+    v
 제한적 NAS + 다목적 AutoML
 ```
 
@@ -187,7 +187,7 @@ Bayesian Optimization + Early Stopping
 
 **진행 상황**: 183 / 420
 
-← **이전**: [182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/182_spark_ray_distributed/)
-**다음**: [184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/184_ab_testing_shadow_canary/) →
+<- **이전**: [182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/182_spark_ray_distributed/)
+**다음**: [184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/184_ab_testing_shadow_canary/) ->
 
 ---

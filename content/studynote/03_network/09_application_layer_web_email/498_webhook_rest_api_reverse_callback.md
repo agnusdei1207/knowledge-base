@@ -30,31 +30,31 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/">이벤트 주도 아키텍처</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>)의 대세화</strong>: 시스템이 '요청'을 기다리지 않고, '사건(Event)'이 터지는 즉시 구독자(Subscriber)에게 뿌려버리는 논-블로킹(Non-blocking) 패러다임이 확립되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          폴링(Polling)의 지옥 vs 웹훅(Webhook)의 기적적 성능 역전        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ ❌ [ 구시대 방식: Polling (폴링) - 무지성 핑퐁 ]                  │
-│                                                             │
-│ 내 서버 ➔ 1초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "아니 아직." (DB 헛스캔) │
-│ 내 서버 ➔ 2초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "아니 아직." (DB 헛스캔) │
-│ 내 서버 ➔ 3초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "어 이제 끝났어!" ✅    │
-│ 💥 참사: 1건 결제 확인하려고 쓸데없는 API 요청 2번의 네트워크 쓰레기를 만듦.  │
-│                                                             │
-│        ======= [ 패러다임 시프트: 역방향 콜백 (Callback) ] ========│
-│                                                             │
-│ ✅ [ 모던 아키텍처: Webhook (웹훅) - 진동벨 시스템 ]               │
-│                                                             │
-│ 1️⃣ 내 서버: "철수 결제 시도할게! 다 되면 `my-shop.com/webhook` 으로 쏴!"│
-│                                                             │
-│ 2️⃣ 내 서버: (아무것도 안 하고 다른 고객 응대하며 푹 쉼. 쓰레드 여유 100%)    │
-│                                                             │
-│ 3️⃣ PG사 서버: (자기들끼리 3초 동안 결제 심사 다 끝냄)                    │
-│    ➔ "오! 철수 결제 방금 끝났다! 약속한 저 주소로 POST 날리자!"         │
-│                                                             │
-│ 4️⃣ PG사 서버 ➔ (HTTP POST 1방!) ➔ 내 서버 (`/webhook` 엔드포인트 수신)│
-│ 🌟 결론: 불필요한 트래픽 0%. CPU 낭비 0%. 극강의 실시간(Real-time) 확보! │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          폴링(Polling)의 지옥 vs 웹훅(Webhook)의 기적적 성능 역전        |
++-------------------------------------------------------------+
+|                                                             |
+| ❌ [ 구시대 방식: Polling (폴링) - 무지성 핑퐁 ]                  |
+|                                                             |
+| 내 서버 ➔ 1초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "아니 아직." (DB 헛스캔) |
+| 내 서버 ➔ 2초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "아니 아직." (DB 헛스캔) |
+| 내 서버 ➔ 3초 ➔ PG사 서버: "철수 결제 끝났어?" ➔ "어 이제 끝났어!" ✅    |
+| 💥 참사: 1건 결제 확인하려고 쓸데없는 API 요청 2번의 네트워크 쓰레기를 만듦.  |
+|                                                             |
+|        ======= [ 패러다임 시프트: 역방향 콜백 (Callback) ] ========|
+|                                                             |
+| ✅ [ 모던 아키텍처: Webhook (웹훅) - 진동벨 시스템 ]               |
+|                                                             |
+| 1️⃣ 내 서버: "철수 결제 시도할게! 다 되면 `my-shop.com/webhook` 으로 쏴!"|
+|                                                             |
+| 2️⃣ 내 서버: (아무것도 안 하고 다른 고객 응대하며 푹 쉼. 쓰레드 여유 100%)    |
+|                                                             |
+| 3️⃣ PG사 서버: (자기들끼리 3초 동안 결제 심사 다 끝냄)                    |
+|    ➔ "오! 철수 결제 방금 끝났다! 약속한 저 주소로 POST 날리자!"         |
+|                                                             |
+| 4️⃣ PG사 서버 ➔ (HTTP POST 1방!) ➔ 내 서버 (`/webhook` 엔드포인트 수신)|
+| 🌟 결론: 불필요한 트래픽 0%. CPU 낭비 0%. 극강의 실시간(Real-time) 확보! |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "왜 웹훅을 써야 하나요?"에 대한 기술사적 모범 답안이다. 클라이언트(내 서버)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨오는 것(Pull)이 아니라, 서버(PG사)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣어주는(Push) 아키텍처 역전 현상이다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 클라이언트가 1초마다 찌르면 1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 오차가 생기고, 10초마다 찌르면 10초의 오차가 생긴다. 하지만 웹훅은 사건이 일어난 그 밀리초(ms) 단위의 순간에 발사되므로, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 제로(Zero-[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 가까운 완벽한 '리얼타임' 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 뚫어준다.
@@ -85,11 +85,11 @@ tags = ["studynote-network"]
 
 ```text
 [DMARC]
-    │
-    ▼
+    |
+    v
 [웹훅]
-    │
-    └──▶ [BOSH]
+    |
+    +---> [BOSH]
 ```
 
 - **📢 섹션 요약 비유**: 웹훅 서버를 만드는 건 내 집 현관에 <strong>'우유 구멍'</strong>을 뚫어두는 것과 같습니다. 구멍을 너무 좁게 파면(서버 다운) 우유가 밖으로 새고, 구멍만 뚫어놓고 나쁜 놈이 독약을 넣는 걸 안 막으면(Signature [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락) 끔찍한 사고가 납니다. 우유를 받으면 "잘 받았어요(200 OK)"라고 1초 만에 쪽지를 던져줘야 우유 배달부(PG사)가 안심하고 돌아갑니다.
@@ -124,31 +124,31 @@ tags = ["studynote-network"]
    - **판단**: 웹훅 아키텍처의 아킬레스건인 '재시도 폭풍(Retry Storm)' 참사다. 훌륭한 웹훅 수신 아키텍트는 웹훅을 받는 1번 관문에 절대로 RDBMS(오라클/MySQL)를 직결하지 않는다. 웹훅 엔드포인트 바로 뒤통수에 <strong>Apache Kafka나 RabbitMQ 같은 메시지 큐(Message <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>를 버퍼(Buffer)로 둔다. 웹훅이 수만 개 쏟아지면 이 큐가 스펀지처럼 흡수하고 서버에 `200 OK`를 광속으로 날려보낸 뒤, 백엔드 서버가 소화할 수 있는 속도(초당 10개)로 천천히 컨슈밍(Consume)하며 DB에 박아넣는다. 만약 포맷이 이상해서 10번 처리 실패한 썩은 웹훅 패킷이 있다면, 이걸 큐를 막게 두지 않고 즉시 <strong>데드 레터 큐(DLQ, Dead Letter <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>라는 격리 병동으로 내던져버려 메인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 쾌적함을 사수하는 완벽한 비동기 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 아키텍처가 필수다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 웹훅의 무결점 비동기 수신(Receiver) 방어막 파이프라인 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 📡 [ 발신자: GitHub / 결제사 PG 웹훅 발사! ] (초당 1,000개 폭격)    │
-  │          │                                                  │
-  │          ▼ (HTTP POST)                                      │
-  │                                                             │
-  │ 🛡️ [ 1차 방어: API Gateway & Secret 검증기 ]                  │
-  │   - 해커가 보낸 가짜 웹훅인지 `x-hub-signature` (HMAC) 헤더 검사!   │
-  │   ➔ 가짜면 즉시 Drop ❌ / 진짜면 통과 ✅                           │
-  │          │                                                  │
-  │          ▼                                                  │
-  │ 🧽 [ 2차 방어: Serverless / Message Queue (버퍼링) ] 🌟 핵심    │
-  │   - 람다(Lambda)가 웹훅을 잡자마자 SQS(큐)에 쏙 밀어넣음.           │
-  │   - 🌟 그 즉시 발신자에게 "응 잘 받았어! (HTTP 200 OK)" 0.1초 컷 날려줌! │
-  │     (발신자는 안심하고 재시도(Retry) 공격 멈춤)                  │
-  │          │                                                  │
-  │          ▼ (이제 시간 넉넉함. 내 페이스대로 천천히)                 │
-  │                                                             │
-  │ 💾 [ 3차 처리: 백엔드 워커 (Worker) 및 DB 저장 ]               │
-  │   - 멱등성(Idempotency) 검사: "어? Event-ID `123` 이거 아까 DB에 넣은  │
-  │     중복 패킷이네? 무시(Skip)!"                                 │
-  │   - 정상 패킷이면 최종적으로 RDBMS에 결제 완료 상태(Update) 기록 쾅!   │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 웹훅의 무결점 비동기 수신(Receiver) 방어막 파이프라인 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 📡 [ 발신자: GitHub / 결제사 PG 웹훅 발사! ] (초당 1,000개 폭격)    |
+  |          |                                                  |
+  |          v (HTTP POST)                                      |
+  |                                                             |
+  | 🛡️ [ 1차 방어: API Gateway & Secret 검증기 ]                  |
+  |   - 해커가 보낸 가짜 웹훅인지 `x-hub-signature` (HMAC) 헤더 검사!   |
+  |   ➔ 가짜면 즉시 Drop ❌ / 진짜면 통과 ✅                           |
+  |          |                                                  |
+  |          v                                                  |
+  | 🧽 [ 2차 방어: Serverless / Message Queue (버퍼링) ] 🌟 핵심    |
+  |   - 람다(Lambda)가 웹훅을 잡자마자 SQS(큐)에 쏙 밀어넣음.           |
+  |   - 🌟 그 즉시 발신자에게 "응 잘 받았어! (HTTP 200 OK)" 0.1초 컷 날려줌! |
+  |     (발신자는 안심하고 재시도(Retry) 공격 멈춤)                  |
+  |          |                                                  |
+  |          v (이제 시간 넉넉함. 내 페이스대로 천천히)                 |
+  |                                                             |
+  | 💾 [ 3차 처리: 백엔드 워커 (Worker) 및 DB 저장 ]               |
+  |   - 멱등성(Idempotency) 검사: "어? Event-ID `123` 이거 아까 DB에 넣은  |
+  |     중복 패킷이네? 무시(Skip)!"                                 |
+  |   - 정상 패킷이면 최종적으로 RDBMS에 결제 완료 상태(Update) 기록 쾅!   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "그냥 스프링 부트(Spring Boot) 컨트롤러에 `@PostMapping` 하나 뚫어두면 되는 거 아니에요?"라는 주니어 코더의 망상을 찢어버리는 진짜 엔터프라이즈의 웹훅 방어 아키텍처다. 웹훅은 내가 원할 때 당겨오는(Pull) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니다. 남이 쏘고 싶을 때 내 면상에 던져대는 폭탄(Push)이다. 이 폭탄이 터지지 않게 하려면 1. 해커 패킷 걸러내기, 2. 버퍼로 충격 흡수하기, 3. 0.1초 만에 응답(Ack) 던져주기, 4. 중복 패킷([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)) 걸러내기라는 4중 철갑옷을 두르지 않으면 결제 시스템은 단 하루 만에 산산조각이 난다.
@@ -199,12 +199,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DMARC]
-    │
-    ▼
+    |
+    v
 [현재 개념: 웹훅]
-    │
-    ├──▶ [확장 A: BOSH]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: BOSH]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 웹훅는 DMARC에서 출발해 현재 메커니즘을 정교화하고, 이후 BOSH와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -221,7 +221,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 619 / 1120
 
-← **이전**: [497. DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/)
-**다음**: [499. BOSH (Bidirectional-streams Over Synchronous HTTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/) →
+<- **이전**: [497. DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/)
+**다음**: [499. BOSH (Bidirectional-streams Over Synchronous HTTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/) ->
 
 ---

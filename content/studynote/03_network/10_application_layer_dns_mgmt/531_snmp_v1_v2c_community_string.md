@@ -23,11 +23,11 @@ SNMP는 보안 기능을 중심으로 진화해 왔습니다. 가장 초창기 �
 
 ```text
 [SMI]
-    │
-    ▼
+    |
+    v
 [SNMPv1, v2c]
-    │
-    └──▶ [SNMPv3]
+    |
+    +---> [SNMPv3]
 ```
 
 - **📢 섹션 요약 비유**: SNMPv1, v2c는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ SNMPv1과 v2c에서 매니저(NMS)와 에이전트(라우터) 간에 데이터�
 
 ```text
 [SMI]
-    │
-    ▼
+    |
+    v
 [SNMPv1, v2c]
-    │
-    └──▶ [SNMPv3]
+    |
+    +---> [SNMPv3]
 ```
 
 - **📢 섹션 요약 비유**: SNMPv1, v2c의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ SNMPv1, v2c는 이름 해석과 네트워크 관리를 이해할 때 핵심 축�
 
 ```text
 [선행 개념: SMI]
-    │
-    ▼
+    |
+    v
 [현재 개념: SNMPv1, v2c]
-    │
-    ├──▶ [확장 A: SNMPv3]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: SNMPv3]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 SNMPv1, v2c는 SMI에서 출발해 현재 메커니즘을 정교화하고, 이후 SNMPv3와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ SNMPv1, v2c는 SMI에서 출발해 현재 메커니즘을 정교화하고, 이�
 
 **진행 상황**: 652 / 1120
 
-← **이전**: [530. SMI (Structure of Management Information)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/)
-**다음**: [532. SNMPv3 (사용자 기반 인증, 메시지 암호화 지원 DES/AES)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/) →
+<- **이전**: [530. SMI (Structure of Management Information)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/)
+**다음**: [532. SNMPv3 (사용자 기반 인증, 메시지 암호화 지원 DES/AES)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/532_snmp_v3_security_authentication_encryption/) ->
 
 ---

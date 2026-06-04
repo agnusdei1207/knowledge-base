@@ -24,24 +24,24 @@ EDA의 등장 배경은 [마이크로서비스 아키텍처](/knowledge-base/stu
 EDA는 이 동기 의존 체인을 끊는다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Producer)가 "주문 완료" 이벤트를 발행하면, 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·포인트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Consumer)가 각자 독립적으로 구독하여 처리한다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 상태나 처리 결과를 기다리지 않는다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         EDA의 이벤트 흐름: 발행-구독 구조                    │
-├─────────────────────────────────────────────────────────────┤
-│  [동기 호출 방식 - 강결합]                                   │
-│  주문서비스 ──▶ 재고서비스 ──▶ 알림서비스 ──▶ 포인트서비스  │
-│  (한 곳 장애 시 전체 실패)                                   │
-│                                                             │
-│  [EDA 방식 - 약결합]                                        │
-│                                                             │
-│  주문서비스                                                 │
-│      │ OrderCompleted 이벤트 발행                           │
-│      ▼                                                      │
-│  [Message Broker (Kafka/RabbitMQ)]                          │
-│      │          │               │                           │
-│      ▼          ▼               ▼                           │
-│  재고서비스   알림서비스      포인트서비스                   │
-│  (독립 구독)  (독립 구독)     (독립 구독)                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         EDA의 이벤트 흐름: 발행-구독 구조                    |
++-------------------------------------------------------------+
+|  [동기 호출 방식 - 강결합]                                   |
+|  주문서비스 ---> 재고서비스 ---> 알림서비스 ---> 포인트서비스  |
+|  (한 곳 장애 시 전체 실패)                                   |
+|                                                             |
+|  [EDA 방식 - 약결합]                                        |
+|                                                             |
+|  주문서비스                                                 |
+|      | OrderCompleted 이벤트 발행                           |
+|      v                                                      |
+|  [Message Broker (Kafka/RabbitMQ)]                          |
+|      |          |               |                           |
+|      v          v               v                           |
+|  재고서비스   알림서비스      포인트서비스                   |
+|  (독립 구독)  (독립 구독)     (독립 구독)                    |
++-------------------------------------------------------------+
 ```
 
 이벤트가 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)([Message Broker](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/))에 저장되므로 소비자가 일시적으로 다운되어도 브로커가 이벤트를 보존하며, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 처리를 재개할 수 있다. 이 특성이 EDA의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(resilience)을 만든다.
@@ -61,15 +61,15 @@ EDA는 이벤트의 처리 방식에 따라 세 가지 토폴로지(topology)로
 | 하이브리드 | 상황에 따라 혼합 / 균형 있는 트레이드오프 | 복잡한 설계 필요 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         이벤트 처리 보장 수준 스펙트럼                        │
-├─────────────────────────────────────────────────────────────┤
-│  At-most-once  │ At-least-once  │ Exactly-once             │
-│  (최대 한 번)  │ (최소 한 번)   │ (정확히 한 번)            │
-│  손실 가능     │ 중복 처리 가능 │ 가장 강력, 비용 높음       │
-│                │                │                          │
-│  로그 수집     │ 알림·이메일    │ 금융 거래                 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         이벤트 처리 보장 수준 스펙트럼                        |
++-------------------------------------------------------------+
+|  At-most-once  | At-least-once  | Exactly-once             |
+|  (최대 한 번)  | (최소 한 번)   | (정확히 한 번)            |
+|  손실 가능     | 중복 처리 가능 | 가장 강력, 비용 높음       |
+|                |                |                          |
+|  로그 수집     | 알림·이메일    | 금융 거래                 |
++-------------------------------------------------------------+
 ```
 
 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) ([아파치 카프카](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))는 EDA에서 가장 널리 사용되는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 스트리밍 플랫폼이다. 파티셔닝을 통한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영속화, 컨슈머 그룹을 통한 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 대규모 EDA를 지원한다.
@@ -125,7 +125,7 @@ EDA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 ### 📌 관련 개념 맵
 
-[동기 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 강결합 문제] → EDA] → [메시지 브로커([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))] → CQRS·이벤트 소싱] → MSA 탄력성]
+[동기 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 강결합 문제] -> EDA] -> [메시지 브로커([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))] -> CQRS·이벤트 소싱] -> MSA 탄력성]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -136,7 +136,7 @@ EDA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[동기 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 강결합] → [비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징(MQ)] → EDA 아키텍처 스타일] → Kafka [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스트리밍] → CQRS+이벤트 소싱] → [이벤트 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·CloudEvents 표준화]
+[동기 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 강결합] -> [비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징(MQ)] -> EDA 아키텍처 스타일] -> Kafka [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스트리밍] -> CQRS+이벤트 소싱] -> [이벤트 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·CloudEvents 표준화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +150,7 @@ EDA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 **진행 상황**: 176 / 530
 
-← **이전**: [119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/119_mvc_architecture/)
-**다음**: [121. CQRS 패턴 (Command Query Responsibility Segregation)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/121_cqrs_pattern/) →
+<- **이전**: [119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/119_mvc_architecture/)
+**다음**: [121. CQRS 패턴 (Command Query Responsibility Segregation)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/121_cqrs_pattern/) ->
 
 ---

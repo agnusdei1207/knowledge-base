@@ -64,35 +64,35 @@ tags = ["studynote-operating-system"]
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) OS(혹은 미들웨어)가 어떻게 이 투명성을 달성하는지 구조적으로 살펴보자.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 분산 투명성 보장을 위한 미들웨어 아키텍처                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [사용자 애플리케이션 (User Space)]                                   │
-  │     - open("/global/docs/file.txt") 호출                          │
-  │     - (사용자는 이 파일이 내 PC에 있다고 완벽히 착각함 = 접근/위치 투명성)│
-  │            │                                                      │
-  │  ==========▼======================================================│
-  │  [분산 미들웨어 / VFS (Virtual File System) 계층]                    │
-  │                                                                   │
-  │   1. 네이밍 서비스 (Naming Service)                                │
-  │      "global/docs/file.txt" ──▶ 실제로는 Node-A와 Node-B에 복제되어 있음 │
-  │                                   (복제 투명성)                     │
-  │                                                                   │
-  │   2. RPC (Remote Procedure Call) 스터브 (Stub)                    │
-  │      사용자의 로컬 함수 호출을 낚아채서 네트워크 패킷으로 마샬링(직렬화)     │
-  │                                                                   │
-  │  ==========▼======================================================│
-  │  [네트워크 망]                                                      │
-  │            │                                                      │
-  │            ├──▶ (만약 Node-A가 죽었다면? Timeout 감지)             │
-  │            │    미들웨어가 사용자 몰래 Node-B로 재요청 (장애 투명성)  │
-  │            │                                                      │
-  │  ==========▼======================================================│
-  │  [원격 서버 (Node-B)]                                                │
-  │      - 요청 수신, 디스크에서 데이터 읽기                               │
-  │      - 분산 락(DLM)을 획득하여 다른 노드의 쓰기 방지 (병행 투명성)         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 분산 투명성 보장을 위한 미들웨어 아키텍처                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [사용자 애플리케이션 (User Space)]                                   |
+  |     - open("/global/docs/file.txt") 호출                          |
+  |     - (사용자는 이 파일이 내 PC에 있다고 완벽히 착각함 = 접근/위치 투명성)|
+  |            |                                                      |
+  |  ==========v======================================================|
+  |  [분산 미들웨어 / VFS (Virtual File System) 계층]                    |
+  |                                                                   |
+  |   1. 네이밍 서비스 (Naming Service)                                |
+  |      "global/docs/file.txt" ---> 실제로는 Node-A와 Node-B에 복제되어 있음 |
+  |                                   (복제 투명성)                     |
+  |                                                                   |
+  |   2. RPC (Remote Procedure Call) 스터브 (Stub)                    |
+  |      사용자의 로컬 함수 호출을 낚아채서 네트워크 패킷으로 마샬링(직렬화)     |
+  |                                                                   |
+  |  ==========v======================================================|
+  |  [네트워크 망]                                                      |
+  |            |                                                      |
+  |            +---> (만약 Node-A가 죽었다면? Timeout 감지)             |
+  |            |    미들웨어가 사용자 몰래 Node-B로 재요청 (장애 투명성)  |
+  |            |                                                      |
+  |  ==========v======================================================|
+  |  [원격 서버 (Node-B)]                                                |
+  |      - 요청 수신, 디스크에서 데이터 읽기                               |
+  |      - 분산 락(DLM)을 획득하여 다른 노드의 쓰기 방지 (병행 투명성)         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 투명성을 보장하는 핵심 기술은 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">Remote Procedure Call</a>)</strong>와 <strong>글로벌 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Naming <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>다. 사용자가 `read()` 함수를 호출하면, OS의 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템) 계층에 숨어 있는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 미들웨어 모듈이 이를 가로챈다. 미들웨어는 네이밍 서버(예: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/), [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/))에 물어봐서 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 현재 어느 IP에 있는지 동적으로 알아낸다(위치/마이그레이션 투명성). 그리고 원격지 서버로 네트워크 패킷을 몰래 쏴서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아온 뒤 사용자에게 건네준다. 사용자는 네트워크 통신이 일어났다는 사실조차 모른 채 1ms 늦게 응답을 받았다고만 생각한다.
@@ -138,27 +138,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 분산 아키텍처 투명성 수준 (Consistency) 설계 플로우      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [분산 노드 간 데이터/서비스 설계 요구사항 분석]                          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      노드 장애 시 데이터가 1바이트라도 유실되거나 순서가 꼬이면 안 되는가? │
-  │          ├─ 예 (결제, 인증) ──▶ [완벽한 복제/병행 투명성 보장 설계]      │
-  │          │                   - Paxos, Raft 알고리즘 도입           │
-  │          │                   - 글로벌 분산 락(DLM, ZooKeeper) 사용 │
-  │          │                   - 동기식(Sync) 리플리케이션 적용        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      빠른 응답 속도(Latency)와 높은 가용성이 최우선인가?                  │
-  │          ├─ 예 (캐시, 로그) ──▶ [투명성 일부 포기 (Eventual Consistency)]│
-  │          │                   - 비동기식(Async) 리플리케이션        │
-  │          │                   - 클라이언트 측에서 위치/장애 로직 일부 수용 │
-  │          └─ ...                                                   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 분산 아키텍처 투명성 수준 (Consistency) 설계 플로우      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [분산 노드 간 데이터/서비스 설계 요구사항 분석]                          |
+  |                |                                                  |
+  |                v                                                  |
+  |      노드 장애 시 데이터가 1바이트라도 유실되거나 순서가 꼬이면 안 되는가? |
+  |          +- 예 (결제, 인증) ---> [완벽한 복제/병행 투명성 보장 설계]      |
+  |          |                   - Paxos, Raft 알고리즘 도입           |
+  |          |                   - 글로벌 분산 락(DLM, ZooKeeper) 사용 |
+  |          |                   - 동기식(Sync) 리플리케이션 적용        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      빠른 응답 속도(Latency)와 높은 가용성이 최우선인가?                  |
+  |          +- 예 (캐시, 로그) ---> [투명성 일부 포기 (Eventual Consistency)]|
+  |          |                   - 비동기식(Async) 리플리케이션        |
+  |          |                   - 클라이언트 측에서 위치/장애 로직 일부 수용 |
+  |          +- ...                                                   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 과거의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) OS는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 모든 투명성을 100% 억지로 보장하려다 실패했다. 현대 시스템 설계의 지혜는 "어떤 투명성은 미들웨어(인프라)에 맡기고, 어떤 투명성은 애플리케이션 개발자가 직접 제어하게 할 것인가"를 나누는 것이다. 위치와 마이그레이션 투명성은 K8s 같은 미들웨어에 전적으로 맡기는 것이 좋지만, 병행([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 투명성만큼은 개발자가 트랜잭션과 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 이해하고 코드 레벨에서 조율하는 것이 맞다.
@@ -205,12 +205,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]
-    │
-    ▼
+    |
+    v
 [분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)]
-    │
-    ├──▶ [람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
-    └──▶ [분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
+    |
+    +---> [람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
+    +---> [분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -227,7 +227,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 641 / 800
 
-← **이전**: [640. 유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)
-**다음**: [642. 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬](/knowledge-base/studynote/02_operating_system/10_security/642_lamport_logical_clocks/) →
+<- **이전**: [640. 유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)
+**다음**: [642. 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬](/knowledge-base/studynote/02_operating_system/10_security/642_lamport_logical_clocks/) ->
 
 ---

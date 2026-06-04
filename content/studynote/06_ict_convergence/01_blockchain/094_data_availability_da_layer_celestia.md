@@ -39,22 +39,22 @@ L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollu
    - 몇 번만 찔러봐도 "전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 숨김없이 존재한다"는 것을 수학적 확률로 확신할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             모듈러 블록체인과 DA 계층의 데이터 흐름            │
-├──────────────────────────────────────────────────────────────┤
-│ [ L2 롤업 (실행 계층) ]                                      │
-│  - 수만 건의 트랜잭션 연산 수행                              │
-│         │                             │                      │
-│         │ (1) 얇은 증명(상태루트) 제출   │ (2) 거대한 원본 데이터  │
-│         ▼                             ▼                      │
-│ ┌───────────────┐            ┌────────────────────┐          │
-│ │   L1 이더리움   │            │   DA 계층 (Celestia) │          │
-│ │ (합의/정산 전담) │            │  (데이터 가용성 전담) │          │
-│ └───────────────┘            └─────────┬──────────┘          │
-│         ▲                             │                      │
-│         │ (3) 증명 검증 시 데이터 확인   │ 라이트 노드 DAS 검증  │
-│         └─────────────────────────────┘                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             모듈러 블록체인과 DA 계층의 데이터 흐름            |
++--------------------------------------------------------------+
+| [ L2 롤업 (실행 계층) ]                                      |
+|  - 수만 건의 트랜잭션 연산 수행                              |
+|         |                             |                      |
+|         | (1) 얇은 증명(상태루트) 제출   | (2) 거대한 원본 데이터  |
+|         v                             v                      |
+| +---------------+            +--------------------+          |
+| |   L1 이더리움   |            |   DA 계층 (Celestia) |          |
+| | (합의/정산 전담) |            |  (데이터 가용성 전담) |          |
+| +---------------+            +---------+----------+          |
+|         ^                             |                      |
+|         | (3) 증명 검증 시 데이터 확인   | 라이트 노드 DAS 검증  |
+|         +-----------------------------+                      |
++--------------------------------------------------------------+
 ```
 
 위 다이어그램은 L2가 비싼 L1 대신 저렴한 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층으로 무거운 화물을 돌려 보내는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조를 보여준다. [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 전체를 다운받지 않고도 DAS를 통해 화물이 안전히 있음을 100% 확신한다.
@@ -122,17 +122,17 @@ L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollu
 
 ```text
 모놀리틱 (Monolithic) 블록체인의 용량 한계
-    │
-    ▼
+    |
+    v
 L2 롤업 등장 (CallData 저장 비용 폭발)
-    │
-    ▼
+    |
+    v
 데이터 가용성 (DA) 문제 인식 및 모듈러 구조 제안
-    │
-    ▼
+    |
+    v
 독립 DA 네트워크 (Celestia) 및 데이터 가용성 샘플링 (DAS)
-    │
-    ▼
+    |
+    v
 이더리움의 Blob 도입 (EIP-4844) 및 Validium/Optimium 구조 다변화
 ```
 
@@ -148,7 +148,7 @@ L2 롤업 등장 (CallData 저장 비용 폭발)
 
 **진행 상황**: 94 / 552
 
-← **이전**: [93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/)
-**다음**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) →
+<- **이전**: [93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/)
+**다음**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) ->
 
 ---

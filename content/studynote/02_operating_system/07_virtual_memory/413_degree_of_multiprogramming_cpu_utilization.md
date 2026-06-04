@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. **Denning의 논문**: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 이론을 창시한 피터 데닝이 이 절벽 그래프를 발표하며, 무작정 앱을 많이 띄우는 것이 선(Good)이 아님을 수학적으로 증명해 냈다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        [그림] 다중 프로그래밍 정도와 CPU 이용률의 절벽 그래프        │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ CPU 이용률 (%)                                                       │
-│ 100 │                 ⭐ 최적점 (Optimal Point)                      │
-│     │               / |                                              │
-│  80 │             /  |                                               │
-│     │           /    |                                               │
-│  60 │         /      |                                               │
-│     │       /        | 💥 스래싱 (Thrashing) 발생!                   │
-│  40 │     /          | 뚝!                                           │
-│     │   /            |  |                                            │
-│  20 │ /              |  |                                            │
-│     │/               |  ▼  (절벽 낙하)                               │
-│   0 └────────────────┴───|────────────▶                              │
-│             다중 프로그래밍의 정도 (Degree / 띄운 앱 개수)           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        [그림] 다중 프로그래밍 정도와 CPU 이용률의 절벽 그래프        |
++----------------------------------------------------------------------+
+|                                                                      |
+| CPU 이용률 (%)                                                       |
+| 100 |                 ⭐ 최적점 (Optimal Point)                      |
+|     |               / |                                              |
+|  80 |             /  |                                               |
+|     |           /    |                                               |
+|  60 |         /      |                                               |
+|     |       /        | 💥 스래싱 (Thrashing) 발생!                   |
+|  40 |     /          | 뚝!                                           |
+|     |   /            |  |                                            |
+|  20 | /              |  |                                            |
+|     |/               |  v  (절벽 낙하)                               |
+|   0 +----------------+---|------------->                              |
+|             다중 프로그래밍의 정도 (Degree / 띄운 앱 개수)           |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초반의 상승 곡선은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)(Multi-programming)의 위대함을 보여준다. 한 앱이 쉬면 다른 앱이 CPU를 즉시 빼앗아 연산하므로 놀라운 효율을 보인다. 그러나 ⭐최적점을 넘어가는 순간, 램(RAM) 잔고가 0이 되어 누군가를 쫓아내야만([Page Replacement](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)) 램을 얻을 수 있는 상태가 된다. 앱들이 0.1초마다 서로의 램을 뺏고 뺏기느라 디스크 I/O만 폭발적으로 터지고, 정작 CPU는 일감을 못 받아 굶어 죽어버리는 수직 절벽 현상이 일어난다.
 
@@ -103,13 +103,13 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a> 동적 제어</strong> | 폴트가 잦으면 앱을 **강제 Suspend(일시 정지)** 시킴 | 꼭대기에서 무리하게 안 늘리고 **스스로 브레이크를 욺** | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽을 아예 회피하여 고원(Plateau) 상태 유지 |
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 상황       │ CPU 이용률  │ 디스크 I/O량 │ OS의 올바른 대처        │
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ 앱 10개 (정상)│ 90% 높음   │ 낮음        │ 놔둠 (더 띄워도 됨)    │
-│ 앱 50개 (경고)│ 99% 최고조 │ 슬슬 높아짐   │ 🛑 신규 앱 진입 차단 │
-│ 앱 51개 (재앙)│ 1% (수직낙하)│ 100% 불탐   │ 🔪 기존 앱 몇 개 사살│
-└──────────┴────────────┴────────────┴──────────────────────────────┘
++----------+------------+------------+------------------------------+
+| 상황       | CPU 이용률  | 디스크 I/O량 | OS의 올바른 대처        |
++----------+------------+------------+------------------------------+
+| 앱 10개 (정상)| 90% 높음   | 낮음        | 놔둠 (더 띄워도 됨)    |
+| 앱 50개 (경고)| 99% 최고조 | 슬슬 높아짐   | 🛑 신규 앱 진입 차단 |
+| 앱 51개 (재앙)| 1% (수직낙하)| 100% 불탐   | 🔪 기존 앱 몇 개 사살|
++----------+------------+------------+------------------------------+
 ```
 **[매트릭스 해설]** 이 매트릭스가 바로 현대 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러와 Auto-scaling(자동 확장)의 핵심 로직이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 CPU 가동률이 높다고 안심해선 안 된다. 디스크 I/O가 치솟기 시작하는 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 전조 증상'을 잡아내서, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 발목을 묶어버리는 브레이크 장치(Admission Control)가 반드시 필요하다.
 
@@ -166,12 +166,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스래싱 (Thrashing)]
-    │
-    ▼
+    |
+    v
 [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-    │
-    ├──▶ [스래싱 원인]
-    └──▶ [지역성 모델 (Locality Model)]
+    |
+    +---> [스래싱 원인]
+    +---> [지역성 모델 (Locality Model)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 413 / 800
 
-← **이전**: [412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/412_thrashing/)
-**다음**: [414. 스래싱 원인 (Cause Of Thrashing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/414_cause_of_thrashing/) →
+<- **이전**: [412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상](/knowledge-base/studynote/02_operating_system/07_virtual_memory/412_thrashing/)
+**다음**: [414. 스래싱 원인 (Cause Of Thrashing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/414_cause_of_thrashing/) ->
 
 ---

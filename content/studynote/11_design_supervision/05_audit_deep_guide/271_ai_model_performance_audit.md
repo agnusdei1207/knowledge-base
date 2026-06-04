@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 운영 단계로 확장되면서 모델의 정확도뿐 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 드리프트까지 함께 관리해야 한다. 특히 정확도가 기준선으로 정리되지 않으면 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 사람 의존 절차로 흩어지고, 최종적으로 [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)가 남지 않아 의사결정이 감각에 의존하게 된다. 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 둔감하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 조용히 누적되어 잘못된 의사결정으로 이어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 정확도 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 추론 지연시간 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 모델 드리프트 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 정확도 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 추론 지연시간 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 모델 드리프트 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 정확도, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 지속적 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Continuous Model [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[정확도] → AI 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리] → [지속적 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Continuous Model [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))]
+[정확도] -> AI 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리] -> [지속적 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Continuous Model [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 정확도는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 332 / 530
 
-← **이전**: [270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/270_iot_dtls_protocol_audit/)
-**다음**: [272. CISA 도메인 지식 응용 (CISA Domain Knowledge Application)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/272_cisa_domain_knowledge/) →
+<- **이전**: [270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/270_iot_dtls_protocol_audit/)
+**다음**: [272. CISA 도메인 지식 응용 (CISA Domain Knowledge Application)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/272_cisa_domain_knowledge/) ->
 
 ---

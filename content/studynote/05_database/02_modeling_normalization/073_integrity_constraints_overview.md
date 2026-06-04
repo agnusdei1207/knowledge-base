@@ -30,7 +30,7 @@ tags = ["database"]
 
 ```text
 Data
-  ↓ constraints
+  v constraints
 Integrity
 ```
 
@@ -104,9 +104,9 @@ Integrity
 
 ```text
 Constraints
-  ↓
+  v
 Integrity
-  ↓
+  v
 Quality
 ```
 
@@ -116,9 +116,9 @@ Quality
 
 ```text
 Domain / Key / Entity / Referential
-  ↓
+  v
 Integrity Constraints
-  ↓
+  v
 Data Quality
 ```
 
@@ -136,7 +136,7 @@ Data Quality
 
 **진행 상황**: 73 / 600
 
-← **이전**: [72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)
-**다음**: [74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/) →
+<- **이전**: [72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)
+**다음**: [74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/) ->
 
 ---

@@ -30,11 +30,11 @@ tags = ["ict_convergence"]
 
 ```text
 Transaction
-  ↓
+  v
 Block Inclusion
-  ↓
+  v
 Confirmation / Quorum
-  ↓
+  v
 Finality
 ```
 
@@ -106,11 +106,11 @@ Finality는 합의 메커니즘의 결과물이다. 그래서 합의 프로토�
 
 ```text
 Consensus
-  ↓
+  v
 Finality
-  ↓
+  v
 Reorg Risk
-  ↓
+  v
 Settlement
 ```
 
@@ -120,11 +120,11 @@ Settlement
 
 ```text
 PoW
-  ↓
+  v
 Probabilistic Finality
-  ↓
+  v
 BFT
-  ↓
+  v
 Deterministic Finality
 ```
 
@@ -142,7 +142,7 @@ Deterministic Finality
 
 **진행 상황**: 65 / 552
 
-← **이전**: [64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit](/knowledge-base/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/)
-**다음**: [66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) →
+<- **이전**: [64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit](/knowledge-base/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/)
+**다음**: [66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) ->
 
 ---

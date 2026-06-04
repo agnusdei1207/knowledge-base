@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    컨텍스트 벡터 병목 문제                             │
-├───────────────────────────────────────────────────────┤
-│  [짧은 문장: "I love you"]                            │
-│   인코더 → c = [0.2, 0.5, ..., 0.8] (256차원)       │
-│   → 디코더: "나는 너를 사랑해" ✅ (잘 압축됨)        │
-│                                                       │
-│  [긴 문장: 50단어 문장]                               │
-│   인코더 → c = [0.1, 0.3, ..., 0.7] (같은 256차원)   │
-│   → 디코더: 앞부분 정보 손실! ❌ (병목)               │
-│                                                       │
-│  해결: Attention → 매 시간 단계마다 h₁~h₅₀ 가중 참조│
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    컨텍스트 벡터 병목 문제                             |
++-------------------------------------------------------+
+|  [짧은 문장: "I love you"]                            |
+|   인코더 -> c = [0.2, 0.5, ..., 0.8] (256차원)       |
+|   -> 디코더: "나는 너를 사랑해" ✅ (잘 압축됨)        |
+|                                                       |
+|  [긴 문장: 50단어 문장]                               |
+|   인코더 -> c = [0.1, 0.3, ..., 0.7] (같은 256차원)   |
+|   -> 디코더: 앞부분 정보 손실! ❌ (병목)               |
+|                                                       |
+|  해결: Attention -> 매 시간 단계마다 h₁~h₅₀ 가중 참조|
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 벡터는 1시간 강의를 <strong>1줄 메모</strong>로 요약하는 것이다. 짧은 강의는 OK이지만, 긴 강의는 중요한 내용이 빠진다.
@@ -56,7 +56,7 @@ tags = ["studynote-ai"]
 
 | 비교 | 고정 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | Attention | [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/) |
 |:---|:---|:---|:---|
-| **입력** | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)→[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)→[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | **자기 자신** |
+| **입력** | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)->[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)->[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | **자기 자신** |
 | **대표** | [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) (2014) | Bahdanau (2014) | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> (2017)</strong> |
 
 ---
@@ -90,17 +90,17 @@ tags = ["studynote-ai"]
 
 ```text
 [Seq2Seq (2014) — 고정 컨텍스트 벡터 (병목)]
-    │
-    ▼
+    |
+    v
 [Bahdanau Attention (2014) — 가중 참조로 병목 해소]
-    │
-    ▼
+    |
+    v
 [Luong Attention (2015) — 효율적 Attention 변형]
-    │
-    ▼
+    |
+    v
 [Self-Attention (Transformer, 2017) — 순환 제거]
-    │
-    ▼
+    |
+    v
 [현재: BERT/GPT — Self-Attention 기반 거대 모델]
 ```
 
@@ -115,7 +115,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 120 / 420
 
-← **이전**: [119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처](/knowledge-base/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)
-**다음**: [121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트](/knowledge-base/studynote/10_ai/02_dl_architecture_new/121_attention_mechanism/) →
+<- **이전**: [119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처](/knowledge-base/studynote/10_ai/02_dl_architecture_new/119_seq2seq_model/)
+**다음**: [121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트](/knowledge-base/studynote/10_ai/02_dl_architecture_new/121_attention_mechanism/) ->
 
 ---

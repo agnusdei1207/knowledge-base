@@ -32,7 +32,7 @@ tags = ["studynote-bigdata"]
 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 가족과 같습니다. A라는 컬럼은 B 테이블에서 왔고, B는 C 뷰에서 왔으며, C는 원본 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) ERP의 X 테이블에서 두カラム(컬럼)의 JOIN으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 것입니다. 이족보(계보)를 자동으로 기록해 두면, Anywhere에서 문제(버그)가 발생해도족보를역향추종하여영향범위을즉시산출할 수 있다!"
 - **필요성**: [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)단보(담보)의 핵심 인프라입니다. 버그 발생 시 영향 범위을 즉시 파악하고, 변경 시 사전영향 분석(Impact Analysis)을 수행하며, 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처를 증명할 수 있게 합니다.
 
-- **📢 섹션 요약 비유**: [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 "가족의계보(계보도)"와 같습니다. "총 매출"이라는지명인사(인물)의계보를 보면,증조부: 원본 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템의 Sales 테이블 → 조부: 정제된 Sales_Staging 테이블 → 아버지: 일별 집계 Daily_Sales_Agg 테이블 → 현재: 월별 재무 보고서 Monthly_Financial 테이블로구성되어 있습니다. 만약 증조부의 살인 사건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류)이 발생하면,계보를 따라가면 전친속(모든 하류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 영향을 즉시 파악할 수 있는 것입니다.
+- **📢 섹션 요약 비유**: [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 "가족의계보(계보도)"와 같습니다. "총 매출"이라는지명인사(인물)의계보를 보면,증조부: 원본 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템의 Sales 테이블 -> 조부: 정제된 Sales_Staging 테이블 -> 아버지: 일별 집계 Daily_Sales_Agg 테이블 -> 현재: 월별 재무 보고서 Monthly_Financial 테이블로구성되어 있습니다. 만약 증조부의 살인 사건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류)이 발생하면,계보를 따라가면 전친속(모든 하류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 영향을 즉시 파악할 수 있는 것입니다.
 
 ---
 
@@ -41,48 +41,48 @@ tags = ["studynote-bigdata"]
 [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 추적 방식에 따라 네 가지 접근법으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되며, 각 접근법의정도(정확도)와 구현 난이도가 다릅니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                [ 데이터 리니지 (Data Lineage) 4대 추적 방식 ]                   │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │  [ 방식 1: 파싱 기반 (Parsing-Based) - 가장 정밀 ]                  │    │
-│  │   SQL/HiveQL/Spark 코드를 구문解析하여 AST(추상 구문 트리)를 구축      │    │
-│  │   ▶ SELECT a.id, b.name FROM orders a JOIN customer b ON ...     │    │
-│  │                          │                                        │    │
-│  │                          ▼                                        │    │
-│  │   AST에서宗族: orders.id → output.id (직접 계보)                    │    │
-│  │   문제: Python/pandas 코드처럼 구문解析 불가능한 transformation은 불포함  │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 방식 2: 로그 기반 (Log-Based) - 数据库 변경 추적 ]                   │    │
-│  │   Database Transaction Log, Kafka Header을 分析하여 데이터 흐름 추적    │    │
-│  │   ▶ "orders 테이블의 row #1234가 14:32:01에 삽입됨" 이력을 기록          │    │
-│  │   문제: Business transformation(JOIN, FILTER) 내용은 불투명           │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 방식 3: 규칙 기반 (Rule-Based) - 태깅 방식 ]                        │    │
-│  │   개발자가 명시적으로 "@Lineage(source=orders.id)" 태그를 코드에 삽입    │    │
-│  │   ▶ 정확하지만, 开发자 협업과 Discipline에 크게依存                     │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 방식 4: 프로브 기반 (Probe-Based / 미들웨어) ]                      │    │
-│  │   ETL 도구의 运行 時間에 Hook을差し込んで 입출력 데이터 정보를 포착        │    │
-│  │   ▶ Informatica, DataStage 등 Erwin, Coll等ツール 연동 시             │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|                [ 데이터 리니지 (Data Lineage) 4대 추적 방식 ]                   |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |  [ 방식 1: 파싱 기반 (Parsing-Based) - 가장 정밀 ]                  |    |
+|  |   SQL/HiveQL/Spark 코드를 구문解析하여 AST(추상 구문 트리)를 구축      |    |
+|  |   -> SELECT a.id, b.name FROM orders a JOIN customer b ON ...     |    |
+|  |                          |                                        |    |
+|  |                          v                                        |    |
+|  |   AST에서宗族: orders.id -> output.id (직접 계보)                    |    |
+|  |   문제: Python/pandas 코드처럼 구문解析 불가능한 transformation은 불포함  |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 방식 2: 로그 기반 (Log-Based) - 数据库 변경 추적 ]                   |    |
+|  |   Database Transaction Log, Kafka Header을 分析하여 데이터 흐름 추적    |    |
+|  |   -> "orders 테이블의 row #1234가 14:32:01에 삽입됨" 이력을 기록          |    |
+|  |   문제: Business transformation(JOIN, FILTER) 내용은 불투명           |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 방식 3: 규칙 기반 (Rule-Based) - 태깅 방식 ]                        |    |
+|  |   개발자가 명시적으로 "@Lineage(source=orders.id)" 태그를 코드에 삽입    |    |
+|  |   -> 정확하지만, 开发자 협업과 Discipline에 크게依存                     |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 방식 4: 프로브 기반 (Probe-Based / 미들웨어) ]                      |    |
+|  |   ETL 도구의 运行 時間에 Hook을差し込んで 입출력 데이터 정보를 포착        |    |
+|  |   -> Informatica, DataStage 등 Erwin, Coll等ツール 연동 시             |    |
+|  +-----------------------------------------------------------------+    |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. 컬럼 수준 vs 테이블 수준 리니지
-- **테이블 수준(Table-level)**: "orders 테이블 → order_summaries 테이블" (조い granularity)
-- **컬럼 수준(Column-level)**: "orders.order_id → order_summaries.order_key" (정밀한 granularity)
+- **테이블 수준(Table-level)**: "orders 테이블 -> order_summaries 테이블" (조い granularity)
+- **컬럼 수준(Column-level)**: "orders.order_id -> order_summaries.order_key" (정밀한 granularity)
 - 컬럼 수준 리니지는 컬럼 이름이 변경되거나 삭제될 때의 영향 분석에 필수적입니다.
 
 ### 2. [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) 리니지 vs Reverse 리니지
-- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> (상유→하류)</strong>: 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 최종 산출물까지 어떻게 흐르는지 추적 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 파악용)
-- **Reverse (하류→상유)**: 최종 보고서에서 원본까지 역추적 (Root Cause 분석용)
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> (상유->하류)</strong>: 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 최종 산출물까지 어떻게 흐르는지 추적 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 파악용)
+- **Reverse (하류->상유)**: 최종 보고서에서 원본까지 역추적 (Root Cause 분석용)
 
 - **📢 섹션 요약 비유**: 리니지의Forward 추적은 "강물 흐름을 따라가며 오염원을 찾는 것"과 같습니다.하류의 물고기가 죽었다면, 물살을 거슬러 올라가며 "공장배수구(배수구)"를 찾아내는 것이Forward 리니지입니다. 반면 Reverse 리니지는 "범죄 수사에서의DNA 역추적"과 같습니다. 현장에서 발견된 범인의유적(흔적)을 가지고 범인의 집(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 역추적하는 것입니다.
 
@@ -144,8 +144,8 @@ tags = ["studynote-bigdata"]
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 *   <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> 2가지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>
-    *   [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Lineage (상유→하류 추적): [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게하류까지 도달하는지 추적
-    *   Reverse Lineage (하류→상유 추적): Root Cause 분석용 역추적
+    *   [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Lineage (상유->하류 추적): [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게하류까지 도달하는지 추적
+    *   Reverse Lineage (하류->상유 추적): Root Cause 분석용 역추적
 *   **Granularity 수준**
     *   테이블 수준 (Table-level): [coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/), 전체 테이블 의존성
     *   컬럼 수준 (Column-level): [fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/), 특정 컬럼 변환 추적
@@ -161,23 +161,23 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 리니지 2가지 분류]
-    │
-    ▼
-[Forward Lineage (上游→下流 추적): 데이터가 어떻게下流까지 도달하는지 추적]
-    │
-    ▼
-[Reverse Lineage (下流→上游 추적): Root Cause 분석용 역추적]
-    │
-    ▼
+    |
+    v
+[Forward Lineage (上游->下流 추적): 데이터가 어떻게下流까지 도달하는지 추적]
+    |
+    v
+[Reverse Lineage (下流->上游 추적): Root Cause 분석용 역추적]
+    |
+    v
 [Granularity 수준]
-    │
-    ▼
+    |
+    v
 [테이블 수준 (Table-level): coarse-grained, 전체 테이블 의존성]
-    │
-    ▼
+    |
+    v
 [컬럼 수준 (Column-level): fine-grained, 특정 컬럼 변환 추적]
-    │
-    ▼
+    |
+    v
 [추적 기술 4가지]
 ```
 
@@ -198,7 +198,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 194 / 262
 
-← **이전**: [03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브](/knowledge-base/studynote/16_bigdata/10_governance/193_datacatalog/)
-**다음**: [05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화](/knowledge-base/studynote/16_bigdata/10_governance/195_dataops/) →
+<- **이전**: [03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브](/knowledge-base/studynote/16_bigdata/10_governance/193_datacatalog/)
+**다음**: [05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화](/knowledge-base/studynote/16_bigdata/10_governance/195_dataops/) ->
 
 ---

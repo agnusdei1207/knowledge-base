@@ -40,27 +40,27 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
    - 끝나면 다 같이 멈추고 하나의 거대한 '통합된 제품 증가분 (Increment)'을 함께 시연하고 검토(리뷰)한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조               │
-├──────────────────────────────────────────────────────────────┤
-│               [ 1 Product Owner (PO) ]                       │
-│                         │ (전체 우선순위 결정)                     │
-│                         ▼                                    │
-│             [ 1 Product Backlog (마스터) ]                     │
-│                         │ (일감을 팀별로 배분)                     │
-│         ┌───────────────┼───────────────┐                  │
-│         ▼               ▼               ▼                  │
-│   [Team 1 Backlog] [Team 2 Backlog] [Team 8 Backlog]         │
-│         │               │               │                  │
-│         └───────────────┼───────────────┘                  │
-│                         ▼                                    │
-│                [ 1 Common Sprint ]                           │
-│              (모든 팀이 동시에 시작하고 종료)                       │
-│                         │                                    │
-│                         ▼                                    │
-│             [ 1 Integrated Increment ]                       │
-│              (통합된 단 하나의 거대한 제품 완성)                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조               |
++--------------------------------------------------------------+
+|               [ 1 Product Owner (PO) ]                       |
+|                         | (전체 우선순위 결정)                     |
+|                         v                                    |
+|             [ 1 Product Backlog (마스터) ]                     |
+|                         | (일감을 팀별로 배분)                     |
+|         +---------------+---------------+                  |
+|         v               v               v                  |
+|   [Team 1 Backlog] [Team 2 Backlog] [Team 8 Backlog]         |
+|         |               |               |                  |
+|         +---------------+---------------+                  |
+|                         v                                    |
+|                [ 1 Common Sprint ]                           |
+|              (모든 팀이 동시에 시작하고 종료)                       |
+|                         |                                    |
+|                         v                                    |
+|             [ 1 Integrated Increment ]                       |
+|              (통합된 단 하나의 거대한 제품 완성)                     |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 각 팀이 물리적으로 찢어져 코드를 짜더라도, 지시를 내리는 뇌(PO)와 통합되어 나오는 결과물(Increment)은 철저하게 한 몸처럼 맞물려 돌아가는 LeSS의 이상적인 뼈대를 보여준다.
@@ -124,17 +124,17 @@ LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/
 
 ```text
 단일 애자일 (Scrum 1개 팀, 10명 내외)
-    │
-    ▼
+    |
+    v
 대형 프로젝트 확장 요구 (50명 이상) 및 팀 간 의존성 문제 발생
-    │
-    ▼
+    |
+    v
 대규모 확장 체제 분기: 관료적 통제 강화 (SAFe) vs 룰 단순화 극대화 (LeSS)
-    │
-    ▼
+    |
+    v
 1-1-1 구조 확립 (1 PO, 1 Backlog, 1 Sprint)
-    │
-    ▼
+    |
+    v
 스프린트 계획 1부/2부 분업 체계 (Sprint Planning 1 & 2) 및 동기화 구현
 ```
 
@@ -152,7 +152,7 @@ LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/
 
 **진행 상황**: 94 / 973
 
-← **이전**: [93. SAFe (Scaled Agile Framework) - 기업용 대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
-**다음**: [95. Nexus - 스크럼 팀 간 의존성 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/095_nexus_scaled_agile_framework/) →
+<- **이전**: [93. SAFe (Scaled Agile Framework) - 기업용 대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
+**다음**: [95. Nexus - 스크럼 팀 간 의존성 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/095_nexus_scaled_agile_framework/) ->
 
 ---

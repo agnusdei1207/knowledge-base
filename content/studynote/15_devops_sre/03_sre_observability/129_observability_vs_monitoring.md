@@ -19,18 +19,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    3 Pillars of Observability                         │
-├───────────────────────────────────────────────────────┤
-│  [Metrics]  수치 지표 — CPU·메모리·요청 수           │
-│             → Prometheus, Grafana                     │
-│  [Logs]     이벤트 기록 — 에러 메시지·스택트레이스   │
-│             → Elasticsearch, Loki                     │
-│  [Traces]   요청 흐름 — 서비스 A→B→C 추적           │
-│             → Jaeger, Tempo                           │
-│                                                       │
-│  OpenTelemetry: 3가지를 통합 수집하는 표준           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    3 Pillars of Observability                         |
++-------------------------------------------------------+
+|  [Metrics]  수치 지표 — CPU·메모리·요청 수           |
+|             -> Prometheus, Grafana                     |
+|  [Logs]     이벤트 기록 — 에러 메시지·스택트레이스   |
+|             -> Elasticsearch, Loki                     |
+|  [Traces]   요청 흐름 — 서비스 A->B->C 추적           |
+|             -> Jaeger, Tempo                           |
+|                                                       |
+|  OpenTelemetry: 3가지를 통합 수집하는 표준           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 체온계(예상 지표만 측정), [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 MRI(내부를 자유롭게 탐색)이다.
@@ -76,10 +76,10 @@ tags = ["studynote-devops-sre"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[SNMP 모니터링 (2000s)] → [ELK Stack (2012~)]
-    → [분산 트레이싱 (Zipkin/Jaeger, 2016~)]
-    → [OpenTelemetry (2019~) — 통합 표준]
-    → [현재: AIOps — AI가 3 Pillars 자동 상관 분석]
+[SNMP 모니터링 (2000s)] -> [ELK Stack (2012~)]
+    -> [분산 트레이싱 (Zipkin/Jaeger, 2016~)]
+    -> [OpenTelemetry (2019~) — 통합 표준]
+    -> [현재: AIOps — AI가 3 Pillars 자동 상관 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -93,7 +93,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 129 / 373
 
-← **이전**: [128. Blameless Postmortem - 비난 없는 장애 사후 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)
-**다음**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/) →
+<- **이전**: [128. Blameless Postmortem - 비난 없는 장애 사후 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)
+**다음**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/) ->
 
 ---

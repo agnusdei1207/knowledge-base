@@ -28,12 +28,12 @@ tags = ["studynote-devops-sre"]
 아래 그림은 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 왜 인시던트 시점의 공통 진실 공급원인지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Incident communication gap                                              │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Alert -> silence      -> rumor / ticket flood                           │
-│ Alert -> status page  -> shared truth / queued updates                  │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Incident communication gap                                              |
++--------------------------------------------------------------------------+
+| Alert -> silence      -> rumor / ticket flood                           |
+| Alert -> status page  -> shared truth / queued updates                  |
++--------------------------------------------------------------------------+
 ```
 
 이 차이는 단순 공지 채널의 유무가 아니라, 장애 대응의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 어디에 쓰느냐를 가른다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 있으면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)팀은 같은 질문에 백 번 답하는 대신, 한 번 정리한 사실을 모두와 공유할 수 있다.
@@ -57,13 +57,13 @@ tags = ["studynote-devops-sre"]
 아래 구조는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 내부 감지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 외부 공지를 어떻게 연결하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Status page control loop                                                │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Synthetic probes -> incident platform -> public status page            │
-│ Manual commander update ------------------------------^                 │
-│ Public page -> subscribers / history / maintenance notices             │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Status page control loop                                                |
++--------------------------------------------------------------------------+
+| Synthetic probes -> incident platform -> public status page            |
+| Manual commander update ------------------------------^                 |
+| Public page -> subscribers / history / maintenance notices             |
++--------------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 원칙은 <strong>독립 호스팅</strong>이다. 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같은 계정, 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network), 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리면 대형 장애 시 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)도 함께 사라진다. 따라서 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰거나, 최소한 다른 계정·다른 배포 경로·다른 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 체계로 분리해야 한다.
@@ -156,21 +156,21 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Internal alerts and probes
-    │
-    ▼
+    |
+    v
 Incident declaration
-    │
-    ▼
+    |
+    v
 Public status page update
-    │
-    ├─ component state
-    ├─ maintenance notice
-    └─ subscriber notification
-    │
-    ▼
+    |
+    +- component state
+    +- maintenance notice
+    +- subscriber notification
+    |
+    v
 Uptime history and public SLA evidence
-    │
-    ▼
+    |
+    v
 Postmortem linkage and trust building
 ```
 
@@ -188,7 +188,7 @@ Postmortem linkage and trust building
 
 **진행 상황**: 182 / 373
 
-← **이전**: [181. SRE (Site Reliability 엔진ering) 임베디드 운영 모델 (Embedded Model)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/181_sre_embedded_model/)
-**다음**: [183. 데이터 손실 제로 (Zero Data Loss) 아키텍처](/knowledge-base/studynote/15_devops_sre/03_sre_observability/183_zero_data_loss_architecture/) →
+<- **이전**: [181. SRE (Site Reliability 엔진ering) 임베디드 운영 모델 (Embedded Model)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/181_sre_embedded_model/)
+**다음**: [183. 데이터 손실 제로 (Zero Data Loss) 아키텍처](/knowledge-base/studynote/15_devops_sre/03_sre_observability/183_zero_data_loss_architecture/) ->
 
 ---

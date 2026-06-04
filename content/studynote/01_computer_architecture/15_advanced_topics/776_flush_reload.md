@@ -24,14 +24,14 @@ Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속�
 이 기법이 강력한 이유는 관측 단위가 세트가 아니라 <strong>라인</strong>이라는 점이다. 즉 “어느 구역을 썼는가” 수준이 아니라, “거의 어느 함수나 테이블 조각을 썼는가” 수준까지 좁혀 볼 수 있다. 그래서 취약한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 구현의 분기, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 테이블 조회, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 흐름을 세밀하게 추적하는 데 자주 쓰인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Flush line X -> victim may use X -> reload X                │
-├──────────────────────────────────────────────────────────────┤
-│ flush : line X not cached                                   │
-│ wait  : victim executes                                     │
-│ reload: fast => victim used X                               │
-│         slow => victim did not use X                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Flush line X -> victim may use X -> reload X                |
++--------------------------------------------------------------+
+| flush : line X not cached                                   |
+| wait  : victim executes                                     |
+| reload: fast => victim used X                               |
+|         slow => victim did not use X                        |
++--------------------------------------------------------------+
 ```
 
 이 구조 때문에 Flush+Reload는 “공유 최적화가 오히려 감시 창이 되는 순간”을 보여주는 대표 사례다.
@@ -52,17 +52,17 @@ Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속�
 | Repeat | 여러 라인·여러 입력에 대해 반복 | 비밀과의 상관관계 강화 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Shared physical page                                        │
-├──────────────────────────────────────────────────────────────┤
-│ attacker map  ---- same file/page ----  victim map          │
-│      │                                      │               │
-│      └─ clflush line L                      │               │
-│                                             ▼               │
-│                                  victim touches line L      │
-│                                             │               │
-│ attacker reloads line L <-------------------┘               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Shared physical page                                        |
++--------------------------------------------------------------+
+| attacker map  ---- same file/page ----  victim map          |
+|      |                                      |               |
+|      +- clflush line L                      |               |
+|                                             v               |
+|                                  victim touches line L      |
+|                                             |               |
+| attacker reloads line L <-------------------+               |
++--------------------------------------------------------------+
 ```
 
 예를 들어 Square-and-Multiply 방식의 취약한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 지수 연산에서 특정 multiply 코드 경로가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 1일 때만 실행된다면, 그 코드가 담긴 캐시 라인을 Flush+Reload로 추적해 비밀 지수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 통계적으로 복원할 수 있다. 핵심은 “같은 줄을 공유하기 때문에, 남의 발자국이 내 측정 시간에 직접 남는다”는 점이다.
@@ -141,20 +141,20 @@ Flush+Reload를 이해하고 방어하는 과정은 [성능](/knowledge-base/stu
 
 ```text
 공유 라이브러리 · Dedup
-  │
-  ▼
+  |
+  v
 Shared Physical Page
-  │
-  ▼
+  |
+  v
 Flush (`clflush`)
-  │
-  ▼
+  |
+  v
 Victim Reload into Cache
-  │
-  ▼
+  |
+  v
 Line-level Timing Trace
-  │
-  ▼
+  |
+  v
 Constant-time · Dedup Off · Workload Isolation
 ```
 
@@ -172,7 +172,7 @@ Constant-time · Dedup Off · Workload Isolation
 
 **진행 상황**: 777 / 803
 
-← **이전**: [775. Prime+Probe 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/775_prime_probe/)
-**다음**: [777. Evict+Time 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/777_evict_time/) →
+<- **이전**: [775. Prime+Probe 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/775_prime_probe/)
+**다음**: [777. Evict+Time 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/777_evict_time/) ->
 
 ---

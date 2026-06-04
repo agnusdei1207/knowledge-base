@@ -25,30 +25,30 @@ tags = ["studynote-design-supervision"]
 **해결**: 비동기 이벤트 수신([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))과 동기 비즈니스 처리(단순성)를 **큐를 사이에 두고 물리적으로 분리**.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  3-Layer Architecture                       │
-│                                                             │
-│  Layer 1: 비동기 계층 (Async Layer)                          │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  네트워크 I/O 수신 (epoll / IOCP)                   │   │
-│    │  인터럽트 핸들러 / 이벤트 드리븐                      │   │
-│    │  스레드 1개 또는 소수로 수천 연결 처리                 │   │
-│    └────────────────────┬───────────────────────────────┘   │
-│                         │ 이벤트/메시지 투입                  │
-│                         ▼                                   │
-│  Layer 2: 큐 계층 (Queue Layer)                              │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  [Req-1] [Req-2] [Req-3] [Req-4] [Req-5] ...      │   │
-│    │  버퍼링 · 역압(Backpressure) 제어 · 우선순위 큐      │   │
-│    └────────────────────┬───────────────────────────────┘   │
-│                         │ 작업 배포                          │
-│                         ▼                                   │
-│  Layer 3: 동기 계층 (Sync Layer)                             │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  Worker Thread 1 │ Worker Thread 2 │ Worker Thread N│  │
-│    │  동기 순차 처리   │  DB 조회, 연산  │  응답 전송      │   │
-│    └────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  3-Layer Architecture                       |
+|                                                             |
+|  Layer 1: 비동기 계층 (Async Layer)                          |
+|    +----------------------------------------------------+   |
+|    |  네트워크 I/O 수신 (epoll / IOCP)                   |   |
+|    |  인터럽트 핸들러 / 이벤트 드리븐                      |   |
+|    |  스레드 1개 또는 소수로 수천 연결 처리                 |   |
+|    +--------------------+-------------------------------+   |
+|                         | 이벤트/메시지 투입                  |
+|                         v                                   |
+|  Layer 2: 큐 계층 (Queue Layer)                              |
+|    +----------------------------------------------------+   |
+|    |  [Req-1] [Req-2] [Req-3] [Req-4] [Req-5] ...      |   |
+|    |  버퍼링 · 역압(Backpressure) 제어 · 우선순위 큐      |   |
+|    +--------------------+-------------------------------+   |
+|                         | 작업 배포                          |
+|                         v                                   |
+|  Layer 3: 동기 계층 (Sync Layer)                             |
+|    +----------------------------------------------------+   |
+|    |  Worker Thread 1 | Worker Thread 2 | Worker Thread N|  |
+|    |  동기 순차 처리   |  DB 조회, 연산  |  응답 전송      |   |
+|    +----------------------------------------------------+   |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 고속도로(비동기 계층)로 달려온 차들이 톨게이트 앞 대기열(큐)에 줄을 서고, 각 부스의 직원(동기 워커)이 한 대씩 처리하는 구조다.
@@ -66,10 +66,10 @@ tags = ["studynote-design-supervision"]
 
 ```
 큐 유형 선택:
-  ├── Bounded Queue (제한 큐): 역압(Backpressure) 자동 적용
-  │     └── 큐 가득 찰 시 → 비동기 계층에 흐름 제어 신호
-  ├── Priority Queue (우선순위 큐): SLA 등급별 처리 순서 보장
-  └── Disruptor Pattern: Lock-Free 고성능 큐 (LMAX Disruptor)
+  +-- Bounded Queue (제한 큐): 역압(Backpressure) 자동 적용
+  |     +-- 큐 가득 찰 시 -> 비동기 계층에 흐름 제어 신호
+  +-- Priority Queue (우선순위 큐): SLA 등급별 처리 순서 보장
+  +-- Disruptor Pattern: Lock-Free 고성능 큐 (LMAX Disruptor)
 
 큐 크기 결정 공식 (Little's Law):
   L = λ × W
@@ -78,15 +78,15 @@ tags = ["studynote-design-supervision"]
 
 ```
 [네트워크 소켓 수신]
-       │ (비동기 accept/read)
-       ▼
+       | (비동기 accept/read)
+       v
 [요청 큐 (request queue)]
-       │
-  ┌────┴──────────────────────────────┐
-  │  prefork / worker / event MPM     │
-  │  (동기 처리 워커 풀)                │
-  │  각 워커가 CGI/PHP/모듈 동기 실행   │
-  └───────────────────────────────────┘
+       |
+  +----+------------------------------+
+  |  prefork / worker / event MPM     |
+  |  (동기 처리 워커 풀)                |
+  |  각 워커가 CGI/PHP/모듈 동기 실행   |
+  +-----------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 콜센터에서 자동 응답(비동기 계층)이 전화를 받아 대기열(큐)에 쌓아두면, 상담원(동기 워커)이 한 건씩 처리하는 구조다.
@@ -114,7 +114,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 ```java
-// 비동기 계층 (이벤트 수신 → 큐 삽입)
+// 비동기 계층 (이벤트 수신 -> 큐 삽입)
 ExecutorService asyncLayer = Executors.newSingleThreadExecutor();
 BlockingQueue<Request> queue = new LinkedBlockingQueue<>(1000); // Bounded
 
@@ -189,7 +189,7 @@ Half-Sync/Half-Async 패턴은 "[성능](/knowledge-base/studynote/04_software_e
 | 구현체 | Java EE Application Server | Servlet [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) = 동기 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-계층 분리 → 하프-싱크/하프-어싱크 패턴 → 서버 프레임워크 패턴
+계층 분리 -> 하프-싱크/하프-어싱크 패턴 -> 서버 프레임워크 패턴
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 우체부(비동기 계층)가 빠르게 우편함(큐)에 편지를 넣으면, 엄마(동기 워커)가 한 통씩 꺼내 읽는 것처럼 두 사람이 서로 다른 속도로 일해도 괜찮아.
@@ -202,7 +202,7 @@ Half-Sync/Half-Async 패턴은 "[성능](/knowledge-base/studynote/04_software_e
 
 **진행 상황**: 275 / 530
 
-← **이전**: [213. 프로액터 패턴 (Proactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/)
-**다음**: [215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/) →
+<- **이전**: [213. 프로액터 패턴 (Proactor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/)
+**다음**: [215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/215_worker_thread_pool_pattern/) ->
 
 ---

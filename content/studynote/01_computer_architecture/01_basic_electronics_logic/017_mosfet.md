@@ -38,21 +38,21 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 | **바디 (Body/Bulk)** | 댐 전체가 박혀있는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기판 (문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 튜닝에 사용) | 전체 댐 시설을 지탱하는 거대한 암반 지대 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           MOSFET의 M-O-S 단면 아키텍처 및 전기장 원리            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ M: 게이트 금속 ] ◀─ 전압(+) 인가                     │
-│       ==================                                     │
-│       [ O: 산화막(유리) ] ◀─ 전자는 못 가고 전기장만 통과        │
-│    +---+----------------+---+                                │
-│    | S | (전기장에 끌려옴) | D |                                │
-│    | o |── e- e- e- e- ──| r | ◀─ [ N 채널 완성! 전기가 통함 ]│
-│    | u |    P형 기판     | a |                                │
-│    | r | (Substrate)    | i |                                │
-│    | c |                | n |                                │
-│    +---+----------------+---+                                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           MOSFET의 M-O-S 단면 아키텍처 및 전기장 원리            |
++--------------------------------------------------------------+
+|                                                              |
+|       [ M: 게이트 금속 ] <-- 전압(+) 인가                     |
+|       ==================                                     |
+|       [ O: 산화막(유리) ] <-- 전자는 못 가고 전기장만 통과        |
+|    +---+----------------+---+                                |
+|    | S | (전기장에 끌려옴) | D |                                |
+|    | o |-- e- e- e- e- --| r | <-- [ N 채널 완성! 전기가 통함 ]|
+|    | u |    P형 기판     | a |                                |
+|    | r | (Substrate)    | i |                                |
+|    | c |                | n |                                |
+|    +---+----------------+---+                                |
++--------------------------------------------------------------+
 ```
 
 게이트에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(+)을 가하면, 방탄유리(산화막) 때문에 전자는 밖으로 나가지 못한다. 대신 그 강한 전기장이 기판 밑바닥에 숨어있던 전자(-)들을 표면으로 멱살 잡고 끌어올린다. 표면에 모인 전자들이 소스와 드레인을 잇는 튼튼한 징검다리(채널)를 만들어, 마침내 전기가 폭포수처럼 흐르게(Turn-On) 된다.
@@ -114,20 +114,20 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
 
 ```text
 [진공관 (Vacuum Tube) — 열전자 방출 ON/OFF, 발열·부피 한계]
-    │
-    ▼
+    |
+    v
 [바이폴라 트랜지스터 (BJT, Bipolar Junction Transistor) — 전류 제어, 소형화]
-    │
-    ▼
+    |
+    v
 [MOSFET (Metal-Oxide-Semiconductor FET) — 전압 제어, 절연 게이트, 저전력]
-    │
-    ▼
+    |
+    v
 [CMOS (Complementary MOS) — NMOS+PMOS 상보 결합, 정적 전력 소모 제로]
-    │
-    ▼
+    |
+    v
 [FinFET / GAA (Gate-All-Around) — 3D 게이트 구조, 누설 전류 차단, 5nm 이하]
-    │
-    ▼
+    |
+    v
 [CFET (Complementary FET) — NMOS·PMOS 수직 적층, 1nm 시대 면적 혁신]
 ```
 이 흐름은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 열전자 소자에서 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어 절연 게이트로 진화한 뒤, 미세화의 물리적 한계를 3D 입체 구조 확보로 돌파해가는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 기술의 계보를 보여준다.
@@ -144,7 +144,7 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
 
 **진행 상황**: 17 / 803
 
-← **이전**: [16. FET (전계효과 트랜지스터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/)
-**다음**: [18. CMOS (Complementary MOS)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) →
+<- **이전**: [16. FET (전계효과 트랜지스터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/)
+**다음**: [18. CMOS (Complementary MOS)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) ->
 
 ---

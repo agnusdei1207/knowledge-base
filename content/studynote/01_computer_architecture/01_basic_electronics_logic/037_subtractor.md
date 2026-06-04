@@ -191,7 +191,7 @@ GPU 병렬 감산 (수천 개 ALU 동시)
 
 **진행 상황**: 37 / 803
 
-← **이전**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)
-**다음**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/) →
+<- **이전**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)
+**다음**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/) ->
 
 ---

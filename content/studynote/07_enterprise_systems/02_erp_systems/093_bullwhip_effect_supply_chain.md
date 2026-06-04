@@ -38,18 +38,18 @@ tags = ["enterprise_systems"]
 | <strong>4. 배송 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 및 할당 (Rationing &amp; Shortage Gaming)</strong> | 물건이 부족할 때 공급자가 쪼개서 준다고 하면, 더 받으려고 일부러 뻥튀기 주문을 넣음 | 주문량 조작 및 재고 폭탄 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  채찍 효과 (Bullwhip Effect)의 증폭 과정            │
-├──────────────────────────────────────────────────────────────┤
-│               (수요 변동성 그래프: 오른쪽으로 갈수록 파동이 커짐)     │
-│                                                              │
-│ [소비자]    [소매상 (마트)]    [도매상 (물류센터)]     [제조사 (공장)]  │
-│  ±10%  ──▶    ±30%    ───▶      ±80%      ────▶    ±200%    │
-│  〰️〰️       ∿∿∿∿        〽️〽️〽️〽️         🌊🌊🌊🌊🌊 │
-│ (실제소비)  (안전재고 추가)   (일괄주문/할인)     (예측실패 폭주)  │
-│                                                              │
-│ ❌ 문제: 제조사는 "소비자가 200% 늘었다"고 착각하고 공장을 풀가동함  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  채찍 효과 (Bullwhip Effect)의 증폭 과정            |
++--------------------------------------------------------------+
+|               (수요 변동성 그래프: 오른쪽으로 갈수록 파동이 커짐)     |
+|                                                              |
+| [소비자]    [소매상 (마트)]    [도매상 (물류센터)]     [제조사 (공장)]  |
+|  ±10%  --->    ±30%    ---->      ±80%      ----->    ±200%    |
+|  〰️〰️       ∿∿∿∿        〽️〽️〽️〽️         🌊🌊🌊🌊🌊 |
+| (실제소비)  (안전재고 추가)   (일괄주문/할인)     (예측실패 폭주)  |
+|                                                              |
+| ❌ 문제: 제조사는 "소비자가 200% 늘었다"고 착각하고 공장을 풀가동함  |
++--------------------------------------------------------------+
 ```
 
 다이어그램이 보여주듯, 각 단계마다 자신들만의 '안전 재고 버퍼'를 더하는 순간 정보의 노이즈는 기하급수적으로 커진다. 이 노이즈를 걷어내는 유일한 방법은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(사슬)을 투명한 유리관으로 만드는 것뿐이다.
@@ -113,17 +113,17 @@ IT 시스템의 발달은 제조사가 소매점의 계산대(POS) [데이터](/
 
 ```text
 정보 단절 및 Push 방식 공급망 구조
-    │
-    ▼
+    |
+    v
 정보 비대칭 발생 ➔ 채찍 효과 (Bullwhip Effect) 극대화
-    │
-    ▼
+    |
+    v
 POS 데이터 공유 및 Pull 방식 (JIT) 전환
-    │
-    ▼
+    |
+    v
 기업 간 시스템 통합 (VMI, CPFR 도입)
-    │
-    ▼
+    |
+    v
 AI 수요 예측 및 블록체인 기반 실시간 투명성 확보 (차세대 SCM)
 ```
 
@@ -141,7 +141,7 @@ AI 수요 예측 및 블록체인 기반 실시간 투명성 확보 (차세대 S
 
 **진행 상황**: 93 / 482
 
-← **이전**: [92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/092_scm_supply_chain_management/)
-**다음**: [94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/094_bullwhip_effect_mitigation_pos_vmi/) →
+<- **이전**: [92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/092_scm_supply_chain_management/)
+**다음**: [94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/094_bullwhip_effect_mitigation_pos_vmi/) ->
 
 ---

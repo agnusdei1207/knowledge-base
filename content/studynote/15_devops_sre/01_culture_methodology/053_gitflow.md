@@ -32,8 +32,8 @@ GitFlow는 릴리스와 개발을 분리해 운영하는 방식이다. 여러 �
 GitFlow는 `develop`에서 기능을 모으고, `release`에서 안정화하고, `main`에 태그를 남긴다. 긴급 수정은 `hotfix`로 바로 `main`에 반영한다.
 
 ```text
-feature → develop → release → main
-                   ↘ hotfix → main
+feature -> develop -> release -> main
+                   ↘ hotfix -> main
 ```
 
 | 브랜치 | 역할 | 특징 |
@@ -113,14 +113,14 @@ GitFlow는 안정적 릴리스와 명확한 협업 구조를 제공한다. 하�
 
 ```text
 feature branch
-    │
-    ▼
+    |
+    v
 develop
-    │
-    ▼
+    |
+    v
 release
-    │
-    ▼
+    |
+    v
 main / hotfix
 ```
 
@@ -138,7 +138,7 @@ main / hotfix
 
 **진행 상황**: 53 / 373
 
-← **이전**: [52. Git 브랜치 전략 (Git Branching Strategies)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/)
-**다음**: [54. GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) →
+<- **이전**: [52. Git 브랜치 전략 (Git Branching Strategies)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/)
+**다음**: [54. GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) ->
 
 ---

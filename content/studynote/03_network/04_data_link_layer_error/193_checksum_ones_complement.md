@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [패리티 검사]
-    │
-    ▼
+    |
+    v
 [검사합]
-    │
-    └──▶ [CRC]
+    |
+    +---> [CRC]
 ```
 
 - **📢 섹션 요약 비유**: 검사합은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [패리티 검사]
-    │
-    ▼
+    |
+    v
 [검사합]
-    │
-    └──▶ [CRC]
+    |
+    +---> [CRC]
 ```
 
 - **📢 섹션 요약 비유**: 검사합의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 패리티 검사]
-    │
-    ▼
+    |
+    v
 [현재 개념: 검사합]
-    │
-    ├──▶ [확장 A: CRC]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: CRC]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 검사합는 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CRC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 314 / 1120
 
-← **이전**: [192. 패리티 검사 (Parity Check)](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)
-**다음**: [194. CRC (Cyclic Redundancy Check, 순환 중복 검사)](/knowledge-base/studynote/03_network/04_data_link_layer_error/194_crc_cyclic_redundancy_check/) →
+<- **이전**: [192. 패리티 검사 (Parity Check)](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)
+**다음**: [194. CRC (Cyclic Redundancy Check, 순환 중복 검사)](/knowledge-base/studynote/03_network/04_data_link_layer_error/194_crc_cyclic_redundancy_check/) ->
 
 ---

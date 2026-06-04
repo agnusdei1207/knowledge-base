@@ -26,16 +26,16 @@ RLHF는 거대 언어 모델 ([Large Language Model](/knowledge-base/studynote/0
 아래 그림은 왜 랭킹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요한지를 직관적으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Preference appears between good answers             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Prompt: "상사에게 일정 지연 사과 메일 초안을 써줘"                 │
-│ A: 장황하고 책임 회피가 섞인 답변                                  │
-│ B: 사유, 영향, 보완 계획이 짧게 정리된 답변                        │
-│                                                                      │
-│ Language model likelihood: A and B can both look fluent             │
-│ Human preference: B > A                                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Preference appears between good answers             |
++----------------------------------------------------------------------+
+| Prompt: "상사에게 일정 지연 사과 메일 초안을 써줘"                 |
+| A: 장황하고 책임 회피가 섞인 답변                                  |
+| B: 사유, 영향, 보완 계획이 짧게 정리된 답변                        |
+|                                                                      |
+| Language model likelihood: A and B can both look fluent             |
+| Human preference: B > A                                              |
++----------------------------------------------------------------------+
 ```
 
 즉 RLHF의 필요성은 모델이 틀린 문장을 고치는 데 있지 않다. 이미 맞는 문장들 사이에서 "어느 답이 더 사람다운가"를 고르게 하는 데 있다.
@@ -51,21 +51,21 @@ RLHF는 거대 언어 모델 ([Large Language Model](/knowledge-base/studynote/0
 아래 그림은 선호 랭킹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트로 이어지는 루프를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    RLHF preference-learning loop                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ prompt sample                                                        │
-│     │                                                                │
-│     ├─> policy generates N responses                                 │
-│     │                                                                │
-│     ├─> human labeler ranks / picks better answer                    │
-│     │                                                                │
-│     ├─> (chosen, rejected) pairs                                     │
-│     │                                                                │
-│     ├─> reward model r(x, y)  or  direct preference optimization     │
-│     │                                                                │
-│     └─> updated policy -> new responses -> re-evaluation             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    RLHF preference-learning loop                    |
++----------------------------------------------------------------------+
+| prompt sample                                                        |
+|     |                                                                |
+|     +-> policy generates N responses                                 |
+|     |                                                                |
+|     +-> human labeler ranks / picks better answer                    |
+|     |                                                                |
+|     +-> (chosen, rejected) pairs                                     |
+|     |                                                                |
+|     +-> reward model r(x, y)  or  direct preference optimization     |
+|     |                                                                |
+|     +-> updated policy -> new responses -> re-evaluation             |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -92,7 +92,7 @@ RLHF를 정확히 이해하려면 SFT, [DPO](/knowledge-base/studynote/06_ict_co
 | 방식 | 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 장점 | 약점 | 적합 상황 |
 | :--- | :--- | :--- | :--- | :--- |
 | SFT | 정답 데모 | 구현 단순, 안정적 | 선호 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) 한계 | 기본 지시 수행, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델 |
-| [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 인간 선호 → 보상 모델 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 | 탐색 가능, 정렬 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높음 | 구현 복잡, 비용 큼 | 대화형 모델 정렬, 복합 보상 |
+| [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 인간 선호 -> 보상 모델 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 | 탐색 가능, 정렬 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높음 | 구현 복잡, 비용 큼 | 대화형 모델 정렬, 복합 보상 |
 | [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) | 선호 쌍에서 직접 최적화 | 단순하고 안정적 | 탐색/온라인 적응은 제한적 | 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분한 후속 튜닝 |
 | [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판정 기반 선호 | 확장성 좋음, 비용 절감 | 모델 편향 전이 위험 | 인간 평가 보강, 대규모 재평가 |
 
@@ -119,15 +119,15 @@ RLHF를 정확히 이해하려면 SFT, [DPO](/knowledge-base/studynote/06_ict_co
 아래 흐름은 어떤 선호 학습 방식을 선택할지 실무적으로 판단하는 기준이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Preference optimization decision                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ enough human preference pairs?                                       │
-│   ├─ no  -> collect / bootstrap with SFT or RLAIF                    │
-│   ├─ yes + simple pipeline wanted -> DPO first                       │
-│   ├─ yes + reward shaping / exploration needed -> RLHF with PPO      │
-│   └─ label budget too small -> AI assist + human audit               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Preference optimization decision                    |
++----------------------------------------------------------------------+
+| enough human preference pairs?                                       |
+|   +- no  -> collect / bootstrap with SFT or RLAIF                    |
+|   +- yes + simple pipeline wanted -> DPO first                       |
+|   +- yes + reward shaping / exploration needed -> RLHF with PPO      |
+|   +- label budget too small -> AI assist + human audit               |
++----------------------------------------------------------------------+
 ```
 
 판단 포인트는 세 가지로 요약된다. 첫째, <strong>라벨링 기준의 명확성</strong>이 모델 구조보다 우선이다. "좋은 답"의 정의가 모호하면 RLHF는 편향만 증폭한다. 둘째, **DPO와 RLHF를 구분해야 한다**. 선호 쌍이 이미 충분하고 안정적이면 DPO가 더 단순할 수 있지만, 탐색과 복합 보상 설계가 필요하면 RLHF가 여전히 유리하다. 셋째, <strong>라벨러 운영 비용과 심리 부담</strong>을 설계 안에 포함해야 한다. 유해 콘텐츠 평가를 대규모로 다루는 조직은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치 없이는 지속 가능하지 않다.
@@ -166,17 +166,17 @@ RLHF가 잘 작동하면 모델은 단순히 자연스러운 문장을 넘어서
 
 ```text
 Supervised fine-tuning
-    │
-    ▼
+    |
+    v
 Candidate response sampling
-    │
-    ▼
+    |
+    v
 Human preference ranking and gold-set validation
-    │
-    ▼
+    |
+    v
 Reward model or direct preference optimization
-    │
-    ▼
+    |
+    v
 Aligned LLM with continuous feedback loop
 ```
 
@@ -192,7 +192,7 @@ Aligned LLM with continuous feedback loop
 
 **진행 상황**: 175 / 258
 
-← **이전**: [174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/)
-**다음**: [176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) →
+<- **이전**: [174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/)
+**다음**: [176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) ->
 
 ---

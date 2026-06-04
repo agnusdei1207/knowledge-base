@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [블루투스 LE]
-    │
-    ▼
+    |
+    v
 [지그비 메쉬]
-    │
-    └──▶ [NFC 표준]
+    |
+    +---> [NFC 표준]
 ```
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [블루투스 LE]
-    │
-    ▼
+    |
+    v
 [지그비 메쉬]
-    │
-    └──▶ [NFC 표준]
+    |
+    +---> [NFC 표준]
 ```
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 블루투스 LE]
-    │
-    ▼
+    |
+    v
 [현재 개념: 지그비 메쉬]
-    │
-    ├──▶ [확장 A: NFC 표준]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: NFC 표준]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE에서 출발해 현재 메커니즘을 정교화하고, 이후 NFC 표준와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 136 / 1120
 
-← **이전**: [1032. 블루투스 LE (BLE)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1032_ble_bluetooth_low_energy_beacon/)
-**다음**: [1034. NFC 표준 (13.56MHz)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1034_nfc_near_field_communication_13_56mhz/) →
+<- **이전**: [1032. 블루투스 LE (BLE)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1032_ble_bluetooth_low_energy_beacon/)
+**다음**: [1034. NFC 표준 (13.56MHz)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1034_nfc_near_field_communication_13_56mhz/) ->
 
 ---

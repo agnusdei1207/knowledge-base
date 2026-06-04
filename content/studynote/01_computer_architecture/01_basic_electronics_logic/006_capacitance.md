@@ -35,20 +35,20 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 배선에서는 기생 정전용량을 박살 내야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           마이크로 배선 간 기생 커패시턴스 발생 원리         │
-├──────────────────────────────────────────────────────────────┤
-│  [ 배선 단면도: 미세 공정화에 따른 거리(d) 축소 ]                 │
-│                                                              │
-│     <--폭-->          [ 유전체: SiO2 ]         <--폭-->         │
-│    ┌────────┐                                 ┌────────┐       │
-│    │ 금속선 1 │◀────── 거리(d) 나노미터 축소 ──────▶│ 금속선 2 │ ▲   │
-│    │ (Signal)│                                 │ (Signal)│ │   │
-│    └────────┘    【 공식: C = 유전율 × 면적 / d 】  └────────┘ ▼   │
-│                                                              │
-│  * 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.                  │
-│  * 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생! │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           마이크로 배선 간 기생 커패시턴스 발생 원리         |
++--------------------------------------------------------------+
+|  [ 배선 단면도: 미세 공정화에 따른 거리(d) 축소 ]                 |
+|                                                              |
+|     <--폭-->          [ 유전체: SiO2 ]         <--폭-->         |
+|    +--------+                                 +--------+       |
+|    | 금속선 1 |<------- 거리(d) 나노미터 축소 ------->| 금속선 2 | ^   |
+|    | (Signal)|                                 | (Signal)| |   |
+|    +--------+    【 공식: C = 유전율 × 면적 / d 】  +--------+ v   |
+|                                                              |
+|  * 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.                  |
+|  * 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생! |
++--------------------------------------------------------------+
 ```
 
 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 1번과 2번이 가까워지면 두 선이 마치 거대한 커패시터의 양극판처럼 동작한다. 한쪽 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 바뀔 때 발생하는 전기장이 반대쪽 선의 전자를 끌어당겨 0을 1로 착각하게 만드는 크로스톡([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 간섭 노이즈가 발생하게 된다.
@@ -112,14 +112,14 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 ```text
 [정전용량 (Capacitance)]
-    │
-    ▼
+    |
+    v
 [기생 커패시턴스 (Parasitic Capacitance)]
-    │
-    ▼
+    |
+    v
 [RC 지연 (RC Delay)]
-    │
-    ▼
+    |
+    v
 [에어갭 (Air-Gap)]
 ```
 
@@ -136,7 +136,7 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 **진행 상황**: 6 / 803
 
-← **이전**: [5. 커패시터 (Capacitor, 축전기)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)
-**다음**: [7. 인덕터 (Inductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/) →
+<- **이전**: [5. 커패시터 (Capacitor, 축전기)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)
+**다음**: [7. 인덕터 (Inductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/) ->
 
 ---

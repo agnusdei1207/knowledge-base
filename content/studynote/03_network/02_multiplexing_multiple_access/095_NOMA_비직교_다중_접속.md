@@ -38,22 +38,22 @@ NOMA가 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multipl
 | **SIC (수신)** | 수신된 복합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속에서 가장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도가 센 타인의 데이터를 먼저 해독한 뒤 원본에서 빼버리고(Cancellation), 남은 미약한 자신의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 최종 해독한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        NOMA의 전력 도메인 중첩과 SIC (Successive Interference Cancellation) │
-├──────────────────────────────────────────────────────────────┤
-│ [기지국 송신 (Superposition Coding)]                            │
-│   강한 전력(먼 단말 B용) + 약한 전력(가까운 단말 A용) ───▶ 중첩 전송  │
-│                                                              │
-│ [단말 A (근거리, 약한 신호 타겟)의 수신 및 해독 과정 (SIC 로직)]    │
-│                                                              │
-│  1단계: 전체 신호 수신     2단계: B 신호 먼저 해독/제거     3단계: A 신호 획득 │
-│  ┌───────┐                ┌───────┐                ┌───────┐ │
-│  │ 단말 B│ (큰 전력)  ───▶  │ 단말 B│ 알아내서 뺌 ──▶ │       │ │
-│  ├───────┤                └───────┘                ├───────┤ │
-│  │ 단말 A│ (작은 전력)                            │ 단말 A│ │
-│  └───────┘                                         └───────┘ │
-│  (가장 강한 신호를 먼저 해독하여 원본에서 빼버림으로써 간섭 제거)      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        NOMA의 전력 도메인 중첩과 SIC (Successive Interference Cancellation) |
++--------------------------------------------------------------+
+| [기지국 송신 (Superposition Coding)]                            |
+|   강한 전력(먼 단말 B용) + 약한 전력(가까운 단말 A용) ----> 중첩 전송  |
+|                                                              |
+| [단말 A (근거리, 약한 신호 타겟)의 수신 및 해독 과정 (SIC 로직)]    |
+|                                                              |
+|  1단계: 전체 신호 수신     2단계: B 신호 먼저 해독/제거     3단계: A 신호 획득 |
+|  +-------+                +-------+                +-------+ |
+|  | 단말 B| (큰 전력)  ---->  | 단말 B| 알아내서 뺌 ---> |       | |
+|  +-------+                +-------+                +-------+ |
+|  | 단말 A| (작은 전력)                            | 단말 A| |
+|  +-------+                                         +-------+ |
+|  (가장 강한 신호를 먼저 해독하여 원본에서 빼버림으로써 간섭 제거)      |
++--------------------------------------------------------------+
 ```
 
 가까이 있는 단말 A는 귀가 매우 밝다. 하지만 기지국이 자신에겐 약하게, 멀리 있는 단말 B에겐 강하게 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘았으므로, A에게 도착한 덩어리는 B의 시끄러운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 A의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 묻힌 형태다. A는 자신의 우수한 전파 환경을 이용해 가장 시끄럽게 들리는 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 완벽히 해독해 내고, 전체 파형에서 B의 몫을 수학적으로 제거해 버린다(SIC). 시끄러운 소음이 사라진 뒤, A는 온전히 남은 자신의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽어내는 천재적인 역발상을 보여준다.
@@ -118,17 +118,17 @@ NOMA는 주파수라는 유한한 물리적 자원을 쪼개어 쓴다는 수십
 
 ```text
 OMA (직교 다중 접속) 한계 도달 (OFDMA의 주파수 분할 고갈)
-    │
-    ▼
+    |
+    v
 mMTC 초연결 요구사항 폭증 (수백억 개 기기 동시 접속 필요)
-    │
-    ▼
+    |
+    v
 NOMA (비직교 다중 접속) 개념 대두 (전력 도메인 중첩 부호화)
-    │
-    ▼
+    |
+    v
 단말기 연산력 향상에 따른 SIC (순차적 간섭 제거) 알고리즘 실현
-    │
-    ▼
+    |
+    v
 AI/ML 기반 동적 페어링 및 공간 분할(MIMO) 결합 (6G 진화 방향)
 ```
 
@@ -146,7 +146,7 @@ AI/ML 기반 동적 페어링 및 공간 분할(MIMO) 결합 (6G 진화 방향)
 
 **진행 상황**: 95 / 1120
 
-← **이전**: [94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/)
-**다음**: [96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/) →
+<- **이전**: [94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/)
+**다음**: [96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/) ->
 
 ---

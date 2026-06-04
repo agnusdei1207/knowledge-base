@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [AP / DS]
-    │
-    ▼
+    |
+    v
 [11 b/g/a/n 표준 세대 발전]
-    │
-    └──▶ [11n]
+    |
+    +---> [11n]
 ```
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [AP / DS]
-    │
-    ▼
+    |
+    v
 [11 b/g/a/n 표준 세대 발전]
-    │
-    └──▶ [11n]
+    |
+    +---> [11n]
 ```
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: AP / DS]
-    │
-    ▼
+    |
+    v
 [현재 개념: 11 b/g/a/n 표준 세대 발전]
-    │
-    ├──▶ [확장 A: 11n]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 11n]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) / DS에서 출발해 현재 메커니즘을 정교화하고, 이후 11n와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 694 / 1120
 
-← **이전**: [572. AP (Access Point) / DS (Distribution System, 분배 시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)
-**다음**: [574. 11n (Wi-Fi 4)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/) →
+<- **이전**: [572. AP (Access Point) / DS (Distribution System, 분배 시스템)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)
+**다음**: [574. 11n (Wi-Fi 4)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/) ->
 
 ---

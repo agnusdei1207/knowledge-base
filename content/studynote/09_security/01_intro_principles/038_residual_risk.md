@@ -225,7 +225,7 @@ Risk Acceptance Form:
 
 **진행 상황**: 38 / 1108
 
-← **이전**: [037. 위험 수용 (Risk Acceptance)](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)
-**다음**: [039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)](/knowledge-base/studynote/09_security/01_intro_principles/039_detected_vs_undetected_risk/) →
+<- **이전**: [037. 위험 수용 (Risk Acceptance)](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)
+**다음**: [039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)](/knowledge-base/studynote/09_security/01_intro_principles/039_detected_vs_undetected_risk/) ->
 
 ---

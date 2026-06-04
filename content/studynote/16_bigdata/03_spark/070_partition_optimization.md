@@ -27,7 +27,7 @@ tags = ["studynote-bigdata"]
 파티션 수 = 태스크 수 = (이론상 최대) 병렬 처리 수
 ```
 
-- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) < 코어 수**: 일부 코어 유휴 → 클러스터 자원 낭비
+- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) < 코어 수**: 일부 코어 유휴 -> 클러스터 자원 낭비
 - **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) >> 코어 수**: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 오버헤드, 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 크기 불균형 (스큐)</strong>: 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)만 오래 걸리는 Straggler 문제
 
@@ -51,13 +51,13 @@ tags = ["studynote-bigdata"]
 
 ```
     [repartition(N)]                    [coalesce(N)]
-    ─────────────────                   ────────────────
-    파티션 A ─── 셔플 ──→ 신규 파티션 1  파티션 A ────────→ 합쳐진 파티션 1
-    파티션 B ─── 셔플 ──→ 신규 파티션 2  파티션 B ─────┐
-    파티션 C ─── 셔플 ──→ 신규 파티션 3  파티션 C ─────┘→ 합쳐진 파티션 2
-    파티션 D ─── 셔플 ──→ 신규 파티션 N  파티션 D ─────────→ 합쳐진 파티션 3
+    -----------------                   ----------------
+    파티션 A --- 셔플 ---> 신규 파티션 1  파티션 A ---------> 합쳐진 파티션 1
+    파티션 B --- 셔플 ---> 신규 파티션 2  파티션 B -----+
+    파티션 C --- 셔플 ---> 신규 파티션 3  파티션 C -----+-> 합쳐진 파티션 2
+    파티션 D --- 셔플 ---> 신규 파티션 N  파티션 D ----------> 합쳐진 파티션 3
 
-    · 전체 셔플 발생 (네트워크 I/O↑)   · 셔플 없음 (로컬 병합)
+    · 전체 셔플 발생 (네트워크 I/O^)   · 셔플 없음 (로컬 병합)
     · 파티션 수 증가/감소 모두 가능     · 파티션 수 감소만 가능
     · 균등한 데이터 분포 보장           · 파티션 크기 불균형 가능
 ```
@@ -106,11 +106,11 @@ spark.conf.set("spark.sql.adaptive.coalescePartitions.minPartitionNum", "50")
 AQE (Adaptive Query Execution)는 셔플 후 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 병합한다.
 
 ```
-셔플 후 200개 파티션 → AQE 분석
+셔플 후 200개 파티션 -> AQE 분석
   파티션 150개: 1 KB 이하 (대부분 비어 있음)
   파티션 50개: 128~256 MB
 
-→ AQE 결정: 빈 파티션 자동 병합 → 실제 50개 파티션으로 줄임
+-> AQE 결정: 빈 파티션 자동 병합 -> 실제 50개 파티션으로 줄임
 ```
 
 `spark.sql.adaptive.coalescePartitions.enabled=true` (기본값: true in Spark 3.0+)
@@ -176,7 +176,7 @@ df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
 | 적정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | CPU 활용률 극대화, 불필요한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 오버헤드 제거 |
 | coalesce 사용 | 셔플 비용 없이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 축소 |
 | AQE 자동 병합 | 소규모 셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 제거 |
-| 저장 전 coalesce | 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 감소 → 다음 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
+| 저장 전 coalesce | 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 감소 -> 다음 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
 
 ### 2. 결론
 
@@ -201,14 +201,14 @@ df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
 
 ```text
 [RDD (탄력적 분산 데이터셋) — 기본 파티션으로 클러스터 분산 처리]
-    │
-    ▼
+    |
+    v
 [파티션 최적화 — coalesce·repartition·partitionBy로 편향 해소]
-    │
-    ▼
+    |
+    v
 [Adaptive Query Execution (AQE) — 런타임 통계 기반 동적 파티션 재조정]
-    │
-    ▼
+    |
+    v
 [Delta Lake Z-Order — 데이터 레이아웃 최적화로 스킵 I/O 극대화]
 ```
 Spark [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향을 제거하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 극대화하며, AQE와 Delta Lake의 Z-Order 클러스터링으로 더욱 지능적으로 발전하고 있다.
@@ -223,7 +223,7 @@ Spark [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 **진행 상황**: 70 / 262
 
-← **이전**: [18. Skew Join — 데이터 쏠림 조인 최적화](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/)
-**다음**: [20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) →
+<- **이전**: [18. Skew Join — 데이터 쏠림 조인 최적화](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/)
+**다음**: [20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) ->
 
 ---

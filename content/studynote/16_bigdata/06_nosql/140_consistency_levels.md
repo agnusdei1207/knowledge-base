@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 최신이어야 하는가"와 "그 대가로 얼마나 느리고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 낮아지는가"의 연속적 트레이드오프 스펙트럼이다.
-- **가치**: Azure Cosmos DB가 제시한 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준(Strong→Bounded Staleness→[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)→Consistent Prefix→Eventual)은 워크로드별 최적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형점을 명시적으로 선택하게 해준다.
+- **가치**: Azure Cosmos DB가 제시한 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준(Strong->Bounded Staleness->[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)->Consistent Prefix->Eventual)은 워크로드별 최적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형점을 명시적으로 선택하게 해준다.
 - **판단 포인트**: 금융 거래·재고 차감은 Strong, 사용자 프로필 읽기는 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 소셜 피드는 Eventual로 연산별로 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준을 차별화하는 것이 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 표준 설계 원칙이다.
 
 ---
@@ -24,30 +24,30 @@ tags = ["studynote-bigdata"]
 단일 노드 DB: 강한 일관성 자동 보장 (문제 없음)
 
 분산 DB: 노드 간 복제 지연이 항상 존재
-          쓰기 → Node A → 복제 → Node B, C, D
+          쓰기 -> Node A -> 복제 -> Node B, C, D
           지연: 수ms ~ 수백ms (리전 간)
 
 선택:
-  강한 일관성: 모든 복제 확인 후 응답 → 지연 증가
-  약한 일관성: 일부 복제 후 응답 → 빠르지만 오래된 데이터 가능
+  강한 일관성: 모든 복제 확인 후 응답 -> 지연 증가
+  약한 일관성: 일부 복제 후 응답 -> 빠르지만 오래된 데이터 가능
 ```
 
 ### Cosmos DB 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 스펙트럼
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          일관성 수준 스펙트럼 (강함 → 약함)                    │
-│                                                              │
-│  Strong     Bounded    Session   Consistent   Eventual       │
-│    │        Staleness    │         Prefix         │          │
-│    │           │         │            │           │          │
-│    ●───────────●─────────●────────────●───────────●          │
-│                                                              │
-│  일관성: ████████████████████░░░░░░░░░░░░░░░░░░░             │
-│  가용성: ░░░░░░░░░░░░░░░░░░░░████████████████████             │
-│  지연:   높음 ──────────────────────────────→ 낮음            │
-│  처리량: 낮음 ──────────────────────────────→ 높음            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          일관성 수준 스펙트럼 (강함 -> 약함)                    |
+|                                                              |
+|  Strong     Bounded    Session   Consistent   Eventual       |
+|    |        Staleness    |         Prefix         |          |
+|    |           |         |            |           |          |
+|    ●-----------●---------●------------●-----------●          |
+|                                                              |
+|  일관성: ████████████████████░░░░░░░░░░░░░░░░░░░             |
+|  가용성: ░░░░░░░░░░░░░░░░░░░░████████████████████             |
+|  지연:   높음 -------------------------------> 낮음            |
+|  처리량: 낮음 -------------------------------> 높음            |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**
@@ -60,43 +60,43 @@ tags = ["studynote-bigdata"]
 ### 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 상세
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│  1. Strong (선형화 가능, Linearizability)                         │
-│                                                                 │
-│  Write → [복제 완료 확인] → Read                                  │
-│  보장: 모든 읽기가 가장 최신 쓰기를 반영                            │
-│  비용: 가장 높은 지연, 단일 마스터에 의존                           │
-│  적합: 금융 거래, 재고 관리, 선거 투표                              │
-├─────────────────────────────────────────────────────────────────┤
-│  2. Bounded Staleness (한계 있는 부실함)                          │
-│                                                                 │
-│  최대 K 버전 또는 T 시간만큼 오래된 데이터 허용                      │
-│  보장: 지정된 시간/버전 범위 내 일관성                              │
-│  비용: Strong보다 낮은 지연                                        │
-│  적합: 주가 표시(1초 지연 허용), 실시간 순위표                       │
-├─────────────────────────────────────────────────────────────────┤
-│  3. Session (세션 일관성)                                         │
-│                                                                 │
-│  같은 클라이언트 세션 내 읽기-자신의-쓰기 보장                       │
-│  다른 세션: Eventual                                             │
-│  보장: 내가 쓴 것은 내가 즉시 읽을 수 있음                          │
-│  비용: 중간                                                       │
-│  적합: 사용자 프로필 수정, SNS 게시글 작성                          │
-├─────────────────────────────────────────────────────────────────┤
-│  4. Consistent Prefix (일관된 접두사)                             │
-│                                                                 │
-│  쓰기 순서는 보장, 최신 여부는 미보장                               │
-│  A→B→C 순으로 쓰면 읽을 때 A, A+B, A+B+C (순서 역전 없음)         │
-│  보장: 인과 관계 순서 유지                                         │
-│  적합: 댓글 스레드, 채팅 메시지 순서                                │
-├─────────────────────────────────────────────────────────────────┤
-│  5. Eventual (최종 일관성)                                        │
-│                                                                 │
-│  최종적으로 모든 복제본이 동일한 값에 수렴                           │
-│  타이밍 보장 없음                                                 │
-│  비용: 가장 낮은 지연, 가장 높은 가용성                             │
-│  적합: 소셜 좋아요 수, 상품 조회수, DNS                            │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|  1. Strong (선형화 가능, Linearizability)                         |
+|                                                                 |
+|  Write -> [복제 완료 확인] -> Read                                  |
+|  보장: 모든 읽기가 가장 최신 쓰기를 반영                            |
+|  비용: 가장 높은 지연, 단일 마스터에 의존                           |
+|  적합: 금융 거래, 재고 관리, 선거 투표                              |
++-----------------------------------------------------------------+
+|  2. Bounded Staleness (한계 있는 부실함)                          |
+|                                                                 |
+|  최대 K 버전 또는 T 시간만큼 오래된 데이터 허용                      |
+|  보장: 지정된 시간/버전 범위 내 일관성                              |
+|  비용: Strong보다 낮은 지연                                        |
+|  적합: 주가 표시(1초 지연 허용), 실시간 순위표                       |
++-----------------------------------------------------------------+
+|  3. Session (세션 일관성)                                         |
+|                                                                 |
+|  같은 클라이언트 세션 내 읽기-자신의-쓰기 보장                       |
+|  다른 세션: Eventual                                             |
+|  보장: 내가 쓴 것은 내가 즉시 읽을 수 있음                          |
+|  비용: 중간                                                       |
+|  적합: 사용자 프로필 수정, SNS 게시글 작성                          |
++-----------------------------------------------------------------+
+|  4. Consistent Prefix (일관된 접두사)                             |
+|                                                                 |
+|  쓰기 순서는 보장, 최신 여부는 미보장                               |
+|  A->B->C 순으로 쓰면 읽을 때 A, A+B, A+B+C (순서 역전 없음)         |
+|  보장: 인과 관계 순서 유지                                         |
+|  적합: 댓글 스레드, 채팅 메시지 순서                                |
++-----------------------------------------------------------------+
+|  5. Eventual (최종 일관성)                                        |
+|                                                                 |
+|  최종적으로 모든 복제본이 동일한 값에 수렴                           |
+|  타이밍 보장 없음                                                 |
+|  비용: 가장 낮은 지연, 가장 높은 가용성                             |
+|  적합: 소셜 좋아요 수, 상품 조회수, DNS                            |
++-----------------------------------------------------------------+
 ```
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준과 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -105,17 +105,17 @@ tags = ["studynote-bigdata"]
 CAP 정리와 일관성 스펙트럼:
 
 CP 시스템 (일관성 + 분할 내성):
-  → Strong Consistency 가능
-  → Partition 발생 시 가용성 포기
+  -> Strong Consistency 가능
+  -> Partition 발생 시 가용성 포기
 
 AP 시스템 (가용성 + 분할 내성):
-  → Eventual Consistency
-  → Partition 발생 시 오래된 데이터 반환 가능
+  -> Eventual Consistency
+  -> Partition 발생 시 오래된 데이터 반환 가능
 
 Cosmos DB:
-  Strong → CP 동작
-  Eventual → AP 동작
-  Bounded/Session/Prefix → 중간 지점
+  Strong -> CP 동작
+  Eventual -> AP 동작
+  Bounded/Session/Prefix -> 중간 지점
 ```
 
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
@@ -150,10 +150,10 @@ Cosmos DB:
 벡터 클록: 분산 시스템에서 이벤트 인과 관계 추적
 
 Node A 쓰기: [A:1, B:0, C:0]
-Node B가 A 읽고 쓰기: [A:1, B:1, C:0]  ← A의 쓰기가 원인
-Node C 독립 쓰기: [A:0, B:0, C:1]      ← A와 무관
+Node B가 A 읽고 쓰기: [A:1, B:1, C:0]  <- A의 쓰기가 원인
+Node C 독립 쓰기: [A:0, B:0, C:1]      <- A와 무관
 
-충돌 감지: [A:1, B:1] vs [A:1, C:1] → 동시 쓰기 충돌
+충돌 감지: [A:1, B:1] vs [A:1, C:1] -> 동시 쓰기 충돌
 해결: Last-Write-Wins, 앱 레벨 병합, CRDT
 ```
 
@@ -168,19 +168,19 @@ Node C 독립 쓰기: [A:0, B:0, C:1]      ← A와 무관
 
 ```text
 Q1. 금융 거래(계좌 이체, 재고 차감)?
-    → Strong (선형화 필수)
+    -> Strong (선형화 필수)
 
 Q2. 사용자가 자신의 프로필을 즉시 확인?
-    → Session (Read-Your-Own-Write)
+    -> Session (Read-Your-Own-Write)
 
 Q3. 실시간 주가/환율 표시 (1초 지연 허용)?
-    → Bounded Staleness (K=10초)
+    -> Bounded Staleness (K=10초)
 
 Q4. 게시글 댓글 순서가 중요?
-    → Consistent Prefix (순서 역전 금지)
+    -> Consistent Prefix (순서 역전 금지)
 
 Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?
-    → Eventual (최대 성능, 최소 비용)
+    -> Eventual (최대 성능, 최소 비용)
 ```
 
 ### 혼합 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Best Practices)
@@ -233,17 +233,17 @@ Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?
 
 ```text
 [CAP 이론 (CAP Theorem) — 일관성·가용성·분할 허용성 트레이드오프]
-    │
-    ▼
+    |
+    v
 [강한 일관성 (Strong Consistency) — 모든 노드 즉시 동기화, 지연 증가]
-    │
-    ▼
+    |
+    v
 [결과적 일관성 (Eventual Consistency) — 최종 동기화, 성능 우선]
-    │
-    ▼
+    |
+    v
 [일관성 수준 조정 (Consistency Level Tuning) — Quorum·ONE·ALL 선택]
-    │
-    ▼
+    |
+    v
 [PACELC 모델 — 네트워크 분할 없을 때도 지연 vs 일관성 트레이드오프]
 ```
 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 이론의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)-[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 트레이드오프를 운영 환경에서 세분화하여, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 단위로 강도를 선택할 수 있게 한 NoSQL의 핵심 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다.
@@ -258,7 +258,7 @@ Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?
 
 **진행 상황**: 140 / 262
 
-← **이전**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/)
-**다음**: [141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables](/knowledge-base/studynote/16_bigdata/06_nosql/141_multi_master_replication/) →
+<- **이전**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/)
+**다음**: [141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables](/knowledge-base/studynote/16_bigdata/06_nosql/141_multi_master_replication/) ->
 
 ---

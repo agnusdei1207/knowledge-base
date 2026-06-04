@@ -21,30 +21,30 @@ tags = ["studynote-network"]
 
 - **개념**: AAA는 네트워크나 시스템의 자원에 접근하려는 주체(사용자, 디바이스, 프로세스)를 통제하기 위한 3단계 프레임워크다. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>은 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>)</strong>는 권한 부여, <strong>Accounting (과금/<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>)</strong>는 자원 사용량 측정 및 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록을 의미한다.
 - **필요성**: 보안의 가장 흔한 실패는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인)에만 집착하고 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)와 로깅을 소홀히 하는 데서 발생한다. 해커가 말단 직원의 아이디를 탈취해 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인에 성공([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))했더라도, 그 계정이 DB 삭제 권한이 없고([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 실패), 접속 시도 내역이 실시간으로 관제센터에 찍힌다면(로깅) 해커는 목적을 달성할 수 없다. 이처럼 단일 방어의 취약성을 보완하기 위해 3단계가 톱니바퀴처럼 얽혀 돌아가야 한다.
-- **등장 배경**: ① 다이얼업/[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 시절 과금(돈을 받기 위한 시간 측정)의 필요성 대두 → ② [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/), [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+ 등 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구현체 등장 → ③ 내부자 위협 증가 및 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 강화로 인한 강력한 권한 분리 및 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)) 철학의 정립.
+- **등장 배경**: ① 다이얼업/[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 시절 과금(돈을 받기 위한 시간 측정)의 필요성 대두 -> ② [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/), [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+ 등 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구현체 등장 -> ③ 내부자 위협 증가 및 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 강화로 인한 강력한 권한 분리 및 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)) 철학의 정립.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               AAA 3단계 라이프사이클의 유기적 흐름도               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [방문자(User)] ───▶ (네트워크 접근 시도)                     │
-│                                                             │
-│       ▼                                                     │
-│   1. Authentication (인증) : "당신은 누구인가?"               │
-│       - 방법: 패스워드, 생체 인식, 2FA/MFA, PKI 인증서         │
-│       - 결과: 신원 확인 완료 (티켓 발급)                        │
-│                                                             │
-│       ▼                                                     │
-│   2. Authorization (인가) : "무엇을 할 수 있는가?"              │
-│       - 방법: RBAC(역할 기반), ABAC(속성 기반), MAC/DAC 통제   │
-│       - 결과: 읽기/쓰기, 특정 명령어 실행 권한 필터링 부여          │
-│                                                             │
-│       ▼                                                     │
-│   3. Accounting (과금/감사) : "무엇을 하고 언제 나갔는가?"        │
-│       - 방법: Syslog 전송, 세션 지속 시간 기록, 트래픽 양 측정     │
-│       - 결과: 증적 자료(Audit Trail) 확보 및 비용 청구 근거 마련   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               AAA 3단계 라이프사이클의 유기적 흐름도               |
++-------------------------------------------------------------+
+|                                                             |
+|   [방문자(User)] ----> (네트워크 접근 시도)                     |
+|                                                             |
+|       v                                                     |
+|   1. Authentication (인증) : "당신은 누구인가?"               |
+|       - 방법: 패스워드, 생체 인식, 2FA/MFA, PKI 인증서         |
+|       - 결과: 신원 확인 완료 (티켓 발급)                        |
+|                                                             |
+|       v                                                     |
+|   2. Authorization (인가) : "무엇을 할 수 있는가?"              |
+|       - 방법: RBAC(역할 기반), ABAC(속성 기반), MAC/DAC 통제   |
+|       - 결과: 읽기/쓰기, 특정 명령어 실행 권한 필터링 부여          |
+|                                                             |
+|       v                                                     |
+|   3. Accounting (과금/감사) : "무엇을 하고 언제 나갔는가?"        |
+|       - 방법: Syslog 전송, 세션 지속 시간 기록, 트래픽 양 측정     |
+|       - 결과: 증적 자료(Audit Trail) 확보 및 비용 청구 근거 마련   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** AAA는 순차적인 관문이다. 첫 번째 관문([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 통과하지 못하면 두 번째 관문은 열리지 않는다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과한 주체라도 시스템 전체를 마음대로 헤집을 수 없다. 두 번째 관문([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))에서 "너는 영업팀이니까 고객 DB 조회 버튼만 활성화해줄게. 삭제 버튼은 비활성화야"라고 권한의 범위를 깎아낸다. 사용자가 버튼을 클릭하는 순간순간의 모든 행위는 세 번째 관문([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))을 통해 실시간으로 뒷단 서버에 영구 기록되어, 추후 해킹 사고가 터졌을 때 범인을 잡아내는 100% 확실한 법적 증거 자료가 된다.
@@ -68,27 +68,27 @@ tags = ["studynote-network"]
 AAA에서 가장 고도화하기 어려운 단계가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong>다. 단순히 "들어와도 좋다"가 아니라 "어디까지 만져도 좋은가"를 규칙으로 짜야 하기 때문이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               인가(Authorization) 접근 통제 모델의 진화          │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [1세대] DAC (임의적 접근 통제)                                 │
-│   - 철학: "내가 만든 파일이니까 내가 권한을 줄게!"                   │
-│   - 취약점: 주인이 바이러스에 걸려 남에게 권한을 넘기면 통제 불능.       │
-│                                                               │
-│   [2세대] MAC (강제적 접근 통제)                                 │
-│   - 철학: "개인은 권한 못 정해! 국가 기밀(Top Secret) 등급표에 따라!" │
-│   - 취약점: 군대, 정부기관 외의 일반 기업이 쓰기엔 너무 딱딱하고 무거움. │
-│                                                               │
-│   [3세대] RBAC (역할 기반 접근 통제) - 현재 기업의 표준            │
-│   - 철학: "사람한테 권한 주지 마! '팀장'이라는 역할에 권한을 줘!"       │
-│   - 장점: 직원이 퇴사/이동해도 그 직원의 역할(Role) 뱃지만 떼면 됨.   │
-│                                                               │
-│   [4세대] ABAC (속성 기반 접근 통제) - Zero Trust의 핵심           │
-│   - 철학: "팀장이라도 밤 12시에 카페 Wi-Fi로 접속하면 차단해!"         │
-│   - 장점: 직급(Role) + 접속 위치 + 디바이스 보안 상태 등 환경(Context) │
-│           속성을 모두 융합하여 동적으로 권한을 계산함.                 │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               인가(Authorization) 접근 통제 모델의 진화          |
++---------------------------------------------------------------+
+|                                                               |
+|   [1세대] DAC (임의적 접근 통제)                                 |
+|   - 철학: "내가 만든 파일이니까 내가 권한을 줄게!"                   |
+|   - 취약점: 주인이 바이러스에 걸려 남에게 권한을 넘기면 통제 불능.       |
+|                                                               |
+|   [2세대] MAC (강제적 접근 통제)                                 |
+|   - 철학: "개인은 권한 못 정해! 국가 기밀(Top Secret) 등급표에 따라!" |
+|   - 취약점: 군대, 정부기관 외의 일반 기업이 쓰기엔 너무 딱딱하고 무거움. |
+|                                                               |
+|   [3세대] RBAC (역할 기반 접근 통제) - 현재 기업의 표준            |
+|   - 철학: "사람한테 권한 주지 마! '팀장'이라는 역할에 권한을 줘!"       |
+|   - 장점: 직원이 퇴사/이동해도 그 직원의 역할(Role) 뱃지만 떼면 됨.   |
+|                                                               |
+|   [4세대] ABAC (속성 기반 접근 통제) - Zero Trust의 핵심           |
+|   - 철학: "팀장이라도 밤 12시에 카페 Wi-Fi로 접속하면 차단해!"         |
+|   - 장점: 직급(Role) + 접속 위치 + 디바이스 보안 상태 등 환경(Context) |
+|           속성을 모두 융합하여 동적으로 권한을 계산함.                 |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))의 역사는 권한을 부여하는 기준을 바꾸어온 역사다. 오늘날 대부분의 사내 시스템과 클라우드(AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/))는 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반)을 채택하고 있다. 하지만 클라우드 리모트 워크 시대로 접어들며, 정상적인 계정과 역할을 가진 직원의 노트북이 해킹당하는 사례가 속출했다. 이를 막기 위해 최신 AAA 아키텍처는 사용자 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)뿐 아니라 '디바이스가 백신을 켰는가?', '접속 위치가 평소와 다른 국가인가?'를 종합적으로 따져 권한을 실시간으로 깎거나 거부하는 [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반)으로 진화하여 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 두뇌 역할을 하고 있다.
@@ -125,24 +125,24 @@ AAA에서 가장 고도화하기 어려운 단계가 바로 <strong><a href="/kn
 RADIUS는 가볍고 대중적이어서 기업의 와이파이나 VPN에 깔려 있다. [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+는 시스코 장비 등 핵심 뼈대를 만지는 소수 엘리트들의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 오타를 막기 위해 존재한다. Diameter는 이름(반지름 Radius의 두 배인 지름)에서 알 수 있듯, 수천만 대의 스마트폰이 기지국 사이를 이동([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))할 때마다 과금과 권한을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리하기 위해 통신사(Telco) 뼈대에 박혀있는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               Accounting (과금/감사)의 포렌식 추적 시각화            │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [해커의 내부망 침투 후 행동]                                     │
-│   (해커) Router# config t      ───────(TACACS+ Acct 전송)──────▶ │
-│   (해커) Router(config)# user admin root  ─(Acct 전송)─────▶ │
-│   (해커) Router# clear logging ───────(Acct 전송)──────▶ │
-│          (해커: "장비에 남은 내 흔적 다 지웠다! 완전 범죄!")               │
-│                                                               │
-│   [중앙 SIEM / AAA 감사 서버] (해커가 접근 불가능한 별도 서버)           │
-│   | 시간       | 사용자 | 행위             | 결과      |         │
-│   | 10:01:00  | jdoe  | config t       | Success  |         │
-│   | 10:01:05  | jdoe  | user admin...  | Success  | ◀ 증거 확립!│
-│   | 10:01:10  | jdoe  | clear logging  | Success  |         │
-│   => 해커가 로컬(라우터) 장비의 로그를 지워도, AAA 회선을 타고 실시간으로  │
-│      날아간 중앙 서버의 로그(Accounting)는 지울 수 없다!               │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               Accounting (과금/감사)의 포렌식 추적 시각화            |
++---------------------------------------------------------------+
+|                                                               |
+|   [해커의 내부망 침투 후 행동]                                     |
+|   (해커) Router# config t      -------(TACACS+ Acct 전송)-------> |
+|   (해커) Router(config)# user admin root  -(Acct 전송)------> |
+|   (해커) Router# clear logging -------(Acct 전송)-------> |
+|          (해커: "장비에 남은 내 흔적 다 지웠다! 완전 범죄!")               |
+|                                                               |
+|   [중앙 SIEM / AAA 감사 서버] (해커가 접근 불가능한 별도 서버)           |
+|   | 시간       | 사용자 | 행위             | 결과      |         |
+|   | 10:01:00  | jdoe  | config t       | Success  |         |
+|   | 10:01:05  | jdoe  | user admin...  | Success  | <- 증거 확립!|
+|   | 10:01:10  | jdoe  | clear logging  | Success  |         |
+|   => 해커가 로컬(라우터) 장비의 로그를 지워도, AAA 회선을 타고 실시간으로  |
+|      날아간 중앙 서버의 로그(Accounting)는 지울 수 없다!               |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 해커들은 해킹 성공 후 장비 내부의 접속 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`clear logging`)를 지우면 흔적이 사라진다고 믿는다. 그러나 AAA 아키텍처가 제대로 구현된 인프라에서는 사용자가 엔터를 치는 그 밀리초(ms) 단위의 순간에 Accounting 패킷이 별도의 강력하게 보호된 중앙 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기([SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))로 실시간 복사되어 날아간다. 해커가 침투한 말단 장비의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 포맷해버린다 한들, 이미 AAA 서버에는 해커의 모든 키보드 타이핑 내역이 박제되어 있다. 이것이 Accounting이 단순 통계용을 넘어 궁극의 보안 방어선이자 '불가쟁성(Non-repudiation)'을 제공하는 이유다.
@@ -205,12 +205,12 @@ RADIUS는 가볍고 대중적이어서 기업의 와이파이나 VPN에 깔려 �
 
 ```text
 [선행 개념: LDAP]
-    │
-    ▼
+    |
+    v
 [현재 개념: AAA 보안 모델]
-    │
-    ├──▶ [확장 A: 커버로스]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: 커버로스]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 AAA 보안 모델는 LDAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [커버로스](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/)와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -227,7 +227,7 @@ AAA 보안 모델는 LDAP에서 출발해 현재 메커니즘을 정교화하고
 
 **진행 상황**: 665 / 1120
 
-← **이전**: [543. LDAP (Lightweight Directory Access Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)
-**다음**: [545. 커버로스 (Kerberos)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) →
+<- **이전**: [543. LDAP (Lightweight Directory Access Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)
+**다음**: [545. 커버로스 (Kerberos)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) ->
 
 ---

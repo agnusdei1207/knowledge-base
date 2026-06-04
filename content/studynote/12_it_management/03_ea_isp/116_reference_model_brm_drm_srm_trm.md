@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))의 단절:, 옛날에는 국방부와 경찰청이 각자 맘대로 시스템을 지었다, [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)([Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))의 강제성: 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | 국가(행정안전부 등)에서 4개의 거대한 책([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))을 발간했다 | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [참조 모델 (Reference Model)]
-    │
-    ├──▶ [옛날에는 국방부와 경찰청이 각자 맘대로 시스템을 지었다]
-    └──▶ [참조 모델(Reference Model)의 강제성:]
+    |
+    +---> [옛날에는 국방부와 경찰청이 각자 맘대로 시스템을 지었다]
+    +---> [참조 모델(Reference Model)의 강제성:]
 ```
 
 이 흐름은 선행 요구를 기준으로 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))를 정착시키고, 이후 옛날에는 국방부와 경찰청이 각자 맘대로 시스템을 지었다와 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)([Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))의 강제성: 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 216 / 587
 
-← **이전**: [116. 참조 모델 (Reference Model)](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)
-**다음**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) →
+<- **이전**: [116. 참조 모델 (Reference Model)](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)
+**다음**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) ->
 
 ---

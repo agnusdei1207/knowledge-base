@@ -31,9 +31,9 @@ OS는 시간이 흐르는 것을 알아야 작업을 나누고 제어할 수 있
 
 ```text
 Timer Tick
-  ↓ interrupt
+  v interrupt
 Scheduler
-  ↓
+  v
 Time Slice / Accounting
 ```
 
@@ -104,11 +104,11 @@ Time Slice / Accounting
 
 ```text
 Timer
-  ↓ interrupt
+  v interrupt
 Scheduler
-  ↓
+  v
 Time Slice
-  ↓
+  v
 Accounting
 ```
 
@@ -118,11 +118,11 @@ Accounting
 
 ```text
 Clock
-  ↓
+  v
 Timer
-  ↓
+  v
 Interrupt
-  ↓
+  v
 Scheduling
 ```
 
@@ -140,7 +140,7 @@ Scheduling
 
 **진행 상황**: 71 / 800
 
-← **이전**: [70. 하드웨어 추상화 계층 (HAL, Hardware Abstraction Layer)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/)
-**다음**: [72. 타이머 인터럽트 - 선점형 스케줄링의 기반](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/) →
+<- **이전**: [70. 하드웨어 추상화 계층 (HAL, Hardware Abstraction Layer)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/)
+**다음**: [72. 타이머 인터럽트 - 선점형 스케줄링의 기반](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/) ->
 
 ---

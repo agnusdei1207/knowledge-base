@@ -31,13 +31,13 @@ tags = ["studynote-cloud"]
 
 ```text
 Process
-  ├─ PID Namespace
-  ├─ NET Namespace
-  ├─ MNT Namespace
-  ├─ UTS Namespace
-  ├─ IPC Namespace
-  ├─ USER Namespace
-  └─ CGROUP Namespace
+  +- PID Namespace
+  +- NET Namespace
+  +- MNT Namespace
+  +- UTS Namespace
+  +- IPC Namespace
+  +- USER Namespace
+  +- CGROUP Namespace
 ```
 
 | [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) | 분리 대상 | 효과 |
@@ -106,11 +106,11 @@ Namespace는 리눅스 한 개를 여러 개의 작은 리눅스처럼 보이게
 
 ```text
 Linux Kernel
-  ↓
+  v
 Namespaces
-  ↓
+  v
 Container Isolation
-  ↓
+  v
 Docker / Kubernetes
 ```
 
@@ -120,11 +120,11 @@ Docker / Kubernetes
 
 ```text
 chroot
-  ↓
+  v
 Namespace
-  ↓
+  v
 cgroups
-  ↓
+  v
 Container Runtime
 ```
 
@@ -142,7 +142,7 @@ Container Runtime
 
 **진행 상황**: 62 / 371
 
-← **이전**: [62. 컨테이너 vs 가상머신(VM)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/062_container_vs_vm_architecture/)
-**다음**: [64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/064_cgroups_control_groups_resource_limit/) →
+<- **이전**: [62. 컨테이너 vs 가상머신(VM)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/062_container_vs_vm_architecture/)
+**다음**: [64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/064_cgroups_control_groups_resource_limit/) ->
 
 ---

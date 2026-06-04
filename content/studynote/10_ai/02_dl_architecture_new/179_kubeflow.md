@@ -44,29 +44,29 @@ tags = ["studynote-ai"]
 아래 그림은 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 "실험 코드"를 "운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"으로 바꾸는 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Kubeflow execution flow on Kubernetes                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Notebook / SDK                                                      │
-│   │  define pipeline in Python                                      │
-│   ▼                                                                  │
-│ KFP compiler / API                                                   │
-│   │  DAG spec                                                        │
-│   ▼                                                                  │
-│ Kubernetes controllers                                               │
-│   ├─ data prep pod                                                   │
-│   ├─ training pod (GPU)                                              │
-│   ├─ Katib trial pods                                                │
-│   └─ validation / packaging pod                                      │
-│             │                                                        │
-│             ├──────────────▶ Artifact / metadata store               │
-│             │                                                        │
-│             ▼                                                        │
-│ KServe                                                               │
-│   ├─ canary rollout                                                  │
-│   ├─ autoscaling / scale-to-zero                                     │
-│   └─ inference API                                                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Kubeflow execution flow on Kubernetes                               |
++----------------------------------------------------------------------+
+| Notebook / SDK                                                      |
+|   |  define pipeline in Python                                      |
+|   v                                                                  |
+| KFP compiler / API                                                   |
+|   |  DAG spec                                                        |
+|   v                                                                  |
+| Kubernetes controllers                                               |
+|   +- data prep pod                                                   |
+|   +- training pod (GPU)                                              |
+|   +- Katib trial pods                                                |
+|   +- validation / packaging pod                                      |
+|             |                                                        |
+|             +---------------> Artifact / metadata store               |
+|             |                                                        |
+|             v                                                        |
+| KServe                                                               |
+|   +- canary rollout                                                  |
+|   +- autoscaling / scale-to-zero                                     |
+|   +- inference API                                                   |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 두 가지다. 첫째, <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/">파이프라인 단계</a>의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화</strong>다. 각 단계가 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 실행되므로 같은 코드를 다른 클러스터에서도 재현하기 쉽다. 둘째, <strong>컨트롤러 기반 운영 자동화</strong>다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 CRD (Custom Resource Definition)와 컨트롤러 패턴을 이용해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 실험, 서빙 상태를 계속 원하는 상태로 맞춘다. 덕분에 실패한 단계만 재시도하거나, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드에만 특정 작업을 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링하거나, 모델 서빙을 단계적으로 교체하는 운영이 가능해진다.
@@ -157,18 +157,18 @@ tags = ["studynote-ai"]
 
 ```text
 노트북 중심 실험
-    │
-    ▼
+    |
+    v
 컨테이너 기반 재현성 요구
-    │
-    ▼
+    |
+    v
 쿠버네티스 위 ML 파이프라인화
-    │
-    ├─ KFP -> 단계 실행 / 재시도 / 캐시
-    ├─ Katib -> 자동 튜닝
-    └─ KServe -> 서빙 / 오토스케일
-    │
-    ▼
+    |
+    +- KFP -> 단계 실행 / 재시도 / 캐시
+    +- Katib -> 자동 튜닝
+    +- KServe -> 서빙 / 오토스케일
+    |
+    v
 Feature Store · Registry · Monitoring이 결합된 MLOps 플랫폼으로 확장
 ```
 
@@ -186,7 +186,7 @@ Feature Store · Registry · Monitoring이 결합된 MLOps 플랫폼으로 확�
 
 **진행 상황**: 179 / 420
 
-← **이전**: [178. 피처 스토어 (Feature Store)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/178_feature_store/)
-**다음**: [180. MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) →
+<- **이전**: [178. 피처 스토어 (Feature Store)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/178_feature_store/)
+**다음**: [180. MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) ->
 
 ---

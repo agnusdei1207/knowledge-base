@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 노드의 도입</strong>: "딱 진짜로 쓰는 구역(Area)들만 시작 주소와 끝 주소를 객체(VMA)로 묶어서 포인터로 줄줄이 연결해 놓자!"는 소프트웨어적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기법 도입.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        프로세스(PCB) 내부의 VMA (가상 메모리 구역) 연결 구조 시각화  │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 프로세스 제어 블록 (PCB / task_struct) ]                           │
-│    └── 메모리 정보 (mm_struct) ──▶ [ VMA 리스트 포인터 ]             │
-│                                           │                          │
-│ [ 4GB 가상 주소 공간의 텐트(VMA)들 ]            ▼                    │
-│                                ┌─────────────────┐                   │
-│ 0x08048000 ~ 0x0804C000 ──▶ │ VMA 1: 코드(Text) │ ◀ R/X              │
-│                                └────────┬────────┘                   │
-│                                         ▼ Next                       │
-│ 0x0804C000 ~ 0x0804E000 ──▶ ┌─────────────────┐                      │
-│                                │ VMA 2: 데이터(Data)│ ◀ R/W          │
-│                                └────────┬────────┘                   │
-│                                         ▼ Next                       │
-│ 0x40000000 ~ 0x40010000 ──▶ ┌─────────────────┐                      │
-│ (공유 라이브러리 맵핑 구역)       │ VMA 3: libc.so (mmap)│ ◀ R/O     │
-│                                └─────────────────┘                   │
-│                                                                      │
-│ 💥 해커가 빈 공간인 `0x10000000`을 찌름!                             │
-│ OS가 VMA 1, 2, 3의 범위를 뒤져봄 -> "어느 VMA에도 안 속하네?"        │
-│ -> 합법적 땅이 아니므로 Segmentation Fault 즉시 발사! ☠️             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        프로세스(PCB) 내부의 VMA (가상 메모리 구역) 연결 구조 시각화  |
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 프로세스 제어 블록 (PCB / task_struct) ]                           |
+|    +-- 메모리 정보 (mm_struct) ---> [ VMA 리스트 포인터 ]             |
+|                                           |                          |
+| [ 4GB 가상 주소 공간의 텐트(VMA)들 ]            v                    |
+|                                +-----------------+                   |
+| 0x08048000 ~ 0x0804C000 ---> | VMA 1: 코드(Text) | <- R/X              |
+|                                +--------+--------+                   |
+|                                         v Next                       |
+| 0x0804C000 ~ 0x0804E000 ---> +-----------------+                      |
+|                                | VMA 2: 데이터(Data)| <- R/W          |
+|                                +--------+--------+                   |
+|                                         v Next                       |
+| 0x40000000 ~ 0x40010000 ---> +-----------------+                      |
+| (공유 라이브러리 맵핑 구역)       | VMA 3: libc.so (mmap)| <- R/O     |
+|                                +-----------------+                   |
+|                                                                      |
+| 💥 해커가 빈 공간인 `0x10000000`을 찌름!                             |
+| OS가 VMA 1, 2, 3의 범위를 뒤져봄 -> "어느 VMA에도 안 속하네?"        |
+| -> 합법적 땅이 아니므로 Segmentation Fault 즉시 발사! ☠️             |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** VMA는 철저한 '가상 주소(Virtual)' 기반의 장부다. 물리 램(RAM)에 방이 있든 디스크 스왑에 있든 VMA와는 전혀 상관없다. VMA의 유일한 목적은 <strong>"프로그래머가 OS에게 <code>malloc</code>이나 <code>mmap</code>으로 합법적으로 빌린 적이 있는 땅인가?"</strong>를 증명하는 논리적 권리증명서 역할뿐이다. 이 권리가 증명되어야만 비로소 OS는 디스크를 긁든 0을 채우든 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 작업을 시작한다.
 
@@ -76,32 +76,32 @@ tags = ["studynote-operating-system"]
 MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'를 밟고 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 터뜨렸을 때 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 벌이는 소름 돋는 분기 로직이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              VMA가 판결하는 Page Fault의 생과 사의 갈림길               │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 1. 인터럽트 발생 ] CPU가 가상 주소 `addr`을 찔러 폴트 발생!           │
-│                                                                         │
-│ [ 2. VMA 수색 작전 (Red-Black Tree 탐색) ]                              │
-│   OS: "이 `addr`이 포함된 VMA(텐트)가 내 VMA 트리에 있는지 찾아라!"     │
-│                                                                         │
-│   갈래길 A ☠️: 못 찾았다! (어떤 VMA에도 `addr`이 안 들어감)             │
-│              -> 결론: 이놈은 선언 안 한 배열 밖을 찌른 미친놈이다.      │
-│              -> 조치: [ Segmentation Fault ] 프로세스 즉각 사살.        │
-│                                                                         │
-│   갈래길 B 🟢: 찾았다! (어떤 VMA 안에 `addr`이 예쁘게 포함됨)           │
-│                                                                         │
-│ [ 3. VMA 권한 2차 심사 ]                                                │
-│   OS: "텐트 주인이긴 한데, VMA의 `vm_page_prot`를 보니 여긴             │
-│        읽기 전용(R/O) 텐트인데 왜 쓰기(Write)를 시도해?"                │
-│                                                                         │
-│   갈래길 C ☠️: 권한 위반! (예: 상수 문자열을 수정하려 함)               │
-│              -> 조치: [ Protection Fault ] 프로세스 즉각 사살.          │
-│                                                                         │
-│   갈래길 D 🚀: 권한 통과! (예: 정상적인 malloc 영역에 쓰기 시도)        │
-│              -> 결론: 아! 완벽한 합법적 [ Page Fault ] 다!              │
-│              -> 조치: 이제부터 안심하고 디스크 스왑에서 램으로 퍼와라!  │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|              VMA가 판결하는 Page Fault의 생과 사의 갈림길               |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 1. 인터럽트 발생 ] CPU가 가상 주소 `addr`을 찔러 폴트 발생!           |
+|                                                                         |
+| [ 2. VMA 수색 작전 (Red-Black Tree 탐색) ]                              |
+|   OS: "이 `addr`이 포함된 VMA(텐트)가 내 VMA 트리에 있는지 찾아라!"     |
+|                                                                         |
+|   갈래길 A ☠️: 못 찾았다! (어떤 VMA에도 `addr`이 안 들어감)             |
+|              -> 결론: 이놈은 선언 안 한 배열 밖을 찌른 미친놈이다.      |
+|              -> 조치: [ Segmentation Fault ] 프로세스 즉각 사살.        |
+|                                                                         |
+|   갈래길 B 🟢: 찾았다! (어떤 VMA 안에 `addr`이 예쁘게 포함됨)           |
+|                                                                         |
+| [ 3. VMA 권한 2차 심사 ]                                                |
+|   OS: "텐트 주인이긴 한데, VMA의 `vm_page_prot`를 보니 여긴             |
+|        읽기 전용(R/O) 텐트인데 왜 쓰기(Write)를 시도해?"                |
+|                                                                         |
+|   갈래길 C ☠️: 권한 위반! (예: 상수 문자열을 수정하려 함)               |
+|              -> 조치: [ Protection Fault ] 프로세스 즉각 사살.          |
+|                                                                         |
+|   갈래길 D 🚀: 권한 통과! (예: 정상적인 malloc 영역에 쓰기 시도)        |
+|              -> 결론: 아! 완벽한 합법적 [ Page Fault ] 다!              |
+|              -> 조치: 이제부터 안심하고 디스크 스왑에서 램으로 퍼와라!  |
++-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** VMA는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 성곽의 가장 튼튼한 <strong>여권 심사대</strong>다. 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 멍청하게 "램에 없다!"고 비상벨만 울리지만, VMA 장부를 든 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심사관이 나와서 1) 네 땅이 맞냐?(Range Check), 2) 권한은 있냐?([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Check) 두 가지를 깐깐하게 심사한 뒤에야 진짜 물리 램 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루틴으로 넘겨주는 2중 안전장치의 표본이다.
@@ -125,12 +125,12 @@ MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_re
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a> (R-B Tree)</strong>| **$O(\log N)$ (압도적 밸런스)**| $O(\log N)$ (균형 맞춤) | **🟢 현대 리눅스 VMA의 абсолют 표준 핵심 뼈대** |
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ VMA 개수   │ Linked List 검색│ R-B Tree 검색 │ 성능 차이 체감   │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 10개      │ 10번 비교    │ 3번 비교    │ 차이 거의 없음         │
-│ 10,000개  │ 10,000번 렉 ☠️│ **13번 비교 🚀**│ 우주적인 성능 격차│
-└──────────┴────────────┴────────────┴────────────────────────────┘
++----------+------------+------------+----------------------------+
+| VMA 개수   | Linked List 검색| R-B Tree 검색 | 성능 차이 체감   |
++----------+------------+------------+----------------------------+
+| 10개      | 10번 비교    | 3번 비교    | 차이 거의 없음         |
+| 10,000개  | 10,000번 렉 ☠️| **13번 비교 🚀**| 우주적인 성능 격차|
++----------+------------+------------+----------------------------+
 ```
 **[매트릭스 해설]** 가상 주소 검사는 `addr` 값이 특정 `start ~ end` 범위(Range) 안에 들어가는지를 묻는 구간 탐색이므로 해시맵을 쓸 수 없다. 따라서 트리가 양쪽으로 쏠리지 않게 밸런스를 기가 막히게 맞춰주는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리인 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a></strong>가 구원투수로 등판했다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 뜯어보면 VMA 구조체 안에 `rb_node`라는 변수가 박혀있는 이유가 바로 1만 개의 텐트 지도를 13번 만에 뒤지기 위한 지독한 최적화의 흔적이다.
 
@@ -190,12 +190,12 @@ VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_m
 
 ```text
 [캐시 친화적 가상 메모리 관리 배치]
-    │
-    ▼
+    |
+    v
 [VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
-    │
-    ├──▶ [마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
-    └──▶ [수요 페이지 제로화 (Demand Zero Paging)]
+    |
+    +---> [마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
+    +---> [수요 페이지 제로화 (Demand Zero Paging)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -212,7 +212,7 @@ VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_m
 
 **진행 상황**: 428 / 800
 
-← **이전**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/)
-**다음**: [429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) →
+<- **이전**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/)
+**다음**: [429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ->
 
 ---

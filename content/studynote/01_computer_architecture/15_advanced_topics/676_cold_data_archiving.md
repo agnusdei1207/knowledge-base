@@ -40,13 +40,13 @@ tags = ["studynote-computer-architecture"]
 | [MAID](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/) (Massive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Disks) | 디스크 기반이라 검색이 비교적 쉬움 | 테이프보다 전력과 장비 비용이 큼 | 드물지만 조금 더 자주 찾는 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Active data -> Retention policy -> Archive package                          │
-│                               │                                              │
-│                               ├─ compress / deduplicate / encrypt / checksum│
-│                               ├─ catalog metadata + legal hold              │
-│                               └─ Write Once Read Many (WORM) storage        │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Active data -> Retention policy -> Archive package                          |
+|                               |                                              |
+|                               +- compress / deduplicate / encrypt / checksum|
+|                               +- catalog metadata + legal hold              |
+|                               +- Write Once Read Many (WORM) storage        |
++------------------------------------------------------------------------------+
 ```
 
 여기서 Write Once Read Many ([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 특히 중요하다. WORM은 기록 후 임의 수정이나 삭제를 어렵게 만들어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 규제 준수를 돕고, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 나중에 "무엇을 어디에 저장했는가"를 찾게 해 준다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 없이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 쌓아 두면 저장은 했지만 찾을 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무덤이 되기 쉽다.
@@ -129,17 +129,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 운영 데이터 축적
-        │
-        ▼
+        |
+        v
 보존 정책 기반 분류
-        │
-        ▼
+        |
+        v
 Archive package + metadata + immutability
-        │
-        ▼
+        |
+        v
 Object archive / tape / MAID
-        │
-        ▼
+        |
+        v
 Integrity audit + rehydration workflow
 ```
 
@@ -157,7 +157,7 @@ Integrity audit + rehydration workflow
 
 **진행 상황**: 677 / 803
 
-← **이전**: [675. 핫 데이터 (Hot Data) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)
-**다음**: [677. 오브젝트 스토리지 (Object Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/677_object_storage/) →
+<- **이전**: [675. 핫 데이터 (Hot Data) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)
+**다음**: [677. 오브젝트 스토리지 (Object Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/677_object_storage/) ->
 
 ---

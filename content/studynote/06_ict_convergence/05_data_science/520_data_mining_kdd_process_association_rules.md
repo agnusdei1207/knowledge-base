@@ -45,7 +45,7 @@ tags = ["studynote-ict-convergence"]
 ```
 트랜잭션 예시: {우유, 빵, 기저귀, 맥주}
 
-연관 규칙: {기저귀} → {맥주}
+연관 규칙: {기저귀} -> {맥주}
 
 지지도(Support):
   P({기저귀, 맥주}) = 기저귀와 맥주 함께 구매 / 전체 트랜잭션
@@ -68,7 +68,7 @@ tags = ["studynote-ict-convergence"]
 | 속도 | 느림 (대규모) | 빠름 |
 | 구현 단순성 | 단순 | 복잡 |
 
-**Apriori의 반단조성(Anti-Monotonicity) 원리**: [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값인 집합의 부분 집합도 반드시 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값 → 최솟값 미만 집합의 확장을 조기 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)).
+**Apriori의 반단조성(Anti-Monotonicity) 원리**: [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값인 집합의 부분 집합도 반드시 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값 -> 최솟값 미만 집합의 확장을 조기 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)).
 
 - **📢 섹션 요약 비유**: Apriori는 모든 가능한 아이템 조합을 하나씩 살펴보는 것이고, FP-Growth는 먼저 "자주 같이 사는 것들"을 트리로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 나중에 한 번에 빠르게 탐색하는 지름길이야.
 
@@ -101,16 +101,16 @@ tags = ["studynote-ict-convergence"]
 <strong>시나리오 - 슈퍼마켓 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/">장바구니 분석</a></strong>:
 - 100만 건 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 5,000개 아이템.
 - 최소 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 0.01 (1%), 최소 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 0.3 (30%).
-- FP-Growth 적용 → 스캔 2회, Apriori 대비 8배 빠른 처리.
-- 규칙 발굴: {기저귀, 분유} → {아기 물티슈}, [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)=0.023, [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.67, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4.
-- [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4 → 기저귀+분유 구매자가 아기 물티슈를 구매할 확률이 일반 고객 대비 3.4배 → 매장 진열 위치 변경 → 해당 카테고리 매출 22% 증가.
+- FP-Growth 적용 -> 스캔 2회, Apriori 대비 8배 빠른 처리.
+- 규칙 발굴: {기저귀, 분유} -> {아기 물티슈}, [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)=0.023, [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.67, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4.
+- [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4 -> 기저귀+분유 구매자가 아기 물티슈를 구매할 확률이 일반 고객 대비 3.4배 -> 매장 진열 위치 변경 -> 해당 카테고리 매출 22% 증가.
 
 **지표 함정 경고**:
-- {우유} → {빵}: [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.75, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=1.02 → 빵의 전체 구매율이 73%로 높기 때문에 의미 없는 규칙.
+- {우유} -> {빵}: [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.75, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=1.02 -> 빵의 전체 구매율이 73%로 높기 때문에 의미 없는 규칙.
 - Lift가 1에 가까우면 규칙을 사용하지 않는 것이 낫다.
 
 **기술사 판단 포인트**:
-- 최솟값 임계 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 너무 낮으면 규칙 폭발, 너무 높으면 유용한 규칙 누락 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 협업 필수.
+- 최솟값 임계 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 너무 낮으면 규칙 폭발, 너무 높으면 유용한 규칙 누락 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 협업 필수.
 - 대규모 처리: Spark MLlib의 FP-Growth [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리로 수억 건 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 가능.
 
 - **📢 섹션 요약 비유**: [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))는 규칙의 진짜 가치를 알려주는 지표야. 빵이 워낙 많이 팔리니까 "우유를 사면 빵도 산다"는 규칙은 사실 별로 유용하지 않아. Lift가 1보다 훨씬 커야 진짜 유용한 규칙이야.
@@ -121,8 +121,8 @@ tags = ["studynote-ict-convergence"]
 
 [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)/CRISP-DM 프로세스와 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 마이닝의 체계적 적용은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 숨겨진 패턴을 발굴해 마케팅·재고 관리·개인화 서비스의 효율을 높인다.
 
-- **매출 최적화**: 교차 판매(Cross-Selling) 기회 발굴 → 객단가 증가.
-- **재고 배치 개선**: 자주 함께 구매되는 아이템의 물리적 근접 배치 → 구매 편의성 향상.
+- **매출 최적화**: 교차 판매(Cross-Selling) 기회 발굴 -> 객단가 증가.
+- **재고 배치 개선**: 자주 함께 구매되는 아이템의 물리적 근접 배치 -> 구매 편의성 향상.
 - **마케팅 자동화**: 구매 시퀀스 기반 맞춤형 프로모션 타이밍 최적화.
 
 - **📢 섹션 요약 비유**: [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 마이닝은 쇼핑몰의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 대신 영수증 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 "손님들이 어떤 물건을 함께 사는지"의 숨겨진 법칙을 찾아내서 매장 운영에 활용하는 탐정 작업이야.
@@ -142,7 +142,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[CRISP-DM · 데이터 마이닝 절차] → [데이터 마이닝 KDD 프로세스 · 연관 규칙] → [PrefixSpan · 구매 여정]
+[CRISP-DM · 데이터 마이닝 절차] -> [데이터 마이닝 KDD 프로세스 · 연관 규칙] -> [PrefixSpan · 구매 여정]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 520 / 552
 
-← **이전**: [519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)](/knowledge-base/studynote/06_ict_convergence/05_data_science/519_collaborative_filtering_cold_start_recommendation/)
-**다음**: [521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)](/knowledge-base/studynote/06_ict_convergence/uncategorized/521_homomorphic_encryption_post_quantum_crypto/) →
+<- **이전**: [519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)](/knowledge-base/studynote/06_ict_convergence/05_data_science/519_collaborative_filtering_cold_start_recommendation/)
+**다음**: [521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)](/knowledge-base/studynote/06_ict_convergence/uncategorized/521_homomorphic_encryption_post_quantum_crypto/) ->
 
 ---

@@ -23,19 +23,19 @@ tags = ["studynote-it-management"]
 SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파이브 포스는 산업의 구조적 수익성을 체계적으로 진단하여 "어느 산업에 진입할 것인가" 또는 "현재 산업에서 어떻게 포지셔닝할 것인가"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 지원한다. IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 및 디지털 비즈니스 포트폴리오 결정에서 필수 분석 도구다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               포터의 5 Forces 구조                            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│              [신규 진입자 위협]                                │
-│                    │ ↓                                       │
-│  [공급자 교섭력] ──→ [기존 경쟁자 간 경쟁] ←── [구매자 교섭력]  │
-│                    │ ↑                                       │
-│              [대체재 위협]                                    │
-│                                                              │
-│  5가지 힘이 강할수록 → 산업 수익성 낮음                        │
-│  5가지 힘이 약할수록 → 산업 수익성 높음                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               포터의 5 Forces 구조                            |
++--------------------------------------------------------------+
+|                                                              |
+|              [신규 진입자 위협]                                |
+|                    | v                                       |
+|  [공급자 교섭력] ---> [기존 경쟁자 간 경쟁] <--- [구매자 교섭력]  |
+|                    | ^                                       |
+|              [대체재 위협]                                    |
+|                                                              |
+|  5가지 힘이 강할수록 -> 산업 수익성 낮음                        |
+|  5가지 힘이 약할수록 -> 산업 수익성 높음                        |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 파이브 포스는 식당을 열기 전 동네 분위기를 파악하는 것과 같다. 경쟁 식당이 많은지(기존 경쟁), 새 식당이 쉽게 들어오는지(신규 진입), 손님들이 대체 음식을 선호하는지(대체재), 재료 공급업체가 갑질하는지(공급자), 손님들이 가격 흥정을 심하게 하는지(구매자)를 한꺼번에 분석한다.
@@ -49,26 +49,26 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 | 경쟁 세력 | 강화 요인 | IT 산업 적용 예시 |
 |:---|:---|:---|
 | **신규 진입자 위협** | 낮은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자, 규제 완화 | 클라우드 덕분에 스타트업이 대기업 IT 시장 진입 용이 |
-| **공급자 교섭력** | 공급자 집중, 대체 공급처 없음 | AWS/Azure/GCP 3사 독점 → [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 교섭력 높음 |
-| **구매자 교섭력** | 구매자 집중, 전환 비용 낮음 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구독 취소 용이 → 구매자 교섭력 높음 |
+| **공급자 교섭력** | 공급자 집중, 대체 공급처 없음 | AWS/Azure/GCP 3사 독점 -> [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 교섭력 높음 |
+| **구매자 교섭력** | 구매자 집중, 전환 비용 낮음 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구독 취소 용이 -> 구매자 교섭력 높음 |
 | **대체재 위협** | 대체재 가격 저렴, 기능 유사 | 특정 SW가 오픈소스로 대체됨 (예: MySQL vs [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) |
-| **기존 경쟁자 경쟁** | 성장 정체, 차별화 어려움 | 스마트폰 시장 포화 → 삼성·애플 치열한 경쟁 |
+| **기존 경쟁자 경쟁** | 성장 정체, 차별화 어려움 | 스마트폰 시장 포화 -> 삼성·애플 치열한 경쟁 |
 
 ### 5 Forces 강도 매핑
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           클라우드 SaaS 산업 5 Forces 예시 평가            │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  신규 진입자 위협   ★★★★☆  (진입 쉬움: 초기 비용 낮음)     │
-│  공급자 교섭력      ★★★★☆  (AWS/Azure 의존 높음)           │
-│  구매자 교섭력      ★★★☆☆  (전환 비용 중간)               │
-│  대체재 위협        ★★★★☆  (오픈소스 대안 풍부)            │
-│  기존 경쟁자 경쟁   ★★★★★  (Salesforce·Microsoft 치열)    │
-│                                                          │
-│  → 전체 경쟁압력 높음 → 차별화 전략 필수                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           클라우드 SaaS 산업 5 Forces 예시 평가            |
++----------------------------------------------------------+
+|                                                          |
+|  신규 진입자 위협   ★★★★☆  (진입 쉬움: 초기 비용 낮음)     |
+|  공급자 교섭력      ★★★★☆  (AWS/Azure 의존 높음)           |
+|  구매자 교섭력      ★★★☆☆  (전환 비용 중간)               |
+|  대체재 위협        ★★★★☆  (오픈소스 대안 풍부)            |
+|  기존 경쟁자 경쟁   ★★★★★  (Salesforce·Microsoft 치열)    |
+|                                                          |
+|  -> 전체 경쟁압력 높음 -> 차별화 전략 필수                    |
++----------------------------------------------------------+
 ```
 
 - **�� 섹션 요약 비유**: 5 Forces 매핑은 산업의 "압력계"다. 5개 바늘이 모두 높은 쪽을 가리키면 이 산업은 돈 벌기 힘든 레드오션이고, 낮은 쪽을 가리키면 수익성이 높은 블루오션이다.
@@ -95,13 +95,13 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 ### 실무 시나리오: IT 기업의 신규 사업 진입 타당성 검토
 중견 SI 기업이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 사업 진입 여부를 결정한다.
 
-1. **신규 진입자 위협**: UiPath, Automation Anywhere 등 글로벌 전문 기업 이미 시장 점유 → 높음.
-2. **공급자 교섭력**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 의존 (OpenAI, MS Azure [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) → 높음.
-3. **구매자 교섭력**: 기업 고객의 POC(Proof of [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)) 요구 많음, 전환 비용 낮음 → 중간.
-4. **대체재 위협**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 RPA를 대체할 가능성 → 높음.
-5. **기존 경쟁자**: 삼성SDS, LG CNS 등 대형 SI 이미 진출 → 높음.
+1. **신규 진입자 위협**: UiPath, Automation Anywhere 등 글로벌 전문 기업 이미 시장 점유 -> 높음.
+2. **공급자 교섭력**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 의존 (OpenAI, MS Azure [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) -> 높음.
+3. **구매자 교섭력**: 기업 고객의 POC(Proof of [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)) 요구 많음, 전환 비용 낮음 -> 중간.
+4. **대체재 위협**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 RPA를 대체할 가능성 -> 높음.
+5. **기존 경쟁자**: 삼성SDS, LG CNS 등 대형 SI 이미 진출 -> 높음.
 
-→ **결론**: 5 Forces 모두 높음 → 범용 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 제품보다 **특정 산업(금융/제조) 수직 특화** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 포지셔닝.
+-> **결론**: 5 Forces 모두 높음 -> 범용 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 제품보다 **특정 산업(금융/제조) 수직 특화** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 포지셔닝.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - 분석 대상 산업의 경계(Industry Definition)를 명확히 정의 (너무 넓거나 좁으면 결론 왜곡).
@@ -143,17 +143,17 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 ```text
 [산업 조직론 (IO Theory) — 시장 구조가 성과를 결정]
-    │
-    ▼
+    |
+    v
 [포터의 5 Forces (1979) — 산업 수익성 5가지 힘]
-    │
-    ▼
+    |
+    v
 [본원적 전략 (Generic Strategies) — 원가우위·차별화·집중]
-    │
-    ▼
+    |
+    v
 [가치사슬 (Value Chain) — 내부 경쟁 우위 원천 분석]
-    │
-    ▼
+    |
+    v
 [디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁]
 ```
 산업 조직론에서 5 Forces, 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 가치사슬로 심화되며, 디지털 플랫폼 시대의 에코시스템 경쟁으로 확장되는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 흐름이다.
@@ -170,7 +170,7 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 **진행 상황**: 40 / 587
 
-← **이전**: [23. 5 Forces 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/)
-**다음**: [24. SWOT 분석 / TOWS 매트릭스](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_analysis_tows_matrix/) →
+<- **이전**: [23. 5 Forces 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/)
+**다음**: [24. SWOT 분석 / TOWS 매트릭스](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_analysis_tows_matrix/) ->
 
 ---

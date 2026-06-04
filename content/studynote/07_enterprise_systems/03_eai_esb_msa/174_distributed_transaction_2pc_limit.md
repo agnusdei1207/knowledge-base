@@ -42,18 +42,18 @@ tags = ["studynote-enterprise"]
 아래 그림은 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 핵심 문제를 보여 준다. Prepare 이후에는 참여자가 스스로 결정을 내릴 수 없기 때문에, 조정자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 장애가 곧 <strong>블로킹 구간</strong>이 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Two-Phase Commit blocking window                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Coordinator : prepare? ---> wait votes ---> COMMIT / ABORT        │
-│                     │                    ▲                         │
-│ Order DB    : lock row + YES ============┘                         │
-│ Payment DB  : lock row + YES ============┘                         │
-│ Inventory DB: lock row + YES ============┘                         │
-│                                                                    │
-│ If coordinator fails after all YES:                                │
-│ participants stay in uncertain state and keep waiting              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Two-Phase Commit blocking window                   |
++--------------------------------------------------------------------+
+| Coordinator : prepare? ---> wait votes ---> COMMIT / ABORT        |
+|                     |                    ^                         |
+| Order DB    : lock row + YES ============+                         |
+| Payment DB  : lock row + YES ============+                         |
+| Inventory DB: lock row + YES ============+                         |
+|                                                                    |
+| If coordinator fails after all YES:                                |
+| participants stay in uncertain state and keep waiting              |
++--------------------------------------------------------------------+
 ```
 
 핵심은 Prepare 단계가 "검사"가 아니라 거의 커밋 직전 상태라는 점이다. 참여자는 이미 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능한 최소 단위를 넘어 로컬 자원을 잡아 두고, 최종 명령을 기다린다. 따라서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 길어질수록 락 경쟁, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하, 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 함께 커진다.
@@ -140,21 +140,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 Single database local transaction
-              │
-              ▼
+              |
+              v
 Database per service and distributed write problem
-              │
-              ▼
+              |
+              v
 2PC for atomic commit across participants
-              │
-              ▼
+              |
+              v
 Blocking, coordinator dependency, heterogeneous limits
-              │
-              ▼
+              |
+              v
 Saga / outbox / idempotent recovery patterns
 ```
 
-이 흐름은 "단일 저장소 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 → 전역 커밋 필요 → [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 도입 → 블로킹 한계 → 비동기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 패턴"으로 이어지는 아키텍처 진화를 보여 준다.
+이 흐름은 "단일 저장소 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 -> 전역 커밋 필요 -> [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 도입 -> 블로킹 한계 -> 비동기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 패턴"으로 이어지는 아키텍처 진화를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +168,7 @@ Saga / outbox / idempotent recovery patterns
 
 **진행 상황**: 174 / 482
 
-← **이전**: [173. 데이터베이스 퍼 서비스 (Database per Service)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/173_database_per_service/)
-**다음**: [175. 사가 패턴 (Saga Pattern) - 로컬 트랜잭션 연쇄와 보상 트랜잭션으로 최종적 일관성 보장](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/175_saga_pattern_eventual_consistency/) →
+<- **이전**: [173. 데이터베이스 퍼 서비스 (Database per Service)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/173_database_per_service/)
+**다음**: [175. 사가 패턴 (Saga Pattern) - 로컬 트랜잭션 연쇄와 보상 트랜잭션으로 최종적 일관성 보장](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/175_saga_pattern_eventual_consistency/) ->
 
 ---

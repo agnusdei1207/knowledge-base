@@ -31,15 +31,15 @@ EDA는 그 전에 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 ```text
 데이터 수집
-  ↓
+  v
 프로파일링
-  ↓
+  v
 시각화
-  ↓
+  v
 결측치/이상치 점검
-  ↓
+  v
 가설 생성
-  ↓
+  v
 모델링
 ```
 
@@ -117,13 +117,13 @@ EDA가 잘 되면 모델링 시간은 줄고, 엉뚱한 결론은 줄어든다. 
 
 ```text
 Raw Data
-  ↓
+  v
 EDA
-  ↓
+  v
 Hypothesis
-  ↓
+  v
 Feature Engineering
-  ↓
+  v
 Modeling
 ```
 
@@ -133,13 +133,13 @@ Modeling
 
 ```text
 Summary Stats
-  ↓
+  v
 Visualization
-  ↓
+  v
 Exploration
-  ↓
+  v
 Automated Profiling
-  ↓
+  v
 Data Observability
 ```
 
@@ -157,7 +157,7 @@ EDA는 조립하기 전에 상자를 꼼꼼히 살펴보는 일이에요.
 
 **진행 상황**: 62 / 258
 
-← **이전**: [61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM](/knowledge-base/studynote/14_data_engineering/02_math_mining/061_data_mining_framework_kdd_crisp_dm/)
-**다음**: [63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/063_central_tendency_dispersion_variance_iqr/) →
+<- **이전**: [61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM](/knowledge-base/studynote/14_data_engineering/02_math_mining/061_data_mining_framework_kdd_crisp_dm/)
+**다음**: [63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/063_central_tendency_dispersion_variance_iqr/) ->
 
 ---

@@ -33,10 +33,10 @@ tags = ["studynote-it-management"]
 
 ```text
 공통 경영 목표
-   ↓
+   v
 Integrated Governance
-   ├─ Mode 1: 안정성 / 규정 / 예측 가능성
-   └─ Mode 2: 속도 / 실험 / 학습
+   +- Mode 1: 안정성 / 규정 / 예측 가능성
+   +- Mode 2: 속도 / 실험 / 학습
 ```
 
 | 항목 | Mode 1 | Mode 2 |
@@ -103,13 +103,13 @@ Mode 2에서 성공한 [서비스](/knowledge-base/studynote/13_cloud_architectu
 
 ```text
 안정성 요구
-   ↓
+   v
 Mode 1
-   ↓
+   v
 민첩성 요구
-   ↓
+   v
 Mode 2
-   ↓
+   v
 양손잡이 조직
 ```
 
@@ -119,11 +119,11 @@ Mode 2
 
 ```text
 레거시 IT
-   ↓
+   v
 바이모달 IT
-   ↓
+   v
 디지털 양손잡이
-   ↓
+   v
 운영 표준화 + 혁신 실험 병행
 ```
 
@@ -141,7 +141,7 @@ Mode 2
 
 **진행 상황**: 103 / 587
 
-← **이전**: [59. 바이모달 IT (Bimodal IT, 가트너)](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/)
-**다음**: [60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) →
+<- **이전**: [59. 바이모달 IT (Bimodal IT, 가트너)](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/)
+**다음**: [60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ->
 
 ---

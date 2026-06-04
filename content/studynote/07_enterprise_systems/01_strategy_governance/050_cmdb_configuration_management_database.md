@@ -23,11 +23,11 @@ tags = ["CI", "CMDB", "ITIL", "ITSM", "ServiceNow", "asset management", "auto di
 
 ```
 CMDB
-├── 하드웨어 CI: 서버, 네트워크 장비, 스토리지
-├── 소프트웨어 CI: OS, 미들웨어, 애플리케이션
-├── 서비스 CI: 비즈니스 서비스, IT 서비스
-├── 계약 CI: 라이선스, SLA
-└── 관계(Relationship): CI 간 의존성, 위치, 소유
++-- 하드웨어 CI: 서버, 네트워크 장비, 스토리지
++-- 소프트웨어 CI: OS, 미들웨어, 애플리케이션
++-- 서비스 CI: 비즈니스 서비스, IT 서비스
++-- 계약 CI: 라이선스, SLA
++-- 관계(Relationship): CI 간 의존성, 위치, 소유
 ```
 
 ### 1.2 CMDB와 자산 관리 차이
@@ -47,24 +47,24 @@ CMDB
 ### 2.1 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 프로세스와의 연계
 
 ```
-인시던트 관리 ←→ CMDB ←→ 변경 관리
-      ↓                       ↓
+인시던트 관리 <--> CMDB <--> 변경 관리
+      v                       v
    영향 CI 조회           변경 영향도 분석
-      ↑                       ↑
-문제 관리 ←────────────────────
+      ^                       ^
+문제 관리 <---------------------
 ```
 
 ### 2.2 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 시나리오
 
 ```
 변경 요청(CR) 접수
-    ↓
+    v
 CMDB에서 변경 대상 CI 조회
-    ↓
+    v
 관련 CI 의존성 그래프 분석
-    ↓
+    v
 영향 받는 서비스 목록 산출
-    ↓
+    v
 변경 승인 여부 결정 (Change Advisory Board)
 ```
 
@@ -78,7 +78,7 @@ CMDB에서 변경 대상 CI 조회
 
 | 방법           | 설명                                        |
 |--------------|---------------------------------------------|
-| 에이전트 기반   | CI에 에이전트 설치 → 실시간 정보 수집        |
+| 에이전트 기반   | CI에 에이전트 설치 -> 실시간 정보 수집        |
 | 에이전트리스   | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)/WMI/SNMP로 원격 탐색                    |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통합       | 클라우드(AWS, Azure) API로 리소스 수집       |
 | 네트워크 스캔  | NMAP 등으로 IP 범위 스캔                    |
@@ -103,14 +103,14 @@ CMDB에서 변경 대상 CI 조회
 
 ```
 cmdb_ci (최상위)
-├── cmdb_ci_hardware
-│   ├── cmdb_ci_server
-│   └── cmdb_ci_netgear
-├── cmdb_ci_software
-│   ├── cmdb_ci_os
-│   └── cmdb_ci_appl
-└── cmdb_ci_service
-    └── cmdb_ci_business_service
++-- cmdb_ci_hardware
+|   +-- cmdb_ci_server
+|   +-- cmdb_ci_netgear
++-- cmdb_ci_software
+|   +-- cmdb_ci_os
+|   +-- cmdb_ci_appl
++-- cmdb_ci_service
+    +-- cmdb_ci_business_service
 ```
 
 ### 4.2 [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) Health Dashboard
@@ -153,21 +153,21 @@ Level 5: AI 기반 이상 CI 탐지·자동 교정
 
 ```
 CMDB
-├── 구성 요소
-│   ├── CI (Configuration Item)
-│   ├── 관계 (Relationship)
-│   └── 속성 (Attribute)
-├── ITSM 연계
-│   ├── 인시던트 관리
-│   ├── 변경 관리
-│   └── 문제 관리
-├── 자동화
-│   ├── Auto-Discovery
-│   └── Reconciliation
-└── 구현 플랫폼
-    ├── ServiceNow
-    ├── BMC Helix CMDB
-    └── Micro Focus UCMDB
++-- 구성 요소
+|   +-- CI (Configuration Item)
+|   +-- 관계 (Relationship)
+|   +-- 속성 (Attribute)
++-- ITSM 연계
+|   +-- 인시던트 관리
+|   +-- 변경 관리
+|   +-- 문제 관리
++-- 자동화
+|   +-- Auto-Discovery
+|   +-- Reconciliation
++-- 구현 플랫폼
+    +-- ServiceNow
+    +-- BMC Helix CMDB
+    +-- Micro Focus UCMDB
 ```
 
 ---
@@ -176,17 +176,17 @@ CMDB
 
 ```
 수동 자산 대장 (스프레드시트, 1980s~)
-     │  ITIL v2 등장
-     ▼
+     |  ITIL v2 등장
+     v
 CMDB 개념 정립 (ITIL v2, 2000s)
-     │  자동화 요구
-     ▼
+     |  자동화 요구
+     v
 Auto-Discovery 도입 (에이전트/에이전트리스)
-     │  클라우드 확산
-     ▼
+     |  클라우드 확산
+     v
 동적 CMDB (클라우드 API 연동, 2010s)
-     │  AI/ML 적용
-     ▼
+     |  AI/ML 적용
+     v
 지능형 CMDB (이상 탐지, 자동 교정, 2020s~)
 ```
 
@@ -206,7 +206,7 @@ Auto-Discovery 도입 (에이전트/에이전트리스)
 
 **진행 상황**: 50 / 482
 
-← **이전**: [049. 서비스 카탈로그 — Service Catalog](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/049_service_catalog/)
-**다음**: [051. 헬프 데스크, 서비스 데스크, SPOC](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/051_help_desk_service_desk_spoc/) →
+<- **이전**: [049. 서비스 카탈로그 — Service Catalog](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/049_service_catalog/)
+**다음**: [051. 헬프 데스크, 서비스 데스크, SPOC](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/051_help_desk_service_desk_spoc/) ->
 
 ---

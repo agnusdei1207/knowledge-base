@@ -39,15 +39,15 @@ tags = ["studynote-ai"]
 | `Skip Connection` | $H(x) = F(x) + x$ | 더하기 연산을 통해 미분값 1을 유지하는 항이 추가로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됨 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             Skip Connection 구조에 의한 기울기 우회 전달             │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│          ┌───────── Skip Path (미분값 1 전달) ─────────┐             │
-│          │                                             │             │
-│ [Input] ─▶ [Weight Layer] ─▶ [ReLU] ─▶ [Weight Layer] ─▶ [+] ─▶ Output │
-│                                                                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             Skip Connection 구조에 의한 기울기 우회 전달             |
++----------------------------------------------------------------------+
+|                                                                      |
+|          +--------- Skip Path (미분값 1 전달) ---------+             |
+|          |                                             |             |
+| [Input] --> [Weight Layer] --> [ReLU] --> [Weight Layer] --> [+] --> Output |
+|                                                                      |
++----------------------------------------------------------------------+
 ```
 
 이 그림은 `Skip Connection`이 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건너뛰게 만드는지 보여준다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 덧셈 노드는 기울기를 양쪽으로 그대로 복사하여 전달하므로, 복잡한 레이어를 통과하며 작아진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 외에도 강한 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 앞단까지 직접 도달할 수 있다.
@@ -115,17 +115,17 @@ tags = ["studynote-ai"]
 
 ```text
 기울기 소실 (Vanishing Gradient) 현상 인지
-    │
-    ▼
+    |
+    v
 활성화 함수 혁신: ReLU (Rectified Linear Unit) 도입
-    │
-    ▼
+    |
+    v
 음수 대응 확장: Leaky ReLU / ELU (Exponential Linear Unit)
-    │
-    ▼
+    |
+    v
 구조적 혁신: Skip Connection (Residual Network) 적용
-    │
-    ▼
+    |
+    v
 초대형 심층 신경망: Transformer 및 100층 이상 딥러닝 구현
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 88 / 420
 
-← **이전**: [87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)
-**다음**: [89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) →
+<- **이전**: [87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)
+**다음**: [89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) ->
 
 ---

@@ -33,14 +33,14 @@ Helm은 이런 반복 작업을 차트(Chart)라는 패키지로 묶어 해결�
 
 ```text
 my-chart/
-├── Chart.yaml       # 차트 정보
-├── values.yaml      # 기본 설정
-├── templates/       # 렌더링될 리소스
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   └── ingress.yaml
-├── charts/          # 서브차트
-└── README.md
++-- Chart.yaml       # 차트 정보
++-- values.yaml      # 기본 설정
++-- templates/       # 렌더링될 리소스
+|   +-- deployment.yaml
+|   +-- service.yaml
+|   +-- ingress.yaml
++-- charts/          # 서브차트
++-- README.md
 ```
 
 템플릿은 values.yaml의 값을 받아 실제 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 매니페스트로 렌더링된다. 그래서 같은 차트라도 환경별로 다른 설정을 쉽게 적용할 수 있다.
@@ -103,11 +103,11 @@ Helm은 Kubernetes를 숨기는 도구가 아니라, Kubernetes를 더 안전하
 
 ```text
 Chart.yaml + values.yaml
-          ↓
+          v
 템플릿 렌더링
-          ↓
+          v
 install / upgrade / rollback
-          ↓
+          v
 릴리스 추적과 환경별 배포
 ```
 
@@ -115,11 +115,11 @@ install / upgrade / rollback
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 YAML 배포 → 반복 실수와 관리 부담 증가
-2. 차트 패키징 → 공통 리소스 재사용
-3. values 기반 환경 분리 → 개발/운영 동시 관리
-4. 서브차트와 훅 → 복합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포 자동화
-5. GitOps와 결합 → 선언적 릴리스 운영으로 확장
+1. 수동 YAML 배포 -> 반복 실수와 관리 부담 증가
+2. 차트 패키징 -> 공통 리소스 재사용
+3. values 기반 환경 분리 -> 개발/운영 동시 관리
+4. 서브차트와 훅 -> 복합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포 자동화
+5. GitOps와 결합 -> 선언적 릴리스 운영으로 확장
 
 ---
 
@@ -135,7 +135,7 @@ Helm은 레고 상자에 설명서를 붙여 놓는 도구예요.
 
 **진행 상황**: 55 / 371
 
-← **이전**: [55. Ingress와 Service Type](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/055_ingress_service_types/)
-**다음**: [57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/057_operator_pattern/) →
+<- **이전**: [55. Ingress와 Service Type](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/055_ingress_service_types/)
+**다음**: [57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/057_operator_pattern/) ->
 
 ---

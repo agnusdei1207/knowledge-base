@@ -39,56 +39,56 @@ tags = ["studynote-bigdata"]
 ### 콘텐츠 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/): Two-Tower DNN
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              Two-Tower 추천 모델 구조                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사용자 타워 (User Tower)    콘텐츠 타워 (Item Tower)            │
-│  ┌─────────────────────┐    ┌─────────────────────────┐         │
-│  │ 시청 이력 임베딩     │    │ 장르·배우·감독 임베딩   │         │
-│  │ 선호 장르 벡터       │    │ 텍스트 설명 BERT 인코딩 │         │
-│  │ 최근 시청 패턴       │    │ 시각적 특징 (포스터 CNN)│         │
-│  │ 인구 통계 피처       │    │ 인기도·평점             │         │
-│  └──────────┬──────────┘    └─────────────┬───────────┘         │
-│             │                             │                     │
-│             ▼                             ▼                     │
-│     ┌───────────────┐           ┌───────────────┐               │
-│     │  User 임베딩  │           │  Item 임베딩  │               │
-│     │  (256-dim)    │           │  (256-dim)    │               │
-│     └───────┬───────┘           └───────┬───────┘               │
-│             └─────────────┬─────────────┘                       │
-│                           │ 내적 (Dot Product)                   │
-│                           ▼                                     │
-│                  ┌─────────────────┐                            │
-│                  │  유사도 점수     │                            │
-│                  │  후보 아이템     │                            │
-│                  │  랭킹 정렬       │                            │
-│                  └─────────────────┘                            │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              Two-Tower 추천 모델 구조                             |
++-----------------------------------------------------------------+
+|                                                                  |
+|  사용자 타워 (User Tower)    콘텐츠 타워 (Item Tower)            |
+|  +---------------------+    +-------------------------+         |
+|  | 시청 이력 임베딩     |    | 장르·배우·감독 임베딩   |         |
+|  | 선호 장르 벡터       |    | 텍스트 설명 BERT 인코딩 |         |
+|  | 최근 시청 패턴       |    | 시각적 특징 (포스터 CNN)|         |
+|  | 인구 통계 피처       |    | 인기도·평점             |         |
+|  +----------+----------+    +-------------+-----------+         |
+|             |                             |                     |
+|             v                             v                     |
+|     +---------------+           +---------------+               |
+|     |  User 임베딩  |           |  Item 임베딩  |               |
+|     |  (256-dim)    |           |  (256-dim)    |               |
+|     +-------+-------+           +-------+-------+               |
+|             +-------------+-------------+                       |
+|                           | 내적 (Dot Product)                   |
+|                           v                                     |
+|                  +-----------------+                            |
+|                  |  유사도 점수     |                            |
+|                  |  후보 아이템     |                            |
+|                  |  랭킹 정렬       |                            |
+|                  +-----------------+                            |
++-----------------------------------------------------------------+
 ```
 
 ### RTB (Real-Time Bidding) 광고 경매 흐름
 
 ```
 사용자 페이지 로드
-      │
-      ▼ (< 10ms)
+      |
+      v (< 10ms)
  공급자 플랫폼 (SSP)
  입찰 요청 발송
-      │
-      ▼ (< 100ms 전체)
+      |
+      v (< 100ms 전체)
  수요자 플랫폼 (DSP)
- ┌─────────────────────────────────┐
- │ 1. 유저 프로필 조회 (DMP)        │
- │ 2. 관련성 점수 계산 (ML)         │
- │ 3. 입찰가 결정 (경매 전략)       │
- └─────────────────────────────────┘
-      │
-      ▼
- 2nd Price 경매 → 낙찰
-      │
-      ▼
- 광고 소재 전달 → 렌더링
+ +---------------------------------+
+ | 1. 유저 프로필 조회 (DMP)        |
+ | 2. 관련성 점수 계산 (ML)         |
+ | 3. 입찰가 결정 (경매 전략)       |
+ +---------------------------------+
+      |
+      v
+ 2nd Price 경매 -> 낙찰
+      |
+      v
+ 광고 소재 전달 -> 렌더링
 ```
 
 ### 시청 분석 핵심 지표
@@ -143,7 +143,7 @@ tags = ["studynote-bigdata"]
 | A/B 테스트 느린 피드백 | 오프라인 평가 지표 부정확 | Online Interleaving 실험 도입 |
 
 **기술사 핵심 판단**:
-- [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 <strong>오프라인 지표(AUC/NDCG)와 온라인 지표(<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>/체류시간)가 반드시 일치하지 않음</strong> → 온라인 A/B 테스트 필수.
+- [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 <strong>오프라인 지표(AUC/NDCG)와 온라인 지표(<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>/체류시간)가 반드시 일치하지 않음</strong> -> 온라인 A/B 테스트 필수.
 - [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)리스 환경 전환으로 퍼스트파티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자체 수집) 중요성 급증.
 
 > 📢 **섹션 요약 비유**: 좋은 추천 엔진은 "항상 네가 좋아하는 것만 보여주는 것이 아니라, 가끔 놀라운 새로운 취향을 발견하게 해주는 것"이다. 너무 똑같으면 지루해지기 때문이다.
@@ -179,14 +179,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [콘텐츠 소비 (Content Consumption)]
-    │
-    ▼
+    |
+    v
 [미디어 빅데이터 (Media Big Data)]
-    │
-    ▼
+    |
+    v
 [추천 시스템 (Recommendation System)]
-    │
-    ▼
+    |
+    v
 [개인화 (Personalization)]
 ```
 
@@ -203,7 +203,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 219 / 262
 
-← **이전**: [213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로](/knowledge-base/studynote/16_bigdata/11_industry/218_retail_logistics_bigdata/)
-**다음**: [215. SNS 빅데이터 (Social Media Big Data) — 여론분석/트렌드감지/인플루언서분석](/knowledge-base/studynote/16_bigdata/11_industry/220_sns_bigdata/) →
+<- **이전**: [213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로](/knowledge-base/studynote/16_bigdata/11_industry/218_retail_logistics_bigdata/)
+**다음**: [215. SNS 빅데이터 (Social Media Big Data) — 여론분석/트렌드감지/인플루언서분석](/knowledge-base/studynote/16_bigdata/11_industry/220_sns_bigdata/) ->
 
 ---

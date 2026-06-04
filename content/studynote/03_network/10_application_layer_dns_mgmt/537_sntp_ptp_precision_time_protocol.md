@@ -21,24 +21,24 @@ tags = ["studynote-network"]
 
 - **개념**: SNTP (Simple [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))는 NTPv4의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 포맷([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 123)은 동일하게 사용하되 클라이언트 내부의 다중 서버 비교 및 동적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단순화한 경량화 버전이다. 반면, PTP ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Time [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 IEEE 1588 표준으로 정의되며, 네트워크 중간에 위치한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터의 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)(Residence Time)까지 측정·보정하여 하드웨어 계층에서 서브-마이크로초 수준으로 시간을 맞추는 초정밀 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 - **필요성**: 범용 서버나 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 환경에서는 수십 밀리초(ms)의 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 오차로도 충분하다. 하지만 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things) 단말기는 배터리와 연산 능력이 부족해 무거운 NTP를 돌리기 어려워 SNTP가 필요하다. 이와 반대로, 이동통신([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/)) 기지국이 동일 주파수 대역에서 간섭 없이 전파를 송출하려면 나노초 단위의 위상 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필수적이므로 소프트웨어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 극복한 PTP 기술이 강력히 요구된다.
-- **등장 배경**: ① 기존 NTP의 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계 부각 → ② 산업 제어, 방송, 통신망의 초정밀 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요구 팽창 → ③ 하드웨어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 개입 및 중간 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 주체로 편입시킨 PTP(IEEE 1588) 표준의 발전.
+- **등장 배경**: ① 기존 NTP의 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계 부각 -> ② 산업 제어, 방송, 통신망의 초정밀 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요구 팽창 -> ③ 하드웨어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 개입 및 중간 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 주체로 편입시킨 PTP(IEEE 1588) 표준의 발전.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           NTP의 지연 한계와 PTP의 해결 패러다임 시각화           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [NTP의 한계: OS 스택 지연 누적]                                │
-│   Application ─▶ OS Kernel ─▶ Network Driver ─▶ NIC MAC      │
-│     (요청 생성)     (컨텍스트 스위칭 지연)         (전송 병목 지연)    │
-│   => 타임스탬프가 소프트웨어 계층에서 찍히므로 미세한 가변 오차 발생!    │
-│                                                             │
-│   [PTP의 혁신: 하드웨어 직접 타임스탬핑]                           │
-│   Application ─── OS ─── Driver ───▶ NIC (MAC & PHY)         │
-│                                       ↓                     │
-│                                (이더넷 선으로 나가는 순간 도장 쾅!)│
-│   => OS 지연을 완벽히 배제하여 나노초(ns) 단위 정확성 달성.          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           NTP의 지연 한계와 PTP의 해결 패러다임 시각화           |
++-------------------------------------------------------------+
+|                                                             |
+|   [NTP의 한계: OS 스택 지연 누적]                                |
+|   Application --> OS Kernel --> Network Driver --> NIC MAC      |
+|     (요청 생성)     (컨텍스트 스위칭 지연)         (전송 병목 지연)    |
+|   => 타임스탬프가 소프트웨어 계층에서 찍히므로 미세한 가변 오차 발생!    |
+|                                                             |
+|   [PTP의 혁신: 하드웨어 직접 타임스탬핑]                           |
+|   Application --- OS --- Driver ----> NIC (MAC & PHY)         |
+|                                       v                     |
+|                                (이더넷 선으로 나가는 순간 도장 쾅!)|
+|   => OS 지연을 완벽히 배제하여 나노초(ns) 단위 정확성 달성.          |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 NTP는 시간을 읽고 타임스탬프를 기록하는 행위가 서버 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 내부 소프트웨어적으로 처리된다. 따라서 시스템 부하 상태나 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 타이밍에 따라 수십 마이크로초에서 밀리초 단위의 미세한 변동(Jitter)이 발생한다. PTP의 본질적 차이는 타임스탬핑을 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 혹은 PHY 하드웨어 칩에서 펄스가 선로로 빠져나가는 '물리적 순간'에 직접 처리한다는 점이다. 이 설계적 차이가 통신 오차를 소프트웨어적 한계에서 하드웨어적 한계로 격상시킨다.
@@ -62,28 +62,28 @@ tags = ["studynote-network"]
 PTP의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리는 NTP와 유사하게 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 측정하지만, 그 과정이 훨씬 더 세분화되어 있고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 패킷 통과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 보정해준다는 근본적 차이가 있다. 아래는 2단계(Two-Step) PTP [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 핵심 메시지 시퀀스다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               PTP (IEEE 1588) 정밀 시간 동기화 시퀀스             │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [Master Clock]                          [Slave Clock]       │
-│         │                                       │             │
-│   t1 ───┼── Sync Message ───────────────────────▶│ t2         │
-│         │                                       │             │
-│         ├── Follow_Up (t1 값이 들어있음) ───────────▶│            │
-│         │                                       │             │
-│         │                                       │             │
-│   t4 │◀── Delay_Req ────────────────────────────┼── t3      │
-│         │                                       │             │
-│         ├── Delay_Resp (t4 값이 들어있음) ──────────▶│            │
-│         │                                       │             │
-│                                                               │
-│  ■ 계산 공식:                                                   │
-│    - One-way Delay = ((t4 - t3) + (t2 - t1)) / 2              │
-│    - Offset (시계 편차) = (t2 - t1) - One-way Delay           │
-│                                                               │
-│  ■ 결과: Slave는 계산된 Offset만큼 하드웨어 클럭 위상을 미세조절함.       │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               PTP (IEEE 1588) 정밀 시간 동기화 시퀀스             |
++---------------------------------------------------------------+
+|                                                               |
+|   [Master Clock]                          [Slave Clock]       |
+|         |                                       |             |
+|   t1 ---+-- Sync Message ------------------------>| t2         |
+|         |                                       |             |
+|         +-- Follow_Up (t1 값이 들어있음) ------------>|            |
+|         |                                       |             |
+|         |                                       |             |
+|   t4 |<--- Delay_Req ----------------------------+-- t3      |
+|         |                                       |             |
+|         +-- Delay_Resp (t4 값이 들어있음) ----------->|            |
+|         |                                       |             |
+|                                                               |
+|  ■ 계산 공식:                                                   |
+|    - One-way Delay = ((t4 - t3) + (t2 - t1)) / 2              |
+|    - Offset (시계 편차) = (t2 - t1) - One-way Delay           |
+|                                                               |
+|  ■ 결과: Slave는 계산된 Offset만큼 하드웨어 클럭 위상을 미세조절함.       |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Master는 `Sync` 메시지를 보낸 직후(또는 내부에 포함하여), 패킷이 물리적으로 나간 정확한 시간 `t1`을 하드웨어에서 읽어내어 `Follow_Up` 메시지에 담아 Slave에게 보낸다. Slave는 `Sync` 패킷을 받은 물리적 시간 `t2`를 기록해둔다. 이후 Slave는 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 역산하기 위해 `Delay_Req`를 `t3`에 보내고, Master가 이를 수신한 시간 `t4`를 `Delay_Resp` 메시지로 돌려받는다. 만약 중간에 있는 PTP [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Transparent [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))가 스위칭을 하느라 10µs [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 발생시켰다면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 10µs를 패킷의 Correction Field에 더해준다. Slave는 최종 계산 시 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 완벽하게 제외하고 순수 선로 전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만을 바탕으로 Offset을 구하여 나노초 단위로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
@@ -105,25 +105,25 @@ PTP의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduli
 NTP는 인터넷이라는 거칠고 변동성 높은 바다에서 평균적으로 쓸만한 시간을 건져내는 통계적 항해술이라면, SNTP는 구명정에서 간단한 나침반만 보고 방향을 잡는 기법이다. 반면 PTP는 파도의 출렁임([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))까지 모두 역산해서 오차 0의 완벽한 궤도를 그리는 레이저 유도 시스템이다. 하지만 PTP는 반드시 경로 상의 모든 네트워크 장비([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터)가 PTP 표준(Transparent [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 등)을 하드웨어적으로 지원해야만 본연의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 달성된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│           PTP의 Boundary Clock (BC) 구조 및 브로드캐스트 도메인 격리  │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│                   [Grandmaster Clock]                         │
-│                           │                                   │
-│            (PTP 트래픽 집중 및 정밀도 하락 위험)                  │
-│                           ▼                                   │
-│             ┌───────────────────────────┐                     │
-│             │  Boundary Clock 스위치    │                     │
-│             │   [Slave 포트] (위와 동기화) │                     │
-│             │           │               │                     │
-│             │  [Master 포트] [Master 포트] │                     │
-│             └───────┬───────────────┬───┘                     │
-│                     ▼               ▼                       │
-│              [End Node 1]     [End Node 2]                    │
-│                                                               │
-│   => 효과: Grandmaster의 트래픽 과부하 방지 및 지연 변동성(Jitter) 차단. │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|           PTP의 Boundary Clock (BC) 구조 및 브로드캐스트 도메인 격리  |
++---------------------------------------------------------------+
+|                                                               |
+|                   [Grandmaster Clock]                         |
+|                           |                                   |
+|            (PTP 트래픽 집중 및 정밀도 하락 위험)                  |
+|                           v                                   |
+|             +---------------------------+                     |
+|             |  Boundary Clock 스위치    |                     |
+|             |   [Slave 포트] (위와 동기화) |                     |
+|             |           |               |                     |
+|             |  [Master 포트] [Master 포트] |                     |
+|             +-------+---------------+---+                     |
+|                     v               v                       |
+|              [End Node 1]     [End Node 2]                    |
+|                                                               |
+|   => 효과: Grandmaster의 트래픽 과부하 방지 및 지연 변동성(Jitter) 차단. |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 수천 대의 단말기가 하나의 Grandmaster에게 동시에 Delay Request를 보내면 마스터 장비의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 무작위로 발생한다. PTP는 Boundary [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)(BC) 기능을 가진 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 둠으로써 이를 해결한다. BC [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 상위 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Slave [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로는 Grandmaster와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 자신의 시간을 맞추고, 하위 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Master [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로는 독자적인 마스터 역할을 수행하며 하위 단말들의 요청을 직접 처리한다. 즉, PTP 트래픽의 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 계층적으로 분리([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))하여 대규모 네트워크에서도 마이크로초 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 유지할 수 있게 한다.
@@ -188,12 +188,12 @@ NTP는 인터넷이라는 거칠고 변동성 높은 바다에서 평균적으�
 
 ```text
 [선행 개념: NTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: SNTP / PTP (Precision Ti…]
-    │
-    ├──▶ [확장 A: SSH 포트 22 / Telnet 포트 23…]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: SSH 포트 22 / Telnet 포트 23…]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 SNTP / PTP ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [Ti](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/)…는 NTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 22 / Telnet [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 23…와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -210,7 +210,7 @@ SNTP / PTP ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_ke
 
 **진행 상황**: 658 / 1120
 
-← **이전**: [536. NTP (Network Time Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)
-**다음**: [538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) →
+<- **이전**: [536. NTP (Network Time Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)
+**다음**: [538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ->
 
 ---

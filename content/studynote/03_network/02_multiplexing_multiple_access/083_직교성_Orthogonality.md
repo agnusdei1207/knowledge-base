@@ -24,10 +24,10 @@ tags = ["network"]
 공학자들은 발상을 바꿨다. 물리적으로 떼어 놓는 대신, 수학적으로 0이 되게 만들면 되지 않느냐는 것이다. 이 생각이 바로 직교성이다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 겹쳐 보여도 내적이 0이면 서로 분리 가능하다는 점이 핵심이며, 이 원리가 OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))의 뼈대가 되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 비직교: 신호 사이를 비워 둠 → 대역 낭비                      │
-│ 직교: 신호를 겹쳐 보냄 → 수신단에서 수학으로 분리            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 비직교: 신호 사이를 비워 둠 -> 대역 낭비                      |
+| 직교: 신호를 겹쳐 보냄 -> 수신단에서 수학으로 분리            |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 같은 길에 차를 띄워 세우는 대신, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등의 약속을 맞춰 동시에 지나가게 하는 교통 정리다.
@@ -52,9 +52,9 @@ tags = ["network"]
 OFDM은 IFFT (Inverse Fast Fourier Transform)로 직교 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)를 합성하고, 수신단에서 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 각 성분을 분리한다. [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))는 다중경로로 인한 심볼 경계 깨짐을 흡수해 직교성이 무너지지 않게 도와준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ IFFT → 겹쳐 보냄 → 채널 → CP로 보호 → FFT → 부반송파 분리    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| IFFT -> 겹쳐 보냄 -> 채널 -> CP로 보호 -> FFT -> 부반송파 분리    |
++--------------------------------------------------------------+
 ```
 
 직교성은 "겹치게 보내되, 읽을 때는 분리되게 하는" 구조다. 따라서 송신단의 설계보다 수신단의 수학적 복원 능력이 더 중요하다.
@@ -118,17 +118,17 @@ OFDM은 IFFT (Inverse Fast Fourier Transform)로 직교 [부반송파](/knowledg
 
 ```text
 FDM
-    │
-    ▼
+    |
+    v
 OFDM / CDMA
-    │
-    ▼
+    |
+    v
 OFDMA / SC-FDMA
-    │
-    ▼
+    |
+    v
 LTE (Long Term Evolution) / 5G NR (New Radio)
-    │
-    ▼
+    |
+    v
 Massive MIMO / Beamforming
 ```
 
@@ -144,7 +144,7 @@ Massive MIMO / Beamforming
 
 **진행 상황**: 83 / 1120
 
-← **이전**: [82. 코드 분할 다중화 (CDM, Code Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/)
-**다음**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/) →
+<- **이전**: [82. 코드 분할 다중화 (CDM, Code Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/)
+**다음**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/) ->
 
 ---

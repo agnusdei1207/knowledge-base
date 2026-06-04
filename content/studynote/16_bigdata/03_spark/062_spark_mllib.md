@@ -80,17 +80,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [원시 피처 데이터 (Raw Feature Data) — DataFrame·RDD로 메모리 로딩]
-    │
-    ▼
+    |
+    v
 [피처 엔지니어링 (Feature Engineering) — MLlib Pipeline으로 전처리·변환]
-    │
-    ▼
+    |
+    v
 [모델 학습 (Model Training) — 분산 클러스터 병렬 알고리즘 수행]
-    │
-    ▼
+    |
+    v
 [모델 평가 (Model Evaluation) — CrossValidator·TrainValidationSplit]
-    │
-    ▼
+    |
+    v
 [모델 배포 (Model Serving) — MLflow·Spark Structured Streaming 연동]
 ```
 
@@ -107,7 +107,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 62 / 262
 
-← **이전**: [스파크 구조적 스트리밍 (Spark Structured Streaming)](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)
-**다음**: [스파크 그래프엑스 (Spark GraphX) - 분산 그래프 분석](/knowledge-base/studynote/16_bigdata/03_spark/063_spark_graphx/) →
+<- **이전**: [스파크 구조적 스트리밍 (Spark Structured Streaming)](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)
+**다음**: [스파크 그래프엑스 (Spark GraphX) - 분산 그래프 분석](/knowledge-base/studynote/16_bigdata/03_spark/063_spark_graphx/) ->
 
 ---

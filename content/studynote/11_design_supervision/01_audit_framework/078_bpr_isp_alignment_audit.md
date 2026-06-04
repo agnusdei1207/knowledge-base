@@ -24,11 +24,11 @@ tags = ["studynote-design-supervision"]
 특히 공공사업이나 대형 구축 사업처럼 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 편차, 보안 이슈가 함께 얽히는 환경에서는 문서 한 장의 적합 여부보다 실행 흔적의 정합성이 더 중요하다. 따라서 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)/[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 연계 사후 평가는 단순 점검표가 아니라, 기준·증거·조치가 하나의 폐루프로 돌아가는 통제 구조로 이해해야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Baseline     │──▶│ Evidence     │──▶│ Finding      │
-└──────┬───────┘   └──────────────┘   └──────┬───────┘
-       │                                     │
-       └──────────────▶ Corrective Action ◀──┘
++--------------+   +--------------+   +--------------+
+| Baseline     |--->| Evidence     |--->| Finding      |
++------+-------+   +--------------+   +------+-------+
+       |                                     |
+       +---------------> Corrective Action <---+
 ```
 
 이 그림은 한 번의 판정으로 끝나는 활동이 아니라, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 증거 수집, 시정조치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 연속 흐름임을 보여 준다.
@@ -110,14 +110,14 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [선행 개념: 기준선 수립]
-    │
-    ▼
+    |
+    v
 [현재 개념: BPR/ISP 연계 사후 평가]
-    │
-    ├──▶ [확장 A: AS-IS 대비 TO-BE 효과]
-    └──▶ [확장 B: 자동화 점검]
-            │
-            ▼
+    |
+    +---> [확장 A: AS-IS 대비 TO-BE 효과]
+    +---> [확장 B: 자동화 점검]
+            |
+            v
         [다음 단계: 지속적 개선]
 ```
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 120 / 530
 
-← **이전**: [77. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_remediation_audit/)
-**다음**: [78. BPR/ISP 연계 - 구축된 시스템이 당초 전략적 목표(AS-IS 대비 TO-BE 효과)를 달성했는지 사후 평가](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_integration/) →
+<- **이전**: [77. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/077_user_satisfaction_csat_remediation_audit/)
+**다음**: [78. BPR/ISP 연계 - 구축된 시스템이 당초 전략적 목표(AS-IS 대비 TO-BE 효과)를 달성했는지 사후 평가](/knowledge-base/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_integration/) ->
 
 ---

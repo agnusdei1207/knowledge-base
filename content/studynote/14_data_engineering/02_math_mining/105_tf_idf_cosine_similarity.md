@@ -38,25 +38,25 @@ TF-IDF는 두 가지 지표의 곱으로 계산되며, 생성된 [가중치](/kn
 이렇게 TF-IDF를 통해 문서가 벡터 공간의 좌표로 변환되면, 문서 A와 문서 B의 유사도는 두 벡터가 이루는 <strong>각도(Angle)</strong>를 측정하는 `코사인 유사도 (Cosine Similarity)`로 구한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              문서 벡터화 및 코사인 유사도 산출 메커니즘          │
-├──────────────────────────────────────────────────────────────────┤
-│ [문서 A: "사과 바나나 사과"]          [문서 B: "바나나 포도"]        │
-│          │                                   │                   │
-│          ▼                                   ▼                   │
-│ 1. TF-IDF Vectorization (가중치 계산)                            │
-│    Vector A = [0.8(사과), 0.2(바나나), 0(포도)]                  │
-│    Vector B = [0(사과), 0.5(바나나), 0.7(포도)]                  │
-│          │                                                       │
-│          ▼                                                       │
-│ 2. Cosine Similarity (방향성 측정: A·B / |A||B|)                 │
-│         y축(사과)                                                │
-│         ▲                                                        │
-│         │   Vector A                                             │
-│         │  ↗     각도(θ)가 작을수록(cosθ ≒ 1) 유사도 높음          │
-│         │ ↙ ─ ─ ─ ─ ─ Vector B                                   │
-│         └──────────────────▶ x축(포도)                           │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              문서 벡터화 및 코사인 유사도 산출 메커니즘          |
++------------------------------------------------------------------+
+| [문서 A: "사과 바나나 사과"]          [문서 B: "바나나 포도"]        |
+|          |                                   |                   |
+|          v                                   v                   |
+| 1. TF-IDF Vectorization (가중치 계산)                            |
+|    Vector A = [0.8(사과), 0.2(바나나), 0(포도)]                  |
+|    Vector B = [0(사과), 0.5(바나나), 0.7(포도)]                  |
+|          |                                                       |
+|          v                                                       |
+| 2. Cosine Similarity (방향성 측정: A·B / |A||B|)                 |
+|         y축(사과)                                                |
+|         ^                                                        |
+|         |   Vector A                                             |
+|         |  ↗     각도(θ)가 작을수록(cosθ ≒ 1) 유사도 높음          |
+|         | ↙ - - - - - Vector B                                   |
+|         +-------------------> x축(포도)                           |
++------------------------------------------------------------------+
 ```
 
 벡터의 크기(단어의 절대적 길이)가 달라도, 두 벡터가 가리키는 방향이 같으면 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 1(완전 일치)에 가까워진다. 문서의 길이가 다르더라도 주제 분포가 비슷하면 유사하다고 판별할 수 있는 핵심 원리다.
@@ -126,24 +126,24 @@ TF-IDF와 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_
 
 ```text
 문서 수치화의 초기 접근
-    │
-    ▼
+    |
+    v
 단순 빈도 기반 모델 (Count Vector / Bag-of-Words)
-    │
-    ▼
+    |
+    v
 희소성 가중치 결합 (TF-IDF: 흔한 단어 패널티)
-    │
-    ▼
+    |
+    v
 거리 측정 도입 (Cosine Similarity: 문서 방향성 기반 매칭)
-    │
-    ▼
+    |
+    v
 길이 정규화 개선 (BM25: ElasticSearch 등 현대 검색의 표준)
-    │
-    ▼
+    |
+    v
 의미론적 임베딩 결합 (Word2Vec · BERT / Hybrid Search)
 ```
 
-이 흐름도는 "단순 카운트 → 희소성 반영 → 방향성 측정 → 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → 의미 기반 융합"으로 텍스트 벡터화 기술이 진화해 온 과정을 한눈에 보여준다.
+이 흐름도는 "단순 카운트 -> 희소성 반영 -> 방향성 측정 -> 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> 의미 기반 융합"으로 텍스트 벡터화 기술이 진화해 온 과정을 한눈에 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -157,7 +157,7 @@ TF-IDF와 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_
 
 **진행 상황**: 105 / 258
 
-← **이전**: [서포트 벡터 머신 (SVM, Support Vector Machine)](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/)
-**다음**: [마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) →
+<- **이전**: [서포트 벡터 머신 (SVM, Support Vector Machine)](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/)
+**다음**: [마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) ->
 
 ---

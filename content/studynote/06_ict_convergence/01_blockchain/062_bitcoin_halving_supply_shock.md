@@ -30,11 +30,11 @@ tags = ["ict_convergence"]
 
 ```text
 210,000 블록
-   ↓
+   v
 보상 절반
-   ↓
+   v
 새 발행량 감소
-   ↓
+   v
 희소성 증가
 ```
 
@@ -103,13 +103,13 @@ tags = ["ict_convergence"]
 
 ```text
 Block Subsidy
-   ↓
+   v
 Halving
-   ↓
+   v
 Supply Shock
-   ↓
+   v
 Miner Economics
-   ↓
+   v
 Fee Market
 ```
 
@@ -119,11 +119,11 @@ Fee Market
 
 ```text
 고정 발행량
-   ↓
+   v
 반감기
-   ↓
+   v
 희소성 강화
-   ↓
+   v
 수수료 중심 경제
 ```
 
@@ -141,7 +141,7 @@ Fee Market
 
 **진행 상황**: 62 / 552
 
-← **이전**: [61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/)
-**다음**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/knowledge-base/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/) →
+<- **이전**: [61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/)
+**다음**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/knowledge-base/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/) ->
 
 ---

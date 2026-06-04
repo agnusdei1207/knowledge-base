@@ -36,32 +36,32 @@ tags = ["studynote-software-engineering"]
 세 가지 도구가 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기획 단계에서 어떻게 물 흐르듯 이어지는지 시각화하면 그 유기적 결합이 명확해진다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         프로젝트 일정 수립 파이프라인 (WBS → PERT → CPM)       │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [단계 1: 범위 정의]                                      │
-  │    WBS 작성      ──▶ 쪼개진 최소 단위: "Work Package (WP)"│
-  │                       (예: 로그인 API 개발, DB 스키마 설계)  │
-  │                                                         │
-  │        │ (각 WP별로 소요 시간 산정 및 논리 관계 설정)         │
-  │        ▼                                                │
-  │                                                         │
-  │  [단계 2: 시간 추정]                                      │
-  │    PERT 3점 추정 ──▶ 불확실성 통제: 기대 시간(Te) 도출       │
-  │                       (낙관치 + 4*최빈치 + 비관치) / 6     │
-  │                                                         │
-  │        │ (도출된 기대 시간과 선후행 관계를 네트워크로 연결)   │
-  │        ▼                                                │
-  │                                                         │
-  │  [단계 3: 네트워크 분석]                                   │
-  │    CPM 분석      ──▶ 여유 시간(Slack)이 0인 최장 경로 도출  │
-  │                       -> "Critical Path (임계 경로) 확정"  │
-  │                                                         │
-  │        │                                                │
-  │        ▼                                                │
-  │  [최종 산출물] : Gantt Chart (간트 차트) 및 프로젝트 기준선 확립 │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |         프로젝트 일정 수립 파이프라인 (WBS -> PERT -> CPM)       |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  [단계 1: 범위 정의]                                      |
+  |    WBS 작성      ---> 쪼개진 최소 단위: "Work Package (WP)"|
+  |                       (예: 로그인 API 개발, DB 스키마 설계)  |
+  |                                                         |
+  |        | (각 WP별로 소요 시간 산정 및 논리 관계 설정)         |
+  |        v                                                |
+  |                                                         |
+  |  [단계 2: 시간 추정]                                      |
+  |    PERT 3점 추정 ---> 불확실성 통제: 기대 시간(Te) 도출       |
+  |                       (낙관치 + 4*최빈치 + 비관치) / 6     |
+  |                                                         |
+  |        | (도출된 기대 시간과 선후행 관계를 네트워크로 연결)   |
+  |        v                                                |
+  |                                                         |
+  |  [단계 3: 네트워크 분석]                                   |
+  |    CPM 분석      ---> 여유 시간(Slack)이 0인 최장 경로 도출  |
+  |                       -> "Critical Path (임계 경로) 확정"  |
+  |                                                         |
+  |        |                                                |
+  |        v                                                |
+  |  [최종 산출물] : Gantt Chart (간트 차트) 및 프로젝트 기준선 확립 |
+  +---------------------------------------------------------+
 ```
 
   **[다이어그램 해설]** 이 파이프라인 도식은 일정 관리의 뼈대를 보여준다. PM은 가장 먼저 WBS를 그려서 프로젝트라는 거대한 코끼리를 한 입 크기(Work Package)로 토막 낸다. 그다음에 각 조각이 며칠 걸릴지 시간을 재야 하는데, 신기술 적용 등으로 불확실성이 크다면 [PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) 공식을 써서 가중 평균 시간을 안전하게 빼낸다. 마지막으로 선후행 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(DB가 설계되어야 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 코딩이 가능하다 등)에 맞춰 노드를 엮고 [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 계산(전진 계산, 후진 계산)을 돌리면, "이 프로젝트는 최소 몇 달이 걸리며, 어느 구간을 특별 관리해야 하는가"라는 최종 답안(Critical Path)이 떨어진다. 이 파이프라인의 어느 한 곳이라도 부실하면 프로젝트 스케줄은 반드시 무너진다.
@@ -165,21 +165,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 프로젝트 관리 WBS, CPM, PERT 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -193,7 +193,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 848 / 973
 
-← **이전**: [674. 델파이 기법 (Delphi Method) 전문가 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/674_delphi_method_consensus/)
-**다음**: [676. EVM (Earned Value Management) SPI, CPI 계산](/knowledge-base/studynote/04_software_engineering/uncategorized/676_evm_earned_value_management/) →
+<- **이전**: [674. 델파이 기법 (Delphi Method) 전문가 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/674_delphi_method_consensus/)
+**다음**: [676. EVM (Earned Value Management) SPI, CPI 계산](/knowledge-base/studynote/04_software_engineering/uncategorized/676_evm_earned_value_management/) ->
 
 ---

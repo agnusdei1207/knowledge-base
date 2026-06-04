@@ -19,16 +19,16 @@ tags = ["studynote-security"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│         위험 관리 프로세스 5단계 (ISO 31000)               │
-├───────────────────────────────────────────────────────────┤
-│ 1. 상황 설정    │ 범위, 기준, 맥락 정의                     │
-│ 2. 위험 식별    │ 자산·위협·취약점 목록화                    │
-│ 3. 위험 분석    │ 가능성×영향도 = 위험 수준                  │
-│ 4. 위험 평가    │ 허용 기준과 비교, 우선순위 결정             │
-│ 5. 위험 처리    │ 수용/전가/감소/회피 선택 → 통제 구현        │
-│    + 모니터링   │ 지속적 검토 및 개선                        │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|         위험 관리 프로세스 5단계 (ISO 31000)               |
++-----------------------------------------------------------+
+| 1. 상황 설정    | 범위, 기준, 맥락 정의                     |
+| 2. 위험 식별    | 자산·위협·취약점 목록화                    |
+| 3. 위험 분석    | 가능성×영향도 = 위험 수준                  |
+| 4. 위험 평가    | 허용 기준과 비교, 우선순위 결정             |
+| 5. 위험 처리    | 수용/전가/감소/회피 선택 -> 통제 구현        |
+|    + 모니터링   | 지속적 검토 및 개선                        |
++-----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 위험 관리는 보험 설계와 같다. 어떤 위험이 얼마나 자주 발생하는지(가능성), 발생하면 얼마나 피해인지(영향도)를 평가하고, 보험(통제)으로 해결할지, 보험료를 내지 않을지(수용)를 결정한다.
@@ -50,9 +50,9 @@ tags = ["studynote-security"]
 
           영향도
           높음  중간  낮음
-가능성 높음│  H  │  H  │  M  │
-       중간│  H  │  M  │  L  │
-       낮음│  M  │  L  │  L  │
+가능성 높음|  H  |  H  |  M  |
+       중간|  H  |  M  |  L  |
+       낮음|  M  |  L  |  L  |
 ```
 
 ### 위험 처리 4가지 방안
@@ -66,7 +66,7 @@ tags = ["studynote-security"]
    - 사이버 보험, 외주(아웃소싱)로 책임 이전
 
 3. 위험 수용 (Risk Acceptance)
-   - 잔여 위험이 허용 수준 이하 → 경영진 승인
+   - 잔여 위험이 허용 수준 이하 -> 경영진 승인
 
 4. 위험 회피 (Risk Avoidance)
    - 위험 원인 활동 자체를 중단
@@ -96,7 +96,7 @@ tags = ["studynote-security"]
 1. <strong>자산 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 정보 자산 목록(서버, DB, 문서) 작성 + 중요도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 2. **위협·취약점 분석**: [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/), 위협 인텔리전스 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/).
 3. **위험 평가**: 3×3 또는 5×5 위험 매트릭스로 위험 수준 결정.
-4. **위험 처리**: [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 목록 → [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 보고 → 경영진 승인.
+4. **위험 처리**: [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 목록 -> [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 보고 -> 경영진 승인.
 5. **모니터링**: 연 1회 재평가 + 중요 변경 시 수시 평가.
 
 ### [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))
@@ -136,17 +136,17 @@ tags = ["studynote-security"]
 
 ```text
 [자산 식별 — 보호 대상 목록화]
-    │
-    ▼
+    |
+    v
 [위험 분석 — 가능성×영향도 매트릭스]
-    │
-    ▼
+    |
+    v
 [위험 처리 — 4가지 방안 선택]
-    │
-    ▼
+    |
+    v
 [잔여 위험 수용 — 경영진 보고·승인]
-    │
-    ▼
+    |
+    v
 [지속적 모니터링 — AI 기반 실시간 위험 평가]
 ```
 
@@ -162,7 +162,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 26 / 1108
 
-← **이전**: [25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드](/knowledge-base/studynote/09_security/01_intro_principles/025_security_procedure_manual/)
-**다음**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) →
+<- **이전**: [25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드](/knowledge-base/studynote/09_security/01_intro_principles/025_security_procedure_manual/)
+**다음**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) ->
 
 ---

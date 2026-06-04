@@ -30,11 +30,11 @@ tags = ["database"]
 
 ```text
 Relation Schema
-  ↓
+  v
 Relation Instance
-  ↓
+  v
 Tuples (Rows)
-  ↓
+  v
 Cardinality
 ```
 
@@ -47,9 +47,9 @@ Cardinality
 
 ```text
 R(A, B, C)
-  ├─ (1, a, x)
-  ├─ (2, b, y)
-  └─ (3, c, z)
+  +- (1, a, x)
+  +- (2, b, y)
+  +- (3, c, z)
 ```
 
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)는 "형식"이고, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 인스턴스는 "실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"다. 따라서 같은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)라도 튜플이 바뀌면 인스턴스는 달라진다.
@@ -109,11 +109,11 @@ R(A, B, C)
 
 ```text
 Relation Schema
-  ↓
+  v
 Tuple / Attribute
-  ↓
+  v
 Degree / Cardinality
-  ↓
+  v
 SQL Query Result
 ```
 
@@ -123,11 +123,11 @@ SQL Query Result
 
 ```text
 Relation
-  ↓
+  v
 Tuple
-  ↓
+  v
 Cardinality
-  ↓
+  v
 Relational Model
 ```
 
@@ -145,7 +145,7 @@ Relational Model
 
 **진행 상황**: 63 / 600
 
-← **이전**: [62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)](/knowledge-base/studynote/05_database/02_modeling_normalization/062_relation_attribute_degree/)
-**다음**: [64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) →
+<- **이전**: [62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)](/knowledge-base/studynote/05_database/02_modeling_normalization/062_relation_attribute_degree/)
+**다음**: [64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ->
 
 ---

@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 BCP 업무 연속성 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 분석은 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     BCP 업무 연속성 복구…의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [BCP 업무 연속성 복구…] ─────▶ [BCP 업무 연속성 복구…] ─────▶ [보안 거버넌스]                  │
-│      │                           │                           │
-│      └────────▶ [사후 대응만으로는 신뢰성…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     BCP 업무 연속성 복구…의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [BCP 업무 연속성 복구…] ------> [BCP 업무 연속성 복구…] ------> [보안 거버넌스]                  |
+|      |                           |                           |
+|      +---------> [사후 대응만으로는 신뢰성…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 BCP 업무 연속성 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 분석이 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [BCP 업무 연속성 복구…] ─────▶ [BCP Business Contin…] ─────▶ [BCP]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [BCP 업무 연속성 복구…] ------> [BCP Business Contin…] ------> [BCP]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 BCP 업무 연속성 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 분석은 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ BCP 업무 연속성 [복구](/knowledge-base/studynote/09_security/13_secops_ir
 
 ```text
 [BCP 업무 연속성 복구… 정리]
-    │
-    ▼
+    |
+    v
 [BCP 업무 연속성 복구… 적용]
-    │
-    ├──▶ [BCP Business Contin… 최적화]
-    └──▶ [지속적 컴플라이언스 확장]
+    |
+    +---> [BCP Business Contin… 최적화]
+    +---> [지속적 컴플라이언스 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ BCP 업무 연속성 [복구](/knowledge-base/studynote/09_security/13_secops_ir
 
 **진행 상황**: 338 / 482
 
-← **이전**: [337. 인시던트 관리 vs 문제 관리 근본 원인 (Incident vs Problem Management)](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/337_incident_vs_problem_management/)
-**다음**: [339. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/339_cloud_migration_6r/) →
+<- **이전**: [337. 인시던트 관리 vs 문제 관리 근본 원인 (Incident vs Problem Management)](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/337_incident_vs_problem_management/)
+**다음**: [339. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/339_cloud_migration_6r/) ->
 
 ---

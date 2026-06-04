@@ -26,13 +26,13 @@ BST 불균형 문제:
                    3
                        4
                            5
-  → 연결 리스트와 같아짐: 검색 O(N)
+  -> 연결 리스트와 같아짐: 검색 O(N)
 
 AVL 트리: 자동 균형 유지
       3
      /     2   4
    /       1       5
-  → 항상 O(log N) 검색
+  -> 항상 O(log N) 검색
 ```
 
 - **📢 섹션 요약 비유**: BST는 무질서한 책장이다. 순서대로만 책을 꽂으면 한쪽으로 기울어진 탑이 된다. AVL 트리는 자동 정리 로봇이 있어서 한쪽이 기울면 즉시 재배치하는 균형 잡힌 책장이다.
@@ -46,13 +46,13 @@ AVL 트리: 자동 균형 유지
 ```text
 Balance Factor (BF) = 왼쪽 높이 - 오른쪽 높이
 
-BF = -1, 0, 1 → 균형 상태
-BF ≤ -2 또는 BF ≥ 2 → 불균형 → 회전 필요
+BF = -1, 0, 1 -> 균형 상태
+BF ≤ -2 또는 BF ≥ 2 -> 불균형 -> 회전 필요
 
 4가지 회전:
   LL 불균형: 단순 우회전
       Z(BF=2)         Y
-     /              /       Y(BF=1)  →    X     Z
+     /              /       Y(BF=1)  ->    X     Z
    /
   X
 
@@ -73,7 +73,7 @@ N개 노드 AVL 트리:
   최대 높이: ≈ 14
   BST 최악:  999 (퇴화 시)
 
-→ AVL은 최악에도 1.44× log N으로 제한
+-> AVL은 최악에도 1.44× log N으로 제한
 ```
 
 - **📢 섹션 요약 비유**: AVL 회전은 시소 균형 맞추기다. 한쪽이 너무 무거워지면(BF ≥ 2) 지렛대(회전)로 균형을 맞춘다. 회전 방향은 기울어진 방향에 따라 결정된다.
@@ -167,17 +167,17 @@ def insert(root, key):
 
 ```text
 [BST — 이진 탐색, 최악 O(N)]
-    │
-    ▼
+    |
+    v
 [AVL 트리 — 엄격 균형, 항상 O(log N)]
-    │
-    ▼
+    |
+    v
 [Red-Black 트리 — 유연 균형, 빠른 삽입/삭제]
-    │
-    ▼
+    |
+    v
 [B-Tree / B+Tree — 멀티웨이 디스크 I/O 최적화]
-    │
-    ▼
+    |
+    v
 [Skip List — Redis, 병렬화 친화적 대안]
 ```
 
@@ -193,7 +193,7 @@ def insert(root, key):
 
 **진행 상황**: 88 / 175
 
-← **이전**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)
-**다음**: [31. Red-Black 트리 — STL·JVM의 표준 균형 BST](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/089_rb_tree/) →
+<- **이전**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)
+**다음**: [31. Red-Black 트리 — STL·JVM의 표준 균형 BST](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/089_rb_tree/) ->
 
 ---

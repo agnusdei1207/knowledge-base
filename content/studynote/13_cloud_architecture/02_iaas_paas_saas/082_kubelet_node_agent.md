@@ -35,34 +35,34 @@ tags = ["cloud_architecture"]
 Kubelet은 끊임없는 무한 루프 감시 체계를 돌리며 이상 현황을 타진한다. 이를 리컨실리에이션(Reconciliation, 상태 불일치 해결 조정) 루프라 일컫는다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 Kubelet 중심의 클러스터 생명 조율 파이프라인 도식도              │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │     [ 마스터 노드 (Control Plane) ]                           │
-  │      1. "노드-A에 Nginx 1개 띄우거라!" (API Server)             │
-  │               │                                             │
-  │ ◀────── (REST API 요청 송수신 / gRPC 통신) ─────────────▶       │
-  │               ▼                 ▲                           │
-  │     [ 워커 로드 노드-A (Node A) ]      │  "잘 켜서 돌리고 있습니다."   │
-  │             ┌─────────────────────────┴────┐                  │
-  │             │   Kubelet (에이전트 데몬)    │                  │
-  │             └─┬─────────────────────┬────┘                  │
-  │               │                     │ 4. cAdvisor (모니터링)  │
-  │               │                     │ (CPU, RAM 메모리 수금)   │
-  │         2. (CRI 규격 껍데기 변환기 이식)│                       │
-  │               ▼                     ▼                       │
-  │    ┌──────────────────┐    ┌────────────────────┐         │
-  │    │ Container Runtime│    │ Volume / Network │         │
-  │    │ (Docker, CRI-O)  │    │ (CSI, CNI 마운트) │         │
-  │    └──────────┬───────┘    └──────────┬─────────┘         │
-  │               │                       │                     │
-  │        3. 실행 │                       │ 마운트 라우팅            │
-  │               ▼                       ▼                     │
-  │           ┌────────────────────────────────────────┐        │
-  │           │           최종 Pod 조립 엔진 기동           │        │
-  │           └────────────────────────────────────────┘        │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 Kubelet 중심의 클러스터 생명 조율 파이프라인 도식도              |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |     [ 마스터 노드 (Control Plane) ]                           |
+  |      1. "노드-A에 Nginx 1개 띄우거라!" (API Server)             |
+  |               |                                             |
+  | <------- (REST API 요청 송수신 / gRPC 통신) -------------->       |
+  |               v                 ^                           |
+  |     [ 워커 로드 노드-A (Node A) ]      |  "잘 켜서 돌리고 있습니다."   |
+  |             +-------------------------+----+                  |
+  |             |   Kubelet (에이전트 데몬)    |                  |
+  |             +-+---------------------+----+                  |
+  |               |                     | 4. cAdvisor (모니터링)  |
+  |               |                     | (CPU, RAM 메모리 수금)   |
+  |         2. (CRI 규격 껍데기 변환기 이식)|                       |
+  |               v                     v                       |
+  |    +------------------+    +--------------------+         |
+  |    | Container Runtime|    | Volume / Network |         |
+  |    | (Docker, CRI-O)  |    | (CSI, CNI 마운트) |         |
+  |    +----------+-------+    +----------+---------+         |
+  |               |                       |                     |
+  |        3. 실행 |                       | 마운트 라우팅            |
+  |               v                       v                     |
+  |           +----------------------------------------+        |
+  |           |           최종 Pod 조립 엔진 기동           |        |
+  |           +----------------------------------------+        |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단순히 켜주는 것이 끝이 아니다. Kubelet은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 내부 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 App이 살아있는지 검사하는 권한을 갖는다 (Liveness Probe, Readiness Probe 찌르기). 자기가 띄웠던 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 교착상태([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠져 헬스체크 찔림 호출(Ping)에 대답하지 않으면 [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)에 보고하고 가차 없이 로컬에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 강제 Kill 후(RestartPolicy에 따라) 재기동(Self-Healing의 물리적 발현) 시키는 클러스터 내의 사신이자 창조주 독재자다.
@@ -117,16 +117,16 @@ Kubelet은 K8s가 "선언적 인프라 통치 모델"이라는 신화적인 타�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-API Server → etcd (Pod 정의 저장)
-    │
-    ▼
-kubelet (노드 에이전트): Pod Spec 수신 → 컨테이너 생성/감시
-    ├─► CRI: Container Runtime Interface (containerd · CRI-O)
-    ├─► Liveness/Readiness Probe: 헬스체크
-    └─► cAdvisor: 리소스 모니터링
-    │
-    ▼
-Node Status → API Server 보고 (하트비트)
+API Server -> etcd (Pod 정의 저장)
+    |
+    v
+kubelet (노드 에이전트): Pod Spec 수신 -> 컨테이너 생성/감시
+    +-► CRI: Container Runtime Interface (containerd · CRI-O)
+    +-► Liveness/Readiness Probe: 헬스체크
+    +-► cAdvisor: 리소스 모니터링
+    |
+    v
+Node Status -> API Server 보고 (하트비트)
 ```
 2. 하지만 각 로봇 병사 내부에는 대장님 방송 명령만 오매불망 단독으로 기다리다가 방송이 울리면 진짜로 총을 장전하고 장비를 세팅하는 **핵심 조종 에이전트(Kubelet)** 녀석이 꼭 들어있어요.
 3. 이 Kubelet 녀석은 적과 싸우면서도([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 실행) 동시에 무전기로 꼬박꼬박 대장님한테 "저희 로봇 배터리 50% 남았습니다, 엔진 짱짱합니다!"라며 살았는지 죽었는지 안심 보고를 해주는 제일 믿음직한 심복 수퍼 컴패니언이랍니다!
@@ -137,7 +137,7 @@ Node Status → API Server 보고 (하트비트)
 
 **진행 상황**: 81 / 371
 
-← **이전**: [81. K8s 워커 노드 컴포넌트 3가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/081_k8s_worker_node_components/)
-**다음**: [83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/083_kube_proxy_iptables_ipvs_routing/) →
+<- **이전**: [81. K8s 워커 노드 컴포넌트 3가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/081_k8s_worker_node_components/)
+**다음**: [83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/083_kube_proxy_iptables_ipvs_routing/) ->
 
 ---

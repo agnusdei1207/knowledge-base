@@ -38,36 +38,36 @@ tags = ["studynote-bigdata"]
 ### [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 3레이어 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                Power BI 3레이어 구조                         │
-├──────────────────────────────────────────────────────────────┤
-│  Layer 1: Power Query (데이터 수집·변환)                     │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  M 언어 기반 ETL 엔진                                   │ │
-│  │  - 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)         │ │
-│  │  - 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환         │ │
-│  │  - 단계별 변환 이력 관리 (Applied Steps)                │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  Layer 2: 데이터 모델 (관계·계산)                            │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  스타 스키마: 팩트 테이블 + 차원 테이블                  │ │
-│  │  관계 정의: 1:N, N:M, 양방향                            │ │
-│  │                                                        │ │
-│  │  DAX 계산:                                             │ │
-│  │  ① 계산 컬럼(Calculated Column): 행 단위 계산           │ │
-│  │  ② 측정값(Measure): 동적 집계 (권장)                   │ │
-│  │  ③ 계산 테이블(Calculated Table): 새 테이블 생성        │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  Layer 3: 시각화 (보고서·대시보드)                           │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Power BI Desktop: 보고서 제작                          │ │
-│  │  Power BI Service: 게시·공유·협업                       │ │
-│  │  Power BI Mobile: 모바일 보고서                         │ │
-│  │  Power BI Report Server: 온프렘 배포                    │ │
-│  └────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                Power BI 3레이어 구조                         |
++--------------------------------------------------------------+
+|  Layer 1: Power Query (데이터 수집·변환)                     |
+|  +--------------------------------------------------------+ |
+|  |  M 언어 기반 ETL 엔진                                   | |
+|  |  - 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)         | |
+|  |  - 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환         | |
+|  |  - 단계별 변환 이력 관리 (Applied Steps)                | |
+|  +--------------------------------------------------------+ |
+|                          |                                   |
+|  Layer 2: 데이터 모델 (관계·계산)                            |
+|  +--------------------------------------------------------+ |
+|  |  스타 스키마: 팩트 테이블 + 차원 테이블                  | |
+|  |  관계 정의: 1:N, N:M, 양방향                            | |
+|  |                                                        | |
+|  |  DAX 계산:                                             | |
+|  |  ① 계산 컬럼(Calculated Column): 행 단위 계산           | |
+|  |  ② 측정값(Measure): 동적 집계 (권장)                   | |
+|  |  ③ 계산 테이블(Calculated Table): 새 테이블 생성        | |
+|  +--------------------------------------------------------+ |
+|                          |                                   |
+|  Layer 3: 시각화 (보고서·대시보드)                           |
+|  +--------------------------------------------------------+ |
+|  |  Power BI Desktop: 보고서 제작                          | |
+|  |  Power BI Service: 게시·공유·협업                       | |
+|  |  Power BI Mobile: 모바일 보고서                         | |
+|  |  Power BI Report Server: 온프렘 배포                    | |
+|  +--------------------------------------------------------+ |
++-------------------------------------------------------------+
 ```
 
 ### DAX 핵심 패턴
@@ -119,11 +119,11 @@ YTD 매출 = TOTALYTD([총 매출], '날짜'[Date])
 Microsoft Fabric (2023) = 통합 분석 플랫폼
 
   One Lake (단일 데이터 저장소)
-       │
-  ┌────┴────────────────────────────────────┐
-  │  Data Factory  │  Synapse   │  Power BI │
-  │  (데이터 통합) │  (분석)    │  (시각화)  │
-  └─────────────────────────────────────────┘
+       |
+  +----+------------------------------------+
+  |  Data Factory  |  Synapse   |  Power BI |
+  |  (데이터 통합) |  (분석)    |  (시각화)  |
+  +-----------------------------------------+
 
   특징:
   - 모든 데이터가 One Lake의 Delta Parquet 형식 저장
@@ -171,7 +171,7 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 |:---|:---|
 | **비용 효율** | [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/) 대비 1/7 수준 비용으로 유사한 BI 능력 |
 | **생태계 통합** | Microsoft 365 환경에서 Teams/SharePoint 내장 보고서 |
-| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/">데이터 민주화</a></strong> | Excel 사용자 → [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 전환 학습 곡선 최소화 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/">데이터 민주화</a></strong> | Excel 사용자 -> [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 전환 학습 곡선 최소화 |
 | **거버넌스** | Premium 워크스페이스 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, RLS |
 
 ### 결론
@@ -198,17 +198,17 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 
 ```text
 [DAX (Data Analysis Expressions)]
-    │
-    ▼
+    |
+    v
 [CALCULATE (필터 조작)]
-    │
-    ▼
+    |
+    v
 [Power Query (M 언어)]
-    │
-    ▼
+    |
+    v
 [Import 모드 vs DirectQuery]
-    │
-    ▼
+    |
+    v
 [Microsoft Fabric (통합 플랫폼)]
 ```
 
@@ -226,7 +226,7 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 
 **진행 상황**: 165 / 262
 
-← **이전**: [164. Tableau — 드래그앤드롭 VizQL 셀프서비스 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)
-**다음**: [166. Looker / Looker Studio — LookML 시맨틱 레이어 BI](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/) →
+<- **이전**: [164. Tableau — 드래그앤드롭 VizQL 셀프서비스 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)
+**다음**: [166. Looker / Looker Studio — LookML 시맨틱 레이어 BI](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/) ->
 
 ---

@@ -29,24 +29,24 @@ A  B | A>B  A=B  A<B
 1  1 |  0    1    0
 
 논리식:
-  A=B: XNOR(A,B) = A⊙B = ¬(A⊕B)
-  A>B: A AND ¬B
-  A<B: ¬A AND B
+  A=B: XNOR(A,B) = A⊙B = +(A⊕B)
+  A>B: A AND +B
+  A<B: +A AND B
 
 게이트 구현:
-  ┌─────┐
-A─┤     ├─── A>B (A AND ¬B)
-B─┤ NOT ├─┐
-  └─────┘ └─ ...
+  +-----+
+A-+     +--- A>B (A AND +B)
+B-+ NOT +-+
+  +-----+ +- ...
 
-  A──┬────────────── AND ─── A>B
-     │      NOT─B ─┘
-     │
-     ├── XNOR ──── A=B
-     │
-  B──┘
-     └── NOT─A ─┐
-                └─ AND ─── A<B
+  A--+-------------- AND --- A>B
+     |      NOT-B -+
+     |
+     +-- XNOR ---- A=B
+     |
+  B--+
+     +-- NOT-A -+
+                +- AND --- A<B
 ```
 
 > 📢 **섹션 요약 비유**: 1비트 비교기는 "둘 중 누가 큰가?" 심판 — 두 선수의 점수를 보고 이겼다/졌다/비겼다 세 가지 판정.
@@ -77,9 +77,9 @@ B─┤ NOT ├─┐
   이전 단계의 결과를 다음 단계로 전달
 
 비교 우선순위 (캐스케이드):
-  Bit3 (MSB) → Bit2 → Bit1 → Bit0 (LSB)
+  Bit3 (MSB) -> Bit2 -> Bit1 -> Bit0 (LSB)
 
-  [Bit3 비교기]──(GT3,EQ3,LT3)──>[Bit2 비교기]──>...──>[최종 출력]
+  [Bit3 비교기]--(GT3,EQ3,LT3)-->[Bit2 비교기]-->...-->[최종 출력]
 
 시간 복잡도: O(n) 직렬 처리
 단점: n비트 비교에 n개 단계 = 지연 누적
@@ -99,7 +99,7 @@ B─┤ NOT ├─┐
   결과를 논리 게이트로 조합
 
 4비트 병렬 비교기 논리식:
-  A3 > B3: A3 AND ¬B3
+  A3 > B3: A3 AND +B3
   A3 = B3: A3 XNOR B3
   ...
 
@@ -110,19 +110,19 @@ B─┤ NOT ├─┐
   (A3=B3 AND A2=B2 AND A1=B1 AND A0>B0)
 
 시간 복잡도: O(1) 병렬 처리 (지연: 2~3게이트)
-단점: 게이트 수 = O(n²) 기하급수 증가
+단점: 게이트 수 = O(n^) 기하급수 증가
 
 74HC85 (4비트 비교기 IC):
   입력: A3-A0, B3-B0, IAGB, IAEB, IALB (캐스케이드 입력)
   출력: OAGB (A>B), OAEB (A=B), OALB (A<B)
 
   캐스케이드 연결:
-  낮은 비트 비교기의 출력 → 높은 비트 비교기의 캐스케이드 입력
-  → 8비트, 16비트 비교기 확장 가능
+  낮은 비트 비교기의 출력 -> 높은 비트 비교기의 캐스케이드 입력
+  -> 8비트, 16비트 비교기 확장 가능
 
 성능 비교:
   직렬: 지연 O(n), 게이트 O(n)
-  병렬: 지연 O(1), 게이트 O(n²)
+  병렬: 지연 O(1), 게이트 O(n^)
   실제: 계층적 비교기로 균형
 ```
 
@@ -136,7 +136,7 @@ B─┤ NOT ├─┐
 CPU 비교 연산 구현 (x86):
 
 CMP 명령어:
-  CMP A, B → A - B 수행 (결과 버림), 플래그 설정
+  CMP A, B -> A - B 수행 (결과 버림), 플래그 설정
 
 플래그 레지스터:
   ZF (Zero Flag): 결과 = 0 (A = B)
@@ -145,12 +145,12 @@ CMP 명령어:
   OF (Overflow Flag): 오버플로우
 
 조건 점프 명령어:
-  JE / JZ:  ZF=1       → Jump if Equal
-  JNE/JNZ:  ZF=0       → Jump if Not Equal
-  JG:       ZF=0, SF=OF → Jump if Greater (부호 있음)
-  JL:       SF≠OF      → Jump if Less (부호 있음)
-  JA:       CF=0, ZF=0 → Jump if Above (부호 없음)
-  JB:       CF=1       → Jump if Below (부호 없음)
+  JE / JZ:  ZF=1       -> Jump if Equal
+  JNE/JNZ:  ZF=0       -> Jump if Not Equal
+  JG:       ZF=0, SF=OF -> Jump if Greater (부호 있음)
+  JL:       SF≠OF      -> Jump if Less (부호 있음)
+  JA:       CF=0, ZF=0 -> Jump if Above (부호 없음)
+  JB:       CF=1       -> Jump if Below (부호 없음)
 
 예시 (어셈블리):
   CMP EAX, EBX    ; EAX - EBX, 플래그 설정
@@ -179,21 +179,21 @@ ARM Cond:
 버블 정렬 하드웨어 구현:
   n=4 정렬 네트워크:
 
-  [A0,A1] 비교기 → 교환
-  [A1,A2] 비교기 → 교환
-  [A0,A1] 비교기 → 교환
-  [A2,A3] 비교기 → 교환
-  [A1,A2] 비교기 → 교환
+  [A0,A1] 비교기 -> 교환
+  [A1,A2] 비교기 -> 교환
+  [A0,A1] 비교기 -> 교환
+  [A2,A3] 비교기 -> 교환
+  [A1,A2] 비교기 -> 교환
 
 Bitonic Sort Network:
-  n=8: O(log²n) 단계 = 6단계
-  병렬 처리: O(log²n) 지연
+  n=8: O(log^n) 단계 = 6단계
+  병렬 처리: O(log^n) 지연
 
   장점: 완전 병렬 (GPU 정렬에 활용)
   단점: 2^k 개 원소만 처리 가능
 
 FPGA/GPU 활용:
-  비교기 네트워크 → FPGA 로직 블록 구현
+  비교기 네트워크 -> FPGA 로직 블록 구현
   GPU Thrust 라이브러리의 정렬 기반
   병렬 처리로 O(n) vs O(n log n) 속도 차이
 
@@ -214,7 +214,7 @@ FPGA/GPU 활용:
 |   +-- XNOR (동치), AND/NOT
 +-- 다비트 비교기
 |   +-- 직렬 (Iterative): O(n) 지연
-|   +-- 병렬 (Parallel): O(1) 지연, O(n²) 게이트
+|   +-- 병렬 (Parallel): O(1) 지연, O(n^) 게이트
 |   +-- 74HC85 (캐스케이드)
 +-- CPU 구현
 |   +-- CMP 명령어, 플래그 레지스터
@@ -265,7 +265,7 @@ TPU/GPU: 행렬 원소 비교 병렬화
 
 **진행 상황**: 43 / 803
 
-← **이전**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)
-**다음**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/) →
+<- **이전**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)
+**다음**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/) ->
 
 ---

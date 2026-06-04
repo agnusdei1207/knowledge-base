@@ -12,27 +12,27 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kafka에서 오프셋(Offset)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지의 순서 번호이고, [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))은 하나의 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비하는 컨슈머 집합으로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 그룹 내 컨슈머에 1:1로 할당된다.
 > 2. **가치**: 오프셋 기반 소비는 "메시지가 한 번 전달되면 삭제되는" 전통 MQ와 달리, 컨슈머가 자신의 소비 위치를 독립적으로 관리하므로 다른 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)이 같은 메시지를 독립적으로 재소비할 수 있다. 이것이 Pub/Sub 멀티 컨슈머 패턴을 가능하게 한다.
-> 3. **판단 포인트**: 오프셋 커밋(Commit)의 세 가지 의미 보장: ①At-Most-Once(최대 1회): 처리 전 커밋 → 실패 시 손실, ②At-Least-Once(최소 1회): 처리 후 커밋 → 실패 시 재처리(중복 가능), ③Exactly-Once(정확히 1회): [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) + idempotent 프로듀서. 대부분의 실무는 At-Least-Once + 멱등 처리로 구현한다.
+> 3. **판단 포인트**: 오프셋 커밋(Commit)의 세 가지 의미 보장: ①At-Most-Once(최대 1회): 처리 전 커밋 -> 실패 시 손실, ②At-Least-Once(최소 1회): 처리 후 커밋 -> 실패 시 재처리(중복 가능), ③Exactly-Once(정확히 1회): [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) + idempotent 프로듀서. 대부분의 실무는 At-Least-Once + 멱등 처리로 구현한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│       Kafka 오프셋 & 컨슈머 그룹 구조                   │
-├────────────────────────────────────────────────────────┤
-│                                                         │
-│ 파티션 0: [msg0:off=0] [msg1:off=1] [msg2:off=2] ...   │
-│                                   ↑                    │
-│                        Consumer A가 off=2까지 읽음      │
-│                        (Committed Offset = 3)          │
-│                                                         │
-│ Consumer Group-1: Consumer A(P0), Consumer B(P1)       │
-│ Consumer Group-2: Consumer X(P0), Consumer Y(P1)       │
-│                                                         │
-│ 두 그룹은 서로 독립 — 같은 메시지를 별도 오프셋으로 소비 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|       Kafka 오프셋 & 컨슈머 그룹 구조                   |
++--------------------------------------------------------+
+|                                                         |
+| 파티션 0: [msg0:off=0] [msg1:off=1] [msg2:off=2] ...   |
+|                                   ^                    |
+|                        Consumer A가 off=2까지 읽음      |
+|                        (Committed Offset = 3)          |
+|                                                         |
+| Consumer Group-1: Consumer A(P0), Consumer B(P1)       |
+| Consumer Group-2: Consumer X(P0), Consumer Y(P1)       |
+|                                                         |
+| 두 그룹은 서로 독립 — 같은 메시지를 별도 오프셋으로 소비 |
++--------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋은 책의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 북마크다. 독자(컨슈머)마다 자신의 북마크를 독립적으로 관리하여 같은 책(토픽)을 다른 속도로 읽을 수 있다.
@@ -45,22 +45,22 @@ tags = ["studynote-data-engineering"]
 
 ```text
 파티션 수 = 3, 컨슈머 수 = 2:
-  Consumer A → Partition 0, 1 (2개 담당)
-  Consumer B → Partition 2    (1개 담당)
+  Consumer A -> Partition 0, 1 (2개 담당)
+  Consumer B -> Partition 2    (1개 담당)
 
 파티션 수 = 2, 컨슈머 수 = 3:
-  Consumer A → Partition 0
-  Consumer B → Partition 1
-  Consumer C → (유휴 — 담당 파티션 없음)
+  Consumer A -> Partition 0
+  Consumer B -> Partition 1
+  Consumer C -> (유휴 — 담당 파티션 없음)
 
-규칙: 컨슈머 수 > 파티션 수 → 일부 컨슈머 유휴
+규칙: 컨슈머 수 > 파티션 수 -> 일부 컨슈머 유휴
 ```
 
 ### 오프셋 커밋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 위험 |
 |:---|:---|:---|
-| Auto Commit | enable.auto.commit=true | 처리 전 커밋 → 손실 가능 |
+| Auto Commit | enable.auto.commit=true | 처리 전 커밋 -> 손실 가능 |
 | Manual Sync | commitSync() | 처리 후 커밋, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
 | Manual Async | commitAsync() | 비동기, 순서 보장 필요 |
 
@@ -84,11 +84,11 @@ tags = ["studynote-data-engineering"]
 
 ### [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) 모니터링
 - [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) = Latest Offset - Committed Offset.
-- Lag이 증가 → 컨슈머 처리 속도 < 프로듀서 생산 속도.
+- Lag이 증가 -> 컨슈머 처리 속도 < 프로듀서 생산 속도.
 - 대응: 컨슈머 인스턴스 수 증가 or [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가.
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Rebalancing
-- 컨슈머 추가·제거 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재할당 발생 → 짧은 소비 중단(Rebalance).
+- 컨슈머 추가·제거 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재할당 발생 -> 짧은 소비 중단(Rebalance).
 - 최소화 방법: Sticky Assignor, Static Membership.
 
 - **📢 섹션 요약 비유**: Consumer Lag은 콜센터 대기열이다. 상담 전화(메시지)가 처리 속도보다 빠르게 쌓이면 대기 줄(Lag)이 길어진다. 상담원(컨슈머)을 더 추가하면 해소된다.
@@ -123,17 +123,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 [전통 MQ — 소비 후 메시지 삭제, 재처리 불가]
-    │
-    ▼
+    |
+    v
 [Kafka 오프셋 — 컨슈머별 독립 소비 위치 관리]
-    │
-    ▼
+    |
+    v
 [컨슈머 그룹 — 파티션 병렬 소비 + 독립 재처리]
-    │
-    ▼
+    |
+    v
 [Exactly-Once 의미론 — 트랜잭션 기반 중복 방지]
-    │
-    ▼
+    |
+    v
 [KRaft — ZooKeeper 없는 Kafka 자체 완결 관리]
 ```
 
@@ -149,7 +149,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 27 / 258
 
-← **이전**: [26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리](/knowledge-base/studynote/14_data_engineering/01_infrastructure/026_topic_partition/)
-**다음**: [28. Apache Hive](/knowledge-base/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) →
+<- **이전**: [26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리](/knowledge-base/studynote/14_data_engineering/01_infrastructure/026_topic_partition/)
+**다음**: [28. Apache Hive](/knowledge-base/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) ->
 
 ---

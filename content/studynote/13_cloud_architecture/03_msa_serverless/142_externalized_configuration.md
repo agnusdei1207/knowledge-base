@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-코드에 설정 → 환경별 빌드 필요 → 위험
+코드에 설정 -> 환경별 빌드 필요 -> 위험
 외부 설정:
   환경변수 (12-Factor)
   Config Server (Spring Cloud Config)
@@ -50,10 +50,10 @@ Externalized Configuration은 <strong>12-Factor App의 핵심</strong>이며, [C
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[하드코딩 (~2010)] → [환경변수 (12-Factor, 2011)]
-    → [Spring Cloud Config (2015)]
-    → [K8s ConfigMap/Secret (2016)]
-    → [현재: Vault + Dynamic Secrets — 자동 회전]
+[하드코딩 (~2010)] -> [환경변수 (12-Factor, 2011)]
+    -> [Spring Cloud Config (2015)]
+    -> [K8s ConfigMap/Secret (2016)]
+    -> [현재: Vault + Dynamic Secrets — 자동 회전]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ Externalized Configuration은 <strong>12-Factor App의 핵심</strong>이며, [C
 
 **진행 상황**: 141 / 371
 
-← **이전**: [141. Microservice Chassis - MSA 공통 관심사 프레임워크](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/141_microservice_chassis/)
-**다음**: [143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/143_strangler_fig_pattern/) →
+<- **이전**: [141. Microservice Chassis - MSA 공통 관심사 프레임워크](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/141_microservice_chassis/)
+**다음**: [143. Strangler Fig 패턴 - 모놀리스->MSA 점진적 전환](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/143_strangler_fig_pattern/) ->
 
 ---

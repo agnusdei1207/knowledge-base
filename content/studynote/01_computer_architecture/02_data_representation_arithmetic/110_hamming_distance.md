@@ -32,18 +32,18 @@ tags = ["studynote-computer-architecture"]
 하드웨어 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해밍 거리를 **XOR (배타적 논리합)** 연산 한 번으로 광속 측정한다. XOR은 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 다를 때만 1을 출력하므로, XOR 연산 결과에 포함된 1의 개수(Hamming [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 바로 해밍 거리가 된다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           해밍 거리 계산의 수학적 시각화 (XOR 연산)        │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   데이터 A : 1 0 1 1 1 0 1                             │
-│   데이터 B : 1 0 0 1 0 0 1                             │
-│   ──────────────────────── (비트 단위 XOR)             │
-│   결과     : 0 0 1 0 1 0 0  ──▶ '1'이 2개 발생        │
-│                                                        │
-│   * 결론: 두 데이터의 해밍 거리는 '2'이다.                  │
-│     (데이터 A가 2번의 에러를 겪으면 데이터 B로 둔갑함)      │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           해밍 거리 계산의 수학적 시각화 (XOR 연산)        |
++--------------------------------------------------------+
+|                                                        |
+|   데이터 A : 1 0 1 1 1 0 1                             |
+|   데이터 B : 1 0 0 1 0 0 1                             |
+|   ------------------------ (비트 단위 XOR)             |
+|   결과     : 0 0 1 0 1 0 0  ---> '1'이 2개 발생        |
+|                                                        |
+|   * 결론: 두 데이터의 해밍 거리는 '2'이다.                  |
+|     (데이터 A가 2번의 에러를 겪으면 데이터 B로 둔갑함)      |
++--------------------------------------------------------+
 ```
 
 ### 오류 검출 및 정정의 절대 공식
@@ -110,21 +110,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 물리적 채널 노이즈와 데이터 왜곡
-    │
-    ▼
+    |
+    v
 해밍 거리 (Hamming Distance) 개념 정립 (에러의 수학적 계량화)
-    │
-    ▼
+    |
+    v
 최소 해밍 거리($d_{min}$)에 따른 에러 검출($e$) 및 정정($t$) 능력 도출
-    │
-    ▼
+    |
+    v
 해밍 코드 (Hamming Code) 및 SEC-DED 블록 아키텍처 설계
-    │
-    ▼
+    |
+    v
 정보 이론 확장 및 현대 다차원 에러 정정 알고리즘 (LDPC, Turbo Code)
 ```
 
-이 흐름도는 "에러의 수치화 → 방어능력 한계 증명 → 자기 정정 코드 발명 → 현대 통신의 극한 효율 정정"으로 이어지는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 이론의 뿌리를 보여준다.
+이 흐름도는 "에러의 수치화 -> 방어능력 한계 증명 -> 자기 정정 코드 발명 -> 현대 통신의 극한 효율 정정"으로 이어지는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 이론의 뿌리를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 110 / 803
 
-← **이전**: [109. 홀수 패리티 (Odd Parity)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/)
-**다음**: [111. 해밍 코드 (Hamming Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) →
+<- **이전**: [109. 홀수 패리티 (Odd Parity)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/)
+**다음**: [111. 해밍 코드 (Hamming Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) ->
 
 ---

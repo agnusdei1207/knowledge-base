@@ -33,12 +33,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 Physical HW
-   ▼
+   v
 Host OS
-   ▼
+   v
 Hosted Hypervisor
-   ├─ VM1
-   └─ VM2
+   +- VM1
+   +- VM2
 ```
 
 | 요소 | 역할 | 포인트 |
@@ -116,14 +116,14 @@ Hosted Hypervisor
 
 ```text
 물리 하드웨어
-    │
-    ▼
+    |
+    v
 호스트 OS
-    │
-    ▼
+    |
+    v
 Hosted Hypervisor
-    │
-    ▼
+    |
+    v
 가상 머신
 ```
 
@@ -141,7 +141,7 @@ Hosted Hypervisor
 
 **진행 상황**: 56 / 800
 
-← **이전**: [55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/055_bare_metal_hypervisor/)
-**다음**: [57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) →
+<- **이전**: [55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/055_bare_metal_hypervisor/)
+**다음**: [57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ->
 
 ---

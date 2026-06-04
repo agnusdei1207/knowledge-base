@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [12 팩터 앱](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/)이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [출시 직전 수동 보안 점검]
-    │
-    ▼
+    |
+    v
 [12 팩터 앱]
-    │
-    ├──▶ [12 팩터 앱 (클라우드 네이티브 설계 원칙)]
-    ├──▶ [Observability]
-    └──▶ [Scalability]
+    |
+    +---> [12 팩터 앱 (클라우드 네이티브 설계 원칙)]
+    +---> [Observability]
+    +---> [Scalability]
 ```
 
 이 흐름도는 [12 팩터 앱](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/)이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 283 / 373
 
-← **이전**: [282. 사일로 효과 (부서 장벽 이기주의)](/knowledge-base/studynote/15_devops_sre/05_devsecops/282_process/)
-**다음**: [284. CI/CD (Continuous Integration/Continuous Delivery)](/knowledge-base/studynote/15_devops_sre/05_devsecops/284_ci_cd/) →
+<- **이전**: [282. 사일로 효과 (부서 장벽 이기주의)](/knowledge-base/studynote/15_devops_sre/05_devsecops/282_process/)
+**다음**: [284. CI/CD (Continuous Integration/Continuous Delivery)](/knowledge-base/studynote/15_devops_sre/05_devsecops/284_ci_cd/) ->
 
 ---

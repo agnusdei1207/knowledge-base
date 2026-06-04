@@ -32,16 +32,16 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
 - **P(θ|X)**: 사후 분포(Posterior) — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 후 갱신된 θ 믿음
 - **P(X)**: 주변 우도(Marginal Likelihood) = Σ P(X|θ)P(θ) — [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 상수
 
-<strong>Prior × Likelihood → Posterior <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
+<strong>Prior × Likelihood -> Posterior <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
 ```
 확률                사전 분포       우도 함수       사후 분포
-밀도  ▲             ___              ___            ___
-      │           /   \           /   \          /   \
-      │          /     \     ×   /     \   =    /     \
-      │         /       \       /       \       /       \
-      │─────────          ─────           ─────
-      └────────────────────────────────────────────▶  θ
+밀도  ^             ___              ___            ___
+      |           /   \           /   \          /   \
+      |          /     \     ×   /     \   =    /     \
+      |         /       \       /       \       /       \
+      |---------          -----           -----
+      +--------------------------------------------->  θ
                  (넓고 평탄)     (좁고 뾰족)    (중간 절충)
 ```
 
@@ -90,7 +90,7 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 |:---:|:---:|:---:|:---|
 | 이항 Binomial(n,p) | Beta(α,β) | Beta(α+성공,β+실패) | α+=성공수, β+=실패수 |
 | 포아송 Poisson(λ) | Gamma(α,β) | Gamma(α+Σx, β+n) | α+=관측합, β+=n |
-| 정규 Normal(μ,σ²) | Normal(μ₀,σ₀²) | Normal(μ_n, σ_n²) | 가중 평균 갱신 |
+| 정규 Normal(μ,σ^) | Normal(μ₀,σ₀^) | Normal(μ_n, σ_n^) | 가중 평균 갱신 |
 | 다항 Multinomial | Dirichlet(α) | Dirichlet(α+count) | α+=각 범주 빈도 |
 
 **베타-이항(Beta-Binomial) 예시**:
@@ -103,7 +103,7 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 
 n번 시도에서 k번 성공 후:
 - 사전 평균: α/(α+β)
-- 사후 평균: (α+k)/(α+β+n) ← 사전 믿음과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가중 평균
+- 사후 평균: (α+k)/(α+β+n) <- 사전 믿음과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가중 평균
 
 📢 **섹션 요약 비유**: 켤레 사전 분포는 "같은 언어로 대화하는 파트너"와 같다. 말을 나누어도([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신) 서로 같은 언어(같은 분포 계열)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 복잡한 번역(수치 적분) 없이 바로 소통(계산)이 된다.
 
@@ -115,35 +115,35 @@ n번 시도에서 k번 성공 후:
 
 ```
 θ_MAP = argmax [ Σ log P(xᵢ|θ) + log P(θ) ]
-                  ─────────────   ──────────
+                  -------------   ----------
                     MLE 항          정규화 항
 ```
 
 <strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (Ridge Regression) = 가우시안 사전</strong>:
 
 ```
-P(θ) ∝ exp(-λ||θ||₂²/2)   →   log P(θ) = -λ||θ||₂²/2
-MAP 목적함수: ℓ(θ) - λ||θ||₂² = MLE - Ridge 페널티
+P(θ) ∝ exp(-λ||θ||₂^/2)   ->   log P(θ) = -λ||θ||₂^/2
+MAP 목적함수: ℓ(θ) - λ||θ||₂^ = MLE - Ridge 페널티
 ```
 
 <strong>L1 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a> Regression) = 라플라스 사전</strong>:
 
 ```
-P(θ) ∝ exp(-λ||θ||₁)   →   log P(θ) = -λ||θ||₁
+P(θ) ∝ exp(-λ||θ||₁)   ->   log P(θ) = -λ||θ||₁
 MAP 목적함수: ℓ(θ) - λ||θ||₁ = MLE - Lasso 페널티
 ```
 
 ```
-┌────────────────────────────────────────────────┐
-│          정규화와 사전 분포의 대응               │
-├──────────────────┬─────────────────────────────┤
-│  정규화 방법      │     베이즈 해석             │
-├──────────────────┼─────────────────────────────┤
-│ Ridge (L2)       │ 가우시안 사전 N(0, 1/λ)    │
-│ Lasso (L1)       │ 라플라스 사전 Laplace(0,1/λ)│
-│ Elastic Net      │ 가우시안+라플라스 혼합 사전  │
-│ Dropout          │ 베르누이 사전 (근사)         │
-└──────────────────┴─────────────────────────────┘
++------------------------------------------------+
+|          정규화와 사전 분포의 대응               |
++------------------+-----------------------------+
+|  정규화 방법      |     베이즈 해석             |
++------------------+-----------------------------+
+| Ridge (L2)       | 가우시안 사전 N(0, 1/λ)    |
+| Lasso (L1)       | 라플라스 사전 Laplace(0,1/λ)|
+| Elastic Net      | 가우시안+라플라스 혼합 사전  |
+| Dropout          | 베르누이 사전 (근사)         |
++------------------+-----------------------------+
 ```
 
 📢 **섹션 요약 비유**: 딥러닝의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 "베이즈 추정의 공학적 구현"이다. Ridge [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항을 추가하는 것은 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작을 것이라는 가우시안 사전 믿음"을 코드로 표현하는 것과 완전히 동일하다.
@@ -166,8 +166,8 @@ P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 
 ```
 초기 사전    첫 번째 이메일   두 번째 이메일    수렴
-P(스팸)=0.5  →  0.7         →    0.85       → 0.95
- ↑                                              ↑
+P(스팸)=0.5  ->  0.7         ->    0.85       -> 0.95
+ ^                                              ^
  중립          "돈 벌기"         "클릭 지금!"    강한 스팸 신호
 ```
 
@@ -195,17 +195,17 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
 
 ```text
 [빈도주의 추정 (MLE, Frequentist) — 관측 데이터만으로 모수를 점 추정, 사전 지식 미반영]
-    │
-    ▼
+    |
+    v
 [MAP (Maximum A Posteriori) — MLE + 사전 분포, 과적합 방지 정규화 효과]
-    │
-    ▼
+    |
+    v
 [완전 베이즈 추정 (Full Bayesian) — 사후 분포 전체를 추론, 불확실성 정량화]
-    │
-    ▼
+    |
+    v
 [켤레 사전 분포 (Conjugate Prior) — 사후 분포가 사전과 같은 족, 닫힌 형식 계산 가능]
-    │
-    ▼
+    |
+    v
 [MCMC (Markov Chain Monte Carlo) — 고차원 사후 분포 샘플링, 베이즈 딥러닝·확률적 프로그래밍 기반]
 ```
 
@@ -223,7 +223,7 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
 
 **진행 상황**: 144 / 175
 
-← **이전**: [14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)
-**다음**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) →
+<- **이전**: [14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)
+**다음**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) ->
 
 ---

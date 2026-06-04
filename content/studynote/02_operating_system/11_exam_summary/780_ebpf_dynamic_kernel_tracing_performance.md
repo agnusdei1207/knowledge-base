@@ -36,32 +36,32 @@ tags = ["studynote-operating-system"]
   - 2014년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.18부터 본격적으로 편입되었다. 클라우드와 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경이 극도로 복잡해지면서, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 외부에서 내부를 들여다볼 수 있는 거의 유일무이한 엑스레이(X-ray) 기술로 급부상했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 전통적 트레이싱 vs eBPF 기반 트레이싱 구조 비교        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 전통적 추적 (예: strace, pcap) ] - 극악의 오버헤드                │
-  │                                                             │
-  │   User Space    [ 추적 프로그램 (strace) ] ◀──(수백만 번의 복사)──┐ │
-  │   ───────────────▲───────────────────────────│──────────│
-  │   Kernel Space   │ (이벤트 발생마다 멈춤 & 컨텍스트 스위치)       │ │
-  │                  │                                         │ │
-  │                  └───── [ 커널 로직 (시스템 콜) ] ◀──────────┘ │
-  │                                                             │
-  │  [ eBPF 추적 (BPF VM 샌드박싱) ] - 오버헤드 1% 미만                 │
-  │                                                             │
-  │   User Space    [ eBPF 프론트엔드 앱 ] ◀────(1초에 1번 요약맵만 읽음) │
-  │   ───────────────│─────────────────────────▲──────────│
-  │   Kernel Space   │ (C 코드를 BPF 바이트코드로 컴파일해 밀어넣음)  │ │
-  │                  ▼                                         │ │
-  │   ┌──────── eBPF 샌드박스 VM ───────────────────────────────┐ │
-  │   │ 1. 검증기(Verifier): "루프 없고, 메모리 접근 안전하군. 통과!" │ │
-  │   │ 2. JIT 컴파일러: 기계어로 번역하여 빛의 속도로 만듦            │ │
-  │   │ 3. BPF Map (공유 메모리): 여기에 통계(Count)만 몰래 쌓음 ───┘ │
-  │   └─────────────────────────────────────────────────────┘ │
-  │     ▲ (이벤트 발생 시 BPF 코드만 0.001초 실행)                       │
-  │   [ 커널의 모든 Hook (kprobe, tracepoint, XDP 등) ]            │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 전통적 트레이싱 vs eBPF 기반 트레이싱 구조 비교        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 전통적 추적 (예: strace, pcap) ] - 극악의 오버헤드                |
+  |                                                             |
+  |   User Space    [ 추적 프로그램 (strace) ] <---(수백만 번의 복사)--+ |
+  |   ---------------^---------------------------|----------|
+  |   Kernel Space   | (이벤트 발생마다 멈춤 & 컨텍스트 스위치)       | |
+  |                  |                                         | |
+  |                  +----- [ 커널 로직 (시스템 콜) ] <-----------+ |
+  |                                                             |
+  |  [ eBPF 추적 (BPF VM 샌드박싱) ] - 오버헤드 1% 미만                 |
+  |                                                             |
+  |   User Space    [ eBPF 프론트엔드 앱 ] <-----(1초에 1번 요약맵만 읽음) |
+  |   ---------------|-------------------------^----------|
+  |   Kernel Space   | (C 코드를 BPF 바이트코드로 컴파일해 밀어넣음)  | |
+  |                  v                                         | |
+  |   +-------- eBPF 샌드박스 VM -------------------------------+ |
+  |   | 1. 검증기(Verifier): "루프 없고, 메모리 접근 안전하군. 통과!" | |
+  |   | 2. JIT 컴파일러: 기계어로 번역하여 빛의 속도로 만듦            | |
+  |   | 3. BPF Map (공유 메모리): 여기에 통계(Count)만 몰래 쌓음 ---+ |
+  |   +-----------------------------------------------------+ |
+  |     ^ (이벤트 발생 시 BPF 코드만 0.001초 실행)                       |
+  |   [ 커널의 모든 Hook (kprobe, tracepoint, XDP 등) ]            |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** eBPF의 천재성은 '[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) Map(맵)'이라는 특수한 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구조에 있다. 예전에는 이벤트를 모두 잡아서 유저 영역으로 다 넘겨줬다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덤프). eBPF는 유저가 던져준 코드(예: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 에러가 나면 맵의 카운트 변수만 +1 해라")를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 이식한다. 이벤트가 터지면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 안에서 즉시 +1 연산이 끝나고 프로그램은 하던 일을 마저 한다. 유저 프로그램은 느긋하게 1초에 한 번씩 저 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) Map만 쓱 들여다보면 된다. 이렇게 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 움직이는 대신 '코드'를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 쪽으로 움직여 버렸기 때문에 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 완전히 증발해 버린 것이다.
@@ -133,24 +133,24 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> Drop 도입)</strong>: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 iptables에서 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a></strong>로 전면 전환한다. XDP는 패킷이 메모리 구조체(sk_buff)로 조립되기도 전인 랜카드 드라이버의 생바닥에서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드를 실행한다. 차단 IP 목록은 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 맵([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), O(1))에 넣는다. 악성 패킷이 랜카드에 닿자마자 CPU 코어 1개가 1클럭 만에 패킷을 갈기갈기 찢어버린다(XDP_DROP). 서버의 CPU 사용률은 거짓말처럼 5% 미만으로 떨어지고 500만 패킷 방어에 성공한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 네트워크 스택과 eBPF XDP 패킷 파괴의 층위 차이        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [일반 방화벽 iptables의 깊은 방어선 (CPU 피로도 높음)]                  │
-  │   [물리적 랜카드(NIC)] ──▶ 메모리 할당(sk_buff) ──▶ TCP/IP 스택 파싱    │
-  │   ──▶ iptables 룰 1만 개 순차 탐색 ──▶ "아, 이거 악성 패킷이네. 버려!"     │
-  │   (※ 버리기까지 너무 많은 CPU 연산과 램이 소모됨)                       │
-  │                                                                   │
-  │   [eBPF XDP의 극단적 선제 방어선 (CPU 낭비 제로)]                       │
-  │   [물리적 랜카드(NIC)]                                              │
-  │           │  ◀── [ eBPF XDP Hook ] 패킷이 닿자마자 0.001초 만에 검사 │
-  │           ▼                                                      │
-  │     "악성이다! 버려!" ──▶ XDP_DROP (커널 스택 구경도 못하고 즉시 소멸)    │
-  │                                                                   │
-  │   ▶ 아키텍트의 무기: 방어선은 최대한 적군(인터넷)과 가까운 최전방에 쳐야,       │
-  │                    아군(커널)의 물자(CPU/RAM)가 낭비되지 않는다.         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 리눅스 네트워크 스택과 eBPF XDP 패킷 파괴의 층위 차이        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [일반 방화벽 iptables의 깊은 방어선 (CPU 피로도 높음)]                  |
+  |   [물리적 랜카드(NIC)] ---> 메모리 할당(sk_buff) ---> TCP/IP 스택 파싱    |
+  |   ---> iptables 룰 1만 개 순차 탐색 ---> "아, 이거 악성 패킷이네. 버려!"     |
+  |   (※ 버리기까지 너무 많은 CPU 연산과 램이 소모됨)                       |
+  |                                                                   |
+  |   [eBPF XDP의 극단적 선제 방어선 (CPU 낭비 제로)]                       |
+  |   [물리적 랜카드(NIC)]                                              |
+  |           |  <--- [ eBPF XDP Hook ] 패킷이 닿자마자 0.001초 만에 검사 |
+  |           v                                                      |
+  |     "악성이다! 버려!" ---> XDP_DROP (커널 스택 구경도 못하고 즉시 소멸)    |
+  |                                                                   |
+  |   -> 아키텍트의 무기: 방어선은 최대한 적군(인터넷)과 가까운 최전방에 쳐야,       |
+  |                    아군(커널)의 물자(CPU/RAM)가 낭비되지 않는다.         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워크의 패러다임을 바꾼 그림이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 1원칙은 "쓸데없는 일은 최대한 빨리 포기하는 것(Fail Fast)"이다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) XDP는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 거대한 공룡 같은 네트워크 스택을 100% 우회하여, 하드웨어 바로 위에서 C 코드를 실행하게 해준다. 클라우드 벤더(AWS, Google)들은 이 [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) 계층에서 디도스 차단, [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/), [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(네트워크 주소 변환)를 모조리 끝내버린 뒤 깨끗한 패킷만 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 올려보내는 초효율 아키텍처를 완성했다.
@@ -199,12 +199,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [부하 균등화 (Load Balancing) 큐 이주]
-    │
-    ▼
+    |
+    v
 [eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)]
-    │
-    ├──▶ [ZFS Copy-on-Write 볼륨 관리 통합]
-    └──▶ [LFS (Log-structured File System) 랜덤 쓰기 순차화]
+    |
+    +---> [ZFS Copy-on-Write 볼륨 관리 통합]
+    +---> [LFS (Log-structured File System) 랜덤 쓰기 순차화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -221,7 +221,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 780 / 800
 
-← **이전**: [779. 부하 균등화 (Load Balancing) 큐 이주](/knowledge-base/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/)
-**다음**: [781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)](/knowledge-base/studynote/02_operating_system/11_exam_summary/781_zfs_cow_volume_management/) →
+<- **이전**: [779. 부하 균등화 (Load Balancing) 큐 이주](/knowledge-base/studynote/02_operating_system/11_exam_summary/779_load_balancing_queue_migration/)
+**다음**: [781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)](/knowledge-base/studynote/02_operating_system/11_exam_summary/781_zfs_cow_volume_management/) ->
 
 ---

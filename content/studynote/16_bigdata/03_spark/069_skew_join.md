@@ -30,8 +30,8 @@ tags = ["studynote-bigdata"]
 
 ### 2. 증상 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
 
-- Spark UI → Stages → [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Duration이 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)만 **수십 배** 더 긴 경우
-- `SELECT count(*), key FROM table GROUP BY key ORDER BY count DESC LIMIT 10` → 상위 키 집중 여부 파악
+- Spark UI -> Stages -> [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Duration이 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)만 **수십 배** 더 긴 경우
+- `SELECT count(*), key FROM table GROUP BY key ORDER BY count DESC LIMIT 10` -> 상위 키 집중 여부 파악
 
 **📢 섹션 요약 비유**
 > [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐는 "은행 창구 10개 중 1번 창구에만 고객 100명이 몰리는 상황"이다. 나머지 9개 창구는 놀고 있는데 1번 창구 때문에 모두가 기다린다.
@@ -43,23 +43,23 @@ tags = ["studynote-bigdata"]
 ### 1. AQE 자동 Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화 (Spark 3.0+)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Stage 1: 셔플 맵 출력 (Shuffle Map Output)                   │
-│                                                              │
-│  파티션 0: 10 MB  ████                                       │
-│  파티션 1:  8 MB  ███                                        │
-│  파티션 2: 500MB  ████████████████████████████████ ← 스큐!   │
-│  파티션 3: 12 MB  ████                                       │
-└──────────────────┬───────────────────────────────────────────┘
-                   │ AQE 통계 분석
-                   ▼
-┌──────────────────────────────────────────────────────────────┐
-│  AQE 판단: 파티션 2가 임계값(skewedPartitionFactor × 중앙값)  │
-│           초과 → 자동 분할                                    │
-│                                                              │
-│  파티션 2a: 250MB (절반)  + 상대편 파티션 2 전체 복사         │
-│  파티션 2b: 250MB (나머지) + 상대편 파티션 2 전체 복사        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  Stage 1: 셔플 맵 출력 (Shuffle Map Output)                   |
+|                                                              |
+|  파티션 0: 10 MB  ████                                       |
+|  파티션 1:  8 MB  ███                                        |
+|  파티션 2: 500MB  ████████████████████████████████ <- 스큐!   |
+|  파티션 3: 12 MB  ████                                       |
++------------------+-------------------------------------------+
+                   | AQE 통계 분석
+                   v
++--------------------------------------------------------------+
+|  AQE 판단: 파티션 2가 임계값(skewedPartitionFactor × 중앙값)  |
+|           초과 -> 자동 분할                                    |
+|                                                              |
+|  파티션 2a: 250MB (절반)  + 상대편 파티션 2 전체 복사         |
+|  파티션 2b: 250MB (나머지) + 상대편 파티션 2 전체 복사        |
++--------------------------------------------------------------+
 ```
 
 AQE Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활성화 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/):
@@ -102,7 +102,7 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 | 기법 | 자동/수동 | 원리 | 장점 | 단점 |
 |:---|:---|:---|:---|:---|
 | AQE Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 자동 | 스큐 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 분할 | 코드 변경 없음 | 임계값 튜닝 필요 |
-| [Salting](/knowledge-base/studynote/02_operating_system/10_security/605_password_salting_hash/) | 수동 | 키에 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 추가 → 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 세밀한 제어 | 정상 테이블 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용 |
+| [Salting](/knowledge-base/studynote/02_operating_system/10_security/605_password_salting_hash/) | 수동 | 키에 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 추가 -> 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 세밀한 제어 | 정상 테이블 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용 |
 | Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 수동 | 소규모 테이블 전 Executor 복사 | 셔플 완전 제거 | 소규모 테이블에만 적용 가능 |
 | Repartition by [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 수동 | 조인 전 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재조정 | 간단 | 스큐 자체는 해결 안 됨 |
 
@@ -139,17 +139,17 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 
 ```
 1단계: 진단
-  → Spark UI > Stages > 태스크별 Duration 확인
-  → 스큐 의심 키에 대해 cardinality 분석
+  -> Spark UI > Stages > 태스크별 Duration 확인
+  -> 스큐 의심 키에 대해 cardinality 분석
 
 2단계: 기법 선택
-  → AQE 활성화 확인 (Spark 3.0+: 기본 true)
-  → 소규모 상대 테이블? → Broadcast Join 힌트 적용
-  → 특정 키 스큐 심각? → Salting 적용
+  -> AQE 활성화 확인 (Spark 3.0+: 기본 true)
+  -> 소규모 상대 테이블? -> Broadcast Join 힌트 적용
+  -> 특정 키 스큐 심각? -> Salting 적용
 
 3단계: 검증
-  → 재실행 후 태스크 Duration 균등화 확인
-  → 총 실행 시간 비교
+  -> 재실행 후 태스크 Duration 균등화 확인
+  -> 총 실행 시간 비교
 ```
 
 ### 2. 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -171,7 +171,7 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 스테이지 실행 시간 단축 | 스큐 해소 시 수 시간 → 수십 분으로 단축 |
+| 스테이지 실행 시간 단축 | 스큐 해소 시 수 시간 -> 수십 분으로 단축 |
 | 클러스터 자원 효율화 | 유휴 Executor 제거, CPU 활용률 균등화 |
 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약) 안정화 | Straggler Task로 인한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제거 |
 
@@ -199,17 +199,17 @@ Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/52
 
 ```text
 [조인 연산 (Join Operation) — 분산 환경, 파티션 단위 병렬 처리]
-    │
-    ▼
+    |
+    v
 [데이터 쏠림 (Data Skew) — 특정 키에 데이터 집중, 일부 태스크 지연]
-    │
-    ▼
+    |
+    v
 [솔팅 기법 (Salting) — 키에 임의 접미사 추가, 파티션 분산]
-    │
-    ▼
+    |
+    v
 [브로드캐스트 조인 (Broadcast Join) — 소형 테이블 전체 복제·전송]
-    │
-    ▼
+    |
+    v
 [AQE (Adaptive Query Execution) — 런타임 파티션 재분배 자동화]
 ```
 Skew Join은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림으로 인한 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 과부하를 솔팅·브로드캐스트·AQE로 완화하여 Spark 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 균등하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
@@ -223,7 +223,7 @@ Skew Join은 [데이터](/knowledge-base/studynote/05_database/01_db_architectur
 
 **진행 상황**: 69 / 262
 
-← **이전**: [Spark Broadcast Join](/knowledge-base/studynote/16_bigdata/03_spark/068_spark_broadcast_join/)
-**다음**: [19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/) →
+<- **이전**: [Spark Broadcast Join](/knowledge-base/studynote/16_bigdata/03_spark/068_spark_broadcast_join/)
+**다음**: [19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/) ->
 
 ---

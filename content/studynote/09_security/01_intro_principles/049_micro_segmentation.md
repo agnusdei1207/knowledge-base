@@ -22,8 +22,8 @@ tags = ["studynote-security"]
 전통적 경계 방어 (Perimeter Defense):
 
 외부 인터넷
-    ↓ (방화벽이 막음)
-내부 네트워크 ─────────────────────
+    v (방화벽이 막음)
+내부 네트워크 ---------------------
                   서버A ↔ 서버B ↔ 서버C
                   (내부는 신뢰)
 
@@ -32,7 +32,7 @@ tags = ["studynote-security"]
 
   공격 시나리오:
   1. 피싱으로 내부 PC 감염
-  2. 내부 PC → 데이터베이스 서버 (자유롭게 이동)
+  2. 내부 PC -> 데이터베이스 서버 (자유롭게 이동)
   3. DB에서 민감 데이터 탈취
 
   방화벽이 허용했어도 내부 이동은 무방비
@@ -48,7 +48,7 @@ VLAN 기반 세그먼테이션 한계:
 현실 통계:
   평균 침해 탐지 시간: 197일 (IBM 2022)
   내부 이동 시간: 침해 후 4~10일
-  → 조기 발견/차단이 피해 최소화 핵심
+  -> 조기 발견/차단이 피해 최소화 핵심
 ```
 
 > 📢 **섹션 요약 비유**: 전통 경계 방어 = 성벽 도시 — 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 지키면 내부는 자유. 적이 성문 통과(계정 탈취)하면 내부 모든 곳 이동. 마이크로 세그먼테이션은 건물마다 별도 잠금!
@@ -65,8 +65,8 @@ VLAN 기반 세그먼테이션 한계:
   기존: 서버 A ↔ 서버 B (자유 통신)
   마이크로 세그먼테이션:
 
-  [웹 서버] ←→ [앱 서버] ←→ [DB 서버]
-      ↑             ↑            ↑
+  [웹 서버] <--> [앱 서버] <--> [DB 서버]
+      ^             ^            ^
   (정책: 80/443만) (정책: 8080) (정책: 3306, 앱서버만)
 
 핵심 원칙:
@@ -87,19 +87,19 @@ VLAN 기반 세그먼테이션 한계:
   IP 변경에 독립적
 
   예:
-  role=web → role=app: TCP/8080 허용
-  role=app → role=db: TCP/3306 허용
+  role=web -> role=app: TCP/8080 허용
+  role=app -> role=db: TCP/3306 허용
   기타 모든 통신: 차단
 
 3. 프로세스 레벨 (고급):
   서버 내 프로세스 단위 정책
-  nginx → java-app: 허용
-  sshd → 외부: 차단
+  nginx -> java-app: 허용
+  sshd -> 외부: 차단
 
 Zero Trust Network Access와 결합:
   "Never Trust, Always Verify"
   마이크로 세그먼테이션: 동서 트래픽
-  ZTNA: 남북 트래픽 (사용자→앱)
+  ZTNA: 남북 트래픽 (사용자->앱)
 ```
 
 > 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 = 건물 내 출입증 통제 — 회사 건물 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 각 방(워크로드)마다 별도 출입증 필요. 적이 1개 방 침투해도 다른 방 이동 차단!
@@ -191,10 +191,10 @@ Phase 2 - 그룹화 및 정책 설계:
   G4: Management (role=mgmt)
 
   정책:
-  인터넷 → G1: TCP/80,443 허용
-  G1 → G2: TCP/8080 허용
-  G2 → G3: TCP/3306 허용
-  G4 → All: TCP/22 허용 (관리)
+  인터넷 -> G1: TCP/80,443 허용
+  G1 -> G2: TCP/8080 허용
+  G2 -> G3: TCP/3306 허용
+  G4 -> All: TCP/22 허용 (관리)
   기타: 차단
 
 Phase 3 - 테스트 모드:
@@ -221,7 +221,7 @@ Phase 5 - 지속적 관리:
 
 배경:
   2021년 유사 금융사 랜섬웨어 피해 100억+
-  내부 서버 간 자유 통신 → 전사 확산
+  내부 서버 간 자유 통신 -> 전사 확산
 
   현황:
   - 3-Tier 아키텍처 (웹/앱/DB) × 12개 시스템
@@ -232,18 +232,18 @@ Phase 5 - 지속적 관리:
 가시성:
   NSX Intelligence로 6주간 트래픽 기록
   예상치 못한 통신 발견:
-  - HR 서버 → 생산 DB 직접 통신 (이상)
-  - 개발 서버 → 운영 서버 통신 (위험!)
+  - HR 서버 -> 생산 DB 직접 통신 (이상)
+  - 개발 서버 -> 운영 서버 통신 (위험!)
 
 정책 설계:
   운영 존 (Production):
-  Web → App: 8443
-  App → DB: 5432
-  App → Redis: 6379
+  Web -> App: 8443
+  App -> DB: 5432
+  App -> Redis: 6379
   나머지 동서 통신: 전부 차단
 
   개발 ↔ 운영 격리:
-  개발 존 → 운영 존: 완전 차단
+  개발 존 -> 운영 존: 완전 차단
 
 단계적 적용:
   1단계 (2주): 비중요 HR 시스템
@@ -260,7 +260,7 @@ Phase 5 - 지속적 관리:
   금융보안원 평가 + 3점 (마이크로 세그 적용)
 ```
 
-> 📢 **섹션 요약 비유**: 금융 마이크로 세그먼테이션 = 방화 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 공장 각 구역을 방화문으로 분리. 한 구역 화재([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))가 전체 확산 방지. 기존 4시간 확산 → 1대 격리!
+> 📢 **섹션 요약 비유**: 금융 마이크로 세그먼테이션 = 방화 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 공장 각 구역을 방화문으로 분리. 한 구역 화재([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))가 전체 확산 방지. 기존 4시간 확산 -> 1대 격리!
 
 ---
 
@@ -327,7 +327,7 @@ eBPF 기반 고성능 정책
 
 **진행 상황**: 49 / 1108
 
-← **이전**: [048. SDP — 소프트웨어 정의 경계](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/)
-**다음**: [이스트-웨스트 트래픽 보안 (East-West Traffic Security)](/knowledge-base/studynote/09_security/01_intro_principles/050_east_west_traffic/) →
+<- **이전**: [048. SDP — 소프트웨어 정의 경계](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/)
+**다음**: [이스트-웨스트 트래픽 보안 (East-West Traffic Security)](/knowledge-base/studynote/09_security/01_intro_principles/050_east_west_traffic/) ->
 
 ---

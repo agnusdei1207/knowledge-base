@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [로케이터/ID 분리 구조 (LISP]
-    │
-    ▼
+    |
+    v
 [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    └──▶ [포트 번호]
+    |
+    +---> [포트 번호]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 전송 계층은 단순히 물건을 나르는 화물차(IP)가 아니라, 화물칸 안의 물건이 깨졌는지 꼼꼼히 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a>), </strong>받는 사람의 손아귀(프로세스)에 정확히 쥐여줄 때까지 끝까지 책임지는 우체국 특급 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
@@ -48,20 +48,20 @@ tags = ["studynote-network"]
 - **역다중화 (받을 때)**: 목적지 서버의 전송 계층이 이 튜브를 터뜨려 내용물을 쏟아낸 뒤, [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 돋보기로 보고 "아! 이건 80번이니까 웹서버 프로세스한테 던지고, 8000번이니까 게임 서버 프로세스한테 던져라!" 라며 완벽하게 가르마를 타준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                포트 번호를 이용한 다중화/역다중화 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (클라이언트) ]                       [ 구글 서버 ]      │
- │                                                             │
- │   (크롬) :8081 ──┐                       ┌── :80 (웹 서버)   │
- │   (카톡) :9091 ──┼──▶ [ 인터넷 망 ] ──▶──┼── :443 (보안웹 서버)│
- │   (게임) :7071 ──┘  (하나의 IP 튜브)       └── :53 (DNS 서버)   │
- │    ▲ (다중화)                                 ▲ (역다중화)       │
- │                                                             │
- │   ▶ "랜선(IP)은 하나지만, 그 속에는 수만 개의 독립된 차선(Port)이   │
- │      존재하여 프로그램들이 절대 서로 충돌하지 않고 쾌속 질주한다!"   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                포트 번호를 이용한 다중화/역다중화 도식             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 PC (클라이언트) ]                       [ 구글 서버 ]      |
+ |                                                             |
+ |   (크롬) :8081 --+                       +-- :80 (웹 서버)   |
+ |   (카톡) :9091 --+---> [ 인터넷 망 ] --->--+-- :443 (보안웹 서버)|
+ |   (게임) :7071 --+  (하나의 IP 튜브)       +-- :53 (DNS 서버)   |
+ |    ^ (다중화)                                 ^ (역다중화)       |
+ |                                                             |
+ |   -> "랜선(IP)은 하나지만, 그 속에는 수만 개의 독립된 차선(Port)이   |
+ |      존재하여 프로그램들이 절대 서로 충돌하지 않고 쾌속 질주한다!"   |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 통제 (오류/흐름/혼잡 제어)
@@ -130,12 +130,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 로케이터/ID 분리 구조 (LISP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ├──▶ [확장 A: 포트 번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 포트 번호]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 전송 계층의 역할: 종단 간 오류/흐름/혼잡…는 로케이터/ID 분리 구조 (LISP에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 522 / 1120
 
-← **이전**: [400. 로케이터/ID 분리 구조 (LISP](/knowledge-base/studynote/03_network/07_network_layer_routing/400_lisp_locator_id_separation_protocol/)
-**다음**: [402. 포트 번호 (Port Number)](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) →
+<- **이전**: [400. 로케이터/ID 분리 구조 (LISP](/knowledge-base/studynote/03_network/07_network_layer_routing/400_lisp_locator_id_separation_protocol/)
+**다음**: [402. 포트 번호 (Port Number)](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) ->
 
 ---

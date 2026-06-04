@@ -22,15 +22,15 @@ tags = ["studynote-software-engineering"]
 소프트웨어 비용 산정 접근 방식:
 
 하향식 (Top-Down):
-  전체 → 세부
+  전체 -> 세부
   시스템 수준에서 시작
 
   입력: 비슷한 이전 프로젝트 규모
         전문가 경험
-  출력: 전체 비용 추정 → 세부 분배
+  출력: 전체 비용 추정 -> 세부 분배
 
 상향식 (Bottom-Up):
-  세부 → 전체
+  세부 -> 전체
   개별 작업 단위 WBS에서 시작
 
   입력: 상세 작업 목록, 각 작업 견적
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
    프로세스:
    전문가A: 6개월, 전문가B: 8개월, 전문가C: 7개월
-   → 평균: 7개월 (또는 합의)
+   -> 평균: 7개월 (또는 합의)
 
    장점: 빠름, 비용 없음
    단점: 편향, 주관적, 재현 불가
@@ -68,11 +68,11 @@ tags = ["studynote-software-engineering"]
    반복적 전문가 합의 방법 (Rand Corporation 개발)
 
    라운드 1: 전문가 5명 독립 추정 제출
-   → 조율자가 결과 집계 및 공유 (익명)
+   -> 조율자가 결과 집계 및 공유 (익명)
    라운드 2: 결과 보고 후 재추정
-   → 극단값 제외 후 재집계
+   -> 극단값 제외 후 재집계
    라운드 3: 수렴할 때까지 반복
-   → 최종 합의 도출
+   -> 최종 합의 도출
 
    장점: 전문가 의견 편향 감소 (그룹씽크 방지)
    단점: 시간 소요
@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 
    이전 프로젝트: ERP 구축 1억, 6개월
    새 프로젝트: ERP + 모바일 추가
-   → 1.3배 규모 가정 → 1억3천만, 8개월
+   -> 1.3배 규모 가정 -> 1억3천만, 8개월
 
    성공 조건: 신뢰할 수 있는 과거 데이터
 
@@ -120,9 +120,9 @@ tags = ["studynote-software-engineering"]
 이중 검증 (Dual Estimation):
   1단계: 하향식 (초기 예산 설정)
   2단계: 상향식 (상세 설계 후 검증)
-  3단계: 차이 분석 → 조정
+  3단계: 차이 분석 -> 조정
 
-  하향식 vs 상향식 차이 > 20% → 재검토 신호
+  하향식 vs 상향식 차이 > 20% -> 재검토 신호
 
   실무: PMI PMBOK에서 유사 산정(하향) + 상세 산정(상향) 병행 권장
 
@@ -146,12 +146,12 @@ Cone of Uncertainty (불확실성 원뿔):
 
 1단계: 이전 프로젝트 데이터 수집
   프로젝트 A: 150 FP, 6개월, 5명, 1.5억
-  → 생산성: 25 FP/인월
-  → 단가: 100만/FP
+  -> 생산성: 25 FP/인월
+  -> 단가: 100만/FP
 
 2단계: 새 프로젝트 FP 추정
   새 프로젝트 개략 기능 분석
-  → 약 200 FP 예상
+  -> 약 200 FP 예상
 
 3단계: 유추 계산
   노력 = 200 FP / 25 FP/인월 = 8 인월
@@ -173,7 +173,7 @@ Cone of Uncertainty (불확실성 원뿔):
   최악(Pessimistic): 3억, 12개월
   기대(Expected): 2.4억, 9개월
   최선(Optimistic): 2억, 7개월
-  → 의사결정자에게 범위로 제시
+  -> 의사결정자에게 범위로 제시
 ```
 
 > 📢 **섹션 요약 비유**: 유추 산정은 레시피 비례 조절 — 4인분 레시피로 6인분 만들려면 1.5배. 이전 프로젝트(레시피)에서 새 규모(인원) 비례로 예산(재료)을 계산!
@@ -196,7 +196,7 @@ Cone of Uncertainty (불확실성 원뿔):
   개발팀장 B (핀테크 경험): 8천만원, 5개월
   PM C (유사 프로젝트 경험): 5천만원, 3개월
 
-  → 분산 큼 (3~5개월) → 라운드 2 진행
+  -> 분산 큼 (3~5개월) -> 라운드 2 진행
 
 라운드 2 (익명 공유 후):
   배경 공유: 결제 기능 + 사용자 관리 포함
@@ -204,15 +204,15 @@ Cone of Uncertainty (불확실성 원뿔):
   B: 7천만원, 5개월
   C: 6천만원, 4개월
 
-  → 수렴 → 합의: 6.5천만원, 4.5개월
+  -> 수렴 -> 합의: 6.5천만원, 4.5개월
 
 유추 검증:
   유사 핀테크 MVP (금결원 공개 사례):
   규모 비율 0.8 추정
-  → 8천만원 × 0.8 = 6.4천만원 ✓ 유사
+  -> 8천만원 × 0.8 = 6.4천만원 ✓ 유사
 
 완충 적용:
-  스타트업 불확실성 = 높음 → 25% 완충
+  스타트업 불확실성 = 높음 -> 25% 완충
   최종: 6.5천만 × 1.25 = 8천만원
 
 투자 제안서:
@@ -287,7 +287,7 @@ Velocity 기반 예측
 
 **진행 상황**: 45 / 973
 
-← **이전**: [044. 소프트웨어 비용 산정 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/)
-**다음**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/) →
+<- **이전**: [044. 소프트웨어 비용 산정 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/)
+**다음**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/) ->
 
 ---

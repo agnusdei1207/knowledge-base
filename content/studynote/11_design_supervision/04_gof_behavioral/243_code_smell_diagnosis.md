@@ -31,9 +31,9 @@ tags = ["studynote-design-supervision"]
 스멜을 방치하면 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong> 가 복리로 쌓인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견 시 수정 비용 대비 후기 발견 시 수정 비용은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 차이가 난다고 알려져 있다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 냄새나는 음식은 먹으면 탈이 나기 전에 버려야 한다 — [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)도 버그가 터지기 전에 제거해야 한다.
@@ -42,30 +42,30 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   코드 스멜 분류 체계                    │
-├──────────────────┬───────────────────────────────────────┤
-│  스멜 유형       │  영향 범위                            │
-├──────────────────┼───────────────────────────────────────┤
-│ Long Method      │  단일 메서드 내부                     │
-│ Large Class      │  단일 클래스 내부                     │
-│ Primitive        │  타입 시스템 전체                     │
-│ Obsession        │                                       │
-│ Shotgun Surgery  │  시스템 전체 (변경 시 파급 효과)      │
-│ Feature Envy     │  클래스 간 의존 관계                  │
-└──────────────────┴───────────────────────────────────────┘
++----------------------------------------------------------+
+|                   코드 스멜 분류 체계                    |
++------------------+---------------------------------------+
+|  스멜 유형       |  영향 범위                            |
++------------------+---------------------------------------+
+| Long Method      |  단일 메서드 내부                     |
+| Large Class      |  단일 클래스 내부                     |
+| Primitive        |  타입 시스템 전체                     |
+| Obsession        |                                       |
+| Shotgun Surgery  |  시스템 전체 (변경 시 파급 효과)      |
+| Feature Envy     |  클래스 간 의존 관계                  |
++------------------+---------------------------------------+
 
 [ 피처 엔비 (Feature Envy) 예시 ]
-┌─────────────┐        ┌─────────────────────────┐
-│  Order      │        │  Customer               │
-│             │        │  - name                 │
-│ printLabel()│──많이──▶│  - address              │
-│  (이 메서드가│  접근   │  - postalCode           │
-│  Customer   │        │  - country              │
-│  데이터에   │        │                         │
-│  집착)      │        │                         │
-└─────────────┘        └─────────────────────────┘
-        → printLabel()을 Customer로 이동해야 함
++-------------+        +-------------------------+
+|  Order      |        |  Customer               |
+|             |        |  - name                 |
+| printLabel()|--많이--->|  - address              |
+|  (이 메서드가|  접근   |  - postalCode           |
+|  Customer   |        |  - country              |
+|  데이터에   |        |                         |
+|  집착)      |        |                         |
++-------------+        +-------------------------+
+        -> printLabel()을 Customer로 이동해야 함
 ```
 
 **① 롱 메서드 (Long Method)**
@@ -109,19 +109,19 @@ tags = ["studynote-design-supervision"]
 
 ```
 프리미티브 강박
-    │
-    ▼
-데이터 클럼프 (Data Clumps) ──▶ 라지 클래스
-    │                               │
-    ▼                               ▼
-파라미터 목록 과다 ──────────▶ 롱 메서드
-    │                               │
-    └───────────────────────────────┘
-                                    ▼
+    |
+    v
+데이터 클럼프 (Data Clumps) ---> 라지 클래스
+    |                               |
+    v                               v
+파라미터 목록 과다 -----------> 롱 메서드
+    |                               |
+    +-------------------------------+
+                                    v
                             샷건 수술 / 피처 엔비
 ```
 
-- **📢 섹션 요약 비유**: 감기→폐렴→패혈증처럼 스멜도 방치하면 연쇄 악화한다 — [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡는 것이 최선이다.
+- **📢 섹션 요약 비유**: 감기->폐렴->패혈증처럼 스멜도 방치하면 연쇄 악화한다 — [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡는 것이 최선이다.
 
 ---
 
@@ -142,7 +142,7 @@ tags = ["studynote-design-supervision"]
 - [ ] 변경 시 영향 범위가 최소화되어 있는가?
 - [ ] 메서드가 소속 클래스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주로 사용하는가?
 
-기술사 논술에서 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 도구 ([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)) 도입 → 스멜 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 우선순위 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 로드맵 → [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 감소 정량화 순서로 서술하면 체계적인 답안이 완성된다.
+기술사 논술에서 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 도구 ([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)) 도입 -> 스멜 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 우선순위 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 로드맵 -> [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 감소 정량화 순서로 서술하면 체계적인 답안이 완성된다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -183,7 +183,7 @@ tags = ["studynote-design-supervision"]
 | 도구 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) | 스멜 자동 탐지 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 지표 → [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 우선순위
+[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 지표 -> [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 우선순위
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 방이 지저분하면 "장난감이 여기저기", "옷이 바닥에", "책상 위에 뭔지 모를 것들" 처럼 문제 유형을 이름 붙여야 어디부터 치울지 알 수 있다.
@@ -196,7 +196,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 304 / 530
 
-← **이전**: [242. 파라미터 객체화 (Introduce Parameter Object)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)
-**다음**: [244. 데이터 클럼프 리팩토링 (Data Clumps Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/) →
+<- **이전**: [242. 파라미터 객체화 (Introduce Parameter Object)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)
+**다음**: [244. 데이터 클럼프 리팩토링 (Data Clumps Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/244_data_clumps_refactoring/) ->
 
 ---

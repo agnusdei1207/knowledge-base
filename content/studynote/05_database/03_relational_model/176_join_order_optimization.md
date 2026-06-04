@@ -26,19 +26,19 @@ tags = ["studynote-database"]
 아래 그림은 왜 조인 순서가 실행시간을 좌우하는지 보여 준다. 핵심은 최종 결과 건수보다 <strong>중간 결과 건수</strong>가 시스템 자원을 먼저 태운다는 점이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same logical answer, different work                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Path A                                                            │
-│   ORDERS(100M) join CUSTOMERS(10M) -> 100M rows                   │
-│   then REGION='SEOUL' filter -> 200K rows                         │
-│                                                                    │
-│ Path B                                                            │
-│   CUSTOMERS join REGIONS filter -> 20K rows                       │
-│   then join ORDERS -> 200K rows                                   │
-│                                                                    │
-│ Final answer same / memory, I/O, spill risk very different        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Same logical answer, different work                               |
++--------------------------------------------------------------------+
+| Path A                                                            |
+|   ORDERS(100M) join CUSTOMERS(10M) -> 100M rows                   |
+|   then REGION='SEOUL' filter -> 200K rows                         |
+|                                                                    |
+| Path B                                                            |
+|   CUSTOMERS join REGIONS filter -> 20K rows                       |
+|   then join ORDERS -> 200K rows                                   |
+|                                                                    |
+| Final answer same / memory, I/O, spill risk very different        |
++--------------------------------------------------------------------+
 ```
 
 테이블 수가 늘어나면 문제는 더 커진다. 3개 조인은 사람이 감으로도 볼 수 있지만, 8개 조인은 가능한 결합 순서와 트리 구조가 급격히 늘어난다. 그래서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "최적의 순서"를 찾는 동시에 "계획을 찾는 비용"도 함께 통제해야 한다.
@@ -61,16 +61,16 @@ tags = ["studynote-database"]
 아래 그림은 동적 계획법이 "작은 조합의 최적해"를 쌓아 올리는 방식을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Dynamic Programming by subsets                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ size 1 : {A} {B} {C} {D} -> best access path per table            │
-│ size 2 : {A,B} {A,C} ...  -> cheapest join plan per pair          │
-│ size 3 : {A,B,C} ...      -> reuse best size-2 plan               │
-│ size 4 : {A,B,C,D}        -> final cheapest global plan           │
-│                                                                    │
-│ memo key = joined table set / memo value = cheapest known plan    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Dynamic Programming by subsets                                     |
++--------------------------------------------------------------------+
+| size 1 : {A} {B} {C} {D} -> best access path per table            |
+| size 2 : {A,B} {A,C} ...  -> cheapest join plan per pair          |
+| size 3 : {A,B,C} ...      -> reuse best size-2 plan               |
+| size 4 : {A,B,C,D}        -> final cheapest global plan           |
+|                                                                    |
+| memo key = joined table set / memo value = cheapest known plan    |
++--------------------------------------------------------------------+
 ```
 
 반면 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)은 "지금 가장 작아 보이는 조합"을 먼저 선택한다. 예를 들어 가장 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건이 걸린 테이블과 가장 싼 조인 상대를 먼저 묶고, 그 결과에 다음 후보를 붙여 나간다. 이 방식은 빠르지만, 초반 선택이 뒤쪽 전체 구조를 고정해 버릴 수 있다. 그래서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 작아 보였던 선택이 결국 더 비싼 전체 계획으로 이어질 수 있다.
@@ -157,24 +157,24 @@ tags = ["studynote-database"]
 
 ```text
 Query graph construction
-        │
-        ▼
+        |
+        v
 Selectivity / cardinality estimate
-        │
-        ├──────────────► Dynamic Programming: best plan per subset
-        │
-        └──────────────► Greedy search: cheapest next join first
-        ▼
+        |
+        +--------------► Dynamic Programming: best plan per subset
+        |
+        +--------------► Greedy search: cheapest next join first
+        v
 Join method + access path selection
-        │
-        ▼
+        |
+        v
 Intermediate result minimization
-        │
-        ▼
+        |
+        v
 Adaptive re-optimization / feedback stats
 ```
 
-이 흐름도는 "질의 구조 파악 → 행 수 추정 → 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 → 물리 계획 결합 → 실행 중 보정"으로 이어지는 조인 최적화의 사고 순서를 보여 준다.
+이 흐름도는 "질의 구조 파악 -> 행 수 추정 -> 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 -> 물리 계획 결합 -> 실행 중 보정"으로 이어지는 조인 최적화의 사고 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ Adaptive re-optimization / feedback stats
 
 **진행 상황**: 176 / 600
 
-← **이전**: [175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner](/knowledge-base/studynote/05_database/03_relational_model/175_driving_vs_driven_table/)
-**다음**: [177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/) →
+<- **이전**: [175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner](/knowledge-base/studynote/05_database/03_relational_model/175_driving_vs_driven_table/)
+**다음**: [177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/) ->
 
 ---

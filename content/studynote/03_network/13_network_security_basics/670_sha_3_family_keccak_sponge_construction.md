@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SHA-2 패밀리]
-    │
-    ▼
+    |
+    v
 [SHA-3 패밀리]
-    │
-    └──▶ [솔트 첨가 패스워드 해시 체계]
+    |
+    +---> [솔트 첨가 패스워드 해시 체계]
 ```
 
 - **📢 섹션 요약 비유**: [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [SHA-2 패밀리]
-    │
-    ▼
+    |
+    v
 [SHA-3 패밀리]
-    │
-    └──▶ [솔트 첨가 패스워드 해시 체계]
+    |
+    +---> [솔트 첨가 패스워드 해시 체계]
 ```
 
 - **📢 섹션 요약 비유**: [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SHA-2 패밀리]
-    │
-    ▼
+    |
+    v
 [현재 개념: SHA-3 패밀리]
-    │
-    ├──▶ [확장 A: 솔트 첨가 패스워드 해시 체계]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 솔트 첨가 패스워드 해시 체계]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리는 SHA-2 패밀리에서 출발해 현재 메커니즘을 정교화하고, 이후 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 첨가 패스워드 해시 체계와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 791 / 1120
 
-← **이전**: [669. SHA-2 패밀리](/knowledge-base/studynote/03_network/13_network_security_basics/669_sha_2_family_sha256_sha512/)
-**다음**: [671. 솔트 (Salt) 첨가 패스워드 해시 (PBKDF2, bcrypt, Argon2) 체계](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) →
+<- **이전**: [669. SHA-2 패밀리](/knowledge-base/studynote/03_network/13_network_security_basics/669_sha_2_family_sha256_sha512/)
+**다음**: [671. 솔트 (Salt) 첨가 패스워드 해시 (PBKDF2, bcrypt, Argon2) 체계](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ->
 
 ---

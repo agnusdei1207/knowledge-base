@@ -36,29 +36,29 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 듀얼 락스텝 (Dual Lockstep)의 대표 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                듀얼 락스텝 동작 흐름: 실행과 동시에 검증            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 동일 입력(명령어·데이터·인터럽트)                                   │
-│                  │                                                   │
-│        ┌─────────┴─────────┐                                         │
-│        ▼                   ▼                                         │
-│  ┌─────────────┐     ┌─────────────┐                                 │
-│  │ Core A      │     │ Core B      │                                 │
-│  │ same clock  │     │ same clock  │                                 │
-│  │ same state  │     │ same state  │                                 │
-│  └──────┬──────┘     └──────┬──────┘                                 │
-│         │                   │                                        │
-│         └─────────┬─────────┘                                        │
-│                   ▼                                                  │
-│           ┌─────────────────┐                                        │
-│           │ Comparator      │  레지스터·버스·예외 신호 비교          │
-│           └──────┬──────────┘                                        │
-│                  │                                                   │
-│        ┌─────────┴─────────┐                                         │
-│        ▼                   ▼                                         │
-│   Match: 정상 진행     Mismatch: Fault/NMI/Fail-Safe                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                듀얼 락스텝 동작 흐름: 실행과 동시에 검증            |
++----------------------------------------------------------------------+
+| 동일 입력(명령어·데이터·인터럽트)                                   |
+|                  |                                                   |
+|        +---------+---------+                                         |
+|        v                   v                                         |
+|  +-------------+     +-------------+                                 |
+|  | Core A      |     | Core B      |                                 |
+|  | same clock  |     | same clock  |                                 |
+|  | same state  |     | same state  |                                 |
+|  +------+------+     +------+------+                                 |
+|         |                   |                                        |
+|         +---------+---------+                                        |
+|                   v                                                  |
+|           +-----------------+                                        |
+|           | Comparator      |  레지스터·버스·예외 신호 비교          |
+|           +------+----------+                                        |
+|                  |                                                   |
+|        +---------+---------+                                         |
+|        v                   v                                         |
+|   Match: 정상 진행     Mismatch: Fault/NMI/Fail-Safe                 |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 포인트는 락스텝이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 코어를 나중에 깨우는 구조가 아니라, <strong>주 코어와 그림자 코어가 이미 함께 실행 중</strong>이라는 점이다. 따라서 오류는 장애 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 단계가 아니라 실행 단계에서 검출된다.
@@ -151,23 +151,23 @@ TMR과의 비교도 중요하다. 듀얼 락스텝은 결과가 다르면 "문�
 
 ```text
 단일 코어 실행
-    │
-    ▼
+    |
+    v
 오류 검출 한계 인식
-    │
-    ▼
+    |
+    v
 이중화 (Dual Redundancy)
-    │   └─ 장애 후 절체 중심
-    ▼
+    |   +- 장애 후 절체 중심
+    v
 락스텝 (Lockstep) 비교 실행
-    │   └─ CPU 연산 오류 즉시 검출
-    ▼
+    |   +- CPU 연산 오류 즉시 검출
+    v
 TMR (Triple Modular Redundancy)
-    │   └─ 다수결 기반 오류 은닉
-    ▼
+    |   +- 다수결 기반 오류 은닉
+    v
 ECC · Watchdog Timer · Fail-Safe 결합
-    │
-    ▼
+    |
+    v
 기능 안전 중심 하이브리드 진단 아키텍처
 ```
 
@@ -185,7 +185,7 @@ ECC · Watchdog Timer · Fail-Safe 결합
 
 **진행 상황**: 466 / 803
 
-← **이전**: [464. 메모리 미러링 (Memory Mirroring)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/464_memory_mirroring/)
-**다음**: [466. 전력 소모 (Power Consumption)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) →
+<- **이전**: [464. 메모리 미러링 (Memory Mirroring)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/464_memory_mirroring/)
+**다음**: [466. 전력 소모 (Power Consumption)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) ->
 
 ---

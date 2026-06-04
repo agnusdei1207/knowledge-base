@@ -25,8 +25,8 @@ SELECT * FROM customer c WHERE EXISTS (
       SELECT 1 FROM returns r WHERE r.order_id = o.id
     )
 );
-→ 주문이 있고, 그 주문에 반품이 있는 고객
-→ CTE 분해 권장 (가독성)
+-> 주문이 있고, 그 주문에 반품이 있는 고객
+-> CTE 분해 권장 (가독성)
 ```
 
 - **📢 섹션 요약 비유**: 중첩 서브쿼리는 <strong>러시안 마트료시카(인형 안의 인형)</strong>이다. 열면 안에 또 있다.
@@ -52,10 +52,10 @@ SELECT * FROM customer c WHERE EXISTS (
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[단일 서브쿼리] → [중첩 서브쿼리 (복잡)]
-    → [CTE 분해 (가독성)]
-    → [LATERAL/APPLY (고급)]
-    → [현재: 옵티마이저 자동 Flatten — 중첩 해소]
+[단일 서브쿼리] -> [중첩 서브쿼리 (복잡)]
+    -> [CTE 분해 (가독성)]
+    -> [LATERAL/APPLY (고급)]
+    -> [현재: 옵티마이저 자동 Flatten — 중첩 해소]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -69,7 +69,7 @@ SELECT * FROM customer c WHERE EXISTS (
 
 **진행 상황**: 143 / 600
 
-← **이전**: [142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환](/knowledge-base/studynote/05_database/03_relational_model/142_scalar_subquery/)
-**다음**: [144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/) →
+<- **이전**: [142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환](/knowledge-base/studynote/05_database/03_relational_model/142_scalar_subquery/)
+**다음**: [144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/) ->
 
 ---

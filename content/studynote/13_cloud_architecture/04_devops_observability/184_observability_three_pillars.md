@@ -36,21 +36,21 @@ tags = ["studynote-cloud-architecture"]
 이 그림은 하나의 요청이 3대 기둥으로 어떻게 투영되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One request, three observability pillars                          │
-├────────────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                        │
-│    │                                                               │
-│    ▼                                                               │
-│ Gateway -> Auth -> Order -> Payment -> Database                    │
-│    │          │       │         │                                  │
-│    ├─ Metrics : 요청 수, 오류율, 95백분위수 지연시간               │
-│    ├─ Logs    : 예외 메시지, 설정 변경, 비즈니스 이벤트            │
-│    └─ Traces  : span 연결, 서비스 간 호출 순서, 병목 구간          │
-│                                                                    │
-│ Collector -> Metrics Store / Log Store / Trace Backend             │
-│                    └─ 공통 상관키(trace_id, service.name)          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| One request, three observability pillars                          |
++--------------------------------------------------------------------+
+| 사용자 요청                                                        |
+|    |                                                               |
+|    v                                                               |
+| Gateway -> Auth -> Order -> Payment -> Database                    |
+|    |          |       |         |                                  |
+|    +- Metrics : 요청 수, 오류율, 95백분위수 지연시간               |
+|    +- Logs    : 예외 메시지, 설정 변경, 비즈니스 이벤트            |
+|    +- Traces  : span 연결, 서비스 간 호출 순서, 병목 구간          |
+|                                                                    |
+| Collector -> Metrics Store / Log Store / Trace Backend             |
+|                    +- 공통 상관키(trace_id, service.name)          |
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 세 기둥이 서로를 대체하지 않는다는 점이다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 집계값이라 값이 높아졌다는 사실은 알려 주지만 왜 높아졌는지는 말하지 못한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 상세하지만 건수가 많아지면 검색 비용이 급증한다. 트레이스는 경로를 보여 주지만, 장기 추세나 정확한 오류 문장은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 보완해야 한다.
@@ -69,7 +69,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-3대 기둥의 차이는 "무엇을 먼저 보느냐"보다 "각 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 어디까지 믿을 수 있느냐"에서 드러난다. 장애 감지 자체는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 가장 빠르지만, 원인 파악은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 트레이스가 맡아야 한다. 반대로 트레이스만 잘 되어 있어도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 지표 ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 직접 운영하기는 어렵다. 결국 좋은 운영 흐름은 `메트릭으로 감지 → 트레이스로 위치 파악 → 로그로 원인 확인`의 삼각 루프다.
+3대 기둥의 차이는 "무엇을 먼저 보느냐"보다 "각 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 어디까지 믿을 수 있느냐"에서 드러난다. 장애 감지 자체는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 가장 빠르지만, 원인 파악은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 트레이스가 맡아야 한다. 반대로 트레이스만 잘 되어 있어도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 지표 ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 직접 운영하기는 어렵다. 결국 좋은 운영 흐름은 `메트릭으로 감지 -> 트레이스로 위치 파악 -> 로그로 원인 확인`의 삼각 루프다.
 
 | 비교 축 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 우위 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우위 | 트레이스 우위 |
 | :--- | :--- | :--- | :--- |
@@ -139,20 +139,20 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 인프라 모니터링
-    │
-    ▼
+    |
+    v
 애플리케이션 메트릭 수집
-    │
-    ▼
+    |
+    v
 중앙 로그 관리
-    │
-    ▼
+    |
+    v
 분산 추적 도입
-    │
-    ▼
+    |
+    v
 OpenTelemetry 기반 상관분석
-    │
-    ▼
+    |
+    v
 프로파일링 · 이벤트 · 자동화 분석을 포함한 확장 관측성
 ```
 
@@ -168,7 +168,7 @@ OpenTelemetry 기반 상관분석
 
 **진행 상황**: 183 / 371
 
-← **이전**: [183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/183_error_budget_sre_innovation_balance/)
-**다음**: [185. 메트릭 (Metrics - Prometheus, Grafana)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/185_metrics_prometheus_grafana/) →
+<- **이전**: [183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/183_error_budget_sre_innovation_balance/)
+**다음**: [185. 메트릭 (Metrics - Prometheus, Grafana)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/185_metrics_prometheus_grafana/) ->
 
 ---

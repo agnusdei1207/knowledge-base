@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF가 단순한 원격 디스크가 아니라, <strong>고성능의 공유화</strong>를 위한 기술인지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 DAS 한계와 NVMe-oF의 등장 배경                            │
-├───────────────────────┬────────────────────────┬───────────────────────────┤
-│ 구분                  │ 서버 내부 NVMe         │ 기존 네트워크 스토리지    │
-├───────────────────────┼────────────────────────┼───────────────────────────┤
-│ 성능                  │ 매우 높음              │ 상대적으로 낮음            │
-│ 자원 활용             │ 서버별 고립            │ 공유 가능                  │
-│ 병목                  │ 용량 파편화            │ 프로토콜/CPU 오버헤드      │
-│ 데이터센터 요구       │ 공유 + 저지연 동시 충족│ 둘 중 하나만 만족          │
-└───────────────────────┴────────────────────────┴───────────────────────────┘
-                │
-                ▼
++----------------------------------------------------------------------------+
+|                 DAS 한계와 NVMe-oF의 등장 배경                            |
++-----------------------+------------------------+---------------------------+
+| 구분                  | 서버 내부 NVMe         | 기존 네트워크 스토리지    |
++-----------------------+------------------------+---------------------------+
+| 성능                  | 매우 높음              | 상대적으로 낮음            |
+| 자원 활용             | 서버별 고립            | 공유 가능                  |
+| 병목                  | 용량 파편화            | 프로토콜/CPU 오버헤드      |
+| 데이터센터 요구       | 공유 + 저지연 동시 충족| 둘 중 하나만 만족          |
++-----------------------+------------------------+---------------------------+
+                |
+                v
       NVMe 명령 체계 유지 + 패브릭 확장 = NVMe-oF
 ```
 
@@ -61,21 +61,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF가 "블록 명령 전달"을 어떻게 짧은 경로로 처리하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    NVMe-oF 데이터 경로와 병목 위치                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application                                                                │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Host NVMe Driver ──▶ Submission Queue ──▶ Fabric Transport                 │
-│                                           │                                │
-│                                           ├─ RDMA/RoCE : 커널 개입 최소화  │
-│                                           ├─ FC-NVMe   : 전용 SAN 활용     │
-│                                           └─ NVMe/TCP  : 범용성 높음       │
-│                                                                    │       │
-│                                                                    ▼       │
-│ Target Controller ──▶ Completion Queue ──▶ Namespace ──▶ NVMe SSD          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    NVMe-oF 데이터 경로와 병목 위치                         |
++----------------------------------------------------------------------------+
+| Application                                                                |
+|      |                                                                     |
+|      v                                                                     |
+| Host NVMe Driver ---> Submission Queue ---> Fabric Transport                 |
+|                                           |                                |
+|                                           +- RDMA/RoCE : 커널 개입 최소화  |
+|                                           +- FC-NVMe   : 전용 SAN 활용     |
+|                                           +- NVMe/TCP  : 범용성 높음       |
+|                                                                    |       |
+|                                                                    v       |
+| Target Controller ---> Completion Queue ---> Namespace ---> NVMe SSD          |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 두 가지에서 나온다. 첫째, NVMe의 다중 큐 구조를 유지하므로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O에서 락 경합과 큐 병목이 줄어든다. 둘째, RDMA를 쓰는 전송 방식은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회와 제로 카피 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Copy)에 가까운 전송이 가능해 CPU 개입을 줄인다. 다만 모든 환경이 RDMA에 적합한 것은 아니므로, 오늘날에는 운영 편의성을 위해 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/TCP도 많이 채택된다.
@@ -169,18 +169,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 SCSI 기반 공유 스토리지
-    │
-    ▼
+    |
+    v
 로컬 NVMe (Non-Volatile Memory Express)
-    │
-    ▼
+    |
+    v
 NVMe-oF (NVMe over Fabrics)
-    │
-    ├─▶ FC-NVMe (Fibre Channel NVMe)
-    ├─▶ NVMe/RoCE (RDMA over Converged Ethernet)
-    └─▶ NVMe/TCP (NVMe over TCP)
-    │
-    ▼
+    |
+    +--> FC-NVMe (Fibre Channel NVMe)
+    +--> NVMe/RoCE (RDMA over Converged Ethernet)
+    +--> NVMe/TCP (NVMe over TCP)
+    |
+    v
 디스애그리게이션 · 컴포저블 인프라 · 디스크리스 서버
 ```
 
@@ -198,7 +198,7 @@ NVMe-oF (NVMe over Fabrics)
 
 **진행 상황**: 344 / 803
 
-← **이전**: [342. NVMe (Non-Volatile Memory Express)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/342_nvme/)
-**다음**: [344. 버스 (Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) →
+<- **이전**: [342. NVMe (Non-Volatile Memory Express)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/342_nvme/)
+**다음**: [344. 버스 (Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ->
 
 ---

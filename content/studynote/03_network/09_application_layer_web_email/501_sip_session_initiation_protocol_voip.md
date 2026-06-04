@@ -30,32 +30,32 @@ tags = ["studynote-network"]
   2. **VoIP 및 멀티미디어 통신의 대중화 (스카이프 등)**: 단순한 전화를 넘어 화상 회의, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송, 화면 공유 등 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 목적이 다양해짐에 따라, 이 모든 것을 유연하게 담을 수 있는 확장성(Extensibility) 강한 텍스트 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 필요했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SIP 기반 VoIP 호(Call) 연결 및 통화 3단계 아키텍처 (Signaling)   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 📱 [ 앨리스 (sip:alice@a.com) ]            📱 [ 밥 (sip:bob@b.com) ]  │
-│                                                             │
-│        ======= 1️⃣ 세션 설정 (SIP Signaling) ========            │
-│                                                             │
-│ 1. INVITE ──(나랑 통화할래? + 내 마이크 코덱은 이거야: SDP)──▶             │
-│                                                             │
-│ 2. ◀────────(전화기 벨 울림: 180 Ringing)─────────────────            │
-│                                                             │
-│ 3. ◀────────(여보세요? 수락 완료!: 200 OK + 내 코덱은 이거야: SDP)       │
-│                                                             │
-│ 4. ACK ────────(응, 수락 확인했어! 이제 말하자)────────────────▶            │
-│                                                             │
-│        ======= 2️⃣ 미디어 통신 (RTP - SIP 개입 없음!) ========       │
-│                                                             │
-│ 🌟 (SIP 서버는 빠짐! 둘이 1:1로 음성 패킷을 미친 듯이 핑퐁침!)                │
-│    ◀═════════════ (RTP 음성 데이터 폭우) ══════════════▶            │
-│                                                             │
-│        ======= 3️⃣ 세션 종료 (SIP Signaling) ========            │
-│                                                             │
-│ 5. BYE ────────────────(나 전화 끊을게!)───────────────────▶            │
-│ 6. ◀──────────────────(알았어! 끊어!: 200 OK)──────────────            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SIP 기반 VoIP 호(Call) 연결 및 통화 3단계 아키텍처 (Signaling)   |
++-------------------------------------------------------------+
+|                                                             |
+| 📱 [ 앨리스 (sip:alice@a.com) ]            📱 [ 밥 (sip:bob@b.com) ]  |
+|                                                             |
+|        ======= 1️⃣ 세션 설정 (SIP Signaling) ========            |
+|                                                             |
+| 1. INVITE --(나랑 통화할래? + 내 마이크 코덱은 이거야: SDP)--->             |
+|                                                             |
+| 2. <---------(전화기 벨 울림: 180 Ringing)-----------------            |
+|                                                             |
+| 3. <---------(여보세요? 수락 완료!: 200 OK + 내 코덱은 이거야: SDP)       |
+|                                                             |
+| 4. ACK --------(응, 수락 확인했어! 이제 말하자)----------------->            |
+|                                                             |
+|        ======= 2️⃣ 미디어 통신 (RTP - SIP 개입 없음!) ========       |
+|                                                             |
+| 🌟 (SIP 서버는 빠짐! 둘이 1:1로 음성 패킷을 미친 듯이 핑퐁침!)                |
+|    <-------------- (RTP 음성 데이터 폭우) --------------->            |
+|                                                             |
+|        ======= 3️⃣ 세션 종료 (SIP Signaling) ========            |
+|                                                             |
+| 5. BYE ----------------(나 전화 끊을게!)-------------------->            |
+| 6. <-------------------(알았어! 끊어!: 200 OK)--------------            |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 통신 기술사 시험에서 절대 빠지지 않는 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 다이어그램이다. HTTP와 완벽하게 똑같은 메커니즘을 쓴다. HTTP가 `GET/POST`를 날리고 `200 OK`를 받듯, SIP는 `INVITE/BYE`를 날리고 `200 OK`를 받는다. 가장 중요한 아키텍처 철학은 <strong>'시그널링(제어)과 미디어(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)의 완벽한 분리(Decoupling)'</strong>다. SIP는 오직 전화벨을 울리고 상대방이 전화를 받았는지(1~4단계)만 통제한다. 막상 "여보세요" 하고 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아다닐 때(2단계) [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 휴식을 취한다. 이 분업 덕분에 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 서버([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))는 수백만 명의 전화 통화를 연결해주면서도 밴드위스([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 터지지 않는 극강의 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 효율을 획득했다.
@@ -84,11 +84,11 @@ SIP는 그냥 1:1로 찌르는 게 아니다. 거대한 인터넷망에서 서�
 
 ```text
 [XMPP]
-    │
-    ▼
+    |
+    v
 [SIP]
-    │
-    └──▶ [H.323]
+    |
+    +---> [H.323]
 ```
 
 - **📢 섹션 요약 비유**: [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)(초대장) 겉면에 "토요일 파티 올래?"라고 적혀있다면, 봉투 안에 들어있는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a></strong>는 파티장 약도와 규칙이 적힌 <strong>'안내문'</strong>입니다. "난 락 음악만 틀 거고(코덱), 우리 집은 2층 4000번 방이야([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)). 너 올 때 소주 마실래 맥주 마실래?(협상)" 이 안내문을 서로 교환해서 합의를 봐야 진짜 파티(미디어 통신)가 시작됩니다.
@@ -125,29 +125,29 @@ SIP는 그냥 1:1로 찌르는 게 아니다. 거대한 인터넷망에서 서�
    - **판단**: 하드웨어 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 단말기의 시대는 종말을 맞았다. 모던 아키텍처는 제네시스(Genesys)나 아마존 커넥트(Amazon Connect) 같은 클라우드 콜센터(CCaaS)를 도입한다. 상담원 책상엔 전화기가 아예 없다. 그냥 인터넷이 연결된 크롬(Chrome) 브라우저 화면 하나 띄워두고 헤드셋만 낀다. 백엔드에서 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/">SIP</a> 게이트웨이</strong>가 브라우저의 HTML5 마이크를 따서 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 신호로 통역(Transcoding)해버린다. 헤드셋이 곧 소프트폰(Softphone)이 되어 100대의 하드웨어 전화기 구매 비용과 관리 공수(Rework)를 100% 허공으로 증발시켜 버리는 프론트엔드-통신 융합의 미학이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: SIP 메시지의 쌩얼 텍스트 덤프 (HTTP와의 완벽한 평행이론)│
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 철수가 영희한테 영상 통화(INVITE)를 걸 때 날아가는 패킷 본문 ]           │
-  │                                                             │
-  │ INVITE sip:younghee@naver.com SIP/2.0   ◀─ (누구한테 거냐? HTTP랑 똑같음)│
-  │ Via: SIP/2.0/UDP 1.2.3.4:5060           ◀─ (나 1.2.3.4 IP 타고 왔어) │
-  │ From: <sip:chulsoo@gmail.com>;tag=9876  ◀─ (보낸 놈은 철수야)       │
-  │ To: <sip:younghee@naver.com>            ◀─ (받을 놈은 영희야)       │
-  │ Call-ID: abcd1234xyz@1.2.3.4            ◀─ (이 통화의 고유 바코드 🆔) │
-  │ CSeq: 1 INVITE                          ◀─ (패킷 순서 안 꼬이게 번호 1번!)│
-  │ Content-Type: application/sdp           ◀─ (밑에 첨부파일 종류는 SDP야)│
-  │ Content-Length: 142                     ◀─ (글자 수 길이)           │
-  │                                                             │
-  │ v=0                                     ◀─ (여기부터 찐 SDP 약속문 시작!)│
-  │ m=audio 49170 RTP/AVP 0                 ◀─ (오디오는 49170번 포트로 줘!)│
-  │ a=rtpmap:0 PCMU/8000                    ◀─ (코덱은 싸구려 G.711 쓸게)   │
-  │                                                             │
-  │ 🌟 아키텍트 분석: 놀랍지 않은가? 복잡한 0과 1의 통신 규약이 아니라, 고작 │
-  │ 메모장(텍스트)으로 타자를 친 것 같은 이 가벼운 텍스트 덩어리가 전 세계     │
-  │ 50억 개의 스마트폰 통화(VoLTE)를 1초 만에 엮어내는 마법의 주문(Signaling)이다!│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: SIP 메시지의 쌩얼 텍스트 덤프 (HTTP와의 완벽한 평행이론)|
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ 철수가 영희한테 영상 통화(INVITE)를 걸 때 날아가는 패킷 본문 ]           |
+  |                                                             |
+  | INVITE sip:younghee@naver.com SIP/2.0   <-- (누구한테 거냐? HTTP랑 똑같음)|
+  | Via: SIP/2.0/UDP 1.2.3.4:5060           <-- (나 1.2.3.4 IP 타고 왔어) |
+  | From: <sip:chulsoo@gmail.com>;tag=9876  <-- (보낸 놈은 철수야)       |
+  | To: <sip:younghee@naver.com>            <-- (받을 놈은 영희야)       |
+  | Call-ID: abcd1234xyz@1.2.3.4            <-- (이 통화의 고유 바코드 🆔) |
+  | CSeq: 1 INVITE                          <-- (패킷 순서 안 꼬이게 번호 1번!)|
+  | Content-Type: application/sdp           <-- (밑에 첨부파일 종류는 SDP야)|
+  | Content-Length: 142                     <-- (글자 수 길이)           |
+  |                                                             |
+  | v=0                                     <-- (여기부터 찐 SDP 약속문 시작!)|
+  | m=audio 49170 RTP/AVP 0                 <-- (오디오는 49170번 포트로 줘!)|
+  | a=rtpmap:0 PCMU/8000                    <-- (코덱은 싸구려 G.711 쓸게)   |
+  |                                                             |
+  | 🌟 아키텍트 분석: 놀랍지 않은가? 복잡한 0과 1의 통신 규약이 아니라, 고작 |
+  | 메모장(텍스트)으로 타자를 친 것 같은 이 가벼운 텍스트 덩어리가 전 세계     |
+  | 50억 개의 스마트폰 통화(VoLTE)를 1초 만에 엮어내는 마법의 주문(Signaling)이다!|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "SIP가 뭐길래 세상을 지배했냐?"는 질문을 종식시키는 패킷 덤프 구조다. 구닥다리 개발자라도 이 텍스트 패킷을 와이어샤크(Wireshark)로 딱 까보면, "어? 이거 그냥 웹 개발할 때 쓰는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더랑 완벽하게 똑같네?"라며 무릎을 친다. 100% 텍스트 기반, 헤더(Header)와 바디(Body)의 분리, 그리고 상태(Status) 코드(`200 OK`, `404 Not Found`)까지 HTTP를 Ctrl+C, Ctrl+V 한 듯한 이 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">Readability</a>)과 구현의 단순함</strong>이 전 세계 수만 개의 인터넷 전화 장비 회사들이 서로 찰떡같이 호환([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))되는 통일 생태계를 빚어냈다.
@@ -198,12 +198,12 @@ SIP는 그냥 1:1로 찌르는 게 아니다. 거대한 인터넷망에서 서�
 
 ```text
 [선행 개념: XMPP]
-    │
-    ▼
+    |
+    v
 [현재 개념: SIP]
-    │
-    ├──▶ [확장 A: H.323]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: H.323]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 SIP는 XMPP에서 출발해 현재 메커니즘을 정교화하고, 이후 H.323와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -220,7 +220,7 @@ SIP는 XMPP에서 출발해 현재 메커니즘을 정교화하고, 이후 H.323
 
 **진행 상황**: 622 / 1120
 
-← **이전**: [500. XMPP (Extensible Messaging and Presence Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/)
-**다음**: [502. H.323](/knowledge-base/studynote/03_network/09_application_layer_web_email/502_h323_itu_t_multimedia_conferencing/) →
+<- **이전**: [500. XMPP (Extensible Messaging and Presence Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/)
+**다음**: [502. H.323](/knowledge-base/studynote/03_network/09_application_layer_web_email/502_h323_itu_t_multimedia_conferencing/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPT (Generative Pre-trained [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 구조를 사용하여 "다음 토큰 예측"이라는 단일 언어 모델링 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 대규모 텍스트를 사전 학습한 뒤, 텍스트를 자기회귀적([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/))으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 모델 계보다.
-> 2. **가치**: 좌→우 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 언어 모델링만으로도 사전 학습 규모를 늘릴수록 번역·요약·코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·추론 등 다양한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에서 SOTA를 달성하는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 법칙(Scaling Law)</strong>을 실증했으며, ChatGPT·GPT-4로 이어져 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 대중화를 이끌었다.
+> 2. **가치**: 좌->우 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 언어 모델링만으로도 사전 학습 규모를 늘릴수록 번역·요약·코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·추론 등 다양한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에서 SOTA를 달성하는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 법칙(Scaling Law)</strong>을 실증했으며, ChatGPT·GPT-4로 이어져 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 대중화를 이끌었다.
 > 3. **판단 포인트**: GPT는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크드 셀프 어텐션(Masked [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))으로 미래 토큰을 보지 않는 <strong>인과적(Causal) 언어 모델</strong>이며, BERT처럼 양방향이 아니라 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 특화된 구조임을 BERT와 명확히 구별해야 한다.
 
 ---
@@ -24,12 +24,12 @@ OpenAI는 2018년 GPT-1을 발표하며 "단순히 다음 단어를 예측하는
 GPT는 Transformer의 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 부분만 사용하며, 학습 시 입력 시퀀스의 각 위치에서 이전 토큰들만 보고 다음 토큰을 예측한다. 이 인과적(Causal) 학습은 자기회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 자연스럽게 이어진다 — 추론 시에도 앞 토큰을 입력으로 다음 토큰을 한 번에 하나씩 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: GPT는 소설 작가다. 앞 내용(이전 토큰들)만 보고 다음 문장(다음 토큰)을 이어 쓴다. 미래 내용은 절대 미리 보지 않는다([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크드 어텐션). BERT는 완성된 소설을 전체 읽고 분석하는 문학 평론가이고, GPT는 빈 원고지를 채워가는 작가다.
@@ -39,30 +39,30 @@ GPT는 Transformer의 [디코더](/knowledge-base/studynote/01_computer_architec
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         GPT 자기회귀 생성 구조 (Autoregressive Generation)          │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력: "한국의 수도는"                                              │
-│   │                                                              │
-│  ┌▼──────────────────────────────────────────────────────────┐   │
-│  │  Transformer Decoder Block (N회 반복)                      │   │
-│  │  ┌─────────────────────────────────────────────────────┐  │   │
-│  │  │  Masked Multi-Head Self-Attention                   │  │   │
-│  │  │  (현재 위치에서 미래 토큰 어텐션 마스킹)                 │  │   │
-│  │  │  예: "한국의" 위치에서 "수도는"을 볼 수 없음            │  │   │
-│  │  ├─────────────────────────────────────────────────────┤  │   │
-│  │  │  Add & Norm → Feed-Forward Network → Add & Norm     │  │   │
-│  │  └─────────────────────────────────────────────────────┘  │   │
-│  └────────────────────────────────────────────────────────────┘   │
-│   │                                                              │
-│  선형 레이어 + Softmax → 다음 토큰 확률 분포                        │
-│   │                                                              │
-│  출력 1: "서울" (확률 최고 → 그리디 또는 샘플링으로 선택)             │
-│   │                                                              │
-│  다시 입력: "한국의 수도는 서울" → 출력 2: "이다" → ...              │
-│  (이전 출력을 입력에 추가하며 시퀀스 완성: 자기회귀)                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         GPT 자기회귀 생성 구조 (Autoregressive Generation)          |
++------------------------------------------------------------------+
+|                                                                  |
+|  입력: "한국의 수도는"                                              |
+|   |                                                              |
+|  +v----------------------------------------------------------+   |
+|  |  Transformer Decoder Block (N회 반복)                      |   |
+|  |  +-----------------------------------------------------+  |   |
+|  |  |  Masked Multi-Head Self-Attention                   |  |   |
+|  |  |  (현재 위치에서 미래 토큰 어텐션 마스킹)                 |  |   |
+|  |  |  예: "한국의" 위치에서 "수도는"을 볼 수 없음            |  |   |
+|  |  +-----------------------------------------------------+  |   |
+|  |  |  Add & Norm -> Feed-Forward Network -> Add & Norm     |  |   |
+|  |  +-----------------------------------------------------+  |   |
+|  +------------------------------------------------------------+   |
+|   |                                                              |
+|  선형 레이어 + Softmax -> 다음 토큰 확률 분포                        |
+|   |                                                              |
+|  출력 1: "서울" (확률 최고 -> 그리디 또는 샘플링으로 선택)             |
+|   |                                                              |
+|  다시 입력: "한국의 수도는 서울" -> 출력 2: "이다" -> ...              |
+|  (이전 출력을 입력에 추가하며 시퀀스 완성: 자기회귀)                  |
++------------------------------------------------------------------+
 ```
 
 | GPT [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 파라미터 | 주요 혁신 | 출시 |
@@ -122,7 +122,7 @@ GPT 계보는 "언어 모델을 충분히 크게 훈련하면 모든 언어 [태
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 자기회귀 ([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) | 이전 토큰 → 다음 토큰 / GPT 추론의 핵심 메커니즘 |
+| 자기회귀 ([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) | 이전 토큰 -> 다음 토큰 / GPT 추론의 핵심 메커니즘 |
 | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크드 어텐션 | 미래 토큰 차단, 인과성 / GPT 학습 시 정보 누수 방지 |
 | [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) | 인간 피드백, [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/), 보상 모델 / ChatGPT의 대화 품질 향상 기법 |
 | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙 | 파라미터 수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 곡선 / GPT 규모 확대의 이론적 근거 |
@@ -131,7 +131,7 @@ GPT 계보는 "언어 모델을 충분히 크게 훈련하면 모든 언어 [태
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [GPT (Generative Pre-trained Transformer)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [GPT (Generative Pre-trained Transformer)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -146,7 +146,7 @@ GPT 계보는 "언어 모델을 충분히 크게 훈련하면 모든 언어 [태
 
 **진행 상황**: 302 / 420
 
-← **이전**: [301. BERT (Bidirectional Encoder Representations from Transformers)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)
-**다음**: [303. 파운데이션 모델 (Foundation Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/303_foundation_model/) →
+<- **이전**: [301. BERT (Bidirectional Encoder Representations from Transformers)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)
+**다음**: [303. 파운데이션 모델 (Foundation Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/303_foundation_model/) ->
 
 ---

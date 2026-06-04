@@ -44,16 +44,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 운영에서 권장되는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 수신 경로를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Webhook flow: event source pushes only when change occurs           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Event Source -> Retry Queue -> HTTPS POST -> Receiver Endpoint      │
-│                                          │                          │
-│                                          ▼                          │
-│                              Signature Verify -> Idempotency Check  │
-│                                          │                          │
-│                                          └──────> Async Worker      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Webhook flow: event source pushes only when change occurs           |
++----------------------------------------------------------------------+
+| Event Source -> Retry Queue -> HTTPS POST -> Receiver Endpoint      |
+|                                          |                          |
+|                                          v                          |
+|                              Signature Verify -> Idempotency Check  |
+|                                          |                          |
+|                                          +------> Async Worker      |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 RPC처럼 오래 붙잡지 않는 것이다. 공급자 입장에서는 성공 여부를 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다음 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정해야 하므로, 소비자는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 바로 200 또는 202를 반환하고 실제 DB 갱신, 메일 발송, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 반영은 내부 큐에서 처리하는 편이 안정적이다. 즉 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 "푸시 전송"이지만 내부 처리까지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 필요는 없다.
@@ -68,7 +68,7 @@ tags = ["studynote-enterprise"]
 
 | 항목 | [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) | [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) |
 | :--- | :--- | :--- | :--- |
-| 통신 방향 | 공급자 → 소비자 푸시 | 소비자 → 공급자 반복 조회 | 양방향 상시 연결 |
+| 통신 방향 | 공급자 -> 소비자 푸시 | 소비자 -> 공급자 반복 조회 | 양방향 상시 연결 |
 | 연결 특성 | 요청 단위 단발 호출 | 주기적 요청 반복 | 장기 연결 유지 |
 | 적합 사례 | 결제 완료, 배포 이벤트, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동 | 단순 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 레거시 호환 | 채팅, 협업, 게임 |
 | 장점 | 단순 구현, 이벤트 즉시성 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 친화적, 제어 단순 | 실시간 상호작용 우수 |
@@ -128,21 +128,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 Polling 기반 조회
-    │
-    ▼
+    |
+    v
 Webhook 구독 등록
-    │
-    ▼
+    |
+    v
 이벤트 발생 시 HTTPS Push
-    │
-    ▼
+    |
+    v
 서명 검증 · 멱등 처리
-    │
-    ▼
+    |
+    v
 내부 큐 · 비동기 후처리
 ```
 
-이 흐름은 "반복 조회 → 사건 알림 → 안전한 내부 처리"로 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 통합의 성숙 단계를 보여준다.
+이 흐름은 "반복 조회 -> 사건 알림 -> 안전한 내부 처리"로 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 통합의 성숙 단계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -156,7 +156,7 @@ Webhook 구독 등록
 
 **진행 상황**: 194 / 482
 
-← **이전**: [193. OpenAPI Specification - Swagger 기반 API 계약 표준](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/193_openapi_specification_swagger_api_design/)
-**다음**: [195. EDI와 VAN - B2B 전자문서 연동 구조](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/195_eai_edi_van_b2b_integration/) →
+<- **이전**: [193. OpenAPI Specification - Swagger 기반 API 계약 표준](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/193_openapi_specification_swagger_api_design/)
+**다음**: [195. EDI와 VAN - B2B 전자문서 연동 구조](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/195_eai_edi_van_b2b_integration/) ->
 
 ---

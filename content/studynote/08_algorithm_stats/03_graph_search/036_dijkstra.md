@@ -40,49 +40,49 @@ tags = ["studynote-algorithm"]
 ### 기본 동작 순서 (이완, Relaxation)
 
 ```
-그래프: A─(4)─B, A─(2)─C, C─(1)─B, B─(5)─D, C─(8)─D
+그래프: A-(4)-B, A-(2)-C, C-(1)-B, B-(5)-D, C-(8)-D
 시작: A
 
 초기: dist = {A:0, B:∞, C:∞, D:∞}
 
 1단계: A 처리 (dist=0)
-  → B: 0+4=4 < ∞ → dist[B]=4
-  → C: 0+2=2 < ∞ → dist[C]=2
+  -> B: 0+4=4 < ∞ -> dist[B]=4
+  -> C: 0+2=2 < ∞ -> dist[C]=2
   dist = {A:0, B:4, C:2, D:∞}
 
 2단계: C 처리 (dist=2, 최솟값)
-  → B: 2+1=3 < 4 → dist[B]=3 (이완!)
-  → D: 2+8=10 < ∞ → dist[D]=10
+  -> B: 2+1=3 < 4 -> dist[B]=3 (이완!)
+  -> D: 2+8=10 < ∞ -> dist[D]=10
   dist = {A:0, B:3, C:2, D:10}
 
 3단계: B 처리 (dist=3)
-  → D: 3+5=8 < 10 → dist[D]=8 (이완!)
+  -> D: 3+5=8 < 10 -> dist[D]=8 (이완!)
   dist = {A:0, B:3, C:2, D:8}
 
-4단계: D 처리 (dist=8) → 완료
-최종: A→0, B→3, C→2, D→8
+4단계: D 처리 (dist=8) -> 완료
+최종: A->0, B->3, C->2, D->8
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 이완 과정과 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                     (4)                                  │
-│            A ──────────── B                              │
-│            │              │                              │
-│           (2)            (5)                             │
-│            │              │                              │
-│            C ──(1)──────► B    ← 이완: 2+1=3 < 4        │
-│            │                                             │
-│           (8)                                            │
-│            │                                             │
-│            D                                             │
-│                                                          │
-│  우선순위 큐 (Min-Heap):                                   │
-│  [(0,A)] → [(2,C),(4,B)] → [(3,B),(4,B),(10,D)]          │
-│          → [(4,B),(8,D),(10,D)] → [(8,D),(10,D)]         │
-│  ※ 중복 항목(4,B)은 꺼낼 때 dist 불일치로 무시             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                     (4)                                  |
+|            A ------------ B                              |
+|            |              |                              |
+|           (2)            (5)                             |
+|            |              |                              |
+|            C --(1)------► B    <- 이완: 2+1=3 < 4        |
+|            |                                             |
+|           (8)                                            |
+|            |                                             |
+|            D                                             |
+|                                                          |
+|  우선순위 큐 (Min-Heap):                                   |
+|  [(0,A)] -> [(2,C),(4,B)] -> [(3,B),(4,B),(10,D)]          |
+|          -> [(4,B),(8,D),(10,D)] -> [(8,D),(10,D)]         |
+|  ※ 중복 항목(4,B)은 꺼낼 때 dist 불일치로 무시             |
++----------------------------------------------------------+
 ```
 
 ### 이완 (Relaxation) 연산
@@ -99,7 +99,7 @@ if dist[u] + weight(u,v) < dist[v]:
 | 단계 | 설명 |
 |:---|:---|
 | 초기화 | dist[s]=0, 나머지 ∞, 큐에 (0,s) 삽입 |
-| 반복 | 큐에서 최솟값 꺼냄 → 이미 처리된 정점이면 스킵 |
+| 반복 | 큐에서 최솟값 꺼냄 -> 이미 처리된 정점이면 스킵 |
 | 이완 | 인접 간선 전체에 대해 거리 갱신 시 큐에 삽입 |
 | 종료 | 큐가 빌 때까지 반복 |
 
@@ -119,13 +119,13 @@ if dist[u] + weight(u,v) < dist[v]:
 ### 음수 간선에서 다익스트라가 실패하는 이유
 
 ```
-A ─(3)→ B ─(-5)→ C
-A ─(2)→ C
+A -(3)-> B -(-5)-> C
+A -(2)-> C
 
-다익스트라: A→C = 2 (잘못됨)
-실제 최단:  A→B→C = 3-5 = -2 (더 짧음)
+다익스트라: A->C = 2 (잘못됨)
+실제 최단:  A->B->C = 3-5 = -2 (더 짧음)
 
-이유: B를 처리하기 전에 C가 이미 처리됨 → 이완 기회 상실
+이유: B를 처리하기 전에 C가 이미 처리됨 -> 이완 기회 상실
 ```
 
 📢 **섹션 요약 비유**: 음수 간선에서 다익스트라가 실패하는 것은 "지금까지 가장 싼 표"를 먼저 결제했는데, 나중에 더 싼 환불 가능 표가 발견된 상황과 같다. 이미 결제한 것은 취소가 안 된다.
@@ -135,7 +135,7 @@ A ─(2)→ C
 ### 실무 시나리오
 
 **시나리오 1**: GPS 내비게이션 (T-Map, 카카오맵)
-- 도로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 출발지→목적지 최단 경로
+- 도로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 출발지->목적지 최단 경로
 - 실시간 교통 정보 반영: 간선 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 동적 업데이트
 - 실제 구현: 다익스트라 + 이분할(양방향) + A* 혼합
 
@@ -183,20 +183,20 @@ A ─(2)→ C
 
 ```text
 [그래프 이론 (Graph Theory)]
-    │
-    ▼
+    |
+    v
 [BFS 너비 우선 탐색 (Breadth-First Search)]
-    │
-    ▼
+    |
+    v
 [다익스트라 알고리즘 (Dijkstra Algorithm)]
-    │
-    ▼
+    |
+    v
 [우선순위 큐 (Priority Queue)]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 (A* Algorithm)]
-    │
-    ▼
+    |
+    v
 [벨만-포드 알고리즘 (Bellman-Ford Algorithm)]
 ```
 
@@ -214,7 +214,7 @@ A ─(2)→ C
 
 **진행 상황**: 36 / 175
 
-← **이전**: [6. 너비 우선 탐색 (BFS, Breadth-First Search) — 큐, 최단 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)
-**다음**: [9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/) →
+<- **이전**: [6. 너비 우선 탐색 (BFS, Breadth-First Search) — 큐, 최단 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)
+**다음**: [9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/) ->
 
 ---

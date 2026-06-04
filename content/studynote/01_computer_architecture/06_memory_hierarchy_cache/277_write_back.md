@@ -26,15 +26,15 @@ Write-Back은 캐시의 [쓰기](/knowledge-base/studynote/13_cloud_architecture
 아래 그림은 Write-Back이 "매번 쓰지 않고, 퇴출 시점에 몰아서 쓴다"는 시간축상의 차이를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│               Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중        │
-├──────────────────────────────────────────────────────────────────────────┤
-│ CPU Store #1     CPU Store #2     CPU Store #3             Eviction     │
-│     │                │                │                      │           │
-│     ▼                ▼                ▼                      ▼           │
-│ Cache Line:   clean ──▶ dirty ───────▶ dirty ──────────────▶ writeback  │
-│ Main Memory:  old   ────────────────────────────────────────▶ final data │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|               Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중        |
++--------------------------------------------------------------------------+
+| CPU Store #1     CPU Store #2     CPU Store #3             Eviction     |
+|     |                |                |                      |           |
+|     v                v                v                      v           |
+| Cache Line:   clean ---> dirty --------> dirty ---------------> writeback  |
+| Main Memory:  old   -----------------------------------------> final data |
++--------------------------------------------------------------------------+
 ```
 
 즉 Write-Back은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체를 없애는" 기술이 아니라, 여러 번의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하나의 메모리 반영으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 대신 그 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 구간 동안 메모리에는 구버전이 남아 있으므로, 시스템은 어느 쪽이 최신인지 정확히 추적할 장치를 반드시 가져야 한다.
@@ -57,25 +57,25 @@ Write-Back 캐시는 단순히 "나중에 쓰자"고 선언하는 것으로 끝�
 다음 그림은 Write-Back에서 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 처리되는 내부 흐름을 요약한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│                  Write-Back 캐시의 쓰기 처리 순서                    │
-├───────────────────────────────────────────────────────────────────────┤
-│ 1) CPU store                                                         │
-│      │                                                               │
-│      ▼                                                               │
-│ 2) Cache hit? ── 아니오 ──▶ 블록 적재(보통 Write Allocate)           │
-│      │ 예                                                            │
-│      ▼                                                               │
-│ 3) 캐시 데이터 갱신                                                  │
-│      │                                                               │
-│      ▼                                                               │
-│ 4) Dirty Bit = 1 설정                                                │
-│      │                                                               │
-│      ▼                                                               │
-│ 5) 라인 교체 시 Dirty 검사 ── 0 ──▶ 그냥 폐기                        │
-│                         │                                             │
-│                         └─ 1 ──▶ Write Buffer ──▶ 하위 메모리 기록    │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|                  Write-Back 캐시의 쓰기 처리 순서                    |
++-----------------------------------------------------------------------+
+| 1) CPU store                                                         |
+|      |                                                               |
+|      v                                                               |
+| 2) Cache hit? -- 아니오 ---> 블록 적재(보통 Write Allocate)           |
+|      | 예                                                            |
+|      v                                                               |
+| 3) 캐시 데이터 갱신                                                  |
+|      |                                                               |
+|      v                                                               |
+| 4) Dirty Bit = 1 설정                                                |
+|      |                                                               |
+|      v                                                               |
+| 5) 라인 교체 시 Dirty 검사 -- 0 ---> 그냥 폐기                        |
+|                         |                                             |
+|                         +- 1 ---> Write Buffer ---> 하위 메모리 기록    |
++-----------------------------------------------------------------------+
 ```
 
 여기서 중요한 병목은 "평상시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 아니라 "더티 라인이 쫓겨나는 순간"이다. 캐시 미스가 발생해 새 블록을 넣어야 하는데 희생 라인이 더티 상태라면, 먼저 그 라인을 메모리로 내려보내야 자리를 비울 수 있다. 그래서 고성능 프로세서는 퇴출 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼에 넘겨 백그라운드로 처리하고, 앞단의 파이프라인은 가능한 빨리 다음 명령으로 넘어가게 만든다.
@@ -163,17 +163,17 @@ Write-Back의 가장 큰 효과는 메모리 계층의 병목을 줄여 CPU가 �
 
 ```text
 Write-Through 중심의 단순 일관성
-        │
-        ▼
+        |
+        v
 Write-Back + 더티 비트 (Dirty Bit)
-        │
-        ▼
+        |
+        v
 Write Allocate + 쓰기 버퍼 (Write Buffer)
-        │
-        ▼
+        |
+        v
 MESI 기반 멀티코어 캐시 일관성
-        │
-        ▼
+        |
+        v
 DMA 동기화 · Flush/Fence · 확장 메모리 계층
 ```
 
@@ -191,7 +191,7 @@ DMA 동기화 · Flush/Fence · 확장 메모리 계층
 
 **진행 상황**: 277 / 803
 
-← **이전**: [276. Write-Through (동시 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)
-**다음**: [278. 더티 비트 (Dirty Bit)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/) →
+<- **이전**: [276. Write-Through (동시 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)
+**다음**: [278. 더티 비트 (Dirty Bit)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/) ->
 
 ---

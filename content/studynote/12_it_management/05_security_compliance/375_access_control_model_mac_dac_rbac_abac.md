@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 접근 제어 모델은 `Subject(사용자/주체)`, `Object(자원)`, `Action(동작)`의 3축과 **신원(Identity)**, **역할(Role)**, **속성(Attribute)**, **분류 등급(Classification)**이라는 결정 변수를 통해 인가(Authorization) 정책을 결정하는 **신원-권한 매핑(Identity-to-Permission Mapping)** 메커니즘으로, DAC(소유자 재량) → MAC(중앙 정책) → RBAC(역할 추상화) → ABAC(속성 기반 동적 평가)로 발전하며 **결정론적 매핑**에서 **확률적·상황적 정책 평가**로 패러다임이 전환되었다.
+> 1. **본질**: 접근 제어 모델은 `Subject(사용자/주체)`, `Object(자원)`, `Action(동작)`의 3축과 **신원(Identity)**, **역할(Role)**, **속성(Attribute)**, **분류 등급(Classification)**이라는 결정 변수를 통해 인가(Authorization) 정책을 결정하는 **신원-권한 매핑(Identity-to-Permission Mapping)** 메커니즘으로, DAC(소유자 재량) -> MAC(중앙 정책) -> RBAC(역할 추상화) -> ABAC(속성 기반 동적 평가)로 발전하며 **결정론적 매핑**에서 **확률적·상황적 정책 평가**로 패러다임이 전환되었다.
 > 2. **가치**: NIST SP 800-162(ABAC 가이드) 및 RBAC0~RBAC3 표준(NIST INCITS 359)에 따르면, RBAC 도입 시 권한 관리 오버헤드를 약 70% 절감(역할 템플릿화), ABAC 도입 시 세분화된 접근(Per-Record) 정책으로 데이터 유출 표면(Attack Surface)을 80% 이상 축소 가능하며, Zero Trust Architecture(NIST SP 800-207) 및 BeyondCorp 프레임워크의 핵심 인가 엔진으로 작동한다.
 > 3. **판단 포인트**: **"정책 표현력(Expressiveness) vs. 관리 복잡성(Administrative Cost) vs. 평가 지연(Evaluation Latency)"** 의 트레이드오프를 정량적으로 비교해야 하며, **규제 환경(DoD 8500, 의료 HIPAA, 금융 PCI-DSS 4.0)**, **조직 규모(Few-Dozen Users vs. 10K+ SaaS Tenant)**, **결정론이 필요한 감사(Deterministic Audit)** vs **맥락 기반 동적 판단(Adaptive Authorization)**의 요건에 따라 모델을 선택하거나 하이브리드(예: RBAC + ABAC PEP/PDP) 구성 여부를 결정한다.
 
@@ -19,45 +19,45 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대 엔터프라이즈 환경에서 권한은 더 이상 `사용자 → 권한`의 단순 1:1 매핑으로 표현되지 못한다. 마이크로서비스가 수백 개로 분할되고, 사용자 신원이 SSO/페더레이션(SAML 2.0, OIDC)으로 가상화되며, 자원이 S3 버킷·DocumentDB·Lambda·Kubernetes Namespace 등 폴리글롯 저장소에 흩어지면서 **"누가(Subject), 무엇을(Object), 어떤 맥락에서(Context), 무엇을 할 수 있는가(Action)"** 라는 4-tuple 인가 질의가 **초당 수만~수십만 건** 단위로 발생한다. 1970년대 Lampson의 **Access Matrix(보호 행렬)** 이론에서 출발한 접근 제어는, 시분할 시스템(CTSS, Multics)의 **DAC** → 미 국방부 BLP(Bell-LaPadula) 모델 기반 **MAC** → 1992년 Ferraiolo-Kuhn의 **RBAC** → 2000년대 OASIS XACML/XACML 3.0 기반 **ABAC** 으로 진화해왔으며, 최근에는 **ReBAC(Relationship-Based)**, **PBAC(Policy-Based)**, **RiskBAC** 까지 확장되고 있다.
+현대 엔터프라이즈 환경에서 권한은 더 이상 `사용자 -> 권한`의 단순 1:1 매핑으로 표현되지 못한다. 마이크로서비스가 수백 개로 분할되고, 사용자 신원이 SSO/페더레이션(SAML 2.0, OIDC)으로 가상화되며, 자원이 S3 버킷·DocumentDB·Lambda·Kubernetes Namespace 등 폴리글롯 저장소에 흩어지면서 **"누가(Subject), 무엇을(Object), 어떤 맥락에서(Context), 무엇을 할 수 있는가(Action)"** 라는 4-tuple 인가 질의가 **초당 수만~수십만 건** 단위로 발생한다. 1970년대 Lampson의 **Access Matrix(보호 행렬)** 이론에서 출발한 접근 제어는, 시분할 시스템(CTSS, Multics)의 **DAC** -> 미 국방부 BLP(Bell-LaPadula) 모델 기반 **MAC** -> 1992년 Ferraiolo-Kuhn의 **RBAC** -> 2000년대 OASIS XACML/XACML 3.0 기반 **ABAC** 으로 진화해왔으며, 최근에는 **ReBAC(Relationship-Based)**, **PBAC(Policy-Based)**, **RiskBAC** 까지 확장되고 있다.
 
 핵심 기술적 과제는 (1) **정책 평가의 결정성(Determinism)** — 동일 입력에 항상 동일 출력(감사/컴플라이언스 요건), (2) **평가 지연(Evaluation Latency)** — 게이트웨이에서 μs~ms 단위 응답(보통 p99 < 50ms 요건), (3) **정책 결합(Policy Composition)** — 여러 PDP(Policy Decision Point)의 결론을 **deny-overrides / permit-overrides / first-applicable** 알고리즘으로 통합, (4) **상태 폭발(State Explosion)** — ABAC에서 속성 조합이 기하급수적으로 증가(Combinatorial Explosion)하는 문제의 4가지로 요약된다.
 
 ```text
 [ End-to-End Access Control Architecture (Zero Trust Reference Model) ]
 
-   ┌──────────────────────────────────────────────────────────────────┐
-   │                       User / Service Account                     │
-   │   (IdP Token : SAML/OIDC + Claims + Device Posture + Geo/Risk)  │
-   └────────────────────────────┬─────────────────────────────────────┘
-                                │  1. Request
-                                ▼
-   ┌──────────────────────────────────────────────────────────────────┐
-   │   PEP (Policy Enforcement Point)                                │
-   │   - API Gateway / Sidecar Proxy (Envoy/Istio) / WAF / DB Proxy │
-   │   - TLS 종단, mTLS 상호인증, JWT 검증                          │
-   └────────────────────────────┬─────────────────────────────────────┘
-                                │  2. Req + Context (XACML Request)
-                                ▼
-   ┌──────────────────────────────────────────────────────────────────┐
-   │   PDP (Policy Decision Point) / Policy Engine                   │
-   │   - OPA (Rego) / Cedar (AWS) / OpenFGA / Cerbos                │
-   │   - 정책 캐시, 병렬 평가, 결정 캐싱(Decision Cache)            │
-   └────────────────┬───────────────────────┬────────────────────────┘
-                    │ 3a. PIP Query          │ 3b. Attribute Pull
-                    ▼                       ▼
-   ┌──────────────────────┐    ┌──────────────────────────────────┐
-   │ PIP (Policy Info Pt) │    │   PAP (Policy Admin Point)        │
-   │  - User/Role Store   │    │  - GitOps 정책 레포 (OPA Bundle) │
-   │  - Resource Metadata │    │  - RBAC Role Catalog             │
-   │  - Risk/Threat Intel │    │  - ABAC Policy as Code (Rego)    │
-   └──────────────────────┘    └──────────────────────────────────┘
-                                │  4. Decision: Permit / Deny / NotApplicable
-                                ▼
-   ┌──────────────────────────────────────────────────────────────────┐
-   │   Object Layer (S3, RDS, K8s API, SFTP, SaaS)                  │
-   │   - 서버 측 재검증(Server-side AuthZ), KMS 봉인, ACL            │
-   └──────────────────────────────────────────────────────────────────┘
+   +------------------------------------------------------------------+
+   |                       User / Service Account                     |
+   |   (IdP Token : SAML/OIDC + Claims + Device Posture + Geo/Risk)  |
+   +----------------------------+-------------------------------------+
+                                |  1. Request
+                                v
+   +------------------------------------------------------------------+
+   |   PEP (Policy Enforcement Point)                                |
+   |   - API Gateway / Sidecar Proxy (Envoy/Istio) / WAF / DB Proxy |
+   |   - TLS 종단, mTLS 상호인증, JWT 검증                          |
+   +----------------------------+-------------------------------------+
+                                |  2. Req + Context (XACML Request)
+                                v
+   +------------------------------------------------------------------+
+   |   PDP (Policy Decision Point) / Policy Engine                   |
+   |   - OPA (Rego) / Cedar (AWS) / OpenFGA / Cerbos                |
+   |   - 정책 캐시, 병렬 평가, 결정 캐싱(Decision Cache)            |
+   +----------------+-----------------------+------------------------+
+                    | 3a. PIP Query          | 3b. Attribute Pull
+                    v                       v
+   +----------------------+    +----------------------------------+
+   | PIP (Policy Info Pt) |    |   PAP (Policy Admin Point)        |
+   |  - User/Role Store   |    |  - GitOps 정책 레포 (OPA Bundle) |
+   |  - Resource Metadata |    |  - RBAC Role Catalog             |
+   |  - Risk/Threat Intel |    |  - ABAC Policy as Code (Rego)    |
+   +----------------------+    +----------------------------------+
+                                |  4. Decision: Permit / Deny / NotApplicable
+                                v
+   +------------------------------------------------------------------+
+   |   Object Layer (S3, RDS, K8s API, SFTP, SaaS)                  |
+   |   - 서버 측 재검증(Server-side AuthZ), KMS 봉인, ACL            |
+   +------------------------------------------------------------------+
 ```
 
 | 패러다임 | 시대 | 등장 배경 | 한계 |
@@ -89,12 +89,12 @@ tags = ["studynote-it-management"]
    (7=4+2+1)  (5=4+0+1)  (0)
 
    Process(pid=1001, uid=alice, gid=finance)
-     ├── effective uid = alice
-     ├── supplementary groups = {finance, audit}
-     └── Access Check:
-         1) uid == owner?       → use Owner bits (rwx)
-         2) gid in groups?      → use Group bits (r-x)
-         3) else               → use Other bits (---)
+     +-- effective uid = alice
+     +-- supplementary groups = {finance, audit}
+     +-- Access Check:
+         1) uid == owner?       -> use Owner bits (rwx)
+         2) gid in groups?      -> use Group bits (r-x)
+         3) else               -> use Other bits (---)
 ```
 
 **핵심 메커니즘**: 9-bit Mode Bits 또는 POSIX ACL(`setfacl -m u:alice:rw- file`). SMB/CIFS는 **Share Permission(서버 측)** + **NTFS DACL(파일 시스템 측)** 의 이중 검사를 수행하며, NFSv4는 RFC 3530 기반으로 `OWNER@`, `GROUP@`, `EVERYONE@` ACE를 가진 POSIX-style ACL을 사용한다.
@@ -109,21 +109,21 @@ tags = ["studynote-it-management"]
    Subjects  :   TS  S  C  U    (Clearance)
    Objects   :   TS  S  C  U    (Classification)
 
-   ── Security Lattice (격자) ───────────────────────────
-           TS  (Top Secret)        ▲ higher
-            │                          │
-            S   (Secret)              │  No Read Up (NRU)
-            │                          │  ★ Property
-            C   (Confidential)        │  No Write Down (NWD)
-            │                          │  (BLP: Biba는 역방향)
-            U   (Unclassified)     ▼ lower
+   -- Security Lattice (격자) ---------------------------
+           TS  (Top Secret)        ^ higher
+            |                          |
+            S   (Secret)              |  No Read Up (NRU)
+            |                          |  ★ Property
+            C   (Confidential)        |  No Write Down (NWD)
+            |                          |  (BLP: Biba는 역방향)
+            U   (Unclassified)     v lower
 
    Example:
    Subject  (S, Clearance = SECRET)
    Object   (C, Classification = CONFIDENTIAL)
    Decision:
-       Read?  Clearance(SECRET) >= Classification(CONF) → PERMIT
-       Write? (NWD) SECRET subject cannot write to CONF obj → DENY
+       Read?  Clearance(SECRET) >= Classification(CONF) -> PERMIT
+       Write? (NWD) SECRET subject cannot write to CONF obj -> DENY
        (이유: SECRET 사용자가 CONFIDENTIAL 문서를 만들어
         CONF 사용자가 SECRET 정보를 흘려받지 못하게 차단)
 ```
@@ -141,33 +141,33 @@ tags = ["studynote-it-management"]
 
 ### 3. RBAC (Role-Based Access Control) — 역할 기반
 
-**핵심 원리**: `User → Role → Permission` 의 **간접 매핑(Indirection)**으로, NIST INCITS 359(2004)는 **RBAC0(Base) → RBAC1(Hierarchy) → RBAC2(Constraints) → RBAC3(Combined)** 4단阶梯 모델을 정의한다.
+**핵심 원리**: `User -> Role -> Permission` 의 **간접 매핑(Indirection)**으로, NIST INCITS 359(2004)는 **RBAC0(Base) -> RBAC1(Hierarchy) -> RBAC2(Constraints) -> RBAC3(Combined)** 4단阶梯 모델을 정의한다.
 
 ```text
 [ RBAC Hierarchy & Constraints Diagram ]
 
-              ┌────────────────┐
-              │  CFO (Role)    │
-              └───────┬────────┘
-                      │ inherits (Senior-Junior)
-        ┌─────────────┼──────────────┐
-        ▼             ▼              ▼
-  ┌──────────┐  ┌──────────┐  ┌──────────────┐
-  │ Senior   │  │ Junior   │  │ Auditor      │
-  │Accountant│  │Accountant│  │(Read-only)   │
-  └──────────┘  └──────────┘  └──────────────┘
-        ▲             ▲              ▲
-        │ User-Role Assignment (URA)
-        │             │              │
-   ┌────┴───┐   ┌────┴───┐     ┌────┴───┐
-   │ Alice  │   │  Bob   │     │ Carol  │
-   └────────┘   └────────┘     └────────┘
+              +----------------+
+              |  CFO (Role)    |
+              +-------+--------+
+                      | inherits (Senior-Junior)
+        +-------------+--------------+
+        v             v              v
+  +----------+  +----------+  +--------------+
+  | Senior   |  | Junior   |  | Auditor      |
+  |Accountant|  |Accountant|  |(Read-only)   |
+  +----------+  +----------+  +--------------+
+        ^             ^              ^
+        | User-Role Assignment (URA)
+        |             |              |
+   +----+---+   +----+---+     +----+---+
+   | Alice  |   |  Bob   |     | Carol  |
+   +--------+   +--------+     +--------+
 
    Permission-Role Assignment (PRA):
-     JuniorAccountant → { journal:create, ledger:read }
-     SeniorAccountant → { + journal:approve, ledger:write }
-     CFO             → { + consolidation:run, close:execute }
-     Auditor         → { ledger:read, audit:export }  (SoD!)
+     JuniorAccountant -> { journal:create, ledger:read }
+     SeniorAccountant -> { + journal:approve, ledger:write }
+     CFO             -> { + consolidation:run, close:execute }
+     Auditor         -> { ledger:read, audit:export }  (SoD!)
 
    Constraints (RBAC2):
      - SSD (Static Separation of Duty): {CFO, Auditor}  (한 사용자가 둘 다 못 가짐)
@@ -184,17 +184,17 @@ tags = ["studynote-it-management"]
 ```text
 [ ABAC: XACML Reference Architecture ]
 
-   ┌─────────────────┐      ┌──────────────────────────┐
-   │  PEP (Proxy)    │─────▶│ PDP (engine: OPA, Axiomatics, │
-   │  Sidecar/Filter │ Req  │  AuthzForce, WSO2 Balana)  │
-   └─────────────────┘      └────────────┬──────────────┘
-                                          │
-                            ┌────────────
+   +-----------------+      +--------------------------+
+   |  PEP (Proxy)    |------>| PDP (engine: OPA, Axiomatics, |
+   |  Sidecar/Filter | Req  |  AuthzForce, WSO2 Balana)  |
+   +-----------------+      +------------+--------------+
+                                          |
+                            +------------
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 375 / 800
 
-← **이전**: [374. 정보보안 정책 수립 거버넌스 프레임워크](/knowledge-base/studynote/12_it_management/05_security_compliance/374_infosec_policy_governance_framework/)
-**다음**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/) →
+<- **이전**: [374. 정보보안 정책 수립 거버넌스 프레임워크](/knowledge-base/studynote/12_it_management/05_security_compliance/374_infosec_policy_governance_framework/)
+**다음**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/) ->
 
 ---

@@ -33,23 +33,23 @@ tags = ["studynote-it-management"]
 
 워크스루의 핵심 구조는 단순하다. 저자가 산출물을 준비하고, 회의에서 단계별로 설명하고, 참여자는 자유롭게 질문하거나 개선 의견을 제시한다. 공식 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 분류표나 엄격한 입·출력 기준이 필수는 아니지만, 목적이 흐려지면 단순 설명회로 끝날 수 있으므로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 목표는 분명해야 한다.
 
-아래 그림은 워크스루가 "저자 설명 → 참여자 질문 → 수정 후보 정리"로 이어지는 피드백 루프임을 보여 준다.
+아래 그림은 워크스루가 "저자 설명 -> 참여자 질문 -> 수정 후보 정리"로 이어지는 피드백 루프임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Walkthrough의 기본 진행 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│  1. 저자 준비                                               │
-│     산출물 선정 · 핵심 쟁점 정리 · 참여자 초대              │
-│                         │                                    │
-│                         ▼                                    │
-│  2. 회의 진행                                                │
-│     저자 설명 ──▶ 참여자 질문 ──▶ 가정·누락·위험 확인       │
-│                         │                                    │
-│                         ▼                                    │
-│  3. 결과 정리                                                │
-│     수정 항목 · 추가 검토 필요 사항 · 후속 담당자 합의      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 Walkthrough의 기본 진행 구조                 |
++--------------------------------------------------------------+
+|  1. 저자 준비                                               |
+|     산출물 선정 · 핵심 쟁점 정리 · 참여자 초대              |
+|                         |                                    |
+|                         v                                    |
+|  2. 회의 진행                                                |
+|     저자 설명 ---> 참여자 질문 ---> 가정·누락·위험 확인       |
+|                         |                                    |
+|                         v                                    |
+|  3. 결과 정리                                                |
+|     수정 항목 · 추가 검토 필요 사항 · 후속 담당자 합의      |
++--------------------------------------------------------------+
 ```
 
 | 역할 | 주요 책임 | 성공 포인트 |
@@ -136,17 +136,17 @@ tags = ["studynote-it-management"]
 
 ```text
 품질 관리 (Quality Assurance / Quality Control)
-    │
-    ▼
+    |
+    v
 리뷰 기법 선택
-    │
-    ├─▶ 인스펙션 (Inspection)
-    │        └─ 공식 결함 검출 · 추적
-    │
-    └─▶ 워크스루 (Walkthrough)
-             ├─ 저자 주도 설명
-             ├─ 조기 피드백
-             └─ 동료 검토 (Peer Review)와 실무 연계
+    |
+    +--> 인스펙션 (Inspection)
+    |        +- 공식 결함 검출 · 추적
+    |
+    +--> 워크스루 (Walkthrough)
+             +- 저자 주도 설명
+             +- 조기 피드백
+             +- 동료 검토 (Peer Review)와 실무 연계
 ```
 
 이 흐름은 리뷰 기법이 공식성 수준과 목적에 따라 갈라지며, 워크스루가 조기 합의와 지식 공유 축에 놓인다는 점을 보여 준다.
@@ -163,7 +163,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 276 / 587
 
-← **이전**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)
-**다음**: [163. 동료 검토 (Peer Review, 동료 코드 품질 검증)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) →
+<- **이전**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)
+**다음**: [163. 동료 검토 (Peer Review, 동료 코드 품질 검증)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ->
 
 ---

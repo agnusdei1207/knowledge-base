@@ -32,21 +32,21 @@ tags = ["studynote-database"]
 로깅 엔진은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 변경을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 버퍼에 쌓고, 이를 디스크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 순차적으로 flush한 뒤 커밋을 완료한다. 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 여유가 있을 때 디스크로 내려보내도 된다. 이 구조가 가능한 이유가 WAL 규칙이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                WAL 기반 로깅 엔진 동작 흐름                  │
-├──────────────────────────────────────────────────────────────┤
-│ 트랜잭션 수정                                                │
-│    │                                                         │
-│    ├──▶ 버퍼 풀의 페이지 변경 (Dirty Page)                  │
-│    │                                                         │
-│    └──▶ 로그 버퍼에 Log Record 생성                         │
-│                 │                                            │
-│                 ▼                                            │
-│          로그 파일에 Flush  ──▶ COMMIT 응답                 │
-│                 │                                            │
-│                 ▼                                            │
-│         나중에 데이터 페이지를 디스크에 Flush               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                WAL 기반 로깅 엔진 동작 흐름                  |
++--------------------------------------------------------------+
+| 트랜잭션 수정                                                |
+|    |                                                         |
+|    +---> 버퍼 풀의 페이지 변경 (Dirty Page)                  |
+|    |                                                         |
+|    +---> 로그 버퍼에 Log Record 생성                         |
+|                 |                                            |
+|                 v                                            |
+|          로그 파일에 Flush  ---> COMMIT 응답                 |
+|                 |                                            |
+|                 v                                            |
+|         나중에 데이터 페이지를 디스크에 Flush               |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 포인트 |
@@ -97,7 +97,7 @@ WAL의 핵심 규칙은 두 가지다. 첫째, <strong>어떤 <a href="/knowledg
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 같은 병목 장치에 몰아 넣어 flush [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키우는 운영
 - 체크포인트 간격을 무한정 늘려 장애 후 [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) 범위를 과도하게 키우는 운영
 
-장애가 발생하면 보통 분석 (Analysis) → [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) → [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 순으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다. 따라서 로깅 엔진 튜닝은 정상 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 볼 게 아니라, 장애 시 얼마나 빨리 일관 상태로 돌아오는지도 함께 봐야 한다.
+장애가 발생하면 보통 분석 (Analysis) -> [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) -> [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 순으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다. 따라서 로깅 엔진 튜닝은 정상 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 볼 게 아니라, 장애 시 얼마나 빨리 일관 상태로 돌아오는지도 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: 로깅 엔진 튜닝은 가게 마감 정리와 같다. 낮에 너무 꼼꼼히만 적으면 장사가 느려지고, 정리를 미루기만 하면 문 닫을 때 엄청 오래 걸린다.
 
@@ -127,17 +127,17 @@ WAL의 핵심 규칙은 두 가지다. 첫째, <strong>어떤 <a href="/knowledg
 
 ```text
 버퍼 풀 기반 갱신
-    │
-    ▼
+    |
+    v
 WAL (Write-Ahead Logging)
-    │
-    ▼
+    |
+    v
 LSN · Redo · Undo
-    │
-    ▼
+    |
+    v
 체크포인트 (Checkpoint)
-    │
-    ▼
+    |
+    v
 ARIES · 그룹 커밋 · 분산 로그 복제
 ```
 
@@ -155,7 +155,7 @@ ARIES · 그룹 커밋 · 분산 로그 복제
 
 **진행 상황**: 51 / 600
 
-← **이전**: [버퍼 풀 매니저 (Buffer Pool Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/)
-**다음**: [52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성](/knowledge-base/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/) →
+<- **이전**: [버퍼 풀 매니저 (Buffer Pool Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/)
+**다음**: [52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성](/knowledge-base/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/) ->
 
 ---

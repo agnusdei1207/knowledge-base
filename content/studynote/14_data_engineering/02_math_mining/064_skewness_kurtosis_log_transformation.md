@@ -31,11 +31,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Raw Distribution
-  ↓
+  v
 Skewness / Kurtosis
-  ↓
+  v
 Transformation
-  ↓
+  v
 Stabilized Distribution
 ```
 
@@ -111,11 +111,11 @@ Stabilized Distribution
 
 ```text
 Distribution
-  ↓
+  v
 Skewness / Kurtosis
-  ↓
+  v
 Log Transformation
-  ↓
+  v
 Stabilized Modeling
 ```
 
@@ -125,11 +125,11 @@ Stabilized Modeling
 
 ```text
 왜도
-  ↓
+  v
 첨도
-  ↓
+  v
 로그 변환
-  ↓
+  v
 분포 안정화
 ```
 
@@ -147,7 +147,7 @@ Stabilized Modeling
 
 **진행 상황**: 64 / 258
 
-← **이전**: [63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/063_central_tendency_dispersion_variance_iqr/)
-**다음**: [65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/) →
+<- **이전**: [63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/063_central_tendency_dispersion_variance_iqr/)
+**다음**: [65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/) ->
 
 ---

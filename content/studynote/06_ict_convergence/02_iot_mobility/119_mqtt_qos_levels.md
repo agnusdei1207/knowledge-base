@@ -10,30 +10,30 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))는 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준을 3단계(0: 최대 1회, 1: 최소 1회, 2: 정확히 1회)로 정의하며, <strong>Publisher→Broker와 Broker→Subscriber 각각에 독립적으로 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>된다.
+> 1. **본질**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))는 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준을 3단계(0: 최대 1회, 1: 최소 1회, 2: 정확히 1회)로 정의하며, <strong>Publisher->Broker와 Broker->Subscriber 각각에 독립적으로 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>된다.
 > 2. **가치**: 온도 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0, 유실 허용)와 결제 명령([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2, 정확히 1회 필수)처럼, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 중요도에 따라 전달 보장 수준을 선택</strong>하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·배터리·[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 균형을 맞춘다.
-> 3. **판단 포인트**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2는 <strong>4-way 핸드셰이크(PUBLISH→PUBREC→PUBREL→PUBCOMP)</strong>로 오버헤드가 크므로, 대부분의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시나리오는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 1(중복 허용, 유실 방지)</strong>이 실용적 최적점이다.
+> 3. **판단 포인트**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2는 <strong>4-way 핸드셰이크(PUBLISH->PUBREC->PUBREL->PUBCOMP)</strong>로 오버헤드가 크므로, 대부분의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시나리오는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 1(중복 허용, 유실 방지)</strong>이 실용적 최적점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    QoS 레벨별 핸드셰이크                              │
-├───────────────────────────────────────────────────────┤
-│  [QoS 0 — Fire and Forget]                            │
-│   Pub ──PUBLISH──▶ Broker  (끝, 확인 없음)           │
-│                                                       │
-│  [QoS 1 — At Least Once]                              │
-│   Pub ──PUBLISH──▶ Broker ──PUBACK──▶ Pub            │
-│   (PUBACK 없으면 재전송 → 중복 가능)                  │
-│                                                       │
-│  [QoS 2 — Exactly Once]                               │
-│   Pub ──PUBLISH──▶ Broker ──PUBREC──▶ Pub            │
-│   Pub ──PUBREL──▶ Broker ──PUBCOMP──▶ Pub            │
-│   (4-way 핸드셰이크, 정확히 1회 보장)                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    QoS 레벨별 핸드셰이크                              |
++-------------------------------------------------------+
+|  [QoS 0 — Fire and Forget]                            |
+|   Pub --PUBLISH---> Broker  (끝, 확인 없음)           |
+|                                                       |
+|  [QoS 1 — At Least Once]                              |
+|   Pub --PUBLISH---> Broker --PUBACK---> Pub            |
+|   (PUBACK 없으면 재전송 -> 중복 가능)                  |
+|                                                       |
+|  [QoS 2 — Exactly Once]                               |
+|   Pub --PUBLISH---> Broker --PUBREC---> Pub            |
+|   Pub --PUBREL---> Broker --PUBCOMP---> Pub            |
+|   (4-way 핸드셰이크, 정확히 1회 보장)                 |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0은 엽서(도착 보장 없음), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 1은 등기우편(배달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 중복 가능), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2는 내용증명(정확히 1회, 증거 남김)이다.
@@ -96,17 +96,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [MQTT v3.1 (1999) — QoS 0/1/2 정의]
-    │
-    ▼
+    |
+    v
 [MQTT 3.1.1 (2014, OASIS) — 표준화]
-    │
-    ▼
+    |
+    v
 [QoS 1 + 멱등 패턴 (실무 Best Practice)]
-    │
-    ▼
+    |
+    v
 [MQTT 5.0 (2019) — Shared Subscription]
-    │
-    ▼
+    |
+    v
 [현재: MQTT over QUIC — 전송 계층 신뢰성 강화]
 ```
 
@@ -121,7 +121,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 119 / 552
 
-← **이전**: [118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/118_mqtt_protocol/)
-**다음**: [120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) →
+<- **이전**: [118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/118_mqtt_protocol/)
+**다음**: [120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) ->
 
 ---

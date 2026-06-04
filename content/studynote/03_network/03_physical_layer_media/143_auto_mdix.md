@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [MDI/MDI-X]
-    │
-    ▼
+    |
+    v
 [Auto-MDIX]
-    │
-    └──▶ [케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    |
+    +---> [케이블 배선: 다이렉트 케이블 vs 크로스오…]
 ```
 
 - **📢 섹션 요약 비유**: Auto-MDIX는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,8 +47,8 @@ Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/study
 ```text
 [ 스위치 (Auto-MDIX 켬) ]                  [ 스위치 (MDI-X) ]
   (앗, 상대가 3,6번으로 쏘네?)
-  1,2번 핀 (송신 Tx 로 자동변환) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)
-  3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
+  1,2번 핀 (송신 Tx 로 자동변환) --(다이렉트)---> 1,2번 핀 (수신 Rx)
+  3,6번 핀 (수신 Rx 로 자동변환) <---(다이렉트)-- 3,6번 핀 (송신 Tx)
 ```
 
 이처럼 물리적인 케이블의 결선을 바꾸는 대신, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩 내부에서 논리적으로 회로를 교차</strong>시켜버립니다.
@@ -116,12 +116,12 @@ Auto-MDIX는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ```text
 [선행 개념: MDI/MDI-X]
-    │
-    ▼
+    |
+    v
 [현재 개념: Auto-MDIX]
-    │
-    ├──▶ [확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 Auto-MDIX는 MDI/MDI-X에서 출발해 현재 메커니즘을 정교화하고, 이후 케이블 배선: 다이렉트 케이블 vs 크로스오…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ Auto-MDIX는 MDI/MDI-X에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 264 / 1120
 
-← **이전**: [142. MDI/MDI-X (Medium Dependent Interface)](/knowledge-base/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/)
-**다음**: [144. 케이블 배선: 다이렉트 케이블 (T568B) vs 크로스오버 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/144_cable_wiring_direct_cross/) →
+<- **이전**: [142. MDI/MDI-X (Medium Dependent Interface)](/knowledge-base/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/)
+**다음**: [144. 케이블 배선: 다이렉트 케이블 (T568B) vs 크로스오버 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/144_cable_wiring_direct_cross/) ->
 
 ---

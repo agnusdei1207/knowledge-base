@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 1.0]
-    │
-    ▼
+    |
+    v
 [HTTP 1.1]
-    │
-    └──▶ [HTTP 1.1 HOL 블로킹]
+    |
+    +---> [HTTP 1.1 HOL 블로킹]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -40,11 +40,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 1.0]
-    │
-    ▼
+    |
+    v
 [HTTP 1.1]
-    │
-    └──▶ [HTTP 1.1 HOL 블로킹]
+    |
+    +---> [HTTP 1.1 HOL 블로킹]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -65,32 +65,32 @@ tags = ["studynote-network"]
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1부터는 요청 헤더에 특별히 명시하지 않아도 모든 연결이 지속 연결로 취급됩니다. 만약 명시적으로 끊고 싶을 때만 `Connection: close` 헤더를 전송합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ HTTP 1.0 (비지속) vs HTTP 1.1 (지속 연결) 구조 비교 ]        │
-│                                                             │
-│   [ HTTP 1.0 - Short-lived Connection ]                     │
-│   Client                           Server                   │
-│     |-- TCP 3-Way Handshake -------->|  (시간/CPU 낭비)       │
-│     |-- HTTP GET /index.html ------->|                      │
-│     |<-- HTTP 200 OK (HTML 문서) ----|                      │
-│     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           │
-│     |                                |                      │
-│     |-- TCP 3-Way Handshake -------->|  (또 반복!!)           │
-│     |-- HTTP GET /image1.jpg ------->|                      │
-│     |<-- HTTP 200 OK (이미지) -------|                      │
-│     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           │
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│   [ HTTP 1.1 - Persistent Connection ]                      │
-│   Client                           Server                   │
-│     |-- TCP 3-Way Handshake -------->|  (딱 한 번만 연결!)      │
-│     |-- HTTP GET /index.html ------->|                      │
-│     |<-- HTTP 200 OK (HTML 문서) ----|                      │
-│     |                                |  (연결 유지됨)          │
-│     |-- HTTP GET /image1.jpg ------->|                      │
-│     |<-- HTTP 200 OK (이미지) -------|                      │
-│     |                                |  (대기... Timeout 후 종료)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ HTTP 1.0 (비지속) vs HTTP 1.1 (지속 연결) 구조 비교 ]        |
+|                                                             |
+|   [ HTTP 1.0 - Short-lived Connection ]                     |
+|   Client                           Server                   |
+|     |-- TCP 3-Way Handshake -------->|  (시간/CPU 낭비)       |
+|     |-- HTTP GET /index.html ------->|                      |
+|     |<-- HTTP 200 OK (HTML 문서) ----|                      |
+|     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           |
+|     |                                |                      |
+|     |-- TCP 3-Way Handshake -------->|  (또 반복!!)           |
+|     |-- HTTP GET /image1.jpg ------->|                      |
+|     |<-- HTTP 200 OK (이미지) -------|                      |
+|     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           |
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|   [ HTTP 1.1 - Persistent Connection ]                      |
+|   Client                           Server                   |
+|     |-- TCP 3-Way Handshake -------->|  (딱 한 번만 연결!)      |
+|     |-- HTTP GET /index.html ------->|                      |
+|     |<-- HTTP 200 OK (HTML 문서) ----|                      |
+|     |                                |  (연결 유지됨)          |
+|     |-- HTTP GET /image1.jpg ------->|                      |
+|     |<-- HTTP 200 OK (이미지) -------|                      |
+|     |                                |  (대기... Timeout 후 종료)|
++-------------------------------------------------------------+
 ```
 
 ### 2. 파이프라이닝 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Pipelining)
@@ -173,12 +173,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP 1.0]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP 1.1]
-    │
-    ├──▶ [확장 A: HTTP 1.1 HOL 블로킹]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP 1.1 HOL 블로킹]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -195,7 +195,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 585 / 1120
 
-← **이전**: [463. HTTP 1.0 (비지속 연결, 단점)](/knowledge-base/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/)
-**다음**: [465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)](/knowledge-base/studynote/03_network/09_application_layer_web_email/465_http_1_1_hol_blocking/) →
+<- **이전**: [463. HTTP 1.0 (비지속 연결, 단점)](/knowledge-base/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/)
+**다음**: [465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)](/knowledge-base/studynote/03_network/09_application_layer_web_email/465_http_1_1_hol_blocking/) ->
 
 ---

@@ -24,22 +24,22 @@ tags = ["studynote-design-supervision"]
 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 독립적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 클래스로 캡슐화한다. `PaymentStrategy` 인터페이스를 `CreditCardStrategy`, `KakaoPayStrategy`, `TossPayStrategy`가 구현하고, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 교체하면 된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│            전략 패턴 구조                                    │
-├─────────────────────────────────────────────────────────────┤
-│  Context                                                    │
-│  - strategy: Strategy                                       │
-│  + setStrategy(s: Strategy)                                 │
-│  + executeStrategy()                                        │
-│       │ (위임)                                              │
-│       ▼                                                     │
-│  Strategy (인터페이스)                                       │
-│  + execute(data): Result                                    │
-│       ▲                                                     │
-│  ┌────┴──────────────────────────┐                          │
-│  ConcreteStrategyA   ConcreteStrategyB   ConcreteStrategyC  │
-│  (알고리즘 A)       (알고리즘 B)       (알고리즘 C)         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|            전략 패턴 구조                                    |
++-------------------------------------------------------------+
+|  Context                                                    |
+|  - strategy: Strategy                                       |
+|  + setStrategy(s: Strategy)                                 |
+|  + executeStrategy()                                        |
+|       | (위임)                                              |
+|       v                                                     |
+|  Strategy (인터페이스)                                       |
+|  + execute(data): Result                                    |
+|       ^                                                     |
+|  +----+--------------------------+                          |
+|  ConcreteStrategyA   ConcreteStrategyB   ConcreteStrategyC  |
+|  (알고리즘 A)       (알고리즘 B)       (알고리즘 C)         |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 내비게이션([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 경로 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 교체하듯, '최단 경로', '최소 요금', '고속도로 우선' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 런타임에 선택한다.
@@ -58,22 +58,22 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 | 메서드 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | ClassName::method | 최간결 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링에서 전략 패턴 활용                              │
-├─────────────────────────────────────────────────────────────┤
-│  // 인터페이스 (Strategy)                                   │
-│  interface PaymentStrategy {                                │
-│    PaymentResult pay(amount: Money);                        │
-│  }                                                          │
-│                                                             │
-│  // 스프링 DI로 전략 주입                                   │
-│  @Service class OrderService {                              │
-│    OrderService(PaymentStrategy paymentStrategy) { ... }    │
-│  }                                                          │
-│                                                             │
-│  // 런타임 전략 교체: Map<String, PaymentStrategy>로 관리   │
-│  paymentStrategies.get(paymentType).pay(amount);            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       스프링에서 전략 패턴 활용                              |
++-------------------------------------------------------------+
+|  // 인터페이스 (Strategy)                                   |
+|  interface PaymentStrategy {                                |
+|    PaymentResult pay(amount: Money);                        |
+|  }                                                          |
+|                                                             |
+|  // 스프링 DI로 전략 주입                                   |
+|  @Service class OrderService {                              |
+|    OrderService(PaymentStrategy paymentStrategy) { ... }    |
+|  }                                                          |
+|                                                             |
+|  // 런타임 전략 교체: Map<String, PaymentStrategy>로 관리   |
+|  paymentStrategies.get(paymentType).pay(amount);            |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 스마트폰([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 통신 방식([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))으로 WiFi, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), 5G를 런타임에 교체하듯, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인터페이스만 알고 구체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모른다.
@@ -88,7 +88,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 | 교체 주체 | 외부 (클라이언트) | 내부 (상태 객체 자신) |
 | 상태 인식 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 서로 독립 | 상태가 다른 상태를 알 수 있음 |
 | 의도 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 | 상태에 따른 동작 변경 |
-| 대표 예시 | 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 결제 방법 | 주문 상태 (접수→처리→완료) |
+| 대표 예시 | 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 결제 방법 | 주문 상태 (접수->처리->완료) |
 
 - **📢 섹션 요약 비유**: [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 요리사([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))가 레시피([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))를 선택하는 것이고, [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 신호등([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(빨강/노랑/초록)에 따라 자동으로 다음 상태로 전이하는 것이다.
 
@@ -120,7 +120,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 
 ### 📌 관련 개념 맵
 
-[조건 분기 코드 문제] → [전략 패턴] → OCP 달성] → [함수형 고차 함수] → [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 주입]
+[조건 분기 코드 문제] -> [전략 패턴] -> OCP 달성] -> [함수형 고차 함수] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 주입]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -131,7 +131,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(1994)] → OCP 달성] → [Java 함수형 인터페이스+람다] → [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵] → [함수형 프로그래밍 [고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/) 대체]
+[GoF [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(1994)] -> OCP 달성] -> [Java 함수형 인터페이스+람다] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵] -> [함수형 프로그래밍 [고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/) 대체]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 
 **진행 상황**: 254 / 530
 
-← **이전**: [192. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/192_observer_pattern/)
-**다음**: [194. 템플릿 메서드 패턴 (Template Method Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/194_template_method_pattern/) →
+<- **이전**: [192. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/192_observer_pattern/)
+**다음**: [194. 템플릿 메서드 패턴 (Template Method Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/194_template_method_pattern/) ->
 
 ---

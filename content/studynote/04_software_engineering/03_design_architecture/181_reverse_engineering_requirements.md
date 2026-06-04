@@ -26,18 +26,18 @@ tags = ["studynote-software-engineering"]
 아래 그림은 운영 중 시스템의 흔적이 어떻게 요구사항 후보로 수렴되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Evidence to requirement pipeline                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ source code ─┐                                                     │
-│ DB schema   ─┼─> static / dynamic / data analysis -> candidate req│
-│ screens     ─┤                                                     │
-│ logs/jobs   ─┘                                                     │
-│                                        │                           │
-│ stakeholder review <-------------------┘                           │
-│                                        ▼                           │
-│                                  AS-IS requirement baseline        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Evidence to requirement pipeline                                  |
++--------------------------------------------------------------------+
+| source code -+                                                     |
+| DB schema   -+-> static / dynamic / data analysis -> candidate req|
+| screens     -+                                                     |
+| logs/jobs   -+                                                     |
+|                                        |                           |
+| stakeholder review <-------------------+                           |
+|                                        v                           |
+|                                  AS-IS requirement baseline        |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 산출물이 곧바로 최종 요구사항이 아니라는 점이다. 먼저 시스템에서 <strong>관찰된 행동</strong>을 모으고, 그다음 현업과 아키텍트가 그것이 여전히 필요한지 판단해 <strong>유효한 요구사항</strong>으로 정제해야 한다. 따라서 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 단순 분석이 아니라, 증거를 요구사항 언어로 번역하는 작업이다.
@@ -63,16 +63,16 @@ tags = ["studynote-software-engineering"]
 다음 그림은 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 핵심이 단순 추출이 아니라, 추출 후 분류와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한다는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Reverse engineering core loop                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ observe implementation -> infer rule -> validate intent            │
-│          ▲                    │                 │                  │
-│          │                    ▼                 ▼                  │
-│   logs / traces       candidate requirement   keep / change / drop│
-│                                                                    │
-│ code shows "what exists"; stakeholders confirm "why it matters"   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Reverse engineering core loop                                     |
++--------------------------------------------------------------------+
+| observe implementation -> infer rule -> validate intent            |
+|          ^                    |                 |                  |
+|          |                    v                 v                  |
+|   logs / traces       candidate requirement   keep / change / drop|
+|                                                                    |
+| code shows "what exists"; stakeholders confirm "why it matters"   |
++--------------------------------------------------------------------+
 ```
 
 여기서 가장 중요한 문장은 이것이다. **현재 구현은 요구사항의 흔적이지, 요구사항 그 자체와 항상 동일하지는 않다.** 오래된 우회 로직, 특정 고객만을 위한 예외, 이미 폐기된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 코드에 남아 있을 수 있기 때문이다. 그래서 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 복원 작업인 동시에, 불필요한 것을 걸러내는 정제 작업이기도 하다.
@@ -114,15 +114,15 @@ tags = ["studynote-software-engineering"]
 아래 결정 흐름은 관찰된 동작을 그대로 요구사항으로 채택하지 않고, 사업적 의미를 다시 묻는 과정을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Classifying observed behavior                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ observed rule from code/logs                                      │
-│   ├─ still required by business or regulation? -> retain          │
-│   ├─ workaround for old platform? -> redesign                     │
-│   ├─ unused path / dead code / obsolete data? -> retire           │
-│   └─ uncertain? -> validate with SME and production evidence      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Classifying observed behavior                                     |
++--------------------------------------------------------------------+
+| observed rule from code/logs                                      |
+|   +- still required by business or regulation? -> retain          |
+|   +- workaround for old platform? -> redesign                     |
+|   +- unused path / dead code / obsolete data? -> retire           |
+|   +- uncertain? -> validate with SME and production evidence      |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -173,20 +173,20 @@ tags = ["studynote-software-engineering"]
 
 ```text
 문서 부재 또는 문서-구현 불일치
-        │
-        ▼
+        |
+        v
 코드 · DB · 화면 · 로그 증거 수집
-        │
-        ▼
+        |
+        v
 정적 분석 · 동적 분석 · 현업 검증
-        │
-        ▼
+        |
+        v
 AS-IS 요구사항 복원
-        │
-        ▼
+        |
+        v
 유지 · 개선 · 폐기 분류
-        │
-        ▼
+        |
+        v
 TO-BE 설계 · SRS · RTM · 차세대 구축
 ```
 
@@ -204,7 +204,7 @@ TO-BE 설계 · SRS · RTM · 차세대 구축
 
 **진행 상황**: 181 / 973
 
-← **이전**: [180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/)
-**다음**: [182. 에픽 (Epic) - 거시적 스토리 집합](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) →
+<- **이전**: [180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/)
+**다음**: [182. 에픽 (Epic) - 거시적 스토리 집합](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) ->
 
 ---

@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 컴퓨터의 뇌를 한계까지 몰아붙이는 정밀한 '[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 스트레스 믹스(Mix)' 구조를 해부한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│         웻스톤(Whetstone) 벤치마크의 무자비한 '수학적 스트레스' 융합 레이아웃    │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  [ 웻스톤이 CPU 코어에 던져버리는 고문(Workload) 리스트 ]                     │
-│                                                                        │
-│   1. 기본 부동소수점 연산 (Floating Point Math) - 25% 지분                  │
-│      ──▶ X = (Y * Z) + (A / B) 같은 실수 덧셈/곱셈의 연속 폭격.               │
-│      ──▶ CPU 안의 FPU(부동소수점 유닛) 파이프라인 정규화 병목 딜레이를 사정없이 팸. │
-│                                                                        │
-│   2. 초월 함수 (Transcendental Functions) - 15% 지분                      │
-│      ──▶ SIN(X), COS(Y), EXP(Z), LOG(W) 같은 극악의 수학 공식 무한 호출.     │
-│      ──▶ 일반 칩은 이 부분에서 계산이 수백 클럭 스톨(Stall)되며 지옥을 맛봄.     │
-│                                                                        │
-│   3. 거대 배열 및 포인터 인덱싱 (Array Addressing) - 20% 지분                 │
-│      ──▶ ARRAY[ I * 2 + 1 ] = X 처럼 공간 메모리 주소를 마구잡이로 들쑤심.        │
-│      ──▶ 수학을 풀면서 메모리에서 데이터를 긁어오는 '주소 연산력'을 동시에 쥐어짬. │
-│                                                                        │
-│  [ 점수 산출 로직 ]                                                       │
-│   저 미친 루프들을 1초 동안 얼마나 많이 완벽하게 한 바퀴 다 끝냈는가?               │
-│   ──▶ 결과 단위: "MWIPS (Millions of Whetstone Instructions Per Second)" │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|         웻스톤(Whetstone) 벤치마크의 무자비한 '수학적 스트레스' 융합 레이아웃    |
++------------------------------------------------------------------------+
+|                                                                        |
+|  [ 웻스톤이 CPU 코어에 던져버리는 고문(Workload) 리스트 ]                     |
+|                                                                        |
+|   1. 기본 부동소수점 연산 (Floating Point Math) - 25% 지분                  |
+|      ---> X = (Y * Z) + (A / B) 같은 실수 덧셈/곱셈의 연속 폭격.               |
+|      ---> CPU 안의 FPU(부동소수점 유닛) 파이프라인 정규화 병목 딜레이를 사정없이 팸. |
+|                                                                        |
+|   2. 초월 함수 (Transcendental Functions) - 15% 지분                      |
+|      ---> SIN(X), COS(Y), EXP(Z), LOG(W) 같은 극악의 수학 공식 무한 호출.     |
+|      ---> 일반 칩은 이 부분에서 계산이 수백 클럭 스톨(Stall)되며 지옥을 맛봄.     |
+|                                                                        |
+|   3. 거대 배열 및 포인터 인덱싱 (Array Addressing) - 20% 지분                 |
+|      ---> ARRAY[ I * 2 + 1 ] = X 처럼 공간 메모리 주소를 마구잡이로 들쑤심.        |
+|      ---> 수학을 풀면서 메모리에서 데이터를 긁어오는 '주소 연산력'을 동시에 쥐어짬. |
+|                                                                        |
+|  [ 점수 산출 로직 ]                                                       |
+|   저 미친 루프들을 1초 동안 얼마나 많이 완벽하게 한 바퀴 다 끝냈는가?               |
+|   ---> 결과 단위: "MWIPS (Millions of Whetstone Instructions Per Second)" |
++------------------------------------------------------------------------+
 ```
 
 웻스톤 벤치마크는 '편식 없는 정밀 연산'의 지옥이다. 이 테스트는 칩셋 설계자가 "더하기 모듈만 뚱뚱하게 만들고 함수 모듈은 대충 빼놓는" 편법을 부리는 걸 원천 차단한다. $sin(x)$ 같은 초월 함수는 하드웨어 내부에 특수 수학 가속 게이트(SFU)가 내장되어 있지 않으면 소프트웨어 매크로로 수백 번 빙빙 돌며 에뮬레이션 해야 하므로 속도가 $1/100$로 박살 난다. 웻스톤을 돌린다는 것은 칩 내부의 <strong>실수 연산기(FPU)와 수학 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(Math Lib)의 하드웨어-소프트웨어 융합 최적화 수준을 영혼까지 발가벗겨 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하겠다는 선전포고다.
@@ -120,17 +120,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 초창기 덧셈 계산기 시대 / 정수 연산만 하다가 과학 발전으로 소수점 미적분 시뮬레이션(FPU) 요구 떡상 🚀
-    │
-    ▼
+    |
+    v
 Whetstone 벤치마크의 탄생 / "실수 연산과 삼각함수, 배열 수학을 1초에 몇 번 푸는지 MWIPS로 채점해 쾅!"
-    │
-    ▼
+    |
+    v
 FPU 보조 프로세서 전성시대 / 웻스톤 점수 올리려고 80387 같은 특수 수학 칩을 메인보드에 용접 떡칠 박아 넣음 ✨
-    │
-    ▼
+    |
+    v
 L1 캐시 메모리 팽창 / 웻스톤 코드가 캐시에 다 빨려 들어가 메모리 병목 랙을 전혀 측정하지 못하는 장난감으로 전락 💀
-    │
-    ▼
+    |
+    v
 SPECfp 및 Linpack 병렬 벤치마크 진화 / 거대 슈퍼컴과 AI 텐서 코어는 무거운 행렬 병렬 테스트(Linpack)로 벤치마크 생태계 완벽히 권력 이양 완료
 ```
 
@@ -146,7 +146,7 @@ SPECfp 및 Linpack 병렬 벤치마크 진화 / 거대 슈퍼컴과 AI 텐서 �
 
 **진행 상황**: 152 / 803
 
-← **이전**: [151. Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/)
-**다음**: [153. Linpack (린팩) 벤치마크](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) →
+<- **이전**: [151. Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/)
+**다음**: [153. Linpack (린팩) 벤치마크](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) ->
 
 ---

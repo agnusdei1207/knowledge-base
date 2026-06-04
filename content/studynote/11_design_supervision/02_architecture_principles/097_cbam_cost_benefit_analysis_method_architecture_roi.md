@@ -41,15 +41,15 @@ $$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제시간에 구현되지 않거나 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 기술적 난이도, 외주 업체의 역량 평가 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CBAM 평가 메커니즘 흐름도                   │
-├──────────────────────────────────────────────────────────────┤
-│ [아키텍처 전략] ──▶ [이해관계자 투표] ──▶ 효용 점수 (B) 도출 │
-│       │                                                      │
-│       └──────────▶ [비용 산정 팀] ────▶ 예상 비용 (C) 도출 │
-│                                                              │
-│  => ROI 산출: (B) / (C) ──▶ 가장 높은 ROI의 전략을 최종 채택  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  CBAM 평가 메커니즘 흐름도                   |
++--------------------------------------------------------------+
+| [아키텍처 전략] ---> [이해관계자 투표] ---> 효용 점수 (B) 도출 |
+|       |                                                      |
+|       +-----------> [비용 산정 팀] -----> 예상 비용 (C) 도출 |
+|                                                              |
+|  => ROI 산출: (B) / (C) ---> 가장 높은 ROI의 전략을 최종 채택  |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 설계 도면이 어떻게 경제적 숫자로 변환되는지 보여준다. 효용 점수가 아무리 높아도 분모인 비용(C)이 천문학적이라면 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 ROI는 급락하여 탈락한다.
@@ -114,21 +114,21 @@ CBAM을 적용하면 엔지니어의 막연한 기술적 주장에 브레이크�
 
 ```text
 소프트웨어 아키텍처 평가 (SAAM) · 초기 시나리오 평가
-    │
-    ▼
+    |
+    v
 ATAM (Architecture Trade-off Analysis Method) · 품질 속성 간의 기술적 타협
-    │
-    ▼
+    |
+    v
 CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가
-    │
-    ▼
+    |
+    v
 애자일 아키텍처 런웨이 (Architectural Runway) · 지속적 투자 가치 평가 결합
-    │
-    ▼
+    |
+    v
 클라우드 FinOps (Cloud Financial Operations) · 실시간 클라우드 아키텍처 비용 최적화
 ```
 
-이 흐름도는 "단순 시나리오 → 기술적 타협 → 경제적 타협 → 실시간 비용 최적화"로 이어지는 아키텍처 평가 기법의 진화를 보여준다.
+이 흐름도는 "단순 시나리오 -> 기술적 타협 -> 경제적 타협 -> 실시간 비용 최적화"로 이어지는 아키텍처 평가 기법의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가
 
 **진행 상황**: 140 / 530
 
-← **이전**: [96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
-**다음**: [98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/098_saam_software_architecture_analysis_method/) →
+<- **이전**: [96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
+**다음**: [98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/098_saam_software_architecture_analysis_method/) ->
 
 ---

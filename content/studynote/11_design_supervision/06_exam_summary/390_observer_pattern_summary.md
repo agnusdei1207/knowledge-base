@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))은 한 객체의 상태 변화가 여러 구독자에게 자동 통지되도록 하는 행동 패턴이다. 상태 변경을 여러 화면, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 후속 처리에 반영해야 할 때 직접 호출을 모두 나열하면 결합이 커진다. 이 개념이 필요한 이유는 상태 변화 전파를 느슨하게 연결하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 변경 대상이 늘어날수록 발행자가 구독자 상세를 알아야 해 구조가 경직된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│  Observe   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|  Observe   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Observe  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Observe  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[직접 후속 호출] → [옵저버 패턴] → [구독 기반 확장]
+[직접 후속 호출] -> [옵저버 패턴] -> [구독 기반 확장]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))은 학교 종이 울리면 여러 반이 동시에 움직이는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 468 / 530
 
-← **이전**: [389. 프록시 패턴 (Proxy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/389_proxy_pattern_summary/)
-**다음**: [391. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) →
+<- **이전**: [389. 프록시 패턴 (Proxy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/389_proxy_pattern_summary/)
+**다음**: [391. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ->
 
 ---

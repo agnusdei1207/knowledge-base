@@ -29,12 +29,12 @@ tags = ["studynote-ai"]
 RAGAS는 인간의 감과 막연한 공포에 의존하던 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 관리를, 숫자로 증명되는 <strong>'정량적 소프트웨어 테스트(Quantitative Evaluation)'</strong>의 영역으로 끌어올린 혁명이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 개발은 '눈 가리고 요리하기'다. 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))가 무슨 재료(검색 문서)를 썼는지, 간은 맞는지 손님(유저)이 먹고 배탈이 나기 전까진 모른다. RAGAS는 주방 문 앞에 서 있는 '미슐랭 3스타 수석 심사위원([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 판사)'이다. 요리가 손님 테이블로 나가기 전에 이 심사위원이 맛을 보고 "이건 레시피(원본 문서)랑 다르게 설탕을 더 넣었잖아! 탈락(Faithfulness 0점)!"이라고 칼같이 점수를 매겨 독요리가 나가는 걸 막아주는 완벽한 검수대다.
@@ -46,27 +46,27 @@ RAGAS는 인간의 감과 막연한 공포에 의존하던 [AI](/knowledge-base/
 RAGAS는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심인 '검색(Retrieval)'과 '[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generation)' 능력을 분리하여, 각각을 독립적으로 채점하는 4대 핵심 지표([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)) 아키텍처를 짠다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           RAGAS의 4대 핵심 환각 정량 평가(Metrics) 아키텍처 도해          │
-├──────────────────────────────────────────────────────────────┤
-│  [상황]: 유저 질문(Q) ─▶ DB 검색된 문서(C) ─▶ 챗봇의 답변(A)          │
-│                                                              │
-│  [1. 생성기(LLM) 평가 - "입방정 떨지 않고 똑바로 요약했나?"]              │
-│   ① Faithfulness (사실 부합도): 답변(A)이 온전히 문서(C) 안에 있는 팩트로만 │
-│      이루어졌나? (문서엔 없는 '환불 100일'이라는 소설을 쓰면 점수 떡락! 🚨)     │
-│   ② Answer Relevance (질의 연관성): 대답(A)이 질문(Q)의 의도에 맞게 동문서답 │
-│      하지 않고 직구로 꽂혔나? (사과 물어봤는데 배 이야기하면 떡락!)             │
-│                                                              │
-│  [2. 검색기(Vector DB) 평가 - "쓰레기를 가져오지 않았나?"]              │
-│   ③ Context Precision (문맥 정밀도): 검색해 온 5장의 문서(C) 중에, 진짜   │
-│      질문(Q)을 푸는 데 필요한 '알짜배기 문서'가 상위권(1~2등)에 예쁘게 있나?    │
-│   ④ Context Recall (문맥 재현율): 정답을 맞히기 위해 필요한 '모든' 정보(C)를 │
-│      안 빼먹고 DB에서 다 긁어왔나? (반쪽짜리 정보만 가져왔으면 떡락!)           │
-│                                                              │
-│  [★ 판사 발동 (LLM-as-a-Judge)]                                │
-│   * GPT-4 판사가 위의 4가지 항목을 각각 수학적으로 계산하여                     │
-│     "이 RAG 챗봇 시스템의 현재 버전 종합 점수는 85점입니다." 도출 완료!         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           RAGAS의 4대 핵심 환각 정량 평가(Metrics) 아키텍처 도해          |
++--------------------------------------------------------------+
+|  [상황]: 유저 질문(Q) --> DB 검색된 문서(C) --> 챗봇의 답변(A)          |
+|                                                              |
+|  [1. 생성기(LLM) 평가 - "입방정 떨지 않고 똑바로 요약했나?"]              |
+|   ① Faithfulness (사실 부합도): 답변(A)이 온전히 문서(C) 안에 있는 팩트로만 |
+|      이루어졌나? (문서엔 없는 '환불 100일'이라는 소설을 쓰면 점수 떡락! 🚨)     |
+|   ② Answer Relevance (질의 연관성): 대답(A)이 질문(Q)의 의도에 맞게 동문서답 |
+|      하지 않고 직구로 꽂혔나? (사과 물어봤는데 배 이야기하면 떡락!)             |
+|                                                              |
+|  [2. 검색기(Vector DB) 평가 - "쓰레기를 가져오지 않았나?"]              |
+|   ③ Context Precision (문맥 정밀도): 검색해 온 5장의 문서(C) 중에, 진짜   |
+|      질문(Q)을 푸는 데 필요한 '알짜배기 문서'가 상위권(1~2등)에 예쁘게 있나?    |
+|   ④ Context Recall (문맥 재현율): 정답을 맞히기 위해 필요한 '모든' 정보(C)를 |
+|      안 빼먹고 DB에서 다 긁어왔나? (반쪽짜리 정보만 가져왔으면 떡락!)           |
+|                                                              |
+|  [★ 판사 발동 (LLM-as-a-Judge)]                                |
+|   * GPT-4 판사가 위의 4가지 항목을 각각 수학적으로 계산하여                     |
+|     "이 RAG 챗봇 시스템의 현재 버전 종합 점수는 85점입니다." 도출 완료!         |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (Faithfulness 수학적 추출)**:
@@ -142,7 +142,7 @@ RAGAS([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [환각 정량 측정 프레임워크 (RAGAS)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [환각 정량 측정 프레임워크 (RAGAS)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ RAGAS([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_
 
 **진행 상황**: 225 / 420
 
-← **이전**: [224. 하드웨어 가속 컴파일러 (TensorRT / ONNX)](/knowledge-base/studynote/10_ai/03_llm_nlp/224_hardware_accelerator_tensorrt_onnx/)
-**다음**: [226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)](/knowledge-base/studynote/10_ai/03_llm_nlp/226_genai_legal_copyright_scraping/) →
+<- **이전**: [224. 하드웨어 가속 컴파일러 (TensorRT / ONNX)](/knowledge-base/studynote/10_ai/03_llm_nlp/224_hardware_accelerator_tensorrt_onnx/)
+**다음**: [226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)](/knowledge-base/studynote/10_ai/03_llm_nlp/226_genai_legal_copyright_scraping/) ->
 
 ---

@@ -24,22 +24,22 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 실세계 예시: ① 항공 관제탑([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 항공기([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 통신을 중재, ② 채팅방([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 참여자([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 메시지를 중계, ③ MVC의 Controller가 View와 Model 간의 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/), ④ .NET MediatR 라이브러리가 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리를 중재.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          미디에이터 패턴 구조                                  │
-├─────────────────────────────────────────────────────────────┤
-│  Before (N:N 결합)          After (미디에이터)               │
-│  A ←──→ B                   A → Mediator → B               │
-│  A ←──→ C                   B → Mediator → C               │
-│  B ←──→ C                   C → Mediator → A               │
-│  (모두 직접 참조)            (미디에이터만 참조)              │
-│                                                             │
-│  Mediator (인터페이스)                                       │
-│  + notify(sender: Colleague, event: String): void           │
-│       ▲                                                     │
-│  ConcreteMediator                                           │
-│  - colleagues: List<Colleague>                              │
-│  + notify(sender, event) { // 중재 로직 }                   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          미디에이터 패턴 구조                                  |
++-------------------------------------------------------------+
+|  Before (N:N 결합)          After (미디에이터)               |
+|  A <----> B                   A -> Mediator -> B               |
+|  A <----> C                   B -> Mediator -> C               |
+|  B <----> C                   C -> Mediator -> A               |
+|  (모두 직접 참조)            (미디에이터만 참조)              |
+|                                                             |
+|  Mediator (인터페이스)                                       |
+|  + notify(sender: Colleague, event: String): void           |
+|       ^                                                     |
+|  ConcreteMediator                                           |
+|  - colleagues: List<Colleague>                              |
+|  + notify(sender, event) { // 중재 로직 }                   |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 항공 관제탑([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 항공기([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 통신을 중재한다. 항공기들이 서로 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하면 충돌 위험이 있다.
@@ -58,17 +58,17 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 | EventBus | 느슨한 이벤트 중재 | Spring ApplicationEventPublisher |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       MediatR CQRS 미디에이터 동작                           │
-├─────────────────────────────────────────────────────────────┤
-│  Controller → IMediator.Send(CreateOrderCommand)            │
-│       ↓                                                     │
-│  Mediator → CreateOrderCommandHandler.Handle(command)       │
-│       ↓                                                     │
-│  Result → Controller (Handler가 처리 결과 반환)             │
-│                                                             │
-│  Controller는 Handler를 직접 알지 못함                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       MediatR CQRS 미디에이터 동작                           |
++-------------------------------------------------------------+
+|  Controller -> IMediator.Send(CreateOrderCommand)            |
+|       v                                                     |
+|  Mediator -> CreateOrderCommandHandler.Handle(command)       |
+|       v                                                     |
+|  Result -> Controller (Handler가 처리 결과 반환)             |
+|                                                             |
+|  Controller는 Handler를 직접 알지 못함                       |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 부동산 중개사([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))가 매수자(Controller)와 매도자(Handler)를 중재한다. 매수자는 매도자를 직접 알 필요 없다.
@@ -80,7 +80,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 통신 방향 | N:N → [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 중재 | 1:N (Subject → [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) |
+| 통신 방향 | N:N -> [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 중재 | 1:N (Subject -> [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) |
 | 결합 제거 | 모든 참여자 간 결합 | Subject-[Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 결합 |
 | 중앙화 | O (미디에이터 비대화 위험) | Subject [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | 대표 사례 | 채팅방, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) | 이벤트 시스템, MVC |
@@ -115,7 +115,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 ### 📌 관련 개념 맵
 
-[N:N 결합 문제] → [미디에이터 패턴] → [MVC Controller] → CQRS MediatR] → [분산 메시지 브로커]
+[N:N 결합 문제] -> [미디에이터 패턴] -> [MVC Controller] -> CQRS MediatR] -> [분산 메시지 브로커]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -126,7 +126,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(1994)] → [MVC Controller] → CQRS MediatR] → [이벤트 버스] → Kafka [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 미디에이터]
+[GoF [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(1994)] -> [MVC Controller] -> CQRS MediatR] -> [이벤트 버스] -> Kafka [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 미디에이터]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +140,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 **진행 상황**: 262 / 530
 
-← **이전**: [200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/200_chain_of_responsibility_pros_cons/)
-**다음**: [202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/202_mediator_observer_combined/) →
+<- **이전**: [200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/200_chain_of_responsibility_pros_cons/)
+**다음**: [202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/202_mediator_observer_combined/) ->
 
 ---

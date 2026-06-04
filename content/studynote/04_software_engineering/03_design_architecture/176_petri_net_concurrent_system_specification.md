@@ -27,13 +27,13 @@ tags = ["software_engineering"]
 아래 그림은 병행 시스템이 왜 일반적인 순차 모델보다 더 강한 표현 도구를 요구하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why concurrent systems need more than a simple flowchart           │
-├────────────────────────────────────────────────────────────────────┤
-│ sequential view  : step1 -> step2 -> step3                         │
-│ concurrent view  : many jobs wait, race, synchronize, and block    │
-│ key question     : which action may occur when resources are shared?│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why concurrent systems need more than a simple flowchart           |
++--------------------------------------------------------------------+
+| sequential view  : step1 -> step2 -> step3                         |
+| concurrent view  : many jobs wait, race, synchronize, and block    |
+| key question     : which action may occur when resources are shared?|
++--------------------------------------------------------------------+
 ```
 
 즉 페트리 넷은 "무슨 순서로 적을까"보다 "지금 어떤 조건이 충족되어야 이 사건이 일어나는가"를 중심에 둔다. 그래서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 자원 경쟁, 대기 조건, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 같은 문제를 표현하기에 적합하다.
@@ -59,20 +59,20 @@ tags = ["software_engineering"]
 아래 그림은 두 조건이 모두 만족될 때만 작업이 실행되는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Enabling and firing                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ input places :   [P1 ready] ●      [P2 resource] ●                │
-│                        \              /                           │
-│                         \            /                            │
-│                          \          /                             │
-│                         ( T1 execute )                             │
-│                               │                                    │
-│                               ▼                                    │
-│                           [P3 done] ●                              │
-│                                                                    │
-│ T1 can fire only when both input places hold required tokens.      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Enabling and firing                                                |
++--------------------------------------------------------------------+
+| input places :   [P1 ready] ●      [P2 resource] ●                |
+|                        \              /                           |
+|                         \            /                            |
+|                          \          /                             |
+|                         ( T1 execute )                             |
+|                               |                                    |
+|                               v                                    |
+|                           [P3 done] ●                              |
+|                                                                    |
+| T1 can fire only when both input places hold required tokens.      |
++--------------------------------------------------------------------+
 ```
 
 이 구조를 결제 시스템에 적용하면, `결제 요청 토큰`과 `재고 확보 토큰`이 모두 있을 때만 `주문 확정 전이`가 발화하도록 설계할 수 있다. 반대로 어느 한쪽 토큰이 없으면 전이는 멈춘다. 그래서 페트리 넷은 단순 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 아니라, <strong>조건 기반 실행 규칙을 분석 가능한 형태로 바꾸는 모델</strong>이다.
@@ -107,15 +107,15 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 실무에서 페트리 넷이 빛나는 곳은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 흐름이 충돌할 때 비용이 큰 영역"이다. 결제-재고-배송 확정, 생산 설비의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 송수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 락 획득 순서 같은 문제는 오류가 나면 장애 원인 추적 비용이 매우 크다. 이런 구간은 페트리 넷으로 핵심 자원과 전이 규칙을 먼저 모델링해 보는 것이 설계 리스크를 크게 줄인다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Should this problem be modeled with a Petri Net?                   │
-├────────────────────────────────────────────────────────────────────┤
-│ concurrent branches + shared resources + need formal analysis?     │
-│   ├─ yes -> build a Petri Net / workflow net model                 │
-│   └─ no                                                            │
-│        ├─ mostly sequential flow? -> flowchart or BPMN             │
-│        └─ single-object state logic? -> FSM / statechart           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Should this problem be modeled with a Petri Net?                   |
++--------------------------------------------------------------------+
+| concurrent branches + shared resources + need formal analysis?     |
+|   +- yes -> build a Petri Net / workflow net model                 |
+|   +- no                                                            |
+|        +- mostly sequential flow? -> flowchart or BPMN             |
+|        +- single-object state logic? -> FSM / statechart           |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -166,18 +166,18 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 ```text
 informal concurrent requirements
-        │
-        ▼
+        |
+        v
 places + transitions + tokens
-        │
-        ▼
+        |
+        v
 marking and firing rules
-        │
-        ├──────────────▶ reachability analysis
-        │
-        ├──────────────▶ liveness / boundedness / deadlock check
-        │
-        ▼
+        |
+        +---------------> reachability analysis
+        |
+        +---------------> liveness / boundedness / deadlock check
+        |
+        v
 safer concurrent design and test scenarios
 ```
 
@@ -195,7 +195,7 @@ safer concurrent design and test scenarios
 
 **진행 상황**: 176 / 973
 
-← **이전**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/)
-**다음**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/knowledge-base/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/) →
+<- **이전**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/)
+**다음**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/knowledge-base/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/) ->
 
 ---

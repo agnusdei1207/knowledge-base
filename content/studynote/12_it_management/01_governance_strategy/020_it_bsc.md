@@ -31,18 +31,18 @@ IT BSC는 이 거대한 소통의 단절을 끊어내기 위해 탄생했다. IT
 [IT 조직의 정체성 위기와 IT BSC를 통한 해결 구조]
 
 (과거의 단절된 구조: IT를 비용 부서로 인식)
-[ 최고 경영진 (C-Level) ]  ◀── (언어의 장벽) ──▶ [ IT 개발/운영 부서 ]
+[ 최고 경영진 (C-Level) ]  <--- (언어의 장벽) ---> [ IT 개발/운영 부서 ]
  "IT 투자가 돈 낭비 같다"                         "우리는 밤새워 서버를 지켰다"
  (관심사: ROI, 매출, 혁신)                         (관심사: CPU, Ping, 트래픽)
 
 (IT BSC를 통한 비즈니스 동기화 모델)
 [ 최고 경영진의 비전: "모바일 매출 30% 증대" ]
-          │ (Top-Down 전략 지시)
-          ▼
+          | (Top-Down 전략 지시)
+          v
 [ 기업 공헌 관점 ]  : "전자결제 시스템의 처리량 2배 확충으로 매출 손실 방어" (비즈니스 언어화)
-          │
+          |
 [ 운영/사용자 관점 ]: "클라우드 오토스케일링 도입, 현업 부서의 요구사항 처리 시간 단축"
-          │
+          |
 [ IT 실무 (엔지니어) ]: "Kubernetes Pod 자동 확장 정책 설정 완료" (기술적 실행)
 ```
 
@@ -70,16 +70,16 @@ IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_b
 
 (4) 미래 지향 관점 (씨앗 뿌리기)
     [ "개발자들에게 최신 MSA(마이크로서비스) 구조 교육을 100시간 실시한다" ]
-         │ (이 투자를 통해 내부 프로세스가 혁신됨)
-         ▼
+         | (이 투자를 통해 내부 프로세스가 혁신됨)
+         v
 (3) 운영 탁월성 관점 (줄기 키우기)
     [ "거대한 모놀리식 시스템을 작게 쪼개어, 신규 기능 배포 리드타임을 30% 단축한다" ]
-         │ (프로세스가 빨라지니 사용자가 감동함)
-         ▼
+         | (프로세스가 빨라지니 사용자가 감동함)
+         v
 (2) 사용자 지향 관점 (꽃 피우기)
     [ "마케팅 부서가 요구한 타겟팅 이벤트 앱을 제때 만들어주어 현업 만족도를 95점으로 올린다" ]
-         │ (사용자가 만족하고 시장에 제때 출시되니 돈을 범)
-         ▼
+         | (사용자가 만족하고 시장에 제때 출시되니 돈을 범)
+         v
 (1) 기업 공헌 관점 (열매 수확)
     [ "신속한 앱 출시 덕분에 경쟁사보다 시장을 선점하여 1분기 전자상거래 매출을 20% 높인다" ]
 ```
@@ -98,10 +98,10 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 
 | 관점 | 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Corporate [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)) | 정렬(Alignment) 후 | IT 부서의 실행 (IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)) |
 |:---|:---|:---:|:---|
-| **재무/공헌** | 전사 매출 이익 15% 증가 | ──(IT의 비용 지원)──▶ | IT 인프라 통합으로 서버 라이선스 비용 10억 절감 |
-| **고객/사용자** | 스마트폰 2030 핵심 고객층 점유율 1위 | ──(모바일 IT 지원)──▶ | 모바일 앱 로딩 속도 1.5초 이내 달성 및 장애 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
-| **프로세스/운영**| 주문에서 배송까지의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 사이클타임 절반 단축 | ──(시스템 융합)──▶ | 레거시 ERP와 물류 창고 시스템 간의 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동망 구축 |
-| **학습/미래** | 직원들의 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)(해석 능력) 강화 | ──(인프라 제공)──▶ | 전사 빅데이터 분석 플랫폼(대시보드) 구축 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파트 교육 |
+| **재무/공헌** | 전사 매출 이익 15% 증가 | --(IT의 비용 지원)---> | IT 인프라 통합으로 서버 라이선스 비용 10억 절감 |
+| **고객/사용자** | 스마트폰 2030 핵심 고객층 점유율 1위 | --(모바일 IT 지원)---> | 모바일 앱 로딩 속도 1.5초 이내 달성 및 장애 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
+| **프로세스/운영**| 주문에서 배송까지의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 사이클타임 절반 단축 | --(시스템 융합)---> | 레거시 ERP와 물류 창고 시스템 간의 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동망 구축 |
+| **학습/미래** | 직원들의 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)(해석 능력) 강화 | --(인프라 제공)---> | 전사 빅데이터 분석 플랫폼(대시보드) 구축 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파트 교육 |
 
 아래의 비교 상태도는 단순히 IT 시스템 내부만 관리하던 과거의 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구와, 비즈니스 가치까지 연결하는 IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 간의 시각 차이를 보여준다.
 
@@ -109,21 +109,21 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 [전통적 ITSM vs IT BSC 관리 지표의 포커스 이동]
 
 (전통적 IT 관리 : IT 부서 내부에만 갇힌 매트릭스)
-┌─────────────────────────┐
-│ Server Uptime: 99.9%    │ -> "서버는 안 죽었는데, 현업은 신규 기능이 늦는다고 불만"
-│ Network Ping: 20ms      │ -> "네트워크는 빠른데, 그 위로 흐르는 앱 매출은 감소"
-│ Patch Level: 100%       │
-└─────────────────────────┘
-        ▼ (시야 확장 및 정렬의 필요성 대두)
++-------------------------+
+| Server Uptime: 99.9%    | -> "서버는 안 죽었는데, 현업은 신규 기능이 늦는다고 불만"
+| Network Ping: 20ms      | -> "네트워크는 빠른데, 그 위로 흐르는 앱 매출은 감소"
+| Patch Level: 100%       |
++-------------------------+
+        v (시야 확장 및 정렬의 필요성 대두)
 
 (IT BSC : 비즈니스와 정렬된 하이브리드 매트릭스)
-┌─────────────────────────┐   [결과] 기업 재무 공헌도 (IT ROI 120% 달성)
-│ 비즈니스 관점 연계 지표 │     ▲
-├─────────────────────────┤     │ (지원)
-│ 사용자 체감 가용성 지표 │ ────┘
-├─────────────────────────┤
-│ 인프라/보안 통제 지표   │ (운영 탁월성)
-└─────────────────────────┘
++-------------------------+   [결과] 기업 재무 공헌도 (IT ROI 120% 달성)
+| 비즈니스 관점 연계 지표 |     ^
++-------------------------+     | (지원)
+| 사용자 체감 가용성 지표 | ----+
++-------------------------+
+| 인프라/보안 통제 지표   | (운영 탁월성)
++-------------------------+
 ```
 
 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 중심의 전통적 ITSM이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 '운영 안정성(프로세스 관점)'에만 극도로 치우쳐 있다면, IT BSC는 이 안정성이 '고객과 재무'에 어떤 영향을 미치는지 양방향으로 평가한다는 점에서 한 차원 높은 거버넌스 도구이다.
@@ -142,17 +142,17 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 [비즈니스 정렬을 위한 IT BSC 구축 의사결정 트리]
 
 1. [전사 전략 분석] : 경영진의 올해 핵심 과제(예: "글로벌 시장 진출") 분석
-      ↓
+      v
 2. [비즈니스 리더 인터뷰] : "글로벌 진출을 위해 IT가 무엇을 제일 잘해줘야 합니까?"
-      ↓
+      v
 3. [IT 전략 수립] : 글로벌 통합 인프라 구축 및 24시간(Follow-the-Sun) 무중단 지원
-      ↓
+      v
 4. [IT 관점별 KPI 할당]
     - [공헌] 다국어 지원 시스템 구축 완료에 따른 해외 지사 매출 기여
     - [사용자] 해외 지사 현지어 헬프데스크 만족도 90점
     - [운영] 글로벌 CDN 엣지 노드 응답 지연율 50ms 이내 보장
     - [미래] 글로벌 컴플라이언스(GDPR 등) 준수를 위한 인력 교육
-      ↓
+      v
 5. [IT-비즈니스 얼라인먼트 위원회] : 지표 합의 및 예산 확정 (거버넌스 통제)
 ```
 
@@ -193,17 +193,17 @@ IT BSC의 성공적인 정착은 IT 조직이 수동적인 '지원 부서'에서
 
 ```text
 [비즈니스 전략 수립 (경영진 Vision/Mission)]
-    │
-    ▼
+    |
+    v
 [IT 전략 연계 (IT-Business Alignment)]
-    │
-    ▼
+    |
+    v
 [IT BSC — 기업 공헌·고객·내부 프로세스·미래 학습 4관점 지표 측정]
-    │
-    ▼
+    |
+    v
 [COBIT (Control Objectives for IT) — IT 거버넌스 통제 프레임워크 연동]
-    │
-    ▼
+    |
+    v
 [IT ROI 측정 — 투자 대비 비즈니스 가치 정량화 및 피드백]
 ```
 IT BSC는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 연계에서 출발하여 4관점 KPI로 성과를 측정하고, [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크와 연동해 IT 거버넌스를 완성한다.
@@ -219,7 +219,7 @@ IT BSC는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineerin
 
 **진행 상황**: 34 / 587
 
-← **이전**: [19. 균형 성과 기록표 (BSC, Balanced Scorecard)](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc_balanced_scorecard/)
-**다음**: [21. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map/) →
+<- **이전**: [19. 균형 성과 기록표 (BSC, Balanced Scorecard)](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc_balanced_scorecard/)
+**다음**: [21. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map/) ->
 
 ---

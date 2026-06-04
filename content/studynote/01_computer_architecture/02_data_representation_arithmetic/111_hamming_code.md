@@ -32,24 +32,24 @@ tags = ["studynote-computer-architecture"]
 해밍 코드는 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(P)를 $2^n$ 번째 자리(1, 2, 4, 8...)에 심어놓고, 나머지 빈자리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(D)를 끼워 넣는다. 각 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 자신만의 고유한 감시 구역을 지닌다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           해밍 코드(7,4) 비트 배치 및 감시 구역 (짝수 패리티) │
-├────────────────────────────────────────────────────────┤
-│   비트 위치 :  1   2   3   4   5   6   7                   │
-│   비트 종류 :  P1  P2  D1  P4  D2  D3  D4                  │
-│                                                        │
-│   [ P1의 감시 구역 ] : 1, 3, 5, 7 번 비트 검사              │
-│   [ P2의 감시 구역 ] : 2, 3, 6, 7 번 비트 검사              │
-│   [ P4의 감시 구역 ] : 4, 5, 6, 7 번 비트 검사              │
-│                                                        │
-│ * 원리: 만약 6번 비트(D3)에 에러가 발생했다면?              │
-│   - P1 구역: 정상 (6번 안 들어있음) ──▶ 결과 0              │
-│   - P2 구역: 에러 (6번 들어있음)   ──▶ 결과 1              │
-│   - P4 구역: 에러 (6번 들어있음)   ──▶ 결과 1              │
-│                                                        │
-│   증후군(Syndrome) = P4 P2 P1 = '110' (십진수 6)         │
-│   ──▶ "범인은 6번 자리다! 6번 비트를 뒤집어라(NOT)!"        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           해밍 코드(7,4) 비트 배치 및 감시 구역 (짝수 패리티) |
++--------------------------------------------------------+
+|   비트 위치 :  1   2   3   4   5   6   7                   |
+|   비트 종류 :  P1  P2  D1  P4  D2  D3  D4                  |
+|                                                        |
+|   [ P1의 감시 구역 ] : 1, 3, 5, 7 번 비트 검사              |
+|   [ P2의 감시 구역 ] : 2, 3, 6, 7 번 비트 검사              |
+|   [ P4의 감시 구역 ] : 4, 5, 6, 7 번 비트 검사              |
+|                                                        |
+| * 원리: 만약 6번 비트(D3)에 에러가 발생했다면?              |
+|   - P1 구역: 정상 (6번 안 들어있음) ---> 결과 0              |
+|   - P2 구역: 에러 (6번 들어있음)   ---> 결과 1              |
+|   - P4 구역: 에러 (6번 들어있음)   ---> 결과 1              |
+|                                                        |
+|   증후군(Syndrome) = P4 P2 P1 = '110' (십진수 6)         |
+|   ---> "범인은 6번 자리다! 6번 비트를 뒤집어라(NOT)!"        |
++--------------------------------------------------------+
 ```
 
 수신 측 하드웨어는 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3개의 패리티 구역별로 XOR 연산하여 **신드롬(Syndrome)** 값을 뽑아낸다. 이 신드롬 값이 `000`이면 정상이고, 0이 아닌 숫자가 나오면 그 숫자가 곧 에러가 발생한 주소([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 된다. CPU는 해당 위치의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무심하게 뒤집어버림으로써(NOT 게이트) 복구를 1 나노초 만에 완료한다.
@@ -110,21 +110,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 통신 에러와 재전송(ARQ)의 병목 한계 도달
-    │
-    ▼
+    |
+    v
 단순 패리티 비트 (검출만 가능)
-    │
-    ▼
+    |
+    v
 해밍 코드(Hamming Code) 개발 (다중 패리티 교차 감시 및 1비트 자기 정정)
-    │
-    ▼
+    |
+    v
 SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화)
-    │
-    ▼
+    |
+    v
 다중 버스트 에러 극복을 위한 리드-솔로몬 / 터보 코드 융합
 ```
 
-이 흐름도는 "검출의 시대 → 단일 정정의 시대 → 다중 검출/정정 혼합의 시대 → 블록단위 대규모 정정의 시대"로 진화하는 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방어망의 발전 궤적을 보여준다.
+이 흐름도는 "검출의 시대 -> 단일 정정의 시대 -> 다중 검출/정정 혼합의 시대 -> 블록단위 대규모 정정의 시대"로 진화하는 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방어망의 발전 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화
 
 **진행 상황**: 111 / 803
 
-← **이전**: [110. 해밍 거리 (Hamming Distance)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)
-**다음**: [112. 체크섬 (Checksum)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) →
+<- **이전**: [110. 해밍 거리 (Hamming Distance)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)
+**다음**: [112. 체크섬 (Checksum)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) ->
 
 ---

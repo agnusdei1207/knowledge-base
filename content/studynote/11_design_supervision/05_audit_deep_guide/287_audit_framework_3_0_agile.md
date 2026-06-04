@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3.0 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3.0의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 전환 설계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 요구사항 변화 속도가 빨라지면서 단계별 대규모 점검보다 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위의 짧은 피드백이 중요해졌다. 특히 반복 점검이 기준선으로 정리되지 않으면 백로그 증적은 사람 의존 절차로 흩어지고, 최종적으로 경량 거버넌스가 남지 않아 의사결정이 감각에 의존하게 된다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이라고 통제를 생략하면 품질·보안·추적성이 동시에 무너질 수 있다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 반복 점검 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 백로그 증적 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 경량 거버넌스 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 반복 점검 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 백로그 증적 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 경량 거버넌스 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3.0 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 경량 거버넌스를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 반복 점검, 백로그 증적, 경량 거버넌스는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 지속 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 자동화(Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[반복 점검] → [감리 프레임워크 3.0 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환] → [지속 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 자동화(Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))]
+[반복 점검] -> [감리 프레임워크 3.0 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환] -> [지속 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 자동화(Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 반복 점검은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 348 / 530
 
-← **이전**: [286. SOW 범위관리 감리 (SOW Scope Management Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/286_sow_scope_management/)
-**다음**: [288. 애자일 스프린트 감리모델 (Agile Sprint Audit Model)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/288_agile_sprint_audit_model/) →
+<- **이전**: [286. SOW 범위관리 감리 (SOW Scope Management Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/286_sow_scope_management/)
+**다음**: [288. 애자일 스프린트 감리모델 (Agile Sprint Audit Model)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/288_agile_sprint_audit_model/) ->
 
 ---

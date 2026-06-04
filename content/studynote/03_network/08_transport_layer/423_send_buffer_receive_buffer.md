@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [윈도우 스케일옵션]
-    │
-    ▼
+    |
+    v
 [송신 버퍼 / 수신 버퍼]
-    │
-    └──▶ [어리석은 윈도우 증후군 문제]
+    |
+    +---> [어리석은 윈도우 증후군 문제]
 ```
 
 - **📢 섹션 요약 비유**: ** 송수신 버퍼는 급성질인 **"사장님(어플리케이션)"**과 일처리가 느린 **"거래처(네트워크)"** 사이에서, 양쪽이 스트레스받지 않도록 서류를 대신 쌓아두고 스케줄을 조율해 주는 **"능구렁이 비서([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))"**의 책상 서랍입니다.
@@ -57,23 +57,23 @@ tags = ["studynote-network"]
 4. <strong>마법의 계산 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>)</strong>: 수신자 TCP는 매번 영수증을 쏠 때 자기 버퍼 상태를 체크한다. <strong>"내 수신 버퍼의 전체 크기(예: 64KB) - 현재 조립 못 하고 쌓여있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> = 남은 빈 공간(예: 20KB)"</strong>. 이 20KB를 `Window Size` 칸에 적어서 송신자에게 던져주는 것이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                송신 버퍼와 수신 버퍼의 물 붓기 핑퐁 구조          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 어플리케이션 A (송신) ]                      [ 어플리케이션 B (수신) ]│
- │         │ (콸콸콸)                                ▲ (야금야금 빼감)   │
- │         ▼                                         │             │
- │   [ 송신 버퍼 (가득참) ]                      [ 수신 버퍼 (점점참) ]   │
- │         │                                         ▲             │
- │         └─── (남은 공간만큼만 TCP 패킷 발송!) ───────┘             │
- │                                                             │
- │   * 딜레마: 어플 B가 롤(LOL) 하느라 바빠서 수신 버퍼에서 데이터를 안 빼감.│
- │   * 방어: 수신 버퍼가 100% 꽉 차버림! ──▶ 수신자가 [Window=0] 발송! │
- │   * 결과: 송신 버퍼는 전송을 강제 중지하고, 어플 A가 붓는 물도 차단함. │
- │                                                             │
- │   ▶ "이것이 두 톱니바퀴(버퍼)가 물려 돌아가는 Flow Control의 미학이다!"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                송신 버퍼와 수신 버퍼의 물 붓기 핑퐁 구조          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 어플리케이션 A (송신) ]                      [ 어플리케이션 B (수신) ]|
+ |         | (콸콸콸)                                ^ (야금야금 빼감)   |
+ |         v                                         |             |
+ |   [ 송신 버퍼 (가득참) ]                      [ 수신 버퍼 (점점참) ]   |
+ |         |                                         ^             |
+ |         +--- (남은 공간만큼만 TCP 패킷 발송!) -------+             |
+ |                                                             |
+ |   * 딜레마: 어플 B가 롤(LOL) 하느라 바빠서 수신 버퍼에서 데이터를 안 빼감.|
+ |   * 방어: 수신 버퍼가 100% 꽉 차버림! ---> 수신자가 [Window=0] 발송! |
+ |   * 결과: 송신 버퍼는 전송을 강제 중지하고, 어플 A가 붓는 물도 차단함. |
+ |                                                             |
+ |   -> "이것이 두 톱니바퀴(버퍼)가 물려 돌아가는 Flow Control의 미학이다!"|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 송신/수신 버퍼는 댐과 댐을 잇는 **"저수지"**입니다. 비가 미친 듯이 와서 상류 댐(송신 버퍼)에 물이 가득 차도, 하류 댐(수신 버퍼)에 빈 공간이 없으면 절대 수문을 열지 않음으로써, 마을(어플리케이션)이 홍수에 떠내려가는 재앙을 완벽하게 통제해 냅니다.
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 윈도우 스케일옵션]
-    │
-    ▼
+    |
+    v
 [현재 개념: 송신 버퍼 / 수신 버퍼]
-    │
-    ├──▶ [확장 A: 어리석은 윈도우 증후군 문제]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 어리석은 윈도우 증후군 문제]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 송신 버퍼 / 수신 버퍼는 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 544 / 1120
 
-← **이전**: [422. 윈도우 스케일옵션 (Window Scale Option)](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)
-**다음**: [424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) →
+<- **이전**: [422. 윈도우 스케일옵션 (Window Scale Option)](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)
+**다음**: [424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) ->
 
 ---

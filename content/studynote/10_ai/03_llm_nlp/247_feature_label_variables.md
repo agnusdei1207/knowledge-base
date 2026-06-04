@@ -41,12 +41,12 @@ tags = ["studynote-ai"]
 피처 벡터 X = (x₁, x₂, ..., xₙ)가 존재하는 n차원 공간을 **입력 공간(Input Space)** 또는 <strong>특성 공간(Feature Space)</strong>이라 한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 피처는 집을 설명하는 "스펙표"(방 수, 층수, 위치)이고, 라벨은 그 집의 "실제 매매가"다. 좋은 스펙표(피처)일수록 실제 가격(라벨)을 더 정확히 예측할 수 있다.
@@ -58,22 +58,22 @@ tags = ["studynote-ai"]
 ### 2.1 피처 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                피처 처리 파이프라인                        │
-│                                                         │
-│  원시 데이터        피처 공학         모델 입력             │
-│  (Raw Data)    (Feature Eng.)    (Input Space)          │
-│                                                         │
-│  ┌──────────┐   ┌──────────────┐   ┌──────────────┐    │
-│  │나이: 25   │   │나이 정규화    │   │[0.3, 1, 0, 0,│    │
-│  │직업: 학생 │──▶│직업: 원-핫   │──▶│ 0.7, 50000]  │    │
-│  │수입: 50만 │   │수입: 로그변환 │   └──────────────┘    │
-│  └──────────┘   └──────────────┘        X 벡터          │
-│                                                         │
-│         ▼ 모델 학습/예측 ▼                               │
-│                                                         │
-│         ŷ = f(X) → 라벨 예측                            │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|                피처 처리 파이프라인                        |
+|                                                         |
+|  원시 데이터        피처 공학         모델 입력             |
+|  (Raw Data)    (Feature Eng.)    (Input Space)          |
+|                                                         |
+|  +----------+   +--------------+   +--------------+    |
+|  |나이: 25   |   |나이 정규화    |   |[0.3, 1, 0, 0,|    |
+|  |직업: 학생 |--->|직업: 원-핫   |--->| 0.7, 50000]  |    |
+|  |수입: 50만 |   |수입: 로그변환 |   +--------------+    |
+|  +----------+   +--------------+        X 벡터          |
+|                                                         |
+|         v 모델 학습/예측 v                               |
+|                                                         |
+|         ŷ = f(X) -> 라벨 예측                            |
++---------------------------------------------------------+
 ```
 
 ### 2.2 피처 공학 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 유형
@@ -88,11 +88,11 @@ tags = ["studynote-ai"]
 ### 2.3 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))
 
 ```
-      고차원 특성 공간         →        저차원 주성분 공간
-  x₁ ──┐                           PC1 (분산 최대 방향)
-  x₂ ──┤  PCA 변환   ────────▶     PC2 (PC1에 직교)
-  x₃ ──┤  (선형 투영)               PC3 ...
-  xₙ ──┘
+      고차원 특성 공간         ->        저차원 주성분 공간
+  x₁ --+                           PC1 (분산 최대 방향)
+  x₂ --+  PCA 변환   --------->     PC2 (PC1에 직교)
+  x₃ --+  (선형 투영)               PC3 ...
+  xₙ --+
   n차원                             k차원 (k < n)
 ```
 
@@ -153,7 +153,7 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage)</strong>: 라벨 정보가 피처에 포함되지 않도록 주의
 - **피처 중요도 해석**: 모델 설명 가능성([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/), [Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) 요구 시 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 활용
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a> 적용 시기</strong>: 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(100차원 이상), [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 필요 시, 다중공선성 제거 시
-- **인코딩 선택 기준**: 트리 모델 → 레이블 인코딩 가능, 선형/신경망 → 원-핫 필요
+- **인코딩 선택 기준**: 트리 모델 -> 레이블 인코딩 가능, 선형/신경망 -> 원-핫 필요
 
 ### 4.3 실무 예시: 고객 이탈 예측
 
@@ -190,14 +190,14 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | 피처(Feature) | 독립 변수, 입력 공간 / 모델의 학습 재료 |
 | 라벨(Label) | 종속 변수, 타깃, 정답 / 모델의 예측 목표 |
 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | 주성분, 고유값, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) / 피처 추출 기법 |
-| 레이블 인코딩 | 정수 매핑, 순서 가정 / 범주형 → 수치형 변환 |
-| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 다중공선성 / 범주형 → 이진 행렬 |
+| 레이블 인코딩 | 정수 매핑, 순서 가정 / 범주형 -> 수치형 변환 |
+| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 다중공선성 / 범주형 -> 이진 행렬 |
 | 피처 중요도 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), RFE, 상관계수 / 피처 선택 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [독립 변수 (피처) / 종속 변수 (라벨)] → [최적화·운영 자동화]
+[데이터 전처리] -> [독립 변수 (피처) / 종속 변수 (라벨)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -212,7 +212,7 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 **진행 상황**: 247 / 420
 
-← **이전**: [246. 과소 적합 (Underfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)
-**다음**: [248. 원-핫 인코딩 (One-Hot Encoding)](/knowledge-base/studynote/10_ai/03_llm_nlp/248_one_hot_encoding/) →
+<- **이전**: [246. 과소 적합 (Underfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)
+**다음**: [248. 원-핫 인코딩 (One-Hot Encoding)](/knowledge-base/studynote/10_ai/03_llm_nlp/248_one_hot_encoding/) ->
 
 ---

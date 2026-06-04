@@ -27,28 +27,28 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 집적 기술의 발전으로 하나의 칩에 CPU, 메모리, 주변 장치를 모두 담은 MCU (Micro Controller Unit)가 등장하면서 임베디드 시스템의 대중화가 시작되었다. 이후 연결성(Connectivity)이 중요해지며 단순 제어기에서 스마트 기기로 진화하였고, 최근에는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 연산까지 처리하는 고성능 임베디드 시스템으로 발전하고 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │           임베디드 시스템의 기본 동작 루프 (Sense-Think-Act) │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │     [ External Environment ]                                 │
-  │           │                                                  │
-  │           ▼ (Physical Signal)                                │
-  │  ┌─────────────────┐                                         │
-  │  │   Sensors       │ (온도, 가속도, 영상 등)                 │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Digital Data)                                   │
-  │  ┌─────────────────┐                                         │
-  │  │ Embedded System │ [ MCU / Processor ]                     │
-  │  │ (SW Processing) │ [ RTOS / Firmware ]                     │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Control Signal)                                 │
-  │  ┌─────────────────┐                                         │
-  │  │   Actuators     │ (모터, LED, 스피커 등)                  │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Physical Action)                                │
-  │     [ Control Result ]                                       │
-  └──────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------+
+  |           임베디드 시스템의 기본 동작 루프 (Sense-Think-Act) |
+  +--------------------------------------------------------------+
+  |                                                              |
+  |     [ External Environment ]                                 |
+  |           |                                                  |
+  |           v (Physical Signal)                                |
+  |  +-----------------+                                         |
+  |  |   Sensors       | (온도, 가속도, 영상 등)                 |
+  |  +--------+--------+                                         |
+  |           v (Digital Data)                                   |
+  |  +-----------------+                                         |
+  |  | Embedded System | [ MCU / Processor ]                     |
+  |  | (SW Processing) | [ RTOS / Firmware ]                     |
+  |  +--------+--------+                                         |
+  |           v (Control Signal)                                 |
+  |  +-----------------+                                         |
+  |  |   Actuators     | (모터, LED, 스피커 등)                  |
+  |  +--------+--------+                                         |
+  |           v (Physical Action)                                |
+  |     [ Control Result ]                                       |
+  +--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 임베디드 시스템은 외부 환경과 끊임없이 소통하는 '폐루프(Closed-loop) 시스템'의 전형이다. 센서를 통해 현실 세계의 물리량을 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 받아들이고(Sense), 내장된 소프트웨어가 상황을 판단하며(Think), 그 결과에 따라 모터나 밸브 등을 움직여 물리적인 변화를 만들어낸다(Act). 이 모든 과정이 수 밀리초(ms) 내에 반복되며 기계가 마치 살아있는 것처럼 동작하게 만든다. 여기서 중요한 실무적 포인트는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈 제거와 액추에이터 제어의 정밀도이며, 이 과정에서 발생하는 시간 지연을 최소화하는 것이 임베디드 엔지니어의 핵심 역량이다.
@@ -76,28 +76,28 @@ tags = ["studynote-operating-system"]
 임베디드 시스템은 스스로 개발 환경을 구축할 수 없으므로, 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 호스트 PC에서 개발하여 타겟 장치로 내려보내는 특수한 과정을 거친다.
 
 ```text
- ┌───────────────────────────────────────────────────────────────┐
- │               임베디드 시스템 교차 개발 (Cross Development)   │
- ├───────────────────────────────────────────────────────────────┤
- │                                                               │
- │   [ Host PC (x86/ARM64) ]          [ Target (MCU/MPU) ]       │
- │   ┌─────────────────┐              ┌──────────────────┐       │
- │   │  Source Code    │              │                  │       │
- │   └────────┬────────┘              │                  │       │
- │            ▼ (1) Compile           │                  │       │
- │   ┌─────────────────┐              │                  │       │
- │   │ Cross Compiler  │              │                  │       │
- │   └────────┬────────┘              │                  │       │
- │            ▼ (2) Binary Image      │                  │       │
- │   ┌─────────────────┐ (3) Download │  ┌────────────┐  │       │
- │   │ Executable Bin  │ ────────────▶│  │ Flash Mem  │  │       │
- │   └────────┬────────┘  (JTAG/USB)  │  └─────┬──────┘  │       │
- │            │                       │        ▼         │       │
- │            └────── (4) Debugging ──┤  ┌────────────┐  │       │
- │                    (In-Circuit)    │  │  Processor │  │       │
- │                                    │  └────────────┘          │
- │                                    └──────────────────┘       │
- └───────────────────────────────────────────────────────────────┘
+ +---------------------------------------------------------------+
+ |               임베디드 시스템 교차 개발 (Cross Development)   |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   [ Host PC (x86/ARM64) ]          [ Target (MCU/MPU) ]       |
+ |   +-----------------+              +------------------+       |
+ |   |  Source Code    |              |                  |       |
+ |   +--------+--------+              |                  |       |
+ |            v (1) Compile           |                  |       |
+ |   +-----------------+              |                  |       |
+ |   | Cross Compiler  |              |                  |       |
+ |   +--------+--------+              |                  |       |
+ |            v (2) Binary Image      |                  |       |
+ |   +-----------------+ (3) Download |  +------------+  |       |
+ |   | Executable Bin  | ------------->|  | Flash Mem  |  |       |
+ |   +--------+--------+  (JTAG/USB)  |  +-----+------+  |       |
+ |            |                       |        v         |       |
+ |            +------ (4) Debugging --+  +------------+  |       |
+ |                    (In-Circuit)    |  |  Processor |  |       |
+ |                                    |  +------------+          |
+ |                                    +------------------+       |
+ +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 임베디드 개발의 독특함은 '내가 실행될 곳과 내가 만들어지는 곳이 다르다'는 점에 있다. 호스트 PC에서 돌아가는 크로스 컴파일러(Cross Compiler)는 타겟 장치의 CPU 아키텍처(예: ARM)에 맞는 이진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Binary)을 생성한다. 이렇게 생성된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 JTAG이나 SWD 같은 전용 인터페이스를 통해 타겟의 플래시 메모리에 구워진다(Flash Writing). 실무에서 가장 어려운 지점은 '디버깅'인데, 타겟 장치에는 화면이 없기 때문에 호스트 PC의 디버거가 타겟 내부의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 실시간으로 훔쳐보는 인서킷 에뮬레이션(In-Circuit Emulation) 기술이 사용된다. 이 과정에서 타이밍 이슈나 하드웨어 의존적인 버그를 잡아내는 것이 임베디드 개발의 묘미이자 난관이다.
@@ -109,12 +109,12 @@ tags = ["studynote-operating-system"]
 임베디드 시스템, 특히 배터리로 구동되는 기기들은 전력 효율이 생명이다.
 
 ```text
- [ Active Mode ] ──▶ [ Sleep Mode ] ──▶ [ Deep Sleep Mode ]
+ [ Active Mode ] ---> [ Sleep Mode ] ---> [ Deep Sleep Mode ]
   - CPU: Running      - CPU: Halted      - CPU: Power Off
   - Clock: Full       - Clock: Gated     - Clock: Only RTC
   - Power: Max        - Power: Low       - Power: Ultra Low
-       ▲                   │                   │
-       └───── [Wakeup Event] ──────────────────┘
+       ^                   |                   |
+       +----- [Wakeup Event] ------------------+
 ```
 
 **[다이어그램 해설]** 임베디드 시스템은 99%의 시간을 자면서 보낸다. 센서가 특정 값을 감지하거나 타이머가 울릴 때만 잠깐 깨어나(Wakeup) 일을 하고 즉시 다시 잠든다(Sleep). 이를 위해 MCU는 여러 단계의 절전 모드를 제공하며, 엔지니어는 미사용 주변 장치의 클럭을 끄는 '[Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)'이나 전압을 낮추는 'Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Scaling' 기법을 사용한다. 실무적으로는 수 마이크로암페어(uA) 단위의 누설 전류까지 잡아야 배터리 수명을 년 단위로 보장할 수 있다.
@@ -196,23 +196,23 @@ tags = ["studynote-operating-system"]
 
 ```text
 [펌웨어 (Firmware) — 하드웨어 초기화·부트로더]
-    │
-    ▼
+    |
+    v
 [RTOS (실시간 운영체제) — 결정적 스케줄링 보장]
-    │
-    ▼
+    |
+    v
 [임베디드 리눅스 (Embedded Linux) — 풍부한 기능·복잡도]
-    │
-    ▼
+    |
+    v
 [HAL (Hardware Abstraction Layer) — 드라이버 이식성 확보]
-    │
-    ▼
+    |
+    v
 [IoT 엣지 디바이스 — 클라우드 연결 임베디드 확장]
-    │
-    ▼
+    |
+    v
 [AIoT — ML 추론 탑재 임베디드 AI 시스템]
 ```
-임베디드 시스템은 단순 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 제어에서 RTOS → 임베디드 리눅스 → [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 → AIoT로 발전하며 점점 더 지능화·연결화되고 있다.
+임베디드 시스템은 단순 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 제어에서 RTOS -> 임베디드 리눅스 -> [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 -> AIoT로 발전하며 점점 더 지능화·연결화되고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 임베디드 시스템은 <strong>"장난감이나 가전제품 속에 들어있는 아주 작은 컴퓨터 뇌"</strong>예요.
@@ -225,7 +225,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 10 / 800
 
-← **이전**: [9. 실시간 시스템 (Real-time System) - Hard vs Soft](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)
-**다음**: [11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/) →
+<- **이전**: [9. 실시간 시스템 (Real-time System) - Hard vs Soft](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)
+**다음**: [11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/) ->
 
 ---

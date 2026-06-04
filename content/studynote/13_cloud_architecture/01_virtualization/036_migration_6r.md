@@ -195,7 +195,7 @@ AWS Migration Hub, Azure Migrate AI 평가
 
 **진행 상황**: 35 / 371
 
-← **이전**: [035. FinOps — 오버 프로비저닝 최적화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/035_finops_over_provisioning/)
-**다음**: [037. 클라우드 브로커와 MSP (Cloud Broker & MSP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/037_cloud_broker_msp/) →
+<- **이전**: [035. FinOps — 오버 프로비저닝 최적화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/035_finops_over_provisioning/)
+**다음**: [037. 클라우드 브로커와 MSP (Cloud Broker & MSP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/037_cloud_broker_msp/) ->
 
 ---

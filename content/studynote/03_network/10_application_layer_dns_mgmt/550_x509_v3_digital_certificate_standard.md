@@ -21,30 +21,30 @@ tags = ["studynote-network"]
 
 - **개념**: X.509는 국제 전기 통신 연합(ITU-T)에서 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))의 핵심인 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 형식을 정의한 표준이다. 쉽게 말해 어떤 사람(또는 서버)의 "이름, 소속, 유효기간, 공개키 원본"을 묶은 뒤, 국가 공인 기관([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 서명이라는 압인을 찍어 위조를 불가능하게 만든 전자 문서다.
 - **필요성**: 비대칭 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)은 기가 막힌 발명이다. 내가 철수의 공개키를 구해서 그걸로 암호화하면 철수의 개인키로만 풀 수 있다. 하지만 결정적인 허점이 있다. 중간에 몰래 숨어든 해커(Eve)가 "내가 철수야! 내 공개키 받아!"라고 던져주면, 나는 꼼짝없이 해커의 공개키로 기밀문서를 암호화해 바치게 된다([Man-in-the-Middle Attack](/knowledge-base/studynote/09_security/03_network_security/266_mitm_attack/)). 공개키 자체는 수학적으로 완벽하지만, "그 공개키가 진짜 철수의 것인가?"를 증명하는 사회적 신뢰의 고리가 누락되었기 때문이다. 이를 막기 위해 등장한 것이 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체계다.
-- **등장 배경**: ① [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 발전으로 공개키 배포 문제가 최대 화두로 대두 → ② 1988년 X.500 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일부로 X.509 첫 발표 → ③ 인터넷의 상업화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 등장)와 확장성 요구 증가로 v3 확장 필드가 추가되며 전 세계 웹 브라우저의 기본 신뢰 엔진으로 정착.
+- **등장 배경**: ① [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 발전으로 공개키 배포 문제가 최대 화두로 대두 -> ② 1988년 X.500 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일부로 X.509 첫 발표 -> ③ 인터넷의 상업화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 등장)와 확장성 요구 증가로 v3 확장 필드가 추가되며 전 세계 웹 브라우저의 기본 신뢰 엔진으로 정착.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             해커의 중간자 공격 vs X.509 신뢰 기관의 방어 체계         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: X.509 부재 시의 공개키 탈취 공격 (MitM)]                    │
-│   나(Client)  ◀─── "내가 구글이야, 내 [공개키(해커꺼)] 써!" ─── 해커 │
-│   => 아무 의심 없이 해커의 공개키로 비밀번호 암호화해서 바침. 재앙!         │
-│                                                             │
-│   [혁신: X.509 인증서와 CA (신뢰의 사슬) 도입]                       │
-│                        ┌────────────────────┐         │
-│   구글(Server) ─────▶│ 1. 루트 CA (예: DigiCert)│         │
-│  "나 구글인데 도장 좀!"   │ 2. 검증 후 인증서에 도장 쾅!│         │
-│                        └────────────────────┘         │
-│                                  │                          │
-│                                  ▼ 3. 발급된 인증서          │
-│                                                             │
-│   나(Client)  ◀──── "[구글 공개키 + 루트 CA의 철통 서명]" ──── 구글 │
-│   => 내 브라우저 안에는 이미 루트 CA의 공개키가 내장되어 있음!           │
-│   => 브라우저: "오, 이 도장 진짜 DigiCert가 찍은 거 맞네! 구글 진짜네!"  │
-│   (해커가 가짜 인증서를 만들어 줘도, 루트 CA의 서명을 위조할 수 없어 발각됨)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             해커의 중간자 공격 vs X.509 신뢰 기관의 방어 체계         |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: X.509 부재 시의 공개키 탈취 공격 (MitM)]                    |
+|   나(Client)  <---- "내가 구글이야, 내 [공개키(해커꺼)] 써!" --- 해커 |
+|   => 아무 의심 없이 해커의 공개키로 비밀번호 암호화해서 바침. 재앙!         |
+|                                                             |
+|   [혁신: X.509 인증서와 CA (신뢰의 사슬) 도입]                       |
+|                        +--------------------+         |
+|   구글(Server) ------>| 1. 루트 CA (예: DigiCert)|         |
+|  "나 구글인데 도장 좀!"   | 2. 검증 후 인증서에 도장 쾅!|         |
+|                        +--------------------+         |
+|                                  |                          |
+|                                  v 3. 발급된 인증서          |
+|                                                             |
+|   나(Client)  <----- "[구글 공개키 + 루트 CA의 철통 서명]" ---- 구글 |
+|   => 내 브라우저 안에는 이미 루트 CA의 공개키가 내장되어 있음!           |
+|   => 브라우저: "오, 이 도장 진짜 DigiCert가 찍은 거 맞네! 구글 진짜네!"  |
+|   (해커가 가짜 인증서를 만들어 줘도, 루트 CA의 서명을 위조할 수 없어 발각됨)|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 공개키 암호화는 자물쇠(공개키)를 상대방에게 던져주고 잠가서 돌려달라고 하는 방식이다. 해커는 중간에 끼어들어 진짜 자물쇠를 버리고 자신의 자물쇠를 클라이언트에게 던진다. X.509는 이 자물쇠에 '세계적으로 유명하고 믿음직한 보증인(Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))'이 끈끈하고 위조 불가능한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 스티커([전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/))를 붙여주는 것이다. 클라이언트의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(크롬, 사파리 브라우저 내부)에는 이미 전 세계 유명 보증인 100여 명의 도장(Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이 공장 출고 때부터 탑재되어 있다. 따라서 구글이 건넨 자물쇠의 스티커를 내 PC의 도장과 수학적으로 대조해 보면, 해커의 야매 스티커는 1밀리초 만에 "안전하지 않은 연결입니다"라며 새빨간 경고창을 띄우고 즉각 차단된다.
@@ -74,32 +74,32 @@ tags = ["studynote-network"]
 우리가 은행이나 대형 포털에 접속할 때 받는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 Root CA가 직접 찍어준 것이 아니다. 만약 해커가 Root CA의 개인키를 훔친다면 지구상의 모든 인터넷 신뢰가 무너지는 둠스데이(Doomsday)가 벌어진다. 그래서 Root CA는 안전한 벙커(오프라인)에 격리시키고, 그 권한을 위임받은 <strong>중간 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (Intermediate <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>들이 현장에서 실무([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급)를 뛴다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               X.509 신뢰 사슬 (Chain of Trust) 수학적 검증 흐름   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [Root CA 인증서] (내 브라우저에 이미 설치되어 있음 = 최상위 무조건 신뢰)│
-│     - 주체(Subject): DigiCert Root                               │
-│     - 발급자(Issuer): DigiCert Root (자기 자신, Self-signed)      │
-│     - 서명: Root 개인키로 찍음                                   │
-│           │                                                   │
-│           │ (신뢰 위임: 서명 보증)                                │
-│           ▼                                                   │
-│   [중간 CA 인증서] (Intermediate CA)                             │
-│     - 주체(Subject): DigiCert TLS CA 1                         │
-│     - 발급자(Issuer): DigiCert Root                            │
-│     - 서명: Root 개인키로 찍음 ─▶ 브라우저가 Root 공개키로 열어보고 진품 확인!│
-│           │                                                   │
-│           │ (신뢰 위임: 서명 보증)                                │
-│           ▼                                                   │
-│   [End-Entity 인증서] (서버가 나에게 전송한 인증서)                  │
-│     - 주체(Subject): www.google.com                           │
-│     - 발급자(Issuer): DigiCert TLS CA 1                        │
-│     - 서명: 중간 CA 개인키로 찍음 ─▶ 중간 CA 공개키로 열어보고 진품 확인!  │
-│                                                               │
-│   결론: 꼬리에 꼬리를 무는 서명 검증을 통해 맨 꼭대기(Root)까지 올라가며,│
-│         이 연결 고리가 단 하나라도 끊어지면 빨간 경고창("보안 위협")이 뜬다.│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               X.509 신뢰 사슬 (Chain of Trust) 수학적 검증 흐름   |
++---------------------------------------------------------------+
+|                                                               |
+|   [Root CA 인증서] (내 브라우저에 이미 설치되어 있음 = 최상위 무조건 신뢰)|
+|     - 주체(Subject): DigiCert Root                               |
+|     - 발급자(Issuer): DigiCert Root (자기 자신, Self-signed)      |
+|     - 서명: Root 개인키로 찍음                                   |
+|           |                                                   |
+|           | (신뢰 위임: 서명 보증)                                |
+|           v                                                   |
+|   [중간 CA 인증서] (Intermediate CA)                             |
+|     - 주체(Subject): DigiCert TLS CA 1                         |
+|     - 발급자(Issuer): DigiCert Root                            |
+|     - 서명: Root 개인키로 찍음 --> 브라우저가 Root 공개키로 열어보고 진품 확인!|
+|           |                                                   |
+|           | (신뢰 위임: 서명 보증)                                |
+|           v                                                   |
+|   [End-Entity 인증서] (서버가 나에게 전송한 인증서)                  |
+|     - 주체(Subject): www.google.com                           |
+|     - 발급자(Issuer): DigiCert TLS CA 1                        |
+|     - 서명: 중간 CA 개인키로 찍음 --> 중간 CA 공개키로 열어보고 진품 확인!  |
+|                                                               |
+|   결론: 꼬리에 꼬리를 무는 서명 검증을 통해 맨 꼭대기(Root)까지 올라가며,|
+|         이 연결 고리가 단 하나라도 끊어지면 빨간 경고창("보안 위협")이 뜬다.|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 메커니즘은 보안 아키텍처의 백미다. 서버에 접속하면 서버는 딸랑 자기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 하나만 주는 게 아니라, 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서까지 사슬처럼 엮어서 나(클라이언트)에게 던져준다(Certificate Chain). 내 브라우저는 맨 밑단(구글) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 공개키로 풀어보고 "음 맞네", 그다음 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내 컴퓨터에 내장된 Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 공개키로 풀어보고 "오 Root가 보증한 게 맞네!"라며 단계적으로 신뢰의 사다리를 타고 올라간다. 만약 해커가 맨 밑단 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 위조하면 중간 서명에서 실패하고, 해커가 중간 CA까지 통째로 가짜로 만들어 던지면 맨 꼭대기 내 PC에 그 가짜 Root 도장이 없기 때문에 사기극이 1초 만에 들통난다.
@@ -121,22 +121,22 @@ tags = ["studynote-network"]
 | **현대적 해결책** | 구형 시스템이나 폐쇄망에서 여전히 사용됨 | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/">OCSP Stapling</a></strong> 기술로 융합 발전 (서버가 미리 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 응답을 받아두고 넘겨줌) |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               OCSP Stapling 기술을 통한 지연 및 프라이버시 해결      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [과거: 기본 OCSP의 한계]                                       │
-│   나 ──(접속)──▶ 웹 서버 (인증서 수신)                              │
-│   나 ──(질의)──▶ CA 서버 (저 서버 인증서 정상인가요?) ─▶ 지연 발생, 내 흔적 노출│
-│                                                               │
-│   [혁신: OCSP Stapling (찍어주기)]                               │
-│   1. 웹 서버가 주기적으로 CA 서버에 물어봐서 "나 아직 정상이오" 도장을 받아둠. │
-│   2. 나 ──(접속)──▶ 웹 서버                                       │
-│   3. 웹 서버 ───▶ [자신의 X.509 인증서] + [CA가 찍어준 정상 확인증] ──▶ 나 │
-│                                                               │
-│   => 클라이언트는 CA 서버를 귀찮게 찌를 필요 없이, 서버가 던져준 확인증의     │
-│      CA 서명만 수학적으로 검사하면 됨! (속도 극대화, 프라이버시 보호)        │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               OCSP Stapling 기술을 통한 지연 및 프라이버시 해결      |
++---------------------------------------------------------------+
+|                                                               |
+|   [과거: 기본 OCSP의 한계]                                       |
+|   나 --(접속)---> 웹 서버 (인증서 수신)                              |
+|   나 --(질의)---> CA 서버 (저 서버 인증서 정상인가요?) --> 지연 발생, 내 흔적 노출|
+|                                                               |
+|   [혁신: OCSP Stapling (찍어주기)]                               |
+|   1. 웹 서버가 주기적으로 CA 서버에 물어봐서 "나 아직 정상이오" 도장을 받아둠. |
+|   2. 나 --(접속)---> 웹 서버                                       |
+|   3. 웹 서버 ----> [자신의 X.509 인증서] + [CA가 찍어준 정상 확인증] ---> 나 |
+|                                                               |
+|   => 클라이언트는 CA 서버를 귀찮게 찌를 필요 없이, 서버가 던져준 확인증의     |
+|      CA 서명만 수학적으로 검사하면 됨! (속도 극대화, 프라이버시 보호)        |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 OCSP의 가장 큰 문제는 '사생활 침해'와 '[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))'이었다. 내가 어느 사이트에 접속할 때마다 내 브라우저가 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 일일이 물어본다면, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 기관은 전 세계 사람들이 어느 시간대에 무슨 사이트를 들어가는지 사찰할 수 있게 되며, 만약 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버가 터지면 구글 네이버 등 모든 사이트 접속이 거부당한다. 이를 해결한 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/">OCSP Stapling</a>(스테이플링)</strong>은 서버 본인이 아침에 미리 CA에 가서 "나 안전함"이라는 시간제한(Time-stamped) 도장을 받아 스테이플러로 꽉 찍어두고 방문객에게 보여주는 아키텍처다. 성능과 보안, 프라이버시 세 마리 토끼를 잡은 위대한 융합 아키텍처다.
@@ -198,12 +198,12 @@ X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd
 
 ```text
 [선행 개념: JWT]
-    │
-    ▼
+    |
+    v
 [현재 개념: X.509 v3 디지털 인증서 표준 규격]
-    │
-    ├──▶ [확장 A: 이동통신망 통신 개념]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: 이동통신망 통신 개념]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 X.509 v3 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 표준 규격는 JWT에서 출발해 현재 메커니즘을 정교화하고, 이후 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) 통신 개념와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -220,7 +220,7 @@ X.509 v3 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05
 
 **진행 상황**: 671 / 1120
 
-← **이전**: [549. JWT (JSON Web Token)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)
-**다음**: [551. 이동통신망(Cellular Network) 통신 개념 (재사용, 핸드오버)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) →
+<- **이전**: [549. JWT (JSON Web Token)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)
+**다음**: [551. 이동통신망(Cellular Network) 통신 개념 (재사용, 핸드오버)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) ->
 
 ---

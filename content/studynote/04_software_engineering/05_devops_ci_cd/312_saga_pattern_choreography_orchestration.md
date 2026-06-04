@@ -37,16 +37,16 @@ tags = ["studynote-software-engineering"]
 다음은 사가 ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴의 코레오그래피의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사가 (Saga) 패턴의 코레오그래피                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  사가 (Saga) 패턴의 코레오그래피                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 사가 ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴의 코레오그래피가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 사가 (Saga) 패턴의 코레오그래피 (Choreography) vs 오케스트레이션 (Orchestration) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 312 / 973
 
-← **이전**: [311. 데이터베이스 퍼 서비스 (Database per Service) 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)
-**다음**: [313. 로그 취합 아키텍처 (Log Aggregation Pattern)](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/313_log_aggregation_pattern/) →
+<- **이전**: [311. 데이터베이스 퍼 서비스 (Database per Service) 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)
+**다음**: [313. 로그 취합 아키텍처 (Log Aggregation Pattern)](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/313_log_aggregation_pattern/) ->
 
 ---

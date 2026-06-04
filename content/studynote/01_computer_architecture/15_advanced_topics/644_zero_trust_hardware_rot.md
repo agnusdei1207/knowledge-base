@@ -44,19 +44,19 @@ RoT의 핵심은 "수정하기 어려운 첫 코드"와 "밖으로 꺼낼 수 �
 이 측정값은 보통 신뢰할 수 있는 플랫폼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/), [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 저장소에 남긴다. 아래 그림은 신뢰가 소프트웨어에서 시작되는 것이 아니라, 하드웨어에서 위로 올라간다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Root of trust builds trust upward                           │
-├──────────────────────────────────────────────────────────────┤
-│ Power on                                                    │
-│   ▼                                                         │
-│ Immutable ROM / root keys                                   │
-│   ▼ measure + verify                                        │
-│ Firmware ─▶ Bootloader ─▶ Operating system ─▶ Workload      │
-│   │                                                         │
-│   └────────────▶ TPM log / attestation                      │
-│                          ▼                                  │
-│                secret release / network entry               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Root of trust builds trust upward                           |
++--------------------------------------------------------------+
+| Power on                                                    |
+|   v                                                         |
+| Immutable ROM / root keys                                   |
+|   v measure + verify                                        |
+| Firmware --> Bootloader --> Operating system --> Workload      |
+|   |                                                         |
+|   +-------------> TPM log / attestation                      |
+|                          v                                  |
+|                secret release / network entry               |
++--------------------------------------------------------------+
 ```
 
 여기서 자주 혼동하는 개념이 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) ([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)), 측정 부팅 ([Measured Boot](/knowledge-base/studynote/09_security/18_iot_ot_physical/919_measured_boot/)), 원격 증명 ([Remote Attestation](/knowledge-base/studynote/09_security/04_endpoint_security/396_remote_attestation/))의 차이다. [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)은 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 통과한 코드만 실행하는 기능이고, 측정 부팅은 각 단계의 해시를 기록으로 남기는 기능이며, 원격 증명은 그 기록을 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 서명된 형태로 제시하는 기능이다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)에서는 셋 중 마지막 단계까지 가야 "내부적으로만 안전하다고 주장하는 장비"를 넘어설 수 있다.
@@ -130,17 +130,17 @@ RoT가 잘 구현되면 [펌웨어](/knowledge-base/studynote/02_operating_syste
 
 ```text
 경계형 네트워크 신뢰
-    │
-    ▼
+    |
+    v
 보안 부팅
-    │
-    ▼
+    |
+    v
 측정 부팅 + TPM 기록
-    │
-    ▼
+    |
+    v
 원격 증명 기반 장비 신원 확인
-    │
-    ▼
+    |
+    v
 제로 트러스트 · 기밀 컴퓨팅
 ```
 
@@ -158,7 +158,7 @@ RoT가 잘 구현되면 [펌웨어](/knowledge-base/studynote/02_operating_syste
 
 **진행 상황**: 645 / 803
 
-← **이전**: [643. AIOps 기반 하드웨어 이상 탐지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/643_aiops_hardware/)
-**다음**: [645. 데이터 파이프라인 (Data Pipeline) 가속](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) →
+<- **이전**: [643. AIOps 기반 하드웨어 이상 탐지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/643_aiops_hardware/)
+**다음**: [645. 데이터 파이프라인 (Data Pipeline) 가속](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) ->
 
 ---

@@ -46,19 +46,19 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 아래 그림은 Coreboot와 LinuxBoot가 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 어떻게 잘게 나누는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Open firmware boot path                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Flash ROM                                                         │
-│  ┌──────────┬──────────┬──────────┬─────────────────────────────┐  │
-│  │bootblock │romstage  │ramstage  │payload                      │  │
-│  └────┬─────┴────┬─────┴────┬─────┴──────────────┬─────────────┘  │
-│       ▼          ▼          ▼                    ▼                │
-│   CPU entry   Cache-as-RAM DRAM init        LinuxBoot / UEFI      │
-│                                                  │                │
-│                                                  ▼                │
-│                                         kexec or OS bootloader    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Open firmware boot path                           |
++--------------------------------------------------------------------+
+| Flash ROM                                                         |
+|  +----------+----------+----------+-----------------------------+  |
+|  |bootblock |romstage  |ramstage  |payload                      |  |
+|  +----+-----+----+-----+----+-----+--------------+-------------+  |
+|       v          v          v                    v                |
+|   CPU entry   Cache-as-RAM DRAM init        LinuxBoot / UEFI      |
+|                                                  |                |
+|                                                  v                |
+|                                         kexec or OS bootloader    |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "모든 코드를 처음부터 새로 쓰자"가 아니라, 가장 위험하고 불투명한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 경로를 작고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 단위로 줄이자는 데 있다는 점이다. 그래서 실제 제품에서는 칩 제조사가 제공하는 메모리 트레이닝 바이너리를 일부 포함하더라도, 전체 흐름과 payload 선택권을 운영자가 더 많이 가져가는 쪽으로 설계가 이동한다.
@@ -141,20 +141,20 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 
 ```text
 폐쇄형 BIOS · 벤더 UEFI 중심 초기 부팅
-    │
-    ▼
+    |
+    v
 필수 초기화 코드 최소화 요구
-    │
-    ▼
+    |
+    v
 Coreboot staged boot
-    │
-    ▼
+    |
+    v
 payload 선택 구조 확장
-    │
-    ▼
+    |
+    v
 LinuxBoot + 리눅스 도구 기반 자동화
-    │
-    ▼
+    |
+    v
 measured boot · 대규모 서버 fleet 제어
 ```
 
@@ -172,7 +172,7 @@ measured boot · 대규모 서버 fleet 제어
 
 **진행 상황**: 706 / 803
 
-← **이전**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/)
-**다음**: [706. UEFI (Unified Extensible Firmware Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) →
+<- **이전**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/)
+**다음**: [706. UEFI (Unified Extensible Firmware Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) ->
 
 ---

@@ -73,11 +73,11 @@ C : Consistency (일관성)
 
 ```text
 [상위 개념: 분산 데이터베이스 이론]
-    │
-    ▼
+    |
+    v
 [하위 개념: 지연 시간(Latency), 정합성 수준 (Consistency Level)]
-    │
-    ▼
+    |
+    v
 [연관 개념: CAP 정리, BASE 원칙, 쿼럼(Quorum)]
 ```
 
@@ -94,7 +94,7 @@ C : Consistency (일관성)
 
 **진행 상황**: 126 / 262
 
-← **이전**: [CAP 정리 (CAP Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/125_cap_theorem_distributed_db/)
-**다음**: [127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak](/knowledge-base/studynote/16_bigdata/06_nosql/127_key_value_db/) →
+<- **이전**: [CAP 정리 (CAP Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/125_cap_theorem_distributed_db/)
+**다음**: [127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak](/knowledge-base/studynote/16_bigdata/06_nosql/127_key_value_db/) ->
 
 ---

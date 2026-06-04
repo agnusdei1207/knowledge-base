@@ -37,12 +37,12 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 한 지표가 0에 가까우면 F1도 0에 수렴한다. 이는 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 아무리 높아도 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 0이면 의미 없다"는 현실을 수학적으로 반영한 것이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: F1은 두 발이 있는 의자다. 한 발이 짧으면([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 또는 [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 중 하나가 낮으면) 아무리 다른 발이 길어도 의자가 기울어져 쓸 수 없다.
@@ -55,19 +55,19 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 
 ```
   혼동 행렬 (Confusion Matrix)
-  ┌────────────────┬──────────────┬──────────────┐
-  │                │ 예측 Positive│ 예측 Negative│
-  ├────────────────┼──────────────┼──────────────┤
-  │ 실제 Positive  │  TP = 80     │  FN = 20     │
-  ├────────────────┼──────────────┼──────────────┤
-  │ 실제 Negative  │  FP = 10     │  TN = 890    │
-  └────────────────┴──────────────┴──────────────┘
+  +----------------+--------------+--------------+
+  |                | 예측 Positive| 예측 Negative|
+  +----------------+--------------+--------------+
+  | 실제 Positive  |  TP = 80     |  FN = 20     |
+  +----------------+--------------+--------------+
+  | 실제 Negative  |  FP = 10     |  TN = 890    |
+  +----------------+--------------+--------------+
 
   Precision = 80 / (80+10) = 0.889
   Recall    = 80 / (80+20) = 0.800
   F1        = 2 × (0.889 × 0.800) / (0.889 + 0.800) = 0.842
 
-  정확도(Accuracy) = (80+890)/1000 = 0.970  ← 불균형 시 왜곡!
+  정확도(Accuracy) = (80+890)/1000 = 0.970  <- 불균형 시 왜곡!
 ```
 
 ### 다중 클래스 F1 (Multi-class F1)
@@ -75,18 +75,18 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 클래스가 3개 이상일 때 F1을 집계하는 방법이 3가지다.
 
 ```
-  ┌─────────────────────────────────────────────────────────┐
-  │          다중 클래스 F1 집계 방법                        │
-  ├──────────────┬──────────────────────────────────────────┤
-  │ Macro F1     │ 각 클래스 F1의 단순 평균                  │
-  │              │ → 모든 클래스를 동등하게 취급             │
-  ├──────────────┼──────────────────────────────────────────┤
-  │ Micro F1     │ 전체 TP/FP/FN을 합산 후 F1 계산          │
-  │              │ → 샘플 수가 많은 클래스에 가중치          │
-  ├──────────────┼──────────────────────────────────────────┤
-  │ Weighted F1  │ 각 클래스 F1을 지지도(Support)로 가중     │
-  │              │ → 불균형 데이터에 가장 현실적             │
-  └──────────────┴──────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |          다중 클래스 F1 집계 방법                        |
+  +--------------+------------------------------------------+
+  | Macro F1     | 각 클래스 F1의 단순 평균                  |
+  |              | -> 모든 클래스를 동등하게 취급             |
+  +--------------+------------------------------------------+
+  | Micro F1     | 전체 TP/FP/FN을 합산 후 F1 계산          |
+  |              | -> 샘플 수가 많은 클래스에 가중치          |
+  +--------------+------------------------------------------+
+  | Weighted F1  | 각 클래스 F1을 지지도(Support)로 가중     |
+  |              | -> 불균형 데이터에 가장 현실적             |
+  +--------------+------------------------------------------+
 ```
 
 | 집계 방식 | 수식 | 적합 상황 |
@@ -102,8 +102,8 @@ F1의 일반화된 형태로 β 값으로 [Precision](/knowledge-base/studynote/
 $$F_\beta = \frac{(1 + \beta^2) \times \text{[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)} \times \text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)}}{\beta^2 \times \text{[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)} + \text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)}}$$
 
 - **β = 1**: F1 ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) = [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 동등 중시)
-- **β = 2**: F2 (Recall을 Precision보다 2배 중시) → 의료 진단
-- **β = 0.5**: F0.5 (Precision을 Recall보다 2배 중시) → [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)
+- **β = 2**: F2 (Recall을 Precision보다 2배 중시) -> 의료 진단
+- **β = 0.5**: F0.5 (Precision을 Recall보다 2배 중시) -> [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)
 
 - **📢 섹션 요약 비유**: F1은 시소의 중앙에 서는 것이다. β를 조정하면 시소 중심점을 한쪽으로 옮겨 원하는 쪽([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 또는 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))에 더 무게를 둘 수 있다.
 
@@ -115,12 +115,12 @@ $$F_\beta = \frac{(1 + \beta^2) \times \text{[Precision](/knowledge-base/studyno
 
 ```
   예시: 암 검진 데이터 (암 환자 1%, 정상 99%)
-  ┌──────────────────────────────────────────────────┐
-  │ 무조건 "정상" 예측하는 더미 모델:                 │
-  │   Accuracy = 99%  ← 매우 높아 보임!              │
-  │   F1       = 0.0  ← 실제로는 완전히 무용지물     │
-  └──────────────────────────────────────────────────┘
-  → 불균형 클래스에서 F1이 Accuracy보다 신뢰할 수 있음
+  +--------------------------------------------------+
+  | 무조건 "정상" 예측하는 더미 모델:                 |
+  |   Accuracy = 99%  <- 매우 높아 보임!              |
+  |   F1       = 0.0  <- 실제로는 완전히 무용지물     |
+  +--------------------------------------------------+
+  -> 불균형 클래스에서 F1이 Accuracy보다 신뢰할 수 있음
 ```
 
 ### [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선과 F1의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -187,7 +187,7 @@ F1 스코어는 <strong>불균형 <a href="/knowledge-base/studynote/05_database
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [F1 스코어 (F1-Score)] → [최적화·운영 자동화]
+[데이터 전처리] -> [F1 스코어 (F1-Score)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -202,7 +202,7 @@ F1 스코어는 <strong>불균형 <a href="/knowledge-base/studynote/05_database
 
 **진행 상황**: 255 / 420
 
-← **이전**: [254. 재현율 (Recall) / 민감도](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)
-**다음**: [256. ROC 곡선 (ROC Curve) / AUC](/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/) →
+<- **이전**: [254. 재현율 (Recall) / 민감도](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)
+**다음**: [256. ROC 곡선 (ROC Curve) / AUC](/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/) ->
 
 ---

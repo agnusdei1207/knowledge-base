@@ -20,10 +20,10 @@ tags = ["studynote-devops-sre"]
 
 ```text
 모든 리소스(CPU·메모리·디스크·NIC)에 대해:
-  U: Utilization → 사용률 (%)
-  S: Saturation → 포화도 (큐 길이)
-  E: Errors → 에러 수
-→ 하나라도 이상이면 병목!
+  U: Utilization -> 사용률 (%)
+  S: Saturation -> 포화도 (큐 길이)
+  E: Errors -> 에러 수
+-> 하나라도 이상이면 병목!
 ```
 
 - **📢 섹션 요약 비유**: USE는 의사의 <strong>기본 건강 검진(체온·혈압·혈당)</strong>이다. 모든 장기를 3가지 지표로 점검한다.
@@ -50,10 +50,10 @@ USE는 <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineer
 
 ```text
 [비체계적 성능 분석 (~2010s)]
-    → [USE 메서드 (Brendan Gregg, 2012)]
-    → [RED 메서드 (Weaveworks, 2017)]
-    → [4 Golden Signals (Google SRE)]
-    → [현재: AI 성능 분석 — 자동 병목 진단]
+    -> [USE 메서드 (Brendan Gregg, 2012)]
+    -> [RED 메서드 (Weaveworks, 2017)]
+    -> [4 Golden Signals (Google SRE)]
+    -> [현재: AI 성능 분석 — 자동 병목 진단]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ USE는 <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineer
 
 **진행 상황**: 134 / 373
 
-← **이전**: [133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/)
-**다음**: [135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/) →
+<- **이전**: [133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/133_four_golden_signals/)
+**다음**: [135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/) ->
 
 ---

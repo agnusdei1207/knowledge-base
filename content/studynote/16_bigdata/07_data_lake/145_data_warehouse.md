@@ -83,11 +83,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [상위 개념: Data Infrastructure, Business Intelligence]
-    │
-    ▼
+    |
+    v
 [하위 개념: Data Mart, ETL/ELT, Star Schema, OLAP]
-    │
-    ▼
+    |
+    v
 [연관 개념: OLTP vs OLAP, MPP, Data Lakehouse]
 ```
 
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 145 / 262
 
-← **이전**: [데이터 늪 (Data Swamp)](/knowledge-base/studynote/16_bigdata/07_data_lake/144_data_swamp/)
-**다음**: [146. 레이크하우스 (Lakehouse) — 데이터 레이크 + 웨어하우스 융합](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) →
+<- **이전**: [데이터 늪 (Data Swamp)](/knowledge-base/studynote/16_bigdata/07_data_lake/144_data_swamp/)
+**다음**: [146. 레이크하우스 (Lakehouse) — 데이터 레이크 + 웨어하우스 융합](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) ->
 
 ---

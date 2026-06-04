@@ -34,16 +34,16 @@ C와 C++는 개발자에게 메모리를 마음대로 다룰 자유(포인터, `
 다음은 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) 언어 (Rust) 컴파의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메모리 안전성 언어 (Rust) 컴파                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  메모리 안전성 언어 (Rust) 컴파                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) 언어 (Rust) 컴파가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -136,21 +136,21 @@ Rust를 사내 모든 시스템에 도입하는 것은 미친 짓이다. Rust의
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 메모리 안전성 언어 (Rust) 컴파일러 검증 차용 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ Rust를 사내 모든 시스템에 도입하는 것은 미친 짓이다. Rust의
 
 **진행 상황**: 955 / 973
 
-← **이전**: [781. 안티 디버깅 코드 난독화 리버스엔지니어링 차단](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/781_anti_debugging_code_obfuscation/)
-**다음**: [783. 서버 사이드 렌더링(SSR) 하이드레이션(Hydration)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/783_ssr_server_side_rendering_hydration/) →
+<- **이전**: [781. 안티 디버깅 코드 난독화 리버스엔지니어링 차단](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/781_anti_debugging_code_obfuscation/)
+**다음**: [783. 서버 사이드 렌더링(SSR) 하이드레이션(Hydration)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/783_ssr_server_side_rendering_hydration/) ->
 
 ---

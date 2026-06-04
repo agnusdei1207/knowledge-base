@@ -19,23 +19,23 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Toil vs 엔지니어링                                 │
-├───────────────────────────────────────────────────────┤
-│  [Toil — 제거 대상]                                   │
-│   수동 서버 재시작                                    │
-│   반복 인증서 갱신                                    │
-│   수동 트래픽 이동                                    │
-│   반복 에러 확인·리포트                               │
-│                                                       │
-│  [엔지니어링 — 투자 대상]                             │
-│   자동화 스크립트 개발                                │
-│   관측성 대시보드 구축                                │
-│   셀프힐링 시스템 구축                                │
-│   용량 계획 도구 개발                                 │
-│                                                       │
-│  SRE 원칙: Toil < 50% | 엔지니어링 > 50%            │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Toil vs 엔지니어링                                 |
++-------------------------------------------------------+
+|  [Toil — 제거 대상]                                   |
+|   수동 서버 재시작                                    |
+|   반복 인증서 갱신                                    |
+|   수동 트래픽 이동                                    |
+|   반복 에러 확인·리포트                               |
+|                                                       |
+|  [엔지니어링 — 투자 대상]                             |
+|   자동화 스크립트 개발                                |
+|   관측성 대시보드 구축                                |
+|   셀프힐링 시스템 구축                                |
+|   용량 계획 도구 개발                                 |
+|                                                       |
+|  SRE 원칙: Toil < 50% | 엔지니어링 > 50%            |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Toil은 매일 손빨래하는 것이고, 엔지니어링은 세탁기를 만드는 것이다. 세탁기를 만들면 빨래([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 시간이 영구히 사라진다.
@@ -54,7 +54,7 @@ tags = ["studynote-devops-sre"]
 | **전술적** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 가치 없음 |
 | **O(n) 성장** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장에 비례해 증가 |
 
-- **📢 섹션 요약 비유**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 2배 커지면 Toil도 2배" → 자동화하지 않으면 팀이 Toil에 묻힌다.
+- **📢 섹션 요약 비유**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 2배 커지면 Toil도 2배" -> 자동화하지 않으면 팀이 Toil에 묻힌다.
 
 ---
 
@@ -73,7 +73,7 @@ tags = ["studynote-devops-sre"]
 ### [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 측정 방법
 1. 팀원의 주간 작업 시간을 [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)/엔지니어링으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 2. [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 비율 = [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 시간 / 전체 작업 시간.
-3. 50% 초과 시 자동화 프로젝트 우선순위↑.
+3. 50% 초과 시 자동화 프로젝트 우선순위^.
 
 ---
 
@@ -97,17 +97,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 [수동 운영 (전통 Ops, 100% Toil)]
-    │
-    ▼
+    |
+    v
 [스크립트 자동화 (Bash/Python, 2000s)]
-    │
-    ▼
+    |
+    v
 [SRE Toil 정의 (Google, 2003~2016)]
-    │
-    ▼
+    |
+    v
 [IaC + CI/CD (자동화 인프라, 2015~)]
-    │
-    ▼
+    |
+    v
 [현재: AIOps — AI가 Toil을 자동 감지·자동화]
 ```
 
@@ -122,7 +122,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 126 / 373
 
-← **이전**: [125. Error Budget (에러 예산) - 신뢰성과 혁신 속도의 균형 도구](/knowledge-base/studynote/15_devops_sre/03_sre_observability/125_error_budget/)
-**다음**: [127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계](/knowledge-base/studynote/15_devops_sre/03_sre_observability/127_on_call_management/) →
+<- **이전**: [125. Error Budget (에러 예산) - 신뢰성과 혁신 속도의 균형 도구](/knowledge-base/studynote/15_devops_sre/03_sre_observability/125_error_budget/)
+**다음**: [127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계](/knowledge-base/studynote/15_devops_sre/03_sre_observability/127_on_call_management/) ->
 
 ---

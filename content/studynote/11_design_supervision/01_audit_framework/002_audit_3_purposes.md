@@ -28,19 +28,19 @@ tags = ["design_supervision"]
 다음 다이어그램은 감리의 3대 목적이 어떻게 IT 가치 창출을 떠받치는 기둥 역할을 하는지 보여주는 아키텍처 기반 도식이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             [IT 투자 가치 실현 (Business Value)]       │
-└──────┬───────────────────────┬───────────────────────┬─┘
-       │                       │                       │
-┌──────┴──────┐         ┌──────┴──────┐         ┌──────┴──────┐
-│  효과성     │         │  효율성     │         │  안전성     │
-│(Effectiveness)        │(Efficiency) │         │ (Security)  │
-│ - 요구사항 충족       │ - 자원 최적화│         │ - 기밀성/무결성
-│ - 비즈니스 목표 달성  │ - 응답 성능 │         │ - 재해 복구(DR)
-│ "Do Right Things"     │ "Do Things Right"     │ "Protect Things"
-└─────────────┘         └─────────────┘         └─────────────┘
-       ▲                       ▲                       ▲
-       └────────────── 정보시스템 감리 프레임워크 ─────────┘
++--------------------------------------------------------+
+|             [IT 투자 가치 실현 (Business Value)]       |
++------+-----------------------+-----------------------+-+
+       |                       |                       |
++------+------+         +------+------+         +------+------+
+|  효과성     |         |  효율성     |         |  안전성     |
+|(Effectiveness)        |(Efficiency) |         | (Security)  |
+| - 요구사항 충족       | - 자원 최적화|         | - 기밀성/무결성
+| - 비즈니스 목표 달성  | - 응답 성능 |         | - 재해 복구(DR)
+| "Do Right Things"     | "Do Things Right"     | "Protect Things"
++-------------+         +-------------+         +-------------+
+       ^                       ^                       ^
+       +-------------- 정보시스템 감리 프레임워크 ---------+
 ```
 
 이 도식의 핵심은 세 가지 목적이 서로 직교(Orthogonal)하는 독립된 가치이면서도 동시에 상단에 있는 '비즈니스 가치 창출'이라는 하나의 거대한 지붕을 지탱한다는 점이다. 효과성은 나침반(방향)이고, 효율성은 엔진(속도)이며, 안전성은 브레이크([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))다. 어느 한 기둥이라도 부실하면 시스템 전체의 가치는 무너진다. 실무에서 감리인은 이 세 기둥의 하중 분포를 객관적 지표로 측정하여 발주자에게 보고해야 한다.
@@ -62,11 +62,11 @@ tags = ["design_supervision"]
 이 세 가지 목적을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 감리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집과 처리 과정을 순차 흐름도로 살펴보면 다음과 같다.
 
 ```text
-[요구사항 명세서] ──(비교 대조)──> [구현된 기능] =====> [효과성 평가: 100% 충족 여부]
-                                                       │
-[인프라/코드 아키텍처] ──(부하 테스트/APM)──> [성능 지표] =====> [효율성 평가: 자원 최적화]
-                                                       │
-[자산 및 위협 모델] ──(모의 해킹/취약점 스캔)──> [보안 홀] =====> [안전성 평가: 리스크 대응력]
+[요구사항 명세서] --(비교 대조)--> [구현된 기능] =====> [효과성 평가: 100% 충족 여부]
+                                                       |
+[인프라/코드 아키텍처] --(부하 테스트/APM)--> [성능 지표] =====> [효율성 평가: 자원 최적화]
+                                                       |
+[자산 및 위협 모델] --(모의 해킹/취약점 스캔)--> [보안 홀] =====> [안전성 평가: 리스크 대응력]
 ```
 
 이 흐름도의 핵심은 각 목적을 달성하기 위해 전혀 다른 도구와 기법이 동원된다는 점이다. 효과성을 평가할 때는 눈으로 문서를 읽고 인터뷰하는 정성적/대조적 방식이 주를 이룬다. 반면 효율성을 평가할 때는 JMeter나 LoadRunner 같은 동적 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 도구가 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수치화한다. 마지막으로 안전성을 평가할 때는 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 정적/동적 스캐너와 해커의 시각을 빌린 모의 침투(Pen-test)가 가동된다. 따라서 감리 법인은 다양한 분야의 전문 인력(소프트웨어 전문가, DB 전문가, 보안 전문가)을 투입할 수밖에 없다.
@@ -91,12 +91,12 @@ tags = ["design_supervision"]
 
 ```text
        [효율성 (성능/TPS)]
-             ▲
+             ^
             ╱ ╲
            ╱   ╲  <-- 상충점(Trade-off Point): 암호화 레벨을 올리면 성능이 하락
           ╱     ╲
          ╱       ╲
-        ▼─────────▼
+        v---------v
 [효과성 (기능)]     [안전성 (보안/기밀)]
 ```
 
@@ -125,11 +125,11 @@ tags = ["design_supervision"]
 ```text
 [감리 목적 진단 매트릭스 플로우]
  1. 효과성 검증: RTM 매핑 확인 -> (Fail) -> 재구현 지시
-       │ (Pass)
+       | (Pass)
  2. 효율성 검증: 성능 목표(N초 이내) 달성? -> (Fail) -> 튜닝/스케일아웃 권고
-       │ (Pass)
+       | (Pass)
  3. 안전성 검증: 취약점 제로/암호화 확인? -> (Fail) -> 보안 패치 강제
-       │ (Pass)
+       | (Pass)
  [최종 적합 판정 및 시스템 오픈 승인]
 ```
 
@@ -167,17 +167,17 @@ tags = ["design_supervision"]
 
 ```text
 [ATAM (Architecture Trade-off Analysis Method)]
-    │
-    ▼
+    |
+    v
 [RTM (Requirements Traceability Matrix)]
-    │
-    ▼
+    |
+    v
 [성능 테스트 (Load Testing)]
-    │
-    ▼
+    |
+    v
 [시큐어 코딩 (Secure Coding)]
-    │
-    ▼
+    |
+    v
 [TCO (Total Cost of Ownership)]
 ```
 
@@ -194,7 +194,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 2 / 530
 
-← **이전**: [1. 정보시스템 감리 (Information System Audit) 정의 - 제3자적 관점에서 정보시스템의 효과성, 효율성, 안전성을](/knowledge-base/studynote/11_design_supervision/01_audit_framework/001_audit_definition/)
-**다음**: [3. 감리 발주자 (Client) / 피감리인 (Auditee, 사업자/주관기관) / 감리 법인 (Auditor)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) →
+<- **이전**: [1. 정보시스템 감리 (Information System Audit) 정의 - 제3자적 관점에서 정보시스템의 효과성, 효율성, 안전성을](/knowledge-base/studynote/11_design_supervision/01_audit_framework/001_audit_definition/)
+**다음**: [3. 감리 발주자 (Client) / 피감리인 (Auditee, 사업자/주관기관) / 감리 법인 (Auditor)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ->
 
 ---

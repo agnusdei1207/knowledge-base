@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), 분단 허용성([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 3가지를 동시 만족 불가 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 이론)에 초점을 맞춘 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 지연과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·지연시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Coordinator -> Current concept -> Replica result   │
-├──────────────────────────────────────────────────────────────┤
-│ Network delay -> rule -> consistency outcome                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Coordinator -> Current concept -> Replica result   |
++--------------------------------------------------------------+
+| Network delay -> rule -> consistency outcome                 |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `Saga 패턴`·`CP 시스템 / AP 시스템 / CA 시스템`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Prepare -> sync -> current concept -> final decision         │
-├──────────────────────────────────────────────────────────────┤
-│ Local success -> global agreement -> atomicity               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Prepare -> sync -> current concept -> final decision         |
++--------------------------------------------------------------+
+| Local success -> global agreement -> atomicity               |
++--------------------------------------------------------------+
 ```
 
 핵심은 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [Saga 패턴]
-    │
-    ▼
+    |
+    v
 [CAP 정리]
-    │
-    ├──▶ [CP 시스템 / AP 시스템 / CA 시스템]
-    └──▶ [PACELC 정리]
+    |
+    +---> [CP 시스템 / AP 시스템 / CA 시스템]
+    +---> [PACELC 정리]
 ```
 
 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴에서 출발한 논점이 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 핵심 판단으로 모이고, 이후 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 / [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 / [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템·[PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 253 / 600
 
-← **이전**: [252. Saga 패턴 (Saga Pattern)](/knowledge-base/studynote/05_database/04_transactions_concurrency/252_saga_pattern/)
-**다음**: [254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)](/knowledge-base/studynote/05_database/04_transactions_concurrency/254_cp_ap_systems/) →
+<- **이전**: [252. Saga 패턴 (Saga Pattern)](/knowledge-base/studynote/05_database/04_transactions_concurrency/252_saga_pattern/)
+**다음**: [254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)](/knowledge-base/studynote/05_database/04_transactions_concurrency/254_cp_ap_systems/) ->
 
 ---

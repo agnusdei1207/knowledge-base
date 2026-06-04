@@ -41,32 +41,32 @@ tags = ["studynote-algorithm"]
 ### Timsort 동작 흐름
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                    Timsort 전체 흐름                      │
-│                                                          │
-│  입력 배열                                               │
-│     │                                                    │
-│     ▼                                                    │
-│  ① Run 탐지 ─────────────────────────────────────────── │
-│     내림차순 Run → 뒤집어서 오름차순으로 변환             │
-│     오름차순 Run → 그대로 사용                            │
-│     크기 < minRun → 삽입 정렬로 확장                     │
-│     │                                                    │
-│     ▼                                                    │
-│  ② Run 스택 (Stack of Runs)                              │
-│     Run들을 스택에 푸시                                   │
-│     스택 상위 3개 Run 크기 불변식 유지:                   │
-│     A > B + C  (균형 유지)                               │
-│     B > C                                               │
-│     │                                                    │
-│     ▼                                                    │
-│  ③ Galloping 모드 병합 ───────────────────────────────── │
-│     두 Run을 병합할 때 연속 7회 이상 같은 Run에서        │
-│     원소가 선택되면 Galloping(지수적 탐색) 전환           │
-│     │                                                    │
-│     ▼                                                    │
-│  ④ 최종 병합: 스택의 모든 Run을 순차 병합                 │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                    Timsort 전체 흐름                      |
+|                                                          |
+|  입력 배열                                               |
+|     |                                                    |
+|     v                                                    |
+|  ① Run 탐지 ------------------------------------------- |
+|     내림차순 Run -> 뒤집어서 오름차순으로 변환             |
+|     오름차순 Run -> 그대로 사용                            |
+|     크기 < minRun -> 삽입 정렬로 확장                     |
+|     |                                                    |
+|     v                                                    |
+|  ② Run 스택 (Stack of Runs)                              |
+|     Run들을 스택에 푸시                                   |
+|     스택 상위 3개 Run 크기 불변식 유지:                   |
+|     A > B + C  (균형 유지)                               |
+|     B > C                                               |
+|     |                                                    |
+|     v                                                    |
+|  ③ Galloping 모드 병합 --------------------------------- |
+|     두 Run을 병합할 때 연속 7회 이상 같은 Run에서        |
+|     원소가 선택되면 Galloping(지수적 탐색) 전환           |
+|     |                                                    |
+|     v                                                    |
+|  ④ 최종 병합: 스택의 모든 Run을 순차 병합                 |
++----------------------------------------------------------+
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Run 병합 과정
@@ -75,20 +75,20 @@ tags = ["studynote-algorithm"]
 입력: [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
 
 Run 탐지:
-  Run1: [3, 1] → 내림차순 → 뒤집음 → [1, 3]
-  Run2: [1, 4, 5, 9] → 오름차순 → 그대로
-  Run3: [2, 6] → 오름차순 → 그대로
-  Run4: [3, 5] → 오름차순 → 그대로
+  Run1: [3, 1] -> 내림차순 -> 뒤집음 -> [1, 3]
+  Run2: [1, 4, 5, 9] -> 오름차순 -> 그대로
+  Run3: [2, 6] -> 오름차순 -> 그대로
+  Run4: [3, 5] -> 오름차순 -> 그대로
   (각 Run이 minRun보다 작으면 삽입 정렬로 확장)
 
 병합 단계 (Merge):
-  Run1+Run2 → [1, 1, 3, 4, 5, 9]
-  Run3+Run4 → [2, 3, 5, 6]
-  최종 병합 → [1, 1, 2, 3, 3, 4, 5, 5, 6, 9] ✅
+  Run1+Run2 -> [1, 1, 3, 4, 5, 9]
+  Run3+Run4 -> [2, 3, 5, 6]
+  최종 병합 -> [1, 1, 2, 3, 3, 4, 5, 5, 6, 9] ✅
 
 스택 불변식 (A=4, B=2, C=1 예시):
-  A > B + C? → 4 > 3 ✅
-  B > C?    → 2 > 1 ✅  (유지, 병합 불필요)
+  A > B + C? -> 4 > 3 ✅
+  B > C?    -> 2 > 1 ✅  (유지, 병합 불필요)
 ```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
@@ -116,7 +116,7 @@ Run 탐지:
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최선 | 최악 | 안정 | 적응형 | 표준 채택 |
 |:---|:---:|:---:|:---:|:---:|:---|
 | 병합 정렬 | O(n log n) | O(n log n) | ✅ | ❌ | Java(primitive 제외) |
-| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(n²) | ❌ | ❌ | C qsort |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(n^) | ❌ | ❌ | C qsort |
 | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | O(n log n) | ❌ | ❌ | — |
 | **Timsort** | **O(n)** | **O(n log n)** | **✅** | **✅** | Python, Java |
 | [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) | O(n log n) | O(n log n) | ❌ | ❌ | C++ STL |
@@ -131,22 +131,22 @@ Run 탐지:
 
 1. <strong>현실 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 특성</strong>: 완전 무작위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 드물고, 부분 정렬이나 역방향 구간이 흔함
 2. **안정 정렬 요구**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 다중 키 정렬, UI 리스트 정렬에서 안정성 필수
-3. **O(n log n) 최악 보장**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n²) 최악 케이스를 피함
+3. **O(n log n) 최악 보장**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 최악 케이스를 피함
 
 ### 기술사 관점의 판단 기준
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  Timsort 선택 체크리스트                              │
-│                                                      │
-│  ✅ 데이터가 부분 정렬/역방향 구간을 포함하는가?     │
-│  ✅ 안정 정렬이 요구되는가?                          │
-│  ✅ 최악 케이스 O(n log n) 보장이 필요한가?          │
-│  ✅ Python/Java 환경에서 기본 sort로 충분한가?       │
-│                                                      │
-│  ❌ 원시 타입(int[]) 정렬: Java는 Dual-Pivot Quicksort│
-│  ❌ GPU/병렬 정렬이 필요한 경우: Bitonic Sort 검토   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  Timsort 선택 체크리스트                              |
+|                                                      |
+|  ✅ 데이터가 부분 정렬/역방향 구간을 포함하는가?     |
+|  ✅ 안정 정렬이 요구되는가?                          |
+|  ✅ 최악 케이스 O(n log n) 보장이 필요한가?          |
+|  ✅ Python/Java 환경에서 기본 sort로 충분한가?       |
+|                                                      |
+|  ❌ 원시 타입(int[]) 정렬: Java는 Dual-Pivot Quicksort|
+|  ❌ GPU/병렬 정렬이 필요한 경우: Bitonic Sort 검토   |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Timsort를 선택하는 것은 만능 스위스 군용 칼을 고르는 것과 같다. 완벽하지 않지만, 일상적 상황(부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 안정성 요구)에서 어떤 단일 도구보다 탁월한 실용성을 제공한다.
@@ -163,7 +163,7 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 |:---|:---|
 | 현실 적응성 | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 O(n) 수렴 |
 | 안정성 | 완전한 안정 정렬 보장 |
-| 최악 보장 | O(n log n)으로 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n²) 위험 없음 |
+| 최악 보장 | O(n log n)으로 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 위험 없음 |
 | 표준화 | Python, Java, Android 공식 채택 |
 
 📢 **섹션 요약 비유**: Timsort는 미슐랭 셰프와 같다. 어떤 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 와도 훌륭한 요리(정렬)를 만들 수 있지만, 특히 신선한 재료(이미 부분 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 있을 때 진가를 발휘한다.
@@ -174,27 +174,27 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | → 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Run 병합 방식의 근원 |
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | → 서브루틴 | 소규모 Run 확장/정렬 |
-| 적응형 정렬 (Adaptive Sort) | → 특성 | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 |
-| 안정 정렬 (Stable Sort) | → 성질 | 동일 키 원소 순서 보존 |
+| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Run 병합 방식의 근원 |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 서브루틴 | 소규모 Run 확장/정렬 |
+| 적응형 정렬 (Adaptive Sort) | -> 특성 | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 |
+| 안정 정렬 (Stable Sort) | -> 성질 | 동일 키 원소 순서 보존 |
 | [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) | 비교 대상 | C++ STL 기반, 비안정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [삽입 정렬 (Insertion Sort) — 작은 런을 빠르게 정렬]
-    │
-    ▼
+    |
+    v
 [자연 런 탐지 (Natural Run Detection) — 이미 정렬된 구간 활용]
-    │
-    ▼
+    |
+    v
 [갤럽 모드 (Gallop Mode) — 한쪽 런 우위 시 빠르게 스킵]
-    │
-    ▼
+    |
+    v
 [병합 정렬 (Merge Sort) — 런을 안정적으로 병합]
-    │
-    ▼
+    |
+    v
 [적응형 정렬 (Adaptive Sort) — 실세계 데이터에 맞춘 최적화]
 ```
 
@@ -212,7 +212,7 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 
 **진행 상황**: 19 / 175
 
-← **이전**: [11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)
-**다음**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) →
+<- **이전**: [11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)
+**다음**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) ->
 
 ---

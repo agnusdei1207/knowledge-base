@@ -24,19 +24,19 @@ IOP는 대규모 시스템에서 입출력 절차를 전담하도록 만든 특�
 이 문제를 해결하기 위해 나온 생각이 "I/O 업무를 별도 두뇌에 위임하자"는 채널 구조다. CPU는 시작 주소만 넘기고 본래 계산을 계속하며, IOP는 메모리에 적재된 I/O 명령 묶음을 읽어 장치를 순서대로 제어한다. 즉 IOP는 CPU의 손발이 아니라, CPU가 맡기고 떠날 수 있는 I/O 전담 관리자라는 점에서 의미가 크다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    왜 IOP가 필요했는가: CPU 병목 해소                │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU만 있을 때                                                        │
-│ CPU ── 장치 상태 확인 ── 데이터 준비 대기 ── 전송 지시 ── 완료 확인  │
-│  │                                                                   │
-│  └─ 계산 중단과 재개가 반복됨                                        │
-│                                                                      │
-│ IOP가 있을 때                                                        │
-│ CPU ── SIO(Start I/O) ──▶ IOP ── 장치 제어/전송/완료 확인            │
-│  │                                                                   │
-│  └─ 계산 지속                                                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    왜 IOP가 필요했는가: CPU 병목 해소                |
++----------------------------------------------------------------------+
+| CPU만 있을 때                                                        |
+| CPU -- 장치 상태 확인 -- 데이터 준비 대기 -- 전송 지시 -- 완료 확인  |
+|  |                                                                   |
+|  +- 계산 중단과 재개가 반복됨                                        |
+|                                                                      |
+| IOP가 있을 때                                                        |
+| CPU -- SIO(Start I/O) ---> IOP -- 장치 제어/전송/완료 확인            |
+|  |                                                                   |
+|  +- 계산 지속                                                        |
++----------------------------------------------------------------------+
 ```
 
 이 그림이 보여주는 핵심은 CPU가 I/O 세부 절차에서 빠질수록 전체 시스템의 연산 연속성이 커진다는 점이다. 느린 장치를 기다리는 시간을 줄이는 것이 곧 고성능 시스템의 출발점이었다.
@@ -69,25 +69,25 @@ IOP의 핵심은 메모리에 저장된 채널 프로그램(Channel Program)을 
 아래 구조는 "CPU가 시작하고, IOP가 운영하고, DMA가 옮기고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 끝을 알리는" 분업을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    IOP 기반 I/O 실행 파이프라인                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU                                                                  │
-│  │ 1. SIO                                                            │
-│  ▼                                                                   │
-│ IOP / Channel                                                        │
-│  │ 2. CCW fetch & decode                                             │
-│  ▼                                                                   │
-│ Channel Controller                                                   │
-│  │ 3. 장치 명령 생성                                                 │
-│  ├───────────────────────────────┐                                   │
-│  ▼                               ▼                                   │
-│ Device                        DMA Engine                             │
-│  │                               │                                   │
-│  └──── 상태/데이터 요청 ────────┴──── 메모리 블록 전송 ─────▶ Memory │
-│                                                                      │
-│ 완료/오류 발생 ───────────────────────────────────────────────▶ CPU   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    IOP 기반 I/O 실행 파이프라인                     |
++----------------------------------------------------------------------+
+| CPU                                                                  |
+|  | 1. SIO                                                            |
+|  v                                                                   |
+| IOP / Channel                                                        |
+|  | 2. CCW fetch & decode                                             |
+|  v                                                                   |
+| Channel Controller                                                   |
+|  | 3. 장치 명령 생성                                                 |
+|  +-------------------------------+                                   |
+|  v                               v                                   |
+| Device                        DMA Engine                             |
+|  |                               |                                   |
+|  +---- 상태/데이터 요청 --------+---- 메모리 블록 전송 ------> Memory |
+|                                                                      |
+| 완료/오류 발생 ------------------------------------------------> CPU   |
++----------------------------------------------------------------------+
 ```
 
 채널은 물리적 운용 방식에 따라 셀렉터 채널(Selector Channel), [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)), 블록 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)(Block [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/))로 나뉜다. 셀렉터 채널은 고속 장치 하나를 오래 붙잡고 처리하는 데 유리하고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)는 느린 장치 여러 개를 잘게 섞어 처리해 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 낭비를 줄인다. 블록 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)는 고속 장치가 많을 때 블록 단위로 번갈아 처리해 동시성을 높인다.
@@ -170,20 +170,20 @@ IOP의 가장 큰 효과는 CPU를 "입출력에 끌려다니는 관리자"에�
 
 ```text
 프로그램 제어 I/O
-        │
-        ▼
+        |
+        v
 인터럽트 기반 I/O
-        │
-        ▼
+        |
+        v
 DMA (Direct Memory Access)
-        │
-        ▼
+        |
+        v
 IOP (Input/Output Processor) / Channel
-        │
-        ▼
+        |
+        v
 RAID Controller · SmartNIC · HBA (Host Bus Adapter)
-        │
-        ▼
+        |
+        v
 DPU (Data Processing Unit) · 인프라 오프로딩 아키텍처
 ```
 
@@ -201,7 +201,7 @@ DPU (Data Processing Unit) · 인프라 오프로딩 아키텍처
 
 **진행 상황**: 322 / 803
 
-← **이전**: [320. 버스트 모드 (Burst Mode)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/)
-**다음**: [322. 하드 디스크 드라이브 (HDD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/322_hdd/) →
+<- **이전**: [320. 버스트 모드 (Burst Mode)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/)
+**다음**: [322. 하드 디스크 드라이브 (HDD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/322_hdd/) ->
 
 ---

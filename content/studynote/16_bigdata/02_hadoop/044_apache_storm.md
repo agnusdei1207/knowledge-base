@@ -70,17 +70,17 @@ Apache Storm은 실시간 [분산](/knowledge-base/studynote/08_algorithm_stats/
 
 ```text
 [Spout (데이터 소스 — Kafka · 파일 · API)]
-    │
-    ▼
+    |
+    v
 [스트림 (Stream) — 무한 데이터 튜플 흐름]
-    │
-    ▼
+    |
+    v
 [Bolt (처리·변환·집계 — 필터·조인·집계)]
-    │
-    ▼
+    |
+    v
 [토폴로지 (Topology) — Spout + Bolt 유향 그래프]
-    │
-    ▼
+    |
+    v
 [Apache Flink / Spark Structured Streaming — 후계 진화]
 ```
 Spout가 수집한 스트림이 Bolt 체인을 거쳐 처리되는 토폴로지 모델로 실시간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 원형을 정립하고, Flink와 Spark Streaming으로 계승·발전된 흐름이다.
@@ -96,7 +96,7 @@ Spout가 수집한 스트림이 Bolt 체인을 거쳐 처리되는 토폴로지 
 
 **진행 상황**: 44 / 262
 
-← **이전**: [HDFS Small File Problem (HDFS 작은 파일 문제)](/knowledge-base/studynote/16_bigdata/02_hadoop/043_hdfs_small_file_problem/)
-**다음**: [23. 추천 시스템 알고리즘 (Recommendation System Algorithms)](/knowledge-base/studynote/16_bigdata/02_hadoop/045_recommendation_system_algorithms/) →
+<- **이전**: [HDFS Small File Problem (HDFS 작은 파일 문제)](/knowledge-base/studynote/16_bigdata/02_hadoop/043_hdfs_small_file_problem/)
+**다음**: [23. 추천 시스템 알고리즘 (Recommendation System Algorithms)](/knowledge-base/studynote/16_bigdata/02_hadoop/045_recommendation_system_algorithms/) ->
 
 ---

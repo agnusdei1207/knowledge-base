@@ -41,20 +41,20 @@ WHERE절: SELECT * FROM emp WHERE sal > (SELECT AVG(sal) FROM emp)
 |:---|:---|
 | **스칼라** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 절 서브쿼리 |
 | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/">인라인 뷰</a></strong> | FROM 절 서브쿼리 |
-| **상관** | 외부 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↓) |
+| **상관** | 외부 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)v) |
 | **CTE** | 서브쿼리 대안 |
 | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/">Window Function</a></strong> | [상관 서브쿼리](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/) 대안 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[기본 서브쿼리 (SQL-86)] → [상관 서브쿼리 (SQL-92)]
-    → [CTE (SQL:1999)] → [Window Function (SQL:2003)]
-    → [현재: 옵티마이저 자동 서브쿼리→JOIN 변환]
+[기본 서브쿼리 (SQL-86)] -> [상관 서브쿼리 (SQL-92)]
+    -> [CTE (SQL:1999)] -> [Window Function (SQL:2003)]
+    -> [현재: 옵티마이저 자동 서브쿼리->JOIN 변환]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 서브쿼리는 <strong>질문 속의 질문</strong>이에요. "평균이 얼마야?" → "평균보다 높은 사람은?"
+1. 서브쿼리는 <strong>질문 속의 질문</strong>이에요. "평균이 얼마야?" -> "평균보다 높은 사람은?"
 2. 먼저 <strong>안쪽 질문에 답</strong>하고, 그 답으로 <strong>바깥 질문</strong>에 답해요.
 3. 하지만 너무 많이 쓰면 **느려지니까** 다른 방법([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))도 알아야 해요!
 
@@ -64,7 +64,7 @@ WHERE절: SELECT * FROM emp WHERE sal > (SELECT AVG(sal) FROM emp)
 
 **진행 상황**: 138 / 600
 
-← **이전**: [137. SQL Self JOIN & Recursive CTE - 자기 참조와 재귀 쿼리](/knowledge-base/studynote/05_database/03_relational_model/137_sql_self_join_recursive/)
-**다음**: [139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD](/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/) →
+<- **이전**: [137. SQL Self JOIN & Recursive CTE - 자기 참조와 재귀 쿼리](/knowledge-base/studynote/05_database/03_relational_model/137_sql_self_join_recursive/)
+**다음**: [139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD](/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/) ->
 
 ---

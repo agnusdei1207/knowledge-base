@@ -32,13 +32,13 @@ tags = ["studynote-operating-system"]
 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 중심은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 물리 하드웨어 위에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 관리하고, 각 VM은 자신의 OS를 가진다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Apps ─ Guest OS ─ Virtual Hardware ── VM     │
-├──────────────────────────────────────────────┤
-│            Hypervisor (Type 1/2)             │
-├──────────────────────────────────────────────┤
-│          Physical CPU / Memory / Storage     │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Apps - Guest OS - Virtual Hardware -- VM     |
++----------------------------------------------+
+|            Hypervisor (Type 1/2)             |
++----------------------------------------------+
+|          Physical CPU / Memory / Storage     |
++----------------------------------------------+
 ```
 
 | 요소 | 역할 | 포인트 |
@@ -119,14 +119,14 @@ Type 1 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_ove
 
 ```text
 물리 서버
-    │
-    ▼
+    |
+    v
 하이퍼바이저
-    │
-    ▼
+    |
+    v
 가상 머신 (VM)
-    │
-    ▼
+    |
+    v
 클라우드 / 멀티테넌시
 ```
 
@@ -144,7 +144,7 @@ Type 1 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_ove
 
 **진행 상황**: 53 / 800
 
-← **이전**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)
-**다음**: [54. 하이퍼바이저 (Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) →
+<- **이전**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)
+**다음**: [54. 하이퍼바이저 (Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ->
 
 ---

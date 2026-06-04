@@ -47,10 +47,10 @@ tags = ["studynote-software-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[종이 프로토타입 (~2000s)] → [Wireframe (Balsamiq)]
-    → [Interactive Mockup (Figma, 2016)]
-    → [No-Code 프로토타입 (2020~)]
-    → [현재: AI 프로토타입 — 스케치→코드 자동 생성]
+[종이 프로토타입 (~2000s)] -> [Wireframe (Balsamiq)]
+    -> [Interactive Mockup (Figma, 2016)]
+    -> [No-Code 프로토타입 (2020~)]
+    -> [현재: AI 프로토타입 — 스케치->코드 자동 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 138 / 973
 
-← **이전**: [137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/137_persona_analysis_modeling/)
-**다음**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/knowledge-base/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/) →
+<- **이전**: [137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/137_persona_analysis_modeling/)
+**다음**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/knowledge-base/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/) ->
 
 ---

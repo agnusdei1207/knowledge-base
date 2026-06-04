@@ -22,10 +22,10 @@ tags = ["studynote-design-supervision"]
 최종 요약 집대성의 목적은 모든 내용을 한 장으로 줄이는 데 있지 않다. 오히려 어떤 문제가 나와도 “이 문제는 생명주기 어디에 놓이는가, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 연결되는가, 감리 시 어떤 증적으로 확인되는가”를 즉시 꺼내기 위한 회상 지도에 가깝다. 즉, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 연결을 동시에 만족해야 한다.
 
 ```text
-┌──────────────────────── 최종 회상 프레임 ────────────────────────┐
-│ 요구·업무 ─▶ 설계원칙/패턴 ─▶ 구현·테스트 ─▶ 운영·감리 증적       │
-│    └──────────────── 모든 주제를 한 흐름으로 묶는 축 ────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
++------------------------ 최종 회상 프레임 ------------------------+
+| 요구·업무 --> 설계원칙/패턴 --> 구현·테스트 --> 운영·감리 증적       |
+|    +---------------- 모든 주제를 한 흐름으로 묶는 축 ------------+ |
++-------------------------------------------------------------------+
 ```
 
 따라서 이 문서는 단순 요약집이 아니라, 답안을 빠르게 전개하기 위한 <strong>아키텍처·감리 공통 관제판</strong>으로 이해하는 것이 맞다.
@@ -37,12 +37,12 @@ tags = ["studynote-design-supervision"]
 최종 요약 집대성의 원리는 세 축으로 정리된다. 첫째, 생명주기 축으로 질문 위치를 찾는다. 둘째, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 축으로 기술 선택 이유를 붙인다. 셋째, 감리 증적 축으로 평가 언어를 완성한다. 이 세 축을 동시에 갖고 있어야 단순 암기가 아닌 실전 답안 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 된다.
 
 ```text
-┌────────────────────────── 통합 설계 3축 ──────────────────────────┐
-│ 생명주기 축 : 기획 → 분석 → 설계 → 구현 → 시험 → 운영 → 개선      │
-│ 품질 축     : 성능 / 보안 / 가용성 / 유지보수성 / 확장성            │
-│ 감리 축     : 통제 기준 / 증적 확보 / 결함 조치 / 재검증            │
-│                    └─ 세 축의 교차점이 최종 답안 포맷              │
-└────────────────────────────────────────────────────────────────────┘
++-------------------------- 통합 설계 3축 --------------------------+
+| 생명주기 축 : 기획 -> 분석 -> 설계 -> 구현 -> 시험 -> 운영 -> 개선      |
+| 품질 축     : 성능 / 보안 / 가용성 / 유지보수성 / 확장성            |
+| 감리 축     : 통제 기준 / 증적 확보 / 결함 조치 / 재검증            |
+|                    +- 세 축의 교차점이 최종 답안 포맷              |
++--------------------------------------------------------------------+
 ```
 
 | 핵심 축 | 포함 개념 | 최종 답안 사용법 |
@@ -100,19 +100,19 @@ tags = ["studynote-design-supervision"]
 - <strong>품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 중심 사고</strong>: 기술 선택 이유와 트레이드오프를 설명하는 기준
 - **감리 증적 연결**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 산출물, 인터뷰, 테스트 결과를 평가 언어로 전환하는 장치
 - **패턴·원리·튜닝 통합**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), GC, 보안, 운영을 하나의 틀에 수용하는 구조
-- **실전 답안 템플릿**: 정의 → 원리 → 비교 → 판단 → 기대효과의 반복 가능한 서술 틀
+- **실전 답안 템플릿**: 정의 -> 원리 -> 비교 -> 판단 -> 기대효과의 반복 가능한 서술 틀
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 개별 주제 학습
-        │
-        ▼
+        |
+        v
 생명주기·품질 속성별 재분류
-        │
-        ▼
+        |
+        v
 감리 증적·판단 기준 연결
-        │
-        ▼
+        |
+        v
 최종 통합 프레임으로 실전 답안화
 ```
 
@@ -127,7 +127,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 530 / 530
 
-← **이전**: [451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management](/knowledge-base/studynote/11_design_supervision/06_exam_summary/451_audit/)
+<- **이전**: [451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management](/knowledge-base/studynote/11_design_supervision/06_exam_summary/451_audit/)
 
 ✅ **마지막 글입니다.**
 

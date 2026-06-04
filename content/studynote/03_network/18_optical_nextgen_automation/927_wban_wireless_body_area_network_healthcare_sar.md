@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
+    |
+    v
 [무선 인체 통신망]
-    │
-    └──▶ [수중 통신 무선 음파]
+    |
+    +---> [수중 통신 무선 음파]
 ```
 
 - **📢 섹션 요약 비유**: 무선 인체 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
+    |
+    v
 [무선 인체 통신망]
-    │
-    └──▶ [수중 통신 무선 음파]
+    |
+    +---> [수중 통신 무선 음파]
 ```
 
 - **📢 섹션 요약 비유**: 기존 무선망(Wi-Fi)은 동네방네 울려 퍼지는 '거대한 아파트 마을방송 스피커'입니다. 소리는 잘 들리지만, 내 심장 근처에서 24시간 마을방송이 울리면 고막이 터지고 며칠 만에 스피커 배터리가 박살 납니다. <strong>스마트 헬스케어 WBAN(인체 통신망)</strong>은 내 귓속에 파묻어둔 '나노 귓속말 도청기'입니다. 귓속말 기계는 평소엔 1년 내내 겨울잠을 자며 에너지를 아끼다가, 내 심장이 이상하게 뛸 때만 딱 0.1초 깨어나 모기만 한 목소리로 주머니 속 스마트폰에게 "심장 이상함!" 하고 속삭인 뒤 다시 기절합니다(극저전력). 소리가 너무 작아 내 뼈나 내장을 상하게 할 일도 없고, 해커가 옆에서 엿들으려 해도 내 심장 박동 소리(생체 암호키)를 비밀번호로 대지 못하면 기계를 해킹해 나를 조종할 수 없는 인체 맞춤형 사이보그 통신망입니다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 무선 인체 통신망]
-    │
-    ├──▶ [확장 A: 수중 통신 무선 음파]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 수중 통신 무선 음파]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 무선 인체 통신망는 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 노출/은닉 망 탐…에서 출발해 현재 메커니즘을 정교화하고, 이후 [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1048 / 1120
 
-← **이전**: [926. 지향성 안테나 MAC 제어](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/926_directional_antenna_mac_sweep_discovery/)
-**다음**: [928. 수중 통신 (UWSN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) →
+<- **이전**: [926. 지향성 안테나 MAC 제어](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/926_directional_antenna_mac_sweep_discovery/)
+**다음**: [928. 수중 통신 (UWSN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) ->
 
 ---

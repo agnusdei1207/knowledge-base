@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [비대칭키/공개키 암호화]
-    │
-    ▼
+    |
+    v
 [수학적 문제 기반]
-    │
-    └──▶ [RSA 알고리즘]
+    |
+    +---> [RSA 알고리즘]
 ```
 
 - **📢 섹션 요약 비유**: 수학적 문제 기반은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [비대칭키/공개키 암호화]
-    │
-    ▼
+    |
+    v
 [수학적 문제 기반]
-    │
-    └──▶ [RSA 알고리즘]
+    |
+    +---> [RSA 알고리즘]
 ```
 
 - **📢 섹션 요약 비유**: 수학적 문제 기반의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 비대칭키/공개키 암호화]
-    │
-    ▼
+    |
+    v
 [현재 개념: 수학적 문제 기반]
-    │
-    ├──▶ [확장 A: RSA 알고리즘]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: RSA 알고리즘]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 수학적 문제 기반는 비대칭키/공개키 암호화에서 출발해 현재 메커니즘을 정교화하고, 이후 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 782 / 1120
 
-← **이전**: [660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)](/knowledge-base/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/)
-**다음**: [662. RSA 알고리즘](/knowledge-base/studynote/03_network/13_network_security_basics/662_rsa_algorithm_integer_factorization_2048/) →
+<- **이전**: [660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)](/knowledge-base/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/)
+**다음**: [662. RSA 알고리즘](/knowledge-base/studynote/03_network/13_network_security_basics/662_rsa_algorithm_integer_factorization_2048/) ->
 
 ---

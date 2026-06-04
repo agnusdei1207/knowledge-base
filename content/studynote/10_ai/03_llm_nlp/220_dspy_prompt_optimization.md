@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 위대한 발상에서 탄생한 것이 파이썬 코드로 프롬프트를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 컴파일해 버리는 프레임워크, <strong>DSPy</strong>다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 까탈스러운 사장님([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기분에 맞춰 매일 아침 비서가 수작업으로 "사장님~ 존경합니다. 결재 부탁드려요~"라고 아부성 편지를 길게 쓰는 고된 감정노동이다. 다른 사장님으로 바뀌면 편지 쓰는 법을 또 새로 배워야 한다. DSPy는 이 편지를 '자동 양식 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기(컴파일러)'로 만든 것이다. 사장님의 성향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 툭 던져주면, 기계가 알아서 이 사장님한테 가장 잘 먹히는 완벽한 맞춤형 아부 편지(프롬프트)를 1초 만에 자동으로 찍어내는 기적의 자동화 시스템이다.
@@ -44,27 +44,27 @@ tags = ["studynote-ai"]
 DSPy는 프롬프트 텍스트를 하드코딩하지 않고, 파이토치(PyTorch)처럼 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>) 선언'과 '컴파일러(Compiler) 최적화'</strong>라는 2단계 아키텍처를 따른다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           DSPy의 파이토치(PyTorch)식 프롬프트 컴파일 아키텍처 도해        │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 프롬프트 하드코딩 삭제 & 모듈(Module) 선언]                 │
-│   * 과거: prompt = "너는 번역가야. '사과'를 영어로 번역해. 차근차근 생각해." │
-│   * DSPy: 텍스트를 아예 안 씀! 파이썬 클래스로 모듈만 툭 선언함.           │
-│           class QA(dspy.Module):                             │
-│               def __init__(self):                            │
-│                   self.generate_answer = dspy.ChainOfThought("question -> answer") │
-│                                                              │
-│  [2. 평가지표(Metric)와 데이터셋(Dataset) 투입]                  │
-│   * 훈련 데이터 10개 준비: [("수도?", "서울"), ("1+1?", "2")]         │
-│   * 채점 기준(Metric): "정답 단어가 포함되어 있으면 100점!"             │
-│                                                              │
-│  [3. 텔레프롬프터(Teleprompter / Compiler) 발동!]               │
-│   * 명령어: `optimizer.compile(QA_model, trainset=data)`       │
-│   * 마법 발동: DSPy의 컴파일러가 LLM을 여러 번 돌려보면서 스스로 테스트함.  │
-│   * "어? 이렇게 예시(Few-shot)를 넣으니까 점수가 더 높네? 프롬프트 수정!"    │
-│   ─▶ 인간의 개입 없이, 컴파일러가 알아서 최적의 프롬프트 텍스트와 예제들을  │
-│      조립하여 모듈 안에 꽉꽉 박아넣음(Compiled Prompt 완성)!          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           DSPy의 파이토치(PyTorch)식 프롬프트 컴파일 아키텍처 도해        |
++--------------------------------------------------------------+
+|  [1. 프롬프트 하드코딩 삭제 & 모듈(Module) 선언]                 |
+|   * 과거: prompt = "너는 번역가야. '사과'를 영어로 번역해. 차근차근 생각해." |
+|   * DSPy: 텍스트를 아예 안 씀! 파이썬 클래스로 모듈만 툭 선언함.           |
+|           class QA(dspy.Module):                             |
+|               def __init__(self):                            |
+|                   self.generate_answer = dspy.ChainOfThought("question -> answer") |
+|                                                              |
+|  [2. 평가지표(Metric)와 데이터셋(Dataset) 투입]                  |
+|   * 훈련 데이터 10개 준비: [("수도?", "서울"), ("1+1?", "2")]         |
+|   * 채점 기준(Metric): "정답 단어가 포함되어 있으면 100점!"             |
+|                                                              |
+|  [3. 텔레프롬프터(Teleprompter / Compiler) 발동!]               |
+|   * 명령어: `optimizer.compile(QA_model, trainset=data)`       |
+|   * 마법 발동: DSPy의 컴파일러가 LLM을 여러 번 돌려보면서 스스로 테스트함.  |
+|   * "어? 이렇게 예시(Few-shot)를 넣으니까 점수가 더 높네? 프롬프트 수정!"    |
+|   --> 인간의 개입 없이, 컴파일러가 알아서 최적의 프롬프트 텍스트와 예제들을  |
+|      조립하여 모듈 안에 꽉꽉 박아넣음(Compiled Prompt 완성)!          |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (Signature와 Teleprompter)**:
@@ -137,7 +137,7 @@ DSPy의 등장은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ DSPy의 등장은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 **진행 상황**: 220 / 420
 
-← **이전**: [219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)](/knowledge-base/studynote/10_ai/03_llm_nlp/219_langsmith_llm_observability/)
-**다음**: [221. 벡터 차원 색인 ANN (HNSW / PQ)](/knowledge-base/studynote/10_ai/03_llm_nlp/221_ann_vector_index/) →
+<- **이전**: [219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)](/knowledge-base/studynote/10_ai/03_llm_nlp/219_langsmith_llm_observability/)
+**다음**: [221. 벡터 차원 색인 ANN (HNSW / PQ)](/knowledge-base/studynote/10_ai/03_llm_nlp/221_ann_vector_index/) ->
 
 ---

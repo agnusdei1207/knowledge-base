@@ -185,7 +185,7 @@ Patreon, Substack, 독립 구독 모델
 
 **진행 상황**: 35 / 482
 
-← **이전**: [BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/034_bcg_matrix_portfolio/)
-**다음**: [036. 네트워크 효과 & 메칼프의 법칙](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/036_network_effect_metcalfes_law/) →
+<- **이전**: [BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/034_bcg_matrix_portfolio/)
+**다음**: [036. 네트워크 효과 & 메칼프의 법칙](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/036_network_effect_metcalfes_law/) ->
 
 ---

@@ -42,19 +42,19 @@ tags = ["database"]
 위 구조에서 김철수가 C++를 새로 배웠다면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성을 위해 `(김철수, C++, 등산)`과 `(김철수, C++, 수영)` 두 줄을 동시에 삽입해야만 하는 '[삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)'이 발생한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  제4정규형 (4NF) 분해 원리                   │
-├──────────────────────────────────────────────────────────────┤
-│ [ 분해 전: X, Y, Z가 한 테이블에 결합 ]                      │
-│ X ──▶ Y (독립적 다중값)                                     │
-│ X ──▶ Z (독립적 다중값)                                     │
-│  => 모든 (X, Y)와 (X, Z) 쌍이 곱해져 튜플 수 폭발 (중복)     │
-│                                                              │
-│ [ 분해 후: 무관한 종속성을 격리 ]                            │
-│ 테이블 1: (X, Y) ──> (김철수, Java), (김철수, Python)        │
-│ 테이블 2: (X, Z) ──> (김철수, 등산), (김철수, 수영)          │
-│  => 삽입/삭제 시 서로 영향을 주지 않고 단일 튜플만 처리 가능 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  제4정규형 (4NF) 분해 원리                   |
++--------------------------------------------------------------+
+| [ 분해 전: X, Y, Z가 한 테이블에 결합 ]                      |
+| X ---> Y (독립적 다중값)                                     |
+| X ---> Z (독립적 다중값)                                     |
+|  => 모든 (X, Y)와 (X, Z) 쌍이 곱해져 튜플 수 폭발 (중복)     |
+|                                                              |
+| [ 분해 후: 무관한 종속성을 격리 ]                            |
+| 테이블 1: (X, Y) --> (김철수, Java), (김철수, Python)        |
+| 테이블 2: (X, Z) --> (김철수, 등산), (김철수, 수영)          |
+|  => 삽입/삭제 시 서로 영향을 주지 않고 단일 튜플만 처리 가능 |
++--------------------------------------------------------------+
 ```
 이 그림의 핵심은 무관한 다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 매개체 $X$를 기준으로 완전히 독립적인 두 테이블로 분리하여 카테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))의 고리를 끊어내는 것이다.
 
@@ -119,21 +119,21 @@ tags = ["database"]
 
 ```text
 제1~3정규형 (1NF~3NF)
-    │
-    ▼
+    |
+    v
 함수적 종속성 완벽 제거 (BCNF)
-    │
-    ▼
+    |
+    v
 다치 종속성 (MVD) 식별 및 폭발적 중복 발생
-    │
-    ▼
+    |
+    v
 제4정규형 (4NF) · 독립적 테이블 분해
-    │
-    ▼
+    |
+    v
 조인 종속성 (JD) · 제5정규형 (5NF)
 ```
 
-이 흐름도는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 해결 과정이 "부분 종속/이행 종속 제거 → [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) 제거 → 조인 종속 제거"의 극한의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 추구로 발전함을 보여준다.
+이 흐름도는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 해결 과정이 "부분 종속/이행 종속 제거 -> [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) 제거 -> 조인 종속 제거"의 극한의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 추구로 발전함을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +147,7 @@ tags = ["database"]
 
 **진행 상황**: 107 / 600
 
-← **이전**: [106. BCNF (Boyce-Codd Normal Form) - 3NF 만족 및 모든 결정자가 후보키 (강한 3NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/)
-**다음**: [108. 제4정규형 (4NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) →
+<- **이전**: [106. BCNF (Boyce-Codd Normal Form) - 3NF 만족 및 모든 결정자가 후보키 (강한 3NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/)
+**다음**: [108. 제4정규형 (4NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ->
 
 ---

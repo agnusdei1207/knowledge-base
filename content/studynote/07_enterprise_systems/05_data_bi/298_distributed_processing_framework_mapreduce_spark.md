@@ -31,8 +31,8 @@ tags = ["studynote-enterprise"]
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 프레임워크는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 **Map(분할)** 과정과 결과를 합치는 **Reduce(병합)** 과정을 핵심 메커니즘으로 사용한다.
 
 ```text
-[입력 데이터] ──▶ [분할/Map] ──▶ [셔플/Shuffle] ──▶ [병합/Reduce] ──▶ [최종 결과]
-     │               │               │                │
+[입력 데이터] ---> [분할/Map] ---> [셔플/Shuffle] ---> [병합/Reduce] ---> [최종 결과]
+     |               |               |                |
  (거대 파일)      (노드별 처리)     (데이터 재정렬)     (결과 요약)
 ```
 
@@ -104,17 +104,17 @@ tags = ["studynote-enterprise"]
 
 ```
 단일 서버 배치 처리 한계 (TB급 데이터)
-    │
-    ▼
+    |
+    v
 Google MapReduce 논문 (2004) - 분산 처리 패러다임
-    │
-    ▼
+    |
+    v
 Hadoop MapReduce 오픈소스 구현 (디스크 I/O 병목)
-    │
-    ▼
+    |
+    v
 Apache Spark - 인메모리 DAG 실행 엔진 (100x 빠름)
-    │
-    ▼
+    |
+    v
 Spark Structured Streaming + Delta Lake 통합
 ```
 
@@ -131,7 +131,7 @@ Spark Structured Streaming + Delta Lake 통합
 
 **진행 상황**: 298 / 482
 
-← **이전**: [297. 데이터 가상화 (Data Virtualization)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/297_data_virtualization/)
-**다음**: [299. 스파크 RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/299_spark_rdd_resilient_distributed_dataset/) →
+<- **이전**: [297. 데이터 가상화 (Data Virtualization)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/297_data_virtualization/)
+**다음**: [299. 스파크 RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/299_spark_rdd_resilient_distributed_dataset/) ->
 
 ---

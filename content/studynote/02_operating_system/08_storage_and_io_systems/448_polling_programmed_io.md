@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 등장으로 멸종 위기</strong>: 딴일 하다가 삐삐([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 치면 돌아오는 스마트한 방식에 왕좌를 넘겨주었으나, 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 장비에서 부활의 신호탄을 쏘아 올림.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화           │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함 ]         │
-│                                                                        │
-│ 1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).                           │
-│ 2. 프린터: "모터 돌릴게! 나 건들지마!" -> (Status 비트 = BUSY 🔴)      │
-│                                                                        │
-│ 💥 [ 지옥의 폴링 (Busy Wait) 시작 ]                                    │
-│ 3. CPU: `while (*status_reg == BUSY) { /* 멍때림 */ }`                 │
-│    - 1클럭 째: "끝났냐?" -> 프린터: "아직"                             │
-│    - 1만 클럭 째: "끝났냐?" -> 프린터: "아직"                          │
-│    - 100만 클럭 째: "끝났냐?" -> 프린터: "아직" (CPU 100% 불타오름)    │
-│                                                                        │
-│ 4. 프린터 모터 정지 -> (Status 비트 = READY 🟢)                        │
-│ 5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"              │
-│                                                                        │
-│ ☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런    │
-│    의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.        │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화           |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함 ]         |
+|                                                                        |
+| 1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).                           |
+| 2. 프린터: "모터 돌릴게! 나 건들지마!" -> (Status 비트 = BUSY 🔴)      |
+|                                                                        |
+| 💥 [ 지옥의 폴링 (Busy Wait) 시작 ]                                    |
+| 3. CPU: `while (*status_reg == BUSY) { /* 멍때림 */ }`                 |
+|    - 1클럭 째: "끝났냐?" -> 프린터: "아직"                             |
+|    - 1만 클럭 째: "끝났냐?" -> 프린터: "아직"                          |
+|    - 100만 클럭 째: "끝났냐?" -> 프린터: "아직" (CPU 100% 불타오름)    |
+|                                                                        |
+| 4. 프린터 모터 정지 -> (Status 비트 = READY 🟢)                        |
+| 5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"              |
+|                                                                        |
+| ☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런    |
+|    의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.        |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 `while` 루프가 바로 모든 디바이스 드라이버 초보자들이 겪는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프리즈([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Freeze)'의 주범이다. 폴링 루프에 갇힌 CPU 코어는 다른 애플리케이션으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))조차 하지 못하고 기계가 0을 뱉어낼 때까지 포로로 잡힌다. 만약 프린터 전원이 훅 나가서 0을 영원히 뱉지 않는다면? 컴퓨터 자체가 영원히 멈추는 완벽한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다.
 
@@ -104,12 +104,12 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 결국 디스크 바늘이 움직이는 그 영겁의 시간(8ms) 동안, 서버 안에 있는 100개의 앱이 몽땅 스탑(Stop)되는 최악의 비효율이 발생한다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 장비 종류  │ I/O 대기시간 │ 인터럽트 비용 │ 최적의 I/O 방식           │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ HDD / CD │ 8 ms (엄청 긺)│ 1 ㎲ (상대적 작음)│ 🟢 인터럽트 (딴일 해라)│
-│ 레지스터   │ 0.1 ㎲ (짧음)│ 1 ㎲ (상대적 큼) │ 🟢 폴링 (그냥 1초 대기)│
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
++----------+------------+------------+----------------------------------+
+| 장비 종류  | I/O 대기시간 | 인터럽트 비용 | 최적의 I/O 방식           |
++----------+------------+------------+----------------------------------+
+| HDD / CD | 8 ms (엄청 긺)| 1 ㎲ (상대적 작음)| 🟢 인터럽트 (딴일 해라)|
+| 레지스터   | 0.1 ㎲ (짧음)| 1 ㎲ (상대적 큼) | 🟢 폴링 (그냥 1초 대기)|
++----------+------------+------------+----------------------------------+
 ```
 **[매트릭스 해설]** 폴링이 무조건 나쁜 건 아니다. 만약 프린터가 0.0001초 만에 인쇄를 끝내는 신기술 장비라면? 폴링으로 0.0001초 멍때리다 바로 글자 쏘는 게, 딴 앱으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))했다가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 0.001초 뒤에 돌아오는 것보다 10배 더 빠르다. 대기 시간이 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업 비용'보다 짧을 땐 폴링이 진리가 된다.
 
@@ -170,12 +170,12 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 ```text
 [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    │
-    ▼
+    |
+    v
 [폴링 (Polling / Programmed I/O)]
-    │
-    ├──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
-    └──▶ [직접 메모리 접근 (DMA, Direct Memory Access)]
+    |
+    +---> [인터럽트 구동 I/O (Interrupt-driven I/O)]
+    +---> [직접 메모리 접근 (DMA, Direct Memory Access)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -192,7 +192,7 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 **진행 상황**: 448 / 800
 
-← **이전**: [447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/447_memory_mapped_io_vs_isolated_io/)
-**다음**: [449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/449_interrupt_driven_io/) →
+<- **이전**: [447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/447_memory_mapped_io_vs_isolated_io/)
+**다음**: [449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/449_interrupt_driven_io/) ->
 
 ---

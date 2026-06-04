@@ -58,44 +58,44 @@ ZFS의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 ZFS가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부분을 변경할 때 어떻게 다르게 동작하는지 보여준다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ZFS의 Copy-On-Write (COW) 트랜잭션 흐름              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 초기 파일 시스템 트리 상태]                                  │
-  │                     [Uberblock v1]                                │
-  │                           │                                       │
-  │                    [디렉터리 블록 A]                                 │
-  │                     /             \                               │
-  │           [파일 메타 블록 B]    [파일 메타 블록 C]                       │
-  │             /           \                                         │
-  │       [데이터 D]      [데이터 E]                                      │
-  │                                                                   │
-  │  [상황 2: '데이터 E'를 '데이터 E_new'로 수정 요청]                      │
-  │   - 기존 ext4: 물리 디스크의 [데이터 E] 위치에 그냥 E_new를 덮어씀.          │
-  │                                                                   │
-  │   - ZFS COW 방식 동작:                                               │
-  │     1. 빈 공간에 [데이터 E_new]를 기록함 (E는 보존됨).                   │
-  │     2. E_new를 가리켜야 하므로 [파일 메타 블록 B]도 덮어쓸 수 없음.         │
-  │        빈 공간에 [파일 메타 블록 B_new]를 새로 만듦.                     │
-  │     3. 마찬가지로 [디렉터리 블록 A_new]를 새로 만듦.                      │
-  │     4. 마지막으로 새로운 [Uberblock v2]를 생성하여 A_new를 가리키게 함.     │
-  │                                                                   │
-  │  [상황 3: 트리 분기 및 반영 (원자적 커밋)]                              │
-  │                                                                   │
-  │     [Uberblock v1]                    [Uberblock v2] (최신)       │
-  │           │                                  │                    │
-  │     [디렉터리 A]                        [디렉터리 A_new]            │
-  │       /       \                         /         \               │
-  │    [메타 B]  [메타 C] ◀──(재사용)───▶ [메타 B_new]    │               │
-  │     /    \     │                    /      \      │               │
-  │  [데이터 D] [데이터 E]               │     [데이터 E_new]             │
-  │      ▲                              │                             │
-  │      └──────────── (재사용) ────────┘                             │
-  │                                                                   │
-  │  결과: Uberblock이 v2로 확정되는 순간(단 1회의 디스크 I/O) 트랜잭션 완료.   │
-  │        정전이 v2 쓰기 전에 나면 그냥 v1이 남으므로 파일 시스템 손상 제로.      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ZFS의 Copy-On-Write (COW) 트랜잭션 흐름              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 초기 파일 시스템 트리 상태]                                  |
+  |                     [Uberblock v1]                                |
+  |                           |                                       |
+  |                    [디렉터리 블록 A]                                 |
+  |                     /             \                               |
+  |           [파일 메타 블록 B]    [파일 메타 블록 C]                       |
+  |             /           \                                         |
+  |       [데이터 D]      [데이터 E]                                      |
+  |                                                                   |
+  |  [상황 2: '데이터 E'를 '데이터 E_new'로 수정 요청]                      |
+  |   - 기존 ext4: 물리 디스크의 [데이터 E] 위치에 그냥 E_new를 덮어씀.          |
+  |                                                                   |
+  |   - ZFS COW 방식 동작:                                               |
+  |     1. 빈 공간에 [데이터 E_new]를 기록함 (E는 보존됨).                   |
+  |     2. E_new를 가리켜야 하므로 [파일 메타 블록 B]도 덮어쓸 수 없음.         |
+  |        빈 공간에 [파일 메타 블록 B_new]를 새로 만듦.                     |
+  |     3. 마찬가지로 [디렉터리 블록 A_new]를 새로 만듦.                      |
+  |     4. 마지막으로 새로운 [Uberblock v2]를 생성하여 A_new를 가리키게 함.     |
+  |                                                                   |
+  |  [상황 3: 트리 분기 및 반영 (원자적 커밋)]                              |
+  |                                                                   |
+  |     [Uberblock v1]                    [Uberblock v2] (최신)       |
+  |           |                                  |                    |
+  |     [디렉터리 A]                        [디렉터리 A_new]            |
+  |       /       \                         /         \               |
+  |    [메타 B]  [메타 C] <---(재사용)----> [메타 B_new]    |               |
+  |     /    \     |                    /      \      |               |
+  |  [데이터 D] [데이터 E]               |     [데이터 E_new]             |
+  |      ^                              |                             |
+  |      +------------ (재사용) --------+                             |
+  |                                                                   |
+  |  결과: Uberblock이 v2로 확정되는 순간(단 1회의 디스크 I/O) 트랜잭션 완료.   |
+  |        정전이 v2 쓰기 전에 나면 그냥 v1이 남으므로 파일 시스템 손상 제로.      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) E를 수정하면 E만 바뀌는 것이 아니라, E를 가리키는 B, B를 가리키는 A, 그리고 최상단 Uberblock까지 줄줄이 새로운 공간에 작성되어야 한다. 이를 'Ripple Effect(파급 효과)'라고 한다. 언뜻 보면 비효율적 같지만, 실제로는 메모리(TXG, [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Group)에 이 변경 사항을 모아두었다가 한 번에 디스크의 연속된 빈 공간에 쭉(Sequential) 내려쓰기 때문에 디스크 헤드 탐색(Seek) 시간이 전혀 없어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 오히려 더 빠르다. 수정되지 않은 D와 C 블록은 옛날 트리(v1)와 새 트리(v2)가 포인터를 통해 공동으로 재사용한다.
@@ -152,28 +152,28 @@ ZFS의 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualiza
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ZFS COW 아키텍처 도입 및 튜닝 의사결정 플로우              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [차세대 스토리지 파일 시스템 도입 검토]                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      워크로드가 랜덤 쓰기(Random Write)가 극심한 데이터베이스(DB)인가?      │
-  │          ├─ 예 ─────▶ [ZFS 도입 시 성능 저하 (Fragmentation) 주의 요망] │
-  │          │            대책: 레코드 크기(recordsize)를 DB 블록 크기(8K, 16K)│
-  │          │            로 일치시키고 ZIL(Write Cache)용 고속 NVMe SLOG 추가 │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      하드웨어 RAID 컨트롤러(예: LSI MegaRAID)가 존재하는가?              │
-  │          ├─ 예 ─────▶ [하드웨어 RAID 해제 (IT Mode / HBA 패스스루 권장)]│
-  │          │            ZFS는 자신이 디스크 원판에 직접 닿아야(Direct Access) │
-  │          │            Self-healing과 COW 트리 관리가 가능함.            │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ZFS RAID-Z (소프트웨어 RAID) 적용]           │
-  │                         디스크의 물리적 블록 배치를 ZFS가 완벽히 통제        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ZFS COW 아키텍처 도입 및 튜닝 의사결정 플로우              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [차세대 스토리지 파일 시스템 도입 검토]                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      워크로드가 랜덤 쓰기(Random Write)가 극심한 데이터베이스(DB)인가?      |
+  |          +- 예 ------> [ZFS 도입 시 성능 저하 (Fragmentation) 주의 요망] |
+  |          |            대책: 레코드 크기(recordsize)를 DB 블록 크기(8K, 16K)|
+  |          |            로 일치시키고 ZIL(Write Cache)용 고속 NVMe SLOG 추가 |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      하드웨어 RAID 컨트롤러(예: LSI MegaRAID)가 존재하는가?              |
+  |          +- 예 ------> [하드웨어 RAID 해제 (IT Mode / HBA 패스스루 권장)]|
+  |          |            ZFS는 자신이 디스크 원판에 직접 닿아야(Direct Access) |
+  |          |            Self-healing과 COW 트리 관리가 가능함.            |
+  |          |                                                        |
+  |          +- 아니오 ---> [ZFS RAID-Z (소프트웨어 RAID) 적용]           |
+  |                         디스크의 물리적 블록 배치를 ZFS가 완벽히 통제        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** ZFS는 "볼륨 매니저+[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)+[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템"을 모두 삼켜버린 괴물이다. 가장 흔한 설계 실패는 ZFS 밑에 비싼 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드를 붙이는 것이다. ZFS는 디스크가 에러를 뱉을 때 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)를 뒤져서 스스로 고치도록 설계되었는데, 밑단 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드가 이를 가로채서 숨기면 ZFS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 보장(ZFS의 존재 이유)이 박살 난다. 무조건 HBA 카드로 디스크를 깡통(JBOD)으로 넘겨줘야 한다. 또한, 지속적인 COW로 인해 디스크가 파편화되므로, 플래시([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 스토리지가 아니면 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락할 수 있음을 명심해야 한다.
@@ -220,12 +220,12 @@ ZFS의 [Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_sys
 
 ```text
 [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
-    │
-    ▼
+    |
+    v
 [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
-    │
-    ├──▶ [Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향]
-    └──▶ [RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
+    |
+    +---> [Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향]
+    +---> [RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -242,7 +242,7 @@ ZFS의 [Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_sys
 
 **진행 상황**: 637 / 800
 
-← **이전**: [636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/636_multipath_io_kernel_module/)
-**다음**: [638. Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)](/knowledge-base/studynote/02_operating_system/10_security/638_btrfs_subvolume_compression/) →
+<- **이전**: [636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처](/knowledge-base/studynote/02_operating_system/10_security/636_multipath_io_kernel_module/)
+**다음**: [638. Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)](/knowledge-base/studynote/02_operating_system/10_security/638_btrfs_subvolume_compression/) ->
 
 ---

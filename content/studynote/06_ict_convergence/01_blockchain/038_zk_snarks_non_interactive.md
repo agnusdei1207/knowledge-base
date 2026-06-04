@@ -218,7 +218,7 @@ EVM 전체를 zk-SNARK 회로로
 
 **진행 상황**: 38 / 552
 
-← **이전**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)
-**다음**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/) →
+<- **이전**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)
+**다음**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/) ->
 
 ---

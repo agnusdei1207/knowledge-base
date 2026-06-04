@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [긴급 포인터]
-    │
-    ▼
+    |
+    v
 [TCP 3-Way Handshake]
-    │
-    └──▶ [ISN 무작위 할당 이유]
+    |
+    +---> [ISN 무작위 할당 이유]
 ```
 
 - **📢 섹션 요약 비유**: ** 3-Way Handshake는 전화 통화의 첫 3초입니다. 내가 **"여보세요(SYN)"** 하면, 상대방이 **"네, 여보세요(SYN-ACK)"** 하고, 내가 다시 **"아 네, 안녕하세요(ACK)"**라고 서로의 목소리가 들린다는 것을 확정 지은 뒤에야 비로소 "저기 돈 좀 빌려주라"는 진짜 본론([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 꺼냅니다.
@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 
 이 3단계 동안 클라이언트와 서버의 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)가 어떻게 변하는지</strong>가 시험과 면접의 0순위 타겟이다.
 
-### 1단계: SYN 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ──▶ Server)
+### 1단계: SYN 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ---> Server)
 - 클라이언트가 네이버 웹서버(80번)에 접속하려 한다.
 - 클라이언트는 임의의 난수(예: 1000)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시퀀스 번호([ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/))로 뽑는다.
 - 패킷의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더에 <strong><code>SYN</code> 불을 켜고</strong>, `Seq = 1000`을 적어서 쏜다.
@@ -52,7 +52,7 @@ tags = ["studynote-network"]
   - 서버는 켜지자마자 계속 손님을 기다리는 <strong><code>LISTEN</code></strong> 상태다.
   - 클라이언트는 쏘고 나서 대답을 기다리는 <strong><code>SYN_SENT</code></strong> 상태가 된다.
 
-### 2단계: SYN+ACK 화답 (Server ──▶ [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))
+### 2단계: SYN+ACK 화답 (Server ---> [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))
 - 네이버 서버가 SYN을 받았다. "오케이, 너 1000번부터 시작한다고? 메모 완료!"
 - 서버도 자기만의 난수(예: 5000)를 뽑는다.
 - 패킷 헤더에 <strong><code>SYN</code> 불과 <code>ACK</code> 불을 동시에 켠다</strong>.
@@ -60,7 +60,7 @@ tags = ["studynote-network"]
   - "네가 아까 보낸 1000번 잘 받았으니, 다음엔 1001번 보내줘! **(ACK = 1001)**"
 - **상태 변화**: 서버는 반쯤 연결이 된 <strong><code>SYN_RCVD</code> (SYN Received)</strong> 상태가 된다. (이 상태가 바로 해커들이 노리는 대기실이다).
 
-### 3단계: 최종 ACK 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ──▶ Server)
+### 3단계: 최종 ACK 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ---> Server)
 - 클라이언트가 서버의 화답을 받았다. "오, 서버도 5000번부터 보낸다고? 메모 완료!"
 - 패킷 헤더에 <strong><code>ACK</code> 불만 켠다</strong>.
   - "네가 보낸 5000번 잘 받았으니, 다음엔 5001번 보내줘! **(ACK = 5001)**"
@@ -68,24 +68,24 @@ tags = ["studynote-network"]
 - **상태 변화**: 클라이언트와 서버 양쪽 모두 <strong><code>ESTABLISHED</code> (연결 확립)</strong> 상태가 되며, 이때부터 진짜 웹페이지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))가 쏟아져 나오기 시작한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 3-Way Handshake 시퀀스 번호의 교환 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 클라이언트 ]                                    [ 서버 ]      │
- │   (SYN_SENT)                                    (LISTEN)    │
- │       │                                               │     │
- │       │ 1. [SYN] Seq = 100                            │     │
- │       ├───────────────────────────────────────────────▶     │
- │       │                                           (SYN_RCVD)│
- │       │ 2. [SYN, ACK] Seq = 500, ACK = 101 (100+1)    │     │
- │       ◀───────────────────────────────────────────────┤     │
- │ (ESTABLISHED)                                         │     │
- │       │ 3. [ACK] Seq = 101, ACK = 501 (500+1)         │     │
- │       ├───────────────────────────────────────────────▶     │
- │       │                                         (ESTABLISHED)│
- │       │ === 이제부터 진짜 데이터 통신 (HTTP 등) 시작! ===       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 3-Way Handshake 시퀀스 번호의 교환 도식        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 클라이언트 ]                                    [ 서버 ]      |
+ |   (SYN_SENT)                                    (LISTEN)    |
+ |       |                                               |     |
+ |       | 1. [SYN] Seq = 100                            |     |
+ |       +------------------------------------------------>     |
+ |       |                                           (SYN_RCVD)|
+ |       | 2. [SYN, ACK] Seq = 500, ACK = 101 (100+1)    |     |
+ |       <------------------------------------------------+     |
+ | (ESTABLISHED)                                         |     |
+ |       | 3. [ACK] Seq = 101, ACK = 501 (500+1)         |     |
+ |       +------------------------------------------------>     |
+ |       |                                         (ESTABLISHED)|
+ |       | === 이제부터 진짜 데이터 통신 (HTTP 등) 시작! ===       |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -142,12 +142,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 긴급 포인터]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 3-Way Handshake]
-    │
-    ├──▶ [확장 A: ISN 무작위 할당 이유]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: ISN 무작위 할당 이유]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -164,7 +164,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 537 / 1120
 
-← **이전**: [415. 긴급 포인터 (Urgent Pointer)](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)
-**다음**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) →
+<- **이전**: [415. 긴급 포인터 (Urgent Pointer)](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)
+**다음**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 도출(Elicitation)은 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>로부터 요구사항을 끌어내는 활동</strong>이며, 인터뷰·JAD·브레인스토밍·프로토타이핑·관찰·설문·[벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 등 다양한 기법을 상황에 맞게 조합한다.
 > 2. **가치**: 사용자는 **자신이 원하는 것을 정확히 말하지 못하므로**, 다양한 도출 기법으로 <strong>숨겨진 요구(Hidden Requirements)</strong>를 발견해야 한다.
-> 3. **판단 포인트**: 프로토타이핑은 <strong>시각적 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>→피드백</strong>이 빠르고, JAD는 <strong>다부서 합의</strong>에 강하며, 관찰(Ethnography)은 <strong>실제 업무 흐름</strong>을 파악하는 데 최적이다.
+> 3. **판단 포인트**: 프로토타이핑은 <strong>시각적 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>->피드백</strong>이 빠르고, JAD는 <strong>다부서 합의</strong>에 강하며, 관찰(Ethnography)은 <strong>실제 업무 흐름</strong>을 파악하는 데 최적이다.
 
 ---
 
@@ -48,9 +48,9 @@ tags = ["studynote-software-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 인터뷰 (~2000s)] → [JAD·워크숍 (2005~)]
-    → [프로토타이핑 (2010s)] → [Design Thinking (2015~)]
-    → [현재: AI 요구 도출 — 대화형 AI로 요구 추출]
+[비공식 인터뷰 (~2000s)] -> [JAD·워크숍 (2005~)]
+    -> [프로토타이핑 (2010s)] -> [Design Thinking (2015~)]
+    -> [현재: AI 요구 도출 — 대화형 AI로 요구 추출]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 135 / 973
 
-← **이전**: [134. 요구사항 공학 프로세스 - 도출→분석→명세→검증→관리 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/)
-**다음**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/) →
+<- **이전**: [134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/)
+**다음**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/) ->
 
 ---

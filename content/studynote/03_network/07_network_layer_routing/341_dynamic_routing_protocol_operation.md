@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [정적 라우팅]
-    │
-    ▼
+    |
+    v
 [동적 라우팅]
-    │
-    └──▶ [메트릭]
+    |
+    +---> [메트릭]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 동적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>은 인간의 개입 없이, 길목에 선 파수꾼(라우터)들이 서로 봉화와 비둘기(패킷)를 주고받으며 </strong>"동문이 막혔으니 서문으로 돌아가라!"라고 동네방네 소문을 퍼뜨리는 자율적 생존 네트워크**입니다.
@@ -58,19 +58,19 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a>)</strong>: "남의 말 안 믿어! 내가 우리 동네 전체 지도(토폴로지)를 직접 다 그려보고, 내가 직접 수학 공식([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 돌려서 길을 찾을 거야!" 하는 똑똑하지만 계산이 복잡한 방식. <strong>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a>)</strong>
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                동적 라우팅 프로토콜 계보도 (요약)                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                     [ 동적 라우팅 (Dynamic) ]                   │
- │                          /            \                     │
- │              [ IGP (회사 내부) ]       [ EGP (회사 간 연결) ]    │
- │               /            \                 |              │
- │       [거리 벡터(소문)]   [링크 상태(지도)]       |              │
- │         - RIP           - OSPF         - BGP (인터넷의 끝판왕)│
- │         - EIGRP         - IS-IS                             │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                동적 라우팅 프로토콜 계보도 (요약)                  |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |                     [ 동적 라우팅 (Dynamic) ]                   |
+ |                          /            \                     |
+ |              [ IGP (회사 내부) ]       [ EGP (회사 간 연결) ]    |
+ |               /            \                 |              |
+ |       [거리 벡터(소문)]   [링크 상태(지도)]       |              |
+ |         - RIP           - OSPF         - BGP (인터넷의 끝판왕)|
+ |         - EIGRP         - IS-IS                             |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 라우터들은 서로 **"우리 동네 뒷산에 지름길 하나 뚫렸대!"**라고 쉴 새 없이 카톡을 주고받으며 수다를 떠는 마을 아주머니들과 같습니다. 이 수다(동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 덕분에 온 동네 배달원들은 길이 막힐 때마다 가장 빠른 우회로를 귀신같이 찾아냅니다.
@@ -131,12 +131,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 정적 라우팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: 동적 라우팅]
-    │
-    ├──▶ [확장 A: 메트릭]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 메트릭]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 462 / 1120
 
-← **이전**: [340. 정적 라우팅 (Static Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)
-**다음**: [342. 메트릭 (Metric)](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) →
+<- **이전**: [340. 정적 라우팅 (Static Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)
+**다음**: [342. 메트릭 (Metric)](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ->
 
 ---

@@ -38,8 +38,8 @@ tags = ["studynote-cloud"]
 
 ```
 EC2 인스턴스
-   │ iSCSI / FC / NVMe-oF
-   ↓
+   | iSCSI / FC / NVMe-oF
+   v
 블록 스토리지 (EBS)
    [블록 0][블록 1][블록 2]...[블록 N]
           파일시스템(ext4/NTFS)은 OS가 관리
@@ -63,16 +63,16 @@ EC2 인스턴스
 ### [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
 ```
-클라이언트 A ─────┐
-                  │ NFS v4.1 / SMB 3.0
-클라이언트 B ─────┤
-                  ↓
+클라이언트 A -----+
+                  | NFS v4.1 / SMB 3.0
+클라이언트 B -----+
+                  v
          파일 스토리지 서버 (EFS / NetApp)
                /shared/
-               ├── project/
-               │   ├── data.csv
-               │   └── config.yaml
-               └── logs/
+               +-- project/
+               |   +-- data.csv
+               |   +-- config.yaml
+               +-- logs/
 ```
 
 ### AWS EFS vs FSx 비교
@@ -94,11 +94,11 @@ EC2 인스턴스
 
 ```
 버킷 (Bucket): my-data-bucket
-   └── 오브젝트 (Object)
-          ├── Key: "2024/01/15/logs/app.log"
-          ├── Value: 실제 데이터 (바이너리)
-          ├── 메타데이터: Content-Type, ETag, 커스텀 태그
-          └── 버전 ID: v1, v2, v3...
+   +-- 오브젝트 (Object)
+          +-- Key: "2024/01/15/logs/app.log"
+          +-- Value: 실제 데이터 (바이너리)
+          +-- 메타데이터: Content-Type, ETag, 커스텀 태그
+          +-- 버전 ID: v1, v2, v3...
 ```
 
 ### S3 스토리지 클래스 (비용 최적화)
@@ -119,14 +119,14 @@ EC2 인스턴스
 ```
 클라우드 스토리지 아키텍처:
 
-Web App ──→ EFS (공유 정적 파일)
-             ↓
-  DB ──────→ EBS io2 (고성능 블록)
-             ↓
-  로그 ─────→ S3 Standard (원본)
-                   ↓ 30일 후
+Web App ---> EFS (공유 정적 파일)
+             v
+  DB -------> EBS io2 (고성능 블록)
+             v
+  로그 ------> S3 Standard (원본)
+                   v 30일 후
              S3 IA (비용 절감)
-                   ↓ 90일 후
+                   v 90일 후
              Glacier (장기 보관)
 ```
 
@@ -148,18 +148,18 @@ Web App ──→ EFS (공유 정적 파일)
 
 ```
 클라우드 스토리지 유형
-├── 블록 스토리지
-│   ├── EBS (AWS), Persistent Disk (GCP)
-│   ├── SAN (Storage Area Network)
-│   └── iSCSI / NVMe-oF
-├── 파일 스토리지
-│   ├── EFS / FSx (AWS), Filestore (GCP)
-│   ├── NFS (Network File System)
-│   └── SMB / CIFS
-└── 오브젝트 스토리지
-    ├── S3 (AWS), GCS (GCP), Azure Blob
-    ├── S3 API 표준 (호환 생태계)
-    └── S3 스토리지 클래스 계층
++-- 블록 스토리지
+|   +-- EBS (AWS), Persistent Disk (GCP)
+|   +-- SAN (Storage Area Network)
+|   +-- iSCSI / NVMe-oF
++-- 파일 스토리지
+|   +-- EFS / FSx (AWS), Filestore (GCP)
+|   +-- NFS (Network File System)
+|   +-- SMB / CIFS
++-- 오브젝트 스토리지
+    +-- S3 (AWS), GCS (GCP), Azure Blob
+    +-- S3 API 표준 (호환 생태계)
+    +-- S3 스토리지 클래스 계층
 ```
 
 ---
@@ -167,23 +167,23 @@ Web App ──→ EFS (공유 정적 파일)
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│             클라우드 스토리지 발전 흐름                          │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ SAN / NAS 등장     │ 블록·파일 스토리지 기업화    │
-│ 2006년       │ AWS S3 출시        │ 오브젝트 스토리지 클라우드화 │
-│ 2008년       │ AWS EBS 출시       │ 클라우드 블록 스토리지 표준  │
-│ 2015년       │ AWS EFS GA         │ 관리형 NFS 서비스            │
-│ 2018년       │ S3 Intelligent Tier| AI 기반 자동 계층 이동       │
-│ 2020년대     │ NVMe-oF·CSI       │ 컨테이너 스토리지 표준화     │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|             클라우드 스토리지 발전 흐름                          |
++--------------+--------------------+-----------------------------+
+| 1990년대     | SAN / NAS 등장     | 블록·파일 스토리지 기업화    |
+| 2006년       | AWS S3 출시        | 오브젝트 스토리지 클라우드화 |
+| 2008년       | AWS EBS 출시       | 클라우드 블록 스토리지 표준  |
+| 2015년       | AWS EFS GA         | 관리형 NFS 서비스            |
+| 2018년       | S3 Intelligent Tier| AI 기반 자동 계층 이동       |
+| 2020년대     | NVMe-oF·CSI       | 컨테이너 스토리지 표준화     |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-블록(EBS) → DB/VM 고성능 워크로드
-파일(EFS) → 컨테이너·공유 파일시스템
-오브젝트(S3) → 비정형 데이터·무한 확장
-     ↓
-다계층 스토리지 정책 → 비용 최적화 (FinOps)
+블록(EBS) -> DB/VM 고성능 워크로드
+파일(EFS) -> 컨테이너·공유 파일시스템
+오브젝트(S3) -> 비정형 데이터·무한 확장
+     v
+다계층 스토리지 정책 -> 비용 최적화 (FinOps)
 ```
 
 ---
@@ -200,7 +200,7 @@ Web App ──→ EFS (공유 정적 파일)
 
 **진행 상황**: 31 / 371
 
-← **이전**: [31. 로드 밸런서 — 트래픽 분산의 핵심 기술](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/)
-**다음**: [CDN (Content Delivery Network, 콘텐츠 전달 네트워크)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/033_cdn/) →
+<- **이전**: [31. 로드 밸런서 — 트래픽 분산의 핵심 기술](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/)
+**다음**: [CDN (Content Delivery Network, 콘텐츠 전달 네트워크)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/033_cdn/) ->
 
 ---

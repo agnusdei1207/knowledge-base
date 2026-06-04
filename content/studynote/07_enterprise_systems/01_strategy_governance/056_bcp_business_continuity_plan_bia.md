@@ -32,13 +32,13 @@ BCP는 "서버를 되살리는 문서"가 아니다. 재난이 발생했을 때 
 
 ```text
 재난/장애 발생
-    ↓
+    v
 BIA (Business Impact Analysis)
-    ↓
+    v
 RA (Risk Assessment)
-    ↓
+    v
 RTO / RPO 설정
-    ↓
+    v
 복구 전략과 자원 배치
 ```
 
@@ -97,13 +97,13 @@ BCP는 작성보다 운영이 더 중요하다. 계획은 시간이 지나면 �
 
 ```text
 재난/재해
-   ↓
+   v
 BIA + RA
-   ↓
+   v
 RTO / RPO
-   ↓
+   v
 인력 / 장소 / 시스템 / 공급망 대응
-   ↓
+   v
 훈련 / 점검 / 개선
 ```
 
@@ -111,11 +111,11 @@ RTO / RPO
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 과거의 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 중심 사고 → 서버 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에만 초점
-2. 9.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 테러와 대형 재난 경험 → 사람과 업무 연속성의 중요성 부각
-3. BIA와 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 체계화 → 핵심 업무 우선순위화
-4. RTO와 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 설계 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표를 수치로 관리
-5. 훈련과 복원력(resilience) 중심 운영 → 전사 연속성으로 확장
+1. 과거의 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 중심 사고 -> 서버 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에만 초점
+2. 9.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 테러와 대형 재난 경험 -> 사람과 업무 연속성의 중요성 부각
+3. BIA와 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 체계화 -> 핵심 업무 우선순위화
+4. RTO와 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 설계 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표를 수치로 관리
+5. 훈련과 복원력(resilience) 중심 운영 -> 전사 연속성으로 확장
 
 ---
 
@@ -131,7 +131,7 @@ BCP는 집에 불이 나도 가족이 어디서 만나고 무엇부터 챙길지
 
 **진행 상황**: 56 / 482
 
-← **이전**: [55. 릴리스와 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/055_release_and_deployment_management/)
-**다음**: [57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/057_disaster_recovery_dr_rto_rpo/) →
+<- **이전**: [55. 릴리스와 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/055_release_and_deployment_management/)
+**다음**: [57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/057_disaster_recovery_dr_rto_rpo/) ->
 
 ---

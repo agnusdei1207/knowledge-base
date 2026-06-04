@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 페이지와 프레임의 <strong>동일 크기</strong>가 핵심인지 보여준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 전체 프로그램을 한 덩어리로 적재하지 않고, 페이지별로 흩어진 프레임에 배치한 뒤 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))로만 연결한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Same-sized blocks make noncontiguous allocation work         │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Virtual Memory                │ Physical Memory                      │
-│                               │                                      │
-│ Page 0  ────────────────────▶ │ Frame 12                             │
-│ Page 1  ────────────────────▶ │ Frame 03                             │
-│ Page 2  ────────────────────▶ │ Frame 19                             │
-│ Page 3  ────────────────────▶ │ Frame 07                             │
-│                               │                                      │
-│ rule: page size = frame size  │ result: any free frame can be used   │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Same-sized blocks make noncontiguous allocation work         |
++-------------------------------+--------------------------------------+
+| Virtual Memory                | Physical Memory                      |
+|                               |                                      |
+| Page 0  ---------------------> | Frame 12                             |
+| Page 1  ---------------------> | Frame 03                             |
+| Page 2  ---------------------> | Frame 19                             |
+| Page 3  ---------------------> | Frame 07                             |
+|                               |                                      |
+| rule: page size = frame size  | result: any free frame can be used   |
++-------------------------------+--------------------------------------+
 ```
 
 핵심은 페이지가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미 단위"가 아니라 "옮기기 쉬운 규격 단위"라는 점이다. 프레임도 마찬가지로 실제 RAM의 내용을 설명하는 개념이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 할당·회수·교체하기 위한 관리 단위다. 따라서 페이지와 프레임을 이해하면 뒤이어 나오는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/), 교체 알고리즘의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 자연스럽게 이어진다.
@@ -57,29 +57,29 @@ tags = ["studynote-computer-architecture"]
 | 페이지 (Page) | 가상 주소 공간의 고정 크기 블록 | 프로세스별로 독립적 의미를 가짐 |
 | 프레임 (Frame) | 물리 메모리의 고정 크기 블록 | 시스템 전체가 공유하는 실제 저장 공간 |
 | 오프셋 (Offset) | 블록 내부의 상대 위치 | 페이지와 프레임에서 동일하게 유지 |
-| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE) | 페이지→프레임 매핑 정보 | 유효 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), dirty [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 등을 함께 보관 |
+| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE) | 페이지->프레임 매핑 정보 | 유효 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), dirty [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 등을 함께 보관 |
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) | 최근 매핑의 캐시 | 주소 변환 지연을 줄이는 핵심 장치 |
 
 아래 그림은 주소 변환에서 페이지와 프레임이 어떻게 맞물리는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Address translation with equal-size blocks           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Virtual Address                                                      │
-│ ┌───────────────────────┬──────────────────────────────────────────┐ │
-│ │   VPN (page number)   │          Offset within page             │ │
-│ └───────────────────────┴──────────────────────────────────────────┘ │
-│              │                                                       │
-│              ▼                                                       │
-│        Page Table / TLB lookup                                       │
-│              │  replace VPN with PFN                                 │
-│              ▼                                                       │
-│ Physical Address                                                     │
-│ ┌───────────────────────┬──────────────────────────────────────────┐ │
-│ │   PFN (frame number)  │         Same offset as above            │ │
-│ └───────────────────────┴──────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Address translation with equal-size blocks           |
++----------------------------------------------------------------------+
+| Virtual Address                                                      |
+| +-----------------------+------------------------------------------+ |
+| |   VPN (page number)   |          Offset within page             | |
+| +-----------------------+------------------------------------------+ |
+|              |                                                       |
+|              v                                                       |
+|        Page Table / TLB lookup                                       |
+|              |  replace VPN with PFN                                 |
+|              v                                                       |
+| Physical Address                                                     |
+| +-----------------------+------------------------------------------+ |
+| |   PFN (frame number)  |         Same offset as above            | |
+| +-----------------------+------------------------------------------+ |
++----------------------------------------------------------------------+
 ```
 
 이 구조는 왜 빠른가를 이해해야 한다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)와 프레임 크기가 다르면 블록 내부 위치까지 다시 계산하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개어 적재해야 하므로 매핑이 복잡해진다. 하지만 크기가 같으면 변환은 단순 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 교체가 되고, 하드웨어는 이를 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시와 결합해 거의 한 번의 테이블 조회처럼 처리한다.
@@ -153,9 +153,9 @@ tags = ["studynote-computer-architecture"]
 | :-- | :-- |
 | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) | 페이지와 프레임을 고정 크기로 대응시키는 전체 관리 방식 |
 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) | 페이지 번호를 프레임 번호로 변환하는 하드웨어 |
-| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) | 페이지→프레임 매핑과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정보를 저장하는 구조 |
+| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) | 페이지->프레임 매핑과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정보를 저장하는 구조 |
 | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) | 고정 크기 페이지/프레임 구조의 대표 부작용 |
-| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) | 자주 쓰는 페이지→프레임 매핑을 캐시해 주소 변환을 가속 |
+| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) | 자주 쓰는 페이지->프레임 매핑을 캐시해 주소 변환을 가속 |
 | [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) | 필요한 페이지에 대응하는 프레임이 메모리에 없을 때 발생 |
 | [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) | 페이지/프레임 크기를 키워 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 효율을 높이는 확장 방식 |
 
@@ -163,28 +163,28 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 메모리 할당
-    │
-    ▼
+    |
+    v
 외부 단편화 (External Fragmentation) 문제
-    │
-    ▼
+    |
+    v
 페이징 (Paging)
-    │
-    ├── 페이지 (Page): 가상 메모리 조각
-    │
-    └── 프레임 (Frame): 물리 메모리 조각
-             │
-             ▼
+    |
+    +-- 페이지 (Page): 가상 메모리 조각
+    |
+    +-- 프레임 (Frame): 물리 메모리 조각
+             |
+             v
 페이지 테이블 (Page Table) · MMU (Memory Management Unit)
-             │
-             ▼
+             |
+             v
 TLB (Translation Lookaside Buffer) · Huge Page
-             │
-             ▼
+             |
+             v
 페이지 부재 (Page Fault) · 교체 알고리즘 (Replacement Policy)
 ```
 
-이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 → 고정 크기 매핑 → 주소 변환 가속 → 부족 시 교체"로 이어지는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 사고 흐름을 보여준다.
+이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 -> 고정 크기 매핑 -> 주소 변환 가속 -> 부족 시 교체"로 이어지는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 사고 흐름을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +198,7 @@ TLB (Translation Lookaside Buffer) · Huge Page
 
 **진행 상황**: 286 / 803
 
-← **이전**: [285. 페이징 (Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/285_paging/)
-**다음**: [287. 내부 단편화 (Internal Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/287_internal_fragmentation/) →
+<- **이전**: [285. 페이징 (Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/285_paging/)
+**다음**: [287. 내부 단편화 (Internal Fragmentation)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/287_internal_fragmentation/) ->
 
 ---

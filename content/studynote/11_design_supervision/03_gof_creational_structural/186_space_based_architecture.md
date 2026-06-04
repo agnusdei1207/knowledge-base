@@ -36,28 +36,28 @@ SBA의 핵심 구성요소는 처리 유닛, [가상화](/knowledge-base/studyno
 아래 그림은 SBA의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 압축한다. 사용자의 요청은 먼저 처리 유닛에 도달하고, 처리 유닛은 메모리 공간을 우선 조회한다. 영속 저장소는 즉시 동기식으로 두드리는 대상이 아니라, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적을 위한 후행 저장소로 밀려난다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 스페이스 기반 아키텍처의 요청 처리 흐름                    │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Client Request                                                             │
-│      │                                                                     │
-│      ▼                                                                     │
-│ [Virtualized Middleware]                                                   │
-│      │           라우팅/파티션/장애조치                                    │
-│      ├──────────────────┬──────────────────┬──────────────────┐            │
-│      ▼                  ▼                  ▼                  ▼            │
-│ [PU-A]              [PU-B]              [PU-C]          ... [PU-N]         │
-│  │                  │                  │                                   │
-│  ├─ Web/API         ├─ Web/API         ├─ Web/API                          │
-│  ├─ Business Logic  ├─ Business Logic  ├─ Business Logic                   │
-│  └─ Local Cache     └─ Local Cache     └─ Local Cache                      │
-│      │                  │                  │                                 │
-│      └──────────────┬───┴──────────────┬───┘                                 │
-│                     ▼                  ▼                                     │
-│              [Tuple Space / IMDG Partitioned Grid]                          │
-│                     │                  │                                     │
-│                     └─────── Async Write-Behind ───────▶ [Database]         │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                 스페이스 기반 아키텍처의 요청 처리 흐름                    |
++-----------------------------------------------------------------------------+
+| Client Request                                                             |
+|      |                                                                     |
+|      v                                                                     |
+| [Virtualized Middleware]                                                   |
+|      |           라우팅/파티션/장애조치                                    |
+|      +------------------+------------------+------------------+            |
+|      v                  v                  v                  v            |
+| [PU-A]              [PU-B]              [PU-C]          ... [PU-N]         |
+|  |                  |                  |                                   |
+|  +- Web/API         +- Web/API         +- Web/API                          |
+|  +- Business Logic  +- Business Logic  +- Business Logic                   |
+|  +- Local Cache     +- Local Cache     +- Local Cache                      |
+|      |                  |                  |                                 |
+|      +--------------+---+--------------+---+                                 |
+|                     v                  v                                     |
+|              [Tuple Space / IMDG Partitioned Grid]                          |
+|                     |                  |                                     |
+|                     +------- Async Write-Behind --------> [Database]         |
++-----------------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | 설계 포인트 |
@@ -142,22 +142,22 @@ SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/
 
 ```text
 3계층 구조의 DB 병목
-    │
-    ▼
+    |
+    v
 분산 캐시 · IMDG
-    │
-    ▼
+    |
+    v
 스페이스 기반 아키텍처
-    │
-    ├──────────────▶ Tuple Space 파티셔닝 · 복제
-    │
-    └──────────────▶ Eventual Consistency · Write-Behind
-                           │
-                           ▼
+    |
+    +---------------> Tuple Space 파티셔닝 · 복제
+    |
+    +---------------> Eventual Consistency · Write-Behind
+                           |
+                           v
                  초저지연 이벤트 처리 · 실시간 확장 패턴
 ```
 
-이 흐름은 “DB 최적화 → 메모리 전진 배치 → 아키텍처 수준의 재구성”으로 진화하는 방향을 보여준다.
+이 흐름은 “DB 최적화 -> 메모리 전진 배치 -> 아키텍처 수준의 재구성”으로 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/
 
 **진행 상황**: 242 / 530
 
-← **이전**: [185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/185_peer_to_peer_architecture/)
-**다음**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/) →
+<- **이전**: [185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/185_peer_to_peer_architecture/)
+**다음**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/) ->
 
 ---

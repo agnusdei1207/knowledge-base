@@ -24,24 +24,24 @@ tags = ["studynote-design-supervision"]
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 전형적 형태는 "유틸리티 클래스(utility class)"다. `StringUtil`, `CommonHelper` 같은 이름으로 관련 없는 기능들이 한 곳에 모여 있는 것이다. 이런 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 담당 기능이 확장될 때 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 크기만 커지고, 특정 기능만 재사용하기 어렵다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          응집도 수준: 낮음 → 높음 7단계 계층                 │
-├─────────────────────────────────────────────────────────────┤
-│  1. 우연적 응집도 (Coincidental) ← 가장 나쁨                │
-│     └─ 관련 없는 기능들이 임의로 한 모듈에 묶임              │
-│  2. 논리적 응집도 (Logical)                                 │
-│     └─ "이런 종류의 것"이라는 분류로 묶임                    │
-│  3. 시간적 응집도 (Temporal)                                │
-│     └─ 같은 시점(초기화, 종료)에 실행되어 묶임               │
-│  4. 절차적 응집도 (Procedural)                              │
-│     └─ 순서대로 실행되어야 해서 묶임                         │
-│  5. 교환적 응집도 (Communicational)                         │
-│     └─ 같은 데이터를 사용해서 묶임                           │
-│  6. 순차적 응집도 (Sequential)                              │
-│     └─ 한 모듈의 출력이 다음 모듈 입력이 되어 묶임           │
-│  7. 기능적 응집도 (Functional) ← 가장 좋음                  │
-│     └─ 단 하나의 명확한 기능을 수행                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          응집도 수준: 낮음 -> 높음 7단계 계층                 |
++-------------------------------------------------------------+
+|  1. 우연적 응집도 (Coincidental) <- 가장 나쁨                |
+|     +- 관련 없는 기능들이 임의로 한 모듈에 묶임              |
+|  2. 논리적 응집도 (Logical)                                 |
+|     +- "이런 종류의 것"이라는 분류로 묶임                    |
+|  3. 시간적 응집도 (Temporal)                                |
+|     +- 같은 시점(초기화, 종료)에 실행되어 묶임               |
+|  4. 절차적 응집도 (Procedural)                              |
+|     +- 순서대로 실행되어야 해서 묶임                         |
+|  5. 교환적 응집도 (Communicational)                         |
+|     +- 같은 데이터를 사용해서 묶임                           |
+|  6. 순차적 응집도 (Sequential)                              |
+|     +- 한 모듈의 출력이 다음 모듈 입력이 되어 묶임           |
+|  7. 기능적 응집도 (Functional) <- 가장 좋음                  |
+|     +- 단 하나의 명확한 기능을 수행                          |
++-------------------------------------------------------------+
 ```
 
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 재사용성이 낮고, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 작성이 어렵고, 변경 시 예상치 못한 다른 기능에 영향을 미친다. 기술사 시험에서 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 반드시 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))와 함께 "높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) + 낮은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)"를 목표로 제시해야 한다.
@@ -62,20 +62,20 @@ tags = ["studynote-design-supervision"]
 | 기능적 | `TaxCalculator.calculate(price)` | 이미 최적. 단일 책임 유지 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      기능적 응집도 설계: 단일 책임 모듈 구조                 │
-├─────────────────────────────────────────────────────────────┤
-│  낮은 응집도 (CommonService)                                │
-│  ┌────────────────────────────────┐                         │
-│  │ sendEmail()  ← 이메일 담당     │                         │
-│  │ calcTax()    ← 세금 담당       │ ← 변경 이유 3가지       │
-│  │ validateAge() ← 검증 담당      │                         │
-│  └────────────────────────────────┘                         │
-│                                                             │
-│  높은 응집도 (분리 후)                                      │
-│  [EmailService] [TaxPolicy] [AgeValidator]                  │
-│  각자 단일 목적 → 변경 이유 각각 1가지                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      기능적 응집도 설계: 단일 책임 모듈 구조                 |
++-------------------------------------------------------------+
+|  낮은 응집도 (CommonService)                                |
+|  +--------------------------------+                         |
+|  | sendEmail()  <- 이메일 담당     |                         |
+|  | calcTax()    <- 세금 담당       | <- 변경 이유 3가지       |
+|  | validateAge() <- 검증 담당      |                         |
+|  +--------------------------------+                         |
+|                                                             |
+|  높은 응집도 (분리 후)                                      |
+|  [EmailService] [TaxPolicy] [AgeValidator]                  |
+|  각자 단일 목적 -> 변경 이유 각각 1가지                       |
++-------------------------------------------------------------+
 ```
 
 패키지(package) 수준에서도 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙이 적용된다. 패키지 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙(Package [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) Principles) 중 REP (Reuse-Release Equivalence Principle, 재사용-릴리즈 등가 원칙)는 함께 재사용되는 클래스들이 같은 패키지에 있어야 한다는 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 관점이다.
@@ -130,7 +130,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[모듈화] → [응집도] → SRP] → [패키지 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계]
+[모듈화] -> [응집도] -> SRP] -> [패키지 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -141,7 +141,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[모듈화 연구] → [응집도 7단계 정립(콘스탄틴)] → SRP·[SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙] → DDD 바운디드 컨텍스트] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계] → AI 기반 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 자동 측정]
+[모듈화 연구] -> [응집도 7단계 정립(콘스탄틴)] -> SRP·[SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙] -> DDD 바운디드 컨텍스트] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계] -> AI 기반 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 자동 측정]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -155,7 +155,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 166 / 530
 
-← **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
-**다음**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) →
+<- **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
+**다음**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) ->
 
 ---

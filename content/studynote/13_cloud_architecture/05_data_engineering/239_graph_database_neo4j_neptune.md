@@ -32,24 +32,24 @@ tags = ["studynote-cloud-architecture"]
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB가 미친 속도를 내는 가장 핵심적인 하드웨어적/논리적 아키텍처다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           그래프 DB의 스토리지 포인터 연결(Index-free Adjacency) │
-├────────────────────────────────────────────────────────┤
-│   [ 노드(Node): 사람 ]              [ 엣지(Edge): 관계 ]         │
-│                                                        │
-│   (Node: "Alice") ────────────▶ (Edge: "KNOWS")        │
-│       │                                │               │
-│   물리적 포인터(메모리 주소) 다이렉트 점프 │               │
-│       ▼                                ▼               │
-│   (Node: "Bob") ◀──────────── (Edge: "LIKES")          │
-│       │                                                │
-│       ▼                                                │
-│   (Node: "Sushi")                                      │
-│                                                        │
-│ * 핵심 논리: Alice가 아는 사람을 찾기 위해 전체 DB 인덱스를      │
-│   검색(O(log N))할 필요가 없다. Alice 노드 껍데기에 붙어있는     │
-│   엣지 포인터를 따라 메모리 주소만 점프(O(1))하면 끝난다!        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           그래프 DB의 스토리지 포인터 연결(Index-free Adjacency) |
++--------------------------------------------------------+
+|   [ 노드(Node): 사람 ]              [ 엣지(Edge): 관계 ]         |
+|                                                        |
+|   (Node: "Alice") -------------> (Edge: "KNOWS")        |
+|       |                                |               |
+|   물리적 포인터(메모리 주소) 다이렉트 점프 |               |
+|       v                                v               |
+|   (Node: "Bob") <------------- (Edge: "LIKES")          |
+|       |                                                |
+|       v                                                |
+|   (Node: "Sushi")                                      |
+|                                                        |
+| * 핵심 논리: Alice가 아는 사람을 찾기 위해 전체 DB 인덱스를      |
+|   검색(O(log N))할 필요가 없다. Alice 노드 껍데기에 붙어있는     |
+|   엣지 포인터를 따라 메모리 주소만 점프(O(1))하면 끝난다!        |
++--------------------------------------------------------+
 ```
 
 RDBMS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아질수록(N이 커질수록) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리가 깊어져 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 속도가 기하급수적으로 느려진다. 하지만 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 프리 인접성을 갖춘 진정한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB(Native [Graph DB](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/))는 이웃 노드로 넘어가는 시간이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 총량(N)과 무관하게 항상 일정(O(1))하다. 100만 명 중 친구를 찾든, 10억 명 중 친구를 찾든 탐색 속도가 똑같다는 기적의 아키텍처다.
@@ -112,21 +112,21 @@ RDBMS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ```text
 RDBMS의 JOIN 연산 폭발로 인한 복잡한 관계 탐색 한계 (성능 병목)
-    │
-    ▼
+    |
+    v
 소셜 네트워크(SNS)의 등장 및 초연결 데이터(Highly Connected Data) 폭증
-    │
-    ▼
+    |
+    v
 수학적 그래프 이론(Graph Theory)의 스토리지 엔진 도입 (Neo4j 등장)
-    │
-    ▼
+    |
+    v
 인덱스 프리 인접성(Index-free Adjacency) 하드웨어 로직 구현 (O(1) 탐색 속도 달성)
-    │
-    ▼
+    |
+    v
 클라우드 융합(AWS Neptune) 및 사기 탐지(FDS), 지식 그래프(Knowledge Graph)의 핵심 AI 인프라로 안착
 ```
 
-이 흐름도는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 한계 직면 → [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 최우선([Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)-first) 철학의 설계 → 포인터 기반 탐색 엔진 개발 → 현대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)/[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 인프라 정착"으로 이어지는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구조의 패러다임 전환을 보여준다.
+이 흐름도는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 한계 직면 -> [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 최우선([Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)-first) 철학의 설계 -> 포인터 기반 탐색 엔진 개발 -> 현대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)/[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 인프라 정착"으로 이어지는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구조의 패러다임 전환을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +140,7 @@ RDBMS의 JOIN 연산 폭발로 인한 복잡한 관계 탐색 한계 (성능 병
 
 **진행 상황**: 238 / 371
 
-← **이전**: [238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/)
-**다음**: [240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/240_time_series_database_influxdb_prometheus/) →
+<- **이전**: [238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/)
+**다음**: [240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/240_time_series_database_influxdb_prometheus/) ->
 
 ---

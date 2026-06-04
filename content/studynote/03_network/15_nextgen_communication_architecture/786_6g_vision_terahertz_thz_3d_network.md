@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
-    │
-    ▼
+    |
+    v
 [6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    └──▶ [지능형 반사 표면]
+    |
+    +---> [지능형 반사 표면]
 ```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
-    │
-    ▼
+    |
+    v
 [6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    └──▶ [지능형 반사 표면]
+    |
+    +---> [지능형 반사 표면]
 ```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 미드홀/백홀 전송계층망 코어 장거리 파장 라…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    ├──▶ [확장 A: 지능형 반사 표면]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 지능형 반사 표면]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…에서 출발해 현재 메커니즘을 정교화하고, 이후 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 907 / 1120
 
-← **이전**: [785. 미드홀/백홀 전송계층망 코어 장거리 파장 라우터 스위치 연합망 구성체계 요약 진화)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/785_backhaul_midhaul_xhaul_transport_network/)
-**다음**: [787. 지능형 반사 표면 (RIS 기능 구조 메타 파트너 물질 적용 주파수 흡수/조절 우회 반사/투과 경로 조작 커버리지 음영 극복](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/787_ris_reconfigurable_intelligent_surface_6g/) →
+<- **이전**: [785. 미드홀/백홀 전송계층망 코어 장거리 파장 라우터 스위치 연합망 구성체계 요약 진화)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/785_backhaul_midhaul_xhaul_transport_network/)
+**다음**: [787. 지능형 반사 표면 (RIS 기능 구조 메타 파트너 물질 적용 주파수 흡수/조절 우회 반사/투과 경로 조작 커버리지 음영 극복](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/787_ris_reconfigurable_intelligent_surface_6g/) ->
 
 ---

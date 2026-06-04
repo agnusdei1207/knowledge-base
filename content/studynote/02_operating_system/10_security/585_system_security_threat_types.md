@@ -184,12 +184,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [AppArmor]
-    │
-    ▼
+    |
+    v
 [시스템 보안 위협 유형 (System Security Threat Types)]
-    │
-    ├──▶ [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-    └──▶ [트랩 도어 (Trap Door / Backdoor)]
+    |
+    +---> [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
+    +---> [트랩 도어 (Trap Door / Backdoor)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -210,7 +210,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 585 / 800
 
-← **이전**: [584. AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/)
-**다음**: [586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) →
+<- **이전**: [584. AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/)
+**다음**: [586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) ->
 
 ---

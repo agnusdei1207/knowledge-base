@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [DR, BDR]
-    │
-    ▼
+    |
+    v
 [OSPF 트래픽엔지니어링 연동]
-    │
-    └──▶ [OSPFv3]
+    |
+    +---> [OSPFv3]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>-TE는 물의 흐름(트래픽)을 중력(최단 경로)에만 맡겨두지 않고, 댐과 수로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 터널)를 짓고 밸브를 조절하여 </strong>가뭄이 든 곳(노는 회선)으로 물을 억지로 끌어와 낭비되는 물방울이 없도록 하는 치수(治水) 사업**입니다.
@@ -55,25 +55,25 @@ tags = ["studynote-network"]
 - 이 공식 덕분에 고속도로가 꽉 차 있으면(제약 조건 탈락), 알아서 국도(우회로)를 1등 길로 깎아낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                일반 OSPF vs OSPF-TE (CSPF) 동작 비교             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 라우터 A ] ─── (고속도로: 10G, 현재 9.9G 사용 중) ───▶ [ Z망 ]  │
- │        │                                              ▲      │
- │        └─── (국도: 1G, 현재 0G 사용 중, 텅텅 빔) ────┘      │
- │                                                             │
- │   * 일반 OSPF의 뇌구조 (SPF):                                   │
- │     "고속도로가 10G니까 무조건 짱이야! 국도는 1G니까 버려!"             │
- │     (결과: 9.9G가 찬 고속도로에 트래픽을 또 쑤셔 넣어 병목 폭발)           │
- │                                                             │
- │   * OSPF-TE의 뇌구조 (CSPF):                                  │
- │     조건: "나는 500Mbps 빈 공간이 필요해!"                       │
- │     "고속도로는 10G지만 빈 공간이 0.1G밖에 안 남았네? 탈락!"           │
- │     "국도는 1G인데 빈 공간이 1G 다 남아있네? 합격! 국도로 쏜다!"       │
- │                                                             │
- │   ▶ "남는 자원을 싹싹 긁어 쓰는 로드 밸런싱의 기적!"                    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                일반 OSPF vs OSPF-TE (CSPF) 동작 비교             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 라우터 A ] --- (고속도로: 10G, 현재 9.9G 사용 중) ----> [ Z망 ]  |
+ |        |                                              ^      |
+ |        +--- (국도: 1G, 현재 0G 사용 중, 텅텅 빔) ----+      |
+ |                                                             |
+ |   * 일반 OSPF의 뇌구조 (SPF):                                   |
+ |     "고속도로가 10G니까 무조건 짱이야! 국도는 1G니까 버려!"             |
+ |     (결과: 9.9G가 찬 고속도로에 트래픽을 또 쑤셔 넣어 병목 폭발)           |
+ |                                                             |
+ |   * OSPF-TE의 뇌구조 (CSPF):                                  |
+ |     조건: "나는 500Mbps 빈 공간이 필요해!"                       |
+ |     "고속도로는 10G지만 빈 공간이 0.1G밖에 안 남았네? 탈락!"           |
+ |     "국도는 1G인데 빈 공간이 1G 다 남아있네? 합격! 국도로 쏜다!"       |
+ |                                                             |
+ |   -> "남는 자원을 싹싹 긁어 쓰는 로드 밸런싱의 기적!"                    |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. MPLS와의 찰떡궁합 (RSVP-TE)
@@ -139,12 +139,12 @@ RSVP-TE는 그 지도를 들고 출동해서 라우터 A부터 Z망까지의 국
 
 ```text
 [선행 개념: DR, BDR]
-    │
-    ▼
+    |
+    v
 [현재 개념: OSPF 트래픽엔지니어링 연동]
-    │
-    ├──▶ [확장 A: OSPFv3]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: OSPFv3]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), BDR에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPFv3와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -161,7 +161,7 @@ RSVP-TE는 그 지도를 들고 출동해서 라우터 A부터 Z망까지의 국
 
 **진행 상황**: 482 / 1120
 
-← **이전**: [360. DR (Designated Router), BDR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)
-**다음**: [362. OSPFv3 (IPv6 지원)](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) →
+<- **이전**: [360. DR (Designated Router), BDR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)
+**다음**: [362. OSPFv3 (IPv6 지원)](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) ->
 
 ---

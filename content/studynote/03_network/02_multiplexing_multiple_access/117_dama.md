@@ -58,20 +58,20 @@ DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [데이터](/know
 
 ```text
 [VSAT A]                         [NCC]                         [VSAT B]
-   │ (트래픽 발생)                  │                              │
-   │── 1. 할당 요청 (Request) ─────▶│                              │
-   │    via CSC (Slotted ALOHA)     │                              │
-   │                                │                              │
-   │◀─ 2. 할당 응답 (Assign Ch. X) ─│── 2. 할당 응답 (Assign Ch. X) ─▶│
-   │    via CSC                     │                              │
-   │                                │                              │
-   │============== 3. 데이터 송수신 (Traffic Channel X) =============│
-   │                   (직접 통신, P2P 모드 시)                    │
-   │                                │                              │
-   │── 4. 해제 요청 (Release) ─────▶│                              │
-   │                                │                              │
-   │◀─ 5. 해제 확인 (Ack) ─────────│                              │
-   ▼                                ▼                              ▼
+   | (트래픽 발생)                  |                              |
+   |-- 1. 할당 요청 (Request) ------>|                              |
+   |    via CSC (Slotted ALOHA)     |                              |
+   |                                |                              |
+   |<-- 2. 할당 응답 (Assign Ch. X) -|-- 2. 할당 응답 (Assign Ch. X) -->|
+   |    via CSC                     |                              |
+   |                                |                              |
+   |============== 3. 데이터 송수신 (Traffic Channel X) =============|
+   |                   (직접 통신, P2P 모드 시)                    |
+   |                                |                              |
+   |-- 4. 해제 요청 (Release) ------>|                              |
+   |                                |                              |
+   |<-- 5. 해제 확인 (Ack) ---------|                              |
+   v                                v                              v
 ```
 
 이 타이밍 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(Traffic Channel) 통신 전에 반드시 제어 채널(CSC)을 통한 핸드셰이크 단계가 선행된다는 점이다. [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)은 지구 궤도까지 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 약 500ms(정지궤도 기준)에 달하기 때문에, 이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 채널 셋업에만 최소 1~2초의 오버헤드가 발생한다. 따라서 이 구조는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이나 대용량 트래픽 전달에는 매우 유리하지만, 핑(Ping)과 같이 즉각적인 응답이 필요한 초단기 실시간 트래픽에는 치명적인 약점이 된다. 실무에서는 이러한 셋업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 고려하여, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 값을 충분히 길게 튜닝해야 한다.
@@ -92,20 +92,20 @@ DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [데이터](/know
 | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/013_대역폭_효율성/">대역폭 효율성</a></strong> | 낮음 (유휴 시간 낭비) | 낮음 (충돌 시 효율 급감) | **매우 높음** (풀 최적 공유) |
 
 ```text
-┌────────────── 의사결정 매트릭스: 트래픽 특성에 따른 최적 방식 선택 ─────────────┐
-│                                                                           │
-│ 통신 지속 시간(Session Length)                                            │
-│     ▲                                                                     │
-│  길 │         [ PAMA 영역 ]                    [ DAMA 영역 ]              │
-│  다 │     (전용선, 방송망 중계)            (VSAT 화상회의, DB 동기화)     │
-│     │                                                                     │
-│     │                                                                     │
-│  짧 │   [ 극소형 센서망 / 비권장 ]         [ Random Access 영역 ]         │
-│  다 │                                      (단문 메시지, 카드 승인)       │
-│     └──────────────────────────────────────────────────────────►          │
-│        집중적/고정적 (Constant)             간헐적/돌발적 (Bursty)        │
-│                                                   트래픽 발생 패턴        │
-└───────────────────────────────────────────────────────────────────────────┘
++-------------- 의사결정 매트릭스: 트래픽 특성에 따른 최적 방식 선택 -------------+
+|                                                                           |
+| 통신 지속 시간(Session Length)                                            |
+|     ^                                                                     |
+|  길 |         [ PAMA 영역 ]                    [ DAMA 영역 ]              |
+|  다 |     (전용선, 방송망 중계)            (VSAT 화상회의, DB 동기화)     |
+|     |                                                                     |
+|     |                                                                     |
+|  짧 |   [ 극소형 센서망 / 비권장 ]         [ Random Access 영역 ]         |
+|  다 |                                      (단문 메시지, 카드 승인)       |
+|     +----------------------------------------------------------►          |
+|        집중적/고정적 (Constant)             간헐적/돌발적 (Bursty)        |
+|                                                   트래픽 발생 패턴        |
++---------------------------------------------------------------------------+
 ```
 
 이 매트릭스의 핵심은 트래픽의 버스트성(Bursty)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 지속 시간에 따라 최적의 접근 방식이 달라진다는 점이다. DAMA는 트래픽이 간헐적이지만 한 번 연결되면 일정 시간 통신을 지속하는 환경에 최적화되어 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 카드 결제 승인처럼 1~2개 패킷으로 끝나는 초단기 트래픽이라면 DAMA의 긴 채널 할당 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(오버헤드)이 실제 통신 시간보다 길어지는 배보다 배꼽이 더 큰 상황이 발생한다. 실무에서는 네트워크 특성을 획일화하지 않고 DAMA와 Slotted ALOHA를 혼합하여 제어/단문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 알로하로, 장문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DAMA로 처리하는 하이브리드 아키텍처를 많이 채택한다.
@@ -121,15 +121,15 @@ DAMA 시스템을 실제 위성망(예: 국방 전술망, [해상 통신망](/kn
 **실무 시나리오 및 장애 판단 플로우**
 ```text
 [장애 현상]: 특정 시간대에 VSAT 단말들이 위성 통신 접속 실패(Timeout) 보고
-   │
-   ├─ 1. 트래픽 데이터 채널(Traffic Pool)이 가득 찼는가?
-   │   ├─ 예 => [진단] DAMA 대역폭 부족. NCC에서 채널 우선순위 정책(QoS) 발동 필요 (긴급 트래픽 우선)
-   │   └─ 아니오
-   │        │
-   │        ├─ 2. 공통 제어 채널(CSC)의 충돌률(Collision Rate)이 급증했는가?
-   │        │   ├─ 예 => [진단] 할당 요청(Request) 패킷들이 Slotted ALOHA 경쟁에서 서로 충돌하여 파괴됨.
-   │        │   │        => [조치] 제어 채널 대역폭 확대 또는 백오프 알고리즘 튜닝 필요.
-   │        │   └─ 아니오 => [진단] 위성 링크 자체의 물리적 감쇠(Rain Fade 등) 확인 필요.
+   |
+   +- 1. 트래픽 데이터 채널(Traffic Pool)이 가득 찼는가?
+   |   +- 예 => [진단] DAMA 대역폭 부족. NCC에서 채널 우선순위 정책(QoS) 발동 필요 (긴급 트래픽 우선)
+   |   +- 아니오
+   |        |
+   |        +- 2. 공통 제어 채널(CSC)의 충돌률(Collision Rate)이 급증했는가?
+   |        |   +- 예 => [진단] 할당 요청(Request) 패킷들이 Slotted ALOHA 경쟁에서 서로 충돌하여 파괴됨.
+   |        |   |        => [조치] 제어 채널 대역폭 확대 또는 백오프 알고리즘 튜닝 필요.
+   |        |   +- 아니오 => [진단] 위성 링크 자체의 물리적 감쇠(Rain Fade 등) 확인 필요.
 ```
 
 이 판단 플로우의 핵심은 DAMA 시스템의 장애 포인트가 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 고갈'뿐만 아니라 '제어 채널(CSC) 혼잡'에서도 발생할 수 있다는 점이다. 단말기 수가 급증하여 동시에 접속 요청을 보내면 CSC에서 충돌이 폭주하여, 정작 비어있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 텅텅 비어있는데 아무도 접속하지 못하는 '혼잡 붕괴(Congestion Collapse)' 현상이 나타난다. 실무에서는 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 중 몇 %를 CSC 제어 채널에 할당할 것인지 동적 트래픽 시뮬레이션을 통해 치밀하게 설계해야 한다.
@@ -173,12 +173,12 @@ DAMA는 고가의 [위성 통신](/knowledge-base/studynote/03_network/11_wirele
 
 ```text
 [선행 개념: PRMA]
-    │
-    ▼
+    |
+    v
 [현재 개념: DAMA]
-    │
-    ├──▶ [확장 A: PAMA]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: PAMA]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 DAMA는 PRMA에서 출발해 현재 메커니즘을 정교화하고, 이후 PAMA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -195,7 +195,7 @@ DAMA는 PRMA에서 출발해 현재 메커니즘을 정교화하고, 이후 PAMA
 
 **진행 상황**: 238 / 1120
 
-← **이전**: [116. PRMA (Packet Reservation Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/116_prma/)
-**다음**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) →
+<- **이전**: [116. PRMA (Packet Reservation Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/116_prma/)
+**다음**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) ->
 
 ---

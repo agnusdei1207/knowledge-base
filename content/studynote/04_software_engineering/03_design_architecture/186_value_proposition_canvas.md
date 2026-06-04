@@ -26,16 +26,16 @@ tags = ["studynote-software-engineering"]
 아래 그림은 VPC가 두 반쪽의 궁합을 보는 구조임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Value Proposition Canvas                    │
-├──────────────────────────────────────────────────────────────┤
-│ Value Map                         Customer Profile           │
-│ ┌──────────────────────┐         ┌──────────────────────┐   │
-│ │ Products & Services  │ ─────▶ │ Customer Jobs        │   │
-│ │ Pain Relievers       │ ─────▶ │ Pains                │   │
-│ │ Gain Creators        │ ─────▶ │ Gains                │   │
-│ └──────────────────────┘   FIT   └──────────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 Value Proposition Canvas                    |
++--------------------------------------------------------------+
+| Value Map                         Customer Profile           |
+| +----------------------+         +----------------------+   |
+| | Products & Services  | ------> | Customer Jobs        |   |
+| | Pain Relievers       | ------> | Pains                |   |
+| | Gain Creators        | ------> | Gains                |   |
+| +----------------------+   FIT   +----------------------+   |
++--------------------------------------------------------------+
 ```
 
 여기서 핵심은 왼쪽을 먼저 채우는 것이 아니라 오른쪽 고객 프로필부터 정리해야 한다는 점이다. 고객이 실제로 중요하게 느끼는 일과 고통이 선행되어야, 왼쪽 제품 가치가 의미를 가진다.
@@ -133,17 +133,17 @@ VPC의 핵심 원리는 완성된 적합성 선언이 아니라 <strong>가설�
 
 ```text
 고객 관찰 · 인터뷰
-    │
-    ▼
+    |
+    v
 Jobs / Pains / Gains 정리
-    │
-    ▼
+    |
+    v
 Value Map 매핑
-    │
-    ▼
+    |
+    v
 Fit 가설 수립
-    │
-    ▼
+    |
+    v
 MVP 실험 · PMF 검증 · 비즈니스 모델 확장
 ```
 
@@ -161,7 +161,7 @@ MVP 실험 · PMF 검증 · 비즈니스 모델 확장
 
 **진행 상황**: 186 / 973
 
-← **이전**: [185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/)
-**다음**: [187. 소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) →
+<- **이전**: [185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/)
+**다음**: [187. 소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) ->
 
 ---

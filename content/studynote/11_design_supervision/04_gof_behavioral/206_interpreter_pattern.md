@@ -31,18 +31,18 @@ BNF 문법 예시 (산술 표현식):
   expression ::= number | expression '+' expression | expression '*' expression
   number     ::= [0-9]+
 
-  ↓ 각 규칙이 클래스가 됨
+  v 각 규칙이 클래스가 됨
 
-  AbstractExpression    → expression 인터페이스
-  NumberExpression      → TerminalExpression (더 이상 분해 안 됨)
-  AddExpression         → NonTerminalExpression (2개의 expression 포함)
-  MultiplyExpression    → NonTerminalExpression
+  AbstractExpression    -> expression 인터페이스
+  NumberExpression      -> TerminalExpression (더 이상 분해 안 됨)
+  AddExpression         -> NonTerminalExpression (2개의 expression 포함)
+  MultiplyExpression    -> NonTerminalExpression
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 영어 문법책의 "주어 + 동사 + 목적어" 규칙 하나하나를 클래스로 만들고, 그 규칙 클래스들로 문장을 파싱하고 이해하는 것이 [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴이다.
@@ -51,20 +51,20 @@ BNF 문법 예시 (산술 표현식):
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-  ┌──────────────────────────────────────────────────┐
-  │  Context                                         │
-  │  (전역 해석 상태: 변수 바인딩, 환경 정보 등)      │
-  └──────────────────────────────────────────────────┘
-          │
-          │ interpret(context)
-          ▼
+  +--------------------------------------------------+
+  |  Context                                         |
+  |  (전역 해석 상태: 변수 바인딩, 환경 정보 등)      |
+  +--------------------------------------------------+
+          |
+          | interpret(context)
+          v
   «interface» AbstractExpression
-  ──────────────────────────────
+  ------------------------------
   + interpret(Context): Object
-          ▲
-          │
-  ┌───────┴──────────┐
-  ▼                  ▼
+          ^
+          |
+  +-------+----------+
+  v                  v
 TerminalExpression  NonTerminalExpression
 (리프 노드)          (내부 노드 - 하위 Expression 포함)
   예: NumberExpr     예: AddExpr(left, right)
@@ -139,7 +139,7 @@ class AndRule implements RuleExpression {
 | [정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/) ([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)) | ✅ 적합 | 규칙 수 제한, 반복 사용 |
 | SQL 파서 | ✅ 적합 | 명확한 BNF 문법 |
 | 간단한 DSL | ✅ 적합 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 코드로 표현 |
-| 프로그래밍 언어 파서 | ❌ 부적합 | 문법 복잡 → ANTLR 사용 |
+| 프로그래밍 언어 파서 | ❌ 부적합 | 문법 복잡 -> ANTLR 사용 |
 | 자연어 처리 | ❌ 부적합 | 불규칙성 너무 높음 |
 
 | 패턴 | Interpreter와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
@@ -156,7 +156,7 @@ class AndRule implements RuleExpression {
 ## Ⅳ. 실무 적용 및 기술사 판단
 ```
   보험 할인 규칙 DSL:
-  "나이 >= 65 AND 무사고 >= 5년 → 20% 할인"
+  "나이 >= 65 AND 무사고 >= 5년 -> 20% 할인"
 
   RuleExpression rule = new AndRule(
       new GreaterOrEqualRule("age", 65),
@@ -182,7 +182,7 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 
 - BNF (Backus-Naur Form)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): 각 BNF 규칙 = 하나의 클래스
 - AST (Abstract Syntax Tree) 구조가 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> 패턴</strong>임을 명시
-- **복잡한 문법에는 부적합** → ANTLR, JavaCC 같은 파서 생성기 권장
+- **복잡한 문법에는 부적합** -> ANTLR, JavaCC 같은 파서 생성기 권장
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -197,13 +197,13 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 ## Ⅴ. 기대효과 및 결론
 | 효과 | 설명 |
 |:---|:---|
-| 문법-코드 1:1 매핑 | 문법 규칙을 클래스로 직접 표현 → [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) |
+| 문법-코드 1:1 매핑 | 문법 규칙을 클래스로 직접 표현 -> [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) |
 | 규칙 재사용 | 각 Expression 독립 재사용 가능 |
 | 확장 용이 | 새 문법 규칙 = 새 Expression 클래스 추가 |
 | 비즈니스 로직 외재화 | 규칙을 코드가 아닌 DSL로 관리 가능 |
 
 - **복잡한 문법**: 규칙 수가 많아지면 클래스 폭발 (Class Explosion)
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 재귀적 AST 평가 오버헤드 → [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 보완
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 재귀적 AST 평가 오버헤드 -> [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 보완
 - **유지보수**: 문법 변경 시 여러 클래스 수정 필요
 
 [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) ([해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/)) 패턴은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙을 언어로 표현</strong>해야 하는 상황에서 빛을 발한다. [정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/), SQL, SpEL 등 현실 세계의 많은 인터프리터가 이 패턴을 기반으로 한다. 단순한 문법에는 강력하지만, 복잡한 문법은 전문 파서 도구로 처리하는 것이 현명하다.
@@ -225,7 +225,7 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 | 연관 개념 | Spring SpEL | 실제 산업 적용 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-문법 정의 → [해석자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/) → DSL 엔진·규칙 처리
+문법 정의 -> [해석자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/) -> DSL 엔진·규칙 처리
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. "빨강 3개 더하기 파랑 2개" 같은 말을 컴퓨터가 이해하게 만드는 게 [해석자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/400_process/)이에요.
@@ -238,7 +238,7 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 
 **진행 상황**: 267 / 530
 
-← **이전**: [205. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/)
-**다음**: [207. 널 객체 패턴 (Null Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/) →
+<- **이전**: [205. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/)
+**다음**: [207. 널 객체 패턴 (Null Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/) ->
 
 ---

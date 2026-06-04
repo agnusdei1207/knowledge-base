@@ -52,32 +52,32 @@ tags = ["studynote-enterprise-systems"]
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 삼각형과 DB 배치
 
 ```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                  CAP 삼각형                                  │
-  │                                                             │
-  │                Consistency (C)                              │
-  │                      △                                      │
-  │                     / \                                     │
-  │                    /   \                                    │
-  │                   /     \                                   │
-  │         CP 영역  /       \  (불가능 영역)                    │
-  │                 /         \                                 │
-  │        HBase   /           \  MongoDB                      │
-  │     Zookeeper ●             ● (default)                    │
-  │               /    ×전부     \                              │
-  │              / (이론상 불가)  \                              │
-  │             /─────────────────\                            │
-  │            /                   \                           │
-  │ Partition ●                     ● Availability             │
-  │ Tolerance  \       AP 영역      /  (A)                     │
-  │    (P)      \                  /                           │
-  │              \ Cassandra      /                            │
-  │               ● DynamoDB ●   /                             │
-  │                \  CouchDB   /                              │
-  │                 ●──────────●                               │
-  │                                                             │
-  │  RDBMS (MySQL, PostgreSQL): 단일 서버 → CA 영역 (P 포기)    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                  CAP 삼각형                                  |
+  |                                                             |
+  |                Consistency (C)                              |
+  |                      △                                      |
+  |                     / \                                     |
+  |                    /   \                                    |
+  |                   /     \                                   |
+  |         CP 영역  /       \  (불가능 영역)                    |
+  |                 /         \                                 |
+  |        HBase   /           \  MongoDB                      |
+  |     Zookeeper ●             ● (default)                    |
+  |               /    ×전부     \                              |
+  |              / (이론상 불가)  \                              |
+  |             /-----------------\                            |
+  |            /                   \                           |
+  | Partition ●                     ● Availability             |
+  | Tolerance  \       AP 영역      /  (A)                     |
+  |    (P)      \                  /                           |
+  |              \ Cassandra      /                            |
+  |               ● DynamoDB ●   /                             |
+  |                \  CouchDB   /                              |
+  |                 ●----------●                               |
+  |                                                             |
+  |  RDBMS (MySQL, PostgreSQL): 단일 서버 -> CA 영역 (P 포기)    |
+  +-------------------------------------------------------------+
 ```
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 레벨 스펙트럼
@@ -95,7 +95,7 @@ tags = ["studynote-enterprise-systems"]
 
 ### [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 확장 정리
 
-CAP의 한계를 보완한 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) → [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) or [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), Else → [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) or [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)):
+CAP의 한계를 보완한 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) -> [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) or [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), Else -> [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) or [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)):
 - **분단 시 (P)**: A([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) vs C([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 선택
 - **정상 시 (E)**: L([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) vs C([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 트레이드오프
 
@@ -112,10 +112,10 @@ CAP의 한계를 보완한 [PACELC](/knowledge-base/studynote/13_cloud_architect
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 선택 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 금전적 가치가 있는가? (은행 잔액 → [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)/ACID 필수)
-- [ ] 일시적 불일관성이 비즈니스에 허용 가능한가? (좋아요 수 → [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)/BASE OK)
-- [ ] 지리적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배포 필요 여부 ([멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) → [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 선호)
-- [ ] 99.99% 이상 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 요건 → [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 우선 고려
+- [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 금전적 가치가 있는가? (은행 잔액 -> [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)/ACID 필수)
+- [ ] 일시적 불일관성이 비즈니스에 허용 가능한가? (좋아요 수 -> [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)/BASE OK)
+- [ ] 지리적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배포 필요 여부 ([멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) -> [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 선호)
+- [ ] 99.99% 이상 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 요건 -> [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 우선 고려
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -153,17 +153,17 @@ CAP의 한계를 보완한 [PACELC](/knowledge-base/studynote/13_cloud_architect
 
 ```
 RDB ACID 트랜잭션 - 분산 환경 확장 한계
-    │
-    ▼
+    |
+    v
 CAP 정리 - 일관성·가용성·분할내성 동시 불가
-    │
-    ▼
+    |
+    v
 NoSQL BASE - 결과적 일관성으로 가용성 극대화
-    │
-    ▼
+    |
+    v
 CP 계열 (HBase, ZooKeeper) vs AP 계열 (Cassandra)
-    │
-    ▼
+    |
+    v
 NewSQL (CockroachDB, Spanner) - ACID + 수평 확장
 ```
 
@@ -181,7 +181,7 @@ NewSQL (CockroachDB, Spanner) - ACID + 수평 확장
 
 **진행 상황**: 315 / 482
 
-← **이전**: [314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/314_telemetry_bigdata_parsing/)
-**다음**: [316. Redis 캐시와 Thundering Herd 장애 회피 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/316_redis_thundering_herd/) →
+<- **이전**: [314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/314_telemetry_bigdata_parsing/)
+**다음**: [316. Redis 캐시와 Thundering Herd 장애 회피 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/316_redis_thundering_herd/) ->
 
 ---

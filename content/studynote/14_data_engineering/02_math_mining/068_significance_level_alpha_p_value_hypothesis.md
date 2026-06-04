@@ -31,9 +31,9 @@ p-value는 현재 데이터가 H0와 얼마나 잘 맞는지 보는 값이다.
 
 ```text
 H0
-  ↓
+  v
 p-value
-  ↓ compare with α
+  v compare with α
 Decision
 ```
 
@@ -105,11 +105,11 @@ Decision
 
 ```text
 H0
-  ↓
+  v
 α
-  ↓ compare
+  v compare
 p-value
-  ↓
+  v
 Decision
 ```
 
@@ -119,11 +119,11 @@ Decision
 
 ```text
 Hypothesis Testing
-  ↓
+  v
 Alpha
-  ↓
+  v
 p-value
-  ↓
+  v
 Statistical Decision
 ```
 
@@ -141,7 +141,7 @@ Statistical Decision
 
 **진행 상황**: 68 / 258
 
-← **이전**: [67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/)
-**다음**: [69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) →
+<- **이전**: [67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/)
+**다음**: [69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-algorithm"]
 
 > 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 정점 (Vertex)과 간선 (Edge)으로 이루어진 자료구조이며, 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)과 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List) 두 가지 방식으로 컴퓨터에 표현한다.
 > 2. **가치**: 인접 행렬은 O(1) 간선 조회, 인접 리스트는 O(V+E) 공간 효율 — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 밀도에 따라 올바른 표현을 선택해야 성능을 끌어낼 수 있다.
-> 3. **판단 포인트**: 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≈ V²)에는 인접 행렬, 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≪ V²)에는 인접 리스트가 기본 선택 기준이다.
+> 3. **판단 포인트**: 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≈ V^)에는 인접 행렬, 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≪ V^)에는 인접 리스트가 기본 선택 기준이다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -23,11 +23,11 @@ tags = ["studynote-algorithm"]
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 설명 |
 |:---|:---|
-| 방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 방향 존재 (→) |
+| 방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 방향 존재 (->) |
 | 무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Undirected [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 방향 없음 (—) |
 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Weighted [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 비용/거리 부여 |
-| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≈ V², 간선이 많음 |
-| 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≪ V², 간선이 적음 |
+| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≈ V^, 간선이 많음 |
+| 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≪ V^, 간선이 적음 |
 
 📢 **섹션 요약 비유**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 도시들(정점)과 도로들(간선)로 구성된 지도다. 표현 방식은 이 지도를 어떤 형식의 종이에 기록하느냐의 차이다.
 
@@ -50,7 +50,7 @@ tags = ["studynote-algorithm"]
 
 ### 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)
 
-V×V 크기의 2차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/). `adj[i][j] = 1`이면 i→j 간선 존재.
+V×V 크기의 2차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/). `adj[i][j] = 1`이면 i->j 간선 존재.
 
 ```
      A  B  C  D  E
@@ -78,19 +78,19 @@ E: [D]
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 두 표현 방식 비교
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  [인접 행렬]              [인접 리스트]                    │
-│                                                          │
-│    A B C D E             A ──→ [B] ──→ [C]              │
-│  A[0 1 1 0 0]            B ──→ [A] ──→ [D]              │
-│  B[1 0 0 1 0]            C ──→ [A] ──→ [D]              │
-│  C[1 0 0 1 0]            D ──→ [B] ──→ [C] ──→ [E]      │
-│  D[0 1 1 0 1]            E ──→ [D]                      │
-│  E[0 0 0 1 0]                                            │
-│                                                          │
-│  공간: O(V²)             공간: O(V+E)                     │
-│  간선 조회: O(1)          간선 조회: O(degree)             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  [인접 행렬]              [인접 리스트]                    |
+|                                                          |
+|    A B C D E             A ---> [B] ---> [C]              |
+|  A[0 1 1 0 0]            B ---> [A] ---> [D]              |
+|  B[1 0 0 1 0]            C ---> [A] ---> [D]              |
+|  C[1 0 0 1 0]            D ---> [B] ---> [C] ---> [E]      |
+|  D[0 1 1 0 1]            E ---> [D]                      |
+|  E[0 0 0 1 0]                                            |
+|                                                          |
+|  공간: O(V^)             공간: O(V+E)                     |
+|  간선 조회: O(1)          간선 조회: O(degree)             |
++----------------------------------------------------------+
 ```
 
 ### 간선 리스트 (Edge List)
@@ -107,7 +107,7 @@ E: [D]
 
 | 연산 | 인접 행렬 | 인접 리스트 | 간선 리스트 |
 |:---|:---:|:---:|:---:|
-| [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V²) | O(V+E) | O(E) |
+| [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V^) | O(V+E) | O(E) |
 | 간선 (u,v) 존재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | O(1) | O(degree(u)) | O(E) |
 | 정점 u의 이웃 순회 | O(V) | O(degree(u)) | O(E) |
 | 간선 추가 | O(1) | O(1) | O(1) |
@@ -121,13 +121,13 @@ E: [D]
 ### 밀집 vs 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서의 선택
 
 ```
-V=1,000, E=200 (희소, E ≪ V²=1,000,000)
-  → 인접 행렬: 1,000,000 셀 메모리 낭비
-  → 인접 리스트: 1,200개 항목으로 충분
+V=1,000, E=200 (희소, E ≪ V^=1,000,000)
+  -> 인접 행렬: 1,000,000 셀 메모리 낭비
+  -> 인접 리스트: 1,200개 항목으로 충분
 
-V=1,000, E=900,000 (밀집, E ≈ V²)
-  → 인접 리스트: 900,000개 포인터 오버헤드
-  → 인접 행렬: 1,000,000 셀로 O(1) 접근 효율적
+V=1,000, E=900,000 (밀집, E ≈ V^)
+  -> 인접 리스트: 900,000개 포인터 오버헤드
+  -> 인접 행렬: 1,000,000 셀로 O(1) 접근 효율적
 ```
 
 ### 방향/무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 차이
@@ -145,23 +145,23 @@ V=1,000, E=900,000 (밀집, E ≈ V²)
 ### 실무 시나리오
 
 **시나리오 1**: 소셜 네트워크 팔로워 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (V=억, E=수십억)
-- 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) → 인접 리스트 필수
-- 인접 행렬 시 V²=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^16 셀 → 물리적 불가
+- 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) -> 인접 리스트 필수
+- 인접 행렬 시 V^=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^16 셀 -> 물리적 불가
 
 **시나리오 2**: [플로이드-워샬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/) ([Floyd-Warshall](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/037_floyd_warshall/)) 전체 쌍 최단 경로
-- O(V³) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) → 인접 행렬로 O(1) 간선 비용 조회 최적화
+- O(V³) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) -> 인접 행렬로 O(1) 간선 비용 조회 최적화
 - 인접 리스트라면 간선 조회마다 O(degree) 추가 비용
 
 **시나리오 3**: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Depth-First Search) / [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) (Breadth-First Search)
-- 정점의 이웃 순회가 핵심 → 인접 리스트가 O(V+E)로 효율적
-- 인접 행렬 사용 시 이웃 순회에 O(V) → 전체 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) O(V²) 비효율
+- 정점의 이웃 순회가 핵심 -> 인접 리스트가 O(V+E)로 효율적
+- 인접 행렬 사용 시 이웃 순회에 O(V) -> 전체 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) O(V^) 비효율
 
 ### 기술사 판단 기준
 
 | 상황 | 권장 표현 | 이유 |
 |:---|:---|:---|
-| E ≈ V² (밀집) | 인접 행렬 | 공간 효율 비슷, O(1) 접근 |
-| E ≪ V² (희소) | 인접 리스트 | O(V+E) 공간 절약 |
+| E ≈ V^ (밀집) | 인접 행렬 | 공간 효율 비슷, O(1) 접근 |
+| E ≪ V^ (희소) | 인접 리스트 | O(V+E) 공간 절약 |
 | 간선 정렬 필요 | 간선 리스트 | [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) 등 |
 | 간선 존재 빈번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 인접 행렬 | O(1) 직접 조회 |
 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | 인접 리스트 | 이웃 순회 효율 |
@@ -170,7 +170,7 @@ V=1,000, E=900,000 (밀집, E ≈ V²)
 
 ## Ⅴ. 기대효과 및 결론
 
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 표현 방식의 선택은 이후 모든 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간·[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)에 직접적인 영향을 미친다. 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 인접 행렬을 사용하면 O(V²) 공간 낭비와 O(V) 이웃 순회 비효율이 동시에 발생하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 성능을 수십 배 떨어뜨린다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 표현 방식의 선택은 이후 모든 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간·[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)에 직접적인 영향을 미친다. 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 인접 행렬을 사용하면 O(V^) 공간 낭비와 O(V) 이웃 순회 비효율이 동시에 발생하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 성능을 수십 배 떨어뜨린다.
 
 **핵심 결론**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계의 첫 단계는 항상 "이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 희소한가, 밀집한가?"를 묻는 것이다.
 
@@ -191,23 +191,23 @@ V=1,000, E=900,000 (밀집, E ≈ V²)
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [DFS (Depth-First Search)]
-    │
-    ▼
+    |
+    v
 [BFS (Breadth-First Search)]
-    │
-    ▼
+    |
+    v
 [플로이드-워샬]
-    │
-    ▼
+    |
+    v
 [크루스칼 (Kruskal)]
-    │
-    ▼
+    |
+    v
 [다익스트라 (Dijkstra)]
-    │
-    ▼
+    |
+    v
 [희소 행렬 (Sparse Matrix)]
 ```
 
@@ -225,7 +225,7 @@ V=1,000, E=900,000 (밀집, E ≈ V²)
 
 **진행 상황**: 33 / 175
 
-← **이전**: [3. 해시 탐색 (Hash Search) — O(1) 평균](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/)
-**다음**: [5. 깊이 우선 탐색 (DFS, Depth-First Search) — 스택/재귀](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) →
+<- **이전**: [3. 해시 탐색 (Hash Search) — O(1) 평균](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/)
+**다음**: [5. 깊이 우선 탐색 (DFS, Depth-First Search) — 스택/재귀](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ->
 
 ---

@@ -29,15 +29,15 @@ tags = ["cloud_architecture"]
 
 ```text
 [전통적인 x86 권한 구조]        [전가상화 시 충돌 발생 딜레마]     [하이퍼바이저의 개입(Ring Deprivileging)]
-┌──────────────────┐        ┌──────────────────┐           ┌──────────────────┐
-│ Ring 3: 응용프로그램│        │ Ring 3: App A, B │           │ Ring 3: App A, B │
-├──────────────────┤        ├──────────────────┤           ├──────────────────┤
-│ Ring 1, 2: 미사용 │        │ Ring 1, 2: 미사용 │           │ Ring 1: Guest OS │ ◀ 권한 강등됨
-├──────────────────┤        ├──────────────────┤           ├──────────────────┤
-│                  │        │ Ring 0: 하이퍼바이저│           │                  │
-│ Ring 0: OS 커널   │        │     (충돌/Panic!)│           │ Ring 0: VMM (하이퍼바이저)
-│ (모든 특권 소유)   │        │ Ring 0: Guest OS │           │ (유일한 권력자)    │
-└──────────────────┘        └──────────────────┘           └──────────────────┘
++------------------+        +------------------+           +------------------+
+| Ring 3: 응용프로그램|        | Ring 3: App A, B |           | Ring 3: App A, B |
++------------------+        +------------------+           +------------------+
+| Ring 1, 2: 미사용 |        | Ring 1, 2: 미사용 |           | Ring 1: Guest OS | <- 권한 강등됨
++------------------+        +------------------+           +------------------+
+|                  |        | Ring 0: 하이퍼바이저|           |                  |
+| Ring 0: OS 커널   |        |     (충돌/Panic!)|           | Ring 0: VMM (하이퍼바이저)
+| (모든 특권 소유)   |        | Ring 0: Guest OS |           | (유일한 권력자)    |
++------------------+        +------------------+           +------------------+
 ```
 
 이 그림의 핵심은 x86 CPU 아키텍처의 한계인 'Ring 0 (루트 권한) 독점' 문제다. 본래 OS는 Ring 0에 있어야만 동작한다. 그런데 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Ring 0를 차지해버리면, Guest OS는 어디로 가야 할까? [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 기술은 Guest OS를 억지로 하위 권한인 Ring 1로 내쫓아버린다(Ring Deprivileging). Guest OS는 자신이 Ring 0인 줄 착각하고 특권 명령을 내리지만, 실제로는 Ring 1에 있기 때문에 CPU에서 에러([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))가 발생한다. 이때 Ring 0에 대기하던 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 그 에러를 잡아내어 "아, 얘가 뭘 하려는지 알겠다"며 대신 하드웨어를 조작해 주는 것이 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 마법의 시작이다.
@@ -64,19 +64,19 @@ tags = ["cloud_architecture"]
 [전가상화의 핵심: 동적 이진 변환 (Dynamic Binary Translation) 흐름]
 
   Guest OS 코드가 실행을 위해 메모리로 올라옴
-                   ↓
-┌──────────────────────────────────────────────────┐
-│              Hypervisor (VMM) 영역               │
-│                                                  │
-│ 1. 스캐닝: 코드를 한 줄씩 훑으며 특권 명령 탐색         │
-│                                                  │
-│ 2. 발견됨! Trap이 안 걸리는 '위험한 기계어' 발견!      │
-│  [ 원본 ]  CLI (인터럽트 비활성화 명령)             │
-│                                                  │
-│ 3. 실시간 번역 (Translation & Caching)           │
-│  [ 변환 ]  CALL VMM_Virtual_CLI (하이퍼바이저 호출) │
-└────────────────────────┬─────────────────────────┘
-                         │
+                   v
++--------------------------------------------------+
+|              Hypervisor (VMM) 영역               |
+|                                                  |
+| 1. 스캐닝: 코드를 한 줄씩 훑으며 특권 명령 탐색         |
+|                                                  |
+| 2. 발견됨! Trap이 안 걸리는 '위험한 기계어' 발견!      |
+|  [ 원본 ]  CLI (인터럽트 비활성화 명령)             |
+|                                                  |
+| 3. 실시간 번역 (Translation & Caching)           |
+|  [ 변환 ]  CALL VMM_Virtual_CLI (하이퍼바이저 호출) |
++------------------------+-------------------------+
+                         |
                    변환된 코드만 물리 CPU로 전송 (안전 실행 보장)
 ```
 
@@ -105,19 +105,19 @@ tags = ["cloud_architecture"]
 ```text
 [하드웨어 보조 전가상화 (Intel VT-x) 혁명]
 
-┌──────────────────┐
-│ Ring 3: App      │ ◀ VMX Non-Root Mode (Guest의 천국)
-├──────────────────┤   (여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고
-│ Ring 0: Guest OS │    모든 특권 명령을 마음껏 실행함. 억지로 권한 강등 안 시킴!)
-└────────┬─────────┘
-         │
-         │ 물리 CPU가 특권 명령을 감지하면 하드웨어 레벨에서 빛의 속도로 스위칭!
-         │ (VM Exits / VM Entries) -> 소프트웨어 이진 변환 불필요!
-         ▼
-┌──────────────────┐
-│ Ring 0: VMM      │ ◀ VMX Root Mode (진짜 절대 권력자 구역)
-│ (Hypervisor)     │
-└──────────────────┘
++------------------+
+| Ring 3: App      | <- VMX Non-Root Mode (Guest의 천국)
++------------------+   (여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고
+| Ring 0: Guest OS |    모든 특권 명령을 마음껏 실행함. 억지로 권한 강등 안 시킴!)
++--------+---------+
+         |
+         | 물리 CPU가 특권 명령을 감지하면 하드웨어 레벨에서 빛의 속도로 스위칭!
+         | (VM Exits / VM Entries) -> 소프트웨어 이진 변환 불필요!
+         v
++------------------+
+| Ring 0: VMM      | <- VMX Root Mode (진짜 절대 권력자 구역)
+| (Hypervisor)     |
++------------------+
 ```
 
 이 구조 변화의 핵심은 '하드웨어가 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 위한 VMX Root Mode라는 신의 영역(Ring -1 이라 불리기도 함)을 새로 창조'해 주었다는 점이다. 이 덕분에 Guest OS는 더 이상 하위 권한으로 쫓겨나지 않고 자기만의 가상 Ring 0에서 특권 명령을 날릴 수 있다. Trap을 소프트웨어로 가로채어 번역하던 그 끔찍한 오버헤드가, 칩셋 내부의 하드웨어 스위칭([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit/Entry)으로 대체되면서 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)를 압도하며 떡상하게 되었다. 이것이 바로 현재 현대 클라우드가 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)를 100% 채택하게 된 결정적 아키텍처 시너지다.
@@ -143,15 +143,15 @@ tags = ["cloud_architecture"]
 
 ```text
 [VM I/O 디바이스 구성 의사결정]
-            │
-            ├─ (Yes) ──▶ 성능보다 완벽한 이식성과 수정 불가능한 오래된 OS 구동이 목표인가?
-            │               │
-            │               └─▶ [선택] 순수 전가상화 I/O 드라이버 유지 (IDE, E1000)
-            │                   (속도는 느려도 부팅 보장됨)
-            │
-            ├─ (No) ───▶ 대용량 DB나 고속 트래픽 처리가 필요한 운영(Prod) 환경인가?
-                            │
-                            └─▶ [선택] 하드웨어 가속(VT-x) 전가상화 코어
+            |
+            +- (Yes) ---> 성능보다 완벽한 이식성과 수정 불가능한 오래된 OS 구동이 목표인가?
+            |               |
+            |               +--> [선택] 순수 전가상화 I/O 드라이버 유지 (IDE, E1000)
+            |                   (속도는 느려도 부팅 보장됨)
+            |
+            +- (No) ----> 대용량 DB나 고속 트래픽 처리가 필요한 운영(Prod) 환경인가?
+                            |
+                            +--> [선택] 하드웨어 가속(VT-x) 전가상화 코어
                                          + VirtIO(반가상화) 디스크/네트워크 드라이버 설치
                                 (현대 클라우드 IaaS 인스턴스의 100% 필수 표준 설정)
 ```
@@ -189,17 +189,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [물리 서버 독점 사용 — 자원 낭비, 높은 TCO]
-    │
-    ▼
+    |
+    v
 [전가상화 (Full Virtualization) — 무수정 Guest OS, Trap & Emulate]
-    │
-    ▼
+    |
+    v
 [반가상화 (Para-Virtualization) — Guest OS 수정, 하이퍼콜로 성능 향상]
-    │
-    ▼
+    |
+    v
 [하드웨어 지원 가상화 (Intel VT-x/AMD-V) — CPU 레벨 가상화 가속]
-    │
-    ▼
+    |
+    v
 [컨테이너 (Container) — OS 공유로 더 가벼운 격리]
 ```
 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 Guest OS를 무수정으로 실행하는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 제공하며, 하드웨어 지원 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술로 발전해 현대 클라우드 인프라의 기반이 되었다.
@@ -215,7 +215,7 @@ tags = ["cloud_architecture"]
 
 **진행 상황**: 18 / 371
 
-← **이전**: [18. Type 2 하이퍼바이저 (호스트형, Hosted) - 호스트 OS 위에서 하나의 애플리케이션처럼 구동 (VMware Workstation,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/018_Type_2_하이퍼바이저/)
-**다음**: [20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/020_para_virtualization/) →
+<- **이전**: [18. Type 2 하이퍼바이저 (호스트형, Hosted) - 호스트 OS 위에서 하나의 애플리케이션처럼 구동 (VMware Workstation,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/018_Type_2_하이퍼바이저/)
+**다음**: [20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/020_para_virtualization/) ->
 
 ---

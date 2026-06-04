@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [마이크로서비스 서비스 메시 패싱]
-    │
-    ▼
+    |
+    v
 [이스티오 사이드카 프록시]
-    │
-    └──▶ [gRPC / 프로토콜 버퍼 직렬화]
+    |
+    +---> [gRPC / 프로토콜 버퍼 직렬화]
 ```
 
 - **📢 섹션 요약 비유**: [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ tags = ["studynote-network"]
 
 ```text
 [마이크로서비스 서비스 메시 패싱]
-    │
-    ▼
+    |
+    v
 [이스티오 사이드카 프록시]
-    │
-    └──▶ [gRPC / 프로토콜 버퍼 직렬화]
+    |
+    +---> [gRPC / 프로토콜 버퍼 직렬화]
 ```
 
 - **📢 섹션 요약 비유**: [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 마이크로서비스 서비스 메시 패싱]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이스티오 사이드카 프록시]
-    │
-    ├──▶ [확장 A: gRPC / 프로토콜 버퍼 직렬화]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: gRPC / 프로토콜 버퍼 직렬화]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 173 / 1120
 
-← **이전**: [1066. 마이크로서비스 서비스 메시 패싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1066_microservices_service_mesh_architecture/)
-**다음**: [1068. gRPC / 프로토콜 버퍼 직렬화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1068_grpc_protocol_buffers_serialization_rpc/) →
+<- **이전**: [1066. 마이크로서비스 서비스 메시 패싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1066_microservices_service_mesh_architecture/)
+**다음**: [1068. gRPC / 프로토콜 버퍼 직렬화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1068_grpc_protocol_buffers_serialization_rpc/) ->
 
 ---

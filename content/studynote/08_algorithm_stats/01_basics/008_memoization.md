@@ -12,7 +12,7 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 메모이제이션(Memoization)은 이전에 계산한 결과값을 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)이나 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 등의 자료구조에 저장하여, 동일한 입력에 대해 중복 계산을 방지하는 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)의 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 구현 기법이다.
-> 2. **가치**: 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)의 O(2^N) 복잡도를 O(N) 또는 O(N²)로 절감하여, 피보나치, 행렬 연쇄 곱셈, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최단 경로 등 중복 계산이 문제의 핵심병경인알고리즘을 실용적 수준으로 만든다.
+> 2. **가치**: 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)의 O(2^N) 복잡도를 O(N) 또는 O(N^)로 절감하여, 피보나치, 행렬 연쇄 곱셈, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최단 경로 등 중복 계산이 문제의 핵심병경인알고리즘을 실용적 수준으로 만든다.
 > 3. **융합**: 메모이제이션은 [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)(순수 함수의 결과가 입력에만 의존), 웹 브라우저의 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)전략, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 조회 최적화, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 컨텐츠 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 등 모든 computing 영역에서 중복 연산을 회피하는 기본 원리로 적용된다.
 
 ---
@@ -28,44 +28,44 @@ tags = ["algorithm_stats"]
 ```text
 [메모이제이션의 효과: 호출 횟수 비교]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [단순 재귀의 호출 트리 (fib(5))]                    │
-│  ────────────────────────────────────                │
-│                                                      │
-│                      fib(5)                          │
-│                    /         \                      │
-│                fib(4)         fib(3)                 │
-│               /      \       /     \                │
-│           fib(3)   fib(2)  fib(2)  fib(1)           │
-│          /     \                         │          │
-│      fib(2)  fib(1)  ← 중복               │          │
-│          │       ← 중복 (fib(1))          │          │
-│                                                      │
-│  총 호출: 15회 (fib(2): 3회, fib(1): 5회 중복)      │
-│  → fib(20): 21,891회, fib(30): 2,692,537회         │
-│  → fib(50): 약 2.8×10^10회 (실용 불가능)            │
-│                                                      │
-│  [메모이제이션 적용 후 (fib(5))]                    │
-│  ────────────────────────────────────                │
-│                                                      │
-│  memo = {0:0, 1:1}  // 캐시 초기화                   │
-│                                                      │
-│  fib(5) 호출:                                        │
-│  ├─ fib(4) 호출:                                     │
-│  │   ├─ fib(3) 호출:                               │
-│  │   │   ├─ fib(2) 호출 → 1 리턴, memo[2]=1       │
-│  │   │   └─ fib(1) 호출 → 1 리턴, memo[1]=1       │
-│  │   │       → memo[3] = 2  [NEW! 저장]            │
-│  │   └─ fib(2): memo[2]=1 exists! → 1 리턴         │
-│  │       → memo[4] = 3  [NEW! 저장]                │
-│  └─ fib(3): memo[3]=2 exists! → 2 리턴              │
-│      → memo[5] = 5  [NEW! 저장]                    │
-│                                                      │
-│  총 호출: 정확히 6회 (fib(0~5) 각 1회)               │
-│  → 어떤 N에서도 호출 횟수 = N + 1                    │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [단순 재귀의 호출 트리 (fib(5))]                    |
+|  ------------------------------------                |
+|                                                      |
+|                      fib(5)                          |
+|                    /         \                      |
+|                fib(4)         fib(3)                 |
+|               /      \       /     \                |
+|           fib(3)   fib(2)  fib(2)  fib(1)           |
+|          /     \                         |          |
+|      fib(2)  fib(1)  <- 중복               |          |
+|          |       <- 중복 (fib(1))          |          |
+|                                                      |
+|  총 호출: 15회 (fib(2): 3회, fib(1): 5회 중복)      |
+|  -> fib(20): 21,891회, fib(30): 2,692,537회         |
+|  -> fib(50): 약 2.8×10^10회 (실용 불가능)            |
+|                                                      |
+|  [메모이제이션 적용 후 (fib(5))]                    |
+|  ------------------------------------                |
+|                                                      |
+|  memo = {0:0, 1:1}  // 캐시 초기화                   |
+|                                                      |
+|  fib(5) 호출:                                        |
+|  +- fib(4) 호출:                                     |
+|  |   +- fib(3) 호출:                               |
+|  |   |   +- fib(2) 호출 -> 1 리턴, memo[2]=1       |
+|  |   |   +- fib(1) 호출 -> 1 리턴, memo[1]=1       |
+|  |   |       -> memo[3] = 2  [NEW! 저장]            |
+|  |   +- fib(2): memo[2]=1 exists! -> 1 리턴         |
+|  |       -> memo[4] = 3  [NEW! 저장]                |
+|  +- fib(3): memo[3]=2 exists! -> 2 리턴              |
+|      -> memo[5] = 5  [NEW! 저장]                    |
+|                                                      |
+|  총 호출: 정확히 6회 (fib(0~5) 각 1회)               |
+|  -> 어떤 N에서도 호출 횟수 = N + 1                    |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 메모이제이션을 적용하면 [fib](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)(50)에서 약 280억 회의 호출이 51회로 줄어든다.
@@ -86,43 +86,43 @@ tags = ["algorithm_stats"]
 ```text
 [메모이제이션 구현 구조]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [메모이제이션 의사코드]                              │
-│  ────────────────────                                │
-│  function memoizedFib(n, memo={}):                  │
-│      // 조회 (Look up)                               │
-│      if n in memo:                                   │
-│          return memo[n]    // 이미 계산된 값!       │
-│                                                      │
-│      // 기저 사례                                     │
-│      if n <= 1:                                     │
-│          return n                                    │
-│                                                      │
-│      // 계산 (Compute) + 저장 (Store)                │
-│      memo[n] = memoizedFib(n-1, memo) + \           │
-│                 memoizedFib(n-2, memo)              │
-│      return memo[n]                                  │
-│                                                      │
-│  [메모이제이션이 가능한 조건]                          │
-│  ─────────────────────────────────────              │
-│  1. 순수 함수: f(x) = f(x) (부수 효과 없음)          │
-│  2. 참조적 투명성: 동일 입력 → 동일 출력 (결정성)    │
-│  3. 하위 문제 중복: 동일한 파라미터 호출이 반복       │
-│                                                      │
-│  [메모이제이션이 부적합한 경우]                        │
-│  ─────────────────────────────────────              │
-│  1. 부수 효과가 있는 함수 (DB 쓰기, 파일 I/O 등)     │
-│  2. 입력 외의 전역 변수에 의존하는 함수               │
-│  3. 하위 문제가 중복되지 않는 경우 (분할 정복)        │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [메모이제이션 의사코드]                              |
+|  --------------------                                |
+|  function memoizedFib(n, memo={}):                  |
+|      // 조회 (Look up)                               |
+|      if n in memo:                                   |
+|          return memo[n]    // 이미 계산된 값!       |
+|                                                      |
+|      // 기저 사례                                     |
+|      if n <= 1:                                     |
+|          return n                                    |
+|                                                      |
+|      // 계산 (Compute) + 저장 (Store)                |
+|      memo[n] = memoizedFib(n-1, memo) + \           |
+|                 memoizedFib(n-2, memo)              |
+|      return memo[n]                                  |
+|                                                      |
+|  [메모이제이션이 가능한 조건]                          |
+|  -------------------------------------              |
+|  1. 순수 함수: f(x) = f(x) (부수 효과 없음)          |
+|  2. 참조적 투명성: 동일 입력 -> 동일 출력 (결정성)    |
+|  3. 하위 문제 중복: 동일한 파라미터 호출이 반복       |
+|                                                      |
+|  [메모이제이션이 부적합한 경우]                        |
+|  -------------------------------------              |
+|  1. 부수 효과가 있는 함수 (DB 쓰기, 파일 I/O 등)     |
+|  2. 입력 외의 전역 변수에 의존하는 함수               |
+|  3. 하위 문제가 중복되지 않는 경우 (분할 정복)        |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 메모이제이션의 시간 복잡도는 "고유 파라미터 수 × 각 계산 비용"으로 결정된다.
 - **원인**: 각 고유 입력에 대해 계산은 단 한 번만 수행되고, 이후에는 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))로 O(1) 조회이기 때문이다.
 - **결과**: [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)이 높을수록 메모이제이션의 효과가 극대화된다.
-- **판단**: 메모이제이션을 적용하려면 함수의 참조적 투명성(입력 결정 → 출력 결정)을 반드시 보장해야 하며, 이것이 보장되지 않으면 메모이제이션은 잘못된 결과를 초래할 수 있다.
+- **판단**: 메모이제이션을 적용하려면 함수의 참조적 투명성(입력 결정 -> 출력 결정)을 반드시 보장해야 하며, 이것이 보장되지 않으면 메모이제이션은 잘못된 결과를 초래할 수 있다.
 
 📢 **섹션 요약 비유**: 메모이제이션은 교실서점명부를 비치하는 것과 같습니다. 출석을 셀 때마다 학생 이름을 다 부르는 대신([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출),점명부에 출석을 표시해 두면(저장), 다음 차시에는부를견고 출석자를 학정할 수 있습니다.
 
@@ -130,41 +130,41 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-메모이제이션의 실무 적용은 단순히 피보나치에만국한되지 않는다. **피보나치 수열**: O(2^N) → O(N) 시간, O(N) 공간으로 변환. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/">편집 거리</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/">Edit Distance</a>)</strong>: 두 문자열 변환에 필요한 최소 편집 횟수를 구하는 DP 문제로, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/">최장 공통 부분수열</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong>: 이차원 DP 테이블 대신 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현 가능. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/">그래프 탐색</a></strong>: A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 g(n)과 h(n) 값을 메모이제이션하여 동일 상태의 중복 평가를 방지한다.
+메모이제이션의 실무 적용은 단순히 피보나치에만국한되지 않는다. **피보나치 수열**: O(2^N) -> O(N) 시간, O(N) 공간으로 변환. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/">편집 거리</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/">Edit Distance</a>)</strong>: 두 문자열 변환에 필요한 최소 편집 횟수를 구하는 DP 문제로, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/">최장 공통 부분수열</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong>: 이차원 DP 테이블 대신 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현 가능. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/">그래프 탐색</a></strong>: A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 g(n)과 h(n) 값을 메모이제이션하여 동일 상태의 중복 평가를 방지한다.
 
 <strong>메모이제이션 구현 시 고려사항</strong>은 다음과 같다. **키 설계**: [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 키가 되는 입력 파라미터를 어떻게 구성할 것인지 결정해야 한다. 다중 파라미터인 경우 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple)이나 해시치 조합을 사용한다. **공간 관리**: 캐시 크기가 무한히 증가하는 것을 방지하기 위해 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 등의 evict 전략을 적용할 수 있다. **순수 함수 보장**: 함수에 부수 효과가 있으면 메모이제이션이 잘못된 결과를 초래할 수 있으므로 주의해야 한다.
 
 ```text
 [실무 메모이제이션: 경로 탐색 문제]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [문제] 2D 그리드에서 (0,0)에서 (m,n)까지 이동할 때    │
-│         가능한 경로 수 (오른쪽/아래만 이동 가능)       │
-│                                                      │
-│  단순 재귀:                                          │
-│  ────────────                                        │
-│  def paths(m, n):                                    │
-│      if m == 0 or n == 0: return 1                 │
-│      return paths(m-1, n) + paths(m, n-1)           │
-│                                                      │
-│  → paths(20, 20): 약 184,756번 호출                   │
-│  → paths(30, 30): 약 4.7×10^16번 호출 (실용 불가)    │
-│                                                      │
-│  메모이제이션 적용:                                    │
-│  ────────────                                        │
-│  memo = {(0, n):1, (m, 0):1 for m, n}             │
-│                                                      │
-│  def paths_memo(m, n):                              │
-│      if (m, n) in memo: return memo[(m, n)]        │
-│      memo[(m, n)] = paths_memo(m-1, n) + \         │
-│                         paths_memo(m, n-1)           │
-│      return memo[(m, n)]                            │
-│                                                      │
-│  → paths_memo(30, 30): 정확히 900900919315036번 호출 │
-│    각 (i, j) 조합은 단 1번만 계산 → O(m×n) 시간      │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [문제] 2D 그리드에서 (0,0)에서 (m,n)까지 이동할 때    |
+|         가능한 경로 수 (오른쪽/아래만 이동 가능)       |
+|                                                      |
+|  단순 재귀:                                          |
+|  ------------                                        |
+|  def paths(m, n):                                    |
+|      if m == 0 or n == 0: return 1                 |
+|      return paths(m-1, n) + paths(m, n-1)           |
+|                                                      |
+|  -> paths(20, 20): 약 184,756번 호출                   |
+|  -> paths(30, 30): 약 4.7×10^16번 호출 (실용 불가)    |
+|                                                      |
+|  메모이제이션 적용:                                    |
+|  ------------                                        |
+|  memo = {(0, n):1, (m, 0):1 for m, n}             |
+|                                                      |
+|  def paths_memo(m, n):                              |
+|      if (m, n) in memo: return memo[(m, n)]        |
+|      memo[(m, n)] = paths_memo(m-1, n) + \         |
+|                         paths_memo(m, n-1)           |
+|      return memo[(m, n)]                            |
+|                                                      |
+|  -> paths_memo(30, 30): 정확히 900900919315036번 호출 |
+|    각 (i, j) 조합은 단 1번만 계산 -> O(m×n) 시간      |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 메모이제이션은 수학 시험에서 공식집을 가져가는 것과 같습니다. 시험에서 같은 공식을 여러 번 써야 할 때마다 책에서 찾는 대신(재계산), 공식집에 적어두고(저장), 필요할 때 찾은 것을재리용하면, 같은 공식을 찾는 시간을 절약할 수 있습니다.
@@ -196,50 +196,50 @@ tags = ["algorithm_stats"]
 ```text
 [메모이제이션 (Memoization) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      메모이제이션 (Memoization)       │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  핵심 원리    │  │  구현 요소     │  │   효과        │
-│  Principle   │  │  Components  │  │  Effects     │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 중복 계산 제거 │  │ 캐시 (저장소)  │  │ O(2^N) → O(N)│
-│ 해시 테이블   │  │ 조회 로직     │  │ 시간大幅 개선  │
-│ O(1) 조회    │  │ 저장 로직     │  │ 공간 추가 소요 │
-│ 순수 함수    │  │ 키 설계      │  │ 실용성 확보    │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      메모이제이션 적용 판단            │
-         ├─────────────────────────────────┤
-         │ 적용 가능:                                  │
-         │ - 순수 함수 (부수 효과 없음)              │
-         │ - 중복 하위 문제 존재                      │
-         │ - 입력 공간이 충분히 작음                  │
-         │                                              │
-         │ 적용 불필요:                                 │
-         │ - 하위 문제 중복 없음 (DC가 더 적합)        │
-         │ - 입력 공간이 매우 큼 (캐시 효과 없음)       │
-         └─────────────────────────────────┘
+         +---------------------------------+
+         |      메모이제이션 (Memoization)       |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  핵심 원리    |  |  구현 요소     |  |   효과        |
+|  Principle   |  |  Components  |  |  Effects     |
++--------------+  +--------------+  +--------------+
+| 중복 계산 제거 |  | 캐시 (저장소)  |  | O(2^N) -> O(N)|
+| 해시 테이블   |  | 조회 로직     |  | 시간大幅 개선  |
+| O(1) 조회    |  | 저장 로직     |  | 공간 추가 소요 |
+| 순수 함수    |  | 키 설계      |  | 실용성 확보    |
++--------------+  +--------------+  +--------------+
+      |                   |                    |
+      +-------------------+--------------------+
+                          |
+                          v
+         +---------------------------------+
+         |      메모이제이션 적용 판단            |
+         +---------------------------------+
+         | 적용 가능:                                  |
+         | - 순수 함수 (부수 효과 없음)              |
+         | - 중복 하위 문제 존재                      |
+         | - 입력 공간이 충분히 작음                  |
+         |                                              |
+         | 적용 불필요:                                 |
+         | - 하위 문제 중복 없음 (DC가 더 적합)        |
+         | - 입력 공간이 매우 큼 (캐시 효과 없음)       |
+         +---------------------------------+
 
 [메모이제이션 vs 타뷸레이션]
-┌─────────────────┬──────────────────────────────┐
-│ Memoization     │ Tabulation                  │
-│ (Top-Down)      │ (Bottom-Up)                 │
-├─────────────────┼──────────────────────────────┤
-│ 재귀 기반       │ 반복문 기반                   │
-│ 필요한 만큼만 계산│ 모든 하위 문제 계산           │
-│ (Lazy)          │ (Eager)                     │
-│ 스택 오버플로우 위험│ 위험 없음                    │
-│ 구현 간단       │ 구현 복잡                     │
-└─────────────────┴──────────────────────────────┘
++-----------------+------------------------------+
+| Memoization     | Tabulation                  |
+| (Top-Down)      | (Bottom-Up)                 |
++-----------------+------------------------------+
+| 재귀 기반       | 반복문 기반                   |
+| 필요한 만큼만 계산| 모든 하위 문제 계산           |
+| (Lazy)          | (Eager)                     |
+| 스택 오버플로우 위험| 위험 없음                    |
+| 구현 간단       | 구현 복잡                     |
++-----------------+------------------------------+
 ```
 
 
@@ -251,23 +251,23 @@ tags = ["algorithm_stats"]
 | **타뷸레이션 (Tabulation)** | DP의 상향식([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 접근으로, 반복문으로 모든 하위 문제를 먼저 계산하는 방식 |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">Recursion</a>)</strong> | 메모이제이션 없이 사용하면 지수 시간 복잡도로 폭증하는 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 계산의 기반 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 캐시 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> Cache)</strong> | 메모이제이션의 캐시 교체 전략으로, Python의 @functools.lru_cache가 이를 구현 |
-| <strong>피보나치 / 최장 공통 부분 수열 (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong> | 메모이제이션의 고전적 예제로 지수 → 다항 시간으로의 극적인 개선을 시각적으로 보여줌 |
+| <strong>피보나치 / 최장 공통 부분 수열 (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong> | 메모이제이션의 고전적 예제로 지수 -> 다항 시간으로의 극적인 개선을 시각적으로 보여줌 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [재귀 (Recursion) — 하향식 문제 분해]
-    │
-    ▼
+    |
+    v
 [중복 하위 문제 (Overlapping Subproblems)]
-    │
-    ▼
+    |
+    v
 [메모이제이션 (Memoization) — 하향식 DP (Top-Down DP)]
-    │
-    ▼
+    |
+    v
 [타뷸레이션 (Tabulation) — 상향식 DP (Bottom-Up DP)]
-    │
-    ▼
+    |
+    v
 [동적 프로그래밍 (Dynamic Programming) — 최적 부분 구조]
 ```
 
@@ -292,7 +292,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 8 / 175
 
-← **이전**: [7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)
-**다음**: [9. 정보이론 (Information Theory)](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/) →
+<- **이전**: [7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)
+**다음**: [9. 정보이론 (Information Theory)](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/) ->
 
 ---

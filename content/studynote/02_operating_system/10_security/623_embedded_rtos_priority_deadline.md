@@ -51,36 +51,36 @@ tags = ["studynote-operating-system"]
 RTOS가 결정론적(Deterministic) 성능을 보장하는 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>과 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a></strong>을 합친 <strong>총 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>을 항상 계산 가능한(Predictable) 상한선(Upper Bound) 내로 묶어두는 것이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │                 RTOS 태스크 응답 시간 (Response Time) 구성              │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │     외부 이벤트 발생 (예: 센서 신호)                                     │
-  │           │                                                           │
-  │           ▼                                                           │
-  │   [하드웨어 인터럽트]                                                   │
-  │     ├───────────┐ : 인터럽트 지연 (Interrupt Latency)                 │
-  │     │ HW 지연    │ - CPU 파이프라인 정리, 레지스터 백업                  │
-  │     │ OS 지연    │ - 커널의 Interrupt Disable 구간 대기 (RTOS는 매우 짧음)│
-  │     ├───────────┘                                                     │
-  │   [ISR (Interrupt Service Routine) 실행]                              │
-  │     ├───────────┐                                                     │
-  │     │ ISR 처리   │ - 최소한의 작업 (플래그 설정, 세마포어 Signal)          │
-  │     ├───────────┘                                                     │
-  │   [스케줄러 호출 및 문맥 교환]                                           │
-  │     ├───────────┐ : 디스패치 지연 (Dispatch Latency)                  │
-  │     │ O(1) 탐색  │ - 비트맵으로 최고 우선순위 태스크 찾기                  │
-  │     │ Context   │ - 레지스터 복원 (Context Switch)                    │
-  │     │  Switch   │                                                     │
-  │     ├───────────┘                                                     │
-  │   [실시간 태스크 실행 시작!]                                             │
-  │           │                                                           │
-  │           ▼                                                           │
-  │  총 응답 시간(T) = 인터럽트 지연 + ISR 처리 시간 + 디스패치 지연          │
-  │                                                                       │
-  │  ※ RTOS의 핵심: 이 '총 응답 시간(T)'이 최악의 경우(Worst-case)에도        │
-  │                  마감 시간(Deadline)보다 항상 작아야 한다. (T < Deadline) │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |                 RTOS 태스크 응답 시간 (Response Time) 구성              |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |     외부 이벤트 발생 (예: 센서 신호)                                     |
+  |           |                                                           |
+  |           v                                                           |
+  |   [하드웨어 인터럽트]                                                   |
+  |     +-----------+ : 인터럽트 지연 (Interrupt Latency)                 |
+  |     | HW 지연    | - CPU 파이프라인 정리, 레지스터 백업                  |
+  |     | OS 지연    | - 커널의 Interrupt Disable 구간 대기 (RTOS는 매우 짧음)|
+  |     +-----------+                                                     |
+  |   [ISR (Interrupt Service Routine) 실행]                              |
+  |     +-----------+                                                     |
+  |     | ISR 처리   | - 최소한의 작업 (플래그 설정, 세마포어 Signal)          |
+  |     +-----------+                                                     |
+  |   [스케줄러 호출 및 문맥 교환]                                           |
+  |     +-----------+ : 디스패치 지연 (Dispatch Latency)                  |
+  |     | O(1) 탐색  | - 비트맵으로 최고 우선순위 태스크 찾기                  |
+  |     | Context   | - 레지스터 복원 (Context Switch)                    |
+  |     |  Switch   |                                                     |
+  |     +-----------+                                                     |
+  |   [실시간 태스크 실행 시작!]                                             |
+  |           |                                                           |
+  |           v                                                           |
+  |  총 응답 시간(T) = 인터럽트 지연 + ISR 처리 시간 + 디스패치 지연          |
+  |                                                                       |
+  |  ※ RTOS의 핵심: 이 '총 응답 시간(T)'이 최악의 경우(Worst-case)에도        |
+  |                  마감 시간(Deadline)보다 항상 작아야 한다. (T < Deadline) |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 일반 OS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 데이터를 수정할 때 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등을 걸고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 장시간 비활성화(CLI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))한다. 이때 센서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어와도 OS가 무시하므로 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)'이 길어져 데드라인을 놓친다. 반면 RTOS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조를 극도로 세분화하고 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하여 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화 구간을 몇 클럭 사이클 수준으로 제한한다. 또한, 비트맵 인스트럭션(CLZ: Count Leading Zeros 등)을 하드웨어 레벨에서 사용하여 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 10개든 1000개든 동일한 1~2 사이클 만에 다음 실행할 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 찾아내는 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 탑재한다.
@@ -92,28 +92,28 @@ RTOS가 결정론적(Deterministic) 성능을 보장하는 핵심은 <strong><a 
 RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이다. (1997년 화성 탐사선 패스파인더호 통신 두절 사건의 원인)
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 우선순위 역전 (Priority Inversion) 현상                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  T_H (우선순위 높음)       ─────────▶ [대기]        ███████████▶ (실행)│
-  │                                   (공유자원 S 요청)  (S 획득)         │
-  │                                                                   │
-  │  T_M (우선순위 중간)  ──────────────────────────▶██████ (선점)        │
-  │                                                                   │
-  │  T_L (우선순위 낮음)  ██████ (S 획득) ──▶ [대기]         (S 반납)      │
-  │                       ↑                  ↑                       │
-  │                     T_H 실행, S요청    T_M이 T_L을 선점! (치명적 버그) │
-  │                                                                   │
-  │  [문제 상황]: T_H는 T_L이 S(세마포어)를 반납해야 실행할 수 있다.           │
-  │  그런데 우선순위가 중간인 T_M이 깨어나 T_L을 선점해버렸다.                 │
-  │  결과적으로 가장 중요한 T_H가 T_M이 끝날 때까지 무한정 대기하게 된다!       │
-  │                                                                   │
-  │  [해결책: 우선순위 상속 (Priority Inheritance)]                       │
-  │  T_H가 S를 요청하여 대기할 때, OS는 T_L의 우선순위를 일시적으로 T_H 수준으로 │
-  │  '끌어올려줌(상속)'. 따라서 T_M은 T_L을 선점하지 못하고, T_L이 S를 빠르게 │
-  │  반납하게 하여 T_H의 데드라인을 보장한다.                                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 우선순위 역전 (Priority Inversion) 현상                 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  T_H (우선순위 높음)       ----------> [대기]        ███████████-> (실행)|
+  |                                   (공유자원 S 요청)  (S 획득)         |
+  |                                                                   |
+  |  T_M (우선순위 중간)  --------------------------->██████ (선점)        |
+  |                                                                   |
+  |  T_L (우선순위 낮음)  ██████ (S 획득) ---> [대기]         (S 반납)      |
+  |                       ^                  ^                       |
+  |                     T_H 실행, S요청    T_M이 T_L을 선점! (치명적 버그) |
+  |                                                                   |
+  |  [문제 상황]: T_H는 T_L이 S(세마포어)를 반납해야 실행할 수 있다.           |
+  |  그런데 우선순위가 중간인 T_M이 깨어나 T_L을 선점해버렸다.                 |
+  |  결과적으로 가장 중요한 T_H가 T_M이 끝날 때까지 무한정 대기하게 된다!       |
+  |                                                                   |
+  |  [해결책: 우선순위 상속 (Priority Inheritance)]                       |
+  |  T_H가 S를 요청하여 대기할 때, OS는 T_L의 우선순위를 일시적으로 T_H 수준으로 |
+  |  '끌어올려줌(상속)'. 따라서 T_M은 T_L을 선점하지 못하고, T_L이 S를 빠르게 |
+  |  반납하게 하여 T_H의 데드라인을 보장한다.                                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 높은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_H)와 낮은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_L)가 동일한 뮤텍스(공유 자원)를 사용할 때 발생한다. T_L이 락을 쥔 상태에서 T_H가 깨어나 락을 요청하면 대기(Block) 상태가 된다. 이때 자원과 무관한 중간 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_M)가 깨어나면, T_M은 T_L보다 우선순위가 높으므로 T_L을 선점해버린다. 결과적으로 T_H는 T_M이 끝날 때까지 기다려야 하는 "논리적 모순"이 발생한다. 현대 RTOS(FreeRTOS의 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 등)는 락을 쥔 하위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위를 락을 대기하는 상위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위로 임시 승격시키는 '우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(PIP)'을 내장하여 이를 원천 차단한다.
@@ -158,28 +158,28 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 RTOS 태스크 타이밍 위반 (Deadline Miss) 분석 플로우       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [시스템 리셋 혹은 워치독(Watchdog) 타이머 만료 발생]                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Trace 도구(Tracealyzer 등)로 스케줄링 이력 확인                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      우선순위 역전이 발생했는가?                                     │
-  │          ├─ 예 ─────▶ Mutex 대신 세마포어 사용했는지 확인 (Mutex로 교체) │
-  │          │            (우선순위 상속 옵션 활성화 여부 점검)             │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      인터럽트(ISR) 실행 시간이 너무 긴가?                             │
-  │          ├─ 예 ─────▶ ISR 내부의 연산(루프, I/O)을 일반 태스크로 지연  │
-  │          │            (Deferred Interrupt Processing 적용)      │
-  │          └─ 아니오 ──▶ Rate Monotonic 이론에 따른 우선순위 재배치     │
-  │                         (주기가 짧은 태스크에 높은 우선순위 부여)       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 RTOS 태스크 타이밍 위반 (Deadline Miss) 분석 플로우       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [시스템 리셋 혹은 워치독(Watchdog) 타이머 만료 발생]                 |
+  |                |                                                  |
+  |                v                                                  |
+  |      Trace 도구(Tracealyzer 등)로 스케줄링 이력 확인                 |
+  |                |                                                  |
+  |                v                                                  |
+  |      우선순위 역전이 발생했는가?                                     |
+  |          +- 예 ------> Mutex 대신 세마포어 사용했는지 확인 (Mutex로 교체) |
+  |          |            (우선순위 상속 옵션 활성화 여부 점검)             |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      인터럽트(ISR) 실행 시간이 너무 긴가?                             |
+  |          +- 예 ------> ISR 내부의 연산(루프, I/O)을 일반 태스크로 지연  |
+  |          |            (Deferred Interrupt Processing 적용)      |
+  |          +- 아니오 ---> Rate Monotonic 이론에 따른 우선순위 재배치     |
+  |                         (주기가 짧은 태스크에 높은 우선순위 부여)       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** RTOS 버그의 90%는 '너무 긴 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)'과 '잘못된 우선순위 할당'에서 온다. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서 `printf`를 호출하거나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay) 함수를 쓰면 전체 시스템이 마비된다. ISR은 깃발만 꽂고 빠져야 하며, 락은 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 지원하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 엄격히 구분하여 사용해야 한다.
@@ -226,12 +226,12 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 ```text
 [iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
-    │
-    ▼
+    |
+    v
 [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
-    │
-    ├──▶ [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
-    └──▶ [하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
+    |
+    +---> [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
+    +---> [하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -248,7 +248,7 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 **진행 상황**: 623 / 800
 
-← **이전**: [622. iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)](/knowledge-base/studynote/02_operating_system/10_security/622_ios_xnu_hybrid_kernel_app_sandbox/)
-**다음**: [624. 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)](/knowledge-base/studynote/02_operating_system/10_security/624_microkernel_ipc_message_passing_latency/) →
+<- **이전**: [622. iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)](/knowledge-base/studynote/02_operating_system/10_security/622_ios_xnu_hybrid_kernel_app_sandbox/)
+**다음**: [624. 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)](/knowledge-base/studynote/02_operating_system/10_security/624_microkernel_ipc_message_passing_latency/) ->
 
 ---

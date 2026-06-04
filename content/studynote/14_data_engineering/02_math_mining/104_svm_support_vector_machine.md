@@ -32,17 +32,17 @@ tags = ["studynote-data-engineering"]
 SVM은 기하학적인 최적화 문제로 작동하며, 핵심 메커니즘은 초평면 (Hyperplane), 마진 극대화, 그리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SVM의 기하학적 마진 극대화                  │
-├──────────────────────────────────────────────────────────────┤
-│         (Class A)                   (Class B)                │
-│             o                           x                    │
-│      o             o       │       x             x           │
-│           o(SV)  <─┼───────┼───────┼─>  x(SV)                │
-│                    │       │       │                         │
-│       Margin(-1)   │ Hyperplane(0) │   Margin(+1)            │
-│                 최대 거리 (Max Margin)                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  SVM의 기하학적 마진 극대화                  |
++--------------------------------------------------------------+
+|         (Class A)                   (Class B)                |
+|             o                           x                    |
+|      o             o       |       x             x           |
+|           o(SV)  <-+-------+-------+->  x(SV)                |
+|                    |       |       |                         |
+|       Margin(-1)   | Hyperplane(0) |   Margin(+1)            |
+|                 최대 거리 (Max Margin)                       |
++--------------------------------------------------------------+
 ```
 
 이 그림은 결정 초평면(Hyperplane, 중앙선)과 가장 가까운 양쪽의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트인 서포트 벡터([SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/))를 보여준다. 마진은 이 두 서포트 벡터 사이의 폭을 의미하며, SVM은 수식 $\frac{2}{||w||}$ 를 최대화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 $w$를 [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) (Lagrange Multipliers)을 통해 계산해 낸다.
@@ -110,17 +110,17 @@ SVM을 올바르게 활용하면 [데이터](/knowledge-base/studynote/05_databa
 
 ```text
 퍼셉트론 (선형 분류의 기초)
-    │
-    ▼
+    |
+    v
 하드 마진 SVM (선형 데이터 완벽 분리)
-    │
-    ▼
+    |
+    v
 소프트 마진 SVM (노이즈 허용 및 일반화 향상)
-    │
-    ▼
+    |
+    v
 커널 트릭 (Kernel Trick) 도입 (비선형 데이터 해결)
-    │
-    ▼
+    |
+    v
 SVR (Support Vector Regression, 회귀 문제로의 확장)
 ```
 
@@ -138,7 +138,7 @@ SVR (Support Vector Regression, 회귀 문제로의 확장)
 
 **진행 상황**: 104 / 258
 
-← **이전**: [로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수](/knowledge-base/studynote/14_data_engineering/02_math_mining/103_logistic_regression_sigmoid/)
-**다음**: [TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/105_tf_idf_cosine_similarity/) →
+<- **이전**: [로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수](/knowledge-base/studynote/14_data_engineering/02_math_mining/103_logistic_regression_sigmoid/)
+**다음**: [TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)](/knowledge-base/studynote/14_data_engineering/02_math_mining/105_tf_idf_cosine_similarity/) ->
 
 ---

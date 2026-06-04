@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [네트워크 슬라이싱]
-    │
-    ▼
+    |
+    v
 [NFV 기반 가상화 VNF]
-    │
-    └──▶ [SDN 데이터/컨트롤 플레인]
+    |
+    +---> [SDN 데이터/컨트롤 플레인]
 ```
 
 - **📢 섹션 요약 비유**: 과거에는 요리([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 하려면 요리사 1명당 전용 주방(전용 장비)을 통째로 사야 했지만, VNF는 거대한 공용 주방(x86 서버)에서 요리 레시피(소프트웨어)만 가져와 언제든 요리를 만들어내는 것과 같다.
@@ -41,21 +41,21 @@ tags = ["studynote-network"]
 VNF는 ETSI(유럽전기통신표준협회)가 정의한 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 레퍼런스 아키텍처 위에서 동작한다. 하단에는 물리적 자원(Compute, Storage, Network)을 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)하는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/867_nfvi_nfv_infrastructure_physical_virtual_resources/">NFVI</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> Infrastructure)</strong>가 있고, VNF는 그 가상 자원을 할당받아 네트워크 기능을 수행한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                   OSS / BSS (운영/비즈니스 시스템)               │
-├────────────────────────────────────────────────────────┤
-│ ┌──────────────────────┐ ┌───────────────────────────┐ │
-│ │  VNF 1 (Firewall)    │ │ VNF 2 (Load Balancer)     │ │ ◀ VNF (Software)
-│ ├──────────────────────┤ ├───────────────────────────┤ │
-│ │        EMS           │ │          EMS              │ │
-│ └──────────────────────┘ └───────────────────────────┘ │
-├────────────────────────────────────────────────────────┤
-│ ┌──────────────────────────────────────────────────┐ │
-│ │             Virtualization Layer (Hypervisor)    │ │
-│ ├──────────────┬──────────────────┬────────────────┤ │
-│ │ Compute (x86)│ Storage (SAN/NAS)│ Network (NIC)  │ │ ◀ NFVI (Hardware)
-│ └──────────────┴──────────────────┴────────────────┘ │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                   OSS / BSS (운영/비즈니스 시스템)               |
++--------------------------------------------------------+
+| +----------------------+ +---------------------------+ |
+| |  VNF 1 (Firewall)    | | VNF 2 (Load Balancer)     | | <- VNF (Software)
+| +----------------------+ +---------------------------+ |
+| |        EMS           | |          EMS              | |
+| +----------------------+ +---------------------------+ |
++--------------------------------------------------------+
+| +--------------------------------------------------+ |
+| |             Virtualization Layer (Hypervisor)    | |
+| +--------------+------------------+----------------+ |
+| | Compute (x86)| Storage (SAN/NAS)| Network (NIC)  | | <- NFVI (Hardware)
+| +--------------+------------------+----------------+ |
++--------------------------------------------------------+
 ```
 
 VNF는 자체적인 Element [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System (EMS)을 가지거나 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) MANO([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) and [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)) 아키텍처의 [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) Manager)과 통신하여 생명주기([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수정, 삭제, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/))를 관리받는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 관점에서는 CPU 코어를 거치면서 패킷 캡처, 룰 매칭, 포워딩 등의 연산을 수행하므로 전통적인 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 기반 스위치보다 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생할 수 있다. 이를 극복하기 위해 OVS-[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit), [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/)(Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)), 스마트닉(SmartNIC/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 등을 활용하여 패킷 처리 파이프라인을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 밖에서 가속한다.
@@ -124,12 +124,12 @@ VNF의 도입은 통신 인프라의 클라우드화를 촉발했다. CAPEX(설�
 
 ```text
 [선행 개념: 네트워크 슬라이싱]
-    │
-    ▼
+    |
+    v
 [현재 개념: NFV 기반 가상화 VNF]
-    │
-    ├──▶ [확장 A: SDN 데이터/컨트롤 플레인]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: SDN 데이터/컨트롤 플레인]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 기반 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) VNF는 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ VNF의 도입은 통신 인프라의 클라우드화를 촉발했다. CAPEX(설�
 
 **진행 상황**: 1117 / 1120
 
-← **이전**: [995. 네트워크 슬라이싱](/knowledge-base/studynote/03_network/19_frequent_topics_terms/995_network_slicing/)
-**다음**: [997. SDN 데이터/컨트롤 플레인](/knowledge-base/studynote/03_network/17_sdn_nfv/997_sdn_data_control_plane/) →
+<- **이전**: [995. 네트워크 슬라이싱](/knowledge-base/studynote/03_network/19_frequent_topics_terms/995_network_slicing/)
+**다음**: [997. SDN 데이터/컨트롤 플레인](/knowledge-base/studynote/03_network/17_sdn_nfv/997_sdn_data_control_plane/) ->
 
 ---

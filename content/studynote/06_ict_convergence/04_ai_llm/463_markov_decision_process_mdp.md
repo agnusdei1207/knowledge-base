@@ -34,27 +34,27 @@ tags = ["studynote-ict-convergence"]
 MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이 끝없이 핑퐁을 치는 아키텍처다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             [ 마르코프 결정 과정 (MDP)의 5대 수학적 요소 ]      │
-├────────────────────────────────────────────────────────┤
-│ 1. S (State, 상태) : "지금 내가 어디 있지?"                │
-│    - 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)       │
-│                                                        │
-│ 2. A (Action, 행동) : "이제 뭘 할까?"                   │
-│    - 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)  │
-│                                                        │
-│ 3. R (Reward, 보상) : "잘했어! 100점!"                  │
-│    - 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)│
-│    - 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!      │
-│                                                        │
-│ 4. P (Transition Probability, 전이 확률) : "세상의 억까"   │
-│    - 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)│
-│    - 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함     │
-│                                                        │
-│ 5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"    │
-│    - 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는   │
-│      얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념     │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             [ 마르코프 결정 과정 (MDP)의 5대 수학적 요소 ]      |
++--------------------------------------------------------+
+| 1. S (State, 상태) : "지금 내가 어디 있지?"                |
+|    - 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)       |
+|                                                        |
+| 2. A (Action, 행동) : "이제 뭘 할까?"                   |
+|    - 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)  |
+|                                                        |
+| 3. R (Reward, 보상) : "잘했어! 100점!"                  |
+|    - 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)|
+|    - 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!      |
+|                                                        |
+| 4. P (Transition Probability, 전이 확률) : "세상의 억까"   |
+|    - 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)|
+|    - 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함     |
+|                                                        |
+| 5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"    |
+|    - 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는   |
+|      얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념     |
++--------------------------------------------------------+
 ```
 
 1. <strong>마르코프성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>: $P[S_{t+1} | S_t] = P[S_{t+1} | S_1, S_2, \dots, S_t]$. 내일 날씨(상태)를 맞출 때, 오늘 날씨 하나만 보나 어제, 그제 날씨 100일 치를 다 보나 똑같이 정확하다는 뜻이다. 오직 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)" 안에 과거의 모든 정보가 다 농축되어 있다고 믿는 극한의 쿨가이 마인드다. 이 룰이 없으면 로봇은 1보 걸을 때마다 자기가 태어난 날부터의 모든 기록을 다 계산해야 해서 메모리가 터진다.
@@ -119,7 +119,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[강화학습] → [마르코프 결정 과정 과 상태 · 행동] → [마르코프 체인 · 벨만 방정식]
+[강화학습] -> [마르코프 결정 과정 과 상태 · 행동] -> [마르코프 체인 · 벨만 방정식]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 
 **진행 상황**: 463 / 552
 
-← **이전**: [462. RLHF (인간 피드백 기반 강화학습)와 모델 정렬 (Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/462_rlhf_human_feedback_alignment/)
-**다음**: [464. Q-Learning과 오프 폴리시 (Off-Policy)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/) →
+<- **이전**: [462. RLHF (인간 피드백 기반 강화학습)와 모델 정렬 (Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/462_rlhf_human_feedback_alignment/)
+**다음**: [464. Q-Learning과 오프 폴리시 (Off-Policy)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/) ->
 
 ---

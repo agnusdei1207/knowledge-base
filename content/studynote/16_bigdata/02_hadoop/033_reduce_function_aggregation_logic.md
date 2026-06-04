@@ -63,17 +63,17 @@ Reduce 함수는 대량의 정보에서 인사이트를 추출하는 깔때기�
 
 ```text
 [원시 데이터 분산 (Data Distribution) — HDFS에 데이터 샤드 저장]
-    │
-    ▼
+    |
+    v
 [Map 함수 (Map Function) — 각 데이터 청크를 Key-Value 쌍으로 변환]
-    │
-    ▼
+    |
+    v
 [셔플·정렬 (Shuffle & Sort) — 동일 키를 같은 Reducer로 라우팅]
-    │
-    ▼
+    |
+    v
 [Reduce 함수 (Reduce Function) — 동일 키 그룹을 집계·합산·변환]
-    │
-    ▼
+    |
+    v
 [Combiner / Aggregation 최적화 — 네트워크 전송 전 사전 집계로 셔플 비용 절감]
 ```
 
@@ -90,7 +90,7 @@ Reduce 함수는 대량의 정보에서 인사이트를 추출하는 깔때기�
 
 **진행 상황**: 33 / 262
 
-← **이전**: [Map 함수: MapReduce 분산 처리의 시작](/knowledge-base/studynote/16_bigdata/02_hadoop/032_map_function_key_value_output/)
-**다음**: [셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목](/knowledge-base/studynote/16_bigdata/02_hadoop/034_shuffle_and_sort_mechanism/) →
+<- **이전**: [Map 함수: MapReduce 분산 처리의 시작](/knowledge-base/studynote/16_bigdata/02_hadoop/032_map_function_key_value_output/)
+**다음**: [셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목](/knowledge-base/studynote/16_bigdata/02_hadoop/034_shuffle_and_sort_mechanism/) ->
 
 ---

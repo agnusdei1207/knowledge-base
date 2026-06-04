@@ -29,12 +29,12 @@ tags = ["bigdata"]
 이 도식은 데이터 요청이 IT 부서에 집중되어 병목이 발생하는 과거의 구조와, 현업 부서가 직접 데이터를 탐색하는 민주화된 셀프서비스 구조를 비교한다.
 
 [과거: IT 독점 모델 (Bottleneck)]
-마케팅팀 ──(데이터 요청 티켓)──> [IT / Data 엔지니어 (수십 건 적체)] ──(SQL 쿼리)──> DB
-                                              ▲ 의사결정 수일 지연 (Time-to-Insight 하락)
+마케팅팀 --(데이터 요청 티켓)--> [IT / Data 엔지니어 (수십 건 적체)] --(SQL 쿼리)--> DB
+                                              ^ 의사결정 수일 지연 (Time-to-Insight 하락)
 
 [현재: 데이터 민주화 모델 (Self-Service)]
-마케팅팀 ──(Drag & Drop)──> [의미론적 계층 (Semantic Layer)] ──(자동 SQL)──> DB/Data Lake
-영업팀   ──(자연어 검색)──> [데이터 카탈로그 (Data Catalog)]  ──(접근 승인)──> DB/Data Lake
+마케팅팀 --(Drag & Drop)--> [의미론적 계층 (Semantic Layer)] --(자동 SQL)--> DB/Data Lake
+영업팀   --(자연어 검색)--> [데이터 카탈로그 (Data Catalog)]  --(접근 승인)--> DB/Data Lake
 ```
 이 흐름의 핵심은 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'다. 현업 담당자는 'USER_TB의 REG_DT 컬럼'을 찾는 대신, '2023년 신규 가입자'라는 비즈니스 용어(자연어)로 시스템에 질의한다. 중간의 시맨틱 레이어와 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 이를 기계어(SQL)로 번역하여 대신 실행해 준다. 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민주화의 성공 여부는 이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 얼마나 직관적으로 잘 구축했느냐에 달려 있다.
 
@@ -59,15 +59,15 @@ tags = ["bigdata"]
 이 도식은 데이터 민주화 환경에서 사용자가 데이터를 신뢰하고 사용할 수 있도록 보장하는 메타데이터 관리 및 데이터 계보(Lineage) 추적 아키텍처를 보여준다.
 
 [현업 사용자 (시민 데이터 과학자)]
-      │
-      ↓ 1. "매출액" 데이터 검색 (Data Catalog)
+      |
+      v 1. "매출액" 데이터 검색 (Data Catalog)
 [Metadata Repository (Atlas / DataHub)]
-      │
-      ├─ 2. Lineage 확인: [Raw Logs] ─(ETL)─> [Silver Table] ─(집계)─> [Gold Table (매출액)]
-      │                     ▲ 이 데이터가 원본에서 어떻게 가공되었는지 투명하게 노출
-      │
-      └─ 3. 정책 검증: 사용자의 부서(Role) 확인 → 마스킹 룰 적용
-                            ↓
+      |
+      +- 2. Lineage 확인: [Raw Logs] -(ETL)-> [Silver Table] -(집계)-> [Gold Table (매출액)]
+      |                     ^ 이 데이터가 원본에서 어떻게 가공되었는지 투명하게 노출
+      |
+      +- 3. 정책 검증: 사용자의 부서(Role) 확인 -> 마스킹 룰 적용
+                            v
 [Data Lake / Data Warehouse] (실제 데이터 반환)
 ```
 이 구조의 핵심은 투명성과 접근 제어의 결합이다. 사용자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 검색할 때 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 마지막으로 업데이트되었고(최신성), 어떤 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 거쳤는지(계보) 시각적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 동시에 거버넌스 엔진은 사용자가 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근할 권한이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 만약 영업팀 직원이 인사팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하려 하면 주민등록번호 컬럼을 `***-****` 형태로 동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹(Dynamic Masking)하여 반환한다.
@@ -83,15 +83,15 @@ tags = ["bigdata"]
 ```text
 이 매트릭스는 과거의 전통적 BI부터 현재의 셀프서비스 BI, 그리고 미래의 LLM 융합형 분석 환경까지 데이터 분석 패러다임의 변화와 장단점을 비교한다.
 
-┌────────────┬───────────────────────┬───────────────────────┬────────────────────────┐
-│ 비교 항목  │ IT 주도형 분석 (Legacy)│ 셀프서비스 기반 (현재)│ LLM 기반 증강 분석(미래)│
-├────────────┼───────────────────────┼───────────────────────┼────────────────────────┤
-│ 주 사용자  │ Data Engineer, DBA    │ Business User, 분석가 │ 경영진, 일반 사원      │
-│ 인터페이스 │ 복잡한 SQL, Python    │ Drag & Drop (GUI)     │ 자연어 질의 (Text-to-SQL)│
-│ 처리 시간  │ 수 주일 (티켓팅 대기) │ 수 분 ~ 수 시간       │ 수 초 (즉각 응답)      │
-│ 장점       │ 강력한 중앙 통제, 보안│ 민첩성, 높은 비즈니스 핏│ 학습 곡선 제로(Zero)   │
-│ 단점/리스크│ 비즈니스 타이밍 상실  │ 데이터 파편화, 품질 저하│ 환각(Hallucination) 위험│
-└────────────┴───────────────────────┴───────────────────────┴────────────────────────┘
++------------+-----------------------+-----------------------+------------------------+
+| 비교 항목  | IT 주도형 분석 (Legacy)| 셀프서비스 기반 (현재)| LLM 기반 증강 분석(미래)|
++------------+-----------------------+-----------------------+------------------------+
+| 주 사용자  | Data Engineer, DBA    | Business User, 분석가 | 경영진, 일반 사원      |
+| 인터페이스 | 복잡한 SQL, Python    | Drag & Drop (GUI)     | 자연어 질의 (Text-to-SQL)|
+| 처리 시간  | 수 주일 (티켓팅 대기) | 수 분 ~ 수 시간       | 수 초 (즉각 응답)      |
+| 장점       | 강력한 중앙 통제, 보안| 민첩성, 높은 비즈니스 핏| 학습 곡선 제로(Zero)   |
+| 단점/리스크| 비즈니스 타이밍 상실  | 데이터 파편화, 품질 저하| 환각(Hallucination) 위험|
++------------+-----------------------+-----------------------+------------------------+
 ```
 이 표의 핵심은 권한이 이동함에 따라 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)의 성질도 변한다는 점이다. 과거 IT 주도 환경에서의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 '느린 속도'였다면, 셀프서비스 환경에서의 최대 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 각 부서가 자기 방식대로 지표를 계산하여 "우리 팀 기준으로는 매출이 올랐다"고 주장하는 <strong>'단일 진실 공급원(SSOT, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">Single Source of Truth</a>)'의 붕괴</strong>다.
 
@@ -109,15 +109,15 @@ tags = ["bigdata"]
 이 의사결정 흐름도는 조직에 셀프서비스 분석 환경을 도입할 때 데이터 스왐프를 방지하고 올바른 거버넌스를 정착시키기 위한 단계별 체크리스트다.
 
 [데이터 민주화 도입 거버넌스 플로우]
-           ↓
+           v
 (사내 데이터의 '데이터 오너(Data Owner)'가 명확히 지정되었는가?)
-   ├── No ───> 민주화 중단. 데이터 스튜어드십(Stewardship) 조직 구성부터 수행
-   │
-   └── Yes ──> (현업 부서의 데이터 리터러시(Literacy) 교육이 완료되었는가?)
-                  ├── No ───> 특정 Power User(시민 데이터 과학자)에게만 제한적 권한 오픈
-                  └── Yes ──> (메타데이터 자동화 수집 도구가 도입되었는가?)
-                                 ├── No ──> 수동 문서화는 반드시 실패함. 자동화 도구 도입
-                                 └── Yes ─> [전사적 셀프서비스 플랫폼 개방 및 모니터링]
+   +-- No ---> 민주화 중단. 데이터 스튜어드십(Stewardship) 조직 구성부터 수행
+   |
+   +-- Yes --> (현업 부서의 데이터 리터러시(Literacy) 교육이 완료되었는가?)
+                  +-- No ---> 특정 Power User(시민 데이터 과학자)에게만 제한적 권한 오픈
+                  +-- Yes --> (메타데이터 자동화 수집 도구가 도입되었는가?)
+                                 +-- No --> 수동 문서화는 반드시 실패함. 자동화 도구 도입
+                                 +-- Yes -> [전사적 셀프서비스 플랫폼 개방 및 모니터링]
 ```
 이 흐름의 핵심은 '기술보다 사람과 프로세스'가 먼저라는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권(Ownership)이 불명확한 상태에서 민주화가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되면 장애 발생 시 아무도 책임지지 않는다.
 
@@ -156,20 +156,20 @@ tags = ["bigdata"]
 
 ```text
 [중앙 IT 독점 분석 — 소수 분석가만 데이터 접근 가능]
-    │
-    ▼
+    |
+    v
 [셀프서비스 BI (Self-Service BI) — 현업 직접 데이터 시각화]
-    │
-    ▼
+    |
+    v
 [데이터 민주화 (Data Democratization) — 전 구성원 데이터 접근 확대]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh) — 도메인별 데이터 제품 자율 배포]
-    │
-    ▼
+    |
+    v
 [Text-to-SQL (LLM) — 자연어로 데이터 조회, 비기술직 접근성 극대화]
 ```
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민주화는 중앙 집중 분석 독점에서 벗어나 셀프서비스 BI → [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자연어 조회로 이어지는 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 혁신의 흐름이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민주화는 중앙 집중 분석 독점에서 벗어나 셀프서비스 BI -> [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) -> [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자연어 조회로 이어지는 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 혁신의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +183,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 10 / 262
 
-← **이전**: [9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV](/knowledge-base/studynote/16_bigdata/01_intro/009_data_explosion_factors/)
-**다음**: [11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) →
+<- **이전**: [9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV](/knowledge-base/studynote/16_bigdata/01_intro/009_data_explosion_factors/)
+**다음**: [11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) ->
 
 ---

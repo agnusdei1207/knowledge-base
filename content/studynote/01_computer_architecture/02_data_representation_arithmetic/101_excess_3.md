@@ -31,21 +31,21 @@ tags = ["studynote-computer-architecture"]
 3초과 코드의 가장 핵심적인 작동 원리는 **'자기 보수(Self-Complementing)'** 메커니즘이다. 이를 통해 연산 장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내에서 뺄셈기가 어떻게 단순화되는지 살펴본다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Excess-3 코드의 자기 보수(Self-Complementing) 원리       │
-├──────────────────────────────────────────────────────────────┤
-│  [목표: 10진수 '4'의 9의 보수인 '5'를 구하라]                           │
-│                                                              │
-│  1. 10진수 4를 3초과 코드로 변환:                                  │
-│     4 + 3 = 7 ──▶ 2진수 '0111'                               │
-│                                                              │
-│  2. 비트 반전 (NOT 게이트 통과, 1의 보수):                           │
-│     '0111' ──▶ '1000'                                       │
-│                                                              │
-│  3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):              │
-│     '1000'은 10진수 8. 8 - 3 = 5 !                            │
-│     ──▶ 4의 9의 보수인 '5'가 정확히 도출됨.                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Excess-3 코드의 자기 보수(Self-Complementing) 원리       |
++--------------------------------------------------------------+
+|  [목표: 10진수 '4'의 9의 보수인 '5'를 구하라]                           |
+|                                                              |
+|  1. 10진수 4를 3초과 코드로 변환:                                  |
+|     4 + 3 = 7 ---> 2진수 '0111'                               |
+|                                                              |
+|  2. 비트 반전 (NOT 게이트 통과, 1의 보수):                           |
+|     '0111' ---> '1000'                                       |
+|                                                              |
+|  3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):              |
+|     '1000'은 10진수 8. 8 - 3 = 5 !                            |
+|     ---> 4의 9의 보수인 '5'가 정확히 도출됨.                         |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 덧셈 연산기만으로 뺄셈을 수행할 수 있게 하는 핵심 과정을 보여준다. 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(`~`)시키는 가장 가벼운 게이트 연산만으로 원래 숫자의 9의 보수를 얻어낸다. 덧셈 시에는 $A(+3) + B(+3) = A+B(+6)$이 되므로 자리올림 발생 여부에 따라 $+3$ 또는 $-3$을 보정하는 추가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로가 필요하다.
@@ -109,20 +109,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 BCD (8421) 코딩
-    │
-    ▼
+    |
+    v
 뺄셈 연산의 복잡도 문제 직면
-    │
-    ▼
+    |
+    v
 Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
-    │
-    ▼
+    |
+    v
 자기 보수 (Self-Complementing) 메커니즘 완성
-    │
-    ▼
+    |
+    v
 결함 탐지 (Fault Detection) 기능 부수적 획득
-    │
-    ▼
+    |
+    v
 부동소수점 지수 편향 (Bias Exponent) 개념으로 사상 계승
 ```
 
@@ -137,7 +137,7 @@ Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
 
 **진행 상황**: 101 / 803
 
-← **이전**: [100. 언팩드 BCD (Unpacked BCD)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/)
-**다음**: [102. 그레이 코드 (Gray Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) →
+<- **이전**: [100. 언팩드 BCD (Unpacked BCD)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/)
+**다음**: [102. 그레이 코드 (Gray Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) ->
 
 ---

@@ -50,10 +50,10 @@ Recursive CTE는 <strong>계층·<a href="/knowledge-base/studynote/08_algorithm
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Self JOIN (기본)] → [CONNECT BY (Oracle, 1990s)]
-    → [Recursive CTE (SQL:1999 표준)]
-    → [Materialized Path / Nested Set (대안)]
-    → [현재: Graph Query (Neo4j) — 복잡 계층 전용]
+[Self JOIN (기본)] -> [CONNECT BY (Oracle, 1990s)]
+    -> [Recursive CTE (SQL:1999 표준)]
+    -> [Materialized Path / Nested Set (대안)]
+    -> [현재: Graph Query (Neo4j) — 복잡 계층 전용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ Recursive CTE는 <strong>계층·<a href="/knowledge-base/studynote/08_algorithm
 
 **진행 상황**: 137 / 600
 
-← **이전**: [136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합](/knowledge-base/studynote/05_database/03_relational_model/136_cross_join_cartesian_product/)
-**다음**: [138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리](/knowledge-base/studynote/05_database/03_relational_model/138_sql_subquery/) →
+<- **이전**: [136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합](/knowledge-base/studynote/05_database/03_relational_model/136_cross_join_cartesian_product/)
+**다음**: [138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리](/knowledge-base/studynote/05_database/03_relational_model/138_sql_subquery/) ->
 
 ---

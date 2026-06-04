@@ -47,19 +47,19 @@ tags = ["studynote-cloud-architecture"]
 ```
 [Rolling Update]
 v1 v1 v1 v1
-     ↓ 순차 교체
-v2 v1 v1 v1  →  v2 v2 v1 v1  →  v2 v2 v2 v1  →  v2 v2 v2 v2
+     v 순차 교체
+v2 v1 v1 v1  ->  v2 v2 v1 v1  ->  v2 v2 v2 v1  ->  v2 v2 v2 v2
 
 [Blue-Green]
-  현재: LB → [Blue: v1 v1 v1 v1]
-                              ↓ 신버전 준비 완료 후 LB 전환
-  전환: LB → [Green: v2 v2 v2 v2]
+  현재: LB -> [Blue: v1 v1 v1 v1]
+                              v 신버전 준비 완료 후 LB 전환
+  전환: LB -> [Green: v2 v2 v2 v2]
         (Blue는 롤백 대기로 유지)
 
 [Canary]
-  1단계: LB → 95% → [v1] / 5% → [v2-canary]
-  2단계: LB → 80% → [v1] / 20% → [v2-canary]
-  3단계: LB → 0%  → [v1] / 100% → [v2]
+  1단계: LB -> 95% -> [v1] / 5% -> [v2-canary]
+  2단계: LB -> 80% -> [v1] / 20% -> [v2-canary]
+  3단계: LB -> 0%  -> [v1] / 100% -> [v2]
 ```
 
 📢 **섹션 요약 비유**: Rolling은 달리는 버스의 바퀴를 하나씩 교체하는 것, Blue-Green은 새 버스를 완전히 만든 뒤 승객을 한 번에 이동시키는 것, Canary는 일부 승객만 새 버스에 먼저 태워보는 것이다.
@@ -93,12 +93,12 @@ v2 v1 v1 v1  →  v2 v2 v1 v1  →  v2 v2 v2 v1  →  v2 v2 v2 v2
 <strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택 결정 트리</strong>:
 ```
 DB 스키마 변경 있는가?
-  └─ Yes → Blue-Green (가장 안전)
-  └─ No → 트래픽 규모가 크고 리스크 최소화 필요?
-              └─ Yes → Canary (점진적 가중치)
-              └─ No → 자원 제약 있는가?
-                         └─ Yes → Rolling Update
-                         └─ No → Blue-Green 또는 Canary
+  +- Yes -> Blue-Green (가장 안전)
+  +- No -> 트래픽 규모가 크고 리스크 최소화 필요?
+              +- Yes -> Canary (점진적 가중치)
+              +- No -> 자원 제약 있는가?
+                         +- Yes -> Rolling Update
+                         +- No -> Blue-Green 또는 Canary
 ```
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 시간 비교</strong>:
@@ -148,15 +148,15 @@ DB 스키마 변경 있는가?
 
 ```text
 다운타임 배포 (서비스 중단 후 교체)
-    │
-    ▼
+    |
+    v
 무중단 배포 전략
-    ├─► Rolling Update: 순차 교체
-    ├─► Blue-Green: 환경 전환 (즉시 롤백)
-    ├─► Canary: 소수 트래픽 → 점진 확대
-    └─► Shadow: 트래픽 미러링 (무영향 검증)
-    │
-    ▼
+    +-► Rolling Update: 순차 교체
+    +-► Blue-Green: 환경 전환 (즉시 롤백)
+    +-► Canary: 소수 트래픽 -> 점진 확대
+    +-► Shadow: 트래픽 미러링 (무영향 검증)
+    |
+    v
 Progressive Delivery + 자동 판단 (Argo Rollouts)
 ```
 2. 블루-그린은 새 버스를 완전히 만들어 놓고 "자, 모두 옮겨 타세요!" 하고 한 번에 이동하는 것이야.
@@ -168,7 +168,7 @@ Progressive Delivery + 자동 판단 (Argo Rollouts)
 
 **진행 상황**: 191 / 371
 
-← **이전**: [191. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/191_chaos_engineering_chaos_monkey/)
-**다음**: [193. 롤링 배포 (Rolling Update Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/) →
+<- **이전**: [191. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/191_chaos_engineering_chaos_monkey/)
+**다음**: [193. 롤링 배포 (Rolling Update Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/) ->
 
 ---

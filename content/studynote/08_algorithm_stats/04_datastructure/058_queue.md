@@ -64,11 +64,11 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ```text
 [상위 개념: 선형 자료구조 (Linear Data Structure)]
-    │
-    ▼
+    |
+    v
 [하위/파생 개념: 원형 큐 (Circular Queue), 우선순위 큐 (Priority Queue), 덱 (Deque), 메시지 큐 (MQ)]
-    │
-    ▼
+    |
+    v
 [연관 알고리즘: BFS (너비 우선 탐색), 다익스트라 (Dijkstra)]
 ```
 
@@ -85,7 +85,7 @@ tags = ["datastructure", "studynote-algorithm"]
 
 **진행 상황**: 58 / 175
 
-← **이전**: [3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
-**다음**: [덱 (Deque, Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/059_deque/) →
+<- **이전**: [3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
+**다음**: [덱 (Deque, Double-Ended Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/059_deque/) ->
 
 ---

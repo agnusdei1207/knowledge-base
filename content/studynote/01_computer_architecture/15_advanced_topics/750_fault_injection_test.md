@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스트는 보통 <strong>정상 상태 정의 → <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입 → 감지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> → 결과 판정</strong> 순서로 설계된다. 먼저 기준 부하와 정상 지표를 정하고, 그다음 실제 고장과 닮은 fault model을 주입한다. 이후 하드웨어 센서, 오류 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표를 통해 감지가 이루어졌는지 보고, 마지막으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정확성을 판정한다.
+좋은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스트는 보통 <strong>정상 상태 정의 -> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입 -> 감지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> -> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> -> 결과 판정</strong> 순서로 설계된다. 먼저 기준 부하와 정상 지표를 정하고, 그다음 실제 고장과 닮은 fault model을 주입한다. 이후 하드웨어 센서, 오류 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표를 통해 감지가 이루어졌는지 보고, 마지막으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정확성을 판정한다.
 
 아래 흐름은 Fault Injection이 단순히 "깨뜨린다"가 아니라 <strong>주입기, 감지기, <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>기, 판정기</strong>가 연결된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 루프임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Fault Injection verification loop                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Baseline workload                                                    │
-│      │                                                               │
-│      ▼                                                               │
-│ [Injector] ─▶ bit flip / link down / power cut / delay               │
-│      │                                                               │
-│      ▼                                                               │
-│ [Detector] ─▶ ECC / watchdog / timeout / bus error log              │
-│      │                                                               │
-│      ▼                                                               │
-│ [Recovery] ─▶ retry / isolate / failover / reset                     │
-│      │                                                               │
-│      ▼                                                               │
-│ [Oracle] ─▶ latency, error count, data integrity, state continuity   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 Fault Injection verification loop                   |
++----------------------------------------------------------------------+
+| Baseline workload                                                    |
+|      |                                                               |
+|      v                                                               |
+| [Injector] --> bit flip / link down / power cut / delay               |
+|      |                                                               |
+|      v                                                               |
+| [Detector] --> ECC / watchdog / timeout / bus error log              |
+|      |                                                               |
+|      v                                                               |
+| [Recovery] --> retry / isolate / failover / reset                     |
+|      |                                                               |
+|      v                                                               |
+| [Oracle] --> latency, error count, data integrity, state continuity   |
++----------------------------------------------------------------------+
 ```
 
 주입 지점은 하드웨어, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 네트워크, 저장장치 등 다양하다. 하드웨어 레벨에서는 전원 공급기 강하, 클럭 글리치, 핀 레벨 강제 값, 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립, 디스크 분리 등을 다룰 수 있다. 시스템 레벨에서는 드라이버 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 패킷 손실, 스토리지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 프로세스 중단처럼 물리 장애를 논리적으로 모의한다.
@@ -140,19 +140,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 현장 장애 이력 · FMEA
-    │
-    ▼
+    |
+    v
 고장 모델 정의
 : bit flip · link loss · power drop · timeout
-    │
-    ▼
+    |
+    v
 결함 주입 테스트 (Fault Injection Test)
-: inject → detect → recover → verify
-    │
-    ├──▶ 설계 보강
-    │     : ECC · watchdog · redundancy · retry policy
-    │
-    └──▶ 운영 확장
+: inject -> detect -> recover -> verify
+    |
+    +---> 설계 보강
+    |     : ECC · watchdog · redundancy · retry policy
+    |
+    +---> 운영 확장
           : chaos engineering · game day · resilience drill
 ```
 
@@ -168,7 +168,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 751 / 803
 
-← **이전**: [749. 무정전 운영 (Non-Stop Operation) 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/)
-**다음**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) →
+<- **이전**: [749. 무정전 운영 (Non-Stop Operation) 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/)
+**다음**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ->
 
 ---

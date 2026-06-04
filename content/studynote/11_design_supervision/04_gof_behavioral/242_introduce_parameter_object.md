@@ -36,9 +36,9 @@ public Report generate(ReportCriteria criteria) { ... }
 - **진화 용이성**: 새 조건 추가 시 메서드 시그니처 변경 없이 객체 필드만 추가하면 된다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 편의점 도시락을 낱개로 들고 다니는 대신, 쇼핑백 하나에 담아 한 번에 전달하는 것과 같다.
@@ -48,31 +48,31 @@ public Report generate(ReportCriteria criteria) { ... }
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [ 변환 전 구조 ]
-┌────────────────────────────────────────────────────────┐
-│ searchOrders(Date from, Date to, String region,        │
-│              String status, int page, int size)        │
-│ exportOrders(Date from, Date to, String region,        │
-│              String status, String format)             │
-│ countOrders (Date from, Date to, String region,        │
-│              String status)                            │
-└────────────────────────────────────────────────────────┘
-           ↓  파라미터 객체화 (Introduce Parameter Object)
-┌──────────────────────────────────────────────────────┐
-│                   OrderQuery (Value Object)          │
-│  ┌────────────────────────────────────────────────┐  │
-│  │  dateRange  : DateRange  (from, to)            │  │
-│  │  region     : String                           │  │
-│  │  status     : OrderStatus                      │  │
-│  │  + isValid(): boolean                          │  │
-│  │  + overlaps(DateRange other): boolean          │  │
-│  └────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
-           ↓
-┌──────────────────────────────────────────────────────┐
-│ searchOrders(OrderQuery q, Pageable p)               │
-│ exportOrders(OrderQuery q, String format)            │
-│ countOrders (OrderQuery q)                           │
-└──────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| searchOrders(Date from, Date to, String region,        |
+|              String status, int page, int size)        |
+| exportOrders(Date from, Date to, String region,        |
+|              String status, String format)             |
+| countOrders (Date from, Date to, String region,        |
+|              String status)                            |
++--------------------------------------------------------+
+           v  파라미터 객체화 (Introduce Parameter Object)
++------------------------------------------------------+
+|                   OrderQuery (Value Object)          |
+|  +------------------------------------------------+  |
+|  |  dateRange  : DateRange  (from, to)            |  |
+|  |  region     : String                           |  |
+|  |  status     : OrderStatus                      |  |
+|  |  + isValid(): boolean                          |  |
+|  |  + overlaps(DateRange other): boolean          |  |
+|  +------------------------------------------------+  |
++------------------------------------------------------+
+           v
++------------------------------------------------------+
+| searchOrders(OrderQuery q, Pageable p)               |
+| exportOrders(OrderQuery q, String format)            |
+| countOrders (OrderQuery q)                           |
++------------------------------------------------------+
 ```
 
 파라미터 객체는 자연스럽게 **값 객체 (Value Object, VO)** 패턴으로 발전한다.
@@ -126,8 +126,8 @@ public record DateRange(LocalDate from, LocalDate to) {
 
 외부 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 설계 시, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파라미터 묶음을 <strong>요청 DTO (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Transfer Object)</strong> 로 캡슐화하면 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 없이 필드를 추가할 수 있어 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) (Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 을 유지한다.
 
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/">Domain-Driven Design</a>)</strong>: 파라미터 객체 → 값 객체 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 엔티티 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity) 로 발전하는 경로를 설명하면 높은 점수를 받는다.
-- **유지보수 비용**: 시그니처 변경 없이 기능 확장 가능 → 변경 비용 (Change Cost) 절감 논거로 활용한다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/">Domain-Driven Design</a>)</strong>: 파라미터 객체 -> 값 객체 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 엔티티 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity) 로 발전하는 경로를 설명하면 높은 점수를 받는다.
+- **유지보수 비용**: 시그니처 변경 없이 기능 확장 가능 -> 변경 비용 (Change Cost) 절감 논거로 활용한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -167,7 +167,7 @@ public record DateRange(LocalDate from, LocalDate to) {
 | 하위 개념 | Java Record | 파라미터 객체 구현 현대적 수단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-long parameter list → 파라미터 객체화 → value object
+long parameter list -> 파라미터 객체화 -> value object
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 친구한테 심부름을 부탁할 때 "우유, 빵, 계란, 버터, 치즈 가져다줘" 하는 것보다 "냉장고 목록 카드"를 주는 게 훨씬 쉽다.
@@ -180,7 +180,7 @@ long parameter list → 파라미터 객체화 → value object
 
 **진행 상황**: 303 / 530
 
-← **이전**: [241. 메서드 분리 리팩토링 (Extract Method Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/)
-**다음**: [243. 코드 스멜 진단 (Code Smell Diagnosis)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/) →
+<- **이전**: [241. 메서드 분리 리팩토링 (Extract Method Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/)
+**다음**: [243. 코드 스멜 진단 (Code Smell Diagnosis)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/) ->
 
 ---

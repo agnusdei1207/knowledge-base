@@ -34,18 +34,18 @@ SAAM의 핵심 원리는 **'시나리오 (Scenario)'** 기반 평가다. 시스�
 평가 과정은 시나리오를 아키텍처 수정 없이 수용 가능한 '직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))' 시나리오와, 수정을 수반해야 하는 '간접([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))' 시나리오로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것부터 시작된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             SAAM의 시나리오 상호작용 (Interaction) 분석          │
-├─────────────────────────────────────────────────────────────┤
-│   [시나리오 1] "결제 수단 추가" ──────▶  [컴포넌트 A] (수정 1)  │
-│                                            ▲                │
-│   [시나리오 2] "UI 테마 변경" ──(독립)─▶  [컴포넌트 B] (수정 2)  │
-│                                            │                │
-│   [시나리오 3] "보안 암호화 강화" ─────┘ (수정 3)            │
-│                                                             │
-│ * 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨      │
-│ * 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             SAAM의 시나리오 상호작용 (Interaction) 분석          |
++-------------------------------------------------------------+
+|   [시나리오 1] "결제 수단 추가" ------->  [컴포넌트 A] (수정 1)  |
+|                                            ^                |
+|   [시나리오 2] "UI 테마 변경" --(독립)-->  [컴포넌트 B] (수정 2)  |
+|                                            |                |
+|   [시나리오 3] "보안 암호화 강화" -----+ (수정 3)            |
+|                                                             |
+| * 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨      |
+| * 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)  |
++-------------------------------------------------------------+
 ```
 
 가장 중요한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계는 **시나리오 상호작용 (Scenario Interaction)** 분석이다. 만약 기능 추가(시나리오 1)와 보안 패치(시나리오 3)라는 전혀 다른 목적의 변경이 동일한 컴포넌트를 뜯어고치게 만든다면, 그 컴포넌트는 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))을 위배하여 과도하게 얽혀 있는 설계(스파게티 코드)일 확률이 높다.
@@ -107,16 +107,16 @@ SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적
 
 ```text
 소프트웨어 설계의 주관성 · 평가 기준 부재
-    │
-    ▼
+    |
+    v
 SAAM (Software Architecture Analysis Method)
 (수정 용이성 중심, 최초의 시나리오 기반 평가)
-    │
-    ▼
+    |
+    v
 ATAM (Architecture Trade-off Analysis Method)
 (다중 품질 속성 간의 상충 관계 및 민감도 분석)
-    │
-    ▼
+    |
+    v
 CBAM (Cost Benefit Analysis Method)
 (비즈니스 가치와 경제성 평가 통합)
 ```
@@ -135,7 +135,7 @@ CBAM (Cost Benefit Analysis Method)
 
 **진행 상황**: 141 / 530
 
-← **이전**: [97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/097_cbam_cost_benefit_analysis_method_architecture_roi/)
-**다음**: [99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/099_adr_architecture_decision_record/) →
+<- **이전**: [97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/097_cbam_cost_benefit_analysis_method_architecture_roi/)
+**다음**: [99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/099_adr_architecture_decision_record/) ->
 
 ---

@@ -76,23 +76,23 @@ SF (Scaling Factor):
 
 1. PREC (선례성, Precedentedness):
   유사 프로젝트 경험 여부
-  Very Low: 전혀 새로운 영역 → 6.20
-  Very High: 유사 프로젝트 많음 → 1.24
+  Very Low: 전혀 새로운 영역 -> 6.20
+  Very High: 유사 프로젝트 많음 -> 1.24
 
 2. FLEX (개발 유연성, Development Flexibility):
   요구사항 유연성
-  Very Low: 엄격한 요구사항 → 5.07
-  Very High: 완전 자유 → 1.01
+  Very Low: 엄격한 요구사항 -> 5.07
+  Very High: 완전 자유 -> 1.01
 
 3. RESL (아키텍처/위험 해결, Architecture/Risk Resolution):
   위험 분석 수준
-  Very Low: 낮은 위험 해결 → 7.07
-  Very High: 충분한 위험 대비 → 1.41
+  Very Low: 낮은 위험 해결 -> 7.07
+  Very High: 충분한 위험 대비 -> 1.41
 
 4. TEAM (팀 응집력, Team Cohesion):
   팀 협력 수준
-  Very Low: 분산된 팀 → 5.48
-  Very High: 긴밀한 팀 → 1.10
+  Very Low: 분산된 팀 -> 5.48
+  Very High: 긴밀한 팀 -> 1.10
 
 5. PMAT (프로세스 성숙도, Process Maturity):
   CMMI 수준 반영
@@ -104,10 +104,10 @@ SF 계산 예:
   SF = 0.91 + 0.01 × 15 = 1.06
 
   SF > 1: 규모 증가 시 비선형 비용 증가
-  (예: 10KSLOC → 100KSLOC: 10배 증가 아닌 12~15배 비용)
+  (예: 10KSLOC -> 100KSLOC: 10배 증가 아닌 12~15배 비용)
 ```
 
-> 📢 **섹션 요약 비유**: SF = 공사 난이도 지수 — 처음 짓는 유형(PREC: 낮음), 설계 변경 잦음(FLEX: 낮음), 위험 분석 미흡(RESL: 낮음) → 같은 크기 건물인데 비용이 2배! 팀워크와 경험이 핵심!
+> 📢 **섹션 요약 비유**: SF = 공사 난이도 지수 — 처음 짓는 유형(PREC: 낮음), 설계 변경 잦음(FLEX: 낮음), 위험 분석 미흡(RESL: 낮음) -> 같은 크기 건물인데 비용이 2배! 팀워크와 경험이 핵심!
 
 ---
 
@@ -144,10 +144,10 @@ EM (Effort Multiplier):
 프로젝트 요인:
   TOOL: 소프트웨어 도구 (Very High = 0.72)
   SITE: 다지점 개발 (Very Low = 1.22)
-  SCED: 일정 단축 (Very High = 1.29 ← 압축할수록 증가!)
+  SCED: 일정 단축 (Very High = 1.29 <- 압축할수록 증가!)
 
 SCED 역설:
-  일정 단축 25% → 비용 1.29배
+  일정 단축 25% -> 비용 1.29배
   "빨리 하면 더 비싸다!" (잔업, 품질 비용 등)
 ```
 
@@ -161,14 +161,14 @@ SCED 역설:
 COCOMO II 추정 절차:
 
 Step 1: 모델 선택
-  프로토타입/POC → Application Composition
-  초기 설계 단계 → Early Design
-  아키텍처 완료 후 → Post-Architecture
+  프로토타입/POC -> Application Composition
+  초기 설계 단계 -> Early Design
+  아키텍처 완료 후 -> Post-Architecture
 
 Step 2: 규모 추정
   LOC 직접 산정 또는 기능 점수(FP) 사용
 
-  FP → SLOC 변환 (언어별 SLOC/FP):
+  FP -> SLOC 변환 (언어별 SLOC/FP):
   Java: 53 SLOC/FP
   Python: 29 SLOC/FP
   C: 128 SLOC/FP
@@ -182,7 +182,7 @@ Step 3: SF 및 EM 평가
   Wideband Delphi:
   1. 각 요인 개별 평가
   2. 차이 큰 항목 토론
-  3. 재평가 → 수렴
+  3. 재평가 -> 수렴
 
 Step 4: 공수 계산
   PM = 2.94 × (26.5)^1.06 × ∏EMi
@@ -323,7 +323,7 @@ COCOMO II + 데이터 보정
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II = 건물 공사비 견적 — 건물 크기(LOC)만으로 안 돼요. 땅 난이도(SF)와 자재 품질(EM)까지 고려해야 정확한 견적!
-2. SF = 공사 어려움 지수 — 처음 짓는 건물(PREC: 낮음), 규제 엄격(FLEX: 낮음) → SF 높아져 같은 크기인데 비용 2배. 경험이 돈!
+2. SF = 공사 어려움 지수 — 처음 짓는 건물(PREC: 낮음), 규제 엄격(FLEX: 낮음) -> SF 높아져 같은 크기인데 비용 2배. 경험이 돈!
 3. 추정 결과는 범위 — 285 PM 추정이지만 ±25%로 214~356 PM. 한 숫자만 믿으면 위험. 범위 제시가 올바른 추정!
 
 ---
@@ -332,7 +332,7 @@ COCOMO II + 데이터 보정
 
 **진행 상황**: 48 / 973
 
-← **이전**: [047. COCOMO 모델 — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/)
-**다음**: [049. 기능 점수 — Function Point (FP) Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/049_function_point_fp_estimation/) →
+<- **이전**: [047. COCOMO 모델 — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/)
+**다음**: [049. 기능 점수 — Function Point (FP) Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/049_function_point_fp_estimation/) ->
 
 ---

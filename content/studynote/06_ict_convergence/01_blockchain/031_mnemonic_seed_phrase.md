@@ -10,7 +10,7 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: BIP-39 니모닉 시드 구문은 HD(Hierarchical Deterministic) 지갑의 단일 시드에서 무한한 키 쌍을 결정론적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 표준이다. 니모닉 → PBKDF2 → 512비트 시드 → BIP-32 트리 구조로 확장된다.
+> 1. **본질**: BIP-39 니모닉 시드 구문은 HD(Hierarchical Deterministic) 지갑의 단일 시드에서 무한한 키 쌍을 결정론적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 표준이다. 니모닉 -> PBKDF2 -> 512비트 시드 -> BIP-32 트리 구조로 확장된다.
 > 2. **가치**: HD 지갑의 핵심은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 단순성이다. 12~24단어 시드 구문 하나로 이더리움·비트코인·솔라나 등 멀티체인의 모든 계정을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있다. BIP-44 파생 경로가 체인별 계층을 표준화한다.
 > 3. **판단 포인트**: 추가 패스프레이즈(25번째 단어)는 선택적 보안 레이어다. 같은 니모닉 12단어에 패스프레이즈를 다르게 설정하면 완전히 다른 지갑이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. "[허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑" 기법으로 활용된다.
 
@@ -22,15 +22,15 @@ tags = ["studynote-ict-convergence"]
 BIP-44 파생 경로:
   m / purpose' / coin_type' / account' / change / index
 
-  m/44'/0'/0'/0/0  → 비트코인 첫 번째 주소
-  m/44'/60'/0'/0/0 → 이더리움 첫 번째 주소
-  m/44'/501'/0'/0/0 → 솔라나 첫 번째 주소
+  m/44'/0'/0'/0/0  -> 비트코인 첫 번째 주소
+  m/44'/60'/0'/0/0 -> 이더리움 첫 번째 주소
+  m/44'/501'/0'/0/0 -> 솔라나 첫 번째 주소
 
   purpose=44: BIP-44 표준
   coin_type: SLIP-0044 등록 번호
   ' (강화 파생): 하위키에서 상위키 역산 불가
 
-→ 단일 니모닉으로 모든 체인의 모든 계정 파생!
+-> 단일 니모닉으로 모든 체인의 모든 계정 파생!
 ```
 
 - **📢 섹션 요약 비유**: BIP-44 파생 경로는 은행 계좌 번호 체계다. 한 은행 코드(니모닉)에서 지점번호(coin_type)·계좌번호(account)·세부계좌([index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 체계적으로 파생된다.
@@ -42,24 +42,24 @@ BIP-44 파생 경로:
 ### PBKDF2 시드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
 
 ```text
-니모닉 → PBKDF2(HMAC-SHA512, 2048 반복, 솔트="mnemonic"+패스프레이즈)
-      → 512비트 시드
+니모닉 -> PBKDF2(HMAC-SHA512, 2048 반복, 솔트="mnemonic"+패스프레이즈)
+      -> 512비트 시드
 
 패스프레이즈 없음: "mnemonic" + ""
 패스프레이즈 있음: "mnemonic" + "my_secret_phrase"
 
-→ 완전히 다른 512비트 시드 → 완전히 다른 지갑 주소
+-> 완전히 다른 512비트 시드 -> 완전히 다른 지갑 주소
 ```
 
 ### 강화 파생(Hardened Derivation)
 
 ```text
 일반 파생 (m/44/0/0):
-  자식키 = 부모 공개키 + 인덱스 → 공개키로 자식 계산 가능
+  자식키 = 부모 공개키 + 인덱스 -> 공개키로 자식 계산 가능
   보안 위험: 자식 개인키 노출 시 형제 키 위험
 
 강화 파생 (m/44'/0'/0') — ' 표기:
-  자식키 = 부모 개인키 + 인덱스 → 부모 개인키 없이 자식 계산 불가
+  자식키 = 부모 개인키 + 인덱스 -> 부모 개인키 없이 자식 계산 불가
   더 안전: 자식 개인키 노출이 다른 키에 영향 없음
 ```
 
@@ -88,13 +88,13 @@ BIP-44 파생 경로:
 시드 구문 백업 검증 방법:
   1. 하드웨어 지갑에 시드 입력
   2. 이더리움 첫 번째 주소 확인
-  3. 예상 주소와 일치 → 백업 유효
+  3. 예상 주소와 일치 -> 백업 유효
   4. (오프라인 환경에서만 검증!)
 
 패스프레이즈 백업 주의:
   니모닉 + 패스프레이즈 = 다른 지갑
-  → 니모닉과 패스프레이즈 모두 안전한 별도 장소 보관
-  → 어느 하나만 도난당해도 자산 접근 불가
+  -> 니모닉과 패스프레이즈 모두 안전한 별도 장소 보관
+  -> 어느 하나만 도난당해도 자산 접근 불가
 ```
 
 ### [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -102,12 +102,12 @@ BIP-44 파생 경로:
 ```text
 동일 니모닉 + 다른 패스프레이즈:
 
-패스프레이즈 ""   → 지갑 A (소액 허니팟)
-패스프레이즈 "비밀" → 지갑 B (실제 자산)
+패스프레이즈 ""   -> 지갑 A (소액 허니팟)
+패스프레이즈 "비밀" -> 지갑 B (실제 자산)
 
 공격자가 니모닉 탈취 시:
-  → 지갑 A (허니팟) 발견 → 여기에 자산 있다고 착각
-  → 지갑 B는 패스프레이즈 모르면 접근 불가
+  -> 지갑 A (허니팟) 발견 -> 여기에 자산 있다고 착각
+  -> 지갑 B는 패스프레이즈 모르면 접근 불가
 ```
 
 - **📢 섹션 요약 비유**: [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑은 가짜 지갑이다. 도둑에게 들킬 수 있는 지갑([허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/))에는 소액만 넣어두고, 진짜 지갑은 비밀 패스프레이즈로 숨겨둔다.
@@ -142,17 +142,17 @@ EIP-4337(Account [Abstraction](/knowledge-base/studynote/04_software_engineering
 
 ```text
 [단순 개인키 — 키마다 별도 백업 필요]
-    │
-    ▼
+    |
+    v
 [BIP-39 니모닉 — 단일 시드로 모든 키 백업]
-    │
-    ▼
+    |
+    v
 [BIP-32/44 HD 지갑 — 계층적 멀티체인 키 파생]
-    │
-    ▼
+    |
+    v
 [MPC 지갑 — 분산 키 관리, 기관 커스터디]
-    │
-    ▼
+    |
+    v
 [EIP-4337 AA — 스마트 컨트랙트 기반 소셜 복구]
 ```
 
@@ -168,7 +168,7 @@ EIP-4337(Account [Abstraction](/knowledge-base/studynote/04_software_engineering
 
 **진행 상황**: 31 / 552
 
-← **이전**: [30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심](/knowledge-base/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/)
-**다음**: [DApp (Decentralized Application, 분산 애플리케이션)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) →
+<- **이전**: [30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심](/knowledge-base/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/)
+**다음**: [DApp (Decentralized Application, 분산 애플리케이션)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) ->
 
 ---

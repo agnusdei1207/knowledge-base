@@ -28,23 +28,23 @@ tags = ["studynote-operating-system"]
   3. **비동기의 표준화**: 윈도우의 IOCP가 서버 시장을 휩쓸자, 리눅스도 AIO를 도입했으나 멍청하게 설계되어 욕을 먹다가 최근 `io_uring`으로 각성하여 전 세계를 통일 중이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        블로킹, 넌블로킹, 그리고 완벽한 비동기(AIO)의 동작 궤적 시각화│
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ ▶ 1. 블로킹 I/O (전통적 렉)                                          │
-│   앱: `read()` ───(OS가 짐 나르는 8ms 동안 앱 기절 🥶)──▶ 읽기완료   │
-│                                                                      │
-│ ▶ 2. 넌블로킹 I/O (반쪽짜리 진화 - 여전히 내가 짐 나름)              │
-│   앱: `read()` ─▶ "없어!" ─▶ (딴일함) ─▶ `read()` ─▶ "왔어!"         │
-│                                            └──(복사 렉 🥶)─▶         │
-│                                                                      │
-│ ▶ 3. 비동기 I/O (AIO - 궁극의 게으름)                                │
-│   앱: `aio_read(버퍼주소)` ─▶ (0ms 컷) ─▶ (딴일함 🚀 계속 딴일함)    │
-│       │ (OS가 백그라운드에서 디스크 긁어서 내 버퍼에 꽉꽉 채워넣음)  │
-│       ▼                                                              │
-│   OS: (짐 다 채웠다!) 💥 시그널 빵! -> `Callback_함수()` 자동 실행!  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        블로킹, 넌블로킹, 그리고 완벽한 비동기(AIO)의 동작 궤적 시각화|
++----------------------------------------------------------------------+
+|                                                                      |
+| -> 1. 블로킹 I/O (전통적 렉)                                          |
+|   앱: `read()` ---(OS가 짐 나르는 8ms 동안 앱 기절 🥶)---> 읽기완료   |
+|                                                                      |
+| -> 2. 넌블로킹 I/O (반쪽짜리 진화 - 여전히 내가 짐 나름)              |
+|   앱: `read()` --> "없어!" --> (딴일함) --> `read()` --> "왔어!"         |
+|                                            +--(복사 렉 🥶)-->         |
+|                                                                      |
+| -> 3. 비동기 I/O (AIO - 궁극의 게으름)                                |
+|   앱: `aio_read(버퍼주소)` --> (0ms 컷) --> (딴일함 🚀 계속 딴일함)    |
+|       | (OS가 백그라운드에서 디스크 긁어서 내 버퍼에 꽉꽉 채워넣음)  |
+|       v                                                              |
+|   OS: (짐 다 채웠다!) 💥 시그널 빵! -> `Callback_함수()` 자동 실행!  |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 주체가 누구인가?" AIO의 100% 비동기를 달성하는 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복사(I/O Copy) 자체를 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>과 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 하드웨어가 백그라운드에서 완전히 대행</strong>한다는 점이다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 이 무거운 메모리 복사 작업에 단 1클럭의 시간도 할애하지 않으므로, 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만으로 수만 개의 I/O를 공 굴리듯 저글링 할 수 있는 마법이 성립한다.
 
@@ -102,13 +102,13 @@ tags = ["studynote-operating-system"]
 수만 개의 네트워크 요청이 들어와도 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 안 깨우고 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 콜백 메모만 꽂아두면 되므로, CPU 코어는 L1 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 99%를 유지하며 그 메모들을 미친 듯이 씹어먹는 괴물이 된다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 스레드 개수│ 10,000개 (Sync)│ 1개 (epoll) │ 1개 (AIO/IOCP)      │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 램 사용량  │ 20GB (스택 터짐)│ 10MB (깃털) │ 10MB (깃털)        │
-│ CPU 낭비  │ 90% (컨텍스트)│ 5% (루프 스캔)│ **0% (그냥 완벽)**  │
-│ I/O 카피  │ 유저가 직접 함 │ 유저가 직접 함 │ **OS 커널이 대행**│
-└──────────┴────────────┴────────────┴────────────────────────────┘
++----------+------------+------------+----------------------------+
+| 스레드 개수| 10,000개 (Sync)| 1개 (epoll) | 1개 (AIO/IOCP)      |
++----------+------------+------------+----------------------------+
+| 램 사용량  | 20GB (스택 터짐)| 10MB (깃털) | 10MB (깃털)        |
+| CPU 낭비  | 90% (컨텍스트)| 5% (루프 스캔)| **0% (그냥 완벽)**  |
+| I/O 카피  | 유저가 직접 함 | 유저가 직접 함 | **OS 커널이 대행**|
++----------+------------+------------+----------------------------+
 ```
 **[매트릭스 해설]** 동기 블로킹은 인건비(램)와 교통비(CPU 스위칭)가 모두 터지는 최악의 사업 모델이다. AIO는 인건비를 1명으로 줄이고(싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)), 물건 수송마저 정부(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 무임승차로 던져버리는 극악의 마진율을 자랑하는 천재적 사업 구조다.
 
@@ -169,12 +169,12 @@ AIO를 쓰면 [스레드](/knowledge-base/studynote/02_operating_system/02_proce
 
 ```text
 [논블로킹 I/O (Non-blocking I/O)]
-    │
-    ▼
+    |
+    v
 [비동기 I/O (Asynchronous I/O, AIO)]
-    │
-    ├──▶ [I/O 완료 포트 (IOCP, I/O Completion Port)]
-    └──▶ [epoll / kqueue]
+    |
+    +---> [I/O 완료 포트 (IOCP, I/O Completion Port)]
+    +---> [epoll / kqueue]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -191,7 +191,7 @@ AIO를 쓰면 [스레드](/knowledge-base/studynote/02_operating_system/02_proce
 
 **진행 상황**: 461 / 800
 
-← **이전**: [460. 논블로킹 I/O (Non-blocking I/O) - 데이터가 없어도 즉시 반환 (오류/0 바이트 반환)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/460_non_blocking_io/)
-**다음**: [462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/462_iocp_io_completion_port/) →
+<- **이전**: [460. 논블로킹 I/O (Non-blocking I/O) - 데이터가 없어도 즉시 반환 (오류/0 바이트 반환)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/460_non_blocking_io/)
+**다음**: [462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/462_iocp_io_completion_port/) ->
 
 ---

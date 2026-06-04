@@ -20,12 +20,12 @@ tags = ["studynote-it-management"]
 
 ```
 파이프 비즈니스 (전통 선형 모델):
-  생산자 → [기업] → 소비자
+  생산자 -> [기업] -> 소비자
   예: 제조업, SaaS 구독
 
 플랫폼 비즈니스 (다면 시장):
-  생산자 ←→ [플랫폼] ←→ 소비자
-  생산자 ←→ [플랫폼] ←→ 생산자
+  생산자 <--> [플랫폼] <--> 소비자
+  생산자 <--> [플랫폼] <--> 생산자
   예: 앱스토어, 우버, 에어비앤비
 ```
 
@@ -46,12 +46,12 @@ tags = ["studynote-it-management"]
 
 | 유형            | 설명                              | 예시           |
 |-------------|----------------------------------|--------------|
-| 직접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 같은 그룹 참여자 증가 → 가치 상승 | 전화, 카카오톡|
-| 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 한 그룹 증가 → 다른 그룹 가치 상승| 앱스토어 개발자↑→사용자↑|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | 구글 검색, 넷플릭스 추천|
+| 직접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 같은 그룹 참여자 증가 -> 가치 상승 | 전화, 카카오톡|
+| 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 한 그룹 증가 -> 다른 그룹 가치 상승| 앱스토어 개발자^->사용자^|
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | 구글 검색, 넷플릭스 추천|
 | 부정적 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) | 과부하·품질 저하 (혼잡)          | 피크타임 우버 요금 급증|
 
-**멧칼프의 법칙**: 네트워크 가치 ∝ N² (참여자 수 제곱)
+**멧칼프의 법칙**: 네트워크 가치 ∝ N^ (참여자 수 제곱)
 
 📢 **섹션 요약 비유**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 파티 효과다 — 파티에 사람이 많을수록 더 재미있고(직접), 재미있는 파티에 더 많은 DJ(공급자)가 오고(간접), 파티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쌓일수록 더 좋은 음악이 선정된다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)).
 
@@ -62,7 +62,7 @@ tags = ["studynote-it-management"]
 ### 닭-달걀 문제 해결 ([Cold Start Problem](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))
 
 ```
-초기 플랫폼: 공급자 없음 → 소비자 없음 → 공급자 없음 (악순환)
+초기 플랫폼: 공급자 없음 -> 소비자 없음 -> 공급자 없음 (악순환)
 
 해결 전략:
 1. 한 쪽 보조금 (Single Side Subsidy):
@@ -72,7 +72,7 @@ tags = ["studynote-it-management"]
    예) 에어비앤비: 뉴욕 특정 지역부터 시작
 
 3. 공급자가 소비자를 데려오기:
-   예) PayPal: eBay 판매자 무료 제공 → 구매자 유입
+   예) PayPal: eBay 판매자 무료 제공 -> 구매자 유입
 
 4. 단독 활용 가치 제공:
    예) OpenTable: 레스토랑 예약 관리 소프트웨어로 시작
@@ -100,13 +100,13 @@ tags = ["studynote-it-management"]
 
 ```
 플랫폼 규제 이슈 (2020년대):
-  독점 문제: Google·Apple 앱스토어 30% 수수료 → 반독점 조사
+  독점 문제: Google·Apple 앱스토어 30% 수수료 -> 반독점 조사
   데이터 남용: 플랫폼의 참여자 데이터 활용 제한 (GDPR, DMA)
   콘텐츠 책임: 플랫폼의 유해 콘텐츠 책임 범위 (EU DSA)
 
 EU 디지털 시장법 (DMA, Digital Markets Act, 2022):
   게이트키퍼 플랫폼 지정 (Google·Apple·Meta·Amazon·Microsoft·ByteDance)
-  → 상호운용성 의무, 자사 우대 금지, 데이터 이식성
+  -> 상호운용성 의무, 자사 우대 금지, 데이터 이식성
 ```
 
 📢 **섹션 요약 비유**: 플랫폼 거버넌스는 장터 규정이다 — 장터(플랫폼)가 너무 많은 것을 통제하면 가게(공급자)가 떠나고, 너무 자유로우면 사기꾼(품질 저하)이 들끓어 손님(소비자)이 줄어든다.
@@ -117,19 +117,19 @@ EU 디지털 시장법 (DMA, Digital Markets Act, 2022):
 
 ```
 플랫폼 비즈니스 모델
-├── 핵심 구조
-│   ├── 양면/다면 시장
-│   └── 네트워크 효과 (직접·간접·데이터)
-├── 성장 전략
-│   ├── Cold Start 해결 (보조금·마이크로마켓)
-│   └── 멧칼프의 법칙 (N²)
-├── 수익 모델
-│   ├── 수수료·구독·광고·데이터
-│   └── 가치 추가 서비스
-└── 규제
-    ├── EU DMA (게이트키퍼)
-    ├── 반독점법
-    └── GDPR (데이터 남용)
++-- 핵심 구조
+|   +-- 양면/다면 시장
+|   +-- 네트워크 효과 (직접·간접·데이터)
++-- 성장 전략
+|   +-- Cold Start 해결 (보조금·마이크로마켓)
+|   +-- 멧칼프의 법칙 (N^)
++-- 수익 모델
+|   +-- 수수료·구독·광고·데이터
+|   +-- 가치 추가 서비스
++-- 규제
+    +-- EU DMA (게이트키퍼)
+    +-- 반독점법
+    +-- GDPR (데이터 남용)
 ```
 
 ---
@@ -137,23 +137,23 @@ EU 디지털 시장법 (DMA, Digital Markets Act, 2022):
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              플랫폼 비즈니스 발전 흐름                           │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ 윈도우 OS 플랫폼   │ 최초 소프트웨어 플랫폼        │
-│ 2007년       │ 스마트폰 앱스토어  │ 모바일 플랫폼 경제 시작       │
-│ 2010년대     │ 우버·에어비앤비    │ 공유경제 플랫폼 폭발 성장     │
-│ 2016년       │ Platform Revolution│ 플랫폼 비즈니스 이론 체계화   │
-│ 2022년       │ EU DMA 시행        │ 빅테크 플랫폼 규제 시작       │
-│ 2024년~      │ AI 플랫폼 경쟁    │ OpenAI·Anthropic 플랫폼화    │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              플랫폼 비즈니스 발전 흐름                           |
++--------------+--------------------+-----------------------------+
+| 1990년대     | 윈도우 OS 플랫폼   | 최초 소프트웨어 플랫폼        |
+| 2007년       | 스마트폰 앱스토어  | 모바일 플랫폼 경제 시작       |
+| 2010년대     | 우버·에어비앤비    | 공유경제 플랫폼 폭발 성장     |
+| 2016년       | Platform Revolution| 플랫폼 비즈니스 이론 체계화   |
+| 2022년       | EU DMA 시행        | 빅테크 플랫폼 규제 시작       |
+| 2024년~      | AI 플랫폼 경쟁    | OpenAI·Anthropic 플랫폼화    |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-양면 시장 → 네트워크 효과 → 승자독식 → 플랫폼 독점
-    ↓              ↓              ↓            ↓
+양면 시장 -> 네트워크 효과 -> 승자독식 -> 플랫폼 독점
+    v              v              v            v
 멧칼프 법칙    데이터 복리     멀티호밍 비용  DMA 규제
-    ↓
-Cold Start → 보조금 전략 → 임계 규모 → 지배적 플랫폼
+    v
+Cold Start -> 보조금 전략 -> 임계 규모 -> 지배적 플랫폼
 ```
 
 ---
@@ -170,7 +170,7 @@ Cold Start → 보조금 전략 → 임계 규모 → 지배적 플랫폼
 
 **진행 상황**: 60 / 587
 
-← **이전**: [34. 애자일 경영 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/)
-**다음**: [035. ECAB — 긴급 변경 자문 위원회 (Emergency Change Advisory Board)](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_ecab/) →
+<- **이전**: [34. 애자일 경영 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/)
+**다음**: [035. ECAB — 긴급 변경 자문 위원회 (Emergency Change Advisory Board)](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_ecab/) ->
 
 ---

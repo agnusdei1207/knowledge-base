@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [루프 문제]
-    │
-    ▼
+    |
+    v
 [MAC 주소 호핑]
-    │
-    └──▶ [스패닝 트리 프로토콜]
+    |
+    +---> [스패닝 트리 프로토콜]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 플래핑은 나침반의 자침이 북쪽을 가리키지 못하고 강력한 자기장(루프)에 휘말려 </strong>"빙글빙글 미친 듯이 회전하여 길을 잃어버린 상태"**입니다.
@@ -49,26 +49,26 @@ tags = ["studynote-network"]
 5. 이 핑퐁이 빛의 속도로 일어난다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MAC Flapping (호핑) 발생 알고리즘                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A (MAC A) ] ────▶ (Port 1)                           │
- │                                │ (학습: MAC A는 1번에 있네)     │
- │                           [ 스위치 A ]                        │
- │                                │ ◀─ (Port 3)               │
- │                  (Port 2) ───┐ │ ┌───                      │
- │   * 선이 둥글게 꼬임           ▼ │ │                          │
- │                           [ 스위치 B ]                        │
- │           (패킷이 2번 포트로 나갔다가 3번 포트로 다시 돌아옴)         │
- │                                                             │
- │   * 스위치 A의 멘탈 붕괴 (CAM Table 갱신 릴레이)                │
- │   0.000초: [ MAC A : Port 1 ]                               │
- │   0.001초: [ MAC A : Port 3 ] (어? 3번으로 이사했나?)          │
- │   0.002초: [ MAC A : Port 1 ] (어? 다시 1번으로 왔나?)          │
- │   0.003초: [ MAC A : Port 3 ] (무한 반복)                     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                MAC Flapping (호핑) 발생 알고리즘                |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC A (MAC A) ] -----> (Port 1)                           |
+ |                                | (학습: MAC A는 1번에 있네)     |
+ |                           [ 스위치 A ]                        |
+ |                                | <-- (Port 3)               |
+ |                  (Port 2) ---+ | +---                      |
+ |   * 선이 둥글게 꼬임           v | |                          |
+ |                           [ 스위치 B ]                        |
+ |           (패킷이 2번 포트로 나갔다가 3번 포트로 다시 돌아옴)         |
+ |                                                             |
+ |   * 스위치 A의 멘탈 붕괴 (CAM Table 갱신 릴레이)                |
+ |   0.000초: [ MAC A : Port 1 ]                               |
+ |   0.001초: [ MAC A : Port 3 ] (어? 3번으로 이사했나?)          |
+ |   0.002초: [ MAC A : Port 1 ] (어? 다시 1번으로 왔나?)          |
+ |   0.003초: [ MAC A : Port 3 ] (무한 반복)                     |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 치명적인 증상 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하)
@@ -136,12 +136,12 @@ CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [�
 
 ```text
 [선행 개념: 루프 문제]
-    │
-    ▼
+    |
+    v
 [현재 개념: MAC 주소 호핑]
-    │
-    ├──▶ [확장 A: 스패닝 트리 프로토콜]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 스패닝 트리 프로토콜]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑는 [루프 문제](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [�
 
 **진행 상황**: 373 / 1120
 
-← **이전**: [251. 루프 문제 (Looping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)
-**다음**: [253. 스패닝 트리 프로토콜 (STP, Spanning Tree Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/) →
+<- **이전**: [251. 루프 문제 (Looping)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)
+**다음**: [253. 스패닝 트리 프로토콜 (STP, Spanning Tree Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/) ->
 
 ---

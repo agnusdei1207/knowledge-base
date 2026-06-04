@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [YANG (Yet Another Next G…]
-    │
-    ▼
+    |
+    v
 [RESTCONF 프로토콜]
-    │
-    └──▶ [오픈컨피그]
+    |
+    +---> [오픈컨피그]
 ```
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [YANG (Yet Another Next G…]
-    │
-    ▼
+    |
+    v
 [RESTCONF 프로토콜]
-    │
-    └──▶ [오픈컨피그]
+    |
+    +---> [오픈컨피그]
 ```
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 ```text
 [선행 개념: YANG (Yet Another Next G…]
-    │
-    ▼
+    |
+    v
 [현재 개념: RESTCONF 프로토콜]
-    │
-    ├──▶ [확장 A: 오픈컨피그]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 오픈컨피그]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 YANG (Yet Another Next G…에서 출발해 현재 메커니즘을 정교화하고, 이후 [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 **진행 상황**: 998 / 1120
 
-← **이전**: [876. YANG 데이터 모델링](/knowledge-base/studynote/03_network/17_sdn_nfv/876_yang_yet_another_next_generation_data_modeling/)
-**다음**: [878. 오픈컨피그 (OpenConfig)](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/) →
+<- **이전**: [876. YANG 데이터 모델링](/knowledge-base/studynote/03_network/17_sdn_nfv/876_yang_yet_another_next_generation_data_modeling/)
+**다음**: [878. 오픈컨피그 (OpenConfig)](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/) ->
 
 ---

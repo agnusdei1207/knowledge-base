@@ -35,11 +35,11 @@ tags = ["database"]
 
 ```text
 SQL 입력
-   ↓
+   v
 Library Cache 확인
-   ├─ Hit → Soft Parse
-   └─ Miss → Hard Parse
-            ↓
+   +- Hit -> Soft Parse
+   +- Miss -> Hard Parse
+            v
 Data Dictionary Cache 확인
 ```
 
@@ -95,13 +95,13 @@ SGA의 다른 영역과 비교하면 공유 풀의 역할이 더 분명해진다
 
 ```text
 SQL 입력
-   ↓
+   v
 공유 풀
-   ├─ Library Cache
-   └─ Data Dictionary Cache
-   ↓
+   +- Library Cache
+   +- Data Dictionary Cache
+   v
 Soft Parse / Hard Parse
-   ↓
+   v
 CPU 절감 / 성능 향상
 ```
 
@@ -109,11 +109,11 @@ CPU 절감 / 성능 향상
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 하드 파싱 중심 구조 → CPU 낭비 증가
-2. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 캐시 → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 재사용
-3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리 캐시 → [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회 가속
-4. [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) → SQL 재사용률 향상
-5. 공유 풀 튜닝 → [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화
+1. 하드 파싱 중심 구조 -> CPU 낭비 증가
+2. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 캐시 -> [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 재사용
+3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리 캐시 -> [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회 가속
+4. [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) -> SQL 재사용률 향상
+5. 공유 풀 튜닝 -> [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화
 
 ---
 
@@ -129,7 +129,7 @@ CPU 절감 / 성능 향상
 
 **진행 상황**: 57 / 600
 
-← **이전**: [56. 데이터 사전 캐시 (Data Dictionary Cache)](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/)
-**다음**: [58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/) →
+<- **이전**: [56. 데이터 사전 캐시 (Data Dictionary Cache)](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/)
+**다음**: [58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/) ->
 
 ---

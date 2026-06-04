@@ -38,20 +38,20 @@ StatefulSet은 고정된 [식별자](/knowledge-base/studynote/03_network/06_net
 | **VolumeClaimTemplates** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별 영구 볼륨 할당 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 각각 독립적인 `PVC (PersistentVolumeClaim)`를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           StatefulSet의 정체성 및 볼륨 바인딩 구조           │
-├──────────────────────────────────────────────────────────────┤
-│  [StatefulSet Controller]                                    │
-│       │                                                      │
-│       ├─▶ Pod: web-0 ──DNS: web-0.svc──▶ PVC: data-web-0     │
-│       │                                                      │
-│       ├─▶ Pod: web-1 ──DNS: web-1.svc──▶ PVC: data-web-1     │
-│       │                                                      │
-│       └─▶ Pod: web-2 ──DNS: web-2.svc──▶ PVC: data-web-2     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           StatefulSet의 정체성 및 볼륨 바인딩 구조           |
++--------------------------------------------------------------+
+|  [StatefulSet Controller]                                    |
+|       |                                                      |
+|       +--> Pod: web-0 --DNS: web-0.svc---> PVC: data-web-0     |
+|       |                                                      |
+|       +--> Pod: web-1 --DNS: web-1.svc---> PVC: data-web-1     |
+|       |                                                      |
+|       +--> Pod: web-2 --DNS: web-2.svc---> PVC: data-web-2     |
++--------------------------------------------------------------+
 ```
 
-[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 확장은 인덱스가 0인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)부터 순차적으로 이루어지며(0 → 1 → 2), 이전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 완전히 `Running` 및 `Ready` 상태가 되어야 다음 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 시작한다. 축소 및 삭제는 반대 순서(2 → 1 → 0)로 진행되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화의 충돌을 방지한다.
+[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 확장은 인덱스가 0인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)부터 순차적으로 이루어지며(0 -> 1 -> 2), 이전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 완전히 `Running` 및 `Ready` 상태가 되어야 다음 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 시작한다. 축소 및 삭제는 반대 순서(2 -> 1 -> 0)로 진행되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화의 충돌을 방지한다.
 
 - **📢 섹션 요약 비유**: 아파트 입주처럼 101호가 지어지고 입주가 끝나야 102호를 짓고, 철거할 때는 102호부터 안전하게 비우는 순차적 건설 방식이다.
 
@@ -115,20 +115,20 @@ StatefulSet을 적절히 활용하면, 재난 [복구](/knowledge-base/studynote
 ```text
 [무상태 워크로드 관리]
 Deployment / ReplicaSet (일회성 파드)
-        │
-        ▼
+        |
+        v
 [상태 의존성 문제 발생]
 네트워크 신원 변경 및 볼륨 공유 충돌
-        │
-        ▼
+        |
+        v
 [상태 저장 제어기 도입]
 StatefulSet (고정 Ordinal Index)
-        │
-        ▼
+        |
+        v
 [정체성 및 데이터 영속성 결합]
 Headless Service (고정 DNS) + VolumeClaimTemplates (고유 PVC)
-        │
-        ▼
+        |
+        v
 [고도화된 상태 관리]
 Kubernetes Operator (DB 특화 자동화)
 ```
@@ -145,7 +145,7 @@ Kubernetes Operator (DB 특화 자동화)
 
 **진행 상황**: 87 / 371
 
-← **이전**: [87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)
-**다음**: [89. 데몬셋 (DaemonSet) - K8s 전 노드 백그라운드 파드 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/) →
+<- **이전**: [87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)
+**다음**: [89. 데몬셋 (DaemonSet) - K8s 전 노드 백그라운드 파드 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/) ->
 
 ---

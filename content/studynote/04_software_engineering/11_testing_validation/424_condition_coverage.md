@@ -30,23 +30,23 @@ tags = ["studynote-software-engineering"]
 이 끔찍한 눈먼 구멍을 메우기 위해 돋보기를 들고 이빨을 들이미는 것이 바로 <strong>조건 커버리지(Condition Coverage)</strong>입니다! 조건 커버리지는 덩어리 결과는 버리고, **개별 부품인 나이 $>=19$가 T/F를 가졌나? 음주 수치 $<0.03$이 T/F를 독자적으로 모두 가졌나?**를 끝까지 캐묻는 현미경 검사입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  조건 커버리지 타격 부위 분해의 예시                │
-├──────────────────────────────────────────────────────────────┤
-│ [원시 코드]                                                    │
-│  if ( 점수 > 80 [조건A]   OR   출석률 == 100 [조건B] ) {         │
-│      장학금 지급!!                                             │
-│  }                                                           │
-│                                                              │
-│ [조건 커버리지 100% 달성 목표: "껍데긴 가라, 부품만 산다"]             │
-│   목표: 조건 A가 True/False, 조건 B가 True/False를 다 가져볼 것!       │
-│                                                              │
-│   테스트 케이스 1: 점수 90 (A=True) , 출석률 90 (B=False)          │
-│   테스트 케이스 2: 점수 50 (A=False), 출석률 100(B=True)           │
-│                                                              │
-│  ▶ 결과적으로 A입장에서도 참/거짓 해봤고, B입장에서도 참/거짓 해봤다!    │
-│  ▶ 이로써 내부 부품에 숨은 오류 폭탄은 다 제거 완료(100% 합격!)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  조건 커버리지 타격 부위 분해의 예시                |
++--------------------------------------------------------------+
+| [원시 코드]                                                    |
+|  if ( 점수 > 80 [조건A]   OR   출석률 == 100 [조건B] ) {         |
+|      장학금 지급!!                                             |
+|  }                                                           |
+|                                                              |
+| [조건 커버리지 100% 달성 목표: "껍데긴 가라, 부품만 산다"]             |
+|   목표: 조건 A가 True/False, 조건 B가 True/False를 다 가져볼 것!       |
+|                                                              |
+|   테스트 케이스 1: 점수 90 (A=True) , 출석률 90 (B=False)          |
+|   테스트 케이스 2: 점수 50 (A=False), 출석률 100(B=True)           |
+|                                                              |
+|  -> 결과적으로 A입장에서도 참/거짓 해봤고, B입장에서도 참/거짓 해봤다!    |
+|  -> 이로써 내부 부품에 숨은 오류 폭탄은 다 제거 완료(100% 합격!)         |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 로봇 장난감 검사를 할 때, [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 "버튼 누르니 로봇이 걷고, 또 누르니 섰네. 합격(전체 결괏값)"이라고 평가하지만, 조건 커버리지는 "왼쪽 다리의 작은 톱니(조건A)가 한번 돌아갔고 안 돌아갔나? 오른쪽 큰 톱니바퀴(조건B)가 한 번 멈추고 굴렀나?"라고 겉모습 대신 뱃속 다이얼들의 미세 작동 여부만 하나하나 따지는 독종 정비사입니다.
@@ -147,21 +147,21 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 조건 커버리지 (Condition Coverage) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 
 **진행 상황**: 439 / 973
 
-← **이전**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)
-**다음**: [424. 조건 커버리지 (Condition Coverage) - 분기문 내의 각 개별 조건식이 참/거짓을 한 번씩 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) →
+<- **이전**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)
+**다음**: [424. 조건 커버리지 (Condition Coverage) - 분기문 내의 각 개별 조건식이 참/거짓을 한 번씩 가짐](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) ->
 
 ---

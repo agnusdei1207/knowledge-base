@@ -31,11 +31,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 1.1]
-    │
-    ▼
+    |
+    v
 [HTTP 1.1 HOL 블로킹]
-    │
-    └──▶ [HTTP/2 특징]
+    |
+    +---> [HTTP/2 특징]
 ```
 
 - **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 "1차선 도로의 정체"와 같습니다. 내 차가 아무리 시속 300km로 달리는 페라리(1KB 텍스트)라도, 내 앞에 시속 10km로 달리는 낡은 경운기(1GB 영상)가 길을 막고 있다면 나는 절대 앞으로 나아갈 수 없습니다.
@@ -47,26 +47,26 @@ tags = ["studynote-network"]
 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 물리적 네트워크 장애가 아니라, '[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 논리적 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 관리 실패'로 인한 소프트웨어적 병목입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘 ]        │
-│                                                             │
-│  [ 클라이언트 (Browser) ]                  [ 웹 서버 (Server) ] │
-│        |                                        |           │
-│        |--- Req 1 (무거운 DB 연산 영상) -------->|  (처리 중..)│
-│        |--- Req 2 (가벼운 CSS) ---------------->|  (처리 완료!)│
-│        |--- Req 3 (가벼운 JS) ----------------->|  (처리 완료!)│
-│        |                                        |           │
-│        |     (Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)   │
-│        |        <========== HOL Blocking ==========>        │
-│        |                                        |           │
-│        |   (10초 뒤... 1번 끝남)                   |           │
-│        |<-- Res 1 (1GB 영상) -------------------|           │
-│        |<-- Res 2 (1KB CSS) --------------------| (이제야..)  │
-│        |<-- Res 3 (1KB JS) ---------------------| (방출됨)    │
-│                                                             │
-│   * 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은       │
-│           10초 전에 도착해서 화면에 렌더링 되었을 것임.            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘 ]        |
+|                                                             |
+|  [ 클라이언트 (Browser) ]                  [ 웹 서버 (Server) ] |
+|        |                                        |           |
+|        |--- Req 1 (무거운 DB 연산 영상) -------->|  (처리 중..)|
+|        |--- Req 2 (가벼운 CSS) ---------------->|  (처리 완료!)|
+|        |--- Req 3 (가벼운 JS) ----------------->|  (처리 완료!)|
+|        |                                        |           |
+|        |     (Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)   |
+|        |        <========== HOL Blocking ==========>        |
+|        |                                        |           |
+|        |   (10초 뒤... 1번 끝남)                   |           |
+|        |<-- Res 1 (1GB 영상) -------------------|           |
+|        |<-- Res 2 (1KB CSS) --------------------| (이제야..)  |
+|        |<-- Res 3 (1KB JS) ---------------------| (방출됨)    |
+|                                                             |
+|   * 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은       |
+|           10초 전에 도착해서 화면에 렌더링 되었을 것임.            |
++-------------------------------------------------------------+
 ```
 
 ### 1. 웹 브라우저 제조사들의 포기 선언
@@ -159,12 +159,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP 1.1]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP 1.1 HOL 블로킹]
-    │
-    ├──▶ [확장 A: HTTP/2 특징]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP/2 특징]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -181,7 +181,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 586 / 1120
 
-← **이전**: [464. HTTP 1.1](/knowledge-base/studynote/03_network/09_application_layer_web_email/464_http_1_1_persistent_connection_pipelining/)
-**다음**: [466. HTTP/2 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/466_http2_multiplexing_hpack/) →
+<- **이전**: [464. HTTP 1.1](/knowledge-base/studynote/03_network/09_application_layer_web_email/464_http_1_1_persistent_connection_pipelining/)
+**다음**: [466. HTTP/2 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/466_http2_multiplexing_hpack/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
+    |
+    v
 [중간자 공격 도청 흐름과 통제 조치]
-    │
-    └──▶ [세션 하이재킹]
+    |
+    +---> [세션 하이재킹]
 ```
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
+    |
+    v
 [중간자 공격 도청 흐름과 통제 조치]
-    │
-    └──▶ [세션 하이재킹]
+    |
+    +---> [세션 하이재킹]
 ```
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 중간자 공격 도청 흐름과 통제 조치]
-    │
-    ├──▶ [확장 A: 세션 하이재킹]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 세션 하이재킹]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 827 / 1120
 
-← **이전**: [705. DNS 스푸핑 / DNS Cache Poisoning 매칭 결함 포트 번호 난수 제어 취약 노출 방어 기법 (DNSSEC 도입](/knowledge-base/studynote/03_network/14_network_security_threats/705_dns_spoofing_cache_poisoning_dnssec/)
-**다음**: [707. 세션 하이재킹 (Session Hijacking / TCP Seq 번호 추정 절도 등 탈취/Cookie/토큰 갈취 기법)](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) →
+<- **이전**: [705. DNS 스푸핑 / DNS Cache Poisoning 매칭 결함 포트 번호 난수 제어 취약 노출 방어 기법 (DNSSEC 도입](/knowledge-base/studynote/03_network/14_network_security_threats/705_dns_spoofing_cache_poisoning_dnssec/)
+**다음**: [707. 세션 하이재킹 (Session Hijacking / TCP Seq 번호 추정 절도 등 탈취/Cookie/토큰 갈취 기법)](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) ->
 
 ---

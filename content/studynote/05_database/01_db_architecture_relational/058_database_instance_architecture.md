@@ -63,11 +63,11 @@ tags = ["database"]
 
 ```text
 Instance 시작
-   ↓
+   v
 메모리 할당
-   ↓
+   v
 백그라운드 프로세스 기동
-   ↓
+   v
 Database 열기
 ```
 
@@ -91,11 +91,11 @@ Database 열기
 
 ```text
 Database 파일
-   ↓
+   v
 Instance
-   ├─ SGA
-   └─ Background Processes
-   ↓
+   +- SGA
+   +- Background Processes
+   v
 서비스 동작 / 복구
 ```
 
@@ -103,11 +103,11 @@ Instance
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → 저장 중심
-2. 인스턴스 → 실행 중심
-3. SGA → 메모리 관리
-4. 백그라운드 프로세스 → [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) / [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
-5. 체크포인트와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) → 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계
+1. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> 저장 중심
+2. 인스턴스 -> 실행 중심
+3. SGA -> 메모리 관리
+4. 백그라운드 프로세스 -> [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) / [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
+5. 체크포인트와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계
 
 ---
 
@@ -123,7 +123,7 @@ Instance
 
 **진행 상황**: 58 / 600
 
-← **이전**: [57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/)
-**다음**: [59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) →
+<- **이전**: [57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/)
+**다음**: [59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/) ->
 
 ---

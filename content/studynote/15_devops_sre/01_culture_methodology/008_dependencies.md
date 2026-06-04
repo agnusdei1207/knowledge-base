@@ -32,47 +32,47 @@ tags = ["devops_sre"]
 [전통적 암시적 종속성 vs 명시적 종속성 격리]
 
 ❌ 전형적 암시적 종속성 문제
-┌─────────────────────────────────────────────┐
-│  Developer A PC              │  CI Server   │
-│  ┌─────────────────────┐   │   ┌───────────────┐
-│  │ Python              │   │   │  Python       │
-│  │  ├─ Flask (2.0)     │   │   │   ├─ Flask (1.0) │
-│  │  ├─ Requests (2.28)  │   │   │   ├─ Requests   │
-│  │  ├─ Pandas (1.5.0)  │   │   │   │    (2.25)   │
-│  │  └─ [기타 수십 개]   │   │   │   └─ [다름]      │
-│  │ (전역 설치, 불명확)   │   │   │ (전역 설치, 불일치)│
-│  └─────────────────────┘   │   └───────────────┘
-└─────────────────────────────────────────────┘
-  문제: 환경 불일치 → 배포 시 예상 못한 에러 발생
++---------------------------------------------+
+|  Developer A PC              |  CI Server   |
+|  +---------------------+   |   +---------------+
+|  | Python              |   |   |  Python       |
+|  |  +- Flask (2.0)     |   |   |   +- Flask (1.0) |
+|  |  +- Requests (2.28)  |   |   |   +- Requests   |
+|  |  +- Pandas (1.5.0)  |   |   |   |    (2.25)   |
+|  |  +- [기타 수십 개]   |   |   |   +- [다름]      |
+|  | (전역 설치, 불명확)   |   |   | (전역 설치, 불일치)|
+|  +---------------------+   |   +---------------+
++---------------------------------------------+
+  문제: 환경 불일치 -> 배포 시 예상 못한 에러 발생
 
 ✓ 명시적 종속성 격리 (12팩터 원칙)
-┌─────────────────────────────────────────────────────┐
-│  선언적 종속성 파일 (requirements.txt, package.json)│
-│  ┌─────────────────────────────────────────────┐  │
-│  │ {                                          │  │
-│  │   "dependencies": {                        │  │
-│  │     "flask": "~2.0.0",                    │  │
-│  │     "requests": "^2.28.0",                │  │
-│  │     "pandas": "~1.5.0"                    │  │
-│  │   }                                        │  │
-│  │ }                                          │  │
-│  └─────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────┘
-          │                              │
-          ▼                              ▼
-┌─────────────────────┐      ┌─────────────────────┐
-│ Developer A PC      │      │  CI Server          │
-│ (가상환경/컨테이너)  │      │  (가상환경/컨테이너) │
-│ ┌─────────────────┐ │      │ ┌─────────────────┐ │
-│ │ my_app          │ │      │ │ my_app          │ │
-│ │ ├─ venv/        │ │      │ │ ├─ venv/        │ │
-│ │ │   ├─ Flask 2.0│ │◀────▶│ │ │   ├─ Flask 2.0│ │
-│ │ │   ├─ Request │ │동일   │ │ │   ├─ Request │ │
-│ │ │   │   2.28   │ │      │ │ │   │   2.28   │ │
-│ │ │   └─ Pandas  │ │      │ │ │   └─ Pandas  │ │
-│ │ │       1.5.0  │ │      │ │ │       1.5.0  │ │
-│ │ └───────────────┘ │      │ │ └───────────────┘ │
-│ └─────────────────────┘      └─────────────────────┘
++-----------------------------------------------------+
+|  선언적 종속성 파일 (requirements.txt, package.json)|
+|  +---------------------------------------------+  |
+|  | {                                          |  |
+|  |   "dependencies": {                        |  |
+|  |     "flask": "~2.0.0",                    |  |
+|  |     "requests": "^2.28.0",                |  |
+|  |     "pandas": "~1.5.0"                    |  |
+|  |   }                                        |  |
+|  | }                                          |  |
+|  +---------------------------------------------+  |
++-----------------------------------------------------+
+          |                              |
+          v                              v
++---------------------+      +---------------------+
+| Developer A PC      |      |  CI Server          |
+| (가상환경/컨테이너)  |      |  (가상환경/컨테이너) |
+| +-----------------+ |      | +-----------------+ |
+| | my_app          | |      | | my_app          | |
+| | +- venv/        | |      | | +- venv/        | |
+| | |   +- Flask 2.0| |<------>| | |   +- Flask 2.0| |
+| | |   +- Request | |동일   | | |   +- Request | |
+| | |   |   2.28   | |      | | |   |   2.28   | |
+| | |   +- Pandas  | |      | | |   +- Pandas  | |
+| | |       1.5.0  | |      | | |       1.5.0  | |
+| | +---------------+ |      | | +---------------+ |
+| +---------------------+      +---------------------+
 ```
 
 이 그림의 핵심은 종속성이 명시적으로 선언되면, 모든 환경(개발자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버, 프로덕션)에서 동일한판본적 종속성이 설치된다는 점이다. 이를 통해"동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) + 동일한 종속성 선언 = 동일한 동작"이라는 공식이 성립한다. 가상 환경(Virtual [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 사용하면 종속성이 시스템 전역이 아닌 애플리케이션 Within에 격리되어 설치되므로, 다른 애플리케이션과의 충돌도방げる.
@@ -101,62 +101,62 @@ tags = ["devops_sre"]
 [종속성 격리의 내부 동작 메커니즘]
 
 1. 종속성 선언 ( Declarative Dependency)
-┌──────────────────────────────────────┐
-│  package.json                        │
-│  ┌────────────────────────────────┐ │
-│  │ "dependencies": {              │ │
-│  │   "express": "^4.18.0",        │ │
-│  │   "mongoose": "^6.9.0"        │ │
-│  │ }                              │ │
-│  │ "devDependencies": {          │ │
-│  │   "jest": "^29.0.0",           │ │
-│  │   "eslint": "^8.0.0"           │ │
-│  │ }                              │ │
-│  └────────────────────────────────┘ │
-└──────────────────────────────────────┘
-           │
-           │ npm install / pip install
-           ▼
++--------------------------------------+
+|  package.json                        |
+|  +--------------------------------+ |
+|  | "dependencies": {              | |
+|  |   "express": "^4.18.0",        | |
+|  |   "mongoose": "^6.9.0"        | |
+|  | }                              | |
+|  | "devDependencies": {          | |
+|  |   "jest": "^29.0.0",           | |
+|  |   "eslint": "^8.0.0"           | |
+|  | }                              | |
+|  +--------------------------------+ |
++--------------------------------------+
+           |
+           | npm install / pip install
+           v
 2. 종속성 설치 및 격리 (Installation & Isolation)
-┌──────────────────────────────────────┐
-│  애플리케이션 디렉토리                │
-│  ┌──────────────────────────────┐    │
-│  │ my-app/                      │    │
-│  │ ├── node_modules/            │    │ ← 격리된 종속성
-│  │ │   ├── express/             │    │   (전역 설치 아님)
-│  │ │   ├── mongoose/            │    │
-│  │ │   └── [다른 종속성들...]    │    │
-│  │ ├── src/                     │    │
-│  │ ├── package.json             │    │
-│  │ └── package-lock.json        │    │ ← 정확한 버전 잠금
-│  └──────────────────────────────┘    │
-└──────────────────────────────────────┘
-           │
-           │ 종속성 트랜잭션 (Dependency Resolution)
-           ▼
++--------------------------------------+
+|  애플리케이션 디렉토리                |
+|  +------------------------------+    |
+|  | my-app/                      |    |
+|  | +-- node_modules/            |    | <- 격리된 종속성
+|  | |   +-- express/             |    |   (전역 설치 아님)
+|  | |   +-- mongoose/            |    |
+|  | |   +-- [다른 종속성들...]    |    |
+|  | +-- src/                     |    |
+|  | +-- package.json             |    |
+|  | +-- package-lock.json        |    | <- 정확한 버전 잠금
+|  +------------------------------+    |
++--------------------------------------+
+           |
+           | 종속성 트랜잭션 (Dependency Resolution)
+           v
 3. 종속성 해석 및 검증 (Resolution & Verification)
-┌──────────────────────────────────────┐
-│  종속성 트리 (Dependency Tree)       │
-│  ┌────────────────────────────────┐ │
-│  │ my-app                         │ │
-│  │ ├── express@4.18.2            │ │
-│  │ │   ├── accepts@1.3.7         │ │
-│  │ │   │   └── type-is@1.0.0    │ │
-│  │ │   ├── body-parser@1.20.0    │ │
-│  │ │   │   └── raw-body@2.5.0   │ │
-│  │ │   └── ...                   │ │
-│  │ ├── mongoose@6.9.1           │ │
-│  │ │   ├── mongodb@4.13.0        │ │
-│  │ │   └── ...                   │ │
-│  │ └── jest@29.4.0               │ │
-│  │     └── ...                   │ │
-│  └────────────────────────────────┘ │
-│                                      │
-│  중복 종속성 자동 처리:               │
-│  npm은 동일한 패키지의 다른 버전을     │
-│  중첩된 node_modules에 설치하여       │
-│  충돌을 방지                         │
-└──────────────────────────────────────┘
++--------------------------------------+
+|  종속성 트리 (Dependency Tree)       |
+|  +--------------------------------+ |
+|  | my-app                         | |
+|  | +-- express@4.18.2            | |
+|  | |   +-- accepts@1.3.7         | |
+|  | |   |   +-- type-is@1.0.0    | |
+|  | |   +-- body-parser@1.20.0    | |
+|  | |   |   +-- raw-body@2.5.0   | |
+|  | |   +-- ...                   | |
+|  | +-- mongoose@6.9.1           | |
+|  | |   +-- mongodb@4.13.0        | |
+|  | |   +-- ...                   | |
+|  | +-- jest@29.4.0               | |
+|  |     +-- ...                   | |
+|  +--------------------------------+ |
+|                                      |
+|  중복 종속성 자동 처리:               |
+|  npm은 동일한 패키지의 다른 버전을     |
+|  중첩된 node_modules에 설치하여       |
+|  충돌을 방지                         |
++--------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: 종속성 격리는"음식의 반찬 관리"와 같다. 어떤 요리(애플리케이션)에 필요한 반찬(종속성)은 냉장고(시스템 전역)가 아닌 요리사 개인 냉장고(격리된 환경)에 별도로 보관한다. 그래야 다른 요리사와 냉장고 공간을 공유하면서도 서로의 반찬이 섞이지 않는다. 만약 누군가가 냉장고를 공유하면(전역 설치) 같은 밀가루를 놓고 다른 용도로 사용하다충돌이 발생할 수 있다.
@@ -169,10 +169,10 @@ tags = ["devops_sre"]
 
 | 관련 개념 | 종속성 격리와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 시너지 효과 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 종속성을 격리하는기술제공 | Dockerfile에서 종속성 선언 → 완전한 환경 격리 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 종속성을 격리하는기술제공 | Dockerfile에서 종속성 선언 -> 완전한 환경 격리 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 종속성 설치는Deterministic | 빌드Reproducibility 보장, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)으로 빌드 속도 향상 |
 | <strong>보안 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a>)</strong> | 종속성 스캔은 보안 취약점 발견 수단 | 취약한 종속성 예방적 발견/갱신 |
-| <strong>모놀리식 → <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 전환</strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 종속성 관리우위중요 | [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)의 판본 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 필요 |
+| <strong>모놀리식 -> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 전환</strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 종속성 관리우위중요 | [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)의 판본 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 필요 |
 
 특히 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와의 결합은 종속성 격리의 완벽한 실현이다. Dockerfile에서 `RUN npm ci` 또는 `RUN pip install -r requirements.txt`를 사용하여 종속성을インストール하면, 그 이미지가 실행되는 모든 환경(개발자 laptop, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), 프로덕션)에서 동일한 종속성이 보장된다.
 
@@ -180,37 +180,37 @@ tags = ["devops_sre"]
 [Docker와 종속성 격리의 결합]
 
 Dockerfile
-┌─────────────────────────────────────────────────┐
-│  FROM node:18-alpine                            │
-│                                                 │
-│  WORKDIR /app                                  │
-│                                                 │
-│  # 종속성 선언 복사 (레이어 캐싱 최적화)          │
-│  COPY package*.json ./                         │
-│                                                 │
-│  # 프로덕션 종속성만 설치 (devDependencies 제외) │
-│  RUN npm ci --only=production                  │
-│                                                 │
-│  # 소스 코드 복사                               │
-│  COPY ./ ./                                    │
-│                                                 │
-│  EXPOSE 3000                                   │
-│  CMD ["node", "src/index.js"]                  │
-└─────────────────────────────────────────────────┘
-              │
-              │ docker build
-              ▼
-┌─────────────────────────────────────────────────┐
-│  Docker Image (불변하고 격리된 환경)              │
-│  ┌─────────────────────────────────────────┐    │
-│  │ Layer 1: node:18-alpine (베이스)        │    │
-│  │ Layer 2: npm packages (종속성 격리)    │    │
-│  │ Layer 3: application source            │    │
-│  └─────────────────────────────────────────┘    │
-│                                                 │
-│  이 이미지는 어떤 환경에서 실행해도                │
-│  동일한 Node.js 버전과 동일한 npm 패키지를 사용  │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|  FROM node:18-alpine                            |
+|                                                 |
+|  WORKDIR /app                                  |
+|                                                 |
+|  # 종속성 선언 복사 (레이어 캐싱 최적화)          |
+|  COPY package*.json ./                         |
+|                                                 |
+|  # 프로덕션 종속성만 설치 (devDependencies 제외) |
+|  RUN npm ci --only=production                  |
+|                                                 |
+|  # 소스 코드 복사                               |
+|  COPY ./ ./                                    |
+|                                                 |
+|  EXPOSE 3000                                   |
+|  CMD ["node", "src/index.js"]                  |
++-------------------------------------------------+
+              |
+              | docker build
+              v
++-------------------------------------------------+
+|  Docker Image (불변하고 격리된 환경)              |
+|  +-----------------------------------------+    |
+|  | Layer 1: node:18-alpine (베이스)        |    |
+|  | Layer 2: npm packages (종속성 격리)    |    |
+|  | Layer 3: application source            |    |
+|  +-----------------------------------------+    |
+|                                                 |
+|  이 이미지는 어떤 환경에서 실행해도                |
+|  동일한 Node.js 버전과 동일한 npm 패키지를 사용  |
++-------------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: Docker와 종속성 격리의 결합은"진공 포장 식재료"와 같다. 요리사(개발자)가 레시피(코드)와 함께 필요한 식재료(종속성)를진공 포장하여([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지)중앙주방(프로덕션)에 전달하면, 그 식재료는 어디에서든 동일한품질을 유지한다. 중앙주방에서는 어떤 다른 식재료와 섞이지 않고(격리), 필요한 만큼만 사용하여(최적화) 요리를 만든다.
@@ -235,18 +235,18 @@ Dockerfile
 문제 1: "여기서는 되는데 저기서는 안 된다"
 원인: 종속성 버전 불일치
 해결: package-lock.json 등 Lock 파일을 항상 함께 배포
-     → `npm ci` (clean install) 사용
+     -> `npm ci` (clean install) 사용
 
 문제 2: 빌드할 때마다 다른 결과
 원인: 종속성 순서 또는 transitive 종속성 차이
 해결: Lock 파일의 해시로 무결성 검증
-     → npm: package-lock.json의 integrity 필드
-     → pip: pipenv 또는 poetry의 lock 파일
+     -> npm: package-lock.json의 integrity 필드
+     -> pip: pipenv 또는 poetry의 lock 파일
 
 문제 3: 보안 취약점이 포함된 종속성
 원인: 오래된 라이브러리 버전 사용
 해결: SCA (Software Composition Analysis) 도구 활용
-     → npm audit, Snyk, Dependabot 등
+     -> npm audit, Snyk, Dependabot 등
 ```
 
 > 📢 **섹션 요약 비유**: 종속성 문제는"가이드북 없는_foreign 음식 만들기"와 같다. 한국 셰프가 중국 요리 레시피를 보고 따라하려고 하는데, 재료의 원산지와 질감이 다르니(종속성 불일치) 결과물이완전불동해진다. 그러나 식재료의 브랜드와 원산지를 명시하면(종속성 선언) 어느 나라의 셰프든 동일한 요리를 만들 수 있다.
@@ -259,7 +259,7 @@ Dockerfile
 
 | 관점 | 종속성 격리 미적용 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 종속성 격리 적용 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
-| <strong>빌드 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 개발 OK, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패 → 이유 불명확 | 모든 환경에서 동일한 빌드 결과 | 빌드 실패율 감소 |
+| <strong>빌드 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 개발 OK, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패 -> 이유 불명확 | 모든 환경에서 동일한 빌드 결과 | 빌드 실패율 감소 |
 | **배포 Reproducibility** | "Production에서만 안 돼" 현상 | 환경 무관 일관된 동작 | 디버깅 시간 단축 |
 | **보안** | 취약한 종속성 미인식 | SCA로 취약점 선제적 발견 | 보안 인시던트 감소 |
 | **개발자 온보딩** | 새 개발자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 수일 소요 | `npm install` 한 번으로 즉시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 온보딩 시간 80% 단축 |
@@ -290,17 +290,17 @@ Dockerfile
 
 ```text
 [의존성 선언 (Dependency Declaration) — requirements.txt, package.json]
-    │
-    ▼
+    |
+    v
 [의존성 잠금 (Lock File) — 버전 고정 불변성]
-    │
-    ▼
+    |
+    v
 [가상 환경 격리 (venv / Docker) — 환경 재현성]
-    │
-    ▼
+    |
+    v
 [소프트웨어 구성 분석 (SCA, Software Composition Analysis)]
-    │
-    ▼
+    |
+    v
 [SBOM (Software Bill of Materials) — 공급망 보안]
 ```
 
@@ -318,7 +318,7 @@ DevOps에서 의존성 관리가 단순 [버전](/knowledge-base/studynote/03_ne
 
 **진행 상황**: 8 / 373
 
-← **이전**: [7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)
-**다음**: [9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) →
+<- **이전**: [7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)
+**다음**: [9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ->
 
 ---

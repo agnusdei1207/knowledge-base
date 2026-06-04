@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [서포트 벡터 머신](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/))의 소프트 마진(Soft Margin)은 선형 분리 불가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 슬랙 변수(Slack Variable) ξᵢ ≥ 0을 도입해 일부 샘플이 마진 경계를 위반하도록 허용하는 완화된 최적화 공식이다.
 > 2. **가치**: 하이퍼파라미터 C([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 파라미터)로 마진 최대화(일반화)와 오분류 허용 정도를 트레이드오프 조정하여, 노이즈가 있는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 강건한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 만든다.
-> 3. **판단 포인트**: C가 크면 오분류를 강력히 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(하드 마진화 → 과적합), C가 작으면 마진을 최대화(소프트 마진 → 일반화). 최적 C는 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)으로 결정한다.
+> 3. **판단 포인트**: C가 크면 오분류를 강력히 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(하드 마진화 -> 과적합), C가 작으면 마진을 최대화(소프트 마진 -> 일반화). 최적 C는 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)으로 결정한다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 하드 마진([Hard Margin](/knowledge-base/studynote/06_ict_convergence/05_data_science/362_svm_hard_soft_margin/)) SVM은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 선형 분리 가능하다는 가정이 필요하다. 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)나 노이즈가 있어 완전 분리가 불가하거나, 분리되더라도 마진이 너무 작아 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나쁘다. 소프트 마진 SVM은 슬랙 변수 ξᵢ를 통해 각 샘플이 마진을 "조금 위반"할 수 있도록 허용하되, 위반량에 비례한 페널티를 추가한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 하드 마진 SVM은 "단 한 명도 경계선 안으로 들어오면 안 되는 군사 통제 구역"이다. 소프트 마진 SVM은 "약간의 위반은 허용하되 벌금(C·ξ)을 내는 완화된 구역"이다. 현실에서는 완화된 구역이 더 실용적이다.
@@ -37,24 +37,24 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│          소프트 마진 SVM 최적화 문제                     │
-├──────────────────────────────────────────────────────────┤
-│  하드 마진 (Hard Margin):                               │
-│  min ½||w||²   subject to  yᵢ(w·xᵢ + b) ≥ 1          │
-│                                                          │
-│  소프트 마진 (Soft Margin):                             │
-│  min ½||w||² + C·Σᵢ ξᵢ                                │
-│  s.t. yᵢ(w·xᵢ + b) ≥ 1 - ξᵢ,  ξᵢ ≥ 0               │
-│                                                          │
-│  ξᵢ = 0: 마진 경계 밖 (정상 분류)                      │
-│  0 < ξᵢ < 1: 마진 경계 안, 올바른 쪽 (margin violator)│
-│  ξᵢ ≥ 1: 결정 경계 너머 (오분류)                       │
-│                                                          │
-│  C 파라미터 효과:                                       │
-│  C ↑ → 오분류 페널티 ↑ → 좁은 마진 → 과적합 위험     │
-│  C ↓ → 오분류 허용 ↑ → 넓은 마진 → 일반화            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          소프트 마진 SVM 최적화 문제                     |
++----------------------------------------------------------+
+|  하드 마진 (Hard Margin):                               |
+|  min ½||w||^   subject to  yᵢ(w·xᵢ + b) ≥ 1          |
+|                                                          |
+|  소프트 마진 (Soft Margin):                             |
+|  min ½||w||^ + C·Σᵢ ξᵢ                                |
+|  s.t. yᵢ(w·xᵢ + b) ≥ 1 - ξᵢ,  ξᵢ ≥ 0               |
+|                                                          |
+|  ξᵢ = 0: 마진 경계 밖 (정상 분류)                      |
+|  0 < ξᵢ < 1: 마진 경계 안, 올바른 쪽 (margin violator)|
+|  ξᵢ ≥ 1: 결정 경계 너머 (오분류)                       |
+|                                                          |
+|  C 파라미터 효과:                                       |
+|  C ^ -> 오분류 페널티 ^ -> 좁은 마진 -> 과적합 위험     |
+|  C v -> 오분류 허용 ^ -> 넓은 마진 -> 일반화            |
++----------------------------------------------------------+
 ```
 
 | 조건 | 슬랙값 ξᵢ | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 상태 |
@@ -110,7 +110,7 @@ C 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_q
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [SVM 슬랙 변수 (Slack Variable)] → [최적화·운영 자동화]
+[데이터 전처리] -> [SVM 슬랙 변수 (Slack Variable)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ C 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_q
 
 **진행 상황**: 367 / 420
 
-← **이전**: [366. 동시 등장 행렬 (Co-occurrence Matrix)](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)
-**다음**: [368. RBF 커널 (Radial Basis Function Kernel)](/knowledge-base/studynote/10_ai/05_data_science_ml/368_rbf_kernel/) →
+<- **이전**: [366. 동시 등장 행렬 (Co-occurrence Matrix)](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)
+**다음**: [368. RBF 커널 (Radial Basis Function Kernel)](/knowledge-base/studynote/10_ai/05_data_science_ml/368_rbf_kernel/) ->
 
 ---

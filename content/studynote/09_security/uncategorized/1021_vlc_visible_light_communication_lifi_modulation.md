@@ -22,15 +22,15 @@ tags = ["studynote-security"]
 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)는 보안 확장 개념에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 실내 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/) [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명 무선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 스니핑 원천 차단 RF 주파수 고갈 대안 기술 조명 통신망 융합 모델 (심화)가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 왜 가시광 통신 (VLC) 라이파이가 필요한가                                   │
-├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 가시광 통신 (VLC) 라이파이로 통제·판단 ────┘    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 왜 가시광 통신 (VLC) 라이파이가 필요한가                                   |
++--------------------------------------------------------------+
+| 자산·서비스 운영 -► 노출/불확실성 -► 위험 확대              |
+|                     +---- 가시광 통신 (VLC) 라이파이로 통제·판단 ----+    |
++--------------------------------------------------------------+
 ```
 
-이 그림은 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)가 등장한 배경을 "노출 증가 -> 위험 확대 -> 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 복잡한 도시 지도를 구역별로 나눠 보면 길을 찾기 쉬워지는 것과 같다.
 
@@ -47,12 +47,12 @@ tags = ["studynote-security"]
 | 운영 포인트 | [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 핵심 동작 구조                                               |
++--------------------------------------------------------------+
+| 입력/요청 -► 검증·판단 -► 적용·변환 -► 기록·피드백          |
+|              +-------- 정책·키·상태 관리 -------+           |
++--------------------------------------------------------------+
 ```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)를 다른 기술과 연결해도 설명이 흔들리지 않는다.
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [복잡한 문제 구조화 필요]
-    │
-    ▼
+    |
+    v
 [가시광 통신 (VLC) 라이파이 (Li-Fi)]
-    │
-    ├──▶ [구성 요소 세분화]
-    └──▶ [실무 로드맵 적용]
+    |
+    +---> [구성 요소 세분화]
+    +---> [실무 로드맵 적용]
 ```
 
 이 흐름도는 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 136 / 1108
 
-← **이전**: [1021. Searchable Encryption (검색 가능 암호)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1021_searchable_encryption/)
-**다음**: [1022. 방변조 하드웨어 (Anti-tamper Hardware (Anti Tamper Hardware)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1022_anti_tamper_hardware/) →
+<- **이전**: [1021. Searchable Encryption (검색 가능 암호)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1021_searchable_encryption/)
+**다음**: [1022. 방변조 하드웨어 (Anti-tamper Hardware (Anti Tamper Hardware)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1022_anti_tamper_hardware/) ->
 
 ---

@@ -38,15 +38,15 @@ HPA는 내부적으로 제어 루프 (Control Loop)를 돌며 보통 15초 단�
 | [레플리카셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) ([ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)) / [디플로이먼트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 개수를 관리하고 증감 실행 | 상태가 없는 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 워크로드 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           HPA 제어 루프: 15초 주기의 메트릭 평가 및 조정        │
-├──────────────────────────────────────────────────────────────┤
-│ [파드 부하 증가] ─▶ [Metrics Server 수집] ─▶ [HPA 수식 계산]  │
-│                                                     │        │
-│    (목표 레플리카 = 현재 레플리카 × 현재 메트릭 / 목표 메트릭)    │
-│                                                     │        │
-│ [부하 분산 안정화] ◀─ [Deployment/ReplicaSet 개수 갱신] ◀───┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           HPA 제어 루프: 15초 주기의 메트릭 평가 및 조정        |
++--------------------------------------------------------------+
+| [파드 부하 증가] --> [Metrics Server 수집] --> [HPA 수식 계산]  |
+|                                                     |        |
+|    (목표 레플리카 = 현재 레플리카 × 현재 메트릭 / 목표 메트릭)    |
+|                                                     |        |
+| [부하 분산 안정화] <-- [Deployment/ReplicaSet 개수 갱신] <----+
++--------------------------------------------------------------+
 ```
 
 HPA는 "목표 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 = 올림(현재 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 * (현재 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) / 목표 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)))"이라는 수학적 공식을 통해 몇 개의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 추가로 필요한지 도출한다. `requests` 값이 없으면 HPA는 기준점을 잡지 못해 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 멈추게 된다.
@@ -111,21 +111,21 @@ HPA를 올바르게 구성하면 운영자는 트래픽 폭주로 인한 새벽 
 
 ```text
 메트릭 서버 (Metrics Server) 수집
-    │
-    ▼
+    |
+    v
 HPA (Horizontal Pod Autoscaler)의 CPU/RAM 기반 스케일링
-    │
-    ▼
+    |
+    v
 스케일 인 플래핑 (Flapping) 방지 및 쿨다운 튜닝
-    │
-    ▼
+    |
+    v
 KEDA (Kubernetes Event-driven Autoscaling) 커스텀 메트릭
-    │
-    ▼
+    |
+    v
 CA (Cluster Autoscaler)와의 유기적 연동 (서버 자동 증설)
 ```
 
-이 흐름도는 "상태 측정 → 기본 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) → 안정성 확보 → 비즈니스 지표 확장 → 물리 인프라 확장"으로 개념이 진화하는 과정을 보여준다.
+이 흐름도는 "상태 측정 -> 기본 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) -> 안정성 확보 -> 비즈니스 지표 확장 -> 물리 인프라 확장"으로 개념이 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ CA (Cluster Autoscaler)와의 유기적 연동 (서버 자동 증설)
 
 **진행 상황**: 94 / 371
 
-← **이전**: [94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)
-**다음**: [96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) →
+<- **이전**: [94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)
+**다음**: [96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) ->
 
 ---

@@ -19,19 +19,19 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Terraform 워크플로                                  │
-├───────────────────────────────────────────────────────┤
-│  1. Write: main.tf에 인프라 선언                      │
-│     resource "aws_instance" "web" {                   │
-│       ami           = "ami-xxx"                       │
-│       instance_type = "t3.micro"                      │
-│     }                                                 │
-│  2. Plan: terraform plan → 변경 사항 미리 확인        │
-│     + aws_instance.web will be created                │
-│  3. Apply: terraform apply → 실제 생성                │
-│  4. State: terraform.tfstate에 현재 상태 기록         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Terraform 워크플로                                  |
++-------------------------------------------------------+
+|  1. Write: main.tf에 인프라 선언                      |
+|     resource "aws_instance" "web" {                   |
+|       ami           = "ami-xxx"                       |
+|       instance_type = "t3.micro"                      |
+|     }                                                 |
+|  2. Plan: terraform plan -> 변경 사항 미리 확인        |
+|     + aws_instance.web will be created                |
+|  3. Apply: terraform apply -> 실제 생성                |
+|  4. State: terraform.tfstate에 현재 상태 기록         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Terraform은 건축 설계도(HCL)를 주면 로봇([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))이 자동으로 건물(인프라)을 짓는 시스템이다. Plan은 시뮬레이션, Apply는 실제 시공.
@@ -48,7 +48,7 @@ tags = ["studynote-cloud-architecture"]
 | **Resource** | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 인프라 단위 (EC2, [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), RDS 등) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a></strong> | 재사용 가능한 리소스 묶음 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 현재 인프라 상태 기록 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
-| **Plan/Apply** | 변경 미리보기 → 실제 적용 2단계 |
+| **Plan/Apply** | 변경 미리보기 -> 실제 적용 2단계 |
 
 ### [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 관리 [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
 
@@ -78,18 +78,18 @@ tags = ["studynote-cloud-architecture"]
 ### [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조 예시
 ```
 infra/
-├── modules/
-│   ├── vpc/
-│   ├── eks/
-│   └── rds/
-├── environments/
-│   ├── dev/
-│   ├── staging/
-│   └── prod/
++-- modules/
+|   +-- vpc/
+|   +-- eks/
+|   +-- rds/
++-- environments/
+|   +-- dev/
+|   +-- staging/
+|   +-- prod/
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 로컬 보관 + 팀 작업</strong>: 동시 수정 시 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌 → S3 원격 백엔드 필수.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 로컬 보관 + 팀 작업</strong>: 동시 수정 시 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌 -> S3 원격 백엔드 필수.
 
 ---
 
@@ -119,17 +119,17 @@ Terraform은 OpenTofu([OSS](/knowledge-base/studynote/12_it_management/05_securi
 
 ```text
 [수동 콘솔 인프라 관리 (2010s)]
-    │
-    ▼
+    |
+    v
 [Terraform 0.x (2014, HashiCorp) — 멀티클라우드 IaC]
-    │
-    ▼
+    |
+    v
 [Terraform Module Registry (2017~) — 재사용 모듈 생태계]
-    │
-    ▼
-[BSL 라이선스 전환 (2023) → OpenTofu Fork]
-    │
-    ▼
+    |
+    v
+[BSL 라이선스 전환 (2023) -> OpenTofu Fork]
+    |
+    v
 [현재: Terraform CDK + AI 인프라 자동 생성]
 ```
 
@@ -144,7 +144,7 @@ Terraform은 OpenTofu([OSS](/knowledge-base/studynote/12_it_management/05_securi
 
 **진행 상황**: 114 / 371
 
-← **이전**: [114. Argo CD (ArgoCD GitOps CD) - K8s 선언적 지속 배포·Git 단일 진실 원천](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/)
-**다음**: [116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/116_kubernetes_container_image_security_scanning/) →
+<- **이전**: [114. Argo CD (ArgoCD GitOps CD) - K8s 선언적 지속 배포·Git 단일 진실 원천](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/)
+**다음**: [116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/116_kubernetes_container_image_security_scanning/) ->
 
 ---

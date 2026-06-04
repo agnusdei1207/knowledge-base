@@ -25,14 +25,14 @@ AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 
 아래 그림은 이 분석이 단순한 "현재 vs 미래" 비교가 아니라, 변화 경로를 함께 설계하는 구조임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ AS-IS  ->  GAP  ->  TO-BE                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ current process   : what is really happening now?                 │
-│ current pain      : delay / error / duplicate work                │
-│ target capability : what must be different?                       │
-│ transition items  : process / system / data / organization tasks  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| AS-IS  ->  GAP  ->  TO-BE                                         |
++--------------------------------------------------------------------+
+| current process   : what is really happening now?                 |
+| current pain      : delay / error / duplicate work                |
+| target capability : what must be different?                       |
+| transition items  : process / system / data / organization tasks  |
++--------------------------------------------------------------------+
 ```
 
 즉 이 분석의 목적은 "예쁜 미래 그림"을 그리는 데 있지 않다. <strong>현재의 사실을 기준선으로 잡고, 목표 상태를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능하게 정의하며, 그 사이의 변화 비용을 보이게 하는 것</strong>이 진짜 목적이다.
@@ -43,7 +43,7 @@ AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 AS-IS / TO-BE 분석은 보통 **현재 파악 → 문제 진단 → 목표 설계 → Gap 분석 → 이행 로드맵** 순서로 진행된다. 여기서 중요한 점은 현재와 미래를 단순히 서술하는 것이 아니라, 같은 비교 축 위에 올려 놓아야 한다는 것이다. 프로세스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 조직 역할, 핵심성과지표 ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) 같은 축을 통일해야 변화 항목이 선명하게 드러난다.
+좋은 AS-IS / TO-BE 분석은 보통 **현재 파악 -> 문제 진단 -> 목표 설계 -> Gap 분석 -> 이행 로드맵** 순서로 진행된다. 여기서 중요한 점은 현재와 미래를 단순히 서술하는 것이 아니라, 같은 비교 축 위에 올려 놓아야 한다는 것이다. 프로세스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 조직 역할, 핵심성과지표 ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) 같은 축을 통일해야 변화 항목이 선명하게 드러난다.
 
 | 단계 | 핵심 질문 | 대표 산출물 |
 | :--- | :--- | :--- |
@@ -57,15 +57,15 @@ AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 
 다음 표는 같은 대상 업무를 여러 층위에서 비교하는 방식을 예시로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Four-layer gap matrix                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Layer    AS-IS                Gap               TO-BE              │
-│ Process  manual approval      3-day delay       workflow engine    │
-│ Data     duplicate master     inconsistency     single source      │
-│ System   silo applications    re-entry work     API integration    │
-│ Org      unclear owner        handoff conflict   RACI clarified     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Four-layer gap matrix                                              |
++--------------------------------------------------------------------+
+| Layer    AS-IS                Gap               TO-BE              |
+| Process  manual approval      3-day delay       workflow engine    |
+| Data     duplicate master     inconsistency     single source      |
+| System   silo applications    re-entry work     API integration    |
+| Org      unclear owner        handoff conflict   RACI clarified     |
++--------------------------------------------------------------------+
 ```
 
 이런 구조를 잡아 두면 TO-BE가 공허한 이상론으로 흐르지 않는다. 예를 들어 "결재를 실시간으로 바꾼다"는 목표가 있다면, 프로세스만 바꾸는 것으로는 부족하고 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/), 인터페이스, 권한 체계, 역할 책임까지 같이 바뀌어야 함이 드러난다. 그래서 AS-IS / TO-BE 분석은 단순한 인터뷰 정리가 아니라, <strong>변화를 시스템적으로 분해하는 설계 도구</strong>다.
@@ -104,22 +104,22 @@ AS-IS / TO-BE 분석은 흔히 현행 조사, Gap 분석, 요구사항 정의와
 아래 의사결정 흐름은 분석 범위와 깊이를 정할 때 자주 쓰는 질문을 정리한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Deciding the depth of AS-IS / TO-BE analysis                       │
-├────────────────────────────────────────────────────────────────────┤
-│ is the problem limited to one task or one screen?                  │
-│   ├─ yes -> narrow process-level analysis                          │
-│   └─ no                                                            │
-│        ├─ data / org / policy also affected? -> cross-domain study │
-│        ├─ multiple systems involved? -> architecture-level gap     │
-│        └─ rollout needed by phases? -> roadmap by release waves    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Deciding the depth of AS-IS / TO-BE analysis                       |
++--------------------------------------------------------------------+
+| is the problem limited to one task or one screen?                  |
+|   +- yes -> narrow process-level analysis                          |
+|   +- no                                                            |
+|        +- data / org / policy also affected? -> cross-domain study |
+|        +- multiple systems involved? -> architecture-level gap     |
+|        +- rollout needed by phases? -> roadmap by release waves    |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
 
 1. **현재 상태를 수치로 표현했는가?** 처리시간, 오류율, 재입력 횟수 등 기준선이 있어야 변화 효과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
-2. **TO-BE가 측정 가능하게 정의되었는가?** "좋아진다"가 아니라 "결재 3일 → 4시간"처럼 써야 한다.
+2. **TO-BE가 측정 가능하게 정의되었는가?** "좋아진다"가 아니라 "결재 3일 -> 4시간"처럼 써야 한다.
 3. <strong>변화 범위에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>·조직·<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 포함되는가?</strong> 시스템만 바꾸면 해결되지 않는 경우가 많다.
 4. **이행 우선순위가 있는가?** 한 번에 모든 것을 바꾸려 하면 실행력이 떨어진다.
 
@@ -162,21 +162,21 @@ AS-IS / TO-BE 분석을 제대로 수행하면 프로젝트는 막연한 개선 
 
 ```text
 observe current operations
-        │
-        ▼
+        |
+        v
 AS-IS baseline
-        │
-        ▼
+        |
+        v
 target capability design
-        │
-        ▼
+        |
+        v
 TO-BE model
-        │
-        ▼
+        |
+        v
 gap analysis
-        │
-        ├──────────────▶ prioritized requirements
-        └──────────────▶ transition roadmap and change management
+        |
+        +---------------> prioritized requirements
+        +---------------> transition roadmap and change management
 ```
 
 이 흐름도는 AS-IS / TO-BE 분석이 단순 비교표가 아니라, 요구사항 정의와 변화관리 계획으로 이어지는 상위 설계 프레임이라는 점을 보여 준다.
@@ -193,7 +193,7 @@ gap analysis
 
 **진행 상황**: 178 / 973
 
-← **이전**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/knowledge-base/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/)
-**다음**: [179. SWOT 분석, 3C/4C 분석 연계 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/179_swot_3c_4c_analysis/) →
+<- **이전**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/knowledge-base/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/)
+**다음**: [179. SWOT 분석, 3C/4C 분석 연계 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/179_swot_3c_4c_analysis/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)은 '제어권 vs 관리 부담'의 트레이드오프로, 위로 갈수록([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)→[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)) 관리할 것은 줄고 제어권도 줄어든다.
+> 1. **본질**: [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)은 '제어권 vs 관리 부담'의 트레이드오프로, 위로 갈수록([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)->[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)) 관리할 것은 줄고 제어권도 줄어든다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 올바르게 선택하면 운영 비용 절감과 개발 속도 향상을 동시에 달성할 수 있다.
 > 3. **판단 포인트**: 레거시 이전은 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), 빠른 개발은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), 완제품 구독은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 이벤트 기반 경량 로직은 FaaS로 판단한다.
 
@@ -39,18 +39,18 @@ tags = ["studynote-ict-convergence"]
 **책임 공유 모델(Shared Responsibility Model)**:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│            On-Premises → IaaS → PaaS → SaaS → FaaS          │
-├───────────────┬──────────────────────────────────────────────┤
-│  계층          │  On-Prem  IaaS   PaaS   SaaS   FaaS         │
-├───────────────┼──────────────────────────────────────────────┤
-│  Application  │  고객      고객    고객    벤더    벤더         │
-│  Runtime      │  고객      고객    벤더    벤더    벤더         │
-│  OS           │  고객      고객    벤더    벤더    벤더         │
-│  Virtualize   │  고객      벤더    벤더    벤더    벤더         │
-│  Hardware     │  고객      벤더    벤더    벤더    벤더         │
-└───────────────┴──────────────────────────────────────────────┘
-  고객 관리 ◀──────────────────────────── 벤더 관리 ▶
++--------------------------------------------------------------+
+|            On-Premises -> IaaS -> PaaS -> SaaS -> FaaS          |
++---------------+----------------------------------------------+
+|  계층          |  On-Prem  IaaS   PaaS   SaaS   FaaS         |
++---------------+----------------------------------------------+
+|  Application  |  고객      고객    고객    벤더    벤더         |
+|  Runtime      |  고객      고객    벤더    벤더    벤더         |
+|  OS           |  고객      고객    벤더    벤더    벤더         |
+|  Virtualize   |  고객      벤더    벤더    벤더    벤더         |
+|  Hardware     |  고객      벤더    벤더    벤더    벤더         |
++---------------+----------------------------------------------+
+  고객 관리 <----------------------------- 벤더 관리 ->
 ```
 
 | 모델 | 제어권 | 관리 부담 | 대표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 적합 사례 |
@@ -70,8 +70,8 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 ## Ⅲ. 비교 및 연결
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a> 선택 기준</strong>:
-- 실행 시간이 짧고(< 15분), 이벤트 기반 → [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)
-- 장기 실행 프로세스, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 필요 → [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 또는 CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
+- 실행 시간이 짧고(< 15분), 이벤트 기반 -> [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)
+- 장기 실행 프로세스, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 필요 -> [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 또는 CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
 <strong>BaaS와 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> 결합</strong> = [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 풀스택: 프론트엔드는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), 백엔드는 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) + [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) + Cognito 조합으로 서버 관리 없이 완전한 앱 구성 가능.
 
@@ -97,7 +97,7 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)을 업무 특성에 맞게 선택하면:
 - **비용 최적화**: 필요한 계층만 구매하여 과잉 투자 방지
 - **운영 효율화**: 관리 부담 감소로 개발팀이 비즈니스 로직에 집중
-- **민첩성 향상**: [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 활용으로 배포 주기 단축(주 → 시간 단위)
+- **민첩성 향상**: [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 활용으로 배포 주기 단축(주 -> 시간 단위)
 - **보안 명확성**: 책임 공유 모델로 보안 공백 방지
 
 결국 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/) 선택은 <strong>기술 문제가 아닌 비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 결정</strong>이다.
@@ -119,7 +119,7 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[VM · 가상화] → [클라우드 서비스 모델 통합: IaaS~FaaS] → [이벤트 드리븐 · 스케일 투 제로]
+[VM · 가상화] -> [클라우드 서비스 모델 통합: IaaS~FaaS] -> [이벤트 드리븐 · 스케일 투 제로]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 
 **진행 상황**: 499 / 552
 
-← **이전**: [498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/498_smart_factory_cps_microgrid_integration/)
-**다음**: [500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/500_multi_cloud_vendor_lock_in_avoidance/) →
+<- **이전**: [498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/498_smart_factory_cps_microgrid_integration/)
+**다음**: [500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/500_multi_cloud_vendor_lock_in_avoidance/) ->
 
 ---

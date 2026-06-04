@@ -44,12 +44,12 @@ tags = ["studynote-bigdata"]
 ### [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조 (2022년 1월 정식 출범)
 
 ```
-개인 ──→ 마이데이터 앱 (토스, 뱅크샐러드, 카카오페이)
-   │
-   └─ 동의 → 마이데이터 사업자 API 요청
-                   │
+개인 ---> 마이데이터 앱 (토스, 뱅크샐러드, 카카오페이)
+   |
+   +- 동의 -> 마이데이터 사업자 API 요청
+                   |
             금융 API (은행·카드·증권·보험)
-                   │
+                   |
          통합 금융 정보 조회·분석·서비스
 ```
 
@@ -63,7 +63,7 @@ tags = ["studynote-bigdata"]
 | 보험    | 가입 내역, 보험료                      |
 | 통신    | 요금 정보 (확대 예정)                   |
 
-<strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> 사업자 허가</strong>: 금융위원회 허가 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준 준수 의무
+<strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> 사업자 허가</strong>: 금융위원회 허가 -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준 준수 의무
 
 📢 **섹션 요약 비유**: 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 여러 은행 통장을 한 앱에서 보는 것이다 — 은행마다 앱을 켜지 않아도 내 모든 자산을 한눈에 볼 수 있다.
 
@@ -72,18 +72,18 @@ tags = ["studynote-bigdata"]
 ## Ⅲ. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 아키텍처
 
 ```
-┌───────────────────────────────────────────────────────┐
-│                 마이데이터 플랫폼                      │
-│                                                       │
-│  개인      ──→  마이데이터 사업자  ──→  정보 제공 기관│
-│ (본인 인증)    (앱/플랫폼)          (은행·카드사 등) │
-│                   │                       │          │
-│                OAuth 2.0                 Open API     │
-│                /동의 관리                REST/JSON    │
-│                   │                                   │
-│           마이데이터 종합 포털                        │
-│           (금융결제원 중계)                           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|                 마이데이터 플랫폼                      |
+|                                                       |
+|  개인      --->  마이데이터 사업자  --->  정보 제공 기관|
+| (본인 인증)    (앱/플랫폼)          (은행·카드사 등) |
+|                   |                       |          |
+|                OAuth 2.0                 Open API     |
+|                /동의 관리                REST/JSON    |
+|                   |                                   |
+|           마이데이터 종합 포털                        |
+|           (금융결제원 중계)                           |
++-------------------------------------------------------+
 ```
 
 ### 기술 표준
@@ -134,10 +134,10 @@ tags = ["studynote-bigdata"]
 
 | 과제          | 내용                           |
 |-------------|-------------------------------|
-| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 대규모 집중화 → 해킹 위험       |
+| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 대규모 집중화 -> 해킹 위험       |
 | 정보 비대칭   | 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 이해 부족    |
 | 플랫폼 독점   | 대형 앱에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상      |
-| 동의 피로     | 과도한 동의 요청 → 묵시적 동의  |
+| 동의 피로     | 과도한 동의 요청 -> 묵시적 동의  |
 
 📢 **섹션 요약 비유**: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 도전 과제는 집 열쇠를 한 곳에 보관하는 것이다 — 편리하지만, 그 보관함이 털리면 모든 열쇠가 한꺼번에 노출된다.
 
@@ -147,22 +147,22 @@ tags = ["studynote-bigdata"]
 
 ```
 마이데이터 (MyData)
-├── 법적 기반
-│   ├── 데이터 이동권 (Right to Data Portability)
-│   ├── GDPR 제20조
-│   └── 한국 신용정보법·개인정보보호법
-├── 기술
-│   ├── OAuth 2.0 / PKCE
-│   ├── Open API (REST/JSON)
-│   └── 마이데이터 중계 서버
-├── 서비스
-│   ├── 금융 마이데이터 (PFM)
-│   ├── 의료 마이데이터 (마이헬스웨이)
-│   └── 공공 마이데이터
-└── 비즈니스 모델
-    ├── 자산 통합 관리
-    ├── 개인화 금융 추천
-    └── 대안 신용 평가
++-- 법적 기반
+|   +-- 데이터 이동권 (Right to Data Portability)
+|   +-- GDPR 제20조
+|   +-- 한국 신용정보법·개인정보보호법
++-- 기술
+|   +-- OAuth 2.0 / PKCE
+|   +-- Open API (REST/JSON)
+|   +-- 마이데이터 중계 서버
++-- 서비스
+|   +-- 금융 마이데이터 (PFM)
+|   +-- 의료 마이데이터 (마이헬스웨이)
+|   +-- 공공 마이데이터
++-- 비즈니스 모델
+    +-- 자산 통합 관리
+    +-- 개인화 금융 추천
+    +-- 대안 신용 평가
 ```
 
 ---
@@ -170,23 +170,23 @@ tags = ["studynote-bigdata"]
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                마이데이터 발전 흐름                              │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2016년       │ EU GDPR 입법       │ 데이터 이동권 법제화 시작    │
-│ 2018년       │ GDPR 시행          │ 글로벌 개인정보 패러다임 전환│
-│ 2020년       │ 한국 데이터 3법 개정│ 신용정보법·개인정보보호법   │
-│ 2022년       │ 금융 마이데이터 출범│ 토스·뱅크샐러드·카카오페이  │
-│ 2023년       │ 마이헬스웨이 시범  │ 의료 마이데이터 본격 추진   │
-│ 2024~현재    │ 전 분야 확대       │ 통신·공공·유통 데이터 이동권│
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                마이데이터 발전 흐름                              |
++--------------+--------------------+-----------------------------+
+| 2016년       | EU GDPR 입법       | 데이터 이동권 법제화 시작    |
+| 2018년       | GDPR 시행          | 글로벌 개인정보 패러다임 전환|
+| 2020년       | 한국 데이터 3법 개정| 신용정보법·개인정보보호법   |
+| 2022년       | 금융 마이데이터 출범| 토스·뱅크샐러드·카카오페이  |
+| 2023년       | 마이헬스웨이 시범  | 의료 마이데이터 본격 추진   |
+| 2024~현재    | 전 분야 확대       | 통신·공공·유통 데이터 이동권|
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-개인정보 자기결정권 → 마이데이터 → 데이터 이동권
-       ↓                   ↓              ↓
+개인정보 자기결정권 -> 마이데이터 -> 데이터 이동권
+       v                   v              v
 GDPR/개인정보법    금융·의료·공공    Open API 표준
-       ↓
-PFM 서비스 → AI 개인화 → 데이터 주권 실현
+       v
+PFM 서비스 -> AI 개인화 -> 데이터 주권 실현
 ```
 
 ---
@@ -203,7 +203,7 @@ PFM 서비스 → AI 개인화 → 데이터 주권 실현
 
 **진행 상황**: 244 / 262
 
-← **이전**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/knowledge-base/studynote/16_bigdata/13_intro_trends/243_data_economy/)
-**다음**: [공공 빅데이터 (Public Big Data)](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) →
+<- **이전**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/knowledge-base/studynote/16_bigdata/13_intro_trends/243_data_economy/)
+**다음**: [공공 빅데이터 (Public Big Data)](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) ->
 
 ---

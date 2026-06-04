@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리(708번) 시험은 ISP→EA 구축→IT 거버넌스(COBIT 2019)→ITIL 4 서비스 운영→프로젝트 포트폴리오 관리(PMBOK 7/Agile)→정보보안(ISMS-P/ISO 27001)→디지털 전환(클라우드·AI·데이터)까지 **정보시스템의 기획부터 폐기까지 전 생애주기(Lifecycle)를 거버넌스·프로세스·기술·인재 4축으로 통합 관리**하는 능력을 평가한다.
+> 1. **본질**: IT 경영 관리(708번) 시험은 ISP->EA 구축->IT 거버넌스(COBIT 2019)->ITIL 4 서비스 운영->프로젝트 포트폴리오 관리(PMBOK 7/Agile)->정보보안(ISMS-P/ISO 27001)->디지털 전환(클라우드·AI·데이터)까지 **정보시스템의 기획부터 폐기까지 전 생애주기(Lifecycle)를 거버넌스·프로세스·기술·인재 4축으로 통합 관리**하는 능력을 평가한다.
 > 2. **가치**: 정량적으로는 IT 투자 대비 ROI 20~35% 향상, TCO 15~25% 절감, 사고 대응시간(MTTR) 60% 단축, 정성적으로는 경영 가시성(Visibility) 확보, 컴플라이언스 리스크 제거, 디지털 비즈니스 모델 전환의 기반 제공.
 > 3. **판단 포인트**: ① **프레임워크 선택**(COBIT vs ITIL vs ISO 20000 vs ISO 27001의 중첩과 우선순위), ② **Agile-Waterfall 하이브리드**, ③ **Bimodal IT**(Mode 1: 안정성, Mode 2: 속도), ④ **Build vs Buy vs Cloud(IaaS/PaaS/SaaS)**, ⑤ **Zero Trust 보안 모델**, ⑥ **데이터 기반 의사결정(데이터 거버넌스 vs 분석 거버넌스)** — 이 6가지 의사결정 축이 답안의 핵심 분기점이다.
 
@@ -36,19 +36,19 @@ IT 경영 관리(Information Technology Management)는 단순한 "IT 부서 운�
 ### IT 경영 관리의 4대 영역(도메인) 맵
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│              IT 경영 관리 (IT Management) 4축 통합 프레임            │
-├──────────────────┬──────────────────┬──────────────────┬────────────┤
-│  ① 거버넌스/전략  │  ② 프로세스/운영  │  ③ 기술/아키텍처  │  ④인재/조직│
-├──────────────────┼──────────────────┼──────────────────┼────────────┤
-│ • ISP/EA          │ • ITIL 4         │ • 클라우드 전환  │ • 직무 재설계│
-│ • COBIT 2019      │ • PMBOK 7/Agile  │ • MSA/API       │ • DevOps   │
-│ • BSC/성과측정    │ • DevOps/CI-CD   │ • 데이터 플랫폼  │ • 데이터리터러시│
-│ • ISO 27001/ISMS  │ • ITSM/Ticketing │ • Zero Trust    │ • 변화관리  │
-│ • 컴플라이언스     │ • SLA/Ola/UC     │ • AI/MLOps      │ • 거버넌스위원회│
-├──────────────────┴──────────────────┴──────────────────┴────────────┤
-│        ▶ Output: 디지털 비즈니스 플랫폼 + 데이터 기반 의사결정        │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|              IT 경영 관리 (IT Management) 4축 통합 프레임            |
++------------------+------------------+------------------+------------+
+|  ① 거버넌스/전략  |  ② 프로세스/운영  |  ③ 기술/아키텍처  |  ④인재/조직|
++------------------+------------------+------------------+------------+
+| • ISP/EA          | • ITIL 4         | • 클라우드 전환  | • 직무 재설계|
+| • COBIT 2019      | • PMBOK 7/Agile  | • MSA/API       | • DevOps   |
+| • BSC/성과측정    | • DevOps/CI-CD   | • 데이터 플랫폼  | • 데이터리터러시|
+| • ISO 27001/ISMS  | • ITSM/Ticketing | • Zero Trust    | • 변화관리  |
+| • 컴플라이언스     | • SLA/Ola/UC     | • AI/MLOps      | • 거버넌스위원회|
++------------------+------------------+------------------+------------+
+|        -> Output: 디지털 비즈니스 플랫폼 + 데이터 기반 의사결정        |
++---------------------------------------------------------------------+
 ```
 
 ### 왜 이 4축이 필수인가 (Old vs New Paradigm)
@@ -73,49 +73,49 @@ IT 경영 관리는 4개의 직교(Orthogonal) 레이어로 설계되며, 각 �
 ### 전체 아키텍처: Zachman + TOGAF 기반 통합 레이어
 
 ```text
-                ┌──────────────────────────────────────────┐
-                │        ① 전략/거버넌스 레이어             │
-                │  (COBIT 2019 · ISO 38500 · 전략위원회)     │
-                │  KPI: BSC(재무·고객·프로세스·학습)         │
-                └────────────────────┬─────────────────────┘
-                                     │  Alignment(정렬)
-                ┌────────────────────▼─────────────────────┐
-                │        ② 프로세스/서비스 레이어            │
-                │  (ITIL 4 · PMBOK 7 · DevOps · SRE)        │
-                │  SLA/Ola·Incident·Change·Problem          │
-                └────────────────────┬─────────────────────┘
-                                     │  Service Catalog
-                ┌────────────────────▼─────────────────────┐
-                │        ③ 데이터/애플리케이션 레이어        │
-                │  (DAMA-DMBOK · TOGAF · API Gateway)        │
-                │  Master·Reference·Transactional Data      │
-                └────────────────────┬─────────────────────┘
-                                     │  Integration Bus
-                ┌────────────────────▼─────────────────────┐
-                │        ④ 인프라/플랫폼 레이어              │
-                │  (Cloud · Container · Zero Trust Network)  │
-                │  IaaS/PaaS/SaaS · K8s · IaC(Terraform)    │
-                └──────────────────────────────────────────┘
-                                     │
-                          ┌──────────▼──────────┐
-                          │ ⑤ 보안/리스크 거버넌스 │
-                          │ (ISMS-P · ISO 27001) │
-                          │  Privacy·BCP/DRP     │
-                          └─────────────────────┘
+                +------------------------------------------+
+                |        ① 전략/거버넌스 레이어             |
+                |  (COBIT 2019 · ISO 38500 · 전략위원회)     |
+                |  KPI: BSC(재무·고객·프로세스·학습)         |
+                +--------------------+---------------------+
+                                     |  Alignment(정렬)
+                +--------------------v---------------------+
+                |        ② 프로세스/서비스 레이어            |
+                |  (ITIL 4 · PMBOK 7 · DevOps · SRE)        |
+                |  SLA/Ola·Incident·Change·Problem          |
+                +--------------------+---------------------+
+                                     |  Service Catalog
+                +--------------------v---------------------+
+                |        ③ 데이터/애플리케이션 레이어        |
+                |  (DAMA-DMBOK · TOGAF · API Gateway)        |
+                |  Master·Reference·Transactional Data      |
+                +--------------------+---------------------+
+                                     |  Integration Bus
+                +--------------------v---------------------+
+                |        ④ 인프라/플랫폼 레이어              |
+                |  (Cloud · Container · Zero Trust Network)  |
+                |  IaaS/PaaS/SaaS · K8s · IaC(Terraform)    |
+                +------------------------------------------+
+                                     |
+                          +----------v----------+
+                          | ⑤ 보안/리스크 거버넌스 |
+                          | (ISMS-P · ISO 27001) |
+                          |  Privacy·BCP/DRP     |
+                          +---------------------+
 ```
 
 ### 핵심 프레임워크별 상세 매핑
 
 | 구성 요소 (Layer/Framework) | 역할 (Role) | 핵심 기술 및 동작 방식 |
 |:---|:---|:---|
-| **COBIT 2019** (거버넌스) | IT 거버넌스 목표 체계(40개 Goal Cascade) | EDM(평가·지시·모니터) → Align, Plan, Organize(APO) → Build, Acquire, Implement(BAI) → Deliver, Service, Support(DSS) → Monitor, Evaluate, Assess(MEA). **Cascade: Stakeholder Needs → Enterprise Goals → Alignment Goals → Management Objectives** |
+| **COBIT 2019** (거버넌스) | IT 거버넌스 목표 체계(40개 Goal Cascade) | EDM(평가·지시·모니터) -> Align, Plan, Organize(APO) -> Build, Acquire, Implement(BAI) -> Deliver, Service, Support(DSS) -> Monitor, Evaluate, Assess(MEA). **Cascade: Stakeholder Needs -> Enterprise Goals -> Alignment Goals -> Management Objectives** |
 | **ITIL 4** (서비스 운영) | IT 서비스 관리(SVS: Service Value System) | 7 Guiding Principle(聚焦·진행·피드백·협업·사고·단순·최적화) + 34 Practice(Change Enablement, Incident, Problem, Service Desk, Service Request, Continual Improvement). **SLA 99.9% 이상** 목표 관리 |
-| **TOGAF 10 / Zachman** (EA) | 전사 아키텍처 방법론 | ADM 8 Phase: Preliminary→A(아키텍처 비전)→B(비즈니스)→C(데이터/앱)→D(기술)→E(기회·솔루션)→F(마이그레이션 계획)→G(구현 거버넌스)→H(아키텍처 변경 관리) |
+| **TOGAF 10 / Zachman** (EA) | 전사 아키텍처 방법론 | ADM 8 Phase: Preliminary->A(아키텍처 비전)->B(비즈니스)->C(데이터/앱)->D(기술)->E(기회·솔루션)->F(마이그레이션 계획)->G(구현 거버넌스)->H(아키텍처 변경 관리) |
 | **PMBOK 7 / Agile** (프로젝트) | 프로젝트·제품 포트폴리오 관리 | 8 Performance Domain(Team, Planning, Work, Delivery, Measurement, Uncertainty, Complexity, Risk) + 12 Principle. **Hybrid: Predictive(Waterfall) + Adaptive(Agile/Scrum/Kanban)** |
-| **ISO 27001 / ISMS-P** (보안) | 정보보호 관리체계 | 93 Control(Annex A 2022) → A.5 조직, A.6 사람, A.7 물리, A.8 기술. **Plan-Do-Check-Act** + 위험평가 방법론(ISO 27005) |
+| **ISO 27001 / ISMS-P** (보안) | 정보보호 관리체계 | 93 Control(Annex A 2022) -> A.5 조직, A.6 사람, A.7 물리, A.8 기술. **Plan-Do-Check-Act** + 위험평가 방법론(ISO 27005) |
 | **BSC (Balanced Scorecard)** (성과) | 다관점 성과 측정 | 4 Perspective: 재무(ROI, NPV)·고객(NPS, CSAT)·내부 프로세스(Defect Rate)·학습·성장(Skill Index) |
 | **DAMA-DMBOK 2** (데이터) | 데이터 거버넌스 11개 지식 영역 | 거버넌스·아키텍처·모델·저장·보안·통합·마스터/참조·문서·참조·메타·품질 |
-| **CMMI / ITIL CSI** (성숙도) | 프로세스 성숙도 평가 | Level 1(Initial)→2(Managed)→3(Defined)→4(Quantitatively Managed)→5(Optimizing) |
+| **CMMI / ITIL CSI** (성숙도) | 프로세스 성숙도 평가 | Level 1(Initial)->2(Managed)->3(Defined)->4(Quantitatively Managed)->5(Optimizing) |
 
 ### 핵심 알고리즘·수식·판단 공식
 
@@ -161,7 +161,7 @@ IT 경영 관리 영역에서 자주 혼동되는 핵심 개념 쌍을 명확히
 |:---|:---|:---|:---|:---|
 | **핵심 목적** | "무엇을·왜" (What & Why) | "어떻게 운영" (How) | "리스크 통제" (How to Secure) | "일회성 목표 달성" (How to Deliver) |
 | **대상 범위** | 전사 IT 거버넌스·이사회 보고 | IT 서비스 데스크·운영팀 | 정보자산 전체(데이터·시스템·사람) | 프로젝트 단위(임시 조직) |
-| **측정 KPI** | Goal Cascade 달성률, ROI | SLA 달성률, MTTR, MTTD | KRI(핵심리스크지표), 사고 건수 | SPI/CPI, Earned Value | 
+| **측정 KPI** | Goal Cascade 달성률, ROI | SLA 달성률, MTTR, MTTD | KRI(핵심리스크지표), 사고 건수 | SPI/CPI, Earned Value |
 | **생애주기** | 영속적(Standing) | 서비스 운영 주기 | 연속적(Continuous) | 임시적(Temporary, 시작-종료) |
 | **주 사용자** | CIO·이사회·감사인 | IT 운영자·SRE·Help Desk | CISO·보안팀·컴플라이언스 | PM·PMO·Agile Coach |
 | **관계** | 상위 거버넌스 | COBIT의 BAI/DSS 영역을 운영 | COBIT의 APO13/DSS05 영역 | 프로젝트 종료 후 운영은 ITIL로 이관 |
@@ -179,7 +179,7 @@ IT 경영 관리 영역에서 자주 혼동되는 핵심 개념 쌍을 명확히
 
 **진행 상황**: 708 / 800
 
-← **이전**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/)
-**다음**: [709. IT 경영 관리 핵심 토픽 709번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/709_it_management_core_topic_709_exam_summary/) →
+<- **이전**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/)
+**다음**: [709. IT 경영 관리 핵심 토픽 709번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/709_it_management_core_topic_709_exam_summary/) ->
 
 ---

@@ -37,11 +37,11 @@ Cloud Migration 6R 전략:
 
 [Replatform] 리플랫폼 (Lift, Tinker & Shift)
   핵심 아키텍처 유지, 일부 클라우드 서비스 활용
-  예: DB → RDS 이관, 앱서버 → 관리형 컨테이너
+  예: DB -> RDS 이관, 앱서버 -> 관리형 컨테이너
 
 [Repurchase] 재구매 (Drop & Shop)
   기존 솔루션 폐기 후 SaaS 전환
-  예: 온프레미스 CRM → Salesforce
+  예: 온프레미스 CRM -> Salesforce
 
 [Refactor] 재설계 (Re-architect)
   클라우드 네이티브로 완전 재설계
@@ -69,7 +69,7 @@ Refactor     | 완전    | 느림    | 최고       | 높음
 
 Rehost 특징:
   AWS Migration Hub, Server Migration Service
-  VMware → EC2 직접 이전
+  VMware -> EC2 직접 이전
   비용: 온프레미스 대비 10~20% 절감
 
 Replatform 특징:
@@ -105,12 +105,12 @@ Refactor 특징:
 3. 분류 매트릭스:
 
   비즈니스 가치
-  ↑ 높음  | Replatform | Refactor    |
+  ^ 높음  | Replatform | Refactor    |
            | 또는       |             |
   중간     | Rehost     | Replatform  |
            |            |             |
   낮음     | Retire     | Retain      |
-           +------------+-------------→
+           +------------+-------------->
                 낮음         높음
                   기술 복잡도
 
@@ -120,7 +120,7 @@ Refactor 특징:
    Wave 3 (12~24개월): Refactor 핵심 앱
 
 5. 의존성 분석:
-   앱 간 의존성 맵 → 이전 순서 결정
+   앱 간 의존성 맵 -> 이전 순서 결정
    사이클릭 의존성 해소 후 이전
 ```
 
@@ -195,11 +195,11 @@ Rehost (120개, 54.5%):
   비용 절감: 18%
 
 Replatform (35개, 15.9%):
-  DB → RDS, 앱서버 → ECS 이관
+  DB -> RDS, 앱서버 -> ECS 이관
   관리 부담 40% 감소
 
 Repurchase (10개, 4.5%):
-  HR, 이메일 → SaaS 전환
+  HR, 이메일 -> SaaS 전환
 
 Refactor (15개, 6.8%):
   핵심 거래 시스템 MSA 재설계
@@ -207,8 +207,8 @@ Refactor (15개, 6.8%):
 
 결과 (18개월 완료):
   인프라 비용: 35% 절감
-  장애 복구 시간(RTO): 4시간 → 15분
-  배포 빈도: 월 2회 → 주 3회
+  장애 복구 시간(RTO): 4시간 -> 15분
+  배포 빈도: 월 2회 -> 주 3회
 ```
 
 > 📢 **섹션 요약 비유**: 금융기관 6R 전환은 대형 병원 이전 — ICU(핵심 거래)는 정밀 [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 일반 병실(일반 앱)은 빠른 Rehost, 쓰지 않는 장비는 폐기.
@@ -276,7 +276,7 @@ FinOps로 비용 최적화 강조
 
 **진행 상황**: 40 / 371
 
-← **이전**: [040. 클라우드 네이티브 (Cloud Native)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/)
-**다음**: [042. Rehost — Lift & Shift 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/) →
+<- **이전**: [040. 클라우드 네이티브 (Cloud Native)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/)
+**다음**: [042. Rehost — Lift & Shift 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/) ->
 
 ---

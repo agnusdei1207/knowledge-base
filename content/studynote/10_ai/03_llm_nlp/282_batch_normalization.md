@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Batch [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), BN)는 각 미니배치 내에서 활성화 값을 평균=0, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)=1로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한 뒤 학습 가능한 스케일(γ)과 이동(β) 파라미터로 복원함으로써 내부 공변량 이동(Internal Covariate Shift)을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하고 학습을 가속한다.
 > 2. **가치**: BN을 사용하면 더 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 사용할 수 있고, [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)에 덜 민감해지며, [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 없이도 어느 정도 규제 효과를 얻어 딥 네트워크의 학습이 안정화된다.
-> 3. **판단 포인트**: 기술사 시험에서 BN의 수식([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → γ,β 변환), 추론 시 이동 평균 사용, 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))·그룹 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Group [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))와의 비교가 자주 출제된다.
+> 3. **판단 포인트**: 기술사 시험에서 BN의 수식([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> γ,β 변환), 추론 시 이동 평균 사용, 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))·그룹 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Group [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))와의 비교가 자주 출제된다.
 
 ---
 
@@ -24,19 +24,19 @@ tags = ["studynote-ai"]
 딥 네트워크에서 각 레이어의 입력 분포는 <strong>앞 레이어의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>가 갱신될 때마다 변화</strong>한다. 이를 내부 공변량 이동(Internal Covariate Shift)이라 한다.
 
 이로 인한 문제:
-- 각 레이어가 계속 변하는 입력 분포에 적응해야 함 → 학습 불안정
-- 낮은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 강제 → 학습 속도 저하
-- 활성화 값의 포화(Saturation) 문제 → 그래디언트 소실
+- 각 레이어가 계속 변하는 입력 분포에 적응해야 함 -> 학습 불안정
+- 낮은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 강제 -> 학습 속도 저하
+- 활성화 값의 포화(Saturation) 문제 -> 그래디언트 소실
 
 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(BN)는 각 레이어의 입력을 <strong>미니배치 단위로 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong>하여 이 문제를 해결한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BN 없이 딥 네트워크를 학습하는 것은 매 수업마다 교과서가 바뀌는 학교에서 공부하는 것과 같다. BN은 "오늘부터 교과서 형식을 통일"해 모든 학생(레이어)이 같은 기준으로 공부할 수 있게 한다.
@@ -54,10 +54,10 @@ tags = ["studynote-ai"]
    μ_B = (1/m) · Σx_i
 
 2단계: 미니배치 분산
-   σ²_B = (1/m) · Σ(x_i - μ_B)²
+   σ^_B = (1/m) · Σ(x_i - μ_B)^
 
 3단계: 정규화
-   x̂_i = (x_i - μ_B) / √(σ²_B + ε)
+   x̂_i = (x_i - μ_B) / √(σ^_B + ε)
 
 4단계: 스케일과 이동 (학습 파라미터)
    y_i = γ · x̂_i + β
@@ -68,20 +68,20 @@ tags = ["studynote-ai"]
 
 ```
 입력 데이터
-    │
-    ▼
-┌───────────────────────────────────────────────────┐
-│  레이어 N (Conv 또는 FC)                          │
-│  선형 변환: z = Wx + b                            │
-├───────────────────────────────────────────────────┤
-│  배치 정규화 (BN)                                 │
-│  z → 정규화(μ,σ²) → γz̃ + β = y                  │
-├───────────────────────────────────────────────────┤
-│  활성화 함수 (ReLU 등)                            │
-│  a = ReLU(y)                                      │
-└───────────────────────────────────────────────────┘
-    │
-    ▼
+    |
+    v
++---------------------------------------------------+
+|  레이어 N (Conv 또는 FC)                          |
+|  선형 변환: z = Wx + b                            |
++---------------------------------------------------+
+|  배치 정규화 (BN)                                 |
+|  z -> 정규화(μ,σ^) -> γz̃ + β = y                  |
++---------------------------------------------------+
+|  활성화 함수 (ReLU 등)                            |
+|  a = ReLU(y)                                      |
++---------------------------------------------------+
+    |
+    v
 다음 레이어로...
 ```
 
@@ -89,7 +89,7 @@ tags = ["studynote-ai"]
 
 | 단계 | 평균 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 |:---|:---|:---|
-| 학습 시 | 미니배치 평균 μ_B | 미니배치 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) σ²_B |
+| 학습 시 | 미니배치 평균 μ_B | 미니배치 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) σ^_B |
 | 추론 시 | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **이동 평균(Running Mean)** | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>이동 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Running Var)</strong> |
 
 추론 시 미니배치가 없으므로, 학습 중 누적된 <strong>이동 평균(Exponential Moving Average)</strong>을 사용한다:
@@ -97,30 +97,30 @@ tags = ["studynote-ai"]
 ```
 학습 중 누적:
   running_mean = momentum · running_mean + (1-momentum) · μ_B
-  running_var  = momentum · running_var  + (1-momentum) · σ²_B
+  running_var  = momentum · running_var  + (1-momentum) · σ^_B
 ```
 
 ### [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) 비교
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│           정규화 기법(Normalization) 비교                    │
-│                                                             │
-│  Batch Norm:    배치(N) 방향으로 정규화                     │
-│  ┌──────────────────────────────────┐                       │
-│  │  N개 샘플 × C채널 × H × W       │                       │
-│  │  ────── 배치 방향 통계 ──────   │                       │
-│  └──────────────────────────────────┘                       │
-│                                                             │
-│  Layer Norm:    채널(C) 방향으로 정규화 (NLP 표준)          │
-│  ┌──────────────────────────────────┐                       │
-│  │  각 샘플 내부 채널/특성 방향     │                       │
-│  │  ────── 샘플별 통계 ──────────  │                       │
-│  └──────────────────────────────────┘                       │
-│                                                             │
-│  Group Norm:   채널을 G 그룹으로 나눠 정규화               │
-│  Instance Norm: 각 샘플 각 채널 독립 정규화 (스타일 전송)  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           정규화 기법(Normalization) 비교                    |
+|                                                             |
+|  Batch Norm:    배치(N) 방향으로 정규화                     |
+|  +----------------------------------+                       |
+|  |  N개 샘플 × C채널 × H × W       |                       |
+|  |  ------ 배치 방향 통계 ------   |                       |
+|  +----------------------------------+                       |
+|                                                             |
+|  Layer Norm:    채널(C) 방향으로 정규화 (NLP 표준)          |
+|  +----------------------------------+                       |
+|  |  각 샘플 내부 채널/특성 방향     |                       |
+|  |  ------ 샘플별 통계 ----------  |                       |
+|  +----------------------------------+                       |
+|                                                             |
+|  Group Norm:   채널을 G 그룹으로 나눠 정규화               |
+|  Instance Norm: 각 샘플 각 채널 독립 정규화 (스타일 전송)  |
++-------------------------------------------------------------+
 ```
 
 | [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향 | 주요 사용처 | 배치 크기 의존성 |
@@ -146,7 +146,7 @@ BN은 각 미니배치에서 계산된 통계(평균/[분산](/knowledge-base/st
 ### γ와 β의 역할
 
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 후 γ·x̂ + β 변환은 BN이 아이덴티티(항등 변환)처럼 동작할 수 있게 한다:
-- γ = σ, β = μ 로 학습되면 → BN이 없는 것과 동일
+- γ = σ, β = μ 로 학습되면 -> BN이 없는 것과 동일
 - 이를 통해 BN이 항상 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 강제하지 않고, 네트워크가 필요에 따라 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 조절할 수 있음
 
 ### 연결 개념
@@ -169,17 +169,17 @@ BN은 각 미니배치에서 계산된 통계(평균/[분산](/knowledge-base/st
 
 ### 기술사 시험 판단 포인트
 
-1. **수식 4단계**: μ_B → σ²_B → x̂_i → γx̂_i + β
+1. **수식 4단계**: μ_B -> σ^_B -> x̂_i -> γx̂_i + β
 2. **추론 시 이동 평균 사용**: 배치 통계 대신 누적 이동 평균/[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 적용
 3. **LN vs BN**: Transformer에서 Layer Norm 사용하는 이유 (시퀀스 길이 가변, 배치 크기 작음)
-4. <strong>BN + <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a> 상호작용</strong>: BN이 노이즈 제공 → [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 비율 낮춰도 됨
+4. <strong>BN + <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a> 상호작용</strong>: BN이 노이즈 제공 -> [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 비율 낮춰도 됨
 
 ### 배치 크기와 BN의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 배치 크기 32 이상: BN 효과 안정적
-배치 크기 8 이하:  통계가 불안정 → Group Norm/Layer Norm 권장
-배치 크기 1:       BN 사용 불가 → Instance Norm/Layer Norm 사용
+배치 크기 8 이하:  통계가 불안정 -> Group Norm/Layer Norm 권장
+배치 크기 1:       BN 사용 불가 -> Instance Norm/Layer Norm 사용
 ```
 
 ### 실무 시나리오
@@ -196,7 +196,7 @@ BN은 각 미니배치에서 계산된 통계(평균/[분산](/knowledge-base/st
 
 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 주요 효과:
 
-1. **학습 가속**: 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 사용 가능 → 수렴 속도 대폭 향상 (원 논문에서 14배 빠른 학습)
+1. **학습 가속**: 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 사용 가능 -> 수렴 속도 대폭 향상 (원 논문에서 14배 빠른 학습)
 2. **그래디언트 흐름 개선**: 깊은 네트워크에서 그래디언트 소실/폭발 완화
 3. **규제 효과**: 미니배치 통계의 노이즈로 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 효과 일부 대체
 4. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 민감도 감소</strong>: 나쁜 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)도 BN이 분포를 복원해 보완
@@ -211,7 +211,7 @@ BN은 현대 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keyword
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (BN) | μ_B, σ²_B, γ, β / 미니배치 기반 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (BN) | μ_B, σ^_B, γ, β / 미니배치 기반 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 | 내부 공변량 이동 ([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)) | 레이어 입력 분포 변화 / BN이 해결하는 핵심 문제 |
 | 이동 평균 (Running Mean) | 추론 시 통계, EMA / BN의 추론 모드 동작 |
 | 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (LN) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), NLP / BN의 NLP/시퀀스 대안 |
@@ -221,7 +221,7 @@ BN은 현대 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keyword
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [배치 정규화 (Batch Normalization)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [배치 정규화 (Batch Normalization)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -236,7 +236,7 @@ BN은 현대 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keyword
 
 **진행 상황**: 282 / 420
 
-← **이전**: [281. 조기 종료 (Early Stopping)](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)
-**다음**: [283. CNN (Convolutional Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/283_cnn_overview/) →
+<- **이전**: [281. 조기 종료 (Early Stopping)](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)
+**다음**: [283. CNN (Convolutional Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/283_cnn_overview/) ->
 
 ---

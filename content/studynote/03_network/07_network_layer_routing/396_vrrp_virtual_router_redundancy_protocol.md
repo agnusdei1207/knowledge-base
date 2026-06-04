@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [HSRP]
-    │
-    ▼
+    |
+    v
 [VRRP]
-    │
-    └──▶ [GLBP]
+    |
+    +---> [GLBP]
 ```
 
 - **📢 섹션 요약 비유**: ** VRRP는 스마트폰의 **"USB-C 타입 충전 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)"**와 같습니다. 옛날엔 애플 폰, 삼성 폰마다 충전기([HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/), NSRP)가 다 달라서 낭비가 심했지만, 지금은 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 하나(VRRP)로 모든 회사의 장비가 권력(Master)을 공유하며 안정적으로 배터리를 채웁니다.
@@ -61,20 +61,20 @@ VRRP만의 독특한 기능이다.
 - 이렇게 자기 물리 IP를 가상 IP로 제공한 놈을 <strong>'IP Address Owner(주인)'</strong>라고 부르며, 주인은 선거 점수(Priority)가 강제로 <strong>최고점인 255점</strong>으로 픽스되어 무조건 영원한 Master로 군림하게 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                HSRP vs VRRP 실무 비교표 (핵심 요약)               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 항목 ]              [ HSRP (Cisco) ]    [ VRRP (표준) ]    │
- │   --------------------------------------------------------- │
- │   소속 (벤더)            시스코 독점          IEEE 개방형 표준     │
- │   역할 명칭              Active / Standby   Master / Backup   │
- │   멀티캐스트 주소        224.0.0.2          224.0.0.18        │
- │   Hello 주기            3초 (Hold 10초)     1초 (Hold 3초)     │
- │   가상 MAC 주소         0000.0c07.acXX     0000.5e00.01XX    │
- │   가상 IP = 물리 IP     불가 (무조건 딴 거)    가능 (Owner 개념)   │
- │   Preempt (권력찬탈)     기본 OFF (수동 켬)    기본 ON (자동 뺏음)  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                HSRP vs VRRP 실무 비교표 (핵심 요약)               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 항목 ]              [ HSRP (Cisco) ]    [ VRRP (표준) ]    |
+ |   --------------------------------------------------------- |
+ |   소속 (벤더)            시스코 독점          IEEE 개방형 표준     |
+ |   역할 명칭              Active / Standby   Master / Backup   |
+ |   멀티캐스트 주소        224.0.0.2          224.0.0.18        |
+ |   Hello 주기            3초 (Hold 10초)     1초 (Hold 3초)     |
+ |   가상 MAC 주소         0000.0c07.acXX     0000.5e00.01XX    |
+ |   가상 IP = 물리 IP     불가 (무조건 딴 거)    가능 (Owner 개념)   |
+ |   Preempt (권력찬탈)     기본 OFF (수동 켬)    기본 ON (자동 뺏음)  |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** VRRP는 HSRP라는 명작 영화의 **"글로벌 리메이크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)"**입니다. 스토리 라인과 연출 기법(동작 원리)은 소름 돋게 똑같지만, 주연 배우의 이름(Master)을 세계적으로 친숙한 이름으로 바꾸고 넷플릭스(오픈 표준)를 통해 전 세계 어느 나라(벤더)에서든 제약 없이 틀어볼 수 있게 만들었습니다.
@@ -135,12 +135,12 @@ VRRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: HSRP]
-    │
-    ▼
+    |
+    v
 [현재 개념: VRRP]
-    │
-    ├──▶ [확장 A: GLBP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: GLBP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 VRRP는 HSRP에서 출발해 현재 메커니즘을 정교화하고, 이후 GLBP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ VRRP는 HSRP에서 출발해 현재 메커니즘을 정교화하고, 이후 GLBP
 
 **진행 상황**: 517 / 1120
 
-← **이전**: [395. HSRP (Hot Standby Router Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)
-**다음**: [397. GLBP (Gateway Load Balancing Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) →
+<- **이전**: [395. HSRP (Hot Standby Router Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)
+**다음**: [397. GLBP (Gateway Load Balancing Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) ->
 
 ---

@@ -22,9 +22,9 @@ tags = ["studynote-design-supervision"]
 FP 산정 컴포넌트:
 
   기능 유형    | 설명                    | 단순 | 보통 | 복잡
-  ─────────────┼─────────────────────────┼──────┼──────┼──────
-  EI (외부입력) | 사용자→시스템 데이터    |  3   |  4   |  6
-  EO (외부출력) | 시스템→사용자 데이터    |  4   |  5   |  7
+  -------------+-------------------------+------+------+------
+  EI (외부입력) | 사용자->시스템 데이터    |  3   |  4   |  6
+  EO (외부출력) | 시스템->사용자 데이터    |  4   |  5   |  7
   EQ (외부조회) | 입출력 합산 없는 조회   |  3   |  4   |  6
   ILF (내부파일) | 내부 논리 데이터 그룹  |  7   | 10   | 15
   EIF (외부파일) | 참조 외부 데이터 그룹  |  5   |  7   | 10
@@ -51,7 +51,7 @@ FP 산정 컴포넌트:
 ### 감리 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차
 
 ```text
-1. 요구사항 명세서 → 기능 목록 추출
+1. 요구사항 명세서 -> 기능 목록 추출
 2. 기능 목록 vs FP 산정서 매핑 검증
    - 누락 기능 확인
    - 과다 산정 기능 확인
@@ -127,17 +127,17 @@ FP 산정 컴포넌트:
 
 ```text
 [코드 라인 수(LOC) — 초기 규모 측정, 언어 의존적]
-    │
-    ▼
+    |
+    v
 [IFPUG FP — 기능 중심 언어 독립적 규모 측정]
-    │
-    ▼
+    |
+    v
 [SW 사업 대가 기준 — 한국 공공 사업 FP 기반 예산]
-    │
-    ▼
+    |
+    v
 [FP 감리 검증 — 산정 오류·과다 산정 독립 검토]
-    │
-    ▼
+    |
+    v
 [AI 자동 FP 산정 — NLP 요구사항 분석 자동화]
 ```
 
@@ -153,7 +153,7 @@ FP 산정 컴포넌트:
 
 **진행 상황**: 39 / 530
 
-← **이전**: [31. 정보화 사업 유형별 감리 (Audit by Project Type)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/031_audit_by_project_type/)
-**다음**: [32. 감리 자동화 도구 (Audit Automation Tools)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/) →
+<- **이전**: [31. 정보화 사업 유형별 감리 (Audit by Project Type)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/031_audit_by_project_type/)
+**다음**: [32. 감리 자동화 도구 (Audit Automation Tools)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/) ->
 
 ---

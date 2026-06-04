@@ -27,10 +27,10 @@ tags = ["design_supervision"]
 
 ```text
 [요구사항 확정 영역 (Pre-defined)]       [감리 집중 영역 (Overloaded)]
-┌──────────────────┐               ┌──────────────────┐ ┌──────────────────┐
-│ 패키지 SW 도입 /   │ ──(생략)──> │ 1단계: 설계 감리 │─>│ 2단계: 종료 감리 │
-│ 인프라 중심 사업   │               │ (요구검증 + 설계) │ │ (성능/보안 검증) │
-└──────────────────┘               └──────────────────┘ └──────────────────┘
++------------------+               +------------------+ +------------------+
+| 패키지 SW 도입 /   | --(생략)--> | 1단계: 설계 감리 |->| 2단계: 종료 감리 |
+| 인프라 중심 사업   |               | (요구검증 + 설계) | | (성능/보안 검증) |
++------------------+               +------------------+ +------------------+
 ```
 
 이 흐름의 핵심은 요구사항 정의 감리가 물리적으로 사라진 것이 아니라, 그 책임(Responsibility)과 과업이 설계 감리 단계로 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병합(Deferred Merge)'된다는 점이다. 따라서 설계 감리를 수행할 때, 시스템 설계 구조의 적합성뿐만 아니라 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항이 제대로 아키텍처에 반영되었는지를 동시에 추적해야 하므로 감리인의 분석 부하(Load)가 급증하게 된다. 실무에서는 이 병목 지점(설계 감리)에 시니어급 감리원을 집중 배치하여 추적성 단절을 방어해야 한다.
@@ -55,8 +55,8 @@ tags = ["design_supervision"]
 
 ```text
 [요구사항 수집] --(No Audit)--> [설계 진행] ==(Risk Point)==> [설계 감리 수행]
-                                    │                               │ (결함 발견 시)
-                                    └─────────<──(Rework)───────────┘
+                                    |                               | (결함 발견 시)
+                                    +---------<--(Rework)-----------+
 ```
 
 이 도식의 핵심은 설계가 일정 수준 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된 상태에서 최초의 제3자 개입(설계 감리)이 이루어지기 때문에, 이 지점에서 요구사항 누락이나 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견될 경우 막대한 재작업(Rework) 비용이 발생한다는 트레이드오프(Trade-off)를 보여준다. [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)라면 설계 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 전에 차단했을 문제를, 2단계 감리는 설계도(아키텍처)가 어느 정도 그려진 후 뒤엎어야 하는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 안는다. 따라서 실무에서는 설계 감리의 시점을 최대한 앞당기거나(Front-loading), 발주처의 강한 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 조직이 사전 통제를 수행해야만 이 병목([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Point)을 무사히 통과할 수 있다.
@@ -81,12 +81,12 @@ tags = ["design_supervision"]
 이 매트릭스는 요구사항 변경 빈도와 시스템 복잡도에 따라 감리 프레임워크를 어떻게 선택해야 하는지 보여주는 의사결정 구조다.
 
 ```text
-┌──────────┬───────────────┬───────────────┬────────────────┐
-│ 기준     │ 복잡도 낮음   │ 복잡도 높음   │ 판단 포인트    │
-├──────────┼───────────────┼───────────────┼────────────────┤
-│ 변경 적음│ 2단계 감리 최적│ 조건부 3단계  │ 운영 복잡도    │
-│ 변경 많음│ 리스크 매우 큼 │ 3단계 감리 필수│ 일관성 통제력  │
-└──────────┴───────────────┴───────────────┴────────────────┘
++----------+---------------+---------------+----------------+
+| 기준     | 복잡도 낮음   | 복잡도 높음   | 판단 포인트    |
++----------+---------------+---------------+----------------+
+| 변경 적음| 2단계 감리 최적| 조건부 3단계  | 운영 복잡도    |
+| 변경 많음| 리스크 매우 큼 | 3단계 감리 필수| 일관성 통제력  |
++----------+---------------+---------------+----------------+
 ```
 
 이 표의 핵심 분석 지점은 '복잡도 낮음 + 변경 많음'의 영역이다. 겉으로는 패키지 도입 사업이라 복잡도가 낮아 보이지만, 실제로는 발주처의 커스터마이징 요구사항(변경)이 폭주하는 경우가 실무에서 가장 위험한 패턴이다. 이때 2단계 감리를 무비판적으로 적용하면, 요구사항을 통제할 1단계 밸브(요구 감리)가 없기 때문에 설계 단계에서 아키텍처가 붕괴되는 치명적인 실패([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))를 겪는다. 따라서 변경 빈도가 높을 것으로 예측된다면 아무리 작은 사업이라도 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)로 상향 조정하거나, 강력한 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 절차를 수반해야 한다.
@@ -118,10 +118,10 @@ tags = ["design_supervision"]
 이 의사결정 트리는 2단계 감리에서 감리인이 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 선별하고 통제 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립하는 플로우를 보여준다.
 
 ```text
-[사업 특성 분석] ──(커스텀 개발 비중은?)
-                        ├─> (비중 30% 이상) => [RTM/설계 추적성 초정밀 검증] ─> (결함 발생 시 Rework 강력 권고)
-                        │
-                        └─> (순수 패키지/HW) => [이행/인프라/SLA 중심 검증] ─> (데이터 무결성 및 페일오버 집중)
+[사업 특성 분석] --(커스텀 개발 비중은?)
+                        +-> (비중 30% 이상) => [RTM/설계 추적성 초정밀 검증] -> (결함 발생 시 Rework 강력 권고)
+                        |
+                        +-> (순수 패키지/HW) => [이행/인프라/SLA 중심 검증] -> (데이터 무결성 및 페일오버 집중)
 ```
 
 이 운영 플로우의 핵심은 2단계 감리 내에서도 사업의 실질적인 성격(개발 vs 도입)에 따라 감리의 타격점(Target)을 완전히 다르게 가져가야 한다는 것이다. 획일화된 체크리스트식 점검은 개발 비중이 높은 2단계 감리 사업에서 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 놓치는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(Blind Spot)을 낳는다. 실무 감리원은 사업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 [예비 조사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) 단계에서 이 비중을 정확히 파악하여 감리 인력 배치를 동적으로 재조정해야 한다.
@@ -158,17 +158,17 @@ tags = ["design_supervision"]
 
 ```text
 [1단계 감리 (1st Stage Audit) — 설계 적합성 점검]
-    │
-    ▼
+    |
+    v
 [2단계 감리 (2nd Stage Audit) — 구현 품질 점검]
-    │
-    ▼
+    |
+    v
 [감리 보고서 (Audit Report) — 결함 목록 정리]
-    │
-    ▼
+    |
+    v
 [시정 조치 (Corrective Action) — 재감리 준비]
-    │
-    ▼
+    |
+    v
 [준공 감리 (Final Audit) — 시스템 인수 확정]
 ```
 
@@ -185,7 +185,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 12 / 530
 
-← **이전**: [11. 3단계 감리 - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/011_3_stage_audit/)
-**다음**: [13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_audit_planning/) →
+<- **이전**: [11. 3단계 감리 - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/011_3_stage_audit/)
+**다음**: [13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_audit_planning/) ->
 
 ---

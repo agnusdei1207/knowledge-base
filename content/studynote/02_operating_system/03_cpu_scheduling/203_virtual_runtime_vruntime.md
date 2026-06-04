@@ -28,15 +28,15 @@ tags = ["studynote-operating-system"]
   [기존 물리적 시간 vs 가상 실행 시간(vruntime)의 흐름 비교]
 
   [ 일반적인 물리적 시간 (Physical Time) ]
-  1초 ─▶ 2초 ─▶ 3초 ─▶ 4초 (누구에게나 공평하게 흐름)
+  1초 --> 2초 --> 3초 --> 4초 (누구에게나 공평하게 흐름)
 
   [ vruntime (가중치가 적용된 마법의 시계) ]
-  ▶ 프로세스 A (우선순위 낮음, 가중치 낮음)
-    실제 10ms 일함 ─▶ 장부(vruntime)에는 100ms 일했다고 과장해서 기록됨! (페널티)
+  -> 프로세스 A (우선순위 낮음, 가중치 낮음)
+    실제 10ms 일함 --> 장부(vruntime)에는 100ms 일했다고 과장해서 기록됨! (페널티)
     (스케줄러: "너 100ms나 먹었네? 뒤로 가!")
 
-  ▶ 프로세스 B (우선순위 높음, 가중치 높음)
-    실제 10ms 일함 ─▶ 장부(vruntime)에는 1ms만 일했다고 축소해서 기록됨! (특혜)
+  -> 프로세스 B (우선순위 높음, 가중치 높음)
+    실제 10ms 일함 --> 장부(vruntime)에는 1ms만 일했다고 축소해서 기록됨! (특혜)
     (스케줄러: "아이고 우리 VIP 1ms밖에 못 드셨네, CPU 또 드세요!")
 ```
 **[다이어그램 해설]** vruntime이 왜 위대한가? [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 A가 VIP인지 B가 찌끄러기인지 알 필요가 없다. 그저 "장부(vruntime) 숫자가 제일 작은 놈 나와!"라고 외치기만 하면 된다. 우선순위에 따른 차별(Time Dilation)은 장부에 숫자를 적을 때 곱하기 연산으로 이미 다 녹아들었기 때문에, 스케줄링 로직 자체가 극도로 단순하고 투명해진다.
@@ -72,22 +72,22 @@ tags = ["studynote-operating-system"]
 CFS는 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)처럼 "이놈이 I/O 바운드인가?" 추측하는 코드가 아예 없다. vruntime만으로 이들을 어떻게 완벽히 구제(Boost)하는지 보자.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         마우스 클릭(I/O 바운드) 시 vruntime의 즉각 선점 마법         │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [상황 1: 1초 전]                                                    │
-  │  - 무거운 렌더링 작업 P_Heavy 가 CPU를 독식 중 (vruntime: 500)       │
-  │  - 마우스 입력 프로세스 P_Mouse 는 1초 동안 Wait 큐에서 잠자고 있음. │
-  │    (이때 P_Mouse의 vruntime은 100에서 영원히 멈춰있음!)              │
-  │                                                                      │
-  │  [상황 2: 사용자가 마우스를 클릭함!]                                 │
-  │  1. P_Mouse가 깨어나며 Ready 큐(RB-Tree)로 진입.                     │
-  │  2. 스케줄러: "RB-Tree에 새로운 놈 왔네? 트리 정렬!"                 │
-  │  3. P_Mouse(100) vs P_Heavy(500) ─▶ 100이 압도적으로 작다!           │
-  │  4. P_Mouse가 트리의 Leftmost 노드를 강탈하며 즉시 CPU 선점!         │
-  │  5. 1ms 만에 마우스 좌표 갱신 완료 후 다시 Sleep.                    │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |         마우스 클릭(I/O 바운드) 시 vruntime의 즉각 선점 마법         |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [상황 1: 1초 전]                                                    |
+  |  - 무거운 렌더링 작업 P_Heavy 가 CPU를 독식 중 (vruntime: 500)       |
+  |  - 마우스 입력 프로세스 P_Mouse 는 1초 동안 Wait 큐에서 잠자고 있음. |
+  |    (이때 P_Mouse의 vruntime은 100에서 영원히 멈춰있음!)              |
+  |                                                                      |
+  |  [상황 2: 사용자가 마우스를 클릭함!]                                 |
+  |  1. P_Mouse가 깨어나며 Ready 큐(RB-Tree)로 진입.                     |
+  |  2. 스케줄러: "RB-Tree에 새로운 놈 왔네? 트리 정렬!"                 |
+  |  3. P_Mouse(100) vs P_Heavy(500) --> 100이 압도적으로 작다!           |
+  |  4. P_Mouse가 트리의 Leftmost 노드를 강탈하며 즉시 CPU 선점!         |
+  |  5. 1ms 만에 마우스 좌표 갱신 완료 후 다시 Sleep.                    |
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** I/O 바운드는 본질적으로 자는 시간이 길어서 장부(vruntime)가 오르지 않는다. 반면 다른 CPU 바운드들은 쉬지 않고 일하느라 장부값이 천정부지로 치솟는다. 따라서 I/O 바운드가 잠에서 깨어나는 순간, 그놈의 vruntime은 시스템 내에서 무조건 꼴찌(가장 불쌍한 상태)가 되어있기 때문에 자연스럽게 즉각적인 최우선 선점권(0 Jitter)을 얻게 되는 완벽한 수리적 아름다움을 보여준다.
 
@@ -131,22 +131,22 @@ CFS는 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_ia
    - 결국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A의 내부를 2번 뒤질 때 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B의 내부를 1번 뒤지는 완벽한 <strong>2:1 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 자원 격리(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 보장)</strong>를 vruntime 트리 계층 구조 하나로 구현해 낸다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     부하 테스트 시 vruntime 모니터링을 통한 병목 추적 방법       │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 튜닝 지표: /proc/sched_debug 파일 분석 ]                     │
-  │   (리눅스 커널이 뱉어내는 모든 태스크의 vruntime 장부를 훔쳐봄)  │
-  │                                                                  │
-  │   ▶ 분석 1: 특정 스레드의 vruntime이 유독 혼자 멈춰있다?         │
-  │      원인: 그 놈은 100% 확률로 Lock 경합에 걸려있거나, I/O에     │
-  │           물려서 Block 상태에 빠진 불쌍한 좀비다.                │
-  │                                                                  │
-  │   ▶ 분석 2: min_vruntime 값 자체가 미친 듯이 빨리 증가한다?      │
-  │      원인: 코어가 모자라서 트리에 있는 모든 놈들이 CPU를 쥐어짜며│
-  │           미친 듯이 돌고 있다는 뜻. 즉, Scale-out(노드 증설)이   │
-  │           필요한 절대적인 인프라 한계 징후다.                    │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     부하 테스트 시 vruntime 모니터링을 통한 병목 추적 방법       |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [ 튜닝 지표: /proc/sched_debug 파일 분석 ]                     |
+  |   (리눅스 커널이 뱉어내는 모든 태스크의 vruntime 장부를 훔쳐봄)  |
+  |                                                                  |
+  |   -> 분석 1: 특정 스레드의 vruntime이 유독 혼자 멈춰있다?         |
+  |      원인: 그 놈은 100% 확률로 Lock 경합에 걸려있거나, I/O에     |
+  |           물려서 Block 상태에 빠진 불쌍한 좀비다.                |
+  |                                                                  |
+  |   -> 분석 2: min_vruntime 값 자체가 미친 듯이 빨리 증가한다?      |
+  |      원인: 코어가 모자라서 트리에 있는 모든 놈들이 CPU를 쥐어짜며|
+  |           미친 듯이 돌고 있다는 뜻. 즉, Scale-out(노드 증설)이   |
+  |           필요한 절대적인 인프라 한계 징후다.                    |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** vruntime은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 내부 변수지만, 노련한 시스템 해커들은 이 장붓값을 실시간으로 들여다보며 애플리케이션의 아키텍처 병목을 찾아낸다. vruntime의 증가 속도 자체가 곧 해당 스레드가 "CPU를 얼마나 알차게, 방해받지 않고 쓰고 있는가"를 보여주는 가장 날 것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표이기 때문이다.
 
@@ -179,12 +179,12 @@ vruntime은 단순한 스케줄링 변수를 넘어 리눅스 [커널](/knowledg
 
 ```text
 [연성 실시간 (Soft Real-time) 시스템]
-    │
-    ▼
+    |
+    v
 [가상 실행 시간 (vruntime, Virtual Runtime)]
-    │
-    ├──▶ [지연 시간 (Latency)]
-    └──▶ [주기적 태스크 (Periodic Task)]
+    |
+    +---> [지연 시간 (Latency)]
+    +---> [주기적 태스크 (Periodic Task)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -201,7 +201,7 @@ vruntime은 단순한 스케줄링 변수를 넘어 리눅스 [커널](/knowledg
 
 **진행 상황**: 203 / 800
 
-← **이전**: [202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/)
-**다음**: [204. 레드-블랙 트리 (Red-Black Tree)와 CFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) →
+<- **이전**: [202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/)
+**다음**: [204. 레드-블랙 트리 (Red-Black Tree)와 CFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) ->
 
 ---

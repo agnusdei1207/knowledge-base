@@ -49,10 +49,10 @@ Chinchilla: N과 D를 1:20 비율로 균형
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[GPT-3 스케일링 (2020)] → [Scaling Laws (Kaplan, 2020)]
-    → [Chinchilla (DeepMind, 2022)]
-    → [LLaMA (Meta, 2023, 데이터 중심)]
-    → [현재: 추론 시간 스케일링 (Test-time Compute)]
+[GPT-3 스케일링 (2020)] -> [Scaling Laws (Kaplan, 2020)]
+    -> [Chinchilla (DeepMind, 2022)]
+    -> [LLaMA (Meta, 2023, 데이터 중심)]
+    -> [현재: 추론 시간 스케일링 (Test-time Compute)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Chinchilla: N과 D를 1:20 비율로 균형
 
 **진행 상황**: 142 / 420
 
-← **이전**: [141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/141_concept/)
-**다음**: [143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/) →
+<- **이전**: [141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/141_concept/)
+**다음**: [143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/) ->
 
 ---

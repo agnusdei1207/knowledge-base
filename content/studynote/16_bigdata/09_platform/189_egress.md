@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용 (Egress 비용, 리전 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬화)은 빅데이터 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력 데이터       |--->| 산식/기준        |--->| 해석/조치        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 계기판처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 해석/조치 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력 데이터       |--->| 산식/기준        |--->| 해석/조치        |
++--------------+   +--------------+   +--------------+
 ```
 
 Egress와 리전 내 로컬화은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -111,17 +111,17 @@ Egress와 리전 내 로컬화은 이 흐름을 보강하는 대표 축이다. �
 
 ```text
 [클라우드 데이터 입수 (Ingress) — 데이터 업로드, 대부분 무료 또는 저렴]
-    │
-    ▼
+    |
+    v
 [데이터 이그레스 (Egress) — 클라우드 외부로 데이터 전송 시 발생하는 비용]
-    │
-    ▼
+    |
+    v
 [리전 내 데이터 로컬화 — 처리와 저장을 같은 리전에 배치, 리전 간 이그레스 최소화]
-    │
-    ▼
+    |
+    v
 [VPC 피어링 / Private Link — 퍼블릭 인터넷 우회, 이그레스 비용 절감·보안 강화]
-    │
-    ▼
+    |
+    v
 [멀티클라우드 이그레스 최적화 — 데이터 중력(Data Gravity) 고려, 벤더 종속 회피 전략]
 ```
 
@@ -139,7 +139,7 @@ Egress와 리전 내 로컬화은 이 흐름을 보강하는 대표 축이다. �
 
 **진행 상황**: 189 / 262
 
-← **이전**: [188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)](/knowledge-base/studynote/16_bigdata/09_platform/188_spot_instance_ri/)
-**다음**: [190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)](/knowledge-base/studynote/16_bigdata/09_platform/190_management/) →
+<- **이전**: [188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)](/knowledge-base/studynote/16_bigdata/09_platform/188_spot_instance_ri/)
+**다음**: [190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)](/knowledge-base/studynote/16_bigdata/09_platform/190_management/) ->
 
 ---

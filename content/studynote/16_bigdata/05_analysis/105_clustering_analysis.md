@@ -70,14 +70,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [비지도 학습 (Unsupervised Learning)]
-    │
-    ▼
+    |
+    v
 [클러스터링 (Clustering)]
-    │
-    ▼
+    |
+    v
 [K-평균 (K-Means)]
-    │
-    ▼
+    |
+    v
 [실루엣 계수 (Silhouette Score)]
 ```
 
@@ -93,7 +93,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 105 / 262
 
-← **이전**: [분류 (Classification) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
-**다음**: [103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) →
+<- **이전**: [분류 (Classification) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+**다음**: [103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) ->
 
 ---

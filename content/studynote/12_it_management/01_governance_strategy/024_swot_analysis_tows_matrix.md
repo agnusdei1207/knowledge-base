@@ -21,19 +21,19 @@ tags = ["studynote-it-management"]
 SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠퍼드 연구팀이 개발한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, 반세기가 지난 지금도 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 출발점으로 광범위하게 사용된다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│              SWOT → TOWS 전략 도출 매트릭스              │
-├───────────────┬──────────────────┬────────────────────┤
-│               │   Strengths (S)  │  Weaknesses (W)    │
-├───────────────┼──────────────────┼────────────────────┤
-│ Opportunities │  SO 전략          │  WO 전략            │
-│      (O)      │  강점×기회        │  약점×기회          │
-│               │  (공격 전략)      │  (개선 전략)        │
-├───────────────┼──────────────────┼────────────────────┤
-│  Threats (T)  │  ST 전략          │  WT 전략            │
-│               │  강점×위협        │  약점×위협          │
-│               │  (차별화 전략)    │  (방어 전략)        │
-└───────────────┴──────────────────┴────────────────────┘
++-------------------------------------------------------+
+|              SWOT -> TOWS 전략 도출 매트릭스              |
++---------------+------------------+--------------------+
+|               |   Strengths (S)  |  Weaknesses (W)    |
++---------------+------------------+--------------------+
+| Opportunities |  SO 전략          |  WO 전략            |
+|      (O)      |  강점×기회        |  약점×기회          |
+|               |  (공격 전략)      |  (개선 전략)        |
++---------------+------------------+--------------------+
+|  Threats (T)  |  ST 전략          |  WT 전략            |
+|               |  강점×위협        |  약점×위협          |
+|               |  (차별화 전략)    |  (방어 전략)        |
++---------------+------------------+--------------------+
 ```
 
 - **📢 섹션 요약 비유**: SWOT는 자신의 능력 목록(강점·약점)과 주변 환경(기회·위협)을 적는 것이고, TOWS는 "내 강점으로 어떤 기회를 잡을까, 약점 때문에 어떤 위협이 치명적일까"를 계산하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 게임이다.
@@ -81,7 +81,7 @@ WT 전략: 핵심 AI 솔루션에만 집중, 주변 서비스 축소
 | **TOWS** | SWOT 기반 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 | 4요소 교차 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행 추적 | 4대 관점 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 
-SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 실행의 흐름이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성된 사이클이다.
+SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 실행의 흐름이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성된 사이클이다.
 
 - **📢 섹션 요약 비유**: SWOT가 지도(현재 위치 파악), TOWS가 경로 선택, BSC가 이정표([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)), OKR이 GPS 목적지 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다. 지도만 있고 경로가 없으면 길을 잃는다.
 
@@ -112,7 +112,7 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 정렬</strong> | 공동 워크숍으로 공감대 형성 |
 | **실행 연계** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)/[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 연결로 실행 가능성 확보 |
 
-[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 시대에 SWOT 분석의 주기가 연간→분기로 단축되고 있으며, 실시간 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
+[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 시대에 SWOT 분석의 주기가 연간->분기로 단축되고 있으며, 실시간 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
 
 - **📢 섹션 요약 비유**: SWOT/TOWS는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 나침반이다. 방향(S·W·O·T)을 파악하고, 나침반(TOWS)으로 가야 할 경로를 정하면 조직이 하나의 방향으로 일관되게 움직일 수 있다.
 
@@ -132,17 +132,17 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 
 ```text
 [PEST/PESTEL — 거시 외부 환경 분석]
-    │
-    ▼
+    |
+    v
 [SWOT — 내부 강·약점 + 외부 기회·위협 통합 분석]
-    │
-    ▼
+    |
+    v
 [TOWS 매트릭스 — SWOT 4요소 교차 전략 도출]
-    │
-    ▼
-[BSC 연계 — TOWS 전략 → 4대 관점 KPI 설정]
-    │
-    ▼
+    |
+    v
+[BSC 연계 — TOWS 전략 -> 4대 관점 KPI 설정]
+    |
+    v
 [Dynamic SWOT — 빅데이터 기반 실시간 환경 변화 반영]
 ```
 
@@ -158,7 +158,7 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 
 **진행 상황**: 41 / 587
 
-← **이전**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces_model/)
-**다음**: [24. SWOT 분석 (S)](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_tows/) →
+<- **이전**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces_model/)
+**다음**: [24. SWOT 분석 (S)](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_tows/) ->
 
 ---

@@ -24,23 +24,23 @@ tags = ["studynote-design-supervision"]
 실제 예: 비디오 변환 라이브러리는 VideoFile, CodecFactory, MPEG4CompressionCodec, OggCompressionCodec, BitrateReader 등 복잡한 클래스들을 갖는다. `VideoConverter.convert(file, format)`처럼 단일 메서드로 감싸면 클라이언트는 내부 복잡성을 알 필요가 없다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              파사드 패턴 구조                                 │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│      │ (단일 인터페이스만 사용)                              │
-│      ▼                                                      │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Facade                                               │   │
-│  │  + simpleOperation(): void {                          │   │
-│  │      subsystem1.doThis();                            │   │
-│  │      subsystem2.doThat();                            │   │
-│  │      subsystem3.finish();                            │   │
-│  │  }                                                   │   │
-│  └──────────────────────────────────────────────────────┘   │
-│       │           │           │                              │
-│  Subsystem1  Subsystem2  Subsystem3  (복잡한 내부 구조)     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              파사드 패턴 구조                                 |
++-------------------------------------------------------------+
+|  클라이언트                                                  |
+|      | (단일 인터페이스만 사용)                              |
+|      v                                                      |
+|  +------------------------------------------------------+   |
+|  |  Facade                                               |   |
+|  |  + simpleOperation(): void {                          |   |
+|  |      subsystem1.doThis();                            |   |
+|  |      subsystem2.doThat();                            |   |
+|  |      subsystem3.finish();                            |   |
+|  |  }                                                   |   |
+|  +------------------------------------------------------+   |
+|       |           |           |                              |
+|  Subsystem1  Subsystem2  Subsystem3  (복잡한 내부 구조)     |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 여행사(파사드)는 복잡한 항공권 예약, 호텔 예약, 렌터카 예약(서브시스템)을 한 번에 처리해준다. 여행객(클라이언트)은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시스템을 직접 알 필요 없이 여행사에 한 번만 요청한다.
@@ -58,16 +58,16 @@ tags = ["studynote-design-supervision"]
 | [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) | Facade를 통해 서브시스템 사용 | 애플리케이션 코드 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│     레이어드 아키텍처에서 파사드 역할                       │
-├─────────────────────────────────────────────────────────────┤
-│  Presentation Layer (컨트롤러)                              │
-│       │ (파사드를 통해서만 비즈니스 계층 접근)              │
-│  Service Facade (파사드)                                    │
-│       │           │           │                             │
-│  OrderService  PaymentService  ShippingService              │
-│  (서브시스템들 - 복잡한 내부 로직)                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|     레이어드 아키텍처에서 파사드 역할                       |
++-------------------------------------------------------------+
+|  Presentation Layer (컨트롤러)                              |
+|       | (파사드를 통해서만 비즈니스 계층 접근)              |
+|  Service Facade (파사드)                                    |
+|       |           |           |                             |
+|  OrderService  PaymentService  ShippingService              |
+|  (서브시스템들 - 복잡한 내부 로직)                          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 회사 대표전화(파사드)로 연락하면 담당 부서(서브시스템)로 연결된다. 고객(클라이언트)은 각 부서의 내선 번호(서브시스템 인터페이스)를 알 필요가 없다.
@@ -80,7 +80,7 @@ tags = ["studynote-design-supervision"]
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 목적 | 복잡성 은닉 (단순화) | 인터페이스 변환 ([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) |
-| 인터페이스 수 | 여러 → 하나 | 하나 → 다른 하나 |
+| 인터페이스 수 | 여러 -> 하나 | 하나 -> 다른 하나 |
 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | 클라이언트-서브시스템 낮춤 | 클라이언트-Adaptee 연결 |
 | 사용 시점 | 복잡한 서브시스템 사용 시 | 호환되지 않는 인터페이스 연결 시 |
 
@@ -116,7 +116,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[복잡한 서브시스템 사용 문제] → [파사드 패턴] → [서비스 레이어] → API 게이트웨이] → BFF 패턴]
+[복잡한 서브시스템 사용 문제] -> [파사드 패턴] -> [서비스 레이어] -> API 게이트웨이] -> BFF 패턴]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -127,7 +127,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴(1994)] → [레이어드 아키텍처 계층 파사드] → API 게이트웨이] → BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] → GraphQL 파사드]
+[GoF [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴(1994)] -> [레이어드 아키텍처 계층 파사드] -> API 게이트웨이] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] -> GraphQL 파사드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 212 / 530
 
-← **이전**: [155. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/)
-**다음**: [157. 플라이웨이트 (Flyweight) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/157_flyweight_pattern/) →
+<- **이전**: [155. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/)
+**다음**: [157. 플라이웨이트 (Flyweight) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/157_flyweight_pattern/) ->
 
 ---

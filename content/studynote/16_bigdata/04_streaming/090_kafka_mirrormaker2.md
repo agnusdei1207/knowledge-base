@@ -53,17 +53,17 @@ tags = ["studynote-bigdata"]
 [Active-Passive DR 구성]
 
 Primary Cluster (US-East)              Secondary Cluster (US-West, DR)
-┌──────────────────────────┐           ┌──────────────────────────┐
-│  Topic: orders           │           │  Topic: us-east.orders   │
-│  Partition 0: msg1..1000 │  MM2 복제 │  Partition 0: msg1..1000 │
-│  Partition 1: msg2..800  │ ─────────→│  Partition 1: msg2..800  │
-│  Consumer offset: 950    │           │  Consumer offset: 950    │
-│                          │           │  (오프셋 변환 자동 저장)  │
-└──────────────────────────┘           └──────────────────────────┘
++--------------------------+           +--------------------------+
+|  Topic: orders           |           |  Topic: us-east.orders   |
+|  Partition 0: msg1..1000 |  MM2 복제 |  Partition 0: msg1..1000 |
+|  Partition 1: msg2..800  | ---------->|  Partition 1: msg2..800  |
+|  Consumer offset: 950    |           |  Consumer offset: 950    |
+|                          |           |  (오프셋 변환 자동 저장)  |
++--------------------------+           +--------------------------+
 
 [Active-Active 양방향 구성]
-US-East ←──────────────────→ US-East.us-west.events (접두사 자동 추가)
-US-West ←──────────────────→ US-West.us-east.events (무한 루프 방지)
+US-East <--------------------> US-East.us-west.events (접두사 자동 추가)
+US-West <--------------------> US-West.us-east.events (무한 루프 방지)
 ```
 
 ### 2. MM2 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
@@ -76,7 +76,7 @@ clusters = primary, secondary
 primary.bootstrap.servers = primary-kafka:9092
 secondary.bootstrap.servers = secondary-kafka:9092
 
-# 복제 방향: primary → secondary
+# 복제 방향: primary -> secondary
 primary->secondary.enabled = true
 primary->secondary.topics = orders, transactions, events.*  # 복제할 토픽 패턴
 
@@ -101,10 +101,10 @@ offset-syncs.topic.replication.factor = 3
   us-east.orders 파티션 0: 오프셋 0~10,000 (같음, 또는 다를 수 있음)
 
 MM2가 저장하는 오프셋 변환 맵:
-  Primary:orders:0:9500 → Secondary:us-east.orders:0:9500
+  Primary:orders:0:9500 -> Secondary:us-east.orders:0:9500
 
 DR 전환 후 Consumer 재시작:
-  원래 오프셋(9500) → Secondary에서 9500 위치 → 중단 없이 재시작!
+  원래 오프셋(9500) -> Secondary에서 9500 위치 -> 중단 없이 재시작!
 ```
 
 ### 4. 주요 내부 토픽
@@ -127,10 +127,10 @@ DR 전환 후 Consumer 재시작:
 
 | 토폴로지 | 구성 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Passive | Primary → Secondary | 단순, 명확한 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환 | Secondary는 읽기 전용 |
+| [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Passive | Primary -> Secondary | 단순, 명확한 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환 | Secondary는 읽기 전용 |
 | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) | 양방향 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 지역별 독립 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 | 루프 방지 로직 필요 |
-| [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke | 중앙 → 다수 지역 | 중앙 집중식 관리 | 중앙 장애 시 전체 영향 |
-| Fan-Out | 1 소스 → N 대상 | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다목적 활용 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모 |
+| [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke | 중앙 -> 다수 지역 | 중앙 집중식 관리 | 중앙 장애 시 전체 영향 |
+| Fan-Out | 1 소스 -> N 대상 | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다목적 활용 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모 |
 
 ### 2. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 vs [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Replicator
 
@@ -152,17 +152,17 @@ DR 전환 후 Consumer 재시작:
 
 ```
 정상 운영:
-  Primary ─ MM2 복제 ──→ Secondary (읽기 전용)
-  Consumer ← Primary 읽기
+  Primary - MM2 복제 ---> Secondary (읽기 전용)
+  Consumer <- Primary 읽기
 
 Primary 장애 발생:
 1. Secondary의 오프셋 변환 맵 확인
 2. Consumer 연결을 Secondary로 전환
-3. 토픽 이름 변경: us-east.orders → orders (Alias 설정)
+3. 토픽 이름 변경: us-east.orders -> orders (Alias 설정)
 4. Consumer 재시작 (오프셋 변환으로 처리 위치 복원)
 
 Primary 복구 후:
-5. 역방향 복제(Secondary → Primary) 실행
+5. 역방향 복제(Secondary -> Primary) 실행
 6. 오프셋 재동기화 후 Primary 복귀
 ```
 
@@ -214,17 +214,17 @@ Primary 복구 후:
 
 ```text
 [단일 클러스터 Kafka — 하나의 데이터센터 내 메시지 브로커, 장애 시 단일 장애점]
-    │
-    ▼
+    |
+    v
 [Kafka MirrorMaker 1 — 간단한 컨슈머+프로듀서 복제, 오프셋 변환 미지원]
-    │
-    ▼
+    |
+    v
 [Kafka MirrorMaker 2 (MM2) — Kafka Connect 기반, 오프셋 변환·자동 토픽 동기화 지원]
-    │
-    ▼
+    |
+    v
 [Active-Passive DR — MM2로 보조 클러스터를 원본과 동기화, 장애 시 Failover 전환]
-    │
-    ▼
+    |
+    v
 [Active-Active 다중 리전 — 양방향 복제로 지역 간 고가용성 메시지 처리 아키텍처]
 ```
 
@@ -240,7 +240,7 @@ Primary 복구 후:
 
 **진행 상황**: 90 / 262
 
-← **이전**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/)
-**다음**: [16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/) →
+<- **이전**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/)
+**다음**: [16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/) ->
 
 ---

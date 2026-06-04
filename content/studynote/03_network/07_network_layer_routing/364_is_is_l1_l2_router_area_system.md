@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [IS-IS]
-    │
-    ▼
+    |
+    v
 [L1/L2 라우터, L1/L2 Area 체계…]
-    │
-    └──▶ [BGP]
+    |
+    +---> [BGP]
 ```
 
 - **📢 섹션 요약 비유**: ** IS-IS의 L1/L2 체계는 철저한 **"지방 자치와 중앙 정부의 분리"**입니다. 지방 라우터(L1)는 자기 동네 민원만 처리하고 모르는 건 도지사(L1/L2)에게 밀어 올리며, 중앙 정부(L2)는 도지사들이 올린 굵직한 보고서만 보고 전국 예산을 짭니다.
@@ -54,24 +54,24 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a></strong>: 한 라우터는 무조건 **하나의 Area(예: Area 49.0001)에 통째로 소속된다.** Area가 다른 두 라우터(L1/L2)가 서로 L2 랜선으로 손을 꽉 맞잡았을 때, <strong>"그 두 라우터 사이에 허공에 떠 있는 랜선(Link)"</strong>이 바로 두 동네를 가르는 국경선이 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                OSPF vs IS-IS Area 경계선 차이 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ OSPF 방식 (라우터 분할) ]                                   │
- │       [Area 1]          [Area 0]                            │
- │   라우터A ─── (팔1) ABR (팔2) ─── 라우터B                      │
- │                  ▲                                          │
- │               (경계선이 ABR 몸통 한가운데를 쪼갬!)                 │
- │                                                             │
- │   [ IS-IS 방식 (링크 분할) ]                                   │
- │        [Area 1의 땅]       |       [Area 2의 땅]              │
- │   라우터A ──── L1/L2 라우터  |  L1/L2 라우터 ──── 라우터B          │
- │                            ▲                                │
- │               (경계선이 라우터와 라우터 사이 랜선을 쪼갬!)           │
- │                                                             │
- │   ▶ "IS-IS는 라우터가 온전히 자기 동네 소속감을 가지므로 관리가 편하다"│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                OSPF vs IS-IS Area 경계선 차이 도식               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ OSPF 방식 (라우터 분할) ]                                   |
+ |       [Area 1]          [Area 0]                            |
+ |   라우터A --- (팔1) ABR (팔2) --- 라우터B                      |
+ |                  ^                                          |
+ |               (경계선이 ABR 몸통 한가운데를 쪼갬!)                 |
+ |                                                             |
+ |   [ IS-IS 방식 (링크 분할) ]                                   |
+ |        [Area 1의 땅]       |       [Area 2의 땅]              |
+ |   라우터A ---- L1/L2 라우터  |  L1/L2 라우터 ---- 라우터B          |
+ |                            ^                                |
+ |               (경계선이 라우터와 라우터 사이 랜선을 쪼갬!)           |
+ |                                                             |
+ |   -> "IS-IS는 라우터가 온전히 자기 동네 소속감을 가지므로 관리가 편하다"|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 디폴트 라우트(Default Route)의 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
@@ -137,12 +137,12 @@ L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/0
 
 ```text
 [선행 개념: IS-IS]
-    │
-    ▼
+    |
+    v
 [현재 개념: L1/L2 라우터, L1/L2 Area 체계…]
-    │
-    ├──▶ [확장 A: BGP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: BGP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니�
 
 **진행 상황**: 485 / 1120
 
-← **이전**: [363. IS-IS (Intermediate System to Intermediate System)](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)
-**다음**: [365. BGP (Border Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) →
+<- **이전**: [363. IS-IS (Intermediate System to Intermediate System)](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)
+**다음**: [365. BGP (Border Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ->
 
 ---

@@ -33,52 +33,52 @@ Apache Oozie는 2011년 Yahoo!에서 개발하여 Apache Top-Level Project가 �
 - **주요 기능**: (1) Workflow ([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 작업 순서), (2) [Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/) (시간/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링), (3) Bundle (복수의 [Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/) 그룹화관리)
 
 ### 3. Apache Airflow의 탄생: Python-native Modern Orchestrator
-Airflow는 2014년 Airbnb(현 [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) → Astronomer 등이 유지보수)에서 개발하여 2018년 Apache Top-Level Project가 된 Python 기반의 모던 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구입니다.
+Airflow는 2014년 Airbnb(현 [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) -> Astronomer 등이 유지보수)에서 개발하여 2018년 Apache Top-Level Project가 된 Python 기반의 모던 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구입니다.
 - **설계 철학**: Airflow는"모든 것이 Python"이라는 원칙지하, Python으로 workflow를 코드와し고정의합니다. 이것은"[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 코드(Configuration [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))"의 реализация으로, [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/), [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 등의 소프트웨어 엔지니어링 Best Practice를workflow에 적용할 수 있게 합니다.
 - **주요 차별점**: Python [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 모델을 통해 400개 이상의 외부 시스템과Integration이 가능하며, 웹 UI, [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/),CLI 등 풍부한 도구 지원을 제공합니다.
 
-- **📢 섹션 요약 비유**: 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은"대형영화 제작의 기획서(스크립트) 관리"와 같습니다. 영화 촬영에는"1장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집) → 2장면(전처리) → 3장면(분석) → 크레딧(리포트)"이라는 순서가 있으며, 만약 2장면이연기되면 3장면도연기되어야 합니다. Apache Oozie는"영상 촬영만을 전문으로 하는 오디오 장비( [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 전용)"로, 스크립트 형식이 자사 규정(XML)에 맞춰져 있어 촬영은 잘 되지만, 영상 편집(외부 Integration)에는 별도의 변환기([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))가 필요합니다. Apache Airflow는"모든 영상 장비와 호환되는 universal 조명 시스템(Python-native)"으로, 스크립트 형식이 Python(글로벌 표준)이므로 어떤 장비(시스템)와도 바로 연결할 수 있습니다.
+- **📢 섹션 요약 비유**: 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은"대형영화 제작의 기획서(스크립트) 관리"와 같습니다. 영화 촬영에는"1장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집) -> 2장면(전처리) -> 3장면(분석) -> 크레딧(리포트)"이라는 순서가 있으며, 만약 2장면이연기되면 3장면도연기되어야 합니다. Apache Oozie는"영상 촬영만을 전문으로 하는 오디오 장비( [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 전용)"로, 스크립트 형식이 자사 규정(XML)에 맞춰져 있어 촬영은 잘 되지만, 영상 편집(외부 Integration)에는 별도의 변환기([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))가 필요합니다. Apache Airflow는"모든 영상 장비와 호환되는 universal 조명 시스템(Python-native)"으로, 스크립트 형식이 Python(글로벌 표준)이므로 어떤 장비(시스템)와도 바로 연결할 수 있습니다.
 
 ---
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              [ Apache Airflow 아키텍처 ]                           │
-│                                                                 │
-│  [Web Server] ─────── UI 대시보드 (DAG 모니터링)                   │
-│       │                                                            │
-│  [Triggerer] ─────── DAG 실행 트리거 (이벤트 기반)                │
-│       │                                                            │
-│  [Scheduler] ─────── DAG 실행 스케줄링 ( Cron 기반)               │
-│       │              메타스토어에서 실행대상 DAG 탐색               │
-│       │              → Task Instance 생성 → 메시지 큐에投薬        │
-│       │                                                            │
-│  [Executor] ───────── 작업 실행 방식 결정                          │
-│  ├─ LocalExecutor: 같은 프로세스 내 병렬 실행 (개발용)            │
-│  ├─ CeleryExecutor: Celery Workers에 작업 분산 (확장성)           │
-│  ├─ KubernetesExecutor: Kubernetes Pod 단위 실행 (격리성)         │
-│  └─ CeleryKubernetesExecutor: Hybrid                             │
-│       │                                                            │
-│  [Message Queue (Celery Backend)]                               │
-│  └─ Redis / RabbitMQ ─── Task를 Worker에 전달                     │
-│       │                                                            │
-│  [Workers] ─────────── 실제 태스크 실행                            │
-│  ├─ Worker 1: [Task A], [Task C] 실행                            │
-│  ├─ Worker 2: [Task B], [Task D] 실행                            │
-│  └─ Worker 3: [Task E] 실행                                       │
-│       │                                                            │
-│  [메타스토어 (Metadata Database)]                                 │
-│  ├─ DAG 정의 (Python 코드)                                        │
-│  ├─ Task Instance 상태 (queued/running/success/failed)          │
-│  ├─ 실행 로그                                                      │
-│  └─ XCom (태스크 간 데이터 공유)                                   │
-│       │                                                            │
-│  [Airflow Plugins / Providers]                                    │
-│  └─ Snowflake, BigQuery, Databricks, Kafka, etc. (400+ 통합)     │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              [ Apache Airflow 아키텍처 ]                           |
+|                                                                 |
+|  [Web Server] ------- UI 대시보드 (DAG 모니터링)                   |
+|       |                                                            |
+|  [Triggerer] ------- DAG 실행 트리거 (이벤트 기반)                |
+|       |                                                            |
+|  [Scheduler] ------- DAG 실행 스케줄링 ( Cron 기반)               |
+|       |              메타스토어에서 실행대상 DAG 탐색               |
+|       |              -> Task Instance 생성 -> 메시지 큐에投薬        |
+|       |                                                            |
+|  [Executor] --------- 작업 실행 방식 결정                          |
+|  +- LocalExecutor: 같은 프로세스 내 병렬 실행 (개발용)            |
+|  +- CeleryExecutor: Celery Workers에 작업 분산 (확장성)           |
+|  +- KubernetesExecutor: Kubernetes Pod 단위 실행 (격리성)         |
+|  +- CeleryKubernetesExecutor: Hybrid                             |
+|       |                                                            |
+|  [Message Queue (Celery Backend)]                               |
+|  +- Redis / RabbitMQ --- Task를 Worker에 전달                     |
+|       |                                                            |
+|  [Workers] ----------- 실제 태스크 실행                            |
+|  +- Worker 1: [Task A], [Task C] 실행                            |
+|  +- Worker 2: [Task B], [Task D] 실행                            |
+|  +- Worker 3: [Task E] 실행                                       |
+|       |                                                            |
+|  [메타스토어 (Metadata Database)]                                 |
+|  +- DAG 정의 (Python 코드)                                        |
+|  +- Task Instance 상태 (queued/running/success/failed)          |
+|  +- 실행 로그                                                      |
+|  +- XCom (태스크 간 데이터 공유)                                   |
+|       |                                                            |
+|  [Airflow Plugins / Providers]                                    |
+|  +- Snowflake, BigQuery, Databricks, Kafka, etc. (400+ 통합)     |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 ### 1. Apache Oozie의 Workflow 구조
@@ -194,10 +194,10 @@ with DAG(
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **기존 인프라** | 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 환경 → Oozie 자연스럽게 Integration | 신규 / Cloud 환경 → Airflow |
-| <strong>팀 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | Java 중심 → Oozie XML (Java [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) | Python 중심 → Airflow (네이티브) |
-| **통합 필요성** | Hadoop생태권중심 → Oozie | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등 400+ → Airflow |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 요구</strong> |기본감공족구 → Oozie | 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 알람 → Airflow |
+| **기존 인프라** | 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 환경 -> Oozie 자연스럽게 Integration | 신규 / Cloud 환경 -> Airflow |
+| <strong>팀 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | Java 중심 -> Oozie XML (Java [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) | Python 중심 -> Airflow (네이티브) |
+| **통합 필요성** | Hadoop생태권중심 -> Oozie | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등 400+ -> Airflow |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 요구</strong> |기본감공족구 -> Oozie | 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 알람 -> Airflow |
 
 *(추가 실무 적용 가이드 - Airflow 도입 [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))*
 - **Airflow가 적합한 경우**: Python 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)/[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)/[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 등 모던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 활용, 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 필요, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)/CD/CD 요구
@@ -248,17 +248,17 @@ with DAG(
 
 ```text
 [Apache Oozie]
-    │
-    ▼
+    |
+    v
 [Apache Airflow]
-    │
-    ▼
+    |
+    v
 [DAG (Directed Acyclic Graph)]
-    │
-    ▼
+    |
+    v
 [Celery/Kubernetes Executor]
-    │
-    ▼
+    |
+    v
 [Dagster / Prefect]
 ```
 
@@ -278,7 +278,7 @@ with DAG(
 
 **진행 상황**: 27 / 262
 
-← **이전**: [04. Apache ZooKeeper - 분산 코디네이션의 간호사](/knowledge-base/studynote/16_bigdata/02_hadoop/026_apache_zookeeper/)
-**다음**: [06. Apache Tez](/knowledge-base/studynote/16_bigdata/02_hadoop/028_apache_tez/) →
+<- **이전**: [04. Apache ZooKeeper - 분산 코디네이션의 간호사](/knowledge-base/studynote/16_bigdata/02_hadoop/026_apache_zookeeper/)
+**다음**: [06. Apache Tez](/knowledge-base/studynote/16_bigdata/02_hadoop/028_apache_tez/) ->
 
 ---

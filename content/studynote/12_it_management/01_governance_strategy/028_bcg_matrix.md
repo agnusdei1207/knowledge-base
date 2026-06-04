@@ -19,21 +19,21 @@ tags = ["studynote-it-management"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                  BCG 매트릭스                             │
-├──────────────────────────────────────────────────────────┤
-│        시장 성장률 높음                                   │
-│         │                                                 │
-│         │   ❓ Question Mark    ⭐ Star                   │
-│         │   (낮은 점유율,       (높은 점유율,              │
-│         │    고성장)             고성장)                  │
-│         │                                                 │
-│         │   🐕 Dog              🐄 Cash Cow               │
-│         │   (낮은 점유율,       (높은 점유율,              │
-│         │    저성장)             저성장)                  │
-│         │                                                 │
-│         └───────────────────────────────→ 상대 점유율 높음│
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                  BCG 매트릭스                             |
++----------------------------------------------------------+
+|        시장 성장률 높음                                   |
+|         |                                                 |
+|         |   ❓ Question Mark    ⭐ Star                   |
+|         |   (낮은 점유율,       (높은 점유율,              |
+|         |    고성장)             고성장)                  |
+|         |                                                 |
+|         |   🐕 Dog              🐄 Cash Cow               |
+|         |   (낮은 점유율,       (높은 점유율,              |
+|         |    저성장)             저성장)                  |
+|         |                                                 |
+|         +--------------------------------> 상대 점유율 높음|
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BCG 매트릭스는 사업 포트폴리오의 가족 구성원 분류다. 스타(Star)는 재능 있고 노력하는 자녀, 캐시 카우(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 안정적으로 수입 올리는 부모, 물음표(Question Mark)는 가능성 있지만 불확실한 미래, 개(Dog)는 투자 대비 성과 없는 사업이다.
@@ -55,11 +55,11 @@ tags = ["studynote-it-management"]
 
 ```text
 현금 흐름:
-  Cash Cow → 잉여 현금 창출
-           ↓
-  Star     → 성장 투자 (현금 소비 많음)
-  Question Mark → 선별 투자 (성공하면 Star)
-  Dog      → 철수 (현금 회수)
+  Cash Cow -> 잉여 현금 창출
+           v
+  Star     -> 성장 투자 (현금 소비 많음)
+  Question Mark -> 선별 투자 (성공하면 Star)
+  Dog      -> 철수 (현금 회수)
 ```
 
 - **📢 섹션 요약 비유**: BCG 현금 흐름은 가정 경제 관리다. 부모(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 버는 돈으로 유망 자녀(Star) 교육에 투자하고, 가능성 있는 막내(Question Mark)는 선별 투자하며, 성과 없는 사업(Dog)은 용돈을 끊는다.
@@ -91,7 +91,7 @@ Big Tech A사 포트폴리오:
 ```
 
 ### [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대 BCG 한계
-- 빠른 Disruption으로 Star가 순식간에 Dog로 전락 (예: 피처폰→스마트폰).
+- 빠른 Disruption으로 Star가 순식간에 Dog로 전락 (예: 피처폰->스마트폰).
 - 플랫폼 비즈니스는 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)로 Dog 시절에도 생존·역전 가능.
 - 성장률·점유율 측정의 시장 경계 정의가 불명확해짐.
 
@@ -127,18 +127,18 @@ BCG 매트릭스는 50년이 지났지만 여전히 [전략](/knowledge-base/stu
 
 ```text
 [BCG 매트릭스 — Star/Cash Cow/Question Mark/Dog]
-    │
-    ▼
+    |
+    v
 [GE-McKinsey 9-cell — 산업 매력도 × 경쟁력 세분화]
-    │
-    ▼
+    |
+    v
 [동적 포트폴리오 관리 — 디지털 전환 시대 재평가]
-    │
-    ▼
+    |
+    v
 [AI 포트폴리오 분석 — 성장률 예측 자동화]
-    │
-    ▼
-[에코시스템 전략 — 단일 SBU → 플랫폼 네트워크 관점]
+    |
+    v
+[에코시스템 전략 — 단일 SBU -> 플랫폼 네트워크 관점]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ BCG 매트릭스는 50년이 지났지만 여전히 [전략](/knowledge-base/stu
 
 **진행 상황**: 49 / 587
 
-← **이전**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/)
-**다음**: [29. IT 포트폴리오 관리 (IT Portfolio Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_portfolio_management/) →
+<- **이전**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/)
+**다음**: [29. IT 포트폴리오 관리 (IT Portfolio Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_portfolio_management/) ->
 
 ---

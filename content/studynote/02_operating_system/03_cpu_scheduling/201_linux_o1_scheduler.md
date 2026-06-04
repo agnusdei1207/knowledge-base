@@ -29,15 +29,15 @@ tags = ["studynote-operating-system"]
 
   (1) 구형 O(N) 스케줄러
   [ Ready Queue (Linked List) ]
-  P1(우선:10) ─▶ P2(우선:50) ─▶ P3(우선:20) ... ─▶ P_N(우선:5)
-  ▶ 스케줄러: "1번부터 N번까지 다 비교해서 제일 높은 놈(P2) 찾아라!" (시간 낭비)
+  P1(우선:10) --> P2(우선:50) --> P3(우선:20) ... --> P_N(우선:5)
+  -> 스케줄러: "1번부터 N번까지 다 비교해서 제일 높은 놈(P2) 찾아라!" (시간 낭비)
 
   (2) 혁신적 O(1) 스케줄러
-  우선순위 0:  [ P_A ] ─▶ [ P_B ]
+  우선순위 0:  [ P_A ] --> [ P_B ]
   우선순위 1:  (빔)
   ...
   우선순위 139: [ P_C ]
-  ▶ 스케줄러: "0번 줄에 사람 있네? 뒤질 것도 없이 0번 줄 맨 앞의 P_A 꺼내!" (즉시 완료)
+  -> 스케줄러: "0번 줄에 사람 있네? 뒤질 것도 없이 0번 줄 맨 앞의 P_A 꺼내!" (즉시 완료)
 ```
 **[다이어그램 해설]** O(1)의 마법은 사실 '다단계 큐(Multilevel [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'의 철학을 140개로 극단적으로 잘게 쪼갠 것에 불과하다. 하나의 긴 줄에 섞어 놓지 않고, 1등부터 140등까지 전용 라인을 140개 만들어 놓았기 때문에, 탐색할 필요 없이 "가장 높은 번호의 줄 맨 앞에 선 놈"을 그냥 쑥 빼가면 그게 무조건 최고 우선순위 프로세스가 된다.
 
@@ -57,25 +57,25 @@ O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 4. **기적의 스왑(Swap)**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 비는 그 찰나의 순간, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 단지 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> 포인터와 Expired 포인터의 이름표만 휙 바꿔버린다.</strong> (Swap: `temp = active; active = expired; expired = temp;`)
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         O(1) 스케줄러의 타임 슬라이스 관리 및 포인터 스왑 메커니즘     │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       │
-  │       우선 0: P1 ─▶ P2                      우선 0: (빔)               │
-  │       우선 1: (빔)                           우선 1: (빔)              │
-  │       우선 2: P3                            우선 2: (빔)               │
-  │                                                                        │
-  │   (시간 흐름: P1, P2, P3가 모두 슬라이스를 다 쓰고 쫓겨남)             │
-  │                                                                        │
-  │   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       │
-  │       우선 0: (빔) 🚨                       우선 0: P1 ─▶ P2           │
-  │       우선 1: (빔)                           우선 1: (빔)              │
-  │       우선 2: (빔) 🚨                       우선 2: P3                 │
-  │                                                                        │
-  │   ✅ 이때, 포인터(이름표)만 스왑하면 O(1) 시간에 모든 태스크의         │
-  │      타임 슬라이스가 완벽하게 재충전되는 기적이 일어남!                │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |         O(1) 스케줄러의 타임 슬라이스 관리 및 포인터 스왑 메커니즘     |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       |
+  |       우선 0: P1 --> P2                      우선 0: (빔)               |
+  |       우선 1: (빔)                           우선 1: (빔)              |
+  |       우선 2: P3                            우선 2: (빔)               |
+  |                                                                        |
+  |   (시간 흐름: P1, P2, P3가 모두 슬라이스를 다 쓰고 쫓겨남)             |
+  |                                                                        |
+  |   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       |
+  |       우선 0: (빔) 🚨                       우선 0: P1 --> P2           |
+  |       우선 1: (빔)                           우선 1: (빔)              |
+  |       우선 2: (빔) 🚨                       우선 2: P3                 |
+  |                                                                        |
+  |   ✅ 이때, 포인터(이름표)만 스왑하면 O(1) 시간에 모든 태스크의         |
+  |      타임 슬라이스가 완벽하게 재충전되는 기적이 일어남!                |
+  +------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 투 어레이(Two-[Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 구조는 O(N) 비용이 드는 전통적 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 방식을 단 한 줄의 포인터 교체(Swap) 코드인 O(1) 시간으로 압축해 낸 역사적인 트릭이다. 쫓겨난 놈들은 Expired에서 다시 기회가 올 때까지 가만히 쉬고 있으므로, 징그럽게 CPU를 잡고 안 놓는 놈들(CPU Bound)로부터 가벼운 놈들을 100% 분리(기아 방지)할 수 있게 되었다.
 
@@ -118,22 +118,22 @@ O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
    - **실무 조치**: 안드로이드 진영의 몇몇 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 실시간 하드웨어 제어 모듈에서는 여전히 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 개념(비트맵 탐색, 다중 큐)을 극도로 경량화하여 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 스케줄링에 혼용하여 쓰거나, 실시간 클래스(`SCHED_FIFO`, `SCHED_RR`)에 한해서는 100% O(1) 방식의 100개 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 구조를 그대로 놔두어 실시간성을 방어하고 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │     O(1) 스케줄러에서 CFS 스케줄러로의 아키텍처 전환 결단 이유        │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [ 기존 O(1) 스케줄러의 휴리스틱(Heuristics) 붕괴 ]                  │
-  │   1. 미디어 플레이어 구동 (CPU 연산 빡셈, 대화형이기도 함)            │
-  │   2. O(1) 스케줄러: "CPU 많이 쓰네? 너 꼴찌 큐로 가(페널티)!"         │
-  │   3. 🚨 사용자 화면 멈춤. "리눅스는 데스크톱으론 쓰레기야!" 원성 폭발.│
-  │                                                                       │
-  │   [ 리누스 토발즈와 잉고 몰나르의 결단 (CFS 도입) ]                   │
-  │   "프로세스가 착한 놈인지 나쁜 놈인지 '추측(휴리스틱)'하는            │
-  │    수천 줄의 더러운 코드를 싹 다 지워버려라!"                         │
-  │                                                                       │
-  │   ▶ 새로운 철학(CFS): 그냥 CPU를 쓴 '절대 시간(vruntime)'만           │
-  │      정확히 재서, 적게 쓴 놈을 무조건 살려주는 깔끔한 수학으로 가자!  │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |     O(1) 스케줄러에서 CFS 스케줄러로의 아키텍처 전환 결단 이유        |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   [ 기존 O(1) 스케줄러의 휴리스틱(Heuristics) 붕괴 ]                  |
+  |   1. 미디어 플레이어 구동 (CPU 연산 빡셈, 대화형이기도 함)            |
+  |   2. O(1) 스케줄러: "CPU 많이 쓰네? 너 꼴찌 큐로 가(페널티)!"         |
+  |   3. 🚨 사용자 화면 멈춤. "리눅스는 데스크톱으론 쓰레기야!" 원성 폭발.|
+  |                                                                       |
+  |   [ 리누스 토발즈와 잉고 몰나르의 결단 (CFS 도입) ]                   |
+  |   "프로세스가 착한 놈인지 나쁜 놈인지 '추측(휴리스틱)'하는            |
+  |    수천 줄의 더러운 코드를 싹 다 지워버려라!"                         |
+  |                                                                       |
+  |   -> 새로운 철학(CFS): 그냥 CPU를 쓴 '절대 시간(vruntime)'만           |
+  |      정확히 재서, 적게 쓴 놈을 무조건 살려주는 깔끔한 수학으로 가자!  |
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 컴퓨터 공학에서 '[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)(경험칙)' 코드는 처음엔 잘 작동하는 것 같아도 엣지 케이스(Edge Case)가 터지면 수습이 안 되는 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))가 된다. O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드의 절반 이상이 "이 녀석이 대화형인가?"를 판별하는 땜질 코드였다. 이를 본 아키텍트들은 O(1)의 성능적 이점을 포기하더라도, 논리적으로 완벽하게 깔끔하고 버그가 없는 수학적 모델(CFS의 O(log N))로 회귀하는 것이 100년 대계를 위해 옳다고 판단했다.
 
@@ -166,12 +166,12 @@ O(1) 스케줄링의 도입은 리눅스가 데스크톱 장난감을 넘어 수
 
 ```text
 [이기종 다중 처리기 스케줄링 (HMP)]
-    │
-    ▼
+    |
+    v
 [리눅스 O(1) 스케줄러 (Linux O1 Scheduler)]
-    │
-    ├──▶ [연성 실시간 (Soft Real-time) 시스템]
-    └──▶ [경성 실시간 (Hard Real-time) 시스템]
+    |
+    +---> [연성 실시간 (Soft Real-time) 시스템]
+    +---> [경성 실시간 (Hard Real-time) 시스템]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ O(1) 스케줄링의 도입은 리눅스가 데스크톱 장난감을 넘어 수
 
 **진행 상황**: 201 / 800
 
-← **이전**: [200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)
-**다음**: [202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) →
+<- **이전**: [200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)
+**다음**: [202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) ->
 
 ---

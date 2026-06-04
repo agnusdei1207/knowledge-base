@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [Policy-Based Routing / R…]
-    │
-    ▼
+    |
+    v
 [MPLS]
-    │
-    └──▶ [LSR, LER]
+    |
+    +---> [LSR, LER]
 ```
 
 - **📢 섹션 요약 비유**: <strong> MPLS는 꼬불꼬불한 국도(IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>) 위에 건설된 </strong>"하이패스 전용 터널"**입니다. 입구에서 통행권(Label)을 발급받으면 터널 속에서는 앞만 보고 논스톱으로 질주하다가 출구에서 통행권을 반납하고 다시 국도로 나옵니다.
@@ -52,21 +52,21 @@ MPLS는 기존 패킷을 망가뜨리지 않는다.
 4. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (8비트)</strong>: IP 헤더에 있는 TTL과 똑같다. 우주 미아 방지용. 라우터 지날 때마다 1씩 깎인다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MPLS Label 삽입 (2.5계층 구조) 도식                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 순수 IP 패킷 ]                                             │
- │   [ 이더넷 헤더 (L2) ] ──▶ [ IP 헤더 (L3) ] ──▶ [ Data (TCP) ]   │
- │                                                             │
- │   [ MPLS가 적용된 패킷 ]                                        │
- │   [ 이더넷 ] ──▶ [ Label (20) | EXP (3) | S (1) | TTL (8) ] ──▶ [ IP ] │
- │                   ▲                                         │
- │              (바로 이 4바이트짜리 딱지가 2.5계층에 끼어든다!)          │
- │                                                             │
- │   * 코어 라우터들은 이 4바이트 딱지만 보고 패킷을 광속으로 쳐낸다.        │
- │   * IP 헤더(192.168...)는 터널을 통과할 동안 아무도 쳐다보지 않는다!    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                MPLS Label 삽입 (2.5계층 구조) 도식                |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 순수 IP 패킷 ]                                             |
+ |   [ 이더넷 헤더 (L2) ] ---> [ IP 헤더 (L3) ] ---> [ Data (TCP) ]   |
+ |                                                             |
+ |   [ MPLS가 적용된 패킷 ]                                        |
+ |   [ 이더넷 ] ---> [ Label (20) | EXP (3) | S (1) | TTL (8) ] ---> [ IP ] |
+ |                   ^                                         |
+ |              (바로 이 4바이트짜리 딱지가 2.5계층에 끼어든다!)          |
+ |                                                             |
+ |   * 코어 라우터들은 이 4바이트 딱지만 보고 패킷을 광속으로 쳐낸다.        |
+ |   * IP 헤더(192.168...)는 터널을 통과할 동안 아무도 쳐다보지 않는다!    |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 멀티프로토콜(Multiprotocol)의 위엄
@@ -132,12 +132,12 @@ MPLS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: Policy-Based Routing / R…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MPLS]
-    │
-    ├──▶ [확장 A: LSR, LER]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: LSR, LER]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 MPLS는 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…에서 출발해 현재 메커니즘을 정교화하고, 이후 [LSR](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/), LER와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ MPLS는 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_l
 
 **진행 상황**: 494 / 1120
 
-← **이전**: [372. Policy-Based Routing (PBR) / Route Map](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/)
-**다음**: [374. LSR (Label Switch Router), LER (Label Edge Router)](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/) →
+<- **이전**: [372. Policy-Based Routing (PBR) / Route Map](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/)
+**다음**: [374. LSR (Label Switch Router), LER (Label Edge Router)](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/) ->
 
 ---

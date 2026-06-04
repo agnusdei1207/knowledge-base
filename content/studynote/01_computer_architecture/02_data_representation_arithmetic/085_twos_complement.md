@@ -108,13 +108,13 @@ sign-magnitude는 부호와 크기를 분리해 직관적이지만 0이 두 개 
 
 ```text
 양수 비트열
-   ↓
+   v
 비트 반전
-   ↓
+   v
 +1 수행
-   ↓
+   v
 음수 표현 생성
-   ↓
+   v
 덧셈/뺄셈 공통 처리
 ```
 
@@ -130,7 +130,7 @@ sign-magnitude는 부호와 크기를 분리해 직관적이지만 0이 두 개 
 
 **진행 상황**: 85 / 803
 
-← **이전**: [84. 1의 보수 (1's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/084_ones_complement/)
-**다음**: [86. 고정소수점 (Fixed Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/) →
+<- **이전**: [84. 1의 보수 (1's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/084_ones_complement/)
+**다음**: [86. 고정소수점 (Fixed Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/) ->
 
 ---

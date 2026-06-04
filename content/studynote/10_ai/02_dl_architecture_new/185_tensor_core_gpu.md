@@ -34,23 +34,23 @@ tags = ["studynote-ai"]
 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 바깥에 따로 붙은 장치가 아니라, [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서 워프 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 함께 동작하는 연산 경로다. 워프는 보통 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 한 묶음으로 움직이며, MMA 명령을 통해 행렬 조각(Fragment)을 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)에 공급한다. 입력 타일은 글로벌 메모리에서 L2 캐시([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/))와 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 거쳐 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 올라오고, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 이를 곱한 뒤 더 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)로 모아 결과 타일을 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Tensor Core path inside one SM                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Global Memory -> L2 Cache -> Shared Memory                          │
-│                                   │                                 │
-│                                   ▼                                 │
-│                           Warp fragment load                        │
-│                                   │ mma.sync                        │
-│                                   ▼                                 │
-│                    Tensor Core MMA : A × B + C                      │
-│                                   │                                 │
-│                                   ▼                                 │
-│                 FP32 / higher-precision accumulate                  │
-│                                   │                                 │
-│                                   ▼                                 │
-│                      Registers -> output tile store                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Tensor Core path inside one SM                                      |
++----------------------------------------------------------------------+
+| Global Memory -> L2 Cache -> Shared Memory                          |
+|                                   |                                 |
+|                                   v                                 |
+|                           Warp fragment load                        |
+|                                   | mma.sync                        |
+|                                   v                                 |
+|                    Tensor Core MMA : A × B + C                      |
+|                                   |                                 |
+|                                   v                                 |
+|                 FP32 / higher-precision accumulate                  |
+|                                   |                                 |
+|                                   v                                 |
+|                      Registers -> output tile store                 |
++----------------------------------------------------------------------+
 ```
 
 이 경로가 중요한 이유는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)가 단순히 "빠른 곱셈기"가 아니라, 메모리 계층과 워프 실행 모델을 전제로 최적화된 행렬 엔진이기 때문이다. 따라서 연산량이 충분히 크고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 타일 형태로 잘 공급될 때 진가를 발휘한다. 반대로 메모리 접근이 불규칙하거나, 행렬 크기가 너무 작거나, 조건 분기가 많은 코드는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 장점을 거의 살리지 못한다.
@@ -143,20 +143,20 @@ tags = ["studynote-ai"]
 
 ```text
 범용 GPU 병렬 연산
-    │
-    ▼
+    |
+    v
 딥러닝의 GEMM · 합성곱 병목
-    │
-    ▼
+    |
+    v
 Volta Tensor Core
-    │
-    ▼
+    |
+    v
 Mixed Precision (FP16, BF16, TF32)
-    │
-    ▼
+    |
+    v
 Hopper FP8 · Transformer Engine
-    │
-    ▼
+    |
+    v
 대규모 학습 · 고효율 추론 최적화
 ```
 
@@ -174,7 +174,7 @@ Hopper FP8 · Transformer Engine
 
 **진행 상황**: 185 / 420
 
-← **이전**: [184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/184_ab_testing_shadow_canary/)
-**다음**: [186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/186_ai_accelerators_tpu_npu_lpu/) →
+<- **이전**: [184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/184_ab_testing_shadow_canary/)
+**다음**: [186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/186_ai_accelerators_tpu_npu_lpu/) ->
 
 ---

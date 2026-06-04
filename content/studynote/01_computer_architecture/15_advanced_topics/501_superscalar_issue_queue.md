@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 발급 큐가 왜 필요한지, 그리고 어떤 정체를 풀어 주는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Why Issue Queue? older stall should not freeze all            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ In-order issue                                                             │
-│   LD miss(wait) ───────────────────────────────┐                           │
-│   ADD ready        blocked behind older op     ├─▶ execution stalls        │
-│   MUL ready        blocked behind older op     ┘                           │
-│                                                                            │
-│ With issue queue                                                           │
-│   Entry0 : LD   ready = no                                                 │
-│   Entry1 : ADD  ready = yes  ───────────────────────────────▶ ALU issue    │
-│   Entry2 : MUL  ready = yes  ───────────────────────────────▶ MUL issue    │
-│   Entry3 : BR   ready = yes  ───────────────────────────────▶ BR issue     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              Why Issue Queue? older stall should not freeze all            |
++----------------------------------------------------------------------------+
+| In-order issue                                                             |
+|   LD miss(wait) -------------------------------+                           |
+|   ADD ready        blocked behind older op     +--> execution stalls        |
+|   MUL ready        blocked behind older op     +                           |
+|                                                                            |
+| With issue queue                                                           |
+|   Entry0 : LD   ready = no                                                 |
+|   Entry1 : ADD  ready = yes  --------------------------------> ALU issue    |
+|   Entry2 : MUL  ready = yes  --------------------------------> MUL issue    |
+|   Entry3 : BR   ready = yes  --------------------------------> BR issue     |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 발급 큐가 "막힌 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 기다리는 곳"이 아니라 "막히지 않은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 찾아내는 곳"이라는 점이다. [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 폭이 4라고 해서 매 사이클 4개가 자동으로 실행되는 것이 아니며, 발급 큐가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 충분히 공급할 때만 그 폭이 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀐다.
@@ -55,20 +55,20 @@ tags = ["studynote-computer-architecture"]
 그다음 선택 ([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 단계에서는 준비된 엔트리 중 실제 발급 폭만큼을 골라 실행 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 보낸다. 이때 보통 가장 오래 기다린 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 우선하는 오래된 순 우선 (Oldest-First) 정책을 쓰지만, 기능 유닛별 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 제약과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 차이 때문에 단순 선착순만으로는 최적이 아니다. 예를 들어 정수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 남아도 곱셈기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 꽉 차 있으면, 큐는 "준비됨"과 "배치 가능함"을 함께 판단해야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Wakeup + Select inside a modern issue queue                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ result tag broadcast ───────────────────────▶ compare with src tags        │
-│                                                                            │
-│ Entry0 : srcA? wait  srcB? ready  age=12  class=ALU                        │
-│ Entry1 : srcA? ready srcB? ready  age=15  class=ALU ──┐                    │
-│ Entry2 : srcA? ready srcB? ready  age= 9  class=FPU ──┼─▶ select arbiters  │
-│ Entry3 : srcA? ready srcB? wait   age=14  class=AGU ──┘                    │
-│                                                                            │
-│ select result : oldest ready ALU → ALU port                               │
-│                 oldest ready FPU → FPU port                               │
-│                 ready AGU only if load/store port available                │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                Wakeup + Select inside a modern issue queue                 |
++----------------------------------------------------------------------------+
+| result tag broadcast ------------------------> compare with src tags        |
+|                                                                            |
+| Entry0 : srcA? wait  srcB? ready  age=12  class=ALU                        |
+| Entry1 : srcA? ready srcB? ready  age=15  class=ALU --+                    |
+| Entry2 : srcA? ready srcB? ready  age= 9  class=FPU --+--> select arbiters  |
+| Entry3 : srcA? ready srcB? wait   age=14  class=AGU --+                    |
+|                                                                            |
+| select result : oldest ready ALU -> ALU port                               |
+|                 oldest ready FPU -> FPU port                               |
+|                 ready AGU only if load/store port available                |
++----------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 시 병목 |
@@ -148,24 +148,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 In-order pipeline
-      │
-      ▼
+      |
+      v
 Scoreboard hazard tracking
-      │
-      ▼
+      |
+      v
 Tomasulo reservation stations
-      │
-      ▼
+      |
+      v
 Superscalar issue queue + register renaming
-      │
-      ▼
+      |
+      v
 Unified / clustered schedulers
-      │
-      ▼
+      |
+      v
 Energy-aware wakeup-select optimization
 ```
 
-이 흐름은 "단순한 위험 감시 → 동적 예약 → 넓은 발급 → 전력까지 고려한 스케줄링"으로 발급 구조가 진화해 온 과정을 보여 준다.
+이 흐름은 "단순한 위험 감시 -> 동적 예약 -> 넓은 발급 -> 전력까지 고려한 스케줄링"으로 발급 구조가 진화해 온 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -179,7 +179,7 @@ Energy-aware wakeup-select optimization
 
 **진행 상황**: 501 / 803
 
-← **이전**: [500. 폰 노이만 병목 개선 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/)
-**다음**: [502. 비순차 실행 윈도우 (Out-of-Order Execution Window)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/502_ooo_window/) →
+<- **이전**: [500. 폰 노이만 병목 개선 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/)
+**다음**: [502. 비순차 실행 윈도우 (Out-of-Order Execution Window)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/502_ooo_window/) ->
 
 ---

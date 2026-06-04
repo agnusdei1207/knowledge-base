@@ -21,17 +21,17 @@ tags = ["studynote-ai"]
 ```text
 데이터 세트 분할 (일반적):
   전체 데이터
-  ├─ 훈련 세트 (60~70%) ← 가중치 학습
-  ├─ 검증 세트 (15~20%) ← 하이퍼파라미터 선택
-  └─ 테스트 세트 (15~20%) ← 최종 성능 평가 (한 번만!)
+  +- 훈련 세트 (60~70%) <- 가중치 학습
+  +- 검증 세트 (15~20%) <- 하이퍼파라미터 선택
+  +- 테스트 세트 (15~20%) <- 최종 성능 평가 (한 번만!)
 
 역할 구분:
-  훈련 세트 → 모델이 공부하는 교과서
-  검증 세트 → 중간고사 (공부 방향 수정)
-  테스트 세트 → 최종 시험 (한 번만, 오염 금지)
+  훈련 세트 -> 모델이 공부하는 교과서
+  검증 세트 -> 중간고사 (공부 방향 수정)
+  테스트 세트 -> 최종 시험 (한 번만, 오염 금지)
 ```
 
-- **📢 섹션 요약 비유**: 세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트는 세 가지 시험 목적이다. 훈련(교과서 공부), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(중간고사 → 공부 방법 수정), 테스트(최종 시험 → 한 번만 보고 실력 평가). 최종 시험을 연습에 쓰면 의미가 없다.
+- **📢 섹션 요약 비유**: 세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트는 세 가지 시험 목적이다. 훈련(교과서 공부), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(중간고사 -> 공부 방법 수정), 테스트(최종 시험 -> 한 번만 보고 실력 평가). 최종 시험을 연습에 쓰면 의미가 없다.
 
 ---
 
@@ -67,7 +67,7 @@ k=5 예시:
       최고 조합 기록
 
   최고 val_score 조합 선택
-  → 선택된 모델로 test_set 최종 평가 (딱 1번!)
+  -> 선택된 모델로 test_set 최종 평가 (딱 1번!)
 ```
 
 - **📢 섹션 요약 비유**: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 시험 감독관 교체다. 같은 학생이 5번 시험에서 서로 다른 문제지(폴드)를 보고, 5번 점수 평균으로 실력을 평가한다. 한 시험지에 편향되지 않는다.
@@ -138,17 +138,17 @@ AutoML과 Neural [Architecture](/knowledge-base/studynote/12_it_management/05_se
 
 ```text
 [Hold-out 검증 — 단순 고정 분할]
-    │
-    ▼
+    |
+    v
 [k-Fold 교차 검증 — 순환 교체로 분산 감소]
-    │
-    ▼
+    |
+    v
 [Stratified k-Fold — 클래스 분포 유지 교차 검증]
-    │
-    ▼
+    |
+    v
 [Nested Cross-Validation — 이중 루프 공정 평가]
-    │
-    ▼
+    |
+    v
 [AutoML·Hyperband — 검증 세트 자동 최적화]
 ```
 
@@ -164,7 +164,7 @@ AutoML과 Neural [Architecture](/knowledge-base/studynote/12_it_management/05_se
 
 **진행 상황**: 30 / 420
 
-← **이전**: [29. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/01_ai_basics/029_dropout/)
-**다음**: [31. 교차 검증 심화 — k-Fold부터 시계열 분할까지](/knowledge-base/studynote/10_ai/01_ai_basics/031_cross_validation/) →
+<- **이전**: [29. 드롭아웃 (Dropout)](/knowledge-base/studynote/10_ai/01_ai_basics/029_dropout/)
+**다음**: [31. 교차 검증 심화 — k-Fold부터 시계열 분할까지](/knowledge-base/studynote/10_ai/01_ai_basics/031_cross_validation/) ->
 
 ---

@@ -23,20 +23,20 @@ tags = ["studynote-computer-architecture"]
 과거 컴퓨터의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)였던 진공관과 릴레이는 크고 뜨거우며 마모되어 끊어지는 한계가 명확했다. 마찰 없는 영구적인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 없다면 초당 수십억 번을 계산하는 CPU는 존재할 수 없다. 트랜지스터는 물리적인 기계 부품의 움직임 없이, 기판 내부에 양자역학적 전기장만으로 전자의 길을 놓았다 끊었다를 반복하는 마법을 부려 전자공학의 역사를 새로 썼다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           트랜지스터(MOSFET)가 0과 1 논리를 만드는 근본 원리      │
-├──────────────────────────────────────────────────────────────┤
-│  [스위치 OFF (논리 0)]              [스위치 ON (논리 1)]       │
-│                                                              │
-│  게이트 전압 = 0V                   게이트 전압 = 1V (임계 전압) │
-│       │                                  │                   │
-│       ▼                                  ▼                   │
-│  ---     ---  ◀ 전류 차단           ---===---  ◀ 전자의 다리(채널) 연결 │
-│  소스    드레인                       소스    드레인               │
-│                                                              │
-│ * 게이트에 전압을 가하면 절연막 너머로 전기장이 작용해 기판 아래에 │
-│   전자의 길(채널)을 순식간에 형성하여 전기를 통과시킨다.           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           트랜지스터(MOSFET)가 0과 1 논리를 만드는 근본 원리      |
++--------------------------------------------------------------+
+|  [스위치 OFF (논리 0)]              [스위치 ON (논리 1)]       |
+|                                                              |
+|  게이트 전압 = 0V                   게이트 전압 = 1V (임계 전압) |
+|       |                                  |                   |
+|       v                                  v                   |
+|  ---     ---  <- 전류 차단           ---===---  <- 전자의 다리(채널) 연결 |
+|  소스    드레인                       소스    드레인               |
+|                                                              |
+| * 게이트에 전압을 가하면 절연막 너머로 전기장이 작용해 기판 아래에 |
+|   전자의 길(채널)을 순식간에 형성하여 전기를 통과시킨다.           |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 댐의 무거운 수문을 열기 위해 수십 명이 도르래를 돌려야 했던 진공관 시대와 달리, 트랜지스터는 아이의 가벼운 버튼 터치 한 번(게이트 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))으로 전자동 수문이 마찰 없이 0.0001초 만에 척척 열리고 닫히는 시스템과 같다.
@@ -113,21 +113,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [반도체 (Semiconductor) — P형/N형 도핑으로 전기 전도성 조절]
-    │
-    ▼
+    |
+    v
 [BJT (Bipolar Junction Transistor) — 전류 기반 증폭/스위칭]
-    │
-    ▼
+    |
+    v
 [MOSFET (Metal-Oxide-Semiconductor FET) — 전압 기반 고집적 디지털 스위치]
-    │
-    ▼
+    |
+    v
 [FinFET — 3차원 핀 구조로 누설 전류 억제, 10nm 이하 공정]
-    │
-    ▼
+    |
+    v
 [GAA (Gate-All-Around) — 4면 게이트로 채널 완전 통제, 3nm 이하 차세대]
 ```
 
-이 흐름은 트랜지스터가 단순한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 증폭 소자([BJT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/015_bjt/))에서 디지털 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))로 진화하고, 채널 축소에 따른 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 극복하기 위해 2D 평면에서 3D 입체 구조([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)→[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))로 발전하는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정 혁신의 핵심 계보를 보여준다.
+이 흐름은 트랜지스터가 단순한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 증폭 소자([BJT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/015_bjt/))에서 디지털 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))로 진화하고, 채널 축소에 따른 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 극복하기 위해 2D 평면에서 3D 입체 구조([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)->[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))로 발전하는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정 혁신의 핵심 계보를 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -142,7 +142,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 14 / 803
 
-← **이전**: [13. 발광 다이오드 (LED)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)
-**다음**: [15. BJT (Bipolar Junction Transistor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/015_bjt/) →
+<- **이전**: [13. 발광 다이오드 (LED)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)
+**다음**: [15. BJT (Bipolar Junction Transistor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/015_bjt/) ->
 
 ---

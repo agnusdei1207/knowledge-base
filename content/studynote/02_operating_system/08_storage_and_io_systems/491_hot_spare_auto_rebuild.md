@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 물리적으로 고장 난 디스크가 방출되고 대기하던 스페어가 어떻게 어레이로 진입하는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 체계화 시각 묘사하면 아래와 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 핫 스페어(Hot Spare) 자동 감지 및 투입 프로세스                │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │   [ 평상시 평온한 상태 (RAID 5) ]                                              │
-  │    ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐     ┌─────────────┐               │
-  │    │Disk 1│   │Disk 2│   │Disk 3│   │Disk 4│     │Hot Spare 1│                 │
-  │    │ Active │  │ Active │  │ Active │  │ Active │     │  (빈 그릇)  │          │
-  │    └──────┘   └──────┘   └──────┘   └──────┘     └─────────────┘               │
-  │        (데이터 100% 분산 및 안전. 스페어는 그냥 전기만 먹고 잠수 중)           │
-  │                                                                                │
-  │   [ 💥 심야 장애 발생 (Disk 2 하드 모터 돌연사 멈춤 발생!) ]                   │
-  │    1. RAID 컨트롤러: "경고! Disk 2 응답 끊김! Fault(결함) 처리 및 퇴출!"       │
-  │    2. RAID 컨트롤러: "어? 우리 벤치에 핫 스페어 자원 등록된 거 있네?"          │
-  │                                                                                │
-  │   [ 🏥 자동 치유 (Rebuilding / Auto-Recovery) 즉각 발동 ]                      │
-  │    ┌──────┐   ┌ ─ ─ ─┐   ┌──────┐   ┌──────┐     ┌─────────────┐               │
-  │    │Disk 1│   │(고장난│   │Disk 3│   │Disk 4│     │  (승격!)    │              │
-  │    │ Active │  │ 디스크)│   │ Active │  │ Active │     │New Disk 2 │           │
-  │    └──────┘   └ ─ ─ ─┘   └──────┘   └──────┘     └─────────────┘               │
-  │          │                   │           │               ▲                     │
-  │          └─────────▶─────────┴─────▶─────┴──── (XOR패리티 역산 붓기)           │
-  │                                                                                │
-  │   결과: 관리자 수면 중에도, 스페어로 I/O 복원이 완료되어 다음 날 100% 정상화!  │
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 핫 스페어(Hot Spare) 자동 감지 및 투입 프로세스                |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |   [ 평상시 평온한 상태 (RAID 5) ]                                              |
+  |    +------+   +------+   +------+   +------+     +-------------+               |
+  |    |Disk 1|   |Disk 2|   |Disk 3|   |Disk 4|     |Hot Spare 1|                 |
+  |    | Active |  | Active |  | Active |  | Active |     |  (빈 그릇)  |          |
+  |    +------+   +------+   +------+   +------+     +-------------+               |
+  |        (데이터 100% 분산 및 안전. 스페어는 그냥 전기만 먹고 잠수 중)           |
+  |                                                                                |
+  |   [ 💥 심야 장애 발생 (Disk 2 하드 모터 돌연사 멈춤 발생!) ]                   |
+  |    1. RAID 컨트롤러: "경고! Disk 2 응답 끊김! Fault(결함) 처리 및 퇴출!"       |
+  |    2. RAID 컨트롤러: "어? 우리 벤치에 핫 스페어 자원 등록된 거 있네?"          |
+  |                                                                                |
+  |   [ 🏥 자동 치유 (Rebuilding / Auto-Recovery) 즉각 발동 ]                      |
+  |    +------+   + - - -+   +------+   +------+     +-------------+               |
+  |    |Disk 1|   |(고장난|   |Disk 3|   |Disk 4|     |  (승격!)    |              |
+  |    | Active |  | 디스크)|   | Active |  | Active |     |New Disk 2 |           |
+  |    +------+   + - - -+   +------+   +------+     +-------------+               |
+  |          |                   |           |               ^                     |
+  |          +---------->---------+------>-----+---- (XOR패리티 역산 붓기)           |
+  |                                                                                |
+  |   결과: 관리자 수면 중에도, 스페어로 I/O 복원이 완료되어 다음 날 100% 정상화!  |
+  +--------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림에서 보듯이 핫 스페어는 평소에는 I/O를 전혀 일으키지 않는 순수한 대기 기계다. 장애가 발생해서 레이드 카드가 에러(Fault) [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 빨간불을 켜는 순간, 알람을 띄움과 **동시에** (Delay 없이) 예약된 핫 스페어 드라이브를 활성화([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 시키고, 살아남은 1, 3, 4번 디스크를 미친 듯이 긁어 역산 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Rebuilding) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 처리를 핫 스페어로 내려보낸다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 모두 100% 끝나면 시스템은 다시 완전한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요새 상태(Optimal)로 귀환한다. 나중에 출근해 느긋하게 커피를 마시던 관리자는 고장 난 구형 디스크 2만 슬롯에서 뽑아내 시리얼 넘버를 적어 폐기하고, 빈 그 자리에 껍데기 새 하드를 꼽은 뒤 그것을 "새로운 핫 스페어"로 지정 토글 버튼만 눌러주면 영원한 뫼비우스의 운영 유지보수 고리가 완성된다.
@@ -136,12 +136,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
-    │
-    ▼
+    |
+    v
 [핫 스페어 (Hot Spare) 디스크 자동 재구성]
-    │
-    ├──▶ [NAS (Network Attached Storage)]
-    └──▶ [SAN (Storage Area Network)]
+    |
+    +---> [NAS (Network Attached Storage)]
+    +---> [SAN (Storage Area Network)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -158,7 +158,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 491 / 800
 
-← **이전**: [490. 소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/490_hardware_vs_software_raid/)
-**다음**: [492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) →
+<- **이전**: [490. 소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/490_hardware_vs_software_raid/)
+**다음**: [492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) ->
 
 ---

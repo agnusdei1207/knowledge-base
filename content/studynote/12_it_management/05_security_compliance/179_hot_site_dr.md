@@ -44,24 +44,24 @@ tags = ["studynote-it-management"]
 아래 그림은 일반적인 핫 사이트 절체 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Hot site DR flow                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary Site (active)                                                │
-│   App / DB / Storage                                                 │
-│      │                                                               │
-│      ├──── replication (async / semi-sync) ───▶ Hot Site (standby)   │
-│      │                                         App / DB / Storage     │
-│      │                                                               │
-│      └──── config / secrets / image sync ─────▶ DR automation        │
-│                                                                      │
-│ Disaster declared                                                    │
-│   1. detect failure                                                  │
-│   2. promote replica / start services                                │
-│   3. switch DNS / GSLB / Load Balancer                               │
-│   4. verify business service                                          │
-│   5. prepare failback after primary recovery                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Hot site DR flow                                                     |
++----------------------------------------------------------------------+
+| Primary Site (active)                                                |
+|   App / DB / Storage                                                 |
+|      |                                                               |
+|      +---- replication (async / semi-sync) ----> Hot Site (standby)   |
+|      |                                         App / DB / Storage     |
+|      |                                                               |
+|      +---- config / secrets / image sync ------> DR automation        |
+|                                                                      |
+| Disaster declared                                                    |
+|   1. detect failure                                                  |
+|   2. promote replica / start services                                |
+|   3. switch DNS / GSLB / Load Balancer                               |
+|   4. verify business service                                          |
+|   5. prepare failback after primary recovery                         |
++----------------------------------------------------------------------+
 ```
 
 핫 사이트가 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)와 다른 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식에 있다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)는 보통 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 RPO를 0에 가깝게 밀어붙이지만, 핫 사이트는 비동기 또는 준동기 방식을 써서 성능과 거리 제약을 완화하는 경우가 많다. 그래서 RPO는 대개 수초~수분, RTO는 수시간 이내 수준으로 설계된다. 즉 <strong>거의 최신 상태</strong>를 확보하지만, 절대적인 0 손실을 약속하는 구조는 아니다.
@@ -151,16 +151,16 @@ tags = ["studynote-it-management"]
 
 ```text
 BIA (Business Impact Analysis)
-    │
-    ▼
+    |
+    v
 업무별 RTO / RPO 설정
-    │
-    ├─ RTO≈0, RPO≈0 -> 미러 사이트
-    ├─ RTO 수시간, RPO 수분 -> 핫 사이트
-    ├─ RTO 수일 -> 웜 사이트
-    └─ RTO 수주 -> 콜드 사이트
-    │
-    ▼
+    |
+    +- RTO≈0, RPO≈0 -> 미러 사이트
+    +- RTO 수시간, RPO 수분 -> 핫 사이트
+    +- RTO 수일 -> 웜 사이트
+    +- RTO 수주 -> 콜드 사이트
+    |
+    v
 복제 자동화 · 절체 훈련 · 클라우드 DR로 고도화
 ```
 
@@ -178,7 +178,7 @@ BIA (Business Impact Analysis)
 
 **진행 상황**: 293 / 587
 
-← **이전**: [178. 미러 사이트 (Mirror Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)
-**다음**: [180. 웜 사이트 (Warm Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/) →
+<- **이전**: [178. 미러 사이트 (Mirror Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)
+**다음**: [180. 웜 사이트 (Warm Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/) ->
 
 ---

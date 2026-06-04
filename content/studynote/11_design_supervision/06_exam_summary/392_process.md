@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 상위 클래스에 두고 세부 단계를 하위 클래스가 재정의하게 하는 행동 패턴이다. 처리 순서는 같지만 일부 단계만 달라지는 로직을 매번 복사하면 중복과 순서 오류가 늘어난다. 이 개념이 필요한 이유는 고정된 처리 순서와 변경 가능한 단계를 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 공통 순서가 여러 구현에서 조금씩 달라져 버그와 규칙 불일치가 생긴다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│    Tmpl    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|    Tmpl    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│   Tmpl   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|   Tmpl   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | DRY | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[절차 복사 구현] → [템플릿 메서드] → [공통 뼈대 재사용]
+[절차 복사 구현] -> [템플릿 메서드] -> [공통 뼈대 재사용]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 요리 레시피는 같고 마지막 양념만 집마다 다르게 넣는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 470 / 530
 
-← **이전**: [391. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
-**다음**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) →
+<- **이전**: [391. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
+**다음**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) ->
 
 ---

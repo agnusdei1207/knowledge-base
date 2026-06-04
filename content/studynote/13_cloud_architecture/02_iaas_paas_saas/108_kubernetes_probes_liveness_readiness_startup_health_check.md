@@ -37,25 +37,25 @@ tags = ["studynote-cloud-architecture"]
 | **Liveness Probe** | "너 아직 안 죽고 숨 쉬어?" 운영 중인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 데드락, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)로 멈췄는지 감시하는 좀비 암살자. | **(사살)** 실패 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 가차 없이 죽여버리고(Kill) 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 띄움(Restart). |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           K8s Probes 생명주기 및 트래픽 제어 흐름도               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [파드 생성] 컨테이너 시작 (Status: Running)                    │
-│        ▼                                                     │
-│ 2. [Startup Probe 작동] (최대 300초 대기 방어막)                  │
-│    - 무거운 Spring Boot 초기화 중...                           │
-│    - "성공(200 OK)!" -> 바리케이드 해제 및 방패 소멸              │
-│        ▼                                                     │
-│ 3. [Readiness & Liveness 동시 감시 시작]                        │
-│    ┌──────────────────────────┐  ┌──────────────────────────┐│
-│    │ Readiness: 2초마다 찌름    │  │ Liveness: 5초마다 찌름     ││
-│    │ (손님 받을 준비 됨?)       │  │ (안 죽고 살아있음?)        ││
-│    └─────────┬────────────────┘  └──────────┬───────────────┘│
-│              │                              │                │
-│    [성공 시] 로드밸런서(Service)에       [실패 시] 좀비 상태 확인!    │
-│    파드 IP 등록 -> 트래픽(손님) 유입      즉시 파드 사살(Kill) 및    │
-│    (무중단 배포 완성)                  새 파드로 재시작(Restart)   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           K8s Probes 생명주기 및 트래픽 제어 흐름도               |
++--------------------------------------------------------------+
+| 1. [파드 생성] 컨테이너 시작 (Status: Running)                    |
+|        v                                                     |
+| 2. [Startup Probe 작동] (최대 300초 대기 방어막)                  |
+|    - 무거운 Spring Boot 초기화 중...                           |
+|    - "성공(200 OK)!" -> 바리케이드 해제 및 방패 소멸              |
+|        v                                                     |
+| 3. [Readiness & Liveness 동시 감시 시작]                        |
+|    +--------------------------+  +--------------------------+|
+|    | Readiness: 2초마다 찌름    |  | Liveness: 5초마다 찌름     ||
+|    | (손님 받을 준비 됨?)       |  | (안 죽고 살아있음?)        ||
+|    +---------+----------------+  +----------+---------------+|
+|              |                              |                |
+|    [성공 시] 로드밸런서(Service)에       [실패 시] 좀비 상태 확인!    |
+|    파드 IP 등록 -> 트래픽(손님) 유입      즉시 파드 사살(Kill) 및    |
+|    (무중단 배포 완성)                  새 파드로 재시작(Restart)   |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램의 핵심은 '역할의 분리'다. 손님을 막는 역할(Readiness)과 뇌사 상태의 직원을 잘라버리는 역할(Liveness)이 분리되어야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 안전하게 굴러간다.
@@ -120,17 +120,17 @@ K8s 아키텍처 설계 시 프로브 설정은 선택이 아닌 필수 감리 �
 
 ```text
 물리 서버 수동 감시 시대 (사람이 로그 보고 L4 스위치 수동 연결)
-    │
-    ▼
+    |
+    v
 Docker 컨테이너 시대 (프로세스 생사만 알 수 있고 뱃속은 모름)
-    │
-    ▼
+    |
+    v
 K8s Liveness / Readiness 도입 (앱 내부의 비즈니스 로직 헬스체크 및 트래픽 자동 격리/사살 분리)
-    │
-    ▼
+    |
+    v
 무거운 레거시 앱의 K8s 이주 가속화 (무한 재부팅 팀킬 부작용 발생)
-    │
-    ▼
+    |
+    v
 Startup Probe 탄생 (초기 부팅 시 방어막 제공으로 모든 앱의 완벽한 생명주기 통제 완성)
 ```
 
@@ -146,7 +146,7 @@ Startup Probe 탄생 (초기 부팅 시 방어막 제공으로 모든 앱의 완
 
 **진행 상황**: 107 / 371
 
-← **이전**: [107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)
-**다음**: [109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/109_multi_cluster_federation_karmada_cloud_bursting/) →
+<- **이전**: [107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)
+**다음**: [109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/109_multi_cluster_federation_karmada_cloud_bursting/) ->
 
 ---

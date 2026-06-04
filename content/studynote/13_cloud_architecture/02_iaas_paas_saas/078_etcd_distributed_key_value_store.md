@@ -106,17 +106,17 @@ etcd를 잘 쓰면 동적 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 
 ```text
 write request
-  │
-  ▼
+  |
+  v
 Raft consensus
-  │
-  ▼
+  |
+  v
 commit to log
-  │
-  ▼
+  |
+  v
 watch event
-  │
-  ▼
+  |
+  v
 controllers react
 ```
 
@@ -132,7 +132,7 @@ controllers react
 
 **진행 상황**: 77 / 371
 
-← **이전**: [77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)
-**다음**: [79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) →
+<- **이전**: [77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)
+**다음**: [79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) ->
 
 ---

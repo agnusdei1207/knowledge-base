@@ -43,13 +43,13 @@ tags = ["studynote-ai"]
 편향이 없다면:
 
 ```
-z = W·x  → x=0이면 항상 z=0 → 뉴런이 원점을 통과하는 초평면만 학습 가능
+z = W·x  -> x=0이면 항상 z=0 -> 뉴런이 원점을 통과하는 초평면만 학습 가능
 ```
 
 편향이 있으면:
 
 ```
-z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
+z = W·x + b  -> 초평면의 위치를 원점에서 자유롭게 이동 가능
 ```
 
 - **📢 섹션 요약 비유**: 가중치는 악기의 "음량 조절기", 편향은 "음조 조절기" — 각 입력이 얼마나 크게 울려야 하는지(가중치), 전체 기준점을 어디에 둘지(편향)를 함께 조절해야 원하는 음악(출력)이 나온다.
@@ -61,20 +61,20 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 ### 단일 뉴런 완전 구조
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                      단일 뉴런 연산 흐름                           │
-│                                                                  │
-│   x₁ ──[w₁]──┐                                                  │
-│               │      z = W·x + b         y = f(z)               │
-│   x₂ ──[w₂]──┼──► ┌──────────────┐  ──► ┌──────────────┐ ──► y │
-│               │    │ Σ wᵢxᵢ  + b  │      │  f(z) 적용   │      │
-│   x₃ ──[w₃]──┘    └──────────────┘      └──────────────┘      │
-│                           ↑                      ↑              │
-│                       가중합 연산           활성화 함수 적용       │
-│                       (선형 변환)           (비선형 변환)         │
-│                                                                  │
-│   [b] ──────────────────┘ (편향 덧셈)                            │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                      단일 뉴런 연산 흐름                           |
+|                                                                  |
+|   x₁ --[w₁]--+                                                  |
+|               |      z = W·x + b         y = f(z)               |
+|   x₂ --[w₂]--+--► +--------------+  --► +--------------+ --► y |
+|               |    | Σ wᵢxᵢ  + b  |      |  f(z) 적용   |      |
+|   x₃ --[w₃]--+    +--------------+      +--------------+      |
+|                           ^                      ^              |
+|                       가중합 연산           활성화 함수 적용       |
+|                       (선형 변환)           (비선형 변환)         |
+|                                                                  |
+|   [b] ------------------+ (편향 덧셈)                            |
++------------------------------------------------------------------+
 ```
 
 ### 주요 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
@@ -90,18 +90,18 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 비교 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/))
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│   Sigmoid           ReLU              Tanh               │
-│                                                          │
-│  1 ┤ ─────         ∞ ┤    /         1 ┤ ─────           │
-│    │/               │   /            │/                  │
-│  0 ┼──────         0 ┼───/          0 ┼──────           │
-│   /│               │  x             │ │                  │
-│    │             -∞ ┤              -1 ┤ ─────            │
-│                                                          │
-│  포화 구간에서       양수 구간에서      (-1,1) 범위,         │
-│  기울기≈0          기울기=1          중앙 집중형           │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|   Sigmoid           ReLU              Tanh               |
+|                                                          |
+|  1 + -----         ∞ +    /         1 + -----           |
+|    |/               |   /            |/                  |
+|  0 +------         0 +---/          0 +------           |
+|   /|               |  x             | |                  |
+|    |             -∞ +              -1 + -----            |
+|                                                          |
+|  포화 구간에서       양수 구간에서      (-1,1) 범위,         |
+|  기울기≈0          기울기=1          중앙 집중형           |
++----------------------------------------------------------+
 ```
 
 ### 학습 가능 파라미터 (Learnable Parameter)
@@ -110,16 +110,16 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 
 ```
 학습 전: W, b 무작위 초기화 (Xavier, He 초기화)
-   ↓
+   v
 순전파: y = f(Wx + b) 계산
-   ↓
+   v
 손실 계산: L = loss(y, y_target)
-   ↓
+   v
 역전파: ∂L/∂W, ∂L/∂b 계산 (연쇄 법칙)
-   ↓
-갱신: W ← W - η·∂L/∂W,  b ← b - η·∂L/∂b
-   ↓
-반복 → 손실 최소화
+   v
+갱신: W <- W - η·∂L/∂W,  b <- b - η·∂L/∂b
+   v
+반복 -> 손실 최소화
 ```
 
 - **📢 섹션 요약 비유**: 가중치·편향·[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 오케스트라의 세 요소 — 가중치는 각 악기의 볼륨 조절, 편향은 전체 음조 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 소리를 단순 선형이 아닌 복잡한 음악으로 변환하는 음향 효과기다.
@@ -134,7 +134,7 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 |:---|:---|:---|:---|
 | **Xavier (Glorot)** | W ~ U[-√(6/(n_in+n_out)), √(6/(n_in+n_out))] | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) | 기울기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 균형 유지 |
 | <strong>He <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong> | W ~ N(0, √(2/n_in)) | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 특성 고려한 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) |
-| <strong>영(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>) <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong> | W = 0 | ❌ 사용 금지 | 모든 뉴런이 동일하게 업데이트 → 대칭성 깨짐 문제 |
+| <strong>영(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>) <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong> | W = 0 | ❌ 사용 금지 | 모든 뉴런이 동일하게 업데이트 -> 대칭성 깨짐 문제 |
 
 ### 편향 vs 가중치 차이
 
@@ -153,16 +153,16 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 
 ### 기술사 시험 핵심 논점
 
-1. **편향의 역할**: "가중치만으로도 학습 가능하지 않나?" → 편향 없이는 결정 경계가 반드시 원점을 통과해야 하는 제약 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원점에서 멀리 있을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+1. **편향의 역할**: "가중치만으로도 학습 가능하지 않나?" -> 편향 없이는 결정 경계가 반드시 원점을 통과해야 하는 제약 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원점에서 멀리 있을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a> 선택 기준</strong>:
    - 은닉층: [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) ([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 방지, 연산 효율)
    - 출력층 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) (0~1 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
    - 출력층 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합=1)
    - 출력층 회귀: 없음 (Linear, 항등 함수)
-3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a> 중요성</strong>: 잘못된 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(예: 모두 0) → 대칭성 깨짐 문제(Symmetry Breaking Problem) → 모든 뉴런이 동일하게 학습됨
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a> 중요성</strong>: 잘못된 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(예: 모두 0) -> 대칭성 깨짐 문제(Symmetry Breaking Problem) -> 모든 뉴런이 동일하게 학습됨
 4. **파라미터 수 계산**: 층 당 파라미터 = (이전 층 노드 수 × 현재 층 노드 수) + 현재 층 노드 수(편향)
 
-- **📢 섹션 요약 비유**: 올바른 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택은 도구 선택 — 나사를 조이는데 망치([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/))보다 드라이버([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))가 효율적이듯, 은닉층에는 ReLU가 표준 도구다.
+- **📢 섹션 요약 비유**: 올바른 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택은 도구 선택 — 나사를 조이는데 망치([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) -> [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/))보다 드라이버([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))가 효율적이듯, 은닉층에는 ReLU가 표준 도구다.
 
 ---
 
@@ -171,7 +171,7 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 ### 학습 가능 파라미터 수 예시
 
 ```
-MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10
+MLP: 입력 784차원 -> 은닉 256 -> 은닉 128 -> 출력 10
 
 층 1 파라미터: 784×256 + 256 = 200,960
 층 2 파라미터: 256×128 + 128 = 32,896
@@ -184,10 +184,10 @@ MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10
 
 | 요소 | 올바른 설계 시 효과 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong> | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 방지 → 안정적 학습 시작 |
-| **편향 설계** | 결정 경계의 유연한 위치 조정 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적합도 향상 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong> | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 방지 -> 안정적 학습 시작 |
+| **편향 설계** | 결정 경계의 유연한 위치 조정 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적합도 향상 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a> 선택</strong> | 문제 유형([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀)에 최적화된 출력 형태 |
-| **파라미터 수 관리** | 과적합·과소적합 균형 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| **파라미터 수 관리** | 과적합·과소적합 균형 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 
 ### 결론
 
@@ -211,7 +211,7 @@ MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -226,7 +226,7 @@ MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10
 
 **진행 상황**: 267 / 420
 
-← **이전**: [266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)
-**다음**: [268. 시그모이드 (Sigmoid) 활성화](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) →
+<- **이전**: [266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)
+**다음**: [268. 시그모이드 (Sigmoid) 활성화](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ->
 
 ---

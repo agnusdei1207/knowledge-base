@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 MVC 패턴 (Model-View-Controller)은 모델, 뷰, 컨트롤러로 역할을 나눠 화면 표현과 입력 처리, 상태 관리를 분리하는 UI 아키텍처다. 화면 코드 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 입력 제어가 함께 섞이면 UI 변경 속도가 급격히 떨어진다. 이 개념이 필요한 이유는 화면 표현과 사용자 입력 흐름을 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 디자인 수정이 곧 비즈니스 로직 수정으로 번져 결함이 증가한다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│    User    │──▶│    MVC     │──▶│   State    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|    User    |--->|    MVC     |--->|   State    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ MVC 패턴 (Model-View-Controller)의 핵심 원리는 "화면 표현과 사용�
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│   View   │──▶│  Binder  │──▶│  Model   │──▶│   Sync   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|   View   |--->|  Binder  |--->|  Model   |--->|   Sync   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ MVC 패턴 (Model-View-Controller)의 기대효과는 분명하다. UI 변경과
 | 템플릿 엔진 | MVC 패턴 (Model-View-Controller)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[화면-로직 혼재] → [MVC 적용] → [역할별 UI 분리]
+[화면-로직 혼재] -> [MVC 적용] -> [역할별 UI 분리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MVC 패턴 (Model-View-Controller)은 배우, 무대, 감독이 각자 맡은 일만 하는 공연처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ MVC 패턴 (Model-View-Controller)의 기대효과는 분명하다. UI 변경과
 
 **진행 상황**: 483 / 530
 
-← **이전**: [404. 테스트 더블 (Test Double)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/404_process/)
-**다음**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/) →
+<- **이전**: [404. 테스트 더블 (Test Double)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/404_process/)
+**다음**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/) ->
 
 ---

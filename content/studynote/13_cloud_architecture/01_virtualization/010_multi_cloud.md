@@ -30,19 +30,19 @@ tags = ["cloud_architecture"]
 이 도식은 단일 클라우드 종속 구조가 가지는 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))의 위험과, [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)를 통한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모델을 비교하여 보여준다.
 ```text
 [단일 벤더 종속(Lock-in)의 위험 구조]
-[사용자 트래픽] ──► [단일 CSP (AWS)] ──(특정 리전 내부망 마비/정전)──► ❌ 전면 서비스 중단!
+[사용자 트래픽] --► [단일 CSP (AWS)] --(특정 리전 내부망 마비/정전)--► ❌ 전면 서비스 중단!
                       (탈출 불가)
 
-                                ▼ (멀티 클라우드 전환) ▼
+                                v (멀티 클라우드 전환) v
 
 [멀티 클라우드 글로벌 라우팅 구조]
 [사용자 트래픽]
-      │
-      ▼
+      |
+      v
 [글로벌 DNS / GSLB (라우터)]  === 헬스 체크 감시 === (CSP A 붕괴 감지 시 자동 절체!)
-      ├─(50% 트래픽)──► [CSP A (AWS)]  ──(장애 발생 시)──┐
-      │                                                  │ 100% 트래픽 우회 라우팅
-      └─(50% 트래픽)──► [CSP B (Azure)] ◀────────────────┘ (서비스 무중단 생존)
+      +-(50% 트래픽)--► [CSP A (AWS)]  --(장애 발생 시)--+
+      |                                                  | 100% 트래픽 우회 라우팅
+      +-(50% 트래픽)--► [CSP B (Azure)] <-----------------+ (서비스 무중단 생존)
 ```
 이 도식의 핵심은 기업의 존폐가 걸린 핵심 코어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 생명줄을 한 벤더의 인프라 안정성에 온전히 맡기지 않겠다는 선언에 있다. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 벤더 A의 100% 장애 상황에서도, [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)(Global Server [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))가 트래픽을 즉각 벤더 B로 스위칭함으로써 사용자 입장에서는 아무 일도 없었던 것처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 이용하게 해준다.
 
@@ -64,21 +64,21 @@ tags = ["cloud_architecture"]
 
 이 구조도는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 연합([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))과 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 결합된 Active-Active [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 아키텍처를 보여준다.
 ```text
-┌───────────────────────── Global Load Balancer (GSLB) ──────────────────────────┐
-│   (사용자의 접속 지역 또는 클라우드 헬스 체크 기반으로 트래픽을 50:50 분산 라우팅)     │
-└──────┬───────────────────────────────────────────────────────────────┬─────────┘
-       │                                                               │
-┌──────▼────────────────────────┐                       ┌──────────────▼───────┐
-│       [ AWS 클러스터 ]          │                       │     [ Azure 클러스터 ] │
-│ ┌───────────────────────────┐ │  (CI/CD 파이프라인)   │ ┌────────────────────┐ │
-│ │ Kubernetes (EKS) 환경     │ │ ◀─ GitOps 배포 Sync ─▶│ │ Kubernetes (AKS)   │ │
-│ │ - Stateless Web/WAS Pods  │ │                       │ │ - 동일한 Web/WAS   │ │
-│ └───────┬───────────────────┘ │                       │ └─────────┬──────────┘ │
-│         │                     │                       │           │            │
-│ ┌───────▼───────────────────┐ │    데이터 비동기 복제 │ ┌─────────▼──────────┐ │
-│ │ AWS RDS (Master DB)       │ │ ────────────────────▶ │ │ Azure DB (Replica) │ │
-│ └───────────────────────────┘ │    (VPN / 전용선)     │ └────────────────────┘ │
-└───────────────────────────────┘                       └──────────────────────┘
++------------------------- Global Load Balancer (GSLB) --------------------------+
+|   (사용자의 접속 지역 또는 클라우드 헬스 체크 기반으로 트래픽을 50:50 분산 라우팅)     |
++------+---------------------------------------------------------------+---------+
+       |                                                               |
++------v------------------------+                       +--------------v-------+
+|       [ AWS 클러스터 ]          |                       |     [ Azure 클러스터 ] |
+| +---------------------------+ |  (CI/CD 파이프라인)   | +--------------------+ |
+| | Kubernetes (EKS) 환경     | | <-- GitOps 배포 Sync -->| | Kubernetes (AKS)   | |
+| | - Stateless Web/WAS Pods  | |                       | | - 동일한 Web/WAS   | |
+| +-------+-------------------+ |                       | +---------+----------+ |
+|         |                     |                       |           |            |
+| +-------v-------------------+ |    데이터 비동기 복제 | +---------v----------+ |
+| | AWS RDS (Master DB)       | | ---------------------> | | Azure DB (Replica) | |
+| +---------------------------+ |    (VPN / 전용선)     | +--------------------+ |
++-------------------------------+                       +----------------------+
 ```
 이 아키텍처의 핵심은 "애플리케이션은 Stateless하게(상태 비저장) 배포하고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 Master-Replica 구조로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다"는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계의 대원칙에 있다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 양쪽 클라우드에서 동일한 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 구동시켜 완벽한 이식성(Portability)을 보장한다. 하지만 가장 큰 병목 지점은 아래쪽의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)' 구간이다. 두 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간의 물리적 거리로 인해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Replication Lag](/knowledge-base/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/))이 발생하므로, 실무 설계 시 양쪽에 [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)(Active-Active DB)를 구성하는 것은 극한의 난이도와 충돌을 야기하므로 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한쪽만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Master)를 허용하는 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 쓴다.
 
@@ -152,17 +152,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [단일 클라우드 (Single Cloud) — 하나의 CSP에 집중]
-    │
-    ▼
+    |
+    v
 [하이브리드 클라우드 (Hybrid Cloud) — 온프레미스 + 퍼블릭 연결]
-    │
-    ▼
+    |
+    v
 [멀티 클라우드 (Multi-Cloud) — 복수 CSP 병행 활용]
-    │
-    ▼
+    |
+    v
 [클라우드 메시 (Cloud Mesh) — 멀티 클라우드 간 통합 네트워킹]
-    │
-    ▼
+    |
+    v
 [슈퍼클라우드 (Supercloud) — CSP 추상화 통합 플랫폼 레이어]
 ```
 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 벤더 락인 탈피와 최적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 선택을 위해 등장했으며, 클라우드 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·슈퍼클라우드라는 통합 관리 아키텍처로 진화 중이다.
@@ -178,7 +178,7 @@ tags = ["cloud_architecture"]
 
 **진행 상황**: 9 / 371
 
-← **이전**: [9. 하이브리드 클라우드 (Hybrid Cloud) - 퍼블릭과 프라이빗(또는 레거시) 클라우드를 망연계(VPN, 전용선)하여 혼용하는](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)
-**다음**: [11. 분산 클라우드 (Distributed Cloud) - 퍼블릭 클라우드 서비스를 다양한 물리적 위치(엣지, 고객사 데이터센터)에](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/011_distributed_cloud/) →
+<- **이전**: [9. 하이브리드 클라우드 (Hybrid Cloud) - 퍼블릭과 프라이빗(또는 레거시) 클라우드를 망연계(VPN, 전용선)하여 혼용하는](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)
+**다음**: [11. 분산 클라우드 (Distributed Cloud) - 퍼블릭 클라우드 서비스를 다양한 물리적 위치(엣지, 고객사 데이터센터)에](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/011_distributed_cloud/) ->
 
 ---

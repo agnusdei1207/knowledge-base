@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 증폭]
-    │
-    ▼
+    |
+    v
 [Memcached 증폭 서버 공격 방어 미흡]
-    │
-    └──▶ [SLOW GET / SLOW POST 공격]
+    |
+    +---> [SLOW GET / SLOW POST 공격]
 ```
 
 - **📢 섹션 요약 비유**: Memcached 증폭 서버 공격 방어 미흡은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 증폭]
-    │
-    ▼
+    |
+    v
 [Memcached 증폭 서버 공격 방어 미흡]
-    │
-    └──▶ [SLOW GET / SLOW POST 공격]
+    |
+    +---> [SLOW GET / SLOW POST 공격]
 ```
 
 - **📢 섹션 요약 비유**: Memcached 증폭 서버 공격 방어 미흡의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ Memcached 증폭 서버 공격 방어 미흡은 [네트워크 보안](/knowledge
 
 ```text
 [선행 개념: DNS 증폭]
-    │
-    ▼
+    |
+    v
 [현재 개념: Memcached 증폭 서버 공격 방어 미흡]
-    │
-    ├──▶ [확장 A: SLOW GET / SLOW POST 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SLOW GET / SLOW POST 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 Memcached 증폭 서버 공격 방어 미흡는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 SLOW GET / SLOW POST 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ Memcached 증폭 서버 공격 방어 미흡는 [DNS](/knowledge-base/studynote/
 
 **진행 상황**: 841 / 1120
 
-← **이전**: [719. DNS 증폭 (위장 IP로 파싱 데이터/TXT 등 다량 요구 패킷 대형화 수백배 반사 대상자 타격)](/knowledge-base/studynote/03_network/14_network_security_threats/719_dns_amplification_any_txt_query/)
-**다음**: [721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/) →
+<- **이전**: [719. DNS 증폭 (위장 IP로 파싱 데이터/TXT 등 다량 요구 패킷 대형화 수백배 반사 대상자 타격)](/knowledge-base/studynote/03_network/14_network_security_threats/719_dns_amplification_any_txt_query/)
+**다음**: [721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/) ->
 
 ---

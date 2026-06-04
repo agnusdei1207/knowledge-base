@@ -31,30 +31,30 @@ Kibana는 2013년 Elastic이 공개한 [오픈소스](/knowledge-base/studynote/
 아래 다이어그램은 Elastic Stack의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 Kibana의 위치를 보여준다.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Elastic Stack 흐름                       │
-├─────────────────────────────────────────────────────────────────┤
-│  애플리케이션/서버                                               │
-│    ├── Filebeat (로그 수집 에이전트)                            │
-│    ├── Metricbeat (메트릭 수집)                                 │
-│    └── APM Agent (트레이스 수집)                                │
-│         │                                                       │
-│         ▼                                                       │
-│  Logstash (선택적 파이프라인: 파싱/변환/라우팅)                  │
-│         │                                                       │
-│         ▼                                                       │
-│  Elasticsearch (분산 검색·저장 엔진)                            │
-│    ├── 역색인(Inverted Index) → 전문 검색                       │
-│    └── 샤드(Shard) 기반 수평 확장                               │
-│         │                                                       │
-│         ▼                                                       │
-│  Kibana (시각화 + UI 레이어)                                    │
-│    ├── Discover: 로그 탐색                                      │
-│    ├── Lens/Visualize: 차트                                     │
-│    ├── Dashboard: 통합 시각화                                   │
-│    ├── Alerting: 임계치 알림                                    │
-│    └── APM/Maps/ML: 확장 기능                                   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                        Elastic Stack 흐름                       |
++-----------------------------------------------------------------+
+|  애플리케이션/서버                                               |
+|    +-- Filebeat (로그 수집 에이전트)                            |
+|    +-- Metricbeat (메트릭 수집)                                 |
+|    +-- APM Agent (트레이스 수집)                                |
+|         |                                                       |
+|         v                                                       |
+|  Logstash (선택적 파이프라인: 파싱/변환/라우팅)                  |
+|         |                                                       |
+|         v                                                       |
+|  Elasticsearch (분산 검색·저장 엔진)                            |
+|    +-- 역색인(Inverted Index) -> 전문 검색                       |
+|    +-- 샤드(Shard) 기반 수평 확장                               |
+|         |                                                       |
+|         v                                                       |
+|  Kibana (시각화 + UI 레이어)                                    |
+|    +-- Discover: 로그 탐색                                      |
+|    +-- Lens/Visualize: 차트                                     |
+|    +-- Dashboard: 통합 시각화                                   |
+|    +-- Alerting: 임계치 알림                                    |
+|    +-- APM/Maps/ML: 확장 기능                                   |
++-----------------------------------------------------------------+
 ```
 
 | Kibana 기능 | 설명 | 사용 시나리오 |
@@ -82,7 +82,7 @@ KQL (Kibana Query Language)은 [Elasticsearch](/knowledge-base/studynote/05_data
 | 비용 | 고급 기능(ML, [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)) 유료 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 완전 무료 |
 | 적합 환경 | ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)/Cloud 네이티브 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) |
 
-Kibana는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security Information and Event Management](/knowledge-base/studynote/09_security/13_secops_ir_forensics/625_siem_architecture/)) 기능도 포함한다. 보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 Elasticsearch에 적재하면 Kibana의 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 앱이 위협 탐지·[사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)을 지원한다. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 관점에서는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → Logstash → [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) → Kibana가 대규모 이벤트 처리의 표준 경로다.
+Kibana는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security Information and Event Management](/knowledge-base/studynote/09_security/13_secops_ir_forensics/625_siem_architecture/)) 기능도 포함한다. 보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 Elasticsearch에 적재하면 Kibana의 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 앱이 위협 탐지·[사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)을 지원한다. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 관점에서는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> Logstash -> [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) -> Kibana가 대규모 이벤트 처리의 표준 경로다.
 
 > 📢 **섹션 요약 비유**: Kibana와 Grafana의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 전문 병원([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 전문)과 종합 진료소(다양한 지표 통합)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 중심이면 Kibana, 인프라 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 중심이면 Grafana가 더 자연스럽다.
 
@@ -129,17 +129,17 @@ Kibana 도입 시 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_r
 
 ```text
 [로그 수집(Logstash/Beats)]
-    │
-    ▼
+    |
+    v
 [Elasticsearch 인덱싱]
-    │
-    ▼
+    |
+    v
 [Kibana 시각화]
-    │
-    ▼
+    |
+    v
 [ELK 스택 통합]
-    │
-    ▼
+    |
+    v
 [Elastic SIEM/APM 확장]
 ```
 
@@ -157,7 +157,7 @@ Kibana는 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_for
 
 **진행 상황**: 169 / 262
 
-← **이전**: [168. Grafana — 메트릭/로그/추적 통합 관측성 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)
-**다음**: [170. D3.js (Data-Driven Documents) — JavaScript 커스텀 인터랙티브 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/170_d3js/) →
+<- **이전**: [168. Grafana — 메트릭/로그/추적 통합 관측성 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)
+**다음**: [170. D3.js (Data-Driven Documents) — JavaScript 커스텀 인터랙티브 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/170_d3js/) ->
 
 ---

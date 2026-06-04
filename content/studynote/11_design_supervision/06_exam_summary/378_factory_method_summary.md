@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 패턴 ([Factory Method Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/))은 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 하위 클래스나 별도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메서드로 위임해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 변화를 캡슐화하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이다. [new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 연산이 곳곳에 흩어지면 제품 종류가 늘 때마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 분기와 의존성이 클라이언트에 새어 나온다. 이 개념이 필요한 이유는 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 변화 축을 한곳에 모으는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직 변경이 호출부 전역 수정과 테스트 어려움으로 이어진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│  Factory   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|  Factory   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Factory  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Factory  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/) | [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 패턴 ([Factory Method Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[직접 [new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 호출] → [팩토리 메서드] → [생성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 확장]
+[직접 [new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 호출] -> [팩토리 메서드] -> [생성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 확장]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 패턴 ([Factory Method Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/))은 장난감을 만들 때 버튼만 누르면 맞는 조립 기계가 골라 주는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 456 / 530
 
-← **이전**: [377. 서버리스 콜드 스타트 (Serverless Cold Start)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/)
-**다음**: [379. 추상 팩토리 패턴 (Abstract Factory Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/379_abstract_factory_summary/) →
+<- **이전**: [377. 서버리스 콜드 스타트 (Serverless Cold Start)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/377_serverless_cold_start/)
+**다음**: [379. 추상 팩토리 패턴 (Abstract Factory Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/379_abstract_factory_summary/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [Leaky Bucket / Token Buc…]
-    │
-    ▼
+    |
+    v
 [WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    └──▶ [HSRP]
+    |
+    +---> [HSRP]
 ```
 
 - **📢 섹션 요약 비유**: ** WRED는 고속도로 톨게이트 전방 10km 지점에 세워둔 **"우회 권고 전광판(조기 경보)"**입니다. 톨게이트가 완전히 막혀서 차들이 다 같이 급브레이크를 밟고 연쇄 추돌([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))을 일으키기 전에, 멀리서부터 차들을 한두 대씩 국도로 미리 빼내어 교통 흐름을 부드럽게 유지합니다.
@@ -63,20 +63,20 @@ WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledg
   - WRED 자체를 거의 적용하지 않거나, 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 90%로 잡아서 세상이 멸망하기 직전까지 절대 버리지 않고 살려둔다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                WRED 확률적 폐기(Drop Probability) 그래프         │
- ├─────────────────────────────────────────────────────────────┤
- │ Drop 확률(%)                                                  │
- │  100 |                                 /| (최대 임계치 돌파 시 100% 즉사)│
- │      |                                / |                   │
- │   10 |                              /   |                   │
- │      |                            /     |                   │
- │    0 |__________________________/_______|______ 큐에 쌓인 패킷량│
- │                               (Min)   (Max)                 │
- │                                                             │
- │   ▶ 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며, │
- │      Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!          │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                WRED 확률적 폐기(Drop Probability) 그래프         |
+ +-------------------------------------------------------------+
+ | Drop 확률(%)                                                  |
+ |  100 |                                 /| (최대 임계치 돌파 시 100% 즉사)|
+ |      |                                / |                   |
+ |   10 |                              /   |                   |
+ |      |                            /     |                   |
+ |    0 |__________________________/_______|______ 큐에 쌓인 패킷량|
+ |                               (Min)   (Max)                 |
+ |                                                             |
+ |   -> 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며, |
+ |      Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!          |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. TCP와 UDP에 미치는 영향
@@ -141,12 +141,12 @@ WRED 혼잡 제어 꼬리 짜르기 제한은 [라우팅](/knowledge-base/studyn
 
 ```text
 [선행 개념: Leaky Bucket / Token Buc…]
-    │
-    ▼
+    |
+    v
 [현재 개념: WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    ├──▶ [확장 A: HSRP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: HSRP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 WRED 혼잡 제어 꼬리 짜르기 제한는 Leaky Bucket / Token Buc…에서 출발해 현재 메커니즘을 정교화하고, 이후 HSRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -163,7 +163,7 @@ WRED 혼잡 제어 꼬리 짜르기 제한는 Leaky Bucket / Token Buc…에서 
 
 **진행 상황**: 515 / 1120
 
-← **이전**: [393. Leaky Bucket / Token Bucket](/knowledge-base/studynote/03_network/07_network_layer_routing/393_leaky_bucket_token_bucket/)
-**다음**: [395. HSRP (Hot Standby Router Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) →
+<- **이전**: [393. Leaky Bucket / Token Bucket](/knowledge-base/studynote/03_network/07_network_layer_routing/393_leaky_bucket_token_bucket/)
+**다음**: [395. HSRP (Hot Standby Router Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) ->
 
 ---

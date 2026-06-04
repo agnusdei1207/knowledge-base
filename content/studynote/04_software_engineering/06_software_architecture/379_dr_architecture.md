@@ -38,16 +38,16 @@ tags = ["studynote-software-engineering"]
 다음은 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  재해 복구 (DR) 아키텍처                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  재해 복구 (DR) 아키텍처                             |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -147,21 +147,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 재해 복구 (DR) 아키텍처 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 379 / 973
 
-← **이전**: [378. 소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)
-**다음**: [380. 소프트웨어 유지보수의 종류 - 수정(Corrective), 적응(Adaptive), 완전/개선(Perfective), 예방(Preventive)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) →
+<- **이전**: [378. 소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)
+**다음**: [380. 소프트웨어 유지보수의 종류 - 수정(Corrective), 적응(Adaptive), 완전/개선(Perfective), 예방(Preventive)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) ->
 
 ---

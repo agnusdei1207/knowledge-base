@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 UAT 고객 서명 인수인계 감리는 사용자 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)(User [Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/), UAT)와 고객 서명 인수인계 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 대형 정보화 사업에서 일정·범위·품질을 동시에 맞추기 위해 정량 기반 프로젝트 통제가 필수 역량이 되었다. 특히 수용 기준이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유예는 사람 의존 절차로 흩어지고, 최종적으로 서명 완료가 남지 않아 의사결정이 감각에 의존하게 된다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 책임자가 약하면 변화가 누적되어 일정 지연과 계약 분쟁으로 이어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 수용 기준 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 결함 유예 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 서명 완료 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 수용 기준 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 결함 유예 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 서명 완료 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: UAT 고객 서명 인수인계 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ UAT 고객 서명 인수인계 감리의 핵심 원리는 기준, 실행, 증적
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 서명 완료를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 수용 기준, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유예, 서명 완료는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ UAT 고객 서명 인수인계 감리를 충실히 적용하면 프로젝트 변
 - 확장 개념: 성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[수용 기준] → [UAT 고객 서명 인수인계 감리] → [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
+[수용 기준] -> [UAT 고객 서명 인수인계 감리] -> [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 수용 기준은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ UAT 고객 서명 인수인계 감리를 충실히 적용하면 프로젝트 변
 
 **진행 상황**: 359 / 530
 
-← **이전**: [297. 백업정책 소산보관 복구테스트 감리 (Backup Policy Offsite Storage and Recovery Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/297_backup_policy_offsite_media_recovery_test/)
-**다음**: [299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/) →
+<- **이전**: [297. 백업정책 소산보관 복구테스트 감리 (Backup Policy Offsite Storage and Recovery Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/297_backup_policy_offsite_media_recovery_test/)
+**다음**: [299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/299_isms_p_mock_audit_architecture_consistency/) ->
 
 ---

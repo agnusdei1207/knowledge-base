@@ -32,12 +32,12 @@ tags = ["studynote-ai"]
    - 모의고사 문제집 전체 1회독 = 1 에폭이다. 위 예시에서 10번의 이터레이션이 무사히 끝나면 마침내 1 에폭이 된다. 딥러닝은 보통 50~100 에폭 이상 문제집을 반복해서 푼다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 피자 100판(전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 먹어 치우는 대회입니다. 입안에 한 번에 우겨 넣을 수 있는 피자 조각 수가 10조각([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))이라면, 당신은 10번 씹어 삼키는 동작(Iteration)을 반복해야 책상 위 피자가 다 사라집니다. 피자 100판을 싹 비우고 다음 판 세트를 다시 꺼내 오는 순간이 바로 1 회독(Epoch) 달성입니다.
@@ -64,11 +64,11 @@ tags = ["studynote-ai"]
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Input → Transform → Score → Apply            │
-├──────────────────────────────────────────────┤
-│ state → update    → monitor → feedback       │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Input -> Transform -> Score -> Apply            |
++----------------------------------------------+
+| state -> update    -> monitor -> feedback       |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 바구니에 사과를 1,000개(Large Batch) 담아 무게를 재면 평균값이 항상 일정해 든든하지만 바구니가 너무 무거워 구덩이에 빠지면 못 나옵니다. 16개(Small Batch)만 담아서 재면 매번 평균이 널뛰기해서 헷갈리지만, 오히려 그 널뛰는 요동치는 힘 덕분에 함정을 폴짝 훌쩍 뛰어넘는 아이러니한 이점이 생깁니다.
@@ -125,7 +125,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 82 / 420
 
-← **이전**: [81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/081_stochastic_gradient_descent_sgd/)
-**다음**: [83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) →
+<- **이전**: [81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/081_stochastic_gradient_descent_sgd/)
+**다음**: [83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) ->
 
 ---

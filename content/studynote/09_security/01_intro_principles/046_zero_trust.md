@@ -22,11 +22,11 @@ tags = ["studynote-security"]
 전통 경계 보안 (Perimeter Security):
 
     인터넷 (위험)
-        │
-    방화벽 ← 경계
-        │
+        |
+    방화벽 <- 경계
+        |
     내부 네트워크 (신뢰)
-    PC ─ 서버 ─ DB
+    PC - 서버 - DB
 
 가정: 방화벽 안 = 신뢰
 문제: 방화벽 한 번 통과하면 내부 자유롭게 이동
@@ -42,16 +42,16 @@ tags = ["studynote-security"]
 
   3. 내부자 위협 (Insider Threat):
   방화벽 안쪽 직원/계정 침해
-  → 내부 = 신뢰 가정이 위험
+  -> 내부 = 신뢰 가정이 위험
 
   4. 라테럴 무브먼트 (Lateral Movement):
   해커: 하나의 엔드포인트 침해
-  → 내부망 자유 이동 → 중요 시스템 침해
+  -> 내부망 자유 이동 -> 중요 시스템 침해
 
   SolarWinds 공급망 공격 (2020):
   정상 소프트웨어 업데이트로 내부 침투
-  → 18,000개 조직 내부에서 자유 이동
-  → 수개월간 탐지 불가
+  -> 18,000개 조직 내부에서 자유 이동
+  -> 수개월간 탐지 불가
 ```
 
 > 📢 **섹션 요약 비유**: 전통 경계 보안은 성벽 — 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 있으면 안전하다 생각했는데, 적이 성문을 통과하자 안에서 자유롭게 돌아다녔어요. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 방마다 자물쇠!
@@ -79,13 +79,13 @@ tags = ["studynote-security"]
    필요한 것만, 필요한 시간만
 
    JIT (Just-In-Time) 접근:
-   필요할 때만 권한 부여 → 완료 후 즉시 회수
+   필요할 때만 권한 부여 -> 완료 후 즉시 회수
 
    JEA (Just Enough Access):
    특정 작업에만 필요한 권한
 
-   예: DB 관리자 → 항상 DB 접근 X
-   필요 시 15분 JIT 권한 부여 → 자동 회수
+   예: DB 관리자 -> 항상 DB 접근 X
+   필요 시 15분 JIT 권한 부여 -> 자동 회수
 
 3. 침해 가정 (Assume Breach):
    이미 침해되었다고 가정하고 설계
@@ -98,7 +98,7 @@ tags = ["studynote-security"]
    내부 트래픽도 암호화 (도청 가정)
 
    탐지·대응 강화:
-   침해 전제 → 탐지와 대응이 핵심
+   침해 전제 -> 탐지와 대응이 핵심
 ```
 
 > 📢 **섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙은 방마다 열쇠 — 집에 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 방마다(리소스) 자물쇠. 항상 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 필요한 방만(최소 권한), 도둑이 있다고 가정(침해 가정)!
@@ -127,8 +127,8 @@ tags = ["studynote-security"]
 2. 마이크로세그멘테이션:
    가상 방화벽으로 내부 네트워크 분할
 
-   서버 A (웹) ← 검증 → 서버 B (앱)
-   서버 B (앱) ← 검증 → 서버 C (DB)
+   서버 A (웹) <- 검증 -> 서버 B (앱)
+   서버 B (앱) <- 검증 -> 서버 C (DB)
 
    도구: VMware NSX, Illumio, Guardicore
 
@@ -143,7 +143,7 @@ tags = ["studynote-security"]
 4. ZTNA (Zero Trust Network Access):
    VPN 대체
 
-   기존 VPN: 한 번 연결 → 내부망 전체 접근
+   기존 VPN: 한 번 연결 -> 내부망 전체 접근
    ZTNA: 앱별 개별 접근 제어
 
    도구: Cloudflare Access, Zscaler ZPA
@@ -222,7 +222,7 @@ Phase 4 (3년~): 가시성/자동화
   침해 우려: 내부 계정 2개 탈취 사고 (랜섬웨어)
 
 현황 문제:
-  VPN으로 접속 → 내부망 전체 접근
+  VPN으로 접속 -> 내부망 전체 접근
   관리자 계정 항상 활성화
   내부 서버 간 이동 자유로움
 
@@ -250,7 +250,7 @@ Phase 3 (18개월): 세그멘테이션
   동일 침해 시나리오 재현 테스트:
   전: 침투 후 3시간 내 핵심 DB 접근
   후: 침투 성공해도 다음 레이어에서 차단
-  탐지 시간: 3일 → 2시간
+  탐지 시간: 3일 -> 2시간
 
   비용: 2년 구현 8억원
   예방한 랜섬웨어 피해 추정: 50억원 이상
@@ -298,7 +298,7 @@ John Kindervag (Forrester)
       |
       v
 [클라우드+원격근무 가속 (2020)]
-COVID-19 → 원격근무 폭발
+COVID-19 -> 원격근무 폭발
 경계 보안 한계 부각
       |
       v
@@ -326,7 +326,7 @@ AI 기반 동적 ZT 정책
 
 **진행 상황**: 46 / 1108
 
-← **이전**: [045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0](/knowledge-base/studynote/09_security/01_intro_principles/045_nist_csf_2_0/)
-**다음**: [047. ZTA — 제로 트러스트 아키텍처 심화](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/) →
+<- **이전**: [045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0](/knowledge-base/studynote/09_security/01_intro_principles/045_nist_csf_2_0/)
+**다음**: [047. ZTA — 제로 트러스트 아키텍처 심화](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/) ->
 
 ---

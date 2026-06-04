@@ -19,20 +19,20 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    마테크 스택 구성 예시                               │
-├───────────────────────────────────────────────────────┤
-│  [고객 데이터]   CDP (Segment)                        │
-│  [마케팅 자동화] MA (HubSpot, Braze)                  │
-│  [이메일]       Mailchimp, SendGrid                   │
-│  [분석]         GA4, Amplitude, Mixpanel              │
-│  [CMS]          WordPress, Contentful                 │
-│  [소셜]         Sprinklr, Hootsuite                   │
-│  [ABM]          6sense, Demandbase                    │
-│  [통합]         iPaaS (Zapier, Workato)               │
-│                                                       │
-│  → 이들을 연결하는 것이 "마테크 스택 아키텍처"       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    마테크 스택 구성 예시                               |
++-------------------------------------------------------+
+|  [고객 데이터]   CDP (Segment)                        |
+|  [마케팅 자동화] MA (HubSpot, Braze)                  |
+|  [이메일]       Mailchimp, SendGrid                   |
+|  [분석]         GA4, Amplitude, Mixpanel              |
+|  [CMS]          WordPress, Contentful                 |
+|  [소셜]         Sprinklr, Hootsuite                   |
+|  [ABM]          6sense, Demandbase                    |
+|  [통합]         iPaaS (Zapier, Workato)               |
+|                                                       |
+|  -> 이들을 연결하는 것이 "마테크 스택 아키텍처"       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 주방의 조리 도구 세트다. 칼(분석)·냄비(자동화)·오븐(CMS)을 각각 최고 브랜드로 구성하거나, 올인원 세트를 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있다.
@@ -95,17 +95,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [이메일 마케팅 도구 (2000s) — Mailchimp 등]
-    │
-    ▼
+    |
+    v
 [마케팅 자동화 (2010s) — HubSpot, Marketo]
-    │
-    ▼
-[마테크 랜드스케이프 폭발 (2015~) — 5000→14000개 도구]
-    │
-    ▼
+    |
+    v
+[마테크 랜드스케이프 폭발 (2015~) — 5000->14000개 도구]
+    |
+    v
 [CDP 중심 통합 (2020~) — 데이터 허브 전략]
-    │
-    ▼
+    |
+    v
 [현재: AI 마테크 — GenAI 콘텐츠·개인화 자동화]
 ```
 
@@ -120,7 +120,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 117 / 482
 
-← **이전**: [116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/116_first_party_data_cookie_less_strategy/)
-**다음**: [118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/118_inbound_vs_outbound_marketing/) →
+<- **이전**: [116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/116_first_party_data_cookie_less_strategy/)
+**다음**: [118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/118_inbound_vs_outbound_marketing/) ->
 
 ---

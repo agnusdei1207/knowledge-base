@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
+    |
+    v
 [텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
+    |
+    +---> [메이커 빔 생성 안테나 메타 표면 적용 무전…]
 ```
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
+    |
+    v
 [텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
+    |
+    +---> [메이커 빔 생성 안테나 메타 표면 적용 무전…]
 ```
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    ├──▶ [확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 918 / 1120
 
-← **이전**: [796. 홀로그램 무선 전송 압축/다시점 비디오 체계 동기망 지터 제어 기술(VTC 지연 민감 체계) 통신망 요구 지표 한계 모델 구조](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/796_hologram_volumetric_video_vtc_jitter_control/)
-**다음**: [798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/798_backscatter_communication_zero_energy_iot_ris/) →
+<- **이전**: [796. 홀로그램 무선 전송 압축/다시점 비디오 체계 동기망 지터 제어 기술(VTC 지연 민감 체계) 통신망 요구 지표 한계 모델 구조](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/796_hologram_volumetric_video_vtc_jitter_control/)
+**다음**: [798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/798_backscatter_communication_zero_energy_iot_ris/) ->
 
 ---

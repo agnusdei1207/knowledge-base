@@ -61,11 +61,11 @@ f_s >= 2 f_max
 
 ```text
 아날로그 입력
-   ↓
+   v
 저역통과필터(LPF)
-   ↓
+   v
 ADC (Analog-to-Digital Converter)
-   ↓
+   v
 디지털 샘플
 ```
 
@@ -96,11 +96,11 @@ ADC (Analog-to-Digital Converter)
 
 ```text
 아날로그 신호
-   ↓
+   v
 표본화 주파수 부족
-   ↓
+   v
 에일리어싱 / 주파수 폴딩
-   ↓
+   v
 필터링 / 오버샘플링
 ```
 
@@ -108,11 +108,11 @@ ADC (Analog-to-Digital Converter)
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) → 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 이산화
-2. 나이퀴스트 조건 → 최소 샘플링 기준 확립
-3. 안티-에일리어싱 필터 → 사전 필터링 표준화
-4. 오버샘플링([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)) → 복원 여유 확대
-5. 고해상도 영상/오디오/센서 → 정교한 [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) 설계 필요
+1. 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) -> 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 이산화
+2. 나이퀴스트 조건 -> 최소 샘플링 기준 확립
+3. 안티-에일리어싱 필터 -> 사전 필터링 표준화
+4. 오버샘플링([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)) -> 복원 여유 확대
+5. 고해상도 영상/오디오/센서 -> 정교한 [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) 설계 필요
 
 ---
 
@@ -128,7 +128,7 @@ ADC (Analog-to-Digital Converter)
 
 **진행 상황**: 57 / 1120
 
-← **이전**: [56. 표본화 (Sampling)](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)
-**다음**: [58. 폴딩 주파수 (Folding Frequency)](/knowledge-base/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/) →
+<- **이전**: [56. 표본화 (Sampling)](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)
+**다음**: [58. 폴딩 주파수 (Folding Frequency)](/knowledge-base/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/) ->
 
 ---

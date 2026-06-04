@@ -44,18 +44,18 @@ ECC 회로의 기본 흐름은 [쓰기](/knowledge-base/studynote/13_cloud_archi
 다음 그림은 ECC 회로가 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때 코드워드를 만들고, 읽기 때 신드롬으로 판단하는 구조"임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ ECC circuit: build a codeword on write, decode it with syndrome on read   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Write path:  Data[64] -> [Encoder] -> Codeword[72] -> Memory / Link       │
-│                                                                            │
-│ Read path :  Codeword[72] -> [Syndrome] -> [Classify] -> [Correct / Flag] │
-│                                                │              │            │
-│                                                │              ├-> 1-bit fix│
-│                                                │              └-> UE trap  │
-│                                                ▼                           │
-│                                   Syndrome = error location / pattern      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| ECC circuit: build a codeword on write, decode it with syndrome on read   |
++----------------------------------------------------------------------------+
+| Write path:  Data[64] -> [Encoder] -> Codeword[72] -> Memory / Link       |
+|                                                                            |
+| Read path :  Codeword[72] -> [Syndrome] -> [Classify] -> [Correct / Flag] |
+|                                                |              |            |
+|                                                |              +-> 1-bit fix|
+|                                                |              +-> UE trap  |
+|                                                v                           |
+|                                   Syndrome = error location / pattern      |
++----------------------------------------------------------------------------+
 ```
 
 예를 들어 SECDED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/))는 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 4를 이용해 1비트 오류를 정정하고 2비트 오류를 탐지한다. 일반적으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 경로에서는 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로 Hamming 계열이나 SECDED가 널리 쓰이고, NAND Flash처럼 오류 패턴이 더 거칠고 누적되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서는 BCH (Bose–Chaudhuri–Hocquenghem)나 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) (Low-Density Parity-Check)처럼 더 강한 코드를 사용한다. 결국 ECC 설계는 "얼마나 많이 고칠 수 있는가"보다 <strong>얼마나 빨리, 얼마나 적은 비용으로, 어떤 오류 분포를 상대로 고칠 것인가</strong>의 문제다.
@@ -132,17 +132,17 @@ ECC 회로의 가장 직접적인 효과는 조용한 [데이터](/knowledge-bas
 
 ```text
 Parity 기반 오류 탐지
-        │
-        ▼
+        |
+        v
 Hamming Code · SECDED
-        │
-        ▼
+        |
+        v
 Chipkill · 시스템 수준 메모리 보호
-        │
-        ▼
+        |
+        v
 BCH · LDPC 기반 고정정력 저장장치 ECC
-        │
-        ▼
+        |
+        v
 온다이 ECC · 적응형 계층형 신뢰성 아키텍처
 ```
 
@@ -160,7 +160,7 @@ BCH · LDPC 기반 고정정력 저장장치 ECC
 
 **진행 상황**: 554 / 803
 
-← **이전**: [553. 초고속 SerDes (Serializer/Deserializer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/553_serdes/)
-**다음**: [555. 메모리 스크러빙 (Memory Scrubbing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/) →
+<- **이전**: [553. 초고속 SerDes (Serializer/Deserializer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/553_serdes/)
+**다음**: [555. 메모리 스크러빙 (Memory Scrubbing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/) ->
 
 ---

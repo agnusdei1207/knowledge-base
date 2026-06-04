@@ -42,13 +42,13 @@ tags = ["studynote-enterprise-systems"]
 
 가치 흐름 (Value Stream):
   고객에게 가치를 전달하는 단계별 흐름
-  전통: 기획→설계→개발→테스트→배포 (순차)
+  전통: 기획->설계->개발->테스트->배포 (순차)
   애자일: 지속적 소규모 딜리버리 + 피드백 루프
 
 기업 애자일 지표:
-  Lead Time: 아이디어 → 프로덕션 도달 시간
+  Lead Time: 아이디어 -> 프로덕션 도달 시간
   Flow Velocity: 시간당 가치 단위 처리량
-  Time-to-Market: 아이디어 → 고객 가치 실현 시간
+  Time-to-Market: 아이디어 -> 고객 가치 실현 시간
   Business Value: 스프린트별 비즈니스 가치 측정
 ```
 
@@ -89,7 +89,7 @@ SAFe의 장단점:
   단점: 복잡, 관료화 위험, 도입 비용 높음
 
   Google 의견: "SAFe는 애자일이 아니라 폭포수의 애자일 코팅"
-  → 조직 특성에 맞는 선택적 도입이 핵심
+  -> 조직 특성에 맞는 선택적 도입이 핵심
 ```
 
 > 📢 **섹션 요약 비유**: SAFe의 ART는 기차 시간표 — 수십 개 팀이 같은 선로([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 주기)를 달리도록 시간표를 맞추는 것. 혼자 달리면 충돌, 같이 달리면 안전.
@@ -113,7 +113,7 @@ Spotify 모델:
 
 실제:
   Spotify는 이 모델을 그대로 따르지 않음
-  → 맥락 없이 복사하는 "Spotify 극장" 위험
+  -> 맥락 없이 복사하는 "Spotify 극장" 위험
 
 OKR (Objectives and Key Results):
 
@@ -127,15 +127,15 @@ OKR (Objectives and Key Results):
   KR3: 월간 활성 사용자 20% 증가
 
 애자일 + OKR 통합:
-  포트폴리오 OKR → 팀 스프린트 목표 정렬
+  포트폴리오 OKR -> 팀 스프린트 목표 정렬
 
   예:
   회사 OKR: 결제 전환율 25% 향상
-  → 팀 OKR: 결제 UX 개선 (페이지 이탈률 30% 감소)
-  → 스프린트: 결제 단계 3→1단계 축소
+  -> 팀 OKR: 결제 UX 개선 (페이지 이탈률 30% 감소)
+  -> 스프린트: 결제 단계 3->1단계 축소
 
   정렬(Alignment):
-  전략 → 팀 목표 → 스프린트 태스크
+  전략 -> 팀 목표 -> 스프린트 태스크
   끊김 없는 일직선
 
 분기별 OKR 주기:
@@ -162,11 +162,11 @@ OKR (Objectives and Key Results):
 2. 팀만 애자일, 조직은 폭포수:
    개발팀: 2주 스프린트
    결재 구조: 3~6개월 예산 승인
-   → 팀이 빨라도 조직 게이트에서 지연
+   -> 팀이 빨라도 조직 게이트에서 지연
 
 3. 기술 부채 무시:
-   빠른 딜리버리 압박 → 기술 부채 누적
-   → 나중에 속도 급감 (Scrum: "Done의 정의" 필요)
+   빠른 딜리버리 압박 -> 기술 부채 누적
+   -> 나중에 속도 급감 (Scrum: "Done의 정의" 필요)
 
 4. 변화 관리 실패:
    경영진 지원 없음
@@ -176,18 +176,18 @@ OKR (Objectives and Key Results):
 
 1. 가치 흐름 매핑 (Value Stream Mapping):
    고객 가치 전달 경로의 낭비 식별
-   → 핵심 병목에 집중
+   -> 핵심 병목에 집중
 
 2. 심리적 안전감:
    실패 = 학습 기회 문화
    블레임 없는 포스트모텀
 
 3. 지속적 통합/배포 (CI/CD):
-   기술적 기반 없이 애자일 프로세스만 → 한계
-   → DevOps 파이프라인이 애자일의 기술적 전제
+   기술적 기반 없이 애자일 프로세스만 -> 한계
+   -> DevOps 파이프라인이 애자일의 기술적 전제
 
 4. Product Thinking:
-   프로젝트(기한 있음) → 제품(지속적 진화)으로 전환
+   프로젝트(기한 있음) -> 제품(지속적 진화)으로 전환
 ```
 
 > 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 실패는 운동복만 입은 것 — 운동복([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 의식) 입었다고 건강(민첩성)해지는 게 아니에요. 실제 운동(가치 흐름 개선)이 없으면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 극장.
@@ -204,8 +204,8 @@ OKR (Objectives and Key Results):
   문제: 시간시장 12~18개월, 핀테크 경쟁
 
 Phase 1 — 가치 흐름 파악 (3개월):
-  현재 상태: 고객 → 대출 승인 → 14일 소요
-  이상 상태: 고객 → 대출 승인 → 1일 이내
+  현재 상태: 고객 -> 대출 승인 -> 14일 소요
+  이상 상태: 고객 -> 대출 승인 -> 1일 이내
 
   낭비 식별:
   - 서류 수작업 검토: 5일
@@ -221,22 +221,22 @@ Phase 2 — 구조 재편 (6개월):
   1 Squad = 8명, 2주 스프린트
 
 Phase 3 — OKR + 애자일 정렬:
-  은행 OKR: 대출 심사 시간 14일 → 1일 (Q3)
+  은행 OKR: 대출 심사 시간 14일 -> 1일 (Q3)
   대출팀 OKR:
-    KR1: 자동 심사율 60% → 85%
+    KR1: 자동 심사율 60% -> 85%
     KR2: 서류 디지털화 100%
   스프린트 1: OCR 문서 인식 API 통합
   스프린트 2: 신용 자동 평가 룰 엔진 구현
 
 결과 (6개월 후):
-  대출 심사 시간: 14일 → 2.5일 (80% 감소)
-  시간시장: 18개월 → 3개월
+  대출 심사 시간: 14일 -> 2.5일 (80% 감소)
+  시간시장: 18개월 -> 3개월
   고객 만족도: NPS +25점
 
 남은 과제:
   규제 대응 (금융당국 승인 프로세스)
   레거시 시스템 통합 (COBOL 코어 뱅킹)
-  → 이 부분은 애자일로도 빠르게 못 함 (현실 인식 필요)
+  -> 이 부분은 애자일로도 빠르게 못 함 (현실 인식 필요)
 ```
 
 > 📢 **섹션 요약 비유**: 은행 기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 14차선 도로 만들기 — 기존 도로(14일 대출)의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(결재)과 좁은 구간(수작업)을 없애고, 고속도로(자동화 + 자율팀)로 재설계.
@@ -252,7 +252,7 @@ Phase 3 — OKR + 애자일 정렬:
 |   +-- LeSS (Large-Scale Scrum)
 |   +-- Spotify 모델 (Squad/Tribe/Chapter)
 +-- 정렬 도구
-|   +-- OKR (전략 → 팀 목표)
+|   +-- OKR (전략 -> 팀 목표)
 |   +-- Value Stream Mapping
 +-- 실패 패턴
 |   +-- Agile Theater
@@ -278,7 +278,7 @@ SAFe 초기 버전 (2011)
       |
       v
 [OKR 확산 (2014~)]
-Google → 전 산업 확산
+Google -> 전 산업 확산
 전략-팀 정렬 도구로 정착
       |
       v
@@ -306,7 +306,7 @@ HR, 재무, 마케팅까지 애자일 확장
 
 **진행 상황**: 44 / 482
 
-← **이전**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/)
-**다음**: [045. ITIL과 ITSM 프레임워크 — ITIL & ITSM](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/045_itil_itsm_framework/) →
+<- **이전**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/)
+**다음**: [045. ITIL과 ITSM 프레임워크 — ITIL & ITSM](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/045_itil_itsm_framework/) ->
 
 ---

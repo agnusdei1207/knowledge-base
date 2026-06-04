@@ -64,7 +64,7 @@ def search(node, k):
 삽입 위치 리프가 가득 찼을 때 (2t-1개 키):
 
 분할 전:  [1, 5, 9, 13, 17]  (t=3이면 max 5키)
-            ↓ 중간 키(9) 부모로 올라감
+            v 중간 키(9) 부모로 올라감
 분할 후:  부모에 9 추가
           왼쪽 [1, 5] | 오른쪽 [13, 17]
 ```
@@ -85,8 +85,8 @@ def search(node, k):
 
 ```
 언더플로우 처리:
-  형제에 여유 있음 → 재분배 (부모 키 내려오고 형제 키 올라감)
-  형제도 최소 → 병합 (두 노드 + 부모 키 합체)
+  형제에 여유 있음 -> 재분배 (부모 키 내려오고 형제 키 올라감)
+  형제도 최소 -> 병합 (두 노드 + 부모 키 합체)
 ```
 
 📢 **섹션 요약 비유**: B-트리 삭제는 학급 합반 규칙이다 — 한 반 학생이 너무 적어지면([언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 옆 반에서 한 명 빌리거나(재분배), 아예 두 반을 합반(병합)한다.
@@ -107,13 +107,13 @@ def search(node, k):
 
 - **파일시스템**: NTFS·HFS+·ext4 모두 B-트리 변형 사용
 - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: InnoDB (B+ 트리), [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) (B-트리)
-- **t 값 선택**: [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 4KB 기준 → t ≈ 50~100
+- **t 값 선택**: [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 4KB 기준 -> t ≈ 50~100
 
 ```
 디스크 페이지 크기 4096 bytes
 키 + 포인터 = 20 bytes
 t ≈ 4096 / (2 × 20) ≈ 100
-→ 높이 2의 B-트리에 최대 100³ = 백만 개 키 저장
+-> 높이 2의 B-트리에 최대 100³ = 백만 개 키 저장
 ```
 
 📢 **섹션 요약 비유**: t가 크면 나무가 납작해진다 — 층수가 낮은 (높이가 작은) 쇼핑몰은 엘리베이터(디스크 I/O) 이용 횟수가 줄어 쇼핑이 빨라진다.
@@ -128,7 +128,7 @@ t ≈ 4096 / (2 × 20) ≈ 100
 BST 높이: log₂(1,000,000) ≈ 20
 B-트리 높이: log₁₀₀(1,000,000) ≈ 3
 
-디스크 I/O: BST 20회 vs B-트리 3회 → B-트리가 7배 빠름
+디스크 I/O: BST 20회 vs B-트리 3회 -> B-트리가 7배 빠름
 ```
 
 ### B-트리 계열 비교
@@ -147,19 +147,19 @@ B-트리 높이: log₁₀₀(1,000,000) ≈ 3
 
 ```
 B-트리 (B-Tree)
-├── 설계 목적
-│   └── 디스크 I/O 최소화
-├── 핵심 연산
-│   ├── 탐색 O(log n)
-│   ├── 삽입 (노드 분할)
-│   └── 삭제 (병합·재분배)
-├── 변형
-│   ├── B+-트리 (리프 체인, DB 인덱스 표준)
-│   └── B*-트리 (공간 효율화)
-└── 실제 사용
-    ├── DBMS 인덱스 (InnoDB B+ 트리)
-    ├── 파일시스템 (NTFS, HFS+)
-    └── 키-값 스토어 (RocksDB)
++-- 설계 목적
+|   +-- 디스크 I/O 최소화
++-- 핵심 연산
+|   +-- 탐색 O(log n)
+|   +-- 삽입 (노드 분할)
+|   +-- 삭제 (병합·재분배)
++-- 변형
+|   +-- B+-트리 (리프 체인, DB 인덱스 표준)
+|   +-- B*-트리 (공간 효율화)
++-- 실제 사용
+    +-- DBMS 인덱스 (InnoDB B+ 트리)
+    +-- 파일시스템 (NTFS, HFS+)
+    +-- 키-값 스토어 (RocksDB)
 ```
 
 ---
@@ -167,23 +167,23 @@ B-트리 (B-Tree)
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   B-트리 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1972년       │ B-트리 논문        │ Bayer & McCreight, Boeing    │
-│ 1976년       │ B+-트리 제안       │ Knuth TAOCP, 리프 체인 추가  │
-│ 1980년대     │ DBMS 인덱스 표준화 │ Oracle·DB2 B+-트리 채택     │
-│ 2000년대     │ InnoDB B+-트리     │ MySQL InnoDB 클러스터 인덱스 │
-│ 2010년대     │ Fractal Tree·LSM  │ B-트리 대안 구조 등장        │
-│ 2020년대     │ NVMe 최적화 B-트리 │ SSD 특성 고려 설계           │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|                   B-트리 발전 흐름                               |
++--------------+--------------------+-----------------------------+
+| 1972년       | B-트리 논문        | Bayer & McCreight, Boeing    |
+| 1976년       | B+-트리 제안       | Knuth TAOCP, 리프 체인 추가  |
+| 1980년대     | DBMS 인덱스 표준화 | Oracle·DB2 B+-트리 채택     |
+| 2000년대     | InnoDB B+-트리     | MySQL InnoDB 클러스터 인덱스 |
+| 2010년대     | Fractal Tree·LSM  | B-트리 대안 구조 등장        |
+| 2020년대     | NVMe 최적화 B-트리 | SSD 특성 고려 설계           |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-이진 탐색 트리 → B-트리(디스크 최적화) → B+-트리(리프 체인)
-      ↓                   ↓                       ↓
+이진 탐색 트리 -> B-트리(디스크 최적화) -> B+-트리(리프 체인)
+      v                   v                       v
   메모리 최적        디스크 페이지 단위      범위 스캔 O(k)
-      ↓
-  DBMS 인덱스 표준 → 클러스터 인덱스 → 실행 계획 최적화
+      v
+  DBMS 인덱스 표준 -> 클러스터 인덱스 -> 실행 계획 최적화
 ```
 
 ---
@@ -200,7 +200,7 @@ B-트리 (B-Tree)
 
 **진행 상황**: 91 / 175
 
-← **이전**: [B+트리 (B+-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/)
-**다음**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/) →
+<- **이전**: [B+트리 (B+-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/)
+**다음**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/) ->
 
 ---

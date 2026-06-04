@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 또한 설계 의도 측면에서도 장점이 있었다. 메모리 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 장치 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준에서 분리하면, 하드웨어 제어 행위가 더 분명해진다. 예를 들어 `IN`, `OUT` 같은 명령은 "지금은 장치와 대화한다"는 뜻을 즉시 드러내므로, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 제어 로직이 명시적인 형태를 갖는다.
 
 ```text
-┌─────────────────────────────────────┬─────────────────────────────────────┐
-│ 메모리 맵 I/O (MMIO)               │ 분리형 I/O (Isolated I/O)          │
-├─────────────────────────────────────┼─────────────────────────────────────┤
-│ 주소 공간 하나를 함께 사용         │ 주소 공간을 둘로 나눠 사용         │
-│                                     │                                     │
-│ 0x0000 ───────────────┐             │ 메모리: 0x0000 ───────────────┐    │
-│                       │             │                              │    │
-│      Main Memory      │             │         Main Memory          │    │
-│                       │             │                              │    │
-│ 0xDFFF ───────────────┘             │ 0xFFFF ──────────────────────┘    │
-│ 0xE000 ───────────────┐             │                                     │
-│      Device Reg       │             │ 포트:   0x0000 ──────────────┐    │
-│ 0xFFFF ───────────────┘             │         I/O Port Space       │    │
-│                                     │ 0xFFFF ──────────────────────┘    │
-└─────────────────────────────────────┴─────────────────────────────────────┘
++-------------------------------------+-------------------------------------+
+| 메모리 맵 I/O (MMIO)               | 분리형 I/O (Isolated I/O)          |
++-------------------------------------+-------------------------------------+
+| 주소 공간 하나를 함께 사용         | 주소 공간을 둘로 나눠 사용         |
+|                                     |                                     |
+| 0x0000 ---------------+             | 메모리: 0x0000 ---------------+    |
+|                       |             |                              |    |
+|      Main Memory      |             |         Main Memory          |    |
+|                       |             |                              |    |
+| 0xDFFF ---------------+             | 0xFFFF ----------------------+    |
+| 0xE000 ---------------+             |                                     |
+|      Device Reg       |             | 포트:   0x0000 --------------+    |
+| 0xFFFF ---------------+             |         I/O Port Space       |    |
+|                                     | 0xFFFF ----------------------+    |
++-------------------------------------+-------------------------------------+
 ```
 
 이 그림의 핵심은 <strong>분리형 I/O가 메모리 공간 보존을 위해 주소 체계를 이원화</strong>한다는 점이다. 그래서 역사적으로는 메모리가 귀하던 시대에 특히 설득력이 컸고, 오늘날에는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 측면에서 그 흔적이 남아 있다.
@@ -66,29 +66,29 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 CPU가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 어떤 경로로 동작하는지를 보여 준다.
 
 ```text
-┌──────────────┐      ┌────────────────┐      ┌────────────────┐
-│     CPU      │      │  Address Bus   │      │  Control Bus   │
-└──────┬───────┘      └────────┬───────┘      └────────┬───────┘
-       │  IN AL, port                   │                       │
-       ├───────────────────────────────▶│  port number          │
-       │                                ├──────────────────────▶│ I/O read
-       │                                │                       │ signal
-       ▼                                ▼                       ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                       I/O Address Decoder                           │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 포트 번호 일치                │ 포트 번호 불일치                     │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 해당 장치 선택                │ 다른 장치는 무시                     │
-└───────────────┬───────────────┴──────────────────────────────────────┘
-                ▼
-         ┌──────────────┐
-         │ I/O Device   │
-         │ Data Register│
-         └──────┬───────┘
-                ▼
++--------------+      +----------------+      +----------------+
+|     CPU      |      |  Address Bus   |      |  Control Bus   |
++------+-------+      +--------+-------+      +--------+-------+
+       |  IN AL, port                   |                       |
+       +-------------------------------->|  port number          |
+       |                                +----------------------->| I/O read
+       |                                |                       | signal
+       v                                v                       v
++----------------------------------------------------------------------+
+|                       I/O Address Decoder                           |
++-------------------------------+--------------------------------------+
+| 포트 번호 일치                | 포트 번호 불일치                     |
++-------------------------------+--------------------------------------+
+| 해당 장치 선택                | 다른 장치는 무시                     |
++---------------+---------------+--------------------------------------+
+                v
+         +--------------+
+         | I/O Device   |
+         | Data Register|
+         +------+-------+
+                v
             Data Bus
-                ▼
+                v
                CPU
 ```
 
@@ -171,21 +171,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 좁은 주소 공간 시대
-        │
-        ▼
+        |
+        v
 분리형 I/O (Isolated I/O)
-        │
-        ├─▶ 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)
-        │
-        ├─▶ 인터럽트 (Interrupt) 기반 I/O
-        │
-        ▼
+        |
+        +--> 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)
+        |
+        +--> 인터럽트 (Interrupt) 기반 I/O
+        |
+        v
 메모리 맵 I/O (Memory-Mapped I/O)
-        │
-        ▼
+        |
+        v
 DMA (Direct Memory Access) · 고속 장치 제어
-        │
-        ▼
+        |
+        v
 현대 버스/가속기 중심 통합 I/O
 ```
 
@@ -203,7 +203,7 @@ DMA (Direct Memory Access) · 고속 장치 제어
 
 **진행 상황**: 312 / 803
 
-← **이전**: [310. 메모리 맵 I/O (Memory-Mapped I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/310_memory_mapped_io/)
-**다음**: [312. 프로그램 제어 I/O (Programmed I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/312_programmed_io/) →
+<- **이전**: [310. 메모리 맵 I/O (Memory-Mapped I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/310_memory_mapped_io/)
+**다음**: [312. 프로그램 제어 I/O (Programmed I/O)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/312_programmed_io/) ->
 
 ---

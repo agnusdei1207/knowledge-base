@@ -30,7 +30,7 @@ NP (Nondeterministic Polynomial):
   또는: 비결정론적 튜링 머신으로 다항 시간에 풀리는 문제
 
 P ⊆ NP 관계:
-  풀 수 있으면 검증도 할 수 있음 → P ⊆ NP 확실
+  풀 수 있으면 검증도 할 수 있음 -> P ⊆ NP 확실
   그러나 P = NP인지 P ⊊ NP인지 미증명
 
 핵심 질문:
@@ -57,7 +57,7 @@ P ⊆ NP 관계:
 
 ```
 클레이 수학 연구소 밀레니엄 7대 난제 (2000년 발표):
-  1. P vs NP ← 오늘 주제
+  1. P vs NP <- 오늘 주제
   2. 호지 추측
   3. 푸앵카레 추측 (2003 Perelman 증명, 유일하게 해결)
   4. 리만 가설
@@ -78,7 +78,7 @@ P vs NP 역사:
   2000년: 클레이 수학 연구소 공식 난제 등록
 
   2010년: Vinay Deolalikar (HP Labs)
-    "P ≠ NP 증명" 논문 발표 → 오류 발견, 철회
+    "P ≠ NP 증명" 논문 발표 -> 오류 발견, 철회
 
   현재: 여전히 미해결
 
@@ -87,7 +87,7 @@ P vs NP 역사:
   자연화 장벽 (Relativization Barrier)
   대수화 장벽 (Algebrization Barrier)
   오라클화 장벽 (Oracle Barrier)
-  → 기존 수학 도구가 통하지 않음
+  -> 기존 수학 도구가 통하지 않음
 ```
 
 > 📢 **섹션 요약 비유**: P = NP는 수학계의 에베레스트 — 50년 넘게 수천 명이 도전했지만 아직 정상 정복 불가. 오히려 "왜 못 오르는지"를 설명하는 새로운 수학이 계속 발전 중.
@@ -101,19 +101,19 @@ P vs NP 역사:
 
 암호화 시스템 붕괴:
   RSA: 소인수분해 문제 (NP 문제)
-    현재: 2048비트 소인수분해 → 10^14년 이상
-    P=NP: 다항 시간 내 풀 수 있다 → 수 초~분
+    현재: 2048비트 소인수분해 -> 10^14년 이상
+    P=NP: 다항 시간 내 풀 수 있다 -> 수 초~분
 
   AES: 키 탐색이 사실 P일 수도
 
   블록체인 해시: 역함수 찾기 (현재 NP)
-    → P=NP면 블록체인 보안 기반 붕괴
+    -> P=NP면 블록체인 보안 기반 붕괴
 
 긍정적 영향:
   최적화 문제 완전 해결:
-    TSP(외판원 문제) → 완벽한 물류 최적화
-    단백질 접힘(Protein Folding) → 신약 개발 혁신
-    스케줄링 문제 → 완벽한 자원 배분
+    TSP(외판원 문제) -> 완벽한 물류 최적화
+    단백질 접힘(Protein Folding) -> 신약 개발 혁신
+    스케줄링 문제 -> 완벽한 자원 배분
 
   수학 자동화:
     AI가 모든 수학 정리를 자동 증명
@@ -125,8 +125,8 @@ P vs NP 역사:
 
 현실적 시나리오 (P=NP라도):
   증명이 존재해도 상수 계수 너무 클 수 있음
-  예: O(n^1000) → 다항 시간이지만 비실용적
-  → "실용적 P=NP"는 별개 문제
+  예: O(n^1000) -> 다항 시간이지만 비실용적
+  -> "실용적 P=NP"는 별개 문제
 ```
 
 > 📢 **섹션 요약 비유**: P = NP는 마스터키 발견 — 모든 자물쇠를 열 수 있는 열쇠이자 모든 자물쇠의 의미가 없어지는 열쇠. 보안의 근간이 흔들리는 가정.
@@ -167,9 +167,9 @@ Fixed-Parameter Tractable (FPT):
   예: k-vertex cover, k-planar graph
 
 특수 구조 활용:
-  그래프가 트리형 → 트리 분해 알고리즘
-  그래프가 평면 → 평면 그래프 알고리즘
-  입력에 제약 조건 → DP로 폭발적 탐색 제한
+  그래프가 트리형 -> 트리 분해 알고리즘
+  그래프가 평면 -> 평면 그래프 알고리즘
+  입력에 제약 조건 -> DP로 폭발적 탐색 제한
 ```
 
 > 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))이 완벽한 지도보다 실용적.
@@ -185,8 +185,8 @@ Fixed-Parameter Tractable (FPT):
   RSA 가정:
     "큰 수의 소인수분해는 NP이며, P가 아니다"
     2048비트: n = p × q (p, q는 1024비트 소수)
-    복호화: 작은 d만 알면 O(n) → P
-    공격: n을 소인수분해해야 → 현재 NP
+    복호화: 작은 d만 알면 O(n) -> P
+    공격: n을 소인수분해해야 -> 현재 NP
 
   타원곡선(ECC) 가정:
     "타원곡선 이산 로그는 NP이며, P가 아니다"
@@ -194,8 +194,8 @@ Fixed-Parameter Tractable (FPT):
 
 양자 컴퓨터의 위협 (별개 문제):
   Shor 알고리즘: 양자 컴퓨터로 소인수분해 O((log n)^3)
-  → P=NP가 아니어도 양자 컴퓨터면 RSA 취약!
-  → 양자 내성 암호(Post-Quantum Cryptography) 필요
+  -> P=NP가 아니어도 양자 컴퓨터면 RSA 취약!
+  -> 양자 내성 암호(Post-Quantum Cryptography) 필요
 
   NIST 표준화 (2024):
     CRYSTALS-Kyber (키 교환)
@@ -262,7 +262,7 @@ Christofides TSP 1.5-근사
       |
       v
 [양자 컴퓨팅 위협 (2020s~)]
-Shor 알고리즘 → P=NP 없이도 RSA 위협
+Shor 알고리즘 -> P=NP 없이도 RSA 위협
 양자 내성 암호 NIST 표준화
 ```
 
@@ -280,7 +280,7 @@ Shor 알고리즘 → P=NP 없이도 RSA 위협
 
 **진행 상황**: 110 / 175
 
-← **이전**: [004. NP-어려움 (NP-Hard)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
-**다음**: [006. 다항 시간 환산 (Polynomial Reduction)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/) →
+<- **이전**: [004. NP-어려움 (NP-Hard)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
+**다음**: [006. 다항 시간 환산 (Polynomial Reduction)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/) ->
 
 ---

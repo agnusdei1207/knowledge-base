@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 규모 확장만으로는 SPOF를 없앨 수 없다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           서버 수와 무관하게 생존력을 결정하는 마지막 1점     │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자                                                     │
-│   │                                                        │
-│   ▼                                                        │
-│ [Web 1] [Web 2] [Web 3] [Web 4]                            │
-│    └──────┬──────┬──────┬──────┘                           │
-│           ▼                                                │
-│     [단일 DB 주 노드]  ← 여기 고장 = 전체 서비스 중단       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           서버 수와 무관하게 생존력을 결정하는 마지막 1점     |
++--------------------------------------------------------------+
+| 사용자                                                     |
+|   |                                                        |
+|   v                                                        |
+| [Web 1] [Web 2] [Web 3] [Web 4]                            |
+|    +------+------+------+------+                           |
+|           v                                                |
+|     [단일 DB 주 노드]  <- 여기 고장 = 전체 서비스 중단       |
++--------------------------------------------------------------+
 ```
 
 즉, SPOF는 "작은 부품 하나의 고장"이 아니라 "전체 시스템의 실패를 대표하는 구조적 병목"이다. 이를 제거하지 않으면 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))도, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선도, 장애 대응 훈련도 모두 부분 최적화에 머무른다.
@@ -55,26 +55,26 @@ SPOF는 보통 세 가지 형태로 나타난다. 첫째, 전원 공급 장치�
 | 경로 SPOF | 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1대, 단일 로드밸런서 | 모든 요청이 한 지점을 반드시 통과 | 다중 경로, Active-Standby, Active-Active |
 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 SPOF | 리더 선출 없는 마스터 1개, 단일 배포 서버 | 하드웨어가 살아도 제어가 멈추면 전체가 멈춤 | 자동 절체, 쿼럼 (Quorum), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 |
 
-진짜 중요한 원리는 "[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"보다 "절체"다. 장비를 두 대 두어도 장애를 감지하지 못하거나, 감지해도 역할을 넘기지 못하면 SPOF는 사라지지 않는다. 따라서 제거 메커니즘은 대체로 <strong>감지(Detect) → 격리(Isolate) → 승계(Fail-over) → <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Recover)</strong> 순서로 이해해야 한다.
+진짜 중요한 원리는 "[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"보다 "절체"다. 장비를 두 대 두어도 장애를 감지하지 못하거나, 감지해도 역할을 넘기지 못하면 SPOF는 사라지지 않는다. 따라서 제거 메커니즘은 대체로 <strong>감지(Detect) -> 격리(Isolate) -> 승계(Fail-over) -> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Recover)</strong> 순서로 이해해야 한다.
 
 아래 흐름은 물리 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 절체가 함께 있어야 하는 이유를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         SPOF 제거의 실제 동작: 복제만으로는 끝나지 않는다     │
-├──────────────────────────────────────────────────────────────┤
-│ 정상 상태                                                   │
-│ [Active 노드] ── 서비스 제공                                │
-│ [Standby 노드] ── 상태 복제                                 │
-│       ▲                 │                                   │
-│       └── 헬스체크 ─────┘                                   │
-│                                                              │
-│ 장애 발생                                                    │
-│ Active 고장 → 헬스체크 실패 → Active 격리 → Standby 승격    │
-│                                                │             │
-│                                                ▼             │
-│                                         서비스 지속          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         SPOF 제거의 실제 동작: 복제만으로는 끝나지 않는다     |
++--------------------------------------------------------------+
+| 정상 상태                                                   |
+| [Active 노드] -- 서비스 제공                                |
+| [Standby 노드] -- 상태 복제                                 |
+|       ^                 |                                   |
+|       +-- 헬스체크 -----+                                   |
+|                                                              |
+| 장애 발생                                                    |
+| Active 고장 -> 헬스체크 실패 -> Active 격리 -> Standby 승격    |
+|                                                |             |
+|                                                v             |
+|                                         서비스 지속          |
++--------------------------------------------------------------+
 ```
 
 컴퓨터구조 관점에서는 CPU보다 주변 장치에서 SPOF가 자주 발생한다. 듀얼 전원 없이 단일 전원 레일만 쓰는 서버, Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) ([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 없이 단일 메모리 채널에 의존하는 시스템, 단일 클럭 소스에 과도하게 의존하는 제어기 모두 같은 원리로 취약하다. 그래서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계는 단일 부품의 내구성을 높이는 일과 별개로, 실패했을 때 대체 경로가 즉시 작동하는 구조를 요구한다.
@@ -85,7 +85,7 @@ SPOF는 보통 세 가지 형태로 나타난다. 첫째, 전원 공급 장치�
 
 ## Ⅲ. 비교 및 연결
 
-SPOF는 자주 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 고장 허용, 고가용성과 함께 등장하지만 의미가 다르다. SPOF는 <strong>취약점의 위치를 찾는 개념</strong>이고, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 그 취약점을 줄이는 <strong>구성 방법</strong>이며, [고장 허용 시스템](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/453_fault_tolerance/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))은 장애가 나도 거의 멈추지 않게 만드는 <strong>목표 수준</strong>이다. 즉 "SPOF [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 설계 → 고장 영향 최소화"가 자연스러운 연결 순서다.
+SPOF는 자주 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 고장 허용, 고가용성과 함께 등장하지만 의미가 다르다. SPOF는 <strong>취약점의 위치를 찾는 개념</strong>이고, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 그 취약점을 줄이는 <strong>구성 방법</strong>이며, [고장 허용 시스템](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/453_fault_tolerance/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))은 장애가 나도 거의 멈추지 않게 만드는 <strong>목표 수준</strong>이다. 즉 "SPOF [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) -> [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 설계 -> 고장 영향 최소화"가 자연스러운 연결 순서다.
 
 | 개념 | 초점 | 질문 | 한계 |
 | :--- | :--- | :--- | :--- |
@@ -122,19 +122,19 @@ SPOF는 자주 [이중화](/knowledge-base/studynote/01_computer_architecture/13
 아래 진단 트리는 아키텍처 리뷰 때 바로 적용할 수 있는 최소 판단 절차다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              아키텍처 리뷰용 SPOF 진단 순서                  │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 이 부품이 멈추면 전체 서비스가 멈추는가?                 │
-│    ├─ 아니오 → SPOF 아님                                    │
-│    └─ 예                                                    │
-│        2. 즉시 대체할 예비 경로가 있는가?                   │
-│           ├─ 아니오 → 명백한 SPOF                           │
-│           └─ 예                                              │
-│               3. 감지·절체·동기화가 자동화되어 있는가?      │
-│                  ├─ 아니오 → 잠재적 SPOF                    │
-│                  └─ 예 → 실질적 완화                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              아키텍처 리뷰용 SPOF 진단 순서                  |
++--------------------------------------------------------------+
+| 1. 이 부품이 멈추면 전체 서비스가 멈추는가?                 |
+|    +- 아니오 -> SPOF 아님                                    |
+|    +- 예                                                    |
+|        2. 즉시 대체할 예비 경로가 있는가?                   |
+|           +- 아니오 -> 명백한 SPOF                           |
+|           +- 예                                              |
+|               3. 감지·절체·동기화가 자동화되어 있는가?      |
+|                  +- 아니오 -> 잠재적 SPOF                    |
+|                  +- 예 -> 실질적 완화                         |
++--------------------------------------------------------------+
 ```
 
 기술사 답안 관점에서는 "무엇을 두 대로 할 것인가"보다 "어떤 단일 실패가 어떤 범위까지 전파되는가"를 먼저 말하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 선명해진다. 그 뒤에 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 방식, 절체 방법, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 대책, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표를 붙이면 설계 판단이 완성된다.
@@ -169,22 +169,22 @@ SPOF를 제거하면 장애가 "전체 중단"에서 "부분 [성능](/knowledge
 
 ```text
 단일 부품 고장 인식
-    │
-    ▼
+    |
+    v
 단일 장애점 (SPOF, Single Point of Failure) 식별
-    │
-    ├─ 물리 경로 분산: 듀얼 전원 · 다중 네트워크 · RAID
-    │
-    ├─ 제어 분산: 자동 절체 · 리더 선출 · 쿼럼
-    │
-    ▼
+    |
+    +- 물리 경로 분산: 듀얼 전원 · 다중 네트워크 · RAID
+    |
+    +- 제어 분산: 자동 절체 · 리더 선출 · 쿼럼
+    |
+    v
 고가용성 (HA, High Availability) 아키텍처
-    │
-    ▼
+    |
+    v
 고장 허용 시스템 (Fault Tolerance) · 자가 치유 설계
 ```
 
-이 흐름도는 "한 점의 실패 발견 → 경로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → 제어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속"으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계가 발전하는 순서를 보여준다.
+이 흐름도는 "한 점의 실패 발견 -> 경로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) -> 제어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속"으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계가 발전하는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +198,7 @@ SPOF를 제거하면 장애가 "전체 중단"에서 "부분 [성능](/knowledge
 
 **진행 상황**: 455 / 803
 
-← **이전**: [453. 고장 허용 시스템 (Fault Tolerance)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/453_fault_tolerance/)
-**다음**: [455. TMR (Triple Modular Redundancy, 삼중 모듈 중복)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/) →
+<- **이전**: [453. 고장 허용 시스템 (Fault Tolerance)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/453_fault_tolerance/)
+**다음**: [455. TMR (Triple Modular Redundancy, 삼중 모듈 중복)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/) ->
 
 ---

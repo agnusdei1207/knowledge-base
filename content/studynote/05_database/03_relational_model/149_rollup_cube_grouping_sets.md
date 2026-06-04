@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE, [GROUPING](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) SETS은 다차원 소계 및 총계 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SQL text -> Planner -> Current concept -> Latency            │
-├──────────────────────────────────────────────────────────────┤
-│ Predicate -> path choice -> I/O cost                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SQL text -> Planner -> Current concept -> Latency            |
++--------------------------------------------------------------+
+| Predicate -> path choice -> I/O cost                         |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE, [GROUPING](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) SETS를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `그룹 바이 / 해빙`·`집합 연산자`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Parse -> estimate -> current concept -> execute              │
-├──────────────────────────────────────────────────────────────┤
-│ Plan quality -> CPU/I/O balance -> response                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Parse -> estimate -> current concept -> execute              |
++--------------------------------------------------------------+
+| Plan quality -> CPU/I/O balance -> response                  |
++--------------------------------------------------------------+
 ```
 
 핵심은 [ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE, [GROUPING](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) SETS를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [그룹 바이 / 해빙]
-    │
-    ▼
+    |
+    v
 [ROLLUP, CUBE, GROUPING SETS]
-    │
-    ├──▶ [집합 연산자]
-    └──▶ [뷰]
+    |
+    +---> [집합 연산자]
+    +---> [뷰]
 ```
 
 [그룹 바이](/knowledge-base/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/) / 해빙에서 출발한 논점이 [ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE, [GROUPING](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) SETS에서 핵심 판단으로 모이고, 이후 집합 연산자·뷰 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 149 / 600
 
-← **이전**: [148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건](/knowledge-base/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/)
-**다음**: [150. SQL 집합 연산자 - UNION, UNION ALL, INTERSECT, MINUS/EXCEPT](/knowledge-base/studynote/05_database/03_relational_model/150_sql_set_operators_union_intersect_minus/) →
+<- **이전**: [148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건](/knowledge-base/studynote/05_database/03_relational_model/148_sql_group_by_having_clause/)
+**다음**: [150. SQL 집합 연산자 - UNION, UNION ALL, INTERSECT, MINUS/EXCEPT](/knowledge-base/studynote/05_database/03_relational_model/150_sql_set_operators_union_intersect_minus/) ->
 
 ---

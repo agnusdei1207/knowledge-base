@@ -34,35 +34,35 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시간차 공격을 어떻게 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시에 투여하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) I/O 폭망을 방어하는지 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조도를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "시간을 가불해 시공간을 초월하는 속도 랙 박살 캐시 무비 스왑!"       │
-  ├──────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                      │
-  │  1️⃣ [ 미리 읽기 (Read-ahead 공격 부스트 형 예지 타격 렌더) ]                        │
-  │                                                                                      │
-  │     [ 앱(App 유저) ]  ---- "파일 10번 페이지 읽어줘 스왑 콜!" --->                   │
-  │                                                                                      │
-  │     [[ OS 커널 레이더망 예지력 발동 판단 공간 지역성 빔 ]]                           │
-  │      - 커널: "어? 너 이 자식 8번, 9번 읽더니 10번 찾네? (연속 패턴 감지 확정 록!)"   │
-  │      - 커널: "모터야! 10번만 가져오지 말고 내친김에 11~20번 블록 다 훔쳐 카피와!     │
-  │             다 RAM 옥상 풀장 (Page Cache) 에 쫙 깔아버려 광개토 부스트!"             │
-  │                                                                                      │
-  │   => 결과 앱: 1초 뒤 "11번 주라" -> 0.00ms 커널이 캐시에서 즉각 $O(1)$ 꽂아버림 압도!│
-  │                                                                                      │
-  │  =========================▼===================================                       │
-  │                                                                                      │
-  │  2️⃣ [ 지연 쓰기 (Delayed Write 영혼의 방어 쉴드 몰아치기 록백 뷰) ]                 │
-  │                                                                                      │
-  │     [ 앱(App 유저) ]  ---- "1번 페이지 수정! 빨리 구워라 빔!(write 콜)" --->         │
-  │                                                                                      │
-  │     [[ OS 커널 구라 사기꾼 (RAM 옥상 임시 접수 더티 페이지 데들락 방어) ]]           │
-  │      - 메모리 페이지 캐시 웅덩이: "알았어!(거짓말) [1번 페이지를 수정(Dirty) 표시]"  │
-  │      - 앱에게 즉시 Return OK 리턴! CPU 병목 랙 전혀 안 걸림 극한의 이득 컷!          │
-  │      - 실제 하드디스크 모터 말하기: "나 지금 돌지도 않고 다 쌩깠는데염?"                 │
-  │                                                                                      │
-  │     [ 30초 뒤 백그라운드 Pdflush(플러셔) 요정 출동 동기화 뭉침 렌더 ]                │
-  │      - 봇: "야 옥상에 더러워진(Dirty) 애들 1번~10번 뭉쳐서 디스크 바닥에 함 쏘고 와" │
-  └──────────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------------+
+  |                 "시간을 가불해 시공간을 초월하는 속도 랙 박살 캐시 무비 스왑!"       |
+  +--------------------------------------------------------------------------------------+
+  |                                                                                      |
+  |  1️⃣ [ 미리 읽기 (Read-ahead 공격 부스트 형 예지 타격 렌더) ]                        |
+  |                                                                                      |
+  |     [ 앱(App 유저) ]  ---- "파일 10번 페이지 읽어줘 스왑 콜!" --->                   |
+  |                                                                                      |
+  |     [[ OS 커널 레이더망 예지력 발동 판단 공간 지역성 빔 ]]                           |
+  |      - 커널: "어? 너 이 자식 8번, 9번 읽더니 10번 찾네? (연속 패턴 감지 확정 록!)"   |
+  |      - 커널: "모터야! 10번만 가져오지 말고 내친김에 11~20번 블록 다 훔쳐 카피와!     |
+  |             다 RAM 옥상 풀장 (Page Cache) 에 쫙 깔아버려 광개토 부스트!"             |
+  |                                                                                      |
+  |   => 결과 앱: 1초 뒤 "11번 주라" -> 0.00ms 커널이 캐시에서 즉각 $O(1)$ 꽂아버림 압도!|
+  |                                                                                      |
+  |  =========================v===================================                       |
+  |                                                                                      |
+  |  2️⃣ [ 지연 쓰기 (Delayed Write 영혼의 방어 쉴드 몰아치기 록백 뷰) ]                 |
+  |                                                                                      |
+  |     [ 앱(App 유저) ]  ---- "1번 페이지 수정! 빨리 구워라 빔!(write 콜)" --->         |
+  |                                                                                      |
+  |     [[ OS 커널 구라 사기꾼 (RAM 옥상 임시 접수 더티 페이지 데들락 방어) ]]           |
+  |      - 메모리 페이지 캐시 웅덩이: "알았어!(거짓말) [1번 페이지를 수정(Dirty) 표시]"  |
+  |      - 앱에게 즉시 Return OK 리턴! CPU 병목 랙 전혀 안 걸림 극한의 이득 컷!          |
+  |      - 실제 하드디스크 모터 말하기: "나 지금 돌지도 않고 다 쌩깠는데염?"                 |
+  |                                                                                      |
+  |     [ 30초 뒤 백그라운드 Pdflush(플러셔) 요정 출동 동기화 뭉침 렌더 ]                |
+  |      - 봇: "야 옥상에 더러워진(Dirty) 애들 1번~10번 뭉쳐서 디스크 바닥에 함 쏘고 와" |
+  +--------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단 1️⃣ `Read-ahead` 메커니즘은 유저 앱이 영화(1GB짜리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 스트리밍)를 볼 때 극한의 연속성 스루풋 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)!)을 100%로 수렴하게 만드는 치트 무기다. 하드디스크가 한 번 회전할 때 트랙에 깔린 인접 블록 수십 개를 그냥 RAM으로 쓸어 올려오는 거시적 프리패치 다이브다.
@@ -149,12 +149,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
-    │
-    ▼
+    |
+    v
 [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
-    │
-    ├──▶ [동기화 I/O (O_SYNC / fsync)]
-    └──▶ [저널링 파일 시스템 (Journaling File System)]
+    |
+    +---> [동기화 I/O (O_SYNC / fsync)]
+    +---> [저널링 파일 시스템 (Journaling File System)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -171,7 +171,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 537 / 800
 
-← **이전**: [536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)
-**다음**: [538. 동기화 I/O (O_SYNC / fsync)](/knowledge-base/studynote/02_operating_system/09_file_system/538_sync_io_fsync/) →
+<- **이전**: [536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)
+**다음**: [538. 동기화 I/O (O_SYNC / fsync)](/knowledge-base/studynote/02_operating_system/09_file_system/538_sync_io_fsync/) ->
 
 ---

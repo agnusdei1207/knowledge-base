@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어들은 "어떻게 하면 100만 장의 문서 늪에서, 사용자의 질문에 완벽하게 들어맞는 그 '100% 팩트 한 줄'만 귀신같이 건져 올릴 수 있을까?"라는 정보 검색([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), Information Retrieval)의 심연을 마주하게 되었다. 이 절망에서 탄생한 것이 문서를 자르는 법부터, 찾는 법, 줄 세우는 법까지 3단계 수술을 싹 다 갈아엎은 <strong>Advanced <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 고도화 기법)</strong> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 완성이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 베이직 RAG는 넓은 바다에 대충 뜰채 하나 들고 가서 "은색 물고기 다 담아!"라고 쑤셔 담아 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에게 던지는 초보 어부다. 쓰레기도 딸려오고 고등어도 섞여 온다. 고도화 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)(Advanced [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 바다를 GPS 구역으로 칼같이 쪼개고(청킹), 레이더와 맨눈 두 가지를 섞어 물고기를 찾은 다음(하이브리드 서치), 갑판 위에 올려놓고 현미경으로 깐깐하게 검사해서 진짜 최고급 은갈치 3마리만 줄을 세워(재랭킹) 요리사에게 올리는 완벽한 참치잡이 원양어선 시스템이다.
@@ -41,30 +41,30 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-고도화된 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력할 때부터 유저에게 대답을 뱉어낼 때까지 거대한 3단계 **[ 쪼개기 ─▶ 쌍끌이 검색 ─▶ 깐깐한 줄 세우기 ]** 그물망을 친다.
+고도화된 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력할 때부터 유저에게 대답을 뱉어낼 때까지 거대한 3단계 **[ 쪼개기 --> 쌍끌이 검색 --> 깐깐한 줄 세우기 ]** 그물망을 친다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           RAG 고도화 파이프라인의 핵심 3대 방어막 아키텍처 도해          │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 전략적 청킹 (Advanced Chunking) - 스마트하게 문서 썰기]         │
-│   * 하급: 무지성으로 500글자마다 가위로 싹둑 자름 (단어가 두 동강 남).        │
-│   * 고급: 문맥이 안 끊기게 앞뒤 50글자를 겹쳐서 자름(Overlap). 아예 PDF의  │
-│          <h1> 제목과 본문 종속성(Parent-Child) 구조를 살려서 묶어 자름!  │
-│                                                              │
-│  [2. 하이브리드 검색 (Hybrid Search) - 두 맹수의 눈 합치기]         │
-│   * 맹수 1 (벡터 DB): "애플(Apple)"을 '사과'나 '과일'의 의미(유사도)로 찾음.│
-│   * 맹수 2 (BM25 통계): 'Apple'이라는 텍스트 글자(키워드) 빈도수로 무식하게 찾음.│
-│   * 융합 (RRF 공식): 둘 다 돌려서, 랭킹 점수를 더해(1/Rank_A + 1/Rank_B)  │
-│                   맥락(의미)과 정확한 제품명(키워드)을 모두 잡는 쌍끌이 어선 완성!│
-│                                                              │
-│  [3. 재랭킹 (Re-ranking) - 최고급 심사위원의 압박 면접]              │
-│   * 위에서 긁어온 문서 100장은 가벼운 모델로 빨리 뽑은 거라 가짜가 많이 섞임.   │
-│   * 크로스 인코더(Cross-Encoder)라는 엄청 무겁고 깐깐한 딥러닝 뇌를 깨움.    │
-│   * "유저 질문"과 "문서 100장"을 하나하나 1:1로 현미경으로 쪼아보며, 진짜       │
-│     도움 되는 정예 문서 딱 5장(Top-5)만 골라내 1등부터 줄을 다시 세움!        │
-│   ─▶ 이 무결점 5장만 GPT-4(LLM)에게 던져서 대답하게 만듦! 오답 확률 0%!!     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           RAG 고도화 파이프라인의 핵심 3대 방어막 아키텍처 도해          |
++--------------------------------------------------------------+
+|  [1. 전략적 청킹 (Advanced Chunking) - 스마트하게 문서 썰기]         |
+|   * 하급: 무지성으로 500글자마다 가위로 싹둑 자름 (단어가 두 동강 남).        |
+|   * 고급: 문맥이 안 끊기게 앞뒤 50글자를 겹쳐서 자름(Overlap). 아예 PDF의  |
+|          <h1> 제목과 본문 종속성(Parent-Child) 구조를 살려서 묶어 자름!  |
+|                                                              |
+|  [2. 하이브리드 검색 (Hybrid Search) - 두 맹수의 눈 합치기]         |
+|   * 맹수 1 (벡터 DB): "애플(Apple)"을 '사과'나 '과일'의 의미(유사도)로 찾음.|
+|   * 맹수 2 (BM25 통계): 'Apple'이라는 텍스트 글자(키워드) 빈도수로 무식하게 찾음.|
+|   * 융합 (RRF 공식): 둘 다 돌려서, 랭킹 점수를 더해(1/Rank_A + 1/Rank_B)  |
+|                   맥락(의미)과 정확한 제품명(키워드)을 모두 잡는 쌍끌이 어선 완성!|
+|                                                              |
+|  [3. 재랭킹 (Re-ranking) - 최고급 심사위원의 압박 면접]              |
+|   * 위에서 긁어온 문서 100장은 가벼운 모델로 빨리 뽑은 거라 가짜가 많이 섞임.   |
+|   * 크로스 인코더(Cross-Encoder)라는 엄청 무겁고 깐깐한 딥러닝 뇌를 깨움.    |
+|   * "유저 질문"과 "문서 100장"을 하나하나 1:1로 현미경으로 쪼아보며, 진짜       |
+|     도움 되는 정예 문서 딱 5장(Top-5)만 골라내 1등부터 줄을 다시 세움!        |
+|   --> 이 무결점 5장만 GPT-4(LLM)에게 던져서 대답하게 만듦! 오답 확률 0%!!     |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (RRF와 Cross-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a> 융합)</strong>:
@@ -89,7 +89,7 @@ tags = ["studynote-ai"]
 | 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 수사 철학 및 작동 방식 | 가장 큰 장점 (이럴 때 신임) | 가장 치명적인 단점 및 버그 (환장 포인트) |
 |:---|:---|:---|:---|
 | <strong>전통 BM25 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/">TF-IDF</a> 업글)</strong> | 사용자가 친 '글자'가 문서에 몇 번 들어있는지 <strong>문자 그대로 매칭</strong>해서 찾음 (통계적 접근). | "ABC-123X 모델명 재고 알려줘" 같이 <strong>특정 품번, 사람 이름, 희귀 고유명사</strong>를 찾을 때 100점 만점에 100점. | "사과"라고 치면 "애플(Apple)"이란 글자가 적힌 문서는 의미가 같아도 글자가 달라서 **절대 평생 못 찾음 (유의어 붕괴).** |
-| <strong>Vector Search (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 검색)</strong> | 글자를 다차원 수학 좌표(Vector)로 바꾼 뒤, **'의미'나 '맥락'이 가까운 문서를 끌어옴.** | "비 올 때 신는 튼튼한 신발 추천해 줘" ─▶ '장화'라는 단어가 없어도 의미로 찰떡같이 **맥락 유추해서 찾아옴.** | "2024년 2분기 실적"을 찾는데, 의미가 똑같다며 "2023년 2분기 실적"을 끌고 와버려 **숫자, 연도, 고유명사 매칭에 끔찍한 오답률을 자랑함.** |
+| <strong>Vector Search (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 검색)</strong> | 글자를 다차원 수학 좌표(Vector)로 바꾼 뒤, **'의미'나 '맥락'이 가까운 문서를 끌어옴.** | "비 올 때 신는 튼튼한 신발 추천해 줘" --> '장화'라는 단어가 없어도 의미로 찰떡같이 **맥락 유추해서 찾아옴.** | "2024년 2분기 실적"을 찾는데, 의미가 똑같다며 "2023년 2분기 실적"을 끌고 와버려 **숫자, 연도, 고유명사 매칭에 끔찍한 오답률을 자랑함.** |
 
 벡터 검색이 유행이라고 해서 30년 묵은 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)(BM25)를 버리면 시스템은 즉사한다. 벡터 DB(의미)의 넓은 그물망과 BM25(키워드)의 날카로운 작살을 RRF 수식 하나로 완벽히 융합해 <strong>하이브리드 서치 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/">Hybrid Search</a>)</strong>라는 쌍끌이 어선을 만들어내는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 설계가 현업 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 인프라 아키텍트의 몸값을 결정짓는 1번 척도다.
 
@@ -136,7 +136,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [RAG 고도화 기법 (Advanced RAG)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [RAG 고도화 기법 (Advanced RAG)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -151,7 +151,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 218 / 420
 
-← **이전**: [217. LLM 캐싱 (Semantic Cache) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/217_llm_semantic_cache/)
-**다음**: [219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)](/knowledge-base/studynote/10_ai/03_llm_nlp/219_langsmith_llm_observability/) →
+<- **이전**: [217. LLM 캐싱 (Semantic Cache) 인프라](/knowledge-base/studynote/10_ai/03_llm_nlp/217_llm_semantic_cache/)
+**다음**: [219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)](/knowledge-base/studynote/10_ai/03_llm_nlp/219_langsmith_llm_observability/) ->
 
 ---

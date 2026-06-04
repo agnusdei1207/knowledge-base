@@ -34,16 +34,16 @@ tags = ["studynote-operating-system"]
 | Waiting | 입출력 대기 | I/O 완료 |
 | Terminated | 종료 완료 | 자원 회수 |
 
-┌──────┐ admit  ┌───────┐ dispatch ┌────────┐
-│ [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)  │──────▶│ Ready │──────▶│ Running│
-└──────┘       └──┬────┘       └──┬─────┘
-                 │               │ exit
-                 │ wait I/O      │ preempt
-                 ▼               ▼
-            ┌────────┐     ┌────────────┐
-            │Waiting │◀────│ Terminated │
-            └──┬─────┘ I/O  └────────────┘
-               └──────── complete
++------+ admit  +-------+ dispatch +--------+
+| [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)  |------->| Ready |------->| Running|
++------+       +--+----+       +--+-----+
+                 |               | exit
+                 | wait I/O      | preempt
+                 v               v
+            +--------+     +------------+
+            |Waiting |<-----| Terminated |
+            +--+-----+ I/O  +------------+
+               +-------- complete
 - **📢 섹션 요약 비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 스케줄링 사건으로 바뀐다.
 
 ---
@@ -92,7 +92,7 @@ tags = ["studynote-operating-system"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-생성 → Ready → Running → Waiting ↔ Ready → Terminated
+생성 -> Ready -> Running -> Waiting ↔ Ready -> Terminated
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -107,7 +107,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 86 / 800
 
-← **이전**: [85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소](/knowledge-base/studynote/02_operating_system/02_process_thread/085_stack_segment/)
-**다음**: [87. 생성 (New) -> 준비 (Ready) -> 실행 (Running) -> 대기 (Waiting/Blocked) -> 종료 (Terminated)](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) →
+<- **이전**: [85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소](/knowledge-base/studynote/02_operating_system/02_process_thread/085_stack_segment/)
+**다음**: [87. 생성 (New) -> 준비 (Ready) -> 실행 (Running) -> 대기 (Waiting/Blocked) -> 종료 (Terminated)](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ->
 
 ---

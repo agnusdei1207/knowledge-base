@@ -39,16 +39,16 @@ tags = ["studynote-ict-convergence"]
 
 ```
 [콜드 스타트 흐름]
-요청 → 컨테이너 생성 → 런타임 로드 → 의존성 로드 → 핸들러 실행
-       ↑ 수백ms~수 초 소요
+요청 -> 컨테이너 생성 -> 런타임 로드 -> 의존성 로드 -> 핸들러 실행
+       ^ 수백ms~수 초 소요
 
 [웜 스타트 흐름]
-요청 → (이미 실행 중인 인스턴스) → 핸들러 실행
-       ↑ 수ms 소요
+요청 -> (이미 실행 중인 인스턴스) -> 핸들러 실행
+       ^ 수ms 소요
 
 [프로비저닝된 동시성 (Provisioned Concurrency)]
 사전에 지정한 수의 인스턴스를 항상 웜(Warm) 상태로 유지
-→ 콜드 스타트 완전 제거, 비용 증가
+-> 콜드 스타트 완전 제거, 비용 증가
 ```
 
 | 해결책 | 방법 | 효과 | 비용 |
@@ -90,7 +90,7 @@ tags = ["studynote-ict-convergence"]
 2. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 비용 모델(호출 수 + 실행 시간 × 메모리)을 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 비용 모델(시간 단위 고정)과 대비하여 설명한다.
 3. [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 제약과 외부 상태 관리 패턴([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), S3)을 아키텍처 다이어그램으로 제시한다.
 
-**실무 시나리오**: 이미지 리사이징 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — S3 업로드 이벤트 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 호출(Go 런타임, 256MB) → 처리 후 S3 저장. 하루 수만 건 간헐적 요청, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대비 월 비용 90% 절감. 단, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 99.9% 필요 시 [프로비저닝된 동시성](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/)(최소 5) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+**실무 시나리오**: 이미지 리사이징 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — S3 업로드 이벤트 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 호출(Go 런타임, 256MB) -> 처리 후 S3 저장. 하루 수만 건 간헐적 요청, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대비 월 비용 90% 절감. 단, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 99.9% 필요 시 [프로비저닝된 동시성](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/)(최소 5) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처는 자동 주차 타워다 — 빈 공간 없이 효율적이지만, 차를 꺼내는 데 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 주차장보다 약간 더 걸린다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Lambda · 이벤트 드리븐] → [서버리스 콜드 스타트 지연 제어] → [SQS · Kafka]
+[Lambda · 이벤트 드리븐] -> [서버리스 콜드 스타트 지연 제어] -> [SQS · Kafka]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 503 / 552
 
-← **이전**: [502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/502_kubernetes_pod_orchestration_deployment/)
-**다음**: [504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/504_iac_terraform_immutable_infrastructure/) →
+<- **이전**: [502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/502_kubernetes_pod_orchestration_deployment/)
+**다음**: [504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/504_iac_terraform_immutable_infrastructure/) ->
 
 ---

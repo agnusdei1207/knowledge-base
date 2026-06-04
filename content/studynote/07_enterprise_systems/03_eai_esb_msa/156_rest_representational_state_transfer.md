@@ -42,19 +42,19 @@ REST의 핵심 제약은 [Client-Server](/knowledge-base/studynote/04_software_e
 아래 그림은 REST 요청이 자원 중심으로 흘러가는 기본 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ REST request flow                                            │
-├──────────────────────────────────────────────────────────────┤
-│ Client                                                       │
-│   │  GET /orders/100                                         │
-│   ▼                                                          │
-│ Cache / Gateway / Proxy                                      │
-│   │                                                          │
-│   ▼                                                          │
-│ Resource endpoint -> representation(JSON/XML)                │
-│   │                                                          │
-│   └-> HTTP status + links + cache metadata                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| REST request flow                                            |
++--------------------------------------------------------------+
+| Client                                                       |
+|   |  GET /orders/100                                         |
+|   v                                                          |
+| Cache / Gateway / Proxy                                      |
+|   |                                                          |
+|   v                                                          |
+| Resource endpoint -> representation(JSON/XML)                |
+|   |                                                          |
+|   +-> HTTP status + links + cache metadata                   |
++--------------------------------------------------------------+
 ```
 
 즉 REST의 핵심은 URL만 예쁘게 짓는 것이 아니라, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 자체가 가진 의미를 살려 <strong>웹의 기본 동작 원리 위에 API를 얹는 것</strong>이다. 그래서 메서드 의미와 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 무시한 채 `POST /getUser` 같은 형태를 쓰면 HTTP를 터널처럼 쓰는 셈이 된다.
@@ -126,16 +126,16 @@ REST를 제대로 적용하면 API의 [가독성](/knowledge-base/studynote/04_s
 
 ```text
 RPC over HTTP
-  │
-  ▼
+  |
+  v
 REST resource design
-  │
-  ▼
+  |
+  v
 RESTful API maturity
-  │
-  ├─> HTTP caching / stateless auth
-  │
-  ▼
+  |
+  +-> HTTP caching / stateless auth
+  |
+  v
 Hypermedia / API governance / modern web APIs
 ```
 
@@ -151,7 +151,7 @@ Hypermedia / API governance / modern web APIs
 
 **진행 상황**: 156 / 482
 
-← **이전**: [155. EAI vs ESB (EAI vs ESB Architecture)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/155_eai_vs_esb_architecture/)
-**다음**: [157. RESTful API 성숙도 모델 (Richardson Maturity Model)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/) →
+<- **이전**: [155. EAI vs ESB (EAI vs ESB Architecture)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/155_eai_vs_esb_architecture/)
+**다음**: [157. RESTful API 성숙도 모델 (Richardson Maturity Model)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/) ->
 
 ---

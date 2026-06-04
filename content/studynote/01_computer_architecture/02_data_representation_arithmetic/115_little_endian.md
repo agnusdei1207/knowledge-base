@@ -32,21 +32,21 @@ tags = ["studynote-computer-architecture"]
 32비트 정수 `0x12345678`을 주소 `0x00`부터 저장해 보자. `78`이 가장 작은 꼬리 값([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))이다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           리틀 엔디안 (Little-Endian) 메모리 맵핑 구조     │
-├────────────────────────────────────────────────────────┤
-│   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           │
-│                                                        │
-│   메모리 주소 │ 저장된 바이트 │ 하드웨어적 우위 분석            │
-│   ─────────┼───────────┼────────────────────────        │
-│    0x00    │    78     │ ◀ LSB (제일 먼저 더할 놈이 대기)   │
-│    0x01    │    56     │                                │
-│    0x02    │    34     │                                │
-│    0x03    │    12     │ ◀ MSB (가장 나중에 더해질 놈)      │
-│                                                        │
-│ * 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.       │
-│   인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           리틀 엔디안 (Little-Endian) 메모리 맵핑 구조     |
++--------------------------------------------------------+
+|   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           |
+|                                                        |
+|   메모리 주소 | 저장된 바이트 | 하드웨어적 우위 분석            |
+|   ---------+-----------+------------------------        |
+|    0x00    |    78     | <- LSB (제일 먼저 더할 놈이 대기)   |
+|    0x01    |    56     |                                |
+|    0x02    |    34     |                                |
+|    0x03    |    12     | <- MSB (가장 나중에 더해질 놈)      |
+|                                                        |
+| * 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.       |
+|   인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!   |
++--------------------------------------------------------+
 ```
 
 ### 타입 캐스팅(Casting)의 마법
@@ -111,21 +111,21 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 
 ```text
 CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면
-    │
-    ▼
+    |
+    v
 자리올림(Carry) 처리에 유리한 데이터 배치 고민
-    │
-    ▼
+    |
+    v
 리틀 엔디안 (Little-Endian) 도입 (꼬리인 LSB를 맨 앞 메모리에 저장)
-    │
-    ▼
+    |
+    v
 비트 캐스팅(확장/축소) 시 포인터 주소 고정을 통한 오버헤드 소멸
-    │
-    ▼
+    |
+    v
 인텔 x86 아키텍처의 데스크톱/서버 메모리 표준 규격 제패
 ```
 
-이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 포기 → 연산 효율 극대화 → [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 최적화 도달 → [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시장 하드웨어 표준 점령"으로 귀결된 리틀 엔디안의 진화 과정을 보여준다.
+이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 포기 -> 연산 효율 극대화 -> [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 최적화 도달 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시장 하드웨어 표준 점령"으로 귀결된 리틀 엔디안의 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면
 
 **진행 상황**: 115 / 803
 
-← **이전**: [114. 빅 엔디안 (Big-Endian)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)
-**다음**: [116. 바이트 정렬 (Byte Ordering)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/116_byte_ordering/) →
+<- **이전**: [114. 빅 엔디안 (Big-Endian)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)
+**다음**: [116. 바이트 정렬 (Byte Ordering)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/116_byte_ordering/) ->
 
 ---

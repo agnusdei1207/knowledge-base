@@ -36,24 +36,24 @@ Certificate Patrol은 Firefox 사용자의 브라우저 안에 "인증서 기억
 아래 그림은 로컬 핀닝 루프가 어떤 식으로 동작하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Certificate Patrol local pinning loop                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ First visit                                                         │
-│   Firefox receives X.509 certificate                                │
-│        │                                                            │
-│        └─ store {host, SPKI hash, issuer, validity, SAN}            │
-│                                                                      │
-│ Repeat visit                                                        │
-│   current certificate -> diff engine                                │
-│        │                                                            │
-│        ├─ same key / expected renewal       -> allow                │
-│        ├─ issuer or validity only changed   -> caution              │
-│        └─ new key + new issuer + odd timing -> strong alert         │
-│                                                                      │
-│ Analyst value                                                        │
-│   change history -> manual review / incident clue                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Certificate Patrol local pinning loop                               |
++----------------------------------------------------------------------+
+| First visit                                                         |
+|   Firefox receives X.509 certificate                                |
+|        |                                                            |
+|        +- store {host, SPKI hash, issuer, validity, SAN}            |
+|                                                                      |
+| Repeat visit                                                        |
+|   current certificate -> diff engine                                |
+|        |                                                            |
+|        +- same key / expected renewal       -> allow                |
+|        +- issuer or validity only changed   -> caution              |
+|        +- new key + new issuer + odd timing -> strong alert         |
+|                                                                      |
+| Analyst value                                                        |
+|   change history -> manual review / incident clue                    |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 체계가 허용한 인증서라도, 사용자가 반복적으로 보던 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 다르면 경고할 수 있다는 점이다. 반대로 약점은 모든 변경이 공격은 아니라는 사실이다. 예를 들어 인증서 자동 갱신으로 유효기간만 달라지면 낮은 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)일 수 있지만, 새 공개키와 새 발급자가 동시에 등장하면 위험도를 높게 봐야 한다. 결국 Certificate Patrol의 실무 가치는 "변화 감지" 자체보다, <strong>변화를 분류하는 규칙</strong>을 얼마나 잘 세우느냐에 달려 있다.
@@ -152,20 +152,20 @@ Certificate Patrol이 남긴 가장 큰 의미는 공개 PKI를 맹신하지 않
 
 ```text
 공개 PKI 신뢰
-    │
-    ▼
+    |
+    v
 CA 오발급 · MITM 우려
-    │
-    ▼
+    |
+    v
 Certificate Patrol + TOFU 기반 로컬 비교
-    │
-    ├─ 장점: 반복 방문 사이트 이상 탐지
-    └─ 한계: 거짓 경보 · 사용자 피로
-    │
-    ▼
+    |
+    +- 장점: 반복 방문 사이트 이상 탐지
+    +- 한계: 거짓 경보 · 사용자 피로
+    |
+    v
 브라우저 보안 텔레메트리 + CT 상관 분석
-    │
-    ▼
+    |
+    v
 현대적 동적 핀닝/모니터링 체계
 ```
 
@@ -183,7 +183,7 @@ Certificate Patrol + TOFU 기반 로컬 비교
 
 **진행 상황**: 237 / 1108
 
-← **이전**: [183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/)
-**다음**: [185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)](/knowledge-base/studynote/09_security/04_endpoint_security/185_dynamic_pinning_ct_log_based/) →
+<- **이전**: [183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/)
+**다음**: [185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)](/knowledge-base/studynote/09_security/04_endpoint_security/185_dynamic_pinning_ct_log_based/) ->
 
 ---

@@ -38,17 +38,17 @@ tags = ["studynote-design"]
 | 통신 경로 (Communication Path) | 노드 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환을 위한 네트워크 연결선 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, JDBC 등)과 대역폭을 텍스트로 표기 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  전형적인 3-Tier 배포 다이어그램 구조                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Client Node]          [App Server Node]         [DB Node]  │
-│  ┌───────────┐          ┌───────────────┐      ┌───────────┐ │
-│  │ Web       │--HTTPS-->│ Tomcat Engine │-TCP->│ Oracle DB │ │
-│  │ Browser   │          │ <<artifact>>  │      │ <<Data>>  │ │
-│  └───────────┘          └───────────────┘      └───────────┘ │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  전형적인 3-Tier 배포 다이어그램 구조                |
++--------------------------------------------------------------+
+|                                                              |
+|  [Client Node]          [App Server Node]         [DB Node]  |
+|  +-----------+          +---------------+      +-----------+ |
+|  | Web       |--HTTPS-->| Tomcat Engine |-TCP->| Oracle DB | |
+|  | Browser   |          | <<artifact>>  |      | <<Data>>  | |
+|  +-----------+          +---------------+      +-----------+ |
+|                                                              |
++--------------------------------------------------------------+
 ```
 
 이 그림은 사용자의 브라우저에서 출발한 요청이 어떤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 타고 애플리케이션 서버와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장비로 넘어가는지 직관적으로 보여준다. 이를 통해 어느 구간에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 설정해야 하고, 장애 시 어디를 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))해야 하는지 명확한 운영 지침을 얻을 수 있다.
@@ -114,17 +114,17 @@ tags = ["studynote-design"]
 
 ```text
 물리 장비 매핑 (베어메탈 중심)
-    │
-    ▼
+    |
+    v
 가상화 토폴로지 (VM, Hypervisor 기반)
-    │
-    ▼
+    |
+    v
 클라우드 인프라 뷰 (VPC, Subnet, Security Group)
-    │
-    ▼
+    |
+    v
 마이크로서비스 배포 뷰 (컨테이너 오케스트레이션 매핑)
-    │
-    ▼
+    |
+    v
 IaC (Infrastructure as Code) 연동 자동화
 ```
 
@@ -140,7 +140,7 @@ IaC (Infrastructure as Code) 연동 자동화
 
 **진행 상황**: 131 / 530
 
-← **이전**: [87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/)
-**다음**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/) →
+<- **이전**: [87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/)
+**다음**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/) ->
 
 ---

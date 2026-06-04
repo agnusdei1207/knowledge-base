@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 독립된 두 변수가 왜 하드웨어 입장에서는 같은 자원으로 취급되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 거짓 공유의 출발점: 변수는 둘이지만 캐시 라인은 하나                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cache Line 0 (예: 64B)                                              │
-│ ┌──────────────┬──────────────┬───────────────────────────────────┐ │
-│ │ counter_A    │ counter_B    │ other bytes                       │ │
-│ └──────────────┴──────────────┴───────────────────────────────────┘ │
-│      ▲                        ▲                                     │
-│      │                        │                                     │
-│   Core 0 write             Core 1 write                             │
-│      │                        │                                     │
-│      └────────────── invalidate ping-pong ───────────────┘          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| 거짓 공유의 출발점: 변수는 둘이지만 캐시 라인은 하나                |
++----------------------------------------------------------------------+
+| Cache Line 0 (예: 64B)                                              |
+| +--------------+--------------+-----------------------------------+ |
+| | counter_A    | counter_B    | other bytes                       | |
+| +--------------+--------------+-----------------------------------+ |
+|      ^                        ^                                     |
+|      |                        |                                     |
+|   Core 0 write             Core 1 write                             |
+|      |                        |                                     |
+|      +-------------- invalidate ping-pong ---------------+          |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "공유 변수"가 아니라 "공유 캐시 라인"이 문제라는 점이다. 따라서 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 볼 때는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성뿐 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 어떤 단위로 붙어 있는지도 함께 설계해야 한다.
@@ -61,17 +61,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 동일한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조가 메모리 배치에 따라 전혀 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있음을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 메모리 배치에 따른 차이                                             │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 패딩 없음                     │ 패딩 적용                           │
-│ [A][B][.................]     │ [A][.................][B][.........] │
-│  └─ 같은 Cache Line           │  └─ 서로 다른 Cache Line            │
-│                               │                                      │
-│ Core 0 write A                │ Core 0 write A                      │
-│ Core 1 write B                │ Core 1 write B                      │
-│  └─ 라인 소유권 충돌          │  └─ 독립적으로 갱신                 │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+| 메모리 배치에 따른 차이                                             |
++-------------------------------+--------------------------------------+
+| 패딩 없음                     | 패딩 적용                           |
+| [A][B][.................]     | [A][.................][B][.........] |
+|  +- 같은 Cache Line           |  +- 서로 다른 Cache Line            |
+|                               |                                      |
+| Core 0 write A                | Core 0 write A                      |
+| Core 1 write B                | Core 1 write B                      |
+|  +- 라인 소유권 충돌          |  +- 독립적으로 갱신                 |
++-------------------------------+--------------------------------------+
 ```
 
 예를 들어 다음 구조체는 보기에는 단순하지만, 멀티스레드 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 위험하다.
@@ -171,22 +171,22 @@ struct Counters {
 
 ```text
 공간 지역성 (Spatial Locality)
-        │
-        ▼
+        |
+        v
 캐시 라인 (Cache Line) 단위 적재
-        │
-        ▼
+        |
+        v
 캐시 일관성 (Cache Coherence) · MESI
-        │
-        ▼
+        |
+        v
 Write-Invalidate 기반 무효화 충돌
-        │
-        ▼
+        |
+        v
 거짓 공유 (False Sharing)
-        │
-        ├──────────────► 패딩 (Padding) · 정렬 (Alignment)
-        │
-        └──────────────► 스레드별 로컬 집계 · 샤딩 카운터
+        |
+        +--------------► 패딩 (Padding) · 정렬 (Alignment)
+        |
+        +--------------► 스레드별 로컬 집계 · 샤딩 카운터
 ```
 
 이 흐름은 하드웨어의 지역성 최적화가, 멀티코어에서는 오히려 소프트웨어 레이아웃 최적화 과제를 낳는 과정을 보여준다.
@@ -203,7 +203,7 @@ Write-Invalidate 기반 무효화 충돌
 
 **진행 상황**: 410 / 803
 
-← **이전**: [408. MOESI 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/408_moesi_protocol/)
-**다음**: [410. 메모리 일관성 모델 (Memory Consistency Model)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) →
+<- **이전**: [408. MOESI 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/408_moesi_protocol/)
+**다음**: [410. 메모리 일관성 모델 (Memory Consistency Model)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ->
 
 ---

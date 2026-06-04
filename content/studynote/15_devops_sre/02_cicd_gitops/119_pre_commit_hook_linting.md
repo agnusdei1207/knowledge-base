@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Pre-commit Hook은 `git commit` 실행 직전에 <strong>자동으로 린터·포매터·보안 스캔을 실행</strong>하여, 품질 기준을 충족하지 못한 코드의 커밋을 차단하는 <strong>Shift Left 품질 관리 메커니즘</strong>이다.
-> 2. **가치**: CI에서 린트를 실행하면 커밋→푸시→[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패→수정→재커밋의 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>가 10분 이상</strong>이지만, Pre-commit Hook은 커밋 시점에 <strong>즉시(수 초) 피드백</strong>하여 불량 코드가 리포지토리에 들어가는 것을 원천 차단한다.
+> 2. **가치**: CI에서 린트를 실행하면 커밋->푸시->[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패->수정->재커밋의 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>가 10분 이상</strong>이지만, Pre-commit Hook은 커밋 시점에 <strong>즉시(수 초) 피드백</strong>하여 불량 코드가 리포지토리에 들어가는 것을 원천 차단한다.
 > 3. **판단 포인트**: `pre-commit` 프레임워크(Python)가 사실상 표준이며, ESLint·Prettier·Black·Ruff·gitleaks([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 탐지)·commitlint(커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 규약)를 조합하여 팀 전체에 일관된 품질 기준을 적용한다.
 
 ---
@@ -19,17 +19,17 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Pre-commit Hook 워크플로                            │
-├───────────────────────────────────────────────────────┤
-│  1. git commit -m "feat: add login"                   │
-│  2. Pre-commit Hook 자동 실행:                        │
-│     ✅ trailing-whitespace (공백 제거)                │
-│     ✅ end-of-file-fixer (파일 끝 개행)               │
-│     ✅ ruff (Python 린트)                             │
-│     ❌ gitleaks (API Key 탐지!) → 커밋 차단!         │
-│  3. 개발자: 시크릿 제거 → 재커밋                     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Pre-commit Hook 워크플로                            |
++-------------------------------------------------------+
+|  1. git commit -m "feat: add login"                   |
+|  2. Pre-commit Hook 자동 실행:                        |
+|     ✅ trailing-whitespace (공백 제거)                |
+|     ✅ end-of-file-fixer (파일 끝 개행)               |
+|     ✅ ruff (Python 린트)                             |
+|     ❌ gitleaks (API Key 탐지!) -> 커밋 차단!         |
+|  3. 개발자: 시크릿 제거 -> 재커밋                     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Pre-commit Hook은 공항 보안 검색대이다. 위험물([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)·린트 에러)이 발견되면 비행기(커밋)에 탑승할 수 없다.
@@ -82,7 +82,7 @@ repos:
 
 ### 팀 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. `.pre-commit-config.yaml` 리포지토리에 커밋.
-2. `pre-commit install` → 모든 팀원 자동 적용.
+2. `pre-commit install` -> 모든 팀원 자동 적용.
 3. CI에서도 `pre-commit run --all-files`로 이중 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 
 ---
@@ -93,7 +93,7 @@ repos:
 |:---|:---|:---|:---|
 | [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) | 10분 | **3초** | 200× |
 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 | CI에서 발견 | **커밋 전 차단** | 원천 방지 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패율 | 높음 | **낮음** | 효율 ↑ |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패율 | 높음 | **낮음** | 효율 ^ |
 
 Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며, 비용 대비 효과가 가장 높은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천이다.
 
@@ -113,17 +113,17 @@ Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며,
 
 ```text
 [수동 코드 리뷰 (린트 없음)]
-    │
-    ▼
+    |
+    v
 [CI 린트 (Jenkins/GitHub Actions, 2015~)]
-    │
-    ▼
+    |
+    v
 [pre-commit 프레임워크 (2018~) — 커밋 전 자동 검증]
-    │
-    ▼
+    |
+    v
 [gitleaks + commitlint 통합 (2020~)]
-    │
-    ▼
+    |
+    v
 [현재: AI Lint — GenAI가 코드 품질 자동 개선 제안]
 ```
 
@@ -138,7 +138,7 @@ Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며,
 
 **진행 상황**: 119 / 373
 
-← **이전**: [118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/)
-**다음**: [120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) →
+<- **이전**: [118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/118_ephemeral_ci_runner_isolation/)
+**다음**: [120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) ->
 
 ---

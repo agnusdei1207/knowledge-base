@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 ### 1-1. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 빅데이터에서 중요한 이유
 
 - **스토리지 비용**: S3/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 저장 비용 직접 절감
-- <strong>I/O <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>: 디스크 읽기·네트워크 전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 → [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 향상
+- <strong>I/O <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>: 디스크 읽기·네트워크 전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 -> [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 향상
 - **CPU vs I/O 균형**: I/O 병목 환경에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) CPU 비용 < I/O 절감 효과
 
 ### 1-2. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준
@@ -44,13 +44,13 @@ tags = ["studynote-bigdata"]
 ### 2-1. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
 ```
-압축률      ┤                                    Brotli
-            │                                 ●
-높음        │                           Gzip ●
-            │                       Zstd ●
-            │               Snappy ●
-낮음        │       LZ4 ●
-            └────────────────────────────────────────▶
+압축률      +                                    Brotli
+            |                                 ●
+높음        |                           Gzip ●
+            |                       Zstd ●
+            |               Snappy ●
+낮음        |       LZ4 ●
+            +----------------------------------------->
                   빠름                           느림
                          압축/해제 속도
 ```
@@ -130,7 +130,7 @@ Level 20-22: 최고 압축률 (Cold Storage)
 
 ### 4-3. 기술사 시험 포인트
 
-- [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 선택 근거: I/O 병목 환경 → 높은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 우선, CPU 병목 → 빠른 코덱 우선
+- [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 선택 근거: I/O 병목 환경 -> 높은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 우선, CPU 병목 -> 빠른 코덱 우선
 - [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) + Zstd: 현재 빅데이터 표준 권장 조합
 - Snappy가 여전히 사용되는 이유: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 레거시 환경, LZO 대안
 
@@ -168,17 +168,17 @@ Level 20-22: 최고 압축률 (Cold Storage)
 
 ```text
 [무손실 압축 (Lossless Compression) — Huffman/LZ77]
-    │
-    ▼
+    |
+    v
 [컬럼형 압축 (Columnar Compression) — Parquet/ORC]
-    │
-    ▼
+    |
+    v
 [사전 인코딩 (Dictionary Encoding) — 반복값 치환]
-    │
-    ▼
+    |
+    v
 [런 길이 인코딩 (RLE, Run-Length Encoding) — 연속값 압축]
-    │
-    ▼
+    |
+    v
 [스노우플레이크 자동 압축 (Snowflake Auto-Compression) — 클라우드 최적화]
 ```
 
@@ -196,7 +196,7 @@ Level 20-22: 최고 압축률 (Cold Storage)
 
 **진행 상황**: 186 / 262
 
-← **이전**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/knowledge-base/studynote/16_bigdata/09_platform/185_scalability_design/)
-**다음**: [187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화](/knowledge-base/studynote/16_bigdata/09_platform/187_parquet_orc_iceberg_arrow/) →
+<- **이전**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/knowledge-base/studynote/16_bigdata/09_platform/185_scalability_design/)
+**다음**: [187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화](/knowledge-base/studynote/16_bigdata/09_platform/187_parquet_orc_iceberg_arrow/) ->
 
 ---

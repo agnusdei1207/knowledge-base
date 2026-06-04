@@ -24,20 +24,20 @@ tags = ["software_engineering"]
 이 그림은 기존의 DevOps에 보안(Security)이 어떻게 결합되어 'DevSecOps'로 진화하는지를 보여준다. 무한 루프의 모든 단계에 보안 체크포인트가 삽입됨을 시각화한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DevSecOps Lifecycle Loop                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│         [Plan] ────▶ [Code] ────▶ [Build] ────▶ [Test]      │
-│           │            │            │            │          │
-│      (Threat Mod) (Static Sec) (SCA/SBOM)   (Dynamic Sec)   │
-│           ▲                                      │          │
-│           │                                      ▼          │
-│        [Monitor] ◀── [Operate] ◀── [Deploy] ◀── [Release]   │
-│           │            │            │            │          │
-│      (SIEM/SOAR)  (Zero Trust) (IaC Scan)   (Compliance)    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 DevSecOps Lifecycle Loop                    |
++-------------------------------------------------------------+
+|                                                             |
+|         [Plan] -----> [Code] -----> [Build] -----> [Test]      |
+|           |            |            |            |          |
+|      (Threat Mod) (Static Sec) (SCA/SBOM)   (Dynamic Sec)   |
+|           ^                                      |          |
+|           |                                      v          |
+|        [Monitor] <--- [Operate] <--- [Deploy] <--- [Release]   |
+|           |            |            |            |          |
+|      (SIEM/SOAR)  (Zero Trust) (IaC Scan)   (Compliance)    |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램의 핵심은 '보안의 자동화와 동기화'이다. 보안은 개발 속도를 늦추는 장애물이 아니라, 파이프라인의 일부로서 자동으로 수행되어야 한다. 실무에서는 코드 작성 시 IDE에서 보안 약점을 즉시 알려주고, 빌드 시 오픈소스 취약점을 체크하며, 배포 시 클라우드 설정의 보안 적합성을 자동으로 검증하는 도구 체인 (Toolchain)을 구축한다.
@@ -72,20 +72,20 @@ tags = ["software_engineering"]
 이 구조도는 공급망 보안을 위한 신뢰 체인을 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               Software Supply Chain Security Flow           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Upstream OpenSource] ──▶ [Dependency Check (SCA)] ──┐    │
-│                                                        │    │
-│   [Internal Source Code] ──▶ [Static Scan (SAST)] ─────┼──▶ │
-│                                                        │    │
-│   [CI/CD Artifacts] ◀── [Sign & Verify (SBOM)] ────────┘    │
-│          │                                                  │
-│          ▼                                                  │
-│   [Runtime Env] ──▶ [Monitoring & Drift Detection]          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               Software Supply Chain Security Flow           |
++-------------------------------------------------------------+
+|                                                             |
+|   [Upstream OpenSource] ---> [Dependency Check (SCA)] --+    |
+|                                                        |    |
+|   [Internal Source Code] ---> [Static Scan (SAST)] -----+---> |
+|                                                        |    |
+|   [CI/CD Artifacts] <--- [Sign & Verify (SBOM)] --------+    |
+|          |                                                  |
+|          v                                                  |
+|   [Runtime Env] ---> [Monitoring & Drift Detection]          |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램의 핵심은 '출처 증명과 무결성'이다. 가져온 라이브러리가 안전한지 확인하고, 빌드된 결과물에 디지털 서명을 하여 배포 직전까지 위변조되지 않았음을 보장해야 한다. 실무에서는 SLSA (Supply-chain Levels for Software Artifacts) 프레임워크를 참조하여 공급망 보안 성숙도를 관리한다.
@@ -132,17 +132,17 @@ tags = ["software_engineering"]
 이 도식은 보안 사고 발생 시 대응하는 기술사적 거버넌스 체계를 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               Incident Response Governance Flow             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Detect] ──▶ [Triage] ──▶ [Containment] ──▶ [Eradication] │
-│      │           │             │                 │          │
-│   (Monitoring) (Severity)    (Isolate)         (Patching)   │
-│                                                             │
-│   [Recovery] ◀── [Post-Mortem] ◀── [Feedback to SDLC]       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               Incident Response Governance Flow             |
++-------------------------------------------------------------+
+|                                                             |
+|   [Detect] ---> [Triage] ---> [Containment] ---> [Eradication] |
+|      |           |             |                 |          |
+|   (Monitoring) (Severity)    (Isolate)         (Patching)   |
+|                                                             |
+|   [Recovery] <--- [Post-Mortem] <--- [Feedback to SDLC]       |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 방역 대책과 같습니다. 감염자(취약점)를 빨리 찾아서 격리(Containment)하는 시스템을 만들고, 왜 감염되었는지 분석하여 다음부터는 마스크(시큐어 코딩)를 잘 쓰도록 교육하는 것이 핵심입니다.

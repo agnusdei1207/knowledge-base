@@ -28,40 +28,40 @@ tags = ["studynote-operating-system"]
 디스크 입출력이 메인 메모리와 호스트(Host) CPU 를 거치는 척추 락킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))과 오프로드 경로 패스(Bypass)를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 대조 시각화하면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 H/W RAID vs S/W RAID 구조 데이터 하청 루트 다이어그램            │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │   [ Hardware RAID (비싼 RAID 컨트롤러 확장/전용 카드 장착형) ]                   │
-  │                                                                                  │
-  │      [ 앱 어플리케이션 DB ]                                                      │
-  │               │      (OS는 그냥 무식하게 I/O /dev/sda 던지면 끝. 알 바 아님)     │
-  │      [ 메인 보드 CPU & RAM ] (평온 0% 잉여)                                      │
-  │               │                                                                  │
-  │      ┌────────▼────────────────────────────────────────┐                         │
-  │      │ RAID Controller (HBA 기판 슬롯 장착, 자기장 열 발생기) │                  │
-  │      │   - [ 패리티 수학 연산 전담 ASIC 커스텀 칩 ]          │ ◀─ "여기서        │
-  │      │   - [ 수 기가바이트(GB) 대형 고속 D램 자체 캐시 ]       │    다해줌"      │
-  │      │   - [ BBU (Battery Back-up Unit) 비상 베터리 전원 ]   │                   │
-  │      └────────┬────────────────────────┬───────────────┬─┘                       │
-  │               ▼                        ▼               ▼                         │
-  │         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               │
-  │                                                                                  │
-  │                                                                                  │
-  │   [ Software RAID (OS 커널 내장 모듈 드라이버 : 리눅스 mdadm / LVM ) ]           │
-  │                                                                                  │
-  │      [ 앱 어플리케이션 DB ]                                                      │
-  │               │                                                                  │
-  │      ┌────────▼────────────────────────────────────────┐                         │
-  │      │ 메인 보드 호스트 CPU !! (OS 커널 스케줄러 자체 가동)     │                │
-  │      │   - 패리티 연산을 위해 CPU 코어 자원 차출 강탈 계산 작렬  │ ◀─ "본체가    │
-  │      │   - 메인 호스트 RAM 일정 부분 캐시 버퍼링(Page Cache)로 점거 │   고생함"  │
-  │      └────────┬────────────────────────┬───────────────┬─┘                       │
-  │               ▼                        ▼               ▼                         │
-  │        [일반 메인 덤어댑터 인터페이스 Sata/PCIe 그냥 바이패스 생짜 전달 꽂음]    │
-  │               │                        │               │                         │
-  │         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               │
-  └──────────────────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------------------+
+  |                 H/W RAID vs S/W RAID 구조 데이터 하청 루트 다이어그램            |
+  +----------------------------------------------------------------------------------+
+  |                                                                                  |
+  |   [ Hardware RAID (비싼 RAID 컨트롤러 확장/전용 카드 장착형) ]                   |
+  |                                                                                  |
+  |      [ 앱 어플리케이션 DB ]                                                      |
+  |               |      (OS는 그냥 무식하게 I/O /dev/sda 던지면 끝. 알 바 아님)     |
+  |      [ 메인 보드 CPU & RAM ] (평온 0% 잉여)                                      |
+  |               |                                                                  |
+  |      +--------v----------------------------------------+                         |
+  |      | RAID Controller (HBA 기판 슬롯 장착, 자기장 열 발생기) |                  |
+  |      |   - [ 패리티 수학 연산 전담 ASIC 커스텀 칩 ]          | <-- "여기서        |
+  |      |   - [ 수 기가바이트(GB) 대형 고속 D램 자체 캐시 ]       |    다해줌"      |
+  |      |   - [ BBU (Battery Back-up Unit) 비상 베터리 전원 ]   |                   |
+  |      +--------+------------------------+---------------+-+                       |
+  |               v                        v               v                         |
+  |         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               |
+  |                                                                                  |
+  |                                                                                  |
+  |   [ Software RAID (OS 커널 내장 모듈 드라이버 : 리눅스 mdadm / LVM ) ]           |
+  |                                                                                  |
+  |      [ 앱 어플리케이션 DB ]                                                      |
+  |               |                                                                  |
+  |      +--------v----------------------------------------+                         |
+  |      | 메인 보드 호스트 CPU !! (OS 커널 스케줄러 자체 가동)     |                |
+  |      |   - 패리티 연산을 위해 CPU 코어 자원 차출 강탈 계산 작렬  | <-- "본체가    |
+  |      |   - 메인 호스트 RAM 일정 부분 캐시 버퍼링(Page Cache)로 점거 |   고생함"  |
+  |      +--------+------------------------+---------------+-+                       |
+  |               v                        v               v                         |
+  |        [일반 메인 덤어댑터 인터페이스 Sata/PCIe 그냥 바이패스 생짜 전달 꽂음]    |
+  |               |                        |               |                         |
+  |         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               |
+  +----------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** H/W 방식은 메인 컴퓨터의 뇌(CPU)와 완전히 독립된 소규모 컴퓨터(칩, 램, OS 커스텀 탑재 등 HBA)가 하나 더 샷시에 끼어있는 셈이다. 이 전담 녀석이 모든 XOR 고통과 디스크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 해결해 주고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게는 아주 깨끗하게 포장된 큰 박스만 눈속임으로 내어주므로 서버는 아무 짐(오버헤드 락)도 고통 느끼지 않는 이상적인 계층 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 이룬다. 하지만 전지가 고장 나거나 카드가 고장나면 저 보드에 독점 종속(벤더 락인)되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전부 매장 사망된다. 반면 S/W 방식은 장비 제조사(아답텍 등)에 휘둘리지 않고 순수 리눅스 OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버(`mdadm`)가 그냥 물리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하드들을 날 것으로 가져와 직접 소프트웨어 파머 끈으로 가상 묶음을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 하여 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 셔플 묶는 것이다. 기계만 고장 안 나면 어떤 리눅스 컴퓨터에 다 뽑아 꼽아도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 살아 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 복원 이식되는 초절정 천국 마이그레이션 자유를 누리지만 CPU 멀티 로드가 조금 손상 희생 차출 될 뿐이다.
@@ -147,12 +147,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
-    │
-    ▼
+    |
+    v
 [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)]
-    │
-    ├──▶ [핫 스페어 (Hot Spare) 디스크 자동 재구성]
-    └──▶ [NAS (Network Attached Storage)]
+    |
+    +---> [핫 스페어 (Hot Spare) 디스크 자동 재구성]
+    +---> [NAS (Network Attached Storage)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -169,7 +169,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 490 / 800
 
-← **이전**: [489. RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)
-**다음**: [491. 핫 스페어 (Hot Spare) 디스크 자동 재구성](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/491_hot_spare_auto_rebuild/) →
+<- **이전**: [489. RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)
+**다음**: [491. 핫 스페어 (Hot Spare) 디스크 자동 재구성](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/491_hot_spare_auto_rebuild/) ->
 
 ---

@@ -29,27 +29,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector Multiplication, SpMV)과 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 반복이다. 일반식은 `R_{k+1}(v) = (1-d)/N + d × Σ_{u→v} R_k(u)/outdeg(u)` 형태이며, 여기서 감쇠 계수 (Damping Factor, d)는 보통 0.85 안팎이다. 하드웨어는 발신 정점 기준의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 행 형식 (Compressed Sparse Row, [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))이나 수신 정점 기준의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 열 형식 (Compressed Sparse Column, CSC)으로 간선을 저장한 뒤, 기여도 계산·누산·수렴 검사 단계를 파이프라인으로 연결한다.
+PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector Multiplication, SpMV)과 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 반복이다. 일반식은 `R_{k+1}(v) = (1-d)/N + d × Σ_{u->v} R_k(u)/outdeg(u)` 형태이며, 여기서 감쇠 계수 (Damping Factor, d)는 보통 0.85 안팎이다. 하드웨어는 발신 정점 기준의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 행 형식 (Compressed Sparse Row, [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))이나 수신 정점 기준의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 열 형식 (Compressed Sparse Column, CSC)으로 간선을 저장한 뒤, 기여도 계산·누산·수렴 검사 단계를 파이프라인으로 연결한다.
 
 아래 그림은 PageRank를 스트리밍 하드웨어로 맵핑할 때의 대표 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      PageRank hardware mapping: edge stream -> accumulate -> rank   │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Rank Vector Buffer ] -> [ Edge Block Reader ] -> [ Contribution ] │
-│          │                         │                     │           │
-│          │                         │                     ▼           │
-│          │                         └──────────────> [ Accum Banks ]  │
-│          │                                           │               │
-│          └<──────────── [ Convergence Checker ] <────┘               │
-│                                  │                                   │
-│                                  ▼                                   │
-│                     [ Damping / Normalize Unit ]                     │
-│                                  │                                   │
-│                                  ▼                                   │
-│                         [ Next Rank Vector Buffer ]                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      PageRank hardware mapping: edge stream -> accumulate -> rank   |
++----------------------------------------------------------------------+
+| [ Rank Vector Buffer ] -> [ Edge Block Reader ] -> [ Contribution ] |
+|          |                         |                     |           |
+|          |                         |                     v           |
+|          |                         +--------------> [ Accum Banks ]  |
+|          |                                           |               |
+|          +<------------ [ Convergence Checker ] <----+               |
+|                                  |                                   |
+|                                  v                                   |
+|                     [ Damping / Normalize Unit ]                     |
+|                                  |                                   |
+|                                  v                                   |
+|                         [ Next Rank Vector Buffer ]                  |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -131,17 +131,17 @@ PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축�
 
 ```text
 웹 링크 분석
-    │
-    ▼
+    |
+    v
 PageRank 수식 · 감쇠 계수
-    │
-    ▼
+    |
+    v
 희소 행렬-벡터 곱셈 최적화
-    │
-    ▼
+    |
+    v
 스트리밍 FPGA/ASIC 하드웨어 맵핑
-    │
-    ▼
+    |
+    v
 HBM 기반 그래프 분석기 · 추천/랭킹 가속기
 ```
 
@@ -157,7 +157,7 @@ HBM 기반 그래프 분석기 · 추천/랭킹 가속기
 
 **진행 상황**: 614 / 803
 
-← **이전**: [613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)
-**다음**: [615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/615_smart_contract_coprocessor/) →
+<- **이전**: [613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)
+**다음**: [615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/615_smart_contract_coprocessor/) ->
 
 ---

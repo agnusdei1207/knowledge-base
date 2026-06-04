@@ -39,27 +39,27 @@ NASA와 FAA(미국 연방항공청)가 2015년경 UTM 개념을 공식화했으�
 ```text
 UTM 생태계 구조
 
-  ┌─────────────────────────────────────────────────────────┐
-  │                   ANSP (항공항법서비스제공자)               │
-  │         국가 공역 권한 / ATM 연동 / 규제 공역 정보          │
-  └─────────────────────┬───────────────────────────────────┘
-                        │
-           ┌────────────▼────────────┐
-           │   USS (UAS Service     │
-           │   Supplier, 무인기      │
-           │   서비스 제공자)         │
-           │   · 비행 계획 접수       │
-           │   · 충돌 회피 조율       │
-           │   · 지오펜싱 적용        │
-           └─────────┬───────────────┘
-                     │
-      ┌──────────────┼──────────────┐
-      │              │              │
-  ┌───▼──┐      ┌───▼──┐      ┌───▼──┐
-  │드론 A│      │드론 B│      │드론 C│
-  │Remote│      │Remote│      │Remote│
-  │  ID  │      │  ID  │      │  ID  │
-  └──────┘      └──────┘      └──────┘
+  +---------------------------------------------------------+
+  |                   ANSP (항공항법서비스제공자)               |
+  |         국가 공역 권한 / ATM 연동 / 규제 공역 정보          |
+  +---------------------+-----------------------------------+
+                        |
+           +------------v------------+
+           |   USS (UAS Service     |
+           |   Supplier, 무인기      |
+           |   서비스 제공자)         |
+           |   · 비행 계획 접수       |
+           |   · 충돌 회피 조율       |
+           |   · 지오펜싱 적용        |
+           +---------+---------------+
+                     |
+      +--------------+--------------+
+      |              |              |
+  +---v--+      +---v--+      +---v--+
+  |드론 A|      |드론 B|      |드론 C|
+  |Remote|      |Remote|      |Remote|
+  |  ID  |      |  ID  |      |  ID  |
+  +------+      +------+      +------+
 ```
 
 ### 2. UTM 핵심 기능 4가지
@@ -68,7 +68,7 @@ UTM 생태계 구조
 |:---|:---|:---|
 | <strong>Remote ID (원격 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>)</strong> | 비행 중 드론의 ID·위치·고도를 실시간 브로드캐스트 | Wi-Fi [Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/), BT, 셀룰러 |
 | **지오펜싱 (Geofencing)** | 비행 금지 구역(공항 반경, 군사 시설 등)에 진입 시 자동 회피 | GNSS + 디지털 지도 |
-| <strong>비행 계획 승인 (Flight <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong> | USS에 비행 계획 제출 → 공역 충돌 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 승인 | 공역 예약 시스템 |
+| <strong>비행 계획 승인 (Flight <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong> | USS에 비행 계획 제출 -> 공역 충돌 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 승인 | 공역 예약 시스템 |
 | **교통 분리 (Separation Assurance)** | 다수 드론 간 안전 거리 유지 및 충돌 경보 | 경로 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 3. Remote ID 브로드캐스트 방식
@@ -77,11 +77,11 @@ UTM 생태계 구조
 Remote ID 전송 방식
 
   드론 (UAS)
-  │
-  ├─► Wi-Fi Beacon (802.11) — 1km 내 수신기에 브로드캐스트
-  ├─► Bluetooth 5.0 — 300m 내 수신
-  └─► Network (셀룰러/LTE) — USS 서버에 실시간 업로드
-                              ↓
+  |
+  +-► Wi-Fi Beacon (802.11) — 1km 내 수신기에 브로드캐스트
+  +-► Bluetooth 5.0 — 300m 내 수신
+  +-► Network (셀룰러/LTE) — USS 서버에 실시간 업로드
+                              v
                    모든 드론의 위치를 지도에 실시간 표시
 ```
 
@@ -104,7 +104,7 @@ Remote ID 전송 방식
 
 ### 관련 기술 생태계
 
-드론 물류(라스트마일 배송) + [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심항공교통) → UTM 저고도 공역 관리 → [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크(명령·제어) → BVLOS(가시권 외 비행, Beyond Visual Line of Sight) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 충돌 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+드론 물류(라스트마일 배송) + [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심항공교통) -> UTM 저고도 공역 관리 -> [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크(명령·제어) -> BVLOS(가시권 외 비행, Beyond Visual Line of Sight) -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 충돌 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 - **📢 섹션 요약 비유**: UTM과 ATM의 차이는 <strong>'대형 화물선 항로 관제(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a>)와 도심 오토바이 배달 교통 관리(UTM)'</strong> 의 차이입니다. 화물선은 수가 적고 크므로 항만 관제사가 직접 지시하지만, 배달 오토바이는 수천 대가 매 순간 도심을 누비므로 앱 기반 자동 내비게이션(UTM)이 훨씬 현실적입니다.
 
@@ -163,19 +163,19 @@ UTM은 "드론을 날리는 기술"이 아니라, **"수만 대의 드론이 동
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-드론(UAS) 산업 성장 → 저고도 공역 혼잡 문제
-    │
-    ▼
+드론(UAS) 산업 성장 -> 저고도 공역 혼잡 문제
+    |
+    v
 UTM (Unmanned Aircraft System Traffic Management)
-    │
-    ├─► Remote ID — 드론 실시간 식별
-    ├─► 지오펜싱 — 비행 금지 구역 자동 차단
-    ├─► USS — 비행 계획 접수·조율
-    │
-    ▼
+    |
+    +-► Remote ID — 드론 실시간 식별
+    +-► 지오펜싱 — 비행 금지 구역 자동 차단
+    +-► USS — 비행 계획 접수·조율
+    |
+    v
 BVLOS 장거리 드론 배송 상용화
-    │
-    ▼
+    |
+    v
 UAM (도심항공교통) — 에어택시 공역 통합 관제
 ```
 
@@ -191,7 +191,7 @@ UAM (도심항공교통) — 에어택시 공역 통합 관제
 
 **진행 상황**: 147 / 552
 
-← **이전**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/)
-**다음**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) →
+<- **이전**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/)
+**다음**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) ->
 
 ---

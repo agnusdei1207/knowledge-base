@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 로컬 NVMe만으로는 대규모 자원 운영이 비효율적인지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      로컬 NVMe는 빠르지만 PCIe 거리 제한 때문에 서버 밖 공유가 어렵다 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server A: CPU ─ PCIe ─ NVMe SSD                                      │
-│ Server B: CPU ─ PCIe ─ NVMe SSD   → 자원은 서버 단위로 고정           │
-│ Server C: CPU ─ PCIe ─ NVMe SSD                                      │
-│                                                                      │
-│ 결과                                                                   │
-│   - 남는 SSD 용량을 다른 서버가 즉시 활용하기 어렵다                 │
-│   - 컴퓨트 확장과 스토리지 확장이 함께 묶인다                        │
-│   - 장애·운영 도메인도 서버 내부 장치 단위로 갇힌다                  │
-│                                                                      │
-│ 해법: NVMe 명령 의미는 유지하고, 운반 경로만 Fabric으로 연장          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      로컬 NVMe는 빠르지만 PCIe 거리 제한 때문에 서버 밖 공유가 어렵다 |
++----------------------------------------------------------------------+
+| Server A: CPU - PCIe - NVMe SSD                                      |
+| Server B: CPU - PCIe - NVMe SSD   -> 자원은 서버 단위로 고정           |
+| Server C: CPU - PCIe - NVMe SSD                                      |
+|                                                                      |
+| 결과                                                                   |
+|   - 남는 SSD 용량을 다른 서버가 즉시 활용하기 어렵다                 |
+|   - 컴퓨트 확장과 스토리지 확장이 함께 묶인다                        |
+|   - 장애·운영 도메인도 서버 내부 장치 단위로 갇힌다                  |
+|                                                                      |
+| 해법: NVMe 명령 의미는 유지하고, 운반 경로만 Fabric으로 연장          |
++----------------------------------------------------------------------+
 ```
 
 핵심은 스토리지를 네트워크화하더라도 NVMe의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 모델을 버리지 않는 데 있다. 그래서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF는 "원격 디스크"라기보다, "거리만 멀어진 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 경로"로 이해하는 편이 정확하다.
@@ -65,23 +65,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF가 큐 구조를 유지한 채 원격 플래시로 확장되는 과정을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        NVMe-oF는 '큐 의미'는 유지하고 '운반 경로'만 바꿔 보낸다       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host Server                                                          │
-│  App                                                                 │
-│   │                                                                  │
-│   ▼                                                                  │
-│ NVMe Driver ─ Submission Queue ── Capsules ──▶ Fabric Transport      │
-│   ▲                                  │                │              │
-│   │                                  │                ▼              │
-│ Completion Queue ◀───────────────────┘       Target Controller       │
-│                                                     │                │
-│                                                     ├─ Namespace     │
-│                                                     └─ Flash Media   │
-│                                                                      │
-│ Discovery Controller → NQN 확인 → 연결 생성 → I/O Queue Pair 운영    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        NVMe-oF는 '큐 의미'는 유지하고 '운반 경로'만 바꿔 보낸다       |
++----------------------------------------------------------------------+
+| Host Server                                                          |
+|  App                                                                 |
+|   |                                                                  |
+|   v                                                                  |
+| NVMe Driver - Submission Queue -- Capsules ---> Fabric Transport      |
+|   ^                                  |                |              |
+|   |                                  |                v              |
+| Completion Queue <--------------------+       Target Controller       |
+|                                                     |                |
+|                                                     +- Namespace     |
+|                                                     +- Flash Media   |
+|                                                                      |
+| Discovery Controller -> NQN 확인 -> 연결 생성 -> I/O Queue Pair 운영    |
++----------------------------------------------------------------------+
 ```
 
 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 계열 전송에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card)가 직접 처리해 CPU 개입을 줄일 수 있고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/TCP는 범용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에서 더 손쉽게 배치할 수 있다. 즉 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF는 하나의 제품이 아니라, 같은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 의미를 여러 패브릭 위에 얹는 공통 아키텍처다.
@@ -160,17 +160,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 SATA / SAS 기반 공유 스토리지
-        │
-        ▼
+        |
+        v
 로컬 NVMe over PCIe
-        │
-        ▼
+        |
+        v
 NVMe-oF (RDMA / FC / TCP)
-        │
-        ▼
+        |
+        v
 JBOF · 플래시 풀링 · 분리형 스토리지
-        │
-        ▼
+        |
+        v
 컴포저블 인프라 · 랙 단위 자원 조합
 ```
 
@@ -188,7 +188,7 @@ JBOF · 플래시 풀링 · 분리형 스토리지
 
 **진행 상황**: 521 / 803
 
-← **이전**: [520. PCIe 스위치 패브릭 (PCIe Switch Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/520_pcie_switch_fabric/)
-**다음**: [522. 인피니밴드 RDMA (InfiniBand RDMA)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/522_infiniband_rdma/) →
+<- **이전**: [520. PCIe 스위치 패브릭 (PCIe Switch Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/520_pcie_switch_fabric/)
+**다음**: [522. 인피니밴드 RDMA (InfiniBand RDMA)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/522_infiniband_rdma/) ->
 
 ---

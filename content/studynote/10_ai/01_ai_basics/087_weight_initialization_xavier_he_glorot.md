@@ -39,10 +39,10 @@ Xavier (Glorot) [초기](/knowledge-base/studynote/03_network/08_transport_layer
 | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) init | 모두 0 | 거의 없음 | 대칭성 때문에 실패 |
 
 ```text
-입력 분포 ─► 초기 가중치 ─► 활성값 분산 유지 ─► 기울기 유지
-                  │
-                  ├─ 너무 작음 → 소실
-                  └─ 너무 큼   → 폭주
+입력 분포 -► 초기 가중치 -► 활성값 분산 유지 -► 기울기 유지
+                  |
+                  +- 너무 작음 -> 소실
+                  +- 너무 큼   -> 폭주
 ```
 
 Xavier는 입력과 출력의 평균적인 균형을 보고, He는 ReLU처럼 음수를 잘라내는 활성화에 맞춰 더 큰 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 허용한다.
@@ -110,14 +110,14 @@ Xavier는 입력과 출력의 평균적인 균형을 보고, He는 ReLU처럼 �
     ### 📈 관련 키워드 및 발전 흐름도
 
     입력 분포 파악
-    │
-    ▼
+    |
+    v
 fan_in / fan_out 계산
-    │
-    ▼
+    |
+    v
 Xavier 또는 He 선택
-    │
-    ▼
+    |
+    v
 기울기 유지 / 안정적 수렴
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -132,7 +132,7 @@ Xavier 또는 He 선택
 
 **진행 상황**: 87 / 420
 
-← **이전**: [86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저](/knowledge-base/studynote/10_ai/01_ai_basics/086_adam_optimizer_momentum_rmsprop/)
-**다음**: [88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) →
+<- **이전**: [86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저](/knowledge-base/studynote/10_ai/01_ai_basics/086_adam_optimizer_momentum_rmsprop/)
+**다음**: [88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ->
 
 ---

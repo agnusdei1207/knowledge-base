@@ -26,17 +26,17 @@ ARM Cortex-A 시리즈는 ARM의 세 프로파일 중 애플리케이션 영역�
 아래 그림은 Cortex-A가 "앱 실행 환경 전체"를 품는 코어라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Apps · Browser · UI · Media · AI Runtime                    │
-├──────────────────────────────────────────────────────────────┤
-│ Linux / Android / Hypervisor / Device Drivers               │
-├──────────────────────────────────────────────────────────────┤
-│ Privilege Separation · MMU · Interrupt Control · Security   │
-├──────────────────────────────────────────────────────────────┤
-│ Cortex-A Core(s) · Vector Engine · Branch Prediction        │
-├──────────────────────────────────────────────────────────────┤
-│ L1 / L2 / L3 Cache · Coherency · DRAM Controller            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Apps · Browser · UI · Media · AI Runtime                    |
++--------------------------------------------------------------+
+| Linux / Android / Hypervisor / Device Drivers               |
++--------------------------------------------------------------+
+| Privilege Separation · MMU · Interrupt Control · Security   |
++--------------------------------------------------------------+
+| Cortex-A Core(s) · Vector Engine · Branch Prediction        |
++--------------------------------------------------------------+
+| L1 / L2 / L3 Cache · Coherency · DRAM Controller            |
++--------------------------------------------------------------+
 ```
 
 Cortex-A는 단순 제어기라기보다 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 친화적 계산 플랫폼"으로 이해해야 한다. 즉, 같은 ARM 계열이라도 Cortex-M처럼 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 곧바로 돌리는 칩과는 출발점이 다르다.
@@ -64,16 +64,16 @@ Cortex-A의 설계 중심은 [처리량](/knowledge-base/studynote/01_computer_a
 아래 그림은 Cortex-A가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 전력, 보안을 한 칩 안에서 동시에 조율하는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Foreground App ───────▶ Big Core Cluster ───────┐           │
-│ Background Task ─────▶ Little Core Cluster ───┐ │           │
-│ Secure Service  ─────▶ Secure World           │ │           │
-│                                                 ▼ ▼           │
-│            MMU · Cache Coherency · Scheduler · DVFS          │
-│                               │                              │
-│                               ▼                              │
-│                      Shared Cache / DRAM                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Foreground App --------> Big Core Cluster -------+           |
+| Background Task ------> Little Core Cluster ---+ |           |
+| Secure Service  ------> Secure World           | |           |
+|                                                 v v           |
+|            MMU · Cache Coherency · Scheduler · DVFS          |
+|                               |                              |
+|                               v                              |
+|                      Shared Cache / DRAM                     |
++--------------------------------------------------------------+
 ```
 
 즉 Cortex-A는 "빠른 코어"가 아니라, OS·메모리·전력 정책이 함께 맞물려야 제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나는 시스템형 아키텍처다.
@@ -157,17 +157,17 @@ Cortex-A를 올바르게 채택하면 사용자 경험과 시스템 유연성이
 
 ```text
 ARM11 급 애플리케이션 코어
-    │
-    ▼
+    |
+    v
 Cortex-A8 / A9: 스마트폰 OS 대중화
-    │
-    ▼
+    |
+    v
 멀티코어 · 대형 캐시 · TrustZone
-    │
-    ▼
+    |
+    v
 big.LITTLE · 64비트 ARMv8-A · 가상화
-    │
-    ▼
+    |
+    v
 Arm 서버 · PC · AI/보안 강화형 ARMv9-A
 ```
 
@@ -185,7 +185,7 @@ Arm 서버 · PC · AI/보안 강화형 ARMv9-A
 
 **진행 상황**: 654 / 803
 
-← **이전**: [652. 무정전 전원 장치 (UPS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)
-**다음**: [654. ARM Cortex-R 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/654_arm_cortex_r_series/) →
+<- **이전**: [652. 무정전 전원 장치 (UPS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)
+**다음**: [654. ARM Cortex-R 시리즈](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/654_arm_cortex_r_series/) ->
 
 ---

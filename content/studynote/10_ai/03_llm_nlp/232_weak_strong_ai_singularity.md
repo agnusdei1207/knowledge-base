@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이 통제 불능의 폭발 시점을 과학계는 <strong>특이점 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라 부르며, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍트들은 이 특이점의 도래를 앞당기는 자([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))와 안전벨트를 채우려는 자(Alignment)의 거대한 파벌 싸움을 벌이고 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)은 '망치'나 '가위' 같은 최고급 도구다. 못 박는 데는 우주 최고지만 고기를 자를 순 없다. [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)은 '천재 인간 알바생'이다. 처음엔 서툴러도 10분만 설명해 주면 못 박기, 고기 썰기, 엑셀 정리까지 완벽하게 혼자 다 해낸다. [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)은 '신(God)'이다. 알바생이 갑자기 알 수 없는 마법을 깨우치더니 1초 만에 건물 100채를 맨손으로 지어버리고 사장님(인류)의 머리 꼭대기 위로 날아가 버리는, 인간이 절대 이해할 수 없는 경지의 존재다.
@@ -45,28 +45,28 @@ tags = ["studynote-ai"]
 AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해결의 범용성(Generality)'과 '자가 진화 능력'</strong>에 따라 3개의 층위로 엄격하게 분리된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [1단계: 약인공지능 (ANI / Narrow AI)] - "현재 인류의 주소"            │
-│   * 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.                 │
-│   * 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).  │
-│   * 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).        │
-│                                                              │
-│  [2단계: 강인공지능 (AGI / General AI)] - "빅테크 기업들의 성배"       │
-│   * 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,  │
-│          인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!    │
-│   * 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.│
-│   * 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.  │
-│                                                              │
-│       ▲ [ 지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과! ]  │
-│        │ (AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 ─▶ 무한루프)│
-│                                                              │
-│  [3단계: 초인공지능 (ASI / Superintelligence)] - "신의 영역"          │
-│   * 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.         │
-│   * 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.       │
-│   * 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해     |
++--------------------------------------------------------------+
+|  [1단계: 약인공지능 (ANI / Narrow AI)] - "현재 인류의 주소"            |
+|   * 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.                 |
+|   * 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).  |
+|   * 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).        |
+|                                                              |
+|  [2단계: 강인공지능 (AGI / General AI)] - "빅테크 기업들의 성배"       |
+|   * 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,  |
+|          인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!    |
+|   * 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.|
+|   * 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.  |
+|                                                              |
+|       ^ [ 지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과! ]  |
+|        | (AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 --> 무한루프)|
+|                                                              |
+|  [3단계: 초인공지능 (ASI / Superintelligence)] - "신의 영역"          |
+|   * 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.         |
+|   * 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.       |
+|   * 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).           |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (특이점, Singularity과 지능 폭발)**:
@@ -142,7 +142,7 @@ AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문제 표현] → [약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)] → [학습 기반 지능과 결합]
+[문제 표현] -> [약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)] -> [학습 기반 지능과 결합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 **진행 상황**: 232 / 420
 
-← **이전**: [231. 인공지능 (AI)의 정의와 튜링 테스트](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)
-**다음**: [233. 전문가 시스템 (지식 베이스, 추론 엔진)](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) →
+<- **이전**: [231. 인공지능 (AI)의 정의와 튜링 테스트](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)
+**다음**: [233. 전문가 시스템 (지식 베이스, 추론 엔진)](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ->
 
 ---

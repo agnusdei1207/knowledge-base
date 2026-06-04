@@ -30,18 +30,18 @@ tags = ["studynote-ai"]
 | 특성 | 설명 |
 |:---|:---|
 | 공간 크기 유지 | H×W는 변하지 않음 ([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없이 [Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1) |
-| 채널 수 변환 | C_in → C_out (증가 또는 축소 가능) |
+| 채널 수 변환 | C_in -> C_out (증가 또는 축소 가능) |
 | 학습 파라미터 | C_in × C_out (공간 차원 없음) |
 | 계산 복잡도 | O(H × W × C_in × C_out) |
 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | ReLU와 결합하여 비선형성 추가 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '채널 믹싱 DJ'다. 공간 위치는 건드리지 않고, 여러 채널(악기)의 소리를 섞어 새로운 채널(믹스 트랙)을 만드는 작업이다.
@@ -54,24 +54,24 @@ tags = ["studynote-ai"]
 
 ```
 입력 특징 맵: H × W × C_in
-                    │
+                    |
            1×1 합성곱 필터 C_out개
            (각 필터 크기: 1×1×C_in)
-                    │
-                    ↓
+                    |
+                    v
 출력 특징 맵: H × W × C_out
 
 예시: 입력 28×28×256, 1×1 Conv, 64 필터
-┌──────────────────────────────────────────────┐
-│  입력 (28×28×256)                            │
-│  각 위치 (i,j) 에서 256차원 벡터             │
-│         ↓                                   │
-│  W (64×256) 행렬과 내적 연산                 │
-│  = 채널 방향 선형 결합                       │
-│         ↓                                   │
-│  출력 (28×28×64)                             │
-│  채널 수 256 → 64 로 축소                    │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  입력 (28×28×256)                            |
+|  각 위치 (i,j) 에서 256차원 벡터             |
+|         v                                   |
+|  W (64×256) 행렬과 내적 연산                 |
+|  = 채널 방향 선형 결합                       |
+|         v                                   |
+|  출력 (28×28×64)                             |
+|  채널 수 256 -> 64 로 축소                    |
++----------------------------------------------+
 파라미터 수: 256 × 64 = 16,384 (바이어스 제외)
 ```
 
@@ -83,32 +83,32 @@ ResNet의 50층 이상 [버전](/knowledge-base/studynote/03_network/06_network_
 보틀넥 블록 (ResNet-50 기준):
 
 입력: 256채널
-    │
-    ▼
-┌──────────────────────┐
-│ 1×1 Conv, 64채널     │  ← 채널 축소 (256→64)
-│ BN + ReLU            │     파라미터: 256×64 = 16K
-└──────────────────────┘
-    │
-    ▼
-┌──────────────────────┐
-│ 3×3 Conv, 64채널     │  ← 공간 특징 추출
-│ BN + ReLU            │     파라미터: 64×64×9 = 36K
-└──────────────────────┘
-    │
-    ▼
-┌──────────────────────┐
-│ 1×1 Conv, 256채널    │  ← 채널 복원 (64→256)
-│ BN + ReLU            │     파라미터: 64×256 = 16K
-└──────────────────────┘
-    │
+    |
+    v
++----------------------+
+| 1×1 Conv, 64채널     |  <- 채널 축소 (256->64)
+| BN + ReLU            |     파라미터: 256×64 = 16K
++----------------------+
+    |
+    v
++----------------------+
+| 3×3 Conv, 64채널     |  <- 공간 특징 추출
+| BN + ReLU            |     파라미터: 64×64×9 = 36K
++----------------------+
+    |
+    v
++----------------------+
+| 1×1 Conv, 256채널    |  <- 채널 복원 (64->256)
+| BN + ReLU            |     파라미터: 64×256 = 16K
++----------------------+
+    |
     + (Shortcut)
-    ▼
+    v
 출력: 256채널
 
 총 파라미터: 68K
 vs 2개의 3×3 Conv만 사용 시: 256×256×9×2 = 1,179K
-→ 약 17배 파라미터 감소!
+-> 약 17배 파라미터 감소!
 ```
 
 ### Inception [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서의 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)
@@ -117,16 +117,16 @@ GoogLeNet의 인셉션(Inception) [모듈](/knowledge-base/studynote/04_software
 
 ```
 입력 특징 맵
-      │
- ┌────┴──────────────────────┐
- │         │         │      │
-1×1       1×1→3×3  1×1→5×5  MP→1×1
+      |
+ +----+----------------------+
+ |         |         |      |
+1×1       1×1->3×3  1×1->5×5  MP->1×1
 Conv      Conv      Conv    Conv
- │         │         │      │
- └────┬──────────────────────┘
-      │
+ |         |         |      |
+ +----+----------------------+
+      |
 Concatenate (채널 방향 결합)
-      │
+      |
 출력 특징 맵
 ```
 
@@ -134,8 +134,8 @@ Concatenate (채널 방향 결합)
 
 | 구성 | 연산량 (곱셈 횟수) | 절감 비율 |
 |:---|:---:|:---:|
-| 입력 28×28×256, 3×3→256 직접 | 28×28×256×256×9 = 462M | - |
-| 1×1(→64) + 3×3(→64) + 1×1(→256) | 약 27M | **약 17배 감소** |
+| 입력 28×28×256, 3×3->256 직접 | 28×28×256×256×9 = 462M | - |
+| 1×1(->64) + 3×3(->64) + 1×1(->256) | 약 27M | **약 17배 감소** |
 
 - **📢 섹션 요약 비유**: 보틀넥 구조는 '병목이 있는 모래시계'다. 넓은 위에서(256채널) 좁은 목(64채널)을 통과하며 핵심만 추려내고, 다시 넓은 아래로(256채널) 퍼진다. 좁은 목 덕분에 가운데 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 계산량이 확 줄어든다.
 
@@ -149,8 +149,8 @@ Concatenate (채널 방향 결합)
 |:---|:---:|:---:|:---:|:---|
 | 일반 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (3×3 Conv) | O | O | C_in×C_out×9 | 공간+채널 동시 처리 |
 | 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Pointwise) | X | O | C_in×C_out | 채널 믹싱만 |
-| 깊이별 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Depthwise) | O | X | C_in×F² | 채널별 독립 공간 처리 |
-| 깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (DS Conv) | O→X | X→O | C_in×F²+C_in×C_out | 위 두 개 순차 결합 |
+| 깊이별 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Depthwise) | O | X | C_in×F^ | 채널별 독립 공간 처리 |
+| 깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (DS Conv) | O->X | X->O | C_in×F^+C_in×C_out | 위 두 개 순차 결합 |
 
 ### NIN (Network in Network)과의 연관
 
@@ -179,10 +179,10 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 
 ```
 입력 (64채널)   잔차 블록   출력 (256채널)
-     │                         │
-     ├─── 1×1 Conv(→256) ─────┤
-     │                         │
-     └──── F(x) ──────────────+┘
+     |                         |
+     +--- 1×1 Conv(->256) -----+
+     |                         |
+     +---- F(x) --------------++
      (보틀넥 연산 결과 256채널)
 ```
 
@@ -198,24 +198,24 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 
 ### 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 3대 효과
 
-1. **계산량 감소**: 보틀넥으로 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 입력 채널 수 감소 → 연산 비용 1/N²
+1. **계산량 감소**: 보틀넥으로 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 입력 채널 수 감소 -> 연산 비용 1/N^
 2. **비선형성 증가**: 추가 파라미터 없이 표현력 향상
 3. **채널 간 상호 정보 학습**: 채널 조합 최적화로 특징 재구성
 
 ### 채널 축소 연산량 공식
 
 ```
-┌──────────────────────────────────────────────────────┐
-│ 1×1 Conv 연산량 절감 계산                            │
-│                                                      │
-│ 직접 3×3 Conv:                                       │
-│   H×W × C_in × C_out × 9                            │
-│                                                      │
-│ 1×1(→k) + 3×3(→k) + 1×1(→C_out):                  │
-│   H×W×C_in×k + H×W×k×k×9 + H×W×k×C_out             │
-│                                                      │
-│ k = C_in/4 일 때 약 4배 이상 절감                    │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+| 1×1 Conv 연산량 절감 계산                            |
+|                                                      |
+| 직접 3×3 Conv:                                       |
+|   H×W × C_in × C_out × 9                            |
+|                                                      |
+| 1×1(->k) + 3×3(->k) + 1×1(->C_out):                  |
+|   H×W×C_in×k + H×W×k×k×9 + H×W×k×C_out             |
+|                                                      |
+| k = C_in/4 일 때 약 4배 이상 절감                    |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 CNN의 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.zip)'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(채널)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 전달하고, 받은 쪽에서 다시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제하는 방식으로 통신 비용(연산량)을 극적으로 줄인다.
@@ -227,7 +227,7 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Pointwise Conv) | 채널 축소, 비선형성 / 채널 차원 변환의 핵심 |
-| 보틀넥 구조 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), 채널 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / 1×1→3×3→1×1 패턴 |
+| 보틀넥 구조 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), 채널 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / 1×1->3×3->1×1 패턴 |
 | NIN (Network in Network) | MLP, 채널 변환 / 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 기원 |
 | GoogLeNet (Inception) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/), 효율 / Inception [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 축소 역할 |
 | 깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (DS Conv) | MobileNet, 경량화 / Depthwise + Pointwise |
@@ -236,7 +236,7 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [1×1 합성곱 (1x1 Convolution)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [1×1 합성곱 (1x1 Convolution)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -251,7 +251,7 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 
 **진행 상황**: 286 / 420
 
-← **이전**: [285. 풀링 (Pooling)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)
-**다음**: [287. ResNet (Residual Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) →
+<- **이전**: [285. 풀링 (Pooling)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)
+**다음**: [287. ResNet (Residual Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) ->
 
 ---

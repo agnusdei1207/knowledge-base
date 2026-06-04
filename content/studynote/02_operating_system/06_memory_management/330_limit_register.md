@@ -28,22 +28,22 @@ tags = ["studynote-operating-system"]
   3. <strong>하드웨어 융합 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 이에 따라 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부에 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로와 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 추가되어, 메모리 접근 명령과 동시에 병렬로 하드웨어적인 범위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 현대적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아키텍처가 탄생했다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│     한계 레지스터 부재 시 발생하는 메모리 침범 시나리오           │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  [운영체제 영역] 0 ~ 1024번지                                     │
-│                                                                   │
-│  [프로세스 A] 시작(베이스): 2000, 크기(한계): 1500                │
-│     * 정상 접근: LOAD 500  → 2000+500 = 2500 (안전)               │
-│                                                                   │
-│  [프로세스 B] 시작(베이스): 4000, 크기(한계): 2000                │
-│     * 악의적 접근: 프로세스 A가 LOAD 2500 을 호출한다면?          │
-│                                                                   │
-│  만약 한계 레지스터(1500) 검사가 없다면:                          │
-│  MMU 변환: 2000(베이스) + 2500(요청) = 4500 (프로세스 B 영역)     │
-│  결과: A가 B의 비밀번호를 훔쳐보거나 데이터를 파괴함! (침해)      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|     한계 레지스터 부재 시 발생하는 메모리 침범 시나리오           |
++-------------------------------------------------------------------+
+|                                                                   |
+|  [운영체제 영역] 0 ~ 1024번지                                     |
+|                                                                   |
+|  [프로세스 A] 시작(베이스): 2000, 크기(한계): 1500                |
+|     * 정상 접근: LOAD 500  -> 2000+500 = 2500 (안전)               |
+|                                                                   |
+|  [프로세스 B] 시작(베이스): 4000, 크기(한계): 2000                |
+|     * 악의적 접근: 프로세스 A가 LOAD 2500 을 호출한다면?          |
+|                                                                   |
+|  만약 한계 레지스터(1500) 검사가 없다면:                          |
+|  MMU 변환: 2000(베이스) + 2500(요청) = 4500 (프로세스 B 영역)     |
+|  결과: A가 B의 비밀번호를 훔쳐보거나 데이터를 파괴함! (침해)      |
++-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)가 "위치 이동"의 자유를 주었다면, 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 "공간의 제약"을 부여한다. 위 그림처럼 악의적인 프로세스가 고의로 큰 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 값을 발출할 때, 이를 차단할 기계적 수단이 없으면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)는 완전히 무너진다. 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 도입은 개별 프로세스를 완벽한 모래상자(Sandbox) 안에 가두는 핵심 기둥이다.
 
@@ -69,26 +69,26 @@ tags = ["studynote-operating-system"]
 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 단독으로 쓰이기보다 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)와 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))처럼 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결되어, <strong>범위 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 후 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 변환</strong>이라는 2단계 하드웨어 보안벽을 형성한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           MMU 내부의 베이스 및 한계 레지스터 방어 로직               │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│                   [ CPU ]                                            │
-│                      │ 논리 주소 (ex: 346)                           │
-│                      ▼                                               │
-│             ┌─────────────────┐                                      │
-│             │ 논리 주소 < 한계? │◀── 한계 레지스터 (Limit)           │
-│             └────────┬────────┘     (ex: 1000)                       │
-│                      │                                               │
-│       ┌─────(No)─────┴─────(Yes)─────┐                               │
-│       ▼                              ▼                               │
-│ ┌───────────┐                ┌────────────────┐                      │
-│ │ TRAP (OS) │                │ 논리 주소 + 베이스│◀── 베이스 레지스터│
-│ │ Addressing│                └───────┬────────┘     (ex: 14000)      │
-│ │ Error     │                        │                               │
-│ └───────────┘                        ▼                               │
-│ (강제 종료)                 [ 물리 메모리 14346번지 접근 ]           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           MMU 내부의 베이스 및 한계 레지스터 방어 로직               |
++----------------------------------------------------------------------+
+|                                                                      |
+|                   [ CPU ]                                            |
+|                      | 논리 주소 (ex: 346)                           |
+|                      v                                               |
+|             +-----------------+                                      |
+|             | 논리 주소 < 한계? |<--- 한계 레지스터 (Limit)           |
+|             +--------+--------+     (ex: 1000)                       |
+|                      |                                               |
+|       +-----(No)-----+-----(Yes)-----+                               |
+|       v                              v                               |
+| +-----------+                +----------------+                      |
+| | TRAP (OS) |                | 논리 주소 + 베이스|<--- 베이스 레지스터|
+| | Addressing|                +-------+--------+     (ex: 14000)      |
+| | Error     |                        |                               |
+| +-----------+                        v                               |
+| (강제 종료)                 [ 물리 메모리 14346번지 접근 ]           |
++----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)의 철학을 보여준다. 주소를 변환하기 전에 한계(Limit)를 먼저 검사하는 순서가 매우 중요하다. [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로는 덧셈기(Adder)를 거치기 전의 순수 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 값이 프로그램의 실제 크기인 1000을 넘지 않는지 확인한다. 346 < 1000 이므로 조건(Yes)을 통과하고 비로소 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)의 값이 더해진다. 만약 1001번지를 요청했다면 하드웨어 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)가 즉시 신호를 차단하고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 치명적 오류 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 던져 해당 프로세스를 처단한다. 이 모든 과정이 소프트웨어 개입 없이 하드웨어 로직 게이트만으로 나노초 단위로 일어난다.
@@ -127,13 +127,13 @@ tags = ["studynote-operating-system"]
 | **주류 환경**| 과거 단순 일괄/[다중 처리 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/) | 현대 Linux/Windows 등 범용 OS ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반) |
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────────────────┐
-│ 보호 방식  │ 검사 대상   │ 유연성      │ 판단 포인트                             │
-├──────────┼────────────┼────────────┼─────────────────────────────────────────────┤
-│ 한계 검사  │ 전체 크기   │ 매우 낮음   │ 메모리가 적고 단일 덩어리일 때 유리     │
-│ 세그먼트   │ 의미적 덩어리│ 높음       │ 코드/데이터 공유 및 보호 세분화 필요 시 │
-│ 페이징 비트│ 일정한 블록 │ 가장 높음   │ 가상 메모리 스와핑과 결합 시 압도적 효율│
-└──────────┴────────────┴────────────┴─────────────────────────────────────────────┘
++----------+------------+------------+---------------------------------------------+
+| 보호 방식  | 검사 대상   | 유연성      | 판단 포인트                             |
++----------+------------+------------+---------------------------------------------+
+| 한계 검사  | 전체 크기   | 매우 낮음   | 메모리가 적고 단일 덩어리일 때 유리     |
+| 세그먼트   | 의미적 덩어리| 높음       | 코드/데이터 공유 및 보호 세분화 필요 시 |
+| 페이징 비트| 일정한 블록 | 가장 높음   | 가상 메모리 스와핑과 결합 시 압도적 효율|
++----------+------------+------------+---------------------------------------------+
 ```
 **[매트릭스 해설]** 단일 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식은 속도 면에서 극대화된 장점을 가지지만, 프로그램 내부의 '코드'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 구분하지 못하고 뭉뚱그려 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다는 치명적 한계가 있다. 즉, 크기 안에만 있으면 코드를 덮어쓰는(Write) 버그를 막을 수 없다. 따라서 현대 아키텍처는 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 개념을 확장하여, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 세그먼트마다 각각의 접근 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(r/w/x)를 두어 다층적인 방어를 수행하는 쪽으로 발전했다.
 
@@ -193,12 +193,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [베이스 레지스터 (Base/Relocation Register)]
-    │
-    ▼
+    |
+    v
 [한계 레지스터 (Limit Register)]
-    │
-    ├──▶ [동적 적재 (Dynamic Loading)]
-    └──▶ [동적 연결 (Dynamic Linking)]
+    |
+    +---> [동적 적재 (Dynamic Loading)]
+    +---> [동적 연결 (Dynamic Linking)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -215,7 +215,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 330 / 800
 
-← **이전**: [329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)
-**다음**: [331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) →
+<- **이전**: [329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)
+**다음**: [331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ->
 
 ---

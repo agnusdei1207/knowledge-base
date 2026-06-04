@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 존 스토리지가 어떤 규칙을 노출하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Zoned storage exposes the media rule: write forward, reclaim by reset     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Zone 0 : [data][data][data][WP.........................]                  │
-│ Zone 1 : [data][data][WP..............................]                   │
-│ Zone 2 : [empty......................................]                   │
-│                                                                            │
-│ Read  : random read is allowed                                             │
-│ Write : only at the current Write Pointer (WP)                             │
-│ Reuse : reset the whole zone, then WP returns to the start                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Zoned storage exposes the media rule: write forward, reclaim by reset     |
++----------------------------------------------------------------------------+
+| Zone 0 : [data][data][data][WP.........................]                  |
+| Zone 1 : [data][data][WP..............................]                   |
+| Zone 2 : [empty......................................]                   |
+|                                                                            |
+| Read  : random read is allowed                                             |
+| Write : only at the current Write Pointer (WP)                             |
+| Reuse : reset the whole zone, then WP returns to the start                 |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 장치가 내부에서 몰래 정리하던 일을 소프트웨어가 더 잘 예측할 수 있는 규칙으로 바꿨다는 점이다. 이 덕분에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 “장치가 언젠가 알아서 정리하겠지”를 기대하는 대신, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쌓고 세그먼트를 회수하는 식으로 저장 패턴을 명시적으로 설계할 수 있다.
@@ -61,18 +61,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 존의 생애주기를 단순화한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Zone lifecycle: open -> append -> full -> reclaim -> reset                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Empty Zone                                                                 │
-│     │ open                                                                  │
-│     ▼                                                                       │
-│ Open Zone -- append --> [WP moves forward] --> ... --> Full Zone           │
-│     │                                                                       │
-│     └──────── close / reopen as needed ───────────────────────────────┐     │
-│                                                                        │     │
-│ Reclaim path: migrate valid data to another zone -> reset -> Empty ----┘     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Zone lifecycle: open -> append -> full -> reclaim -> reset                |
++----------------------------------------------------------------------------+
+| Empty Zone                                                                 |
+|     | open                                                                  |
+|     v                                                                       |
+| Open Zone -- append --> [WP moves forward] --> ... --> Full Zone           |
+|     |                                                                       |
+|     +-------- close / reopen as needed -------------------------------+     |
+|                                                                        |     |
+| Reclaim path: migrate valid data to another zone -> reset -> Empty ----+     |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 추가 조건이 열린 존(open zone) 수와 활성 존([active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) zone) 수 제한이다. 장치는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자원을 이유로 동시에 관리할 수 있는 존 수를 제한할 수 있으므로, 호스트는 무한정 많은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동시에 열어 둘 수 없다. 그래서 존 스토리지는 단순히 “순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하면 된다”가 아니라, <strong>세그먼트 수명주기와 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 예산을 함께 다루는 인터페이스</strong>다.
@@ -153,20 +153,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 블록 인터페이스의 overwrite 환상
-            │
-            ▼
+            |
+            v
 Device FTL · SMR translation의 숨은 정리 비용
-            │
-            ▼
+            |
+            v
 매체 규칙 노출: Zoned Storage
-            │
-            ▼
+            |
+            v
 ZNS · Zone Append · Zone Reset
-            │
-            ▼
+            |
+            v
 Zone-aware LSM-Tree · Object Storage
-            │
-            ▼
+            |
+            v
 Low-WAF · 예측 가능한 대규모 저장 시스템
 ```
 
@@ -184,7 +184,7 @@ Low-WAF · 예측 가능한 대규모 저장 시스템
 
 **진행 상황**: 593 / 803
 
-← **이전**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/)
-**다음**: [594. 키-밸류 스토리지 (Key-Value Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/594_kv_ssd/) →
+<- **이전**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/)
+**다음**: [594. 키-밸류 스토리지 (Key-Value Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/594_kv_ssd/) ->
 
 ---

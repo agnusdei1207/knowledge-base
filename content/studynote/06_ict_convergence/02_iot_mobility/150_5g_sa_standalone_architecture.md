@@ -33,32 +33,32 @@ tags = ["studynote-ict-convergence"]
 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 아키텍처가 세상을 뒤집은 이유는 껍데기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 아니라 심장(Core 뇌) 수술의 기적이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         5G 생태계의 파멸(NSA) ➔ 구원(SA) 아키텍처 진화 폭발 도면 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 💀 [ 1단계 과도기 (NSA: Non-Standalone 비단독 양다리 짬뽕 지옥 💥) ] │
-  │                                                             │
-  │  📱 내 폰 ➔ (제어 신호 여보세요 콜! 📞) ➔ 📡 4G LTE 안테나 ➔ 🧠 4G LTE 코어 뇌 (낡음)│
-  │     |       (폰이 존나 바쁘게 두 탕 뜀 💦)                              │
-  │     └──── ➔ (유튜브 동영상 데이터 쓩 🎥) ➔ 📡 5G 쌘 안테나 ➔ 🧠 4G LTE 코어 뇌 (병목!)│
-  │                                                             │
-  │  ➔ 파국: 폰 1대가 4G, 5G 안테나 2개에 다 무전 때리느라 배터리 타임아웃 불타 죽음 💀. │
-  │          뒤쪽 뇌(Core)는 낡은 4G LTE 1개라서 데이터 쏠리면 병목 정체 폭사.      │
-  │                                                             │
-  │        ======= [ 🛡️ 아키텍트의 메스: 도끼로 낡은 4G 뇌 영구 절단 🔪 ] ========│
-  │                                                             │
-  │ 🚀 [ 2단계 완전체 (SA: Standalone 100% 순혈 5G 제국 통일 ✨) ]       │
-  │                                                             │
-  │  📱 내 폰 ➔ (전화 걸기 📞 + 동영상 데이터 🎥 몽땅 한 방에!!)              │
-  │             ➔ 📡 5G 쌘 안테나 (gNB)                                 │
-  │             ➔ 🧠 5G 전용 클라우드 네이티브 스마트 뇌 (5GC 코어 폭발 🚀)     │
-  │                                                             │
-  │ 🌟 아키텍트 극딜: 이것이 진정한 이혼(Decoupling)과 독립(Standalone)의 쾌속이다!  │
-  │   LTE 망이랑 영원히 손절 쳤다. 폰은 5G 안테나 딱 1개랑만 통신하니 핑퐁(Flapping) │
-  │   딜레이 0초 컷 + 배터리 20% 절약 꿀 빰! 그리고 뒷단 뇌가 5G 전용 슈퍼컴(5GC)이라  │
-  │   드디어 네트워크 슬라이싱(가상망 무한 쪼개 팔기) 흑마법 록온(Lock-on) 봉인이 해제됐다!│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         5G 생태계의 파멸(NSA) ➔ 구원(SA) 아키텍처 진화 폭발 도면 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 💀 [ 1단계 과도기 (NSA: Non-Standalone 비단독 양다리 짬뽕 지옥 💥) ] |
+  |                                                             |
+  |  📱 내 폰 ➔ (제어 신호 여보세요 콜! 📞) ➔ 📡 4G LTE 안테나 ➔ 🧠 4G LTE 코어 뇌 (낡음)|
+  |     |       (폰이 존나 바쁘게 두 탕 뜀 💦)                              |
+  |     +---- ➔ (유튜브 동영상 데이터 쓩 🎥) ➔ 📡 5G 쌘 안테나 ➔ 🧠 4G LTE 코어 뇌 (병목!)|
+  |                                                             |
+  |  ➔ 파국: 폰 1대가 4G, 5G 안테나 2개에 다 무전 때리느라 배터리 타임아웃 불타 죽음 💀. |
+  |          뒤쪽 뇌(Core)는 낡은 4G LTE 1개라서 데이터 쏠리면 병목 정체 폭사.      |
+  |                                                             |
+  |        ======= [ 🛡️ 아키텍트의 메스: 도끼로 낡은 4G 뇌 영구 절단 🔪 ] ========|
+  |                                                             |
+  | 🚀 [ 2단계 완전체 (SA: Standalone 100% 순혈 5G 제국 통일 ✨) ]       |
+  |                                                             |
+  |  📱 내 폰 ➔ (전화 걸기 📞 + 동영상 데이터 🎥 몽땅 한 방에!!)              |
+  |             ➔ 📡 5G 쌘 안테나 (gNB)                                 |
+  |             ➔ 🧠 5G 전용 클라우드 네이티브 스마트 뇌 (5GC 코어 폭발 🚀)     |
+  |                                                             |
+  | 🌟 아키텍트 극딜: 이것이 진정한 이혼(Decoupling)과 독립(Standalone)의 쾌속이다!  |
+  |   LTE 망이랑 영원히 손절 쳤다. 폰은 5G 안테나 딱 1개랑만 통신하니 핑퐁(Flapping) |
+  |   딜레이 0초 컷 + 배터리 20% 절약 꿀 빰! 그리고 뒷단 뇌가 5G 전용 슈퍼컴(5GC)이라  |
+  |   드디어 네트워크 슬라이싱(가상망 무한 쪼개 팔기) 흑마법 록온(Lock-on) 봉인이 해제됐다!|
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">🌟 모던 [5GC</a> 뇌 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/">SBA</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 융합술 ✨) 🌟]</strong>
@@ -137,17 +137,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 4G (LTE) / 스마트폰 중심 넷플릭스 덤프트럭 쾌속 다운로드 혁명 달성. (하지만 B2B 기업 제어망으론 성능 부족 💥)
-    │
-    ▼
+    |
+    v
 5G NSA 과도기 / 통신사 돈 아끼려고 앞단 안테나만 5G로 깔고 뇌는 LTE(EPC) 재활용 양다리 기만 ➔ 폰 배터리 타 죽음 💀
-    │
-    ▼
+    |
+    v
 5G SA 단독모드 (SBA) / 낡은 LTE 쇳덩이 뇌 폐기 소각! 100% 5G 전용 클라우드 K8s 컨테이너 뇌(5GC) 록온 완료 ✨
-    │
-    ▼
+    |
+    v
 네트워크 슬라이싱 (Slicing) 무한 창조 / 자율주행 1ms(uRLLC) 망, 유튜브망 완벽 방폭문 찢기 가상 임대 판매 🚀
-    │
-    ▼
+    |
+    v
 6G 코어 NWDAF (AI 자율 뇌) 융합 / 코어망 심장에 AI 딥러닝 봇 박혀서 24시간 지 맘대로 트래픽 밸런싱 스케일 아웃 오토 스티어링 튜닝
 ```
 
@@ -163,7 +163,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 150 / 552
 
-← **이전**: [149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)
-**다음**: [151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) →
+<- **이전**: [149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)
+**다음**: [151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) ->
 
 ---

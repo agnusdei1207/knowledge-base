@@ -39,12 +39,12 @@ tags = ["studynote-ai"]
 - <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>, π)</strong>: 상태에서 행동으로의 매핑 함수
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 RPG 게임에서 캐릭터를 조작하는 것과 같다. 몬스터를 물리치면 경험치(보상)를 얻고, 죽으면 벌점을 받으면서 최적의 전투 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 터득한다.
@@ -58,19 +58,19 @@ tags = ["studynote-ai"]
 MDP는 RL을 수학적으로 정형화한 프레임워크로, [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) `(S, A, P, R, γ)`로 정의된다.
 
 ```
-┌─────────────────────────────────────────────────┐
-│           MDP (Markov Decision Process)          │
-│                                                  │
-│  ┌──────────┐  행동 a_t  ┌──────────────────┐   │
-│  │          │──────────▶│                  │   │
-│  │  에이전트  │           │     환경          │   │
-│  │ (Agent)  │◀──────────│  (Environment)   │   │
-│  │          │ 보상 r_t   │                  │   │
-│  │  정책 π   │◀──────────│ 상태 s_{t+1}     │   │
-│  └──────────┘           └──────────────────┘   │
-│                                                  │
-│  마르코프 특성: P(s_{t+1} | s_t, a_t) 만으로 결정  │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|           MDP (Markov Decision Process)          |
+|                                                  |
+|  +----------+  행동 a_t  +------------------+   |
+|  |          |----------->|                  |   |
+|  |  에이전트  |           |     환경          |   |
+|  | (Agent)  |<-----------|  (Environment)   |   |
+|  |          | 보상 r_t   |                  |   |
+|  |  정책 π   |<-----------| 상태 s_{t+1}     |   |
+|  +----------+           +------------------+   |
+|                                                  |
+|  마르코프 특성: P(s_{t+1} | s_t, a_t) 만으로 결정  |
++-------------------------------------------------+
 ```
 
 - <strong>S (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space)</strong>: 모든 가능한 상태 집합
@@ -185,7 +185,7 @@ V*(s) = max_a [ R(s,a) + γ · Σ P(s'|s,a) · V*(s') ]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [강화 학습 (Reinforcement Learning)] → [최적화·운영 자동화]
+[데이터 전처리] -> [강화 학습 (Reinforcement Learning)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -200,7 +200,7 @@ V*(s) = max_a [ R(s,a) + γ · Σ P(s'|s,a) · V*(s') ]
 
 **진행 상황**: 244 / 420
 
-← **이전**: [243. 비지도 학습 (군집화, 연관성, 차원 축소)](/knowledge-base/studynote/10_ai/03_llm_nlp/243_unsupervised_learning/)
-**다음**: [245. 과대 적합 (Overfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/) →
+<- **이전**: [243. 비지도 학습 (군집화, 연관성, 차원 축소)](/knowledge-base/studynote/10_ai/03_llm_nlp/243_unsupervised_learning/)
+**다음**: [245. 과대 적합 (Overfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/) ->
 
 ---

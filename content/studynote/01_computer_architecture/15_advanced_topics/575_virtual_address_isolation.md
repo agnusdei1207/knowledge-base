@@ -43,20 +43,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 같은 가상 주소가 서로 다른 물리 프레임으로 번역되는 모습을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Same virtual address, different physical destination                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Process A              Process B                 Kernel                    │
-│ VA 0x400000            VA 0x400000               VA high region            │
-│     │                      │                         │                      │
-│     ▼                      ▼                         ▼                      │
-│  PT root A              PT root B                PT root K                 │
-│     │                      │                         │                      │
-│     ▼                      ▼                         ▼                      │
-│ PFN 0x1234              PFN 0x8A20               PFN 0x0010                │
-│                                                                            │
-│ User-mode access to kernel-only page ───────────────────────────▶ blocked  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Same virtual address, different physical destination                      |
++----------------------------------------------------------------------------+
+| Process A              Process B                 Kernel                    |
+| VA 0x400000            VA 0x400000               VA high region            |
+|     |                      |                         |                      |
+|     v                      v                         v                      |
+|  PT root A              PT root B                PT root K                 |
+|     |                      |                         |                      |
+|     v                      v                         v                      |
+| PFN 0x1234              PFN 0x8A20               PFN 0x0010                |
+|                                                                            |
+| User-mode access to kernel-only page ----------------------------> blocked  |
++----------------------------------------------------------------------------+
 ```
 
 문맥 전환이 일어나면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 주소 공간의 루트를 바꾸고, TLB가 잘못된 이전 번역을 재사용하지 않도록 ASID나 PCID 같은 태그를 활용한다. 또한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 사용자 접근 허용 여부, 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 여부, 실행 가능 여부를 따로 지정해 "보이기만 하고 못 만지는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)", "읽을 수는 있지만 실행할 수는 없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)" 같은 세밀한 경계를 만든다. [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 이후에는 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 자체를 거의 숨기는 KPTI가 중요한 보강책이 되었다.
@@ -138,17 +138,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 베이스·리미트 레지스터
-        │
-        ▼
+        |
+        v
 세그멘테이션
-        │
-        ▼
+        |
+        v
 페이지 기반 가상 주소 공간 분리
-        │
-        ▼
+        |
+        v
 ASID / PCID · TLB 최적화
-        │
-        ▼
+        |
+        v
 KPTI · IOMMU · 기밀 컴퓨팅 확장
 ```
 
@@ -166,7 +166,7 @@ KPTI · IOMMU · 기밀 컴퓨팅 확장
 
 **진행 상황**: 575 / 803
 
-← **이전**: [574. 스와핑 (Swapping) 메커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/574_swapping_mechanism/)
-**다음**: [576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/576_aslr_hardware_defense/) →
+<- **이전**: [574. 스와핑 (Swapping) 메커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/574_swapping_mechanism/)
+**다음**: [576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/576_aslr_hardware_defense/) ->
 
 ---

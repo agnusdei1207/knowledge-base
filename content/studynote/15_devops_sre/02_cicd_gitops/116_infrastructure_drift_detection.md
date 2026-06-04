@@ -19,20 +19,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    드리프트 발생 시나리오                              │
-├───────────────────────────────────────────────────────┤
-│  1. Terraform: security_group = [22, 443]            │
-│  2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️      │
-│  3. 실제 상태: [22, 443, 8080]                        │
-│     Terraform 코드: [22, 443]                         │
-│     → 드리프트 발생!                                  │
-│  4. terraform apply 실행 시:                          │
-│     8080이 코드에 없으므로 삭제됨 → 서비스 장애!     │
-│                                                       │
-│  해결: 주기적 terraform plan으로 Diff 감지            │
-│     → 코드 동기화 또는 수동 변경 되돌리기             │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    드리프트 발생 시나리오                              |
++-------------------------------------------------------+
+|  1. Terraform: security_group = [22, 443]            |
+|  2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️      |
+|  3. 실제 상태: [22, 443, 8080]                        |
+|     Terraform 코드: [22, 443]                         |
+|     -> 드리프트 발생!                                  |
+|  4. terraform apply 실행 시:                          |
+|     8080이 코드에 없으므로 삭제됨 -> 서비스 장애!     |
+|                                                       |
+|  해결: 주기적 terraform plan으로 Diff 감지            |
+|     -> 코드 동기화 또는 수동 변경 되돌리기             |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 드리프트는 건축 대장([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))과 실제 건물(인프라)이 다른 상태다. 건축 대장대로 리모델링하면 몰래 만든 방이 철거된다.
@@ -80,7 +80,7 @@ schedule:
   - cron: '0 9 * * *'
 steps:
   - run: terraform plan -detailed-exitcode
-  # exit code 2 = drift detected → Slack 알림
+  # exit code 2 = drift detected -> Slack 알림
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -113,18 +113,18 @@ steps:
 
 ```text
 [수동 인프라 관리 (콘솔 변경 빈번)]
-    │
-    ▼
+    |
+    v
 [IaC 도입 (2014~) — 코드로 인프라 관리]
-    │
-    ▼
+    |
+    v
 [드리프트 문제 인식 (2018~) — 코드 vs 실제 불일치]
-    │
-    ▼
+    |
+    v
 [Driftctl / CF Drift Detection (2020~) — 자동 감지]
-    │
-    ▼
-[현재: 자동 Remediation — 드리프트 감지→자동 복원]
+    |
+    v
+[현재: 자동 Remediation — 드리프트 감지->자동 복원]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ steps:
 
 **진행 상황**: 116 / 373
 
-← **이전**: [115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/)
-**다음**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/) →
+<- **이전**: [115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/)
+**다음**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/) ->
 
 ---

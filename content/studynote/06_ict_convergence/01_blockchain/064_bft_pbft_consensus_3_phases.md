@@ -30,13 +30,13 @@ PBFT는 이런 환경에서 빠르고 결정적인 합의를 만들기 위해 �
 
 ```text
 Client Request
-  ↓
+  v
 Pre-prepare
-  ↓
+  v
 Prepare
-  ↓
+  v
 Commit
-  ↓
+  v
 Ledger Update
 ```
 
@@ -109,11 +109,11 @@ PBFT는 신뢰가 완벽하지 않은 환경에서 빠른 최종성을 제공한
 
 ```text
 Byzantine Fault
-  ↓
+  v
 PBFT
-  ↓
+  v
 Pre-prepare / Prepare / Commit
-  ↓
+  v
 Finality
 ```
 
@@ -123,11 +123,11 @@ Finality
 
 ```text
 PoW
-  ↓
+  v
 PBFT
-  ↓
+  v
 Permissioned Blockchain
-  ↓
+  v
 Fast Finality
 ```
 
@@ -145,7 +145,7 @@ PBFT는 그런 식으로 합의하는 방법이에요.
 
 **진행 상황**: 64 / 552
 
-← **이전**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/knowledge-base/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/)
-**다음**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/) →
+<- **이전**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/knowledge-base/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/)
+**다음**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 
 ```text
 BIOS 부팅 흐름:
-  전원 → POST → MBR(512B) → 부트로더 → OS 커널
+  전원 -> POST -> MBR(512B) -> 부트로더 -> OS 커널
 
   한계:
   - 16비트 실모드: 1MB 메모리만 접근
@@ -29,7 +29,7 @@ BIOS 부팅 흐름:
   - 텍스트 기반 설정 화면
 
 UEFI 부팅 흐름:
-  전원 → SEC → PEI → DXE → BDS → 부트매니저 → OS
+  전원 -> SEC -> PEI -> DXE -> BDS -> 부트매니저 -> OS
 
   장점:
   - 64비트 보호 모드
@@ -58,13 +58,13 @@ UEFI 부팅 흐름:
 ### [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 흐름
 
 ```text
-UEFI 펌웨어 → db(허용 서명 목록) 확인
-부트로더 서명 검증 → 성공: 로드
-                    → 실패: 부팅 중단
+UEFI 펌웨어 -> db(허용 서명 목록) 확인
+부트로더 서명 검증 -> 성공: 로드
+                    -> 실패: 부팅 중단
 
-Microsoft → Windows 서명 키 포함
-Linux    → shim(MOK) 통해 GRUB 서명 검증
-커스텀  → 자체 키 등록 (MOK - Machine Owner Key)
+Microsoft -> Windows 서명 키 포함
+Linux    -> shim(MOK) 통해 GRUB 서명 검증
+커스텀  -> 자체 키 등록 (MOK - Machine Owner Key)
 ```
 
 - **📢 섹션 요약 비유**: Secure Boot는 공항 보안 검색대다. 여권(서명)이 유효한 승객([부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))만 탑승(부팅)할 수 있다. 서명 없는 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)는 악성 [부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/)일 수 있어서 차단한다.
@@ -92,16 +92,16 @@ Linux    → shim(MOK) 통해 GRUB 서명 검증
 
 ```text
 MBR (Master Boot Record):
-  └─ 512바이트 섹터 0
-      ├─ 부트 코드 (446B)
-      ├─ 파티션 테이블 (64B, 4엔트리)
-      └─ 시그니처 (2B: 0x55AA)
+  +- 512바이트 섹터 0
+      +- 부트 코드 (446B)
+      +- 파티션 테이블 (64B, 4엔트리)
+      +- 시그니처 (2B: 0x55AA)
 
 GPT (GUID Partition Table):
-  └─ 섹터 0: 보호 MBR
-  └─ 섹터 1: GPT 헤더 (CRC32 체크섬)
-  └─ 섹터 2-33: 128개 파티션 엔트리
-  └─ 마지막 섹터: 백업 GPT 헤더
+  +- 섹터 0: 보호 MBR
+  +- 섹터 1: GPT 헤더 (CRC32 체크섬)
+  +- 섹터 2-33: 128개 파티션 엔트리
+  +- 마지막 섹터: 백업 GPT 헤더
 ```
 
 ### 서버 환경 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 고려사항
@@ -145,17 +145,17 @@ ARM 기반 서버(AWS Graviton, Ampere Altra)와 임베디드 시스템에서는
 
 ```text
 [BIOS — 16비트 레거시 펌웨어, MBR]
-    │
-    ▼
+    |
+    v
 [UEFI — 64비트 현대 펌웨어, GPT, Secure Boot]
-    │
-    ▼
+    |
+    v
 [Secure Boot + TPM — 측정 부팅, 무결성 보장]
-    │
-    ▼
+    |
+    v
 [Confidential Computing — AMD SEV, Intel TDX]
-    │
-    ▼
+    |
+    v
 [ARM/RISC-V 부팅 — U-Boot, EDK2, 오픈 펌웨어 표준화]
 ```
 
@@ -171,7 +171,7 @@ ARM 기반 서버(AWS Graviton, Ampere Altra)와 임베디드 시스템에서는
 
 **진행 상황**: 30 / 800
 
-← **이전**: [29. 부트로더 (Bootloader)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)
-**다음**: [31. SYSGEN — 시스템 생성과 OS 구성](/knowledge-base/studynote/02_operating_system/01_overview_architecture/031_sysgen/) →
+<- **이전**: [29. 부트로더 (Bootloader)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)
+**다음**: [31. SYSGEN — 시스템 생성과 OS 구성](/knowledge-base/studynote/02_operating_system/01_overview_architecture/031_sysgen/) ->
 
 ---

@@ -31,24 +31,24 @@ tags = ["studynote-network"]
   3. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1 Cache-Control 도입</strong>: 상대적 수명(초 단위)을 나타내는 `max-age`를 도입해 시계 불일치 문제를 해결하고, 저장 위치와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강제성까지 하나의 헤더로 조합할 수 있는 강력한 규약을 완성했다. `Cache-Control`은 항상 `Expires`보다 우선순위가 높다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          HTTP/1.0 (Expires) vs HTTP/1.1 (Cache-Control)       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [과거: Expires 절대 시간 방식]                                 │
-│ Server 시계: 12:00 / Client 시계: 12:05 (시계가 빠름)           │
-│                                                             │
-│ 서버 응답 ───▶ 헤더: Expires: 12:03 (지금부터 3분 뒤 만료 의도)│
-│ 클라이언트 수신 ──▶ "내 시계는 이미 12:05 인데? 받자마자 썩은 빵이군!" │
-│                (➔ 즉시 캐시 폐기. 캐싱 효율 0% 실패)             │
-│                                                             │
-│ [현재: Cache-Control 상대 시간 방식]                           │
-│ Server 시계: 12:00 / Client 시계: 12:05 (상관 없음)             │
-│                                                             │
-│ 서버 응답 ───▶ 헤더: Cache-Control: max-age=180 (초)          │
-│ 클라이언트 수신 ──▶ "내 시계 기준(12:05)에서 딱 180초 더 살려둘게!"│
-│                (➔ 12:08분까지 완벽하게 캐시 유지. 타이밍 불일치 해방)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          HTTP/1.0 (Expires) vs HTTP/1.1 (Cache-Control)       |
++-------------------------------------------------------------+
+|                                                             |
+| [과거: Expires 절대 시간 방식]                                 |
+| Server 시계: 12:00 / Client 시계: 12:05 (시계가 빠름)           |
+|                                                             |
+| 서버 응답 ----> 헤더: Expires: 12:03 (지금부터 3분 뒤 만료 의도)|
+| 클라이언트 수신 ---> "내 시계는 이미 12:05 인데? 받자마자 썩은 빵이군!" |
+|                (➔ 즉시 캐시 폐기. 캐싱 효율 0% 실패)             |
+|                                                             |
+| [현재: Cache-Control 상대 시간 방식]                           |
+| Server 시계: 12:00 / Client 시계: 12:05 (상관 없음)             |
+|                                                             |
+| 서버 응답 ----> 헤더: Cache-Control: max-age=180 (초)          |
+| 클라이언트 수신 ---> "내 시계 기준(12:05)에서 딱 180초 더 살려둘게!"|
+|                (➔ 12:08분까지 완벽하게 캐시 유지. 타이밍 불일치 해방)|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.0의 절대 시간(`Expires`) 방식은 통신 당사자 간의 물리적 시계 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))가 완벽하다는 환상에 기반했다. 하지만 실세계 PC와 모바일의 시계는 제각각이었고, 캐시는 무용지물이 되곤 했다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1이 `Cache-Control: max-age=초`라는 "다운로드 받은 순간부터 시작되는 타이머(상대 시간)" 개념을 도입하면서 이 고질병은 완전히 해결되었다. 현대 웹에서는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 두 헤더를 같이 보내기도 하지만, 브라우저는 무조건 `Cache-Control`을 절대 우위로 해석한다.
@@ -75,23 +75,23 @@ tags = ["studynote-network"]
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시 스펙에서 개발자들이 가장 많이 오해하여 대형 사고를 내는 지점이 바로 `no-cache`라는 단어의 직관성 부족이다. 영어 뜻만 보면 "저장하지 말라"는 것 같지만, 실상은 정반대다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│        가장 위험한 오해: no-cache 와 no-store 의 본질적 차이           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│ [ Cache-Control: no-cache ] (유효성 검증 강제)                     │
-│ 클라이언트: "하드디스크에 사본 저장해 둘게!" (저장 OK)                  │
-│ 재접속 시: "저기 서버님, 이거 예전 파일 지문(ETag)이 V1 인데 아직 똑같아요?" │
-│ 서    버: "응, 안 변했어 (304 Not Modified)"                       │
-│ 클라이언트: "휴, 다행이네. 로컬 하드에 저장해둔 V1 꺼내서 렌더링할게!"     │
-│ 🌟 결과: 네트워크 통신(1 RTT)은 발생하지만, 데이터 다운로드 대역폭은 0.   │
-│                                                                 │
-│ [ Cache-Control: no-store ] (완전 저장 금지 - 금융/보안용)            │
-│ 클라이언트: "이 데이터는 내 계좌 잔고구나. 하드디스크에 기록 절대 안 남길게!"│
-│ 재접속 시: "서버님, 캐시에 없으니 처음부터 다시 주세요."                  │
-│ 서    버: "응, 계좌 잔고 데이터 1MB 새로 다 보낼게 (200 OK)"           │
-│ 🌟 결과: 매번 100% 무조건 서버까지 왕복 통신 + 풀 데이터 다운로드.        │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|        가장 위험한 오해: no-cache 와 no-store 의 본질적 차이           |
++-----------------------------------------------------------------+
+|                                                                 |
+| [ Cache-Control: no-cache ] (유효성 검증 강제)                     |
+| 클라이언트: "하드디스크에 사본 저장해 둘게!" (저장 OK)                  |
+| 재접속 시: "저기 서버님, 이거 예전 파일 지문(ETag)이 V1 인데 아직 똑같아요?" |
+| 서    버: "응, 안 변했어 (304 Not Modified)"                       |
+| 클라이언트: "휴, 다행이네. 로컬 하드에 저장해둔 V1 꺼내서 렌더링할게!"     |
+| 🌟 결과: 네트워크 통신(1 RTT)은 발생하지만, 데이터 다운로드 대역폭은 0.   |
+|                                                                 |
+| [ Cache-Control: no-store ] (완전 저장 금지 - 금융/보안용)            |
+| 클라이언트: "이 데이터는 내 계좌 잔고구나. 하드디스크에 기록 절대 안 남길게!"|
+| 재접속 시: "서버님, 캐시에 없으니 처음부터 다시 주세요."                  |
+| 서    버: "응, 계좌 잔고 데이터 1MB 새로 다 보낼게 (200 OK)"           |
+| 🌟 결과: 매번 100% 무조건 서버까지 왕복 통신 + 풀 데이터 다운로드.        |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** `no-cache`는 캐시를 저장소에 보관(Store)하는 것 자체는 묵인한다. 단, 쓸 때마다 매번 서버 허락([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 맡으라는 조건부 허용이다. 주로 가벼운 HTML 껍데기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 실시간 업데이트가 중요하지만 다운로드 용량을 아끼고 싶은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답에 쓴다. 반면, `no-store`는 브라우저를 끄고 다른 사람이 PC를 켰을 때 잔여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유출되는 것을 막기 위해, 디스크나 메모리 캐시 풀에 단 1바이트도 흔적을 남기지 말라는 최고 보안 등급의 셧다운 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. 민감한 결제 정보나 금융 API에 실수로 `no-cache`만 걸어두면 브라우저 캐시 폴더에 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌꺼기가 평문으로 남는 참사가 벌어진다.
@@ -129,23 +129,23 @@ tags = ["studynote-network"]
    - **판단**: 실무 프론트엔드 캐시 아키텍처의 <strong>가장 완벽한 이원화 모범 답안</strong>으로 뜯어고쳐야 한다. HTML과 정적 자산을 철저히 분리 통제하는 것이 핵심이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         현대 프론트엔드(SPA) 캐시 제어 이원화 전략 (표준 아키텍처)       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │ [타겟 1: HTML 문서] (진입점이자 껍데기)                               │
-  │   index.html                                                      │
-  │   ➔ Nginx 설정: Cache-Control: no-cache, no-store, must-revalidate│
-  │   ➔ 판단: 화면 구조 변경이나 배포 시 즉각 반영되어야 하므로 절대 캐시 보관  │
-  │            또는 유효성 확인을 강제한다.                                 │
-  │                                                                   │
-  │ [타겟 2: 웹팩/Vite 빌드 정적 에셋] (내용물, JS/CSS/이미지)             │
-  │   chunk-8f2b1a.js, style-9p3x2.css                                │
-  │   ➔ Nginx 설정: Cache-Control: public, max-age=31536000, immutable│
-  │   ➔ 판단: 빌드 툴이 파일 내용의 해시(Hash)를 파일명에 박아주었다(Cache Busting).│
-  │            따라서 한 번 만들어진 이름의 파일 내용은 지구가 멸망할 때까지 안 변한다.│
-  │            최대 수명(1년)과 불변 선언(immutable)으로 극강의 성능 이득 취득!│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         현대 프론트엔드(SPA) 캐시 제어 이원화 전략 (표준 아키텍처)       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  | [타겟 1: HTML 문서] (진입점이자 껍데기)                               |
+  |   index.html                                                      |
+  |   ➔ Nginx 설정: Cache-Control: no-cache, no-store, must-revalidate|
+  |   ➔ 판단: 화면 구조 변경이나 배포 시 즉각 반영되어야 하므로 절대 캐시 보관  |
+  |            또는 유효성 확인을 강제한다.                                 |
+  |                                                                   |
+  | [타겟 2: 웹팩/Vite 빌드 정적 에셋] (내용물, JS/CSS/이미지)             |
+  |   chunk-8f2b1a.js, style-9p3x2.css                                |
+  |   ➔ Nginx 설정: Cache-Control: public, max-age=31536000, immutable|
+  |   ➔ 판단: 빌드 툴이 파일 내용의 해시(Hash)를 파일명에 박아주었다(Cache Busting).|
+  |            따라서 한 번 만들어진 이름의 파일 내용은 지구가 멸망할 때까지 안 변한다.|
+  |            최대 수명(1년)과 불변 선언(immutable)으로 극강의 성능 이득 취득!|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 브라우저는 가장 먼저 `index.html`을 달라고 요청한다. 이 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 `no-store`가 걸려있어 매번 원본 서버에서 새롭게 다운받는다(수 킬로바이트 수준으로 가벼움). 새롭게 받아온 HTML의 안쪽을 들여다보니, 어제는 `<script src="chunk-A.js">`였는데 오늘은 프론트 개발자가 배포를 해서 `<script src="chunk-B.js">`로 링크 이름이 바뀌어 있다. 브라우저는 `chunk-A`는 캐시에 있지만 `chunk-B`는 캐시에 없으므로 서버에 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 달라고 요청한다. 만약 배포가 없었다면 HTML 내의 링크가 어제와 똑같은 `chunk-A.js`일 테고, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 `max-age=1년`이 걸려있으므로 서버에 일절 물어보지도 않고 0ms 만에 하드디스크에서 꺼내온다. **이것이 네트워크 트래픽을 아끼면서 배포 즉시 화면이 갱신되도록 만드는 캐시 무효화 통제권의 마스터키다.**
@@ -199,12 +199,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: WWW 캐싱 메커니즘 / 프록시]
-    │
-    ▼
+    |
+    v
 [현재 개념: 캐시 제어 헤더]
-    │
-    ├──▶ [확장 A: ETag / Last-Modified 검증]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: ETag / Last-Modified 검증]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 캐시 제어 헤더는 WWW [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -221,7 +221,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 594 / 1120
 
-← **이전**: [472. WWW 캐싱 메커니즘 / 프록시](/knowledge-base/studynote/03_network/09_application_layer_web_email/472_www_caching_mechanism_proxy/)
-**다음**: [474. ETag / Last-Modified 검증 (304 Not Modified)](/knowledge-base/studynote/03_network/09_application_layer_web_email/474_etag_last_modified_304/) →
+<- **이전**: [472. WWW 캐싱 메커니즘 / 프록시](/knowledge-base/studynote/03_network/09_application_layer_web_email/472_www_caching_mechanism_proxy/)
+**다음**: [474. ETag / Last-Modified 검증 (304 Not Modified)](/knowledge-base/studynote/03_network/09_application_layer_web_email/474_etag_last_modified_304/) ->
 
 ---

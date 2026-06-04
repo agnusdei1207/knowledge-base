@@ -24,9 +24,9 @@ tags = ["ai"]
 이 도식은 기존의 명확한 집합과 퍼지 집합이 온도를 어떻게 다르게 해석하는지를 보여주는 개념적 대조도이다.
 ```text
 [고전 논리: 크리스프(Crisp) 집합]          [퍼지 논리: 퍼지(Fuzzy) 집합]
-소속도(1.0) ┌────┐ (덥다)                 소속도(1.0)      /\  (덥다)
-           │    │                                     /  \
-       (0) └────┴── 온도(25도)                   (0) ─/────\── 온도(25도)
+소속도(1.0) +----+ (덥다)                 소속도(1.0)      /\  (덥다)
+           |    |                                     /  \
+       (0) +----+-- 온도(25도)                   (0) -/----\-- 온도(25도)
 결과: 24.9도는 무조건 0, 25도는 무조건 1      결과: 24도는 0.8 정도 덥고, 20도는 0.3 덥다
 ```
 이 흐름의 핵심은 이산적 단절이 연속적 경사면으로 치환된다는 점이다. 고전 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘는 순간 모터가 100% 가동되지만, 퍼지 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 0.8만큼의 강도로 모터를 유연하게 가동할 수 있다. 따라서 물리적 기계 제어에 있어 에너지 효율을 극대화하고 기계적 마모를 줄이는 핵심 기반이 된다.
@@ -49,16 +49,16 @@ tags = ["ai"]
 다음은 퍼지 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 입력값을 받아 제어값을 출력하는 순차 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도이다.
 ```text
 [물리적 입력] (예: 현재 온도 28도)
-     ↓
+     v
 [ 퍼지화 (Fuzzification) ]  => 소속 함수 매핑: "더움(0.7)", "보통(0.2)"
-     ↓
+     v
 [ 퍼지 추론 (Inference) ]   => 규칙 1: IF 덥다 THEN 냉방 강하게 (MIN 연산 적용)
                             => 규칙 2: IF 보통 THEN 냉방 약하게
-     ↓
+     v
 [ 집계 (Aggregation) ]      => 여러 규칙의 출력 퍼지 집합들을 하나의 면적으로 병합 (MAX 연산)
-     ↓
+     v
 [ 역퍼지화 (Defuzzification)] => 겹쳐진 면적의 무게중심(Center of Gravity) 좌표 계산
-     ↓
+     v
 [물리적 출력] (예: 에어컨 팬 속도 1800 RPM)
 ```
 이 흐름의 핵심은 중간 과정(추론 및 집계)이 모두 면적(퍼지 집합) 단위의 연산으로 이루어지며, 최종 단계에서만 무게중심(Centroid) 공식을 통해 정밀한 물리적 수치로 변환(역퍼지화)된다는 점이다. 이 때문에 다양한 변수와 예외 상황이 하나의 넓은 면적 안에서 상쇄되고 조화롭게 결합되어, 매우 안정적인 결과값을 도출한다. 실무에서는 소속 함수의 모양(삼각형, 가우시안 등) 튜닝이 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 90%를 좌우한다.
@@ -99,14 +99,14 @@ tags = ["ai"]
 **실무 의사결정 시나리오: 자율주행 제어기 설계**
 ```text
 [제어기 아키텍처 선택]
-   ↓
+   v
 [Q1. 환경의 수학적 모델링(미분방정식)이 완벽히 가능한가?]
- ├── (Yes) -> PID 제어기 등 고전 제어 도입
- └── (No, 비선형적이고 복잡함)
-      ↓
+ +-- (Yes) -> PID 제어기 등 고전 제어 도입
+ +-- (No, 비선형적이고 복잡함)
+      v
 [Q2. 인간 전문가의 운전 노하우(규칙)를 언어적으로 표현 가능한가?]
- ├── (No) -> 심층 강화학습(Deep RL) 및 블랙박스 AI 도입
- └── (Yes) -> 퍼지 제어기 (Fuzzy Controller) 최우선 고려
+ +-- (No) -> 심층 강화학습(Deep RL) 및 블랙박스 AI 도입
+ +-- (Yes) -> 퍼지 제어기 (Fuzzy Controller) 최우선 고려
 ```
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 '블랙박스 피하기'다. 신경망(딥러닝) 모델은 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하므로 왜 브레이크를 밟았는지 설명할 수 없고 디버깅이 어렵다. 반면 퍼지 제어기는 IF-THEN 룰이 명시적으로 노출되어 있으므로 시스템 엔지니어가 규칙을 튜닝하여 안전성(Safety)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 보장하기 쉽다. 따라서 산업용 로봇이나 엘리베이터, 가전기기 등에서는 [퍼지 로직](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/)이 여전히 강력한 표준이다.
 
@@ -145,17 +145,17 @@ tags = ["ai"]
 
 ```text
 [불 논리 (Boolean Logic) — 0/1 이진]
-    │
-    ▼
+    |
+    v
 [퍼지 집합 (Fuzzy Set) — 부분 소속도]
-    │
-    ▼
+    |
+    v
 [퍼지 규칙 (Fuzzy Rule) — IF-THEN 언어 변수]
-    │
-    ▼
+    |
+    v
 [퍼지 추론 (Fuzzy Inference) — Mamdani/Sugeno]
-    │
-    ▼
+    |
+    v
 [디퍼지화 (Defuzzification) — 실수 출력]
 ```
 
@@ -173,7 +173,7 @@ tags = ["ai"]
 
 **진행 상황**: 12 / 420
 
-← **이전**: [11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)
-**다음**: [13. 상태 공간 탐색 (State Space Search)](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/) →
+<- **이전**: [11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)
+**다음**: [13. 상태 공간 탐색 (State Space Search)](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/) ->
 
 ---

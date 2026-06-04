@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
+    |
+    v
 [동적 스펙트럼 공유 기술]
-    │
-    └──▶ [주파수 집성 기술 고급 모델 연대 전방위 고…]
+    |
+    +---> [주파수 집성 기술 고급 모델 연대 전방위 고…]
 ```
 
 - **📢 섹션 요약 비유**: 동적 스펙트럼 공유 기술은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 
 ```text
 [메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
+    |
+    v
 [동적 스펙트럼 공유 기술]
-    │
-    └──▶ [주파수 집성 기술 고급 모델 연대 전방위 고…]
+    |
+    +---> [주파수 집성 기술 고급 모델 연대 전방위 고…]
 ```
 
 - **📢 섹션 요약 비유**: 동적 스펙트럼 공유 기술의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 
 ```text
 [선행 개념: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 동적 스펙트럼 공유 기술]
-    │
-    ├──▶ [확장 A: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 주파수 집성 기술 고급 모델 연대 전방위 고…]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 동적 스펙트럼 공유 기술는 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…에서 출발해 현재 메커니즘을 정교화하고, 이후 주파수 집성 기술 고급 모델 연대 전방위 고…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 
 **진행 상황**: 920 / 1120
 
-← **이전**: [798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/798_backscatter_communication_zero_energy_iot_ris/)
-**다음**: [800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/800_comp_coordinated_multi_point_cell_interference/) →
+<- **이전**: [798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/798_backscatter_communication_zero_energy_iot_ris/)
+**다음**: [800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/800_comp_coordinated_multi_point_cell_interference/) ->
 
 ---

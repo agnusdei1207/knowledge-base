@@ -36,16 +36,16 @@ SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료�
 아래 그림은 현재 시점에서 계획 가치와 실제 획득 가치의 차이로 SV를 읽는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Schedule is read as value gap at the same review date               │
-├──────────────────────────────────────────────────────────────────────┤
-│ review date t                                                       │
-│ PV: [████████████████████] 600                                      │
-│ EV: [███████████████     ] 450                                      │
-│                                                                      │
-│ SV = EV - PV = 450 - 600 = -150                                    │
-│ meaning: work worth 150 is still unfinished at date t              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Schedule is read as value gap at the same review date               |
++----------------------------------------------------------------------+
+| review date t                                                       |
+| PV: [████████████████████] 600                                      |
+| EV: [███████████████     ] 450                                      |
+|                                                                      |
+| SV = EV - PV = 450 - 600 = -150                                    |
+| meaning: work worth 150 is still unfinished at date t              |
++----------------------------------------------------------------------+
 ```
 
 | 항목 | 의미 | 해석 |
@@ -102,7 +102,7 @@ SV를 정확히 이해하려면 SPI와 ES를 함께 봐야 한다. SV가 절대 
 | 범위 재조정 | 저우선순위 산출물 조정 가능 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 합의 필요 |
 | 원인 제거 | 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 이슈, 자원 부족 해소 | 구조적 병목이면 재계획 필요 |
 
-시험형 계산 문제에서는 공식만 쓰지 말고 "SV<0 → [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 주공정 검토 → [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단"의 흐름까지 적어 주면 답안 완성도가 높다. 실무에서도 이 순서가 그대로 통한다.
+시험형 계산 문제에서는 공식만 쓰지 말고 "SV<0 -> [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 주공정 검토 -> [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단"의 흐름까지 적어 주면 답안 완성도가 높다. 실무에서도 이 순서가 그대로 통한다.
 
 - **📢 섹션 요약 비유**: SV를 본 뒤 조치하는 일은 길이 막힌 내비게이션을 보고 우회로, 추가 차선, 목적지 변경 중 하나를 고르는 과정과 같다.
 
@@ -135,21 +135,21 @@ SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수�
 
 ```text
 Planned Value (PV)
-       │
-       ├──▶ Earned Value (EV)
-       │         │
-       │         ▼
-       └──────▶ SV = EV - PV
-                   │
-                   ├──▶ SPI = EV / PV
-                   ├──▶ Earned Schedule (ES)
-                   └──▶ Critical Path Review
-                   │
-                   ▼
+       |
+       +---> Earned Value (EV)
+       |         |
+       |         v
+       +-------> SV = EV - PV
+                   |
+                   +---> SPI = EV / PV
+                   +---> Earned Schedule (ES)
+                   +---> Critical Path Review
+                   |
+                   v
 Schedule Compression / Replanning / Stakeholder Reporting
 ```
 
-이 흐름은 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 → 성과 측정 → 일정 차이 해석 → 보완 지표와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
+이 흐름은 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 성과 측정 -> 일정 차이 해석 -> 보완 지표와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
 
 ### 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ Schedule Compression / Replanning / Stakeholder Reporting
 
 **진행 상황**: 271 / 587
 
-← **이전**: [156. CV (Cost Variance) = EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)
-**다음**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) →
+<- **이전**: [156. CV (Cost Variance) = EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)
+**다음**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ->
 
 ---

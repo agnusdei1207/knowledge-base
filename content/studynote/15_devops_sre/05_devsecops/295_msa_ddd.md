@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Control Plane        │──▶│ Data Plane           │──▶│ Extension Layer      │──▶│ Governance           │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Control Plane        |--->| Data Plane           |--->| Extension Layer      |--->| Governance           |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) DDD이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Control Plane        │──▶│ Data Plane           │──▶│ Extension Layer      │──▶│ Governance           │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Control Plane        |--->| Data Plane           |--->| Extension Layer      |--->| Governance           |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Domain Boundary]
-    │
-    ▼
+    |
+    v
 [마이크로서비스 MSA 도메인 주도 설계 DDD]
-    │
-    ├──▶ [API]
-    ├──▶ [Independent Deployment]
-    └──▶ [단일 서버/단일 애플리케이션 중심 운영]
+    |
+    +---> [API]
+    +---> [Independent Deployment]
+    +---> [단일 서버/단일 애플리케이션 중심 운영]
 ```
 
 이 흐름도는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) DDD이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 295 / 373
 
-← **이전**: [294. 테라폼 상태 파일 tfstate 잠금 (Terraform State)](/knowledge-base/studynote/15_devops_sre/05_devsecops/294_tfstate/)
-**다음**: [296. 바운디드 컨텍스트 애그리게이트 루트 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/296_process/) →
+<- **이전**: [294. 테라폼 상태 파일 tfstate 잠금 (Terraform State)](/knowledge-base/studynote/15_devops_sre/05_devsecops/294_tfstate/)
+**다음**: [296. 바운디드 컨텍스트 애그리게이트 루트 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/296_process/) ->
 
 ---

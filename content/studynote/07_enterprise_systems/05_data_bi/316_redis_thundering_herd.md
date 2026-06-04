@@ -30,26 +30,26 @@ Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 �
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│            Redis 선더링 허드 발생 메커니즘과 방지 전략               │
-├──────────────────────────────────────────────────────────────────┤
-│  발생 과정:                                                        │
-│  T=0: 수만 클라이언트 → Redis 캐시 조회 (HIT)                       │
-│  T=TTL: Redis 캐시 만료                                            │
-│  T=TTL+1ms: 모든 클라이언트 → Redis MISS → DB 직접 조회 (폭발!)    │
-│                                                                  │
-│  방지 전략 1: TTL Jitter (만료 분산)                               │
-│  TTL = base_ttl + random(0, jitter)                              │
-│  같은 시간에 모든 키가 만료되지 않도록 무작위 분산                    │
-│                                                                  │
-│  방지 전략 2: Cache Lock (Mutex)                                   │
-│  캐시 MISS → SET NX (원자적 락 획득) → DB 조회 → 캐시 저장 → 락 해제│
-│  다른 클라이언트: 락 대기 중 → 캐시 완성 후 → Redis 재조회          │
-│                                                                  │
-│  방지 전략 3: Probabilistic Early Expiration                       │
-│  TTL 만료 전, 남은 시간이 임계값 이하이면 일부 요청이 미리 캐시 갱신   │
-│  → 만료 전 백그라운드 갱신으로 만료 순간 폭발 방지                    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            Redis 선더링 허드 발생 메커니즘과 방지 전략               |
++------------------------------------------------------------------+
+|  발생 과정:                                                        |
+|  T=0: 수만 클라이언트 -> Redis 캐시 조회 (HIT)                       |
+|  T=TTL: Redis 캐시 만료                                            |
+|  T=TTL+1ms: 모든 클라이언트 -> Redis MISS -> DB 직접 조회 (폭발!)    |
+|                                                                  |
+|  방지 전략 1: TTL Jitter (만료 분산)                               |
+|  TTL = base_ttl + random(0, jitter)                              |
+|  같은 시간에 모든 키가 만료되지 않도록 무작위 분산                    |
+|                                                                  |
+|  방지 전략 2: Cache Lock (Mutex)                                   |
+|  캐시 MISS -> SET NX (원자적 락 획득) -> DB 조회 -> 캐시 저장 -> 락 해제|
+|  다른 클라이언트: 락 대기 중 -> 캐시 완성 후 -> Redis 재조회          |
+|                                                                  |
+|  방지 전략 3: Probabilistic Early Expiration                       |
+|  TTL 만료 전, 남은 시간이 임계값 이하이면 일부 요청이 미리 캐시 갱신   |
+|  -> 만료 전 백그라운드 갱신으로 만료 순간 폭발 방지                    |
++------------------------------------------------------------------+
 ```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                          | 원리                         | 장단점                          |
@@ -67,8 +67,8 @@ Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 �
 
 **캐시 장애 유형 비교**:
 - [Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) (선더링 허드): 동시 만료로 DB 폭발
-- Cache Avalanche (캐시 사태): 다수 캐시 키가 동시에 만료 → 대규모 DB 부하
-- Cache [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) (캐시 침투): 존재하지 않는 키를 계속 조회 → DB 반복 조회
+- Cache Avalanche (캐시 사태): 다수 캐시 키가 동시에 만료 -> 대규모 DB 부하
+- Cache [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) (캐시 침투): 존재하지 않는 키를 계속 조회 -> DB 반복 조회
 
 | 장애 유형          | 원인                          | 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                         |
 |:----------------|:-----------------------------|:---------------------------------|
@@ -98,13 +98,13 @@ def get_data(key):
         redis.delete(f"lock:{key}")
         return value
     else:
-        # 다른 요청이 락 보유 중 → 짧게 대기 후 재시도
+        # 다른 요청이 락 보유 중 -> 짧게 대기 후 재시도
         time.sleep(0.05)
         return redis.get(key)
 ```
 
 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 클러스터 설계 시 주의</strong>:
-- Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Problem: 단일 키에 트래픽 집중 → [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 키 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 로컬 캐시 ([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) 병행
+- Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Problem: 단일 키에 트래픽 집중 -> [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 키 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 로컬 캐시 ([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) 병행
 - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sentinel vs Cluster: 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 HA (Sentinel), 수평 확장 (Cluster)
 - Eviction [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택: `allkeys-lru`, `volatile-lru` 등 메모리 용량 초과 시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -135,18 +135,18 @@ def get_data(key):
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```
-DB 직접 조회 병목 → Redis 캐시 도입
-    │
-    ▼
-TTL 만료 동시 발생 → Cache Stampede 장애
-    │
-    ▼
+DB 직접 조회 병목 -> Redis 캐시 도입
+    |
+    v
+TTL 만료 동시 발생 -> Cache Stampede 장애
+    |
+    v
 TTL Jitter / Cache Lock / Early Expiration 도입
-    │
-    ▼
+    |
+    v
 Redis Cluster + Replica + 로컬 L1 캐시 계층화
-    │
-    ▼
+    |
+    v
 분산 캐시 관리 자동화 (Cache Warming, Proactive Refresh)
 ```
 
@@ -162,7 +162,7 @@ Redis Cluster + Replica + 로컬 L1 캐시 계층화
 
 **진행 상황**: 316 / 482
 
-← **이전**: [315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/315_nosql_base_cap_theorem/)
-**다음**: [317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/317_tde_vs_application_encryption/) →
+<- **이전**: [315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/315_nosql_base_cap_theorem/)
+**다음**: [317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/317_tde_vs_application_encryption/) ->
 
 ---

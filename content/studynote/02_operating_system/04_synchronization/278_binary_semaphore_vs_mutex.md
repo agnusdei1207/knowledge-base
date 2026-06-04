@@ -51,25 +51,25 @@ tags = ["studynote-operating-system"]
 * 즉, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 자물쇠가 아니라 "나 끝났어! 너 시작해!"를 알려주는 <strong>알람 벨(Signaling) 도구</strong>다. 소유자가 누군지 OS는 관심도 없으므로, 버그가 난 코드([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) C)가 맘대로 `V()`를 계속 호출해 버리면 시스템의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 완벽히 무너진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           뮤텍스와 이진 세마포어의 소유권 제어 비교 시각화                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│ 🛡️ [ 뮤텍스 (Mutex) : 화장실 자물쇠 모드 ]                                 │
-│   [스레드 A] ───(Lock 잠금)───▶ 화장실 사용 중 (A가 소유자)                │
-│                                                                            │
-│   [스레드 B] ───(Unlock 풀기 시도!)──▶ ❌ [ OS: "너 A 아니잖아! 에러!" ]   │
-│   [스레드 A] ───(Unlock 풀기)───▶ ⭕ 화장실 문 열림. 정상.                 │
-│                                                                            │
-│                                                                            │
-│ 🚦 [ 이진 세마포어 (Binary Semaphore) : 릴레이 바통 모드 ]                 │
-│   [스레드 A (화면그리기)] ──(P 감소)──▶ "사진 다운로드 될때까지 잔다 Zzz"  │
-│                                                                            │
-│   [스레드 B (다운로드팀)] ──(V 증가)──▶ "나 일 끝났어! 락 풀어줄게 🔔"     │
-│   [스레드 A (화면그리기)] ◀──(깨어남)── "오! 풀렸네. 이제 화면 그려야지!"  │
-│                                                                            │
-│   * 결론: 세마포어는 A가 잠그고 B가 풀 수 있다! 소유권이 아예 없다!        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           뮤텍스와 이진 세마포어의 소유권 제어 비교 시각화                 |
++----------------------------------------------------------------------------+
+|                                                                            |
+| 🛡️ [ 뮤텍스 (Mutex) : 화장실 자물쇠 모드 ]                                 |
+|   [스레드 A] ---(Lock 잠금)----> 화장실 사용 중 (A가 소유자)                |
+|                                                                            |
+|   [스레드 B] ---(Unlock 풀기 시도!)---> ❌ [ OS: "너 A 아니잖아! 에러!" ]   |
+|   [스레드 A] ---(Unlock 풀기)----> ⭕ 화장실 문 열림. 정상.                 |
+|                                                                            |
+|                                                                            |
+| 🚦 [ 이진 세마포어 (Binary Semaphore) : 릴레이 바통 모드 ]                 |
+|   [스레드 A (화면그리기)] --(P 감소)---> "사진 다운로드 될때까지 잔다 Zzz"  |
+|                                                                            |
+|   [스레드 B (다운로드팀)] --(V 증가)---> "나 일 끝났어! 락 풀어줄게 🔔"     |
+|   [스레드 A (화면그리기)] <---(깨어남)-- "오! 풀렸네. 이제 화면 그려야지!"  |
+|                                                                            |
+|   * 결론: 세마포어는 A가 잠그고 B가 풀 수 있다! 소유권이 아예 없다!        |
++----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 차이는 개발자에게 엄청난 자유도와 동시에 책임을 부여한다. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 은행 계좌)가 동시에 수정되는 것을 막아야 할 때는 무조건 <strong>뮤텍스</strong>를 써야 한다. 반면, 음악 재생 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 네트워크 다운로드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 "기다려야(Wait)" 할 때는 자물쇠가 필요한 게 아니라 알람이 필요한 것이므로 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a></strong>를 써야 한다.
@@ -120,12 +120,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [세마포어를 이용한 순서 제어 (Ordering)]
-    │
-    ▼
+    |
+    v
 [이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)]
-    │
-    ├──▶ [재진입 가능 락 (Reentrant Lock / Recursive Lock)]
-    └──▶ [읽기-쓰기 락 (Read-Write Lock)]
+    |
+    +---> [재진입 가능 락 (Reentrant Lock / Recursive Lock)]
+    +---> [읽기-쓰기 락 (Read-Write Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -142,7 +142,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 278 / 800
 
-← **이전**: [277. 세마포어를 이용한 순서 제어 (Ordering)](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)
-**다음**: [279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) →
+<- **이전**: [277. 세마포어를 이용한 순서 제어 (Ordering)](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)
+**다음**: [279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) ->
 
 ---

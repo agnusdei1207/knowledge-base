@@ -21,18 +21,18 @@ tags = ["studynote-cloud-architecture"]
 전통적 스토리지는 하드웨어+소프트웨어가 단일 어플라이언스로 통합되어, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), 고비용, 수직적 확장([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 한계를 가졌다.
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│         SDS 핵심 아키텍처                                   │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  [앱 계층]    K8s PVC / NFS / S3 API / Block API          │
-│       │                                                   │
-│  [SDS 계층]   Ceph / GlusterFS / vSAN / Longhorn          │
-│       │       (데이터 배치, 복제, 복구, 티어링)             │
-│       │                                                   │
-│  [물리 계층]   x86 서버 + HDD / SSD / NVMe                 │
-│               (이기종 하드웨어 추상화)                      │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|         SDS 핵심 아키텍처                                   |
++-----------------------------------------------------------+
+|                                                           |
+|  [앱 계층]    K8s PVC / NFS / S3 API / Block API          |
+|       |                                                   |
+|  [SDS 계층]   Ceph / GlusterFS / vSAN / Longhorn          |
+|       |       (데이터 배치, 복제, 복구, 티어링)             |
+|       |                                                   |
+|  [물리 계층]   x86 서버 + HDD / SSD / NVMe                 |
+|               (이기종 하드웨어 추상화)                      |
++-----------------------------------------------------------+
 ```
 
 SDS의 3가지 스토리지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/):
@@ -49,21 +49,21 @@ SDS의 3가지 스토리지 [서비스](/knowledge-base/studynote/13_cloud_archi
 ### Ceph — [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) 레퍼런스 아키텍처
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                  Ceph 아키텍처                               │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [클라이언트]                                               │
-│  librados / S3 API / RBD / CephFS                         │
-│       │                                                    │
-│  [RADOS (Reliable Autonomic Distributed Object Store)]    │
-│  MON (모니터) - 클러스터 상태 관리                          │
-│  OSD (Object Storage Daemon) - 실제 데이터 저장·복제        │
-│  MGR (Manager) - 메트릭, 대시보드                           │
-│  MDS (Metadata Server) - CephFS 파일 메타데이터             │
-│       │                                                    │
-│  [CRUSH 알고리즘] - 데이터 배치 결정 (중앙 조회 없이)        │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                  Ceph 아키텍처                               |
++------------------------------------------------------------+
+|                                                            |
+|  [클라이언트]                                               |
+|  librados / S3 API / RBD / CephFS                         |
+|       |                                                    |
+|  [RADOS (Reliable Autonomic Distributed Object Store)]    |
+|  MON (모니터) - 클러스터 상태 관리                          |
+|  OSD (Object Storage Daemon) - 실제 데이터 저장·복제        |
+|  MGR (Manager) - 메트릭, 대시보드                           |
+|  MDS (Metadata Server) - CephFS 파일 메타데이터             |
+|       |                                                    |
+|  [CRUSH 알고리즘] - 데이터 배치 결정 (중앙 조회 없이)        |
++------------------------------------------------------------+
 ```
 
 ### K8s [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 기반 동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)
@@ -112,10 +112,10 @@ spec:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 공공 클라우드 [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) 구축 (Ceph + OpenStack)
-1. 상용 스토리지 어플라이언스(EMC) 교체 → x86 서버 30대 + Ceph 구축.
-2. 비용: 어플라이언스 3억 → x86+Ceph 8,000만원 (73% 절감).
+1. 상용 스토리지 어플라이언스(EMC) 교체 -> x86 서버 30대 + Ceph 구축.
+2. 비용: 어플라이언스 3억 -> x86+Ceph 8,000만원 (73% 절감).
 3. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/): IOPS 30% 향상 ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) OSD 노드 활용).
-4. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/): 3-way [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) + Ceph 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 노드 장애 시 5분 내 자동 재균형.
+4. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/): 3-way [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) + Ceph 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 노드 장애 시 5분 내 자동 재균형.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 단순 비용 절감만 보고 SDS를 도입했으나 운영 전문성 부족으로 장애 대응 실패. SDS는 소프트웨어 복잡성(CRUSH [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이해, OSD 튜닝, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 정족수 관리)이 높아, 전문 교육 없이 도입하면 전통 어플라이언스보다 운영 비용이 더 높아진다.
@@ -152,17 +152,17 @@ SDS는 [Hyperconverged Infrastructure](/knowledge-base/studynote/13_cloud_archit
 
 ```text
 [전통 SAN/NAS — 전용 어플라이언스, 벤더 종속]
-    │
-    ▼
+    |
+    v
 [SDS (Ceph/GlusterFS) — 상용 HW + 소프트웨어 분리]
-    │
-    ▼
+    |
+    v
 [K8s CSI 통합 — 컨테이너 네이티브 동적 프로비저닝]
-    │
-    ▼
+    |
+    v
 [HCI (Nutanix/vSAN) — 컴퓨팅+스토리지+네트워크 통합]
-    │
-    ▼
+    |
+    v
 [AI 기반 스토리지 자동화 — 데이터 티어링, 이상 탐지]
 ```
 
@@ -178,7 +178,7 @@ SDS는 [Hyperconverged Infrastructure](/knowledge-base/studynote/13_cloud_archit
 
 **진행 상황**: 24 / 371
 
-← **이전**: [24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/024_sdn_software_defined_networking/)
-**다음**: [26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/026_hci/) →
+<- **이전**: [24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/024_sdn_software_defined_networking/)
+**다음**: [26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/026_hci/) ->
 
 ---

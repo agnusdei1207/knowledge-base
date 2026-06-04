@@ -43,7 +43,7 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 | 구성 요소 | 역할 | 대표 선택지 |
 | :--- | :--- | :--- |
 | 탐색 공간 | 실험 가능한 하이퍼파라미터 범위 정의 | 연속형, 이산형, 조건부 파라미터 |
-| 대리 모델 | `x → 성능 분포`를 근사 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), Tree-structured Parzen Estimator (TPE) |
+| 대리 모델 | `x -> 성능 분포`를 근사 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), Tree-structured Parzen Estimator (TPE) |
 | 획득 함수 | 탐색과 활용의 균형으로 다음 후보 결정 | Expected Improvement, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound |
 | 평가기 | 실제 모델 학습 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수 산출 | 교차검증, 홀드아웃, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) |
 | 실험 저장소 | 결과·시드·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 기록 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), Optuna Storage |
@@ -51,31 +51,31 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 아래 그림은 베이지안 HPO의 반복 루프를 보여준다.
 
 ```text
-┌────────────────┐
-│ Search Space   │
-│ lr, depth, reg │
-└───────┬────────┘
-        │ 초기 랜덤 샘플
-        ▼
-┌────────────────┐      결과 저장      ┌────────────────────┐
-│ Train / Validate│──────────────────▶ │ Trial History      │
-│ expensive run   │                    │ x, score, runtime  │
-└───────┬────────┘                    └─────────┬──────────┘
-        │                                       │
-        │ 실제 점수                              ▼
-        │                              ┌────────────────────┐
-        │                              │ Surrogate Model    │
-        │                              │ Gaussian Process / │
-        │                              │ TPE posterior      │
-        │                              └─────────┬──────────┘
-        │                                        │
-        │                                        ▼
-        │                              ┌────────────────────┐
-        └───────────────────────────── │ Acquisition Func.  │
-                                       │ EI / UCB           │
-                                       └─────────┬──────────┘
-                                                 │ 다음 후보 x*
-                                                 └──────────────▶ 반복
++----------------+
+| Search Space   |
+| lr, depth, reg |
++-------+--------+
+        | 초기 랜덤 샘플
+        v
++----------------+      결과 저장      +--------------------+
+| Train / Validate|-------------------> | Trial History      |
+| expensive run   |                    | x, score, runtime  |
++-------+--------+                    +---------+----------+
+        |                                       |
+        | 실제 점수                              v
+        |                              +--------------------+
+        |                              | Surrogate Model    |
+        |                              | Gaussian Process / |
+        |                              | TPE posterior      |
+        |                              +---------+----------+
+        |                                        |
+        |                                        v
+        |                              +--------------------+
+        +----------------------------- | Acquisition Func.  |
+                                       | EI / UCB           |
+                                       +---------+----------+
+                                                 | 다음 후보 x*
+                                                 +---------------> 반복
 ```
 
 이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
@@ -165,20 +165,20 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/s
 
 ```text
 수동 튜닝 · Grid Search
-    │
-    ▼
+    |
+    v
 Random Search 기반 기준선 확보
-    │
-    ▼
+    |
+    v
 Bayesian Optimization
-    │
-    ├─▶ GP / TPE 대리 모델
-    └─▶ EI / UCB 획득 함수
-    │
-    ▼
+    |
+    +--> GP / TPE 대리 모델
+    +--> EI / UCB 획득 함수
+    |
+    v
 Hyperband · ASHA 결합
-    │
-    ▼
+    |
+    v
 BOHB · 다목적 AutoML · 메타러닝 Warm Start
 ```
 
@@ -196,7 +196,7 @@ BOHB · 다목적 AutoML · 메타러닝 Warm Start
 
 **진행 상황**: 176 / 258
 
-← **이전**: [175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러](/knowledge-base/studynote/14_data_engineering/04_mlops/175_rlhf_ranking_reward_model_human_labeler/)
-**다음**: [177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션](/knowledge-base/studynote/14_data_engineering/04_mlops/177_delta_lakehouse_time_travel_transaction/) →
+<- **이전**: [175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러](/knowledge-base/studynote/14_data_engineering/04_mlops/175_rlhf_ranking_reward_model_human_labeler/)
+**다음**: [177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션](/knowledge-base/studynote/14_data_engineering/04_mlops/177_delta_lakehouse_time_travel_transaction/) ->
 
 ---

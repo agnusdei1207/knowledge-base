@@ -42,20 +42,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 idle을 감지한 뒤, 코어가 깊이에 따라 다른 절전 조치를 선택하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 반응해 깨어나는 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 코어 C-State의 진입과 복귀 흐름                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Scheduler가 idle 감지                                                │
-│        │                                                             │
-│        ▼                                                             │
-│   HLT / MWAIT 실행 ─▶ 상태 선택(C1 / C3 / C6)                        │
-│        │                          │                                  │
-│        │                          ├─ 얕음: 클럭 정지                 │
-│        │                          ├─ 중간: 캐시/로직 추가 정지       │
-│        │                          └─ 깊음: 상태 저장 후 전원 차단    │
-│        │                                                             │
-│        └──────────────────── 인터럽트 / 타이머 ─────────────────▶ C0 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 코어 C-State의 진입과 복귀 흐름                     |
++----------------------------------------------------------------------+
+| Scheduler가 idle 감지                                                |
+|        |                                                             |
+|        v                                                             |
+|   HLT / MWAIT 실행 --> 상태 선택(C1 / C3 / C6)                        |
+|        |                          |                                  |
+|        |                          +- 얕음: 클럭 정지                 |
+|        |                          +- 중간: 캐시/로직 추가 정지       |
+|        |                          +- 깊음: 상태 저장 후 전원 차단    |
+|        |                                                             |
+|        +-------------------- 인터럽트 / 타이머 ------------------> C0 |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 요점은 코어 C-State가 단순한 on/off가 아니라, 예상 대기 시간에 맞춰 깊이를 고르는 계단형 절전 체계라는 점이다.
@@ -128,17 +128,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Idle loop 낭비 인식
-    │
-    ▼
+    |
+    v
 HLT / MWAIT 기반 코어 정지
-    │
-    ▼
+    |
+    v
 깊은 코어 C-State와 Power Gating
-    │
-    ▼
+    |
+    v
 Core Parking · Tickless Idle 최적화
-    │
-    ▼
+    |
+    v
 패키지 C-State · 터보 여유 연계
 ```
 
@@ -156,7 +156,7 @@ Core Parking · Tickless Idle 최적화
 
 **진행 상황**: 723 / 803
 
-← **이전**: [721. 패키지 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/721_package_c_states/)
-**다음**: [723. P-States (Performance States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/) →
+<- **이전**: [721. 패키지 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/721_package_c_states/)
+**다음**: [723. P-States (Performance States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/) ->
 
 ---

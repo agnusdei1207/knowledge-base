@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 > **핵심 인사이트**
 > 1. 전 세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상이 비정형(Unstructured) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 기업이 실제로 분석에 활용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 20% 이하의 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에 불과하다 — 이 "80/20 역설"이 빅데이터 분석의 핵심 도전이자 기회다.
-> 2. [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Structured) → [반정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)(Semi-structured) → [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Unstructured)의 스펙트럼에서, 기업 정보화의 성숙도는 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 얼마나 활용 가능한 형태로 전환하느냐로 측정된다.
+> 2. [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Structured) -> [반정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)(Semi-structured) -> [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Unstructured)의 스펙트럼에서, 기업 정보화의 성숙도는 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 얼마나 활용 가능한 형태로 전환하느냐로 측정된다.
 > 3. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용의 폭발적 성장은 NLP(자연어 처리)·컴퓨터 비전·[멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 발전과 직결되며, 2025년 IDC 전망에 따르면 전 세계 연간 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 93%가 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)가 된다.
 
 ---
@@ -110,7 +110,7 @@ tags = ["studynote-bigdata"]
 
 ---
 
-## Ⅳ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) → 정형화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+## Ⅳ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) -> 정형화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
 비정형 데이터 정형화 프로세스:
@@ -161,7 +161,7 @@ tags = ["studynote-bigdata"]
 활용 사례:
 
 1. 고객 상담 메모 분석:
-   콜센터 상담 내용 -> STT(음성→텍스트)
+   콜센터 상담 내용 -> STT(음성->텍스트)
    NLP 감성 분석 -> 이탈 위험 고객 식별
    -> 선제적 고객 유지 캠페인
 
@@ -256,7 +256,7 @@ RAG, 기업 LLM 도입 붐
 
 **진행 상황**: 252 / 262
 
-← **이전**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/knowledge-base/studynote/16_bigdata/13_intro_trends/251_data_anonymization/)
-**다음**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/) →
+<- **이전**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/knowledge-base/studynote/16_bigdata/13_intro_trends/251_data_anonymization/)
+**다음**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/) ->
 
 ---

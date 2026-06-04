@@ -35,18 +35,18 @@ T = (x̄ - μ) / (s/√n)   ~ t(n-1)
 
 ```
 등분산 가정 시: SE_pooled = s_p · √(1/n₁ + 1/n₂)
-s_p² = [(n₁-1)s₁² + (n₂-1)s₂²] / (n₁+n₂-2)   (합동 분산, Pooled Variance)
+s_p^ = [(n₁-1)s₁^ + (n₂-1)s₂^] / (n₁+n₂-2)   (합동 분산, Pooled Variance)
 df = n₁ + n₂ - 2
 
 등분산 불가정 시 (Welch's t-Test):
-df ≈ (s₁²/n₁ + s₂²/n₂)² / [...]   (Welch-Satterthwaite)
+df ≈ (s₁^/n₁ + s₂^/n₂)^ / [...]   (Welch-Satterthwaite)
 ```
 
 <strong>대응 표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Paired <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - 동일 대상을 두 번 측정 (사전-사후, 왼쪽-오른쪽)
 - d_i = x_{i,before} - x_{i,after}로 변환 후 단일 표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
 - T = d̄ / (s_d/√n), df = n-1
-- **짝 지어진 데이터의 개체 간 변동을 제거** → 더 강력한 검정
+- **짝 지어진 데이터의 개체 간 변동을 제거** -> 더 강력한 검정
 
 📢 **섹션 요약 비유**: [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)의 세 유형은 "비교의 단위"에 따라 구분된다. 단일 표본은 "우리 반 vs 전국 평균", 독립 이표본은 "A반 vs B반", 대응 표본은 "수업 전 vs 수업 후 같은 학생들" — 누구를 비교하느냐가 다르다.
 
@@ -57,13 +57,13 @@ df ≈ (s₁²/n₁ + s₂²/n₂)² / [...]   (Welch-Satterthwaite)
 **F-검정 (F-Test)**: 두 집단의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교
 
 ```
-F = s₁² / s₂²   ~   F(n₁-1, n₂-1)
+F = s₁^ / s₂^   ~   F(n₁-1, n₂-1)
 
-H₀: σ₁² = σ₂²   (두 집단의 모분산이 같다)
+H₀: σ₁^ = σ₂^   (두 집단의 모분산이 같다)
 ```
 
 **F-분포 (F-Distribution)**:
-- 두 카이제곱 분포의 비율: F = (χ₁²/df₁) / (χ₂²/df₂)
+- 두 카이제곱 분포의 비율: F = (χ₁^/df₁) / (χ₂^/df₂)
 - 비대칭, 오른쪽 꼬리 (항상 > 0)
 - F(df₁, df₂) ≠ F(df₂, df₁) — 분자·분모 순서 중요
 
@@ -92,10 +92,10 @@ H₀: σ₁² = σ₂²   (두 집단의 모분산이 같다)
 
 ```
 SS_Total = SS_Between + SS_Within
-  ↑총 변동      ↑집단 간       ↑집단 내(오차)
+  ^총 변동      ^집단 간       ^집단 내(오차)
 
-SS_Between = Σ_k n_k (x̄_k - x̄)²   (집단 간 제곱합)
-SS_Within  = Σ_k Σᵢ (x_ki - x̄_k)² (집단 내 제곱합)
+SS_Between = Σ_k n_k (x̄_k - x̄)^   (집단 간 제곱합)
+SS_Within  = Σ_k Σᵢ (x_ki - x̄_k)^ (집단 내 제곱합)
 ```
 
 <strong>F-통계량 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
@@ -118,17 +118,17 @@ F = MS_Between / MS_Within
 
 ```
    성적
-    ▲
- 100│     ┌──────┐
-  90│     │  B   │  ┌──────┐
-  80│ ┌───┤      ├──┤  C   │
-  70│ │ A │      │  │      │
-  60│ └───┘      └──┘      └
-    └────────────────────────▶ 그룹
+    ^
+ 100|     +------+
+  90|     |  B   |  +------+
+  80| +---+      +--+  C   |
+  70| | A |      |  |      |
+  60| +---+      +--+      +
+    +-------------------------> 그룹
          A         B        C
 
   F = 집단 간 차이 / 집단 내 흩어짐
-      크면 → H₀ 기각 (집단 평균 다름)
+      크면 -> H₀ 기각 (집단 평균 다름)
 ```
 
 📢 **섹션 요약 비유**: ANOVA의 F-통계량은 "방송 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))"와 같다. 집단 간 차이([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 집단 내 변동(잡음)보다 충분히 크면, "이 차이는 의미 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다"라고 결론 내린다.
@@ -137,7 +137,7 @@ F = MS_Between / MS_Within
 
 ## Ⅳ. 사후 검정 (Post-Hoc Test)
 
-ANOVA에서 H₀ 기각 → "어느 집단 간에 차이가 있는가?" → 사후 검정 필요
+ANOVA에서 H₀ 기각 -> "어느 집단 간에 차이가 있는가?" -> 사후 검정 필요
 
 **터키 HSD (Tukey HSD, Honestly Significant Difference)**:
 - 모든 가능한 쌍(pair) 비교
@@ -206,17 +206,17 @@ SS_Total = SS_A + SS_B + SS_A×B + SS_Error
 
 ```text
 [z-검정 (Z-Test) — 모분산 알고 있을 때 평균 비교]
-    │
-    ▼
+    |
+    v
 [t-검정 (t-Test) — 모분산 미지, 1·2 표본 평균 비교]
-    │
-    ▼
+    |
+    v
 [F-검정 (F-Test) — 두 집단 분산 비교, ANOVA의 기반]
-    │
-    ▼
+    |
+    v
 [ANOVA (분산 분석) — 3개 이상 집단 평균 동시 비교]
-    │
-    ▼
+    |
+    v
 [사후 검정 (Post-hoc) — 어느 집단 쌍이 다른지 Tukey·Scheffe로 판별]
 ```
 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 출발한 [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 체계는 F-검정과 ANOVA로 다집단 비교로 확장되고, 사후 검정으로 구체적 차이를 밝혀낸다.
@@ -233,7 +233,7 @@ ANOVA는 "세 식당의 만족도가 정말 다른가?"처럼 3개 이상을 한
 
 **진행 상황**: 148 / 175
 
-← **이전**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/)
-**다음**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) →
+<- **이전**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/)
+**다음**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) ->
 
 ---

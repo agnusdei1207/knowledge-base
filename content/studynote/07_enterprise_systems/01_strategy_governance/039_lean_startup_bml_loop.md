@@ -243,7 +243,7 @@ LLM 기반 인사이트 생성
 
 **진행 상황**: 39 / 482
 
-← **이전**: [038. 양손잡이 조직 II — IT 전략 적용](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
-**다음**: [040. MVP (Minimum Viable Product) — 최소 기능 제품](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/040_mvp_and_pivot_lean/) →
+<- **이전**: [038. 양손잡이 조직 II — IT 전략 적용](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
+**다음**: [040. MVP (Minimum Viable Product) — 최소 기능 제품](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/040_mvp_and_pivot_lean/) ->
 
 ---

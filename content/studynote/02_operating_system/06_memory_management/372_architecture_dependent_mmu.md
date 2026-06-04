@@ -28,26 +28,26 @@ tags = ["studynote-operating-system"]
   3. **리눅스의 대통합 (Common Memory Model)**: 이 두 양극단의 하드웨어 위에서 모두 똑같이 동작하는 리눅스를 만들기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 하드웨어를 직접 만지는 코드를 `arch/x86`, `arch/arm` 같은 특정 폴더에 가둬버리고, 윗단의 공통 로직만으로 시스템이 굴러가게 만드는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 발명했다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        리눅스 커널의 MMU 하드웨어 추상화(Abstraction) 아키텍처         │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상위: 공통 메모리 관리부 (모든 CPU 공통) - 아키텍처 독립적 ]         │
-│  - "나 프로세스 A인데, 페이지 테이블에 R/W 락 좀 걸어줘!"              │
-│  - 리눅스의 4단계 가상 페이징 모델 (PGD->PUD->PMD->PTE)                │
-│                                                                        │
-│           ↓↓↓ (어댑터 인터페이스 함수 호출: pte_mkdirty() 등) ↓↓↓      │
-│                                                                        │
-│ [ 하위: 아키텍처 종속부 (Architecture Dependent Code) ]                │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌──────────────┐              │
-│  │ arch/x86 (인텔)  │ │ arch/arm (애플) │ │ arch/mips    │             │
-│  │ - CR3 레지스터 씀 │ │ - TTBR0 레지스터 씀│ │ - SW TLB 제어 │        │
-│  │ - HW 페이지 워커  │ │ - HW 페이지 워커  │ │ - 2단계 트리  │         │
-│  │ - GDT 무력화 꼼수 │ │                 │ │              │            │
-│  └─────────────────┘ └─────────────────┘ └──────────────┘              │
-│                                                                        │
-│ [ 실제 하드웨어 (CPU 칩셋 내부 MMU 트랜지스터 로직) ]                  │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        리눅스 커널의 MMU 하드웨어 추상화(Abstraction) 아키텍처         |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상위: 공통 메모리 관리부 (모든 CPU 공통) - 아키텍처 독립적 ]         |
+|  - "나 프로세스 A인데, 페이지 테이블에 R/W 락 좀 걸어줘!"              |
+|  - 리눅스의 4단계 가상 페이징 모델 (PGD->PUD->PMD->PTE)                |
+|                                                                        |
+|           vvv (어댑터 인터페이스 함수 호출: pte_mkdirty() 등) vvv      |
+|                                                                        |
+| [ 하위: 아키텍처 종속부 (Architecture Dependent Code) ]                |
+|  +-----------------+ +-----------------+ +--------------+              |
+|  | arch/x86 (인텔)  | | arch/arm (애플) | | arch/mips    |             |
+|  | - CR3 레지스터 씀 | | - TTBR0 레지스터 씀| | - SW TLB 제어 |        |
+|  | - HW 페이지 워커  | | - HW 페이지 워커  | | - 2단계 트리  |         |
+|  | - GDT 무력화 꼼수 | |                 | |              |            |
+|  +-----------------+ +-----------------+ +--------------+              |
+|                                                                        |
+| [ 실제 하드웨어 (CPU 칩셋 내부 MMU 트랜지스터 로직) ]                  |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 바로 전 세계 수만 개의 이기종 컴퓨터에서 리눅스가 동일하게 돌아갈 수 있는 마법의 뼈대다. 상위 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자는 밑바닥에 인텔이 꽂혀있는지 ARM이 꽂혀있는지 전혀 신경 쓰지 않고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 가상 4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 함수만 쓴다. 번역 명령이 떨어지면, 하단부의 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 코드(Arch [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 각 CPU 벤더가 요구하는 더러운 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작(CR3, TTBR 등)을 대신 묵묵히 수행해 준다.
 
@@ -95,13 +95,13 @@ tags = ["studynote-operating-system"]
 - 그 뒤로는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)만 쓰게 되므로, 상위 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직은 인텔이든 ARM이든 완벽히 동일한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 코드만 돌리게 되는 예술적 통합을 이뤄냈다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 아키텍처   │ 시작 레지스터 │ 세그멘테이션 강제│ TLB Miss 주체  │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ Intel x86│ CR3 레지스터 │ 💀 강제 (우회함)│ HW 워커 (기계)     │
-│ ARM      │ TTBR0 / 1 │ 없음 (순수 페이징)│ HW 워커 (기계)      │
-│ MIPS     │ Context Reg│ 없음        │ SW 트랩 (OS 코드)        │
-└──────────┴────────────┴────────────┴───────────────────────────┘
++----------+------------+------------+---------------------------+
+| 아키텍처   | 시작 레지스터 | 세그멘테이션 강제| TLB Miss 주체  |
++----------+------------+------------+---------------------------+
+| Intel x86| CR3 레지스터 | 💀 강제 (우회함)| HW 워커 (기계)     |
+| ARM      | TTBR0 / 1 | 없음 (순수 페이징)| HW 워커 (기계)      |
+| MIPS     | Context Reg| 없음        | SW 트랩 (OS 코드)        |
++----------+------------+------------+---------------------------+
 ```
 **[매트릭스 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개발자가 가장 욕을 많이 하는 파트가 하드웨어 아키텍처 의존부다. 인텔의 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하나 바꾸는 어셈블리어를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 C 소스코드 안에 `#ifdef CONFIG_X86` 지시어를 무수히 달아놓고 각기 다른 어셈블리 덩어리를 끼워 넣어야 하기 때문이다. 이 진흙탕 싸움을 뚫어낸 것이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Linux)의 위대함이다.
 
@@ -160,12 +160,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [거대 페이지 (Huge Pages / Transparent Huge Pages)]
-    │
-    ▼
+    |
+    v
 [아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)]
-    │
-    ├──▶ [ARM / x86의 메모리 매핑 아키텍처 차이]
-    └──▶ [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
+    |
+    +---> [ARM / x86의 메모리 매핑 아키텍처 차이]
+    +---> [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -182,7 +182,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 372 / 800
 
-← **이전**: [371. 거대 페이지 (Huge Pages / Transparent Huge Pages) - TLB 미스 감소](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)
-**다음**: [373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)](/knowledge-base/studynote/02_operating_system/06_memory_management/373_arm_x86_memory_mapping/) →
+<- **이전**: [371. 거대 페이지 (Huge Pages / Transparent Huge Pages) - TLB 미스 감소](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)
+**다음**: [373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)](/knowledge-base/studynote/02_operating_system/06_memory_management/373_arm_x86_memory_mapping/) ->
 
 ---

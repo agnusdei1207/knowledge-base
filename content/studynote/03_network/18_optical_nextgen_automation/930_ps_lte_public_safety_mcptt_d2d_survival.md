@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [지중 통신]
-    │
-    ▼
+    |
+    v
 [재난 통신망]
-    │
-    └──▶ [EMP]
+    |
+    +---> [EMP]
 ```
 
 - **📢 섹션 요약 비유**: 재난 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [지중 통신]
-    │
-    ▼
+    |
+    v
 [재난 통신망]
-    │
-    └──▶ [EMP]
+    |
+    +---> [EMP]
 ```
 
 - **📢 섹션 요약 비유**: 재난 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 지중 통신]
-    │
-    ▼
+    |
+    v
 [현재 개념: 재난 통신망]
-    │
-    ├──▶ [확장 A: EMP]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: EMP]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 재난 통신망는 [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)에서 출발해 현재 메커니즘을 정교화하고, 이후 EMP와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1051 / 1120
 
-← **이전**: [929. 지중 통신 (자기유도통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)
-**다음**: [931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/931_emp_shielding/) →
+<- **이전**: [929. 지중 통신 (자기유도통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)
+**다음**: [931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/931_emp_shielding/) ->
 
 ---

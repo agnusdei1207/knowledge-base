@@ -28,11 +28,11 @@ PBFT(Practical Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operatin
 PBFT 도입으로 인한 상태 비가역성([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 확보 구조를 보여주는 도식입니다.
 ```text
 [ 전통적 PoW 체인 (비트코인) ]
- ──[B1]──[B2]──[B3]──[B4] (언제든 더 긴 체인이 나타나면 뒤집힐 수 있음)
-             └──[B3'] (고아 블록 분기 발생)
+ --[B1]--[B2]--[B3]--[B4] (언제든 더 긴 체인이 나타나면 뒤집힐 수 있음)
+             +--[B3'] (고아 블록 분기 발생)
 
 [ PBFT 합의 기반 체인 (하이퍼레저) ]
- ──[B1]──[B2]──[B3]──[B4]
+ --[B1]--[B2]--[B3]--[B4]
     |      |      |      |
   (확정) (확정) (확정) (확정) => 즉각적 100% 완결성 (분기 원천 차단)
 ```
@@ -54,21 +54,21 @@ PBFT는 전체 N개의 노드 중 최대 $f$개의 비잔틴(악의적) 노드�
 PBFT의 핵심인 3-Phase 메시지 시퀀스 다이어그램입니다 (N=4, f=1).
 ```text
 [Client]     [Primary]      [Replica 1]    [Replica 2 (비잔틴)]
-   │             │               │               │
-   ├── Request ─>│               │               │
-   │             ├──Pre-prepare─>│               │
-   │             ├──Pre-prepare─────────────────>│ (침묵 또는 거짓말)
-   │             │               │               │
-   │             │<── Prepare ───┤               │
-   │             │               ├── Prepare ───>│
-   │             │               │               │
-   │             ├── Commit ────>│               │
-   │             │<── Commit ────┤               │
-   │<─ Reply ────┤               │               │
+   |             |               |               |
+   +-- Request ->|               |               |
+   |             +--Pre-prepare->|               |
+   |             +--Pre-prepare----------------->| (침묵 또는 거짓말)
+   |             |               |               |
+   |             |<-- Prepare ---+               |
+   |             |               +-- Prepare --->|
+   |             |               |               |
+   |             +-- Commit ---->|               |
+   |             |<-- Commit ----+               |
+   |<- Reply ----+               |               |
 ```
 이 흐름의 핵심은 한 단계가 다음 단계로 넘어가기 위해서는 각 노드가 반드시 2f+1개의 서명된 동일 메시지(Quorum)를 수집해야 한다는 점입니다. 만약 레플리카 2가 악의적으로 침묵하거나 엉뚱한 메시지를 보내더라도, 프라이머리와 레플리카 1이 올바른 메시지를 주고받으면 총 2개의 일치된 표가 확보되어 $2f+1=3$ 표 중 2표(자신 포함)를 획득, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 패스할 수 있습니다. 이런 촘촘한 그물망 배치는 리더의 독재와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본의 반란을 동시에 억제합니다. 따라서 단일 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 네트워크 통신 대역폭이 전체 시스템의 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되며, 노드 수가 증가할수록 메시지 양이 $O(N^2)$로 폭발하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급감하는 트레이드오프가 존재합니다.
 
-📢 **섹션 요약 비유**: 국회에서 안건을 통과시킬 때, 발의(Pre-prepare) → 상임위 전원 교차 검토(Prepare) → 본회의 과반수 최종 찬성표(Commit)라는 3단계를 거쳐야만 절대 무효화될 수 없는 법이 제정되는 것과 같습니다.
+📢 **섹션 요약 비유**: 국회에서 안건을 통과시킬 때, 발의(Pre-prepare) -> 상임위 전원 교차 검토(Prepare) -> 본회의 과반수 최종 찬성표(Commit)라는 3단계를 거쳐야만 절대 무효화될 수 없는 법이 제정되는 것과 같습니다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -76,15 +76,15 @@ PBFT는 퍼블릭 체인에서 널리 쓰이는 PoW 알고리즘과 대척점에
 
 PoW와 PBFT 합의의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구조적 한계를 비교한 다각도 분석표입니다.
 ```text
-┌───────────┬──────────────────────┬──────────────────────┐
-│ 아키텍처  │ Nakamoto (PoW 기반)  │ PBFT (투표 기반)     │
-├───────────┼──────────────────────┼──────────────────────┤
-│ 보안 앵커 │ 해시 컴퓨팅 연산력   │ 참가자 다수결 2/3    │
-│ 노드 개방 │ Permissionless (공개)│ Permissioned (비공개)│
-│ 확장성    │ 노드 무한 확장 가능  │ ~100개 이하 제한     │
-│ 초당 처리 │ ~10 TPS 미만 (극악)  │ 3,000 TPS 이상 (쾌속)│
-│ 완결성    │ 임시 블록 -> 점진 확정│ 투표 종료 즉시 확정  │
-└───────────┴──────────────────────┴──────────────────────┘
++-----------+----------------------+----------------------+
+| 아키텍처  | Nakamoto (PoW 기반)  | PBFT (투표 기반)     |
++-----------+----------------------+----------------------+
+| 보안 앵커 | 해시 컴퓨팅 연산력   | 참가자 다수결 2/3    |
+| 노드 개방 | Permissionless (공개)| Permissioned (비공개)|
+| 확장성    | 노드 무한 확장 가능  | ~100개 이하 제한     |
+| 초당 처리 | ~10 TPS 미만 (극악)  | 3,000 TPS 이상 (쾌속)|
+| 완결성    | 임시 블록 -> 점진 확정| 투표 종료 즉시 확정  |
++-----------+----------------------+----------------------+
 ```
 PoW 체계는 아무나 익명으로 참여할 수 있기 때문에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장의 이데올로기적 궁극인 검열 저항성이 높지만, 기업 실무 시스템으로 쓰기에는 느리고 환경 파괴적입니다. 반면 PBFT는 신원이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 컨소시엄 참여자끼리만 닫힌 망을 구성하여 노드 수를 제한함으로써, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성과 실시간 처리 속도를 극대화합니다. 따라서 중앙은행이나 다국적 물류 기업들이 융합 연합체를 구성할 때는 탈중앙성(PoW)의 환상을 버리고 실용주의적(PBFT) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 택하는 것이 올바른 아키텍처 방향입니다.
 
@@ -103,9 +103,9 @@ PoW 체계는 아무나 익명으로 참여할 수 있기 때문에 [분산](/kn
 이러한 리더 교체 시 병목을 보여주는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 큐 시각화입니다.
 ```text
 [정상 트래픽 처리 중] => [Primary 장애/해킹 발생] => [트랜잭션 Timeout 누적]
-                                     ↓
+                                     v
 [Replica들이 View Change 메시지 P2P 브로드캐스트 투표 시작] (네트워크 대역폭 폭주)
-                                     ↓
+                                     v
 [2f+1 동의 획득] => [새로운 Primary 선출] => [New-View 전파] => [합의 재개]
 ```
 이 시각화의 핵심은 리더가 멈춘 순간부터 새로운 리더가 선출될 때까지 시스템의 합의가 완전히 멈추는(Liveness 단절) 취약 구간이 존재한다는 점입니다. 이 때문에 텐더민트(Tendermint) 같은 PBFT 변형 아키텍처에서는 한 명의 리더가 계속 독점하는 방식 대신, 매 블록마다 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 방식으로 리더를 강제로 교체하여 리더 장애의 충격과 독재를 원천 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 실무적 방어 기법을 결합하여 사용합니다.
@@ -139,17 +139,17 @@ PBFT의 핵심 약점인 '노드가 늘어날수록 급증하는 $O(N^2)$ 통신
 
 ```text
 [비잔틴 결함 허용 (BFT) — 악의적 노드 존재 시에도 합의 도달 이론 정립]
-    │
-    ▼
-[PBFT (Practical Byzantine Fault Tolerance) — O(n²) 메시지로 실용적 BFT 구현]
-    │
-    ▼
-[Pre-prepare → Prepare → Commit 3단계 프로토콜 — 결정론적 순서 합의]
-    │
-    ▼
+    |
+    v
+[PBFT (Practical Byzantine Fault Tolerance) — O(n^) 메시지로 실용적 BFT 구현]
+    |
+    v
+[Pre-prepare -> Prepare -> Commit 3단계 프로토콜 — 결정론적 순서 합의]
+    |
+    v
 [Tendermint / HotStuff — PBFT 개선, 리더 기반 선형 복잡도 합의 알고리즘]
-    │
-    ▼
+    |
+    v
 [이더리움 PoS Casper / Cosmos BFT — PBFT 계열 합의를 퍼블릭 블록체인에 적용]
 ```
 
@@ -166,7 +166,7 @@ PBFT의 핵심 약점인 '노드가 늘어날수록 급증하는 $O(N^2)$ 통신
 
 **진행 상황**: 13 / 552
 
-← **이전**: [12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의](/knowledge-base/studynote/06_ict_convergence/01_blockchain/012_bft_byzantine_fault_tolerance/)
-**다음**: [14. 작업 증명 (PoW, Proof of Work) - 해시 퍼즐 연산 경쟁 (비트코인), 막대한 전력 소모](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/) →
+<- **이전**: [12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의](/knowledge-base/studynote/06_ict_convergence/01_blockchain/012_bft_byzantine_fault_tolerance/)
+**다음**: [14. 작업 증명 (PoW, Proof of Work) - 해시 퍼즐 연산 경쟁 (비트코인), 막대한 전력 소모](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/) ->
 
 ---

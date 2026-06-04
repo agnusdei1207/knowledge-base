@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선형 연립방정식 Ax = b는 *n차원 공간에서 n개의 초평면(hyperplane)이 교차하는 점*을 구하는 문제이며, 행렬 표현으로 모든 선형 시스템이 통일된다.
-> 2. **가치**: 가우스 소거법 ([Gaussian Elimination](/knowledge-base/studynote/08_algorithm_stats/07_numerical/125_gaussian_elimination/)) 은 O(n³)이지만 LU 분해로 변환하면 같은 A에 대해 여러 b를 O(n²)에 풀 수 있어 반복 계산에 유리하다.
+> 2. **가치**: 가우스 소거법 ([Gaussian Elimination](/knowledge-base/studynote/08_algorithm_stats/07_numerical/125_gaussian_elimination/)) 은 O(n³)이지만 LU 분해로 변환하면 같은 A에 대해 여러 b를 O(n^)에 풀 수 있어 반복 계산에 유리하다.
 > 3. **판단 포인트**: 조건수 (Condition Number) κ(A) = ‖A‖·‖A⁻¹‖ — 이 값이 크면 수치 불안정하며, 작은 오차가 해를 크게 바꾼다. 실무에서 수치 안정성이 정확성만큼 중요하다.
 
 ---
@@ -40,7 +40,7 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 | rank(A) = rank([A\|b]) < n | 무한히 많은 해 | 초평면들이 직선/면에서 만남 |
 | rank(A) < rank([A\|b]) | 해 없음 | 일부 초평면이 평행 (불일치) |
 
-**정칙 (Non-singular) 행렬**: det(A) ≠ 0 → 유일해 존재.
+**정칙 (Non-singular) 행렬**: det(A) ≠ 0 -> 유일해 존재.
 
 📢 **섹션 요약 비유**: 연립방정식은 "지도 위 여러 길의 교차점 찾기"다 — 각 방정식이 하나의 길이고, 모든 길이 한 점에서 만나면 유일해, 일치하면 무한해, 평행하면 해 없음.
 
@@ -54,9 +54,9 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 
 ```
 초기 [A|b]:                 행 계단형:
-┌ 2  1  -1 │  8 ┐         ┌ 2  1  -1 │  8  ┐
-│ -3 -1   2 │ -11│  ─────► │ 0  0.5 0.5│ 1   │
-└ -2  1   2 │ -3 ┘         └ 0  0   1  │ -1  ┘
++ 2  1  -1 |  8 +         + 2  1  -1 |  8  +
+| -3 -1   2 | -11|  -----► | 0  0.5 0.5| 1   |
++ -2  1   2 | -3 +         + 0  0   1  | -1  +
 
 후방 대입 (Back Substitution):
   x₃ = -1
@@ -71,16 +71,16 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 A = LU (하삼각 × 상삼각)
 
 ```
-┌ a b c ┐   ┌ l₁₁  0   0  ┐   ┌ u₁₁ u₁₂ u₁₃ ┐
-│ d e f │ = │ l₂₁ l₂₂  0  │ × │  0  u₂₂ u₂₃ │
-└ g h i ┘   └ l₃₁ l₃₂ l₃₃ ┘   └  0   0  u₃₃ ┘
++ a b c +   + l₁₁  0   0  +   + u₁₁ u₁₂ u₁₃ +
+| d e f | = | l₂₁ l₂₂  0  | × |  0  u₂₂ u₂₃ |
++ g h i +   + l₃₁ l₃₂ l₃₃ +   +  0   0  u₃₃ +
 ```
 
 LU 분해 후 Ax = b 풀기:
-1. Ly = b → y 구하기 (전방 대입, O(n²))
-2. Ux = y → x 구하기 (후방 대입, O(n²))
+1. Ly = b -> y 구하기 (전방 대입, O(n^))
+2. Ux = y -> x 구하기 (후방 대입, O(n^))
 
-**장점**: A가 같고 b만 바뀌면 2단계만 O(n²) — 반복 풀이에 효율적!
+**장점**: A가 같고 b만 바뀌면 2단계만 O(n^) — 반복 풀이에 효율적!
 
 ### 수치 안정성과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅
 
@@ -90,9 +90,9 @@ LU 분해 후 Ax = b 풀기:
 
 ```
 소거 전:                    피벗팅 후:
-┌ 0.001  1 │ 1 ┐           ┌ 1   2 │ 3 ┐
-└ 1      2 │ 3 ┘    ──►    └ 0.001 1 │ 1 ┘
-← 피벗=0.001 → 오류 증폭!      ← 피벗=1 → 안정!
++ 0.001  1 | 1 +           + 1   2 | 3 +
++ 1      2 | 3 +    --►    + 0.001 1 | 1 +
+<- 피벗=0.001 -> 오류 증폭!      <- 피벗=1 -> 안정!
 ```
 
 📢 **섹션 요약 비유**: LU 분해는 "공식 한 번 외워두고 값만 바꿔 계산하기"다 — 매번 처음부터 계산하는 대신, A를 분해해두면 b가 바뀔 때마다 빠르게 해를 구한다.
@@ -106,8 +106,8 @@ LU 분해 후 Ax = b 풀기:
 ```
 κ(A) = ‖A‖ · ‖A⁻¹‖
 
-κ(A) ≈ 1: 잘 조건화 (Well-conditioned) → 수치 안정
-κ(A) >> 1: 나쁘게 조건화 (Ill-conditioned) → 작은 b 변화 → 큰 x 변화
+κ(A) ≈ 1: 잘 조건화 (Well-conditioned) -> 수치 안정
+κ(A) >> 1: 나쁘게 조건화 (Ill-conditioned) -> 작은 b 변화 -> 큰 x 변화
 ```
 
 상대 오류 증폭:
@@ -123,9 +123,9 @@ LU 분해 후 Ax = b 풀기:
 | 방법 | 복잡도 | 안정성 | 용도 |
 |:---|:---:|:---:|:---|
 | 가우스 소거 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) | O(n³) | 중간 | 일반 Dense 행렬 |
-| LU 분해 | O(n³) 분해 + O(n²) 풀이 | 좋음 | 반복 풀이 |
+| LU 분해 | O(n³) 분해 + O(n^) 풀이 | 좋음 | 반복 풀이 |
 | QR 분해 | O(n³) | 매우 좋음 | 최소제곱 문제 |
-| 켤레 기울기법 (CG) | O(kn²) | 좋음 | 대칭 양정치 Sparse 행렬 |
+| 켤레 기울기법 (CG) | O(kn^) | 좋음 | 대칭 양정치 Sparse 행렬 |
 | 크라머 공식 | O(n! 또는 O(n·n!)) | N/A | n≤3 이론적 분석 |
 
 📢 **섹션 요약 비유**: 조건수가 큰 선형 시스템은 "아슬아슬한 균형 저울"이다 — 저울(A)이 불안정하면 아주 작은 무게(Δb)를 추가해도 결과(x)가 크게 달라진다.
@@ -140,10 +140,10 @@ LU 분해 후 Ax = b 풀기:
 노드 1: 2I₁ - I₂ = 5
 노드 2: -I₁ + 3I₂ = 2
 
-행렬형: ┌ 2 -1 ┐ ┌ I₁ ┐   ┌ 5 ┐
-        └-1  3 ┘ └ I₂ ┘ = └ 2 ┘
+행렬형: + 2 -1 + + I₁ +   + 5 +
+        +-1  3 + + I₂ + = + 2 +
 
-det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
+det = 2×3 - (-1)×(-1) = 5 ≠ 0 -> 유일해 존재
 ```
 
 ### 컴퓨터 그래픽스 — 좌표 변환
@@ -151,20 +151,20 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 3D 변환은 4×4 동차 좌표계 (Homogeneous Coordinates) 행렬:
 
 ```
-┌ sx  0  0  tx ┐   ┌ x ┐   ┌ sx·x + tx ┐
-│  0 sy  0  ty │ × │ y │ = │ sy·y + ty │
-│  0  0 sz  tz │   │ z │   │ sz·z + tz │
-└  0  0  0   1 ┘   └ 1 ┘   └     1     ┘
++ sx  0  0  tx +   + x +   + sx·x + tx +
+|  0 sy  0  ty | × | y | = | sy·y + ty |
+|  0  0 sz  tz |   | z |   | sz·z + tz |
++  0  0  0   1 +   + 1 +   +     1     +
 스케일 + 이동 변환
 ```
 
-여러 변환을 미리 행렬 곱으로 합성 → 정점마다 O(4×4) 한 번만 적용.
+여러 변환을 미리 행렬 곱으로 합성 -> 정점마다 O(4×4) 한 번만 적용.
 
 ### 기술사 판단 포인트
 
-1. **"n×n 선형 시스템 풀이 시간은?"** → 가우스 소거 O(n³), LU 분해 후 O(n²)
-2. **"수치 불안정할 때 대응 방법은?"** → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅, QR 분해, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
-3. **"희소 행렬(Sparse Matrix) 시스템 효율적 풀이는?"** → 켤레 기울기법 (CG)
+1. **"n×n 선형 시스템 풀이 시간은?"** -> 가우스 소거 O(n³), LU 분해 후 O(n^)
+2. **"수치 불안정할 때 대응 방법은?"** -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅, QR 분해, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
+3. **"희소 행렬(Sparse Matrix) 시스템 효율적 풀이는?"** -> 켤레 기울기법 (CG)
 
 📢 **섹션 요약 비유**: 컴퓨터 그래픽스의 행렬 변환은 "레시피 미리 합치기"다 — 이동, 회전, 스케일을 각각 적용하는 대신, 미리 하나의 행렬로 합쳐서 모든 정점에 한 번에 적용한다.
 
@@ -189,7 +189,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 |:---|:---|:---|
 | Ax = b | 행렬-벡터 표현 | 회로, 그래픽스, ML |
 | 가우스 소거 | O(n³), 행 계단형 | LU 분해의 기초 |
-| LU 분해 | A = LU, 반복 풀이 O(n²) | 수치 선형대수 |
+| LU 분해 | A = LU, 반복 풀이 O(n^) | 수치 선형대수 |
 | 조건수 κ(A) | 수치 안정성 지표 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 판단 |
 | 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 | 수치 안정화 | 실용 가우스 소거 |
 
@@ -199,14 +199,14 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 ```text
 [Ax = b]
-    │
-    ▼
+    |
+    v
 [가우스 소거]
-    │
-    ▼
+    |
+    v
 [LU 분해]
-    │
-    ▼
+    |
+    v
 [조건수 κ(A)]
 ```
 
@@ -224,7 +224,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 **진행 상황**: 160 / 175
 
-← **이전**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)
-**다음**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) →
+<- **이전**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)
+**다음**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ->
 
 ---

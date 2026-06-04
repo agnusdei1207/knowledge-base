@@ -30,11 +30,11 @@ tags = ["database"]
 
 ```text
 Tuple
-  ↓
+  v
 Uniqueness
-  ↓
+  v
 Minimality
-  ↓
+  v
 Key
 ```
 
@@ -106,11 +106,11 @@ Key
 
 ```text
 Relation
-  ↓
+  v
 Key
-  ↓
+  v
 Candidate / Primary / Foreign Key
-  ↓
+  v
 Referential Integrity
 ```
 
@@ -120,11 +120,11 @@ Referential Integrity
 
 ```text
 Uniqueness
-  ↓
+  v
 Minimality
-  ↓
+  v
 Key
-  ↓
+  v
 Normalization
 ```
 
@@ -142,7 +142,7 @@ Normalization
 
 **진행 상황**: 67 / 600
 
-← **이전**: [66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)](/knowledge-base/studynote/05_database/02_modeling_normalization/066_null_value_three_valued_logic/)
-**다음**: [68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/) →
+<- **이전**: [66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)](/knowledge-base/studynote/05_database/02_modeling_normalization/066_null_value_three_valued_logic/)
+**다음**: [68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/) ->
 
 ---

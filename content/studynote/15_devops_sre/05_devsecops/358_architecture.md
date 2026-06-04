@@ -13,7 +13,7 @@ tags = ["studynote-devops-sre"]
 
 > 1. **본질**: [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 통신에서 지수 백오프 + 지터 (Jitter) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 재시도 폭풍(Thundering Herd)을 방지하면서 일시적 장애를 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 내결함성 통신 설계 패턴이다.
 > 2. **가치**: [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴과 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 결합하면, 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 자신의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 저하를 최소화하고 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 있다.
-> 3. **판단 포인트**: 재시도 예산(Retry Budget), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 계층(연결/읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)), [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 상태 천이(Closed→Open→Half-Open) 설계가 실무 판단의 핵심 트레이드오프다.
+> 3. **판단 포인트**: 재시도 예산(Retry Budget), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 계층(연결/읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)), [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 상태 천이(Closed->Open->Half-Open) 설계가 실무 판단의 핵심 트레이드오프다.
 
 ---
 
@@ -32,22 +32,22 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│               서킷 브레이커 상태 천이                             │
-├───────────────────────────────────────────────────────────────────┤
-│  [Closed] ──실패율 임계 초과──▶ [Open] ──대기시간 후──▶ [Half-Open]│
-│     ▲                              │                     │        │
-│     │         즉시 폴백 응답       │  테스트 요청 성공 → │        │
-│     └──────────────────────────────┘       Closed 복귀   │        │
-│                                            실패 → Open   │        │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|               서킷 브레이커 상태 천이                             |
++-------------------------------------------------------------------+
+|  [Closed] --실패율 임계 초과---> [Open] --대기시간 후---> [Half-Open]|
+|     ^                              |                     |        |
+|     |         즉시 폴백 응답       |  테스트 요청 성공 -> |        |
+|     +------------------------------+       Closed 복귀   |        |
+|                                            실패 -> Open   |        |
++-------------------------------------------------------------------+
 ```
 
 | 상태       | 동작                                | 전환 조건                             |
 | :--------- | :---------------------------------- | :------------------------------------ |
 | Closed     | 정상 통신, 실패율 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링           | 실패율 > 임계값 (예: 50%, 10초)       |
 | Open       | 즉시 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 반환, 외부 호출 없음       | 대기 시간 경과 (예: 30초)             |
-| Half-Open  | 제한적 테스트 요청 허용              | 성공 → Closed, 실패 → Open           |
+| Half-Open  | 제한적 테스트 요청 허용              | 성공 -> Closed, 실패 -> Open           |
 
 **지수 백오프 + 지터 비교**
 
@@ -93,9 +93,9 @@ tags = ["studynote-devops-sre"]
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (고지연): [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 공격적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) Open 시 기본 모델 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- 재시도 횟수만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 간격 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 없음 → Thundering Herd 재발
-- [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 없이 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)만 구현 → 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계속 호출로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
-- 연결 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)과 읽기 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 동일하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 느린 응답과 연결 실패 구분 불가
+- 재시도 횟수만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 간격 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 없음 -> Thundering Herd 재발
+- [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 없이 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)만 구현 -> 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계속 호출로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
+- 연결 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)과 읽기 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 동일하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 느린 응답과 연결 실패 구분 불가
 
 - 📢 섹션 요약 비유: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 재시도 설계는 소방 훈련과 같다. 화재(장애) 시 모든 사람이 동시에 계단을 달리면 혼잡해지므로, 층별로 순서를 나눠(지터) 안전하게 대피한다.
 
@@ -128,24 +128,24 @@ tags = ["studynote-devops-sre"]
 
 ```text
 단순 재시도 (Naive Retry) — 장애 증폭 위험
-    │
-    ▼
+    |
+    v
 지수 백오프 (Exponential Backoff) — 부하 분산
-    │
-    ▼
+    |
+    v
 지터 (Full Jitter) — Thundering Herd 제거
-    │
-    ▼
+    |
+    v
 서킷 브레이커 (Circuit Breaker) — 연쇄 장애 차단
-    │
-    ▼
+    |
+    v
 폴백 (Fallback) + 벌크헤드 (Bulkhead) — 그레이스풀 디그레이드
-    │
-    ▼
+    |
+    v
 서비스 메시 (Istio/Envoy) — 인프라 레벨 자동화
 ```
 
-흐름은 "재시도 증폭 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 → 차단 → 격리 → 인프라 자동화"로 진화한다.
+흐름은 "재시도 증폭 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 -> 차단 -> 격리 -> 인프라 자동화"로 진화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +159,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 358 / 373
 
-← **이전**: [357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)](/knowledge-base/studynote/15_devops_sre/05_devsecops/357_oom_killed/)
-**다음**: [359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)](/knowledge-base/studynote/15_devops_sre/05_devsecops/359_metric/) →
+<- **이전**: [357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)](/knowledge-base/studynote/15_devops_sre/05_devsecops/357_oom_killed/)
+**다음**: [359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)](/knowledge-base/studynote/15_devops_sre/05_devsecops/359_metric/) ->
 
 ---

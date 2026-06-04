@@ -38,16 +38,16 @@ tags = ["ict_convergence"]
 | **판단 및 제어 (Action)** | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 통찰을 도출하고 사물에 자율 동작 명령 하달 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             초연결 사회의 데이터 순환 아키텍처               │
-├──────────────────────────────────────────────────────────────┤
-│ [ 현실 세계 (Physical) ]            [ 가상 세계 (Digital) ]  │
-│                                                              │
-│ 자율주행차, 스마트가전 ──▶(IoT/5G)──▶ 거대한 데이터 레이크     │
-│       ▲ (자율 제어)                        │ (빅데이터화)    │
-│       │                                    ▼                 │
-│ 지능형 엣지 노드      ◀──(AI 모델)── 클라우드 AI 분석 엔진  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             초연결 사회의 데이터 순환 아키텍처               |
++--------------------------------------------------------------+
+| [ 현실 세계 (Physical) ]            [ 가상 세계 (Digital) ]  |
+|                                                              |
+| 자율주행차, 스마트가전 --->(IoT/5G)---> 거대한 데이터 레이크     |
+|       ^ (자율 제어)                        | (빅데이터화)    |
+|       |                                    v                 |
+| 지능형 엣지 노드      <---(AI 모델)-- 클라우드 AI 분석 엔진  |
++--------------------------------------------------------------+
 ```
 이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 <strong>완전한 자동 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>를 형성한다는 점이다.
 
@@ -110,17 +110,17 @@ tags = ["ict_convergence"]
 
 ```text
 사람 간의 제한적 연결 (Web 1.0)
-    │
-    ▼
+    |
+    v
 모바일 기반 상시 연결 (스마트폰 혁명)
-    │
-    ▼
+    |
+    v
 사람-사물-공간의 초연결 (IoT, 5G 기반)
-    │
-    ▼
+    |
+    v
 지능형 초연결 사회 (AI 융합 자율 제어)
-    │
-    ▼
+    |
+    v
 디지털 트윈 (Digital Twin) · 메타버스 융합
 ```
 
@@ -138,7 +138,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 107 / 552
 
-← **이전**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)
-**다음**: [108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/108_iot_wireless_networks_wpan_wlan_lpwan/) →
+<- **이전**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)
+**다음**: [108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/108_iot_wireless_networks_wpan_wlan_lpwan/) ->
 
 ---

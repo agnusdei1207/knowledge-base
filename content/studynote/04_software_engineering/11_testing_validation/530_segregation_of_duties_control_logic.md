@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 보안 조직 분리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 (SoD,의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안 조직 분리 정책 위반 (SoD,                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  보안 조직 분리 정책 위반 (SoD,                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 보안 조직 분리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 (SoD,가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -142,21 +142,21 @@ SoD는 내부 부정과 오용을 줄인다.
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 보안 조직 분리 정책 위반 (SoD, Segregation of Duties)의 SW 통제 로직 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +170,7 @@ SoD는 내부 부정과 오용을 줄인다.
 
 **진행 상황**: 651 / 973
 
-← **이전**: [529. 메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)
-**다음**: [530. 보안 조직 분리 정책 위반(SoD, Segregation of Duties)의 SW 통제 로직](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/530_segregation_of_duties_sod/) →
+<- **이전**: [529. 메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)
+**다음**: [530. 보안 조직 분리 정책 위반(SoD, Segregation of Duties)의 SW 통제 로직](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/530_segregation_of_duties_sod/) ->
 
 ---

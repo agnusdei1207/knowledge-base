@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 대표적인 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 활용: ① [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Fluentd, Filebeat): 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Loki로 전송, ② [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) Exporter): 앱 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 포맷으로 노출, ③ [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Jaeger Agent): 추적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Jaeger 서버로 전송, ④ 앰배서더 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Envoy): [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 관리.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         사이드카 패턴 - Kubernetes 파드 구조                 │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Kubernetes Pod                                      │   │
-│  │  ┌─────────────────┐  ┌────────────────────────────┐ │   │
-│  │  │  Main App       │  │  Sidecar: Fluentd           │ │   │
-│  │  │  Container      │  │  (로그 수집·전송)           │ │   │
-│  │  │  /var/log/*.log ├─→│  → Elasticsearch           │ │   │
-│  │  │  (공유 볼륨)    │  │  (공유 볼륨으로 로그 읽기) │ │   │
-│  │  └─────────────────┘  └────────────────────────────┘ │   │
-│  │  공유: 네트워크(localhost), 볼륨(/var/log)           │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         사이드카 패턴 - Kubernetes 파드 구조                 |
++-------------------------------------------------------------+
+|  +------------------------------------------------------+   |
+|  |  Kubernetes Pod                                      |   |
+|  |  +-----------------+  +----------------------------+ |   |
+|  |  |  Main App       |  |  Sidecar: Fluentd           | |   |
+|  |  |  Container      |  |  (로그 수집·전송)           | |   |
+|  |  |  /var/log/*.log +-->|  -> Elasticsearch           | |   |
+|  |  |  (공유 볼륨)    |  |  (공유 볼륨으로 로그 읽기) | |   |
+|  |  +-----------------+  +----------------------------+ |   |
+|  |  공유: 네트워크(localhost), 볼륨(/var/log)           |   |
+|  +------------------------------------------------------+   |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 모터사이클(주 앱)에 붙은 보조 탑승공간처럼, 주 앱을 수정하지 않고 보조 기능(로깅·모니터링)을 추가한다.
@@ -56,15 +56,15 @@ tags = ["studynote-design-supervision"]
 | 앰배서더 | 아웃바운드 통신 관리 | Envoy [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       중앙화 로깅·모니터링 스택 (ELK + Prometheus)          │
-├─────────────────────────────────────────────────────────────┤
-│  [App] → stdout → [Fluentd 사이드카] → [Elasticsearch]     │
-│                                           → [Kibana]        │
-│                                                             │
-│  [App] → /metrics → [Prometheus Exporter 사이드카]          │
-│                           → [Prometheus] → [Grafana]        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       중앙화 로깅·모니터링 스택 (ELK + Prometheus)          |
++-------------------------------------------------------------+
+|  [App] -> stdout -> [Fluentd 사이드카] -> [Elasticsearch]     |
+|                                           -> [Kibana]        |
+|                                                             |
+|  [App] -> /metrics -> [Prometheus Exporter 사이드카]          |
+|                           -> [Prometheus] -> [Grafana]        |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 건물(앱)에 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))와 화재 감지기(모니터링 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))를 설치하면, 건물 자체를 수정하지 않고도 모든 활동을 기록하고 이상을 감지한다.
@@ -111,7 +111,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[횡단 관심사 분리 필요] → [사이드카 패턴] → [앰배서더 패턴] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 자동 주입] → eBPF 기반 무사이드카]
+[횡단 관심사 분리 필요] -> [사이드카 패턴] -> [앰배서더 패턴] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 자동 주입] -> eBPF 기반 무사이드카]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[컨테이너 횡단 관심사] → [사이드카 패턴] → [앰배서더 패턴] → Istio 자동 주입] → eBPF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 무사이드카]
+[컨테이너 횡단 관심사] -> [사이드카 패턴] -> [앰배서더 패턴] -> Istio 자동 주입] -> eBPF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 무사이드카]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +136,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 249 / 530
 
-← **이전**: [189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/189_sidecar_logging_monitoring/)
-**다음**: [190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/190_di_framework_spring_bean_lifecycle/) →
+<- **이전**: [189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/189_sidecar_logging_monitoring/)
+**다음**: [190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/190_di_framework_spring_bean_lifecycle/) ->
 
 ---

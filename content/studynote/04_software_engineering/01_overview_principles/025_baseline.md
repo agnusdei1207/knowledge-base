@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기준선(Baseline)은 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))에서 공식적으로 검토·승인된 형상 항목([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 집합으로, 변경을 통제하는 기준점이자 향후 개발의 출발점이 되는 공식 스냅샷이다.
 > 2. **가치**: 기준선이 없으면 "어느 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 공식 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인가?"를 알 수 없어 개발팀이 서로 다른 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 작업하는 혼란이 발생한다. 기준선은 팀 전체가 동일한 기준점에서 협업하고, [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 공식 승인 없이는 변경할 수 없는 안정화된 기반을 제공한다.
-> 3. **판단 포인트**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 각 단계별 기준선(기능 기준선 → 할당 기준선 → 제품 기준선)을 이해하고 각 단계에서 무엇이 기준선에 포함되는지 정확히 파악하는 것이 기술사 시험과 실무 모두에서 핵심이다.
+> 3. **판단 포인트**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 각 단계별 기준선(기능 기준선 -> 할당 기준선 -> 제품 기준선)을 이해하고 각 단계에서 무엇이 기준선에 포함되는지 정확히 파악하는 것이 기술사 시험과 실무 모두에서 핵심이다.
 
 ---
 
@@ -21,18 +21,18 @@ tags = ["studynote-software-engineering"]
 기준선(Baseline)은 마치 사진을 찍는 것과 같다. 특정 시점의 소프트웨어 구성(요구사항, 설계, 코드, 테스트 명세)을 공식적으로 고정하여 이후 변경이 기준선에 비해 얼마나 바뀌었는지 추적할 수 있게 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           3대 기준선 (IEEE 828)                             │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  개발 단계    기준선 유형        포함 항목                    │
-│  ─────────── ─────────────── ──────────────────────────   │
-│  요구사항     기능 기준선       승인된 시스템 요구사항          │
-│  분석/설계    할당 기준선       소프트웨어 요구사항, 설계 문서  │
-│  구현/테스트  제품 기준선       소스 코드, 빌드, 테스트 결과    │
-│                                                            │
-│  기준선 변경 → CCB 승인 필수                                 │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           3대 기준선 (IEEE 828)                             |
++------------------------------------------------------------+
+|                                                            |
+|  개발 단계    기준선 유형        포함 항목                    |
+|  ----------- --------------- --------------------------   |
+|  요구사항     기능 기준선       승인된 시스템 요구사항          |
+|  분석/설계    할당 기준선       소프트웨어 요구사항, 설계 문서  |
+|  구현/테스트  제품 기준선       소스 코드, 빌드, 테스트 결과    |
+|                                                            |
+|  기준선 변경 -> CCB 승인 필수                                 |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기준선은 건물 설계도의 공식 확정본이다. 확정 전에는 자유롭게 수정하지만, 확정 후에는 건축 허가([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인) 없이 벽을 허물거나 옮길 수 없다.
@@ -45,15 +45,15 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [현재 기준선 v1.0]
-       │
+       |
 변경 요청(CR) 제출
-       │
+       |
 [CCB 검토·승인/거부]
-       │ (승인)
-       ▼
-변경 구현 → 테스트 → 검증
-       │
-[새 기준선 v1.1] ← 업데이트
+       | (승인)
+       v
+변경 구현 -> 테스트 -> 검증
+       |
+[새 기준선 v1.1] <- 업데이트
 ```
 
 ### Git 관점에서의 기준선
@@ -86,10 +86,10 @@ git log v1.0.0..HEAD --oneline
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 항공 SW 개발 기준선 관리 (DO-178C)
-1. 요구사항 기준선: JIRA [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) → 시스템 요구사항 명세서 v1.0 → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
-2. 설계 기준선: 아키텍처 설계서 v1.0 → [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
-3. 제품 기준선: Git 태그 v1.0.0 → 빌드 결과물 + 테스트 리포트 패키지 → DO-178C DER 승인.
-4. 변경 통제: 비행 중 발견된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) → CR 제출 → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 긴급 검토 → 핫픽스 기준선 v1.0.1.
+1. 요구사항 기준선: JIRA [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) -> 시스템 요구사항 명세서 v1.0 -> [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
+2. 설계 기준선: 아키텍처 설계서 v1.0 -> [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) -> [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
+3. 제품 기준선: Git 태그 v1.0.0 -> 빌드 결과물 + 테스트 리포트 패키지 -> DO-178C DER 승인.
+4. 변경 통제: 비행 중 발견된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) -> CR 제출 -> [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 긴급 검토 -> 핫픽스 기준선 v1.0.1.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 기준선을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했지만 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 프로세스 없이 개발자가 임의로 기준선 항목을 수정하는 "Shadow Baseline" [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 공식 기준선과 실제 코드베이스가 불일치하면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 증적 불일치로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패가 발생한다.
@@ -126,17 +126,17 @@ git log v1.0.0..HEAD --oneline
 
 ```text
 [형상 식별 — CI 정의 및 명명]
-    │
-    ▼
+    |
+    v
 [기준선 설정 — CCB 승인, 공식 스냅샷 고정]
-    │
-    ▼
+    |
+    v
 [형상 통제 — 기준선 이후 변경 통제·승인]
-    │
-    ▼
+    |
+    v
 [형상 상태 기록(CSA) — 기준선 기반 이력 추적]
-    │
-    ▼
+    |
+    v
 [GitOps 기준선 — Git 태그/릴리스 자동화]
 ```
 
@@ -152,7 +152,7 @@ git log v1.0.0..HEAD --oneline
 
 **진행 상황**: 25 / 973
 
-← **이전**: [24. 형상 상태 기록 (CSA, Configuration Status Accounting)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/)
-**다음**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/) →
+<- **이전**: [24. 형상 상태 기록 (CSA, Configuration Status Accounting)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/)
+**다음**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/) ->
 
 ---

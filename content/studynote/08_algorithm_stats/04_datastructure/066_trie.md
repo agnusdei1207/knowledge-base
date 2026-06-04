@@ -57,17 +57,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [해시맵 (HashMap) — 완전 문자열 키 매칭, 접두사 검색 미지원]
-    │
-    ▼
+    |
+    v
 [이진 탐색 트리 (BST) — 문자열 사전 순서 탐색, 접두사 탐색 비효율]
-    │
-    ▼
+    |
+    v
 [트라이 (Trie) — 공유 접두사 경로로 O(L) 삽입·검색, 자동완성 최적화]
-    │
-    ▼
+    |
+    v
 [압축 트라이 (Radix/Patricia Tree) — 단일 자식 노드 병합으로 공간 최적화]
-    │
-    ▼
+    |
+    v
 [Aho-Corasick — 트라이 + 실패 링크(Failure Link)로 다중 패턴 O(N+M) 검색]
 ```
 
@@ -85,7 +85,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 66 / 175
 
-← **이전**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/065_b_plus_tree/)
-**다음**: [15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) →
+<- **이전**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/065_b_plus_tree/)
+**다음**: [15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ->
 
 ---

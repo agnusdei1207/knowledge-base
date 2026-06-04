@@ -40,33 +40,33 @@ tags = ["studynote-algorithm"]
 ### [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 테이블 구조
 
 ```
-키 "apple" → 해시 함수 h(k) → 인덱스 3 → 배열[3] = "apple"의 값
+키 "apple" -> 해시 함수 h(k) -> 인덱스 3 -> 배열[3] = "apple"의 값
 
 h(k) = k mod 7  (테이블 크기 7)
-h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
+h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 -> 인덱스 5
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구조
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  키      해시 함수     인덱스    해시 테이블               │
-│                                                          │
-│ "apple"  ──→ h(k) ──→  5  ──→  [5] → "apple":"red"      │
-│ "grape"  ──→ h(k) ──→  1  ──→  [1] → "grape":"purple"   │
-│ "berry"  ──→ h(k) ──→  5  ──→  충돌! (chaining)          │
-│                                                          │
-│  테이블:                                                  │
-│  ┌───┬─────────────────────────┐                         │
-│  │ 0 │ (비어있음)               │                         │
-│  │ 1 │ "grape" → "purple"      │                         │
-│  │ 2 │ (비어있음)               │                         │
-│  │ 3 │ (비어있음)               │                         │
-│  │ 4 │ (비어있음)               │                         │
-│  │ 5 │ "apple" → "berry" → ... │  ← 체이닝(충돌 처리)    │
-│  │ 6 │ (비어있음)               │                         │
-│  └───┴─────────────────────────┘                         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  키      해시 함수     인덱스    해시 테이블               |
+|                                                          |
+| "apple"  ---> h(k) --->  5  --->  [5] -> "apple":"red"      |
+| "grape"  ---> h(k) --->  1  --->  [1] -> "grape":"purple"   |
+| "berry"  ---> h(k) --->  5  --->  충돌! (chaining)          |
+|                                                          |
+|  테이블:                                                  |
+|  +---+-------------------------+                         |
+|  | 0 | (비어있음)               |                         |
+|  | 1 | "grape" -> "purple"      |                         |
+|  | 2 | (비어있음)               |                         |
+|  | 3 | (비어있음)               |                         |
+|  | 4 | (비어있음)               |                         |
+|  | 5 | "apple" -> "berry" -> ... |  <- 체이닝(충돌 처리)    |
+|  | 6 | (비어있음)               |                         |
+|  +---+-------------------------+                         |
++----------------------------------------------------------+
 ```
 
 ### 충돌 처리 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Resolution)
@@ -79,7 +79,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 <strong>2. <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">개방 주소법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">Open Addressing</a>)</strong>
 - 충돌 시 다른 빈 슬롯 탐색
 - 선형 조사 (Linear Probing): [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+1, +2, +3 ...
-- 이차 조사 (Quadratic Probing): [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+1², +2², +3² ...
+- 이차 조사 (Quadratic Probing): [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+1^, +2^, +3^ ...
 - 이중 해싱 (Double Hashing): h2(k)만큼씩 이동
 
 | 방식 | 장점 | 단점 |
@@ -93,9 +93,9 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 ```
 부하율 α = 저장된 항목 수 / 테이블 크기
 
-α = 0.5 → 평균 탐색 횟수 ≈ 1.5 (체이닝)
-α = 0.7 → 권장 리해싱 시점
-α = 1.0 → 성능 급격 저하
+α = 0.5 -> 평균 탐색 횟수 ≈ 1.5 (체이닝)
+α = 0.7 -> 권장 리해싱 시점
+α = 1.0 -> 성능 급격 저하
 
 리해싱 (Rehashing): 테이블 크기를 2배로 늘려 모든 항목을 재배치
 ```
@@ -120,7 +120,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 1. **결정론적 (Deterministic)**: 같은 입력에 항상 같은 결과
 2. **균일 분포 (Uniform Distribution)**: 충돌 최소화
 3. **고속 계산**: O(1) 또는 O([key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 길이)
-4. **사태 방지 (Avalanche Effect)**: 입력 1비트 차이 → 출력 50% [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변화
+4. **사태 방지 (Avalanche Effect)**: 입력 1비트 차이 -> 출력 50% [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변화
 
 📢 **섹션 요약 비유**: 해시 탐색은 범용에서는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 빠르지만, "모든 키가 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 몰린다"는 최악 시나리오에 취약하다. 방어선은 좋은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 부하율 관리다.
 
@@ -130,7 +130,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 
 **시나리오 1**: Python 딕셔너리 / Java HashMap
 - 내부적으로 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구현
-- Java 8+: 충돌 버킷이 8개 초과 시 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) → 레드블랙 트리 전환 (O(n) → O(log n))
+- Java 8+: 충돌 버킷이 8개 초과 시 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) -> 레드블랙 트리 전환 (O(n) -> O(log n))
 
 **시나리오 2**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 인메모리 캐시
 - String 키-값 저장소의 핵심은 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)
@@ -141,7 +141,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 - 코드 파싱 중 O(1) 심볼 조회로 컴파일 속도 향상
 
 **시나리오 4**: 보안 - 해시 도스 (Hash [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))
-- 공격자가 동일 해시값을 가진 키를 대량 삽입 → O(n) 최악 케이스 유발
+- 공격자가 동일 해시값을 가진 키를 대량 삽입 -> O(n) 최악 케이스 유발
 - 방어: 랜덤 시드 기반 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) (Python 3의 hash randomization)
 
 ### 기술사 판단 포인트
@@ -149,8 +149,8 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 | 판단 항목 | 설명 |
 |:---|:---|
 | 부하율 관리 | 0.7 이하 유지, 초과 시 리해싱 |
-| 충돌 처리 선택 | 메모리 여유 → 체이닝, 캐시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) → [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) |
-| 범위 탐색 필요 | 해시 불가 → 정렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 또는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) |
+| 충돌 처리 선택 | 메모리 여유 -> 체이닝, 캐시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) -> [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) |
+| 범위 탐색 필요 | 해시 불가 -> 정렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 또는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) |
 | 보안 고려 | Hash [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 방어를 위한 랜덤 시드 해시 |
 
 📢 **섹션 요약 비유**: 해시 탐색 설계는 주차 건물 설계와 같다. 충분한 공간(낮은 부하율)과 체계적인 규칙([해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))이 있으면 항상 빠르게 주차할 수 있지만, 공간이 꽉 차면 모든 것이 느려진다.
@@ -178,20 +178,20 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [해시 함수 (Hash Function)]
-    │
-    ▼
+    |
+    v
 [충돌 처리 (Collision Resolution)]
-    │
-    ▼
+    |
+    v
 [부하율 (Load Factor)]
-    │
-    ▼
+    |
+    v
 [리해싱 (Rehashing)]
-    │
-    ▼
+    |
+    v
 [HashMap / dict]
 ```
 
@@ -209,7 +209,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 
 **진행 상황**: 32 / 175
 
-← **이전**: [2. 이진 탐색 (Binary Search) — O(log n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)
-**다음**: [4. 그래프 표현 (Graph Representation) — 인접 행렬 / 인접 리스트](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/033_graph_representation/) →
+<- **이전**: [2. 이진 탐색 (Binary Search) — O(log n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)
+**다음**: [4. 그래프 표현 (Graph Representation) — 인접 행렬 / 인접 리스트](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/033_graph_representation/) ->
 
 ---

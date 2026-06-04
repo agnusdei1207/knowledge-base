@@ -80,11 +80,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [상위 개념: Data Governance, Data Lake]
-    │
-    ▼
+    |
+    v
 [하위 개념: Data Catalog, Metadata, Data Lineage]
-    │
-    ▼
+    |
+    v
 [연관 개념: Data Wrangling, Data Quality, Dark Data]
 ```
 
@@ -101,7 +101,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 144 / 262
 
-← **이전**: [데이터 레이크 (Data Lake)](/knowledge-base/studynote/16_bigdata/07_data_lake/143_data_lake/)
-**다음**: [데이터 웨어하우스 (Data Warehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/145_data_warehouse/) →
+<- **이전**: [데이터 레이크 (Data Lake)](/knowledge-base/studynote/16_bigdata/07_data_lake/143_data_lake/)
+**다음**: [데이터 웨어하우스 (Data Warehouse)](/knowledge-base/studynote/16_bigdata/07_data_lake/145_data_warehouse/) ->
 
 ---

@@ -19,18 +19,18 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    비지도 학습 주요 유형                              │
-├───────────────────────────────────────────────────────┤
-│  [클러스터링]        [차원 축소]                       │
-│   K-Means            PCA                              │
-│   DBSCAN             t-SNE                            │
-│   Gaussian Mixture   UMAP                             │
-│                                                       │
-│  [이상 탐지]         [생성 모델]                       │
-│   Isolation Forest   Autoencoder                      │
-│   One-Class SVM      VAE, GAN                         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    비지도 학습 주요 유형                              |
++-------------------------------------------------------+
+|  [클러스터링]        [차원 축소]                       |
+|   K-Means            PCA                              |
+|   DBSCAN             t-SNE                            |
+|   Gaussian Mixture   UMAP                             |
+|                                                       |
+|  [이상 탐지]         [생성 모델]                       |
+|   Isolation Forest   Autoencoder                      |
+|   One-Class SVM      VAE, GAN                         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 지도 학습은 선생님이 정답을 알려주는 수업이고, 비지도 학습은 <strong>학생이 스스로 규칙을 발견</strong>하는 탐구 활동이다.
@@ -91,17 +91,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [K-Means / PCA (통계학, 1960s~)]
-    │
-    ▼
+    |
+    v
 [DBSCAN (1996) — 밀도 기반 클러스터링]
-    │
-    ▼
+    |
+    v
 [Autoencoder / VAE (2013~) — 신경망 비지도]
-    │
-    ▼
+    |
+    v
 [t-SNE / UMAP (시각화, 2018~)]
-    │
-    ▼
+    |
+    v
 [현재: Self-supervised (BERT·GPT) — 비지도의 극한 진화]
 ```
 
@@ -116,7 +116,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 122 / 258
 
-← **이전**: [121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)
-**다음**: [123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/123_reinforcement_learning/) →
+<- **이전**: [121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)
+**다음**: [123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/123_reinforcement_learning/) ->
 
 ---

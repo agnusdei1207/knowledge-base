@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 특히 클럭 상승만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리기 어려워진 이후에는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 (Instruction-Level Parallelism, ILP)만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 이어가기 힘들어졌다. 그래서 하드웨어는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 병렬성 (Thread-Level Parallelism, [TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/))을 같은 코어 안으로 끌어들였고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 두 개의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) CPU가 있는 것처럼 스케줄링하게 되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      하이퍼스레딩의 필요성: "놀고 있는 코어 시간을 줄이자"         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 단일 스레드만 실행                                                   │
-│ Thread A: [연산][연산][메모리 대기....][연산][분기 실패][재시작]     │
-│                    └──────── 빈 실행 슬롯 발생 ────────┘             │
-│                                                                      │
-│ 하이퍼스레딩 적용                                                    │
-│ Thread A: [연산][연산][대기.............][연산]                      │
-│ Thread B: [    ][    ][보조 연산 투입][연산]                        │
-│                           └─ 공백 구간을 다른 스레드가 활용 ─┘       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      하이퍼스레딩의 필요성: "놀고 있는 코어 시간을 줄이자"         |
++----------------------------------------------------------------------+
+| 단일 스레드만 실행                                                   |
+| Thread A: [연산][연산][메모리 대기....][연산][분기 실패][재시작]     |
+|                    +-------- 빈 실행 슬롯 발생 --------+             |
+|                                                                      |
+| 하이퍼스레딩 적용                                                    |
+| Thread A: [연산][연산][대기.............][연산]                      |
+| Thread B: [    ][    ][보조 연산 투입][연산]                        |
+|                           +- 공백 구간을 다른 스레드가 활용 -+       |
++----------------------------------------------------------------------+
 ```
 
 이 그림이 보여주는 핵심은 [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)이 멈춘 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 없애는 기술이 아니라, 그 사이에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 끼워 넣어 전체 낭비를 줄이는 기술이라는 점이다. 따라서 본질은 "가짜 코어 만들기"가 아니라 "코어 활용도 올리기"에 있다.
@@ -62,20 +62,20 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 두 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 물리 코어 안에서 어떻게 만나는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              1 Physical Core with 2 Logical Threads                 │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ Thread 0 Context      │ Thread 1 Context                             │
-│ PC, Registers, Flags  │ PC, Registers, Flags                         │
-├───────────────────────┴──────────────────────────────────────────────┤
-│ Fetch / Decode / Rename                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Scheduler / Issue Queue                                               │
-├───────────────────────┬───────────────────────┬──────────────────────┤
-│ ALU / Integer Units   │ FPU / Vector Units    │ Load / Store Units   │
-├───────────────────────┴───────────────────────┴──────────────────────┤
-│ L1 Cache / TLB / Branch Predictor / Pipeline Resources (Shared)      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              1 Physical Core with 2 Logical Threads                 |
++-----------------------+----------------------------------------------+
+| Thread 0 Context      | Thread 1 Context                             |
+| PC, Registers, Flags  | PC, Registers, Flags                         |
++-----------------------+----------------------------------------------+
+| Fetch / Decode / Rename                                               |
++----------------------------------------------------------------------+
+| Scheduler / Issue Queue                                               |
++-----------------------+-----------------------+----------------------+
+| ALU / Integer Units   | FPU / Vector Units    | Load / Store Units   |
++-----------------------+-----------------------+----------------------+
+| L1 Cache / TLB / Branch Predictor / Pipeline Resources (Shared)      |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 "문맥은 둘, 실질 장비는 하나"라는 점이다. 그래서 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 다른 종류의 자원을 주로 쓰면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 잘 오르지만, 둘 다 같은 실행 장치와 캐시를 세게 두드리면 오히려 서로를 늦출 수 있다.
@@ -156,25 +156,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 수준 병렬성 한계
-        │
-        ▼
+        |
+        v
 수퍼스칼라 · 깊은 파이프라인
-        │
-        ▼
+        |
+        v
 파이프라인 공백 · 메모리 대기 증가
-        │
-        ▼
+        |
+        v
 SMT (Simultaneous Multithreading)
-        │
-        ▼
+        |
+        v
 하이퍼스레딩 (Hyper-Threading)
-        │
-        ├──────────────▶ 운영체제의 논리 프로세서 인식
-        │
-        └──────────────▶ 클라우드 vCPU · 보안 격리 · 스케줄링 최적화
+        |
+        +---------------> 운영체제의 논리 프로세서 인식
+        |
+        +---------------> 클라우드 vCPU · 보안 격리 · 스케줄링 최적화
 ```
 
-이 흐름은 "단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 최적화의 한계 → 코어 내부 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 활용 → 시스템 수준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제"로 확장되는 맥락을 보여준다.
+이 흐름은 "단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 최적화의 한계 -> 코어 내부 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 활용 -> 시스템 수준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제"로 확장되는 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ SMT (Simultaneous Multithreading)
 
 **진행 상황**: 402 / 803
 
-← **이전**: [400. 동시 멀티스레딩 (SMT, Simultaneous Multithreading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)
-**다음**: [402. 캐시 일관성 (Cache Coherence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) →
+<- **이전**: [400. 동시 멀티스레딩 (SMT, Simultaneous Multithreading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)
+**다음**: [402. 캐시 일관성 (Cache Coherence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ->
 
 ---

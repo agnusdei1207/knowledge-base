@@ -19,12 +19,12 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-순전파: x → 은닉층 → 출력 → 손실(L)
+순전파: x -> 은닉층 -> 출력 -> 손실(L)
 역전파: ∂L/∂W = ∂L/∂y · ∂y/∂h · ∂h/∂W  (연쇄 법칙)
-  → 각 가중치가 손실에 기여하는 정도 → 가중치 업데이트
+  -> 각 가중치가 손실에 기여하는 정도 -> 가중치 업데이트
 ```
 
-- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>"왜 시험 점수가 낮은지" 거꾸로 추적</strong>하는 것이다. 출력(점수)→공부법→교재 순으로 원인을 찾는다.
+- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>"왜 시험 점수가 낮은지" 거꾸로 추적</strong>하는 것이다. 출력(점수)->공부법->교재 순으로 원인을 찾는다.
 
 ---
 
@@ -32,8 +32,8 @@ tags = ["studynote-dataengineering"]
 
 | 문제 | 현상 | 해결 |
 |:---|:---|:---|
-| **Vanishing** | 기울기→0 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) |
-| **Exploding** | 기울기→∞ | Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) |
+| **Vanishing** | 기울기->0 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) |
+| **Exploding** | 기울기->∞ | Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) |
 
 ---
 
@@ -56,15 +56,15 @@ tags = ["studynote-dataengineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[역전파 이론 (Werbos, 1974)] → [실용화 (Rumelhart, 1986)]
-    → [Vanishing 문제 인식 (1990s)]
-    → [ReLU+BatchNorm+ResNet (2010s) — 해결]
-    → [현재: AutoGrad (PyTorch) — 자동 역전파]
+[역전파 이론 (Werbos, 1974)] -> [실용화 (Rumelhart, 1986)]
+    -> [Vanishing 문제 인식 (1990s)]
+    -> [ReLU+BatchNorm+ResNet (2010s) — 해결]
+    -> [현재: AutoGrad (PyTorch) — 자동 역전파]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 시험에서 <strong>"왜 틀렸지?" 거꾸로 추적</strong>하는 거예요.
-2. 정답(출력)→풀이(은닉층)→공식([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 순으로 **원인을 찾아요**.
+2. 정답(출력)->풀이(은닉층)->공식([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 순으로 **원인을 찾아요**.
 3. 원인을 알면 <strong>공식(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)을 고쳐서</strong> 다음 시험에 점수가 올라요!
 
 ---
@@ -73,7 +73,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 133 / 258
 
-← **이전**: [132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/)
-**다음**: [134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) →
+<- **이전**: [132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/)
+**다음**: [134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) ->
 
 ---

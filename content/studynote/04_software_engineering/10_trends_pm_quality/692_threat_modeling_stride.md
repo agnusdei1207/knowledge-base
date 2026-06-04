@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) STRIDE의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  위협 모델링 STRIDE                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  위협 모델링 STRIDE                               |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) STRIDE가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -66,19 +66,19 @@ tags = ["studynote-software-engineering"]
 | **E**levation of Privilege | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a></strong>: 일반 유저가 관리자 권한을 탈취함 | [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) | [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)/[ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)), 권한 분리 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  STRIDE를 활용한 위협 모델링                 │
-├──────────────────────────────────────────────────────────────┤
-│ [Data Flow Diagram (DFD) 기반 분석]                          │
-│                                                              │
-│  [User] ──(1.로그인)──▶ [Web Server] ──(2.조회)──▶ [Database]│
-│                                                              │
-│ * 화살표(데이터 흐름)와 박스(저장소/프로세스)마다 질문을 던짐:   │
-│                                                              │
-│ Q(Spoofing): User가 다른 사람의 세션을 훔치면 어떡하지?         │
-│ Q(Tampering): (1)번 흐름에서 패킷 중간에 가로채서 고치면?       │
-│ Q(Info Disclosure): DB가 통째로 털리면 암호는 안전한가?         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  STRIDE를 활용한 위협 모델링                 |
++--------------------------------------------------------------+
+| [Data Flow Diagram (DFD) 기반 분석]                          |
+|                                                              |
+|  [User] --(1.로그인)---> [Web Server] --(2.조회)---> [Database]|
+|                                                              |
+| * 화살표(데이터 흐름)와 박스(저장소/프로세스)마다 질문을 던짐:   |
+|                                                              |
+| Q(Spoofing): User가 다른 사람의 세션을 훔치면 어떡하지?         |
+| Q(Tampering): (1)번 흐름에서 패킷 중간에 가로채서 고치면?       |
+| Q(Info Disclosure): DB가 통째로 털리면 암호는 안전한가?         |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 경호원이 VIP를 보호할 때 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))를 꺼내들고, "S: 누가 VIP 가족으로 변장하면? T: 누가 VIP의 밥에 독을 타면? D: 누가 길을 차로 막아버리면?" 하나하나 따져보며 방어 계획을 세우는 것이다.
@@ -154,21 +154,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 위협 모델링 STRIDE 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 865 / 973
 
-← **이전**: [691. 오픈소스 컴플라이언스 GPL 카피레프트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/691_opensource_compliance_gpl_copyleft/)
-**다음**: [693. 제로 트러스트 아키텍처 최소 권한 원칙](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/693_zero_trust_architecture_least_privilege/) →
+<- **이전**: [691. 오픈소스 컴플라이언스 GPL 카피레프트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/691_opensource_compliance_gpl_copyleft/)
+**다음**: [693. 제로 트러스트 아키텍처 최소 권한 원칙](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/693_zero_trust_architecture_least_privilege/) ->
 
 ---

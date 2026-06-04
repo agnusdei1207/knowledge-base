@@ -45,17 +45,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 세 요소가 서로 다른 계층을 담당한다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│             CPU 실행 시간 = 무엇을 얼마나 자주 얼마나 빨리?             │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 프로그램/컴파일러 층          마이크로아키텍처 층          회로/공정 층  │
-│                                                                          │
-│ [IC 감소] ───────────────▶ [CPI 감소] ───────────────▶ [Cycle 단축]      │
-│   알고리즘 개선                캐시·파이프라인               임계 경로 단축│
-│   코드 생성 최적화             분기 예측·병렬 실행           공정·전압 조정│
-│                                                                          │
-│ 결과: 세 축이 각각 좋아져야 최종 CPU 실행 시간이 의미 있게 줄어든다     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|             CPU 실행 시간 = 무엇을 얼마나 자주 얼마나 빨리?             |
++--------------------------------------------------------------------------+
+| 프로그램/컴파일러 층          마이크로아키텍처 층          회로/공정 층  |
+|                                                                          |
+| [IC 감소] ----------------> [CPI 감소] ----------------> [Cycle 단축]      |
+|   알고리즘 개선                캐시·파이프라인               임계 경로 단축|
+|   코드 생성 최적화             분기 예측·병렬 실행           공정·전압 조정|
+|                                                                          |
+| 결과: 세 축이 각각 좋아져야 최종 CPU 실행 시간이 의미 있게 줄어든다     |
++--------------------------------------------------------------------------+
 ```
 
 예를 들어 어떤 프로그램이 `IC = 1,000,000`, `CPI = 2`, `Clock Cycle Time = 0.5ns`라면 CPU 실행 시간은 `1,000,000 × 2 × 0.5ns = 1ms`다. 여기서 클럭만 20% 올려 `0.4ns`로 만들어도, 동시에 분기 실패 증가로 CPI가 2.5가 되면 실행 시간은 다시 `1ms`가 된다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 “더 빠른 부품을 넣었는데 왜 안 빨라졌는가?”를 설명하는 최소 단위다.
@@ -135,17 +135,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 실행 시간 측정
-        │
-        ▼
+        |
+        v
 컴퓨터 성능 방정식 (IC × CPI × Clock Cycle Time)
-        │
-        ├─▶ IC 최적화: 알고리즘 · 컴파일러 · ISA
-        │
-        ├─▶ CPI 최적화: 파이프라인 · 캐시 · 분기 예측
-        │
-        └─▶ Clock 최적화: 공정 · 타이밍 · 전력 관리
-                         │
-                         ▼
+        |
+        +--> IC 최적화: 알고리즘 · 컴파일러 · ISA
+        |
+        +--> CPI 최적화: 파이프라인 · 캐시 · 분기 예측
+        |
+        +--> Clock 최적화: 공정 · 타이밍 · 전력 관리
+                         |
+                         v
               암달의 법칙 · Speedup · 시스템 병목 분석
 ```
 
@@ -163,7 +163,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 142 / 803
 
-← **이전**: [141. 지연 시간 (Latency)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)
-**다음**: [143. 암달의 법칙 (Amdahl's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/143_amdahls_law/) →
+<- **이전**: [141. 지연 시간 (Latency)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)
+**다음**: [143. 암달의 법칙 (Amdahl's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/143_amdahls_law/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))과 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))은 GoF 행위 패턴으로, 구조가 동일([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) + 인터페이스 + 구체 구현 클래스)하지만 해결하는 문제와 교체 주체가 다르다. [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 '상태에 따른 동작 + [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)'를, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 '교체 가능한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'을 목적으로 한다.
 > 2. **가치**: 두 패턴의 차이를 명확히 이해하면 설계 상황에 맞는 패턴을 선택할 수 있다. [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 로직이 복잡한 FSM(유한 상태 기계) 구현에, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 동일한 인터페이스의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 런타임에 교체해야 할 때 적합하다.
-> 3. **판단 포인트**: 핵심 판단 기준은 '교체 주체'다. 외부(클라이언트)가 교체 → [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), 내부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 객체)가 스스로 전이 → [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/). [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 여부가 없으면 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)이 더 적합하다.
+> 3. **판단 포인트**: 핵심 판단 기준은 '교체 주체'다. 외부(클라이언트)가 교체 -> [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), 내부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 객체)가 스스로 전이 -> [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/). [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 여부가 없으면 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)이 더 적합하다.
 
 ---
 
@@ -26,22 +26,22 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)의 의도: "객체의 내부 상태가 변할 때 객체의 행위를 변경한다. 객체는 클래스를 바꾸는 것처럼 보인다."
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          구조 비교 (UML 거의 동일)                           │
-├─────────────────────────────────────────────────────────────┤
-│  전략 패턴                  상태 패턴                        │
-│  Context                    Context                         │
-│  - strategy: Strategy       - state: State                  │
-│  + setStrategy(s)           + setState(s)  ← State 내부 호출│
-│  + execute()                + request()                     │
-│        │ (위임)                   │ (위임)                  │
-│   Strategy (인터페이스)      State (인터페이스)              │
-│  + algorithm()              + handle(ctx)                   │
-│        ▲                          ▲                         │
-│  StrategyA  StrategyB       StateA  StateB                  │
-│                             (StateA.handle에서 ctx.setState  │
-│                              (new StateB()) 호출)            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          구조 비교 (UML 거의 동일)                           |
++-------------------------------------------------------------+
+|  전략 패턴                  상태 패턴                        |
+|  Context                    Context                         |
+|  - strategy: Strategy       - state: State                  |
+|  + setStrategy(s)           + setState(s)  <- State 내부 호출|
+|  + execute()                + request()                     |
+|        | (위임)                   | (위임)                  |
+|   Strategy (인터페이스)      State (인터페이스)              |
+|  + algorithm()              + handle(ctx)                   |
+|        ^                          ^                         |
+|  StrategyA  StrategyB       StateA  StateB                  |
+|                             (StateA.handle에서 ctx.setState  |
+|                              (new StateB()) 호출)            |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 같은 '교체 메커니즘'을 사용하지만, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 요리사가 레시피를 선택(외부 교체), 상태는 신호등이 스스로 다음 상태로 전환(내부 전이)하는 것이다.
@@ -62,20 +62,20 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 | 클라이언트 인식 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 종류 알아야 함 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 알 필요 없음 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       코드 수준 차이                                         │
-├─────────────────────────────────────────────────────────────┤
-│  // 전략 패턴: 외부에서 교체                                │
-│  context.setStrategy(new FastSortStrategy());               │
-│  context.executeStrategy(data);                             │
-│                                                             │
-│  // 상태 패턴: 내부 전이                                    │
-│  // 클라이언트는 상태 전이를 모름                           │
-│  order.process(); // 내부에서 상태 전이 발생                │
-│  // ReceivedState.process(ctx) {                            │
-│  //   ctx.setState(new ProcessingState()); // 내부 전이     │
-│  // }                                                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       코드 수준 차이                                         |
++-------------------------------------------------------------+
+|  // 전략 패턴: 외부에서 교체                                |
+|  context.setStrategy(new FastSortStrategy());               |
+|  context.executeStrategy(data);                             |
+|                                                             |
+|  // 상태 패턴: 내부 전이                                    |
+|  // 클라이언트는 상태 전이를 모름                           |
+|  order.process(); // 내부에서 상태 전이 발생                |
+|  // ReceivedState.process(ctx) {                            |
+|  //   ctx.setState(new ProcessingState()); // 내부 전이     |
+|  // }                                                       |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 리모컨(클라이언트)이 채널([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 선택하는 것이고, [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 자판기가 내부 상태에 따라 자동으로 모드를 전환하는 것이다.
@@ -96,11 +96,11 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사 시험에서 두 패턴 비교 문제 풀이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 핵심 키워드 ① "[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)"가 있으면 → [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/), ② "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체"가 있으면 → [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), ③ "외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"이면 → [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), ④ "자동 전환"이면 → [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/).
+기술사 시험에서 두 패턴 비교 문제 풀이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 핵심 키워드 ① "[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)"가 있으면 -> [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/), ② "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체"가 있으면 -> [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), ③ "외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"이면 -> [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), ④ "자동 전환"이면 -> [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/).
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 요구사항에 '[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)'(A 상태에서 B 상태로 자동 변환)가 있는가? → [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)
-2. 요구사항에 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체'(클라이언트가 선택)가 있는가? → [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
+1. 요구사항에 '[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)'(A 상태에서 B 상태로 자동 변환)가 있는가? -> [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)
+2. 요구사항에 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체'(클라이언트가 선택)가 있는가? -> [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
 3. 두 패턴을 혼동할 때 '교체 주체'(내부 vs 외부)로 구분하고 있는가?
 4. 두 패턴이 함께 사용될 수 있는 경우를 인식하는가?
 5. 구조 다이어그램이 아닌 '의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'로 패턴을 구분하고 있는가?
@@ -121,7 +121,7 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 
 ### 📌 관련 개념 맵
 
-[GoF 패턴 비교] → [전략 패턴(외부 교체)] vs [상태 패턴(내부 전이)] → [두 패턴 조합] → [FSM 프레임워크]
+[GoF 패턴 비교] -> [전략 패턴(외부 교체)] vs [상태 패턴(내부 전이)] -> [두 패턴 조합] -> [FSM 프레임워크]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -132,7 +132,7 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF 두 패턴 비교] → [의도 기반 구분 기준] → [두 패턴 조합 설계] → [FSM 프레임워크 적용]
+[GoF 두 패턴 비교] -> [의도 기반 구분 기준] -> [두 패턴 조합 설계] -> [FSM 프레임워크 적용]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +146,7 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 
 **진행 상황**: 259 / 530
 
-← **이전**: [197. 상태 패턴 (State Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/197_state_pattern/)
-**다음**: [199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/199_chain_of_responsibility_pattern/) →
+<- **이전**: [197. 상태 패턴 (State Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/197_state_pattern/)
+**다음**: [199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/199_chain_of_responsibility_pattern/) ->
 
 ---

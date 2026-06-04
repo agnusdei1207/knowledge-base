@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 오토스케일링 HPA (파드 증설) CA (노드 증설)가 필요한 이유: 선언 상태와 실제 상태의 차이를 줄임                 │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 선언 ─▶ 제어면(Control Plane) ─▶ 노드 실행면(Node)         │
-│      │                    │                         │              │
-│      └────────── 정책·스케줄·복구 요구를 지속적으로 반영 ─────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 오토스케일링 HPA (파드 증설) CA (노드 증설)가 필요한 이유: 선언 상태와 실제 상태의 차이를 줄임                 |
++--------------------------------------------------------------+
+| 사용자 선언 --> 제어면(Control Plane) --> 노드 실행면(Node)         |
+|      |                    |                         |              |
+|      +---------- 정책·스케줄·복구 요구를 지속적으로 반영 ---------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)면 | 배포·격리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기준 | autoscaling, probe, [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 오토스케일링 HPA (파드 증설) CA (노드 증설) 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 오토스케일링 HPA (파드 증설) CA (노드 증설) 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[수동 운영] → [오토스케일링 HPA (파드 증설) CA (노드 증설)] → [정책 기반 자율 운영]
+[수동 운영] -> [오토스케일링 HPA (파드 증설) CA (노드 증설)] -> [정책 기반 자율 운영]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 281 / 371
 
-← **이전**: [281. ClusterIP NodePort LoadBalancer Ingress 라우팅 (ClusterIP NodePort LoadBalancer](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/281_clusterip_nodeport_loadbalancer_ingress/)
-**다음**: [283. 퍼시스턴트 볼륨 스토리지 분리 (PV/PVC)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/283_pv_pvc/) →
+<- **이전**: [281. ClusterIP NodePort LoadBalancer Ingress 라우팅 (ClusterIP NodePort LoadBalancer](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/281_clusterip_nodeport_loadbalancer_ingress/)
+**다음**: [283. 퍼시스턴트 볼륨 스토리지 분리 (PV/PVC)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/283_pv_pvc/) ->
 
 ---

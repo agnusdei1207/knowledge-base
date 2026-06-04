@@ -32,14 +32,14 @@ tags = ["studynote-enterprise"]
 
 ```text
 [사용자/애플리케이션] (통합 인터페이스 접근)
-           │
-           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 패브릭 지능형 계층                    │
-│ [AI 기반 메타데이터 분석] [데이터 가상화] [자동 품질 관리]    │
-└──────────────────────────────────────────────────────────────┘
-           │                   │                    │
-           ▼                   ▼                    ▼
+           |
+           v
++--------------------------------------------------------------+
+|                  데이터 패브릭 지능형 계층                    |
+| [AI 기반 메타데이터 분석] [데이터 가상화] [자동 품질 관리]    |
++--------------------------------------------------------------+
+           |                   |                    |
+           v                   v                    v
    [AWS S3 저장소]     [온프레미스 Oracle]     [Salesforce SaaS]
 ```
 
@@ -109,17 +109,17 @@ tags = ["studynote-enterprise"]
 
 ```
 사일로화된 이기종 데이터 소스 난립
-    │
-    ▼
+    |
+    v
 데이터 통합 미들웨어 (ETL 허브) 한계
-    │
-    ▼
+    |
+    v
 Active Metadata + AI 기반 데이터 패브릭 등장
-    │
-    ▼
+    |
+    v
 Knowledge Graph + 자동 발견·추천·거버넌스
-    │
-    ▼
+    |
+    v
 하이브리드/멀티클라우드 통합 지능형 데이터 계층
 ```
 
@@ -136,7 +136,7 @@ Knowledge Graph + 자동 발견·추천·거버넌스
 
 **진행 상황**: 296 / 482
 
-← **이전**: [295. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/295_data_mesh/)
-**다음**: [297. 데이터 가상화 (Data Virtualization)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/297_data_virtualization/) →
+<- **이전**: [295. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/295_data_mesh/)
+**다음**: [297. 데이터 가상화 (Data Virtualization)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/297_data_virtualization/) ->
 
 ---

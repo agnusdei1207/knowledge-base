@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
+    |
+    v
 [IPS 시그니처 정규식]
-    │
-    └──▶ [웹쉘 탐지 프로토콜 파서]
+    |
+    +---> [웹쉘 탐지 프로토콜 파서]
 ```
 
 - **📢 섹션 요약 비유**: [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 ```text
 [네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
+    |
+    v
 [IPS 시그니처 정규식]
-    │
-    └──▶ [웹쉘 탐지 프로토콜 파서]
+    |
+    +---> [웹쉘 탐지 프로토콜 파서]
 ```
 
 - **📢 섹션 요약 비유**: [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 ```text
 [선행 개념: 네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPS 시그니처 정규식]
-    │
-    ├──▶ [확장 A: 웹쉘 탐지 프로토콜 파서]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 웹쉘 탐지 프로토콜 파서]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식는 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 **진행 상황**: 189 / 1120
 
-← **이전**: [1080. 네트워크 포렌식 패킷 덤프 파싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1080_network_forensics_packet_dump_parsing_pcap/)
-**다음**: [1082. 웹쉘 탐지 프로토콜 파서](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1082_webshell_detection_protocol_parser_ids/) →
+<- **이전**: [1080. 네트워크 포렌식 패킷 덤프 파싱](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1080_network_forensics_packet_dump_parsing_pcap/)
+**다음**: [1082. 웹쉘 탐지 프로토콜 파서](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1082_webshell_detection_protocol_parser_ids/) ->
 
 ---

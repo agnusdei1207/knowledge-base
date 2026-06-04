@@ -39,27 +39,27 @@ FLOPS는 단순히 [클럭 주파수](/knowledge-base/studynote/01_computer_arch
 아래 그림은 FLOPS가 왜 "연산기 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"와 직결되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 FLOPS가 커지는 구조: 병렬 FP 파이프라인             │
-├──────────────────────────────────────────────────────────────────────┤
-│ 입력 벡터                                                            │
-│   │                                                                  │
-│   ▼                                                                  │
-│ ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐             │
-│ │ FPU 1    │   │ FPU 2    │   │ FPU 3    │   │ FPU 4    │  ...        │
-│ │ FP32/F64 │   │ FP32/F64 │   │ FP32/F64 │   │ FP32/F64 │             │
-│ └────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘             │
-│      │              │              │              │                   │
-│      ├───── 병렬 곱셈/덧셈/FMA 수행 ─────┬─────────┤                   │
-│      │                                  │                             │
-│      ▼                                  ▼                             │
-│                    누산기 (Accumulator)                               │
-│                          │                                            │
-│                          ▼                                            │
-│                    결과 벡터 생성                                     │
-│                                                                      │
-│ 핵심: 같은 1사이클 안에 여러 FPU가 동시에 일할수록 FLOPS가 증가한다. │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 FLOPS가 커지는 구조: 병렬 FP 파이프라인             |
++----------------------------------------------------------------------+
+| 입력 벡터                                                            |
+|   |                                                                  |
+|   v                                                                  |
+| +----------+   +----------+   +----------+   +----------+             |
+| | FPU 1    |   | FPU 2    |   | FPU 3    |   | FPU 4    |  ...        |
+| | FP32/F64 |   | FP32/F64 |   | FP32/F64 |   | FP32/F64 |             |
+| +----+-----+   +----+-----+   +----+-----+   +----+-----+             |
+|      |              |              |              |                   |
+|      +----- 병렬 곱셈/덧셈/FMA 수행 -----+---------+                   |
+|      |                                  |                             |
+|      v                                  v                             |
+|                    누산기 (Accumulator)                               |
+|                          |                                            |
+|                          v                                            |
+|                    결과 벡터 생성                                     |
+|                                                                      |
+| 핵심: 같은 1사이클 안에 여러 FPU가 동시에 일할수록 FLOPS가 증가한다. |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 2.0 GHz에서 동작하는 프로세서가 코어당 매 사이클 8개의 FP32 (32-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 연산을 처리하고, 이런 코어가 64개 있다면 이론상 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `64 × 8 × 2.0 GHz = 1024 GFLOPS`, 즉 약 1.024 TFLOPS가 된다. 여기에 벡터 폭을 늘리거나 FMA를 적극 사용하면 같은 클럭에서도 FLOPS가 더 커진다. 그래서 현대 고성능 칩은 클럭만 무작정 올리기보다 벡터 연산기와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 파이프라인을 넓히는 방향으로 발전해 왔다.
@@ -155,20 +155,20 @@ FLOPS는 현대 컴퓨터가 얼마나 강한 수치 계산 능력을 갖고 있
 
 ```text
 단일 연산기 기반 실수 계산
-    │
-    ▼
+    |
+    v
 FPU (Floating Point Unit) 확장
-    │
-    ▼
+    |
+    v
 SIMD (Single Instruction Multiple Data) · 벡터화
-    │
-    ▼
+    |
+    v
 FMA (Fused Multiply-Add) 기반 연산 밀도 향상
-    │
-    ▼
+    |
+    v
 GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁
-    │
-    ▼
+    |
+    v
 혼합 정밀도(FP32/FP16/BF16) · AI/HPC 실효 성능 최적화
 ```
 
@@ -186,7 +186,7 @@ GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁
 
 **진행 상황**: 137 / 803
 
-← **이전**: [136. MIPS (Million Instructions Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/136_mips/)
-**다음**: [138. 응답 시간 (Response Time)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) →
+<- **이전**: [136. MIPS (Million Instructions Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/136_mips/)
+**다음**: [138. 응답 시간 (Response Time)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ->
 
 ---

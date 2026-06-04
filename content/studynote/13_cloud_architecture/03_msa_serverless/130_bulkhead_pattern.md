@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)(격벽)는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>·리소스를 격리된 풀(Pool)로 분리</strong>하여 하나의 장애가 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전파되지 않도록 하는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복원력 패턴이다.
-> 2. **가치**: 주문·결제·추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>같은 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>을 공유</strong>하면 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고갈→주문·결제도 장애(Cascading), Bulkhead로 분리하면 **추천만 영향**.
+> 2. **가치**: 주문·결제·추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>같은 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>을 공유</strong>하면 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고갈->주문·결제도 장애(Cascading), Bulkhead로 분리하면 **추천만 영향**.
 > 3. **판단 포인트**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) [Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 풀)·[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) [Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)(동시 호출 수 제한)·K8s ResourceQuota([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)별 CPU·메모리 격리)가 구현 방식이다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-cloud-architecture"]
 ```text
 Bulkhead = 선박의 격벽
   한 구획에 물이 차도 다른 구획은 안전
-  → 서비스 A 장애 → 서비스 B·C는 정상
+  -> 서비스 A 장애 -> 서비스 B·C는 정상
 ```
 
 - **📢 섹션 요약 비유**: Bulkhead는 잠수함의 <strong>격벽</strong>이다. 한 구획이 침수되어도 다른 구획은 안전하다.
@@ -57,10 +57,10 @@ Bulkhead는 <strong><a href="/knowledge-base/studynote/12_it_management/05_secur
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[공유 스레드 풀 (전통)] → [Hystrix Bulkhead (2012~)]
-    → [Resilience4j Bulkhead (2018~)]
-    → [K8s ResourceQuota (컨테이너 격리)]
-    → [현재: 서비스 메시 Bulkhead — Istio 자동 격리]
+[공유 스레드 풀 (전통)] -> [Hystrix Bulkhead (2012~)]
+    -> [Resilience4j Bulkhead (2018~)]
+    -> [K8s ResourceQuota (컨테이너 격리)]
+    -> [현재: 서비스 메시 Bulkhead — Istio 자동 격리]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ Bulkhead는 <strong><a href="/knowledge-base/studynote/12_it_management/05_secur
 
 **진행 상황**: 129 / 371
 
-← **이전**: [129. Fallback 패턴 - MSA 장애 시 대체 응답 전략](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)
-**다음**: [131. Database per Service - MSA 데이터 분리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/131_database_per_service/) →
+<- **이전**: [129. Fallback 패턴 - MSA 장애 시 대체 응답 전략](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)
+**다음**: [131. Database per Service - MSA 데이터 분리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/131_database_per_service/) ->
 
 ---

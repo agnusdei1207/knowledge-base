@@ -31,21 +31,21 @@ tags = ["studynote-devops-sre"]
 에어 갭 배포 아키텍처는 크게 외부망에서의 '정적 패키징', 물리적 '반입 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)', 내부망에서의 '로컬 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 및 배포' 3단계로 나뉜다. 모든 의존성은 외부망에서 하나의 아카이브 (Tarball 등)로 병합되어 반입된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           에어 갭 (Air-gapped) CI/CD 반입 워크플로우           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 외부 인터넷 망 ]         [ 물리적 격리 구간 ]       [ 내부 폐쇄 망 ]  │
-│                                                              │
-│  1. 빌드 및 패키징         2. 보안 스캔/반입          3. 내부 배포       │
-│  ┌────────────┐         ┌──────────────┐         ┌────────────┐  │
-│  │ 외부 라이브러리│         │ 안티바이러스 │         │ 로컬 레지스트리│  │
-│  │ 도커 베이스 이미지├─포장─▶ │ 단방향 전송망 │ ─반입─▶ │ 헬름 (Helm)  │  │
-│  │ 자체 소스코드 │ (.tar) │ (Data Diode) │         │ K8s 클러스터 │  │
-│  └────────────┘         └──────────────┘         └────────────┘  │
-│      (모든 종속성              (물리적 망연계            (완전 오프라인    │
-│       미리 포함)                 망분리 솔루션)            자동화 배포)    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           에어 갭 (Air-gapped) CI/CD 반입 워크플로우           |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 외부 인터넷 망 ]         [ 물리적 격리 구간 ]       [ 내부 폐쇄 망 ]  |
+|                                                              |
+|  1. 빌드 및 패키징         2. 보안 스캔/반입          3. 내부 배포       |
+|  +------------+         +--------------+         +------------+  |
+|  | 외부 라이브러리|         | 안티바이러스 |         | 로컬 레지스트리|  |
+|  | 도커 베이스 이미지+-포장--> | 단방향 전송망 | -반입--> | 헬름 (Helm)  |  |
+|  | 자체 소스코드 | (.tar) | (Data Diode) |         | K8s 클러스터 |  |
+|  +------------+         +--------------+         +------------+  |
+|      (모든 종속성              (물리적 망연계            (완전 오프라인    |
+|       미리 포함)                 망분리 솔루션)            자동화 배포)    |
++--------------------------------------------------------------+
 ```
 
 가장 핵심적인 원리는 벤더링 (Vendoring)이다. 외부망 빌드 단계에서 필요한 모든 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 애플리케이션 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)에 다운로드하여 묶고, [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 역시 `docker save` 명령을 통해 `.tar` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 구워낸다. 이후 일방향 통신 장비 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))나 승인된 USB를 통해 반입되며, 폐쇄망 내부에 구축된 프라이빗 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (예: Harbor, Nexus)에 로드 (Load)되어 내부 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 이를 당겨간다.
@@ -117,17 +117,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 망분리 · 에어 갭 (Air-gapped) 환경 제약
-    │
-    ▼
+    |
+    v
 오프라인 패키징 · 벤더링 (Vendoring) 적용
-    │
-    ▼
+    |
+    v
 타르볼 (Tarball) 반입 · 망연계 솔루션 통과
-    │
-    ▼
+    |
+    v
 프라이빗 레지스트리 구축 (Nexus, Harbor)
-    │
-    ▼
+    |
+    v
 SBOM 기반 공급망 보안 · 내부 GitOps 배포 자동화
 ```
 
@@ -142,7 +142,7 @@ SBOM 기반 공급망 보안 · 내부 GitOps 배포 자동화
 
 **진행 상황**: 102 / 373
 
-← **이전**: [101. 엣지 디바이스 OTA 배포 (Over-The-Air) - 대규모 원격 펌웨어 업데이트 및 무결성 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/101_edge_device_ota_firmware_deployment_pipeline/)
-**다음**: [CI/CD 메트릭 대시보드: 배포 성능 분석 및 병목 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/103_cicd_metrics_dashboard_deployment_analytics/) →
+<- **이전**: [101. 엣지 디바이스 OTA 배포 (Over-The-Air) - 대규모 원격 펌웨어 업데이트 및 무결성 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/101_edge_device_ota_firmware_deployment_pipeline/)
+**다음**: [CI/CD 메트릭 대시보드: 배포 성능 분석 및 병목 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/103_cicd_metrics_dashboard_deployment_analytics/) ->
 
 ---

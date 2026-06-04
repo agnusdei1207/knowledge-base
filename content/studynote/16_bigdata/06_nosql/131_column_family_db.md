@@ -24,29 +24,29 @@ tags = ["studynote-bigdata"]
 ### RDBMS vs 컬럼 패밀리 DB 저장 구조 차이
 
 ```text
-┌─────────────────────────────────────────────────────┐
-│     RDBMS (행 기반 저장): 모든 컬럼 고정              │
-├────────┬──────┬──────┬──────┬──────┬──────┬────────┤
-│ Row ID │ col1 │ col2 │ col3 │ col4 │ col5 │ col6   │
-├────────┼──────┼──────┼──────┼──────┼──────┼────────┤
-│ user:1 │ 홍길동│ 20   │ NULL │ NULL │ NULL │ NULL   │
-│ user:2 │ 이몽룡│ 22   │ 서울 │ NULL │ NULL │ NULL   │
-└────────┴──────┴──────┴──────┴──────┴──────┴────────┘
++-----------------------------------------------------+
+|     RDBMS (행 기반 저장): 모든 컬럼 고정              |
++--------+------+------+------+------+------+--------+
+| Row ID | col1 | col2 | col3 | col4 | col5 | col6   |
++--------+------+------+------+------+------+--------+
+| user:1 | 홍길동| 20   | NULL | NULL | NULL | NULL   |
+| user:2 | 이몽룡| 22   | 서울 | NULL | NULL | NULL   |
++--------+------+------+------+------+------+--------+
 
-┌─────────────────────────────────────────────────────┐
-│  Wide-Column DB (스파스 저장): 있는 컬럼만 저장       │
-│                                                     │
-│  Row Key: "user:1"                                  │
-│  ├── CF: profile → { name:"홍길동", age:20 }         │
-│  └── CF: activity → { login:"2026-04", views:42 }   │
-│                                                     │
-│  Row Key: "user:2"                                  │
-│  ├── CF: profile → { name:"이몽룡", age:22, city:"서울" }
-│  ├── CF: activity → { login:"2026-04" }             │
-│  └── CF: purchase → { item1:"A",item2:"B" }         │
-│                                                     │
-│  * NULL 컬럼 저장 불필요 → 스토리지 효율 극대화        │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  Wide-Column DB (스파스 저장): 있는 컬럼만 저장       |
+|                                                     |
+|  Row Key: "user:1"                                  |
+|  +-- CF: profile -> { name:"홍길동", age:20 }         |
+|  +-- CF: activity -> { login:"2026-04", views:42 }   |
+|                                                     |
+|  Row Key: "user:2"                                  |
+|  +-- CF: profile -> { name:"이몽룡", age:22, city:"서울" }
+|  +-- CF: activity -> { login:"2026-04" }             |
+|  +-- CF: purchase -> { item1:"A",item2:"B" }         |
+|                                                     |
+|  * NULL 컬럼 저장 불필요 -> 스토리지 효율 극대화        |
++-----------------------------------------------------+
 ```
 
 ### 대표 솔루션 비교
@@ -70,72 +70,72 @@ tags = ["studynote-bigdata"]
 ### [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 아키텍처
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                   HBase 아키텍처                          │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │              HMaster                              │  │
-│  │  - Region 할당 관리         - DDL 처리             │  │
-│  │  - Region Server 모니터링   - 부하 분산             │  │
-│  └────────────────────────────────────────────────────┘  │
-│                        │ ZooKeeper 코디네이션             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
-│  │RegionServer 1│  │RegionServer 2│  │RegionServer 3│   │
-│  │ Region A     │  │ Region B     │  │ Region C     │   │
-│  │ Region D     │  │ Region E     │  │ Region F     │   │
-│  └──────────────┘  └──────────────┘  └──────────────┘   │
-│                        │                                 │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │           HDFS (Hadoop Distributed File System)     │ │
-│  │  HFile(SSTable) 영구 저장, 3중 복제                  │ │
-│  └─────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                   HBase 아키텍처                          |
+|                                                          |
+|  +----------------------------------------------------+  |
+|  |              HMaster                              |  |
+|  |  - Region 할당 관리         - DDL 처리             |  |
+|  |  - Region Server 모니터링   - 부하 분산             |  |
+|  +----------------------------------------------------+  |
+|                        | ZooKeeper 코디네이션             |
+|  +--------------+  +--------------+  +--------------+   |
+|  |RegionServer 1|  |RegionServer 2|  |RegionServer 3|   |
+|  | Region A     |  | Region B     |  | Region C     |   |
+|  | Region D     |  | Region E     |  | Region F     |   |
+|  +--------------+  +--------------+  +--------------+   |
+|                        |                                 |
+|  +-----------------------------------------------------+ |
+|  |           HDFS (Hadoop Distributed File System)     | |
+|  |  HFile(SSTable) 영구 저장, 3중 복제                  | |
+|  +-----------------------------------------------------+ |
++----------------------------------------------------------+
 ```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 링 구조
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│           Cassandra 마스터리스 링 토폴로지               │
-│                                                      │
-│              Node 1 (token: 0)                       │
-│             ╱         ╲                              │
-│  Node 5   ●             ●   Node 2                   │
-│ (token:   │   동등한     │   (token:                  │
-│  2^126)   │   피어들     │    2^30)                   │
-│            ●             ●                           │
-│  Node 4 (token:2^94)  Node 3(token:2^62)             │
-│                                                      │
-│  * 모든 노드가 동등(피어) → 단일 장애점(SPOF) 없음       │
-│  * RF=3: 데이터는 일관된 해싱으로 결정된 3개 노드에 저장  │
-│  * Gossip Protocol: 노드 상태 P2P 전파               │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|           Cassandra 마스터리스 링 토폴로지               |
+|                                                      |
+|              Node 1 (token: 0)                       |
+|             ╱         ╲                              |
+|  Node 5   ●             ●   Node 2                   |
+| (token:   |   동등한     |   (token:                  |
+|  2^126)   |   피어들     |    2^30)                   |
+|            ●             ●                           |
+|  Node 4 (token:2^94)  Node 3(token:2^62)             |
+|                                                      |
+|  * 모든 노드가 동등(피어) -> 단일 장애점(SPOF) 없음       |
+|  * RF=3: 데이터는 일관된 해싱으로 결정된 3개 노드에 저장  |
+|  * Gossip Protocol: 노드 상태 P2P 전파               |
++------------------------------------------------------+
 ```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로 (Write Path)
 
 ```text
 클라이언트 Write 요청
-        │
-        ↓
-┌──────────────┐
-│  Commit Log  │ ← 내구성 보장 (Sequential Write)
-└──────────────┘
-        │
-        ↓
-┌──────────────┐
-│  MemTable    │ ← 인메모리 정렬 구조
-└──────────────┘
-        │ (임계값 도달 시 Flush)
-        ↓
-┌──────────────┐
-│   SSTable    │ ← 불변(Immutable) 디스크 파일
-└──────────────┘
-        │
-        ↓ (주기적 Compaction)
-┌──────────────┐
-│ 병합된 SSTable│ ← 공간 회수 + 성능 최적화
-└──────────────┘
+        |
+        v
++--------------+
+|  Commit Log  | <- 내구성 보장 (Sequential Write)
++--------------+
+        |
+        v
++--------------+
+|  MemTable    | <- 인메모리 정렬 구조
++--------------+
+        | (임계값 도달 시 Flush)
+        v
++--------------+
+|   SSTable    | <- 불변(Immutable) 디스크 파일
++--------------+
+        |
+        v (주기적 Compaction)
++--------------+
+| 병합된 SSTable| <- 공간 회수 + 성능 최적화
++--------------+
 ```
 
 ### [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
@@ -167,10 +167,10 @@ tags = ["studynote-bigdata"]
 ### ScyllaDB의 차별화
 
 ```text
-Java Cassandra → GC 일시 정지(Stop-the-World)
+Java Cassandra -> GC 일시 정지(Stop-the-World)
                  100ms~수초 스파이크
 
-C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
+C++ ScyllaDB  -> GC 없음, 코어별 CPU 친화성
                 p99 지연 10배 이상 개선
                 같은 워크로드를 1/5~1/10 노드로 처리
 ```
@@ -186,7 +186,7 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 
 ```text
 ❌ 잘못된 접근: 엔티티 관계 우선 설계
-   (후에 필요한 쿼리에 맞게 복잡한 JOIN → CQL에서 불가)
+   (후에 필요한 쿼리에 맞게 복잡한 JOIN -> CQL에서 불가)
 
 ✅ 올바른 접근: 쿼리 패턴 우선 설계
    1. "어떤 쿼리로 데이터를 읽을 것인가?" 정의
@@ -194,7 +194,7 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
    3. 쿼리당 1개 테이블 원칙 (Query-per-table)
 
 예: "사용자별 최근 100개 주문 시간 역순 조회"
-   → PRIMARY KEY ((user_id), order_time)
+   -> PRIMARY KEY ((user_id), order_time)
       WITH CLUSTERING ORDER BY (order_time DESC)
 ```
 
@@ -245,17 +245,17 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 
 ```text
 [RDBMS 행 기반 저장]
-    │
-    ▼
+    |
+    v
 [와이드 컬럼 필요성]
-    │
-    ▼
+    |
+    v
 [컬럼 패밀리 DB(HBase/Cassandra)]
-    │
-    ▼
+    |
+    v
 [SSTable/LSM 트리]
-    │
-    ▼
+    |
+    v
 [시계열/IoT 응용]
 ```
 
@@ -272,7 +272,7 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 
 **진행 상황**: 131 / 262
 
-← **이전**: [130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos](/knowledge-base/studynote/16_bigdata/06_nosql/130_mongodb_architecture/)
-**다음**: [132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/132_cassandra/) →
+<- **이전**: [130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos](/knowledge-base/studynote/16_bigdata/06_nosql/130_mongodb_architecture/)
+**다음**: [132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/132_cassandra/) ->
 
 ---

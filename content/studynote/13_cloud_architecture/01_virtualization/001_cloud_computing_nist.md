@@ -20,7 +20,7 @@ tags = ["cloud_architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NIST SP 800-145가 정의한 클라우드 컴퓨팅의 5대 필수 특성(Essential Characteristics)은 ①On-demand Self-Service, ②Broad Network Access, ③Resource Pooling, ④Rapid Elasticity, ⑤Measured Service으로, 클라우드가 단순한 "원격 서버"가 아닌 **"탄력적·계량적·자동화된 다중 사용자 자원 추상화 계층"**임을 규정하는 기술적 판별 기준이다.
-> 2. **가치**: 5대 특성을 충족할 때 평균 CAPEX 30~60% 절감, 자원利用率(Utilization) 10~20% → 60~80%로 향상, 프로비저닝 시간 수 주 → 수 분/초로 단축, AWS·Azure·GCP 모두 99.9~99.99% SLA와 사용량 기반 종량제(Pay-as-you-go)를 제공하여 TCO 최적화와 비즈니스 민첩성(Agility)을 동시에 달성한다.
+> 2. **가치**: 5대 특성을 충족할 때 평균 CAPEX 30~60% 절감, 자원利用率(Utilization) 10~20% -> 60~80%로 향상, 프로비저닝 시간 수 주 -> 수 분/초로 단축, AWS·Azure·GCP 모두 99.9~99.99% SLA와 사용량 기반 종량제(Pay-as-you-go)를 제공하여 TCO 최적화와 비즈니스 민첩성(Agility)을 동시에 달성한다.
 > 3. **판단 포인트**: 5대 특성을 100% 충족하지 못하는 시스템(예: 수동 티켓 기반 VM 발급, 단일 테넌트 전용호스트, 정적 과금)은 **"클라우드 컴퓨팅"이라 부르기 어렵다**는 점이 핵심. 기술사 답안에서는 "어느 한 특성이 누락되면 NIST 정의상 클라우드가 아니다"라는 엄격한 기준을 적용해 On-Premise 가상화, Managed Hosting, 전통적 Outsourcing과의 차이를 명확히 기술해야 한다.
 
 ---
@@ -46,39 +46,39 @@ NIST는 클라우드 컴퓨팅을 **"공유 가능한 구성 가능한 컴퓨팅
 ### 1.3 클라우드 컴퓨팅 정의 구조 (NIST 3축 모델)
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                  NIST SP 800-145 : Cloud Computing 3축 모델                 │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                  NIST SP 800-145 : Cloud Computing 3축 모델                 |
++-----------------------------------------------------------------------------+
 
-                          ┌─────────────────────────┐
-                          │    5대 필수 특성          │
-                          │   (Essential            │
-                          │    Characteristics)      │
-                          │   ◀──── 이 문서의 범위    │
-                          └────────────┬────────────┘
-                                       │
-                                       ▼
-        ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-        │   Service        │   │  Cloud Computing │   │   Deployment     │
-        │   Models         │   │                  │   │   Models         │
-        │   (서비스 모델)   │   │   (정의 자체)     │   │   (배치 모델)     │
-        └────────┬─────────┘   └──────────────────┘   └────────┬─────────┘
-                 │                                              │
-        ┌────────┴─────────┐                          ┌─────────┴────────┐
-        │  Software-as-a-  │                          │  Public Cloud    │
-        │  Service(SaaS)   │                          │  (AWS, Azure,    │
-        ├──────────────────┤                          │   GCP, Naver)    │
-        │  Platform-as-a-  │                          ├──────────────────┤
-        │  Service(PaaS)   │                          │  Private Cloud   │
-        ├──────────────────┤                          │  (OpenStack,     │
-        │  Infrastructure- │                          │   VMware on-prem)│
-        │  as-a-Service    │                          ├──────────────────┤
-        │  (IaaS)          │                          │  Hybrid Cloud    │
-        └──────────────────┘                          │  (AWS Outposts,  │
-                                                     │   Azure Arc)     │
-                                                     ├──────────────────┤
-                                                     │  Community Cloud │
-                                                     └──────────────────┘
+                          +-------------------------+
+                          |    5대 필수 특성          |
+                          |   (Essential            |
+                          |    Characteristics)      |
+                          |   <----- 이 문서의 범위    |
+                          +------------+------------+
+                                       |
+                                       v
+        +------------------+   +------------------+   +------------------+
+        |   Service        |   |  Cloud Computing |   |   Deployment     |
+        |   Models         |   |                  |   |   Models         |
+        |   (서비스 모델)   |   |   (정의 자체)     |   |   (배치 모델)     |
+        +--------+---------+   +------------------+   +--------+---------+
+                 |                                              |
+        +--------+---------+                          +---------+--------+
+        |  Software-as-a-  |                          |  Public Cloud    |
+        |  Service(SaaS)   |                          |  (AWS, Azure,    |
+        +------------------+                          |   GCP, Naver)    |
+        |  Platform-as-a-  |                          +------------------+
+        |  Service(PaaS)   |                          |  Private Cloud   |
+        +------------------+                          |  (OpenStack,     |
+        |  Infrastructure- |                          |   VMware on-prem)|
+        |  as-a-Service    |                          +------------------+
+        |  (IaaS)          |                          |  Hybrid Cloud    |
+        +------------------+                          |  (AWS Outposts,  |
+                                                     |   Azure Arc)     |
+                                                     +------------------+
+                                                     |  Community Cloud |
+                                                     +------------------+
 ```
 
 - **📢 섹션 요약 비유**: 5대 필수 특성은 클라우드라는 "자동차"의 **5가지 연료 주입장치**와 같다. 하나라도 작동하지 않으면 시동을 걸 수 없다. 5대 특성이 모두 갖춰져야야 "클라우드"라 부를 수 있고, 하나라도 빠지면 그저 "가상화된 데이터센터"일 뿐이다.
@@ -92,44 +92,44 @@ NIST는 클라우드 컴퓨팅을 **"공유 가능한 구성 가능한 컴퓨팅
 NIST SP 800-145 §2가 명시한 5대 특성은 상호 의존적이며, 클라우드 서비스 제공자(Cloud Service Provider, CSP)의 내부 아키텍처(Control Plane, Data Plane)와 사용자 인터페이스(Portal, API, SDK)에 의해 구현된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              5대 필수 특성의 계층적 아키텍처 매핑 (CSP 내부)                │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|              5대 필수 특성의 계층적 아키텍처 매핑 (CSP 내부)                |
++---------------------------------------------------------------------------+
 
-   ┌─────────────────── User Plane ──────────────────────┐
-   │  Console / Portal  ◀── Broad Network Access ──┐     │
-   │  (HTML5 SPA, MFA)                              │     │
-   │                                                 │     │
-   │  REST API / CLI / SDK ◀── On-demand Self- ───┐│     │
-   │  (OpenAPI 3.0, gRPC)         Service         ││     │
-   └────────────────────────────────────────────────┼┼─────┘
-                                                    ││
-   ┌─────────────────── Control Plane ───────────────┼┼─────┐
-   │                                                 ▼▼     │
-   │  ┌─────────────────────────────────────────────────┐  │
-   │  │ Service Catalog / Orchestrator (Terraform,       │  │
-   │  │ AWS CloudFormation, Azure ARM, GCP Deployment Mgr)│  │
-   │  └────────┬─────────────────────┬─────────────────┘  │
-   │           │                     │                    │
-   │  ┌────────▼────────┐  ┌─────────▼────────┐           │
-   │  │ Resource Pool   │  │ Elasticity Mgr   │           │
-   │  │ (Hypervisor /   │  │ (Auto Scaling    │           │
-   │  │  Container      │  │  Group, HPA/VPA, │           │
-   │  │  Orchestrator)  │  │  KEDA, Karpenter)│           │
-   │  │ ◀── Resource    │  │ ◀── Rapid        │           │
-   │  │     Pooling     │  │     Elasticity   │           │
-   │  └─────────────────┘  └──────────────────┘           │
-   │                                                       │
-   │  ┌─────────────────────────────────────────────┐     │
-   │  │ Metering / Billing Engine (Usage Records)   │     │
-   │  │ ◀── Measured Service                       │     │
-   │  │ (CloudWatch, Azure Monitor, Cloud Billing API)│  │
-   │  └─────────────────────────────────────────────┘     │
-   └───────────────────────────────────────────────────────┘
-   ┌─────────────────── Data Plane ──────────────────────┐
-   │   물리 서버 (x86, ARM/Graviton), NVMe/SSD,         │
-   │   100/200/400 Gbps Fabric, SmartNIC/DPU             │
-   └──────────────────────────────────────────────────────┘
+   +------------------- User Plane ----------------------+
+   |  Console / Portal  <--- Broad Network Access --+     |
+   |  (HTML5 SPA, MFA)                              |     |
+   |                                                 |     |
+   |  REST API / CLI / SDK <--- On-demand Self- ---+|     |
+   |  (OpenAPI 3.0, gRPC)         Service         ||     |
+   +------------------------------------------------++-----+
+                                                    ||
+   +------------------- Control Plane ---------------++-----+
+   |                                                 vv     |
+   |  +-------------------------------------------------+  |
+   |  | Service Catalog / Orchestrator (Terraform,       |  |
+   |  | AWS CloudFormation, Azure ARM, GCP Deployment Mgr)|  |
+   |  +--------+---------------------+-----------------+  |
+   |           |                     |                    |
+   |  +--------v--------+  +---------v--------+           |
+   |  | Resource Pool   |  | Elasticity Mgr   |           |
+   |  | (Hypervisor /   |  | (Auto Scaling    |           |
+   |  |  Container      |  |  Group, HPA/VPA, |           |
+   |  |  Orchestrator)  |  |  KEDA, Karpenter)|           |
+   |  | <--- Resource    |  | <--- Rapid        |           |
+   |  |     Pooling     |  |     Elasticity   |           |
+   |  +-----------------+  +------------------+           |
+   |                                                       |
+   |  +---------------------------------------------+     |
+   |  | Metering / Billing Engine (Usage Records)   |     |
+   |  | <--- Measured Service                       |     |
+   |  | (CloudWatch, Azure Monitor, Cloud Billing API)|  |
+   |  +---------------------------------------------+     |
+   +-------------------------------------------------------+
+   +------------------- Data Plane ----------------------+
+   |   물리 서버 (x86, ARM/Graviton), NVMe/SSD,         |
+   |   100/200/400 Gbps Fabric, SmartNIC/DPU             |
+   +------------------------------------------------------+
 ```
 
 ### 2.2 각 특성별 핵심 메커니즘
@@ -140,10 +140,10 @@ NIST SP 800-145 §2가 명시한 5대 특성은 상호 의존적이며, 클라�
 
 | 구현 계층 | 기술 | 동작 |
 | :--- | :--- | :--- |
-| **사용자 인터페이스** | Web Console, Mobile App | GUI 기반 클릭 → API 호출 |
+| **사용자 인터페이스** | Web Console, Mobile App | GUI 기반 클릭 -> API 호출 |
 | **API 계층** | RESTful API, gRPC, GraphQL | `POST /vms`, `DELETE /vms/{id}` |
 | **오케스트레이션** | Terraform, Pulumi, Ansible | 선언적 IaC (Desired State) |
-| **CSP 내부 워크플로우** | Step Functions, Logic Apps, Cloud Workflows | 승인·검증→리소스 할당→메타데이터 등록 |
+| **CSP 내부 워크플로우** | Step Functions, Logic Apps, Cloud Workflows | 승인·검증->리소스 할당->메타데이터 등록 |
 
 - **기술사 핵심 포인트**: 단순히 "셀프서비스 포털이 있다"는 것만으로는 부족하다. **"사전 정의된 매개변수(메모리·CPU·OS 이미지) 범위 내에서 비대화형 자동화가 가능한가"**가 핵심 판별 기준. 수동 승인 단계(Manual Approval)가 끼어 있으면 Self-Service의 본질이 훼손된다.
 
@@ -180,25 +180,25 @@ CSP의 컴퓨팅 자원은 **다중 테넌트(Multi-Tenant)가 공유하는 풀(
 자원은 **탄력적으로 제공·해제**될 수 있어야 하며, 수요 변동에 따라 **빠르게(outward/inward) 확장·축소**가 가능해야 한다. 사용자 관점에서 자원은 **무한정(Unlimited)**으로 보이는 것이 이상적이며, 이는 **Auto Scaling Group(ASG)**, **Horizontal Pod Autoscaler(HPA)**, **Cluster Autoscaler**, **Karpenter**, **KEDA**(Kubernetes Event-Driven Autoscaling) 등으로 구현된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                  Rapid Elasticity 동작 흐름 (예: Web 3-tier)      │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  Rapid Elasticity 동작 흐름 (예: Web 3-tier)      |
++-----------------------------------------------------------------+
 
    사용자 트래픽
-       ▲
-  10K ─                ╱──╲                         (Auto Scale Out)
-       │               ╱    ╲
-   5K ─        ╱──────╱      ╲───────────          (Steady State)
-       │       ╱
-   1K ───────╱                                  (Baseline)
-       └────────────────────────────────────────▶ 시간
+       ^
+  10K -                ╱--╲                         (Auto Scale Out)
+       |               ╱    ╲
+   5K -        ╱------╱      ╲-----------          (Steady State)
+       |       ╱
+   1K -------╱                                  (Baseline)
+       +-----------------------------------------> 시간
             Mon 09:00   Tue 10:00   Wed 12:00
 
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 1 / 800
 
-← **이전**: (첫 번째 글입니다)
-**다음**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/002_iaas/) →
+<- **이전**: (첫 번째 글입니다)
+**다음**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/002_iaas/) ->
 
 ---

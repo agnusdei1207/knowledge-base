@@ -35,30 +35,30 @@ K8s 클러스터에 수백 개의 팀이 리소스를 배포하면, 표준을 �
 
 ```
   개발자/CI 파이프라인이 K8s API에 리소스 생성 요청
-           │
-           ▼
-  ┌─────────────────────────────────────────────────┐
-  │           K8s API Server                         │
-  │                                                  │
-  │  ┌────────────────────────────────────────────┐ │
-  │  │     Admission Controller (Webhook)          │ │
-  │  │                                             │ │
-  │  │   ValidationAdmission → OPA Gatekeeper      │ │
-  │  │   MutatingAdmission   → (기본값 주입 등)    │ │
-  │  └────────────────────────────────────────────┘ │
-  └──────────────────────────┬──────────────────────┘
-                             │
-                             ▼
-  ┌─────────────────────────────────────────────────┐
-  │             OPA Gatekeeper                       │
-  │                                                  │
-  │  ConstraintTemplate: Rego 언어로 정책 정의        │
-  │  Constraint: 정책 적용 범위·파라미터 설정          │
-  │                                                  │
-  │  정책 검증:                                       │
-  │    Pass → 리소스 생성 허용                        │
-  │    Fail → 리소스 생성 거부 + 에러 메시지           │
-  └─────────────────────────────────────────────────┘
+           |
+           v
+  +-------------------------------------------------+
+  |           K8s API Server                         |
+  |                                                  |
+  |  +--------------------------------------------+ |
+  |  |     Admission Controller (Webhook)          | |
+  |  |                                             | |
+  |  |   ValidationAdmission -> OPA Gatekeeper      | |
+  |  |   MutatingAdmission   -> (기본값 주입 등)    | |
+  |  +--------------------------------------------+ |
+  +--------------------------+----------------------+
+                             |
+                             v
+  +-------------------------------------------------+
+  |             OPA Gatekeeper                       |
+  |                                                  |
+  |  ConstraintTemplate: Rego 언어로 정책 정의        |
+  |  Constraint: 정책 적용 범위·파라미터 설정          |
+  |                                                  |
+  |  정책 검증:                                       |
+  |    Pass -> 리소스 생성 허용                        |
+  |    Fail -> 리소스 생성 거부 + 에러 메시지           |
+  +-------------------------------------------------+
 ```
 
 ### ConstraintTemplate (Rego [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의)
@@ -115,7 +115,7 @@ spec:
 
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 설명 |
 |:---|:---|
-| image:latest 금지 | 이미지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 명시 강제 → [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적 가능 |
+| image:latest 금지 | 이미지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 명시 강제 -> [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적 가능 |
 | CPU/Memory 제한 강제 | resources.limits 미설정 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 차단 |
 | 비표준 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 금지 | 승인된 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)만 사용 허용 |
 | runAsRoot 금지 | 루트 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행 차단 (PSA와 중복 강화) |
@@ -181,7 +181,7 @@ spec:
 
 **기술사 판단 포인트**:
 - [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code의 핵심 가치: "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 문서가 아닌 코드로 존재하면 자동화 검증이 가능하고 항상 최신 상태를 유지한다."
-- dryrun → warn → deny 순서로 단계적으로 enforcementAction을 강화하여 기존 워크로드 영향을 최소화한다.
+- dryrun -> warn -> deny 순서로 단계적으로 enforcementAction을 강화하여 기존 워크로드 영향을 최소화한다.
 - [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 알림을 개발자에게 즉시 전달하는 Slack/PagerDuty 연동이 UX 관점에서 중요하다.
 
 📢 **섹션 요약 비유**: [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 교통법규를 사람 경찰관이 단속하는 것이 아니라 자동 카메라로 24시간 단속하는 것과 같다. 사람이 없어도 항상 규칙이 적용되고, 위반 즉시 통보된다.
@@ -222,13 +222,13 @@ spec:
 
 ```text
 K8s Admission Controller (Webhook)
-    │
-    ▼
+    |
+    v
 OPA Gatekeeper: Rego 정책 언어 기반 검증
-    ├─► ConstraintTemplate: 정책 정의
-    └─► Constraint: 네임스페이스/리소스에 적용
-    │
-    ▼
+    +-► ConstraintTemplate: 정책 정의
+    +-► Constraint: 네임스페이스/리소스에 적용
+    |
+    v
 Kyverno: YAML 네이티브 정책 · Helm/Kustomize 통합
 ```
 2. `image:latest` 금지는 "유통기한이 없는 음식은 학교에 가져오면 안 돼"와 같아. 반드시 날짜([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 붙여야 해.
@@ -240,7 +240,7 @@ Kyverno: YAML 네이티브 정책 · Helm/Kustomize 통합
 
 **진행 상황**: 204 / 371
 
-← **이전**: [204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/204_pod_security_psa_psp_kubernetes/)
-**다음**: [206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/) →
+<- **이전**: [204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/204_pod_security_psa_psp_kubernetes/)
+**다음**: [206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/) ->
 
 ---

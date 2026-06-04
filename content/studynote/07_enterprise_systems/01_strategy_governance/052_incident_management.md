@@ -32,17 +32,17 @@ tags = ["studynote-enterprise"]
 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/)의 핵심은 탐지, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 우선순위 지정, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 종료다. [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)가 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/), [Single Point of Contact](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)) 역할을 하고, 해결이 어려우면 전문 팀으로 넘긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               인시던트 관리의 서비스 복구 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자/모니터링 탐지                                          │
-│          │                                                   │
-│          ▼                                                   │
-│ 접수 및 기록 → 분류/우선순위 → 초기 진단 → 에스컬레이션      │
-│          │                                                   │
-│          ▼                                                   │
-│ 워크어라운드/복구 → 확인 → 종료                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               인시던트 관리의 서비스 복구 흐름              |
++--------------------------------------------------------------+
+| 사용자/모니터링 탐지                                          |
+|          |                                                   |
+|          v                                                   |
+| 접수 및 기록 -> 분류/우선순위 -> 초기 진단 -> 에스컬레이션      |
+|          |                                                   |
+|          v                                                   |
+| 워크어라운드/복구 -> 확인 -> 종료                              |
++--------------------------------------------------------------+
 ```
 
 | 단계 | 의미 | 핵심 포인트 |
@@ -123,20 +123,20 @@ tags = ["studynote-enterprise"]
 
 ```text
 탐지 / 사용자 신고
-    │
-    ▼
+    |
+    v
 인시던트 등록
-    │
-    ▼
+    |
+    v
 분류 · 우선순위
-    │
-    ▼
+    |
+    v
 초기 진단 · 에스컬레이션
-    │
-    ▼
+    |
+    v
 워크어라운드 · 복구
-    │
-    ▼
+    |
+    v
 문제 관리 / 변경 관리로 이관
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 52 / 482
 
-← **이전**: [051. 헬프 데스크, 서비스 데스크, SPOC](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/051_help_desk_service_desk_spoc/)
-**다음**: [53. 문제 관리와 근본 원인 분석 (Problem Management RCA)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/053_problem_management_rca/) →
+<- **이전**: [051. 헬프 데스크, 서비스 데스크, SPOC](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/051_help_desk_service_desk_spoc/)
+**다음**: [53. 문제 관리와 근본 원인 분석 (Problem Management RCA)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/053_problem_management_rca/) ->
 
 ---

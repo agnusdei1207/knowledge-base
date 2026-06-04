@@ -248,7 +248,7 @@ NP-완전은 양자로도 쉽지 않음 (추정)
 
 **진행 상황**: 107 / 175
 
-← **이전**: [001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/106_p_class/)
-**다음**: [003. NP-완전 (NP-Complete)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) →
+<- **이전**: [001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/106_p_class/)
+**다음**: [003. NP-완전 (NP-Complete)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [거리 벡터 라우팅 루프 방지]
-    │
-    ▼
+    |
+    v
 [홀드다운 타이머, 트리거드 업데이트]
-    │
-    └──▶ [RIP]
+    |
+    +---> [RIP]
 ```
 
 - **📢 섹션 요약 비유**: ** 이 두 가지 스킬은 팔랑귀 라우터에게 주입한 **"응급 대처 매뉴얼"**입니다. 사고가 터지면 즉각 동네에 119를 때리고([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)), 혼란스러운 와중에 유언비어(루프 정보)가 돌더라도 이성적으로 무시하며 당분간 격리 조치(홀드다운)를 취하는 위기관리 능력입니다.
@@ -57,24 +57,24 @@ tags = ["studynote-network"]
 4. **타이머 만료**: 180초가 지나도록 B가 살려내지 못하면 "아, 이 길은 진짜 완전히 죽었구나" 하고 영원히 포기하며 다른 사람의 길 정보를 받아들이기 시작한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP의 4가지 생존 타이머 총정리 (실무 암기)         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. Update Timer (30초)                                    │
- │      "30초마다 내 수첩 복사해서 뿌릴게!"                          │
- │                                                             │
- │   2. Invalid Timer (180초)                                  │
- │      "180초 동안 B한테 정기 엽서가 안 오면, B가 죽은 줄 알고        │
- │       의심(Invalid)하기 시작할게!"                             │
- │                                                             │
- │   3. Hold-down Timer (180초)                                │
- │      "길이 죽었다는 소문 들으면 180초 동안 남의 말 안 믿고 버틸게!"    │
- │                                                             │
- │   4. Flush Timer (240초)                                    │
- │      "240초가 지나도록 B가 영영 안 살아나면, 내 수첩에서 B로        │
- │       가는 길을 아예 흔적도 없이 삭제(Flush)해버릴게!"            │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RIP의 4가지 생존 타이머 총정리 (실무 암기)         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. Update Timer (30초)                                    |
+ |      "30초마다 내 수첩 복사해서 뿌릴게!"                          |
+ |                                                             |
+ |   2. Invalid Timer (180초)                                  |
+ |      "180초 동안 B한테 정기 엽서가 안 오면, B가 죽은 줄 알고        |
+ |       의심(Invalid)하기 시작할게!"                             |
+ |                                                             |
+ |   3. Hold-down Timer (180초)                                |
+ |      "길이 죽었다는 소문 들으면 180초 동안 남의 말 안 믿고 버틸게!"    |
+ |                                                             |
+ |   4. Flush Timer (240초)                                    |
+ |      "240초가 지나도록 B가 영영 안 살아나면, 내 수첩에서 B로        |
+ |       가는 길을 아예 흔적도 없이 삭제(Flush)해버릴게!"            |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 홀드다운 타이머는 카카오톡에 올라온 **"사망 부고 가짜 뉴스 대처법"<strong>입니다. 누가 죽었다는 비보를 들었을 때, 단톡방에 떠도는 "사실 살았다더라"는 찌라시(루프 정보)에 속지 않고, 원래 소식을 전해준 유족(원래 라우터)이 공식 입장을 낼 때까지 흔들리지 않고 </strong>침묵의 애도 기간(180초)**을 갖는 진중한 태도입니다.
@@ -135,12 +135,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 거리 벡터 라우팅 루프 방지]
-    │
-    ▼
+    |
+    v
 [현재 개념: 홀드다운 타이머, 트리거드 업데이트]
-    │
-    ├──▶ [확장 A: RIP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: RIP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 홀드다운 타이머, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지에서 출발해 현재 메커니즘을 정교화하고, 이후 RIP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 471 / 1120
 
-← **이전**: [349. 거리 벡터 라우팅 루프 방지](/knowledge-base/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/)
-**다음**: [351. RIP (Routing Information Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) →
+<- **이전**: [349. 거리 벡터 라우팅 루프 방지](/knowledge-base/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/)
+**다음**: [351. RIP (Routing Information Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) ->
 
 ---

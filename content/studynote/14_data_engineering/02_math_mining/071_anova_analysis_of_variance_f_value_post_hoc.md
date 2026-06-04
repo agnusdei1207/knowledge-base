@@ -31,11 +31,11 @@ ANOVA는 다수 집단 차이를 한 번에 본다.
 
 ```text
 Group Means
-  ↓
+  v
 F Statistic
-  ↓
+  v
 p-value
-  ↓
+  v
 Post Hoc
 ```
 
@@ -106,11 +106,11 @@ ANOVA는 여러 집단의 차이를 체계적으로 검증한다.
 
 ```text
 Groups
-  ↓
+  v
 ANOVA
-  ↓
+  v
 F-value
-  ↓
+  v
 Post Hoc
 ```
 
@@ -120,11 +120,11 @@ Post Hoc
 
 ```text
 t-Test
-  ↓
+  v
 ANOVA
-  ↓
+  v
 Post Hoc
-  ↓
+  v
 Multiple Comparison
 ```
 
@@ -142,7 +142,7 @@ ANOVA는 그런 검사예요.
 
 **진행 상황**: 71 / 258
 
-← **이전**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
-**다음**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/) →
+<- **이전**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
+**다음**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/) ->
 
 ---

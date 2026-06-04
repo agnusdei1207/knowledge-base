@@ -46,16 +46,16 @@ tags = ["studynote-data-engineering"]
   컬럼형: salary 열만 읽음 (25%)
 
   1억 행, 100열 테이블:
-  행 기반: 5개 열 쿼리 → 100열 전부 읽음
-  컬럼형: 5개 열 쿼리 → 5열만 읽음 (95% I/O 절감)
+  행 기반: 5개 열 쿼리 -> 100열 전부 읽음
+  컬럼형: 5개 열 쿼리 -> 5열만 읽음 (95% I/O 절감)
 
 압축 효율:
   컬럼 내 데이터 = 동일 타입 + 유사 값
 
   salary열: 4000, 5000, 4500, 5200...
-  → 델타 인코딩: +0, +1000, -500, +700
-  → RLE: 같은 값 반복 (부서 코드 등)
-  → 압축률 5~10× 일반적
+  -> 델타 인코딩: +0, +1000, -500, +700
+  -> RLE: 같은 값 반복 (부서 코드 등)
+  -> 압축률 5~10× 일반적
 ```
 
 > 📢 **섹션 요약 비유**: 컬럼형은 책장 정리법 — 행 기반은 책 한 권씩(행) 정리, 컬럼형은 같은 색 책(열)끼리 정리. "빨간 책 몇 권?" 물으면 빨간 칸만 보면 OK!
@@ -70,27 +70,27 @@ Apache Parquet:
   Twitter + Cloudera 공동 개발
 
 파일 구조:
-  ┌─────────────────────────────┐
-  │ Magic Number (PAR1)         │
-  ├─────────────────────────────┤
-  │ Row Group 1                 │
-  │   Column Chunk A            │
-  │     Page 1, Page 2, ...     │
-  │   Column Chunk B            │
-  │     Page 1, Page 2, ...     │
-  ├─────────────────────────────┤
-  │ Row Group 2                 │
-  │   ...                       │
-  ├─────────────────────────────┤
-  │ Footer (메타데이터)          │
-  │   스키마, 통계(Min/Max)      │
-  │   Row Group 오프셋          │
-  │ Magic Number (PAR1)         │
-  └─────────────────────────────┘
+  +-----------------------------+
+  | Magic Number (PAR1)         |
+  +-----------------------------+
+  | Row Group 1                 |
+  |   Column Chunk A            |
+  |     Page 1, Page 2, ...     |
+  |   Column Chunk B            |
+  |     Page 1, Page 2, ...     |
+  +-----------------------------+
+  | Row Group 2                 |
+  |   ...                       |
+  +-----------------------------+
+  | Footer (메타데이터)          |
+  |   스키마, 통계(Min/Max)      |
+  |   Row Group 오프셋          |
+  | Magic Number (PAR1)         |
+  +-----------------------------+
 
 핵심 구성:
   Row Group: 기본 128MB~1GB
-    → 병렬 처리 단위
+    -> 병렬 처리 단위
   Column Chunk: 열 데이터 블록
   Page: 인코딩·압축 단위 (1MB)
 
@@ -111,7 +111,7 @@ Apache Parquet:
   min_value=1000, max_value=5000
 
   WHERE salary > 6000:
-  → 이 Row Group 건너뜀! (I/O 절감)
+  -> 이 Row Group 건너뜀! (I/O 절감)
 ```
 
 > 📢 **섹션 요약 비유**: Parquet는 목차 있는 백과사전 — Row Group = 챕터, 목차(Footer 통계)로 "이 챕터에 찾는 내용 있나?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). 없으면 챕터 통째로 건너뜀!
@@ -126,23 +126,23 @@ Apache ORC (Optimized Row Columnar):
   Hortonworks 개발
 
 파일 구조:
-  ┌───────────────────────────┐
-  │ ORC Header (Magic: ORC)   │
-  ├───────────────────────────┤
-  │ Stripe 1                  │
-  │   Index Data              │
-  │   Row Data (컬럼별)        │
-  │   Stripe Footer           │
-  ├───────────────────────────┤
-  │ Stripe 2                  │
-  │   ...                     │
-  ├───────────────────────────┤
-  │ File Footer               │
-  │   Stripe 목록              │
-  │   스키마                   │
-  │   통계                    │
-  │ Postscript                │
-  └───────────────────────────┘
+  +---------------------------+
+  | ORC Header (Magic: ORC)   |
+  +---------------------------+
+  | Stripe 1                  |
+  |   Index Data              |
+  |   Row Data (컬럼별)        |
+  |   Stripe Footer           |
+  +---------------------------+
+  | Stripe 2                  |
+  |   ...                     |
+  +---------------------------+
+  | File Footer               |
+  |   Stripe 목록              |
+  |   스키마                   |
+  |   통계                    |
+  | Postscript                |
+  +---------------------------+
 
 Stripe = Parquet Row Group (기본 256MB)
 
@@ -155,7 +155,7 @@ ORC 특화 기능:
 
 2. Bloom Filter:
    특정 값 존재 여부 빠른 확인
-   WHERE id = 12345 → Bloom Filter로 Stripe 스킵
+   WHERE id = 12345 -> Bloom Filter로 Stripe 스킵
 
 3. 경량 인덱스:
    Row Index (10,000행마다 통계)
@@ -198,8 +198,8 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
   ORC: Hive, Hive ACID 트랜잭션 필요 시
 
 현재 트렌드:
-  Parquet → Apache Iceberg, Delta Lake 표준
-  ORC → Hive 기반 환경
+  Parquet -> Apache Iceberg, Delta Lake 표준
+  ORC -> Hive 기반 환경
 
   Delta Lake: Parquet 기반 + ACID 보완
   Apache Iceberg: Parquet/ORC/Avro 지원
@@ -221,7 +221,7 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
 
 초기 상황:
   S3에 CSV 파일 적재
-  Athena 쿼리: 일 주문 분석 → 10~30분
+  Athena 쿼리: 일 주문 분석 -> 10~30분
   비용: 쿼리당 $50~200 (스캔 비용)
 
 문제 진단:
@@ -233,35 +233,35 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
 
 최적화 전략:
 
-1. CSV → Parquet 변환 (ZSTD 압축):
+1. CSV -> Parquet 변환 (ZSTD 압축):
    Glue ETL로 일배치 변환
 
    결과:
-   CSV: 500GB/일 → Parquet: 80GB/일 (84% 압축)
+   CSV: 500GB/일 -> Parquet: 80GB/일 (84% 압축)
 
 2. Hive 파티셔닝:
    S3 키: s3://bucket/orders/year=2024/month=01/day=15/
 
    WHERE order_date = '2024-01-15'
-   → 해당 파티션만 스캔
+   -> 해당 파티션만 스캔
 
 3. Row Group 크기 최적화:
    Row Group = 256MB (대용량 배치 쿼리 최적)
 
 4. 술어 푸시다운 최적화:
    컬럼 순서 = 카디널리티 높은 것 먼저
-   → Bloom Filter 효과 극대화
+   -> Bloom Filter 효과 극대화
 
 결과:
-  쿼리 시간: 10~30분 → 30~90초
-  스캔 비용: $50~200 → $2~8 (96% 절감)
-  월 Athena 비용: 500만원 → 20만원
+  쿼리 시간: 10~30분 -> 30~90초
+  스캔 비용: $50~200 -> $2~8 (96% 절감)
+  월 Athena 비용: 500만원 -> 20만원
 
   추가: Delta Lake 전환으로 ACID 지원
   (일 데이터 수정 필요 케이스 처리)
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 최적화는 창고 정리 — CSV(무분류 박스) → [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)(카테고리별 투명 박스). "1월 주문"만 찾을 때 해당 칸만 보면 OK. 비용 96% 절감!
+> 📢 **섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 최적화는 창고 정리 — CSV(무분류 박스) -> [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)(카테고리별 투명 박스). "1월 주문"만 찾을 때 해당 칸만 보면 OK. 비용 96% 절감!
 
 ---
 
@@ -325,7 +325,7 @@ AWS, Snowflake, Databricks 지원
 
 **진행 상황**: 45 / 258
 
-← **이전**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/)
-**다음**: [046. LSM 트리 — Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/) →
+<- **이전**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/)
+**다음**: [046. LSM 트리 — Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/) ->
 
 ---

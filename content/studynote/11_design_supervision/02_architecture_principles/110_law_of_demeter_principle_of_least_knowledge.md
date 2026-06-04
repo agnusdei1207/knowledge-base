@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 LoD가 없으면 클라이언트 객체는 협력 객체의 내부 구조 전체를 알아야 한다. `order.getCustomer().getAddress().getCity()` 같은 코드에서 Order는 C고객의 구조, Address의 구조, City 표현 방식까지 모두 안다. `Address`를 `Location`으로 리팩토링하면 이 체인을 사용하는 모든 코드를 찾아 수정해야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        LoD 위반: 깊은 탐색 체이닝의 결합도 문제             │
-├─────────────────────────────────────────────────────────────┤
-│  OrderService                                               │
-│      │                                                      │
-│      ├─ order.getCustomer()  → Customer 구조 알아야 함       │
-│      │       │                                              │
-│      │       ├─ .getAddress() → Address 구조 알아야 함       │
-│      │               │                                      │
-│      │               └─ .getCity() → 3단계 깊이 결합         │
-│      │                                                      │
-│  LoD 적용 후:                                               │
-│      └─ order.getShippingCity() → Order 하나만 알면 됨 ✓    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        LoD 위반: 깊은 탐색 체이닝의 결합도 문제             |
++-------------------------------------------------------------+
+|  OrderService                                               |
+|      |                                                      |
+|      +- order.getCustomer()  -> Customer 구조 알아야 함       |
+|      |       |                                              |
+|      |       +- .getAddress() -> Address 구조 알아야 함       |
+|      |               |                                      |
+|      |               +- .getCity() -> 3단계 깊이 결합         |
+|      |                                                      |
+|  LoD 적용 후:                                               |
+|      +- order.getShippingCity() -> Order 하나만 알면 됨 ✓    |
++-------------------------------------------------------------+
 ```
 
 LoD의 실용적 규칙은 메서드 내에서 호출 가능한 대상을 4가지로 제한한다: ① 자기 자신(this), ② 메서드 인자로 전달된 객체, ③ 직접 생성한 객체, ④ 직접 참조하는 인스턴스 변수.
@@ -58,17 +58,17 @@ LoD를 실현하는 핵심 기법은 위임(Delegation)이다. 클라이언트�
 | 계층 탐색 | `dept.getCompany().getCeo().getEmail()` | 직접 관계가 아니면 설계 재검토 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        위임 패턴으로 LoD 준수: 정보 은닉 강화               │
-├─────────────────────────────────────────────────────────────┤
-│  [Client]──▶[Order.getShippingCity()]                       │
-│                     │                                       │
-│                     │ (Order 내부에서 처리)                  │
-│                     ▼                                       │
-│              [Customer.getAddress().getCity()]              │
-│                                                             │
-│  결과: Client는 Order만 안다. Customer·Address 구조는 캡슐화 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        위임 패턴으로 LoD 준수: 정보 은닉 강화               |
++-------------------------------------------------------------+
+|  [Client]--->[Order.getShippingCity()]                       |
+|                     |                                       |
+|                     | (Order 내부에서 처리)                  |
+|                     v                                       |
+|              [Customer.getAddress().getCity()]              |
+|                                                             |
+|  결과: Client는 Order만 안다. Customer·Address 구조는 캡슐화 |
++-------------------------------------------------------------+
 ```
 
 트레이드오프로는 위임 메서드가 늘어나면서 얕지만 넓은 인터페이스(wide but shallow interface)가 형성된다. 과도하게 적용하면 모든 내부 데이터에 대한 위임 메서드가 생겨 인터페이스가 비대해지는 "위임 메서드 폭발(delegation method explosion)" 안티패턴이 생길 수 있다.
@@ -123,7 +123,7 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-ba
 
 ### 📌 관련 개념 맵
 
-[캡슐화] → [디미터 법칙(LoD)] → [위임 패턴] → [애그리게이트 루트] → [결합도 최소화]
+[캡슐화] -> [디미터 법칙(LoD)] -> [위임 패턴] -> [애그리게이트 루트] -> [결합도 최소화]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -134,7 +134,7 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-ba
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[강결합 메서드 체이닝] → [디미터 법칙(LoD) 정립] → [위임 메서드 기법] → [캡슐화·[정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) 강화] → DDD [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 경계 설계] → [정적 분석 도구 LoD 자동 탐지]
+[강결합 메서드 체이닝] -> [디미터 법칙(LoD) 정립] -> [위임 메서드 기법] -> [캡슐화·[정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) 강화] -> DDD [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 경계 설계] -> [정적 분석 도구 LoD 자동 탐지]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-ba
 
 **진행 상황**: 163 / 530
 
-← **이전**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)
-**다음**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) →
+<- **이전**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)
+**다음**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) ->
 
 ---

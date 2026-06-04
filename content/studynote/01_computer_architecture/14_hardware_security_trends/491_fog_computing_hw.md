@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 포그가 세 계층 구조에서 맡는 역할을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Three-tier flow with fog                                                 │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Edge devices (1~10 ms) ──fan-in──▶ Fog node / micro DC (10~50 ms)       │
-│                                     │                                    │
-│                                     ├─ local filtering / inference       │
-│                                     ├─ local coordination / cache        │
-│                                     └─ uplink outage fallback            │
-│                                     │                                    │
-│                                     └────────▶ Cloud region (50 ms+)     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Three-tier flow with fog                                                 |
++--------------------------------------------------------------------------+
+| Edge devices (1~10 ms) --fan-in---> Fog node / micro DC (10~50 ms)       |
+|                                     |                                    |
+|                                     +- local filtering / inference       |
+|                                     +- local coordination / cache        |
+|                                     +- uplink outage fallback            |
+|                                     |                                    |
+|                                     +---------> Cloud region (50 ms+)     |
++--------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 포그가 단순 중계 장치가 아니라는 점이다. 포그는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">팬인</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a>)된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 의미 있는 정보로 줄이고</strong>, 여러 엣지 장치를 함께 조율하며, 클라우드와의 연결이 흔들려도 현장을 계속 운영하게 만드는 완충지대다.
@@ -61,22 +61,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 포그 노드 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 흐름으로 처리되는지 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Fog node hardware stack                                                  │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Southbound ports : PLC / sensor / camera / 5G / fieldbus                │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Protocol adapters + message bus                                           │
-│        │                                                                  │
-│        ├─ CPU cluster : rules, containers, orchestration                  │
-│        ├─ GPU / NPU   : video analytics, local inference                  │
-│        ├─ NVMe cache  : buffering, local history                          │
-│        └─ Secure boot + TPM                                               │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Northbound uplink : WAN / cloud API / object storage                      │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Fog node hardware stack                                                  |
++--------------------------------------------------------------------------+
+| Southbound ports : PLC / sensor / camera / 5G / fieldbus                |
+|        |                                                                  |
+|        v                                                                  |
+| Protocol adapters + message bus                                           |
+|        |                                                                  |
+|        +- CPU cluster : rules, containers, orchestration                  |
+|        +- GPU / NPU   : video analytics, local inference                  |
+|        +- NVMe cache  : buffering, local history                          |
+|        +- Secure boot + TPM                                               |
+|        |                                                                  |
+|        v                                                                  |
+| Northbound uplink : WAN / cloud API / object storage                      |
++--------------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 포그가 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "모아두는" 장소가 아니라, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 적응과 로컬 분석, 캐시, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포를 한 번에 수행한다는 사실이다. 그래서 포그 설계에서는 CPU 코어 수만 볼 것이 아니라, 남향 장치 수, 로컬 저장 지속 시간, 광역 네트워크 (WAN, Wide Area Network) 장애 시 자율 운전 시간을 함께 계산해야 한다.
@@ -151,17 +151,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 엣지 센서 · PLC
-        │
-        ▼
+        |
+        v
 프로토콜 게이트웨이
-        │
-        ▼
+        |
+        v
 포그 노드 / 마이크로 데이터센터
-        │
-        ▼
+        |
+        v
 MEC · 현장 오케스트레이션
-        │
-        ▼
+        |
+        v
 클라우드 분석 · 중앙 제어 평면
 ```
 
@@ -179,7 +179,7 @@ MEC · 현장 오케스트레이션
 
 **진행 상황**: 491 / 803
 
-← **이전**: [490. 엣지 컴퓨팅 하드웨어 (Edge Computing HW)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/490_edge_computing_hw/)
-**다음**: [492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/492_cloud_native_processor/) →
+<- **이전**: [490. 엣지 컴퓨팅 하드웨어 (Edge Computing HW)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/490_edge_computing_hw/)
+**다음**: [492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/492_cloud_native_processor/) ->
 
 ---

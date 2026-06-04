@@ -19,29 +19,29 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-고객 지원 시스템에서 문의가 들어오면: 1차(일반 상담원) → 2차(기술 전문가) → 3차(관리자)로 처리 능력에 따라 요청이 전달된다. 각 담당자가 처리 가능하면 처리하고, 불가능하면 다음 담당자에게 전달한다.
+고객 지원 시스템에서 문의가 들어오면: 1차(일반 상담원) -> 2차(기술 전문가) -> 3차(관리자)로 처리 능력에 따라 요청이 전달된다. 각 담당자가 처리 가능하면 처리하고, 불가능하면 다음 담당자에게 전달한다.
 
 조건 분기로 구현하면: `if (level == "basic") { ... } else if (level == "tech") { ... }` — 새 레벨 추가 시 기존 코드를 수정해야 한다. [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)은 각 핸들러가 독립적으로 처리 여부를 결정하고 다음 핸들러로 위임한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          책임 연쇄 패턴 구조                                  │
-├─────────────────────────────────────────────────────────────┤
-│  Client → Handler (인터페이스)                              │
-│           - next: Handler                                   │
-│           + setNext(h: Handler): Handler                    │
-│           + handle(request): void                           │
-│                ▲                                            │
-│  Handler A → Handler B → Handler C → null                   │
-│  (처리 or 다음으로)       (처리 or 다음으로)                 │
-│                                                             │
-│  request → A가 처리? Yes→결과, No→B로 전달                  │
-│              → B가 처리? Yes→결과, No→C로 전달              │
-│                → C가 처리? Yes→결과, No→처리 안 됨          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          책임 연쇄 패턴 구조                                  |
++-------------------------------------------------------------+
+|  Client -> Handler (인터페이스)                              |
+|           - next: Handler                                   |
+|           + setNext(h: Handler): Handler                    |
+|           + handle(request): void                           |
+|                ^                                            |
+|  Handler A -> Handler B -> Handler C -> null                   |
+|  (처리 or 다음으로)       (처리 or 다음으로)                 |
+|                                                             |
+|  request -> A가 처리? Yes->결과, No->B로 전달                  |
+|              -> B가 처리? Yes->결과, No->C로 전달              |
+|                -> C가 처리? Yes->결과, No->처리 안 됨          |
++-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 민원(요청)이 동사무소 창구(Handler A) → 구청(Handler B) → 시청(Handler C)을 거쳐 처리된다. 민원인은 누가 처리할지 알 필요 없다.
+- **📢 섹션 요약 비유**: 민원(요청)이 동사무소 창구(Handler A) -> 구청(Handler B) -> 시청(Handler C)을 거쳐 처리된다. 민원인은 누가 처리할지 알 필요 없다.
 
 ---
 
@@ -56,21 +56,21 @@ tags = ["studynote-design-supervision"]
 | 분기 체인 | 조건에 따라 다른 체인으로 분기 | 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       서블릿 필터 체인 동작                                   │
-├─────────────────────────────────────────────────────────────┤
-│  Request → AuthFilter → LogFilter → CorsFilter → Servlet    │
-│                                                             │
-│  AuthFilter.doFilter(req, res, chain) {                     │
-│    if (!authenticated) { res.sendError(401); return; }      │
-│    chain.doFilter(req, res);  // 다음 필터로 전달            │
-│  }                                                          │
-│                                                             │
-│  Response ← AuthFilter ← LogFilter ← CorsFilter ← Servlet  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       서블릿 필터 체인 동작                                   |
++-------------------------------------------------------------+
+|  Request -> AuthFilter -> LogFilter -> CorsFilter -> Servlet    |
+|                                                             |
+|  AuthFilter.doFilter(req, res, chain) {                     |
+|    if (!authenticated) { res.sendError(401); return; }      |
+|    chain.doFilter(req, res);  // 다음 필터로 전달            |
+|  }                                                          |
+|                                                             |
+|  Response <- AuthFilter <- LogFilter <- CorsFilter <- Servlet  |
++-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 공항 보안 검색([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Filter) → 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) Filter) → 짐 검사(CORS Filter)를 모두 통과해야 탑승(Servlet)할 수 있다.
+- **📢 섹션 요약 비유**: 공항 보안 검색([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Filter) -> 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) Filter) -> 짐 검사(CORS Filter)를 모두 통과해야 탑승(Servlet)할 수 있다.
 
 ---
 ## Ⅲ. 비교 및 연결
@@ -98,7 +98,7 @@ tags = ["studynote-design-supervision"]
 4. 핸들러를 동적으로 추가·재배열할 수 있어 유연성이 높은가?
 5. 서블릿 필터 체인처럼 파이프라인 방식(모두 통과)과 선택적 처리 방식의 차이를 이해하는가?
 
-- **📢 섹션 요약 비유**: 스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 필터 체인은 공항 보안처럼, 각 단계([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)→[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)→[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))를 통과해야 하고, 하나라도 실패하면 요청이 차단된다.
+- **📢 섹션 요약 비유**: 스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 필터 체인은 공항 보안처럼, 각 단계([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)->[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)->[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))를 통과해야 하고, 하나라도 실패하면 요청이 차단된다.
 
 ---
 
@@ -114,7 +114,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[요청-처리자 결합 문제] → [책임 연쇄 패턴] → [서블릿 필터 체인] → [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) FilterChain] → [미들웨어 파이프라인]
+[요청-처리자 결합 문제] -> [책임 연쇄 패턴] -> [서블릿 필터 체인] -> [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) FilterChain] -> [미들웨어 파이프라인]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -125,7 +125,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)(1994)] → [서블릿 필터 체인] → [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)] → [클라우드 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 미들웨어] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터]
+[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)(1994)] -> [서블릿 필터 체인] -> [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)] -> [클라우드 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 미들웨어] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +139,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 260 / 530
 
-← **이전**: [198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/198_state_vs_strategy/)
-**다음**: [200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/200_chain_of_responsibility_pros_cons/) →
+<- **이전**: [198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/198_state_vs_strategy/)
+**다음**: [200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/200_chain_of_responsibility_pros_cons/) ->
 
 ---

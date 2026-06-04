@@ -59,33 +59,33 @@ INNER JOIN (기본):
   SELECT e.name, d.dept_name
   FROM employee e
   INNER JOIN department d ON e.dept_id = d.dept_id;
-  → 양쪽 테이블 모두에 매칭되는 행만 반환
+  -> 양쪽 테이블 모두에 매칭되는 행만 반환
 
 LEFT OUTER JOIN:
   SELECT c.name, o.order_date
   FROM customer c
   LEFT JOIN orders o ON c.id = o.customer_id;
-  → 주문 없는 고객도 반환 (o.order_date = NULL)
+  -> 주문 없는 고객도 반환 (o.order_date = NULL)
 
 RIGHT OUTER JOIN:
-  → 오른쪽 테이블 모든 행 보존
+  -> 오른쪽 테이블 모든 행 보존
 
 FULL OUTER JOIN:
-  → 양쪽 테이블 모든 행 (MySQL 미지원, UNION으로 대체)
+  -> 양쪽 테이블 모든 행 (MySQL 미지원, UNION으로 대체)
 
 CROSS JOIN:
   SELECT * FROM product CROSS JOIN color;
-  → 카티전 프로덕트 (조건 없음)
+  -> 카티전 프로덕트 (조건 없음)
   n × m 행 생성
 
 SELF JOIN:
   SELECT e.name AS employee, m.name AS manager
   FROM employee e
   JOIN employee m ON e.manager_id = m.id;
-  → 같은 테이블을 두 번 조인 (계층 구조 표현)
+  -> 같은 테이블을 두 번 조인 (계층 구조 표현)
 
 NATURAL JOIN (주의):
-  공통 이름 속성 자동 조인 → 의도치 않은 조인 위험
+  공통 이름 속성 자동 조인 -> 의도치 않은 조인 위험
   실무에서 명시적 ON 절 권장
 ```
 
@@ -103,19 +103,19 @@ DBMS 조인 구현 알고리즘:
      FOR each s in S:
        IF r.key = s.key: output (r, s)
 
-   복잡도: O(|R| × |S|) = O(n²)
+   복잡도: O(|R| × |S|) = O(n^)
 
    Index Nested Loop:
      FOR each r in R:
-       s = INDEX_LOOKUP(S, r.key)  ← O(log n)
+       s = INDEX_LOOKUP(S, r.key)  <- O(log n)
 
    복잡도: O(|R| × log|S|)
    적합: 한쪽 테이블 작거나 조인 키 인덱스 있을 때
 
 2. Hash Join:
-   Phase 1 (Build): 작은 테이블 R → 해시 테이블 구성
+   Phase 1 (Build): 작은 테이블 R -> 해시 테이블 구성
      hash_table[h(r.key)] = r
-   Phase 2 (Probe): 큰 테이블 S → 해시 테이블 조회
+   Phase 2 (Probe): 큰 테이블 S -> 해시 테이블 조회
      FOR each s in S: lookup hash_table[h(s.key)]
 
    복잡도: O(|R| + |S|) 평균
@@ -146,11 +146,11 @@ DBMS 조인 구현 알고리즘:
 3개 테이블 조인:
   (A ⋈ B) ⋈ C   vs   A ⋈ (B ⋈ C)
   중간 결과 크기가 다를 수 있음
-  → 중간 결과가 작을수록 빠름
+  -> 중간 결과가 작을수록 빠름
 
 동적 프로그래밍 기반 조인 순서 최적화:
   Selinger 알고리즘: 비용 추정 기반 DP
-  테이블 n개: 최적 순서 탐색 = O(n! ) → DP로 O(2^n)
+  테이블 n개: 최적 순서 탐색 = O(n! ) -> DP로 O(2^n)
 
 EXPLAIN 실행 계획 분석 (PostgreSQL):
   EXPLAIN ANALYZE
@@ -162,22 +162,22 @@ EXPLAIN 실행 계획 분석 (PostgreSQL):
   Hash Join (cost=... rows=...)
     -> Seq Scan on orders
     -> Hash
-       -> Seq Scan on customers  ← 비용 높은 Full Scan 발견
+       -> Seq Scan on customers  <- 비용 높은 Full Scan 발견
 
 튜닝 전략:
   인덱스 추가:
     CREATE INDEX idx_orders_customer ON orders(customer_id);
-  → Nested Loop + Index Scan으로 변경
+  -> Nested Loop + Index Scan으로 변경
 
 조인 힌트 (MySQL):
   SELECT * FROM A
   STRAIGHT_JOIN B ON A.id = B.a_id;
-  → A를 항상 외부 테이블로 강제
+  -> A를 항상 외부 테이블로 강제
 
 통계 정보 갱신:
   ANALYZE TABLE (MySQL)
   ANALYZE (PostgreSQL)
-  → 옵티마이저 통계 최신화 → 더 좋은 실행 계획
+  -> 옵티마이저 통계 최신화 -> 더 좋은 실행 계획
 ```
 
 > 📢 **섹션 요약 비유**: [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화는 장보기 순서 — 가장 작은 양의 재료부터 손에 들면 마지막에 많이 들 필요 없어요. 첫 조인에서 결과를 최대한 줄여야 효율적.
@@ -200,18 +200,18 @@ EXPLAIN 실행 계획 분석 (PostgreSQL):
   실행 시간: 45초 (데이터: customer 100만, orders 500만)
 
 EXPLAIN 분석:
-  Seq Scan on customers (rows: 1,000,000) ← 문제!
+  Seq Scan on customers (rows: 1,000,000) <- 문제!
   Hash Join (rows: 500,000)
-  Seq Scan on orders → WHERE 적용 후 10만 행
+  Seq Scan on orders -> WHERE 적용 후 10만 행
 
   문제점:
-    customers 전체 스캔 후 조인 → 90만 행이 NULL 결과
-    WHERE 조건이 orders에 있는데 LEFT JOIN 사용 → 비효율
+    customers 전체 스캔 후 조인 -> 90만 행이 NULL 결과
+    WHERE 조건이 orders에 있는데 LEFT JOIN 사용 -> 비효율
 
 쿼리 리팩토링:
-  -- LEFT → INNER JOIN 변경 (NULL 결과 불필요)
+  -- LEFT -> INNER JOIN 변경 (NULL 결과 불필요)
   SELECT c.name, p.product_name, o.order_date, oi.quantity
-  FROM orders o  ← 작은 결과부터 시작 (기간 조건 적용)
+  FROM orders o  <- 작은 결과부터 시작 (기간 조건 적용)
   INNER JOIN customers c ON o.customer_id = c.id
   INNER JOIN order_items oi ON o.id = oi.order_id
   INNER JOIN products p ON oi.product_id = p.id
@@ -222,9 +222,9 @@ EXPLAIN 분석:
   CREATE INDEX idx_oi_order ON order_items(order_id);
 
 결과:
-  실행 시간: 45초 → 0.3초 (150배 향상)
+  실행 시간: 45초 -> 0.3초 (150배 향상)
   Index Scan on orders (date 조건 = 10만 행)
-  → Nested Loop Join (소규모 결과에 최적)
+  -> Nested Loop Join (소규모 결과에 최적)
 ```
 
 > 📢 **섹션 요약 비유**: 조인 튜닝은 요리 재료 다듬기 순서 — 큰 야채를 먼저 썰어 작게 만들고(조건 필터 먼저), 작아진 재료끼리 볶으면(조인) 훨씬 빠르다.
@@ -295,7 +295,7 @@ GPU 조인: cuDF (RAPIDS)
 
 **진행 상황**: 43 / 600
 
-← **이전**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)
-**다음**: [044. 관계 대수 — 나눗셈 연산](/knowledge-base/studynote/05_database/01_db_architecture_relational/044_relational_algebra_division/) →
+<- **이전**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)
+**다음**: [044. 관계 대수 — 나눗셈 연산](/knowledge-base/studynote/05_database/01_db_architecture_relational/044_relational_algebra_division/) ->
 
 ---

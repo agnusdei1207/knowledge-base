@@ -20,9 +20,9 @@ tags = ["studynote-design-supervision"]
 관리 측면에서 중요한 점은 “외부 제품을 쓰지 말자”가 아니라 “종속을 인지 가능한 수준으로 관리하자”는 데 있다. 즉 어떤 의존성은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 수용하고, 어떤 의존성은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·표준화·이중화로 통제해야 한다. 기술사 답안에서는 기능 우수성만 강조하지 말고, 대체 가능성과 퇴출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 제시해야 한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 외부 서비스 │──▶│ 내부 적용층 │──▶│ 운영·계약 통제 │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| 외부 서비스 |--->| 내부 적용층 |--->| 운영·계약 통제 |
++------------+   +------------+   +------------+
 ```
 
 위 흐름은 락인이 기술 문제이면서 동시에 관리 문제임을 보여 준다. 코드만 바꿔서는 해결되지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·계약·인력·운영 절차가 함께 설계되어야 한다.
@@ -38,10 +38,10 @@ tags = ["studynote-design-supervision"]
 | 계약·운영 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 종료 조항, 가격 구조를 사전에 관리 | 위약금, 기술지원 범위, 종료 시 지원 기간 점검 |
 
 ```text
-┌──────────┐   ┌────────────┐   ┌────────────┐
-│ Vendor A │──▶│ 추상화 계층  │──▶│ 업무 서비스  │
-└──────────┘   └────┬───────┘   └────┬───────┘
-                     │                │
++----------+   +------------+   +------------+
+| Vendor A |--->| 추상화 계층  |--->| 업무 서비스  |
++----------+   +----+-------+   +----+-------+
+                     |                |
                 데이터 반출 규칙   운영·계약 통제
 ```
 
@@ -83,13 +83,13 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 편한 자동문도 비상시 수동으로 열 수 있어야 진짜 안전한 건물이다.
 
 ### 📌 관련 개념 맵
-- 벤더 락인 → 기술 종속·가격 종속 → 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 확대
-- [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 → 교체 범위 축소 → 아키텍처 유연성 확보
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 → 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → 협상력 유지
-- 계약 통제 → [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·종료 조항 → 운영 안정성 보장
+- 벤더 락인 -> 기술 종속·가격 종속 -> 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 확대
+- [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 -> 교체 범위 축소 -> 아키텍처 유연성 확보
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 -> 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> 협상력 유지
+- 계약 통제 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·종료 조항 -> 운영 안정성 보장
 
 ### 📈 관련 키워드 및 발전 흐름도
-외부 솔루션 단순 도입 → 기능 종속 심화 → 락인 비용 인식 → [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 도입 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 확보 → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 멀티 벤더·퇴출 계획 수립
+외부 솔루션 단순 도입 -> 기능 종속 심화 -> 락인 비용 인식 -> [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 도입 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 확보 -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 멀티 벤더·퇴출 계획 수립
 
 - 핵심 키워드: [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/), [Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/), Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층
 
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 491 / 530
 
-← **이전**: [412. 행위 주도 개발 (Behavior-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/)
-**다음**: [414. 리틀의 법칙 기반 스레드풀 성능감사 (Little's Law)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/414_audit/) →
+<- **이전**: [412. 행위 주도 개발 (Behavior-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/)
+**다음**: [414. 리틀의 법칙 기반 스레드풀 성능감사 (Little's Law)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/414_audit/) ->
 
 ---

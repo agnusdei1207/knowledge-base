@@ -24,15 +24,15 @@ tags = ["studynote-bigdata"]
 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처가 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름은 쉽게 점대점([point-to-point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 적재로 변한다. 각 팀이 소스별 스크립트를 따로 만들고, 보고서마다 별도 추출 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 두며, 규칙이 문서가 아니라 사람 머릿속에 남는다. 이런 구조는 처음에는 빠르지만 시간이 지나면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)), 중복 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 출처 추적 불가로 이어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Reference Architecture가 없을 때                             │
-├──────────────────────────────────────────────────────────────┤
-│ Source A -> Script 1 -> DB -> Dashboard                     │
-│ Source B -> Script 2 -> CSV -> Model                        │
-│ Source C -> Script 3 -> API -> Excel                        │
-│                                                              │
-│ 결과: 중복 적재, 규칙 불일치, lineage 부재, 운영자 의존       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Reference Architecture가 없을 때                             |
++--------------------------------------------------------------+
+| Source A -> Script 1 -> DB -> Dashboard                     |
+| Source B -> Script 2 -> CSV -> Model                        |
+| Source C -> Script 3 -> API -> Excel                        |
+|                                                              |
+| 결과: 중복 적재, 규칙 불일치, lineage 부재, 운영자 의존       |
++--------------------------------------------------------------+
 ```
 
 빅데이터 환경에서는 소스도 다양하고 소비자도 다양하다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 센서 이벤트를 받아야 하고, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 일 배치면 충분하지만 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수초 내 반영되어야 한다. [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처는 이 복잡도를 제품 개수가 아니라 계층 책임으로 정리해 주기 때문에 규모가 커질수록 가치가 커진다.
@@ -56,16 +56,16 @@ tags = ["studynote-bigdata"]
 아래 그림은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면과 제어 평면으로 나눈 모습이다. 원시 영역을 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))으로 두고, 정제·서빙 영역을 단계적으로 분리하는 이유가 한눈에 보인다.
 
 ```text
-┌──────────────────────── Control Plane ────────────────────────┐
-│ Catalog │ Lineage │ Access Control │ Data Quality │ Workflow │
-└───────────────────────────────────────────────────────────────┘
-           ▲                 ▲                    ▲
-           │                 │                    │
++------------------------ Control Plane ------------------------+
+| Catalog | Lineage | Access Control | Data Quality | Workflow |
++---------------------------------------------------------------+
+           ^                 ^                    ^
+           |                 |                    |
 Sources -> Ingestion -> Raw/Bronze -> Processing -> Curated/Silver -> Serving/Gold
-    │          │                 │             │                    │
-    │          │                 │             └────▶ Stream Store   ├──▶ BI / API
-    │          │                 │                                  └──▶ ML / Feature
-    └── files / CDC / events ───┴──────── object storage / lakehouse ─▶ apps
+    |          |                 |             |                    |
+    |          |                 |             +-----> Stream Store   +---> BI / API
+    |          |                 |                                  +---> ML / Feature
+    +-- files / CDC / events ---+-------- object storage / lakehouse --> apps
 ```
 
 이 구조에서 중요한 원리는 세 가지다. 첫째, 원시 영역은 가능한 한 불변으로 보관해 재처리와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 기준점으로 삼는다. 둘째, 처리 계층은 배치와 스트리밍을 모두 감당하되, 소비자는 가급적 가공된 서빙 계층을 통해 접근하게 한다. 셋째, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)·계보·권한·품질 검사는 부가 기능이 아니라 전 계층을 가로지르는 기본 기능으로 본다.
@@ -154,17 +154,17 @@ Sources -> Ingestion -> Raw/Bronze -> Processing -> Curated/Silver -> Serving/Go
 
 ```text
 Point-to-Point ETL
-    │
-    ▼
+    |
+    v
 Layered Data Platform
-    │
-    ▼
+    |
+    v
 Batch + Stream Coexistence
-    │
-    ▼
+    |
+    v
 Lakehouse / Medallion / Data Products
-    │
-    ▼
+    |
+    v
 Federated Governance + Self-Service Analytics
 ```
 
@@ -182,7 +182,7 @@ Federated Governance + Self-Service Analytics
 
 **진행 상황**: 177 / 262
 
-← **이전**: [176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교](/knowledge-base/studynote/16_bigdata/09_platform/176_onpremise_vs_cloud/)
-**다음**: [178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/) →
+<- **이전**: [176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교](/knowledge-base/studynote/16_bigdata/09_platform/176_onpremise_vs_cloud/)
+**다음**: [178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/) ->
 
 ---

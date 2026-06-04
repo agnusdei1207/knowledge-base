@@ -29,12 +29,12 @@ tags = ["cloud_architecture"]
 
 ```text
 [전통적인 서버-클라이언트 개발 병목]
-(프론트) UI/UX 개발 ──(대기)──> (백엔드) API 스펙 정의 → DB 설계 → 인증 로직 구현 → 인프라(VM) 배포
-                          ▲ 양측의 API 연동 및 백엔드 인프라 구축에 전체 개발 시간의 60% 소모
+(프론트) UI/UX 개발 --(대기)--> (백엔드) API 스펙 정의 -> DB 설계 -> 인증 로직 구현 -> 인프라(VM) 배포
+                          ^ 양측의 API 연동 및 백엔드 인프라 구축에 전체 개발 시간의 60% 소모
 
 [BaaS 기반의 고속 개발 흐름]
-(프론트/앱 개발자) UI/UX 개발 ──(BaaS SDK 직접 호출)──> [Firebase / Supabase API]
-                          ▲ 백엔드 전담 인력 없이, 클라이언트 코드 내에서 DB 쓰기/인증 100% 처리
+(프론트/앱 개발자) UI/UX 개발 --(BaaS SDK 직접 호출)--> [Firebase / Supabase API]
+                          ^ 백엔드 전담 인력 없이, 클라이언트 코드 내에서 DB 쓰기/인증 100% 처리
 ```
 
 이 흐름도의 핵심은 개발 아키텍처의 중심축이 서버에서 클라이언트(브라우저/앱)로 완전히 이동했다는 점이다. 프론트엔드 개발자는 복잡한 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 통하지 않고, BaaS가 제공하는 클라이언트용 SDK를 이용해 직접 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날리고(예: Firestore [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구독), 소셜 로그인 팝업을 즉시 띄울 수 있다. 따라서 서버 개발자와의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 커뮤니케이션 오버헤드가 사라지고, 아이디어를 시장에 내놓는 Time-to-Market 속도가 타의 추종을 불허하게 빨라진다.
@@ -58,28 +58,28 @@ tags = ["cloud_architecture"]
 ```text
 이 도식은 BaaS 환경에서 서버(WAS)가 생략되고, 클라이언트가 SDK를 통해 벤더의 관리형 백엔드 서비스들과 다이렉트로 어떻게 상호작용하는지 보여준다.
 
-┌───────────── [ Client Application (iOS/Android/Web) ] ─────────────┐
-│ 1. 사용자가 '구글 로그인' 버튼 클릭                                │
-│ 2. 앱 내 UI 변경 시 Data 쓰기 요청                                 │
-│ 3. 실시간 채팅 수신 대기 (Listener)                                │
-│                                                                    │
-│   [ BaaS Client SDK (Firebase SDK 등) ]                            │
-└────────┬──────────────────────┬────────────────────────┬───────────┘
-         │ (1. OAuth Token)     │ (2. API / HTTPS)       │ (3. WebSocket / 실시간 동기화)
-         ▼                      ▼                        ▼
-┌────────┴──────────────────────┴────────────────────────┴───────────┐
-│                     [BaaS Cloud Platform / BaaS 플랫폼]           │
-│                                                                    │
-│  ┌────────────────┐ ┌────────────────────┐ ┌───────────────────┐ │
-│  │ Authentication │ │ Cloud Functions    │ │ Cloud Storage     │ │
-│  │ (소셜 로그인)  │ │ (결제, 썸네일 생성)│ │ (이미지 다이렉트) │ │
-│  └────────────────┘ └────────┬───────────┘ └───────────────────┘ │
-│                              │(Trigger)                          │
-│  ┌───────────────────────────▼─────────────────────────────────┐ │
-│  │   NoSQL Realtime Database (Firestore / DynamoDB)            │ │
-│  │   - 데이터 변경 시 연결된 모든 클라이언트 SDK에 Push (동기화) │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
++------------- [ Client Application (iOS/Android/Web) ] -------------+
+| 1. 사용자가 '구글 로그인' 버튼 클릭                                |
+| 2. 앱 내 UI 변경 시 Data 쓰기 요청                                 |
+| 3. 실시간 채팅 수신 대기 (Listener)                                |
+|                                                                    |
+|   [ BaaS Client SDK (Firebase SDK 등) ]                            |
++--------+----------------------+------------------------+-----------+
+         | (1. OAuth Token)     | (2. API / HTTPS)       | (3. WebSocket / 실시간 동기화)
+         v                      v                        v
++--------+----------------------+------------------------+-----------+
+|                     [BaaS Cloud Platform / BaaS 플랫폼]           |
+|                                                                    |
+|  +----------------+ +--------------------+ +-------------------+ |
+|  | Authentication | | Cloud Functions    | | Cloud Storage     | |
+|  | (소셜 로그인)  | | (결제, 썸네일 생성)| | (이미지 다이렉트) | |
+|  +----------------+ +--------+-----------+ +-------------------+ |
+|                              |(Trigger)                          |
+|  +---------------------------v---------------------------------+ |
+|  |   NoSQL Realtime Database (Firestore / DynamoDB)            | |
+|  |   - 데이터 변경 시 연결된 모든 클라이언트 SDK에 Push (동기화) | |
+|  +-------------------------------------------------------------+ |
++--------------------------------------------------------------------+
 ```
 
 이 구조도의 핵심이자 BaaS의 가장 혁신적인 동작 원리는 <strong>'클라이언트 다이렉트 접근'</strong>과 <strong>'실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">Websocket</a> 기반 Sub)'</strong>다. 과거에는 앱이 서버에 "새로운 채팅 메시지 있니?"라고 주기적으로 물어보는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식을 썼으나, [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 환경에서는 클라이언트 SDK가 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB의 특정 문서([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 경로를 구독(Subscribe)해 놓기만 하면, 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 즉시 서버가 클라이언트에게 이벤트를 밀어내어 화면을 갱신한다. 또한 이미지 업로드 시에도 백엔드 서버의 트래픽을 잡아먹지 않고, 클라이언트가 클라우드 스토리지(S3 등)로 직접 쏘아 올리는 구조를 취해 병목을 근본적으로 제거한다.
@@ -103,16 +103,16 @@ BaaS는 IaaS나 PaaS와 달리, 개발자가 작성하는 '서버 측(Server-sid
 이 도식은 백엔드 구축 방식에 따라 개발팀의 역할 비중이 어떻게 달라지는지를 시각적으로 비교한다.
 
 [ Traditional IaaS/PaaS ]            [ BaaS (Serverless) ]
-┌─────────────────────────┐          ┌─────────────────────────┐
-│     Frontend UI / App   │          │     Frontend UI / App   │ (UI 중심,
-│    (API 호출, 렌더링)   │          │    (DB 쿼리, 인증 직접) │  비대해진 클라이언트)
-├─────────────────────────┤          ├─────────────────────────┤
-│    Backend App Server   │          │        ( 생  략 )       │
-│  (Auth, API, Validation)│          │                         │
-├─────────────────────────┤          ├─────────────────────────┤
-│    Database / Storage   │          │ BaaS Managed DB / Auth  │ (벤더가 100% 제공,
-│  (Query, Schema Design) │          │(NoSQL, Rules, Functions)│  서버 개발자 불필요)
-└─────────────────────────┘          └─────────────────────────┘
++-------------------------+          +-------------------------+
+|     Frontend UI / App   |          |     Frontend UI / App   | (UI 중심,
+|    (API 호출, 렌더링)   |          |    (DB 쿼리, 인증 직접) |  비대해진 클라이언트)
++-------------------------+          +-------------------------+
+|    Backend App Server   |          |        ( 생  략 )       |
+|  (Auth, API, Validation)|          |                         |
++-------------------------+          +-------------------------+
+|    Database / Storage   |          | BaaS Managed DB / Auth  | (벤더가 100% 제공,
+|  (Query, Schema Design) |          |(NoSQL, Rules, Functions)|  서버 개발자 불필요)
++-------------------------+          +-------------------------+
 ```
 
 이 비교에서 드러나는 BaaS의 가장 큰 단점(트레이드오프)은 복잡한 비즈니스 로직을 처리하기 어렵다는 점이다. 복잡한 다중 테이블 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이나 보안상 클라이언트에 절대 노출되어서는 안 되는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: 결제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 게임 핵 방어 로직)은 프론트엔드 SDK에서 직접 처리할 수 없다. 이를 보완하기 위해 BaaS는 클라우드 함수([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))를 융합하여, "기본적인 CRUD는 다이렉트 SDK로 하되, 민감하고 무거운 연산은 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 함수 트리거로 던져라"는 하이브리드 전략을 취하고 있다.
@@ -132,17 +132,17 @@ BaaS는 IaaS나 PaaS와 달리, 개발자가 작성하는 '서버 측(Server-sid
 이 흐름도는 클라이언트가 DB에 직접 접근할 때 데이터 오염을 막기 위한 BaaS 자체의 방어 메커니즘을 보여준다.
 
 [ 악의적 User / 해커 스크립트 ]        [ 정상 앱 User ]
-             │                             │ (OAuth Token 포함)
-             ▼                             ▼
-┌────────────────────────────────────────────────────────┐
-│               [BaaS Security Rules Engine / 보안 룰 엔진]           │
-│  - 요청자의 UID 확인 (request.auth.uid)                │
-│  - 데이터 스키마 유효성 및 값 범위 검증                │
-│  ────────────────────────────────────────────────────  │
-│      (조건 불일치)                  (조건 일치)        │
-│    [접근 거부 / Drop]              [DB 쓰기 허용]      │
-└────────────────────────────────────────────────────────┘
-                                           ▼
+             |                             | (OAuth Token 포함)
+             v                             v
++--------------------------------------------------------+
+|               [BaaS Security Rules Engine / 보안 룰 엔진]           |
+|  - 요청자의 UID 확인 (request.auth.uid)                |
+|  - 데이터 스키마 유효성 및 값 범위 검증                |
+|  ----------------------------------------------------  |
+|      (조건 불일치)                  (조건 일치)        |
+|    [접근 거부 / Drop]              [DB 쓰기 허용]      |
++--------------------------------------------------------+
+                                           v
                                     [Managed NoSQL DB / 관리형 NoSQL DB]
 ```
 
@@ -177,17 +177,17 @@ BaaS의 도입은 소프트웨어 스타트업 생태계를 근본적으로 바�
 
 ```text
 [서버리스 (Serverless / FaaS)]
-    │
-    ▼
+    |
+    v
 [NoSQL (Document DB)]
-    │
-    ▼
+    |
+    v
 [OAuth 2.0 / JWT]
-    │
-    ▼
+    |
+    v
 [API 게이트웨이 (API Gateway)]
-    │
-    ▼
+    |
+    v
 [오픈소스 BaaS (Supabase, Appwrite)]
 ```
 
@@ -204,7 +204,7 @@ BaaS의 도입은 소프트웨어 스타트업 생태계를 근본적으로 바�
 
 **진행 상황**: 4 / 371
 
-← **이전**: [4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/004_saas/)
-**다음**: [6. FaaS (Function as a Service / Serverless) - 인프라 관리 없이 함수 코드 조각 단위로 배포/실행](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/006_faas_serverless/) →
+<- **이전**: [4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/004_saas/)
+**다음**: [6. FaaS (Function as a Service / Serverless) - 인프라 관리 없이 함수 코드 조각 단위로 배포/실행](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/006_faas_serverless/) ->
 
 ---

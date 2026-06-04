@@ -44,21 +44,21 @@ tags = ["studynote-operating-system"]
 아래 그림은 세션과 제어 터미널의 관계를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              session and controlling terminal hierarchy                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Session SID=3200                                                          │
-│   Session leader: login shell PID=3200                                    │
-│   Controlling terminal: /dev/pts/5                                        │
-│                                                                            │
-│   Foreground PGID=4500  ──▶ receives terminal input / SIGINT / SIGTSTP    │
-│      ├── vim                                                               │
-│      └── less                                                              │
-│                                                                            │
-│   Background PGID=4600  ──▶ runs without owning terminal                   │
-│      ├── find                                                              │
-│      └── sort                                                              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              session and controlling terminal hierarchy                    |
++----------------------------------------------------------------------------+
+| Session SID=3200                                                          |
+|   Session leader: login shell PID=3200                                    |
+|   Controlling terminal: /dev/pts/5                                        |
+|                                                                            |
+|   Foreground PGID=4500  ---> receives terminal input / SIGINT / SIGTSTP    |
+|      +-- vim                                                               |
+|      +-- less                                                              |
+|                                                                            |
+|   Background PGID=4600  ---> runs without owning terminal                   |
+|      +-- find                                                              |
+|      +-- sort                                                              |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 터미널이 세션 전체에 무작정 붙는 것이 아니라, 그 순간의 포그라운드 그룹에 집중적으로 작동한다는 점이다. 그래서 셸은 `tcsetpgrp()`로 포그라운드 그룹을 바꾸고, `setsid()`는 호출 프로세스를 새 세션의 리더로 만들면서 기존 제어 터미널과 분리한다. 이 메커니즘이 작업 제어와 [데몬화](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/)의 출발점이다.
@@ -127,18 +127,18 @@ tags = ["studynote-operating-system"]
 
 ```text
 로그인 셸 시작
-      │
-      ▼
+      |
+      v
 세션 생성 · SID 부여
-      │
-      ▼
+      |
+      v
 프로세스 그룹 분리
 (foreground / background)
-      │
-      ▼
+      |
+      v
 제어 터미널 기반 작업 제어
-      │
-      ▼
+      |
+      v
 setsid() / daemon / systemd 서비스
 ```
 
@@ -156,7 +156,7 @@ setsid() / daemon / systemd 서비스
 
 **진행 상황**: 160 / 800
 
-← **이전**: [159. 프로세스 그룹 (Process Group)](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)
-**다음**: [161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) →
+<- **이전**: [159. 프로세스 그룹 (Process Group)](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)
+**다음**: [161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) ->
 
 ---

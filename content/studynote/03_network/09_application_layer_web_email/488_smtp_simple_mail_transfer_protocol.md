@@ -31,35 +31,35 @@ tags = ["studynote-network"]
   3. **스팸의 창궐과 프로토콜의 진화**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정이 아예 없어서 아무나 대통령 이름으로 편지를 보낼 수 있었다. 90년대 이후 스팸 대란이 터지며 ESMTP(Extended SMTP), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(SASL), 암호화([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))가 덕지덕지 붙으며 덩치가 커졌다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SMTP 통신 흐름도 (MUA ➔ MTA ➔ 목적지 MTA)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [송신자 PC (Telnet 또는 Outlook)]       [송신측 MTA 서버]      │
-│   │                                         │               │
-│   │ 1. TCP 25 포트 연결 (3-Way Handshake)    │               │
-│   │◀───────────────────────── 220 smtp.naver.com ready. │
-│   │ 2. HELO client.com                      │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 250 Hello client.com.     │
-│   │ 3. MAIL FROM:<alice@naver.com>          │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 250 Sender OK.            │
-│   │ 4. RCPT TO:<bob@gmail.com>              │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 250 Recipient OK.         │
-│   │ 5. DATA                                 │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 354 Start mail input.     │
-│   │ 6. Subject: Hello Bob!                  │               │
-│   │    This is a test message.              │               │
-│   │    . (마침표 하나로 끝남을 알림)             │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 250 Message accepted.     │
-│   │ 7. QUIT                                 │               │
-│   │─────────────────────────▶               │               │
-│   │◀───────────────────────── 221 Bye.                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SMTP 통신 흐름도 (MUA ➔ MTA ➔ 목적지 MTA)           |
++-------------------------------------------------------------+
+|                                                             |
+| [송신자 PC (Telnet 또는 Outlook)]       [송신측 MTA 서버]      |
+|   |                                         |               |
+|   | 1. TCP 25 포트 연결 (3-Way Handshake)    |               |
+|   |<-------------------------- 220 smtp.naver.com ready. |
+|   | 2. HELO client.com                      |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 250 Hello client.com.     |
+|   | 3. MAIL FROM:<alice@naver.com>          |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 250 Sender OK.            |
+|   | 4. RCPT TO:<bob@gmail.com>              |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 250 Recipient OK.         |
+|   | 5. DATA                                 |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 354 Start mail input.     |
+|   | 6. Subject: Hello Bob!                  |               |
+|   |    This is a test message.              |               |
+|   |    . (마침표 하나로 끝남을 알림)             |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 250 Message accepted.     |
+|   | 7. QUIT                                 |               |
+|   |-------------------------->               |               |
+|   |<-------------------------- 221 Bye.                  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** SMTP 통신은 그 유명한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜보다 훨씬 오래되고 직관적이다. 개발자가 `telnet smtp.naver.com 25` 라고 치고 검은 화면에서 저 영어 단어들을 직접 타이핑하면 진짜로 메일이 발송된다! 이것이 프로토콜의 본질이다. 편지 봉투(Envelope)에 해당하는 `MAIL FROM`, `RCPT TO`와 실제 편지지 내용물에 해당하는 `DATA` 영역이 철저하게 분리되어 있다. 1행 1마침표(`.`)를 찍으면 내용의 끝을 서버에 알리며 편지 접수가 끝난다. ഈ 투박한 텍스트 대화법 하나로 전 세계 이메일 인프라가 40년째 버티고 있다.
@@ -87,11 +87,11 @@ SMTP의 가장 위대한 아키텍처적 특성이다. 메일은 송신자 ➔ �
 
 ```text
 [이메일 아키텍처]
-    │
-    ▼
+    |
+    v
 [SMTP]
-    │
-    └──▶ [POP3]
+    |
+    +---> [POP3]
 ```
 
 - **📢 섹션 요약 비유**: 25번은 화물 트럭(서버) 전용 도로라 일반 승용차([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 진입하면 통신사 경찰이 딱지를 뗍니다. 일반인은 587번이라는 신분증 검사(로그인)가 빡센 전용 창구를 통해서만 우체국에 소포를 맡길 수 있도록 규칙이 완전히 나뉘었습니다.
@@ -128,28 +128,28 @@ SMTP의 가장 위대한 아키텍처적 특성이다. 메일은 송신자 ➔ �
    - **판단**: SMTP는 텍스트로 인사(HELO)하고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하고 헤어지는(QUIT) 과정([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 너무 길어 실시간 대용량 발송에 극도로 비효율적이다. 클라우드 아키텍트는 이를 무조건 걷어내고, <strong>AWS SES (Simple Email <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a></strong>나 SDK 큐잉 모델로 전환해야 한다. JSON으로 `{to: "...", body: "..."}`만 수천 개 묶어 AWS로 던지면, AWS 내부의 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) MTA 팜(Farm)이 알아서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 트래픽을 스로틀링(Throttling)하며 구글 서버가 기분 나쁘지 않은 속도로 우아하게 메일을 릴레이해 주는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 아키텍처의 은총을 누려야 한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: STARTTLS를 통한 SMTP 암호화 동적 업그레이드     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 낡은 SMTP 통신 (평문 노출) ➔ STARTTLS 마법 ]                   │
-  │                                                             │
-  │ Client ──(25번 또는 587번 포트)──▶ Server                     │
-  │   │                                                 │       │
-  │   │ 1. 평문 인사: EHLO myclient                       │       │
-  │   │ 2. 서버 응답: 250-STARTTLS (나 암호화 지원해!)         │       │
-  │   │                                                 │       │
-  │   │ 3. 승급 요청: STARTTLS 🌟 (지금부터 쉿! 암호화하자)   │       │
-  │   │ 4. 서버 응답: 220 Go ahead                       │       │
-  │   │                                                 │       │
-  │   ====== [ TLS Handshake 후 100% 암호화 터널 변신 ] ======     │
-  │   │                                                 │       │
-  │   │ 5. (암호화됨) AUTH LOGIN (비밀번호 전송)           │       │
-  │   │ 6. (암호화됨) DATA (편지 본문 전송)                │       │
-  │                                                             │
-  │ ✅ 판단: 새로운 포트(465)를 파지 않고, 기존 평문 통로(25/587)에서     │
-  │    합의하에 통로 자체를 암호화 파이프로 싹 갈아 끼우는 하위 호환성의 극치다.│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: STARTTLS를 통한 SMTP 암호화 동적 업그레이드     |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [ 낡은 SMTP 통신 (평문 노출) ➔ STARTTLS 마법 ]                   |
+  |                                                             |
+  | Client --(25번 또는 587번 포트)---> Server                     |
+  |   |                                                 |       |
+  |   | 1. 평문 인사: EHLO myclient                       |       |
+  |   | 2. 서버 응답: 250-STARTTLS (나 암호화 지원해!)         |       |
+  |   |                                                 |       |
+  |   | 3. 승급 요청: STARTTLS 🌟 (지금부터 쉿! 암호화하자)   |       |
+  |   | 4. 서버 응답: 220 Go ahead                       |       |
+  |   |                                                 |       |
+  |   ====== [ TLS Handshake 후 100% 암호화 터널 변신 ] ======     |
+  |   |                                                 |       |
+  |   | 5. (암호화됨) AUTH LOGIN (비밀번호 전송)           |       |
+  |   | 6. (암호화됨) DATA (편지 본문 전송)                |       |
+  |                                                             |
+  | ✅ 판단: 새로운 포트(465)를 파지 않고, 기존 평문 통로(25/587)에서     |
+  |    합의하에 통로 자체를 암호화 파이프로 싹 갈아 끼우는 하위 호환성의 극치다.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** SMTP는 평문 프로토콜이라 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))에 무방비다. 그렇다고 전 세계의 낡은 메일 서버들을 한날한시에 암호화 시스템으로 셧다운/업그레이드할 수는 없다. 여기서 등장한 위대한 기법이 <strong><code>STARTTLS</code></strong> (또는 Opportunistic [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))다. 클라이언트가 일단 평문으로 문을 열고 들어가서, "혹시 암호화 지원하십니까?"라고 묻는다. 서버가 "예스"라고 하면 그 즉시 둘 사이의 공기가 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 터널로 굳어지며 이후 모든 대화가 암호화된다. 만약 지원하지 않으면 그냥 평문으로 계속 대화한다. 전 세계 이메일 망이 끊어지지 않고 서서히 보안을 높여갈 수 있었던 최고의 레거시 공존 아키텍처다.
@@ -200,12 +200,12 @@ SMTP의 가장 위대한 아키텍처적 특성이다. 메일은 송신자 ➔ �
 
 ```text
 [선행 개념: 이메일 아키텍처]
-    │
-    ▼
+    |
+    v
 [현재 개념: SMTP]
-    │
-    ├──▶ [확장 A: POP3]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: POP3]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 SMTP는 [이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/)에서 출발해 현재 메커니즘을 정교화하고, 이후 POP3와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -222,7 +222,7 @@ SMTP는 [이메일 아키텍처](/knowledge-base/studynote/03_network/09_applica
 
 **진행 상황**: 609 / 1120
 
-← **이전**: [487. 이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/)
-**다음**: [489. POP3 (Post Office Protocol v3)](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/) →
+<- **이전**: [487. 이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/)
+**다음**: [489. POP3 (Post Office Protocol v3)](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/) ->
 
 ---

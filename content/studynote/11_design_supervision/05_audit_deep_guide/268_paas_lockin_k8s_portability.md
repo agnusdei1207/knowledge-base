@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 락인 방지와 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이식성은 플랫폼형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 락인과 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), K8s) 이식성 설계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 표준 API가 기준선으로 정리되지 않으면 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층은 사람 의존 절차로 흩어지고, 최종적으로 배포 이식성이 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 표준 API 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 추상화 계층 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 배포 이식성 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 표준 API 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 추상화 계층 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 배포 이식성 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 락인 방지와 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이식성은 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 배포 이식성을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층, 배포 이식성은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] → PaaS 락인 방지와 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이식성] → [클라우드 네이티브 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)]
+[표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] -> PaaS 락인 방지와 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이식성] -> [클라우드 네이티브 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 표준 API는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 329 / 530
 
-← **이전**: [267. 클라우드 인프라 CSAP 감리 (Cloud Infrastructure CSAP Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/267_cloud_infrastructure_audit_csap/)
-**다음**: [269. 블록체인 노드 아키텍처 감리 (Blockchain Node Architecture Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/269_blockchain_node_audit/) →
+<- **이전**: [267. 클라우드 인프라 CSAP 감리 (Cloud Infrastructure CSAP Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/267_cloud_infrastructure_audit_csap/)
+**다음**: [269. 블록체인 노드 아키텍처 감리 (Blockchain Node Architecture Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/269_blockchain_node_audit/) ->
 
 ---

@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [프로토타입 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/) ([Prototype Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/))은 기존 객체를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 새로운 객체를 만드는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이다. 초기화 비용이 큰 객체나 런타임에 구조가 동적으로 결정되는 객체는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출보다 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 효율적일 수 있다. 이 개념이 필요한 이유는 기존 상태를 바탕으로 빠르게 새 객체를 만드는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 매번 복잡한 초기화를 반복해 성능과 코드 단순성이 떨어진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Proto    │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Proto    |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Proto   │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Proto   |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 그래픽 편집기 | [프로토타입 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/) ([Prototype Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[복잡한 재생성] → [프로토타입 복제] → [빠른 객체 파생]
+[복잡한 재생성] -> [프로토타입 복제] -> [빠른 객체 파생]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [프로토타입 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/) ([Prototype Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/))은 잘 만든 찰흙 모양을 본떠 여러 개를 찍어 내는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 459 / 530
 
-← **이전**: [380. 빌더 패턴 (Builder Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)
-**다음**: [382. 싱글톤 패턴 (Singleton Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) →
+<- **이전**: [380. 빌더 패턴 (Builder Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)
+**다음**: [382. 싱글톤 패턴 (Singleton Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) ->
 
 ---

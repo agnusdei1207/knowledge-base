@@ -20,9 +20,9 @@ tags = ["studynote-software-engineering"]
 
 ```text
 FGI 진행: 모더레이터 + 6~10명 참가자
-  도입(5분) → 주제 토론(60분) → 정리(10분)
-  녹음·녹화 → 전사(Transcript) → 코딩·분석
-  → 2~3회 반복하여 포화점 확인
+  도입(5분) -> 주제 토론(60분) -> 정리(10분)
+  녹음·녹화 -> 전사(Transcript) -> 코딩·분석
+  -> 2~3회 반복하여 포화점 확인
 ```
 
 - **📢 섹션 요약 비유**: FGI는 <strong>토크쇼</strong>이다. MC(모더레이터)가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
@@ -48,9 +48,9 @@ FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 그룹 토론] → [FGI (마케팅, 1950s)]
-    → [UX FGI (2005~)] → [온라인 FGI (Zoom, 2020)]
-    → [현재: AI FGI 분석 — 토론 자동 전사·감성 분석]
+[비공식 그룹 토론] -> [FGI (마케팅, 1950s)]
+    -> [UX FGI (2005~)] -> [온라인 FGI (Zoom, 2020)]
+    -> [현재: AI FGI 분석 — 토론 자동 전사·감성 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>�
 
 **진행 상황**: 141 / 973
 
-← **이전**: [140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/140_shadowing_observation_technique/)
-**다음**: [142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정](/knowledge-base/studynote/04_software_engineering/03_design_architecture/142_requirements_analysis_conflict_resolution/) →
+<- **이전**: [140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/140_shadowing_observation_technique/)
+**다음**: [142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정](/knowledge-base/studynote/04_software_engineering/03_design_architecture/142_requirements_analysis_conflict_resolution/) ->
 
 ---

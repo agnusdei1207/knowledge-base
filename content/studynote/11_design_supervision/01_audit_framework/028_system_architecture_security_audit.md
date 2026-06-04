@@ -19,22 +19,22 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│       아키텍처 보안 감리 체계                         │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  감리 범위:                                           │
-│  ┌────────────────────────────────────────────────┐  │
-│  │ 네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)   │  │
-│  │ 인증·권한 아키텍처 (IAM·SSO·MFA)              │  │
-│  │ 데이터 보안 (암호화·키 관리·DLP)               │  │
-│  │ 접근 제어 (RBAC·ABAC·Least Privilege)         │  │
-│  │ 보안 모니터링 (SIEM·SOAR 통합)                │  │
-│  └────────────────────────────────────────────────┘  │
-│                                                       │
-│  Zero Trust 원칙 검증:                                │
-│    "Never Trust, Always Verify" 구현 여부             │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|       아키텍처 보안 감리 체계                         |
++------------------------------------------------------+
+|                                                       |
+|  감리 범위:                                           |
+|  +------------------------------------------------+  |
+|  | 네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)   |  |
+|  | 인증·권한 아키텍처 (IAM·SSO·MFA)              |  |
+|  | 데이터 보안 (암호화·키 관리·DLP)               |  |
+|  | 접근 제어 (RBAC·ABAC·Least Privilege)         |  |
+|  | 보안 모니터링 (SIEM·SOAR 통합)                |  |
+|  +------------------------------------------------+  |
+|                                                       |
+|  Zero Trust 원칙 검증:                                |
+|    "Never Trust, Always Verify" 구현 여부             |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 시스템 아키텍처 보안 감리는 건물 준공 전 소방 안전 검사다. 건물이 완공되기 전 설계 단계에서 비상구·스프링클러·[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 제대로 설계했는지 독립적으로 검사한다.
@@ -128,17 +128,17 @@ IAM:
 
 ```text
 [전통 보안 감리 — 방화벽·DMZ·암호화 점검]
-    │
-    ▼
+    |
+    v
 [클라우드 보안 감리 — IAM·VPC·암호화 키 관리]
-    │
-    ▼
+    |
+    v
 [Zero Trust 아키텍처 감리 — mTLS·최소 권한 검증]
-    │
-    ▼
+    |
+    v
 [컨테이너·마이크로서비스 감리 — 이미지 보안·서비스 메시]
-    │
-    ▼
+    |
+    v
 [IaC 자동 보안 감리 — Checkov·tfsec 정적 분석]
 ```
 
@@ -154,7 +154,7 @@ IAM:
 
 **진행 상황**: 33 / 530
 
-← **이전**: [28. 응용 시스템 영역 감리 (Application System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/028_application_system_area_audit/)
-**다음**: [29. 프로젝트 유형별 감리 (Audit by Project Type)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) →
+<- **이전**: [28. 응용 시스템 영역 감리 (Application System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/028_application_system_area_audit/)
+**다음**: [29. 프로젝트 유형별 감리 (Audit by Project Type)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_audit_by_project_type/) ->
 
 ---

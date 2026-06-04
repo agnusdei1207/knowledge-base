@@ -33,11 +33,11 @@ x86 계열은 원래 [가상화](/knowledge-base/studynote/13_cloud_architecture
 
 ```text
 하이퍼바이저(Root)
-   │ VM Entry
-   ▼
-게스트(Non-Root) ── 특권 명령/예외 ──▶ VM Exit
-   ▲                                      │
-   └────────────── VMCS/VMCB 복구 ◀───────┘
+   | VM Entry
+   v
+게스트(Non-Root) -- 특권 명령/예외 ---> VM Exit
+   ^                                      |
+   +-------------- VMCS/VMCB 복구 <--------+
 ```
 
 | 구성 요소 | 역할 |
@@ -108,11 +108,11 @@ Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름
 
 ```text
 가상화 필요
-   ↓
+   v
 VT-x / AMD-V
-   ↓
+   v
 VMCS / VMCB + EPT / NPT
-   ↓
+   v
 KVM / ESXi / Hyper-V
 ```
 
@@ -122,13 +122,13 @@ KVM / ESXi / Hyper-V
 
 ```text
 소프트웨어 전가상화
-   ↓
+   v
 반가상화
-   ↓
+   v
 하드웨어 보조 가상화
-   ↓
+   v
 Nested Virtualization
-   ↓
+   v
 보안/가속 통합 가상화
 ```
 
@@ -146,7 +146,7 @@ Nested Virtualization
 
 **진행 상황**: 59 / 800
 
-← **이전**: [58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)
-**다음**: [60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/) →
+<- **이전**: [58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)
+**다음**: [60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/) ->
 
 ---

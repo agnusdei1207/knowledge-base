@@ -32,9 +32,9 @@ tags = ["studynote-design-supervision"]
 | 동일 코드 2회 이상 반복 | 복붙 후 변수명만 다름 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 긴 요리 레시피를 '양념장 만들기', '채소 다듬기' 같이 소분류로 쪼개는 것과 같다.
@@ -44,22 +44,22 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [ 분리 전 ]                          [ 분리 후 ]
-┌──────────────────────────────┐    ┌──────────────────────────────┐
-│ processOrder()               │    │ processOrder()               │
-│  ├─ // 주문 검증              │    │  ├─ validateOrder()  ◀─ 분리 │
-│  │   if (!order.valid) ...   │    │  ├─ calculateTotal() ◀─ 분리 │
-│  ├─ // 합계 계산              │    │  └─ sendConfirmation() ◀─ 분리│
-│  │   total = qty * price ... │    └──────────────────────────────┘
-│  └─ // 확인 메일              │    ┌─────────────────────────────┐
-│      sendEmail(...)          │    │ validateOrder()             │
-└──────────────────────────────┘    │  if (!order.valid) throw .. │
-                                    ├─────────────────────────────┤
-                                    │ calculateTotal()            │
-                                    │  return qty * price * tax   │
-                                    ├─────────────────────────────┤
-                                    │ sendConfirmation()          │
-                                    │  sendEmail(order.email)     │
-                                    └─────────────────────────────┘
++------------------------------+    +------------------------------+
+| processOrder()               |    | processOrder()               |
+|  +- // 주문 검증              |    |  +- validateOrder()  <-- 분리 |
+|  |   if (!order.valid) ...   |    |  +- calculateTotal() <-- 분리 |
+|  +- // 합계 계산              |    |  +- sendConfirmation() <-- 분리|
+|  |   total = qty * price ... |    +------------------------------+
+|  +- // 확인 메일              |    +-----------------------------+
+|      sendEmail(...)          |    | validateOrder()             |
++------------------------------+    |  if (!order.valid) throw .. |
+                                    +-----------------------------+
+                                    | calculateTotal()            |
+                                    |  return qty * price * tax   |
+                                    +-----------------------------+
+                                    | sendConfirmation()          |
+                                    |  sendEmail(order.email)     |
+                                    +-----------------------------+
 ```
 
 1. <strong>새 메서드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
@@ -69,14 +69,14 @@ tags = ["studynote-design-supervision"]
 5. **컴파일·테스트** — 동작 불변 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 ```
-┌─────────────────────────────────────────────────────┐
-│          지역 변수 처리 결정 트리                    │
-│                                                     │
-│  지역 변수 있음?                                    │
-│     ├─ 읽기만 함 ──▶ 매개변수로 전달               │
-│     ├─ 값 변경 후 계속 사용 ──▶ 반환값으로 처리    │
-│     └─ 여러 변수 변경 ──▶ 임시 변수 객체화 고려    │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|          지역 변수 처리 결정 트리                    |
+|                                                     |
+|  지역 변수 있음?                                    |
+|     +- 읽기만 함 ---> 매개변수로 전달               |
+|     +- 값 변경 후 계속 사용 ---> 반환값으로 처리    |
+|     +- 여러 변수 변경 ---> 임시 변수 객체화 고려    |
++-----------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -108,7 +108,7 @@ tags = ["studynote-design-supervision"]
 
 - **IntelliJ IDEA**: `Ctrl+Alt+M` (macOS: `Cmd+Opt+M`)
 - **Eclipse**: `Alt+Shift+M`
-- <strong>VS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>: 선택 후 전구 아이콘 → Extract Method
+- <strong>VS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>: 선택 후 전구 아이콘 -> Extract Method
 
 IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 결정한다.
 
@@ -126,7 +126,7 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 3. [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 단위를 작게 나눠 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
-- **📢 섹션 요약 비유**: 공장 조립 라인을 "부품 A 조립 → 부품 B 조립 → 완제품 검사"처럼 공정 단위로 나눠야 QC(품질 관리)가 가능하다.
+- **📢 섹션 요약 비유**: 공장 조립 라인을 "부품 A 조립 -> 부품 B 조립 -> 완제품 검사"처럼 공정 단위로 나눠야 QC(품질 관리)가 가능하다.
 
 ---
 
@@ -158,7 +158,7 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 | 도구 | IDE 자동 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | IntelliJ, Eclipse, VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
-긴 메서드 → 메서드 분리 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) → 의도 기반 조합
+긴 메서드 -> 메서드 분리 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) -> 의도 기반 조합
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 긴 일기를 쓸 때 "학교 이야기", "점심 이야기", "놀이터 이야기"로 나눠 쓰는 것처럼, 긴 코드도 의미 있는 이름의 작은 조각으로 나눈다.
@@ -171,7 +171,7 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 
 **진행 상황**: 302 / 530
 
-← **이전**: [240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/)
-**다음**: [242. 파라미터 객체화 (Introduce Parameter Object)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) →
+<- **이전**: [240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/)
+**다음**: [242. 파라미터 객체화 (Introduce Parameter Object)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) ->
 
 ---

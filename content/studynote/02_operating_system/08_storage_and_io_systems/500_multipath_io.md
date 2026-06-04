@@ -26,32 +26,32 @@ tags = ["studynote-operating-system"]
 물리적 선이 어떻게 끊겨도 생존하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 구성 맵으로 전개하여 비교하면 다음 붕괴 방어선과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 단일 경로 SPoF 파괴 vs 이중 경로 Multipath 요새화 도               │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  [ 과거: 단일 경로(Single Path)의 끔찍한 파멸 유리몸 ]                             │
-  │     ┌─────────┐                ┌──────────────────────────┐                        │
-  │     │  서버    ├────── ✂️ ─────▶│ 깡통 스토리지 장비 랙 박스 │                     │
-  │     └─────────┘     (쥐가 끊음)   └──────────────────────────┘                     │
-  │         💥 결과: 연결 선 딱 1개 끊어지니 즉발로 시스템 동반 커널패닉 패망.         │
-  │                                                                                    │
-  │  =============================================================                     │
-  │                                                                                    │
-  │  [ 현대: MPIO (Multipath I/O) 우주 방어 복원 그물망 ]                              │
-  │     ┌─────────────┐                                                                │
-  │     │ 1️⃣ 멀티패스 데몬│ ▶ "OS야 넌 mpath_a 디스크 하나만 보면돼!"                 │
-  │     │    [서버]     │    (그 아래 물리 선 4개는 내가 합쳐서 우회 관리할게)         │
-  │     └─┬─────────┬─┘                                                                │
-  │     [HBA1]   [HBA2]   ◀ (각 포트별로 길을 양쪽 스위치로 완전 분산)                 │
-  │       │         │                                                                  │
-  │   (FabricA) (FabricB) ◀ (지진/정전 방어용으로 광 스위치도 2대로 분리 찢음)         │
-  │       │         │ 💥 만약 1번 루트가 단선돼도!                                     │
-  │     [포트1]   [포트2]   ◀ (스토리지 장비도 통제 컨트롤러를 2개 머리를 둠)          │
-  │     ┌─┴─────────┴─┐      ▶ 즉각 우회! 2번 길로 0.1초만에 트래픽 무중단 전송!       │
-  │     │  거대 스토리지  │                                                            │
-  │     └─────────────┘                                                                │
-  └────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------+
+  |                 단일 경로 SPoF 파괴 vs 이중 경로 Multipath 요새화 도               |
+  +------------------------------------------------------------------------------------+
+  |                                                                                    |
+  |  [ 과거: 단일 경로(Single Path)의 끔찍한 파멸 유리몸 ]                             |
+  |     +---------+                +--------------------------+                        |
+  |     |  서버    +------ ✂️ ------>| 깡통 스토리지 장비 랙 박스 |                     |
+  |     +---------+     (쥐가 끊음)   +--------------------------+                     |
+  |         💥 결과: 연결 선 딱 1개 끊어지니 즉발로 시스템 동반 커널패닉 패망.         |
+  |                                                                                    |
+  |  =============================================================                     |
+  |                                                                                    |
+  |  [ 현대: MPIO (Multipath I/O) 우주 방어 복원 그물망 ]                              |
+  |     +-------------+                                                                |
+  |     | 1️⃣ 멀티패스 데몬| -> "OS야 넌 mpath_a 디스크 하나만 보면돼!"                 |
+  |     |    [서버]     |    (그 아래 물리 선 4개는 내가 합쳐서 우회 관리할게)         |
+  |     +-+---------+-+                                                                |
+  |     [HBA1]   [HBA2]   <- (각 포트별로 길을 양쪽 스위치로 완전 분산)                 |
+  |       |         |                                                                  |
+  |   (FabricA) (FabricB) <- (지진/정전 방어용으로 광 스위치도 2대로 분리 찢음)         |
+  |       |         | 💥 만약 1번 루트가 단선돼도!                                     |
+  |     [포트1]   [포트2]   <- (스토리지 장비도 통제 컨트롤러를 2개 머리를 둠)          |
+  |     +-+---------+-+      -> 즉각 우회! 2번 길로 0.1초만에 트래픽 무중단 전송!       |
+  |     |  거대 스토리지  |                                                            |
+  |     +-------------+                                                                |
+  +------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림 하단의 `Multipath` 구조는 눈물겹도록 집요한 이중, 삼중의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 분리 결속 떡칠이다. 단순히 선만 2개 꽂는 게 문제가 아니다. 메인보드 칩(HBA) 2개, 중간 길목의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망 2대, 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 접수하는 스토리지의 헤드 뇌(Controller) 마저 2~4개를 탑재해서 "그 어떤 중간 파편 부품이 1개 완전히 돌연사하고 불에 타 증발하더라도, 무조건 우회해서 살려 통과하는 잔존 1개의 경로가 살아 숨 쉰다!" 라는 걸 철칙으로 보장하는 무결점 엔터프라이즈 HA(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 알파이자 오메가 기저다. 그리고 그 지저분한 물리 선 4가닥을 OS 위에서는 `multipathd` 데몬이 단 하나의 가상 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 디스크 이름(`/dev/mapper/mpatha`) 캡슐로 덮어씌워 줘서 어플리케이션은 편안하게 평화를 누린다.
@@ -138,12 +138,12 @@ OS(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_
 
 ```text
 [NVMe over Fabrics (NVMe-oF)]
-    │
-    ▼
+    |
+    v
 [이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
-    │
-    ├──▶ [파일 (File)의 정의]
-    └──▶ [파일 속성 (Attributes)]
+    |
+    +---> [파일 (File)의 정의]
+    +---> [파일 속성 (Attributes)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -160,7 +160,7 @@ OS(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_
 
 **진행 상황**: 500 / 800
 
-← **이전**: [499. NVMe over Fabrics (NVMe-oF) - RDMA 기반 네트워크 SSD 고속 연결 프로토콜](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)
-**다음**: [501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) →
+<- **이전**: [499. NVMe over Fabrics (NVMe-oF) - RDMA 기반 네트워크 SSD 고속 연결 프로토콜](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)
+**다음**: [501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ->
 
 ---

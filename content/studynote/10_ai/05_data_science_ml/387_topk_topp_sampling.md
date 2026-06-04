@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 두 방법 모두 "저확률 쓰레기 토큰"을 제거하고 의미 있는 후보 토큰 집합에서 샘플링한다는 공통 목적을 가진다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Top-K는 "항상 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명 중 무작위 선택", Top-P는 "합격점 이상인 사람들 중에서 무작위 선택"이다. 인원이 고정이냐 기준이 고정이냐의 차이다.
@@ -60,21 +60,21 @@ tags = ["studynote-ai"]
 P=0.9 예시:
 토큰:  [A=0.50, B=0.30, C=0.15, D=0.03, E=0.02]
 누적:  [0.50,  0.80,  0.95,  0.98, 1.00]
-→ C까지(누적 0.95 ≥ 0.9) → S_P = {A, B, C}
+-> C까지(누적 0.95 ≥ 0.9) -> S_P = {A, B, C}
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  뾰족한 분포 (확신)       평평한 분포 (불확실)         │
-│                                                      │
-│  Top-K=3:                 Top-K=3:                   │
-│  [████ A, ██ B, █ C]      [█ A, █ B, █ C]            │
-│  (K=3으로 충분)            (K=3이 너무 적음)           │
-│                                                      │
-│  Top-P=0.9:               Top-P=0.9:                 │
-│  → S_P={A,B} (2개)        → S_P={A,B,...,J} (많음)   │
-│  (분포에 적응적)            (분포에 적응적)             │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  뾰족한 분포 (확신)       평평한 분포 (불확실)         |
+|                                                      |
+|  Top-K=3:                 Top-K=3:                   |
+|  [████ A, ██ B, █ C]      [█ A, █ B, █ C]            |
+|  (K=3으로 충분)            (K=3이 너무 적음)           |
+|                                                      |
+|  Top-P=0.9:               Top-P=0.9:                 |
+|  -> S_P={A,B} (2개)        -> S_P={A,B,...,J} (많음)   |
+|  (분포에 적응적)            (분포에 적응적)             |
++------------------------------------------------------+
 ```
 
 | 방법 | 후보 크기 | 분포 적응 | 하이퍼파라미터 | 권장 값 |
@@ -132,7 +132,7 @@ Top-K와 Top-P는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 |:---|:---|
 | [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링 | 상위 K 후보 / 고정 후보 수 필터 |
 | Top-P (Nucleus) | 누적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P / 적응적 후보 필터 |
-| 그리디 디코딩 | argmax, T→0 / 결정론적 디코딩 |
+| 그리디 디코딩 | argmax, T->0 / 결정론적 디코딩 |
 | 텍스트 퇴화 | 반복, 불일관성 / Top-P 필요 이유 |
 | 온도 (T) | 분포 뾰족함 / Top-P와 병행 |
 | Beam Search | k 빔, 시퀀스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) / 대안 디코딩 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
@@ -140,7 +140,7 @@ Top-K와 Top-P는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [Top-K / Top-P (Nucleus Sampling)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [Top-K / Top-P (Nucleus Sampling)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -155,7 +155,7 @@ Top-K와 Top-P는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 **진행 상황**: 387 / 420
 
-← **이전**: [386. LLM 온도 (Temperature) 파라미터](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)
-**다음**: [388. RAG 파이프라인 (RAG HNSW ANN)](/knowledge-base/studynote/10_ai/05_data_science_ml/388_rag_hnsw_ann/) →
+<- **이전**: [386. LLM 온도 (Temperature) 파라미터](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)
+**다음**: [388. RAG 파이프라인 (RAG HNSW ANN)](/knowledge-base/studynote/10_ai/05_data_science_ml/388_rag_hnsw_ann/) ->
 
 ---

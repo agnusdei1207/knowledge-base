@@ -24,32 +24,32 @@ tags = ["studynote-bigdata"]
 ### 정비 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 진화
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    정비 전략의 진화                               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사후 정비 (Reactive)                                            │
-│  "고장이 나면 고친다" → 최대 다운타임, 최소 계획 가능성           │
-│                │                                                 │
-│                ▼                                                 │
-│  예방 정비 (Preventive)                                          │
-│  "일정 주기마다 교체" → 과잉 정비 비용, 잔여 수명 낭비            │
-│                │                                                 │
-│                ▼                                                 │
-│  예지 정비 (Predictive, PdM)                                     │
-│  "데이터 이상 감지 시 교체" → 최적 타이밍, 비용 최소화           │
-│                │                                                 │
-│                ▼                                                 │
-│  처방 정비 (Prescriptive)                                        │
-│  "무엇을 어떻게 수리할지 AI가 권고" → 자율 최적화 목표            │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                    정비 전략의 진화                               |
++-----------------------------------------------------------------+
+|                                                                  |
+|  사후 정비 (Reactive)                                            |
+|  "고장이 나면 고친다" -> 최대 다운타임, 최소 계획 가능성           |
+|                |                                                 |
+|                v                                                 |
+|  예방 정비 (Preventive)                                          |
+|  "일정 주기마다 교체" -> 과잉 정비 비용, 잔여 수명 낭비            |
+|                |                                                 |
+|                v                                                 |
+|  예지 정비 (Predictive, PdM)                                     |
+|  "데이터 이상 감지 시 교체" -> 최적 타이밍, 비용 최소화           |
+|                |                                                 |
+|                v                                                 |
+|  처방 정비 (Prescriptive)                                        |
+|  "무엇을 어떻게 수리할지 AI가 권고" -> 자율 최적화 목표            |
++-----------------------------------------------------------------+
 ```
 
 ### OEE (Overall Equipment Effectiveness, 종합설비효율)
 
 - <strong>OEE = 가동률 × <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>률 × 품질률</strong>
 - 세계 평균 OEE: 약 60%, 우수 기업: 85% 이상
-- 빅데이터 목표: OEE를 1~5%p 개선 → 수십억 원 가치
+- 빅데이터 목표: OEE를 1~5%p 개선 -> 수십억 원 가치
 
 > 📢 **섹션 요약 비유**: 예지정비는 "자동차가 타이어 펑크 나기 전에 스스로 알려주는 것"이다. 고장 나고 나서 길가에 서는 것이 아니라, 미리 경고를 받고 정비소에 가는 것이 핵심이다.
 
@@ -60,46 +60,46 @@ tags = ["studynote-bigdata"]
 ### [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 기반 예지정비 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  IIoT 예지정비 플랫폼                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [현장 설비]                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐                         │
-│  │ 진동 센서 │ │ 온도 센서 │ │ 전류 센서 │                        │
-│  └────┬─────┘ └────┬─────┘ └────┬─────┘                         │
-│       └────────────┴────────────┘                               │
-│                    │  (MQTT / OPC-UA)                           │
-│                    ▼                                             │
-│  [엣지 레이어]                                                    │
-│  ┌─────────────────────────────────┐                            │
-│  │ 엣지 서버 (Edge Computing)       │                            │
-│  │ - 1차 이상 감지 (규칙 기반)      │                            │
-│  │ - 데이터 압축 · 전처리           │                            │
-│  │ - 로컬 알람 (네트워크 단절 대비) │                            │
-│  └─────────────┬───────────────────┘                            │
-│                │                                                 │
-│                ▼                                                 │
-│  [클라우드/온프레미스 레이어]                                      │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 시계열 DB (InfluxDB / TimescaleDB)                        │   │
-│  │ - 수천 태그 × 1초 간격 데이터 저장                        │   │
-│  └─────────────────┬────────────────────────────────────────┘   │
-│                    │                                             │
-│           ┌────────┴──────────┐                                 │
-│           ▼                   ▼                                 │
-│  ┌──────────────────┐ ┌─────────────────────────┐              │
-│  │ 이상 탐지 모델    │ │ RUL 예측 모델            │              │
-│  │ - Isolation Forest│ │ (Remaining Useful Life)  │              │
-│  │ - Autoencoder    │ │ - LSTM / Prophet          │              │
-│  └──────────────────┘ └──────────┬──────────────┘              │
-│                                  │                              │
-│                                  ▼                              │
-│                       ┌──────────────────────┐                 │
-│                       │ 정비 작업 지시 (CMMS) │                 │
-│                       │ 부품 조달 자동 발주   │                 │
-│                       └──────────────────────┘                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  IIoT 예지정비 플랫폼                             |
++-----------------------------------------------------------------+
+|                                                                  |
+|  [현장 설비]                                                      |
+|  +----------+ +----------+ +----------+                         |
+|  | 진동 센서 | | 온도 센서 | | 전류 센서 |                        |
+|  +----+-----+ +----+-----+ +----+-----+                         |
+|       +------------+------------+                               |
+|                    |  (MQTT / OPC-UA)                           |
+|                    v                                             |
+|  [엣지 레이어]                                                    |
+|  +---------------------------------+                            |
+|  | 엣지 서버 (Edge Computing)       |                            |
+|  | - 1차 이상 감지 (규칙 기반)      |                            |
+|  | - 데이터 압축 · 전처리           |                            |
+|  | - 로컬 알람 (네트워크 단절 대비) |                            |
+|  +-------------+-------------------+                            |
+|                |                                                 |
+|                v                                                 |
+|  [클라우드/온프레미스 레이어]                                      |
+|  +----------------------------------------------------------+   |
+|  | 시계열 DB (InfluxDB / TimescaleDB)                        |   |
+|  | - 수천 태그 × 1초 간격 데이터 저장                        |   |
+|  +-----------------+----------------------------------------+   |
+|                    |                                             |
+|           +--------+----------+                                 |
+|           v                   v                                 |
+|  +------------------+ +-------------------------+              |
+|  | 이상 탐지 모델    | | RUL 예측 모델            |              |
+|  | - Isolation Forest| | (Remaining Useful Life)  |              |
+|  | - Autoencoder    | | - LSTM / Prophet          |              |
+|  +------------------+ +----------+--------------+              |
+|                                  |                              |
+|                                  v                              |
+|                       +----------------------+                 |
+|                       | 정비 작업 지시 (CMMS) |                 |
+|                       | 부품 조달 자동 발주   |                 |
+|                       +----------------------+                 |
++-----------------------------------------------------------------+
 ```
 
 ### 불량 감지 (Quality Control) — 컴퓨터 비전
@@ -126,7 +126,7 @@ tags = ["studynote-bigdata"]
 
 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 특징 | 용도 | 표준화 |
 |:---|:---|:---|:---|
-| [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) | 경량 Pub/Sub, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 최적화 | 센서→브로커 전송 | ISO 20922 |
+| [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) | 경량 Pub/Sub, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 최적화 | 센서->브로커 전송 | ISO 20922 |
 | OPC-UA | 보안·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 강화, 구조적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)/[SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/) 연동 | IEC 62541 |
 | Modbus | 레거시 호환, 단순 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 구형 설비 통신 | 사실상 표준 |
 | AMQP | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 | 기업급 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 | ISO 19464 |
@@ -136,7 +136,7 @@ tags = ["studynote-bigdata"]
 ```
 사후 정비 비용  : ████████████████████  100% (기준)
 예방 정비 비용  : ████████████          60%
-예지 정비 비용  : ██████                30%  ← 목표
+예지 정비 비용  : ██████                30%  <- 목표
 ```
 
 > 📢 **섹션 요약 비유**: MQTT는 "공장 안 센서가 속삭이는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 빠르게 전달하는 라디오"고, OPC-UA는 "기계와 시스템이 서로 믿고 대화하는 암호화된 전화"다.
@@ -156,7 +156,7 @@ tags = ["studynote-bigdata"]
 | 진동 주파수 스펙트럼 | 가속도 센서 | 특정 주파수 대역 에너지 증가 |
 | 슬러리 유량 편차 | 유량계 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 ±5% 초과 |
 | 패드 온도 분포 | 적외선 센서 | 국소 과열 패턴 |
-| 스핀들 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 센서 | 마찰 증가 → [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 상승 |
+| 스핀들 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 센서 | 마찰 증가 -> [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 상승 |
 
 **모델 선택 기준**:
 
@@ -177,10 +177,10 @@ tags = ["studynote-bigdata"]
 | 비계획 다운타임 감소 | [PdM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) 도입 시 30~50% 감소 |
 | 정비 비용 절감 | 예방 정비 대비 25~35% 절감 |
 | 불량률 감소 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비전 검사로 불량 유출 80~95% 감소 |
-| OEE 향상 | 평균 3~8%p 향상 → 생산 용량 증가 |
+| OEE 향상 | 평균 3~8%p 향상 -> 생산 용량 증가 |
 | 에너지 절감 | 최적 생산 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)로 피크 전력 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 감소 |
 
-**결론**: 제조 빅데이터는 생산 라인의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 관리하는 핵심 인프라다. [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/)→엣지→클라우드의 3계층 아키텍처와 [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/) 역량이 성공의 열쇠이며, 기술사는 IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 통합의 보안 위험과 레거시 장비 연동 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 설계해야 한다.
+**결론**: 제조 빅데이터는 생산 라인의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 관리하는 핵심 인프라다. [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/)->엣지->클라우드의 3계층 아키텍처와 [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/) 역량이 성공의 열쇠이며, 기술사는 IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 통합의 보안 위험과 레거시 장비 연동 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 설계해야 한다.
 
 > 📢 **섹션 요약 비유**: 제조 빅데이터는 "공장 전체가 하나의 살아있는 유기체처럼 자신의 건강 상태를 스스로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 것"이다. 문제가 생기기 전에 몸이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내고, AI가 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 듣는다.
 
@@ -200,20 +200,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [PdM (예지정비)]
-    │
-    ▼
+    |
+    v
 [OEE (종합설비효율)]
-    │
-    ▼
+    |
+    v
 [IIoT (산업사물인터넷)]
-    │
-    ▼
+    |
+    v
 [컴퓨터 비전 검사]
-    │
-    ▼
+    |
+    v
 [시계열 DB]
 ```
 
@@ -231,7 +231,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 217 / 262
 
-← **이전**: [211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획](/knowledge-base/studynote/16_bigdata/11_industry/216_public_bigdata/)
-**다음**: [213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로](/knowledge-base/studynote/16_bigdata/11_industry/218_retail_logistics_bigdata/) →
+<- **이전**: [211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획](/knowledge-base/studynote/16_bigdata/11_industry/216_public_bigdata/)
+**다음**: [213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로](/knowledge-base/studynote/16_bigdata/11_industry/218_retail_logistics_bigdata/) ->
 
 ---

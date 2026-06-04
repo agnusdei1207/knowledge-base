@@ -35,27 +35,27 @@ TSP (Traveling Salesman Problem — 외판원 문제):
 
 결정 문제 (Decision Problem):
   "비용 k 이하의 해밀톤 순환이 존재하는가?"
-  → NP-완전
+  -> NP-완전
 
 최적화 문제:
   최소 비용 해밀톤 순환 찾기
-  → NP-하드
+  -> NP-하드
 
 브루트 포스 복잡도:
   n! / 2 (대칭 TSP)
-  n=10: 181,440 → 가능
-  n=20: 6×10^17 → 불가능
-  n=50: 3×10^62 → 완전 불가능
+  n=10: 181,440 -> 가능
+  n=20: 6×10^17 -> 불가능
+  n=50: 3×10^62 -> 완전 불가능
 
 TSP 유형:
   메트릭 TSP: 삼각 부등식 성립 (c(i,k) ≤ c(i,j)+c(j,k))
-    → Christofides 1.5-근사 적용 가능
+    -> Christofides 1.5-근사 적용 가능
 
   일반 TSP: 삼각 부등식 없음
-    → 상수 근사 불가능 (P≠NP 가정)
+    -> 상수 근사 불가능 (P≠NP 가정)
 
   유클리드 TSP: 2D 평면 내 거리
-    → PTAS 존재 (임의 정확도 근사)
+    -> PTAS 존재 (임의 정확도 근사)
 ```
 
 > 📢 **섹션 요약 비유**: TSP는 배달원의 딜레마 — 여러 집을 배달하는 가장 짧은 경로는? 집이 20개만 넘어도 모든 경우를 확인하는 건 우주 나이보다 오래 걸려요.
@@ -69,13 +69,13 @@ TSP NP-완전 증명:
 
 TSP(결정) ∈ NP:
   주어진 경로가 해밀톤 순환이고 비용 k 이하인지 확인
-  O(n) → 다항 시간 ✓
+  O(n) -> 다항 시간 ✓
 
 해밀톤 경로 ≤p TSP:
 
   해밀톤 경로 (Hamiltonian Path) 문제:
     모든 정점을 정확히 한 번 방문하는 경로 존재?
-    → 이미 NP-완전 (증명 생략)
+    -> 이미 NP-완전 (증명 생략)
 
   변환:
     G = (V, E): 해밀톤 경로 인스턴스
@@ -87,8 +87,8 @@ TSP(결정) ∈ NP:
     - k = 0 설정
 
   해밀톤 경로 ↔ 비용 0의 해밀톤 순환:
-    G에 해밀톤 경로 → G'에 비용 0 경로 + 마지막→처음 엣지 비용 0
-    (시작→끝 엣지를 G에 추가하면 해밀톤 순환)
+    G에 해밀톤 경로 -> G'에 비용 0 경로 + 마지막->처음 엣지 비용 0
+    (시작->끝 엣지를 G에 추가하면 해밀톤 순환)
 
   따라서 해밀톤 경로 ≤p TSP(결정)
   TSP(결정) ∈ NP-완전 ✓
@@ -96,7 +96,7 @@ TSP(결정) ∈ NP:
 TSP 최적화 ∈ NP-하드:
   TSP(결정)을 해결하면 TSP(최적화) 해결 가능
   (이진 탐색으로 최솟값 탐색)
-  → TSP 최적화 ≥ TSP(결정) → NP-하드 ✓
+  -> TSP 최적화 ≥ TSP(결정) -> NP-하드 ✓
 ```
 
 > 📢 **섹션 요약 비유**: [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) NP-완전 증명은 "같은 어려움의 다른 옷" — 해밀톤 경로라는 이미 어려운 문제를 TSP로 변환. TSP가 해밀톤 경로만큼 어렵다는 것을 증명해요.
@@ -111,9 +111,9 @@ TSP 근사 알고리즘:
 1. 최근접 이웃 (Nearest Neighbor, 휴리스틱):
    현재 위치에서 가장 가까운 미방문 도시 선택
 
-   시간: O(n²)
+   시간: O(n^)
    품질: 최적 대비 ~20~25% 이상
-   → 빠르지만 품질 낮음
+   -> 빠르지만 품질 낮음
 
 2. 2-opt (로컬 서치 휴리스틱):
    두 엣지를 교차 교환으로 경로 개선
@@ -121,7 +121,7 @@ TSP 근사 알고리즘:
    if c(A,C) + c(B,D) < c(A,B) + c(C,D):
        경로 일부 역전 (reverse)
 
-   시간: O(n²) per iteration
+   시간: O(n^) per iteration
    품질: 최적 대비 ~5% 이내 (실용적)
 
 3. Christofides 알고리즘 (1976):
@@ -132,7 +132,7 @@ TSP 근사 알고리즘:
    2. T에서 홀수 차수 정점 집합 O 추출
    3. O의 최소 완전 매칭 M 계산
    4. T ∪ M로 오일러 회로 생성
-   5. 오일러 회로에서 숏컷 → 해밀톤 순환
+   5. 오일러 회로에서 숏컷 -> 해밀톤 순환
 
    비용: c(MST) + c(M) ≤ OPT + OPT/2 = 1.5 OPT
 
@@ -140,7 +140,7 @@ TSP 근사 알고리즘:
 
 4. 동적 프로그래밍 (Held-Karp):
    정확한 최적해
-   시간: O(2^n × n²)
+   시간: O(2^n × n^)
    공간: O(2^n × n)
    n=20: 수분, n=30: 수시간, n=50: 불가능
 
@@ -166,7 +166,7 @@ TSP에 적용되는 고급 최적화 기법:
    교배 (Crossover): 두 경로의 일부 교환
    돌연변이 (Mutation): 랜덤 경로 순서 교환
    선택 (Selection): 좋은 경로 생존
-   → 수천 세대 반복
+   -> 수천 세대 반복
 
    효과: 국소 최적에서 탈출 가능
 
@@ -176,11 +176,11 @@ TSP에 적용되는 고급 최적화 기법:
    후기: 좋은 해만 수용 (수렴)
 
    수식: 수용 확률 = exp(-ΔC/T)
-   T → 0 으로 감소 (냉각 스케줄)
+   T -> 0 으로 감소 (냉각 스케줄)
 
 3. 개미 군집 최적화 (Ant Colony Optimization):
    개미의 페로몬 흔적 모방
-   좋은 경로: 페로몬 증가 → 더 많이 선택
+   좋은 경로: 페로몬 증가 -> 더 많이 선택
 
    TSP에 특히 효과적 (경로 연속성)
 
@@ -213,11 +213,11 @@ VRP와 TSP 관계:
 실용 시스템 구현:
 
   1. 지역 클러스터링:
-     500개 배송지 → 10개 클러스터 (k-means)
+     500개 배송지 -> 10개 클러스터 (k-means)
      각 트럭: 약 50개 배송지 담당
 
   2. TSP for 각 클러스터:
-     50개 도시 TSP → 2-opt + LKH
+     50개 도시 TSP -> 2-opt + LKH
      50개 도시: ~1초 내 최적 근사 가능
 
   3. 결과:
@@ -242,7 +242,7 @@ AI 발전:
   DeepMind, Google Brain:
   강화학습 기반 TSP 솔버
   학습된 모델로 새 문제 빠르게 해결
-  → Pointer Network, Attention Model
+  -> Pointer Network, Attention Model
 ```
 
 > 📢 **섹션 요약 비유**: 물류 [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 최적화는 배달원 루트 최적화 — 500개 집을 배달하는 최단 경로를 컴퓨터가 수분 내 계산. 25% 단축하면 연간 수천만 원 연료비 절감!
@@ -258,7 +258,7 @@ TSP (Traveling Salesman Problem)
 |   +-- NP-하드 (최적화 버전)
 |   +-- 해밀톤 순환
 +-- 알고리즘
-|   +-- 정확: Held-Karp O(2^n × n²)
+|   +-- 정확: Held-Karp O(2^n × n^)
 |   +-- 근사: Christofides 1.5-근사
 |   +-- 휴리스틱: 2-opt, 최근접 이웃
 |   +-- 메타휴리스틱: 유전 알고리즘, 담금질
@@ -279,12 +279,12 @@ Karl Menger: 배달원 문제 수학화
       |
       v
 [동적 프로그래밍 (1962)]
-Held-Karp: O(2^n n²) 정확 알고리즘
+Held-Karp: O(2^n n^) 정확 알고리즘
       |
       v
 [NP-완전 증명 (1972)]
 Karp: TSP NP-완전
-해밀톤 경로 → TSP 귀납
+해밀톤 경로 -> TSP 귀납
       |
       v
 [Christofides 1.5-근사 (1976)]
@@ -315,7 +315,7 @@ Attention Model (Google Brain)
 
 **진행 상황**: 115 / 175
 
-← **이전**: [009. 버텍스 커버 — Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/)
-**다음**: [011. 배낭 문제 — Knapsack Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/) →
+<- **이전**: [009. 버텍스 커버 — Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/)
+**다음**: [011. 배낭 문제 — Knapsack Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/) ->
 
 ---

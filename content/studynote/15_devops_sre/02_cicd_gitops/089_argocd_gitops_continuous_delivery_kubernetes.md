@@ -35,21 +35,21 @@ ArgoCD는 K8s에 `Application`이라는 새로운 사용자 정의 자원 (CRD)�
 | **Sync Mechanism** | 불일치 발생 시 K8s API를 호출하여 클러스터를 Git의 상태로 강제 덮어쓰기함 | 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Auto-Sync) 및 자가 치유 (Self-Healing) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ArgoCD의 Pull 기반 동기화 아키텍처 흐름도          │
-├──────────────────────────────────────────────────────────────┤
-│ [ Git Repository ]          (1) 감시 / Fetch                 │
-│ ┌────────────────┐ ◀─────────────────────────┐               │
-│ │ deployment.yaml│                           │               │
-│ │ replicas: 3    │         [ Kubernetes Cluster ]            │
-│ └────────────────┘         ┌───────────────────────────────┐ │
-│         │ (2) Webhook/Poll │ ┌────────┐ (3) Diff & Sync    │ │
-│         └──────────────────┼─▶ ArgoCD ├───────▶ [ K8s API ]│ │
-│                            │ └────────┘         │  ▲  ▲    │ │
-│                            │   [Self-Healing]   ▼  ▼  ▼    │ │
-│                            │                 [ Pods (3) ]  │ │
-│                            └───────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ArgoCD의 Pull 기반 동기화 아키텍처 흐름도          |
++--------------------------------------------------------------+
+| [ Git Repository ]          (1) 감시 / Fetch                 |
+| +----------------+ <--------------------------+               |
+| | deployment.yaml|                           |               |
+| | replicas: 3    |         [ Kubernetes Cluster ]            |
+| +----------------+         +-------------------------------+ |
+|         | (2) Webhook/Poll | +--------+ (3) Diff & Sync    | |
+|         +------------------+--> ArgoCD +--------> [ K8s API ]| |
+|                            | +--------+         |  ^  ^    | |
+|                            |   [Self-Healing]   v  v  v    | |
+|                            |                 [ Pods (3) ]  | |
+|                            +-------------------------------+ |
++--------------------------------------------------------------+
 ```
 이 그림은 ArgoCD가 Git 저장소의 변동을 감지(Poll/[Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/))한 뒤, `replicas: 3`이라는 명세를 K8s 클러스터에 강제로 맞추어(Sync), 누군가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 임의로 지워도 다시 부활시키는 자가 치유(Self-Healing) 과정을 묘사한다.
 
@@ -107,17 +107,17 @@ ArgoCD를 도입하면 인프라 전체가 Git 기반의 코드([IaC](/knowledge
 
 ```text
 명령형 배포 (Push 방식) 및 수동 스크립트 (Jenkins CI/CD)
-    │
-    ▼
+    |
+    v
 보안 한계 및 형상 불일치 (Configuration Drift) 발생
-    │
-    ▼
+    |
+    v
 선언적 배포 (Pull 방식) 및 GitOps 사상 등장
-    │
-    ▼
+    |
+    v
 아고씨디 (ArgoCD) 도입 · K8s 내장형 자동 동기화 (Auto-Sync)
-    │
-    ▼
+    |
+    v
 Argo Rollouts (점진적 배포) 연계 및 클라우드 네이티브 표준화
 ```
 
@@ -134,7 +134,7 @@ Argo Rollouts (점진적 배포) 연계 및 클라우드 네이티브 표준화
 
 **진행 상황**: 89 / 373
 
-← **이전**: [88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/)
-**다음**: [90. FluxCD - ArgoCD 경쟁 GitOps CD 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/090_fluxcd_gitops_pull_based_kubernetes_deployment/) →
+<- **이전**: [88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/)
+**다음**: [90. FluxCD - ArgoCD 경쟁 GitOps CD 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/090_fluxcd_gitops_pull_based_kubernetes_deployment/) ->
 
 ---

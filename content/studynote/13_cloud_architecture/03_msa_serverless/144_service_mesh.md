@@ -21,9 +21,9 @@ tags = ["studynote-cloud-architecture"]
 ```text
 서비스 메시 구조:
   데이터 플레인: Envoy 사이드카 (각 Pod 옆)
-    → 트래픽 가로채기 → LB·재시도·mTLS·트레이싱
+    -> 트래픽 가로채기 -> LB·재시도·mTLS·트레이싱
   컨트롤 플레인: Istiod (정책·설정 배포)
-    → VirtualService·DestinationRule 등 CRD
+    -> VirtualService·DestinationRule 등 CRD
 ```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 <strong>우체국 네트워크</strong>이다. 편지(요청)를 직접 전달하는 대신, 우체부([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))가 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·배달·보안을 대행한다.
@@ -49,9 +49,9 @@ tags = ["studynote-cloud-architecture"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[라이브러리 기반 (Netflix OSS, 2014)] → [Linkerd v1 (2017)]
-    → [Istio + Envoy (2017)] → [Linkerd2 (Rust, 경량)]
-    → [현재: Cilium (eBPF, 사이드카 없음)]
+[라이브러리 기반 (Netflix OSS, 2014)] -> [Linkerd v1 (2017)]
+    -> [Istio + Envoy (2017)] -> [Linkerd2 (Rust, 경량)]
+    -> [현재: Cilium (eBPF, 사이드카 없음)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 143 / 371
 
-← **이전**: [143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/143_strangler_fig_pattern/)
-**다음**: [145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/145_sidecar_proxy_pattern/) →
+<- **이전**: [143. Strangler Fig 패턴 - 모놀리스->MSA 점진적 전환](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/143_strangler_fig_pattern/)
+**다음**: [145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/145_sidecar_proxy_pattern/) ->
 
 ---

@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 "주소를 메모리가 아니라 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올려두는가"를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why register-indirect exists                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ direct         : instruction -> memory(data)                      │
-│                  fast enough, but address bits are expensive      │
-│                                                                    │
-│ memory indirect: instruction -> memory(pointer) -> memory(data)   │
-│                  flexible, but one more memory trip               │
-│                                                                    │
-│ register indirect                                                  │
-│                : instruction -> register(pointer) -> memory(data) │
-│                  short encoding + only one operand memory access  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why register-indirect exists                                      |
++--------------------------------------------------------------------+
+| direct         : instruction -> memory(data)                      |
+|                  fast enough, but address bits are expensive      |
+|                                                                    |
+| memory indirect: instruction -> memory(pointer) -> memory(data)   |
+|                  flexible, but one more memory trip               |
+|                                                                    |
+| register indirect                                                  |
+|                : instruction -> register(pointer) -> memory(data) |
+|                  short encoding + only one operand memory access  |
++--------------------------------------------------------------------+
 ```
 
 핵심은 <strong>주소를 따라가는 유연성은 유지하되, 그 중간 매개체를 느린 메모리 대신 빠른 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>로 옮긴다</strong>는 데 있다. 그래서 포인터, [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), 버퍼 시작 주소처럼 실행 중 달라지는 위치를 다룰 때 매우 유리하다.
@@ -57,29 +57,29 @@ tags = ["studynote-computer-architecture"]
 | [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) (General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/)) | 주소값 보관 | 실행 중 바뀌는 포인터를 빠르게 유지한다 |
 | [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)) | 메모리 접근 주소 전달 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값이 그대로 메모리 주소가 된다 |
 | 캐시/메모리 계층 | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 최종 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 결국 여기서 읽는다 |
-| 제어 장치 | 해독과 접근 순서 제어 | "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기 → 메모리 읽기" 순서를 만든다 |
+| 제어 장치 | 해독과 접근 순서 제어 | "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기 -> 메모리 읽기" 순서를 만든다 |
 
 아래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 전형적인 동작 순서를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Register-indirect data path                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ IR : LOAD R0, [R2]                                                 │
-│          │                                                         │
-│          ├─ register field = R2                                    │
-│          ▼                                                         │
-│ Register file : R2 = 0x1000                                        │
-│          │                                                         │
-│          ▼                                                         │
-│ Address bus  -----------------------------> Cache / Memory         │
-│                                              │                     │
-│                                              ▼                     │
-│                                        M[0x1000] = 42             │
-│                                              │                     │
-│                                              ▼                     │
-│                                           R0 <- 42                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Register-indirect data path                                       |
++--------------------------------------------------------------------+
+| IR : LOAD R0, [R2]                                                 |
+|          |                                                         |
+|          +- register field = R2                                    |
+|          v                                                         |
+| Register file : R2 = 0x1000                                        |
+|          |                                                         |
+|          v                                                         |
+| Address bus  -----------------------------> Cache / Memory         |
+|                                              |                     |
+|                                              v                     |
+|                                        M[0x1000] = 42             |
+|                                              |                     |
+|                                              v                     |
+|                                           R0 <- 42                |
++--------------------------------------------------------------------+
 ```
 
 이 구조의 장점은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 절약</strong>과 <strong>실행 시 유연성</strong>이 동시에 성립한다는 점이다. 예를 들어 32비트 고정 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 64비트 주소를 직접 넣는 것은 불가능하지만, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호는 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로도 표현 가능하다. 반면 실제 주소는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭만큼 유지할 수 있으므로, 작은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식으로도 큰 주소 공간을 다룰 수 있다.
@@ -120,16 +120,16 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 설계 시 어떤 접근 방식을 우선 고려할지 가르는 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing register-indirect access                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ does the target address change at run time?                       │
-│   ├─ no  -> prefer direct / immediate / fixed offset access       │
-│   └─ yes                                                          │
-│        ├─ can the pointer stay in a GPR? -> register indirect     │
-│        ├─ repeated field access from one base? -> base + offset   │
-│        └─ long pointer chain? -> flatten / cache-optimize layout  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Choosing register-indirect access                                 |
++--------------------------------------------------------------------+
+| does the target address change at run time?                       |
+|   +- no  -> prefer direct / immediate / fixed offset access       |
+|   +- yes                                                          |
+|        +- can the pointer stay in a GPR? -> register indirect     |
+|        +- repeated field access from one base? -> base + offset   |
+|        +- long pointer chain? -> flatten / cache-optimize layout  |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -177,19 +177,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 short instruction format
-        │
-        ▼
+        |
+        v
 direct addressing range limit
-        │
-        ▼
+        |
+        v
 indirect addressing for flexibility
-        │
-        ▼
+        |
+        v
 register indirect addressing
-        │
-        ├──────────────▶ pointer-based traversal
-        ├──────────────▶ load-store memory access
-        └──────────────▶ displacement / auto-index extension
+        |
+        +---------------> pointer-based traversal
+        +---------------> load-store memory access
+        +---------------> displacement / auto-index extension
 ```
 
 이 흐름도는 "짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"와 "넓은 주소 공간"의 충돌을 해결하는 과정에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 핵심 징검다리로 자리 잡았음을 보여 준다.
@@ -206,7 +206,7 @@ register indirect addressing
 
 **진행 상황**: 178 / 803
 
-← **이전**: [177. 간접 주소 지정 (Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)
-**다음**: [179. 변위 주소 지정 (Displacement)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/) →
+<- **이전**: [177. 간접 주소 지정 (Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)
+**다음**: [179. 변위 주소 지정 (Displacement)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/) ->
 
 ---

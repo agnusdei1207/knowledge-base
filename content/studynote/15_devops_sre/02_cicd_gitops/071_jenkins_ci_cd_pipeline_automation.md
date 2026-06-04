@@ -31,9 +31,9 @@ Jenkins는 그 반복을 자동화한다.
 
 ```text
 Source
-  ↓
+  v
 Jenkins Pipeline
-  ↓
+  v
 Build / Test / Deploy
 ```
 
@@ -105,11 +105,11 @@ Jenkins는 배포 자동화와 품질 확보를 돕는다.
 
 ```text
 Source
-  ↓
+  v
 Jenkins
-  ↓
+  v
 Pipeline
-  ↓
+  v
 Deploy
 ```
 
@@ -119,11 +119,11 @@ Deploy
 
 ```text
 CI/CD
-  ↓
+  v
 Jenkins
-  ↓
+  v
 Pipeline as Code
-  ↓
+  v
 Automation
 ```
 
@@ -141,7 +141,7 @@ Automation
 
 **진행 상황**: 71 / 373
 
-← **이전**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/)
-**다음**: [72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) →
+<- **이전**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/)
+**다음**: [72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) ->
 
 ---

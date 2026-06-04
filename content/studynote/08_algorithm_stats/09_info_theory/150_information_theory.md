@@ -37,9 +37,9 @@ tags = ["studynote-algorithm"]
 I(x) = -log₂ P(x)   [단위: bit]
 ```
 
-- P(x) = 1 (확실한 사건) → I = 0 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (놀랍지 않음)
-- P(x) = 0.5 (동전 앞면) → I = 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
-- P(x) = 1/8 → I = 3 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (드문 사건, 높은 정보량)
+- P(x) = 1 (확실한 사건) -> I = 0 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (놀랍지 않음)
+- P(x) = 0.5 (동전 앞면) -> I = 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
+- P(x) = 1/8 -> I = 3 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (드문 사건, 높은 정보량)
 
 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 밑이 2이면 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">bit</a>)</strong>, e이면 <strong>나트 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">nat</a>)</strong>, 10이면 **하틀리 (hartley)** 단위가 된다.
 
@@ -52,28 +52,28 @@ I(x) = -log₂ P(x)   [단위: bit]
 ### 섀넌 통신 모델
 
 ```
-┌──────────┐   메시지   ┌──────────┐   신호   ┌──────────┐
-│  정보원   │──────────>│  송신기   │─────────>│  채널    │
-│ (Source) │           │(Encoder) │          │(+ 잡음)  │
-└──────────┘           └──────────┘          └────┬─────┘
-                                                   │ 수신 신호
-                                              ┌────▼─────┐   메시지   ┌──────────┐
-                                              │  수신기   │──────────>│  수신자  │
-                                              │(Decoder) │           │  (Sink)  │
-                                              └──────────┘           └──────────┘
++----------+   메시지   +----------+   신호   +----------+
+|  정보원   |---------->|  송신기   |--------->|  채널    |
+| (Source) |           |(Encoder) |          |(+ 잡음)  |
++----------+           +----------+          +----+-----+
+                                                   | 수신 신호
+                                              +----v-----+   메시지   +----------+
+                                              |  수신기   |---------->|  수신자  |
+                                              |(Decoder) |           |  (Sink)  |
+                                              +----------+           +----------+
 ```
 
 ### 섀넌의 핵심 업적 연대표
 
 ```
-1948년 ─────────────────────────────────────────────────────────────►
-   │
-   ├─► 자기정보 I(x) = -log₂P(x) 정의
-   ├─► 섀넌 엔트로피 H(X) = -Σ p·log₂p 정의
-   ├─► 소스 부호화 정리 (압축 한계 = 엔트로피)
-   ├─► 채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)
-   ├─► 상호 정보량 I(X;Y) 정의
-   └─► 연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)
+1948년 -------------------------------------------------------------►
+   |
+   +-► 자기정보 I(x) = -log₂P(x) 정의
+   +-► 섀넌 엔트로피 H(X) = -Σ p·log₂p 정의
+   +-► 소스 부호화 정리 (압축 한계 = 엔트로피)
+   +-► 채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)
+   +-► 상호 정보량 I(X;Y) 정의
+   +-► 연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)
 ```
 
 ### 이진 채널 (Binary Channel)
@@ -81,12 +81,12 @@ I(x) = -log₂ P(x)   [단위: bit]
 가장 단순한 형태로, 입력 0 또는 1, 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p인 <strong>이진 대칭 채널 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a>, Binary Symmetric Channel)</strong>:
 
 ```
-  0 ─────(1-p)────► 0
+  0 -----(1-p)----► 0
     ╲
      (p)
        ╲
         ► 1
-  1 ─────(1-p)────► 1
+  1 -----(1-p)----► 1
     ╲
      (p)
        ╲
@@ -113,7 +113,7 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 ### 타 분야와의 연결
 
 - **열역학**: 볼츠만 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) S = k_B·ln(W) — 섀넌 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 수학적으로 동일한 구조
-- **통계학**: 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원리 → 사전 지식이 없을 때 균등분포가 최선
+- **통계학**: 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원리 -> 사전 지식이 없을 때 균등분포가 최선
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a></strong>: [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실, KL (Kullback-Leibler) 다이버전스, [상호 정보량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/) 기반 특성 선택
 
 📢 **섹션 요약 비유**: 정보이론과 열역학 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 관계는 "쌍둥이 형제"와 같다 — 얼굴(수식)이 똑같이 생겼지만 사는 세계(물리학 vs 수학)가 다르다.
@@ -134,9 +134,9 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ### 기술사 판단 포인트
 
-1. <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률 한계는?"</strong> → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X)가 평균 부호 길이 하한
-2. **"오류 없는 전송 조건은?"** → 전송률 R < [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C
-3. <strong>"<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>로 왜 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>?"</strong> → 최대우도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/))과 동치이기 때문
+1. <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률 한계는?"</strong> -> [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X)가 평균 부호 길이 하한
+2. **"오류 없는 전송 조건은?"** -> 전송률 R < [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C
+3. <strong>"<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>로 왜 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>?"</strong> -> 최대우도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/))과 동치이기 때문
 
 📢 **섹션 요약 비유**: 섀넌의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)은 "도로 용량"과 같다 — 차선 수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))와 도로 상태(S/N비)가 교통 처리량을 결정하고, 이를 초과하면 교통 체증(오류)이 반드시 발생한다.
 
@@ -162,7 +162,7 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 상호정보, 결합엔트로피 | H(X) = -Σ p log₂p |
 | [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) | AWGN 채널, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | C = B·log₂(1+S/N) |
 | 소스 부호화 | 허프만, 산술 부호화 | L̄ ≥ H(X) |
-| 채널 부호화 | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | R < C → 오류 없는 전송 가능 |
+| 채널 부호화 | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | R < C -> 오류 없는 전송 가능 |
 
 ---
 
@@ -170,14 +170,14 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ```text
 [자기정보]
-    │
-    ▼
+    |
+    v
 [엔트로피]
-    │
-    ▼
+    |
+    v
 [채널 용량]
-    │
-    ▼
+    |
+    v
 [소스 부호화]
 ```
 
@@ -195,7 +195,7 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 **진행 상황**: 150 / 175
 
-← **이전**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)
-**다음**: [2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) →
+<- **이전**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)
+**다음**: [2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ->
 
 ---

@@ -44,27 +44,27 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 포워딩이 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건너뛰는 지름길"인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                데이터 포워딩의 핵심: 기록 대기 대신 직접 우회                │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ I1: ADD R1,R2,R3                                                            │
-│   IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB                                            │
-│                 │                                                            │
-│                 └──── R1 결과 생성                                           │
-│                          │                                                   │
-│                          ▼                                                   │
-│                    EX/MEM 레지스터                                           │
-│                          │                                                   │
-│                          ├──────────────▶ Forwarding MUX ──▶ I2의 ALU 입력   │
-│                          │                                                   │
-│                          └──────────────▶ (나중에) Register File 기록         │
-│                                                                            │
-│ I2: SUB R4,R1,R5                                                            │
-│        IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB                                       │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                데이터 포워딩의 핵심: 기록 대기 대신 직접 우회                |
++------------------------------------------------------------------------------+
+| I1: ADD R1,R2,R3                                                            |
+|   IF ---> ID ---> EX ---> MEM ---> WB                                            |
+|                 |                                                            |
+|                 +---- R1 결과 생성                                           |
+|                          |                                                   |
+|                          v                                                   |
+|                    EX/MEM 레지스터                                           |
+|                          |                                                   |
+|                          +---------------> Forwarding MUX ---> I2의 ALU 입력   |
+|                          |                                                   |
+|                          +---------------> (나중에) Register File 기록         |
+|                                                                            |
+| I2: SUB R4,R1,R5                                                            |
+|        IF ---> ID ---> EX ---> MEM ---> WB                                       |
++------------------------------------------------------------------------------+
 ```
 
-이 메커니즘의 본질은 "값의 생산 시점"과 "값의 공식 기록 시점"을 구분하는 데 있다. 산술 결과처럼 EX 종료 직후 준비되는 값은 EX→EX 포워딩으로 거의 즉시 넘길 수 있고, 메모리에서 읽은 값처럼 MEM 종료 후에야 준비되는 값은 MEM→EX 포워딩까지만 가능하다. 결국 포워딩은 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애는 기술이 아니라, <strong>이미 생긴 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가장 빠른 경로로 쓰게 하는 기술</strong>이다.
+이 메커니즘의 본질은 "값의 생산 시점"과 "값의 공식 기록 시점"을 구분하는 데 있다. 산술 결과처럼 EX 종료 직후 준비되는 값은 EX->EX 포워딩으로 거의 즉시 넘길 수 있고, 메모리에서 읽은 값처럼 MEM 종료 후에야 준비되는 값은 MEM->EX 포워딩까지만 가능하다. 결국 포워딩은 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애는 기술이 아니라, <strong>이미 생긴 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가장 빠른 경로로 쓰게 하는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 공장 창고에 정식 입고되기 전에 검사대를 막 통과한 부품을 옆 조립 라인으로 바로 보내는 것과 같다. 부품이 이미 만들어졌다면 창고를 들렀다 갈 이유가 없다.
 
@@ -76,28 +76,28 @@ tags = ["studynote-computer-architecture"]
 
 | 상황 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비되는 시점 | 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 필요한 시점 | 포워딩 효과 |
 | :--- | :--- | :--- | :--- |
-| 산술 → 산술 | EX 종료 직후 | 다음 EX 시작 | 대개 무정지 해결 |
-| 산술 → 분기 비교 | EX 종료 직후 | [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 입력 시점 | [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 우회로로 완화 가능 |
-| Load → 산술 | MEM 종료 직후 | 바로 다음 EX 시작 | 1사이클 스톨 가능성 큼 |
-| 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 연산 → 후속 연산 | 다중 사이클 완료 후 | 소비 시점 가변 | 스코어보드·동적 스케줄링 필요 |
+| 산술 -> 산술 | EX 종료 직후 | 다음 EX 시작 | 대개 무정지 해결 |
+| 산술 -> 분기 비교 | EX 종료 직후 | [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 입력 시점 | [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 우회로로 완화 가능 |
+| Load -> 산술 | MEM 종료 직후 | 바로 다음 EX 시작 | 1사이클 스톨 가능성 큼 |
+| 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 연산 -> 후속 연산 | 다중 사이클 완료 후 | 소비 시점 가변 | 스코어보드·동적 스케줄링 필요 |
 
 특히 Load-Use 해저드가 중요한 이유는, 메모리에서 읽은 값이 "아직 없음" 상태이기 때문이다. `LOAD R1, 0(R2)` 다음에 바로 `ADD R3, R1, R4`가 오면, ADD는 다음 사이클 EX에서 R1이 필요하지만 로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그 사이클 끝의 MEM 단계가 되어야 나온다. 포워딩은 있는 값을 우회시키는 기술이지, 미래의 값을 미리 만드는 기술이 아니다.
 
 이 지점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩은 [파이프라인 스톨](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/), 해저드 탐지 유닛, 컴파일러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링과 연결된다. 포워딩은 1차 방어선이고, 해저드 탐지 유닛은 포워딩이 안 되는 경우를 잡아내며, 컴파일러는 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 사이에 넣어 그 1사이클 공백을 다른 일로 메운다. 더 나아가 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)은 의존성 없는 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행해 포워딩만으로 해결되지 않는 정체까지 줄인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│             포워딩 가능 경계와 불가능 경계의 차이                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 산술 결과:   EX 완료 ─────────────▶ 다음 EX에 전달 가능                      │
-│ 로드 결과:          MEM 완료 ─────▶ 다음 EX에 전달 가능                      │
-│                                                                            │
-│ Cycle      1        2        3        4        5        6                   │
-│ LOAD       IF ───▶  ID ───▶  EX ───▶  MEM ──▶  WB                           │
-│ ADD                 IF ───▶  ID ───▶ Stall ▶  EX ───▶ MEM                   │
-│                                                                            │
-│ 이유: ADD의 EX 시작 시점에는 LOAD 데이터가 아직 MEM에서 돌아오지 않았다.    │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|             포워딩 가능 경계와 불가능 경계의 차이                            |
++------------------------------------------------------------------------------+
+| 산술 결과:   EX 완료 --------------> 다음 EX에 전달 가능                      |
+| 로드 결과:          MEM 완료 ------> 다음 EX에 전달 가능                      |
+|                                                                            |
+| Cycle      1        2        3        4        5        6                   |
+| LOAD       IF ---->  ID ---->  EX ---->  MEM --->  WB                           |
+| ADD                 IF ---->  ID ----> Stall ->  EX ----> MEM                   |
+|                                                                            |
+| 이유: ADD의 EX 시작 시점에는 LOAD 데이터가 아직 MEM에서 돌아오지 않았다.    |
++------------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이미 구워진 빵은 오븐 앞에서 바로 건네줄 수 있지만, 아직 오븐 안에 있는 빵은 아무리 급해도 미리 전달할 수 없다. 포워딩은 완성품 지름길이지, 미완성품 마법이 아니다.
@@ -108,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩은 "넣을 것인가"보다 "어디까지 넣을 것인가"가 더 중요한 설계 문제다. 우회 경로를 늘릴수록 스톨은 줄어들지만, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)와 MUX가 증가해 제어 로직이 복잡해지고 임계 경로 (Critical Path)가 길어진다. 특히 슈퍼스칼라나 깊은 파이프라인에서는 실행 유닛 수만큼 포워딩 조합이 늘어나 배선 면적, 전력, 타이밍 폐쇄 난도가 급상승한다.
 
-따라서 설계자는 포워딩의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득과 하드웨어 비용을 함께 계산해야 한다. 단순 5단 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 파이프라인에서는 EX→EX, MEM→EX 포워딩만으로도 큰 효과를 얻지만, 다중 발행 구조에서는 모든 실행 유닛 사이를 완전 연결하는 것이 오히려 비효율적일 수 있다. 이 경우 일부 경로는 제거하고, 남는 충돌은 스톨이나 OoO로 흡수하는 식의 절충이 필요하다.
+따라서 설계자는 포워딩의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득과 하드웨어 비용을 함께 계산해야 한다. 단순 5단 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 파이프라인에서는 EX->EX, MEM->EX 포워딩만으로도 큰 효과를 얻지만, 다중 발행 구조에서는 모든 실행 유닛 사이를 완전 연결하는 것이 오히려 비효율적일 수 있다. 이 경우 일부 경로는 제거하고, 남는 충돌은 스톨이나 OoO로 흡수하는 식의 절충이 필요하다.
 
 소프트웨어 관점도 빼놓을 수 없다. 컴파일러가 로드 직후 의존 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 붙여 놓으면 하드웨어는 포워딩이 있어도 멈출 수밖에 없다. 반대로 독립 주소 계산, 루프 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 증가, 비교 명령을 중간에 배치하면 하드웨어 우회망의 가치를 최대한 끌어낼 수 있다.
 
@@ -155,21 +155,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 파이프라이닝 (Instruction Pipelining)
-        │
-        ▼
+        |
+        v
 데이터 해저드 (Data Hazard)
-        │
-        ▼
+        |
+        v
 RAW (Read After Write) 분석
-        │
-        ▼
+        |
+        v
 데이터 포워딩 (Data Forwarding / Bypassing)
-        │
-        ├──▶ EX→EX / MEM→EX 우회 경로
-        │
-        ├──▶ Load-Use 한계 → 스톨 (Stall)
-        │
-        ▼
+        |
+        +---> EX->EX / MEM->EX 우회 경로
+        |
+        +---> Load-Use 한계 -> 스톨 (Stall)
+        |
+        v
 명령어 스케줄링 · 비순차 실행 (OoO)로 확장
 ```
 
@@ -187,7 +187,7 @@ RAW (Read After Write) 분석
 
 **진행 상황**: 228 / 803
 
-← **이전**: [227. WAW (Write After Write)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/)
-**다음**: [229. 파이프라인 스톨 (Pipeline Stall / Bubble)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/) →
+<- **이전**: [227. WAW (Write After Write)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/)
+**다음**: [229. 파이프라인 스톨 (Pipeline Stall / Bubble)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/) ->
 
 ---

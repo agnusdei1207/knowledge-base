@@ -38,15 +38,15 @@ tags = ["studynote-algorithm"]
 ```
      H₀ 하의 분포
  확률
- 밀도 ▲
-      │         ___
-      │       /     \
-      │      /       \
-      │     /         \
-      │────/─────────┬─\────────
-      │  α/2 기각영역│  α/2 기각영역
-      │             ↑
-      └────────────────────────▶  검정 통계량
+ 밀도 ^
+      |         ___
+      |       /     \
+      |      /       \
+      |     /         \
+      |----/---------+-\--------
+      |  α/2 기각영역|  α/2 기각영역
+      |             ^
+      +------------------------->  검정 통계량
                               임계값(Critical Value)
 ```
 
@@ -70,10 +70,10 @@ tags = ["studynote-algorithm"]
 - <strong>검정력 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong> = 1 - β: 실제 효과가 있을 때 올바르게 탐지하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 
 **검정력에 영향을 주는 요인**:
-- 표본 크기 n ↑ → 검정력 ↑
-- 효과 크기(Effect Size) ↑ → 검정력 ↑
-- [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α ↑ → 검정력 ↑ (but 1종 오류도 ↑)
-- 모집단 표준편차 σ ↓ → 검정력 ↑
+- 표본 크기 n ^ -> 검정력 ^
+- 효과 크기(Effect Size) ^ -> 검정력 ^
+- [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α ^ -> 검정력 ^ (but 1종 오류도 ^)
+- 모집단 표준편차 σ v -> 검정력 ^
 
 📢 **섹션 요약 비유**: 1종/2종 오류는 "불량품 검수"와 같다. 1종 오류는 정상 제품을 불량이라 버리는 것(엄격함의 부작용), 2종 오류는 불량품을 정상이라 통과시키는 것(느슨함의 부작용). 둘 다 줄이려면 검수 비용(표본 크기)을 늘려야 한다.
 
@@ -93,12 +93,12 @@ z = (x̄ - μ₀) / (σ/√n)   ~  N(0,1)
 t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 ```
 
-<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">카이제곱 검정</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">Chi-Square Test</a>, χ²)</strong>:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">카이제곱 검정</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">Chi-Square Test</a>, χ^)</strong>:
 - 적합도: 관측 빈도가 기대 분포에 맞는지
 - 독립성: 두 범주형 변수의 독립성
 
 ```
-χ² = Σ (O - E)² / E   ~  χ²(df)
+χ^ = Σ (O - E)^ / E   ~  χ^(df)
 ```
 
 **검정 방법 선택 기준**:
@@ -108,8 +108,8 @@ t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 | 단일 평균 | z-검정 | [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | — |
 | 두 평균 비교 | z-검정 | 이표본 t | — |
 | 대응 비교 | — | 대응 t | — |
-| 빈도 분포 | — | — | χ² 적합도 |
-| 독립성 | — | — | χ² 독립성 |
+| 빈도 분포 | — | — | χ^ 적합도 |
+| 독립성 | — | — | χ^ 독립성 |
 
 📢 **섹션 요약 비유**: 검정 통계량은 "표준화된 점수 환산기"다. 시험에서 원점수만으로는 어렵고 쉬운 시험을 비교할 수 없듯, 통계량으로 표준화해야 "이 결과가 얼마나 특이한지"를 비교할 수 있다.
 
@@ -119,7 +119,7 @@ t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 
 **다중 검정 문제**: 100개 독립 검정을 α=0.05로 실시하면, 평균 5개는 우연히 유의하게 나온다.
 
-<strong>1종 오류 누적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: P(최소 1개 우연 유의) = 1 - (1-α)^m → 1에 가까워짐
+<strong>1종 오류 누적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: P(최소 1개 우연 유의) = 1 - (1-α)^m -> 1에 가까워짐
 
 **본페로니 보정 (Bonferroni Correction)**:
 - 보정된 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/): α_보정 = α/m (m = 검정 수)
@@ -179,17 +179,17 @@ BH 절차:
 
 ```text
 [기술통계 (Descriptive Statistics) — 데이터 요약, 평균·분산·분포 파악]
-    │
-    ▼
+    |
+    v
 [추론통계 (Inferential Statistics) — 표본으로 모집단 추정, 오차 포함]
-    │
-    ▼
+    |
+    v
 [가설 검정 (Hypothesis Testing) — H₀ 기각 여부 판단, p-값·유의수준 α]
-    │
-    ▼
+    |
+    v
 [효과 크기 + 신뢰구간 — 통계적 유의성과 실용적 중요성 구분]
-    │
-    ▼
+    |
+    v
 [베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복]
 ```
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요약하는 기술통계에서 모집단을 추론하는 통계적 가설 검정으로 발전한 후, p-값 남용 문제를 인식하고 효과 크기와 베이즈 관점으로 보완하는 통계적 추론 방법론의 성숙 과정을 보여준다.
@@ -206,7 +206,7 @@ p-값은 "운이 좋아서 이런 결과가 나올 [확률](/knowledge-base/stud
 
 **진행 상황**: 145 / 175
 
-← **이전**: [15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/144_bayesian_estimation/)
-**다음**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) →
+<- **이전**: [15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/144_bayesian_estimation/)
+**다음**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) ->
 
 ---

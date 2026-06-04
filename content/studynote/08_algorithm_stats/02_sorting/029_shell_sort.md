@@ -12,7 +12,7 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 셸 정렬([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Sort)은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))을 개선한 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소들을 일정한 간격(Gap)으로 나누고 각 Gap 내에서 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 수행한 후, Gap을 점진적으로 줄여나가는 방식으로 동작한다.
-> 2. **가치**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 멀리 떨어진 원소를 한 번에 하나씩만 이동시키는 단점을 Gap을 이용해 극복하며, 이로 인해 O(N²)인 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 크게 개선하여 O(N^1.5) 정도의 시간 복잡도를 달성한다.
+> 2. **가치**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 멀리 떨어진 원소를 한 번에 하나씩만 이동시키는 단점을 Gap을 이용해 극복하며, 이로 인해 O(N^)인 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 크게 개선하여 O(N^1.5) 정도의 시간 복잡도를 달성한다.
 > 3. **융합**: 셸 정렬의 Gap 기반 정렬 아이디어는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 정렬, 그리고 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 설계에 영감을 주었으며, Gap 시퀀스 최적화가 연구의 대상으로 남아 있다.
 
 ---
@@ -28,34 +28,34 @@ tags = ["algorithm_stats"]
 ```text
 [셸 정렬: Gap 기반 부분 정렬]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  배열: [23, 29, 10, 14, 11, 30, 18]              │
-│                                                      │
-│  [Gap = 4 (N/2)]                                  │
-│  ────────────────────────────────────                │
-│  인덱스:    0     1     2     3     4     5     6 │
-│  값:       23    29    10    14    11    30    18 │
-│  Gap=4 → 같은 그룹: (23,11), (29,30), (10,18), (14,?)│
-│                                                      │
-│  그룹 내에서 삽입 정렬:                               │
-│  (23, 11) → (11, 23)                               │
-│  (29, 30) → 유지                                    │
-│  (10, 18) → (10, 18) 유지                          │
-│                                                      │
-│  결과: [11, 29, 10, 14, 23, 30, 18]              │
-│                                                      │
-│  [Gap = 2 (4/2)]                                   │
-│  ────────────────────────────────────                │
-│  같은 Gap=2 그룹: (11,10,23,18), (29,14,30)       │
-│  그룹 내에서 삽입 정렬                               │
-│                                                      │
-│  [Gap = 1 (마지막 삽입 정렬)]                      │
-│  ────────────────────────────────────                │
-│  이제 전체 배열에 대해 일반 삽입 정렬 수행            │
-│  → O(N²)이지만 이미大部分정렬되어 있어 매우 빠름     │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  배열: [23, 29, 10, 14, 11, 30, 18]              |
+|                                                      |
+|  [Gap = 4 (N/2)]                                  |
+|  ------------------------------------                |
+|  인덱스:    0     1     2     3     4     5     6 |
+|  값:       23    29    10    14    11    30    18 |
+|  Gap=4 -> 같은 그룹: (23,11), (29,30), (10,18), (14,?)|
+|                                                      |
+|  그룹 내에서 삽입 정렬:                               |
+|  (23, 11) -> (11, 23)                               |
+|  (29, 30) -> 유지                                    |
+|  (10, 18) -> (10, 18) 유지                          |
+|                                                      |
+|  결과: [11, 29, 10, 14, 23, 30, 18]              |
+|                                                      |
+|  [Gap = 2 (4/2)]                                   |
+|  ------------------------------------                |
+|  같은 Gap=2 그룹: (11,10,23,18), (29,14,30)       |
+|  그룹 내에서 삽입 정렬                               |
+|                                                      |
+|  [Gap = 1 (마지막 삽입 정렬)]                      |
+|  ------------------------------------                |
+|  이제 전체 배열에 대해 일반 삽입 정렬 수행            |
+|  -> O(N^)이지만 이미大部分정렬되어 있어 매우 빠름     |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 셸 정렬의 효율은 Gap 시퀀스의 선택에 크게 의존한다.
@@ -69,40 +69,40 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-셸 정렬의 핵심은 <strong>Gap 시퀀스(Gap Sequence)</strong>의 선택이다. 원래 Shell이 제안한 시퀀스는 N/2, N/4, ..., 1이며, 이는 O(N²) 복잡도를 가진다. 그러나 Knuth이 제안한 시퀀스 (N/3, N/9, ..., 1)는 O(N^1.5) 수준으로 개선하며, Pratt의 시퀀스는 O(N log² N)에 가까운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+셸 정렬의 핵심은 <strong>Gap 시퀀스(Gap Sequence)</strong>의 선택이다. 원래 Shell이 제안한 시퀀스는 N/2, N/4, ..., 1이며, 이는 O(N^) 복잡도를 가진다. 그러나 Knuth이 제안한 시퀀스 (N/3, N/9, ..., 1)는 O(N^1.5) 수준으로 개선하며, Pratt의 시퀀스는 O(N log^ N)에 가까운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 **Knuth Gap 시퀀스**: h = 1, 4, 14, 40, 121, ... (3h + 1), 평균적으로 가장 실용적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
 ```text
 [셸 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  function shell_sort(A):                             │
-│      n = length(A)                                  │
-│      gap = n // 2  // 초기 Gap                      │
-│                                                      │
-│      while gap > 0:                                  │
-│          for i in range(gap, n):                   │
-│              temp = A[i]                            │
-│              j = i                                 │
-│                                                      │
-│              while j >= gap and A[j - gap] > temp:│
-│                  A[j] = A[j - gap]               │
-│                  j = j - gap                       │
-│                                                      │
-│              A[j] = temp                            │
-│                                                      │
-│          gap = gap // 2  // Gap 감소                │
-│                                                      │
-│  [시간 복잡도]                                      │
-│  ────────────────────────────────────                │
-│  Shell 원래 시퀀스: O(N²)                          │
-│  Knuth 시퀀스: O(N^1.5)                          │
-│  Pratt 시퀀스: O(N log² N)                        │
-│  Sedgewick 시퀀스: O(N^1.3) ~ O(N log N)          │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  function shell_sort(A):                             |
+|      n = length(A)                                  |
+|      gap = n // 2  // 초기 Gap                      |
+|                                                      |
+|      while gap > 0:                                  |
+|          for i in range(gap, n):                   |
+|              temp = A[i]                            |
+|              j = i                                 |
+|                                                      |
+|              while j >= gap and A[j - gap] > temp:|
+|                  A[j] = A[j - gap]               |
+|                  j = j - gap                       |
+|                                                      |
+|              A[j] = temp                            |
+|                                                      |
+|          gap = gap // 2  // Gap 감소                |
+|                                                      |
+|  [시간 복잡도]                                      |
+|  ------------------------------------                |
+|  Shell 원래 시퀀스: O(N^)                          |
+|  Knuth 시퀀스: O(N^1.5)                          |
+|  Pratt 시퀀스: O(N log^ N)                        |
+|  Sedgewick 시퀀스: O(N^1.3) ~ O(N log N)          |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 셸 정렬의 시간 복잡도는 Gap 시퀀스의 선택에 따라 크게 달라진다.
@@ -121,19 +121,19 @@ tags = ["algorithm_stats"]
 ```text
 [셸 정렬 vs 기타 정렬 비교]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  ┌──────────┬────────────┬────────────┬──────────┐ │
-│  │           │ 시간 복잡도  │ 공간 복잡도  │ 안정성   │ │
-│  ├──────────┼────────────┼────────────┼──────────┤ │
-│  │ 셸 정렬   │ O(N^1.5)  │ O(1)       │ 불안정   │ │
-│  │ 삽입 정렬  │ O(N²)     │ O(1)       │ 안정     │ │
-│  │ 힙 정렬    │ O(N log N) │ O(1)       │ 불안정   │ │
-│  │ 합병 정렬  │ O(N log N) │ O(N)       │ 안정     │ │
-│  │ Timsort   │ O(N log N) │ O(N)       │ 안정     │ │
-│  └──────────┴────────────┴────────────┴──────────┘ │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  +----------+------------+------------+----------+ |
+|  |           | 시간 복잡도  | 공간 복잡도  | 안정성   | |
+|  +----------+------------+------------+----------+ |
+|  | 셸 정렬   | O(N^1.5)  | O(1)       | 불안정   | |
+|  | 삽입 정렬  | O(N^)     | O(1)       | 안정     | |
+|  | 힙 정렬    | O(N log N) | O(1)       | 불안정   | |
+|  | 합병 정렬  | O(N log N) | O(N)       | 안정     | |
+|  | Timsort   | O(N log N) | O(N)       | 안정     | |
+|  +----------+------------+------------+----------+ |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 셸 정렬은 먼 훗날의 큰 목표(큰 Gap)를 먼저 설정하고, 점점 세부적인 계획(작은 Gap)을 세워나가며, 결국 정확한 일별 계획(Gap=1)을 세우는인생설계와 같습니다.
@@ -154,7 +154,7 @@ tags = ["algorithm_stats"]
 
 셸 정렬의 최신 동향은한정적이다. 하지만 Gap 기반 정렬의 아이디어는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 활용되고 있으며, 셸 정렬의 분석은 아직 완전하지 않아 수학적으로 새로운 Gap 시퀀스 연구가 이어지고 있다.
 
-셸 정렬은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 실용적으로 개선한 중요한 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. O(N²)을 O(N^1.5) 수준으로 개선함으로써, 동일 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)(O(1)) 내에서 더 나은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
+셸 정렬은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 실용적으로 개선한 중요한 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. O(N^)을 O(N^1.5) 수준으로 개선함으로써, 동일 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)(O(1)) 내에서 더 나은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
 📢 **섹션 요약 비유**: 셸 정렬은 100미터 육상에서 조주로의석을단계적에단く답ん에서いく기술과 같습니다. 큰석(큰 Gap)으로 빠르게근づき, 작은석(작은 Gap)으로정세적에정える 것이 Swift한 완성에 도달하게 합니다.
 
@@ -165,22 +165,22 @@ tags = ["algorithm_stats"]
 ```text
 [셸 정렬 (Shell Sort) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      셸 정렬 (Shell Sort)              │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  핵심 원리     │  │   Gap 시퀀스   │  │   시간 복잡도   │
-│  Principle   │  │  Gap Sequence │  │  Time Complexity│
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ Gap 기반 삽입 │  │ Shell: N/2   │  │ O(N²) 원래   │
-│ 정렬 반복    │  │ Knuth: 3h+1  │  │ O(N^1.5) Knuth│
-│ 점진적 정밀화│  │ Pratt: 2^i3^j │  │ O(N log²N) Pratt│
-│              │  │              │  │              │
-└──────────────┘  └──────────────┘  └──────────────┘
+         +---------------------------------+
+         |      셸 정렬 (Shell Sort)              |
+         +----------------+----------------+
+                          |
+      +-------------------+-------------------+
+      |                   |                    |
+      v                   v                    v
++--------------+  +--------------+  +--------------+
+|  핵심 원리     |  |   Gap 시퀀스   |  |   시간 복잡도   |
+|  Principle   |  |  Gap Sequence |  |  Time Complexity|
++--------------+  +--------------+  +--------------+
+| Gap 기반 삽입 |  | Shell: N/2   |  | O(N^) 원래   |
+| 정렬 반복    |  | Knuth: 3h+1  |  | O(N^1.5) Knuth|
+| 점진적 정밀화|  | Pratt: 2^i3^j |  | O(N log^N) Pratt|
+|              |  |              |  |              |
++--------------+  +--------------+  +--------------+
 ```
 
 
@@ -188,25 +188,25 @@ tags = ["algorithm_stats"]
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | → 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Gap=1일 때 동일하게 동작 |
-| Gap 시퀀스 (Gap Sequence) | → 핵심 파라미터 | [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/)·Knuth·Pratt 등 |
-| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 대상 | 평균 O(n log n), 최악 O(n²) |
-| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | → 안정 정렬 비교 | O(n log n), 안정, 추가 공간 필요 |
-| [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)) | → 최악 보장 비교 | O(n log n) 항상 보장 |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Gap=1일 때 동일하게 동작 |
+| Gap 시퀀스 (Gap Sequence) | -> 핵심 파라미터 | [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/)·Knuth·Pratt 등 |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 대상 | 평균 O(n log n), 최악 O(n^) |
+| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 안정 정렬 비교 | O(n log n), 안정, 추가 공간 필요 |
+| [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)) | -> 최악 보장 비교 | O(n log n) 항상 보장 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[삽입 정렬 (Insertion Sort) — O(n²), 이미 정렬된 배열엔 O(n)]
-    │
-    ▼
+[삽입 정렬 (Insertion Sort) — O(n^), 이미 정렬된 배열엔 O(n)]
+    |
+    v
 [셸 정렬 (Shell Sort) — Gap 기반 분할, 원소 이동 거리 단축]
-    │
-    ▼
-[Gap 시퀀스 최적화 (Knuth·Pratt·Ciura) — O(n^1.5)~O(n log²n)]
-    │
-    ▼
+    |
+    v
+[Gap 시퀀스 최적화 (Knuth·Pratt·Ciura) — O(n^1.5)~O(n log^n)]
+    |
+    v
 [힙 정렬 (Heap Sort) / 퀵 정렬 (Quick Sort) — O(n log n) 목표]
 ```
 셸 정렬은 Gap을 점차 줄여 가며 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 반복하는 방식으로, Gap 시퀀스 선택에 따라 O(n^1.5)까지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
@@ -230,7 +230,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 29 / 175
 
-← **이전**: [18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/028_binary_search/)
-**다음**: [1. 선형 탐색 (Linear Search) — O(n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) →
+<- **이전**: [18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/028_binary_search/)
+**다음**: [1. 선형 탐색 (Linear Search) — O(n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) ->
 
 ---

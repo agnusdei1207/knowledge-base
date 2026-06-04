@@ -37,16 +37,16 @@ tags = ["database"]
 
 ```text
 INSERT / UPDATE
-    │
-    ▼
+    |
+    v
 CHECK 검사
-    │
-    ├─ 통과 ─▶ TRIGGER 실행(필요 시)
-    │                │
-    │                ├─ 추가 검증
-    │                └─ 감사 로그 / 연쇄 처리
-    │
-    └─ 실패 ─▶ ROLLBACK
+    |
+    +- 통과 --> TRIGGER 실행(필요 시)
+    |                |
+    |                +- 추가 검증
+    |                +- 감사 로그 / 연쇄 처리
+    |
+    +- 실패 --> ROLLBACK
 ```
 
 CHECK는 선언형이라 읽기 쉽고, TRIGGER는 절차형이라 더 많은 일을 할 수 있다. 대신 TRIGGER는 사이드 이펙트가 생기기 쉬우므로 규칙을 단순화하고 오류 메시지를 명확히 해야 한다.
@@ -100,17 +100,17 @@ CHECK는 선언형이라 읽기 쉽고, TRIGGER는 절차형이라 더 많은 �
 
 ```text
 기본 무결성
-    │
-    ▼
+    |
+    v
 업무 규칙 등장
-    │
-    ▼
+    |
+    v
 CHECK 제약조건
-    │
-    ▼
+    |
+    v
 TRIGGER / 감사 로그 / 연쇄 검증
-    │
-    ▼
+    |
+    v
 데이터 정합성 강화
 ```
 
@@ -126,7 +126,7 @@ TRIGGER / 감사 로그 / 연쇄 검증
 
 **진행 상황**: 77 / 600
 
-← **이전**: [76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/)
-**다음**: [78. 키 무결성 (Key Integrity)](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) →
+<- **이전**: [76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/)
+**다음**: [78. 키 무결성 (Key Integrity)](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) ->
 
 ---

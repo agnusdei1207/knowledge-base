@@ -236,7 +236,7 @@ zkSync, StarkNet 메인넷
 [현재: L2 생태계 경쟁]
 Arbitrum, Base, zkSync Era
 L3 (앱 체인) 등장
-이더리움 L1 → L2 트래픽 이동
+이더리움 L1 -> L2 트래픽 이동
 ```
 
 ---
@@ -253,7 +253,7 @@ L3 (앱 체인) 등장
 
 **진행 상황**: 41 / 552
 
-← **이전**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)
-**다음**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) →
+<- **이전**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)
+**다음**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ->
 
 ---

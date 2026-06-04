@@ -32,23 +32,23 @@ tags = ["studynote-computer-architecture"]
 이 4가지 부품은 철저하게 '[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)'라는 공용 도로를 통해서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           컴퓨터 4대 핵심 구성요소의 마이크로아키텍처 맵       │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│     [ CPU ] (연산, 제어)                               │
-│     - ALU, CU, Register Cache 탑재                     │
-│        ▲                                               │
-│        │ (초당 수십억 번의 데이터/명령어 페치)               │
-│        ▼                                               │
-│ ═══════════════ [ 시스템 버스 (System Bus) ] ════════════│
-│        ▲ (데이터 버스, 주소 버스, 제어 버스)               │
-│        │                                               │
-│     ┌──┴────────────┐             ┌────────────┴──┐    │
-│     ▼               ▼             ▼               ▼    │
-│ [ 메인 메모리 ]  [ I/O 컨트롤러 ] ──▶ [ I/O 장치 (키보드, 모니터) ]│
-│ - 프로그램 적재   - 디바이스 제어                        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           컴퓨터 4대 핵심 구성요소의 마이크로아키텍처 맵       |
++--------------------------------------------------------+
+|                                                        |
+|     [ CPU ] (연산, 제어)                               |
+|     - ALU, CU, Register Cache 탑재                     |
+|        ^                                               |
+|        | (초당 수십억 번의 데이터/명령어 페치)               |
+|        v                                               |
+| --------------- [ 시스템 버스 (System Bus) ] ------------|
+|        ^ (데이터 버스, 주소 버스, 제어 버스)               |
+|        |                                               |
+|     +--+------------+             +------------+--+    |
+|     v               v             v               v    |
+| [ 메인 메모리 ]  [ I/O 컨트롤러 ] ---> [ I/O 장치 (키보드, 모니터) ]|
+| - 프로그램 적재   - 디바이스 제어                        |
++--------------------------------------------------------+
 ```
 
 가장 큰 문제는 <strong>속도의 격차</strong>다. CPU는 1 나노초에 연산을 끝내지만, 메인 메모리는 50 나노초, 하드디스크(I/O)는 5,000,000 나노초가 걸린다. CPU가 I/O 결과를 멍하니 기다리면 시스템이 마비되므로, 이를 해결하기 위해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))라는 꼼수 하드웨어가 4대 요소 사이에 융합되었다.
@@ -108,21 +108,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 에니악(ENIAC)의 물리적 배선 변경 방식의 한계 (프로그램 교체 불가)
-    │
-    ▼
+    |
+    v
 폰 노이만 아키텍처 제안 (프로그램 내장 방식 및 4대 요소 분리)
-    │
-    ▼
+    |
+    v
 CPU-메모리 속도 격차 발생 (메모리 월 현상)
-    │
-    ▼
+    |
+    v
 캐시(Cache) 도입 및 다단계 메모리 계층 구조(Memory Hierarchy) 융합
-    │
-    ▼
+    |
+    v
 I/O 병목 극복을 위한 DMA(직접 메모리 접근) 및 칩셋(SoC) 통합으로 진화
 ```
 
-이 흐름도는 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 분리 → 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 속도 격차 발생 → 병목 제거를 위한 하드웨어적 꼼수(캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))의 도입"으로 이어지는 컴퓨터 구조론 전체를 관통하는 진화 궤적을 보여준다.
+이 흐름도는 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 분리 -> 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 속도 격차 발생 -> 병목 제거를 위한 하드웨어적 꼼수(캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))의 도입"으로 이어지는 컴퓨터 구조론 전체를 관통하는 진화 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +136,7 @@ I/O 병목 극복을 위한 DMA(직접 메모리 접근) 및 칩셋(SoC) 통합�
 
 **진행 상황**: 123 / 803
 
-← **이전**: [122. 순환 시프트 (Circular Shift / Rotate)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/122_circular_shift/)
-**다음**: [124. 폰 노이만 아키텍처 (Von Neumann Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) →
+<- **이전**: [122. 순환 시프트 (Circular Shift / Rotate)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/122_circular_shift/)
+**다음**: [124. 폰 노이만 아키텍처 (Von Neumann Architecture)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ->
 
 ---

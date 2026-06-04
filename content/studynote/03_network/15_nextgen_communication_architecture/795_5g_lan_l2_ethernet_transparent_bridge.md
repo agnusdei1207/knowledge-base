@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [프라이빗 5G망]
-    │
-    ▼
+    |
+    v
 [5G LAN 스위치 대체 이더넷 투명 연계형…]
-    │
-    └──▶ [홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    |
+    +---> [홀로그램 무선 전송 압축/다시점 비디오 체계…]
 ```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [프라이빗 5G망]
-    │
-    ▼
+    |
+    v
 [5G LAN 스위치 대체 이더넷 투명 연계형…]
-    │
-    └──▶ [홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    |
+    +---> [홀로그램 무선 전송 압축/다시점 비디오 체계…]
 ```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -111,12 +111,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 프라이빗 5G망]
-    │
-    ▼
+    |
+    v
 [현재 개념: 5G LAN 스위치 대체 이더넷 투명 연계형…]
-    │
-    ├──▶ [확장 A: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 프라이빗 5G망에서 출발해 현재 메커니즘을 정교화하고, 이후 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -133,7 +133,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 916 / 1120
 
-← **이전**: [794. 프라이빗 5G망 (특화망 e-UM 5G 개념 적용 산업 공장 자체 구축망 라이센스 주파수 사설 구성망 비용 구조 보안 지연 한계](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/794_private_5g_network_e_um_5g_specialized/)
-**다음**: [796. 홀로그램 무선 전송 압축/다시점 비디오 체계 동기망 지터 제어 기술(VTC 지연 민감 체계) 통신망 요구 지표 한계 모델 구조](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/796_hologram_volumetric_video_vtc_jitter_control/) →
+<- **이전**: [794. 프라이빗 5G망 (특화망 e-UM 5G 개념 적용 산업 공장 자체 구축망 라이센스 주파수 사설 구성망 비용 구조 보안 지연 한계](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/794_private_5g_network_e_um_5g_specialized/)
+**다음**: [796. 홀로그램 무선 전송 압축/다시점 비디오 체계 동기망 지터 제어 기술(VTC 지연 민감 체계) 통신망 요구 지표 한계 모델 구조](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/796_hologram_volumetric_video_vtc_jitter_control/) ->
 
 ---

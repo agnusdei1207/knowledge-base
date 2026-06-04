@@ -34,24 +34,24 @@ tags = ["studynote-operating-system"]
   - 초기의 조잡한 권한 관리(예: root가 아니면 아무것도 못하는 시스템)의 한계 $\rightarrow$ 권한 위임과 전이([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Switching)의 필요성 대두 $\rightarrow$ Multics의 Ring [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조 및 UNIX의 [SetUID](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 체계 도입 $\rightarrow$ 오늘날의 정교한 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 및 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 권한 제어로 진화.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 보호 도메인 적용 전후의 시스템 침해 반경             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [적용 전: 단일 거대 도메인 (Root 권한 남용)]                    │
-  │   웹 서버 프로세스 (Root) ───(침해)──▶ [DB 파일 접근] (허용)    │
-  │                                     ├──▶ [비밀번호 변경] (허용)  │
-  │       ▲                             └──▶ [시스템 종료] (허용)   │
-  │     해커 침투                                                │
-  │  (웹 취약점 악용)                                             │
-  │                                                             │
-  │  [적용 후: 엄격하게 분리된 보호 도메인 (최소 권한)]                │
-  │   웹 서버 도메인 (www-data) ──(침해)──▶ [DB 파일 접근] (차단)    │
-  │     │                                ├──▶ [비밀번호 변경] (차단)  │
-  │     └── [웹 경로 읽기] (허용)            └──▶ [시스템 종료] (차단)   │
-  │                                                             │
-  │   결과: 해커가 웹 서버를 장악해도 그 도메인을 벗어날 수 없음.           │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 보호 도메인 적용 전후의 시스템 침해 반경             |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [적용 전: 단일 거대 도메인 (Root 권한 남용)]                    |
+  |   웹 서버 프로세스 (Root) ---(침해)---> [DB 파일 접근] (허용)    |
+  |                                     +---> [비밀번호 변경] (허용)  |
+  |       ^                             +---> [시스템 종료] (허용)   |
+  |     해커 침투                                                |
+  |  (웹 취약점 악용)                                             |
+  |                                                             |
+  |  [적용 후: 엄격하게 분리된 보호 도메인 (최소 권한)]                |
+  |   웹 서버 도메인 (www-data) --(침해)---> [DB 파일 접근] (차단)    |
+  |     |                                +---> [비밀번호 변경] (차단)  |
+  |     +-- [웹 경로 읽기] (허용)            +---> [시스템 종료] (차단)   |
+  |                                                             |
+  |   결과: 해커가 웹 서버를 장악해도 그 도메인을 벗어날 수 없음.           |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)이 부재할 때 발생하는 '과잉 권한(Over-privileged)'의 위험성을 시각화한 것이다. 적용 전에는 웹 서버가 루트(Root) 권한으로 실행되어 공격자가 취약점을 통해 시스템 전체를 장악(Total Compromise)할 수 있다. 적용 후에는 웹 서버 프로세스를 오직 웹 문서만 읽을 수 있는 `www-data`라는 제한된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 실행함으로써, 공격 성공 시에도 피해 반경(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내로 격리시킨다. 실무에서는 이를 가리켜 '가두리 양식([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))'의 효과라고 부른다.
@@ -79,31 +79,31 @@ tags = ["studynote-operating-system"]
 시스템을 운영하다 보면, 일반 사용자가 자신의 권한을 벗어나는 작업을 "제한적으로, 안전하게" 수행해야 할 때가 있다. 예를 들어, 일반 사용자가 자신의 비밀번호를 변경하려면 시스템의 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 `/etc/shadow`를 수정해야 하지만, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 오직 Root만 쓸 수 있다. 이 딜레마를 해결하는 것이 UNIX의 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/">SetUID</a> (Set User ID)</strong> 메커니즘을 통한 동적 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 UNIX SetUID 기반 보호 도메인 전환 흐름도                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [사용자 도메인: UID=1000 (일반 사용자)]                                │
-  │        │                                                          │
-  │        │ `$ passwd` 명령어 실행                                      │
-  │        ▼                                                          │
-  │  [파일 시스템 확인]                                                   │
-  │  `/usr/bin/passwd` 파일 권한: `-rwsr-xr-x` (소유자: root)            │
-  │   ※ 's' 비트(SetUID) 활성화 확인!                                     │
-  │        │                                                          │
-  │        ▼ (도메인 전환 발생 - Domain Switch)                          │
-  │  [프로세스 권한 일시 승격]                                              │
-  │  - 실제 사용자(RUID) = 1000                                          │
-  │  - 유효 사용자(EUID) = 0 (root) ◀─ 프로세스는 이제 root 도메인에서 실행!│
-  │        │                                                          │
-  │        ▼                                                          │
-  │  [비밀번호 변경 로직 수행]                                             │
-  │  `/etc/shadow` 파일 쓰기 작업 시도 -> OS가 EUID(0)를 보고 승인          │
-  │        │                                                          │
-  │        ▼ (도메인 전환 복귀)                                           │
-  │  [프로세스 종료]                                                     │
-  │  EUID=0 상태가 해제되고, 시스템은 다시 안전 상태 유지                     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 UNIX SetUID 기반 보호 도메인 전환 흐름도                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [사용자 도메인: UID=1000 (일반 사용자)]                                |
+  |        |                                                          |
+  |        | `$ passwd` 명령어 실행                                      |
+  |        v                                                          |
+  |  [파일 시스템 확인]                                                   |
+  |  `/usr/bin/passwd` 파일 권한: `-rwsr-xr-x` (소유자: root)            |
+  |   ※ 's' 비트(SetUID) 활성화 확인!                                     |
+  |        |                                                          |
+  |        v (도메인 전환 발생 - Domain Switch)                          |
+  |  [프로세스 권한 일시 승격]                                              |
+  |  - 실제 사용자(RUID) = 1000                                          |
+  |  - 유효 사용자(EUID) = 0 (root) <-- 프로세스는 이제 root 도메인에서 실행!|
+  |        |                                                          |
+  |        v                                                          |
+  |  [비밀번호 변경 로직 수행]                                             |
+  |  `/etc/shadow` 파일 쓰기 작업 시도 -> OS가 EUID(0)를 보고 승인          |
+  |        |                                                          |
+  |        v (도메인 전환 복귀)                                           |
+  |  [프로세스 종료]                                                     |
+  |  EUID=0 상태가 해제되고, 시스템은 다시 안전 상태 유지                     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도는 일반 사용자가 어떻게 시스템 권한을 잠시 빌려 작업을 수행하는지([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 보여준다. `passwd` 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 설정된 [SetUID](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`s`)는, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 실행될 때 프로세스의 유효 사용자 ID(EUID)를 프로그램을 실행한 사람이 아닌 프로그램의 '소유자(Root)'로 일시적으로 변경하라는 OS 차원의 특별한 약속이다. 따라서 사용자는 프로세스가 살아있는 동안만 좁은 범위의 미리 정의된 절차(비밀번호 암호화 후 저장)에 한해서만 Root의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 진입할 수 있다. 만약 해커가 `passwd` 프로그램의 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 취약점을 발견하면, EUID가 0인 상태에서 셸([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))을 실행시켜 완전한 Root 권한을 탈취하게 되므로 [SetUID](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 프로그램은 극도로 엄격하게 작성되어야 한다.
@@ -128,28 +128,28 @@ tags = ["studynote-operating-system"]
 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 링 아키텍처의 구조적 한계를 통해 왜 현대 시스템이 더 세분화된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 요구하는지 매트릭스를 넘어서 시각화할 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │              보호 링(Protection Rings)의 계층적 구조         │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │     ┌─────────────────────────────────────────────┐     │
-  │     │ Ring 3: User Applications (일반 앱, 텍스트 에디터) │     │
-  │     │   ┌─────────────────────────────────────┐   │     │
-  │     │   │ Ring 2: Device Drivers (디바이스 드라이버) │   │     │
-  │     │   │   ┌─────────────────────────────┐   │   │     │
-  │     │   │   │ Ring 1: OS Services         │   │   │     │
-  │     │   │   │   ┌─────────────────────┐   │   │   │     │
-  │     │   │   │   │ Ring 0: Kernel      │   │   │   │     │
-  │     │   │   │   │ (최고 권한, 무제한)    │   │   │   │     │
-  │     │   │   │   └─────────────────────┘   │   │   │     │
-  │     │   │   └─────────────────────────────┘   │   │     │
-  │     │   └─────────────────────────────────────┘   │     │
-  │     └─────────────────────────────────────────────┘     │
-  │                                                         │
-  │  문제점: 바깥쪽 링에서 안쪽 링의 자원을 직접 접근할 수 없음.         │
-  │         시스템 콜(System Call)을 통한 제한적 문(Gate)만 통과 가능.│
-  │         그러나 Ring 0에 들어가면 다시 '단일 거대 도메인'이 되어 버림.│
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |              보호 링(Protection Rings)의 계층적 구조         |
+  +---------------------------------------------------------+
+  |                                                         |
+  |     +---------------------------------------------+     |
+  |     | Ring 3: User Applications (일반 앱, 텍스트 에디터) |     |
+  |     |   +-------------------------------------+   |     |
+  |     |   | Ring 2: Device Drivers (디바이스 드라이버) |   |     |
+  |     |   |   +-----------------------------+   |   |     |
+  |     |   |   | Ring 1: OS Services         |   |   |     |
+  |     |   |   |   +---------------------+   |   |   |     |
+  |     |   |   |   | Ring 0: Kernel      |   |   |   |     |
+  |     |   |   |   | (최고 권한, 무제한)    |   |   |   |     |
+  |     |   |   |   +---------------------+   |   |   |     |
+  |     |   |   +-----------------------------+   |   |     |
+  |     |   +-------------------------------------+   |     |
+  |     +---------------------------------------------+     |
+  |                                                         |
+  |  문제점: 바깥쪽 링에서 안쪽 링의 자원을 직접 접근할 수 없음.         |
+  |         시스템 콜(System Call)을 통한 제한적 문(Gate)만 통과 가능.|
+  |         그러나 Ring 0에 들어가면 다시 '단일 거대 도메인'이 되어 버림.|
+  +---------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 계층 구조도는 가장 전통적인 하드웨어 기반 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리 방식인 링 구조를 보여준다. 바깥쪽 링(Ring 3)에서 안쪽 링(Ring 0)의 메모리나 하드웨어 자원에 마음대로 접근하려 하면 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 발생시켜 차단한다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부(Ring 0)로 들어가는 순간 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)은 깨진다. 비디오 드라이버의 작은 버그 하나가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉을 일으켜 전체 시스템을 죽이는 현상(블루스크린)이 대표적인 예다. 이 때문에 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 링 구조에만 의존하지 않고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기능을 최소화하는 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 기법이나 소프트웨어 레벨의 강제 접근 제어([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 덧붙여 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 더 잘게 쪼갠다.
@@ -176,32 +176,32 @@ tags = ["studynote-operating-system"]
 안전한 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 설계의 권한 강등(Privilege Drop) 프로세스를 흐름도로 나타내면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 시스템 콜이 어떻게 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)을 실현하는지 알 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │              데몬 프로세스의 자발적 권한 강등 (Privilege Drop) 플로우   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [실행 초기: Root 도메인 (UID=0)]                                    │
-  │         │                                                         │
-  │         ▼                                                         │
-  │   1. 소켓 생성 및 80/443 포트 바인딩 (Root만 가능)                     │
-  │         │                                                         │
-  │         ▼                                                         │
-  │   2. 환경 설정 파일 읽기, 로그 파일 핸들 오픈 (Root 소유 파일)           │
-  │         │                                                         │
-  │         ▼                                                         │
-  │   3. [보호 도메인 전환 실행 (자발적 강등)]                             │
-  │      `setgid(www-data)` -> 그룹 권한 축소                           │
-  │      `setuid(www-data)` -> 유저 권한 축소                           │
-  │         │                                                         │
-  │         ▼                                                         │
-  │   [실행 중기~종료: www-data 도메인 (제한된 권한)]                       │
-  │         │                                                         │
-  │         ▼                                                         │
-  │   4. 클라이언트의 HTTP 요청 수신 및 응답 처리                           │
-  │      (이 상태에서 해킹당해도, 해커는 시스템의 주요 파일을 건드릴 수 없음)   │
-  │                                                                   │
-  │   핵심: "필요한 권한을 다 쓰고 나면, 프로세스 스스로 권한을 버려야 한다."      │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |              데몬 프로세스의 자발적 권한 강등 (Privilege Drop) 플로우   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [실행 초기: Root 도메인 (UID=0)]                                    |
+  |         |                                                         |
+  |         v                                                         |
+  |   1. 소켓 생성 및 80/443 포트 바인딩 (Root만 가능)                     |
+  |         |                                                         |
+  |         v                                                         |
+  |   2. 환경 설정 파일 읽기, 로그 파일 핸들 오픈 (Root 소유 파일)           |
+  |         |                                                         |
+  |         v                                                         |
+  |   3. [보호 도메인 전환 실행 (자발적 강등)]                             |
+  |      `setgid(www-data)` -> 그룹 권한 축소                           |
+  |      `setuid(www-data)` -> 유저 권한 축소                           |
+  |         |                                                         |
+  |         v                                                         |
+  |   [실행 중기~종료: www-data 도메인 (제한된 권한)]                       |
+  |         |                                                         |
+  |         v                                                         |
+  |   4. 클라이언트의 HTTP 요청 수신 및 응답 처리                           |
+  |      (이 상태에서 해킹당해도, 해커는 시스템의 주요 파일을 건드릴 수 없음)   |
+  |                                                                   |
+  |   핵심: "필요한 권한을 다 쓰고 나면, 프로세스 스스로 권한을 버려야 한다."      |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 다이어그램은 리눅스 환경에서 데몬 프로그램들이 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)을 준수하기 위해 사용하는 표준적인 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 패턴을 보여준다. 초기화 단계에서는 강력한 권한이 필요하지만, 지속적으로 요청을 처리하는 반복 구간에서는 공격에 노출될 위험이 크므로 권한을 버리는 것이다. 이는 한 번 낮춘 권한([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))은 다시 Root로 되돌릴 수 없는 UNIX의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 보안 철학을 영리하게 이용한 아키텍처다.
@@ -251,12 +251,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [접근 제어 목록 (ACL)]
-    │
-    ▼
+    |
+    v
 [보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)]
-    │
-    ├──▶ [버퍼 오버플로우 공격 스택]
-    └──▶ [스푸핑, 백도어 악성코드]
+    |
+    +---> [버퍼 오버플로우 공격 스택]
+    +---> [스푸핑, 백도어 악성코드]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -273,7 +273,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 740 / 800
 
-← **이전**: [739. 접근 제어 목록 (ACL)](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/)
-**다음**: [741. 버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)](/knowledge-base/studynote/02_operating_system/11_exam_summary/741_buffer_overflow_attack_stack/) →
+<- **이전**: [739. 접근 제어 목록 (ACL)](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/)
+**다음**: [741. 버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)](/knowledge-base/studynote/02_operating_system/11_exam_summary/741_buffer_overflow_attack_stack/) ->
 
 ---

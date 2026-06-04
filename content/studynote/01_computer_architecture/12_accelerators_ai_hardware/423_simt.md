@@ -26,14 +26,14 @@ GPU가 과학 계산과 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nl
 이 그림은 왜 SIMT가 CPU식 독립 제어와 SIMD식 일괄 처리의 중간 해법으로 등장했는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            병렬 실행 모델의 현실적 절충: 왜 SIMT인가         │
-├───────────────────────┬────────────────┬─────────────────────┤
-│ CPU식 스레드          │ SIMD           │ SIMT                │
-│ - 제어 유연성 높음    │ - 명령 효율 높음│ - 스레드 추상화 제공 │
-│ - 제어부 비용 큼      │ - 분기 대응 약함│ - 워프 단위 실행     │
-│ - 대량 병렬 비효율    │ - 프로그래밍 경직│ - 대량 병렬+유연성 절충│
-└───────────────────────┴────────────────┴─────────────────────┘
++--------------------------------------------------------------+
+|            병렬 실행 모델의 현실적 절충: 왜 SIMT인가         |
++-----------------------+----------------+---------------------+
+| CPU식 스레드          | SIMD           | SIMT                |
+| - 제어 유연성 높음    | - 명령 효율 높음| - 스레드 추상화 제공 |
+| - 제어부 비용 큼      | - 분기 대응 약함| - 워프 단위 실행     |
+| - 대량 병렬 비효율    | - 프로그래밍 경직| - 대량 병렬+유연성 절충|
++-----------------------+----------------+---------------------+
 ```
 
 핵심은 SIMT가 "모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 완전히 독립적"인 구조가 아니라, "독립 상태를 가진 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 하드웨어가 묶어서 실행"하는 구조라는 점이다. 따라서 이 모델은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 많을수록 무조건 유리한 것이 아니라, 워프 내부 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 얼마나 비슷한 흐름으로 움직이는지에 따라 효율이 크게 달라진다.
@@ -57,19 +57,19 @@ SIMT의 실행 최소 단위는 보통 32개 [스레드](/knowledge-base/studyno
 이 그림은 SIMT가 한 명령을 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 적용하면서도, 분기가 생기면 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 마스크로 참여 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꿔 가며 실행하는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SIMT 워프 실행의 내부 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│ Warp 0                                                      │
-│  ├─ Thread 0 : Register set 0 ─┐                            │
-│  ├─ Thread 1 : Register set 1 ─┼─▶ 같은 명령 발행 ─▶ 산술논리장치군 │
-│  ├─ ...                        ─┤                            │
-│  └─ Thread 31: Register set31 ─┘                            │
-│               ▲                                              │
-│               └─ Active Mask : 실행 참여 스레드 선택         │
-├──────────────────────────────────────────────────────────────┤
-│ 원칙: 명령 흐름은 공유하지만 데이터와 상태는 스레드별 독립   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 SIMT 워프 실행의 내부 구조                   |
++--------------------------------------------------------------+
+| Warp 0                                                      |
+|  +- Thread 0 : Register set 0 -+                            |
+|  +- Thread 1 : Register set 1 -+--> 같은 명령 발행 --> 산술논리장치군 |
+|  +- ...                        -+                            |
+|  +- Thread 31: Register set31 -+                            |
+|               ^                                              |
+|               +- Active Mask : 실행 참여 스레드 선택         |
++--------------------------------------------------------------+
+| 원칙: 명령 흐름은 공유하지만 데이터와 상태는 스레드별 독립   |
++--------------------------------------------------------------+
 ```
 
 문제가 되는 지점은 조건 분기다. 예를 들어 워프 안 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 절반만 `if`를 타고 나머지는 `else`를 타면, 하드웨어는 두 경로를 동시에 실행하지 못하고 한쪽 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 활성화한 뒤 순차적으로 처리한다. 이 현상이 워프 분기 발산이며, 이때 같은 워프 내부 연산기는 일부만 일하게 되어 처리량이 떨어진다. 반대로 워프가 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽더라도 주소가 연속적이면 메모리 코얼레싱이 잘 일어나 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율이 높아진다.
@@ -156,17 +156,17 @@ SIMT의 가장 큰 효과는 제한된 전력과 면적 안에서 엄청난 [병
 
 ```text
 SIMD (Single Instruction Multiple Data)
-    │
-    ▼
+    |
+    v
 SIMT (Single Instruction Multiple Threads)
-    │
-    ├─▶ Warp · Active Mask · Warp Divergence
-    │
-    ├─▶ SM (Streaming Multiprocessor) · Occupancy · Latency Hiding
-    │
-    ├─▶ Memory Coalescing · Shared Memory 최적화
-    │
-    └─▶ Independent Thread Scheduling · Tensor Core 결합
+    |
+    +--> Warp · Active Mask · Warp Divergence
+    |
+    +--> SM (Streaming Multiprocessor) · Occupancy · Latency Hiding
+    |
+    +--> Memory Coalescing · Shared Memory 최적화
+    |
+    +--> Independent Thread Scheduling · Tensor Core 결합
 ```
 
 이 흐름은 벡터 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 철학이 GPU에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 추상화와 결합되고, 이후에는 제어 유연성 완화와 전용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기로 확장되는 방향을 보여준다.
@@ -183,7 +183,7 @@ SIMT (Single Instruction Multiple Threads)
 
 **진행 상황**: 424 / 803
 
-← **이전**: [422. 스레드 블록 (Thread Block)과 워프 (Warp)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/)
-**다음**: [424. NPU (Neural Processing Unit)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) →
+<- **이전**: [422. 스레드 블록 (Thread Block)과 워프 (Warp)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/)
+**다음**: [424. NPU (Neural Processing Unit)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ->
 
 ---

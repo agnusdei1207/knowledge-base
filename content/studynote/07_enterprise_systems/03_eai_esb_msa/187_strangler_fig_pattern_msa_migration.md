@@ -34,16 +34,16 @@ tags = ["studynote-enterprise"]
 아래 그림은 점진적 전환 구조를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Progressive routing envelope                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Users -> API Gateway -> /account/* -------------> Monolith          │
-│                    ├─ /review/* ---------------> Review Service     │
-│                    ├─ /catalog/* --------------> Catalog Service    │
-│                    └─ /payment/* --------------> Payment Service    │
-│                                                                      │
-│ Legacy DB ---- CDC / events ----> Service DBs ----> Metrics / Trace │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Progressive routing envelope                                        |
++----------------------------------------------------------------------+
+| Users -> API Gateway -> /account/* -------------> Monolith          |
+|                    +- /review/* ---------------> Review Service     |
+|                    +- /catalog/* --------------> Catalog Service    |
+|                    +- /payment/* --------------> Payment Service    |
+|                                                                      |
+| Legacy DB ---- CDC / events ----> Service DBs ----> Metrics / Trace |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 기술 요소는 경계 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 관측성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이다. 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여전히 레거시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 공유하면 배포만 분리되었을 뿐 진짜 독립성은 생기지 않는다. 그래서 점진적 전환에서는 [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 이벤트 발행, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최소화 같은 기법이 함께 논의된다.
@@ -130,21 +130,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 모놀리식 유지보수 한계
-        │
-        ▼
+        |
+        v
 API 게이트웨이 / 퍼사드 배치
-        │
-        ▼
+        |
+        v
 기능 단위 추출과 점진적 라우팅
-        │
-        ▼
+        |
+        v
 데이터 분리 · CDC · 관측성 강화
-        │
-        ▼
+        |
+        v
 레거시 기능 폐기와 MSA 전환 완료
 ```
 
-이 흐름은 "전면 교체"가 아니라 "경계 장악 → 기능 추출 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 → 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
+이 흐름은 "전면 교체"가 아니라 "경계 장악 -> 기능 추출 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 -> 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +158,7 @@ API 게이트웨이 / 퍼사드 배치
 
 **진행 상황**: 187 / 482
 
-← **이전**: [186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/186_distributed_tracing_zipkin_jaeger/)
-**다음**: [188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/) →
+<- **이전**: [186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/186_distributed_tracing_zipkin_jaeger/)
+**다음**: [188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/) ->
 
 ---

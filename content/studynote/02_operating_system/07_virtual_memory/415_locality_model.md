@@ -28,25 +28,25 @@ tags = ["studynote-operating-system"]
   3. **모든 캐시 아키텍처의 바이블**: 이후 L1/L2 하드웨어 캐시, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), 웹 브라우저 캐시, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 등 세상에 존재하는 "크고 느린 놈 앞에 작고 빠른 놈을 두는" 모든 아키텍처의 근본 철학으로 자리 잡음.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        프로그램 런타임 중 지역성(Locality)의 이동(Phase) 시각화       │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 메모리 주소 0 ~ 10,000 번지 / 시간의 흐름 ──▶ ]                     │
-│                                                                       │
-│ Time 1: [ 초기화 국면 ]                                               │
-│   0번지 ~ 500번지 안에서만 변수들이 10만 번 핑퐁 됨! (Locality 1)     │
-│                                                                       │
-│ Time 2: [ 파일 읽기 국면 ]                                            │
-│   갑자기 5000번지 ~ 5500번지로 훅 건너뜀 (Context Shift).             │
-│   이곳에서만 또 5만 번 핑퐁 되며 빙글빙글 돎! (Locality 2)            │
-│                                                                       │
-│ Time 3: [ 연산 및 출력 국면 ]                                         │
-│   9000번지 ~ 9200번지로 또 건너뜀. 여기서 미친 듯이 돎! (Locality 3)  │
-│                                                                       │
-│ ✅ 결론: 프로그램 전체 용량은 10,000번지(크다)지만, 특정 찰나의 시간  │
-│    (Time)에 요구하는 램의 크기는 고작 500번지 뭉텅이(작다)에 불과함.  │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        프로그램 런타임 중 지역성(Locality)의 이동(Phase) 시각화       |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ 메모리 주소 0 ~ 10,000 번지 / 시간의 흐름 ---> ]                     |
+|                                                                       |
+| Time 1: [ 초기화 국면 ]                                               |
+|   0번지 ~ 500번지 안에서만 변수들이 10만 번 핑퐁 됨! (Locality 1)     |
+|                                                                       |
+| Time 2: [ 파일 읽기 국면 ]                                            |
+|   갑자기 5000번지 ~ 5500번지로 훅 건너뜀 (Context Shift).             |
+|   이곳에서만 또 5만 번 핑퐁 되며 빙글빙글 돎! (Locality 2)            |
+|                                                                       |
+| Time 3: [ 연산 및 출력 국면 ]                                         |
+|   9000번지 ~ 9200번지로 또 건너뜀. 여기서 미친 듯이 돎! (Locality 3)  |
+|                                                                       |
+| ✅ 결론: 프로그램 전체 용량은 10,000번지(크다)지만, 특정 찰나의 시간  |
+|    (Time)에 요구하는 램의 크기는 고작 500번지 뭉텅이(작다)에 불과함.  |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 프로그램은 결코 0번지부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번지까지 골고루 공평하게 접근하지 않는다. 메뚜기처럼 이 동네(지역 1)에서 신나게 파먹고 놀다가, 단물이 빠지면 저 동네(지역 2)로 점프 뛰어가서 또 거기서만 미친 듯이 파먹는 습성을 가졌다. OS의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)기([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 이 메뚜기가 파먹고 있는 '현재 동네(지역)'의 풀([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))만 귀신같이 램에 남겨주고, 떠나버린 옛날 동네의 풀은 과감히 디스크로 쫓아버림으로써 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막아낸다.
 
@@ -121,12 +121,12 @@ for (int j = 0; j < 1024; j++) {
 - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">선행 페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a> / Readahead)</strong>: 철저히 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">Spatial Locality</a>)</strong>을 신봉한다. "지금 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찔렀어? 그럼 묻지도 따지지도 말고 옆에 있는 11번, 12번, 13번을 몽땅 램에 쑤셔 넣어!"라는 과격한 배달 작전이다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 지역성 종류│ 프로그램 패턴 │ OS의 방어 기제 │ 최적화 튜닝 포인트     │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ 시간 지역성│ for문, 카운터 │ LRU 페이지 교체│ 변수 재활용 극대화     │
-│ 공간 지역성│ 배열 훑기    │ Prepaging (미리읽기)│ SoA 구조, 패딩 패킹│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
++----------+------------+------------+---------------------------------+
+| 지역성 종류| 프로그램 패턴 | OS의 방어 기제 | 최적화 튜닝 포인트     |
++----------+------------+------------+---------------------------------+
+| 시간 지역성| for문, 카운터 | LRU 페이지 교체| 변수 재활용 극대화     |
+| 공간 지역성| 배열 훑기    | Prepaging (미리읽기)| SoA 구조, 패딩 패킹|
++----------+------------+------------+---------------------------------+
 ```
 **[매트릭스 해설]** 프로그래머가 객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 낭만에 취해, 메모리에 노드들이 파편화되어 흩어지는 Linked List나 수많은 객체 포인터 참조를 남발하면, 시간/공간 지역성이 모두 붕괴되어 하드웨어가 제공하는 캐시 로켓([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)/[Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))에 단 하나도 탑승하지 못하고 시스템 성능이 지하실로 처박힌다. Data-Oriented Design([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 설계)이 C++ 게임 서버의 바이블이 된 이유가 이 지역성을 극한으로 쥐어짜기 위함이다.
 
@@ -186,12 +186,12 @@ for (int j = 0; j < 1024; j++) {
 
 ```text
 [스래싱 원인]
-    │
-    ▼
+    |
+    v
 [지역성 모델 (Locality Model)]
-    │
-    ├──▶ [워킹 셋 모델 (Working-Set Model)]
-    └──▶ [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
+    |
+    +---> [워킹 셋 모델 (Working-Set Model)]
+    +---> [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -208,7 +208,7 @@ for (int j = 0; j < 1024; j++) {
 
 **진행 상황**: 415 / 800
 
-← **이전**: [414. 스래싱 원인 (Cause Of Thrashing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/414_cause_of_thrashing/)
-**다음**: [416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장](/knowledge-base/studynote/02_operating_system/07_virtual_memory/416_working_set_model/) →
+<- **이전**: [414. 스래싱 원인 (Cause Of Thrashing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/414_cause_of_thrashing/)
+**다음**: [416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장](/knowledge-base/studynote/02_operating_system/07_virtual_memory/416_working_set_model/) ->
 
 ---

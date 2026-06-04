@@ -99,13 +99,13 @@ tags = ["studynote-security"]
 
 ```text
 Input Validation
-   ↓
+   v
 Secure Coding
-   ↓
+   v
 OWASP Top 10
-   ↓
+   v
 SAST / DevSecOps
-   ↓
+   v
 Secure SDLC
 ```
 
@@ -115,11 +115,11 @@ Secure SDLC
 
 ```text
 취약한 코드
-   ↓
+   v
 시큐어 코딩
-   ↓
+   v
 자동 보안 점검
-   ↓
+   v
 DevSecOps
 ```
 
@@ -137,7 +137,7 @@ DevSecOps
 
 **진행 상황**: 62 / 1108
 
-← **이전**: [61. Secure by Default (기본값 안전)](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/)
-**다음**: [063. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/01_intro_principles/063_threat_modeling/) →
+<- **이전**: [61. Secure by Default (기본값 안전)](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/)
+**다음**: [063. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/01_intro_principles/063_threat_modeling/) ->
 
 ---

@@ -33,8 +33,8 @@ tags = ["studynote-devops"]
 
 ```text
 사용자 트래픽
-   ├─ 95% ─> Stable Version
-   └─  5% ─> Canary Version ─> Metrics ─> Promote / Rollback
+   +- 95% -> Stable Version
+   +-  5% -> Canary Version -> Metrics -> Promote / Rollback
 ```
 
 | 구성 요소 | 역할 |
@@ -109,15 +109,15 @@ tags = ["studynote-devops"]
 
 ```text
 코드 머지
-   ↓
+   v
 배포 파이프라인
-   ↓
+   v
 소량 트래픽 분기
-   ↓
+   v
 지표 관찰 / 임계치 비교
-   ↓
+   v
 승격 또는 롤백
-   ↓
+   v
 비율 확대
 ```
 
@@ -133,7 +133,7 @@ tags = ["studynote-devops"]
 
 **진행 상황**: 85 / 373
 
-← **이전**: [84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/084_blue_green_deployment_zero_downtime_fast_rollback/)
-**다음**: [86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/086_gitops_declarative_infrastructure_continuous_synchronization_argocd/) →
+<- **이전**: [84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/084_blue_green_deployment_zero_downtime_fast_rollback/)
+**다음**: [86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/086_gitops_declarative_infrastructure_continuous_synchronization_argocd/) ->
 
 ---

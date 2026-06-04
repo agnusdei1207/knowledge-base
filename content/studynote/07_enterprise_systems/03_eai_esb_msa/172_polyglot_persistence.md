@@ -28,16 +28,16 @@ tags = ["studynote-enterprise"]
 이 그림은 공유 DB [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              One shared store versus fit-for-purpose stores          │
-├──────────────────────────────────────────────────────────────────────┤
-│ shared DB : Order / Catalog / Session / Recommendation -> one RDBMS │
-│                                                                      │
-│ polyglot : Order -> RDBMS                                            │
-│            Catalog -> document DB                                    │
-│            Session -> key-value store                                │
-│            Recommendation -> graph DB                                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              One shared store versus fit-for-purpose stores          |
++----------------------------------------------------------------------+
+| shared DB : Order / Catalog / Session / Recommendation -> one RDBMS |
+|                                                                      |
+| polyglot : Order -> RDBMS                                            |
+|            Catalog -> document DB                                    |
+|            Session -> key-value store                                |
+|            Recommendation -> graph DB                                |
++----------------------------------------------------------------------+
 ```
 
 핵심은 저장소 수가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>과 접근 패턴의 부합성</strong>이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 문제를 저장소가 더 자연스럽게 표현할 수 있을 때 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 가치가 생긴다.
@@ -62,15 +62,15 @@ tags = ["studynote-enterprise"]
 아래 구조는 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)가 "DB 여러 개"가 아니라 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유 + 이벤트 연계"라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Service-owned stores with event-based linkage           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Order Service ----------> Order DB ----------> Outbox event          │
-│ Catalog Service --------> Catalog DB --------> API / event           │
-│ Recommendation Service -> Graph DB <--------- subscribed events      │
-│                                                                      │
-│ rule: no cross-service direct joins, integrate through contracts      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              Service-owned stores with event-based linkage           |
++----------------------------------------------------------------------+
+| Order Service ----------> Order DB ----------> Outbox event          |
+| Catalog Service --------> Catalog DB --------> API / event           |
+| Recommendation Service -> Graph DB <--------- subscribed events      |
+|                                                                      |
+| rule: no cross-service direct joins, integrate through contracts      |
++----------------------------------------------------------------------+
 ```
 
 즉 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 핵심 원리는 "자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 진실 원천(Source of Truth)은 자기 저장소 안에 둔다"는 것이다. 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 진실을 API나 이벤트로 소비할 뿐이며, 그 과정에서 결국 최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 을 받아들일 준비가 필요하다.
@@ -108,19 +108,19 @@ tags = ["studynote-enterprise"]
 아래 결정 흐름은 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)를 도입할지 판단하는 최소 질문을 정리한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Is polyglot persistence really justified for this domain?     │
-├──────────────────────────────────────────────────────────────────────┤
-│ service boundary and ownership clear?                                │
-│        ├─ no  -> keep a simpler store strategy first                 │
-│        └─ yes                                                         │
-│ workload/consistency needs differ materially?                        │
-│        ├─ no  -> same-engine database per service may be enough      │
-│        └─ yes                                                         │
-│ ops and integration patterns ready?                                  │
-│        ├─ no  -> complexity risk high                                │
-│        └─ yes -> polyglot candidate                                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Is polyglot persistence really justified for this domain?     |
++----------------------------------------------------------------------+
+| service boundary and ownership clear?                                |
+|        +- no  -> keep a simpler store strategy first                 |
+|        +- yes                                                         |
+| workload/consistency needs differ materially?                        |
+|        +- no  -> same-engine database per service may be enough      |
+|        +- yes                                                         |
+| ops and integration patterns ready?                                  |
+|        +- no  -> complexity risk high                                |
+|        +- yes -> polyglot candidate                                  |
++----------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -172,17 +172,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Monolithic shared database
-    │
-    ▼
+    |
+    v
 Service boundary and data ownership
-    │
-    ▼
+    |
+    v
 Database per Service
-    │
-    ▼
+    |
+    v
 Fit-for-purpose store selection
-    │
-    ▼
+    |
+    v
 Event / Outbox / Saga based integration
 ```
 
@@ -200,7 +200,7 @@ Event / Outbox / Saga based integration
 
 **진행 상황**: 172 / 482
 
-← **이전**: [171. 폴백 (Fallback) 회복탄력성 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
-**다음**: [173. 데이터베이스 퍼 서비스 (Database per Service)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/173_database_per_service/) →
+<- **이전**: [171. 폴백 (Fallback) 회복탄력성 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
+**다음**: [173. 데이터베이스 퍼 서비스 (Database per Service)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/173_database_per_service/) ->
 
 ---

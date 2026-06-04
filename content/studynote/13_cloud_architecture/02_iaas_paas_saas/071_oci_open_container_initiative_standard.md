@@ -31,9 +31,9 @@ OCI는 그 표준을 제공한다.
 
 ```text
 Image Spec
-  ↓
+  v
 Runtime Spec
-  ↓
+  v
 OCI
 ```
 
@@ -105,11 +105,11 @@ OCI는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud
 
 ```text
 OCI
-  ↓
+  v
 Image Spec
-  ↓
+  v
 Runtime Spec
-  ↓
+  v
 Container Portability
 ```
 
@@ -119,11 +119,11 @@ Container Portability
 
 ```text
 Docker
-  ↓
+  v
 OCI
-  ↓
+  v
 Open Standard
-  ↓
+  v
 Interoperability
 ```
 
@@ -141,7 +141,7 @@ OCI는 그런 약속이에요.
 
 **진행 상황**: 70 / 371
 
-← **이전**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/)
-**다음**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/) →
+<- **이전**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/)
+**다음**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/) ->
 
 ---

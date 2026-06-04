@@ -26,17 +26,17 @@ tags = ["studynote-operating-system"]
 아래 그림은 RR이 왜 "시분할의 기본형"으로 불리는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Round Robin as time-sharing                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Ready queue : P2 -> P3 -> P4                                      │
-│                  ▲                                                │
-│                  │ requeue if quantum expires                     │
-│ CPU ---------> [ P1 runs for q ]                                  │
-│                  │                                                │
-│                  ├─ finishes / blocks -> leave the queue          │
-│                  └─ still running -> move to tail                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Round Robin as time-sharing                                       |
++--------------------------------------------------------------------+
+| Ready queue : P2 -> P3 -> P4                                      |
+|                  ^                                                |
+|                  | requeue if quantum expires                     |
+| CPU ---------> [ P1 runs for q ]                                  |
+|                  |                                                |
+|                  +- finishes / blocks -> leave the queue          |
+|                  +- still running -> move to tail                 |
++--------------------------------------------------------------------+
 ```
 
 이 구조 덕분에 각 프로세스는 완전히 끝나지 않아도 "잠깐이라도" CPU를 경험한다. 사용자 체감에서는 여러 프로그램이 동시에 반응하는 것처럼 보이며, 운영체제는 이 환상을 타이머와 큐만으로 구현한다.
@@ -60,19 +60,19 @@ RR의 동작은 단순하지만, 실제로는 <strong>타이머 <a href="/knowle
 다음 예시는 `q = 2 ms`일 때 RR이 어떻게 모든 프로세스의 첫 응답을 빠르게 보장하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example timeline with q = 2 ms                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ jobs : P1(5 ms), P2(3 ms), P3(1 ms) all arrive at t=0             │
-│                                                                    │
-│ time : 0    2    4    5    7    8    9                             │
-│ CPU  : | P1 | P2 | P3 | P1 | P2 | P1 |                             │
-│                                                                    │
-│ first response time                                                │
-│   P1 = 0 ms, P2 = 2 ms, P3 = 4 ms                                 │
-│                                                                    │
-│ rule : unfinished job returns to tail, finished job leaves        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Example timeline with q = 2 ms                                    |
++--------------------------------------------------------------------+
+| jobs : P1(5 ms), P2(3 ms), P3(1 ms) all arrive at t=0             |
+|                                                                    |
+| time : 0    2    4    5    7    8    9                             |
+| CPU  : | P1 | P2 | P3 | P1 | P2 | P1 |                             |
+|                                                                    |
+| first response time                                                |
+|   P1 = 0 ms, P2 = 2 ms, P3 = 4 ms                                 |
+|                                                                    |
+| rule : unfinished job returns to tail, finished job leaves        |
++--------------------------------------------------------------------+
 ```
 
 이때 중요한 성질은 <strong>대기 상한선을 대략 계산할 수 있다</strong>는 점이다. 준비 큐에 `n`개 프로세스가 있고 모두 같은 우선순위라면, 한 프로세스가 선점된 뒤 다시 CPU를 얻기까지 기다리는 시간은 대체로 `(n - 1) × q` 범위 안에서 이해할 수 있다. 즉 RR은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화보다는, "언제쯤 다시 차례가 오는가"를 예측 가능하게 만든다는 장점이 크다.
@@ -110,17 +110,17 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 아래 의사결정 흐름은 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 적용 여부를 빠르게 가르는 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When RR is a good fit                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ need predictable response for many interactive tasks?             │
-│   ├─ yes -> choose RR or RR inside MLFQ                           │
-│   │         ├─ context-switch cost high? -> enlarge quantum       │
-│   │         └─ UI latency too high? -> shrink quantum carefully   │
-│   └─ no                                                           │
-│        ├─ strict deadline required? -> real-time scheduler        │
-│        └─ throughput-only batch? -> longer slice / batch policy   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When RR is a good fit                                              |
++--------------------------------------------------------------------+
+| need predictable response for many interactive tasks?             |
+|   +- yes -> choose RR or RR inside MLFQ                           |
+|   |         +- context-switch cost high? -> enlarge quantum       |
+|   |         +- UI latency too high? -> shrink quantum carefully   |
+|   +- no                                                           |
+|        +- strict deadline required? -> real-time scheduler        |
+|        +- throughput-only batch? -> longer slice / batch policy   |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -167,19 +167,19 @@ RR의 가장 큰 효과는 <strong>공정한 응답 기회 보장</strong>이다
 
 ```text
 batch-oriented scheduling
-        │
-        ▼
+        |
+        v
 time-sharing requirement
-        │
-        ▼
+        |
+        v
 timer interrupt + preemption
-        │
-        ▼
+        |
+        v
 Round Robin scheduling
-        │
-        ├──────────────▶ response-time improvement
-        ├──────────────▶ quantum tuning problem
-        └──────────────▶ MLFQ / modern fair schedulers
+        |
+        +---------------> response-time improvement
+        +---------------> quantum tuning problem
+        +---------------> MLFQ / modern fair schedulers
 ```
 
 이 흐름도는 RR이 단순한 고전 알고리즘이 아니라, 시분할 요구에서 출발해 현대 공정성 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 토대가 된 과정을 보여 준다.
@@ -196,7 +196,7 @@ Round Robin scheduling
 
 **진행 상황**: 178 / 800
 
-← **이전**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)
-**다음**: [179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) →
+<- **이전**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)
+**다음**: [179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) ->
 
 ---

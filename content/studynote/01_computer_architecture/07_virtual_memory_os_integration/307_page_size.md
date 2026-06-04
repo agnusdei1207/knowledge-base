@@ -27,17 +27,17 @@ tags = ["studynote-computer-architecture"]
 예를 들어 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 작은 객체가 많은 일반 응용 프로그램에 유리하다. 반면 수 GB 단위 버퍼를 오래 잡고 순차·반복 접근하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 가상 머신은 2MB, 1GB Huge Page에서 훨씬 적은 주소 변환 오버헤드로 동작할 수 있다. 그래서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)는 메모리 효율과 변환 효율 사이의 고전적이면서도 여전히 중요한 절충점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          페이지 크기가 만드는 두 방향의 압력                 │
-├──────────────────────────────────────────────────────────────┤
-│ 작은 페이지                                                  │
-│  ├─ 장점: 빈 공간 낭비 감소                                  │
-│  └─ 대가: 페이지 수 증가 → 페이지 테이블/TLB 부담 증가       │
-│                                                              │
-│ 큰 페이지                                                    │
-│  ├─ 장점: 관리 항목 감소 → TLB reach 확대, page walk 감소    │
-│  └─ 대가: 내부 단편화 증가, 세밀한 메모리 회수 어려움        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          페이지 크기가 만드는 두 방향의 압력                 |
++--------------------------------------------------------------+
+| 작은 페이지                                                  |
+|  +- 장점: 빈 공간 낭비 감소                                  |
+|  +- 대가: 페이지 수 증가 -> 페이지 테이블/TLB 부담 증가       |
+|                                                              |
+| 큰 페이지                                                    |
+|  +- 장점: 관리 항목 감소 -> TLB reach 확대, page walk 감소    |
+|  +- 대가: 내부 단편화 증가, 세밀한 메모리 회수 어려움        |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 "메모리 낭비"와 "주소 변환 효율"을 서로 반대 방향으로 움직인다는 점을 보여준다. 따라서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 논의는 저장 단위의 크기 문제가 아니라, 하드웨어와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 어디에 비용을 지불할지 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다.
@@ -67,18 +67,18 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 같은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 용량에서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 바뀔 때 커버 범위와 워크 깊이가 어떻게 달라지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      같은 64엔트리 TLB라도 페이지 크기에 따라 체감이 달라짐    │
-├──────────────────────────────────────────────────────────────┤
-│ 4KB  페이지: 64 × 4KB  = 256KB   ─▶ 세밀하지만 자주 미스       │
-│ 2MB  페이지: 64 × 2MB  = 128MB   ─▶ 대용량 버퍼에 유리         │
-│ 1GB  페이지: 64 × 1GB  = 64GB    ─▶ 매우 큰 연속 영역에 유리   │
-│                                                              │
-│ page walk depth 예시                                         │
-│ 4KB  ─▶ PML4 ─▶ PDPT ─▶ PD ─▶ PT ─▶ Frame                    │
-│ 2MB  ─▶ PML4 ─▶ PDPT ─▶ PD =====▶ Frame                      │
-│ 1GB  ─▶ PML4 ─▶ PDPT =========▶ Frame                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      같은 64엔트리 TLB라도 페이지 크기에 따라 체감이 달라짐    |
++--------------------------------------------------------------+
+| 4KB  페이지: 64 × 4KB  = 256KB   --> 세밀하지만 자주 미스       |
+| 2MB  페이지: 64 × 2MB  = 128MB   --> 대용량 버퍼에 유리         |
+| 1GB  페이지: 64 × 1GB  = 64GB    --> 매우 큰 연속 영역에 유리   |
+|                                                              |
+| page walk depth 예시                                         |
+| 4KB  --> PML4 --> PDPT --> PD --> PT --> Frame                    |
+| 2MB  --> PML4 --> PDPT --> PD =====-> Frame                      |
+| 1GB  --> PML4 --> PDPT =========-> Frame                        |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램의 포인트는 "큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) miss를 줄이는 것"에서 끝나지 않는다는 점이다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 단계 자체를 덜 거치므로 미스가 났을 때의 벌점도 작아질 수 있다. 대신 이득이 큰 만큼 물리 메모리를 연속적으로 확보해야 하고, 사용량 변화가 잦은 워크로드에서는 낭비가 커질 수 있다.
@@ -168,20 +168,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고정 크기 페이지 분할
-    │
-    ▼
+    |
+    v
 페이지 테이블 (Page Table) · 내부 단편화 (Internal Fragmentation)
-    │
-    ▼
+    |
+    v
 TLB (Translation Lookaside Buffer) · page walk 비용
-    │
-    ▼
+    |
+    v
 Huge Page (2MB, 1GB) · TLB reach 확대
-    │
-    ▼
+    |
+    v
 THP (Transparent Huge Pages) · 혼합 페이지 크기 정책
-    │
-    ▼
+    |
+    v
 워크로드 인지형 메모리 최적화
 ```
 
@@ -199,7 +199,7 @@ THP (Transparent Huge Pages) · 혼합 페이지 크기 정책
 
 **진행 상황**: 308 / 803
 
-← **이전**: [307. 메모리 보호 (Memory Protection)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)
-**다음**: [308. 메모리 맵 파일 (Memory-Mapped File)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/) →
+<- **이전**: [307. 메모리 보호 (Memory Protection)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)
+**다음**: [308. 메모리 맵 파일 (Memory-Mapped File)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/) ->
 
 ---

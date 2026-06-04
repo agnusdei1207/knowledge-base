@@ -29,8 +29,8 @@ tags = ["software_engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-Burndown: Remaining Work ↓
-Burnup: Completed Work ↑ + Scope
+Burndown: Remaining Work v
+Burnup: Completed Work ^ + Scope
 ```
 
 | 차트 | 의미 |
@@ -101,11 +101,11 @@ Burnup: Completed Work ↑ + Scope
 
 ```text
 Sprint
-  ↓
+  v
 Burndown / Burnup
-  ↓
+  v
 Visibility
-  ↓
+  v
 Forecasting
 ```
 
@@ -115,11 +115,11 @@ Forecasting
 
 ```text
 Agile
-  ↓
+  v
 Burndown
-  ↓
+  v
 Burnup
-  ↓
+  v
 Progress Tracking
 ```
 
@@ -137,7 +137,7 @@ Progress Tracking
 
 **진행 상황**: 72 / 973
 
-← **이전**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/)
-**다음**: [73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) →
+<- **이전**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/)
+**다음**: [73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) ->
 
 ---

@@ -98,21 +98,21 @@ LDA는 통계학과 패턴 인식 분야에서 가장 역사 깊고 견고한 �
 
 ```text
 피셔 판별 분석 (Fisher's LDA, 1936)
-    │
-    ▼
+    |
+    v
 LDA: 클래스 간 분산 최대화 + 클래스 내 분산 최소화
-    │
-    ├─► 차원 축소: 최대 (C-1)개 축으로 압축
-    └─► 분류기: 가우시안 사후 확률로 직접 분류
-    │
-    ▼
-PCA → LDA 하이브리드 파이프라인 (실무 표준)
-    │
-    ▼
+    |
+    +-► 차원 축소: 최대 (C-1)개 축으로 압축
+    +-► 분류기: 가우시안 사후 확률로 직접 분류
+    |
+    v
+PCA -> LDA 하이브리드 파이프라인 (실무 표준)
+    |
+    v
 비선형 확장
-    ├─► QDA (이차 판별 분석) — 클래스별 공분산 허용
-    ├─► Kernel LDA — 커널 트릭 적용
-    └─► 대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승
+    +-► QDA (이차 판별 분석) — 클래스별 공분산 허용
+    +-► Kernel LDA — 커널 트릭 적용
+    +-► 대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승
 ```
 
 ---
@@ -121,7 +121,7 @@ PCA → LDA 하이브리드 파이프라인 (실무 표준)
 
 **진행 상황**: 82 / 258
 
-← **이전**: [81. 차원 축소 (Dimensionality Reduction) 및 PCA](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)
-**다음**: [83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘](/knowledge-base/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/) →
+<- **이전**: [81. 차원 축소 (Dimensionality Reduction) 및 PCA](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)
+**다음**: [83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘](/knowledge-base/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/) ->
 
 ---

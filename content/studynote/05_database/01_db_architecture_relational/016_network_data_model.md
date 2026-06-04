@@ -31,14 +31,14 @@ tags = ["database"]
 [그림 1: 망형 데이터 모델의 N:M 그래프 연결 구조 (Owner-Member 체계)]
 
     [고객 개체: 홍길동]           [고객 개체: 이순신]
-           │ └─────────┐         ┌─────────┘ │
-           │           │         │           │
+           | +---------+         +---------+ |
+           |           |         |           |
  (Member 링크)        (다중 부모 허용 구조)   (Member 링크)
-           ▼           ▼         ▼           ▼
+           v           v         v           v
       [계좌_A]       [계좌_B (공동계좌)]     [계좌_C]
-           │                 │               │
-           └───────┐         │      ┌────────┘
-                   ▼         ▼      ▼
+           |                 |               |
+           +-------+         |      +--------+
+                   v         v      v
                  [은행 지점: 강남 본점]
 ```
 
@@ -64,12 +64,12 @@ tags = ["database"]
 ```text
 [그림 2: 망형 데이터베이스 내부의 환형 연결 리스트(Circular Linked List) 탐색 포인터 체계]
 
-[오너 레코드: IT 부서] ──────────────────────────┐ (First Pointer)
-       ▲                                         │
-       │                                         ▼
-(Owner Pointer)   ┌─(Next)─> [멤버: 홍개발] ─(Next)─> [멤버: 김운영]
-       │          │                              │
-       └─(Prior)──┘<─────────(Prior)─────────────┘
+[오너 레코드: IT 부서] --------------------------+ (First Pointer)
+       ^                                         |
+       |                                         v
+(Owner Pointer)   +-(Next)-> [멤버: 홍개발] -(Next)-> [멤버: 김운영]
+       |          |                              |
+       +-(Prior)--+<---------(Prior)-------------+
 
 * 개발자 탐색 쿼리:
   1. FIND ANY 부서 USING 'IT 부서'
@@ -100,19 +100,19 @@ tags = ["database"]
 [그림 3: 관계 표현에 따른 탐색 성능 및 유연성 트레이드오프 매트릭스]
 
         [데이터 독립성 (유연성 & 생산성)]
-               ▲
-               │          [RDBMS]
-      높음     │         (SQL: 논리적 매칭)
-               │                 *
-               │
-      중간     │                          [Graph DB]
-               │                         (패턴 매칭 + 엣지 포인터)
-               │                                *
-               ├─────────────────────────────────────────> [탐색 성능 (조인 속도)]
-               │                  *
-      낮음     │          [망형 모델]           (Index-Free 고속 연결)
-               │   (하드코딩 포인터 체인)
-               ▼
+               ^
+               |          [RDBMS]
+      높음     |         (SQL: 논리적 매칭)
+               |                 *
+               |
+      중간     |                          [Graph DB]
+               |                         (패턴 매칭 + 엣지 포인터)
+               |                                *
+               +-----------------------------------------> [탐색 성능 (조인 속도)]
+               |                  *
+      낮음     |          [망형 모델]           (Index-Free 고속 연결)
+               |   (하드코딩 포인터 체인)
+               v
 ```
 
 이 분석 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 역사의 변증법적 진화를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다. 망형 모델은 탐색 속도는 빠르지만 유연성이 바닥이라 도태되었다. RDBMS는 유연성을 극대화했으나 대량의 딥 조인(Deep [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기하급수적으로 저하된다. 현대의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB(Neo4j)는 망형 모델의 포인터 연결 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 아이디어([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)-Free [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))를 차용하되, RDBMS처럼 선언적 질의어(Cypher)를 덧씌워 두 마리 토끼([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 유연성)를 모두 잡은 아키텍처 진화의 결과물임을 알 수 있다.
@@ -136,17 +136,17 @@ tags = ["database"]
 [그림 4: 딥 조인(Deep Join) 요건 발생 시 아키텍처 분기 의사결정 트리]
 
 [데이터 요건: 여러 테이블 간의 복잡한 다대다 연결 및 다단계 탐색 필요]
-               │
-               ▼
+               |
+               v
 [조인의 깊이(Depth)와 탐색 관계의 빈도가 어느 정도인가?]
-       ├─ Depth 2~3 이내 (일반적 업무 요건)
-       │       ▼
-       │  [RDBMS 유지] ──> 중간 매핑 테이블(Intersection) 설계 및 인덱스 튜닝
-       │
-       └─ Depth 4 이상 또는 관계(연결) 자체가 핵심 비즈니스인 경우 (추천, 사기탐지 등)
-               ▼
-   [그래프 모델 적용 검토] ──> 과거 망형 모델의 후예인 Neo4j 등 Graph DB 도입
-               │               (Index-Free Adjacency로 조인 연산 오버헤드 완벽 회피)
+       +- Depth 2~3 이내 (일반적 업무 요건)
+       |       v
+       |  [RDBMS 유지] --> 중간 매핑 테이블(Intersection) 설계 및 인덱스 튜닝
+       |
+       +- Depth 4 이상 또는 관계(연결) 자체가 핵심 비즈니스인 경우 (추천, 사기탐지 등)
+               v
+   [그래프 모델 적용 검토] --> 과거 망형 모델의 후예인 Neo4j 등 Graph DB 도입
+               |               (Index-Free Adjacency로 조인 연산 오버헤드 완벽 회피)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)' 깊이에 따라 RDB로 버틸지, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반의 모델로 아키텍처를 전환할지를 결정하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. 조인이 깊어질수록 RDBMS는 지수적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 겪는 반면, 포인터를 따라가는 망형/[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 아키텍처는 깊이와 무관하게 선형적인 탐색 속도를 유지한다는 시스템 구조적 차이에 기인한 판단이다.
@@ -175,17 +175,17 @@ tags = ["database"]
 
 ```text
 [계층형 데이터 모델 (Hierarchical Model) — 트리 구조, 1:N 단일 부모 제약]
-    │
-    ▼
+    |
+    v
 [망형 데이터 모델 (Network Model / CODASYL) — 포인터 기반 N:M 관계 허용]
-    │
-    ▼
+    |
+    v
 [관계형 데이터 모델 (Relational Model) — 수학적 테이블, SQL 선언적 질의]
-    │
-    ▼
+    |
+    v
 [객체지향 DB (OODB) — 복잡한 객체와 메서드를 직접 영속화]
-    │
-    ▼
+    |
+    v
 [그래프 데이터베이스 (Graph DB) — 노드-엣지 구조로 딥 조인 성능 한계 극복]
 ```
 이 흐름은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이 물리적 포인터 복잡성의 한계를 반성하고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델로 수렴되었다가, 고도로 연결된 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 딥 탐색 요건에 부응하여 [그래프 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)환하는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 패러다임의 순환 진화를 보여준다.
@@ -201,7 +201,7 @@ tags = ["database"]
 
 **진행 상황**: 16 / 600
 
-← **이전**: [15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)](/knowledge-base/studynote/05_database/01_db_architecture_relational/015_hierarchical_data_model/)
-**다음**: [17. 관계형 데이터 모델 (Relational Model) - 테이블 구조, E.F. Codd 제안](/knowledge-base/studynote/05_database/01_db_architecture_relational/017_relational_data_model/) →
+<- **이전**: [15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)](/knowledge-base/studynote/05_database/01_db_architecture_relational/015_hierarchical_data_model/)
+**다음**: [17. 관계형 데이터 모델 (Relational Model) - 테이블 구조, E.F. Codd 제안](/knowledge-base/studynote/05_database/01_db_architecture_relational/017_relational_data_model/) ->
 
 ---

@@ -38,22 +38,22 @@ tags = ["studynote-ai"]
 | Restore Best Weights | 최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원 | 인내심 구간이 끝나 강제 종료될 때, 가장 오차가 낮았던 과거 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 되돌린다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           조기 종료의 작동 원리 (Loss Curve)                 │
-├──────────────────────────────────────────────────────────────┤
-│ Loss                                                         │
-│  │                                 [과적합 발생 구간]          │
-│  │                                 ↗ (Validation Loss)       │
-│  │ 훈련 시작                  ↗                              │
-│  │   ↘                  Sweet Spot                           │
-│  │     ↘              ↗ (최적점)                             │
-│  │       ↘          ● ── Patience(5회) ──▶ 강제 종료 &      │
-│  │         ↘      ↙                        Best 모델 복원    │
-│  │           ↘  ↙                                            │
-│  │             ↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)               │
-│  └───────────────────────────────────────────────────────────│
-│                              Epochs                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           조기 종료의 작동 원리 (Loss Curve)                 |
++--------------------------------------------------------------+
+| Loss                                                         |
+|  |                                 [과적합 발생 구간]          |
+|  |                                 ↗ (Validation Loss)       |
+|  | 훈련 시작                  ↗                              |
+|  |   ↘                  Sweet Spot                           |
+|  |     ↘              ↗ (최적점)                             |
+|  |       ↘          ● -- Patience(5회) ---> 강제 종료 &      |
+|  |         ↘      ↙                        Best 모델 복원    |
+|  |           ↘  ↙                                            |
+|  |             ↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)               |
+|  +-----------------------------------------------------------|
+|                              Epochs                          |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 최적점(Sweet Spot)에서 즉시 학습을 멈추지 않고 Patience 횟수만큼 더 지켜본 뒤, 진짜 상승세임이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 타임머신을 타고 Sweet Spot 시점의 모델 상태를 복원(Restore)한다는 점이다.
@@ -120,17 +120,17 @@ L2 규제나 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropo
 
 ```text
 비용 함수 (Loss Function) · 에폭 (Epoch)
-    │
-    ▼
+    |
+    v
 과적합 (Overfitting) 발생 · 일반화 성능 저하
-    │
-    ▼
+    |
+    v
 검증 세트 분리 (Validation Set Split)
-    │
-    ▼
+    |
+    v
 조기 종료 (Early Stopping) 도입 · Patience 최적화
-    │
-    ▼
+    |
+    v
 L2 규제 / Dropout 결합 최적화 (Regularization Synergy)
 ```
 
@@ -146,7 +146,7 @@ L2 규제 / Dropout 결합 최적화 (Regularization Synergy)
 
 **진행 상황**: 93 / 420
 
-← **이전**: [92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제](/knowledge-base/studynote/10_ai/01_ai_basics/092_dropout_regularization_overfitting_prevention/)
-**다음**: [94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화](/knowledge-base/studynote/10_ai/01_ai_basics/094_batch_normalization_internal_covariate_shift/) →
+<- **이전**: [92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제](/knowledge-base/studynote/10_ai/01_ai_basics/092_dropout_regularization_overfitting_prevention/)
+**다음**: [94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화](/knowledge-base/studynote/10_ai/01_ai_basics/094_batch_normalization_internal_covariate_shift/) ->
 
 ---

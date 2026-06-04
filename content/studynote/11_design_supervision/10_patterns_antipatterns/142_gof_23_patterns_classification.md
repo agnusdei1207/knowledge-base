@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 23개 패턴을 한꺼번에 암기하면 서로 비슷해 보이기 쉽다. 그래서 GoF는 패턴을 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Creational), 구조(Structural), 행위(Behavioral)</strong> 세 범주로 나누었다. 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순한 목록 정리가 아니라 지금 마주한 문제가 어떤 차원의 문제인가를 빠르게 판단하게 하는 사고 프레임이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    GoF 23 패턴 분류가 필요한 이유                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ 설계 문제 발생                                                       │
-│    │                                                                 │
-│    ├── 객체를 어떻게 만들지? ───────────────▶ 생성 패턴               │
-│    ├── 객체를 어떻게 조합할지? ─────────────▶ 구조 패턴               │
-│    └── 객체가 어떻게 협력할지? ────────────▶ 행위 패턴               │
-│                                                                      │
-│ 결과: 23개 전체를 외우기보다 문제 유형별 후보를 먼저 좁힐 수 있음    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    GoF 23 패턴 분류가 필요한 이유                    |
++----------------------------------------------------------------------+
+| 설계 문제 발생                                                       |
+|    |                                                                 |
+|    +-- 객체를 어떻게 만들지? ----------------> 생성 패턴               |
+|    +-- 객체를 어떻게 조합할지? --------------> 구조 패턴               |
+|    +-- 객체가 어떻게 협력할지? -------------> 행위 패턴               |
+|                                                                      |
+| 결과: 23개 전체를 외우기보다 문제 유형별 후보를 먼저 좁힐 수 있음    |
++----------------------------------------------------------------------+
 ```
 
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없으면 유사한 패턴을 혼동하기 쉽다. 예를 들어 Strategy와 Bridge는 둘 다 합성을 쓰지만, 하나는 행위 교체이고 다른 하나는 구조 분리다. 이런 혼동을 줄이는 가장 좋은 출발점이 바로 범주 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)다.
@@ -46,18 +46,18 @@ tags = ["studynote-design-supervision"]
 GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 세 개의 질문으로 기억하면 가장 쉽다. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a></strong>은 객체를 어떻게 만들까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">구조 패턴</a></strong>은 객체를 어떻게 묶을까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">행위 패턴</a></strong>은 객체가 어떻게 협력할까에 답한다. 즉 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준은 패턴의 모양이 아니라 해결하려는 설계 초점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      GoF 23 패턴 3분류 구조                          │
-├──────────────────────────┬──────────────────────────┬────────────────┤
-│ 생성 패턴 (5)            │ 구조 패턴 (7)            │ 행위 패턴 (11) │
-│ create objects           │ compose objects          │ coordinate acts │
-├──────────────────────────┼──────────────────────────┼────────────────┤
-│ Abstract Factory         │ Adapter                  │ Observer        │
-│ Builder                  │ Bridge                   │ Strategy        │
-│ Factory Method           │ Composite                │ Command         │
-│ Prototype                │ Decorator                │ State           │
-│ Singleton                │ Facade / Proxy / ...     │ Template / ...  │
-└──────────────────────────┴──────────────────────────┴────────────────┘
++----------------------------------------------------------------------+
+|                      GoF 23 패턴 3분류 구조                          |
++--------------------------+--------------------------+----------------+
+| 생성 패턴 (5)            | 구조 패턴 (7)            | 행위 패턴 (11) |
+| create objects           | compose objects          | coordinate acts |
++--------------------------+--------------------------+----------------+
+| Abstract Factory         | Adapter                  | Observer        |
+| Builder                  | Bridge                   | Strategy        |
+| Factory Method           | Composite                | Command         |
+| Prototype                | Decorator                | State           |
+| Singleton                | Facade / Proxy / ...     | Template / ...  |
++--------------------------+--------------------------+----------------+
 ```
 
 | 범주 | 핵심 질문 | 대표 패턴 |
@@ -144,15 +144,15 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 ```text
 반복 설계 문제
-    │
-    ▼
+    |
+    v
 문제 축 분류
-    │
-    ├──▶ 생성 패턴 (5)
-    ├──▶ 구조 패턴 (7)
-    └──▶ 행위 패턴 (11)
-            │
-            ▼
+    |
+    +---> 생성 패턴 (5)
+    +---> 구조 패턴 (7)
+    +---> 행위 패턴 (11)
+            |
+            v
 적합 패턴 후보 선정 · 오용 감소 · 설계 설명력 향상
 ```
 
@@ -170,7 +170,7 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 **진행 상황**: 198 / 530
 
-← **이전**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/)
-**다음**: [143. 생성 패턴의 목적 (Creational Patterns Purpose)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/143_creational_patterns_purpose/) →
+<- **이전**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/)
+**다음**: [143. 생성 패턴의 목적 (Creational Patterns Purpose)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/143_creational_patterns_purpose/) ->
 
 ---

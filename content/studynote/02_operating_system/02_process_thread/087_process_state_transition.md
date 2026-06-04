@@ -40,11 +40,11 @@ tags = ["studynote-operating-system"]
 | Terminated | 실행이 끝난 상태 | exit |
 
 ```text
-New ──admit──► Ready ──dispatch──► Running ──exit──► Terminated
-                 ▲                   │
-                 │                   ├──I/O 요청──► Waiting
-                 │                   │                  │
-                 └──event complete───┴────ready─────────┘
+New --admit--► Ready --dispatch--► Running --exit--► Terminated
+                 ^                   |
+                 |                   +--I/O 요청--► Waiting
+                 |                   |                  |
+                 +--event complete---+----ready---------+
 ```
 
 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 단순한 라벨이 아니라, 큐 이동과 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 포함한 스케줄링 계약이다.
@@ -112,14 +112,14 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
     ### 📈 관련 키워드 및 발전 흐름도
 
     생성(New)
-    │
-    ▼
-준비(Ready) ──► 실행(Running)
-    │             │
-    │             ├──I/O 요청──► 대기(Waiting)
-    │             │                  │
-    │             └──종료──────────► 종료(Terminated)
-    └────────────event complete◄─────┘
+    |
+    v
+준비(Ready) --► 실행(Running)
+    |             |
+    |             +--I/O 요청--► 대기(Waiting)
+    |             |                  |
+    |             +--종료----------► 종료(Terminated)
+    +------------event complete◄-----+
 
     ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -133,7 +133,7 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
 
 **진행 상황**: 87 / 800
 
-← **이전**: [86. 프로세스 상태 (Process State)](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/)
-**다음**: [88. 준비 큐 (Ready Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) →
+<- **이전**: [86. 프로세스 상태 (Process State)](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/)
+**다음**: [88. 준비 큐 (Ready Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ->
 
 ---

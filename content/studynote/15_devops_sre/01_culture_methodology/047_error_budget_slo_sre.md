@@ -29,14 +29,14 @@ SLO (Service Level Objective):
   내부 목표 (계약 아님)
   예: "요청 성공률 SLO = 99.9%"
 
-  → 현재 99.95% > 99.9% → SLO 준수 ✅
+  -> 현재 99.95% > 99.9% -> SLO 준수 ✅
 
 SLA (Service Level Agreement):
   고객과의 외부 계약
   예: "가용성 99.9% 보장 (SLA)"
 
   SLO > SLA 설정: 완충 지대
-  (SLO 위반 → 경고, SLA 위반 → 계약 페널티)
+  (SLO 위반 -> 경고, SLA 위반 -> 계약 페널티)
 
 Error Budget:
   SLO에서 허용되는 오류 총량
@@ -54,10 +54,10 @@ Error Budget:
   남은 예산 = 43.2 - 30 = 13.2분 (70.4% 소진)
 
 Error Budget 소진율:
-  빠른 소진 → 릴리스 속도 감소
-  느린 소진 → 더 빠른 릴리스 가능
+  빠른 소진 -> 릴리스 속도 감소
+  느린 소진 -> 더 빠른 릴리스 가능
 
-  소진율 100% → SLO 위반
+  소진율 100% -> SLO 위반
 ```
 
 > 📢 **섹션 요약 비유**: Error Budget은 월 용돈 — 99.9% [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 한 달 43.2분 용돈. 장애마다 용돈이 줄어요. 다 쓰면([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 위반) 다음 달까지 조심해야(릴리스 중단)!
@@ -76,24 +76,24 @@ Error Budget Policy (오류 예산 정책):
 정책 구성 예:
 
 오류 예산 소진율 0~50%:
-  → 정상 릴리스 계속
-  → 기능 개발 속도 유지
+  -> 정상 릴리스 계속
+  -> 기능 개발 속도 유지
 
 오류 예산 소진율 50~75%:
-  → 릴리스 검토 강화
-  → 고위험 변경 차단
-  → 신규 기능 대신 안정성 작업 일부 투입
+  -> 릴리스 검토 강화
+  -> 고위험 변경 차단
+  -> 신규 기능 대신 안정성 작업 일부 투입
 
 오류 예산 소진율 75~100%:
-  → 릴리스 속도 50% 감소
-  → 안정성 이슈 우선 해결
-  → 피처 플래그(Feature Flag) 활용 점진적 배포
+  -> 릴리스 속도 50% 감소
+  -> 안정성 이슈 우선 해결
+  -> 피처 플래그(Feature Flag) 활용 점진적 배포
 
 오류 예산 완전 소진 (100%):
-  → 기능 개발 중단 (릴리스 프리즈)
-  → 모든 리소스 안정성에 투입
-  → 포스트모텀 + 개선 계획 필수
-  → 다음 달 SLO 검토
+  -> 기능 개발 중단 (릴리스 프리즈)
+  -> 모든 리소스 안정성에 투입
+  -> 포스트모텀 + 개선 계획 필수
+  -> 다음 달 SLO 검토
 
 정책 합의 주체:
   개발팀 + SRE팀 + 제품 관리자
@@ -103,7 +103,7 @@ Error Budget Policy (오류 예산 정책):
 핵심 효과:
   개발팀: "왜 빨리 배포 못 해요?"
   SRE팀: "오류 예산 90% 소진했잖아요"
-  → 주관적 갈등 → 객관적 데이터 기반 대화
+  -> 주관적 갈등 -> 객관적 데이터 기반 대화
 ```
 
 > 📢 **섹션 요약 비유**: [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) Policy는 지출 규칙 — 용돈(예산) 50% 쓰면 사치품(고위험 릴리스) 금지, 75% 쓰면 필수품만, 다 쓰면 소비 완전 중단. 명확한 규칙!
@@ -129,7 +129,7 @@ Google SRE 골든 시그널 (4 Golden Signals):
   HTTP RPS, 초당 트랜잭션
 
   SLI 예: RPS (성능 용량 SLI)
-  트래픽 급증 탐지 → 자동 스케일링 트리거
+  트래픽 급증 탐지 -> 자동 스케일링 트리거
 
 3. 에러 (Errors):
   요청 실패율
@@ -232,24 +232,24 @@ SLO: 성공률 99.95%, P99 < 500ms
   P99 Budget = 별도 추적
 
 1주차:
-  배포 3회 → 장애 없음
+  배포 3회 -> 장애 없음
   성공률: 99.97%
   Budget 소진: 5.4분 (25% 소진)
-  → 정상 범위
+  -> 정상 범위
 
 2주차:
-  대형 기능 배포 → DB 쿼리 오류 30분
+  대형 기능 배포 -> DB 쿼리 오류 30분
   성공률: 99.92% (SLO 위반!)
   Budget 완전 소진 + 초과
 
 Error Budget Policy 발동:
-  Budget 소진 100% → 릴리스 프리즈 선언
+  Budget 소진 100% -> 릴리스 프리즈 선언
 
   3주차:
   기능 개발 중단
   원인 분석:
-  → DB 인덱스 미생성 쿼리 → 전체 테이블 스캔
-  → 트래픽 증가 시 타임아웃
+  -> DB 인덱스 미생성 쿼리 -> 전체 테이블 스캔
+  -> 트래픽 증가 시 타임아웃
 
   해결:
   인덱스 추가, 쿼리 최적화, DB 읽기 복제 추가
@@ -263,7 +263,7 @@ Error Budget Policy 발동:
   대책:
   1. 배포 전 부하 테스트 의무화
   2. DB 쿼리 플랜 검토 체크리스트
-  3. 점진적 배포 (Canary: 1% → 10% → 100%)
+  3. 점진적 배포 (Canary: 1% -> 10% -> 100%)
 
 결과:
   이후 3개월: SLO 위반 0건
@@ -339,7 +339,7 @@ ML 기반 이상 탐지
 
 **진행 상황**: 47 / 373
 
-← **이전**: [046. ChatOps — 봇 기반 협업 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/)
-**다음**: [048. MLOps — 머신러닝 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/) →
+<- **이전**: [046. ChatOps — 봇 기반 협업 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/)
+**다음**: [048. MLOps — 머신러닝 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/) ->
 
 ---

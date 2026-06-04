@@ -32,25 +32,25 @@ tags = ["studynote-ai"]
 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) $W$는 매 스텝(Epoch)마다 미분값의 반대 방향으로 갱신된다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘 │
-├────────────────────────────────────────────────────────┤
-│   [ 공식 ]                                             │
-│   새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기)      │
-│   W_new  =  W_old - ( α × ∂L / ∂W )                    │
-│                                                        │
-│   [ 하산(학습)의 과정 ]                                    │
-│    (오차 山 꼭대기)                                       │
-│       🔴 (초기 W) 기울기가 크다! ──▶ 보폭을 크게 성큼성큼 이동  │
-│         ↘                                             │
-│           ↘  (중간 W) 기울기가 줄어든다 ──▶ 보폭을 점점 줄임 │
-│             ↘                                         │
-│               🔴 (바닥 도달, 최적 해) 기울기가 0! ──▶ 스톱(Stop)│
-│                                                        │
-│ * 핵심 논리: 알파(α, Learning Rate)가 너무 크면 맹인이 성큼 걷다가│
-│   반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,│
-│   너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연).   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘 |
++--------------------------------------------------------+
+|   [ 공식 ]                                             |
+|   새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기)      |
+|   W_new  =  W_old - ( α × ∂L / ∂W )                    |
+|                                                        |
+|   [ 하산(학습)의 과정 ]                                    |
+|    (오차 山 꼭대기)                                       |
+|       🔴 (초기 W) 기울기가 크다! ---> 보폭을 크게 성큼성큼 이동  |
+|         ↘                                             |
+|           ↘  (중간 W) 기울기가 줄어든다 ---> 보폭을 점점 줄임 |
+|             ↘                                         |
+|               🔴 (바닥 도달, 최적 해) 기울기가 0! ---> 스톱(Stop)|
+|                                                        |
+| * 핵심 논리: 알파(α, Learning Rate)가 너무 크면 맹인이 성큼 걷다가|
+|   반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,|
+|   너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연).   |
++--------------------------------------------------------+
 ```
 
 **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)의 거버넌스**: 이 한 발짝의 보폭 크기를 정하는 것은 딥러닝 아키텍트의 가장 고통스러운 하이퍼파라미터(Hyperparameter) 튜닝 작업이다. 아무리 코드를 잘 짜도 보폭 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 실패하면 AI는 영원히 정답을 찾지 못하고 헛발질만 한다.
@@ -113,21 +113,21 @@ tags = ["studynote-ai"]
 
 ```text
 신경망의 가중치 최적화를 위한 해석적 수학 공식 부재 (연산량 폭발)
-    │
-    ▼
-수치적 최적화 ──▶ 미분을 활용한 오리지널 경사 하강법 (Gradient Descent) 도입
-    │
-    ▼
-연산 지연 및 웅덩이(Local Minimum) 갇힘 현상 ──▶ 미니배치(Mini-batch) 및 관성(Momentum) 추가
-    │
-    ▼
-파라미터별 학습률 조절 필요성 ──▶ AdaGrad, RMSProp 등장
-    │
-    ▼
-현존 최고 스펙의 융합 엔진 ──▶ Adam (Adaptive Moment Estimation) 옵티마이저로 생태계 통일
+    |
+    v
+수치적 최적화 ---> 미분을 활용한 오리지널 경사 하강법 (Gradient Descent) 도입
+    |
+    v
+연산 지연 및 웅덩이(Local Minimum) 갇힘 현상 ---> 미니배치(Mini-batch) 및 관성(Momentum) 추가
+    |
+    v
+파라미터별 학습률 조절 필요성 ---> AdaGrad, RMSProp 등장
+    |
+    v
+현존 최고 스펙의 융합 엔진 ---> Adam (Adaptive Moment Estimation) 옵티마이저로 생태계 통일
 ```
 
-이 흐름도는 "원초적인 방향 탐색 → 속도 가속(관성) 도입 → 지형에 따른 보폭의 지능형 제어 → 모든 기술의 완전체([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) 탄생"이라는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하산 네비게이션 기술의 진화를 보여준다.
+이 흐름도는 "원초적인 방향 탐색 -> 속도 가속(관성) 도입 -> 지형에 따른 보폭의 지능형 제어 -> 모든 기술의 완전체([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) 탄생"이라는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하산 네비게이션 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 79 / 420
 
-← **이전**: [78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산](/knowledge-base/studynote/10_ai/01_ai_basics/078_backpropagation_chain_rule_gradient/)
-**다음**: [080. 학습률 (Learning Rate in Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) →
+<- **이전**: [78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산](/knowledge-base/studynote/10_ai/01_ai_basics/078_backpropagation_chain_rule_gradient/)
+**다음**: [080. 학습률 (Learning Rate in Gradient Descent)](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ->
 
 ---

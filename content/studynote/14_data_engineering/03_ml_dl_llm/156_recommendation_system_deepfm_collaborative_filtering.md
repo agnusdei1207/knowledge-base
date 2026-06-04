@@ -40,36 +40,36 @@ tags = ["studynote-data-engineering"]
 [DeepFM 아키텍처]
 
 입력 특징 (사용자 ID, 아이템 ID, 장르, 시간대, ...)
-             │
-     임베딩 레이어 (고차원 → 저차원 벡터)
-             │
-     ┌───────┴───────┐
-     │               │
+             |
+     임베딩 레이어 (고차원 -> 저차원 벡터)
+             |
+     +-------+-------+
+     |               |
   FM 컴포넌트      Deep 컴포넌트
   (2차 상호작용)  (고차 상호작용)
-  ∑ᵢ∑ⱼ<vᵢ,vⱼ>    FC → FC → FC
+  ∑ᵢ∑ⱼ<vᵢ,vⱼ>    FC -> FC -> FC
   xᵢxⱼ           (ReLU 활성화)
-     │               │
-     └───────┬───────┘
-             │
+     |               |
+     +-------+-------+
+             |
           Sigmoid
-             │
+             |
        CTR 예측값 (클릭률)
 
 [Two-Tower 모델]
 
 사용자 특징          아이템 특징
 (이력, 나이, 성별)   (장르, 가격, 태그)
-      │                    │
+      |                    |
 사용자 인코더          아이템 인코더
-      │                    │
+      |                    |
 사용자 임베딩          아이템 임베딩
-      │                    │
-      └──────┬─────────────┘
-             │
+      |                    |
+      +------+-------------+
+             |
     내적 (Dot Product)
-             │
-        유사도 점수 → 추천
+             |
+        유사도 점수 -> 추천
 ```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/">Matrix Factorization</a>)</strong>
@@ -91,8 +91,8 @@ tags = ["studynote-data-engineering"]
 | 해석 가능성 | 보통 | 높음 | ❌ 낮음 |
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> 파이프라인 (대규모)</strong>
-1. 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Candidate Generation): 수백만 → 수백개 Two-Tower
-2. 랭킹 (Ranking): 수백 → Top-10 DeepFM/DIN
+1. 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Candidate Generation): 수백만 -> 수백개 Two-Tower
+2. 랭킹 (Ranking): 수백 -> Top-10 DeepFM/DIN
 3. 재랭킹 (Re-ranking): 다양성·신선도·비즈니스 규칙 적용
 
 📢 **섹션 요약 비유**: 대규모 추천은 도서관에서 관련 책 수백 권을 먼저 추리고(후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 그 중 가장 내 취향인 10권을 고르는(랭킹) 2단계 과정이다.
@@ -141,22 +141,22 @@ tags = ["studynote-data-engineering"]
 
 ```text
 콘텐츠 기반 필터링 (Content-Based)
-    │
-    ▼
+    |
+    v
 협업 필터링 (Collaborative Filtering)
-    ├─► 사용자 기반 / 아이템 기반
-    └─► 행렬 분해 (SVD · ALS)
-    │
-    ▼
+    +-► 사용자 기반 / 아이템 기반
+    +-► 행렬 분해 (SVD · ALS)
+    |
+    v
 딥러닝 추천 모델
-    ├─► Wide & Deep (Google) — 암기 + 일반화
-    ├─► DeepFM — FM + DNN 결합
-    └─► DIN · DIEN — 사용자 행동 시퀀스 모델링
-    │
-    ▼
-콜드 스타트 → 그래프 기반 (GNN) 추천
-    │
-    ▼
+    +-► Wide & Deep (Google) — 암기 + 일반화
+    +-► DeepFM — FM + DNN 결합
+    +-► DIN · DIEN — 사용자 행동 시퀀스 모델링
+    |
+    v
+콜드 스타트 -> 그래프 기반 (GNN) 추천
+    |
+    v
 LLM 기반 대화형 추천 (Conversational RecSys)
 ```
 
@@ -166,7 +166,7 @@ LLM 기반 대화형 추천 (Conversational RecSys)
 
 **진행 상황**: 156 / 258
 
-← **이전**: [155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/155_ai_agents_function_calling_agentic_loop/)
-**다음**: [157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/) →
+<- **이전**: [155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/155_ai_agents_function_calling_agentic_loop/)
+**다음**: [157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/) ->
 
 ---

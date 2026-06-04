@@ -31,29 +31,29 @@ tags = ["studynote-software-engineering"]
 모든 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크가 공통적으로 해결하려는 핵심 원리는 <strong>'정렬(Alignment)'</strong>과 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)'</strong>라는 두 개의 축으로 이루어져 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 전사 비전 정렬 (Alignment) ]                                 │
-│  최고 경영진 (Portfolio Vision) ──▶ 비즈니스 에픽 (Epic) 할당     │
-│                                                              │
-│ [ 박동 동기화 (Synchronization) ]                               │
-│  모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측 │
-│                                                              │
-│      (PI Planning: 합동 의존성 계획 회의)                        │
-│      ┌─────────┐   ┌─────────┐   ┌─────────┐                 │
-│      │ 스프린트 1│   │ 스프린트 2│   │ 스프린트 3│                 │
-│ Team A ├─────────┤   ├─────────┤   ├─────────┤                 │
-│        │ API 개발│─┐ │         │   │         │                 │
-│        └─────────┘ │ └─────────┘   └─────────┘                 │
-│                    │   의존성 연결 (Wait!)                       │
-│        ┌─────────┐ │ ┌─────────┐   ┌─────────┐                 │
-│ Team B │대기/다른일│ └▶│결제 연동│   │         │                 │
-│        └─────────┘   └─────────┘   └─────────┘                 │
-│                                                              │
-│ 핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제          |
++--------------------------------------------------------------+
+|                                                              |
+| [ 전사 비전 정렬 (Alignment) ]                                 |
+|  최고 경영진 (Portfolio Vision) ---> 비즈니스 에픽 (Epic) 할당     |
+|                                                              |
+| [ 박동 동기화 (Synchronization) ]                               |
+|  모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측 |
+|                                                              |
+|      (PI Planning: 합동 의존성 계획 회의)                        |
+|      +---------+   +---------+   +---------+                 |
+|      | 스프린트 1|   | 스프린트 2|   | 스프린트 3|                 |
+| Team A +---------+   +---------+   +---------+                 |
+|        | API 개발|-+ |         |   |         |                 |
+|        +---------+ | +---------+   +---------+                 |
+|                    |   의존성 연결 (Wait!)                       |
+|        +---------+ | +---------+   +---------+                 |
+| Team B |대기/다른일| +->|결제 연동|   |         |                 |
+|        +---------+   +---------+   +---------+                 |
+|                                                              |
+| 핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄    |
++--------------------------------------------------------------+
 ```
 
 1. **정렬 (Alignment)**: 100개의 보트([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀)가 각자 노를 젓는 것이 아니라, 전사적 포트폴리오 백로그를 최상위에 두고 이를 잘게 쪼개 각 팀에 하향식으로 뿌려준다. 모든 팀은 지금 자신이 짜는 코드 한 줄이 회사의 어떤 전략적 목표에 기여하는지 완벽하게 인지한다.
@@ -115,20 +115,20 @@ SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과
 
 ```text
 소규모 애자일 한계 봉착 (단일 팀 스크럼)
-    │
-    ▼
+    |
+    v
 팀 간 의존성 충돌 및 전사 비전 불일치 발생
-    │
-    ▼
+    |
+    v
 기본 확장 체계 도입 (Scrum of Scrums 회의체 적용)
-    │
-    ▼
+    |
+    v
 대규모 프레임워크 공식화 (SAFe, LeSS, Nexus 등)
-    │
-    ▼
+    |
+    v
 거시적 비전 정렬 (PI Planning) 및 통합 파이프라인 (ART) 구동
-    │
-    ▼
+    |
+    v
 마이크로서비스(MSA)와 융합된 자율적 애자일 조직(Spotify Model)으로 발전
 ```
 
@@ -144,7 +144,7 @@ SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과
 
 **진행 상황**: 92 / 973
 
-← **이전**: [91. 피벗 (Pivot) - 전략적 방향 전환](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/091_lean_startup_pivot/)
-**다음**: [93. SAFe (Scaled Agile Framework) - 기업용 대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) →
+<- **이전**: [91. 피벗 (Pivot) - 전략적 방향 전환](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/091_lean_startup_pivot/)
+**다음**: [93. SAFe (Scaled Agile Framework) - 기업용 대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ->
 
 ---

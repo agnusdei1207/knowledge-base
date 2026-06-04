@@ -26,17 +26,17 @@ JPA (Java Persistence [API](/knowledge-base/studynote/02_operating_system/01_ove
 
 ```
 Vehicle (추상 부모)
- ├── Car       (doors, fuelType 컬럼)
- ├── Truck     (payload, trailerHitch 컬럼)
- └── Motorcycle (hasSidecar 컬럼)
+ +-- Car       (doors, fuelType 컬럼)
+ +-- Truck     (payload, trailerHitch 컬럼)
+ +-- Motorcycle (hasSidecar 컬럼)
 ```
 
 각 클래스가 별도 테이블을 갖고, 자식 테이블의 `id`는 부모 `vehicles.id`를 참조한다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 병원에서 기본 진료 기록(부모 테이블)은 모든 환자가 공유하고, 외과·내과·소아과는 각자의 전문 차트(자식 테이블)를 추가로 가지는 것과 같다.
@@ -45,28 +45,28 @@ Vehicle (추상 부모)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌───────────────────────────────────────────────────────────────────┐
-│              Class Table Inheritance 테이블 구조                   │
-│                                                                   │
-│  vehicles (부모 테이블)                                            │
-│  ┌─────┬────────────┬──────────────┬──────────────────────────┐   │
-│  │ id  │ type       │ make         │ model                    │   │
-│  ├─────┼────────────┼──────────────┼──────────────────────────┤   │
-│  │  1  │ Car        │ Toyota       │ Camry                    │   │
-│  │  2  │ Truck      │ Ford         │ F-150                    │   │
-│  │  3  │ Motorcycle │ Honda        │ CBR500                   │   │
-│  └─────┴────────────┴──────────────┴──────────────────────────┘   │
-│          │                  │                     │               │
-│          ▼                  ▼                     ▼               │
-│  cars                 trucks              motorcycles             │
-│  ┌───────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
-│  │ id(FK) │ doors│  │ id(FK) │ payload │  │ id(FK)│ sidecar  │   │
-│  ├────────┼──────┤  ├────────┼─────────┤  ├───────┼──────────┤   │
-│  │   1    │   4  │  │   2    │  1500kg │  │   3   │  false   │   │
-│  └────────┴──────┘  └────────┴─────────┘  └───────┴──────────┘   │
-│                                                                   │
-│  ※ 자식 id = 부모 id (FK이자 PK)                                  │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|              Class Table Inheritance 테이블 구조                   |
+|                                                                   |
+|  vehicles (부모 테이블)                                            |
+|  +-----+------------+--------------+--------------------------+   |
+|  | id  | type       | make         | model                    |   |
+|  +-----+------------+--------------+--------------------------+   |
+|  |  1  | Car        | Toyota       | Camry                    |   |
+|  |  2  | Truck      | Ford         | F-150                    |   |
+|  |  3  | Motorcycle | Honda        | CBR500                   |   |
+|  +-----+------------+--------------+--------------------------+   |
+|          |                  |                     |               |
+|          v                  v                     v               |
+|  cars                 trucks              motorcycles             |
+|  +---------------+  +------------------+  +------------------+   |
+|  | id(FK) | doors|  | id(FK) | payload |  | id(FK)| sidecar  |   |
+|  +--------+------+  +--------+---------+  +-------+----------+   |
+|  |   1    |   4  |  |   2    |  1500kg |  |   3   |  false   |   |
+|  +--------+------+  +--------+---------+  +-------+----------+   |
+|                                                                   |
+|  ※ 자식 id = 부모 id (FK이자 PK)                                  |
++-------------------------------------------------------------------+
 ```
 
 ```java
@@ -166,7 +166,7 @@ List<Car> cars = carRepository.findByDoorsGreaterThan(2);
 CTI 패턴의 실무 적용 판단:
 
 **장점 요약**:
-- [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 최고
+- [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 최고
 - 서브타입별 NOT NULL, CHECK 제약 적용 가능
 - 새 서브타입 추가가 기존 테이블에 영향 없음
 
@@ -193,7 +193,7 @@ CTI 패턴의 실무 적용 판단:
 | 연관 개념 | JPA @Inheritance(JOINED) | Java 구현 어노테이션 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 → 클래스 테이블 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) → joined inheritance tuning
+[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 -> 클래스 테이블 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) -> joined inheritance tuning
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 학교 기록부(부모 테이블)에는 이름·학번만 쓰고, 각 동아리(자식 테이블)마다 자기 활동 기록을 따로 써.
@@ -206,7 +206,7 @@ CTI 패턴의 실무 적용 판단:
 
 **진행 상황**: 299 / 530
 
-← **이전**: [237. 싱글 테이블 상속 (Single Table Inheritance, STI)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/237_single_table_inheritance/)
-**다음**: [239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/) →
+<- **이전**: [237. 싱글 테이블 상속 (Single Table Inheritance, STI)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/237_single_table_inheritance/)
+**다음**: [239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/) ->
 
 ---

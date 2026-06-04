@@ -33,10 +33,10 @@ Pod는 보통 애플리케이션 [컨테이너](/knowledge-base/studynote/04_sof
 
 ```text
 Pod
-├─ app container
-├─ sidecar container
-├─ init container
-└─ shared volume / shared IP
++- app container
++- sidecar container
++- init container
++- shared volume / shared IP
 ```
 
 | 구성 요소 | 역할 |
@@ -111,13 +111,13 @@ Pod
 
 ```text
 Container Image
-   ↓
+   v
 Pod 생성
-   ↓
+   v
 같은 IP / 볼륨 공유
-   ↓
+   v
 Node에 스케줄링
-   ↓
+   v
 Deployment가 복제 및 롤링 업데이트
 ```
 
@@ -133,7 +133,7 @@ Deployment가 복제 및 롤링 업데이트
 
 **진행 상황**: 84 / 371
 
-← **이전**: [84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/)
-**다음**: [86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) →
+<- **이전**: [84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/)
+**다음**: [86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) ->
 
 ---

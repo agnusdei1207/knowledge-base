@@ -28,7 +28,7 @@ tags = ["studynote-ai"]
 | 연봉 | 2000만 ~ 1억 | 큰 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 지배 |
 | BMI | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ~ 40 | 중간 값 |
 
-→ 스케일링 없이 경사하강법 적용 시 연봉 방향으로 기울어진 손실 지형(Loss Landscape) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 수렴 속도 저하 또는 발산
+-> 스케일링 없이 경사하강법 적용 시 연봉 방향으로 기울어진 손실 지형(Loss Landscape) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 수렴 속도 저하 또는 발산
 
 ### 1.2 스케일링이 필수인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -43,12 +43,12 @@ tags = ["studynote-ai"]
 | [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | ❌ 불필요 | 트리 기반 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 스케일링은 달리기 경주에서 모든 선수의 출발선을 같은 위치로 맞추는 것이다. 한 선수가 1미터를 달리고 다른 선수가 1킬로미터를 달리는 경주는 공정한 비교가 되지 않는다.
@@ -60,25 +60,25 @@ tags = ["studynote-ai"]
 ### 2.1 스케일링 기법 비교 도식
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              스케일링 기법 비교                            │
-│                                                         │
-│  원본 데이터 분포:                                         │
-│  ──────[min]─────────────────────[max]──────             │
-│   이상치◀                                    ▶이상치      │
-│                                                         │
-│  1. 정규화 (Min-Max): [0, 1] 범위로 압축                  │
-│  ──[0]────────────────────────────────[1]──             │
-│    (이상치에 의해 전체 분포가 압축될 수 있음)                │
-│                                                         │
-│  2. 표준화 (Z-Score): 평균=0, 표준편차=1                  │
-│  ────────[-3]──[-2]──[-1]──[0]──[1]──[2]──[3]──         │
-│    (이상치도 수치 변환되나 분포 형태는 유지)                 │
-│                                                         │
-│  3. 로버스트 스케일링: 중앙값, IQR 기준                     │
-│  ──────[Q1]───────[중앙값]───────[Q3]──────             │
-│    (이상치에 강건, 중앙 분포 집중)                          │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              스케일링 기법 비교                            |
+|                                                         |
+|  원본 데이터 분포:                                         |
+|  ------[min]---------------------[max]------             |
+|   이상치<-                                    ->이상치      |
+|                                                         |
+|  1. 정규화 (Min-Max): [0, 1] 범위로 압축                  |
+|  --[0]--------------------------------[1]--             |
+|    (이상치에 의해 전체 분포가 압축될 수 있음)                |
+|                                                         |
+|  2. 표준화 (Z-Score): 평균=0, 표준편차=1                  |
+|  --------[-3]--[-2]--[-1]--[0]--[1]--[2]--[3]--         |
+|    (이상치도 수치 변환되나 분포 형태는 유지)                 |
+|                                                         |
+|  3. 로버스트 스케일링: 중앙값, IQR 기준                     |
+|  ------[Q1]-------[중앙값]-------[Q3]------             |
+|    (이상치에 강건, 중앙 분포 집중)                          |
++---------------------------------------------------------+
 ```
 
 ### 2.2 각 기법의 수식과 특징
@@ -86,22 +86,22 @@ tags = ["studynote-ai"]
 #### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Min-Max](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/) [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))
 ```
 x' = (x - x_min) / (x_max - x_min)
-→ 결과: 0 ≤ x' ≤ 1
-→ 이상치 영향: 매우 큼 (이상치가 x_min 또는 x_max 결정)
+-> 결과: 0 ≤ x' ≤ 1
+-> 이상치 영향: 매우 큼 (이상치가 x_min 또는 x_max 결정)
 ```
 
 #### 표준화 (Z-Score Standardization)
 ```
 x' = (x - μ) / σ
-→ 결과: 평균 0, 표준편차 1 (단, [0,1] 범위 보장 없음)
-→ 이상치 영향: 중간 수준 (평균과 표준편차에 영향)
+-> 결과: 평균 0, 표준편차 1 (단, [0,1] 범위 보장 없음)
+-> 이상치 영향: 중간 수준 (평균과 표준편차에 영향)
 ```
 
 #### 로버스트 스케일링 (Robust Scaling)
 ```
 x' = (x - 중앙값(Median)) / IQR(사분위 범위)
-→ IQR = Q3 - Q1
-→ 이상치 영향: 가장 적음 (중앙값과 IQR은 이상치에 강건)
+-> IQR = Q3 - Q1
+-> 이상치 영향: 가장 적음 (중앙값과 IQR은 이상치에 강건)
 ```
 
 ### 2.3 경사하강법과 스케일링 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -132,7 +132,7 @@ x' = (x - 중앙값(Median)) / IQR(사분위 범위)
 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage) 방지 규칙:</strong>
 ```
 ❌ 잘못된 방법: 전체 데이터(train+test)에 fit_transform
-✅ 올바른 방법: train 데이터에만 fit → train/test 모두 transform
+✅ 올바른 방법: train 데이터에만 fit -> train/test 모두 transform
 
 이유: 테스트 데이터는 미래 데이터를 대표해야 하므로
       테스트 데이터의 통계(min, max, μ, σ)가 스케일링에 반영되면
@@ -162,25 +162,25 @@ x' = (x - 중앙값(Median)) / IQR(사분위 범위)
 샘플 Z: (31세, 8000만원)
 
 스케일링 없는 유클리드 거리:
-d(X,Y) = √((5)² + (100만)²) ≈ 100만   ← 나이 차이는 무의미
-d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
+d(X,Y) = √((5)^ + (100만)^) ≈ 100만   <- 나이 차이는 무의미
+d(X,Z) = √((1)^ + (3000만)^) ≈ 3000만
 
-스케일링 후: 나이와 연봉이 동등하게 기여 → 정확한 이웃 탐색
+스케일링 후: 나이와 연봉이 동등하게 기여 -> 정확한 이웃 탐색
 ```
 
 ### 4.2 스케일링 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성
 
 ```
 [원시 데이터]
-     ↓
+     v
 [결측치 처리]
-     ↓
+     v
 [이상치 탐지 및 처리]
-     ↓
-[스케일링 기법 선택]  ← 이상치 여부, 알고리즘 유형 판단
-     ↓
-[train.fit → train/test.transform]
-     ↓
+     v
+[스케일링 기법 선택]  <- 이상치 여부, 알고리즘 유형 판단
+     v
+[train.fit -> train/test.transform]
+     v
 [모델 학습/예측]
 ```
 
@@ -222,7 +222,7 @@ d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [스케일링 (Scaling Normalization Standardization)] → [최적화·운영 자동화]
+[데이터 전처리] -> [스케일링 (Scaling Normalization Standardization)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -237,7 +237,7 @@ d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
 
 **진행 상황**: 249 / 420
 
-← **이전**: [248. 원-핫 인코딩 (One-Hot Encoding)](/knowledge-base/studynote/10_ai/03_llm_nlp/248_one_hot_encoding/)
-**다음**: [250. 교차 검증 (Cross-Validation)](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) →
+<- **이전**: [248. 원-핫 인코딩 (One-Hot Encoding)](/knowledge-base/studynote/10_ai/03_llm_nlp/248_one_hot_encoding/)
+**다음**: [250. 교차 검증 (Cross-Validation)](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ->
 
 ---

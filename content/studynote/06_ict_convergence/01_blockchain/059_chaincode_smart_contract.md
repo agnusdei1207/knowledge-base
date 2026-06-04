@@ -33,16 +33,16 @@ Fabric의 체인코드는 클라이언트 요청을 받아 상태를 조회하�
 
 ```text
 Client
-  ↓ proposal
+  v proposal
 Endorsing Peer
-  ↓ simulate
+  v simulate
 Chaincode
-  ↓ endorsement
+  v endorsement
 Ordering Service
-  ↓ block
+  v block
 Committing Peers
-  ├─ World State
-  └─ Ledger
+  +- World State
+  +- Ledger
 ```
 
 | 구성 요소 | 역할 |
@@ -116,11 +116,11 @@ Fabric은 World State와 Ledger를 분리한다. World State는 현재 값, Ledg
 
 ```text
 비즈니스 규칙
-   ↓
+   v
 체인코드(Chaincode)
-   ↓
+   v
 Endorsement Policy
-   ↓
+   v
 World State / Ledger
 ```
 
@@ -130,13 +130,13 @@ World State / Ledger
 
 ```text
 스마트 컨트랙트
-   ↓
+   v
 Hyperledger Fabric
-   ↓
+   v
 체인코드 설치/승인/커밋
-   ↓
+   v
 분산 원장 상태 갱신
-   ↓
+   v
 감사 가능한 업무 자동화
 ```
 
@@ -154,7 +154,7 @@ Hyperledger Fabric
 
 **진행 상황**: 59 / 552
 
-← **이전**: [58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)
-**다음**: [60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/) →
+<- **이전**: [58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)
+**다음**: [60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/) ->
 
 ---

@@ -40,11 +40,11 @@ tags = ["studynote-algorithm"]
 
 ```
          top = 3
-          │
-          ▼
-┌────┬────┬────┬────┬────┬────┐
-│ 10 │ 20 │ 30 │ 40 │    │    │
-└────┴────┴────┴────┴────┴────┘
+          |
+          v
++----+----+----+----+----+----+
+| 10 | 20 | 30 | 40 |    |    |
++----+----+----+----+----+----+
   [0]  [1]  [2]  [3]  [4]  [5]
 
 push(50): arr[4]=50, top=4
@@ -57,37 +57,37 @@ peek()  : return arr[3]=40
 ### [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 스택 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Stack)
 
 ```
-main() 호출 → factorial(3) 호출 → factorial(2) 호출 → factorial(1)
+main() 호출 -> factorial(3) 호출 -> factorial(2) 호출 -> factorial(1)
 
 Call Stack:
-┌──────────────────────┐
-│  factorial(1) frame  │  ← top (실행 중)
-├──────────────────────┤
-│  factorial(2) frame  │
-├──────────────────────┤
-│  factorial(3) frame  │
-├──────────────────────┤
-│     main() frame     │  ← bottom
-└──────────────────────┘
++----------------------+
+|  factorial(1) frame  |  <- top (실행 중)
++----------------------+
+|  factorial(2) frame  |
++----------------------+
+|  factorial(3) frame  |
++----------------------+
+|     main() frame     |  <- bottom
++----------------------+
 
-factorial(1) 반환 → pop, factorial(2) 재개 → pop → ...
+factorial(1) 반환 -> pop, factorial(2) 재개 -> pop -> ...
 ```
 
-### 수식 평가: 중위 → 후위 (Infix → Postfix, Shunting-yard)
+### 수식 평가: 중위 -> 후위 (Infix -> Postfix, Shunting-yard)
 
 ```
 입력:  3 + 4 * 2        (중위 표기)
 출력:  3 4 2 * +        (후위 표기, 스택 활용)
 
 처리 과정:
-  읽기  │  출력      │ 연산자 스택
-  ──────┼────────────┼─────────────
-  3     │  3         │ []
-  +     │  3         │ [+]
-  4     │  3 4       │ [+]
-  *     │  3 4       │ [+, *]    (* 우선순위 > +)
-  2     │  3 4 2     │ [+, *]
-  끝    │  3 4 2 * + │ []
+  읽기  |  출력      | 연산자 스택
+  ------+------------+-------------
+  3     |  3         | []
+  +     |  3         | [+]
+  4     |  3 4       | [+]
+  *     |  3 4       | [+, *]    (* 우선순위 > +)
+  2     |  3 4 2     | [+, *]
+  끝    |  3 4 2 * + | []
 ```
 
 📢 **섹션 요약 비유**: 수식 평가에서 스택은 아직 처리 못 한 연산자를 잠시 보관하는 대기줄—우선순위 높은 연산자가 먼저 처리될 때까지 낮은 것들이 기다린다.
@@ -110,12 +110,12 @@ factorial(1) 반환 → pop, factorial(2) 재개 → pop → ...
 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Depth-First Search)는 방문 경로를 스택에 쌓고, 막히면 pop하여 이전 분기로 돌아간다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) DFS는 암묵적으로 콜 스택을 활용하며, 반복 DFS는 명시적 스택을 사용한다.
 
 ```
-그래프: A─B─D
-         └─C─E
+그래프: A-B-D
+         +-C-E
 
 재귀 DFS 콜 스택:
-visit(A) → visit(B) → visit(D) ← pop
-                   → visit(C) → visit(E) ← pop
+visit(A) -> visit(B) -> visit(D) <- pop
+                   -> visit(C) -> visit(E) <- pop
 ```
 
 📢 **섹션 요약 비유**: DFS는 미로 탐색자가 "지금 온 길"을 손바닥에 메모하면서 벽이 막히면 메모를 지우고 마지막 갈림길로 돌아가는 전략이다.
@@ -135,9 +135,9 @@ visit(A) → visit(B) → visit(D) ← pop
 ### 스택 구현 선택
 
 ```
-크기 고정 + 성능 우선   →  배열 기반 스택 (캐시 친화적)
-크기 무제한 + 유연성    →  연결 리스트 기반 스택
-재귀 깊이 제어 필요     →  명시적 스택으로 재귀 대체 (Stack Overflow 방지)
+크기 고정 + 성능 우선   ->  배열 기반 스택 (캐시 친화적)
+크기 무제한 + 유연성    ->  연결 리스트 기반 스택
+재귀 깊이 제어 필요     ->  명시적 스택으로 재귀 대체 (Stack Overflow 방지)
 ```
 
 📢 **섹션 요약 비유**: 컴파일러에서 스택 없이 중첩 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)이나 괄호를 처리하는 것은 "몇 겹을 열었는지" 기억하지 않고 러시안 마트료시카를 조립하려는 것과 같다.
@@ -160,7 +160,7 @@ visit(A) → visit(B) → visit(D) ← pop
 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)) | 콜 스택 = 암묵적 스택 |
 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) | 스택으로 구현하는 탐색 |
 | 모노토닉 스택 | 단조성 조건 추가한 스택 응용 |
-| 수식 평가 (Expression) | 중위→후위 변환에 스택 활용 |
+| 수식 평가 (Expression) | 중위->후위 변환에 스택 활용 |
 | 후위 표기법 (Postfix) | 스택으로 O(n) 계산 |
 
 ---
@@ -169,20 +169,20 @@ visit(A) → visit(B) → visit(D) ← pop
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [큐 (Queue)]
-    │
-    ▼
+    |
+    v
 [재귀 (Recursion)]
-    │
-    ▼
+    |
+    v
 [DFS]
-    │
-    ▼
+    |
+    v
 [모노토닉 스택]
-    │
-    ▼
+    |
+    v
 [수식 평가 (Expression)]
 ```
 
@@ -200,7 +200,7 @@ visit(A) → visit(B) → visit(D) ← pop
 
 **진행 상황**: 57 / 175
 
-← **이전**: [2. 연결 리스트 (Linked List) — 단일/이중/순환](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)
-**다음**: [큐 (Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) →
+<- **이전**: [2. 연결 리스트 (Linked List) — 단일/이중/순환](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)
+**다음**: [큐 (Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) ->
 
 ---

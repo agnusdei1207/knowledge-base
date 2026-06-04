@@ -34,17 +34,17 @@ CAP을 저장 시스템 관점에서 보면 [복제](/knowledge-base/studynote/1
 아래 그림은 세 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 중 한쪽이 네트워크로 분리되었을 때 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지가 맞닥뜨리는 선택을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Replica set under a network partition                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Client L -> [Replica A] --- [Replica B]      X      [Replica C]   │
-│                               ▲                                   │
-│                               │                                   │
-│                          link broken                              │
-│                                                                   │
-│ CP choice: block or reject minority-side requests                 │
-│ AP choice: answer on both sides and reconcile later               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Replica set under a network partition                             |
++--------------------------------------------------------------------+
+| Client L -> [Replica A] --- [Replica B]      X      [Replica C]   |
+|                               ^                                   |
+|                               |                                   |
+|                          link broken                              |
+|                                                                   |
+| CP choice: block or reject minority-side requests                 |
+| AP choice: answer on both sides and reconcile later               |
++--------------------------------------------------------------------+
 ```
 
 | 요소 | 의미 | 저장 시스템에서의 해석 |
@@ -125,17 +125,17 @@ CAP은 보통 CP와 AP의 비교로 가장 잘 드러난다. [CP](/knowledge-bas
 
 ```text
 Single-node storage assumptions
-    │
-    ▼
+    |
+    v
 Replication across unreliable networks
-    │
-    ▼
+    |
+    v
 CAP trade-off under partition
-    │
-    ▼
+    |
+    v
 Quorum / eventual consistency design patterns
-    │
-    ▼
+    |
+    v
 PACELC and workload-specific consistency tuning
 ```
 
@@ -153,7 +153,7 @@ PACELC and workload-specific consistency tuning
 
 **진행 상황**: 649 / 803
 
-← **이전**: [647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)
-**다음**: [649. PACELC 정리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/649_pacelc_theorem/) →
+<- **이전**: [647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)
+**다음**: [649. PACELC 정리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/649_pacelc_theorem/) ->
 
 ---

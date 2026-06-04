@@ -46,7 +46,7 @@ SLA 문서 구조:
   누가 측정?: 제3자 또는 제공자
 
   제공자 측정 vs 독립 측정:
-  제공자가 자체 측정 → 이해 충돌 가능
+  제공자가 자체 측정 -> 이해 충돌 가능
   권고: 제3자 모니터링 또는 합의된 방법
 
 4. 페널티 구조:
@@ -76,7 +76,7 @@ SLA 협상 핵심 포인트:
 
 1. 합리적 목표 설정:
   역사 데이터 기반: 과거 6개월 가용성
-  예: 실제 99.97% → SLA 99.9% 제안
+  예: 실제 99.97% -> SLA 99.9% 제안
   (여유 0.07% = 완충 지대)
 
 2. 예외 사항 명확화:
@@ -103,7 +103,7 @@ SLA 협상 핵심 포인트:
 고객 관점:
 
 1. 측정 방법 검토:
-  누가 측정? → 독립성 요구
+  누가 측정? -> 독립성 요구
   "제공자가 자체 측정"이면 제3자 추가
 
 2. SLA 적용 범위:
@@ -118,7 +118,7 @@ SLA 협상 핵심 포인트:
   연속 N회 SLA 위반 시 계약 해지 권리
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 협상은 임대 계약 협상 — 집주인(공급업체)은 여유 있게 약속(실제 99.97% → [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%), 세입자(고객)는 독립 검사(제3자 측정)와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 조항(종료권) 요구!
+> 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 협상은 임대 계약 협상 — 집주인(공급업체)은 여유 있게 약속(실제 99.97% -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%), 세입자(고객)는 독립 검사(제3자 측정)와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 조항(종료권) 요구!
 
 ---
 
@@ -155,9 +155,9 @@ SLA 리포트 구성:
   다운타임: 8.6분 (목표 43.2분 대비 양호)
 
   응답 시간:
-  P50: 180ms (목표 300ms ↓)
-  P95: 450ms (목표 500ms ↓)
-  P99: 1,200ms (목표 1,000ms ↑ ← 주의!)
+  P50: 180ms (목표 300ms v)
+  P95: 450ms (목표 500ms v)
+  P99: 1,200ms (목표 1,000ms ^ <- 주의!)
 
   인시던트:
   P1: 0건
@@ -166,7 +166,7 @@ SLA 리포트 구성:
   SLA 크레딧: 0원 (모든 지표 SLA 준수)
 
   개선 과제:
-  P99 응답시간 초과 → DB 쿼리 최적화 계획
+  P99 응답시간 초과 -> DB 쿼리 최적화 계획
 
 에스컬레이션 매트릭스:
   L1: 담당자 자체 해결 (4시간)
@@ -196,10 +196,10 @@ SLA 리포트 구성:
   End-to-End 가용성:
   0.9999 × 0.9995 × 0.9995 ≈ 99.89%
 
-  → 각 구성 요소 SLA 곱 = 낮아짐!
+  -> 각 구성 요소 SLA 곱 = 낮아짐!
 
 SLA 연쇄 (Cascaded SLA):
-  사용자 → 앱 → DB
+  사용자 -> 앱 -> DB
   전체 SLA = 앱 SLA × DB SLA
 
   앱 SLA 99.9%, DB SLA 99.9%:
@@ -213,14 +213,14 @@ SLA 연쇄 (Cascaded SLA):
 
 2. 비동기 처리:
   동기 호출 대신 큐 기반 비동기
-  → 한 서비스 다운 시 영향 격리
+  -> 한 서비스 다운 시 영향 격리
 
 3. 서킷 브레이커:
   의존 서비스 장애 시 빠른 실패 + 폴백
 
 4. 다중화 (Redundancy):
-  AWS + Azure 이중화 → 전체 가용성 향상
-  0.9999 × (1 - (1-0.9995)²) ≈ 99.9975%
+  AWS + Azure 이중화 -> 전체 가용성 향상
+  0.9999 × (1 - (1-0.9995)^) ≈ 99.9975%
 
 SLA 관리 도구:
   CloudHealth: 멀티 클라우드 비용+SLA
@@ -252,12 +252,12 @@ SLA 관리 도구:
 재협상 목표:
 
 1. SLA 강화:
-  가용성: 99.9% → 99.95%
-  MTTR: 미명시 → P1 4시간 보장
+  가용성: 99.9% -> 99.95%
+  MTTR: 미명시 -> P1 4시간 보장
 
 2. 측정 독립성:
   AWS CloudWatch 외 Pingdom 추가
-  → 독립적 외부 측정
+  -> 독립적 외부 측정
 
 3. 페널티 강화:
   99.9~99.95%: 10% 크레딧 (기존 없음)
@@ -266,10 +266,10 @@ SLA 관리 도구:
 
 4. 자동 크레딧:
   조건 충족 시 자동 크레딧 (청구 불필요)
-  → 고객 신뢰 향상
+  -> 고객 신뢰 향상
 
 AWS와 협상 결과:
-  99.95% SLA → 기존 Premium Support 계약 조건
+  99.95% SLA -> 기존 Premium Support 계약 조건
   자동 크레딧: 일부 서비스만 적용
 
   보완:
@@ -280,7 +280,7 @@ AWS와 협상 결과:
 결과:
   이후 4개월: SLA 위반 0건
   고객 불만: 0건
-  결제 성공률: 99.82% → 99.97%
+  결제 성공률: 99.82% -> 99.97%
 ```
 
 > 📢 **섹션 요약 비유**: 핀테크 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 재협상은 보험 업그레이드 — 기본 보험(99.9%)에서 업그레이드(99.95%). 독립 측정(제3자) + 자동 보상 추가. 장애 없어지자 고객 불만도 0!
@@ -331,7 +331,7 @@ Statuspage.io
       |
       v
 [현재: 비즈니스 임팩트 SLA]
-가용성 → 수익 연결
+가용성 -> 수익 연결
 AI 기반 SLA 예측 관리
 ```
 
@@ -349,7 +349,7 @@ AI 기반 SLA 예측 관리
 
 **진행 상황**: 47 / 482
 
-← **이전**: [046. IT 서비스 관리 — ITSM 심화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/046_itsm_it_service_management/)
-**다음**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/) →
+<- **이전**: [046. IT 서비스 관리 — ITSM 심화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/046_itsm_it_service_management/)
+**다음**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/) ->
 
 ---

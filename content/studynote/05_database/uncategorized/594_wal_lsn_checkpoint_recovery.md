@@ -28,11 +28,11 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> Rule -> Current Concept -> Outcome                 │
-├──────────────────────────────────────────────────────────────┤
-│ wal-lsn-checkpoin… -> current scope -> data-literacy      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input -> Rule -> Current Concept -> Outcome                 |
++--------------------------------------------------------------+
+| wal-lsn-checkpoin… -> current scope -> data-literacy      |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
@@ -55,11 +55,11 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Pre-condition -> Current Rule -> Validation -> Result       │
-├──────────────────────────────────────────────────────────────┤
-│ ARIES 복구 알고리즘 생… -> WAL 로그 플러시 LSN … -> 데이터 리터러시 (Data … │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Pre-condition -> Current Rule -> Validation -> Result       |
++--------------------------------------------------------------+
+| ARIES 복구 알고리즘 생… -> WAL 로그 플러시 LSN … -> 데이터 리터러시 (Data … |
++--------------------------------------------------------------+
 ```
 
 결국 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
@@ -78,7 +78,7 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 | 초점 | 배경, 전제, 한계가 중심이다. | `트랜잭션·회복 맥락에서 역할과 경계를 판단해야 하는 주제`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
 | 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
-또한 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`는 `트랜잭션 고립화 수준`·`회복 (Recovery)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 → 현재 통제 → 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
+또한 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`는 `트랜잭션 고립화 수준`·`회복 (Recovery)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 -> 현재 통제 -> 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: 같은 교차로를 신호등, 회전교차로, 우회도로로 운영할 때의 차이를 비교하는 일과 닮았다.
 
@@ -123,12 +123,12 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 
 ```text
 [ARIES 복구 알고리즘 생존자 Analysis …]
-    │
-    ▼
+    |
+    v
 [WAL 로그 플러시 LSN 기반 체크포인트 미디어…]
-    │
-    ├──▶ [데이터 리터러시 (Data Literacy…]
-    └──▶ [데이터 디스커버리 카탈로그 플랫폼 검색 큐…]
+    |
+    +---> [데이터 리터러시 (Data Literacy…]
+    +---> [데이터 디스커버리 카탈로그 플랫폼 검색 큐…]
 ```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산`와 `데이터 디스커버리 카탈로그 플랫폼 검색 큐레이션 거버넌스 워크플로우 지식 저장` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
@@ -145,7 +145,7 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 
 **진행 상황**: 594 / 600
 
-← **이전**: [593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리](/knowledge-base/studynote/05_database/uncategorized/593_aries_recovery_algorithm/)
-**다음**: [595. 데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산](/knowledge-base/studynote/05_database/06_dw_olap_trends/595_data_literacy/) →
+<- **이전**: [593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리](/knowledge-base/studynote/05_database/uncategorized/593_aries_recovery_algorithm/)
+**다음**: [595. 데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산](/knowledge-base/studynote/05_database/06_dw_olap_trends/595_data_literacy/) ->
 
 ---

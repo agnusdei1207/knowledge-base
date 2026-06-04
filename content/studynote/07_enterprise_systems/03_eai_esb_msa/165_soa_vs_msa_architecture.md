@@ -26,14 +26,14 @@ SOA는 주로 기업 내부의 여러 시스템을 <strong>전사 수준에서 �
 즉 둘의 차이는 단순한 기술 세대 차이보다, "무엇을 통합하려는가"의 차이다. SOA는 기업 전체를 연결하는 통합 아키텍처 성격이 강하고, MSA는 제품 개발 속도와 운영 자율성을 높이는 [애플리케이션 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 성격이 강하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              같은 서비스 분해라도 출발점이 다르다                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ SOA  : enterprise integration / reuse / governance                  │
-│ MSA  : product agility / independent deployment / scalability       │
-│                                                                  │
-│ Common goal: reduce coupling by separating capabilities             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              같은 서비스 분해라도 출발점이 다르다                   |
++----------------------------------------------------------------------+
+| SOA  : enterprise integration / reuse / governance                  |
+| MSA  : product agility / independent deployment / scalability       |
+|                                                                  |
+| Common goal: reduce coupling by separating capabilities             |
++----------------------------------------------------------------------+
 ```
 
 따라서 아키텍처 비교의 핵심 질문은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 쪼갰는가"가 아니라, <strong>통합과 재사용이 중심인지, 독립 배포와 빠른 변경이 중심인지</strong>다.
@@ -59,20 +59,20 @@ MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 아래 그림은 두 구조의 핵심 차이를 직관적으로 보여준다.
 
 ```text
-┌─────────────────────────────── SOA ────────────────────────────────┐
-│ [ERP]   [CRM]   [Billing]   [Legacy App]                           │
-│    \      │       /             /                                  │
-│     \     │      /             /                                   │
-│      └────▼─────▼─────────────▼────▶ [ ESB ]                       │
-│                 routing / transform / policy                       │
-└─────────────────────────────────────────────────────────────────────┘
++------------------------------- SOA --------------------------------+
+| [ERP]   [CRM]   [Billing]   [Legacy App]                           |
+|    \      |       /             /                                  |
+|     \     |      /             /                                   |
+|      +----v-----v-------------v-----> [ ESB ]                       |
+|                 routing / transform / policy                       |
++---------------------------------------------------------------------+
 
-┌─────────────────────────────── MSA ────────────────────────────────┐
-│ [Order] ◀────▶ [Payment] ◀────▶ [Inventory]                        │
-│    │             │                 │                                │
-│  Order DB     Payment DB       Inventory DB                         │
-│            event bus / REST / gRPC                                 │
-└─────────────────────────────────────────────────────────────────────┘
++------------------------------- MSA --------------------------------+
+| [Order] <------> [Payment] <------> [Inventory]                        |
+|    |             |                 |                                |
+|  Order DB     Payment DB       Inventory DB                         |
+|            event bus / REST / gRPC                                 |
++---------------------------------------------------------------------+
 ```
 
 이 구조 차이는 장애 전파 방식에도 영향을 준다. SOA에서는 ESB가 강력한 통합 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 되는 대신 병목이나 단일 고장점 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이 될 위험이 있다. MSA에서는 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 의존은 줄지만, 대신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아지면서 네트워크 호출, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 더 어려워진다.
@@ -152,15 +152,15 @@ SOA를 잘 적용하면 전사 공통 [서비스](/knowledge-base/studynote/13_c
 
 ```text
 모놀리식 대형 시스템
-    │
-    ▼
+    |
+    v
 SOA (전사 통합 · ESB · 재사용)
-    │
-    ├─ 레거시 연계 · 표준 인터페이스
-    ▼
+    |
+    +- 레거시 연계 · 표준 인터페이스
+    v
 MSA (독립 배포 · 도메인 분리)
-    │
-    ▼
+    |
+    v
 API Gateway · Event-Driven · Platform Engineering
 ```
 
@@ -178,7 +178,7 @@ API Gateway · Event-Driven · Platform Engineering
 
 **진행 상황**: 165 / 482
 
-← **이전**: [164. 모놀리식 아키텍처 (Monolithic Architecture) - 프론트, 비즈니스 로직, DB 접근이 한 코드베이스와 단일](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/164_monolithic_architecture/)
-**다음**: [166. API 게이트웨이 (API Gateway) - 클라이언트 요청을 단일 진입점으로 받아 적절한 마이크로서비스로 라우팅, 인증/인가,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/166_api_gateway_architecture/) →
+<- **이전**: [164. 모놀리식 아키텍처 (Monolithic Architecture) - 프론트, 비즈니스 로직, DB 접근이 한 코드베이스와 단일](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/164_monolithic_architecture/)
+**다음**: [166. API 게이트웨이 (API Gateway) - 클라이언트 요청을 단일 진입점으로 받아 적절한 마이크로서비스로 라우팅, 인증/인가,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/166_api_gateway_architecture/) ->
 
 ---

@@ -30,11 +30,11 @@ tags = ["software_engineering"]
 
 ```text
 Ideas / Bugs / Enhancements
-  ↓
+  v
 Product Backlog
-  ↓
+  v
 Refinement / Grooming
-  ↓
+  v
 Sprint Planning
 ```
 
@@ -108,11 +108,11 @@ Sprint Planning
 
 ```text
 Product Vision
-  ↓
+  v
 Product Backlog
-  ↓
+  v
 Grooming / Refinement
-  ↓
+  v
 Sprint Planning
 ```
 
@@ -122,11 +122,11 @@ Sprint Planning
 
 ```text
 요구사항 수집
-  ↓
+  v
 제품 백로그
-  ↓
+  v
 그루밍
-  ↓
+  v
 스프린트 계획
 ```
 
@@ -144,7 +144,7 @@ Sprint Planning
 
 **진행 상황**: 66 / 973
 
-← **이전**: [65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/)
-**다음**: [67. 스프린트 (Sprint) - 1~4주의 개발 주기](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) →
+<- **이전**: [65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/)
+**다음**: [67. 스프린트 (Sprint) - 1~4주의 개발 주기](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ->
 
 ---

@@ -26,41 +26,41 @@ tags = ["studynote-it-management"]
 ```text
 [ IT 경영 관리 패러다임 진화 ]
 
-   ┌─────────────────────────────────────────────────────────────────┐
-   │  1980s-1990s: IT 운영관리 시대                                  │
-   │  ┌─────────────┐                                                │
-   │  │ 데이터센터  │ ──> CAPEX 통제, 시스템 가용성, 배치 스케줄     │
-   │  │  Mainframe  │                                                │
-   │  └─────────────┘                                                │
-   │         │                                                       │
-   │         ▼  Y2K, ERP, 인터넷 확산                                │
-   │  ┌─────────────────────────────────┐                            │
-   │  │ 2000s: IT 서비스 관리 시대      │                            │
-   │  │  ┌────────┐  ┌────────┐  ┌────┐│                            │
-   │  │  │Service │  │SLA/OLA │  │CMDB││ ──> ITIL v2/v3, ISO 20000│
-   │  │  │Desk    │  │관리    │  │    ││                            │
-   │  │  └────────┘  └────────┘  └────┘│                            │
-   │  └─────────────────────────────────┘                            │
-   │         │                                                       │
-   │         ▼  클라우드, 모바일, 빅데이터                            │
-   │  ┌──────────────────────────────────────────┐                   │
-   │  │ 2010s: IT 거버넌스 시대                  │                   │
-   │  │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐  │                   │
-   │  │  │전략  │ │투자  │ │위험  │ │성과  │  │ ──> COBIT 5/2019  │
-   │  │  │정렬  │ │관리  │ │관리  │ │측정  │  │   ISO 38500       │
-   │  │  └──────┘ └──────┘ └──────┘ └──────┘  │                   │
-   │  └──────────────────────────────────────────┘                   │
-   │         │                                                       │
-   │         ▼  AI, 플랫폼, ESG, 디지털 신뢰                         │
-   │  ┌──────────────────────────────────────────────────┐          │
-   │  │ 2020s-현재: IT 가치경영 시대 (Value-driven IT)    │          │
-   │  │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐  │          │
-   │  │  │전략  │→│아키텍│→│투자  │→│운영  │→│가치  │  │          │
-   │  │  │(Str) │ │처(EA)│ │(PMO) │ │(ITIL)│ │실현  │  │          │
-   │  │  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘  │          │
-   │  │            End-to-End Value Stream               │          │
-   │  └──────────────────────────────────────────────────┘          │
-   └─────────────────────────────────────────────────────────────────┘
+   +-----------------------------------------------------------------+
+   |  1980s-1990s: IT 운영관리 시대                                  |
+   |  +-------------+                                                |
+   |  | 데이터센터  | --> CAPEX 통제, 시스템 가용성, 배치 스케줄     |
+   |  |  Mainframe  |                                                |
+   |  +-------------+                                                |
+   |         |                                                       |
+   |         v  Y2K, ERP, 인터넷 확산                                |
+   |  +---------------------------------+                            |
+   |  | 2000s: IT 서비스 관리 시대      |                            |
+   |  |  +--------+  +--------+  +----+|                            |
+   |  |  |Service |  |SLA/OLA |  |CMDB|| --> ITIL v2/v3, ISO 20000|
+   |  |  |Desk    |  |관리    |  |    ||                            |
+   |  |  +--------+  +--------+  +----+|                            |
+   |  +---------------------------------+                            |
+   |         |                                                       |
+   |         v  클라우드, 모바일, 빅데이터                            |
+   |  +------------------------------------------+                   |
+   |  | 2010s: IT 거버넌스 시대                  |                   |
+   |  |  +------+ +------+ +------+ +------+  |                   |
+   |  |  |전략  | |투자  | |위험  | |성과  |  | --> COBIT 5/2019  |
+   |  |  |정렬  | |관리  | |관리  | |측정  |  |   ISO 38500       |
+   |  |  +------+ +------+ +------+ +------+  |                   |
+   |  +------------------------------------------+                   |
+   |         |                                                       |
+   |         v  AI, 플랫폼, ESG, 디지털 신뢰                         |
+   |  +--------------------------------------------------+          |
+   |  | 2020s-현재: IT 가치경영 시대 (Value-driven IT)    |          |
+   |  |  +------+ +------+ +------+ +------+ +------+  |          |
+   |  |  |전략  |->|아키텍|->|투자  |->|운영  |->|가치  |  |          |
+   |  |  |(Str) | |처(EA)| |(PMO) | |(ITIL)| |실현  |  |          |
+   |  |  +------+ +------+ +------+ +------+ +------+  |          |
+   |  |            End-to-End Value Stream               |          |
+   |  +--------------------------------------------------+          |
+   +-----------------------------------------------------------------+
 ```
 
 **왜 지금 IT 경영 관리가 필수적인가?**
@@ -81,46 +81,46 @@ tags = ["studynote-it-management"]
 ```text
 [ IT 경영 관리 5대 영역 통합 아키텍처 ]
 
-                        ┌─────────────────────┐
-                        │   거버넌스 목표     │
-                        │  (Stakeholder Needs)│
-                        │  • Value Delivery   │
-                        │  • Risk Optimization│
-                        │  • Resource Opt.    │
-                        │  • Stakeholder Trans│
-                        └──────────┬──────────┘
-                                   │ Cascade
-            ┌──────────────────────┼──────────────────────┐
-            ▼                      ▼                      ▼
-   ┌────────────────┐    ┌────────────────┐    ┌────────────────┐
-   │  1. 전략 정렬   │    │ 2. 아키텍처    │    │ 3. 투자 관리   │
-   │   (Align)      │    │   (Architecture)│   │   (Portfolio)  │
-   │                │    │                │    │                │
-   │ • 전략 맵       │    │ • TOGAF ADM    │    │ • Stage-Gate   │
-   │ • BSC 4관점    │    │ • FEAF         │    │ • TCO/ROI/Pay. │
-   │ • OKR/KPI      │    │ • Zachman      │    │ • EVM          │
-   │ • SAMM         │    │ • DoDAF        │    │ • APQC PCF     │
-   └────────┬───────┘    └────────┬───────┘    └────────┬───────┘
-            │                     │                     │
-            └──────────────┬──────┴──────────────┬──────┘
-                           ▼                     ▼
-                  ┌────────────────┐    ┌────────────────┐
-                  │ 4. 운영/서비스 │    │ 5. 성과/리스크  │
-                  │   (Deliver)    │    │   (Measure)    │
-                  │                │    │                │
-                  │ • ITIL 4 SVS   │    │ • BSC + KPI    │
-                  │ • DevOps/SRE  │    │ • RACI Matrix  │
-                  │ • SIAM        │    │ • ISMS-P/ISO   │
-                  │ • SLA/OLA/UC │    │ • BCM/DR       │
-                  └────────────────┘    └────────────────┘
-                           │                     │
-                           └──────────┬──────────┘
-                                      ▼
-                          ┌──────────────────────┐
-                          │  지속적 개선 루프     │
-                          │  (PDCA + OODA)        │
-                          │  Maturity Assessment  │
-                          └──────────────────────┘
+                        +---------------------+
+                        |   거버넌스 목표     |
+                        |  (Stakeholder Needs)|
+                        |  • Value Delivery   |
+                        |  • Risk Optimization|
+                        |  • Resource Opt.    |
+                        |  • Stakeholder Trans|
+                        +----------+----------+
+                                   | Cascade
+            +----------------------+----------------------+
+            v                      v                      v
+   +----------------+    +----------------+    +----------------+
+   |  1. 전략 정렬   |    | 2. 아키텍처    |    | 3. 투자 관리   |
+   |   (Align)      |    |   (Architecture)|   |   (Portfolio)  |
+   |                |    |                |    |                |
+   | • 전략 맵       |    | • TOGAF ADM    |    | • Stage-Gate   |
+   | • BSC 4관점    |    | • FEAF         |    | • TCO/ROI/Pay. |
+   | • OKR/KPI      |    | • Zachman      |    | • EVM          |
+   | • SAMM         |    | • DoDAF        |    | • APQC PCF     |
+   +--------+-------+    +--------+-------+    +--------+-------+
+            |                     |                     |
+            +--------------+------+--------------+------+
+                           v                     v
+                  +----------------+    +----------------+
+                  | 4. 운영/서비스 |    | 5. 성과/리스크  |
+                  |   (Deliver)    |    |   (Measure)    |
+                  |                |    |                |
+                  | • ITIL 4 SVS   |    | • BSC + KPI    |
+                  | • DevOps/SRE  |    | • RACI Matrix  |
+                  | • SIAM        |    | • ISMS-P/ISO   |
+                  | • SLA/OLA/UC |    | • BCM/DR       |
+                  +----------------+    +----------------+
+                           |                     |
+                           +----------+----------+
+                                      v
+                          +----------------------+
+                          |  지속적 개선 루프     |
+                          |  (PDCA + OODA)        |
+                          |  Maturity Assessment  |
+                          +----------------------+
 ```
 
 ### 2. COBIT 2019 거버넌스 시스템 핵심 컴포넌트
@@ -129,8 +129,8 @@ tags = ["studynote-it-management"]
 | :--- | :--- | :--- |
 | **거버넌스 & 관리 목표(40개)** | EDM: Evaluate, Direct, Monitor + 4 도메인(APO, BAI, DSS, MEA) | Align-Plan-Organize(APO) 14개, Build-Acquire-Implement(BAI) 11개, Deliver-Service-Support(DSS) 6개, Monitor-Evaluate-Assess(MEA) 4개, EDM 5개로 총 40개 목표. 각 목표는 Process, Structure, People, Skill, Information, Service, Technology 7요소로 구성 |
 | **디자인 팩터(11개)** | 거버넌스 시스템 맞춤 설계 | 전략(Strategy), 목표(Goals), 리스크 프로파일, 리스크 이슈, 위협 환경, 컴플라이언스 요건, 역할(IT 역할), IT 구현 방식, 기술 채택 전략, 산업, 기업 크기/규모. **71가지 우선순위 조합**으로 맞춤형 거버넌스 시스템 생성 |
-| **핵심 모델 & 참조 모델** | 표준화·벤치마킹 기반 | CMMI(능력성숙도 5단계), CMMI v3.0(2024): Maturity Level 1-5 (Initial→Managed→Defined→Quantitatively Managed→Optimizing). COSO ERM 2017(리스크 관리), ISO/IEC 33000(프로세스 평가) |
-| **거버넌스/관리 성숙도** | 역량 측정·개선 | Capability Level 0-5: Incomplete→Performed→Managed→Established→Predictable→Optimizing. Level 3 이상에서 PA(Process Attribute) 5개(Attribute ID, Work Product Management, Work Product Definition, Process Deployment, Quantitative Analysis)로 측정 |
+| **핵심 모델 & 참조 모델** | 표준화·벤치마킹 기반 | CMMI(능력성숙도 5단계), CMMI v3.0(2024): Maturity Level 1-5 (Initial->Managed->Defined->Quantitatively Managed->Optimizing). COSO ERM 2017(리스크 관리), ISO/IEC 33000(프로세스 평가) |
+| **거버넌스/관리 성숙도** | 역량 측정·개선 | Capability Level 0-5: Incomplete->Performed->Managed->Established->Predictable->Optimizing. Level 3 이상에서 PA(Process Attribute) 5개(Attribute ID, Work Product Management, Work Product Definition, Process Deployment, Quantitative Analysis)로 측정 |
 | **포커스 영역 & 이슈/워크** | 실무 적용 패키지 | Cybersecurity, DevOps, Digital Transformation, ESG, Privacy, Risk, Small Medium Enterprise 7개 핵심 Focus Area. 60+ 개의 Guide 참조 가능 |
 
 ### 3. ITIL 4 서비스 가치 시스템(SVS) 상세
@@ -138,59 +138,59 @@ tags = ["studynote-it-management"]
 ```text
 [ ITIL 4 Service Value System (SVS) ]
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │  Opportunity/Demand ◄──> Value (Co-Creation)              │
-  └───────────────────────────┬─────────────────────────────────┘
-                              │
-                              ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  GUIDING PRINCIPLES (7대 지침원칙)                        │
-  │  1. Focus on value        5. Think and work holistically │
-  │  2. Start where you are   6. Keep it simple and practical │
-  │  3. Progress iteratively  7. Collaborate and promote     │
-  │  4. Collaborate and promote visibility   visibility      │
-  └──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  GOVERNANCE                                                  │
-  │  • Direction (전략) • Evaluation (평가) • Monitoring (모니터)│
-  └──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  SERVICE VALUE CHAIN (서비스 가치 사슬, 6개 활동)          │
-  │                                                            │
-  │   ┌────┐    ┌────┐    ┌────┐    ┌────┐    ┌────┐    ┌────┐│
-  │   │Plan│───>│Eng │───>│Desi│───>│Obta│───>│Dely│───>│Supp││
-  │   │    │    │age │    │gn  │    │in  │    │    │    │ort ││
-  │   └────┘    └────┘    └────┘    └────┘    └────┘    └────┘│
-  │                                                            │
-  │   34개 실무 프로세스가 이 6개 활동에 매핑                   │
-  │   (예: Change Enablement→Engage, Service Desk→Deliver/Support)│
-  └──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  PRACTICES (34개 실무 + 3개 일반 관리 = 37개)             │
-  │  ┌─────────────┬─────────────┬─────────────┐              │
-  │  │ 일반 관리    │ 서비스 관리  │ 기술 관리    │              │
-  │  │ • Strategy  │ • Incident  │ • Deploy-   │              │
-  │  │ • Portfolio │ • Problem   │   ment Mgmt │              │
-  │  │ • Workforce │ • Service   │ • Infra &   │              │
-  │  │ • Archi-    │   Request   │   Platform  │              │
-  │  │   tecture   │ • Change    │ • Software  │              │
-  │  │ • Risk      │ • Release   │   Dev & Mgmt│              │
-  │  │ • Finan-    │ • Continual │             │              │
-  │  │   cial      │   Improve   │             │              │
-  │  └─────────────┴─────────────┴─────────────┘              │
-  └──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  CONTINUAL IMPROVEMENT (지속적 개선)                       │
-  │  7단계 모델: Vision→Where→Where→Gaps→Targets→Actions→Review│
-  └──────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |  Opportunity/Demand ◄--> Value (Co-Creation)              |
+  +---------------------------+---------------------------------+
+                              |
+                              v
+  +----------------------------------------------------------+
+  |  GUIDING PRINCIPLES (7대 지침원칙)                        |
+  |  1. Focus on value        5. Think and work holistically |
+  |  2. Start where you are   6. Keep it simple and practical |
+  |  3. Progress iteratively  7. Collaborate and promote     |
+  |  4. Collaborate and promote visibility   visibility      |
+  +----------------------------------------------------------+
+                              |
+                              v
+  +----------------------------------------------------------+
+  |  GOVERNANCE                                                  |
+  |  • Direction (전략) • Evaluation (평가) • Monitoring (모니터)|
+  +----------------------------------------------------------+
+                              |
+                              v
+  +----------------------------------------------------------+
+  |  SERVICE VALUE CHAIN (서비스 가치 사슬, 6개 활동)          |
+  |                                                            |
+  |   +----+    +----+    +----+    +----+    +----+    +----+|
+  |   |Plan|--->|Eng |--->|Desi|--->|Obta|--->|Dely|--->|Supp||
+  |   |    |    |age |    |gn  |    |in  |    |    |    |ort ||
+  |   +----+    +----+    +----+    +----+    +----+    +----+|
+  |                                                            |
+  |   34개 실무 프로세스가 이 6개 활동에 매핑                   |
+  |   (예: Change Enablement->Engage, Service Desk->Deliver/Support)|
+  +----------------------------------------------------------+
+                              |
+                              v
+  +----------------------------------------------------------+
+  |  PRACTICES (34개 실무 + 3개 일반 관리 = 37개)             |
+  |  +-------------+-------------+-------------+              |
+  |  | 일반 관리    | 서비스 관리  | 기술 관리    |              |
+  |  | • Strategy  | • Incident  | • Deploy-   |              |
+  |  | • Portfolio | • Problem   |   ment Mgmt |              |
+  |  | • Workforce | • Service   | • Infra &   |              |
+  |  | • Archi-    |   Request   |   Platform  |              |
+  |  |   tecture   | • Change    | • Software  |              |
+  |  | • Risk      | • Release   |   Dev & Mgmt|              |
+  |  | • Finan-    | • Continual |             |              |
+  |  |   cial      |   Improve   |             |              |
+  |  +-------------+-------------+-------------+              |
+  +----------------------------------------------------------+
+                              |
+                              v
+  +----------------------------------------------------------+
+  |  CONTINUAL IMPROVEMENT (지속적 개선)                       |
+  |  7단계 모델: Vision->Where->Where->Gaps->Targets->Actions->Review|
+  +----------------------------------------------------------+
 ```
 
 ### 4. 핵심 정량 모델 및 지표
@@ -200,7 +200,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 672 / 800
 
-← **이전**: [671. IT 경영 관리 핵심 토픽 671번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/671_it_management_core_topic_671_exam_summary/)
-**다음**: [673. IT 경영 관리 핵심 토픽 673번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/673_it_management_core_topic_673_exam_summary/) →
+<- **이전**: [671. IT 경영 관리 핵심 토픽 671번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/671_it_management_core_topic_671_exam_summary/)
+**다음**: [673. IT 경영 관리 핵심 토픽 673번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/673_it_management_core_topic_673_exam_summary/) ->
 
 ---

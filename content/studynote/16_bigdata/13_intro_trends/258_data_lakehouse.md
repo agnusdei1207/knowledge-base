@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 > **핵심 인사이트**
 > 1. [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 유연성·저비용과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 ACID·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·거버넌스를 결합한 하이브리드 아키텍처 — [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)·Delta Lake가 선도하며, 클라우드 스토리지(S3, ADLS) 위에서 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 수준의 분석 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
 > 2. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 핵심 기술은 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)([Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/)) — [파케이](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 레이어를 추가해 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화·타임 트래블(Time Travel)을 지원하며, 벤더 잠금 없이 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)을 보장한다.
-> 3. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)→웨어하우스 이중 구조의 비효율을 해결 — 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 레이크와 웨어하우스 양쪽에 중복 저장·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 비용과 복잡성을 제거하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언스(ML/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 BI 분석을 단일 플랫폼에서 통합 지원한다.
+> 3. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)->웨어하우스 이중 구조의 비효율을 해결 — 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 레이크와 웨어하우스 양쪽에 중복 저장·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 비용과 복잡성을 제거하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언스(ML/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 BI 분석을 단일 플랫폼에서 통합 지원한다.
 
 ---
 
@@ -31,21 +31,21 @@ tags = ["studynote-bigdata"]
   원시 데이터 + Hadoop/S3
   장점: 저비용, 모든 데이터 유형
   단점:
-  - ACID 없음 → 데이터 일관성 문제
+  - ACID 없음 -> 데이터 일관성 문제
   - 성능 낮음
   - 거버넌스 부재 ("데이터 늪")
   - BI 도구 연동 어려움
   예: Hadoop HDFS, S3 기반 레이크
 
 현실: 이중 구조 비효율
-  레이크 ← ETL → 웨어하우스
+  레이크 <- ETL -> 웨어하우스
 
   문제:
   데이터 중복 (2배 스토리지)
-  동기화 지연 (레이크 → DW ETL 지연)
+  동기화 지연 (레이크 -> DW ETL 지연)
   ML: 레이크에서 학습
   BI: 웨어하우스에서 쿼리
-  → 두 팀 간 데이터 불일치
+  -> 두 팀 간 데이터 불일치
 
 3세대: 레이크하우스
   레이크 + 웨어하우스 통합
@@ -70,7 +70,7 @@ tags = ["studynote-bigdata"]
 공통 구조:
   클라우드 스토리지 (S3, GCS, ADLS)
   파케이(Parquet) 파일 + 메타데이터 레이어
-  → ACID, 타임 트래블, 스키마 관리
+  -> ACID, 타임 트래블, 스키마 관리
 
 Delta Lake (Databricks, 2019):
   트랜잭션 로그: JSON 기반
@@ -79,7 +79,7 @@ Delta Lake (Databricks, 2019):
   스키마 진화: O
   통합: Spark, Delta Sharing
 
-  DELETE: 물리 삭제 대신 소프트 삭제 → Vacuum
+  DELETE: 물리 삭제 대신 소프트 삭제 -> Vacuum
   MERGE INTO: Upsert (중요 기능)
 
   예:
@@ -125,7 +125,7 @@ Apache Hudi (Uber, 2016):
   예: 두 작업 동시 실행
   - 파이프라인 A: 새 데이터 추가
   - BI 도구: 현재 데이터 쿼리
-  → 격리 보장 (쿼리가 중간 상태 보지 않음)
+  -> 격리 보장 (쿼리가 중간 상태 보지 않음)
 
 2. 타임 트래블 (Time Travel):
   이전 버전 데이터 조회
@@ -149,14 +149,14 @@ Apache Hudi (Uber, 2016):
   동일 테이블에 실시간 + 배치 쓰기
 
   예:
-  - Kafka → Flink → Delta Lake (스트리밍)
-  - Spark 배치 → 동일 Delta 테이블
-  → BI가 하나의 테이블에서 모두 쿼리
+  - Kafka -> Flink -> Delta Lake (스트리밍)
+  - Spark 배치 -> 동일 Delta 테이블
+  -> BI가 하나의 테이블에서 모두 쿼리
 
 5. DML (Data Manipulation Language):
   UPDATE, DELETE, MERGE
-  → 레이크에서 불가능하던 기능 지원
-  → CDC (Change Data Capture) 적용 가능
+  -> 레이크에서 불가능하던 기능 지원
+  -> CDC (Change Data Capture) 적용 가능
 
 6. 데이터 거버넌스:
   Unity Catalog (Databricks): 통합 카탈로그
@@ -177,16 +177,16 @@ Databricks Lakehouse Platform:
 아키텍처:
 
 클라우드 스토리지 (S3/ADLS/GCS)
-         │
+         |
    Delta Lake (오픈 포맷)
-         │
+         |
    Unity Catalog (거버넌스)
-         │
-   ┌──────────────────┐
-   │ Delta Engine      │ (쿼리 엔진)
-   │ (고성능 Spark)    │
-   └──────────────────┘
-   │           │
+         |
+   +------------------+
+   | Delta Engine      | (쿼리 엔진)
+   | (고성능 Spark)    |
+   +------------------+
+   |           |
 ML/AI       BI/SQL
 (MLflow)   (Databricks SQL)
 
@@ -234,21 +234,21 @@ Unity Catalog:
 
   문제:
   ETL 파이프라인 유지 비용: 월 500만원
-  레이크 → DW 지연: 3시간
+  레이크 -> DW 지연: 3시간
   데이터 불일치: 레이크 vs DW 수치 다름
   Redshift 비용: 월 2,000만원
 
 레이크하우스 전환 (Databricks + Delta Lake):
 
 아키텍처:
-  S3 → Delta Lake 테이블
+  S3 -> Delta Lake 테이블
   Databricks Spark: 처리 + ML
   Databricks SQL: BI 쿼리
   Unity Catalog: 거버넌스
 
 핵심 마이그레이션:
-  Redshift 테이블 → Delta Lake 변환
-  Redshift 쿼리 → Databricks SQL 마이그레이션
+  Redshift 테이블 -> Delta Lake 변환
+  Redshift 쿼리 -> Databricks SQL 마이그레이션
 
 타임 트래블 활용:
   규제 감사: "2023년 12월 말 데이터 상태는?"
@@ -257,17 +257,17 @@ Unity Catalog:
 
 스트리밍 통합:
   실시간 사기 탐지:
-  Kafka → Structured Streaming → Delta Lake
-  → ML 모델 실시간 스코어링
-  → 결과 Delta 테이블에 저장
+  Kafka -> Structured Streaming -> Delta Lake
+  -> ML 모델 실시간 스코어링
+  -> 결과 Delta 테이블에 저장
 
 결과:
   ETL 파이프라인: 제거 (단일 플랫폼)
-  데이터 신선도: 3시간 → 5분
+  데이터 신선도: 3시간 -> 5분
   데이터 불일치: 0 (단일 소스)
-  월 인프라 비용: 2,500만원 → 1,200만원
+  월 인프라 비용: 2,500만원 -> 1,200만원
   ML 학습 속도: 4배 향상 (Delta Cache)
-  규제 감사 대응 시간: 2주 → 2시간
+  규제 감사 대응 시간: 2주 -> 2시간
 ```
 
 > 📢 **섹션 요약 비유**: 금융사 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 단일 장부 — 레이크(창고 장부)와 웨어하우스(회계 장부) 이중으로 기록하다가, 하나의 스마트 장부([레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))로 통합. 비용 반, 시간 1/36!
@@ -345,7 +345,7 @@ AI+BI 통합 플랫폼 수렴
 
 **진행 상황**: 258 / 262
 
-← **이전**: [045. 데이터 패브릭 — Data Fabric](/knowledge-base/studynote/16_bigdata/13_intro_trends/257_data_fabric/)
-**다음**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/knowledge-base/studynote/16_bigdata/13_intro_trends/259_realtime_olap/) →
+<- **이전**: [045. 데이터 패브릭 — Data Fabric](/knowledge-base/studynote/16_bigdata/13_intro_trends/257_data_fabric/)
+**다음**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/knowledge-base/studynote/16_bigdata/13_intro_trends/259_realtime_olap/) ->
 
 ---

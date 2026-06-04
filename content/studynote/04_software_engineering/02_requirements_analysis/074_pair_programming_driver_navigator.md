@@ -99,9 +99,9 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 
 ```text
 Pair Programming
-  ↓
+  v
 Driver / Navigator
-  ↓
+  v
 Quality / Sharing
 ```
 
@@ -111,9 +111,9 @@ Quality / Sharing
 
 ```text
 XP
-  ↓
+  v
 Pair Programming
-  ↓
+  v
 Collaborative Coding
 ```
 
@@ -131,7 +131,7 @@ Collaborative Coding
 
 **진행 상황**: 74 / 973
 
-← **이전**: [73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)
-**다음**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/) →
+<- **이전**: [73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)
+**다음**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/) ->
 
 ---

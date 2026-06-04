@@ -53,26 +53,26 @@ tags = ["studynote-enterprise-systems"]
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 거버넌스 3요소 + IT 지원 레이어
 
 ```
-  ┌──────────────────────────────────────────────────────────────┐
-  │               데이터 거버넌스 프레임워크                       │
-  │                                                              │
-  │  ① 원칙 (Principles)                                         │
-  │  ┌─────────────────────────────────────────────────────────┐ │
-  │  │ 데이터 분류 정책 │ 품질 기준 │ 보안 정책 │ 생명주기 정책  │ │
-  │  └─────────────────────────────────────────────────────────┘ │
-  │                           │                                  │
-  │  ② 조직 (Organization)    ▼                                  │
-  │  ┌─────────────────────────────────────────────────────────┐ │
-  │  │  CDO → Governance Council → Data Owner → Data Steward  │ │
-  │  └─────────────────────────────────────────────────────────┘ │
-  │                           │                                  │
-  │  ③ 프로세스 + IT 시스템   ▼                                  │
-  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌──────────┐  │
-  │  │데이터 카탈로그│  │ 데이터 계보 │  │품질 모니터링│  │메타데이터│  │
-  │  │(Atlas/   │  │(OpenLinea-│  │(dbt test/ │  │  관리    │  │
-  │  │ Alation) │  │  ge)      │  │ GE)       │  │          │  │
-  │  └───────────┘  └───────────┘  └───────────┘  └──────────┘  │
-  └──────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------+
+  |               데이터 거버넌스 프레임워크                       |
+  |                                                              |
+  |  ① 원칙 (Principles)                                         |
+  |  +---------------------------------------------------------+ |
+  |  | 데이터 분류 정책 | 품질 기준 | 보안 정책 | 생명주기 정책  | |
+  |  +---------------------------------------------------------+ |
+  |                           |                                  |
+  |  ② 조직 (Organization)    v                                  |
+  |  +---------------------------------------------------------+ |
+  |  |  CDO -> Governance Council -> Data Owner -> Data Steward  | |
+  |  +---------------------------------------------------------+ |
+  |                           |                                  |
+  |  ③ 프로세스 + IT 시스템   v                                  |
+  |  +-----------+  +-----------+  +-----------+  +----------+  |
+  |  |데이터 카탈로그|  | 데이터 계보 |  |품질 모니터링|  |메타데이터|  |
+  |  |(Atlas/   |  |(OpenLinea-|  |(dbt test/ |  |  관리    |  |
+  |  | Alation) |  |  ge)      |  | GE)       |  |          |  |
+  |  +-----------+  +-----------+  +-----------+  +----------+  |
+  +--------------------------------------------------------------+
 ```
 
 ### [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 비교
@@ -144,17 +144,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```
 데이터 품질 문제 인식 - 임시방편 대응
-    │
-    ▼
+    |
+    v
 데이터 관리 정책 수립 (조직·프로세스·IT 3요소)
-    │
-    ▼
+    |
+    v
 Data Catalog + Data Steward 체계화
-    │
-    ▼
+    |
+    v
 DAMA-DMBOK 기반 거버넌스 성숙도 모델 적용
-    │
-    ▼
+    |
+    v
 능동적 거버넌스 (Active Metadata + AI 자동화)
 ```
 
@@ -172,7 +172,7 @@ DAMA-DMBOK 기반 거버넌스 성숙도 모델 적용
 
 **진행 상황**: 306 / 482
 
-← **이전**: [305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/)
-**다음**: [307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/307_molap_rolap_holap/) →
+<- **이전**: [305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/)
+**다음**: [307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/307_molap_rolap_holap/) ->
 
 ---

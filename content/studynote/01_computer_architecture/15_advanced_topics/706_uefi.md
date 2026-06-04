@@ -47,23 +47,23 @@ UEFI는 기능 면에서 두 층으로 나눠 보면 이해가 쉽다. Boot Serv
 아래 그림은 UEFI의 부팅 경로를 단순화한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     UEFI boot sequence                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Power on                                                          │
-│   │                                                               │
-│   ▼                                                               │
-│ SEC ──▶ PEI ──▶ DXE ──▶ BDS ──▶ ESP\EFI\*.efi                    │
-│                             │                    │                │
-│                             │                    ▼                │
-│                             │             OS loader start         │
-│                             ▼                    │                │
-│                     Boot Services active          ▼                │
-│                                         ExitBootServices()         │
-│                                                   │                │
-│                                                   ▼                │
-│                                        OS takes hardware control   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                     UEFI boot sequence                            |
++--------------------------------------------------------------------+
+| Power on                                                          |
+|   |                                                               |
+|   v                                                               |
+| SEC ---> PEI ---> DXE ---> BDS ---> ESP\EFI\*.efi                    |
+|                             |                    |                |
+|                             |                    v                |
+|                             |             OS loader start         |
+|                             v                    |                |
+|                     Boot Services active          v                |
+|                                         ExitBootServices()         |
+|                                                   |                |
+|                                                   v                |
+|                                        OS takes hardware control   |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 UEFI가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 아니라는 사실이다. UEFI는 어디까지나 표준화된 pre-OS 환경이다. 하지만 그 환경이 충분히 풍부하기 때문에, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근, 네트워크 부팅, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 캡슐 처리, [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 기능이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 이전 단계에서 이미 가능해진다.
@@ -142,17 +142,17 @@ UEFI의 가장 큰 효과는 부팅 경로의 표준화다. 디스크 구조, �
 
 ```text
 레거시 BIOS의 16비트 · MBR 제약
-    │
-    ▼
+    |
+    v
 UEFI 표준 실행 환경 도입
-    │
-    ▼
+    |
+    v
 GPT + ESP 기반 부팅 체계
-    │
-    ▼
+    |
+    v
 Secure Boot · NVRAM 정책 관리
-    │
-    ▼
+    |
+    v
 Capsule update · measured boot 확장
 ```
 
@@ -170,7 +170,7 @@ Capsule update · measured boot 확장
 
 **진행 상황**: 707 / 803
 
-← **이전**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/)
-**다음**: [707. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/707_acpi/) →
+<- **이전**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/)
+**다음**: [707. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/707_acpi/) ->
 
 ---

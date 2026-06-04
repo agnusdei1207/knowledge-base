@@ -33,11 +33,11 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ```text
 데이터 추가
-   ↓
+   v
 해시 1, 해시 2, 해시 3
-   ↓
+   v
 비트 배열의 여러 칸을 1로 설정
-   ↓
+   v
 조회 시 모든 칸이 1이면 "있을 수도"
 ```
 
@@ -105,11 +105,11 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ```text
 LSM Tree / SSTable
-   ↓
+   v
 블룸 필터
-   ↓
+   v
 False Positive 관리
-   ↓
+   v
 디스크 I/O 절감
 ```
 
@@ -119,13 +119,13 @@ False Positive 관리
 
 ```text
 랜덤 I/O 병목
-   ↓
+   v
 확률적 집합 판별
-   ↓
+   v
 Bloom Filter
-   ↓
+   v
 Counting Bloom Filter
-   ↓
+   v
 LSM 기반 읽기 최적화
 ```
 
@@ -143,7 +143,7 @@ LSM 기반 읽기 최적화
 
 **진행 상황**: 59 / 258
 
-← **이전**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)
-**다음**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/) →
+<- **이전**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)
+**다음**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/) ->
 
 ---

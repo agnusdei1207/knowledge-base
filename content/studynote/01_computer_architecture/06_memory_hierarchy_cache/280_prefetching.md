@@ -28,17 +28,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 수요 기반 적재와 프리페칭의 차이를 "언제 기다리느냐" 관점에서 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│      Demand Fetch vs Prefetch: 같은 메모리 지연을 어디에 둘 것인가 │
-├────────────────────────────────────────────────────────────────────┤
-│ 수요 적재                                                       │
-│   CPU 요청 ──▶ 캐시 미스 ──▶ DRAM 대기 ──▶ 데이터 도착 ──▶ 실행 재개 │
-│                                                                  │
-│ 프리페칭                                                         │
-│   이전 접근 ──▶ 패턴 감지 ──▶ 미리 요청 ──▶ 백그라운드 대기 완료     │
-│                                               │                  │
-│                                               └────▶ 이후 CPU hit │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|      Demand Fetch vs Prefetch: 같은 메모리 지연을 어디에 둘 것인가 |
++--------------------------------------------------------------------+
+| 수요 적재                                                       |
+|   CPU 요청 ---> 캐시 미스 ---> DRAM 대기 ---> 데이터 도착 ---> 실행 재개 |
+|                                                                  |
+| 프리페칭                                                         |
+|   이전 접근 ---> 패턴 감지 ---> 미리 요청 ---> 백그라운드 대기 완료     |
+|                                               |                  |
+|                                               +-----> 이후 CPU hit |
++--------------------------------------------------------------------+
 ```
 
 핵심은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 자체가 사라지는 것이 아니라, CPU가 당장 놀고 있는 구간이 아니라 <strong>미리 겹칠 수 있는 구간</strong>으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 위치를 옮긴다는 점이다.
@@ -63,18 +63,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 프리페처의 동작을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다. 같은 간격의 주소가 반복되면 프리페처가 미래 블록을 먼저 요청해, CPU가 그 주소에 도착할 때는 이미 캐시에 적재된 상태를 만들려 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│          Stride Prefetcher: 반복 간격을 학습해 앞질러 가기         │
-├────────────────────────────────────────────────────────────────────┤
-│ 관측된 접근:   A0 ─────▶ A4 ─────▶ A8                            │
-│                  \         \         \                            │
-│                   \         \         └─ stride = +4 추정         │
-│                    \         └────────── 과거 간격 기록           │
-│                     └────────────────── 패턴 학습                 │
-│                                                                  │
-│ 예측 요청:                         A12 ───▶ A16                  │
-│ CPU 실제 사용:                     (나중에 도착)                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|          Stride Prefetcher: 반복 간격을 학습해 앞질러 가기         |
++--------------------------------------------------------------------+
+| 관측된 접근:   A0 ------> A4 ------> A8                            |
+|                  \         \         \                            |
+|                   \         \         +- stride = +4 추정         |
+|                    \         +---------- 과거 간격 기록           |
+|                     +------------------ 패턴 학습                 |
+|                                                                  |
+| 예측 요청:                         A12 ----> A16                  |
+| CPU 실제 사용:                     (나중에 도착)                 |
++--------------------------------------------------------------------+
 ```
 
 좋은 프리페처는 정확도 (Accuracy)와 적시성 (Timeliness)을 동시에 만족해야 한다. 너무 늦게 가져오면 수요 미스와 다를 바 없고, 너무 빨리 가져오면 아직 쓸 차례가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 차지한다. 그래서 실제 CPU는 프리페치 큐, MSHR (Miss Status Holding [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률, 최근 성공률을 함께 보며 공격성을 동적으로 조절한다.
@@ -153,19 +153,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 수요 적재 (Demand Fetch)
-        │
-        ▼
+        |
+        v
 지역성 (Locality) 기반 다음 줄 프리페치
-        │
-        ▼
+        |
+        v
 스트라이드 프리페치 (Stride Prefetch)
-        │
-        ├──────────────▶ 소프트웨어 프리페치 힌트
-        │
-        ▼
+        |
+        +---------------> 소프트웨어 프리페치 힌트
+        |
+        v
 상관 프리페치 (Correlation Prefetch)
-        │
-        ▼
+        |
+        v
 적응형 프리페처 · 대역폭 인지 제어 · 학습형 예측
 ```
 
@@ -183,7 +183,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 280 / 803
 
-← **이전**: [279. 분리 캐시 (Split Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/)
-**다음**: [281. 희생자 캐시 (Victim Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/281_victim_cache/) →
+<- **이전**: [279. 분리 캐시 (Split Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/)
+**다음**: [281. 희생자 캐시 (Victim Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/281_victim_cache/) ->
 
 ---

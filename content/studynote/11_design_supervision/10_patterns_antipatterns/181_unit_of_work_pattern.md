@@ -44,23 +44,23 @@ Unit of Work는 보통 Identity Map, 변경 추적, Flush, [트랜잭션](/knowl
 아래 그림은 Unit of Work가 "객체 변경 회계장부"처럼 동작한다는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Unit of Work inside one business transaction                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Application Service                                                 │
-│    │ load / modify / remove via Repository                          │
-│    ▼                                                                │
-│ Unit of Work                                                        │
-│   ├─ Identity Map      : loaded entities                            │
-│   ├─ New Objects       : INSERT queue                               │
-│   ├─ Dirty Objects     : UPDATE queue                               │
-│   └─ Removed Objects   : DELETE queue                               │
-│            │                                                        │
-│            ├─ flush()    -> SQL generation / batching               │
-│            └─ rollback() -> discard tracked changes                 │
-│                                                                      │
-│ Database transaction commits all or nothing                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Unit of Work inside one business transaction                        |
++----------------------------------------------------------------------+
+| Application Service                                                 |
+|    | load / modify / remove via Repository                          |
+|    v                                                                |
+| Unit of Work                                                        |
+|   +- Identity Map      : loaded entities                            |
+|   +- New Objects       : INSERT queue                               |
+|   +- Dirty Objects     : UPDATE queue                               |
+|   +- Removed Objects   : DELETE queue                               |
+|            |                                                        |
+|            +- flush()    -> SQL generation / batching               |
+|            +- rollback() -> discard tracked changes                 |
+|                                                                      |
+| Database transaction commits all or nothing                         |
++----------------------------------------------------------------------+
 ```
 
 JPA/Hibernate에서는 이 메커니즘이 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 구현된다. 엔티티를 조회하면 1차 캐시에 올라가고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 필드를 바꾸면 스냅샷과 현재 상태를 비교하는 Dirty Checking으로 UPDATE가 준비된다. 즉 `save()`를 반복 호출하지 않아도 Unit of Work가 "무엇이 달라졌는지"를 알아낸다.
@@ -150,18 +150,18 @@ Unit of Work의 장점은 명확하다. 변경을 한 번에 반영하므로 [�
 
 ```text
 비즈니스 유스케이스 시작
-    │
-    ▼
+    |
+    v
 Repository로 엔티티 로드
-    │
-    ▼
+    |
+    v
 Identity Map + New / Dirty / Removed 추적
-    │
-    ├─ dirty checking
-    ├─ flush
-    └─ rollback / commit
-    │
-    ▼
+    |
+    +- dirty checking
+    +- flush
+    +- rollback / commit
+    |
+    v
 일관된 트랜잭션 반영과 ORM 최적화
 ```
 
@@ -179,7 +179,7 @@ Identity Map + New / Dirty / Removed 추적
 
 **진행 상황**: 237 / 530
 
-← **이전**: [180. 트랜잭션 스크립트 vs 도메인 모델 (Transaction Script vs Domain Model)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/)
-**다음**: [182. 지연 로딩 (Lazy Loading)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/) →
+<- **이전**: [180. 트랜잭션 스크립트 vs 도메인 모델 (Transaction Script vs Domain Model)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/180_transaction_script_vs_domain_model/)
+**다음**: [182. 지연 로딩 (Lazy Loading)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/) ->
 
 ---

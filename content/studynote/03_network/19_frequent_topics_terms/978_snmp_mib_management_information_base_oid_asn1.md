@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP 릴레이 에이전트]
-    │
-    ▼
+    |
+    v
 [SNMP MIB 구조]
-    │
-    └──▶ [IPSec 터널/수송 모드]
+    |
+    +---> [IPSec 터널/수송 모드]
 ```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP 릴레이 에이전트]
-    │
-    ▼
+    |
+    v
 [SNMP MIB 구조]
-    │
-    └──▶ [IPSec 터널/수송 모드]
+    |
+    +---> [IPSec 터널/수송 모드]
 ```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 
 ```text
 [선행 개념: DHCP 릴레이 에이전트]
-    │
-    ▼
+    |
+    v
 [현재 개념: SNMP MIB 구조]
-    │
-    ├──▶ [확장 A: IPSec 터널/수송 모드]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: IPSec 터널/수송 모드]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 
 **진행 상황**: 1099 / 1120
 
-← **이전**: [977. DHCP 릴레이 에이전트](/knowledge-base/studynote/03_network/19_frequent_topics_terms/977_dhcp_relay_agent_broadcast_unicast_ip_helper/)
-**다음**: [979. IPSec 터널/수송 모드](/knowledge-base/studynote/03_network/19_frequent_topics_terms/979_ipsec_tunnel_transport_mode/) →
+<- **이전**: [977. DHCP 릴레이 에이전트](/knowledge-base/studynote/03_network/19_frequent_topics_terms/977_dhcp_relay_agent_broadcast_unicast_ip_helper/)
+**다음**: [979. IPSec 터널/수송 모드](/knowledge-base/studynote/03_network/19_frequent_topics_terms/979_ipsec_tunnel_transport_mode/) ->
 
 ---

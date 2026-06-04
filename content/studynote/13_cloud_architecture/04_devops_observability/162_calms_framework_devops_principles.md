@@ -81,11 +81,11 @@ tags = ["studynote-cloud"]
 
 ```text
 DevOps 도입 (도구만 도입, 문화 부재)
-    │
-    ▼
+    |
+    v
 CALMS: Culture · Automation · Lean · Measurement · Sharing
-    │
-    ▼
+    |
+    v
 성숙도 평가: DORA Metrics · SPACE Framework
 ```
 
@@ -98,7 +98,7 @@ CALMS: Culture · Automation · Lean · Measurement · Sharing
 
 **진행 상황**: 161 / 371
 
-← **이전**: [데브옵스 (DevOps: Culture, Automation, Collaboration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/161_devops_culture_automation_collaboration/)
-**다음**: [지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/163_continuous_integration_ci_automated_build_test/) →
+<- **이전**: [데브옵스 (DevOps: Culture, Automation, Collaboration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/161_devops_culture_automation_collaboration/)
+**다음**: [지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/163_continuous_integration_ci_automated_build_test/) ->
 
 ---

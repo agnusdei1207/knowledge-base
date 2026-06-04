@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 "절대 주소 반복"보다 "기준점 + 거리"가 더 실용적인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why displacement addressing exists                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ large memory space                                                 │
-│ 0x0000_0000 ........................................ 0xFFFF_FFFF   │
-│                                                                    │
-│ direct addressing  : instruction must carry full target address    │
-│ register indirect  : register must already hold exact target       │
-│ displacement       : register holds region base, instruction says  │
-│                      only "how far from the base?"                 │
-│                                                                    │
-│ result : shorter instruction + flexible access to nearby objects   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why displacement addressing exists                                 |
++--------------------------------------------------------------------+
+| large memory space                                                 |
+| 0x0000_0000 ........................................ 0xFFFF_FFFF   |
+|                                                                    |
+| direct addressing  : instruction must carry full target address    |
+| register indirect  : register must already hold exact target       |
+| displacement       : register holds region base, instruction says  |
+|                      only "how far from the base?"                 |
+|                                                                    |
+| result : shorter instruction + flexible access to nearby objects   |
++--------------------------------------------------------------------+
 ```
 
 핵심은 <strong>주소를 둘로 쪼개는 것</strong>이다. 큰 기준점은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 맡고, 자주 바뀌지 않는 짧은 상대 거리는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 맡는다. 그래서 함수의 지역 변수, 객체의 멤버, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 내부 슬롯처럼 "같은 기준점 주변의 값들"을 읽을 때 특히 효율적이다.
@@ -62,25 +62,25 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 전형적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example: LOAD R0, -16(R5)                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction field      register file                               │
-│   disp = -16  ─────┐    R5 = 0x7FFF_FF20                           │
-│                    │            │                                  │
-│                    ▼            ▼                                  │
-│               sign extension   base read                           │
-│                    └──────┬─────┘                                  │
-│                           ▼                                        │
-│                  AGU / address adder                               │
-│               EA = 0x7FFF_FF20 + (-16)                             │
-│                           │                                        │
-│                           ▼                                        │
-│                     Cache / Memory                                 │
-│                           │                                        │
-│                           ▼                                        │
-│                         R0 <- data                                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Example: LOAD R0, -16(R5)                                          |
++--------------------------------------------------------------------+
+| instruction field      register file                               |
+|   disp = -16  -----+    R5 = 0x7FFF_FF20                           |
+|                    |            |                                  |
+|                    v            v                                  |
+|               sign extension   base read                           |
+|                    +------+-----+                                  |
+|                           v                                        |
+|                  AGU / address adder                               |
+|               EA = 0x7FFF_FF20 + (-16)                             |
+|                           |                                        |
+|                           v                                        |
+|                     Cache / Memory                                 |
+|                           |                                        |
+|                           v                                        |
+|                         R0 <- data                                 |
++--------------------------------------------------------------------+
 ```
 
 이 구조는 특히 <strong>지역성이 강한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>에 잘 맞는다. [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 주변에 지역 변수가 몰려 있고, 객체의 필드는 객체 시작 주소 근처에 연속 배치되며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소도 기준 주소에서 일정한 간격으로 이어진다. CPU는 이런 구조를 이용해 "기준점은 크게, 세부 위치는 작게" 표현함으로써 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 짧게 유지한다.
@@ -110,10 +110,10 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 EA = anchor + displacement
-        │
-        ├─ anchor = base register  -> base register addressing
-        ├─ anchor = PC             -> relative addressing
-        └─ anchor = object/frame   -> field or stack access
+        |
+        +- anchor = base register  -> base register addressing
+        +- anchor = PC             -> relative addressing
+        +- anchor = object/frame   -> field or stack access
 ```
 
 - **📢 섹션 요약 비유**: 변위 주소 지정은 "어디를 출발점으로 삼느냐만 다를 뿐, 남은 길은 몇 걸음 가는가로 설명한다"는 공통 규칙과 같다. 학교를 기준으로 가면 통학길이 되고, 집을 기준으로 가면 동네 길찾기가 되는 셈이다.
@@ -134,17 +134,17 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 아래 흐름은 어떤 주소 지정이 더 자연스러운지 가르는 실무적 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing an addressing style                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Is the target near a known base?                                   │
-│   ├─ yes -> displacement addressing                                │
-│   │         ├─ same object/frame fields? -> fixed offset           │
-│   │         └─ branch near current code? -> PC-relative            │
-│   └─ no                                                            │
-│        ├─ exact pointer already in register? -> register indirect  │
-│        └─ element index changes every iteration? -> indexed mode   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Choosing an addressing style                                       |
++--------------------------------------------------------------------+
+| Is the target near a known base?                                   |
+|   +- yes -> displacement addressing                                |
+|   |         +- same object/frame fields? -> fixed offset           |
+|   |         +- branch near current code? -> PC-relative            |
+|   +- no                                                            |
+|        +- exact pointer already in register? -> register indirect  |
+|        +- element index changes every iteration? -> indexed mode   |
++--------------------------------------------------------------------+
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -187,16 +187,16 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 
 ```text
 직접 주소 지정의 주소 비트 한계
-        │
-        ▼
+        |
+        v
 기준 주소를 레지스터에 보관
-        │
-        ▼
+        |
+        v
 변위 주소 지정 (Base + Offset)
-        │
-        ├──────────────▶ 베이스 레지스터 주소 지정
-        ├──────────────▶ 인덱스 / 스케일 확장
-        └──────────────▶ PC-relative와 위치 독립 코드
+        |
+        +---------------> 베이스 레지스터 주소 지정
+        +---------------> 인덱스 / 스케일 확장
+        +---------------> PC-relative와 위치 독립 코드
 ```
 
 이 흐름도는 "긴 절대 주소를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 넣기 어렵다"는 문제에서 출발해, 변위 주소 지정이 여러 현대 주소 지정 방식의 공통 뿌리가 되었음을 보여 준다.
@@ -213,7 +213,7 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 
 **진행 상황**: 179 / 803
 
-← **이전**: [178. 레지스터 간접 주소 지정 (Register Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)
-**다음**: [180. 베이스 레지스터 주소 지정 (Base Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/180_base_register_addressing/) →
+<- **이전**: [178. 레지스터 간접 주소 지정 (Register Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)
+**다음**: [180. 베이스 레지스터 주소 지정 (Base Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/180_base_register_addressing/) ->
 
 ---

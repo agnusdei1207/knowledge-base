@@ -21,31 +21,31 @@ tags = ["studynote-network"]
 
 - **개념**: 무선 통신(Wi-Fi, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등)에서 전파의 세기, 감쇠, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 증폭 이득(Gain)을 측정하기 위해 사용하는 국제 표준 지표들이다. 크게 절대 전력(`dBm`), 상대적 증폭률(`dBi`, `dBd`), 최종 방사 전력(`EIRP`), 그리고 전파가 퍼지는 각도(`HPBW`)로 나뉜다.
 - **필요성**: 무선 네트워크 엔지니어(RF 엔지니어)가 회사에 공유기 100대를 깔 때, "이 공유기 전파가 벽을 2개 뚫고 30m 뒤의 회의실까지 살아서 도착할까?"를 눈대중으로 찍을 수는 없다. 송신기의 파워에서 케이블 손실을 빼고 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭을 더한 뒤, 공기 중의 감쇠(Path Loss)를 빼서 남은 최종 에너지가 스마트폰의 최소 수신 감도보다 높은지 계산(Link Budget)해야 한다. 이때 와트(Watt) 단위로 0.000000001W 같은 끔찍한 숫자를 더하기 빼기로 쉽게 계산하기 위해 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(Log) 변환된 dB 지표</strong>가 절대적으로 절실했다.
-- **등장 배경**: ① 전기/통신 공학에서 거대한 숫자와 미세한 숫자를 다루기 위한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일(Decibel)의 도입 → ② 무선 통신 기기들의 출력이 대부분 1W 이하의 밀리와트(mW) 급이므로 이를 기준으로 한 **dBm** 정립 → ③ '이상적인 둥근 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(Isotropic)' 대비 얼마나 전파를 잘 찌그러뜨리는지를 나타내는 **dBi** 지표의 확립.
+- **등장 배경**: ① 전기/통신 공학에서 거대한 숫자와 미세한 숫자를 다루기 위한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일(Decibel)의 도입 -> ② 무선 통신 기기들의 출력이 대부분 1W 이하의 밀리와트(mW) 급이므로 이를 기준으로 한 **dBm** 정립 -> ③ '이상적인 둥근 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(Isotropic)' 대비 얼마나 전파를 잘 찌그러뜨리는지를 나타내는 **dBi** 지표의 확립.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             안테나 증폭(Gain)의 본질: 풍선 찌그러뜨리기 시각화        │
-├─────────────────────────────────────────────────────────────┤
-│   * 대전제: 안테나는 전력을 스스로 창조하지 않는다. 모양만 바꿀 뿐이다!        │
-│                                                             │
-│   [1. 등방성 안테나 (Isotropic Antenna)] - "0 dBi 기준점"       │
-│      (우주 공간에 떠 있는 완벽한 구형 전구. 상상 속의 안테나)           │
-│            / / ─ ─ ─ \ \                                   │
-│          /             \       => 에너지가 360도 모든 방향으로     │
-│         │      (💡)     │          완벽히 똑같이 퍼져나감.        │
-│          \             /          (모든 방향으로 거리가 짧음)     │
-│            \ \ ─ ─ ─ / /                                   │
-│                                                             │
-│   [2. 지향성 안테나 (Directional Antenna)] - "+10 dBi 증폭!"    │
-│      (위아래로 퍼지는 에너지를 꾹 눌러서 앞으로만 길게 쥐어짠 형태)        │
-│                                                             │
-│         (위아래 전파 낭비를 없앰)                                │
-│   (💡)========================================▶ (에너지 집중!)│
-│                                                             │
-│   => 결과: 총 에너지양은 같지만, 쓸데없는 위아래 전파를 없애고 앞쪽으로만 에너지를 │
-│            몰빵(지향성)했더니, 앞쪽으로 가는 거리가 10배 길어졌다! 이것이 '증폭'! │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             안테나 증폭(Gain)의 본질: 풍선 찌그러뜨리기 시각화        |
++-------------------------------------------------------------+
+|   * 대전제: 안테나는 전력을 스스로 창조하지 않는다. 모양만 바꿀 뿐이다!        |
+|                                                             |
+|   [1. 등방성 안테나 (Isotropic Antenna)] - "0 dBi 기준점"       |
+|      (우주 공간에 떠 있는 완벽한 구형 전구. 상상 속의 안테나)           |
+|            / / - - - \ \                                   |
+|          /             \       => 에너지가 360도 모든 방향으로     |
+|         |      (💡)     |          완벽히 똑같이 퍼져나감.        |
+|          \             /          (모든 방향으로 거리가 짧음)     |
+|            \ \ - - - / /                                   |
+|                                                             |
+|   [2. 지향성 안테나 (Directional Antenna)] - "+10 dBi 증폭!"    |
+|      (위아래로 퍼지는 에너지를 꾹 눌러서 앞으로만 길게 쥐어짠 형태)        |
+|                                                             |
+|         (위아래 전파 낭비를 없앰)                                |
+|   (💡)========================================-> (에너지 집중!)|
+|                                                             |
+|   => 결과: 총 에너지양은 같지만, 쓸데없는 위아래 전파를 없애고 앞쪽으로만 에너지를 |
+|            몰빵(지향성)했더니, 앞쪽으로 가는 거리가 10배 길어졌다! 이것이 '증폭'! |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자들이 가장 착각하는 것이 "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭(Gain)이 높으면 전기를 더 써서 에너지가 강해진다"는 것이다. 틀렸다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 단순한 금속 막대기다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭의 진정한 원리는 둥근 물풍선을 위아래로 꾹 눌러 양옆으로 길쭉하게 튀어나오게 만드는 것이다. 천장으로 가는 전파, 바닥으로 가는 전파(버리는 에너지)를 차단하여, 그 에너지를 사람들이 있는 앞쪽으로 빔(Beam)처럼 길게 몰아주는 물리적 모양의 튜닝이다. 0dBi 둥근 전파보다 특정 방향으로 에너지가 10배 세게 뭉쳐있다면, 그 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 증폭률(Gain)은 10dBi가 된다.
@@ -81,22 +81,22 @@ Wi-Fi나 블루투스는 너무 약해서 에너지가 와트(W) 단위가 아�
 *   **EIRP (dBm)** = [송신기 칩셋 출력(dBm)] - [케이블 감쇠 손실(dB)] + [안테나 증폭 이득(dBi)]
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               EIRP 계산 및 무선 커버리지 링크 버짓 예시             │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [공유기 세팅 상황]                                              │
-│   1. 공유기 메인보드(TX) 출력 파워: 20 dBm (100mW)                 │
-│   2. 공유기 기판과 안테나를 잇는 구리선 손실: -2 dB (에너지 깎임)         │
-│   3. 거대한 지향성 안테나 장착: +12 dBi (에너지를 12번 모아 뻥튀기)     │
-│                                                               │
-│   [최종 EIRP (공기 중으로 발사되는 빔의 세기)]                       │
-│   EIRP = 20 - 2 + 12 = 30 dBm                                 │
-│                                                               │
-│   => 결과: 30 dBm은 와트(W)로 환산하면 무려 1,000mW (1W) 다!        │
-│      처음 기판에서 쏜 전력(100mW)보다 안테나 덕분에 빔 방향의 에너지가  │
-│      10배나 증폭되어 날아가는 엄청난 포탄이 되었다! (단, 법적 허용치 오버 위험)│
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               EIRP 계산 및 무선 커버리지 링크 버짓 예시             |
++---------------------------------------------------------------+
+|                                                               |
+|   [공유기 세팅 상황]                                              |
+|   1. 공유기 메인보드(TX) 출력 파워: 20 dBm (100mW)                 |
+|   2. 공유기 기판과 안테나를 잇는 구리선 손실: -2 dB (에너지 깎임)         |
+|   3. 거대한 지향성 안테나 장착: +12 dBi (에너지를 12번 모아 뻥튀기)     |
+|                                                               |
+|   [최종 EIRP (공기 중으로 발사되는 빔의 세기)]                       |
+|   EIRP = 20 - 2 + 12 = 30 dBm                                 |
+|                                                               |
+|   => 결과: 30 dBm은 와트(W)로 환산하면 무려 1,000mW (1W) 다!        |
+|      처음 기판에서 쏜 전력(100mW)보다 안테나 덕분에 빔 방향의 에너지가  |
+|      10배나 증폭되어 날아가는 엄청난 포탄이 되었다! (단, 법적 허용치 오버 위험)|
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** EIRP는 무선망 설계의 시작과 끝이다. 아무리 공유기 칩셋(TX) 출력이 세도, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)까지 가는 싸구려 케이블이 길어서 에너지를 다 깎아먹으면 허공으로 나가는 전파는 쓰레기가 된다. 반대로 공유기 출력을 최소로 낮춰도, 엄청난 이득(Gain)을 가진 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(야기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 등)를 달면 저 멀리 앞쪽을 향해서는 전파를 10km까지도 쏠 수 있다. 엔지니어는 이 세 가지(출력, 손실, [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/))를 더하고 빼서 최종 전파의 파워를 디자인한다.
@@ -108,30 +108,30 @@ Wi-Fi나 블루투스는 너무 약해서 에너지가 와트(W) 단위가 아�
 |:---|:---|:---|:---|:---|
 | <strong>옴니 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> (무지향성)</strong>| 🍩 (옆에서 보면 둥근 도넛) | 낮음 (2~5 dBi) | **넓음 (수직 30~60도, 수평 360도)** | 사무실 천장 정중앙, 거실 한가운데 (사방팔방으로 다 터져야 할 때) |
 | <strong>패치/섹터 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong> | 🔦 (손전등처럼 앞으로 퍼짐) | 중간 (8~15 dBi)| **중간 (60~120도 부채꼴)** | 강당 구석 벽면, 아파트 단지 기지국 (등 뒤는 벽이라 쏠 필요 없고 앞 120도만 쏠 때) |
-| <strong>야기 / 파라볼라 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>| 빔샤벨 ─▶ (레이저 빔) | **극강 (15~30 dBi 이상)** | <strong>아주 좁음 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~20도 핀셋)</strong> | 고속도로 하이패스, 산꼭대기 철탑 간 10km 무선 브릿지 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) (직선거리로 꽂을 때) |
+| <strong>야기 / 파라볼라 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>| 빔샤벨 --> (레이저 빔) | **극강 (15~30 dBi 이상)** | <strong>아주 좁음 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~20도 핀셋)</strong> | 고속도로 하이패스, 산꼭대기 철탑 간 10km 무선 브릿지 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) (직선거리로 꽂을 때) |
 
 * **물리적 트레이드오프(Trade-off)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 증폭(Gain)이 높아질수록 HPBW(빔 각도)는 무조건 좁아진다. 이 둘은 반비례 관계다. 높은 증폭이 무조건 좋은 게 아니다. 거실에 20dBi짜리 극강 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쏘면, 안방은 빵빵 터지지만 바로 옆 부엌에서는 전파가 0이 되어 아예 인터넷이 끊기는 바보 같은 셀 플래닝이 된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               전후방비 (F/B Ratio, Front-to-Back Ratio) 시각화       │
-├───────────────────────────────────────────────────────────────┤
-│   [지향성 섹터 안테나 (기지국용)]                                    │
-│                                                               │
-│                     (메인 빔 로브 - Main Lobe)                   │
-│          벽          )))))))))))))))))))))))))▶ 스마트폰 (신호 빵빵)│
-│   (옆집) ◀──(안테나)  )))))))))))))))))))))))))▶               │
-│                     (에너지 99% 집중)                           │
-│                                                               │
-│   (백 로브 - Back Lobe)                                         │
-│   * 앗! 뒤쪽(벽)으로도 원치 않는 에너지 1%가 새어 나가네?                  │
-│                                                               │
-│   [전후방비(F/B Ratio)의 의미]                                    │
-│   = 앞쪽 파워(Front) / 뒤쪽 파워(Back) 의 차이.                      │
-│   = 수치가 높을수록 "뒤로 새는 쓰레기 전파가 없는 명품 안테나"라는 뜻!         │
-│   = 기업용 섹터 안테나는 이 F/B 비가 최소 20~25dB 이상 되어야 옆 사무실에 │
-│     불필요한 전파 간섭(소음)을 일으키지 않는다!                         │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               전후방비 (F/B Ratio, Front-to-Back Ratio) 시각화       |
++---------------------------------------------------------------+
+|   [지향성 섹터 안테나 (기지국용)]                                    |
+|                                                               |
+|                     (메인 빔 로브 - Main Lobe)                   |
+|          벽          )))))))))))))))))))))))))-> 스마트폰 (신호 빵빵)|
+|   (옆집) <---(안테나)  )))))))))))))))))))))))))->               |
+|                     (에너지 99% 집중)                           |
+|                                                               |
+|   (백 로브 - Back Lobe)                                         |
+|   * 앗! 뒤쪽(벽)으로도 원치 않는 에너지 1%가 새어 나가네?                  |
+|                                                               |
+|   [전후방비(F/B Ratio)의 의미]                                    |
+|   = 앞쪽 파워(Front) / 뒤쪽 파워(Back) 의 차이.                      |
+|   = 수치가 높을수록 "뒤로 새는 쓰레기 전파가 없는 명품 안테나"라는 뜻!         |
+|   = 기업용 섹터 안테나는 이 F/B 비가 최소 20~25dB 이상 되어야 옆 사무실에 |
+|     불필요한 전파 간섭(소음)을 일으키지 않는다!                         |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** F/B Ratio(전후방비)는 아파트 단지나 밀집된 스마트 팩토리에서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 품질을 결정짓는 핵심 지표다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 물리적으로 앞쪽으로만 100% 에너지를 보낼 수 없다. 디자인의 한계로 뒤통수 쪽(Back Lobe)이나 옆구리 쪽(Side Lobe)으로 전파가 줄줄 샌다. 뒤통수로 새는 전파는 등 뒤에 있는 다른 부서의 와이파이에 치명적인 간섭(Interference) 노이즈를 일으킨다. 빔을 앞으로 예쁘게 모으면서, 뒤통수로 새는 에너지를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(F/B 비율 극대화)하는 것이 비싼 엔터프라이즈 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하드웨어 설계의 진수다.
@@ -205,12 +205,12 @@ Wi-Fi나 블루투스는 너무 약해서 에너지가 와트(W) 단위가 아�
 
 ```text
 [선행 개념: 캡티브 포털]
-    │
-    ▼
+    |
+    v
 [현재 개념: 안테나 증폭 측정 지표: dBm 반값 전력각…]
-    │
-    ├──▶ [확장 A: 무선 메시 네트워크]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 무선 메시 네트워크]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…는 [캡티브 포털](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/585_captive_portal_guest_web_auth/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [무선 메시 네트워크](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -227,7 +227,7 @@ Wi-Fi나 블루투스는 너무 약해서 에너지가 와트(W) 단위가 아�
 
 **진행 상황**: 707 / 1120
 
-← **이전**: [585. 캡티브 포털 (Captive Portal)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/585_captive_portal_guest_web_auth/)
-**다음**: [587. 무선 메시 네트워크 (Wireless Mesh Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/) →
+<- **이전**: [585. 캡티브 포털 (Captive Portal)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/585_captive_portal_guest_web_auth/)
+**다음**: [587. 무선 메시 네트워크 (Wireless Mesh Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/587_wireless_mesh_network_daisy_chain/) ->
 
 ---

@@ -44,11 +44,11 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 [HDLC]
-    │
-    ▼
+    |
+    v
 [HDLC 프레임 구조]
-    │
-    └──▶ [HDLC 국 종류]
+    |
+    +---> [HDLC 국 종류]
 ```
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -63,11 +63,11 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 [HDLC]
-    │
-    ▼
+    |
+    v
 [HDLC 프레임 구조]
-    │
-    └──▶ [HDLC 국 종류]
+    |
+    +---> [HDLC 국 종류]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/">HDLC</a> 프레임은 완벽하게 규격화된 </strong>'우체국 택배 박스'**입니다. 박스 앞뒷면에는 테이프(`Flag`)를 발라 봉인하고, 겉면에 송장 주소(`Address`)와 취급 주의/착불 여부 스티커(`Control`)를 붙입니다. 상자 안에는 고객의 소중한 물건(`Information`)이 담겨있고, 마지막으로 상자 모서리에 뜯김 방지 보안 씰(`FCS`)을 붙여 배송 중 누가 열어봤는지(에러) 완벽히 추적하는 택배 포장의 정석입니다.
@@ -128,12 +128,12 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 [선행 개념: HDLC]
-    │
-    ▼
+    |
+    v
 [현재 개념: HDLC 프레임 구조]
-    │
-    ├──▶ [확장 A: HDLC 국 종류]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: HDLC 국 종류]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조는 HDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 **진행 상황**: 338 / 1120
 
-← **이전**: [216. HDLC (High-Level Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/)
-**다음**: [218. HDLC 국(Station) 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/) →
+<- **이전**: [216. HDLC (High-Level Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/)
+**다음**: [218. HDLC 국(Station) 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/) ->
 
 ---

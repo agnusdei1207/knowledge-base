@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 감리 이견 조율 및 중재는 감리 과정의 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 이견 조정과 중재(Mediation) 절차를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 규정 준수 요구가 높아지면서 문서 존재 여부보다 책임, 증적, 종결 상태를 함께 보는 거버넌스가 중요해졌다. 특히 사실 근거가 기준선으로 정리되지 않으면 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 정렬은 사람 의존 절차로 흩어지고, 최종적으로 에스컬레이션이 남지 않아 의사결정이 감각에 의존하게 된다. 형식 점검에 머무르면 같은 지적사항이 반복되고 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 신뢰도도 떨어진다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 사실 근거 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 이해관계자 정렬 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 에스컬레이션 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 사실 근거 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 이해관계자 정렬 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 에스컬레이션 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 감리 이견 조율 및 중재는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 에스컬레이션을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 사실 근거, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 정렬, 에스컬레이션은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 지속 통제 자동화(Continuous Controls Monitoring)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[사실 근거] → [감리 이견 조율 및 중재] → [지속 통제 자동화(Continuous Controls Monitoring)]
+[사실 근거] -> [감리 이견 조율 및 중재] -> [지속 통제 자동화(Continuous Controls Monitoring)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사실 근거는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 326 / 530
 
-← **이전**: [264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/264_audit_corrective_action_major_minor/)
-**다음**: [266. 데이터 거버넌스 메타데이터 표준 감리 (Data Governance Metadata Standard Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) →
+<- **이전**: [264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/264_audit_corrective_action_major_minor/)
+**다음**: [266. 데이터 거버넌스 메타데이터 표준 감리 (Data Governance Metadata Standard Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/266_data_governance_metadata_standard/) ->
 
 ---

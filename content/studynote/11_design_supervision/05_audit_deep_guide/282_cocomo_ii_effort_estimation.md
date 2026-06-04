@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 공수 산정 감리는 구조적 비용 산정 모델([Constructive Cost Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II, [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II) 기반 공수 추정 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 고정가·성과기반 계약이 늘면서 규모와 공수를 구조적으로 설명하는 산정 체계의 필요성이 커졌다. 특히 규모 추정이 기준선으로 정리되지 않으면 스케일 팩터는 사람 의존 절차로 흩어지고, 최종적으로 [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)가 남지 않아 의사결정이 감각에 의존하게 된다. 산정 근거가 약하면 과소 추정, 분쟁, 정산 지연이 반복된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 규모 추정 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 스케일 팩터 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 보정 계수 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 규모 추정 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 스케일 팩터 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 보정 계수 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 공수 산정 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 규모 추정, 스케일 팩터, [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[규모 추정] → COCOMO II 공수 산정 감리] → [예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))]
+[규모 추정] -> COCOMO II 공수 산정 감리] -> [예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 규모 추정은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 343 / 530
 
-← **이전**: [281. 기능점수 정산 감리 (Function Point Settlement Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/281_function_point_settlement/)
-**다음**: [283. PMO 예방적 품질통제 계획 (PMO Preventive Quality Plan)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/283_pmo_preventive_quality_plan/) →
+<- **이전**: [281. 기능점수 정산 감리 (Function Point Settlement Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/281_function_point_settlement/)
+**다음**: [283. PMO 예방적 품질통제 계획 (PMO Preventive Quality Plan)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/283_pmo_preventive_quality_plan/) ->
 
 ---

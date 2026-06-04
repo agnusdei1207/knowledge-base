@@ -31,7 +31,7 @@ Enigma가 그 역할을 했다.
 
 ```text
 Key Press
-  ↓ rotor / plugboard
+  v rotor / plugboard
 Cipher Output
 ```
 
@@ -103,9 +103,9 @@ Enigma는 고전 암호와 현대 암호 해독의 교훈을 준다.
 
 ```text
 Rotor
-  ↓
+  v
 Enigma
-  ↓
+  v
 Cryptanalysis
 ```
 
@@ -115,9 +115,9 @@ Cryptanalysis
 
 ```text
 Mechanical Cipher
-  ↓
+  v
 Enigma
-  ↓
+  v
 Cryptanalysis
 ```
 
@@ -135,7 +135,7 @@ Enigma는 그런 기계예요.
 
 **진행 상황**: 73 / 1108
 
-← **이전**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/)
-**다음**: [074. 일회용 패드 (One-Time Pad)](/knowledge-base/studynote/09_security/02_crypto/074_one_time_pad/) →
+<- **이전**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/)
+**다음**: [074. 일회용 패드 (One-Time Pad)](/knowledge-base/studynote/09_security/02_crypto/074_one_time_pad/) ->
 
 ---

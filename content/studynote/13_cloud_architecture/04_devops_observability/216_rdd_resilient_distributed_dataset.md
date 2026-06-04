@@ -47,42 +47,42 @@ RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장
 RDD 연산 두 가지:
 
 1. 트랜스포메이션 (Transformation) - 새 RDD 반환, 지연 실행
-   ┌─────────────────────────────────────────────────────┐
-   │ map(f)      : 각 원소에 함수 f 적용                  │
-   │ filter(f)   : 조건 f를 만족하는 원소만 선택           │
-   │ flatMap(f)  : map + 중첩 해제                        │
-   │ groupByKey(): 같은 키로 그룹화                       │
-   │ reduceByKey(): 같은 키의 값들을 집계                  │
-   │ join()      : 두 RDD를 키로 조인                     │
-   │ distinct()  : 중복 제거                              │
-   └─────────────────────────────────────────────────────┘
+   +-----------------------------------------------------+
+   | map(f)      : 각 원소에 함수 f 적용                  |
+   | filter(f)   : 조건 f를 만족하는 원소만 선택           |
+   | flatMap(f)  : map + 중첩 해제                        |
+   | groupByKey(): 같은 키로 그룹화                       |
+   | reduceByKey(): 같은 키의 값들을 집계                  |
+   | join()      : 두 RDD를 키로 조인                     |
+   | distinct()  : 중복 제거                              |
+   +-----------------------------------------------------+
 
 2. 액션 (Action) - 즉시 실행, 결과 반환
-   ┌─────────────────────────────────────────────────────┐
-   │ count()     : 원소 수 반환                           │
-   │ collect()   : 모든 원소를 드라이버로 수집             │
-   │ first()     : 첫 번째 원소 반환                      │
-   │ take(n)     : 처음 n개 원소 반환                     │
-   │ reduce(f)   : 모든 원소를 f로 집계                   │
-   │ saveAsTextFile(): 파일로 저장                        │
-   └─────────────────────────────────────────────────────┘
+   +-----------------------------------------------------+
+   | count()     : 원소 수 반환                           |
+   | collect()   : 모든 원소를 드라이버로 수집             |
+   | first()     : 첫 번째 원소 반환                      |
+   | take(n)     : 처음 n개 원소 반환                     |
+   | reduce(f)   : 모든 원소를 f로 집계                   |
+   | saveAsTextFile(): 파일로 저장                        |
+   +-----------------------------------------------------+
 ```
 
 ### Lineage [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
 
 ```
-  textFile("input.txt")     ← RDD[String] (원본)
-         │ map(split)
-         ▼
-  flatMap(words)             ← RDD[String] (단어 리스트)
-         │
-         ▼ map(word → (word,1))
-  pairRDD                   ← RDD[(String, Int)]
-         │
-         ▼ reduceByKey(_+_)
-  wordCount                 ← RDD[(String, Int)] (결과)
-         │
-         ▼ saveAsTextFile()  ← 액션! 이 시점에 전체 DAG 실행
+  textFile("input.txt")     <- RDD[String] (원본)
+         | map(split)
+         v
+  flatMap(words)             <- RDD[String] (단어 리스트)
+         |
+         v map(word -> (word,1))
+  pairRDD                   <- RDD[(String, Int)]
+         |
+         v reduceByKey(_+_)
+  wordCount                 <- RDD[(String, Int)] (결과)
+         |
+         v saveAsTextFile()  <- 액션! 이 시점에 전체 DAG 실행
 ```
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) Python 코드 예시
@@ -126,7 +126,7 @@ counts.count()  # 두 번째 호출은 캐시에서 즉시 반환
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮음 | 높음 | 높음 |
 | 사용 권장 | 저수준 제어 필요 시 | 구조화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 타입 안전 필요 시 |
 
-📢 **섹션 요약 비유**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)→DataFrame→Dataset의 진화는 메모 지→엑셀 스프레드시트→[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
+📢 **섹션 요약 비유**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)->DataFrame->Dataset의 진화는 메모 지->엑셀 스프레드시트->[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
 
 ---
 
@@ -204,11 +204,11 @@ RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변
 
 ```text
 RDD: 불변 · 분산 · 지연 평가 · Lineage 기반 복구
-    │
-    ▼
+    |
+    v
 DataFrame / Dataset: 스키마 기반 · Catalyst 최적화
-    │
-    ▼
+    |
+    v
 Spark SQL: SQL 인터페이스 + Predicate Pushdown
 ```
 2. 트랜스포메이션은 레시피 적기(아직 안 만들었어), 액션은 실제 요리 시작이야. 손님 주문이 와야(액션) 요리를 시작해.
@@ -220,7 +220,7 @@ Spark SQL: SQL 인터페이스 + Predicate Pushdown
 
 **진행 상황**: 215 / 371
 
-← **이전**: [215. 아파치 스파크 (Apache Spark)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/)
-**다음**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/) →
+<- **이전**: [215. 아파치 스파크 (Apache Spark)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/)
+**다음**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/) ->
 
 ---

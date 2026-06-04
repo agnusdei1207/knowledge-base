@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
   이름: 김지연 (35세, 워킹맘, IT 기업 PM)
   목표: 업무 시간 내 효율적 일정 관리
   불편: 복잡한 UI, 모바일 미지원
-  → 이 사용자를 기준으로 UI/기능 설계
+  -> 이 사용자를 기준으로 UI/기능 설계
 ```
 
 - **📢 섹션 요약 비유**: 페르소나는 <strong>영화 주인공 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다. 주인공이 명확해야 스토리(설계)가 일관된다.
@@ -49,9 +49,9 @@ tags = ["studynote-software-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 사용자 분석] → [페르소나 (Alan Cooper, 1999)]
-    → [시나리오 기반 설계 (2005~)] → [Journey Map (2010s)]
-    → [현재: AI 페르소나 — 사용자 데이터→자동 페르소나 생성]
+[비공식 사용자 분석] -> [페르소나 (Alan Cooper, 1999)]
+    -> [시나리오 기반 설계 (2005~)] -> [Journey Map (2010s)]
+    -> [현재: AI 페르소나 — 사용자 데이터->자동 페르소나 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 137 / 973
 
-← **이전**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/)
-**다음**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/knowledge-base/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/) →
+<- **이전**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/)
+**다음**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/knowledge-base/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/) ->
 
 ---

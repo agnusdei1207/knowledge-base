@@ -29,12 +29,12 @@ tags = ["cloud_architecture"]
 
 ```text
 [과거 패키지 소프트웨어 (On-Premise S/W) 흐름]
-라이선스 대량 구매 → IT팀: 직원 PC마다 설치 파일 배포 → 개별 로컬 디스크에 데이터 저장 → 수동 업데이트 패치
-                   ▲ (버전 파편화 및 외부 협업 불가능 병목)
+라이선스 대량 구매 -> IT팀: 직원 PC마다 설치 파일 배포 -> 개별 로컬 디스크에 데이터 저장 -> 수동 업데이트 패치
+                   ^ (버전 파편화 및 외부 협업 불가능 병목)
 
 [현재 SaaS (Cloud S/W) 흐름]
-월 구독료 결제 → 브라우저 로그인(SSO) → 즉시 서비스 이용 & 중앙 클라우드에 데이터 동기화 → 벤더가 백그라운드 무중단 업데이트
-                   ▲ (설치/관리 제로, 실시간 글로벌 협업 가능)
+월 구독료 결제 -> 브라우저 로그인(SSO) -> 즉시 서비스 이용 & 중앙 클라우드에 데이터 동기화 -> 벤더가 백그라운드 무중단 업데이트
+                   ^ (설치/관리 제로, 실시간 글로벌 협업 가능)
 ```
 
 이 흐름도의 핵심은 소프트웨어의 실행 환경이 사용자의 로컬 단말기에서 클라우드의 중앙 서버로 완전히 이동했다는 점이다. 사용자의 PC나 스마트폰은 껍데기(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 역할만 하고 무거운 연산과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장은 모두 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 벤더의 서버에서 처리된다. 따라서 사용자 단말기의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제약에서 해방되며, 중앙에서 기능이 업데이트되면 전 세계 수백만 명의 사용자가 새로고침 한 번으로 최신 기능을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)받게 된다. 실무적으로 이는 섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/), 현업 부서가 IT팀 몰래 SaaS를 도입하는 현상)를 유발할 만큼 압도적인 편의성을 지닌다.
@@ -57,24 +57,24 @@ tags = ["cloud_architecture"]
 ```text
 이 도식은 비용 효율성이 가장 높은 최고 난이도의 SaaS DB 설계인 '공유 DB - 공유 스키마 (Shared DB - Shared Schema)' 방식을 보여준다.
 
-┌────────────── [SaaS Application Instance / SaaS 인스턴스] ──────────────┐
-│  [사용자 A (고객사 X)]         [사용자 B (고객사 Y)]      │
-│          │                              │                 │
-│          ▼ (요청 시 Tenant ID = X 포함) ▼ (Tenant ID = Y) │
-│  ┌──────────────────────────────────────────────────┐     │
-│  │    [ Authentication & Authorization Filter ]     │     │
-│  │    [ Tenant Context Resolver (Tenant 인식기) ]   │     │
-│  └───────────────────────│──────────────────────────┘     │
-└──────────────────────────│────────────────────────────────┘
-                           ▼ (SQL 쿼리에 WHERE Tenant_ID 조건 강제 삽입)
-┌────────────── [ Multi-Tenant Database (공유 DB) ] ────────┐
-│  [ Table : Users ]                                        │
-│  Row 1: [Tenant: X] [Name: Alice] [Data: ...]             │
-│  Row 2: [Tenant: X] [Name: Bob]   [Data: ...]             │
-│  Row 3: [Tenant: Y] [Name: Charlie] [Data: ...]           │
-│                                                           │
-│  * DB 엔진 레벨의 RLS (Row-Level Security) 통제로 누출 원천 차단 *
-└───────────────────────────────────────────────────────────┘
++-------------- [SaaS Application Instance / SaaS 인스턴스] --------------+
+|  [사용자 A (고객사 X)]         [사용자 B (고객사 Y)]      |
+|          |                              |                 |
+|          v (요청 시 Tenant ID = X 포함) v (Tenant ID = Y) |
+|  +--------------------------------------------------+     |
+|  |    [ Authentication & Authorization Filter ]     |     |
+|  |    [ Tenant Context Resolver (Tenant 인식기) ]   |     |
+|  +-----------------------|--------------------------+     |
++--------------------------|--------------------------------+
+                           v (SQL 쿼리에 WHERE Tenant_ID 조건 강제 삽입)
++-------------- [ Multi-Tenant Database (공유 DB) ] --------+
+|  [ Table : Users ]                                        |
+|  Row 1: [Tenant: X] [Name: Alice] [Data: ...]             |
+|  Row 2: [Tenant: X] [Name: Bob]   [Data: ...]             |
+|  Row 3: [Tenant: Y] [Name: Charlie] [Data: ...]           |
+|                                                           |
+|  * DB 엔진 레벨의 RLS (Row-Level Security) 통제로 누출 원천 차단 *
++-----------------------------------------------------------+
 ```
 
 이 구조도의 핵심은 고객사 X와 Y가 물리적으로 같은 DB의 같은 테이블에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰지만, 애플리케이션 프레임워크와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 로우 레벨 보안(RLS) 정책이 결합하여 서로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대 볼 수 없도록 논리적으로 완벽히 격리한다는 점이다. 만약 개발자의 코딩 실수로 `WHERE Tenant_ID = X` 조건이 누락되면, 고객사 Y의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 A에게 노출되는 치명적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 침해([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Breach)가 발생한다. 따라서 실무에서는 ORM(Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 레벨이나 DB 엔진 레벨에서 테넌트 필터링을 강제로 주입하는 글로벌 인터셉터(Interceptor) 패턴을 반드시 아키텍처 베이스에 박아두어야 한다.
@@ -96,16 +96,16 @@ tags = ["cloud_architecture"]
 ```text
 이 매트릭스는 기업의 '데이터 보안 민감도'와 '핵심 비즈니스 차별화' 여부에 따라 도입해야 할 시스템의 형태를 분류한다.
 
-┌────────────────┬────────────────────────────────┬───────────────────────────┐
-│ 비즈니스 특성  │ 높은 보안 & 차별화 핵심 로직   │ 표준화 & 비차별화 로직      │
-├────────────────┼────────────────────────────────┼───────────────────────────┤
-│ 예시 시스템    │ 자체 결제 알고리즘, 핵심 설계도│ 사내 메일, 화상회의, 경비처리│
-├────────────────┼────────────────────────────────┼───────────────────────────┤
-│ 최적 도입 모델 │ IaaS/PaaS 기반 자체 Custom 개발│ SaaS 구독 (Google Work, SAP)│
-├────────────────┼────────────────────────────────┼───────────────────────────┤
-│ 의사결정 사유  │ 경쟁 우위 원천이므로 통제권 확보│ 여기서 혁신해봤자 의미 없음.│
-│                │ 벤더 종속 회피 및 데이터 내재화│ 즉시 도입하고 관리비용 절약 │
-└────────────────┴────────────────────────────────┴───────────────────────────┘
++----------------+--------------------------------+---------------------------+
+| 비즈니스 특성  | 높은 보안 & 차별화 핵심 로직   | 표준화 & 비차별화 로직      |
++----------------+--------------------------------+---------------------------+
+| 예시 시스템    | 자체 결제 알고리즘, 핵심 설계도| 사내 메일, 화상회의, 경비처리|
++----------------+--------------------------------+---------------------------+
+| 최적 도입 모델 | IaaS/PaaS 기반 자체 Custom 개발| SaaS 구독 (Google Work, SAP)|
++----------------+--------------------------------+---------------------------+
+| 의사결정 사유  | 경쟁 우위 원천이므로 통제권 확보| 여기서 혁신해봤자 의미 없음.|
+|                | 벤더 종속 회피 및 데이터 내재화| 즉시 도입하고 관리비용 절약 |
++----------------+--------------------------------+---------------------------+
 ```
 
 기업의 모든 시스템을 직접 개발([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))하는 것은 거대한 낭비다. 이메일, 근태 관리, 일반 회계처럼 회사 간 차별성이 없는 표준(Standard) 업무는 검증된 글로벌 SaaS를 즉시 도입하여 IT 인력의 에너지를 아끼는 것이 올바른 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 반대로, 배달의민족의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘처럼 회사의 심장(Core)이 되는 시스템을 상용 SaaS에 의존하면 비즈니스 확장에 치명적 한계를 맞이하게 된다.
@@ -125,16 +125,16 @@ SaaS를 기업에 전사적으로 도입하거나 [SaaS](/knowledge-base/studyno
 이 흐름도는 사내 직원이 외부 SaaS에 안전하게 접근하기 위한 제로 트러스트(Zero Trust) 및 연동 흐름을 보여준다.
 
 [직원 단말 (Laptop)]
-      ↓ (1. 접근 시도)
-┌─────[ 사내 보안 프록시 (CASB / SWG) ]──────┐ ──(비인가 SaaS 접속은 즉시 Drop 차단)
-│     ↓ (2. 트래픽 허용 및 인증 확인)        │
-│ [ 중앙 Identity Provider (Okta, AD) ]      │ ──(3. SAML Token 발행 및 2FA/MFA 검증)
-└─────│──────────────────────────────────────┘
-      ▼ (4. 검증된 토큰 들고 접속)
-┌─────[ 외부 SaaS Provider (Salesforce) ]────┐
-│ [SSO Endpoint / SSO 엔드포인트] → 유효성 확인 후 로그인 승인│
-│ [API Gateway / API 게이트웨이] ← 사내 백업 서버에서 데이터 추출
-└────────────────────────────────────────────┘
+      v (1. 접근 시도)
++-----[ 사내 보안 프록시 (CASB / SWG) ]------+ --(비인가 SaaS 접속은 즉시 Drop 차단)
+|     v (2. 트래픽 허용 및 인증 확인)        |
+| [ 중앙 Identity Provider (Okta, AD) ]      | --(3. SAML Token 발행 및 2FA/MFA 검증)
++-----|--------------------------------------+
+      v (4. 검증된 토큰 들고 접속)
++-----[ 외부 SaaS Provider (Salesforce) ]----+
+| [SSO Endpoint / SSO 엔드포인트] -> 유효성 확인 후 로그인 승인|
+| [API Gateway / API 게이트웨이] <- 사내 백업 서버에서 데이터 추출
++--------------------------------------------+
 ```
 
 이 운영 플로우의 핵심은 SaaS라는 외부 블랙박스를 사내 IT 거버넌스의 통제망 안으로 강제로 끌고 들어오는 것이다. CASB를 통한 가시성 확보와 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))를 통한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 중앙화 없이는, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도입이 오히려 기업의 보안 공격 표면(Attack Surface)을 기하급수적으로 넓히는 재앙이 된다.
@@ -168,17 +168,17 @@ SaaS의 도입은 비즈니스의 운영 방식을 거대한 설치(Installation
 
 ```text
 [멀티 테넌시 (Multi-Tenancy)]
-    │
-    ▼
+    |
+    v
 [CASB (Cloud Access Security Broker)]
-    │
-    ▼
+    |
+    v
 [SSO (Single Sign-On) & SAML]
-    │
-    ▼
+    |
+    v
 [섀도우 IT (Shadow IT)]
-    │
-    ▼
+    |
+    v
 [웹훅 (Webhook) & API 연동]
 ```
 
@@ -195,7 +195,7 @@ SaaS의 도입은 비즈니스의 운영 방식을 거대한 설치(Installation
 
 **진행 상황**: 3 / 371
 
-← **이전**: [3. PaaS (Platform as a Service) - OS, 런타임, 미들웨어, DB가 세팅된 개발/운영 플랫폼 제공 (AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/003_paas/)
-**다음**: [5. BaaS (Backend as a Service) - 모바일/웹 앱을 위한 공통 백엔드 API (인증, 푸시, DB) 제공 (Firebase)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/005_baas/) →
+<- **이전**: [3. PaaS (Platform as a Service) - OS, 런타임, 미들웨어, DB가 세팅된 개발/운영 플랫폼 제공 (AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/003_paas/)
+**다음**: [5. BaaS (Backend as a Service) - 모바일/웹 앱을 위한 공통 백엔드 API (인증, 푸시, DB) 제공 (Firebase)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/005_baas/) ->
 
 ---

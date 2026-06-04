@@ -32,7 +32,7 @@ tags = ["studynote-ai"]
 불순도는 한 노드에 여러 클래스가 얼마나 섞여 있는지를 나타낸다. [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 정보량 관점, Gini는 오분류 가능성 관점에 가깝다.
 
 ```text
-데이터 → Split 후보 → 불순도 계산 → 최적 분할 선택
+데이터 -> Split 후보 -> 불순도 계산 -> 최적 분할 선택
 ```
 
 | 지표 | 의미 | 특징 |
@@ -110,17 +110,17 @@ ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_in
 
 ```text
 클래스 혼합
-    │
-    ▼
+    |
+    v
 Entropy / Gini 계산
-    │
-    ▼
+    |
+    v
 정보 이득
-    │
-    ▼
+    |
+    v
 분할 선택
-    │
-    ▼
+    |
+    v
 의사결정나무
 ```
 
@@ -138,7 +138,7 @@ Entropy / Gini 계산
 
 **진행 상황**: 54 / 420
 
-← **이전**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/)
-**다음**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/knowledge-base/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/) →
+<- **이전**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/)
+**다음**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/knowledge-base/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/) ->
 
 ---

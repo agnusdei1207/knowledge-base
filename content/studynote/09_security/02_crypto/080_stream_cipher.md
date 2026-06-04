@@ -32,24 +32,24 @@ tags = ["studynote-security"]
 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)의 설계 철학은 "어떻게 하면 우주 끝까지 패턴이 반복되지 않는 진짜 같은 가짜 난수(Pseudo Random Number)를 무한대로 뿜어낼 것인가?"에 모든 것을 건다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           스트림 암호(Stream Cipher)의 초고속 XOR 파이프라인        │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 씨앗 (Seed Key + IV) ] ──▶ (해커가 절대 모르는 비밀 암호키)│
-│            │                                           │
-│            ▼                                           │
-│  [ 난수 생성 공장 (PRNG / LFSR) ]                       │
-│    - 알고리즘: "1011001110001011..." (끝없이 뿜어지는 키 스트림!)│
-│            │                                           │
-│            ▼      (XOR 연산: ⊕)                        │
-│   평문(Data) ──▶ ⊕ ──▶ [ 암호문(Cipher Text) 실시간 전송! ]│
-│   (10011010)            (00101001)                     │
-│                                                        │
-│ * 핵심 논리: 암호화 기계와 복호화 기계는 '100% 똑같은 구조'다.   │
-│   목적지에서도 똑같은 씨앗(Key)을 넣고 똑같은 난수 폭포를 뿜어내어│
-│   암호문에 한 번 더 XOR(⊕)를 때리면 원래의 평문이 돌아온다.      │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           스트림 암호(Stream Cipher)의 초고속 XOR 파이프라인        |
++--------------------------------------------------------+
+|                                                        |
+|  [ 씨앗 (Seed Key + IV) ] ---> (해커가 절대 모르는 비밀 암호키)|
+|            |                                           |
+|            v                                           |
+|  [ 난수 생성 공장 (PRNG / LFSR) ]                       |
+|    - 알고리즘: "1011001110001011..." (끝없이 뿜어지는 키 스트림!)|
+|            |                                           |
+|            v      (XOR 연산: ⊕)                        |
+|   평문(Data) ---> ⊕ ---> [ 암호문(Cipher Text) 실시간 전송! ]|
+|   (10011010)            (00101001)                     |
+|                                                        |
+| * 핵심 논리: 암호화 기계와 복호화 기계는 '100% 똑같은 구조'다.   |
+|   목적지에서도 똑같은 씨앗(Key)을 넣고 똑같은 난수 폭포를 뿜어내어|
+|   암호문에 한 번 더 XOR(⊕)를 때리면 원래의 평문이 돌아온다.      |
++--------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)의 절대 법칙</strong>: 송신자와 수신자의 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 공장(PRNG)은 무조건 똑같은 타이밍에 똑같은 난수를 뱉어야 한다. 네트워크 전송 중에 중간에 1비트가 유실(소실)되어 박자가 어긋나버리면, 그 뒤에 오는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 엉뚱한 난수와 섞여 영구적인 쓰레기가 되어버린다(에러 증식). 그래서 현대 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 자른 뒤 초기화 벡터([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)/[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 계속 섞어주어 박자를 리셋한다.
@@ -113,21 +113,21 @@ tags = ["studynote-security"]
 
 ```text
 무전 통신 등 실시간 스트리밍 환경에서 블록 암호(기다림)의 지연(Latency) 한계 직면
-    │
-    ▼
+    |
+    v
 평문 1비트와 난수 1비트를 실시간 XOR 융합하는 스트림 암호 (Stream Cipher) 탄생
-    │
-    ▼
+    |
+    v
 RC4 알고리즘의 무선 인터넷(WEP, WPA/TKIP) 싹쓸이 및 전성기
-    │
-    ▼
-RC4 초기 키 스트림의 수학적 편향성(취약점) 폭로 및 몰락 ──▶ 한동안 AES(블록 암호) 천하
-    │
-    ▼
-모바일/IoT 폭증으로 가벼운 암호화 수요 재점화 ──▶ 초경량/초강력 난수 엔진 'ChaCha20' 등장 및 TLS 표준 장악
+    |
+    v
+RC4 초기 키 스트림의 수학적 편향성(취약점) 폭로 및 몰락 ---> 한동안 AES(블록 암호) 천하
+    |
+    v
+모바일/IoT 폭증으로 가벼운 암호화 수요 재점화 ---> 초경량/초강력 난수 엔진 'ChaCha20' 등장 및 TLS 표준 장악
 ```
 
-이 흐름도는 "실시간성 요구 → 단순 구조의 성공([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/)) → 치명적 수학 결함으로 인한 몰락 → 모바일 시대의 배터리 최적화 요구에 맞춘 완벽한 부활(ChaCha20)"이라는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)의 롤러코스터 같은 생존사를 보여준다.
+이 흐름도는 "실시간성 요구 -> 단순 구조의 성공([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/)) -> 치명적 수학 결함으로 인한 몰락 -> 모바일 시대의 배터리 최적화 요구에 맞춘 완벽한 부활(ChaCha20)"이라는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)의 롤러코스터 같은 생존사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ RC4 초기 키 스트림의 수학적 편향성(취약점) 폭로 및 몰락 ─
 
 **진행 상황**: 80 / 1108
 
-← **이전**: [079. 블록 암호 (Block Cipher - DES, AES)](/knowledge-base/studynote/09_security/02_crypto/079_block_cipher/)
-**다음**: [81. RC4 (Rivest Cipher 4)](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) →
+<- **이전**: [079. 블록 암호 (Block Cipher - DES, AES)](/knowledge-base/studynote/09_security/02_crypto/079_block_cipher/)
+**다음**: [81. RC4 (Rivest Cipher 4)](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) ->
 
 ---

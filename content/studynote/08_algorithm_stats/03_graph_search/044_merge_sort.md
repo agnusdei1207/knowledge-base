@@ -19,42 +19,42 @@ tags = ["algorithm_stats"]
 
 합병 정렬(Merge Sort)은 1945년 John von Neumann이 개발한 것으로, [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 알고리즘의 대표적 사례이다. 합병 정렬의 핵심 아이디어는 "리스트를 더 이상 나눌 수 없을 때까지(크기 1이 될 때까지) 반으로 분할하고, 분할된 각 부분을 정렬한 후, 이들을 합병하여 최종 정렬된 리스트를 만드는 것"이다.
 
-합병 정렬이 중요한 이유는 <strong>안정성과 최악 O(N log N) 보장</strong>이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N²)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
+합병 정렬이 중요한 이유는 <strong>안정성과 최악 O(N log N) 보장</strong>이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N^)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
 
 > 이 도식은 합병 정렬의 분할-정복-결합 과정을 보여준다.
 
 ```text
 [합병 정렬: 분할 정복 과정]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [분할 (Divide)]                                    │
-│  ────────────────────────────────────                │
-│                                                      │
-│      [38, 27, 43, 3, 9, 82, 10]                   │
-│                  ↓ 반으로 분할                        │
-│      [38, 27, 43, 3]  |  [9, 82, 10]              │
-│              ↓ 반으로 분할     ↓ 반으로 분할            │
-│      [38, 27]  |  [43, 3]  |  [9, 82]  |  [10]   │
-│          ↓ 분할     ↓ 분할        ↓ 분할     ↓ 분할  │
-│         [38] [27] [43] [3]  [9] [82] [10]         │
-│         (기저 사례: 더 이상 분할 불가)                │
-│                                                      │
-│  [정복 (Conquer) + 결합 (Combine)]                  │
-│  ────────────────────────────────────                │
-│         [38] [27] → Merge → [27, 38]               │
-│         [43] [3]  → Merge → [3, 43]                │
-│         [9] [82]  → Merge → [9, 82]                │
-│              [10] → 그대로 [10]                      │
-│                                                      │
-│    [27, 38]  [3, 43] → Merge → [3, 27, 38, 43]   │
-│         [9, 82]  [10]     → Merge → [9, 10, 82]   │
-│                                                      │
-│    [3, 27, 38, 43]  [9, 10, 82]                  │
-│              ↓ 최종 Merge                             │
-│         [3, 9, 10, 27, 38, 43, 82]               │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [분할 (Divide)]                                    |
+|  ------------------------------------                |
+|                                                      |
+|      [38, 27, 43, 3, 9, 82, 10]                   |
+|                  v 반으로 분할                        |
+|      [38, 27, 43, 3]  |  [9, 82, 10]              |
+|              v 반으로 분할     v 반으로 분할            |
+|      [38, 27]  |  [43, 3]  |  [9, 82]  |  [10]   |
+|          v 분할     v 분할        v 분할     v 분할  |
+|         [38] [27] [43] [3]  [9] [82] [10]         |
+|         (기저 사례: 더 이상 분할 불가)                |
+|                                                      |
+|  [정복 (Conquer) + 결합 (Combine)]                  |
+|  ------------------------------------                |
+|         [38] [27] -> Merge -> [27, 38]               |
+|         [43] [3]  -> Merge -> [3, 43]                |
+|         [9] [82]  -> Merge -> [9, 82]                |
+|              [10] -> 그대로 [10]                      |
+|                                                      |
+|    [27, 38]  [3, 43] -> Merge -> [3, 27, 38, 43]   |
+|         [9, 82]  [10]     -> Merge -> [9, 10, 82]   |
+|                                                      |
+|    [3, 27, 38, 43]  [9, 10, 82]                  |
+|              v 최종 Merge                             |
+|         [3, 9, 10, 27, 38, 43, 82]               |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 합병 정렬의 핵심은 "두 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 합병할 때 정렬된 상태가 유지된다"는 것이다.
@@ -75,32 +75,32 @@ tags = ["algorithm_stats"]
 ```text
 [합병 (Merge) 과정 상세]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [두 정렬된 배열의 합병]                              │
-│  ────────────────────────────────────                │
-│                                                      │
-│  Left:  [3, 27, 38, 43]                            │
-│  Right: [9, 10, 82]                                │
-│                                                      │
-│  비교 과정:                                           │
-│  Step 1: 3 vs 9 → 3 선택 (Left 포인터 +1)          │
-│  Step 2: 27 vs 9 → 9 선택 (Right 포인터 +1)        │
-│  Step 3: 27 vs 10 → 10 선택 (Right 포인터 +1)       │
-│  Step 4: 27 vs 82 → 27 선택 (Left 포인터 +1)        │
-│  Step 5: 38 vs 82 → 38 선택 (Left 포인터 +1)       │
-│  Step 6: 43 vs 82 → 43 선택 (Left 포인터 +1)       │
-│  Left 소진 → 나머지 Right 원소 일괄 추가: 82         │
-│                                                      │
-│  결과: [3, 9, 10, 27, 38, 43, 82]                 │
-│                                                      │
-│  [시간 복잡도: T(N) = 2T(N/2) + O(N)]             │
-│  ────────────────────────────────────                │
-│  마스터 정리: a=2, b=2, f(N)=N                      │
-│  N^{log_b a} = N^{log_2 2} = N                    │
-│  f(N) = Θ(N^{log_b a}) → T(N) = Θ(N log N)      │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [두 정렬된 배열의 합병]                              |
+|  ------------------------------------                |
+|                                                      |
+|  Left:  [3, 27, 38, 43]                            |
+|  Right: [9, 10, 82]                                |
+|                                                      |
+|  비교 과정:                                           |
+|  Step 1: 3 vs 9 -> 3 선택 (Left 포인터 +1)          |
+|  Step 2: 27 vs 9 -> 9 선택 (Right 포인터 +1)        |
+|  Step 3: 27 vs 10 -> 10 선택 (Right 포인터 +1)       |
+|  Step 4: 27 vs 82 -> 27 선택 (Left 포인터 +1)        |
+|  Step 5: 38 vs 82 -> 38 선택 (Left 포인터 +1)       |
+|  Step 6: 43 vs 82 -> 43 선택 (Left 포인터 +1)       |
+|  Left 소진 -> 나머지 Right 원소 일괄 추가: 82         |
+|                                                      |
+|  결과: [3, 9, 10, 27, 38, 43, 82]                 |
+|                                                      |
+|  [시간 복잡도: T(N) = 2T(N/2) + O(N)]             |
+|  ------------------------------------                |
+|  마스터 정리: a=2, b=2, f(N)=N                      |
+|  N^{log_b a} = N^{log_2 2} = N                    |
+|  f(N) = Θ(N^{log_b a}) -> T(N) = Θ(N log N)      |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 합병 정렬의 시간 복잡도는 O(N log N)으로, 입력과 무관하게 동일하다.
@@ -119,37 +119,37 @@ tags = ["algorithm_stats"]
 ```text
 [합병 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  function merge_sort(A):                             │
-│      if length(A) <= 1:                            │
-│          return A                                    │
-│                                                      │
-│      mid = length(A) // 2                           │
-│      left = merge_sort(A[0:mid])                   │
-│      right = merge_sort(A[mid:])                    │
-│                                                      │
-│      return merge(left, right)                      │
-│                                                      │
-│  function merge(L, R):                              │
-│      result = []                                    │
-│      i = j = 0                                      │
-│                                                      │
-│      while i < len(L) and j < len(R):             │
-│          if L[i] <= R[j]:                          │
-│              result.append(L[i])                    │
-│              i += 1                                 │
-│          else:                                      │
-│              result.append(R[j])                    │
-│              j += 1                                 │
-│                                                      │
-│      result.extend(L[i:])  // 나머지 일괄 추가       │
-│      result.extend(R[j:])                          │
-│      return result                                   │
-│                                                      │
-│  [공간 복잡도: O(N) 추가 공간 필요]                  │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  function merge_sort(A):                             |
+|      if length(A) <= 1:                            |
+|          return A                                    |
+|                                                      |
+|      mid = length(A) // 2                           |
+|      left = merge_sort(A[0:mid])                   |
+|      right = merge_sort(A[mid:])                    |
+|                                                      |
+|      return merge(left, right)                      |
+|                                                      |
+|  function merge(L, R):                              |
+|      result = []                                    |
+|      i = j = 0                                      |
+|                                                      |
+|      while i < len(L) and j < len(R):             |
+|          if L[i] <= R[j]:                          |
+|              result.append(L[i])                    |
+|              i += 1                                 |
+|          else:                                      |
+|              result.append(R[j])                    |
+|              j += 1                                 |
+|                                                      |
+|      result.extend(L[i:])  // 나머지 일괄 추가       |
+|      result.extend(R[j:])                          |
+|      return result                                   |
+|                                                      |
+|  [공간 복잡도: O(N) 추가 공간 필요]                  |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 합병 정렬은대형プロジェクト의문제해결과 같습니다. 큰 문제를 작게 나누어(분할) 각 팀이 해결하고(정복), 각 팀의 해결책을 통합하면(합병) 전체 문제가해결됩니다.
@@ -188,15 +188,15 @@ tags = ["algorithm_stats"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[삽입 정렬 (Insertion Sort) — O(N²), 소규모에 유리]
-    │
-    ▼
+[삽입 정렬 (Insertion Sort) — O(N^), 소규모에 유리]
+    |
+    v
 [합병 정렬 (Merge Sort) — O(N log N) 보장, 안정, O(N) 추가 공간]
-    │
-    ▼
+    |
+    v
 [Timsort — Merge + Insertion 혼합, Python/Java 표준]
-    │
-    ▼
+    |
+    v
 [병렬 합병 정렬 (Parallel Merge Sort) — 멀티코어 분산 정렬]
 ```
 합병 정렬은 최악에도 O(N log N)을 보장하는 안정 정렬로, Timsort의 기반이 되고 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 진화했다.
@@ -215,7 +215,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 44 / 175
 
-← **이전**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)
-**다음**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) →
+<- **이전**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)
+**다음**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) ->
 
 ---

@@ -44,8 +44,8 @@ tags = ["studynote-devops-sre"]
     showNewUI()
 
 피처 플래그 수명주기:
-  생성 → 개발 중 OFF → 테스트 ON →
-  카나리 (1%~10%) → 전체 롤아웃 → 플래그 제거
+  생성 -> 개발 중 OFF -> 테스트 ON ->
+  카나리 (1%~10%) -> 전체 롤아웃 -> 플래그 제거
 
 경고: "플래그 부채(Flag Debt)"
   삭제되지 않은 플래그 누적 = 기술 부채
@@ -71,11 +71,11 @@ TBD 코드 리뷰 원칙:
 
 큰 PR의 문제:
   - 리뷰어 집중력 한계 (400줄 이상 = 위험 증가)
-  - 통합 충돌 가능성 ↑
-  - 리뷰 지연 → 장기 브랜치 전락
+  - 통합 충돌 가능성 ^
+  - 리뷰 지연 -> 장기 브랜치 전락
 
 PR 분할 전략:
-  Stacked PR: PR A → PR B → PR C (순서)
+  Stacked PR: PR A -> PR B -> PR C (순서)
   독립 PR: 기능별 독립 분할
 
 코드 리뷰 Good Practices:
@@ -122,7 +122,7 @@ CD 파이프라인:
   프로덕션 배포 (승인 또는 자동)
 
 TBD + GitOps:
-  Trunk → ArgoCD/Flux → 쿠버네티스 클러스터
+  Trunk -> ArgoCD/Flux -> 쿠버네티스 클러스터
   코드 리포지토리 = 인프라 소스 오브 트루스
 
 배포 전략 연계:
@@ -131,12 +131,12 @@ TBD + GitOps:
   롤링 업데이트
 
 메트릭:
-  리드 타임: 코드 커밋 → 프로덕션 배포
+  리드 타임: 코드 커밋 -> 프로덕션 배포
   배포 빈도: Elite 팀 = 주 1회 이상 (DORA)
   MTTR: 장애 복구 시간 1시간 이하 (Elite)
 ```
 
-> 📢 **섹션 요약 비유**: TBD + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동 조립 라인 — 코드 커밋(재료 투입) → 자동 테스트(품질 검사) → 자동 배포(출고) 사이클이 하루에도 여러 번.
+> 📢 **섹션 요약 비유**: TBD + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동 조립 라인 — 코드 커밋(재료 투입) -> 자동 테스트(품질 검사) -> 자동 배포(출고) 사이클이 하루에도 여러 번.
 
 ---
 
@@ -166,7 +166,7 @@ TBD 안티패턴:
    해결: 플래그 TTL 정책, 정기 정리
 
 5. 단일 CI 슬로우다운:
-   증상: CI 20분 이상 → 개발자 우회
+   증상: CI 20분 이상 -> 개발자 우회
    원인: 테스트 병렬화 부족
    해결: 테스트 병렬 실행, 스테이지 최적화
 
@@ -285,7 +285,7 @@ TBD + 셀프서비스 배포 플랫폼
 
 **진행 상황**: 41 / 373
 
-← **이전**: [040. 트렁크 기반 개발 (Trunk-Based Development)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)
-**다음**: [042. A/B 테스팅 가설 검증](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/042_ab_testing_hypothesis_validation/) →
+<- **이전**: [040. 트렁크 기반 개발 (Trunk-Based Development)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)
+**다음**: [042. A/B 테스팅 가설 검증](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/042_ab_testing_hypothesis_validation/) ->
 
 ---

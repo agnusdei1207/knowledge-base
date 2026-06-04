@@ -26,10 +26,10 @@ SEL이 중요한 이유는 현대 시스템이 더 이상 "한 번 껐다 켜면
 아래 흐름은 SEL이 왜 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류"가 아니라 "전원 사고"인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ particle strike -> charge track -> parasitic SCR on -> rail overcurrent   │
-│                                    -> heat rise -> shutdown or damage      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| particle strike -> charge track -> parasitic SCR on -> rail overcurrent   |
+|                                    -> heat rise -> shutdown or damage      |
++----------------------------------------------------------------------------+
 ```
 
 즉 SEL 대응은 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)만의 문제가 아니라 전원 차단 시간, 열 여유, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시퀀스를 포함한 시스템 안전 설계다. SEE (Single Event Effects) 가운데서도 SEL이 별도로 관리되는 이유가 여기에 있다.
@@ -45,17 +45,17 @@ SEL의 물리적 배경은 벌크 [CMOS](/knowledge-base/studynote/01_computer_a
 핵심 판단식은 단순하다. 기생 PNP와 NPN의 루프 이득이 1을 넘는 순간, 즉 `β_PNP × β_NPN > 1`이 되는 순간 래치업 상태가 유지된다. 한 번 켜지면 외부에서 전원을 끊어 루프를 끊기 전까지 과전류가 지속된다. 그래서 SEL은 "[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)"는 입자가 하지만, "유지"는 칩 구조가 한다고 이해하면 좋다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ trigger charge                                                            │
-│      ▼                                                                     │
-│ local voltage drop on well/substrate resistance                            │
-│      │                                                                     │
-│      ├──> parasitic PNP turns on ──┐                                       │
-│      │                              ▼                                      │
-│      └──> parasitic NPN turns on <─┘                                      │
-│                     │                                                       │
-│                     └── positive feedback -> SCR latched -> VDD to VSS     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| trigger charge                                                            |
+|      v                                                                     |
+| local voltage drop on well/substrate resistance                            |
+|      |                                                                     |
+|      +--> parasitic PNP turns on --+                                       |
+|      |                              v                                      |
+|      +--> parasitic NPN turns on <-+                                      |
+|                     |                                                       |
+|                     +-- positive feedback -> SCR latched -> VDD to VSS     |
++----------------------------------------------------------------------------+
 ```
 
 | 요소 | 역할 | SEL 관점의 의미 |
@@ -141,20 +141,20 @@ SEL을 제대로 이해하려면 다른 단일 이벤트 효과와 경계를 분
 
 ```text
 우주·고고도 방사선 환경
-        │
-        ▼
+        |
+        v
 SEE (Single Event Effects)
-        │
-        ├── SEU / SET
-        └── SEL
-              │
-              ▼
+        |
+        +-- SEU / SET
+        +-- SEL
+              |
+              v
 가드 링 · 딥 엔웰 · SOI
-              │
-              ▼
+              |
+              v
 전류 감시 · 빠른 전원 차단 · 자동 재인가
-              │
-              ▼
+              |
+              v
 방사선 내성 시스템 아키텍처
 ```
 
@@ -172,7 +172,7 @@ SEE (Single Event Effects)
 
 **진행 상황**: 609 / 803
 
-← **이전**: [608. 비동기식 FIFO (First-In First-Out) 버퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/)
-**다음**: [610. 보안 해시 함수 회로 (SHA-3 / Keccak)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/610_sha3_hardware/) →
+<- **이전**: [608. 비동기식 FIFO (First-In First-Out) 버퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/)
+**다음**: [610. 보안 해시 함수 회로 (SHA-3 / Keccak)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/610_sha3_hardware/) ->
 
 ---

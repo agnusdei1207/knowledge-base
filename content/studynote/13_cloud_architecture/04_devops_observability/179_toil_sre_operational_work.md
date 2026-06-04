@@ -26,23 +26,23 @@ tags = ["studynote-cloud-architecture"]
 아래 그림은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 왜 단순한 귀찮은 일이 아니라 운영 병목이 되는지 보여준다. 핵심은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 많아질수록 개선 시간이 줄고, 개선 시간이 줄수록 다시 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 늘어나는 악순환이 생긴다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 서비스 성장과 토일의 증폭                                    │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자·트래픽 증가                                            │
-│        │                                                      │
-│        ▼                                                      │
-│ 배포·알람·복구·증설 요청 증가                                 │
-│        │                                                      │
-│        ▼                                                      │
-│ 사람이 매번 수행하는 수동 절차                                │
-│        │                                                      │
-│        ├─▶ 실수 증가 · 대응 편차 증가                         │
-│        └─▶ 개선 시간 감소                                     │
-│                     │                                         │
-│                     ▼                                         │
-│              자동화 지연 → 다시 토일 증가                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 서비스 성장과 토일의 증폭                                    |
++--------------------------------------------------------------+
+| 사용자·트래픽 증가                                            |
+|        |                                                      |
+|        v                                                      |
+| 배포·알람·복구·증설 요청 증가                                 |
+|        |                                                      |
+|        v                                                      |
+| 사람이 매번 수행하는 수동 절차                                |
+|        |                                                      |
+|        +--> 실수 증가 · 대응 편차 증가                         |
+|        +--> 개선 시간 감소                                     |
+|                     |                                         |
+|                     v                                         |
+|              자동화 지연 -> 다시 토일 증가                     |
++--------------------------------------------------------------+
 ```
 
 따라서 SRE에서 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 "성실함의 증거"가 아니라 "자동화되지 않은 운영 부채의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"로 봐야 한다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이지 못하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 사람 숙련도와 야근에 의존하게 되고, 결국 장애 대응 속도와 배포 속도 모두 떨어진다.
@@ -53,7 +53,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리는 단순히 "귀찮은 일을 자동화하자"가 아니라, 탐지 → 계량 → 우선순위화 → 자동화 → 가드레일 정착의 루프로 운영해야 한다. 그래야 팀이 느낌이 아니라 데이터로 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 논의하고, 반복되는 작업을 플랫폼 기능으로 승격시킬 수 있다.
+[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리는 단순히 "귀찮은 일을 자동화하자"가 아니라, 탐지 -> 계량 -> 우선순위화 -> 자동화 -> 가드레일 정착의 루프로 운영해야 한다. 그래야 팀이 느낌이 아니라 데이터로 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 논의하고, 반복되는 작업을 플랫폼 기능으로 승격시킬 수 있다.
 
 | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 판단 기준 | 의미 | 대표 예시 |
 | :--- | :--- | :--- |
@@ -69,23 +69,23 @@ tags = ["studynote-cloud-architecture"]
 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이는 과정은 보통 아래처럼 성숙한다. 중요한 점은 문서화만으로는 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 사라지지 않고, 실행 권한이 사람에서 시스템으로 넘어가야 비로소 운영 비용이 줄어든다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 토일 제거 성숙도                                              │
-├──────────────────────────────────────────────────────────────┤
-│ 수동 실행                                                     │
-│   │                                                           │
-│   ▼                                                           │
-│ 문서화된 Runbook                                              │
-│   │                                                           │
-│   ▼                                                           │
-│ 스크립트 / 예약 작업                                          │
-│   │                                                           │
-│   ▼                                                           │
-│ 이벤트 기반 자동화                                            │
-│   │                                                           │
-│   ▼                                                           │
-│ Self-Service Platform / Auto Remediation                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 토일 제거 성숙도                                              |
++--------------------------------------------------------------+
+| 수동 실행                                                     |
+|   |                                                           |
+|   v                                                           |
+| 문서화된 Runbook                                              |
+|   |                                                           |
+|   v                                                           |
+| 스크립트 / 예약 작업                                          |
+|   |                                                           |
+|   v                                                           |
+| 이벤트 기반 자동화                                            |
+|   |                                                           |
+|   v                                                           |
+| Self-Service Platform / Auto Remediation                      |
++--------------------------------------------------------------+
 ```
 
 예를 들어 인증서 갱신을 사람이 캘린더 보고 처리하면 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이지만, 만료일을 감지해 자동 발급·배포·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지면 플랫폼 기능이 된다. 알람도 마찬가지다. 사람이 같은 경고를 매일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 "문제 없음"으로 닫는다면, 그 알람은 운영 가시성이 아니라 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 생성기다.
@@ -173,20 +173,20 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 수동 운영 요청
-    │
-    ▼
+    |
+    v
 토일 분류 · 시간 측정
-    │
-    ▼
+    |
+    v
 Runbook 표준화
-    │
-    ▼
+    |
+    v
 스크립트 · 워크플로 자동화
-    │
-    ▼
+    |
+    v
 Auto Remediation · Self-Service Platform
-    │
-    ▼
+    |
+    v
 SRE의 신뢰성 개선 시간 확보
 ```
 
@@ -204,7 +204,7 @@ SRE의 신뢰성 개선 시간 확보
 
 **진행 상황**: 178 / 371
 
-← **이전**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/)
-**다음**: [180. SLI (Service Level Indicator, 서비스 수준 지표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/180_sli_service_level_indicator/) →
+<- **이전**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/)
+**다음**: [180. SLI (Service Level Indicator, 서비스 수준 지표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/180_sli_service_level_indicator/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 > **핵심 인사이트**
 > 1. 소프트웨어 산출물 검사(Software Deliverables Inspection)는 개발 생명주기의 각 단계에서 작성되는 문서·코드·테스트 결과물을 체계적으로 검토하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기 발견하는 품질 보증 활동으로 — Fagan이 증명한 바와 같이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 개발 단계에서 발견하면 운영 단계보다 100배 저렴하다.
-> 2. 검사 유형은 [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)), [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(Walkthrough), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))로 구분되며 — Fagan [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 가장 공식적인 절차(계획→개요→준비→검사→수정→추적)로 역할 분리(작성자, 검사자, 진행자, 기록자)를 통해 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견율을 최대화한다.
+> 2. 검사 유형은 [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)), [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(Walkthrough), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))로 구분되며 — Fagan [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 가장 공식적인 절차(계획->개요->준비->검사->수정->추적)로 역할 분리(작성자, 검사자, 진행자, 기록자)를 통해 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견율을 최대화한다.
 > 3. ISO/IEC 20246(소프트웨어 검토 표준)과 CMMI의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(V&V) 활동은 산출물 검사를 조직 프로세스로 내재화하는 체계를 제공하며 — [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 도구(GitHub [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), Gerrit, Crucible)의 확산으로 과거 수작업 검사가 자동화·통합된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 기반 품질 게이트로 발전했다.
 
 ---
@@ -28,7 +28,7 @@ tags = ["studynote-design-supervision"]
   테스트 단계: 20배
   인도 후/운영: 100배
 
-  → 조기 검사가 ROI 최대화
+  -> 조기 검사가 ROI 최대화
 
 산출물 유형별 검사:
   요구사항 단계:
@@ -52,8 +52,8 @@ tags = ["studynote-design-supervision"]
     설치 가이드
 
 검사 유형 분류:
-  비공식 검토 → 공식 인스펙션 (공식성 증가)
-  Informal Review → Walkthrough → Peer Review → Inspection → Audit
+  비공식 검토 -> 공식 인스펙션 (공식성 증가)
+  Informal Review -> Walkthrough -> Peer Review -> Inspection -> Audit
 ```
 
 > 📢 **섹션 요약 비유**: 산출물 검사는 음식점 위생 점검 — 재료(요구사항)부터 조리(코딩), 서빙(테스트)까지 각 단계에서 검사. 재료가 상했을 때 바로 버리는 게, 손님이 먹은 후보다 훨씬 저렴해요.
@@ -125,15 +125,15 @@ Fagan 인스펙션 (Fagan Inspection):
    GitHub Pull Request 기반
 
    GitHub PR 워크플로우:
-   작성자: 기능 브랜치 → PR 생성
+   작성자: 기능 브랜치 -> PR 생성
    검토자: 라인별 코멘트
-   작성자: 수정 → 리뷰 재요청
+   작성자: 수정 -> 리뷰 재요청
    승인 후 머지
 
-2. Gerrit (Google 내부 → 오픈소스):
+2. Gerrit (Google 내부 -> 오픈소스):
    코드 변경 단위로 검토
    +2 (승인), +1 (동의), -1 (반대), -2 (거부)
-   두 명의 +2 필요 → 머지
+   두 명의 +2 필요 -> 머지
 
 코드 검토 체크리스트:
   기능 정확성:
@@ -228,7 +228,7 @@ ISO 15504 (SPICE):
 CI/CD 통합 산출물 품질 게이트:
 
 구성:
-  GitHub PR → CI/CD 파이프라인 자동 검사
+  GitHub PR -> CI/CD 파이프라인 자동 검사
 
 파이프라인 단계:
   1. 코드 정적 분석 (SonarQube):
@@ -252,9 +252,9 @@ Quality Gate 구성 예:
   sonar.qualitygate.wait=true
 
   조건:
-  - Coverage < 80% → FAILED
-  - New Bugs > 0 → FAILED
-  - Security Hotspots Reviewed < 100% → FAILED
+  - Coverage < 80% -> FAILED
+  - New Bugs > 0 -> FAILED
+  - Security Hotspots Reviewed < 100% -> FAILED
 
 자동 검사 + 수동 검토 조합:
   자동화 (도구): 형식, 취약점, 커버리지
@@ -269,7 +269,7 @@ Quality Gate 구성 예:
   배포 후 버그: 스프린트 당 2개 이하
 ```
 
-> 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트는 공항 보안 검색대 — 체크인([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) → 보안 검사([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)/Snyk) → 탑승구 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(코드 검토 승인) → 이륙(배포). 기준 미달은 탑승 거부!
+> 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트는 공항 보안 검색대 — 체크인([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) -> 보안 검사([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)/Snyk) -> 탑승구 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(코드 검토 승인) -> 이륙(배포). 기준 미달은 탑승 거부!
 
 ---
 
@@ -335,7 +335,7 @@ GitHub Copilot, CodeRabbit
 
 **진행 상황**: 65 / 530
 
-← **이전**: [44. 감리인의 독립성 및 객관성 (Auditor Independence and Objectivity)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/044_auditor_independence_objectivity/)
-**다음**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/) →
+<- **이전**: [44. 감리인의 독립성 및 객관성 (Auditor Independence and Objectivity)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/044_auditor_independence_objectivity/)
+**다음**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/) ->
 
 ---

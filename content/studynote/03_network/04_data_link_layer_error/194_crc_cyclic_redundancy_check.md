@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [검사합]
-    │
-    ▼
+    |
+    v
 [CRC]
-    │
-    └──▶ [다항식 연산 / 생성 다항식]
+    |
+    +---> [다항식 연산 / 생성 다항식]
 ```
 
 - **📢 섹션 요약 비유**: CRC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -57,11 +57,11 @@ tags = ["studynote-network"]
 
 ```text
 [검사합]
-    │
-    ▼
+    |
+    v
 [CRC]
-    │
-    └──▶ [다항식 연산 / 생성 다항식]
+    |
+    +---> [다항식 연산 / 생성 다항식]
 ```
 
 - **📢 섹션 요약 비유**: CRC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ CRC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 [선행 개념: 검사합]
-    │
-    ▼
+    |
+    v
 [현재 개념: CRC]
-    │
-    ├──▶ [확장 A: 다항식 연산 / 생성 다항식]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 다항식 연산 / 생성 다항식]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 CRC는 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ CRC는 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error
 
 **진행 상황**: 315 / 1120
 
-← **이전**: [193. 검사합 (Checksum)](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)
-**다음**: [195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) →
+<- **이전**: [193. 검사합 (Checksum)](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)
+**다음**: [195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ->
 
 ---

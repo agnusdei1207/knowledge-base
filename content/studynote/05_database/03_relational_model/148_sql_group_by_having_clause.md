@@ -31,24 +31,24 @@ tags = ["studynote-database"]
 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 실행 순서는 작성된 텍스트 순서와 전혀 다르며, 이 실행 순서를 이해하는 것이 튜닝의 출발점이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SQL의 6단계 실행 순서 (Execution Order) 파이프라인        │
-├─────────────────────────────────────────────────────────────┤
-│ 1️⃣ FROM 사원      : 원본 데이터 10만 건을 디스크에서 메모리로 로드    │
-│          ▼                                                  │
-│ 2️⃣ WHERE 직급='대리': [1차 필터] 개별 행 평가. 대리가 아닌 데이터는 버림│
-│                     (데이터 모수가 1만 건으로 축소되어 부하 감소)    │
-│          ▼                                                  │
-│ 3️⃣ GROUP BY 부서  : [그룹핑 믹서기] 남은 1만 명을 부서별로 통폐합하여 │
-│                     10개의 통계 덩어리(그룹)로 압축                 │
-│          ▼                                                  │
-│ 4️⃣ HAVING SUM > 100: [2차 필터] 10개 그룹 중, 급여 합계가 100을 못 넘는│
-│                     빈약한 부서는 그룹 통째로 하수구 행             │
-│          ▼                                                  │
-│ 5️⃣ SELECT 부서    : [출력 포장] 살아남은 그룹의 결과 컬럼을 투영      │
-│          ▼                                                  │
-│ 6️⃣ ORDER BY 부서  : [최종 진열] 가나다순으로 정렬하여 모니터 출력     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SQL의 6단계 실행 순서 (Execution Order) 파이프라인        |
++-------------------------------------------------------------+
+| 1️⃣ FROM 사원      : 원본 데이터 10만 건을 디스크에서 메모리로 로드    |
+|          v                                                  |
+| 2️⃣ WHERE 직급='대리': [1차 필터] 개별 행 평가. 대리가 아닌 데이터는 버림|
+|                     (데이터 모수가 1만 건으로 축소되어 부하 감소)    |
+|          v                                                  |
+| 3️⃣ GROUP BY 부서  : [그룹핑 믹서기] 남은 1만 명을 부서별로 통폐합하여 |
+|                     10개의 통계 덩어리(그룹)로 압축                 |
+|          v                                                  |
+| 4️⃣ HAVING SUM > 100: [2차 필터] 10개 그룹 중, 급여 합계가 100을 못 넘는|
+|                     빈약한 부서는 그룹 통째로 하수구 행             |
+|          v                                                  |
+| 5️⃣ SELECT 부서    : [출력 포장] 살아남은 그룹의 결과 컬럼을 투영      |
+|          v                                                  |
+| 6️⃣ ORDER BY 부서  : [최종 진열] 가나다순으로 정렬하여 모니터 출력     |
++-------------------------------------------------------------+
 ```
 
 가장 흔한 에러는 `GROUP BY`의 컬럼 제한 규칙을 어길 때 발생한다. `SELECT 부서, 이름, SUM(급여) FROM 사원 GROUP BY 부서;`를 실행하면 에러가 난다. 1만 명을 10개의 부서 단위로 뭉개서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)했는데, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되어 사라진 개별 사원의 '이름'을 출력하라고 지시했기 때문이다. `GROUP BY`를 쓰면 `SELECT` 절에는 오직 믹서기의 기준이 된 컬럼(`부서`)과 [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)의 결과물(`SUM`)만 적을 수 있다.
@@ -112,20 +112,20 @@ SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/
 
 ```text
 절차적 집계 연산 (애플리케이션 단의 For-Loop 의존)
-    │
-    ▼
+    |
+    v
 GROUP BY / HAVING 도입 (RDBMS 엔진 내부의 선언적 통계 연산)
-    │
-    ▼
+    |
+    v
 Sort Group By 방식의 디스크 I/O 병목
-    │
-    ▼
+    |
+    v
 Hash Group By 아키텍처 진화 (메모리 해시 테이블을 이용한 초고속 튜닝)
-    │
-    ▼
+    |
+    v
 다차원 OLAP 분석 확장 (ROLLUP, CUBE, GROUPING SETS)
-    │
-    ▼
+    |
+    v
 Map-Reduce 분산 병렬 컴퓨팅으로 철학 계승 (빅데이터 집계)
 ```
 
@@ -141,7 +141,7 @@ Map-Reduce 분산 병렬 컴퓨팅으로 철학 계승 (빅데이터 집계)
 
 **진행 상황**: 148 / 600
 
-← **이전**: [147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)
-**다음**: [149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)](/knowledge-base/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/) →
+<- **이전**: [147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)
+**다음**: [149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)](/knowledge-base/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/) ->
 
 ---

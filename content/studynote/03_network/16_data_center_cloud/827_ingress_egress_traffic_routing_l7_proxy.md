@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
+    |
+    v
 [Ingress와 Egress 트래픽]
-    │
-    └──▶ [서비스 메시]
+    |
+    +---> [서비스 메시]
 ```
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
+    |
+    v
 [Ingress와 Egress 트래픽]
-    │
-    └──▶ [서비스 메시]
+    |
+    +---> [서비스 메시]
 ```
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/
 
 ```text
 [선행 개념: Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Ingress와 Egress 트래픽]
-    │
-    ├──▶ [확장 A: 서비스 메시]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 서비스 메시]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽는 Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/
 
 **진행 상황**: 948 / 1120
 
-← **이전**: [826. Kube-Proxy 서비스 로드밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/826_kube_proxy_service_load_balancing_iptables_ipvs/)
-**다음**: [828. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) →
+<- **이전**: [826. Kube-Proxy 서비스 로드밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/826_kube_proxy_service_load_balancing_iptables_ipvs/)
+**다음**: [828. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) ->
 
 ---

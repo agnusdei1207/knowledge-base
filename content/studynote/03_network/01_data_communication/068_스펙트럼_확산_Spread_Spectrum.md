@@ -32,11 +32,11 @@ tags = ["network"]
 
 ```text
 Data Signal
-  ↓
+  v
 Spreading Code / Hop Pattern
-  ↓
+  v
 Wideband Transmission
-  ↓
+  v
 Receiver Despreading
 ```
 
@@ -107,11 +107,11 @@ Receiver Despreading
 
 ```text
 Data Signal
-  ↓
+  v
 Spread Spectrum
-  ↓
+  v
 DSSS / FHSS
-  ↓
+  v
 Robust Wireless
 ```
 
@@ -121,11 +121,11 @@ Robust Wireless
 
 ```text
 Narrowband
-  ↓
+  v
 Spread Spectrum
-  ↓
+  v
 CDMA
-  ↓
+  v
 Robust Communication
 ```
 
@@ -143,7 +143,7 @@ Robust Communication
 
 **진행 상황**: 68 / 1120
 
-← **이전**: [67. 경사 과부하 잡음 (Slope Overload Noise) / 그래뉼러 잡음 (Granular Noise)](/knowledge-base/studynote/03_network/01_data_communication/067_경사과부하_그래뉼러_잡음/)
-**다음**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/knowledge-base/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/) →
+<- **이전**: [67. 경사 과부하 잡음 (Slope Overload Noise) / 그래뉼러 잡음 (Granular Noise)](/knowledge-base/studynote/03_network/01_data_communication/067_경사과부하_그래뉼러_잡음/)
+**다음**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/knowledge-base/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/) ->
 
 ---

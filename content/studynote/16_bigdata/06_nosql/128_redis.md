@@ -44,63 +44,63 @@ tags = ["studynote-bigdata"]
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│              Redis 처리 모델 (단일 스레드 이벤트 루프)       │
-│                                                         │
-│  Client 1 ──┐                                           │
-│  Client 2 ──┤──→ [소켓 큐] ──→ [이벤트 루프] ──→ 응답    │
-│  Client 3 ──┘       (epoll)    (단일 스레드)             │
-│                                                         │
-│  * 컨텍스트 스위칭 없음 → 초저지연                          │
-│  * 명령은 원자적으로 순차 처리 → 레이스 컨디션 없음             │
-│  * I/O 스레드(Redis 6.0+): 네트워크 I/O 병렬화             │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              Redis 처리 모델 (단일 스레드 이벤트 루프)       |
+|                                                         |
+|  Client 1 --+                                           |
+|  Client 2 --+---> [소켓 큐] ---> [이벤트 루프] ---> 응답    |
+|  Client 3 --+       (epoll)    (단일 스레드)             |
+|                                                         |
+|  * 컨텍스트 스위칭 없음 -> 초저지연                          |
+|  * 명령은 원자적으로 순차 처리 -> 레이스 컨디션 없음             |
+|  * I/O 스레드(Redis 6.0+): 네트워크 I/O 병렬화             |
++---------------------------------------------------------+
 ```
 
 ### [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(Persistence) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│                 Redis 영속성 메커니즘                        │
-│                                                           │
-│  ┌─────────────────┐      ┌─────────────────────────────┐ │
-│  │  RDB (Snapshot) │      │  AOF (Append-Only File)     │ │
-│  │                 │      │                             │ │
-│  │  주기적 fork()  │      │  모든 쓰기 명령을 로그 파일에  │ │
-│  │  → 전체 메모리  │      │  순차 추가 (fsync 정책 선택)  │ │
-│  │    직렬화       │      │                             │ │
-│  │                 │      │  always: 매 명령 fsync      │ │
-│  │  장점: 빠른 복구│      │  everysec: 1초마다 (기본)    │ │
-│  │  단점: 데이터   │      │  no: OS에 위임              │ │
-│  │    손실 가능    │      │                             │ │
-│  │  (마지막 스냅샷 │      │  장점: 데이터 손실 최소화     │ │
-│  │   이후 소실)   │      │  단점: 파일 크기 증가, 재시작  │ │
-│  │                 │      │        시간 증가             │ │
-│  └─────────────────┘      └─────────────────────────────┘ │
-│                                                           │
-│  권장: RDB + AOF 혼합 (Hybrid Persistence)                │
-│  → 빠른 복구 + 최소 데이터 손실                             │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|                 Redis 영속성 메커니즘                        |
+|                                                           |
+|  +-----------------+      +-----------------------------+ |
+|  |  RDB (Snapshot) |      |  AOF (Append-Only File)     | |
+|  |                 |      |                             | |
+|  |  주기적 fork()  |      |  모든 쓰기 명령을 로그 파일에  | |
+|  |  -> 전체 메모리  |      |  순차 추가 (fsync 정책 선택)  | |
+|  |    직렬화       |      |                             | |
+|  |                 |      |  always: 매 명령 fsync      | |
+|  |  장점: 빠른 복구|      |  everysec: 1초마다 (기본)    | |
+|  |  단점: 데이터   |      |  no: OS에 위임              | |
+|  |    손실 가능    |      |                             | |
+|  |  (마지막 스냅샷 |      |  장점: 데이터 손실 최소화     | |
+|  |   이후 소실)   |      |  단점: 파일 크기 증가, 재시작  | |
+|  |                 |      |        시간 증가             | |
+|  +-----------------+      +-----------------------------+ |
+|                                                           |
+|  권장: RDB + AOF 혼합 (Hybrid Persistence)                |
+|  -> 빠른 복구 + 최소 데이터 손실                             |
++-----------------------------------------------------------+
 ```
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster 구조
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           Redis Cluster (수평 확장)                       │
-│                                                          │
-│  Hash Slots: 0 ~ 16383 (총 16384개)                      │
-│                                                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
-│  │  Master 1    │  │  Master 2    │  │  Master 3    │   │
-│  │  Slot 0~5460 │  │ Slot 5461~   │  │ Slot 10923~  │   │
-│  │              │  │   10922      │  │   16383      │   │
-│  │  Replica 1   │  │  Replica 2   │  │  Replica 3   │   │
-│  └──────────────┘  └──────────────┘  └──────────────┘   │
-│                                                          │
-│  CRC16(key) % 16384 → 슬롯 번호 → 담당 마스터 노드         │
-│  클라이언트: MOVED 리다이렉션으로 올바른 노드로 라우팅         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           Redis Cluster (수평 확장)                       |
+|                                                          |
+|  Hash Slots: 0 ~ 16383 (총 16384개)                      |
+|                                                          |
+|  +--------------+  +--------------+  +--------------+   |
+|  |  Master 1    |  |  Master 2    |  |  Master 3    |   |
+|  |  Slot 0~5460 |  | Slot 5461~   |  | Slot 10923~  |   |
+|  |              |  |   10922      |  |   16383      |   |
+|  |  Replica 1   |  |  Replica 2   |  |  Replica 3   |   |
+|  +--------------+  +--------------+  +--------------+   |
+|                                                          |
+|  CRC16(key) % 16384 -> 슬롯 번호 -> 담당 마스터 노드         |
+|  클라이언트: MOVED 리다이렉션으로 올바른 노드로 라우팅         |
++----------------------------------------------------------+
 ```
 
 ### [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/): MULTI/EXEC
@@ -134,9 +134,9 @@ tags = ["studynote-bigdata"]
 ### Pub/Sub [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 패턴
 
 ```text
-Publisher ──→ Channel "news:sports" ──→ Subscriber A
-                                   ──→ Subscriber B
-                                   ──→ Subscriber C
+Publisher ---> Channel "news:sports" ---> Subscriber A
+                                   ---> Subscriber B
+                                   ---> Subscriber C
 
 * 메시지 보장 없음(Fire-and-forget)
 * 영속성 필요 시 Redis Stream 사용 권장
@@ -165,13 +165,13 @@ Publisher ──→ Channel "news:sports" ──→ Subscriber A
 ```text
 ⚠️ Redis 운영 시 주의 사항:
 
-1. KEYS * 명령 금지 → SCAN 0 COUNT 100 MATCH "prefix:*" 사용
+1. KEYS * 명령 금지 -> SCAN 0 COUNT 100 MATCH "prefix:*" 사용
    (KEYS는 단일 스레드를 블로킹하여 전체 서비스 지연)
 
-2. Big Key 방지 → Hash/Set 아이템 수 10,000개 이하 권장
+2. Big Key 방지 -> Hash/Set 아이템 수 10,000개 이하 권장
    (1개의 큰 키 삭제 시 UNLINK로 비동기 삭제)
 
-3. 메모리 정책 설정 → maxmemory-policy
+3. 메모리 정책 설정 -> maxmemory-policy
    allkeys-lru: 캐시 용도
    noeviction: 데이터 손실 불허 시
 ```
@@ -214,14 +214,14 @@ Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 �
 
 ```text
 [인메모리 (In-Memory)]
-    │
-    ▼
+    |
+    v
 [Redis (Redis)]
-    │
-    ▼
+    |
+    v
 [키-값 저장소 (Key-Value Store)]
-    │
-    ▼
+    |
+    v
 [캐싱 (Caching)]
 ```
 
@@ -237,7 +237,7 @@ Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 �
 
 **진행 상황**: 128 / 262
 
-← **이전**: [127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak](/knowledge-base/studynote/16_bigdata/06_nosql/127_key_value_db/)
-**다음**: [129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore](/knowledge-base/studynote/16_bigdata/06_nosql/129_document_db/) →
+<- **이전**: [127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak](/knowledge-base/studynote/16_bigdata/06_nosql/127_key_value_db/)
+**다음**: [129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore](/knowledge-base/studynote/16_bigdata/06_nosql/129_document_db/) ->
 
 ---

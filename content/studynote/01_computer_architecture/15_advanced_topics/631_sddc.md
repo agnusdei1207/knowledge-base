@@ -29,13 +29,13 @@ SDDC는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cl
 클라우드 환경에 익숙한 개발 조직은 인프라가 몇 주가 아니라 몇 분 안에 준비되길 기대한다. SDDC는 이러한 요구를 충족하기 위해 셀프서비스 포털, 응용 프로그램 프로그래밍 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 자동화, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) ([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 같은 개념을 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)까지 끌어온다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       Manual DC -> Policy Driven DC                         │
-├──────────────────────────────────────────────────────────────┤
-│ Old : Server Team -> Storage Team -> Network Team           │
-│ New : Policy / API -> Automated Provisioning                │
-│ Goal: Same request, same result, faster delivery            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       Manual DC -> Policy Driven DC                         |
++--------------------------------------------------------------+
+| Old : Server Team -> Storage Team -> Network Team           |
+| New : Policy / API -> Automated Provisioning                |
+| Goal: Same request, same result, faster delivery            |
++--------------------------------------------------------------+
 ```
 
 이 그림은 SDDC의 핵심이 장비 통합보다도 "작업 흐름을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 바꾸는 것"에 있음을 보여준다.
@@ -60,20 +60,20 @@ SDDC는 보통 컴퓨트, 스토리지, 네트워크, 관리 자동화 네 축�
 SDDC의 핵심 원리는 제어 평면 (Control Plane)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 분리다. 제어 평면은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 배치, 권한, 모니터링을 담당하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면은 실제 계산·저장·패킷 전달을 수행한다. 이 구조를 통해 물리 장비를 교체해도 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 운영 모델은 유지된다.
 
 ```text
-┌──────────────┐
-│ User / API   │
-└──────┬───────┘
-       ▼
-┌──────────────────────────────┐
-│ Portal / Orchestration / IaC │
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────────────────────────────────────┐
-│ Policy Engine : Placement / Security / Capacity / Rules      │
-├───────────────┬──────────────────┬───────────────────────────┤
-│ SDC           │ SDS              │ SDN                       │
-└──────┬────────┴──────────┬───────┴──────────┬────────────────┘
-       ▼                   ▼                  ▼
++--------------+
+| User / API   |
++------+-------+
+       v
++------------------------------+
+| Portal / Orchestration / IaC |
++--------------+---------------+
+               v
++--------------------------------------------------------------+
+| Policy Engine : Placement / Security / Capacity / Rules      |
++---------------+------------------+---------------------------+
+| SDC           | SDS              | SDN                       |
++------+--------+----------+-------+----------+----------------+
+       v                   v                  v
    Compute HW         Storage HW         Network HW
 ```
 
@@ -163,21 +163,21 @@ SDDC가 자리 잡으면 인프라 요청은 장비 구매가 아니라 [정책]
 
 ```text
 물리 장비 중심 데이터센터
-    │
-    ▼
+    |
+    v
 서버 가상화
-    │
-    ▼
+    |
+    v
 SDS · SDN 확산
-    │
-    ▼
+    |
+    v
 오케스트레이션 · IaC 결합
-    │
-    ▼
+    |
+    v
 SDDC · 하이브리드 클라우드 · AIOps
 ```
 
-이 흐름은 "장비 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) → 자원 범위 확대 → 자동화 결합 → [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체 소프트웨어화"라는 진화 방향을 보여준다.
+이 흐름은 "장비 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) -> 자원 범위 확대 -> 자동화 결합 -> [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체 소프트웨어화"라는 진화 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -191,7 +191,7 @@ SDDC · 하이브리드 클라우드 · AIOps
 
 **진행 상황**: 632 / 803
 
-← **이전**: [630. 하이퍼컨버지드 인프라 (HCI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/)
-**다음**: [632. SDS (Software Defined Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) →
+<- **이전**: [630. 하이퍼컨버지드 인프라 (HCI)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/)
+**다음**: [632. SDS (Software Defined Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) ->
 
 ---

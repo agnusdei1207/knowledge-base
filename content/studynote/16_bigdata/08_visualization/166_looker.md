@@ -38,31 +38,31 @@ tags = ["studynote-bigdata"]
 ### Looker 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Looker 아키텍처                           │
-├──────────────────────────────────────────────────────────────┤
-│  비즈니스 사용자                                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Explore UI: 드래그앤드롭 (SQL 없이 분석)             │   │
-│  │  Dashboard: 공유 대시보드                             │   │
-│  │  Look: 저장된 분석 쿼리                               │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                          │                                   │
-│  LookML 시맨틱 레이어                                        │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  models/: 데이터베이스 연결 + Explore 정의            │   │
-│  │  views/: 테이블/뷰 + 비즈니스 로직 정의               │   │
-│  │    - dimensions: 필터 가능한 속성                     │   │
-│  │    - measures: 집계 지표 (매출, 사용자 수)            │   │
-│  │    - derived_table: LookML 기반 계산 테이블           │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                          │ SQL 자동 생성                     │
-│  데이터 소스 (항상 Live)                                     │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  BigQuery / Snowflake / Redshift / PostgreSQL        │   │
-│  │  (데이터 복사 없음 — 원본 직접 쿼리)                  │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    Looker 아키텍처                           |
++--------------------------------------------------------------+
+|  비즈니스 사용자                                             |
+|  +------------------------------------------------------+   |
+|  |  Explore UI: 드래그앤드롭 (SQL 없이 분석)             |   |
+|  |  Dashboard: 공유 대시보드                             |   |
+|  |  Look: 저장된 분석 쿼리                               |   |
+|  +------------------------------------------------------+   |
+|                          |                                   |
+|  LookML 시맨틱 레이어                                        |
+|  +------------------------------------------------------+   |
+|  |  models/: 데이터베이스 연결 + Explore 정의            |   |
+|  |  views/: 테이블/뷰 + 비즈니스 로직 정의               |   |
+|  |    - dimensions: 필터 가능한 속성                     |   |
+|  |    - measures: 집계 지표 (매출, 사용자 수)            |   |
+|  |    - derived_table: LookML 기반 계산 테이블           |   |
+|  +------------------------------------------------------+   |
+|                          | SQL 자동 생성                     |
+|  데이터 소스 (항상 Live)                                     |
+|  +------------------------------------------------------+   |
+|  |  BigQuery / Snowflake / Redshift / PostgreSQL        |   |
+|  |  (데이터 복사 없음 — 원본 직접 쿼리)                  |   |
+|  +------------------------------------------------------+   |
++-------------------------------------------------------------+
 ```
 
 ### LookML 핵심 구조
@@ -170,8 +170,8 @@ Looker는 [API](/knowledge-base/studynote/02_operating_system/01_overview_archit
 | 영역 | 효과 |
 |:---|:---|
 | <strong>지표 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 전사 모든 팀이 동일한 비즈니스 정의 사용 |
-| **SQL 거버넌스** | LookML이 SQL [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → SQL 오류·불일치 제거 |
-| **보안** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 없음 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 위험 감소 |
+| **SQL 거버넌스** | LookML이 SQL [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> SQL 오류·불일치 제거 |
+| **보안** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 없음 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 위험 감소 |
 | **확장성** | 새 팀·프로젝트 온보딩 시 기존 LookML 재사용 |
 
 ### 결론
@@ -198,14 +198,14 @@ Looker는 <strong>BI 거버넌스의 미래 표준</strong>이다. [데이터](/
 
 ```text
 [SQL (SQL)]
-    │
-    ▼
+    |
+    v
 [LookML (LookML)]
-    │
-    ▼
+    |
+    v
 [Looker (Looker)]
-    │
-    ▼
+    |
+    v
 [셀프서비스 BI (Self-Service BI)]
 ```
 
@@ -222,7 +222,7 @@ Looker는 <strong>BI 거버넌스의 미래 표준</strong>이다. [데이터](/
 
 **진행 상황**: 166 / 262
 
-← **이전**: [165. Power BI — Microsoft 생태계 통합 DAX 비즈니스 인텔리전스](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)
-**다음**: [167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab](/knowledge-base/studynote/16_bigdata/08_visualization/167_apache_superset/) →
+<- **이전**: [165. Power BI — Microsoft 생태계 통합 DAX 비즈니스 인텔리전스](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)
+**다음**: [167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab](/knowledge-base/studynote/16_bigdata/08_visualization/167_apache_superset/) ->
 
 ---

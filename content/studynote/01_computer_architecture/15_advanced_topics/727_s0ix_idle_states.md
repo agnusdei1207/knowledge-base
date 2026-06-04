@@ -36,15 +36,15 @@ S0ix 진입은 한 부품의 의사결정으로 끝나지 않는다. CPU 코어�
 아래 그림은 S0ix residency에 필요한 플랫폼 합의를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     Conditions for S0ix residency                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cores    -> deep idle                                                │
-│ Package  -> clocks / fabric gated                                    │
-│ DRAM     -> self-refresh retained                                    │
-│ Devices  -> low-power D-state or wake-capable only                   │
-│ PMC      -> all green? then enter S0ix                               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     Conditions for S0ix residency                    |
++----------------------------------------------------------------------+
+| Cores    -> deep idle                                                |
+| Package  -> clocks / fabric gated                                    |
+| DRAM     -> self-refresh retained                                    |
+| Devices  -> low-power D-state or wake-capable only                   |
+| PMC      -> all green? then enter S0ix                               |
++----------------------------------------------------------------------+
 ```
 
 실제 진입 조건을 구성 요소별로 나누면 다음과 같다.
@@ -135,20 +135,20 @@ S0ix가 잘 구현되면 플랫폼은 화면이 꺼진 동안 수십~수백 밀�
 
 ```text
 Runtime idle inside S0
-    │
-    ▼
+    |
+    v
 Core / package deep idle
-    │
-    ▼
+    |
+    v
 Device D-state reduction
-    │
-    ▼
+    |
+    v
 PMC-coordinated S0ix residency
-    │
-    ▼
+    |
+    v
 Wake by GPIO / timer / network event
-    │
-    ▼
+    |
+    v
 Short service burst and return to idle
 ```
 
@@ -166,7 +166,7 @@ Short service burst and return to idle
 
 **진행 상황**: 728 / 803
 
-← **이전**: [726. 모던 스탠바이 (Modern Standby, S0ix)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/726_modern_standby_s0ix/)
-**다음**: [728. 인텔 스피드스텝 (SpeedStep)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/728_speedstep/) →
+<- **이전**: [726. 모던 스탠바이 (Modern Standby, S0ix)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/726_modern_standby_s0ix/)
+**다음**: [728. 인텔 스피드스텝 (SpeedStep)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/728_speedstep/) ->
 
 ---

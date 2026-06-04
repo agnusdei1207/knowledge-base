@@ -21,55 +21,55 @@ tags = ["studynote-ai"]
 
 두 문서의 유사성을 어떻게 측정할 것인가? 키워드 단순 카운팅은 "나는 행복하다"(5단어)와 "나는 오늘 아주 행복하고 즐거운 하루를 보냈다"(13단어)를 같은 유사도로 보기 어렵다. 유클리드 거리(Euclidean Distance)는 벡터 크기 차이가 크면 내용이 같아도 멀게 판단한다.
 
-[코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 이 문제를 <strong>각도</strong>라는 개념으로 우아하게 해결한다. 두 벡터가 같은 방향을 가리키면(각도 0°) 유사도 1(완전 동일), 수직 방향이면(각도 90°) 유사도 0(무관), 반대 방향이면(각도 180°) 유사도 -1(완전 반대)이 된다. 벡터의 크기(문서 길이)는 각도에 영향을 주지 않는다.
+[코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 이 문제를 <strong>각도</strong>라는 개념으로 우아하게 해결한다. 두 벡터가 같은 방향을 가리키면(각도 0+) 유사도 1(완전 동일), 수직 방향이면(각도 90+) 유사도 0(무관), 반대 방향이면(각도 180+) 유사도 -1(완전 반대)이 된다. 벡터의 크기(문서 길이)는 각도에 영향을 주지 않는다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 손전등의 방향이 얼마나 같은지 측정하는 것이다. 손전등이 크든 작든(문서 길이) 같은 방향으로 비추면 유사도 1, 서로 90°로 갈라지면 0, 반대 방향이면 -1이다. 중요한 것은 얼마나 밝은지(크기)가 아니라 어디를 향하는지(방향, 의미)다.
+- **📢 섹션 요약 비유**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 손전등의 방향이 얼마나 같은지 측정하는 것이다. 손전등이 크든 작든(문서 길이) 같은 방향으로 비추면 유사도 1, 서로 90+로 갈라지면 0, 반대 방향이면 -1이다. 중요한 것은 얼마나 밝은지(크기)가 아니라 어디를 향하는지(방향, 의미)다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         코사인 유사도 (Cosine Similarity) 수식 및 직관                │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  수식:                                                            │
-│  cos(θ) = (A · B) / (||A|| × ||B||)                             │
-│                                                                  │
-│  = (Σ Aᵢ × Bᵢ) / (√Σ Aᵢ² × √Σ Bᵢ²)                           │
-│                                                                  │
-│  예시: A = [1, 0, 1] ("사과 과일"), B = [1, 0, 0.9] ("애플 과일")    │
-│  A·B = 1×1 + 0×0 + 1×0.9 = 1.9                                  │
-│  ||A|| = √(1+0+1) = √2 ≈ 1.414                                  │
-│  ||B|| = √(1+0+0.81) = √1.81 ≈ 1.345                            │
-│  cos(θ) = 1.9 / (1.414 × 1.345) ≈ 0.998 → 매우 유사!            │
-│                                                                  │
-│  범위 해석:                                                        │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  cos = 1.0  → 동일한 방향, 완전 유사 (같은 문장)           │    │
-│  │  cos = 0.9+ → 매우 유사 (동의어, 관련 주제)               │    │
-│  │  cos = 0.7+ → 유사 (같은 분야 다른 주제)                  │    │
-│  │  cos = 0.5  → 약한 관련 (광의 분야 연관)                   │    │
-│  │  cos = 0.0  → 무관련 (직각 방향)                          │    │
-│  │  cos < 0.0  → 반대 의미 (부정적 문맥 등)                   │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         코사인 유사도 (Cosine Similarity) 수식 및 직관                |
++------------------------------------------------------------------+
+|                                                                  |
+|  수식:                                                            |
+|  cos(θ) = (A · B) / (||A|| × ||B||)                             |
+|                                                                  |
+|  = (Σ Aᵢ × Bᵢ) / (√Σ Aᵢ^ × √Σ Bᵢ^)                           |
+|                                                                  |
+|  예시: A = [1, 0, 1] ("사과 과일"), B = [1, 0, 0.9] ("애플 과일")    |
+|  A·B = 1×1 + 0×0 + 1×0.9 = 1.9                                  |
+|  ||A|| = √(1+0+1) = √2 ≈ 1.414                                  |
+|  ||B|| = √(1+0+0.81) = √1.81 ≈ 1.345                            |
+|  cos(θ) = 1.9 / (1.414 × 1.345) ≈ 0.998 -> 매우 유사!            |
+|                                                                  |
+|  범위 해석:                                                        |
+|  +---------------------------------------------------------+    |
+|  |  cos = 1.0  -> 동일한 방향, 완전 유사 (같은 문장)           |    |
+|  |  cos = 0.9+ -> 매우 유사 (동의어, 관련 주제)               |    |
+|  |  cos = 0.7+ -> 유사 (같은 분야 다른 주제)                  |    |
+|  |  cos = 0.5  -> 약한 관련 (광의 분야 연관)                   |    |
+|  |  cos = 0.0  -> 무관련 (직각 방향)                          |    |
+|  |  cos < 0.0  -> 반대 의미 (부정적 문맥 등)                   |    |
+|  +---------------------------------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 | 거리 측정법 | 수식 | 특징 | 적합 상황 |
 |:---|:---|:---|:---|
 | [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) | A·B / (||A||×||B||) | 방향(각도) 기반, 크기 무시 | 문서 유사도, 의미 검색 |
-| 유클리드 거리 | √Σ(Aᵢ-Bᵢ)² | 직선 거리, 크기 반영 | 좌표 기반 위치, 이미지 픽셀 |
+| 유클리드 거리 | √Σ(Aᵢ-Bᵢ)^ | 직선 거리, 크기 반영 | 좌표 기반 위치, 이미지 픽셀 |
 | 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product) | Σ Aᵢ×Bᵢ | 크기+방향 모두 반영 | OpenAI [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 최적화 |
 | 맨해튼 거리 | Σ|Aᵢ-Bᵢ| | L1 거리, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 강건성 | 고차원 희소 벡터 |
 
@@ -95,10 +95,10 @@ L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_repres
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong>임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> (Threshold Tuning)</strong>:
-- [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 0.85 이상: 강한 유사 → 중복 문서 탐지, 표절 검사
-- 0.7~0.85: 유사 → [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 포함 여부 결정
-- 0.5~0.7: 약한 관련 → [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 확장 결과
-- 0.5 이하: 무관련 → 검색 결과에서 제외
+- [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 0.85 이상: 강한 유사 -> 중복 문서 탐지, 표절 검사
+- 0.7~0.85: 유사 -> [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 포함 여부 결정
+- 0.5~0.7: 약한 관련 -> [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 확장 결과
+- 0.5 이하: 무관련 -> 검색 결과에서 제외
 
 <strong>차원의 저주 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/">Curse of Dimensionality</a>)</strong>: 고차원(1536차원)에서는 모든 벡터 쌍의 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)가 비슷해지는 현상이 발생한다. FAISS의 IVF-PQ처럼 차원 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 함께 사용하거나, [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델 자체가 클러스터링이 잘 되도록 대조 학습(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 훈련되어야 한다.
 
@@ -127,7 +127,7 @@ L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_repres
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [코사인 유사도 (Cosine Similarity)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [코사인 유사도 (Cosine Similarity)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -142,7 +142,7 @@ L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_repres
 
 **진행 상황**: 310 / 420
 
-← **이전**: [309. 벡터 데이터베이스 (Vector Database)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/309_vector_database/)
-**다음**: [311. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/) →
+<- **이전**: [309. 벡터 데이터베이스 (Vector Database)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/309_vector_database/)
+**다음**: [311. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/) ->
 
 ---

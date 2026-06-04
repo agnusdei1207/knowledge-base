@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> 1. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 → 최소 코드로 통과 → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-엔진ering)를 방지하고, 변경에 안전한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.
+> 1. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 -> 최소 코드로 통과 -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-엔진ering)를 방지하고, 변경에 안전한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.
 > 2. [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))는 TDD의 "무엇을 테스트할지 불명확함" 문제를 해결하기 위해 Dan North가 제안한 확장으로 — Gherkin 언어(Given-When-Then)로 비즈니스 시나리오를 자연어로 작성하여 비개발자와의 공통 언어를 확보한다.
 > 3. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)/BDD의 실질적 가치는 "버그를 코드 작성 시점에 잡는다"는 것으로 — 프로덕션 버그 1건을 수정하는 비용이 TDD로 테스트 작성하는 비용의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배임을 감안할 때, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합된 TDD는 장기적으로 개발 속도를 오히려 향상시킨다.
 
@@ -26,7 +26,7 @@ Red-Green-Refactor 사이클:
 
   1. RED: 실패하는 테스트 작성
      아직 구현이 없으니 당연히 실패
-     → 테스트가 요구사항을 정의
+     -> 테스트가 요구사항을 정의
 
   2. GREEN: 최소 코드로 테스트 통과
      통과만 하면 됨, 완벽하지 않아도 OK
@@ -39,7 +39,7 @@ TDD 사이클 예시 (Python):
 
   # RED: 테스트 먼저
   def test_add():
-      assert add(2, 3) == 5  # add 함수 없음 → 실패
+      assert add(2, 3) == 5  # add 함수 없음 -> 실패
 
   # GREEN: 최소 구현
   def add(a, b):
@@ -94,7 +94,7 @@ Gherkin 언어 (자연어 테스트 시나리오):
 
 BDD 도구:
   Cucumber (Java, Ruby, JavaScript):
-    Gherkin 파일 → 자동 테스트 실행
+    Gherkin 파일 -> 자동 테스트 실행
 
   Behave (Python):
     given, when, then 데코레이터
@@ -178,21 +178,21 @@ TDD/BDD + CI/CD 파이프라인:
 
 완전 자동화 흐름:
   1. 개발자: 로컬에서 TDD 사이클
-     Red → Green → Refactor
+     Red -> Green -> Refactor
 
-  2. git push → PR 생성
+  2. git push -> PR 생성
 
   3. CI 파이프라인 자동 실행:
-     단위 테스트 → 통합 테스트 → E2E 테스트
+     단위 테스트 -> 통합 테스트 -> E2E 테스트
 
   4. BDD 시나리오 자동 검증:
      Cucumber: .feature 파일 실행
 
   5. 테스트 커버리지 리포트 생성
 
-  6. 품질 게이트: 커버리지 < 80% → 머지 차단
+  6. 품질 게이트: 커버리지 < 80% -> 머지 차단
 
-  7. 모든 테스트 통과 → 프로덕션 자동 배포
+  7. 모든 테스트 통과 -> 프로덕션 자동 배포
 
 GitHub Actions 예시:
   name: Test
@@ -208,9 +208,9 @@ GitHub Actions 예시:
           run: behave features/
 
 테스트 피라미드:
-       /E2E\          ← 적게 (느림, 비용)
-      /통합테스트\     ← 중간
-     /단위테스트/      ← 많이 (빠름, 저렴)
+       /E2E\          <- 적게 (느림, 비용)
+      /통합테스트\     <- 중간
+     /단위테스트/      <- 많이 (빠름, 저렴)
 
   단위 70% + 통합 20% + E2E 10% 권장
 
@@ -324,7 +324,7 @@ Gherkin/Cucumber 도구 탄생
       |
       v
 [CI/CD 통합 (2010s)]
-Jenkins → Travis → GitHub Actions
+Jenkins -> Travis -> GitHub Actions
 테스트 자동화 파이프라인 표준화
       |
       v
@@ -352,7 +352,7 @@ AI 기반 엣지 케이스 자동 탐지
 
 **진행 상황**: 44 / 373
 
-← **이전**: [043. 다크 런칭 & 섀도우 트래픽](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/043_dark_launching_shadow_traffic/)
-**다음**: [045. 시프트 레프트 — Shift Left Testing & Security](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/045_shift_left_testing_security/) →
+<- **이전**: [043. 다크 런칭 & 섀도우 트래픽](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/043_dark_launching_shadow_traffic/)
+**다음**: [045. 시프트 레프트 — Shift Left Testing & Security](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/045_shift_left_testing_security/) ->
 
 ---

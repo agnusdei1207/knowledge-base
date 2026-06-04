@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메시지 패싱 하드웨어 큐의 기본 경로는 `발신 코어 → 로컬 네트워크 인터페이스 → NoC 라우터 → 수신 큐 → 이벤트 통지`로 이어진다. 발신자는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무조건 복사하는 것이 아니라, 작은 제어 메시지·디스크립터·주소 핸들을 큐에 넣고, 실제 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬 버퍼나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 경로에서 읽도록 설계한다. 이렇게 하면 큐는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 통로"가 아니라 <strong>작업과 소유권을 이동시키는 제어면</strong>으로 동작한다.
+메시지 패싱 하드웨어 큐의 기본 경로는 `발신 코어 -> 로컬 네트워크 인터페이스 -> NoC 라우터 -> 수신 큐 -> 이벤트 통지`로 이어진다. 발신자는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무조건 복사하는 것이 아니라, 작은 제어 메시지·디스크립터·주소 핸들을 큐에 넣고, 실제 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬 버퍼나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 경로에서 읽도록 설계한다. 이렇게 하면 큐는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 통로"가 아니라 <strong>작업과 소유권을 이동시키는 제어면</strong>으로 동작한다.
 
 또한 하드웨어 큐는 소프트웨어 큐보다 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 훨씬 직접적이다. 수신 큐 깊이를 기준으로 크레딧 (Credit)을 관리하고, 크레딧이 부족하면 발신을 막아 오버플로를 피한다. 이 덕분에 수신자가 느려지면 시스템 전체가 조용히 감속하고, 무한 재시도나 캐시 라인 스톰 대신 명확한 백프레셔가 형성된다.
 
@@ -46,16 +46,16 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 메시지 패싱 하드웨어 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "공유"하지 않고 "도착 순서와 여유 공간"으로 제어한다는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core A            NI / Send Port           NoC            Queue at Core B    │
-│ [payload 준비] ─▶ [enqueue + tag] ───────▶ [route] ─────▶ [Ingress FIFO]    │
-│      ▲                  │                                     │              │
-│      │                  └──── credit 부족 시 발신 보류 ───────┘              │
-│      │                                                                      │
-│      └──────────────────── credit return / dequeue done ────────────────────┘
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| 메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다            |
++------------------------------------------------------------------------------+
+| Core A            NI / Send Port           NoC            Queue at Core B    |
+| [payload 준비] --> [enqueue + tag] --------> [route] ------> [Ingress FIFO]    |
+|      ^                  |                                     |              |
+|      |                  +---- credit 부족 시 발신 보류 -------+              |
+|      |                                                                      |
+|      +-------------------- credit return / dequeue done --------------------+
++------------------------------------------------------------------------------+
 ```
 
 이 구조에서 병목은 보통 세 곳에서 생긴다. 첫째, 메시지가 너무 커서 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 대신하려 할 때 헤드 오브 라인 블로킹 ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이 발생한다. 둘째, 여러 발신자가 하나의 중앙 큐만 바라보면 다시 공유 병목으로 돌아간다. 셋째, 크레딧 회수 경로가 느리면 큐가 비어 있어도 발신자가 오래 기다리게 된다.
@@ -136,17 +136,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 버스 기반 공유 메모리
-        │
-        ▼
+        |
+        v
 메일박스 · 소프트웨어 큐
-        │
-        ▼
+        |
+        v
 NoC 기반 메시지 패싱 하드웨어 큐
-        │
-        ▼
+        |
+        v
 크레딧 제어 · 가상 채널 · QoS
-        │
-        ▼
+        |
+        v
 칩렛 · 가속기 패브릭 · 하이브리드 공유/메시지 아키텍처
 ```
 
@@ -164,7 +164,7 @@ NoC 기반 메시지 패싱 하드웨어 큐
 
 **진행 상황**: 565 / 803
 
-← **이전**: [564. 비동기 버스 핸드셰이크 프로토콜 (Asynchronous Bus Handshake Protocol)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/564_asynchronous_bus_handshake/)
-**다음**: [566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/) →
+<- **이전**: [564. 비동기 버스 핸드셰이크 프로토콜 (Asynchronous Bus Handshake Protocol)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/564_asynchronous_bus_handshake/)
+**다음**: [566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/) ->
 
 ---

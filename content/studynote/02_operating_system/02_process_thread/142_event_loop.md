@@ -26,26 +26,26 @@ tags = ["studynote-operating-system"]
 > **비유:** 식당 주방장이 혼자서 주문서를 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 조리가 오래 걸리는 음식은 오븐에 맡겨놓고 다음 주문을 처리하는 방식과 같다.
 
 ```
-┌─────────────────────────────────────────────────┐
-│                 Event Loop                       │
-│                                                   │
-│   ┌─────────┐    ┌──────────┐    ┌──────────┐   │
-│   │  Event   │───>│ Dispatch  │───>│ Callback │   │
-│   │  Queue   │    │  & Exec  │    │ Complete │   │
-│   └─────────┘    └──────────┘    └──────────┘   │
-│        ^                               │          │
-│        └───────────────────────────────┘          │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|                 Event Loop                       |
+|                                                   |
+|   +---------+    +----------+    +----------+   |
+|   |  Event   |--->| Dispatch  |--->| Callback |   |
+|   |  Queue   |    |  & Exec  |    | Complete |   |
+|   +---------+    +----------+    +----------+   |
+|        ^                               |          |
+|        +-------------------------------+          |
++-------------------------------------------------+
 ```
 
 ```
-┌─────────────────── Single Thread Timeline ───────────────────┐
-│                                                              │
-│  [A]──request──>[B]──request──>[A]──callback──>[C]──...     │
-│   non-blocking   non-blocking   result                       │
-│                                                              │
-│  Legend: [A],[B],[C] = async operations                      │
-└──────────────────────────────────────────────────────────────┘
++------------------- Single Thread Timeline -------------------+
+|                                                              |
+|  [A]--request-->[B]--request-->[A]--callback-->[C]--...     |
+|   non-blocking   non-blocking   result                       |
+|                                                              |
+|  Legend: [A],[B],[C] = async operations                      |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -69,18 +69,18 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 | 5 | **Close** | `close` 이벤트 콜백 실행 |
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   Event Loop Phases                      │
-│                                                          │
-│   ┌────────┐  ┌────────┐  ┌──────┐  ┌───────┐  ┌─────┐│
-│   │ Timers │─>│Pending │─>│ Poll │─>│ Check │─>│Close││
-│   └────────┘  │Callback│  └──────┘  └───────┘  └─────┘│
-│      ^        └────────┘     │                         │
-│      └───────────────────────┘  (다시 반복)              │
-│                                                          │
-│   [Microtask Queue: Promise.then, process.nextTick]     │
-│   > 각 페이즈 사이마다 우선 실행                          │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                   Event Loop Phases                      |
+|                                                          |
+|   +--------+  +--------+  +------+  +-------+  +-----+|
+|   | Timers |->|Pending |->| Poll |->| Check |->|Close||
+|   +--------+  |Callback|  +------+  +-------+  +-----+|
+|      ^        +--------+     |                         |
+|      +-----------------------+  (다시 반복)              |
+|                                                          |
+|   [Microtask Queue: Promise.then, process.nextTick]     |
+|   > 각 페이즈 사이마다 우선 실행                          |
++----------------------------------------------------------+
 ```
 
 ### 3. 구현체별 특징
@@ -103,25 +103,25 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 ### 1. 콜백 기반 vs 프로미스 기반
 
 ```
-┌────────────────── Callback Style ──────────────────┐
-│                                                     │
-│  readFile("data.txt", function(err, data) {        │
-│      if (err) throw err;    // 콜백 지옥 가능       │
-│      console.log(data);                             │
-│  });                                                │
-│                                                     │
-└─────────────────────────────────────────────────────┘
++------------------ Callback Style ------------------+
+|                                                     |
+|  readFile("data.txt", function(err, data) {        |
+|      if (err) throw err;    // 콜백 지옥 가능       |
+|      console.log(data);                             |
+|  });                                                |
+|                                                     |
++-----------------------------------------------------+
 
-┌────────────────── Promise Style ───────────────────┐
-│                                                     │
-│  readFile("data.txt")                               │
-│      .then(data => console.log(data))               │
-│      .catch(err => console.error(err));             │
-│                                                     │
-│  // async/await 변환                                 │
-│  const data = await readFile("data.txt");           │
-│                                                     │
-└─────────────────────────────────────────────────────┘
++------------------ Promise Style -------------------+
+|                                                     |
+|  readFile("data.txt")                               |
+|      .then(data => console.log(data))               |
+|      .catch(err => console.error(err));             |
+|                                                     |
+|  // async/await 변환                                 |
+|  const data = await readFile("data.txt");           |
+|                                                     |
++-----------------------------------------------------+
 ```
 
 ### 2. 마이크로태스크와 매크로태스크
@@ -147,17 +147,17 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 ### 2. 한계: CPU 연산 집약적 작업
 
 ```
-┌──────── CPU-Bound Blocking ────────┐
-│                                     │
-│  [Event Loop]──[Task A]────────────>│ BLOCKED!
-│                   │                 │ (다른 이벤트 전부 지연)
-│                   │  CPU 100%      │
-│                   │  10초 소요     │
-│                   ▼                 │
-│              [완료]                  │
-│  [Task B, C, D... 지연됨]          │
-│                                     │
-└─────────────────────────────────────┘
++-------- CPU-Bound Blocking --------+
+|                                     |
+|  [Event Loop]--[Task A]------------>| BLOCKED!
+|                   |                 | (다른 이벤트 전부 지연)
+|                   |  CPU 100%      |
+|                   |  10초 소요     |
+|                   v                 |
+|              [완료]                  |
+|  [Task B, C, D... 지연됨]          |
+|                                     |
++-------------------------------------+
 ```
 
 해결책: <strong>Worker <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> 분리, **클러스터 모드** (멀티프로세스), **C++ Addon** [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
@@ -170,33 +170,33 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ```
 이벤트 루프 기반 비동기 처리
-├── 핵심 개념
-│   ├── 단일 스레드 이벤트 구동 아키텍처
-│   ├── 논블로킹 I/O
-│   └── 콜백 큐 순회 및 디스패치
-├── 이벤트 루프 페이즈
-│   ├── Timers (setTimeout/setInterval)
-│   ├── Pending Callbacks (지연된 I/O)
-│   ├── Poll (새 이벤트 수집)
-│   ├── Check (setImmediate)
-│   └── Close (닫기 콜백)
-├── 구현체
-│   ├── libuv (Node.js)
-│   ├── Browser Web API
-│   ├── Python asyncio
-│   └── Go runtime scheduler
-├── 비동기 패턴
-│   ├── Callback (콜백 지옥)
-│   ├── Promise (then/catch/finally)
-│   └── Async/Await (코루틴)
-├── 장점
-│   ├── 스레드 오버헤드 제거
-│   ├── 적은 메모리 사용
-│   └── C10K 문제 해결
-└── 한계 및 해결책
-    ├── CPU-bound 작업 시 블로킹
-    ├── Worker Thread 분리
-    └── 클러스터 (멀티프로세스)
++-- 핵심 개념
+|   +-- 단일 스레드 이벤트 구동 아키텍처
+|   +-- 논블로킹 I/O
+|   +-- 콜백 큐 순회 및 디스패치
++-- 이벤트 루프 페이즈
+|   +-- Timers (setTimeout/setInterval)
+|   +-- Pending Callbacks (지연된 I/O)
+|   +-- Poll (새 이벤트 수집)
+|   +-- Check (setImmediate)
+|   +-- Close (닫기 콜백)
++-- 구현체
+|   +-- libuv (Node.js)
+|   +-- Browser Web API
+|   +-- Python asyncio
+|   +-- Go runtime scheduler
++-- 비동기 패턴
+|   +-- Callback (콜백 지옥)
+|   +-- Promise (then/catch/finally)
+|   +-- Async/Await (코루틴)
++-- 장점
+|   +-- 스레드 오버헤드 제거
+|   +-- 적은 메모리 사용
+|   +-- C10K 문제 해결
++-- 한계 및 해결책
+    +-- CPU-bound 작업 시 블로킹
+    +-- Worker Thread 분리
+    +-- 클러스터 (멀티프로세스)
 ```
 
 ---
@@ -231,12 +231,12 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ```text
 [코루틴 (Coroutine)]
-    │
-    ▼
+    |
+    v
 [이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
-    │
-    ├──▶ [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
-    └──▶ [CPU 친화성 (CPU Affinity)]
+    |
+    +---> [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
+    +---> [CPU 친화성 (CPU Affinity)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -253,7 +253,7 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 **진행 상황**: 142 / 800
 
-← **이전**: [141. 코루틴 (Coroutine)](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)
-**다음**: [143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)](/knowledge-base/studynote/02_operating_system/02_process_thread/143_thread_affinity_pinning/) →
+<- **이전**: [141. 코루틴 (Coroutine)](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)
+**다음**: [143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)](/knowledge-base/studynote/02_operating_system/02_process_thread/143_thread_affinity_pinning/) ->
 
 ---

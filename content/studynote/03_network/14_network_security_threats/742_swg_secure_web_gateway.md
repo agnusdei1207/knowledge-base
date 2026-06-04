@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [CASB]
-    │
-    ▼
+    |
+    v
 [SWG]
-    │
-    └──▶ [CSPM / CWPP 보안 설정 모니터링 관…]
+    |
+    +---> [CSPM / CWPP 보안 설정 모니터링 관…]
 ```
 
 - **📢 섹션 요약 비유**: SWG는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [CASB]
-    │
-    ▼
+    |
+    v
 [SWG]
-    │
-    └──▶ [CSPM / CWPP 보안 설정 모니터링 관…]
+    |
+    +---> [CSPM / CWPP 보안 설정 모니터링 관…]
 ```
 
 - **📢 섹션 요약 비유**: SWG의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ SWG는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ```text
 [선행 개념: CASB]
-    │
-    ▼
+    |
+    v
 [현재 개념: SWG]
-    │
-    ├──▶ [확장 A: CSPM / CWPP 보안 설정 모니터링 관…]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: CSPM / CWPP 보안 설정 모니터링 관…]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 SWG는 CASB에서 출발해 현재 메커니즘을 정교화하고, 이후 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ SWG는 CASB에서 출발해 현재 메커니즘을 정교화하고, 이후 [CSPM
 
 **진행 상황**: 863 / 1120
 
-← **이전**: [741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)
-**다음**: [743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템](/knowledge-base/studynote/03_network/14_network_security_threats/743_cspm_cwpp_cloud_security_posture/) →
+<- **이전**: [741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)
+**다음**: [743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템](/knowledge-base/studynote/03_network/14_network_security_threats/743_cspm_cwpp_cloud_security_posture/) ->
 
 ---

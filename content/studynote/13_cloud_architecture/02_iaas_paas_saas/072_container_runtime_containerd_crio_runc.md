@@ -30,7 +30,7 @@ tags = ["cloud_architecture"]
 
 ```text
 Image
-  ↓ runtime
+  v runtime
 Container Process
 ```
 
@@ -101,11 +101,11 @@ Container Process
 
 ```text
 Image
-  ↓
+  v
 Runtime
-  ↓
+  v
 Container
-  ↓
+  v
 Kubernetes
 ```
 
@@ -115,11 +115,11 @@ Kubernetes
 
 ```text
 OCI
-  ↓
+  v
 containerd / CRI-O / runc
-  ↓
+  v
 Runtime
-  ↓
+  v
 Container Execution
 ```
 
@@ -137,7 +137,7 @@ Container Execution
 
 **진행 상황**: 71 / 371
 
-← **이전**: [71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/071_oci_open_container_initiative_standard/)
-**다음**: [73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) →
+<- **이전**: [71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/071_oci_open_container_initiative_standard/)
+**다음**: [73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) ->
 
 ---

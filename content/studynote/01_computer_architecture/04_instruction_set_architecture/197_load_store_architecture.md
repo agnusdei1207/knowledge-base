@@ -36,23 +36,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 동일한 계산을 로드/스토어 방식으로 처리할 때, 어느 단계에서 메모리를 만나고 어느 단계에서 순수 연산이 일어나는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업     │
-├──────────────────────────────────────────────────────────────────────┤
-│ 목표: C = A + B                                                     │
-│                                                                      │
-│ 1) LOAD  R1, [A]   ──▶ 메모리에서 A를 읽어 R1에 적재                │
-│ 2) LOAD  R2, [B]   ──▶ 메모리에서 B를 읽어 R2에 적재                │
-│ 3) ADD   R3, R1, R2 ─▶ ALU가 레지스터 R1, R2만 사용해 계산          │
-│ 4) STORE [C], R3   ──▶ 계산 결과 R3를 메모리 C에 저장               │
-│                                                                      │
-│ 분리 효과                                                            │
-│  ┌──────────────┐        ┌──────────────┐                            │
-│  │ 메모리 경로  │        │ 연산 경로    │                            │
-│  │ LOAD/STORE   │        │ ADD/SUB/AND  │                            │
-│  │ 주소 계산    │        │ 레지스터 연산 │                            │
-│  └──────────────┘        └──────────────┘                            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업     |
++----------------------------------------------------------------------+
+| 목표: C = A + B                                                     |
+|                                                                      |
+| 1) LOAD  R1, [A]   ---> 메모리에서 A를 읽어 R1에 적재                |
+| 2) LOAD  R2, [B]   ---> 메모리에서 B를 읽어 R2에 적재                |
+| 3) ADD   R3, R1, R2 --> ALU가 레지스터 R1, R2만 사용해 계산          |
+| 4) STORE [C], R3   ---> 계산 결과 R3를 메모리 C에 저장               |
+|                                                                      |
+| 분리 효과                                                            |
+|  +--------------+        +--------------+                            |
+|  | 메모리 경로  |        | 연산 경로    |                            |
+|  | LOAD/STORE   |        | ADD/SUB/AND  |                            |
+|  | 주소 계산    |        | 레지스터 연산 |                            |
+|  +--------------+        +--------------+                            |
++----------------------------------------------------------------------+
 ```
 
 이 구조가 중요한 이유는 파이프라인 단계별 책임이 선명해지기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 해독 뒤에 메모리 접근이 필요한 명령만 LSU를 거치고, 일반 연산은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 안에서 빠르게 끝난다. 덕분에 하드웨어는 포워딩 (Forwarding), [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO), 로드/스토어 큐 같은 기법을 체계적으로 붙일 수 있다.
@@ -88,15 +88,15 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 복합 명령 축소
-    │
-    ├─ CISC 외부 명령 ─▶ 내부 마이크로 연산 분해
-    │
-    └─ RISC 명령      ─▶ 처음부터 Load/Store 분리
-                          │
-                          ▼
+    |
+    +- CISC 외부 명령 --> 내부 마이크로 연산 분해
+    |
+    +- RISC 명령      --> 처음부터 Load/Store 분리
+                          |
+                          v
                 파이프라인 예측 가능성 향상
-                          │
-                          ▼
+                          |
+                          v
                  슈퍼스칼라·OoO 확장 용이
 ```
 
@@ -152,20 +152,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 누산기·메모리 직접 연산 중심 구조
-    │
-    ▼
+    |
+    v
 레지스터 활용 확대
-    │
-    ▼
+    |
+    v
 로드/스토어 아키텍처 정착
-    │
-    ├─ 파이프라인 최적화
-    ├─ 슈퍼스칼라 확장
-    ├─ 비순차 실행 (OoO)
-    ▼
+    |
+    +- 파이프라인 최적화
+    +- 슈퍼스칼라 확장
+    +- 비순차 실행 (OoO)
+    v
 ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline Stages) · RISC-V (Reduced Instruction Set Computer Five)
-    │
-    ▼
+    |
+    v
 압축 명령어 · 정교한 컴파일러 · 메모리 모델 고도화
 ```
 
@@ -183,7 +183,7 @@ ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline
 
 **진행 상황**: 197 / 803
 
-← **이전**: [196. CISC (Complex Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/)
-**다음**: [198. x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/) →
+<- **이전**: [196. CISC (Complex Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/)
+**다음**: [198. x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/) ->
 
 ---

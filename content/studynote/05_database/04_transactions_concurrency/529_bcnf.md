@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 의 팬텀 현상 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 해결 유무은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 비용과 가시성 규칙을 잘못 잡으면 장기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 스토리지 팽창이 생긴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read view -> Version chain -> Current concept -> Visible row │
-├──────────────────────────────────────────────────────────────┤
-│ Snapshot -> version choice -> blocking reduction             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read view -> Version chain -> Current concept -> Visible row |
++--------------------------------------------------------------+
+| Snapshot -> version choice -> blocking reduction             |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 의 팬텀 현상 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 해결 유무를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `동시성 오손 읽기 고립 수준 회피`·`Serializable 성능 저하 임계 영역 데드락 방어`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Old version -> current version -> current concept -> reader  │
-├──────────────────────────────────────────────────────────────┤
-│ Undo chain -> snapshot rule -> visibility                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Old version -> current version -> current concept -> reader  |
++--------------------------------------------------------------+
+| Undo chain -> snapshot rule -> visibility                    |
++--------------------------------------------------------------+
 ```
 
 핵심은 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 의 팬텀 현상 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 해결 유무를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [동시성 오손 읽기 고립 수준 회피]
-    │
-    ▼
+    |
+    v
 [Repeatable Read 의 팬텀 현상 MVCC 해결 유무]
-    │
-    ├──▶ [Serializable 성능 저하 임계 영역 데드락 방어]
-    └──▶ [데이터 가상화 연방 쿼리 실행 엔진]
+    |
+    +---> [Serializable 성능 저하 임계 영역 데드락 방어]
+    +---> [데이터 가상화 연방 쿼리 실행 엔진]
 ```
 
 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [오손 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/205_dirty_read_uncommitted_dependency/) 고립 수준 회피에서 출발한 논점이 [Repeatable Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 의 팬텀 현상 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 해결 유무에서 핵심 판단으로 모이고, 이후 [Serializable](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 임계 영역 데드락 방어·[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 실행 엔진 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 529 / 600
 
-← **이전**: [528. 동시성 오손 읽기 고립 수준 회피 (Dirty Read)](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)
-**다음**: [530. Serializable 성능 저하 임계 영역 데드락 방어](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/) →
+<- **이전**: [528. 동시성 오손 읽기 고립 수준 회피 (Dirty Read)](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)
+**다음**: [530. Serializable 성능 저하 임계 영역 데드락 방어](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/) ->
 
 ---

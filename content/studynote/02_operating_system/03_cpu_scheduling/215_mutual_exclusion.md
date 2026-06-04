@@ -29,13 +29,13 @@ tags = ["studynote-operating-system"]
 
   (상황: 프로세스 A, B, C가 공유 변수 'X'에 접근하려 함)
 
-  [ 프로세스 A ] ───(진입 성공, 락 획득)──▶ ┌────────────────────┐
-                                          │ 임계 구역 (X 수정 중)│
-                                          └──────────────────────┘
-                                                ▲ 절대 진입 불가 방어막!
-                                                                 │
-  [ 프로세스 B ] ───(진입 시도, 락 확인)──▶ ⛔ (대기실로 쫓겨나서 Sleep)
-  [ 프로세스 C ] ───(진입 시도, 락 확인)──▶ ⛔ (대기실로 쫓겨나서 Sleep)
+  [ 프로세스 A ] ---(진입 성공, 락 획득)---> +--------------------+
+                                          | 임계 구역 (X 수정 중)|
+                                          +----------------------+
+                                                ^ 절대 진입 불가 방어막!
+                                                                 |
+  [ 프로세스 B ] ---(진입 시도, 락 확인)---> ⛔ (대기실로 쫓겨나서 Sleep)
+  [ 프로세스 C ] ---(진입 시도, 락 확인)---> ⛔ (대기실로 쫓겨나서 Sleep)
 
   >> A가 볼일을 다 보고 '락 해제'를 외치기 전까지 B와 C는 1만 년이라도 대기해야 한다.
 ```
@@ -65,35 +65,35 @@ tags = ["studynote-operating-system"]
 
 ### 데이크스트라의 [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 조건
 어떤 자물쇠 메커니즘이든, 진짜 '[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)'로 인정받으려면 다음을 만족해야 한다.
-- **가정의 배제**: CPU의 속도나 코어 개수에 대한 어떠한 가정도 해서는 안 된다. (내 CPU가 엄청 빠르니까 안 부딪히겠지? ─▶ 기각)
+- **가정의 배제**: CPU의 속도나 코어 개수에 대한 어떠한 가정도 해서는 안 된다. (내 CPU가 엄청 빠르니까 안 부딪히겠지? --> 기각)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 외의 간섭 금지</strong>: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 밖에 있는 놈이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가려는 놈을 막아서는 안 된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         Test-And-Set (하드웨어 명령어) 기반의 상호 배제 원리        │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │  // 1. 하드웨어가 보장하는 원자적(절대 안 끊기는) 함수              │
-  │  boolean TestAndSet(bool *target) {                                 │
-  │      bool old_val = *target;                                        │
-  │      *target = true;   // 💥 읽고 1로 덮어쓰기를 1클럭에 동시 실행  │
-  │      return old_val;                                                │
-  │  }                                                                  │
-  │                                                                     │
-  │  // 2. 프로세스의 진입 로직                                         │
-  │  bool lock = false;                                                 │
-  │                                                                     │
-  │  while (TestAndSet(&lock)) {                                        │
-  │      // lock이 true면 계속 헛돎. (남이 쓴다는 뜻)                   │
-  │  }                                                                  │
-  │                                                                     │
-  │  // 3. 🚨 위 while 문을 통과했다는 뜻은, 내가 확인했을 때 lock이    │
-  │  //    false였고, 내가 그 순간 true로 완벽히 바꿔버렸다는 뜻!       │
-  │  [ 임계 구역 실행 ]                                                 │
-  │                                                                     │
-  │  // 4. 퇴장                                                         │
-  │  lock = false;                                                      │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         Test-And-Set (하드웨어 명령어) 기반의 상호 배제 원리        |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |  // 1. 하드웨어가 보장하는 원자적(절대 안 끊기는) 함수              |
+  |  boolean TestAndSet(bool *target) {                                 |
+  |      bool old_val = *target;                                        |
+  |      *target = true;   // 💥 읽고 1로 덮어쓰기를 1클럭에 동시 실행  |
+  |      return old_val;                                                |
+  |  }                                                                  |
+  |                                                                     |
+  |  // 2. 프로세스의 진입 로직                                         |
+  |  bool lock = false;                                                 |
+  |                                                                     |
+  |  while (TestAndSet(&lock)) {                                        |
+  |      // lock이 true면 계속 헛돎. (남이 쓴다는 뜻)                   |
+  |  }                                                                  |
+  |                                                                     |
+  |  // 3. 🚨 위 while 문을 통과했다는 뜻은, 내가 확인했을 때 lock이    |
+  |  //    false였고, 내가 그 순간 true로 완벽히 바꿔버렸다는 뜻!       |
+  |  [ 임계 구역 실행 ]                                                 |
+  |                                                                     |
+  |  // 4. 퇴장                                                         |
+  |  lock = false;                                                      |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 근본은 "내가 문을 열고 들어가는 그 찰나의 순간에, 다른 놈이 같이 손잡이를 잡지 못하게 하는 것"이다. `TestAndSet` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 실리콘 레벨에서 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 자체를 1클럭 동안 강제로 잠가버림으로써, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 `lock` 변수에 접근하는 것을 하드웨어적으로 원천 차단해 낸다.
 
@@ -132,25 +132,25 @@ tags = ["studynote-operating-system"]
    - **아키텍트 교정**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 영역([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))은 **수술 부위처럼 가장 작게 도려내야 한다**. 메서드 전체가 아닌, 공유 변수를 읽고 쓰는 딱 2줄의 블록(Block)에만 락을 걸거나, 자바의 `ConcurrentHashMap`이나 `AtomicInteger` 같은 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 객체로 리팩토링하여 OS 수준의 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 개입을 아예 없애버려야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수백 배 향상된다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     상호 배제(Mutex) 설계 시 병렬성(Parallelism) 극대화 의사결정    │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 초당 10만 건의 주문을 처리하는 장바구니 리스트 보호]   │
-  │                │                                                    │
-  │                ▼ 락(Lock) 단위(Granularity)의 결정                  │
-  │      [ 1. 전체 리스트에 락을 건다 (Coarse-grained Lock) ]           │
-  │       ├─▶ 구현: 쉬움 (버그 날 확률 적음)                            │
-  │       └─▶ 결과: 10만 건이 1차선 도로를 타며 서버 CPU 1%만 쓰고 뻗음.│
-  │                                                                     │
-  │      [ 2. 리스트의 개별 노드마다 락을 건다 (Fine-grained Lock) ]    │
-  │       ├─▶ 구현: 지옥 (데드락 터질 확률 기하급수적 상승)             │
-  │       └─▶ 결과: 100차선 도로가 열려 코어 100개가 풀가동됨.          │
-  │                                                                     │
-  │      [ 3. 락을 안 걸고 해결한다 (Lock-free / CAS / TLS) ]           │
-  │       ├─▶ 판단: 현대 아키텍처의 정답. 각 스레드별로 임시 장바구니를 │
-  │                 주고 나중에 한 방에 합치거나, CAS 연산으로 덮어씀.  │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     상호 배제(Mutex) 설계 시 병렬성(Parallelism) 극대화 의사결정    |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 초당 10만 건의 주문을 처리하는 장바구니 리스트 보호]   |
+  |                |                                                    |
+  |                v 락(Lock) 단위(Granularity)의 결정                  |
+  |      [ 1. 전체 리스트에 락을 건다 (Coarse-grained Lock) ]           |
+  |       +--> 구현: 쉬움 (버그 날 확률 적음)                            |
+  |       +--> 결과: 10만 건이 1차선 도로를 타며 서버 CPU 1%만 쓰고 뻗음.|
+  |                                                                     |
+  |      [ 2. 리스트의 개별 노드마다 락을 건다 (Fine-grained Lock) ]    |
+  |       +--> 구현: 지옥 (데드락 터질 확률 기하급수적 상승)             |
+  |       +--> 결과: 100차선 도로가 열려 코어 100개가 풀가동됨.          |
+  |                                                                     |
+  |      [ 3. 락을 안 걸고 해결한다 (Lock-free / CAS / TLS) ]           |
+  |       +--> 판단: 현대 아키텍처의 정답. 각 스레드별로 임시 장바구니를 |
+  |                 주고 나중에 한 방에 합치거나, CAS 연산으로 덮어씀.  |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하고 안전을 사는 행위다. 락을 크고 굵게 잡으면(1번) 개발자는 편하지만 서버가 죽고, 작게 쪼개면(2번) 개발자가 데드락의 공포에 미쳐버린다. 최고 수준의 엔지니어링은 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 우아하게 포기하면서도 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 아키텍처(3번)를 짜는 것이다.
 
@@ -184,12 +184,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [동적 우선순위 승급 (Priority Boost)]
-    │
-    ▼
+    |
+    v
 [상호 배제 (Mutual Exclusion, Mutex)]
-    │
-    ├──▶ [에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
-    └──▶ [코-스케줄링 (Co-scheduling / Gang Scheduling)]
+    |
+    +---> [에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
+    +---> [코-스케줄링 (Co-scheduling / Gang Scheduling)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -206,7 +206,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 215 / 800
 
-← **이전**: [214. 임계 구역 (Critical Section)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)
-**다음**: [216. 진행 (Progress)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) →
+<- **이전**: [214. 임계 구역 (Critical Section)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)
+**다음**: [216. 진행 (Progress)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ->
 
 ---

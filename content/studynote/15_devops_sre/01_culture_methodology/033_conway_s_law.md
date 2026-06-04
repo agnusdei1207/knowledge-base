@@ -24,9 +24,9 @@ tags = ["studynote-devops"]
 ### 법칙이 성립하는 이유
 
 ```
-팀 간 커뮤니케이션 비용 = O(팀 수²)
-   → 팀들은 자연스럽게 경계를 만들어 통신 최소화
-   → 그 경계가 시스템의 모듈·서비스 경계가 됨
+팀 간 커뮤니케이션 비용 = O(팀 수^)
+   -> 팀들은 자연스럽게 경계를 만들어 통신 최소화
+   -> 그 경계가 시스템의 모듈·서비스 경계가 됨
 ```
 
 ### 실제 사례 분석
@@ -48,22 +48,22 @@ tags = ["studynote-devops"]
 
 ```
 1단계: 목표 아키텍처 설계 (도메인 주도 설계 적용)
-   ↓ 경계 컨텍스트(Bounded Context) 식별
+   v 경계 컨텍스트(Bounded Context) 식별
 2단계: 팀 구조 재설계 (아키텍처 경계 = 팀 경계)
-   ↓ 각 팀이 독립적으로 소유·배포·운영
+   v 각 팀이 독립적으로 소유·배포·운영
 3단계: 팀 간 API 계약 수립
-   ↓ 명시적 인터페이스·SLA 정의
+   v 명시적 인터페이스·SLA 정의
 4단계: 점진적 마이그레이션
-   ↓ Strangler Fig 패턴으로 레거시 대체
+   v Strangler Fig 패턴으로 레거시 대체
 ```
 
 ### Amazon "Two-Pizza Team" 원칙
 
 ```
 팀 규모 ≤ 피자 2판으로 먹일 수 있는 인원 (6~10명)
-   ↓
+   v
 팀 소유 서비스: 독립 배포 단위
-   ↓
+   v
 시스템 아키텍처: 자연스럽게 소규모 서비스로 분해
 ```
 
@@ -104,8 +104,8 @@ Team cognitive load = Σ(서비스 복잡도 + 도메인 복잡도 + 환경 복�
 
 Platform Team의 역할:
   환경 복잡도를 플랫폼으로 추상화
-  → Stream-aligned Team의 인지 부하 감소
-  → 도메인 집중도 향상
+  -> Stream-aligned Team의 인지 부하 감소
+  -> 도메인 집중도 향상
 ```
 
 📢 **섹션 요약 비유**: Platform Team은 요리사를 위한 주방 설비 전문가다 — 요리사([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned)가 요리에만 집중할 수 있도록 오븐·칼·청소(인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)를 알아서 관리한다.
@@ -118,7 +118,7 @@ Platform Team의 역할:
 
 ```
 전통 DevOps:           플랫폼 엔지니어링:
-Dev → 인프라팀 요청    Dev → 내부 개발자 플랫폼 (IDP)
+Dev -> 인프라팀 요청    Dev -> 내부 개발자 플랫폼 (IDP)
      (티켓 기반)            (셀프서비스)
      지연 발생               즉시 처리
 ```
@@ -140,13 +140,13 @@ Dev → 인프라팀 요청    Dev → 내부 개발자 플랫폼 (IDP)
 
 ```
 Squad (스쿼드): 소규모 독립팀 (6~12명)
-  → 미니 스타트업처럼 자율 운영
+  -> 미니 스타트업처럼 자율 운영
 Tribe (트라이브): 관련 스쿼드 묶음 (40~150명)
-  → 같은 제품 영역 공유
+  -> 같은 제품 영역 공유
 Chapter (챕터): 같은 기능 전문가 수평 연결
-  → 기술 표준·성장 관리
+  -> 기술 표준·성장 관리
 Guild (길드): 회사 전체 관심사 공유 커뮤니티
-  → 지식 전파·베스트 프랙티스
+  -> 지식 전파·베스트 프랙티스
 ```
 
 📢 **섹션 요약 비유**: Spotify 모델은 학교 + 동아리 조합이다 — 반(Squad)에서 수업하고, 같은 학년(Tribe)이 큰 프로젝트를 하며, 체스 동아리(Guild)에서 취미를 공유한다.
@@ -157,20 +157,20 @@ Guild (길드): 회사 전체 관심사 공유 커뮤니티
 
 ```
 콘웨이의 법칙 + 역 콘웨이 기동
-├── 이론
-│   ├── 콘웨이의 법칙 (1967)
-│   └── 역 콘웨이 기동 (Thoughtworks)
-├── Team Topologies
-│   ├── Stream-aligned Team
-│   ├── Platform Team
-│   ├── Enabling Team
-│   └── Complicated-subsystem Team
-├── 조직 설계 사례
-│   ├── Spotify 모델 (Squad·Tribe·Chapter·Guild)
-│   └── Amazon Two-Pizza Rule
-└── 현대 적용
-    ├── 플랫폼 엔지니어링 (IDP)
-    └── 인지 부하 (Cognitive Load) 관리
++-- 이론
+|   +-- 콘웨이의 법칙 (1967)
+|   +-- 역 콘웨이 기동 (Thoughtworks)
++-- Team Topologies
+|   +-- Stream-aligned Team
+|   +-- Platform Team
+|   +-- Enabling Team
+|   +-- Complicated-subsystem Team
++-- 조직 설계 사례
+|   +-- Spotify 모델 (Squad·Tribe·Chapter·Guild)
+|   +-- Amazon Two-Pizza Rule
++-- 현대 적용
+    +-- 플랫폼 엔지니어링 (IDP)
+    +-- 인지 부하 (Cognitive Load) 관리
 ```
 
 ---
@@ -178,23 +178,23 @@ Guild (길드): 회사 전체 관심사 공유 커뮤니티
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              콘웨이 법칙 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1967년       │ Conway 논문        │ 조직-시스템 구조 동형 법칙  │
-│ 2006년       │ Amazon MSA 전환    │ Two-Pizza Rule 실천          │
-│ 2012년       │ Spotify 모델       │ Squad·Tribe 조직 모델 공개   │
-│ 2019년       │ Team Topologies    │ 팀 설계 체계화 교과서         │
-│ 2021년       │ 플랫폼 엔지니어링  │ IDP·Backstage 표준화         │
-│ 2023년       │ AI 팀 구조         │ ML 플랫폼팀 + 제품팀 분리    │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              콘웨이 법칙 발전 흐름                               |
++--------------+--------------------+-----------------------------+
+| 1967년       | Conway 논문        | 조직-시스템 구조 동형 법칙  |
+| 2006년       | Amazon MSA 전환    | Two-Pizza Rule 실천          |
+| 2012년       | Spotify 모델       | Squad·Tribe 조직 모델 공개   |
+| 2019년       | Team Topologies    | 팀 설계 체계화 교과서         |
+| 2021년       | 플랫폼 엔지니어링  | IDP·Backstage 표준화         |
+| 2023년       | AI 팀 구조         | ML 플랫폼팀 + 제품팀 분리    |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-조직 구조 → 콘웨이 법칙 → 시스템 아키텍처 미러링
-    ↓              ↓                  ↓
+조직 구조 -> 콘웨이 법칙 -> 시스템 아키텍처 미러링
+    v              v                  v
 팀 경계       역 콘웨이 기동      MSA 실현
-    ↓
-Team Topologies → Platform Engineering → 인지 부하 최소화
+    v
+Team Topologies -> Platform Engineering -> 인지 부하 최소화
 ```
 
 ---
@@ -211,7 +211,7 @@ Team Topologies → Platform Engineering → 인지 부하 최소화
 
 **진행 상황**: 33 / 373
 
-← **이전**: [콘웨이의 법칙 (Conway's Law)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/032_conways_law/)
-**다음**: [DevOps 토폴로지 (DevOps Topology)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/) →
+<- **이전**: [콘웨이의 법칙 (Conway's Law)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/032_conways_law/)
+**다음**: [DevOps 토폴로지 (DevOps Topology)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/) ->
 
 ---

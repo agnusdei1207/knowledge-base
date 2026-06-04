@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 기업은 수많은 애플리케이션을 보유하고 운영하며, 이러한 애플리케이션들은 서로 복잡하게 연결되어 있다. 각 애플리케이션의 상태, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 보안 상황, 비용 구조 등을파악하지 못하면, IT 투자의 ROI가 저하되고,적업무중단 위험이 증가한다. ALM은 이러한 challenges를 해결하기 위해_application portfolio 단위의 통합적 관리를 제공한다.
 
-- **💡 비유**: ALM은 <strong>'부동산 포트폴리오 관리'</strong>와 같다. 부동산 관리 회사는 단순히 건물 하나만 관리하는 것이 아니라,소유하는 모든 건물(포트폴리오)의 상태, 임차인, 계약 조건,유수계화, 재정 상황 등을통합관리한다. 또한 각 건물의Lifecycle(신규 취득 → 운영 → 리모델링 → 매각/철거)를전국적으로 보고, 포트폴리오 차원에서최적의 의사결정을 내린다. 소프트웨어 ALM도 마찬가지로, 모든 애플리케이션의 Lifecycle을통합관리하고, 비즈니스 전략과의 정합성을 확보한다.
+- **💡 비유**: ALM은 <strong>'부동산 포트폴리오 관리'</strong>와 같다. 부동산 관리 회사는 단순히 건물 하나만 관리하는 것이 아니라,소유하는 모든 건물(포트폴리오)의 상태, 임차인, 계약 조건,유수계화, 재정 상황 등을통합관리한다. 또한 각 건물의Lifecycle(신규 취득 -> 운영 -> 리모델링 -> 매각/철거)를전국적으로 보고, 포트폴리오 차원에서최적의 의사결정을 내린다. 소프트웨어 ALM도 마찬가지로, 모든 애플리케이션의 Lifecycle을통합관리하고, 비즈니스 전략과의 정합성을 확보한다.
 
 - **등장 배경 및 발전 과정**:
   1. **1990년대**: 프로젝트 관리(PM), [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 테스트 관리 등 개별 도구별 관리
@@ -31,23 +31,23 @@ tags = ["studynote-software-engineering"]
   3. **2010년대**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 확산으로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 ALM의 경계 허물어짐
   4. **2020년대**: [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기반 ALM 도구(Jira, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), ServiceNow) 클라우드 전환, 플랫폼 engineering과 결합
 
-- **📢 섹션 요약 비유**: ALM은 <strong>'사람의일생 관리'</strong>와 같다. 출생(아이디어 inception) → 유년기(개발) → 청년기(성숙) → 노년기(유지보수) → 사망(폐기)의전 과정을 관리한다. 단순히 나이만 관리하는 것이 아니라, 건강상태, 재산 관리, 가족 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 사회 활동 등을전국적으로 관리하여,QOL(Quality of Life)을 극대화하고로료이후의행복을 준비한다. 애플리케이션도 마찬가지로 전 Lifecycle을 관리하여, 비즈니스 가치를 극대화하고, 기술적부채를 최소화하며, 궁극적으로조직적_success에 기여한다.
+- **📢 섹션 요약 비유**: ALM은 <strong>'사람의일생 관리'</strong>와 같다. 출생(아이디어 inception) -> 유년기(개발) -> 청년기(성숙) -> 노년기(유지보수) -> 사망(폐기)의전 과정을 관리한다. 단순히 나이만 관리하는 것이 아니라, 건강상태, 재산 관리, 가족 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 사회 활동 등을전국적으로 관리하여,QOL(Quality of Life)을 극대화하고로료이후의행복을 준비한다. 애플리케이션도 마찬가지로 전 Lifecycle을 관리하여, 비즈니스 가치를 극대화하고, 기술적부채를 최소화하며, 궁극적으로조직적_success에 기여한다.
 
 ---
 
 다음은 애플리케이션 라이프사이클 관리 (AL의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  애플리케이션 라이프사이클 관리 (AL                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  애플리케이션 라이프사이클 관리 (AL                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 애플리케이션 라이프사이클 관리 (AL가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -147,21 +147,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 애플리케이션 라이프사이클 관리 (ALM) 시스템 도입 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +175,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 390 / 973
 
-← **이전**: [389. 리버스 엔지니어링 (Reverse 엔진ering) 툴을 통한 난독화 코드 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)
-**다음**: [391. 소프트웨어 테스팅의 7가지 원리 (결함 발견, 완벽한 테스트 불가능, 조기 테스트, 결함 집중, 살충제 패러독스, 정황 의존,](/knowledge-base/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/) →
+<- **이전**: [389. 리버스 엔지니어링 (Reverse 엔진ering) 툴을 통한 난독화 코드 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)
+**다음**: [391. 소프트웨어 테스팅의 7가지 원리 (결함 발견, 완벽한 테스트 불가능, 조기 테스트, 결함 집중, 살충제 패러독스, 정황 의존,](/knowledge-base/studynote/04_software_engineering/07_object_oriented/391_seven_principles_of_software_testing/) ->
 
 ---

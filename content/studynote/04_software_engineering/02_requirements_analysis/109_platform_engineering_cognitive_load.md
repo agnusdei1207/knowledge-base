@@ -21,21 +21,21 @@ tags = ["studynote-software-engineering"]
 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 철학("You build it, You run it")으로 배포 속도는 향상되었으나, 앱 개발자가 K8s 매니페스트·[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)·[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)까지 직접 작성해야 하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>) 폭발</strong>이 심화되었다. Team Topologies의 Extraneous(업무 외 잡음) 부하가 번아웃과 줄퇴사의 직접 원인으로 지목된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│    DevOps 시대의 인지 부하 문제와 플랫폼 엔지니어링 해법       │
-├───────────────────────────────────────────────────────────────┤
-│  [ Before: DevOps 1.0 ]                                       │
-│   App Code + K8s + Terraform + CI/CD + IAM + Monitoring       │
-│        → Cognitive Load ▲▲▲  → Burnout                      │
-│                                                               │
-│  [ After: Platform Engineering ]                              │
-│   ┌──────────────┐      ┌─────────────────────┐              │
-│   │ App Developer │ ──▶  │  Platform Team      │              │
-│   │ "DB 하나 주세요"│      │  IDP 포털 운영      │              │
-│   └──────────────┘      │  Golden Path 템플릿  │              │
-│     셀프서비스 클릭       └─────────────────────┘              │
-│     → Cognitive Load ▼▼  → 비즈니스 집중                     │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|    DevOps 시대의 인지 부하 문제와 플랫폼 엔지니어링 해법       |
++---------------------------------------------------------------+
+|  [ Before: DevOps 1.0 ]                                       |
+|   App Code + K8s + Terraform + CI/CD + IAM + Monitoring       |
+|        -> Cognitive Load ^^^  -> Burnout                      |
+|                                                               |
+|  [ After: Platform Engineering ]                              |
+|   +--------------+      +---------------------+              |
+|   | App Developer | --->  |  Platform Team      |              |
+|   | "DB 하나 주세요"|      |  IDP 포털 운영      |              |
+|   +--------------+      |  Golden Path 템플릿  |              |
+|     셀프서비스 클릭       +---------------------+              |
+|     -> Cognitive Load vv  -> 비즈니스 집중                     |
++---------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 셰프에게 밀 베기부터 설거지까지 시켰다. 플랫폼 엔지니어링은 반죽 기계([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))를 설치해 셰프가 토핑(비즈니스 코드)만 올리게 한다.
@@ -72,13 +72,13 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. Stream-aligned Team이 4개 이상, 인프라 티켓 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 평균 3일 이상 → 플랫폼 팀 분리 시점.
+1. Stream-aligned Team이 4개 이상, 인프라 티켓 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 평균 3일 이상 -> 플랫폼 팀 분리 시점.
 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/): Backstage + ArgoCD + Crossplane으로 "새 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" 셀프서비스 4주 내 제공.
 3. 성공 지표: 플랫폼 채택률(WAU), 인프라 티켓 감소율, [DORA Deployment Frequency](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/023_dora_deployment_frequency/).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Ivory Tower**: 개발자 의견 무시 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) → 채택률 0%.
-- <strong>과잉 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: K8s를 완전히 숨겨 디버깅 불가능한 블랙박스 → 장애 시 속수무책.
+- **Ivory Tower**: 개발자 의견 무시 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) -> 채택률 0%.
+- <strong>과잉 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: K8s를 완전히 숨겨 디버깅 불가능한 블랙박스 -> 장애 시 속수무책.
 
 ---
 
@@ -110,17 +110,17 @@ Gartner는 2026년까지 대형 SW 조직 80%가 플랫폼 팀을 운영할 것�
 
 ```text
 [DevOps 문화 확산 (2010s) — "You Build It, You Run It"]
-    │
-    ▼
+    |
+    v
 [인지 부하 폭발 — 개발자가 인프라·보안·모니터링 전부 담당]
-    │
-    ▼
+    |
+    v
 [Team Topologies (2019) — 플랫폼 팀 개념 정립]
-    │
-    ▼
+    |
+    v
 [IDP 1세대 (2020~) — Backstage 오픈소스화]
-    │
-    ▼
+    |
+    v
 [현재: Platform-as-a-Product — Golden Path + FinOps + AI 통합]
 ```
 
@@ -135,7 +135,7 @@ Gartner는 2026년까지 대형 SW 조직 80%가 플랫폼 팀을 운영할 것�
 
 **진행 상황**: 109 / 973
 
-← **이전**: [108. LLMOps (대규모 언어 모델 운영)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/108_llmops_large_language_model/)
-**다음**: [110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/) →
+<- **이전**: [108. LLMOps (대규모 언어 모델 운영)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/108_llmops_large_language_model/)
+**다음**: [110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/) ->
 
 ---

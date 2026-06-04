@@ -22,35 +22,35 @@ tags = ["studynote-data-engineering"]
 전통 모듈러 해싱:
   서버 3대: node_id = hash(key) % 3
 
-  key "user_123" → hash = 1000 → 1000 % 3 = 1 → 노드 1
-  key "order_456" → hash = 2001 → 2001 % 3 = 0 → 노드 0
+  key "user_123" -> hash = 1000 -> 1000 % 3 = 1 -> 노드 1
+  key "order_456" -> hash = 2001 -> 2001 % 3 = 0 -> 노드 0
 
 서버 추가 (4대로):
-  node_id = hash(key) % 4 (기준이 3→4로 변경!)
+  node_id = hash(key) % 4 (기준이 3->4로 변경!)
 
-  "user_123" → 1000 % 4 = 0 → 노드 0 (기존 노드 1 ≠)
-  "order_456" → 2001 % 4 = 1 → 노드 1 (기존 노드 0 ≠)
+  "user_123" -> 1000 % 4 = 0 -> 노드 0 (기존 노드 1 ≠)
+  "order_456" -> 2001 % 4 = 1 -> 노드 1 (기존 노드 0 ≠)
 
   거의 모든 키의 위치가 변함!
-  → 대규모 캐시 미스 (Cache Storm)
-  → 데이터베이스에 갑작스러운 부하 폭증
+  -> 대규모 캐시 미스 (Cache Storm)
+  -> 데이터베이스에 갑작스러운 부하 폭증
 
 문제 규모:
-  노드 N → N+1 추가:
+  노드 N -> N+1 추가:
   재배치 비율 = N/(N+1) ≈ 100% (대부분 재배치)
 
   10만 키 분산 시스템에 노드 추가:
-  → ~9만 키가 새 노드로 이동
-  → 네트워크 + I/O + 다운타임 위험
+  -> ~9만 키가 새 노드로 이동
+  -> 네트워크 + I/O + 다운타임 위험
 
 일관 해싱의 목표:
   노드 추가/제거 시 최소 이동 = K/N
   (K: 전체 키 수, N: 노드 수)
 
-  예: 10만 키, 10노드 → 1만 키만 이동
+  예: 10만 키, 10노드 -> 1만 키만 이동
 ```
 
-> 📢 **섹션 요약 비유**: 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 10개일 때 학번 % [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 사물함 11개 추가 시 학번 % 11로 변경 → 90%가 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 이사!
+> 📢 **섹션 요약 비유**: 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 10개일 때 학번 % [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 사물함 11개 추가 시 학번 % 11로 변경 -> 90%가 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 이사!
 
 ---
 
@@ -60,29 +60,29 @@ tags = ["studynote-data-engineering"]
 일관 해싱 링:
 
 1. 해시 공간을 원형(Ring)으로 구성:
-  0 ─────────────────────── 2^32-1
-                                ↑
+  0 ----------------------- 2^32-1
+                                ^
   (원형: 2^32-1 다음이 0)
 
 2. 노드를 링 위에 배치:
-  hash("node_A") = 10 → 링의 10 위치
-  hash("node_B") = 25 → 링의 25 위치
-  hash("node_C") = 40 → 링의 40 위치
+  hash("node_A") = 10 -> 링의 10 위치
+  hash("node_B") = 25 -> 링의 25 위치
+  hash("node_C") = 40 -> 링의 40 위치
 
   링:  0..10[A]..25[B]..40[C]..2^32
 
 3. 키를 시계 방향으로 첫 노드에 배치:
-  hash("user_1") = 15 → 시계 방향 첫 노드: B(25)
-  hash("user_2") = 5  → 시계 방향 첫 노드: A(10)
-  hash("user_3") = 30 → 시계 방향 첫 노드: C(40)
+  hash("user_1") = 15 -> 시계 방향 첫 노드: B(25)
+  hash("user_2") = 5  -> 시계 방향 첫 노드: A(10)
+  hash("user_3") = 30 -> 시계 방향 첫 노드: C(40)
 
 4. 노드 D 추가 (링의 20 위치):
-  hash("node_D") = 20 → 링의 20 위치
+  hash("node_D") = 20 -> 링의 20 위치
 
   A(10)..D(20)..B(25)..C(40)
 
   재배치:
-  A~D(10~20) 사이 키만 A→D로 이동
+  A~D(10~20) 사이 키만 A->D로 이동
   나머지 키: 그대로!
 
   이동량: 전체 키의 약 1/노드수 (K/N)
@@ -92,13 +92,13 @@ tags = ["studynote-data-engineering"]
   A(10)..D(20)..C(40)
 
   재배치:
-  D~B(20~25) 사이 키만 B→C로 이동
+  D~B(20~25) 사이 키만 B->C로 이동
   나머지: 그대로!
 
 이진 탐색으로 노드 찾기:
   노드 목록을 정렬 배열로 유지
   bisect_right(sorted_nodes, hash(key))
-  → O(log N) 탐색
+  -> O(log N) 탐색
 ```
 
 > 📢 **섹션 요약 비유**: 일관 해싱 링 = 원형 시계 사물함 배치 — 학생(키)이 자기 번호 위치에서 시계 방향으로 가장 가까운 사물함(노드) 이용. 사물함 추가 시 그 구간 학생만 이사!
@@ -118,19 +118,19 @@ tags = ["studynote-data-engineering"]
   B 담당: 11~25 (구간 15)
   C 담당: 26~40 + 41~max + 0~... (구간 나머지)
 
-  → 불균등! C가 훨씬 많은 키 담당
+  -> 불균등! C가 훨씬 많은 키 담당
 
 가상 노드 해결:
-  각 물리 노드 → K개 가상 노드
+  각 물리 노드 -> K개 가상 노드
 
-  노드 A → A_1(3), A_2(20), A_3(45), A_4(70), ...
-  노드 B → B_1(8), B_2(27), B_3(55), B_4(80), ...
-  노드 C → C_1(15), C_2(35), C_3(60), C_4(90), ...
+  노드 A -> A_1(3), A_2(20), A_3(45), A_4(70), ...
+  노드 B -> B_1(8), B_2(27), B_3(55), B_4(80), ...
+  노드 C -> C_1(15), C_2(35), C_3(60), C_4(90), ...
 
   링: 0..A_1(3)..B_1(8)..A_2(20)..B_2(27)..A_3(45)..B_3(55)...
 
-  → 각 물리 노드가 링 전체에 고르게 분산
-  → 균등 분산 달성
+  -> 각 물리 노드가 링 전체에 고르게 분산
+  -> 균등 분산 달성
 
 적정 가상 노드 수:
   Cassandra: 각 노드 기본 256개 VNode
@@ -154,25 +154,25 @@ tags = ["studynote-data-engineering"]
 Cassandra 일관 해싱:
   각 노드: Murmur3 해시 토큰 공간 (2^64)
   VNode: 각 노드 256개 토큰 (기본값)
-  복제: RF=3 → 시계 방향 3개 노드에 복제
+  복제: RF=3 -> 시계 방향 3개 노드에 복제
 
   설정:
   num_tokens: 256  # cassandra.yaml
 
 DynamoDB:
-  파티션 키 → 내부 일관 해싱
+  파티션 키 -> 내부 일관 해싱
   파티션 수 자동 관리
 
   핫 파티션 문제:
-  파티션 키 = 날짜(2024-01-01) → 당일 모든 쓰기 집중
+  파티션 키 = 날짜(2024-01-01) -> 당일 모든 쓰기 집중
   해결: 파티션 키 = 날짜 + UUID suffix (분산)
 
 Redis Cluster:
   16384개 슬롯 (0~16383)
   일관 해싱으로 슬롯을 노드에 배분
 
-  CRC16(key) % 16384 → 슬롯
-  슬롯 → 노드 매핑 (클러스터 설정)
+  CRC16(key) % 16384 -> 슬롯
+  슬롯 -> 노드 매핑 (클러스터 설정)
 
   노드 추가:
   다른 노드에서 일부 슬롯만 이동
@@ -228,7 +228,7 @@ Redis Cluster:
   현재 노드로 감당 불가 판단
 
 확장 계획:
-  6노드 → 12노드 (master 6개 추가)
+  6노드 -> 12노드 (master 6개 추가)
 
 일관 해싱 덕분에 가능한 무중단 확장:
 
@@ -246,7 +246,7 @@ Redis Cluster:
   CLUSTER SETSLOT 0 IMPORTING [원본 노드]
   MIGRATE [키 이전]
 
-  4. 클라이언트는 MOVED 에러 → 자동 재요청 (투명 마이그레이션)
+  4. 클라이언트는 MOVED 에러 -> 자동 재요청 (투명 마이그레이션)
 
 결과:
   전체 키 이전: 슬롯 이전 키만 (약 50%)
@@ -255,12 +255,12 @@ Redis Cluster:
 
 블랙프라이데이 결과:
   피크 트래픽: 평소 4.8배 (예상 5배)
-  캐시 히트율: 94% → 96% (용량 여유)
+  캐시 히트율: 94% -> 96% (용량 여유)
   P99 응답시간: 8ms (목표 20ms 이하)
 
 교훈:
   일관 해싱이 없었다면:
-  전체 데이터 리배치 → 6시간+ 다운타임 필요
+  전체 데이터 리배치 -> 6시간+ 다운타임 필요
 ```
 
 > 📢 **섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 무중단 확장 = 달리는 기차에 칸 추가 — 일반 해싱이면 기차 세우고 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 전원 재배치. 일관 해싱으로 달리면서 일부 승객만 새 칸으로. 무중단!
@@ -321,7 +321,7 @@ HRW (Highest Random Weight)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)→11개로 늘릴 때 거의 모든 학생이 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만!
+1. 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)->11개로 늘릴 때 거의 모든 학생이 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만!
 2. 링 구조 = 원형 시계 사물함 — 학생이 자기 번호에서 시계 방향 첫 사물함 이용. 새 사물함 추가 시 그 구간만 이사!
 3. 가상 노드 = 4교대 균등 배치 — 사물함 3개가 불균등한 위치라면 4개씩 복사 배치. 어디서나 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)!
 
@@ -331,7 +331,7 @@ HRW (Highest Random Weight)
 
 **진행 상황**: 48 / 258
 
-← **이전**: [047. 컴팩션과 툼스톤 — Compaction & Tombstone](/knowledge-base/studynote/14_data_engineering/01_infrastructure/047_compaction_and_tombstone/)
-**다음**: [049. 데이터 메시 — Data Mesh Distributed Ownership](/knowledge-base/studynote/14_data_engineering/01_infrastructure/049_data_mesh_distributed_ownership/) →
+<- **이전**: [047. 컴팩션과 툼스톤 — Compaction & Tombstone](/knowledge-base/studynote/14_data_engineering/01_infrastructure/047_compaction_and_tombstone/)
+**다음**: [049. 데이터 메시 — Data Mesh Distributed Ownership](/knowledge-base/studynote/14_data_engineering/01_infrastructure/049_data_mesh_distributed_ownership/) ->
 
 ---

@@ -134,12 +134,12 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 ```text
 [접근 제어 목록 (ACL, Access Control List)]
-    │
-    ▼
+    |
+    v
 [자격 증명 리스트 (Capability List / Ticket)]
-    │
-    ├──▶ [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-    └──▶ [임의적 접근 제어 (DAC, Discretionary Access Control)]
+    |
+    +---> [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
+    +---> [임의적 접근 제어 (DAC, Discretionary Access Control)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -158,7 +158,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 **진행 상황**: 576 / 800
 
-← **이전**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/knowledge-base/studynote/02_operating_system/10_security/575_acl_access_control_list/)
-**다음**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/knowledge-base/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/) →
+<- **이전**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/knowledge-base/studynote/02_operating_system/10_security/575_acl_access_control_list/)
+**다음**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/knowledge-base/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/) ->
 
 ---

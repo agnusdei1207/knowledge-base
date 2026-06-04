@@ -31,11 +31,11 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 CLK
-  │
-  ▼
-[ FF0 ] ──Q0──▶ [ FF1 ] ──Q1──▶ [ FF2 ] ──Q2──▶ [ FF3 ]
-   │              │              │              │
-   └── 리플 시작 ─┴── 다음 단계 클럭 ─┴── 다음 단계 클럭 ─┘
+  |
+  v
+[ FF0 ] --Q0---> [ FF1 ] --Q1---> [ FF2 ] --Q2---> [ FF3 ]
+   |              |              |              |
+   +-- 리플 시작 -+-- 다음 단계 클럭 -+-- 다음 단계 클럭 -+
 ```
 
 | 항목 | 의미 |
@@ -102,13 +102,13 @@ CLK
 
 ```text
 Clock
-   ↓
+   v
 Flip-Flop Chain
-   ↓
+   v
 Ripple
-   ↓
+   v
 Frequency Divider
-   ↓
+   v
 Low-speed Counter
 ```
 
@@ -118,11 +118,11 @@ Low-speed Counter
 
 ```text
 동기식 카운터
-   ↓
+   v
 비동기식 카운터
-   ↓
+   v
 리플 지연 분석
-   ↓
+   v
 저전력 분주 회로
 ```
 
@@ -140,7 +140,7 @@ Low-speed Counter
 
 **진행 상황**: 61 / 803
 
-← **이전**: [60. 동기식 카운터 (Synchronous Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)
-**다음**: [62. 업/다운 카운터 (Up/Down Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/) →
+<- **이전**: [60. 동기식 카운터 (Synchronous Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)
+**다음**: [62. 업/다운 카운터 (Up/Down Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/) ->
 
 ---

@@ -36,23 +36,23 @@ TPU는 대규모 클라우드 훈련과 서빙을 겨냥했고, NPU는 모바일
 아래 그림은 엑셀러레이터가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 지점을 보여준다. 핵심은 “연산기 개수”보다 “[HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))·LPDDR에서 가져온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 칩 안에서 얼마나 오래 재사용하느냐”다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                AI 엑셀러레이터의 공통 데이터 경로: 메모리 이동 최소화       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Host CPU        Compiler/XLA         Global Memory         On-Chip Fabric   │
-│    │                 │               (HBM/LPDDR)                │           │
-│    ▼                 ▼                    │                      ▼           │
-│ [작업 배치] ──▶ [그래프 최적화] ──▶ [타일 적재] ──▶ [SRAM Scratchpad]       │
-│                                                                  │           │
-│                                                                  ▼           │
-│                                                        [MAC Array / Tensor]  │
-│                                                                  │           │
-│                 TPU  : 시스톨릭 어레이로 행렬 파동 처리          │           │
-│                 NPU  : INT8/INT4 중심 저전력 추론 파이프라인      │           │
-│                 LPU  : 토큰 생성용 고정 지연 파이프라인            │           │
-│                                                                  ▼           │
-│                                                     [Activation / Output]    │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                AI 엑셀러레이터의 공통 데이터 경로: 메모리 이동 최소화       |
++------------------------------------------------------------------------------+
+| Host CPU        Compiler/XLA         Global Memory         On-Chip Fabric   |
+|    |                 |               (HBM/LPDDR)                |           |
+|    v                 v                    |                      v           |
+| [작업 배치] ---> [그래프 최적화] ---> [타일 적재] ---> [SRAM Scratchpad]       |
+|                                                                  |           |
+|                                                                  v           |
+|                                                        [MAC Array / Tensor]  |
+|                                                                  |           |
+|                 TPU  : 시스톨릭 어레이로 행렬 파동 처리          |           |
+|                 NPU  : INT8/INT4 중심 저전력 추론 파이프라인      |           |
+|                 LPU  : 토큰 생성용 고정 지연 파이프라인            |           |
+|                                                                  v           |
+|                                                     [Activation / Output]    |
++------------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -137,22 +137,22 @@ TPU의 대표 특징은 행렬이 어레이 내부를 파도처럼 통과하며 
 
 ```text
 CPU 기반 학습
-    │
-    ▼
+    |
+    v
 GPU 병렬 연산 · 텐서 코어
-    │
-    ▼
+    |
+    v
 TPU 시스톨릭 어레이 · 대규모 분산 학습
-    │
-    ├──────────────▶ NPU 온디바이스 저전력 추론
-    │
-    └──────────────▶ LPU 초저지연 LLM 토큰 생성
-                           │
-                           ▼
+    |
+    +---------------> NPU 온디바이스 저전력 추론
+    |
+    +---------------> LPU 초저지연 LLM 토큰 생성
+                           |
+                           v
                 Hw/SW Co-design · 전용 추론 인프라
 ```
 
-이 흐름은 “범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)흐름 특화 → 사용처별 세분화”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어가 분화되는 방향을 보여준다.
+이 흐름은 “범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)흐름 특화 -> 사용처별 세분화”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어가 분화되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -166,7 +166,7 @@ TPU 시스톨릭 어레이 · 대규모 분산 학습
 
 **진행 상황**: 186 / 420
 
-← **이전**: [185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/185_tensor_core_gpu/)
-**다음**: [187. 혼합 정밀도 훈련 (Mixed Precision Training)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/187_mixed_precision_training/) →
+<- **이전**: [185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/185_tensor_core_gpu/)
+**다음**: [187. 혼합 정밀도 훈련 (Mixed Precision Training)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/187_mixed_precision_training/) ->
 
 ---

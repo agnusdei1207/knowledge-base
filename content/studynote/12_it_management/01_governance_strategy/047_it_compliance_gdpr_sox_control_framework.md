@@ -57,7 +57,7 @@ GDPR (General Data Protection Regulation):
 잊혀질 권리 (Right to Erasure):
   개인 요청 시 30일 내 모든 데이터 삭제
   IT: 데이터 계보 + 삭제 자동화
-  백업에서도 삭제 필요 → 복잡한 기술 과제
+  백업에서도 삭제 필요 -> 복잡한 기술 과제
 
 과징금:
   심각한 위반: 연간 매출 4% 또는 2,000만 유로 중 큰 금액
@@ -131,7 +131,7 @@ COSO (Committee of Sponsoring Organizations):
   4. 정보 & 의사소통
   5. 모니터링
 
-  → SOX 준수의 기본 프레임워크
+  -> SOX 준수의 기본 프레임워크
 
 COBIT (Control Objectives for IT):
   IT 거버넌스 + IT 관리 프레임워크
@@ -182,7 +182,7 @@ Type I vs Type II:
   Type I: 특정 시점 통제 설계 적절성
   Type II: 일정 기간(6~12개월) 운영 효과성
 
-  → SaaS B2B 계약 시 Type II 요구 일반화
+  -> SaaS B2B 계약 시 Type II 요구 일반화
 
 Trust Services Criteria (TSC):
   보안 (Security): 필수
@@ -269,11 +269,11 @@ Phase 3 (12개월): 인증 획득 + 영업 활용
   보안 신뢰 센터 웹페이지 공개
 
 결과:
-  Enterprise 계약 수: 5개 → 23개 (6개월 내)
+  Enterprise 계약 수: 5개 -> 23개 (6개월 내)
   평균 계약 금액: 1.5×
 
   고객 보안 질문서(SIG) 시간:
-  2주 → 2일 (신뢰 센터로)
+  2주 -> 2일 (신뢰 센터로)
 ```
 
 > 📢 **섹션 요약 비유**: [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 컴플라이언스 로드맵 — [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)(집 청소: 기본 위생), [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/)(위생 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서: Enterprise 신뢰). [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 후 대기업 계약 5배 증가. 컴플라이언스 = 영업 도구!
@@ -343,7 +343,7 @@ AI 기반 준수 모니터링
 
 **진행 상황**: 86 / 587
 
-← **이전**: [47. IT 컴플라이언스 (IT Compliance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance/)
-**다음**: [048. 컴플라이언스 애즈 코드 — Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/) →
+<- **이전**: [47. IT 컴플라이언스 (IT Compliance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance/)
+**다음**: [048. 컴플라이언스 애즈 코드 — Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/) ->
 
 ---

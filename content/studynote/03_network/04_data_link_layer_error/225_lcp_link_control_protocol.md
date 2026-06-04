@@ -25,22 +25,22 @@ tags = ["studynote-network"]
 - **발전 과정**: 과거 SLIP 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 이러한 사전 협상 과정이 없어 사용자가 수동으로 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 맞춰야 했으나, PPP가 도입되면서 LCP를 통해 이 과정이 100% 자동화(Plug and Play)되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                 LCP의 링크 수립 3단계                   │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [1. 링크 설정 협상 (Link Configuration)]               │
-  │    A: "나는 MTU 1500, CHAP 인증 쓸게." (Configure-Req)  │
-  │    B: "좋아, 동의해." (Configure-Ack)                   │
-  │                                                         │
-  │  [2. 링크 유지 및 품질 테스트 (Link Maintenance)]       │
-  │    A: "연결 잘 되어 있지?" (Echo-Request)               │
-  │    B: "응, 잘 들려." (Echo-Reply)                       │
-  │                                                         │
-  │  [3. 링크 종료 (Link Termination)]                      │
-  │    A: "이제 연결 끊을게." (Terminate-Req)               │
-  │    B: "알았어, 끊자." (Terminate-Ack)                   │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |                 LCP의 링크 수립 3단계                   |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  [1. 링크 설정 협상 (Link Configuration)]               |
+  |    A: "나는 MTU 1500, CHAP 인증 쓸게." (Configure-Req)  |
+  |    B: "좋아, 동의해." (Configure-Ack)                   |
+  |                                                         |
+  |  [2. 링크 유지 및 품질 테스트 (Link Maintenance)]       |
+  |    A: "연결 잘 되어 있지?" (Echo-Request)               |
+  |    B: "응, 잘 들려." (Echo-Reply)                       |
+  |                                                         |
+  |  [3. 링크 종료 (Link Termination)]                      |
+  |    A: "이제 연결 끊을게." (Terminate-Req)               |
+  |    B: "알았어, 끊자." (Terminate-Ack)                   |
+  +---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: LCP는 본격적인 스포츠 경기를 시작하기 전에 심판과 양 팀 주장이 모여 경기장의 크기(프레임 크기)와 반칙 규정([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식)을 합의하는 경기 전 룰미팅(Rule Meeting)입니다.
@@ -71,21 +71,21 @@ LCP가 협상하는 가장 중요한 3가지 파라미터는 다음과 같다.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a></strong>: 루프백(Loopback, 내가 보낸 신호가 나에게 다시 돌아오는 현상)을 감지하기 위한 랜덤 숫자. 양쪽이 서로 다른 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)를 생성하여, 내가 보낸 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)가 그대로 돌아오면 회선이 꼬였음(Loop)을 즉각 인지한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │                 LCP의 Magic Number 루프백 감지 원리             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [정상 상태]                                                  │
-  │   라우터 A (Magic: 1234) ─────(Req 1234)─────▶ 라우터 B        │
-  │                          ◀────(Req 5678)─────  (Magic: 5678)  │
-  │   * A는 5678을 받고 "정상적인 상대방이구나" 판단              │
-  │                                                               │
-  │  [루프백(선로 꼬임) 발생 상태]                                │
-  │   라우터 A (Magic: 1234) ─────(Req 1234)──┐                  │
-  │                          ◀────(Req 1234)──┘ 회선 꼬임         │
-  │   * A는 1234를 다시 받고 "내 신호가 돌아왔네! 회선 오류다!"   │
-  │     즉시 링크 차단!                                           │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |                 LCP의 Magic Number 루프백 감지 원리             |
+  +---------------------------------------------------------------+
+  |                                                               |
+  |  [정상 상태]                                                  |
+  |   라우터 A (Magic: 1234) -----(Req 1234)------> 라우터 B        |
+  |                          <-----(Req 5678)-----  (Magic: 5678)  |
+  |   * A는 5678을 받고 "정상적인 상대방이구나" 판단              |
+  |                                                               |
+  |  [루프백(선로 꼬임) 발생 상태]                                |
+  |   라우터 A (Magic: 1234) -----(Req 1234)--+                  |
+  |                          <-----(Req 1234)--+ 회선 꼬임         |
+  |   * A는 1234를 다시 받고 "내 신호가 돌아왔네! 회선 오류다!"   |
+  |     즉시 링크 차단!                                           |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전화선이나 시리얼 케이블을 연결할 때 물리적인 결함으로 송신선(TX)과 수신선(RX)이 브릿지되어 내가 보낸 신호를 내가 다시 받는 루프 현상이 자주 발생했다. LCP는 난수([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/))를 서로 교환하는 아주 단순한 방법으로 이 치명적인 물리적 장애를 소프트웨어적으로 즉각 감지하고 연결을 차단한다.
@@ -133,7 +133,7 @@ ADSL 모뎀을 통해 인터넷에 연결할 때, 간혹 "PPPoE 연결 중 [인�
 | **정량** | [Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 기반 루프백 감지 | [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/) 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지, CPU 부하 0% 수렴 |
 | **정성** | 플러그 앤 플레이 지원 | 서로 다른 벤더([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/), Juniper 등) 장비 간의 완벽한 상호 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보 |
 
-LCP는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/))에 '지능적 협상'이라는 생명력을 불어넣은 혁신적인 메커니즘이다. 비록 전화선 기반의 통신은 사라졌지만, LCP가 확립한 'Configure-Request → Ack/[Nak](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)'의 우아한 3단계 상태 머신과 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 기반의 오류 감지 기술은 오늘날 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) 등 수많은 현대 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연결(Handshake) 디자인에 영원한 교과서로 남아있다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+LCP는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/))에 '지능적 협상'이라는 생명력을 불어넣은 혁신적인 메커니즘이다. 비록 전화선 기반의 통신은 사라졌지만, LCP가 확립한 'Configure-Request -> Ack/[Nak](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)'의 우아한 3단계 상태 머신과 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 기반의 오류 감지 기술은 오늘날 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) 등 수많은 현대 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연결(Handshake) 디자인에 영원한 교과서로 남아있다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 과거 LCP가 작성한 '통신 협상 매뉴얼'은 너무나 완벽해서, 통신 매체가 구리선에서 광케이블과 무선으로 바뀐 현대에도 여전히 그 뼈대 그대로 사용되고 있습니다.
 
@@ -152,12 +152,12 @@ LCP는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ```text
 [선행 개념: PPP]
-    │
-    ▼
+    |
+    v
 [현재 개념: LCP]
-    │
-    ├──▶ [확장 A: NCP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: NCP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 LCP는 PPP에서 출발해 현재 메커니즘을 정교화하고, 이후 NCP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -174,7 +174,7 @@ LCP는 PPP에서 출발해 현재 메커니즘을 정교화하고, 이후 NCP와
 
 **진행 상황**: 346 / 1120
 
-← **이전**: [224. PPP (Point-to-Point Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)
-**다음**: [226. NCP (Network Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) →
+<- **이전**: [224. PPP (Point-to-Point Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)
+**다음**: [226. NCP (Network Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) ->
 
 ---

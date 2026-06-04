@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 ```text
 Zero-shot: 예시 없이 지시만 제공
 Few-shot: 2~5개 입출력 예시 제공
-CoT: "단계별로 생각해 봐" → 추론 과정 명시
+CoT: "단계별로 생각해 봐" -> 추론 과정 명시
 역할 부여: "너는 시니어 백엔드 개발자야"
 출력 형식: "JSON으로 응답해 줘"
 ```
@@ -49,9 +49,9 @@ CoT: "단계별로 생각해 봐" → 추론 과정 명시
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Zero/Few-shot (GPT-3, 2020)] → [CoT (2022)]
-    → [Self-Consistency (2023)] → [Tree-of-Thought (2023)]
-    → [현재: Agent Prompt — 도구 호출·반복 추론]
+[Zero/Few-shot (GPT-3, 2020)] -> [CoT (2022)]
+    -> [Self-Consistency (2023)] -> [Tree-of-Thought (2023)]
+    -> [현재: Agent Prompt — 도구 호출·반복 추론]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ CoT: "단계별로 생각해 봐" → 추론 과정 명시
 
 **진행 상황**: 143 / 420
 
-← **이전**: [142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발](/knowledge-base/studynote/10_ai/02_dl_architecture_new/142_concept/)
-**다음**: [144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성](/knowledge-base/studynote/10_ai/02_dl_architecture_new/144_concept/) →
+<- **이전**: [142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발](/knowledge-base/studynote/10_ai/02_dl_architecture_new/142_concept/)
+**다음**: [144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성](/knowledge-base/studynote/10_ai/02_dl_architecture_new/144_concept/) ->
 
 ---

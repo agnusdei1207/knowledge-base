@@ -32,22 +32,22 @@ tags = ["studynote-ai"]
 [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)의 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 펌핑과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 이루어진다. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100개면, 주머니에서 공을 뽑고 다시 집어넣는 '복원 추출([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) with replacement)'로 100개짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 덩어리들을 수십 개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다(어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 중복되고 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 아예 빠짐).
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           랜덤 포레스트 (Random Forest) 앙상블 아키텍처      │
-├────────────────────────────────────────────────────────┤
-│   [ 원본 데이터셋 (10,000건) ]                             │
-│       │                                                │
-│       ├──▶ 부트스트랩 1 ──▶ [ 의사결정나무 1 ] ──(예측: 고양이) │
-│       ├──▶ 부트스트랩 2 ──▶ [ 의사결정나무 2 ] ──(예측: 강아지) │
-│       └──▶ 부트스트랩 N ──▶ [ 의사결정나무 N ] ──(예측: 고양이) │
-│                                                        │
-│   * 랜덤 포레스트의 특급 비밀: 나무를 키울 때 모든 변수(키, 몸무게 등)│
-│     를 다 보지 못하게 눈가리개를 씌움! (특성 무작위 선택)           │
-│                                                        │
-│   [ 집계 연산 (Aggregating) ]                            │
-│     - 다수결 투표 (분류) : 고양이 80표 vs 강아지 20표          │
-│     ──▶ 최종 결과: 압도적 승리 [ 고양이 ]                   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           랜덤 포레스트 (Random Forest) 앙상블 아키텍처      |
++--------------------------------------------------------+
+|   [ 원본 데이터셋 (10,000건) ]                             |
+|       |                                                |
+|       +---> 부트스트랩 1 ---> [ 의사결정나무 1 ] --(예측: 고양이) |
+|       +---> 부트스트랩 2 ---> [ 의사결정나무 2 ] --(예측: 강아지) |
+|       +---> 부트스트랩 N ---> [ 의사결정나무 N ] --(예측: 고양이) |
+|                                                        |
+|   * 랜덤 포레스트의 특급 비밀: 나무를 키울 때 모든 변수(키, 몸무게 등)|
+|     를 다 보지 못하게 눈가리개를 씌움! (특성 무작위 선택)           |
+|                                                        |
+|   [ 집계 연산 (Aggregating) ]                            |
+|     - 다수결 투표 (분류) : 고양이 80표 vs 강아지 20표          |
+|     ---> 최종 결과: 압도적 승리 [ 고양이 ]                   |
++--------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">랜덤 포레스트</a>의 쇳덩어리 최적화</strong>: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)만 쓰면 나무들이 결국 다 비슷한 모양으로 자라버린다(변수 간 상관관계 폭발). [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 나무 가지를 칠 때마다 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컬럼 100개 중 무작위로 $ \sqrt{100} = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) $ 개만 보게 눈가리개를 씌워버린다. 이 잔혹한 통제 덕분에 나무들이 각자 완전히 엉뚱하고 다양한 시각(무상관화, Decorrelation)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보게 되어 진정한 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)의 마법이 터진다.
@@ -64,7 +64,7 @@ tags = ["studynote-ai"]
 | 비교 항목 | [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/), 랜포) | [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/), XGBoost 등) |
 |:---|:---|:---|
 | **학습 아키텍처** | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> (Parallel)</strong> - 각 나무가 독립적 연산 | <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> (Sequential)</strong> - 앞 나무의 오답을 뒤 나무가 보완 |
-| **핵심 목적** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 감소 ──▶ **과적합 방어** | 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 감소 ──▶ **정확도 극대화** |
+| **핵심 목적** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 감소 ---> **과적합 방어** | 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 감소 ---> **정확도 극대화** |
 | **모델의 특징** | 깊게 자란 복잡한 나무 수백 개를 투표로 중화 | 아주 얕은(약한) 나무 수천 개를 릴레이로 합침 |
 | **노이즈 민감도**| [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))에 강함 (투표로 묻혀버림) | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 취약 (틀린 거에 집착하다가 과적합 터짐) |
 
@@ -109,21 +109,21 @@ tags = ["studynote-ai"]
 
 ```text
 단일 결정 트리(Decision Tree)의 심각한 과적합(Variance 폭발) 한계 직면
-    │
-    ▼
+    |
+    v
 부트스트랩(Bootstrap) 샘플링 통계 기법 도입 (데이터 쪼개기 및 복원 추출)
-    │
-    ▼
+    |
+    v
 배깅 (Bagging) 아키텍처 완성 (여러 트리의 결과를 투표/평균으로 집계하여 분산 축소)
-    │
-    ▼
+    |
+    v
 트리 간의 상관관계(Correlation)가 높아지는 부작용 발생
-    │
-    ▼
-노드 분할 시 특성 무작위 선택(Random Subspace) 융합 ──▶ 랜덤 포레스트 완성
+    |
+    v
+노드 분할 시 특성 무작위 선택(Random Subspace) 융합 ---> 랜덤 포레스트 완성
 ```
 
-이 흐름도는 "강력하지만 불안정한 단일 모델 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화를 통한 안정성(투표) 획득 → 모델의 획일성 방지를 위한 특성 무작위화 주입"으로 귀결되는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 아키텍처의 진화사를 보여준다.
+이 흐름도는 "강력하지만 불안정한 단일 모델 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화를 통한 안정성(투표) 획득 -> 모델의 획일성 방지를 위한 특성 무작위화 주입"으로 귀결되는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 아키텍처의 진화사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 51 / 420
 
-← **이전**: [보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/050_voting_hard_soft_ensemble/)
-**다음**: [52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/052_boosting_ensemble_gradient_boosting/) →
+<- **이전**: [보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/050_voting_hard_soft_ensemble/)
+**다음**: [52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/052_boosting_ensemble_gradient_boosting/) ->
 
 ---

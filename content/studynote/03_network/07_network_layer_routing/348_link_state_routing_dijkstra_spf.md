@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [거리 벡터 라우팅 알고리즘]
-    │
-    ▼
+    |
+    v
 [링크 상태 라우팅 알고리즘]
-    │
-    └──▶ [거리 벡터 라우팅 루프 방지]
+    |
+    +---> [거리 벡터 라우팅 루프 방지]
 ```
 
 - **📢 섹션 요약 비유**: ** 링크 상태는 내 머리 위에 개인용 **"정찰 드론"**을 띄워 도시 전체의 교통 상황을 CCTV로 한눈에 굽어보면서(토폴로지 공유), 막힌 길을 피해 가장 쾌적한 도로를 내 머리로 직접 계산해 내는([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 완벽한 자율 주행 시스템입니다.
@@ -57,21 +57,21 @@ tags = ["studynote-network"]
 - 이렇게 예쁘게 깎아낸 소나무 모양의 뼈대를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> Tree (<a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First Tree)</strong>라고 부른다. 라우터는 이 트리 정보 중 알맹이만 쏙 빼서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 최종 등재한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                링크 상태 (OSPF) 라우터의 3단계 뇌 구조             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 이웃 정보 모음 (Neighbor Table)                           │
- │      "내 옆에 라우터 A, 라우터 B가 살고 있군. (Hello 교환)"          │
- │                                                             │
- │   2. 전체 지도 완성 (LSDB - Topology Table)                   │
- │      "아하, 전국에 라우터 50대가 이런 링크(선로)들로 거미줄처럼         │
- │       다 엮여 있구나! 지형도 100% 파악 완료!"                    │
- │                                                             │
- │   3. 내 입장의 최적 길 깎기 (Routing Table - RIB)                │
- │      "다익스트라 도끼질 퍽! 퍽! 잔가지 다 쳐냄.                     │
- │       결론: Z망 갈 땐 B로 주는 게 대역폭 점수(Cost) 제일 싸네!"      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                링크 상태 (OSPF) 라우터의 3단계 뇌 구조             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. 이웃 정보 모음 (Neighbor Table)                           |
+ |      "내 옆에 라우터 A, 라우터 B가 살고 있군. (Hello 교환)"          |
+ |                                                             |
+ |   2. 전체 지도 완성 (LSDB - Topology Table)                   |
+ |      "아하, 전국에 라우터 50대가 이런 링크(선로)들로 거미줄처럼         |
+ |       다 엮여 있구나! 지형도 100% 파악 완료!"                    |
+ |                                                             |
+ |   3. 내 입장의 최적 길 깎기 (Routing Table - RIB)                |
+ |      "다익스트라 도끼질 퍽! 퍽! 잔가지 다 쳐냄.                     |
+ |       결론: Z망 갈 땐 B로 주는 게 대역폭 점수(Cost) 제일 싸네!"      |
+ +-------------------------------------------------------------+
 ```
 
 ### 4. 이벤트 기반 갱신 (Event-driven Update)의 위력
@@ -137,12 +137,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 거리 벡터 라우팅 알고리즘]
-    │
-    ▼
+    |
+    v
 [현재 개념: 링크 상태 라우팅 알고리즘]
-    │
-    ├──▶ [확장 A: 거리 벡터 라우팅 루프 방지]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 거리 벡터 라우팅 루프 방지]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 469 / 1120
 
-← **이전**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)
-**다음**: [349. 거리 벡터 라우팅 루프 방지](/knowledge-base/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/) →
+<- **이전**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)
+**다음**: [349. 거리 벡터 라우팅 루프 방지](/knowledge-base/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/) ->
 
 ---

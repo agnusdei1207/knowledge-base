@@ -29,7 +29,7 @@ tags = ["studynote-devops"]
 
     ## Ⅱ. 아키텍처 및 핵심 원리
 
-    푸시 모델의 흐름은 개발자 변경 → 빌드 → [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) → 대상 서버 순서로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다. 이때 Jenkins는 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 전달할 뿐 아니라 운영 명령까지 수행하므로, 네트워크와 권한이 배포 서버에 집중된다.
+    푸시 모델의 흐름은 개발자 변경 -> 빌드 -> [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) -> 대상 서버 순서로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다. 이때 Jenkins는 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 전달할 뿐 아니라 운영 명령까지 수행하므로, 네트워크와 권한이 배포 서버에 집중된다.
 
 | 구성요소 | 역할 | 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | :-- | :-- | :-- |
@@ -40,14 +40,14 @@ tags = ["studynote-devops"]
 
 ```text
 개발자 코드 푸시
-    │
-    ▼
+    |
+    v
 CI 빌드 / 테스트
-    │
-    ▼
+    |
+    v
 Jenkins 배포 실행
-    │  (SSH / API / Agent)
-    ▼
+    |  (SSH / API / Agent)
+    v
 대상 서버에 직접 반영
 ```
 
@@ -116,14 +116,14 @@ GitOps는 선언된 상태를 기준으로 클러스터가 스스로 맞추게 �
     ### 📈 관련 키워드 및 발전 흐름도
 
     코드 커밋
-    │
-    ▼
+    |
+    v
 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드 / 테스트
-    │
-    ▼
+    |
+    v
 대상 서버로 push 배포
-    │
-    ▼
+    |
+    v
 권한 집중 / [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) / [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 관리
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ GitOps는 선언된 상태를 기준으로 클러스터가 스스로 맞추게 �
 
 **진행 상황**: 87 / 373
 
-← **이전**: [86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/086_gitops_declarative_infrastructure_continuous_synchronization_argocd/)
-**다음**: [88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/) →
+<- **이전**: [86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/086_gitops_declarative_infrastructure_continuous_synchronization_argocd/)
+**다음**: [88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/) ->
 
 ---

@@ -21,9 +21,9 @@ tags = ["studynote-algorithm"]
 1. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 정의 — 유한성/확정성/입력/출력/효율성
 2. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) ([Time Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)) — Big-O / Ω / Θ 표기법
 3. [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/))
-4. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)
+4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)
 5. [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) — [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 분할 + 병합
-6. [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Greedy Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 지역 최적 → 전체 최적
+6. [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Greedy Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 지역 최적 -> 전체 최적
 7. [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) — 최적 부분구조 + 중복 부분 문제
 8. [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)) — [Top-Down](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) DP
 9. 타뷸레이션 (Tabulation) — [Bottom-Up](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/) DP
@@ -37,12 +37,12 @@ tags = ["studynote-algorithm"]
 
 ## 2. 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 18개
 
-1. [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) — O(n²), 안정, 제자리
-2. [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) ([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)) — O(n²), 불안정, 제자리
-3. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)) — O(n²)/O(n) 최선, 안정, 소규모 효율
+1. [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) — O(n^), 안정, 제자리
+2. [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) ([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)) — O(n^), 불안정, 제자리
+3. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)) — O(n^)/O(n) 최선, 안정, 소규모 효율
 4. [셸 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/) ([Shell Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)) — [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/) 개선, O(n^1.5)
 5. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) — O(n log n), 안정, O(n) 공간
-6. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 평균 O(n log n), 최악 O(n²), 불안정
+6. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) — 평균 O(n log n), 최악 O(n^), 불안정
 7. [퀵 정렬 최적화](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) — 3-way [Partition](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), Median-of-3 [Pivot](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)
 8. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)) — O(n log n), 불안정, 제자리
 9. [계수 정렬](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/) ([Counting Sort](/knowledge-base/studynote/08_algorithm_stats/01_basics/009_information_theory/)) — O(n+k), 비교 불필요

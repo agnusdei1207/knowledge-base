@@ -43,14 +43,14 @@ THz 링크의 본질은 <strong>엄청난 <a href="/knowledge-base/studynote/01_
 아래 그림은 THz 링크가 왜 빔 정렬과 채널 조건에 민감한지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                       THz link budget intuition                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Baseband ─▶ THz front-end ─▶ phased array  >>> narrow beam >>>            │
-│                                              [air + molecular absorption]  │
-│                                              [blockage + misalignment]     │
-│ Receiver array ─▶ down-conversion ─▶ demodulation                         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                       THz link budget intuition                           |
++----------------------------------------------------------------------------+
+| Baseband --> THz front-end --> phased array  >>> narrow beam >>>            |
+|                                              [air + molecular absorption]  |
+|                                              [blockage + misalignment]     |
+| Receiver array --> down-conversion --> demodulation                         |
++----------------------------------------------------------------------------+
 ```
 
 따라서 THz 시스템은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)), 빔 추적, 짧은 링크 거리, 그리고 특정 흡수 윈도우 선택이 모두 맞아야 한다. 이 점에서 THz는 단순한 “더 높은 주파수”가 아니라, <strong>채널 제약을 전제로 설계해야 하는 별도의 시스템 공학 문제</strong>다.
@@ -122,17 +122,17 @@ THz가 성숙하면 6G는 단순히 더 빠른 이동통신을 넘어, 초고해
 
 ```text
 Sub-6GHz 스펙트럼 포화
-    │
-    ▼
+    |
+    v
 mmWave (Millimeter Wave)
-    │
-    ▼
+    |
+    v
 THz 윈도우 탐색 · 초대역폭 활용
-    │
-    ▼
+    |
+    v
 빔포밍 · 초대형 안테나 배열 · RIS
-    │
-    ▼
+    |
+    v
 6G 초고속 핫스팟 · 무선 백홀 · 통신+센싱 융합
 ```
 
@@ -150,7 +150,7 @@ THz 윈도우 탐색 · 초대역폭 활용
 
 **진행 상황**: 278 / 1120
 
-← **이전**: [156. 밀리미터파 (mmWave)](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)
-**다음**: [158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) →
+<- **이전**: [156. 밀리미터파 (mmWave)](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)
+**다음**: [158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ->
 
 ---

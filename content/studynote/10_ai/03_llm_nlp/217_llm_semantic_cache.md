@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 멍청한 글자 매칭의 한계를 부수기 위해, 두 문장의 '의미(Semantic)'를 수학적 화살표(벡터)로 변환해, 화살표의 방향이 비슷하면 그냥 같은 질문으로 퉁쳐서 캐시 된 답변을 쏴주는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">시맨틱 캐시</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">Semantic Cache</a>)</strong>가 LLMOps의 황제로 등극했다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 캐시는 '글자 맞추기 로봇'이다. "사장님 어디 계셔?"와 "보스 지금 어딨어?"를 전혀 다른 말로 인식해 사장실 문을 두 번이나 벌컥벌컥 열고 들어가서 사장님([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 피곤하게 만든다. 반면 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)는 '눈치 100단 비서'다. 손님들이 이리저리 다르게 물어봐도 "아, 결국 다 사장님 위치 물어보는 거네!"라고 눈치를 0.1초 만에 까고, 사장님 방에 들어가지도 않은 채 자기가 밖에서 똑같이 알아서 대답해 주어 사장님(비싼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요금)의 낮잠을 완벽히 지켜주는 최고의 방패다.
@@ -44,25 +44,25 @@ tags = ["studynote-ai"]
 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 아키텍처는 유저와 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 사이에 아주 가볍고 빠른 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>) 모델'</strong>과 <strong>'<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/">벡터 데이터베이스</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)'</strong>를 바리케이드로 끼워 넣는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           LLM 비용 파산을 막는 시맨틱 캐시 (Semantic Cache) 아키텍처 도해 │
-├──────────────────────────────────────────────────────────────┤
-│  [유저 질문 진입]: "내일 강남역 우산 챙겨야 해?"                      │
-│                                                              │
-│  [1. 초고속 의미 번역 (Embedding)]                             │
-│   * 아주 가벼운 임베딩 모델이 질문을 스캔함.                         │
-│   * ─▶ 텍스트를 고차원 숫자 벡터 [0.8, -0.4, 0.2]로 변환! (소요 시간 0.01초)│
-│                                                              │
-│  [2. 벡터 DB에서 유사도 검색 (Semantic Similarity Match)]      │
-│   * 벡터 DB(Redis, Pinecone) 안의 '과거 질문-답변 저장소'를 뒤짐.      │
-│   * 어? 아까 30분 전에 누가 "강남 내일 비 옴?" 이라고 물어봐서 저장해 둔       │
-│     벡터 [0.79, -0.41, 0.18] 랑 코사인 유사도(거리)가 98%나 일치하네?!   │
-│                                                              │
-│  [3. 캐시 히트 (Cache Hit!) - 통행료 0원, 0.1초 컷]              │
-│   * 무겁고 비싼 GPT-4 (OpenAI 서버)로 질문을 넘기지 않고 아예 끊어버림!     │
-│   * 과거 저장소에 있던 답변 ─▶ "네, 내일 강남에 폭우가 예상됩니다"를 1초 만에   │
-│     유저 화면에 즉시 렌더링해서 쏴줌! (서버비 굳음, 대기 시간 박살 냄)       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           LLM 비용 파산을 막는 시맨틱 캐시 (Semantic Cache) 아키텍처 도해 |
++--------------------------------------------------------------+
+|  [유저 질문 진입]: "내일 강남역 우산 챙겨야 해?"                      |
+|                                                              |
+|  [1. 초고속 의미 번역 (Embedding)]                             |
+|   * 아주 가벼운 임베딩 모델이 질문을 스캔함.                         |
+|   * --> 텍스트를 고차원 숫자 벡터 [0.8, -0.4, 0.2]로 변환! (소요 시간 0.01초)|
+|                                                              |
+|  [2. 벡터 DB에서 유사도 검색 (Semantic Similarity Match)]      |
+|   * 벡터 DB(Redis, Pinecone) 안의 '과거 질문-답변 저장소'를 뒤짐.      |
+|   * 어? 아까 30분 전에 누가 "강남 내일 비 옴?" 이라고 물어봐서 저장해 둔       |
+|     벡터 [0.79, -0.41, 0.18] 랑 코사인 유사도(거리)가 98%나 일치하네?!   |
+|                                                              |
+|  [3. 캐시 히트 (Cache Hit!) - 통행료 0원, 0.1초 컷]              |
+|   * 무겁고 비싼 GPT-4 (OpenAI 서버)로 질문을 넘기지 않고 아예 끊어버림!     |
+|   * 과거 저장소에 있던 답변 --> "네, 내일 강남에 폭우가 예상됩니다"를 1초 만에   |
+|     유저 화면에 즉시 렌더링해서 쏴줌! (서버비 굳음, 대기 시간 박살 냄)       |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/">코사인 유사도</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 조절)</strong>:
@@ -134,7 +134,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [LLM 캐싱 (Semantic Cache) 인프라] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [LLM 캐싱 (Semantic Cache) 인프라] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 217 / 420
 
-← **이전**: [216. 자율 에이전트 오토지피티 (AutoGPT)](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/)
-**다음**: [218. RAG 고도화 기법 (Advanced RAG)](/knowledge-base/studynote/10_ai/03_llm_nlp/218_rag_advanced_techniques/) →
+<- **이전**: [216. 자율 에이전트 오토지피티 (AutoGPT)](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/)
+**다음**: [218. RAG 고도화 기법 (Advanced RAG)](/knowledge-base/studynote/10_ai/03_llm_nlp/218_rag_advanced_techniques/) ->
 
 ---

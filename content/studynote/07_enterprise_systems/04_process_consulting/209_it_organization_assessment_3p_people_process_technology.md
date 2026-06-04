@@ -40,15 +40,15 @@ tags = ["studynote-enterprise"]
 아래 그림은 세 축이 독립된 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라, 서로 맞물려야 성과가 나는 구조임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                3P 정렬 구조: 한 축만 강해도 부족              │
-├──────────────────────────────────────────────────────────────┤
-│            People ───── 역량 · 문화 · 역할                   │
-│               ▲                     │                         │
-│               │                     ▼                         │
-│ Platform/Technology ◀── Process ── 흐름 · 통제 · 책임        │
-│    시스템 · 데이터 · 자동화                                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                3P 정렬 구조: 한 축만 강해도 부족              |
++--------------------------------------------------------------+
+|            People ----- 역량 · 문화 · 역할                   |
+|               ^                     |                         |
+|               |                     v                         |
+| Platform/Technology <--- Process -- 흐름 · 통제 · 책임        |
+|    시스템 · 데이터 · 자동화                                   |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 "증상과 원인의 축을 분리하되, 처방은 통합한다"는 데 있다. 예를 들어 운영장애가 많다면 도구 자체보다, 변경관리 절차 미비와 야간 인력 역량 부족이 원인일 수 있다. 반대로 현업 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 크다면 단순 교육 부족이 아니라, 도입하려는 시스템이 실제 프로세스를 반영하지 못했을 가능성도 있다.
@@ -122,15 +122,15 @@ tags = ["studynote-enterprise"]
 
 ```text
 현상 문제 인식
-      │
-      ▼
+      |
+      v
 3P 분해 (People · Process · Platform/Technology)
-      │
-      ├─ 교육·역할 재정의
-      ├─ 프로세스 재설계
-      └─ 시스템·자동화 개선
-      │
-      ▼
+      |
+      +- 교육·역할 재정의
+      +- 프로세스 재설계
+      +- 시스템·자동화 개선
+      |
+      v
 정렬된 조직 운영 · 디지털 전환 성과
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 209 / 482
 
-← **이전**: [208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/208_cmmi_capability_maturity_model_integration_levels/)
-**다음**: [210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/210_rpa_robotic_process_automation_attended_unattended/) →
+<- **이전**: [208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/208_cmmi_capability_maturity_model_integration_levels/)
+**다음**: [210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/210_rpa_robotic_process_automation_attended_unattended/) ->
 
 ---

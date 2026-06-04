@@ -26,14 +26,14 @@ tags = ["studynote-security"]
 CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가"라는 방식으로 다룬다. 즉 누군가 몰래 가짜 인증서를 만들어도, 브라우저가 요구하는 증빙을 얻으려면 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 흔적을 남겨야 한다. 이 점이 CT의 가장 강력한 설계 철학이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT의 목적: 발급 사실을 숨기지 못하게 함             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without CT: mis-issued certificate can stay hidden                  │
-│ With CT   : issuance must appear in public log and be monitored     │
-│                                                                  │
-│ Result: CA trust becomes auditable, not blind                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 CT의 목적: 발급 사실을 숨기지 못하게 함             |
++----------------------------------------------------------------------+
+| Without CT: mis-issued certificate can stay hidden                  |
+| With CT   : issuance must appear in public log and be monitored     |
+|                                                                  |
+| Result: CA trust becomes auditable, not blind                      |
++----------------------------------------------------------------------+
 ```
 
 따라서 CT는 "신뢰를 없애는 기술"이 아니라, <strong>신뢰를 감시 가능한 형태로 바꾸는 기술</strong>이라고 보는 편이 정확하다.
@@ -59,17 +59,17 @@ CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가
 아래 그림은 CT의 대표적인 동작 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      CT의 발급·검증 흐름                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA ── submit cert/precert ──▶ CT Log                                │
-│ CA ◀────── SCT (signed promise) ─────── CT Log                       │
-│ CA ── issue cert with SCT ──▶ Website Server                         │
-│ Browser ── connect ──▶ Server                                        │
-│ Browser ◀─ cert + SCT ── Server                                      │
-│ Browser ── verify SCT / policy / proof ──▶ Trust or Warn             │
-│ Monitor ── watch logs for suspicious domains ──▶ Security Team       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                      CT의 발급·검증 흐름                            |
++----------------------------------------------------------------------+
+| CA -- submit cert/precert ---> CT Log                                |
+| CA <------- SCT (signed promise) ------- CT Log                       |
+| CA -- issue cert with SCT ---> Website Server                         |
+| Browser -- connect ---> Server                                        |
+| Browser <-- cert + SCT -- Server                                      |
+| Browser -- verify SCT / policy / proof ---> Trust or Warn             |
+| Monitor -- watch logs for suspicious domains ---> Security Team       |
++----------------------------------------------------------------------+
 ```
 
 핵심 원리는 두 가지다. 첫째, 인증서가 브라우저에서 신뢰받으려면 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 연결된 흔적이 필요하다는 점이다. 둘째, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 실시간 감시해 자기 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 예상치 못한 발급을 발견할 수 있다는 점이다. 그래서 CT는 발급 이후의 가시성과 대응 속도를 크게 높인다.
@@ -148,16 +148,16 @@ CT가 정착되면 웹 PKI의 신뢰는 훨씬 더 [검증](/knowledge-base/stud
 
 ```text
 CA 중심 신뢰 모델
-    │
-    ▼
+    |
+    v
 오발급·CA 침해 문제 노출
-    │
-    ▼
+    |
+    v
 CT (Certificate Transparency)
-    │
-    ├─ SCT 검증
-    ├─ 로그 모니터링
-    └─ CRL / OCSP / CAA와 결합
+    |
+    +- SCT 검증
+    +- 로그 모니터링
+    +- CRL / OCSP / CAA와 결합
 ```
 
 이 흐름은 웹 PKI가 "맹목적 신뢰"에서 "투명성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 신뢰"로 이동한 과정을 보여준다.
@@ -174,7 +174,7 @@ CT (Certificate Transparency)
 
 **진행 상황**: 218 / 1108
 
-← **이전**: [164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴](/knowledge-base/studynote/09_security/04_endpoint_security/164_ocsp_stapling/)
-**다음**: [166. CT 로그 서버 — Google/Rustproof 등 다수 운영](/knowledge-base/studynote/09_security/04_endpoint_security/166_ct_log_server/) →
+<- **이전**: [164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴](/knowledge-base/studynote/09_security/04_endpoint_security/164_ocsp_stapling/)
+**다음**: [166. CT 로그 서버 — Google/Rustproof 등 다수 운영](/knowledge-base/studynote/09_security/04_endpoint_security/166_ct_log_server/) ->
 
 ---

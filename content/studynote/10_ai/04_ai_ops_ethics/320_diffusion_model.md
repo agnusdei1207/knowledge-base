@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 사진에 매우 조금씩(T=1000 스텝) 노이즈를 추가해 결국 완전한 노이즈(정규분포)로 만든다. 신경망은 이 역과정 — 완전 노이즈에서 원본 이미지를 복원하는 — 을 학습한다. 학습이 완성되면 순수 노이즈에서 출발해 텍스트 조건(프롬프트)에 맞는 임의의 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 "지우개로 그림 지우기 역교사"다. 선생님이 완성된 그림을 조금씩 지워 결국 빈 종이(노이즈)로 만드는 과정을 보여주면, AI는 빈 종이에서 조금씩 그림을 그려 완성하는 역과정을 학습한다. 1000번 지운 것을 1000번 역으로 복원하는 것이 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 본질이다.
@@ -39,31 +39,31 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         디퓨전 모델 순방향/역방향 과정 및 학습 구조                    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  순방향 과정 (Forward Diffusion, q):                               │
-│  x_0(원본) → x_1 → x_2 → ... → x_T(순수 노이즈)                  │
-│  q(x_t | x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I)           │
-│  β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가)                      │
-│                                                                  │
-│  x_t 직접 계산 (닫힌 형식):                                         │
-│  x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε   (ε ~ N(0, I))                  │
-│                                                                  │
-│  역방향 과정 (Reverse Diffusion, p_θ):                            │
-│  x_T → x_{T-1} → ... → x_0 (신경망 ε_θ로 노이즈 예측 후 제거)    │
-│                                                                  │
-│  학습 목표:  ||ε - ε_θ(x_t, t, c)||²  (노이즈 예측 MSE 손실)       │
-│  c: 조건 (텍스트 임베딩 등), t: 타임스텝                             │
-│                                                                  │
-│  Latent Diffusion Model (LDM, Stable Diffusion):                │
-│  픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 → 100배 빠름           │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │  텍스트 프롬프트 → CLIP 텍스트 인코더 → 조건 벡터 c       │       │
-│  │  잠재 노이즈 z_T → U-Net(노이즈 예측) → z_0 → VAE 디코딩 → 이미지│       │
-│  └──────────────────────────────────────────────────────┘       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         디퓨전 모델 순방향/역방향 과정 및 학습 구조                    |
++------------------------------------------------------------------+
+|                                                                  |
+|  순방향 과정 (Forward Diffusion, q):                               |
+|  x_0(원본) -> x_1 -> x_2 -> ... -> x_T(순수 노이즈)                  |
+|  q(x_t | x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I)           |
+|  β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가)                      |
+|                                                                  |
+|  x_t 직접 계산 (닫힌 형식):                                         |
+|  x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε   (ε ~ N(0, I))                  |
+|                                                                  |
+|  역방향 과정 (Reverse Diffusion, p_θ):                            |
+|  x_T -> x_{T-1} -> ... -> x_0 (신경망 ε_θ로 노이즈 예측 후 제거)    |
+|                                                                  |
+|  학습 목표:  ||ε - ε_θ(x_t, t, c)||^  (노이즈 예측 MSE 손실)       |
+|  c: 조건 (텍스트 임베딩 등), t: 타임스텝                             |
+|                                                                  |
+|  Latent Diffusion Model (LDM, Stable Diffusion):                |
+|  픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 -> 100배 빠름           |
+|  +------------------------------------------------------+       |
+|  |  텍스트 프롬프트 -> CLIP 텍스트 인코더 -> 조건 벡터 c       |       |
+|  |  잠재 노이즈 z_T -> U-Net(노이즈 예측) -> z_0 -> VAE 디코딩 -> 이미지|       |
+|  +------------------------------------------------------+       |
++------------------------------------------------------------------+
 ```
 
 | 모델 | 기반 기술 | 특징 |
@@ -100,11 +100,11 @@ tags = ["studynote-ai"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 이미지 탐지</strong>: [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) (Content Credentials), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지 AI로 출처 투명성 확보
 
 <strong>이미지 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 품질 평가 지표</strong>:
-- FID (Fréchet Inception Distance): 실제/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 분포 간 거리 → 낮을수록 품질 고
+- FID (Fréchet Inception Distance): 실제/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 분포 간 거리 -> 낮을수록 품질 고
 - [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) Score: 텍스트 프롬프트와 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 의미적 일치도
 - IS (Inception Score): [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 다양성과 선명도
 
-- **📢 섹션 요약 비유**: FID는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 그림 대회 심사 기준이다. 실제 사진 갤러리(진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 갤러리([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)를 통계적으로 비교해서 "얼마나 똑같이 보이나"를 측정한다. FID가 낮을수록 두 갤러리가 구별 안 된다 → AI가 실제 사진과 구별 불가능한 수준에 도달했다는 의미다.
+- **📢 섹션 요약 비유**: FID는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 그림 대회 심사 기준이다. 실제 사진 갤러리(진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 갤러리([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)를 통계적으로 비교해서 "얼마나 똑같이 보이나"를 측정한다. FID가 낮을수록 두 갤러리가 구별 안 된다 -> AI가 실제 사진과 구별 불가능한 수준에 도달했다는 의미다.
 
 ---
 
@@ -112,7 +112,7 @@ tags = ["studynote-ai"]
 
 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI의 현재 왕좌를 차지한 기술이다. Stable Diffusion이 텍스트 한 줄로 예술 작품을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, Sora가 텍스트로 영화 수준 영상을 만들며, 음악 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(AudioCraft), 단백질 구조(RFDiffusion) 등 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입으로 확장되고 있다. 창작·의료·과학 분야에서 인간 전문가와의 협력 도구로서 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)의 잠재력은 아직도 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에 있다.
 
-- **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 3D 프린터다. "고양이 위에 달을 타고 있는 우주비행사(텍스트 프롬프트)"를 입력하면 이 개념을 노이즈(재료)에서 출발해 층층이 쌓아 실제 이미지(3D 출력)로 완성한다. 과거엔 전문 화가만 가능했던 "아이디어 → 완성 이미지"가 이제 누구나 10초 만에 가능해졌다.
+- **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 3D 프린터다. "고양이 위에 달을 타고 있는 우주비행사(텍스트 프롬프트)"를 입력하면 이 개념을 노이즈(재료)에서 출발해 층층이 쌓아 실제 이미지(3D 출력)로 완성한다. 과거엔 전문 화가만 가능했던 "아이디어 -> 완성 이미지"가 이제 누구나 10초 만에 가능해졌다.
 
 ---
 
@@ -129,7 +129,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [디퓨전 모델 (Diffusion Model)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [디퓨전 모델 (Diffusion Model)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 320 / 420
 
-← **이전**: [319. GAN (Generative Adversarial Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/319_gan/)
-**다음**: [321. MLOps (Machine Learning Operations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/321_mlops_pipeline/) →
+<- **이전**: [319. GAN (Generative Adversarial Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/319_gan/)
+**다음**: [321. MLOps (Machine Learning Operations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/321_mlops_pipeline/) ->
 
 ---

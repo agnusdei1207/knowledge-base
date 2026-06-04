@@ -33,11 +33,11 @@ tags = ["studynote-database"]
 
 ```text
 App
-  ↓
+  v
 Proxy / Router
-  ↓
+  v
 Compute Node (scale up/down)
-  ↓
+  v
 Shared Storage
 ```
 
@@ -102,11 +102,11 @@ Shared Storage
 
 ```text
 트래픽 변동
-   ↓
+   v
 Serverless DB
-   ↓
+   v
 Compute / Storage 분리
-   ↓
+   v
 자동 확장 / 비용 최적화
 ```
 
@@ -116,11 +116,11 @@ Compute / Storage 분리
 
 ```text
 Provisioned DB
-   ↓
+   v
 Auto Scaling DB
-   ↓
+   v
 Serverless DB
-   ↓
+   v
 Aurora Serverless
 ```
 
@@ -138,7 +138,7 @@ Aurora Serverless
 
 **진행 상황**: 60 / 600
 
-← **이전**: [59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/)
-**다음**: [61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) →
+<- **이전**: [59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일](/knowledge-base/studynote/05_database/01_db_architecture_relational/059_persistent_storage_data_log_control_file/)
+**다음**: [61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 신원)는 중앙 서버 없이 개인이 자신의 신원을 <strong>자기 주권(Self-Sovereign Identity, SSI)</strong>으로 관리하는 W3C 표준 기술이다.
-> 2. **가치**: VC(Verifiable Credential, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능 자격증명)는 Issuer(발급자)→Holder(보유자)→Verifier([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자) 신뢰 삼각형으로 <strong>중앙 서버 조회 없이 오프라인 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이 가능한 디지털 자격증이다.
+> 2. **가치**: VC(Verifiable Credential, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능 자격증명)는 Issuer(발급자)->Holder(보유자)->Verifier([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자) 신뢰 삼각형으로 <strong>중앙 서버 조회 없이 오프라인 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이 가능한 디지털 자격증이다.
 > 3. **판단 포인트**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Document의 공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method(체인별 등록 방식)가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 요소이며, [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))·모바일 신분증과의 연계가 실무 적용의 핵심이다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 중앙화 신원 관리의 문제
 
-현재 디지털 신원 시스템: Google·Facebook 계정, 주민번호 → 중앙 기관이 신원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보유 → 해킹, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 종료, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 판매 위험. 2020년 Facebook 5억 명 정보 유출 사례.
+현재 디지털 신원 시스템: Google·Facebook 계정, 주민번호 -> 중앙 기관이 신원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보유 -> 해킹, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 종료, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 판매 위험. 2020년 Facebook 5억 명 정보 유출 사례.
 
 SSI(Self-Sovereign Identity) 원칙:
 - 개인이 자신의 신원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **직접 소유·관리**
@@ -37,23 +37,23 @@ SSI(Self-Sovereign Identity) 원칙:
 ### [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 시스템 전체 흐름
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│            DID/VC/VP 신뢰 삼각형                          │
-│                                                          │
-│  Issuer (발급자)                                         │
-│  예: 대학교, 정부, 병원                                   │
-│       │ VC 발급 (서명+메타데이터)                         │
-│       ▼                                                  │
-│  Holder (보유자) ←→ DID 지갑 (Wallet)                    │
-│  예: 개인 사용자       DID Document 저장                   │
-│       │ VP 생성 (필요한 속성만 선택)                      │
-│       ▼                                                  │
-│  Verifier (검증자)                                       │
-│  예: 취업 회사, 공항                                      │
-│       │ ① VP의 서명 검증                                 │
-│       ▼ ② DID Registry에서 공개키 조회                   │
-│  DID Registry (블록체인 / 분산 저장)                      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            DID/VC/VP 신뢰 삼각형                          |
+|                                                          |
+|  Issuer (발급자)                                         |
+|  예: 대학교, 정부, 병원                                   |
+|       | VC 발급 (서명+메타데이터)                         |
+|       v                                                  |
+|  Holder (보유자) <--> DID 지갑 (Wallet)                    |
+|  예: 개인 사용자       DID Document 저장                   |
+|       | VP 생성 (필요한 속성만 선택)                      |
+|       v                                                  |
+|  Verifier (검증자)                                       |
+|  예: 취업 회사, 공항                                      |
+|       | ① VP의 서명 검증                                 |
+|       v ② DID Registry에서 공개키 조회                   |
+|  DID Registry (블록체인 / 분산 저장)                      |
++----------------------------------------------------------+
 ```
 
 ### 핵심 구성 요소 비교
@@ -91,7 +91,7 @@ SSI(Self-Sovereign Identity) 원칙:
 1. **모바일 운전면허증**: iOS/Android 지갑 기반 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), 경찰 앱으로 VP [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 2. **학위 증명**: MIT Digital Diploma (Blockcerts), 취업 시 즉시 제출·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 3. **코로나 백신 증명서**: EU DGCA(Digital Green Certificate), 여권 없이 QR로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-4. **금융 KYC**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 기반 KYC 완료 VC → 매번 서류 없이 재사용
+4. **금융 KYC**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 기반 KYC 완료 VC -> 매번 서류 없이 재사용
 
 - **📢 섹션 요약 비유**: — "한 번 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)받은 신분증(VC)을 여러 곳에 재사용하되, 필요한 정보만 골라 보여줄 수 있는 스마트 신분증이다.
 
@@ -109,10 +109,10 @@ SSI(Self-Sovereign Identity) 원칙:
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">did</a>:<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">key</a></strong> | 키 자체 | 서버 없음, 임시 신원 | 테스트·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) |
 
 ### 기술사 핵심 판단
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a>) 연계</strong>: VC의 선택적 공개를 ZKP로 강화 → 나이 범위만 공개 (나이 자체 비공개)
-2. **키 관리**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 개인키 분실 = 신원 분실 → 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Social [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 필요
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a>) 연계</strong>: VC의 선택적 공개를 ZKP로 강화 -> 나이 범위만 공개 (나이 자체 비공개)
+2. **키 관리**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 개인키 분실 = 신원 분실 -> 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Social [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 필요
 3. **표준 준수**: W3C [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Core 1.0, Verifiable Credentials [Data Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 1.1
-4. **프라이버시 규제**: GDPR의 '잊힐 권리' vs [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 → [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) 비활성화 메커니즘
+4. **프라이버시 규제**: GDPR의 '잊힐 권리' vs [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 -> [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) 비활성화 메커니즘
 
 - **📢 섹션 요약 비유**: — "DID는 각자가 들고 다니는 디지털 지갑 속 신분증 모음 — 필요한 것만 꺼내 보여주고, 어디서 발급받았는지 누구나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능하다.
 
@@ -146,7 +146,7 @@ SSI(Self-Sovereign Identity) 원칙:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [탈중앙화 신원: DID · VC] → [DID · VC 실무 적용 서비스]
+[관계 설명] -> [탈중앙화 신원: DID · VC] -> [DID · VC 실무 적용 서비스]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -161,7 +161,7 @@ SSI(Self-Sovereign Identity) 원칙:
 
 **진행 상황**: 483 / 552
 
-← **이전**: [482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/482_blockchain_trilemma_scalability_decentralization_security/)
-**다음**: [484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/484_dao_decentralized_autonomous_organization/) →
+<- **이전**: [482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/482_blockchain_trilemma_scalability_decentralization_security/)
+**다음**: [484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/484_dao_decentralized_autonomous_organization/) ->
 
 ---

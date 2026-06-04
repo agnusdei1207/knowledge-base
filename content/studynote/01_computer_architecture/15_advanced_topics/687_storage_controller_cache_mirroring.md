@@ -36,18 +36,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 어떻게 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)되고, 그 뒤 디스크로 내려가는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               Controller Cache Mirroring Flow               │
-├──────────────────────────────────────────────────────────────┤
-│ Host Write                                                   │
-│    │                                                         │
-│    ▼                                                         │
-│ Controller A : Local Cache ---- Mirror Link ----> Peer Cache │
-│    │                                 │                       │
-│    └──────── Ack after both protected ──────────────────────▶│
-│                                                              │
-│ Later: Destage Engine -------------------------------> Disks │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               Controller Cache Mirroring Flow               |
++--------------------------------------------------------------+
+| Host Write                                                   |
+|    |                                                         |
+|    v                                                         |
+| Controller A : Local Cache ---- Mirror Link ----> Peer Cache |
+|    |                                 |                       |
+|    +-------- Ack after both protected ----------------------->|
+|                                                              |
+| Later: Destage Engine -------------------------------> Disks |
++--------------------------------------------------------------+
 ```
 
 일반적인 순서는 이렇다. 첫째, 컨트롤러 A가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 로컬 캐시에 기록한다. 둘째, [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 링크를 통해 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컨트롤러 B의 파트너 캐시에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. 셋째, 양쪽 캐시가 모두 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 상태임이 확인되면 완료 응답을 보낸다. 넷째, 백그라운드 디스테이징 작업으로 실제 디스크에 천천히 내려쓴다.
@@ -133,17 +133,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Write-Through only
-        │
-        ▼
+        |
+        v
 Write-Back cache
-        │
-        ▼
+        |
+        v
 Dual-controller cache mirroring
-        │
-        ▼
+        |
+        v
 Protected cache with battery / NVRAM
-        │
-        ▼
+        |
+        v
 Persistent-memory aware storage controllers
 ```
 
@@ -161,7 +161,7 @@ Persistent-memory aware storage controllers
 
 **진행 상황**: 688 / 803
 
-← **이전**: [686. 멀티패스 I/O (Multipath I/O)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/686_multipath_io/)
-**다음**: [688. 배터리 백업 캐시 (BBU)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) →
+<- **이전**: [686. 멀티패스 I/O (Multipath I/O)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/686_multipath_io/)
+**다음**: [688. 배터리 백업 캐시 (BBU)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) ->
 
 ---

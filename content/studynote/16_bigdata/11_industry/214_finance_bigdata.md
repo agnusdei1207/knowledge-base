@@ -26,7 +26,7 @@ tags = ["studynote-bigdata"]
 | 문제 | 전통 접근 | 빅데이터 접근 |
 |:---|:---|:---|
 | 신용 평가 | 소득·자산 3개 지표 | 통신비 납부 이력·유통 구매 패턴 등 수백 가지 대안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| 사기 탐지 | 규칙 기반 ([임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 차단) | 실시간 ML·[그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) → 미지의 패턴 감지 |
+| 사기 탐지 | 규칙 기반 ([임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 차단) | 실시간 ML·[그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) -> 미지의 패턴 감지 |
 | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | 역사적 VaR (Value at [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 시뮬레이션 + [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) + 시나리오 분석 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행 |
 | 거래 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 인간 트레이더 판단 | 고빈도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) + 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) |
 
@@ -39,36 +39,36 @@ tags = ["studynote-bigdata"]
 ### [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) (Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) System) 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     금융 빅데이터 아키텍처                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  거래 발생                                                        │
-│  (POS/앱/ATM)                                                    │
-│      │                                                           │
-│      ▼                                                           │
-│  ┌──────────┐    ┌─────────────────────────────────────────┐    │
-│  │  Kafka   │───▶│       Flink (실시간 스트리밍)             │    │
-│  │ (수집)   │    │  ┌──────────┐  ┌──────────────────────┐ │    │
-│  └──────────┘    │  │ 룰 엔진  │  │  ML 이상탐지 모델    │ │    │
-│                  │  │(임계 차단)│  │ (Isolation Forest / │ │    │
-│                  │  └──────────┘  │  GBM / LSTM)         │ │    │
-│                  │                └──────────────────────┘ │    │
-│                  └──────────────┬──────────────────────────┘    │
-│                                 │ 이상 신호                      │
-│                                 ▼                               │
-│                  ┌──────────────────────────┐                   │
-│                  │   그래프 DB (Neo4j)        │                   │
-│                  │  사기 링 (Fraud Ring) 탐지 │                   │
-│                  │  공유 계좌·기기·IP 분석    │                   │
-│                  └──────────────┬────────────┘                  │
-│                                 │                               │
-│                                 ▼                               │
-│                  ┌──────────────────────────┐                   │
-│                  │   거래 차단 / 알림 발송   │                   │
-│                  │   (< 200ms 응답 목표)     │                   │
-│                  └──────────────────────────┘                   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                     금융 빅데이터 아키텍처                        |
++-----------------------------------------------------------------+
+|                                                                  |
+|  거래 발생                                                        |
+|  (POS/앱/ATM)                                                    |
+|      |                                                           |
+|      v                                                           |
+|  +----------+    +-----------------------------------------+    |
+|  |  Kafka   |---->|       Flink (실시간 스트리밍)             |    |
+|  | (수집)   |    |  +----------+  +----------------------+ |    |
+|  +----------+    |  | 룰 엔진  |  |  ML 이상탐지 모델    | |    |
+|                  |  |(임계 차단)|  | (Isolation Forest / | |    |
+|                  |  +----------+  |  GBM / LSTM)         | |    |
+|                  |                +----------------------+ |    |
+|                  +--------------+--------------------------+    |
+|                                 | 이상 신호                      |
+|                                 v                               |
+|                  +--------------------------+                   |
+|                  |   그래프 DB (Neo4j)        |                   |
+|                  |  사기 링 (Fraud Ring) 탐지 |                   |
+|                  |  공유 계좌·기기·IP 분석    |                   |
+|                  +--------------+------------+                  |
+|                                 |                               |
+|                                 v                               |
+|                  +--------------------------+                   |
+|                  |   거래 차단 / 알림 발송   |                   |
+|                  |   (< 200ms 응답 목표)     |                   |
+|                  +--------------------------+                   |
++-----------------------------------------------------------------+
 ```
 
 ### 대안 신용평가 (Alternative Credit Scoring)
@@ -83,34 +83,34 @@ tags = ["studynote-bigdata"]
 ### 알고트레이딩 (Algorithmic Trading) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   알고트레이딩 파이프라인                          │
-├─────────────────────────────────────────────────────────────────┤
-│  틱 데이터          뉴스/SNS              거시 지표              │
-│  (1ms 단위)         (Reuters/Bloomberg)   (금리/환율)            │
-│      │                    │                    │                 │
-│      └────────────────────┴────────────────────┘                │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   시그널 생성 엔진     │                         │
-│               │ - 기술적 지표 계산     │                         │
-│               │ - 감성 점수 산출       │                         │
-│               │ - 통계적 차익 포착     │                         │
-│               └───────────┬───────────┘                         │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   리스크 관리 레이어   │                         │
-│               │ VaR 한도 · 포지션 조정 │                         │
-│               └───────────┬───────────┘                         │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   주문 집행 (OMS)      │                         │
-│               │  거래소 직접 연결 (ns) │                         │
-│               └───────────────────────┘                         │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                   알고트레이딩 파이프라인                          |
++-----------------------------------------------------------------+
+|  틱 데이터          뉴스/SNS              거시 지표              |
+|  (1ms 단위)         (Reuters/Bloomberg)   (금리/환율)            |
+|      |                    |                    |                 |
+|      +--------------------+--------------------+                |
+|                           |                                      |
+|                           v                                      |
+|               +-----------------------+                         |
+|               |   시그널 생성 엔진     |                         |
+|               | - 기술적 지표 계산     |                         |
+|               | - 감성 점수 산출       |                         |
+|               | - 통계적 차익 포착     |                         |
+|               +-----------+-----------+                         |
+|                           |                                      |
+|                           v                                      |
+|               +-----------------------+                         |
+|               |   리스크 관리 레이어   |                         |
+|               | VaR 한도 · 포지션 조정 |                         |
+|               +-----------+-----------+                         |
+|                           |                                      |
+|                           v                                      |
+|               +-----------------------+                         |
+|               |   주문 집행 (OMS)      |                         |
+|               |  거래소 직접 연결 (ns) |                         |
+|               +-----------------------+                         |
++-----------------------------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: FDS는 "은행 입구에 서 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경비원"이다. 얼굴(거래 패턴)을 보는 동시에, 그 경비원과 이전에 같이 다녔던 사람들([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결)까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
@@ -131,19 +131,19 @@ tags = ["studynote-bigdata"]
 ### 연관 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
 ```
-규제 환경  ──── GDPR, 개인정보보호법, 금융소비자보호법
-      │
-      ▼
-데이터 수집 ─── Kafka (이벤트 스트리밍)
-      │
-      ▼
-처리 엔진  ─── Flink (실시간) / Spark (배치)
-      │
-      ▼
-모델 레이어 ── XGBoost (신용) / Isolation Forest (FDS)
-      │
-      ▼
-서빙      ─── REST API (신용) / 저지연 소켓 (FDS·거래)
+규제 환경  ---- GDPR, 개인정보보호법, 금융소비자보호법
+      |
+      v
+데이터 수집 --- Kafka (이벤트 스트리밍)
+      |
+      v
+처리 엔진  --- Flink (실시간) / Spark (배치)
+      |
+      v
+모델 레이어 -- XGBoost (신용) / Isolation Forest (FDS)
+      |
+      v
+서빙      --- REST API (신용) / 저지연 소켓 (FDS·거래)
 ```
 
 > 📢 **섹션 요약 비유**: 신용평가는 "입사 지원서를 꼼꼼히 검토하는 인사팀", FDS는 "공항 실시간 보안검색대", 알고트레이딩은 "1000분의 1초 반응속도를 가진 단타 선수"다.
@@ -160,7 +160,7 @@ tags = ["studynote-bigdata"]
 
 | 요구사항 | 선택 기술 | 이유 |
 |:---|:---|:---|
-| 200ms 이내 응답 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → Flink 인메모리 처리 | 배치 불가, 실시간 필수 |
+| 200ms 이내 응답 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> Flink 인메모리 처리 | 배치 불가, 실시간 필수 |
 | 미지의 패턴 탐지 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest ([비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)) | 규칙 기반 우회 방지 |
 | 사기 집단 탐지 | Neo4j [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB | 계좌 공유·기기 공유 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 분석 |
 | [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 대응 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 주기적 재학습 | 사기 패턴 진화 대응 |
@@ -173,7 +173,7 @@ tags = ["studynote-bigdata"]
 ### 기술사 관점의 판단 기준
 
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 편향 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 대안 신용평가에서 특정 계층이 불리해지는 차별 방지 필요.
-- **설명가능성 (Explainability)**: 신용 거절 시 고객에게 사유 설명 의무 → [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값 활용.
+- **설명가능성 (Explainability)**: 신용 거절 시 고객에게 사유 설명 의무 -> [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값 활용.
 - **규제 준수**: 신용정보법, 금융소비자보호법 상 자동화 결정에 대한 이의제기 권리 보장.
 
 > 📢 **섹션 요약 비유**: FDS를 구축할 때 "빠른 것과 정확한 것" 사이에서 균형을 잡는 것이 핵심이다. 오탐이 너무 많으면 정상 고객이 분노하고, 탐지율이 낮으면 사기에 노출된다. 이 트레이드오프를 조정하는 것이 기술사의 역할이다.
@@ -209,14 +209,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 [FDS (이상거래탐지시스템)]
-    │
-    ▼
+    |
+    v
 [ACS (대안 신용평가)]
-    │
-    ▼
+    |
+    v
 [VaR (Value at Risk)]
-    │
-    ▼
+    |
+    v
 [알고트레이딩]
 ```
 
@@ -234,7 +234,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 214 / 262
 
-← **이전**: [23. 데이터 감사 (Data Audit)](/knowledge-base/studynote/16_bigdata/10_governance/213_data_audit/)
-**다음**: [210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측](/knowledge-base/studynote/16_bigdata/11_industry/215_healthcare_bigdata/) →
+<- **이전**: [23. 데이터 감사 (Data Audit)](/knowledge-base/studynote/16_bigdata/10_governance/213_data_audit/)
+**다음**: [210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측](/knowledge-base/studynote/16_bigdata/11_industry/215_healthcare_bigdata/) ->
 
 ---

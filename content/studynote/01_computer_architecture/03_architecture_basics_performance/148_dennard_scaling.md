@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Dennard Scaling)은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 크기를 줄이면 구동 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)도 비례하여 줄어들어, 칩 면적당 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)밀도가 일정하게 유지된다는 물리 법칙이다.
-> 2. **가치**: 이 법칙 덕분에 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 업계는 수십 년 동안 발열이나 전력 증가 없이 CPU의 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)(MHz → GHz)를 지속적으로 높이며 싱글 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 공짜로 향상시킬 수 있었다.
+> 2. **가치**: 이 법칙 덕분에 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 업계는 수십 년 동안 발열이나 전력 증가 없이 CPU의 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)(MHz -> GHz)를 지속적으로 높이며 싱글 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 공짜로 향상시킬 수 있었다.
 > 3. **판단 포인트**: 2005년경 공정이 미세화되면서 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) (Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 급증하여 이 법칙은 붕괴했고, 이를 극복하기 위해 클럭 상승 대신 멀티 코어 (Multi-Core) 아키텍처로 설계 패러다임이 완전히 전환되었다.
 
 ---
@@ -31,18 +31,18 @@ tags = ["studynote-computer-architecture"]
 동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 공식은 $P = C \times V^2 \times f$ (전력 = [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) $\times$ [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제곱 $\times$ [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))이다. 소자가 작아지면 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)($V$)을 낮출 수 있어, 주파수($f$)를 비약적으로 높여도 총 전력($P$)은 통제되었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│           데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)           │
-├────────────────────────────────────────────────────────────────────────┤
-│ [ 황금기 (~2005년): 스케일링 정상 작동 ]                               │
-│ 트랜지스터 축소 ─▶ 전압(V) 감소 ─▶ 주파수(f) 펌핑 ─▶ 발열(온도) 유지  │
-│                                                                        │
-│ [ 붕괴기 (2005년~현재): 물리학의 악마 등장 ]                           │
-│ 미세 공정(90nm 이하) ─▶ 산화막(문짝) 원자 두께 도달 ─▶ 양자 터널링 폭발│
-│                                                                        │
-│ 스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)       │
-│ ─▶ 전압 감소 불가 ─▶ 주파수 상승 시 칩 용융 ─▶ 전력의 벽(Power Wall)  │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|           데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)           |
++------------------------------------------------------------------------+
+| [ 황금기 (~2005년): 스케일링 정상 작동 ]                               |
+| 트랜지스터 축소 --> 전압(V) 감소 --> 주파수(f) 펌핑 --> 발열(온도) 유지  |
+|                                                                        |
+| [ 붕괴기 (2005년~현재): 물리학의 악마 등장 ]                           |
+| 미세 공정(90nm 이하) --> 산화막(문짝) 원자 두께 도달 --> 양자 터널링 폭발|
+|                                                                        |
+| 스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)       |
+| --> 전압 감소 불가 --> 주파수 상승 시 칩 용융 --> 전력의 벽(Power Wall)  |
++------------------------------------------------------------------------+
 ```
 
 하지만 90nm(나노미터) 공정 이하로 진입하면서 산화막 두께가 원자 몇 개 수준으로 얇아졌다. 결국 스위치를 차단해도 전자가 벽을 뚫고 지나가는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 현상이 발생했다. 칩이 연산을 하지 않아도 전기가 줄줄 새는 정적 누설 전력 ([Static Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/))이 폭증하면서 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 완벽히 붕괴했다.
@@ -57,7 +57,7 @@ tags = ["studynote-computer-architecture"]
 
 | 시대적 아키텍처 | 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 황금기 (1980~2004) | 포스트 데나드 시대 (2005~현재) |
 | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상 축</strong> | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/">클럭 주파수</a> 펌핑 (MHz → GHz)</strong> | **코어 개수 증가 (Single → Multi-Core)** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상 축</strong> | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/">클럭 주파수</a> 펌핑 (MHz -> GHz)</strong> | **코어 개수 증가 (Single -> Multi-Core)** |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a> 주범</strong> | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) (스위칭 작동 시 발생) | **정적 누설 전력 (가만히 있어도 새는 열)** |
 | **S/W 개발 패러다임**| 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 유지 (자동 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상) | <strong>멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 프로그래밍 필수화</strong> |
 | **H/W 해결책** | 쿨링 시스템 강화 | 3D [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) ([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)) 및 파워 게이팅 도입 |
@@ -102,17 +102,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 무어의 법칙 (Moore's Law) / 집적도 양적 팽창
-    │
-    ▼
+    |
+    v
 데나드 스케일링 (Dennard Scaling) / 전력 밀도 유지 및 클럭 상승
-    │
-    ▼
+    |
+    v
 미세 공정 한계 도달 · 양자 터널링 (Quantum Tunneling)
-    │
-    ▼
+    |
+    v
 누설 전류 (Leakage Current) 폭증 · 전력의 벽 (Power Wall)
-    │
-    ▼
+    |
+    v
 멀티 코어 (Multi-Core) · FinFET 공정 · 다크 실리콘 (Dark Silicon) 제어
 ```
 
@@ -128,7 +128,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 148 / 803
 
-← **이전**: [147. 황의 법칙 (Hwang's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/)
-**다음**: [149. 벤치마크 프로그램 (Benchmark)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/) →
+<- **이전**: [147. 황의 법칙 (Hwang's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/)
+**다음**: [149. 벤치마크 프로그램 (Benchmark)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/) ->
 
 ---

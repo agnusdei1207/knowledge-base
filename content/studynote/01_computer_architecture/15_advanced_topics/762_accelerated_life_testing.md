@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ALT의 절차는 보통 <strong>고장 메커니즘 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> → 적절한 가속 스트레스 선정 → 시간-고장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 → 가속 모델과 분포 적합 → 사용 조건으로 환산</strong> 순서로 진행된다. 여기서 가장 중요한 연결고리는 **가속계수(AF, Acceleration Factor)** 다. 이는 가혹 조건의 1시간이 실제 사용 조건의 몇 시간에 해당하는지를 나타낸다.
+ALT의 절차는 보통 <strong>고장 메커니즘 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> -> 적절한 가속 스트레스 선정 -> 시간-고장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 -> 가속 모델과 분포 적합 -> 사용 조건으로 환산</strong> 순서로 진행된다. 여기서 가장 중요한 연결고리는 **가속계수(AF, Acceleration Factor)** 다. 이는 가혹 조건의 1시간이 실제 사용 조건의 몇 시간에 해당하는지를 나타낸다.
 
 | 스트레스 축 | 대표 모델 | 주 대상 고장 메커니즘 | 핵심 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -47,20 +47,20 @@ ALT의 절차는 보통 <strong>고장 메커니즘 <a href="/knowledge-base/stu
 - `k`: 볼츠만 상수(Boltzmann Constant)
 - `T_use`, `T_stress`: 켈빈 기준 사용 온도와 시험 온도
 
-즉 시험 온도가 높아질수록 열화 반응 속도가 빨라지고, 같은 실패가 훨씬 짧은 시간 안에 나타난다. 다만 "온도 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)°C 상승마다 수명 1/2" 같은 경험 법칙은 일부 메커니즘에서만 대략적일 뿐, 보편 법칙은 아니다.
+즉 시험 온도가 높아질수록 열화 반응 속도가 빨라지고, 같은 실패가 훨씬 짧은 시간 안에 나타난다. 다만 "온도 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+C 상승마다 수명 1/2" 같은 경험 법칙은 일부 메커니즘에서만 대략적일 뿐, 보편 법칙은 아니다.
 
 아래 흐름은 ALT가 단순 가혹 시험이 아니라 <strong>물리 + 통계 + 환산</strong>의 결합임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Use profile -> Failure mechanism -> Stress profile -> Test data    │
-│                                                     │              │
-│                                                     ▼              │
-│                        Weibull / lognormal fitting + AF            │
-│                                                     │              │
-│                                                     ▼              │
-│                 Life estimate at use condition / confidence        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Use profile -> Failure mechanism -> Stress profile -> Test data    |
+|                                                     |              |
+|                                                     v              |
+|                        Weibull / lognormal fitting + AF            |
+|                                                     |              |
+|                                                     v              |
+|                 Life estimate at use condition / confidence        |
++--------------------------------------------------------------------+
 ```
 
 실무에서는 보통 고장 시간을 Weibull 분포 같은 수명 분포에 적합시켜 B10 life, [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/), 신뢰수준([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Level)을 함께 산출한다. 결국 좋은 ALT는 "빨리 고장 나게 했다"가 아니라, **"왜 그 고장이 실제 현장을 대표하는지 설명할 수 있다"** 에서 완성된다.
@@ -87,7 +87,7 @@ ALT는 [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ALT 설계의 성패는 시험 장비가 아니라 <strong>시험 가정의 질</strong>에서 갈린다. 예를 들어 자동차 ECU의 납땜 피로를 보고 싶다면 단순 고온 보관보다 `-40°C ↔ 125°C` 열사이클이 더 적절할 수 있다. 반대로 NAND Flash의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존이나 절연 열화는 온도·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 가속이 더 핵심일 수 있다. 결국 먼저 "무슨 고장이 지배적인가"를 정해야 한다.
+실무에서 ALT 설계의 성패는 시험 장비가 아니라 <strong>시험 가정의 질</strong>에서 갈린다. 예를 들어 자동차 ECU의 납땜 피로를 보고 싶다면 단순 고온 보관보다 `-40+C ↔ 125+C` 열사이클이 더 적절할 수 있다. 반대로 NAND Flash의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존이나 절연 열화는 온도·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 가속이 더 핵심일 수 있다. 결국 먼저 "무슨 고장이 지배적인가"를 정해야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,20 +136,20 @@ ALT의 가장 큰 효과는 긴 사용 수명을 <strong>제품 개발 일정 �
 
 ```text
 사용 조건(Mission Profile)
-    │
-    ▼
+    |
+    v
 지배 고장 메커니즘 식별
-    │
-    ▼
+    |
+    v
 ALT 스트레스 설계
-    │
-    ▼
+    |
+    v
 AF 추정 · Weibull 적합
-    │
-    ▼
+    |
+    v
 보증수명 · MTTF · 신뢰구간 산출
-    │
-    ▼
+    |
+    v
 현장 고장 데이터 피드백
 ```
 
@@ -165,7 +165,7 @@ AF 추정 · Weibull 적합
 
 **진행 상황**: 763 / 803
 
-← **이전**: [761. MIL-HDBK-217 고장률 예측](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/761_mil_hdbk_217/)
-**다음**: [763. 소프트웨어 회춘 (Software Rejuvenation)과 HW 리부트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/763_software_rejuvenation/) →
+<- **이전**: [761. MIL-HDBK-217 고장률 예측](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/761_mil_hdbk_217/)
+**다음**: [763. 소프트웨어 회춘 (Software Rejuvenation)과 HW 리부트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/763_software_rejuvenation/) ->
 
 ---

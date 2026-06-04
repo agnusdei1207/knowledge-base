@@ -30,16 +30,16 @@ Stub보다 현실적이고, Mock보다 상호작용 [검증](/knowledge-base/stu
 다음은 Fake (페이크)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Fake (페이크)                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  Fake (페이크)                                  |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 Fake (페이크)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -144,21 +144,21 @@ Fake는 테스트를 현실적으로 만들어 준다. 외부 의존성을 줄�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 Fake (페이크) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +172,7 @@ Fake (페이크) 개념 정립
 
 **진행 상황**: 517 / 973
 
-← **이전**: [462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)
-**다음**: [463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) →
+<- **이전**: [462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)
+**다음**: [463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) ->
 
 ---

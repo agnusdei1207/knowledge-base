@@ -26,12 +26,12 @@ tags = ["studynote-ict-convergence"]
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -47,18 +47,18 @@ tags = ["studynote-ict-convergence"]
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 구성 계층 | [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 기반 온디바이스 [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 구동 경량 아키텍처를 자원, 제어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층으로 나눠 본다. | 계층 책임이 섞이면 운영이 어려워진다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 | 입력→처리→배포→관찰 흐름으로 구조를 읽는다. | 병목 지점을 수치로 확인한다. |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 | 입력->처리->배포->관찰 흐름으로 구조를 읽는다. | 병목 지점을 수치로 확인한다. |
 | 제어 포인트 | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 보안, 배치, 복구가 전체 품질을 좌우한다. | 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용을 기준으로 설계한다. |
 | 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 자동화와 표준화를 함께 넣어야 운영이 단순해진다. | 도입 기술보다 운영 모델 정합성이 먼저다. |
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Orchestrate        │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Orchestrate        | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [데이터 파이프라인 내 비정형 데이터 OCR 및 LLM 문서 파싱 파이프라인]
-    │
-    ▼
+    |
+    v
 [엣지 컴퓨팅 기반 온디바이스 SLM 구동 경량 아키텍처]
-    │
-    ├──▶ [퍼셉트론 XOR 한계 은닉층]
-    └──▶ [멀티모달 / 온디바이스·에이전트]
+    |
+    +---> [퍼셉트론 XOR 한계 은닉층]
+    +---> [멀티모달 / 온디바이스·에이전트]
 ```
 
 이 흐름도는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 내 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) OCR 및 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 문서 파싱 파이프라인에서 출발해 현재 개념을 거쳐 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) XOR 한계 은닉층와 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 320 / 552
 
-← **이전**: [319. 데이터 파이프라인 내 비정형 데이터 OCR 및 LLM 문서 파싱 파이프라인 (ETL)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/319_unstructured_data_ocr_parsing/)
-**다음**: [321. 데이터 마이닝 프레임워크 (CRISP-DM, KDD) (Data Mining)](/knowledge-base/studynote/06_ict_convergence/05_data_science/321_data_mining_framework_crisp_dm_kdd/) →
+<- **이전**: [319. 데이터 파이프라인 내 비정형 데이터 OCR 및 LLM 문서 파싱 파이프라인 (ETL)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/319_unstructured_data_ocr_parsing/)
+**다음**: [321. 데이터 마이닝 프레임워크 (CRISP-DM, KDD) (Data Mining)](/knowledge-base/studynote/06_ict_convergence/05_data_science/321_data_mining_framework_crisp_dm_kdd/) ->
 
 ---

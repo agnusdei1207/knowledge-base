@@ -33,13 +33,13 @@ PMO는 직접 개발하는 조직이 아니라, 프로젝트가 흔들리지 않
 
 ```text
 경영 전략
-   ↓
+   v
 PMO
- ├─ 표준 템플릿
- ├─ 일정/리스크 관리
- ├─ 자원 배분
- └─ PM 교육/멘토링
-   ↓
+ +- 표준 템플릿
+ +- 일정/리스크 관리
+ +- 자원 배분
+ +- PM 교육/멘토링
+   v
 프로젝트 팀들
 ```
 
@@ -113,11 +113,11 @@ PMO가 잘 작동하면 프로젝트 성공률, 재사용성, 의사결정 속�
 
 ```text
 프로젝트 혼선
-   ↓
+   v
 PMO
-   ↓
+   v
 표준화 / 포트폴리오 / 리스크 관리
-   ↓
+   v
 프로젝트 성공률 향상
 ```
 
@@ -127,13 +127,13 @@ PMO
 
 ```text
 개인 역량 의존
-   ↓
+   v
 공통 템플릿과 방법론
-   ↓
+   v
 포트폴리오 관리
-   ↓
+   v
 EPMO / 거버넌스 강화
-   ↓
+   v
 조직 학습과 재사용
 ```
 
@@ -151,7 +151,7 @@ PMO는 여러 반의 숙제를 한곳에서 정리해 주는 선생님 방 같�
 
 **진행 상황**: 59 / 973
 
-← **이전**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)
-**다음**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/) →
+<- **이전**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)
+**다음**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/) ->
 
 ---

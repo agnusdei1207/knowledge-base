@@ -31,9 +31,9 @@ tags = ["studynote-design"]
 
 ```text
 Project Team
-  ↓ issues
+  v issues
 PM / Sponsor / Steering Committee
-  ↓ decision
+  v decision
 Direction / Budget / Escalation
 ```
 
@@ -106,11 +106,11 @@ Direction / Budget / Escalation
 
 ```text
 Sponsor
-  ↓
+  v
 Steering Committee
-  ↓
+  v
 PM
-  ↓
+  v
 Project Governance
 ```
 
@@ -120,11 +120,11 @@ Project Governance
 
 ```text
 Governance
-  ↓
+  v
 Sponsor
-  ↓
+  v
 Steering Committee
-  ↓
+  v
 Decision Making
 ```
 
@@ -142,7 +142,7 @@ Decision Making
 
 **진행 상황**: 107 / 530
 
-← **이전**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/)
-**다음**: [70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/) →
+<- **이전**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/)
+**다음**: [70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/) ->
 
 ---

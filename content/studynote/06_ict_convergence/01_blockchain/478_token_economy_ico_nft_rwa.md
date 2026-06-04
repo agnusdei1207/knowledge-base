@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [토큰 이코노미](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/)([Token Economy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/))는 FT(Fungible Token, 대체 가능 토큰)와 NFT([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/), 대체 불가 토큰)로 디지털·실물 자산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올려 <strong>프로그래머블 자산</strong>으로 만드는 생태계다.
-> 2. **가치**: ICO(Initial Coin Offering)→STO([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)→RWA(Real World Asset) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)로 진화하면서 자본 시장의 <strong>유동성 민주화</strong>와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 가능해졌다.
+> 2. **가치**: ICO(Initial Coin Offering)->STO([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)->RWA(Real World Asset) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)로 진화하면서 자본 시장의 <strong>유동성 민주화</strong>와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 가능해졌다.
 > 3. **판단 포인트**: [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)(동질 토큰)과 ERC-721(NFT) 표준의 차이가 토큰 유용성을 결정하며, 인센티브 설계(Incentive Design) 실패가 토큰 생태계 붕괴의 핵심 원인이다.
 
 ---
@@ -23,9 +23,9 @@ tags = ["studynote-ict-convergence"]
 
 전통 자산(주식·채권·부동산·예술품)은 분할 소유·즉시 이전·글로벌 거래가 어렵다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)는 이 자산들을 24시간 365일 글로벌 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 거래가 가능한 디지털 자산으로 변환한다.
 
-- <strong>FT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/">ERC-20</a>)</strong>: 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) = 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) (완전 대체 가능) → 화폐·유틸리티·거버넌스 토큰
-- **NFT(ERC-721)**: 각 토큰이 고유 ID를 보유 → 예술·게임 아이템·자격증
-- <strong>SFT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/">ERC-1155</a>)</strong>: FT+NFT 혼합 → 게임 아이템 다량 발행 최적화
+- <strong>FT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/">ERC-20</a>)</strong>: 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) = 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) (완전 대체 가능) -> 화폐·유틸리티·거버넌스 토큰
+- **NFT(ERC-721)**: 각 토큰이 고유 ID를 보유 -> 예술·게임 아이템·자격증
+- <strong>SFT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/">ERC-1155</a>)</strong>: FT+NFT 혼합 -> 게임 아이템 다량 발행 최적화
 
 - **📢 섹션 요약 비유**: — "FT는 현금(모든 1만원권이 동일), NFT는 희귀 우표(하나하나 고유), RWA는 부동산 지분 증서(실물이 뒷받침)다.
 
@@ -36,23 +36,23 @@ tags = ["studynote-ict-convergence"]
 ### 토큰 표준 비교 구조
 
 ```
-┌──────────────────────────────────────────────────┐
-│              이더리움 토큰 표준                   │
-│                                                  │
-│  ERC-20 (Fungible Token)                         │
-│  ├ transfer(address, uint256)                    │
-│  ├ balanceOf(address) → uint256                  │
-│  └ totalSupply() → uint256                       │
-│                                                  │
-│  ERC-721 (Non-Fungible Token)                    │
-│  ├ ownerOf(tokenId) → address                    │
-│  ├ transferFrom(from, to, tokenId)               │
-│  └ tokenURI(tokenId) → string (메타데이터 링크)  │
-│                                                  │
-│  ERC-1155 (Multi-Token)                          │
-│  ├ balanceOf(account, id) → uint256              │
-│  └ safeTransferFrom(from, to, id, amount, data)  │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|              이더리움 토큰 표준                   |
+|                                                  |
+|  ERC-20 (Fungible Token)                         |
+|  + transfer(address, uint256)                    |
+|  + balanceOf(address) -> uint256                  |
+|  + totalSupply() -> uint256                       |
+|                                                  |
+|  ERC-721 (Non-Fungible Token)                    |
+|  + ownerOf(tokenId) -> address                    |
+|  + transferFrom(from, to, tokenId)               |
+|  + tokenURI(tokenId) -> string (메타데이터 링크)  |
+|                                                  |
+|  ERC-1155 (Multi-Token)                          |
+|  + balanceOf(account, id) -> uint256              |
+|  + safeTransferFrom(from, to, id, amount, data)  |
++--------------------------------------------------+
 ```
 
 ### ICO / STO / IEO / RWA 비교
@@ -76,14 +76,14 @@ tags = ["studynote-ict-convergence"]
 
 ```
   사용자(User)
-      │ 토큰으로 서비스 이용
-      ▼
-  프로토콜(Protocol)  ←→  투자자/검증자
+      | 토큰으로 서비스 이용
+      v
+  프로토콜(Protocol)  <-->  투자자/검증자
   (수수료 수익)            (토큰 가치 상승)
 ```
 
-**실패 사례**: 토큰 발행 → 가격 펌핑 → 창업자 Exit → 생태계 붕괴 (Rug Pull)
-**성공 사례**: Uniswap UNI, Compound [COMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) → 실사용 가치 + 거버넌스 권한 결합
+**실패 사례**: 토큰 발행 -> 가격 펌핑 -> 창업자 Exit -> 생태계 붕괴 (Rug Pull)
+**성공 사례**: Uniswap UNI, Compound [COMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) -> 실사용 가치 + 거버넌스 권한 결합
 
 ### NFT 활용 영역
 
@@ -145,7 +145,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [토큰 이코노미: ICO · NFT] → [토큰 이코노미 최대 활용 도메인]
+[관계 설명] -> [토큰 이코노미: ICO · NFT] -> [토큰 이코노미 최대 활용 도메인]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -160,7 +160,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 478 / 552
 
-← **이전**: [477. 스마트 컨트랙트 EVM과 가스 실행 구조 (Smart Contract EVM and Gas Execution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/477_smart_contract_evm_gas_execution/)
-**다음**: [479. 영지식 증명 ZKP와 프라이버시 보호 (ZKP Zero-Knowledge Proof Privacy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/479_zero_knowledge_proof_zkp_privacy/) →
+<- **이전**: [477. 스마트 컨트랙트 EVM과 가스 실행 구조 (Smart Contract EVM and Gas Execution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/477_smart_contract_evm_gas_execution/)
+**다음**: [479. 영지식 증명 ZKP와 프라이버시 보호 (ZKP Zero-Knowledge Proof Privacy)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/479_zero_knowledge_proof_zkp_privacy/) ->
 
 ---

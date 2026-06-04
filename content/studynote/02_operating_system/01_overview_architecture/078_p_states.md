@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 모바일 기기와 서버는 항상 최고 속도로만 돌릴 수 없다. 열과 전력을 제어하려면 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단계적으로 조절하는 P-state가 필요하다.
 운영체제와 펌웨어는 부하를 보고 적절한 상태를 고르며, 이 선택이 배터리와 응답성의 균형을 만든다.
 ```text
-부하 감지 → governor → P-state 테이블 → 주파수/전압 변경 → 성능/전력 균형
+부하 감지 -> governor -> P-state 테이블 -> 주파수/전압 변경 -> 성능/전력 균형
 ```
 
 - **📢 섹션 요약 비유**: 항상 최고 속도는 전력과 열을 감당하지 못한다.
@@ -102,17 +102,17 @@ P-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_
 
 ```text
 부하 측정
-  │
-  ▼
+  |
+  v
 정책 선택
-  │
-  ▼
+  |
+  v
 P-state 결정
-  │
-  ▼
+  |
+  v
 전압/주파수 조정
-  │
-  ▼
+  |
+  v
 응답성·전력 재평가
 ```
 
@@ -128,7 +128,7 @@ P-state 결정
 
 **진행 상황**: 78 / 800
 
-← **이전**: [77. 프로세서 전원 상태 (C-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/)
-**다음**: [079. 프로파일링 및 트레이싱 도구 (Profiling & Tracing Tools)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/079_profiling_tracing_tools/) →
+<- **이전**: [77. 프로세서 전원 상태 (C-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/)
+**다음**: [079. 프로파일링 및 트레이싱 도구 (Profiling & Tracing Tools)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/079_profiling_tracing_tools/) ->
 
 ---

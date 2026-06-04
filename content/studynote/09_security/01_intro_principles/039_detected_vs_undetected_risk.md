@@ -239,7 +239,7 @@ MTTD 측정, 탐지 중심 패러다임
 
 **진행 상황**: 39 / 1108
 
-← **이전**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)
-**다음**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/) →
+<- **이전**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)
+**다음**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/) ->
 
 ---

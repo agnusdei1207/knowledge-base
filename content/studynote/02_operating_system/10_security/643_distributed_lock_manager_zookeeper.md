@@ -50,32 +50,32 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 3. **Watch (감시/알림)**: 특정 노드의 변경([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제)을 기다리고 있다가 이벤트가 발생하면 클라이언트에게 콜백(Callback)을 날려주는 기능. ([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방지)
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ZooKeeper 분산 락 획득 및 해제 알고리즘 흐름               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 3대의 서버가 동시에 Lock 요청]                                 │
-  │  ZooKeeper 내부에 "/lock_path" 라는 디렉터리가 있음.                      │
-  │                                                                   │
-  │  1. Server A, B, C가 동시에 임시+순차 노드(Ephemeral Sequential) 생성 요청│
-  │     Server A ──▶ 생성 성공: /lock_path/req-0000001 (가장 빠름)        │
-  │     Server B ──▶ 생성 성공: /lock_path/req-0000002                  │
-  │     Server C ──▶ 생성 성공: /lock_path/req-0000003                  │
-  │                                                                   │
-  │  [상황 2: Lock 획득 판단 (자기 순서 확인)]                               │
-  │  2. 서버들은 "/lock_path"의 자식 노드 목록을 조회한다.                    │
-  │     - Server A: "내가 제일 앞번호(001)네? 내가 락을 획득했다!" (작업 시작)   │
-  │     - Server B: "나는 2등이네. 내 앞번호인 001번 노드에 Watch(감시)를 걸자."│
-  │     - Server C: "나는 3등이네. 내 앞번호인 002번 노드에 Watch(감시)를 걸자."│
-  │                                                                   │
-  │  [상황 3: Lock 해제 (장애 또는 정상 종료)]                               │
-  │  3. Server A가 작업을 마치고 연결을 끊거나, 장애로 죽어버림.                │
-  │     ──▶ ZooKeeper는 즉시 임시 노드 "/lock_path/req-0000001" 을 삭제.  │
-  │                                                                   │
-  │  4. 001번 노드가 삭제되었으므로, 거기에 Watch를 걸어둔 Server B에게 즉시 알림!│
-  │     - Server B: "오, 앞사람이 끝났네. 목록 다시 조회!"                    │
-  │     - Server B: "이제 내가 1등(002)이다! Lock 획득!" (작업 시작)         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ZooKeeper 분산 락 획득 및 해제 알고리즘 흐름               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 3대의 서버가 동시에 Lock 요청]                                 |
+  |  ZooKeeper 내부에 "/lock_path" 라는 디렉터리가 있음.                      |
+  |                                                                   |
+  |  1. Server A, B, C가 동시에 임시+순차 노드(Ephemeral Sequential) 생성 요청|
+  |     Server A ---> 생성 성공: /lock_path/req-0000001 (가장 빠름)        |
+  |     Server B ---> 생성 성공: /lock_path/req-0000002                  |
+  |     Server C ---> 생성 성공: /lock_path/req-0000003                  |
+  |                                                                   |
+  |  [상황 2: Lock 획득 판단 (자기 순서 확인)]                               |
+  |  2. 서버들은 "/lock_path"의 자식 노드 목록을 조회한다.                    |
+  |     - Server A: "내가 제일 앞번호(001)네? 내가 락을 획득했다!" (작업 시작)   |
+  |     - Server B: "나는 2등이네. 내 앞번호인 001번 노드에 Watch(감시)를 걸자."|
+  |     - Server C: "나는 3등이네. 내 앞번호인 002번 노드에 Watch(감시)를 걸자."|
+  |                                                                   |
+  |  [상황 3: Lock 해제 (장애 또는 정상 종료)]                               |
+  |  3. Server A가 작업을 마치고 연결을 끊거나, 장애로 죽어버림.                |
+  |     ---> ZooKeeper는 즉시 임시 노드 "/lock_path/req-0000001" 을 삭제.  |
+  |                                                                   |
+  |  4. 001번 노드가 삭제되었으므로, 거기에 Watch를 걸어둔 Server B에게 즉시 알림!|
+  |     - Server B: "오, 앞사람이 끝났네. 목록 다시 조회!"                    |
+  |     - Server B: "이제 내가 1등(002)이다! Lock 획득!" (작업 시작)         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 <strong>'Herd Effect(소떼 현상)'를 완벽히 차단</strong>했다는 점이다. 만약 100대의 서버가 모두 1등(001번) 노드만 쳐다보고(Watch) 있었다면, 1번이 끝나는 순간 99대에게 동시에 알림이 날아가 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 서버가 터져버린다. 하지만 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서는 B는 A만 감시하고, C는 B만 감시하고, D는 C만 감시한다. 앞사람이 죽으면 딱 그다음 사람 한 명에게만 알림이 간다. 네트워크 오버헤드가 최소화되고 락이 아주 우아하게 다음 타자에게 넘어간다. 죽은 서버가 영원히 락을 쥐고 있는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 문제도 '임시 노드' 기능 덕분에 완벽히 해결된다.
@@ -129,26 +129,26 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 분산 락 (Distributed Lock) 도입 및 솔루션 선정 플로우      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [분산 서버 간의 자원 동시 접근 및 데이터 정합성 문제 발생]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      요청의 빈도가 초당 수백/수천 건 이상으로 매우 높고 속도가 생명인가?    │
-  │          ├─ 예 (선착순 이벤트 등) ──▶ [Redis 분산 락 (Redisson 등) 도입]│
-  │          │                        (단, Redlock 알고리즘의 한계로 극히   │
-  │          │                         낮은 확률의 락 붕괴는 감수해야 함)   │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      절대로 락이 두 명에게 부여되면 안 되는 절대적 무결성(Master 선출)인가? │
-  │          ├─ 예 (결제 처리, 리더 선출) ──▶ [ZooKeeper / etcd (CP 시스템)] │
-  │          │                            (Raft 합의 알고리즘 기반 강력 보장) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 기존 DB의 Named Lock이나 JPA 낙관적 락으로 대체  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 분산 락 (Distributed Lock) 도입 및 솔루션 선정 플로우      |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [분산 서버 간의 자원 동시 접근 및 데이터 정합성 문제 발생]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      요청의 빈도가 초당 수백/수천 건 이상으로 매우 높고 속도가 생명인가?    |
+  |          +- 예 (선착순 이벤트 등) ---> [Redis 분산 락 (Redisson 등) 도입]|
+  |          |                        (단, Redlock 알고리즘의 한계로 극히   |
+  |          |                         낮은 확률의 락 붕괴는 감수해야 함)   |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      절대로 락이 두 명에게 부여되면 안 되는 절대적 무결성(Master 선출)인가? |
+  |          +- 예 (결제 처리, 리더 선출) ---> [ZooKeeper / etcd (CP 시스템)] |
+  |          |                            (Raft 합의 알고리즘 기반 강력 보장) |
+  |          |                                                        |
+  |          +- 아니오 ---> 기존 DB의 Named Lock이나 JPA 낙관적 락으로 대체  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "모든 곳에 ZooKeeper를 쓰면 되지 않나?"는 틀린 접근이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 거는 행위 자체가 네트워크 I/O를 발생시키기 때문에 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 박살낸다. 가장 좋은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 아예 안 쓰는 아키텍처(요청을 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 큐에 줄 세워 단일 컨슈머가 처리하게 함)를 만드는 것이다. 불가피하게 써야 한다면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Zookeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) 사이의 트레이드오프를 철저히 계산해야 한다.
@@ -195,12 +195,12 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 ```text
 [람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
-    │
-    ▼
+    |
+    v
 [분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
-    │
-    ├──▶ [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
-    └──▶ [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
+    |
+    +---> [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
+    +---> [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -217,7 +217,7 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 **진행 상황**: 643 / 800
 
-← **이전**: [642. 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬](/knowledge-base/studynote/02_operating_system/10_security/642_lamport_logical_clocks/)
-**다음**: [644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)](/knowledge-base/studynote/02_operating_system/10_security/644_microservice_resource_limits_cgroups/) →
+<- **이전**: [642. 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬](/knowledge-base/studynote/02_operating_system/10_security/642_lamport_logical_clocks/)
+**다음**: [644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)](/knowledge-base/studynote/02_operating_system/10_security/644_microservice_resource_limits_cgroups/) ->
 
 ---

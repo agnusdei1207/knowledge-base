@@ -37,12 +37,12 @@ GCD (Greatest Common Divisor, 최대공약수):
   단계 1: GCD(48, 18) = GCD(18, 48 mod 18) = GCD(18, 12)
   단계 2: GCD(18, 12) = GCD(12, 18 mod 12) = GCD(12, 6)
   단계 3: GCD(12, 6) = GCD(6, 12 mod 6) = GCD(6, 0)
-  단계 4: b = 0 → a가 GCD → GCD = 6 ✓
+  단계 4: b = 0 -> a가 GCD -> GCD = 6 ✓
 
 왜 작동하는가?
-  d가 a와 b 둘 다 나누면 → d는 (a - kb)도 나눔
-  즉, d가 a와 b의 공약수이면 → a mod b의 약수이기도 함
-  역도 성립 → GCD(a, b) = GCD(b, a mod b)
+  d가 a와 b 둘 다 나누면 -> d는 (a - kb)도 나눔
+  즉, d가 a와 b의 공약수이면 -> a mod b의 약수이기도 함
+  역도 성립 -> GCD(a, b) = GCD(b, a mod b)
 ```
 
 > 📢 **섹션 요약 비유**: 유클리드 호제법은 토지 측량 — 48m×18m 직사각형 땅을 정사각형으로 나눌 때 가장 큰 정사각형 크기가 [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/). "나머지로 다시 측량" 반복 = 유클리드!
@@ -77,7 +77,7 @@ print(lcm(4, 6))  # 12
 
 # 시간 복잡도 증명 (피보나치 최악):
 # GCD(F_{n+1}, F_n) = GCD(F_n, F_{n-1}) = ... = GCD(2, 1) = 1
-# n번 연산 → O(log φ × min(a,b)) ≈ O(log min(a,b))
+# n번 연산 -> O(log φ × min(a,b)) ≈ O(log min(a,b))
 ```
 
 연산 횟수 비교:
@@ -92,7 +92,7 @@ GCD(F_20, F_19) = GCD(6765, 4181):
   ...
   단계 19: GCD(2, 1)
   단계 20: GCD(1, 0) = 1
-  → 피보나치 = 최악 케이스 (정확히 n-1번)
+  -> 피보나치 = 최악 케이스 (정확히 n-1번)
 ```
 
 > 📢 **섹션 요약 비유**: 유클리드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현 — while b != 0: a, b = b, a%b. 딱 한 줄이 수천 년 된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 피보나치 수 사이가 최악이지만 여전히 O(log n)!
@@ -122,7 +122,7 @@ def extended_gcd(a, b):
     return gcd, x, y
 
 # 모듈러 역원: a의 mod n 역원
-# ax ≡ 1 (mod n) → GCD(a, n) = 1이면 역원 존재
+# ax ≡ 1 (mod n) -> GCD(a, n) = 1이면 역원 존재
 def mod_inverse(a, n):
     gcd, x, _ = extended_gcd(a, n)
     if gcd != 1:
@@ -168,9 +168,9 @@ print(d)  # 2753 (RSA 개인키 d 계산)
   가장 큰 a = GCD(m, n)
 
 5. 코딩테스트 패턴:
-  "두 수의 공약수 개수" → 1~GCD(a,b) 범위에서 탐색
-  "주기 최소화" → LCM 활용
-  "톱니바퀴 회전" → LCM
+  "두 수의 공약수 개수" -> 1~GCD(a,b) 범위에서 탐색
+  "주기 최소화" -> LCM 활용
+  "톱니바퀴 회전" -> LCM
 
 6. 복잡도 비교:
   소인수분해 GCD: O(√max(a,b))
@@ -178,7 +178,7 @@ print(d)  # 2753 (RSA 개인키 d 계산)
 
   1,000,000 입력:
   소인수분해: ~1,000번
-  유클리드: ~20번 → 50배 빠름
+  유클리드: ~20번 -> 50배 빠름
 ```
 
 > 📢 **섹션 요약 비유**: 유클리드 응용 — 타일 크기(공약수), 공통 주기(공배수), 암호 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(모듈러 역원)까지. 고등학교 GCD가 프로그래밍 면접, [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/), 게임 로직에 모두 등장!
@@ -196,10 +196,10 @@ print(d)  # 2753 (RSA 개인키 d 계산)
   세 작업이 동시 실행되는 주기:
   LCM(4, 6) = 12
   LCM(12, 10) = 60분
-  → 1시간마다 동시 실행
+  -> 1시간마다 동시 실행
 
   응용: 정기 배치 작업 충돌 예방
-  LCM이 너무 크면 → 스케줄 분산
+  LCM이 너무 크면 -> 스케줄 분산
 
 시나리오 2: RSA 키 생성 (Extended GCD)
   1. 두 소수 선택: p=61, q=53
@@ -217,7 +217,7 @@ print(d)  # 2753 (RSA 개인키 d 계산)
 시나리오 3: 게임 파티클 동기화
   30 FPS 물리 엔진 + 60 FPS 렌더러
   GCD(30, 60) = 30
-  LCM(30, 60) = 60 → 매 1/60초마다 동기화 가능
+  LCM(30, 60) = 60 -> 매 1/60초마다 동기화 가능
   물리: 매 2프레임(1/30초) 업데이트
   렌더: 매 프레임(1/60초) 렌더링
 ```
@@ -285,7 +285,7 @@ Post-Quantum 암호 연구
 
 **진행 상황**: 120 / 175
 
-← **이전**: [014. 양자 복잡도 — BQP, QMA](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/119_quantum_complexity/)
-**다음**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/) →
+<- **이전**: [014. 양자 복잡도 — BQP, QMA](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/119_quantum_complexity/)
+**다음**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/) ->
 
 ---

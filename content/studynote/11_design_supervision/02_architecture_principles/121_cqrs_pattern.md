@@ -24,24 +24,24 @@ CQRS는 그렉 영(Greg Young)이 2010년 [이벤트 소싱](/knowledge-base/stu
 기존 단일 모델 방식에서는 동일한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체가 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 모두 처리한다. 이 경우 복잡한 조회를 위한 JOIN이나 집계 요구사항이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 오염시키거나, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조가 읽기 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 느리게 만드는 양방향 충돌이 생긴다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         CQRS 분리 구조: 쓰기 모델 vs 읽기 모델              │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│       │                                                     │
-│  ┌────┴────┐                                                │
-│  ▼         ▼                                               │
-│ Command   Query                                             │
-│  │         │                                               │
-│  ▼         ▼                                               │
-│ 쓰기 모델  읽기 모델                                        │
-│ (Write)   (Read)                                            │
-│  │         │                                               │
-│  ▼         ▼                                               │
-│ 쓰기 DB   읽기 DB (비정규화)                                │
-│  │                                                         │
-│  └──── 이벤트/동기화 ────▶ 읽기 DB 업데이트               │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         CQRS 분리 구조: 쓰기 모델 vs 읽기 모델              |
++-------------------------------------------------------------+
+|  클라이언트                                                  |
+|       |                                                     |
+|  +----+----+                                                |
+|  v         v                                               |
+| Command   Query                                             |
+|  |         |                                               |
+|  v         v                                               |
+| 쓰기 모델  읽기 모델                                        |
+| (Write)   (Read)                                            |
+|  |         |                                               |
+|  v         v                                               |
+| 쓰기 DB   읽기 DB (비정규화)                                |
+|  |                                                         |
+|  +---- 이벤트/동기화 -----> 읽기 DB 업데이트               |
++-------------------------------------------------------------+
 ```
 
 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB는 정규화된 RDBMS로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 보장하고, 읽기 DB는 비정규화된 조회 최적화 모델([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), 읽기 전용 뷰)로 구성한다. 두 모델 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 이벤트나 폴링으로 이루어지며 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([eventual consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 수용한다.
@@ -58,23 +58,23 @@ CQRS의 핵심 흐름은 세 단계다. ① 클라이언트가 [Command](/knowle
 |:---|:---|:---|
 | [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Model | 상태 변경 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 비즈니스 규칙 | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) |
 | Query Model | 빠른 조회를 위한 비정규화 뷰 | 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) |
-| [Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)→읽기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 | 비동기, 내구성 |
+| [Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)->읽기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 | 비동기, 내구성 |
 | Projection | 이벤트에서 읽기 모델 재구성 | 유연한 뷰 재생성 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      CQRS + 이벤트 소싱 결합 흐름                            │
-├─────────────────────────────────────────────────────────────┤
-│  Command → Domain Model → 이벤트 저장소(Event Store)        │
-│                                    │                        │
-│                               이벤트 발행                   │
-│                                    │                        │
-│                            Projection Handler               │
-│                                    │                        │
-│                           읽기 DB 업데이트 (Redis, ES)       │
-│                                    │                        │
-│  Query ───────────────────────────▶ 읽기 DB 조회             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      CQRS + 이벤트 소싱 결합 흐름                            |
++-------------------------------------------------------------+
+|  Command -> Domain Model -> 이벤트 저장소(Event Store)        |
+|                                    |                        |
+|                               이벤트 발행                   |
+|                                    |                        |
+|                            Projection Handler               |
+|                                    |                        |
+|                           읽기 DB 업데이트 (Redis, ES)       |
+|                                    |                        |
+|  Query ----------------------------> 읽기 DB 조회             |
++-------------------------------------------------------------+
 ```
 
 읽기 모델은 필요에 따라 여러 형태로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 유지할 수 있다. 동일한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 이벤트로부터 관리자용 대시보드 뷰, 사용자용 목록 뷰, 분석용 집계 뷰를 각각 독립적으로 구성하는 것이 가능하다.
@@ -130,18 +130,18 @@ CQRS는 "읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_d
 
 ### 📌 관련 개념 맵
 
-[CQS 원칙(메이어)] → CQRS 패턴] → [이벤트 소싱] → EDA] → [읽기 모델 최적화([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))]
+[CQS 원칙(메이어)] -> CQRS 패턴] -> [이벤트 소싱] -> EDA] -> [읽기 모델 최적화([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) | CQRS의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델로 이벤트 스토어 사용, 읽기 모델 재구성 |
-| [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) | CQRS에서 [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)→Query 모델 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 |
+| [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) | CQRS에서 [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)->Query 모델 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 |
 | Projection | 이벤트 스트림으로부터 읽기 모델을 구성하는 메커니즘 |
 | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 읽기 모델의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 수준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[CQS 원칙] → CQRS 아키텍처 패턴] → [이벤트 소싱 결합] → Kafka 기반 동기화] → [다양한 읽기 모델(ES·[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))] → [실시간 스트리밍 분석]
+[CQS 원칙] -> CQRS 아키텍처 패턴] -> [이벤트 소싱 결합] -> Kafka 기반 동기화] -> [다양한 읽기 모델(ES·[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))] -> [실시간 스트리밍 분석]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -155,7 +155,7 @@ CQRS는 "읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_d
 
 **진행 상황**: 177 / 530
 
-← **이전**: [120. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/120_event_driven_architecture/)
-**다음**: [122. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/122_event_sourcing/) →
+<- **이전**: [120. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/120_event_driven_architecture/)
+**다음**: [122. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/122_event_sourcing/) ->
 
 ---

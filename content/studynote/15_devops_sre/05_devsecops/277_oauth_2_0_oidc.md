@@ -26,9 +26,9 @@ OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 토큰 권한 위임 체계 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 연동이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Inventory            |--->| Policy & Scan        |--->| Enforcement          |--->| Response & Evidence  |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537
 
 ```text
 [Access Token]
-    │
-    ▼
+    |
+    v
 [OAuth 2.0 OIDC 토큰 권한 위임 체계 마이크로서비스 연동]
-    │
-    ├──▶ [ID Token]
-    ├──▶ [Authorization Server]
-    └──▶ [출시 직전 수동 보안 점검]
+    |
+    +---> [ID Token]
+    +---> [Authorization Server]
+    +---> [출시 직전 수동 보안 점검]
 ```
 
 이 흐름도는 OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 토큰 권한 위임 체계 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 연동이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ OAuth 2.0 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537
 
 **진행 상황**: 277 / 373
 
-← **이전**: [276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)](/knowledge-base/studynote/15_devops_sre/05_devsecops/276_fido_webauthn/)
-**다음**: [278. 개인정보 데이터 마스킹 자동 필터(DLP 파이프라인 전송망 감시)](/knowledge-base/studynote/15_devops_sre/05_devsecops/278_process/) →
+<- **이전**: [276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)](/knowledge-base/studynote/15_devops_sre/05_devsecops/276_fido_webauthn/)
+**다음**: [278. 개인정보 데이터 마스킹 자동 필터(DLP 파이프라인 전송망 감시)](/knowledge-base/studynote/15_devops_sre/05_devsecops/278_process/) ->
 
 ---

@@ -42,18 +42,18 @@ RIDL이 중요한 이유는 기존 [멜트다운](/knowledge-base/studynote/01_c
 다음 그림은 RIDL이 "읽기 경로의 찌꺼기"를 훔치는 과정을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ RIDL leak path                                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Victim load miss                                                  │
-│     │                                                             │
-│     ▼                                                             │
-│ LFB / Load Port ── stale bytes remain briefly ──▶ faulting load   │
-│                                                 by attacker        │
-│                                                      │             │
-│                                                      ▼             │
-│                                             cache timing decode    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| RIDL leak path                                                    |
++--------------------------------------------------------------------+
+| Victim load miss                                                  |
+|     |                                                             |
+|     v                                                             |
+| LFB / Load Port -- stale bytes remain briefly ---> faulting load   |
+|                                                 by attacker        |
+|                                                      |             |
+|                                                      v             |
+|                                             cache timing decode    |
++--------------------------------------------------------------------+
 ```
 
 공격 절차는 보통 네 단계로 정리된다. 첫째, 피해자 스레드가 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 로드해 내부 버퍼를 사용한다. 둘째, 공격자는 예외를 유발하거나 보조 처리를 끌어내는 로드 명령을 연속 실행한다. 셋째, 투기 경로에서 stale byte가 공격자 쪽 마이크로상태에 반영된다. 넷째, 캐시 접근 시간 차이를 측정해 어떤 바이트가 샘플되었는지 추정한다. 한 번의 시도로 완전한 값이 나오지는 않지만, 반복 횟수를 높이면 통계적으로 의미 있는 패턴이 떠오른다.
@@ -126,17 +126,17 @@ RIDL 완화가 제대로 적용되면 최소한 "같은 코어를 공유했다"�
 
 ```text
 Out-of-Order Execution
-    │
-    ▼
+    |
+    v
 Transient Execution
-    │
-    ▼
+    |
+    v
 MDS (Microarchitectural Data Sampling)
-    │
-    ▼
+    |
+    v
 RIDL: load-path sampling
-    │
-    ▼
+    |
+    v
 MD_CLEAR + SMT isolation
 ```
 
@@ -152,7 +152,7 @@ MD_CLEAR + SMT isolation
 
 **진행 상황**: 766 / 803
 
-← **이전**: [764. 마이크로아키텍처 데이터 샘플링 (MDS) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/)
-**다음**: [766. 폴아웃 (Fallout) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/766_fallout_attack/) →
+<- **이전**: [764. 마이크로아키텍처 데이터 샘플링 (MDS) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/)
+**다음**: [766. 폴아웃 (Fallout) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/766_fallout_attack/) ->
 
 ---

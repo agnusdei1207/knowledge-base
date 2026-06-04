@@ -31,14 +31,14 @@ tags = ["security"]
 [단일 방어의 한계와 심층 방어의 필요성]
 
 (단일 방어 실패 시나리오)
-[Hacker] ──(Phishing)──> [Firewall 우회] ──> [내부망 평문 통신] ──> [DB 전체 탈취]
-                           ▲ 단일 실패점(SPOF) 발생 시 전면 붕괴
+[Hacker] --(Phishing)--> [Firewall 우회] --> [내부망 평문 통신] --> [DB 전체 탈취]
+                           ^ 단일 실패점(SPOF) 발생 시 전면 붕괴
 
 (심층 방어 적용 시나리오)
-[Hacker] ──(Phishing)──> [이메일 필터(차단)]
-           └─(우회)──> [엔드포인트 EDR(격리)]
-                       └─(우회)──> [내부망 세그멘테이션(접근 거부)]
-                                   └─(우회)──> [DB 암호화(데이터 해독 불가)]
+[Hacker] --(Phishing)--> [이메일 필터(차단)]
+           +-(우회)--> [엔드포인트 EDR(격리)]
+                       +-(우회)--> [내부망 세그멘테이션(접근 거부)]
+                                   +-(우회)--> [DB 암호화(데이터 해독 불가)]
 ```
 
 이 흐름도는 방어 계층이 겹겹이 쌓여 있을 때 공격자가 각 단계를 돌파하기 위해 더 많은 비용과 시간을 소모해야 함을 직관적으로 보여준다. 이러한 배치는 공격자가 내뿜는 '노이즈([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))'를 여러 구간에서 수집할 수 있게 해주며, 따라서 방어자는 선제적으로 공격을 탐지하고 차단할 기회를 얻는다. 실무에서는 이러한 방어선이 서로 다른 제조사나 다른 방식의 기술로 구성되어야(다양성) 효과가 극대화된다.
@@ -62,24 +62,24 @@ tags = ["security"]
 ```text
 [심층 방어의 양파 껍질 (Onion) 아키텍처]
 
-       ┌───────────────────────────────────────────────────┐
-       │                 Policies & Procedures             │ (관리적 통제)
-       │  ┌─────────────────────────────────────────────┐  │
-       │  │               Physical Security             │  │ (물리적 통제)
-       │  │  ┌───────────────────────────────────────┐  │  │
-       │  │  │            Network Security           │  │  │ (기술적 통제)
-       │  │  │  ┌─────────────────────────────────┐  │  │  │
-       │  │  │  │          Host/Endpoint          │  │  │  │
-       │  │  │  │  ┌───────────────────────────┐  │  │  │  │
-       │  │  │  │  │        Application        │  │  │  │  │
-       │  │  │  │  │  ┌─────────────────────┐  │  │  │  │  │
-       │  │  │  │  │  │    DATA (자산)    │  │  │  │  │  │
-       │  │  │  │  │  └─────────────────────┘  │  │  │  │  │
-       │  │  │  │  └───────────────────────────┘  │  │  │  │
-       │  │  │  └─────────────────────────────────┘  │  │  │
-       │  │  └───────────────────────────────────────┘  │  │
-       │  └─────────────────────────────────────────────┘  │
-       └───────────────────────────────────────────────────┘
+       +---------------------------------------------------+
+       |                 Policies & Procedures             | (관리적 통제)
+       |  +---------------------------------------------+  |
+       |  |               Physical Security             |  | (물리적 통제)
+       |  |  +---------------------------------------+  |  |
+       |  |  |            Network Security           |  |  | (기술적 통제)
+       |  |  |  +---------------------------------+  |  |  |
+       |  |  |  |          Host/Endpoint          |  |  |  |
+       |  |  |  |  +---------------------------+  |  |  |  |
+       |  |  |  |  |        Application        |  |  |  |  |
+       |  |  |  |  |  +---------------------+  |  |  |  |  |
+       |  |  |  |  |  |    DATA (자산)    |  |  |  |  |  |
+       |  |  |  |  |  +---------------------+  |  |  |  |  |
+       |  |  |  |  +---------------------------+  |  |  |  |
+       |  |  |  +---------------------------------+  |  |  |
+       |  |  +---------------------------------------+  |  |
+       |  +---------------------------------------------+  |
+       +---------------------------------------------------+
 ```
 
 이 양파 껍질 구조도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 가장 중요한 자산을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해, 외곽에서부터 독립된 제어 장치들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 감싸고 있다는 점이다. 특히 주목할 부분은 맨 바깥을 둘러싼 '[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 및 절차'이다. 아무리 기술적 통제가 훌륭해도 관리적 통제(비밀번호 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 보안 교육)가 무너지면 내부자를 통해 가장 안쪽의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쉽게 뚫릴 수 있기 때문이다. 실무에서는 각 계층 간의 상호 의존성을 최소화하여, 한 계층이 손상되더라도 다른 계층이 영향을 받지 않도록 설계해야 한다.
@@ -104,15 +104,15 @@ tags = ["security"]
 ```text
 [DiD와 ZTA의 상호 보완적 아키텍처 매트릭스]
 
-┌───────────────────┬────────────────────────────────────────────┐
-│                   │        제어 평면 (Control Plane - ZTA)     │
-│   데이터 평면     ├───────────────┬──────────────┬─────────────┤
-│ (Data Plane - DiD)│ 신원 (Identity) │ 기기 (Device)│ 맥락 (Context)│
-├───────────────────┼───────────────┼──────────────┼─────────────┤
-│ 1. Network Layer  │ 802.1x 인증   │ NAC / VPN    │ 위치 기반 제어│
-│ 2. Endpoint Layer │ MFA 로그인    │ EDR 무결성   │ 이상 행위 탐지│
-│ 3. App/Data Layer │ SSO / OIDC    │ 토큰 바인딩  │ JIT 권한 부여 │
-└───────────────────┴───────────────┴──────────────┴─────────────┘
++-------------------+--------------------------------------------+
+|                   |        제어 평면 (Control Plane - ZTA)     |
+|   데이터 평면     +---------------+--------------+-------------+
+| (Data Plane - DiD)| 신원 (Identity) | 기기 (Device)| 맥락 (Context)|
++-------------------+---------------+--------------+-------------+
+| 1. Network Layer  | 802.1x 인증   | NAC / VPN    | 위치 기반 제어|
+| 2. Endpoint Layer | MFA 로그인    | EDR 무결성   | 이상 행위 탐지|
+| 3. App/Data Layer | SSO / OIDC    | 토큰 바인딩  | JIT 권한 부여 |
++-------------------+---------------+--------------+-------------+
 ```
 
 이 매트릭스는 전통적인 물리/네트워크 인프라 계층([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))에 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 동적 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/))이 어떻게 씨줄과 날줄로 엮이는지를 보여준다. 이 방식은 DiD의 '다중 계층'이라는 장점을 살리면서도 DiD의 고질적인 약점인 '한 번 뚫린 후의 내부 횡적 이동(Lateral Movement)'을 완벽하게 통제한다. 반면 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)만 단독으로 구축할 경우, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 할 트래픽이 폭주하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 서버가 마비될 수 있다. 따라서 DiD로 무가치한 트래픽을 사전에 필터링하고 핵심 트래픽만 ZTA로 넘기는 것이 실무의 정석이다.
@@ -126,20 +126,20 @@ tags = ["security"]
 실무에서 심층 방어를 맹목적으로 도입하면, 너무 많은 보안 장비가 도입되어 운영 복잡도가 폭증하고 비용이 낭비되는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)에 빠지기 쉽다.
 
 #### 1. 실무 시나리오 및 의사결정
-- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a> 방어 시나리오</strong>: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 이메일 유입 → 내부 전파 → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화의 단계를 거친다. 따라서 (1) 이메일 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 솔루션으로 악성 첨부를 차단하고, (2) EDR로 이상 프로세스를 탐지하며, (3) 내부망 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)으로 전파를 막고, 마지막으로 (4) 불변성 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))을 두어 최악의 경우 복구할 수 있는 [DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 체계를 구축한다.
+- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a> 방어 시나리오</strong>: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 이메일 유입 -> 내부 전파 -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화의 단계를 거친다. 따라서 (1) 이메일 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 솔루션으로 악성 첨부를 차단하고, (2) EDR로 이상 프로세스를 탐지하며, (3) 내부망 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)으로 전파를 막고, 마지막으로 (4) 불변성 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))을 두어 최악의 경우 복구할 수 있는 [DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 체계를 구축한다.
 - **공급업체 다양성(Vendor Diversity) 결정**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), EDR을 모두 동일한 A사의 제품으로 통일할 것인가? 관리의 편의성은 높지만, A사의 엔진에 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점이 발생하면 전 계층이 동시에 뚫린다. 따라서 핵심 방어벽(예: 외부 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 내부 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))은 서로 다른 제조사의 제품을 교차 배치하는 이기종([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) 심층 방어를 채택한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 전환</strong>: AWS 등 퍼블릭 클라우드에서는 물리적 보안(AWS 책임)을 제외하고, 논리적 심층 방어에 집중한다. AWS [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)(앱 계층), [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group(네트워크 계층), [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)(신원 계층), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화)를 조합하여 설계한다.
 
 #### 2. 도입 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
 - **Alert Fatigue (경고 피로)**: 너무 많은 계층에서 동일한 이벤트에 대한 알람을 발생시켜, 보안 관제 요원([SOC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))이 피로감에 빠져 정작 중요한 경고를 무시하는 현상. SIEM을 도입하여 다중 계층의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 정규화하고 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)(Correlation)하는 체계가 필수적이다.
-- **복잡성 증가로 인한 장애**: 트래픽이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) → [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) → [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) → [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등 너무 많은 인라인(In-line) 장비를 거치면서 레이턴시([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 기하급수적으로 증가하거나 정당한 비즈니스 트래픽이 차단되는 현상.
+- **복잡성 증가로 인한 장애**: 트래픽이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) -> [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) -> [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) -> [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등 너무 많은 인라인(In-line) 장비를 거치면서 레이턴시([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 기하급수적으로 증가하거나 정당한 비즈니스 트래픽이 차단되는 현상.
 
 ```text
 [심층 방어에서의 사고 대응 타이밍 타이밍도]
 
-공격 시작 ────> 침투 완료 ──────────> 데이터 유출 ────────> 복구 완료
-    ├────── T1 ──────┼──────── T2 ────────┼────── T3 ──────┤
-    │                │                    │                │
+공격 시작 ----> 침투 완료 ----------> 데이터 유출 --------> 복구 완료
+    +------ T1 ------+-------- T2 --------+------ T3 ------+
+    |                |                    |                |
 [Protection]     [Detection]          [Response]      [Recovery]
  (방화벽/IPS)      (EDR/SIEM)          (SOAR/차단)      (백업/패치)
 
@@ -180,17 +180,17 @@ tags = ["security"]
 
 ```text
 [경계 방어 (Perimeter Defense) — 단일 방어선]
-    │
-    ▼
+    |
+    v
 [심층 방어 (Defense in Depth) — 다중 레이어]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 (Zero Trust) — 내부도 불신]
-    │
-    ▼
+    |
+    v
 [마이크로 세그멘테이션 (Micro-segmentation) — 최소 접근]
-    │
-    ▼
+    |
+    v
 [SASE (Secure Access Service Edge) — 클라우드 통합 보안]
 ```
 
@@ -207,7 +207,7 @@ tags = ["security"]
 
 **진행 상황**: 12 / 1108
 
-← **이전**: [11. 직무 분리 원칙 (Separation of Duties) — 4눈 원칙, 분산 통제](/knowledge-base/studynote/09_security/01_intro_principles/011_separation_of_duties/)
-**다음**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/) →
+<- **이전**: [11. 직무 분리 원칙 (Separation of Duties) — 4눈 원칙, 분산 통제](/knowledge-base/studynote/09_security/01_intro_principles/011_separation_of_duties/)
+**다음**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/) ->
 
 ---

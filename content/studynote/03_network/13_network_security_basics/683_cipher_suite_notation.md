@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [TLS Handshake 프로토콜]
-    │
-    ▼
+    |
+    v
 [Cipher Suite 모델 표기방식 예시…]
-    │
-    └──▶ [TLS 전방향 안전성 보장 원리]
+    |
+    +---> [TLS 전방향 안전성 보장 원리]
 ```
 
 - **📢 섹션 요약 비유**: Cipher Suite 모델 표기방식 예시…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -60,11 +60,11 @@ tags = ["studynote-network"]
 
 ```text
 [TLS Handshake 프로토콜]
-    │
-    ▼
+    |
+    v
 [Cipher Suite 모델 표기방식 예시…]
-    │
-    └──▶ [TLS 전방향 안전성 보장 원리]
+    |
+    +---> [TLS 전방향 안전성 보장 원리]
 ```
 
 - **📢 섹션 요약 비유**: Cipher Suite 모델 표기방식 예시…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ Cipher Suite 모델 표기방식 예시…는 [네트워크 보안](/knowledge-b
 
 ```text
 [선행 개념: TLS Handshake 프로토콜]
-    │
-    ▼
+    |
+    v
 [현재 개념: Cipher Suite 모델 표기방식 예시…]
-    │
-    ├──▶ [확장 A: TLS 전방향 안전성 보장 원리]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: TLS 전방향 안전성 보장 원리]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 Cipher Suite 모델 표기방식 예시…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ Cipher Suite 모델 표기방식 예시…는 [TLS](/knowledge-base/studynote/02
 
 **진행 상황**: 804 / 1120
 
-← **이전**: [682. TLS Handshake 프로토콜 (3-Way 유사 연결 초기화, 세션키 협상, Cipher Suite 교환 포함)](/knowledge-base/studynote/03_network/13_network_security_basics/682_tls_handshake_protocol/)
-**다음**: [684. TLS 전방향 안전성 (PFS, Perfect Forward Secrecy) 보장 원리 (RSA 직접 복호 문제 해결/임시 세션키)](/knowledge-base/studynote/03_network/13_network_security_basics/684_tls_pfs_perfect_forward_secrecy/) →
+<- **이전**: [682. TLS Handshake 프로토콜 (3-Way 유사 연결 초기화, 세션키 협상, Cipher Suite 교환 포함)](/knowledge-base/studynote/03_network/13_network_security_basics/682_tls_handshake_protocol/)
+**다음**: [684. TLS 전방향 안전성 (PFS, Perfect Forward Secrecy) 보장 원리 (RSA 직접 복호 문제 해결/임시 세션키)](/knowledge-base/studynote/03_network/13_network_security_basics/684_tls_pfs_perfect_forward_secrecy/) ->
 
 ---

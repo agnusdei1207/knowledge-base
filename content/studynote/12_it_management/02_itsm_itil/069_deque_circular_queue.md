@@ -100,11 +100,11 @@ Circular Queue: front/rear wrap-around
 
 ```text
 Deque
-  ↓
+  v
 Circular Queue
-  ↓
+  v
 Wrap-around
-  ↓
+  v
 Buffer Management
 ```
 
@@ -114,11 +114,11 @@ Buffer Management
 
 ```text
 Queue
-  ↓
+  v
 Deque
-  ↓
+  v
 Circular Queue
-  ↓
+  v
 Efficient Buffer
 ```
 
@@ -136,7 +136,7 @@ Efficient Buffer
 
 **진행 상황**: 121 / 587
 
-← **이전**: [68. 스택/큐 (Stack / Queue)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_stack_queue/)
-**다음**: [69. ITIL 4 의 핵심 개념 변화](/knowledge-base/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) →
+<- **이전**: [68. 스택/큐 (Stack / Queue)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_stack_queue/)
+**다음**: [69. ITIL 4 의 핵심 개념 변화](/knowledge-base/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) ->
 
 ---

@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 샌드박스의 도입</strong>: [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러와 안전 검증기(Verifier)를 갖춘 eBPF가 도입되며, "절대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 죽이지 않으면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 행동을 엿듣는" 궁극의 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 빌드가 완성되었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        eBPF를 활용한 무중단 메모리 릭(Leak) 추적 파이프라인 시각화     │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: Live 서버에서 'memleak' eBPF 툴을 실행하는 순간 ]              │
-│                                                                        │
-│ 1. [ 유저 공간 ] BPF 스크립트 작성 및 커널로 전송 (컴파일 후 주입)     │
-│        │                                                               │
-│        ▼ (커널 진입)                                                   │
-│ 2. [ 커널 공간 - BPF Verifier ]                                        │
-│    OS: "이 추적 코드가 무한루프 돌거나 커널 부수지 않는지 안전 검사!"  │
-│    (통과! JIT 컴파일러가 기계어로 번역하여 커널 심장부에 부착)         │
-│                                                                        │
-│ 3. [ 런타임 추적 (Kprobe 꽂힘) ]                                       │
-│    앱이 `malloc()` 또는 커널이 `kmalloc()`을 호출할 때마다:            │
-│    -> BPF 코드가 0.0001ms 만에 [할당된 주소]와 [크기]를 쓱 낚아챔.     │
-│    앱이 `free()`를 호출할 때마다:                                      │
-│    -> BPF 코드가 아까 기록한 주소를 명단에서 싹 지움.                  │
-│                                                                        │
-│ 4. [ 결과 출력 ]                                                       │
-│    10분 뒤, 명단에 아직 남아있는(free 안 된) 주소의 Call Stack(함수    │
-│    호출 역추적)을 개발자 화면에 예쁘게 쫙 뿌려줌.                      │
-│    ✅ 결과: "아! User.cpp의 54번째 줄에서 10MB가 새고 있구나!"         │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        eBPF를 활용한 무중단 메모리 릭(Leak) 추적 파이프라인 시각화     |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상황: Live 서버에서 'memleak' eBPF 툴을 실행하는 순간 ]              |
+|                                                                        |
+| 1. [ 유저 공간 ] BPF 스크립트 작성 및 커널로 전송 (컴파일 후 주입)     |
+|        |                                                               |
+|        v (커널 진입)                                                   |
+| 2. [ 커널 공간 - BPF Verifier ]                                        |
+|    OS: "이 추적 코드가 무한루프 돌거나 커널 부수지 않는지 안전 검사!"  |
+|    (통과! JIT 컴파일러가 기계어로 번역하여 커널 심장부에 부착)         |
+|                                                                        |
+| 3. [ 런타임 추적 (Kprobe 꽂힘) ]                                       |
+|    앱이 `malloc()` 또는 커널이 `kmalloc()`을 호출할 때마다:            |
+|    -> BPF 코드가 0.0001ms 만에 [할당된 주소]와 [크기]를 쓱 낚아챔.     |
+|    앱이 `free()`를 호출할 때마다:                                      |
+|    -> BPF 코드가 아까 기록한 주소를 명단에서 싹 지움.                  |
+|                                                                        |
+| 4. [ 결과 출력 ]                                                       |
+|    10분 뒤, 명단에 아직 남아있는(free 안 된) 주소의 Call Stack(함수    |
+|    호출 역추적)을 개발자 화면에 예쁘게 쫙 뿌려줌.                      |
+|    ✅ 결과: "아! User.cpp의 54번째 줄에서 10MB가 새고 있구나!"         |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** eBPF의 사기성은 바로 저 '안전 검사(Verifier)'와 'Kprobe([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 훅)'에 있다. 과거엔 소스코드에 `printf`를 덕지덕지 발라서 다시 빌드해야 찾던 버그를, 지금은 100만 명의 유저가 접속해 있는 팽팽 도는 서버의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 동맥(kmalloc)에 주삿바늘을 살짝 꽂아 피를 한 방울씩 빼서 검사하면서도 환자(서버)는 바늘이 꽂힌 줄도 모르게 돌아가는 극한의 관측([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 예술이다.
 
@@ -112,13 +112,13 @@ C/C++ 메모리 누수를 잡는 양대 산맥의 철학적 차이다.
   - [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 모순(느린 폴트)을 응용 프로그램 소스 코드 레벨로 직통 번역해 주는 가장 위대한 매개체다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 모니터링 툴 │ 보여주는 정보 │ 문제의 원인 제공│ 성능 페널티          │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ top / sar│ 폴트 1000번 남│ 알 수 없음 (추측)│ 거의 없음              │
-│ Valgrind │ 범인 함수 찾음│ 코드 추적 완벽함│ 서버 다운 수준 ☠️       │
-│ **eBPF** │ **범인 함수 찾음**│ **콜스택 100% 추적**│ **거의 없음 🚀**│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
++----------+------------+------------+---------------------------------+
+| 모니터링 툴 | 보여주는 정보 | 문제의 원인 제공| 성능 페널티          |
++----------+------------+------------+---------------------------------+
+| top / sar| 폴트 1000번 남| 알 수 없음 (추측)| 거의 없음              |
+| Valgrind | 범인 함수 찾음| 코드 추적 완벽함| 서버 다운 수준 ☠️       |
+| **eBPF** | **범인 함수 찾음**| **콜스택 100% 추적**| **거의 없음 🚀**|
++----------+------------+------------+---------------------------------+
 ```
 **[매트릭스 해설]** eBPF는 가볍다(top)와 깊다(Valgrind)는 영원히 만날 수 없을 것 같던 두 평행선의 교집합을 기적처럼 찾아낸 하드웨어-소프트웨어 융합 기술이다. 넷플릭스나 메타(Facebook) 같은 빅테크가 서버 수만 대를 굴리면서 메모리 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 뻗지 않는 진짜 이유가 바로 엔지니어들이 이 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 대시보드를 보며 폴트가 터지는 병목을 실시간으로 꿰매고 있기 때문이다.
 
@@ -177,12 +177,12 @@ eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [OOM](/knowledge-base/studynote
 
 ```text
 [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
-    │
-    ▼
+    |
+    v
 [eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)]
-    │
-    ├──▶ [I/O 장치의 분류]
-    └──▶ [블록 장치]
+    |
+    +---> [I/O 장치의 분류]
+    +---> [블록 장치]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -199,7 +199,7 @@ eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [OOM](/knowledge-base/studynote
 
 **진행 상황**: 440 / 800
 
-← **이전**: [439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작](/knowledge-base/studynote/02_operating_system/07_virtual_memory/439_cgroups_memory_limit/)
-**다음**: [441. I/O 장치의 분류 - 블록 장치 (Block Device) vs 문자 장치 (Character Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/441_io_device_classification/) →
+<- **이전**: [439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작](/knowledge-base/studynote/02_operating_system/07_virtual_memory/439_cgroups_memory_limit/)
+**다음**: [441. I/O 장치의 분류 - 블록 장치 (Block Device) vs 문자 장치 (Character Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/441_io_device_classification/) ->
 
 ---

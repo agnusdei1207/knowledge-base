@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [NFC 표준]
-    │
-    ▼
+    |
+    v
 [RFID 충돌 방지 알고리즘]
-    │
-    └──▶ [EPCglobal 망 아키텍처]
+    |
+    +---> [EPCglobal 망 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [NFC 표준]
-    │
-    ▼
+    |
+    v
 [RFID 충돌 방지 알고리즘]
-    │
-    └──▶ [EPCglobal 망 아키텍처]
+    |
+    +---> [EPCglobal 망 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ RFID 충돌 방지 알고리즘은 [성능](/knowledge-base/studynote/04_softwar
 
 ```text
 [선행 개념: NFC 표준]
-    │
-    ▼
+    |
+    v
 [현재 개념: RFID 충돌 방지 알고리즘]
-    │
-    ├──▶ [확장 A: EPCglobal 망 아키텍처]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: EPCglobal 망 아키텍처]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 RFID 충돌 방지 알고리즘는 NFC 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 EPCglobal 망 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ RFID 충돌 방지 알고리즘는 NFC 표준에서 출발해 현재 메커니�
 
 **진행 상황**: 138 / 1120
 
-← **이전**: [1034. NFC 표준 (13.56MHz)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1034_nfc_near_field_communication_13_56mhz/)
-**다음**: [1036. EPCglobal 망 아키텍처](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1036_epcglobal_rfid_network_architecture/) →
+<- **이전**: [1034. NFC 표준 (13.56MHz)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1034_nfc_near_field_communication_13_56mhz/)
+**다음**: [1036. EPCglobal 망 아키텍처](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1036_epcglobal_rfid_network_architecture/) ->
 
 ---

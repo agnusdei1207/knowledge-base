@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
+    |
+    v
 [버스트 에러 검출 능력 유지]
-    │
-    └──▶ [해밍 코드]
+    |
+    +---> [해밍 코드]
 ```
 
 - **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ```text
 [CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
+    |
+    v
 [버스트 에러 검출 능력 유지]
-    │
-    └──▶ [해밍 코드]
+    |
+    +---> [해밍 코드]
 ```
 
 - **📢 섹션 요약 비유**: ** 패리티 검사가 그물코가 너무 커서 멸치 떼(버스트 에러)가 한꺼번에 구멍으로 쑥 빠져나가 버리는 **'엉성한 뜰채'**라면, CRC는 멸치가 수천 마리 몰려와도 절대 빠져나가지 못하게 촘촘하게 엮어놓은 **'초정밀 나노 그물망'**입니다. 길이가 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 꼬리 길이보다 짧은 물고기는 100% 그물에 걸리도록 수학적으로 설계되어 있습니다.
@@ -119,12 +119,12 @@ CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ```text
 [선행 개념: CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 버스트 에러 검출 능력 유지]
-    │
-    ├──▶ [확장 A: 해밍 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 해밍 코드]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 버스트 에러 검출 능력 유지는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 **진행 상황**: 318 / 1120
 
-← **이전**: [196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT](/knowledge-base/studynote/03_network/04_data_link_layer_error/196_crc_standards_16_32_ccitt/)
-**다음**: [198. 해밍 코드 (Hamming Code)](/knowledge-base/studynote/03_network/04_data_link_layer_error/198_hamming_code_fec/) →
+<- **이전**: [196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT](/knowledge-base/studynote/03_network/04_data_link_layer_error/196_crc_standards_16_32_ccitt/)
+**다음**: [198. 해밍 코드 (Hamming Code)](/knowledge-base/studynote/03_network/04_data_link_layer_error/198_hamming_code_fec/) ->
 
 ---

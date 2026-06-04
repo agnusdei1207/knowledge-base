@@ -19,24 +19,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│            소프트웨어 역공학 단계                          │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  바이너리 (.exe/.dll/.so)                                 │
-│       │                                                   │
-│       ▼ 디스어셈블 (Disassemble)                          │
-│  어셈블리 코드 (x86/ARM 어셈블리)                         │
-│       │                                                   │
-│       ▼ 디컴파일 (Decompile, IDA Pro/Ghidra)              │
-│  의사코드 (Pseudo-C Code)                                 │
-│       │                                                   │
-│       ▼ 동적 분석 (Dynamic Analysis, x64dbg/GDB)          │
-│  런타임 동작 파악 (메모리·API 호출·네트워크)               │
-│       │                                                   │
-│       ▼                                                   │
-│  설계 이해 / 취약점 발견 / 문서 복원                       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            소프트웨어 역공학 단계                          |
++----------------------------------------------------------+
+|                                                           |
+|  바이너리 (.exe/.dll/.so)                                 |
+|       |                                                   |
+|       v 디스어셈블 (Disassemble)                          |
+|  어셈블리 코드 (x86/ARM 어셈블리)                         |
+|       |                                                   |
+|       v 디컴파일 (Decompile, IDA Pro/Ghidra)              |
+|  의사코드 (Pseudo-C Code)                                 |
+|       |                                                   |
+|       v 동적 분석 (Dynamic Analysis, x64dbg/GDB)          |
+|  런타임 동작 파악 (메모리·API 호출·네트워크)               |
+|       |                                                   |
+|       v                                                   |
+|  설계 이해 / 취약점 발견 / 문서 복원                       |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 역공학은 완성된 케이크에서 레시피를 추출하는 것이다. 케이크(바이너리)를 맛보고 분해해서 재료·비율(소스코드·설계)을 역으로 파악한다.
@@ -53,7 +53,7 @@ tags = ["studynote-software-engineering"]
 | **IDA Pro** | [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 업계 표준, 고가 |
 | **x64dbg** | [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) | Windows 바이너리 디버거 |
 | **GDB** | [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) | Linux/임베디드 |
-| **Jadx** | Android 분석 | APK → Java 소스 복원 |
+| **Jadx** | Android 분석 | APK -> Java 소스 복원 |
 | **Binary Ninja** | [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 현대적 UI, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조 |
 
 ### 정적 vs [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)
@@ -76,7 +76,7 @@ tags = ["studynote-software-engineering"]
 
 | 비교 | 역공학 | 순공학 | 리엔지니어링 |
 |:---|:---|:---|:---|
-| 방향 | 완성품 → 설계 | 설계 → 완성품 | 역공학 + 재구현 |
+| 방향 | 완성품 -> 설계 | 설계 -> 완성품 | 역공학 + 재구현 |
 | 목적 | 이해·분석 | 구현 | 현대화 |
 | 법적 이슈 | 주의 필요 | 없음 | 주의 필요 |
 
@@ -118,7 +118,7 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **디컴파일** | 바이너리 → 소스코드 역추출 |
+| **디컴파일** | 바이너리 -> 소스코드 역추출 |
 | **Ghidra/IDA Pro** | 표준 역공학 도구 |
 | **리엔지니어링** | 역공학 + 재구현 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/">난독화</a></strong> | 역공학 방지 기술 |
@@ -128,17 +128,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [수동 역공학 — 어셈블리 직독, 고도 전문성 필요]
-    │
-    ▼
+    |
+    v
 [정적 분석 도구 — IDA Pro, Ghidra 자동 분석]
-    │
-    ▼
+    |
+    v
 [동적 분석 — 런타임 동작·메모리 실시간 관찰]
-    │
-    ▼
+    |
+    v
 [AI 지원 역공학 — LLM 기반 코드 설명·요약]
-    │
-    ▼
+    |
+    v
 [완전 자동화 역공학 — ML 기반 취약점 자동 탐지]
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 29 / 973
 
-← **이전**: [28. 소프트웨어 리엔지니어링 (Software Reengineering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/)
-**다음**: [30. 소프트웨어 재사용과 CBD — Component Based Development](/knowledge-base/studynote/04_software_engineering/01_overview_principles/030_software_reuse_cbd/) →
+<- **이전**: [28. 소프트웨어 리엔지니어링 (Software Reengineering)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/)
+**다음**: [30. 소프트웨어 재사용과 CBD — Component Based Development](/knowledge-base/studynote/04_software_engineering/01_overview_principles/030_software_reuse_cbd/) ->
 
 ---

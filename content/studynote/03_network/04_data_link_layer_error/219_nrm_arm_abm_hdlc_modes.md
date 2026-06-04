@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [HDLC 국 종류]
-    │
-    ▼
+    |
+    v
 [NRM / ARM / ABM]
-    │
-    └──▶ [정보 프레임, 감독/제어, 비번호]
+    |
+    +---> [정보 프레임, 감독/제어, 비번호]
 ```
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ NRM의 답답함을 조금 풀어준 모드입니다. 역시 불균형 링크에
 
 ```text
 [HDLC 국 종류]
-    │
-    ▼
+    |
+    v
 [NRM / ARM / ABM]
-    │
-    └──▶ [정보 프레임, 감독/제어, 비번호]
+    |
+    +---> [정보 프레임, 감독/제어, 비번호]
 ```
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ NRM / ARM / ABM는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```text
 [선행 개념: HDLC 국 종류]
-    │
-    ▼
+    |
+    v
 [현재 개념: NRM / ARM / ABM]
-    │
-    ├──▶ [확장 A: 정보 프레임, 감독/제어, 비번호]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 정보 프레임, 감독/제어, 비번호]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 NRM / ARM / ABM는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 [정보 프레임](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/), 감독/제어, 비번호와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ NRM / ARM / ABM는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_laye
 
 **진행 상황**: 340 / 1120
 
-← **이전**: [218. HDLC 국(Station) 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)
-**다음**: [220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/) →
+<- **이전**: [218. HDLC 국(Station) 종류](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)
+**다음**: [220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/) ->
 
 ---

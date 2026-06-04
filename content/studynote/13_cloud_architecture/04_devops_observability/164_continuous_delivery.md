@@ -63,14 +63,14 @@ Continuous Delivery는 파이프라인([Pipeline](/knowledge-base/studynote/12_i
 
 ```text
 CI: 자동 빌드 + 테스트
-    │
-    ▼
+    |
+    v
 CD (Continuous Delivery): 스테이징 자동 배포 + 수동 승인
-    │
-    ▼
+    |
+    v
 CD (Continuous Deployment): 운영 배포까지 100% 자동화
-    │
-    ▼
+    |
+    v
 GitOps · Progressive Delivery (Canary · Blue-Green)
 ```
 - "이제 가게로 보내도 좋아요!"라고 공장장님이 사인을 보내기만 기다리는 거죠.
@@ -82,7 +82,7 @@ GitOps · Progressive Delivery (Canary · Blue-Green)
 
 **진행 상황**: 163 / 371
 
-← **이전**: [지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/163_continuous_integration_ci_automated_build_test/)
-**다음**: [165. 지속적 배포 (Continuous Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) →
+<- **이전**: [지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/163_continuous_integration_ci_automated_build_test/)
+**다음**: [165. 지속적 배포 (Continuous Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ->
 
 ---

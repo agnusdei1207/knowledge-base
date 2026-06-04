@@ -19,18 +19,18 @@ tags = ["studynote-computer-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│        AND / OR / NOT 진리표 & 표현                   │
-├──────────────────────────────────────────────────────┤
-│ AND: F = A·B  (둘 다 1이면 1)                        │
-│  A=0,B=0→0 / A=0,B=1→0 / A=1,B=0→0 / A=1,B=1→1    │
-│                                                       │
-│ OR:  F = A+B  (하나라도 1이면 1)                      │
-│  A=0,B=0→0 / A=0,B=1→1 / A=1,B=0→1 / A=1,B=1→1    │
-│                                                       │
-│ NOT: F = Ā   (반전)                                   │
-│  A=0→1 / A=1→0                                       │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|        AND / OR / NOT 진리표 & 표현                   |
++------------------------------------------------------+
+| AND: F = A·B  (둘 다 1이면 1)                        |
+|  A=0,B=0->0 / A=0,B=1->0 / A=1,B=0->0 / A=1,B=1->1    |
+|                                                       |
+| OR:  F = A+B  (하나라도 1이면 1)                      |
+|  A=0,B=0->0 / A=0,B=1->1 / A=1,B=0->1 / A=1,B=1->1    |
+|                                                       |
+| NOT: F = Ā   (반전)                                   |
+|  A=0->1 / A=1->0                                       |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: AND는 경비원 두 명이 모두 "통과"해야 들어갈 수 있는 이중 보안문, OR는 한 명만 "통과"해도 들어갈 수 있는 문, NOT는 "예"를 "아니오"로 바꾸는 반전 스위치다.
@@ -49,18 +49,18 @@ tags = ["studynote-computer-architecture"]
 이중부정:  NOT(NOT A) = A
 
 드 모르간 법칙:
-  NOT(A·B) = NOT(A) + NOT(B)   → NAND = NOR(NOT inputs)
-  NOT(A+B) = NOT(A)·NOT(B)     → NOR  = NAND(NOT inputs)
+  NOT(A·B) = NOT(A) + NOT(B)   -> NAND = NOR(NOT inputs)
+  NOT(A+B) = NOT(A)·NOT(B)     -> NOR  = NAND(NOT inputs)
 ```
 
 ### SOP와 POS 형식
 
 ```text
 SOP (Sum of Products): F = AB + ĀC + BC
-  → 각 행이 1인 최소항(Minterm)의 OR 합
+  -> 각 행이 1인 최소항(Minterm)의 OR 합
 
 POS (Product of Sums): F = (A+B)·(Ā+C)
-  → 각 행이 0인 최대항(Maxterm)의 AND 곱
+  -> 각 행이 0인 최대항(Maxterm)의 AND 곱
 ```
 
 - **📢 섹션 요약 비유**: SOP는 메뉴판에서 원하는 메뉴를 선택하는 것(참인 경우만 골라 OR로 합침), POS는 불만족 메뉴를 제외하는 것(거짓인 경우를 AND로 곱하여 제외)이다.
@@ -93,7 +93,7 @@ WHERE status = 'active'         -- 조건 1
 
 ### [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최소화
 - 불 대수 식을 [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)으로 그리면 AND/OR 게이트 수를 최소화하는 최적 식 도출.
-- 인접 1을 묶어 공통 인수 제거 → 게이트 수 감소 → 회로 면적·전력 절감.
+- 인접 1을 묶어 공통 인수 제거 -> 게이트 수 감소 -> 회로 면적·전력 절감.
 
 - **📢 섹션 요약 비유**: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)은 숫자 퍼즐 스도쿠다. 1이 몰려있는 블록을 찾아 묶으면([그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)) 공통 패턴이 드러나고, 그것이 게이트를 최소화하는 최적 식이 된다.
 
@@ -104,7 +104,7 @@ WHERE status = 'active'         -- 조건 1
 | 기대효과 | 내용 |
 |:---|:---|
 | **회로 최적화** | 불 대수 간소화로 게이트 수 최소화 |
-| **전력 절감** | 게이트 수 감소 → [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소 |
+| **전력 절감** | 게이트 수 감소 -> [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소 |
 | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 드 모르간 법칙으로 회로 등가성 증명 |
 
 양자 컴퓨팅에서는 고전 AND/OR/NOT 대신 양자 게이트(Hadamard, CNOT, Toffoli)를 사용하며, Toffoli 게이트는 고전 AND와 NOT을 가역적(Reversible)으로 구현한 양자 등가 게이트다.
@@ -127,17 +127,17 @@ WHERE status = 'active'         -- 조건 1
 
 ```text
 [불 대수 — AND/OR/NOT 기본 연산 체계]
-    │
-    ▼
+    |
+    v
 [드 모르간 법칙 — 게이트 등가 변환]
-    │
-    ▼
+    |
+    v
 [카르노 맵 — 불 식 최소화]
-    │
-    ▼
+    |
+    v
 [CMOS 게이트 구현 — 트랜지스터 최소화]
-    │
-    ▼
+    |
+    v
 [양자 게이트 — Toffoli/CNOT 가역 논리]
 ```
 
@@ -153,7 +153,7 @@ WHERE status = 'active'         -- 조건 1
 
 **진행 상황**: 28 / 803
 
-← **이전**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)
-**다음**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/) →
+<- **이전**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)
+**다음**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/) ->
 
 ---

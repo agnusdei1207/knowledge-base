@@ -23,7 +23,7 @@ L2 ADAS 핵심 기능:
   ACC: 앞차 따라 가감속 (종방향)
   LKA: 차선 유지 (횡방향)
   AEB: 자동 긴급 제동 (안전)
-  → 운전자 감시 필수 (Hands-on)
+  -> 운전자 감시 필수 (Hands-on)
 ```
 
 - **📢 섹션 요약 비유**: L2는 <strong>부조종사</strong>이다. 도와주지만 기장(운전자)이 항상 봐야 한다.
@@ -49,9 +49,9 @@ L2 ADAS는 <strong>현재 양산 차량의 표준 수준</strong>이며, L3(조�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ABS (1970s)] → [ACC (2000s)] → [LKA (2010s)]
-    → [L2 ADAS (Tesla AP, 2015)] → [L2+ (HDA2, 2020)]
-    → [L3 (Mercedes, 2023)] → [현재: L2++ → L3 전환 과도기]
+[ABS (1970s)] -> [ACC (2000s)] -> [LKA (2010s)]
+    -> [L2 ADAS (Tesla AP, 2015)] -> [L2+ (HDA2, 2020)]
+    -> [L3 (Mercedes, 2023)] -> [현재: L2++ -> L3 전환 과도기]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ L2 ADAS는 <strong>현재 양산 차량의 표준 수준</strong>이며, L3(조�
 
 **진행 상황**: 136 / 552
 
-← **이전**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/)
-**다음**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/) →
+<- **이전**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/)
+**다음**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/) ->
 
 ---

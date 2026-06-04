@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Serverless Cold Start](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수 실행 환경이 유휴 후 다시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되며 첫 요청 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지는 현상이다. [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 플랫폼은 비용 효율을 위해 실행 환경을 필요 시에만 띄우므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 이 개념이 필요한 이유는 유휴 자원 절감과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이를 균형 있게 관리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 첫 호출 응답 시간이 급격히 늘어 사용자 경험과 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) SLA를 해칠 수 있다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    FaaS    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    FaaS    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 이벤트 기반 처리 | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Serverless Cold Start](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[상시 서버 운영] → [서버리스 도입] → [콜드 스타트 최적화]
+[상시 서버 운영] -> [서버리스 도입] -> [콜드 스타트 최적화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Serverless Cold Start](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))은 닫아 둔 가게 문을 다시 열고 불을 켜는 데 처음 손님이 조금 더 기다리는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 455 / 530
 
-← **이전**: [376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)
-**다음**: [378. 팩토리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) →
+<- **이전**: [376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)
+**다음**: [378. 팩토리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) ->
 
 ---

@@ -23,7 +23,7 @@ tags = ["database"]
 카디널리티를 이해해야 하는 이유는 단순히 도식이 예뻐지기 때문이 아니라, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 물리적 구현이 바로 결정되기 때문이다. [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 어디에 둘지, 유니크 제약을 어디에 둘지, 조인 경로가 어떻게 되는지가 여기서 갈린다.
 
 ```text
-Customer 1 ─────────< Order N
+Customer 1 ---------< Order N
 PK customer_id       FK customer_id
 
 한 고객은 여러 주문을 가질 수 있지만, 각 주문은 한 고객에 속한다.
@@ -45,15 +45,15 @@ PK customer_id       FK customer_id
 
 ```text
 부모 테이블
-┌──────────────┐
-│ parent_id PK │
-└──────┬───────┘
-       │ 1:N
-       ▼
-┌────────────────────┐
-│ child_id PK        │
-│ parent_id FK       │
-└────────────────────┘
++--------------+
+| parent_id PK |
++------+-------+
+       | 1:N
+       v
++--------------------+
+| child_id PK        |
+| parent_id FK       |
++--------------------+
 ```
 
 1:N 설계에서는 FK를 가진 자식 쪽에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두는 것이 일반적이다. 그래야 부모 기준 조회와 자식 그룹 조회가 모두 안정적으로 빠르다. 카디널리티는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델의 개념이지만, 실제 성능과 제약은 물리 설계와 바로 연결된다.
@@ -123,14 +123,14 @@ PK customer_id       FK customer_id
 
 ```text
 비즈니스 규칙
-  │
-  ▼
+  |
+  v
 카디널리티 판정
-  │
-  ▼
+  |
+  v
 PK / FK / 연결 테이블 결정
-  │
-  ▼
+  |
+  v
 무결성 제약과 인덱스 적용
 ```
 
@@ -148,7 +148,7 @@ PK / FK / 연결 테이블 결정
 
 **진행 상황**: 84 / 600
 
-← **이전**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
-**다음**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) →
+<- **이전**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+**다음**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) ->
 
 ---

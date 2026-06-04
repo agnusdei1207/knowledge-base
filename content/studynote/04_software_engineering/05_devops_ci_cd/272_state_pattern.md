@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **절차적 상태 분기 (Spaghetti if-else)**: 초창기 FSM(Finite State Machine)은 거대한 `switch-case` 문 하나에 의존하여 코드가 길어지고 유지보수가 불가능에 가까웠다.
   2. **상태 객체화 (State Object)**: 디자인 패턴이 도입되면서, 각 분기문의 로직을 독립적인 `State` 클래스로 찢어내어 다형성(Polymorphism)으로 해결했다.
-  3. **비즈니스 워크플로우와의 융합**: 결제, 배송(상품 준비 중 → 배송 중 → 배송 완료), 주문 승인 프로세스 등 엔터프라이즈의 라이프사이클을 매니징하는 기본 설계로 정착했다.
+  3. **비즈니스 워크플로우와의 융합**: 결제, 배송(상품 준비 중 -> 배송 중 -> 배송 완료), 주문 승인 프로세스 등 엔터프라이즈의 라이프사이클을 매니징하는 기본 설계로 정착했다.
 
 - **📢 섹션 요약 비유**: 로봇 장난감 안에 '순한 모드 칩'과 '전투 모드 칩'을 번갈아 끼우는 것과 같습니다. 로봇([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 그저 버튼을 누를 뿐이지만, 어떤 칩(State)이 꽂혀 있느냐에 따라 춤을 추거나 미사일을 쏩니다.
 
@@ -37,16 +37,16 @@ tags = ["studynote-software-engineering"]
 다음은 스테이트 (State)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  스테이트 (State)                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  스테이트 (State)                                |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 스테이트 (State)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -146,21 +146,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 스테이트 (State) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 272 / 973
 
-← **이전**: [271. 커맨드 (Command) - 요청을 객체로 캡슐화 (Undo/Redo 지원)](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)
-**다음**: [273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) →
+<- **이전**: [271. 커맨드 (Command) - 요청을 객체로 캡슐화 (Undo/Redo 지원)](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)
+**다음**: [273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) ->
 
 ---

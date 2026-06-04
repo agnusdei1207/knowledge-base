@@ -30,12 +30,12 @@ tags = ["studynote-ai"]
 컴퓨터는 밤새도록 단어들의 통계를 내고 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 돌리더니, <strong>"아항! '당첨'이라는 단어가 '계좌'라는 단어와 같이 쓰일 때 스팸일 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 98%구나!"라는 거대한 수학 방정식(모델)을 자기 스스로 뱉어냈다.</strong> 코딩의 시대가 저물고, 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))의 시대가 열린 것이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 프로그래밍(룰 기반)은 '요리 레시피 강요'다. 엄마가 아이에게 "물은 500ml, 소금은 10g 넣어라"라고 1부터 10까지 깐깐하게 지시한다. 찌개가 바뀌면 레시피를 또 적어줘야 한다(개발자 과로사). 머신러닝은 '요리 시식 학습'이다. 아이 눈을 가리고 맛있는 찌개 100번, 맛없는 찌개 100번을 맛보게([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경험) 한다. 아이는 스스로 혀의 감각(수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 깨우쳐서, 처음 보는 찌개도 냄새만 맡고 "이건 소금이 부족해!"라고 정확히 직감하는 완벽한 요리사로 진화한다.
@@ -47,27 +47,27 @@ tags = ["studynote-ai"]
 전통적 프로그래밍과 머신러닝의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처는 <strong>입력(Input)과 출력(Output)의 위치가 180도 완전히 역전</strong>되어 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           전통적 프로그래밍 vs 머신러닝(ML) 패러다임 역전 아키텍처 도해    │
-├──────────────────────────────────────────────────────────────┤
-│  [과거: 전통적 소프트웨어 공학 (Traditional Programming)]              │
-│   * 입력 1: 데이터 (Data) - 예: "축하합니다! 1억 당첨!"                   │
-│   * 입력 2: 룰 (Rule/Code) - 예: IF "당첨" in text THEN Spam          │
-│   * 과정: 컴퓨터에 이 두 개를 쑤셔 넣고 런(Run) 버튼을 누름.                │
-│   ─▶ 출력 (Output): 정답 (Answer) - "이 메일은 스팸입니다!"           │
-│   (한계: 룰(Rule)을 인간이 일일이 다 짜야 해서 머리가 터짐)                 │
-│                                                              │
-│  [현재: 머신러닝 (Machine Learning) 패러다임]                        │
-│   * 입력 1: 데이터 (Data) - 예: 수만 통의 메일 내용 모음집                 │
-│   * 입력 2: 정답 (Answer) - 예: 사람이 "이건 스팸, 이건 정상" 라벨 달아줌.   │
-│   * 훈련 과정(Training): 컴퓨터에 메일(데이터)과 정답을 같이 먹임.           │
-│     컴퓨터가 미친 듯이 통계와 미적분을 돌려 둘 사이의 관계(패턴)를 찾아냄!       │
-│   ─▶ 출력 (Output): 룰 (Rule / Model) - "확률 방정식 가중치 모델" 탄생!│
-│                                                              │
-│  [실전 배포 (Inference/Serving)]                                 │
-│   * 컴퓨터가 만든 저 '룰(Model)'을 서버에 올리고, 내일 아침 새로운 메일(Data)│
-│     이 오면 모델을 통과시켜 0.1초 만에 스팸 여부(Answer)를 예측해 냄!         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           전통적 프로그래밍 vs 머신러닝(ML) 패러다임 역전 아키텍처 도해    |
++--------------------------------------------------------------+
+|  [과거: 전통적 소프트웨어 공학 (Traditional Programming)]              |
+|   * 입력 1: 데이터 (Data) - 예: "축하합니다! 1억 당첨!"                   |
+|   * 입력 2: 룰 (Rule/Code) - 예: IF "당첨" in text THEN Spam          |
+|   * 과정: 컴퓨터에 이 두 개를 쑤셔 넣고 런(Run) 버튼을 누름.                |
+|   --> 출력 (Output): 정답 (Answer) - "이 메일은 스팸입니다!"           |
+|   (한계: 룰(Rule)을 인간이 일일이 다 짜야 해서 머리가 터짐)                 |
+|                                                              |
+|  [현재: 머신러닝 (Machine Learning) 패러다임]                        |
+|   * 입력 1: 데이터 (Data) - 예: 수만 통의 메일 내용 모음집                 |
+|   * 입력 2: 정답 (Answer) - 예: 사람이 "이건 스팸, 이건 정상" 라벨 달아줌.   |
+|   * 훈련 과정(Training): 컴퓨터에 메일(데이터)과 정답을 같이 먹임.           |
+|     컴퓨터가 미친 듯이 통계와 미적분을 돌려 둘 사이의 관계(패턴)를 찾아냄!       |
+|   --> 출력 (Output): 룰 (Rule / Model) - "확률 방정식 가중치 모델" 탄생!|
+|                                                              |
+|  [실전 배포 (Inference/Serving)]                                 |
+|   * 컴퓨터가 만든 저 '룰(Model)'을 서버에 올리고, 내일 아침 새로운 메일(Data)|
+|     이 오면 모델을 통과시켜 0.1초 만에 스팸 여부(Answer)를 예측해 냄!         |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (경험 $E$, 작업 $T$, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) $P$)**:
@@ -141,7 +141,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [머신러닝 (경험 기반 학습) 기초] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [머신러닝 (경험 기반 학습) 기초] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -156,7 +156,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 241 / 420
 
-← **이전**: [240. 몬테카를로 트리 탐색 (MCTS)](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)
-**다음**: [242. 지도 학습 (Supervised Learning) : 분류와 회귀](/knowledge-base/studynote/10_ai/03_llm_nlp/242_supervised_learning/) →
+<- **이전**: [240. 몬테카를로 트리 탐색 (MCTS)](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)
+**다음**: [242. 지도 학습 (Supervised Learning) : 분류와 회귀](/knowledge-base/studynote/10_ai/03_llm_nlp/242_supervised_learning/) ->
 
 ---

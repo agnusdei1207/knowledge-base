@@ -32,12 +32,12 @@ tags = ["studynote-ai"]
 | CatBoost | 범주형 변수 자동 처리 | 2017 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "선생님이 틀린 문제만 집중적으로 가르쳐주는 과외"다. 매 회차마다 이전에 틀렸던 문제에 더 많은 시간을 투자해 약점을 없애나간다.
@@ -50,43 +50,43 @@ tags = ["studynote-ai"]
 
 ```
   Round 1: 균등 가중치 w = 1/n
-  ┌──────────────────────────────────────────┐
-  │  h_1 학습 → 오분류 샘플에 가중치 증가   │
-  │  ○○○○○●●●  (●=오분류, 가중치 증가)    │
-  └──────────────────────┬───────────────────┘
-                         │
+  +------------------------------------------+
+  |  h_1 학습 -> 오분류 샘플에 가중치 증가   |
+  |  ○○○○○●●●  (●=오분류, 가중치 증가)    |
+  +----------------------+-------------------+
+                         |
   Round 2: 증가된 가중치
-  ┌──────────────────────▼───────────────────┐
-  │  h_2 학습 → 이전 오분류에 집중           │
-  │  ○○○○○●●●  → ○○○○○●●●               │
-  │         (●에 더 큰 원)                  │
-  └──────────────────────┬───────────────────┘
-                         │
+  +----------------------v-------------------+
+  |  h_2 학습 -> 이전 오분류에 집중           |
+  |  ○○○○○●●●  -> ○○○○○●●●               |
+  |         (●에 더 큰 원)                  |
+  +----------------------+-------------------+
+                         |
          ... T 라운드 반복 ...
-                         │
+                         |
   최종: H(x) = sign( Σ α_t · h_t(x) )
-        α_t = 0.5 · ln((1-ε_t)/ε_t)  ← 모델 정확도 기반 가중치
+        α_t = 0.5 · ln((1-ε_t)/ε_t)  <- 모델 정확도 기반 가중치
 ```
 
 ### [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 핵심 구조
 
 ```
   F_0(x) = 초기 예측 (평균값)
-     │
-  ┌──▼──────────────────────────────────────┐
-  │  잔차(Residual) = 실제값 - 예측값       │
-  │  r_1 = y - F_0(x)                       │
-  └──┬──────────────────────────────────────┘
-     │
-  h_1(x) ← r_1을 예측하도록 트리 학습
-     │
+     |
+  +--v--------------------------------------+
+  |  잔차(Residual) = 실제값 - 예측값       |
+  |  r_1 = y - F_0(x)                       |
+  +--+--------------------------------------+
+     |
+  h_1(x) <- r_1을 예측하도록 트리 학습
+     |
   F_1(x) = F_0(x) + η · h_1(x)  (η: 학습률)
-     │
+     |
   r_2 = y - F_1(x)
-     │
-  h_2(x) ← r_2를 예측 ...
-     │
-  반복 → F_M(x) = F_0 + η·Σh_m(x)
+     |
+  h_2(x) <- r_2를 예측 ...
+     |
+  반복 -> F_M(x) = F_0 + η·Σh_m(x)
 ```
 
 ### XGBoost의 핵심 개선사항
@@ -104,25 +104,25 @@ tags = ["studynote-ai"]
 
 ```
   XGBoost:  레벨 단위 (Level-wise) 트리 성장
-  ┌──────────────────────────────────────┐
-  │       Root                           │
-  │      /    \                          │
-  │   Node1   Node2  ← 같은 깊이 동시    │
-  │   /  \    /  \                       │
-  │ L1   L2  L3   L4                     │
-  └──────────────────────────────────────┘
+  +--------------------------------------+
+  |       Root                           |
+  |      /    \                          |
+  |   Node1   Node2  <- 같은 깊이 동시    |
+  |   /  \    /  \                       |
+  | L1   L2  L3   L4                     |
+  +--------------------------------------+
 
   LightGBM: 리프 단위 (Leaf-wise) 트리 성장
-  ┌──────────────────────────────────────┐
-  │       Root                           │
-  │      /    \                          │
-  │   Node1   Node2                      │
-  │   /  \                               │
-  │ L1   L2  ← 가장 손실 큰 리프 먼저   │
-  │ /  \                                 │
-  │L3   L4  ← 연속 분할 → 깊고 비대칭  │
-  └──────────────────────────────────────┘
-  → LightGBM이 더 빠르지만 과적합 위험 ↑
+  +--------------------------------------+
+  |       Root                           |
+  |      /    \                          |
+  |   Node1   Node2                      |
+  |   /  \                               |
+  | L1   L2  <- 가장 손실 큰 리프 먼저   |
+  | /  \                                 |
+  |L3   L4  <- 연속 분할 -> 깊고 비대칭  |
+  +--------------------------------------+
+  -> LightGBM이 더 빠르지만 과적합 위험 ^
 ```
 
 - **📢 섹션 요약 비유**: XGBoost는 "실수한 부분을 집중 보완하는 특수 교관이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 벌점까지 적용하여 너무 과하게 외우는 것(과적합)을 방지"하는 시스템이다.
@@ -144,14 +144,14 @@ tags = ["studynote-ai"]
 
 ```
   부스팅 과적합 제어 방법:
-  ┌─────────────────────────────────────────┐
-  │ 1. 학습률 (Learning Rate η) 감소        │
-  │    → 더 많은 트리 필요 (트레이드오프)   │
-  │ 2. max_depth 제한 (보통 3~6)            │
-  │ 3. 조기 종료 (Early Stopping)           │
-  │ 4. Subsampling (배깅 기법 차용)         │
-  │ 5. L1/L2 정규화 (XGBoost, LightGBM)    │
-  └─────────────────────────────────────────┘
+  +-----------------------------------------+
+  | 1. 학습률 (Learning Rate η) 감소        |
+  |    -> 더 많은 트리 필요 (트레이드오프)   |
+  | 2. max_depth 제한 (보통 3~6)            |
+  | 3. 조기 종료 (Early Stopping)           |
+  | 4. Subsampling (배깅 기법 차용)         |
+  | 5. L1/L2 정규화 (XGBoost, LightGBM)    |
+  +-----------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 매운 소스를 넣을 때와 같다. 조금씩(낮은 η) 넣어야 맛의 균형을 잡을 수 있고, 한꺼번에 많이(높은 η) 넣으면 음식이 망가진다(과적합).
@@ -181,9 +181,9 @@ tags = ["studynote-ai"]
 
 ### 기술사 답안 포인트
 
-- <strong>"<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a>이 편향을 줄이는 원리"</strong>: 잔차 반복 학습 → 각 트리가 이전 트리가 설명 못한 패턴 학습
+- <strong>"<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a>이 편향을 줄이는 원리"</strong>: 잔차 반복 학습 -> 각 트리가 이전 트리가 설명 못한 패턴 학습
 - **"XGBoost가 빠른 이유"**: Column Block으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 캐시, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 노드 분할
-- <strong>"<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a> vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">배깅</a> 선택 기준"</strong>: 고편향 → [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/), 고분산 → [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
+- <strong>"<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a> vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">배깅</a> 선택 기준"</strong>: 고편향 -> [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/), 고분산 -> [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
 - **"과적합 방지 조합"**: 낮은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) + [Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) + Subsampling
 
 - **📢 섹션 요약 비유**: XGBoost는 "빈틈없이 실수를 채워가는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 팀"이다. 단, 너무 완벽하게 과거 실수만 고치려 하면(과적합) 새로운 문제에 적응 못하는 부작용이 생긴다.
@@ -199,7 +199,7 @@ tags = ["studynote-ai"]
 3. **내장 기능 풍부**: 결측값 처리, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/), 특성 중요도를 추가 코드 없이 지원
 4. **유연한 목적 함수**: 커스텀 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 정의로 다양한 비즈니스 목표 최적화
 
-기술사 시험에서 XGBoost는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/">Gradient Boosting</a> 원리 → XGBoost 개선점 → 하이퍼파라미터 조정 → 과적합 방지</strong> 순서로 체계적으로 서술해야 고득점을 받는다.
+기술사 시험에서 XGBoost는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/">Gradient Boosting</a> 원리 -> XGBoost 개선점 -> 하이퍼파라미터 조정 -> 과적합 방지</strong> 순서로 체계적으로 서술해야 고득점을 받는다.
 
 - **📢 섹션 요약 비유**: XGBoost는 "모든 선수가 약점을 집중 보완하면서 팀 전체 역량을 높이는 코치" 시스템이다. 선수(트리)들이 서로의 실수를 보완하며 성장해 최강의 팀([앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))을 만든다.
 
@@ -219,7 +219,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문제 표현] → [부스팅 (Boosting)] → [학습 기반 지능과 결합]
+[문제 표현] -> [부스팅 (Boosting)] -> [학습 기반 지능과 결합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -234,7 +234,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 260 / 420
 
-← **이전**: [259. 배깅 (Bagging)](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
-**다음**: [261. SVM (Support Vector Machine)](/knowledge-base/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/) →
+<- **이전**: [259. 배깅 (Bagging)](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
+**다음**: [261. SVM (Support Vector Machine)](/knowledge-base/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/) ->
 
 ---

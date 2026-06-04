@@ -44,17 +44,17 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 ### SPACE 지표 구조도
 
 ```
-  ┌────────────────────────────────────────────────────────────┐
-  │                  SPACE 프레임워크                            │
-  ├────────────────┬───────────────────────────────────────────┤
-  │  개인 수준     │  S: 만족도(직무 만족, 번아웃)               │
-  │               │  P: 성과(코드 품질, 영향)                    │
-  ├────────────────┼───────────────────────────────────────────┤
-  │  팀 수준       │  A: 활동(PR, 커밋, 리뷰)                    │
-  │               │  C: 소통(협업 효율, 응답 속도)               │
-  ├────────────────┼───────────────────────────────────────────┤
-  │  시스템 수준   │  E: 효율(파이프라인 속도, 흐름 효율성)        │
-  └────────────────┴───────────────────────────────────────────┘
+  +------------------------------------------------------------+
+  |                  SPACE 프레임워크                            |
+  +----------------+-------------------------------------------+
+  |  개인 수준     |  S: 만족도(직무 만족, 번아웃)               |
+  |               |  P: 성과(코드 품질, 영향)                    |
+  +----------------+-------------------------------------------+
+  |  팀 수준       |  A: 활동(PR, 커밋, 리뷰)                    |
+  |               |  C: 소통(협업 효율, 응답 속도)               |
+  +----------------+-------------------------------------------+
+  |  시스템 수준   |  E: 효율(파이프라인 속도, 흐름 효율성)        |
+  +----------------+-------------------------------------------+
 ```
 
 ### 측정 방법: 세 가지 접근
@@ -100,9 +100,9 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 **SPACE 지표 선택 가이드**:
 ```
 Step 1: 조직의 핵심 고통점 파악
-  - 번아웃이 심한가? → S(만족도) 집중
-  - 배포가 느린가? → E(효율) 집중
-  - 코드 품질 문제가 있는가? → P(성과) 집중
+  - 번아웃이 심한가? -> S(만족도) 집중
+  - 배포가 느린가? -> E(효율) 집중
+  - 코드 품질 문제가 있는가? -> P(성과) 집중
 
 Step 2: 각 차원에서 1~2개 지표 선택
   - 너무 많은 지표는 오히려 혼란 유발
@@ -113,8 +113,8 @@ Step 3: 설문 + 자동화 데이터 결합
 ```
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>) 개선 사례</strong>:
-- Microsoft: 빌드 시간 30분 → 5분 단축으로 E(효율) 대폭 개선
-- GitHub: [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 대기 시간 48시간 → 8시간으로 C(소통) 개선
+- Microsoft: 빌드 시간 30분 -> 5분 단축으로 E(효율) 대폭 개선
+- GitHub: [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 대기 시간 48시간 -> 8시간으로 C(소통) 개선
 - Netflix: 배포 툴 표준화로 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)을 통한 E·A 동시 개선
 
 **기술사 판단 포인트**:
@@ -160,14 +160,14 @@ SPACE는 "개발자를 숫자로 환원하지 말라"는 메시지를 담고 있
 
 ```text
 생산성 = 코드 줄 수? (단일 지표의 함정)
-    │
-    ▼
+    |
+    v
 SPACE Framework: 5차원 생산성 측정
-    ├─► S: Satisfaction (만족도)
-    ├─► P: Performance (성과)
-    ├─► A: Activity (활동량)
-    ├─► C: Communication (협업 품질)
-    └─► E: Efficiency (효율성 · 흐름 상태)
+    +-► S: Satisfaction (만족도)
+    +-► P: Performance (성과)
+    +-► A: Activity (활동량)
+    +-► C: Communication (협업 품질)
+    +-► E: Efficiency (효율성 · 흐름 상태)
 ```
 2. 성적이 좋아도 학교가 싫으면 언젠가 그만두게 되니까, 행복하게 공부하는 환경을 만드는 게 더 중요해.
 3. 커밋 수(숙제 수)만 많이 강요하면 졸리면서도 억지로 하게 돼서 품질이 떨어지는 것처럼, 단순한 숫자만 보면 안 돼.
@@ -178,7 +178,7 @@ SPACE Framework: 5차원 생산성 측정
 
 **진행 상황**: 201 / 371
 
-← **이전**: [201. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/)
-**다음**: [203. 클라우드 비용 최적화 / FinOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/203_finops_cloud_cost_optimization/) →
+<- **이전**: [201. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/)
+**다음**: [203. 클라우드 비용 최적화 / FinOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/203_finops_cloud_cost_optimization/) ->
 
 ---

@@ -58,26 +58,26 @@ LIMIT 100
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 사기 링 탐지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
 
 ```
-  ┌───────────────────────────────────────────────────────────────┐
-  │                    사기 링 탐지 그래프                         │
-  │                                                               │
-  │    [Account A]────REGISTERED_WITH────[Phone: 010-1234-5678]  │
-  │         │                                       │            │
-  │    TRANS_TO                           REGISTERED_WITH        │
-  │         │                                       │            │
-  │    [Account B]                        [Account C] ★의심      │
-  │         │                                       │            │
-  │    REGISTERED_WITH                SHARES_ADDRESS             │
-  │         │                                       │            │
-  │    [Email: x@fake.com]            [Address: 서울 강남구]       │
-  │         │                                       │            │
-  │    REGISTERED_WITH                    REGISTERED_WITH        │
-  │         │                                       │            │
-  │    [Account D] ★의심              [Account E] ★의심           │
-  │                                                               │
-  │  → A-B-C-D-E가 공유 식별자로 연결된 사기 링 (Ring)             │
-  │  → 4-hop: SQL JOIN 12개 vs Neo4j Cypher 단일 쿼리             │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |                    사기 링 탐지 그래프                         |
+  |                                                               |
+  |    [Account A]----REGISTERED_WITH----[Phone: 010-1234-5678]  |
+  |         |                                       |            |
+  |    TRANS_TO                           REGISTERED_WITH        |
+  |         |                                       |            |
+  |    [Account B]                        [Account C] ★의심      |
+  |         |                                       |            |
+  |    REGISTERED_WITH                SHARES_ADDRESS             |
+  |         |                                       |            |
+  |    [Email: x@fake.com]            [Address: 서울 강남구]       |
+  |         |                                       |            |
+  |    REGISTERED_WITH                    REGISTERED_WITH        |
+  |         |                                       |            |
+  |    [Account D] ★의심              [Account E] ★의심           |
+  |                                                               |
+  |  -> A-B-C-D-E가 공유 식별자로 연결된 사기 링 (Ring)             |
+  |  -> 4-hop: SQL JOIN 12개 vs Neo4j Cypher 단일 쿼리             |
+  +---------------------------------------------------------------+
 ```
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
@@ -117,7 +117,7 @@ LIMIT 100
 
 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 문제 | 해결 방법 |
 |:---|:---|:---|
-| 슈퍼노드 (Super Node) | 수백만 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) → 탐색 급격 저하 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 분리, 시간 범위 제한 |
+| 슈퍼노드 (Super Node) | 수백만 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) -> 탐색 급격 저하 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 분리, 시간 범위 제한 |
 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 집계 DB로 사용 | SUM, [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최악 | 집계는 별도 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 사용 |
 | 단순 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-value 조회에 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 과도한 복잡성 | Redis나 RDB로 충분 |
 
@@ -148,17 +148,17 @@ LIMIT 100
 
 ```
 RDB 조인 기반 사기 탐지 - 복잡한 관계에서 성능 한계
-    │
-    ▼
+    |
+    v
 그래프 DB (Neo4j) - 노드·엣지 네이티브 저장
-    │
-    ▼
+    |
+    v
 실시간 그래프 트래버설 - 연결 관계 패턴 탐지
-    │
-    ▼
+    |
+    v
 GDS (Graph Data Science) - PageRank·커뮤니티 탐지
-    │
-    ▼
+    |
+    v
 GNN + Neo4j 하이브리드 - AI 기반 사기 예측
 ```
 
@@ -166,7 +166,7 @@ GNN + Neo4j 하이브리드 - AI 기반 사기 예측
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도예요. "나→친구→친구의 친구"를 줄을 따라 즉시 찾을 수 있어요.
+1. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도예요. "나->친구->친구의 친구"를 줄을 따라 즉시 찾을 수 있어요.
 2. 사기 링 탐지는 같은 전화번호를 여러 계정이 쓰는 걸 찾는 거예요.
 3. SQL은 전화번호부 전체를 비교해야 하지만, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 줄을 따라가기만 하면 돼요.
 
@@ -176,7 +176,7 @@ GNN + Neo4j 하이브리드 - AI 기반 사기 예측
 
 **진행 상황**: 310 / 482
 
-← **이전**: [309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/309_influxdb_downsampling/)
-**다음**: [311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/311_parquet_orc_rle_compression/) →
+<- **이전**: [309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/309_influxdb_downsampling/)
+**다음**: [311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/311_parquet_orc_rle_compression/) ->
 
 ---

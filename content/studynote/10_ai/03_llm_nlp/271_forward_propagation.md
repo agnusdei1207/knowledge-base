@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 순전파([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Propagation)는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신경망의 입력층→은닉층→출력층 방향으로 흐르며 행렬 곱과 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 순차 적용해 예측값을 계산하는 과정이다.
+> 1. **본질**: 순전파([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Propagation)는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신경망의 입력층->은닉층->출력층 방향으로 흐르며 행렬 곱과 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 순차 적용해 예측값을 계산하는 과정이다.
 > 2. **가치**: 순전파는 <strong>예측(Inference)</strong>만 수행하며, 중간 계산 결과(활성화 값, 선형 결합값 z)를 저장해 이후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))에서 기울기 계산에 활용한다.
 > 3. **판단 포인트**: 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 이해하면 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기(Local Gradient) 계산이 순전파에서 이미 결정됨을 알 수 있으며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 효율을 극대화한다.
 
@@ -25,8 +25,8 @@ tags = ["studynote-ai"]
 
 ```
 층 ℓ의 순전파 연산:
-  zˡ = Wˡ × aˡ⁻¹ + bˡ    ← 선형 변환 (Linear Transformation)
-  aˡ = f(zˡ)              ← 활성화 함수 적용 (Non-linear)
+  zˡ = Wˡ × aˡ⁻¹ + bˡ    <- 선형 변환 (Linear Transformation)
+  aˡ = f(zˡ)              <- 활성화 함수 적용 (Non-linear)
 
   여기서:
   - aˡ   : 층 ℓ의 활성화 출력 (Activation Output)
@@ -39,8 +39,8 @@ tags = ["studynote-ai"]
 ### 순전파의 역할
 
 순전파는 두 가지 목적으로 실행된다:
-1. <strong>학습(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>: 손실 계산 후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 준비 → 중간 값 저장 필요
-2. **추론(Inference)**: 학습된 모델로 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측 → 중간 값 저장 불필요
+1. <strong>학습(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>: 손실 계산 후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 준비 -> 중간 값 저장 필요
+2. **추론(Inference)**: 학습된 모델로 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측 -> 중간 값 저장 불필요
 
 - **📢 섹션 요약 비유**: 순전파는 수도관에서 물이 저수지(입력)에서 수도꼭지(출력)로 흐르는 과정 — 각 밸브(층)를 통과하며 압력(값)이 변환되고, 최종 수도꼭지에서 나온 물의 양을 측정해 목표 수량과 비교한다.
 
@@ -51,22 +51,22 @@ tags = ["studynote-ai"]
 ### 3층 MLP 순전파 전체 흐름
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                순전파 (Forward Propagation) 흐름                  │
-│                                                                  │
-│  입력층         은닉층 1         은닉층 2         출력층            │
-│                                                                  │
-│  a⁰ = x         z¹ = W¹a⁰+b¹   z² = W²a¹+b²   z³ = W³a²+b³    │
-│  ↓               ↓               ↓               ↓              │
-│ [x₁]           a¹ = ReLU(z¹)   a² = ReLU(z²)  ŷ = σ(z³)       │
-│ [x₂]                                                             │
-│ [x₃]    ←─────  저장: z¹,a¹  ───  저장: z²,a²  ───  저장: z³   │
-│                   (역전파에서 사용)                                │
-│                                                                  │
-│  ↓                                                               │
-│  손실 계산: L = loss(ŷ, y_target)                                 │
-│  예) 이진 분류: L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]               │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                순전파 (Forward Propagation) 흐름                  |
+|                                                                  |
+|  입력층         은닉층 1         은닉층 2         출력층            |
+|                                                                  |
+|  a⁰ = x         z¹ = W¹a⁰+b¹   z^ = W^a¹+b^   z³ = W³a^+b³    |
+|  v               v               v               v              |
+| [x₁]           a¹ = ReLU(z¹)   a^ = ReLU(z^)  ŷ = σ(z³)       |
+| [x₂]                                                             |
+| [x₃]    <------  저장: z¹,a¹  ---  저장: z^,a^  ---  저장: z³   |
+|                   (역전파에서 사용)                                |
+|                                                                  |
+|  v                                                               |
+|  손실 계산: L = loss(ŷ, y_target)                                 |
+|  예) 이진 분류: L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]               |
++------------------------------------------------------------------+
 ```
 
 ### 행렬 연산으로 이해하는 순전파
@@ -88,21 +88,21 @@ Z = W × X + b (브로드캐스팅)
 ### 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│              연산 그래프 (Computational Graph)                │
-│                                                              │
-│  x ────────────────────────────────────────────────────┐    │
-│                                                         │    │
-│  W ──► [×] ──► z = Wx+b ──► [f] ──► a ──► [Loss] ──► L│    │
-│                  ↑                                      │    │
-│  b ─────────────┘                          ↑            │    │
-│                                       y_true ───────────┘    │
-│                                                              │
-│  노드: 연산 (×, +, f, Loss)                                  │
-│  엣지: 데이터 흐름                                            │
-│  순전파: 왼쪽 → 오른쪽 (예측)                                 │
-│  역전파: 오른쪽 → 왼쪽 (기울기 전파)                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              연산 그래프 (Computational Graph)                |
+|                                                              |
+|  x ----------------------------------------------------+    |
+|                                                         |    |
+|  W --► [×] --► z = Wx+b --► [f] --► a --► [Loss] --► L|    |
+|                  ^                                      |    |
+|  b -------------+                          ^            |    |
+|                                       y_true -----------+    |
+|                                                              |
+|  노드: 연산 (×, +, f, Loss)                                  |
+|  엣지: 데이터 흐름                                            |
+|  순전파: 왼쪽 -> 오른쪽 (예측)                                 |
+|  역전파: 오른쪽 -> 왼쪽 (기울기 전파)                           |
++--------------------------------------------------------------+
 ```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)) 계산
@@ -124,7 +124,7 @@ Z = W × X + b (브로드캐스팅)
 
 | 비교 항목 | 순전파 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) (Backward) |
 |:---|:---|:---|
-| **방향** | 입력층 → 출력층 | 출력층 → 입력층 |
+| **방향** | 입력층 -> 출력층 | 출력층 -> 입력층 |
 | **목적** | 예측값(ŷ) 계산 | 기울기(∂L/∂W) 계산 |
 | **연산** | 행렬 곱 + 활성화 | 연쇄 법칙 + 야코비안 |
 | **저장** | z, a 값 저장 | 기울기 누적 |
@@ -147,16 +147,16 @@ Z = W × X + b (브로드캐스팅)
 
 ### 기술사 시험 핵심 논점
 
-1. **순전파에서 저장하는 값**: z(선형 결합)와 a(활성화 출력) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기 계산에 필수
-2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a> 효율</strong>: 행렬 연산(GEMM, General Matrix Multiply)으로 GPU에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 → 단일 샘플 대비 수십~수백 배 속도
-3. **순전파의 계산 복잡도**: 각 층에서 O(n_in × n_out) → 전체 O(L × d²) (L: 층 수, d: 평균 노드 수)
-4. **추론(Inference) 최적화**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 불필요 → no_grad() 모드로 중간값 저장 생략 → 메모리·속도 절약
+1. **순전파에서 저장하는 값**: z(선형 결합)와 a(활성화 출력) -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기 계산에 필수
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a> 효율</strong>: 행렬 연산(GEMM, General Matrix Multiply)으로 GPU에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 -> 단일 샘플 대비 수십~수백 배 속도
+3. **순전파의 계산 복잡도**: 각 층에서 O(n_in × n_out) -> 전체 O(L × d^) (L: 층 수, d: 평균 노드 수)
+4. **추론(Inference) 최적화**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 불필요 -> no_grad() 모드로 중간값 저장 생략 -> 메모리·속도 절약
 
 ### PyTorch 코드 관점 이해
 
 ```python
 # 순전파 = 모델 호출
-output = model(input)   # z¹, a¹, z², a², ..., ŷ 순차 계산
+output = model(input)   # z¹, a¹, z^, a^, ..., ŷ 순차 계산
 
 # 손실 계산
 loss = criterion(output, target)   # L = CE(ŷ, y)
@@ -206,7 +206,7 @@ with torch.no_grad():
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [순전파 (Forward Propagation)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [순전파 (Forward Propagation)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -221,7 +221,7 @@ with torch.no_grad():
 
 **진행 상황**: 271 / 420
 
-← **이전**: [270. 소프트맥스 (Softmax)](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
-**다음**: [272. 역전파 (Backpropagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) →
+<- **이전**: [270. 소프트맥스 (Softmax)](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
+**다음**: [272. 역전파 (Backpropagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ->
 
 ---

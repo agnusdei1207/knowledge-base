@@ -39,28 +39,28 @@ CEO는 "수백억 원을 들여 ERP를 구축했는데 비즈니스 매출엔 �
 ISACA의 철학은 파편화된 가이드라인이 아니라, 거대한 거버넌스 지식 체계의 피라미드로 구성되어 있습니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           [ ISACA 주도 IT 거버넌스 및 감리 지식 체계도 ]        │
-│                                                             │
-│                      [ IT Governance ]                      │
-│             (비즈니스-IT 정렬, 가치 전달, 위험 관리)             │
-│                               │                             │
-│       ┌───────────────────────┼───────────────────────┐       │
-│       ▼                       ▼                       ▼       │
-│   [ COBIT 2019 ]           [ Val IT ]              [ Risk IT ]  │
-│(전사 IT 거버넌스 통제)  (IT 투자 포트폴리오 가치)    (IT 위험 평가 관리)│
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│          [ 실무 감리 프로세스 및 지침 (IS Audit Standards) ]     │
-│                                                             │
-│   1. 일반 기준 (General Standard): 감리인의 독립성, 윤리 강령     │
-│   2. 수행 기준 (Performance Standard): 감리 계획, 증거 수집, 검토 │
-│   3. 보고 기준 (Reporting Standard): 감리 보고서 작성 및 서명     │
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│         [ 핵심 공인 자격증 (Certification - 인적 자산) ]          │
-│    ▶ CISA (감사), CISM (보안 관리), CGEIT (거버넌스), CRISC (위험) │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           [ ISACA 주도 IT 거버넌스 및 감리 지식 체계도 ]        |
+|                                                             |
+|                      [ IT Governance ]                      |
+|             (비즈니스-IT 정렬, 가치 전달, 위험 관리)             |
+|                               |                             |
+|       +-----------------------+-----------------------+       |
+|       v                       v                       v       |
+|   [ COBIT 2019 ]           [ Val IT ]              [ Risk IT ]  |
+|(전사 IT 거버넌스 통제)  (IT 투자 포트폴리오 가치)    (IT 위험 평가 관리)|
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|          [ 실무 감리 프로세스 및 지침 (IS Audit Standards) ]     |
+|                                                             |
+|   1. 일반 기준 (General Standard): 감리인의 독립성, 윤리 강령     |
+|   2. 수행 기준 (Performance Standard): 감리 계획, 증거 수집, 검토 |
+|   3. 보고 기준 (Reporting Standard): 감리 보고서 작성 및 서명     |
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|         [ 핵심 공인 자격증 (Certification - 인적 자산) ]          |
+|    -> CISA (감사), CISM (보안 관리), CGEIT (거버넌스), CRISC (위험) |
++-------------------------------------------------------------+
 ```
 
 ### 1. 핵심 프레임워크: [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) (Control Objectives for Information and Related Technologies)
@@ -142,17 +142,17 @@ ISACA의 표준은 글로벌 최고 수준의 완벽성을 자랑하지만, 이�
 
 ```text
 [ISACA (정보시스템 감사 통제 협회) 설립 — 1969]
-    │
-    ▼
+    |
+    v
 [COBIT (전사 IT 거버넌스 프레임워크) 발간]
-    │
-    ▼
+    |
+    v
 [CISA / CISM / CGEIT 인증 체계 — 글로벌 감사 전문가]
-    │
-    ▼
+    |
+    v
 [Zero Trust 기반 감리 패러다임 — 경계 보안 해체 대응]
-    │
-    ▼
+    |
+    v
 [AI 알고리즘 윤리 감리 — EU AI Act 연계 차세대 기준]
 ```
 ISACA는 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크와 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)으로 전통적 IT 거버넌스를 이끌었으며, 클라우드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 감리와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 윤리 감리로 패러다임을 전환하고 있다.
@@ -172,7 +172,7 @@ ISACA는 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strate
 
 **진행 상황**: 23 / 530
 
-← **이전**: [20. 조치 결과 확인 (시정조치 확인 보고서 발행)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)
-**다음**: [22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) →
+<- **이전**: [20. 조치 결과 확인 (시정조치 확인 보고서 발행)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)
+**다음**: [22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) ->
 
 ---

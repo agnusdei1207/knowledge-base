@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/SRE와 클라우드 영역의 기술사 시험은 개별 기술 암기보다 "왜 이 기술을 선택했는가, 어떤 트레이드오프가 있는가"를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 서술하는 능력을 측정하며, 각 개념이 어떤 문제를 해결하기 위해 등장했는지를 연결하는 것이 핵심이다.
-> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD → [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) → [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/K8s → [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) → [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) → [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) → [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)으로 이어지는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 발전 흐름을 하나의 스토리로 연결하면, 개별 문제에서 통합 아키텍처 답안을 구성할 수 있다.
+> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD -> [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/K8s -> [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) -> [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) -> [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) -> [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)으로 이어지는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 발전 흐름을 하나의 스토리로 연결하면, 개별 문제에서 통합 아키텍처 답안을 구성할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 장점만 나열하는 것이 아니라 "이 기술의 적합한 조건, 부적합한 조건, 그리고 한계"를 명시해야 심사관이 전문성을 인정한다.
 
 ---
@@ -37,16 +37,16 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 ## Ⅱ. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 핵심 키워드
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              K8s 핵심 구성 요소 요약                             │
-├──────────────────────────────────────────────────────────────────┤
-│  Control Plane: kube-apiserver, etcd, scheduler, controller-mgr  │
-│  Worker Node: kubelet, kube-proxy, Container Runtime (containerd)│
-│  핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap     │
-│  스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)   │
-│  스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버 │
-│  네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              K8s 핵심 구성 요소 요약                             |
++------------------------------------------------------------------+
+|  Control Plane: kube-apiserver, etcd, scheduler, controller-mgr  |
+|  Worker Node: kubelet, kube-proxy, Container Runtime (containerd)|
+|  핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap     |
+|  스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)   |
+|  스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버 |
+|  네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)  |
++------------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>, Linkerd)</strong>:
@@ -119,23 +119,23 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ```text
 Agile + CI/CD (개발·배포 자동화)
-    │
-    ▼
+    |
+    v
 IaC + GitOps (인프라 코드화, 선언적 관리)
-    │
-    ▼
+    |
+    v
 컨테이너 / K8s (불변 인프라, 오케스트레이션)
-    │
-    ▼
+    |
+    v
 서비스 메시 + 옵저버빌리티 (가시성, mTLS)
-    │
-    ▼
+    |
+    v
 SRE + Error Budget (신뢰성 수치화)
-    │
-    ▼
+    |
+    v
 Platform Engineering + FinOps (내부 플랫폼화, 비용 최적화)
-    │
-    ▼
+    |
+    v
 AI-assisted DevOps (자율 장애 탐지·복구)
 ```
 
@@ -151,7 +151,7 @@ AI-assisted DevOps (자율 장애 탐지·복구)
 
 **진행 상황**: 371 / 373
 
-← **이전**: [370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign](/knowledge-base/studynote/15_devops_sre/05_devsecops/370_did_zkp/)
-**다음**: [372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)](/knowledge-base/studynote/15_devops_sre/05_devsecops/372_zero_trust/) →
+<- **이전**: [370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign](/knowledge-base/studynote/15_devops_sre/05_devsecops/370_did_zkp/)
+**다음**: [372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)](/knowledge-base/studynote/15_devops_sre/05_devsecops/372_zero_trust/) ->
 
 ---

@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) UI 독립 배포 조직 모듈화를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 마이크로 프론트엔드 UI 독립 배포 조직 모듈화가 필요한 이유: 요구사항과 운영 현실의 간극을 줄임                  │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 ─▶ 설계 선택 ─▶ 실행 자원 ─▶ 운영 피드백                  │
-│    │            │            │             │                       │
-│    └──────── 변경 영향과 예외 처리를 구조로 흡수 ─────────────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 마이크로 프론트엔드 UI 독립 배포 조직 모듈화가 필요한 이유: 요구사항과 운영 현실의 간극을 줄임                  |
++--------------------------------------------------------------+
+| 요구사항 --> 설계 선택 --> 실행 자원 --> 운영 피드백                  |
+|    |            |            |             |                       |
+|    +-------- 변경 영향과 예외 처리를 구조로 흡수 -----------------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) UI 독립 배포 조직 모듈화가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | 출력 계층 | 사용자 가치와 운영 지표 산출 | response, [metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 마이크로 프론트엔드 UI 독립 배포 조직 모듈화 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 마이크로 프론트엔드 UI 독립 배포 조직 모듈화 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) UI 독립 배포 조직 모듈화는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[단순 운영] → [마이크로 프론트엔드 UI 독립 배포 조직 모듈화] → [정책 자동화·지능형 최적화]
+[단순 운영] -> [마이크로 프론트엔드 UI 독립 배포 조직 모듈화] -> [정책 자동화·지능형 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 345 / 371
 
-← **이전**: [345. 에어플로우 DAG 파이프라인 배치 종속 스케줄 (DAG)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/345_process/)
-**다음**: [347. 마이크로VM (파이어크래커) 서버리스 초고속 부팅 보안 격리 (MicroVM)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/) →
+<- **이전**: [345. 에어플로우 DAG 파이프라인 배치 종속 스케줄 (DAG)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/345_process/)
+**다음**: [347. 마이크로VM (파이어크래커) 서버리스 초고속 부팅 보안 격리 (MicroVM)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/) ->
 
 ---

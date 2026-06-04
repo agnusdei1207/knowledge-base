@@ -34,18 +34,18 @@ tags = ["studynote-computer-architecture"]
 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 하드웨어의 대표 구조는 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 칩 위를 한 방향으로 흐르고, 각 PE는 자신에게 온 값에 작은 연산만 수행한 뒤 결과와 보조 계수를 이웃 PE로 넘긴다. 핵심은 "중앙 제어기가 모든 값을 다 만지는 구조"가 아니라, "근처 이웃끼리만 전달하는 구조"라는 점이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ A stream -> [PE00] -> [PE01] -> [PE02] -> ...                            │
-│              │         │         │                                         │
-│              ▼         ▼         ▼                                         │
-│            [PE10] -> [PE11] -> [PE12] -> ...                              │
-│              │         │         │                                         │
-│              ▼         ▼         ▼                                         │
-│            [PE20] -> [PE21] -> [PE22] -> ...                              │
-│                                                                            │
-│ diagonal PE: pivot / rotation factor generation                            │
-│ off-diagonal PE: update, eliminate, accumulate                             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| A stream -> [PE00] -> [PE01] -> [PE02] -> ...                            |
+|              |         |         |                                         |
+|              v         v         v                                         |
+|            [PE10] -> [PE11] -> [PE12] -> ...                              |
+|              |         |         |                                         |
+|              v         v         v                                         |
+|            [PE20] -> [PE21] -> [PE22] -> ...                              |
+|                                                                            |
+| diagonal PE: pivot / rotation factor generation                            |
+| off-diagonal PE: update, eliminate, accumulate                             |
++----------------------------------------------------------------------------+
 ```
 
 LU 분해에서는 대각선 PE가 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 값과 역수를 만들고, 아래쪽 PE들이 소거 계수를 이용해 하부 행을 갱신한다. QR 분해에서는 기븐스 회전 (Givens Rotation)이나 하우스홀더 변환을 이용해 비대각 성분을 0으로 만든다. 하드웨어에서는 나눗셈과 제곱근이 비싸므로, QR 구현에서 코드릭 (Coordinate Rotation Digital Computer, CORDIC)을 써서 시프트와 덧셈만으로 회전 계수를 만드는 경우가 많다.
@@ -133,20 +133,20 @@ GPU와의 관계도 중요하다. 범용 그래픽 처리장치 ([Graphics Proce
 
 ```text
 가우스 소거 기반 선형대수
-        │
-        ▼
+        |
+        v
 LU / 촐레스키 전용 배열
-        │
-        ▼
+        |
+        v
 Givens-QR · CORDIC 기반 구조
-        │
-        ▼
+        |
+        v
 시스톨릭 어레이 · 온칩 버퍼 최적화
-        │
-        ▼
+        |
+        v
 혼합 정밀도 · 반복 보정
-        │
-        ▼
+        |
+        v
 MIMO · 레이더 · 로보틱스 실시간 가속기
 ```
 
@@ -164,7 +164,7 @@ MIMO · 레이더 · 로보틱스 실시간 가속기
 
 **진행 상황**: 612 / 803
 
-← **이전**: [611. 분산 산술 (Distributed Arithmetic) 매크로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/611_distributed_arithmetic/)
-**다음**: [613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) →
+<- **이전**: [611. 분산 산술 (Distributed Arithmetic) 매크로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/611_distributed_arithmetic/)
+**다음**: [613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) ->
 
 ---

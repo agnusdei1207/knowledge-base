@@ -37,20 +37,20 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a></strong> | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           블록체인 콜드체인(Cold Chain) 이력 추적 흐름         │
-├──────────────────────────────────────────────────────────────┤
-│ [원산지 농장] ➔ [해운사 트럭] ➔ [항구 냉동 창고] ➔ [최종 마트] │
-│      │               │                │                 │
-│      ▼               ▼                ▼                 ▼
-│ ┌─ 블록 1 ─┐     ┌─ 블록 2 ─┐     ┌─ 블록 3 ─┐      ┌─ 블록 4 ─┐
-│ │ 출하량   │◀─해시─│ 온도:-20 │◀─해시─│ 온도:-18 │◀─해시─│ 최종인수 │
-│ │ 소유권 A │     │ 소유권 B │     │ 소유권 C │      │ QR 생성  │
-│ └──────────┘     └──────────┘     └──────────┘      └──────────┘
-│                                                              │
-│  ※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?           │
-│  ➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함! │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           블록체인 콜드체인(Cold Chain) 이력 추적 흐름         |
++--------------------------------------------------------------+
+| [원산지 농장] ➔ [해운사 트럭] ➔ [항구 냉동 창고] ➔ [최종 마트] |
+|      |               |                |                 |
+|      v               v                v                 v
+| +- 블록 1 -+     +- 블록 2 -+     +- 블록 3 -+      +- 블록 4 -+
+| | 출하량   |<--해시-| 온도:-20 |<--해시-| 온도:-18 |<--해시-| 최종인수 |
+| | 소유권 A |     | 소유권 B |     | 소유권 C |      | QR 생성  |
+| +----------+     +----------+     +----------+      +----------+
+|                                                              |
+|  ※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?           |
+|  ➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함! |
++--------------------------------------------------------------+
 ```
 
 핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>'합의(Consensus)'</strong>를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
@@ -113,17 +113,17 @@ tags = ["enterprise_systems"]
 
 ```text
 전통적 SCM · 파편화된 개별 ERP 장부 (신뢰 부재)
-    │
-    ▼
+    |
+    v
 RFID / 바코드 도입 · 단순 추적 자동화 (하지만 조작은 여전히 가능)
-    │
-    ▼
+    |
+    v
 블록체인 SCM 이력 추적 · 분산 원장을 통한 위·변조 불가능성 확보
-    │
-    ▼
+    |
+    v
 IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자동 대응
-    │
-    ▼
+    |
+    v
 디지털 트윈 기반 물류망 (Digital Twin SCM) · 3D 가상화 및 예측 시뮬레이션
 ```
 
@@ -139,7 +139,7 @@ IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자
 
 **진행 상황**: 106 / 482
 
-← **이전**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/)
-**다음**: [107. CRM (C고객 Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) →
+<- **이전**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/)
+**다음**: [107. CRM (C고객 Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ->
 
 ---

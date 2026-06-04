@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [다이얼업 다중화, X.25]
-    │
-    ▼
+    |
+    v
 [프레임 릴레이]
-    │
-    └──▶ [PVC / SVC]
+    |
+    +---> [PVC / SVC]
 ```
 
 - **📢 섹션 요약 비유**: ** 프레임 릴레이는 느리고 꼼꼼했던 우체국 시스템(X.25)에서 불필요한 **"수취 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 서명 절차(에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"를 아예 없애버리고 배달 스피드에만 목숨을 건 로켓 배송 시스템**입니다.
@@ -52,18 +52,18 @@ tags = ["studynote-network"]
 비싼 전용선을 지사마다 물리적으로 깔 필요 없이, 통신사 클라우드까지만 선 하나를 꽂으면 내부에서 통신사가 길을 갈라주므로 <strong>구축 비용이 파격적으로 절감</strong>되었다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                프레임 릴레이의 가상 회선(VC) 다중화             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                          [ 통신사 프레임 릴레이 구름(Cloud) ] │
- │   [ 본사 라우터 ] ────┬────▶ (가상 회선 A) ──────▶ [ 지사 A ] │
- │   물리적 선 1가닥      │                                      │
- │   (포트 1개)        └────▶ (가상 회선 B) ──────▶ [ 지사 B ] │
- │                                                             │
- │   * 장점: 본사에서 지사 A, B용으로 선을 2개 깔 필요가 없다.        │
- │          선은 1개만 임대하고, 가상의 회선(VC)만 2개 뚫으면 된다.    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                프레임 릴레이의 가상 회선(VC) 다중화             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |                          [ 통신사 프레임 릴레이 구름(Cloud) ] |
+ |   [ 본사 라우터 ] ----+-----> (가상 회선 A) -------> [ 지사 A ] |
+ |   물리적 선 1가닥      |                                      |
+ |   (포트 1개)        +-----> (가상 회선 B) -------> [ 지사 B ] |
+ |                                                             |
+ |   * 장점: 본사에서 지사 A, B용으로 선을 2개 깔 필요가 없다.        |
+ |          선은 1개만 임대하고, 가상의 회선(VC)만 2개 뚫으면 된다.    |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 통신 요금 체계의 혁신: [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ([Committed Information Rate](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))
@@ -130,12 +130,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 다이얼업 다중화, X.25]
-    │
-    ▼
+    |
+    v
 [현재 개념: 프레임 릴레이]
-    │
-    ├──▶ [확장 A: PVC / SVC]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: PVC / SVC]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 프레임 릴레이는 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25에서 출발해 현재 메커니즘을 정교화하고, 이후 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 389 / 1120
 
-← **이전**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/)
-**다음**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) →
+<- **이전**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/)
+**다음**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) ->
 
 ---

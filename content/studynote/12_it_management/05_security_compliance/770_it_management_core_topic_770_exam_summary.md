@@ -16,7 +16,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 경영 관리(Information Technology Governance)는 COBIT 2019, ISO/IEC 38500, ITIL 4, PMBOK 7th, TOGAF 10 같은 글로벌 프레임워크를 기반으로 **전략(S Strategy) ↔ 아키텍처(A Architecture) ↔ 운영(O Operation) ↔ 평가(M Measurement)** 의 4축 통합 거버넌스를 통해 기업 가치(Value Delivery)와 리스크 최적화(Risk Optimization), 자원 효율(Resource Optimization)을 동시에 달성하는 경영 체계이다.
-> 2. **가치**: McKinsey(2024) 및 IDC(2025) 보고에 따르면, 성숙한 IT 거버넌스 체계 구축 조직은 디지털 전환 성공률을 **평균 35% → 78%**(2.2배)로 끌어올리고, IT 투자 대비 ROI를 **연 18~27%** 개선하며, 사이버보안 사고 대응 시간을 **MTTD 287일 → 16일**(94% 단축)로 단축시킨다.
+> 2. **가치**: McKinsey(2024) 및 IDC(2025) 보고에 따르면, 성숙한 IT 거버넌스 체계 구축 조직은 디지털 전환 성공률을 **평균 35% -> 78%**(2.2배)로 끌어올리고, IT 투자 대비 ROI를 **연 18~27%** 개선하며, 사이버보안 사고 대응 시간을 **MTTD 287일 -> 16일**(94% 단축)로 단축시킨다.
 > 3. **판단 포인트**: 핵심 의사결정 트레이드오프는 (a) **집중형(Centralized) vs 분산형(Federated) 거버넌스 모델**, (b) **Best-of-Breed 개별 솔루션 vs One-Stop 통합 플랫폼 전략**, (c) **Bimodal IT(Plan-Build-Run 모드 1·2 병행) vs Customer-Centric Value Stream 단일 흐름**의 세 가지 이분법이며, 기술사적 판단의 핵심은 **Business Outcome 중심의 KPI(예: NPS, Time-to-Market, TCO) ↔ IT 운영 지표(예: SLA, 가용성 99.99%, MTTR)** 간의 인과 매핑(Causal Mapping)을 명확히 설계하는 것이다.
 
 ---
@@ -45,44 +45,44 @@ tags = ["studynote-it-management"]
 ### 3. 전체 개념도
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 4축 통합 거버넌스 모델                  │
-│                                                                      │
-│  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐ ┌──────────┐│
-│  │   Strategy   │   │ Architecture │   │  Operation   │ │ Measure  ││
-│  │   (전략)     │←─→│  (아키텍처)  │←─→│   (운영)     │←─→│ (평가)   ││
-│  └──────┬───────┘   └──────┬───────┘   └──────┬───────┘ └────┬─────┘│
-│         │                  │                  │              │      │
-│  ┌──────▼──────────────────▼──────────────────▼──────────────▼─────┐│
-│  │              Governance & Compliance Layer                      ││
-│  │  COBIT 2019 · ISO 38500 · NIST CSF 2.0 · K-ISMS-P · DORA       ││
-│  └────────────────────────────────────────────────────────────────┘│
-│                                                                      │
-│  입력: ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐       │
-│       │비즈니스│ │규제/법  │ │기술 트렌│ │고객/시장│ │위험/리스크│    │
-│       │요구사항│ │규    │ │드(AI/Cloud)│ │니즈   │ │요인    │       │
-│       └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘       │
-│           └──────────┴──────────┴──────────┴──────────┘              │
-│                            │                                        │
-│                  ┌─────────▼─────────┐                              │
-│                  │  IT Steering Com. │ ← 의사결정 정점               │
-│                  │  (이사회/CIO)     │                              │
-│                  └─────────┬─────────┘                              │
-│                            │                                        │
-│           ┌────────────────┼────────────────┐                       │
-│           │                │                │                       │
-│   ┌───────▼──────┐ ┌───────▼──────┐ ┌───────▼──────┐               │
-│   │ Portfolio    │ │ Program      │ │ Project &    │               │
-│   │ Mgmt(PPM)    │ │ Mgmt(PgM)   │ │ BA(Service)  │               │
-│   └──────┬──────┘ └──────┬──────┘ └──────┬──────┘               │
-│          └────────────────┴────────────────┘                       │
-│                            │                                        │
-│                  ┌─────────▼─────────┐                              │
-│                  │  Value Realization│ ← KPI·BSC·OKR 기반           │
-│                  │  & Continuous     │                              │
-│                  │  Improvement      │                              │
-│                  └───────────────────┘                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    IT 경영 관리 4축 통합 거버넌스 모델                  |
+|                                                                      |
+|  +--------------+   +--------------+   +--------------+ +----------+|
+|  |   Strategy   |   | Architecture |   |  Operation   | | Measure  ||
+|  |   (전략)     |<--->|  (아키텍처)  |<--->|   (운영)     |<--->| (평가)   ||
+|  +------+-------+   +------+-------+   +------+-------+ +----+-----+|
+|         |                  |                  |              |      |
+|  +------v------------------v------------------v--------------v-----+|
+|  |              Governance & Compliance Layer                      ||
+|  |  COBIT 2019 · ISO 38500 · NIST CSF 2.0 · K-ISMS-P · DORA       ||
+|  +----------------------------------------------------------------+|
+|                                                                      |
+|  입력: +--------+ +--------+ +--------+ +--------+ +--------+       |
+|       |비즈니스| |규제/법  | |기술 트렌| |고객/시장| |위험/리스크|    |
+|       |요구사항| |규    | |드(AI/Cloud)| |니즈   | |요인    |       |
+|       +---+----+ +---+----+ +---+----+ +---+----+ +---+----+       |
+|           +----------+----------+----------+----------+              |
+|                            |                                        |
+|                  +---------v---------+                              |
+|                  |  IT Steering Com. | <- 의사결정 정점               |
+|                  |  (이사회/CIO)     |                              |
+|                  +---------+---------+                              |
+|                            |                                        |
+|           +----------------+----------------+                       |
+|           |                |                |                       |
+|   +-------v------+ +-------v------+ +-------v------+               |
+|   | Portfolio    | | Program      | | Project &    |               |
+|   | Mgmt(PPM)    | | Mgmt(PgM)   | | BA(Service)  |               |
+|   +------+------+ +------+------+ +------+------+               |
+|          +----------------+----------------+                       |
+|                            |                                        |
+|                  +---------v---------+                              |
+|                  |  Value Realization| <- KPI·BSC·OKR 기반           |
+|                  |  & Continuous     |                              |
+|                  |  Improvement      |                              |
+|                  +-------------------+                              |
++----------------------------------------------------------------------+
 ```
 
 ### 4. 왜 필요한가? (5대 핵심 동기)
@@ -104,32 +104,32 @@ tags = ["studynote-it-management"]
 IT 경영 관리의 핵심은 **"어떤 표준을 어떤 계층에 적용할 것인가"** 의 명확한 매핑에 있다.
 
 ```text
-                    ┌─────────────────────────────┐
-                    │  ISO/IEC 38500:2015 (이사회) │ ← 6 Principles
-                    │  Evaluate·Direct·Monitor    │
-                    └──────────────┬──────────────┘
-                                   │ (상위 거버넌스 원칙)
-                    ┌──────────────▼──────────────┐
-                    │  COBIT 2019 (관리 체계)      │ ← 40 Obj, 5 Domains
-                    │  EDM·APO·BAI·DSS·MEA        │
-                    └──────────────┬──────────────┘
-                                   │
-        ┌──────────────────────────┼──────────────────────────┐
-        │                          │                          │
-┌───────▼────────┐      ┌─────────▼──────────┐      ┌────────▼─────────┐
-│  TOGAF 10       │      │  ITIL 4            │      │  PMBOK 7th       │
-│  (EA)           │      │  (서비스 운영)      │      │  (프로젝트)       │
-│  ADM Cycle      │      │  SVS·34 Practices  │      │  8 Performance    │
-│  ADM-8 Phase    │      │  Value Stream      │      │  Domains         │
-└─────────────────┘      └────────────────────┘      └──────────────────┘
-        │                          │                          │
-        └──────────────────────────┼──────────────────────────┘
-                                   │
-                    ┌──────────────▼──────────────┐
-                    │  NIST CSF 2.0 / ISMS-P      │ ← 보안 거버넌스
-                    │  Govern·Identify·Protect    │
-                    │  Detect·Respond·Recover     │
-                    └─────────────────────────────┘
+                    +-----------------------------+
+                    |  ISO/IEC 38500:2015 (이사회) | <- 6 Principles
+                    |  Evaluate·Direct·Monitor    |
+                    +--------------+--------------+
+                                   | (상위 거버넌스 원칙)
+                    +--------------v--------------+
+                    |  COBIT 2019 (관리 체계)      | <- 40 Obj, 5 Domains
+                    |  EDM·APO·BAI·DSS·MEA        |
+                    +--------------+--------------+
+                                   |
+        +--------------------------+--------------------------+
+        |                          |                          |
++-------v--------+      +---------v----------+      +--------v---------+
+|  TOGAF 10       |      |  ITIL 4            |      |  PMBOK 7th       |
+|  (EA)           |      |  (서비스 운영)      |      |  (프로젝트)       |
+|  ADM Cycle      |      |  SVS·34 Practices  |      |  8 Performance    |
+|  ADM-8 Phase    |      |  Value Stream      |      |  Domains         |
++-----------------+      +--------------------+      +------------------+
+        |                          |                          |
+        +--------------------------+--------------------------+
+                                   |
+                    +--------------v--------------+
+                    |  NIST CSF 2.0 / ISMS-P      | <- 보안 거버넌스
+                    |  Govern·Identify·Protect    |
+                    |  Detect·Respond·Recover     |
+                    +-----------------------------+
 ```
 
 ### 2. 핵심 구성 요소 및 역할
@@ -137,9 +137,9 @@ IT 경영 관리의 핵심은 **"어떤 표준을 어떤 계층에 적용할 것
 | 구성 요소 | 역할 | 핵심 기술·프레임워크 및 동작 방식 |
 | :--- | :--- | :--- |
 | **IT Steering Committee(이사회/거버넌스 위원회)** | IT 투자·우선순위·리스크 최종 의사결정 | ISO 38500 6원칙 적용, 분기 1회 이상 정례 회의, 의사결정 기록(Digital Minute) 보관, CIO·CDO·CISO·CFO·CDAO 합동 구 |
-| **COBIT 2019 (관리·운영 체계)** | 거버넌스 목표와 관리 목표의 계층적 연결 | 5개 도메인(EDM·APO·BAI·DSS·MEA) × 40개 거버넌스·관리 목표, **Cascade of Goals** 로 전략→전술→운영 KPI 자동 매핑, Focus Area(예: DevOps, AI, Risk) 추가 가능 |
-| **TOGAF 10 (Enterprise Architecture)** | 비즈니스·데이터·애플리케이션·기술 4계층 아키텍처 정렬 | **ADM(Architecture Development Method) 8단계** Phase A(비전)→B(비즈니스)→C(정보시스템)→D(기술)→E(기회·솔루션)→F(구현 거버넌스)→G(구현 거버넌스)→H(아키텍처 변경 관리) 사이클 반복 |
-| **ITIL 4 (서비스 운영)** | IT 서비스의 End-to-End 가치 흐름(Value Stream) 관리 | **34개 Practice**(전략·디자인·전환·운영·개선), Service Value System(SVS) = Opportunity/Demand→Value→Service Value Chain(Plan→Engage→Design&Transition→Obtain/Build→Deliver&Support)→Value |
+| **COBIT 2019 (관리·운영 체계)** | 거버넌스 목표와 관리 목표의 계층적 연결 | 5개 도메인(EDM·APO·BAI·DSS·MEA) × 40개 거버넌스·관리 목표, **Cascade of Goals** 로 전략->전술->운영 KPI 자동 매핑, Focus Area(예: DevOps, AI, Risk) 추가 가능 |
+| **TOGAF 10 (Enterprise Architecture)** | 비즈니스·데이터·애플리케이션·기술 4계층 아키텍처 정렬 | **ADM(Architecture Development Method) 8단계** Phase A(비전)->B(비즈니스)->C(정보시스템)->D(기술)->E(기회·솔루션)->F(구현 거버넌스)->G(구현 거버넌스)->H(아키텍처 변경 관리) 사이클 반복 |
+| **ITIL 4 (서비스 운영)** | IT 서비스의 End-to-End 가치 흐름(Value Stream) 관리 | **34개 Practice**(전략·디자인·전환·운영·개선), Service Value System(SVS) = Opportunity/Demand->Value->Service Value Chain(Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support)->Value |
 | **PMBOK 7th + Agile** | 프로젝트 수행과 변화 관리 | **8개 Performance Domain**(Team, Development Approach, Planning, Project Work, Delivery, Measurement, Uncertainty, Stakeholder), 12 Principle, 예측형·적응형·하이브리드 선택 |
 | **NIST CSF 2.0 / ISMS-P** | 사이버보안 거버넌스 | 6 Function(Govern·Identify·Protect·Detect·Respond·Recover) × 카테고리·하위 카테고리, ISMS-P는 한국 정보통신망법 기반 16개 영역 80개 통제항목 |
 | **Value Realization Office (VRO)** | 투자 정당화 및 Benefit Realization | OKR·BSC·ROI·NPV·TCO·ROO·Carbon ROI 통합 측정, Digital Twin of Organization(DTO) 기반 실시간 KPI 대시보드 |
@@ -148,50 +148,50 @@ IT 경영 관리의 핵심은 **"어떤 표준을 어떤 계층에 적용할 것
 ### 3. COBIT 2019의 Cascade of Goals (핵심 메커니즘)
 
 ```text
-┌──────────────────────┐
-│  Enterprise Goals    │  ← 13개 (예: EG01 포트폴리오 가치 제공)
-│  (비즈니스 목표)     │     EG06 비즈니스 서비스 연속성·유연성
-└──────────┬───────────┘     EG13 지식·정보 관리
-           │ "Cascade"
-┌──────────▼───────────┐
-│  Alignment Goals     │  ← 13개 (예: AG02 관리되는 I&T 위험)
-│  (IT 정렬 목표)      │     AG05 실효적인 재무·투명성
-└──────────┬───────────┘     AG12 인력·역량 관리
-           │
-┌──────────▼───────────┐
-│  Governance/Manage.  │  ← 40개 (예: EDM01 거버넌스 프레임워크 설정)
-│  Objectives          │     APO12 위험 관리
-└──────────┬───────────┘     BAI02 요구사항 관리
-           │                  DSS01 운영 관리
-┌──────────▼───────────┐     MEA01 성과·준수 모니터링
-│  Component: Process  │
-│  ·Organizational Str.│
-│  ·Information Flow   │
-│  ·People/Skills      │
-│  ·Policies/Procedures│
-└──────────────────────┘
++----------------------+
+|  Enterprise Goals    |  <- 13개 (예: EG01 포트폴리오 가치 제공)
+|  (비즈니스 목표)     |     EG06 비즈니스 서비스 연속성·유연성
++----------+-----------+     EG13 지식·정보 관리
+           | "Cascade"
++----------v-----------+
+|  Alignment Goals     |  <- 13개 (예: AG02 관리되는 I&T 위험)
+|  (IT 정렬 목표)      |     AG05 실효적인 재무·투명성
++----------+-----------+     AG12 인력·역량 관리
+           |
++----------v-----------+
+|  Governance/Manage.  |  <- 40개 (예: EDM01 거버넌스 프레임워크 설정)
+|  Objectives          |     APO12 위험 관리
++----------+-----------+     BAI02 요구사항 관리
+           |                  DSS01 운영 관리
++----------v-----------+     MEA01 성과·준수 모니터링
+|  Component: Process  |
+|  ·Organizational Str.|
+|  ·Information Flow   |
+|  ·People/Skills      |
+|  ·Policies/Procedures|
++----------------------+
 ```
 
 ### 4. ITIL 4 Service Value Chain (SVC) 핵심 흐름
 
 ```text
    기회/수요(Opportunity & Demand)
-            │
-            ▼
-   ┌──────────────────────────────────────────────────────┐
-   │              Service Value Chain (SVC)               │
-   │                                                      │
-   │  ┌────────┐ ┌────────┐ ┌────────────┐ ┌────────┐    │
-   │  │ Plan   │→│ Engage │→│ Design &   │→│ Obtain │    │
-   │  │        │ │        │ │ Transition │ │ /Build │    │
-   │  └────────┘ └────────┘ └────────────┘ └───┬────┘    │
-   │                                          │          │
-   │                              ┌────────
+            |
+            v
+   +------------------------------------------------------+
+   |              Service Value Chain (SVC)               |
+   |                                                      |
+   |  +--------+ +--------+ +------------+ +--------+    |
+   |  | Plan   |->| Engage |->| Design &   |->| Obtain |    |
+   |  |        | |        | | Transition | | /Build |    |
+   |  +--------+ +--------+ +------------+ +---+----+    |
+   |                                          |          |
+   |                              +--------
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 770 / 800
 
-← **이전**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/)
-**다음**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/) →
+<- **이전**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/)
+**다음**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/) ->
 
 ---

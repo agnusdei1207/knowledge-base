@@ -69,14 +69,14 @@ tags = ["studynote-cloud"]
 
 ```text
 수동 빌드 · 수동 배포 (느림 · 오류)
-    │
-    ▼
+    |
+    v
 CI/CD 도구: Jenkins · GitHub Actions · GitLab CI · ArgoCD
-    ├─► Pipeline as Code: YAML 선언적 정의
-    └─► 아티팩트 관리: Nexus · Harbor · ECR
-    │
-    ▼
-GitOps: Git 단일 진실 소스 → 자동 동기화
+    +-► Pipeline as Code: YAML 선언적 정의
+    +-► 아티팩트 관리: Nexus · Harbor · ECR
+    |
+    v
+GitOps: Git 단일 진실 소스 -> 자동 동기화
 ```
 - "먼저 나사를 조이고, 그다음에 색칠을 하고, 마지막으로 상자에 넣어!"라고 순서를 정해주죠.
 - 공장장님이 시키는 대로 기계들이 알아서 척척 만들어주니까 실수가 없는 멋진 공장이 된답니다.
@@ -87,7 +87,7 @@ GitOps: Git 단일 진실 소스 → 자동 동기화
 
 **진행 상황**: 165 / 371
 
-← **이전**: [165. 지속적 배포 (Continuous Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)
-**다음**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) →
+<- **이전**: [165. 지속적 배포 (Continuous Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)
+**다음**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ->
 
 ---

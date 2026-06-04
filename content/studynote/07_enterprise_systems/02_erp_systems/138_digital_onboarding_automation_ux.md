@@ -20,9 +20,9 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 디지털 온보딩 프로세스:
-  1. 신분증 촬영 (OCR) → 2. 안면 인증 (eKYC)
-  3. 전자 서명 → 4. 즉시 계좌/서비스 개통
-  → 수분 내 완료 (vs 오프라인 수일)
+  1. 신분증 촬영 (OCR) -> 2. 안면 인증 (eKYC)
+  3. 전자 서명 -> 4. 즉시 계좌/서비스 개통
+  -> 수분 내 완료 (vs 오프라인 수일)
 ```
 
 - **📢 섹션 요약 비유**: 디지털 온보딩은 <strong>무인 체크인 키오스크</strong>이다. 줄 서지 않고 **스스로 빠르게** 체크인한다.
@@ -48,9 +48,9 @@ tags = ["studynote-enterprise-systems"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[오프라인 창구 (~2015)] → [모바일 온보딩 (2016~)]
-    → [eKYC 비대면 (2020~)] → [AI OCR+안면인증]
-    → [현재: 원스톱 디지털 온보딩 — 수분 내 완료]
+[오프라인 창구 (~2015)] -> [모바일 온보딩 (2016~)]
+    -> [eKYC 비대면 (2020~)] -> [AI OCR+안면인증]
+    -> [현재: 원스톱 디지털 온보딩 — 수분 내 완료]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 138 / 482
 
-← **이전**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/)
-**다음**: [139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/139_o2o_online_to_offline_platform/) →
+<- **이전**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/)
+**다음**: [139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/139_o2o_online_to_offline_platform/) ->
 
 ---

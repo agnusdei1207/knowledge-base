@@ -36,12 +36,12 @@ tags = ["studynote-ai"]
 | 수용 영역 (Receptive Field) | 출력 뉴런 하나가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 입력 영역 | 깊을수록 넓어짐 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터는 '도장'이다. 동일한 도장(필터)을 종이(입력) 위에서 일정 간격([스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 찍으며 문양(특징)을 추출한다. 가장자리에 여백([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어두면 종이 끝까지 고르게 찍을 수 있다.
@@ -60,33 +60,33 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 - **S**: [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))
 
 **예시**: 입력 32×32, 필터 3×3, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 0
-→ (32 - 3 + 0) / 1 + 1 = **30×30**
+-> (32 - 3 + 0) / 1 + 1 = **30×30**
 
 **예시**: 입력 32×32, 필터 3×3, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 1 (Same [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
-→ (32 - 3 + 2) / 1 + 1 = **32×32** (크기 유지)
+-> (32 - 3 + 2) / 1 + 1 = **32×32** (크기 유지)
 
 ### [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 흐름
 
 ```
 입력 특징 맵 (5×5)           필터 (3×3)          출력 특징 맵 (3×3)
-┌───────────────────┐       ┌─────────┐       ┌───────────┐
-│ 1  2  3  4  5     │       │ 1  0  1 │       │ ?  ?  ?   │
-│ 6  7  8  9  10    │  ✦    │ 0  1  0 │  =   │ ?  ?  ?   │
-│ 11 12 13 14 15    │       │ 1  0  1 │       │ ?  ?  ?   │
-│ 16 17 18 19 20    │       └─────────┘       └───────────┘
-│ 21 22 23 24 25    │
-└───────────────────┘
++-------------------+       +---------+       +-----------+
+| 1  2  3  4  5     |       | 1  0  1 |       | ?  ?  ?   |
+| 6  7  8  9  10    |  ✦    | 0  1  0 |  =   | ?  ?  ?   |
+| 11 12 13 14 15    |       | 1  0  1 |       | ?  ?  ?   |
+| 16 17 18 19 20    |       +---------+       +-----------+
+| 21 22 23 24 25    |
++-------------------+
        Stride=1, Padding=0
        출력 크기: (5-3+0)/1+1 = 3
 
 슬라이딩 순서:
-┌──────────────────────────────────────────────────┐
-│  [0,0] → [0,1] → [0,2]                          │
-│    ↓                                             │
-│  [1,0] → [1,1] → [1,2]                          │
-│    ↓                                             │
-│  [2,0] → [2,1] → [2,2]                          │
-└──────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  [0,0] -> [0,1] -> [0,2]                          |
+|    v                                             |
+|  [1,0] -> [1,1] -> [1,2]                          |
+|    v                                             |
+|  [2,0] -> [2,1] -> [2,2]                          |
++--------------------------------------------------+
 ```
 
 ### [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 종류 비교
@@ -104,13 +104,13 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 ```
 일반 3×3 합성곱       팽창률 2인 3×3 합성곱
 (수용 영역: 3×3)      (수용 영역: 5×5)
-┌─────────┐           ┌─────────────────┐
-│ ■ ■ ■   │           │ ■ · ■ · ■       │
-│ ■ ■ ■   │           │ · · · · ·       │
-│ ■ ■ ■   │           │ ■ · ■ · ■       │
-└─────────┘           │ · · · · ·       │
-                      │ ■ · ■ · ■       │
-                      └─────────────────┘
++---------+           +-----------------+
+| ■ ■ ■   |           | ■ · ■ · ■       |
+| ■ ■ ■   |           | · · · · ·       |
+| ■ ■ ■   |           | ■ · ■ · ■       |
++---------+           | · · · · ·       |
+                      | ■ · ■ · ■       |
+                      +-----------------+
 ■ = 활성 가중치, · = 건너뜀
 파라미터 수는 동일, 수용 영역만 확장
 ```
@@ -135,8 +135,8 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 다른 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 변형과 연결
 
-- <strong>깊이별 분리 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Depthwise Separable Convolution)</strong>: MobileNet에서 사용. 채널별로 공간 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 적용 → 계산량 대폭 감소
-- <strong>그룹 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Group Convolution)</strong>: 채널을 그룹으로 나눠 독립적으로 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) → ResNeXt에서 활용
+- <strong>깊이별 분리 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Depthwise Separable Convolution)</strong>: MobileNet에서 사용. 채널별로 공간 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 적용 -> 계산량 대폭 감소
+- <strong>그룹 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Group Convolution)</strong>: 채널을 그룹으로 나눠 독립적으로 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) -> ResNeXt에서 활용
 - <strong>팽창 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Dilated Convolution)</strong>: DeepLab, WaveNet에서 수용 영역 확장에 사용
 
 - **📢 섹션 요약 비유**: [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1 vs 2는 사진을 찍을 때 매 cm마다 찍느냐, 2 cm마다 찍느냐의 차이다. 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 돋보기로 보이지 않는 먼 곳까지 '공짜로' 더 넓게 보는 방법이다.
@@ -173,21 +173,21 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 ### [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산의 핵심 가치
 
 1. **파라미터 효율성**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유로 완전 연결 대비 파라미터 수 수십~수천 배 감소
-2. **공간 계층성**: 저수준(엣지·코너) → 고수준(얼굴·물체) 특징을 계층적으로 학습
+2. **공간 계층성**: 저수준(엣지·코너) -> 고수준(얼굴·물체) 특징을 계층적으로 학습
 3. **이동 등변성 (Translation Equivariance)**: 입력이 이동하면 출력도 동일하게 이동 ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서는 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)으로 불변성 확보)
 
 ### 공식 정리 (시험 필수)
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│           출력 크기 공식                                 │
-│                                                         │
-│   O = floor( (I - F + 2P) / S ) + 1                    │
-│                                                         │
-│   - 동일 패딩 조건: P = (F-1) / 2  (S=1일 때)          │
-│   - 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)   │
-│     예) F=3, d=2 → F_d = 3 + 2×1 = 5                  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|           출력 크기 공식                                 |
+|                                                         |
+|   O = floor( (I - F + 2P) / S ) + 1                    |
+|                                                         |
+|   - 동일 패딩 조건: P = (F-1) / 2  (S=1일 때)          |
+|   - 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)   |
+|     예) F=3, d=2 -> F_d = 3 + 2×1 = 5                  |
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '특징 탐정'이다. 작은 돋보기(필터)로 이미지 전체를 꼼꼼히([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1) 훑거나 빠르게([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2) 살피고, 가장자리도 놓치지 않으려면 여백([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어 두는 것이다.
@@ -208,7 +208,7 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [합성곱 연산 (Convolution)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [합성곱 연산 (Convolution)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -223,7 +223,7 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 **진행 상황**: 284 / 420
 
-← **이전**: [283. CNN (Convolutional Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/283_cnn_overview/)
-**다음**: [285. 풀링 (Pooling)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) →
+<- **이전**: [283. CNN (Convolutional Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/283_cnn_overview/)
+**다음**: [285. 풀링 (Pooling)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ->
 
 ---

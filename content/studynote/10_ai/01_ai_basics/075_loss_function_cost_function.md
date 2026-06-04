@@ -106,20 +106,20 @@ loss, cost, metric은 목적이 다르다. loss는 학습용 미분 [신호](/kn
 
 ```text
 prediction
-  │
-  ▼
+  |
+  v
 sample error
-  │
-  ▼
+  |
+  v
 differentiable loss
-  │
-  ▼
+  |
+  v
 backpropagation
-  │
-  ▼
+  |
+  v
 parameter update
-  │
-  ▼
+  |
+  v
 next epoch
 ```
 
@@ -135,7 +135,7 @@ next epoch
 
 **진행 상황**: 75 / 420
 
-← **이전**: [74. 순전파 (Forward Propagation) - 신경망 계산 흐름](/knowledge-base/studynote/10_ai/01_ai_basics/074_forward_propagation_neural_network/)
-**다음**: [76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) →
+<- **이전**: [74. 순전파 (Forward Propagation) - 신경망 계산 흐름](/knowledge-base/studynote/10_ai/01_ai_basics/074_forward_propagation_neural_network/)
+**다음**: [76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ->
 
 ---

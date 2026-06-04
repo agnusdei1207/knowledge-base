@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Fine-tuning은 <strong>사전 학습된 Foundation Model의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 추가 학습하여 특정 작업 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최적화</strong>하는 기법이며, Full [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)·[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·Prompt Tuning으로 구분된다.
 > 2. **가치**: 사전 학습 모델은 범용이라 특정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(의료·법률)에서 정확도가 부족하지만, Fine-tuning으로 <strong>소량 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만으로도 전문 모델 수준</strong>을 달성한다.
-> 3. **판단 포인트**: Full FT(전체 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 비용↑, [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)(저랭크 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))는 <strong>파라미터의 1% 미만만 학습</strong>하여 효율적이며, [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))로 소비자 GPU에서도 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Fine-tuning이 가능하다.
+> 3. **판단 포인트**: Full FT(전체 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 비용^, [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)(저랭크 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))는 <strong>파라미터의 1% 미만만 학습</strong>하여 효율적이며, [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))로 소비자 GPU에서도 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Fine-tuning이 가능하다.
 
 ---
 
@@ -59,9 +59,9 @@ Prompt Tuning: 프롬프트 벡터만 학습 (가장 경량)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ImageNet Fine-tuning (2012)] → [BERT Fine-tuning (2018)]
-    → [GPT-3 Few-shot (2020)] → [LoRA (2021)]
-    → [QLoRA (2023)] → [현재: DoRA·LoRA+ — 차세대 효율 FT]
+[ImageNet Fine-tuning (2012)] -> [BERT Fine-tuning (2018)]
+    -> [GPT-3 Few-shot (2020)] -> [LoRA (2021)]
+    -> [QLoRA (2023)] -> [현재: DoRA·LoRA+ — 차세대 효율 FT]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ Prompt Tuning: 프롬프트 벡터만 학습 (가장 경량)
 
 **진행 상황**: 133 / 420
 
-← **이전**: [132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)
-**다음**: [134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/134_peft/) →
+<- **이전**: [132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)
+**다음**: [134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/134_peft/) ->
 
 ---

@@ -30,8 +30,8 @@ tags = ["database"]
 
 ```text
 Candidate Keys
-  ├─ Primary Key
-  └─ Alternate Keys
+  +- Primary Key
+  +- Alternate Keys
 ```
 
 | 개념 | 의미 |
@@ -101,9 +101,9 @@ Candidate Keys
 
 ```text
 Candidate Key
-  ↓
+  v
 Primary Key
-  ↓
+  v
 Alternate Key
 ```
 
@@ -113,9 +113,9 @@ Alternate Key
 
 ```text
 Candidate Key
-  ↓
+  v
 Alternate Key
-  ↓
+  v
 Key Constraint
 ```
 
@@ -133,7 +133,7 @@ Key Constraint
 
 **진행 상황**: 71 / 600
 
-← **이전**: [70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)
-**다음**: [72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) →
+<- **이전**: [70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)
+**다음**: [72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) ->
 
 ---

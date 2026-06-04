@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 문제는 수백 대의 GPU를 어떻게 효율적으로 갈구며 일을 시킬 것인가다. 일의 성격에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산더미를 쪼개서 나눠줄지(<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Parallelism</strong>), 아니면 거대한 프랑켄슈타인의 뇌 자체를 4등분 해서 수술대 4곳에 따로 눕혀놓고 훈련시킬지(**Model Parallelism**) 치열한 아키텍처 분기점이 발생한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 1명의 제빵사([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대)가 감당 못 할 100만 개의 빵 주문이 들어왔다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화</strong>는 똑같은 오븐(모델)을 가진 100명의 제빵사를 고용해, 반죽([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1만 개씩을 나눠주고 다 구운 빵(기울기)을 마지막에 한 곳에 모으는 다구리 전술이다. 반면 빵 1개의 크기가 너무 거대해서 오븐 1개에 안 들어간다면? <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화</strong>를 써서 1번 요리사는 반죽만(모델 앞부분), 2번 요리사는 굽기만(중간 부분), 3번 요리사는 포장만(뒷부분) 하도록 거대한 빵의 제작 공정 자체를 여러 오븐에 찢어버리는 컨베이어 벨트 전술이다.
@@ -44,26 +44,26 @@ tags = ["studynote-ai"]
 멀티 GPU를 다루는 두 가지 절대적 축인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(DP)와 모델 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(MP/[PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/))의 동작 메커니즘을 뜯어보자.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           멀티 GPU 훈련을 지배하는 양대 분산 아키텍처 (DDP vs PP)     │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 데이터 병렬화 (Data Parallelism / DDP)]                 │
-│   * 상황: 모델 뇌는 작은데, 데이터가 미친 듯이 많을 때.                   │
-│   * 원리: 4대의 GPU에 똑같은 '쌍둥이 뇌(Model)' 4개를 복사해 둠!          │
-│          거대한 데이터 더미를 1/4씩 쪼개서 각 GPU에 던져줌.              │
-│   * 동기화(All-Reduce): 각 GPU가 따로 공부한 깨달음(Gradient 오차)을   │
-│          가운데서 하나로 합쳐서(평균 내서), 다시 4대의 뇌에 똑같이 덮어씀.     │
-│   * 무기: PyTorch의 Distributed Data Parallel (DDP) 표준!       │
-│                                                              │
-│  [2. 파이프라인 모델 병렬화 (Pipeline Model Parallelism / PP)] │
-│   * 상황: 모델 뇌 자체가 100층짜리 트랜스포머라 GPU 1대에 안 들어갈 때.      │
-│   * 원리: 신경망 뇌를 찢어발김!                                   │
-│      ─▶ GPU 0번: 1~30층 담당 (사진 보고 귀 찾기)                │
-│      ─▶ GPU 1번: 31~60층 담당 (눈, 코 찾기)                     │
-│      ─▶ GPU 2번: 61~100층 담당 (최종 고양이 판별!)                 │
-│   * 동기화: GPU 0번이 계산 끝나면 ─▶ 1번으로 바통 터치(통신 넘김) ─▶ 2번으로 넘김│
-│            컨베이어 벨트처럼 뇌의 기억 조각이 통신선을 타고 릴레이 뜀!        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           멀티 GPU 훈련을 지배하는 양대 분산 아키텍처 (DDP vs PP)     |
++--------------------------------------------------------------+
+|  [1. 데이터 병렬화 (Data Parallelism / DDP)]                 |
+|   * 상황: 모델 뇌는 작은데, 데이터가 미친 듯이 많을 때.                   |
+|   * 원리: 4대의 GPU에 똑같은 '쌍둥이 뇌(Model)' 4개를 복사해 둠!          |
+|          거대한 데이터 더미를 1/4씩 쪼개서 각 GPU에 던져줌.              |
+|   * 동기화(All-Reduce): 각 GPU가 따로 공부한 깨달음(Gradient 오차)을   |
+|          가운데서 하나로 합쳐서(평균 내서), 다시 4대의 뇌에 똑같이 덮어씀.     |
+|   * 무기: PyTorch의 Distributed Data Parallel (DDP) 표준!       |
+|                                                              |
+|  [2. 파이프라인 모델 병렬화 (Pipeline Model Parallelism / PP)] |
+|   * 상황: 모델 뇌 자체가 100층짜리 트랜스포머라 GPU 1대에 안 들어갈 때.      |
+|   * 원리: 신경망 뇌를 찢어발김!                                   |
+|      --> GPU 0번: 1~30층 담당 (사진 보고 귀 찾기)                |
+|      --> GPU 1번: 31~60층 담당 (눈, 코 찾기)                     |
+|      --> GPU 2번: 61~100층 담당 (최종 고양이 판별!)                 |
+|   * 동기화: GPU 0번이 계산 끝나면 --> 1번으로 바통 터치(통신 넘김) --> 2번으로 넘김|
+|            컨베이어 벨트처럼 뇌의 기억 조각이 통신선을 타고 릴레이 뜀!        |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (통신 병목과 링-올리듀스)**:
@@ -134,7 +134,7 @@ Pytorch 클러스터 환경에서 멀티 [GPU](/knowledge-base/studynote/01_comp
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ Pytorch 클러스터 환경에서 멀티 [GPU](/knowledge-base/studynote/01_comp
 
 **진행 상황**: 188 / 420
 
-← **이전**: [187. 혼합 정밀도 훈련 (Mixed Precision Training)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/187_mixed_precision_training/)
-**다음**: [189. ZeRO (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/189_zero_deepspeed/) →
+<- **이전**: [187. 혼합 정밀도 훈련 (Mixed Precision Training)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/187_mixed_precision_training/)
+**다음**: [189. ZeRO (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/189_zero_deepspeed/) ->
 
 ---

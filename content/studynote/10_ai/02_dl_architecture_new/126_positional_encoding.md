@@ -19,18 +19,18 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Positional Encoding                                │
-├───────────────────────────────────────────────────────┤
-│  입력 임베딩: [I, love, you]                          │
-│  위치 인코딩: [pos=0, pos=1, pos=2]                   │
-│                                                       │
-│  Sinusoidal:                                          │
-│   PE(pos, 2i)   = sin(pos / 10000^(2i/d))            │
-│   PE(pos, 2i+1) = cos(pos / 10000^(2i/d))            │
-│                                                       │
-│  최종 입력 = 단어 임베딩 + 위치 인코딩               │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Positional Encoding                                |
++-------------------------------------------------------+
+|  입력 임베딩: [I, love, you]                          |
+|  위치 인코딩: [pos=0, pos=1, pos=2]                   |
+|                                                       |
+|  Sinusoidal:                                          |
+|   PE(pos, 2i)   = sin(pos / 10000^(2i/d))            |
+|   PE(pos, 2i+1) = cos(pos / 10000^(2i/d))            |
+|                                                       |
+|  최종 입력 = 단어 임베딩 + 위치 인코딩               |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Positional Encoding은 좌석 번호이다. Self-Attention은 모든 사람을 볼 수 있지만, 좌석 번호가 없으면 "누가 앞줄이고 뒷줄인지" 모른다.
@@ -90,17 +90,17 @@ Positional Encoding은 <strong>Transformer가 순서를 이해하게 하는 유�
 
 ```text
 [RNN 순서 (내재적, ~2016)]
-    │
-    ▼
+    |
+    v
 [Sinusoidal PE (Transformer, 2017)]
-    │
-    ▼
+    |
+    v
 [Learned PE (BERT/GPT-2, 2018~2019)]
-    │
-    ▼
+    |
+    v
 [RoPE (2021) — 상대 위치 인코딩]
-    │
-    ▼
+    |
+    v
 [현재: YaRN / NTK-RoPE — 긴 컨텍스트 확장]
 ```
 
@@ -115,7 +115,7 @@ Positional Encoding은 <strong>Transformer가 순서를 이해하게 하는 유�
 
 **진행 상황**: 126 / 420
 
-← **이전**: [125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/125_multi_head_attention/)
-**다음**: [127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단](/knowledge-base/studynote/10_ai/02_dl_architecture_new/127_masked_self_attention/) →
+<- **이전**: [125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/125_multi_head_attention/)
+**다음**: [127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단](/knowledge-base/studynote/10_ai/02_dl_architecture_new/127_masked_self_attention/) ->
 
 ---

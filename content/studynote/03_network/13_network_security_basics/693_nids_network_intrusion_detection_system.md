@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [상태 기반 감시 기술의 원리]
-    │
-    ▼
+    |
+    v
 [NIDS 공격]
-    │
-    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
+    |
+    +---> [스노트, Suricata 와 오용 탐지 vs…]
 ```
 
 - **📢 섹션 요약 비유**: NIDS 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [상태 기반 감시 기술의 원리]
-    │
-    ▼
+    |
+    v
 [NIDS 공격]
-    │
-    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
+    |
+    +---> [스노트, Suricata 와 오용 탐지 vs…]
 ```
 
 - **📢 섹션 요약 비유**: NIDS 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ NIDS 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_per
 
 ```text
 [선행 개념: 상태 기반 감시 기술의 원리]
-    │
-    ▼
+    |
+    v
 [현재 개념: NIDS 공격]
-    │
-    ├──▶ [확장 A: 스노트, Suricata 와 오용 탐지 vs…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 스노트, Suricata 와 오용 탐지 vs…]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 NIDS 공격는 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ NIDS 공격는 [상태 기반 감시](/knowledge-base/studynote/03_network/13_ne
 
 **진행 상황**: 814 / 1120
 
-← **이전**: [692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/)
-**다음**: [694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) →
+<- **이전**: [692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/)
+**다음**: [694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) ->
 
 ---

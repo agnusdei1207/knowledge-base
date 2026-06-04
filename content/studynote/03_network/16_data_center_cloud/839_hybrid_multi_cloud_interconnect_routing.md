@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [Direct Connect / Express…]
-    │
-    ▼
+    |
+    v
 [하이브리드 / 멀티 클라우드 망 연동]
-    │
-    └──▶ [BDI]
+    |
+    +---> [BDI]
 ```
 
 - **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -57,11 +57,11 @@ tags = ["studynote-network"]
 
 ```text
 [Direct Connect / Express…]
-    │
-    ▼
+    |
+    v
 [하이브리드 / 멀티 클라우드 망 연동]
-    │
-    └──▶ [BDI]
+    |
+    +---> [BDI]
 ```
 
 - **📢 섹션 요약 비유**: [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 써야 했습니다. <strong>하이브리드/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 인터커넥트</strong>는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) 연동망)'를 통째로 깔아버린 것입니다. 여기에 <strong>트랜짓 게이트웨이(환승 센터)</strong>라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Direct Connect / Express…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 하이브리드 / 멀티 클라우드 망 연동]
-    │
-    ├──▶ [확장 A: BDI]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: BDI]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동는 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…에서 출발해 현재 메커니즘을 정교화하고, 이후 BDI와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 960 / 1120
 
-← **이전**: [838. 클라우드 전용선 (Direct Connect)](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/)
-**다음**: [840. BDI와 VTEP](/knowledge-base/studynote/03_network/16_data_center_cloud/840_bdi_vtep_vxlan_overlay_bridge_domain/) →
+<- **이전**: [838. 클라우드 전용선 (Direct Connect)](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/)
+**다음**: [840. BDI와 VTEP](/knowledge-base/studynote/03_network/16_data_center_cloud/840_bdi_vtep_vxlan_overlay_bridge_domain/) ->
 
 ---

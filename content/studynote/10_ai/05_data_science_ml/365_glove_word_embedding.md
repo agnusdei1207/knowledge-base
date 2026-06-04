@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: GloVe(Global Vectors for [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Representation)는 전체 코퍼스의 [동시 등장 행렬](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)([Co-occurrence Matrix](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)) X_ij를 분해하여 단어 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 학습하는 방법으로, 전역(Global) 통계를 활용해 Word2Vec의 로컬(Local) 문맥 창 한계를 극복한다.
 > 2. **가치**: "왕 - 남자 + 여자 = 여왕"처럼 단어 벡터 간 산술 연산으로 의미 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하는 능력이 Word2Vec과 동등하면서, 전역 통계를 활용해 희귀 단어와 낮은 빈도 동시 등장 패턴을 더 잘 포착한다.
-> 3. **판단 포인트**: GloVe 목적 함수는 Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)²이며, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 함수 f(x) = (x/x_max)^α (x ≤ x_max, else 1)로 초고빈도 동시 등장 쌍의 지배(Dominance)를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)한다.
+> 3. **판단 포인트**: GloVe 목적 함수는 Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)^이며, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 함수 f(x) = (x/x_max)^α (x ≤ x_max, else 1)로 초고빈도 동시 등장 쌍의 지배(Dominance)를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)한다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 Word2Vec은 문맥 창(Window) 내에서만 학습하므로 전체 코퍼스의 전역 통계를 활용하지 못한다. "ice"와 "steam"은 서로 다르지만 둘 다 "water"와 자주 등장한다. 반면 "ice"는 "[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/)"와, "steam"은 "[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)"와 더 자주 등장한다. 이 전역적 비율(X_ice,[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) / X_ice,[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) vs X_steam,[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) / X_steam,[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))이 의미 차이를 담는다는 통찰이 GloVe의 핵심이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Word2Vec이 "이웃집만 보는 정보원"이라면, GloVe는 "도시 전체 통계청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하는 인구학자"다. 이웃집만 보면 단편적이지만, 도시 전체 통계(전역 [동시 등장 행렬](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/))를 보면 더 넓은 패턴을 포착한다.
@@ -37,24 +37,24 @@ Word2Vec은 문맥 창(Window) 내에서만 학습하므로 전체 코퍼스의 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                GloVe 학습 파이프라인                      │
-├──────────────────────────────────────────────────────────┤
-│  1. 동시 등장 행렬 구성:                                 │
-│     X_ij = 단어 i와 j가 윈도우 k 내 함께 등장한 횟수    │
-│     (|V|×|V| 희소 행렬, V=어휘 크기)                   │
-│                                                          │
-│  2. GloVe 목적 함수:                                    │
-│     J = Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)²  │
-│                                                          │
-│  3. 가중치 함수 f(x):                                   │
-│     f(x) = (x/x_max)^α  if x < x_max                  │
-│             1            otherwise                      │
-│     (α=0.75, x_max=100 일반적 설정)                    │
-│                                                          │
-│  4. 최적화: AdaGrad로 wᵢ, w̃ⱼ, bᵢ, b̃ⱼ 학습           │
-│  5. 최종 벡터: wᵢ + w̃ⱼ 평균 (두 벡터 평균이 더 우수) │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                GloVe 학습 파이프라인                      |
++----------------------------------------------------------+
+|  1. 동시 등장 행렬 구성:                                 |
+|     X_ij = 단어 i와 j가 윈도우 k 내 함께 등장한 횟수    |
+|     (|V|×|V| 희소 행렬, V=어휘 크기)                   |
+|                                                          |
+|  2. GloVe 목적 함수:                                    |
+|     J = Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)^  |
+|                                                          |
+|  3. 가중치 함수 f(x):                                   |
+|     f(x) = (x/x_max)^α  if x < x_max                  |
+|             1            otherwise                      |
+|     (α=0.75, x_max=100 일반적 설정)                    |
+|                                                          |
+|  4. 최적화: AdaGrad로 wᵢ, w̃ⱼ, bᵢ, b̃ⱼ 학습           |
+|  5. 최종 벡터: wᵢ + w̃ⱼ 평균 (두 벡터 평균이 더 우수) |
++----------------------------------------------------------+
 ```
 
 | 방법 | 학습 방식 | 전역 통계 | 희귀 단어 | 계산 효율 |
@@ -109,7 +109,7 @@ GloVe는 전역 통계 활용이라는 강점으로 Word2Vec과 함께 2010년�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [GloVe (Global Vectors for Word Representation)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [GloVe (Global Vectors for Word Representation)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ GloVe는 전역 통계 활용이라는 강점으로 Word2Vec과 함께 2010년�
 
 **진행 상황**: 365 / 420
 
-← **이전**: [364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)](/knowledge-base/studynote/10_ai/05_data_science_ml/364_adagrad_rmsprop/)
-**다음**: [366. 동시 등장 행렬 (Co-occurrence Matrix)](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/) →
+<- **이전**: [364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)](/knowledge-base/studynote/10_ai/05_data_science_ml/364_adagrad_rmsprop/)
+**다음**: [366. 동시 등장 행렬 (Co-occurrence Matrix)](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/) ->
 
 ---

@@ -39,20 +39,20 @@ CMAC의 동작 원리는 입력 [데이터](/knowledge-base/studynote/05_databas
 | **4. 태그 추출** | 마지막 블록을 암호화하여 나온 찌꺼기를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 태그(지문)로 사용 | 중간 암호문은 다 버리고 오직 마지막 1개만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 사용 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)        │
-├──────────────────────────────────────────────────────────────┤
-│  [평문 블록 1]      [평문 블록 2]       [마지막 평문 블록 N] │
-│       │                  │                    │              │
-│       ▼                  ▼                    ▼              │
-│    ( AES ) ──(XOR)──▶ ( AES ) ──(XOR)──▶   ( XOR ⊕ ) ◀── ★ K1 (또는 K2) │
-│                      (중간 찌꺼기 넘김)       │              │
-│                                               ▼              │
-│                                            ( AES )           │
-│                                               │              │
-│                                               ▼              │
-│    (버림)             (버림)           [ CMAC 인증 태그 ]    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)        |
++--------------------------------------------------------------+
+|  [평문 블록 1]      [평문 블록 2]       [마지막 평문 블록 N] |
+|       |                  |                    |              |
+|       v                  v                    v              |
+|    ( AES ) --(XOR)---> ( AES ) --(XOR)--->   ( XOR ⊕ ) <--- ★ K1 (또는 K2) |
+|                      (중간 찌꺼기 넘김)       |              |
+|                                               v              |
+|                                            ( AES )           |
+|                                               |              |
+|                                               v              |
+|    (버림)             (버림)           [ CMAC 인증 태그 ]    |
++--------------------------------------------------------------+
 ```
 
 여기서 중간에 나오는 암호문 블록들을 그냥 버리는 이유는 지금 우리의 목적이 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기밀화(암호화)'가 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨짐 방지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))'이기 때문이다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리를 물고 넘어와 마지막 블록에 농축되므로, 이 마지막 블록 하나만 떼어내도 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단 1비트라도 조작되었는지 100% 감지해 낼 수 있다.
@@ -111,17 +111,17 @@ CMAC은 자원이 극도로 제한된 환경에서도 [기밀성](/knowledge-bas
 
 ```text
 메시지 인증 코드 (MAC) 도입 · 무결성과 발신자 신원 확인
-    │
-    ▼
+    |
+    v
 CBC-MAC · 블록 암호를 활용한 가벼운 인증 도입 (단, 고정 길이 메시지만 안전)
-    │
-    ▼
+    |
+    v
 길이 확장 위조 공격 (Length Extension Attack) 발생 · 가변 길이 메시지에서 털림
-    │
-    ▼
+    |
+    v
 OMAC (One-Key MAC) 및 서브 키 주입 고안 · 위조 방어 수학적 기법 추가
-    │
-    ▼
+    |
+    v
 CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 인증 표준 정립
 ```
 
@@ -137,7 +137,7 @@ CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 �
 
 **진행 상황**: 158 / 1108
 
-← **이전**: [104. NMAC (Nested MAC)](/knowledge-base/studynote/09_security/02_crypto/104_nmac/)
-**다음**: [106. GMAC (Galois MAC) — GCM의 인증 부분](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) →
+<- **이전**: [104. NMAC (Nested MAC)](/knowledge-base/studynote/09_security/02_crypto/104_nmac/)
+**다음**: [106. GMAC (Galois MAC) — GCM의 인증 부분](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) ->
 
 ---

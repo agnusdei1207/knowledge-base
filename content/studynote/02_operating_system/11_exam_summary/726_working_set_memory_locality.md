@@ -101,27 +101,27 @@ OS는 $\Delta$ ([Window Size](/knowledge-base/studynote/03_network/04_data_link_
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 애플리케이션 메모리 튜닝 (워킹 셋 보존 전략) 플로우        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [앱의 성능이 간헐적으로 뚝뚝 떨어지는 현상 (Latency Spike) 발생]           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버의 전체 RAM이 부족하여 OS 레벨의 Swap Out이 잦은가?               │
-  │          ├─ 예 ─────▶ [글로벌 스래싱 위기]                          │
-  │          │            대책 1: 하드웨어 RAM 스케일 업 (가장 확실함)        │
-  │          │            대책 2: 앱 하나를 다른 서버로 분리 (Swap-out과 동일 효과)│
-  │          └─ 아니오 (RAM은 넉넉한데 내 앱만 느려진다)                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      애플리케이션의 메모리 접근 패턴(Locality)이 엉망인가?                  │
-  │      (예: 10GB짜리 배열을 가로세로 무작위로 계속 널뛰기하며 읽어댄다)            │
-  │          ├──▶ [워킹 셋 폭발 (Working Set > L3 Cache / TLB)]         │
-  │          │    결론: H/W 스펙을 소프트웨어가 찢어버린 상태. 코드를 뜯어고쳐서   │
-  │          │          한 번에 작은 배열(Chunk) 단위로만 연산하도록              │
-  │          │          공간적 지역성(Spatial Locality)을 확보하는 리팩토링 필수.  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 애플리케이션 메모리 튜닝 (워킹 셋 보존 전략) 플로우        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [앱의 성능이 간헐적으로 뚝뚝 떨어지는 현상 (Latency Spike) 발생]           |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버의 전체 RAM이 부족하여 OS 레벨의 Swap Out이 잦은가?               |
+  |          +- 예 ------> [글로벌 스래싱 위기]                          |
+  |          |            대책 1: 하드웨어 RAM 스케일 업 (가장 확실함)        |
+  |          |            대책 2: 앱 하나를 다른 서버로 분리 (Swap-out과 동일 효과)|
+  |          +- 아니오 (RAM은 넉넉한데 내 앱만 느려진다)                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      애플리케이션의 메모리 접근 패턴(Locality)이 엉망인가?                  |
+  |      (예: 10GB짜리 배열을 가로세로 무작위로 계속 널뛰기하며 읽어댄다)            |
+  |          +---> [워킹 셋 폭발 (Working Set > L3 Cache / TLB)]         |
+  |          |    결론: H/W 스펙을 소프트웨어가 찢어버린 상태. 코드를 뜯어고쳐서   |
+  |          |          한 번에 작은 배열(Chunk) 단위로만 연산하도록              |
+  |          |          공간적 지역성(Spatial Locality)을 확보하는 리팩토링 필수.  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "메모리 릭(Leak)은 고치기 쉽지만, [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 팽창은 고치기 어렵다." 릭은 안 쓰는 걸 안 버린 거라 지우면 되지만, [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 팽창은 "진짜 연산에 10GB가 전부 다 동시에 필요한 멍청한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이기 때문에 로직 자체를 쪼개야 한다. 아키텍트는 개발자에게 "한 번에 하나의 작은 장난감 상자(Locality)만 꺼내서 놀라"고 코딩 컨벤션을 강제해야 한다.
@@ -166,12 +166,12 @@ OS는 $\Delta$ ([Window Size](/knowledge-base/studynote/03_network/04_data_link_
 
 ```text
 [스래싱 (Thrashing) CPU 이용률 저하]
-    │
-    ▼
+    |
+    v
 [워킹 셋 (Working Set) 메모리]
-    │
-    ├──▶ [디스크 스케줄링 SCAN 엘리베이터]
-    └──▶ [C-SCAN 단방향 회전]
+    |
+    +---> [디스크 스케줄링 SCAN 엘리베이터]
+    +---> [C-SCAN 단방향 회전]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ OS는 $\Delta$ ([Window Size](/knowledge-base/studynote/03_network/04_data_link_
 
 **진행 상황**: 726 / 800
 
-← **이전**: [725. 스래싱 (Thrashing) CPU 이용률 저하](/knowledge-base/studynote/02_operating_system/11_exam_summary/725_thrashing_cpu_utilization/)
-**다음**: [727. 디스크 스케줄링 SCAN 엘리베이터 (Disk Scheduling Scan Elevator)](/knowledge-base/studynote/02_operating_system/11_exam_summary/727_disk_scheduling_scan_elevator/) →
+<- **이전**: [725. 스래싱 (Thrashing) CPU 이용률 저하](/knowledge-base/studynote/02_operating_system/11_exam_summary/725_thrashing_cpu_utilization/)
+**다음**: [727. 디스크 스케줄링 SCAN 엘리베이터 (Disk Scheduling Scan Elevator)](/knowledge-base/studynote/02_operating_system/11_exam_summary/727_disk_scheduling_scan_elevator/) ->
 
 ---

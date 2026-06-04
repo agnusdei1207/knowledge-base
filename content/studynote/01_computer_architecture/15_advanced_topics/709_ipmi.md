@@ -49,20 +49,20 @@ IPMI의 동작 중심에는 BMC가 있다. BMC는 메인 CPU와 독립적으로 
 다음 그림은 IPMI가 "명령 경로"와 "감시 경로"를 어떻게 분리하는지 보여준다. 여기서 EEPROM (Electrically Erasable Programmable Read-Only Memory)은 FRU 같은 자산 정보를 저장하는 비휘발성 영역을 뜻한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    IPMI 제어 경로와 감시 경로                       │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ 원격 관리자                  │ 서버 메인보드                         │
-│ ipmitool / 자동화 도구       │                                       │
-│ UDP 623 (RMCP+)              │ ┌──────────────┐      ┌────────────┐  │
-│ ───────────────────────────▶ │ │ BMC          │◀────▶│ 센서/EEPROM │  │
-│                              │ │ 명령 해석    │      │ SDR·FRU    │  │
-│ 로컬 OS 유틸리티             │ ├──────┬───────┤      └────────────┘  │
-│ KCS / LPC / eSPI             │ │ SEL  │ GPIO  │                      │
-│ ───────────────────────────▶ │ └──┬───┴──┬────┘                      │
-│                              │    │      └────▶ 전원/리셋 제어       │
-│                              │    └──────────▶ 이벤트 로그 저장      │
-└──────────────────────────────┴───────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    IPMI 제어 경로와 감시 경로                       |
++------------------------------+---------------------------------------+
+| 원격 관리자                  | 서버 메인보드                         |
+| ipmitool / 자동화 도구       |                                       |
+| UDP 623 (RMCP+)              | +--------------+      +------------+  |
+| ----------------------------> | | BMC          |<------>| 센서/EEPROM |  |
+|                              | | 명령 해석    |      | SDR·FRU    |  |
+| 로컬 OS 유틸리티             | +------+-------+      +------------+  |
+| KCS / LPC / eSPI             | | SEL  | GPIO  |                      |
+| ----------------------------> | +--+---+--+----+                      |
+|                              |    |      +-----> 전원/리셋 제어       |
+|                              |    +-----------> 이벤트 로그 저장      |
++------------------------------+---------------------------------------+
 ```
 
 핵심은 IPMI가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 상태와 무관하게 하드웨어에 접근할 수 있다는 점이다. 단, 흔히 함께 언급되는 원격 KVM이나 가상 미디어 마운트는 엄밀히 말해 IPMI 핵심 명령 세트라기보다 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 제품군이 함께 제공하는 부가 기능인 경우가 많다. 즉 IPMI의 중심은 전원·센서·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·시리얼 제어이며, 그래픽 콘솔은 그 주변 생태계다.
@@ -128,21 +128,21 @@ IPMI의 가장 큰 효과는 서버 관리의 실패 지점을 줄인다는 데 
 
 ```text
 현장 출동 중심 서버 관리
-    │
-    ▼
+    |
+    v
 서비스 프로세서 · BMC 도입
-    │
-    ▼
+    |
+    v
 IPMI 1.5 기반 전원/센서 원격 제어
-    │
-    ▼
+    |
+    v
 IPMI 2.0 + RMCP+ + SoL
-    │
-    ▼
+    |
+    v
 Redfish · HTTPS 기반 표준 자동화
 ```
 
-이 흐름은 "수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 독립 관리 칩 → 표준 명령 → 보안·자동화 개선"으로 진화한 관리 체계를 보여준다.
+이 흐름은 "수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 독립 관리 칩 -> 표준 명령 -> 보안·자동화 개선"으로 진화한 관리 체계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -156,7 +156,7 @@ Redfish · HTTPS 기반 표준 자동화
 
 **진행 상황**: 710 / 803
 
-← **이전**: [708. SMBIOS (System Management BIOS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/708_nvme_queue_management/)
-**다음**: [710. BMC (Baseboard Management Controller)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) →
+<- **이전**: [708. SMBIOS (System Management BIOS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/708_nvme_queue_management/)
+**다음**: [710. BMC (Baseboard Management Controller)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ->
 
 ---

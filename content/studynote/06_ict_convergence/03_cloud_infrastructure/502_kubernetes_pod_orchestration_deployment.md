@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), K8s)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 배포, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 자가 치유(Self-Healing)를 자동화하는 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이며, 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 방식으로 '원하는 상태([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))'를 명세한다.
-> 2. **가치**: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) → [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) → [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 계층 구조로 [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 오토스케일링을 코드 한 줄 없이 YAML 선언만으로 실현한다.
+> 2. **가치**: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) -> [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) -> [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 계층 구조로 [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 오토스케일링을 코드 한 줄 없이 YAML 선언만으로 실현한다.
 > 3. **판단 포인트**: K8s 운영 복잡성은 학습 비용과 맞바꾸는 것이므로, 소규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 ECS나 Cloud Run 같은 매니지드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 더 적합할 수 있다.
 
 ---
@@ -36,17 +36,17 @@ tags = ["studynote-ict-convergence"]
 **K8s 아키텍처**:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                    Control Plane (컨트롤 플레인)               │
-│  ┌───────────┐  ┌──────────┐  ┌──────────────────────────┐  │
-│  │ API Server│  │  etcd    │  │ Scheduler │ Ctrl Manager │  │
-│  │(진입점/검증)│  │(분산 KV) │  │(배치 결정) │(상태 유지)   │  │
-│  └───────────┘  └──────────┘  └──────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│                   Data Plane (워커 노드)                       │
-│  Node 1: [ Pod A ][ Pod B ]  ← Kubelet + Kube-proxy          │
-│  Node 2: [ Pod C ][ Pod D ]  ← Kubelet + Kube-proxy          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    Control Plane (컨트롤 플레인)               |
+|  +-----------+  +----------+  +--------------------------+  |
+|  | API Server|  |  etcd    |  | Scheduler | Ctrl Manager |  |
+|  |(진입점/검증)|  |(분산 KV) |  |(배치 결정) |(상태 유지)   |  |
+|  +-----------+  +----------+  +--------------------------+  |
++--------------------------------------------------------------+
+|                   Data Plane (워커 노드)                       |
+|  Node 1: [ Pod A ][ Pod B ]  <- Kubelet + Kube-proxy          |
+|  Node 2: [ Pod C ][ Pod D ]  <- Kubelet + Kube-proxy          |
++--------------------------------------------------------------+
 ```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 |
@@ -129,7 +129,7 @@ K8s는 [클라우드 네이티브](/knowledge-base/studynote/04_software_enginee
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[이미지 · Namespace] → [쿠버네티스 Pod 오케스트레이션 배포] → [ArgoCD · Flux]
+[이미지 · Namespace] -> [쿠버네티스 Pod 오케스트레이션 배포] -> [ArgoCD · Flux]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -144,7 +144,7 @@ K8s는 [클라우드 네이티브](/knowledge-base/studynote/04_software_enginee
 
 **진행 상황**: 502 / 552
 
-← **이전**: [501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/501_docker_container_lightweight_os_isolation/)
-**다음**: [503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/503_serverless_cold_start_latency_control/) →
+<- **이전**: [501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/501_docker_container_lightweight_os_isolation/)
+**다음**: [503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/503_serverless_cold_start_latency_control/) ->
 
 ---

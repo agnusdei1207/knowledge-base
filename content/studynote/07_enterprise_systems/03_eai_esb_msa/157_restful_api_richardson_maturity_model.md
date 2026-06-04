@@ -32,18 +32,18 @@ tags = ["studynote-enterprise-systems"]
 리처드슨 성숙도 모델의 핵심은 네 단계가 서로 단절된 기술 목록이 아니라, <strong>점진적 진화 경로</strong>라는 점이다. Level이 올라갈수록 URI 설계, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 의미, 상태 코드, 링크 기반 전이가 점차 강화된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      Richardson Maturity Model의 단계별 상승 구조           │
-├──────────────────────────────────────────────────────────────┤
-│ Level 3 ─ HATEOAS                                           │
-│          응답 안의 링크로 다음 상태 전이를 안내             │
-│ Level 2 ─ HTTP 메서드와 상태 코드 활용                      │
-│          GET/POST/PUT/PATCH/DELETE 의미 분리                │
-│ Level 1 ─ 자원(Resource) 중심 URI 분리                      │
-│          /orders/1, /customers/7                            │
-│ Level 0 ─ 단일 엔드포인트 + 원격 호출 스타일                │
-│          POST /api                                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      Richardson Maturity Model의 단계별 상승 구조           |
++--------------------------------------------------------------+
+| Level 3 - HATEOAS                                           |
+|          응답 안의 링크로 다음 상태 전이를 안내             |
+| Level 2 - HTTP 메서드와 상태 코드 활용                      |
+|          GET/POST/PUT/PATCH/DELETE 의미 분리                |
+| Level 1 - 자원(Resource) 중심 URI 분리                      |
+|          /orders/1, /customers/7                            |
+| Level 0 - 단일 엔드포인트 + 원격 호출 스타일                |
+|          POST /api                                           |
++--------------------------------------------------------------+
 ```
 
 | 수준 | 핵심 특징 | 예시 | 얻는 효과 |
@@ -120,20 +120,20 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 ```text
 RPC 스타일 API
-    │
-    ▼
-Level 0 ─ 단일 엔드포인트
-    │
-    ▼
-Level 1 ─ 자원(Resource) 분리
-    │
-    ▼
-Level 2 ─ HTTP 메서드 · 상태 코드 정착
-    │
-    ▼
-Level 3 ─ HATEOAS 기반 동적 탐색
-    │
-    ▼
+    |
+    v
+Level 0 - 단일 엔드포인트
+    |
+    v
+Level 1 - 자원(Resource) 분리
+    |
+    v
+Level 2 - HTTP 메서드 · 상태 코드 정착
+    |
+    v
+Level 3 - HATEOAS 기반 동적 탐색
+    |
+    v
 운영 성숙도 향상(문서화 · 캐시 · 확장성)
 ```
 
@@ -151,7 +151,7 @@ Level 3 ─ HATEOAS 기반 동적 탐색
 
 **진행 상황**: 157 / 482
 
-← **이전**: [156. REST (Representational State Transfer)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
-**다음**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/) →
+<- **이전**: [156. REST (Representational State Transfer)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
+**다음**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/) ->
 
 ---

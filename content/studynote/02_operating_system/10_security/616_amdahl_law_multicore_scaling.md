@@ -290,12 +290,12 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 ```text
 [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
-    │
-    ▼
+    |
+    v
 [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
-    │
-    ├──▶ [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
-    └──▶ [캐시 미스 오버헤드 측정 분석망 구조 적용]
+    |
+    +---> [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
+    +---> [캐시 미스 오버헤드 측정 분석망 구조 적용]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -312,7 +312,7 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 **진행 상황**: 616 / 800
 
-← **이전**: [615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)
-**다음**: [617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) →
+<- **이전**: [615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)
+**다음**: [617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) ->
 
 ---

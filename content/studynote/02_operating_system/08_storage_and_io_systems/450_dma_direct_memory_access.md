@@ -28,23 +28,23 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a> 철학의 태동</strong>: CPU의 레지스터를 거치지 않고 디스크 -> 램으로 직통 웜홀이 뚫리면서, 현대 I/O 가속화의 가장 기본 뼈대가 완성됨.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        DMA 유무에 따른 10MB 파일 복사(I/O) 파이프라인의 끔찍한 차이   │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ ▶ 1. 낡은 PIO (Programmed I/O - DMA 없음)                             │
-│   [ 디스크 ] ──1바이트──▶ [ CPU 레지스터 ] ──1바이트──▶ [ RAM ]       │
-│   - CPU가 1바이트 옮길 때마다 루프 돎 + 인터럽트 터짐.                │
-│   💥 결과: 10MB 옮기는 데 CPU 100% 폭주. 화면 멈추고 마우스 안 움직임.│
-│                                                                       │
-│ ▶ 2. 구원자 DMA (Direct Memory Access)                                │
-│   CPU: (명령서 작성) "DMA야, 디스크 10MB 램으로 좀 옮겨놔라."         │
-│   CPU ──▶ 넷플릭스 4K 영상 디코딩 하러 휙 떠남. (점유율 0%로 떨어짐)  │
-│                                                                       │
-│   [ 디스크 ] ──(CPU 몰래 고속 버스로 통짜 10MB 전송)──▶ [ RAM ]       │
-│   (전송 완료 후) DMA 칩 ──💥 1번의 인터럽트 ──▶ [ CPU ]               │
-│   CPU: "오 다 옮겼어? 땡큐." (수천만 번의 렉을 1번의 인터럽트로 퉁침) │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        DMA 유무에 따른 10MB 파일 복사(I/O) 파이프라인의 끔찍한 차이   |
++-----------------------------------------------------------------------+
+|                                                                       |
+| -> 1. 낡은 PIO (Programmed I/O - DMA 없음)                             |
+|   [ 디스크 ] --1바이트---> [ CPU 레지스터 ] --1바이트---> [ RAM ]       |
+|   - CPU가 1바이트 옮길 때마다 루프 돎 + 인터럽트 터짐.                |
+|   💥 결과: 10MB 옮기는 데 CPU 100% 폭주. 화면 멈추고 마우스 안 움직임.|
+|                                                                       |
+| -> 2. 구원자 DMA (Direct Memory Access)                                |
+|   CPU: (명령서 작성) "DMA야, 디스크 10MB 램으로 좀 옮겨놔라."         |
+|   CPU ---> 넷플릭스 4K 영상 디코딩 하러 휙 떠남. (점유율 0%로 떨어짐)  |
+|                                                                       |
+|   [ 디스크 ] --(CPU 몰래 고속 버스로 통짜 10MB 전송)---> [ RAM ]       |
+|   (전송 완료 후) DMA 칩 --💥 1번의 인터럽트 ---> [ CPU ]               |
+|   CPU: "오 다 옮겼어? 땡큐." (수천만 번의 렉을 1번의 인터럽트로 퉁침) |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이 그림은 현대 컴퓨터가 왜 영화를 10GB 복사하는 와중에도 게임이 렉 없이 부드럽게 돌아갈 수 있는지에 대한 가장 근본적인 해답이다. 10GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리로 퍼 올리는 물리적 중노동을 순수하게 메인보드의 노예 칩([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))이 독박 쓰고, CPU는 그 짐에 손가락 하나 대지 않기 때문에 완벽한 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) UX가 성립하는 것이다.
 
@@ -102,12 +102,12 @@ tags = ["studynote-operating-system"]
 - DMA가 목록을 읽고 찢어진 램에 알아서 배달을 다 끝낸 뒤 단 1번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만 때린다. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(파편화)와 하드웨어(물리 전송)가 완벽하게 화해한 융합 기술의 정점이다.</strong>
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────────┐
-│ DMA 수준   │ 물리 램 찢어짐 │ CPU 개입 횟수 │ 최적화 결과          │
-├──────────┼────────────┼────────────┼───────────────────────────────┤
-│ 기본 DMA │ 찢어지면 에러남│ 쪼개진 개수만큼│ 🔴 버벅댐 (구시대)    │
-│ S-G DMA  │ 완전히 찢어짐 │ **단 1번 셋업**│ 🚀 **최강 (현대 표준)**│
-└──────────┴────────────┴────────────┴───────────────────────────────┘
++----------+------------+------------+-------------------------------+
+| DMA 수준   | 물리 램 찢어짐 | CPU 개입 횟수 | 최적화 결과          |
++----------+------------+------------+-------------------------------+
+| 기본 DMA | 찢어지면 에러남| 쪼개진 개수만큼| 🔴 버벅댐 (구시대)    |
+| S-G DMA  | 완전히 찢어짐 | **단 1번 셋업**| 🚀 **최강 (현대 표준)**|
++----------+------------+------------+-------------------------------+
 ```
 **[매트릭스 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드를 까보면 디바이스 드라이버의 99%가 이 `dma_map_sg()` ([Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/)) 함수로 떡칠되어 있다. 이 기능이 없다면 유저 프로그램이 mmap으로 찢어놓은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 10기가짜리 그래픽카드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대 다이렉트로 꽂아 넣을 수 없다.
 
@@ -171,12 +171,12 @@ DMA는 램(RAM)에 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ```text
 [인터럽트 구동 I/O (Interrupt-driven I/O)]
-    │
-    ▼
+    |
+    v
 [직접 메모리 접근 (DMA, Direct Memory Access)]
-    │
-    ├──▶ [사이클 스틸링 (Cycle Stealing)]
-    └──▶ [DMA 산란-수집 (Scatter-Gather)]
+    |
+    +---> [사이클 스틸링 (Cycle Stealing)]
+    +---> [DMA 산란-수집 (Scatter-Gather)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ DMA는 램(RAM)에 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 **진행 상황**: 450 / 800
 
-← **이전**: [449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/449_interrupt_driven_io/)
-**다음**: [451. 사이클 스틸링 (Cycle Stealing) - DMA 컨트롤러가 CPU의 버스 사용을 일시 중지시키고 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) →
+<- **이전**: [449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/449_interrupt_driven_io/)
+**다음**: [451. 사이클 스틸링 (Cycle Stealing) - DMA 컨트롤러가 CPU의 버스 사용을 일시 중지시키고 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) ->
 
 ---

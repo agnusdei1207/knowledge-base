@@ -30,7 +30,7 @@ ReLU는 좋지만 음수 구간에서 학습이 멈출 수 있다. Leaky ReLU와
 
 ```text
 Input
-  ↓
+  v
 Leaky ReLU / ELU
 ```
 
@@ -101,9 +101,9 @@ Leaky ReLU와 ELU는 학습 안정성을 높이는 선택지다.
 
 ```text
 ReLU
-  ↓
+  v
 Leaky ReLU / ELU
-  ↓
+  v
 Dying ReLU 해결
 ```
 
@@ -113,11 +113,11 @@ Dying ReLU 해결
 
 ```text
 ReLU
-  ↓
+  v
 Leaky ReLU
-  ↓
+  v
 ELU
-  ↓
+  v
 Activation Variants
 ```
 
@@ -135,7 +135,7 @@ Activation Variants
 
 **진행 상황**: 72 / 420
 
-← **이전**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/knowledge-base/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/)
-**다음**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) →
+<- **이전**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/knowledge-base/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/)
+**다음**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) ->
 
 ---

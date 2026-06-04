@@ -36,25 +36,25 @@ tags = ["studynote-ict-convergence"]
 
 ```
           글로벌 모델 배포
-               │
-         ┌─────▼─────┐
-         │  중앙 서버  │
-         │ (집계 서버) │
-         └─────┬─────┘
-               │ 그래디언트/가중치 수신
-    ┌──────────┼──────────┐
-    │          │          │
-┌───▼──┐  ┌───▼──┐  ┌───▼──┐
-│병원A │  │병원B │  │병원C │
-│로컬  │  │로컬  │  │로컬  │
-│학습  │  │학습  │  │학습  │
-└──────┘  └──────┘  └──────┘
+               |
+         +-----v-----+
+         |  중앙 서버  |
+         | (집계 서버) |
+         +-----+-----+
+               | 그래디언트/가중치 수신
+    +----------+----------+
+    |          |          |
++---v--+  +---v--+  +---v--+
+|병원A |  |병원B |  |병원C |
+|로컬  |  |로컬  |  |로컬  |
+|학습  |  |학습  |  |학습  |
++------+  +------+  +------+
   데이터 이동 없음 (원시 데이터 로컬 유지)
 ```
 
 <strong>FedAvg(Federated Averaging) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> (McMahan et al., 2017)
 1. 서버가 글로벌 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) W_t를 각 클라이언트에 전송
-2. 클라이언트i가 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 E 에포크 SGD 수행 → ΔW_i 계산
+2. 클라이언트i가 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 E 에포크 SGD 수행 -> ΔW_i 계산
 3. 서버가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 평균 집계: W_{t+1} = Σ(n_i/n) × W_i
 4. 업데이트된 글로벌 모델 재배포
 
@@ -80,7 +80,7 @@ tags = ["studynote-ict-convergence"]
 | 방어 기법 | 원리 | 프라이버시 수준 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실 |
 |:---:|:---:|:---:|:---:|
 | [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)(DP-SGD) | 그래디언트에 가우시안 노이즈 추가 | 수학적 ε-DP 보장 | 중간~높음 |
-| 보안 집계(Secure Aggregation) | 암호화된 그래디언트만 서버 수신 | 높음 | 통신 비용↑ |
+| 보안 집계(Secure Aggregation) | 암호화된 그래디언트만 서버 수신 | 높음 | 통신 비용^ |
 | [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)) | 암호화 상태로 집계 연산 | 매우 높음 | 매우 높음 |
 | 그래디언트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Gradient [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) | 스파스 통신으로 정보 노출 최소화 | 낮음 | 낮음 |
 
@@ -98,10 +98,10 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 포인트**
 
-1. <strong>Non-IID <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 각 클라이언트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 불균일 → FedProx, FedNova로 보완
-2. **통신 비용**: 대형 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 그래디언트 전송 → 그래디언트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 어댑터만 전송
-3. **무임승차(Free Rider) 문제**: 기여 없이 글로벌 모델만 이용 → 기여도 평가(Shapley 기반 보상)
-4. **규제 적합성**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 제17조(잊힐 권리) → [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)에서 특정 클라이언트 탈퇴 메커니즘 설계 필요
+1. <strong>Non-IID <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 각 클라이언트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 불균일 -> FedProx, FedNova로 보완
+2. **통신 비용**: 대형 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 그래디언트 전송 -> 그래디언트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 어댑터만 전송
+3. **무임승차(Free Rider) 문제**: 기여 없이 글로벌 모델만 이용 -> 기여도 평가(Shapley 기반 보상)
+4. **규제 적합성**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 제17조(잊힐 권리) -> [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)에서 특정 클라이언트 탈퇴 메커니즘 설계 필요
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 팀 프로젝트에서 각자 자기 노트는 집에 두고, 핵심 요약본만 공유해 최종 발표를 만드는 것이다.
 
@@ -128,7 +128,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[연합 학습 알고리즘 · 가중치 평균 집계] → [연합 학습 프라이버시 보존 그래디언트 집계] → [공격 · 그래디언트 기반 데이터 복원]
+[연합 학습 알고리즘 · 가중치 평균 집계] -> [연합 학습 프라이버시 보존 그래디언트 집계] -> [공격 · 그래디언트 기반 데이터 복원]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -143,7 +143,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 471 / 552
 
-← **이전**: [470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/470_adversarial_attack_poisoning_evasion/)
-**다음**: [472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/) →
+<- **이전**: [470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/470_adversarial_attack_poisoning_evasion/)
+**다음**: [472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/) ->
 
 ---

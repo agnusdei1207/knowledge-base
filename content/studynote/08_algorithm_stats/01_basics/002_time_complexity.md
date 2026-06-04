@@ -50,7 +50,7 @@ tags = ["studynote-algorithm"]
 | O(log n) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 3 | 7 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), AVL 트리 검색 |
 | O(n) | 선형 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 100 | 1,000 | [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/), 단순 순회 |
 | O(n log n) | 선형로그 | 33 | 664 | 9,966 | 병합 정렬, [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) |
-| O(n²) | 이차 | 100 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 | 1,000,000 | [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) |
+| O(n^) | 이차 | 100 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 | 1,000,000 | [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) |
 | O(2ⁿ) | 지수 | 1,024 | 10³⁰ | — | 부분집합 열거, 피보나치([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)) |
 | O(n!) | 팩토리얼 | 3,628,800 | — | — | 순열 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 완전탐색 |
 
@@ -65,8 +65,8 @@ tags = ["studynote-algorithm"]
  |                    O(n log n)
  |              O(n)
  |        O(log n)
- |  O(1) ─────────────────────────────────────────
- +─────────────────────────────────────────────>  n
+ |  O(1) -----------------------------------------
+ +--------------------------------------------->  n
      1   2    4    8   16   32   64  128  256
 ```
 
@@ -81,23 +81,23 @@ tags = ["studynote-algorithm"]
 
 | 조건 | 결과 | 예시 |
 |:---|:---|:---|
-| f(n) = O(n^(c-ε)) | T(n) = Θ(n^c) | 병합 정렬: a=2, b=2, f=Θ(n) → Θ(n log n) |
+| f(n) = O(n^(c-ε)) | T(n) = Θ(n^c) | 병합 정렬: a=2, b=2, f=Θ(n) -> Θ(n log n) |
 | f(n) = Θ(n^c · log^k(n)) | T(n) = Θ(n^c · log^(k+1)(n)) | 스트라센: 더 복잡한 경우 |
-| f(n) = Ω(n^(c+ε)) | T(n) = Θ(f(n)) | 단순 분할: a=1, b=2, f=Θ(n) → Θ(n) |
+| f(n) = Ω(n^(c+ε)) | T(n) = Θ(f(n)) | 단순 분할: a=1, b=2, f=Θ(n) -> Θ(n) |
 
 ### 계산 규칙
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  f(n) = 5n³ + 3n² + 100n + 42  의 Big-O 유도        │
-│                                                     │
-│  1단계: 최고차항만 남김  → 5n³                         │
-│  2단계: 계수 제거        → n³                         │
-│  3단계: 결론             → O(n³)                     │
-│                                                     │
-│  덧셈: O(f) + O(g) = O(max(f, g))                   │
-│  곱셈: O(f) × O(g) = O(f·g)                         │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  f(n) = 5n³ + 3n^ + 100n + 42  의 Big-O 유도        |
+|                                                     |
+|  1단계: 최고차항만 남김  -> 5n³                         |
+|  2단계: 계수 제거        -> n³                         |
+|  3단계: 결론             -> O(n³)                     |
+|                                                     |
+|  덧셈: O(f) + O(g) = O(max(f, g))                   |
+|  곱셈: O(f) × O(g) = O(f·g)                         |
++-----------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 복잡도 계산은 청구서 정산 같다. 소액 항목(낮은 차수)은 무시하고, 가장 큰 항목(최고차항)만 보면 총 비용의 규모를 파악할 수 있다.
@@ -110,13 +110,13 @@ tags = ["studynote-algorithm"]
 
 ```
                   f(n)
-                    │
-    상한 c₁·g(n) ───┤─── O(g(n)) 영역
-                    │
-    f(n) ───────────┤  (실제 함수)
-                    │
-    하한 c₂·g(n) ───┤─── Ω(g(n)) 영역
-                    │
+                    |
+    상한 c₁·g(n) ---+--- O(g(n)) 영역
+                    |
+    f(n) -----------+  (실제 함수)
+                    |
+    하한 c₂·g(n) ---+--- Ω(g(n)) 영역
+                    |
     Θ(g(n)): 상한과 하한 사이에 갇힌 경우
 ```
 
@@ -124,11 +124,11 @@ tags = ["studynote-algorithm"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최선 | 평균 | 최악 |
 |:---|:---:|:---:|:---:|
-| [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) ([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)) | O(n) | O(n²) | O(n²) |
-| [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)) | O(n²) | O(n²) | O(n²) |
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | O(n) | O(n²) | O(n²) |
+| [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) ([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)) | O(n) | O(n^) | O(n^) |
+| [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)) | O(n^) | O(n^) | O(n^) |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | O(n) | O(n^) | O(n^) |
 | 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | O(n log n) | O(n log n) | O(n log n) |
-| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | O(n log n) | O(n log n) | O(n²) |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | O(n log n) | O(n log n) | O(n^) |
 | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)) | O(n log n) | O(n log n) | O(n log n) |
 | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)) | O(1) | O(log n) | O(log n) |
 
@@ -141,28 +141,28 @@ tags = ["studynote-algorithm"]
 ### 시스템 설계에서 복잡도 선택 기준
 
 <strong>시나리오 1 — 검색 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: n=100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 실시간 조회
-→ O(n) [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)은 100만 연산, O(log n) [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)/[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 20연산
-→ <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>(B-트리) 구조로 O(log n) 보장 필수</strong>
+-> O(n) [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)은 100만 연산, O(log n) [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)/[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 20연산
+-> <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>(B-트리) 구조로 O(log n) 보장 필수</strong>
 
 **시나리오 2 — 실시간 정렬**: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 랭킹
-→ O(n²) [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 n이 커지면 불가
-→ <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬</strong>
+-> O(n^) [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 n이 커지면 불가
+-> <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬</strong>
 
 <strong>시나리오 3 — ML <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 연산</strong>: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)
-→ n=1000일 때 10억 vs 5억 연산, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 필수
+-> n=1000일 때 10억 vs 5억 연산, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 필수
 
 ### 기술사 답안 핵심 포인트
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  면접관 질문: "이 알고리즘의 시간 복잡도는?"           │
-│                                                      │
-│  ✅ 모범 답안 구조:                                   │
-│  1. 최악/평균/최선 케이스 각각 명시                    │
-│  2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)      │
-│  3. 실무 적용 시 문제 크기 n 기준 한계 제시            │
-│  4. 더 나은 대안 알고리즘과 트레이드오프 언급          │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  면접관 질문: "이 알고리즘의 시간 복잡도는?"           |
+|                                                      |
+|  ✅ 모범 답안 구조:                                   |
+|  1. 최악/평균/최선 케이스 각각 명시                    |
+|  2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)      |
+|  3. 실무 적용 시 문제 크기 n 기준 한계 제시            |
+|  4. 더 나은 대안 알고리즘과 트레이드오프 언급          |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 시간 복잡도를 모르고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택하는 것은 연비를 모르고 차를 사는 것과 같다. 단거리에는 경차(O(1)), 장거리 화물에는 트럭(O(n log n))이 최적이다.
@@ -174,21 +174,21 @@ tags = ["studynote-algorithm"]
 ### 복잡도 분석의 가치
 
 1. **설계 단계에서 병목 예측**: 코드를 작성하기 전에 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 확장성을 수학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 기준</strong>: O(n²) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 기준</strong>: O(n^) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
 3. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 수치화</strong>: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
 
 ### 실무 복잡도 한계선
 
 ```
-┌──────────────┬───────────┬──────────────────────────┐
-│ 복잡도       │ 안전 n    │ 비고                     │
-├──────────────┼───────────┼──────────────────────────┤
-│ O(1), O(log) │ 무제한    │ 대규모 시스템 핵심 경로  │
-│ O(n)         │ ~10^8     │ 1초 내 처리 가능         │
-│ O(n log n)   │ ~10^7     │ 정렬 허용 범위           │
-│ O(n²)        │ ~10^4     │ 소규모 배치 처리         │
-│ O(2^n)       │ ~25       │ 완전탐색 절대 한계       │
-└──────────────┴───────────┴──────────────────────────┘
++--------------+-----------+--------------------------+
+| 복잡도       | 안전 n    | 비고                     |
++--------------+-----------+--------------------------+
+| O(1), O(log) | 무제한    | 대규모 시스템 핵심 경로  |
+| O(n)         | ~10^8     | 1초 내 처리 가능         |
+| O(n log n)   | ~10^7     | 정렬 허용 범위           |
+| O(n^)        | ~10^4     | 소규모 배치 처리         |
+| O(2^n)       | ~25       | 완전탐색 절대 한계       |
++--------------+-----------+--------------------------+
 ```
 
 📢 **섹션 요약 비유**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도는 건물의 내진설계 등급과 같다. 지진이 오지 않으면(소규모 n) 등급이 낮아도 버티지만, 대지진(대규모 n)에서는 높은 설계 등급(낮은 복잡도)만이 시스템 붕괴를 막는다.
@@ -199,27 +199,27 @@ tags = ["studynote-algorithm"]
 
 | 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 점근적 표기법 | → 시간 복잡도 | Big-O, Ω, Θ 정의 |
-| 마스터 정리 | → 분할정복 분석 | T(n)=aT(n/b)+f(n) 해법 |
+| 점근적 표기법 | -> 시간 복잡도 | Big-O, Ω, Θ 정의 |
+| 마스터 정리 | -> 분할정복 분석 | T(n)=aT(n/b)+f(n) 해법 |
 | [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)) | ↔ 시간 복잡도 | 시간-공간 트레이드오프 |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 | → 복잡도 등급 결정 | 탐욕, DP, 분할정복 |
-| NP 완전 문제 | → 지수/팩토리얼 복잡도 | 다항 시간 해법 미존재 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 | -> 복잡도 등급 결정 | 탐욕, DP, 분할정복 |
+| NP 완전 문제 | -> 지수/팩토리얼 복잡도 | 다항 시간 해법 미존재 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [점근적 표기법]
-    │
-    ▼
+    |
+    v
 [마스터 정리]
-    │
-    ▼
+    |
+    v
 [공간 복잡도 (Space Complexity)]
-    │
-    ▼
+    |
+    v
 [알고리즘 설계 패러다임]
-    │
-    ▼
+    |
+    v
 [NP 완전 문제]
 ```
 
@@ -229,7 +229,7 @@ tags = ["studynote-algorithm"]
 
 🍭 **친구 100명에게 사탕 나눠주기**: 한 명씩 세어가며 나눠주면 O(n)이지만, 미리 이름 목록을 만들어 두면 O(1)에 찾을 수 있어요.
 📚 **도서관에서 책 찾기**: 책이 무작위로 꽂혀 있으면 O(n)이지만, 알파벳 순서로 정렬되어 있으면 절반씩 줄여가며 O(log n)에 찾아요.
-🏗️ **레고 블록 쌓기**: 블록이 10개면 쌓기 쉽지만 100개면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 비교해야 한다면(O(n²)), 빨리 포기하고 더 똑똑한 방법을 찾아야 해요!
+🏗️ **레고 블록 쌓기**: 블록이 10개면 쌓기 쉽지만 100개면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 비교해야 한다면(O(n^)), 빨리 포기하고 더 똑똑한 방법을 찾아야 해요!
 
 ---
 
@@ -237,7 +237,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 2 / 175
 
-← **이전**: [1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
-**다음**: [3. 공간 복잡도 (Space Complexity)](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) →
+<- **이전**: [1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+**다음**: [3. 공간 복잡도 (Space Complexity)](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) ->
 
 ---

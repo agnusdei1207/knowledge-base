@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디에서 쌓이는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ External Event                                                            │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Interrupt Detect -> Mask Wait -> Pipeline Drain -> Context Save            │
-│                   -> Vector Fetch -> ISR First Instr.                      │
-│                                                                            │
-│ <------------------------- Interrupt Latency -----------------------------> │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| External Event                                                            |
+|      |                                                                     |
+|      v                                                                     |
+| Interrupt Detect -> Mask Wait -> Pipeline Drain -> Context Save            |
+|                   -> Vector Fetch -> ISR First Instr.                      |
+|                                                                            |
+| <------------------------- Interrupt Latency -----------------------------> |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 코어 속도 하나로 정해지지 않는다는 점이다. <strong>장치, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 컨트롤러, 메모리 계층, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 정책이 합쳐진 결과</strong>이기 때문에 최소화 역시 구조적으로 접근해야 한다.
@@ -45,7 +45,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로는 보통 장치 → [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러 → 코어 진입 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) → 상태 저장 → 벡터 fetch → [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 실행 순서로 움직인다. 실무에서는 이를 다음처럼 쪼개서 보는 편이 정확하다.
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로는 보통 장치 -> [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러 -> 코어 진입 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) -> 상태 저장 -> 벡터 fetch -> [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 실행 순서로 움직인다. 실무에서는 이를 다음처럼 쪼개서 보는 편이 정확하다.
 
 > <strong>총 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> ≈ 감지 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> + 마스크 대기 + 파이프라인 정리 + 상태 저장 + 벡터/코드 fetch</strong>
 
@@ -65,12 +65,12 @@ ARM Cortex-M 계열이 빠른 이유도 여기에 있다. NVIC (Nested Vectored 
 이 그림은 빠른 경로와 느린 경로의 차이를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Fast Path : Interrupt -> Priority Select -> Auto Save -> Direct Vector     │
-│             -> ISR                                                         │
-│ Slow Path : Interrupt -> SW Dispatch -> Cache Miss -> Stack Switch         │
-│             -> Common ISR                                                  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Fast Path : Interrupt -> Priority Select -> Auto Save -> Direct Vector     |
+|             -> ISR                                                         |
+| Slow Path : Interrupt -> SW Dispatch -> Cache Miss -> Stack Switch         |
+|             -> Common ISR                                                  |
++----------------------------------------------------------------------------+
 ```
 
 또 하나의 핵심은 지터다. 같은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)라도 어떤 때는 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/), 어떤 때는 미스가 나고, 어떤 때는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 잠깐 금지되어 있어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭이 벌어진다. 실시간 설계에서는 평균을 낮추는 것보다 <strong>분산을 줄여 최악의 경우를 통제하는 것</strong>이 더 큰 가치다.
@@ -85,9 +85,9 @@ ARM Cortex-M 계열이 빠른 이유도 여기에 있다. NVIC (Nested Vectored 
 
 | 항목 | 측정 구간 | 의미 |
 | :--- | :--- | :--- |
-| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 이벤트 발생 → [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 첫 명령 실행 | 반응 시작까지의 순수 진입 비용 |
-| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 이벤트 발생 → 의미 있는 첫 제어 동작 | 시스템이 실제로 반응한 시점 |
-| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 | [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 시작 → [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 종료 | 핸들러 내부 처리 비용 |
+| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 이벤트 발생 -> [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 첫 명령 실행 | 반응 시작까지의 순수 진입 비용 |
+| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 이벤트 발생 -> 의미 있는 첫 제어 동작 | 시스템이 실제로 반응한 시점 |
+| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 | [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 시작 -> [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 종료 | 핸들러 내부 처리 비용 |
 
 예를 들어 GPIO (General-Purpose Input/Output)를 토글하는 ISR이라면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 첫 명령 진입까지이고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 GPIO가 실제로 바뀌기까지다. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서 버퍼 복사와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 출력을 오래 하면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)은 짧아도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간이 나빠질 수 있다. 그래서 긴 처리는 bottom half나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))로 미루고, ISR은 acknowledgment와 큐잉만 맡기는 방식이 흔하다.
 
@@ -158,17 +158,17 @@ ARM Cortex-M 계열이 빠른 이유도 여기에 있다. NVIC (Nested Vectored 
 
 ```text
 단순 polling 기반 반응
-        │
-        ▼
+        |
+        v
 벡터형 인터럽트 컨트롤러 + 우선순위 하드웨어화
-        │
-        ▼
+        |
+        v
 자동 상태 저장 · tail chaining · fast interrupt
-        │
-        ▼
+        |
+        v
 TCM · 캐시 잠금 · RTOS 기반 지터 억제
-        │
-        ▼
+        |
+        v
 가상화 환경의 posted interrupt · 코어별 event routing
 ```
 
@@ -186,7 +186,7 @@ TCM · 캐시 잠금 · RTOS 기반 지터 억제
 
 **진행 상황**: 545 / 803
 
-← **이전**: [544. 안전한 컨텍스트 스위칭 (Secure Context Switching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/544_secure_context_switching/)
-**다음**: [546. 결정론적 이더넷 (TSN) 하드웨어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) →
+<- **이전**: [544. 안전한 컨텍스트 스위칭 (Secure Context Switching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/544_secure_context_switching/)
+**다음**: [546. 결정론적 이더넷 (TSN) 하드웨어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ->
 
 ---

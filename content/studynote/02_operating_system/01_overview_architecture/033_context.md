@@ -23,17 +23,17 @@ tags = ["studynote-operating-system"]
 ### PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 내 컨텍스트 정보
 
 ```
-┌──────────────────────────────────────┐
-│           PCB (Process Control Block)│
-├──────────────────────────────────────┤
-│  PID (프로세스 ID)                   │
-│  프로세스 상태 (Running/Ready/...)   │
-│  프로그램 카운터 (PC, 다음 명령 주소) │
-│  CPU 레지스터 (AX, BX, SP, BP...)   │
-│  메모리 관리 정보 (페이지 테이블 등) │
-│  I/O 상태 정보 (열린 파일 목록)      │
-│  스케줄링 정보 (우선순위, CPU 사용량)│
-└──────────────────────────────────────┘
++--------------------------------------+
+|           PCB (Process Control Block)|
++--------------------------------------+
+|  PID (프로세스 ID)                   |
+|  프로세스 상태 (Running/Ready/...)   |
+|  프로그램 카운터 (PC, 다음 명령 주소) |
+|  CPU 레지스터 (AX, BX, SP, BP...)   |
+|  메모리 관리 정보 (페이지 테이블 등) |
+|  I/O 상태 정보 (열린 파일 목록)      |
+|  스케줄링 정보 (우선순위, CPU 사용량)|
++--------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 컨텍스트는 책갈피와 메모이다 — 책을 덮을 때(CPU에서 내려올 때) 몇 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)인지, 어떤 내용까지 읽었는지 모두 적어둔다.
@@ -44,8 +44,8 @@ tags = ["studynote-operating-system"]
 
 ```
 프로세스 A 실행 중
-    ↓ 인터럽트 / 타임 퀀텀 만료
-[1] 현재 CPU 레지스터 → PCB_A에 저장
+    v 인터럽트 / 타임 퀀텀 만료
+[1] 현재 CPU 레지스터 -> PCB_A에 저장
 [2] PCB_A를 레디 큐에 이동
 [3] 스케줄러: 다음 프로세스 B 선택
 [4] PCB_B에서 레지스터 복원
@@ -87,7 +87,7 @@ x86-64 기준 컨텍스트 스위칭 비용:
 
 ```
 프로세스 > 스레드 > 코루틴/파이버 > 비동기(async/await)
-  ↑더 느림                           더 빠름↑
+  ^더 느림                           더 빠름^
 ```
 
 📢 **섹션 요약 비유**: [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드는 사무실 이동 시간이다 — 건물 이사(프로세스), 같은 건물 다른 방([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)), 자리만 바꾸기([코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) 순서로 비용이 다르다.
@@ -107,8 +107,8 @@ x86-64 기준 컨텍스트 스위칭 비용:
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) vs 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
 
 ```
-커널 스레드: OS가 관리 → 시스템 콜 필요, 진짜 병렬성
-사용자 스레드: 라이브러리 관리 → 빠른 전환, OS에 불투명
+커널 스레드: OS가 관리 -> 시스템 콜 필요, 진짜 병렬성
+사용자 스레드: 라이브러리 관리 -> 빠른 전환, OS에 불투명
                (Go goroutine, Python greenlet)
 ```
 
@@ -141,22 +141,22 @@ x86-64 기준 컨텍스트 스위칭 비용:
 
 ```
 컨텍스트 (Context)
-├── PCB (Process Control Block)
-│   ├── CPU 레지스터 상태
-│   ├── 프로그램 카운터 (PC)
-│   └── 메모리 매핑 정보
-├── 컨텍스트 스위칭
-│   ├── 트리거: 타임 퀀텀·I/O·인터럽트
-│   ├── 프로세스 vs 스레드 비용 차이
-│   └── TLB 플러시 오버헤드
-├── 최적화
-│   ├── CPU 핀닝 (Affinity)
-│   ├── 코루틴 (유저 스페이스 스위칭)
-│   └── 비동기 I/O (async/await)
-└── 관련 개념
-    ├── 스케줄링 알고리즘
-    ├── 인터럽트 처리
-    └── 시스템 콜 (커널 모드 전환)
++-- PCB (Process Control Block)
+|   +-- CPU 레지스터 상태
+|   +-- 프로그램 카운터 (PC)
+|   +-- 메모리 매핑 정보
++-- 컨텍스트 스위칭
+|   +-- 트리거: 타임 퀀텀·I/O·인터럽트
+|   +-- 프로세스 vs 스레드 비용 차이
+|   +-- TLB 플러시 오버헤드
++-- 최적화
+|   +-- CPU 핀닝 (Affinity)
+|   +-- 코루틴 (유저 스페이스 스위칭)
+|   +-- 비동기 I/O (async/await)
++-- 관련 개념
+    +-- 스케줄링 알고리즘
+    +-- 인터럽트 처리
+    +-- 시스템 콜 (커널 모드 전환)
 ```
 
 ---
@@ -164,22 +164,22 @@ x86-64 기준 컨텍스트 스위칭 비용:
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│             컨텍스트 스위칭 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ 협력적 멀티태스킹  │ 프로세스 자발적 CPU 반납     │
-│ 1970년대     │ 선점형 스케줄링    │ 타이머 인터럽트 기반 스위칭  │
-│ 1990년대     │ 스레드 개념 도입   │ 경량 컨텍스트 스위칭         │
-│ 2000년대     │ SMP·멀티코어       │ 코어별 독립 스케줄러         │
-│ 2010년대     │ 코루틴·Go goroutine │ 유저 스페이스 협력적 스위칭 │
-│ 2020년대     │ async/await 표준화  │ I/O 없는 컨텍스트 전환 최소화│
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|             컨텍스트 스위칭 발전 흐름                            |
++--------------+--------------------+-----------------------------+
+| 1960년대     | 협력적 멀티태스킹  | 프로세스 자발적 CPU 반납     |
+| 1970년대     | 선점형 스케줄링    | 타이머 인터럽트 기반 스위칭  |
+| 1990년대     | 스레드 개념 도입   | 경량 컨텍스트 스위칭         |
+| 2000년대     | SMP·멀티코어       | 코어별 독립 스케줄러         |
+| 2010년대     | 코루틴·Go goroutine | 유저 스페이스 협력적 스위칭 |
+| 2020년대     | async/await 표준화  | I/O 없는 컨텍스트 전환 최소화|
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-PCB → 컨텍스트 저장/복원 → 스케줄러 → 멀티태스킹
-  ↓          ↓                  ↓
+PCB -> 컨텍스트 저장/복원 -> 스케줄러 -> 멀티태스킹
+  v          v                  v
 레지스터   TLB 플러시        우선순위 큐
-  ↓
+  v
 프로세스 > 스레드 > 코루틴 > async (비용 감소 방향)
 ```
 
@@ -197,7 +197,7 @@ PCB → 컨텍스트 저장/복원 → 스케줄러 → 멀티태스킹
 
 **진행 상황**: 33 / 800
 
-← **이전**: [펌웨어 (Firmware)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)
-**다음**: [컨텍스트 스위칭 (Context Switch) 심화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) →
+<- **이전**: [펌웨어 (Firmware)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)
+**다음**: [컨텍스트 스위칭 (Context Switch) 심화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ->
 
 ---

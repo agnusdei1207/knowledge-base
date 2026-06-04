@@ -20,9 +20,9 @@ BDD는 “무엇을 만들 것인가”보다 “사용자가 어떤 행위를 �
 특히 업무 시스템에서 실패하는 원인 중 상당수는 구현 기술 부족이 아니라 용어 불일치다. 같은 “승인”, “완료”, “정산”이라는 말도 부서마다 의미가 다르면 테스트와 운영이 모두 어긋난다. BDD는 이런 문제를 방지하기 위해 시나리오와 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)를 중심으로 요구를 구조화한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 사용자 행위 │──▶│ 공통 언어   │──▶│ 검증 시나리오 │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| 사용자 행위 |--->| 공통 언어   |--->| 검증 시나리오 |
++------------+   +------------+   +------------+
 ```
 
 따라서 감리 시에는 화면 목록이나 기능 목록만 확인할 것이 아니라, 시나리오가 실제 업무 흐름과 같은 말을 쓰고 있는지 반드시 확인해야 한다.
@@ -38,11 +38,11 @@ BDD의 대표 형식은 Given-When-Then이다. Given은 전제 조건, When은 �
 | 실행 보고 | 통과·실패 결과를 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 공유 | [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 변경 시 시나리오와 코드가 동시에 갱신되어야 함 |
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Given    │──▶│ When     │──▶│ Then     │
-└────┬─────┘   └────┬─────┘   └────┬─────┘
-     │              │              │
-     └──────도메인 용어/자동화 코드로 연결──────┘
++----------+   +----------+   +----------+
+| Given    |--->| When     |--->| Then     |
++----+-----+   +----+-----+   +----+-----+
+     |              |              |
+     +------도메인 용어/자동화 코드로 연결------+
 ```
 
 핵심 원리는 첫째, 시나리오가 비즈니스 가치를 반영해야 한다는 점이다. 둘째, 문장이 테스트 가능해야 한다. 셋째, 자동화가 어려운 문서는 시간이 지나면 죽은 문서가 되므로 실행 가능한 시나리오로 유지해야 한다. 이 세 가지를 답안에 넣으면 BDD의 본질이 드러난다.
@@ -83,13 +83,13 @@ BDD를 도입하면 요구사항 오해로 인한 재작업이 줄고, [인수 �
 - **📢 섹션 요약 비유**: 모두가 같은 대본으로 연습하면 공연 당일에 실수가 줄어드는 것과 같다.
 
 ### 📌 관련 개념 맵
-- [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) → [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) → 요구사항 정렬
-- Given-When-Then → 실행 가능한 시나리오 → [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 명확화
-- 시나리오 자동화 → 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 품질 가시성 향상
-- [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 연계 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 정교화 → 업무-개발 간 간극 축소
+- [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) -> [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) -> 요구사항 정렬
+- Given-When-Then -> 실행 가능한 시나리오 -> [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 명확화
+- 시나리오 자동화 -> 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 품질 가시성 향상
+- [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 연계 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 정교화 -> 업무-개발 간 간극 축소
 
 ### 📈 관련 키워드 및 발전 흐름도
-기능 명세 문서 → [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) → [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오 → 예제 기반 명세 → [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 자동화 → 제품 중심 협업 문화
+기능 명세 문서 -> [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) -> [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오 -> 예제 기반 명세 -> [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 자동화 -> 제품 중심 협업 문화
 
 - 핵심 키워드: Given-When-Then, [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/), [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/), 시나리오 자동화, 3자 협업
 
@@ -104,7 +104,7 @@ BDD를 도입하면 요구사항 오해로 인한 재작업이 줄고, [인수 �
 
 **진행 상황**: 490 / 530
 
-← **이전**: [411. 테스트 주도 개발 (Test-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)
-**다음**: [413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/413_management/) →
+<- **이전**: [411. 테스트 주도 개발 (Test-Driven Development)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)
+**다음**: [413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/413_management/) ->
 
 ---

@@ -30,17 +30,17 @@ tags = ["enterprise_systems"]
 
 ```text
 [기존: 분절된 사일로 환경]           [MIS 도입: 통합 정보 체계]
-┌───────┐ ┌───────┐ ┌───────┐      ┌─────────────────────────┐
-│ 영업DB│ │ 인사DB│ │ 재무DB│      │     경영진 / 관리자     │(통찰력)
-└─┬─────┘ └─┬─────┘ └─┬─────┘      └─────────▲───────────────┘
-  │         │         │               분석 / 리포팅 / 대시보드
-  ▼         ▼         ▼            ┌─────────┴───────────────┐
-[부서별 개별 리포트 산출]   =====>  │  통합 데이터 웨어하우스 │(정보)
-  (데이터 불일치 발생)               └─────────▲───────────────┘
++-------+ +-------+ +-------+      +-------------------------+
+| 영업DB| | 인사DB| | 재무DB|      |     경영진 / 관리자     |(통찰력)
++-+-----+ +-+-----+ +-+-----+      +---------^---------------+
+  |         |         |               분석 / 리포팅 / 대시보드
+  v         v         v            +---------+---------------+
+[부서별 개별 리포트 산출]   =====>  |  통합 데이터 웨어하우스 |(정보)
+  (데이터 불일치 발생)               +---------^---------------+
                                            ETL / 데이터 정제
-                                   ┌─────────┴───────────────┐
-                                   │ 영업 │ 인사 │ 재무 │생산 │(데이터)
-                                   └─────────────────────────┘
+                                   +---------+---------------+
+                                   | 영업 | 인사 | 재무 |생산 |(데이터)
+                                   +-------------------------+
 ```
 *해설: 이 그림은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 거쳐 최종적으로 경영진의 의사결정 대시보드로 전달되는 가치 창출 과정을 보여준다. [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 환경에서는 부서 간 지표가 충돌하여 전사적 의사결정이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 병목이 발생하지만, MIS가 도입되면 단일 진실 공급원(SSOT, [Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))이 확보되어 의사결정의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 오류율이 획기적으로 감소한다.*
 
@@ -63,29 +63,29 @@ tags = ["enterprise_systems"]
 아래의 피라미드 아키텍처는 조직 계층별 의사결정 수준과 이를 지원하는 시스템의 수직적 통합 구조를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 이 도식에서 주목할 점은 정보의 흐름이 아래에서 위로 향하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨은 줄어드는 반면, 비즈니스 가치와 복잡도는 기하급수적으로 증가한다는 것이다.
 
 ```text
-               ▲         ┌───────────────────────────────┐
-   전략적      │         │           EIS / ESS           │ (Executive Info System)
-   의사결정    │         │       [비구조화된 문제]       │ -> KPI 대시보드, 미래 예측
-(최고 경영층)  │         └───────────────▲───────────────┘
-               │                         │ 요약/분석 데이터
-               │         ┌───────────────┴───────────────┐
-   관리적      │         │              DSS              │ (Decision Support System)
-   의사결정    │         │       [반구조화된 문제]       │ -> 시뮬레이션, What-If 분석
- (중간 관리자) │         └───────────────▲───────────────┘
-               │                         │ 예외/정기 보고서
-               │         ┌───────────────┴───────────────┐
-   운영적      │         │              MIS              │ (Management Info System)
-   의사결정    │         │        [구조화된 문제]        │ -> 정형화된 리포팅
- (일선 관리자) │         └───────────────▲───────────────┘
-               │                         │ 트랜잭션 데이터
-               │         ┌───────────────┴───────────────┐
-   업무 처리   │         │              TPS              │ (Transaction Processing)
-  (실무 담당자)▼         │    [일상적 비즈니스 거래]     │ -> 급여, 주문, 재고 처리
-                         └───────────────────────────────┘
+               ^         +-------------------------------+
+   전략적      |         |           EIS / ESS           | (Executive Info System)
+   의사결정    |         |       [비구조화된 문제]       | -> KPI 대시보드, 미래 예측
+(최고 경영층)  |         +---------------^---------------+
+               |                         | 요약/분석 데이터
+               |         +---------------+---------------+
+   관리적      |         |              DSS              | (Decision Support System)
+   의사결정    |         |       [반구조화된 문제]       | -> 시뮬레이션, What-If 분석
+ (중간 관리자) |         +---------------^---------------+
+               |                         | 예외/정기 보고서
+               |         +---------------+---------------+
+   운영적      |         |              MIS              | (Management Info System)
+   의사결정    |         |        [구조화된 문제]        | -> 정형화된 리포팅
+ (일선 관리자) |         +---------------^---------------+
+               |                         | 트랜잭션 데이터
+               |         +---------------+---------------+
+   업무 처리   |         |              TPS              | (Transaction Processing)
+  (실무 담당자)v         |    [일상적 비즈니스 거래]     | -> 급여, 주문, 재고 처리
+                         +-------------------------------+
 ```
 *해설: 이 계층 구조도에서 상위 계층(EIS, DSS)은 하위 계층(TPS, MIS)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 작동한다. 따라서 하위 레벨의 TPS에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 훼손되면, 그 오차는 상위 계층의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정에서 증폭되어 치명적인 방향 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류([Bullwhip Effect](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/) 유사 현상)를 낳게 된다. 실무에서는 이러한 의존성 때문에 TPS의 안정성과 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)(Cleansing) 과정이 MIS 구축의 핵심 병목으로 작용한다.*
 
-내부 동작 원리 측면에서, MIS는 본질적으로 '입력(Input) → 처리(Processing) → 출력(Output) → 피드백(Feedback)'의 사이버네틱스(Cybernetics) 루프를 따른다.
+내부 동작 원리 측면에서, MIS는 본질적으로 '입력(Input) -> 처리(Processing) -> 출력(Output) -> 피드백(Feedback)'의 사이버네틱스(Cybernetics) 루프를 따른다.
 ① <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 (Input)</strong>: 바코드, POS, 웹 폼, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등을 통해 내외부 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집한다.
 ② <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 및 저장 (Processing &amp; Storage)</strong>: 수집된 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RDBMS에 저장하고, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정을 거쳐 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)에 분석 가능한 형태로 구조화([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) 등)한다.
 ③ **정보 출력 (Output)**: [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI) 도구를 통해 대시보드, 정형 리포트, 경고(Alert) 형태로 사용자에게 제공한다.
@@ -114,19 +114,19 @@ tags = ["enterprise_systems"]
 [조직의 데이터 처리 성숙도 및 요구사항에 따른 시스템 도입 판단]
 
     복잡성 / 비구조화 (High)
-        ▲
-        │                [ 영역 C ] : EIS / 지능형 의사결정 시스템
-        │                - 요구사항: 시장 예측, 5년 뒤 트렌드 분석
-        │                - 기술: AI, 빅데이터, 텍스트 마이닝
- 전략적 │
- 의사   │        [ 영역 B ] : DSS / OLAP (다차원 분석)
- 결정   │        - 요구사항: "가격을 10% 올리면 수요는 어떻게 변하는가?" (What-If)
-        │        - 기술: 데이터 웨어하우스, BI 툴, 시뮬레이션 모델
-        │
- 일상적 │ [ 영역 A ] : TPS / 기본 MIS
- 운영   │ - 요구사항: 결산 자동화, 주간 매출 보고서 출력
-        │ - 기술: RDBMS, ERP 기초 모듈, 배치 리포팅 시스템
-        └─────────────────────────────────────────────────────►
+        ^
+        |                [ 영역 C ] : EIS / 지능형 의사결정 시스템
+        |                - 요구사항: 시장 예측, 5년 뒤 트렌드 분석
+        |                - 기술: AI, 빅데이터, 텍스트 마이닝
+ 전략적 |
+ 의사   |        [ 영역 B ] : DSS / OLAP (다차원 분석)
+ 결정   |        - 요구사항: "가격을 10% 올리면 수요는 어떻게 변하는가?" (What-If)
+        |        - 기술: 데이터 웨어하우스, BI 툴, 시뮬레이션 모델
+        |
+ 일상적 | [ 영역 A ] : TPS / 기본 MIS
+ 운영   | - 요구사항: 결산 자동화, 주간 매출 보고서 출력
+        | - 기술: RDBMS, ERP 기초 모듈, 배치 리포팅 시스템
+        +-----------------------------------------------------►
         낮음 (Low)                   데이터 처리 주기/속도                  높음 (Real-time)
 ```
 *해설: 이 매트릭스는 기업이 처음부터 영역 C의 지능형 시스템을 구축하려 할 때 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 매우 높음을 시사한다. 영역 A의 탄탄한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반(기초 체력) 없이 도입된 고급 분석 도구는 '가비지 인 가비지 아웃(GIGO)'을 초래할 뿐이다. 실무에서는 반드시 단계적인 성숙도 향상 로드맵을 설계해야 한다.*
@@ -154,13 +154,13 @@ tags = ["enterprise_systems"]
 
 ```text
 [요구사항 접수] -> (이 기능이 표준 패키지에 존재하는가?)
-                       │
-             ┌──(YES)──┴──(NO)──┐
-             ▼                  ▼
+                       |
+             +--(YES)--+--(NO)--+
+             v                  v
       [표준 기능 활성화]   (비즈니스에 치명적/차별화 요소인가?)
-      (설정만으로 해결)         │
-                      ┌──(YES)──┴──(NO)──┐
-                      ▼                  ▼
+      (설정만으로 해결)         |
+                      +--(YES)--+--(NO)--+
+                      v                  v
                [CBO 추가 개발]     [현업 프로세스 변경 유도]
                - 마이크로서비스로  - BPR 및 변화관리 수행
                  격리 구현 권장    - 개발 거부 (유지보수비 절감)
@@ -199,14 +199,14 @@ tags = ["enterprise_systems"]
 
 ```text
 [IT 거버넌스 (IT Governance)]
-    │
-    ▼
+    |
+    v
 [ERP (Enterprise Resource Planning)]
-    │
-    ▼
+    |
+    v
 [BPR (Business Process Reengineering)]
-    │
-    ▼
+    |
+    v
 [데이터 웨어하우스 (Data Warehouse)]
 ```
 
@@ -223,8 +223,8 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 1 / 482
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. IT 거버넌스 (IT Governance) - IT가 기업 전략과 목표를 주도하고 지원하도록 하는 이사회/경영진의 책임/프레임워크](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/002_it_governance/) →
+**다음**: [2. IT 거버넌스 (IT Governance) - IT가 기업 전략과 목표를 주도하고 지원하도록 하는 이사회/경영진의 책임/프레임워크](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/002_it_governance/) ->
 
 ---

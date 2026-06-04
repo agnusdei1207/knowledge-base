@@ -32,11 +32,11 @@ tags = ["studynote-network"]
 
 ```text
 [Co-channel Interference…]
-    │
-    ▼
+    |
+    v
 [핸드오버 / 핸드오프 종류 개념]
-    │
-    └──▶ [하드 핸드오버]
+    |
+    +---> [하드 핸드오버]
 ```
 
 - **📢 섹션 요약 비유**: 라디오 채널을 들으며 서울에서 부산으로 갈 때, 지역마다 주파수가 달라도 라디오가 스스로 알아서 잡음 없이 다음 지역 주파수로 맞춰주는 자동 튜닝 기능과 같습니다.
@@ -60,30 +60,30 @@ tags = ["studynote-network"]
 핸드오버 시점을 결정하는 것은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기의 역전이다. 그러나 두 기지국 사이의 경계 지역(Cell Edge)에서는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 엎치락뒤치락하며 핸드오버가 불필요하게 반복되는 <strong>핑퐁 효과(Ping-Pong Effect)</strong>가 발생할 수 있다. 이를 방지하기 위해 '히스테리시스(Hysteresis) 마진'과 'Time-to-Trigger(TTT)' 개념을 적용한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         히스테리시스 마진을 적용한 핸드오버 트리거링             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │ 신호 강도                                                     │
-  │   ▲                                                           │
-  │   │  서빙 기지국(A) 신호           타겟 기지국(B) 신호         │
-  │   │  ───────.                       .───────              │
-  │   │          . ↘                   ↗ .                     │
-  │   │           .  ↘               ↗  .                      │
-  │   │            .   ↘           ↗   .                       │
-  │   │             .    ↘       ↗    .                        │
-  │   │              .     ↘   ↗     .         ↑                │
-  │   │               .      ╳       .          │ Hysteresis      │
-  │   │                .   ↗   ↘   .            │ Margin          │
-  │   │                 . ↗      ↘.             ↓                │
-  │   │                  *─────────*──────────────                │
-  │   │   (신호 역전) ───┘         └─▶ 핸드오버 발생              │
-  │   │                                                           │
-  │   └──────────────────────────────────────────────▶ 이동 거리  │
-  │                                                               │
-  │  조건: [타겟 기지국 신호] > [서빙 기지국 신호] + [Hysteresis]     │
-  │        그리고 이 상태가 [Time-to-Trigger (TTT)] 이상 유지될 때   │
-  └───────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------+
+  |         히스테리시스 마진을 적용한 핸드오버 트리거링             |
+  +---------------------------------------------------------------+
+  |                                                               |
+  | 신호 강도                                                     |
+  |   ^                                                           |
+  |   |  서빙 기지국(A) 신호           타겟 기지국(B) 신호         |
+  |   |  -------.                       .-------              |
+  |   |          . ↘                   ↗ .                     |
+  |   |           .  ↘               ↗  .                      |
+  |   |            .   ↘           ↗   .                       |
+  |   |             .    ↘       ↗    .                        |
+  |   |              .     ↘   ↗     .         ^                |
+  |   |               .      ╳       .          | Hysteresis      |
+  |   |                .   ↗   ↘   .            | Margin          |
+  |   |                 . ↗      ↘.             v                |
+  |   |                  *---------*--------------                |
+  |   |   (신호 역전) ---+         +--> 핸드오버 발생              |
+  |   |                                                           |
+  |   +-----------------------------------------------> 이동 거리  |
+  |                                                               |
+  |  조건: [타겟 기지국 신호] > [서빙 기지국 신호] + [Hysteresis]     |
+  |        그리고 이 상태가 [Time-to-Trigger (TTT)] 이상 유지될 때   |
+  +---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단말기가 기지국 A에서 B로 이동할 때, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 역전이 일어나는 교차점(`╳`)에서 즉시 핸드오버를 수행하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 미세한 흔들림([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))으로 인해 A와 B를 반복해서 오가는 핑퐁 현상이 발생한다. 이를 막기 위해 타겟 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 A보다 단순히 큰 것이 아니라, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 '히스테리시스 마진'만큼 더 커지고 그 상태가 'TTT(Time-to-Trigger)' 시간 동안 유지될 때만 확정적으로 핸드오버를 지시한다. 마진을 너무 크게 잡으면 핸드오버가 늦어져 통화가 끊어지고, 너무 작게 잡으면 핑퐁이 발생해 기지국 부하가 폭증하므로 최적화(SON)가 필수적이다.
@@ -120,28 +120,28 @@ tags = ["studynote-network"]
 | **관련 기술** | X2/Xn 핸드오버 | [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/) ([Multipath TCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)), ANDSF, 패스포트(Passport) |
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │        수평적 (Horizontal) vs 수직적 (Vertical) 핸드오버      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [수평적 핸드오버]                                            │
-  │                                                             │
-  │       기지국 1 ◀────────▶ 기지국 2                          │
-  │        (5G)     (이동)     (5G)                             │
-  │        / \                 / \                              │
-  │       /   \               /   \                             │
-  │      단말기 ──────────────▶ 단말기                            │
-  │      (동종 통신 방식 내에서의 공간 이동)                        │
-  │                                                             │
-  │  [수직적 핸드오버]                                            │
-  │                                                             │
-  │       집/카페 ◀────────▶ 길거리                            │
-  │       (Wi-Fi)   (이동)    (5G 망)                          │
-  │         │                   │                              │
-  │         ▼                   ▼                              │
-  │      단말기 ──────────────▶ 단말기                            │
-  │      (게임 중 Wi-Fi 영역을 벗어나면 5G로 IP 세션 무손실 전환)    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |        수평적 (Horizontal) vs 수직적 (Vertical) 핸드오버      |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [수평적 핸드오버]                                            |
+  |                                                             |
+  |       기지국 1 <----------> 기지국 2                          |
+  |        (5G)     (이동)     (5G)                             |
+  |        / \                 / \                              |
+  |       /   \               /   \                             |
+  |      단말기 ---------------> 단말기                            |
+  |      (동종 통신 방식 내에서의 공간 이동)                        |
+  |                                                             |
+  |  [수직적 핸드오버]                                            |
+  |                                                             |
+  |       집/카페 <----------> 길거리                            |
+  |       (Wi-Fi)   (이동)    (5G 망)                          |
+  |         |                   |                              |
+  |         v                   v                              |
+  |      단말기 ---------------> 단말기                            |
+  |      (게임 중 Wi-Fi 영역을 벗어나면 5G로 IP 세션 무손실 전환)    |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 수평적 핸드오버는 우리가 흔히 아는 기지국 간 이동이다. 기술적 방식이 동일하므로 제어 메시지와 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 넘겨주기만 하면 된다. 반면 수직적 핸드오버는 전혀 다른 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: IEEE 802.11과 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) NR) 간의 전환이다. 이 경우 할당받은 IP 주소가 바뀌어 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊어지는 문제가 발생하므로, 전송 계층에서 복수의 경로를 유지하는 [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)([Multipath TCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/))나, 애플리케이션 계층에서의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))을 통한 융합이 필수적이다.
@@ -208,12 +208,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Co-channel Interference…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 핸드오버 / 핸드오프 종류 개념]
-    │
-    ├──▶ [확장 A: 하드 핸드오버]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 하드 핸드오버]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 핸드오버 / 핸드오프 종류 개념는 [Co-channel Interference](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -230,7 +230,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 677 / 1120
 
-← **이전**: [555. Co-channel Interference (동일 채널 간섭) / Adjacent Channel Interference (인접](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)
-**다음**: [557. 하드 핸드오버 (Hard Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) →
+<- **이전**: [555. Co-channel Interference (동일 채널 간섭) / Adjacent Channel Interference (인접](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)
+**다음**: [557. 하드 핸드오버 (Hard Handoff)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) ->
 
 ---

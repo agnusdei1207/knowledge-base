@@ -19,20 +19,20 @@ tags = ["studynote-data-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             Kafka Topic Partition 구조                  │
-├────────────────────────────────────────────────────────┤
-│                                                         │
-│  Topic: user-events                                     │
-│  ┌─────────────────────────────────────────┐            │
-│  │ Partition 0: [msg0] → [msg3] → [msg6]  │            │
-│  │ Partition 1: [msg1] → [msg4] → [msg7]  │            │
-│  │ Partition 2: [msg2] → [msg5] → [msg8]  │            │
-│  └─────────────────────────────────────────┘            │
-│                                                         │
-│  Producer → 파티션별 분배 (라운드로빈 or 키 해시)          │
-│  Consumer Group → 파티션당 1 컨슈머 할당                  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             Kafka Topic Partition 구조                  |
++--------------------------------------------------------+
+|                                                         |
+|  Topic: user-events                                     |
+|  +-----------------------------------------+            |
+|  | Partition 0: [msg0] -> [msg3] -> [msg6]  |            |
+|  | Partition 1: [msg1] -> [msg4] -> [msg7]  |            |
+|  | Partition 2: [msg2] -> [msg5] -> [msg8]  |            |
+|  +-----------------------------------------+            |
+|                                                         |
+|  Producer -> 파티션별 분배 (라운드로빈 or 키 해시)          |
+|  Consumer Group -> 파티션당 1 컨슈머 할당                  |
++--------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 고속도로 다차선이다. 1차선이면 차가 한 줄로 줄 서야 하지만, 3차선이면 3배 많은 차량이 동시에 달릴 수 있다. 단, 같은 목적지(키)의 차량은 항상 같은 차선([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))을 이용한다.
@@ -46,8 +46,8 @@ tags = ["studynote-data-engineering"]
 ```text
 파티션 0 (Offset 기반 순서 로그):
   Offset: 0        1        2        3
-          [msg_A] → [msg_B] → [msg_C] → [msg_D]
-                                              ↑ LEO (Log End Offset)
+          [msg_A] -> [msg_B] -> [msg_C] -> [msg_D]
+                                              ^ LEO (Log End Offset)
 
 Leader Partition: 읽기/쓰기 처리
 Follower Partition: ISR (In-Sync Replicas) — 복제본
@@ -88,8 +88,8 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 
 설계:
   min partitions = ceil(1,000,000 / 30,000) = 34 파티션
-  → 여유 포함 40 파티션으로 설정
-  → replication-factor = 3 (내구성)
+  -> 여유 포함 40 파티션으로 설정
+  -> replication-factor = 3 (내구성)
 ```
 
 ### [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (In-Sync Replicas) 관리
@@ -128,17 +128,17 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 
 ```text
 [단일 큐 메시징 — 순서 보장, 확장 한계]
-    │
-    ▼
+    |
+    v
 [Kafka 토픽 파티션 — 병렬 분산 로그 스트림]
-    │
-    ▼
+    |
+    v
 [Consumer Group — 파티션별 병렬 소비]
-    │
-    ▼
+    |
+    v
 [Kafka Streams / Flink — 파티션 기반 상태 연산]
-    │
-    ▼
+    |
+    v
 [실시간 AI 파이프라인 — 스트리밍 ML 추론 백본]
 ```
 
@@ -154,7 +154,7 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 
 **진행 상황**: 26 / 258
 
-← **이전**: [25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/)
-**다음**: [27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/027_offset_consumer_group/) →
+<- **이전**: [25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/)
+**다음**: [27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/027_offset_consumer_group/) ->
 
 ---

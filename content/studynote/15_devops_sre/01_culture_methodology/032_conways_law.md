@@ -22,12 +22,12 @@ tags = ["studynote-devops"]
 > — Mel Conway, 1967
 
 ```
-조직 구조         →    시스템 아키텍처
-──────────────────────────────────────
-팀 A (DB)          →    DB 레이어
-팀 B (백엔드)      →    API 서버
-팀 C (프론트엔드)  →    UI 레이어
-팀 D (인프라)      →    인프라 레이어
+조직 구조         ->    시스템 아키텍처
+--------------------------------------
+팀 A (DB)          ->    DB 레이어
+팀 B (백엔드)      ->    API 서버
+팀 C (프론트엔드)  ->    UI 레이어
+팀 D (인프라)      ->    인프라 레이어
 ```
 
 ### 왜 발생하는가?
@@ -42,13 +42,13 @@ tags = ["studynote-devops"]
 
 ## Ⅱ. 콘웨이의 법칙 실제 사례
 
-### 사례 1 — 모놀리식 → [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 실패
+### 사례 1 — 모놀리식 -> [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 실패
 
 ```
 기존 조직: 단일 개발팀 (모놀리식 아키텍처)
-     ↓
+     v
 마이크로서비스 도입 시도 (팀 구조 변경 없음)
-     ↓
+     v
 결과: "분산 모놀리식" — 서비스는 분리됐지만
      팀이 같아 경계가 없고, 배포도 함께 진행
 ```
@@ -57,8 +57,8 @@ tags = ["studynote-devops"]
 
 ```
 팀 크기: 피자 두 판으로 먹일 수 있는 인원 (6~10명)
-   ↓
-자체 소유 서비스 → 독립 배포 → 마이크로서비스 아키텍처
+   v
+자체 소유 서비스 -> 독립 배포 -> 마이크로서비스 아키텍처
 ```
 
 - 팀이 작아야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 작고 독립적이 된다
@@ -73,13 +73,13 @@ tags = ["studynote-devops"]
 
 ```
 원하는 아키텍처 결정 (마이크로서비스)
-     ↓
+     v
 서비스 경계 정의 (도메인 주도 설계, DDD)
-     ↓
+     v
 팀을 서비스 경계에 맞게 재구성
-     ↓
+     v
 각 팀이 독립적으로 자기 서비스 소유·배포
-     ↓
+     v
 시스템 아키텍처가 자연스럽게 마이크로서비스가 됨
 ```
 
@@ -115,10 +115,10 @@ Facilitating: 지식 전수 (한시적)
 ### 조직 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 문제
 
 ```
-개발팀 [Dev] ─────── 벽 ─────── 운영팀 [Ops]
-   │                                   │
+개발팀 [Dev] ------- 벽 ------- 운영팀 [Ops]
+   |                                   |
  코드 배포 요청                 배포 거부/지연
-   │                                   │
+   |                                   |
  "운영이 막는다"               "개발이 불안정하다"
 ```
 
@@ -126,11 +126,11 @@ Facilitating: 지식 전수 (한시적)
 
 ```
 Before (콘웨이 법칙 폐해):
-  Dev팀 → Ops팀 → 배포 → SRE팀 (각각 다른 도구·문화)
+  Dev팀 -> Ops팀 -> 배포 -> SRE팀 (각각 다른 도구·문화)
 
 After (역 콘웨이 기동):
   풀스택 Product Team (Dev+Ops+QA 통합)
-  → You Build It, You Run It (아마존 원칙)
+  -> You Build It, You Run It (아마존 원칙)
 ```
 
 📢 **섹션 요약 비유**: DevOps는 요리사가 직접 홀 서빙도 하는 구조다 — 요리(개발)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(운영)를 한 팀이 담당하면 음식이 맛없으면 본인도 직접 고객 불만을 듣게 된다.
@@ -141,22 +141,22 @@ After (역 콘웨이 기동):
 
 ```
 콘웨이의 법칙 (Conway's Law)
-├── 핵심 주장
-│   └── 조직 커뮤니케이션 구조 = 시스템 아키텍처
-├── 활용 전략
-│   ├── 역 콘웨이 기동 (Inverse Conway Maneuver)
-│   └── DDD (Domain-Driven Design) 경계 설정
-├── 조직 설계 프레임워크
-│   ├── Team Topologies
-│   │   ├── Stream-aligned Team
-│   │   ├── Platform Team
-│   │   ├── Enabling Team
-│   │   └── Complicated-Subsystem Team
-│   └── Spotify 모델 (Squad·Tribe·Chapter·Guild)
-└── 연관 개념
-    ├── Two-Pizza Rule (Amazon)
-    ├── DevOps / SRE
-    └── 마이크로서비스 아키텍처
++-- 핵심 주장
+|   +-- 조직 커뮤니케이션 구조 = 시스템 아키텍처
++-- 활용 전략
+|   +-- 역 콘웨이 기동 (Inverse Conway Maneuver)
+|   +-- DDD (Domain-Driven Design) 경계 설정
++-- 조직 설계 프레임워크
+|   +-- Team Topologies
+|   |   +-- Stream-aligned Team
+|   |   +-- Platform Team
+|   |   +-- Enabling Team
+|   |   +-- Complicated-Subsystem Team
+|   +-- Spotify 모델 (Squad·Tribe·Chapter·Guild)
++-- 연관 개념
+    +-- Two-Pizza Rule (Amazon)
+    +-- DevOps / SRE
+    +-- 마이크로서비스 아키텍처
 ```
 
 ---
@@ -164,23 +164,23 @@ After (역 콘웨이 기동):
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              콘웨이의 법칙 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1967년       │ Conway 논문 발표   │ "How Do Committees Invent?"  │
-│ 2000년대     │ 마이크로서비스 등장 │ 콘웨이 법칙 재조명           │
-│ 2010년       │ Thoughtworks 검증  │ 역 콘웨이 기동 개념화        │
-│ 2014년       │ Spotify 모델 공개  │ 팀 설계 실전 사례            │
-│ 2019년       │ Team Topologies 책  │ 체계적 팀 위상 설계          │
-│ 2020년대     │ Platform Engineering│ 내부 개발자 플랫폼 표준화   │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              콘웨이의 법칙 발전 흐름                             |
++--------------+--------------------+-----------------------------+
+| 1967년       | Conway 논문 발표   | "How Do Committees Invent?"  |
+| 2000년대     | 마이크로서비스 등장 | 콘웨이 법칙 재조명           |
+| 2010년       | Thoughtworks 검증  | 역 콘웨이 기동 개념화        |
+| 2014년       | Spotify 모델 공개  | 팀 설계 실전 사례            |
+| 2019년       | Team Topologies 책  | 체계적 팀 위상 설계          |
+| 2020년대     | Platform Engineering| 내부 개발자 플랫폼 표준화   |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-조직 구조 → 콘웨이 법칙 → 시스템 아키텍처 미러링
-    ↓              ↓
-팀 설계 → 역 콘웨이 → MSA 자연스러운 구현
-    ↓
-Team Topologies → Platform Engineering → 인지 부하 최소화
+조직 구조 -> 콘웨이 법칙 -> 시스템 아키텍처 미러링
+    v              v
+팀 설계 -> 역 콘웨이 -> MSA 자연스러운 구현
+    v
+Team Topologies -> Platform Engineering -> 인지 부하 최소화
 ```
 
 ---
@@ -197,7 +197,7 @@ Team Topologies → Platform Engineering → 인지 부하 최소화
 
 **진행 상황**: 32 / 373
 
-← **이전**: [31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/)
-**다음**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/) →
+<- **이전**: [31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/)
+**다음**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/) ->
 
 ---

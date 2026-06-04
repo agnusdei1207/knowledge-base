@@ -28,8 +28,8 @@ eBPF는 이 문제를 해결한다:
 원래 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)([Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))는 tcpdump 같은 도구가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 패킷을 필터링하기 위해 1992년 개발됐다. 2014년 리눅스 3.18에서 확장(extended)되어 네트워크 이외 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이벤트 전반으로 적용 범위가 폭발적으로 확대됐다.
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 없으면 발생하는 문제</strong>:
-- 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)): 모든 Pod에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy) 주입 → CPU·메모리 오버헤드
-- 보안: 런타임 시스템 콜 감시 불가 → 악성 코드 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
+- 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)): 모든 Pod에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy) 주입 -> CPU·메모리 오버헤드
+- 보안: 런타임 시스템 콜 감시 불가 -> 악성 코드 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/): 패킷 처리를 유저스페이스에서 하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 전환 비용 발생
 
 - **📢 섹션 요약 비유**: eBPF는 <strong>'운영 중인 건물의 설계도를 바꾸지 않고, 특수 투명 카메라를 각 방에 설치해 실시간으로 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링하는 기술'</strong> 입니다. 건물([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 허물거나 재건축(재컴파일)하지 않고, 관찰 도구만 조용히 설치해 모든 활동을 포착합니다.
@@ -44,30 +44,30 @@ eBPF는 이 문제를 해결한다:
 eBPF 프로그램 실행 파이프라인
 
   개발자 (User Space)
-  ┌──────────────────────────────────────────────────────────┐
-  │  eBPF 프로그램 작성 (C 코드 또는 bpftrace 스크립트)        │
-  │  └─► LLVM/Clang으로 eBPF 바이트코드 컴파일                │
-  └──────────────────────────────────────────────────────────┘
-                    │ syscall(bpf)
+  +----------------------------------------------------------+
+  |  eBPF 프로그램 작성 (C 코드 또는 bpftrace 스크립트)        |
+  |  +-► LLVM/Clang으로 eBPF 바이트코드 컴파일                |
+  +----------------------------------------------------------+
+                    | syscall(bpf)
   커널 (Kernel Space)
-  ┌──────────────────────────────────────────────────────────┐
-  │  ① Verifier (검증기)                                     │
-  │     · 무한 루프 없음 확인 (DAG 분석)                       │
-  │     · 메모리 경계 검사                                    │
-  │     · 권한 검사                                          │
-  │                    │ 통과                                │
-  │  ② JIT 컴파일러 → 네이티브 머신 코드 변환                  │
-  │                    │                                    │
-  │  ③ Hook 포인트에 부착                                     │
-  │     · kprobe/kretprobe (커널 함수 진입/반환)               │
-  │     · tracepoint (정적 추적 포인트)                       │
-  │     · XDP (네트워크 드라이버 레벨 패킷 처리)               │
-  │     · tc (트래픽 제어 훅)                                 │
-  │     · uprobe (유저스페이스 함수 추적)                      │
-  │                    │                                    │
-  │  ④ 이벤트 발생 시 eBPF 프로그램 실행 → Maps에 데이터 저장  │
-  └──────────────────────────────────────────────────────────┘
-                    │ perf_event / ring buffer
+  +----------------------------------------------------------+
+  |  ① Verifier (검증기)                                     |
+  |     · 무한 루프 없음 확인 (DAG 분석)                       |
+  |     · 메모리 경계 검사                                    |
+  |     · 권한 검사                                          |
+  |                    | 통과                                |
+  |  ② JIT 컴파일러 -> 네이티브 머신 코드 변환                  |
+  |                    |                                    |
+  |  ③ Hook 포인트에 부착                                     |
+  |     · kprobe/kretprobe (커널 함수 진입/반환)               |
+  |     · tracepoint (정적 추적 포인트)                       |
+  |     · XDP (네트워크 드라이버 레벨 패킷 처리)               |
+  |     · tc (트래픽 제어 훅)                                 |
+  |     · uprobe (유저스페이스 함수 추적)                      |
+  |                    |                                    |
+  |  ④ 이벤트 발생 시 eBPF 프로그램 실행 -> Maps에 데이터 저장  |
+  +----------------------------------------------------------+
+                    | perf_event / ring buffer
   User Space 분석 도구 (BCC, bpftrace, Cilium)
 ```
 
@@ -87,19 +87,19 @@ eBPF 프로그램 실행 파이프라인
 ```text
 eBPF 활용 영역
 
-  ┌──────────────────────────────────────────────────────────┐
-  │  네트워킹                                                 │
-  │  XDP ─ 커널 NIC 드라이버 레벨에서 패킷 드롭/포워딩         │
-  │         DDoS 방어, 로드밸런싱 (Katran, Cilium LB)          │
-  ├──────────────────────────────────────────────────────────┤
-  │  관측성 (Observability)                                   │
-  │  kprobe/tracepoint ─ 시스템 콜, 레이턴시, CPU 프로파일링   │
-  │  사이드카 없는 서비스 메시 (Cilium, Hubble)                │
-  ├──────────────────────────────────────────────────────────┤
-  │  보안                                                    │
-  │  시스템 콜 감시 ─ 비정상 행동 탐지 (Falco, Tetragon)       │
-  │  런타임 정책 적용 (Seccomp BPF)                           │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |  네트워킹                                                 |
+  |  XDP - 커널 NIC 드라이버 레벨에서 패킷 드롭/포워딩         |
+  |         DDoS 방어, 로드밸런싱 (Katran, Cilium LB)          |
+  +----------------------------------------------------------+
+  |  관측성 (Observability)                                   |
+  |  kprobe/tracepoint - 시스템 콜, 레이턴시, CPU 프로파일링   |
+  |  사이드카 없는 서비스 메시 (Cilium, Hubble)                |
+  +----------------------------------------------------------+
+  |  보안                                                    |
+  |  시스템 콜 감시 - 비정상 행동 탐지 (Falco, Tetragon)       |
+  |  런타임 정책 적용 (Seccomp BPF)                           |
+  +----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) Maps는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>과 관리자 사이의 공용 화이트보드'</strong> 입니다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 프로그램이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 발견한 정보(패킷 수, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간)를 화이트보드(Map)에 적으면, 관리자 도구가 화이트보드를 읽어 대시보드에 표시합니다.
@@ -190,18 +190,18 @@ eBPF는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ```text
 BPF (Berkeley Packet Filter, 1992) — 패킷 필터링
-    │
-    ▼
+    |
+    v
 eBPF (Extended BPF, Linux 3.18, 2014) — 커널 이벤트 전반
-    │
-    ├─► XDP — NIC 레벨 고속 패킷 처리 (DDoS 방어)
-    ├─► kprobe/tracepoint — 커널 함수 추적
-    ├─► Cilium — eBPF 기반 쿠버네티스 CNI·서비스 메시
-    │
-    ▼
+    |
+    +-► XDP — NIC 레벨 고속 패킷 처리 (DDoS 방어)
+    +-► kprobe/tracepoint — 커널 함수 추적
+    +-► Cilium — eBPF 기반 쿠버네티스 CNI·서비스 메시
+    |
+    v
 사이드카 프록시(Envoy/Istio) 대체 움직임
-    │
-    ▼
+    |
+    v
 eBPF for Windows / CO-RE / eBPF-as-a-Service (미래)
 ```
 
@@ -217,7 +217,7 @@ eBPF for Windows / CO-RE / eBPF-as-a-Service (미래)
 
 **진행 상황**: 147 / 373
 
-← **이전**: [146. OpenTelemetry (OTel) - 관측 가능성 통합 표준](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)
-**다음**: [148. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/) →
+<- **이전**: [146. OpenTelemetry (OTel) - 관측 가능성 통합 표준](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)
+**다음**: [148. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [MPTCP]
-    │
-    ▼
+    |
+    v
 [SCTP]
-    │
-    └──▶ [UDP 헤더 구조]
+    |
+    +---> [UDP 헤더 구조]
 ```
 
 - **📢 섹션 요약 비유**: ** SCTP는 TCP의 **"정확도([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))"**와 UDP의 **"메시지 경계 유지(독립성)"**라는 장점만 쏙쏙 빼먹은 하이브리드 명품입니다. 한 바구니에 계란을 다 담아 앞사람이 넘어지면 다 박살 나는 TCP와 달리, 계란을 여러 바구니(스트림)에 나눠 담아 한 바구니를 떨어뜨려도 나머지는 무사히 배달되는 궁극의 안전 배송 시스템입니다.
@@ -59,23 +59,23 @@ SCTP는 애초에 태어날 때부터 이걸 완벽히 막아버렸다.
 2. 서버: "그래? 근데 난 너 못 믿어서 내 메모리(대기실) 안 내어줄 거야. 대신 <strong>이 암호화된 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a> 덩어리나 받아라! (INIT ACK)</strong>" (서버는 엽서만 던지고 자기는 다 잊어버림).
 3. 클라이언트: "아 치사하네... 옛다 네가 아까 준 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 다시 가져왔다! 나 진짜 손님 맞어! ([COOKIE](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ECHO)"
 4. 서버: "오, 진짜 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 맞네? [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료! 이제야 내 메모리에 널 위한 방을 하나 파줄게. 들어와! ([COOKIE](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ACK)"
-▶ 이 4번의 핑퐁(4-Way) 덕분에 해커가 가짜 INIT 패킷을 수억 개 쏴도 서버는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)만 던질 뿐 메모리를 1바이트도 쓰지 않아 절대 죽지 않는다.
+-> 이 4번의 핑퐁(4-Way) 덕분에 해커가 가짜 INIT 패킷을 수억 개 쏴도 서버는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)만 던질 뿐 메모리를 1바이트도 쓰지 않아 절대 죽지 않는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs SCTP의 Handshake와 병목 차이              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 통신 시작 방식의 차이 ]                                     │
- │   * TCP : SYN -> SYN/ACK -> ACK  (3-Way, 메모리 할당 일찍함)     │
- │   * SCTP: INIT -> INIT ACK(쿠키) -> COOKIE ECHO -> COOKIE ACK │
- │           (4-Way, 쿠키를 들고 와야만 메모리 할당해 줌. 해킹 방어 짱!)  │
- │                                                             │
- │   [ 데이터 전송 방식의 차이 ]                                   │
- │   * TCP (단일 차선): 앞 패킷 유실되면 뒷 패킷들 줄줄이 대기 (HOL 병목)│
- │   * SCTP (다중 차선): Stream 1 패킷 유실돼도, Stream 2, 3 패킷은   │
- │                     대기 없이 목적지 앱으로 쾌속 직행! (HOL 타파)  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP vs SCTP의 Handshake와 병목 차이              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 통신 시작 방식의 차이 ]                                     |
+ |   * TCP : SYN -> SYN/ACK -> ACK  (3-Way, 메모리 할당 일찍함)     |
+ |   * SCTP: INIT -> INIT ACK(쿠키) -> COOKIE ECHO -> COOKIE ACK |
+ |           (4-Way, 쿠키를 들고 와야만 메모리 할당해 줌. 해킹 방어 짱!)  |
+ |                                                             |
+ |   [ 데이터 전송 방식의 차이 ]                                   |
+ |   * TCP (단일 차선): 앞 패킷 유실되면 뒷 패킷들 줄줄이 대기 (HOL 병목)|
+ |   * SCTP (다중 차선): Stream 1 패킷 유실돼도, Stream 2, 3 패킷은   |
+ |                     대기 없이 목적지 앱으로 쾌속 직행! (HOL 타파)  |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 메시지 단위(Message-oriented) 전송
@@ -140,12 +140,12 @@ SCTP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ```text
 [선행 개념: MPTCP]
-    │
-    ▼
+    |
+    v
 [현재 개념: SCTP]
-    │
-    ├──▶ [확장 A: UDP 헤더 구조]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: UDP 헤더 구조]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 SCTP는 MPTCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ SCTP는 MPTCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [UD
 
 **진행 상황**: 568 / 1120
 
-← **이전**: [446. MPTCP (Multipath TCP)](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)
-**다음**: [448. UDP 헤더 구조](/knowledge-base/studynote/03_network/08_transport_layer/448_udp_header_structure_8bytes/) →
+<- **이전**: [446. MPTCP (Multipath TCP)](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)
+**다음**: [448. UDP 헤더 구조](/knowledge-base/studynote/03_network/08_transport_layer/448_udp_header_structure_8bytes/) ->
 
 ---

@@ -24,24 +24,24 @@ tags = ["studynote-design-supervision"]
 아키텍처 스타일 없이 설계를 시작하면 각 팀원이 서로 다른 구조적 가정을 갖고 코드를 작성하게 된다. 어떤 개발자는 계층형으로, 어떤 개발자는 이벤트 중심으로 코드를 구성하면 시스템은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 혼합 구조가 되어 어떤 스타일의 장점도 제대로 얻지 못한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         주요 아키텍처 스타일 분류 체계                        │
-├─────────────────────────────────────────────────────────────┤
-│  구조 중심                                                   │
-│  ├─ 계층형 (Layered)                                        │
-│  ├─ 파이프-필터 (Pipe-Filter)                               │
-│  └─ 블랙보드 (Blackboard)                                   │
-│                                                             │
-│  분산 중심                                                   │
-│  ├─ 마이크로서비스 (MSA)                                    │
-│  ├─ 이벤트 주도 (EDA)                                       │
-│  └─ 공간 기반 (Space-Based)                                 │
-│                                                             │
-│  도메인 중심                                                 │
-│  ├─ 헥사고날 (Hexagonal)                                    │
-│  ├─ 클린 아키텍처 (Clean)                                   │
-│  └─ 어니언 (Onion)                                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         주요 아키텍처 스타일 분류 체계                        |
++-------------------------------------------------------------+
+|  구조 중심                                                   |
+|  +- 계층형 (Layered)                                        |
+|  +- 파이프-필터 (Pipe-Filter)                               |
+|  +- 블랙보드 (Blackboard)                                   |
+|                                                             |
+|  분산 중심                                                   |
+|  +- 마이크로서비스 (MSA)                                    |
+|  +- 이벤트 주도 (EDA)                                       |
+|  +- 공간 기반 (Space-Based)                                 |
+|                                                             |
+|  도메인 중심                                                 |
+|  +- 헥사고날 (Hexagonal)                                    |
+|  +- 클린 아키텍처 (Clean)                                   |
+|  +- 어니언 (Onion)                                          |
++-------------------------------------------------------------+
 ```
 
 아키텍처 스타일이 중요한 또 다른 이유는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method, 아키텍처 트레이드오프 분석 방법)과 같은 아키텍처 평가 방법론이 스타일을 기반으로 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 트레이드오프를 분석하기 때문이다.
@@ -62,22 +62,22 @@ tags = ["studynote-design-supervision"]
 | 헥사고날 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) / 테스트 용이성, 유연성 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 복잡도 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│   아키텍처 스타일 선택 의사결정 흐름                         │
-├─────────────────────────────────────────────────────────────┤
-│  주요 품질 속성이 무엇인가?                                  │
-│         │                                                   │
-│    ┌────┴────┐                                              │
-│    ▼         ▼                                              │
-│  단순성/     독립 배포/확장성                                │
-│  유지보수성  │                                              │
-│    │         ▼                                              │
-│    ▼    MSA / EDA                                           │
-│  계층형                                                     │
-│                                                             │
-│  도메인 복잡도가 높은가?                                    │
-│    └──▶ 헥사고날/클린/DDD 스타일 고려                       │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|   아키텍처 스타일 선택 의사결정 흐름                         |
++-------------------------------------------------------------+
+|  주요 품질 속성이 무엇인가?                                  |
+|         |                                                   |
+|    +----+----+                                              |
+|    v         v                                              |
+|  단순성/     독립 배포/확장성                                |
+|  유지보수성  |                                              |
+|    |         v                                              |
+|    v    MSA / EDA                                           |
+|  계층형                                                     |
+|                                                             |
+|  도메인 복잡도가 높은가?                                    |
+|    +---> 헥사고날/클린/DDD 스타일 고려                       |
++-------------------------------------------------------------+
 ```
 
 스타일 선택에서 Conway의 법칙(Conway's Law)은 중요한 제약이다. "시스템 구조는 그것을 만드는 조직의 커뮤니케이션 구조를 반영한다." MSA를 선택했다면 팀 구조도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 독립되어야 한다.
@@ -133,7 +133,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 요구사항] → [아키텍처 스타일 선택] → ADR 문서화] → ATAM 평가] → [Conway의 법칙 조직 정합]
+[품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 요구사항] -> [아키텍처 스타일 선택] -> ADR 문서화] -> ATAM 평가] -> [Conway의 법칙 조직 정합]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -144,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[임기응변 설계] → [아키텍처 스타일 개념 정립(갈란·쇼)] → [계층형·파이프-필터·블랙보드] → SOA] → MSA·[EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)] → [클라우드 네이티브 하이브리드 스타일]
+[임기응변 설계] -> [아키텍처 스타일 개념 정립(갈란·쇼)] -> [계층형·파이프-필터·블랙보드] -> SOA] -> MSA·[EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)] -> [클라우드 네이티브 하이브리드 스타일]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +158,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 170 / 530
 
-← **이전**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/)
-**다음**: [115. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/) →
+<- **이전**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/)
+**다음**: [115. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/) ->
 
 ---

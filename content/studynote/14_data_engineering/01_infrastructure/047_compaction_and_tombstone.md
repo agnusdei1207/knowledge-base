@@ -22,8 +22,8 @@ tags = ["studynote-data-engineering"]
 컴팩션 필요성:
 
 LSM 쓰기 특성:
-  MemTable → 플러시 → SSTable 생성
-  같은 키의 새 값 → 새 SSTable에 저장
+  MemTable -> 플러시 -> SSTable 생성
+  같은 키의 새 값 -> 새 SSTable에 저장
   (기존 SSTable 수정 X, 불변)
 
   결과:
@@ -32,10 +32,10 @@ LSM 쓰기 특성:
   키 K1의 버전 3: SSTable C에
 
   읽기 시: SSTable A, B, C 모두 확인 필요
-  → 읽기 오버헤드 증가
+  -> 읽기 오버헤드 증가
 
 컴팩션 역할:
-  SSTable A + B + C → SSTable D (합병)
+  SSTable A + B + C -> SSTable D (합병)
   키 K1: 버전 3만 남김 (버전 1, 2 제거)
 
   효과:
@@ -48,11 +48,11 @@ LSM 쓰기 특성:
   I/O: 대용량 파일 읽기 + 쓰기
   임시 공간: 원본 + 결과물 동시 보유
 
-  → 컴팩션 집중 시 프로덕션 성능 영향
-  → Rate Limiter로 속도 제한 필요
+  -> 컴팩션 집중 시 프로덕션 성능 영향
+  -> Rate Limiter로 속도 제한 필요
 
 Write Amplification:
-  논리적 쓰기 1MB → 실제 디스크 쓰기 10MB?
+  논리적 쓰기 1MB -> 실제 디스크 쓰기 10MB?
   WA = 실제 쓰기 / 논리 쓰기
 
   높은 WA: 컴팩션 오버헤드 큰 전략
@@ -70,20 +70,20 @@ Write Amplification:
 
 문제: LSM에서 즉각 삭제 불가
   SSTable은 불변(Immutable)
-  → 기존 SSTable의 특정 키 삭제 불가
+  -> 기존 SSTable의 특정 키 삭제 불가
 
 해결: 삭제 마커(Tombstone) 쓰기
   DELETE FROM users WHERE id = 1
-  → MemTable에 Tombstone(id=1) 쓰기
-  → SSTable로 플러시
+  -> MemTable에 Tombstone(id=1) 쓰기
+  -> SSTable로 플러시
 
   실제 삭제는 컴팩션 시:
-  Tombstone과 원본 데이터 같이 있으면 → 제거
+  Tombstone과 원본 데이터 같이 있으면 -> 제거
 
   읽기 시 Tombstone 처리:
   id=1 데이터 찾기
   SSTable에서 id=1 Tombstone 발견
-  → "삭제됨"으로 처리, 반환 안 함
+  -> "삭제됨"으로 처리, 반환 안 함
 
 Tombstone 유형 (Cassandra):
 
@@ -105,7 +105,7 @@ Tombstone 문제 (Tombstone Hell):
   데이터 1개 찾는데 Tombstone 100만개 확인
 
   카산드라 tomb_failure_threshold:
-  기본 100,000개 → 초과 시 경고/오류
+  기본 100,000개 -> 초과 시 경고/오류
 
 GC Grace Period:
   Tombstone이 실제 삭제되기까지 대기 시간
@@ -113,7 +113,7 @@ GC Grace Period:
 
   이유: 복제 노드가 Tombstone 전파 보장
   만약 3일 후 오프라인 노드 복귀:
-  GC Grace 10일 이내 → Tombstone 전파 OK
+  GC Grace 10일 이내 -> Tombstone 전파 OK
 
   단, 10일 동안 Tombstone 축적됨
 ```
@@ -130,11 +130,11 @@ Cassandra 컴팩션 전략:
 1. STCS (Size-Tiered Compaction Strategy):
   기본 전략
 
-  동작: 비슷한 크기의 SSTable N개 → 하나로 합침
+  동작: 비슷한 크기의 SSTable N개 -> 하나로 합침
 
   예:
-  4개의 50MB SSTable → 200MB SSTable
-  4개의 200MB SSTable → 800MB SSTable
+  4개의 50MB SSTable -> 200MB SSTable
+  4개의 200MB SSTable -> 800MB SSTable
 
   장점:
   쓰기 최적화 (Write-Heavy 적합)
@@ -219,27 +219,27 @@ Tombstone 문제 해결:
 
 진단:
   nodetool compactionstats
-  → 대기 컴팩션 확인
+  -> 대기 컴팩션 확인
 
   nodetool tablestats <keyspace>.<table>
-  → LiveSSTableCount, TombstoneScannedHistogram
+  -> LiveSSTableCount, TombstoneScannedHistogram
 
 해결:
   1. 강제 컴팩션:
   nodetool compact <keyspace> <table>
-  → 즉시 컴팩션 실행 (IO 집중!)
+  -> 즉시 컴팩션 실행 (IO 집중!)
 
   2. GC Grace 조정:
   ALTER TABLE ... WITH gc_grace_seconds = 86400;
-  (10일 → 1일)
+  (10일 -> 1일)
   데이터 손실 위험 검토 후 적용
 
   3. TWCS 전환:
-  시계열 데이터 → TWCS로 전략 변경
+  시계열 데이터 -> TWCS로 전략 변경
 
 RocksDB 모니터링:
-  db.GetProperty("rocksdb.stats") → 전체 통계
-  db.GetProperty("rocksdb.compaction-pending") → 대기 수
+  db.GetProperty("rocksdb.stats") -> 전체 통계
+  db.GetProperty("rocksdb.compaction-pending") -> 대기 수
 ```
 
 > 📢 **섹션 요약 비유**: 컴팩션 모니터링은 청소 상태 점검 — 청소 대기 목록(PendingCompactions) 너무 많으면? 방(DB)이 지저분해서 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 찾기 어려움. 즉시 청소(강제 컴팩션)!
@@ -261,11 +261,11 @@ IoT 플랫폼 Cassandra 컴팩션 최적화:
   디스크 사용량 계속 증가
 
   진단:
-  nodetool tablestats → TombstoneScannedHistogram: 평균 500,000!
+  nodetool tablestats -> TombstoneScannedHistogram: 평균 500,000!
   LiveSSTableCount: 350개 (매우 많음)
 
   원인:
-  TTL 만료 → Tombstone 대량 생성
+  TTL 만료 -> Tombstone 대량 생성
   STCS: Tombstone 포함 SSTable이 쌓임
   컴팩션이 Tombstone 제거 못 따라감
 
@@ -287,13 +287,13 @@ IoT 플랫폼 Cassandra 컴팩션 최적화:
   주의: 2개 이상 DC면 단축 위험 있음
 
 3. 불필요 DELETE 제거:
-  TTL로 자동 만료 → 명시적 DELETE 불필요
+  TTL로 자동 만료 -> 명시적 DELETE 불필요
   비즈니스 로직 DELETE만 유지
 
 결과:
-  P99 읽기: 5초 → 0.8초
-  TombstoneScannedHistogram: 500,000 → 2,000
-  LiveSSTableCount: 350 → 12 (시간 윈도우 수)
+  P99 읽기: 5초 -> 0.8초
+  TombstoneScannedHistogram: 500,000 -> 2,000
+  LiveSSTableCount: 350 -> 12 (시간 윈도우 수)
   디스크: 정상 범위 유지
 
 운영 교훈:
@@ -344,7 +344,7 @@ Level Compaction
       |
       v
 [Cassandra 컴팩션 발전 (2012~)]
-STCS → LCS → TWCS
+STCS -> LCS -> TWCS
 IoT/시계열 워크로드 최적화
       |
       v
@@ -372,7 +372,7 @@ Universal, FIFO, Level
 
 **진행 상황**: 47 / 258
 
-← **이전**: [046. LSM 트리 — Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/)
-**다음**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/) →
+<- **이전**: [046. LSM 트리 — Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/)
+**다음**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/) ->
 
 ---

@@ -35,7 +35,7 @@ tags = ["studynote-cloud-architecture"]
 
   예:
   스타트업 개발팀: "프로덕션 배포가 느려서
-  개인 AWS로 POC 시작 → 그대로 프로덕션화"
+  개인 AWS로 POC 시작 -> 그대로 프로덕션화"
 
 3. 미승인 클라우드 서비스:
   기업이 Azure 쓰는데 팀이 AWS Lambda 무단 사용
@@ -47,7 +47,7 @@ tags = ["studynote-cloud-architecture"]
 
   비용:
   AWS 무료 티어: 12개월 무료
-  → "일단 써보고 나중에 승인"
+  -> "일단 써보고 나중에 승인"
 
 위험:
   공개 S3 버킷: 데이터 유출
@@ -96,8 +96,8 @@ CSPM (Cloud Security Posture Management):
   고위험 오류: 자동 수정
 
   예:
-  S3 퍼블릭 접근 활성화 탐지 → 자동 차단
-  (또는 알림 → 수동 승인 후 차단)
+  S3 퍼블릭 접근 활성화 탐지 -> 자동 차단
+  (또는 알림 -> 수동 승인 후 차단)
 
 주요 제품:
   Prisma Cloud (Palo Alto)
@@ -120,13 +120,13 @@ CSPM (Cloud Security Posture Management):
 
   구조:
   루트 계정
-  ├── 프로덕션 OU (Organizational Unit)
-  │   ├── 프로덕션 계정
-  │   └── DR 계정
-  ├── 개발 OU
-  │   └── 개발 계정
-  └── 보안 OU
-      └── 로깅 계정
+  +-- 프로덕션 OU (Organizational Unit)
+  |   +-- 프로덕션 계정
+  |   +-- DR 계정
+  +-- 개발 OU
+  |   +-- 개발 계정
+  +-- 보안 OU
+      +-- 로깅 계정
 
   SCP (Service Control Policy):
   특정 서비스/리전 사용 제한 (전체 OU에 적용)
@@ -163,7 +163,7 @@ CSPM (Cloud Security Posture Management):
 
 ```
 멀티클라우드 섀도 IT 문제:
-  기업이 AWS 주력 → 팀이 Azure, GCP도 사용
+  기업이 AWS 주력 -> 팀이 Azure, GCP도 사용
   단일 콘솔로 전체 가시성 필요
 
 통합 가시성 도구:
@@ -173,7 +173,7 @@ Wiz:
   AWS/Azure/GCP/K8s 통합 스캔
 
   공격 경로 분석:
-  "인터넷 → 공개 VM → 과도한 권한 역할 → DB 접근"
+  "인터넷 -> 공개 VM -> 과도한 권한 역할 -> DB 접근"
   최고 위험 경로 우선 시각화
 
 Prisma Cloud:
@@ -189,9 +189,9 @@ Prisma Cloud:
   ConfigRule: 컴플라이언스 규칙 평가
 
 실시간 알림 체계:
-  새 계정 생성 → 즉시 보안팀 알림
-  고위험 구성 오류 → PagerDuty 에스컬레이션
-  대용량 데이터 전송 → 이상 탐지 알림
+  새 계정 생성 -> 즉시 보안팀 알림
+  고위험 구성 오류 -> PagerDuty 에스컬레이션
+  대용량 데이터 전송 -> 이상 탐지 알림
 ```
 
 > 📢 **섹션 요약 비유**: 멀티클라우드 가시성 = 위성 지도 — Wiz/Prisma Cloud가 AWS+Azure+GCP 전체를 위성으로 내려다봄. 불법 건물(섀도 클라우드), 잠금 없는 창고(S3 퍼블릭) 한눈에!
@@ -222,8 +222,8 @@ Prisma Cloud:
   테스트용 고객 데이터 5만 건 저장 (GDPR 위반!)
 
 즉시 조치:
-  1. 공개 S3 → 즉시 차단
-  2. 고객 데이터 → 격리 후 삭제
+  1. 공개 S3 -> 즉시 차단
+  2. 고객 데이터 -> 격리 후 삭제
   3. GDPR DPA에 위반 신고 (72시간 이내)
   4. 미사용 EC2 67대 정지
 
@@ -236,7 +236,7 @@ Prisma Cloud:
 결과 (3개월):
   월 클라우드 비용: -32% (미사용 리소스 제거)
   섀도 클라우드 리소스: 95% 감소
-  CSPM 점수: 34% → 89%
+  CSPM 점수: 34% -> 89%
   GDPR 위반 재발: 0건
 ```
 
@@ -308,7 +308,7 @@ Cloud Native Application Protection
 
 **진행 상황**: 48 / 371
 
-← **이전**: [048. MSP — 클라우드 관리형 서비스 제공자](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/)
-**다음**: [데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/050_data_gravity_cloud_lock_in/) →
+<- **이전**: [048. MSP — 클라우드 관리형 서비스 제공자](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/)
+**다음**: [데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/050_data_gravity_cloud_lock_in/) ->
 
 ---

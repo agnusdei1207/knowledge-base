@@ -18,23 +18,23 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-객체지향 설계에서 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)은 자연스러운 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수단이다. `Employee → FullTimeEmployee`, `Employee → PartTimeEmployee`, `Employee → Contractor` 같은 계층이 코드에 존재할 때, 이를 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 에 어떻게 매핑할지가 ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 의 핵심 문제 중 하나다.
+객체지향 설계에서 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)은 자연스러운 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수단이다. `Employee -> FullTimeEmployee`, `Employee -> PartTimeEmployee`, `Employee -> Contractor` 같은 계층이 코드에 존재할 때, 이를 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 에 어떻게 매핑할지가 ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 의 핵심 문제 중 하나다.
 
 STI (Single Table Inheritance) 는 가장 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다—**계층 전체를 하나의 테이블로 합친다**. `employee_type` 컬럼(JPA에서는 `DTYPE`이 기본)이 어떤 서브타입인지 구분한다.
 
 ```
 Employee (추상 클래스)
- ├── FullTimeEmployee   (salary 컬럼 추가)
- ├── PartTimeEmployee   (hourlyRate 컬럼 추가)
- └── Contractor         (contractEndDate 컬럼 추가)
+ +-- FullTimeEmployee   (salary 컬럼 추가)
+ +-- PartTimeEmployee   (hourlyRate 컬럼 추가)
+ +-- Contractor         (contractEndDate 컬럼 추가)
 ```
 
 이를 STI로 매핑하면 `employees` 테이블 하나에 모든 컬럼이 모인다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 다양한 직원 유형(정규직, 시간제, 계약직)의 서류를 하나의 서랍에 모두 넣되, 서류 오른쪽 위에 "정규직/시간제/계약직" 도장을 찍어 구분하는 것과 같다.
@@ -43,19 +43,19 @@ Employee (추상 클래스)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│                  employees 테이블 (STI)                             │
-│                                                                    │
-│  id  │ DTYPE           │ name  │ salary │ hourly_rate │ end_date   │
-│  ────┼─────────────────┼───────┼────────┼─────────────┼─────────── │
-│   1  │ FullTimeEmployee│ Alice │ 5000   │   NULL      │   NULL     │
-│   2  │ PartTimeEmployee│ Bob   │ NULL   │   25.50     │   NULL     │
-│   3  │ Contractor      │ Carol │ NULL   │   NULL      │ 2026-12-31 │
-│   4  │ FullTimeEmployee│ Dave  │ 6000   │   NULL      │   NULL     │
-│                                                                    │
-│  ※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)              │
-│  ※ NULL이 많아지는 것이 STI의 단점                                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  employees 테이블 (STI)                             |
+|                                                                    |
+|  id  | DTYPE           | name  | salary | hourly_rate | end_date   |
+|  ----+-----------------+-------+--------+-------------+----------- |
+|   1  | FullTimeEmployee| Alice | 5000   |   NULL      |   NULL     |
+|   2  | PartTimeEmployee| Bob   | NULL   |   25.50     |   NULL     |
+|   3  | Contractor      | Carol | NULL   |   NULL      | 2026-12-31 |
+|   4  | FullTimeEmployee| Dave  | 6000   |   NULL      |   NULL     |
+|                                                                    |
+|  ※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)              |
+|  ※ NULL이 많아지는 것이 STI의 단점                                 |
++--------------------------------------------------------------------+
 ```
 
 ```java
@@ -104,15 +104,15 @@ public class PartTimeEmployee extends Employee {
 
 ```
 하위 클래스 수가 많은가?
-      │
-      ├── 아니오 (2~4개) → STI 가능성 높음
-      │
-      └── 예           → 아래 확인
-            │
-            └── 하위 클래스별 고유 컬럼이 많은가?
-                    │
-                    ├── 아니오 → STI 여전히 적합
-                    └── 예    → CTI (JOINED) 고려
+      |
+      +-- 아니오 (2~4개) -> STI 가능성 높음
+      |
+      +-- 예           -> 아래 확인
+            |
+            +-- 하위 클래스별 고유 컬럼이 많은가?
+                    |
+                    +-- 아니오 -> STI 여전히 적합
+                    +-- 예    -> CTI (JOINED) 고려
 ```
 
 - **📢 섹션 요약 비유**: 소규모 가족 회사에서 정규직·알바·인턴을 같은 엑셀 시트에 관리하는 건 합리적이지만, 직원이 수백 명이면 시트를 나눠야 한다.
@@ -135,7 +135,7 @@ class Cat < Animal; end
 
 # animals 테이블: id, type, name, breed(Dog만), indoor(Cat만)
 Dog.create(name: "Rex", breed: "Lab")
-# → type='Dog', name='Rex', breed='Lab', indoor=NULL
+# -> type='Dog', name='Rex', breed='Lab', indoor=NULL
 ```
 
 1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 서브타입 전용 컬럼에 NOT NULL 제약을 걸 수 없어 애플리케이션 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요
@@ -161,9 +161,9 @@ STI 패턴의 선택 근거 요약:
 - 다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (`findAll Employee`) 가 조인 없이 가능
 
 **단점**:
-- NULL 컬럼 증가 → [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 저하
+- NULL 컬럼 증가 -> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 저하
 - NOT NULL 같은 DB 제약 적용 불가
-- 서브타입 컬럼 추가 시 전체 테이블 ALTER → 대형 테이블에서 위험
+- 서브타입 컬럼 추가 시 전체 테이블 ALTER -> 대형 테이블에서 위험
 
 기술사 관점에서 STI는 <strong>단순성과 성능을 위해 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 순수성을 일부 희생하는 트레이드오프</strong> 다. 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 서브타입이 단순할 때 빠르게 개발하고, 복잡해지면 CTI로 리팩토링하는 진화적 접근이 현실적이다.
 
@@ -184,7 +184,7 @@ STI 패턴의 선택 근거 요약:
 | 연관 개념 | Polymorphic Query (다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)) | 부모 타입으로 자식 모두 조회 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 → 싱글 테이블 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) → polymorphic query
+[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 -> 싱글 테이블 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) -> polymorphic query
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 강아지, 고양이, 토끼를 모두 같은 표(테이블)에 넣고, '종류' 칸에 각각 이름을 써두는 거야.
@@ -197,7 +197,7 @@ STI 패턴의 선택 근거 요약:
 
 **진행 상황**: 298 / 530
 
-← **이전**: [236. 데이터 매퍼 패턴 (Data Mapper Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/236_data_mapper_pattern/)
-**다음**: [238. 클래스 테이블 상속 (Class Table Inheritance)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/) →
+<- **이전**: [236. 데이터 매퍼 패턴 (Data Mapper Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/236_data_mapper_pattern/)
+**다음**: [238. 클래스 테이블 상속 (Class Table Inheritance)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/) ->
 
 ---

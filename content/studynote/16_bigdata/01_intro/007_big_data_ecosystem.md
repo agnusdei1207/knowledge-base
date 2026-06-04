@@ -1,5 +1,5 @@
 +++
-title = "7. 빅데이터 생태계 — 수집→저장→처리→분석→시각화→활용"
+title = "7. 빅데이터 생태계 — 수집->저장->처리->분석->시각화->활용"
 description = "수집, 저장, 처리, 분석, 시각화로 이어지는 빅데이터 파이프라인의 전체 아키텍처와 실무 적용 전략"
 date = 2024-05-20
 
@@ -13,7 +13,7 @@ tags = ["bigdata"]
 # 빅데이터 생태계 (Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ecosystem)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하여 가치를 창출하기까지의 전체 생명주기(수집→저장→처리→분석→[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))를 매끄럽게 연결하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 기술들의 집합이다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하여 가치를 창출하기까지의 전체 생명주기(수집->저장->처리->분석->[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))를 매끄럽게 연결하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 기술들의 집합이다.
 > 2. **가치**: 단일 기술이 아닌 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화된 계층형 구조를 통해, 각 단계의 확장성(Scalability)과 내결함성([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 보장하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 타파한다.
 > 3. **융합**: 과거의 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)시스템을 넘어, 현재는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)(Cloud-Native) 환경과 스트리밍([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Flink) 기술이 융합된 실시간 [모던 데이터 스택](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/)으로 진화하고 있다.
 
@@ -29,13 +29,13 @@ tags = ["bigdata"]
 이 도식은 부서별로 고립된 기존의 데이터 사일로 환경과, 수집부터 활용까지 단일한 파이프라인으로 연결된 빅데이터 생태계의 패러다임 변화를 비교하여 보여준다.
 
 [과거: 데이터 사일로 (Data Silo)]
-CRM System ──> (고립된 RDB) ──x──> (분석 불가)
-Web Logs   ──> (고립된 File) ──x──> (통합 불가)
-                           ▲ 병목 지점: 통합 부재로 인한 인사이트 손실
+CRM System --> (고립된 RDB) --x--> (분석 불가)
+Web Logs   --> (고립된 File) --x--> (통합 불가)
+                           ^ 병목 지점: 통합 부재로 인한 인사이트 손실
 
 [현재: 통합 빅데이터 파이프라인 (Data Pipeline)]
-CRM (DB) ──(CDC)───┐   ┌──> (배치/스트리밍 처리) ──> BI 시각화
-Web Logs ──(Kafka)─┴─> Data Lake (저장)
+CRM (DB) --(CDC)---+   +--> (배치/스트리밍 처리) --> BI 시각화
+Web Logs --(Kafka)-+-> Data Lake (저장)
                        (분리된 스토리지)         (확장 가능한 컴퓨팅)
 ```
 이 흐름의 핵심은 이기종의 소스 시스템에서 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙의 '[Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)'로 모으고, 이를 독립적인 처리 엔진을 통해 가공한다는 점이다. 과거에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저장과 처리가 하나의 시스템(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Exadata)에 종속되었으나, 빅데이터 생태계는 저장과 연산을 분리([Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/))하여 각각 필요에 따라 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)할 수 있도록 아키텍처를 혁신했다.
@@ -61,18 +61,18 @@ Web Logs ──(Kafka)─┴─> Data Lake (저장)
 ```text
 이 도식은 데이터가 유입되어 최종 시각화되기까지의 각 계층별 오픈소스 생태계 아키텍처와, 이를 조율하는 분산 코디네이터의 역할을 보여준다.
 
-┌─────────────────────────────────────────────────────────┐
-│        [Management & Governance (Atlas, Ranger)]        │
-├─────────┬──────────┬───────────┬────────────┬───────────┤
-│ 1.수집  │ 2.저장   │ 3.처리    │ 4.분석     │ 5.시각화  │
-│ Kafka   │ HDFS     │ Spark     │ Hive / DB  │ Tableau   │
-│ Sqoop   │ AWS S3   │ Flink     │ Presto     │ Superset  │
-│ Flume   │ HBase    │ MapReduce │ MLlib      │ Kibana    │
-├─────────┴──────────┴───────────┴────────────┴───────────┤
-│        [Resource Management (YARN, Kubernetes)]         │
-├─────────────────────────────────────────────────────────┤
-│        [Distributed Coordination (ZooKeeper)]           │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|        [Management & Governance (Atlas, Ranger)]        |
++---------+----------+-----------+------------+-----------+
+| 1.수집  | 2.저장   | 3.처리    | 4.분석     | 5.시각화  |
+| Kafka   | HDFS     | Spark     | Hive / DB  | Tableau   |
+| Sqoop   | AWS S3   | Flink     | Presto     | Superset  |
+| Flume   | HBase    | MapReduce | MLlib      | Kibana    |
++---------+----------+-----------+------------+-----------+
+|        [Resource Management (YARN, Kubernetes)]         |
++---------------------------------------------------------+
+|        [Distributed Coordination (ZooKeeper)]           |
++---------------------------------------------------------+
 ```
 이 구조도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 좌에서 우로 흐르는 동안, 하단의 ZooKeeper와 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)(또는 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))이 전체 클러스터의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 CPU/메모리 자원을 동적으로 할당하고 관리한다는 점이다. 개별 Worker 노드가 죽더라도 리소스 매니저가 즉시 다른 노드에 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 재할당하여 중단 없는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 유지한다. 실무에서는 이러한 코디네이션 계층의 장애(예: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 붕괴)가 전체 생태계의 마비로 이어지므로 해당 계층의 고가용성(HA) 구성이 가장 우선시된다.
 
@@ -90,14 +90,14 @@ Web Logs ──(Kafka)─┴─> Data Lake (저장)
 이 도식은 배치 처리와 실시간 처리를 병행하는 람다 아키텍처와, 스트리밍 하나로 통합한 카파 아키텍처의 데이터 흐름 구조를 비교한다. 시스템의 복잡도와 실시간성 요구사항에 따라 아키텍처를 선택해야 한다.
 
 [Lambda Architecture]
-                  ┌──> (Batch Layer: Hadoop/Spark) ─────┐
-(Data Source) ────┤                                     ├──> (Serving Layer) ──> BI
-                  └──> (Speed Layer: Storm/Flink) ──────┘
-                  ▲ 병목: 두 개의 다른 코드베이스를 유지보수해야 하는 복잡성 증가
+                  +--> (Batch Layer: Hadoop/Spark) -----+
+(Data Source) ----+                                     +--> (Serving Layer) --> BI
+                  +--> (Speed Layer: Storm/Flink) ------+
+                  ^ 병목: 두 개의 다른 코드베이스를 유지보수해야 하는 복잡성 증가
 
 [Kappa Architecture]
-(Data Source) ──> (Kafka: 무한 버퍼 보관) ──> (Stream Layer: Flink/Spark Streaming) ──> BI
-                  ▲ 이점: 단일 로직으로 과거 배치와 실시간 처리를 모두 수행
+(Data Source) --> (Kafka: 무한 버퍼 보관) --> (Stream Layer: Flink/Spark Streaming) --> BI
+                  ^ 이점: 단일 로직으로 과거 배치와 실시간 처리를 모두 수행
 ```
 이 비교의 핵심은 '로직의 파편화' 방지다. [람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 대규모 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Batch)와 최근 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Speed)를 결합하여 정확도를 높이지만, 개발자가 배치 코드와 스트리밍 코드를 각각 짜야 하는 운영 복잡성을 낳는다. 반면 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 스트림이다"라는 철학 하에, Kafka의 보관 주기를 무한대로 늘려 스트리밍 엔진 하나만으로 재처리와 실시간 처리를 통합한다. 실무에서는 시스템 운영 인력이 부족할 경우 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) 기반의 [모던 데이터 스택](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/)을 우선적으로 고려해야 한다.
 
@@ -120,13 +120,13 @@ Web Logs ──(Kafka)─┴─> Data Lake (저장)
 이 의사결정 트리는 새로운 빅데이터 플랫폼 도입 시, 조직의 보안 규제와 운영 역량을 바탕으로 적절한 생태계 호스팅 방식을 결정하는 플로우를 보여준다.
 
 [빅데이터 생태계 도입 플로우]
-           ↓
+           v
 (망분리 및 강력한 데이터 주권 규제가 있는가?)
-   ├── Yes ──> 온프레미스 구축 (Hadoop 기반 CDP 등 도입) -> 인프라 운영팀 필수
-   │
-   └── No ───> (데이터 처리량이 간헐적이며 폭증하는가?)
-                  ├── Yes ──> Serverless Cloud 생태계 (AWS Athena, BigQuery)
-                  └── No  ──> Managed Cloud 생태계 (AWS EMR, Databricks)
+   +-- Yes --> 온프레미스 구축 (Hadoop 기반 CDP 등 도입) -> 인프라 운영팀 필수
+   |
+   +-- No ---> (데이터 처리량이 간헐적이며 폭증하는가?)
+                  +-- Yes --> Serverless Cloud 생태계 (AWS Athena, BigQuery)
+                  +-- No  --> Managed Cloud 생태계 (AWS EMR, Databricks)
 ```
 이 흐름의 핵심은 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership)의 관점 변화다. 과거에는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 투자(CAPEX)가 중심이었으나, 현재는 사용한 만큼만 지불하는(OPEX) 클라우드 환경으로 완전히 넘어왔다. 인프라 운영 인력이 없는 상태에서 섣불리 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)시스템을 직접 구축하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 실패와 노드 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 멈추는 대형 사고를 겪게 된다.
 
@@ -167,20 +167,20 @@ Web Logs ──(Kafka)─┴─> Data Lake (저장)
 
 ```text
 [관계형 데이터베이스 (RDBMS)]
-    │
-    ▼
+    |
+    v
 [하둡 분산 파일 시스템 (HDFS, Hadoop Distributed File System)]
-    │
-    ▼
+    |
+    v
 [빅데이터 생태계 (Big Data Ecosystem)]
-    │
-    ▼
+    |
+    v
 [스파크 (Apache Spark)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 (Data Lakehouse)]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh)]
 ```
 
@@ -198,7 +198,7 @@ Web Logs ──(Kafka)─┴─> Data Lake (저장)
 
 **진행 상황**: 7 / 262
 
-← **이전**: [6. 반정형 데이터 — JSON/XML/HTML/CSV — 스키마 부분 보유](/knowledge-base/studynote/16_bigdata/01_intro/006_semi_structured_data/)
-**다음**: [8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)](/knowledge-base/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) →
+<- **이전**: [6. 반정형 데이터 — JSON/XML/HTML/CSV — 스키마 부분 보유](/knowledge-base/studynote/16_bigdata/01_intro/006_semi_structured_data/)
+**다음**: [8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)](/knowledge-base/studynote/16_bigdata/01_intro/008_big_data_vs_traditional_data/) ->
 
 ---

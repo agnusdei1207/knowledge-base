@@ -30,25 +30,25 @@ tags = ["studynote-enterprise"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│              TDE vs 애플리케이션 암호화 보호 범위 비교               │
-├──────────────────────────────────────────────────────────────────┤
-│  TDE (Transparent Data Encryption)                               │
-│  애플리케이션 → DB 엔진 (평문) → 디스크 I/O 시 자동 암호화 → 파일  │
-│  ✅ 물리 스토리지 탈취 방어                                         │
-│  ❌ DB 세션 접근 시 복호화된 평문 노출                              │
-│  ❌ DBA, 내부자 접근 방어 불가                                      │
-│                                                                  │
-│  애플리케이션 레벨 암호화                                           │
-│  애플리케이션 → 암호화 → DB (암호문 저장)                           │
-│  ✅ DB 레벨에서는 항상 암호문 → DBA도 평문 접근 불가                │
-│  ✅ DB 세션 탈취 시에도 암호문만 노출                               │
-│  ❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한                       │
-│  ❌ 키 관리 (KMS) 책임이 애플리케이션으로                           │
-│                                                                  │
-│  컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간        │
-│  DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              TDE vs 애플리케이션 암호화 보호 범위 비교               |
++------------------------------------------------------------------+
+|  TDE (Transparent Data Encryption)                               |
+|  애플리케이션 -> DB 엔진 (평문) -> 디스크 I/O 시 자동 암호화 -> 파일  |
+|  ✅ 물리 스토리지 탈취 방어                                         |
+|  ❌ DB 세션 접근 시 복호화된 평문 노출                              |
+|  ❌ DBA, 내부자 접근 방어 불가                                      |
+|                                                                  |
+|  애플리케이션 레벨 암호화                                           |
+|  애플리케이션 -> 암호화 -> DB (암호문 저장)                           |
+|  ✅ DB 레벨에서는 항상 암호문 -> DBA도 평문 접근 불가                |
+|  ✅ DB 세션 탈취 시에도 암호문만 노출                               |
+|  ❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한                       |
+|  ❌ 키 관리 (KMS) 책임이 애플리케이션으로                           |
+|                                                                  |
+|  컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간        |
+|  DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)  |
++------------------------------------------------------------------+
 ```
 
 | 항목               | [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)                         | 애플리케이션 암호화              |
@@ -87,8 +87,8 @@ tags = ["studynote-enterprise"]
 - [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/): [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 저장 시 암호화 적용 여부 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 항목
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- 전체 DB를 TDE로 암호화하고 규정 준수 완료로 간주 → 내부자 위협 무방비
-- 모든 컬럼을 애플리케이션 암호화 → 검색 불가능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- 전체 DB를 TDE로 암호화하고 규정 준수 완료로 간주 -> 내부자 위협 무방비
+- 모든 컬럼을 애플리케이션 암호화 -> 검색 불가능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 
 - **📢 섹션 요약 비유**: 민감도에 따라 암호화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 다르게 적용하는 것은, 보관 가치에 따라 일반 서랍, 잠금 서랍, 금고를 구분해서 사용하는 것과 같다.
 
@@ -117,18 +117,18 @@ TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 [
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```
-물리 스토리지 탈취 위협 → TDE 도입
-    │
-    ▼
-내부자 위협 인식 → 애플리케이션 레벨 암호화
-    │
-    ▼
+물리 스토리지 탈취 위협 -> TDE 도입
+    |
+    v
+내부자 위협 인식 -> 애플리케이션 레벨 암호화
+    |
+    v
 컬럼 레벨 암호화 + KMS/HSM 키 분리 관리
-    │
-    ▼
+    |
+    v
 규제 준수 (GDPR, PCI-DSS, 개인정보보호법) 요구 강화
-    │
-    ▼
+    |
+    v
 동형 암호화 · 안전한 다자간 계산 (MPC) 연구
 ```
 
@@ -144,7 +144,7 @@ TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 [
 
 **진행 상황**: 317 / 482
 
-← **이전**: [316. Redis 캐시와 Thundering Herd 장애 회피 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/316_redis_thundering_herd/)
-**다음**: [318. SQL 인젝션 (SQL Injection) 방어 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/318_sql_injection_defense/) →
+<- **이전**: [316. Redis 캐시와 Thundering Herd 장애 회피 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/316_redis_thundering_herd/)
+**다음**: [318. SQL 인젝션 (SQL Injection) 방어 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/318_sql_injection_defense/) ->
 
 ---

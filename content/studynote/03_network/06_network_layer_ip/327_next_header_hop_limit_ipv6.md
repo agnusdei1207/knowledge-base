@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [트래픽 클래스 / 플로우 레이블]
-    │
-    ▼
+    |
+    v
 [Next Header, 홉 제한]
-    │
-    └──▶ [유니캐스트, 멀티캐스트, 애니캐스트]
+    |
+    +---> [유니캐스트, 멀티캐스트, 애니캐스트]
 ```
 
 - **📢 섹션 요약 비유**: <strong> IPv6는 덕지덕지 붙어있던 무거운 배낭(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더 옵션)을 쿨하게 버리고, </strong>"기본 가방(40바이트) 하나만 달랑 멘 다음, 필요한 아이템이 생길 때마다 줄(Next Header)을 엮어 뒤에 매달고 질주하는 초경량 스프린터"**입니다.
@@ -53,26 +53,26 @@ Next Header 필드 안에는 숫자가 들어간다. 이 숫자는 IANA가 정�
 1. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 기본 헤더</strong> (Next Header = `50` 적힘)
 2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 확장 헤더</strong> (Next Header = `6` 적힘)
 3. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더 및 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>
-▶ 라우터는 1번 기본 헤더의 `50`을 보고 "아, 뒤에 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더가 오네?" 하고 넘어가고, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더는 `6`을 보고 "내 뒤에는 진짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는군!" 하고 연결(체인)을 완성한다.
+-> 라우터는 1번 기본 헤더의 `50`을 보고 "아, 뒤에 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더가 오네?" 하고 넘어가고, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더는 `6`을 보고 "내 뒤에는 진짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는군!" 하고 연결(체인)을 완성한다.
 이 방식 덕분에, 중간 라우터는 자기가 굳이 안 까봐도 되는 확장 헤더는 무시하고 빠르게 넘겨버릴 수 있어 스위칭 스피드가 극대화된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 Next Header에 의한 확장 꼬리물기            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 패킷 ]                                               │
- │   [ 기본 헤더 (Next: TCP) ] ──▶ [ TCP 헤더 및 Data ]            │
- │                                                             │
- │   [ 암호화 + 단편화 옵션이 추가된 특수 패킷 ]                       │
- │   [ 기본 헤더 (Next: 단편화) ]                                 │
- │           └──▶ [ 단편화 확장 헤더 (Next: ESP) ]                 │
- │                           └──▶ [ ESP 확장 헤더 (Next: TCP) ]  │
- │                                           └──▶ [ TCP 데이터 ] │
- │                                                             │
- │   * 핵심: 아무리 확장 헤더가 많이 붙어도 맨 앞의 기본 헤더는          │
- │          언제나 "40바이트 뚱뚱하지 않은 상태"를 완벽히 유지한다!      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                IPv6 Next Header에 의한 확장 꼬리물기            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 일반 패킷 ]                                               |
+ |   [ 기본 헤더 (Next: TCP) ] ---> [ TCP 헤더 및 Data ]            |
+ |                                                             |
+ |   [ 암호화 + 단편화 옵션이 추가된 특수 패킷 ]                       |
+ |   [ 기본 헤더 (Next: 단편화) ]                                 |
+ |           +---> [ 단편화 확장 헤더 (Next: ESP) ]                 |
+ |                           +---> [ ESP 확장 헤더 (Next: TCP) ]  |
+ |                                           +---> [ TCP 데이터 ] |
+ |                                                             |
+ |   * 핵심: 아무리 확장 헤더가 많이 붙어도 맨 앞의 기본 헤더는          |
+ |          언제나 "40바이트 뚱뚱하지 않은 상태"를 완벽히 유지한다!      |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. Hop Limit (홉 제한)의 정직한 개명
@@ -137,12 +137,12 @@ Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축
 
 ```text
 [선행 개념: 트래픽 클래스 / 플로우 레이블]
-    │
-    ▼
+    |
+    v
 [현재 개념: Next Header, 홉 제한]
-    │
-    ├──▶ [확장 A: 유니캐스트, 멀티캐스트, 애니캐스트]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 유니캐스트, 멀티캐스트, 애니캐스트]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 Next Header, 홉 제한는 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블에서 출발해 현재 메커니즘을 정교화하고, 이후 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ Next Header, 홉 제한는 [트래픽 클래스](/knowledge-base/studynote/03_ne
 
 **진행 상황**: 448 / 1120
 
-← **이전**: [326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/)
-**다음**: [328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)](/knowledge-base/studynote/03_network/06_network_layer_ip/328_ipv6_address_types_unicast_multicast_anycast_no_broadcast/) →
+<- **이전**: [326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/)
+**다음**: [328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)](/knowledge-base/studynote/03_network/06_network_layer_ip/328_ipv6_address_types_unicast_multicast_anycast_no_broadcast/) ->
 
 ---

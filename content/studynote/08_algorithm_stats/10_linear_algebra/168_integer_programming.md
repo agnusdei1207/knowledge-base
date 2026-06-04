@@ -33,7 +33,7 @@ subject to Ax ≤ b
 x ∈ {0, 1}ⁿ    (예/아니오 결정)
 ```
 
-**LP보다 어려운 이유**: 가능 영역이 연속이 아닌 이산 점집합 → 볼록 완화와 실제 최적해의 격차 (Integrality Gap) 존재.
+**LP보다 어려운 이유**: 가능 영역이 연속이 아닌 이산 점집합 -> 볼록 완화와 실제 최적해의 격차 (Integrality Gap) 존재.
 
 ### IP 활용 분야
 
@@ -66,14 +66,14 @@ IP 문제: min cᵀx, x ∈ ℤⁿ
 [x₂≤2] [x₂≥3]
 정수해!  비가능
  LB=3.1  Prune
- UB=3.1 ← 갱신
+ UB=3.1 <- 갱신
 
 최종: x₁=2, x₂=2, 목적값=3.1
 ```
 
-1. **LP 완화** (Relaxation): 정수 제약 해제 → 현재 노드의 하한 (Lower Bound) 계산
-2. **분기** (Branch): 비정수 변수 선택 → 두 자식 노드 (xᵢ ≤ ⌊xᵢ*⌋, xᵢ ≥ ⌈xᵢ*⌉)
-3. **한정** (Bound): 노드 하한 ≥ 현재 상한 (Upper Bound) → [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (Prune)
+1. **LP 완화** (Relaxation): 정수 제약 해제 -> 현재 노드의 하한 (Lower Bound) 계산
+2. **분기** (Branch): 비정수 변수 선택 -> 두 자식 노드 (xᵢ ≤ ⌊xᵢ*⌋, xᵢ ≥ ⌈xᵢ*⌉)
+3. **한정** (Bound): 노드 하한 ≥ 현재 상한 (Upper Bound) -> [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (Prune)
 4. **갱신**: 정수해 발견 시 UB 갱신
 
 | [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 연산 | 설명 |
@@ -89,7 +89,7 @@ IP 문제: min cᵀx, x ∈ ℤⁿ
 
 ```
 LP 완화 가능 영역     절삭면 추가 후
-   ────────────────   ────────────────
+   ----------------   ----------------
   /                \ /  (잘린 모서리)  \
  /    LP 최적●      |    LP 최적●      |
 |     (비정수)      |    (정수에 근접)  |
@@ -128,7 +128,7 @@ s.t. Σⱼ xᵢⱼ = 1  ∀i       (수요 충족)
 | 일반 0-1 IP | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
 | 배낭 문제 | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) (위약: O(nW) DP) | 의사 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) |
 | 순회 판매원 ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
-| 최소 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) | P | LP 완화가 정수 → 프리마/[크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) |
+| 최소 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) | P | LP 완화가 정수 -> 프리마/[크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) |
 | 최단 경로 | P | [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) |
 | 최대 매칭 (이분) | P | 헝가리안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | 네트워크 플로우 | P | LP 행렬이 완전 단모듈 |
@@ -158,7 +158,7 @@ s.t. Σᵢ xᵢⱼ ≥ 1    ∀j  (각 편 최소 1명 승무원)
      법적 근무 시간 제약
 ```
 
-수천 명 승무원, 수만 편 → MILP로 수십억 원 절약 (American Airlines 등 실 적용).
+수천 명 승무원, 수만 편 -> MILP로 수십억 원 절약 (American Airlines 등 실 적용).
 
 ### 배낭 문제 (0-1 [Knapsack](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)) — 동적 계획 vs IP
 
@@ -169,14 +169,14 @@ n = 5, W = 10:
 
 DP 방법: O(nW) = O(50) 시간
 IP 방법: 분기 한정, 절삭면
-→ 작은 문제는 DP, 큰 구조화 문제는 IP 솔버
+-> 작은 문제는 DP, 큰 구조화 문제는 IP 솔버
 ```
 
 ### 기술사 판단 포인트
 
-1. **"LP와 IP 복잡도 차이는?"** → LP: [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) (내점법), IP: 일반 [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
-2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>법의 핵심 두 가지는?"</strong> → LP 완화 (하한) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
-3. **"TSP가 IP로 표현 가능한가?"** → ✅ 가능, Miller-Tucker-Zemlin 제약으로 부분 순환 제거
+1. **"LP와 IP 복잡도 차이는?"** -> LP: [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) (내점법), IP: 일반 [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
+2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>법의 핵심 두 가지는?"</strong> -> LP 완화 (하한) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
+3. **"TSP가 IP로 표현 가능한가?"** -> ✅ 가능, Miller-Tucker-Zemlin 제약으로 부분 순환 제거
 
 📢 **섹션 요약 비유**: 배낭 문제의 LP 완화는 "물건을 잘게 자를 수 있다"고 가정하는 것이다 — 잘라도 된다면 쉽지만, 0 또는 1만 허용되면(정수 제약) 훨씬 어려워진다.
 
@@ -211,17 +211,17 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 
 ```text
 [선형 계획법(LP)]
-    │
-    ▼
+    |
+    v
 [정수 계획법(IP) 문제 정의]
-    │
-    ▼
+    |
+    v
 [분기 한정법(Branch & Bound)]
-    │
-    ▼
+    |
+    v
 [절단 평면법(Cutting Plane)]
-    │
-    ▼
+    |
+    v
 [산업 최적화 응용]
 ```
 
@@ -239,7 +239,7 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 
 **진행 상황**: 168 / 175
 
-← **이전**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/)
-**다음**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/) →
+<- **이전**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/)
+**다음**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/) ->
 
 ---

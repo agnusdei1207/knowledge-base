@@ -35,13 +35,13 @@ tags = ["cloud_architecture"]
 
 ```text
 사용자 선언
-   ↓
+   v
 CRD 생성
-   ↓
+   v
 Custom Controller 감시
-   ↓
+   v
 Reconciliation
-   ↓
+   v
 상태 반영
 ```
 
@@ -105,11 +105,11 @@ Deployment는 단순한 배포에 강하고, [오퍼레이터](/knowledge-base/s
 
 ```text
 CRD
-   ↓
+   v
 Custom Controller
-   ↓
+   v
 Reconciliation Loop
-   ↓
+   v
 상태형 워크로드 자동 운영
 ```
 
@@ -117,11 +117,11 @@ Reconciliation Loop
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) / [StatefulSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) → 기본 컨트롤러의 한계
-2. CRD 도입 → 새 리소스 타입 확장
-3. Controller 패턴 → 운영 지식 코드화
-4. Reconciliation → 원하는 상태 유지
-5. [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 생태계 → [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 플랫폼 운영 자동화 확대
+1. [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) / [StatefulSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) -> 기본 컨트롤러의 한계
+2. CRD 도입 -> 새 리소스 타입 확장
+3. Controller 패턴 -> 운영 지식 코드화
+4. Reconciliation -> 원하는 상태 유지
+5. [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 생태계 -> [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 플랫폼 운영 자동화 확대
 
 ---
 
@@ -137,7 +137,7 @@ Reconciliation Loop
 
 **진행 상황**: 56 / 371
 
-← **이전**: [56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/)
-**다음**: [58. HPA / VPA - 쿠버네티스 자동 확장 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/058_hpa_vpa/) →
+<- **이전**: [56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/)
+**다음**: [58. HPA / VPA - 쿠버네티스 자동 확장 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/058_hpa_vpa/) ->
 
 ---

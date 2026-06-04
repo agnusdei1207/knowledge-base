@@ -25,16 +25,16 @@ tags = ["software_engineering"]
 > 💡 **비유**: 마치 동네 목수가 감으로 집을 짓다가 한계에 부딪혀, 전문 설계도, 시방서, 감리 절차를 갖춘 대형 건설사의 '건축 공학'적 시스템을 도입하게 된 것과 같다.
 
 ```text
-┌───────────────── 과거 (장인 방식) ─────────────────┐
-│ [요구] ──(개인의 감)──> [코딩] ──(에러발생)──> [실패]│
-│  * 비용 예측 불가, 품질 들쭉날쭉                 │
-└──────────────────────────────────────────────────┘
-                          ▼ (소프트웨어 위기 도래)
-┌─────────────── 현대 (소프트웨어 공학) ───────────────┐
-│ [요구분석] ──> [아키텍처 설계] ──> [구현/테스트]   │
-│   (표준화)        (정량화)         (자동화/검증) │
-│  * 체계적 통제, 일관된 품질 확보                 │
-└──────────────────────────────────────────────────┘
++----------------- 과거 (장인 방식) -----------------+
+| [요구] --(개인의 감)--> [코딩] --(에러발생)--> [실패]|
+|  * 비용 예측 불가, 품질 들쭉날쭉                 |
++--------------------------------------------------+
+                          v (소프트웨어 위기 도래)
++--------------- 현대 (소프트웨어 공학) ---------------+
+| [요구분석] --> [아키텍처 설계] --> [구현/테스트]   |
+|   (표준화)        (정량화)         (자동화/검증) |
+|  * 체계적 통제, 일관된 품질 확보                 |
++--------------------------------------------------+
 ```
 **[도식 설명]**
 이 도식은 소프트웨어 개발 패러다임이 개인의 비체계적 개발 방식에서 공학적 접근 기반의 체계적 프로세스로 전환되는 과정을 보여준다. 비체계적 접근에서는 복잡도 증가에 따라 실패 확률이 급증하는 구조적 한계(병목)가 명확하다. 따라서 현대 실무에서는 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)와 같은 표준 절차를 필수적으로 도입하여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 식별하고 관리한다.
@@ -58,7 +58,7 @@ tags = ["software_engineering"]
         /  \
        /    \  <-- [자원 제약 병목 구간]
       /      \
-신뢰성 ────── 유지보수성 (Maintainability)
+신뢰성 ------ 유지보수성 (Maintainability)
 (Reliability)  (가독성/확장성)
  (무결점)
 ```
@@ -79,15 +79,15 @@ tags = ["software_engineering"]
 | **재사용성** | 함수 단위의 제한적 재사용 | 클래스, 상속을 통한 높은 재사용성 | 개발 생산성 |
 
 ```text
-┌─────────── 시스템 아키텍처 융합 관점 ───────────┐
-│                                                 │
-│ [소프트웨어 공학] (품질 목표: 신뢰성, 유지보수성) │
-│        ║                                        │
-│        ╠══ (융합) ══> [클라우드 네이티브 아키텍처]│
-│        ║              - 마이크로서비스 (MSA)    │
-│ [인프라스트럭처]       - 컨테이너 오케스트레이션 │
-│ (확장성, 탄력성)                                │
-└─────────────────────────────────────────────────┘
++----------- 시스템 아키텍처 융합 관점 -----------+
+|                                                 |
+| [소프트웨어 공학] (품질 목표: 신뢰성, 유지보수성) |
+|        |                                        |
+|        +-- (융합) --> [클라우드 네이티브 아키텍처]|
+|        |              - 마이크로서비스 (MSA)    |
+| [인프라스트럭처]       - 컨테이너 오케스트레이션 |
+| (확장성, 탄력성)                                |
++-------------------------------------------------+
 ```
 **[도식 설명]**
 이 도식은 소프트웨어 공학의 원리([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))가 현대의 클라우드 인프라와 결합하여 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 발전하는 융합 지점을 보여준다. 단일 모놀리식 시스템에서는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 한계(수정 시 전체 재배포 등)가 발생하지만, MSA는 공학적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 원리를 인프라 레벨까지 확장 적용하여 장애를 격리하고 배포의 독립성을 확보한다.
@@ -113,16 +113,16 @@ tags = ["software_engineering"]
 [실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름]
 
       (요구사항 수용)
-           │
-           ▼
-[시간 제약이 매우 타이트한가?] ──(Yes)──> [기술 부채 감수 후 릴리즈] (위험 모니터링 필수)
-           │
+           |
+           v
+[시간 제약이 매우 타이트한가?] --(Yes)--> [기술 부채 감수 후 릴리즈] (위험 모니터링 필수)
+           |
          (No)
-           ▼
-[장기적 유지보수 대상인가?] ──(No)──> [단기 효율성(빠른 구현) 중심 개발]
-           │
+           v
+[장기적 유지보수 대상인가?] --(No)--> [단기 효율성(빠른 구현) 중심 개발]
+           |
          (Yes)
-           ▼
+           v
 [아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)]
 ```
 **[도식 설명]**
@@ -158,14 +158,14 @@ tags = ["software_engineering"]
 
 ```text
 [소프트웨어 위기 (Software Crisis)]
-    │
-    ▼
+    |
+    v
 [SDLC (Software Development Life Cycle)]
-    │
-    ▼
+    |
+    v
 [모듈화 (Modularity)]
-    │
-    ▼
+    |
+    v
 [형상 관리 (Configuration Management)]
 ```
 
@@ -182,8 +182,8 @@ tags = ["software_engineering"]
 
 **진행 상황**: 1 / 973
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [2. 소프트웨어 위기 (Software Crisis) - 비용 초과, 일정 지연, 품질 저하](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) →
+**다음**: [2. 소프트웨어 위기 (Software Crisis) - 비용 초과, 일정 지연, 품질 저하](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ->
 
 ---

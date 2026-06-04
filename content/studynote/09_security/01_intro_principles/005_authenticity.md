@@ -29,18 +29,18 @@ tags = ["security"]
 
 ```text
 [사용자/디바이스]
-       │
-       ├─ (1) 식별(Identification) : "나는 Alice입니다" (ID 제시)
-       │
-       ▼
+       |
+       +- (1) 식별(Identification) : "나는 Alice입니다" (ID 제시)
+       |
+       v
 [인증 모듈 (Authenticity 검증)]
-       │  ◀── (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오"
-       │          (비밀번호 대조, OTP 검증, 전자서명 확인)
-       ▼
+       |  <--- (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오"
+       |          (비밀번호 대조, OTP 검증, 전자서명 확인)
+       v
 [접근 제어 모듈 (IAM)]
-       │  ◀── (3) 인가(Authorization) : "Alice는 이 폴더를 읽을 권한이 있는가?"
-       │          (RBAC/ACL 검사 후 접근 허용/차단)
-       ▼
+       |  <--- (3) 인가(Authorization) : "Alice는 이 폴더를 읽을 권한이 있는가?"
+       |          (RBAC/ACL 검사 후 접근 허용/차단)
+       v
 [최종 데이터 접근]
 ```
 
@@ -66,22 +66,22 @@ tags = ["security"]
 
 ```text
 [클라이언트 (Alice)]                                  [서버 (Bob)]
-   │                                                      │
-   │  1. "내 공개키가 포함된 인증서 보낼게" (Hello)       │
-   ├─────────────────────────────────────────────────────>│
-   │                                                      │
-   │                                        (인증서 서명 확인) ◀─ "신뢰할 수 있는 CA가
-   │                                        (유효기간 검증)      발급한 진짜 Alice가 맞군!"
-   │                                                      │
-   │  2. "그럼 네 진짜 개인키가 있는지 시험해볼게" (Challenge)│
-   │<─────────────────────────────────────────────────────┤ (난수 난제 전송)
-   │                                                      │
-   │ (자신의 개인키로 난수 암호화 = 디지털 서명)          │
-   │  3. "자, 내 개인키로 푼 답(서명)이야" (Response)     │
-   ├─────────────────────────────────────────────────────>│
-   │                                                      │
-   │                                        (Alice의 공개키로 복호화 대조)
-   │                                        "답이 맞군! 진짜 Alice로 인증 완료"
+   |                                                      |
+   |  1. "내 공개키가 포함된 인증서 보낼게" (Hello)       |
+   +----------------------------------------------------->|
+   |                                                      |
+   |                                        (인증서 서명 확인) <-- "신뢰할 수 있는 CA가
+   |                                        (유효기간 검증)      발급한 진짜 Alice가 맞군!"
+   |                                                      |
+   |  2. "그럼 네 진짜 개인키가 있는지 시험해볼게" (Challenge)|
+   |<-----------------------------------------------------+ (난수 난제 전송)
+   |                                                      |
+   | (자신의 개인키로 난수 암호화 = 디지털 서명)          |
+   |  3. "자, 내 개인키로 푼 답(서명)이야" (Response)     |
+   +----------------------------------------------------->|
+   |                                                      |
+   |                                        (Alice의 공개키로 복호화 대조)
+   |                                        "답이 맞군! 진짜 Alice로 인증 완료"
 ```
 
 이 흐름(Challenge-Response)의 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정에서 클라이언트가 자신의 비밀번호나 개인키 자체를 네트워크로 절대 전송하지 않는다는 점이다. 오직 "개인키를 소유하고 있다는 수학적 증거"만을 보냄으로써 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MITM)이나 패킷 스니핑으로부터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 안전성을 완벽히 보장한다. 이 구조는 현재 전 세계 웹의 기반인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL 핸드셰이크의 근간이 되는 실무적 표준이다.
@@ -97,18 +97,18 @@ tags = ["security"]
 <strong>1. <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 요소(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication Factors</a>) 비교 매트릭스</strong>
 
 ```text
-┌────────────┬────────────────────────┬─────────────────────┬───────────────────┐
-│ 인증 요소  │ 사례                   │ 취약점 (보안 위험)  │ 실무적 특성       │
-├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
-│ 지식 기반  │ 패스워드, 핀(PIN) 번호,│ 키보드 해킹, 숄더   │ 구현 비용이 가장  │
-│ (Knowledge)│ 보안 질문              │ 서핑, 무차별 대입   │ 저렴하고 범용적임 │
-├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
-│ 소유 기반  │ 스마트폰 SMS, OTP 기기,│ 기기 분실 도난, SMS │ 보안성은 높으나   │
-│ (Possession)│ 스마트 카드, USB 토큰  │ 하이재킹(SIM 스와핑)│ 물리적 관리 필요  │
-├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
-│ 내재 기반  │ 지문, 홍채, 정맥,      │ 복제된 생체 정보,   │ 사용성이 뛰어나며 │
-│ (Inherence)│ 안면 인식, 목소리      │ 유출 시 변경 불가능 │ FIDO 표준 확산 중 │
-└────────────┴────────────────────────┴─────────────────────┴───────────────────┘
++------------+------------------------+---------------------+-------------------+
+| 인증 요소  | 사례                   | 취약점 (보안 위험)  | 실무적 특성       |
++------------+------------------------+---------------------+-------------------+
+| 지식 기반  | 패스워드, 핀(PIN) 번호,| 키보드 해킹, 숄더   | 구현 비용이 가장  |
+| (Knowledge)| 보안 질문              | 서핑, 무차별 대입   | 저렴하고 범용적임 |
++------------+------------------------+---------------------+-------------------+
+| 소유 기반  | 스마트폰 SMS, OTP 기기,| 기기 분실 도난, SMS | 보안성은 높으나   |
+| (Possession)| 스마트 카드, USB 토큰  | 하이재킹(SIM 스와핑)| 물리적 관리 필요  |
++------------+------------------------+---------------------+-------------------+
+| 내재 기반  | 지문, 홍채, 정맥,      | 복제된 생체 정보,   | 사용성이 뛰어나며 |
+| (Inherence)| 안면 인식, 목소리      | 유출 시 변경 불가능 | FIDO 표준 확산 중 |
++------------+------------------------+---------------------+-------------------+
 ```
 
 이 매트릭스의 핵심은 단일 요소만으로는 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성 파괴 공격([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), [스미싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/756_smishing/) 등)을 방어할 수 없다는 점이다. 패스워드는 쉽게 털리고, SMS [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 역시 복제된 유심칩에 의해 우회될 수 있다. 따라서 금융 및 주요 IT 실무에서는 반드시 성질이 다른 두 개의 요소(예: 지식+소유, 소유+생체)를 결합하는 다중 요소 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))을 시스템 아키텍처에 강제한다.
@@ -139,15 +139,15 @@ tags = ["security"]
 ```text
 [스마트폰/PC (Authenticator)]              [웹 서비스 (Relying Party)]
  (내부의 안전한 저장소 Secure Enclave)
-          │                                           │
-          │ ◀──────── 1. 로그인 요청 (Challenge 난수) ┤
-          │                                           │
- 2. 사용자 지문 인식 (로컬 생체 검증)                 │
-          │                                           │
- 3. 잠금 해제된 '개인키'로 난수 서명                  │
-          │                                           │
-          ├────── 4. 서명된 데이터 전송 ─────────────>│
-                                                      │
+          |                                           |
+          | <--------- 1. 로그인 요청 (Challenge 난수) +
+          |                                           |
+ 2. 사용자 지문 인식 (로컬 생체 검증)                 |
+          |                                           |
+ 3. 잠금 해제된 '개인키'로 난수 서명                  |
+          |                                           |
+          +------ 4. 서명된 데이터 전송 ------------->|
+                                                      |
                                    5. 서버에 보관된 '공개키'로 서명 검증
                                    6. (인증성 통과!) 로그인 승인
 ```
@@ -185,17 +185,17 @@ tags = ["security"]
 
 ```text
 [부인방지 (Non-repudiation)]
-    │
-    ▼
+    |
+    v
 [PKI (Public Key Infrastructure)]
-    │
-    ▼
+    |
+    v
 [IAM (Identity and Access Management)]
-    │
-    ▼
+    |
+    v
 [OAuth 2.0 / OIDC]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 (Zero Trust)]
 ```
 
@@ -212,7 +212,7 @@ tags = ["security"]
 
 **진행 상황**: 5 / 1108
 
-← **이전**: [4. 가용성 (Availability) — HA 설계, RAID, 부하 분산, DDoS 방어, SLA](/knowledge-base/studynote/09_security/01_intro_principles/004_availability/)
-**다음**: [6. 보안 거버넌스 (Security Governance)](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) →
+<- **이전**: [4. 가용성 (Availability) — HA 설계, RAID, 부하 분산, DDoS 방어, SLA](/knowledge-base/studynote/09_security/01_intro_principles/004_availability/)
+**다음**: [6. 보안 거버넌스 (Security Governance)](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) ->
 
 ---

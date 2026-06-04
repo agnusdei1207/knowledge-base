@@ -10,26 +10,26 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 <strong>단어(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">Word</a>)→<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)→용어(Term)→컬럼명의 체계적 정의</strong>를 통해 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 명칭·형식·의미를 통일하는 활동이다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 <strong>단어(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">Word</a>)-><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)->용어(Term)->컬럼명의 체계적 정의</strong>를 통해 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 명칭·형식·의미를 통일하는 활동이다.
 > 2. **가치**: 같은 "고객번호"가 시스템마다 CUST_NO, CUSTOMER_ID, C_NUM 등 다르게 정의되면 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합·보고서 생성이 불가능</strong>하지만, 표준화하면 전사 일관된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델이 보장된다.
-> 3. **판단 포인트**: 단어(고객, 번호)→용어(고객번호)→물리명(CUST_NO)의 매핑 규칙을 정의하고, [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))에서 관리한다.
+> 3. **판단 포인트**: 단어(고객, 번호)->용어(고객번호)->물리명(CUST_NO)의 매핑 규칙을 정의하고, [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))에서 관리한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    데이터 표준화 체계                                 │
-├───────────────────────────────────────────────────────┤
-│  [단어(Word)]    고객, 번호, 일자, 금액, 코드        │
-│  [도메인(Domain)] 번호=VARCHAR(10), 금액=DECIMAL(15,2)│
-│  [용어(Term)]    고객번호 = 고객+번호 → CUST_NO      │
-│                  주문일자 = 주문+일자 → ORD_DT        │
-│  [컬럼명]        표준 용어의 물리명 자동 도출         │
-│                                                       │
-│  데이터 사전: 모든 표준 단어·도메인·용어 등록        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    데이터 표준화 체계                                 |
++-------------------------------------------------------+
+|  [단어(Word)]    고객, 번호, 일자, 금액, 코드        |
+|  [도메인(Domain)] 번호=VARCHAR(10), 금액=DECIMAL(15,2)|
+|  [용어(Term)]    고객번호 = 고객+번호 -> CUST_NO      |
+|                  주문일자 = 주문+일자 -> ORD_DT        |
+|  [컬럼명]        표준 용어의 물리명 자동 도출         |
+|                                                       |
+|  데이터 사전: 모든 표준 단어·도메인·용어 등록        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 전국 도로의 <strong>표지판을 통일</strong>하는 것이다. 같은 도로가 지역마다 다른 이름이면 내비게이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합)이 불가능하다.
@@ -43,7 +43,7 @@ tags = ["studynote-database"]
 | 구성 | 설명 | 예 |
 |:---|:---|:---|
 | **단어** | 최소 의미 단위 | 고객, 번호 |
-| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·길이·규칙 | 번호→VARCHAR([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·길이·규칙 | 번호->VARCHAR([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) |
 | **용어** | 단어 조합의 비즈니스 의미 | 고객번호=고객+번호 |
 | **물리명** | 용어의 영문 약어 | CUST_NO |
 
@@ -67,7 +67,7 @@ tags = ["studynote-database"]
 1. 현행 분석: 기존 컬럼명 수집·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 2. 단어 정의: 표준 단어 등록 (동의어·약어 정리).
 3. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 정의: 타입·길이 규칙.
-4. 용어 정의: 단어 조합 → 물리명 매핑.
+4. 용어 정의: 단어 조합 -> 물리명 매핑.
 5. 적용·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 모델링 도구와 연동.
 
 ---
@@ -92,17 +92,17 @@ tags = ["studynote-database"]
 
 ```text
 [비표준 (시스템별 독자 명칭, ~2000s)]
-    │
-    ▼
+    |
+    v
 [데이터 표준화 (DA, 2005~) — 단어·도메인·용어]
-    │
-    ▼
+    |
+    v
 [데이터 사전 시스템 (2010s)]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 + 표준 연동 (2018~)]
-    │
-    ▼
+    |
+    v
 [현재: AI 표준 추천 — 자동 단어 매핑·동의어 식별]
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 126 / 600
 
-← **이전**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)
-**다음**: [127. 정보공학 방법론 (IE, Information 엔진ering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) →
+<- **이전**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)
+**다음**: [127. 정보공학 방법론 (IE, Information 엔진ering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) ->
 
 ---

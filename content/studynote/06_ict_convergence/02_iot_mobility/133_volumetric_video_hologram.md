@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-촬영: 다방향 카메라(30~100대) → 포인트 클라우드 → 3D 메시
+촬영: 다방향 카메라(30~100대) -> 포인트 클라우드 -> 3D 메시
 재생: XR 헤드셋 또는 홀로그래픽 디스플레이
 시청: 자유 시점에서 360도 감상
 ```
@@ -49,7 +49,7 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **볼류메트릭** | 3D 실감 비디오 |
-| **NeRF** | 신경 방사장 (소수 사진→3D) |
+| **NeRF** | 신경 방사장 (소수 사진->3D) |
 | **Gaussian Splatting** | 실시간 3D 렌더링 |
 | **포인트 클라우드** | 3D 점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Free Viewpoint** | 자유 시점 감상 |
@@ -57,9 +57,9 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[2D 영상] → [360 영상 (2016)] → [볼류메트릭 (2018~)]
-    → [NeRF (2020)] → [3D Gaussian Splatting (2023)]
-    → [현재: 실시간 볼류메트릭 스트리밍]
+[2D 영상] -> [360 영상 (2016)] -> [볼류메트릭 (2018~)]
+    -> [NeRF (2020)] -> [3D Gaussian Splatting (2023)]
+    -> [현재: 실시간 볼류메트릭 스트리밍]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -73,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 133 / 552
 
-← **이전**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)
-**다음**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/) →
+<- **이전**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)
+**다음**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/) ->
 
 ---

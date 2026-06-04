@@ -30,11 +30,11 @@ tags = ["software_engineering"]
 
 ```text
 Product Backlog
-  ↓
+  v
 Sprint Planning
-  ↓
+  v
 Sprint Goal
-  ↓
+  v
 Sprint Backlog
 ```
 
@@ -108,11 +108,11 @@ Sprint Backlog
 
 ```text
 Product Backlog
-  ↓
+  v
 Sprint Planning
-  ↓
+  v
 Sprint Goal
-  ↓
+  v
 Sprint Backlog
 ```
 
@@ -122,11 +122,11 @@ Sprint Backlog
 
 ```text
 Backlog Refinement
-  ↓
+  v
 Sprint Planning
-  ↓
+  v
 Sprint Backlog
-  ↓
+  v
 Execution
 ```
 
@@ -144,7 +144,7 @@ Execution
 
 **진행 상황**: 68 / 973
 
-← **이전**: [67. 스프린트 (Sprint) - 1~4주의 개발 주기](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)
-**다음**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) →
+<- **이전**: [67. 스프린트 (Sprint) - 1~4주의 개발 주기](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)
+**다음**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) ->
 
 ---

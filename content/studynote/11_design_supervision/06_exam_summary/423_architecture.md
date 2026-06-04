@@ -34,13 +34,13 @@ tags = ["studynote-design-supervision"]
 격리 테스트의 구조는 단순하다. 테스트 코드가 SUT를 만들고, 외부 협력 객체는 모킹 프레임워크로 만든 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)로 주입한다. 그런 다음 반환값, 상태 변화, 호출 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 핵심은 “무엇을 가짜로 바꾸는가”가 아니라 <strong>어떤 경계를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 대상으로 삼는가</strong>다.
 
 ```text
-┌──────────────┐      ┌────────────────────┐
-│ Test Code    │─────▶│ SUT                │
-└──────────────┘      │ 주문 서비스        │
-                      ├─────────┬──────────┤
-                      │ Mock DB │ Mock API │
-                      │ Fake MQ │ Stub Clock│
-                      └─────────┴──────────┘
++--------------+      +--------------------+
+| Test Code    |------>| SUT                |
++--------------+      | 주문 서비스        |
+                      +---------+----------+
+                      | Mock DB | Mock API |
+                      | Fake MQ | Stub Clock|
+                      +---------+----------+
 ```
 
 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) | 역할 | 주 사용 목적 |
@@ -123,17 +123,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 의존성 분리 설계
-      │
-      ▼
+      |
+      v
 테스트 더블 도입
-      │
-      ▼
+      |
+      v
 모킹 프레임워크 기반 격리 테스트
-      │
-      ▼
+      |
+      v
 계약 테스트 · 통합 테스트 보완
-      │
-      ▼
+      |
+      v
 빠른 피드백 · 안정적 리팩토링 · 품질 게이트 강화
 ```
 
@@ -151,7 +151,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 501 / 530
 
-← **이전**: [422. 동적 성능 메모리 누수 진단 (Dynamic Performance Memory Leak Diagnostics)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/422_audit/)
-**다음**: [424. 결함 허용·페일세이프·페일오버 이중화 (Fault Tolerance, Fail-Safe & Failover Redundancy)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/424_process/) →
+<- **이전**: [422. 동적 성능 메모리 누수 진단 (Dynamic Performance Memory Leak Diagnostics)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/422_audit/)
+**다음**: [424. 결함 허용·페일세이프·페일오버 이중화 (Fault Tolerance, Fail-Safe & Failover Redundancy)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/424_process/) ->
 
 ---

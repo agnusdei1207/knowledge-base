@@ -27,10 +27,10 @@ tags = ["studynote-operating-system"]
 ```text
   [교착 상태 4대 조건과 예방(Prevention)의 타격점]
 
-  1. 상호 배제 (Mutual Exclusion) ─▶ 파괴 시도: "다 같이 쓰게 해!" (현실적 불가)
-  2. 점유 대기 (Hold and Wait)   ─▶ 파괴 시도: "가진 거 다 놓고 기다려!" (자원 낭비)
-  3. 비선점 (No Preemption)      ─▶ 파괴 시도: "안 주면 억지로 뺏어!" (롤백 비용 폭발)
-  4. 순환 대기 (Circular Wait)   ─▶ 파괴 시도: "무조건 한 방향으로만 잡아!" (가장 실용적)
+  1. 상호 배제 (Mutual Exclusion) --> 파괴 시도: "다 같이 쓰게 해!" (현실적 불가)
+  2. 점유 대기 (Hold and Wait)   --> 파괴 시도: "가진 거 다 놓고 기다려!" (자원 낭비)
+  3. 비선점 (No Preemption)      --> 파괴 시도: "안 주면 억지로 뺏어!" (롤백 비용 폭발)
+  4. 순환 대기 (Circular Wait)   --> 파괴 시도: "무조건 한 방향으로만 잡아!" (가장 실용적)
 
   >> 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만
      집중 타격하여 무너뜨리면 데드락 예방을 달성할 수 있다.
@@ -60,27 +60,27 @@ tags = ["studynote-operating-system"]
 - **한계**: CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))는 뺏었다가 나중에 다시 채워주면 되지만, 프린터나 테이프에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절반쯤 기록했는데 뺏겨버리면 처음부터 다시 출력해야 한다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용이 너무 크다.</strong> (DB 엔진에서만 제한적으로 사용됨).
 
 #### 4. [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 부정 (✨ 가장 많이 쓰이는 실무 표준)
-- **원리**: 세상의 모든 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))에 $1, 2, 3 \dots N$의 <strong>고유한 번호(Order)</strong>를 매긴다. 그리고 프로세스는 반드시 <strong>"번호가 오름차순(작은 것 ─▶ 큰 것)"</strong>으로만 자원을 요청해야 한다고 법으로 강제한다.
+- **원리**: 세상의 모든 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))에 $1, 2, 3 \dots N$의 <strong>고유한 번호(Order)</strong>를 매긴다. 그리고 프로세스는 반드시 <strong>"번호가 오름차순(작은 것 --> 큰 것)"</strong>으로만 자원을 요청해야 한다고 법으로 강제한다.
 - **수학적 효과**: 큰 번호를 쥔 놈이 작은 번호를 요구할 수 없으므로, 화살표가 뒤로 돌아가서 꼬리를 무는 사이클(동그라미) 형성이 물리적으로 100% 불가능해진다.
 - **부작용**: 동적으로 자원이 계속 생겨나는 시스템에서는 번호를 매기기가 어렵다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         순환 대기 부정(Lock Ordering)의 수학적 데드락 회피 증명      │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [ 시스템 법률: 반드시 번호(ID)가 작은 자원부터 락을 잡을 것! ]      │
-  │                                                                      │
-  │  상황: 스레드 A는 R1, R2가 필요. 스레드 B도 R1, R2가 필요.           │
-  │                                                                      │
-  │  [ 스레드 A ]                [ 스레드 B ]                            │
-  │  1. lock(R1) ─▶ 성공       1. lock(R1) ─▶ 🚨 A가 쥐고 있어 대기      │
-  │  2. lock(R2) ─▶ 성공       (R1을 못 쥐었으니 R2는 쳐다보지도 못함)   │
-  │  3. 연산 완료 및 해제         2. A가 다 쓴 후 R1 획득!               │
-  │                            3. lock(R2) ─▶ 성공 및 연산 완료          │
-  │                                                                      │
-  │  ✅ 결론: 꼬리물기(교차) 자체가 발생할 수 없는 완벽한 일방통행 완성! │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |         순환 대기 부정(Lock Ordering)의 수학적 데드락 회피 증명      |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [ 시스템 법률: 반드시 번호(ID)가 작은 자원부터 락을 잡을 것! ]      |
+  |                                                                      |
+  |  상황: 스레드 A는 R1, R2가 필요. 스레드 B도 R1, R2가 필요.           |
+  |                                                                      |
+  |  [ 스레드 A ]                [ 스레드 B ]                            |
+  |  1. lock(R1) --> 성공       1. lock(R1) --> 🚨 A가 쥐고 있어 대기      |
+  |  2. lock(R2) --> 성공       (R1을 못 쥐었으니 R2는 쳐다보지도 못함)   |
+  |  3. 연산 완료 및 해제         2. A가 다 쓴 후 R1 획득!               |
+  |                            3. lock(R2) --> 성공 및 연산 완료          |
+  |                                                                      |
+  |  ✅ 결론: 꼬리물기(교차) 자체가 발생할 수 없는 완벽한 일방통행 완성! |
+  +----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방은 고속도로의 "중앙분리대"입니다. 불법 유턴(역방향 락 획득)을 아예 못 하게 물리적인 벽을 쳐버리면, 차가 막힐지언정 정면충돌이나 꼬리물기 교착상태는 절대 일어나지 않습니다.
@@ -118,22 +118,22 @@ tags = ["studynote-operating-system"]
    - 이 예외를 잡아서 재시도(Retry)하는 구조는 코프만의 4조건 중 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">No Preemption</a>)"을 애플리케이션 레벨에서 자발적으로 파괴</strong>한 가장 우아한 실무적 예방 기술이다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     애플리케이션(Spring, Node.js) 데드락 예방 설계 가이드라인    │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 1원칙: 상호 배제 타파 (가장 이상적이나 어려움) ]             │
-  │     ▶ 방법: 공유 자원을 불변 객체(Immutable)로 설계하거나,       │
-  │             Actor 패턴(메시지 큐)으로 동기화 병목 자체를 지움.   │
-  │                                                                  │
-  │   [ 2원칙: 순환 대기 타파 (가장 현실적인 실무 표준) ]            │
-  │     ▶ 방법: 락 획득을 사전 정의된 열거형(Enum) 순서나,           │
-  │             객체의 고유 HashCode 오름차순으로만 획득하게 코딩.   │
-  │                                                                  │
-  │   [ 3원칙: 점유 대기/비선점 타파 (최후의 보루) ]                 │
-  │     ▶ 방법: `tryLock(timeout)`을 사용하여 락을 잡지 못하면       │
-  │             내가 쥐고 있던 락마저 모두 뱉어내고 처음부터 재시도. │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     애플리케이션(Spring, Node.js) 데드락 예방 설계 가이드라인    |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [ 1원칙: 상호 배제 타파 (가장 이상적이나 어려움) ]             |
+  |     -> 방법: 공유 자원을 불변 객체(Immutable)로 설계하거나,       |
+  |             Actor 패턴(메시지 큐)으로 동기화 병목 자체를 지움.   |
+  |                                                                  |
+  |   [ 2원칙: 순환 대기 타파 (가장 현실적인 실무 표준) ]            |
+  |     -> 방법: 락 획득을 사전 정의된 열거형(Enum) 순서나,           |
+  |             객체의 고유 HashCode 오름차순으로만 획득하게 코딩.   |
+  |                                                                  |
+  |   [ 3원칙: 점유 대기/비선점 타파 (최후의 보루) ]                 |
+  |     -> 방법: `tryLock(timeout)`을 사용하여 락을 잡지 못하면       |
+  |             내가 쥐고 있던 락마저 모두 뱉어내고 처음부터 재시도. |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "OS가 데드락을 예방해 주겠지"라고 기대하는 주니어 개발자는 100% 서버를 터뜨린다. 현대의 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시) 기반 OS 위에서 돌아가는 앱을 짤 때는, 프로그래머 스스로가 1원칙~3원칙을 아키텍처에 녹여내어 애플리케이션 레벨의 완벽한 예방(Prevention) 방어막을 쳐야만 새벽에 전화받을 일이 없어진다.
 
@@ -167,12 +167,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [스핀락 (Spinlock)]
-    │
-    ▼
+    |
+    v
 [교착 상태 예방 (Deadlock Prevention)]
-    │
-    ├──▶ [이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사]
-    └──▶ [카운팅 세마포어 (Counting Semaphore)]
+    |
+    +---> [이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사]
+    +---> [카운팅 세마포어 (Counting Semaphore)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 234 / 800
 
-← **이전**: [233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음](/knowledge-base/studynote/02_operating_system/04_synchronization/233_circular_wait/)
-**다음**: [235. 교착 상태 회피 (Deadlock Avoidance)](/knowledge-base/studynote/02_operating_system/04_synchronization/235_deadlock_avoidance/) →
+<- **이전**: [233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음](/knowledge-base/studynote/02_operating_system/04_synchronization/233_circular_wait/)
+**다음**: [235. 교착 상태 회피 (Deadlock Avoidance)](/knowledge-base/studynote/02_operating_system/04_synchronization/235_deadlock_avoidance/) ->
 
 ---

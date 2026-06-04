@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [자율주행 차량 통신]
-    │
-    ▼
+    |
+    v
 [OCF IoT 통합 관리 계층 표준]
-    │
-    └──▶ [IETF 산하 IoT CoRE 워킹그룹 동향]
+    |
+    +---> [IETF 산하 IoT CoRE 워킹그룹 동향]
 ```
 
 - **📢 섹션 요약 비유**: [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [자율주행 차량 통신]
-    │
-    ▼
+    |
+    v
 [OCF IoT 통합 관리 계층 표준]
-    │
-    └──▶ [IETF 산하 IoT CoRE 워킹그룹 동향]
+    |
+    +---> [IETF 산하 IoT CoRE 워킹그룹 동향]
 ```
 
 - **📢 섹션 요약 비유**: [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ OCF는 초창기 가전제품 중심의 강력한 연합체였지만, 애플이�
 
 ```text
 [선행 개념: 자율주행 차량 통신]
-    │
-    ▼
+    |
+    v
 [현재 개념: OCF IoT 통합 관리 계층 표준]
-    │
-    ├──▶ [확장 A: IETF 산하 IoT CoRE 워킹그룹 동향]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: IETF 산하 IoT CoRE 워킹그룹 동향]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준는 [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ OCF는 초창기 가전제품 중심의 강력한 연합체였지만, 애플이�
 
 **진행 상황**: 755 / 1120
 
-← **이전**: [633. 자율주행 차량 통신 (V2V, V2I 교통인프라 교환)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)
-**다음**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) →
+<- **이전**: [633. 자율주행 차량 통신 (V2V, V2I 교통인프라 교환)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)
+**다음**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) ->
 
 ---

@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 그래서 연구자들은 딥러닝의 눈을 개조했다. **"모양(행렬)이 제멋대로면 어때? 그냥 나랑 선으로 직접 연결된 친구들한테 '너 특징이 뭐야?'라고 물어봐서 그 정보를 모아 내 정보를 업데이트하게 만들자!"** 이 미친 '이웃 정보 삥뜯기' 아이디어가 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">GNN</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">Graph Neural Network</a>)</strong>의 탄생이며, 이 덕분에 컴퓨터는 인간의 인맥과 화합물의 구조를 3차원 입체적으로 이해할 수 있게 되었다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 CNN은 '아파트 우편함'이다. 101호 옆엔 102호, 위엔 201호가 있다는 네모난 규칙이 완벽해서 우편물을 예쁘게 넣을 수 있다. 하지만 GNN은 '아마존 정글의 덩굴'이다. 규칙도 없고 꼬여있지만, 내가 잡은 덩굴 선(Edge)을 쭉 따라가면 10km 밖의 원숭이(Node)가 잡고 있다는 걸 1초 만에 알게 되는 거미줄의 딥러닝이다.
@@ -43,24 +43,24 @@ tags = ["studynote-ai"]
 GNN을 관통하는 하나의 거대한 수학적 철학은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 패싱 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">Message Passing</a>)</strong> 프레임워크다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           그래프 신경망(GNN)의 이웃 정보 삥뜯기 (Message Passing) 도해 │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 초기 상태 (t=0)]                                        │
-│   * 타겟 노드(나): '김철수' (특징: 20대, 게임 좋아함)               │
-│   * 이웃 노드들(친구): 'A' (축구 좋아함), 'B' (독서 좋아함)          │
-│                                                              │
-│  [2. 집계 (Aggregation) - 동네 정보 수집]                      │
-│   * 타겟 노드 ─▶ 친구들(A, B)에게 무전을 침: "너네 특징 좀 나한테 다 보내봐!"│
-│   * 수학적 연산: 친구들의 특징 벡터를 가져와서 더하거나 평균 냄(Sum / Mean).│
-│                                                              │
-│  [3. 업데이트 (Update) - 내 뇌(특징) 업그레이드]                   │
-│   * 타겟 노드의 새로운 특징(t=1) = 인공신경망( 내 옛날 특징 + 동네에서 모은 정보 )│
-│   * 결론: "아, 내 친구들이 축구랑 독서를 좋아하니까, 나도 그 영향을 받겠구나!" │
-│     ─▶ 김철수의 벡터는 [20대, 게임, 축구 영향 30%, 독서 영향 30%]로 뚱뚱해짐.│
-│                                                              │
-│  * 이 짓을 3번(3 Layer) 반복하면? 내 친구의 친구의 친구 정보까지 나한테 들어옴!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           그래프 신경망(GNN)의 이웃 정보 삥뜯기 (Message Passing) 도해 |
++--------------------------------------------------------------+
+|  [1. 초기 상태 (t=0)]                                        |
+|   * 타겟 노드(나): '김철수' (특징: 20대, 게임 좋아함)               |
+|   * 이웃 노드들(친구): 'A' (축구 좋아함), 'B' (독서 좋아함)          |
+|                                                              |
+|  [2. 집계 (Aggregation) - 동네 정보 수집]                      |
+|   * 타겟 노드 --> 친구들(A, B)에게 무전을 침: "너네 특징 좀 나한테 다 보내봐!"|
+|   * 수학적 연산: 친구들의 특징 벡터를 가져와서 더하거나 평균 냄(Sum / Mean).|
+|                                                              |
+|  [3. 업데이트 (Update) - 내 뇌(특징) 업그레이드]                   |
+|   * 타겟 노드의 새로운 특징(t=1) = 인공신경망( 내 옛날 특징 + 동네에서 모은 정보 )|
+|   * 결론: "아, 내 친구들이 축구랑 독서를 좋아하니까, 나도 그 영향을 받겠구나!" |
+|     --> 김철수의 벡터는 [20대, 게임, 축구 영향 30%, 독서 영향 30%]로 뚱뚱해짐.|
+|                                                              |
+|  * 이 짓을 3번(3 Layer) 반복하면? 내 친구의 친구의 친구 정보까지 나한테 들어옴!|
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>, GCN)</strong>:
@@ -98,7 +98,7 @@ GNN의 가장 큰 적은 <strong>오버스무딩(Oversmoothing)</strong>이다. 
 산업 현장에서 GNN은 넷플릭스와 아마존의 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)([Recommendation System](/knowledge-base/studynote/12_it_management/02_itsm_itil/093_recommendation_system/)) 백엔드를 완전히 갈아엎은 1등 공신이다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. <strong>이종 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>) 처리 아키텍처</strong>: 현업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순하지 않다. "유저가 ─▶ (시청했다) ─▶ 영화를 ─▶ (감독했다) ─▶ 크리스토퍼 놀란". 여기서 노드의 종류(유저, 영화, 감독)와 선의 종류(시청, 감독)가 모두 다른 <strong>이종 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>가 형성된다. 이걸 단순한 GCN에 무지성으로 때려 박으면 유저와 영화가 똑같은 취급을 받아 망한다. 반드시 엣지의 종류([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 삥뜯는 **RGCN (Relational GCN)** [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이나 메타패스(Meta-path) 샘플링 코드를 짜넣어야만 이 커다란 멀티버스 우주를 AI가 이해할 수 있다.
+1. <strong>이종 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>) 처리 아키텍처</strong>: 현업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순하지 않다. "유저가 --> (시청했다) --> 영화를 --> (감독했다) --> 크리스토퍼 놀란". 여기서 노드의 종류(유저, 영화, 감독)와 선의 종류(시청, 감독)가 모두 다른 <strong>이종 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>가 형성된다. 이걸 단순한 GCN에 무지성으로 때려 박으면 유저와 영화가 똑같은 취급을 받아 망한다. 반드시 엣지의 종류([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 삥뜯는 **RGCN (Relational GCN)** [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이나 메타패스(Meta-path) 샘플링 코드를 짜넣어야만 이 커다란 멀티버스 우주를 AI가 이해할 수 있다.
 2. **미니배치 샘플링 (GraphSAGE 등) 튜닝**: 페이스북의 인맥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 노드가 30억 개다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) VRAM은 기껏해야 80GB다. 30억 명의 인접 행렬 표를 통째로 메모리에 띄우면(Full-batch) 서버가 0.1초 만에 박살 난다. 딥러닝 훈련 루프를 돌 때, 무조건 내 이웃 중 딱 10명만 랜덤으로 꼽아서(Neighbor [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 작은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 덩어리로 찢어 미니배치로 훈련시키는 <strong>GraphSAGE (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> Sample and <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">Aggregate</a>)</strong> 아키텍처를 적용하지 않으면 상용 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 배포는 물리적으로 불가능하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -127,12 +127,12 @@ GNN의 가장 큰 적은 <strong>오버스무딩(Oversmoothing)</strong>이다. 
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 패싱 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">Message Passing</a>)</strong> | GNN의 영혼. 내 주변에 있는 친구들(이웃 노드)의 정보를 싹 끌어모아 믹서기로 갈아 내 뇌를 업데이트하는 동네방네 소문 수집 공식 |
 | <strong>GCN (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/">합성곱 신경망</a>)</strong> | 이미지 처리하는 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 필터를 변형해서, 불규칙한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 거미줄 위에서도 싹 쓸어 담아 행렬 곱셈을 때리게 만든 가장 표준적인 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 베이스 아키텍처 |
 | **오버스무딩 (Oversmoothing)** | GNN을 5층, 10층 깊게 쌓아 훈련하면 결국 전 우주의 정보가 섞이고 섞여 똥색(똑같은 평균)으로 뭉개지면서 아무도 구별할 수 없게 되는 최악의 태생적 훈련 버그 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong> | 단순히 친구가 아니라 "사과 ─▶(는 맛있다)─▶ 과일"처럼 노드와 선에 엄청나게 디테일한 지식([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))의 텍스트가 박혀있는 가장 고차원적인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구조 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong> | 단순히 친구가 아니라 "사과 -->(는 맛있다)--> 과일"처럼 노드와 선에 엄청나게 디테일한 지식([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))의 텍스트가 박혀있는 가장 고차원적인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [그래프 신경망 (GNN)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [그래프 신경망 (GNN)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ GNN의 가장 큰 적은 <strong>오버스무딩(Oversmoothing)</strong>이다. 
 
 **진행 상황**: 204 / 420
 
-← **이전**: [203. 슬림 언어 모델 (SLM, Small Language Model)](/knowledge-base/studynote/10_ai/03_llm_nlp/203_slm_small_language_model/)
-**다음**: [205. 지식 그래프 (Knowledge Graph) 지능형 연계](/knowledge-base/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) →
+<- **이전**: [203. 슬림 언어 모델 (SLM, Small Language Model)](/knowledge-base/studynote/10_ai/03_llm_nlp/203_slm_small_language_model/)
+**다음**: [205. 지식 그래프 (Knowledge Graph) 지능형 연계](/knowledge-base/studynote/10_ai/03_llm_nlp/205_knowledge_graph_rag/) ->
 
 ---

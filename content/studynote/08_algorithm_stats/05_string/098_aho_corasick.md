@@ -49,12 +49,12 @@ tags = ["studynote-algorithm"]
        / \     |
       *   r    e
      (he) |    |
-          s   *+s→ "she"
+          s   *+s-> "she"
           |
           *
         (hers)
 
-h → i → s → * (his)
+h -> i -> s -> * (his)
 ```
 
 ### 구성 단계 2: 실패 링크 (Failure Link)
@@ -63,13 +63,13 @@ h → i → s → * (his)
 실패 링크: 현재 노드에서 매칭 실패 시 이동할 가장 긴 진짜 접미사 노드
 
 BFS 순서로 계산:
-  node "he" → 실패 링크 → root("e"가 없으면 root)
-  node "she" → "he" (접미사 "he" 존재)
-  node "hers" → root
+  node "he" -> 실패 링크 -> root("e"가 없으면 root)
+  node "she" -> "he" (접미사 "he" 존재)
+  node "hers" -> root
 
 실패 링크 다이어그램 (점선):
-  "she" ----→ "he"   (she의 접미사 "he" 매칭 가능)
-  "his" ----→ "is"→root
+  "she" -----> "he"   (she의 접미사 "he" 매칭 가능)
+  "his" -----> "is"->root
 ```
 
 ### 구성 단계 3: 출력 링크 (Output Link)
@@ -77,8 +77,8 @@ BFS 순서로 계산:
 ```
 출력 링크: 현재 노드 또는 실패 링크 체인에서 완성된 패턴이 있으면 기록
 
-node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
-→ 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고
+node "she"의 출력: {"she", "he"}  <- 실패 링크로 "he"도 포함
+-> 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고
 ```
 
 ### 텍스트 매칭
@@ -88,13 +88,13 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 패턴:   {"he", "she", "his", "hers"}
 
 처리:
-  u → root
-  s → s 노드
-  h → sh 노드
-  e → she 노드 → 출력: "she"(위치2), "he"(위치2, 출력링크)
-  r → sher 노드
-  s → shers? 없음 → 실패링크 이동 → "hers" 노드
-     → 출력: "hers"(위치4)
+  u -> root
+  s -> s 노드
+  h -> sh 노드
+  e -> she 노드 -> 출력: "she"(위치2), "he"(위치2, 출력링크)
+  r -> sher 노드
+  s -> shers? 없음 -> 실패링크 이동 -> "hers" 노드
+     -> 출력: "hers"(위치4)
 
 결과: "she"@1, "he"@1, "hers"@2  (0-based 시작 인덱스)
 ```
@@ -136,11 +136,11 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 ### 기술사 판단 기준
 
 ```
-단일 패턴 + 단순 구현        →  KMP 또는 Z 알고리즘
-다중 패턴 동시 탐색          →  아호-코라식 (단 한 번의 텍스트 순회)
-패턴이 사전에 고정            →  아호-코라식 자동자 미리 컴파일
-패턴이 실시간으로 추가/삭제  →  Aho-Corasick + 동적 트라이 갱신
-임의 부분 문자열 탐색         →  서픽스 배열
+단일 패턴 + 단순 구현        ->  KMP 또는 Z 알고리즘
+다중 패턴 동시 탐색          ->  아호-코라식 (단 한 번의 텍스트 순회)
+패턴이 사전에 고정            ->  아호-코라식 자동자 미리 컴파일
+패턴이 실시간으로 추가/삭제  ->  Aho-Corasick + 동적 트라이 갱신
+임의 부분 문자열 탐색         ->  서픽스 배열
 ```
 
 📢 **섹션 요약 비유**: 아호-코라식은 공항 세관의 금지 물품 스캐너—짐 하나를 한 번만 통과시켜 수천 가지 금지 물품을 동시에 검사하는 것과 같다.
@@ -172,17 +172,17 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 
 ```text
 [트라이 (Trie)]
-    │
-    ▼
+    |
+    v
 [KMP 실패 함수]
-    │
-    ▼
+    |
+    v
 [DFA (Deterministic Finite Automaton)]
-    │
-    ▼
+    |
+    v
 [실패 링크 (Failure Link)]
-    │
-    ▼
+    |
+    v
 [출력 링크 (Output Link)]
 ```
 
@@ -200,7 +200,7 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 
 **진행 상황**: 98 / 175
 
-← **이전**: [4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열](/knowledge-base/studynote/08_algorithm_stats/05_string/097_z_algorithm/)
-**다음**: [6. 런-길이 인코딩 (RLE, Run-Length Encoding) — 연속 반복 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) →
+<- **이전**: [4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열](/knowledge-base/studynote/08_algorithm_stats/05_string/097_z_algorithm/)
+**다음**: [6. 런-길이 인코딩 (RLE, Run-Length Encoding) — 연속 반복 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) ->
 
 ---

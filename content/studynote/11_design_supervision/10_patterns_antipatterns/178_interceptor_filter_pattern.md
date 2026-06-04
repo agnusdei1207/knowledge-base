@@ -26,15 +26,15 @@ tags = ["studynote-design-supervision"]
 즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, <strong>횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것</strong>에 있다. 설계감리 관점에서도 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 위치와 순서를 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어 구조 품질을 평가하기 쉽다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Without interception pattern                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Controller A -> auth + log + business                               │
-│ Controller B -> auth + log + business                               │
-│ Controller C -> auth missing + business                             │
-│                                                                      │
-│ result: duplication, drift, missing policy                          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Without interception pattern                                         |
++----------------------------------------------------------------------+
+| Controller A -> auth + log + business                               |
+| Controller B -> auth + log + business                               |
+| Controller C -> auth missing + business                             |
+|                                                                      |
+| result: duplication, drift, missing policy                          |
++----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 인터셉터와 필터는 교실마다 따로 출석 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 하는 대신, 학교 정문과 복도에 공통 검사 지점을 두어 규칙을 한 번에 지키게 만드는 방식과 같다.
@@ -56,30 +56,30 @@ tags = ["studynote-design-supervision"]
 아래 그림은 요청이 들어와 응답이 나가기까지 이 설계망이 어떻게 작동하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Request / response policy mesh                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │ request                                                          │
-│   ▼                                                                  │
-│ [Filter 1] -> [Filter 2] -> [Filter N]                               │
-│   │ reject? yes -> 4xx/5xx response                                  │
-│   ▼ no                                                               │
-│ Front Controller                                                     │
-│   │                                                                  │
-│   ▼                                                                  │
-│ [Interceptor preHandle]                                              │
-│   │ reject? yes -> 401/403 / redirect                                │
-│   ▼ no                                                               │
-│ Handler / Service                                                    │
-│   │                                                                  │
-│   ▼                                                                  │
-│ [Interceptor postHandle / afterCompletion]                           │
-│   ▼                                                                  │
-│ [Response Filters: header / compression / trace finish]              │
-│   ▼                                                                  │
-│ Client                                                               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Request / response policy mesh                                       |
++----------------------------------------------------------------------+
+| Client                                                               |
+|   | request                                                          |
+|   v                                                                  |
+| [Filter 1] -> [Filter 2] -> [Filter N]                               |
+|   | reject? yes -> 4xx/5xx response                                  |
+|   v no                                                               |
+| Front Controller                                                     |
+|   |                                                                  |
+|   v                                                                  |
+| [Interceptor preHandle]                                              |
+|   | reject? yes -> 401/403 / redirect                                |
+|   v no                                                               |
+| Handler / Service                                                    |
+|   |                                                                  |
+|   v                                                                  |
+| [Interceptor postHandle / afterCompletion]                           |
+|   v                                                                  |
+| [Response Filters: header / compression / trace finish]              |
+|   v                                                                  |
+| Client                                                               |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 <strong>순서와 중단 가능성</strong>이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
@@ -168,17 +168,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 개별 Controller마다 공통 코드 중복
-    │
-    ▼
+    |
+    v
 Front Controller 도입
-    │
-    ▼
+    |
+    v
 Filter / Middleware 전역 체인
-    │
-    ▼
+    |
+    v
 Interceptor 기반 핸들러 전후 제어
-    │
-    ▼
+    |
+    v
 AOP · Security Chain · Observability로 확장된 정책망
 ```
 
@@ -196,7 +196,7 @@ AOP · Security Chain · Observability로 확장된 정책망
 
 **진행 상황**: 234 / 530
 
-← **이전**: [177. 프론트 컨트롤러 패턴 (Front Controller Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/)
-**다음**: [179. 레파지토리 패턴 (Repository Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/) →
+<- **이전**: [177. 프론트 컨트롤러 패턴 (Front Controller Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/)
+**다음**: [179. 레파지토리 패턴 (Repository Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/) ->
 
 ---

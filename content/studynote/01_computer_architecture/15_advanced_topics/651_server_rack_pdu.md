@@ -34,19 +34,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 랙 PDU가 서버와 관리 계층 사이에 어떻게 배치되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Rack-level power path with redundant PDUs                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ UPS A / Busway ─▶ PDU A ─▶ PSU A ─┐                                      │
-│                     │             ├─▶ Server 1                           │
-│                     ├─ meter      ├─▶ Server 2                           │
-│                     └─ switch     └─▶ Server 3                           │
-│                                                                            │
-│ UPS B / Busway ─▶ PDU B ─▶ PSU B ─┐                                      │
-│                     │             ├─▶ Server 1                           │
-│                     ├─ sensor     ├─▶ Server 2                           │
-│                     └─ network ─────▶ DCIM / OOB management              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                Rack-level power path with redundant PDUs                  |
++----------------------------------------------------------------------------+
+| UPS A / Busway --> PDU A --> PSU A -+                                      |
+|                     |             +--> Server 1                           |
+|                     +- meter      +--> Server 2                           |
+|                     +- switch     +--> Server 3                           |
+|                                                                            |
+| UPS B / Busway --> PDU B --> PSU B -+                                      |
+|                     |             +--> Server 1                           |
+|                     +- sensor     +--> Server 2                           |
+|                     +- network ------> DCIM / OOB management              |
++----------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -128,20 +128,20 @@ PDU를 제대로 이해하려면 기본형과 지능형의 차이, 그리고 UPS
 
 ```text
 기본형 배전 멀티탭
-    │
-    ▼
+    |
+    v
 랙 단위 PDU 도입
 : 전원 분배 표준화
-    │
-    ▼
+    |
+    v
 모니터형 PDU
 : 전압 · 전류 · 전력 가시화
-    │
-    ▼
+    |
+    v
 스위치형 지능형 PDU
 : 원격 제어 · 시퀀싱 · 센서 연동
-    │
-    ▼
+    |
+    v
 DCIM · 자동화 · 고밀도 AI 랙 전력 최적화
 ```
 
@@ -157,7 +157,7 @@ DCIM · 자동화 · 고밀도 AI 랙 전력 최적화
 
 **진행 상황**: 652 / 803
 
-← **이전**: [650. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
-**다음**: [652. 무정전 전원 장치 (UPS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) →
+<- **이전**: [650. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
+**다음**: [652. 무정전 전원 장치 (UPS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ->
 
 ---

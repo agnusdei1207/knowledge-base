@@ -24,10 +24,10 @@ tags = ["studynote-ict-convergence"]
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 수만 개의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 하나의 블록에 묶는다. 모든 노드가 전체 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 저장·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 네트워크 대역폭과 저장 용량이 폭발적으로 증가한다. 핵심 질문은 "전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이도 특정 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 블록에 포함됐음을 증명할 수 있는가?"이다.
 
 SHA-256은 임의 길이 입력을 256비트 고정 출력으로 변환하며, 두 가지 핵심 성질을 제공한다.
-- **단방향성(One-way)**: 출력 → 입력 역산 불가
-- <strong>충돌 저항성(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong>: 동일 출력을 생성하는 두 입력 발견 불가(2¹²⁸ 연산 필요)
+- **단방향성(One-way)**: 출력 -> 입력 역산 불가
+- <strong>충돌 저항성(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>)</strong>: 동일 출력을 생성하는 두 입력 발견 불가(2¹^⁸ 연산 필요)
 
-- **📢 섹션 요약 비유**: — "1만 명의 학생 시험 답안지를 낱장으로 보관하는 대신, 반 대표 점수 → 학년 대표 점수 → 학교 대표 점수로 요약해 봉투 하나에 넣는 방식이다.
+- **📢 섹션 요약 비유**: — "1만 명의 학생 시험 답안지를 낱장으로 보관하는 대신, 반 대표 점수 -> 학년 대표 점수 -> 학교 대표 점수로 요약해 봉투 하나에 넣는 방식이다.
 
 ---
 
@@ -37,43 +37,43 @@ SHA-256은 임의 길이 입력을 256비트 고정 출력으로 변환하며, �
 
 ```
         머클 루트(Merkle Root)
-               │
+               |
        Hash(AB + CD)
-      ┌────────┴────────┐
+      +--------+--------+
    Hash(AB)           Hash(CD)
-  ┌────┴────┐       ┌────┴────┐
+  +----+----+       +----+----+
 Hash(A)  Hash(B) Hash(C)  Hash(D)
-  │         │       │         │
+  |         |       |         |
  Tx_A     Tx_B    Tx_C      Tx_D
 ```
 
 **연쇄 해시(Chain Hash) 구성**
 
 ```
-┌──────────────────────────────────────────────┐
-│  Block N-1 헤더                               │
-│  ┌──────────────────────────────────────┐    │
-│  │ prev_hash | merkle_root | nonce      │    │
-│  └──────────────────────────────────────┘    │
-│         │ SHA-256(헤더)                       │
-└─────────┼────────────────────────────────────┘
-          │ prev_hash 포인터
-┌─────────▼────────────────────────────────────┐
-│  Block N 헤더                                 │
-│  ┌──────────────────────────────────────┐    │
-│  │ prev_hash | merkle_root | nonce      │    │
-│  └──────────────────────────────────────┘    │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+|  Block N-1 헤더                               |
+|  +--------------------------------------+    |
+|  | prev_hash | merkle_root | nonce      |    |
+|  +--------------------------------------+    |
+|         | SHA-256(헤더)                       |
++---------+------------------------------------+
+          | prev_hash 포인터
++---------v------------------------------------+
+|  Block N 헤더                                 |
+|  +--------------------------------------+    |
+|  | prev_hash | merkle_root | nonce      |    |
+|  +--------------------------------------+    |
++----------------------------------------------+
 ```
 
 ### 핵심 성질 비교표
 
 | 성질 | 설명 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 역할 |
 |:---|:---|:---|
-| **단방향성** | Hash(x) → x 역산 불가 | PoW 채굴 난이도 근거 |
-| **충돌 저항성** | H(x)=H(y) → x=y 방지 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 위변조 차단 |
-| **눈사태 효과** | 1비트 변경 → 완전 다른 출력 | 체인 연결 위변조 즉시 탐지 |
-| **결정론적** | 동일 입력 → 항상 동일 출력 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 재현 가능 |
+| **단방향성** | Hash(x) -> x 역산 불가 | PoW 채굴 난이도 근거 |
+| **충돌 저항성** | H(x)=H(y) -> x=y 방지 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 위변조 차단 |
+| **눈사태 효과** | 1비트 변경 -> 완전 다른 출력 | 체인 연결 위변조 즉시 탐지 |
+| **결정론적** | 동일 입력 -> 항상 동일 출력 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 재현 가능 |
 
 ### SPV [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 원리
 
@@ -101,7 +101,7 @@ SPV 노드는 블록 헤더(80바이트)만 저장하며, 특정 Tx 포함 증�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 기술사 핵심 판단 사항
-1. **위변조 탐지 자동화**: Merkle Root가 블록 헤더에 포함되므로, 어떤 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 1바이트만 바꿔도 루트가 변경 → 이후 모든 블록의 prev_hash가 무효화
+1. **위변조 탐지 자동화**: Merkle Root가 블록 헤더에 포함되므로, 어떤 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 1바이트만 바꿔도 루트가 변경 -> 이후 모든 블록의 prev_hash가 무효화
 2. **경량 클라이언트 설계**: 모바일 지갑 등 저용량 환경에서 SPV(Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))만으로 결제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능
 3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> 전환 필요성</strong>: 양자 컴퓨터가 SHA-256 충돌 저항성을 위협할 경우 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/)([Keccak](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/)) 또는 NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준으로 전환 필요
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> Trail</strong>: 이더리움 Receipt Trie를 이용한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 이벤트 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 체계 구축
@@ -138,7 +138,7 @@ SPV 노드는 블록 헤더(80바이트)만 저장하며, 특정 Tx 포함 증�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [블록체인 머클 트리 · 해시 무결성] → [SHA-256 단방향성 기반 채굴]
+[관계 설명] -> [블록체인 머클 트리 · 해시 무결성] -> [SHA-256 단방향성 기반 채굴]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ SPV 노드는 블록 헤더(80바이트)만 저장하며, 특정 Tx 포함 증�
 
 **진행 상황**: 473 / 552
 
-← **이전**: [472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/)
-**다음**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/) →
+<- **이전**: [472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/472_on_device_ai_slm_edge_inference/)
+**다음**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/) ->
 
 ---

@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 수동 RTL과 HLS의 차이를 "누가 구조를 직접 책임지는가" 관점에서 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Manual RTL vs HLS: who builds the structure?            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Algorithm idea                                                            │
-│     │                                                                     │
-│     ├─ Manual RTL -> engineer writes states, registers, handshakes        │
-│     │                                                                     │
-│     └─ HLS        -> engineer writes behavior + constraints               │
-│                     tool builds schedule, datapath, controller, interface │
-│                                                                           │
-│ Result quality still depends on dependency graph and memory access shape. │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   Manual RTL vs HLS: who builds the structure?            |
++----------------------------------------------------------------------------+
+| Algorithm idea                                                            |
+|     |                                                                     |
+|     +- Manual RTL -> engineer writes states, registers, handshakes        |
+|     |                                                                     |
+|     +- HLS        -> engineer writes behavior + constraints               |
+|                     tool builds schedule, datapath, controller, interface |
+|                                                                           |
+| Result quality still depends on dependency graph and memory access shape. |
++----------------------------------------------------------------------------+
 ```
 
 즉 HLS의 핵심은 RTL을 없애는 것이 아니라, RTL을 더 늦은 단계에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하게 만드는 것이다. 사람이 고민해야 할 축이 배선 세부에서 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>도와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 구조</strong>로 올라간다고 이해하면 정확하다.
@@ -61,22 +61,22 @@ HLS 도구는 코드를 그냥 "번역"하지 않는다. 먼저 연산 사이의
 이 그림은 HLS 내부 흐름과 결과 보고서에서 봐야 할 포인트를 한 번에 묶은 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    HLS flow: behavior -> structure -> reports             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ C/C++ / SystemC                                                           │
-│      │                                                                    │
-│      ▼                                                                    │
-│   CDFG analysis                                                           │
-│      │                                                                    │
-│      ├─ schedule with target clock                                        │
-│      ├─ bind operations to arithmetic units                               │
-│      ├─ shape memories / banks / local buffers                            │
-│      └─ synthesize interfaces                                             │
-│      │                                                                    │
-│      ▼                                                                    │
-│   RTL + latency report + II report + resource report                      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    HLS flow: behavior -> structure -> reports             |
++----------------------------------------------------------------------------+
+| C/C++ / SystemC                                                           |
+|      |                                                                    |
+|      v                                                                    |
+|   CDFG analysis                                                           |
+|      |                                                                    |
+|      +- schedule with target clock                                        |
+|      +- bind operations to arithmetic units                               |
+|      +- shape memories / banks / local buffers                            |
+|      +- synthesize interfaces                                             |
+|      |                                                                    |
+|      v                                                                    |
+|   RTL + latency report + II report + resource report                      |
++----------------------------------------------------------------------------+
 ```
 
 실무에서 많이 쓰는 제어 수단도 결국 이 흐름에 대응한다. 파이프라인은 `II`를 줄여 처리량을 올리고, 언롤은 연산기를 복제해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도를 높이며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 분할은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌을 줄인다. 예를 들어 목표 주파수가 같다면 처리량은 대략 `f_clk / II`에 비례하므로, II가 4에서 1로 내려가면 같은 클럭에서도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 바뀐다. 반대로 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1개뿐이면 언롤을 많이 걸어도 연산기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 못 받아 놀 수 있다.
@@ -160,20 +160,20 @@ HLS를 잘 쓰면 설계 반복 속도가 빨라지고, 같은 [알고리즘](/k
 
 ```text
 수동 RTL 중심 설계
-      │
-      ▼
+      |
+      v
 C 모델 기반 기능 검증
-      │
-      ▼
+      |
+      v
 HLS 스케줄링 · 자원 바인딩
-      │
-      ▼
+      |
+      v
 파이프라인 · 언롤 · 데이터플로 최적화
-      │
-      ▼
+      |
+      v
 FPGA 가속기 설계 공간 탐색
-      │
-      ▼
+      |
+      v
 도메인 특화 언어 · 자동 튜닝 기반 하드웨어 생성
 ```
 
@@ -191,7 +191,7 @@ FPGA 가속기 설계 공간 탐색
 
 **진행 상황**: 605 / 803
 
-← **이전**: [604. 오픈 소스 IP 코어 (Open Source IP Core)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/604_open_source_ip_core/)
-**다음**: [606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) →
+<- **이전**: [604. 오픈 소스 IP 코어 (Open Source IP Core)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/604_open_source_ip_core/)
+**다음**: [606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ->
 
 ---

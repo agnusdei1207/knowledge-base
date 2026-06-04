@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
+    |
+    v
 [마이크로그리드 통신 규격]
-    │
-    └──▶ [산업용 이더넷 PROFINET 망]
+    |
+    +---> [산업용 이더넷 PROFINET 망]
 ```
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
+    |
+    v
 [마이크로그리드 통신 규격]
-    │
-    └──▶ [산업용 이더넷 PROFINET 망]
+    |
+    +---> [산업용 이더넷 PROFINET 망]
 ```
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
+    |
+    v
 [현재 개념: 마이크로그리드 통신 규격]
-    │
-    ├──▶ [확장 A: 산업용 이더넷 PROFINET 망]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 산업용 이더넷 PROFINET 망]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격는 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환에서 출발해 현재 메커니즘을 정교화하고, 이후 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 216 / 1120
 
-← **이전**: [1105. vCPE NFV 고객 구내 망 통합 전환](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/)
-**다음**: [1107. 산업용 이더넷 PROFINET 망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1107_industrial_ethernet_profinet_ot_network/) →
+<- **이전**: [1105. vCPE NFV 고객 구내 망 통합 전환](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1105_vcpe_nfv_virtual_customer_premises_equipment/)
+**다음**: [1107. 산업용 이더넷 PROFINET 망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1107_industrial_ethernet_profinet_ot_network/) ->
 
 ---

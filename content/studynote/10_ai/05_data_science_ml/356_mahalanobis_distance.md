@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)([Mahalanobis Distance](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/))는 공분산 행렬(Covariance Matrix)의 역행렬로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포의 상관관계와 스케일 차이를 보정한 뒤 계산하는 다차원 거리이며, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 탐지와 다변량 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 기준 거리다.
 > 2. **가치**: 키(cm)와 몸무게(kg)처럼 단위가 다르거나 상관관계가 있는 변수들 사이의 거리를 공정하게 측정해, 유클리드 거리(Euclidean Distance)가 놓치는 "통계적 비정상"을 정확히 탐지한다.
-> 3. **판단 포인트**: D_M(x) = √((x-μ)ᵀ Σ⁻¹ (x-μ)) 수식에서 Σ⁻¹이 공분산을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다변량 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)(Multivariate [Normal Distribution](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/))를 따를 때 D_M²은 카이제곱 분포(Chi-squared Distribution)를 따른다.
+> 3. **판단 포인트**: D_M(x) = √((x-μ)ᵀ Σ⁻¹ (x-μ)) 수식에서 Σ⁻¹이 공분산을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다변량 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)(Multivariate [Normal Distribution](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/))를 따를 때 D_M^은 카이제곱 분포(Chi-squared Distribution)를 따른다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 키 170cm, 몸무게 65kg인 사람이 "평균(키 170, 몸무게 70)"과 유클리드 거리로는 5 단위 차이다. 그런데 "키 145, 몸무게 70"인 사람도 유클리드 거리로 25 단위 차이다. 하지만 키 145cm는 통계적으로 매우 드문([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 반면, 몸무게 65는 정상 범위다. 유클리드 거리는 단위와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 차이를 무시해 "이상함"을 제대로 측정 못한다. [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 각 변수의 표준 편차로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고, 변수 간 상관관계를 제거(de-correlation)하여 통계적 이상 정도를 정확히 측정한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 유클리드 거리는 "직선 줄자"고 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 "통계적 이상함 측정기"다. 직선 줄자는 단위를 모르니 cm와 kg을 같이 더하는 실수를 한다. 마할라노비스는 "이 값이 전체 분포에서 얼마나 특이한가?"를 σ 단위로 측정한다.
@@ -37,30 +37,30 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│         마할라노비스 거리 계산 구조                       │
-├──────────────────────────────────────────────────────────┤
-│  수식:  D_M(x) = √((x-μ)ᵀ · Σ⁻¹ · (x-μ))             │
-│                                                          │
-│  단계:  1. 중심화: d = x - μ  (평균으로부터의 편차 벡터) │
-│         2. Σ⁻¹ 계산: 공분산 행렬의 역행렬               │
-│         3. 이차 형식: D²_M = dᵀ · Σ⁻¹ · d             │
-│         4. 제곱근: D_M = √D²_M                          │
-│                                                          │
-│  Σ⁻¹의 역할:                                           │
-│  ┌──────────────────────────────────┐                   │
-│  │ 분산이 큰 방향 → 거리 축소       │                   │
-│  │ 분산이 작은 방향 → 거리 확대      │                   │
-│  │ 상관된 변수 → 독립 축으로 회전   │                   │
-│  └──────────────────────────────────┘                   │
-│  D_M² ~ χ²(p) when x ~ N(μ, Σ)  (카이제곱 분포)       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         마할라노비스 거리 계산 구조                       |
++----------------------------------------------------------+
+|  수식:  D_M(x) = √((x-μ)ᵀ · Σ⁻¹ · (x-μ))             |
+|                                                          |
+|  단계:  1. 중심화: d = x - μ  (평균으로부터의 편차 벡터) |
+|         2. Σ⁻¹ 계산: 공분산 행렬의 역행렬               |
+|         3. 이차 형식: D^_M = dᵀ · Σ⁻¹ · d             |
+|         4. 제곱근: D_M = √D^_M                          |
+|                                                          |
+|  Σ⁻¹의 역할:                                           |
+|  +----------------------------------+                   |
+|  | 분산이 큰 방향 -> 거리 축소       |                   |
+|  | 분산이 작은 방향 -> 거리 확대      |                   |
+|  | 상관된 변수 -> 독립 축으로 회전   |                   |
+|  +----------------------------------+                   |
+|  D_M^ ~ χ^(p) when x ~ N(μ, Σ)  (카이제곱 분포)       |
++----------------------------------------------------------+
 ```
 
 | 거리 | 수식 | 상관 보정 | 스케일 보정 |
 |:---|:---|:---|:---|
-| 유클리드 (Euclidean) | √Σ(xᵢ-μᵢ)² | ❌ | ❌ |
-| 표준화 유클리드 | √Σ((xᵢ-μᵢ)/σᵢ)² | ❌ | ✅ |
+| 유클리드 (Euclidean) | √Σ(xᵢ-μᵢ)^ | ❌ | ❌ |
+| 표준화 유클리드 | √Σ((xᵢ-μᵢ)/σᵢ)^ | ❌ | ✅ |
 | 마할라노비스 (Mahalanobis) | √(x-μ)ᵀΣ⁻¹(x-μ) | ✅ | ✅ |
 
 - **📢 섹션 요약 비유**: Σ⁻¹(역공분산 행렬)는 "왜곡된 공간 복원 렌즈"다. 변수들이 상관관계로 인해 타원형으로 분포할 때, 이 렌즈로 보면 타원이 원으로 변환되어 모든 방향의 거리가 공정하게 측정된다.
@@ -69,7 +69,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) 시 D_M² > χ²(p, 0.975) (97.5% 신뢰구간)를 임계값으로 사용한다. 예를 들어 2차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 χ²(2, 0.975) ≈ 7.38이므로 D_M > 2.72인 점은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. QDA(Quadratic Discriminant Analysis, 이차 판별 분석)는 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정 경계로 사용하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
+[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) 시 D_M^ > χ^(p, 0.975) (97.5% 신뢰구간)를 임계값으로 사용한다. 예를 들어 2차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 χ^(2, 0.975) ≈ 7.38이므로 D_M > 2.72인 점은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. QDA(Quadratic Discriminant Analysis, 이차 판별 분석)는 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정 경계로 사용하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -91,7 +91,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 다변량 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/), 패턴 인식, 클러스터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 유클리드 거리의 근본적 한계(단위 의존, 상관 무시)를 극복하는 통계적으로 우월한 거리 척도다. 기술사 시험에서 D_M 수식의 Σ⁻¹ 역할(스케일 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) + 탈상관)과 D_M² ~ χ² 분포 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명확히 서술하면 높은 점수를 받을 수 있다.
+[마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 다변량 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/), 패턴 인식, 클러스터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 유클리드 거리의 근본적 한계(단위 의존, 상관 무시)를 극복하는 통계적으로 우월한 거리 척도다. 기술사 시험에서 D_M 수식의 Σ⁻¹ 역할(스케일 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) + 탈상관)과 D_M^ ~ χ^ 분포 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명확히 서술하면 높은 점수를 받을 수 있다.
 
 - **📢 섹션 요약 비유**: [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 "문화권을 고려한 키 측정"이다. 평균 키가 190cm인 나라에서 180cm는 '작은 편'이지만, 평균 160cm인 나라에서 180cm는 '큰 편'이다. 마할라노비스는 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포(공분산)를 기준으로 얼마나 특이한지를 측정한다.
 
@@ -104,12 +104,12 @@ tags = ["studynote-ai"]
 | 공분산 행렬 (Covariance Matrix) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) / Σ⁻¹의 기반 |
 | [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 금융 사기, 제조 불량 / [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 주요 응용 |
 | QDA (Quadratic Discriminant Analysis) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| 카이제곱 분포 (Chi-squared) | 통계 검정 / D_M² 분포 |
+| 카이제곱 분포 (Chi-squared) | 통계 검정 / D_M^ 분포 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [마할라노비스 거리 (Mahalanobis Distance)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [마할라노비스 거리 (Mahalanobis Distance)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 356 / 420
 
-← **이전**: [355. 랜덤 포레스트 변수 중요도 (Feature Importance)](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)
-**다음**: [357. DBSCAN (Density-Based Spatial Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) →
+<- **이전**: [355. 랜덤 포레스트 변수 중요도 (Feature Importance)](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)
+**다음**: [357. DBSCAN (Density-Based Spatial Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) ->
 
 ---

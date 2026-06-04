@@ -40,22 +40,22 @@ tags = ["studynote-ai"]
 위의 3단계 흐름을 '보틀넥([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 블록'이라 부른다. 256채널 입력을 받아 3x3 연산을 거쳐 256채널을 바로 출력하면 파라미터 수는 약 59만 개($3 \times 3 \times 256 \times 256$)지만, 보틀넥 구조를 거치면 약 7만 개($1 \times 1$ 축소 + $3 \times 3$ 연산 + $1 \times 1$ 복원)로 1/8 수준까지 파괴적으로 감소한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  보틀넥(Bottleneck) 블록의 연산 흐름                   │
-├──────────────────────────────────────────────────────────────┤
-│  [입력 데이터] (10x10 크기, 256 채널)                                │
-│       │                                                      │
-│       ▼ (차원 축소)                                             │
-│  [1x1 Conv] ──▶ 파라미터 대폭 감소 (64 채널로 압축)                  │
-│       │                                                      │
-│       ▼ (공간 특징 추출)                                          │
-│  [3x3 Conv] ──▶ 가벼워진 상태에서 연산 수행 (64 채널 유지)            │
-│       │                                                      │
-│       ▼ (차원 복원)                                             │
-│  [1x1 Conv] ──▶ 다시 원래 채널 수로 확장 (256 채널로 복원)             │
-│       │                                                      │
-│  [출력 데이터] (10x10 크기, 256 채널)                                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  보틀넥(Bottleneck) 블록의 연산 흐름                   |
++--------------------------------------------------------------+
+|  [입력 데이터] (10x10 크기, 256 채널)                                |
+|       |                                                      |
+|       v (차원 축소)                                             |
+|  [1x1 Conv] ---> 파라미터 대폭 감소 (64 채널로 압축)                  |
+|       |                                                      |
+|       v (공간 특징 추출)                                          |
+|  [3x3 Conv] ---> 가벼워진 상태에서 연산 수행 (64 채널 유지)            |
+|       |                                                      |
+|       v (차원 복원)                                             |
+|  [1x1 Conv] ---> 다시 원래 채널 수로 확장 (256 채널로 복원)             |
+|       |                                                      |
+|  [출력 데이터] (10x10 크기, 256 채널)                                |
++--------------------------------------------------------------+
 ```
 
 여기에 더해 매 1x1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 직후마다 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)인 ReLU가 추가로 배치되므로, 연산량을 줄이면서도 네트워크의 비선형성(구불구불한 결정 경계)을 크게 증가시켜 모델의 표현력을 월등히 높이는 일석이조의 원리가 숨어 있다.
@@ -120,17 +120,17 @@ tags = ["studynote-ai"]
 
 ```text
 기본 CNN (LeNet, AlexNet, VGGNet) - 공간 필터 중심의 무거운 설계
-    │
-    ▼
+    |
+    v
 NiN (Network in Network) - 1x1 합성곱(MLPconv) 개념 최초 도입
-    │
-    ▼
+    |
+    v
 GoogLeNet (Inception V1) - 1x1 차원 축소를 통한 다중 필터 병렬 연산 최적화
-    │
-    ▼
+    |
+    v
 ResNet (Bottleneck Architecture) - 모래시계형 1x1 압축/팽창의 글로벌 표준화
-    │
-    ▼
+    |
+    v
 MobileNet (Depthwise Separable Conv) - 1x1(Pointwise) 연산을 경량 엣지 AI의 핵심으로 확장
 ```
 
@@ -146,7 +146,7 @@ MobileNet (Depthwise Separable Conv) - 1x1(Pointwise) 연산을 경량 엣지 AI
 
 **진행 상황**: 105 / 420
 
-← **이전**: [104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파](/knowledge-base/studynote/10_ai/02_dl_architecture_new/104_resnet_residual_network_skip_connection_bottleneck/)
-**다음**: [106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별](/knowledge-base/studynote/10_ai/02_dl_architecture_new/106_object_detection_bounding_box_yolo_rcnn_iou/) →
+<- **이전**: [104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파](/knowledge-base/studynote/10_ai/02_dl_architecture_new/104_resnet_residual_network_skip_connection_bottleneck/)
+**다음**: [106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별](/knowledge-base/studynote/10_ai/02_dl_architecture_new/106_object_detection_bounding_box_yolo_rcnn_iou/) ->
 
 ---

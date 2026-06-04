@@ -26,15 +26,15 @@ PKCS#7/CMS는 암호 연산 결과를 "교환 가능한 문서"로 만드는 표
 아래 그림은 CMS가 왜 "포장 표준"인지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Raw crypto output vs CMS container                                   │
-├──────────────────────────┬───────────────────────────────────────────┤
-│ Raw signature / cipher   │ CMS container                            │
-│ - payload location vague │ - content type identified                │
-│ - cert chain separate    │ - signer / recipient metadata bundled    │
-│ - recipient list unclear │ - certificates can travel together       │
-│ - tool-specific parsing  │ - common syntax across products          │
-└──────────────────────────┴───────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Raw crypto output vs CMS container                                   |
++--------------------------+-------------------------------------------+
+| Raw signature / cipher   | CMS container                            |
+| - payload location vague | - content type identified                |
+| - cert chain separate    | - signer / recipient metadata bundled    |
+| - recipient list unclear | - certificates can travel together       |
+| - tool-specific parsing  | - common syntax across products          |
++--------------------------+-------------------------------------------+
 ```
 
 핵심은 CMS가 암호학적 강도를 높이는 장치가 아니라, <strong>암호 결과가 해석될 문맥을 고정하는 장치</strong>라는 점이다. 그래서 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 환경에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택만큼이나 포맷 일관성이 중요하다.
@@ -60,23 +60,23 @@ CMS의 외곽 구조는 `ContentInfo`다. 이 바깥 래퍼 안에 "이 안에 �
 또한 CMS는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐지 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))을 함께 운반할 수 있어, 수신자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 필요한 부가 자료를 한 번에 확보하게 해 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Generic CMS packaging flow                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Content ----------------------------------------------------------┐  │
-│   ├─ hash + signer private key ------------------------------┐    │  │
-│   │                                                          ▼    │  │
-│   │                                                    SignerInfo  │  │
-│   ├─ content-encryption key (CEK) ----------------------┐          │  │
-│   │                                                     ▼          │  │
-│   │                                           EncryptedContent     │  │
-│   └─ CEK wrapped for each recipient ----------------┐              │  │
-│                                                      ▼              │  │
-│                                                RecipientInfo        │  │
-│ Certificates / CRLs ------------------------------> Bundle          │  │
-│                                                                    │  │
-│ Final CMS = ContentInfo { type + payload + metadata } ------------┘  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Generic CMS packaging flow                                           |
++----------------------------------------------------------------------+
+| Content ----------------------------------------------------------+  |
+|   +- hash + signer private key ------------------------------+    |  |
+|   |                                                          v    |  |
+|   |                                                    SignerInfo  |  |
+|   +- content-encryption key (CEK) ----------------------+          |  |
+|   |                                                     v          |  |
+|   |                                           EncryptedContent     |  |
+|   +- CEK wrapped for each recipient ----------------+              |  |
+|                                                      v              |  |
+|                                                RecipientInfo        |  |
+| Certificates / CRLs ------------------------------> Bundle          |  |
+|                                                                    |  |
+| Final CMS = ContentInfo { type + payload + metadata } ------------+  |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 선택이 `attached`와 `detached`다. 원문을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 넣으면 전달 편의성은 좋아지지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커지고, 원문을 밖에 두면 같은 원본에 대한 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 여러 시스템이 반복하기 쉽다. [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)이나 대용량 배포에서는 detached 구조가, 메일 첨부처럼 한 덩어리 전송이 필요한 경우에는 attached 구조가 자주 쓰인다.
@@ -156,25 +156,25 @@ CMS의 가장 큰 효과는 <strong><a href="/knowledge-base/studynote/04_softwa
 
 ```text
 Key pair and certificate issuance
-            │
-            ▼
+            |
+            v
 PKCS#10 CSR submission
-            │
-            ▼
+            |
+            v
 X.509 certificate issuance
-            │
-            ▼
+            |
+            v
 CMS ContentInfo packaging
-      ┌─────┼───────────────┐
-      ▼                     ▼
+      +-----+---------------+
+      v                     v
  SignedData            EnvelopedData
-      │                     │
-      └────────────┬────────┘
-                   ▼
+      |                     |
+      +------------+--------+
+                   v
 S/MIME / code signing / certificate bundle distribution
 ```
 
-이 흐름은 "키 발급 준비 → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 확보 → 서명·암호문 포장 → 실제 배포 채널 적용"으로 CMS가 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 운용의 중간 배송 계층에 놓인다는 점을 보여 준다.
+이 흐름은 "키 발급 준비 -> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 확보 -> 서명·암호문 포장 -> 실제 배포 채널 적용"으로 CMS가 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 운용의 중간 배송 계층에 놓인다는 점을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ S/MIME / code signing / certificate bundle distribution
 
 **진행 상황**: 223 / 1108
 
-← **이전**: [169. PKCS#10 — 인증서 서명 요청 (CSR) 형식](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)
-**다음**: [171. PKCS#12 / PFX (인증서·개인키 묶음 포맷)](/knowledge-base/studynote/09_security/04_endpoint_security/171_pkcs12_pfx/) →
+<- **이전**: [169. PKCS#10 — 인증서 서명 요청 (CSR) 형식](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)
+**다음**: [171. PKCS#12 / PFX (인증서·개인키 묶음 포맷)](/knowledge-base/studynote/09_security/04_endpoint_security/171_pkcs12_pfx/) ->
 
 ---

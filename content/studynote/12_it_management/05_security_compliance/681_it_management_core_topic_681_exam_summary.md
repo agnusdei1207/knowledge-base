@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 거버넌스(IT Governance)는 ISO 38500의 **EDM(Evaluate·Direct·Monitor)** 3대 원칙과 COBIT 2019의 **40개 관리 목표(Governance & Management Objectives)**를 통해 IT가 비즈니스 전략(Strategy)과 정렬(Alignment)되어 가치(Value)를 창출하고 리스크(Risk)를 최적화하도록 **이사회-경영진-IT** 간 의사결정 권한과 책임(Accountability)을 체계화한 통합 프레임워크이다.
-> 2. **가치**: McKinsey & Company(2023) 보고에 따르면 체계적 IT 거버넌스 도입 기업은 **디지털 전환 성공률 1.8배**, **IT 투자 ROI 평균 27% 향상**, **보안 사고 대응 시간(MTTR) 62% 단축**, **컴플라이언스 위반 비용 45% 절감**의 정량적 효과를 달성하며, ITIL 4 기반 운영 통합 시 IT 서비스 가용성 **99.95% → 99.99%(Four 9s)** 수준으로 도약한다.
+> 2. **가치**: McKinsey & Company(2023) 보고에 따르면 체계적 IT 거버넌스 도입 기업은 **디지털 전환 성공률 1.8배**, **IT 투자 ROI 평균 27% 향상**, **보안 사고 대응 시간(MTTR) 62% 단축**, **컴플라이언스 위반 비용 45% 절감**의 정량적 효과를 달성하며, ITIL 4 기반 운영 통합 시 IT 서비스 가용성 **99.95% -> 99.99%(Four 9s)** 수준으로 도약한다.
 > 3. **판단 포인트**: **①** 중앙집중형(Centralized, CoE) vs 분산형(Decentralized, Federated) 거버넌스 모델, **②** COBIT 2019의 11개 디자인 팩터(Design Factors) 중 핵심 5개(전략, 목표 cascade, 위험 profile, I&T 관련 이슈, 위협 landscape) 우선 적용, **③** IT 비용의 70% 이상을 차지하는 레거시(Mainframe) 유지 vs 클라우드 전환의 TCO 3~5년 회수기 tradeoff, **④** Zero Trust + SASE 도입과 거버넌스 통합 시 NHI(Non-Human Identity) 관리 복잡도 증가에 대한 통제 설계가 핵심 의사결정 분기점이다.
 
 ---
@@ -30,33 +30,33 @@ tags = ["studynote-it-management"]
 | 2020s (AI/Cloud Native) | **Value Driver** | **COBIT 2019 + NIST CSF 2.0 + ISO 38500:2024** | **Continuous Assurance + AI-Augmented GRC** |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         IT 거버넌스 3-레이어 통합 참조 모델(Reference Model)         │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ╔═══════════════════ Tier 1: 전략 의사결정 계층 ═══════════════╗  │
-│  ║  Board of Directors → IT Steering Committee(ISC)             ║  │
-│  ║  ├─ CEO  ├─ CIO  ├─ CFO  ├─ CISO  ├─ CDO(Chief Data Officer)║  │
-│  ║  역할: EDM 원칙 (ISO 38500)                                  ║  │
-│  ║   E: Evaluate(평가) → D: Direct(지시) → M: Monitor(모니터)  ║  │
-│  ╚════════════════════════════════════════════════════════════╝  │
-│                              ↓ Policy & Strategy                    │
-│  ╔═══════════════════ Tier 2: 거버넌스 시스템 계층 ═══════════╗   │
-│  ║  ┌─────────────┬─────────────┬─────────────┬────────────┐   ║   │
-│  ║  │  COBIT 2019 │   ITIL 4    │  ISO 38500  │ NIST CSF   │   ║   │
-│  ║  │  40 Gov&Mgt │  34 Practices│  EDM 원칙   │  6 Functions│   ║   │
-│  ║  │  Objectives │  SVS 모형    │  6 Principles│ Govern~Recover║  │
-│  ║  └─────────────┴─────────────┴─────────────┴────────────┘   ║   │
-│  ║   + TOGAF(EA), ISO 27001(ISMS), PCI-DSS, GDPR/PIPA         ║   │
-│  ╚════════════════════════════════════════════════════════════╝   │
-│                              ↓ Control Objectives                    │
-│  ╔═══════════════════ Tier 3: 운영·실행 계층 ═════════════════╗   │
-│  ║  DevOps Pipeline │ AIOps Platform │ GRC Tool(Archer/SAP GRC)║  │
-│  ║  Cloud(AWS/Azure)│ SAP/ERP Core  │ ITSM(ServiceNow/BMC)     ║  │
-│  ║  ZTA/SASE        │ Data Lake     │ K8s/Container Platform   ║  │
-│  ╚════════════════════════════════════════════════════════════╝   │
-│                              ↑ Feedback (Telemetry & Audit)        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|         IT 거버넌스 3-레이어 통합 참조 모델(Reference Model)         |
++----------------------------------------------------------------------+
+|                                                                      |
+|  +------------------- Tier 1: 전략 의사결정 계층 ---------------+  |
+|  |  Board of Directors -> IT Steering Committee(ISC)             |  |
+|  |  +- CEO  +- CIO  +- CFO  +- CISO  +- CDO(Chief Data Officer)|  |
+|  |  역할: EDM 원칙 (ISO 38500)                                  |  |
+|  |   E: Evaluate(평가) -> D: Direct(지시) -> M: Monitor(모니터)  |  |
+|  +------------------------------------------------------------+  |
+|                              v Policy & Strategy                    |
+|  +------------------- Tier 2: 거버넌스 시스템 계층 -----------+   |
+|  |  +-------------+-------------+-------------+------------+   |   |
+|  |  |  COBIT 2019 |   ITIL 4    |  ISO 38500  | NIST CSF   |   |   |
+|  |  |  40 Gov&Mgt |  34 Practices|  EDM 원칙   |  6 Functions|   |   |
+|  |  |  Objectives |  SVS 모형    |  6 Principles| Govern~Recover|  |
+|  |  +-------------+-------------+-------------+------------+   |   |
+|  |   + TOGAF(EA), ISO 27001(ISMS), PCI-DSS, GDPR/PIPA         |   |
+|  +------------------------------------------------------------+   |
+|                              v Control Objectives                    |
+|  +------------------- Tier 3: 운영·실행 계층 -----------------+   |
+|  |  DevOps Pipeline | AIOps Platform | GRC Tool(Archer/SAP GRC)|  |
+|  |  Cloud(AWS/Azure)| SAP/ERP Core  | ITSM(ServiceNow/BMC)     |  |
+|  |  ZTA/SASE        | Data Lake     | K8s/Container Platform   |  |
+|  +------------------------------------------------------------+   |
+|                              ^ Feedback (Telemetry & Audit)        |
++----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IT 거버넌스는 **도시의 도시계획(Urban Planning)**과 같다. 건물(IT 시스템) 하나하나가 아무리 좋아도, 도시 전체의 **상하수도(데이터 흐름), 도로(네트워크), 소방(이사 대응), 세무(컴플라이언스)** 설계가 부재하면 도시는 무너진다. COBIT는 도시기본계획, ISO 38500는 도시헌장, ITIL은 도로교통 운영매뉴얼에 해당한다.
@@ -65,39 +65,39 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 거버넌스의 핵심은 **"누가(Who) 무엇을(What) 어떻게(How) 결정하고 측정할 것인가"**의 3원칙을 정의하는 것이다. **ISO/IEC 38500:2024**(IT 거버넌스 국제표준, 1차 2008 → 2차 2015 → 리비전 2024)는 이를 6대 원칙으로 명시한다: **①Responsibility(책임성), ②Strategy(전략), ③Acquisition(취득), ④Performance(성과), ⑤Conformance(준수), ⑥Human Behavior(인적 행동)**. COBIT 2019는 이를 5개 도메인(**EDM, APO, BAI, DSS, MEA**)과 **40개 관리 목표(Governance Objectives 5 + Management Objectives 35)**로 구체화한다.
+IT 거버넌스의 핵심은 **"누가(Who) 무엇을(What) 어떻게(How) 결정하고 측정할 것인가"**의 3원칙을 정의하는 것이다. **ISO/IEC 38500:2024**(IT 거버넌스 국제표준, 1차 2008 -> 2차 2015 -> 리비전 2024)는 이를 6대 원칙으로 명시한다: **①Responsibility(책임성), ②Strategy(전략), ③Acquisition(취득), ④Performance(성과), ⑤Conformance(준수), ⑥Human Behavior(인적 행동)**. COBIT 2019는 이를 5개 도메인(**EDM, APO, BAI, DSS, MEA**)과 **40개 관리 목표(Governance Objectives 5 + Management Objectives 35)**로 구체화한다.
 
 ### COBIT 2019 5개 도메인 상세 동작 메커니즘
 
 ```text
-   ┌──────────────────────────────────────────────────────────┐
-   │              COBIT 2019 Core Model 계층 구조              │
-   ├──────────────────────────────────────────────────────────┤
-   │                                                          │
-   │   ┌─────── EDM (Evaluate, Direct, Monitor) ──────┐      │
-   │   │  EDM01: 거버넌스 체계 설정 및 유지              │      │
-   │   │  EDM02: 가치가 전달되도록 보장                 │      │
-   │   │  EDM03: 리스크 최적화 보장                     │      │
-   │   │  EDM04: 자원 최적화 보장                       │      │
-   │   │  EDM05: 이해관계자 투명성 보장                 │      │
-   │   └─────────────┬────────────────────────────────┘      │
-   │                 ↓ (Direct)                                │
-   │   ┌─────── APO (Align, Plan, Organize) ────────────┐      │
-   │   │  APO01~14: 14개 관리 목표 (전략 정렬, 계획, 조직) │      │
-   │   └─────────────┬────────────────────────────────┘      │
-   │                 ↓ (Plan)                                  │
-   │   ┌─────── BAI (Build, Acquire, Implement) ────────┐      │
-   │   │  BAI01~11: 11개 관리 목표 (구축, 도입, 구현)     │      │
-   │   └─────────────┬────────────────────────────────┘      │
-   │                 ↓ (Implement)                             │
-   │   ┌─────── DSS (Deliver, Service, Support) ────────┐      │
-   │   │  DSS01~06: 6개 관리 목표 (서비스 운영·지원)     │      │
-   │   └─────────────┬────────────────────────────────┘      │
-   │                 ↓ (Measure)                               │
-   │   ┌─────── MEA (Monitor, Evaluate, Assess) ────────┐      │
-   │   │  MEA01~04: 4개 관리 목표 (모니터링, 평가, 감리)  │      │
-   │   └────────────────────────────────────────────────┘      │
-   └──────────────────────────────────────────────────────────┘
+   +----------------------------------------------------------+
+   |              COBIT 2019 Core Model 계층 구조              |
+   +----------------------------------------------------------+
+   |                                                          |
+   |   +------- EDM (Evaluate, Direct, Monitor) ------+      |
+   |   |  EDM01: 거버넌스 체계 설정 및 유지              |      |
+   |   |  EDM02: 가치가 전달되도록 보장                 |      |
+   |   |  EDM03: 리스크 최적화 보장                     |      |
+   |   |  EDM04: 자원 최적화 보장                       |      |
+   |   |  EDM05: 이해관계자 투명성 보장                 |      |
+   |   +-------------+--------------------------------+      |
+   |                 v (Direct)                                |
+   |   +------- APO (Align, Plan, Organize) ------------+      |
+   |   |  APO01~14: 14개 관리 목표 (전략 정렬, 계획, 조직) |      |
+   |   +-------------+--------------------------------+      |
+   |                 v (Plan)                                  |
+   |   +------- BAI (Build, Acquire, Implement) --------+      |
+   |   |  BAI01~11: 11개 관리 목표 (구축, 도입, 구현)     |      |
+   |   +-------------+--------------------------------+      |
+   |                 v (Implement)                             |
+   |   +------- DSS (Deliver, Service, Support) --------+      |
+   |   |  DSS01~06: 6개 관리 목표 (서비스 운영·지원)     |      |
+   |   +-------------+--------------------------------+      |
+   |                 v (Measure)                               |
+   |   +------- MEA (Monitor, Evaluate, Assess) --------+      |
+   |   |  MEA01~04: 4개 관리 목표 (모니터링, 평가, 감리)  |      |
+   |   +------------------------------------------------+      |
+   +----------------------------------------------------------+
 ```
 
 | 구성 요소 (도메인) | 역할 (거버넌스 관점) | 핵심 기술 및 동작 방식 |
@@ -111,7 +111,7 @@ IT 거버넌스의 핵심은 **"누가(Who) 무엇을(What) 어떻게(How) 결�
 
 **진행 상황**: 681 / 800
 
-← **이전**: [680. IT 경영 관리 핵심 토픽 680번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/680_it_management_core_topic_680_exam_summary/)
-**다음**: [682. IT 경영 관리 핵심 토픽 682번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/682_it_management_core_topic_682_exam_summary/) →
+<- **이전**: [680. IT 경영 관리 핵심 토픽 680번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/680_it_management_core_topic_680_exam_summary/)
+**다음**: [682. IT 경영 관리 핵심 토픽 682번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/682_it_management_core_topic_682_exam_summary/) ->
 
 ---

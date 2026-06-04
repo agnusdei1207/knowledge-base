@@ -29,8 +29,8 @@ tags = ["studynote-operating-system"]
 
   [ 상황: 포크가 2개 있어야 밥을 먹을 수 있는데, 포크가 총 2개뿐이다. ]
 
-  ▶ 철학자 A: 왼쪽 포크(Lock 1) 획득 ─▶ 오른쪽 포크(Lock 2) 대기 중 (Sleep)
-  ▶ 철학자 B: 오른쪽 포크(Lock 2) 획득 ─▶ 왼쪽 포크(Lock 1) 대기 중 (Sleep)
+  -> 철학자 A: 왼쪽 포크(Lock 1) 획득 --> 오른쪽 포크(Lock 2) 대기 중 (Sleep)
+  -> 철학자 B: 오른쪽 포크(Lock 2) 획득 --> 왼쪽 포크(Lock 1) 대기 중 (Sleep)
 
   🚨 시스템의 결과 (Deadlock):
   - A는 B가 포크 2를 내려놓길 기다린다.
@@ -55,30 +55,30 @@ tags = ["studynote-operating-system"]
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">No Preemption</a>)</strong>
    - **의미**: 남이 쥐고 있는 자원을 경찰(OS)이나 내가 억지로 뺏어올(선점할) 수 없고, 걔가 스스로 놓을 때까지 착하게 기다려야만 한다.
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">순환 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">Circular Wait</a>)</strong>
-   - **의미**: 프로세스 A ─▶ B ─▶ C ─▶ A 형태로 대기하는 사슬이 원형으로 꼬리를 물어야 한다. (일직선 대기는 데드락 아님).
+   - **의미**: 프로세스 A --> B --> C --> A 형태로 대기하는 사슬이 원형으로 꼬리를 물어야 한다. (일직선 대기는 데드락 아님).
 
 ### [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))
 OS가 데드락을 수학적으로 탐지하기 위해 내부적으로 그리는 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)다.
 - **프로세스 (동그라미)**, **자원 (네모)**
-- <strong>요청 간선 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a> ─▶ Rj)</strong>: 프로세스가 자원을 달라고 징징대는 선.
-- <strong>할당 간선 (Rj ─▶ <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a>)</strong>: 자원이 프로세스에게 먹혀있는 선.
+- <strong>요청 간선 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a> --> Rj)</strong>: 프로세스가 자원을 달라고 징징대는 선.
+- <strong>할당 간선 (Rj --> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a>)</strong>: 자원이 프로세스에게 먹혀있는 선.
 
 **판별법**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 그렸을 때, **사이클(원형 루프)이 존재하고**, 그 사이클 내의 <strong>자원 개수가 각각 1개뿐이라면 100% 데드락</strong>이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │         자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait) 검증    │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │     [ 자원 R1 ] ◀─────────────── [ 프로세스 P2 ]                      │
-  │          │                           ▲                                │
-  │     (할당됨)                      (요청함)                            │
-  │          ▼                           │                                │
-  │     [ 프로세스 P1 ] ──────────────▶ [ 자원 R2 ]                       │
-  │                                                                       │
-  │   🚨 궤적 추적: P1 ─▶ R2 ─▶ P2 ─▶ R1 ─▶ P1 (완벽한 동그라미)          │
-  │   ✅ 결과: 데드락 확정. 커널은 이 그래프 사이클을 찾는 알고리즘을 씀. │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |         자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait) 검증    |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |     [ 자원 R1 ] <---------------- [ 프로세스 P2 ]                      |
+  |          |                           ^                                |
+  |     (할당됨)                      (요청함)                            |
+  |          v                           |                                |
+  |     [ 프로세스 P1 ] ---------------> [ 자원 R2 ]                       |
+  |                                                                       |
+  |   🚨 궤적 추적: P1 --> R2 --> P2 --> R1 --> P1 (완벽한 동그라미)          |
+  |   ✅ 결과: 데드락 확정. 커널은 이 그래프 사이클을 찾는 알고리즘을 씀. |
+  +-----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이 4가지 조건은 완벽한 범죄의 조건입니다. 1. 장물이 하나뿐이고([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), 2. 훔친 걸 손에 쥐고 있고([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)), 3. 경찰이 뺏을 수 없고([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)), 4. 범인 3명이 서로 꼬리를 물고 협박([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))해야만 데드락이라는 인질극이 성립합니다.
@@ -118,23 +118,23 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
    - **아키텍트 조치**: 무한 대기([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))를 막기 위해 락을 잡을 때 반드시 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(Time-to-Live, 3초 등)</strong>을 건다. 서버가 죽어도 3초 뒤에 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)가 알아서 락을 증발시켜 주므로 데드락이 자동 해소된다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     개발자의 코드 레벨 교착 상태(Deadlock) 예방 아키텍처 원칙      │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [요구사항: 스레드 10개가 5개의 전역 자원(Mutex)을 다뤄야 함]     │
-  │                │                                                   │
-  │                ▼ 원칙 1: Lock Hierarchy (계층화) 강제              │
-  │   [ ✅ 모든 락에 고유 번호를 매기고, 오름차순으로만 획득할 것! ]   │
-  │     - 무조건 Mutex1 -> Mutex2 -> Mutex3 순서로만 잡게 함.          │
-  │     - 효과: 순환 대기(Circular Wait) 조건이 수학적으로 100% 붕괴됨.│
-  │                                                                    │
-  │                ▼ 원칙 2: Try-Lock (타임아웃) 사용                  │
-  │   [ ✅ lock() 대신 무조건 tryLock(3초) 를 사용할 것! ]             │
-  │     - 3초간 기다려보고 락을 못 잡으면, 내가 쥐고 있던 락마저       │
-  │       전부 다 풀고 10초 뒤에 처음부터 다시 시도(Retry)하게 함.     │
-  │     - 효과: 점유 대기(Hold and Wait) 조건이 완벽히 파괴됨.         │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     개발자의 코드 레벨 교착 상태(Deadlock) 예방 아키텍처 원칙      |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [요구사항: 스레드 10개가 5개의 전역 자원(Mutex)을 다뤄야 함]     |
+  |                |                                                   |
+  |                v 원칙 1: Lock Hierarchy (계층화) 강제              |
+  |   [ ✅ 모든 락에 고유 번호를 매기고, 오름차순으로만 획득할 것! ]   |
+  |     - 무조건 Mutex1 -> Mutex2 -> Mutex3 순서로만 잡게 함.          |
+  |     - 효과: 순환 대기(Circular Wait) 조건이 수학적으로 100% 붕괴됨.|
+  |                                                                    |
+  |                v 원칙 2: Try-Lock (타임아웃) 사용                  |
+  |   [ ✅ lock() 대신 무조건 tryLock(3초) 를 사용할 것! ]             |
+  |     - 3초간 기다려보고 락을 못 잡으면, 내가 쥐고 있던 락마저       |
+  |       전부 다 풀고 10초 뒤에 처음부터 다시 시도(Retry)하게 함.     |
+  |     - 효과: 점유 대기(Hold and Wait) 조건이 완벽히 파괴됨.         |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "OS가 막아주지 않으니 내가 막아야 한다." 실무 백엔드 시스템에서 데드락을 막는 가장 싸고 확실한 방법은, [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/)(Linting)으로 "모든 락은 알파벳 순서(또는 ID 순서)로만 잡는다"는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">순환 대기</a> 방지(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)</strong>를 강제하는 것이다. 화살표가 무조건 한 방향으로만 흐르면 절대 동그라미(Cycle)가 만들어질 수 없다는 단순한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론의 승리다.
 
@@ -168,12 +168,12 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
 
 ```text
 [Compare-and-Swap (CAS) 명령어]
-    │
-    ▼
+    |
+    v
 [교착 상태 (Deadlock)]
-    │
-    ├──▶ [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
-    └──▶ [acquire() / release() 함수]
+    |
+    +---> [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
+    +---> [acquire() / release() 함수]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -190,7 +190,7 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
 
 **진행 상황**: 230 / 800
 
-← **이전**: [229. 모니터 (Monitor)](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)
-**다음**: [231. 점유 대기 (Hold and Wait)](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) →
+<- **이전**: [229. 모니터 (Monitor)](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)
+**다음**: [231. 점유 대기 (Hold and Wait)](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPS 차단 아키텍처]
-    │
-    ▼
+    |
+    v
 [WAF]
-    │
-    └──▶ [UTM]
+    |
+    +---> [UTM]
 ```
 
 - **📢 섹션 요약 비유**: WAF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ WAF가 막아내야 할 주적(Target)은 전 세계 웹 해킹 방어 표준 �
 
 ```text
 [IPS 차단 아키텍처]
-    │
-    ▼
+    |
+    v
 [WAF]
-    │
-    └──▶ [UTM]
+    |
+    +---> [UTM]
 ```
 
 - **📢 섹션 요약 비유**: WAF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -109,12 +109,12 @@ WAF는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ```text
 [선행 개념: IPS 차단 아키텍처]
-    │
-    ▼
+    |
+    v
 [현재 개념: WAF]
-    │
-    ├──▶ [확장 A: UTM]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: UTM]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 WAF는 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 UTM와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -131,7 +131,7 @@ WAF는 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695
 
 **진행 상황**: 817 / 1120
 
-← **이전**: [695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)
-**다음**: [697. UTM (Unified Threat Management 패키징 통합형 장비)](/knowledge-base/studynote/03_network/13_network_security_basics/697_utm_unified_threat_management/) →
+<- **이전**: [695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)
+**다음**: [697. UTM (Unified Threat Management 패키징 통합형 장비)](/knowledge-base/studynote/03_network/13_network_security_basics/697_utm_unified_threat_management/) ->
 
 ---

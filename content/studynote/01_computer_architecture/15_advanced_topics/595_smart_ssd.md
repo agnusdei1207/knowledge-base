@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 기존 경로와 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 경로의 차이를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Smart SSD reduces movement by processing before the host sees raw bytes   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Traditional path                                                          │
-│ NAND -> SSD Controller -> PCIe -> Host Memory -> CPU/GPU -> Result        │
-│                                                                            │
-│ Smart SSD path                                                            │
-│ NAND -> SSD Controller -> In-drive Accelerator -> Small Result -> Host    │
-│                                                                            │
-│ Best fit: scan/filter workloads where most input bytes are discarded       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Smart SSD reduces movement by processing before the host sees raw bytes   |
++----------------------------------------------------------------------------+
+| Traditional path                                                          |
+| NAND -> SSD Controller -> PCIe -> Host Memory -> CPU/GPU -> Result        |
+|                                                                            |
+| Smart SSD path                                                            |
+| NAND -> SSD Controller -> In-drive Accelerator -> Small Result -> Host    |
+|                                                                            |
+| Best fit: scan/filter workloads where most input bytes are discarded       |
++----------------------------------------------------------------------------+
 ```
 
 중요한 점은 스마트 SSD가 서버 CPU를 대체하는 범용 컴퓨터가 아니라는 사실이다. 호스트는 여전히 작업을 지시하고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 상태를 관리하며, 최종 결과를 통합한다. 스마트 SSD는 그 사이에서 반복적이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성이 강한 전처리 작업을 대신 맡는 <strong>특수 작업장</strong>에 가깝다.
@@ -61,17 +61,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 나뉘는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Smart SSD splits control on host and data reduction inside the drive      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host Job Descriptor --------------------------------------------------┐    │
-│                                                                      ▼    │
-│                         [Control Queue / Scheduler]                        │
-│                                      │                                     │
-│ NAND Pages -> SSD Controller -> Internal DMA -> Accelerator -> Result      │
-│                                      │                        │             │
-│                                      └---- raw bytes stay inside ----------┘
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Smart SSD splits control on host and data reduction inside the drive      |
++----------------------------------------------------------------------------+
+| Host Job Descriptor --------------------------------------------------+    |
+|                                                                      v    |
+|                         [Control Queue / Scheduler]                        |
+|                                      |                                     |
+| NAND Pages -> SSD Controller -> Internal DMA -> Accelerator -> Result      |
+|                                      |                        |             |
+|                                      +---- raw bytes stay inside ----------+
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 판단 축은 reduction ratio다. 예를 들어 10테라바이트를 읽어 100메가바이트 결과만 내는 검색 작업은 매우 잘 맞지만, 10테라바이트를 읽어 8테라바이트를 다시 보내야 하는 저선택도(low [selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)) 작업은 이점이 작다. 따라서 스마트 SSD는 “모든 스토리지 연산을 장치 안으로”가 아니라, **많이 버리고 조금만 남기는 작업을 장치 안으로** 옮길 때 가장 빛난다.
@@ -151,17 +151,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 수동적 SSD 저장
-        │
-        ▼
+        |
+        v
 고정 기능 오프로딩 (압축 · 암호화)
-        │
-        ▼
+        |
+        v
 FPGA / Embedded Core 기반 Smart SSD
-        │
-        ▼
+        |
+        v
 Drive-level data reduction
-        │
-        ▼
+        |
+        v
 표준화된 Computational Storage 생태계
 ```
 
@@ -179,7 +179,7 @@ Drive-level data reduction
 
 **진행 상황**: 595 / 803
 
-← **이전**: [594. 키-밸류 스토리지 (Key-Value Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/594_kv_ssd/)
-**다음**: [596. 컴퓨테이셔널 스토리지 (Computational Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/596_computational_storage/) →
+<- **이전**: [594. 키-밸류 스토리지 (Key-Value Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/594_kv_ssd/)
+**다음**: [596. 컴퓨테이셔널 스토리지 (Computational Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/596_computational_storage/) ->
 
 ---

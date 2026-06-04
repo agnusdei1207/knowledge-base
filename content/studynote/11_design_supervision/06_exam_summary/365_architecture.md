@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))은 비즈니스 규칙을 가장 안쪽에 두고 외부 기술 의존을 바깥으로 밀어내는 아키텍처 스타일이다. 프레임워크와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 시스템 중심이 되면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 기술 선택에 끌려다니는 문제가 생겼다. 이 개념이 필요한 이유는 비즈니스 규칙을 외부 기술로부터 보호하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 핵심 규칙 변경보다 외부 기술 제약이 더 큰 설계 부담이 된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│   Clean    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|   Clean    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 포트-[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) | [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[프레임워크 중심 설계] → [클린 아키텍처] → [정책 중심 시스템]
+[프레임워크 중심 설계] -> [클린 아키텍처] -> [정책 중심 시스템]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))은 집 안쪽 방을 먼저 짓고 바깥 벽지와 가구는 나중에 고르는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 443 / 530
 
-← **이전**: [364. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/364_architecture/)
-**다음**: [366. 헥사고날 아키텍처 (Hexagonal Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/) →
+<- **이전**: [364. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/364_architecture/)
+**다음**: [366. 헥사고날 아키텍처 (Hexagonal Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/) ->
 
 ---

@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) vs [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) ([레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) vs [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) 진영 경쟁)은 빅데이터 환경에서 플랫폼 경쟁을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 키워드          │──▶│ 연상 묶음        │──▶│ 시험 회상        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 키워드          |--->| 연상 묶음        |--->| 시험 회상        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 주제별 스티커 앨범처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 시험 회상 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 키워드          │──▶│ 연상 묶음        │──▶│ 시험 회상        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 키워드          |--->| 연상 묶음        |--->| 시험 회상        |
++--------------+   +--------------+   +--------------+
 ```
 
 Databricks와 Snowflake은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -109,17 +109,17 @@ DW와도 연결해 보면, 기술 선택은 결국 [데이터](/knowledge-base/s
 
 ```text
 [전통 데이터 웨어하우스 (Traditional DW) — 정형 데이터·SQL·온프레미스 배치]
-    │
-    ▼
+    |
+    v
 [클라우드 DW 등장 (Cloud DW) — 스토리지/컴퓨트 분리, 탄력적 확장]
-    │
-    ▼
+    |
+    v
 [Snowflake — 멀티클러스터 공유 데이터·SQL 분석 최적화 서버리스 DW]
-    │
-    ▼
+    |
+    v
 [Databricks (레이크하우스) — Delta Lake 위에서 SQL·ML·스트리밍 통합]
-    │
-    ▼
+    |
+    v
 [레이크하우스 아키텍처 (Lakehouse) — DW 구조화 + 데이터 레이크 유연성 융합]
 ```
 
@@ -137,7 +137,7 @@ DW와도 연결해 보면, 기술 선택은 결국 [데이터](/knowledge-base/s
 
 **진행 상황**: 240 / 262
 
-← **이전**: [234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)](/knowledge-base/studynote/16_bigdata/12_trends/239_architecture/)
-**다음**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/knowledge-base/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/) →
+<- **이전**: [234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)](/knowledge-base/studynote/16_bigdata/12_trends/239_architecture/)
+**다음**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/knowledge-base/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/) ->
 
 ---

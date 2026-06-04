@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.
-> 2. **가치**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)→[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)→[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
+> 2. **가치**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
 > 3. **판단 포인트**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(성공 요청/전체)·레이턴시(p99 < 200ms 요청/전체)·에러율(5xx 에러/전체)이 3대 SLI이며, <strong>사용자에게 의미 있는 지표</strong>를 선택하는 것이 핵심이다.
 
 ---
@@ -19,20 +19,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    SLI 계산 예시                                      │
-├───────────────────────────────────────────────────────┤
-│  [가용성 SLI]                                         │
-│   성공 요청: 99,950건 / 전체: 100,000건              │
-│   → SLI = 99.95%                                     │
-│                                                       │
-│  [레이턴시 SLI]                                       │
-│   p99 < 200ms 요청: 99,700건 / 전체: 100,000건      │
-│   → SLI = 99.7%                                      │
-│                                                       │
-│  SLO: SLI ≥ 99.9% (목표)                             │
-│  Error Budget: 100% - 99.9% = 0.1%                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    SLI 계산 예시                                      |
++-------------------------------------------------------+
+|  [가용성 SLI]                                         |
+|   성공 요청: 99,950건 / 전체: 100,000건              |
+|   -> SLI = 99.95%                                     |
+|                                                       |
+|  [레이턴시 SLI]                                       |
+|   p99 < 200ms 요청: 99,700건 / 전체: 100,000건      |
+|   -> SLI = 99.7%                                      |
+|                                                       |
+|  SLO: SLI ≥ 99.9% (목표)                             |
+|  Error Budget: 100% - 99.9% = 0.1%                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SLI는 학생의 <strong>시험 점수</strong>이고, SLO는 <strong>합격 기준(90점 이상)</strong>이며, Error Budget은 <strong>틀려도 되는 문제 수</strong>이다.
@@ -96,17 +96,17 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 ```text
 [가용성 99.999% 목표 (전통 운영)]
-    │
-    ▼
+    |
+    v
 [SRE (Google, 2003~) — SLI/SLO/Error Budget 정의]
-    │
-    ▼
+    |
+    v
 [Prometheus + Grafana SLI 대시보드 (2016~)]
-    │
-    ▼
+    |
+    v
 [OpenSLO 표준 (2022~) — SLI/SLO YAML 정의]
-    │
-    ▼
+    |
+    v
 [현재: AI SLI — 이상 탐지 기반 자동 SLI 추천]
 ```
 
@@ -121,7 +121,7 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 **진행 상황**: 122 / 373
 
-← **이전**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
-**다음**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) →
+<- **이전**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
+**다음**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ->
 
 ---

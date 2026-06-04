@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 위험 등급, 허용 불가 (Unacceptable), 고위험 (High-[risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 및 윤리 ([AI Ethics](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/) & Governance) 가이드라인 제정이 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | 제한적 위험 (Limited [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정]
-    │
-    ├──▶ [허용 불가 (Unacceptable)]
-    └──▶ [고위험 (High-risk)]
+    |
+    +---> [허용 불가 (Unacceptable)]
+    +---> [고위험 (High-risk)]
 ```
 
 이 흐름은 선행 요구를 기준으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 및 윤리 ([AI Ethics](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/) & Governance) 가이드라인 제정을 정착시키고, 이후 허용 불가 (Unacceptable)와 고위험 (High-[risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 340 / 587
 
-← **이전**: [225. 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)
-**다음**: [227. 설명 가능한 AI (XAI) 도입](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) →
+<- **이전**: [225. 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)
+**다음**: [227. 설명 가능한 AI (XAI) 도입](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [Spine-Leaf 대용량 클로스 구조]
-    │
-    ▼
+    |
+    v
 [IBN 선행 AI 설계]
-    │
-    └──▶ [화이트박스 OCP 스위치]
+    |
+    +---> [화이트박스 OCP 스위치]
 ```
 
 - **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [Spine-Leaf 대용량 클로스 구조]
-    │
-    ▼
+    |
+    v
 [IBN 선행 AI 설계]
-    │
-    └──▶ [화이트박스 OCP 스위치]
+    |
+    +---> [화이트박스 OCP 스위치]
 ```
 
 - **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Spine-Leaf 대용량 클로스 구조]
-    │
-    ▼
+    |
+    v
 [현재 개념: IBN 선행 AI 설계]
-    │
-    ├──▶ [확장 A: 화이트박스 OCP 스위치]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 화이트박스 OCP 스위치]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 Spine-Leaf 대용량 클로스 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 159 / 1120
 
-← **이전**: [1053. Spine-Leaf 대용량 클로스 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1053_spine_leaf_clos_architecture_data_center/)
-**다음**: [1055. 화이트박스 OCP 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/) →
+<- **이전**: [1053. Spine-Leaf 대용량 클로스 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1053_spine_leaf_clos_architecture_data_center/)
+**다음**: [1055. 화이트박스 OCP 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/) ->
 
 ---

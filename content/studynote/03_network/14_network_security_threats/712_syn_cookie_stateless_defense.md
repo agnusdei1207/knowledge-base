@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [SYN Flood 공격]
-    │
-    ▼
+    |
+    v
 [SYN Flood 대응]
-    │
-    └──▶ [ICMP Smurf 공격 / 스머핑 라우터…]
+    |
+    +---> [ICMP Smurf 공격 / 스머핑 라우터…]
 ```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [SYN Flood 공격]
-    │
-    ▼
+    |
+    v
 [SYN Flood 대응]
-    │
-    └──▶ [ICMP Smurf 공격 / 스머핑 라우터…]
+    |
+    +---> [ICMP Smurf 공격 / 스머핑 라우터…]
 ```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SYN Flood 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: SYN Flood 대응]
-    │
-    ├──▶ [확장 A: ICMP Smurf 공격 / 스머핑 라우터…]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: ICMP Smurf 공격 / 스머핑 라우터…]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응는 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 833 / 1120
 
-← **이전**: [711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)](/knowledge-base/studynote/03_network/14_network_security_threats/711_syn_flood_attack_backlog_queue/)
-**다음**: [713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계](/knowledge-base/studynote/03_network/14_network_security_threats/713_icmp_smurf_attack_directed_broadcast/) →
+<- **이전**: [711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)](/knowledge-base/studynote/03_network/14_network_security_threats/711_syn_flood_attack_backlog_queue/)
+**다음**: [713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계](/knowledge-base/studynote/03_network/14_network_security_threats/713_icmp_smurf_attack_directed_broadcast/) ->
 
 ---

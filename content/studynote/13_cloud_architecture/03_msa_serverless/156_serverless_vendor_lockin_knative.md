@@ -40,26 +40,26 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 | 운영 부담 | 낮음 | 중간~높음 (K8s 관리 필요) |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Knative 아키텍처 개요                               │
-│                                                                      │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                   Knative 레이어                              │  │
-│  │                                                               │  │
-│  │  ┌──────────────────┐     ┌──────────────────────────────┐  │  │
-│  │  │  Knative Serving │     │  Knative Eventing            │  │  │
-│  │  │                  │     │                              │  │  │
-│  │  │  ▶ HTTP 트래픽   │     │  ▶ CloudEvents 표준          │  │  │
-│  │  │  ▶ 자동 스케일링 │     │  ▶ Broker/Trigger 라우팅    │  │  │
-│  │  │  ▶ 0→N 스케일아웃│     │  ▶ Kafka/RabbitMQ 연동      │  │  │
-│  │  │  ▶ 트래픽 분할   │     │                              │  │  │
-│  │  └──────────────────┘     └──────────────────────────────┘  │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-│                         │                                           │
-│  ┌────────────────────── │──────────────────────────────────────┐  │
-│  │          Kubernetes (GKE, EKS, AKS, on-prem)                 │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Knative 아키텍처 개요                               |
+|                                                                      |
+|  +---------------------------------------------------------------+  |
+|  |                   Knative 레이어                              |  |
+|  |                                                               |  |
+|  |  +------------------+     +------------------------------+  |  |
+|  |  |  Knative Serving |     |  Knative Eventing            |  |  |
+|  |  |                  |     |                              |  |  |
+|  |  |  -> HTTP 트래픽   |     |  -> CloudEvents 표준          |  |  |
+|  |  |  -> 자동 스케일링 |     |  -> Broker/Trigger 라우팅    |  |  |
+|  |  |  -> 0->N 스케일아웃|     |  -> Kafka/RabbitMQ 연동      |  |  |
+|  |  |  -> 트래픽 분할   |     |                              |  |  |
+|  |  +------------------+     +------------------------------+  |  |
+|  +---------------------------------------------------------------+  |
+|                         |                                           |
+|  +---------------------- |--------------------------------------+  |
+|  |          Kubernetes (GKE, EKS, AKS, on-prem)                 |  |
+|  +--------------------------------------------------------------+  |
++----------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Knative는 범용 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(USB-C) — 어떤 벤더의 기기(클라우드)에도 연결 가능하도록 표준 인터페이스를 제공한다.
@@ -80,7 +80,7 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 <strong>탈출 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Exit <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>) 설계</strong>
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/">어댑터 패턴</a></strong>: 벤더 이벤트 형식을 내부 공통 형식으로 변환하는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층 추가
 2. **CloudEvents 표준 채택**: [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) CloudEvents 스펙으로 이벤트 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 이미지 기반 배포</strong>: 함수를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 패키징 → Knative/[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 모두 실행 가능
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 이미지 기반 배포</strong>: 함수를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 패키징 -> Knative/[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 모두 실행 가능
 4. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">인프라 코드</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Pulumi로 벤더 리소스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)
 
 📢 **섹션 요약 비유**: CloudEvents 표준은 국제 표준 규격 콘센트 — 각국 콘센트 모양이 달라도 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 하나로 어디서나 전기를 쓸 수 있게 해준다.
@@ -131,14 +131,14 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 
 ```text
 CSP 전용 FaaS (벤더 종속)
-    │
-    ▼
+    |
+    v
 Knative: K8s 기반 오픈소스 서버리스 프레임워크
-    ├─► Serving: 자동 스케일링 · 리비전 관리
-    └─► Eventing: 이벤트 소스 바인딩
-    │
-    ▼
-Cloud-Agnostic 서버리스 → 멀티클라우드 이식성
+    +-► Serving: 자동 스케일링 · 리비전 관리
+    +-► Eventing: 이벤트 소스 바인딩
+    |
+    v
+Cloud-Agnostic 서버리스 -> 멀티클라우드 이식성
 ```
 2. Knative는 모든 게임기에서 돌아가는 온라인 게임 — 어느 회사 기기에서도 같은 게임을 즐길 수 있어요.
 3. 자유롭게 게임기를 바꿀 수 있지만, 그러려면 온라인 게임 서버([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))를 직접 관리해야 해요.
@@ -149,7 +149,7 @@ Cloud-Agnostic 서버리스 → 멀티클라우드 이식성
 
 **진행 상황**: 155 / 371
 
-← **이전**: [155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/155_event_trigger_serverless_architecture/)
-**다음**: [157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/157_bdi_graphql_api_aggregation/) →
+<- **이전**: [155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/155_event_trigger_serverless_architecture/)
+**다음**: [157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/157_bdi_graphql_api_aggregation/) ->
 
 ---

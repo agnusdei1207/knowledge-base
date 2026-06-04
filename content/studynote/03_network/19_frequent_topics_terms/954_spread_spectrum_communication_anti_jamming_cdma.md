@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [매체 접근 제어]
-    │
-    ▼
+    |
+    v
 [확산 스펙트럼]
-    │
-    └──▶ [FHSS]
+    |
+    +---> [FHSS]
 ```
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [매체 접근 제어]
-    │
-    ▼
+    |
+    v
 [확산 스펙트럼]
-    │
-    └──▶ [FHSS]
+    |
+    +---> [FHSS]
 ```
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 매체 접근 제어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 확산 스펙트럼]
-    │
-    ├──▶ [확장 A: FHSS]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: FHSS]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 확산 스펙트럼는 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FHSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1075 / 1120
 
-← **이전**: [953. 매체 접근 제어 (MAC)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/953_mac_media_access_control_contention_controlled_channelization/)
-**다음**: [955. FHSS (주파수 도약)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) →
+<- **이전**: [953. 매체 접근 제어 (MAC)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/953_mac_media_access_control_contention_controlled_channelization/)
+**다음**: [955. FHSS (주파수 도약)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) ->
 
 ---

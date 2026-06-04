@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 수십 테라바이트(TB)의 거대 행렬을 1만 대의 컴퓨터가 어떻게 나눠 먹고 핑퐁(Communication)을 치는가.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│         HPL (High-Performance Linpack) 분산 슈퍼컴퓨팅 십자 융합 도해 🚀 │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ 🧮 [ 문제: 행렬 A 와 X 를 곱해서 B 를 만들어라! (Ax = B) ]              │
-│   (데이터가 수 TB 라서 컴퓨터 1대 램(RAM)에는 절대 안 들어감 파국 💥!)     │
-│                                                                    │
-│ 1️⃣ [ 분할 찢기 (Matrix Tiling) ]                                    │
-│   - 거대 행렬을 CPU L1/L2 캐시에 딱 들어맞는 크기로 '타일(Tile)' 조각으로 찢음!│
-│                                                                    │
-│ 2️⃣ [ MPI 통신 핑퐁 (Network Communication 쉴드 ✨) ]                │
-│   - 수만 대의 컴퓨터 노드(Node)에 이 타일들을 인피니밴드 네트워크로 뿌려 줌.    │
-│   - 🌟 팩폭 딜레마: 코어끼리 연산 중간 결과를 계속 서로 던지고 받아야 함!        │
-│     네트워크(스위치)가 구리면 핑 랙 터져서 CPU는 노는데 점수 떡락 뻗음 💀.       │
-│                                                                    │
-│ 3️⃣ [ FMA 융합 타격 (Fused Multiply-Add) ]                           │
-│   - 모든 GPU/CPU 코어가 행렬을 씹어 먹으며 **[곱하고 ➔ 더하기]** 연산을 1클럭에 │
-│     동시에 쳐 갈기는 하드웨어 융합 엔진(FMA) 풀가동 풀악셀 발동 쾅 🚀!!         │
-│                                                                    │
-│ 🏆 [ 최종 엑스레이 점수 산출 ]                                         │
-│   - 1초당 이 짓거리를 몇 번 해치웠냐? ➔ **[단위: TFLOPS, PFLOPS 록온]**    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|         HPL (High-Performance Linpack) 분산 슈퍼컴퓨팅 십자 융합 도해 🚀 |
++--------------------------------------------------------------------+
+|                                                                    |
+| 🧮 [ 문제: 행렬 A 와 X 를 곱해서 B 를 만들어라! (Ax = B) ]              |
+|   (데이터가 수 TB 라서 컴퓨터 1대 램(RAM)에는 절대 안 들어감 파국 💥!)     |
+|                                                                    |
+| 1️⃣ [ 분할 찢기 (Matrix Tiling) ]                                    |
+|   - 거대 행렬을 CPU L1/L2 캐시에 딱 들어맞는 크기로 '타일(Tile)' 조각으로 찢음!|
+|                                                                    |
+| 2️⃣ [ MPI 통신 핑퐁 (Network Communication 쉴드 ✨) ]                |
+|   - 수만 대의 컴퓨터 노드(Node)에 이 타일들을 인피니밴드 네트워크로 뿌려 줌.    |
+|   - 🌟 팩폭 딜레마: 코어끼리 연산 중간 결과를 계속 서로 던지고 받아야 함!        |
+|     네트워크(스위치)가 구리면 핑 랙 터져서 CPU는 노는데 점수 떡락 뻗음 💀.       |
+|                                                                    |
+| 3️⃣ [ FMA 융합 타격 (Fused Multiply-Add) ]                           |
+|   - 모든 GPU/CPU 코어가 행렬을 씹어 먹으며 **[곱하고 ➔ 더하기]** 연산을 1클럭에 |
+|     동시에 쳐 갈기는 하드웨어 융합 엔진(FMA) 풀가동 풀악셀 발동 쾅 🚀!!         |
+|                                                                    |
+| 🏆 [ 최종 엑스레이 점수 산출 ]                                         |
+|   - 1초당 이 짓거리를 몇 번 해치웠냐? ➔ **[단위: TFLOPS, PFLOPS 록온]**    |
++--------------------------------------------------------------------+
 ```
 
 **[아키텍트의 피 터지는 메스: [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) $O(N^3)$ 의 늪]**
@@ -125,17 +125,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 초창기 덧셈 계산기 시대 / 걍 워드 치는 수준이다가 ➔ 기상청, 국방부 등 소수점 10자리 미적분 시뮬레이션 실수 연산(FPU) 쇳덩이 파워 요구 떡상 🚀
-    │
-    ▼
+    |
+    v
 Linpack 벤치마크 탄생 대관식 ✨ / "야 인공 잡쓰레기 코드 치워 쾅! 순수 수학 100% 꽉 찬 연립방정식(Dense Matrix) 거대 행렬 던져서 1초에 몇 번(FLOPS) 도륙 내는지 팩트 채점 쳐 쾅!"
-    │
-    ▼
+    |
+    v
 HPL (High-Performance Linpack) & 분산 클러스터 융합 🚀 / 컴퓨터 1대 스펙 맹신 찢어발김 ➔ "수만 대 컴퓨터 엮어 텐트 치고, 인피니밴드(네트워크) 핑퐁 랙까지 종합 엑스레이 스캔 쳐서 TOP500 국가 랭킹 세워 록온 쾅!"
-    │
-    ▼
+    |
+    v
 HPCG 벤치마크 라이벌 등장 🛡️ / "린팩 씨발 꽉 찬 데이터만 푸니까 메모리 랙 1도 안 걸리지 뻥튀기 사기 컷 💥! 현실처럼 텅 빈(Sparse) 데이터 줘서 찐 메모리 병목 실력 까발려 팩폭 쳐!" (현재 투 트랙 융합 발표 중)
-    │
-    ▼
+    |
+    v
 LLM 딥러닝 텐서(Tensor) 시대 (현재) ✨ / 린팩 행렬 곱셈 뼈대가 AI 신경망 가중치 훈련(Matrix Multiply) 수학 수식 구조랑 100% 완벽 오차 없이 아다리 맞물려 일치 ➔ "린팩 최고봉 1등 머신 = 인류 최강 AI 브레인" 우주 대통일 진리 공식 록온 확정 완료 🚀
 ```
 
@@ -151,7 +151,7 @@ LLM 딥러닝 텐서(Tensor) 시대 (현재) ✨ / 린팩 행렬 곱셈 뼈대�
 
 **진행 상황**: 153 / 803
 
-← **이전**: [152. Whetstone (웻스톤) 벤치마크](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/152_whetstone/)
-**다음**: [154. TPC 벤치마크 (Transaction Processing Performance Council)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/) →
+<- **이전**: [152. Whetstone (웻스톤) 벤치마크](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/152_whetstone/)
+**다음**: [154. TPC 벤치마크 (Transaction Processing Performance Council)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/) ->
 
 ---

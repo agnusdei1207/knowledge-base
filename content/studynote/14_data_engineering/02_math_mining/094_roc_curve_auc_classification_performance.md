@@ -39,22 +39,22 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 | AUC (Area Under Curve) | ROC 곡선 아래 면적 크기 | 0.5 ~ 1.0 범위 | 1.0에 가까울수록 우수함 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  ROC Curve & AUC Score                     │
-├──────────────────────────────────────────────────────────────┤
-│ TPR (Recall) ^   [ AUC = 1.0 : 완벽한 모델 ]               │
-│      1.0 ────┼───────────────▶                             │
-│          │   │ ┌─────────                              │
-│          │   │ │      [ AUC = 0.8 : 우수한 모델 ]          │
-│          │   │.                                        │
-│          │   . │                                       │
-│          │   │                                         │
-│      0.5 ────┼── . ── ─ ─ ─ ─[ AUC = 0.5 : 무작위 찍기 ] │
-│          │   │        .                                │
-│          │   │            .                            │
-│      0.0 ────┼───────────────▶ FPR (False Positive Rate)│
-│              0.0    0.5    1.0                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  ROC Curve & AUC Score                     |
++--------------------------------------------------------------+
+| TPR (Recall) ^   [ AUC = 1.0 : 완벽한 모델 ]               |
+|      1.0 ----+---------------->                             |
+|          |   | +---------                              |
+|          |   | |      [ AUC = 0.8 : 우수한 모델 ]          |
+|          |   |.                                        |
+|          |   . |                                       |
+|          |   |                                         |
+|      0.5 ----+-- . -- - - - -[ AUC = 0.5 : 무작위 찍기 ] |
+|          |   |        .                                |
+|          |   |            .                            |
+|      0.0 ----+----------------> FPR (False Positive Rate)|
+|              0.0    0.5    1.0                         |
++--------------------------------------------------------------+
 ```
 
 아무런 학습 능력이 없는 무작위 예측(Random Guess) 모델은 대각선을 형성하여 AUC가 0.5가 된다. 반면 양성과 음성을 100% 완벽하게 분리해 내는 모델은 곡선이 왼쪽 위 꼭짓점(0,1)에 닿아 전체 면적인 1.0을 차지하게 된다.
@@ -122,21 +122,21 @@ ROC-AUC 지표를 표준으로 삼으면 비즈니스 환경이 급변하여 커
 
 ```text
 Confusion Matrix (단일 임계값 평가)
-    │
-    ▼
+    |
+    v
 FPR / TPR 계산 · Threshold 이동
-    │
-    ▼
+    |
+    v
 ROC Curve 도출 (연속적 성능 궤적)
-    │
-    ▼
+    |
+    v
 AUC (Area Under Curve) 면적 정량화
-    │
-    ▼
+    |
+    v
 PR Curve 병행 분석 (클래스 불균형 극복)
 ```
 
-이 흐름도는 "점(단일 지표) → 선(곡선 궤적) → 면(통합 수치) → 보완([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))"으로 모델 평가 방법이 정교해지는 과정을 보여준다.
+이 흐름도는 "점(단일 지표) -> 선(곡선 궤적) -> 면(통합 수치) -> 보완([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))"으로 모델 평가 방법이 정교해지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +150,7 @@ PR Curve 병행 분석 (클래스 불균형 극복)
 
 **진행 상황**: 94 / 258
 
-← **이전**: [F1-Score: 정밀도와 재현율의 균형 잡힌 심판](/knowledge-base/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/)
-**다음**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/) →
+<- **이전**: [F1-Score: 정밀도와 재현율의 균형 잡힌 심판](/knowledge-base/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/)
+**다음**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/) ->
 
 ---

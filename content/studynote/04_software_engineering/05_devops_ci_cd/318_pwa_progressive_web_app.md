@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: PWA는 구글(Google)이 주도한 웹 기술 표준으로, 1) `설치 가능(Installable)`하고, 2) 비행기 모드에서도 `오프라인 작동(Offline-capable)`하며, 3) 앱처럼 알림을 보내는 `푸시(Push Notifications)` 기능을 웹 브라우저 기술만으로 달성한 웹 앱이다.
 
-- **필요성**: 커피 쿠폰을 받기 위해 카페의 전단지 QR코드를 찍었다. 그런데 "앱 스토어로 이동 → 100MB 앱 다운로드 → 기다림 → 권한 동의"를 거쳐야 한다. 짜증 난 고객 10명 중 8명은 다운로드 중간에 이탈(Bounce)해 버린다. 만약 QR코드를 찍어 웹 브라우저로 들어온 순간, 화면 하단에 "홈 화면에 추가" 버튼 하나만 누르면 바로 내 폰 바탕화면에 앱 아이콘이 깔리고 푸시 알림까지 온다면? 스토어 심사도 없고 다운로드 대기 시간도 없는, 웹과 앱의 장점만 합친 꿈의 기술이 필요했다.
+- **필요성**: 커피 쿠폰을 받기 위해 카페의 전단지 QR코드를 찍었다. 그런데 "앱 스토어로 이동 -> 100MB 앱 다운로드 -> 기다림 -> 권한 동의"를 거쳐야 한다. 짜증 난 고객 10명 중 8명은 다운로드 중간에 이탈(Bounce)해 버린다. 만약 QR코드를 찍어 웹 브라우저로 들어온 순간, 화면 하단에 "홈 화면에 추가" 버튼 하나만 누르면 바로 내 폰 바탕화면에 앱 아이콘이 깔리고 푸시 알림까지 온다면? 스토어 심사도 없고 다운로드 대기 시간도 없는, 웹과 앱의 장점만 합친 꿈의 기술이 필요했다.
 
 - **💡 비유**: PWA는 <strong>'밀키트를 시켰더니 요리사가 따라온 것'</strong>과 같습니다. 겉보기엔 그냥 인터넷 접속해서 보는 평범한 웹페이지(웹)인데, 주머니 속에 살짝 숨어있던 요리사([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커)가 내 핸드폰 깊숙이 자리 잡고 인터넷이 끊긴 무인도에서도(오프라인) 요리를 뚝딱 만들어 보여주는 앱의 역할을 합니다.
 
@@ -37,16 +37,16 @@ tags = ["studynote-software-engineering"]
 다음은 프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), Pro의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프로그레시브 웹 앱 (PWA, Pro                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  프로그레시브 웹 앱 (PWA, Pro                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), Pro가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -146,21 +146,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 프로그레시브 웹 앱 (PWA, Progressive Web App) 아키텍처 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 318 / 973
 
-← **이전**: [317. 단일 페이지 애플리케이션 (SPA, Single Page Application) 설계](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/317_spa_single_page_application/)
-**다음**: [319. 웹어셈블리 (WebAssembly) 적용 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) →
+<- **이전**: [317. 단일 페이지 애플리케이션 (SPA, Single Page Application) 설계](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/317_spa_single_page_application/)
+**다음**: [319. 웹어셈블리 (WebAssembly) 적용 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ->
 
 ---

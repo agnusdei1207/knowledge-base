@@ -68,7 +68,7 @@ tags = ["studynote-design-supervision"]
   문서: 보안 설계서에 암호화 명시 (계획)
   직접 테스트: DB 실제 쿼리로 암호화 확인 (객관적)
 
-  → 3가지 일치 = 강한 증거
+  -> 3가지 일치 = 강한 증거
 
 증거 품질 기준 (ISO 19011):
   충분성 (Sufficiency): 결론 도출에 충분한 양
@@ -81,7 +81,7 @@ tags = ["studynote-design-supervision"]
   결론과 증거 연결
 
 감리 결론 = 증거의 함수:
-  "해당 요건 미준수" ← 증거 3건 (관찰+문서+테스트)
+  "해당 요건 미준수" <- 증거 3건 (관찰+문서+테스트)
   증거 없는 결론 = 감리 의견으로 부적절
 ```
 
@@ -108,7 +108,7 @@ MUS (Monetary Unit Sampling):
   예: 코드 리뷰 완료 여부 (Yes/No)
 
   신뢰수준 95%, 허용오류율 5%
-  → 최소 표본 수: 약 60개
+  -> 최소 표본 수: 약 60개
 
 통계적 샘플링 vs 비통계적:
   통계적: 수학적 표본 수 결정, 일반화 가능
@@ -130,7 +130,7 @@ IT 감리 샘플링:
 직접 진단 (테스트) 기법:
 
 유형:
-  재수행 (Re-performance): 동일 절차 재실행 → 결과 비교
+  재수행 (Re-performance): 동일 절차 재실행 -> 결과 비교
   재계산 (Recalculation): 수치/산식 직접 계산
   분석 (Analysis): 데이터 통계/추이 분석
   확인 (Confirmation): 제3자로부터 직접 확인
@@ -259,7 +259,7 @@ AI 기반 코드 품질 자동 분석
 
 **진행 상황**: 61 / 530
 
-← **이전**: [42. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/042_objective_evidence_collection/)
-**다음**: [043. 요구사항 추적성 매트릭스 (RTM)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/) →
+<- **이전**: [42. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/042_objective_evidence_collection/)
+**다음**: [043. 요구사항 추적성 매트릭스 (RTM)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/) ->
 
 ---

@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Model [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))는 ML 모델의 전체 생명주기(실험 → 스테이징 → 프로덕션 → 아카이브)를 중앙에서 관리하는 시스템으로, 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 단일 저장소에 통합한다.
+> 1. **본질**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Model [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))는 ML 모델의 전체 생명주기(실험 -> 스테이징 -> 프로덕션 -> 아카이브)를 중앙에서 관리하는 시스템으로, 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 단일 저장소에 통합한다.
 > 2. **가치**: 모델 계보(Lineage) 추적으로 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로, 어떤 코드로, 어떤 파라미터로" 학습된 모델인지를 완전 재현 가능하게 보존하여 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 버그 디버깅을 지원한다.
 > 3. **판단 포인트**: [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) Model Registry는 실험 추적(Tracking)과 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 통합한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준이지만, 대규모 조직에서는 Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/SageMaker Model [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 같은 클라우드 관리형 솔루션과의 트레이드오프를 고려해야 한다.
 
@@ -24,26 +24,26 @@ tags = ["studynote-data-engineering"]
 
 ```
 모델 레지스트리 없는 세상
-┌────────────────────────────────────────────────────┐
-│  model_v1_final.pkl                                │
-│  model_v1_final_FINAL.pkl                          │
-│  model_v2_new.pkl                                  │
-│  model_v2_production_0312.pkl                      │
-│  model_best_DO_NOT_DELETE.pkl                      │
-│  model_production_BACKUP.pkl                       │
-│                                                    │
-│  → "어떤 모델이 지금 프로덕션에 있는가?" 불명확!  │
-│  → 재현 불가, 롤백 위험, 감사 불가               │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|  model_v1_final.pkl                                |
+|  model_v1_final_FINAL.pkl                          |
+|  model_v2_new.pkl                                  |
+|  model_v2_production_0312.pkl                      |
+|  model_best_DO_NOT_DELETE.pkl                      |
+|  model_production_BACKUP.pkl                       |
+|                                                    |
+|  -> "어떤 모델이 지금 프로덕션에 있는가?" 불명확!  |
+|  -> 재현 불가, 롤백 위험, 감사 불가               |
++----------------------------------------------------+
 
 모델 레지스트리 도입 후 (MLflow)
-┌────────────────────────────────────────────────────┐
-│  Model: fraud_detection                            │
-│  ├── v1: Archived  (2024-01-15, F1=0.89)          │
-│  ├── v2: Archived  (2024-02-01, F1=0.91)          │
-│  ├── v3: Staging   (2024-03-01, F1=0.93)          │
-│  └── v4: Production (2024-03-15, F1=0.94)         │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|  Model: fraud_detection                            |
+|  +-- v1: Archived  (2024-01-15, F1=0.89)          |
+|  +-- v2: Archived  (2024-02-01, F1=0.91)          |
+|  +-- v3: Staging   (2024-03-01, F1=0.93)          |
+|  +-- v4: Production (2024-03-15, F1=0.94)         |
++----------------------------------------------------+
 ```
 
 ### 1.2 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 필요한 이유
@@ -56,7 +56,7 @@ tags = ["studynote-data-engineering"]
 | <strong>규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결정 근거 설명 불가 | 완전한 계보(Lineage) 추적 |
 | **팀 협업** | 다른 팀의 모델 현황 파악 불가 | 중앙화된 모델 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) |
 
-📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 의약품 허가 관리 시스템과 같다. 어떤 원료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 어떤 제조 공정(학습 코드), 어떤 배합(파라미터)으로 만들어진 약(모델)인지를 모두 기록하고, 임상 단계(Staging) → 시판 허가(Production) → 판매 중단(Archived) 상태를 관리한다.
+📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 의약품 허가 관리 시스템과 같다. 어떤 원료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 어떤 제조 공정(학습 코드), 어떤 배합(파라미터)으로 만들어진 약(모델)인지를 모두 기록하고, 임상 단계(Staging) -> 시판 허가(Production) -> 판매 중단(Archived) 상태를 관리한다.
 
 ---
 
@@ -65,43 +65,43 @@ tags = ["studynote-data-engineering"]
 ### 2.1 [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 전체 아키텍처
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                       MLflow 구성요소                           │
-├────────────────┬───────────────────────────────────────────────┤
-│  MLflow        │  실험 추적                                     │
-│  Tracking      │  파라미터, 메트릭, 아티팩트 로깅               │
-│                │  실험 비교 UI                                  │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  모델 패키징                                   │
-│  Projects      │  conda.yaml, MLproject 파일                   │
-│                │  재현 가능한 실행 환경                         │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  표준 모델 형식 (MLmodel)                     │
-│  Models        │  다양한 프레임워크 지원                        │
-│                │  (sklearn, TF, PyTorch, XGBoost, ...)         │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  모델 버전 관리                                │
-│  Model         │  상태 전이 (None → Staging → Production)      │
-│  Registry      │  설명, 태그, 승인 워크플로우                   │
-└────────────────┴───────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                       MLflow 구성요소                           |
++----------------+-----------------------------------------------+
+|  MLflow        |  실험 추적                                     |
+|  Tracking      |  파라미터, 메트릭, 아티팩트 로깅               |
+|                |  실험 비교 UI                                  |
++----------------+-----------------------------------------------+
+|  MLflow        |  모델 패키징                                   |
+|  Projects      |  conda.yaml, MLproject 파일                   |
+|                |  재현 가능한 실행 환경                         |
++----------------+-----------------------------------------------+
+|  MLflow        |  표준 모델 형식 (MLmodel)                     |
+|  Models        |  다양한 프레임워크 지원                        |
+|                |  (sklearn, TF, PyTorch, XGBoost, ...)         |
++----------------+-----------------------------------------------+
+|  MLflow        |  모델 버전 관리                                |
+|  Model         |  상태 전이 (None -> Staging -> Production)      |
+|  Registry      |  설명, 태그, 승인 워크플로우                   |
++----------------+-----------------------------------------------+
 ```
 
 ### 2.2 모델 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) (Model [State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))
 
 ```
 실험 완료
-    │
-    ▼
-┌───────────┐  등록  ┌───────────┐  승인  ┌────────────┐
-│  None     │───────→│  Staging  │───────→│ Production │
-│ (미등록)  │        │ (스테이징) │        │ (프로덕션) │
-└───────────┘        └───────────┘        └────────────┘
-                           │   실패            │   교체
-                           ▼                  ▼
-                      ┌──────────────────────────┐
-                      │        Archived          │
-                      │    (아카이브/더 이상 미사용)│
-                      └──────────────────────────┘
+    |
+    v
++-----------+  등록  +-----------+  승인  +------------+
+|  None     |-------->|  Staging  |-------->| Production |
+| (미등록)  |        | (스테이징) |        | (프로덕션) |
++-----------+        +-----------+        +------------+
+                           |   실패            |   교체
+                           v                  v
+                      +--------------------------+
+                      |        Archived          |
+                      |    (아카이브/더 이상 미사용)|
+                      +--------------------------+
 
 각 상태의 역할:
   None:       실험 결과 등록, 아직 검토 전
@@ -152,28 +152,28 @@ with mlflow.start_run(run_name="fraud_detection_v3"):
 ### 2.4 모델 계보 (Model Lineage) 추적
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                   모델 계보 (Lineage) 예시                    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  데이터 버전                                                  │
-│  └── data/fraud_labels_v3.parquet (2024-03-01)              │
-│       (SHA256: abc123...)                                    │
-│                                                              │
-│  코드 버전                                                    │
-│  └── git commit: a3f2b1c                                     │
-│       (train.py, feature_engineering.py)                     │
-│                                                              │
-│  환경                                                        │
-│  └── Python 3.10, scikit-learn 1.4.0                        │
-│       conda environment: fraud_env_v2                        │
-│                                                              │
-│  학습 파라미터                                               │
-│  └── n_estimators=100, max_depth=5, ...                     │
-│                                                              │
-│  → 모델: fraud_detection v4 (Production)                    │
-│     F1=0.94, AUC=0.97                                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   모델 계보 (Lineage) 예시                    |
++--------------------------------------------------------------+
+|                                                              |
+|  데이터 버전                                                  |
+|  +-- data/fraud_labels_v3.parquet (2024-03-01)              |
+|       (SHA256: abc123...)                                    |
+|                                                              |
+|  코드 버전                                                    |
+|  +-- git commit: a3f2b1c                                     |
+|       (train.py, feature_engineering.py)                     |
+|                                                              |
+|  환경                                                        |
+|  +-- Python 3.10, scikit-learn 1.4.0                        |
+|       conda environment: fraud_env_v2                        |
+|                                                              |
+|  학습 파라미터                                               |
+|  +-- n_estimators=100, max_depth=5, ...                     |
+|                                                              |
+|  -> 모델: fraud_detection v4 (Production)                    |
+|     F1=0.94, AUC=0.97                                       |
++--------------------------------------------------------------+
 ```
 
 ### 2.5 모델 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 항목
@@ -210,25 +210,25 @@ with mlflow.start_run(run_name="fraud_detection_v3"):
 ### 3.2 A/B 테스트 연동
 
 ```
-모델 레지스트리 → A/B 테스트 연동 흐름:
+모델 레지스트리 -> A/B 테스트 연동 흐름:
 
 MLflow Registry
   Production: fraud_detection v4  (현재 모델)
   Staging:    fraud_detection v5  (신규 후보)
-         │
-         ▼
+         |
+         v
   A/B 테스트 설정:
   트래픽 v4 = 90%, 트래픽 v5 = 10%
-         │
-         ▼
+         |
+         v
   평가 기간 (1주일)
   v5 F1 = 0.95 > v4 F1 = 0.94 ✓
   v5 지연시간 ≤ v4 지연시간 ✓
-         │
-         ▼
+         |
+         v
   레지스트리 업데이트:
-  v4 → Archived
-  v5 → Production
+  v4 -> Archived
+  v5 -> Production
 ```
 
 ### 3.3 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -249,25 +249,25 @@ MLflow Registry
 ### 4.1 엔터프라이즈 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 거버넌스
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│               모델 거버넌스 프레임워크                        │
-├──────────────────────────────────────────────────────────────┤
-│  역할 정의:                                                  │
-│  - 데이터 과학자: 모델 등록, 실험 추적                       │
-│  - ML 엔지니어: Staging 검토, Production 승인               │
-│  - 도메인 전문가: 비즈니스 지표 검증                         │
-│  - 보안/컴플라이언스: 규제 요건 점검                         │
-├──────────────────────────────────────────────────────────────┤
-│  승인 워크플로우:                                             │
-│  None → Staging: 데이터 과학자 자동 등록                    │
-│  Staging → Production: ML 엔지니어 + 도메인 전문가 승인 필요 │
-│  Production → Archived: ML 엔지니어 승인 필요               │
-├──────────────────────────────────────────────────────────────┤
-│  감사 로그:                                                  │
-│  - 상태 변경 이력 (누가, 언제, 왜)                          │
-│  - 성능 메트릭 변화 추이                                     │
-│  - 데이터/코드 버전 연결                                     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               모델 거버넌스 프레임워크                        |
++--------------------------------------------------------------+
+|  역할 정의:                                                  |
+|  - 데이터 과학자: 모델 등록, 실험 추적                       |
+|  - ML 엔지니어: Staging 검토, Production 승인               |
+|  - 도메인 전문가: 비즈니스 지표 검증                         |
+|  - 보안/컴플라이언스: 규제 요건 점검                         |
++--------------------------------------------------------------+
+|  승인 워크플로우:                                             |
+|  None -> Staging: 데이터 과학자 자동 등록                    |
+|  Staging -> Production: ML 엔지니어 + 도메인 전문가 승인 필요 |
+|  Production -> Archived: ML 엔지니어 승인 필요               |
++--------------------------------------------------------------+
+|  감사 로그:                                                  |
+|  - 상태 변경 이력 (누가, 언제, 왜)                          |
+|  - 성능 메트릭 변화 추이                                     |
+|  - 데이터/코드 버전 연결                                     |
++--------------------------------------------------------------+
 ```
 
 ### 4.2 기술사 시험 핵심 포인트
@@ -292,26 +292,26 @@ MLflow Registry
 
 ```
 개발 환경 (Local)                프로덕션 환경
-┌────────────────────┐          ┌────────────────────────────┐
-│  데이터 과학자     │          │  MLflow Tracking Server    │
-│  실험 실행         │ ──Push── │  (PostgreSQL + S3)         │
-│  mlflow.log_...()  │          │                            │
-└────────────────────┘          │  Model Registry            │
-                                │  fraud_detection           │
-CI/CD 파이프라인                │  ├── v3: Staging           │
-┌────────────────────┐          │  └── v4: Production        │
-│  자동 학습 (CT)    │ ──등록── │                            │
-│  평가 게이트       │          └─────────────┬──────────────┘
-│  레지스트리 업데이트│                        │
-└────────────────────┘                        │ 모델 Pull
-                                              ▼
-                                ┌────────────────────────────┐
-                                │  서빙 서버                  │
-                                │  (KServe / TF Serving)     │
-                                └────────────────────────────┘
++--------------------+          +----------------------------+
+|  데이터 과학자     |          |  MLflow Tracking Server    |
+|  실험 실행         | --Push-- |  (PostgreSQL + S3)         |
+|  mlflow.log_...()  |          |                            |
++--------------------+          |  Model Registry            |
+                                |  fraud_detection           |
+CI/CD 파이프라인                |  +-- v3: Staging           |
++--------------------+          |  +-- v4: Production        |
+|  자동 학습 (CT)    | --등록-- |                            |
+|  평가 게이트       |          +-------------+--------------+
+|  레지스트리 업데이트|                        |
++--------------------+                        | 모델 Pull
+                                              v
+                                +----------------------------+
+                                |  서빙 서버                  |
+                                |  (KServe / TF Serving)     |
+                                +----------------------------+
 ```
 
-📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 거버넌스는 의사 면허 관리 시스템과 같다. 모든 의사(모델)는 의대 졸업(학습 완료) → 인턴/레지던트(Staging) → 전문의 자격(Production) 과정을 거치고, 각 단계마다 심사위원(승인자)의 검토를 받는다. 면허 취소(Archive)가 돼도 기록은 남는다.
+📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 거버넌스는 의사 면허 관리 시스템과 같다. 모든 의사(모델)는 의대 졸업(학습 완료) -> 인턴/레지던트(Staging) -> 전문의 자격(Production) 과정을 거치고, 각 단계마다 심사위원(승인자)의 검토를 받는다. 면허 취소(Archive)가 돼도 기록은 남는다.
 
 ---
 
@@ -362,22 +362,22 @@ CI/CD 파이프라인                │  ├── v3: Staging           │
 
 ```text
 수동 모델 관리 (파일명에 날짜 포함)
-    │
-    ▼
+    |
+    v
 실험 추적 (MLflow Tracking · W&B)
-    ├─► 파라미터 · 메트릭 · 아티팩트 기록
-    └─► 실험 비교 · 재현성 보장
-    │
-    ▼
+    +-► 파라미터 · 메트릭 · 아티팩트 기록
+    +-► 실험 비교 · 재현성 보장
+    |
+    v
 모델 레지스트리 (MLflow Registry)
-    ├─► 버전 관리: v1 → v2 → v3
-    ├─► 상태 전이: Staging → Production → Archived
-    └─► 메타데이터: 학습 데이터 · 코드 · 환경
-    │
-    ▼
-CI/CD 파이프라인 연동 → 자동 배포 · 롤백
-    │
-    ▼
+    +-► 버전 관리: v1 -> v2 -> v3
+    +-► 상태 전이: Staging -> Production -> Archived
+    +-► 메타데이터: 학습 데이터 · 코드 · 환경
+    |
+    v
+CI/CD 파이프라인 연동 -> 자동 배포 · 롤백
+    |
+    v
 모델 거버넌스: 감사 추적 · 규제 준수 (GDPR · AI Act)
 ```
 
@@ -387,7 +387,7 @@ CI/CD 파이프라인 연동 → 자동 배포 · 롤백
 
 **진행 상황**: 166 / 258
 
-← **이전**: [165. 피처 스토어 (Feature Store) - 훈련/서빙 피처 일관성](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)
-**다음**: [167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) →
+<- **이전**: [165. 피처 스토어 (Feature Store) - 훈련/서빙 피처 일관성](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)
+**다음**: [167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) ->
 
 ---

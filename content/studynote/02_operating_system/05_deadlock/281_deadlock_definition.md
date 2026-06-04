@@ -26,26 +26,26 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 4거리 도로에서 4대의 차량이 각자 오른쪽 차선이 비어야 움직일 수 있다고 할 때, 각자 자기 차로를 점유한 채로 오른쪽 차량이 먼저 움직여 주길 대기하면 영원히 아무도 움직이지 못한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          교착 상태 고전 예시: 두 프로세스, 두 자원           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│    P1 보유: 자원 A    P1 요청: 자원 B                        │
-│    P2 보유: 자원 B    P2 요청: 자원 A                        │
-│                                                              │
-│         [자원 A]                                             │
-│         /       ←─ P1 요청 실패                              │
-│        ↑                  ↖                                  │
-│      P1 보유              P2 요청 (자원A)                    │
-│        \                        /                            │
-│         [P1] ────────────── [P2]                             │
-│                              ↑                               │
-│         [자원 B]            /                                │
-│         ↑ P2 보유  ←──────/                                  │
-│                                                              │
-│  P1: {A 보유, B 대기}  P2: {B 보유, A 대기}                  │
-│  → 영구 대기 → 교착 상태!                                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          교착 상태 고전 예시: 두 프로세스, 두 자원           |
++--------------------------------------------------------------+
+|                                                              |
+|    P1 보유: 자원 A    P1 요청: 자원 B                        |
+|    P2 보유: 자원 B    P2 요청: 자원 A                        |
+|                                                              |
+|         [자원 A]                                             |
+|         /       <-- P1 요청 실패                              |
+|        ^                  ↖                                  |
+|      P1 보유              P2 요청 (자원A)                    |
+|        \                        /                            |
+|         [P1] -------------- [P2]                             |
+|                              ^                               |
+|         [자원 B]            /                                |
+|         ^ P2 보유  <-------/                                  |
+|                                                              |
+|  P1: {A 보유, B 대기}  P2: {B 보유, A 대기}                  |
+|  -> 영구 대기 -> 교착 상태!                                    |
++--------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 교착 상태는 "네가 먼저 비켜주면 내가 갈게"를 서로 고집하다가 아무도 이동하지 못하는 상황입니다.
@@ -57,28 +57,28 @@ tags = ["studynote-operating-system"]
 ### 4가지 필요충분조건 (모두 동시에 성립해야 교착 발생)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          교착 상태 4가지 필요조건                            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ① 상호 배제 (Mutual Exclusion)                              │
-│     → 자원은 한 번에 한 프로세스만 사용 가능                 │
-│     → e.g., 물리적 프린터, 뮤텍스 보호 데이터                │
-│                                                              │
-│  ② 점유 대기 (Hold-and-Wait)                                 │
-│     → 최소 하나의 자원을 보유한 채로 다른 자원을 대기        │
-│     → e.g., DB 트랜잭션이 row lock 보유 중 다른 row 요청     │
-│                                                              │
-│  ③ 비선점 (No Preemption)                                    │
-│     → 프로세스가 보유 중인 자원을 강제로 빼앗을 수 없음      │
-│     → e.g., 락은 보유 프로세스만 해제 가능                   │
-│                                                              │
-│  ④ 순환 대기 (Circular Wait)                                 │
-│     → P1→P2→P3→P1 형태의 대기 순환이 존재                    │
-│     → e.g., 자원 할당 그래프에 사이클 형성                   │
-│                                                              │
-│  ⚠ 4개 중 1개만 없애도 교착 상태 발생 불가!                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          교착 상태 4가지 필요조건                            |
++--------------------------------------------------------------+
+|                                                              |
+|  ① 상호 배제 (Mutual Exclusion)                              |
+|     -> 자원은 한 번에 한 프로세스만 사용 가능                 |
+|     -> e.g., 물리적 프린터, 뮤텍스 보호 데이터                |
+|                                                              |
+|  ② 점유 대기 (Hold-and-Wait)                                 |
+|     -> 최소 하나의 자원을 보유한 채로 다른 자원을 대기        |
+|     -> e.g., DB 트랜잭션이 row lock 보유 중 다른 row 요청     |
+|                                                              |
+|  ③ 비선점 (No Preemption)                                    |
+|     -> 프로세스가 보유 중인 자원을 강제로 빼앗을 수 없음      |
+|     -> e.g., 락은 보유 프로세스만 해제 가능                   |
+|                                                              |
+|  ④ 순환 대기 (Circular Wait)                                 |
+|     -> P1->P2->P3->P1 형태의 대기 순환이 존재                    |
+|     -> e.g., 자원 할당 그래프에 사이클 형성                   |
+|                                                              |
+|  ⚠ 4개 중 1개만 없애도 교착 상태 발생 불가!                  |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 4조건은 교착 상태의 필요충분조건이다 (단일 인스턴스 자원 환경). 예방 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 이 중 하나를 구조적으로 불가능하게 만드는 것이며, 각 조건별 예방 방법의 현실적 한계도 다르다. 특히 순환 대기는 자원 번호 순서화로 현실적 예방이 가능한 유일한 조건이다.
@@ -86,28 +86,28 @@ tags = ["studynote-operating-system"]
 ### [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        자원 할당 그래프 — 교착 상태 표현                     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  표기법:                                                     │
-│  ○ : 프로세스 (Pi)     □ : 자원 유형 (Rj)                    │
-│  Pi → Rj : 자원 요청 간선                                    │
-│  Rj → Pi : 자원 할당 간선                                    │
-│                                                              │
-│  교착 상태 예:                                               │
-│                                                              │
-│  P1 ──요청──▶ [R2] ──할당──▶ P2                              │
-│   ↑                               │                          │
-│   │ 할당                          │ 요청                     │
-│   │                               ▼                          │
-│  [R1] ◀──요청── P3 ◀──할당── [R3] ◀──요청── P2               │
-│                                                              │
-│  → 사이클 존재: P1→R2→P2→R1→P3→R3→P2 ❌ 교착!                │
-│                                                              │
-│  단일 인스턴스: 사이클 = 교착 상태                           │
-│  다중 인스턴스: 사이클 ≠ 교착 상태 (필요조건일 뿐)           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        자원 할당 그래프 — 교착 상태 표현                     |
++--------------------------------------------------------------+
+|                                                              |
+|  표기법:                                                     |
+|  ○ : 프로세스 (Pi)     □ : 자원 유형 (Rj)                    |
+|  Pi -> Rj : 자원 요청 간선                                    |
+|  Rj -> Pi : 자원 할당 간선                                    |
+|                                                              |
+|  교착 상태 예:                                               |
+|                                                              |
+|  P1 --요청---> [R2] --할당---> P2                              |
+|   ^                               |                          |
+|   | 할당                          | 요청                     |
+|   |                               v                          |
+|  [R1] <---요청-- P3 <---할당-- [R3] <---요청-- P2               |
+|                                                              |
+|  -> 사이클 존재: P1->R2->P2->R1->P3->R3->P2 ❌ 교착!                |
+|                                                              |
+|  단일 인스턴스: 사이클 = 교착 상태                           |
+|  다중 인스턴스: 사이클 ≠ 교착 상태 (필요조건일 뿐)           |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)는 교착 상태 분석의 시각적 도구다. 단일 인스턴스 자원(자원 유형 당 1개 인스턴스)에서는 사이클이 존재하면 교착 상태가 성립한다. 다중 인스턴스 자원에서는 사이클이 있어도 대기 중인 프로세스들의 자원 요청이 다른 방식으로 충족될 수 있으므로, 사이클은 교착의 필요 조건이지 충분 조건이 아니다.
@@ -121,14 +121,14 @@ tags = ["studynote-operating-system"]
 ### 교착 상태 처리 방법 3가지
 
 ```text
-┌──────────────────┬──────────────────┬─────────────────────────┐
-│ 방법             │ 전략             │ 비용                    │
-├──────────────────┼──────────────────┼─────────────────────────┤
-│ 예방 (Prevention)│ 4조건 중 1개 제거│ 자원 이용률 저하        │
-│ 회피 (Avoidance) │ 은행원 알고리즘  │ 사전 정보 필요, 오버헤드│
-│ 탐지+복구        │ 그래프 탐지+종료 │ 교착 발생 후 처리       │
-│ 무시 (Ostrich)   │ 발생 시 재시작   │ 가장 낮은 오버헤드      │
-└──────────────────┴──────────────────┴─────────────────────────┘
++------------------+------------------+-------------------------+
+| 방법             | 전략             | 비용                    |
++------------------+------------------+-------------------------+
+| 예방 (Prevention)| 4조건 중 1개 제거| 자원 이용률 저하        |
+| 회피 (Avoidance) | 은행원 알고리즘  | 사전 정보 필요, 오버헤드|
+| 탐지+복구        | 그래프 탐지+종료 | 교착 발생 후 처리       |
+| 무시 (Ostrich)   | 발생 시 재시작   | 가장 낮은 오버헤드      |
++------------------+------------------+-------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>별 채택 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>:</strong>
@@ -143,8 +143,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 교착</strong>: T1이 row A를 잠금하고 row B를 요청, T2가 row B를 잠금하고 row A를 요청 → 교착. DB는 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)로 탐지 후 한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/).
-2. **Java 멀티스레드**: 클래스 A의 `synchronized methodA()`가 클래스 B를 호출하고, B의 `synchronized methodB()`가 A를 호출 → 교착. [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Dump로 감지 가능.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 교착</strong>: T1이 row A를 잠금하고 row B를 요청, T2가 row B를 잠금하고 row A를 요청 -> 교착. DB는 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)로 탐지 후 한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/).
+2. **Java 멀티스레드**: 클래스 A의 `synchronized methodA()`가 클래스 B를 호출하고, B의 `synchronized methodB()`가 A를 호출 -> 교착. [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Dump로 감지 가능.
 3. **네트워크 라우터**: 패킷이 순환 경로로 라우팅되어 각 라우터 버퍼를 점유하면 네트워크 수준 교착.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (예방)
@@ -153,10 +153,10 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 분석</strong>: JVM `jstack`, Linux `pstack`으로 교착 스레드의 락 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **중첩 락 역순**: [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A → [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B로 잠그는 스레드와 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B → [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A로 잠그는 스레드가 공존하면 즉각 교착 후보.
+- **중첩 락 역순**: [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A -> [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B로 잠그는 스레드와 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B -> [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A로 잠그는 스레드가 공존하면 즉각 교착 후보.
 - **락 보유 중 외부 호출**: 락을 보유한 채로 외부(다른 클래스, 콜백, 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 호출하면 호출 대상이 어떤 락을 잡는지 모르는 상태에서 교착 발생 위험.
 
-**📢 섹션 요약 비유**: 락 역순 획득은 마치 좌→우 순서로 가야 하는 도로에서 일부 차량이 우→좌로 역주행하는 것 — 충돌(교착)은 시간 문제입니다.
+**📢 섹션 요약 비유**: 락 역순 획득은 마치 좌->우 순서로 가야 하는 도로에서 일부 차량이 우->좌로 역주행하는 것 — 충돌(교착)은 시간 문제입니다.
 
 ---
 
@@ -181,12 +181,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [읽기-쓰기 락 (Read-Write Lock)]
-    │
-    ▼
+    |
+    v
 [교착 상태 (Deadlock) 정의]
-    │
-    ├──▶ [교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
-    └──▶ [상호 배제 (Mutual Exclusion)]
+    |
+    +---> [교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
+    +---> [상호 배제 (Mutual Exclusion)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -203,7 +203,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 281 / 800
 
-← **이전**: [280. 읽기-쓰기 락 (Read-Write Lock) - 다중 읽기 허용, 쓰기 배타적](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)
-**다음**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/) →
+<- **이전**: [280. 읽기-쓰기 락 (Read-Write Lock) - 다중 읽기 허용, 쓰기 배타적](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)
+**다음**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/) ->
 
 ---

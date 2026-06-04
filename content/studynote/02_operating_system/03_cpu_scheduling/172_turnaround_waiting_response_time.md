@@ -26,14 +26,14 @@ tags = ["studynote-operating-system"]
 아래 그림은 하나의 프로세스 생애에서 세 지표가 서로 다른 구간을 가리킨다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ One process, three stopwatches                              │
-├──────────────────────────────────────────────────────────────┤
-│ arrival -> ready -> run -> I/O wait -> ready -> run -> exit │
-│ response   = arrival -> first run start                     │
-│ waiting    = all ready intervals added                      │
-│ turnaround = arrival -> exit                                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| One process, three stopwatches                              |
++--------------------------------------------------------------+
+| arrival -> ready -> run -> I/O wait -> ready -> run -> exit |
+| response   = arrival -> first run start                     |
+| waiting    = all ready intervals added                      |
+| turnaround = arrival -> exit                                |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 세 값이 서로 완전히 독립적이지 않다는 점이다. 반환 시간은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)보다 항상 크거나 같고, 대기 시간은 그 안에 부분적으로 포함된다. 결국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 같은 생애를 서로 다른 기준으로 좋게 보이게 할 수 있지만, 모든 지표를 동시에 최적으로 만들 수는 없다.
@@ -55,14 +55,14 @@ tags = ["studynote-operating-system"]
 아래 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 실제로 어떤 구간을 가장 많이 바꿀 수 있는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ What the scheduler can really change                        │
-├──────────────────────────────────────────────────────────────┤
-│ CPU burst time   -> workload property                       │
-│ I/O service time -> device / subsystem property             │
-│ ready-queue wait -> scheduler's main control lever          │
-│ therefore waiting time is the cleanest scheduling signal    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| What the scheduler can really change                        |
++--------------------------------------------------------------+
+| CPU burst time   -> workload property                       |
+| I/O service time -> device / subsystem property             |
+| ready-queue wait -> scheduler's main control lever          |
+| therefore waiting time is the cleanest scheduling signal    |
++--------------------------------------------------------------+
 ```
 
 이 말은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 모든 시간을 마음대로 조작할 수 있다는 뜻이 아니다. 실제 CPU burst 길이와 디스크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 애플리케이션과 장치가 좌우한다. 그래서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 비교에서 대기 시간이 자주 핵심 지표가 되고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 사용자 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보여 주는 별도 렌즈로 다뤄진다.
@@ -80,14 +80,14 @@ tags = ["studynote-operating-system"]
 예를 들어 모든 프로세스가 `t=0`에 도착하고 CPU burst가 `P1=8ms`, `P2=4ms`, `P3=1ms`라고 하자. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드는 무시하면 아래처럼 해석할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Same workload: P1=8, P2=4, P3=1                             │
-├──────────────────────────────────────────────────────────────┤
-│ FCFS   : | P1 0-8 | P2 8-12 | P3 12-13 |                    │
-│ SJF    : | P3 0-1 | P2 1-5  | P1 5-13  |                    │
-│ RR q=2 : |P1|P2|P3|P1|P2|P1|P1|                             │
-│ insight: SJF lowers avg wait, RR improves first response    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Same workload: P1=8, P2=4, P3=1                             |
++--------------------------------------------------------------+
+| FCFS   : | P1 0-8 | P2 8-12 | P3 12-13 |                    |
+| SJF    : | P3 0-1 | P2 1-5  | P1 5-13  |                    |
+| RR q=2 : |P1|P2|P3|P1|P2|P1|P1|                             |
+| insight: SJF lowers avg wait, RR improves first response    |
++--------------------------------------------------------------+
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 평균 대기 시간 | 평균 반환 시간 | 해석 |
@@ -107,18 +107,18 @@ tags = ["studynote-operating-system"]
 실무에서는 워크로드 성격에 따라 지표 우선순위를 달리 잡아야 한다. 사용자 클릭, 입력, 화면 갱신처럼 사람을 상대하는 시스템은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 핵심이며, 여기서는 평균보다 tail latency와 jitter가 더 중요하다. 반대로 야간 정산, 대규모 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리, 모델 학습처럼 결과 완료 시점이 중요한 작업은 반환 시간과 처리량이 더 중요한 판단 기준이 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Metric-first scheduling choice                              │
-├──────────────────────────────────────────────────────────────┤
-│ interactive and user-facing?                                │
-│   ├─ yes -> response time / variance first                  │
-│   └─ no                                                     │
-│       │                                                     │
-│       ▼                                                     │
-│ batch or deadline completion critical?                      │
-│   ├─ yes -> turnaround time / throughput first              │
-│   └─ mixed -> class-based policy and fairness balance       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Metric-first scheduling choice                              |
++--------------------------------------------------------------+
+| interactive and user-facing?                                |
+|   +- yes -> response time / variance first                  |
+|   +- no                                                     |
+|       |                                                     |
+|       v                                                     |
+| batch or deadline completion critical?                      |
+|   +- yes -> turnaround time / throughput first              |
+|   +- mixed -> class-based policy and fairness balance       |
++--------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -168,19 +168,19 @@ tags = ["studynote-operating-system"]
 
 ```text
 process arrival
-    │
-    ▼
+    |
+    v
 first CPU dispatch
-    │
-    ├──────────────▶ response time
-    ▼
+    |
+    +---------------> response time
+    v
 ready-queue accumulations
-    │
-    ├──────────────▶ waiting time
-    ▼
+    |
+    +---------------> waiting time
+    v
 process completion
-    │
-    └──────────────▶ turnaround time
+    |
+    +---------------> turnaround time
 ```
 
 이 흐름도는 세 지표가 각각 다른 시점에서 잘려 나오는 값이지만, 결국 하나의 프로세스 생애를 단계별로 측정한 결과임을 보여준다.
@@ -197,7 +197,7 @@ process completion
 
 **진행 상황**: 172 / 800
 
-← **이전**: [171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/)
-**다음**: [173. FCFS (First-Come, First-Served) 스케줄링 - 비선점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) →
+<- **이전**: [171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/)
+**다음**: [173. FCFS (First-Come, First-Served) 스케줄링 - 비선점](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) ->
 
 ---

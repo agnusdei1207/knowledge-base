@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [MD5 회피 조치, SHA-1 차단]
-    │
-    ▼
+    |
+    v
 [SHA-2 패밀리]
-    │
-    └──▶ [SHA-3 패밀리]
+    |
+    +---> [SHA-3 패밀리]
 ```
 
 - **📢 섹션 요약 비유**: SHA-2 패밀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ tags = ["studynote-network"]
 
 ```text
 [MD5 회피 조치, SHA-1 차단]
-    │
-    ▼
+    |
+    v
 [SHA-2 패밀리]
-    │
-    └──▶ [SHA-3 패밀리]
+    |
+    +---> [SHA-3 패밀리]
 ```
 
 - **📢 섹션 요약 비유**: SHA-2 패밀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ SHA-2 패밀리는 [네트워크 보안](/knowledge-base/studynote/03_network/20
 
 ```text
 [선행 개념: MD5 회피 조치, SHA-1 차단]
-    │
-    ▼
+    |
+    v
 [현재 개념: SHA-2 패밀리]
-    │
-    ├──▶ [확장 A: SHA-3 패밀리]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: SHA-3 패밀리]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 SHA-2 패밀리는 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 회피 조치, SHA-1 차단에서 출발해 현재 메커니즘을 정교화하고, 이후 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ SHA-2 패밀리는 [MD5](/knowledge-base/studynote/03_network/13_network_securit
 
 **진행 상황**: 790 / 1120
 
-← **이전**: [668. MD5 (취약성/충돌 노출) 회피 조치, SHA-1 차단](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)
-**다음**: [670. SHA-3 패밀리](/knowledge-base/studynote/03_network/13_network_security_basics/670_sha_3_family_keccak_sponge_construction/) →
+<- **이전**: [668. MD5 (취약성/충돌 노출) 회피 조치, SHA-1 차단](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)
+**다음**: [670. SHA-3 패밀리](/knowledge-base/studynote/03_network/13_network_security_basics/670_sha_3_family_keccak_sponge_construction/) ->
 
 ---

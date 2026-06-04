@@ -24,21 +24,21 @@ tags = ["data_engineering"]
 이 그림은 수학적 이론이 어떻게 물리적인 데이터 엔진으로 승화되는지 계층 구조를 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 From Math Theory to Mining Engine           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Layer 3: Application ] ──▶ 추천, 사기 탐지, 수요 예측   │
-│          ▲                                                  │
-│   [ Layer 2: Algorithms ]  ──▶ K-Means, XGBoost, PageRank   │
-│          ▲                                                  │
-│   [ Layer 1: Engineering ] ──▶ Spark MLlib, Distributed GD  │
-│          ▲                                                  │
-│   [ Layer 0: Math Found ]  ──▶ Matrix, Calculus, Stats      │
-│                                                             │
-│   * 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 From Math Theory to Mining Engine           |
++-------------------------------------------------------------+
+|                                                             |
+|   [ Layer 3: Application ] ---> 추천, 사기 탐지, 수요 예측   |
+|          ^                                                  |
+|   [ Layer 2: Algorithms ]  ---> K-Means, XGBoost, PageRank   |
+|          ^                                                  |
+|   [ Layer 1: Engineering ] ---> Spark MLlib, Distributed GD  |
+|          ^                                                  |
+|   [ Layer 0: Math Found ]  ---> Matrix, Calculus, Stats      |
+|                                                             |
+|   * 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨 |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램의 핵심은 'Layer 1 (엔진ering)'의 역할이다. 행렬 곱셈 (Matrix Multiplication)이라는 수학적 수식이 GPU의 수만 개 코어나 하둡의 수백 개 노드에서 어떻게 쪼개져서 실행되는지가 엔지니어링의 정수이다. 실무에서는 이 단계에서의 최적화가 분석 리드 타임을 수 일에서 수 분으로 단축시킨다.
@@ -71,19 +71,19 @@ tags = ["data_engineering"]
 이 구조도는 대규모 추천 시스템의 핵심인 <strong>협업 필터링 (Collaborative Filtering)</strong>의 행렬 분해 (Matrix Factorization) 과정을 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Matrix Factorization for Recommendation     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User-Item Matrix ] ≈ [ User Latent ] x [ Item Latent ]  │
-│       (Large/Sparse)         (Dense)           (Dense)      │
-│                                                             │
-│   - R (m x n) ──▶ P (m x k) x Q^T (k x n)                   │
-│                                                             │
-│   * 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이   │
-│     분산 연산(ALS 알고리즘 등)으로 구현할 것인가?           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 Matrix Factorization for Recommendation     |
++-------------------------------------------------------------+
+|                                                             |
+|   [ User-Item Matrix ] ≈ [ User Latent ] x [ Item Latent ]  |
+|       (Large/Sparse)         (Dense)           (Dense)      |
+|                                                             |
+|   - R (m x n) ---> P (m x k) x Q^T (k x n)                   |
+|                                                             |
+|   * 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이   |
+|     분산 연산(ALS 알고리즘 등)으로 구현할 것인가?           |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램의 핵심은 'Latent Factor (잠재 요인)'의 추출이다. 사용자의 취향을 '로맨스 지수', '액션 지수'와 같은 몇 개의 숫자로 압축하여 저장한다. 실무에서는 이 분해된 행렬을 실시간 검색이 가능한 <strong>벡터 인덱스</strong>에 태우는 것이 엔지니어링의 최종 단계이다.
@@ -127,20 +127,20 @@ tags = ["data_engineering"]
 이 도식은 데이터 마이닝 프로젝트의 '성공을 위한 의사결정 프로세스'를 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               Data Mining Decision Workflow                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Data Prep ] ──▶ [ Feature Eng. (수학적 가공) ] ──┐      │
-│          ▲                    │                      │      │
-│          │          [ Model Selection & Train ] ◀────┘      │
-│          │                    │                             │
-│   [ Re-tuning ] ◀── [ Validation & Metric Check ]           │
-│                               │                             │
-│   * 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에      │
-│     수학적 피처링(Feature Eng.)을 먼저 의심해야 함          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               Data Mining Decision Workflow                 |
++-------------------------------------------------------------+
+|                                                             |
+|   [ Data Prep ] ---> [ Feature Eng. (수학적 가공) ] --+      |
+|          ^                    |                      |      |
+|          |          [ Model Selection & Train ] <-----+      |
+|          |                    |                             |
+|   [ Re-tuning ] <--- [ Validation & Metric Check ]           |
+|                               |                             |
+|   * 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에      |
+|     수학적 피처링(Feature Eng.)을 먼저 의심해야 함          |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 기술사의 마이닝 판단은 '요리 재료 손질 전문가'와 같습니다. 요리(알고리즘)를 하기 전, 재료(데이터)를 어떤 모양으로 썰고(피처링) 어떤 양념(파라미터)을 쳐야 가장 맛있는 결과가 나올지 수학적 안목으로 결정하는 마스터 셰프입니다.
@@ -179,21 +179,21 @@ tags = ["data_engineering"]
 
 ```text
 수학 기초 (선형대수 · 미적분 · 확률론)
-    │
-    ▼
+    |
+    v
 데이터 마이닝 알고리즘
-    ├─► 분류: SVM · Random Forest · XGBoost
-    ├─► 군집화: K-Means · DBSCAN · GMM
-    ├─► 연관 분석: Apriori · FP-Growth
-    └─► 회귀: 선형 · Lasso · Ridge · Elastic Net
-    │
-    ▼
+    +-► 분류: SVM · Random Forest · XGBoost
+    +-► 군집화: K-Means · DBSCAN · GMM
+    +-► 연관 분석: Apriori · FP-Growth
+    +-► 회귀: 선형 · Lasso · Ridge · Elastic Net
+    |
+    v
 마이닝 공학 (Engineering)
-    ├─► 분산 학습: Parameter Server · AllReduce
-    ├─► 피처 엔지니어링: PCA · 인코딩 · 정규화
-    └─► 행렬 분해: SVD · ALS · NMF
-    │
-    ▼
-딥러닝 임베딩 → 벡터 검색 → LLM 시대 (미래)
+    +-► 분산 학습: Parameter Server · AllReduce
+    +-► 피처 엔지니어링: PCA · 인코딩 · 정규화
+    +-► 행렬 분해: SVD · ALS · NMF
+    |
+    v
+딥러닝 임베딩 -> 벡터 검색 -> LLM 시대 (미래)
 ```
 

@@ -29,18 +29,18 @@ tags = ["studynote-operating-system"]
 
   [ 상황: 램 프레임 3칸. 현재 'A(100번 불림)', 'B(50번)', 'C(30번)' 꽉 차 있음 ]
 
-  ▶ 갑자기 쓰레기 데이터 X, Y, Z 가 딱 1번씩만 참조되며 들어옴!
+  -> 갑자기 쓰레기 데이터 X, Y, Z 가 딱 1번씩만 참조되며 들어옴!
 
   [ ❌ LRU (최근 사용 우선) 의 멍청한 판단 ]
-  1. X 들어옴 ─▶ 제일 예전에 쓴 C 버림 ─▶ 램 상태: [A, B, X]
-  2. Y 들어옴 ─▶ 그다음 예전에 쓴 B 버림 ─▶ 램 상태: [A, X, Y]
-  3. Z 들어옴 ─▶ 제일 예전에 쓴 A 버림 ─▶ 램 상태: [X, Y, Z]
+  1. X 들어옴 --> 제일 예전에 쓴 C 버림 --> 램 상태: [A, B, X]
+  2. Y 들어옴 --> 그다음 예전에 쓴 B 버림 --> 램 상태: [A, X, Y]
+  3. Z 들어옴 --> 제일 예전에 쓴 A 버림 --> 램 상태: [X, Y, Z]
   🚨 결과: 100번, 50번 쓰이던 특급 단골 A, B가 다 쫓겨나고 1번씩 쓴 쓰레기로 램이 도배됨! (캐시 오염)
 
   [ ✅ LFU (빈도수 최우선) 의 철벽 방어 ]
-  1. X(1번) 들어옴 ─▶ C(30번) 버릴까? 안돼! C가 더 많이 불렸어! X 너 그냥 나가!
-  2. Y(1번) 들어옴 ─▶ B(50번), C(30번)? Y 너 나가!
-  3. Z(1번) 들어옴 ─▶ A(100번)? Z 너 나가!
+  1. X(1번) 들어옴 --> C(30번) 버릴까? 안돼! C가 더 많이 불렸어! X 너 그냥 나가!
+  2. Y(1번) 들어옴 --> B(50번), C(30번)? Y 너 나가!
+  3. Z(1번) 들어옴 --> A(100번)? Z 너 나가!
   ✅ 결과: 스쳐 지나가는 쓰레기 데이터들은 램에 정착하지 못하고 바로 튕겨 나감. 단골 완벽 보호!
 ```
 **[다이어그램 해설]** LFU는 "빈도수"라는 막강한 기득권(권력)을 형성한다. 이 권력을 쌓은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 어지간한 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 도전을 다 씹어먹고 캐시 상단에 영구 박제된다. 이는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))이나 풀 스캔(Full Scan) 쿼리가 돌 때 캐시 메모리가 초토화되는 것을 막아주는 최고의 방패막이다.
@@ -111,26 +111,26 @@ LFU를 소프트웨어로 짜려면 [페이지](/knowledge-base/studynote/01_com
    - **아키텍트 결단**: 이때는 무조건 <strong>LFU 기반의 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(LFU-DA 등)</strong>을 쓴다. 한 번 조회된 듣보잡 영상은 바로 디스크에서 날리고, 하루에 1만 번 조회되는 방탄소년단 뮤직비디오(High Frequency)는 램 최상단에 영구 박제시켜 글로벌 트래픽 비용을 극한으로 후려친다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────┐
-  │     백엔드 아키텍트의 캐시 교체 정책(Eviction) 설계 가이드라인           │
-  ├──────────────────────────────────────────────────────────────────────────┤
-  │                                                                          │
-  │   [질문 1] 데이터의 생명 주기가 극단적으로 짧고 유행을 타는가?           │
-  │     (예: 뉴스 피드 최신 글, 실시간 주식 호가)                            │
-  │          ├─ [예] ─▶ ✅ LRU (Least Recently Used) 선택                    │
-  │          │                                                               │
-  │          └─ [아니오]                                                     │
-  │                 │                                                        │
-  │   [질문 2] 소수의 '스타 데이터(전역 설정, 랭킹)'가 트래픽의 90%를 먹는가?│
-  │          ├─ [예] ─▶ ✅ LFU (Least Frequently Used) 선택                  │
-  │          │             (스캔 공격에 스타 데이터가 썰리는 걸 절대 방어)   │
-  │          │                                                               │
-  │          └─ [모르겠다 / 섞여 있다]                                       │
-  │                 │                                                        │
-  │                 ▼ ✅ W-TinyLFU (Caffeine Cache) 선택                     │
-  │             "알아서 최근 유행과 누적 단골을 다 챙겨주마!"                │
-  │             (현재 Java 진영 Spring Boot의 기본 캐시 엔진임)              │
-  └──────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------+
+  |     백엔드 아키텍트의 캐시 교체 정책(Eviction) 설계 가이드라인           |
+  +--------------------------------------------------------------------------+
+  |                                                                          |
+  |   [질문 1] 데이터의 생명 주기가 극단적으로 짧고 유행을 타는가?           |
+  |     (예: 뉴스 피드 최신 글, 실시간 주식 호가)                            |
+  |          +- [예] --> ✅ LRU (Least Recently Used) 선택                    |
+  |          |                                                               |
+  |          +- [아니오]                                                     |
+  |                 |                                                        |
+  |   [질문 2] 소수의 '스타 데이터(전역 설정, 랭킹)'가 트래픽의 90%를 먹는가?|
+  |          +- [예] --> ✅ LFU (Least Frequently Used) 선택                  |
+  |          |             (스캔 공격에 스타 데이터가 썰리는 걸 절대 방어)   |
+  |          |                                                               |
+  |          +- [모르겠다 / 섞여 있다]                                       |
+  |                 |                                                        |
+  |                 v ✅ W-TinyLFU (Caffeine Cache) 선택                     |
+  |             "알아서 최근 유행과 누적 단골을 다 챙겨주마!"                |
+  |             (현재 Java 진영 Spring Boot의 기본 캐시 엔진임)              |
+  +--------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "OS 커널은 왜 LFU를 안 쓸까?" OS가 관리하는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 코드와 지역 변수 쪼가리들이라 빈도를 세는 게 무의미하고 너무 무겁기 때문이다. 반면 <strong>애플리케이션(User Space) 레벨의 '객체 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a>(Object <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a>)'</strong>에서는 LFU가 제왕이다. 아키텍트는 OS의 한계와 애플리케이션의 강점을 명확히 구분하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 차용해야 한다.
 
@@ -164,12 +164,12 @@ LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_news
 
 ```text
 [양방향 랑데부 (Rendezvous)]
-    │
-    ▼
+    |
+    v
 [LFU (Least Frequently Used) 페이지 교체]
-    │
-    ├──▶ [큐잉 스핀락 (MCS Lock / qspinlock)]
-    └──▶ [낙관적 병행성 제어 (Optimistic Concurrency Control)]
+    |
+    +---> [큐잉 스핀락 (MCS Lock / qspinlock)]
+    +---> [낙관적 병행성 제어 (Optimistic Concurrency Control)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -186,7 +186,7 @@ LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_news
 
 **진행 상황**: 263 / 800
 
-← **이전**: [262. LRU (Least Recently Used) 페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)
-**다음**: [264. 클럭 알고리즘 (Clock Algorithm / NUR)](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/) →
+<- **이전**: [262. LRU (Least Recently Used) 페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)
+**다음**: [264. 클럭 알고리즘 (Clock Algorithm / NUR)](/knowledge-base/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/) ->
 
 ---

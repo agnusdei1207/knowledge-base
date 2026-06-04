@@ -21,9 +21,9 @@ tags = ["studynote-design-supervision"]
 커링의 어원: Haskell Curry (수학자/논리학자)의 이름에서 유래.
 
 ```
-일반 함수:  f(a, b, c) → result
-커링 함수:  f(a) → g(b) → h(c) → result
-            f(a)(b)(c) → result
+일반 함수:  f(a, b, c) -> result
+커링 함수:  f(a) -> g(b) -> h(c) -> result
+            f(a)(b)(c) -> result
 ```
 
 **목적**: 함수를 특화(Specialize)시켜 재사용성을 높인다.
@@ -47,14 +47,14 @@ add3.apply(7); // 10
 | Partial Application (부분 적용) | 일부 인수를 미리 바인딩하여 나머지 인수를 받는 함수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 다인수 함수 가능 |
 
 ```
-f(a, b, c) 커링:    f(a) → (b → (c → result))    // 3단계 단인수 함수
-f(a, b, c) 부분 적용 (a 고정): g(b, c) → result    // 2인수 함수 반환
+f(a, b, c) 커링:    f(a) -> (b -> (c -> result))    // 3단계 단인수 함수
+f(a, b, c) 부분 적용 (a 고정): g(b, c) -> result    // 2인수 함수 반환
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 커링은 볼펜 조립공장처럼 부품(인수)을 하나씩 끼워 넣어 완성하는 것 — 중간에 멈추면 "펜대만 있는 반제품"(부분 적용 함수)이 되고, 나중에 남은 부품을 끼우면 완성된 볼펜(결과값)이 나온다.
@@ -71,36 +71,36 @@ f(a, b, c) 부분 적용 (a 고정): g(b, c) → result    // 2인수 함수 반
   for (int n : nums) {
       if (n % 2 == 0) result.add(n * 2);  // 모든 원소를 즉시 처리
   }
-  // → 10개 모두 filter 시도, 5개 map 수행
+  // -> 10개 모두 filter 시도, 5개 map 수행
 
 지연 평가 (Lazy Evaluation, Java Stream):
   nums.stream()
       .filter(n -> n % 2 == 0)   // 아직 실행 안 됨 (중간 연산)
       .map(n -> n * 2)            // 아직 실행 안 됨 (중간 연산)
-      .findFirst();               // 터미널 연산 → 실행 시작
-  // → 짝수 첫 번째를 찾으면 즉시 중단 (나머지 원소 처리 안 함)
+      .findFirst();               // 터미널 연산 -> 실행 시작
+  // -> 짝수 첫 번째를 찾으면 즉시 중단 (나머지 원소 처리 안 함)
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│               Java Stream 지연 평가 파이프라인                   │
-│                                                                 │
-│  소스(Source)        중간 연산(Intermediate)      터미널 연산    │
-│  ┌────────────┐      ┌────────────────────┐      ┌──────────┐  │
-│  │  Collection │─────▶│ .filter()          │─────▶│.collect()│  │
-│  │  Array      │      │ .map()             │      │.count()  │  │
-│  │  Stream.of()│      │ .sorted()          │      │.findFirst│  │
-│  └────────────┘      │ .distinct()        │      │.reduce() │  │
-│                       │ .limit()           │      └────┬─────┘  │
-│                       │                    │           │        │
-│                       │  ← 아직 실행 안됨 → │  ← 이 시점에 실행! │
-│                       └────────────────────┘           │        │
-│                                                        ▼        │
-│                                               실제 파이프라인 처리 │
-│                                               (pull 방식으로     │
-│                                                원소를 하나씩 끌어 │
-│                                                당겨 처리)         │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|               Java Stream 지연 평가 파이프라인                   |
+|                                                                 |
+|  소스(Source)        중간 연산(Intermediate)      터미널 연산    |
+|  +------------+      +--------------------+      +----------+  |
+|  |  Collection |------>| .filter()          |------>|.collect()|  |
+|  |  Array      |      | .map()             |      |.count()  |  |
+|  |  Stream.of()|      | .sorted()          |      |.findFirst|  |
+|  +------------+      | .distinct()        |      |.reduce() |  |
+|                       | .limit()           |      +----+-----+  |
+|                       |                    |           |        |
+|                       |  <- 아직 실행 안됨 -> |  <- 이 시점에 실행! |
+|                       +--------------------+           |        |
+|                                                        v        |
+|                                               실제 파이프라인 처리 |
+|                                               (pull 방식으로     |
+|                                                원소를 하나씩 끌어 |
+|                                                당겨 처리)         |
++-----------------------------------------------------------------+
 ```
 
 Haskell은 기본적으로 모든 표현식을 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)한다:
@@ -226,7 +226,7 @@ Java에서는 [Stream](/knowledge-base/studynote/03_network/09_application_layer
 | 연관 개념 | 함수 합성 (Function Composition) | 커링이 가능하게 하는 합성 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-부분 적용 → 커링과 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) → 스트림 최적화
+부분 적용 -> 커링과 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) -> 스트림 최적화
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 커링은 조각 케이크 만들기야 — "케이크(초코맛)(딸기 장식)(생크림)" 처럼 재료를 하나씩 추가하면서 원하는 케이크를 만들 수 있어.
@@ -239,7 +239,7 @@ Java에서는 [Stream](/knowledge-base/studynote/03_network/09_application_layer
 
 **진행 상황**: 278 / 530
 
-← **이전**: [216. 모나드 패턴 (Monad / Functional Programming Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/216_monad_functional_pattern/)
-**다음**: [218. 불변 객체 패턴 (Immutable Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/218_immutable_object_pattern/) →
+<- **이전**: [216. 모나드 패턴 (Monad / Functional Programming Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/216_monad_functional_pattern/)
+**다음**: [218. 불변 객체 패턴 (Immutable Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/218_immutable_object_pattern/) ->
 
 ---

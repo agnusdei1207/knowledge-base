@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [MAC 주소]
-    │
-    ▼
+    |
+    v
 [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    └──▶ [이더넷 프레임 포맷]
+    |
+    +---> [이더넷 프레임 포맷]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>와 브로드캐스트 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소는 네트워크라는 동네 방송국에서 틀어주는 </strong>"전체 공지용 채널(브로드캐스트)"**과 **"유료 구독자 전용 암호화 채널([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))"**입니다.
@@ -55,20 +55,20 @@ tags = ["studynote-network"]
 - **용도**: IPTV, 주식 시세 전송(Ticker), 라우터 간의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 교환(OSPF는 `01:00:5E:00:00:05` 사용).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │               IPv4 멀티캐스트 IP -> MAC 주소 매핑              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   IP 멀티캐스트 (예: OSPF 라우터 224.0.0.5)                   │
- │   [ 1110 0000 ] . [ 0000 0000 . 0000 0000 . 0000 0101 ]     │
- │       (D 클래스 고정)    └───────── 23비트만 가져옴 ────────┘     │
- │                                    │                        │
- │                                    ▼                        │
- │   MAC 멀티캐스트 주소 (01:00:5E + 하위 23비트)                   │
- │   [ 01:00:5E ]  :  [ 00 ]    : [ 00 ]    : [ 05 ]           │
- │   (OUI 고정부)       (가져온 23비트를 채워 넣음)                  │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |               IPv4 멀티캐스트 IP -> MAC 주소 매핑              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   IP 멀티캐스트 (예: OSPF 라우터 224.0.0.5)                   |
+ |   [ 1110 0000 ] . [ 0000 0000 . 0000 0000 . 0000 0101 ]     |
+ |       (D 클래스 고정)    +--------- 23비트만 가져옴 --------+     |
+ |                                    |                        |
+ |                                    v                        |
+ |   MAC 멀티캐스트 주소 (01:00:5E + 하위 23비트)                   |
+ |   [ 01:00:5E ]  :  [ 00 ]    : [ 00 ]    : [ 05 ]           |
+ |   (OUI 고정부)       (가져온 23비트를 채워 넣음)                  |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 브로드캐스트는 **"스팸 문자"<strong>처럼 모두의 휴대폰을 울리게 만들어 배터리(CPU)를 소모시키지만, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>는 </strong>"단톡방 알림"**처럼 그 방에 초대된 사람의 휴대폰만 울리게 하는 세련된 통신 방식입니다.
@@ -129,12 +129,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MAC 주소]
-    │
-    ▼
+    |
+    v
 [현재 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ├──▶ [확장 A: 이더넷 프레임 포맷]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 이더넷 프레임 포맷]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷 프레임 포맷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 353 / 1120
 
-← **이전**: [231. MAC 주소 (Media Access Control Address)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/231_mac_address_48bit_oui_nic/)
-**다음**: [233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/) →
+<- **이전**: [231. MAC 주소 (Media Access Control Address)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/231_mac_address_48bit_oui_nic/)
+**다음**: [233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/) ->
 
 ---

@@ -31,39 +31,39 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 "주소 변환 실패 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 → 적재 또는 종료 → 명령 재시작"의 흐름으로 처리된다. 이때 핵심은 CPU, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), 저장장치, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 역할 분담이다. 하드웨어는 예외를 감지하고 넘겨주며, 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 수행한다.
+[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 "주소 변환 실패 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 -> 적재 또는 종료 -> 명령 재시작"의 흐름으로 처리된다. 이때 핵심은 CPU, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), 저장장치, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 역할 분담이다. 하드웨어는 예외를 감지하고 넘겨주며, 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 수행한다.
 
 아래 그림은 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 되는 위치를 함께 보여준다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                  페이지 부재 처리 흐름: 계산보다 대기 비용이 큼            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ CPU 명령 실행                                                               │
-│    │                                                                        │
-│    ▼                                                                        │
-│ 가상 주소 생성                                                              │
-│    │                                                                        │
-│    ▼                                                                        │
-│ TLB 조회 ── miss ──▶ 페이지 테이블 조회                                     │
-│                        │                                                     │
-│                        ├─ Present=1, 권한 OK ───────────────▶ 계속 실행      │
-│                        │                                                     │
-│                        └─ Present=0 또는 권한 위반                           │
-│                                         │                                   │
-│                                         ▼                                   │
-│                                Trap to OS Kernel                            │
-│                                         │                                   │
-│                    ┌────────────────────┼────────────────────┐              │
-│                    │                    │                    │              │
-│                    ▼                    ▼                    ▼              │
-│              주소 불법 확인        빈 Frame 확보        디스크 읽기         │
-│              또는 권한 검사        또는 Victim 선정     (Swap/File)         │
-│                    │                    │                    │              │
-│                    └────────────────────┴──────────────┬─────┘              │
-│                                                        ▼                    │
-│                             페이지 테이블 엔트리/ TLB 갱신 후 재시작       │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                  페이지 부재 처리 흐름: 계산보다 대기 비용이 큼            |
++-----------------------------------------------------------------------------+
+| CPU 명령 실행                                                               |
+|    |                                                                        |
+|    v                                                                        |
+| 가상 주소 생성                                                              |
+|    |                                                                        |
+|    v                                                                        |
+| TLB 조회 -- miss ---> 페이지 테이블 조회                                     |
+|                        |                                                     |
+|                        +- Present=1, 권한 OK ----------------> 계속 실행      |
+|                        |                                                     |
+|                        +- Present=0 또는 권한 위반                           |
+|                                         |                                   |
+|                                         v                                   |
+|                                Trap to OS Kernel                            |
+|                                         |                                   |
+|                    +--------------------+--------------------+              |
+|                    |                    |                    |              |
+|                    v                    v                    v              |
+|              주소 불법 확인        빈 Frame 확보        디스크 읽기         |
+|              또는 권한 검사        또는 Victim 선정     (Swap/File)         |
+|                    |                    |                    |              |
+|                    +--------------------+--------------+-----+              |
+|                                                        v                    |
+|                             페이지 테이블 엔트리/ TLB 갱신 후 재시작       |
++-----------------------------------------------------------------------------+
 ```
 
 실제 처리 절차는 보통 다음 순서를 따른다. 첫째, MMU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리의 적재 상태와 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 확인한다. 둘째, Present Bit가 0이면 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 트랩이 발생하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 접근이 유효한 주소 범위인지부터 확인한다. 셋째, 적법한 접근이라면 빈 프레임을 찾거나 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)으로 희생 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 정한다. 넷째, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))나 스왑 영역, 또는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽어 온다. 다섯째, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)과 TLB를 갱신한 뒤, 중단된 명령을 다시 실행한다.
@@ -150,25 +150,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 가상 메모리 (Virtual Memory)
-    │
-    ▼
+    |
+    v
 요구 페이징 (Demand Paging)
-    │
-    ▼
+    |
+    v
 페이지 부재 (Page Fault)
-    │
-    ├─▶ Minor Fault
-    │
-    ├─▶ Major Fault
-    │
-    ▼
+    |
+    +--> Minor Fault
+    |
+    +--> Major Fault
+    |
+    v
 페이지 교체 알고리즘 (Least Recently Used / Clock)
-    │
-    ▼
+    |
+    v
 워킹셋 (Working Set) · 스래싱 (Thrashing) 관리
 ```
 
-이 흐름은 "[가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 제공 → 필요 시 적재 → 부재 발생 → 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화"라는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 메모리 관리 흐름을 압축한다.
+이 흐름은 "[가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 제공 -> 필요 시 적재 -> 부재 발생 -> 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택 -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화"라는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 메모리 관리 흐름을 압축한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 298 / 803
 
-← **이전**: [297. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/297_demand_paging/)
-**다음**: [299. 페이지 폴트 처리 과정 (Page Fault Handling)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/299_page_fault_handling/) →
+<- **이전**: [297. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/297_demand_paging/)
+**다음**: [299. 페이지 폴트 처리 과정 (Page Fault Handling)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/299_page_fault_handling/) ->
 
 ---

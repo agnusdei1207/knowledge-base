@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티 테넌트]
-    │
-    ▼
+    |
+    v
 [네트워크 펑션 오프로딩]
-    │
-    └──▶ [광통신 네트워크 이더넷]
+    |
+    +---> [광통신 네트워크 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티 테넌트]
-    │
-    ▼
+    |
+    v
 [네트워크 펑션 오프로딩]
-    │
-    └──▶ [광통신 네트워크 이더넷]
+    |
+    +---> [광통신 네트워크 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 멀티 테넌트]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 펑션 오프로딩]
-    │
-    ├──▶ [확장 A: 광통신 네트워크 이더넷]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 광통신 네트워크 이더넷]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1010 / 1120
 
-← **이전**: [888. 멀티 테넌트 (Multi-Tenant)](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)
-**다음**: [890. 광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/) →
+<- **이전**: [888. 멀티 테넌트 (Multi-Tenant)](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)
+**다음**: [890. 광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/) ->
 
 ---

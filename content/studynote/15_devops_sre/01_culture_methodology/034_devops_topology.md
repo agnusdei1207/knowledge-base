@@ -23,18 +23,18 @@ tags = ["studynote-devops"]
 ```
 Type 1 — Dev와 Ops 완전 통합:
   개발자가 직접 운영·배포 담당 (SRE 모델)
-  → 작은 팀, 마이크로서비스, 클라우드 네이티브
+  -> 작은 팀, 마이크로서비스, 클라우드 네이티브
 
 Type 2 — 완전 공유 운영:
   Ops 팀이 개발팀을 임베디드로 지원
-  → 내부 컨설턴트 역할
+  -> 내부 컨설턴트 역할
 
 Type 3 — DevOps 팀이 Ops와 Dev를 잇는 브릿지:
   일시적 구조, 장기적으로는 해체 권장
 
 Type 5 — NoOps:
   서버리스·PaaS로 인프라 추상화, 개발자가 직접 배포
-  → AWS Lambda, Google Cloud Run
+  -> AWS Lambda, Google Cloud Run
 ```
 
 📢 **섹션 요약 비유**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지는 주방 운영 방식이다 — 요리사가 직접 서빙(Type 1), 전담 웨이터가 팀별 배치(Type 2), 중간 코디네이터 운영(Type 3), 키오스크 자동화(NoOps).
@@ -47,20 +47,20 @@ Type 5 — NoOps:
 
 ```
 Anti-Type A — Dev vs Ops 완전 분리:
-  [Dev팀] → 배포 티켓 → [Ops팀]
-  → 보안 vs 속도 대립, 배포 병목, "벽 너머로 던지기"
+  [Dev팀] -> 배포 티켓 -> [Ops팀]
+  -> 보안 vs 속도 대립, 배포 병목, "벽 너머로 던지기"
 
 Anti-Type B — DevOps팀 = Ops 이름 변경:
   기존 Ops팀을 "DevOps팀"으로 이름만 변경
-  → 실제 협업 없음, 사일로 유지
+  -> 실제 협업 없음, 사일로 유지
 
 Anti-Type C — 개발자만의 DevOps:
   Ops 무시하고 개발자가 인프라 독단 결정
-  → 보안·안정성 문제, Shadow IT
+  -> 보안·안정성 문제, Shadow IT
 
 Anti-Type D — QA/Ops 격리:
   QA와 Ops가 별도 게이트로 배포 차단
-  → 배포 리드 타임 수주
+  -> 배포 리드 타임 수주
 ```
 
 📢 **섹션 요약 비유**: Anti-Type A는 의사와 간호사가 메모지로만 소통하는 병원이다 — 직접 대화하지 않고 메모(티켓)를 넘기면 환자(소프트웨어) 처치가 늦어진다.
@@ -76,12 +76,12 @@ Google SRE 모델:
   특징:
     - 운영 업무 상한선: 50% (나머지 50%는 개발·자동화)
     - 에러 버짓(Error Budget): 허용 장애 시간 계산
-    - SLO 위반 시 기능 배포 동결 → 신뢰성 우선
+    - SLO 위반 시 기능 배포 동결 -> 신뢰성 우선
 
   에러 버짓 계산:
     SLO = 99.9% 가용성
     에러 버짓 = (1 - 0.999) × 기간 = 43.8분/월
-    → 장애로 44분 이상 사용 시 다음 달 배포 동결
+    -> 장애로 44분 이상 사용 시 다음 달 배포 동결
 ```
 
 📢 **섹션 요약 비유**: 에러 버짓은 장애 용돈이다 — 한 달에 44분까지는 장애가 허용되고, 용돈(버짓)을 다 쓰면 새 기능 배포(추가 지출)가 금지된다.
@@ -92,15 +92,15 @@ Google SRE 모델:
 
 ```
 Platform Engineering 모델:
-  [Platform Team] → IDP (Internal Developer Platform)
-       ↓                      ↓
+  [Platform Team] -> IDP (Internal Developer Platform)
+       v                      v
   인프라 자동화           셀프서비스 포털
   CI/CD 골든 패스         개발자 직접 사용
   관측성 대시보드
 
-  [Stream-aligned Teams] → IDP를 통해 자율 운영
-  → 개발팀이 인프라 팀에 의존하지 않고 셀프서비스
-  → 개발팀 인지 부하 감소 + Platform Team 중앙 통제 균형
+  [Stream-aligned Teams] -> IDP를 통해 자율 운영
+  -> 개발팀이 인프라 팀에 의존하지 않고 셀프서비스
+  -> 개발팀 인지 부하 감소 + Platform Team 중앙 통제 균형
 ```
 
 📢 **섹션 요약 비유**: Platform 엔진ering은 레고 키트다 — 레고 회사(Platform Team)가 표준 블록([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 제공하면, 어린이(개발팀)가 설명서 없이도 원하는 것을 만든다.
@@ -111,7 +111,7 @@ Platform Engineering 모델:
 
 ```
 단계 1 (초기):
-  Dev ↔ Ops 완전 분리 → Anti-Type A 상태
+  Dev ↔ Ops 완전 분리 -> Anti-Type A 상태
 
 단계 2 (전환):
   DevOps 챔피언(선도자) 등장
@@ -135,19 +135,19 @@ Platform Engineering 모델:
 
 ```
 DevOps 토폴로지
-├── 주요 유형
-│   ├── Type 1 (Dev+Ops 통합)
-│   ├── Type 3 (DevOps 브릿지 팀)
-│   └── Type 5 (NoOps, 서버리스)
-├── 안티패턴
-│   ├── Anti-Type A (Dev vs Ops 분리)
-│   └── Anti-Type B (이름만 DevOps)
-├── SRE 모델
-│   ├── 에러 버짓
-│   └── 50% 운영 상한선
-└── Platform Engineering
-    ├── IDP (Internal Developer Platform)
-    └── Team Topologies 연계
++-- 주요 유형
+|   +-- Type 1 (Dev+Ops 통합)
+|   +-- Type 3 (DevOps 브릿지 팀)
+|   +-- Type 5 (NoOps, 서버리스)
++-- 안티패턴
+|   +-- Anti-Type A (Dev vs Ops 분리)
+|   +-- Anti-Type B (이름만 DevOps)
++-- SRE 모델
+|   +-- 에러 버짓
+|   +-- 50% 운영 상한선
++-- Platform Engineering
+    +-- IDP (Internal Developer Platform)
+    +-- Team Topologies 연계
 ```
 
 ---
@@ -155,23 +155,23 @@ DevOps 토폴로지
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              DevOps 토폴로지 발전 흐름                           │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2008년       │ DevOps 운동 시작   │ Patrick Debois, "Agile Infra"│
-│ 2013년       │ The Phoenix Project│ DevOps 소설·실천 프레임워크  │
-│ 2016년       │ SRE 책 (Google)    │ Google SRE 토폴로지 공개     │
-│ 2019년       │ Team Topologies    │ Skelton·Pais, 팀 설계 체계화 │
-│ 2020년       │ Platform Engineering│ IDP·Backstage 등장          │
-│ 2023년~      │ AI Ops             │ AI 보조 인프라·자동 운영      │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              DevOps 토폴로지 발전 흐름                           |
++--------------+--------------------+-----------------------------+
+| 2008년       | DevOps 운동 시작   | Patrick Debois, "Agile Infra"|
+| 2013년       | The Phoenix Project| DevOps 소설·실천 프레임워크  |
+| 2016년       | SRE 책 (Google)    | Google SRE 토폴로지 공개     |
+| 2019년       | Team Topologies    | Skelton·Pais, 팀 설계 체계화 |
+| 2020년       | Platform Engineering| IDP·Backstage 등장          |
+| 2023년~      | AI Ops             | AI 보조 인프라·자동 운영      |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-Dev·Ops 분리 → DevOps 토폴로지 → Team Topologies
-    ↓                  ↓                  ↓
+Dev·Ops 분리 -> DevOps 토폴로지 -> Team Topologies
+    v                  v                  v
 티켓 병목          Type 1~5             Stream/Platform
-    ↓
-SRE 에러 버짓 → 신뢰성 관리 → Platform Engineering → NoOps
+    v
+SRE 에러 버짓 -> 신뢰성 관리 -> Platform Engineering -> NoOps
 ```
 
 ---
@@ -188,7 +188,7 @@ SRE 에러 버짓 → 신뢰성 관리 → Platform Engineering → NoOps
 
 **진행 상황**: 34 / 373
 
-← **이전**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/)
-**다음**: [035. 무결함 사후 검토 (Blameless Postmortem)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) →
+<- **이전**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/)
+**다음**: [035. 무결함 사후 검토 (Blameless Postmortem)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) ->
 
 ---

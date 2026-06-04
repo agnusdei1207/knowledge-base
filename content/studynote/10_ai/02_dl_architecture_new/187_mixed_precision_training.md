@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 그래서 학자들은 "어차피 딥러닝은 엄청난 수의 뉴런이 다수결로 대충 답을 찍어 맞추는 통계 싸움인데, 굳이 소수점 10자리까지 정확하게 잴 필요가 있을까? 소수점 꼬리를 잘라서 가벼운 16비트(**FP16**, [Half Precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/))로 바꿔버리자!"라는 아이디어를 냈다. FP16으로 바꾸면 차지하는 메모리가 정확히 반 토막(1/2) 나고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 통신 속도는 2배로 뛴다. 게다가 엔비디아의 특수 엔진인 '[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))'가 FP16 행렬 덩어리를 받아먹고 1클럭 만에 미친 듯이 씹어 돌린다. 하지만 전부 16비트로만 바꿨더니 훈련 중에 미세한 점수 오차가 '0'으로 인식되어 모델이 바보가 되었다. 이 문제를 완벽히 해결하기 위해 <strong>가벼운 16비트와 무거운 32비트의 역할을 교묘하게 섞어 쓰는(Mixed) 기적의 훈련법</strong>이 탄생한 것이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: FP32가 소수점 끝자리까지 정확히 재는 '초정밀 금은방 저울'이라면, FP16은 '동네 시장의 뭉툭한 저울'이다. 트럭 1,000대 분량의 밀가루([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 퍼 나를 때 굳이 금은방 저울(FP32)을 쓰면 하루 종일 걸린다. 동네 저울(FP16)로 휙휙 빠르게 밀가루를 재서 요리를 미친 듯이 빨리하고, 딱 한 번 마지막 정산(업데이트)할 때만 금은방 저울(FP32 금고)을 써서 미세한 오차가 안 새어 나가게 막는 환상의 콤비 플레이가 바로 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)다.
@@ -43,27 +43,27 @@ tags = ["studynote-ai"]
 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련(Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))은 파이토치(PyTorch)나 텐서플로우(TensorFlow) 뒤편에서 3단계의 이중 장부(Dual-bookkeeping) 속임수를 쓴다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           혼합 정밀도 훈련 (Mixed Precision)의 3단계 이중 장부 아키텍처│
-├──────────────────────────────────────────────────────────────┤
-│  [전제]: 안전 금고에는 항상 원본 마스터 가중치(FP32)가 보관되어 있음.    │
-│                                                              │
-│  [1. 빠른 포워드/백워드 연산 (FP16 강제 형변환 Cast)]               │
-│   * 금고에서 FP32 가중치를 꺼내 ─▶ 가벼운 FP16으로 소수점을 잘라 복사함! │
-│   * 엄청나게 빠른 텐서 코어(Tensor Core)가 이 FP16 행렬들을 받아먹고     │
-│     빛의 속도로 (오차/기울기)를 계산해 냄. (속도 3배, 메모리 반 토막 효과) │
-│                                                              │
-│  [2. 로스 스케일링 (Loss Scaling) - 언더플로우 방지!]              │
-│   * 텐서 코어가 계산한 미세한 오차(예: 0.0000001)는 FP16의 한계를 넘어   │
-│     강제로 '0'이 되어 증발해 버림(Underflow 사망).                 │
-│   * 마법 발동: 증발하기 전에 오차 숫자에 곱하기 1,000(Scale-Up)을 해서   │
-│               큰 숫자로 뻥튀기시켜 0이 되는 걸 멱살 잡고 살려냄!         │
-│                                                              │
-│  [3. 튼튼한 마스터 금고 업데이트 (FP32 영구 기록)]                   │
-│   * 방금 살려낸 오차 숫자를 다시 원래대로 1,000으로 나눠서(Scale-Down) 복구.│
-│   * 이 미세한 오차 값(기울기)을 [처음에 보관해 둔 튼튼한 FP32 원본 가중치 금고]에│
-│     더해서 영구 보존(업데이트)함! (정보 유실 0%)                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           혼합 정밀도 훈련 (Mixed Precision)의 3단계 이중 장부 아키텍처|
++--------------------------------------------------------------+
+|  [전제]: 안전 금고에는 항상 원본 마스터 가중치(FP32)가 보관되어 있음.    |
+|                                                              |
+|  [1. 빠른 포워드/백워드 연산 (FP16 강제 형변환 Cast)]               |
+|   * 금고에서 FP32 가중치를 꺼내 --> 가벼운 FP16으로 소수점을 잘라 복사함! |
+|   * 엄청나게 빠른 텐서 코어(Tensor Core)가 이 FP16 행렬들을 받아먹고     |
+|     빛의 속도로 (오차/기울기)를 계산해 냄. (속도 3배, 메모리 반 토막 효과) |
+|                                                              |
+|  [2. 로스 스케일링 (Loss Scaling) - 언더플로우 방지!]              |
+|   * 텐서 코어가 계산한 미세한 오차(예: 0.0000001)는 FP16의 한계를 넘어   |
+|     강제로 '0'이 되어 증발해 버림(Underflow 사망).                 |
+|   * 마법 발동: 증발하기 전에 오차 숫자에 곱하기 1,000(Scale-Up)을 해서   |
+|               큰 숫자로 뻥튀기시켜 0이 되는 걸 멱살 잡고 살려냄!         |
+|                                                              |
+|  [3. 튼튼한 마스터 금고 업데이트 (FP32 영구 기록)]                   |
+|   * 방금 살려낸 오차 숫자를 다시 원래대로 1,000으로 나눠서(Scale-Down) 복구.|
+|   * 이 미세한 오차 값(기울기)을 [처음에 보관해 둔 튼튼한 FP32 원본 가중치 금고]에|
+|     더해서 영구 보존(업데이트)함! (정보 유실 0%)                       |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (FP32 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>와 Loss Scaling)</strong>:
@@ -134,7 +134,7 @@ Pytorch나 TensorFlow 훈련 [파이프](/knowledge-base/studynote/02_operating_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [혼합 정밀도 훈련 (Mixed Precision Training)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [혼합 정밀도 훈련 (Mixed Precision Training)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ Pytorch나 TensorFlow 훈련 [파이프](/knowledge-base/studynote/02_operating_
 
 **진행 상황**: 187 / 420
 
-← **이전**: [186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/186_ai_accelerators_tpu_npu_lpu/)
-**다음**: [188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/188_multi_gpu_distributed_training/) →
+<- **이전**: [186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/186_ai_accelerators_tpu_npu_lpu/)
+**다음**: [188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/188_multi_gpu_distributed_training/) ->
 
 ---

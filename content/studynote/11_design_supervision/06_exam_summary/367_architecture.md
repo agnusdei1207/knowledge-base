@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 상태 변화나 업무 사실을 이벤트로 발행하고 구독해 비동기적으로 연결하는 아키텍처 스타일이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 호출이 늘어나면 결합과 장애 전파가 커져 느슨한 연결 방식이 필요해졌다. 이 개념이 필요한 이유는 상태 변화를 비동기 신호로 전달하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 연쇄 호출 전체를 멈추고 시스템 확장성이 떨어진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    EDA     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    EDA     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[동기 호출 연결] → EDA 적용] → [비동기 이벤트 협업]
+[동기 호출 연결] -> EDA 적용] -> [비동기 이벤트 협업]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 학교 방송으로 알림을 보내 여러 반이 각자 필요한 행동을 하는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 445 / 530
 
-← **이전**: [366. 헥사고날 아키텍처 (Hexagonal Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/)
-**다음**: [368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/368_cqrs/) →
+<- **이전**: [366. 헥사고날 아키텍처 (Hexagonal Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/)
+**다음**: [368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/368_cqrs/) ->
 
 ---

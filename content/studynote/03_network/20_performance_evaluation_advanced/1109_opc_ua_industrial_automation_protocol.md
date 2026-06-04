@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [OT 망 분리 원단 통제]
-    │
-    ▼
+    |
+    v
 [OPC UA 자동화 프레임 표준 통신]
-    │
-    └──▶ [무손실 이더넷]
+    |
+    +---> [무손실 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [OT 망 분리 원단 통제]
-    │
-    ▼
+    |
+    v
 [OPC UA 자동화 프레임 표준 통신]
-    │
-    └──▶ [무손실 이더넷]
+    |
+    +---> [무손실 이더넷]
 ```
 
 - **📢 섹션 요약 비유**: [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: OT 망 분리 원단 통제]
-    │
-    ▼
+    |
+    v
 [현재 개념: OPC UA 자동화 프레임 표준 통신]
-    │
-    ├──▶ [확장 A: 무손실 이더넷]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 무손실 이더넷]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신는 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제에서 출발해 현재 메커니즘을 정교화하고, 이후 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 219 / 1120
 
-← **이전**: [1108. OT 망 (운영 기술 망) 분리 원단 통제](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1108_ot_network_security_air_gap_isolation/)
-**다음**: [110. 노출 노드 문제 (Exposed Node Problem)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/) →
+<- **이전**: [1108. OT 망 (운영 기술 망) 분리 원단 통제](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1108_ot_network_security_air_gap_isolation/)
+**다음**: [110. 노출 노드 문제 (Exposed Node Problem)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/) ->
 
 ---

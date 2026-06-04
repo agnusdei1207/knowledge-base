@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [다항식 연산 / 생성 다항식]
-    │
-    ▼
+    |
+    v
 [CRC-16, CRC-32, CRC-CCIT…]
-    │
-    └──▶ [버스트 에러 검출 능력 유지]
+    |
+    +---> [버스트 에러 검출 능력 유지]
 ```
 
 - **📢 섹션 요약 비유**: [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -58,11 +58,11 @@ tags = ["studynote-network"]
 
 ```text
 [다항식 연산 / 생성 다항식]
-    │
-    ▼
+    |
+    v
 [CRC-16, CRC-32, CRC-CCIT…]
-    │
-    └──▶ [버스트 에러 검출 능력 유지]
+    |
+    +---> [버스트 에러 검출 능력 유지]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a>은 자물쇠를 따는 </strong>'마스터키의 톱니바퀴 모양'**입니다. [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16이 동네 자전거 자물쇠를 지키는 짧고 듬성듬성한 16칸짜리 열쇠라면, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32는 은행 금고를 지키는 32칸짜리 엄청나게 정밀하고 복잡한 특수 열쇠입니다. 이 32개의 톱니바퀴에 딱 들어맞게 에러가 우연히 생길 확률은 로또를 연속 2번 맞는 것보다 어렵습니다.
@@ -123,12 +123,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 다항식 연산 / 생성 다항식]
-    │
-    ▼
+    |
+    v
 [현재 개념: CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ├──▶ [확장 A: 버스트 에러 검출 능력 유지]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 버스트 에러 검출 능력 유지]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 317 / 1120
 
-← **이전**: [195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)
-**다음**: [197. 버스트 에러 (Burst Error) 검출 능력 유지](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) →
+<- **이전**: [195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)
+**다음**: [197. 버스트 에러 (Burst Error) 검출 능력 유지](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) ->
 
 ---

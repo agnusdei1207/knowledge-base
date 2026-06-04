@@ -20,14 +20,14 @@ tags = ["studynote-design-supervision"]
 필요성은 문제의 비정형성에 있다. 예를 들어 음성인식에서는 음향 분석, 단어 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 문맥 보정, 의미 해석이 한 번에 정답을 만들지 못한다. [블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/)은 이런 문제를 “부분 해답의 누적”으로 바라보므로, 불완전한 정보에서도 점진적으로 더 나은 답에 접근할 수 있다. 감리 관점에서는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분업보다도 중앙 문제 공간과 제어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 타당한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 ```text
-┌──────────┐        ┌──────────────────┐
-│ 입력 문제 │──────▶│   Blackboard     │
-└──────────┘        │  가설/부분해답   │
-                    └───┬────┬────┬───┘
-                        │    │    │
-                  ┌─────▼┐ ┌─▼────┐ ┌────▼─┐
-                  │전문가1│ │전문가2│ │전문가3│
-                  └──────┘ └──────┘ └──────┘
++----------+        +------------------+
+| 입력 문제 |------->|   Blackboard     |
++----------+        |  가설/부분해답   |
+                    +---+----+----+---+
+                        |    |    |
+                  +-----v+ +-v----+ +----v-+
+                  |전문가1| |전문가2| |전문가3|
+                  +------+ +------+ +------+
 ```
 
 기술사 답안에서는 “중앙 저장소”만 쓰면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 패턴처럼 보일 수 있으므로, 반드시 부분 해답 누적·전문가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 협업·제어기의 선택적 활성화를 함께 설명해야 한다.
@@ -44,19 +44,19 @@ tags = ["studynote-design-supervision"]
 | 평가 기준 | 부분 결과의 품질을 점수화해 수렴 방향을 관리한다. | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 계산, 오탐 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 최종 선택 기준 검토 |
 
 ```text
-┌──────────────────── Blackboard ────────────────────┐
-│  상태 S0 → 가설 H1 → 부분해답 H2 → 후보해답 H3     │
-└───────────────┬───────────────┬────────────────────┘
-                │               │
-         ┌──────▼─────┐   ┌────▼─────┐
-         │ KS-A 분석기 │   │ KS-B 규칙 │
-         └──────┬─────┘   └────┬─────┘
-                │              │
-                └──────┬───────┘
-                       ▼
-                 ┌──────────┐
-                 │ Controller│
-                 └──────────┘
++-------------------- Blackboard --------------------+
+|  상태 S0 -> 가설 H1 -> 부분해답 H2 -> 후보해답 H3     |
++---------------+---------------+--------------------+
+                |               |
+         +------v-----+   +----v-----+
+         | KS-A 분석기 |   | KS-B 규칙 |
+         +------+-----+   +----+-----+
+                |              |
+                +------+-------+
+                       v
+                 +----------+
+                 | Controller|
+                 +----------+
 ```
 
 핵심 원리는 선형 처리보다 “가설 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)-평가-수정”의 반복이다. 그래서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인처럼 순서가 고정된 문제에는 오히려 과할 수 있지만, 정답 경로가 여러 갈래로 갈라지는 영역에서는 강력하다. 시험 답안에서는 블랙보드의 공용 표현과 제어기의 중요성을 반드시 강조해야 한다.
@@ -103,13 +103,13 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 단일 알고리즘 중심 문제 해결
-    ↓
+    v
 규칙 기반 전문가 시스템
-    ↓
+    v
 블랙보드 기반 협업 추론
-    ↓
+    v
 센서 융합·음성인식 응용
-    ↓
+    v
 멀티에이전트 AI 협력 구조
 ```
 
@@ -124,7 +124,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 510 / 530
 
-← **이전**: [431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/)
-**다음**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/433_process/) →
+<- **이전**: [431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/)
+**다음**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/433_process/) ->
 
 ---

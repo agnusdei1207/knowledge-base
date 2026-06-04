@@ -30,11 +30,11 @@ tags = ["ict_convergence"]
 
 ```text
 Cloud Platform
-  ↓
+  v
 BaaS
-  ↓
+  v
 Blockchain Network
-  ↓
+  v
 Application
 ```
 
@@ -106,11 +106,11 @@ BaaS는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchai
 
 ```text
 Cloud
-  ↓
+  v
 BaaS
-  ↓
+  v
 Blockchain Network
-  ↓
+  v
 Application
 ```
 
@@ -120,11 +120,11 @@ Application
 
 ```text
 Blockchain Infrastructure
-  ↓
+  v
 BaaS
-  ↓
+  v
 Managed Service
-  ↓
+  v
 PoC
 ```
 
@@ -142,7 +142,7 @@ BaaS는 그런 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_ia
 
 **진행 상황**: 71 / 552
 
-← **이전**: [70. 시빌 공격 (Sybil Attack) - 한 명이 여러 개의 가짜 노드(신분)를 생성하여 투표율/합의를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)
-**다음**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) →
+<- **이전**: [70. 시빌 공격 (Sybil Attack) - 한 명이 여러 개의 가짜 노드(신분)를 생성하여 투표율/합의를 조작하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)
+**다음**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) ->
 
 ---

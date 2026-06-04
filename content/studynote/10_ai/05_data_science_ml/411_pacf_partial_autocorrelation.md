@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 따라서 PACF는 AR 모형의 차수 `p`를 정할 때 매우 유용하다. 예를 들어 PACF가 lag 3까지 유의하면 AR(3)을 후보로 고려할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                PACF: direct effect by lag only              │
-├──────────────────────────────────────────────────────────────┤
-│ x(t) ──direct──▶ x(t-1) ──direct──▶ x(t-2) ──direct──▶ ...   │
-│        ▲ remove indirect paths through intermediate lags     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                PACF: direct effect by lag only              |
++--------------------------------------------------------------+
+| x(t) --direct---> x(t-1) --direct---> x(t-2) --direct---> ...   |
+|        ^ remove indirect paths through intermediate lags     |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 친구의 소문이 몇 사람을 거쳐 퍼졌는지 따지지 말고, "내가 그 친구에게 직접 들은 이야기"만 보는 것이다.
@@ -50,12 +50,12 @@ PACF는 `x_t`와 `x_{t-k}`의 상관을 보되, `x_{t-1}...x_{t-k+1}`의 영향�
 `PACF(k) = Corr(x_t, x_{t-k} | x_{t-1}, ..., x_{t-k+1})`
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             ACF vs PACF in AR Order Selection                │
-├──────────────────────────────────────────────────────────────┤
-│ ACF:  간접 효과까지 포함한 전체 상관                        │
-│ PACF: 중간 시차를 제거한 직접 상관                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             ACF vs PACF in AR Order Selection                |
++--------------------------------------------------------------+
+| ACF:  간접 효과까지 포함한 전체 상관                        |
+| PACF: 중간 시차를 제거한 직접 상관                          |
++--------------------------------------------------------------+
 ```
 
 보통 AR(p)에서는 PACF가 p 이후 급격히 작아지고, MA(q)에서는 ACF가 q 이후 끊기는 경향이 있다. 물론 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽하지 않으므로, "딱 끊긴다"보다 "어디까지 유의한가"를 보는 것이 더 정확하다.
@@ -123,7 +123,7 @@ PACF를 올바르게 쓰면 [ARIMA](/knowledge-base/studynote/06_ict_convergence
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [편자기상관함수 (PACF, Partial Autocorrelation Function)] → [최적화·운영 자동화]
+[데이터 전처리] -> [편자기상관함수 (PACF, Partial Autocorrelation Function)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ PACF를 올바르게 쓰면 [ARIMA](/knowledge-base/studynote/06_ict_convergence
 
 **진행 상황**: 411 / 420
 
-← **이전**: [410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)](/knowledge-base/studynote/10_ai/05_data_science_ml/410_aic_bic_model_selection/)
-**다음**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/) →
+<- **이전**: [410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)](/knowledge-base/studynote/10_ai/05_data_science_ml/410_aic_bic_model_selection/)
+**다음**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/) ->
 
 ---

@@ -29,14 +29,14 @@ tags = ["enterprise_systems"]
 
 ```text
 [기존 일회성 아키텍처 구축의 한계]
-[비즈니스 요구] ─▶ [거대 EA 도면 작성(1년 소요)] ─▶ [개발/배포] ─▶ [방치 및 부식]
-      ▲                                                              │
-      └───────────────── 비즈니스 환경 변화 (괴리 발생) ───────────────┘
+[비즈니스 요구] --> [거대 EA 도면 작성(1년 소요)] --> [개발/배포] --> [방치 및 부식]
+      ^                                                              |
+      +----------------- 비즈니스 환경 변화 (괴리 발생) ---------------+
 
 [TOGAF ADM 기반의 지속적 아키텍처 진화]
-[비즈니스 요구] ─▶ [ADM 사이클 (작고 빠른 반복)] ─▶ [To-Be 도출] ─▶ [구현 거버넌스]
-      ▲                      │                                       │
-      └────────────── [Architecture Change Management] ◀────────────┘
+[비즈니스 요구] --> [ADM 사이클 (작고 빠른 반복)] --> [To-Be 도출] --> [구현 거버넌스]
+      ^                      |                                       |
+      +-------------- [Architecture Change Management] <-------------+
 ```
 *해설: 이 구조도는 TOGAF가 왜 필요한지를 명확히 보여준다. 기존 방식은 도면과 실제 시스템이 빠르게 불일치하여 쓸모없는 문서로 전락하지만, TOGAF는 '아키텍처 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Phase H)'를 프로세스 내부에 강제 탑재함으로써 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 형성하여 생명력을 유지한다.*
 
@@ -61,25 +61,25 @@ TOGAF의 뼈대는 4대 아키텍처 [도메인](/knowledge-base/studynote/05_da
 - <strong>중앙: <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/">요구사항 관리</a> (Requirements <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 모든 Phase의 중심에서 요구사항의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│               [Requirements Management]                │
-│                         ▲                              │
-│ ┌──────┐                │                ┌──────┐      │
-│ │Phase H│◀──────────────┴─────────────── │Phase A│      │
-│ │변경관리│                ▼                │ 비전 │      │
-│ └──────┘ ┌──────┐               ┌──────┐ └──────┘      │
-│     ▲    │Phase G│               │Phase B│     ▼       │
-│     │    │거버넌스│               │비즈니스│     │       │
-│     │    └──────┘               └──────┘     │       │
-│ ┌──────┐     ▲                     ▼    ┌──────┐       │
-│ │Phase F│     │                     │    │Phase C│       │
-│ │ 이행  │     │                     │    │정보(DA/AA)    │
-│ └──────┘     │                     │    └──────┘       │
-│     ▲    ┌──────┐               ┌──────┐     ▼       │
-│     │    │Phase E│◀───────────────│Phase D│     │       │
-│     └────│기회/솔루션              │ 기술 │ ◀───┘       │
-│          └──────┘               └──────┘               │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|               [Requirements Management]                |
+|                         ^                              |
+| +------+                |                +------+      |
+| |Phase H|<---------------+--------------- |Phase A|      |
+| |변경관리|                v                | 비전 |      |
+| +------+ +------+               +------+ +------+      |
+|     ^    |Phase G|               |Phase B|     v       |
+|     |    |거버넌스|               |비즈니스|     |       |
+|     |    +------+               +------+     |       |
+| +------+     ^                     v    +------+       |
+| |Phase F|     |                     |    |Phase C|       |
+| | 이행  |     |                     |    |정보(DA/AA)    |
+| +------+     |                     |    +------+       |
+|     ^    +------+               +------+     v       |
+|     |    |Phase E|<----------------|Phase D|     |       |
+|     +----|기회/솔루션              | 기술 | <----+       |
+|          +------+               +------+               |
++--------------------------------------------------------+
 ```
 *해설: 이 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 크롭 도식에서 주목할 점은 중앙의 '[요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)(Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이다. 모든 A~H 단계는 독립적으로 흐르는 것이 아니라 끊임없이 중앙의 요구사항과 대조된다. 또한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 폭포수가 아니라, D 단계에서 기술적 제약이 발견되면 언제든 B 단계로 돌아가 비즈니스 프로세스를 재설정할 수 있는 순환적 트레이드오프 구조를 갖는다.*
 
@@ -106,13 +106,13 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
 ```text
 [프레임워크 특성 비교 및 트레이드오프 매트릭스]
 유연성/범용성
-   ▲
-   │        ● TOGAF
-   │     (방법론 강점, 분류 약점)
-   │                                  ● GEA (FEAF)
-   │                           (공공 통제 강점, 유연성 약점)
-   │
-   ├─────────────────────────────────────────▶ 정밀함/추적성
+   ^
+   |        ● TOGAF
+   |     (방법론 강점, 분류 약점)
+   |                                  ● GEA (FEAF)
+   |                           (공공 통제 강점, 유연성 약점)
+   |
+   +------------------------------------------> 정밀함/추적성
           ● Zachman
       (분류 강점, 방법론 약점)
 ```
@@ -134,16 +134,16 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
 [실무 의사결정 트리: TOGAF 도입 및 테일러링 전략]
 
 [조직 규모 및 개발 문화 분석]
-         │
-         ▼
+         |
+         v
 [배포 주기 검토] 주 단위/일 단위 배포를 수행하는 애자일(Agile/MSA) 조직인가?
-   ├─ (Yes) ──▶ [경량화 도입] ADM 전면 적용 불가.
-   │              아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를
-   │              자동화된 테스트/코드 스캐닝 솔루션에 위임.
-   │
-   └─ (No) ───▶ [레거시/대규모 통합 여부] 차세대 시스템 구축이나 M&A 통합인가?
-                  ├─ (Yes) ─▶ ADM Full Cycle 가동. B/C/D 갭 분석 정밀 수행.
-                  └─ (No) ──▶ 부서 단위 최적화. Phase A(비전)와 F(이행) 위주 약식 적용.
+   +- (Yes) ---> [경량화 도입] ADM 전면 적용 불가.
+   |              아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를
+   |              자동화된 테스트/코드 스캐닝 솔루션에 위임.
+   |
+   +- (No) ----> [레거시/대규모 통합 여부] 차세대 시스템 구축이나 M&A 통합인가?
+                  +- (Yes) --> ADM Full Cycle 가동. B/C/D 갭 분석 정밀 수행.
+                  +- (No) ---> 부서 단위 최적화. Phase A(비전)와 F(이행) 위주 약식 적용.
 ```
 *해설: 이 플로우차트는 기술사가 조직 문화를 바탕으로 프레임워크의 무게를 조절하는 판단 기준이다. 최신 IT 트렌드에서는 두꺼운 설계 문서보다 '작동하는 코드'가 우위이므로, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 역시 엄격한 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기에서 '최소한의 가이드레일을 제공하는 나침반' 역할로 테일러링 되어야 한다.*
 
@@ -178,17 +178,17 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 ```text
 [엔터프라이즈 아키텍처 (EA) — 비즈니스·IT 전반의 구조적 정렬 필요]
-    │
-    ▼
+    |
+    v
 [TOGAF (The Open Group Architecture Framework) — EA 개발·관리 표준 프레임워크]
-    │
-    ▼
+    |
+    v
 [ADM (Architecture Development Method) — 8단계 반복 사이클로 아키텍처 개발]
-    │
-    ▼
+    |
+    v
 [아키텍처 리포지토리 (Architecture Repository) — 산출물 저장 및 재사용 관리]
-    │
-    ▼
+    |
+    v
 [TOGAF 10 / 아키텍처 거버넌스 — 디지털 전환 시대의 지속적 EA 운영 체계]
 ```
 
@@ -196,7 +196,7 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. TOGAF는 세상에서 가장 똑똑한 건축가들이 모여서 만든 '절대 실패하지 않는 도시 건설 가이드북'이에요.
-2. 여기에는 '비전 세우기 → 건물 모양 정하기 → 컴퓨터망 깔기 → 공사 규칙 지키기'처럼 단계별로 무엇을 해야 하는지([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)) 빙글빙글 도는 쳇바퀴처럼 설명되어 있어요.
+2. 여기에는 '비전 세우기 -> 건물 모양 정하기 -> 컴퓨터망 깔기 -> 공사 규칙 지키기'처럼 단계별로 무엇을 해야 하는지([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)) 빙글빙글 도는 쳇바퀴처럼 설명되어 있어요.
 3. 이 가이드북을 따르면 회사들이 엉뚱한 데 돈을 쓰거나 건물이 무너지는 일 없이, 미래 기술이 나와도 쉽게 건물을 고쳐 쓸 수 있답니다!
 
 ---
@@ -205,7 +205,7 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 **진행 상황**: 13 / 482
 
-← **이전**: [12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/012_zachman_framework/)
-**다음**: [14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/014_gea_framework/) →
+<- **이전**: [12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/012_zachman_framework/)
+**다음**: [14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/014_gea_framework/) ->
 
 ---

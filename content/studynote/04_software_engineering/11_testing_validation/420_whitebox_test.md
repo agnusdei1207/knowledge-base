@@ -25,17 +25,17 @@ tags = ["studynote-software-engineering"]
 현대 시스템에서는 블랙박스 테스트만 통과했다고 해서 배포할 수 없습니다. 왜냐하면, 블랙박스는 "어쨌든 잘 돌아감!"이라는 결과를 보장하지만, 속 코드는 `if(a=1) { ... }` 괄호 하나가 실수로 비워져 있거나, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))가 발생하는 더러운 스파게티 코드로 떡칠되어 있을 수 있기 때문입니다. 언젠가 시스템은 내부 무게를 못 이기고 붕괴합니다. 화이트박스는 이 내부 건물의 철근과 콘크리트 상태를 X-ray로 단층촬영하는 것과 같습니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                화이트박스 테스트 vs 블랙박스 테스트 비교             │
-├──────────────────────────────────────────────────────────────┤
-│ [블랙박스 테스트 (명세 기반)]           [화이트박스 테스트 (구조 기반)] │
-│                                                              │
-│ - 기준: 기획자의 요구사항 명세서      - 기준: 개발자의 소스코드 (C, Java) │
-│ - 주체: QA, 비즈니스 사용자          - 주체: 개발자 자신, 화이트박스 QA│
-│ - 도구: 동등분할, 경계값 분석        - 도구: 제어흐름, 커버리지 툴(JaCoCo)│
-│ - 관심: "음료수가 버튼 누르면 나옴?"  - 관심: "내부 모터가 5바퀴 정확히 돎?"│
-│ - 오류: 명세 불일치(Specification)   - 오류: 논리(Logic) 및 문법, 무한루프│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                화이트박스 테스트 vs 블랙박스 테스트 비교             |
++--------------------------------------------------------------+
+| [블랙박스 테스트 (명세 기반)]           [화이트박스 테스트 (구조 기반)] |
+|                                                              |
+| - 기준: 기획자의 요구사항 명세서      - 기준: 개발자의 소스코드 (C, Java) |
+| - 주체: QA, 비즈니스 사용자          - 주체: 개발자 자신, 화이트박스 QA|
+| - 도구: 동등분할, 경계값 분석        - 도구: 제어흐름, 커버리지 툴(JaCoCo)|
+| - 관심: "음료수가 버튼 누르면 나옴?"  - 관심: "내부 모터가 5바퀴 정확히 돎?"|
+| - 오류: 명세 불일치(Specification)   - 오류: 논리(Logic) 및 문법, 무한루프|
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 좋은 레스토랑인지 알기 위해 블랙박스는 "테이블에 앉아 스테이크를 먹어보고 맛있네!" 하고 평가하는 손님이라면, 화이트박스는 주방 안으로 치고 들어가서 "고기 숙성고 온도는 맞는지, 도마는 깨끗한지, 타이머는 5분에 세팅되어 있는지" 깐깐하게 요리 과정을 위생 검열하는 식약처 직원입니다.
@@ -136,21 +136,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 화이트박스 테스트 (White-box Test / 구조 기반 테스트) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 431 / 973
 
-← **이전**: [419. 원인-결과 그래프 (Cause-Effect Graphing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)
-**다음**: [420. 화이트박스 테스트 (White-box Test / 구조 기반 테스트) - 소스코드의 내부 논리 구조를 모두 검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/) →
+<- **이전**: [419. 원인-결과 그래프 (Cause-Effect Graphing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)
+**다음**: [420. 화이트박스 테스트 (White-box Test / 구조 기반 테스트) - 소스코드의 내부 논리 구조를 모두 검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/) ->
 
 ---

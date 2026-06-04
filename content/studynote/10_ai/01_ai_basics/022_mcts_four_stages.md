@@ -40,27 +40,27 @@ tags = ["studynote-ai"]
 루트 노드(현재 게임 상태)에서 출발하여 시간이 다 될 때까지 아래 4단계를 반복합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ MCTS 4단계 순환 아키텍처 (Flow Chart) ]           │
-│                                                             │
-│       [1. Selection]                [2. Expansion]          │
-│        (유망한 노드 탐색)             (트리에 새 노드 추가)          │
-│           ( O ) ◀──────┐               ( O )              │
-│          ／   ＼         │              ／   ＼             │
-│       ( O )    ( )      │             ( O )  ( N ) <-- 신규│
-│      ／   ＼            │            ／   ＼               │
-│    ( O )   ( )          │           ( O )   ( )             │
-│                         │                                  │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                         │                                  │
-│  [4. Backpropagation]   │           [3. Simulation]         │
-│     (승패 통계 업데이트)    │           (무작위 롤아웃 테스트)       │
-│        (+1 Win)         │                ( N )              │
-│          ／   ＼         │                  |  <-- Random  │
-│       (+1)     ( )      │                  |      Playout │
-│      ／   ＼            │                  |              │
-│    (+1)    ( ) ─────────┘               [Win!] (승리/패배) │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ MCTS 4단계 순환 아키텍처 (Flow Chart) ]           |
+|                                                             |
+|       [1. Selection]                [2. Expansion]          |
+|        (유망한 노드 탐색)             (트리에 새 노드 추가)          |
+|           ( O ) <-------+               ( O )              |
+|          ／   ＼         |              ／   ＼             |
+|       ( O )    ( )      |             ( O )  ( N ) <-- 신규|
+|      ／   ＼            |            ／   ＼               |
+|    ( O )   ( )          |           ( O )   ( )             |
+|                         |                                  |
+| - - - - - - - - - - - - - + - - - - - - - - - - - - - - - - - - |
+|                         |                                  |
+|  [4. Backpropagation]   |           [3. Simulation]         |
+|     (승패 통계 업데이트)    |           (무작위 롤아웃 테스트)       |
+|        (+1 Win)         |                ( N )              |
+|          ／   ＼         |                  |  <-- Random  |
+|       (+1)     ( )      |                  |      Playout |
+|      ／   ＼            |                  |              |
+|    (+1)    ( ) ---------+               [Win!] (승리/패배) |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 상세 해설]**
@@ -154,17 +154,17 @@ tags = ["studynote-ai"]
 
 ```text
 [거대 상태 공간 (바둑 — 10^170 경우의 수)]
-    │
-    ▼
-[MCTS 4단계 루프: 선택 → 확장 → 시뮬레이션 → 역전파]
-    │
-    ▼
+    |
+    v
+[MCTS 4단계 루프: 선택 -> 확장 -> 시뮬레이션 -> 역전파]
+    |
+    v
 [UCT 공식 — 탐험/활용 균형 자동 조정]
-    │
-    ▼
+    |
+    v
 [딥러닝 정책망·가치망으로 롤아웃 대체 (AlphaGo)]
-    │
-    ▼
+    |
+    v
 [AlphaZero 셀프 플레이 — 순수 강화학습 현대 아키텍처]
 ```
 불가능한 완전 탐색을 UCT 기반 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 4단계 루프로 실용화하고, 딥러닝이 롤아웃을 대체하여 AlphaGo·AlphaZero가 탄생한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전의 핵심 흐름이다.
@@ -184,7 +184,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 22 / 420
 
-← **이전**: [21. 몬테카를로 트리 탐색 (MCTS, Monte Carlo Tree Search) - 바둑(알파고) 등 경우의 수가 방대한 게임에서](/knowledge-base/studynote/10_ai/01_ai_basics/021_monte_carlo_tree_search_mcts/)
-**다음**: [23. 머신러닝 개념 (Machine Learning Concept)](/knowledge-base/studynote/10_ai/01_ai_basics/023_machine_learning_concept/) →
+<- **이전**: [21. 몬테카를로 트리 탐색 (MCTS, Monte Carlo Tree Search) - 바둑(알파고) 등 경우의 수가 방대한 게임에서](/knowledge-base/studynote/10_ai/01_ai_basics/021_monte_carlo_tree_search_mcts/)
+**다음**: [23. 머신러닝 개념 (Machine Learning Concept)](/knowledge-base/studynote/10_ai/01_ai_basics/023_machine_learning_concept/) ->
 
 ---

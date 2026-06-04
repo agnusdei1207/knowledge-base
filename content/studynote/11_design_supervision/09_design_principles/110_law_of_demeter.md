@@ -18,9 +18,9 @@ tags = ["studynote-design-supervision"]
 최소 지식의 원칙은 "Don't talk to strangers"라는 문장으로 자주 요약된다. 한 객체가 다른 객체의 내부 구조를 지나치게 많이 알수록 작은 구조 변경도 여러 모듈에 연쇄 수정으로 번지기 때문이다. 대규모 시스템일수록 이런 구조 노출은 장애 전파와 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 비용을 빠르게 키운다.
 
 ```text
-┌────────┐   getOrder()   ┌────────┐   getUser()    ┌────────┐   getAddr()    ┌────────┐
-│Client  │──────────────▶│Order   │───────────────▶│User    │───────────────▶│Address │
-└────────┘               └────────┘                └────────┘                └────────┘
++--------+   getOrder()   +--------+   getUser()    +--------+   getAddr()    +--------+
+|Client  |--------------->|Order   |---------------->|User    |---------------->|Address |
++--------+               +--------+                +--------+                +--------+
       \___________________________ 구조를 많이 알수록 변경 파급 확대 ___________________________/
 ```
 
@@ -31,11 +31,11 @@ tags = ["studynote-design-supervision"]
 최소 지식의 원칙은 객체가 스스로 책임을 수행하도록 위임 경계를 세우는 방식으로 구현된다. 즉 묻고 꺼내 오는 구조보다, 메시지를 보내 일을 시키는 구조가 바람직하다.
 
 ```text
-┌────────┐   pay()    ┌────────┐   delegate    ┌──────────┐
-│Client  │──────────▶│Order   │──────────────▶│PaymentSvc│
-└────────┘           └────────┘               └──────────┘
-                          │
-                          └── 내부의 Customer·Address·Policy 접근은 Order 내부에 은닉
++--------+   pay()    +--------+   delegate    +----------+
+|Client  |----------->|Order   |--------------->|PaymentSvc|
++--------+           +--------+               +----------+
+                          |
+                          +-- 내부의 Customer·Address·Policy 접근은 Order 내부에 은닉
 ```
 
 | 허용되는 대화 상대 | 의미 | 예시 |
@@ -87,17 +87,17 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 객체 내부 구조 노출 증가
-    │
-    ▼
+    |
+    v
 Train Wreck 코드와 변경 파급 확대
-    │
-    ▼
+    |
+    v
 최소 지식의 원칙·Tell, Don't Ask 적용
-    │
-    ▼
+    |
+    v
 위임과 캡슐화 강화
-    │
-    ▼
+    |
+    v
 느슨한 결합과 리팩터링 용이성 확보
 ```
 
@@ -112,7 +112,7 @@ Train Wreck 코드와 변경 파급 확대
 
 **진행 상황**: 162 / 530
 
-← **이전**: [109. 불필요한 기능 구현 금지 원칙 (YAGNI, You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/109_yagni_you_arent_gonna_need_it/)
-**다음**: [110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/110_law_of_demeter_principle_of_least_knowledge/) →
+<- **이전**: [109. 불필요한 기능 구현 금지 원칙 (YAGNI, You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/109_yagni_you_arent_gonna_need_it/)
+**다음**: [110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/110_law_of_demeter_principle_of_least_knowledge/) ->
 
 ---

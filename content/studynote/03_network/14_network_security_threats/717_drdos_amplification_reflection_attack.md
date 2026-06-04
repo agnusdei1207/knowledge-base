@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
+    |
+    v
 [반사 증폭 공격]
-    │
-    └──▶ [NTP 증폭]
+    |
+    +---> [NTP 증폭]
 ```
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
+    |
+    v
 [반사 증폭 공격]
-    │
-    └──▶ [NTP 증폭]
+    |
+    +---> [NTP 증폭]
 ```
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 반사 증폭 공격]
-    │
-    ├──▶ [확장 A: NTP 증폭]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: NTP 증폭]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 반사 증폭 공격는 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 838 / 1120
 
-← **이전**: [716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격](/knowledge-base/studynote/03_network/14_network_security_threats/716_udp_flood_null_christmas_tree_attack/)
-**다음**: [718. NTP 증폭 (monlist 모니터 목록 명령 악용/수백배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/718_ntp_amplification_monlist/) →
+<- **이전**: [716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격](/knowledge-base/studynote/03_network/14_network_security_threats/716_udp_flood_null_christmas_tree_attack/)
+**다음**: [718. NTP 증폭 (monlist 모니터 목록 명령 악용/수백배 반사)](/knowledge-base/studynote/03_network/14_network_security_threats/718_ntp_amplification_monlist/) ->
 
 ---

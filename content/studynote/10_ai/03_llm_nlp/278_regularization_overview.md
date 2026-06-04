@@ -21,19 +21,19 @@ tags = ["studynote-ai"]
 
 ### 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))과 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))
 
-- <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong>: 훈련 오차 ↓, 테스트 오차 ↑ → 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 암기
-- <strong>과소적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/">Underfitting</a>)</strong>: 훈련 오차 ↑, 테스트 오차 ↑ → 모델 복잡도 부족
-- **적절한 fitting**: 훈련/테스트 오차 모두 낮음 → 일반화 [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/)
+- <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong>: 훈련 오차 v, 테스트 오차 ^ -> 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 암기
+- <strong>과소적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/">Underfitting</a>)</strong>: 훈련 오차 ^, 테스트 오차 ^ -> 모델 복잡도 부족
+- **적절한 fitting**: 훈련/테스트 오차 모두 낮음 -> 일반화 [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/)
 
 규제 기법은 <strong>과적합을 방지하기 위한 다양한 접근법</strong>이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델 구조, [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), 학습 과정 각 단계에서 개입할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 과적합 방지는 학생이 기출문제만 달달 외워서 시험을 통과하려는 것을 막고, 개념을 진짜로 이해하도록 유도하는 교육 방법이다. 규제가 없으면 AI도 답을 외우고, 규제가 있으면 진짜 패턴을 학습한다.
@@ -45,21 +45,21 @@ tags = ["studynote-ai"]
 ### 규제 기법 전체 구조
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│               규제(Regularization) 기법 분류                │
-├──────────────────┬────────────────────────────────────────┤
-│  손실 함수 기반  │  L1 규제 (Lasso) : λΣ|w|              │
-│                  │  L2 규제 (Ridge) : λΣw²               │
-│                  │  Elastic Net    : L1 + L2              │
-├──────────────────┼────────────────────────────────────────┤
-│  구조/학습 기반  │  Dropout        : 뉴런 무작위 비활성화 │
-│                  │  Early Stopping : 검증 손실 기반 중단  │
-│                  │  Batch Norm     : 활성화 분포 정규화   │
-│                  │  Max-Norm       : 가중치 노름 제한      │
-├──────────────────┼────────────────────────────────────────┤
-│  데이터 기반     │  Data Aug.      : 훈련 데이터 증강     │
-│                  │  Mixup/CutMix   : 샘플 혼합            │
-└──────────────────┴────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               규제(Regularization) 기법 분류                |
++------------------+----------------------------------------+
+|  손실 함수 기반  |  L1 규제 (Lasso) : λΣ|w|              |
+|                  |  L2 규제 (Ridge) : λΣw^               |
+|                  |  Elastic Net    : L1 + L2              |
++------------------+----------------------------------------+
+|  구조/학습 기반  |  Dropout        : 뉴런 무작위 비활성화 |
+|                  |  Early Stopping : 검증 손실 기반 중단  |
+|                  |  Batch Norm     : 활성화 분포 정규화   |
+|                  |  Max-Norm       : 가중치 노름 제한      |
++------------------+----------------------------------------+
+|  데이터 기반     |  Data Aug.      : 훈련 데이터 증강     |
+|                  |  Mixup/CutMix   : 샘플 혼합            |
++------------------+----------------------------------------+
 ```
 
 ### 규제 기법 비교표
@@ -77,13 +77,13 @@ tags = ["studynote-ai"]
 
 ```
 에포크
-    │                ↓ 과적합 시작
-손  │  ────────────────\         훈련 손실 (계속 감소)
-실  │                   \────────
-    │     ────────\                검증 손실 (증가 시작)
-    │              \──────────
-    └───────────────────────────→ 에포크
-         ← 정상 학습 →↑← 과적합 →
+    |                v 과적합 시작
+손  |  ----------------\         훈련 손실 (계속 감소)
+실  |                   \--------
+    |     --------\                검증 손실 (증가 시작)
+    |              \----------
+    +----------------------------> 에포크
+         <- 정상 학습 ->^<- 과적합 ->
 ```
 
 - **📢 섹션 요약 비유**: 규제 기법들은 학생의 공부 방법 교정 도구들이다. L1/L2는 "중요하지 않은 내용은 잊어버려"이고, Dropout은 "매번 교과서 일부를 가리고 공부해봐"이며, Early Stopping은 "점수가 더 이상 안 오르면 그만해"다.
@@ -128,13 +128,13 @@ tags = ["studynote-ai"]
 
 ```
 λ (정규화 강도) 선택 가이드:
-┌─────────────────────────────────────────────┐
-│  λ 너무 큼   →  과소적합 (모든 가중치 → 0) │
-│  λ 너무 작음 →  규제 효과 없음             │
-│  λ 적절      →  일반화 성능 극대화         │
-│                                             │
-│  탐색 범위: 1e-5 ~ 1e-1 (로그 스케일)     │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  λ 너무 큼   ->  과소적합 (모든 가중치 -> 0) |
+|  λ 너무 작음 ->  규제 효과 없음             |
+|  λ 적절      ->  일반화 성능 극대화         |
+|                                             |
+|  탐색 범위: 1e-5 ~ 1e-1 (로그 스케일)     |
++---------------------------------------------+
 ```
 
 ### 최신 규제 기법
@@ -153,7 +153,7 @@ tags = ["studynote-ai"]
 적절한 규제 기법 적용의 효과:
 
 1. <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상</strong>: 테스트 오차 감소, 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화
-2. **모델 경량화**: L1 규제로 불필요한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 → 추론 속도 향상
+2. **모델 경량화**: L1 규제로 불필요한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 -> 추론 속도 향상
 3. **학습 안정성**: Batch Norm으로 그래디언트 흐름 안정화
 4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 효율성</strong>: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation으로 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로도 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성
 
@@ -167,9 +167,9 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) | 훈련 오차↓ [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차↑ / 규제 기법이 해결하는 핵심 문제 |
+| 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) | 훈련 오차v [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차^ / 규제 기법이 해결하는 핵심 문제 |
 | L1 규제 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | 희소 해, 특성 선택, λΣ / w / [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 절댓값 페널티 추가 |
-| L2 규제 (Ridge) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 축소, λΣw² / [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 제곱 페널티 추가 |
+| L2 규제 (Ridge) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 축소, λΣw^ / [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 제곱 페널티 추가 |
 | [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) | 뉴런 비활성화, [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) / 학습 시 무작위 뉴런 제거 |
 | [Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) | Patience, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 / 훈련 중단 시점 결정 |
 | [Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) | 내부 공변량 이동, γ, β / 활성화 분포 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
@@ -177,7 +177,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [과적합 방지 기법 (Regularization Techniques) 모음] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [과적합 방지 기법 (Regularization Techniques) 모음] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -192,7 +192,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 278 / 420
 
-← **이전**: [277. Adam (Adaptive Moment Estimation)](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)
-**다음**: [279. L1/L2 규제 (Regularization)](/knowledge-base/studynote/10_ai/03_llm_nlp/279_l1_l2_regularization/) →
+<- **이전**: [277. Adam (Adaptive Moment Estimation)](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)
+**다음**: [279. L1/L2 규제 (Regularization)](/knowledge-base/studynote/10_ai/03_llm_nlp/279_l1_l2_regularization/) ->
 
 ---

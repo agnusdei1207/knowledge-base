@@ -21,16 +21,16 @@ tags = ["studynote-ai"]
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 문제를 정의할 때 가장 먼저 결정해야 할 것이 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 무엇을 학습시킬 것인가"이다. 이 결정이 학습 패러다임을 결정한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            3대 학습 패러다임 비교                             │
-├──────────────┬────────────────────────┬────────────────────┤
-│  지도 학습   │     비지도 학습          │    강화 학습        │
-├──────────────┼────────────────────────┼────────────────────┤
-│ 레이블 데이터 │ 레이블 없는 데이터       │ 환경·보상 신호      │
-│ f(x) → y    │ 숨겨진 패턴 발견         │ 최적 정책 π 학습    │
-│ 분류·회귀    │ 군집·차원 축소·생성      │ 게임·로봇·추천      │
-│ CNN, SVM    │ K-means, VAE, GAN       │ DQN, PPO, AlphaGo  │
-└──────────────┴────────────────────────┴────────────────────┘
++------------------------------------------------------------+
+|            3대 학습 패러다임 비교                             |
++--------------+------------------------+--------------------+
+|  지도 학습   |     비지도 학습          |    강화 학습        |
++--------------+------------------------+--------------------+
+| 레이블 데이터 | 레이블 없는 데이터       | 환경·보상 신호      |
+| f(x) -> y    | 숨겨진 패턴 발견         | 최적 정책 π 학습    |
+| 분류·회귀    | 군집·차원 축소·생성      | 게임·로봇·추천      |
+| CNN, SVM    | K-means, VAE, GAN       | DQN, PPO, AlphaGo  |
++--------------+------------------------+--------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 정답이 있는 시험(레이블), [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)은 정답 없이 스스로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 탐구 활동, [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 게임을 하며 점수로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 배우는 것이다.
@@ -42,8 +42,8 @@ tags = ["studynote-ai"]
 ### [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))
 
 ```text
-입력 x → 모델 f → 예측 ŷ → 손실(Loss) = L(y, ŷ) → 역전파(Backprop) → 가중치 업데이트
-레이블 y ─────────────────────────────────────────────↗
+입력 x -> 모델 f -> 예측 ŷ -> 손실(Loss) = L(y, ŷ) -> 역전파(Backprop) -> 가중치 업데이트
+레이블 y ---------------------------------------------↗
 ```
 
 - [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): 스팸 메일 탐지, 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단
@@ -62,12 +62,12 @@ tags = ["studynote-ai"]
 
 ```text
 [에이전트 (Agent)]
-       │ 행동(Action) a
-       ▼
+       | 행동(Action) a
+       v
 [환경 (Environment)]
-       │ 상태(State) s', 보상(Reward) r
-       ▼
-[에이전트] → 정책(Policy) π 업데이트
+       | 상태(State) s', 보상(Reward) r
+       v
+[에이전트] -> 정책(Policy) π 업데이트
 목표: 누적 보상(Cumulative Reward) 최대화
 ```
 
@@ -93,9 +93,9 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 이커머스 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a> (1단계)</strong>: 구매 이력 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) → 고객 세그먼트 발견.
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a> (2단계)</strong>: 세그먼트 레이블 + 구매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 예측 모델.
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> (3단계)</strong>: 추천 → 클릭 보상 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 (장기 구매 전환 극대화).
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a> (1단계)</strong>: 구매 이력 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) -> 고객 세그먼트 발견.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a> (2단계)</strong>: 세그먼트 레이블 + 구매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 예측 모델.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> (3단계)</strong>: 추천 -> 클릭 보상 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 (장기 구매 전환 극대화).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 레이블 없이 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)을 시도하거나, 레이블이 풍부한데 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)을 선택하는 패러다임 불일치 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 각 패러다임은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 의해 결정되므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 먼저 수행하고 패러다임을 선택해야 한다.
@@ -132,17 +132,17 @@ tags = ["studynote-ai"]
 
 ```text
 [지도 학습 — 레이블 데이터, 예측 함수 학습]
-    │
-    ▼
+    |
+    v
 [비지도 학습 — 패턴·구조 발견, 생성 모델]
-    │
-    ▼
+    |
+    v
 [강화 학습 — 환경 상호작용, 보상 기반 정책 최적화]
-    │
-    ▼
+    |
+    v
 [자기 지도 학습 — 데이터 자체에서 레이블 생성 (GPT, BERT)]
-    │
-    ▼
+    |
+    v
 [RLHF — 인간 피드백 강화 학습 (ChatGPT, Claude)]
 ```
 
@@ -158,7 +158,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 24 / 420
 
-← **이전**: [23. 머신러닝 개념 (Machine Learning Concept)](/knowledge-base/studynote/10_ai/01_ai_basics/023_machine_learning_concept/)
-**다음**: [25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)](/knowledge-base/studynote/10_ai/01_ai_basics/025_bias_variance_tradeoff/) →
+<- **이전**: [23. 머신러닝 개념 (Machine Learning Concept)](/knowledge-base/studynote/10_ai/01_ai_basics/023_machine_learning_concept/)
+**다음**: [25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)](/knowledge-base/studynote/10_ai/01_ai_basics/025_bias_variance_tradeoff/) ->
 
 ---

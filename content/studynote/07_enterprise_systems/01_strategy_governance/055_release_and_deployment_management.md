@@ -32,7 +32,7 @@ tags = ["studynote-enterprise-systems"]
 릴리스는 변경 집합과 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 배포는 실제 설치와 반영을 관리한다. 둘은 연결되지만 역할이 다르다.
 
 ```text
-Change → Build → Release Package → Deployment → Verification → Rollback
+Change -> Build -> Release Package -> Deployment -> Verification -> Rollback
 ```
 
 | 단계 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 ```text
 변경 집합
-    │
-    ▼
+    |
+    v
 릴리스 패키지
-    │
-    ▼
+    |
+    v
 배포 실행
-    │
-    ▼
+    |
+    v
 검증 / 롤백
 ```
 
@@ -136,7 +136,7 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 **진행 상황**: 55 / 482
 
-← **이전**: [54. 변경 관리와 CAB (Change Management CAB)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/054_change_management_cab/)
-**다음**: [56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/) →
+<- **이전**: [54. 변경 관리와 CAB (Change Management CAB)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/054_change_management_cab/)
+**다음**: [56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/) ->
 
 ---

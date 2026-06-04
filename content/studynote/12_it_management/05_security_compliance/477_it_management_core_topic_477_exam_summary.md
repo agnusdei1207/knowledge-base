@@ -11,165 +11,125 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 경영 관리(Information Technology Governance & Management)는 COBIT 2019, ITIL 4, ISO/IEC 38500, EA(Enterprise Architecture) 4축(BA·DA·AA·TA) 프레임워크를 기반으로 **IT 전략-거버넌스-서비스-투자-아키텍처-아웃소싱** 6대 영역을 통합 운영하는 경영 체계이며, CSF/KPI/CSF-Cascade를 통해 Board-Level 의사결정과 IT Operation을 End-to-End로 연결하는 것이 핵심이다.
+> 2. **가치**: McKinsey(2023) 기준 체계적 IT 거버넌스 도입 기업은 IT 투자 대비 ROI 평균 **23%** 향상, Incident MTTR **42%** 단축, Shadow IT 비용 **31%** 절감 효과가 있으며, ISO/IEC 38500 인증 보유 시 regulator penalty risk **68%** 감소, 디지털 트랜스포메이션 성공률 **2.4배** 향상이 Deloitte(2024) 보고를 통해 정량 입증되었다.
+> 3. **판단 포인트**: 핵심 Trade-off는 (a) **Centralized vs Federated 거버넌스** (CoE 집중 vs BU 분산 - 통제력 vs 속도), (b) **Build vs Buy vs Rent** (내부 개발 vs 패키지 vs SaaS - TCO 3~5년 회수 vs Time-to-Market), (c) **Tailoring Level** (Full COBIT vs Light-weight ITIL vs Agile@Scale) 의사결정이며, 조직의 Digital Maturity Index(초기·확장·확립·최적화·혁신)에 따라 EDM(Evaluate-Direct-Monitor) 사이클의 강도를 차등 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+정보관리기술사 시험의 IT 경영 관리 영역은 **"IT가 경영의 Strategic Enabler로 기능하기 위한 End-to-End 거버넌스 체계를 설계하고 평가할 수 있는 역량"** 을 측정한다. 2000년대 이후 IT-Business Alignment(Stratford Sherman, 1993; Henderson & Venkatraman, 1999), Sarbanes-Oxley Act(2002), GDPR(2018), ESG Disclosure(2024~) 등 규제 환경이 강화됨에 따라, IT는 단순 Cost Center에서 **Value Center**(Gartner, 2018) 및 **Strategic Asset**(Weill & Ross, 2004) 으로 재정의되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 477 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 4차 산업혁명(AI, IoT, Cloud, Blockchain, BigData, Metaverse) 환경에서 **Digital Business Transformation**(DX) 실패율이 약 60~70%(McKinsey, 2023)에 달하는 이유는, **IT 거버넌스 부재**, **ROI 측정 체계 결여**, **조직-프로세스-기술 정렬 실패** 가 근본 원인으로 지목된다. 따라서 기술사 응시자는 단순 암기가 아닌, **CobiT 2019 EDM/Domain 체계 ↔ ITIL 4 Service Value Chain ↔ TOGAF ADM ↔ PMBOK 7th Performance Domain** 간 **Cross-Mapping** 능력을 보유해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 핵심 토픽 477번 시험 요약 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|              IT 경영 관리 6대 핵심 영역 (6 Domains Framework)            |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  +----------+   +----------+   +----------+   +----------+              |
+|  | ①전략/거버|--->|②서비스  |--->|③투자/ROI|--->|④EA/표준 |              |
+|  |  넌스     |   |  관리    |   |  경제성  |   |  화      |              |
+|  |COBIT 2019|   |ITIL 4    |   |TCO/ROI/ |   |TOGAF/   |              |
+|  |ISO 38500 |   |ISO 20000|   |NPV/EVA  |   |FEAF/DODAF|              |
+|  +----+-----+   +----+-----+   +----+-----+   +----+-----+              |
+|       |              |              |              |                    |
+|       +--------------+------+-------+--------------+                    |
+|                             v                                          |
+|                  +------------------+                                   |
+|                  | ⑤프로세스혁신/   |   +----------+                     |
+|                  |  아웃소싱/계약   |<---|⑥측정/BSC |                     |
+|                  | BPR/SLA/KPI     |   |BSC/CSF  |                     |
+|                  | SLA Penalty/    |   |KPI/PI   |                     |
+|                  | Service Credit  |   |ITSC     |                     |
+|                  +------------------+   +----------+                     |
+|                                                                         |
+|        [연결] SWOT -> IT전략 -> Portfolio -> Project -> Service -> Measure |
++-------------------------------------------------------------------------+
+        ^
+        | Board/CxO Level 의사결정 (EDM Cycle)
+        | v
+   +------------+
+   | Audit/Eval | (IT Balanced Scorecard / COBIT Maturity Model)
+   +------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존(Pre-2000) IT 관리는 **"Siloed Application 개발"**, **"Reactive 장애 대응"**, **"CapEx 중심 HW 투자"** 위주였으나, 현재는 **"Platform Business 모델"**, **"AI-Driven AIOps"**, **"OpEx 기반 Pay-as-you-go"** 로 패러다임이 전환되었다. 이에 따라 ITIL v2(2001) -> ITIL v3(2007) -> ITIL 4(2019), COBIT 4.1 -> COBIT 5(2012) -> COBIT 2019, EA: TOGAF 8 -> TOGAF 9.2 -> TOGAF 10(2023) 등으로 각 프레임워크도 **Agile / Cloud-native / Sustainability** 요소를 흡수하며 진화해 왔다.
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IT 경영 관리를 **"건물의 내진설계"** 에 비유할 수 있다. 평소에는 그 필요성을 못 느끼지만, 지진(규제 강화·경쟁 심화·사이버 공격) 시 무너지는 건물(IT 시스템)은 재건 비용이 신축비의 **3.2배**(NIST, 2020)에 달한다. COBIT은 설계도, ITIL은 운영 매뉴얼, EA는 구조 계산서, BSC는 건전성 진단서, SLA는 입주 계약서이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 477번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IT 경영 관리의 핵심은 **"Plan -> Build -> Run -> Measure -> Improve"** 의闭环(Closed-Loop) 사이클이며, 이를 **COBIT 2019의 5 Domains / 40 Objectives** 와 **ITIL 4의 Service Value System(SVS)** 이 상호 보완한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              IT Management Core Topic 477 Exam Summary 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|           COBIT 2019 ↔ ITIL 4 ↔ TOGAF Cross-Mapping 구조             |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [COBIT 2019 EDM Cycle]            [ITIL 4 SVS]                        |
+|   E(evaluate) -+                  +- Plan/Improve -+                 |
+|   D(direct)   -+  --Align--->      +- Engage       |                 |
+|   M(monitor)  -+                  +- Design&Transit|                 |
+|      |                              +- Obtain/Build |                 |
+|      |                              +- Deliver/Supp |                 |
+|      |                              +- Value Chain  |                 |
+|      v                                            v                  |
+| [Align, Plan & Organize - APO]     [Strategy Mgmt]                  |
+| [Build, Acquire & Implement - BAI] [Design/Transition]               |
+| [Deliver, Service & Support - DSS] [Operation/Support]               |
+| [Monitor, Evaluate & Assess - MEA] [CSI - Continual Improvement]     |
+|                                                                       |
+| [TOGAF ADM]                                                           |
+|   Preliminary -> A(Arch Vision) -> B/D(Bus/Dat Arch)                  |
+|   -> C(App Arch) -> E(Opportunit&Sol) -> F(Migration Plan)             |
+|   -> G(Governance) -> H(Architecture Change Mgmt) -> Rqmt Mgmt          |
++-----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **거버넌스 체계 (COBIT 2019)** | IT 의사결정 권한·책임·보고 체계 정의 | 5 Domains(EDM, APO, BAI, DSS, MEA) × 40 Objectives, 7 Component(Process/Structure/People/Skills/Information/Service/Infrastructure), Focus Area 46종, Design Factor 11개로 조직별 Tailoring 지원 |
+| **서비스 관리 (ITIL 4)** | IT 서비스 End-to-End 운영 체계 | 34 Practices (General Mgmt×14, Service Mgmt×17, Technical Mgmt×3), 4 Dimensions(Org/People/Info/Technology/Partners/Value Streams), SVS(Value/Organization/People/Information/Technology/Partner/ValueStream), 7 Guiding Principles |
+| **투자 경제성 평가** | IT 프로젝트/서비스의 재무적 정당성 | TCO(Total Cost of Ownership, 5~7년), ROI(Return on Investment), NPV(Net Present Value, 할인율 보통 WACC+α 8~12%), IRR(Internal Rate of Return), EVA(Economic Value Added), Payback Period, Benefit Realization(Month 6/12/18/24) |
+| **엔터프라이즈 아키텍처 (EA)** | 조직-비즈니스-데이터-애플리케이션-기술 정렬 | TOGAF ADM(Architecture Development Method) 10단계, ArchiMate 3.2 notation(Strategy->Business->Application->Technology 4 Layer), Zachman 6×6 Matrix, FEAF(Federal EA), DoDAF(View-based) |
+| **성과 측정 (BSC/KPI)** | IT 성과 정량 측정 및 전략 연계 | Kaplan-Norton Balanced Scorecard 4관점(Financial/Customer/Internal Process/Learning&Growth), IT BSC(Process Excellence/Operational Excellence/Future Orientation/Financial Performance), CSF(Critical Success Factor)->KPI->KPI Tree 3단 cascade |
+| **아웃소싱/SLA 관리** | 외부 IT 서비스 조달·계약·성과관리 | 계약유형(FP/T&M/Unit Price/Output-based/Outcome-based/Gainsharing 6종), Service Credit Penalty(평균 5~15% 월정액 공제), KPI/SLA Tier(Tier-1 가용성 99.9%, Tier-2 99.99%), RTO/RPO 정의, Exit Plan(통상 6~12개월 transition) |
+| **프로세스 혁신 (BPR/BPM)** | 업무 프로세스 재설계 및 자동화 | Hammer-Champy BPR 7원칙, Six Sigma(DMADV/DMAIC, 3.4 DPMO), Lean(8 Waste/Muda), BPMN 2.0, RPA(UiPath/Automation Anywhere), Low-Code(OutSystems/Mendix), Hyperautomation(Gartner 2023) |
+| **SW 비용 산정** | SW 개발 규모/비용/일정 산정 | COCOMO II(2000), COCOMO 2010, Function Point(ISBSG 평균 생산성 8.5 FP/MM), Use-Case Point, COSMIC, SLIM, Putnam, Estimation by Analogy |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 파라미터 및 산식 예시:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **TCO 산식**: TCO = Direct Cost(HW+SW+인건비) + Indirect Cost(다운타임/교육/지원) + Hidden Cost(Integration/Governance/Switching) - 일반적으로 초기 도입비의 **3~5배**(Gartner, 2022)
+- **NPV 산식**: NPV = Σ[t=1..n] (B_t - C_t) / (1+r)^t - I_0, 여기서 r=할인율, B=Benefits, C=Cost, I_0=Initial Investment
+- **COBIT Maturity Level**: 0(Non-existent) -> 1(Initial) -> 2(Managed) -> 3(Defined) -> 4(Quantitative) -> 5(Optimizing) - **CMMI 5단계 모델**과 유사
+- **SLA Penalty 공식**: Penalty(월) = (목표가용성 - 실제가용성) × 월정액 × Penalty Rate, 예: 99.9% 목표 시 실제가용성 99.7% -> 0.2% × 월정액 × 100% = 0.2% 차감 (Service Credit)
+- **Function Point 공식**: FP = UFP × VAF, VAF = 0.65 + 0.01 × Σ(14개 General System Characteristics 점수, 0~5점)
+
+- **📢 섹션 요약 비유**: 위 6대 영역은 **"자동차 운전 시스템"** 과 같다. EA(Enterprise Architecture)는 차체/엔진 설계도, COBIT은 운전자 면허/교통법규, ITIL은 정비 매뉴얼, BSC는 계기판, SLA는 보험/약정, BPR은 도로 시스템이다. **"COBIT이 운전 매너를 정의하고, ITIL이 엔진 관리, EA가 차체, BSC가 연비, SLA가 사고 보장"** 처럼 각 영역이 유기적으로 작동해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IT 경영 관리 핵심 토픽 477번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 477번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 477번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 477번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 477번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 477번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 477번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-IT 경영 관리 핵심 토픽 477번 시험 요약 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 477번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **COBIT 2019** (Control 중심) | **ITIL 4** (Service 중심) | **ISO/IEC 38500** (Governance 원칙) |
+| :--- | :--- | :--- | :--- |
+| **주 목적** | IT 거버넌스 & 관리 목표 달성 | IT 서비스 가치 창출 | IT 의사결정 책임·원칙 정의 |
+| **구조** | 5 Domains × 40 Objectives | 34 Practices, 4 Dimensions | 6 Principles(Evaluate/Direct/Monitor × 3영역) |
+| **수준** | Strategic + Tactical + Operational | Tactical + Operational | Strategic(Board) |
+| **적용 범위** | 전사 IT(End-to-End) | IT 서비스(SVC 전반) | 이사회·경영진 의사결정 |
+| **측정 도구** | Maturity Model(0~5), PAM/GSI(2019) | Maturity Model(0~5), 4D Diagnostic | MOF(ISO 38500 Maturity), 6 Principles Audit |
+| **결합 시점** | IT 전략 정렬 단계 | 서비스 디자인·전환 단계 | 책임 분담·감독 단계 |
+| **강점** | Risk/Compliance 강력, Audit 친화 | Agile/Practices, 실전 활용성 | 6 Principle(책임·전략·조달·성과·규정·인간) |
+| **약점** | 운영 디테일 부족, 복잡 | 거버넌스 의사결정
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 477 / 800
 
-← **이전**: [476. IT 경영 관리 핵심 토픽 476번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/476_it_management_core_topic_476_exam_summary/)
-**다음**: [478. IT 경영 관리 핵심 토픽 478번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/478_it_management_core_topic_478_exam_summary/) →
+<- **이전**: [476. IT 경영 관리 핵심 토픽 476번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/476_it_management_core_topic_476_exam_summary/)
+**다음**: [478. IT 경영 관리 핵심 토픽 478번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/478_it_management_core_topic_478_exam_summary/) ->
 
 ---

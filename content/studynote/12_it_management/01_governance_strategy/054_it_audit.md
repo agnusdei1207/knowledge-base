@@ -32,7 +32,7 @@ IT는 조직의 핵심 운영 자산이므로, 제대로 통제되지 않으면 
 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 사람, 프로세스, 시스템, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 보안 통제를 함께 본다. 범위는 자산, 계정, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 변경관리, 재해복구까지 넓다.
 
 ```text
-IT Governance → Controls → Evidence → Findings → Recommendation
+IT Governance -> Controls -> Evidence -> Findings -> Recommendation
 ```
 
 | 영역 | 예시 통제 | 증거 |
@@ -111,17 +111,17 @@ IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditi
 
 ```text
 리스크 식별
-    │
-    ▼
+    |
+    v
 통제 설계
-    │
-    ▼
+    |
+    v
 증거 수집
-    │
-    ▼
+    |
+    v
 감사 판단
-    │
-    ▼
+    |
+    v
 개선 조치
 ```
 
@@ -139,7 +139,7 @@ IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditi
 
 **진행 상황**: 97 / 587
 
-← **이전**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/)
-**다음**: [55. 디지털 전환 (Digital Transformation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) →
+<- **이전**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/)
+**다음**: [55. 디지털 전환 (Digital Transformation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 경영 관리(746번)는 COBIT 2019, ITIL 4, ISO/IEC 38500 등 글로벌 거버넌스 프레임워크를 기반으로, IT 전략-아키텍처-운영-감리(Value Delivery)를 End-to-End로 정렬(Alignment)하여 기업의 디지털 전환(DX) 가치를 극대화하는 통합 관리 체계이다.
-> 2. **가치**: 체계적 IT 거버넌스 도입 시 IT 투자 대비 ROI 25~40% 향상, 주요 장애(Major Incident) 50% 감소, 컴플라이언스 위반 비용 60% 절감이 가능하며, 정보화사업의 PMO 성숙도 Level 3→Level 5 도달로 프로젝트 성공률 72%→89%로 개선된다.
+> 2. **가치**: 체계적 IT 거버넌스 도입 시 IT 투자 대비 ROI 25~40% 향상, 주요 장애(Major Incident) 50% 감소, 컴플라이언스 위반 비용 60% 절감이 가능하며, 정보화사업의 PMO 성숙도 Level 3->Level 5 도달로 프로젝트 성공률 72%->89%로 개선된다.
 > 3. **판단 포인트**: 중앙집중형(COBIT) vs 분산형(Federated IT) 거버넌스 모델 선택, Build vs Run 예산 배분 비율(통상 30:70), 사이버보안 제로트러스트 도입 시 CAPEX/OPEX 비율, 그리고 ESG 및 개인정보보호법(PIPA) 컴플라이언스를 위한 통제 항목(Control Objective) 설계가 핵심 트레이드오프다.
 
 ---
@@ -24,32 +24,32 @@ tags = ["studynote-it-management"]
 기존의 "프로젝트 단위 관리"에서 "포트폴리오 기반 가치 중심 관리"로의 패러다임 전환이 요구되며, 이는 PMBOK 7th(원리 기반 접근), PRINCE2, ISO 21500 등 프로젝트 관리 표준과 COBIT 2019의 거버넌스 시스템 목표(Governance System Goals), ITIL 4의 Service Value System(SVS)을 통합적으로 운용해야 함을 의미한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│           IT 경영 관리 746번 - 3축 통합 거버넌스 프레임워크          │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐        │
-│   │  거버넌스     │    │   IT 관리    │    │   IT 감리    │        │
-│   │ (Governance) │◄──►│ (Management) │◄──►│   (Audit)    │        │
-│   │              │    │              │    │              │        │
-│   │ COBIT 2019   │    │ ITIL 4 SVS   │    │ ISACA 감사   │        │
-│   │ ISO 38500    │    │ PMBOK 7th    │    │ TTA 인증     │        │
-│   │  ● 방향     │    │  ● 실행     │    │  ● 검증     │        │
-│   └──────┬───────┘    └──────┬───────┘    └──────┬───────┘        │
-│          │                   │                   │                  │
-│          └───────────────────┼───────────────────┘                  │
-│                              ▼                                      │
-│   ┌─────────────────────────────────────────────────────────┐      │
-│   │        기업 가치 창출 (Enterprise Value Creation)         │      │
-│   │   • 디지털 전환(DX) ROI  • 운영 효율성  • 리스크 통제   │      │
-│   └─────────────────────────────────────────────────────────┘      │
-│                              ▲                                      │
-│                              │                                      │
-│   ┌──────────────────────────┴──────────────────────────┐           │
-│   │  Stakeholders: 이사회, CEO, CIO, CFO, CISO, CCO    │           │
-│   │  외부 규제: PIPA, AI Basic Act, CSAP, DORA, ESG    │           │
-│   └─────────────────────────────────────────────────────┘           │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|           IT 경영 관리 746번 - 3축 통합 거버넌스 프레임워크          |
++---------------------------------------------------------------------+
+|                                                                     |
+|   +--------------+    +--------------+    +--------------+        |
+|   |  거버넌스     |    |   IT 관리    |    |   IT 감리    |        |
+|   | (Governance) |◄--►| (Management) |◄--►|   (Audit)    |        |
+|   |              |    |              |    |              |        |
+|   | COBIT 2019   |    | ITIL 4 SVS   |    | ISACA 감사   |        |
+|   | ISO 38500    |    | PMBOK 7th    |    | TTA 인증     |        |
+|   |  ● 방향     |    |  ● 실행     |    |  ● 검증     |        |
+|   +------+-------+    +------+-------+    +------+-------+        |
+|          |                   |                   |                  |
+|          +-------------------+-------------------+                  |
+|                              v                                      |
+|   +---------------------------------------------------------+      |
+|   |        기업 가치 창출 (Enterprise Value Creation)         |      |
+|   |   • 디지털 전환(DX) ROI  • 운영 효율성  • 리스크 통제   |      |
+|   +---------------------------------------------------------+      |
+|                              ^                                      |
+|                              |                                      |
+|   +--------------------------+--------------------------+           |
+|   |  Stakeholders: 이사회, CEO, CIO, CFO, CISO, CCO    |           |
+|   |  외부 규제: PIPA, AI Basic Act, CSAP, DORA, ESG    |           |
+|   +-----------------------------------------------------+           |
++---------------------------------------------------------------------+
 ```
 
 한국 정보화진흥법 제14조(정보화사업의 감리), 클라우드컴퓨팅법 제23조(클라우드 서비스 보안 인증), 공공데이터법 등 강력한 법적 근거 하에 IT 경영 관리는 이제 선택이 아닌 **의무 사항**이며, 특히 매출 1,000억 원 이상 또는 정보화 투자 100억 원 이상 기업의 경우 정기 감리가 의무화되어 있다. 또한, K-ICT 2023 전략에 따라 AI·데이터·클라우드 중심의 디지털 전환이 가속화되면서 전통적 IT 운영 모델(Waterfall, On-Premise)에서 Agile, DevSecOps, FinOps 기반의 운영 모델로의 전환이 핵심 화두로 대두되었다.
@@ -63,40 +63,40 @@ tags = ["studynote-it-management"]
 IT 경영 관리의 핵심 아키텍처는 크게 **5대 영역(Evaluate, Direct, Monitor + Plan, Build, Run)**으로 구성되며, 이는 COBIT 2019의 거버넌스/관리 목표와 ITIL 4의 SVS(Service Value System)를 통합한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│     COBIT 2019 + ITIL 4 통합 거버넌스/관리 참조 모델(GRC)         │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   [거버넌스 3단계 - EDM]           [관리 5단계 - PBRR]              │
-│   ┌─────────────────┐             ┌─────────────────────────────┐   │
-│   │ E: Evaluate     │             │ P: Plan (계획/전략)         │   │
-│   │  - 옵션 평가    │             │  - 전략맵, TOGAF ADM        │   │
-│   │  - KPI/CSF 도출 │             │  - 투자 우선순위 결정       │   │
-│   ├─────────────────┤             ├─────────────────────────────┤   │
-│   │ D: Direct       │             │ B: Build (구축/전환)        │   │
-│   │  - 의사결정 위임│             │  - Agile/DevSecOps          │   │
-│   │  - 책임 할당    │             │  - CI/CD Pipeline           │   │
-│   ├─────────────────┤             ├─────────────────────────────┤   │
-│   │ M: Monitor      │             │ R: Run (운영/서비스)       │   │
-│   │  - 성과 측정    │             │  - ITIL 4 SVS, AIOps       │   │
-│   │  - 컴플라이언스 │             │  - FinOps, SRE              │   │
-│   └─────────────────┘             ├─────────────────────────────┤   │
-│                                   │ R: Run 개선/지속 (CSI)      │   │
-│                                   │  - Continual Improvement     │   │
-│                                   └─────────────────────────────┘   │
-│                                                                      │
-│   ──────── 7대 구성요소 (COBIT 2019 Core Model) ────────              │
-│   ① 프로세스(Process)  ② 구조(Structure)  ③ 정보(Flows)            │
-│   ④ 사람/스킬(People)  ⑤ 서비스/인프라   ⑥ 문화/윤리               │
-│   ⑦ 목표 연쇄(Cascading Goals)                                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|     COBIT 2019 + ITIL 4 통합 거버넌스/관리 참조 모델(GRC)         |
++----------------------------------------------------------------------+
+|                                                                      |
+|   [거버넌스 3단계 - EDM]           [관리 5단계 - PBRR]              |
+|   +-----------------+             +-----------------------------+   |
+|   | E: Evaluate     |             | P: Plan (계획/전략)         |   |
+|   |  - 옵션 평가    |             |  - 전략맵, TOGAF ADM        |   |
+|   |  - KPI/CSF 도출 |             |  - 투자 우선순위 결정       |   |
+|   +-----------------+             +-----------------------------+   |
+|   | D: Direct       |             | B: Build (구축/전환)        |   |
+|   |  - 의사결정 위임|             |  - Agile/DevSecOps          |   |
+|   |  - 책임 할당    |             |  - CI/CD Pipeline           |   |
+|   +-----------------+             +-----------------------------+   |
+|   | M: Monitor      |             | R: Run (운영/서비스)       |   |
+|   |  - 성과 측정    |             |  - ITIL 4 SVS, AIOps       |   |
+|   |  - 컴플라이언스 |             |  - FinOps, SRE              |   |
+|   +-----------------+             +-----------------------------+   |
+|                                   | R: Run 개선/지속 (CSI)      |   |
+|                                   |  - Continual Improvement     |   |
+|                                   +-----------------------------+   |
+|                                                                      |
+|   -------- 7대 구성요소 (COBIT 2019 Core Model) --------              |
+|   ① 프로세스(Process)  ② 구조(Structure)  ③ 정보(Flows)            |
+|   ④ 사람/스킬(People)  ⑤ 서비스/인프라   ⑥ 문화/윤리               |
+|   ⑦ 목표 연쇄(Cascading Goals)                                      |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **거버넌스 체계 (Governance System)** | 이사회-경영진-IT 조직 간 의사결정 정렬 | RACI 매트릭스, COBIT 2019 40개 관리목표 + 5개 거버넌스 목표, ISO 38500 6원칙(Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior) |
-| **전략-아키텍처 연계 (Strategy-Architecture Alignment)** | 비즈니스 전략 ↔ EA(Enterprise Architecture) 정렬 | TOGAF ADM(Architecture Development Method) 8단계: Preliminary→A(비전)→B(비즈니스)→C(데이터/앱)→D(기술)→E(기회/솔루션)→F(마이그레이션)→G(구현거버넌스)→H(아키텍처 변경관리), Zachman Framework 6x6 매트릭스 |
-| **IT 서비스 관리 (ITSM)** | IT 서비스의 기획-설계-전환-운영-개선 전주기 | ITIL 4 Service Value Chain(Plan→Engage→Design&Transition→Obtain/Build→Deliver&Support→Improve), 34개 Practice, SLA/OLA/UC(Service Level Agreement/Operational Level Agreement/Underpinning Contract) |
+| **전략-아키텍처 연계 (Strategy-Architecture Alignment)** | 비즈니스 전략 ↔ EA(Enterprise Architecture) 정렬 | TOGAF ADM(Architecture Development Method) 8단계: Preliminary->A(비전)->B(비즈니스)->C(데이터/앱)->D(기술)->E(기회/솔루션)->F(마이그레이션)->G(구현거버넌스)->H(아키텍처 변경관리), Zachman Framework 6x6 매트릭스 |
+| **IT 서비스 관리 (ITSM)** | IT 서비스의 기획-설계-전환-운영-개선 전주기 | ITIL 4 Service Value Chain(Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support->Improve), 34개 Practice, SLA/OLA/UC(Service Level Agreement/Operational Level Agreement/Underpinning Contract) |
 | **정보화사업 관리 (Project Portfolio Mgmt)** | 다수 프로젝트의 투자·일정·품질 통합 관리 | PMBOK 7th 12원리, PRINCE2 7원리(7 Principles), MSP(Managing Successful Programmes), 포트폴리오 차원화(Compulsory/Operational/Strategic) |
 | **리스크·컴플라이언스 (GRC)** | 사이버 리스크·규제 준수·내부 통제 통합 | ISO 27001(ISMS), ISO 31000(리스크관리), NIST CSF 2.0(Govern-Identify-Protect-Detect-Respond-Recover), ISACA Risk IT, 3 Lines of Defense Model(IIA) |
 | **성과 측정 및 평가 (Performance Mgmt)** | KPI/CSF/BSC 기반 가치 정량 측정 | Balanced Score Card 4관점(Financial/Customer/Internal Process/Learning&Growth), NSM(National ICT Service Management)成熟도 모델 5단계, CMMI 5단계, KPI SMART 원칙 |
@@ -117,9 +117,9 @@ IT 경영 관리 영역에서 혼동되기 쉬운 유사 개념들을 명확히 
 | 구분 | COBIT 2019 (거버넌스) | ITIL 4 (서비스 관리) | PMBOK 7th (프로젝트 관리) | ISO 38500 (IT 거버넌스 표준) |
 | :--- | :--- | :--- | :--- | :--- |
 | **핵심 초점** | Value Creation을 위한 IT 거버넌스/관리 시스템 | IT 서비스의 End-to-End 운영·개선 | 프로젝트의 성공적 수행을 위한 12원리 | 이사회급 IT 의사결정 6원칙 |
-| **대상 범위** | 전체 IT (전략→운영→감리) | IT 서비스 운영·전환 | 단위 프로젝트(일시적) | 거버넌스 의사결정(상위) |
+| **대상 범위** | 전체 IT (전략->운영->감리) | IT 서비스 운영·전환 | 단위 프로젝트(일시적) | 거버넌스 의사결정(상위) |
 | **구조** | 40 관리목표 + 5 거버넌스목표, 7개 컴포넌트 | 34 Practice, Service Value Chain | 8 Performance Domains | 6 Principles + 5 Governance Model |
-| **수명 주기** | 지속적(Continuous) | 서비스 수명주기(Strategy→Design→Transition→Operation→CSI) | 프로젝트 수명주기(Initiate→Plan→Execute→Monitor→Close) | 지속적(상시 모니터링) |
+| **수명 주기** | 지속적(Continuous) | 서비스 수명주기(Strategy->Design->Transition->Operation->CSI) | 프로젝트 수명주기(Initiate->Plan->Execute->Monitor->Close) | 지속적(상시 모니터링) |
 | **측정 지표** | Governance/Management Objectives KPI | SLA, SLO, SLI, CX(Customer Experience) | SPI, CPI, EVM, OKR | Maturity Level (1~5) |
 | **인증/감사** | COBIT 인증 심사, ISACA 감사 연계 | ITIL 4 Foundation/Master | PMP, CAPM | ISO 인증 (심사원 자격) |
 | **적용 계층** | C-Level (CIO, 이사회) | 서비스 매니저, ITSM 운영팀 | PMO, 프로젝트 매니저 | 이사회, CEO, CIO |
@@ -133,7 +133,7 @@ IT 경영 관리 영역에서 혼동되기 쉬운 유사 개념들을 명확히 
 
 **진행 상황**: 746 / 800
 
-← **이전**: [745. IT 경영 관리 핵심 토픽 745번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/745_it_management_core_topic_745_exam_summary/)
-**다음**: [747. IT 경영 관리 핵심 토픽 747번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/747_it_management_core_topic_747_exam_summary/) →
+<- **이전**: [745. IT 경영 관리 핵심 토픽 745번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/745_it_management_core_topic_745_exam_summary/)
+**다음**: [747. IT 경영 관리 핵심 토픽 747번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/747_it_management_core_topic_747_exam_summary/) ->
 
 ---

@@ -75,7 +75,7 @@ tags = ["devops_sre"]
      - 원격 실행 지원
 ```
 
-이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 12가지 원칙이 단순히"팁" 모음이 아니라, 애플리케이션의 개발→부서→운행→관측 전생명주기를カバー하는체계화된 framework라는 점이다. 각 원칙은상호에 연결되어 있어, 하나를 어기면 다른 원칙의 효과도타료절구된다. 예를 들어, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③)을 코드에 하드코딩하면 개발/운영 환경 일치(⑨)는 불가능해지고, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)(⑫)를 어기면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(⑭)과 [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/)(⑮)은실효가ない.
+이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 12가지 원칙이 단순히"팁" 모음이 아니라, 애플리케이션의 개발->부서->운행->관측 전생명주기를カバー하는체계화된 framework라는 점이다. 각 원칙은상호에 연결되어 있어, 하나를 어기면 다른 원칙의 효과도타료절구된다. 예를 들어, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③)을 코드에 하드코딩하면 개발/운영 환경 일치(⑨)는 불가능해지고, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)(⑫)를 어기면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(⑭)과 [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/)(⑮)은실효가ない.
 
 > 📢 **섹션 요약 비유**: 12 팩터 앱은 건강을 위한 12가지 생활습관과 같다. 운동([코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)), 식단([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)), 수면([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 등이 모두관련되어 있으며, 기중 하나를 아무리 잘수っ고い고も 다른 것이 부실하면 전체 건강은개선されない.  12가지를 균형 있게실천해야 비로소 지속적 건강을 얻을 수 있다.
 
@@ -91,7 +91,7 @@ tags = ["devops_sre"]
 | <strong>② <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 명시적 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (package.[json](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등) | 빌드 단계에서 자동 설치 | "내 PC에서는 되는데" 문제 |
 | <strong>③ <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 저장, 코드와 분리 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 환경별 주입 | 보안 노출, 환경별 빌드 필요 |
 | <strong>④ <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/">백엔드 서비스</a></strong> | 네트워크로 연결된 자원으로 취급 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery 연동 | 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 의존 |
-| **⑤ 빌드/릴리스/실행** | 세 단계 엄격 분리 | 빌드→릴리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 분리 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 어려움, 추적 곤란 |
+| **⑤ 빌드/릴리스/실행** | 세 단계 엄격 분리 | 빌드->릴리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 분리 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 어려움, 추적 곤란 |
 | **⑥ 무상태** | 상태는 외부 DB/캐시에 저장 | [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 설계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 테스트 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
 | <strong>⑦ <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/">포트 바인딩</a></strong> | 웹 서버를 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 포함 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 노출 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출 불가 |
 | <strong>⑧ <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a></strong> | 프로세스 모델로 수평 확장 | 오토스케일링 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 연동 | 단일 프로세스 병목 |
@@ -105,39 +105,39 @@ tags = ["devops_sre"]
 ```text
 [12 팩터 앱 + CI/CD 파이프라인 연동]
 
-┌──────────────────────────────────────────────────────────────┐
-│                    CI/CD 파이프라인                          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ① 코드베이스          ② 종속성           ③ 설정            │
-│  ┌──────────┐         ┌──────────┐       ┌──────────┐        │
-│  │ Git Push │────────▶│ npm install│─────▶│ 환경 변수 │        │
-│  │ (VCS)   │         │ (명시적 선언)│     │ 주입     │        │
-│  └──────────┘         └──────────┘       └──────────┘        │
-│         │                                        │            │
-│         ▼                                        ▼            │
-│  ⑤ 빌드/릴리스/실행                                          │
-│  ┌──────────────────────────────────────────────────┐        │
-│  │ Stage 1: Build (소스 → 바이너리)                  │        │
-│  │ Stage 2: Release (바이너리 + 설정 → 릴리스)       │        │
-│  │ Stage 3: Run (실행)                              │        │
-│  └──────────────────────────────────────────────────┘        │
-│                            │                                │
-│                            ▼                                │
-│  ⑥ 무상태 ⑦ 포트바인딩 ⑧ 동시성 ⑨ 폐기가능성               │
-│  ┌──────────────────────────────────────────────────┐        │
-│  │ 컨테이너 이미지 생성 (Docker)                      │        │
-│  │ - Stateless 프로세스 설정                         │        │
-│  │ - 포트 exposed                                   │        │
-│  │ - graceful shutdown 핸들러                       │        │
-│  └──────────────────────────────────────────────────┘        │
-│                            │                                │
-│                            ▼                                │
-│  ⑩ 환경 일치: Docker → Dev/Stag/Prod 동일 이미지           │
-│  ⑪ 로그: stdout → Fluentd/ELK 수집                         │
-│  ⑫ 관리: DB 마이그레이션 스크립트 파이프라인内置            │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    CI/CD 파이프라인                          |
++--------------------------------------------------------------+
+|                                                              |
+|  ① 코드베이스          ② 종속성           ③ 설정            |
+|  +----------+         +----------+       +----------+        |
+|  | Git Push |--------->| npm install|------>| 환경 변수 |        |
+|  | (VCS)   |         | (명시적 선언)|     | 주입     |        |
+|  +----------+         +----------+       +----------+        |
+|         |                                        |            |
+|         v                                        v            |
+|  ⑤ 빌드/릴리스/실행                                          |
+|  +--------------------------------------------------+        |
+|  | Stage 1: Build (소스 -> 바이너리)                  |        |
+|  | Stage 2: Release (바이너리 + 설정 -> 릴리스)       |        |
+|  | Stage 3: Run (실행)                              |        |
+|  +--------------------------------------------------+        |
+|                            |                                |
+|                            v                                |
+|  ⑥ 무상태 ⑦ 포트바인딩 ⑧ 동시성 ⑨ 폐기가능성               |
+|  +--------------------------------------------------+        |
+|  | 컨테이너 이미지 생성 (Docker)                      |        |
+|  | - Stateless 프로세스 설정                         |        |
+|  | - 포트 exposed                                   |        |
+|  | - graceful shutdown 핸들러                       |        |
+|  +--------------------------------------------------+        |
+|                            |                                |
+|                            v                                |
+|  ⑩ 환경 일치: Docker -> Dev/Stag/Prod 동일 이미지           |
+|  ⑪ 로그: stdout -> Fluentd/ELK 수집                         |
+|  ⑫ 관리: DB 마이그레이션 스크립트 파이프라인内置            |
+|                                                              |
++--------------------------------------------------------------+
 ```
 
 > 📢 **섹션 요약 비유**: 12 팩터 앱은 공장 프로덕션 라인의 품질 관리 기준과 같다. 공장 라인(애플리케이션)의 각 공정(원칙)에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없으면 최종 제품(배포)은 품질이보정される.  기중 하나라도 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있으면 전체 제품 품질이 영향을 받는다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 각 공정의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을측정하는 자동화된 검사참과 같다.
@@ -162,15 +162,15 @@ tags = ["devops_sre"]
 [12 팩터 앱의 현대적 진화]
 
  전통적 웹 앱            12 팩터 앱              모던 12 팩터
- (2011년)      ───▶     (Heroku)       ───▶     (Cloud Native)
-                                                         │
-  ├── 코드베이스 분산              ├── CI/CD 필수       ├── GitOps
-  ├── 수동 설정                    ├── 환경 변수        ├── IaC
-  ├── 로컬 의존성                  ├── Stateless       ├── Service Mesh
-  ├── 파일 시스템 상태              ├── 포트 바인딩      ├──Observability
-  └── 긴 배포 주기                                          │
-                                                      ├── 셀프 서비스
-                                                      └── 자동화된 스케일링
+ (2011년)      ---->     (Heroku)       ---->     (Cloud Native)
+                                                         |
+  +-- 코드베이스 분산              +-- CI/CD 필수       +-- GitOps
+  +-- 수동 설정                    +-- 환경 변수        +-- IaC
+  +-- 로컬 의존성                  +-- Stateless       +-- Service Mesh
+  +-- 파일 시스템 상태              +-- 포트 바인딩      +--Observability
+  +-- 긴 배포 주기                                          |
+                                                      +-- 셀프 서비스
+                                                      +-- 자동화된 스케일링
 ```
 
 > 📢 **섹션 요약 비유**: 12 팩터 앱은 음식의 기본 레시피와 같다. 기본 레시피(12팩터)를 잘 따르면 어떤 요리사(개발자)든 동일한품질의 요리(앱)를 만들 수 있다. 레시피가 없으면 요리사마다 다른 맛의 음식을 만들게 되고, 손님(운영팀/고객)이 예측할 수 없는 결과를 받게 된다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 이 레시피를 automated cooking machine과 같다.
@@ -194,27 +194,27 @@ tags = ["devops_sre"]
 [12 팩터 적용 우선순위 판단 프레임워크]
 
 High Priority (먼저 적용):
-  ┌─────────────────┐
-  │ 설정 (③)        │ ← 환경별 설정 분리 (セキュリティ+이식성)
-  │ 무상태 (⑥)      │ ← 스케일링의 기본 전제
-  │ 로그 (⑪)        │ ← 문제 해결의 기본 수단
-  └─────────────────┘
+  +-----------------+
+  | 설정 (③)        | <- 환경별 설정 분리 (セキュリティ+이식성)
+  | 무상태 (⑥)      | <- 스케일링의 기본 전제
+  | 로그 (⑪)        | <- 문제 해결의 기본 수단
+  +-----------------+
 
 Medium Priority (다음으로 적용):
-  ┌─────────────────┐
-  │ 종속성 (②)      │ ← 빌드 Reproducibility
-  │ 환경 일치 (⑨)  │ ← Dev/Prod 격차 제거
-  │ 동시성 (⑧)     │ ← 스케일링 설계
-  │ 백엔드 서비스 (④)│ ← 서비스 분리 기본
-  └─────────────────┘
+  +-----------------+
+  | 종속성 (②)      | <- 빌드 Reproducibility
+  | 환경 일치 (⑨)  | <- Dev/Prod 격차 제거
+  | 동시성 (⑧)     | <- 스케일링 설계
+  | 백엔드 서비스 (④)| <- 서비스 분리 기본
+  +-----------------+
 
 Lower Priority (나중에 적용):
-  ┌─────────────────┐
-  │ 빌드/릴리스/실행(⑤)│ ← CI/CD 도입 시
-  │ 포트 바인딩 (⑦)   │ ← 서비스 공개가 필요할 때
-  │ 폐기 가능성 (⑩) │ ← Graceful handling 필요 시
-  │ 관리 프로세스 (⑫)│ ← 필요시 마이그레이션 등
-  └─────────────────┘
+  +-----------------+
+  | 빌드/릴리스/실행(⑤)| <- CI/CD 도입 시
+  | 포트 바인딩 (⑦)   | <- 서비스 공개가 필요할 때
+  | 폐기 가능성 (⑩) | <- Graceful handling 필요 시
+  | 관리 프로세스 (⑫)| <- 필요시 마이그레이션 등
+  +-----------------+
 ```
 
 > 📢 **섹션 요약 비유**: 12 팩터 앱을 레거시 앱에 적용하는 것은로후화한공우의 내진 보강공작과 같다. 한 번에전부를보강하면 비용이 너무 많이 들고 입주자에 대한 영향이 크다. 따라서 우선적으로 구조적으로 중요한 부분(무벽, 기반)을 먼저 보강하고, 다음으로 중요도를 단계적으로 높여가며 전체 보강을완성한다.
@@ -254,14 +254,14 @@ Lower Priority (나중에 적용):
 
 ```text
 [모놀리스 (Monolith)]
-    │
-    ▼
+    |
+    v
 [마이크로서비스 (Microservices)]
-    │
-    ▼
+    |
+    v
 [12팩터 앱 (12-Factor App)]
-    │
-    ▼
+    |
+    v
 [클라우드 네이티브 (Cloud Native)]
 ```
 
@@ -278,7 +278,7 @@ Lower Priority (나중에 적용):
 
 **진행 상황**: 6 / 373
 
-← **이전**: [5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)
-**다음**: [7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) →
+<- **이전**: [5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)
+**다음**: [7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) ->
 
 ---

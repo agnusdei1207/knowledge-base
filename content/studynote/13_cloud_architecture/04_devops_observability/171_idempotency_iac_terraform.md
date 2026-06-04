@@ -26,16 +26,16 @@ tags = ["studynote-cloud-architecture"]
 아래 그림은 같은 요구사항이라도 명령 중심 스크립트와 상태 중심 IaC가 어떻게 다르게 행동하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       같은 "web-sg가 있어야 함" 요청도 방식에 따라 결과가 다르다 │
-├───────────────────────────┬──────────────────────────────────┤
-│ 비멱등 명령               │ 멱등 선언                         │
-├───────────────────────────┼──────────────────────────────────┤
-│ create-security-group     │ resource "web-sg" must exist     │
-│ 1회 실행: 생성            │ 1회 실행: 생성                    │
-│ 2회 실행: AlreadyExists   │ 2회 실행: 변화 없음               │
-│ 3회 실행: 예외 처리 필요  │ 3회 실행: 변화 없음               │
-└───────────────────────────┴──────────────────────────────────┘
++--------------------------------------------------------------+
+|       같은 "web-sg가 있어야 함" 요청도 방식에 따라 결과가 다르다 |
++---------------------------+----------------------------------+
+| 비멱등 명령               | 멱등 선언                         |
++---------------------------+----------------------------------+
+| create-security-group     | resource "web-sg" must exist     |
+| 1회 실행: 생성            | 1회 실행: 생성                    |
+| 2회 실행: AlreadyExists   | 2회 실행: 변화 없음               |
+| 3회 실행: 예외 처리 필요  | 3회 실행: 변화 없음               |
++---------------------------+----------------------------------+
 ```
 
 핵심은 "명령을 반복한다"가 아니라 "상태를 보장한다"는 발상 전환이다. 운영자가 원하는 것은 create 명령의 성공 횟수가 아니라, 최종적으로 보안 그룹이 정확한 규칙으로 존재하는 사실이기 때문이다.
@@ -49,27 +49,27 @@ tags = ["studynote-cloud-architecture"]
 Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조회, 차이 계산, 직렬화된 적용이라는 다섯 축으로 만들어진다. 여기서 중요한 점은 `terraform.tfstate`만 보고 판단하는 것이 아니라, 계획 수립 시점에 Provider가 실제 클라우드 상태를 다시 읽어 와서 구성과 비교한다는 점이다. 즉 멱등성은 "코드 vs 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"의 단순 비교가 아니라, <strong>원하는 상태와 실제 상태 사이의 차이를 지속적으로 줄이는 수렴 루프</strong>다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        Terraform Convergence Loop: 선언 → 조회 → 차이만 적용       │
-├────────────────────────────────────────────────────────────────────┤
-│ .tf Desired State                                                 │
-│      │                                                            │
-│      ▼                                                            │
-│ State Backend (resource address, dependency, lock)                │
-│      │                                                            │
-│      ▼                                                            │
-│ Provider Read / Refresh (actual cloud state)                      │
-│      │                                                            │
-│      ▼                                                            │
-│ Plan Engine                                                       │
-│  ├─ No-op    : 이미 일치                                          │
-│  ├─ Create   : 없는 리소스 생성                                   │
-│  ├─ Update   : 속성 차이 수정                                     │
-│  └─ Replace  : 인플레이스 불가 시 교체                            │
-│      │                                                            │
-│      ▼                                                            │
-│ Apply → 새 상태 기록 → 다음 실행에서는 같은 상태면 다시 No-op    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        Terraform Convergence Loop: 선언 -> 조회 -> 차이만 적용       |
++--------------------------------------------------------------------+
+| .tf Desired State                                                 |
+|      |                                                            |
+|      v                                                            |
+| State Backend (resource address, dependency, lock)                |
+|      |                                                            |
+|      v                                                            |
+| Provider Read / Refresh (actual cloud state)                      |
+|      |                                                            |
+|      v                                                            |
+| Plan Engine                                                       |
+|  +- No-op    : 이미 일치                                          |
+|  +- Create   : 없는 리소스 생성                                   |
+|  +- Update   : 속성 차이 수정                                     |
+|  +- Replace  : 인플레이스 불가 시 교체                            |
+|      |                                                            |
+|      v                                                            |
+| Apply -> 새 상태 기록 -> 다음 실행에서는 같은 상태면 다시 No-op    |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 멱등성과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
@@ -165,18 +165,18 @@ Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조�
 
 ```text
 수동 클릭 · 명령형 스크립트
-    │
-    ├─ 문제: 재실행 충돌 · 중복 생성 · 수동 복구
-    ▼
+    |
+    +- 문제: 재실행 충돌 · 중복 생성 · 수동 복구
+    v
 선언형 IaC (Desired State)
-    │
-    ├─ State Backend
-    ├─ Refresh / Diff
-    └─ Locking
-    ▼
+    |
+    +- State Backend
+    +- Refresh / Diff
+    +- Locking
+    v
 멱등적 Apply
-    │
-    ▼
+    |
+    v
 Drift Detection · Safe Retry · GitOps Reconciliation
 ```
 
@@ -194,7 +194,7 @@ Drift Detection · Safe Retry · GitOps Reconciliation
 
 **진행 상황**: 170 / 371
 
-← **이전**: [170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/)
-**다음**: [172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/172_declarative_vs_imperative_infrastructure/) →
+<- **이전**: [170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/)
+**다음**: [172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/172_declarative_vs_imperative_infrastructure/) ->
 
 ---

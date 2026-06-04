@@ -30,15 +30,15 @@ tags = ["ict_convergence"]
 
 ```text
 Wallet
-  ↓
+  v
 P2P Network
-  ↓
+  v
 Mempool
-  ↓
+  v
 Miner / Validator Selection
-  ↓
+  v
 Block
-  ↓
+  v
 Blockchain
 ```
 
@@ -111,11 +111,11 @@ Blockchain
 
 ```text
 Transaction
-  ↓
+  v
 Mempool
-  ↓
+  v
 Block Inclusion
-  ↓
+  v
 Confirmation
 ```
 
@@ -125,11 +125,11 @@ Confirmation
 
 ```text
 거래 생성
-  ↓
+  v
 네트워크 전파
-  ↓
+  v
 멤풀 대기
-  ↓
+  v
 블록 포함
 ```
 
@@ -147,7 +147,7 @@ Confirmation
 
 **진행 상황**: 63 / 552
 
-← **이전**: [62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/)
-**다음**: [64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit](/knowledge-base/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/) →
+<- **이전**: [62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/)
+**다음**: [64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit](/knowledge-base/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/) ->
 
 ---

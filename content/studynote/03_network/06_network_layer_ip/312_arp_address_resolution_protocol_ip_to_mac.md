@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [STUN, TURN, ICE]
-    │
-    ▼
+    |
+    v
 [ARP]
-    │
-    └──▶ [ARP 프레임]
+    |
+    +---> [ARP 프레임]
 ```
 
 - **📢 섹션 요약 비유**: <strong> ARP는 친구 집 주소(IP)는 아는데 </strong>현관문 비밀번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))**를 모를 때, 아파트 복도에 서서 "101호 사는 사람 비밀번호 좀 알려줘!"라고 확성기를 켜는 무식하지만 가장 확실한 통신 조회 방식입니다.
@@ -57,22 +57,22 @@ tags = ["studynote-network"]
 - 즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 겉면(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 라우터 MAC이 적히고, 알맹이(IP 패킷)의 목적지 IP는 네이버 IP가 적혀 날아간다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ARP Cache Table (ARP 테이블) 확인              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\Users\Admin> arp -a                                    │
- │                                                             │
- │   인터페이스: 192.168.0.10 --- 0x2                            │
- │     인터넷 주소         물리적 주소           유형                │
- │     192.168.0.1       00-11-22-33-44-55     동적 (Dynamic)      │
- │     192.168.0.20      AA-BB-CC-DD-EE-FF     동적 (Dynamic)      │
- │                                                             │
- │   * 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)│
- │   * 정적(Static)  : 관리자가 영구적으로 하드코딩해 둔 정보           │
- │                                                             │
- │   ▶ "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!" │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ARP Cache Table (ARP 테이블) 확인              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   C:\Users\Admin> arp -a                                    |
+ |                                                             |
+ |   인터페이스: 192.168.0.10 --- 0x2                            |
+ |     인터넷 주소         물리적 주소           유형                |
+ |     192.168.0.1       00-11-22-33-44-55     동적 (Dynamic)      |
+ |     192.168.0.20      AA-BB-CC-DD-EE-FF     동적 (Dynamic)      |
+ |                                                             |
+ |   * 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)|
+ |   * 정적(Static)  : 관리자가 영구적으로 하드코딩해 둔 정보           |
+ |                                                             |
+ |   -> "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!" |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> 통신을 시작하기 전 무조건 거쳐야 하는 ARP 과정은, 배달 기사님이 택배(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 싣고 출발하기 전, 수첩(ARP 테이블)을 뒤져보고 번호가 없으면 </strong>114(ARP 브로드캐스트)에 전화해서 정확한 번지를 물어보는 필수 사전 조사 작업**입니다.
@@ -133,12 +133,12 @@ ARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: STUN, TURN, ICE]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARP]
-    │
-    ├──▶ [확장 A: ARP 프레임]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: ARP 프레임]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 ARP는 STUN, TURN, ICE에서 출발해 현재 메커니즘을 정교화하고, 이후 ARP 프레임와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ ARP는 STUN, TURN, ICE에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 433 / 1120
 
-← **이전**: [311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)](/knowledge-base/studynote/03_network/06_network_layer_ip/311_stun_turn_ice_nat_traversal_webrtc/)
-**다음**: [313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)](/knowledge-base/studynote/03_network/06_network_layer_ip/313_arp_frame_request_broadcast_reply_unicast/) →
+<- **이전**: [311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)](/knowledge-base/studynote/03_network/06_network_layer_ip/311_stun_turn_ice_nat_traversal_webrtc/)
+**다음**: [313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)](/knowledge-base/studynote/03_network/06_network_layer_ip/313_arp_frame_request_broadcast_reply_unicast/) ->
 
 ---

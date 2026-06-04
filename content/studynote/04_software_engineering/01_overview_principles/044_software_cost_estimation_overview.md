@@ -31,7 +31,7 @@ tags = ["studynote-software-engineering"]
   비가시성: 소프트웨어는 눈에 보이지 않음
   불확실성: 초기에 요구사항 불명확
   창의성: 반복 생산 아닌 독자적 개발
-  복잡성: 팀 규모 증가 → 비선형 복잡도 증가
+  복잡성: 팀 규모 증가 -> 비선형 복잡도 증가
 
 비용 구성 요소:
   인건비 (People): 60~80%
@@ -43,7 +43,7 @@ tags = ["studynote-software-engineering"]
   1. 전문가 판단 (Expert Judgment): 경험 기반
   2. 유추 산정 (Analogy): 유사 프로젝트 비교
   3. 상향식 (Bottom-Up): 작업 단위로 합산
-  4. 하향식 (Top-Down): 전체 규모 → 분할
+  4. 하향식 (Top-Down): 전체 규모 -> 분할
   5. 매개변수 모델 (Parametric Model): COCOMO, FP
 
 산정 정확도 (불확실성 콘):
@@ -96,7 +96,7 @@ FP 측정 요소:
 기술적 복잡도 조정 (VAFP):
   TCP (Technical Complexity Processing): 14개 요소
   예: 온라인 처리, 성능, 이식성, 보안 등
-  0~5점 → TCF = 0.65 + 0.01 × Σ
+  0~5점 -> TCF = 0.65 + 0.01 × Σ
 
   AFP = UFP × TCF
 
@@ -170,13 +170,13 @@ COCOMO II (개선 모델):
   기준 스토리 설정 (예: 5SP = "보통 복잡도 로그인 기능")
 
   비교로 추정:
-  "회원가입 = 로그인의 2배" → 10SP
-  "단순 조회 = 로그인의 절반" → 2~3SP
+  "회원가입 = 로그인의 2배" -> 10SP
+  "단순 조회 = 로그인의 절반" -> 2~3SP
 
 플래닝 포커 (Planning Poker):
   피보나치: 1, 2, 3, 5, 8, 13, 21, 40, 100
 
-  팀원 동시에 카드 공개 → 토론 → 합의
+  팀원 동시에 카드 공개 -> 토론 -> 합의
   불일치: 가장 높은/낮은 사람이 이유 설명
 
   목적: 집단 지성 + 앵커링 편향 방지
@@ -189,7 +189,7 @@ COCOMO II (개선 모델):
   스프린트 3: 42SP
   평균 속도 = 39SP/스프린트
 
-  백로그 200SP → 예상 기간 = 200/39 ≈ 5.1 스프린트
+  백로그 200SP -> 예상 기간 = 200/39 ≈ 5.1 스프린트
 
 장단점:
   장점: 불확실성 수용, 팀 역량 반영, 빠른 갱신
@@ -217,11 +217,11 @@ ERP 시스템 비용 산정 사례:
   모듈: 생산관리, 구매, 재고, 회계, HR
 
 FP 산정:
-  ILF: 35개 (중~복잡)  → 35×10 = 350
-  EIF: 8개 (단~보통)   → 8×6 = 48
-  EI: 65개 (단~보통)   → 65×4 = 260
-  EO: 40개 (단~보통)   → 40×5 = 200
-  EQ: 50개 (단)        → 50×3 = 150
+  ILF: 35개 (중~복잡)  -> 35×10 = 350
+  EIF: 8개 (단~보통)   -> 8×6 = 48
+  EI: 65개 (단~보통)   -> 65×4 = 260
+  EO: 40개 (단~보통)   -> 40×5 = 200
+  EQ: 50개 (단)        -> 50×3 = 150
 
   UFP = 350+48+260+200+150 = 1,008 FP
   TCF = 0.65 + 0.01×32 = 0.97
@@ -235,7 +235,7 @@ COCOMO II 검증:
   LOC 추정: 978 AFP × 150 LOC/FP = 146,700 LOC
   공수 = 3.0 × (146.7)^1.12 × ΠEM ≈ 130 PM
 
-  FP 결과(122 PM)와 COCOMO(130 PM) 비교 → 합리적
+  FP 결과(122 PM)와 COCOMO(130 PM) 비교 -> 합리적
 
 일정/인원:
   기간 = 2.5 × 122^0.38 ≈ 18개월
@@ -319,7 +319,7 @@ Boehm: 통계적 매개변수 모델
 
 **진행 상황**: 44 / 973
 
-← **이전**: [043. QA vs QC (품질 보증 vs 품질 통제)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/)
-**다음**: [045. 하향식 비용 산정 — Top-Down Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/045_top_down_estimation/) →
+<- **이전**: [043. QA vs QC (품질 보증 vs 품질 통제)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/)
+**다음**: [045. 하향식 비용 산정 — Top-Down Estimation](/knowledge-base/studynote/04_software_engineering/01_overview_principles/045_top_down_estimation/) ->
 
 ---

@@ -24,8 +24,8 @@ tags = ["studynote-algorithm"]
 "[채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C를 가진 잡음 채널에서 코드율 R < C인 코드를 사용하면, 블록 길이 n을 충분히 크게 했을 때 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 (BER, [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) 을 임의로 작게 만들 수 있다. 반면 R > C이면 BER은 0에 수렴할 수 없다."
 
 ```
-R < C  →  BER → 0   (가능, 부호 길이 충분할 때)
-R > C  →  BER ↛ 0   (불가능)
+R < C  ->  BER -> 0   (가능, 부호 길이 충분할 때)
+R > C  ->  BER ↛ 0   (불가능)
 ```
 
 이 정리의 의의: **오류 없는 통신이 가능함을 증명** (구체적 코드 구성법은 별도 문제).
@@ -39,8 +39,8 @@ k: 정보 비트 수
 n: 코드워드 비트 수 (k + 잉여 비트)
 ```
 
-- k=4, n=7 → R = 4/7 ([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))
-- k=1/2, n=1 → R = 1/2 (반복 코드)
+- k=4, n=7 -> R = 4/7 ([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))
+- k=1/2, n=1 -> R = 1/2 (반복 코드)
 
 📢 **섹션 요약 비유**: 채널 부호화 정리는 "잡음 속 완벽한 편지"가 가능함을 증명한 것이다 — 편지를 여러 번 쓰고(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)), 수신자가 패턴을 분석하면(디코딩) 잡음 속에서도 원본 메시지를 완벽히 복원할 수 있다.
 
@@ -52,20 +52,20 @@ n: 코드워드 비트 수 (k + 잉여 비트)
 
 ```
 1948  섀넌, 채널 부호화 정리 증명 (존재성만)
-  │
+  |
 1950  해밍 코드 — 최소 거리 3, 1비트 오류 정정
-  │
-1960  갈라거 (Gallager), LDPC 코드 제안 → 무시됨
-  │
+  |
+1960  갈라거 (Gallager), LDPC 코드 제안 -> 무시됨
+  |
 1993  베로 (Berrou) 등, 터보 코드 발표
-       → AWGN에서 섀넌 한계 0.5dB 이내 달성 (충격!)
-  │
+       -> AWGN에서 섀넌 한계 0.5dB 이내 달성 (충격!)
+  |
 1996  LDPC 재발견 (MacKay & Neal)
-  │
+  |
 2009  아르칸 (Arıkan), 폴라 코드 — 이론적으로 섀넌 한계 달성
-  │
+  |
 2016  3GPP, 5G NR 제어 채널에 폴라 코드 채택
-  │
+  |
 2018  5G NR 데이터 채널에 LDPC 채택
 ```
 
@@ -73,17 +73,17 @@ n: 코드워드 비트 수 (k + 잉여 비트)
 
 ```
 BER (로그)
-   │
-10⁻¹ ├─────────────── 무코딩 ─────────────────
-     │
-10⁻³ ├─────────────────── 해밍(7,4) ──────────
-     │
-10⁻⁵ ├──────────────────────── 터보/LDPC ─────
-     │
-10⁻⁷ ├─────────────────────────────── 폴라 ───
-     │
-10⁻⁹ ├──────────────────────── 섀넌 한계 ─────
-     └──────────────────────────────────────►
+   |
+10⁻¹ +--------------- 무코딩 -----------------
+     |
+10⁻³ +------------------- 해밍(7,4) ----------
+     |
+10⁻⁵ +------------------------ 터보/LDPC -----
+     |
+10⁻⁷ +------------------------------- 폴라 ---
+     |
+10⁻⁹ +------------------------ 섀넌 한계 -----
+     +--------------------------------------►
        0   2   4   6   8   10 [dB]  Eb/N0
 ```
 
@@ -109,15 +109,15 @@ BER (로그)
 
 ```
 정보 비트 u
-    ├──────────────────────────────►  인코더 1 (RSC₁)
-    │                                     │
-    ▼  인터리버 (Interleaver)              ▼
+    +------------------------------►  인코더 1 (RSC₁)
+    |                                     |
+    v  인터리버 (Interleaver)              v
   u' (재정렬)                         패리티 비트 p₁
-    │                                     │
-    ▼                                     │
-  인코더 2 (RSC₂)                         │
-    │                                     │
-    ▼                                     │
+    |                                     |
+    v                                     |
+  인코더 2 (RSC₂)                         |
+    |                                     |
+    v                                     |
   패리티 비트 p₂               u + p₁ + p₂ 전송
 ```
 
@@ -127,8 +127,8 @@ RSC: Recursive Systematic Convolutional 코드
 
 ```
 변수 노드 (Variable Nodes): v₁ v₂ v₃ v₄ v₅
-                              │  │  │  │  │
-        ─────────────────────╯ ╰─╯ ╰─╯ ╰─╯
+                              |  |  |  |  |
+        ---------------------+ +-+ +-+ +-+
 체크 노드 (Check Nodes):      c₁  c₂  c₃
 
 신뢰 전파: 변수 노드 ↔ 체크 노드 반복 메시지 교환
@@ -138,7 +138,7 @@ LDPC의 "저밀도 (Low-Density)" = 연결이 희소 = 신뢰 전파 수렴 빠�
 
 ### [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)의 채널 분극
 
-n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로 분극화.
+n->∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로 분극화.
 신뢰 채널에만 정보 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 전송, 잡음 채널에 알려진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 전송.
 
 이것이 **이론적으로** 섀넌 한계를 달성하는 첫 번째 명시적 구성법.
@@ -153,7 +153,7 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 ```
 5G NR 채널        채택 코드        이유
-────────────────────────────────────────
+----------------------------------------
 제어 채널 (PDCCH)  폴라 코드        짧은 블록 최적
 데이터 채널 (PDSCH) LDPC 코드       긴 블록, 높은 처리량
 ```
@@ -185,7 +185,7 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비고 |
 |:---|:---|:---|
-| 채널 부호화 정리 | R < C → BER → 0 | 섀넌 제2 정리 |
+| 채널 부호화 정리 | R < C -> BER -> 0 | 섀넌 제2 정리 |
 | [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | 반복 디코딩, 3G/4G | 1993년 충격 |
 | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티 체크 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Wi-Fi |
 | [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극, 섀넌 한계 달성 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
@@ -197,17 +197,17 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 ```text
 [섀넌 채널 용량 정리 (Shannon Channel Capacity)]
-    │
-    ▼
+    |
+    v
 [블록 부호 (Block Code) — 해밍 코드 (Hamming Code)]
-    │
-    ▼
+    |
+    v
 [터보 코드 (Turbo Code) — 반복 디코딩 (1993)]
-    │
-    ▼
+    |
+    v
 [LDPC 부호 (Low-Density Parity-Check) — 5G 데이터]
-    │
-    ▼
+    |
+    v
 [폴라 코드 (Polar Code) — 섀넌 한계 최초 달성]
 ```
 
@@ -225,7 +225,7 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 **진행 상황**: 157 / 175
 
-← **이전**: [7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/)
-**다음**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) →
+<- **이전**: [7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/)
+**다음**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) ->
 
 ---

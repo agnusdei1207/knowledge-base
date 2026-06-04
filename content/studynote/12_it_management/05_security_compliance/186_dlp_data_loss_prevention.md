@@ -31,30 +31,30 @@ DLP가 필요해진 배경은 단순 해킹 방어를 넘어선 [데이터](/kno
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DLP는 보통 엔드포인트, 네트워크, 스토리지의 세 채널에서 동작한다. 여기에 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 서버가 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 규칙과 차단 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 내려주고, 사건 관리 콘솔이 이벤트를 수집한다. 핵심 원리는 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 판단 → 조치 실행 → [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기록”의 폐쇄 루프를 만드는 것이다.
+DLP는 보통 엔드포인트, 네트워크, 스토리지의 세 채널에서 동작한다. 여기에 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 서버가 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 규칙과 차단 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 내려주고, 사건 관리 콘솔이 이벤트를 수집한다. 핵심 원리는 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 판단 -> 조치 실행 -> [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기록”의 폐쇄 루프를 만드는 것이다.
 
 아래 그림은 DLP의 3채널 구조를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                          DLP 3채널 통제 아키텍처                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│  Endpoint DLP              Network DLP                Storage DLP           │
-│  ┌───────────────┐         ┌───────────────┐          ┌───────────────┐    │
-│  │ PC / Laptop   │         │ Mail / Web    │          │ File / DB /    │    │
-│  │ - USB copy    │         │ Proxy / SWG   │          │ NAS Scanner    │    │
-│  │ - Print       │         │ - SMTP/HTTP   │          │ - At-rest scan │    │
-│  │ - Clipboard   │         │ - TLS inspect │          │ - Tag/Encrypt  │    │
-│  └──────┬────────┘         └──────┬────────┘          └──────┬────────┘    │
-│         │                           │                          │             │
-│         └──────────────┬────────────┴──────────────┬───────────┘             │
-│                        ▼                           ▼                         │
-│               [Policy Engine / Classification Engine]                       │
-│                        │                                                     │
-│                        ├─ RegEx / Dictionary / Fingerprint / OCR / ML       │
-│                        ├─ Allow / Block / Quarantine / Encrypt              │
-│                        └─ Incident Log / Ticket / SIEM 연동                 │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                          DLP 3채널 통제 아키텍처                            |
++------------------------------------------------------------------------------+
+|  Endpoint DLP              Network DLP                Storage DLP           |
+|  +---------------+         +---------------+          +---------------+    |
+|  | PC / Laptop   |         | Mail / Web    |          | File / DB /    |    |
+|  | - USB copy    |         | Proxy / SWG   |          | NAS Scanner    |    |
+|  | - Print       |         | - SMTP/HTTP   |          | - At-rest scan |    |
+|  | - Clipboard   |         | - TLS inspect |          | - Tag/Encrypt  |    |
+|  +------+--------+         +------+--------+          +------+--------+    |
+|         |                           |                          |             |
+|         +--------------+------------+--------------+-----------+             |
+|                        v                           v                         |
+|               [Policy Engine / Classification Engine]                       |
+|                        |                                                     |
+|                        +- RegEx / Dictionary / Fingerprint / OCR / ML       |
+|                        +- Allow / Block / Quarantine / Encrypt              |
+|                        +- Incident Log / Ticket / SIEM 연동                 |
++------------------------------------------------------------------------------+
 ```
 
 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기술 | 설명 | 주의점 |
@@ -95,7 +95,7 @@ DLP는 종종 [CASB](/knowledge-base/studynote/03_network/14_network_security_th
 ### 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 소유 부서가 정해져 있는가?
-2. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) → 경고 → 차단 순으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 성숙도를 높이고 있는가?
+2. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) -> 경고 -> 차단 순으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 성숙도를 높이고 있는가?
 3. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 복호화, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 법무 검토가 균형 있게 준비됐는가?
 4. 예외 승인, 업무상 반출, 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 로그가 workflow로 닫히는가?
 5. [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 이벤트가 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/), [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response), CASB와 연계되는가?
@@ -139,22 +139,22 @@ DLP의 기대효과는 세 가지다. 첫째, [데이터](/knowledge-base/studyn
 
 ```text
 경계 보안 중심 방어
-    │
-    ▼
+    |
+    v
 데이터 분류 · 정규식 기반 DLP
-    │
-    ▼
+    |
+    v
 Endpoint / Network / Storage DLP
-    │
-    ├──────────────▶ CASB · SaaS 가시성
-    │
-    └──────────────▶ OCR · ML 기반 문맥 식별
-                           │
-                           ▼
+    |
+    +---------------> CASB · SaaS 가시성
+    |
+    +---------------> OCR · ML 기반 문맥 식별
+                           |
+                           v
                  SSE / Zero Trust 기반 데이터 중심 보호
 ```
 
-이 흐름은 “네트워크 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 클라우드·문맥 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)”로 통제가 진화하는 방향을 보여준다.
+이 흐름은 “네트워크 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> 클라우드·문맥 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)”로 통제가 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +168,7 @@ Endpoint / Network / Storage DLP
 
 **진행 상황**: 300 / 587
 
-← **이전**: [185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)](/knowledge-base/studynote/12_it_management/05_security_compliance/185_access_control_mac_dac_rbac_abac/)
-**다음**: [187. 정보시스템 감리 (Information System Audit)](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) →
+<- **이전**: [185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)](/knowledge-base/studynote/12_it_management/05_security_compliance/185_access_control_mac_dac_rbac_abac/)
+**다음**: [187. 정보시스템 감리 (Information System Audit)](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) ->
 
 ---

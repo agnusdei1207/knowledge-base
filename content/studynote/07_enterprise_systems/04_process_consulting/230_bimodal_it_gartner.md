@@ -44,23 +44,23 @@ tags = ["studynote-enterprise"]
 아래 그림은 바이모달 IT를 시스템 구조에 연결한 페이스 레이어드 아키텍처 (Pace-[Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))의 개념을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Pace-layered architecture for Bimodal IT                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Fast change                                                          │
-│   Systems of Innovation    -> Mode 2                                 │
-│   mobile / AI / campaign apps                                        │
-│              │                                                       │
-│              ▼ API                                                   │
-│   Systems of Differentiation -> mixed zone                           │
-│   customer journey / channel features                                │
-│              │                                                       │
-│              ▼ controlled interface                                  │
-│   Systems of Record         -> Mode 1                                │
-│   ERP / ledger / core master data                                    │
-│                                                                      │
-│ Rule: upper layers must not bypass governed interfaces               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Pace-layered architecture for Bimodal IT                             |
++----------------------------------------------------------------------+
+| Fast change                                                          |
+|   Systems of Innovation    -> Mode 2                                 |
+|   mobile / AI / campaign apps                                        |
+|              |                                                       |
+|              v API                                                   |
+|   Systems of Differentiation -> mixed zone                           |
+|   customer journey / channel features                                |
+|              |                                                       |
+|              v controlled interface                                  |
+|   Systems of Record         -> Mode 1                                |
+|   ERP / ledger / core master data                                    |
+|                                                                      |
+| Rule: upper layers must not bypass governed interfaces               |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 상위 레이어가 하위 레이어를 직접 건드리지 않는 것이다. Mode 2 팀은 빠르게 배포할 수 있지만, Mode 1 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 수정하면 코어 안정성이 무너진다. 그래서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이벤트 스트림 같은 완충 경계가 필요하다.
@@ -142,17 +142,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Single-speed legacy IT
-        │
-        ▼
+        |
+        v
 Mode 1 / Mode 2 separation
-        │
-        ▼
+        |
+        v
 API-governed coexistence
-        │
-        ▼
+        |
+        v
 Multi-speed enterprise architecture
-        │
-        ▼
+        |
+        v
 Enterprise-wide agile modernization
 ```
 
@@ -170,7 +170,7 @@ Enterprise-wide agile modernization
 
 **진행 상황**: 230 / 482
 
-← **이전**: [229. IT 포트폴리오 관리 (IT Project Portfolio Management)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/229_it_ppm_portfolio_management/)
-**다음**: [231. BizDevOps 스쿼드 조직 (BizDevOps Squad Agile)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/231_bizdevops_squad_agile/) →
+<- **이전**: [229. IT 포트폴리오 관리 (IT Project Portfolio Management)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/229_it_ppm_portfolio_management/)
+**다음**: [231. BizDevOps 스쿼드 조직 (BizDevOps Squad Agile)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/231_bizdevops_squad_agile/) ->
 
 ---

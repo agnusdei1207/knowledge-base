@@ -30,9 +30,9 @@ tags = ["database"]
 
 ```text
 Value
-  ├─ Known
-  ├─ Unknown
-  └─ Inapplicable
+  +- Known
+  +- Unknown
+  +- Inapplicable
 ```
 
 | 개념 | 의미 |
@@ -104,11 +104,11 @@ NULL을 정확히 이해하면 SQL 조건과 집계 결과를 더 안전하게 �
 
 ```text
 NULL
-  ↓
+  v
 3-valued Logic
-  ↓
+  v
 SQL Comparison
-  ↓
+  v
 Data Quality
 ```
 
@@ -118,11 +118,11 @@ Data Quality
 
 ```text
 Unknown Value
-  ↓
+  v
 NULL
-  ↓
+  v
 Three-valued Logic
-  ↓
+  v
 Query Semantics
 ```
 
@@ -140,7 +140,7 @@ NULL은 그런 특별한 표시예요.
 
 **진행 상황**: 66 / 600
 
-← **이전**: [65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성](/knowledge-base/studynote/05_database/02_modeling_normalization/065_relation_characteristics/)
-**다음**: [67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) →
+<- **이전**: [65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성](/knowledge-base/studynote/05_database/02_modeling_normalization/065_relation_characteristics/)
+**다음**: [67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) ->
 
 ---

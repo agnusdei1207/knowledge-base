@@ -30,7 +30,7 @@ tags = ["enterprise_systems"]
 
 ```text
 Channels
-  ↓ integrated
+  v integrated
 Customer Experience
 ```
 
@@ -102,9 +102,9 @@ Customer Experience
 
 ```text
 Channels
-  ↓
+  v
 Omni-Channel
-  ↓
+  v
 Customer Experience
 ```
 
@@ -114,9 +114,9 @@ Customer Experience
 
 ```text
 O2O
-  ↓
+  v
 Omni-Channel
-  ↓
+  v
 Customer Journey
 ```
 
@@ -134,7 +134,7 @@ Customer Journey
 
 **진행 상황**: 73 / 482
 
-← **이전**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)
-**다음**: [74. 데이터 리터러시 (Data Literacy) 민주화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/074_data_literacy_democratization/) →
+<- **이전**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)
+**다음**: [74. 데이터 리터러시 (Data Literacy) 민주화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/074_data_literacy_democratization/) ->
 
 ---

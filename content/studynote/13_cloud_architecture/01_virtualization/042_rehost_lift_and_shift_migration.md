@@ -23,9 +23,9 @@ tags = ["studynote-cloud-architecture"]
 
 Retire: 사용 안 하는 시스템 폐기
 Retain: 현재는 이전 안 함 (온프레미스 유지)
-Rehost: 코드 변경 없이 클라우드 VM으로 이전 ← 오늘 주제
+Rehost: 코드 변경 없이 클라우드 VM으로 이전 <- 오늘 주제
 Replatform: 최소한의 최적화 (OS 업그레이드, 관리형 DB)
-Repurchase: SaaS 전환 (On-prem CRM → Salesforce)
+Repurchase: SaaS 전환 (On-prem CRM -> Salesforce)
 Refactor/Re-architect: 마이크로서비스, 서버리스 전면 재설계
 
 Rehost 적합 시나리오:
@@ -50,16 +50,16 @@ Rehost = Lift & Shift:
 주요 Rehost 자동화 도구:
 
 AWS Application Migration Service (MGN):
-  에이전트 설치 → 지속 복제 → 최종 컷오버
+  에이전트 설치 -> 지속 복제 -> 최종 컷오버
   소요 시간: 복제 완료 후 수분 내 컷오버
   지원: 물리 서버, VMware, 기타 클라우드
 
 Azure Migrate:
-  VMware/Hyper-V VM 발견 → 의존성 분석 → 이전
+  VMware/Hyper-V VM 발견 -> 의존성 분석 -> 이전
   Azure Site Recovery 기반 복제
 
 Google Migrate for Compute Engine:
-  VMware 워크로드 → Google Compute Engine
+  VMware 워크로드 -> Google Compute Engine
   스트리밍 방식 (전체 복제 없이 부팅 가능)
 
 이전 방식별 비교:
@@ -177,7 +177,7 @@ Rehost 한계:
 
 성능:
   네트워크 지연: 온프레미스 대비 레이턴시 증가 가능
-  스토리지: 로컬 NVMe → 네트워크 EBS 성능 차이
+  스토리지: 로컬 NVMe -> 네트워크 EBS 성능 차이
 
 보안/컴플라이언스:
   클라우드 보안 모델 적용 필요 (책임 분담 모델)
@@ -225,9 +225,9 @@ Rehost (Lift & Shift)
 +-- 설계
 |   +-- VPC, 보안 그룹, IAM, 스토리지
 +-- 절차
-|   +-- 발견 → 파일럿 → 웨이브 → 복제 → 컷오버 → 안정화
+|   +-- 발견 -> 파일럿 -> 웨이브 -> 복제 -> 컷오버 -> 안정화
 +-- 이후 여정
-|   +-- Re-platform → Re-architect
+|   +-- Re-platform -> Re-architect
 ```
 
 ---
@@ -244,11 +244,11 @@ AWS EC2 등장, 수동 이전 방식
       |
       v
 [Lift & Shift 용어 정립 (2013~)]
-Gartner 5R → AWS 6R 프레임워크
+Gartner 5R -> AWS 6R 프레임워크
       |
       v
 [자동화 마이그레이션 도구 (2016~)]
-AWS SMS → MGN, Azure Migrate 출시
+AWS SMS -> MGN, Azure Migrate 출시
 복제 기반 자동화 이전
       |
       v
@@ -263,7 +263,7 @@ CloudOps 자동화 통합
 
 1. Rehost는 이사할 때 가구를 그대로 옮기는 것 — 가구 디자인(코드)을 바꾸지 않고 새 집(클라우드)으로 이사해요!
 2. 빠르게 이사할 수 있지만 새 집 구조에 맞춰 가구를 배치하지 않아 공간 활용이 비효율적일 수 있어요.
-3. 이사 후에 조금씩 인테리어(Re-platform → Re-architect)를 개선하면 결국 훨씬 좋은 집이 돼요.
+3. 이사 후에 조금씩 인테리어(Re-platform -> Re-architect)를 개선하면 결국 훨씬 좋은 집이 돼요.
 
 ---
 
@@ -271,7 +271,7 @@ CloudOps 자동화 통합
 
 **진행 상황**: 41 / 371
 
-← **이전**: [041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/041_cloud_migration_6r_strategies/)
-**다음**: [043. Re-platform — 클라우드 관리형 서비스 전환](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/043_replatform_cloud_managed_services/) →
+<- **이전**: [041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/041_cloud_migration_6r_strategies/)
+**다음**: [043. Re-platform — 클라우드 관리형 서비스 전환](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/043_replatform_cloud_managed_services/) ->
 
 ---

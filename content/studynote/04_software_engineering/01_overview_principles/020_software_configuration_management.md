@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 
 이 도식은 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)가 부재할 때 개발팀이 겪는 파편화 현상과, 형상 관리가 도입되었을 때 유지되는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 상태를 대조하여 보여준다.
 ```text
-┌───────────────── 형상 통제 부재 (Chaos) vs 형상 관리 적용 (Order) ────────────────┐
-│                                                                                 │
-│ [AS-IS: 형상 관리 부재]                    [TO-BE: 형상 관리(SCM) 적용]         │
-│ 개발자 A ──> final_최종_진짜최종.zip      개발자 A ──(Commit)──┐                │
-│ 개발자 B ──> v2_수정본_A가수정.zip                            ▼                │
-│ 개발자 C ──> 내문서_백업.zip               개발자 B ──(Merge)──▶ [ SCM 저장소 ] │
-│                                                                (Baseline 유지)  │
-│ * 현상: 충돌, 덮어쓰기, 운영서버 장애     * 현상: 분기(Branch) 및 충돌 통제     │
-│ * 결과: 추적성(Traceability) 완전 상실    * 결과: 단일 진실의 원천(SSOT) 확보   │
-└─────────────────────────────────────────────────────────────────────────────────┘
++----------------- 형상 통제 부재 (Chaos) vs 형상 관리 적용 (Order) ----------------+
+|                                                                                 |
+| [AS-IS: 형상 관리 부재]                    [TO-BE: 형상 관리(SCM) 적용]         |
+| 개발자 A --> final_최종_진짜최종.zip      개발자 A --(Commit)--+                |
+| 개발자 B --> v2_수정본_A가수정.zip                            v                |
+| 개발자 C --> 내문서_백업.zip               개발자 B --(Merge)---> [ SCM 저장소 ] |
+|                                                                (Baseline 유지)  |
+| * 현상: 충돌, 덮어쓰기, 운영서버 장애     * 현상: 분기(Branch) 및 충돌 통제     |
+| * 결과: 추적성(Traceability) 완전 상실    * 결과: 단일 진실의 원천(SSOT) 확보   |
++---------------------------------------------------------------------------------+
 ```
 이 그림의 핵심은 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 상태에서는 '단일 진실의 원천(Single Source of Truth)'이 존재하지 않아, 장애 발생 시 원인 추적이나 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 아예 불가능하다는 점이다. 반면 형상 관리가 적용된 TO-BE 체계에서는 소스코드뿐만 아니라 모든 산출물이 중앙(또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 리포지토리에 동기화되며, 모든 변경 내역은 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(형상통제위원회)와 같은 명시적 규칙에 의해 엄격하게 통제된다.
 
@@ -57,26 +57,26 @@ tags = ["software_engineering"]
 
 아래의 순차 흐름도는 형상 관리의 4단계가 변경 요청 발생 시 어떻게 상호작용하며 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 방어하는지를 보여준다.
 ```text
-┌───────────────── 형상 관리(SCM) 4단계 및 CCB 통제 흐름도 ─────────────────┐
-│                                                                           │
-│ [기준선(Baseline) 확립 상태]  ◀───────────────────── (4. 상태 기록/보고)  │
-│             │                                                   ▲         │
-│             ▼                                                   │         │
-│ (개발/고객의 변경 요청 발생) ──▶ [1. 형상 식별] (어떤 CI가 영향을 받는가?)│
-│                                           │                               │
-│                                           ▼                               │
-│                           [2. 형상 통제] ──▶ CCB (형상통제위원회) 심의     │
-│                           - 영향도 분석, 예산/일정 타당성 검토            │
-│                                           │                               │
-│            (반려/Reject) ◀──────(승인/Approve)                             │
-│                                           │                               │
-│                                           ▼                               │
-│                           (개발자 체크아웃 -> 수정 -> 체크인)             │
-│                                           │                               │
-│                                           ▼                               │
-│                           [3. 형상 감사] ──▶ (요구사항대로 구현되었는가?)│
-│                                          (테스트 및 무결성 검증 통과)     │
-└───────────────────────────────────────────────────────────────────────────┘
++----------------- 형상 관리(SCM) 4단계 및 CCB 통제 흐름도 -----------------+
+|                                                                           |
+| [기준선(Baseline) 확립 상태]  <---------------------- (4. 상태 기록/보고)  |
+|             |                                                   ^         |
+|             v                                                   |         |
+| (개발/고객의 변경 요청 발생) ---> [1. 형상 식별] (어떤 CI가 영향을 받는가?)|
+|                                           |                               |
+|                                           v                               |
+|                           [2. 형상 통제] ---> CCB (형상통제위원회) 심의     |
+|                           - 영향도 분석, 예산/일정 타당성 검토            |
+|                                           |                               |
+|            (반려/Reject) <-------(승인/Approve)                             |
+|                                           |                               |
+|                                           v                               |
+|                           (개발자 체크아웃 -> 수정 -> 체크인)             |
+|                                           |                               |
+|                                           v                               |
+|                           [3. 형상 감사] ---> (요구사항대로 구현되었는가?)|
+|                                          (테스트 및 무결성 검증 통과)     |
++---------------------------------------------------------------------------+
 ```
 이 흐름도의 핵심 병목이자 수문장(Gatekeeper)은 <strong>형상통제위원회(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>, <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/">Configuration Control</a> Board)</strong> 다. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))이 한 번 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면, 그 이후의 변경은 절대 개발자 임의로 할 수 없다. 예를 들어, 요구사항 분석이 끝나 '기능적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(Functional [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))'이 그어지면, 고객이 기능 하나를 추가해 달라고 할 때 PM, 설계자, 개발 리더로 구성된 CCB가 모여 이 변경이 미칠 파급 효과(일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 다른 모듈과의 충돌)를 심사한다.
 
@@ -99,20 +99,20 @@ tags = ["software_engineering"]
 
 다음은 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))를 따라 이동하면서 확립되는 4가지 주요 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))의 진화 과정을 나타낸 상태 전이도이다.
 ```text
-┌──────────────── 소프트웨어 생명주기에 따른 베이스라인 진화 ────────────────┐
-│                                                                            │
-│  [요구사항 분석] ──(확정)──▶ ① 기능적 기준선 (Functional Baseline)       │
-│                                 - (요구사항 명세서, 비즈니스 룰 확정)      │
-│        ↓                                                                   │
-│  [시스템/기본 설계] ─(확정)─▶ ② 분배적 기준선 (Allocated Baseline)         │
-│                                 - (HW/SW 요구 할당, 서브시스템 구조 확정)  │
-│        ↓                                                                   │
-│  [상세/모듈 설계] ──(확정)─▶ ③ 설계 기준선 (Design Baseline)               │
-│                                 - (DB 스키마, 클래스 다이어그램 확정)      │
-│        ↓                                                                   │
-│  [구현 및 테스트] ──(확정)─▶ ④ 제품 기준선 (Product Baseline)              │
-│                                 - (최종 소스코드, 릴리즈 패키지, 매뉴얼)   │
-└────────────────────────────────────────────────────────────────────────────┘
++---------------- 소프트웨어 생명주기에 따른 베이스라인 진화 ----------------+
+|                                                                            |
+|  [요구사항 분석] --(확정)---> ① 기능적 기준선 (Functional Baseline)       |
+|                                 - (요구사항 명세서, 비즈니스 룰 확정)      |
+|        v                                                                   |
+|  [시스템/기본 설계] -(확정)--> ② 분배적 기준선 (Allocated Baseline)         |
+|                                 - (HW/SW 요구 할당, 서브시스템 구조 확정)  |
+|        v                                                                   |
+|  [상세/모듈 설계] --(확정)--> ③ 설계 기준선 (Design Baseline)               |
+|                                 - (DB 스키마, 클래스 다이어그램 확정)      |
+|        v                                                                   |
+|  [구현 및 테스트] --(확정)--> ④ 제품 기준선 (Product Baseline)              |
+|                                 - (최종 소스코드, 릴리즈 패키지, 매뉴얼)   |
++----------------------------------------------------------------------------+
 ```
 이 상태도의 핵심은 왼쪽에서 오른쪽으로 진행될수록 변경에 따르는 비용이 기하급수적으로 커진다는 점이다. ①기능적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 단계에서 요구사항을 바꾸는 것은 문서 몇 줄을 수정하면 되지만, ④제품 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 확립된 후의 변경은 설계, 코드, 테스트, 매뉴얼을 전부 다 뜯어고쳐야 하는 재앙을 초래한다. 따라서 실무에서는 앞단(Up-stream)의 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 통제를 훨씬 더 엄격하게 수행해야 한다.
 
@@ -131,21 +131,21 @@ tags = ["software_engineering"]
 
 다음은 현대적 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 형상 관리(Git)가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 결합하여 배포 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 파이프라인 흐름도이다.
 ```text
-┌───────────────── SCM 기반의 CI/CD 무결성 방어 파이프라인 ─────────────────┐
-│                                                                           │
-│ [개발자 환경]       [ Git SCM (형상 저장소) ]        [ CI/CD 파이프라인 ] │
-│   코드 작성  ──▶ 1. PR 생성 (변경 요청/CR)                               │
-│                      │                                                    │
-│                      ▼                                                    │
-│               2. 코드 리뷰 (동료 감사/Audit) ◀── 3. 자동 빌드/테스트 실패│
-│                      │                              (문법, 보안 결함 차단)│
-│                   (승인)                                                  │
-│                      ▼                                                    │
-│               4. Main 브랜치 병합 (Baseline 갱신)                         │
-│                      │                                                    │
-│                      ▼                                                    │
-│               5. Git 태그 생성(v1.2) ─────────▶ 6. 운영 서버 자동 배포  │
-└───────────────────────────────────────────────────────────────────────────┘
++----------------- SCM 기반의 CI/CD 무결성 방어 파이프라인 -----------------+
+|                                                                           |
+| [개발자 환경]       [ Git SCM (형상 저장소) ]        [ CI/CD 파이프라인 ] |
+|   코드 작성  ---> 1. PR 생성 (변경 요청/CR)                               |
+|                      |                                                    |
+|                      v                                                    |
+|               2. 코드 리뷰 (동료 감사/Audit) <--- 3. 자동 빌드/테스트 실패|
+|                      |                              (문법, 보안 결함 차단)|
+|                   (승인)                                                  |
+|                      v                                                    |
+|               4. Main 브랜치 병합 (Baseline 갱신)                         |
+|                      |                                                    |
+|                      v                                                    |
+|               5. Git 태그 생성(v1.2) ----------> 6. 운영 서버 자동 배포  |
++---------------------------------------------------------------------------+
 ```
 이 파이프라인의 핵심은 형상 관리의 4단계([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 통제, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 기록)가 사람이 결재 서류에 도장을 찍는 방식에서 자동화된 스크립트로 대체되었다는 점이다. [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))이 변경 요청(CR)이고, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)가 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 심의이며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 테스트가 [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 역할을 수행한다. 실무 엔지니어링 리더는 이러한 '코드 기반의 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/))' 환경을 구축하여 품질과 배포 속도라는 두 마리 토끼를 모두 잡아야 한다.
 
@@ -180,20 +180,20 @@ tags = ["software_engineering"]
 
 ```text
 [형상 식별 (Configuration Identification) — CI/산출물 목록 확정]
-    │
-    ▼
+    |
+    v
 [베이스라인 수립 (Baseline) — 공식 승인된 기준선 고정]
-    │
-    ▼
+    |
+    v
 [형상 통제 (CCB — Configuration Control Board) — 변경 요청 심의/승인]
-    │
-    ▼
+    |
+    v
 [형상 상태 기록 (Status Accounting) — 변경 이력 추적]
-    │
-    ▼
+    |
+    v
 [형상 감사 (Configuration Audit) — 기준선 준수 여부 검증]
-    │
-    ▼
+    |
+    v
 [GitOps — Git을 단일 진실의 원천으로 형상 자동화]
 ```
 [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)에서 시작한 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 프로세스는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)·[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 거쳐 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반 선언적 자동화로 진화했다.
@@ -209,7 +209,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 20 / 973
 
-← **이전**: [19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/)
-**다음**: [21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) →
+<- **이전**: [19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/)
+**다음**: [21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) ->
 
 ---

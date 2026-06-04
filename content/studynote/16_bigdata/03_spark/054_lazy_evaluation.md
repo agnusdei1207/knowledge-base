@@ -41,44 +41,44 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                  [ Lazy Evaluation 실행 모델 ]                   │
-│                                                                 │
-│  [1단계: 코드 작성 - 실행 계획 BUILD]                            │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ sc.textFile("hdfs://data/logs/*.txt")                  │    │
-│  │   .filter(line => line.contains("ERROR"))   ← 미실행!  │    │
-│  │   .map(line => line.split(","))              ← 미실행!  │    │
-│  │   .groupByKey(key => key)                    ← 미실행!  │    │
-│  │   .count()                                   ← 미실행!  │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                         │                                        │
-│                         ▼                                        │
-│  [2단계: DAG 구축 - "계획서"만 기록]                              │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ textFile → filter → map → groupByKey → count           │    │
-│  │ ( DAG의 노드로 변환, 엣지는 의존성 )                     │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                         │                                        │
-│                         ▼                                        │
-│  [3단계: Action 호출 - "施工 개시!"]                             │
-│  count()가 호출되는 순간:                                        │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ ① DAG 스케줄러가 전체 플랜을鸟瞰                         │    │
-│  │ ② filter: 파이프라이닝 가능한 Narrow_dependency 확인     │    │
-│  │   → filter + map + groupByKey 중 Shuffle 지점 탐색       │    │
-│  │ ③ groupByKey에서 Wide_dependency 발견 → Stage 분리       │    │
-│  │ ④ Stage 1: textFile → filter → map (파이프라이닝)        │    │
-│  │ ⑤ Stage 2: groupByKey → count (Shuffle 후 집계)         │    │
-│  │ ⑥ 실행: 전체 플랜의 최적화된 순서로 태스크 시작!         │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                 │
-│  [핵심 최적화: 필터 프루닝 (Filter Pruning)]                     │
-│  count()의 결과가 Int(정수)라는 것을 알기에,                     │
-│  ③ groupByKey에서Key=0건인 항목은 만들 이유 없음!                │
-│  → 불필요한 map 결과 전체를 생성하지 않고 통과시킴               │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  [ Lazy Evaluation 실행 모델 ]                   |
+|                                                                 |
+|  [1단계: 코드 작성 - 실행 계획 BUILD]                            |
+|  +---------------------------------------------------------+    |
+|  | sc.textFile("hdfs://data/logs/*.txt")                  |    |
+|  |   .filter(line => line.contains("ERROR"))   <- 미실행!  |    |
+|  |   .map(line => line.split(","))              <- 미실행!  |    |
+|  |   .groupByKey(key => key)                    <- 미실행!  |    |
+|  |   .count()                                   <- 미실행!  |    |
+|  +---------------------------------------------------------+    |
+|                         |                                        |
+|                         v                                        |
+|  [2단계: DAG 구축 - "계획서"만 기록]                              |
+|  +---------------------------------------------------------+    |
+|  | textFile -> filter -> map -> groupByKey -> count           |    |
+|  | ( DAG의 노드로 변환, 엣지는 의존성 )                     |    |
+|  +---------------------------------------------------------+    |
+|                         |                                        |
+|                         v                                        |
+|  [3단계: Action 호출 - "施工 개시!"]                             |
+|  count()가 호출되는 순간:                                        |
+|  +---------------------------------------------------------+    |
+|  | ① DAG 스케줄러가 전체 플랜을鸟瞰                         |    |
+|  | ② filter: 파이프라이닝 가능한 Narrow_dependency 확인     |    |
+|  |   -> filter + map + groupByKey 중 Shuffle 지점 탐색       |    |
+|  | ③ groupByKey에서 Wide_dependency 발견 -> Stage 분리       |    |
+|  | ④ Stage 1: textFile -> filter -> map (파이프라이닝)        |    |
+|  | ⑤ Stage 2: groupByKey -> count (Shuffle 후 집계)         |    |
+|  | ⑥ 실행: 전체 플랜의 최적화된 순서로 태스크 시작!         |    |
+|  +---------------------------------------------------------+    |
+|                                                                 |
+|  [핵심 최적화: 필터 프루닝 (Filter Pruning)]                     |
+|  count()의 결과가 Int(정수)라는 것을 알기에,                     |
+|  ③ groupByKey에서Key=0건인 항목은 만들 이유 없음!                |
+|  -> 불필요한 map 결과 전체를 생성하지 않고 통과시킴               |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 ### 1. [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과의 결합
@@ -109,7 +109,7 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
 | 이점 | 설명 | 예시 |
 |:---|:---|:---|
 | **불필요한 연산 제거** | 최종 결과에 영향 없는 변환은 아예 실행하지 않음 | count에서 groupByKey의Key별 개수만 필요, value 본문 불필요 |
-| **메모리 절약** | 중간 결과를 메모리에 저장하지 않고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝 | filter→map→reduce가 3개 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 대신 1개 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 |
+| **메모리 절약** | 중간 결과를 메모리에 저장하지 않고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝 | filter->map->reduce가 3개 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 대신 1개 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 |
 | **전체 최적화** | 실행 전 전체 DAG를 분석하여 최적 순서 결정 | 필터 조건을료하에 적용하여 네트워크 전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량 감소 |
 
 - **📢 섹션 요약 비유**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 작동 방식을 "편의점 도시락 납품 시스템"에 비유할 수 있습니다. 본사는 전국 매장에 "김밥+삼각김+음료" 구성의 도시락을 공급하는데, 각 매장에서 매일 아침 발주서를 제출하면(Eager: 매장 요청에 즉시 생산·배송) vs 본사가 "이번 주말 예상 손님 수(실제 수요)"를 예측해서 매장에"미리 배치"([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/): 실제 주문(Action) 없이는 생산·배송 안 함)의 차이와 같습니다. 매장 주변에 축제(대량 주문)가 열리는 게 확실한 경우만 생산하면 재료 낭비를 줄일 수 있고, 축제가 취소되면 아예 생산을 안 해도 되는 것처럼, Lazy는"불필요한 연산은 100% 제거"하는 특성을 가집니다.
@@ -136,10 +136,10 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **파ipelining 가능 여부** | Narrow Dependency 연속 시 → [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 최적화 | Wide Dependency 섞여 있으면 Stage 분리불가피면 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 복잡도</strong> | 100개 이상 Transformation → [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Overhead 증가 | 너무 긴 lineage → checkpoint 권장 |
-| **Action 빈도** | 1개 RDD에 여러 Action → cache 필요 | 1개 Action만 → 불필요 캐시 제거 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 체인 분석</strong> | filter→map→reduce 순서: filter를 map 이전에 적용하여 네트워크 전송량 최소화 | map→filter→reduce: 필터가 나중에 오면 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 네트워크 통과 |
+| **파ipelining 가능 여부** | Narrow Dependency 연속 시 -> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 최적화 | Wide Dependency 섞여 있으면 Stage 분리불가피면 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 복잡도</strong> | 100개 이상 Transformation -> [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Overhead 증가 | 너무 긴 lineage -> checkpoint 권장 |
+| **Action 빈도** | 1개 RDD에 여러 Action -> cache 필요 | 1개 Action만 -> 불필요 캐시 제거 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 체인 분석</strong> | filter->map->reduce 순서: filter를 map 이전에 적용하여 네트워크 전송량 최소화 | map->filter->reduce: 필터가 나중에 오면 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 네트워크 통과 |
 
 *(추가 실무 적용 가이드 - [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evalutation 디버깅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))*
 - **take(n) action 활용**: 전체 collect() 대신 take(n)을 사용하여 결과의 부분만 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). take는 첫 n 개 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 읽기 때문에 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하지 않아 디버깅 속도가 매우 빠릅니다.
@@ -179,7 +179,7 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
     *   Constant Folding (컴파일 타임 상수 연산)
     *   Predicate Pushdown (필터 조건을 하유으로 내림)
     *   Column [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (필요한 컬럼만 선택)
-    *   Narrow→Wide [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝
+    *   Narrow->Wide [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝
 
 ---
 
@@ -187,20 +187,20 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
 
 ```text
 [Lazy Evaluation 적용 기술 생태계]
-    │
-    ▼
+    |
+    v
 [함수형 프로그래밍: Haskell(순수 지연 평가), Scala(LAZY 키워드), Clojure(지연 시퀀스)]
-    │
-    ▼
+    |
+    v
 [빅데이터 처리: Apache Spark(RDD/DataFrame), Apache Flink(ストリ밍), Apache Beam(统一的 API)]
-    │
-    ▼
+    |
+    v
 [языки программирования: Python(Generator/Iterator), Java(Stream API), JavaScript(제너레이터)]
-    │
-    ▼
+    |
+    v
 [Spark Lazy Evaluation 핵심 트리거]
-    │
-    ▼
+    |
+    v
 [Transformation (Lazy): map, filter, flatMap, groupByKey, join, reduceByKey, union, distinct, repartition...]
 ```
 
@@ -220,7 +220,7 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
 
 **진행 상황**: 54 / 262
 
-← **이전**: [02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋](/knowledge-base/studynote/16_bigdata/03_spark/053_rdd/)
-**다음**: [04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화](/knowledge-base/studynote/16_bigdata/03_spark/055_spark_sql_dataframe/) →
+<- **이전**: [02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋](/knowledge-base/studynote/16_bigdata/03_spark/053_rdd/)
+**다음**: [04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화](/knowledge-base/studynote/16_bigdata/03_spark/055_spark_sql_dataframe/) ->
 
 ---

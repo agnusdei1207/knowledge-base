@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 
 이 도식은 기존의 하향식 통제 구조가 가진 한계와 PSP/TSP를 통한 상향식 품질 확보 구조의 차이를 보여준다.
 ```text
-┌───────────────── 하향식 통제(CMMI) vs 상향식 품질(PSP/TSP) ─────────────────┐
-│                                                                           │
-│ [하향식: CMMI 중심]                     [상향식: PSP/TSP 결합]            │
-│  조직(CMMI) ──(지시)──▶                 조직(CMMI) ◀──(품질 보장)──       │
-│        ▼                                       ▲                          │
-│  팀 리더 ──(일정 압박)──▶              팀(TSP) : 자율적 계획 및 협업     │
-│        ▼                                       ▲                          │
-│  개발자 : 방어적 코딩, 결함 양산          개인(PSP) : 정량적 데이터 기반  │
-│           (원인: 개인 프로세스 부재)                  일정/결함 자기 통제 │
-└───────────────────────────────────────────────────────────────────────────┘
++----------------- 하향식 통제(CMMI) vs 상향식 품질(PSP/TSP) -----------------+
+|                                                                           |
+| [하향식: CMMI 중심]                     [상향식: PSP/TSP 결합]            |
+|  조직(CMMI) --(지시)--->                 조직(CMMI) <---(품질 보장)--       |
+|        v                                       ^                          |
+|  팀 리더 --(일정 압박)--->              팀(TSP) : 자율적 계획 및 협업     |
+|        v                                       ^                          |
+|  개발자 : 방어적 코딩, 결함 양산          개인(PSP) : 정량적 데이터 기반  |
+|           (원인: 개인 프로세스 부재)                  일정/결함 자기 통제 |
++---------------------------------------------------------------------------+
 ```
 이 그림의 핵심은 전통적인 환경에서는 조직의 목표가 개발자에게 단순한 '압박'으로 작용하여 오히려 품질 저하를 유발한다는 점이다. 반면 PSP/[TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 환경에서는 개발자 개인이 자신의 생산성(LOC/Hour)과 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)률 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정확히 알고 있기 때문에, 무리한 일정을 거부하고 실현 가능한 계획([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))을 수립하여 조직([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))의 목표를 안정적으로 받쳐주는 견고한 기반이 된다.
 
@@ -57,32 +57,32 @@ PSP는 개발자가 0단계부터 3단계까지 점진적으로 자신의 프로
 
 아래의 계층 구조도는 PSP의 각 레벨이 어떻게 누적되어 개발자의 개인 역량을 완성하는지를 보여준다.
 ```text
-┌───────────────── PSP (Personal Software Process) 계층 구조도 ─────────────────┐
-│                                                                             │
-│ [PSP 3: Cyclic Personal Process] ──▶ 대규모 모듈의 반복/점진적 개발 설계  │
-│            ▲                                                                │
-│ [PSP 2: Personal Quality Mgmt] ────▶ 개인 리뷰, 결함의 조기 식별 및 제거  │
-│            ▲                                                                │
-│ [PSP 1: Personal Planning Process] ─▶ 과거 Data 기반 일정/규모(Size) 추정  │
-│            ▲                                                                │
-│ [PSP 0: Baseline Personal Process] ─▶ 작업 시간(Time)과 결함(Defect) 기록  │
-└─────────────────────────────────────────────────────────────────────────────┘
++----------------- PSP (Personal Software Process) 계층 구조도 -----------------+
+|                                                                             |
+| [PSP 3: Cyclic Personal Process] ---> 대규모 모듈의 반복/점진적 개발 설계  |
+|            ^                                                                |
+| [PSP 2: Personal Quality Mgmt] -----> 개인 리뷰, 결함의 조기 식별 및 제거  |
+|            ^                                                                |
+| [PSP 1: Personal Planning Process] --> 과거 Data 기반 일정/규모(Size) 추정  |
+|            ^                                                                |
+| [PSP 0: Baseline Personal Process] --> 작업 시간(Time)과 결함(Defect) 기록  |
++-----------------------------------------------------------------------------+
 ```
 이 구조도의 핵심은 '측정 없이는 개선도 없다'는 사상이다. PSP 0에서 개발자는 자신이 어떤 유형의 에러(Syntax, Logic 등)를 주로 내는지, 100라인(LOC)을 짜는 데 몇 시간이 걸리는지 기록한다. 이를 바탕으로 PSP 1에서 다음 작업의 규모를 예측(PROBE 기법)하고, PSP 2에서는 컴파일러에 의존하기 전에 스스로 코드를 리뷰하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 제거 비용을 최소화한다.
 
 PSP로 무장한 개발자들이 모이면 [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 사이클을 시작한다. TSP는 팀 구성(Launch) -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 -> 계획 -> 실행(Execution) -> 사후 분석(Postmortem)의 사이클로 돌아간다.
 ```text
-┌─────────────────────── TSP (Team Software Process) 사이클 ──────────────────────┐
-│                                                                                 │
-│ [ 1. 런칭 (Launch) ] : 비즈니스 목표 이해, 역할(계획, 품질, 개발 등) 할당     │
-│          ↓                                                                      │
-│ [ 2. 계획 (Plan) ]   : 전체 전략 수립, 개인 PSP 데이터를 합산하여 WBS 도출    │
-│          ↓                                                                      │
-│ [ 3. 실행 (Execute) ]: 주간 회의(Weekly), 개별 PSP 데이터로 진척/품질 모니터링│
-│          ↓                                                                      │
-│ [ 4. 종료 (Wrap-up) ]: 사후 분석(Postmortem), 팀 프로세스 및 지식 자산(OPA)   │
-│                        업데이트 후 다음 사이클 반복                             │
-└─────────────────────────────────────────────────────────────────────────────────┘
++----------------------- TSP (Team Software Process) 사이클 ----------------------+
+|                                                                                 |
+| [ 1. 런칭 (Launch) ] : 비즈니스 목표 이해, 역할(계획, 품질, 개발 등) 할당     |
+|          v                                                                      |
+| [ 2. 계획 (Plan) ]   : 전체 전략 수립, 개인 PSP 데이터를 합산하여 WBS 도출    |
+|          v                                                                      |
+| [ 3. 실행 (Execute) ]: 주간 회의(Weekly), 개별 PSP 데이터로 진척/품질 모니터링|
+|          v                                                                      |
+| [ 4. 종료 (Wrap-up) ]: 사후 분석(Postmortem), 팀 프로세스 및 지식 자산(OPA)   |
+|                        업데이트 후 다음 사이클 반복                             |
++---------------------------------------------------------------------------------+
 ```
 이 흐름도의 특징은 매니저가 일정을 하달하는 것이 아니라, 팀원들이 각자의 PSP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 "나는 이번 주에 500LOC를 짜고 5개의 버그를 잡을 수 있다"라고 직접 계획을 수립([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) Planning)한다는 점이다. 이로 인해 일정에 대한 책임감이 극대화되고 정확도가 비약적으로 상승한다.
 
@@ -103,17 +103,17 @@ PSP로 무장한 개발자들이 모이면 [TSP](/knowledge-base/studynote/12_it
 
 다음은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/), [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/), PSP의 상호 보완적 아키텍처를 보여주는 계층 매트릭스이다.
 ```text
-┌──────────────── CMMI, TSP, PSP 3단계 융합 프레임워크 ────────────────┐
-│                                                                      │
-│ [ CMMI (Macro) ] : 조직(Organization) 수준의 프로세스 능력 및 인프라 │
-│       ▲ ▽         - 경영진의 목표, 전사 품질 보증, OPA 제공         │
-│       │ │                                                            │
-│ [ TSP (Micro)  ] : 프로젝트 팀(Team) 수준의 관리 및 실행             │
-│       ▲ ▽         - 리더십, 팀워크, 자체 계획 수립 및 통제          │
-│       │ │                                                            │
-│ [ PSP (Atomic) ] : 개인(Individual) 수준의 기술 및 규율              │
-│                    - 정량적 추정, 철저한 개인 코드 리뷰, 결함 데이터 │
-└──────────────────────────────────────────────────────────────────────┘
++---------------- CMMI, TSP, PSP 3단계 융합 프레임워크 ----------------+
+|                                                                      |
+| [ CMMI (Macro) ] : 조직(Organization) 수준의 프로세스 능력 및 인프라 |
+|       ^ ▽         - 경영진의 목표, 전사 품질 보증, OPA 제공         |
+|       | |                                                            |
+| [ TSP (Micro)  ] : 프로젝트 팀(Team) 수준의 관리 및 실행             |
+|       ^ ▽         - 리더십, 팀워크, 자체 계획 수립 및 통제          |
+|       | |                                                            |
+| [ PSP (Atomic) ] : 개인(Individual) 수준의 기술 및 규율              |
+|                    - 정량적 추정, 철저한 개인 코드 리뷰, 결함 데이터 |
++----------------------------------------------------------------------+
 ```
 이 매트릭스의 핵심은 세 가지 프레임워크가 배타적인 것이 아니라 완벽한 보완 관계라는 것이다. CMMI가 하드웨어 인프라라면, TSP는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)이고, PSP는 그 위에서 도는 애플리케이션(App)과 같다. 아무리 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Level 5 조직이라도 내부 엔지니어들이 PSP 역량을 갖추지 못했다면 그 성숙도는 서류상의 허상에 불과하다.
 
@@ -132,20 +132,20 @@ PSP로 무장한 개발자들이 모이면 [TSP](/knowledge-base/studynote/12_it
 
 다음은 현대적 환경에서 '[TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)+[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)' 융합 모델이 어떻게 동작하는지를 보여주는 운영 플로우이다.
 ```text
-┌───────────────── TSP + Agile(Scrum) 융합 운영 플로우 ─────────────────┐
-│                                                                       │
-│ [Sprint Planning]                                                     │
-│  - Agile : 비즈니스 우선순위 기반 User Story 선택                     │
-│  - TSP   : 개인별 PSP 데이터(시간/생산성)를 합산하여 수용 범위 결정   │
-│        ↓                                                              │
-│ [Sprint Execution]                                                    │
-│  - Agile : Daily Scrum으로 장애물 공유 및 소통                        │
-│  - TSP   : 컴파일 전 코드 리뷰(PSP 2) 강제로 내재적 결함 사전 제거    │
-│        ↓                                                              │
-│ [Sprint Retrospective]                                                │
-│  - Agile : "무엇이 좋았고 나빴는가?" 정성적 회고                      │
-│  - TSP   : "결함 주입률이 10% 증가했다, 원인은?" 정량적/원인 분석     │
-└───────────────────────────────────────────────────────────────────────┘
++----------------- TSP + Agile(Scrum) 융합 운영 플로우 -----------------+
+|                                                                       |
+| [Sprint Planning]                                                     |
+|  - Agile : 비즈니스 우선순위 기반 User Story 선택                     |
+|  - TSP   : 개인별 PSP 데이터(시간/생산성)를 합산하여 수용 범위 결정   |
+|        v                                                              |
+| [Sprint Execution]                                                    |
+|  - Agile : Daily Scrum으로 장애물 공유 및 소통                        |
+|  - TSP   : 컴파일 전 코드 리뷰(PSP 2) 강제로 내재적 결함 사전 제거    |
+|        v                                                              |
+| [Sprint Retrospective]                                                |
+|  - Agile : "무엇이 좋았고 나빴는가?" 정성적 회고                      |
+|  - TSP   : "결함 주입률이 10% 증가했다, 원인은?" 정량적/원인 분석     |
++-----------------------------------------------------------------------+
 ```
 이 흐름도의 핵심은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 가벼움이 놓치기 쉬운 '정량적 엄밀함'을 TSP가 보완해 준다는 점이다. 실무에서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 스토리 포인트를 주먹구구식으로 산정하여 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표를 자주 실패하는데, PSP/[TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합하면 팀의 진정한 벨로시티(Velocity)를 수학적으로 증명해낼 수 있다.
 
@@ -180,17 +180,17 @@ PSP와 TSP를 성공적으로 정착시킨 조직은, 단순히 개발 속도가
 
 ```text
 [폭포수 모델 (Waterfall) — 하향식 단계별 개발, 개인 역량 미고려]
-    │
-    ▼
+    |
+    v
 [CMM / CMMI (Capability Maturity Model) — 조직 수준 프로세스 개선]
-    │
-    ▼
+    |
+    v
 [PSP (Personal Software Process) — 개인 수준 측정·계획·품질 자동화]
-    │
-    ▼
+    |
+    v
 [TSP (Team Software Process) — 팀 수준 자율 관리, PSP 팀 통합]
-    │
-    ▼
+    |
+    v
 [애자일 (Agile) / 스크럼 (Scrum) — 반복·협업, PSP/TSP 원칙 계승]
 ```
 PSP는 개인의 측정 습관을, TSP는 자기 조직화 팀 원칙을 정립하여 CMM과 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 사이의 가교 역할을 한다.
@@ -205,7 +205,7 @@ PSP는 개인의 측정 습관을, TSP는 자기 조직화 팀 원칙을 정립�
 
 **진행 상황**: 18 / 973
 
-← **이전**: [17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스](/knowledge-base/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/)
-**다음**: [19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) →
+<- **이전**: [17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스](/knowledge-base/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/)
+**다음**: [19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) ->
 
 ---

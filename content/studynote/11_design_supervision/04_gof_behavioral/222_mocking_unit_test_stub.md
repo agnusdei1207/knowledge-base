@@ -25,14 +25,14 @@ tags = ["studynote-design-supervision"]
 ```
 [문제 상황]
 OrderService.createOrder()
-  └→ userRepository.findById()   ← DB 의존성
-  └→ inventoryService.reserve()  ← 외부 서비스 의존성
-  └→ emailService.send()         ← SMTP 서버 의존성
+  +-> userRepository.findById()   <- DB 의존성
+  +-> inventoryService.reserve()  <- 외부 서비스 의존성
+  +-> emailService.send()         <- SMTP 서버 의존성
 
 단위 테스트만으로 실행 불가:
-  - DB 없이 실행 불가 → 느림, 불안정
-  - 외부 API 없이 실행 불가 → 환경 의존
-  - 이메일 실제 발송 → 테스트 부작용
+  - DB 없이 실행 불가 -> 느림, 불안정
+  - 외부 API 없이 실행 불가 -> 환경 의존
+  - 이메일 실제 발송 -> 테스트 부작용
 ```
 
 해결: 의존성을 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a></strong>로 교체하여 격리.
@@ -40,12 +40,12 @@ OrderService.createOrder()
 ```
         /\
        /  \
-      / E2E\  ← End-to-End 테스트 (소수, 느림, 비용 ↑)
-     /──────\
-    /Integra-\← 통합 테스트 (중간)
-   /──────────\
-  / Unit Tests \← 단위 테스트 (다수, 빠름, 비용 ↓)
- ────────────────
+      / E2E\  <- End-to-End 테스트 (소수, 느림, 비용 ^)
+     /------\
+    /Integra-\<- 통합 테스트 (중간)
+   /----------\
+  / Unit Tests \<- 단위 테스트 (다수, 빠름, 비용 v)
+ ----------------
 ```
 
 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 피라미드 기반을 이루는 이유:
@@ -54,9 +54,9 @@ OrderService.createOrder()
 - 유지보수 비용: 외부 환경 변화에 무관
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 영화 촬영의 스턴트맨 — 진짜 배우(실제 DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 대신 특정 장면(테스트)에서 대역([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))을 써서, 안전하고 빠르게 촬영(테스트)한다.
@@ -74,18 +74,18 @@ OrderService.createOrder()
 
 ```
 테스트에서 의존성을 어떻게 다룰까?
-                │
-    ┌───────────┼────────────────┐
-    │           │                │
+                |
+    +-----------+----------------+
+    |           |                |
 파라미터로      반환 값이          호출 여부를
 전달만 됨      필요함             검증해야 함
-    │           │                │
+    |           |                |
   Dummy       상태가 필요?      Mock 사용
               (경량 구현 필요?)
-             ┌─────┴──────┐
+             +-----+------+
           단순 값          실제 동작
          반환 충분          필요
-             │                │
+             |                |
            Stub             Fake
 ```
 
@@ -110,9 +110,9 @@ verify(mockRepo, never()).delete(any());
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Input/State  |--->| Control Point |--->| Output/Action |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: Stub은 "미리 짜놓은 대본을 읽는 배우(항상 같은 답변 반환)", Mock은 "감독이 배우가 대본대로 연기했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것(호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))" 이다.
@@ -201,7 +201,7 @@ class OrderServiceTest {
 | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) | `new EmailService()` 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입으로 외부 주입 |
 | 인터페이스 분리 | 구체 클래스 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 인터페이스 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) |
 | 정적 메서드 제거 | `static` 유틸 직접 호출 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인터페이스로 래핑 |
-| 단일 책임 | 하나의 메서드에 모든 로직 | 분리 → 독립 테스트 가능 |
+| 단일 책임 | 하나의 메서드에 모든 로직 | 분리 -> 독립 테스트 가능 |
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -220,12 +220,12 @@ class OrderServiceTest {
 - **빠른 피드백**: 외부 의존성 없이 ms 내 실행
 - <strong>안정적인 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong>: 환경 의존 없이 일관된 결과
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 안전망</strong>: 코드 변경 시 회귀 방지
-- **설계 개선 유도**: 테스트 어렵다 → 결합도가 높다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
+- **설계 개선 유도**: 테스트 어렵다 -> 결합도가 높다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 
 **한계와 주의**:
-- 지나친 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 사용 → 구현 세부사항에 결합된 취약한 테스트
-- Stub과 Mock의 혼동 → 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 행동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 목적 불명확
-- [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)만으로는 통합 문제 미탐지 → 피라미드 균형 유지 필수
+- 지나친 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 사용 -> 구현 세부사항에 결합된 취약한 테스트
+- Stub과 Mock의 혼동 -> 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 행동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 목적 불명확
+- [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)만으로는 통합 문제 미탐지 -> 피라미드 균형 유지 필수
 
 기술사 시험에서는 <strong>5가지 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a> 비교표</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> vs Mock의 차이</strong>, <strong>테스트 피라미드</strong>를 명확히 서술하는 것이 핵심이다.
 
@@ -247,7 +247,7 @@ class OrderServiceTest {
 | 연관 개념 | 테스트 피라미드 | Unit/Integration/[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 비율 가이드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-테스트 격리 → 모킹과 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) → [계약 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/)
+테스트 격리 -> 모킹과 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) -> [계약 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Mock은 영화 촬영에서 진짜 폭발 대신 쓰는 가짜 폭발 효과 — 진짜(DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 없이도 실제처럼 테스트할 수 있어.
@@ -260,7 +260,7 @@ class OrderServiceTest {
 
 **진행 상황**: 283 / 530
 
-← **이전**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/)
-**다음**: [223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/) →
+<- **이전**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/)
+**다음**: [223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/) ->
 
 ---

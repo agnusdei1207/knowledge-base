@@ -29,7 +29,7 @@ tags = ["studynote-bigdata"]
 | <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/283_reference_pattern/">일관된 해싱</a></strong> | [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 노드에 균등 분배 |
 | <strong>튜너블 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 연산별로 ONE~ALL [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">결과적 일관성</a></strong> | 기본값 QUORUM, 최종적으로 모든 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 최적화</strong> | Sequential Append → 디스크 최적화 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 최적화</strong> | Sequential Append -> 디스크 최적화 |
 
 📢 **섹션 요약 비유**
 > Cassandra는 선생님([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터) 없이 모든 학생이 자료를 서로 공유하는 스터디 그룹과 같다. 한 명이 빠져도 나머지가 계속 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 있고, 인원이 늘어날수록 처리할 수 있는 자료량도 그만큼 늘어난다.
@@ -41,51 +41,51 @@ tags = ["studynote-bigdata"]
 ### [일관된 해싱](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/283_reference_pattern/) ([Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/)) [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         Cassandra 토큰 링 (Token Ring)                        │
-│                                                              │
-│  토큰 범위: -2^63 ~ +2^63 (가상 노드 vnodes 사용 시 세분화)     │
-│                                                              │
-│               Node A (tokens: 0~25)                          │
-│              ╱                    ╲                          │
-│  Node E    ●    RF=3 예시:          ●   Node B               │
-│ (76~100)   │    key "user:1"        │   (26~50)              │
-│            │    → hash → 42        │                         │
-│            │    → Node B, C, D     │                         │
-│  Node D  ●                           ●  Node C               │
-│  (51~75)    ╲                    ╱   (26~50 이후)             │
-│              (시계 방향으로 RF개 노드)                          │
-│                                                              │
-│  Vnodes(가상 노드): 각 물리 노드가 여러 토큰 범위를 담당        │
-│  → 노드 추가/제거 시 부하 분산 자동화                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         Cassandra 토큰 링 (Token Ring)                        |
+|                                                              |
+|  토큰 범위: -2^63 ~ +2^63 (가상 노드 vnodes 사용 시 세분화)     |
+|                                                              |
+|               Node A (tokens: 0~25)                          |
+|              ╱                    ╲                          |
+|  Node E    ●    RF=3 예시:          ●   Node B               |
+| (76~100)   |    key "user:1"        |   (26~50)              |
+|            |    -> hash -> 42        |                         |
+|            |    -> Node B, C, D     |                         |
+|  Node D  ●                           ●  Node C               |
+|  (51~75)    ╲                    ╱   (26~50 이후)             |
+|              (시계 방향으로 RF개 노드)                          |
+|                                                              |
+|  Vnodes(가상 노드): 각 물리 노드가 여러 토큰 범위를 담당        |
+|  -> 노드 추가/제거 시 부하 분산 자동화                          |
++--------------------------------------------------------------+
 ```
 
 ### 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로 상세
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                  Cassandra 쓰기 경로                       │
-│                                                          │
-│  Client → 코디네이터 노드 → 복제 노드들                     │
-│                                                          │
-│  각 복제 노드에서:                                         │
-│  1. Commit Log 기록 (내구성, Sequential I/O)              │
-│  2. MemTable 업데이트 (인메모리 정렬 구조)                  │
-│  3. MemTable 임계값 도달 → SSTable Flush                  │
-│  4. Bloom Filter, Index Summary 업데이트                  │
-│                                                          │
-│  ┌─────────────────────────────────────────────────┐    │
-│                  Cassandra 읽기 경로                 │    │
-│  └─────────────────────────────────────────────────┘    │
-│  Client → 코디네이터 → 복제 노드 중 1개(or QUORUM)        │
-│                                                          │
-│  복제 노드에서:                                           │
-│  1. MemTable 검색 (최신 데이터)                           │
-│  2. Bloom Filter 확인 (SSTable에 키 존재 여부 빠른 확인)    │
-│  3. Key Cache → Row Cache 확인                           │
-│  4. SSTable 검색 (최신순, 병합 필요 시 Read Repair)        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                  Cassandra 쓰기 경로                       |
+|                                                          |
+|  Client -> 코디네이터 노드 -> 복제 노드들                     |
+|                                                          |
+|  각 복제 노드에서:                                         |
+|  1. Commit Log 기록 (내구성, Sequential I/O)              |
+|  2. MemTable 업데이트 (인메모리 정렬 구조)                  |
+|  3. MemTable 임계값 도달 -> SSTable Flush                  |
+|  4. Bloom Filter, Index Summary 업데이트                  |
+|                                                          |
+|  +-------------------------------------------------+    |
+|                  Cassandra 읽기 경로                 |    |
+|  +-------------------------------------------------+    |
+|  Client -> 코디네이터 -> 복제 노드 중 1개(or QUORUM)        |
+|                                                          |
+|  복제 노드에서:                                           |
+|  1. MemTable 검색 (최신 데이터)                           |
+|  2. Bloom Filter 확인 (SSTable에 키 존재 여부 빠른 확인)    |
+|  3. Key Cache -> Row Cache 확인                           |
+|  4. SSTable 검색 (최신순, 병합 필요 시 Read Repair)        |
++----------------------------------------------------------+
 ```
 
 ### CQL ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Query Language) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
@@ -121,9 +121,9 @@ R = 읽기 확인 노드 수
 강한 일관성 조건: W + R > N
 
 예시 (RF=3):
-  W=2, R=2 → 2+2=4 > 3 → 강한 일관성 ✓ (QUORUM+QUORUM)
-  W=1, R=1 → 1+1=2 < 3 → 결과적 일관성 (ONE+ONE)
-  W=3, R=1 → 3+1=4 > 3 → 강한 일관성 ✓ (ALL+ONE)
+  W=2, R=2 -> 2+2=4 > 3 -> 강한 일관성 ✓ (QUORUM+QUORUM)
+  W=1, R=1 -> 1+1=2 < 3 -> 결과적 일관성 (ONE+ONE)
+  W=3, R=1 -> 3+1=4 > 3 -> 강한 일관성 ✓ (ALL+ONE)
 ```
 
 📢 **섹션 요약 비유**
@@ -148,16 +148,16 @@ R = 읽기 확인 노드 수
 
 ```text
 ❌ 1. ALLOW FILTERING 사용
-   → 파티션 키 없는 전체 스캔 → 클러스터 전체 부하
+   -> 파티션 키 없는 전체 스캔 -> 클러스터 전체 부하
 
 ❌ 2. 매우 큰 파티션 (>100MB)
-   → 읽기 타임아웃, GC 압박, 핫 노드
+   -> 읽기 타임아웃, GC 압박, 핫 노드
 
 ❌ 3. 무한 증가 컬렉션 (Set/List/Map)
-   → 단일 파티션에 수백만 아이템 → 대형 파티션과 동일 문제
+   -> 단일 파티션에 수백만 아이템 -> 대형 파티션과 동일 문제
 
 ❌ 4. 높은 삭제 비율 + 낮은 TTL
-   → Tombstone 폭발 → 읽기 성능 급락
+   -> Tombstone 폭발 -> 읽기 성능 급락
 ```
 
 📢 **섹션 요약 비유**
@@ -179,8 +179,8 @@ WITH replication = {
   'dc_busan': 2     -- 부산 DR에 2개 복제본
 };
 
-LOCAL_QUORUM: 서울 DC 내에서만 QUORUM → 네트워크 지연 최소화
-EACH_QUORUM: 모든 DC에서 QUORUM → 최고 일관성 (느림)
+LOCAL_QUORUM: 서울 DC 내에서만 QUORUM -> 네트워크 지연 최소화
+EACH_QUORUM: 모든 DC에서 QUORUM -> 최고 일관성 (느림)
 ```
 
 ### 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -203,7 +203,7 @@ EACH_QUORUM: 모든 DC에서 QUORUM → 최고 일관성 (느림)
 ### Netflix의 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 도입 사례
 
 ```text
-도입 전: Oracle RAC → 단일 마스터, 수직 확장 한계
+도입 전: Oracle RAC -> 단일 마스터, 수직 확장 한계
 도입 후: Cassandra 수백 노드
   - 쓰기: 초당 수백만 건(뷰 이력, 재생 상태)
   - 가용성: 99.999% (5-nines)
@@ -233,20 +233,20 @@ Cassandra는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_en
 
 ```text
 [관계형 DB (RDBMS) — 스키마 고정, 수직 확장 한계]
-    │
-    ▼
+    |
+    v
 [NoSQL — 유연한 스키마, 수평 확장 지향]
-    │
-    ▼
+    |
+    v
 [Cassandra — 분산 와이드 컬럼 스토어, 고가용성 설계]
-    │
-    ▼
+    |
+    v
 [Consistent Hashing — 노드 추가 시 최소 리밸런싱 데이터 분산]
-    │
-    ▼
+    |
+    v
 [쓰기 최적화 (Write-Optimized) — LSM 트리 기반 고처리량 쓰기]
-    │
-    ▼
+    |
+    v
 [멀티 마스터 복제 (Multi-Master) — 전역 분산 액티브-액티브 구성]
 ```
 Cassandra는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 RDBMS의 확장 한계를 극복하기 위해 설계된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 와이드 컬럼 스토어로, [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)와 LSM 트리로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 실현한다.
@@ -262,7 +262,7 @@ Cassandra는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 **진행 상황**: 132 / 262
 
-← **이전**: [131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB](/knowledge-base/studynote/16_bigdata/06_nosql/131_column_family_db/)
-**다음**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/knowledge-base/studynote/16_bigdata/06_nosql/133_graph_db/) →
+<- **이전**: [131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB](/knowledge-base/studynote/16_bigdata/06_nosql/131_column_family_db/)
+**다음**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/knowledge-base/studynote/16_bigdata/06_nosql/133_graph_db/) ->
 
 ---

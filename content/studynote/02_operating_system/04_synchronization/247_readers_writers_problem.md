@@ -24,27 +24,27 @@ tags = ["studynote-operating-system"]
 - **독자**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기만 함. 여러 독자 동시 접근 허용 가능.
 - **저자**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정함. 완전한 독점 접근 필요.
 
-순진한 해법: 모든 접근에 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 사용 → 독자끼리도 순차 실행으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 크게 저하된다. 정교한 해법이 필요하다.
+순진한 해법: 모든 접근에 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 사용 -> 독자끼리도 순차 실행으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 크게 저하된다. 정교한 해법이 필요하다.
 
 **💡 비유**: 도서관 열람실 규칙을 상상하라. 같은 책을 여러 사람이 동시에 읽을 수 있지만, 누군가 내용을 수정(저자)하려면 독점 열람실을 사용해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           독자-저자 접근 패턴                            │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [Reader1] ─┐                                            │
-│  [Reader2] ─┤──▶ [공유 데이터] ← 동시 읽기 허용 ✅       │
-│  [Reader3] ─┘                                            │
-│                                                          │
-│  [Writer1] ──▶ [공유 데이터] ← 독점 쓰기 필요            │
-│              (Reader 모두 차단, 다른 Writer도 차단)      │
-│                                                          │
-│  제약 조건:                                              │
-│  ① Reader ↔ Writer: 상호 배제                            │
-│  ② Writer ↔ Writer: 상호 배제                            │
-│  ③ Reader ↔ Reader: 동시 허용                            │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           독자-저자 접근 패턴                            |
++----------------------------------------------------------+
+|                                                          |
+|  [Reader1] -+                                            |
+|  [Reader2] -+---> [공유 데이터] <- 동시 읽기 허용 ✅       |
+|  [Reader3] -+                                            |
+|                                                          |
+|  [Writer1] ---> [공유 데이터] <- 독점 쓰기 필요            |
+|              (Reader 모두 차단, 다른 Writer도 차단)      |
+|                                                          |
+|  제약 조건:                                              |
+|  ① Reader ↔ Writer: 상호 배제                            |
+|  ② Writer ↔ Writer: 상호 배제                            |
+|  ③ Reader ↔ Reader: 동시 허용                            |
++----------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 독자-저자는 '다 함께 읽되, 홀로 쓰는' 원칙 — 이 단순한 규칙을 구현하는 방법에서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 공정성의 트레이드오프가 발생합니다.
@@ -85,22 +85,22 @@ signal(rw_mutex);
 ### 제1유형 동작 흐름
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│      제1유형 독자 우선 — 저자 기아 발생 시나리오             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  시간 흐름 ─────────────────────────────────────────────▶    │
-│                                                              │
-│  R1: ──[읽기 시작]──────────────────────[읽기 종료]──        │
-│  R2:     ──[읽기 시작]──────────────────────[읽기 종료]──    │
-│  R3:         ──[읽기 시작]──────────────────────[읽기 종료]──│
-│                                                              │
-│  W1:                [대기 중...]               ← 기아!       │
-│         ^                                                    │
-│         read_count > 0 내내 → rw_mutex 계속 잠김             │
-│                                                              │
-│  ⚠ 연속적인 독자 유입 시 저자는 영원히 대기할 수 있음        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|      제1유형 독자 우선 — 저자 기아 발생 시나리오             |
++--------------------------------------------------------------+
+|                                                              |
+|  시간 흐름 ---------------------------------------------->    |
+|                                                              |
+|  R1: --[읽기 시작]----------------------[읽기 종료]--        |
+|  R2:     --[읽기 시작]----------------------[읽기 종료]--    |
+|  R3:         --[읽기 시작]----------------------[읽기 종료]--|
+|                                                              |
+|  W1:                [대기 중...]               <- 기아!       |
+|         ^                                                    |
+|         read_count > 0 내내 -> rw_mutex 계속 잠김             |
+|                                                              |
+|  ⚠ 연속적인 독자 유입 시 저자는 영원히 대기할 수 있음        |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 독자가 연속으로 들어오면 read_count가 0이 되지 않아 rw_mutex가 해제되지 않는다. 저자는 이론적으로 무한 대기할 수 있다. 실무에서는 이 기아 위험 때문에 반드시 타임아웃이나 저자 대기 카운터를 추가해야 한다.
@@ -112,19 +112,19 @@ signal(rw_mutex);
 ### 공정 해결 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)-Free): 큐 기반
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│       공정 해결: 도착 순서 기반 큐 관리                  │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [도착 순서 큐]                                          │
-│  R1 → W1 → R2 → R3 → W2 ...                              │
-│                                                          │
-│  처리 순서:                                              │
-│  R1 실행 → W1이 대기 중이므로 신규 R 차단                │
-│  W1 독점 실행 → R2, R3 동시 실행 → W2 독점 실행          │
-│                                                          │
-│  Java ReadWriteLock (fair=true)이 이 방식을 구현함       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|       공정 해결: 도착 순서 기반 큐 관리                  |
++----------------------------------------------------------+
+|                                                          |
+|  [도착 순서 큐]                                          |
+|  R1 -> W1 -> R2 -> R3 -> W2 ...                              |
+|                                                          |
+|  처리 순서:                                              |
+|  R1 실행 -> W1이 대기 중이므로 신규 R 차단                |
+|  W1 독점 실행 -> R2, R3 동시 실행 -> W2 독점 실행          |
+|                                                          |
+|  Java ReadWriteLock (fair=true)이 이 방식을 구현함       |
++----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 공정 큐 방식은 대기 순서를 보존하므로 기아가 발생하지 않는다. 단, 독자 여럿을 연속 처리하지 못하므로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 감소할 수 있다. Java `ReentrantReadWriteLock(fair=true)`가 이를 구현하며, 저자 우선순위가 높은 환경에서는 NonfairReadWriteLock이 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 제공한다.
@@ -138,24 +138,24 @@ signal(rw_mutex);
 ### 세 유형 비교
 
 ```text
-┌──────────────────┬──────────────┬──────────────┬──────────────┐
-│ 항목             │ 독자 우선    │ 저자 우선    │ 공정 (큐)    │
-├──────────────────┼──────────────┼──────────────┼──────────────┤
-│ 읽기 처리량      │ 최고         │ 낮음         │ 중간         │
-│ 저자 기아        │ 발생 가능    │ 없음         │ 없음         │
-│ 독자 기아        │ 없음         │ 발생 가능    │ 없음         │
-│ 구현 복잡도      │ 중간         │ 높음         │ 높음         │
-│ 실무 적용        │ 읽기 집중 DB │ 쓰기 중요 DB │ 일반 목적    │
-└──────────────────┴──────────────┴──────────────┴──────────────┘
++------------------+--------------+--------------+--------------+
+| 항목             | 독자 우선    | 저자 우선    | 공정 (큐)    |
++------------------+--------------+--------------+--------------+
+| 읽기 처리량      | 최고         | 낮음         | 중간         |
+| 저자 기아        | 발생 가능    | 없음         | 없음         |
+| 독자 기아        | 없음         | 발생 가능    | 없음         |
+| 구현 복잡도      | 중간         | 높음         | 높음         |
+| 실무 적용        | 읽기 집중 DB | 쓰기 중요 DB | 일반 목적    |
++------------------+--------------+--------------+--------------+
 ```
 
 ### 리눅스 [RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ([Read-Copy-Update](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)) — 궁극적 해법
 
-RCU는 독자에게 락 없이([lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 읽기를 허용하고, 저자는 복사(Copy) → 수정 → 포인터 교체(Update) 방식으로 일관성을 보장한다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수천 곳에 사용되며 독자 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화한다.
+RCU는 독자에게 락 없이([lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 읽기를 허용하고, 저자는 복사(Copy) -> 수정 -> 포인터 교체(Update) 방식으로 일관성을 보장한다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수천 곳에 사용되며 독자 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화한다.
 
 ```text
 [Writer]
-원본 데이터: A → [수정 복사본: A'] 생성
+원본 데이터: A -> [수정 복사본: A'] 생성
 RCU 포인터 교체: ptr = A' (원자적)
 모든 기존 독자가 A 사용 완료 후 A 해제 (Grace Period)
 
@@ -179,7 +179,7 @@ rcu_read_unlock();
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **저자 기아 무시**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기가 무한 읽기를 허용하면 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 저자가 영원히 대기하여 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 적용되지 않는 장애 발생.
-- **RCU의 잘못된 사용**: Grace Period 이전에 원본 해제 → 사용 중인 독자가 해제된 메모리 접근 → [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 취약점.
+- **RCU의 잘못된 사용**: Grace Period 이전에 원본 해제 -> 사용 중인 독자가 해제된 메모리 접근 -> [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 취약점.
 
 **📢 섹션 요약 비유**: 독자-저자 문제의 잘못된 구현은 도서관에서 누군가 책을 태워버렸는데 다른 사람이 그 책 페이지를 읽고 있는 상황과 같습니다.
 
@@ -193,7 +193,7 @@ rcu_read_unlock();
 | 저자 기아 | 없음 | 가능 | 없음 |
 | 구현 복잡도 | 낮음 | 중간 | 높음 |
 
-**📢 섹션 요약 비유**: 독자-저자 문제 해법의 진화는 자물쇠([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))→회전문(RWLock)→홀로그램 복사본([MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)/[RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/))의 순서로, 점점 더 많은 사람이 동시에 도서관을 이용하는 방향으로 진화했습니다.
+**📢 섹션 요약 비유**: 독자-저자 문제 해법의 진화는 자물쇠([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))->회전문(RWLock)->홀로그램 복사본([MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)/[RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/))의 순서로, 점점 더 많은 사람이 동시에 도서관을 이용하는 방향으로 진화했습니다.
 
 ---
 
@@ -210,12 +210,12 @@ rcu_read_unlock();
 
 ```text
 [유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
-    │
-    ▼
+    |
+    v
 [독자-저자 문제 (Readers-Writers Problem)]
-    │
-    ├──▶ [식사하는 철학자 문제 (Dining-Philosophers Problem)]
-    └──▶ [자바 동기화]
+    |
+    +---> [식사하는 철학자 문제 (Dining-Philosophers Problem)]
+    +---> [자바 동기화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -232,7 +232,7 @@ rcu_read_unlock();
 
 **진행 상황**: 247 / 800
 
-← **이전**: [246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)
-**다음**: [248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/) →
+<- **이전**: [246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)
+**다음**: [248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [OpenFlow SDN 1세대 표준 규격]
-    │
-    ▼
+    |
+    v
 [OpenFlow 플로우 테이블]
-    │
-    └──▶ [인텐트 기반 네트워킹]
+    |
+    +---> [인텐트 기반 네트워킹]
 ```
 
 - **📢 섹션 요약 비유**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -58,11 +58,11 @@ tags = ["studynote-network"]
 
 ```text
 [OpenFlow SDN 1세대 표준 규격]
-    │
-    ▼
+    |
+    v
 [OpenFlow 플로우 테이블]
-    │
-    └──▶ [인텐트 기반 네트워킹]
+    |
+    +---> [인텐트 기반 네트워킹]
 ```
 
 - **📢 섹션 요약 비유**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: OpenFlow SDN 1세대 표준 규격]
-    │
-    ▼
+    |
+    v
 [현재 개념: OpenFlow 플로우 테이블]
-    │
-    ├──▶ [확장 A: 인텐트 기반 네트워킹]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 인텐트 기반 네트워킹]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 1세대 표준 규격에서 출발해 현재 메커니즘을 정교화하고, 이후 [인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 977 / 1120
 
-← **이전**: [855. OpenFlow (오픈 플로우 표준)](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)
-**다음**: [857. IBN (인텐트 기반 네트워킹)](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) →
+<- **이전**: [855. OpenFlow (오픈 플로우 표준)](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)
+**다음**: [857. IBN (인텐트 기반 네트워킹)](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) ->
 
 ---

@@ -35,9 +35,9 @@ tags = ["studynote-bigdata"]
   노드: 개체 (구글, 래리 페이지, 마운틴뷰)
   엣지: 관계 (설립자, 국적, 본사위치)
 
-  래리 페이지 → (설립) → 구글
-  래리 페이지 → (국적) → 미국
-  구글 → (본사) → 마운틴뷰
+  래리 페이지 -> (설립) -> 구글
+  래리 페이지 -> (국적) -> 미국
+  구글 -> (본사) -> 마운틴뷰
 
 RDF (Resource Description Framework):
   W3C 표준 형식
@@ -64,7 +64,7 @@ RDF (Resource Description Framework):
   OWL (Web Ontology Language): W3C 표준
 ```
 
-> 📢 **섹션 요약 비유**: [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 사람 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 + 사실 노트 — 사람(개체)과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(엣지)를 연결한 네트워크. "래리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) → 설립 → 구글 → 본사 → 마운틴뷰". 연결 따라가며 새 사실 발견!
+> 📢 **섹션 요약 비유**: [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 사람 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 + 사실 노트 — 사람(개체)과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(엣지)를 연결한 네트워크. "래리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) -> 설립 -> 구글 -> 본사 -> 마운틴뷰". 연결 따라가며 새 사실 발견!
 
 ---
 
@@ -78,8 +78,8 @@ RDF (Resource Description Framework):
    검색 결과 오른쪽 "지식 패널" 제공
 
    기능:
-   "아인슈타인" 검색 → 생년, 국적, 업적 즉시 표시
-   "파리" → 에펠탑, 루브르, 인구, 날씨 연결
+   "아인슈타인" 검색 -> 생년, 국적, 업적 즉시 표시
+   "파리" -> 에펠탑, 루브르, 인구, 날씨 연결
 
 2. Wikidata (2012, Wikimedia):
    오픈 지식 그래프
@@ -90,9 +90,9 @@ RDF (Resource Description Framework):
 
 3. DBpedia:
    Wikipedia에서 자동 추출한 지식 그래프
-   구조화되지 않은 Wikipedia → 트리플
+   구조화되지 않은 Wikipedia -> 트리플
 
-4. Freebase → Wikidata:
+4. Freebase -> Wikidata:
    Google이 인수 후 Wikidata로 통합
 
 5. 도메인 특화:
@@ -119,8 +119,8 @@ RDF (Resource Description Framework):
   개체와 관계를 연속 벡터 공간에 표현
 
   목적:
-  유사한 개체 → 가까운 벡터
-  관계 추론 → 벡터 연산으로
+  유사한 개체 -> 가까운 벡터
+  관계 추론 -> 벡터 연산으로
 
 TransE (2013):
   핵심 아이디어:
@@ -130,22 +130,22 @@ TransE (2013):
   V(파리) + V(수도) ≈ V(프랑스)
 
   비유:
-  V(왕) - V(남성) + V(여성) ≈ V(여왕)  ← Word2Vec과 유사!
+  V(왕) - V(남성) + V(여성) ≈ V(여왕)  <- Word2Vec과 유사!
 
   학습: 올바른 트리플의 score를 높임
   score = -||h + r - t||
 
 관계 추론:
-  "구글의 CEO는?" → 지식 그래프에 없는 경우
+  "구글의 CEO는?" -> 지식 그래프에 없는 경우
 
-  V(구글) + V(CEO) → 가장 가까운 개체 = V(순다 피차이)
+  V(구글) + V(CEO) -> 가장 가까운 개체 = V(순다 피차이)
 
   링크 예측 (Link Prediction):
   누락된 관계 자동 예측
-  → 지식 그래프 완성
+  -> 지식 그래프 완성
 
 응용:
-  추천 시스템: "이 영화 좋아하면 → 같은 감독 추천"
+  추천 시스템: "이 영화 좋아하면 -> 같은 감독 추천"
   질의응답: "설명 가능한" 추론 경로 제공
   이상 탐지: 비정상적 관계 탐지
 ```
@@ -162,30 +162,30 @@ Graph RAG (Knowledge Graph + RAG):
 
 벡터 RAG 한계:
   "삼성의 반도체 사업부 CEO는 누구인가?"
-  → 벡터 검색: 관련 문서 5개 검색
-  → 문서에 명시적 답변이 없으면 실패
-  → LLM 환각 가능
+  -> 벡터 검색: 관련 문서 5개 검색
+  -> 문서에 명시적 답변이 없으면 실패
+  -> LLM 환각 가능
 
 Graph RAG 강점:
   (삼성전자, has_division, 반도체사업부)
   (반도체사업부, has_ceo, 경계현)
 
-  → 그래프 탐색으로 정확한 답변
-  → 추론 경로 설명 가능: "삼성전자 → 반도체사업부 → CEO"
+  -> 그래프 탐색으로 정확한 답변
+  -> 추론 경로 설명 가능: "삼성전자 -> 반도체사업부 -> CEO"
 
 구현 방식:
 
 Microsoft GraphRAG (2024):
-  1. 문서 → NLP → 개체/관계 추출 → 지식 그래프 구축
-  2. 질의 → 그래프 탐색 + 벡터 검색 결합
-  3. 두 결과 통합 → LLM 답변 생성
+  1. 문서 -> NLP -> 개체/관계 추출 -> 지식 그래프 구축
+  2. 질의 -> 그래프 탐색 + 벡터 검색 결합
+  3. 두 결과 통합 -> LLM 답변 생성
 
   Community Detection: Leiden 알고리즘
   계층적 요약 생성 (Global Search)
 
 Neo4j + LLM:
   CYPHER 쿼리 자동 생성:
-  "삼성의 반도체 CEO는?" →
+  "삼성의 반도체 CEO는?" ->
   MATCH (c:Company)-[:HAS_DIVISION]->(d:Division)-[:HAS_CEO]->(p:Person)
   WHERE c.name = '삼성'
   RETURN p.name
@@ -200,7 +200,7 @@ Neo4j + LLM:
   갱신 지연 (KG 최신화 어려움)
 ```
 
-> 📢 **섹션 요약 비유**: [Graph RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) = 지식 맵 + [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안내원 — 벡터 검색(광범위 문서 검색)으로 못 찾을 때, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도)로 경로 탐색. "삼성→[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)사업부→CEO" [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 탐색!
+> 📢 **섹션 요약 비유**: [Graph RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) = 지식 맵 + [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안내원 — 벡터 검색(광범위 문서 검색)으로 못 찾을 때, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도)로 경로 탐색. "삼성->[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)사업부->CEO" [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 탐색!
 
 ---
 
@@ -211,10 +211,10 @@ Neo4j + LLM:
 
 배경:
   AML (Anti-Money Laundering) 탐지 강화
-  단순 규칙 기반 → 복잡한 관계망 탐지 불가
+  단순 규칙 기반 -> 복잡한 관계망 탐지 불가
 
   기존 문제:
-  A → B → C → D (4단계 간접 송금)
+  A -> B -> C -> D (4단계 간접 송금)
   규칙 기반: A-D 직접 연결 없어 탐지 불가
 
 지식 그래프 구축:
@@ -229,10 +229,10 @@ Neo4j + LLM:
   IS_SANCTIONED, IS_HIGH_RISK
 
 데이터 소스 통합:
-  핵심 뱅킹 DB → 계좌, 거래
-  KYC 데이터 → 고객 신원, 관계사
-  OFAC 제재 리스트 → 제재 개체
-  Panama Papers 데이터 (오픈) → 페이퍼 컴퍼니
+  핵심 뱅킹 DB -> 계좌, 거래
+  KYC 데이터 -> 고객 신원, 관계사
+  OFAC 제재 리스트 -> 제재 개체
+  Panama Papers 데이터 (오픈) -> 페이퍼 컴퍼니
 
 구현 (Neo4j):
   MATCH path = (suspicious:Account)-
@@ -246,15 +246,15 @@ Neo4j + LLM:
 결과:
   "4홉 이내 간접 연결" 탐지:
   직접 탐지 불가했던 네트워크 5개 발견
-  의심 계좌 탐지율: 34% → 89%
+  의심 계좌 탐지율: 34% -> 89%
   허위 양성(False Positive): 12% 감소
 
   Graph ML 추가:
   GNN(그래프 신경망)으로 패턴 학습
-  → 새로운 자금 세탁 패턴 자동 탐지
+  -> 새로운 자금 세탁 패턴 자동 탐지
 ```
 
-> 📢 **섹션 요약 비유**: 금융 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 자금 세탁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — A→B→C→D 간접 송금을 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)으로 발견. 직접 연결 없어도 4홉 경로 추적. 의심 계좌 탐지율 34%→89%!
+> 📢 **섹션 요약 비유**: 금융 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 자금 세탁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — A->B->C->D 간접 송금을 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)으로 발견. 직접 연결 없어도 4홉 경로 추적. 의심 계좌 탐지율 34%->89%!
 
 ---
 
@@ -315,7 +315,7 @@ LLM + 지식 그래프
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 세상 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — "래리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)→설립→구글", "구글→본사→마운틴뷰". 개체와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 연결한 거대한 네트워크!
+1. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 세상 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — "래리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)->설립->구글", "구글->본사->마운틴뷰". 개체와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 연결한 거대한 네트워크!
 2. KGE = 개체를 별자리에 배치 — 비슷한 것(서울, 도쿄)은 가깝게. V(서울)+V(수도)≈V(한국). 벡터 연산으로 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추론!
 3. [Graph RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) = 지식 맵 안내원 — 벡터 검색(광범위 검색)으로 못 찾을 때 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도)로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 탐색. 추론 경로 설명 가능!
 
@@ -325,7 +325,7 @@ LLM + 지식 그래프
 
 **진행 상황**: 261 / 262
 
-← **이전**: [048. 벡터 데이터베이스 — Vector Database](/knowledge-base/studynote/16_bigdata/13_intro_trends/260_vector_database/)
-**다음**: [스트리밍 데이터 품질 관리 (Streaming Data Quality Management)](/knowledge-base/studynote/16_bigdata/13_intro_trends/262_stream_data_quality/) →
+<- **이전**: [048. 벡터 데이터베이스 — Vector Database](/knowledge-base/studynote/16_bigdata/13_intro_trends/260_vector_database/)
+**다음**: [스트리밍 데이터 품질 관리 (Streaming Data Quality Management)](/knowledge-base/studynote/16_bigdata/13_intro_trends/262_stream_data_quality/) ->
 
 ---

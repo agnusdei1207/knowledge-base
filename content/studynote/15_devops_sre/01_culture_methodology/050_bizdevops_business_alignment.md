@@ -19,14 +19,14 @@ tags = ["BizDevOps", "DevOps", "OKR", "business alignment", "continuous feedback
 
 ## Ⅰ. BizDevOps 개요
 
-### 1.1 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) → BizDevOps 진화
+### 1.1 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) -> BizDevOps 진화
 
 ```
 전통 조직:
-  비즈니스 ─── [요구사항 벽] ─── 개발 ─── [배포 벽] ─── 운영
+  비즈니스 --- [요구사항 벽] --- 개발 --- [배포 벽] --- 운영
 
 DevOps:
-  비즈니스 ─── 개발 ↔ 운영 (벽 제거)
+  비즈니스 --- 개발 ↔ 운영 (벽 제거)
 
 BizDevOps:
   비즈니스 ↔ 개발 ↔ 운영 (3자 통합)
@@ -36,7 +36,7 @@ BizDevOps:
 ### 1.2 BizDevOps의 3대 원칙
 
 1. **비즈니스 목표 공유**: 개발팀이 KPI와 비즈니스 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 이해
-2. **지속적 비즈니스 피드백**: 사용자 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 개발 의사결정
+2. **지속적 비즈니스 피드백**: 사용자 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 개발 의사결정
 3. **가치 중심 우선순위**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) vs 비즈니스 가치의 균형 측정
 
 📢 **섹션 요약 비유**: DevOps가 부엌(개발)과 홀(운영)을 합친 것이라면, BizDevOps는 메뉴 기획팀(비즈니스)까지 한 식당 팀으로 합친 것.
@@ -54,7 +54,7 @@ Company OKR:
   KR2: 앱 충돌률 0.1% 미만
   KR3: 신기능 출시 주기 2주 이내
 
-→ 엔지니어링 팀 OKR 연결:
+-> 엔지니어링 팀 OKR 연결:
   O: 배포 안정성 확보
   KR: MTTR 30분 이내, 배포 성공률 99%
 ```
@@ -73,12 +73,12 @@ Company OKR:
 
 ## Ⅲ. [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/) ([VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/))
 
-### 3.1 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 아이디어→운영 흐름
+### 3.1 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 아이디어->운영 흐름
 
 ```
-[아이디어] → [요구사항 분석] → [설계] → [개발] → [테스트] → [배포] → [모니터링] → [피드백]
+[아이디어] -> [요구사항 분석] -> [설계] -> [개발] -> [테스트] -> [배포] -> [모니터링] -> [피드백]
   2주          1주              3일       2주       1주        1일       상시           1주
-                                                               ↑
+                                                               ^
                                                  BizDevOps: 비즈니스 피드백 루프 통합
 ```
 
@@ -101,13 +101,13 @@ Company OKR:
 
 ```
 배포
-  ↓
+  v
 프로덕션 모니터링 (기술 메트릭)
   + 비즈니스 이벤트 추적 (전환율, 이탈율)
-  ↓
+  v
 실험 플랫폼 (A/B 테스트, Feature Flag)
-  ↓
-데이터 기반 의사결정 → 다음 스프린트 백로그 조정
+  v
+데이터 기반 의사결정 -> 다음 스프린트 백로그 조정
 ```
 
 ### 4.2 [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 활용
@@ -133,10 +133,10 @@ else:
 [비즈니스 소유자]
        ↕
 [크로스펑셔널 팀]
-  ├── 프로덕트 매니저 (비즈니스 대표)
-  ├── 개발자 (BE/FE)
-  ├── 데이터 분석가
-  └── SRE/DevOps 엔지니어
+  +-- 프로덕트 매니저 (비즈니스 대표)
+  +-- 개발자 (BE/FE)
+  +-- 데이터 분석가
+  +-- SRE/DevOps 엔지니어
 ```
 
 ### 5.2 흔한 장애물
@@ -155,20 +155,20 @@ else:
 
 ```
 BizDevOps
-├── 문화
-│   ├── 비즈니스-개발-운영 통합
-│   └── 공유 책임
-├── 목표 정렬
-│   ├── OKR
-│   └── VSM (가치 흐름 매핑)
-├── 기술 실천
-│   ├── Feature Flag
-│   ├── A/B 테스트
-│   └── 지속적 피드백 루프
-└── 관련 개념
-    ├── DevOps / DevSecOps
-    ├── DORA 메트릭
-    └── 린(Lean) / 애자일
++-- 문화
+|   +-- 비즈니스-개발-운영 통합
+|   +-- 공유 책임
++-- 목표 정렬
+|   +-- OKR
+|   +-- VSM (가치 흐름 매핑)
++-- 기술 실천
+|   +-- Feature Flag
+|   +-- A/B 테스트
+|   +-- 지속적 피드백 루프
++-- 관련 개념
+    +-- DevOps / DevSecOps
+    +-- DORA 메트릭
+    +-- 린(Lean) / 애자일
 ```
 
 ---
@@ -177,17 +177,17 @@ BizDevOps
 
 ```
 전통 폭포수 개발 (사일로 조직)
-     │  애자일 혁명
-     ▼
+     |  애자일 혁명
+     v
 DevOps (개발-운영 협업, 2009~)
-     │  비즈니스 참여 부재 인식
-     ▼
+     |  비즈니스 참여 부재 인식
+     v
 BizDevOps 개념 등장 (2018~)
-     │  OKR + 가치 흐름
-     ▼
+     |  OKR + 가치 흐름
+     v
 Product-Led Growth + BizDevOps (2020s)
-     │  AI 기반 실험 자동화
-     ▼
+     |  AI 기반 실험 자동화
+     v
 AI-Driven BizDevOps (현재~)
 ```
 
@@ -207,7 +207,7 @@ AI-Driven BizDevOps (현재~)
 
 **진행 상황**: 50 / 373
 
-← **이전**: [049. DataOps — 데이터 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/)
-**다음**: [051. 애자일 성숙도 평가 (Agile Maturity Assessment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/) →
+<- **이전**: [049. DataOps — 데이터 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/)
+**다음**: [051. 애자일 성숙도 평가 (Agile Maturity Assessment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/) ->
 
 ---

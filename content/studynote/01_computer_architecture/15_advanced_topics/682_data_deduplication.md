@@ -36,18 +36,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 인라인 중복 제거의 기본 파이프라인을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Inline dedup pipeline                                           │
-├──────────────────────────────────────────────────────────────────┤
-│ Incoming data                                                   │
-│     │                                                           │
-│     ├-> [Chunking] -> [Fingerprint] -> [Index Lookup]           │
-│     │                                      │                    │
-│     │                                      ├-> hit  -> Ref + 1  │
-│     │                                      └-> miss -> Store    │
-│     │                                                           │
-│     └-> metadata keeps logical file -> physical chunk mapping   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Inline dedup pipeline                                           |
++------------------------------------------------------------------+
+| Incoming data                                                   |
+|     |                                                           |
+|     +-> [Chunking] -> [Fingerprint] -> [Index Lookup]           |
+|     |                                      |                    |
+|     |                                      +-> hit  -> Ref + 1  |
+|     |                                      +-> miss -> Store    |
+|     |                                                           |
+|     +-> metadata keeps logical file -> physical chunk mapping   |
++------------------------------------------------------------------+
 ```
 
 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 조회 결과가 히트([hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))면 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 쓰지 않고 기존 청크의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 수만 늘린다. 반대로 미스(miss)면 그 청크를 물리적으로 저장하고 새 지문을 등록한다. 삭제가 발생하면 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 수를 줄이고, 마지막 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 사라졌을 때만 실제 공간을 회수한다.
@@ -119,21 +119,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전체 파일 복사 중심 저장
-    │  반복 데이터 증가
-    ▼
+    |  반복 데이터 증가
+    v
 고정 블록 중복 제거
-    │  경계 이동 문제 보완
-    ▼
+    |  경계 이동 문제 보완
+    v
 CDC (Content-Defined Chunking)
-    │  전역 인덱스 확장
-    ▼
+    |  전역 인덱스 확장
+    v
 글로벌 중복 제거
-    │  추가 절감 결합
-    ▼
+    |  추가 절감 결합
+    v
 중복 제거 + 압축 + 계층화 저장
 ```
 
-이 흐름은 “단순 복사 저장 → 블록 단위 절감 → 더 정교한 청크 인식 → 전역 최적화 → 복합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)”로 발전하는 경향을 보여준다.
+이 흐름은 “단순 복사 저장 -> 블록 단위 절감 -> 더 정교한 청크 인식 -> 전역 최적화 -> 복합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)”로 발전하는 경향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +147,7 @@ CDC (Content-Defined Chunking)
 
 **진행 상황**: 683 / 803
 
-← **이전**: [681. Erasure Coding (삭제 코딩) HW 연산](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/)
-**다음**: [683. 인라인 압축 (Inline Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/683_inline_compression/) →
+<- **이전**: [681. Erasure Coding (삭제 코딩) HW 연산](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/)
+**다음**: [683. 인라인 압축 (Inline Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/683_inline_compression/) ->
 
 ---

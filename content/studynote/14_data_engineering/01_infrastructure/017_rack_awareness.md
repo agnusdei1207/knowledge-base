@@ -31,12 +31,12 @@ tags = ["data_engineering"]
 ```text
 [Rack Awareness 미적용 시의 치명적 결함]
 
-   [Core Switch] ──(통신)──> 💥 Rack 1 스위치 고장! (전원 나감)
-                                 │
-           ┌─────────────────────┴─────────────────────┐
+   [Core Switch] --(통신)--> 💥 Rack 1 스위치 고장! (전원 나감)
+                                 |
+           +---------------------+---------------------+
       [Node A]                [Node B]              [Node C]
       (Block 1 원본)          (Block 1 복제)        (Block 1 복제)
-           └──> 3개의 복제본이 랙 하나에 몰려있어 파일 완전 유실!
+           +--> 3개의 복제본이 랙 하나에 몰려있어 파일 완전 유실!
 ```
 이 그림의 핵심은 논리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)가 물리적 토폴로지를 무시할 때 발생하는 맹점입니다. 이런 배치는 서버 1대 고장에는 강하지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고장 앞에서는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 무용지물이 됨을 보여줍니다. 실무에서는 네트워크 장비의 장애 빈도가 무시할 수 없는 수준이므로, 이 지점을 극복하지 못하면 엔터프라이즈급 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.999%를 달성할 수 없습니다.
 
@@ -58,28 +58,28 @@ tags = ["data_engineering"]
 
 이 구조도는 HDFS가 블록 3개를 저장할 때 엄격하게 지키는 표준 랙 인지 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작 상태를 보여줍니다.
 ```text
-┌──────────────── HDFS Rack Awareness Placement ────────────────┐
-│                                                               │
-│         [Core Switch / Data Center Router]                    │
-│            /                         \                        │
-│      [Rack 1 Switch]            [Rack 2 Switch]               │
-│        /        \                 /         \                 │
-│  [Node 1]     [Node 2]       [Node 3]      [Node 4]           │
-│   (원본)       (복제본 2)       (복제본 1)                         │
-│     *             *              *                            │
-│                                                               │
-│  <배치 규칙 순서>                                             │
-│  1. Node 1에 원본 블록 저장 (Local Node)                      │
-│  2. 다른 랙인 Rack 2의 Node 3에 첫 번째 복제본 저장           │
-│  3. 다시 Rack 1로 돌아와서 다른 서버인 Node 2에 마지막 복제본 저장│
-└───────────────────────────────────────────────────────────────┘
++---------------- HDFS Rack Awareness Placement ----------------+
+|                                                               |
+|         [Core Switch / Data Center Router]                    |
+|            /                         \                        |
+|      [Rack 1 Switch]            [Rack 2 Switch]               |
+|        /        \                 /         \                 |
+|  [Node 1]     [Node 2]       [Node 3]      [Node 4]           |
+|   (원본)       (복제본 2)       (복제본 1)                         |
+|     *             *              *                            |
+|                                                               |
+|  <배치 규칙 순서>                                             |
+|  1. Node 1에 원본 블록 저장 (Local Node)                      |
+|  2. 다른 랙인 Rack 2의 Node 3에 첫 번째 복제본 저장           |
+|  3. 다시 Rack 1로 돌아와서 다른 서버인 Node 2에 마지막 복제본 저장|
++---------------------------------------------------------------+
 ```
 이 도식의 배치는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용 사이의 치열한 트레이드오프를 보여줍니다. 만약 3개의 블록을 3개의 서로 다른 랙에 하나씩 다 찢어놓는다면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 최고조에 달하지만, 클러스터 랙 간(Core [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 통신량이 폭증하여 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 초래합니다. 반대로 같은 랙에 몰아넣으면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 아끼지만 장애 시 전멸합니다. 따라서 "2개는 같은 랙의 다른 노드에 두고, 1개는 반드시 원격 랙에 둔다"는 배치가 성립되며, 이는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 파이프라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 방어하면서도 랙 장애를 100% 감내하는 수리적 최적점입니다.
 
 **심층 동작 원리**
 1. **토폴로지 수립**: 클러스터 기동 시 네임노드는 `topology.script.file.name`에 정의된 맵핑 스크립트를 돌려 전체 IP 대비 랙 구성 트리(Tree) 메모리 구조를 완성합니다.
 2. **거리 산정**: 두 노드가 같은 랙이면 거리는 2(노드->[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)->노드), 다른 랙이면 4(노드->ToR->Core->ToR->노드)로 가중치를 둡니다.
-3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 파이프라인 구성</strong>: 클라이언트가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 요청하면 네임노드는 (로컬 랙 노드) → (원격 랙 노드) → (로컬 랙 다른 노드) 순으로 패킷 전송 파이프라인 목록을 넘겨줍니다.
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 파이프라인 구성</strong>: 클라이언트가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 요청하면 네임노드는 (로컬 랙 노드) -> (원격 랙 노드) -> (로컬 랙 다른 노드) 순으로 패킷 전송 파이프라인 목록을 넘겨줍니다.
 4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 최적화</strong>: 3개의 랙을 가로지르지 않으므로, 랙 간(Cross-rack) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 점유율을 줄이면서도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 빠르게 완료합니다.
 
 📢 **섹션 요약 비유**: 부동산 투자자가 자산을 보호하기 위해 강남에 아파트 두 채(같은 랙, 관리 용이), 뉴욕에 빌딩 한 채(다른 랙, 국가 부도 대비)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 매입하여 수익률 훼손을 막고 완벽한 헷징(Hedging)을 하는 것과 같습니다.
@@ -100,16 +100,16 @@ tags = ["data_engineering"]
 이 의사결정 매트릭스 도식은 랙 인지 적용 시 네트워크 트래픽 부하와 안정성의 상관관계를 보여줍니다.
 ```text
 네트워크 병목 (Network Overhead)
-  ▲
-  │                          [극단적 3-Rack 분산]
-  │                           (가용성 최고, 코어 스위치 터짐)
-  │
-  │            ★ [HDFS 표준 랙 인지 (2+1 분산)]
-  │              (가용성 우수, 네트워크 효율 밸런스 확보)
-  │
-  │  [랙 인지 미설정 / 단일 랙]
-  │  (가용성 파탄, 디폴트 위험)
-  └───────────────────────────────────────▶ 가용성 (Availability)
+  ^
+  |                          [극단적 3-Rack 분산]
+  |                           (가용성 최고, 코어 스위치 터짐)
+  |
+  |            ★ [HDFS 표준 랙 인지 (2+1 분산)]
+  |              (가용성 우수, 네트워크 효율 밸런스 확보)
+  |
+  |  [랙 인지 미설정 / 단일 랙]
+  |  (가용성 파탄, 디폴트 위험)
+  +----------------------------------------> 가용성 (Availability)
 ```
 A [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(몰빵)은 네트워크가 평온하지만 인프라 재난에 파괴됩니다. 반면 C [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(3-Rack)은 너무 무겁습니다. 따라서 B [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 표준)의 핵심은 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 타는 값비싼 트래픽 횡단을 딱 1번만 허용하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 레이턴시를 억제하고, 최악의 랙 장애 시에도 최소 1개의 블록은 무조건 원격 랙에 살아남게 만들어 클러스터의 자가 치유(Self-healing) 시간을 벌어준다는 점입니다. 실무에서는 대용량 적재 시 코어 라우터의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계가 클러스터 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹는 주범이 되므로 이 밸런싱이 극도로 중요합니다.
 
@@ -135,15 +135,15 @@ A [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/
 이 흐름도는 실무에서 클러스터 장애 시 랙 인지가 작동하여 다운타임을 방어하는 궤적을 보여줍니다.
 ```text
 [장애 이벤트: ToR 스위치 #1 화재 발생]
-   ↓
+   v
 [현상] Rack 1에 연결된 서버 30대 일제히 연결 끊김 (Heartbeat 단절)
-   ↓
+   v
 [NameNode 판단]
 "어? 블록 A의 복제본 2개가 Rack 1에 있었네? 하지만 다행히 Rack 2에 복제본 1개가 무조건 있지!"
-   ↓
+   v
 [자가 치유(Self-healing)]
 Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 잉여 서버로 복제 시작
-   ↓
+   v
 [결과] 서비스 무중단 지속, 관리자는 다음 날 출근하여 스위치만 교체하면 됨
 ```
 이 흐름의 핵심은 인간의 개입이 전혀 없다는 점입니다. 랙 인지가 없다면 장애 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이 확정되어 서비스가 즉시 정지(500 Error)되지만, 토폴로지 규칙이 지켜진 시스템은 자가 치유 모드로 돌입하며 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 벌어줍니다. 실무에서는 이 메커니즘을 신뢰하여 새벽에 울리는 페이저(Pager) 경보를 최소화하고, 안정적인 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링) 환경을 구축합니다.
@@ -178,20 +178,20 @@ Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 �
 
 ```text
 [단순 복제 (Naive Replication) — 동일 랙 내 복제, 랙 장애 시 데이터 전체 손실]
-    │
-    ▼
+    |
+    v
 [랙 인지 (Rack Awareness) — 복제본을 서로 다른 랙에 분산, 랙 장애 내구성 확보]
-    │
-    ▼
+    |
+    v
 [데이터센터 인지 (DC Awareness) — 복제본을 복수 데이터센터에 배치, 재해 복구]
-    │
-    ▼
+    |
+    v
 [지역 인지 (Region Awareness) — 클라우드 멀티 리전 복제, 지리적 장애 격리]
-    │
-    ▼
+    |
+    v
 [가중 복제 (Weighted Placement) — 노드 용량·성능 기반 복제 위치 최적화]
-    │
-    ▼
+    |
+    v
 [데이터 패브릭 (Data Fabric) — 토폴로지 인지 자동 배치·재균형, 클라우드 네이티브 분산 저장]
 ```
 이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 물리적 장애 취약점을 랙·[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·리전 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 계층적으로 극복하고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 토폴로지 기반 자동 배치로 진화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 내구성 설계의 발전을 보여준다.
@@ -207,7 +207,7 @@ Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 �
 
 **진행 상황**: 17 / 258
 
-← **이전**: [16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
-**다음**: [18. 맵리듀스 (MapReduce) - 디스크 I/O 기반 분산 병렬 연산 프레임워크 (Map: 매핑/필터링 -> Shuffle:](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) →
+<- **이전**: [16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
+**다음**: [18. 맵리듀스 (MapReduce) - 디스크 I/O 기반 분산 병렬 연산 프레임워크 (Map: 매핑/필터링 -> Shuffle:](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) ->
 
 ---

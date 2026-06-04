@@ -27,11 +27,11 @@ tags = ["studynote-operating-system"]
 ```text
   [데커 알고리즘 이전의 실패 사례들 (왜 데커가 위대한가?)]
 
-  [실패 1: 턴(Turn)만 사용 시] ─▶ 진행(Progress) 실패 (Strict Alternation)
+  [실패 1: 턴(Turn)만 사용 시] --> 진행(Progress) 실패 (Strict Alternation)
   P0: "P1 차례네? 난 쉴게." (P1은 화장실 갈 생각도 없는데 P0은 영원히 기다림)
 
-  [실패 2: 깃발(Flag)만 사용 시] ─▶ 상호 배제(Mutex) 실패
-  P0: "깃발 든다!" / P1: "나도 깃발 든다!" ─▶ 둘이 동시에 문 열고 들어가서 충돌!
+  [실패 2: 깃발(Flag)만 사용 시] --> 상호 배제(Mutex) 실패
+  P0: "깃발 든다!" / P1: "나도 깃발 든다!" --> 둘이 동시에 문 열고 들어가서 충돌!
 
   [성공: 데커의 알고리즘 (Flag + Turn 융합)]
   P0: "나 깃발 들었어(Flag). 어? P1 너도 들었네? 그럼 누구 차례(Turn)지?"
@@ -122,23 +122,23 @@ tags = ["studynote-operating-system"]
    - **아키텍트 교정**: 만약 실무에서 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))하게 데커를 구현하려 든다면, 반드시 컴파일러 최적화를 막는 `volatile` 키워드와 함께 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서를 강제하는 <strong><code>Memory Barrier (FENCE)</code></strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 변수 사이에 떡칠해야 한다. 이렇게 짤 바엔 그냥 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`std::atomic`)를 쓰는 것이 100배 안전하고 빠르다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────┐
-  │     왜 데커 알고리즘은 현대 멀티코어 캐시 환경에서 붕괴하는가?  │
-  ├─────────────────────────────────────────────────────────────────┤
-  │                                                                 │
-  │   [ 코어 0 (P0 실행 중) ]          [ 코어 1 (P1 실행 중) ]      │
-  │   1. flag[0] = true (L1 캐시에만 씀)                            │
-  │                                1. flag[1] = true (캐시에 씀)    │
-  │                                                                 │
-  │   2. P0이 flag[1] 검사            2. P1이 flag[0] 검사          │
-  │   ▶ 어라? 내 캐시엔 아직 flag[1]이   ▶ 어? 내 캐시엔 flag[0]이  │
-  │      false로 보이네?               false로 보이네?              │
-  │                                                                 │
-  │   3. P0 임계구역 진입! 💥          3. P1 임계구역 진입! 💥      │
-  │                                                                 │
-  │   🚨 판정: 캐시 일관성(Cache Coherence)이 동기화되기 전의 짧은  │
-  │          찰나의 틈 때문에 상호 배제가 완벽히 박살 난다.         │
-  └─────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------+
+  |     왜 데커 알고리즘은 현대 멀티코어 캐시 환경에서 붕괴하는가?  |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  |   [ 코어 0 (P0 실행 중) ]          [ 코어 1 (P1 실행 중) ]      |
+  |   1. flag[0] = true (L1 캐시에만 씀)                            |
+  |                                1. flag[1] = true (캐시에 씀)    |
+  |                                                                 |
+  |   2. P0이 flag[1] 검사            2. P1이 flag[0] 검사          |
+  |   -> 어라? 내 캐시엔 아직 flag[1]이   -> 어? 내 캐시엔 flag[0]이  |
+  |      false로 보이네?               false로 보이네?              |
+  |                                                                 |
+  |   3. P0 임계구역 진입! 💥          3. P1 임계구역 진입! 💥      |
+  |                                                                 |
+  |   🚨 판정: 캐시 일관성(Cache Coherence)이 동기화되기 전의 짧은  |
+  |          찰나의 틈 때문에 상호 배제가 완벽히 박살 난다.         |
+  +-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 데커와 피터슨은 "모든 프로세스가 하나의 메인 메모리를 실시간으로 본다"는 고전적인 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)(싱글 코어) 위에서만 완벽한 논리다. 코어마다 독자적인 L1/L2 캐시를 가지는 현대 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는, 내가 쓴 깃발(변수)이 상대방 코어에 전파되기까지의 딜레이(수 나노초) 동안 논리가 성립하지 않는다. 이론의 완벽함이 물리적 하드웨어의 발전 앞에서 수명을 다한 것이다.
 
@@ -171,12 +171,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
-    │
-    ▼
+    |
+    v
 [데커의 알고리즘 (Dekker's Algorithm)]
-    │
-    ├──▶ [무중단 라이브 마이그레이션 스케줄링 고려사항]
-    └──▶ [경쟁 조건 (Race Condition)]
+    |
+    +---> [무중단 라이브 마이그레이션 스케줄링 고려사항]
+    +---> [경쟁 조건 (Race Condition)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 219 / 800
 
-← **이전**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/)
-**다음**: [220. 피터슨 알고리즘 (Peterson's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/220_petersons_algorithm/) →
+<- **이전**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/)
+**다음**: [220. 피터슨 알고리즘 (Peterson's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/220_petersons_algorithm/) ->
 
 ---

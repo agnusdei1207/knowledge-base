@@ -26,9 +26,9 @@ tags = ["studynote-bigdata"]
   모니터링·감지·진단하는 능력
 
 배경:
-  소프트웨어 옵저버빌리티 → 데이터로 확장
-  소프트웨어: 로그/메트릭/트레이스 → MTTD(탐지), MTTR(복구)
-  데이터: 품질 로그/메트릭/계보 → 데이터 다운타임 최소화
+  소프트웨어 옵저버빌리티 -> 데이터로 확장
+  소프트웨어: 로그/메트릭/트레이스 -> MTTD(탐지), MTTR(복구)
+  데이터: 품질 로그/메트릭/계보 -> 데이터 다운타임 최소화
 
 데이터 다운타임 (Data Downtime):
   데이터 파이프라인 이슈로 데이터가 부정확/불완전/미사용
@@ -36,8 +36,8 @@ tags = ["studynote-bigdata"]
   영향: 잘못된 ML 예측, 대시보드 오류, 비즈니스 결정 오류
 
   예시:
-    ETL 파이프라인 오류 → NULL 레코드 유입 → KPI 대시보드 이상
-    분석가가 오후에 발견 → 오전 의사결정 이미 오염
+    ETL 파이프라인 오류 -> NULL 레코드 유입 -> KPI 대시보드 이상
+    분석가가 오후에 발견 -> 오전 의사결정 이미 오염
 
 5대 기둥 (Five Pillars):
   1. 신선도 (Freshness): 데이터가 최신인가?
@@ -101,22 +101,22 @@ tags = ["studynote-bigdata"]
 
    경보 예시:
    - "users 테이블 email 컬럼 삭제됨"
-   - "amount 컬럼 type: INT → VARCHAR 변경"
+   - "amount 컬럼 type: INT -> VARCHAR 변경"
 
 5. 계보 (Lineage):
    데이터 흐름 추적
 
    기능:
-   - 데이터 소스 → 변환 → 최종 소비 경로 시각화
+   - 데이터 소스 -> 변환 -> 최종 소비 경로 시각화
    - 이슈 발생 시 영향 범위 자동 파악
    - 근본 원인 분석 (Root Cause Analysis)
 
    계보 예시:
-   raw_orders (S3) → ETL (Spark) → orders_dw (Redshift)
-   → dashboard (Tableau) → kpi_report (PDF)
+   raw_orders (S3) -> ETL (Spark) -> orders_dw (Redshift)
+   -> dashboard (Tableau) -> kpi_report (PDF)
 
    이슈: raw_orders 스키마 변경
-   → 계보 추적: Tableau 대시보드까지 영향 자동 알림
+   -> 계보 추적: Tableau 대시보드까지 영향 자동 알림
 ```
 
 > 📢 **섹션 요약 비유**: 5대 기둥은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)=원재료, 계보=원산지. 5가지 모두 정상이면 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!"
@@ -220,8 +220,8 @@ tags = ["studynote-bigdata"]
     availability: 99.9%
 
 데이터 계약 + 옵저버빌리티 통합:
-  계약 위반 → 자동 알림 → 담당팀 티켓 생성
-  계약 이력 → 변경 추적 → 영향 분석
+  계약 위반 -> 자동 알림 -> 담당팀 티켓 생성
+  계약 이력 -> 변경 추적 -> 영향 분석
 
 이점:
   생산자: 명확한 품질 의무
@@ -240,10 +240,10 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
 
 파이프라인:
   원본 이벤트 (Kafka)
-    → ETL (Spark Streaming)
-    → 피처 스토어 (Redis + Snowflake)
-    → ML 모델 추론 서버
-    → 추천 결과 API
+    -> ETL (Spark Streaming)
+    -> 피처 스토어 (Redis + Snowflake)
+    -> ML 모델 추론 서버
+    -> 추천 결과 API
 
 문제 상황 (데이터 다운타임 발생):
   오전 9:00 — Spark ETL 이슈 발생
@@ -254,7 +254,7 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
     추천 API: 이상 추천 결과 반환
 
   오후 2:00:
-    분석가가 KPI 대시보드 이상 발견 → 조사 시작
+    분석가가 KPI 대시보드 이상 발견 -> 조사 시작
 
   오후 4:00 (7시간 후):
     근본 원인 발견, 파이프라인 수정
@@ -268,15 +268,15 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
     피처 스토어 마지막 업데이트 체크 (1분 주기)
 
   알림 흐름:
-  오전 9:02 — NULL 비율 0.01% → 경보 트리거 (기준: 0.001%)
+  오전 9:02 — NULL 비율 0.01% -> 경보 트리거 (기준: 0.001%)
   오전 9:03 — Slack 알림: "user_id NULL 이상 탐지 in feature_store"
   오전 9:05 — ML 모델 서빙 자동 일시 중단 (피처 품질 SLA 위반)
   오전 9:10 — 엔지니어 원인 파악
   오전 9:30 — 파이프라인 수정 및 재시작
 
 결과:
-  데이터 다운타임: 7시간 → 30분
-  비즈니스 영향: 5시간 오염 → 30분 이내 격리
+  데이터 다운타임: 7시간 -> 30분
+  비즈니스 영향: 5시간 오염 -> 30분 이내 격리
   ROI: 추천 수익 손실 방지 (약 $10만)
 ```
 
@@ -351,7 +351,7 @@ MLOps 파이프라인 통합
 
 **진행 상황**: 255 / 262
 
-← **이전**: [042. 데이터 자산 평가](/knowledge-base/studynote/16_bigdata/13_intro_trends/254_data_asset_valuation/)
-**다음**: [044. 데이터 메시 — Data Mesh](/knowledge-base/studynote/16_bigdata/13_intro_trends/256_data_mesh/) →
+<- **이전**: [042. 데이터 자산 평가](/knowledge-base/studynote/16_bigdata/13_intro_trends/254_data_asset_valuation/)
+**다음**: [044. 데이터 메시 — Data Mesh](/knowledge-base/studynote/16_bigdata/13_intro_trends/256_data_mesh/) ->
 
 ---

@@ -38,20 +38,20 @@ EDA의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 | **다변량 분석 (Multivariate)** | 세 개 이상의 변수 간 복합적/동시다발적 상호작용 | 상관행렬 히트맵 (Correlation Heatmap), 평행 좌표 플롯 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 간 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) 위험, 숨겨진 3차원 패턴 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             성공적인 탐색적 데이터 분석(EDA) 워크플로             │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 구조 파악: 행(Row)과 열(Column) 개수, 각 피처의 데이터 타입 점검  │
-│       │                                                      │
-│       ▼                                                      │
-│ 2. 품질 진단: 결측치(NaN), 중복 레코드, 이상치 여부를 Boxplot으로 시각화│
-│       │                                                      │
-│       ▼                                                      │
-│ 3. 단변량 탐색: 변수별 히스토그램을 그려 왜도(비대칭성) 및 정규성 관찰  │
-│       │                                                      │
-│       ▼                                                      │
-│ 4. 다변량 융합: 산점도와 상관행렬(Heatmap)을 통해 피처 간 독립성 도출 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             성공적인 탐색적 데이터 분석(EDA) 워크플로             |
++--------------------------------------------------------------+
+| 1. 구조 파악: 행(Row)과 열(Column) 개수, 각 피처의 데이터 타입 점검  |
+|       |                                                      |
+|       v                                                      |
+| 2. 품질 진단: 결측치(NaN), 중복 레코드, 이상치 여부를 Boxplot으로 시각화|
+|       |                                                      |
+|       v                                                      |
+| 3. 단변량 탐색: 변수별 히스토그램을 그려 왜도(비대칭성) 및 정규성 관찰  |
+|       |                                                      |
+|       v                                                      |
+| 4. 다변량 융합: 산점도와 상관행렬(Heatmap)을 통해 피처 간 독립성 도출 |
++--------------------------------------------------------------+
 ```
 
 특히 히스토그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리가 긴 형태인지 종 모양인지를 단 1초 만에 직관적으로 보여주며, 상관행렬은 피어슨 상관계수를 통해 수십 개의 변수들이 서로를 얼마나 끈끈하게 끌어당기는지 수치( -1 ~ +1 )로 차갑게 입증해 내는 강력한 도구다.
@@ -116,17 +116,17 @@ EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_
 
 ```text
 단순 기술 통계 요약 (평균, 분산 중심의 숫자 요약, 앤스콤의 콰르텟 한계 노출)
-    │
-    ▼
+    |
+    v
 Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공식적 데이터 탐색 도입)
-    │
-    ▼
+    |
+    v
 대화형/동적 시각화 도구의 비약적 발전 (Tableau, Seaborn, Plotly를 통한 직관적 탐색)
-    │
-    ▼
+    |
+    v
 자동화 EDA 생태계의 대중화 (Pandas Profiling, Sweetviz 등 템플릿 기반 리포팅 자동화)
-    │
-    ▼
+    |
+    v
 분산/AI 결합형 차세대 EDA (Spark 분산 환경의 대용량 처리 및 LLM 결합형 지능적 데이터 해석)
 ```
 
@@ -142,7 +142,7 @@ Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공�
 
 **진행 상황**: 194 / 587
 
-← **이전**: [105. 애플리케이션 아키텍처 (AA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)
-**다음**: [106. 외판원 문제 (TSP) — NP-hard](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) →
+<- **이전**: [105. 애플리케이션 아키텍처 (AA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)
+**다음**: [106. 외판원 문제 (TSP) — NP-hard](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ->
 
 ---

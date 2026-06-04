@@ -72,14 +72,14 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [HDFS]
-    │
-    ▼
+    |
+    v
 [MapReduce]
-    │
-    ▼
+    |
+    v
 [YARN]
-    │
-    ▼
+    |
+    v
 [Hive/Spark]
 ```
 
@@ -96,7 +96,7 @@ tags = ["hadoop", "studynote-bigdata"]
 
 **진행 상황**: 23 / 262
 
-← **이전**: [22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123](/knowledge-base/studynote/16_bigdata/01_intro/022_small_data_qualitative_analysis/)
-**다음**: [02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템](/knowledge-base/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/) →
+<- **이전**: [22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123](/knowledge-base/studynote/16_bigdata/01_intro/022_small_data_qualitative_analysis/)
+**다음**: [02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템](/knowledge-base/studynote/16_bigdata/02_hadoop/024_hdfs_hadoop_distributed_file_system_block/) ->
 
 ---

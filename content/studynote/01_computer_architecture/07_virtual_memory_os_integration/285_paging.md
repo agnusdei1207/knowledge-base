@@ -28,17 +28,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 필요한지를, [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)과 고정 크기 매핑의 차이로 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              연속 할당의 한계와 페이징의 해결 방식 비교                   │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 연속 할당                     │ 페이징                                    │
-│                               │                                            │
-│ [P1][빈칸][P2][빈칸][P3]      │ [F0][F1][F2][F3][F4][F5]                 │
-│      ↑     ↑                 │   │   │   │   │   │   │                  │
-│ 총합은 충분하지만             │  Pg2 Pg0  -  Pg1  -  Pg3                 │
-│ 큰 프로세스를 넣을 연속 구간  │                                            │
-│ 이 없음                       │ 빈 프레임이면 어디든 적재 가능            │
-└───────────────────────────────┴────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              연속 할당의 한계와 페이징의 해결 방식 비교                   |
++-------------------------------+--------------------------------------------+
+| 연속 할당                     | 페이징                                    |
+|                               |                                            |
+| [P1][빈칸][P2][빈칸][P3]      | [F0][F1][F2][F3][F4][F5]                 |
+|      ^     ^                 |   |   |   |   |   |   |                  |
+| 총합은 충분하지만             |  Pg2 Pg0  -  Pg1  -  Pg3                 |
+| 큰 프로세스를 넣을 연속 구간  |                                            |
+| 이 없음                       | 빈 프레임이면 어디든 적재 가능            |
++-------------------------------+--------------------------------------------+
 ```
 
 왼쪽은 빈 공간의 총량과 실제 적재 가능성이 다를 수 있음을 보여주고, 오른쪽은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 통일하면 빈 프레임만 있으면 된다는 점을 보여준다. 그래서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 단순 저장 기법이 아니라, 메모리 배치를 주소 변환으로 추상화한 구조적 해법이다.
@@ -59,30 +59,30 @@ tags = ["studynote-computer-architecture"]
 | :-- | :-- | :-- |
 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) | 가상 주소 공간의 고정 크기 단위 | 보통 4KB, 2MB, 1GB 등 크기 선택이 중요 |
 | 프레임 (Frame) | 물리 메모리의 고정 크기 단위 | 빈 프레임 관리와 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 연결 |
-| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)→프레임 매핑과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정보 저장 | 주소 공간이 커질수록 계층화 필요 |
+| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)->프레임 매핑과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정보 저장 | 주소 공간이 커질수록 계층화 필요 |
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) | 최근 변환 결과 캐시 | 미스가 나면 변환 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 |
 | PTE | 상태·권한·존재 여부 기록 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리, 교체 알고리즘의 근거 |
 
 이 그림은 CPU가 가상 주소를 실제 물리 주소로 바꾸는 최소 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    페이징 기반 주소 변환의 핵심 경로                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU 가상 주소                                                              │
-│      │                                                                     │
-│      ▼                                                                     │
-│  [ 페이지 번호 | 오프셋 ]                                                   │
-│      │                                                                     │
-│      ├──────────────▶ TLB 조회 ────── Hit ─────▶ [ 프레임 번호 | 오프셋 ]  │
-│      │                                                                     │
-│      └──────────────▶ 페이지 테이블 조회 ── Present=1 ─▶ 물리 주소 생성    │
-│                                   │                                        │
-│                                   └─ Present=0 ─▶ 페이지 부재 (Page Fault) │
-│                                                     │                      │
-│                                                     ▼                      │
-│                                            OS가 디스크에서 적재             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    페이징 기반 주소 변환의 핵심 경로                      |
++----------------------------------------------------------------------------+
+| CPU 가상 주소                                                              |
+|      |                                                                     |
+|      v                                                                     |
+|  [ 페이지 번호 | 오프셋 ]                                                   |
+|      |                                                                     |
+|      +---------------> TLB 조회 ------ Hit ------> [ 프레임 번호 | 오프셋 ]  |
+|      |                                                                     |
+|      +---------------> 페이지 테이블 조회 -- Present=1 --> 물리 주소 생성    |
+|                                   |                                        |
+|                                   +- Present=0 --> 페이지 부재 (Page Fault) |
+|                                                     |                      |
+|                                                     v                      |
+|                                            OS가 디스크에서 적재             |
++----------------------------------------------------------------------------+
 ```
 
 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애는 대신 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))를 감수한다. 예를 들어 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 4KB인데 프로세스의 마지막 조각이 1KB만 필요하면 나머지 3KB는 남더라도 그 프레임을 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 공유할 수 없다. 그러나 이 낭비는 보통 "마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 일부"에 국한되므로, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 큰 프로세스 전체가 못 들어가는 상황보다 훨씬 관리 가능하다.
@@ -168,24 +168,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 연속 할당 · 외부 단편화 (External Fragmentation)
-        │
-        ▼
+        |
+        v
 페이징 (Paging) · 페이지/프레임 고정 크기 분할
-        │
-        ▼
+        |
+        v
 페이지 테이블 (Page Table) · PTE (Page Table Entry)
-        │
-        ▼
+        |
+        v
 TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블
-        │
-        ▼
+        |
+        v
 요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)
-        │
-        ▼
+        |
+        v
 Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환
 ```
 
-이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 → 주소 변환 정립 → 변환 가속 → [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) → 현대 확장"으로 이어지는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 발전 맥락을 보여준다.
+이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 -> 주소 변환 정립 -> 변환 가속 -> [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) -> 현대 확장"으로 이어지는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 발전 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -199,7 +199,7 @@ Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환
 
 **진행 상황**: 285 / 803
 
-← **이전**: [284. MMU (Memory Management Unit)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)
-**다음**: [286. 페이지 (Page)와 프레임 (Frame)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) →
+<- **이전**: [284. MMU (Memory Management Unit)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)
+**다음**: [286. 페이지 (Page)와 프레임 (Frame)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ->
 
 ---

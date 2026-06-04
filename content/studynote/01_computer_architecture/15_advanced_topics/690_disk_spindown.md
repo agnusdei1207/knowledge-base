@@ -36,14 +36,14 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 일반적인 상태 변화를 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  HDD power state transition                  │
-├──────────────────────────────────────────────────────────────┤
-│ Active/Idle (spinning) -- inactivity timer --> Standby      │
-│         ▲                                         │          │
-│         └----------- read/write request ----------┘          │
-│                      spin-up latency                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  HDD power state transition                  |
++--------------------------------------------------------------+
+| Active/Idle (spinning) -- inactivity timer --> Standby      |
+|         ^                                         |          |
+|         +----------- read/write request ----------+          |
+|                      spin-up latency                          |
++--------------------------------------------------------------+
 ```
 
 실제 명령 수준에서는 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/))나 SAS ([Serial Attached SCSI](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/340_scsi_sas/)) 장치가 standby 관련 전원 관리 명령을 해석한다. 이때 중요한 것은 단순 모터 정지보다도, 복귀 시 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 급증과 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제어하는 것이다. 여러 디스크가 한꺼번에 깨어나면 전원 장치가 순간 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 감당하지 못할 수 있어 staggered spin-up 같은 순차 기동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 쓰인다.
@@ -131,17 +131,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Always-spinning HDD arrays
-          │
-          ▼
+          |
+          v
 Idle timer based spin-down
-          │
-          ▼
+          |
+          v
 Cache-aware power management
-          │
-          ▼
+          |
+          v
 MAID style selective wake-up
-          │
-          ▼
+          |
+          v
 Deep archive with tape / cloud archive
 ```
 
@@ -159,7 +159,7 @@ Deep archive with tape / cloud archive
 
 **진행 상황**: 691 / 803
 
-← **이전**: [689. NVRAM 로깅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/689_nvram_logging/)
-**다음**: [691. MAID (Massive Array of Idle Disks)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/) →
+<- **이전**: [689. NVRAM 로깅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/689_nvram_logging/)
+**다음**: [691. MAID (Massive Array of Idle Disks)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/) ->
 
 ---

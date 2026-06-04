@@ -40,20 +40,20 @@ ADR은 마이클 나이가드(Michael Nygard)가 제안한 템플릿이 사실�
 | **Consequences (파급 효과)** | 긍정/부정적 결과 명시 | 트레이드오프 인정 (예: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋지만, 학습 곡선이 높음) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  ADR의 Git 저장소 동기화 구조                │
-├──────────────────────────────────────────────────────────────┤
-│  [Source Repository]                                         │
-│   ├── src/                                                   │
-│   ├── tests/                                                 │
-│   └── docs/                                                  │
-│       └── adr/                                               │
-│            ├── 0001-record-architecture-decisions.md         │
-│            ├── 0002-use-postgresql-for-user-db.md (Accepted) │
-│            └── 0003-migrate-to-graphql.md (Proposed)         │
-│                                                              │
-│  => 코드 리뷰 과정(PR)에서 아키텍처 결정도 함께 논의 및 병합 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  ADR의 Git 저장소 동기화 구조                |
++--------------------------------------------------------------+
+|  [Source Repository]                                         |
+|   +-- src/                                                   |
+|   +-- tests/                                                 |
+|   +-- docs/                                                  |
+|       +-- adr/                                               |
+|            +-- 0001-record-architecture-decisions.md         |
+|            +-- 0002-use-postgresql-for-user-db.md (Accepted) |
+|            +-- 0003-migrate-to-graphql.md (Proposed)         |
+|                                                              |
+|  => 코드 리뷰 과정(PR)에서 아키텍처 결정도 함께 논의 및 병합 |
++--------------------------------------------------------------+
 ```
 
 가장 중요한 항목은 <strong>Consequences(파급 효과)</strong>다. 완벽한 설계는 존재하지 않으므로, 이 결정으로 인해 감수해야 할 단점이나 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 투명하게 기록해야 미래의 리스크를 관리할 수 있다.
@@ -117,17 +117,17 @@ ADR을 체계적으로 운영하면 팀의 온보딩(On-boarding) 비용이 극�
 
 ```text
 소프트웨어 아키텍처 문서화 (SAD) 기반의 정적 관리
-    │
-    ▼
+    |
+    v
 애자일과 MSA 도입에 따른 지속적 의사결정의 필요성 증대
-    │
-    ▼
+    |
+    v
 ADR (Architecture Decision Record) 템플릿의 등장
-    │
-    ▼
+    |
+    v
 Markdown + Git 기반의 Architecture as Code (Docs as Code) 패러다임 확산
-    │
-    ▼
+    |
+    v
 ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적
 ```
 
@@ -143,7 +143,7 @@ ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적
 
 **진행 상황**: 142 / 530
 
-← **이전**: [98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/098_saam_software_architecture_analysis_method/)
-**다음**: [100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/100_architecture_tactics_quality_attributes/) →
+<- **이전**: [98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/098_saam_software_architecture_analysis_method/)
+**다음**: [100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/100_architecture_tactics_quality_attributes/) ->
 
 ---

@@ -23,43 +23,43 @@ tags = ["studynote-it-management"]
 
 기술사 시험에서 본 토픽이 핵심으로 다뤄지는 이유는, 4차 산업혁명·클라우드 전환·AI 도입이 가속화되면서 전통적인 IT 운영 방식(Waterfall, On-premise, Silo 조직)으로는 **디지털 비즈니스 요구사항에 실시간 대응이 불가능**해졌기 때문이다. 과거에는 IT가 "비용 센터(Cost Center)"였으나, 현재는 **"비즈니스 enable러"이자 "전략적 차별화 수단"**으로 위치가 완전히 재정의되었다. Gartner(2023)에 따르면, 디지털 비즈니스 전환을 추진한 기업의 73%가 IT 거버넌스 미비로 초기 ROI를 달성하지 못했다고 보고된다.
 
-본 토픽은 **전략(Strategy) → 아키텍처(Architecture) → 구축/전이(Build/Transition) → 운영(Operate) → 평가(Evaluate)**로 이어지는 IT 가치사슬(Value Chain) 전체를 포괄하며, 특히 한국 환경에서는 **전자정부법, 클라우드컴퓨팅법, 개인정보보호법, 정보통신망법, ISMS-P 인증** 등 강력한 규제 환경과 결합되어 보다 구조화된 접근을 요구한다.
+본 토픽은 **전략(Strategy) -> 아키텍처(Architecture) -> 구축/전이(Build/Transition) -> 운영(Operate) -> 평가(Evaluate)**로 이어지는 IT 가치사슬(Value Chain) 전체를 포괄하며, 특히 한국 환경에서는 **전자정부법, 클라우드컴퓨팅법, 개인정보보호법, 정보통신망법, ISMS-P 인증** 등 강력한 규제 환경과 결합되어 보다 구조화된 접근을 요구한다.
 
 ```text
 [IT 경영관리의 3대 축 — 전략·아키텍처·운영의 통합]
-┌──────────────────────────────────────────────────────────────┐
-│  Enterprise Vision & Mission (기업 비전)                      │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ ↓ Business Strategy
-        ┌──────────────┴──────────────┐
-        │                             │
-   ┌────▼─────┐                  ┌────▼──────┐
-   │ IT       │  ←─Alignment──→  │ Business  │
-   │ Strategy │                  │ Capability │
-   │ (EA/TOGAF)│                  │ (BPM)      │
-   └────┬─────┘                  └────┬───────┘
-        │                             │
-        │    ┌─────────────────┐      │
-        └───►│ Governance Core │◄─────┘
-             │  (COBIT 2019)   │
-             │  (ISO 38500)    │
-             └────────┬────────┘
-                      │
-        ┌─────────────┼─────────────┐
-        │             │             │
-   ┌────▼────┐   ┌────▼────┐   ┌────▼────┐
-   │ Service │   │ Project │   │ Risk &  │
-   │ Mgmt    │   │ & Port- │   │ Security│
-   │ (ITIL4) │   │ folio   │   │ (ISMS)  │
-   │         │   │ (PMO)   │   │         │
-   └────┬────┘   └────┬────┘   └────┬────┘
-        │             │             │
-        └─────────────┼─────────────┘
-                      ▼
-        ┌────────────────────────────┐
-        │  Value Realization (가치실현) │
-        │  ROI, NPS, MTTR, SLA, KPI  │
-        └────────────────────────────┘
++--------------------------------------------------------------+
+|  Enterprise Vision & Mission (기업 비전)                      |
++----------------------+---------------------------------------+
+                       | v Business Strategy
+        +--------------+--------------+
+        |                             |
+   +----v-----+                  +----v------+
+   | IT       |  <--Alignment--->  | Business  |
+   | Strategy |                  | Capability |
+   | (EA/TOGAF)|                  | (BPM)      |
+   +----+-----+                  +----+-------+
+        |                             |
+        |    +-----------------+      |
+        +---►| Governance Core |◄-----+
+             |  (COBIT 2019)   |
+             |  (ISO 38500)    |
+             +--------+--------+
+                      |
+        +-------------+-------------+
+        |             |             |
+   +----v----+   +----v----+   +----v----+
+   | Service |   | Project |   | Risk &  |
+   | Mgmt    |   | & Port- |   | Security|
+   | (ITIL4) |   | folio   |   | (ISMS)  |
+   |         |   | (PMO)   |   |         |
+   +----+----+   +----+----+   +----+----+
+        |             |             |
+        +-------------+-------------+
+                      v
+        +----------------------------+
+        |  Value Realization (가치실현) |
+        |  ROI, NPS, MTTR, SLA, KPI  |
+        +----------------------------+
 ```
 
 - **고전적 IT 관리(1990~2005)**: ITIL v2 기반의 프로세스 중심, Reactive 운영, 분절된 사일로 조직, CapEx 중심 투자, Technical KPI 위주.
@@ -76,40 +76,40 @@ IT 경영관리의 기술적 아키텍처는 크게 **4계층(Governance Layer, 
 ```text
 [IT 거버넌스 4계층 아키텍처 및 핵심 프레임워크 매핑]
 
-┌────────────────────────────────────────────────────────────┐
-│  L1. Governance Layer — 의사결정 및 책임 (Evaluate/Direct) │
-│  ─────────────────────────────────────────────────────────│
-│   - 이사회(Board) / IT Steering Committee / CxO            │
-│   - 프레임워크: ISO 38500, COBIT 2019 EDM 도메인          │
-│   - 산출물: IT 정책(Policy), 표준(Standard), 거버넌스 헌장 │
-└─────────────────────────┬──────────────────────────────────┘
-                          │ ↑ 보고(Reporting) / ↓ 지시(Direction)
-┌─────────────────────────▼──────────────────────────────────┐
-│  L2. Management Layer — 계획/조직/통제 (Plan/Build/Run)   │
-│  ─────────────────────────────────────────────────────────│
-│   - CIO, IT-PMO, EA Office, CISO Office                    │
-│   - 프레임워크: COBIT 2019(40 Governance/Management Obj), │
-│                 TOGAF ADM, ITIL 4 SVS(34 Practices)        │
-│   - 산출물: 전략맵, EA 청사진, 서비스 카탈로그, KPI 대시보드│
-└─────────────────────────┬──────────────────────────────────┘
-                          │ API/데이터/프로세스 인터페이스
-┌─────────────────────────▼──────────────────────────────────┐
-│  L3. Operational Layer — 서비스/프로젝트/리스크 운영      │
-│  ─────────────────────────────────────────────────────────│
-│   - 서비스데스크, 데브옵스팀, SOC, GRC 플랫폼 운영팀       │
-│   - 프레임워크: ITIL 4(Service Value Chain), Scrum/SAFe,  │
-│                 NIST CSF, ISO 27001, ISO 31000             │
-│   - 산출물: Incident/Change Log, 빌드 파이프라인, GRC 리포트│
-└─────────────────────────┬──────────────────────────────────┘
-                          │ IaC/메트릭/텔레메트리
-┌─────────────────────────▼──────────────────────────────────┐
-│  L4. Technology Layer — 인프라/플랫폼/데이터             │
-│  ─────────────────────────────────────────────────────────│
-│   - Multi-Cloud(AWS/Azure/GCP), K8s, Service Mesh(Istio),│
-│     Data Lake, Observability(Prometheus/Grafana/ELK)       │
-│   - 구현: Terraform, Ansible, ArgoCD, Open Policy Agent    │
-│   - 산출물: 인프라 메트릭, 트레이스, 로그, 보안 이벤트     │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  L1. Governance Layer — 의사결정 및 책임 (Evaluate/Direct) |
+|  ---------------------------------------------------------|
+|   - 이사회(Board) / IT Steering Committee / CxO            |
+|   - 프레임워크: ISO 38500, COBIT 2019 EDM 도메인          |
+|   - 산출물: IT 정책(Policy), 표준(Standard), 거버넌스 헌장 |
++-------------------------+----------------------------------+
+                          | ^ 보고(Reporting) / v 지시(Direction)
++-------------------------v----------------------------------+
+|  L2. Management Layer — 계획/조직/통제 (Plan/Build/Run)   |
+|  ---------------------------------------------------------|
+|   - CIO, IT-PMO, EA Office, CISO Office                    |
+|   - 프레임워크: COBIT 2019(40 Governance/Management Obj), |
+|                 TOGAF ADM, ITIL 4 SVS(34 Practices)        |
+|   - 산출물: 전략맵, EA 청사진, 서비스 카탈로그, KPI 대시보드|
++-------------------------+----------------------------------+
+                          | API/데이터/프로세스 인터페이스
++-------------------------v----------------------------------+
+|  L3. Operational Layer — 서비스/프로젝트/리스크 운영      |
+|  ---------------------------------------------------------|
+|   - 서비스데스크, 데브옵스팀, SOC, GRC 플랫폼 운영팀       |
+|   - 프레임워크: ITIL 4(Service Value Chain), Scrum/SAFe,  |
+|                 NIST CSF, ISO 27001, ISO 31000             |
+|   - 산출물: Incident/Change Log, 빌드 파이프라인, GRC 리포트|
++-------------------------+----------------------------------+
+                          | IaC/메트릭/텔레메트리
++-------------------------v----------------------------------+
+|  L4. Technology Layer — 인프라/플랫폼/데이터             |
+|  ---------------------------------------------------------|
+|   - Multi-Cloud(AWS/Azure/GCP), K8s, Service Mesh(Istio),|
+|     Data Lake, Observability(Prometheus/Grafana/ELK)       |
+|   - 구현: Terraform, Ansible, ArgoCD, Open Policy Agent    |
+|   - 산출물: 인프라 메트릭, 트레이스, 로그, 보안 이벤트     |
++------------------------------------------------------------+
 ```
 
 ### COBIT 2019의 5개 도메인 핵심 메커니즘 (40 Management Objectives)
@@ -126,15 +126,15 @@ COBIT 2019는 **EDM(Evaluate, Direct, Monitor) 5개 + APO(Align, Plan, Organize)
 
 ### ITIL 4 Service Value System (SVS)
 
-ITIL 4의 핵심은 7가지 **Guiding Principle**(Focus on value, Start where you are, Progress iteratively, Collaborate, Think holistically, Keep it simple, Optimize) 및 **34개 Practice**(Service Management Practice 17 + Technical/General/Organization Management Practice 17)를 **Service Value Chain(SVC)**: Plan→Improve→Engage→Design&Transition→Obtain/Build→Deliver&Support의 6개 Activity로 연결하는 것이다.
+ITIL 4의 핵심은 7가지 **Guiding Principle**(Focus on value, Start where you are, Progress iteratively, Collaborate, Think holistically, Keep it simple, Optimize) 및 **34개 Practice**(Service Management Practice 17 + Technical/General/Organization Management Practice 17)를 **Service Value Chain(SVC)**: Plan->Improve->Engage->Design&Transition->Obtain/Build->Deliver&Support의 6개 Activity로 연결하는 것이다.
 
-### Value Goal Cascade (BMC, Capability, Practices → Outcome)
+### Value Goal Cascade (BMC, Capability, Practices -> Outcome)
 
 COBIT 2019의 **가치 흐름(Value Goal Cascade)** 메커니즘은 다음 수식으로 표현된다:
 
 ```
-Stakeholder Needs → Enterprise Goals(13EA) → Alignment Goals(13AG) →
-IT Goals(13IT) → Governance Objectives(40) → Process Activities(250+)
+Stakeholder Needs -> Enterprise Goals(13EA) -> Alignment Goals(13AG) ->
+IT Goals(13IT) -> Governance Objectives(40) -> Process Activities(250+)
 ```
 
 **핵심 KPI 산출 공식** (기술사 시험 빈출):
@@ -148,23 +148,23 @@ IT Goals(13IT) → Governance Objectives(40) → Process Activities(250+)
 ```text
 [Plan-Do-Check-Act(PDCA) 기반 IT 거버넌스 사이클]
 
-        ┌─────────────── Plan ───────────────┐
-        │ 전략수립, EA 로드맵, 포트폴리오 우선순위화│
-        └───────────────────┬──────────────┘
-                            ▼
-        ┌─────────────── Do ──────────────────┐
-        │ 프로젝트 착수, 솔루션 구축, 서비스 제공│
-        └───────────────────┬──────────────┘
-                            ▼
-        ┌─────────────── Check ───────────────┐
-        │ KPI 모니터링, 내부감사, SLA 측정      │
-        └───────────────────┬──────────────┘
-                            ▼
-        ┌─────────────── Act ─────────────────┐
-        │ 시정조치, 지속적 개선(Kaizen), 학습전파│
-        └───────────────────┬──────────────┘
-                            │
-                            └──────→ (Plan으로 피드백 루프)
+        +--------------- Plan ---------------+
+        | 전략수립, EA 로드맵, 포트폴리오 우선순위화|
+        +-------------------+--------------+
+                            v
+        +--------------- Do ------------------+
+        | 프로젝트 착수, 솔루션 구축, 서비스 제공|
+        +-------------------+--------------+
+                            v
+        +--------------- Check ---------------+
+        | KPI 모니터링, 내부감사, SLA 측정      |
+        +-------------------+--------------+
+                            v
+        +--------------- Act -----------------+
+        | 시정조치, 지속적 개선(Kaizen), 학습전파|
+        +-------------------+--------------+
+                            |
+                            +-------> (Plan으로 피드백 루프)
 ```
 
 - **📢 섹션 요약 비유**: COBIT 2019의 5개 도메인은 마치 **비행기의 5대 핵심 시스템(EDM=조종석, APO=비행계획, BAI=엔진·동체조립, DSS=운항, MEA=블랙박스·진단장비)**과 같다. 각 시스템이 고장나면 비행(사업)에 치명적 영향을 주며, 이들을 통합 운영하는 것이 CIO의 임무다.
@@ -184,7 +184,7 @@ IT Goals(13IT) → Governance Objectives(40) → Process Activities(250+)
 
 **진행 상황**: 750 / 800
 
-← **이전**: [749. IT 경영 관리 핵심 토픽 749번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/749_it_management_core_topic_749_exam_summary/)
-**다음**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/) →
+<- **이전**: [749. IT 경영 관리 핵심 토픽 749번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/749_it_management_core_topic_749_exam_summary/)
+**다음**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/) ->
 
 ---

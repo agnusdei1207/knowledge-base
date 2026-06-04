@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [클래스리스 라우팅]
-    │
-    ▼
+    |
+    v
 [서브네팅]
-    │
-    └──▶ [슈퍼네팅 / 경로 요약]
+    |
+    +---> [슈퍼네팅 / 경로 요약]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 서브네팅은 커다란 피자 한 판을 그냥 들고 먹지 않고, 칼(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)을 가져와 </strong>2조각, 4조각, 8조각으로 정확히 등분하여 나누어주는(분할) 완벽한 칼질 기술**입니다.
@@ -50,17 +50,17 @@ tags = ["studynote-network"]
 ### 2. 가용 호스트(Usable Host) 계산 공식: $2^n - 2$
 방 하나(서브넷)를 만들었으면, 그 방에 컴퓨터(호스트)를 몇 대 꽂을 수 있는지 계산해야 한다.
 호스트에 남은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 7비트라면 $2^7 = 128$개의 IP가 생긴다. 하지만 여기서 **반드시 2개를 빼야 한다(-2)**.
-- **네트워크 주소**: 맨 앞 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0인 것) ──▶ 그 동네 자체를 의미하는 대표 이름이라 PC에 부여 불가.
-- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a></strong>: 맨 뒷 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 것) ──▶ 동네 전체에 방송 때릴 때 쓰는 주소라 PC에 부여 불가.
+- **네트워크 주소**: 맨 앞 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0인 것) ---> 그 동네 자체를 의미하는 대표 이름이라 PC에 부여 불가.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a></strong>: 맨 뒷 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 것) ---> 동네 전체에 방송 때릴 때 쓰는 주소라 PC에 부여 불가.
 - 결과: 한 부서에 $128 - 2 =$ <strong>126대</strong>의 PC를 세팅할 수 있다.
 
 ```text
 [클래스리스 라우팅]
-    │
-    ▼
+    |
+    v
 [서브네팅]
-    │
-    └──▶ [슈퍼네팅 / 경로 요약]
+    |
+    +---> [슈퍼네팅 / 경로 요약]
 ```
 
 - **📢 섹션 요약 비유**: 서브네팅의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -87,18 +87,18 @@ tags = ["studynote-network"]
 두 숫자를 이진수로 바꾸어 위아래로 나란히 두고 **AND (둘 다 1일 때만 1)** 연산을 곱해버린다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                네트워크 주소를 찾는 이진수 AND 연산              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   IP 주소     : 11000000 . 10101000 . 00000001 . 10000010   │
- │   서브넷 마스크 : 11111111 . 11111111 . 11111111 . 10000000   │
- │   --------------------------------------------------------- │
- │   [ AND 결과 ]  11000000 . 10101000 . 00000001 . 10000000   │
- │                                                             │
- │   ▶ 십진수 변환: 192 . 168 . 1 . 128                           │
- │   ▶ 내 PC 왈: "아! 나는 192.168.1.128 번지 동네(서브넷) 소속이구나!" │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                네트워크 주소를 찾는 이진수 AND 연산              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   IP 주소     : 11000000 . 10101000 . 00000001 . 10000010   |
+ |   서브넷 마스크 : 11111111 . 11111111 . 11111111 . 10000000   |
+ |   --------------------------------------------------------- |
+ |   [ AND 결과 ]  11000000 . 10101000 . 00000001 . 10000000   |
+ |                                                             |
+ |   -> 십진수 변환: 192 . 168 . 1 . 128                           |
+ |   -> 내 PC 왈: "아! 나는 192.168.1.128 번지 동네(서브넷) 소속이구나!" |
+ +-------------------------------------------------------------+
 ```
 
 이 AND 연산의 강력함은 CPU 내부 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트에서 1클럭 만에 끝나는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하드웨어 연산이기 때문에, 라우터가 수십만 개의 패킷을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 포워딩할 수 있게 해 준다.
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 클래스리스 라우팅]
-    │
-    ▼
+    |
+    v
 [현재 개념: 서브네팅]
-    │
-    ├──▶ [확장 A: 슈퍼네팅 / 경로 요약]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 슈퍼네팅 / 경로 요약]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 서브네팅는 [클래스리스](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / 경로 요약와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 425 / 1120
 
-← **이전**: [303. 클래스리스 (Classless) 라우팅 (CIDR, Classless Inter-Domain Routing)](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/)
-**다음**: [305. 슈퍼네팅 (Supernetting) / 경로 요약 (Route Summarization)](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) →
+<- **이전**: [303. 클래스리스 (Classless) 라우팅 (CIDR, Classless Inter-Domain Routing)](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/)
+**다음**: [305. 슈퍼네팅 (Supernetting) / 경로 요약 (Route Summarization)](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) ->
 
 ---

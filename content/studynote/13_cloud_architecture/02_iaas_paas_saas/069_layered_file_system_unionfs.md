@@ -33,7 +33,7 @@ tags = ["studynote-cloud"]
 Layer 3 (top)
 Layer 2
 Layer 1 (base)
-  ↓ Copy-on-Write
+  v Copy-on-Write
 Merged View
 ```
 
@@ -106,11 +106,11 @@ Merged View
 
 ```text
 Layer
-  ↓
+  v
 UnionFS / OverlayFS
-  ↓
+  v
 Copy-on-Write
-  ↓
+  v
 Docker Image
 ```
 
@@ -120,11 +120,11 @@ Docker Image
 
 ```text
 Filesystem
-  ↓
+  v
 Layered FS
-  ↓
+  v
 CoW
-  ↓
+  v
 Container Image
 ```
 
@@ -142,7 +142,7 @@ Container Image
 
 **진행 상황**: 68 / 371
 
-← **이전**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)
-**다음**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/) →
+<- **이전**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)
+**다음**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/) ->
 
 ---

@@ -24,22 +24,22 @@ RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 기본 구성 요소
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│              Property Graph 모델                          │
-│                                                          │
-│  ┌──────────────────┐         ┌──────────────────┐       │
-│  │    Node (노드)    │         │   Node (노드)     │       │
-│  │  Label: Person   │  엣지   │  Label: Product  │       │
-│  │  Properties:     │─────────│  Properties:     │       │
-│  │  - name: "홍길동" │ BOUGHT │  - name: "키보드" │       │
-│  │  - age: 30       │  since: │  - price: 89000  │       │
-│  │  - city: "서울"  │ "2026"  │  - stock: 15     │       │
-│  └──────────────────┘         └──────────────────┘       │
-│                                                          │
-│  노드(Node): 엔티티  |  엣지(Edge/Relationship): 관계      │
-│  라벨(Label): 타입   |  속성(Property): 메타데이터          │
-│  방향(Direction): 단방향 또는 양방향                       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              Property Graph 모델                          |
+|                                                          |
+|  +------------------+         +------------------+       |
+|  |    Node (노드)    |         |   Node (노드)     |       |
+|  |  Label: Person   |  엣지   |  Label: Product  |       |
+|  |  Properties:     |---------|  Properties:     |       |
+|  |  - name: "홍길동" | BOUGHT |  - name: "키보드" |       |
+|  |  - age: 30       |  since: |  - price: 89000  |       |
+|  |  - city: "서울"  | "2026"  |  - stock: 15     |       |
+|  +------------------+         +------------------+       |
+|                                                          |
+|  노드(Node): 엔티티  |  엣지(Edge/Relationship): 관계      |
+|  라벨(Label): 타입   |  속성(Property): 메타데이터          |
+|  방향(Direction): 단방향 또는 양방향                       |
++----------------------------------------------------------+
 ```
 
 ### 대표 솔루션 비교
@@ -63,44 +63,44 @@ RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이
 
 ```text
 RDBMS의 관계 탐색 (JOIN 기반):
-┌────────────────────────────────────────────────────────┐
-│  SELECT u2.name FROM users u1                          │
-│  JOIN follows f ON u1.id = f.follower_id               │
-│  JOIN users u2 ON f.following_id = u2.id               │
-│  WHERE u1.name = '홍길동'                              │
-│                                                        │
-│  → 전체 follows 테이블 스캔 → O(N) 비용                 │
-│  → 깊이 3홉: 3중 JOIN → O(N³) 최악의 경우               │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  SELECT u2.name FROM users u1                          |
+|  JOIN follows f ON u1.id = f.follower_id               |
+|  JOIN users u2 ON f.following_id = u2.id               |
+|  WHERE u1.name = '홍길동'                              |
+|                                                        |
+|  -> 전체 follows 테이블 스캔 -> O(N) 비용                 |
+|  -> 깊이 3홉: 3중 JOIN -> O(N³) 최악의 경우               |
++--------------------------------------------------------+
 
 그래프 DB의 관계 탐색 (포인터 추적):
-┌────────────────────────────────────────────────────────┐
-│  Node[홍길동] → Edge[FOLLOWS] → Node[이몽룡]            │
-│                                    ↓ 포인터             │
-│                               Node[이몽룡] → Edge[FOLLOWS]→ ...
-│                                                        │
-│  → 각 노드가 인접 노드의 직접 포인터 보유                  │
-│  → 홉당 O(1) 탐색 → 깊이와 무관하게 빠름                  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  Node[홍길동] -> Edge[FOLLOWS] -> Node[이몽룡]            |
+|                                    v 포인터             |
+|                               Node[이몽룡] -> Edge[FOLLOWS]-> ...
+|                                                        |
+|  -> 각 노드가 인접 노드의 직접 포인터 보유                  |
+|  -> 홉당 O(1) 탐색 -> 깊이와 무관하게 빠름                  |
++--------------------------------------------------------+
 ```
 
 ### Neo4j 내부 저장 구조
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│            Neo4j 저장 파일 구조                            │
-│                                                          │
-│  neostore.nodestore.db       ← 노드 레코드 (고정 15바이트) │
-│  neostore.relationshipstore  ← 관계 레코드 (34바이트)      │
-│  neostore.propertystore.db   ← 속성 레코드 (가변 길이)     │
-│  neostore.labeltokenstore    ← 라벨 저장                  │
-│                                                          │
-│  노드 레코드 구조:                                         │
-│  ┌──┬─────────┬─────────┬─────────┬─────────┐           │
-│  │ID│  첫 관계 │  첫 속성 │  라벨    │ 플래그   │           │
-│  └──┴─────────┴─────────┴─────────┴─────────┘           │
-│  → 노드에서 관계 체인을 직접 포인터로 탐색                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            Neo4j 저장 파일 구조                            |
+|                                                          |
+|  neostore.nodestore.db       <- 노드 레코드 (고정 15바이트) |
+|  neostore.relationshipstore  <- 관계 레코드 (34바이트)      |
+|  neostore.propertystore.db   <- 속성 레코드 (가변 길이)     |
+|  neostore.labeltokenstore    <- 라벨 저장                  |
+|                                                          |
+|  노드 레코드 구조:                                         |
+|  +--+---------+---------+---------+---------+           |
+|  |ID|  첫 관계 |  첫 속성 |  라벨    | 플래그   |           |
+|  +--+---------+---------+---------+---------+           |
+|  -> 노드에서 관계 체인을 직접 포인터로 탐색                    |
++----------------------------------------------------------+
 ```
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 유형 비교
@@ -122,11 +122,11 @@ RDBMS의 관계 탐색 (JOIN 기반):
 
 | 사용 사례 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | RDBMS 대비 |
 |:---:|:---|:---:|
-| 소셜 네트워크 탐색 | 친구의 친구(N홉) | 수초 → 수ms |
-| 추천 엔진 | "이 상품 산 사람들이 같이 산 것" | 복잡한 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) → 단순 패턴 |
-| 사기 탐지 | 계좌 거래 링 탐지 | 불가능 → 실시간 |
-| [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) | 개념 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추론 | 비정형 → 자연 표현 |
-| 네트워크 IT | 의존성 분석, 영향 범위 계산 | 복잡 → 직관적 |
+| 소셜 네트워크 탐색 | 친구의 친구(N홉) | 수초 -> 수ms |
+| 추천 엔진 | "이 상품 산 사람들이 같이 산 것" | 복잡한 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) -> 단순 패턴 |
+| 사기 탐지 | 계좌 거래 링 탐지 | 불가능 -> 실시간 |
+| [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) | 개념 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추론 | 비정형 -> 자연 표현 |
+| 네트워크 IT | 의존성 분석, 영향 범위 계산 | 복잡 -> 직관적 |
 
 ### ACID vs BASE [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB
 
@@ -156,12 +156,12 @@ Amazon Neptune (조정 가능):
          짧은 시간에 순환 송금하는 패턴 탐지
 
 그래프 표현:
-Account A ─[SENT_TO]─→ Account B
-Account B ─[SENT_TO]─→ Account C
-Account C ─[SENT_TO]─→ Account A  ← 순환 고리(Ring) 탐지!
+Account A -[SENT_TO]--> Account B
+Account B -[SENT_TO]--> Account C
+Account C -[SENT_TO]--> Account A  <- 순환 고리(Ring) 탐지!
 
-Phone: 010-xxxx ←[REGISTERED]── Account A
-                ←[REGISTERED]── Account B  ← 동일 번호 공유!
+Phone: 010-xxxx <-[REGISTERED]-- Account A
+                <-[REGISTERED]-- Account B  <- 동일 번호 공유!
 
 Cypher 쿼리:
 MATCH path=(a:Account)-[:SENT_TO*2..5]->(a)
@@ -226,17 +226,17 @@ RDBMS 유지 기준:
 
 ```text
 [관계형 DB (RDBMS) — 조인(Join)으로 관계 탐색, 깊은 연결에서 성능 저하]
-    │
-    ▼
+    |
+    v
 [그래프 DB (Graph DB) — 노드·엣지·속성으로 관계를 네이티브 저장·탐색]
-    │
-    ▼
+    |
+    v
 [그래프 쿼리 언어 (Cypher / Gremlin / SPARQL) — 경로 탐색·패턴 매칭 전용 쿼리]
-    │
-    ▼
+    |
+    v
 [지식 그래프 (Knowledge Graph) — 개체 간 시맨틱 관계로 AI 추론 강화]
-    │
-    ▼
+    |
+    v
 [그래프 머신러닝 (Graph ML) — GNN으로 구조적 패턴 학습, 사기 탐지·추천에 적용]
 ```
 
@@ -253,7 +253,7 @@ RDBMS 유지 기준:
 
 **진행 상황**: 133 / 262
 
-← **이전**: [132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/132_cassandra/)
-**다음**: [134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/) →
+<- **이전**: [132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/132_cassandra/)
+**다음**: [134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/) ->
 
 ---

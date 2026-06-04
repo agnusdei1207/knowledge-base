@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-카오스 엔지니어링의 기본 절차는 <strong>정상 상태 정의 → 가설 수립 → 작은 범위 실험 → 결과 관측 → 학습과 개선</strong>이다. 먼저 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 정상 상태를 나타내는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 지표 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">Service Level Indicator</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>)</strong> 를 고른다. 예를 들어 주문 성공률, 스트리밍 재생 성공률, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 같은 지표가 이에 해당한다. 이후 "웹 노드 1대가 사라져도 SLI는 유지된다" 같은 가설을 세우고, 제한된 범위에서 실험한다.
+카오스 엔지니어링의 기본 절차는 <strong>정상 상태 정의 -> 가설 수립 -> 작은 범위 실험 -> 결과 관측 -> 학습과 개선</strong>이다. 먼저 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 정상 상태를 나타내는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 지표 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">Service Level Indicator</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>)</strong> 를 고른다. 예를 들어 주문 성공률, 스트리밍 재생 성공률, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 같은 지표가 이에 해당한다. 이후 "웹 노드 1대가 사라져도 SLI는 유지된다" 같은 가설을 세우고, 제한된 범위에서 실험한다.
 
 아래 그림은 카오스 실험이 파괴 행위가 아니라 <strong>가설 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 루프</strong>임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Chaos Engineering experiment                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Steady-state SLI                                                     │
-│      │                                                               │
-│      ▼                                                               │
-│ Hypothesis                                                           │
-│      │                                                               │
-│      ▼                                                               │
-│ Bounded experiment                                                   │
-│      │   (stop node / cut link / throttle disk / lose AZ)            │
-│      ▼                                                               │
-│ Observe SLI + traces + alerts                                        │
-│      │                                                               │
-│      ├── within guardrail ─▶ learn and codify                        │
-│      └── out of guardrail ─▶ abort and fix                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Chaos Engineering experiment                     |
++----------------------------------------------------------------------+
+| Steady-state SLI                                                     |
+|      |                                                               |
+|      v                                                               |
+| Hypothesis                                                           |
+|      |                                                               |
+|      v                                                               |
+| Bounded experiment                                                   |
+|      |   (stop node / cut link / throttle disk / lose AZ)            |
+|      v                                                               |
+| Observe SLI + traces + alerts                                        |
+|      |                                                               |
+|      +-- within guardrail --> learn and codify                        |
+|      +-- out of guardrail --> abort and fix                           |
++----------------------------------------------------------------------+
 ```
 
 실험 유형도 계층별로 나눌 수 있다. 서버 종료, 디스크 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 네트워크 손실, 시간 동기 흔들림, 전원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 상실처럼 <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>을 닮은 시나리오</strong>가 대표적이다. 이때 중요한 것은 한 번에 전부 무너뜨리는 것이 아니라, 작은 폭발 반경에서 시작해 점진적으로 키우는 것이다.
@@ -141,19 +141,19 @@ tags = ["studynote-computer-architecture"]
 ```text
 부품 수준 신뢰성 설계
 : FMEA · redundancy · watchdog
-    │
-    ▼
+    |
+    v
 결함 주입 테스트 (Fault Injection Test)
 : 특정 보호 메커니즘 검증
-    │
-    ▼
+    |
+    v
 카오스 엔지니어링 (Chaos Engineering)
 : service-level resilience experiment
-    │
-    ├──▶ 게임 데이 (Game Day)
-    │     : 팀 단위 복구 훈련
-    │
-    └──▶ 자가 복구 운영
+    |
+    +---> 게임 데이 (Game Day)
+    |     : 팀 단위 복구 훈련
+    |
+    +---> 자가 복구 운영
           : autoscaling · circuit breaker · policy guardrail
 ```
 
@@ -169,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 752 / 803
 
-← **이전**: [750. 결함 주입 테스트 (Fault Injection Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/)
-**다음**: [752. FMEA (Failure Mode and Effects Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) →
+<- **이전**: [750. 결함 주입 테스트 (Fault Injection Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/)
+**다음**: [752. FMEA (Failure Mode and Effects Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) ->
 
 ---

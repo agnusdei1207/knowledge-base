@@ -29,9 +29,9 @@ tags = ["bigdata"]
 이 도식은 데이터의 기계적 처리(5V)를 넘어 인간의 인지와 문맥 이해를 돕는 영역(7V)으로의 확장을 보여준다.
 
 [ 기계/알고리즘 중심 (5V) ]        [ 인간/문맥 중심 (7V) ]
-     Veracity (검증)     ──┐
-           +             ──┼─>  Variability (문맥/상황 변화 해석)
-     Value (가치 도출)   ──┘             +
+     Veracity (검증)     --+
+           +             --+->  Variability (문맥/상황 변화 해석)
+     Value (가치 도출)   --+             +
                                 Visualization (시각적 의사결정)
 ```
 
@@ -95,14 +95,14 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 ```text
 이 매트릭스는 대시보드 시각화(Visualization) 아키텍처 설계 시, 데이터 처리 위치에 따른 성능 트레이드오프를 가이드한다.
 
-┌────────────────┬──────────────────────────┬──────────────────────────┐
-│ 방식           │ In-Memory BI (Tableau 등)│ Direct Query (Superset 등)│
-├────────────────┼──────────────────────────┼──────────────────────────┤
-│ 데이터 처리    │ BI 서버 메모리로 추출(Extract)│ DB로 직접 쿼리 전달(Live) │
-│ 응답 속도      │ 매우 빠름 (단일 화면 렌더)│ DB 성능에 강하게 종속됨  │
-│ 데이터 신선도  │ 낮음 (주기적 배치 업데이트)│ 매우 높음 (실시간 Variability 반영)│
-│ 실무 판단      │ 과거 데이터 정적 보고서용│ 실시간 모니터링 대시보드용│
-└────────────────┴──────────────────────────┴──────────────────────────┘
++----------------+--------------------------+--------------------------+
+| 방식           | In-Memory BI (Tableau 등)| Direct Query (Superset 등)|
++----------------+--------------------------+--------------------------+
+| 데이터 처리    | BI 서버 메모리로 추출(Extract)| DB로 직접 쿼리 전달(Live) |
+| 응답 속도      | 매우 빠름 (단일 화면 렌더)| DB 성능에 강하게 종속됨  |
+| 데이터 신선도  | 낮음 (주기적 배치 업데이트)| 매우 높음 (실시간 Variability 반영)|
+| 실무 판단      | 과거 데이터 정적 보고서용| 실시간 모니터링 대시보드용|
++----------------+--------------------------+--------------------------+
 ```
 
 이 표의 해설적 가치는, Variability가 극심한 환경(예: 실시간 장애 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 트위터 여론 분석)에서는 아무리 UI가 예쁘더라도 In-Memory 추출 방식을 쓰면 안 된다는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 과거의 문맥을 담고 있기 때문이다. [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Query 기반으로 실시간 OLAP과 직접 결합해야만 7V의 진정한 시너지가 발휘된다.
@@ -119,13 +119,13 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 이 의사결정 트리는 시각화(Visualization) 대시보드 설계 시 인지적 과부하를 막기 위한 체크리스트 흐름을 나타낸다.
 
 [시각화 요구사항 도출]
-        ↓
-[Variability 체크] ──(시계열 의미 변화가 큰가?)──> [Yes] ─> 정적 파이 차트 배제 / 라인 애니메이션 채택
-        ↓ [No]
-[인지 과부하 체크] ──(한 화면에 차트 5개 초과?)──> [Yes] ─> KPI 중심 요약 / 드릴다운(Drill-down) 분리
-        ↓ [No]
-[렌더링 한계 체크] ──(수백만 포인트 산점도?)──> [Yes] ─> 헥스빈(Hexbin) 군집화 / 서버 사이드 샘플링
-        ↓ [No]
+        v
+[Variability 체크] --(시계열 의미 변화가 큰가?)--> [Yes] -> 정적 파이 차트 배제 / 라인 애니메이션 채택
+        v [No]
+[인지 과부하 체크] --(한 화면에 차트 5개 초과?)--> [Yes] -> KPI 중심 요약 / 드릴다운(Drill-down) 분리
+        v [No]
+[렌더링 한계 체크] --(수백만 포인트 산점도?)--> [Yes] -> 헥스빈(Hexbin) 군집화 / 서버 사이드 샘플링
+        v [No]
 [최종 인터랙티브 대시보드 배포]
 ```
 
@@ -158,17 +158,17 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 
 ```text
 [Concept Drift]
-    │
-    ▼
+    |
+    v
 [Real-time OLAP]
-    │
-    ▼
+    |
+    v
 [Data-Ink Ratio (데이터 잉크 비율)]
-    │
-    ▼
+    |
+    v
 [Drill-down & Roll-up]
-    │
-    ▼
+    |
+    v
 [Data Democratization (데이터 민주화)]
 ```
 
@@ -185,7 +185,7 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 
 **진행 상황**: 3 / 262
 
-← **이전**: [2. 5V — 3V + Veracity(정확성) + Value(가치)](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)
-**다음**: [4. 빅데이터 도입 필요성 — 데이터 폭증(제타바이트 시대), 비정형 데이터 급증](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/) →
+<- **이전**: [2. 5V — 3V + Veracity(정확성) + Value(가치)](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)
+**다음**: [4. 빅데이터 도입 필요성 — 데이터 폭증(제타바이트 시대), 비정형 데이터 급증](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/) ->
 
 ---

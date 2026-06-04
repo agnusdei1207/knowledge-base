@@ -28,14 +28,14 @@ tags = ["studynote-data-engineering"]
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙이 어떻게 분리되는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Off-chain data, on-chain proof                                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Producer file -> normalize -> hash -> blockchain anchor                 │
-│       │                                              │                  │
-│       └──────────── object storage keeps raw bytes ──┘                  │
-│ Buyer / auditor -> download file -> recompute hash -> compare           │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Off-chain data, on-chain proof                                          |
++--------------------------------------------------------------------------+
+| Producer file -> normalize -> hash -> blockchain anchor                 |
+|       |                                              |                  |
+|       +------------ object storage keeps raw bytes --+                  |
+| Buyer / auditor -> download file -> recompute hash -> compare           |
++--------------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 저장과 증빙을 분리하는 것이다. 원본은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에 적합한 저장소에 두고, 체인은 그 원본이 사후에 바뀌지 않았는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기준점이 된다.
@@ -60,15 +60,15 @@ tags = ["studynote-data-engineering"]
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙과 거래 기능을 얻는 흐름을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Data asset lifecycle                                                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Dataset -> canonical form -> SHA-256 hash -> smart contract record     │
-│    │                                   │                                │
-│    └-> encrypted object storage URI ---┘                                │
-│                                            -> NFT license token         │
-│ Buyer -> payment / escrow -> access grant -> hash verification          │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Data asset lifecycle                                                    |
++--------------------------------------------------------------------------+
+| Dataset -> canonical form -> SHA-256 hash -> smart contract record     |
+|    |                                   |                                |
+|    +-> encrypted object storage URI ---+                                |
+|                                            -> NFT license token         |
+| Buyer -> payment / escrow -> access grant -> hash verification          |
++--------------------------------------------------------------------------+
 ```
 
 여기서 NFT ([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/))는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 체인에 저장하는 방식이 아니다. 보통은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 또는 모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)에 대한 <strong>접근권, 사용권, 재판매 로열티 규칙</strong>을 표현하는 토큰으로 쓰인다. 즉 NFT는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 권리와 거래 이력을 표현하는 표지에 가깝다.
@@ -116,14 +116,14 @@ tags = ["studynote-data-engineering"]
 아래 흐름은 NFT [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 마켓에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 거래되는 과정을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ NFT data transaction market                                             │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Seller -> register hash + license -> mint NFT                          │
-│ Buyer  -> escrow payment -> receive access grant                        │
-│ Verify -> recompute hash -> accept dataset                              │
-│ Resale -> royalty split by smart contract                               │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| NFT data transaction market                                             |
++--------------------------------------------------------------------------+
+| Seller -> register hash + license -> mint NFT                          |
+| Buyer  -> escrow payment -> receive access grant                        |
+| Verify -> recompute hash -> accept dataset                              |
+| Resale -> royalty split by smart contract                               |
++--------------------------------------------------------------------------+
 ```
 
 기술사 관점에서 자주 묻는 설계 체크리스트는 다음과 같다.
@@ -170,21 +170,21 @@ tags = ["studynote-data-engineering"]
 
 ```text
 Central audit log
-    │
-    ▼
+    |
+    v
 Hash anchoring for tamper evidence
-    │
-    ▼
+    |
+    v
 Smart contract automation
-    │
-    ├─ settlement / escrow
-    ├─ royalty / reuse rules
-    └─ NFT license token
-    │
-    ▼
+    |
+    +- settlement / escrow
+    +- royalty / reuse rules
+    +- NFT license token
+    |
+    v
 Cross-organization data market
-    │
-    ▼
+    |
+    v
 Zero-knowledge proof and privacy-preserving verification
 ```
 
@@ -202,7 +202,7 @@ Zero-knowledge proof and privacy-preserving verification
 
 **진행 상황**: 182 / 258
 
-← **이전**: [181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/)
-**다음**: [183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) →
+<- **이전**: [181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/)
+**다음**: [183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ->
 
 ---

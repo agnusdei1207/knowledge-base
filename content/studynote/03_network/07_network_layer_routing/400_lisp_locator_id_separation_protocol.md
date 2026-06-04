@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [Anycast 라우팅 (BGP Anycast]
-    │
-    ▼
+    |
+    v
 [로케이터/ID 분리 구조 (LISP]
-    │
-    └──▶ [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
+    |
+    +---> [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
 ```
 
 - **📢 섹션 요약 비유**: ** LISP는 철저한 **"대포차([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 변장술"**입니다. 자동차의 원래 엔진에 새겨진 차대번호(EID)는 평생 안 바뀝니다. 하지만 톨게이트를 무사통과하기 위해, 그때그때 내가 속한 도로 관할 구역에 맞는 가짜 렌터카 번호판(RLOC)을 범퍼 겉에 달고 주행하는 기술입니다.
@@ -65,24 +65,24 @@ tags = ["studynote-network"]
    - 속에 있던 뽀송뽀송한 진짜 편지 `[목적지 EID = 10.2.2.2]`를 부산 지사 서버로 쓱 넣어준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                LISP에 의한 완벽한 가상 머신 이동(VMotion) 도식      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 어제: 서울 KT망 (RLOC 1.1.1.1) ]                          │
- │      서버 VM (EID: 10.10.10.10) 가 구동 중!                    │
- │                                                             │
- │   * LISP Map-Server 장부: "10.10.10.10 ──▶ RLOC 1.1.1.1 로 배달해라"│
- │                                                             │
- │   [ 오늘 새벽: 부산 SKT망 (RLOC 2.2.2.2) 로 라이브 마이그레이션(이사) 됨! ]│
- │      서버 VM (EID: 10.10.10.10) 가 전원 안 꺼지고 부산으로 이동!      │
- │                                                             │
- │   * 이사 완료 즉시 서버가 Map-Server에 "전입신고"를 때림.             │
- │   * LISP Map-Server 장부 갱신: "10.10.10.10 ──▶ RLOC 2.2.2.2 로 줘!"│
- │                                                             │
- │   ▶ 결과: 클라이언트(PC)들은 서버 IP가 10.10.10.10 그대로인 줄 알고 계속 │
- │           통신을 던지며(단절 없음), 중간 인터넷 포장지(RLOC)만 알아서 바뀜! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                LISP에 의한 완벽한 가상 머신 이동(VMotion) 도식      |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 어제: 서울 KT망 (RLOC 1.1.1.1) ]                          |
+ |      서버 VM (EID: 10.10.10.10) 가 구동 중!                    |
+ |                                                             |
+ |   * LISP Map-Server 장부: "10.10.10.10 ---> RLOC 1.1.1.1 로 배달해라"|
+ |                                                             |
+ |   [ 오늘 새벽: 부산 SKT망 (RLOC 2.2.2.2) 로 라이브 마이그레이션(이사) 됨! ]|
+ |      서버 VM (EID: 10.10.10.10) 가 전원 안 꺼지고 부산으로 이동!      |
+ |                                                             |
+ |   * 이사 완료 즉시 서버가 Map-Server에 "전입신고"를 때림.             |
+ |   * LISP Map-Server 장부 갱신: "10.10.10.10 ---> RLOC 2.2.2.2 로 줘!"|
+ |                                                             |
+ |   -> 결과: 클라이언트(PC)들은 서버 IP가 10.10.10.10 그대로인 줄 알고 계속 |
+ |           통신을 던지며(단절 없음), 중간 인터넷 포장지(RLOC)만 알아서 바뀜! |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** LISP는 핸드폰의 **"010 번호 이동(Mobile IP)"** 기술을 인터넷 서버망(클라우드)에 그대로 이식한 것입니다. 통신사(SKT->KT, RLOC 변화)를 마음대로 바꿔도 내 010 번호(EID)는 평생 죽을 때까지 바뀌지 않게 보장하여 완벽한 통신 연속성을 선물합니다.
@@ -143,12 +143,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Anycast 라우팅 (BGP Anycast]
-    │
-    ▼
+    |
+    v
 [현재 개념: 로케이터/ID 분리 구조 (LISP]
-    │
-    ├──▶ [확장 A: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 로케이터/ID 분리 구조 (LISP는 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast에서 출발해 현재 메커니즘을 정교화하고, 이후 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 521 / 1120
 
-← **이전**: [399. Anycast 라우팅 (BGP Anycast](/knowledge-base/studynote/03_network/07_network_layer_routing/399_anycast_routing_bgp_anycast_dns_redundancy/)
-**다음**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) →
+<- **이전**: [399. Anycast 라우팅 (BGP Anycast](/knowledge-base/studynote/03_network/07_network_layer_routing/399_anycast_routing_bgp_anycast_dns_redundancy/)
+**다음**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) ->
 
 ---

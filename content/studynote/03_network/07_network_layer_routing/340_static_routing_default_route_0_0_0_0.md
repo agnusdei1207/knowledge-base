@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [라우팅 개요]
-    │
-    ▼
+    |
+    v
 [정적 라우팅]
-    │
-    └──▶ [동적 라우팅]
+    |
+    +---> [동적 라우팅]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 정적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>은 </strong>"독재자의 절대 명령"**입니다. 아무리 똑똑한 부하(라우터)라도 융통성을 발휘할 수 없으며, 오직 독재자(관리자)가 명령을 철회하기 전까지 까라면 까는 무지성 로봇 팔과 같습니다.
@@ -60,24 +60,24 @@ tags = ["studynote-network"]
 - 우리가 매일 쓰는 PC의 '기본 게이트웨이(Default Gateway)' 세팅 칸이 바로 이 `0.0.0.0` 디폴트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 세팅하는 버튼이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                디폴트 라우트(0.0.0.0)의 짬처리 구조 도식            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 우리 회사 라우터 (바보) ]                                     │
- │   라우팅 테이블:                                              │
- │   1. 192.168.1.0/24 ──▶ 1번 포트로 줘. (알고 있음)             │
- │   2. 192.168.2.0/24 ──▶ 2번 포트로 줘. (알고 있음)             │
- │                                                             │
- │   * 8.8.8.8(구글)로 가는 패킷이 들어옴!                           │
- │   라우터: "어? 8.8.8.8은 내 수첩(테이블)에 없는데?! 버려야 하나?"     │
- │                                                             │
- │   * 이때 빛과 같은 치트키 한 줄 등판!                            │
- │   3. 0.0.0.0/0 (모르는 애들) ──▶ KT 통신사 라우터로 걍 던져!      │
- │                                                             │
- │   라우터: "오예! 구글 너는 내가 모르니까 KT 형님한테 토스(짬처리)!"   │
- │   ▶ 내 라우터는 가볍고 쾌적하게 3줄만 외우고도 전 세계와 통신하게 됨.  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                디폴트 라우트(0.0.0.0)의 짬처리 구조 도식            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 우리 회사 라우터 (바보) ]                                     |
+ |   라우팅 테이블:                                              |
+ |   1. 192.168.1.0/24 ---> 1번 포트로 줘. (알고 있음)             |
+ |   2. 192.168.2.0/24 ---> 2번 포트로 줘. (알고 있음)             |
+ |                                                             |
+ |   * 8.8.8.8(구글)로 가는 패킷이 들어옴!                           |
+ |   라우터: "어? 8.8.8.8은 내 수첩(테이블)에 없는데?! 버려야 하나?"     |
+ |                                                             |
+ |   * 이때 빛과 같은 치트키 한 줄 등판!                            |
+ |   3. 0.0.0.0/0 (모르는 애들) ---> KT 통신사 라우터로 걍 던져!      |
+ |                                                             |
+ |   라우터: "오예! 구글 너는 내가 모르니까 KT 형님한테 토스(짬처리)!"   |
+ |   -> 내 라우터는 가볍고 쾌적하게 3줄만 외우고도 전 세계와 통신하게 됨.  |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 디폴트 라우트는 동사무소 민원 창구의 **"기타 문의 담당 부서"**입니다. 주민등록등본 떼러 온 사람(아는 주소)은 1번 창구로, 인감 떼러 온 사람(아는 주소)은 2번 창구로 보내고, "UFO가 우리 집에 불시착했어요"처럼 어디로 보내야 할지 전혀 감이 안 잡히는 미친 소리(모르는 주소)는 무조건 **"기타 문의 창구(통신사)"**로 밀어버리는 무적의 민원 처리 스킬입니다.
@@ -138,12 +138,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 라우팅 개요]
-    │
-    ▼
+    |
+    v
 [현재 개념: 정적 라우팅]
-    │
-    ├──▶ [확장 A: 동적 라우팅]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 동적 라우팅]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 정적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 461 / 1120
 
-← **이전**: [339. 라우팅 (Routing) 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
-**다음**: [341. 동적 라우팅 (Dynamic Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) →
+<- **이전**: [339. 라우팅 (Routing) 개요](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
+**다음**: [341. 동적 라우팅 (Dynamic Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) ->
 
 ---

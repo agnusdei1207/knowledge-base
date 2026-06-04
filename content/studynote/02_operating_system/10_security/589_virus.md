@@ -142,12 +142,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [로직 밤 (Logic Bomb) / 타이머 밤]
-    │
-    ▼
+    |
+    v
 [바이러스 (Virus)]
-    │
-    ├──▶ [웜 (Worm)]
-    └──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
+    |
+    +---> [웜 (Worm)]
+    +---> [버퍼 오버플로우 (Buffer Overflow) 원리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -164,7 +164,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 589 / 800
 
-← **이전**: [588. 로직 밤 (Logic Bomb) / 타이머 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/)
-**다음**: [590. 웜 (Worm) - 자가 복제 네트워크 전파 독자 실행](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) →
+<- **이전**: [588. 로직 밤 (Logic Bomb) / 타이머 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/)
+**다음**: [590. 웜 (Worm) - 자가 복제 네트워크 전파 독자 실행](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) ->
 
 ---

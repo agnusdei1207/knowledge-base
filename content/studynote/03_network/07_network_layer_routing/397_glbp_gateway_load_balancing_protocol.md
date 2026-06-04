@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [VRRP]
-    │
-    ▼
+    |
+    v
 [GLBP]
-    │
-    └──▶ [IP SLA]
+    |
+    +---> [IP SLA]
 ```
 
 - **📢 섹션 요약 비유**: ** GLBP는 HSRP라는 **"1인 독재 체제"**를 뒤엎고, 1명의 국회의장(AVG)이 4명의 장관(AVF)에게 번갈아 가며 업무를 하달하는 완벽한 **"권력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 조별 과제 시스템"**을 구축한 것입니다.
@@ -68,23 +68,23 @@ AVG가 PC들의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/3
    - "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):1로 세팅해서, AVG가 대답 11번 할 때 10번은 1번 라우터 MAC으로 알려주고, 1번만 2번 라우터 MAC으로 알려줘라!"
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                GLBP의 무결점 트래픽 분산 (ARP 사기극) 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC 1, 2, 3 ] (전부 기본 게이트웨이를 10.1.1.254로 세팅함)      │
- │        │                                                     │
- │   * PC 1: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내(AVF 1) MAC 주소 AA:01 이야!" ── (PC1은 1번 라우터로 감) │
- │                                                             │
- │   * PC 2: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내 친구(AVF 2) MAC 주소 AA:02 야!" ── (PC2는 2번 라우터로 감)│
- │                                                             │
- │   * PC 3: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내 친구(AVF 3) MAC 주소 AA:03 이야!" ── (PC3은 3번 라우터로 감)│
- │                                                             │
- │   ▶ "게이트웨이 IP는 1개인데, PC들은 각자 다른 스위치 포트로 트래픽을 쏨!" │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                GLBP의 무결점 트래픽 분산 (ARP 사기극) 도식        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC 1, 2, 3 ] (전부 기본 게이트웨이를 10.1.1.254로 세팅함)      |
+ |        |                                                     |
+ |   * PC 1: "10.1.1.254 MAC 누구야?"                            |
+ |     -> AVG 대답: "내(AVF 1) MAC 주소 AA:01 이야!" -- (PC1은 1번 라우터로 감) |
+ |                                                             |
+ |   * PC 2: "10.1.1.254 MAC 누구야?"                            |
+ |     -> AVG 대답: "내 친구(AVF 2) MAC 주소 AA:02 야!" -- (PC2는 2번 라우터로 감)|
+ |                                                             |
+ |   * PC 3: "10.1.1.254 MAC 누구야?"                            |
+ |     -> AVG 대답: "내 친구(AVF 3) MAC 주소 AA:03 이야!" -- (PC3은 3번 라우터로 감)|
+ |                                                             |
+ |   -> "게이트웨이 IP는 1개인데, PC들은 각자 다른 스위치 포트로 트래픽을 쏨!" |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** GLBP는 놀이공원 입구의 **"다중 개찰구 시스템"**입니다. HSRP가 1개의 개찰구만 열어놓고 다른 개찰구는 고장 날 때 대비해서 비워두는(자원 낭비) 멍청한 시스템이라면, GLBP는 4개의 개찰구를 모두 활짝 열어두고 안내원(AVG)이 사람들을 1, 2, 3, 4번 줄로 휙휙 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 기가 막힌 통과 속도([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))를 자랑합니다.
@@ -145,12 +145,12 @@ GLBP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: VRRP]
-    │
-    ▼
+    |
+    v
 [현재 개념: GLBP]
-    │
-    ├──▶ [확장 A: IP SLA]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: IP SLA]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 GLBP는 VRRP에서 출발해 현재 메커니즘을 정교화하고, 이후 IP SLA와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ GLBP는 VRRP에서 출발해 현재 메커니즘을 정교화하고, 이후 IP S
 
 **진행 상황**: 518 / 1120
 
-← **이전**: [396. VRRP (Virtual Router Redundancy Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/)
-**다음**: [398. IP SLA](/knowledge-base/studynote/03_network/07_network_layer_routing/398_ip_sla_network_performance_monitoring/) →
+<- **이전**: [396. VRRP (Virtual Router Redundancy Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/)
+**다음**: [398. IP SLA](/knowledge-base/studynote/03_network/07_network_layer_routing/398_ip_sla_network_performance_monitoring/) ->
 
 ---

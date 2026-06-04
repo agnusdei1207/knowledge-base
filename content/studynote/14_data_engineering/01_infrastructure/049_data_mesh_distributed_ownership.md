@@ -22,7 +22,7 @@ tags = ["studynote-data-engineering"]
 중앙화 데이터 아키텍처의 한계:
 
 중앙 데이터 레이크/웨어하우스:
-  모든 팀 → 중앙 데이터 플랫폼 팀 → 분석 결과
+  모든 팀 -> 중앙 데이터 플랫폼 팀 -> 분석 결과
 
   문제 성장에 따른 한계:
   1. 병목 (Bottleneck):
@@ -44,8 +44,8 @@ tags = ["studynote-data-engineering"]
   "도메인 팀이 자신의 데이터를 소유하고 제공"
 
   비유:
-  중앙 DB → 마이크로서비스 = 소프트웨어 메시
-  중앙 데이터 레이크 → 데이터 메시 = 데이터 메시
+  중앙 DB -> 마이크로서비스 = 소프트웨어 메시
+  중앙 데이터 레이크 -> 데이터 메시 = 데이터 메시
 ```
 
 > 📢 **섹션 요약 비유**: 중앙 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 한계 = 중앙 주방 식당 — 모든 재료를 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀)에서만 처리. 손님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀) 요청 밀림, 주방이 모든 재료 특성 파악 불가. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리!
@@ -101,7 +101,7 @@ tags = ["studynote-data-engineering"]
 
   자동화 강제:
   정책을 코드(Policy as Code)로 구현
-  → 도메인 팀이 설정 실수해도 자동 차단
+  -> 도메인 팀이 설정 실수해도 자동 차단
 ```
 
 > 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙 = 프랜차이즈 식당 — 각 매장([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이 자체 운영(소유권). 손님을 위한 표준 메뉴([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)). 본사 POS/레시피 제공(셀프서비스 플랫폼). 위생 기준 자동 점검(거버넌스)!
@@ -143,7 +143,7 @@ tags = ["studynote-data-engineering"]
 
 데이터 카탈로그 등록 (DataHub):
   도메인, 소유자, SLA, 스키마, 예제 데이터
-  → 다른 팀이 검색하여 사용
+  -> 다른 팀이 검색하여 사용
 ```
 
 > 📢 **섹션 요약 비유**: [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객을 위한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 "orders [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 관리. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 문서, 품질 기준 포함. 다른 팀은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
@@ -229,19 +229,19 @@ Phase 3 (12~18개월) - 전사 확대:
   거버넌스 자동화 (OPA 정책)
 
 결과:
-  파이프라인 추가 대기: 3주 → 2일 (자체 처리)
-  데이터 제품 수: 0 → 87개
-  도메인 팀 데이터 자급율: 12% → 78%
+  파이프라인 추가 대기: 3주 -> 2일 (자체 처리)
+  데이터 제품 수: 0 -> 87개
+  도메인 팀 데이터 자급율: 12% -> 78%
   데이터 품질 이슈: 40% 감소 (소유팀 직접 관리)
-  중앙 데이터 팀: 운영→ 플랫폼 팀으로 전환
+  중앙 데이터 팀: 운영-> 플랫폼 팀으로 전환
 
 교훈:
   기술보다 조직 변화가 어려움
   도메인 팀에 데이터 엔지니어링 역량 필요
-  작은 조직: 데이터 메시 과도 → Data Fabric이 적합
+  작은 조직: 데이터 메시 과도 -> Data Fabric이 적합
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 중앙 주방→코너 요리 전환 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 3주 대기에서 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 직접 요리로. 파이프라인 대기 3주→2일. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급율 12→78%!
+> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 중앙 주방->코너 요리 전환 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 3주 대기에서 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 직접 요리로. 파이프라인 대기 3주->2일. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급율 12->78%!
 
 ---
 
@@ -301,7 +301,7 @@ AI 기반 메타데이터
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 프랜차이즈 식당 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 대신 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리). 파이프라인 대기 3주→2일!
+1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 프랜차이즈 식당 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 대신 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리). 파이프라인 대기 3주->2일!
 2. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 팀이 "주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)+문서+품질 기준으로 제공. 다른 팀이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
 3. 연합 거버넌스 = 프랜차이즈 본사 위생 점검 — 각 매장이 자율 운영하되, 위생 기준([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 자동(코드)으로 강제. 표준화된 자율성!
 
@@ -311,7 +311,7 @@ AI 기반 메타데이터
 
 **진행 상황**: 49 / 258
 
-← **이전**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/)
-**다음**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/) →
+<- **이전**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/)
+**다음**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/) ->
 
 ---

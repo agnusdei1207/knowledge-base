@@ -118,14 +118,14 @@ v_t = β v_(t-1) + (1 - β) g_t
 
 ```text
 현재 배치의 기울기
-  │
-  ▼
+  |
+  v
 이전 속도와 가중 평균
-  │
-  ▼
+  |
+  v
 누적된 방향으로 파라미터 이동
-  │
-  ▼
+  |
+  v
 진동 감소와 수렴 가속
 ```
 
@@ -143,7 +143,7 @@ v_t = β v_(t-1) + (1 - β) g_t
 
 **진행 상황**: 84 / 420
 
-← **이전**: [83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)
-**다음**: [85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법](/knowledge-base/studynote/10_ai/01_ai_basics/085_adaptive_learning_rate_adagrad_rmsprop/) →
+<- **이전**: [83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)
+**다음**: [85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법](/knowledge-base/studynote/10_ai/01_ai_basics/085_adaptive_learning_rate_adagrad_rmsprop/) ->
 
 ---

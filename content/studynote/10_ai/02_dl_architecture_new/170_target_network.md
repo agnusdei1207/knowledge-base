@@ -26,15 +26,15 @@ tags = ["studynote-ai"]
 아래 그림은 타겟 네트워크가 없을 때 생기는 자기참조 문제를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Moving target problem in naive DQN                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Q(s, a; θ) ---------------------------┐                              │
-│                                       ├─ loss = [r + γ max Q(s',a';θ)│
-│ Q(s', a'; θ) for target --------------┘            - Q(s,a;θ)]^2    │
-│   ▲                                                                  │
-│   └─ one gradient step changes both prediction and target           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Moving target problem in naive DQN                                   |
++----------------------------------------------------------------------+
+| Q(s, a; θ) ---------------------------+                              |
+|                                       +- loss = [r + γ max Q(s',a';θ)|
+| Q(s', a'; θ) for target --------------+            - Q(s,a;θ)]^2    |
+|   ^                                                                  |
+|   +- one gradient step changes both prediction and target           |
++----------------------------------------------------------------------+
 ```
 
 즉 학습자는 자신의 답안을 고치는 동시에 채점 기준표까지 함께 바꾸고 있는 셈이다. 타겟 네트워크는 이 채점 기준표를 일정 기간 고정해, 온라인 네트워크가 하나의 비교적 안정된 목표를 향해 수렴하도록 만든다.
@@ -57,24 +57,24 @@ tags = ["studynote-ai"]
 | 온라인 네트워크 (Online Network) | 현재 행동가치 예측, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선 | 매 학습 스텝 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 직접 업데이트 |
 | 타겟 네트워크 (Target Network) | 다음 상태의 목표값 계산 | 주기적 복사 또는 지수 평균 | 손실 계산에는 쓰되 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 금지 |
 | [경험 재생](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/) 버퍼 (Replay Buffer) | 샘플 무작위화 | 환경 상호작용마다 저장 | 상관관계 감소, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 |
-| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙 | `θ- ← θ` 또는 `θ- ← τθ + (1-τ)θ-` | 하드/소프트 | 안정성과 추종 속도 균형 |
+| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙 | `θ- <- θ` 또는 `θ- <- τθ + (1-τ)θ-` | 하드/소프트 | 안정성과 추종 속도 균형 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DQN with target network                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ replay batch (s, a, r, s', done)                                     │
-│   ├─ online network θ  ------> Q_online(s, a)                        │
-│   └─ target network θ- ------> max_a' Q_target(s', a')              │
-│                                                                      │
-│ y = r + γ(1-done) * max_a' Q_target(s', a')                          │
-│ loss = (y - Q_online(s, a))^2                                        │
-│ update θ only                                                        │
-│ sync θ- periodically or softly                                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| DQN with target network                                               |
++----------------------------------------------------------------------+
+| replay batch (s, a, r, s', done)                                     |
+|   +- online network θ  ------> Q_online(s, a)                        |
+|   +- target network θ- ------> max_a' Q_target(s', a')              |
+|                                                                      |
+| y = r + γ(1-done) * max_a' Q_target(s', a')                          |
+| loss = (y - Q_online(s, a))^2                                        |
+| update θ only                                                        |
+| sync θ- periodically or softly                                       |
++----------------------------------------------------------------------+
 ```
 
-하드 업데이트 (Hard Update)는 일정 주기 `C`마다 `θ- ← θ`로 통째로 복사하는 방식이고, 소프트 업데이트 (Soft Update)는 `θ- ← τθ + (1-τ)θ-`처럼 지수이동평균 (Exponential Moving Average) 형태로 조금씩 따라가게 만드는 방식이다. 전자는 구현이 단순하고 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 원형에 가깝고, 후자는 연속 제어에서 흔히 쓰이는 부드러운 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+하드 업데이트 (Hard Update)는 일정 주기 `C`마다 `θ- <- θ`로 통째로 복사하는 방식이고, 소프트 업데이트 (Soft Update)는 `θ- <- τθ + (1-τ)θ-`처럼 지수이동평균 (Exponential Moving Average) 형태로 조금씩 따라가게 만드는 방식이다. 전자는 구현이 단순하고 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 원형에 가깝고, 후자는 연속 제어에서 흔히 쓰이는 부드러운 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 온라인 네트워크가 선수라면 타겟 네트워크는 느리게 갱신되는 점수판이다. 선수는 매번 달려도 점수판이 너무 자주 바뀌지 않아야 어디를 향해 달리고 있는지 알 수 있다.
 
@@ -149,18 +149,18 @@ tags = ["studynote-ai"]
 
 ```text
 Tabular Q-learning
-        │
-        ▼
+        |
+        v
 Deep Q-Network instability
-        │
-        ├─ Experience Replay
-        │
-        └─ Target Network
-               │
-               ▼
+        |
+        +- Experience Replay
+        |
+        +- Target Network
+               |
+               v
         Double DQN / soft targets
-               │
-               ▼
+               |
+               v
 DDPG · TD3 · SAC stabilisation
 ```
 
@@ -178,7 +178,7 @@ DDPG · TD3 · SAC stabilisation
 
 **진행 상황**: 170 / 420
 
-← **이전**: [169. 경험 재생 (Experience Replay)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)
-**다음**: [171. 정책 경사법 (Policy Gradient)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) →
+<- **이전**: [169. 경험 재생 (Experience Replay)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)
+**다음**: [171. 정책 경사법 (Policy Gradient)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ->
 
 ---

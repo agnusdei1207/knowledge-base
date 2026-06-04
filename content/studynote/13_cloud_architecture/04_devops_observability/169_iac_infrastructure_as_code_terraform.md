@@ -34,8 +34,8 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 
 ```
 .tf 파일 작성       terraform plan        terraform apply
-(HCL 코드)   →   (변경 계획 미리보기)  →  (실제 인프라 생성·변경)
-     ↓                   ↓                       ↓
+(HCL 코드)   ->   (변경 계획 미리보기)  ->  (실제 인프라 생성·변경)
+     v                   v                       v
   Git 저장소        콘솔에 변경 diff        terraform.tfstate
   (버전 관리)        출력, 검토 가능         (현재 상태 기록)
 ```
@@ -66,8 +66,8 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 | Chef/Puppet | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) | 선언형 | Ruby DSL | 에이전트 필요 |
 
 **선언형 vs 명령형**:
-- 선언형: `resource "aws_instance" "web" { instance_type = "t3.micro" }` → 결과 정의
-- 명령형: `aws ec2 run-instances --instance-type t3.micro` → 행동 나열
+- 선언형: `resource "aws_instance" "web" { instance_type = "t3.micro" }` -> 결과 정의
+- 명령형: `aws ec2 run-instances --instance-type t3.micro` -> 행동 나열
 
 📢 **섹션 요약 비유**: 선언형은 "피자 도우를 얇게 해주세요"라고 결과를 말하는 것이고, 명령형은 "반죽을 밀대로 3번 밀고, 냉장고에 10분 넣고…"처럼 과정을 말하는 것이다.
 
@@ -119,14 +119,14 @@ IaC를 도입하면 인프라 변경 리드타임이 주 단위에서 분 단위
 
 ```text
 수동 콘솔 클릭 (재현 불가, 드리프트)
-    │
-    ▼
+    |
+    v
 IaC: 인프라를 코드로 선언 (Terraform · Pulumi · CDK)
-    ├─► terraform plan → apply → state 관리
-    └─► 버전 관리: Git + PR 리뷰 + CI 검증
-    │
-    ▼
-Policy as Code (OPA · Sentinel) → GitOps 연동
+    +-► terraform plan -> apply -> state 관리
+    +-► 버전 관리: Git + PR 리뷰 + CI 검증
+    |
+    v
+Policy as Code (OPA · Sentinel) -> GitOps 연동
 ```
 2. 예전에는 손으로 하나하나 클릭해서 서버를 만들었지만, 이제는 코드로 한 번에 뚝딱 만들어요.
 3. 설명서(코드)가 있으면 실수로 성이 무너져도 똑같이 다시 만들 수 있어서 걱정이 없어요!
@@ -137,7 +137,7 @@ Policy as Code (OPA · Sentinel) → GitOps 연동
 
 **진행 상황**: 168 / 371
 
-← **이전**: [168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/168_gitops_push_vs_pull_deployment/)
-**다음**: [170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/) →
+<- **이전**: [168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/168_gitops_push_vs_pull_deployment/)
+**다음**: [170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/) ->
 
 ---

@@ -32,25 +32,25 @@ tags = ["studynote-design-supervision"]
 OCP를 달성하는 가장 강력한 무기는 <strong>인터페이스 (Interface)</strong>와 <strong>다형성 (Polymorphism)</strong>이다. 클라이언트 코드는 구체적인 구현체에 의존하지 않고 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스에만 의존하게 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    OCP 아키텍처 구조의 원리                    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [기존: OCP 위배 - 강한 결합]                                   │
-│  OrderService ──▶ if (type == "CARD") CardPayment()          │
-│               ──▶ else if (type == "CASH") CashPayment()     │
-│  (* 새 결제 추가 시 OrderService 코드를 직접 수정해야 함)         │
-│                                                              │
-│  [개선: OCP 준수 - 추상화와 다형성]                              │
-│  OrderService ──▶ ◁interface▷ PaymentStrategy              │
-│                           △                                  │
-│                           │                                  │
-│              ┌────────────┼────────────┐                     │
-│              │            │            │                     │
-│         CardPayment  CashPayment  CryptoPayment (새로 추가!) │
-│                                                              │
-│  (* 새 결제 추가 시, 기존 코드 수정 없이 새 클래스만 끼워 넣음)     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    OCP 아키텍처 구조의 원리                    |
++--------------------------------------------------------------+
+|                                                              |
+|  [기존: OCP 위배 - 강한 결합]                                   |
+|  OrderService ---> if (type == "CARD") CardPayment()          |
+|               ---> else if (type == "CASH") CashPayment()     |
+|  (* 새 결제 추가 시 OrderService 코드를 직접 수정해야 함)         |
+|                                                              |
+|  [개선: OCP 준수 - 추상화와 다형성]                              |
+|  OrderService ---> ◁interface▷ PaymentStrategy              |
+|                           △                                  |
+|                           |                                  |
+|              +------------+------------+                     |
+|              |            |            |                     |
+|         CardPayment  CashPayment  CryptoPayment (새로 추가!) |
+|                                                              |
+|  (* 새 결제 추가 시, 기존 코드 수정 없이 새 클래스만 끼워 넣음)     |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램에서 보듯, 시스템의 행위(결제 방식)를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(PaymentStrategy) 뒤에 숨기면 `CryptoPayment`라는 새로운 요구사항이 들어와도 `OrderService`는 단 한 줄도 수정되지 않는다. 확장에 열려 있고(새 구현체 추가 가능), 수정에 닫혀 있는(OrderService 불변) 상태가 완성되는 것이다.
@@ -111,20 +111,20 @@ OCP를 제대로 적용하면 시스템은 '수정'이라는 파괴적 행위 �
 
 ```text
 절차지향 (Spaghetti Code)
-    │
-    ▼
+    |
+    v
 모듈화 (함수 분리, 여전히 수정에는 열려있음)
-    │
-    ▼
+    |
+    v
 추상화 도입 (Interface와 클래스의 분리)
-    │
-    ▼
+    |
+    v
 다형성 활용 (전략 패턴, 다이나믹 바인딩)
-    │
-    ▼
+    |
+    v
 개방-폐쇄 원칙 (OCP 달성, 기능 확장의 자유)
-    │
-    ▼
+    |
+    v
 플러그인 아키텍처 및 마이크로서비스 (시스템 레벨의 OCP)
 ```
 
@@ -140,7 +140,7 @@ OCP를 제대로 적용하면 시스템은 '수정'이라는 파괴적 행위 �
 
 **진행 상황**: 149 / 530
 
-← **이전**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/)
-**다음**: [104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/104_lsp_liskov_substitution_principle/) →
+<- **이전**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/)
+**다음**: [104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/104_lsp_liskov_substitution_principle/) ->
 
 ---

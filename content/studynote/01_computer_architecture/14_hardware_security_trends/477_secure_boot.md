@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 Secure Boot가 왜 필요한지, 그리고 공격자가 노리는 시점이 어디인지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          운영체제보다 먼저 선점되면, 이후 보안은 모두 뒤늦게 반응한다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Power On                                                                   │
-│    │                                                                       │
-│    ▼                                                                       │
-│ Firmware Stage ──▶ Bootloader ──▶ Kernel Init ──▶ Security Agent Start     │
-│    │                 │                 │                  │                 │
-│    │                 │                 │                  └─ 백신/EDR 동작  │
-│    │                 │                 └─ 이미 제어권 선점 가능            │
-│    │                 └─ Bootkit 삽입 지점                                 │
-│    └─ 악성 Option ROM, 변조 펌웨어 삽입 지점                              │
-│                                                                            │
-│ Secure Boot의 역할: 각 초기 실행 코드를 "실행 전에" 허가/차단              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|          운영체제보다 먼저 선점되면, 이후 보안은 모두 뒤늦게 반응한다      |
++----------------------------------------------------------------------------+
+| Power On                                                                   |
+|    |                                                                       |
+|    v                                                                       |
+| Firmware Stage ---> Bootloader ---> Kernel Init ---> Security Agent Start     |
+|    |                 |                 |                  |                 |
+|    |                 |                 |                  +- 백신/EDR 동작  |
+|    |                 |                 +- 이미 제어권 선점 가능            |
+|    |                 +- Bootkit 삽입 지점                                 |
+|    +- 악성 Option ROM, 변조 펌웨어 삽입 지점                              |
+|                                                                            |
+| Secure Boot의 역할: 각 초기 실행 코드를 "실행 전에" 허가/차단              |
++----------------------------------------------------------------------------+
 ```
 
 즉 Secure Boot는 단순히 부팅을 예쁘게 시작하는 기능이 아니라, 시스템이 "누구를 먼저 신뢰할 것인가"를 결정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 장치다. 다만 서명된 취약 코드까지 자동으로 안전해지는 것은 아니다. 따라서 이 개념은 권한 부여의 출발점으로 기억해야 맞다.
@@ -62,30 +62,30 @@ Secure Boot의 중심은 [UEFI](/knowledge-base/studynote/01_computer_architectu
 | `db` | 허용된 서명/해시 목록 | 신뢰할 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)와 드라이버 범위 |
 | `dbx` | 폐기된 서명/해시 목록 | 유출 키·취약 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 차단 |
 
-아래 그림은 Secure Boot의 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축이 "키 관리 → [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → OS 측 Verified Boot 연계"로 이어짐을 보여준다.
+아래 그림은 Secure Boot의 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축이 "키 관리 -> [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> OS 측 Verified Boot 연계"로 이어짐을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Secure Boot의 검증 축: 허용 목록과 차단 목록의 조합         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PK                                                                         │
-│  │  플랫폼 소유권                                                          │
-│  ▼                                                                         │
-│ KEK ───────────────▶ db / dbx 관리                                         │
-│                        │                                                   │
-│                        ├─ db  : 허용된 서명/해시                           │
-│                        └─ dbx : 폐기된 서명/해시                           │
-│                                                                            │
-│ UEFI Firmware                                                              │
-│  ├─ UEFI Driver / Option ROM 검증                                          │
-│  ├─ Boot Manager 검증                                                      │
-│  └─ 실패 시 실행 중단                                                      │
-│            │                                                               │
-│            ▼                                                               │
-│ OS Verified Boot                                                           │
-│  ├─ Kernel / Initramfs / Driver 확인                                       │
-│  └─ 런타임 진입                                                             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               Secure Boot의 검증 축: 허용 목록과 차단 목록의 조합         |
++----------------------------------------------------------------------------+
+| PK                                                                         |
+|  |  플랫폼 소유권                                                          |
+|  v                                                                         |
+| KEK ----------------> db / dbx 관리                                         |
+|                        |                                                   |
+|                        +- db  : 허용된 서명/해시                           |
+|                        +- dbx : 폐기된 서명/해시                           |
+|                                                                            |
+| UEFI Firmware                                                              |
+|  +- UEFI Driver / Option ROM 검증                                          |
+|  +- Boot Manager 검증                                                      |
+|  +- 실패 시 실행 중단                                                      |
+|            |                                                               |
+|            v                                                               |
+| OS Verified Boot                                                           |
+|  +- Kernel / Initramfs / Driver 확인                                       |
+|  +- 런타임 진입                                                             |
++----------------------------------------------------------------------------+
 ```
 
 실무에서는 Linux가 좋은 예시를 보여 준다. 일반 배포판은 Microsoft 서명된 shim을 통해 UEFI의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과하고, shim이 다시 GRUB과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 체인을 이어 간다. 반대로 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 사내 드라이버를 쓰는 조직은 자체 키를 등록하거나 Machine Owner [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 운용해야 한다.
@@ -165,20 +165,20 @@ Secure Boot를 제대로 적용하면 [운영체제](/knowledge-base/studynote/0
 
 ```text
 Legacy BIOS + MBR 부팅
-        │
-        ▼
+        |
+        v
 UEFI (Unified Extensible Firmware Interface)
-        │
-        ▼
+        |
+        v
 Secure Boot 서명 검증
-        │
-        ▼
+        |
+        v
 OS Verified Boot · 서명된 커널/드라이버
-        │
-        ▼
+        |
+        v
 TPM (Trusted Platform Module) 기반 Measured Boot
-        │
-        ▼
+        |
+        v
 원격 증명 · 공급망 신뢰 정책 통합
 ```
 
@@ -196,7 +196,7 @@ TPM (Trusted Platform Module) 기반 Measured Boot
 
 **진행 상황**: 477 / 803
 
-← **이전**: [476. TPM (Trusted Platform Module)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)
-**다음**: [478. 신뢰 실행 환경 (TEE, Trusted Execution Environment)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) →
+<- **이전**: [476. TPM (Trusted Platform Module)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)
+**다음**: [478. 신뢰 실행 환경 (TEE, Trusted Execution Environment)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ->
 
 ---

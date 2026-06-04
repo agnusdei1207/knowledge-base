@@ -29,26 +29,26 @@ tags = ["studynote-operating-system"]
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 사실 껍데기고, 진짜 영혼이자 본체라고 할 수 있는 이 256 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)짜리 작은 신의 객체(i-node) 내부 메모리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 유닉스의 신, 단 1개의 고정 객체 I-Node (약 256 Bytes 렌더)   │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │  [[ 145번 i-node 객체 (디스크 앞단 할당 존(Zone) 에 수축 보관됨) ]]          │
-  │                                                                              │
-  │  1️⃣ [ 메타데이터 구역 (파일의 영혼/속성 통치 스왑 정보 결착) ]              │
-  │   - 파일 타입    : 정규 파일 (-)                                             │
-  │   - 파일 권한    : `rwxr-xr-x` (755 모드 락백)                               │
-  │   - 소유자 UID   : 1000 (pf 유저)                                            │
-  │   - 링크 카운트   : 2 (하드 링크 2개가 껍데기로 이 145번을 가리킴 거울 록!)  │
-  │   - 파일 크기    : 12.5 MB                                                   │
-  │   - 타임스탬프    : 생성일, 최종수정일(mtime), 접근일(atime)                 │
-  │  -------------------------------------------------------------               │
-  │  2️⃣ [ 주소 포인터 구역 (데이터 뼈대 블록 15개 배열 어레이 스로틀 맵) ]      │
-  │   - [0] ~ [11] 다이렉트 (직접) 포인터 ──(0.1초 만에 12개 데이터 타격 컷)     │
-  │   - [12] 싱글 인다이렉트 (1차 트리)  ────(거대 피라미드 간접 점프 포팅)      │
-  │   - [13] 더블 인다이렉트 (2차 트리)   ◀─(하이브리드 다중 수준 색인 짬뽕 뷰)  │
-  │   - [14] 트리플 인다이렉트 (3차 트리)                                        │
-  └──────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------+
+  |                 유닉스의 신, 단 1개의 고정 객체 I-Node (약 256 Bytes 렌더)   |
+  +------------------------------------------------------------------------------+
+  |                                                                              |
+  |  [[ 145번 i-node 객체 (디스크 앞단 할당 존(Zone) 에 수축 보관됨) ]]          |
+  |                                                                              |
+  |  1️⃣ [ 메타데이터 구역 (파일의 영혼/속성 통치 스왑 정보 결착) ]              |
+  |   - 파일 타입    : 정규 파일 (-)                                             |
+  |   - 파일 권한    : `rwxr-xr-x` (755 모드 락백)                               |
+  |   - 소유자 UID   : 1000 (pf 유저)                                            |
+  |   - 링크 카운트   : 2 (하드 링크 2개가 껍데기로 이 145번을 가리킴 거울 록!)  |
+  |   - 파일 크기    : 12.5 MB                                                   |
+  |   - 타임스탬프    : 생성일, 최종수정일(mtime), 접근일(atime)                 |
+  |  -------------------------------------------------------------               |
+  |  2️⃣ [ 주소 포인터 구역 (데이터 뼈대 블록 15개 배열 어레이 스로틀 맵) ]      |
+  |   - [0] ~ [11] 다이렉트 (직접) 포인터 --(0.1초 만에 12개 데이터 타격 컷)     |
+  |   - [12] 싱글 인다이렉트 (1차 트리)  ----(거대 피라미드 간접 점프 포팅)      |
+  |   - [13] 더블 인다이렉트 (2차 트리)   <--(하이브리드 다중 수준 색인 짬뽕 뷰)  |
+  |   - [14] 트리플 인다이렉트 (3차 트리)                                        |
+  +------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 `ls -l` 을 쳤을 때 좌르륵 쏟아지는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량, 권한 텍스트 덩어리들.. 그게 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 이름표 안에 있는 게 아니라, 저기 1️⃣번 구역의 145번 i-node(본체)를 뽑아와 RAM에 올려서 보여준 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 화면이다([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 스로틀 번역 뷰)! 그리고 가장 소름 돋는 천재적 렌더링은 바로 하단 2️⃣번 포인터 구역이다. 지난 527장에서 배운 "작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 다이렉트로 $O(1)$ 스피드로 읽어주고, 거대한 대용량 영화는 그제야 2중 3중 인다이렉트 다중 수준 색인 트리(Multilevel)로 연결 포팅해 공간 낭비를 멸치 파쇄시켜주자!" 던 "혼합 색인(Combined 융합)" 철학이 우측에 그대로 코드로 꽂혀 있다. 이것이 유닉스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 시작이자 끝이요, 100만 배 대용량과 1바이트 텍스트 속도를 동시에 만족 캐치한 궁극 설계([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) B+ 트리 조상인 셈이다 뼈대.
@@ -66,8 +66,8 @@ tags = ["studynote-operating-system"]
 
 | i-node 디커플링 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 체제 | 껍데기 이름표 ([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) /var/..) 뷰 마스킹 | 영혼 본체 (디스크 i-node 구조체 풀 랭크) |
 |:---|:---|:---|
-| **역할 및 맵핑 포인터 주소** | `["hello.txt" ──포인터──▶ "145번"]`. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로 이름만을 텍스트로 보관 포팅. | `[145번 본체]`. 실제 권한과 디스크 물리 블록 위치 어레이. 이름만 없고 다 있는 우주 통치자. |
-| <strong>다형성 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/">Hard Link</a> (거울 쌍둥이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 무결 뷰 렌더)</strong> | 바탕화면에 `"hello.txt ──▶ 145번"` 하나 있고, 내 폴더 C드라이브 구석에 `"backup.txt ──▶ 145번"` 거울 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 1개를 더 파서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)! ([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 마법 발동!) | 물리 블록 복사 오버헤드 0%!! 디스크 용량 1도 안 줄고, 그냥 145번 inode 본체엔 **링크 카운트(Link Count)=2** 로 숫자만 덜컥 하나 올라감. 똑같은 껍데기를 수천 개 찍어낼 수 있는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 트릭 보장! |
+| **역할 및 맵핑 포인터 주소** | `["hello.txt" --포인터---> "145번"]`. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로 이름만을 텍스트로 보관 포팅. | `[145번 본체]`. 실제 권한과 디스크 물리 블록 위치 어레이. 이름만 없고 다 있는 우주 통치자. |
+| <strong>다형성 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/">Hard Link</a> (거울 쌍둥이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 무결 뷰 렌더)</strong> | 바탕화면에 `"hello.txt ---> 145번"` 하나 있고, 내 폴더 C드라이브 구석에 `"backup.txt ---> 145번"` 거울 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 1개를 더 파서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)! ([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 마법 발동!) | 물리 블록 복사 오버헤드 0%!! 디스크 용량 1도 안 줄고, 그냥 145번 inode 본체엔 **링크 카운트(Link Count)=2** 로 숫자만 덜컥 하나 올라감. 똑같은 껍데기를 수천 개 찍어낼 수 있는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 트릭 보장! |
 
 ### 2. 치명적 오버헤드 데들락 늪 폭파: I-Node Exhaustion (디스크 반 비었는데 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러!)
 모든 완벽한 S/W 설계에는 그림자가 있다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커도 i-node (256 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 하나! 1바이트짜리 우주 쓰레기 먼지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 강제로 i-node 하나!
@@ -143,12 +143,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [색인 블록 크기 한계 해결]
-    │
-    ▼
+    |
+    v
 [유닉스 i-node (Index Node) 매커니즘]
-    │
-    ├──▶ [i-node 직접 블록 (Direct Blocks)]
-    └──▶ [i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
+    |
+    +---> [i-node 직접 블록 (Direct Blocks)]
+    +---> [i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -165,7 +165,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 528 / 800
 
-← **이전**: [527. 색인 블록 크기 한계 해결 - 연결 색인, 다중 수준 색인 (Multilevel Index)](/knowledge-base/studynote/02_operating_system/09_file_system/527_index_block_size_limits/)
-**다음**: [529. i-node 직접 블록 (Direct Blocks) - 보통 12~15개, 작은 파일 고속 접근](/knowledge-base/studynote/02_operating_system/09_file_system/529_inode_direct_blocks/) →
+<- **이전**: [527. 색인 블록 크기 한계 해결 - 연결 색인, 다중 수준 색인 (Multilevel Index)](/knowledge-base/studynote/02_operating_system/09_file_system/527_index_block_size_limits/)
+**다음**: [529. i-node 직접 블록 (Direct Blocks) - 보통 12~15개, 작은 파일 고속 접근](/knowledge-base/studynote/02_operating_system/09_file_system/529_inode_direct_blocks/) ->
 
 ---

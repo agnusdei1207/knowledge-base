@@ -36,12 +36,12 @@ Markov Model의 구성요소는 <strong>상태 (<a href="/knowledge-base/studyno
 아래는 동일한 두 개의 노드가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 구성하는 수리 가능 시스템의 단순 CTMC 예다. 두 노드가 모두 살아 있는 상태에서 하나가 고장 나면 열화 상태로 가고, 남은 하나마저 고장 나면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 상태가 된다. 반대로 수리가 끝나면 다시 상위 상태로 복귀한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│       CTMC example: 2-unit repairable cluster availability          │
-├──────────────────────────────────────────────────────────────────────┤
-│ U2: two units up   --2λ-->   U1: one unit up   --λ-->   F0: down    │
-│ U2: two units up   <-- μ --   U1: one unit up   <-- μ --   F0: down │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|       CTMC example: 2-unit repairable cluster availability          |
++----------------------------------------------------------------------+
+| U2: two units up   --2λ-->   U1: one unit up   --λ-->   F0: down    |
+| U2: two units up   <-- μ --   U1: one unit up   <-- μ --   F0: down |
++----------------------------------------------------------------------+
 ```
 
 | 상태 | 의미 | 주요 전이 |
@@ -52,7 +52,7 @@ Markov Model의 구성요소는 <strong>상태 (<a href="/knowledge-base/studyno
 
 이 모델의 생성행렬은 `Q = [[-2λ, 2λ, 0], [μ, -(λ+μ), λ], [0, μ, -μ]]`로 쓸 수 있다. 장기 정상 상태에서 `ρ = λ / μ`라고 두면, 위 단순 모델의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 `A_ss = P(U2) + P(U1) = (1 + 2ρ) / (1 + 2ρ + 2ρ^2)`가 된다. 예를 들어 `λ = 10^-3 / hour`, `μ = 1 / hour`라면 `ρ = 0.001`이고, `A_ss ≈ 0.999998` 수준이 된다. 즉 부품 자체 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)뿐 아니라 <strong>얼마나 빨리 고쳐서 상위 상태로 되돌리는가</strong>가 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 크게 좌우한다.
 
-또한 전환 커버리지 `c`가 완벽하지 않다면 모델은 바로 달라진다. 예를 들어 장애 감지 실패나 승계 실패가 있으면 `U2 → F0`로 가는 직접 전이를 `2λ(1-c)`로 추가해야 한다. 이 한 줄만으로도 "[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)가 있다"는 사실보다 "전환이 정말 성공하는가"가 더 중요할 수 있음을 드러낸다.
+또한 전환 커버리지 `c`가 완벽하지 않다면 모델은 바로 달라진다. 예를 들어 장애 감지 실패나 승계 실패가 있으면 `U2 -> F0`로 가는 직접 전이를 `2λ(1-c)`로 추가해야 한다. 이 한 줄만으로도 "[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)가 있다"는 사실보다 "전환이 정말 성공하는가"가 더 중요할 수 있음을 드러낸다.
 
 - **📢 섹션 요약 비유**: Markov Model은 엘리베이터의 층 이동도와 같다. 고장으로 아래층으로 내려가고, 수리로 다시 올라오며, 어느 층에 오래 머무는지가 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 결정한다.
 
@@ -129,23 +129,23 @@ Markov Model을 잘 쓰면 수리 가능 시스템의 [가용성](/knowledge-bas
 
 ```text
 static reliability view
-    │
-    ▼
+    |
+    v
 state definition
 : fully up · degraded · failed
-    │
-    ▼
+    |
+    v
 Markov model / CTMC
 : λ · μ · coverage
-    │
-    ▼
+    |
+    v
 state probability solution
 : transient · steady-state availability
-    │
-    ├──▶ design decisions
-    │     : repair staffing · spare part · failover policy
-    │
-    └──▶ extensions
+    |
+    +---> design decisions
+    |     : repair staffing · spare part · failover policy
+    |
+    +---> extensions
           : reward model · semi-Markov · simulation
 ```
 
@@ -161,7 +161,7 @@ state probability solution
 
 **진행 상황**: 756 / 803
 
-← **이전**: [754. 신뢰성 블록 다이어그램 (RBD)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/)
-**다음**: [756. 배스터브 곡선 (Bathtub Curve) 고장률](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/) →
+<- **이전**: [754. 신뢰성 블록 다이어그램 (RBD)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/)
+**다음**: [756. 배스터브 곡선 (Bathtub Curve) 고장률](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/) ->
 
 ---

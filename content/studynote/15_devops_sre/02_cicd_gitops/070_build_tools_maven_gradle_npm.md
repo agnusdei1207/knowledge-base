@@ -31,11 +31,11 @@ tags = ["studynote-devops"]
 
 ```text
 Source
-  ↓
+  v
 Build Tool
-  ↓
+  v
 Artifact
-  ↓
+  v
 Deploy
 ```
 
@@ -108,11 +108,11 @@ Deploy
 
 ```text
 Source
-  ↓
+  v
 Build Tool
-  ↓
+  v
 Artifact
-  ↓
+  v
 CI/CD
 ```
 
@@ -122,11 +122,11 @@ CI/CD
 
 ```text
 Maven / Gradle / npm
-  ↓
+  v
 Build Tool
-  ↓
+  v
 Dependency Management
-  ↓
+  v
 CI/CD
 ```
 
@@ -144,7 +144,7 @@ CI/CD
 
 **진행 상황**: 70 / 373
 
-← **이전**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/)
-**다음**: [71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) →
+<- **이전**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/)
+**다음**: [71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ->
 
 ---

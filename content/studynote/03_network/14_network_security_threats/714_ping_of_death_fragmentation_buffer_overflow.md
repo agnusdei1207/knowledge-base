@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
+    |
+    v
 [Ping of Death 대형 패킷 단편화…]
-    │
-    └──▶ [TearDrop 공격]
+    |
+    +---> [TearDrop 공격]
 ```
 
 - **📢 섹션 요약 비유**: Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
+    |
+    v
 [Ping of Death 대형 패킷 단편화…]
-    │
-    └──▶ [TearDrop 공격]
+    |
+    +---> [TearDrop 공격]
 ```
 
 - **📢 섹션 요약 비유**: Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_
 
 ```text
 [선행 개념: ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
+    |
+    v
 [현재 개념: Ping of Death 대형 패킷 단편화…]
-    │
-    ├──▶ [확장 A: TearDrop 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: TearDrop 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…에서 출발해 현재 메커니즘을 정교화하고, 이후 TearDrop 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_
 
 **진행 상황**: 835 / 1120
 
-← **이전**: [713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계](/knowledge-base/studynote/03_network/14_network_security_threats/713_icmp_smurf_attack_directed_broadcast/)
-**다음**: [715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)](/knowledge-base/studynote/03_network/14_network_security_threats/715_teardrop_attack_ip_offset_overlap/) →
+<- **이전**: [713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계](/knowledge-base/studynote/03_network/14_network_security_threats/713_icmp_smurf_attack_directed_broadcast/)
+**다음**: [715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)](/knowledge-base/studynote/03_network/14_network_security_threats/715_teardrop_attack_ip_offset_overlap/) ->
 
 ---

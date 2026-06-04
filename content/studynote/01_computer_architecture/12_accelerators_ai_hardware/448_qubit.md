@@ -26,22 +26,22 @@ tags = ["studynote-computer-architecture"]
 큐비트 개념이 중요해진 배경에는 두 가지가 있다. 첫째, 분자 시뮬레이션·암호 해독·조합 최적화처럼 상태 공간이 폭발하는 문제에서 고전 컴퓨터의 전수 탐색 비용이 너무 크다. 둘째, 자연 자체가 양자역학으로 움직이므로, 어떤 문제는 고전 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)보다 양자 상태를 닮은 정보 단위로 표현해야 더 자연스럽게 풀린다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        고전 비트와 큐비트의 차이: 값 저장 vs 상태 설계       │
-├──────────────────────────────────────────────────────────────┤
-│ 고전 비트                                                     │
-│   0 또는 1 중 하나만 보관                                      │
-│   [ 0 ]   또는   [ 1 ]                                         │
-│                                                              │
-│ 큐비트                                                        │
-│   |ψ⟩ = α|0⟩ + β|1⟩                                           │
-│   측정 전: 두 상태의 진폭과 위상 보유                          │
-│   측정 후: 0 또는 1 하나로 붕괴                                │
-│                                                              │
-│      상태 준비          양자 게이트          측정              │
-│   ─────────────▶ ─────────────▶ ─────────────▶                │
-│      진폭 배치            간섭 설계            고전값 추출      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        고전 비트와 큐비트의 차이: 값 저장 vs 상태 설계       |
++--------------------------------------------------------------+
+| 고전 비트                                                     |
+|   0 또는 1 중 하나만 보관                                      |
+|   [ 0 ]   또는   [ 1 ]                                         |
+|                                                              |
+| 큐비트                                                        |
+|   |ψ⟩ = α|0⟩ + β|1⟩                                           |
+|   측정 전: 두 상태의 진폭과 위상 보유                          |
+|   측정 후: 0 또는 1 하나로 붕괴                                |
+|                                                              |
+|      상태 준비          양자 게이트          측정              |
+|   --------------> --------------> -------------->                |
+|      진폭 배치            간섭 설계            고전값 추출      |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 큐비트가 단순히 "0과 1 사이의 값"이 아니라, <strong>연산 전에 상태 공간을 어떻게 준비하느냐</strong>를 담는 단위라는 점이다. 따라서 큐비트를 이해할 때는 저장 장치보다 파동을 다루는 제어 대상에 가깝게 보는 편이 정확하다.
@@ -65,17 +65,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 단일 큐비트가 준비되고 조작되고 측정되는 최소 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              단일 큐비트의 생애 주기와 병목 지점             │
-├──────────────────────────────────────────────────────────────┤
-│  초기화         게이트 적용            대기/노이즈        측정 │
-│ [|0⟩ 준비] ──▶ [Rx, Rz, H 등] ──▶ [환경 간섭 누적] ──▶ [0/1] │
-│                  │                       │                    │
-│                  │                       └─ 디코히어런스      │
-│                  └─ 진폭·위상 조절                            │
-│                                                              │
-│ 성립 조건: 게이트 시간 × 회로 깊이 < 코히어런스 시간         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              단일 큐비트의 생애 주기와 병목 지점             |
++--------------------------------------------------------------+
+|  초기화         게이트 적용            대기/노이즈        측정 |
+| [|0⟩ 준비] ---> [Rx, Rz, H 등] ---> [환경 간섭 누적] ---> [0/1] |
+|                  |                       |                    |
+|                  |                       +- 디코히어런스      |
+|                  +- 진폭·위상 조절                            |
+|                                                              |
+| 성립 조건: 게이트 시간 × 회로 깊이 < 코히어런스 시간         |
++--------------------------------------------------------------+
 ```
 
 다중 큐비트로 가면 얽힘이 등장한다. 예를 들어 Hadamard 게이트와 Controlled-NOT 게이트를 쓰면 \((|00\rangle + |[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)\rangle)/\sqrt{2}\) 같은 벨 상태를 만들 수 있다. 이 상태는 두 큐비트를 따로 설명할 수 없으므로, 고전적인 "각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값" 모델로는 표현되지 않는다.
@@ -161,29 +161,29 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 고전 비트 (Classical Bit)
-    │
-    ▼
+    |
+    v
 큐비트 (Qubit): 중첩 · 위상 · 측정
-    │
-    ├──▶ 양자 게이트 (Quantum Gate)
-    │         │
-    │         ▼
-    │     얽힘 (Entanglement) 기반 다중 큐비트 회로
-    │
-    ▼
+    |
+    +---> 양자 게이트 (Quantum Gate)
+    |         |
+    |         v
+    |     얽힘 (Entanglement) 기반 다중 큐비트 회로
+    |
+    v
 물리 큐비트 (Physical Qubit)
-    │
-    ▼
+    |
+    v
 양자 오류 정정 (Quantum Error Correction, QEC)
-    │
-    ▼
+    |
+    v
 논리 큐비트 (Logical Qubit)
-    │
-    ▼
+    |
+    v
 내결함 양자 컴퓨팅 (Fault-Tolerant Quantum Computing)
 ```
 
-이 흐름은 "표현 단위의 변화 → 제어 → 확장 → [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 실용화" 순서로 큐비트 개념이 커지는 과정을 보여준다.
+이 흐름은 "표현 단위의 변화 -> 제어 -> 확장 -> [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> 실용화" 순서로 큐비트 개념이 커지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -197,7 +197,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 449 / 803
 
-← **이전**: [447. 양자 컴퓨터 (Quantum Computer) 기초](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)
-**다음**: [449. RAS (Reliability, Availability, Serviceability)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) →
+<- **이전**: [447. 양자 컴퓨터 (Quantum Computer) 기초](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)
+**다음**: [449. RAS (Reliability, Availability, Serviceability)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ->
 
 ---

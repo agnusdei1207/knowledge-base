@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [접근 포트 / 트렁크 포트]
-    │
-    ▼
+    |
+    v
 [DTP / VTP]
-    │
-    └──▶ [ISL]
+    |
+    +---> [ISL]
 ```
 
 - **📢 섹션 요약 비유**: <strong> DTP와 VTP는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 네트워크를 구성할 때 관리자의 야근을 줄여주는 </strong>"자동 연결(DTP)" 및 "자동 복사(VTP)"** 치트키입니다.
@@ -57,24 +57,24 @@ VTP 영역([Domain](/knowledge-base/studynote/05_database/02_modeling_normalizat
 3. **Transparent 모드**: 방관자. VTP 메시지가 들어오면 남에게 전달(Bypass)은 해주지만, 자기 자신은 동기화하지 않고 독자적인 VLAN을 갖는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                VTP 리비전 번호 폭탄(Bomb) 사고                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ Main Switch (Server) ] ──── 트렁크 ──── [ Switch B (Client) ] │
- │    VLAN 10, 20, 30 존재                       (정상 동기화 중)  │
- │    Revision Number: 15                                      │
- │                                                             │
- │   ⚠️ 사고 발생 시나리오:                                        │
- │   다른 테스트망에서 막 쓰다가 'Revision Number가 50'까지 올라가 버린 │
- │   고물 스위치(Server 모드)를 실수로 회사 메인망에 꽂음!              │
- │                                                             │
- │   [ 고물 스위치 ] "야! 내 리비전이 50이야! 내 걸로 다 덮어써!"       │
- │   [ Main Switch ] "헉 50이 최신이네! 내 거 15짜리 다 지우고 덮어쓸게!"│
- │                                                             │
- │   ▶ 결과: 회사의 전사 VLAN(10, 20, 30)이 순식간에 다 삭제되고      │
- │          인터넷 전면 마비 (네트워크 셧다운).                        │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                VTP 리비전 번호 폭탄(Bomb) 사고                |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ Main Switch (Server) ] ---- 트렁크 ---- [ Switch B (Client) ] |
+ |    VLAN 10, 20, 30 존재                       (정상 동기화 중)  |
+ |    Revision Number: 15                                      |
+ |                                                             |
+ |   ⚠️ 사고 발생 시나리오:                                        |
+ |   다른 테스트망에서 막 쓰다가 'Revision Number가 50'까지 올라가 버린 |
+ |   고물 스위치(Server 모드)를 실수로 회사 메인망에 꽂음!              |
+ |                                                             |
+ |   [ 고물 스위치 ] "야! 내 리비전이 50이야! 내 걸로 다 덮어써!"       |
+ |   [ Main Switch ] "헉 50이 최신이네! 내 거 15짜리 다 지우고 덮어쓸게!"|
+ |                                                             |
+ |   -> 결과: 회사의 전사 VLAN(10, 20, 30)이 순식간에 다 삭제되고      |
+ |          인터넷 전면 마비 (네트워크 셧다운).                        |
+ +-------------------------------------------------------------+
 ```
 
 **⚠️ VTP 보안 취약점**: VTP는 누가 보냈든 무조건 <strong>수정 횟수(Revision Number)가 자기보다 더 높은 놈의 말을 무조건 최신 정보로 믿고 덮어쓰는(Overwrite) 멍청한 특징</strong>이 있다. 테스트용 장비를 잘못 꽂았다가 회사 전체 네트워크가 날아가는 사고(VTP Bomb)가 잦아, 현대 실무에서는 VTP 역시 잘 쓰지 않고 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 같은 외부 자동화 툴을 사용한다.
@@ -137,12 +137,12 @@ DTP / VTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ```text
 [선행 개념: 접근 포트 / 트렁크 포트]
-    │
-    ▼
+    |
+    v
 [현재 개념: DTP / VTP]
-    │
-    ├──▶ [확장 A: ISL]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: ISL]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 DTP / VTP는 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ISL와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ DTP / VTP는 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_
 
 **진행 상황**: 369 / 1120
 
-← **이전**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/)
-**다음**: [249. ISL (Inter-Switch Link)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) →
+<- **이전**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/)
+**다음**: [249. ISL (Inter-Switch Link)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) ->
 
 ---

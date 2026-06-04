@@ -31,36 +31,36 @@ tags = ["studynote-operating-system"]
 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위가 아니라 블록 덩어리를 어떻게 쪼개서 자르고 해시를 돌리는지 그 도축 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "지문을 떠서 똑같은 블록 쓰레기는 가차 없이 도축시켜라!"             │
-  ├──────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                      │
-  │  [ 일반 파일 1 ] :  ( A블록 )  ( B블록 )  ( C블록 )                                  │
-  │  [ 일반 파일 2 ] :  ( X블록 )  ( B블록 )  ( Y블록 ) ──> B블록 내용 일치!             │
-  │                                                                                      │
-  │  =========================▼===================================                       │
-  │                                                                                      │
-  │  ✅ [ OS Dedupe 엔진: Hashing(지문 추출) 후 도축 킬러 봇 렌더 록백! ]                │
-  │                                                                                      │
-  │      1단계 (Chunking): 파일을 4KB 단위로 일정하게 토막 냄                            │
-  │      2단계 (Hashing): 각 조각을 SHA-256 돌려서 고유 지문(ID) 생성                    │
-  │      3단계 (DB Search): "어? 파일 2의 B블록 지문 0xF2A가 램(RAM) DB에 이미 있네?"    │
-  │                                                                                      │
-  │  =========================▼===================================                       │
-  │                                                                                      │
-  │  🔥 [ 디스크 실제 저장 형상 (포인터 공유 치환 환상 빔!) ]                            │
-  │                                                                                      │
-  │      [ 메타데이터 맵 트리 ]                   [ 실제 디스크 (철판 물리) 공간 ]       │
-  │      (파일 1 i-node) ───────▶ (A) ───────▶ [ A 진짜 데이터 ] 록백                    │
-  │                         ┌─▶ (B) ───────▶ [ B 진짜 데이터 ] (딱 1개만 생존)           │
-  │      (파일 2 i-node) ────┴──────────┐                                                │
-  │                         │           │                                                │
-  │                           (X) ─── │ ───▶ [ X 진짜 데이터 ] 스왑                      │
-  │                           (Y) ───────▶ [ Y 진짜 데이터 ] 부스트                      │
-  │                                                                                      │
-  │   => 결과: 파일 2의 B블록은 디스크에 아예 안 씀(삭제 증발). 파일 1의 B블록을 가리키는│
-  │           화살표(포인터 포크)만 연결함! 저장 용량 25% 절약(1블록 이득 O(1)) 달성!    │
-  └──────────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------------+
+  |                 "지문을 떠서 똑같은 블록 쓰레기는 가차 없이 도축시켜라!"             |
+  +--------------------------------------------------------------------------------------+
+  |                                                                                      |
+  |  [ 일반 파일 1 ] :  ( A블록 )  ( B블록 )  ( C블록 )                                  |
+  |  [ 일반 파일 2 ] :  ( X블록 )  ( B블록 )  ( Y블록 ) --> B블록 내용 일치!             |
+  |                                                                                      |
+  |  =========================v===================================                       |
+  |                                                                                      |
+  |  ✅ [ OS Dedupe 엔진: Hashing(지문 추출) 후 도축 킬러 봇 렌더 록백! ]                |
+  |                                                                                      |
+  |      1단계 (Chunking): 파일을 4KB 단위로 일정하게 토막 냄                            |
+  |      2단계 (Hashing): 각 조각을 SHA-256 돌려서 고유 지문(ID) 생성                    |
+  |      3단계 (DB Search): "어? 파일 2의 B블록 지문 0xF2A가 램(RAM) DB에 이미 있네?"    |
+  |                                                                                      |
+  |  =========================v===================================                       |
+  |                                                                                      |
+  |  🔥 [ 디스크 실제 저장 형상 (포인터 공유 치환 환상 빔!) ]                            |
+  |                                                                                      |
+  |      [ 메타데이터 맵 트리 ]                   [ 실제 디스크 (철판 물리) 공간 ]       |
+  |      (파일 1 i-node) --------> (A) --------> [ A 진짜 데이터 ] 록백                    |
+  |                         +--> (B) --------> [ B 진짜 데이터 ] (딱 1개만 생존)           |
+  |      (파일 2 i-node) ----+----------+                                                |
+  |                         |           |                                                |
+  |                           (X) --- | ----> [ X 진짜 데이터 ] 스왑                      |
+  |                           (Y) --------> [ Y 진짜 데이터 ] 부스트                      |
+  |                                                                                      |
+  |   => 결과: 파일 2의 B블록은 디스크에 아예 안 씀(삭제 증발). 파일 1의 B블록을 가리키는|
+  |           화살표(포인터 포크)만 연결함! 저장 용량 25% 절약(1블록 이득 O(1)) 달성!    |
+  +--------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Dedupe 시스템의 3단계 명줄 필터다. 1. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자른다(Chunking). 2. 해시를 뜬다(Hashing). 3. 그걸 RAM 혹은 SSD의 <strong>Dedupe Table (DDT 전역 해시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>)</strong> 에 대조해 본다. 중복된 지문이 DB에 있다면 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 물리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 포인터만 던져주고, 새로운 녀석의 Physical Block 저장은 칼같이 커팅(Skip) 해버린다 도출. 이 과정에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간에 딱 1바이트만 글씨가 삽입(Insert) 돼도 기존 4KB 고정 박스들이 뒤로 쭈르륵 밀리면서 모든 해시가 통째로 다 달라지는([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 붕괴) 현상을 막기 위해 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) (가변 길이 청킹 롤링 해시 마스킹 뷰) 알고리즘이 엔터프라이즈의 백본으로 자리 잡았다.
@@ -143,12 +143,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [윈도우 NTFS]
-    │
-    ▼
+    |
+    v
 [데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
-    │
-    ├──▶ [파일 시스템 접근 제어 (Access Control)]
-    └──▶ [SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한]
+    |
+    +---> [파일 시스템 접근 제어 (Access Control)]
+    +---> [SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -165,7 +165,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 546 / 800
 
-← **이전**: [545. 윈도우 NTFS - MFT (Master File Table), 권한 제어(ACL), 파일 압축 및 암호화 지원](/knowledge-base/studynote/02_operating_system/09_file_system/545_windows_ntfs_mft/)
-**다음**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) →
+<- **이전**: [545. 윈도우 NTFS - MFT (Master File Table), 권한 제어(ACL), 파일 압축 및 암호화 지원](/knowledge-base/studynote/02_operating_system/09_file_system/545_windows_ntfs_mft/)
+**다음**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) ->
 
 ---

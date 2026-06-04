@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 2016년, 구글은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 못 가져온다면, 차라리 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델을 핸드폰으로 던져주고 오자!"</strong>라는 미친 역발상을 냈다. 중앙 서버가 빈 깡통 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 전 세계 100만 대의 스마트폰으로 쏴주면, 밤에 충전기를 꽂고 잘 때 스마트폰 자체가 미니 훈련소가 되어 내 카톡 기록으로 혼자 공부를 한다. 아침이 되면 원본 카톡 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대 폰 밖을 나가지 않고, 오직 "어젯밤 훈련으로 변한 수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자 덩어리($\Delta W$)"만 구글 서버로 날아간다. 구글은 이 100만 개의 수학 숫자들을 믹서기로 섞어(평균 내어) 완벽하게 똑똑해진 1개의 메인 AI를 찍어내고, 다시 폰으로 내려보낸다. 이것이 위대한 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/), <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong>의 탄생이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 전 국민을 상대로 한 '원격 요리 교실'이다. 예전엔 맛있는 볶음밥 비법을 찾으려고 집집마다 밥통(개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 구글 본사로 뺏어와서 요리했다. 이젠 구글이 레시피([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)만 집집마다 택배로 보내준다. 집에서 자기 집 쌀과 야채로 혼자 볶아본 뒤, "소금을 1스푼 늘리니까 더 맛있네요([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"라는 '의견(수학값)'만 본사로 편지 보낸다. 본사는 절대 남의 집 주방을 훔쳐보지 않고도 100만 명의 의견을 합쳐 우주 최고의 볶음밥 레시피(업데이트된 메인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 완성한다.
@@ -43,25 +43,25 @@ tags = ["studynote-ai"]
 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 중앙 서버(클라우드)와 엣지 노드(스마트폰, 병원 서버) 사이를 무한대로 핑퐁 치며 돌아간다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           연합 학습 (Federated Learning)의 보안 완벽주의 4단계 루프 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 중앙에서 모델 하강 (Broadcast)]                              │
-│   * 구글 서버 ─▶ 전 세계 10만 대의 폰에 똑같은 빈깡통 뇌(Global Model)를 쏨.│
-│                                                              │
-│  [2. 엣지 디바이스에서 독학 (Local Training)]                      │
-│   * 내 스마트폰: "앗, 주인이 맨날 'ㅋㅋ' 대신 'ㅎㅎ'를 쓰는구나!"          │
-│   * 내 폰 안에서 내 비밀 데이터만 보고 뇌(Local Model) 가중치를 살짝 고침.│
-│                                                              │
-│  [3. 오직 수학적 오차만 서버로 암호화 전송 (Upload)]                  │
-│   * 카톡 원본 글자는 100% 폰에 남김! (데이터 유출 0%)                 │
-│   * 내 폰 ─▶ "가중치 W1은 +0.5, W2는 -0.2로 고치세요"라는 수학 암호만 쏨.│
-│                                                              │
-│  [4. 연합 평균 (FedAvg, Federated Averaging) 조합]              │
-│   * 구글 서버: 10만 대의 폰에서 날아온 암호 수학값들을 쫙 다 더해서 10만으로 나눔.│
-│   * 결과: 단 한 명의 개인정보도 안 훔쳐보고, 10만 명의 지혜가 담긴 우주 최강의 │
-│          천재 메인 모델(Updated Global Model) 뚝딱 완성! (다시 1번으로) │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           연합 학습 (Federated Learning)의 보안 완벽주의 4단계 루프 도해     |
++--------------------------------------------------------------+
+|  [1. 중앙에서 모델 하강 (Broadcast)]                              |
+|   * 구글 서버 --> 전 세계 10만 대의 폰에 똑같은 빈깡통 뇌(Global Model)를 쏨.|
+|                                                              |
+|  [2. 엣지 디바이스에서 독학 (Local Training)]                      |
+|   * 내 스마트폰: "앗, 주인이 맨날 'ㅋㅋ' 대신 'ㅎㅎ'를 쓰는구나!"          |
+|   * 내 폰 안에서 내 비밀 데이터만 보고 뇌(Local Model) 가중치를 살짝 고침.|
+|                                                              |
+|  [3. 오직 수학적 오차만 서버로 암호화 전송 (Upload)]                  |
+|   * 카톡 원본 글자는 100% 폰에 남김! (데이터 유출 0%)                 |
+|   * 내 폰 --> "가중치 W1은 +0.5, W2는 -0.2로 고치세요"라는 수학 암호만 쏨.|
+|                                                              |
+|  [4. 연합 평균 (FedAvg, Federated Averaging) 조합]              |
+|   * 구글 서버: 10만 대의 폰에서 날아온 암호 수학값들을 쫙 다 더해서 10만으로 나눔.|
+|   * 결과: 단 한 명의 개인정보도 안 훔쳐보고, 10만 명의 지혜가 담긴 우주 최강의 |
+|          천재 메인 모델(Updated Global Model) 뚝딱 완성! (다시 1번으로) |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (FedAvg <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>과 <a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>)</strong>:
@@ -135,7 +135,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [연합 학습 (Federated Learning)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [연합 학습 (Federated Learning)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 190 / 420
 
-← **이전**: [189. ZeRO (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/189_zero_deepspeed/)
-**다음**: [191. 설명 가능한 AI (XAI)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/191_xai/) →
+<- **이전**: [189. ZeRO (Zero Redundancy Optimizer)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/189_zero_deepspeed/)
+**다음**: [191. 설명 가능한 AI (XAI)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/191_xai/) ->
 
 ---

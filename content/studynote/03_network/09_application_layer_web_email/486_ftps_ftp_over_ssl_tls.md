@@ -31,35 +31,35 @@ tags = ["studynote-network"]
   3. **RFC 2228 제정**: 1997년, 기존 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 보안 관련 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`AUTH TLS`, `PROT P`)를 추가하는 스펙이 제정되며 FTPS가 공식 표준으로 자리 잡았다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          FTPS의 2가지 동작 모드 (Explicit vs Implicit)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 1. 명시적 모드 (Explicit FTPS) ] - 포트 21번 유지 (표준)          │
-│                                                             │
-│ Client ────(포트 21, 처음엔 평문으로 접속)────▶ Server           │
-│         │                                         │         │
-│         │ "나 평문 싫어! AUTH TLS 할래!" (업그레이드 요청)│         │
-│         │◀───────────── (234 오케이, 암호화 시작!) ─│         │
-│         │                                         │         │
-│         ====== 🔒 이 순간부터 TLS 핸드셰이크 후 암호화 ======     │
-│         │                                         │         │
-│         │ (암호화) USER admin / PASS 1234 ────────▶│         │
-│                                                             │
-│ ----------------------------------------------------------- │
-│                                                             │
-│ [ 2. 묵시적 모드 (Implicit FTPS) ] - 포트 990번 사용 (비표준/사양)    │
-│                                                             │
-│ Client ────(포트 990, 묻지도 따지지도 않고 처음부터 🔒)──▶ Server  │
-│         │                                         │         │
-│         │ 💥 접속하자마자 즉시 TLS 핸드셰이크부터 강제 진행!│         │
-│         │                                         │         │
-│         │ (암호화) USER admin / PASS 1234 ────────▶│         │
-│                                                             │
-│ 🌟 실무 판단: 묵시적 모드(990)는 HTTPS(443)처럼 깔끔해 보이지만, 구형   │
-│ 클라이언트의 접속을 완전히 차단하는 비표준 꼼수다. 현대 인프라에선 기존    │
-│ 21번 포트를 쓰면서 협상을 통해 암호화로 전환하는 명시적(Explicit) 모드가 표준.│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          FTPS의 2가지 동작 모드 (Explicit vs Implicit)         |
++-------------------------------------------------------------+
+|                                                             |
+| [ 1. 명시적 모드 (Explicit FTPS) ] - 포트 21번 유지 (표준)          |
+|                                                             |
+| Client ----(포트 21, 처음엔 평문으로 접속)-----> Server           |
+|         |                                         |         |
+|         | "나 평문 싫어! AUTH TLS 할래!" (업그레이드 요청)|         |
+|         |<-------------- (234 오케이, 암호화 시작!) -|         |
+|         |                                         |         |
+|         ====== 🔒 이 순간부터 TLS 핸드셰이크 후 암호화 ======     |
+|         |                                         |         |
+|         | (암호화) USER admin / PASS 1234 --------->|         |
+|                                                             |
+| ----------------------------------------------------------- |
+|                                                             |
+| [ 2. 묵시적 모드 (Implicit FTPS) ] - 포트 990번 사용 (비표준/사양)    |
+|                                                             |
+| Client ----(포트 990, 묻지도 따지지도 않고 처음부터 🔒)---> Server  |
+|         |                                         |         |
+|         | 💥 접속하자마자 즉시 TLS 핸드셰이크부터 강제 진행!|         |
+|         |                                         |         |
+|         | (암호화) USER admin / PASS 1234 --------->|         |
+|                                                             |
+| 🌟 실무 판단: 묵시적 모드(990)는 HTTPS(443)처럼 깔끔해 보이지만, 구형   |
+| 클라이언트의 접속을 완전히 차단하는 비표준 꼼수다. 현대 인프라에선 기존    |
+| 21번 포트를 쓰면서 협상을 통해 암호화로 전환하는 명시적(Explicit) 모드가 표준.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** FTPS 구축 시 서버 관리자를 헷갈리게 하는 첫 번째 관문이다. Explicit(명시적) 모드는 우아한 타협안이다. 클라이언트가 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 똑같이 들어와서, 서버가 TLS를 지원하면 암호화 통신으로 진화(Upgrade)하고, 지원 안 하면 그냥 평문 FTP로 쓰거나 접속을 끊는다([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 극대화). 반면 Implicit(묵시적) 모드는 990번이라는 별도 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 파서 "여긴 무조건 암호화만 들어와"라고 벽을 친 방식이다. IETF는 표준 스펙에서 990번 묵시적 모드를 공식 폐기(Deprecated)하고, 명시적 모드(AUTH [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))만을 진정한 FTPS 스펙으로 인정하고 있다.
@@ -89,11 +89,11 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
 
 ```text
 [SFTP]
-    │
-    ▼
+    |
+    v
 [FTPS]
-    │
-    └──▶ [이메일 아키텍처]
+    |
+    +---> [이메일 아키텍처]
 ```
 
 - **📢 섹션 요약 비유**: 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무사히 보내려면 중간에 경비 아저씨([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 주소 오타를 몰래 고쳐줘야 하는데, 편지봉투 전체를 강철 자물쇠([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))로 잠가버려서 경비 아저씨가 주소를 고쳐줄 수 없게 되어 결국 택배가 미아가 되는 비극입니다.
@@ -132,29 +132,29 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
    - **판단**: 협력사의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어가 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 열어놓고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Passive) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 안 열었거나, 우리 쪽 NAT가 암호화된 `PASV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽지 못해 패킷이 미아가 된 것이다. 실무 팁: 자바 코드 단에서 `.execPBSZ(0)`와 `.execPROT("P")` 메서드를 명확히 순서대로 호출해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 암호화를 협상하고, `enterLocalPassiveMode()`를 켜서 클라이언트가 밖으로 나가도록 튜닝해야 간신히 통신이 수립된다. 그래도 안 되면 결국 협력사 인프라 팀을 갈궈서 Passive [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 범위를 넓게 타공하라고 압박하는 수밖에 없다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: FTPS의 암호화 계층과 인증서 파이프라인        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [인프라 세팅: SSL/TLS 인증서 탑재]                               │
-  │ 1. Let's Encrypt 나 Verisign에서 도메인(ftp.company.com) 인증서 발급│
-  │ 2. vsftpd.conf 설정:                                        │
-  │    rsa_cert_file=/etc/ssl/certs/ftp.crt                     │
-  │    rsa_private_key_file=/etc/ssl/private/ftp.key            │
-  │    ssl_enable=YES                                           │
-  │    force_local_data_ssl=YES  ◀─ 데이터 채널 평문 금지 🔒       │
-  │    force_local_logins_ssl=YES ◀─ 제어 채널 평문 금지 🔒       │
-  │                                                             │
-  │ [통신 검증: Wireshark 패킷 캡처 시야]                           │
-  │ Client ➔ Server: AUTH TLS (이때만 평문 노출)                   │
-  │ Server ➔ Client: 234 Proceed with negotiation.              │
-  │ === [ TLS Handshake 완료 ] ===                              │
-  │ Client ➔ Server: 0x1A 0xB4... (USER admin 이 암호화됨 🌟)    │
-  │ Client ➔ Server: 0x9F 0xC1... (PASS 1234 가 암호화됨 🌟)     │
-  │                                                             │
-  │ ✅ 판단: 설정 파일 몇 줄과 인증서만 있으면 낡은 FTP 데몬이 그 즉시      │
-  │ 최신 HTTPS 뺨치는 강력한 기밀성 방어 요새로 거듭난다. 단, 방화벽 지옥은 덤.│
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: FTPS의 암호화 계층과 인증서 파이프라인        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [인프라 세팅: SSL/TLS 인증서 탑재]                               |
+  | 1. Let's Encrypt 나 Verisign에서 도메인(ftp.company.com) 인증서 발급|
+  | 2. vsftpd.conf 설정:                                        |
+  |    rsa_cert_file=/etc/ssl/certs/ftp.crt                     |
+  |    rsa_private_key_file=/etc/ssl/private/ftp.key            |
+  |    ssl_enable=YES                                           |
+  |    force_local_data_ssl=YES  <-- 데이터 채널 평문 금지 🔒       |
+  |    force_local_logins_ssl=YES <-- 제어 채널 평문 금지 🔒       |
+  |                                                             |
+  | [통신 검증: Wireshark 패킷 캡처 시야]                           |
+  | Client ➔ Server: AUTH TLS (이때만 평문 노출)                   |
+  | Server ➔ Client: 234 Proceed with negotiation.              |
+  | === [ TLS Handshake 완료 ] ===                              |
+  | Client ➔ Server: 0x1A 0xB4... (USER admin 이 암호화됨 🌟)    |
+  | Client ➔ Server: 0x9F 0xC1... (PASS 1234 가 암호화됨 🌟)     |
+  |                                                             |
+  | ✅ 판단: 설정 파일 몇 줄과 인증서만 있으면 낡은 FTP 데몬이 그 즉시      |
+  | 최신 HTTPS 뺨치는 강력한 기밀성 방어 요새로 거듭난다. 단, 방화벽 지옥은 덤.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 `vsftpd` 환경에서 FTPS를 강제하는 모범 아키텍처 설정이다. `ssl_enable=YES`만 켜두면 평문 접속과 암호화 접속 양다리를 걸치게 되어 해커의 다운그레이드 공격에 당할 수 있다. 반드시 로긴(`force_local_logins_ssl`)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`force_local_data_ssl`) 모두 SSL을 강제(YES)해야 진정한 보안이 완성된다. 와이어샤크로 까봤을 때 오직 `AUTH TLS`라는 명시적 선언 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 딱 한 줄만 사람 눈에 보이고, 그 직후부터는 완벽한 우주어(이진 암호 스트림)로 바뀌어 날아가는 희열을 맛볼 수 있다.
@@ -205,12 +205,12 @@ FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아�
 
 ```text
 [선행 개념: SFTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: FTPS]
-    │
-    ├──▶ [확장 A: 이메일 아키텍처]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: 이메일 아키텍처]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 FTPS는 SFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -227,7 +227,7 @@ FTPS는 SFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이
 
 **진행 상황**: 607 / 1120
 
-← **이전**: [485. SFTP (SSH FTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)
-**다음**: [487. 이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/) →
+<- **이전**: [485. SFTP (SSH FTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)
+**다음**: [487. 이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/) ->
 
 ---

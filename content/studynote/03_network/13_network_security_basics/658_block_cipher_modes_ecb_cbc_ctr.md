@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [SEED, ARIA, LEA]
-    │
-    ▼
+    |
+    v
 [블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    └──▶ [GCM 모드]
+    |
+    +---> [GCM 모드]
 ```
 
 - **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [SEED, ARIA, LEA]
-    │
-    ▼
+    |
+    v
 [블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    └──▶ [GCM 모드]
+    |
+    +---> [GCM 모드]
 ```
 
 - **📢 섹션 요약 비유**: ECB는 매번 똑같은 물감(열쇠)으로 캔버스에 도장을 찍는 것입니다. 도장이 쌓이면 원래 무슨 그림(펭귄)이었는지 테두리가 드러납니다. CBC는 첫 번째 도장을 찍고, 그 찍힌 모양에 맞춰 두 번째 도장 모양을 비틀고(사슬 연결), 세 번째 도장을 또 비틀어 찍어 완벽한 무작위 패턴을 만듭니다. 하지만 앞사람이 찍을 때까지 뒷사람이 기다려야 합니다. CTR은 직원 100명이 각자 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 100군데에서 한꺼번에 제각각의 패턴을 동시에 찍어내어 1초 만에 그림을 완벽히 은폐해버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템입니다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: SEED, ARIA, LEA]
-    │
-    ▼
+    |
+    v
 [현재 개념: 블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ├──▶ [확장 A: GCM 모드]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: GCM 모드]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 SEED, ARIA, LEA에서 출발해 현재 메커니즘을 정교화하고, 이후 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 779 / 1120
 
-← **이전**: [657. SEED, ARIA, LEA](/knowledge-base/studynote/03_network/13_network_security_basics/657_seed_aria_lea_korean_cryptography/)
-**다음**: [659. GCM (Galois/Counter Mode) 모드](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) →
+<- **이전**: [657. SEED, ARIA, LEA](/knowledge-base/studynote/03_network/13_network_security_basics/657_seed_aria_lea_korean_cryptography/)
+**다음**: [659. GCM (Galois/Counter Mode) 모드](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) ->
 
 ---

@@ -26,7 +26,7 @@ tags = ["studynote-database"]
   어떻게 결과를 얻는지 기술
 
   예: 직원 테이블에서 개발팀 직원 이름 조회
-  σ_부서='개발'(직원) → π_이름(결과)
+  σ_부서='개발'(직원) -> π_이름(결과)
 
   연산: σ(선택), π(투영), ⋈(조인), ∪, ∩, -
 
@@ -44,15 +44,15 @@ SQL의 계보:
   FROM 직원
   WHERE 부서 = '개발'
 
-  → 관계 해석의 선언적 정신 계승
-  → 내부 실행 계획은 관계 대수로 변환
+  -> 관계 해석의 선언적 정신 계승
+  -> 내부 실행 계획은 관계 대수로 변환
 
 관계 완전성 (Relational Completeness):
   관계 대수로 표현 가능한 모든 것 = 관계 해석도 표현 가능
   TRC ≡ DRC ≡ 관계 대수 (표현력 동등)
 ```
 
-> 📢 **섹션 요약 비유**: [관계 해석](/knowledge-base/studynote/05_database/07_exam_summary/410_relational_calculus/) vs 대수는 레스토랑 주문 방식 — 해석은 "스테이크 미디엄으로 주세요(결과 명시)", 대수는 "소고기 꺼내서 120°C 20분 굽고..."(과정 명시)!
+> 📢 **섹션 요약 비유**: [관계 해석](/knowledge-base/studynote/05_database/07_exam_summary/410_relational_calculus/) vs 대수는 레스토랑 주문 방식 — 해석은 "스테이크 미디엄으로 주세요(결과 명시)", 대수는 "소고기 꺼내서 120+C 20분 굽고..."(과정 명시)!
 
 ---
 
@@ -71,7 +71,7 @@ TRC (Tuple Relational Calculus):
   - t.A θ 상수: 상수 비교
 
   연결사:
-  - ∧ (AND), ∨ (OR), ¬ (NOT)
+  - ∧ (AND), ∨ (OR), + (NOT)
 
   정량자 (Quantifier):
   - ∃ (존재 정량자, Existential): "어떤 ... 가 존재한다"
@@ -88,7 +88,7 @@ TRC (Tuple Relational Calculus):
 
 예3: 모든 프로젝트에 참여하는 직원 (전체 정량자)
 { t.이름 | EMPLOYEE(t) ∧
-  ∀p (PROJECT(p) →
+  ∀p (PROJECT(p) ->
   ∃w (WORKS_ON(w) ∧ w.직원번호=t.직원번호
        ∧ w.프로젝트번호=p.번호)) }
 
@@ -130,8 +130,8 @@ DRC (Domain Relational Calculus):
   Access 쿼리 디자인 뷰 = QBE의 후손
 
 TRC vs DRC 비교:
-  TRC: 튜플 단위 처리 → SQL에 더 가까움
-  DRC: 속성값 단위 처리 → QBE에 더 가까움
+  TRC: 튜플 단위 처리 -> SQL에 더 가까움
+  DRC: 속성값 단위 처리 -> QBE에 더 가까움
   표현력: 동등 (Codd의 관계 완전성)
 
 실제 SQL과 매핑:
@@ -163,16 +163,16 @@ WHERE e.급여 > 5000
   );
 
 관계:
-  ∃ → EXISTS / IN
-  ∀ → NOT EXISTS + 부정 또는 ALL
-  ∧ → AND
-  ∨ → OR
-  ¬ → NOT
+  ∃ -> EXISTS / IN
+  ∀ -> NOT EXISTS + 부정 또는 ALL
+  ∧ -> AND
+  ∨ -> OR
+  + -> NOT
 
 전체 정량자(∀) SQL 변환:
   "모든 부서에 참여한 직원"
 
-  TRC: ∀d (DEPT(d) → ∃w (WORKS_ON(w) ∧ ...))
+  TRC: ∀d (DEPT(d) -> ∃w (WORKS_ON(w) ∧ ...))
 
   SQL (이중 부정):
   SELECT 이름 FROM EMPLOYEE e
@@ -188,8 +188,8 @@ WHERE e.급여 > 5000
   "존재하지 않는 부서를 가진 직원을 제외"
 
 DBMS 내부:
-  SQL → 관계 해석 파싱 → 관계 대수 변환
-  → 쿼리 최적화 → 실행 계획
+  SQL -> 관계 해석 파싱 -> 관계 대수 변환
+  -> 쿼리 최적화 -> 실행 계획
 ```
 
 > 📢 **섹션 요약 비유**: SQL은 [관계 해석](/knowledge-base/studynote/05_database/07_exam_summary/410_relational_calculus/)의 한국어판 — 수학적 기호({ t | ...})를 사람이 읽기 쉬운 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)-FROM-WHERE로 번역한 것!
@@ -211,7 +211,7 @@ DBMS 내부:
 
 관계 해석 사고:
   { t.name | EMPLOYEE(t) ∧
-    ∀p (PROJECT(p) →
+    ∀p (PROJECT(p) ->
       ∃w (WORKS_ON(w) ∧ w.empno=t.empno
            ∧ w.projno=p.projno)) }
 
@@ -229,7 +229,7 @@ DBMS 내부:
   );
 
 쿼리 최적화기 작동:
-  1. SQL 파싱 → TRC 형태 내부 표현
+  1. SQL 파싱 -> TRC 형태 내부 표현
   2. 관계 대수 트리로 변환:
      σ_조건(EMPLOYEE ⋈ WORKS_ON ⋈ PROJECT)
   3. 조인 순서 최적화 (통계 기반)
@@ -252,15 +252,15 @@ DBMS 내부:
 ```
 관계 해석 (Relational Calculus)
 +-- 종류
-|   +-- TRC (튜플 기반) → SQL
-|   +-- DRC (도메인 기반) → QBE
+|   +-- TRC (튜플 기반) -> SQL
+|   +-- DRC (도메인 기반) -> QBE
 +-- 비교
 |   +-- 관계 대수 (절차적)
 |   +-- 관계 완전성 (동등 표현력)
 +-- 구성
 |   +-- 원자 공식
 |   +-- 정량자 (∃, ∀)
-|   +-- 연결사 (∧, ∨, ¬)
+|   +-- 연결사 (∧, ∨, +)
 +-- 활용
     +-- SQL 변환 (EXISTS, NOT EXISTS)
     +-- DBMS 내부 쿼리 처리
@@ -310,7 +310,7 @@ SQL:2023 표준
 
 **진행 상황**: 45 / 600
 
-← **이전**: [044. 관계 대수 — 나눗셈 연산](/knowledge-base/studynote/05_database/01_db_architecture_relational/044_relational_algebra_division/)
-**다음**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/) →
+<- **이전**: [044. 관계 대수 — 나눗셈 연산](/knowledge-base/studynote/05_database/01_db_architecture_relational/044_relational_algebra_division/)
+**다음**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/) ->
 
 ---

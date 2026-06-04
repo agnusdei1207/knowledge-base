@@ -38,23 +38,23 @@ tags = ["studynote-operating-system"]
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O는 블로킹으로 충분했으나, 1990년대 인터넷의 폭발로 수많은 동시 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 연결([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) Connection)을 처리해야 하면서 `select`, `poll`, `epoll`을 거쳐 현대의 진정한 비동기 I/O 프레임워크(`io_uring`, `AIO`)로 진화했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 블로킹 vs 논블로킹 vs 비동기 I/O의 시간 축 흐름 차이 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 블로킹 (Blocking I/O) ] - 동기적                       │
-  │   App:  호출 ──▶ (기절 / Wait) ──────────────────▶ 데이터 처리 │
-  │   커널:         디스크 헤드 이동 및 버퍼 복사 중... ───┘             │
-  │                                                             │
-  │  [ 2. 논블로킹 (Non-blocking I/O) ] - 동기적                 │
-  │   App:  호출 ─▶ EWOULDBLOCK 즉시반환 ─▶ 다른일 ─▶ 호출 ─▶ 처리 │
-  │   커널:         아직 없음!                   데이터 도착!┘     │
-  │                                                             │
-  │  [ 3. 비동기 (Asynchronous I/O) ] - AIO                     │
-  │   App:  호출(버퍼주소 넘김) ─▶ 즉시반환 ─▶ 계속 딴 일 쭉~~~ (수거안함)│
-  │   커널:         디스크 복사 중.. ─▶ App 버퍼에 채움 ─▶ ⚡ 콜백 발송 │
-  │   App:  (딴 일 하던 중 콜백에 맞음) ───────▶ 즉시 데이터 사용      │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 블로킹 vs 논블로킹 vs 비동기 I/O의 시간 축 흐름 차이 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 블로킹 (Blocking I/O) ] - 동기적                       |
+  |   App:  호출 ---> (기절 / Wait) -------------------> 데이터 처리 |
+  |   커널:         디스크 헤드 이동 및 버퍼 복사 중... ---+             |
+  |                                                             |
+  |  [ 2. 논블로킹 (Non-blocking I/O) ] - 동기적                 |
+  |   App:  호출 --> EWOULDBLOCK 즉시반환 --> 다른일 --> 호출 --> 처리 |
+  |   커널:         아직 없음!                   데이터 도착!+     |
+  |                                                             |
+  |  [ 3. 비동기 (Asynchronous I/O) ] - AIO                     |
+  |   App:  호출(버퍼주소 넘김) --> 즉시반환 --> 계속 딴 일 쭉~~~ (수거안함)|
+  |   커널:         디스크 복사 중.. --> App 버퍼에 채움 --> ⚡ 콜백 발송 |
+  |   App:  (딴 일 하던 중 콜백에 맞음) --------> 즉시 데이터 사용      |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** I/O 모델의 핵심 분기점은 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 올리는 무거운 물리적 시간(수십 ms) 동안, 앱(CPU)이 무엇을 하고 있는가?"에 있다. 블로킹은 까만 공백으로 완전히 CPU를 낭비(대기)한다. 논블로킹은 제어권을 바로 반환받아 딴짓을 할 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 됐는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 앱이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 반복적으로 귀찮게 찌르는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 비용이 든다. 궁극체인 비동기는 앱이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 필요조차 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다 떠먹여 주므로 CPU 효율의 정점을 찍는다.
@@ -86,25 +86,25 @@ tags = ["studynote-operating-system"]
 이 딜레마를 해결한 것이 I/O 멀티플렉싱이다. 여러 개의 I/O([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 상태를 단 하나의 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)로 모니터링하는 기술이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 I/O Multiplexing (epoll) 작동 아키텍처                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 1명의 스레드가 10,000개의 소켓을 감독하는 기적 ]                      │
-  │                                                                   │
-  │   App ──▶ OS에게 지시: "epoll_wait() 야! 소켓 1만 개 중에 패킷 도착한 │
-  │                       놈이 생길 때까지 나 잠시 대기(블로킹)할게."       │
-  │                                                                   │
-  │   OS  ──▶ (네트워크 랜카드에 패킷 도착. 하드웨어 인터럽트 발생!)        │
-  │       ──▶ 1. 패킷 까보니 소켓 FD 777번꺼네.                       │
-  │       ──▶ 2. epoll의 Red-Black 트리에 관리되던 777번을           │
-  │              [준비된 리스트 (Ready List)] 로 복사해서 옮겨놓음.      │
-  │       ──▶ 3. 잠들어 있던 App을 깨움! (Wake up)                   │
-  │                                                                   │
-  │   App ──▶ 깨어나서 OS가 건네준 [Ready List]를 보니 FD 777번이 있네?  │
-  │       ──▶ 4. 소켓 777번에 대고 `read()` 호출! (무조건 데이터 있음)   │
-  │       ──▶ 5. 다른 9,999개 소켓은 건드리지도 않고 깔끔하게 처리 끝!     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 I/O Multiplexing (epoll) 작동 아키텍처                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 1명의 스레드가 10,000개의 소켓을 감독하는 기적 ]                      |
+  |                                                                   |
+  |   App ---> OS에게 지시: "epoll_wait() 야! 소켓 1만 개 중에 패킷 도착한 |
+  |                       놈이 생길 때까지 나 잠시 대기(블로킹)할게."       |
+  |                                                                   |
+  |   OS  ---> (네트워크 랜카드에 패킷 도착. 하드웨어 인터럽트 발생!)        |
+  |       ---> 1. 패킷 까보니 소켓 FD 777번꺼네.                       |
+  |       ---> 2. epoll의 Red-Black 트리에 관리되던 777번을           |
+  |              [준비된 리스트 (Ready List)] 로 복사해서 옮겨놓음.      |
+  |       ---> 3. 잠들어 있던 App을 깨움! (Wake up)                   |
+  |                                                                   |
+  |   App ---> 깨어나서 OS가 건네준 [Ready List]를 보니 FD 777번이 있네?  |
+  |       ---> 4. 소켓 777번에 대고 `read()` 호출! (무조건 데이터 있음)   |
+  |       ---> 5. 다른 9,999개 소켓은 건드리지도 않고 깔끔하게 처리 끝!     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** Nginx와 Redis가 단 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 세계 최고의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽐내는 비밀이 바로 이 `epoll`(Mac은 `kqueue`) 아키텍처다. 논블로킹 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 1만 개를 일일이 찔러보는 바보짓 대신, 1만 개를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 등록만 해놓고 앱은 `epoll_wait()`라는 한 곳에서 편하게 블로킹 상태로 기다린다(이때 CPU 소모율 0%). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받아 "이벤트가 발생한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 명단"만 쏙 뽑아서 앱에게 전달한다. 앱은 그 명단에 있는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)들만 쏙쏙 논블로킹으로 읽어 들이면 된다. (이벤트 주도형 아키텍처, Event-Driven).
@@ -144,25 +144,25 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (리눅스 최고봉 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a> 사용)</strong>: 기존 리눅스 AIO는 제약이 많고 멍청했다. 최신 5.1 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이상이라면 <strong><code>io_uring</code></strong> 프레임워크를 전격 도입한다. 앱과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 메모리를 공유(Shared Ring Buffer)하여, 앱이 버퍼에 "이거 100개 디스크에서 읽어줘"라고 쓱 써놓기만 하면 시스템 콜 호출 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 알아서 읽어오고 결과 버퍼에 표시해 둔다. 앱은 시스템 콜(Syscall) 오버헤드 0번으로 극한의 비동기 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(수백만 IOPS)을 달성할 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 고성능 네트워크/파일 서버 설계를 위한 의사결정 트리         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 동시 접속자 수 및 I/O 특성을 분석한다 ]                              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      동시 커넥션이 수만~수십만 개이고(C10K+), 빠른 응답(I/O Bound) 위주인가? │
-  │          ├─ 아니오 ──▶ [ Thread-per-Request 모델 무방 (Java Tomcat) ]│
-  │          │             (비즈니스 로직이 무겁고, 코어 수가 많을 때 안정적임)   │
-  │          └─ 예 ─────▶ [ Event-Driven Non-blocking 모델 도입 필수! ]   │
-  │                │                                                  │
-  │                ▼ 세부 프레임워크 선택                                   │
-  │      주요 부하가 네트워크 소켓 I/O 인가? 파일 디스크 I/O 인가?                 │
-  │          ├─ [ 네트워크 I/O ] ──▶ `epoll` 기반 프레임워크 (Nginx, Netty, Node)│
-  │          │                                                        │
-  │          └─ [ 파일 디스크 I/O ] ─▶ `io_uring` 또는 `Direct I/O` + Thread Pool│
-  │                                 (※ 일반 파일 I/O는 epoll이 잘 안 먹힘 주의!)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 고성능 네트워크/파일 서버 설계를 위한 의사결정 트리         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 동시 접속자 수 및 I/O 특성을 분석한다 ]                              |
+  |                |                                                  |
+  |                v                                                  |
+  |      동시 커넥션이 수만~수십만 개이고(C10K+), 빠른 응답(I/O Bound) 위주인가? |
+  |          +- 아니오 ---> [ Thread-per-Request 모델 무방 (Java Tomcat) ]|
+  |          |             (비즈니스 로직이 무겁고, 코어 수가 많을 때 안정적임)   |
+  |          +- 예 ------> [ Event-Driven Non-blocking 모델 도입 필수! ]   |
+  |                |                                                  |
+  |                v 세부 프레임워크 선택                                   |
+  |      주요 부하가 네트워크 소켓 I/O 인가? 파일 디스크 I/O 인가?                 |
+  |          +- [ 네트워크 I/O ] ---> `epoll` 기반 프레임워크 (Nginx, Netty, Node)|
+  |          |                                                        |
+  |          +- [ 파일 디스크 I/O ] --> `io_uring` 또는 `Direct I/O` + Thread Pool|
+  |                                 (※ 일반 파일 I/O는 epoll이 잘 안 먹힘 주의!)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스의 뼈아픈 진실은 "네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)은 논블로킹과 epoll이 완벽히 지원되지만, 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 진정한 논블로킹을 거의 지원하지 않는다"는 것이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기에 `O_NONBLOCK`을 걸어도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크를 뒤지는 동안은 결국 앱이 블로킹된다. 그래서 아키텍트는 디스크 I/O가 잦은 웹 서버는 Nginx [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 따로 파서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 찌꺼기를 처리하게 격리시키거나, 차세대 마법인 `io_uring`으로 아키텍처를 갈아엎는 결단을 내려야 한다.
@@ -212,12 +212,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [저널링 파일 시스템 트랜잭션 로그]
-    │
-    ▼
+    |
+    v
 [블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)]
-    │
-    ├──▶ [슬랩 (Slab) 할당기 객체 캐싱]
-    └──▶ [디바이스 드라이버 모듈 인터페이스]
+    |
+    +---> [슬랩 (Slab) 할당기 객체 캐싱]
+    +---> [디바이스 드라이버 모듈 인터페이스]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -234,7 +234,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 759 / 800
 
-← **이전**: [758. 저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)](/knowledge-base/studynote/02_operating_system/11_exam_summary/758_journaling_file_system_transaction_log/)
-**다음**: [760. 슬랩 (Slab) 할당기 객체 캐싱](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) →
+<- **이전**: [758. 저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)](/knowledge-base/studynote/02_operating_system/11_exam_summary/758_journaling_file_system_transaction_log/)
+**다음**: [760. 슬랩 (Slab) 할당기 객체 캐싱](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) ->
 
 ---

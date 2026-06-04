@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 Repeatable Read (레벨 2)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락 유지 (MySQL 기본, [Phantom Read](/knowledge-base/studynote/05_database/04_transactions_concurrency/207_phantom_read_insert_range_query/) 발생 가능성)에 초점을 맞춘 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 Repeatable Read를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ Repeatable Read는 결국 "언제 보고, 어디에서 적용하고, 무엇을 �
 | 운영 주의 | `Read Committed`·`Serializable`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 Repeatable Read를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ Repeatable Read를 올바르게 적용하면 구조를 단순화하고, 정합�
 
 ```text
 [Read Committed]
-    │
-    ▼
+    |
+    v
 [Repeatable Read]
-    │
-    ├──▶ [Serializable]
-    └──▶ [데이터베이스 장애 유형]
+    |
+    +---> [Serializable]
+    +---> [데이터베이스 장애 유형]
 ```
 
 Read Committed에서 출발한 논점이 Repeatable Read에서 핵심 판단으로 모이고, 이후 [Serializable](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/)·[데이터베이스 장애 유형](/knowledge-base/studynote/05_database/04_transactions_concurrency/232_database_failure_types_transaction_system_media/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ Read Committed에서 출발한 논점이 Repeatable Read에서 핵심 판단으�
 
 **진행 상황**: 230 / 600
 
-← **이전**: [229. Read Committed (Read committed Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/229_read_committed_isolation_level/)
-**다음**: [231. Serializable (Serializable Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) →
+<- **이전**: [229. Read Committed (Read committed Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/229_read_committed_isolation_level/)
+**다음**: [231. Serializable (Serializable Isolation Level)](/knowledge-base/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) ->
 
 ---

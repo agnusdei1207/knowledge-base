@@ -30,31 +30,31 @@ tags = ["studynote-network"]
 기존 경계 보안 모델의 한계와 사이버 [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)이 개입하는 지점을 킬체인 (Kill Chain) 관점에서 시각화하면 다음과 같다. 공격자가 내부망에 진입한 후의 정찰 단계에서 [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)이 어떻게 작동하는지 확인할 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         사이버 킬체인(Kill Chain)과 기만 기술의 방어 지점          │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [외부 방어선]                [내부 네트워크]                     │
-  │                                                             │
-  │  1. 정찰/무기화               3. 내부 정찰 (Lateral Movement)    │
-  │      │  (IDS/IPS 방어)           │                          │
-  │      ▼                          ▼                          │
-  │  2. 침투/실행 (Exploit) ──▶  4. 권한 상승 및 C&C 통신           │
-  │      │                          │                          │
-  │      ▼                          ▼                          │
-  │  (경계 보안 돌파됨)            5. 목적 달성 (데이터 유출/파괴)      │
-  │                                                             │
-  │  ───────── [기만 기술(Deception)의 개입] ─────────           │
-  │                                                             │
-  │  공격자 ──▶ 진짜 서버 (App DB)  ← 보호 대상                    │
-  │         │                                                   │
-  │         └─▶ 가짜 자격증명 (Breadcrumb) 획득                  │
-  │         │                                                   │
-  │         └─▶ 가짜 서버 (Honeypot) 접근 ──▶ [100% 탐지 & 격리] │
-  │                                                             │
-  │  ※ 기만 기술은 공격자의 '내부 정찰(3)'을 '가짜 목표'로 유도하여       │
-  │     가장 결정적인 순간에 공격 체인을 끊어버림.                    │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         사이버 킬체인(Kill Chain)과 기만 기술의 방어 지점          |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [외부 방어선]                [내부 네트워크]                     |
+  |                                                             |
+  |  1. 정찰/무기화               3. 내부 정찰 (Lateral Movement)    |
+  |      |  (IDS/IPS 방어)           |                          |
+  |      v                          v                          |
+  |  2. 침투/실행 (Exploit) --->  4. 권한 상승 및 C&C 통신           |
+  |      |                          |                          |
+  |      v                          v                          |
+  |  (경계 보안 돌파됨)            5. 목적 달성 (데이터 유출/파괴)      |
+  |                                                             |
+  |  --------- [기만 기술(Deception)의 개입] ---------           |
+  |                                                             |
+  |  공격자 ---> 진짜 서버 (App DB)  <- 보호 대상                    |
+  |         |                                                   |
+  |         +--> 가짜 자격증명 (Breadcrumb) 획득                  |
+  |         |                                                   |
+  |         +--> 가짜 서버 (Honeypot) 접근 ---> [100% 탐지 & 격리] |
+  |                                                             |
+  |  ※ 기만 기술은 공격자의 '내부 정찰(3)'을 '가짜 목표'로 유도하여       |
+  |     가장 결정적인 순간에 공격 체인을 끊어버림.                    |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적인 방어는 킬체인의 앞단인 외부 침투 차단(1, 2단계)에 집중하지만, [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 위협이나 사회공학적 기법 앞에서는 결국 돌파당하기 마련이다. 사이버 [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)은 공격자가 내부망에 들어왔음을 가정하고(Assume Breach), 내부 정찰 단계(3단계)에서 가짜 정보(Breadcrumb)와 가짜 자산(Honeypot)을 제공한다. 정상적인 내부 직원은 숨겨진 가짜 서버에 접근할 이유가 없으므로, [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)에 대한 접근 시도는 그 자체로 악의적 행위의 확정적 증거(True Positive)가 되며 즉각적인 격리 조치로 이어진다.
@@ -78,37 +78,37 @@ tags = ["studynote-network"]
 현대 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/)은 단순히 정적 서버를 열어두는 것을 넘어, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([Software Defined Networking](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/)) 기반으로 공격자의 스캐닝 행위를 감지하는 순간 동적으로 가짜 IP와 토폴로지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 공격자를 격리망으로 투명하게 리다이렉트 (Redirect) 시킨다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         지능형 동적 허니넷 (Dynamic Honeynet) 아키텍처                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │                    [CTI 분석 & 제어 평면]                           │
-  │                ┌──────────────────────────────┐                   │
-  │                │  Honeynet Controller (SDN)   │                   │
-  │                │  - 트래픽 분석 및 룰 생성         │                   │
-  │                └──────┬─────────────────┬─────┘                   │
-  │                         │ 정책 하달        │ 동적 프로비저닝           │
-  │                         ▼                ▼                       │
-  │                 ┌──────────────┐   ┌───────────────────────┐    │
-  │   정상 사용자 ─▶ │ SDN Switch   │ ─▶│ Real Production Net   │    │
-  │                 │ (OpenFlow)   │   │ (웹, DB, 인트라넷)     │    │
-  │                 └────────┬─────┘   └───────────────────────┘    │
-  │                          │                                        │
-  │         [공격자 탐지 시]   │ 리다이렉션 (Transparent)                  │
-  │         (ARP 스캐닝 등)    ▼                                        │
-  │                 ┌────────────────────────────────────────┐        │
-  │                 │      Decoy Network (격리망 / 유인망)       │        │
-  │   공격자 ─────▶ │ ┌─────────┐  ┌─────────┐  ┌─────────┐  │        │
-  │ (Breadcrumb   │ │ │ High-   │  │ Low-    │  │ 가짜 AD │  │        │
-  │  사용)        │ │ │ Interact│  │ Interact│  │ 서버    │  │        │
-  │                 │ └─────────┘  └─────────┘  └─────────┘  │        │
-  │                 └────────────────────────────────────────┘        │
-  │                                                                   │
-  │   ① 공격자가 엔드포인트에서 탈취한 가짜 계정(Breadcrumb)으로 접근 시도       │
-  │   ② SDN 스위치가 이를 감지하고 컨트롤러에 보고                          │
-  │   ③ 컨트롤러가 공격자 세션을 끊지 않고 유인망(Decoy Network)으로 전환      │
-  │   ④ 공격자는 자신이 실제 망을 장악했다고 착각하며 페이로드를 다운로드       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         지능형 동적 허니넷 (Dynamic Honeynet) 아키텍처                |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |                    [CTI 분석 & 제어 평면]                           |
+  |                +------------------------------+                   |
+  |                |  Honeynet Controller (SDN)   |                   |
+  |                |  - 트래픽 분석 및 룰 생성         |                   |
+  |                +------+-----------------+-----+                   |
+  |                         | 정책 하달        | 동적 프로비저닝           |
+  |                         v                v                       |
+  |                 +--------------+   +-----------------------+    |
+  |   정상 사용자 --> | SDN Switch   | -->| Real Production Net   |    |
+  |                 | (OpenFlow)   |   | (웹, DB, 인트라넷)     |    |
+  |                 +--------+-----+   +-----------------------+    |
+  |                          |                                        |
+  |         [공격자 탐지 시]   | 리다이렉션 (Transparent)                  |
+  |         (ARP 스캐닝 등)    v                                        |
+  |                 +----------------------------------------+        |
+  |                 |      Decoy Network (격리망 / 유인망)       |        |
+  |   공격자 ------> | +---------+  +---------+  +---------+  |        |
+  | (Breadcrumb   | | | High-   |  | Low-    |  | 가짜 AD |  |        |
+  |  사용)        | | | Interact|  | Interact|  | 서버    |  |        |
+  |                 | +---------+  +---------+  +---------+  |        |
+  |                 +----------------------------------------+        |
+  |                                                                   |
+  |   ① 공격자가 엔드포인트에서 탈취한 가짜 계정(Breadcrumb)으로 접근 시도       |
+  |   ② SDN 스위치가 이를 감지하고 컨트롤러에 보고                          |
+  |   ③ 컨트롤러가 공격자 세션을 끊지 않고 유인망(Decoy Network)으로 전환      |
+  |   ④ 공격자는 자신이 실제 망을 장악했다고 착각하며 페이로드를 다운로드       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처의 핵심은 "투명한 리다이렉션 (Transparent Redirection)"이다. 과거의 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)은 공격자가 직접 해당 IP로 찾아와야 했지만, 지능형 모델에서는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 스위치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)에서 공격자의 패킷을 실시간 검사한다. 만약 패킷이 사전에 심어둔 브레드크럼(가짜 자격증명이나 허위 DB 연결 문자열)을 사용하거나 미사용 IP 대역을 스캔하는 경우, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 즉시 흐름(Flow) 규칙을 수정하여 공격자의 트래픽을 실제 프로덕션 망이 아닌 격리된 유인망 (Decoy Network)으로 보낸다. 공격자는 벤도, 핑 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 등에서 차이를 느끼지 못하므로 자신이 성공적으로 실제 망을 해킹하고 있다고 착각하게 되며, 이 과정에서 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 익스플로잇이나 C&C 서버 주소 같은 핵심 인텔리전스가 방어자에게 고스란히 노출된다.
@@ -142,24 +142,24 @@ tags = ["studynote-network"]
 기존의 탐지 시스템이 "아는 공격(Known Threat)"을 걸러내는 거름망이라면, [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)은 "모르는 공격(Unknown Threat)"을 유인하는 자석이다. IDS는 대용량 트래픽을 실시간으로 분석해야 하므로 병목이 발생하지만, [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)은 가짜 자산으로 향하는 트래픽만 모니터링하므로 시스템 부하가 혁신적으로 낮다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         상호작용 수준(Interaction Level)에 따른 트레이드오프           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [Low-Interaction]                               [High-Interaction]│
-  │   에뮬레이션 기반 (포트만 오픈)                       실제 OS 기반 (VM)   │
-  │                                                                   │
-  │  ▲ 확장성 / 안전성                                 위협 인텔리전스 품질 ▲│
-  │  │ ■■■■■■■■■□□□                                 ■■■■■■■■■■■■ │
-  │  │ (수천 개 IP 동시 할당)                       (제로데이 페이로드 확보)│
-  │  │                                                                │
-  │  │ ■■■□□□□□□□□                                 ■■■■■■■■■■■■ │
-  │  │ 리스크 수준                                     리스크 수준      │
-  │  ▼ (공격자가 장악 불가)                          (아웃바운드 공격 위험) ▼│
-  │                                                                   │
-  │  적용: 경계망 포트 스캔 탐지, 웜 바이러스 수집       적용: APT 그룹 분석, 봇넷 │
-  │        IT/OT 하이브리드 환경의 대규모 센서망         C&C 역추적, 신종 랜섬웨어 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         상호작용 수준(Interaction Level)에 따른 트레이드오프           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [Low-Interaction]                               [High-Interaction]|
+  |   에뮬레이션 기반 (포트만 오픈)                       실제 OS 기반 (VM)   |
+  |                                                                   |
+  |  ^ 확장성 / 안전성                                 위협 인텔리전스 품질 ^|
+  |  | ■■■■■■■■■□□□                                 ■■■■■■■■■■■■ |
+  |  | (수천 개 IP 동시 할당)                       (제로데이 페이로드 확보)|
+  |  |                                                                |
+  |  | ■■■□□□□□□□□                                 ■■■■■■■■■■■■ |
+  |  | 리스크 수준                                     리스크 수준      |
+  |  v (공격자가 장악 불가)                          (아웃바운드 공격 위험) v|
+  |                                                                   |
+  |  적용: 경계망 포트 스캔 탐지, 웜 바이러스 수집       적용: APT 그룹 분석, 봇넷 |
+  |        IT/OT 하이브리드 환경의 대규모 센서망         C&C 역추적, 신종 랜섬웨어 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 저상호작용 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)은 시스템 리소스(RAM, CPU)를 거의 차지하지 않아 IP 주소 수만 개를 한 대의 서버로 커버할 수 있을 정도로 확장성이 뛰어나다. 주로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔을 수행하는 자동화된 웜([Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))이나 스크립트 키디를 조기 탐지하는 레이더 역할을 한다. 반면 고상호작용 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)은 실제 운영체제를 할당해야 하므로 리소스 비용이 크고, 해커가 시스템을 완전히 장악할 수 있어 다른 곳을 공격하는 발판([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))으로 악용될 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 있다. 따라서 실무에서는 네트워크 경계나 광범위한 서브넷에는 저상호작용 센서를 깔아 경보를 발생시키고, 해커가 더 깊이 침투하려 할 때만 고상호작용 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/)으로 트래픽을 넘겨주는 하이브리드 (Hybrid) 아키텍처를 채택한다.
@@ -177,32 +177,32 @@ tags = ["studynote-network"]
 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 구축 시 가장 주의해야 할 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 및 의사결정 플로우를 시각화하면 다음과 같다. 공격자가 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)을 역이용하는 것을 막는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제어 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Control)가 핵심이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         허니넷(Honeynet) 아웃바운드 트래픽 통제 의사결정 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [공격자가 허니팟(VM)을 성공적으로 장악함]                              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공격자가 외부 인터넷/내부망으로 패킷(Outbound) 전송 시도             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [Outbound Gateway / Honeywall 접근 제어 판단]                 │
-  │          ├─ 정책 1: C&C 서버 통신인가? (DNS 쿼리, 악성 IP)              │
-  │          │      └─▶ [허용하되 패킷 캡처 (공격자 의도 파악)]             │
-  │          │                                                        │
-  │          ├─ 정책 2: 대량 트래픽(DDoS) 발생인가?                      │
-  │          │      └─▶ [즉시 Drop 처리 및 대역폭 제한 (Rate Limit)]     │
-  │          │                                                        │
-  │          ├─ 정책 3: 내부 사내망(Production Net) 스캔 시도인가?       │
-  │          │      └─▶ [절대 차단 (VLAN/라우팅 테이블 원천 격리)]        │
-  │          │                                                        │
-  │          └─ 정책 4: 악성코드 추가 다운로드 (Dropper) 시도인가?         │
-  │                 └─▶ [파일 다운로드 허용 후 악성코드 샌드박스로 미러링] │
-  │                                                                   │
-  │   ⚠ 주의: 통제가 너무 엄격하면 해커가 허니팟임을 눈치채고 이탈함 (Fingerprinting)│
-  │   ✅ 목표: 해커가 성공했다고 믿게 만들면서, 타 시스템 피해는 0으로 유지     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |         허니넷(Honeynet) 아웃바운드 트래픽 통제 의사결정 플로우            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [공격자가 허니팟(VM)을 성공적으로 장악함]                              |
+  |                |                                                  |
+  |                v                                                  |
+  |      공격자가 외부 인터넷/내부망으로 패킷(Outbound) 전송 시도             |
+  |                |                                                  |
+  |                v                                                  |
+  |      [Outbound Gateway / Honeywall 접근 제어 판단]                 |
+  |          +- 정책 1: C&C 서버 통신인가? (DNS 쿼리, 악성 IP)              |
+  |          |      +--> [허용하되 패킷 캡처 (공격자 의도 파악)]             |
+  |          |                                                        |
+  |          +- 정책 2: 대량 트래픽(DDoS) 발생인가?                      |
+  |          |      +--> [즉시 Drop 처리 및 대역폭 제한 (Rate Limit)]     |
+  |          |                                                        |
+  |          +- 정책 3: 내부 사내망(Production Net) 스캔 시도인가?       |
+  |          |      +--> [절대 차단 (VLAN/라우팅 테이블 원천 격리)]        |
+  |          |                                                        |
+  |          +- 정책 4: 악성코드 추가 다운로드 (Dropper) 시도인가?         |
+  |                 +--> [파일 다운로드 허용 후 악성코드 샌드박스로 미러링] |
+  |                                                                   |
+  |   ⚠ 주의: 통제가 너무 엄격하면 해커가 허니팟임을 눈치채고 이탈함 (Fingerprinting)|
+  |   ✅ 목표: 해커가 성공했다고 믿게 만들면서, 타 시스템 피해는 0으로 유지     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 고상호작용 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)에서 가장 치명적인 사고는 '[허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)이 실제 공격의 경유지([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))'가 되는 법적, 윤리적 문제다. 이를 막기 위해 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/)과 외부망 사이에는 허니월 (Honeywall)이라는 특수 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/IPS가 존재한다. 허니월은 인바운드 공격은 모두 허용하지만, 아웃바운드 트래픽은 극도로 정교하게 제어해야 한다. 공격자가 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)) 마스터 서버와 소량의 명령을 주고받는 것은 위협 인텔리전스 수집을 위해 은밀히 통과시켜 주어야 하지만, 대량의 DDoS 공격 패킷을 쏘거나 내부의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스로 핑(Ping)을 날리는 행위는 철저히 차단해야 한다. 이 "차단하되 해커가 눈치채지 못하게 조작하는 기술(예: 가짜 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))"이 고급 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/) 엔지니어링의 핵심이다.
@@ -237,18 +237,18 @@ tags = ["studynote-network"]
 결론적으로, 사이버 [기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)([Deception Technology](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/))은 방어자가 항상 수세에 몰려있던 비대칭적인 사이버 전장의 룰을 바꾸는 게임 체인저(Game Changer)다. 적의 완벽한 1회의 공격 성공을 막기 위해 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번을 방어해야 했던 과거에서 벗어나, 적이 1번의 가짜 자산을 건드리는 순간 전체 공격 캠페 বাস্তবায়을 무력화할 수 있는 강력한 '[액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 디펜스 ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Defense)' 전략으로 진화하고 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │              사이버 기만 기술의 진화 로드맵 (Evolution)              │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  1세대 (1990s)     2세대 (2000s)      3세대 (2010s)       4세대 (현재/미래) │
-  │  [Honeypot]  ──▶ [Honeynet]  ──▶ [Deception]  ──▶ [AI 동적 기만]    │
-  │      │                 │                 │                  │        │
-  │   단일 서버        여러 서버 연동      분산 브레드크럼   머신러닝 기반 생성 │
-  │   수동 분석        데이터 제어 집중    엔드포인트 연동   트래픽 예측 프로비저닝│
-  │                                                                  │
-  │  가치 변화: "증거 수집" ──▶ "네트워크 보호" ──▶ "실시간 격리 및 능동 방어" │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |              사이버 기만 기술의 진화 로드맵 (Evolution)              |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  1세대 (1990s)     2세대 (2000s)      3세대 (2010s)       4세대 (현재/미래) |
+  |  [Honeypot]  ---> [Honeynet]  ---> [Deception]  ---> [AI 동적 기만]    |
+  |      |                 |                 |                  |        |
+  |   단일 서버        여러 서버 연동      분산 브레드크럼   머신러닝 기반 생성 |
+  |   수동 분석        데이터 제어 집중    엔드포인트 연동   트래픽 예측 프로비저닝|
+  |                                                                  |
+  |  가치 변화: "증거 수집" ---> "네트워크 보호" ---> "실시간 격리 및 능동 방어" |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1세대 [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)은 단순히 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어두고 어떤 공격이 들어오는지 연구하는 학술적 목적(증거 수집)이 강했다. 2세대 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/)은 이를 네트워크 레벨로 확장하여 허니월(Honeywall)이라는 트래픽 통제 개념을 도입했다. 3세대부터 본격적인 기업용 '[기만 기술](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/693_deception_technology/)(Deception)' 명칭이 사용되었으며, 엔드포인트에 브레드크럼을 흩뿌려 선제적으로 공격자를 덫으로 이끄는 구조를 완성했다. 현재와 미래의 4세대는 AI가 사내망의 구조와 트래픽 패턴을 학습해, 평소에는 존재하지 않다가 해커가 탐색을 시도하는 순간에만 동적으로 가짜 환경을 프로비저닝하여 클라우드 자원 비용을 최소화하고 핑거프린팅을 완벽히 회피하는 방향으로 진화하고 있다.
@@ -270,12 +270,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 파일 카빙]
-    │
-    ▼
+    |
+    v
 [현재 개념: 포니팟 허니넷 유인 분리망 분석 시스템 /…]
-    │
-    ├──▶ [확장 A: 기저대역 선로 부호]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 기저대역 선로 부호]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 포니팟 [허니넷](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/) 유인 분리망 분석 시스템 /…는 [파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) 선로 부호와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -292,7 +292,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1060 / 1120
 
-← **이전**: [938. 파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)
-**다음**: [940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) →
+<- **이전**: [938. 파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)
+**다음**: [940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) ->
 
 ---

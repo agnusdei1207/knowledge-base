@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 > **핵심 인사이트**
 > 1. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))은 마케팅·제품·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통합해 급속 성장을 달성하는 IT 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)(Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results)과 연동하면 측정 가능한 성장 목표를 체계적으로 달성할 수 있다.
-> 2. AARRR 퍼널([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) → Activation → [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) → Referral → Revenue)의 각 단계에서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 식별하고 실험을 통해 개선하는 것이 [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 핵심이며, 이는 전통 마케팅의 직관 의존을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정으로 대체한다.
+> 2. AARRR 퍼널([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) -> Activation -> [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) -> Referral -> Revenue)의 각 단계에서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 식별하고 실험을 통해 개선하는 것이 [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 핵심이며, 이는 전통 마케팅의 직관 의존을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정으로 대체한다.
 > 3. IT 관리 관점에서 [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 단순한 마케팅 기법이 아니라 제품 로드맵, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 체계, 팀 구조(그로스 팀)까지 조직 전체를 성장 중심으로 재편하는 경영 방법론이다.
 
 ---
@@ -30,13 +30,13 @@ IT 관리 연계 구조:
         v
   OKR 설정 (Objectives & Key Results)
   Objective: "월간 활성 사용자 50% 증가"
-  KR1: MAU 100만 → 150만
-  KR2: D1 유지율 40% → 55%
-  KR3: 유료 전환율 2% → 3.5%
+  KR1: MAU 100만 -> 150만
+  KR2: D1 유지율 40% -> 55%
+  KR3: 유료 전환율 2% -> 3.5%
         |
         v
   그로스 해킹 실험 사이클
-  가설 → 실험 설계 → A/B 테스트 → 데이터 분석 → 확장/폐기
+  가설 -> 실험 설계 -> A/B 테스트 -> 데이터 분석 -> 확장/폐기
         |
         v
   KPI 추적 (Google Analytics, Mixpanel, Amplitude)
@@ -54,15 +54,15 @@ AARRR 퍼널 (Pirate Metrics):
 
 A - Acquisition (획득):
   DAU/MAU 비율, 채널별 CPA(Cost Per Acquisition)
-  병목 지표: 광고 클릭률 < 1% → 크리에이티브 실험
+  병목 지표: 광고 클릭률 < 1% -> 크리에이티브 실험
 
 A - Activation (활성화):
   첫 핵심 가치 경험 달성률
-  병목 지표: 온보딩 완료율 < 30% → 온보딩 UX 개선
+  병목 지표: 온보딩 완료율 < 30% -> 온보딩 UX 개선
 
 R - Retention (유지):
   D1/D7/D30 유지율 (Cohort 분석)
-  병목 지표: D7 < 25% → 푸시 알림 실험
+  병목 지표: D7 < 25% -> 푸시 알림 실험
 
 R - Referral (추천):
   바이럴 계수 K = (초대 발송률) × (수락률)
@@ -108,7 +108,7 @@ R - Revenue (수익):
     C (Confidence): 가설 확신도
     E (Ease): 실행 용이성
     ICE = (I + C + E) / 3
-    → 상위 ICE 항목부터 실행
+    -> 상위 ICE 항목부터 실행
 
   실험 속도:
     주당 실험 수 KPI화 (예: 주 5개 실험)
@@ -148,7 +148,7 @@ R - Revenue (수익):
   Leading Indicator vs Lagging Indicator:
     Leading: D1 유지율 (미래 성과 예측)
     Lagging: 월간 매출 (과거 결과)
-    → Leading 지표 관리로 미래 성과 선제 조정
+    -> Leading 지표 관리로 미래 성과 선제 조정
 ```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스택은 자동차 계기판 — 속도계(DAU), 연료계([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)/CAC), GPS(코호트 분석)가 모두 보여야 정확한 드라이빙.
@@ -161,13 +161,13 @@ R - Revenue (수익):
 B2B SaaS 그로스 해킹 사례:
 
 초기 상황:
-  MAU 5,000 → 목표: 1년 내 MAU 30,000
+  MAU 5,000 -> 목표: 1년 내 MAU 30,000
 
 OKR 설정:
   O: "자기증식 성장 엔진 구축"
-  KR1: 유저 추천(Referral) 비율 10% → 25%
-  KR2: 체험판 → 유료 전환율 8% → 15%
-  KR3: D30 유지율 45% → 60%
+  KR1: 유저 추천(Referral) 비율 10% -> 25%
+  KR2: 체험판 -> 유료 전환율 8% -> 15%
+  KR3: D30 유지율 45% -> 60%
 
 병목 분석 결과:
   AARRR 퍼널 분석:
@@ -183,10 +183,10 @@ OKR 설정:
   ICE 3위: 추천 인센티브 추가 (8, 7, 5) = 6.7
 
 실험 결과 (3개월):
-  온보딩 간소화: 완료율 22% → 51% (A/B 테스트 통계적 유의성 p<0.01)
-  D30 유지율: 45% → 56% (+24.4%)
-  체험판 전환율: 8% → 14% (+75%)
-  MAU 성장: 5,000 → 18,000 (260% 증가)
+  온보딩 간소화: 완료율 22% -> 51% (A/B 테스트 통계적 유의성 p<0.01)
+  D30 유지율: 45% -> 56% (+24.4%)
+  체험판 전환율: 8% -> 14% (+75%)
+  MAU 성장: 5,000 -> 18,000 (260% 증가)
 ```
 
 > 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 스타트업의 바다에서 빠른 항해 — 목적지([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/))를 정하고 실험(A/B)으로 가장 빠른 바람(병목 해결)을 찾아 돛을 올리는 것.
@@ -257,7 +257,7 @@ AI 기반 개인화, 예측 코호트 분석
 
 **진행 상황**: 76 / 587
 
-← **이전**: [42. AARRR 퍼널 (Acquisition)](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)
-**다음**: [043. IT 아웃소싱 (ITO) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/) →
+<- **이전**: [42. AARRR 퍼널 (Acquisition)](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)
+**다음**: [043. IT 아웃소싱 (ITO) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/) ->
 
 ---

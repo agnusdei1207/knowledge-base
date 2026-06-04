@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))은 실제 협력 객체 대신 테스트 목적에 맞게 대체하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 목, [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/), [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 등의 총칭이다. 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), DB, 시간, 메시지 큐를 실제로 붙여 테스트하면 느리고 불안정하며 재현성이 떨어진다. 이 개념이 필요한 이유는 협력 객체를 통제 가능한 대체물로 치환하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 테스트가 느리고 flaky해져 변경을 두려워하는 팀 문화가 생긴다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│    Data    │──▶│   Double   │──▶│  Boundary  │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|    Data    |--->|   Double   |--->|  Boundary  |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Caller  │──▶│ Contract │──▶│  Double  │──▶│  Store   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Caller  |--->| Contract |--->|  Double  |--->|  Store   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[실환경 의존 테스트] → [테스트 더블 사용] → [격리된 빠른 검증]
+[실환경 의존 테스트] -> [테스트 더블 사용] -> [격리된 빠른 검증]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))은 연습 경기에서 진짜 상대 대신 훈련용 인형과 친구를 상황별로 바꿔 쓰는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 482 / 530
 
-← **이전**: [403. 안티 패턴 (Anti-Patterns)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/)
-**다음**: [405. MVC 패턴 (Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/) →
+<- **이전**: [403. 안티 패턴 (Anti-Patterns)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/)
+**다음**: [405. MVC 패턴 (Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/) ->
 
 ---

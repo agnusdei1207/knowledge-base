@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 미친 에너지 효율을 본 공학자들은 "아예 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 안에 연산기와 메모리를 섞어 박고, 전기가 찌릿할 때만 켜지는 칩을 만들자!"라고 결심했다. 이것이 폰 노이만의 70년 독재를 깨부수고 나타난 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 혁명, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/">뉴로모픽 컴퓨팅</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/">Neuromorphic Computing</a>)</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 폰 노이만 GPU는 '10만 명의 콜센터 직원'이다. 손님이 한 명만 전화를 걸어도 10만 명의 직원이 매일 아침 출근해서 대기해야 하므로 월급(전기세)이 엄청 깨진다. 반면 뉴로모픽 뇌는 '비상 연락망'이다. 평소엔 다 집에서 불 끄고 잔다. 그러다 도둑(이벤트)이 들면 근처에 있는 경찰 딱 3명만 삐용삐용([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 불을 켜고 일어나서 범인을 잡고 다시 잔다. 월급(전기세)이 사실상 0원에 가깝다.
@@ -44,22 +44,22 @@ tags = ["studynote-ai"]
 뉴로모픽 하드웨어의 영혼을 담당하는 소프트웨어(수학 모델)는 기존 딥러닝([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/))과 완전히 다른 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/">SNN</a> (Spiking Neural Network)</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           기존 딥러닝(ANN) vs 뉴로모픽 뇌(SNN)의 전기 신호 아키텍처 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 기존 딥러닝 (ANN, 예: CNN / Transformer)]                    │
-│   * 정보 형태: 0.1415, -0.9823 같은 연속적인 '소수점 실수(Float) 행렬'     │
-│   * 작동 방식: 모든 층의 수백만 개 숫자를 무조건 다 곱하고 더해야 함. (동기식 풀가동)│
-│   * 비유: 수도꼭지를 틀어놓고 콸콸 쏟아지는 물의 양(소수점)으로 신호를 보냄.     │
-│                                                              │
-│  [2. 뉴로모픽 컴퓨팅 (SNN: Spiking Neural Network)]               │
-│   * 정보 형태: 오직 1(Spike!) 아니면 0(조용함). '시간(Time)'이라는 변수 추가!  │
-│   * 작동 방식: 뉴런은 자극을 받으면 전압을 차곡차곡 모음(Integrate).        │
-│               그러다 전압이 한계치(Threshold)를 뚫으면 찌릿! 하고         │
-│               다음 뉴런에게 번개(Spike)를 쏘고 다시 0으로 기절함(Fire).    │
-│   * 비유: 물방울이 똑똑 떨어지는 양동이. 물이 꽉 차면 양동이가 확 엎어지고(1), │
-│           빈 양동이로 돌아감(0). 양동이가 엎어질 때만 전기가 소모됨!        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           기존 딥러닝(ANN) vs 뉴로모픽 뇌(SNN)의 전기 신호 아키텍처 도해     |
++--------------------------------------------------------------+
+|  [1. 기존 딥러닝 (ANN, 예: CNN / Transformer)]                    |
+|   * 정보 형태: 0.1415, -0.9823 같은 연속적인 '소수점 실수(Float) 행렬'     |
+|   * 작동 방식: 모든 층의 수백만 개 숫자를 무조건 다 곱하고 더해야 함. (동기식 풀가동)|
+|   * 비유: 수도꼭지를 틀어놓고 콸콸 쏟아지는 물의 양(소수점)으로 신호를 보냄.     |
+|                                                              |
+|  [2. 뉴로모픽 컴퓨팅 (SNN: Spiking Neural Network)]               |
+|   * 정보 형태: 오직 1(Spike!) 아니면 0(조용함). '시간(Time)'이라는 변수 추가!  |
+|   * 작동 방식: 뉴런은 자극을 받으면 전압을 차곡차곡 모음(Integrate).        |
+|               그러다 전압이 한계치(Threshold)를 뚫으면 찌릿! 하고         |
+|               다음 뉴런에게 번개(Spike)를 쏘고 다시 0으로 기절함(Fire).    |
+|   * 비유: 물방울이 똑똑 떨어지는 양동이. 물이 꽉 차면 양동이가 확 엎어지고(1), |
+|           빈 양동이로 돌아감(0). 양동이가 엎어질 때만 전기가 소모됨!        |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (비동기 이벤트 구동과 로컬 메모리)**:
@@ -134,7 +134,7 @@ AI가 세상을 정복하기 위해 쓰는 [반도체](/knowledge-base/studynote
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[도메인 데이터 수집] → [뉴로모픽 컴퓨팅 (Neuromorphic Computing)] → [현장 최적화·자동화]
+[도메인 데이터 수집] -> [뉴로모픽 컴퓨팅 (Neuromorphic Computing)] -> [현장 최적화·자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -149,7 +149,7 @@ AI가 세상을 정복하기 위해 쓰는 [반도체](/knowledge-base/studynote
 
 **진행 상황**: 201 / 420
 
-← **이전**: [200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/200_robotics_motion_policy/)
-**다음**: [202. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/03_llm_nlp/202_on_device_ai/) →
+<- **이전**: [200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/200_robotics_motion_policy/)
+**다음**: [202. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/03_llm_nlp/202_on_device_ai/) ->
 
 ---

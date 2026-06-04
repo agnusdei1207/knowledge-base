@@ -82,17 +82,17 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ```text
 [Raw MapReduce (Java) — 낮은 수준 API, 반복적 보일러플레이트 코드]
-    │
-    ▼
+    |
+    v
 [Apache Pig (Pig Latin) — 데이터 흐름 스크립팅 언어, MapReduce 자동 변환]
-    │
-    ▼
+    |
+    v
 [Apache Hive (HiveQL) — SQL 기반 배치 질의, 메타스토어 스키마 관리]
-    │
-    ▼
+    |
+    v
 [Apache Spark (DataFrame / SQL) — 인메모리 처리로 Pig/Hive 대비 10~100배 가속]
-    │
-    ▼
+    |
+    v
 [Apache Flink / Beam — 스트림·배치 통합 파이프라인, Pig 역할의 현대적 계승]
 ```
 이 흐름은 저수준 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 코드를 단순화하기 위해 등장한 Pig Latin이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 표준이 되고, 이후 인메모리 처리와 스트림 통합 요건에 의해 Spark·Flink로 계승되는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 발전을 보여준다.
@@ -108,7 +108,7 @@ tags = ["hadoop", "studynote-bigdata"]
 
 **진행 상황**: 38 / 262
 
-← **이전**: [Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스](/knowledge-base/studynote/16_bigdata/02_hadoop/037_apache_hbase_column_family/)
-**다음**: [17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/039_apache_sqoop/) →
+<- **이전**: [Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스](/knowledge-base/studynote/16_bigdata/02_hadoop/037_apache_hbase_column_family/)
+**다음**: [17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송](/knowledge-base/studynote/16_bigdata/02_hadoop/039_apache_sqoop/) ->
 
 ---

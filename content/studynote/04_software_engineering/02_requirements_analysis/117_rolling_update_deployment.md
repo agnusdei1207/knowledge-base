@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    롤링 업데이트 과정 (Replicas=4)                     │
-├───────────────────────────────────────────────────────┤
-│  Step 0: [v1][v1][v1][v1]  ← 100% v1                │
-│  Step 1: [v1][v1][v1][v2]  ← v2 1개 추가, v1 1개 종료│
-│  Step 2: [v1][v1][v2][v2]  ← 50/50                   │
-│  Step 3: [v1][v2][v2][v2]                            │
-│  Step 4: [v2][v2][v2][v2]  ← 100% v2 완료            │
-│                                                       │
-│  특징: 신·구 공존 → 하위 호환성 필수!                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    롤링 업데이트 과정 (Replicas=4)                     |
++-------------------------------------------------------+
+|  Step 0: [v1][v1][v1][v1]  <- 100% v1                |
+|  Step 1: [v1][v1][v1][v2]  <- v2 1개 추가, v1 1개 종료|
+|  Step 2: [v1][v1][v2][v2]  <- 50/50                   |
+|  Step 3: [v1][v2][v2][v2]                            |
+|  Step 4: [v2][v2][v2][v2]  <- 100% v2 완료            |
+|                                                       |
+|  특징: 신·구 공존 -> 하위 호환성 필수!                 |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 놀이공원 관람차의 좌석을 하나씩 교체하는 것이다. 운행([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 멈추지 않고 한 칸씩 새 좌석으로 바꾼다.
@@ -68,10 +68,10 @@ tags = ["studynote-software-engineering"]
 
 ### 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 보장 방법
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong>: `/v1`과 `/v2` 동시 제공.
-2. **DB Expand and Contract**: 신컬럼 추가(Expand) → 코드 배포 → 구컬럼 삭제(Contract).
+2. **DB Expand and Contract**: 신컬럼 추가(Expand) -> 코드 배포 -> 구컬럼 삭제(Contract).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **breaking change + 롤링 업데이트**: 신버전 API가 구버전과 비호환 → 공존 시간 동안 에러 발생.
+- **breaking change + 롤링 업데이트**: 신버전 API가 구버전과 비호환 -> 공존 시간 동안 에러 발생.
 
 ---
 
@@ -101,17 +101,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [수동 재기동 배포 (다운타임 발생)]
-    │
-    ▼
+    |
+    v
 [롤링 업데이트 (K8s 기본, 2014~) — 무중단, 순차 교체]
-    │
-    ▼
+    |
+    v
 [블루/그린 (2010s) — 100% 전환, 즉시 롤백]
-    │
-    ▼
-[카나리 (2015~) — 1%→100% 점진 확대]
-    │
-    ▼
+    |
+    v
+[카나리 (2015~) — 1%->100% 점진 확대]
+    |
+    v
 [현재: Progressive Delivery — 롤링+카나리+ACA 통합]
 ```
 
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 117 / 973
 
-← **이전**: [116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/116_blue_green_deployment/)
-**다음**: [118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) →
+<- **이전**: [116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/116_blue_green_deployment/)
+**다음**: [118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) ->
 
 ---

@@ -30,7 +30,7 @@ tags = ["database"]
 
 ```text
 Candidate Keys
-  ↓ choose one
+  v choose one
 Primary Key
 ```
 
@@ -102,9 +102,9 @@ Primary Key
 
 ```text
 Candidate Key
-  ↓ choose
+  v choose
 Primary Key
-  ↓
+  v
 Foreign Key
 ```
 
@@ -114,9 +114,9 @@ Foreign Key
 
 ```text
 Candidate Key
-  ↓
+  v
 Primary Key
-  ↓
+  v
 Referential Integrity
 ```
 
@@ -134,7 +134,7 @@ Referential Integrity
 
 **진행 상황**: 70 / 600
 
-← **이전**: [69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)
-**다음**: [71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키](/knowledge-base/studynote/05_database/02_modeling_normalization/071_alternate_key/) →
+<- **이전**: [69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)
+**다음**: [71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키](/knowledge-base/studynote/05_database/02_modeling_normalization/071_alternate_key/) ->
 
 ---

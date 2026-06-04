@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPv4 헤더 구조]
-    │
-    ▼
+    |
+    v
 [버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    └──▶ [식별자, 플래그, 단편화 오프셋]
+    |
+    +---> [식별자, 플래그, 단편화 오프셋]
 ```
 
 - **📢 섹션 요약 비유**: ** 헤더 첫 줄은 이력서의 **"맨 위 인적 사항 칸"**입니다. 내 이름(IP)을 말하기 전에 내가 어느 시대([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 사람인지, 키와 몸무게(Total Length)는 몇인지를 밝히는 가장 기초적인 자기소개입니다.
@@ -56,19 +56,19 @@ tags = ["studynote-network"]
 - **활용**: 이 값에서 아까 구한 헤더 길이(IHL × 4)를 빼면, 순수한 알맹이([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 페이로드)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이즈가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 정확히 알 수 있다. (예: 전체 1500 - 헤더 20 = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1480 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                헤더 1행(Row 1) 뜯어보기 (와이어샤크 예시)         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0100 │ 0101 │ 00000000 │ 0000 0001 0010 1100 (총 32비트)   │
- │   └┬─┘   └┬─┘   └───┬────┘ └──────────┬────────┘              │
- │    │      │         │                 │                     │
- │   VER    IHL       TOS          Total Length                │
- │   (4)  (5=20B)  (0=일반택배)    (300 바이트)                     │
- │                                                             │
- │   ▶ 라우터 왈: "IPv4 패킷이고, 헤더는 20바이트 짜리네!            │
- │               보통 패킷이니까 줄 서고, 전체 무게는 300바이트구나!"   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                헤더 1행(Row 1) 뜯어보기 (와이어샤크 예시)         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   0100 | 0101 | 00000000 | 0000 0001 0010 1100 (총 32비트)   |
+ |   ++-+   ++-+   +---+----+ +----------+--------+              |
+ |    |      |         |                 |                     |
+ |   VER    IHL       TOS          Total Length                |
+ |   (4)  (5=20B)  (0=일반택배)    (300 바이트)                     |
+ |                                                             |
+ |   -> 라우터 왈: "IPv4 패킷이고, 헤더는 20바이트 짜리네!            |
+ |               보통 패킷이니까 줄 서고, 전체 무게는 300바이트구나!"   |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 라우터는 택배 기사님입니다. 소포를 들자마자 **"버전 4(택배 규격), 20바이트(박스 크기), 300바이트(총 무게), DSCP(당일 특급 취급주의)"**를 1열에서 순식간에 스캔한 뒤, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 컨베이어 벨트에 패킷을 올려놓습니다.
@@ -129,12 +129,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IPv4 헤더 구조]
-    │
-    ▼
+    |
+    v
 [현재 개념: 버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    ├──▶ [확장 A: 식별자, 플래그, 단편화 오프셋]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 식별자, 플래그, 단편화 오프셋]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 버전, 헤더 길이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입, 전체 길이는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 409 / 1120
 
-← **이전**: [287. IPv4 헤더 구조 (기본 20바이트 ~ 최대 60바이트)](/knowledge-base/studynote/03_network/06_network_layer_ip/287_ipv4_header_structure_20_to_60_bytes/)
-**다음**: [289. 식별자 (Identification), 플래그 (Flags), 단편화 오프셋 (Fragmentation Offset)](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) →
+<- **이전**: [287. IPv4 헤더 구조 (기본 20바이트 ~ 최대 60바이트)](/knowledge-base/studynote/03_network/06_network_layer_ip/287_ipv4_header_structure_20_to_60_bytes/)
+**다음**: [289. 식별자 (Identification), 플래그 (Flags), 단편화 오프셋 (Fragmentation Offset)](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ->
 
 ---

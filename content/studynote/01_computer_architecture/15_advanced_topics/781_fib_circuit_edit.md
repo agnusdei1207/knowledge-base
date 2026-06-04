@@ -44,23 +44,23 @@ FIB 회로 편집은 보통 시료 준비, 표적 정렬, 가공, 증착, [검�
 아래 그림은 FIB가 보안 경로를 어떻게 바꾸는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 FIB circuit edit: cut, isolate, then reroute              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Original design                                                           │
-│   Tamper Sensor ───────────────▶ Tamper Controller ─────────▶ Zeroization │
-│                                 │                                          │
-│                                 └──────────────▶ Secure state machine     │
-│                                                                            │
-│ FIB operation                                                             │
-│   1) Milling        : cut sensor net                                      │
-│   2) Insulator fill : isolate opened area                                 │
-│   3) Metal deposit  : add bypass net forcing "sensor_ok"                  │
-│                                                                            │
-│ Edited design                                                             │
-│   Tamper Sensor ──X                                                       │
-│   Forced logic value ───────────────────────────▶ Secure state machine    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 FIB circuit edit: cut, isolate, then reroute              |
++----------------------------------------------------------------------------+
+| Original design                                                           |
+|   Tamper Sensor ----------------> Tamper Controller ----------> Zeroization |
+|                                 |                                          |
+|                                 +---------------> Secure state machine     |
+|                                                                            |
+| FIB operation                                                             |
+|   1) Milling        : cut sensor net                                      |
+|   2) Insulator fill : isolate opened area                                 |
+|   3) Metal deposit  : add bypass net forcing "sensor_ok"                  |
+|                                                                            |
+| Edited design                                                             |
+|   Tamper Sensor --X                                                       |
+|   Forced logic value ----------------------------> Secure state machine    |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 FIB가 단순히 표면을 뚫는 장비가 아니라, 배선을 다시 쓰는 장비라는 점이다. 공격자는 센서 출력을 끊고 정적 0/1 값을 주입하거나, 검사용 모드 진입선을 강제로 활성화하거나, [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) 판독 경로를 우회해 칩이 잘못된 상태를 믿게 만들 수 있다. 다만 이런 작업은 매우 느리고 비용이 높으며, 이온 오염·열 영향·정렬 오차 때문에 실패 위험도 크다. 그래서 FIB는 "누구나 하는 공격"은 아니지만, 고가치 비밀을 다루는 칩이라면 반드시 가정해야 하는 위협이다.
@@ -137,24 +137,24 @@ FIB 수정 위협을 반영한 보안 칩 설계는 "하드웨어는 제조 후 
 
 ```text
 패키지 제거 · 시료 준비
-        │
-        ▼
+        |
+        v
 디캡핑 (Decapping) · 표적 노드 식별
-        │
-        ▼
+        |
+        v
 FIB (Focused Ion Beam) milling
-        │
-        ▼
+        |
+        v
 회로 절단 · via 개방 · 금속 증착 우회
-        │
-        ▼
+        |
+        v
 센서 무력화 · fuse 수정 · logic patch
-        │
-        ▼
+        |
+        v
 동적 메시 · 배면 보호 · 분산 zeroization 대응
 ```
 
-이 흐름은 "노출 → [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 편집 → 우회 → 복합 방어"로 이어지는 침습 공격과 대응의 진화를 보여 준다.
+이 흐름은 "노출 -> [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) -> 편집 -> 우회 -> 복합 방어"로 이어지는 침습 공격과 대응의 진화를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +168,7 @@ FIB (Focused Ion Beam) milling
 
 **진행 상황**: 782 / 803
 
-← **이전**: [780. 물리적 분해 분석 (Reverse 엔진ering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)
-**다음**: [782. 디캡핑 (Decapping) 및 프로빙 (Probing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) →
+<- **이전**: [780. 물리적 분해 분석 (Reverse 엔진ering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)
+**다음**: [782. 디캡핑 (Decapping) 및 프로빙 (Probing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) ->
 
 ---

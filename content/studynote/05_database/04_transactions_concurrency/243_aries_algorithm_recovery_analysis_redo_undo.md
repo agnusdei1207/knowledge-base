@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현대 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Analysis, [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/), [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 3단계 페이즈)에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. 로그와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_
 | 운영 주의 | `미디어 회복`·`LSN`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_
 
 ```text
 [미디어 회복]
-    │
-    ▼
+    |
+    v
 [ARIES 알고리즘]
-    │
-    ├──▶ [LSN]
-    └──▶ [Compensation Log Record]
+    |
+    +---> [LSN]
+    +---> [Compensation Log Record]
 ```
 
 [미디어 회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/242_media_recovery_dump_archive_rollforward/)에서 출발한 논점이 ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 핵심 판단으로 모이고, 이후 [LSN](/knowledge-base/studynote/05_database/04_transactions_concurrency/244_lsn_log_sequence_number_recovery_tracking/)·[Compensation Log Record](/knowledge-base/studynote/05_database/04_transactions_concurrency/245_clr_compensation_log_record_undo_recovery/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ ARIES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_
 
 **진행 상황**: 243 / 600
 
-← **이전**: [242. 미디어 회복 (Media Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/242_media_recovery_dump_archive_rollforward/)
-**다음**: [244. LSN (Log Sequence Number)](/knowledge-base/studynote/05_database/04_transactions_concurrency/244_lsn_log_sequence_number_recovery_tracking/) →
+<- **이전**: [242. 미디어 회복 (Media Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/242_media_recovery_dump_archive_rollforward/)
+**다음**: [244. LSN (Log Sequence Number)](/knowledge-base/studynote/05_database/04_transactions_concurrency/244_lsn_log_sequence_number_recovery_tracking/) ->
 
 ---

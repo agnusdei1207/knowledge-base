@@ -44,24 +44,24 @@ FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport
 아래 그림은 FCoE가 FC의 의미 체계는 유지하고, 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 경로만 Ethernet으로 바꾸는 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                FCoE data path: keep FC semantics, change the wire    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server                                                               │
-│   ├─ LAN packets ───────────────┐                                    │
-│   └─ FC storage frames ──────┐  │                                    │
-│                              ▼  ▼                                    │
-│                    CNA (Converged Network Adapter)                   │
-│                              │                                       │
-│                              ▼                                       │
-│          Lossless Ethernet fabric with DCB / PFC / ETS              │
-│                              │                                       │
-│                              ▼                                       │
-│          FCF (Fibre Channel Forwarder) or FCoE-capable switch       │
-│                    ├──────────────────────────────┐                  │
-│                    ▼                              ▼                  │
-│             FC SAN services                 Regular Ethernet LAN      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                FCoE data path: keep FC semantics, change the wire    |
++----------------------------------------------------------------------+
+| Server                                                               |
+|   +- LAN packets ---------------+                                    |
+|   +- FC storage frames ------+  |                                    |
+|                              v  v                                    |
+|                    CNA (Converged Network Adapter)                   |
+|                              |                                       |
+|                              v                                       |
+|          Lossless Ethernet fabric with DCB / PFC / ETS              |
+|                              |                                       |
+|                              v                                       |
+|          FCF (Fibre Channel Forwarder) or FCoE-capable switch       |
+|                    +------------------------------+                  |
+|                    v                              v                  |
+|             FC SAN services                 Regular Ethernet LAN      |
++----------------------------------------------------------------------+
 ```
 
 즉 FCoE는 "스토리지 명령을 Ethernet에 태웠다"기보다, <strong>FC가 요구하는 질서를 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> 쪽으로 끌어와 수렴시켰다</strong>고 보는 편이 더 정확하다. 이 때문에 구축이 잘되면 배선은 단순해지지만, 네트워크는 오히려 더 정교하게 관리해야 한다.
@@ -136,20 +136,20 @@ FCoE의 가장 큰 효과는 <strong>인프라 수렴</strong>이다. 서버당 
 
 ```text
 네이티브 Fibre Channel (FC) SAN
-    │
-    ▼
+    |
+    v
 서버별 NIC + HBA 이중 구성
-    │
-    ▼
+    |
+    v
 FCoE (Fibre Channel over Ethernet)
     : CNA + DCB 기반 데이터센터 수렴
-    │
-    ├──▶ 기존 FC 운영 모델 유지
-    │
-    ▼
+    |
+    +---> 기존 FC 운영 모델 유지
+    |
+    v
 iSCSI (Internet Small Computer System Interface)
-    │
-    ▼
+    |
+    v
 NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
     : 라우팅 가능한 IP 스토리지로 확장
 ```
@@ -166,7 +166,7 @@ NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
 
 **진행 상황**: 698 / 803
 
-← **이전**: [696. Fibre Channel (FC) 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)
-**다음**: [698. iSCSI (Internet Small Computer System Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) →
+<- **이전**: [696. Fibre Channel (FC) 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)
+**다음**: [698. iSCSI (Internet Small Computer System Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) ->
 
 ---

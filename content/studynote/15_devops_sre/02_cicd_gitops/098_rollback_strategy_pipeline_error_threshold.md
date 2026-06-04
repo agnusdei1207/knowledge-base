@@ -36,19 +36,19 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 3. <strong>자동 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 롤백 (Act)</strong>: [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하여 '실패'로 판정되면, K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 Ingress의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 비율을 신규 V2(0%)에서 구버전 V1(100%)으로 즉각 원복하고, 비정상적인 V2 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 폐기한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          에러율 기반 자동 롤백 파이프라인 아키텍처        │
-├─────────────────────────────────────────────────────────────┤
-│   [ CD Pipeline ]                [ Observability ]          │
-│                                                             │
-│ 1. 신버전(V2) 배포 ─(카나리 10%)─▶ 실시간 트래픽 유입      │
-│          ▲                              │                   │
-│          │                              ▼ (5xx Error 폭증)  │
-│ 3. 롤백 트리거 ◀──(임계치 위반)── K8s Prometheus 메트릭 │
-│          │                              │                   │
-│          ▼                              ▼                   │
-│ 4. V1(100%) 원복 및 V2 폐기 ◀─── 라우팅 제어 (Ingress)   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          에러율 기반 자동 롤백 파이프라인 아키텍처        |
++-------------------------------------------------------------+
+|   [ CD Pipeline ]                [ Observability ]          |
+|                                                             |
+| 1. 신버전(V2) 배포 -(카나리 10%)--> 실시간 트래픽 유입      |
+|          ^                              |                   |
+|          |                              v (5xx Error 폭증)  |
+| 3. 롤백 트리거 <---(임계치 위반)-- K8s Prometheus 메트릭 |
+|          |                              |                   |
+|          v                              v                   |
+| 4. V1(100%) 원복 및 V2 폐기 <---- 라우팅 제어 (Ingress)   |
++-------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 엔지니어의 `git revert` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력이나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 없이, 시스템이 지표를 근거로 스스로 의사결정을 내리고 물리적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 수행한다는 점이다.
@@ -116,14 +116,14 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 ```text
 수동 롤백 (Manual Revert & Deploy)
-    │ 인간의 개입으로 인한 긴 MTTR 문제
-    ▼
+    | 인간의 개입으로 인한 긴 MTTR 문제
+    v
 블루/그린 배포 라우팅 스위치 전환
-    │ 스위치 전환은 빠르나 에러 감지는 수동
-    ▼
+    | 스위치 전환은 빠르나 에러 감지는 수동
+    v
 카나리 배포 + 메트릭 기반 자동 롤백 (Kayenta 등)
-    │ 임계치 설정의 한계 (정적 룰)
-    ▼
+    | 임계치 설정의 한계 (정적 룰)
+    v
 AIOps 기반 예측형 자동 롤백 (자율 복구)
 ```
 
@@ -141,7 +141,7 @@ AIOps 기반 예측형 자동 롤백 (자율 복구)
 
 **진행 상황**: 98 / 373
 
-← **이전**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/)
-**다음**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/) →
+<- **이전**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/)
+**다음**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/) ->
 
 ---

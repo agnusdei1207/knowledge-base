@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트 컨트랙트 분산망 오라클]
-    │
-    ▼
+    |
+    v
 [양자 중계기]
-    │
-    └──▶ [QKD]
+    |
+    +---> [QKD]
 ```
 
 - **📢 섹션 요약 비유**: 양자 중계기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [스마트 컨트랙트 분산망 오라클]
-    │
-    ▼
+    |
+    v
 [양자 중계기]
-    │
-    └──▶ [QKD]
+    |
+    +---> [QKD]
 ```
 
 - **📢 섹션 요약 비유**: 양자 중계기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 스마트 컨트랙트 분산망 오라클]
-    │
-    ▼
+    |
+    v
 [현재 개념: 양자 중계기]
-    │
-    ├──▶ [확장 A: QKD]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: QKD]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 양자 중계기는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 분산망 오라클에서 출발해 현재 메커니즘을 정교화하고, 이후 QKD와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1042 / 1120
 
-← **이전**: [920. 스마트 컨트랙트 오라클](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/920_smart_contract_oracle_decentralized_offchain_data/)
-**다음**: [922. QKD (양자 암호 통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) →
+<- **이전**: [920. 스마트 컨트랙트 오라클](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/920_smart_contract_oracle_decentralized_offchain_data/)
+**다음**: [922. QKD (양자 암호 통신)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) ->
 
 ---

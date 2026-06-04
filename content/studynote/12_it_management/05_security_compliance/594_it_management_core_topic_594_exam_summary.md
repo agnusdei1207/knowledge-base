@@ -13,8 +13,8 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리는 **COBIT 2019 거버넌스 시스템(Governance System)**, **ITIL 4 서비스 가치 시스템(SVS)**, **ISO 38500 이사회 거버넌스 원칙**, **TOGAF ADM**, **Zachman Framework** 등 글로벌 표준 프레임워크를 통합하여, **Strategy→Portfolio→Architecture→Service→Operation→Audit** 6계층으로 IT 자원과 비즈니스 가치를 연결하는 경영 체계이다. 핵심은 **Enabler(37개 COBIT 구성요소)** 를 통한 **Value Creation** 실현과 **Goal Cascade** 메커니즘이다.
-> 2. **가치**: COBIT 성숙도 2→5 도달 시 **IT 투자 ROI 25~45% 개선**, ITIL 4 도입 후 **MTTR 60% 단축·서비스 가용성 99.95% 달성**, EA(Enterprise Architecture) 적용 시 **시스템 중복 투자 30~50% 제거·Time-to-Market 40% 단축**, IT 거버넌스 체계 구축 시 **이사회-경영진-현업 간 의사결정 latency 70% 감소**, ISMS 인증 획득 시 **정보보안 사고 발생률 65% 저감** 효과가 보고되고 있다.
+> 1. **본질**: IT 경영 관리는 **COBIT 2019 거버넌스 시스템(Governance System)**, **ITIL 4 서비스 가치 시스템(SVS)**, **ISO 38500 이사회 거버넌스 원칙**, **TOGAF ADM**, **Zachman Framework** 등 글로벌 표준 프레임워크를 통합하여, **Strategy->Portfolio->Architecture->Service->Operation->Audit** 6계층으로 IT 자원과 비즈니스 가치를 연결하는 경영 체계이다. 핵심은 **Enabler(37개 COBIT 구성요소)** 를 통한 **Value Creation** 실현과 **Goal Cascade** 메커니즘이다.
+> 2. **가치**: COBIT 성숙도 2->5 도달 시 **IT 투자 ROI 25~45% 개선**, ITIL 4 도입 후 **MTTR 60% 단축·서비스 가용성 99.95% 달성**, EA(Enterprise Architecture) 적용 시 **시스템 중복 투자 30~50% 제거·Time-to-Market 40% 단축**, IT 거버넌스 체계 구축 시 **이사회-경영진-현업 간 의사결정 latency 70% 감소**, ISMS 인증 획득 시 **정보보안 사고 발생률 65% 저감** 효과가 보고되고 있다.
 > 3. **판단 포인트**: 핵심 트레이드오프는 (a) **집중형(Centralized) vs 분산형(Distributed/Federated) 거버넌스 모델**, (b) **Build vs Buy vs Cloud(SaaS)**, (c) **CapEx vs OpEx 투자 회계**, (d) **Agile-Bimodal vs 전통 Waterfall**, (e) **Risk Appetite 0(zero) vs Risk-Tolerant(허용)** 의 5가지 축이며, 기술사 답안에서는 **RACCI 매트릭스**, **Balanced Scorecard 4관점(재무·고객·내부·학습)**, **TCO/ROI/NPV/IRR** 정량 분석과 함께 **단계적 로드맵(Maturity Roadmap)** 을 제시해야 한다.
 
 ---
@@ -39,47 +39,47 @@ IT 경영 관리(IT Management, IT Governance & Management)는 **1999년 IT 거�
 ### 1.3 IT 경영 관리 5계층 구조도
 
 ```text
-   ┌──────────────────────────────────────────────────────────────────────┐
-   │           Tier 0: 이사회 / 경영진 (Board / Executive)                  │
-   │  ┌────────────────────────────────────────────────────────────┐      │
-   │  │  IT 거버넌스 위원회 (Steering Committee) · CDO · CIO · CISO  │      │
-   │  │  ── ISO 38500 6원칙: 책임·전략·취득·성과·규율·인간행위 ──  │      │
-   │  └────────────────────────────────────────────────────────────┘      │
-   └──────────────────────────────┬───────────────────────────────────────┘
-                                  │  Cascading Goals
-   ┌──────────────────────────────▼───────────────────────────────────────┐
-   │           Tier 1: IT 전략 및 포트폴리오 (Strategy & Portfolio)         │
-   │  ┌────────────────┬────────────────┬────────────────────┐            │
-   │  │  IT 전략맵(ITS)│  IT 포트폴리오  │  투자우선순위(Rank) │            │
-   │  │  BMC/CSF 도출  │  BCG 2x2 Matrix│  NPV·IRR·Payback   │            │
-   │  └────────────────┴────────────────┴────────────────────┘            │
-   └──────────────────────────────┬───────────────────────────────────────┘
-                                  │  Investment Decision
-   ┌──────────────────────────────▼───────────────────────────────────────┐
-   │           Tier 2: 엔터프라이즈 아키텍처 (EA)                            │
-   │  ┌──────────┬──────────┬──────────┬──────────┐                       │
-   │  │ Business │   Data   │  App     │ Technology│   TOGAF ADM           │
-   │  │  Arch.   │  Arch.   │  Arch.   │  Arch.    │   8 Phases           │
-   │  └──────────┴──────────┴──────────┴──────────┘                       │
-   │       Zachman 6x6 매트릭스(What·How·Where·Who·When·Why × 5관점)        │
-   └──────────────────────────────┬───────────────────────────────────────┘
-                                  │  Architecture Decision
-   ┌──────────────────────────────▼───────────────────────────────────────┐
-   │           Tier 3: IT 서비스 운영 (Service & Operation)                  │
-   │  ┌────────────────────────────────────────────────────────────┐      │
-   │  │  ITIL 4 SVS: 34 Practices · Service Value Chain · 7 Guiding │     │
-   │  │  Principles · Continual Improvement · SLA/OLA/UC 계층        │     │
-   │  └────────────────────────────────────────────────────────────┘      │
-   └──────────────────────────────┬───────────────────────────────────────┘
-                                  │  Service Delivery
-   ┌──────────────────────────────▼───────────────────────────────────────┐
-   │           Tier 4: 통제·감리·보안 (Control, Audit, Security)             │
-   │  ┌──────────┬──────────┬──────────┬──────────┐                       │
-   │  │  COBIT   │  ISMS    │  컴플라   │  정보시스 │                       │
-   │  │  2019    │  PIPC    │  이언스   │  템감리   │                       │
-   │  │  37Obj   │  인증    │  GDPR 등  │  감리법   │                       │
-   │  └──────────┴──────────┴──────────┴──────────┘                       │
-   └──────────────────────────────────────────────────────────────────────┘
+   +----------------------------------------------------------------------+
+   |           Tier 0: 이사회 / 경영진 (Board / Executive)                  |
+   |  +------------------------------------------------------------+      |
+   |  |  IT 거버넌스 위원회 (Steering Committee) · CDO · CIO · CISO  |      |
+   |  |  -- ISO 38500 6원칙: 책임·전략·취득·성과·규율·인간행위 --  |      |
+   |  +------------------------------------------------------------+      |
+   +------------------------------+---------------------------------------+
+                                  |  Cascading Goals
+   +------------------------------v---------------------------------------+
+   |           Tier 1: IT 전략 및 포트폴리오 (Strategy & Portfolio)         |
+   |  +----------------+----------------+--------------------+            |
+   |  |  IT 전략맵(ITS)|  IT 포트폴리오  |  투자우선순위(Rank) |            |
+   |  |  BMC/CSF 도출  |  BCG 2x2 Matrix|  NPV·IRR·Payback   |            |
+   |  +----------------+----------------+--------------------+            |
+   +------------------------------+---------------------------------------+
+                                  |  Investment Decision
+   +------------------------------v---------------------------------------+
+   |           Tier 2: 엔터프라이즈 아키텍처 (EA)                            |
+   |  +----------+----------+----------+----------+                       |
+   |  | Business |   Data   |  App     | Technology|   TOGAF ADM           |
+   |  |  Arch.   |  Arch.   |  Arch.   |  Arch.    |   8 Phases           |
+   |  +----------+----------+----------+----------+                       |
+   |       Zachman 6x6 매트릭스(What·How·Where·Who·When·Why × 5관점)        |
+   +------------------------------+---------------------------------------+
+                                  |  Architecture Decision
+   +------------------------------v---------------------------------------+
+   |           Tier 3: IT 서비스 운영 (Service & Operation)                  |
+   |  +------------------------------------------------------------+      |
+   |  |  ITIL 4 SVS: 34 Practices · Service Value Chain · 7 Guiding |     |
+   |  |  Principles · Continual Improvement · SLA/OLA/UC 계층        |     |
+   |  +------------------------------------------------------------+      |
+   +------------------------------+---------------------------------------+
+                                  |  Service Delivery
+   +------------------------------v---------------------------------------+
+   |           Tier 4: 통제·감리·보안 (Control, Audit, Security)             |
+   |  +----------+----------+----------+----------+                       |
+   |  |  COBIT   |  ISMS    |  컴플라   |  정보시스 |                       |
+   |  |  2019    |  PIPC    |  이언스   |  템감리   |                       |
+   |  |  37Obj   |  인증    |  GDPR 등  |  감리법   |                       |
+   |  +----------+----------+----------+----------+                       |
+   +----------------------------------------------------------------------+
 ```
 
 ### 1.4 기존 패러다임 vs 신 패러다임
@@ -96,25 +96,25 @@ IT 경영 관리(IT Management, IT Governance & Management)는 **1999년 IT 거�
 ### 2.1 COBIT 2019 거버넌스 시스템 5개 도메인
 
 ```text
-   ┌──────────────────────────────────────────────────────────────────┐
-   │              COBIT 2019 Governance System Components              │
-   │                                                                   │
-   │   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐         │
-   │   │  Governance   │   │  Management   │   │   Enablers    │         │
-   │   │  Objectives   │◄─►│  Objectives   │◄─►│  (37 items)   │         │
-   │   │  (EDM 5개)    │   │  (APO·BAI·    │   │  P: 원칙·정책 │         │
-   │   │  Evaluate,    │   │   DSS·MEA     │   │  O: 조직구조  │         │
-   │   │  Direct,      │   │   4 Domain    │   │  C: 문화·윤리 │         │
-   │   │  Monitor)     │   │   ·40 Obj     │   │  I: 정보      │         │
-   │   └──────┬───────┘   └──────┬───────┘   │  S: 서비스     │         │
-   │          │                  │           │  A: 응용·기술   │         │
-   │          ▼                  ▼           │  P: 인력·역량   │         │
-   │   ┌─────────────────────────────────┐  └──────────────┘         │
-   │   │    Components: Process·Structure │                           │
-   │   │    ·People·Skills·Culture·Info   │   Goal Cascade            │
-   │   │    ·Services·Infrastructure·Apps │   Needs→Goals→            │
-   │   └─────────────────────────────────┘   Enablers                │
-   └──────────────────────────────────────────────────────────────────┘
+   +------------------------------------------------------------------+
+   |              COBIT 2019 Governance System Components              |
+   |                                                                   |
+   |   +--------------+   +--------------+   +--------------+         |
+   |   |  Governance   |   |  Management   |   |   Enablers    |         |
+   |   |  Objectives   |◄-►|  Objectives   |◄-►|  (37 items)   |         |
+   |   |  (EDM 5개)    |   |  (APO·BAI·    |   |  P: 원칙·정책 |         |
+   |   |  Evaluate,    |   |   DSS·MEA     |   |  O: 조직구조  |         |
+   |   |  Direct,      |   |   4 Domain    |   |  C: 문화·윤리 |         |
+   |   |  Monitor)     |   |   ·40 Obj     |   |  I: 정보      |         |
+   |   +------+-------+   +------+-------+   |  S: 서비스     |         |
+   |          |                  |           |  A: 응용·기술   |         |
+   |          v                  v           |  P: 인력·역량   |         |
+   |   +---------------------------------+  +--------------+         |
+   |   |    Components: Process·Structure |                           |
+   |   |    ·People·Skills·Culture·Info   |   Goal Cascade            |
+   |   |    ·Services·Infrastructure·Apps |   Needs->Goals->            |
+   |   +---------------------------------+   Enablers                |
+   +------------------------------------------------------------------+
 
    EDM : Evaluate, Direct and Monitor  (5 Objectives)
    APO : Align, Plan and Organize       (14 Objectives)
@@ -132,7 +132,7 @@ IT 경영 관리(IT Management, IT Governance & Management)는 **1999년 IT 거�
 
 **진행 상황**: 594 / 800
 
-← **이전**: [593. IT 경영 관리 핵심 토픽 593번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/593_it_management_core_topic_593_exam_summary/)
-**다음**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/) →
+<- **이전**: [593. IT 경영 관리 핵심 토픽 593번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/593_it_management_core_topic_593_exam_summary/)
+**다음**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/) ->
 
 ---

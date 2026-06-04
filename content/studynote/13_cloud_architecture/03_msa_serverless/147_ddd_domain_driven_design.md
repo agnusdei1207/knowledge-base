@@ -41,20 +41,20 @@ DDD는 이 간극을 메우기 위해:
 ```text
 DDD 전술적 패턴 (Tactical Patterns)
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      Aggregate Root                         │
-  │  ┌──────────────┐   ┌──────────────┐   ┌───────────────┐   │
-  │  │    Entity    │   │  Value Object │   │    Domain     │   │
-  │  │ (식별자 있음) │   │ (식별자 없음) │   │    Event      │   │
-  │  │  Order       │   │  Money       │   │ OrderPlaced   │   │
-  │  │  Customer    │   │  Address     │   │ PaymentDone   │   │
-  │  └──────────────┘   └──────────────┘   └───────────────┘   │
-  └─────────────────────────────────────────────────────────────┘
-           │                                        │
-  ┌────────▼────────┐                    ┌──────────▼─────────┐
-  │   Repository    │                    │   Domain Service   │
-  │ (영속성 추상화)  │                    │ (여러 객체 협력 로직) │
-  └─────────────────┘                    └───────────────────-┘
+  +-------------------------------------------------------------+
+  |                      Aggregate Root                         |
+  |  +--------------+   +--------------+   +---------------+   |
+  |  |    Entity    |   |  Value Object |   |    Domain     |   |
+  |  | (식별자 있음) |   | (식별자 없음) |   |    Event      |   |
+  |  |  Order       |   |  Money       |   | OrderPlaced   |   |
+  |  |  Customer    |   |  Address     |   | PaymentDone   |   |
+  |  +--------------+   +--------------+   +---------------+   |
+  +-------------------------------------------------------------+
+           |                                        |
+  +--------v--------+                    +----------v---------+
+  |   Repository    |                    |   Domain Service   |
+  | (영속성 추상화)  |                    | (여러 객체 협력 로직) |
+  +-----------------+                    +--------------------+
 ```
 
 | 빌딩 블록 | 설명 | 예시 |
@@ -72,21 +72,21 @@ DDD 전술적 패턴 (Tactical Patterns)
 ```text
 컨텍스트 맵 (Context Map) 예시
 
-  ┌─────────────────┐          ┌─────────────────┐
-  │  주문 컨텍스트   │          │  배송 컨텍스트   │
-  │  (Order BC)     │ ──ACL──► │  (Delivery BC)  │
-  │                 │          │                 │
-  │  Customer       │          │  Shipment       │
-  │  Order          │          │  TrackingNumber  │
-  └─────────────────┘          └─────────────────┘
-          │                            │
-    Anti-Corruption Layer             │
-    (언어 변환: Customer→Recipient)    │
-          │                            │
-  ┌───────▼────────────────────────────▼──┐
-  │  결제 컨텍스트 (Payment BC)            │
-  │  Payment, Invoice, Refund            │
-  └───────────────────────────────────────┘
+  +-----------------+          +-----------------+
+  |  주문 컨텍스트   |          |  배송 컨텍스트   |
+  |  (Order BC)     | --ACL--► |  (Delivery BC)  |
+  |                 |          |                 |
+  |  Customer       |          |  Shipment       |
+  |  Order          |          |  TrackingNumber  |
+  +-----------------+          +-----------------+
+          |                            |
+    Anti-Corruption Layer             |
+    (언어 변환: Customer->Recipient)    |
+          |                            |
+  +-------v----------------------------v--+
+  |  결제 컨텍스트 (Payment BC)            |
+  |  Payment, Invoice, Refund            |
+  +---------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Bounded Context는 **'사내 각 부서의 전문 언어 영역'** 과 같습니다. 영업팀의 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))"과 배송팀의 "수령인(Recipient)"은 같은 사람이지만 다른 용어로 불립니다. 부서 간 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 없으면 한 단어가 여러 의미를 갖게 되어 혼란이 생깁니다.
@@ -162,26 +162,26 @@ DDD는 "코드를 비즈니스처럼 만드는 것"이 아니라, **"비즈니�
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">바운디드 컨텍스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">Bounded Context</a>)</strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 기준; 언어·모델의 적용 경계 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a>)</strong> | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트를 상태 변경의 기록으로 사용 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> Query Responsibility Segregation)</strong> | 명령([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))와 조회(읽기) 모델 분리; DDD와 자주 결합 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/">Microservices Architecture</a>)</strong> | [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계의 자연스러운 매핑 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/">Microservices Architecture</a>)</strong> | [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계의 자연스러운 매핑 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-모놀리식 아키텍처 → 복잡도 증가 → 유지보수 어려움
-    │
-    ▼
+모놀리식 아키텍처 -> 복잡도 증가 -> 유지보수 어려움
+    |
+    v
 DDD (Domain-Driven Design, 2003 Eric Evans)
-    │
-    ├─► 전략적 패턴: Bounded Context / Context Map
-    ├─► 전술적 패턴: Entity / VO / Aggregate / Repository
-    │
-    ▼
+    |
+    +-► 전략적 패턴: Bounded Context / Context Map
+    +-► 전술적 패턴: Entity / VO / Aggregate / Repository
+    |
+    v
 유비쿼터스 언어 — 코드와 도메인 언어 일치
-    │
-    ▼
+    |
+    v
 MSA 서비스 분리 기준으로 Bounded Context 활용
-    │
-    ▼
+    |
+    v
 CQRS + 이벤트 소싱 — 도메인 이벤트 기반 아키텍처
 ```
 
@@ -197,7 +197,7 @@ CQRS + 이벤트 소싱 — 도메인 이벤트 기반 아키텍처
 
 **진행 상황**: 146 / 371
 
-← **이전**: [146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/146_mtls_mutual_tls/)
-**다음**: [148. 보편적 언어 (Ubiquitous Language)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/148_ubiquitous_language/) →
+<- **이전**: [146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/146_mtls_mutual_tls/)
+**다음**: [148. 보편적 언어 (Ubiquitous Language)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/148_ubiquitous_language/) ->
 
 ---

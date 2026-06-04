@@ -72,17 +72,17 @@ YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_h
 
 ```text
 [하둡 v1 JobTracker — 리소스 관리와 작업 스케줄링을 단일 노드에서 담당, 병목]
-    │
-    ▼
+    |
+    v
 [YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리 아키텍처]
-    │
-    ▼
+    |
+    v
 [ApplicationMaster — 각 앱이 자체 스케줄링 담당, 프레임워크 독립성 확보]
-    │
-    ▼
+    |
+    v
 [컨테이너 (Container) — CPU·메모리 단위 자원 할당, 다중 프레임워크 공존]
-    │
-    ▼
+    |
+    v
 [Kubernetes on YARN / 클라우드 네이티브 — YARN을 대체하는 컨테이너 오케스트레이션]
 ```
 
@@ -99,7 +99,7 @@ YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_h
 
 **진행 상황**: 35 / 262
 
-← **이전**: [셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목](/knowledge-base/studynote/16_bigdata/02_hadoop/034_shuffle_and_sort_mechanism/)
-**다음**: [Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/) →
+<- **이전**: [셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목](/knowledge-base/studynote/16_bigdata/02_hadoop/034_shuffle_and_sort_mechanism/)
+**다음**: [Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/) ->
 
 ---

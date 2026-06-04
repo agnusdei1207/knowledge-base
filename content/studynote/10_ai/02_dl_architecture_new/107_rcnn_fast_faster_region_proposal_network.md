@@ -10,7 +10,7 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)) 영역에서 영역 추정(Region Proposal)과 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 분리하여 수행하는 2-Stage 모델의 발전 과정(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) → Fast R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) → Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))이다.
+> 1. **본질**: [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)) 영역에서 영역 추정(Region Proposal)과 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 분리하여 수행하는 2-Stage 모델의 발전 과정(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) -> Fast R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) -> Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))이다.
 > 2. **가치**: 후보 영역을 찾는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 외부(Selective Search)에서 내부 신경망인 RPN (Region Proposal Network)으로 통합함으로써, 정확도를 유지한 채 실시간 처리에 근접하는 속도 혁신을 이뤄냈다.
 > 3. **판단 포인트**: 실시간성이 극도로 중요한 자율주행에서는 1-Stage인 YOLO (You Only Look Once)를 선택하지만, 정밀한 의료 영상이나 작은 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)가 필수인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 여전히 Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열을 채택해야 한다.
 
@@ -37,21 +37,21 @@ R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_s
    가장 큰 병목이었던 Selective Search (CPU 연산)를 버리고, 후보 영역 자체를 찾아내는 소형 신경망 RPN을 도입했다. 이로써 추출부터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)까지 완벽한 종단간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 딥러닝 모델이 완성되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               [ 2-Stage Object Detection 진화 ]             │
-├─────────────────────────────────────────────────────────────┤
-│ [R-CNN]                                                     │
-│ 이미지 ─(Selective Search)─▶ 2,000개 조각 ─(CNN 2,000번)─▶ 판별 │
-│                                                             │
-│ [Fast R-CNN]                                                │
-│ 이미지 ─(CNN 1번)─▶ 특성 맵 ─(RoI Pooling)─▶ 2,000개 추출 ─▶ 판별 │
-│                 ▲                                           │
-│                 └─ (Selective Search로 좌표만 전달)          │
-│                                                             │
-│ [Faster R-CNN]  ★ 병목 완전 제거                            │
-│ 이미지 ─(CNN 1번)─▶ 특성 맵 ┬─(RPN)─▶ 후보 영역 좌표 제안       │
-│                            └─(RoI Pooling)─▶ 최종 판별     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               [ 2-Stage Object Detection 진화 ]             |
++-------------------------------------------------------------+
+| [R-CNN]                                                     |
+| 이미지 -(Selective Search)--> 2,000개 조각 -(CNN 2,000번)--> 판별 |
+|                                                             |
+| [Fast R-CNN]                                                |
+| 이미지 -(CNN 1번)--> 특성 맵 -(RoI Pooling)--> 2,000개 추출 --> 판별 |
+|                 ^                                           |
+|                 +- (Selective Search로 좌표만 전달)          |
+|                                                             |
+| [Faster R-CNN]  ★ 병목 완전 제거                            |
+| 이미지 -(CNN 1번)--> 특성 맵 +-(RPN)--> 후보 영역 좌표 제안       |
+|                            +-(RoI Pooling)--> 최종 판별     |
++-------------------------------------------------------------+
 ```
 
 여기서 RPN은 앵커 박스(Anchor Box)라는 다양한 비율과 크기의 기본 틀을 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위에 겹쳐보며 물체의 존재 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 위치를 빠르게 계산해낸다.
@@ -66,7 +66,7 @@ R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_s
 
 | 비교 항목 | 2-Stage (Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) | 1-Stage (YOLO, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) |
 | :--- | :--- | :--- |
-| **처리 방식** | 후보 영역 추출 후 → [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리) | 이미지 전체를 그리드로 나누어 동시 예측 |
+| **처리 방식** | 후보 영역 추출 후 -> [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리) | 이미지 전체를 그리드로 나누어 동시 예측 |
 | **속도** | FPS (Frames Per Second) 낮음 | 수십~수백 FPS의 극히 빠른 속도 |
 | **정확도** | 매우 높음 (작은 객체에 강함) | 다소 낮음 (작은/겹친 객체에 약함) |
 | **핵심 활용처** | 의료 영상, 위성 사진 분석, 정밀 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출 | 자율주행, 실시간 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 모바일 앱 |
@@ -115,17 +115,17 @@ R-CNN에서 Faster R-CNN으로의 발전은 단순히 속도 향상을 넘어, [
 
 ```text
 객체 탐지 (Object Detection)의 진화
-    │
-    ▼
+    |
+    v
 R-CNN (Selective Search + 2,000번 CNN 병목)
-    │
-    ▼
+    |
+    v
 Fast R-CNN (RoI Pooling 도입, CNN 연산 1번으로 공유)
-    │
-    ▼
+    |
+    v
 Faster R-CNN (RPN 도입, 완전한 End-to-End 딥러닝 모델 완성)
-    │
-    ▼
+    |
+    v
 Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 확장)
 ```
 
@@ -141,7 +141,7 @@ Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 �
 
 **진행 상황**: 107 / 420
 
-← **이전**: [106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별](/knowledge-base/studynote/10_ai/02_dl_architecture_new/106_object_detection_bounding_box_yolo_rcnn_iou/)
-**다음**: [108. YOLO와 SSD (1-Stage 객체 탐지)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/108_yolo_ssd_1_stage_object_detection_real_time/) →
+<- **이전**: [106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별](/knowledge-base/studynote/10_ai/02_dl_architecture_new/106_object_detection_bounding_box_yolo_rcnn_iou/)
+**다음**: [108. YOLO와 SSD (1-Stage 객체 탐지)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/108_yolo_ssd_1_stage_object_detection_real_time/) ->
 
 ---

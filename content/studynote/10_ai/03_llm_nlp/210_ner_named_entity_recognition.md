@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 기술이 없다면 구글의 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))도, 애플 시리(Siri)의 알람 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)("내일 강남역에서 회식 메모해 줘" $\rightarrow$ 시간/장소 추출) 기능도 아예 존재할 수 없다. NER은 흩날리는 텍스트 쓰레기 산에서 다이아몬드(핵심 정보)만 핀셋으로 건져 올리는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 가장 강력한 채굴기다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: NER은 택배 물류 센터의 초정밀 '바코드 스캐너'다. 텍스트라는 거대한 택배 박스가 1초에 1만 개씩 쏟아져 들어올 때, 박스를 뜯어볼 필요 없이 박스 겉면의 바코드(단어)만 쓱 스캔해서 "아 이건 서울(지명) 가는 거! 저건 삼성전자(기관)로 가는 거!"라고 1초 만에 레일(DB) 위로 촥촥 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 버리는 완벽한 무인 자동화 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다.
@@ -44,27 +44,27 @@ tags = ["studynote-ai"]
 NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           개체명 인식 (NER)의 문장 태깅 (Sequence Labeling) 아키텍처 도해  │
-├──────────────────────────────────────────────────────────────┤
-│  [1. BIO 태깅 (BIO Tagging) - 단어에 신분증표 달아주기]               │
-│   * 문장: "이재용 회장은 오늘 삼성전자에 갔다."                         │
-│   * B (Begin 시작), I (Inside 내부), O (Outside 쩌리/일반단어)       │
-│                                                              │
-│     이재용 ─▶ B-PER (인물 시작!)                                │
-│     회장은 ─▶ O     (그냥 단어)                                 │
-│     오늘   ─▶ B-DAT (날짜 시작!)                                │
-│     삼성   ─▶ B-ORG (조직 시작!)                                │
-│     전자에 ─▶ I-ORG (조직 단어의 연장선!) ──▶ [삼성+전자]로 묶임!      │
-│     갔다.  ─▶ O     (그냥 단어)                                 │
-│                                                              │
-│  [2. 딥러닝 추론망 (Bi-LSTM + CRF 또는 BERT 뇌)]               │
-│   * 문제: '삼성'이 [B-ORG]인지 어떻게 알아?                          │
-│   * 마법 1 (Bi-LSTM): 양방향으로 문장을 싹 훑어보고 "뒤에 '전자'가 붙은 걸 │
-│                       보니 이건 과일이 아니라 회사네!"라고 눈치챔.        │
-│   * 마법 2 (CRF 족쇄): "앞 단어가 [B-ORG]면 다음 단어는 절대 [I-PER]가   │
-│                       올 수 없어!"라는 문법적 철칙을 강제로 씌워 오답 차단. │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           개체명 인식 (NER)의 문장 태깅 (Sequence Labeling) 아키텍처 도해  |
++--------------------------------------------------------------+
+|  [1. BIO 태깅 (BIO Tagging) - 단어에 신분증표 달아주기]               |
+|   * 문장: "이재용 회장은 오늘 삼성전자에 갔다."                         |
+|   * B (Begin 시작), I (Inside 내부), O (Outside 쩌리/일반단어)       |
+|                                                              |
+|     이재용 --> B-PER (인물 시작!)                                |
+|     회장은 --> O     (그냥 단어)                                 |
+|     오늘   --> B-DAT (날짜 시작!)                                |
+|     삼성   --> B-ORG (조직 시작!)                                |
+|     전자에 --> I-ORG (조직 단어의 연장선!) ---> [삼성+전자]로 묶임!      |
+|     갔다.  --> O     (그냥 단어)                                 |
+|                                                              |
+|  [2. 딥러닝 추론망 (Bi-LSTM + CRF 또는 BERT 뇌)]               |
+|   * 문제: '삼성'이 [B-ORG]인지 어떻게 알아?                          |
+|   * 마법 1 (Bi-LSTM): 양방향으로 문장을 싹 훑어보고 "뒤에 '전자'가 붙은 걸 |
+|                       보니 이건 과일이 아니라 회사네!"라고 눈치챔.        |
+|   * 마법 2 (CRF 족쇄): "앞 단어가 [B-ORG]면 다음 단어는 절대 [I-PER]가   |
+|                       올 수 없어!"라는 문법적 철칙을 강제로 씌워 오답 차단. |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (문맥 추론과 동음이의어 돌파)**:
@@ -137,7 +137,7 @@ NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [개체명 인식 (NER, Named Entity Recognition)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [개체명 인식 (NER, Named Entity Recognition)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이�
 
 **진행 상황**: 210 / 420
 
-← **이전**: [209. 감성 분석 (Sentiment Analysis)](/knowledge-base/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/)
-**다음**: [211. 추천 시스템 (Recommendation System)](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) →
+<- **이전**: [209. 감성 분석 (Sentiment Analysis)](/knowledge-base/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/)
+**다음**: [211. 추천 시스템 (Recommendation System)](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) ->
 
 ---

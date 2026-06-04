@@ -25,16 +25,16 @@ tags = ["studynote-network"]
 
 이 다이어그램은 네트워크 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 진화 과정에서 UTP가 기존 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)들의 단점을 어떻게 혁신적으로 해결했는지 그 포지셔닝을 보여준다.
 ```text
-┌─────────────── 과거 매체의 한계 ────────────────┐
-│ [동축 케이블] : 차폐 완벽, 하지만 너무 굵고 비쌈│
-│ [STP 케이블]  : 꼬임+차폐 완벽, 하지만 접지 복잡│
-└───────────────────────┬─────────────────────────┘
-                        ▼ (혁신적 발상의 전환)
-┌─────────────── [ UTP 케이블 등장 ] ─────────────┐
-│ 1. 금속 쉴드 제거 ──> 무게/비용 급감, 극강의 유연성 │
-│ 2. 접지 불필요 ──> 설치 난이도 하락, 그라운드 루프 0│
-│ 3. 꼬임밀도 상승 ──> 물리적 구조만으로 노이즈 상쇄 │
-└───────────────────────────────────────────────┘
++--------------- 과거 매체의 한계 ----------------+
+| [동축 케이블] : 차폐 완벽, 하지만 너무 굵고 비쌈|
+| [STP 케이블]  : 꼬임+차폐 완벽, 하지만 접지 복잡|
++-----------------------+-------------------------+
+                        v (혁신적 발상의 전환)
++--------------- [ UTP 케이블 등장 ] -------------+
+| 1. 금속 쉴드 제거 --> 무게/비용 급감, 극강의 유연성 |
+| 2. 접지 불필요 --> 설치 난이도 하락, 그라운드 루프 0|
+| 3. 꼬임밀도 상승 --> 물리적 구조만으로 노이즈 상쇄 |
++-----------------------------------------------+
 ```
 이 흐름의 핵심은 UTP가 방어력(Shielding)을 포기한 것이 아니라, 방어의 메커니즘을 외부 장갑(금속망)에서 내부의 회피기동(꼬임 구조 상쇄)으로 완전히 패러다임 전환을 이뤄냈다는 것이다. 이 덕분에 현장 인부들이 쉽게 구부려 배관을 통과시키고 가위로 쉽게 피복을 벗길 수 있는 궁극의 작업성을 확보하여 폭발적인 보급을 달성할 수 있었다.
 
@@ -48,7 +48,7 @@ UTP 케이블이 금속 차폐막 없이 기가비트급의 데이터를 손실 
 
 | 구성 요소 | 기술적 스펙 및 동작 원리 | 카테고리(Cat) 진화에 따른 변화 |
 |:---|:---|:---|
-| **도선 굵기 (AWG)** | 아메리칸 와이어 게이지(AWG) 기준 구리선 직경. (수치가 낮을수록 굵음) | Cat.5e(24 AWG) → Cat.6a(23 AWG)로 굵어져 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 감소 |
+| **도선 굵기 (AWG)** | 아메리칸 와이어 게이지(AWG) 기준 구리선 직경. (수치가 낮을수록 굵음) | Cat.5e(24 AWG) -> Cat.6a(23 AWG)로 굵어져 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 감소 |
 | **페어 꼬임 (Pair Twisting)** | 4쌍의 구리선이 꼬이면서 외부 노이즈 상쇄 (차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) | 주파수가 높아질수록 인치당 꼬임 횟수(Pitch)가 촘촘해짐 |
 | **십자형 격벽 (Cross-filler)** | 케이블 정중앙에 위치한 플라스틱 십자(+) 기둥 (Cat.6 이상) | 4쌍의 페어를 물리적으로 분리 유지하여 내부 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT) 원천 차단 |
 | **재킷 (Jacket)** | 케이블의 겉 껍질 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막 (보통 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) 재질) | 화재 확산 방지용 난연/플레넘(Plenum) 등급 적용 외피 증가 |
@@ -64,10 +64,10 @@ UTP 케이블이 금속 차폐막 없이 기가비트급의 데이터를 손실 
  => 단순하고 충돌(Collision) 위험 없음.
 
 [ 1000BASE-T (Gigabit Ethernet)의 선로 사용 구조 ]
- 송수신 동시(Bi-di) : Pair 1 (파랑)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 2 (주황)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 3 (녹색)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 4 (갈색)   ◀======▶ 양방향 동시 250Mbps 전송
+ 송수신 동시(Bi-di) : Pair 1 (파랑)   <-======-> 양방향 동시 250Mbps 전송
+ 송수신 동시(Bi-di) : Pair 2 (주황)   <-======-> 양방향 동시 250Mbps 전송
+ 송수신 동시(Bi-di) : Pair 3 (녹색)   <-======-> 양방향 동시 250Mbps 전송
+ 송수신 동시(Bi-di) : Pair 4 (갈색)   <-======-> 양방향 동시 250Mbps 전송
  => 4쌍을 전부 양방향으로 동시 송수신. 복잡한 에코 캔슬러(Echo Canceller) 회로 필수.
 ```
 이 도식에서 핵심은 기가비트 속도를 위해 UTP가 남는 페어를 모두 동원할 뿐만 아니라, 하나의 페어 안에서 송신과 수신을 동시에 수행하는 전이중(Full Duplex / Bi-directional) 방식으로 구동된다는 점이다. 이럴 경우 내가 보낸 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수신 측으로 꺾여 들어오는 치명적인 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)(Echo) 간섭이 발생하는데, 기가비트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋 내부의 고도화된 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기)가 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 캔슬링 알고리즘을 수행하여 이 혼돈 상태를 실시간으로 정돈해낸다. 즉, UTP [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체의 빈약한 방어력을 종단 장비의 미친듯한 수학적 연산력(DSP)으로 보상하여 속도를 끌어올린 것이다.
@@ -108,13 +108,13 @@ Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리�
 
 이 의사결정 트리는 신규 건물 사무실망 구축 시 UTP 스펙(카테고리) 선정 기준을 제시한다.
 ```text
-[오피스 수평 배선망 설계] ──> 사용 목적 및 AP 요구 대역폭 판단
-                             ├─ 단말 PC 단순 웹서핑, 1Gbps 이내 ──> [Cat.5e 적용] (가성비 최우선, 시공 유연성 극대화)
-                             │
-                             └─ 무선 AP 백홀 (Wi-Fi 6/7 적용), 대용량 그래픽 단말
-                                  ├─ 향후 5년 내 10G 업그레이드 예상 여부
-                                  │   ├─ No  ──> [Cat.6 적용] (안정적 1Gbps, 격벽 기반 노이즈 방어)
-                                  │   └─ Yes ──> [Cat.6a 적용] (100m 10Gbps 보장, 굵기가 굵어 관로 여유 공간 확보 필수)
+[오피스 수평 배선망 설계] --> 사용 목적 및 AP 요구 대역폭 판단
+                             +- 단말 PC 단순 웹서핑, 1Gbps 이내 --> [Cat.5e 적용] (가성비 최우선, 시공 유연성 극대화)
+                             |
+                             +- 무선 AP 백홀 (Wi-Fi 6/7 적용), 대용량 그래픽 단말
+                                  +- 향후 5년 내 10G 업그레이드 예상 여부
+                                  |   +- No  --> [Cat.6 적용] (안정적 1Gbps, 격벽 기반 노이즈 방어)
+                                  |   +- Yes --> [Cat.6a 적용] (100m 10Gbps 보장, 굵기가 굵어 관로 여유 공간 확보 필수)
 ```
 이 흐름에서 기술사적 함의는 무조건 높은 등급(Cat.6a)이 정답이 아니라는 점이다. Cat.6a는 내부 심선이 굵고 피복이 매우 단단하여 굴곡 반경(Bending [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))이 크다. 기존 얇은 배관이 매설된 구형 건물에 무리하게 Cat.6a를 밀어 넣으면 케이블이 꺾여버리거나 관로가 꽉 막혀 방열/추가 배선이 불가능해지는 최악의 병목을 초래하므로, 현장 실측을 통한 관로 용적률(Fill Ratio) 계산이 선행되어야 한다.
 
@@ -155,12 +155,12 @@ Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리�
 
 ```text
 [선행 개념: 꼬임 쌍선 케이블]
-    │
-    ▼
+    |
+    v
 [현재 개념: UTP]
-    │
-    ├──▶ [확장 A: STP / FTP]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: STP / FTP]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 UTP는 꼬임 쌍선 케이블에서 출발해 현재 메커니즘을 정교화하고, 이후 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) / FTP와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -177,7 +177,7 @@ UTP는 꼬임 쌍선 케이블에서 출발해 현재 메커니즘을 정교화�
 
 **진행 상황**: 245 / 1120
 
-← **이전**: [123. 꼬임 쌍선 케이블 (Twisted Pair Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/123_twisted_pair_cable/)
-**다음**: [125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/) →
+<- **이전**: [123. 꼬임 쌍선 케이블 (Twisted Pair Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/123_twisted_pair_cable/)
+**다음**: [125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/) ->
 
 ---

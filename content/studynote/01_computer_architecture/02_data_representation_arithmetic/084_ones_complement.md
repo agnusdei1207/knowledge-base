@@ -121,14 +121,14 @@ n비트 1의 보수에서 표현 가능한 값은 - (2^(n-1) - 1)부터 + (2^(n-
 
 ```text
 양수 비트열
-  │
-  ▼
+  |
+  v
 모든 비트 반전
-  │
-  ▼
+  |
+  v
 음수 표현
-  │
-  ▼
+  |
+  v
 덧셈 시 end-around carry 적용
 ```
 
@@ -146,7 +146,7 @@ n비트 1의 보수에서 표현 가능한 값은 - (2^(n-1) - 1)부터 + (2^(n-
 
 **진행 상황**: 84 / 803
 
-← **이전**: [83. 부호와 절댓값 (Sign-Magnitude)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/083_sign_magnitude/)
-**다음**: [85. 2의 보수 (2's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/085_twos_complement/) →
+<- **이전**: [83. 부호와 절댓값 (Sign-Magnitude)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/083_sign_magnitude/)
+**다음**: [85. 2의 보수 (2's Complement)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/085_twos_complement/) ->
 
 ---

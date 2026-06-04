@@ -38,15 +38,15 @@ tags = ["studynote-ai"]
 | **3. 다중 채널 (Multi-Channel)** | 다양한 특징 동시 확보 | 64개 필터 적용 시, 64개의 채널을 가진 다층 특성 맵 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 완성 |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                     특성 맵 생성 과정 (Feature Extraction)             │
-├────────────────────────────────────────────────────────────────────────┤
-│  [원본 이미지]   *   [다중 필터]   =  [선형 특성 맵]  ->  [액티베이션 맵]  │
-│  (H x W x 3)         (64 Filters)     (H' x W' x 64)      (ReLU 적용)  │
-│      │                   │                 │                   │       │
-│  복잡한 픽셀        가로선/세로선 등       필터 반응값        음수 제거(노이즈↓)│
-│                     패턴 탐지기        단순 집계 결과     핵심 특징만 강조  │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                     특성 맵 생성 과정 (Feature Extraction)             |
++------------------------------------------------------------------------+
+|  [원본 이미지]   *   [다중 필터]   =  [선형 특성 맵]  ->  [액티베이션 맵]  |
+|  (H x W x 3)         (64 Filters)     (H' x W' x 64)      (ReLU 적용)  |
+|      |                   |                 |                   |       |
+|  복잡한 픽셀        가로선/세로선 등       필터 반응값        음수 제거(노이즈v)|
+|                     패턴 탐지기        단순 집계 결과     핵심 특징만 강조  |
++------------------------------------------------------------------------+
 ```
 
 이 과정에서 출력되는 특성 맵의 가로세로 크기는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 수학적으로 결정되며, 채널의 개수는 사용한 필터의 개수와 정확히 일치한다.
@@ -109,17 +109,17 @@ tags = ["studynote-ai"]
 
 ```text
 원본 이미지 (Raw Image)
-    │
-    ▼
+    |
+    v
 수동 필터 특징 추출 (Sobel, SIFT, HOG)
-    │
-    ▼
+    |
+    v
 합성곱 연산 (Convolution Kernel) 기반 선형 특성 맵 (Raw Feature Map)
-    │
-    ▼
+    |
+    v
 활성화 함수 (ReLU 등) 적용에 따른 액티베이션 맵 (Activation Map)
-    │
-    ▼
+    |
+    v
 채널 최적화 (1x1 Conv, Depthwise Separable Conv) 및 시각화 (Grad-CAM)
 ```
 
@@ -135,7 +135,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 99 / 420
 
-← **이전**: [98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)
-**다음**: [100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/) →
+<- **이전**: [98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)
+**다음**: [100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/) ->
 
 ---

@@ -32,25 +32,25 @@ tags = ["database"]
 
 | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형 | 설명 | 수식 예시 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- | :--- |
-| **완전 함수 종속 (Full FD)** | 종속자 Y가 기본키 X 전체에 대해서만 종속되고, X의 일부분에는 종속되지 않는 상태. | `{학번, 과목} → 성적` | 정상 (이상적 상태) |
-| **부분 함수 종속 (Partial FD)** | 종속자 Y가 기본키 X의 전체가 아닌 일부에만 종속되는 상태. | `{학번, 과목} → 학생이름`<br>(학생이름은 학번에만 종속됨) | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))의 제거 대상 |
-| **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때, $X \rightarrow Z$가 성립하는 연쇄적 종속 상태. | `학번 → 학과`, `학과 → 학과장`<br>(학번 → 학과장) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))의 제거 대상 |
+| **완전 함수 종속 (Full FD)** | 종속자 Y가 기본키 X 전체에 대해서만 종속되고, X의 일부분에는 종속되지 않는 상태. | `{학번, 과목} -> 성적` | 정상 (이상적 상태) |
+| **부분 함수 종속 (Partial FD)** | 종속자 Y가 기본키 X의 전체가 아닌 일부에만 종속되는 상태. | `{학번, 과목} -> 학생이름`<br>(학생이름은 학번에만 종속됨) | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))의 제거 대상 |
+| **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때, $X \rightarrow Z$가 성립하는 연쇄적 종속 상태. | `학번 -> 학과`, `학과 -> 학과장`<br>(학번 -> 학과장) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))의 제거 대상 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  함수적 종속성의 3가지 구조                  │
-├──────────────────────────────────────────────────────────────┤
-│ [1] 완전 함수 종속         [2] 부분 함수 종속         [3] 이행적 함수 종속         │
-│   ┌──────┴──────┐          ┌──────┴──────┐          ┌─────────────┐        │
-│   │             │          │             │          │             │        │
-│   X1            X2         X1            X2         X             │        │
-│   └──────┬──────┘          │             │          │             │        │
-│          │                 │             │          ▼             │        │
-│          ▼                 ▼             │          Y ────────────┘        │
-│          Y                 Y (X1에만 종속)│          │                      │
-│                            └─────────────┘          ▼                      │
-│                                                     Z                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  함수적 종속성의 3가지 구조                  |
++--------------------------------------------------------------+
+| [1] 완전 함수 종속         [2] 부분 함수 종속         [3] 이행적 함수 종속         |
+|   +------+------+          +------+------+          +-------------+        |
+|   |             |          |             |          |             |        |
+|   X1            X2         X1            X2         X             |        |
+|   +------+------+          |             |          |             |        |
+|          |                 |             |          v             |        |
+|          v                 v             |          Y ------------+        |
+|          Y                 Y (X1에만 종속)|          |                      |
+|                            +-------------+          v                      |
+|                                                     Z                      |
++--------------------------------------------------------------+
 ```
 
 다이어그램에서 보듯, 부분 함수 종속과 이행적 함수 종속은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 훼손하는 우회 경로를 만든다. 이 우회 경로를 끊고 독립된 테이블로 분리하는 과정이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)다.
@@ -117,17 +117,17 @@ tags = ["database"]
 
 ```text
 비정규 릴레이션 (데이터 중복 및 이상 현상)
-    │
-    ▼
+    |
+    v
 부분 함수 종속 (Partial FD) 식별 및 제거
-    │
-    ▼
+    |
+    v
 제2정규형 (2NF) 달성
-    │
-    ▼
+    |
+    v
 이행적 함수 종속 (Transitive FD) 식별 및 제거
-    │
-    ▼
+    |
+    v
 제3정규형 (3NF) 및 BCNF 달성 (모든 결정자가 후보키)
 ```
 
@@ -145,7 +145,7 @@ tags = ["database"]
 
 **진행 상황**: 91 / 600
 
-← **이전**: [90. 이상 현상 (Anomaly) - 정규화를 거치지 않아 발생하는 데이터 중복에 따른 부작용](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)
-**다음**: [92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) →
+<- **이전**: [90. 이상 현상 (Anomaly) - 정규화를 거치지 않아 발생하는 데이터 중복에 따른 부작용](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)
+**다음**: [92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) ->
 
 ---

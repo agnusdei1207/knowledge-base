@@ -25,11 +25,11 @@ tags = ["studynote-data-engineering"]
 
 ```text
 데이터 분포
-    │
-    ├─ 정상 밀집 구간
-    └─ 외딴 점 / 희귀 패턴
-            │
-            ▼
+    |
+    +- 정상 밀집 구간
+    +- 외딴 점 / 희귀 패턴
+            |
+            v
     이상치 탐지 및 처리
 ```
 
@@ -58,8 +58,8 @@ IQR의 일반적 경계는 다음과 같다.
 ```
 
 ```text
-정상 구간 ──────┬───────────────┬────── 정상 구간
-                 │               │
+정상 구간 ------+---------------+------ 정상 구간
+                 |               |
                하한            상한
                 이상치         이상치
 ```
@@ -133,14 +133,14 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 ```text
 통계 기반 탐지(IQR, Z-score)
-    │
-    ▼
+    |
+    v
 밀도 기반(DBSCAN)
-    │
-    ▼
+    |
+    v
 트리 기반(Isolation Forest)
-    │
-    ▼
+    |
+    v
 이상 탐지 + 사기/장애 모니터링
 ```
 
@@ -158,7 +158,7 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 **진행 상황**: 76 / 258
 
-← **이전**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/)
-**다음**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/) →
+<- **이전**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/)
+**다음**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/) ->
 
 ---

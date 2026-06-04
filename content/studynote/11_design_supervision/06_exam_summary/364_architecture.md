@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [계층형 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) ([Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))은 프레젠테이션, 애플리케이션, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 수직 계층으로 나누는 아키텍처 스타일이다. 업무 규칙과 입출력 코드를 뒤섞지 않기 위해 오래전부터 가장 널리 쓰인 구조적 분리 방식이다. 이 개념이 필요한 이유는 관심사를 수직 계층으로 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 화면 변경이나 저장소 교체가 핵심 규칙까지 침투하고, 계층 책임이 흐려진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│   Layer    │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|   Layer    |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 모놀리식 | [계층형 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) ([Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[단일 코드베이스] → [계층형 아키텍처] → [경계 기반 아키텍처]
+[단일 코드베이스] -> [계층형 아키텍처] -> [경계 기반 아키텍처]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [계층형 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) ([Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))은 학교 건물을 층별로 교실, 행정실, 창고로 나누는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 442 / 530
 
-← **이전**: [363. 결합도·응집도 (Coupling and Cohesion)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/363_process/)
-**다음**: [365. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/365_architecture/) →
+<- **이전**: [363. 결합도·응집도 (Coupling and Cohesion)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/363_process/)
+**다음**: [365. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/365_architecture/) ->
 
 ---

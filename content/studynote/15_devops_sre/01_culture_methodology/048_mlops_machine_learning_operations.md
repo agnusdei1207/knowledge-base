@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> 1. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 전체 생애주기(개발→학습→배포→[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링→재학습)를 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙으로 자동화하는 방법론 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.
+> 1. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 전체 생애주기(개발->학습->배포->[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링->재학습)를 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙으로 자동화하는 방법론 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.
 > 2. ML 모델은 소프트웨어와 달리 "[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))"라는 추가 운영 도전이 있다 — 코드가 변경되지 않아도 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 변화로 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되며, 이를 자동으로 탐지하고 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이 MLOps의 핵심이다.
 > 3. Feature Store가 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도의 핵심 지표 — 특성(Feature) 재사용·공유·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 가능하게 하는 [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 없이는 학습-서빙 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제와 특성 계산 중복이 필연적으로 발생한다.
 
@@ -25,18 +25,18 @@ MLOps (Machine Learning Operations):
 
 ML 생애주기:
 
-데이터 수집/준비 → 특성 엔지니어링 → 모델 학습
-      ↑                                      ↓
+데이터 수집/준비 -> 특성 엔지니어링 -> 모델 학습
+      ^                                      v
 재학습 트리거                         모델 평가
-      ↑                                      ↓
+      ^                                      v
 성능 모니터링                         배포 (A/B, Canary)
-      ↑                                      ↓
+      ^                                      v
 데이터 드리프트 탐지               서빙 (추론 API)
 
 MLOps 없을 때의 문제:
 
 "연구실 노트북에서 프로덕션으로":
-  데이터 사이언티스트: 노트북에서 모델 학습 → pickle 파일
+  데이터 사이언티스트: 노트북에서 모델 학습 -> pickle 파일
   엔지니어: 수동으로 모델 배포
 
   문제:
@@ -52,16 +52,16 @@ Level 0: 수동
 
 Level 1: ML 파이프라인 자동화
   학습 파이프라인 자동화
-  데이터 드리프트 탐지 → 자동 재학습
+  데이터 드리프트 탐지 -> 자동 재학습
   모델 레지스트리
 
 Level 2: CI/CD 파이프라인 자동화
-  모델 코드 변경 → 자동 재학습 → 자동 배포
+  모델 코드 변경 -> 자동 재학습 -> 자동 배포
   A/B 테스트 자동화
   Feature Store
 ```
 
-> 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원이 레시피(모델) 개발, 공장([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))이 원자재 수급([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))→생산(학습)→품질검사(평가)→출하(배포)→불량 탐지(드리프트) 자동화!
+> 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원이 레시피(모델) 개발, 공장([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))이 원자재 수급([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))->생산(학습)->품질검사(평가)->출하(배포)->불량 탐지(드리프트) 자동화!
 
 ---
 
@@ -79,7 +79,7 @@ Level 2: CI/CD 파이프라인 자동화
   예:
   신용 점수 모델: 2019년 데이터 학습
   COVID-19 이후: 수입 패턴 급변
-  → 모델이 "정상"이라 판단하는 기준 틀어짐
+  -> 모델이 "정상"이라 판단하는 기준 틀어짐
 
 2. 컨셉 드리프트 (Concept Drift):
   입력-출력 관계 자체가 변화
@@ -87,7 +87,7 @@ Level 2: CI/CD 파이프라인 자동화
   예:
   스팸 필터: "Zoom 초대" = 정상 메일
   COVID 이후: "Zoom 사기" 스팸 급증
-  → 기존 관계 변화 → 재학습 필요
+  -> 기존 관계 변화 -> 재학습 필요
 
 3. 레이블 드리프트:
   출력 분포의 변화
@@ -95,7 +95,7 @@ Level 2: CI/CD 파이프라인 자동화
   예:
   불량품 탐지 모델: 불량률 2% 기준 학습
   신규 공정 도입 후: 불량률 5%로 증가
-  → 임계값 재조정 필요
+  -> 임계값 재조정 필요
 
 드리프트 탐지 기법:
 
@@ -124,9 +124,9 @@ Feature Store (특성 저장소):
 
 Feature Store 없을 때 문제:
 
-팀 A: 추천 모델 → user_avg_purchase 특성 계산 코드
-팀 B: 이탈 예측 → user_avg_purchase 동일 계산 별도 구현
-팀 C: 신용 평가 → 또 다른 버전 구현
+팀 A: 추천 모델 -> user_avg_purchase 특성 계산 코드
+팀 B: 이탈 예측 -> user_avg_purchase 동일 계산 별도 구현
+팀 C: 신용 평가 -> 또 다른 버전 구현
 
 문제:
   계산 중복 = 비용 낭비
@@ -182,15 +182,15 @@ ML 모델 배포 전략:
   결과 비교: current vs shadow 예측 분포 비교
 
 2. Canary 배포:
-  트래픽 1% → 새 모델
-  트래픽 99% → 기존 모델
+  트래픽 1% -> 새 모델
+  트래픽 99% -> 기존 모델
 
-  점진적 증가: 1% → 5% → 20% → 100%
+  점진적 증가: 1% -> 5% -> 20% -> 100%
 
   모니터링: 각 단계에서 비즈니스 지표 확인
 
 3. A/B 테스트:
-  사용자 그룹을 분리 → 서로 다른 모델
+  사용자 그룹을 분리 -> 서로 다른 모델
 
   KPI: 추천 클릭률, 전환율 등
   통계적 유의성 확인 후 롤아웃
@@ -210,7 +210,7 @@ ML 모델 배포 전략:
   MLflow Model Registry: 버전, 스테이지 관리
   SageMaker Model Registry
 
-  Staging → Production 승격 워크플로우
+  Staging -> Production 승격 워크플로우
   롤백: 이전 버전으로 즉시 전환
 ```
 
@@ -241,30 +241,30 @@ TO-BE MLOps 구축:
   user_category_preference (카테고리 선호도)
   item_popularity_score (아이템 인기도)
 
-  학습 시: Feast 과거 스냅샷 → 오프라인 학습
-  서빙 시: Feast + Redis → P99 5ms 특성 조회
+  학습 시: Feast 과거 스냅샷 -> 오프라인 학습
+  서빙 시: Feast + Redis -> P99 5ms 특성 조회
 
 2. 학습 파이프라인 (Kubeflow):
-  매일 새 데이터 → 자동 파이프라인 실행
+  매일 새 데이터 -> 자동 파이프라인 실행
   모델 품질 게이트: Precision@K ≥ 0.35
-  통과 시 → MLflow 레지스트리 등록
+  통과 시 -> MLflow 레지스트리 등록
 
 3. 배포 (Seldon Core + Canary):
-  신규 모델 → 1% 트래픽
-  2시간 후 지표 확인 → 5% → 20% → 100%
+  신규 모델 -> 1% 트래픽
+  2시간 후 지표 확인 -> 5% -> 20% -> 100%
 
 4. 모니터링 + 재학습 트리거:
   Evidently: 입력 특성 PSI 모니터링
-  PSI > 0.2 또는 CTR 5% 이상 하락 → 재학습 자동 트리거
+  PSI > 0.2 또는 CTR 5% 이상 하락 -> 재학습 자동 트리거
 
 결과:
-  배포 주기: 월 1회 → 일 1회 (자동)
-  드리프트 감지: 2주 → 24시간 내
-  CTR: 3.2% → 4.1% (모델 품질 향상)
-  특성 계산 비용: 팀별 중복 제거 → 35% 감소
+  배포 주기: 월 1회 -> 일 1회 (자동)
+  드리프트 감지: 2주 -> 24시간 내
+  CTR: 3.2% -> 4.1% (모델 품질 향상)
+  특성 계산 비용: 팀별 중복 제거 -> 35% 감소
 ```
 
-> 📢 **섹션 요약 비유**: 추천 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(원자재)→학습(생산)→배포(출하)→드리프트 탐지(불량 감지)→재학습(품질 개선) 자동화. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 28% 향상, 배포 월1→일1회!
+> 📢 **섹션 요약 비유**: 추천 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(원자재)->학습(생산)->배포(출하)->드리프트 탐지(불량 감지)->재학습(품질 개선) 자동화. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 28% 향상, 배포 월1->일1회!
 
 ---
 
@@ -273,7 +273,7 @@ TO-BE MLOps 구축:
 ```
 MLOps
 +-- 생애주기
-|   +-- 데이터 준비 → 학습 → 배포 → 모니터링 → 재학습
+|   +-- 데이터 준비 -> 학습 -> 배포 -> 모니터링 -> 재학습
 +-- 핵심 개념
 |   +-- 데이터 드리프트 탐지
 |   +-- Feature Store
@@ -286,7 +286,7 @@ MLOps
 |   +-- Feast (Feature Store)
 |   +-- Seldon Core, BentoML
 +-- 성숙도
-    +-- Level 0 → Level 1 → Level 2
+    +-- Level 0 -> Level 1 -> Level 2
 ```
 
 ---
@@ -323,7 +323,7 @@ Feast, Tecton
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트)이 레시피 개발, 공장([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))이 재료→생산→출하→불량 탐지 자동화!
+1. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트)이 레시피 개발, 공장([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))이 재료->생산->출하->불량 탐지 자동화!
 2. [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) = 낡은 지도 — 2019년 지도로 2023년 운전하면 길 안내 오류. 드리프트 감지 = 지도 갱신 필요 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)!
 3. [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) = 표준 재료 창고 — 여러 팀이 같은 재료를 따로 만들면 낭비+불일치. 창고([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))에서 표준 재료 공유!
 
@@ -333,7 +333,7 @@ Feast, Tecton
 
 **진행 상황**: 48 / 373
 
-← **이전**: [047. Error Budget — 오류 예산과 SLO](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)
-**다음**: [049. DataOps — 데이터 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) →
+<- **이전**: [047. Error Budget — 오류 예산과 SLO](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)
+**다음**: [049. DataOps — 데이터 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) ->
 
 ---

@@ -38,14 +38,14 @@ tags = ["studynote-algorithm"]
 ```
 버킷 배열 (m = 5)
 
-  [0] ──▶ NULL
-  [1] ──▶ ["dog", 3] ──▶ ["cat", 7] ──▶ NULL
-  [2] ──▶ ["ace", 1] ──▶ NULL
-  [3] ──▶ ["fox", 5] ──▶ ["ant", 2] ──▶ ["owl", 9] ──▶ NULL
-  [4] ──▶ NULL
+  [0] ---> NULL
+  [1] ---> ["dog", 3] ---> ["cat", 7] ---> NULL
+  [2] ---> ["ace", 1] ---> NULL
+  [3] ---> ["fox", 5] ---> ["ant", 2] ---> ["owl", 9] ---> NULL
+  [4] ---> NULL
 
-hash("dog")%5=1,  hash("cat")%5=1  → 같은 버킷1에 체인
-hash("fox")%5=3,  hash("ant")%5=3,  hash("owl")%5=3  → 버킷3 체인 3개
+hash("dog")%5=1,  hash("cat")%5=1  -> 같은 버킷1에 체인
+hash("fox")%5=3,  hash("ant")%5=3,  hash("owl")%5=3  -> 버킷3 체인 3개
 ```
 
 ### 체인법의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
@@ -62,21 +62,21 @@ hash("fox")%5=3,  hash("ant")%5=3,  hash("owl")%5=3  → 버킷3 체인 3개
 
 ```
 Java 8 이전:  버킷 = 연결 리스트    탐색 최악 O(n)
-Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)로 자동 변환
-              트리 노드 수   ≤ 6  →  다시 연결 리스트로 복원
+Java 8 이후:  체인 길이 ≥ 8  ->  레드-블랙 트리 (Red-Black Tree)로 자동 변환
+              트리 노드 수   ≤ 6  ->  다시 연결 리스트로 복원
 
-              효과: 최악 탐색 O(n) → O(log n)으로 격하
+              효과: 최악 탐색 O(n) -> O(log n)으로 격하
 ```
 
 ### 체인 길이와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
-버킷 수 m = 10, 원소 수 n = 30  →  α = 3.0
+버킷 수 m = 10, 원소 수 n = 30  ->  α = 3.0
 평균 체인 길이 = α = 3
-평균 탐색 = O(1 + α) = O(4)  ← 여전히 상수에 가까움
+평균 탐색 = O(1 + α) = O(4)  <- 여전히 상수에 가까움
 
-버킷 수 m = 10, 원소 수 n = 1000 → α = 100
-평균 탐색 = O(101)  ← 사실상 선형, 리해싱 필요!
+버킷 수 m = 10, 원소 수 n = 1000 -> α = 100
+평균 탐색 = O(101)  <- 사실상 선형, 리해싱 필요!
 ```
 
 📢 **섹션 요약 비유**: 체인 길이는 마트 계산대 앞 줄 길이다—α가 크면 줄이 길어지므로 계산대(버킷)를 늘리는 것(리해싱)이 답이다.
@@ -121,10 +121,10 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 ### 기술사 판단 기준
 
 ```
-삭제 빈번 + 부하율 예측 불가    →  체이닝 (Tombstone 불필요)
-메모리 캐시 효율 최우선          →  오픈 어드레싱 (선형/이중 해시)
-극단적 충돌 방지 (보안 포함)    →  트리 체이닝 (Java 8+ HashMap 방식)
-공간 극소화 + 대략적 멤버십     →  블룸 필터
+삭제 빈번 + 부하율 예측 불가    ->  체이닝 (Tombstone 불필요)
+메모리 캐시 효율 최우선          ->  오픈 어드레싱 (선형/이중 해시)
+극단적 충돌 방지 (보안 포함)    ->  트리 체이닝 (Java 8+ HashMap 방식)
+공간 극소화 + 대략적 멤버십     ->  블룸 필터
 ```
 
 📢 **섹션 요약 비유**: Java HashMap은 처음엔 서랍마다 줄을 세우다가, 줄이 너무 길어지면 줄을 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리로 재편성하는 똑똑한 관리자다.
@@ -156,20 +156,20 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 
 ```text
 [직접 주소 테이블 (Direct Address Table) — 키=인덱스, 메모리 낭비]
-    │
-    ▼
-[해시 테이블 (Hash Table) — 해시 함수로 키→인덱스 매핑, 충돌 불가피]
-    │
-    ▼
+    |
+    v
+[해시 테이블 (Hash Table) — 해시 함수로 키->인덱스 매핑, 충돌 불가피]
+    |
+    v
 [체이닝 (Chaining) — 연결 리스트로 충돌 항목 연결, 부하율 무제한 수용]
-    │
-    ▼
+    |
+    v
 [오픈 어드레싱 (Open Addressing) — 빈 슬롯 탐사로 충돌 해결, 캐시 친화적]
-    │
-    ▼
+    |
+    v
 [동적 해싱 (Dynamic Hashing / Extendible Hashing) — 테이블 크기 자동 확장]
-    │
-    ▼
+    |
+    v
 [로빈후드 해싱 (Robin Hood Hashing) — 탐사 거리 분산으로 최악 경우 개선]
 ```
 이 흐름은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리 방식이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 체이닝에서 시작하여 캐시 효율·부하율 최적화를 향해 다양한 오픈 어드레싱 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 분화하고, 현대 언어 런타임의 고성능 해시맵으로 수렴하는 자료구조 진화를 보여준다.
@@ -186,7 +186,7 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 
 **진행 상황**: 69 / 175
 
-← **이전**: [개방 주소법 (Open Addressing)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)
-**다음**: [18. 그래프 (Graph) — 방향/무방향, 가중/비가중](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) →
+<- **이전**: [개방 주소법 (Open Addressing)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)
+**다음**: [18. 그래프 (Graph) — 방향/무방향, 가중/비가중](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ->
 
 ---

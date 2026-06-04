@@ -36,19 +36,19 @@ OPT의 동작 원리는 단순하지만 강력하다. [페이지 폴트](/knowle
 아래 그림은 OPT가 현재 상태가 아니라 <strong>미래 재참조 거리</strong>를 기준으로 희생 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 고르는 과정을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              OPT의 판단 기준: 현재 인기도가 아니라 다음 사용 시점          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 현재 프레임: [ A ][ B ][ C ]                                               │
-│ 새 요청 페이지: D                                                          │
-│                                                                            │
-│ 미래 참조열:        B ─── E ─── A ─── F ─── C ─── ...                     │
-│ 다음 사용 시점:     1       -       3       -       5                     │
-│                    A=3, B=1, C=5                                           │
-│                                                                            │
-│ 판단: 가장 늦게 다시 쓰일 페이지는 C                                      │
-│ 결과: C를 교체하고 D 적재                                                  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              OPT의 판단 기준: 현재 인기도가 아니라 다음 사용 시점          |
++----------------------------------------------------------------------------+
+| 현재 프레임: [ A ][ B ][ C ]                                               |
+| 새 요청 페이지: D                                                          |
+|                                                                            |
+| 미래 참조열:        B --- E --- A --- F --- C --- ...                     |
+| 다음 사용 시점:     1       -       3       -       5                     |
+|                    A=3, B=1, C=5                                           |
+|                                                                            |
+| 판단: 가장 늦게 다시 쓰일 페이지는 C                                      |
+| 결과: C를 교체하고 D 적재                                                  |
++----------------------------------------------------------------------------+
 ```
 
 이 원리를 수식처럼 정리하면 다음과 같다.
@@ -142,26 +142,26 @@ OPT를 기준으로 삼으면 [페이지 교체](/knowledge-base/studynote/02_op
 
 ```text
 참조열 분석
-    │
-    ▼
+    |
+    v
 OPT (Optimal Replacement)
-    │
-    ├─ 이론적 최소 페이지 폴트 기준 수립
-    │
-    ▼
+    |
+    +- 이론적 최소 페이지 폴트 기준 수립
+    |
+    v
 LRU (Least Recently Used)
-    │
-    ├─ 과거 최근성으로 미래를 근사
-    │
-    ▼
+    |
+    +- 과거 최근성으로 미래를 근사
+    |
+    v
 Clock Algorithm / NUR (Not Used Recently)
-    │
-    ├─ 낮은 오버헤드로 LRU 근사
-    │
-    ▼
+    |
+    +- 낮은 오버헤드로 LRU 근사
+    |
+    v
 Working Set · PFF (Page Fault Frequency)
-    │
-    └─ 교체 정책을 넘어 메모리 할당량까지 동적으로 조정
+    |
+    +- 교체 정책을 넘어 메모리 할당량까지 동적으로 조정
 ```
 
 이 흐름은 “완전한 미래 예측”에서 출발해 “현실적인 근사”와 “운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 확장”으로 이어지는 발전 방향을 보여 준다. OPT는 끝점이 아니라 출발점이며, 이후 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 모두 그 이상적 기준을 얼마나 싸고 안정적으로 흉내 낼 것인지에 대한 답변이다.
@@ -178,7 +178,7 @@ Working Set · PFF (Page Fault Frequency)
 
 **진행 상황**: 301 / 803
 
-← **이전**: [300. 페이지 교체 알고리즘 (Page Replacement)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/300_page_replacement/)
-**다음**: [302. 클럭 알고리즘 (Clock Algorithm)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/) →
+<- **이전**: [300. 페이지 교체 알고리즘 (Page Replacement)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/300_page_replacement/)
+**다음**: [302. 클럭 알고리즘 (Clock Algorithm)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/) ->
 
 ---

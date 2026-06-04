@@ -33,11 +33,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 App
- ↓
+ v
 Container Runtime
- ↓
+ v
 Namespace / cgroups
- ↓
+ v
 Host OS Kernel
 ```
 
@@ -104,11 +104,11 @@ Host OS Kernel
 
 ```text
 Host OS
-   ↓
+   v
 Namespace / cgroups
-   ↓
+   v
 Container Runtime
-   ↓
+   v
 Container Image
 ```
 
@@ -118,11 +118,11 @@ Container Image
 
 ```text
 VM 기반 가상화
-   ↓
+   v
 OS 수준 가상화
-   ↓
+   v
 Docker / Kubernetes
-   ↓
+   v
 Cloud Native / MSA
 ```
 
@@ -140,7 +140,7 @@ Cloud Native / MSA
 
 **진행 상황**: 60 / 800
 
-← **이전**: [59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)
-**다음**: [61. 네임스페이스 (Namespace) - 자원 격리](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) →
+<- **이전**: [59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)
+**다음**: [61. 네임스페이스 (Namespace) - 자원 격리](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ->
 
 ---

@@ -235,7 +235,7 @@ Serverless, eBPF, Service Mesh 발전
 
 **진행 상황**: 39 / 371
 
-← **이전**: [039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/039_kvm_ovf/)
-**다음**: [041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/041_cloud_migration_6r_strategies/) →
+<- **이전**: [039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/039_kvm_ovf/)
+**다음**: [041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/041_cloud_migration_6r_strategies/) ->
 
 ---

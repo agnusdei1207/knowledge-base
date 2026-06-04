@@ -22,8 +22,8 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">Virtual Machine</a>) vs <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong>의 가장 큰 차이는 Guest OS 유무다. VM은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 위에 완전한 OS를 올리므로 격리 수준이 높지만 기동에 수 분, 이미지 크기는 GB 단위다. 반면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 호스트 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하므로 기동 시간 수 초, 이미지 크기 수십~수백 MB다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>가 해결하는 문제</strong>:
-- "내 컴퓨터에선 잘 되는데(Works on My Machine)" 문제 해소 → 동일 이미지로 개발/스테이징/운영 환경 일치
-- 밀집 배포: 동일 서버에 수십~수백 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동시 실행 → 자원 활용률 향상
+- "내 컴퓨터에선 잘 되는데(Works on My Machine)" 문제 해소 -> 동일 이미지로 개발/스테이징/운영 환경 일치
+- 밀집 배포: 동일 서버에 수십~수백 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동시 실행 -> 자원 활용률 향상
 - [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/))의 기반 단위
 
 - **📢 섹션 요약 비유**: VM은 방을 통째로 빌리는 것이고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 칸막이로 공간을 나눠 쓰는 코워킹 스페이스다. 칸막이가 벽보다 빨리 설치되고 비용도 저렴하지만, 방음은 덜하다.
@@ -39,16 +39,16 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/">도커 이미지</a> 레이어 구조(Union FS)</strong>:
 
 ```
-┌────────────────────────────────────────┐
-│  Container Layer (읽기/쓰기, 임시)      │
-├────────────────────────────────────────┤
-│  App Layer (COPY ./app /app)           │
-├────────────────────────────────────────┤
-│  Dependency Layer (RUN pip install)    │
-├────────────────────────────────────────┤
-│  Base Image (python:3.11-slim)         │
-└────────────────────────────────────────┘
-  ※ 각 레이어는 읽기 전용, 공유 가능 → 디스크 절약
++----------------------------------------+
+|  Container Layer (읽기/쓰기, 임시)      |
++----------------------------------------+
+|  App Layer (COPY ./app /app)           |
++----------------------------------------+
+|  Dependency Layer (RUN pip install)    |
++----------------------------------------+
+|  Base Image (python:3.11-slim)         |
++----------------------------------------+
+  ※ 각 레이어는 읽기 전용, 공유 가능 -> 디스크 절약
 ```
 
 | 구분 | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) |
@@ -73,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 - <strong>루트리스 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(Rootless <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong>: Podman — root 권한 없이 실행하여 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 탈출(Escape) 위험 감소
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> vs 마이크로VM(Firecracker)</strong>:
-AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 격리 → [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준 속도 + [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수준 보안 경계 달성.
+AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 격리 -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준 속도 + [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수준 보안 경계 달성.
 
 - **📢 섹션 요약 비유**: [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/)은 아파트 현관문 잠금장치다. 기본 잠금([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리)만으론 부족할 수 있으니, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(이미지 스캐닝)와 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(이미지 서명)도 함께 갖춰야 한다.
 
@@ -86,7 +86,7 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 2. 이미지 레이어 공유로 인한 디스크 효율성과 빌드 캐시 활용을 언급한다.
 3. 보안 측면에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 서명과 취약점 스캐닝을 반드시 포함한다.
 
-**실무 시나리오**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 Dockerfile로 이미지를 빌드할 때, 멀티 스테이지 빌드(Multi-Stage Build)를 적용하면 최종 이미지에 컴파일러나 빌드 도구가 포함되지 않아 이미지 크기와 공격 표면(Attack Surface)을 동시에 줄인다. 예: Go 앱 빌드 이미지 1.2GB → 최종 실행 이미지 15MB.
+**실무 시나리오**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 Dockerfile로 이미지를 빌드할 때, 멀티 스테이지 빌드(Multi-Stage Build)를 적용하면 최종 이미지에 컴파일러나 빌드 도구가 포함되지 않아 이미지 크기와 공격 표면(Attack Surface)을 동시에 줄인다. 예: Go 앱 빌드 이미지 1.2GB -> 최종 실행 이미지 15MB.
 
 - **📢 섹션 요약 비유**: 멀티 스테이지 빌드는 케이크 만들기와 같다 — 오븐(빌드 환경)과 그릇(실행 환경)을 분리하면, 오븐은 손님 테이블에 올리지 않아도 된다.
 
@@ -119,7 +119,7 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Pod · 오케스트레이션] → [도커 컨테이너 경량 OS 격리] → [자원 제한 · Linux 커널]
+[Pod · 오케스트레이션] -> [도커 컨테이너 경량 OS 격리] -> [자원 제한 · Linux 커널]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -134,7 +134,7 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 
 **진행 상황**: 501 / 552
 
-← **이전**: [500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/500_multi_cloud_vendor_lock_in_avoidance/)
-**다음**: [502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/502_kubernetes_pod_orchestration_deployment/) →
+<- **이전**: [500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/500_multi_cloud_vendor_lock_in_avoidance/)
+**다음**: [502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/502_kubernetes_pod_orchestration_deployment/) ->
 
 ---

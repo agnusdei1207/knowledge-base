@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SAST / DAST / IAST 보                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  SAST / DAST / IAST 보                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -63,19 +63,19 @@ tags = ["studynote-software-engineering"]
 | **단점** | **오탐(False Positive)** 많음 | 취약점 원인 파악 어려움 (느림) | 언어별 전용 에이전트 설치 필요 ([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  보안 테스팅 도구의 CI/CD 위치               │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [Code] ─────▶ [Build] ─────▶ [Test/QA] ─────▶ [Production] │
-│   │             │                 │                 │        │
-│   ▼             ▼                 ▼                 ▼        │
-│  IDE 플러그인   SonarQube        Selenium          WAF       │
-│  [SAST]         [SAST]           [DAST]           [RASP]     │
-│                                  [IAST]                      │
-│                                                              │
-│ ◀──────── Shift-Left (오른쪽으로 갈수록 수정 비용 증가) ────── │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  보안 테스팅 도구의 CI/CD 위치               |
++--------------------------------------------------------------+
+|                                                              |
+| [Code] ------> [Build] ------> [Test/QA] ------> [Production] |
+|   |             |                 |                 |        |
+|   v             v                 v                 v        |
+|  IDE 플러그인   SonarQube        Selenium          WAF       |
+|  [SAST]         [SAST]           [DAST]           [RASP]     |
+|                                  [IAST]                      |
+|                                                              |
+| <--------- Shift-Left (오른쪽으로 갈수록 수정 비용 증가) ------ |
++--------------------------------------------------------------+
 ```
 
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (정적)</strong>: 코드가 실행되지 않은 상태에서 텍스트(설계도)만 분석한다.
@@ -156,21 +156,21 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 SAST / DAST / IAST 보안 테스팅 도구 비교 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +184,7 @@ SAST / DAST / IAST 보안 테스팅 도구 비교 개념 정립
 
 **진행 상황**: 861 / 973
 
-← **이전**: [687. 시큐어 코딩 입력값 검증 XSS SQLi 방어](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/)
-**다음**: [689. RASP 런타임 자체 보호](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/689_rasp_runtime_application_self_protection/) →
+<- **이전**: [687. 시큐어 코딩 입력값 검증 XSS SQLi 방어](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/)
+**다음**: [689. RASP 런타임 자체 보호](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/689_rasp_runtime_application_self_protection/) ->
 
 ---

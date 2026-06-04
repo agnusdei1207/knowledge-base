@@ -31,13 +31,13 @@ tags = ["studynote-design"]
 
 ```text
 Source Code
-  ↓
+  v
 Dependencies
-  ↓
+  v
 License Scan
-  ↓
+  v
 Obligation Check
-  ↓
+  v
 Approval / Notice / Distribution
 ```
 
@@ -113,11 +113,11 @@ GPL과 MIT를 단순히 "엄격/느슨"으로만 보면 안 된다. 배포 모�
 
 ```text
 Dependencies
-  ↓
+  v
 License Compliance
-  ↓
+  v
 SBOM / SCA
-  ↓
+  v
 Release Approval
 ```
 
@@ -127,11 +127,11 @@ Release Approval
 
 ```text
 오픈소스 사용
-  ↓
+  v
 라이선스 검토
-  ↓
+  v
 SBOM
-  ↓
+  v
 공급망 컴플라이언스
 ```
 
@@ -149,7 +149,7 @@ SBOM
 
 **진행 상황**: 96 / 530
 
-← **이전**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance/)
-**다음**: [64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_matrix_rbac_audit/) →
+<- **이전**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance/)
+**다음**: [64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/064_access_control_matrix_rbac_audit/) ->
 
 ---

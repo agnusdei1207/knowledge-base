@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP 과정 4단계]
-    │
-    ▼
+    |
+    v
 [DHCP Relay Agent]
-    │
-    └──▶ [DHCP Lease / DHCP 갱신]
+    |
+    +---> [DHCP Lease / DHCP 갱신]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [DHCP 과정 4단계]
-    │
-    ▼
+    |
+    v
 [DHCP Relay Agent]
-    │
-    └──▶ [DHCP Lease / DHCP 갱신]
+    |
+    +---> [DHCP Lease / DHCP 갱신]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 
 ```text
 [ Subnet A (192.168.1.0) ]       [ Router / L3 Switch ]         [ Subnet B (10.0.0.0) ]
-        Client ────────────▶ (DHCP Relay Agent 설정됨) ──────────▶ DHCP Server
+        Client -------------> (DHCP Relay Agent 설정됨) -----------> DHCP Server
   (1) "IP 주세요!"           (2) 브로드캐스트를 유니캐스트로       (3) "아~ Subnet A에서
       (Broadcast)                변환 (도착지: 10.0.0.100)              왔구나? 192.168.1.10 줄게"
 ```
@@ -107,12 +107,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DHCP 과정 4단계]
-    │
-    ▼
+    |
+    v
 [현재 개념: DHCP Relay Agent]
-    │
-    ├──▶ [확장 A: DHCP Lease / DHCP 갱신]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: DHCP Lease / DHCP 갱신]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP Lease](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/525_dhcp_lease_t1_t2_timers/) / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -129,7 +129,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 645 / 1120
 
-← **이전**: [523. DHCP 과정 4단계 (DORA)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)
-**다음**: [525. DHCP Lease (임대 시간) / DHCP 갱신 (T1/T2 타이머)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/525_dhcp_lease_t1_t2_timers/) →
+<- **이전**: [523. DHCP 과정 4단계 (DORA)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)
+**다음**: [525. DHCP Lease (임대 시간) / DHCP 갱신 (T1/T2 타이머)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/525_dhcp_lease_t1_t2_timers/) ->
 
 ---

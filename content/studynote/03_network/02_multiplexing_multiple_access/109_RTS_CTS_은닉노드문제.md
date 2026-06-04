@@ -23,21 +23,21 @@ tags = ["studynote-network"]
 
 이 도식은 은닉 노드 문제의 물리적 발생 구조와 충돌 메커니즘을 명확히 시각화한다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│            [은닉 노드 문제의 물리적 공간 배치]         │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   (전파 도달 범위)             (전파 도달 범위)        │
-│  ┌─ - - - - - - ┐            ┌─ - - - - - - ┐          │
-│  │              ▼            ▼              │          │
-│ [Node A] ════> [Node B (AP)] <════ [Node C] │          │
-│  │ (송신)      (충돌 발생!)        (송신)   │          │
-│  └─ - - - - - - ┘            └─ - - - - - - ┘          │
-│                                                        │
-│ * 핵심 모순: A와 C는 서로의 전파 범위 밖에 있음.         │
-│ * 현상: A가 전송 중이어도 C는 Carrier Sense 시 '조용하다'│
-│         고 착각(CS 실패)하고 B에게 데이터를 쏘아버림.  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|            [은닉 노드 문제의 물리적 공간 배치]         |
++--------------------------------------------------------+
+|                                                        |
+|   (전파 도달 범위)             (전파 도달 범위)        |
+|  +- - - - - - - +            +- - - - - - - +          |
+|  |              v            v              |          |
+| [Node A] ----> [Node B (AP)] <---- [Node C] |          |
+|  | (송신)      (충돌 발생!)        (송신)   |          |
+|  +- - - - - - - +            +- - - - - - - +          |
+|                                                        |
+| * 핵심 모순: A와 C는 서로의 전파 범위 밖에 있음.         |
+| * 현상: A가 전송 중이어도 C는 Carrier Sense 시 '조용하다'|
+|         고 착각(CS 실패)하고 B에게 데이터를 쏘아버림.  |
++--------------------------------------------------------+
 ```
 이 구조도의 핵심은 통신 채널의 유휴 상태를 판단하는 단말기의 '청력(Carrier Sense)'이 모든 공간을 포괄하지 못한다는 데 있다. 유선 이더넷은 케이블이 하나로 이어져 있어 지구 끝에서 발생한 신호도 반드시 감지할 수 있지만, 무선은 그렇지 않다. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 랜덤 백오프 알고리즘만으로는 서로의 존재를 모르는 A와 C가 동시에 난수 대기(Backoff)를 끝내고 B를 향해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발사하는 것을 절대 막을 수 없다. 이를 방지하려면 A와 C가 서로 직접 대화할 수 없더라도, 중간에 있는 B를 스피커로 활용하여 "지금 A가 쓸 거니까 넌 조용히 해!"라고 알려주는 간접적인 예약 시스템이 필수적이었다.
 
@@ -61,17 +61,17 @@ tags = ["studynote-network"]
 [RTS / CTS 제어 프레임 교환을 통한 충돌 방지 시퀀스]
 
 [Node A (송신)]           [Node B (AP)]              [Node C (은닉 노드)]
-     │                         │                              │
-     ├─(1) RTS 프레임 송신 ───>│                              │
-     │  (Duration: 100ms)      │                              │
-     │                         ├─(2) CTS 프레임 브로드캐스트 ─>│ (A에게는 허가, C에게는 경고)
-     │<── CTS 프레임 수신 ─────┤  (Duration: 90ms)            │
-     │                         │                              ├──> (3) NAV 타이머 설정!
-     ├─(4) 본 데이터 송신 ────>│                              │    (90ms 동안 무조건 침묵)
-     │                         │                              │
-     │<─(5) 최종 ACK 수신 ─────┤                              │
-     │                         │                              │
-     │                         │                              └──> (6) NAV 종료, 채널 감시 재개
+     |                         |                              |
+     +-(1) RTS 프레임 송신 --->|                              |
+     |  (Duration: 100ms)      |                              |
+     |                         +-(2) CTS 프레임 브로드캐스트 ->| (A에게는 허가, C에게는 경고)
+     |<-- CTS 프레임 수신 -----+  (Duration: 90ms)            |
+     |                         |                              +--> (3) NAV 타이머 설정!
+     +-(4) 본 데이터 송신 ---->|                              |    (90ms 동안 무조건 침묵)
+     |                         |                              |
+     |<-(5) 최종 ACK 수신 -----+                              |
+     |                         |                              |
+     |                         |                              +--> (6) NAV 종료, 채널 감시 재개
 ```
 이 메커니즘의 핵심은 가상 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지(Virtual Carrier Sense)의 구현이다. 1단계: A가 B에게 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이를 계산해 RTS(요청)를 날린다. 2단계: B는 A에게 CTS(허가)를 날리는데, 전파의 특성상 이 CTS는 B 주변의 모든 노드, 즉 A의 전파가 닿지 않는 은닉 노드 C에게도 브로드캐스트된다. 3단계: C는 A를 직접 본 적은 없지만, B가 뿌린 CTS 안에 적힌 'Duration(소요 시간)' 값을 읽어 자신의 메모리 타이머인 NAV(Network Allocation Vector)에 저장한다. 이후 C는 물리적으로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 켜서 채널을 감시(Physical CS)하지 않고도, NAV 타이머가 0이 될 때까지는 채널이 사용 중이라고 가상으로 확정 짓고 완벽히 침묵한다. 이로써 A의 본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 C의 간섭 없이 B에게 안전하게 도달한다.
 
@@ -92,19 +92,19 @@ RTS/CTS 메커니즘은 충돌을 완벽히 방어하지만, 제어 프레임 �
 
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기에 따라 RTS/CTS 도입이 이득인지 손해인지를 비교하는 효율성 매트릭스다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│        [데이터 크기에 따른 RTS/CTS 오버헤드 딜레마]        │
-├────────────────────────────────────────────────────────┤
-│ 1. [작은 패킷 (예: 50 Byte 카카오톡)]                  │
-│    기본: [Data 50B] -> [ACK] (매우 빠름)               │
-│    RTS적용: [RTS 20B]->[CTS 14B]->[Data 50B]->[ACK]    │
-│    => 배보다 배꼽이 더 크다! 대역폭 심각한 낭비 발생.     │
-│                                                        │
-│ 2. [큰 패킷 (예: 1500 Byte 파일 전송)]                 │
-│    기본: [Data 1500B] --(충돌!)--> 전체 파괴/복구 지연 │
-│    RTS적용: [RTS]-(충돌)-> 20B만 손해, 1500B는 안전    │
-│    => 대용량 데이터 보호를 위한 값싼 보험료 역할!         │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|        [데이터 크기에 따른 RTS/CTS 오버헤드 딜레마]        |
++--------------------------------------------------------+
+| 1. [작은 패킷 (예: 50 Byte 카카오톡)]                  |
+|    기본: [Data 50B] -> [ACK] (매우 빠름)               |
+|    RTS적용: [RTS 20B]->[CTS 14B]->[Data 50B]->[ACK]    |
+|    => 배보다 배꼽이 더 크다! 대역폭 심각한 낭비 발생.     |
+|                                                        |
+| 2. [큰 패킷 (예: 1500 Byte 파일 전송)]                 |
+|    기본: [Data 1500B] --(충돌!)--> 전체 파괴/복구 지연 |
+|    RTS적용: [RTS]-(충돌)-> 20B만 손해, 1500B는 안전    |
+|    => 대용량 데이터 보호를 위한 값싼 보험료 역할!         |
++--------------------------------------------------------+
 ```
 이 대조표는 RTS/CTS가 무조건적으로 좋은 기술이 아님을 명확히 증명한다. 무선 프레임에는 아무리 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 필수적인 물리 계층 헤더와 SIFS 대기 시간이 따라붙는다. 만약 50바이트짜리 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 위해 RTS와 CTS를 주고받는다면 채널의 효율성은 급감한다. 반대로 1500바이트짜리 대용량 프레임이 충돌하여 파괴되면, 그 긴 시간을 날려버리고 다시 백오프부터 시작해야 하므로 피해가 막심하다. 이 때문에 실무에서는 패킷이 특정 크기 이상일 때만 RTS/CTS를 발동하도록 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 설정하는 하이브리드 전략을 취한다.
 
@@ -123,18 +123,18 @@ RTS/CTS 메커니즘은 충돌을 완벽히 방어하지만, 제어 프레임 �
 이 판단 트리는 실무 무선망 최적화를 위한 RTS Threshold 튜닝 프로세스를 나타낸다.
 ```text
 [무선 네트워크 체감 속도 저하 및 연결 불안정 접수]
-            │
-            ▼
+            |
+            v
     MAC 계층 Frame Retry(재전송) 비율 측정
-      ┌─────┴─────┐
+      +-----+-----+
    [낮음 (<5%)]  [비정상적 높음 (>15%)]
-      │           │
- (RF 환경 양호)   ▼
+      |           |
+ (RF 환경 양호)   v
         원인 분석 (Hidden Node vs 간섭/노이즈)
-            ┌─────┴─────┐
+            +-----+-----+
         [노이즈]   [장애물/거리로 인한 Hidden Node 의심]
-            │           │
-      (채널 변경)       ▼
+            |           |
+      (채널 변경)       v
                  [조치] RTS Threshold 파라미터 조정
                    -> 기본 2347 bytes (비활성 상태)
                    -> 1000 bytes 또는 500 bytes로 점진 하향
@@ -165,13 +165,13 @@ RTS/CTS 메커니즘은 보이지 않는 전파 환경의 불확실성을 통제
 이 로드맵은 충돌 방어 기술이 어떻게 1차원적 시간 분할에서 다차원적 공간 분할로 진화했는지를 보여준다.
 ```text
 [초기 무선 802.11b/g] CSMA/CA (충돌 눈치 게임)
-       │  * 한계: 장애물 환경에서 은닉 노드로 인한 망 붕괴
-       ▼
+       |  * 한계: 장애물 환경에서 은닉 노드로 인한 망 붕괴
+       v
 [발전 무선 802.11n/ac] RTS/CTS + NAV (시간과 공간의 가상 예약)
-       │  * 한계: 제어 프레임 오버헤드로 인한 대역폭 낭비 한계
-       ▼
+       |  * 한계: 제어 프레임 오버헤드로 인한 대역폭 낭비 한계
+       v
 [현대 무선 802.11ax/be] OFDMA + BSS Coloring + MU-MIMO
-       │  * 혁신: 주파수를 쪼개고 색깔(Color) 태그를 달아, 아예
+       |  * 혁신: 주파수를 쪼개고 색깔(Color) 태그를 달아, 아예
           다른 노드의 패킷을 무시하고 여러 명이 '동시' 전송
 ```
 은닉 노드 문제를 해결하기 위해 고안된 RTS/CTS 교환은 "보이지 않으면 미리 물어보고, 남의 허가를 엿들었으면 침묵한다"는 매우 신사적이고 정교한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 알고리즘이다. 하지만 이 방식 역시 결국 한 번에 한 명만 통신해야 한다는 반이중(Half-Duplex)의 한계를 벗어나지는 못했다. 현대의 초연결 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)/7 기술은 RTS/CTS의 오버헤드를 줄이기 위해, AP가 직접 주파수 자원을 타일처럼 쪼개어 단말들에게 나누어주거나([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)), 공간의 방향성을 제어([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))하여 은닉 노드 자체를 무력화시키는 중앙 집중형 아키텍처로 진화하며 새로운 패러다임을 열어가고 있다. 향후에는 지능형 자원 스케줄링와 결합되어 더 정교한 형태로 확장될 가능성이 크다.
@@ -194,12 +194,12 @@ RTS/CTS 메커니즘은 보이지 않는 전파 환경의 불확실성을 통제
 
 ```text
 [선행 개념: CSMA/CA]
-    │
-    ▼
+    |
+    v
 [현재 개념: RTS/CTS]
-    │
-    ├──▶ [확장 A: 노출 노드 문제]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: 노출 노드 문제]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 RTS/CTS는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA에서 출발해 현재 메커니즘을 정교화하고, 이후 [노출 노드 문제](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/110_노출_노드_문제/) 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
@@ -216,7 +216,7 @@ RTS/CTS는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_
 
 **진행 상황**: 209 / 1120
 
-← **이전**: [1099. VLAN 간 라우팅](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1099_inter_vlan_routing_router_on_a_stick/)
-**다음**: [1100. 스위치 포트 미러링 (SPAN/TAP)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/) →
+<- **이전**: [1099. VLAN 간 라우팅](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1099_inter_vlan_routing_router_on_a_stick/)
+**다음**: [1100. 스위치 포트 미러링 (SPAN/TAP)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/) ->
 
 ---

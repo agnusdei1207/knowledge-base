@@ -31,27 +31,27 @@ tags = ["studynote-operating-system"]
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀은 작업과 실행 주체를 철저히 분리한 생산자-소비자 패턴 (Producer-Consumer Pattern)으로 동작한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              Thread Pool Asynchronous Architecture                        │
-├───────────────────────────────────────────────────────────────────────────┤
-│ [ Client / Main Thread (Producer) ]                                       │
-│       작업(Task) 요청 제출 (submit)                                            │
-│            │                                                              │
-│            ▼                                                              │
-│ ┌───────────────────────────────────────────────────────────────────────┐ │
-│ │                    Thread Pool Manager (Executor)                     │ │
-│ │                                                                       │ │
-│ │  ┌─────────────────────────┐         ┌─────────────────────────────┐  │ │
-│ │  │  Task Queue (Blocking)  │         │   Worker Threads (Pool)     │  │ │
-│ │  │                         │         │                             │  │ │
-│ │  │ [ Task3 ][ Task2 ]      │ ◀──take │  [ Thread 1 (Idle)    ]     │  │ │
-│ │  │                         │         │  [ Thread 2 (Running) ]     │  │ │
-│ │  └─────────────────────────┘         │  [ Thread 3 (Running) ]     │  │ │
-│ │                                      └─────────────────────────────┘  │ │
-│ └───────────────────────────────────────────────────────────────────────┘ │
-│                                                                           │
-│ * 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).│
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|              Thread Pool Asynchronous Architecture                        |
++---------------------------------------------------------------------------+
+| [ Client / Main Thread (Producer) ]                                       |
+|       작업(Task) 요청 제출 (submit)                                            |
+|            |                                                              |
+|            v                                                              |
+| +-----------------------------------------------------------------------+ |
+| |                    Thread Pool Manager (Executor)                     | |
+| |                                                                       | |
+| |  +-------------------------+         +-----------------------------+  | |
+| |  |  Task Queue (Blocking)  |         |   Worker Threads (Pool)     |  | |
+| |  |                         |         |                             |  | |
+| |  | [ Task3 ][ Task2 ]      | <---take |  [ Thread 1 (Idle)    ]     |  | |
+| |  |                         |         |  [ Thread 2 (Running) ]     |  | |
+| |  +-------------------------+         |  [ Thread 3 (Running) ]     |  | |
+| |                                      +-----------------------------+  | |
+| +-----------------------------------------------------------------------+ |
+|                                                                           |
+| * 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).|
++---------------------------------------------------------------------------+
 ```
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 관리자는 다음과 같은 핵심 생명주기 파라미터를 통해 탄력적으로 동작한다:
@@ -118,17 +118,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 요청당 스레드 생성 (Thread-per-request)
-    │ (문맥 교환 폭증, OOM 발생)
-    ▼
+    | (문맥 교환 폭증, OOM 발생)
+    v
 스레드 풀 (Thread Pool) 패턴 도입
-    │ 작업 대기 큐(Task Queue) + 한계 설정(Cap)
-    ▼
+    | 작업 대기 큐(Task Queue) + 한계 설정(Cap)
+    v
 벌크헤드 패턴 (Bulkhead) 및 서킷 브레이커
-    │ 도메인별 풀 분리로 장애 격리
-    ▼
+    | 도메인별 풀 분리로 장애 격리
+    v
 이벤트 루프 (Event Loop) 기반 논블로킹 I/O
-    │
-    ▼
+    |
+    v
 경량 사용자 스레드 (Virtual Threads / Goroutines)
 ```
 
@@ -144,7 +144,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 103 / 800
 
-← **이전**: [102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)](/knowledge-base/studynote/02_operating_system/02_process_thread/102_implicit_threading/)
-**다음**: [104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) →
+<- **이전**: [102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)](/knowledge-base/studynote/02_operating_system/02_process_thread/102_implicit_threading/)
+**다음**: [104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) ->
 
 ---

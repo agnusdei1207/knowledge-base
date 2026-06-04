@@ -37,16 +37,16 @@ tags = ["studynote-software-engineering"]
 다음은 백엔드 포 프론트엔드 ([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/), Ba의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  백엔드 포 프론트엔드 (BFF, Ba                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  백엔드 포 프론트엔드 (BFF, Ba                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 백엔드 포 프론트엔드 ([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/), Ba가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -146,21 +146,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 백엔드 포 프론트엔드 (BFF, Backend For Frontend) 패턴 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 309 / 973
 
-← **이전**: [308. 벌크헤드 (Bulkhead) 패턴 - 스레드 풀 격리로 장애 전파 차단](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)
-**다음**: [310. 스트랭글러 피그 (Strangler Fig) 패턴 - 레거시를 점진적으로 MSA로 마이그레이션](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) →
+<- **이전**: [308. 벌크헤드 (Bulkhead) 패턴 - 스레드 풀 격리로 장애 전파 차단](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)
+**다음**: [310. 스트랭글러 피그 (Strangler Fig) 패턴 - 레거시를 점진적으로 MSA로 마이그레이션](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) ->
 
 ---

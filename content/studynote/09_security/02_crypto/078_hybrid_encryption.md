@@ -23,9 +23,9 @@ tags = ["studynote-software-engineering"]
 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)는 빠르지만 키를 안전하게 공유하기 어렵고, [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)는 공유는 쉽지만 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 암호화하기에는 느리다.
 그래서 실제 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 역할과 키를 전달하는 역할을 분리한다. 이 조합이 바로 하이브리드 암호다.
 ```text
-송신자: 데이터 ─▶ AES로 암호화 ─▶ 암호문
-        └▶ 공개키로 세션키 암호화
-수신자: 개인키로 세션키 복호화 ─▶ 데이터 복호화
+송신자: 데이터 --> AES로 암호화 --> 암호문
+        +-> 공개키로 세션키 암호화
+수신자: 개인키로 세션키 복호화 --> 데이터 복호화
 ```
 
 - **📢 섹션 요약 비유**: 빠른 암호와 안전한 키 교환을 따로 설계해야 한다.
@@ -106,18 +106,18 @@ tags = ["studynote-software-engineering"]
 
 ```text
 세션키 생성
-  │
-  ▼
+  |
+  v
 공개키로 세션키 보호
-  │
-  ▼
+  |
+  v
 세션키로 데이터 암호화
-  │
-  ▼
+  |
+  v
 무결성 태그 부착
-  │
-  ▼
-전송 → 복호화 → 검증
+  |
+  v
+전송 -> 복호화 -> 검증
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -132,7 +132,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 78 / 1108
 
-← **이전**: [77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)
-**다음**: [079. 블록 암호 (Block Cipher - DES, AES)](/knowledge-base/studynote/09_security/02_crypto/079_block_cipher/) →
+<- **이전**: [77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)
+**다음**: [079. 블록 암호 (Block Cipher - DES, AES)](/knowledge-base/studynote/09_security/02_crypto/079_block_cipher/) ->
 
 ---

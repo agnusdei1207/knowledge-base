@@ -25,22 +25,22 @@ tags = ["studynote-operating-system"]
 운영체제의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 어떻게 여러 프로세스를 동일한 물리 프레임으로 연결하는지 아키텍처 다이어그램으로 확인할 수 있다.
 
 ```text
-┌─ 프로세스 A 가상 주소 공간 ─┐  ┌─ 프로세스 B 가상 주소 공간 ─┐
-│ 0x7F0000_0000 (매핑 주소)    │  │ 0x7F0000_0000 (매핑 주소)    │
-│        │                     │  │        │                     │
-├────────┼─────────────────────┤  ├────────┼─────────────────────┤
-│ Page Table                  │  │ Page Table                    │
-│  VA ──────▶ PTE ──────┐     │  │  VA ──────▶ PTE ──────┐       │
-│  0x7F000               │     │  │  0x7F000               │     │
-└────────────────────────┼─────┘  └────────────────────────┼─────┘
-                         │                                       │
-                         └──────────┬────────────────────────────┘
-                                    ▼
-                        ┌────────────────────────────────────────┐
-                        │   물리 메모리                          │
-                        │  Page Frame #2048   │  ◀── MAP_SHARED 매핑
-                        │  [ 공유 데이터 영역 ] │      (커널이 동일 프레임 연결)
-                        └────────────────────────────────────────┘
++- 프로세스 A 가상 주소 공간 -+  +- 프로세스 B 가상 주소 공간 -+
+| 0x7F0000_0000 (매핑 주소)    |  | 0x7F0000_0000 (매핑 주소)    |
+|        |                     |  |        |                     |
++--------+---------------------+  +--------+---------------------+
+| Page Table                  |  | Page Table                    |
+|  VA -------> PTE ------+     |  |  VA -------> PTE ------+       |
+|  0x7F000               |     |  |  0x7F000               |     |
++------------------------+-----+  +------------------------+-----+
+                         |                                       |
+                         +----------+----------------------------+
+                                    v
+                        +----------------------------------------+
+                        |   물리 메모리                          |
+                        |  Page Frame #2048   |  <--- MAP_SHARED 매핑
+                        |  [ 공유 데이터 영역 ] |      (커널이 동일 프레임 연결)
+                        +----------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 도식의 핵심은 두 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 서로 다른 가상 주소(VA, Virtual Address)를 동일한 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임([Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) #2048으로 변환한다는 점이다. `MAP_SHARED` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 사용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 매핑 시점에 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 적용하지 않고, 모든 매핑을 동일한 물리 프레임에 직결한다. 따라서 프로세스 A가 해당 주소에 값을 쓰면 물리 프레임의 내용이 즉시 갱신되며, 프로세스 B가 동일 주소를 읽을 때 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 없이 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(MESI 등)을 통해 최신 값을 관찰하게 된다.
@@ -64,23 +64,23 @@ tags = ["studynote-operating-system"]
 
 ```text
   프로세스 A                      커널                      프로세스 B
-     │                            │                             │
-     ├── mmap(fd, MAP_SHARED) ──▶│                              │
-     │   [VMA만 생성, 물리 할당 X] │                            │
-     │◀── 매핑된 주소 반환 ───────┤                             │
-     │                            │                             │
-     ├── *addr = 42 (쓰기 시도) ─▶│                             │
-     │   [Page Fault 발생!]       │                             │
-     │   [디스크→물리 프레임 적재] │                            │
-     │◀── 제어권 반환 ────────────┤                             │
-     │                            │                             │
-     │                            │◀── mmap(fd, MAP_SHARED) ──┤
-     │                            │   [동일 물리 프레임 매핑]   │
-     │                            ├── 동일 주소 반환 ────────▶  │
-     │                            │                             │
-     │                            │◀── val = *addr (읽기) ────┤
-     │                            │   [Page Hit! 값 42 관찰]    │
-     │                            ├── 42 반환 ───────────────▶  │
+     |                            |                             |
+     +-- mmap(fd, MAP_SHARED) --->|                              |
+     |   [VMA만 생성, 물리 할당 X] |                            |
+     |<--- 매핑된 주소 반환 -------+                             |
+     |                            |                             |
+     +-- *addr = 42 (쓰기 시도) -->|                             |
+     |   [Page Fault 발생!]       |                             |
+     |   [디스크->물리 프레임 적재] |                            |
+     |<--- 제어권 반환 ------------+                             |
+     |                            |                             |
+     |                            |<--- mmap(fd, MAP_SHARED) --+
+     |                            |   [동일 물리 프레임 매핑]   |
+     |                            +-- 동일 주소 반환 --------->  |
+     |                            |                             |
+     |                            |<--- val = *addr (읽기) ----+
+     |                            |   [Page Hit! 값 42 관찰]    |
+     |                            +-- 42 반환 ---------------->  |
 ```
 
 **[다이어그램 해설]** 이 순차 흐름도는 `mmap()` 기반 IPC의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation) 특성을 명확히 보여준다. `mmap()` 호출 시점에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 단지 [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 뿐 실제 물리 메모리를 할당하지 않는다. 프로세스 A가 처음으로 해당 영역에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 시도하면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생하고, 그 시점에서야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 물리 프레임에 적재한다. 프로세스 B가 이후 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap()`으로 매핑하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이미 적재된 물리 프레임을 B의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 추가로 연결하므로 추가적인 디스크 I/O 없이 즉시 A의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 결과(값 42)를 읽을 수 있다. 이것이 `mmap()` IPC가 복사 오버헤드 없이 동작하는 핵심 원리다.
@@ -105,28 +105,28 @@ tags = ["studynote-operating-system"]
 
 ```text
 [1] mmap() 파일 매핑                [2] POSIX shm + mmap
-┌─────────┐    ┌───────────┐          ┌─────────┐    ┌────────────┐
-│  Proc A │    │  디스크    │          │  Proc A │    │   tmpfs   │
-│  VMA ───┼──▶ │  파일     │◀─────────┤  VMA ───┼──▶ │ /dev/shm   │
-│         │    │  (백엔드) │          │         │    │ (백엔드)   │
-└────┬────┘    └───────────┘          └────┬────┘    └────────────┘
-     │                                                            │
-     ▼                                      ▼
-┌─────────────────┐                 ┌─────────────────────────────┐
-│  물리 프레임     │                 │  물리 프레임               │
-└─────────────────┘                 └─────────────────────────────┘
++---------+    +-----------+          +---------+    +------------+
+|  Proc A |    |  디스크    |          |  Proc A |    |   tmpfs   |
+|  VMA ---+---> |  파일     |<----------+  VMA ---+---> | /dev/shm   |
+|         |    |  (백엔드) |          |         |    | (백엔드)   |
++----+----+    +-----------+          +----+----+    +------------+
+     |                                                            |
+     v                                      v
++-----------------+                 +-----------------------------+
+|  물리 프레임     |                 |  물리 프레임               |
++-----------------+                 +-----------------------------+
 
 [3] System V shmget + shmat
-┌─────────┐    ┌──────────────────────────────────────────────────┐
-│  Proc A │    │  커널 내부 메모리                                │
-│  VMA ───┼──▶ │  shm seg (백엔드)                                │
-│         │    │  (파일 시스템 없음)                              │
-└────┬────┘    └──────────────────────────────────────────────────┘
-                                                                  │
-     ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  물리 프레임                                                    │
-└─────────────────────────────────────────────────────────────────┘
++---------+    +--------------------------------------------------+
+|  Proc A |    |  커널 내부 메모리                                |
+|  VMA ---+---> |  shm seg (백엔드)                                |
+|         |    |  (파일 시스템 없음)                              |
++----+----+    +--------------------------------------------------+
+                                                                  |
+     v
++-----------------------------------------------------------------+
+|  물리 프레임                                                    |
++-----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 세 가지 구조의 결정적 차이는 '백엔드 저장소(Backend Store)'의 존재 여부와 위치에 있다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑은 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 백엔드로 삼아, 물리 메모리가 부족할 때 디스크로 스왑아웃(Swap-out)이 가능하다. 반면 System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 무관하게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에만 존재하며, POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 `tmpfs`라는 메모리 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 백엔드로 사용한다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑의 고유한 장점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 반영되므로, 프로세스 재시작 후에도 이전 상태를 복원할 수 있는 지속성(Persistence)을 제공한다는 점이다.
@@ -151,17 +151,17 @@ tags = ["studynote-operating-system"]
 
 ```text
    [ IPC 메커니즘 선택 트리 ]
-                │
-                ▼
+                |
+                v
      교환할 데이터 크기가 1MB 이상인가?
-        ├── 예 ──▶ 실시간성이 필수적인가?
-        │              ├── 예 ──▶ mmap() MAP_SHARED (zero-copy)
-        │              │          + POSIX semaphore 동기화
-        │              └── 아니오 ──▶ 공유 메모리 + msync() 주기적 플러시
-                │
-        └── 아니오 ──▶ 단방향 스트림인가 양방향인가?
-                       ├── 단방향 ──▶ 파이프 (Pipe) 또는 FIFO
-                       └── 양방향 ──▶ Unix Domain Socket
+        +-- 예 ---> 실시간성이 필수적인가?
+        |              +-- 예 ---> mmap() MAP_SHARED (zero-copy)
+        |              |          + POSIX semaphore 동기화
+        |              +-- 아니오 ---> 공유 메모리 + msync() 주기적 플러시
+                |
+        +-- 아니오 ---> 단방향 스트림인가 양방향인가?
+                       +-- 단방향 ---> 파이프 (Pipe) 또는 FIFO
+                       +-- 양방향 ---> Unix Domain Socket
                           (작은 메시지에 최적화, 커널 버퍼 관리 자동)
 ```
 
@@ -213,12 +213,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [신호 (Signal)]
-    │
-    ▼
+    |
+    v
 [메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
-    │
-    ├──▶ [시스템 V IPC]
-    └──▶ [POSIX IPC]
+    |
+    +---> [시스템 V IPC]
+    +---> [POSIX IPC]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -235,7 +235,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 131 / 800
 
-← **이전**: [130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
-**다음**: [132. 시스템 V IPC (System V IPC)](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/) →
+<- **이전**: [130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
+**다음**: [132. 시스템 V IPC (System V IPC)](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/) ->
 
 ---

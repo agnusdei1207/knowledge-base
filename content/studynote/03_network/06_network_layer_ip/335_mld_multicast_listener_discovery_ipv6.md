@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [IGMP Snooping]
-    │
-    ▼
+    |
+    v
 [MLD]
-    │
-    └──▶ [NDP]
+    |
+    +---> [NDP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> MLD는 구형 가스보일러(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a>)를 철거하고, 똑같은 난방 역할을 하지만 최새로운 유형의 아파트(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>) 규격에 딱 들어맞는 </strong>스마트 전기보일러(MLD)로 교체한 것**과 같습니다. 이름만 다를 뿐 99% 똑같은 작동 원리를 갖습니다.
@@ -59,19 +59,19 @@ MLD는 백지에서 새로 만든 게 아니라 IGMPv2의 기능을 100% 베껴�
 - 덕분에 라우터는 ICMPv6 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나만 까보면 핑(Ping)도 처리하고 MLD 가입 신청서도 한 큐에 처리할 수 있게 되어 연산 효율이 좋아졌다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MLD 패킷의 캡슐화 위치 (ICMPv6 내부)             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 이더넷 MAC 헤더 ]                                          │
- │   [ IPv6 메인 헤더 (Next Header = 58 ──▶ ICMPv6 란 뜻!) ]     │
- │   [ IPv6 확장 헤더 (Hop-by-Hop 옵션) ]                         │
- │     └───▶ [ ICMPv6 헤더 (Type = 131 ──▶ MLD Report 란 뜻!) ] │
- │             [ MLD 데이터 (내가 가입할 IPv6 멀티캐스트 주소 적힘) ] │
- │                                                             │
- │   * 핵심: MLD는 ICMPv6라는 거대한 종합 관리 시스템의 "하나의 메뉴"로 │
- │          통합되어 IPv6의 아키텍처를 깔끔하게 완성시켰다.             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                MLD 패킷의 캡슐화 위치 (ICMPv6 내부)             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 이더넷 MAC 헤더 ]                                          |
+ |   [ IPv6 메인 헤더 (Next Header = 58 ---> ICMPv6 란 뜻!) ]     |
+ |   [ IPv6 확장 헤더 (Hop-by-Hop 옵션) ]                         |
+ |     +----> [ ICMPv6 헤더 (Type = 131 ---> MLD Report 란 뜻!) ] |
+ |             [ MLD 데이터 (내가 가입할 IPv6 멀티캐스트 주소 적힘) ] |
+ |                                                             |
+ |   * 핵심: MLD는 ICMPv6라는 거대한 종합 관리 시스템의 "하나의 메뉴"로 |
+ |          통합되어 IPv6의 아키텍처를 깔끔하게 완성시켰다.             |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. MLD Snooping (스위치의 최적화)
@@ -135,12 +135,12 @@ MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: IGMP Snooping]
-    │
-    ▼
+    |
+    v
 [현재 개념: MLD]
-    │
-    ├──▶ [확장 A: NDP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: NDP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 MLD는 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 NDP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -157,7 +157,7 @@ MLD는 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_
 
 **진행 상황**: 456 / 1120
 
-← **이전**: [334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/)
-**다음**: [336. NDP (Neighbor Discovery Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/) →
+<- **이전**: [334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/)
+**다음**: [336. NDP (Neighbor Discovery Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/) ->
 
 ---

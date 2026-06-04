@@ -35,34 +35,34 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│          클라우드 관리형 빅데이터 서비스 아키텍처                  │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  객체 스토리지 (영구 저장)                                  │   │
-│  │  AWS S3  /  Azure ADLS Gen2  /  GCS                      │   │
-│  │  (Delta Lake / Iceberg / Parquet 파일)                    │   │
-│  └────────────────────────┬─────────────────────────────────┘   │
-│                           │ 읽기/쓰기 (HDFS 커넥터)              │
-│  ┌────────────────────────▼─────────────────────────────────┐   │
-│  │  클러스터 (임시, 작업 중만 실행)                             │   │
-│  │                                                          │   │
-│  │  Amazon EMR          Azure HDInsight    GCP Dataproc     │   │
-│  │  ┌─────────────┐    ┌───────────────┐  ┌─────────────┐  │   │
-│  │  │ Master Node │    │ Head Node     │  │ Master Node │  │   │
-│  │  │ Core Nodes  │    │ Worker Nodes  │  │ Worker Node │  │   │
-│  │  │ Task Nodes  │    │ (auto-scale)  │  │ (Preemptible│  │   │
-│  │  │ (Spot 가능) │    │               │  │  VM 가능)   │  │   │
-│  │  └─────────────┘    └───────────────┘  └─────────────┘  │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                           │                                     │
-│  ┌────────────────────────▼─────────────────────────────────┐   │
-│  │  주변 서비스 연동                                           │   │
-│  │  EMR: Glue/Athena/SageMaker  │  Dataproc: BigQuery/Vertex│   │
-│  │  HDInsight: Synapse/ML Studio│                            │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|          클라우드 관리형 빅데이터 서비스 아키텍처                  |
++------------------------------------------------------------------+
+|                                                                  |
+|  +----------------------------------------------------------+   |
+|  |  객체 스토리지 (영구 저장)                                  |   |
+|  |  AWS S3  /  Azure ADLS Gen2  /  GCS                      |   |
+|  |  (Delta Lake / Iceberg / Parquet 파일)                    |   |
+|  +------------------------+---------------------------------+   |
+|                           | 읽기/쓰기 (HDFS 커넥터)              |
+|  +------------------------v---------------------------------+   |
+|  |  클러스터 (임시, 작업 중만 실행)                             |   |
+|  |                                                          |   |
+|  |  Amazon EMR          Azure HDInsight    GCP Dataproc     |   |
+|  |  +-------------+    +---------------+  +-------------+  |   |
+|  |  | Master Node |    | Head Node     |  | Master Node |  |   |
+|  |  | Core Nodes  |    | Worker Nodes  |  | Worker Node |  |   |
+|  |  | Task Nodes  |    | (auto-scale)  |  | (Preemptible|  |   |
+|  |  | (Spot 가능) |    |               |  |  VM 가능)   |  |   |
+|  |  +-------------+    +---------------+  +-------------+  |   |
+|  +----------------------------------------------------------+   |
+|                           |                                     |
+|  +------------------------v---------------------------------+   |
+|  |  주변 서비스 연동                                           |   |
+|  |  EMR: Glue/Athena/SageMaker  |  Dataproc: BigQuery/Vertex|   |
+|  |  HDInsight: Synapse/ML Studio|                            |   |
+|  +----------------------------------------------------------+   |
++------------------------------------------------------------------+
 ```
 
 <strong>3대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 상세 비교</strong>
@@ -159,17 +159,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [온프레미스 하둡 클러스터 — 자체 서버 구축·운영, 높은 초기 비용과 확장성 한계]
-    │
-    ▼
+    |
+    v
 [클라우드 매니지드 하둡 (EMR·HDInsight·Dataproc) — 클러스터 프로비저닝 자동화, 분 단위 과금]
-    │
-    ▼
+    |
+    v
 [컴퓨팅-스토리지 분리 아키텍처 — S3·ADLS·GCS에 데이터, 클러스터 종료 후도 데이터 보존]
-    │
-    ▼
+    |
+    v
 [Spot/Preemptible VM 활용 — Task 노드 비용 60~80% 절감, 내결함성 설계 필수]
-    │
-    ▼
+    |
+    v
 [서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행]
 ```
 
@@ -186,7 +186,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 157 / 262
 
-← **이전**: [156. 데이터 패브릭 (Data Fabric) — 위치 무관 지능형 데이터 연결](/knowledge-base/studynote/16_bigdata/07_data_lake/156_data_fabric/)
-**다음**: [158. Databricks — Spark 기반 레이크하우스 통합 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/158_databricks_platform/) →
+<- **이전**: [156. 데이터 패브릭 (Data Fabric) — 위치 무관 지능형 데이터 연결](/knowledge-base/studynote/16_bigdata/07_data_lake/156_data_fabric/)
+**다음**: [158. Databricks — Spark 기반 레이크하우스 통합 플랫폼](/knowledge-base/studynote/16_bigdata/07_data_lake/158_databricks_platform/) ->
 
 ---

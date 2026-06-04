@@ -29,7 +29,7 @@ tags = ["studynote-data-engineering"]
 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | 영향 범위 파악 불가 | 다운스트림 의존 즉시 파악 |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 증거 자료 수동 수집 | 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 리포트 제출 |
 
-📢 **섹션 요약 비유**: [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 "식품 이력 추적제"다. 내 식탁에 오른 쇠고기가 어느 농장 → 어느 도축장 → 어느 가공 공장을 거쳤는지 QR 하나로 추적하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 출처·변환 이력을 추적한다.
+📢 **섹션 요약 비유**: [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 "식품 이력 추적제"다. 내 식탁에 오른 쇠고기가 어느 농장 -> 어느 도축장 -> 어느 가공 공장을 거쳤는지 QR 하나로 추적하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 출처·변환 이력을 추적한다.
 
 ---
 
@@ -39,18 +39,18 @@ tags = ["studynote-data-engineering"]
 
 ```
 [테이블 레벨 리니지 (Coarse-Grained)]
-raw_orders ──→ stg_orders ──→ int_revenue ──→ fct_daily_revenue
+raw_orders ---> stg_orders ---> int_revenue ---> fct_daily_revenue
 
 [컬럼 레벨 리니지 (Column-Level Lineage, 세밀)]
 raw_orders.order_amount
-    │
-    ▼  (SUM + ROUND)
+    |
+    v  (SUM + ROUND)
 int_revenue.revenue_usd
-    │
-    ▼  (GROUP BY date)
+    |
+    v  (GROUP BY date)
 fct_daily_revenue.daily_total
-    │
-    ▼  (JOIN + SELECT)
+    |
+    v  (JOIN + SELECT)
 rpt_executive_dashboard.revenue_kpi
 ```
 
@@ -70,19 +70,19 @@ rpt_executive_dashboard.revenue_kpi
 ### 2-3. 주요 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 도구 비교
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Apache Atlas           │  오픈소스, HBase·Hive 강결합        │
-│  (아파치 아틀라스)       │  태그 기반 분류, 정책 연동(Ranger)   │
-├──────────────────────────────────────────────────────────────┤
-│  Amundsen               │  Lyft 오픈소스, 검색·탐색 최적화    │
-│  (아문센)               │  Neo4j 기반 메타데이터 그래프        │
-├──────────────────────────────────────────────────────────────┤
-│  DataHub                │  LinkedIn 오픈소스, 푸시·풀 수집    │
-│  (데이터허브)           │  GraphQL API, 플러그인 생태계 풍부   │
-├──────────────────────────────────────────────────────────────┤
-│  Alation / Atlan        │  상용, AI 기반 추천·자동 분류        │
-│  (앨레이션 / 아틀란)    │  Data Fabric 통합 지원               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  Apache Atlas           |  오픈소스, HBase·Hive 강결합        |
+|  (아파치 아틀라스)       |  태그 기반 분류, 정책 연동(Ranger)   |
++--------------------------------------------------------------+
+|  Amundsen               |  Lyft 오픈소스, 검색·탐색 최적화    |
+|  (아문센)               |  Neo4j 기반 메타데이터 그래프        |
++--------------------------------------------------------------+
+|  DataHub                |  LinkedIn 오픈소스, 푸시·풀 수집    |
+|  (데이터허브)           |  GraphQL API, 플러그인 생태계 풍부   |
++--------------------------------------------------------------+
+|  Alation / Atlan        |  상용, AI 기반 추천·자동 분류        |
+|  (앨레이션 / 아틀란)    |  Data Fabric 통합 지원               |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 "회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도서관"이다. 어떤 책(테이블)이 있고, 누가 썼고(오너), 어떤 내용이고([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)), 어느 책에서 파생됐는지(리니지)를 모두 기록한다.
@@ -95,20 +95,20 @@ rpt_executive_dashboard.revenue_kpi
 
 ```
 데이터 분류 태그 계층
-┌─────────────────────────────────────────────┐
-│ 민감도 (Sensitivity)                        │
-│   PUBLIC → INTERNAL → CONFIDENTIAL → SECRET │
-├─────────────────────────────────────────────┤
-│ 개인정보 (Privacy)                          │
-│   PII (개인식별정보) → PHI (건강정보)        │
-│   → PCI (카드정보) → Non-PII               │
-├─────────────────────────────────────────────┤
-│ 품질 (Quality)                              │
-│   GOLDEN (황금 데이터) → TRUSTED → RAW      │
-├─────────────────────────────────────────────┤
-│ 도메인 (Domain)                             │
-│   ORDER · CUSTOMER · PRODUCT · FINANCE      │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+| 민감도 (Sensitivity)                        |
+|   PUBLIC -> INTERNAL -> CONFIDENTIAL -> SECRET |
++---------------------------------------------+
+| 개인정보 (Privacy)                          |
+|   PII (개인식별정보) -> PHI (건강정보)        |
+|   -> PCI (카드정보) -> Non-PII               |
++---------------------------------------------+
+| 품질 (Quality)                              |
+|   GOLDEN (황금 데이터) -> TRUSTED -> RAW      |
++---------------------------------------------+
+| 도메인 (Domain)                             |
+|   ORDER · CUSTOMER · PRODUCT · FINANCE      |
++---------------------------------------------+
 ```
 
 ### 3-2. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·CCPA와 리니지 연계
@@ -132,11 +132,11 @@ dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/0
 
 ```
 dbt 프로젝트 DAG (Directed Acyclic Graph, 방향성 비순환 그래프)
-raw_orders ─┐
-raw_customers─┤─→ stg_orders ─→ int_order_enriched ─→ fct_orders
-raw_products ─┘         ↑                                    │
-                   컬럼 리니지 자동 추적                      │
-                                                             ▼
+raw_orders -+
+raw_customers-+--> stg_orders --> int_order_enriched --> fct_orders
+raw_products -+         ^                                    |
+                   컬럼 리니지 자동 추적                      |
+                                                             v
                                                     BI 대시보드
 ```
 
@@ -161,9 +161,9 @@ raw_products ─┘         ↑                                    │
 
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | 기대 효과 |
 |:---|:---|
-| [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제 요청 처리 시간 | 수 일 → 수 시간 단축 |
+| [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제 요청 처리 시간 | 수 일 -> 수 시간 단축 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) | 80% 단축 (근본 원인 즉시 파악) |
-| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증적 제출 시간 | 수동 → 자동 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증적 제출 시간 | 수동 -> 자동 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | 중복 파이프라인 발견 | 리니지 분석으로 20~30% 중복 제거 |
 
 기술사 시험에서 [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 <strong>"컬럼 레벨 추적과 <a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 연계"</strong> 를 중심으로, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 도구(Atlas·DataHub·Amundsen)별 특성을 비교 설명할 수 있어야 한다.
@@ -197,14 +197,14 @@ raw_products ─┘         ↑                                    │
 
 ```text
 데이터 출처 불명 (신뢰 부족)
-    │
-    ▼
-데이터 리니지: 원본 → 변환 → 소비 경로 추적
-    │
-    ▼
+    |
+    v
+데이터 리니지: 원본 -> 변환 -> 소비 경로 추적
+    |
+    v
 데이터 카탈로그: 메타데이터 · 태깅 · 검색
-    │
-    ▼
+    |
+    v
 도구: DataHub · Amundsen · OpenLineage · Atlas
 ```
 2. 이 정보가 있으면 "이 분석 결과가 왜 틀렸지?"라는 질문에 원재료(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터 조리 과정(변환)까지 바로 찾아볼 수 있다.
@@ -216,7 +216,7 @@ raw_products ─┘         ↑                                    │
 
 **진행 상황**: 224 / 258
 
-← **이전**: [223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/223_data_fabric_metadata_virtualization_integration/)
-**다음**: [225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) →
+<- **이전**: [223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/223_data_fabric_metadata_virtualization_integration/)
+**다음**: [225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) ->
 
 ---

@@ -69,17 +69,17 @@ Spark Streaming은 빅데이터 [배치 처리](/knowledge-base/studynote/13_clo
 
 ```text
 [배치 처리(Spark Core)]
-    │
-    ▼
+    |
+    v
 [마이크로 배치]
-    │
-    ▼
+    |
+    v
 [Spark Streaming(DStream)]
-    │
-    ▼
+    |
+    v
 [Structured Streaming]
-    │
-    ▼
+    |
+    v
 [실시간 분석 파이프라인]
 ```
 
@@ -96,7 +96,7 @@ Spark Streaming은 배치 중심 Spark에서 마이크로 배치와 DStream, Str
 
 **진행 상황**: 60 / 262
 
-← **이전**: [적응형 쿼리 실행 (Adaptive Query Execution, AQE)](/knowledge-base/studynote/16_bigdata/03_spark/059_adaptive_query_execution_aqe/)
-**다음**: [스파크 구조적 스트리밍 (Spark Structured Streaming)](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) →
+<- **이전**: [적응형 쿼리 실행 (Adaptive Query Execution, AQE)](/knowledge-base/studynote/16_bigdata/03_spark/059_adaptive_query_execution_aqe/)
+**다음**: [스파크 구조적 스트리밍 (Spark Structured Streaming)](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) ->
 
 ---

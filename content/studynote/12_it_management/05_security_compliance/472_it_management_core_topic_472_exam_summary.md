@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 경영 관리 핵심 토픽 472번은 **IT 거버넌스(Governance)·IT 전략(Strategy)·IT 성과관리(Performance)·IT 서비스 관리(Service Management)를 통합한 4축 프레임워크**로, COBIT 2019의 40개 거버넌스/관리 목적과 ISO/IEC 38500의 6개 원칙, Balanced Scorecard(BSC)의 4관점을 결합하여 **"Value Governance Loop"**를 형성하는 것이다.
-> 2. **가치**: 성숙도 Level 1→5 도달 시 **IT 투자 대비 ROI 평균 240% 향상**(Gartner 2023 기준), IT 인시던트 MTTR **68% 단축**, 주요 의사결정 Lead Time **42% 감축**, 그리고 이사회-경영진-IT 부서 간 **"단일 진실 공급원(SSOT, Single Source of Truth)"** 기반의 정량적 의사결정 체계 확보.
+> 2. **가치**: 성숙도 Level 1->5 도달 시 **IT 투자 대비 ROI 평균 240% 향상**(Gartner 2023 기준), IT 인시던트 MTTR **68% 단축**, 주요 의사결정 Lead Time **42% 감축**, 그리고 이사회-경영진-IT 부서 간 **"단일 진실 공급원(SSOT, Single Source of Truth)"** 기반의 정량적 의사결정 체계 확보.
 > 3. **판단 포인트**: **"Build vs Buy vs Subscribe"** 의사결정에서 5년 TCO 18% 이내, **"Centralized vs Federated vs Hybrid 거버넌스 모델"** 선택에서 조직의 역량 성숙도와 변경 흡수력(Capacity for Change)을 기준으로, **"Push 거버넌스(규제 중심)" vs "Pull 거버넌스(가치 중심)"** 모델 간 균형점을 찾는 것이 핵심 트레이드오프.
 
 ---
@@ -29,42 +29,42 @@ tags = ["studynote-it-management"]
 4. **IT 서비스 관리(Service Management)**: ITIL 4의 34개 Practice, SLA/OLA/UC 통합 관리, SRE(Service Reliability Engineering) 연계
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           IT 경영 관리 통합 프레임워크 (4축 Value Governance Loop)        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|           IT 경영 관리 통합 프레임워크 (4축 Value Governance Loop)        |
++----------------------------------------------------------------------------+
 
-    ┌──────────────────────────────────────────────────────────────┐
-    │  [1] 이사회·경영진 거버넌스 층 (Governance Layer)            │
-    │  · ISO/IEC 38500 6원칙 (Responsibility, Strategy,           │
-    │    Acquisition, Performance, Conformance, Human Behavior)   │
-    │  · COBIT 2019 EDM 도메인 (EDM01~EDM05)                     │
-    │       │                                                     │
-    │       ▼                                                     │
-    │  [2] IT 전략·포트폴리오 층 (Strategy & Portfolio Layer)     │
-    │   · IT 전략 로드맵 (3~5년), Capability Map, Target State EA│
-    │   · Portfolio Rationalization (TIRS 2x2 매트릭스)           │
-    │   · 투자 분류: Run(60%)/Grow(30%)/Transform(10%)            │
-    │       │                                                     │
-    │       ▼                                                     │
-    │  [3] IT 운영·서비스 층 (Delivery & Service Layer)           │
-    │   · ITIL 4 Service Value System (SVS)                       │
-    │   · DevOps/SRE 파이프라인, AIOps 기반 인시던트 자동화       │
-    │   · SLA 99.95% / MTTR 15분 이내 / MTTD 5분 이내             │
-    │       │                                                     │
-    │       ▼                                                     │
-    │  [4] 측정·피드백 층 (Measurement & Feedback Layer)          │
-    │   · KPI/KGI/CSF 계층화 (Strategy Map)                       │
-    │   · BSC 4관점, OKR cascade, Real-time Dashboard            │
-    │   · PDCA + OODA Loop를 결합한 "Closed-Loop Governance"    │
-    │       │                                                     │
-    │       └─────── [Feedback / Re-balance] ─────────────────────┘
-    └──────────────────────────────────────────────────────────────┘
+    +--------------------------------------------------------------+
+    |  [1] 이사회·경영진 거버넌스 층 (Governance Layer)            |
+    |  · ISO/IEC 38500 6원칙 (Responsibility, Strategy,           |
+    |    Acquisition, Performance, Conformance, Human Behavior)   |
+    |  · COBIT 2019 EDM 도메인 (EDM01~EDM05)                     |
+    |       |                                                     |
+    |       v                                                     |
+    |  [2] IT 전략·포트폴리오 층 (Strategy & Portfolio Layer)     |
+    |   · IT 전략 로드맵 (3~5년), Capability Map, Target State EA|
+    |   · Portfolio Rationalization (TIRS 2x2 매트릭스)           |
+    |   · 투자 분류: Run(60%)/Grow(30%)/Transform(10%)            |
+    |       |                                                     |
+    |       v                                                     |
+    |  [3] IT 운영·서비스 층 (Delivery & Service Layer)           |
+    |   · ITIL 4 Service Value System (SVS)                       |
+    |   · DevOps/SRE 파이프라인, AIOps 기반 인시던트 자동화       |
+    |   · SLA 99.95% / MTTR 15분 이내 / MTTD 5분 이내             |
+    |       |                                                     |
+    |       v                                                     |
+    |  [4] 측정·피드백 층 (Measurement & Feedback Layer)          |
+    |   · KPI/KGI/CSF 계층화 (Strategy Map)                       |
+    |   · BSC 4관점, OKR cascade, Real-time Dashboard            |
+    |   · PDCA + OODA Loop를 결합한 "Closed-Loop Governance"    |
+    |       |                                                     |
+    |       +------- [Feedback / Re-balance] ---------------------+
+    +--------------------------------------------------------------+
 
-  [변환 원리]  Governance ──→ Strategy ──→ Execution ──→ Value ──→ Governance'
+  [변환 원리]  Governance ---> Strategy ---> Execution ---> Value ---> Governance'
               (Direction)    (Plan)       (Operate)     (Measure)
 ```
 
-과거 **"Project-Driven IT"**(프로젝트 중심) 방식은 개별 과제 단위로 ROI를 산정하고 완료 후 폐기되는 **"사일로(Silo)형"** 의사결정이 다수였으나, 본 토픽의 **"Portfolio-Driven IT"**(포트폴리오 중심) 방식은 **"의사결정권자(Decision Owner) → 투자위원회(IIC) → PMO → 실무팀"** 의 계층적 거버넌스를 통해 **의사결정 일관성 85% 이상, 중복 투자 30% 감축** 의 정량적 효과를 달성한다.
+과거 **"Project-Driven IT"**(프로젝트 중심) 방식은 개별 과제 단위로 ROI를 산정하고 완료 후 폐기되는 **"사일로(Silo)형"** 의사결정이 다수였으나, 본 토픽의 **"Portfolio-Driven IT"**(포트폴리오 중심) 방식은 **"의사결정권자(Decision Owner) -> 투자위원회(IIC) -> PMO -> 실무팀"** 의 계층적 거버넌스를 통해 **의사결정 일관성 85% 이상, 중복 투자 30% 감축** 의 정량적 효과를 달성한다.
 
 - **📢 섹션 요약 비유**: IT 경영 관리는 **"도시의 도시계획(Urban Planning)"** 과 같다. 개별 건물(시스템)만 잘 지을 게 아니라, 상하수도·도로·전기·통신 인프라(거버넌스·표준)까지 통합 설계해야 시민(사업부서)이 불편 없이 살 수 있다.
 
@@ -77,31 +77,31 @@ tags = ["studynote-it-management"]
 Weill & Ross(2004)의 **"IT Governance Three Models"** 가 본 토픽의 이론적 토대이다:
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        IT 거버넌스 의사결정 5대 영역 (Weill & Ross)              │
-│  ① IT 원가/투자 원칙  ② 아키텍처 의사결정                         │
-│  ③ IT 인프라 전략    ④ 비즈니스 애플리케이션 needs                │
-│  ⑤ IT 투자/우선순위  →  이 5개 영역을 누가, 어떻게 결정하는가?    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        IT 거버넌스 의사결정 5대 영역 (Weill & Ross)              |
+|  ① IT 원가/투자 원칙  ② 아키텍처 의사결정                         |
+|  ③ IT 인프라 전략    ④ 비즈니스 애플리케이션 needs                |
+|  ⑤ IT 투자/우선순위  ->  이 5개 영역을 누가, 어떻게 결정하는가?    |
++--------------------------------------------------------------------+
 
-   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-   │  Business    │   │   IT         │   │  Hybrid      │
-   │  Monarchy    │   │  Monarchy    │   │  (Feudal/    │
-   │  (경영진 독점)│   │  (CIO 독점)  │   │  Federal/    │
-   │              │   │              │   │  Duopoly)    │
-   │ · 빠른 결정  │   │ · 기술 일관성│   │ · 균형 잡힘  │
-   │ · 사업 친화  │   │ · 표준 준수  │   │ · 합의 비용↑ │
-   │ · 기술 리스크│   │ · 사업 괴리  │   │ · 최적형     │
-   └──────┬───────┘   └──────┬───────┘   └──────┬───────┘
-          │                  │                  │
-          └──────────────────┼──────────────────┘
-                             ▼
-        ┌──────────────────────────────────────────────┐
-        │   의사결정 라이트 (RACI + VS 확장)            │
-        │   R: Responsible  A: Accountable              │
-        │   C: Consulted   I: Informed                  │
-        │   V: Veto 권한   S: Support                   │
-        └──────────────────────────────────────────────┘
+   +--------------+   +--------------+   +--------------+
+   |  Business    |   |   IT         |   |  Hybrid      |
+   |  Monarchy    |   |  Monarchy    |   |  (Feudal/    |
+   |  (경영진 독점)|   |  (CIO 독점)  |   |  Federal/    |
+   |              |   |              |   |  Duopoly)    |
+   | · 빠른 결정  |   | · 기술 일관성|   | · 균형 잡힘  |
+   | · 사업 친화  |   | · 표준 준수  |   | · 합의 비용^ |
+   | · 기술 리스크|   | · 사업 괴리  |   | · 최적형     |
+   +------+-------+   +------+-------+   +------+-------+
+          |                  |                  |
+          +------------------+------------------+
+                             v
+        +----------------------------------------------+
+        |   의사결정 라이트 (RACI + VS 확장)            |
+        |   R: Responsible  A: Accountable              |
+        |   C: Consulted   I: Informed                  |
+        |   V: Veto 권한   S: Support                   |
+        +----------------------------------------------+
 ```
 
 ### 2. COBIT 2019 기반 40개 관리 목적의 계층 구조
@@ -109,43 +109,43 @@ Weill & Ross(2004)의 **"IT Governance Three Models"** 가 본 토픽의 이론�
 **Governance Objectives(EDM01~05)** 5개와 **Management Objectives(APO, BAI, DSS, MEA 4도메인)** 35개로 구성된 **40 Governance/Management Objectives** 가 IT 경영 관리의 표준 언어 역할을 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  COBIT 2019 40 Objectives 계층도                  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  COBIT 2019 40 Objectives 계층도                  |
++--------------------------------------------------------------------+
 
-  ┌──────────────────────────────────────────────────────┐
-  │  Level 0: Stakeholder Needs & Goals                  │
-  │           (이해관계자 니즈 - 13개 목표)               │
-  └─────────────────────┬────────────────────────────────┘
-                        ▼
-  ┌──────────────────────────────────────────────────────┐
-  │  Level 1: Enterprise Goals (13개)                    │
-  │   EG01 포트폴리오, EG05 재무, EG08 내부 최적화,     │
-  │   EG09 비용 최적화, EG13 보안·프라이버시              │
-  └─────────────────────┬────────────────────────────────┘
-                        ▼
-  ┌──────────────────────────────────────────────────────┐
-  │  Level 2: IT-related Goals (13개, Alignment Goals)   │
-  │   01 IT 준수, 04 정보 위험 관리, 06 비즈니스 민첩성, │
-  │   08 포트폴리오 최적화, 09 비용 효율                 │
-  └─────────────────────┬────────────────────────────────┘
-                        ▼
-  ┌──────────────────────────────────────────────────────┐
-  │  Level 3: Governance/Management Objectives (40개)    │
-  │   EDM: Evaluate, Direct, Monitor (5)                 │
-  │   APO: Align, Plan, Organize (14)                    │
-  │   BAI: Build, Acquire, Implement (11)                │
-  │   DSS: Deliver, Service, Support (6)                 │
-  │   MEA: Monitor, Evaluate, Assess (4)                 │
-  └─────────────────────┬────────────────────────────────┘
-                        ▼
-  ┌──────────────────────────────────────────────────────┐
-  │  Level 4: Process Components (7개)                   │
-  │   · Process Practices  · Information Flows           │
-  │   · People, Skills     · Policies/Procedures         │
-  │   · Culture/Behavior   · Services/Infrastructure    │
-  │   · Goals/Metrics                                   │
-  └──────────────────────────────────────────────────────┘
+  +------------------------------------------------------+
+  |  Level 0: Stakeholder Needs & Goals                  |
+  |           (이해관계자 니즈 - 13개 목표)               |
+  +---------------------+--------------------------------+
+                        v
+  +------------------------------------------------------+
+  |  Level 1: Enterprise Goals (13개)                    |
+  |   EG01 포트폴리오, EG05 재무, EG08 내부 최적화,     |
+  |   EG09 비용 최적화, EG13 보안·프라이버시              |
+  +---------------------+--------------------------------+
+                        v
+  +------------------------------------------------------+
+  |  Level 2: IT-related Goals (13개, Alignment Goals)   |
+  |   01 IT 준수, 04 정보 위험 관리, 06 비즈니스 민첩성, |
+  |   08 포트폴리오 최적화, 09 비용 효율                 |
+  +---------------------+--------------------------------+
+                        v
+  +------------------------------------------------------+
+  |  Level 3: Governance/Management Objectives (40개)    |
+  |   EDM: Evaluate, Direct, Monitor (5)                 |
+  |   APO: Align, Plan, Organize (14)                    |
+  |   BAI: Build, Acquire, Implement (11)                |
+  |   DSS: Deliver, Service, Support (6)                 |
+  |   MEA: Monitor, Evaluate, Assess (4)                 |
+  +---------------------+--------------------------------+
+                        v
+  +------------------------------------------------------+
+  |  Level 4: Process Components (7개)                   |
+  |   · Process Practices  · Information Flows           |
+  |   · People, Skills     · Policies/Procedures         |
+  |   · Culture/Behavior   · Services/Infrastructure    |
+  |   · Goals/Metrics                                   |
+  +------------------------------------------------------+
 ```
 
 ### 3. 핵심 구성 요소 매트릭스
@@ -167,13 +167,13 @@ Weill & Ross(2004)의 **"IT Governance Three Models"** 가 본 토픽의 이론�
 
 ```
 [비즈니스 목표] EG: 매출 15% 성장
-        ↓ (alignment)
+        v (alignment)
 
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 472 / 800
 
-← **이전**: [471. IT 경영 관리 핵심 토픽 471번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/471_it_management_core_topic_471_exam_summary/)
-**다음**: [473. IT 경영 관리 핵심 토픽 473번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/473_it_management_core_topic_473_exam_summary/) →
+<- **이전**: [471. IT 경영 관리 핵심 토픽 471번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/471_it_management_core_topic_471_exam_summary/)
+**다음**: [473. IT 경영 관리 핵심 토픽 473번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/473_it_management_core_topic_473_exam_summary/) ->
 
 ---

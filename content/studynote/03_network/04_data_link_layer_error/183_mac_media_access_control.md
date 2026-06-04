@@ -26,20 +26,20 @@ MAC은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture
 IEEE (Institute of Electrical and Electronics 엔진ers) 802 구조에서 MAC은 PHY (Physical Layer) 바로 위, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 바로 아래에 위치한다. 이 위치 때문에 MAC은 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 성격을 강하게 반영한다. 유선 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 무선 전파는 충돌을 다루는 방식이 같을 수 없기 때문이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ IEEE 802에서 MAC의 위치                                            │
-├───────────────────────────────────────────────────────────────────┤
-│ Network Layer                                                     │
-│     ▲                                                             │
-│     │                                                              │
-│ LLC (Logical Link Control) : 상위 프로토콜 식별                   │
-│     ▲                                                             │
-│     │                                                              │
-│ MAC (Media Access Control) : 접근 제어 · 주소 · FCS               │
-│     ▲                                                             │
-│     │                                                              │
-│ PHY (Physical Layer) : 전기/광/무선 신호                          │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| IEEE 802에서 MAC의 위치                                            |
++-------------------------------------------------------------------+
+| Network Layer                                                     |
+|     ^                                                             |
+|     |                                                              |
+| LLC (Logical Link Control) : 상위 프로토콜 식별                   |
+|     ^                                                             |
+|     |                                                              |
+| MAC (Media Access Control) : 접근 제어 · 주소 · FCS               |
+|     ^                                                             |
+|     |                                                              |
+| PHY (Physical Layer) : 전기/광/무선 신호                          |
++-------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MAC은 여러 사람이 함께 쓰는 한 개의 마이크 앞에서 사회자가 발언 순서를 정하고, 각 발언자 이름표를 붙여, 말이 깨졌는지까지 확인하는 운영 규칙과 같다.
@@ -60,16 +60,16 @@ MAC의 핵심 원리는 크게 네 가지로 정리된다. <strong>프레임 캡
 Ethernet과 Wi-Fi 모두 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 프레임 검사는 공통으로 가지지만, <strong>접근 제어 메커니즘은 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 특성에 따라 달라진다.</strong> 유선 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반 Ethernet은 역사적으로 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))를 썼고, 무선 LAN (Local Area Network)은 송신 중 동시에 충돌을 정확히 감지하기 어려워 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)와 ACK (Acknowledgement) 중심으로 동작한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Ethernet MAC vs Wi-Fi MAC 접근 절차                               │
-├───────────────────────────────────────────────────────────────────┤
-│ Ethernet (legacy shared media)                                    │
-│   sense channel ─▶ idle? ─▶ transmit ─▶ collision? ─▶ backoff     │
-│                                                                   │
-│ Wi-Fi (shared radio medium)                                       │
-│   sense channel ─▶ wait IFS ─▶ random backoff ─▶ transmit ─▶ ACK  │
-│                                           └─ no ACK => retry      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Ethernet MAC vs Wi-Fi MAC 접근 절차                               |
++-------------------------------------------------------------------+
+| Ethernet (legacy shared media)                                    |
+|   sense channel --> idle? --> transmit --> collision? --> backoff     |
+|                                                                   |
+| Wi-Fi (shared radio medium)                                       |
+|   sense channel --> wait IFS --> random backoff --> transmit --> ACK  |
+|                                           +- no ACK => retry      |
++-------------------------------------------------------------------+
 ```
 
 또한 MAC은 단순히 "보내는 규칙"만이 아니라 프레임 구조도 제공한다. 예를 들어 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 계열 프레임은 일반적으로 <strong>Destination <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> / Source <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> / Type or Length / Payload / FCS</strong> 같은 구조를 가진다. 이 정보 덕분에 수신 노드는 자신이 받아야 할 프레임인지, 상위로 올릴 가치가 있는지, 중간에 깨지지 않았는지를 판단할 수 있다.
@@ -160,14 +160,14 @@ MAC이 잘 설계되면 같은 링크 위의 여러 장치가 서로 방해를 �
 
 ```text
 공유 버스형 LAN 환경
-        │
-        ▼
+        |
+        v
 MAC 기반 접근 제어와 프레임화
-        │
-        ├──────────────▶ Ethernet의 CSMA/CD
-        ├──────────────▶ 스위치 기반 Full-Duplex Ethernet
-        ├──────────────▶ Wi-Fi의 CSMA/CA · ACK · RTS/CTS
-        └──────────────▶ TSN · OFDMA · QoS 기반 MAC 고도화
+        |
+        +---------------> Ethernet의 CSMA/CD
+        +---------------> 스위치 기반 Full-Duplex Ethernet
+        +---------------> Wi-Fi의 CSMA/CA · ACK · RTS/CTS
+        +---------------> TSN · OFDMA · QoS 기반 MAC 고도화
 ```
 
 이 흐름도는 MAC이 단순 주소 표기에서 끝나는 개념이 아니라, 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어에서 출발해 유선 스위칭과 무선 고도화까지 확장되는 링크 운영 규칙임을 보여 준다.
@@ -184,7 +184,7 @@ MAC 기반 접근 제어와 프레임화
 
 **진행 상황**: 304 / 1120
 
-← **이전**: [182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2](/knowledge-base/studynote/03_network/04_data_link_layer_error/182_llc_logical_link_control/)
-**다음**: [184. 프레이밍 (Framing) 메커니즘](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) →
+<- **이전**: [182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2](/knowledge-base/studynote/03_network/04_data_link_layer_error/182_llc_logical_link_control/)
+**다음**: [184. 프레이밍 (Framing) 메커니즘](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ->
 
 ---

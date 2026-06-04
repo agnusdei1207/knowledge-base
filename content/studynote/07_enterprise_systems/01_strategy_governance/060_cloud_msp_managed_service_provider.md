@@ -33,12 +33,12 @@ MSP의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaa
 
 ```text
 기업
-  ↓
+  v
 MSP
-  ├─ Migration
-  ├─ Managed Operation
-  └─ FinOps
-       ↓
+  +- Migration
+  +- Managed Operation
+  +- FinOps
+       v
 AWS / Azure / GCP
 ```
 
@@ -104,11 +104,11 @@ MSP는 클라우드 운영의 복잡도를 줄여 준다. 그러나 단순 외�
 
 ```text
 CSP
-   ↓
+   v
 MSP
-   ↓
+   v
 운영 / 보안 / FinOps
-   ↓
+   v
 클라우드 성숙도 향상
 ```
 
@@ -118,11 +118,11 @@ MSP
 
 ```text
 온프레미스
-   ↓
+   v
 클라우드 도입
-   ↓
+   v
 MSP 운영 대행
-   ↓
+   v
 FinOps / Governance
 ```
 
@@ -140,7 +140,7 @@ MSP는 클라우드 이사를 도와주는 전문가예요.
 
 **진행 상황**: 60 / 482
 
-← **이전**: [59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/059_it_outsourcing_ito_bpo/)
-**다음**: [61. 온프레미스 (On-Premise) 프라이빗 IT 인프라](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) →
+<- **이전**: [59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/059_it_outsourcing_ito_bpo/)
+**다음**: [61. 온프레미스 (On-Premise) 프라이빗 IT 인프라](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) ->
 
 ---

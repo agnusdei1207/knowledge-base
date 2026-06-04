@@ -24,19 +24,19 @@ Gartner 6R 마이그레이션 전략:
 R1. Rehost (리호스트 = Lift & Shift):
   그대로 클라우드로 이전
   변경 최소화, 빠른 이전
-  예: 온프레미스 VM → EC2
+  예: 온프레미스 VM -> EC2
 
 R2. Replatform (리플랫폼):
   일부 최적화 후 이전
-  예: MySQL → RDS (관리형으로)
+  예: MySQL -> RDS (관리형으로)
 
 R3. Repurchase (리퍼체이스):
   SaaS로 교체
-  예: 자체 CRM → Salesforce
+  예: 자체 CRM -> Salesforce
 
 R4. Refactor/Re-architect (리팩터):
   클라우드 네이티브 재설계
-  예: 모놀리스 → 마이크로서비스
+  예: 모놀리스 -> 마이크로서비스
 
 R5. Retire (폐기):
   더 이상 필요 없는 시스템 종료
@@ -97,13 +97,13 @@ Retire 전략:
 
   1. 데이터 보존 분석:
   법적 보존 의무 (보통 5~10년)
-  → 데이터: 아카이브 스토리지 (S3 Glacier)
-  → 시스템: 종료
+  -> 데이터: 아카이브 스토리지 (S3 Glacier)
+  -> 시스템: 종료
 
   2. 의존성 확인:
   다른 시스템이 이 시스템 데이터 사용?
-  → 없으면 폐기
-  → 있으면 마이그레이션 또는 단계적 폐기
+  -> 없으면 폐기
+  -> 있으면 마이그레이션 또는 단계적 폐기
 
   3. 공지 및 폐기:
   30~90일 사전 공지
@@ -112,8 +112,8 @@ Retire 전략:
 
 ROI:
   예: 연 운영비 5,000만원 시스템 폐기
-  → 즉각 5,000만원/년 절감
-  → 3년: 1.5억원 절감
+  -> 즉각 5,000만원/년 절감
+  -> 3년: 1.5억원 절감
 
   업계 평균: 마이그레이션 발견 앱의 15%가 Retire
 ```
@@ -140,8 +140,8 @@ Retain 전략:
   일부 국가: "데이터는 국내에만"
   금융/의료 규제: 온프레미스 요구
 
-  예: 유럽 GDPR → 특정 데이터 EU 밖 금지
-  예: 국내 금융감독원 → 핵심 금융 데이터 온프레미스
+  예: 유럽 GDPR -> 특정 데이터 EU 밖 금지
+  예: 국내 금융감독원 -> 핵심 금융 데이터 온프레미스
 
 3. 레이턴시 요구:
   극도로 낮은 지연 필요
@@ -163,7 +163,7 @@ Retain의 결과: 하이브리드 클라우드
 
   온프레미스 (Retain):
   메인프레임, 규제 데이터
-        ↑↓ 연결
+        ^v 연결
   클라우드 (이전된 앱):
   웹/앱 서버, 분석, 개발
 
@@ -181,7 +181,7 @@ Retain의 결과: 하이브리드 클라우드
 
 Discovery 도구:
   AWS Migration Hub:
-  에이전트 설치 → 자동 앱 발견
+  에이전트 설치 -> 자동 앱 발견
   의존성 맵, 사용량 분석
 
   Azure Migrate:
@@ -190,22 +190,22 @@ Discovery 도구:
 
   VMware vRealize:
   VM 활용률 분석
-  → Retire 후보 식별
+  -> Retire 후보 식별
 
 ABC 분류 (Application Business Classification):
 
 A 클래스 (핵심):
   비즈니스 중단 시 수익 직접 영향
-  → Rehost 또는 Refactor 우선
+  -> Rehost 또는 Refactor 우선
 
 B 클래스 (중요):
   운영 효율성에 영향
-  → Replatform or Rehost
+  -> Replatform or Rehost
 
 C 클래스 (지원):
   있으면 좋지만 없어도 됨
-  → Retire 후보 1순위
-  → 또는 SaaS Repurchase
+  -> Retire 후보 1순위
+  -> 또는 SaaS Repurchase
 
 마이그레이션 Wave (단계):
   Wave 1: Retire 후보 폐기 (즉각 비용 절감)
@@ -221,7 +221,7 @@ ROI 계산:
   일반 기업: 18~36개월 Break-Even
 ```
 
-> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이삿짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 먼저 버릴 것(C클래스 → Retire), 그대로 옮길 것(B클래스 → Rehost), 완전히 새로 살 것(A클래스 → [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)!
+> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이삿짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 먼저 버릴 것(C클래스 -> Retire), 그대로 옮길 것(B클래스 -> Rehost), 완전히 새로 살 것(A클래스 -> [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)!
 
 ---
 
@@ -240,39 +240,39 @@ ROI 계산:
 A 클래스 (핵심) 15개:
   ERP (SAP S/4HANA)
   MES (Manufacturing Execution System)
-  → Retain (SAP는 메인프레임 의존)
-  → 일부 Replatform (SAP on Azure)
+  -> Retain (SAP는 메인프레임 의존)
+  -> 일부 Replatform (SAP on Azure)
 
 B 클래스 (중요) 45개:
   HR, 재무, CRM
-  → Rehost: 30개
-  → Replatform: 15개
+  -> Rehost: 30개
+  -> Replatform: 15개
 
 C 클래스 (지원) 60개:
   사용 분석:
-  사용 안 함 (6개월 이상 접속 없음): 20개 → Retire
-  SaaS 대체 가능: 10개 → Repurchase (Office 365 등)
+  사용 안 함 (6개월 이상 접속 없음): 20개 -> Retire
+  SaaS 대체 가능: 10개 -> Repurchase (Office 365 등)
   남은 30개: Rehost
 
 마이그레이션 결과 (18개월):
 
 Retire: 20개 앱 폐기
-  → 연 4억원 절감 (라이선스+유지보수)
+  -> 연 4억원 절감 (라이선스+유지보수)
 
 Repurchase: Office 365 전환
-  → 그룹웨어 3개 폐기
-  → 연 1억원 절감
+  -> 그룹웨어 3개 폐기
+  -> 연 1억원 절감
 
-Rehost/Replatform: 75개 → AWS
-  → 인프라 비용 40% 절감
+Rehost/Replatform: 75개 -> AWS
+  -> 인프라 비용 40% 절감
 
 Retain: SAP + MES 온프레미스
   하이브리드 연결: AWS Direct Connect
 
 전체 결과:
-  연간 IT 비용: 40억원 → 24억원
+  연간 IT 비용: 40억원 -> 24억원
   ROI: 3년 내 이전 비용 회수
-  서버: 400대 → 온프레미스 50대 + 클라우드
+  서버: 400대 -> 온프레미스 50대 + 클라우드
 ```
 
 > 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
@@ -324,7 +324,7 @@ Refactor/Retire 체계화
       |
       v
 [현재: 클라우드 최적화]
-단순 이전 → ROI 중심
+단순 이전 -> ROI 중심
 FinOps + 7R (Relocate 추가)
 ```
 
@@ -342,7 +342,7 @@ FinOps + 7R (Relocate 추가)
 
 **진행 상황**: 45 / 371
 
-← **이전**: [045. 클라우드 이전 전략 — Repurchase & SaaS Migration](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/045_migration_repurchase_saas/)
-**다음**: [047. CSB — 클라우드 서비스 브로커리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/047_cloud_service_brokerage_csb/) →
+<- **이전**: [045. 클라우드 이전 전략 — Repurchase & SaaS Migration](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/045_migration_repurchase_saas/)
+**다음**: [047. CSB — 클라우드 서비스 브로커리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/047_cloud_service_brokerage_csb/) ->
 
 ---

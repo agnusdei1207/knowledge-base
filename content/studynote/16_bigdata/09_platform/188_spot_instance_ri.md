@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 빅데이터 비용 최적화 ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 빅데이터 환경에서 비용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력 데이터       |--->| 산식/기준        |--->| 해석/조치        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 계기판처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 해석/조치 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 입력 데이터       |--->| 산식/기준        |--->| 해석/조치        |
++--------------+   +--------------+   +--------------+
 ```
 
 Spot Instance와 컴퓨팅-스토리지 분리은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -111,17 +111,17 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/knowledg
 
 ```text
 [온디맨드 (On-Demand) — 필요 시 즉시 사용, 고비용 기본 과금 모델]
-    │
-    ▼
+    |
+    v
 [예약 인스턴스 (RI, Reserved Instance) — 1·3년 약정으로 최대 75% 비용 절감]
-    │
-    ▼
+    |
+    v
 [스팟 인스턴스 (Spot Instance) — 유휴 용량 경매, 최대 90% 할인·중단 위험]
-    │
-    ▼
+    |
+    v
 [컴퓨팅-스토리지 분리 아키텍처 — S3+Spot 조합, 중단 내성 설계]
-    │
-    ▼
+    |
+    v
 [FinOps — 비용 가시성·최적화 문화, 자동화 비용 조정으로 클라우드 경제성]
 ```
 
@@ -140,7 +140,7 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/knowledg
 
 **진행 상황**: 188 / 262
 
-← **이전**: [187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화](/knowledge-base/studynote/16_bigdata/09_platform/187_parquet_orc_iceberg_arrow/)
-**다음**: [189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) →
+<- **이전**: [187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화](/knowledge-base/studynote/16_bigdata/09_platform/187_parquet_orc_iceberg_arrow/)
+**다음**: [189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 그림자 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Shadow [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기법은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 없이 구버전(그림자) 디렉토리와 현재 디렉토리 유지 교체 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 유사)에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 그림자 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `즉시 갱신`·`검사점 회복 기법`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 그림자 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [즉시 갱신]
-    │
-    ▼
+    |
+    v
 [그림자 페이징 기법]
-    │
-    ├──▶ [검사점 회복 기법]
-    └──▶ [미디어 회복]
+    |
+    +---> [검사점 회복 기법]
+    +---> [미디어 회복]
 ```
 
 [즉시 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/)에서 출발한 논점이 그림자 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법에서 핵심 판단으로 모이고, 이후 [검사점 회복 기법](/knowledge-base/studynote/05_database/04_transactions_concurrency/241_checkpoint_recovery_time_reduction/)·[미디어 회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/242_media_recovery_dump_archive_rollforward/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 240 / 600
 
-← **이전**: [239. 즉시 갱신 (Immediate Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/)
-**다음**: [241. 검사점 회복 기법 (Checkpoint / Checkpointing)](/knowledge-base/studynote/05_database/04_transactions_concurrency/241_checkpoint_recovery_time_reduction/) →
+<- **이전**: [239. 즉시 갱신 (Immediate Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/)
+**다음**: [241. 검사점 회복 기법 (Checkpoint / Checkpointing)](/knowledge-base/studynote/05_database/04_transactions_concurrency/241_checkpoint_recovery_time_reduction/) ->
 
 ---

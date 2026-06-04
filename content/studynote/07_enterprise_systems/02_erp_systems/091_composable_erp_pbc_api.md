@@ -37,20 +37,20 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a>)</strong> | 각 PBC들이 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s) 위에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                모놀리식 ERP vs 컴포저블 ERP 구조 비교             │
-├──────────────────────────────────────────────────────────────┤
-│    [ 과거: 모놀리식 ERP ]              [ 최신: 컴포저블 ERP ]          │
-│  ┌──────────────────────┐         ┌─────┐ ┌─────┐ ┌─────┐    │
-│  │    [UI / 화면]       │         │ UI  │ │ 앱  │ │ IoT │    │
-│  ├──────────────────────┤         └──┬──┘ └──┬──┘ └──┬──┘    │
-│  │   재무 ↔ 물류 ↔ 인사 │    ==== (Headless API Gateway) ====│
-│  │  (단단하게 엉킨 코드)  │         ┌──┴──┐ ┌──┴──┐ ┌──┴──┐    │
-│  ├──────────────────────┤         │ PBC │ │ PBC │ │ PBC │    │
-│  │   단일 거대 DB       │         │(재무)│ │(AI) │ │(물류)│    │
-│  └──────────────────────┘         └─────┘ └─────┘ └─────┘    │
-│                                  (블록 하나만 쏙 뽑아서 교체 가능)   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                모놀리식 ERP vs 컴포저블 ERP 구조 비교             |
++--------------------------------------------------------------+
+|    [ 과거: 모놀리식 ERP ]              [ 최신: 컴포저블 ERP ]          |
+|  +----------------------+         +-----+ +-----+ +-----+    |
+|  |    [UI / 화면]       |         | UI  | | 앱  | | IoT |    |
+|  +----------------------+         +--+--+ +--+--+ +--+--+    |
+|  |   재무 ↔ 물류 ↔ 인사 |    ==== (Headless API Gateway) ====|
+|  |  (단단하게 엉킨 코드)  |         +--+--+ +--+--+ +--+--+    |
+|  +----------------------+         | PBC | | PBC | | PBC |    |
+|  |   단일 거대 DB       |         |(재무)| |(AI) | |(물류)|    |
+|  +----------------------+         +-----+ +-----+ +-----+    |
+|                                  (블록 하나만 쏙 뽑아서 교체 가능)   |
++--------------------------------------------------------------+
 ```
 
 특히 [Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) 아키텍처는 사용자 인터페이스(UI)와 뒷단의 비즈니스 로직(PBC)을 완전히 분리시킨다. 모바일, 웹, 스마트워치 등 어떤 화면(Head)이 오더라도 뒷단 시스템을 고칠 필요 없이 API로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 던져주면 된다.
@@ -118,17 +118,17 @@ tags = ["enterprise_systems"]
 
 ```text
 온프레미스 기반 모놀리식 ERP (전통적 사일로)
-    │
-    ▼
+    |
+    v
 클라우드 전환 (IaaS/PaaS 도입 및 유연성 확보)
-    │
-    ▼
+    |
+    v
 MSA (마이크로서비스 아키텍처) 기술 성숙
-    │
-    ▼
+    |
+    v
 기능 중심의 API-First 및 Headless 설계 도입
-    │
-    ▼
+    |
+    v
 컴포저블 ERP (Composable ERP) 및 로우코드 융합
 ```
 
@@ -146,7 +146,7 @@ MSA (마이크로서비스 아키텍처) 기술 성숙
 
 **진행 상황**: 91 / 482
 
-← **이전**: [90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/090_intelligent_erp_ai_machine_learning/)
-**다음**: [92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/092_scm_supply_chain_management/) →
+<- **이전**: [90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/090_intelligent_erp_ai_machine_learning/)
+**다음**: [92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/092_scm_supply_chain_management/) ->
 
 ---

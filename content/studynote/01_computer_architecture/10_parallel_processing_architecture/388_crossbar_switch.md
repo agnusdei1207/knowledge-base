@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 크로스바가 왜 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 사서 얻는 구조"인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ 4x4 crossbar example                                                    │
-├──────────┬────────┬────────┬────────┬────────┤
-│          │ Out0   │ Out1   │ Out2   │ Out3   │
-├──────────┼────────┼────────┼────────┼────────┤
-│ In0      │ ON     │ OFF    │ OFF    │ OFF    │
-│ In1      │ OFF    │ OFF    │ ON     │ OFF    │
-│ In2      │ OFF    │ ON     │ OFF    │ OFF    │
-│ In3      │ OFF    │ OFF    │ OFF    │ ON     │
-└──────────┴────────┴────────┴────────┴────────┘
++--------------------------------------------------------------------------+
+| 4x4 crossbar example                                                    |
++----------+--------+--------+--------+--------+
+|          | Out0   | Out1   | Out2   | Out3   |
++----------+--------+--------+--------+--------+
+| In0      | ON     | OFF    | OFF    | OFF    |
+| In1      | OFF    | OFF    | ON     | OFF    |
+| In2      | OFF    | ON     | OFF    | OFF    |
+| In3      | OFF    | OFF    | OFF    | ON     |
++----------+--------+--------+--------+--------+
 
 Different outputs  => parallel transfers possible
 Same output target => arbitration required
@@ -61,14 +61,14 @@ Same output target => arbitration required
 아래 그림은 크로스바의 내부 판단 흐름을 압축한다.
 
 ```text
-┌──────────────┐     ┌──────────────────────────────┐     ┌──────────────┐
-│ Input ports  │ ─▶  │ Crosspoint matrix            │ ─▶  │ Output ports │
-│ In0 In1 In2  │     │ + arbitration / scheduling   │     │ O0 O1 O2 O3  │
-│ In3          │     │                              │     │              │
-└──────────────┘     └──────────────────────────────┘     └──────────────┘
-                            │
-                            ├─ Different outputs  -> connect in parallel
-                            └─ Same output target -> choose one, defer others
++--------------+     +------------------------------+     +--------------+
+| Input ports  | -->  | Crosspoint matrix            | -->  | Output ports |
+| In0 In1 In2  |     | + arbitration / scheduling   |     | O0 O1 O2 O3  |
+| In3          |     |                              |     |              |
++--------------+     +------------------------------+     +--------------+
+                            |
+                            +- Different outputs  -> connect in parallel
+                            +- Same output target -> choose one, defer others
 ```
 
 정량적으로 보면 장점과 한계가 아주 분명하다. `N x N` 크로스바는 최대 `N`개의 독립 전송을 동시에 처리할 수 있어 총 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 매우 크다. 반면 필요한 교차점 수와 배선 자원도 `O(N^2)`로 커지므로, 노드가 두 배가 되면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 배선 부담은 네 배 수준으로 증가한다. 그래서 소규모에서는 이상적이지만, 대규모에서는 배선 길이, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 소비전력, 칩 면적이 빠르게 부담이 된다.
@@ -152,23 +152,23 @@ Same output target => arbitration required
 
 ```text
 공유 버스 병목
-    │
-    ▼
+    |
+    v
 크로스바 스위치 (Crossbar Switch)
-    │
-    ├─ 짧은 지연 · 높은 동시성
-    │
-    ▼
+    |
+    +- 짧은 지연 · 높은 동시성
+    |
+    v
 다단 연결망 (Multistage Interconnection Network)
-    │
-    ▼
+    |
+    v
 클로스 망 (Clos Network) · 스위치 패브릭 (Switch Fabric)
-    │
-    ▼
+    |
+    v
 네트워크 온 칩 (NoC, Network on Chip) · 계층형 인터커넥트
 ```
 
-이 흐름은 "단일 경로 병목 제거 → 직접 연결 극대화 → 비용 절충 → 대규모 계층화"로 인터커넥트 설계가 발전하는 방향을 보여준다.
+이 흐름은 "단일 경로 병목 제거 -> 직접 연결 극대화 -> 비용 절충 -> 대규모 계층화"로 인터커넥트 설계가 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ Same output target => arbitration required
 
 **진행 상황**: 389 / 803
 
-← **이전**: [387. 상호 연결망 (Interconnection Network)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)
-**다음**: [389. 메시 (Mesh) 토폴로지](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) →
+<- **이전**: [387. 상호 연결망 (Interconnection Network)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)
+**다음**: [389. 메시 (Mesh) 토폴로지](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ->
 
 ---

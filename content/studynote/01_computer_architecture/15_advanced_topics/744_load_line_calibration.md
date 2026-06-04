@@ -43,16 +43,16 @@ LLC는 목표 [전압](/knowledge-base/studynote/01_computer_architecture/01_bas
 이 그림은 LLC가 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 무조건 올리는 기능"이 아니라, 부하 인가와 해제의 기울기를 바꾸는 조정기라는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        LLC changes the trade-off between droop under load and overshoot   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Vcore                                                                      │
-│ 1.30V ─ aggressive LLC ──────┐                    /\ overshoot risk        │
-│ 1.25V ─ balanced LLC ──────\  └──── heavy load --/  \────                  │
-│ 1.20V ─ spec load-line ─────\____________________/                         │
-│                                                                            │
-│          idle                 load applied          load released          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        LLC changes the trade-off between droop under load and overshoot   |
++----------------------------------------------------------------------------+
+| Vcore                                                                      |
+| 1.30V - aggressive LLC ------+                    /\ overshoot risk        |
+| 1.25V - balanced LLC ------\  +---- heavy load --/  \----                  |
+| 1.20V - spec load-line -----\____________________/                         |
+|                                                                            |
+|          idle                 load applied          load released          |
++----------------------------------------------------------------------------+
 ```
 
 실제로 소프트웨어 모니터링 툴은 빠른 스파이크를 다 보지 못할 수 있다. 따라서 정밀 평가는 오실로스코프 기반 측정이 가장 정확하고, 일반 사용자는 장기 스트레스 테스트와 실제 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 피크, 발열, 오류 로그를 함께 보며 보수적으로 접근해야 한다.
@@ -129,17 +129,17 @@ LLC는 [다상 전원부](/knowledge-base/studynote/01_computer_architecture/15_
 
 ```text
 고정 전압 설정 중심 오버클럭
-        │
-        ▼
+        |
+        v
 제조사 규격 기반 Load Line 개념 정착
-        │
-        ▼
+        |
+        v
 BIOS LLC 단계별 조정
-        │
-        ▼
+        |
+        v
 디지털 VRM의 세밀한 과도 응답 제어
-        │
-        ▼
+        |
+        v
 텔레메트리 기반 적응형 Load Line 최적화
 ```
 
@@ -157,7 +157,7 @@ BIOS LLC 단계별 조정
 
 **진행 상황**: 745 / 803
 
-← **이전**: [743. 다상 전원부 (Multi-phase VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/743_multi_phase_vrm/)
-**다음**: [745. 과전압 보호 (OVP, Over Voltage Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/745_ovp/) →
+<- **이전**: [743. 다상 전원부 (Multi-phase VRM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/743_multi_phase_vrm/)
+**다음**: [745. 과전압 보호 (OVP, Over Voltage Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/745_ovp/) ->
 
 ---

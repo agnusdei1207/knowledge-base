@@ -19,20 +19,20 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    데이터 유형별 비교                                  │
-├───────────────────────────────────────────────────────┤
-│  [3rd Party — 폐지 중]                                │
-│   타사 쿠키로 다른 사이트 행동 추적                   │
-│   → Chrome 2025 폐지, Safari/Firefox 이미 차단       │
-│                                                       │
-│  [1st Party — 핵심 전략]                              │
-│   자사 웹·앱·매장에서 직접 수집                       │
-│   → 로그인, 구매, 검색, 클릭 데이터                   │
-│                                                       │
-│  [Zero Party — 최고 품질]                             │
-│   고객이 자발적으로 제공 (선호, 설문, 위시리스트)     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    데이터 유형별 비교                                  |
++-------------------------------------------------------+
+|  [3rd Party — 폐지 중]                                |
+|   타사 쿠키로 다른 사이트 행동 추적                   |
+|   -> Chrome 2025 폐지, Safari/Firefox 이미 차단       |
+|                                                       |
+|  [1st Party — 핵심 전략]                              |
+|   자사 웹·앱·매장에서 직접 수집                       |
+|   -> 로그인, 구매, 검색, 클릭 데이터                   |
+|                                                       |
+|  [Zero Party — 최고 품질]                             |
+|   고객이 자발적으로 제공 (선호, 설문, 위시리스트)     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 3rd Party는 남의 집 창문으로 훔쳐보기(타사 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))이고, 1st Party는 우리 가게에 온 손님의 행동 관찰이며, [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Party는 손님이 직접 "이런 거 좋아해요"라고 말해주는 것이다.
@@ -47,7 +47,7 @@ tags = ["studynote-enterprise-systems"]
 |:---|:---|:---|
 | **수집** | 웹·앱 이벤트 트래킹 | GA4, [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) |
 | **동의** | [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 동의 배너·옵트인 관리 | [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) (OneTrust) |
-| **통합** | ID Resolution → 통합 프로파일 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/), mParticle) |
+| **통합** | ID Resolution -> 통합 프로파일 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/), mParticle) |
 | **활성화** | 개인화 광고·이메일·추천 | 마케팅 자동화 (Braze) |
 | **분석** | 고객 세분화·이탈 예측 | 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), BI 도구 |
 
@@ -95,17 +95,17 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [3rd Party 쿠키 기반 마케팅 (2000s~2020)]
-    │
-    ▼
+    |
+    v
 [GDPR·CCPA (2018~) — 개인정보보호 규제 강화]
-    │
-    ▼
+    |
+    v
 [Safari·Firefox 3rd Party 쿠키 차단 (2019~)]
-    │
-    ▼
+    |
+    v
 [Chrome 3rd Party 쿠키 폐지 (2025)]
-    │
-    ▼
+    |
+    v
 [현재: 1st Party + Zero Party + Privacy Sandbox 시대]
 ```
 
@@ -120,7 +120,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 116 / 482
 
-← **이전**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/)
-**다음**: [117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/117_martech_marketing_technology_convergence/) →
+<- **이전**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/)
+**다음**: [117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/117_martech_marketing_technology_convergence/) ->
 
 ---

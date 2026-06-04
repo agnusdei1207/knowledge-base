@@ -28,17 +28,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 다중 프로세서가 왜 "작업 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"과 "공유 자원 조정"을 동시에 요구하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        단일 성능 한계 이후의 선택: 더 빠른 1개 → 협력하는 여러 개        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 요청 폭증                                                            │
-│   │                                                                  │
-│   ├─ 단일 프로세서: [CPU] ─────────▶ [공유 작업 처리] ─▶ 대기열 증가     │
-│   │                                                                  │
-│   └─ 다중 프로세서: [CPU0][CPU1][CPU2][CPU3] ─▶ 작업 분산 ─▶ 처리량 향상 │
-│                                     │                                │
-│                                     └─ 단, 메모리/버스 조정 필요      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        단일 성능 한계 이후의 선택: 더 빠른 1개 -> 협력하는 여러 개        |
++----------------------------------------------------------------------+
+| 요청 폭증                                                            |
+|   |                                                                  |
+|   +- 단일 프로세서: [CPU] ----------> [공유 작업 처리] --> 대기열 증가     |
+|   |                                                                  |
+|   +- 다중 프로세서: [CPU0][CPU1][CPU2][CPU3] --> 작업 분산 --> 처리량 향상 |
+|                                     |                                |
+|                                     +- 단, 메모리/버스 조정 필요      |
++----------------------------------------------------------------------+
 ```
 
 즉 다중 프로세서는 단순한 하드웨어 증설이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 확보와 공유 자원 통제라는 두 과제를 함께 해결하기 위해 등장한 구조다.
@@ -62,19 +62,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 계열 다중 프로세서에서 어디서 병목이 생기고 왜 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)이 중요한지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 SMP 다중 프로세서의 기본 데이터 경로                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ [CPU0]   [CPU1]   [CPU2]   [CPU3]                                    │
-│   │        │        │        │                                       │
-│ [L1/L2]  [L1/L2]  [L1/L2]  [L1/L2]                                   │
-│   └──┬─────┴──┬─────┴──┬─────┴──┬─── 공유 인터커넥트 ────────────────│
-│      │        │        │        │                                    │
-│      ├──────────────▶ [Main Memory]                                  │
-│      │                                                                │
-│      └─ 같은 주소를 각자 캐시에 보관하면                              │
-│         한 CPU의 쓰기 결과를 다른 CPU 캐시에도 반영해야 함            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 SMP 다중 프로세서의 기본 데이터 경로                  |
++----------------------------------------------------------------------+
+| [CPU0]   [CPU1]   [CPU2]   [CPU3]                                    |
+|   |        |        |        |                                       |
+| [L1/L2]  [L1/L2]  [L1/L2]  [L1/L2]                                   |
+|   +--+-----+--+-----+--+-----+--+--- 공유 인터커넥트 ----------------|
+|      |        |        |        |                                    |
+|      +---------------> [Main Memory]                                  |
+|      |                                                                |
+|      +- 같은 주소를 각자 캐시에 보관하면                              |
+|         한 CPU의 쓰기 결과를 다른 CPU 캐시에도 반영해야 함            |
++----------------------------------------------------------------------+
 ```
 
 프로세서 수가 적을 때는 하나의 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 메모리로도 운영이 가능하지만, 수가 늘수록 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 경쟁이 심해진다. 또한 CPU0이 어떤 값을 수정했는데 CPU1이 자기 캐시에 남아 있는 옛 값을 계속 읽으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류가 발생한다. 이를 막기 위해 메지 (Modified, Exclusive, Shared, Invalid, MESI) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령이 필요하다.
@@ -127,19 +127,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 프로세서를 늘렸는데 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기대만큼 오르지 않을 때 무엇을 먼저 의심해야 하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              코어 증설 후 성능 정체 시 점검 흐름                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ 코어 수 증가 후 성능 미미                                              │
-│   │                                                                  │
-│   ├─ 락 경쟁 높음? ────── Yes ─▶ 동기화 구조 분해                    │
-│   │                                                                  │
-│   ├─ 메모리 대역폭 포화? ─ Yes ─▶ NUMA/메모리 배치 재설계            │
-│   │                                                                  │
-│   ├─ 캐시 일관성 트래픽 과다? ─ Yes ─▶ 데이터 배치·False Sharing 점검 │
-│   │                                                                  │
-│   └─ 모두 아니면 ─────────────▶ 알고리즘 병렬화 한계 검토             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              코어 증설 후 성능 정체 시 점검 흐름                     |
++----------------------------------------------------------------------+
+| 코어 수 증가 후 성능 미미                                              |
+|   |                                                                  |
+|   +- 락 경쟁 높음? ------ Yes --> 동기화 구조 분해                    |
+|   |                                                                  |
+|   +- 메모리 대역폭 포화? - Yes --> NUMA/메모리 배치 재설계            |
+|   |                                                                  |
+|   +- 캐시 일관성 트래픽 과다? - Yes --> 데이터 배치·False Sharing 점검 |
+|   |                                                                  |
+|   +- 모두 아니면 --------------> 알고리즘 병렬화 한계 검토             |
++----------------------------------------------------------------------+
 ```
 
 기술사 관점에서는 "프로세서를 늘린다"가 답이 아니라, <strong>어떤 병목이 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 병목인지 판별하는 능력</strong>이 중요하다. 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 소프트웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 함께 맞아야 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
@@ -174,23 +174,23 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 프로세서 성능 향상
-    │
-    ▼
+    |
+    v
 SMP (Symmetric Multiprocessing) 기반 다중 프로세서
-    │
-    ├─ 공유 메모리 확대
-    │      ▼
-    │   캐시 일관성 (Cache Coherence) · 동기화 문제
-    │
-    └─ 프로세서 수 증가
-           ▼
+    |
+    +- 공유 메모리 확대
+    |      v
+    |   캐시 일관성 (Cache Coherence) · 동기화 문제
+    |
+    +- 프로세서 수 증가
+           v
         NUMA (Non-Uniform Memory Access)
-           │
-           ▼
+           |
+           v
 칩렛 (Chiplet) · 온칩 네트워크 (Network-on-Chip, NoC)
 ```
 
-이 흐름은 "프로세서 추가 → 공유 비용 증가 → 지역성 기반 확장"으로 진화한 방향을 보여준다.
+이 흐름은 "프로세서 추가 -> 공유 비용 증가 -> 지역성 기반 확장"으로 진화한 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -204,7 +204,7 @@ SMP (Symmetric Multiprocessing) 기반 다중 프로세서
 
 **진행 상황**: 376 / 803
 
-← **이전**: [374. 배열 프로세서 (Array Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/374_array_processor/)
-**다음**: [376. 다중 컴퓨터 (Multicomputer)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/) →
+<- **이전**: [374. 배열 프로세서 (Array Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/374_array_processor/)
+**다음**: [376. 다중 컴퓨터 (Multicomputer)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/) ->
 
 ---

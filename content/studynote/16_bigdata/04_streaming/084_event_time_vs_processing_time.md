@@ -57,12 +57,12 @@ tags = ["studynote-bigdata"]
 
 ```
 이벤트 스트림 (도착 순서):
-──────────────────────────────────────────────────────────
+----------------------------------------------------------
 시간축(시스템):  10:00   10:05   10:10   10:15   10:20
-                  │       │       │       │       │
+                  |       |       |       |       |
 이벤트(처리시간): [A]     [C]     [B]              [D]
 이벤트 시간:      A=10:00 C=10:08 B=10:03         D=10:18
-                  ↑       ↑       ↑
+                  ^       ^       ^
                   도착                 20초 지연 후 도착
 
 [처리 시간 기준 10분 윈도우]
@@ -72,7 +72,7 @@ tags = ["studynote-bigdata"]
 [이벤트 시간 기준 10분 윈도우]
   윈도우 1 (10:00~10:10): A, B, C (B는 10:03에 발생)
   윈도우 2 (10:10~10:20): D
-  → 더 정확! (B가 올바른 윈도우에 포함됨)
+  -> 더 정확! (B가 올바른 윈도우에 포함됨)
 ```
 
 ### 2. 처리 시간 사용법 (Flink)
@@ -211,17 +211,17 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ```text
 [스트림 데이터 수집]
-    │
-    ▼
+    |
+    v
 [처리 시간(Processing Time)]
-    │
-    ▼
+    |
+    v
 [이벤트 시간(Event Time)]
-    │
-    ▼
+    |
+    v
 [워터마크(Watermark)]
-    │
-    ▼
+    |
+    v
 [지연 데이터 처리]
 ```
 
@@ -237,7 +237,7 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 **진행 상황**: 84 / 262
 
-← **이전**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/knowledge-base/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/)
-**다음**: [10. 워터마크 (Watermark) — 지연 이벤트 허용 임계](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) →
+<- **이전**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/knowledge-base/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/)
+**다음**: [10. 워터마크 (Watermark) — 지연 이벤트 허용 임계](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ->
 
 ---

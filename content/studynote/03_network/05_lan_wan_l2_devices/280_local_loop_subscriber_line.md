@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [브로드밴드통신망]
-    │
-    ▼
+    |
+    v
 [로컬 루프]
-    │
-    └──▶ [토큰 링]
+    |
+    +---> [토큰 링]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 로컬 루프는 택배 회사의 거대한 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 터미널에서 출발한 물건이, 배달 기사님의 오토바이에 실려 </strong>"우리 집 현관문 앞까지 도달하는 그 험난한 마지막 골목길(라스트 마일)"**을 의미합니다.
@@ -51,22 +51,22 @@ tags = ["studynote-network"]
    - 이 거대한 토목 공사가 성공하면서 로컬 루프의 병목이 해결되었고, 기가 인터넷(1Gbps)과 10기가 인터넷 시대가 열렸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 로컬 루프 (Local Loop)의 구간 도식              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 통신사 백본망 ] ──(수백 Gbps)── [ 동네 전화국 (KT, SKT) ]   │
- │   (코어 라우터들)                      (스위치 및 OLT 장비)     │
- │                                             │               │
- │                                             ▼               │
- │          ==== 요 구간이 바로 로컬 루프 (Local Loop) ====         │
- │          (과거엔 구리선 2가닥, 현재는 얇은 광케이블 1가닥)           │
- │                                             ▼               │
- │                                     [ 집 / 회사 (고객) ]     │
- │                                  (모뎀, ONU 장비 및 라우터)    │
- │                                                             │
- │   * 로컬 루프의 품질이 가입자가 체감하는 인터넷 속도를 결정짓는다.      │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 로컬 루프 (Local Loop)의 구간 도식              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 통신사 백본망 ] --(수백 Gbps)-- [ 동네 전화국 (KT, SKT) ]   |
+ |   (코어 라우터들)                      (스위치 및 OLT 장비)     |
+ |                                             |               |
+ |                                             v               |
+ |          ==== 요 구간이 바로 로컬 루프 (Local Loop) ====         |
+ |          (과거엔 구리선 2가닥, 현재는 얇은 광케이블 1가닥)           |
+ |                                             v               |
+ |                                     [ 집 / 회사 (고객) ]     |
+ |                                  (모뎀, ONU 장비 및 라우터)    |
+ |                                                             |
+ |   * 로컬 루프의 품질이 가입자가 체감하는 인터넷 속도를 결정짓는다.      |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. DTE와 DCE의 경계점 (Demarcation Point)
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 브로드밴드통신망]
-    │
-    ▼
+    |
+    v
 [현재 개념: 로컬 루프]
-    │
-    ├──▶ [확장 A: 토큰 링]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 토큰 링]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 로컬 루프는 [브로드밴드통신망](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 401 / 1120
 
-← **이전**: [279. 브로드밴드통신망 (B-ISDN)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)
-**다음**: [281. 토큰 링 (Token Ring)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) →
+<- **이전**: [279. 브로드밴드통신망 (B-ISDN)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)
+**다음**: [281. 토큰 링 (Token Ring)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) ->
 
 ---

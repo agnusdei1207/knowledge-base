@@ -37,19 +37,19 @@ tags = ["ict_convergence"]
 | **중앙 클라우드** | 대규모 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) (AWS 등) | 글로벌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 빅데이터 분석, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 | 고성능, 장기 보관 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           클라우드 단일 구조 vs 엣지 컴퓨팅 구조             │
-├──────────────────────────────────────────────────────────────┤
-│ [ 과거: 지연 0.5초, 대역폭 폭발 ]                            │
-│ 🚗 자율주행차 ────────(수백 GB 비디오)────────▶ ☁️ 클라우드  │
-│                                                              │
-│ [ 엣지 컴퓨팅: 지연 0.01초, 대역폭 절감 ]                    │
-│ 🚗 자율주행차 ──(0.01초 제어)──▶ 📱 엣지 노드 (스마트 게이트웨이) │
-│                                   │                          │
-│                                (가치 있는 요약 데이터만 전송)│
-│                                   ▼                          │
-│                                ☁️ 중앙 클라우드 서버         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           클라우드 단일 구조 vs 엣지 컴퓨팅 구조             |
++--------------------------------------------------------------+
+| [ 과거: 지연 0.5초, 대역폭 폭발 ]                            |
+| 🚗 자율주행차 --------(수백 GB 비디오)---------> ☁️ 클라우드  |
+|                                                              |
+| [ 엣지 컴퓨팅: 지연 0.01초, 대역폭 절감 ]                    |
+| 🚗 자율주행차 --(0.01초 제어)---> 📱 엣지 노드 (스마트 게이트웨이) |
+|                                   |                          |
+|                                (가치 있는 요약 데이터만 전송)|
+|                                   v                          |
+|                                ☁️ 중앙 클라우드 서버         |
++--------------------------------------------------------------+
 ```
 
 엣지 노드는 현장에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차로 가공하여, 정상적인 상황의 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 버리고 비정상 상태나 중요한 요약 정보만 클라우드로 보낸다. 이를 통해 네트워크 트래픽을 90% 이상 줄일 수 있으며, 클라우드 연결이 끊긴 오프라인 상태에서도 기기가 생존할 수 있는 자율성을 부여한다.
@@ -111,17 +111,17 @@ tags = ["ict_convergence"]
 
 ```text
 중앙 집중형 클라우드 컴퓨팅 (지연 및 대역폭 한계 도달)
-    │
-    ▼
+    |
+    v
 포그 컴퓨팅 (Fog Computing) · 중간 게이트웨이 처리 도입
-    │
-    ▼
+    |
+    v
 엣지 컴퓨팅 (Edge Computing) · 데이터 발생 현장 처리, 실시간성 확보
-    │
-    ▼
+    |
+    v
 MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
-    │
-    ▼
+    |
+    v
 온디바이스 AI (On-Device AI) · 기기 자체의 독립적 인공지능화
 ```
 
@@ -137,7 +137,7 @@ MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
 
 **진행 상황**: 105 / 552
 
-← **이전**: [104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/104_tinyos_riot_freertos_micro_os/)
-**다음**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) →
+<- **이전**: [104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/104_tinyos_riot_freertos_micro_os/)
+**다음**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) ->
 
 ---

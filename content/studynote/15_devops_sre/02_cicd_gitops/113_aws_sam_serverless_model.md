@@ -21,23 +21,23 @@ tags = ["studynote-devops-sre"]
 CloudFormation으로 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) + [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 배포하려면 `AWS::Lambda::Function`, `AWS::Lambda::Permission`, `AWS::ApiGateway::RestApi`, `AWS::ApiGateway::Method` 등 <strong>5~10개 리소스를 각각 정의</strong>해야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    CloudFormation vs SAM: 코드량 비교                  │
-├───────────────────────────────────────────────────────┤
-│  [CloudFormation 직접]                                │
-│   Lambda Function:     15줄                           │
-│   Lambda Permission:    8줄                           │
-│   API Gateway RestApi: 10줄                           │
-│   API Gateway Method:  12줄                           │
-│   API Gateway Stage:    8줄                           │
-│   IAM Role:            15줄                           │
-│   합계: ~68줄                                         │
-│                                                       │
-│  [SAM]                                                │
-│   AWS::Serverless::Function:                          │
-│     Handler, Runtime, Events(Api) → 10줄              │
-│   → SAM이 나머지를 CloudFormation으로 자동 변환       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    CloudFormation vs SAM: 코드량 비교                  |
++-------------------------------------------------------+
+|  [CloudFormation 직접]                                |
+|   Lambda Function:     15줄                           |
+|   Lambda Permission:    8줄                           |
+|   API Gateway RestApi: 10줄                           |
+|   API Gateway Method:  12줄                           |
+|   API Gateway Stage:    8줄                           |
+|   IAM Role:            15줄                           |
+|   합계: ~68줄                                         |
+|                                                       |
+|  [SAM]                                                |
+|   AWS::Serverless::Function:                          |
+|     Handler, Runtime, Events(Api) -> 10줄              |
+|   -> SAM이 나머지를 CloudFormation으로 자동 변환       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CloudFormation이 레시피의 모든 재료와 조리법을 일일이 적는 요리책이라면, SAM은 "카레 세트"라고만 쓰면 재료가 자동으로 준비되는 밀키트다.
@@ -120,17 +120,17 @@ SAM은 AWS의 공식 [서버리스](/knowledge-base/studynote/12_it_management/0
 
 ```text
 [CloudFormation (2011) — AWS IaC 표준]
-    │
-    ▼
+    |
+    v
 [AWS SAM (2016) — 서버리스 전용 CF 확장]
-    │
-    ▼
+    |
+    v
 [SAM CLI (2018~) — 로컬 테스트·디버깅 지원]
-    │
-    ▼
+    |
+    v
 [SAM + CDK 통합 (2021~) — TypeScript로 SAM 템플릿 생성]
-    │
-    ▼
+    |
+    v
 [현재: SAM Accelerate — 핫 리로드, 빠른 개발 루프]
 ```
 
@@ -145,7 +145,7 @@ SAM은 AWS의 공식 [서버리스](/knowledge-base/studynote/12_it_management/0
 
 **진행 상황**: 113 / 373
 
-← **이전**: [112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/112_serverless_framework_deployment/)
-**다음**: [114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/114_kayenta_canary_analysis/) →
+<- **이전**: [112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/112_serverless_framework_deployment/)
+**다음**: [114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/114_kayenta_canary_analysis/) ->
 
 ---

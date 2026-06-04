@@ -24,7 +24,7 @@ tags = ["studynote-security"]
 AES를 이해해야 하는 이유는 단순히 '암호가 강하다'가 아니라, 라운드 구조와 사용 모드를 구분해야 실무에서 안전하게 쓸 수 있기 때문이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 좋아도 같은 키를 반복하거나 잘못된 모드를 쓰면 보안은 쉽게 무너진다.
 
 ```text
-평문 → 상태(state) → 여러 라운드 → 암호문
+평문 -> 상태(state) -> 여러 라운드 -> 암호문
 
 SPN의 핵심은 치환과 확산을 여러 번 반복하는 데 있다.
 ```
@@ -46,9 +46,9 @@ AES의 상태는 4x4 [바이트](/knowledge-base/studynote/01_computer_architect
 
 ```text
 Plaintext
-  ↓ AddRoundKey
-[SubBytes → ShiftRows → MixColumns → AddRoundKey] × (Nr-1)
-  ↓ Final round: SubBytes → ShiftRows → AddRoundKey
+  v AddRoundKey
+[SubBytes -> ShiftRows -> MixColumns -> AddRoundKey] × (Nr-1)
+  v Final round: SubBytes -> ShiftRows -> AddRoundKey
 Ciphertext
 ```
 
@@ -119,14 +119,14 @@ AES의 장점은 강한 보안성과 높은 구현 효율을 동시에 제공한
 
 ```text
 Plaintext
-  │
-  ▼
+  |
+  v
 AddRoundKey
-  │
-  ▼
-SubBytes → ShiftRows → MixColumns
-  │
-  ▼
+  |
+  v
+SubBytes -> ShiftRows -> MixColumns
+  |
+  v
 마지막 라운드 후 Ciphertext
 ```
 
@@ -144,7 +144,7 @@ SubBytes → ShiftRows → MixColumns
 
 **진행 상황**: 84 / 1108
 
-← **이전**: [083. AES (Advanced Encryption Standard) — 128/192/256비트 키](/knowledge-base/studynote/09_security/02_crypto/083_aes_advanced_encryption_standard/)
-**다음**: [085. AES 키 스케줄 — 라운드 키 생성](/knowledge-base/studynote/09_security/02_crypto/085_aes_key_schedule/) →
+<- **이전**: [083. AES (Advanced Encryption Standard) — 128/192/256비트 키](/knowledge-base/studynote/09_security/02_crypto/083_aes_advanced_encryption_standard/)
+**다음**: [085. AES 키 스케줄 — 라운드 키 생성](/knowledge-base/studynote/09_security/02_crypto/085_aes_key_schedule/) ->
 
 ---

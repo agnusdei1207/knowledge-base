@@ -42,24 +42,24 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실행 중이던 프로세스의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 자신의 PCB에 '저장(Save)'하고, 새롭게 선택된 프로세스의 PCB에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 '복원(Restore)'한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           문맥 교환 (Context Switch)과 PCB의 역할            │
-├──────────────────────────────────────────────────────────────┤
-│  [프로세스 A]                [OS 커널]                [프로세스 B] │
-│      │                          │                          │       │
-│  (실행 중) ──▶ 인터럽트 발생 ─▶│                          │       │
-│      │                   ┌──────▼──────┐                   │       │
-│      │                   │ A의 레지스터를 │                   │       │
-│      │                   │ PCB_A에 저장  │                   │       │
-│      │                   └──────┬──────┘                   │       │
-│      │                   ┌──────▼──────┐                   │       │
-│      │                   │ PCB_B에서 B의 │                   │       │
-│      │                   │ 레지스터 복원 │                   │       │
-│      │                   └──────┬──────┘                   │       │
-│      │                          │──▶ 복원 완료 ────────▶ (실행 재개)│
-│      │                          │                          ▼       │
-│ * 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           문맥 교환 (Context Switch)과 PCB의 역할            |
++--------------------------------------------------------------+
+|  [프로세스 A]                [OS 커널]                [프로세스 B] |
+|      |                          |                          |       |
+|  (실행 중) ---> 인터럽트 발생 -->|                          |       |
+|      |                   +------v------+                   |       |
+|      |                   | A의 레지스터를 |                   |       |
+|      |                   | PCB_A에 저장  |                   |       |
+|      |                   +------+------+                   |       |
+|      |                   +------v------+                   |       |
+|      |                   | PCB_B에서 B의 |                   |       |
+|      |                   | 레지스터 복원 |                   |       |
+|      |                   +------+------+                   |       |
+|      |                          |---> 복원 완료 ---------> (실행 재개)|
+|      |                          |                          v       |
+| * 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생 |
++--------------------------------------------------------------+
 ```
 
 이 과정에서 CPU는 실제 애플리케이션 연산이 아닌 운영체제의 상태 저장 작업만 수행하므로, 교환 횟수가 많아질수록 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 하락한다.
@@ -123,17 +123,17 @@ PCB와 TCB의 정교한 관리 구조는 단일 CPU에서도 수천 개의 작�
 
 ```text
 일괄 처리 (Batch Processing)
-    │
-    ▼
+    |
+    v
 PCB (Process Control Block) 도입 · 멀티태스킹 (시분할) 구현
-    │
-    ▼
+    |
+    v
 문맥 교환 (Context Switch) 오버헤드 최소화 요구
-    │
-    ▼
+    |
+    v
 TCB (Task Control Block) 분리 · 가벼운 멀티스레딩
-    │
-    ▼
+    |
+    v
 경량 사용자 스레드 (Goroutine, Virtual Thread)의 등장
 ```
 
@@ -151,7 +151,7 @@ TCB (Task Control Block) 분리 · 가벼운 멀티스레딩
 
 **진행 상황**: 90 / 800
 
-← **이전**: [89. 대기 큐 (Wait Queue / Device Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)
-**다음**: [91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보](/knowledge-base/studynote/02_operating_system/02_process_thread/091_pcb_elements/) →
+<- **이전**: [89. 대기 큐 (Wait Queue / Device Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)
+**다음**: [91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보](/knowledge-base/studynote/02_operating_system/02_process_thread/091_pcb_elements/) ->
 
 ---

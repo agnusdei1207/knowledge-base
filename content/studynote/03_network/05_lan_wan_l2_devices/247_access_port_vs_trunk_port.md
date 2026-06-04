@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [IEEE 802.1Q]
-    │
-    ▼
+    |
+    v
 [접근 포트 / 트렁크 포트]
-    │
-    └──▶ [DTP / VTP]
+    |
+    +---> [DTP / VTP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 접근 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 PC와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 잇는 </strong>"1차선 골목길(태그 없음)"<strong>이고, 트렁크 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 여러 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 하나로 이어주는 </strong>"다차선 고속도로(태그 있음)"**입니다.
@@ -54,24 +54,24 @@ tags = ["studynote-network"]
 - **수신 시(Rx)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B는 트렁크 선로에서 프레임이 들어오면 태그를 읽어보고 "아! VID가 20이네. 그럼 인사부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들 쪽으로만 포워딩해야지!" 하고 인식한 뒤 스위칭을 수행한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Access 포트와 Trunk 포트의 프레임 변환           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC 1 (영업) ]                  [ 스위치 1 ]               │
- │        │ (Untagged)                   │                     │
- │        │                              │ Access Port (VLAN 10)│
- │   [ 순수 프레임 ] ──────입력─────▶ (스위치 내부에서 Tag 10 부착)  │
- │                                       │                     │
- │                                       ▼ Trunk Port (Tagging)│
- │   [ 스위치 2 ] ◀──────출력────── [ Tag 10 + 순수 프레임 ]       │
- │        │         (Tagged)                                   │
- │   Access Port (VLAN 10)                                     │
- │        │ (스위치가 Tag를 떼어냄)                               │
- │        ▼                                                    │
- │   [ 순수 프레임 ] ──────────────▶ [ PC 2 (영업) ]              │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Access 포트와 Trunk 포트의 프레임 변환           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ PC 1 (영업) ]                  [ 스위치 1 ]               |
+ |        | (Untagged)                   |                     |
+ |        |                              | Access Port (VLAN 10)|
+ |   [ 순수 프레임 ] ------입력------> (스위치 내부에서 Tag 10 부착)  |
+ |                                       |                     |
+ |                                       v Trunk Port (Tagging)|
+ |   [ 스위치 2 ] <-------출력------ [ Tag 10 + 순수 프레임 ]       |
+ |        |         (Tagged)                                   |
+ |   Access Port (VLAN 10)                                     |
+ |        | (스위치가 Tag를 떼어냄)                               |
+ |        v                                                    |
+ |   [ 순수 프레임 ] ---------------> [ PC 2 (영업) ]              |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 앞에서는 모른 척 꼬리표를 떼어주는 </strong>"접근(Access)의 가면"<strong>을 쓰고, 다른 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 만날 때는 철저하게 꼬리표를 달아 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>를 처리하는 </strong>"트렁크(Trunk)의 가면"**을 바꿔 쓰는 양면성을 지녔습니다.
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IEEE 802.1Q]
-    │
-    ▼
+    |
+    v
 [현재 개념: 접근 포트 / 트렁크 포트]
-    │
-    ├──▶ [확장 A: DTP / VTP]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: DTP / VTP]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 접근 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 IEEE 802.1Q에서 출발해 현재 메커니즘을 정교화하고, 이후 [DTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/) / VTP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 368 / 1120
 
-← **이전**: [246. IEEE 802.1Q](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/246_ieee_802_1q_vlan_tagging_tpid_tci_vid/)
-**다음**: [248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/) →
+<- **이전**: [246. IEEE 802.1Q](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/246_ieee_802_1q_vlan_tagging_tpid_tci_vid/)
+**다음**: [248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/) ->
 
 ---

@@ -31,22 +31,22 @@ tags = ["studynote-design-supervision"]
 
 ```
 입력 (불규칙 버스트):
-  ┌───────────────────────────────────────────────────┐
-  │ 시각 | 요청 수                                     │
-  │ 0s   | 1,000 (폭발적 버스트)                       │
-  │ 1s   | 0                                          │
-  │ 2s   | 500 (또 버스트)                             │
-  └───────────────────────────────────────────────────┘
+  +---------------------------------------------------+
+  | 시각 | 요청 수                                     |
+  | 0s   | 1,000 (폭발적 버스트)                       |
+  | 1s   | 0                                          |
+  | 2s   | 500 (또 버스트)                             |
+  +---------------------------------------------------+
 
 출력 (일정 속도):
-  ┌───────────────────────────────────────────────────┐
-  │ 시각 | 처리 수                                     │
-  │ 0s   | 100 (버킷에서 일정 속도로 새어나옴)           │
-  │ 1s   | 100                                        │
-  │ 2s   | 100                                        │
-  └───────────────────────────────────────────────────┘
-  → 버스트가 버킷(큐)에 흡수되고 일정 속도로 처리
-  → 버킷 넘치면(overflow) 초과 패킷/요청 드롭
+  +---------------------------------------------------+
+  | 시각 | 처리 수                                     |
+  | 0s   | 100 (버킷에서 일정 속도로 새어나옴)           |
+  | 1s   | 100                                        |
+  | 2s   | 100                                        |
+  +---------------------------------------------------+
+  -> 버스트가 버킷(큐)에 흡수되고 일정 속도로 처리
+  -> 버킷 넘치면(overflow) 초과 패킷/요청 드롭
 ```
 
 - **📢 섹션 요약 비유**: 리키 버킷은 구멍 뚫린 양동이 — 폭우(버스트 트래픽)가 쏟아져도 양동이가 물을 받아두고, 구멍(출력)은 항상 일정한 속도로만 물(트래픽)을 내보낸다. 양동이가 넘치면 물(패킷)은 버려진다.
@@ -55,27 +55,27 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                  Leaky Bucket Algorithm                        │
-│                                                                │
-│  입력 (불규칙 트래픽):                                           │
-│  ▓▓▓▓▓▓▓▓▓ ──────────▶ ┌────────────────────┐                 │
-│  ▓ 버스트 ▓              │   Bucket (큐/버퍼)  │                 │
-│  ▓ 트래픽 ▓              │                    │  ← 버킷 초과     │
-│  ▓▓▓▓▓▓▓▓▓              │  [요청][요청][요청] │    DROP          │
-│                          │  [요청][요청][요청] │                 │
-│  단순 트래픽:             │  capacity = B      │                 │
-│  ▓ 정상 ▓  ─────────────▶│                    │                 │
-│  ▓▓▓▓▓▓▓              └──────────┬───────────┘                 │
-│                                  │                             │
-│                          일정 속도 R req/s                      │
-│                                  │                             │
-│                                  ▼                             │
-│                         ┌─────────────────┐                    │
-│                         │ 다운스트림 서버   │                    │
-│                         │ (일정 부하 보장) │                    │
-│                         └─────────────────┘                    │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|                  Leaky Bucket Algorithm                        |
+|                                                                |
+|  입력 (불규칙 트래픽):                                           |
+|  ▓▓▓▓▓▓▓▓▓ -----------> +--------------------+                 |
+|  ▓ 버스트 ▓              |   Bucket (큐/버퍼)  |                 |
+|  ▓ 트래픽 ▓              |                    |  <- 버킷 초과     |
+|  ▓▓▓▓▓▓▓▓▓              |  [요청][요청][요청] |    DROP          |
+|                          |  [요청][요청][요청] |                 |
+|  단순 트래픽:             |  capacity = B      |                 |
+|  ▓ 정상 ▓  -------------->|                    |                 |
+|  ▓▓▓▓▓▓▓              +----------+-----------+                 |
+|                                  |                             |
+|                          일정 속도 R req/s                      |
+|                                  |                             |
+|                                  v                             |
+|                         +-----------------+                    |
+|                         | 다운스트림 서버   |                    |
+|                         | (일정 부하 보장) |                    |
+|                         +-----------------+                    |
++----------------------------------------------------------------+
 ```
 
 ```python
@@ -92,7 +92,7 @@ class LeakyBucket:
             self.queue.append(request)
             return True           # 큐에 추가 성공
         else:
-            return False          # 버킷 가득 참 → DROP
+            return False          # 버킷 가득 참 -> DROP
 
     def _leak(self):
         now = time.time()
@@ -107,12 +107,12 @@ class LeakyBucket:
 네트워크 QoS 계층:
   1. Traffic Classification (분류)
   2. Traffic Policing (토큰 버킷/리키 버킷으로 초과 트래픽 드롭)
-  3. Traffic Shaping  ← 리키 버킷 활용 (버스트 평활화 후 전달)
+  3. Traffic Shaping  <- 리키 버킷 활용 (버스트 평활화 후 전달)
   4. Scheduling (우선순위 큐 기반 처리)
 
 리키 버킷의 QoS 역할:
-  CBR (Constant Bit Rate, 일정 비트율) 보장 → 음성/영상 스트리밍
-  버스트 제거 → 혼잡(Congestion) 방지
+  CBR (Constant Bit Rate, 일정 비트율) 보장 -> 음성/영상 스트리밍
+  버스트 제거 -> 혼잡(Congestion) 방지
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -172,8 +172,8 @@ http {
 
 ```
 Kafka Consumer 속도 제어:
-  Producer → Kafka Topic (버킷 역할)
-            → Consumer (일정 속도 = max.poll.records + 처리 스레드 수)
+  Producer -> Kafka Topic (버킷 역할)
+            -> Consumer (일정 속도 = max.poll.records + 처리 스레드 수)
 
   버킷 역할: Kafka Topic의 파티션
   누출 속도: Consumer의 처리 처리량 (rps)
@@ -184,7 +184,7 @@ Kafka Consumer 속도 제어:
 |:---|:---|:---|
 | [API Rate Limiting](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/511_api_rate_limiting_throttling/) | Token Bucket | 버스트 허용 + 평균 속도 제한 |
 | 실시간 스트리밍 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) | Leaky Bucket | CBR 보장, 지터 최소화 |
-| 메시지 처리 평활화 | Leaky Bucket | 배치 입력 → 일정 처리 |
+| 메시지 처리 평활화 | Leaky Bucket | 배치 입력 -> 일정 처리 |
 | [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제한 | Token Bucket | 사용자별 버스트 허용 |
 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 | Leaky Bucket | 센서 폭발 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평활화 |
 
@@ -232,7 +232,7 @@ Kafka Consumer 속도 제어:
 | 연관 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Sliding Window [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 다른 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 비교 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) shaping → 리키 버킷 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) → [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 제어
+[queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) shaping -> 리키 버킷 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) -> [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 제어
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리키 버킷은 구멍 뚫린 물통 — 빗물(버스트 트래픽)이 아무리 많이 와도 물통(버킷)이 받아두고, 구멍(출력)에서는 항상 똑같은 속도로만 물이 나와.
@@ -245,7 +245,7 @@ Kafka Consumer 속도 제어:
 
 **진행 상황**: 287 / 530
 
-← **이전**: [225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/)
-**다음**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/) →
+<- **이전**: [225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/)
+**다음**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/) ->
 
 ---

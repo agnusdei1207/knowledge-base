@@ -38,21 +38,21 @@ tags = ["ict_convergence"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 결과 (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           정형 검증 (Formal Verification) 작동 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [개발자 코드]                         [수학적 규칙(명세)]       │
-│    function transfer() { ... }           Total A + B == 100  │
-│         │                                        │           │
-│         └────────────▶ [ 모델 변환기 ] ◀───────────┘           │
-│                               │                              │
-│ 2. [수학적 논리 모델] (상태 A ➔ 상태 B 전이 트리)                   │
-│                               │                              │
-│ 3. [증명기 (Theorem Prover)] (수만 가지 경로를 수학적으로 압축 연산)   │
-│         │                                        │           │
-│  [ TRUE (증명 성공!) ]                  [ FALSE (반례 발견!) ]   │
-│   (우주가 멸망해도 안전함)                 (특정 입력값 x에서 버그)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           정형 검증 (Formal Verification) 작동 메커니즘          |
++--------------------------------------------------------------+
+| 1. [개발자 코드]                         [수학적 규칙(명세)]       |
+|    function transfer() { ... }           Total A + B == 100  |
+|         |                                        |           |
+|         +-------------> [ 모델 변환기 ] <------------+           |
+|                               |                              |
+| 2. [수학적 논리 모델] (상태 A ➔ 상태 B 전이 트리)                   |
+|                               |                              |
+| 3. [증명기 (Theorem Prover)] (수만 가지 경로를 수학적으로 압축 연산)   |
+|         |                                        |           |
+|  [ TRUE (증명 성공!) ]                  [ FALSE (반례 발견!) ]   |
+|   (우주가 멸망해도 안전함)                 (특정 입력값 x에서 버그)  |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 핵심은 코드를 '실행'하는 것이 아니라 '해석'한다는 점이다. 엔진은 재진입([Re-entrancy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/))이나 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 같은 해커의 악의적 입력값을 수학적 변수 범주로 취급하여, 모든 경로(Path)에서 불변 규칙이 유지되는지 증명한다.
@@ -114,17 +114,17 @@ tags = ["ict_convergence"]
 
 ```text
 스마트 컨트랙트 등장 (불변성 및 금전적 위협 대두)
-    │
-    ▼
+    |
+    v
 단위 테스트 / 통합 테스트 (경험적 검증 한계)
-    │
-    ▼
+    |
+    v
 보안 감사 (Audit) 및 퍼징 (Fuzzing) 도입
-    │
-    ▼
+    |
+    v
 정형 검증 (Formal Verification: 모델 체킹, 정리 증명) 적용
-    │
-    ▼
+    |
+    v
 자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화
 ```
 
@@ -142,7 +142,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 93 / 552
 
-← **이전**: [92. 탈중앙화 신탁 관리 (Decentralized Escrow)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/092_decentralized_escrow_trust/)
-**다음**: [94. 데이터 가용성 (Data Availability, DA) 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) →
+<- **이전**: [92. 탈중앙화 신탁 관리 (Decentralized Escrow)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/092_decentralized_escrow_trust/)
+**다음**: [94. 데이터 가용성 (Data Availability, DA) 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) ->
 
 ---

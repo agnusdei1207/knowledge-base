@@ -26,10 +26,10 @@ tags = ["studynote-computer-architecture"]
 이 그림은 왜 TSN이 단순 고속 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 아닌지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Best Effort : [1500B Video Frame.............][64B Control] -> Control wait│
-│ TSN         : [Best-Effort Gate Closed][Control Slot][Resume] -> Bounded  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Best Effort : [1500B Video Frame.............][64B Control] -> Control wait|
+| TSN         : [Best-Effort Gate Closed][Control Slot][Resume] -> Bounded  |
++----------------------------------------------------------------------------+
 ```
 
 즉 TSN의 핵심은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 자체보다 <strong>혼합 트래픽 안에서 시간 자원을 어떻게 배분할지</strong>에 있다. 산업망, 차량망, 오디오·비디오, 일반 데이터가 한 물리망 위에서 공존하려면 이 시간 배분을 하드웨어가 책임져야 한다.
@@ -55,12 +55,12 @@ TSN은 하나의 기능이 아니라, 시간 동기·큐 제어·선점·[신뢰
 이 그림은 TSN [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부의 논리를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Sync Clock -> Gate Control List -> Critical Queue -> Port                 │
-│            ├───────────────────> Audio Queue    -> Port                   │
-│            └───────────────────> Best-Effort Queue -> Port                │
-│ Timestamp In -> Residence Time -> Preemption / Replication / Policing     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Sync Clock -> Gate Control List -> Critical Queue -> Port                 |
+|            +-------------------> Audio Queue    -> Port                   |
+|            +-------------------> Best-Effort Queue -> Port                |
+| Timestamp In -> Residence Time -> Preemption / Replication / Policing     |
++----------------------------------------------------------------------------+
 ```
 
 시간 동기 역시 소프트웨어만으로는 부족하다. PTP ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Time [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 계열의 타임스탬프를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) 위에서 찍으면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 섞여 오차가 커진다. 그래서 TSN NIC와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)·PHY 경계를 지나는 순간을 하드웨어가 직접 기록해 오차를 줄인다. 결국 TSN 하드웨어는 "패킷을 빨리 보내는 장비"가 아니라 <strong>시간표대로 보내는 장비</strong>다.
@@ -141,17 +141,17 @@ TSN 도입에서 가장 중요한 판단은 "이 홉이 TSN을 지원하느냐"�
 
 ```text
 Best-effort Ethernet
-        │
-        ▼
+        |
+        v
 AVB (Audio Video Bridging) 기반 시간 인지 전송
-        │
-        ▼
+        |
+        v
 IEEE 802.1AS 동기화 + TAS 기반 큐 제어
-        │
-        ▼
+        |
+        v
 Frame Preemption · FRER · Ingress Policing
-        │
-        ▼
+        |
+        v
 OT/IT 융합형 결정론적 백본 · 차량용 zonal 네트워크
 ```
 
@@ -169,7 +169,7 @@ OT/IT 융합형 결정론적 백본 · 차량용 zonal 네트워크
 
 **진행 상황**: 546 / 803
 
-← **이전**: [545. 인터럽트 지연 시간 (Interrupt Latency) 최소화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/545_interrupt_latency/)
-**다음**: [547. 실시간 시스템 타이머](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/547_rtos_timer/) →
+<- **이전**: [545. 인터럽트 지연 시간 (Interrupt Latency) 최소화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/545_interrupt_latency/)
+**다음**: [547. 실시간 시스템 타이머](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/547_rtos_timer/) ->
 
 ---

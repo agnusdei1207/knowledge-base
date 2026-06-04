@@ -23,11 +23,11 @@ tags = ["studynote-it-management"]
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 유기적, 준분리, 내장형 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 비용 산정 (유기적, 준분리, 내장형)가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ tags = ["studynote-it-management"]
 | 입력값 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ tags = ["studynote-it-management"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [COCOMO 비용 산정 (유기적, 준분리, 내장형)]
-    │
-    ├──▶ [준분리]
-    └──▶ [내장형]
+    |
+    +---> [준분리]
+    +---> [내장형]
 ```
 
 이 흐름은 선행 요구를 기준으로 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 비용 산정 (유기적, 준분리, 내장형)를 정착시키고, 이후 준분리와 내장형 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 433 / 587
 
-← **이전**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/293_function_point_analysis/)
-**다음**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/294_cocomo_review/) →
+<- **이전**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/293_function_point_analysis/)
+**다음**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/294_cocomo_review/) ->
 
 ---

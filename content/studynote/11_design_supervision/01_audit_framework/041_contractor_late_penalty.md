@@ -152,7 +152,7 @@ DQM (Data Quality Management) 체계:
 
 데이터 거버넌스 연계:
   데이터 품질 = 거버넌스의 핵심 실행 요소
-  DQ 결과 → 데이터 카탈로그 신뢰도 반영
+  DQ 결과 -> 데이터 카탈로그 신뢰도 반영
   GDPR/개인정보보호법: 품질도 규제 준수 요소
 
 측정 자동화:
@@ -176,9 +176,9 @@ A 기관 고객 DB 품질 진단 사례:
 진단 결과:
 
 완전성:
-  휴대폰 번호: 23% NULL → 문제
-  이메일: 41% NULL → 문제
-  생년월일: 3% NULL → 양호
+  휴대폰 번호: 23% NULL -> 문제
+  이메일: 41% NULL -> 문제
+  생년월일: 3% NULL -> 양호
 
 유효성:
   전화번호 형식 오류: 15,000건 (0.5%)
@@ -195,8 +195,8 @@ A 기관 고객 DB 품질 진단 사례:
   고객 정보 갱신 지연 1년 이상: 12%
 
 개선 결과 (3개월 후):
-  휴대폰 NULL: 23% → 8%
-  시스템 간 불일치: 8.7% → 1.3%
+  휴대폰 NULL: 23% -> 8%
+  시스템 간 불일치: 8.7% -> 1.3%
   주요 지표 전반 50%+ 개선
 ```
 
@@ -212,7 +212,7 @@ A 기관 고객 DB 품질 진단 사례:
 |   +-- 완전성, 유효성, 일관성
 |   +-- 정확성, 적시성, 보안성
 +-- 프로세스
-|   +-- 범위정의→프로파일링→측정→원인분석→개선→모니터링
+|   +-- 범위정의->프로파일링->측정->원인분석->개선->모니터링
 +-- DQM 체계
 |   +-- 데이터 오너십
 |   +-- 데이터 거버넌스
@@ -251,7 +251,7 @@ Quality Gate as Code
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 식품 안전 검사처럼 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올바른지([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 빠진 것이 없는지(완전성), 기한이 지나지 않았는지(적시성) 검사해요.
-2. 품질이 나쁜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AI에 넣으면 잘못된 결과가 나와요 — "쓰레기 입력 → 쓰레기 출력(GIGO)" 법칙!
+2. 품질이 나쁜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AI에 넣으면 잘못된 결과가 나와요 — "쓰레기 입력 -> 쓰레기 출력(GIGO)" 법칙!
 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 한 번 검사로 끝이 아니라 정기적으로 계속 모니터링해야 해요, 마치 건강검진처럼요!
 
 ---
@@ -260,7 +260,7 @@ Quality Gate as Code
 
 **진행 상황**: 58 / 530
 
-← **이전**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/)
-**다음**: [41. 데이터 품질 진단 (Data Quality Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_data_quality_diagnosis/) →
+<- **이전**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/)
+**다음**: [41. 데이터 품질 진단 (Data Quality Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_data_quality_diagnosis/) ->
 
 ---

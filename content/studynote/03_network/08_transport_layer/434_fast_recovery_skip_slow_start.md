@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [빠른 재전송]
-    │
-    ▼
+    |
+    v
 [빠른 회복]
-    │
-    └──▶ [TCP Tahoe 모델]
+    |
+    +---> [TCP Tahoe 모델]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>(Fast <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)은 육상 경기에서 넘어졌을 때 대처법입니다. 넘어졌다고 </strong>"출발선([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))으로 다시 돌아가서 뛰는 멍청한 짓"**을 하지 않고, **"넘어진 그 자리에서 툭툭 털고 일어나 속도만 조금 줄인 채 레이스를 이어가는 불굴의 생존 본능"**입니다.
@@ -61,23 +61,23 @@ tags = ["studynote-network"]
 4. 마침내 "어, 잃어버렸던 거 다 잘 받았어!(정상 ACK)"가 도착하면, 뻥튀기했던 창문을 다시 원래 `ssthresh(16)` 값으로 팍 쪼그라뜨린(Deflate) 뒤 깔끔하게 정속 주행을 시작한다. (이것이 멈춤 없는 스피드의 진짜 비밀이다).
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Reno (Fast Recovery)의 그래프 모양            │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND 크기                                                     │
- │ 32 |         /(3 Dup-ACK 발생!)                             │
- │    |       /  |                                             │
- │ 16 |     /    |                 * ─ * ─ * ◀ 절반만 깎이고 즉시 회복! │
- │    |   /      |               /                             │
- │  8 | /        |             /                               │
- │  4 |/         |           /                                 │
- │  2 |          |         /                                   │
- │  1 |          |       /   ◀ (1로 떨어지지 않는다!!)               │
- │    |____________________________________ 시간(RTT)            │
- │                                                             │
- │   ▶ "1로 떨어지는 푹 파인 골짜기(Slow Start)가 사라지고, 상어 이빨     │
- │      모양의 톱니바퀴(Sawtooth) 그래프가 아름답게 완성된다."           │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP Reno (Fast Recovery)의 그래프 모양            |
+ +-------------------------------------------------------------+
+ | CWND 크기                                                     |
+ | 32 |         /(3 Dup-ACK 발생!)                             |
+ |    |       /  |                                             |
+ | 16 |     /    |                 * - * - * <- 절반만 깎이고 즉시 회복! |
+ |    |   /      |               /                             |
+ |  8 | /        |             /                               |
+ |  4 |/         |           /                                 |
+ |  2 |          |         /                                   |
+ |  1 |          |       /   <- (1로 떨어지지 않는다!!)               |
+ |    |____________________________________ 시간(RTT)            |
+ |                                                             |
+ |   -> "1로 떨어지는 푹 파인 골짜기(Slow Start)가 사라지고, 상어 이빨     |
+ |      모양의 톱니바퀴(Sawtooth) 그래프가 아름답게 완성된다."           |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -134,12 +134,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 빠른 재전송]
-    │
-    ▼
+    |
+    v
 [현재 개념: 빠른 회복]
-    │
-    ├──▶ [확장 A: TCP Tahoe 모델]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP Tahoe 모델]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)는 [빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP Tahoe](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -156,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 555 / 1120
 
-← **이전**: [433. 빠른 재전송 (Fast Retransmit)](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)
-**다음**: [435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) →
+<- **이전**: [433. 빠른 재전송 (Fast Retransmit)](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)
+**다음**: [435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) ->
 
 ---

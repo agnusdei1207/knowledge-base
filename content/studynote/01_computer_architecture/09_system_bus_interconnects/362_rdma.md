@@ -26,21 +26,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 RDMA가 줄이려는 병목의 위치를 보여준다. 핵심은 네트워크 자체보다도, 네트워크 앞뒤에 붙어 있는 복사와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경로가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키운다는 점이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  전통적 소켓 I/O와 RDMA의 데이터 경로 비교                │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 전통적 TCP/IP 소켓            │ RDMA 경로                                  │
-├───────────────────────────────┼────────────────────────────────────────────┤
-│ App Buffer                    │ App Buffer                                 │
-│   │                           │   │                                        │
-│   ├─ copy ─▶ Kernel Buffer    │   ├─ Memory Registration ─▶ RNIC           │
-│   │            │              │   │                           │             │
-│   │            ├─ TCP/IP 처리  │   │                           ├─ DMA 전송   │
-│   │            ├─ 인터럽트     │   │                           │             │
-│   │            └─ NIC 송신     │   │                           ▼             │
-│   ▼                           │   ▼                    Remote Memory        │
-│ Remote Socket Buffer          │ Completion Queue 로 완료 통지               │
-└───────────────────────────────┴────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  전통적 소켓 I/O와 RDMA의 데이터 경로 비교                |
++-------------------------------+--------------------------------------------+
+| 전통적 TCP/IP 소켓            | RDMA 경로                                  |
++-------------------------------+--------------------------------------------+
+| App Buffer                    | App Buffer                                 |
+|   |                           |   |                                        |
+|   +- copy --> Kernel Buffer    |   +- Memory Registration --> RNIC           |
+|   |            |              |   |                           |             |
+|   |            +- TCP/IP 처리  |   |                           +- DMA 전송   |
+|   |            +- 인터럽트     |   |                           |             |
+|   |            +- NIC 송신     |   |                           v             |
+|   v                           |   v                    Remote Memory        |
+| Remote Socket Buffer          | Completion Queue 로 완료 통지               |
++-------------------------------+--------------------------------------------+
 ```
 
 이 구조 차이 때문에 RDMA는 단순 전송 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 "호스트 개입 비용 제거"라는 관점으로 이해해야 한다. 즉, 빠른 것은 선로만이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만지는 소프트웨어 단계 수를 줄였기 때문이다.
@@ -72,20 +72,20 @@ RDMA를 가능하게 하는 중심 부품은 RNIC ([RDMA](/knowledge-base/studyn
 아래 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램은 one-sided 연산이 왜 CPU 개입을 줄이는지 보여준다. 송신 측 애플리케이션은 "어디를 읽고 어디에 쓸지"만 지정하고, 실제 메모리 복사는 RNIC끼리 처리한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    RDMA Write / Read의 제어와 데이터 분리                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client Host                  Network Fabric                 Server Host    │
-│ ┌──────────────┐                                          ┌──────────────┐ │
-│ │ App Process  │ -- Work Request ----------------------▶  │    RNIC      │ │
-│ └──────┬───────┘                                          └──────┬───────┘ │
-│        │                                                          │         │
-│ ┌──────▼───────┐     DMA Read / Write Payload      ┌─────────────▼───────┐ │
-│ │ Client RNIC  │ =================================▶│ Registered Memory    │ │
-│ └──────┬───────┘                                   └─────────────────────┘ │
-│        │                                                                  │
-│        └──────────── Completion Queue 업데이트 ◀───────────────────────────┘
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    RDMA Write / Read의 제어와 데이터 분리                |
++----------------------------------------------------------------------------+
+| Client Host                  Network Fabric                 Server Host    |
+| +--------------+                                          +--------------+ |
+| | App Process  | -- Work Request ----------------------->  |    RNIC      | |
+| +------+-------+                                          +------+-------+ |
+|        |                                                          |         |
+| +------v-------+     DMA Read / Write Payload      +-------------v-------+ |
+| | Client RNIC  | =================================->| Registered Memory    | |
+| +------+-------+                                   +---------------------+ |
+|        |                                                                  |
+|        +------------ Completion Queue 업데이트 <----------------------------+
++----------------------------------------------------------------------------+
 ```
 
 핵심 트레이드오프도 분명하다. RDMA는 빠르지만, 그 속도는 메모리 등록·큐 관리·버퍼 생명주기·원격 권한 제어를 개발자가 더 엄격하게 다뤄야 한다는 뜻이다. 즉, 소프트웨어 복잡도를 줄여서 빨라지는 것이 아니라, 복잡도를 애플리케이션 설계와 네트워크 장비 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 쪽으로 옮겨 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻는 구조다.
@@ -166,25 +166,25 @@ RDMA의 가장 큰 효과는 CPU 절감, [지연 시간](/knowledge-base/studyno
 
 ```text
 DMA (Direct Memory Access)
-    │
-    ▼
+    |
+    v
 Kernel Bypass · Zero-Copy
-    │
-    ▼
+    |
+    v
 RNIC · Queue Pair · Memory Registration
-    │
-    ▼
+    |
+    v
 InfiniBand 기반 RDMA
-    │
-    ├──────────────▶ RoCE v2 (이더넷 확장)
-    │
-    └──────────────▶ iWARP (TCP 호환 확장)
-                           │
-                           ▼
+    |
+    +---------------> RoCE v2 (이더넷 확장)
+    |
+    +---------------> iWARP (TCP 호환 확장)
+                           |
+                           v
 NVMe-oF · GPUDirect RDMA · AI/HPC 패브릭
 ```
 
-이 흐름은 "장치 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 원리 → 호스트 개입 제거 → 전용 패브릭 → 범용 확장 → 스토리지·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 응용"으로 RDMA가 확장된 과정을 보여준다.
+이 흐름은 "장치 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 원리 -> 호스트 개입 제거 -> 전용 패브릭 -> 범용 확장 -> 스토리지·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 응용"으로 RDMA가 확장된 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +198,7 @@ NVMe-oF · GPUDirect RDMA · AI/HPC 패브릭
 
 **진행 상황**: 363 / 803
 
-← **이전**: [361. 인피니밴드 (InfiniBand)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)
-**다음**: [363. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/363_roce/) →
+<- **이전**: [361. 인피니밴드 (InfiniBand)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)
+**다음**: [363. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/363_roce/) ->
 
 ---

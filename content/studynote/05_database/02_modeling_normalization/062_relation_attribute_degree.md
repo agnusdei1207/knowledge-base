@@ -30,10 +30,10 @@ tags = ["database"]
 
 ```text
 릴레이션
-┌──────┬──────┬──────┐
-│ 학번 │ 이름 │ 전공 │
-└──────┴──────┴──────┘
-   ↑      ↑      ↑
++------+------+------+
+| 학번 | 이름 | 전공 |
++------+------+------+
+   ^      ^      ^
   속성   속성   속성
 ```
 
@@ -108,13 +108,13 @@ tags = ["database"]
 
 ```text
 Attribute
-   ↓
+   v
 Domain / Degree
-   ↓
+   v
 Tuple / Key
-   ↓
+   v
 Normalization
-   ↓
+   v
 Relational Design
 ```
 
@@ -124,11 +124,11 @@ Relational Design
 
 ```text
 열(Column)
-   ↓
+   v
 속성(Attribute)
-   ↓
+   v
 차수(Degree)
-   ↓
+   v
 정규화(Normalization)
 ```
 
@@ -146,7 +146,7 @@ Relational Design
 
 **진행 상황**: 62 / 600
 
-← **이전**: [61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)
-**다음**: [63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) →
+<- **이전**: [61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)
+**다음**: [63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) ->
 
 ---

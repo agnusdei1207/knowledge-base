@@ -114,9 +114,9 @@ Demand Side
 
 ```text
 Two-sided Market
-  ↓
+  v
 Platform Business
-  ↓
+  v
 Network Effect
 ```
 
@@ -134,7 +134,7 @@ Network Effect
 
 **진행 상황**: 72 / 482
 
-← **이전**: [71. 디지털 트랜스포메이션 (DX / DT, Digital Transformation) - AI, 클라우드, 빅데이터로 비즈니스 모델](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/)
-**다음**: [73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) →
+<- **이전**: [71. 디지털 트랜스포메이션 (DX / DT, Digital Transformation) - AI, 클라우드, 빅데이터로 비즈니스 모델](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/)
+**다음**: [73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) ->
 
 ---

@@ -10,7 +10,7 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 지도 학습은 <strong>입력(X)과 정답 라벨(y)의 쌍</strong>으로 구성된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 모델이 <strong>X→y 매핑 함수를 학습</strong>하는 ML 패러다임이며, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))와 회귀(Regression)로 나뉜다.
+> 1. **본질**: 지도 학습은 <strong>입력(X)과 정답 라벨(y)의 쌍</strong>으로 구성된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 모델이 <strong>X->y 매핑 함수를 학습</strong>하는 ML 패러다임이며, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))와 회귀(Regression)로 나뉜다.
 > 2. **가치**: 정답 라벨이 주어지므로 <strong>명확한 평가 기준(정확도·<a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a>)</strong>이 있어 모델 성능을 객관적으로 측정할 수 있으며, 가장 성숙하고 실무에서 널리 사용되는 ML 방식이다.
 > 3. **판단 포인트**: 지도 학습의 핵심 과제는 <strong>라벨링 비용(인건비·시간)</strong>이며, 이를 줄이기 위한 Semi-supervised [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)·[Self-supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)·[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Learning이 대안으로 발전했다.
 
@@ -19,17 +19,17 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    지도 학습 분류 vs 회귀                              │
-├───────────────────────────────────────────────────────┤
-│  [분류 (Classification)]                              │
-│   입력: 이메일 텍스트 → 출력: 스팸/정상 (이산값)      │
-│   모델: 로지스틱 회귀, SVM, Random Forest, DNN       │
-│                                                       │
-│  [회귀 (Regression)]                                  │
-│   입력: 면적·위치 → 출력: 집값 3.2억 (연속값)        │
-│   모델: 선형 회귀, Ridge, Random Forest, DNN          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    지도 학습 분류 vs 회귀                              |
++-------------------------------------------------------+
+|  [분류 (Classification)]                              |
+|   입력: 이메일 텍스트 -> 출력: 스팸/정상 (이산값)      |
+|   모델: 로지스틱 회귀, SVM, Random Forest, DNN       |
+|                                                       |
+|  [회귀 (Regression)]                                  |
+|   입력: 면적·위치 -> 출력: 집값 3.2억 (연속값)        |
+|   모델: 선형 회귀, Ridge, Random Forest, DNN          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 "이 동물이 고양이인가 개인가?" (카테고리)이고, 회귀는 "이 집의 가격은 얼마인가?" (숫자)이다.
@@ -57,7 +57,7 @@ tags = ["studynote-dataengineering"]
 |:---|:---|:---|
 | **출력** | 이산 (카테고리) | **연속 (숫자)** |
 | **손실** | [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a></strong> |
-| **평가** | Accuracy, F1 | **R², RMSE** |
+| **평가** | Accuracy, F1 | **R^, RMSE** |
 
 ---
 
@@ -90,18 +90,18 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [선형 회귀 / 로지스틱 회귀 (통계학)]
-    │
-    ▼
+    |
+    v
 [SVM / Decision Tree (1990s)]
-    │
-    ▼
+    |
+    v
 [Random Forest / XGBoost (2000~2010s)]
-    │
-    ▼
+    |
+    v
 [DNN / CNN / RNN (Deep Learning, 2012~)]
-    │
-    ▼
-[현재: Self-supervised → Fine-tuning (BERT·GPT)]
+    |
+    v
+[현재: Self-supervised -> Fine-tuning (BERT·GPT)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -115,7 +115,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 121 / 258
 
-← **이전**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)
-**다음**: [122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) →
+<- **이전**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)
+**다음**: [122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) ->
 
 ---

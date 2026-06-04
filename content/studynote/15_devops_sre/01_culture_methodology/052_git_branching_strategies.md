@@ -32,13 +32,13 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 대표 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/), Trunk-Based Development다. 각각 릴리스 중심, 단순 배포 중심, 초단기 병합 중심으로 나뉜다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                Branch Strategy Landscape                    │
-├──────────────────────────────────────────────────────────────┤
-│ GitFlow → develop / feature / release / hotfix             │
-│ GitHub Flow → main / feature                                │
-│ Trunk-Based → main 중심 + short-lived branch + feature flag │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                Branch Strategy Landscape                    |
++--------------------------------------------------------------+
+| GitFlow -> develop / feature / release / hotfix             |
+| GitHub Flow -> main / feature                                |
+| Trunk-Based -> main 중심 + short-lived branch + feature flag |
++--------------------------------------------------------------+
 ```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 적합한 환경 |
@@ -117,14 +117,14 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 
 ```text
 단일 trunk 개발
-    │
-    ▼
+    |
+    v
 GitFlow
-    │
-    ▼
+    |
+    v
 GitHub Flow
-    │
-    ▼
+    |
+    v
 Trunk-Based + Feature Flag
 ```
 
@@ -142,7 +142,7 @@ Trunk-Based + Feature Flag
 
 **진행 상황**: 52 / 373
 
-← **이전**: [051. 애자일 성숙도 평가 (Agile Maturity Assessment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/)
-**다음**: [53. GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/) →
+<- **이전**: [051. 애자일 성숙도 평가 (Agile Maturity Assessment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/051_agile_maturity_assessment/)
+**다음**: [53. GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/) ->
 
 ---

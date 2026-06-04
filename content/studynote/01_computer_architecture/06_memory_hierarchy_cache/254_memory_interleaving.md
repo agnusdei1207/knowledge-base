@@ -26,14 +26,14 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 인터리빙이 필요해졌는지를 보여준다. 같은 4개의 순차 요청이라도 단일 뱅크는 준비 시간 때문에 멈춤이 반복되고, 4-way 인터리빙은 각 뱅크의 빈 시간을 서로 가려 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             Single Bank vs 4-Way Interleaving request flow          │
-├───────────────┬──────────────────────────────────────────────────────┤
-│ Single Bank   │ A0 -> wait -> A1 -> wait -> A2 -> wait -> A3        │
-│ 4 Banks       │ B0:A0    B1:A1    B2:A2    B3:A3                    │
-│               │   \____ 준비 중 ____/ \____ 준비 중 ____/           │
-│ Result        │ 버스는 덜 쉬고, 다음 뱅크에서 곧바로 데이터 수신    │
-└───────────────┴──────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|             Single Bank vs 4-Way Interleaving request flow          |
++---------------+------------------------------------------------------+
+| Single Bank   | A0 -> wait -> A1 -> wait -> A2 -> wait -> A3        |
+| 4 Banks       | B0:A0    B1:A1    B2:A2    B3:A3                    |
+|               |   \____ 준비 중 ____/ \____ 준비 중 ____/           |
+| Result        | 버스는 덜 쉬고, 다음 뱅크에서 곧바로 데이터 수신    |
++---------------+------------------------------------------------------+
 ```
 
 중요한 점은 "메모리 4개면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간도 4배 빨라진다"가 아니라는 사실이다. 첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하는 절대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 크게 줄지 않을 수 있지만, 여러 요청이 이어질 때 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 눈에 띄게 개선된다. 그래서 인터리빙은 레이턴시 최적화보다 <strong>처리율 최적화</strong>에 더 가까운 개념이다.
@@ -59,18 +59,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 4개 뱅크가 교대로 명령을 받아 내부 대기를 숨기는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 4-bank interleaving timing concept                  │
-├──────┬────────────┬────────────┬────────────┬────────────┬───────────┤
-│Cycle │     0      │     1      │     2      │     3      │    4      │
-├──────┼────────────┼────────────┼────────────┼────────────┼───────────┤
-│Bank0 │ ACT A0     │ READ A0    │ PRE        │ ready      │ ACT A4     │
-│Bank1 │ idle       │ ACT A1     │ READ A1    │ PRE        │ ready      │
-│Bank2 │ idle       │ idle       │ ACT A2     │ READ A2    │ PRE        │
-│Bank3 │ idle       │ idle       │ idle       │ ACT A3     │ READ A3    │
-├──────┴────────────┴────────────┴────────────┴────────────┴───────────┤
-│Result: 각 뱅크 준비 시간이 겹쳐져 버스는 연속 전송에 가까워진다.   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 4-bank interleaving timing concept                  |
++------+------------+------------+------------+------------+-----------+
+|Cycle |     0      |     1      |     2      |     3      |    4      |
++------+------------+------------+------------+------------+-----------+
+|Bank0 | ACT A0     | READ A0    | PRE        | ready      | ACT A4     |
+|Bank1 | idle       | ACT A1     | READ A1    | PRE        | ready      |
+|Bank2 | idle       | idle       | ACT A2     | READ A2    | PRE        |
+|Bank3 | idle       | idle       | idle       | ACT A3     | READ A3    |
++------+------------+------------+------------+------------+-----------+
+|Result: 각 뱅크 준비 시간이 겹쳐져 버스는 연속 전송에 가까워진다.   |
++----------------------------------------------------------------------+
 ```
 
 실제 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 계열에서는 인터리빙 대상이 단순 DIMM (Dual Inline Memory [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 사이만이 아니다. 채널 인터리빙, 랭크 인터리빙, 뱅크 인터리빙, DDR5의 뱅크 그룹 (Bank Group) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)까지 여러 층위에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 누적된다. 따라서 현대 시스템에서 인터리빙은 "메모리를 나눈다"보다 <strong>여러 계층에서 대기 시간을 엇갈리게 배치한다</strong>고 이해하는 편이 더 정확하다.
@@ -150,20 +150,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 DRAM 뱅크의 긴 사이클 타임
-    │
-    ▼
+    |
+    v
 저차 인터리빙 (Low-Order Interleaving)
-    │
-    ▼
+    |
+    v
 채널 · 랭크 · 뱅크 단위 병렬화
-    │
-    ▼
+    |
+    v
 SDRAM (Synchronous DRAM) · DDR SDRAM의 명령 스케줄링
-    │
-    ▼
+    |
+    v
 멀티채널 메모리 · NUMA 정책 분화
-    │
-    ▼
+    |
+    v
 DDR5 뱅크 그룹 · HBM (High Bandwidth Memory) 고대역폭 확장
 ```
 
@@ -181,7 +181,7 @@ DDR5 뱅크 그룹 · HBM (High Bandwidth Memory) 고대역폭 확장
 
 **진행 상황**: 254 / 803
 
-← **이전**: [253. DDR SDRAM (Double Data Rate)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)
-**다음**: [255. ROM (Read Only Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) →
+<- **이전**: [253. DDR SDRAM (Double Data Rate)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)
+**다음**: [255. ROM (Read Only Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) ->
 
 ---

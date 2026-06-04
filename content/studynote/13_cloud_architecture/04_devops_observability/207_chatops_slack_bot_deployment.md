@@ -34,26 +34,26 @@ ChatOps는 2013년 GitHub이 Hubot을 오픈소스로 공개하면서 주목받�
 ### ChatOps 아키텍처
 
 ```
-  ┌──────────────────────────────────────────────────────┐
-  │                  Slack / MS Teams                     │
-  │                                                       │
-  │  #ops-channel:                                        │
-  │  @john: /deploy auth-service v3.2 staging             │
-  │  🤖 deploy-bot: ✅ 스테이징 배포 시작...               │
-  │  🤖 deploy-bot: 📊 Build #1234 진행중 (1/3 완료)       │
-  │  🤖 deploy-bot: ✅ 배포 완료! /healthcheck로 확인하세요 │
-  └──────────────────────────┬───────────────────────────┘
-                             │ Webhook / API
-                             ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                    ChatBot 서버                        │
-  │             (Hubot / BoltApp / AWS Chatbot)           │
-  │                                                       │
-  │  명령 파싱 → 권한 확인 → 액션 실행                    │
-  └─────────────────────────┬────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────────┐
-        ▼                   ▼                        ▼
+  +------------------------------------------------------+
+  |                  Slack / MS Teams                     |
+  |                                                       |
+  |  #ops-channel:                                        |
+  |  @john: /deploy auth-service v3.2 staging             |
+  |  🤖 deploy-bot: ✅ 스테이징 배포 시작...               |
+  |  🤖 deploy-bot: 📊 Build #1234 진행중 (1/3 완료)       |
+  |  🤖 deploy-bot: ✅ 배포 완료! /healthcheck로 확인하세요 |
+  +--------------------------+---------------------------+
+                             | Webhook / API
+                             v
+  +------------------------------------------------------+
+  |                    ChatBot 서버                        |
+  |             (Hubot / BoltApp / AWS Chatbot)           |
+  |                                                       |
+  |  명령 파싱 -> 권한 확인 -> 액션 실행                    |
+  +-------------------------+----------------------------+
+                            |
+        +-------------------+-----------------------+
+        v                   v                        v
   [CI/CD 시스템]    [모니터링 시스템]        [인프라 자동화]
   (Jenkins/GitHub   (Datadog/PagerDuty)     (Terraform/
    Actions)                                  AWS CLI)
@@ -66,19 +66,19 @@ ChatOps는 2013년 GitHub이 Hubot을 오픈소스로 공개하면서 주목받�
 /deploy payment-service v2.1.3 production
 
 # 장애 조회
-/oncall who           → 현재 온콜 담당자 확인
-/incidents list       → 활성 인시던트 목록
-/pd ack INC-123       → PagerDuty 인시던트 승인
+/oncall who           -> 현재 온콜 담당자 확인
+/incidents list       -> 활성 인시던트 목록
+/pd ack INC-123       -> PagerDuty 인시던트 승인
 
 # 스케일 조정
-/scale web-server 10  → 인스턴스 10개로 스케일
+/scale web-server 10  -> 인스턴스 10개로 스케일
 
 # 롤백
-/rollback payment-service → 이전 버전으로 롤백
+/rollback payment-service -> 이전 버전으로 롤백
 
 # 모니터링
-/grafana dashboard payment → 대시보드 링크 반환
-/logs payment-service ERROR 30m → 최근 30분 에러 로그
+/grafana dashboard payment -> 대시보드 링크 반환
+/logs payment-service ERROR 30m -> 최근 30분 에러 로그
 ```
 
 ### Slack Bolt 봇 구현 예시 (Python)
@@ -148,7 +148,7 @@ def handle_deploy(ack, say, command, client):
 
 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/">인시던트 대응</a> ChatOps 플로우</strong>:
 ```
-1. PagerDuty 알림 → #incidents 채널 자동 게시
+1. PagerDuty 알림 -> #incidents 채널 자동 게시
    🚨 INCIDENT: payment-service p99 > 2000ms (PD-789)
 
 2. 온콜 엔지니어가 채널에서 확인 및 승인
@@ -163,7 +163,7 @@ def handle_deploy(ack, say, command, client):
 
 5. 복구 확인 후 인시던트 종료
    /pd resolve PD-789
-   → 자동으로 포스트모템 템플릿 생성
+   -> 자동으로 포스트모템 템플릿 생성
 ```
 
 **보안 고려사항**:
@@ -222,13 +222,13 @@ ChatOps는 DevOps의 "협업" 가치를 가장 가시적으로 구현하는 도�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-SSH · 콘솔 접속 → 개별 작업 (감사 추적 어려움)
-    │
-    ▼
+SSH · 콘솔 접속 -> 개별 작업 (감사 추적 어려움)
+    |
+    v
 ChatOps: Slack/Teams 봇으로 운영 명령 실행
-    ├─► 배포: /deploy production
-    ├─► 인시던트: PagerDuty → 채널 자동 게시
-    └─► 모든 명령 = 채팅 로그 (감사 추적)
+    +-► 배포: /deploy production
+    +-► 인시던트: PagerDuty -> 채널 자동 게시
+    +-► 모든 명령 = 채팅 로그 (감사 추적)
 ```
 2. "/deploy 게임서버 v3"라고 입력하면 봇이 서버를 업데이트하고 결과를 채팅방에 알려줘. 모든 팀원이 동시에 볼 수 있어.
 3. 나중에 "우리가 언제 무슨 명령을 했는지" 채팅 기록만 보면 다 나와. 자동으로 일지가 쓰이는 거야.
@@ -239,7 +239,7 @@ ChatOps: Slack/Teams 봇으로 운영 명령 실행
 
 **진행 상황**: 206 / 371
 
-← **이전**: [206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/)
-**다음**: [208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/208_immutable_infra_hotfix_no_ssh/) →
+<- **이전**: [206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/)
+**다음**: [208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/208_immutable_infra_hotfix_no_ssh/) ->
 
 ---

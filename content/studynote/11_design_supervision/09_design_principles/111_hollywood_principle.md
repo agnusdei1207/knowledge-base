@@ -18,11 +18,11 @@ tags = ["studynote-design-supervision"]
 전통적인 구조에서는 애플리케이션 코드가 필요한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 직접 호출하며 흐름을 통제한다. 하지만 UI 프레임워크, 배치 엔진, 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 수명주기와 공통 처리 절차가 복잡한 환경에서는 이 방식이 확장성과 일관성을 빠르게 해친다. 그래서 상위 골격이 흐름을 잡고, 하위 구성요소는 정해진 시점에만 참여하도록 만드는 할리우드 원칙이 필요해진다.
 
 ```text
-┌────────────┐      직접 호출      ┌────────────┐
-│ App 코드   │───────────────────▶│ Library    │
-└────────────┘                    └────────────┘
-       │                                  │
-       └──── 수명주기·예외처리·공통정책이 흩어지면 전체 흐름 관리가 어려워짐 ────┘
++------------+      직접 호출      +------------+
+| App 코드   |-------------------->| Library    |
++------------+                    +------------+
+       |                                  |
+       +---- 수명주기·예외처리·공통정책이 흩어지면 전체 흐름 관리가 어려워짐 ----+
 ```
 
 이 원칙은 하위 모듈의 자유를 빼앗는 것이 아니라, 공통 흐름과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에 모아 품질을 일정하게 유지하도록 돕는다. 그래서 프레임워크 중심 아키텍처에서 특히 중요하다.
@@ -32,17 +32,17 @@ tags = ["studynote-design-supervision"]
 할리우드 원칙의 본질은 상위 모듈이 실행 순서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 소유하고, 하위 모듈은 등록된 확장 포인트를 통해 필요한 순간에 호출된다는 점이다. 이것이 바로 IoC의 실무적 표현이다.
 
 ```text
-┌────────────┐    register    ┌────────────┐
-│ Plugin/Bean│──────────────▶│Framework   │
-└────────────┘               └────────────┘
-                                    │
-                          lifecycle │ callback
-                                    ▼
-                              ┌────────────┐
-                              │ 실행 시점  │
-                              │ framework가│
-                              │ plugin 호출│
-                              └────────────┘
++------------+    register    +------------+
+| Plugin/Bean|--------------->|Framework   |
++------------+               +------------+
+                                    |
+                          lifecycle | callback
+                                    v
+                              +------------+
+                              | 실행 시점  |
+                              | framework가|
+                              | plugin 호출|
+                              +------------+
 ```
 
 | 구성 요소 | 역할 | 대표 예시 |
@@ -94,17 +94,17 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 직접 호출 중심 애플리케이션 증가
-    │
-    ▼
+    |
+    v
 수명주기·공통정책 관리 복잡화
-    │
-    ▼
+    |
+    v
 할리우드 원칙과 IoC 채택
-    │
-    ▼
+    |
+    v
 프레임워크·컨테이너·플러그인 구조 확산
-    │
-    ▼
+    |
+    v
 확장성 높은 표준 실행 파이프라인 정착
 ```
 
@@ -119,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 165 / 530
 
-← **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
-**다음**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) →
+<- **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
+**다음**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) ->
 
 ---

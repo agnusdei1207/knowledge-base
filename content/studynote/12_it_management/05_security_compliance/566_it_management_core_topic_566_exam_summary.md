@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: COBIT 2019는 ISACA가 발표한 6개 거버넌스 시스템 컴포넌트(Process·Organizational Structures·People & Culture·Information·Services Infrastructure & Applications·Policies & Procedures)와 5개 도메인(EDM·APO·BAI·DSS·MEA) 40개 관리목표를 통해 기업 목표 → 정렬(Alignment) → 지표(Metrics) 단계의 **Goals Cascade**로 IT 가치를 정량화하는 통합 거버넌스 프레임워크임.
+> 1. **본질**: COBIT 2019는 ISACA가 발표한 6개 거버넌스 시스템 컴포넌트(Process·Organizational Structures·People & Culture·Information·Services Infrastructure & Applications·Policies & Procedures)와 5개 도메인(EDM·APO·BAI·DSS·MEA) 40개 관리목표를 통해 기업 목표 -> 정렬(Alignment) -> 지표(Metrics) 단계의 **Goals Cascade**로 IT 가치를 정량화하는 통합 거버넌스 프레임워크임.
 > 2. **가치**: 11개 설계인자(Design Factors)와 16개 외부 표준(NIST CSF, ISO 27001, ITIL 4 등) 매핑 가이드를 통해 조직 맥락에 최적화된 거버넌스 시스템 구축 시, 중복 감사 대비 컴플라이언스 비용 약 20~30% 절감 및 IT 투자 수익률(ROIT) 측정 정확도 1.4배 향상이 검증됨(PricewaterhouseCoopers, 2020 ISACA Joint Research).
 > 3. **판단 포인트**: **전사 표준형 폐쇄루프(Closed-loop, 1-size-fits-all 모델)**와 **설계인자 기반 개방루프(Open-loop, 조직별 차별화 모델)** 간 트레이드오프, 그리고 사이버 회복탄력성 확보를 위한 **NIST CSF의 Identify·Protect·Detect·Respond·Recover 5개 기능**과 COBIT 2019의 **APO12~DSS05** 영역 통합 여부, 그리고 ESG·공급망 보안(SBOM, SLSA) 통제 요구를 EDM02(거버넌스 체계 관리) 수준에서 어떻게 정렬할지가 핵심 의사결정 사항임.
 
@@ -27,44 +27,44 @@ IT 경영관리 영역에서 **Topic 566번**으로 분류되는 핵심 사안�
 - **공급망 리스크**: SolarWinds(2020), Kaseya(2021), 3CX(2023)·다크비드(DarkBeam, 2024) 공급망 공격으로 **SBOM(Software Bill of Materials)** 및 **SLSA(Supply-chain Levels for Software Artifacts)** 기반 SW 신뢰성 검증이 필수화
 
 ```text
-[기업 목표]  →  [정렬(Alignment)]  →  [지표(Metrics)]
-     │                  │                    │
-     ▼                  ▼                    ▼
- ┌──────────┐    ┌──────────────┐    ┌──────────────┐
- │Stockholder│    │13 Enterprise │    │Enterprise    │
- │ Needs    │───▶│ Goals(EG)    │───▶│ Metrics(EM)  │
- │Stakeholder│    │              │    │              │
- │ Goals(SG) │    │Alignment     │    │─ Benefit     │
- └──────────┘    │─ Value       │    │  Realization │
-       │         │─ Risk        │    │─ Risk        │
-       ▼         │─ Resources   │    │  Optimization│
- [Risk: 외부]    └──────────────┘    │─ Resource    │
-                                  │  Optimization │
-                                  └──────────────┘
-                                          │
-                                          ▼
-                                   ┌──────────────┐
-                                   │40 Governance │
-                                   │& Management  │
-                                   │ Objectives    │
-                                   │(EDM/APO/BAI/  │
-                                   │ DSS/MEA)     │
-                                   └──────────────┘
-                                          │
-                                          ▼
-                              ┌──────────────────────┐
-                              │ 6 Governance System   │
-                              │ Components(6C)        │
-                              └──────────────────────┘
+[기업 목표]  ->  [정렬(Alignment)]  ->  [지표(Metrics)]
+     |                  |                    |
+     v                  v                    v
+ +----------+    +--------------+    +--------------+
+ |Stockholder|    |13 Enterprise |    |Enterprise    |
+ | Needs    |---->| Goals(EG)    |---->| Metrics(EM)  |
+ |Stakeholder|    |              |    |              |
+ | Goals(SG) |    |Alignment     |    |- Benefit     |
+ +----------+    |- Value       |    |  Realization |
+       |         |- Risk        |    |- Risk        |
+       v         |- Resources   |    |  Optimization|
+ [Risk: 외부]    +--------------+    |- Resource    |
+                                  |  Optimization |
+                                  +--------------+
+                                          |
+                                          v
+                                   +--------------+
+                                   |40 Governance |
+                                   |& Management  |
+                                   | Objectives    |
+                                   |(EDM/APO/BAI/  |
+                                   | DSS/MEA)     |
+                                   +--------------+
+                                          |
+                                          v
+                              +----------------------+
+                              | 6 Governance System   |
+                              | Components(6C)        |
+                              +----------------------+
 ```
 
 **구버전(COBIT 5) 대비 진화 포인트**:
-- ✅ 7개의 **설계인자 → 11개로 확장**(전략, 목표, 위험
+- ✅ 7개의 **설계인자 -> 11개로 확장**(전략, 목표, 위험
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 566 / 800
 
-← **이전**: [565. IT 경영 관리 핵심 토픽 565번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/565_it_management_core_topic_565_exam_summary/)
-**다음**: [567. IT 경영 관리 핵심 토픽 567번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/567_it_management_core_topic_567_exam_summary/) →
+<- **이전**: [565. IT 경영 관리 핵심 토픽 565번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/565_it_management_core_topic_565_exam_summary/)
+**다음**: [567. IT 경영 관리 핵심 토픽 567번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/567_it_management_core_topic_567_exam_summary/) ->
 
 ---

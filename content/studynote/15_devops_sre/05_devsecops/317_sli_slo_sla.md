@@ -19,13 +19,13 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계층 구조
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                   신뢰성 지표 계층                   │
-│                                                      │
-│  SLA  (계약) : 99.9% 가용성 — 위반 시 환불 조항     │
-│    └─ SLO  (목표) : 99.95% — 내부 엄격 목표         │
-│         └─ SLI  (지표) : 실제 측정값 (현재 99.97%)  │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                   신뢰성 지표 계층                   |
+|                                                      |
+|  SLA  (계약) : 99.9% 가용성 — 위반 시 환불 조항     |
+|    +- SLO  (목표) : 99.95% — 내부 엄격 목표         |
+|         +- SLI  (지표) : 실제 측정값 (현재 99.97%)  |
++------------------------------------------------------+
 ```
 
 | 개념  | 정의                                      | 주체           |
@@ -62,16 +62,16 @@ SLI는 사용자가 체감하는 품질을 직접 반영해야 한다.
 ```
 Error Budget = 1 - SLO
 
-SLO 99.9% → 월 43.8분 허용 다운타임
-SLO 99.99% → 월 4.38분 허용 다운타임
+SLO 99.9% -> 월 43.8분 허용 다운타임
+SLO 99.99% -> 월 4.38분 허용 다운타임
 ```
 
 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/):
 
 ```
-남은 예산 > 50%  →  적극적 실험·배포 허용
-남은 예산 < 10%  →  배포 속도 제한, 안정화 우선
-예산 소진        →  기능 동결, 신뢰성 개선 집중
+남은 예산 > 50%  ->  적극적 실험·배포 허용
+남은 예산 < 10%  ->  배포 속도 제한, 안정화 우선
+예산 소진        ->  기능 동결, 신뢰성 개선 집중
 ```
 
 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 번 레이트(Burn Rate): 예산 소진 속도. 1시간 만에 1주치 예산이 소진되면 즉각 알림을 발생시킨다.
@@ -88,8 +88,8 @@ SLO 99.99% → 월 4.38분 허용 다운타임
 3. **점진적 강화**: 처음부터 99.99%를 목표로 하면 Error Budget이 너무 작아 혁신이 멈춘다.
 
 ```
-SLO 99.9%  →  Error Budget = 월 43.8분
-SLO 99.99% →  Error Budget = 월 4.38분  ← 배포 한 번 실패하면 소진
+SLO 99.9%  ->  Error Budget = 월 43.8분
+SLO 99.99% ->  Error Budget = 월 4.38분  <- 배포 한 번 실패하면 소진
 ```
 
 > 📢 **Ⅳ 섹션 요약 비유**
@@ -114,10 +114,10 @@ SLO 99.99% →  Error Budget = 월 4.38분  ← 배포 한 번 실패하면 소�
 
 ```
 SLI/SLO/SLA
-    ├── Error Budget → 혁신-안정성 균형
-    ├── Burn Rate Alert → 예산 조기 경보
-    ├── 4 Golden Signals → 핵심 SLI 선정
-    └── Multi-window Alerting → SLO 기반 고급 알림 설계
+    +-- Error Budget -> 혁신-안정성 균형
+    +-- Burn Rate Alert -> 예산 조기 경보
+    +-- 4 Golden Signals -> 핵심 SLI 선정
+    +-- Multi-window Alerting -> SLO 기반 고급 알림 설계
 ```
 
 > 🧒 **어린이 비유**
@@ -129,7 +129,7 @@ SLI/SLO/SLA
 
 **진행 상황**: 317 / 373
 
-← **이전**: [SRE Site Reliability 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/)
-**다음**: [Toil SRE Automation](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/) →
+<- **이전**: [SRE Site Reliability 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/)
+**다음**: [Toil SRE Automation](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/) ->
 
 ---

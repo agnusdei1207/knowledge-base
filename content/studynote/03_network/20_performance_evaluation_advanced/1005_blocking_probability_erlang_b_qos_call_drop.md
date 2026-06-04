@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [Erlang]
-    │
-    ▼
+    |
+    v
 [호손율 / 블로킹 확률]
-    │
-    └──▶ [망 신뢰도]
+    |
+    +---> [망 신뢰도]
 ```
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -51,11 +51,11 @@ tags = ["studynote-network"]
 
 ```text
 [Erlang]
-    │
-    ▼
+    |
+    v
 [호손율 / 블로킹 확률]
-    │
-    └──▶ [망 신뢰도]
+    |
+    +---> [망 신뢰도]
 ```
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Erlang]
-    │
-    ▼
+    |
+    v
 [현재 개념: 호손율 / 블로킹 확률]
-    │
-    ├──▶ [확장 A: 망 신뢰도]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 망 신뢰도]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)는 Erlang에서 출발해 현재 메커니즘을 정교화하고, 이후 [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 105 / 1120
 
-← **이전**: [1004. Erlang (얼랑, 통신 트래픽 부하 단위량)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)
-**다음**: [1006. 망 신뢰도 (네트워크 토폴로지 연결도 계산법)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/) →
+<- **이전**: [1004. Erlang (얼랑, 통신 트래픽 부하 단위량)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)
+**다음**: [1006. 망 신뢰도 (네트워크 토폴로지 연결도 계산법)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/) ->
 
 ---

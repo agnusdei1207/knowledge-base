@@ -19,18 +19,18 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    모놀리식 vs MSA                                    │
-├───────────────────────────────────────────────────────┤
-│  [모놀리식]                [MSA]                      │
-│  ┌──────────────┐        ┌───┐ ┌───┐ ┌───┐          │
-│  │ UI           │        │Svc│ │Svc│ │Svc│          │
-│  │ BizLogic     │        │ A │ │ B │ │ C │          │
-│  │ DataAccess   │        └───┘ └───┘ └───┘          │
-│  │ 단일 DB      │          ↕     ↕     ↕            │
-│  └──────────────┘        DB_A  DB_B  DB_C            │
-│  하나의 배포 단위         독립 배포·스케일링           │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    모놀리식 vs MSA                                    |
++-------------------------------------------------------+
+|  [모놀리식]                [MSA]                      |
+|  +--------------+        +---+ +---+ +---+          |
+|  | UI           |        |Svc| |Svc| |Svc|          |
+|  | BizLogic     |        | A | | B | | C |          |
+|  | DataAccess   |        +---+ +---+ +---+          |
+|  | 단일 DB      |          ↕     ↕     ↕            |
+|  +--------------+        DB_A  DB_B  DB_C            |
+|  하나의 배포 단위         독립 배포·스케일링           |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 모놀리식은 원룸(모든 기능이 한 공간)이고, MSA는 방이 여러 개인 아파트(기능별 독립 공간)다.
@@ -43,7 +43,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 장점 | 단점 |
 |:---|:---|
-| 개발·디버깅 단순 | 빌드 시간 ↑ (규모 증가 시) |
+| 개발·디버깅 단순 | 빌드 시간 ^ (규모 증가 시) |
 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 관리 쉬움 | **부분 배포 불가** |
 | 호출 오버헤드 없음 | **장애 전파 (단일 프로세스)** |
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 속도 빠름 | 팀 간 코드 충돌 |
@@ -86,23 +86,23 @@ tags = ["studynote-cloud-architecture"]
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong> | 서비스별 독립 배포·[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/">Modular Monolith</a></strong> | 모놀리식 + [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계 (절충안) |
 | **Monolith First** | Martin Fowler의 점진적 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/">Strangler Fig</a></strong> | 모놀리식→[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 점진 마이그레이션 패턴 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/">Strangler Fig</a></strong> | 모놀리식->[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 점진 마이그레이션 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [모놀리식 (전통, ~2010s)]
-    │
-    ▼
+    |
+    v
 [SOA (Service Oriented Architecture, 2005~)]
-    │
-    ▼
+    |
+    v
 [MSA (2014, Netflix·Amazon) — 서비스 분리]
-    │
-    ▼
+    |
+    v
 [Modular Monolith (2020~) — 모놀리식 + 모듈 경계]
-    │
-    ▼
+    |
+    v
 [현재: "Right-sizing" — 상황에 맞는 아키텍처 선택]
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 120 / 371
 
-← **이전**: [120. Pod Eviction과 QoS Class (K8s 리소스 관리) - Guaranteed·Burstable·BestEffort](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/120_pod_eviction_qos_class_kubernetes/)
-**다음**: [122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/) →
+<- **이전**: [120. Pod Eviction과 QoS Class (K8s 리소스 관리) - Guaranteed·Burstable·BestEffort](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/120_pod_eviction_qos_class_kubernetes/)
+**다음**: [122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/) ->
 
 ---

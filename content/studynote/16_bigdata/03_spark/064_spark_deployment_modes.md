@@ -76,17 +76,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [로컬 모드 (Local Mode) — 단일 JVM에서 드라이버·익스큐터 실행, 개발·테스트용]
-    │
-    ▼
+    |
+    v
 [독립 실행 모드 (Standalone Mode) — Spark 자체 클러스터 매니저, 소규모 전용 환경]
-    │
-    ▼
+    |
+    v
 [YARN 모드 (YARN Mode) — 하둡 클러스터 자원 공유, 엔터프라이즈 표준]
-    │
-    ▼
+    |
+    v
 [Kubernetes 모드 (K8s Mode) — Pod 단위 동적 프로비저닝, 클라우드 네이티브 표준]
-    │
-    ▼
+    |
+    v
 [서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화]
 ```
 
@@ -103,7 +103,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 64 / 262
 
-← **이전**: [스파크 그래프엑스 (Spark GraphX) - 분산 그래프 분석](/knowledge-base/studynote/16_bigdata/03_spark/063_spark_graphx/)
-**다음**: [스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)](/knowledge-base/studynote/16_bigdata/03_spark/065_spark_runtime_architecture/) →
+<- **이전**: [스파크 그래프엑스 (Spark GraphX) - 분산 그래프 분석](/knowledge-base/studynote/16_bigdata/03_spark/063_spark_graphx/)
+**다음**: [스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)](/knowledge-base/studynote/16_bigdata/03_spark/065_spark_runtime_architecture/) ->
 
 ---

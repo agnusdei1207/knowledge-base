@@ -32,11 +32,11 @@ YANG은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 루트
- ├─ interfaces
- │   ├─ interface
- │   └─ state
- ├─ routing
- └─ system
+ +- interfaces
+ |   +- interface
+ |   +- state
+ +- routing
+ +- system
 ```
 
 YANG은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 값의 범위, 필수 항목, 중복 여부까지 표현할 수 있다. 그래서 잘못된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 장비에 넣기 전에 구조 단계에서 걸러낼 수 있다.
@@ -58,9 +58,9 @@ NETCONF는 YANG 모델을 실제 장비에 전달하는 프로토콜이다. 보�
 
 ```text
 Controller
-   ↓ SSH
+   v SSH
 NETCONF
-   ↓ XML
+   v XML
 Network Device
 ```
 
@@ -94,11 +94,11 @@ CLI와 비교하면 사람이 직접 치는 작업이 줄고, SNMP와 비교하�
 
 ```text
 YANG (모델)
-   ↓
+   v
 NETCONF (전송)
-   ↓
+   v
 candidate / running datastore
-   ↓
+   v
 RESTCONF / SDN 자동화
 ```
 
@@ -106,11 +106,11 @@ RESTCONF / SDN 자동화
 
 ## 관련 키워드 및 발전 흐름도
 
-1. CLI 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 사람 의존과 오류 증가
-2. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 중심 관리 → 모니터링은 되지만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화는 약함
-3. YANG 모델링 → 구조와 제약을 선언
-4. NETCONF [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) → 안전한 반영과 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)
-5. RESTCONF / [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) → 웹 친화적 자동화와 중앙 제어 확장
+1. CLI 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 사람 의존과 오류 증가
+2. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 중심 관리 -> 모니터링은 되지만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화는 약함
+3. YANG 모델링 -> 구조와 제약을 선언
+4. NETCONF [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) -> 안전한 반영과 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)
+5. RESTCONF / [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) -> 웹 친화적 자동화와 중앙 제어 확장
 
 ---
 
@@ -126,7 +126,7 @@ NETCONF는 그 설명서를 실제 장난감에 넣어 조립하는 우체부예
 
 **진행 상황**: 162 / 1120
 
-← **이전**: [1056. ONOS / OpenDaylight 구조 모델 비교](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1056_onos_opendaylight_sdn_controller_comparison/)
-**다음**: [1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/) →
+<- **이전**: [1056. ONOS / OpenDaylight 구조 모델 비교](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1056_onos_opendaylight_sdn_controller_comparison/)
+**다음**: [1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/) ->
 
 ---

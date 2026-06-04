@@ -31,25 +31,25 @@ tags = ["studynote-operating-system"]
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조체(i-node)와 빈 공간 객체(Free List)가 어떻게 서로 교차하며 C드라이브 공간을 잡아먹는지 디커플링 통치 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 "두 개의 모니터 전광판!" i-node 명부와 빈방(Free) 명부의 결착  │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  [[ 디스크 (C 드라이브) 맨 앞단 슈퍼블록 메타데이터(Metadata) 제국 구역 ]]     │
-  │  -------------------------------------------------------------                 │
-  │  1️⃣ [ 유저 파일 명부 장부 (i-node Table 1,000만 명) ]                         │
-  │     - 14번 파일 (hello.txt) ─▶ 100번 방 체류 중                                │
-  │     - 15번 파일 (뽀로로.mp4) ─▶ 20번, 21번 방 연속 체류 중                     │
-  │                                                                                │
-  │  2️⃣ [ 호텔 공실 전광판 (Free-Space Management 중앙 장부 구조체 렌더) ]        │
-  │        (다음 네 가지 전술 중 하나를 선택해 빈방 리스트를 포팅한다)             │
-  │      전술 A. 비트 벡터 (Bit Vector) : `001100101` (1은 빈방, 0은 찼음)         │
-  │      전술 B. 연결 리스트 (Linked List) : 빈방 3번 ─▶ 빈방 8번 ─▶ 끝!           │
-  │      전술 C. 그룹화 (Grouping) : 빈방 13번에 빈방 주소 1,000개 모아 저장!      │
-  │      전술 D. 계수 (Counting) : [빈방 5번부터 100개 연속! 1 큐브 익스텐트 록]   │
-  │                                                                                │
-  │   => CPU: "야 나 새 파일 1개 넣게 제일 빠른 전광판 암거나 보고 방 가져와 스왑!"│
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 "두 개의 모니터 전광판!" i-node 명부와 빈방(Free) 명부의 결착  |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |  [[ 디스크 (C 드라이브) 맨 앞단 슈퍼블록 메타데이터(Metadata) 제국 구역 ]]     |
+  |  -------------------------------------------------------------                 |
+  |  1️⃣ [ 유저 파일 명부 장부 (i-node Table 1,000만 명) ]                         |
+  |     - 14번 파일 (hello.txt) --> 100번 방 체류 중                                |
+  |     - 15번 파일 (뽀로로.mp4) --> 20번, 21번 방 연속 체류 중                     |
+  |                                                                                |
+  |  2️⃣ [ 호텔 공실 전광판 (Free-Space Management 중앙 장부 구조체 렌더) ]        |
+  |        (다음 네 가지 전술 중 하나를 선택해 빈방 리스트를 포팅한다)             |
+  |      전술 A. 비트 벡터 (Bit Vector) : `001100101` (1은 빈방, 0은 찼음)         |
+  |      전술 B. 연결 리스트 (Linked List) : 빈방 3번 --> 빈방 8번 --> 끝!           |
+  |      전술 C. 그룹화 (Grouping) : 빈방 13번에 빈방 주소 1,000개 모아 저장!      |
+  |      전술 D. 계수 (Counting) : [빈방 5번부터 100개 연속! 1 큐브 익스텐트 록]   |
+  |                                                                                |
+  |   => CPU: "야 나 새 파일 1개 넣게 제일 빠른 전광판 암거나 보고 방 가져와 스왑!"|
+  +--------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스는 디스크를 통치하기 위해 앞단에 명부 두 개를 놓는다. 하나는 이미 주인이 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 주소(i-node), 그리고 2️⃣번이 지금 우리가 배우는 "디스크의 비어있는 구멍들만 따로 모아 추적하는 해방 명부" 다. 여기서 14번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(100번 방 체류)이 삭제 `rm` [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)를 맞으면? 1️⃣번 명부에서 이름이 삭제되고, 100번 방은 고스란히 2️⃣번 전광판의 `비어있소(Free) 리스트` 로 굴러 록백 추가되어 자원이 환원(Recycle 반납 우주 증명)된다. 이 S/W [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생태계의 톱니바퀴가 끊김 없이 돌아가야 클라우드 서버의 저장 장치 I/O가 멈추지 않고 매끄럽게 돌아간다.
@@ -149,12 +149,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [익스텐트 (Extent)]
-    │
-    ▼
+    |
+    v
 [빈 공간 관리 (Free-Space Management) 알고리즘]
-    │
-    ├──▶ [비트 벡터 (Bit Vector / Bitmap)]
-    └──▶ [연결 리스트 (Linked List) 빈 공간 관리]
+    |
+    +---> [비트 벡터 (Bit Vector / Bitmap)]
+    +---> [연결 리스트 (Linked List) 빈 공간 관리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -171,7 +171,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 532 / 800
 
-← **이전**: [531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)
-**다음**: [533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/) →
+<- **이전**: [531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)
+**다음**: [533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/) ->
 
 ---

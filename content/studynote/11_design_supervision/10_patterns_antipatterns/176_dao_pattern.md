@@ -26,16 +26,16 @@ tags = ["studynote-design-supervision"]
 아래 그림은 DAO가 없을 때와 있을 때의 차이를 단순화해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why DAO is needed                                                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without DAO                                                          │
-│   Service = business rule + SQL + connection + row mapping          │
-│                                                                      │
-│ With DAO                                                             │
-│   Service -> DAO interface -> persistence implementation            │
-│   business rule      separated from storage details                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why DAO is needed                                                    |
++----------------------------------------------------------------------+
+| Without DAO                                                          |
+|   Service = business rule + SQL + connection + row mapping          |
+|                                                                      |
+| With DAO                                                             |
+|   Service -> DAO interface -> persistence implementation            |
+|   business rule      separated from storage details                 |
++----------------------------------------------------------------------+
 ```
 
 즉 DAO의 필요성은 객체를 하나 더 만드는 데 있지 않다. <strong>변경 가능성이 큰 저장 기술을, 변경 비용이 비싼 업무 로직으로부터 떼어 놓는 것</strong>이 핵심이다.
@@ -59,23 +59,23 @@ tags = ["studynote-design-supervision"]
 아래 그림은 DAO가 레이어 사이에서 어떤 경계를 만드는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DAO in layered architecture                                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Controller                                                           │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Service / Application Layer   <- transaction boundary                │
-│    │                                                                 │
-│    ▼                                                                 │
-│ DAO interface                                                        │
-│    ├─ JDBC implementation                                            │
-│    ├─ JPA / MyBatis implementation                                   │
-│    └─ Fake / Mock implementation for test                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Database / external storage                                          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| DAO in layered architecture                                          |
++----------------------------------------------------------------------+
+| Controller                                                           |
+|    |                                                                 |
+|    v                                                                 |
+| Service / Application Layer   <- transaction boundary                |
+|    |                                                                 |
+|    v                                                                 |
+| DAO interface                                                        |
+|    +- JDBC implementation                                            |
+|    +- JPA / MyBatis implementation                                   |
+|    +- Fake / Mock implementation for test                            |
+|    |                                                                 |
+|    v                                                                 |
+| Database / external storage                                          |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 판단은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 주도권을 어디에 둘 것인가다. 보통 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층에서 시작하고, DAO는 그 안에서 필요한 질의와 갱신을 수행한다. DAO가 비즈니스 흐름을 주도하거나 독자적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정책을 결정하기 시작하면 계층 책임이 다시 흐려진다.
@@ -162,21 +162,21 @@ DAO는 저장소 접근이 비즈니스 코드에 비해 복잡하거나, 기술
 
 ```text
 비즈니스 로직과 SQL 혼재
-    │
-    ▼
+    |
+    v
 DAO interface 도입
-    │
-    ├─ JDBC / SQL 구현
-    ├─ ORM 구현
-    └─ Fake / Mock 구현
-    │
-    ▼
+    |
+    +- JDBC / SQL 구현
+    +- ORM 구현
+    +- Fake / Mock 구현
+    |
+    v
 서비스 계층의 저장소 독립성 확보
-    │
-    ▼
+    |
+    v
 테스트 용이성 · 기술 교체성 향상
-    │
-    ▼
+    |
+    v
 Repository / DDD와의 역할 분화
 ```
 
@@ -194,7 +194,7 @@ Repository / DDD와의 역할 분화
 
 **진행 상황**: 232 / 530
 
-← **이전**: [175. DTO 패턴 (Data Transfer Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/)
-**다음**: [177. 프론트 컨트롤러 패턴 (Front Controller Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/) →
+<- **이전**: [175. DTO 패턴 (Data Transfer Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/175_dto_data_transfer_object/)
+**다음**: [177. 프론트 컨트롤러 패턴 (Front Controller Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/) ->
 
 ---

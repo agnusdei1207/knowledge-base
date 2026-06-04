@@ -27,11 +27,11 @@ tags = ["bigdata"]
 이 도식은 기존의 고립된 데이터 환경(Silo)에서 데이터가 어떻게 자본화되어 거래 생태계로 진입하는지를 보여주는 배경적 한계와 극복 과정을 나타낸다.
 
 [기존: Data Silo]
-(원시 데이터) ──> [기업 A 내부 보관] ──> 폐기 또는 방치 (가치 소멸)
+(원시 데이터) --> [기업 A 내부 보관] --> 폐기 또는 방치 (가치 소멸)
 
 [혁신: Data Economy]
-(원시 데이터) ──> [정제/비식별화] ──> [데이터 거래소] ──> (가치 창출/교환) ──> [기업 B, C 활용]
-                       ↑ 자산화              ↑ 유동성 확보
+(원시 데이터) --> [정제/비식별화] --> [데이터 거래소] --> (가치 창출/교환) --> [기업 B, C 활용]
+                       ^ 자산화              ^ 유동성 확보
 ```
 이 도식의 핵심은 가치가 소멸하던 폐쇄적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 외부로의 연결(거래소)을 통해 선순환 구조를 획득했다는 점이다. 이런 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순히 쌓여 있는 것이 아니라 유통될 때 비로소 경제적 의미를 지님을 설명하기 위함이다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소의 활성화 여부가 전체 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성(시장 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))에 영향을 준다. 실무에서는 이러한 가치 전이를 위해 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 전제 조건일 때 유리하고, 반대로 품질 보증 체계가 없는 상황에서는 불리하다.
 
@@ -57,16 +57,16 @@ tags = ["bigdata"]
 이 흐름도는 데이터 공급자가 원시 데이터를 자산화하여 거래소에 등록하고, 수요자가 이를 구매하여 사용하는 전 과정의 아키텍처를 보여준다.
 
 [Data Provider]                     [Data Exchange Platform]                    [Data Consumer]
-       │                                       │                                       │
-  ① 원시데이터 ──(ETL/정제)──> [Data Asset]     │                                       │
-       │                                       │                                       │
-       └─ ② 메타데이터/카탈로그 등록 ──────────> [Catalog/Search API] <── ③ 검색/조회 ─┘
-                                               │                                       │
-                                               │ [Pricing / Smart Contract] <── ④ 계약/결제
-                                               │                                       │
-       ⑤ 데이터 전송 승인(Token 발급) <─────── [Access Control] ───────────────────────┘
-       │                                       │
-       └─ ⑥ 보안 API 전송(또는 Secure Enclave) ──────────────────────────────────────> ⑦ 분석 융합
+       |                                       |                                       |
+  ① 원시데이터 --(ETL/정제)--> [Data Asset]     |                                       |
+       |                                       |                                       |
+       +- ② 메타데이터/카탈로그 등록 ----------> [Catalog/Search API] <-- ③ 검색/조회 -+
+                                               |                                       |
+                                               | [Pricing / Smart Contract] <-- ④ 계약/결제
+                                               |                                       |
+       ⑤ 데이터 전송 승인(Token 발급) <------- [Access Control] -----------------------+
+       |                                       |
+       +- ⑥ 보안 API 전송(또는 Secure Enclave) --------------------------------------> ⑦ 분석 융합
 ```
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 등록 및 계약)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 이동(실행 단계)보다 앞에 위치한다는 점이다. 이런 배치는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 불필요한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 유출을 막고 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만으로 시장을 형성하기 때문이며, 따라서 플랫폼 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이로드 크기](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/236_payload_size_and_padding_46_1500_bytes/)보다 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 검색 및 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 체결 속도에 의해 먼저 제한된다. 실무에서는 이 지점의 계약 실패율과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) 시간을 반드시 따로 관찰해야 한다.
 
@@ -107,14 +107,14 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 ```text
 이 비교 매트릭스는 폐쇄형 데이터 공유와 개방형 거래소 방식을 비교하여 어떤 아키텍처적 트레이드오프가 있는지 보여준다.
 
-┌────────────┬────────────────────────────┬────────────────────────────┐
-│ 항목       │ P2P 직접 거래 (API 공유)   │ Data Exchange Platform 기반│
-├────────────┼────────────────────────────┼────────────────────────────┤
-│ 확장성     │ O(N^2)의 복잡도 증가       │ O(N)의 플랫폼 허브 구조    │
-│ 보안/감사  │ 개별 기업 간 계약 의존     │ 중앙집중적 통합 감사 가능  │
-│ 탐색 용이성│ 파트너 외 데이터 발견 불가 │ 글로벌 카탈로그로 검색 용이│
-│ 도입 비용  │ 초기 연동 비용 낮음        │ 플랫폼 수수료/등록 비용 큼 │
-└────────────┴────────────────────────────┴────────────────────────────┘
++------------+----------------------------+----------------------------+
+| 항목       | P2P 직접 거래 (API 공유)   | Data Exchange Platform 기반|
++------------+----------------------------+----------------------------+
+| 확장성     | O(N^2)의 복잡도 증가       | O(N)의 플랫폼 허브 구조    |
+| 보안/감사  | 개별 기업 간 계약 의존     | 중앙집중적 통합 감사 가능  |
+| 탐색 용이성| 파트너 외 데이터 발견 불가 | 글로벌 카탈로그로 검색 용이|
+| 도입 비용  | 초기 연동 비용 낮음        | 플랫폼 수수료/등록 비용 큼 |
++------------+----------------------------+----------------------------+
 ```
 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 직접 거래 방식은 단일 기업 간 레이턴시가 짧고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 협상만 끝나면 연동이 빠르지만, 참여 파트너가 많아질수록 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 관리와 계약 갱신 비용이 누적된다. 반면 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange 방식은 거래 수수료와 등록이라는 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 진입 장벽은 다소 크지만, 글로벌 탐색성과 거버넌스 통합 측면에서 좋아, 다양한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동적으로 수급해야 하는 환경에서는 전체 가치 창출 기준으로 더 유리할 수 있다.
 
@@ -142,7 +142,7 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 이 도식은 데이터 거래 과정에서 발생할 수 있는 품질 불량 안티패턴과 장애 전파 과정을 보여준다.
 
 [원시 로그] => [품질 검증 누락] => [거래소 등록] => [수요자 구매/ETL] => [AI 모델 파괴]
-                                      ▲                              ▲
+                                      ^                              ^
                                단기적 수수료 발생               치명적 비즈니스 장애 (GIGO)
 ```
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락이 플랫폼 초입에 위치한다는 점이다. 따라서 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력은 플랫폼 내부에서는 정상 거래로 위장되지만, 수요자 측의 분석 엔진을 오염시켜 결과적으로 플랫폼 전체의 재구매율을 영점에 수렴하게 만든다. 실무에서는 이러한 GIGO(Garbage In, Garbage Out)를 막기 위해 [Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 메커니즘을 도입해 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이나 null 값 발생 시 거래를 즉각 중단시키는 회로 차단기([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))를 두어야 한다.
@@ -172,11 +172,11 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 미래 데이터 경제의 진화 방향을 보여주는 로드맵 다이어그램이다.
 
 Phase 1: Data Silo (고립)
-  ↓
+  v
 Phase 2: Open API / Data Portal (단방향 개방)
-  ↓
+  v
 Phase 3: Data Exchange / Marketplace (양방향 거래)
-  ↓
+  v
 Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)
 ```
 이 발전 과정의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 이동(Phase 2, 3)에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연결(Phase 4)로 아키텍처 패러다임이 바뀐다는 점이다. 이는 물리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 인한 보안 위협을 극복하기 때문이며, 따라서 미래 인프라는 스토리지가 아닌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 연산 능력에 의해 가치가 결정될 것이다. 실무에서는 지금 당장 거래소를 구축하더라도 향후 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 체계와 연동될 수 있도록 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮춰 설계해야 한다.
@@ -196,17 +196,17 @@ Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)
 
 ```text
 [데이터 생성 (Data Generation) — IoT·SNS·트랜잭션에서 원시 데이터 수집]
-    │
-    ▼
+    |
+    v
 [데이터 자산화 (Data Monetization) — 정제·분석으로 경제적 가치 창출]
-    │
-    ▼
+    |
+    v
 [데이터 거래 (Data Trading) — 데이터 마켓플레이스에서 유통·거래]
-    │
-    ▼
+    |
+    v
 [데이터 주권 (Data Sovereignty) — 개인정보보호·국가 데이터 주권 법적 정비]
-    │
-    ▼
+    |
+    v
 [데이터 생태계 (Data Ecosystem) — 공공·민간 데이터 연계로 새로운 산업 창출]
 ```
 
@@ -223,7 +223,7 @@ Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)
 
 **진행 상황**: 11 / 262
 
-← **이전**: [10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)
-**다음**: [12. 마이데이터 (MyData) — 개인정보 자기결정권, 금융 마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) →
+<- **이전**: [10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)
+**다음**: [12. 마이데이터 (MyData) — 개인정보 자기결정권, 금융 마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) ->
 
 ---

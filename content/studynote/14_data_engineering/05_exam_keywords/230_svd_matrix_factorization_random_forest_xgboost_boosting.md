@@ -24,15 +24,15 @@ tags = ["studynote-data-engineering"]
 
 ```
 단일 모델의 한계:
-┌──────────────────────────────────────────────────────────────┐
-│ 높은 편향(High Bias)   : 학습 데이터도 잘 못 맞춤 → 과소적합 │
-│ 높은 분산(High Variance): 새 데이터에 불안정   → 과적합      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 높은 편향(High Bias)   : 학습 데이터도 잘 못 맞춤 -> 과소적합 |
+| 높은 분산(High Variance): 새 데이터에 불안정   -> 과적합      |
++--------------------------------------------------------------+
 
 앙상블 전략:
-  배깅 (Bagging) → 분산(Variance) 감소 → 랜덤 포레스트
-  부스팅 (Boosting) → 편향(Bias) 감소 → XGBoost, AdaBoost
-  스태킹 (Stacking) → 여러 모델 결합 → 메타 학습기
+  배깅 (Bagging) -> 분산(Variance) 감소 -> 랜덤 포레스트
+  부스팅 (Boosting) -> 편향(Bias) 감소 -> XGBoost, AdaBoost
+  스태킹 (Stacking) -> 여러 모델 결합 -> 메타 학습기
 ```
 
 📢 **섹션 요약 비유**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 학습은 "혼자 결정하지 않고 여러 전문가의 의견을 종합하는 위원회 제도"다. 전문가가 각자 다른 시각으로 판단하기 때문에 집단 실수 확률이 낮아진다.
@@ -48,20 +48,20 @@ tags = ["studynote-data-engineering"]
 
 A (m×n) = U (m×m) × Σ (m×n) × Vᵀ (n×n)
 
-┌────────────────────────────────────────────────────────┐
-│ U: 왼쪽 특이벡터 (Left Singular Vectors)               │
-│    m×m 직교행렬 (열벡터가 서로 수직)                   │
-│                                                        │
-│ Σ: 특이값 대각행렬 (Singular Value Matrix)              │
-│    대각원소 σ₁ ≥ σ₂ ≥ ... ≥ σₙ ≥ 0 (내림차순)         │
-│    특이값 크기 = 해당 축의 정보량                       │
-│                                                        │
-│ Vᵀ: 오른쪽 특이벡터 (Right Singular Vectors)           │
-│     n×n 직교행렬                                       │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| U: 왼쪽 특이벡터 (Left Singular Vectors)               |
+|    m×m 직교행렬 (열벡터가 서로 수직)                   |
+|                                                        |
+| Σ: 특이값 대각행렬 (Singular Value Matrix)              |
+|    대각원소 σ₁ ≥ σ₂ ≥ ... ≥ σₙ ≥ 0 (내림차순)         |
+|    특이값 크기 = 해당 축의 정보량                       |
+|                                                        |
+| Vᵀ: 오른쪽 특이벡터 (Right Singular Vectors)           |
+|     n×n 직교행렬                                       |
++--------------------------------------------------------+
 
 Truncated SVD (절단 SVD): 상위 k개만 유지
-A ≈ Uₖ × Σₖ × Vₖᵀ  → 데이터 압축·잠재 구조 추출
+A ≈ Uₖ × Σₖ × Vₖᵀ  -> 데이터 압축·잠재 구조 추출
 ```
 
 SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/):
@@ -73,14 +73,14 @@ SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recomme
 
 ```
 배깅 (Bagging, Bootstrap Aggregating):
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 원본 데이터 D
-    │
-    ├── Bootstrap 샘플 D₁ → 의사결정트리 T₁
-    ├── Bootstrap 샘플 D₂ → 의사결정트리 T₂
-    ├── Bootstrap 샘플 D₃ → 의사결정트리 T₃
-    │   ...
-    └── Bootstrap 샘플 Dₙ → 의사결정트리 Tₙ
+    |
+    +-- Bootstrap 샘플 D₁ -> 의사결정트리 T₁
+    +-- Bootstrap 샘플 D₂ -> 의사결정트리 T₂
+    +-- Bootstrap 샘플 D₃ -> 의사결정트리 T₃
+    |   ...
+    +-- Bootstrap 샘플 Dₙ -> 의사결정트리 Tₙ
 
 Bootstrap: 복원 추출로 원본과 동일 크기의 샘플 생성
            약 63.2% 원본 포함, 36.8% 미포함 (OOB: Out-of-Bag)
@@ -90,7 +90,7 @@ Bootstrap: 복원 추출로 원본과 동일 크기의 샘플 생성
   회귀: 평균 (Averaging)
 ```
 
-<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">랜덤 포레스트</a> 추가 무작위성</strong>: 각 분기(Split)마다 전체 특성 중 √d개([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 또는 d/3개(회귀)만 후보로 사용 → 트리 간 상관 감소 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 더 감소
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">랜덤 포레스트</a> 추가 무작위성</strong>: 각 분기(Split)마다 전체 특성 중 √d개([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 또는 d/3개(회귀)만 후보로 사용 -> 트리 간 상관 감소 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 더 감소
 
 | 하이퍼파라미터 | 설명 | 기본값/범위 |
 |:---|:---|:---|
@@ -104,7 +104,7 @@ Bootstrap: 복원 추출로 원본과 동일 크기의 샘플 생성
 
 ```
 부스팅 (Boosting) 흐름:
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 단계 1: 초기 예측 f₀(x) = 상수 (평균값)
 단계 2: 잔차(Residual) = 실제값 - 예측값
 단계 3: 잔차를 학습하는 새 트리 추가
@@ -144,17 +144,17 @@ XGBoost (eXtreme Gradient Boosting) 특징:
 
 ```
 예측 오차 분해:
-E[(y - f̂(x))²] = Bias(f̂)² + Var(f̂) + 노이즈²
+E[(y - f̂(x))^] = Bias(f̂)^ + Var(f̂) + 노이즈^
 
 단순 모델 (선형회귀):
-  높은 편향(Bias) + 낮은 분산(Var) → 과소적합
+  높은 편향(Bias) + 낮은 분산(Var) -> 과소적합
 
 복잡 모델 (깊은 의사결정트리):
-  낮은 편향(Bias) + 높은 분산(Var) → 과적합
+  낮은 편향(Bias) + 높은 분산(Var) -> 과적합
 
 앙상블 전략:
-  배깅 → 분산 감소, 편향 유지
-  부스팅 → 편향 감소, 분산 주의
+  배깅 -> 분산 감소, 편향 유지
+  부스팅 -> 편향 감소, 분산 주의
 ```
 
 ### 3-2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) vs XGBoost 비교
@@ -214,11 +214,11 @@ SHAP 분석: 신용 등급 > 부채비율 > 연체 이력 순 중요도
 행렬 R (사용자 × 영화) = P × Qᵀ + 편향
 
 학습: ALS (Alternating Least Squares)
-  P 고정 → Q 업데이트 (OLS)
-  Q 고정 → P 업데이트 (OLS)
+  P 고정 -> Q 업데이트 (OLS)
+  Q 고정 -> P 업데이트 (OLS)
   ...반복...
 
-정규화: λ(‖P‖² + ‖Q‖²) 추가 (과적합 방지)
+정규화: λ(‖P‖^ + ‖Q‖^) 추가 (과적합 방지)
 
 추천: 사용자 i의 아이템 j 예측 점수 = pᵢ · qⱼᵀ + bᵢ + bⱼ
      (bᵢ: 사용자 편향, bⱼ: 아이템 편향)
@@ -274,16 +274,16 @@ SVD·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_
 
 ```text
 단일 의사결정 트리 (과적합 위험)
-    │
-    ▼
+    |
+    v
 앙상블 학습
-    ├─► Bagging: Random Forest (병렬 · 분산↓)
-    └─► Boosting: AdaBoost → GBM → XGBoost → LightGBM → CatBoost
-    │
-    ▼
-행렬 분해: SVD → 추천 시스템 · 차원 축소
-    │
-    ▼
+    +-► Bagging: Random Forest (병렬 · 분산v)
+    +-► Boosting: AdaBoost -> GBM -> XGBoost -> LightGBM -> CatBoost
+    |
+    v
+행렬 분해: SVD -> 추천 시스템 · 차원 축소
+    |
+    v
 딥러닝 앙상블 · AutoML 자동 모델 선택
 ```
 2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 "100명의 전문가가 각자 다른 자료를 보고 투표"하는 방식이고, XGBoost는 "한 전문가가 틀린 부분만 집중 보완하며 100번 반복 학습"하는 방식이다.
@@ -295,7 +295,7 @@ SVD·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_
 
 **진행 상황**: 230 / 258
 
-← **이전**: [229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/)
-**다음**: [231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) →
+<- **이전**: [229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/)
+**다음**: [231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) ->
 
 ---

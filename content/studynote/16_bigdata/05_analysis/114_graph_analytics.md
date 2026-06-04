@@ -31,23 +31,23 @@ tags = ["studynote-bigdata"]
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    핵심 그래프 알고리즘                               │
-├─────────────────────┬──────────────────────┬─────────────────────────┤
-│  중심성 알고리즘    │  커뮤니티 탐지        │  경로 알고리즘          │
-├─────────────────────┼──────────────────────┼─────────────────────────┤
-│  PageRank           │  Louvain             │  BFS (너비 우선 탐색)   │
-│  (연결 권위도)      │  (모듈러리티 최적화) │  (최단 홉 수)           │
-│                     │                      │                         │
-│  Betweenness        │  Label Propagation   │  Dijkstra               │
-│  (매개 중심성)      │  (레이블 전파)       │  (가중 최단 경로)       │
-│                     │                      │                         │
-│  Eigenvector        │  Girvan-Newman       │  A* (휴리스틱)          │
-│  (고유벡터 중심성)  │  (엣지 제거)         │  (GPS 내비게이션)       │
-├─────────────────────┴──────────────────────┴─────────────────────────┤
-│  삼각형 수 (Triangle Count): 군집 계수 → 사기 탐지, 커뮤니티 밀도   │
-│  WCC (Weakly Connected Component): 연결 요소 탐지 → 고립 클러스터   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    핵심 그래프 알고리즘                               |
++---------------------+----------------------+-------------------------+
+|  중심성 알고리즘    |  커뮤니티 탐지        |  경로 알고리즘          |
++---------------------+----------------------+-------------------------+
+|  PageRank           |  Louvain             |  BFS (너비 우선 탐색)   |
+|  (연결 권위도)      |  (모듈러리티 최적화) |  (최단 홉 수)           |
+|                     |                      |                         |
+|  Betweenness        |  Label Propagation   |  Dijkstra               |
+|  (매개 중심성)      |  (레이블 전파)       |  (가중 최단 경로)       |
+|                     |                      |                         |
+|  Eigenvector        |  Girvan-Newman       |  A* (휴리스틱)          |
+|  (고유벡터 중심성)  |  (엣지 제거)         |  (GPS 내비게이션)       |
++---------------------+----------------------+-------------------------+
+|  삼각형 수 (Triangle Count): 군집 계수 -> 사기 탐지, 커뮤니티 밀도   |
+|  WCC (Weakly Connected Component): 연결 요소 탐지 -> 고립 클러스터   |
++----------------------------------------------------------------------+
 ```
 
 ### PageRank 원리
@@ -58,7 +58,7 @@ PR(u) = (1-d)/N + d × Σ [PR(v) / OutDegree(v)]
 
 d = 감쇠 계수 (Damping Factor) ≈ 0.85
 N = 전체 노드 수
-→ "권위 있는 노드(높은 PR)로부터 연결받을수록 PR이 높아진다"
+-> "권위 있는 노드(높은 PR)로부터 연결받을수록 PR이 높아진다"
 ```
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 비교
@@ -93,10 +93,10 @@ N = 전체 노드 수
 
 ### 적용 시나리오
 
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong>: 엔티티와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 RDF/[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 구축 → 검색 엔진 강화, 추천 연계
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong>: 엔티티와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 RDF/[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 구축 -> 검색 엔진 강화, 추천 연계
 2. **금융 사기 공모 탐지**: 계좌-거래 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 밀집 커뮤니티 = 공모 그룹 자동 탐지
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 분석</strong>: 공급업체-부품 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) → 단일 공급업체 의존 취약점 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a></strong>: 사용자-상품 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) + PageRank → 개인화 추천
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 분석</strong>: 공급업체-부품 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) -> 단일 공급업체 의존 취약점 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a></strong>: 사용자-상품 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) + PageRank -> 개인화 추천
 
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 플랫폼
 
@@ -145,17 +145,17 @@ N = 전체 노드 수
 
 ```text
 [그래프 이론 (Graph Theory) — 정점(Vertex)·간선(Edge)으로 관계를 수학적 표현]
-    │
-    ▼
+    |
+    v
 [그래프 분석 (Graph Analytics) — PageRank·커뮤니티 탐지·최단 경로 등 관계 패턴 발굴]
-    │
-    ▼
+    |
+    v
 [Apache Spark GraphX / Pregel — 대규모 그래프의 분산 병렬 처리 프레임워크]
-    │
-    ▼
+    |
+    v
 [지식 그래프 (Knowledge Graph) — RDF/OWL 기반 엔티티-관계 구조화, 의미 추론]
-    │
-    ▼
+    |
+    v
 [GNN (Graph Neural Network) — 그래프 구조 + 딥러닝, 분자설계·사기탐지·추천시스템 적용]
 ```
 
@@ -172,7 +172,7 @@ N = 전체 노드 수
 
 **진행 상황**: 114 / 262
 
-← **이전**: [110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석](/knowledge-base/studynote/16_bigdata/05_analysis/113_spatial_analysis/)
-**다음**: [112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약](/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/) →
+<- **이전**: [110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석](/knowledge-base/studynote/16_bigdata/05_analysis/113_spatial_analysis/)
+**다음**: [112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약](/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/) ->
 
 ---

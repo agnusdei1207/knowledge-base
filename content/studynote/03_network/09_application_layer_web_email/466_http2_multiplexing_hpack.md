@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 1.1 HOL 블로킹]
-    │
-    ▼
+    |
+    v
 [HTTP/2 특징]
-    │
-    └──▶ [HTTP/2 스트림 다중화]
+    |
+    +---> [HTTP/2 스트림 다중화]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 "사람이 쓴 편지(텍스트)를 통째로 봉투에 넣어 보내는 방식"이어서, 앞사람의 택배 상자(용량이 큰 이미지)가 길을 막으면 뒤의 가벼운 편지들은 꼼짝없이 막혔습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 "모든 편지와 택배를 아주 작은 레고 블록(바이너리 프레임)으로 분해해서 파이프에 와르르 쏟아붓고, 도착지에서 다시 조립하는 방식"으로 진화하여 교통 체증을 완전히 없앴습니다.
@@ -51,25 +51,25 @@ tags = ["studynote-network"]
 이 레고 블록(프레임)들을 섞어서 보내는 기술이 멀티플렉싱입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ HTTP/1.1 vs HTTP/2 멀티플렉싱 (Multiplexing) 아키텍처 ]   │
-│                                                             │
-│   [ HTTP/1.1 (HOL 블로킹 발생) ]                             │
-│   ▶ 순서대로, 하나가 끝나야 다음 것을 보낼 수 있음 (기차 형태)          │
-│   [ ====== 영상 응답 (크고 느림) ====== ] [ CSS 응답 ] [ JS 응답 ]  │
-│     (CSS와 JS는 영상이 다 지나갈 때까지 대기실에서 무한 대기)           │
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                                                             │
-│   [ HTTP/2 (멀티플렉싱 도입) ]                                │
-│   ▶ 단 1개의 TCP 커넥션 안에서, 데이터를 '프레임'으로 쪼개서 뒤섞어버림! │
-│   [ 영상(3) ] [ CSS(2) ] [ 영상(3) ] [ JS(1) ] [ 영상(3) ] [ CSS(2) ] │
-│                                                             │
-│    (수신지 브라우저의 조립 과정)                                   │
-│    - 어? 스트림 ID 1번 프레임이네? 모아서 JS 완성!                 │
-│    - 어? 스트림 ID 2번 프레임이네? 모아서 CSS 완성!                │
-│    - 3번 영상 프레임은 천천히 조립 중... (하지만 CSS/JS는 이미 완료!)  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ HTTP/1.1 vs HTTP/2 멀티플렉싱 (Multiplexing) 아키텍처 ]   |
+|                                                             |
+|   [ HTTP/1.1 (HOL 블로킹 발생) ]                             |
+|   -> 순서대로, 하나가 끝나야 다음 것을 보낼 수 있음 (기차 형태)          |
+|   [ ====== 영상 응답 (크고 느림) ====== ] [ CSS 응답 ] [ JS 응답 ]  |
+|     (CSS와 JS는 영상이 다 지나갈 때까지 대기실에서 무한 대기)           |
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|                                                             |
+|   [ HTTP/2 (멀티플렉싱 도입) ]                                |
+|   -> 단 1개의 TCP 커넥션 안에서, 데이터를 '프레임'으로 쪼개서 뒤섞어버림! |
+|   [ 영상(3) ] [ CSS(2) ] [ 영상(3) ] [ JS(1) ] [ 영상(3) ] [ CSS(2) ] |
+|                                                             |
+|    (수신지 브라우저의 조립 과정)                                   |
+|    - 어? 스트림 ID 1번 프레임이네? 모아서 JS 완성!                 |
+|    - 어? 스트림 ID 2번 프레임이네? 모아서 CSS 완성!                |
+|    - 3번 영상 프레임은 천천히 조립 중... (하지만 CSS/JS는 이미 완료!)  |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2에서는 큰 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 작은 [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각(프레임)들이 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 안에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 뒤섞여 날아갑니다(Interleaving). 따라서 무거운 영상이 통로를 독점하지 못하며, 가벼운 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 먼저 도착해 브라우저에 렌더링되므로 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹이 완벽하게 해결</strong>됩니다.
@@ -161,12 +161,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP 1.1 HOL 블로킹]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP/2 특징]
-    │
-    ├──▶ [확장 A: HTTP/2 스트림 다중화]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP/2 스트림 다중화]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 스트림 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -183,7 +183,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 587 / 1120
 
-← **이전**: [465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)](/knowledge-base/studynote/03_network/09_application_layer_web_email/465_http_1_1_hol_blocking/)
-**다음**: [467. HTTP/2 스트림 (Stream) 다중화 (Multiplexing)](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) →
+<- **이전**: [465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)](/knowledge-base/studynote/03_network/09_application_layer_web_email/465_http_1_1_hol_blocking/)
+**다음**: [467. HTTP/2 스트림 (Stream) 다중화 (Multiplexing)](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) ->
 
 ---

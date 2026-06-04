@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [IP SLA]
-    │
-    ▼
+    |
+    v
 [Anycast 라우팅 (BGP Anycast]
-    │
-    └──▶ [로케이터/ID 분리 구조 (LISP]
+    |
+    +---> [로케이터/ID 분리 구조 (LISP]
 ```
 
 - **📢 섹션 요약 비유**: ** 애니캐스트는 전 세계 수만 개의 햄버거 프랜차이즈에 **"대표 주문 번호 하나"**만 개통해 두는 시스템입니다. 고객이 아무 생각 없이 그 번호로 전화해도, 시스템이 고객의 위치를 추적해 가장 배달비가 적게 드는(가장 거리가 짧은) 동네 매장으로 자동 1:1 토스(연결)해 주는 궁극의 분산형 아키텍처입니다.
@@ -55,22 +55,22 @@ tags = ["studynote-network"]
 5. 결과: 한국의 모든 가입자 트래픽은 빨려 들어가듯 서울에 있는 8.8.8.8 서버로만 직행하게 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                애니캐스트에 의한 지역별 트래픽 강제 격리 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 한국 유저들 ] ──▶ [ 한국 KT 망 ] ━━━━▶ [ 서울 DNS 서버 ]   │
- │                                            (IP: 8.8.8.8)  │
- │                                                             │
- │                                            (태평양 해저 케이블)│
- │                                                단절됨!        │
- │                                                             │
- │   [ 미국 유저들 ] ──▶ [ 미국 AT&T 망 ] ━━━━▶ [ 뉴욕 DNS 서버 ]  │
- │                                            (IP: 8.8.8.8)  │
- │                                                             │
- │   ▶ "태평양 한가운데 해저 케이블에 트래픽이 1바이트도 타지 않는다!"     │
- │      한국 트래픽은 한국에서, 미국 트래픽은 미국에서 100% 자체 소화됨.  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                애니캐스트에 의한 지역별 트래픽 강제 격리 도식        |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 한국 유저들 ] ---> [ 한국 KT 망 ] ━━━━-> [ 서울 DNS 서버 ]   |
+ |                                            (IP: 8.8.8.8)  |
+ |                                                             |
+ |                                            (태평양 해저 케이블)|
+ |                                                단절됨!        |
+ |                                                             |
+ |   [ 미국 유저들 ] ---> [ 미국 AT&T 망 ] ━━━━-> [ 뉴욕 DNS 서버 ]  |
+ |                                            (IP: 8.8.8.8)  |
+ |                                                             |
+ |   -> "태평양 한가운데 해저 케이블에 트래픽이 1바이트도 타지 않는다!"     |
+ |      한국 트래픽은 한국에서, 미국 트래픽은 미국에서 100% 자체 소화됨.  |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 치명적인 단점 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 친화력 0%)
@@ -144,12 +144,12 @@ Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ```text
 [선행 개념: IP SLA]
-    │
-    ▼
+    |
+    v
 [현재 개념: Anycast 라우팅 (BGP Anycast]
-    │
-    ├──▶ [확장 A: 로케이터/ID 분리 구조 (LISP]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: 로케이터/ID 분리 구조 (LISP]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast는 IP SLA에서 출발해 현재 메커니즘을 정교화하고, 이후 로케이터/ID 분리 구조 (LISP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -166,7 +166,7 @@ Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 **진행 상황**: 520 / 1120
 
-← **이전**: [398. IP SLA](/knowledge-base/studynote/03_network/07_network_layer_routing/398_ip_sla_network_performance_monitoring/)
-**다음**: [400. 로케이터/ID 분리 구조 (LISP](/knowledge-base/studynote/03_network/07_network_layer_routing/400_lisp_locator_id_separation_protocol/) →
+<- **이전**: [398. IP SLA](/knowledge-base/studynote/03_network/07_network_layer_routing/398_ip_sla_network_performance_monitoring/)
+**다음**: [400. 로케이터/ID 분리 구조 (LISP](/knowledge-base/studynote/03_network/07_network_layer_routing/400_lisp_locator_id_separation_protocol/) ->
 
 ---

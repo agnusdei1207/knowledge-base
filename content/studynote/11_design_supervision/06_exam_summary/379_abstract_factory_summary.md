@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 패턴 ([Abstract Factory Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/))은 서로 관련 있는 객체 군을 일관된 조합으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 인터페이스를 제공하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이다. 제품군이 함께 바뀌는 UI [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), DB 벤더, 플랫폼별 구현에서 개별 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)만으로는 조합 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지키기 어렵다. 이 개념이 필요한 이유는 제품군 단위의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 서로 맞지 않는 제품 조합이 섞여 런타임 충돌과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 불일치가 생긴다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│  AbsFact   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|  AbsFact   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ AbsFact  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| AbsFact  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 전환 | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 패턴 ([Abstract Factory Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[개별 객체 생성] → [추상 팩토리] → [제품군 스위칭]
+[개별 객체 생성] -> [추상 팩토리] -> [제품군 스위칭]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 패턴 ([Abstract Factory Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/))은 같은 색 연필 세트와 지우개 세트를 한 상자째 바꾸는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 457 / 530
 
-← **이전**: [378. 팩토리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/)
-**다음**: [380. 빌더 패턴 (Builder Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) →
+<- **이전**: [378. 팩토리 메서드 패턴 (Factory Method Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/)
+**다음**: [380. 빌더 패턴 (Builder Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ->
 
 ---

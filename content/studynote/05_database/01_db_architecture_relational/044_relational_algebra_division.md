@@ -58,9 +58,9 @@ tags = ["studynote-database"]
 
 R ÷ S = ?
   각 학번별로 S의 모든 과목코드를 포함하는가?
-  101: C001, C002, C003 ⊇ {C001, C002} → 포함 ✓
-  102: C001, C002 ⊇ {C001, C002} → 포함 ✓
-  103: C001 ⊉ {C001, C002} → 미포함 ✗
+  101: C001, C002, C003 ⊇ {C001, C002} -> 포함 ✓
+  102: C001, C002 ⊇ {C001, C002} -> 포함 ✓
+  103: C001 ⊉ {C001, C002} -> 미포함 ✗
 
   결과:
   학번
@@ -259,8 +259,8 @@ SQL:
   );
 
 실행 계획:
-  Hash Aggregate → Hash Join → Index Scan
-  → 수백만 레코드에서도 수초 내 응답 가능
+  Hash Aggregate -> Hash Join -> Index Scan
+  -> 수백만 레코드에서도 수초 내 응답 가능
 
 응용:
   채용 시스템: 자격증/스킬 전부 보유 지원자
@@ -329,7 +329,7 @@ COUNT vs NOT EXISTS 성능 비교
 
 **진행 상황**: 44 / 600
 
-← **이전**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/knowledge-base/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/)
-**다음**: [045. 관계 해석 — Relational Calculus](/knowledge-base/studynote/05_database/01_db_architecture_relational/045_relational_calculus/) →
+<- **이전**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/knowledge-base/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/)
+**다음**: [045. 관계 해석 — Relational Calculus](/knowledge-base/studynote/05_database/01_db_architecture_relational/045_relational_calculus/) ->
 
 ---

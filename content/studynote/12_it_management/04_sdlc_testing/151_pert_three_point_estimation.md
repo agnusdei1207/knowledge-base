@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PERT(Program Evaluation and [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique)는 R&D처럼 세상에 처음 해보는 일이라 "도대체 며칠 걸릴지 1도 모르겠는 멘붕 늪" 프로젝트에서 ➔ 개발자한테 <strong>낙관치(최단), 최빈치(보통), 비관치(최악) 3개 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/">확률 변수</a>를 강제로 다 토해내게 쥐어짜서 베타 분포(Beta) 수학 믹서기로 갈아버리는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 일정 엑스레이 튜닝기</strong>다.
 > 2. **가치**: "무조건 10일 걸림 ㅋ" 확정 짓던 낡은 결정론적(Deterministic) [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 엑셀 막대기의 치명적 오만함 맹점을 도끼로 찢어발겼다! 3점 추정 수식 `(O + 4M + P) / 6` 을 통해 ➔ 코더의 뇌피셜 희망 사항을 척살하고 가장 현실 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 묵직한 팩트 <strong>기대 시간(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/">Te</a>)</strong>과 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 오차(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 쉴드를 0.1초 만에 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 쳐 산출해 낸다.
-> 3. **판단 포인트**: 기술사 심판대 0순위 타점 🚀!! PERT의 미친 권력은 기대 시간 1개 구하고 끝나는 게 아니다. 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(σ²) 찌꺼기들을 주공정 핏줄 따라 싹 다 더해(Σσ²) 전체 표준편차(σ)를 뽑아낸 뒤 ➔ <strong>정규분포 Z-점수 공식</strong>에 쑤셔 박아 <strong>"사장님! 우리 오픈 런칭일 30일 만에 완벽 타격 성공할 수학적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 팩트는 정확히 97.7% 입니다 쾅!!"</strong> 하고 주총에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven)로 입증 팩폭을 때려버리는 궁극의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 생존 보험이다.
+> 3. **판단 포인트**: 기술사 심판대 0순위 타점 🚀!! PERT의 미친 권력은 기대 시간 1개 구하고 끝나는 게 아니다. 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(σ^) 찌꺼기들을 주공정 핏줄 따라 싹 다 더해(Σσ^) 전체 표준편차(σ)를 뽑아낸 뒤 ➔ <strong>정규분포 Z-점수 공식</strong>에 쑤셔 박아 <strong>"사장님! 우리 오픈 런칭일 30일 만에 완벽 타격 성공할 수학적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 팩트는 정확히 97.7% 입니다 쾅!!"</strong> 하고 주총에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven)로 입증 팩폭을 때려버리는 궁극의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 생존 보험이다.
 
 ---
 
@@ -42,37 +42,37 @@ PERT 마법 텐트는 다릅니다!! 기상청 봇한테 "야! 젤 쪄죽을 때
 PERT의 심장 뼈대는 3점 변수를 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 수학으로 짓눌러 갈아버리는 '베타 분포(Beta Distribution)' 기대치 공식과, 오차 찌꺼기를 합산하는 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))'의 십자 융합에 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          PERT 3점 추정 베타 분포 수학 믹서기 융합 산출 록온 도해 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🎲 [ 1단계: 코더 멱살 잡고 3점 변수 확률 토해내게 강제 압수 징발 ]        │
-│   - To (낙관치 Optimistic) : 2일 (존나 천재 빙의 쾌속 운빨 터짐)         │
-│   - Tm (최빈치 Most Likely): 5일 (평소 걍 대충 맨날 이 정도 걸림)        │
-│   - Tp (비관치 Pessimistic): 14일 (서버 뻗고 연애 깨지고 최악 대재앙 멸망 💀)│
-│                                                             │
-│        ======= [ ✨ 2단계: 아키텍트의 베타 분포 가중 평균 믹서기 발동 쾅! ] ========│
-│                                                             │
-│ 🧠 [ 기대 시간 (Te: Expected Time) 공식 록온 산출 ]                 │
-│   - 공식: Te = (To + 4Tm + Tp) / 6                          │
-│   - 계산: (2 + (4 × 5) + 14) / 6 = 36 / 6 = ★ 6일 팩트 타격 쾅! ★ │
-│   - 아키텍트 극딜 🪓: "야!! 왜 걍 3으로 안 나누고 Tm(최빈치 보통) 새끼한테만 │
-│     가중치 4배 떡칠 폭격을 가하냐고?! 씨발아 현실에서 우주 운빨 터지는 2일이나,│
-│     우주 멸망 타죽는 14일이 터질 확률은 극악이니까 무시 뭉개 억눌러 버리고 ➔ │
-│     제일 현실에서 많이 터지는 [평소 5일] 쪽에 팩트 자석 록온 무개를 꽉 실어줘서 │
-│     가장 확률 높은 6일이라는 찐 기대치 팩트 통계를 쥐어짜 내는 신의 공식 텐트다 🚀!"│
-│                                                             │
-│ 🛡️ [ 분산(σ²)과 표준편차(σ) 오차 찌꺼기 방어막 쉴드 산출 ]              │
-│   - 표준편차 공식 (σ) = (Tp - To) / 6 = (14 - 2) / 6 = ★ 2일 오차 범위! │
-│   - 분산 공식 (σ²)   = 2² = ★ 4 (이 분산 쇳덩이들을 모아야 전체 런칭일 계산 가능!)│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          PERT 3점 추정 베타 분포 수학 믹서기 융합 산출 록온 도해 🚀 |
++-------------------------------------------------------------+
+|                                                             |
+| 🎲 [ 1단계: 코더 멱살 잡고 3점 변수 확률 토해내게 강제 압수 징발 ]        |
+|   - To (낙관치 Optimistic) : 2일 (존나 천재 빙의 쾌속 운빨 터짐)         |
+|   - Tm (최빈치 Most Likely): 5일 (평소 걍 대충 맨날 이 정도 걸림)        |
+|   - Tp (비관치 Pessimistic): 14일 (서버 뻗고 연애 깨지고 최악 대재앙 멸망 💀)|
+|                                                             |
+|        ======= [ ✨ 2단계: 아키텍트의 베타 분포 가중 평균 믹서기 발동 쾅! ] ========|
+|                                                             |
+| 🧠 [ 기대 시간 (Te: Expected Time) 공식 록온 산출 ]                 |
+|   - 공식: Te = (To + 4Tm + Tp) / 6                          |
+|   - 계산: (2 + (4 × 5) + 14) / 6 = 36 / 6 = ★ 6일 팩트 타격 쾅! ★ |
+|   - 아키텍트 극딜 🪓: "야!! 왜 걍 3으로 안 나누고 Tm(최빈치 보통) 새끼한테만 |
+|     가중치 4배 떡칠 폭격을 가하냐고?! 씨발아 현실에서 우주 운빨 터지는 2일이나,|
+|     우주 멸망 타죽는 14일이 터질 확률은 극악이니까 무시 뭉개 억눌러 버리고 ➔ |
+|     제일 현실에서 많이 터지는 [평소 5일] 쪽에 팩트 자석 록온 무개를 꽉 실어줘서 |
+|     가장 확률 높은 6일이라는 찐 기대치 팩트 통계를 쥐어짜 내는 신의 공식 텐트다 🚀!"|
+|                                                             |
+| 🛡️ [ 분산(σ^)과 표준편차(σ) 오차 찌꺼기 방어막 쉴드 산출 ]              |
+|   - 표준편차 공식 (σ) = (Tp - To) / 6 = (14 - 2) / 6 = ★ 2일 오차 범위! |
+|   - 분산 공식 (σ^)   = 2^ = ★ 4 (이 분산 쇳덩이들을 모아야 전체 런칭일 계산 가능!)|
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">아키텍트의 피 터지는 [정규 분포</a> Z-점수 (Z-Score) 런칭 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 록온 마법 ✨]</strong>
 "오케이 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 6일 걸리는 거 구했음 ㅋ 끝남 데헷 ㅋ" 주니어 뇌 정지 파국 💥!!
 PERT의 진짜 미친 권력 우주 폭격은 여기서 시작이다!!
 1. 아키텍트 대장 왈: "야!! 주공정(Critical Path 최장 병목 핏줄) 선상에 있는 노드 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들 기대 시간([Te](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)) 싹 다 긁어 더해! ➔ **프로젝트 총 기대 런칭 완료일(ΣTe) 30일 도출 쾅!!**"
-2. "야!! 그 주공정 놈들 뱃속에 있는 [분산(σ²) 쓰레기 찌꺼기 쇳덩이] 들도 빠짐없이 싹 다 긁어모아 더해(Σσ²)!! ➔ 그리고 거기 루트(√) 씌워!! ➔ **프로젝트 총 표준편차 오차 쉴드(σ) 3일 도출 쾅!!!**"
+2. "야!! 그 주공정 놈들 뱃속에 있는 [분산(σ^) 쓰레기 찌꺼기 쇳덩이] 들도 빠짐없이 싹 다 긁어모아 더해(Σσ^)!! ➔ 그리고 거기 루트(√) 씌워!! ➔ **프로젝트 총 표준편차 오차 쉴드(σ) 3일 도출 쾅!!!**"
 3. 사장님이 총구 들이대며 묻는다: "야 36일 안에 런칭 무조건 성공할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 몇 퍼야 대답해 💀!!"
 4. <strong>아키텍트 Z-점수 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 변환 포격 🚀</strong>: "오케이 사장님! <strong>Z = (목표일 36일 - 우리 통계 기대치 30일) / (우주 오차 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 3일) = 2.0 쾅!!!</strong>
 통계 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)표 엑셀 스캔 0.1초 컷 스키 타!! Z점수 2.0 매핑 팩트는 **★ 97.7% ★** 다 쾅!!! 사장님 36일 안에 프로젝트 완벽 무결점 런칭 쾌속 질주 달성할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 수학적 100% 팩트 증명 97.7% 입니다 우주 쉴드 텐트 생존 록온 완료 🚀!!!"
@@ -156,17 +156,17 @@ PERT(Program Evaluation and [Review](/knowledge-base/studynote/04_software_engin
 
 ```text
 간트 차트 (Gantt Chart 1910s) 막대기 엑셀 떡칠 / 걍 막대기로 언제부터 언제까지 일할지 그려놈. 근데 A 밀리면 B 밀리는 의존성(Dependency 핏줄) 표현 불가능 멍청 뻗음 한계 💥
-    │
-    ▼
+    |
+    v
 CPM 탄생 대관식 🚀 (1950s 듀폰 화학 공장) / 태스크 간의 끈적한 선후 관계 그물망 핏줄(AON 네트워크) 락킹 ➔ 수학적 전진/후진 스캔 핑퐁으로 여유 0짜리 주공정(병목) 1초 컷 색출 쉴드 락킹! (근데 무조건 일정 고정 쇳덩이 1점 추정 한계 💀)
-    │
-    ▼
+    |
+    v
 PERT (미 해군 미사일 잠수함 R&D) 십자 융합 ✨ / CPM의 치명적 맹점(고정 시간 확신 뇌피셜의 파국)을 확률 통계 [3점 추정 믹서기]로 부수고 보완 쳐서 불확실성 리스크(Variance)를 통계 압살 척살해 낸 [PERT/CPM 쌍끌이 우주 무적 생태계 대통일 달성 쾅!!]
-    │
-    ▼
+    |
+    v
 CCPM (크리티컬 체인 골드랫 심리 튜닝) 진화 / 인간 코더들의 학생 증후군(마감 전 벼락치기 버그 폭주 💥) 본성을 해킹 도끼로 찢기 ➔ 개인 버퍼 시간 싹 다 압수 소각 쳐서 프로젝트 끝단 1통짜리 거대 공용 댐(Project Buffer)으로 융합 강제 이식 스위칭 오프로딩 쾌속 돌파 🚀
-    │
-    ▼
+    |
+    v
 모던 Agile 애자일 플래닝 포커(Planning Poker) 클라우드 융합 (현재) / 무거운 엑셀 폭포수 도면 싹 다 불태워 찢어 폐기 치고! 팀원 10명이 모여 각자 뇌피셜 일정 카드(스토리 포인트) 툭 던진 다음 ➔ 평균값 타협 핑퐁 쳐서 2주짜리 단기 스프린트(Sprint) 미니 쾌속 런칭 스피드전으로 PERT의 본질 DNA 영혼 100% 완벽 계승 빙의 생존 록온 완료 ✨
 ```
 
@@ -182,7 +182,7 @@ CCPM (크리티컬 체인 골드랫 심리 튜닝) 진화 / 인간 코더들의 
 
 **진행 상황**: 265 / 587
 
-← **이전**: [150. CPM (Critical Path Method, 주공정법)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)
-**다음**: [152. EVM (Earned Value Management, 획득 가치 관리) - 3차원 비용/일정 엑스레이 스캐너](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) →
+<- **이전**: [150. CPM (Critical Path Method, 주공정법)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)
+**다음**: [152. EVM (Earned Value Management, 획득 가치 관리) - 3차원 비용/일정 엑스레이 스캐너](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ->
 
 ---

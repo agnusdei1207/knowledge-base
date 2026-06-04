@@ -28,16 +28,16 @@ tags = ["cloud_architecture"]
 아래 다이어그램은 엣지 단말기들의 파편화를 포그 노드가 어떻게 중간에서 조율하고 통합하는지 배경 한계를 도식화한 것이다.
 
 ```text
-┌────────────── 기존 클라우드-엣지 이분법의 한계 ───────────────┐
-│ [Sensor A / 센서 A] ──> │                               │          │
-│ [Sensor B / 센서 B] ──> │ 개별 엣지는 서로 상황을 모름     │──> Cloud │
-│ [Sensor C / 센서 C] ──> │ 국지적 협업 제어 불가          │          │
-├────────────── 포그 컴퓨팅 (Fog Computing) 도입 ───────────────┤
-│ [Sensor A / 센서 A] ─┐                                             │
-│ [Sensor B / 센서 B] ─┼─> [Fog Node (LAN Router/Switch)] ──> Cloud │
-│ [Sensor C / 센서 C] ─┘      (공장 내 센서 연동 통합 분석)                  │
-│                    (수 밀리초 내 로컬 집단 피드백 지시)           │
-└─────────────────────────────────────────────────────────┘
++-------------- 기존 클라우드-엣지 이분법의 한계 ---------------+
+| [Sensor A / 센서 A] --> |                               |          |
+| [Sensor B / 센서 B] --> | 개별 엣지는 서로 상황을 모름     |--> Cloud |
+| [Sensor C / 센서 C] --> | 국지적 협업 제어 불가          |          |
++-------------- 포그 컴퓨팅 (Fog Computing) 도입 ---------------+
+| [Sensor A / 센서 A] -+                                             |
+| [Sensor B / 센서 B] -+-> [Fog Node (LAN Router/Switch)] --> Cloud |
+| [Sensor C / 센서 C] -+      (공장 내 센서 연동 통합 분석)                  |
+|                    (수 밀리초 내 로컬 집단 피드백 지시)           |
++---------------------------------------------------------+
 ```
 
 이 아키텍처의 핵심은 <strong>상황 인식(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Awareness)의 범위 확장</strong>이다. 단일 온도 센서(Edge)는 온도가 올랐다는 것만 알지만, 이를 모아주는 포그 노드는 온도 센서와 컨베이어 벨트 진동 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 분석해 화재 위험을 인지하고 전체 라인의 전원을 차단하는 광역 조치를 즉각 실행할 수 있다. 실무적으로 포그는 디바이스 간의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신 부하를 줄여주는 완충 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 완벽히 수행한다.
@@ -64,19 +64,19 @@ tags = ["cloud_architecture"]
 
 ```text
 [Local IoT Devices (LAN)]
-      │ (Modbus, Zigbee, BLE)
-      ▼
-┌──────────────── Fog Node (Edge Router/Gateway) ─────────────────┐
-│ [Protocol Translator / 프로토콜 변환기] (다양한 이기종 통신 언어 통합)               │
-│         ↓                                                       │
-│ [Rule Engine & Analytics]                                       │
-│  ├─ Hot Data (이상 고열)  ──> [Local Actuator / 로컬 액추에이터] 즉시 차단 제어신호 │
-│  └─ Cold Data (일반 로그) ──> [Transient Cache Buffer / 임시 캐시] 적재    │
-│         ↓                                                       │
-│ [Network Function Virtualization (NFV) Firewall / DPI]          │
-└───────────────────────┬─────────────────────────────────────────┘
-                        │ (TCP/IP 보안 터널링)
-                        ▼
+      | (Modbus, Zigbee, BLE)
+      v
++---------------- Fog Node (Edge Router/Gateway) -----------------+
+| [Protocol Translator / 프로토콜 변환기] (다양한 이기종 통신 언어 통합)               |
+|         v                                                       |
+| [Rule Engine & Analytics]                                       |
+|  +- Hot Data (이상 고열)  --> [Local Actuator / 로컬 액추에이터] 즉시 차단 제어신호 |
+|  +- Cold Data (일반 로그) --> [Transient Cache Buffer / 임시 캐시] 적재    |
+|         v                                                       |
+| [Network Function Virtualization (NFV) Firewall / DPI]          |
++-----------------------+-----------------------------------------+
+                        | (TCP/IP 보안 터널링)
+                        v
             [Central Cloud Storage / 중앙 스토리지]
 ```
 
@@ -92,15 +92,15 @@ tags = ["cloud_architecture"]
 
 #### 클라우드 vs 포그 vs 엣지 기술 비교표
 
-┌──────────┬───────────────┬────────────────┬──────────────────┐
-│ 항목     │ [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)│ [Fog Computing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)  │ [Cloud Computing](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)  │
-├──────────┼───────────────┼────────────────┼──────────────────┤
-│ 위치     │ 디바이스 내부/인접│ 로컬 네트워크 (LAN) │ 원격 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)    │
-│ 초점     │ 디바이스의 자체 연산│ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 및 통합 │ 대규모 저장 및 심층 연산│
-│ 통신 범위│ 1:1 (기기-서버)  │ M:1 (다수 기기-포그) │ N:M (글로벌 스케일) │
-│ 주요 장비│ 단말기 칩셋, MCU│ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) │ 랙 서버, 메가 스토리지│
-│ 아키텍처 │ 디바이스 종속적 │ 네트워크 인프라 종속적│ [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버 종속적 │
-└──────────┴───────────────┴────────────────┴──────────────────┘
++----------+---------------+----------------+------------------+
+| 항목     | [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)| [Fog Computing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)  | [Cloud Computing](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)  |
++----------+---------------+----------------+------------------+
+| 위치     | 디바이스 내부/인접| 로컬 네트워크 (LAN) | 원격 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)    |
+| 초점     | 디바이스의 자체 연산| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 및 통합 | 대규모 저장 및 심층 연산|
+| 통신 범위| 1:1 (기기-서버)  | M:1 (다수 기기-포그) | N:M (글로벌 스케일) |
+| 주요 장비| 단말기 칩셋, MCU| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) | 랙 서버, 메가 스토리지|
+| 아키텍처 | 디바이스 종속적 | 네트워크 인프라 종속적| [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버 종속적 |
++----------+---------------+----------------+------------------+
 
 이 비교 모델에서 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)의 본질은 <strong>"컴퓨팅이 네트워크 장비 안으로 들어왔다"</strong>는 점이다. 엣지가 개별 하드웨어 기기의 성능을 높이는 방향이라면, 포그는 여러 기기를 묶는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 자체를 똑똑하게 만들어 LAN 단위의 군집 지능을 달성하는 네트워킹 중심의 철학이다.
 
@@ -123,16 +123,16 @@ tags = ["cloud_architecture"]
 
 ```text
 [스마트 팩토리/시티 다중 센서 인프라 구축]
-         │
+         |
 [단일 기기의 독립적 제어만으로 충분한가?]
- ├─ (Yes) ──> [순수 엣지(Edge) 기반 디바이스 자체 처리 아키텍처 채택]
- │
- └─ (No: 여러 기기의 데이터를 취합해야만 의미 있는 결론이 나오는가?]
-              ├─ (No) ──> [중앙 Cloud Data Lake로 전체 전송 및 배치 분석]
-              │
-              └─ (Yes) ──> [데이터를 모으는 스위치/공유기 단에 연산 탑재 (Fog Node 배치)]
-                           ├─ 이기종(Zigbee/IP) 프로토콜 변환 모듈 활성화
-                           └─ 단기 버퍼 메모리를 통한 로컬 구간 협업 제어 로직 적용
+ +- (Yes) --> [순수 엣지(Edge) 기반 디바이스 자체 처리 아키텍처 채택]
+ |
+ +- (No: 여러 기기의 데이터를 취합해야만 의미 있는 결론이 나오는가?]
+              +- (No) --> [중앙 Cloud Data Lake로 전체 전송 및 배치 분석]
+              |
+              +- (Yes) --> [데이터를 모으는 스위치/공유기 단에 연산 탑재 (Fog Node 배치)]
+                           +- 이기종(Zigbee/IP) 프로토콜 변환 모듈 활성화
+                           +- 단기 버퍼 메모리를 통한 로컬 구간 협업 제어 로직 적용
 ```
 
 이 플로우는 다수의 컴포넌트가 '지역적인 상호 작용'을 일으킬 때 포그 아키텍처가 유일한 해답이 됨을 보여준다. 모든 것을 엣지(너무 좁음)나 클라우드(너무 멈)로 밀어버리지 않고, 적절한 중간 기착지를 만들어 네트워크 파이프라인의 오버헤드를 줄이는 아키텍트적 균형 감각이 요구된다.
@@ -169,17 +169,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [클라우드 컴퓨팅 (Cloud Computing) — 중앙 집중 처리, IoT 지연 문제 대두]
-    │
-    ▼
+    |
+    v
 [엣지 컴퓨팅 (Edge Computing) — 데이터 발생 지점 근처 처리로 지연 최소화]
-    │
-    ▼
+    |
+    v
 [포그 컴퓨팅 (Fog Computing) — 엣지와 클라우드 사이 중간 계층 분산 처리]
-    │
-    ▼
+    |
+    v
 [다계층 오프로딩 (Multi-tier Offloading) — 엣지·포그·클라우드 역할 분담 최적화]
-    │
-    ▼
+    |
+    v
 [MEC (Mobile Edge Computing) — 5G 기지국 내 포그 서버, 초저지연 서비스]
 ```
 
@@ -196,7 +196,7 @@ tags = ["cloud_architecture"]
 
 **진행 상황**: 12 / 371
 
-← **이전**: [12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/012_edge_computing/)
-**다음**: [14. 멀티 테넌시 (Multi-Tenancy) - 하나의 소프트웨어/인스턴스가 여러 고객(Tenant)에게 독립적으로 서비스되도록 논리적](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) →
+<- **이전**: [12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연,](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/012_edge_computing/)
+**다음**: [14. 멀티 테넌시 (Multi-Tenancy) - 하나의 소프트웨어/인스턴스가 여러 고객(Tenant)에게 독립적으로 서비스되도록 논리적](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) ->
 
 ---

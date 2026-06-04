@@ -20,11 +20,11 @@ tags = ["studynote-database"]
 
 ```text
 ROW_NUMBER() OVER (PARTITION BY dept ORDER BY sal DESC)
-  → 부서별로 급여 높은 순 번호
+  -> 부서별로 급여 높은 순 번호
 SUM(sal) OVER (PARTITION BY dept)
-  → 부서별 전체 합계 (정렬 없음)
+  -> 부서별 전체 합계 (정렬 없음)
 SUM(sal) OVER (PARTITION BY dept ORDER BY id)
-  → 부서별 누적 합계 (정렬 있음)
+  -> 부서별 누적 합계 (정렬 있음)
 ```
 
 - **📢 섹션 요약 비유**: [PARTITION](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) BY는 **반 나누기**, ORDER BY는 <strong>석차 정하기</strong>이다. 반(부서)별로 석차(순위)를 매긴다.
@@ -50,9 +50,9 @@ SUM(sal) OVER (PARTITION BY dept ORDER BY id)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[GROUP BY (그룹 축소)] → [PARTITION BY (행 유지)]
-    → [ORDER BY + Frame (세밀 제어)]
-    → [현재: Named Window (SQL:2019)]
+[GROUP BY (그룹 축소)] -> [PARTITION BY (행 유지)]
+    -> [ORDER BY + Frame (세밀 제어)]
+    -> [현재: Named Window (SQL:2019)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ SUM(sal) OVER (PARTITION BY dept ORDER BY id)
 
 **진행 상황**: 146 / 600
 
-← **이전**: [145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합](/knowledge-base/studynote/05_database/03_relational_model/145_sql_window_function_analytics/)
-**다음**: [147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/) →
+<- **이전**: [145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합](/knowledge-base/studynote/05_database/03_relational_model/145_sql_window_function_analytics/)
+**다음**: [147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/) ->
 
 ---

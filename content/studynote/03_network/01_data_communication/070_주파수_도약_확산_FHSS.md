@@ -32,9 +32,9 @@ tags = ["network"]
 
 ```text
 Carrier Frequency
-  ↓ hop pattern
+  v hop pattern
 Frequency Hop
-  ↓
+  v
 Spread Transmission
 ```
 
@@ -105,11 +105,11 @@ FHSS는 재밍과 간섭을 줄이는 데 유리하다. 그래서 무선 신뢰�
 
 ```text
 Hop Pattern
-  ↓
+  v
 FHSS
-  ↓
+  v
 Synchronization
-  ↓
+  v
 Anti-jamming
 ```
 
@@ -119,11 +119,11 @@ Anti-jamming
 
 ```text
 Spread Spectrum
-  ↓
+  v
 FHSS
-  ↓
+  v
 Bluetooth
-  ↓
+  v
 Wireless Robustness
 ```
 
@@ -141,7 +141,7 @@ FHSS는 그런 통신 방법이에요.
 
 **진행 상황**: 70 / 1120
 
-← **이전**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/knowledge-base/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/)
-**다음**: [71. 다중화 (Multiplexing) 개념 및 특징](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) →
+<- **이전**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/knowledge-base/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/)
+**다음**: [71. 다중화 (Multiplexing) 개념 및 특징](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) ->
 
 ---

@@ -30,7 +30,7 @@ tags = ["it_management"]
 
 ```text
 Start with numbers
-  ↓ eliminate multiples
+  v eliminate multiples
 Primes remain
 ```
 
@@ -100,11 +100,11 @@ Primes remain
 
 ```text
 Numbers
-  ↓
+  v
 Sieve
-  ↓
+  v
 Primes
-  ↓
+  v
 Number Theory
 ```
 
@@ -114,9 +114,9 @@ Number Theory
 
 ```text
 Prime Search
-  ↓
+  v
 Sieve
-  ↓
+  v
 Efficient Filtering
 ```
 
@@ -134,7 +134,7 @@ Efficient Filtering
 
 **진행 상황**: 128 / 587
 
-← **이전**: [72. 서비스 데스크 (Service Desk)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)
-**다음**: [73. 골드바흐 추측 (Goldbach's Conjecture)](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_goldbach_conjecture/) →
+<- **이전**: [72. 서비스 데스크 (Service Desk)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)
+**다음**: [73. 골드바흐 추측 (Goldbach's Conjecture)](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_goldbach_conjecture/) ->
 
 ---

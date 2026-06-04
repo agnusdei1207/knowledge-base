@@ -36,14 +36,14 @@ SHA-3의 내부 상태는 1600비트이며, `rate + capacity = 1600` 관계를 �
 아래 그림은 스펀지 구조와 순열 코어가 어떻게 연결되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ msg block -> pad10*1 -> XOR into rate bits -> state[1600]                 │
-│                                              │                             │
-│                                              ▼                             │
-│                    theta -> rho -> pi -> chi -> iota   (24 rounds)        │
-│                                              │                             │
-│                                              └──> squeeze r bits -> digest │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| msg block -> pad10*1 -> XOR into rate bits -> state[1600]                 |
+|                                              |                             |
+|                                              v                             |
+|                    theta -> rho -> pi -> chi -> iota   (24 rounds)        |
+|                                              |                             |
+|                                              +--> squeeze r bits -> digest |
++----------------------------------------------------------------------------+
 ```
 
 | 단계 | 역할 | 하드웨어 관점의 포인트 |
@@ -135,20 +135,20 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 
 ```text
 Merkle-Damgård 해시 시대
-        │
-        ▼
+        |
+        v
 Keccak 스펀지 구조 제안
-        │
-        ▼
+        |
+        v
 SHA-3 표준화
-        │
-        ▼
+        |
+        v
 SHA3-256/512 · SHAKE · KMAC 공용 코어
-        │
-        ▼
+        |
+        v
 언롤드 · 파이프라인 보안 가속기
-        │
-        ▼
+        |
+        v
 PQC 대응형 보안 SoC
 ```
 
@@ -166,7 +166,7 @@ PQC 대응형 보안 SoC
 
 **진행 상황**: 610 / 803
 
-← **이전**: [609. 단일 이벤트 래치업 (SEL, Single Event Latchup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/609_single_event_latchup/)
-**다음**: [611. 분산 산술 (Distributed Arithmetic) 매크로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/611_distributed_arithmetic/) →
+<- **이전**: [609. 단일 이벤트 래치업 (SEL, Single Event Latchup)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/609_single_event_latchup/)
+**다음**: [611. 분산 산술 (Distributed Arithmetic) 매크로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/611_distributed_arithmetic/) ->
 
 ---

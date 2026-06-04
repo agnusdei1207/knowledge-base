@@ -10,7 +10,7 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: IE(Information 엔진ering)는 <strong>기업 전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중심으로 정보 시스템을 체계적으로 개발</strong>하는 방법론으로, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(정보전략계획)→BAA(업무영역분석)→BSD(시스템 설계)→SC(구축)의 4단계로 구성된다.
+> 1. **본질**: IE(Information 엔진ering)는 <strong>기업 전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중심으로 정보 시스템을 체계적으로 개발</strong>하는 방법론으로, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(정보전략계획)->BAA(업무영역분석)->BSD(시스템 설계)->SC(구축)의 4단계로 구성된다.
 > 2. **가치**: 프로세스 중심 개발은 시스템마다 독립적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 설계하여 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중복·불일치</strong>가 발생하지만, IE는 <strong>전사 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>을 먼저 수립</strong>하여 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장한다.
 > 3. **판단 포인트**: IE는 James Martin(1981)이 제안했으며, 구조적 방법론과 달리 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(What)를 프로세스(How)보다 우선</strong>시한다. ERD·CRUD 매트릭스가 핵심 산출물이다.
 
@@ -19,21 +19,21 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    IE 4단계                                           │
-├───────────────────────────────────────────────────────┤
-│  1단계: ISP (정보전략계획)                            │
-│   → 전사 데이터 모델·업무 기능 정의                  │
-│  2단계: BAA (업무영역분석)                            │
-│   → 엔터티·관계·프로세스 상세 분석                   │
-│  3단계: BSD (시스템 설계)                              │
-│   → 논리·물리 데이터 모델·프로그램 설계              │
-│  4단계: SC (시스템 구축)                               │
-│   → 코딩·테스트·이행                                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    IE 4단계                                           |
++-------------------------------------------------------+
+|  1단계: ISP (정보전략계획)                            |
+|   -> 전사 데이터 모델·업무 기능 정의                  |
+|  2단계: BAA (업무영역분석)                            |
+|   -> 엔터티·관계·프로세스 상세 분석                   |
+|  3단계: BSD (시스템 설계)                              |
+|   -> 논리·물리 데이터 모델·프로그램 설계              |
+|  4단계: SC (시스템 구축)                               |
+|   -> 코딩·테스트·이행                                 |
++-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: IE는 도시 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))→구역 설계(BAA)→건물 설계(BSD)→시공(SC)처럼 <strong>큰 그림(전사)에서 세부(시스템)</strong>로 내려가는 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 접근이다.
+- **📢 섹션 요약 비유**: IE는 도시 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))->구역 설계(BAA)->건물 설계(BSD)->시공(SC)처럼 <strong>큰 그림(전사)에서 세부(시스템)</strong>로 내려가는 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 접근이다.
 
 ---
 
@@ -90,17 +90,17 @@ IE는 <strong>전사 <a href="/knowledge-base/studynote/12_it_management/03_ea_i
 
 ```text
 [구조적 방법론 (DFD, 1970s)]
-    │
-    ▼
+    |
+    v
 [정보공학 (IE, James Martin, 1981) — 데이터 중심]
-    │
-    ▼
+    |
+    v
 [객체지향 (UML, 1990s)]
-    │
-    ▼
+    |
+    v
 [Agile + DDD (2000s~)]
-    │
-    ▼
+    |
+    v
 [현재: 데이터 아키텍처 + 데이터 메시 — IE의 진화]
 ```
 
@@ -115,7 +115,7 @@ IE는 <strong>전사 <a href="/knowledge-base/studynote/12_it_management/03_ea_i
 
 **진행 상황**: 127 / 600
 
-← **이전**: [126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)
-**다음**: [128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)](/knowledge-base/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/) →
+<- **이전**: [126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)
+**다음**: [128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)](/knowledge-base/studynote/05_database/02_modeling_normalization/128_logical_data_independence_view/) ->
 
 ---

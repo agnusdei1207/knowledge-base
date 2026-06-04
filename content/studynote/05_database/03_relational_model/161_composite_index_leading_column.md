@@ -25,7 +25,7 @@ tags = ["studynote-database"]
 
 반대로 이런 준비가 없으면 조회는 느려지고, 정렬과 필터링을 메모리에서 다시 해야 하며, 결과적으로 응답시간과 서버 부하가 함께 증가한다. 따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "컬럼을 많이 묶는 기술"이 아니라, <strong>자주 사용하는 검색 패턴을 물리 구조로 고정하는 기술</strong>로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 도서관에서 책을 "분야 → 저자 → 연도" 순서로 정리한 안내표와 같다. 손님이 이 순서대로 물으면 바로 찾지만, 첫 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 빼고 중간 정보만 말하면 안내표의 힘이 크게 줄어든다.
+- **📢 섹션 요약 비유**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 도서관에서 책을 "분야 -> 저자 -> 연도" 순서로 정리한 안내표와 같다. 손님이 이 순서대로 물으면 바로 찾지만, 첫 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 빼고 중간 정보만 말하면 안내표의 힘이 크게 줄어든다.
 
 ---
 
@@ -36,22 +36,22 @@ tags = ["studynote-database"]
 아래 그림은 선행 컬럼 규칙이 왜 중요한지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│           결합 인덱스의 정렬 순서와 선행 컬럼 규칙                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Index definition: (department, grade, hire_date)                  │
-│                                                                    │
-│ department='영업'                                                  │
-│    └─ grade='대리'                                                 │
-│        └─ hire_date BETWEEN '2026-01-01' AND '2026-01-31'         │
-│           -> 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능        │
-│                                                                    │
-│ grade='대리' only                                                   │
-│    -> department 경계가 없어 여러 묶음을 동시에 뒤져야 함          │
-│                                                                    │
-│ 핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면            │
-│      탐색 시작점이 흐려진다                                         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|           결합 인덱스의 정렬 순서와 선행 컬럼 규칙                 |
++--------------------------------------------------------------------+
+| Index definition: (department, grade, hire_date)                  |
+|                                                                    |
+| department='영업'                                                  |
+|    +- grade='대리'                                                 |
+|        +- hire_date BETWEEN '2026-01-01' AND '2026-01-31'         |
+|           -> 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능        |
+|                                                                    |
+| grade='대리' only                                                   |
+|    -> department 경계가 없어 여러 묶음을 동시에 뒤져야 함          |
+|                                                                    |
+| 핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면            |
+|      탐색 시작점이 흐려진다                                         |
++--------------------------------------------------------------------+
 ```
 
 이 구조 때문에 컬럼 순서는 보통 **동등 조건을 먼저, 범위 조건을 뒤로** 배치하는 것이 유리하다. `=` 조건은 탐색 범위를 강하게 줄여 주지만, `BETWEEN`, `<`, `LIKE 'A%'` 같은 범위 조건은 그 시점부터 스캔 구간을 넓힌다. 그래서 범위 조건 컬럼이 너무 앞에 오면 뒤 컬럼의 정밀한 탐색 효과가 약해질 수 있다.
@@ -139,21 +139,21 @@ tags = ["studynote-database"]
 
 ```text
 단일 컬럼 검색 최적화
-    │
-    ▼
+    |
+    v
 결합 인덱스 (Composite Index)
-    │
-    ▼
+    |
+    v
 선행 컬럼 (Leading Column) · Range Scan
-    │
-    ▼
+    |
+    v
 ORDER BY 최적화 · 커버링 인덱스
-    │
-    ▼
+    |
+    v
 실행 계획 기반 인덱스 튜닝
 ```
 
-이 흐름은 "단일 검색 → 다중 조건 → 순서 규칙 → 추가 최적화 → 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 이해가 확장되는 과정을 보여준다.
+이 흐름은 "단일 검색 -> 다중 조건 -> 순서 규칙 -> 추가 최적화 -> 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 이해가 확장되는 과정을 보여준다.
 
 ### 👶 어린이 비유 설명
 
@@ -167,7 +167,7 @@ ORDER BY 최적화 · 커버링 인덱스
 
 **진행 상황**: 161 / 600
 
-← **이전**: [160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개](/knowledge-base/studynote/05_database/03_relational_model/160_non_clustered_index_secondary/)
-**다음**: [162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱](/knowledge-base/studynote/05_database/03_relational_model/162_fbi_function_based_index/) →
+<- **이전**: [160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개](/knowledge-base/studynote/05_database/03_relational_model/160_non_clustered_index_secondary/)
+**다음**: [162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱](/knowledge-base/studynote/05_database/03_relational_model/162_fbi_function_based_index/) ->
 
 ---

@@ -26,16 +26,16 @@ tags = ["studynote-it-management"]
 아래 그림은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P가 보는 범위를 단순 기술 통제보다 넓게 잡는 이유를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why ISMS-P is broader than point security controls                   │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Point control                 │ Management system                    │
-│ - firewall                    │ - scope and asset inventory          │
-│ - encryption                  │ - risk assessment                    │
-│ - access setting              │ - operational evidence               │
-│ - patching                    │ - privacy lifecycle control          │
-│                               │ - audit and corrective action        │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why ISMS-P is broader than point security controls                   |
++-------------------------------+--------------------------------------+
+| Point control                 | Management system                    |
+| - firewall                    | - scope and asset inventory          |
+| - encryption                  | - risk assessment                    |
+| - access setting              | - operational evidence               |
+| - patching                    | - privacy lifecycle control          |
+|                               | - audit and corrective action        |
++-------------------------------+--------------------------------------+
 ```
 
 따라서 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 보안 제품 목록을 자랑하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 아니다. 범위 안의 조직, 인력, 시스템, 프로세스, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 흐름을 하나의 관리 사이클로 묶어 "지속적으로 점검되는 상태"를 만들도록 요구하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다.
@@ -57,22 +57,22 @@ tags = ["studynote-it-management"]
 아래 그림은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 운영 루프를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ ISMS-P operating loop                                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Scope & asset inventory                                              │
-│        │                                                             │
-│        ▼                                                             │
-│ Risk assessment -> control design -> operation & evidence            │
-│        │                                   │                         │
-│        └────────────── audit / monitoring ─┘                         │
-│                              │                                       │
-│                              ▼                                       │
-│                    corrective action & improvement                   │
-│                                                                      │
-│ Personal data lifecycle overlays all steps                           │
-│ collect -> use -> provide / entrust -> retain -> destroy             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| ISMS-P operating loop                                                |
++----------------------------------------------------------------------+
+| Scope & asset inventory                                              |
+|        |                                                             |
+|        v                                                             |
+| Risk assessment -> control design -> operation & evidence            |
+|        |                                   |                         |
+|        +-------------- audit / monitoring -+                         |
+|                              |                                       |
+|                              v                                       |
+|                    corrective action & improvement                   |
+|                                                                      |
+| Personal data lifecycle overlays all steps                           |
+| collect -> use -> provide / entrust -> retain -> destroy             |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 증적 기반 운영이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서만 있으면 되는 것이 아니라, 접근권한 승인 기록, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 점검 결과, 교육 이수, 위탁 계약, 파기 이력, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 훈련 같은 "운영 흔적"이 있어야 한다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관은 보통 문서와 인터뷰, 현장 확인을 함께 통해 이 체계가 실제로 작동하는지 본다.
@@ -154,24 +154,24 @@ tags = ["studynote-it-management"]
 
 ```text
 Business service definition
-        │
-        ▼
+        |
+        v
 Scope / asset / personal data mapping
-        │
-        ▼
+        |
+        v
 Risk assessment
-        │
-        ▼
+        |
+        v
 Security & privacy controls
-        │
-        ▼
+        |
+        v
 Operation evidence + audit
-        │
-        ▼
+        |
+        v
 Certification / surveillance / improvement
 ```
 
-이 흐름은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P가 "범위 정의 → 위험평가 → 통제 적용 → 증적 운영 → 심사와 개선"으로 돌아가는 관리체계임을 보여 준다.
+이 흐름은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P가 "범위 정의 -> 위험평가 -> 통제 적용 -> 증적 운영 -> 심사와 개선"으로 돌아가는 관리체계임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +185,7 @@ Certification / surveillance / improvement
 
 **진행 상황**: 285 / 587
 
-← **이전**: [170. 조달 계약 방식 (Procurement Contract Types)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/170_procurement_contract_types/)
-**다음**: [172. ISO/IEC 27001 (글로벌 정보보안 경영시스템 국제 표준 인증)](/knowledge-base/studynote/12_it_management/05_security_compliance/172_iso_iec_27001_standard/) →
+<- **이전**: [170. 조달 계약 방식 (Procurement Contract Types)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/170_procurement_contract_types/)
+**다음**: [172. ISO/IEC 27001 (글로벌 정보보안 경영시스템 국제 표준 인증)](/knowledge-base/studynote/12_it_management/05_security_compliance/172_iso_iec_27001_standard/) ->
 
 ---

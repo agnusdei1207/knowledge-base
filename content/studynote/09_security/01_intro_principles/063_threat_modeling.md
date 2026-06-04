@@ -31,15 +31,15 @@ tags = ["studynote-security"]
 
 ```text
 Assets
-  ↓
+  v
 Data Flow Diagram
-  ↓
+  v
 Trust Boundaries
-  ↓
+  v
 Threat Identification
-  ↓
+  v
 Risk Prioritization
-  ↓
+  v
 Mitigation
 ```
 
@@ -115,11 +115,11 @@ Mitigation
 
 ```text
 Assets
-  ↓
+  v
 Threat Modeling
-  ↓
+  v
 STRIDE / DREAD
-  ↓
+  v
 Mitigation Plan
 ```
 
@@ -129,11 +129,11 @@ Mitigation Plan
 
 ```text
 DFD
-  ↓
+  v
 Trust Boundary
-  ↓
+  v
 Threat Modeling
-  ↓
+  v
 Secure Design
 ```
 
@@ -151,7 +151,7 @@ Secure Design
 
 **진행 상황**: 63 / 1108
 
-← **이전**: [62. 시큐어 코딩 (Secure Coding)](/knowledge-base/studynote/09_security/01_intro_principles/062_secure_coding/)
-**다음**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/) →
+<- **이전**: [62. 시큐어 코딩 (Secure Coding)](/knowledge-base/studynote/09_security/01_intro_principles/062_secure_coding/)
+**다음**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/) ->
 
 ---

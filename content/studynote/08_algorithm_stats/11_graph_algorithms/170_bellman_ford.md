@@ -28,15 +28,15 @@ tags = ["studynote-algorithm"]
 아래 그림은 왜 반복이 필요한지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         One more pass means shortest paths with one more edge        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Pass 0 : only source is known                                        │
-│ Pass 1 : shortest paths using <= 1 edge become correct               │
-│ Pass 2 : shortest paths using <= 2 edges become correct               │
-│ ...                                                                  │
-│ Pass V-1 : all simple shortest paths are covered                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|         One more pass means shortest paths with one more edge        |
++----------------------------------------------------------------------+
+| Pass 0 : only source is known                                        |
+| Pass 1 : shortest paths using <= 1 edge become correct               |
+| Pass 2 : shortest paths using <= 2 edges become correct               |
+| ...                                                                  |
+| Pass V-1 : all simple shortest paths are covered                     |
++----------------------------------------------------------------------+
 ```
 
 즉 벨만-포드는 "지금 가장 짧아 보이는 길"을 믿기보다, <strong>경로 길이가 늘어날수록 더 좋은 해가 뒤늦게 나타날 수 있다</strong>는 가능성을 끝까지 열어 둔다. 느리지만 음수 세계에서 안전한 이유가 여기에 있다.
@@ -59,22 +59,22 @@ tags = ["studynote-algorithm"]
 아래 상태도는 벨만-포드의 계산 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Bellman-Ford relaxation workflow                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Init dist[source]=0, others=INF                                     │
-│        │                                                             │
-│        ▼                                                             │
-│ Repeat V-1 times: for every edge (u,v,w)                            │
-│        │                                                             │
-│        ├─ if dist[u] + w < dist[v] -> update dist[v]                │
-│        └─ if no update in a full pass -> early stop                 │
-│        │                                                             │
-│        ▼                                                             │
-│ One extra pass                                                       │
-│        ├─ update exists -> negative cycle reachable                  │
-│        └─ no update     -> distances finalized                       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  Bellman-Ford relaxation workflow                    |
++----------------------------------------------------------------------+
+| Init dist[source]=0, others=INF                                     |
+|        |                                                             |
+|        v                                                             |
+| Repeat V-1 times: for every edge (u,v,w)                            |
+|        |                                                             |
+|        +- if dist[u] + w < dist[v] -> update dist[v]                |
+|        +- if no update in a full pass -> early stop                 |
+|        |                                                             |
+|        v                                                             |
+| One extra pass                                                       |
+|        +- update exists -> negative cycle reachable                  |
+|        +- no update     -> distances finalized                       |
++----------------------------------------------------------------------+
 ```
 
 음수 사이클 판정이 중요한 이유는, 그런 사이클이 시작점에서 도달 가능하면 최단 거리 개념 자체가 무너진다는 데 있다. 예를 들어 한 바퀴 돌 때마다 비용이 -3씩 줄어드는 사이클이 있으면, 그 경로를 더 많이 돌수록 비용이 계속 낮아져 최적해가 정해지지 않는다. 벨만-포드는 V번째 검사에서 이 현상을 포착한다.
@@ -164,17 +164,17 @@ SPFA는 "갱신 가능성이 있는 정점 주변만 다시 보자"는 아이디
 
 ```text
 Weighted graph shortest path
-    │
-    ├─ non-negative weights -> Dijkstra
-    └─ possible negative weights
-              │
-              ▼
+    |
+    +- non-negative weights -> Dijkstra
+    +- possible negative weights
+              |
+              v
       Bellman-Ford relaxation
-              │
-              ├─ stable after V-1 passes -> shortest paths
-              └─ still improves at Vth pass -> negative cycle
-              │
-              ▼
+              |
+              +- stable after V-1 passes -> shortest paths
+              +- still improves at Vth pass -> negative cycle
+              |
+              v
 Distance-vector routing · arbitrage detection · Johnson reweighting
 ```
 
@@ -192,7 +192,7 @@ Distance-vector routing · arbitrage detection · Johnson reweighting
 
 **진행 상황**: 170 / 175
 
-← **이전**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)
-**다음**: [171. 프림 알고리즘 (Prim's Algorithm)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/) →
+<- **이전**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)
+**다음**: [171. 프림 알고리즘 (Prim's Algorithm)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/) ->
 
 ---

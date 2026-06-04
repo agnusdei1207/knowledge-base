@@ -69,11 +69,11 @@ HDFS는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ```text
 [선행 개념: 빅데이터 인프라, 분산 파일 시스템]
-    │
-    ▼
+    |
+    v
 [핵심 기술: 네임노드(NameNode), 데이터노드(DataNode), 블록 128MB, 3중 복제]
-    │
-    ▼
+    |
+    v
 [확장 및 응용: 작은 파일 문제(Small File Problem), 랙 인지(Rack Awareness), AWS S3]
 ```
 
@@ -90,7 +90,7 @@ HDFS는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 **진행 상황**: 24 / 262
 
-← **이전**: [01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/)
-**다음**: [03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성](/knowledge-base/studynote/16_bigdata/02_hadoop/025_namenode_metadata_spof_ha/) →
+<- **이전**: [01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/)
+**다음**: [03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성](/knowledge-base/studynote/16_bigdata/02_hadoop/025_namenode_metadata_spof_ha/) ->
 
 ---

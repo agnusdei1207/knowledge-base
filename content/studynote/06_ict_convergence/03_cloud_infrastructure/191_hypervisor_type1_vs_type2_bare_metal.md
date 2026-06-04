@@ -26,12 +26,12 @@ tags = ["studynote-ict-convergence"]
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -47,18 +47,18 @@ tags = ["studynote-ict-convergence"]
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 구성 계층 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) Type 1 (베어메탈 - ESXi, Xen) vs Type 2 (호스트형 - VMware Workstation)를 자원, 제어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층으로 나눠 본다. | 계층 책임이 섞이면 운영이 어려워진다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 | 입력→처리→배포→관찰 흐름으로 구조를 읽는다. | 병목 지점을 수치로 확인한다. |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 | 입력->처리->배포->관찰 흐름으로 구조를 읽는다. | 병목 지점을 수치로 확인한다. |
 | 제어 포인트 | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 보안, 배치, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 전체 품질을 좌우한다. | 격리 수준, 오버헤드, 이식성, 운영 자동화, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 용이성을 기준으로 설계한다. |
 | 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 자동화와 표준화를 함께 넣어야 운영이 단순해진다. | 도입 기술보다 운영 모델 정합성이 먼저다. |
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Orchestrate        │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Orchestrate        | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [가상화 컴퓨팅 아키텍처]
-    │
-    ▼
+    |
+    v
 [하이퍼바이저 Type 1 (베어메탈 - ESXi, Xen) vs Type 2 (호스트형 - VMware Workstation)]
-    │
-    ├──▶ [전가상화 vs 반가상화 (Para-virtualization)]
-    └──▶ [오케스트레이션 / 클라우드 네이티브 자동화]
+    |
+    +---> [전가상화 vs 반가상화 (Para-virtualization)]
+    +---> [오케스트레이션 / 클라우드 네이티브 자동화]
 ```
 
 이 흐름도는 [가상화 컴퓨팅 아키텍처](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)에서 출발해 현재 개념을 거쳐 [전가상화 vs 반가상화](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/) ([Para-virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/))와 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 191 / 552
 
-← **이전**: [190. 가상화 컴퓨팅 아키텍처 (Virtualization)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)
-**다음**: [192. 전가상화 vs 반가상화 (Para-virtualization) (Full Virtualization)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/) →
+<- **이전**: [190. 가상화 컴퓨팅 아키텍처 (Virtualization)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)
+**다음**: [192. 전가상화 vs 반가상화 (Para-virtualization) (Full Virtualization)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/) ->
 
 ---

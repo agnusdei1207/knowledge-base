@@ -44,38 +44,38 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 하나의 기계어 명령이 제어 메모리 안에서 어떻게 “세부 동작 열”로 펼쳐지는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 제어 메모리 기반 마이크로동작 흐름                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ IR의 Opcode                                                                │
-│     │                                                                       │
-│     ▼                                                                       │
-│ 매핑 로직 ───────────────▶ 시작 주소 적재                                   │
-│                               │                                              │
-│                               ▼                                              │
-│                       ┌────────────────┐                                     │
-│                       │ CAR            │                                     │
-│                       │ Control Addr   │                                     │
-│                       └──────┬─────────┘                                     │
-│                              │ 주소                                           │
-│                              ▼                                                │
-│                       ┌────────────────┐      읽은 제어 워드                 │
-│                       │ Control Memory │ ───────────────────────┐            │
-│                       └────────────────┘                        │            │
-│                                                                 ▼            │
-│                                                        ┌────────────────┐    │
-│                                                        │ MIR            │    │
-│                                                        └──────┬─────────┘    │
-│                                                               │              │
-│                        제어 신호 비트 ────────────────────────┼──▶ Datapath  │
-│                                                               │              │
-│                        다음 주소 정보 ────────────────────────┘              │
-│                                                               │              │
-│                                                               ▼              │
-│                                                        순서 제어기           │
-│                                                               │              │
-│                                                               └────▶ CAR 갱신 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 제어 메모리 기반 마이크로동작 흐름                         |
++----------------------------------------------------------------------------+
+| IR의 Opcode                                                                |
+|     |                                                                       |
+|     v                                                                       |
+| 매핑 로직 ----------------> 시작 주소 적재                                   |
+|                               |                                              |
+|                               v                                              |
+|                       +----------------+                                     |
+|                       | CAR            |                                     |
+|                       | Control Addr   |                                     |
+|                       +------+---------+                                     |
+|                              | 주소                                           |
+|                              v                                                |
+|                       +----------------+      읽은 제어 워드                 |
+|                       | Control Memory | -----------------------+            |
+|                       +----------------+                        |            |
+|                                                                 v            |
+|                                                        +----------------+    |
+|                                                        | MIR            |    |
+|                                                        +------+---------+    |
+|                                                               |              |
+|                        제어 신호 비트 ------------------------+---> Datapath  |
+|                                                               |              |
+|                        다음 주소 정보 ------------------------+              |
+|                                                               |              |
+|                                                               v              |
+|                                                        순서 제어기           |
+|                                                               |              |
+|                                                               +-----> CAR 갱신 |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 제어 메모리 한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)가 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라 “이번 클럭에 무엇을 켤지”와 “다음에 어디로 갈지”를 함께 담는다는 점이다. 그래서 제어 메모리 설계는 저장 장치 설계이면서 동시에 상태 기계 설계이기도 하다. 수평형 마이크로코드처럼 비트를 넓게 쓰면 디코딩 없이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 제어가 쉬워지고, 수직형 마이크로코드처럼 압축하면 저장 공간은 줄지만 해독 회로와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘어난다.
@@ -154,19 +154,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 하드와이어드 제어의 복잡도 증가
-          │
-          ▼
+          |
+          v
 마이크로프로그래밍 (Microprogrammed Control)
-          │
-          ▼
+          |
+          v
 제어 메모리 (Control Memory) + 마이크로명령어 (Microinstruction)
-          │
-          ├────────▶ 수평형/수직형 마이크로코드
-          │
-          ▼
+          |
+          +---------> 수평형/수직형 마이크로코드
+          |
+          v
 WCS (Writable Control Store) 기반 패치 가능 제어
-          │
-          ▼
+          |
+          v
 하이브리드 제어 + 보안/호환성용 마이크로코드 운영
 ```
 
@@ -184,7 +184,7 @@ WCS (Writable Control Store) 기반 패치 가능 제어
 
 **진행 상황**: 216 / 803
 
-← **이전**: [215. 마이크로프로그래밍 (Microprogrammed Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/215_microprogrammed_control/)
-**다음**: [217. 마이크로명령어 (Microinstruction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/) →
+<- **이전**: [215. 마이크로프로그래밍 (Microprogrammed Control)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/215_microprogrammed_control/)
+**다음**: [217. 마이크로명령어 (Microinstruction)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/) ->
 
 ---

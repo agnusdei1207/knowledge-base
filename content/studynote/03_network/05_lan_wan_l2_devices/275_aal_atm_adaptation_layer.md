@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [VPI / VCI]
-    │
-    ▼
+    |
+    v
 [AAL]
-    │
-    └──▶ [패킷 교환 vs 회선 교환 vs 메시지 교환]
+    |
+    +---> [패킷 교환 vs 회선 교환 vs 메시지 교환]
 ```
 
 - **📢 섹션 요약 비유**: ** AAL은 공항의 **"수하물 재포장 센터"**입니다. 승객들이 들고 온 집채만 한 배낭(IP 패킷)이나 기다란 골프채(영상 스트리밍)를 항공사 규격 박스(53바이트)에 맞게 전부 분해하고 욱여넣어 포장해 주는 완충 지대입니다.
@@ -59,24 +59,24 @@ AAL은 트래픽의 특성을 <strong>1) 타이밍(실시간성) 유지 필요�
   - 조각조각마다 일일이 에러 검사 코드를 넣지 않고, IP 패킷 맨 마지막 조각에 딱 한 번만 8바이트짜리 꼬리표(Trailer, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)+전체 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))를 붙여서 심플함과 전송 효율을 극대화했다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AAL5의 IP 패킷 분할(Segmentation) 도식          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 원본 IP 패킷 (예: 100 바이트) ]                             │
- │   └───────────────────────────────────────────────────┘       │
- │                                                             │
- │   AAL5가 꼬리에 패딩과 CRC를 붙여 48의 배수로 강제 정렬시킴 (144B)    │
- │   └───────────────────────────────────────────────┴─┴─┴─┘     │
- │                                  (Padding 빈칸) (CRC)         │
- │                                                             │
- │   정확히 48바이트씩 3등분으로 썰어서 ATM 믹서기(셀)로 던져줌!         │
- │   ┌────┐    ┌────┐    ┌────┐                                │
- │   │ 48 │    │ 48 │    │ 48 │                                │
- │   └────┘    └────┘    └────┘                                │
- │     ▼          ▼          ▼                                 │
- │   [ATM셀]    [ATM셀]     [ATM셀] (헤더 5바이트가 씌워져 광랜으로 전송)│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                AAL5의 IP 패킷 분할(Segmentation) 도식          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 원본 IP 패킷 (예: 100 바이트) ]                             |
+ |   +---------------------------------------------------+       |
+ |                                                             |
+ |   AAL5가 꼬리에 패딩과 CRC를 붙여 48의 배수로 강제 정렬시킴 (144B)    |
+ |   +-----------------------------------------------+-+-+-+     |
+ |                                  (Padding 빈칸) (CRC)         |
+ |                                                             |
+ |   정확히 48바이트씩 3등분으로 썰어서 ATM 믹서기(셀)로 던져줌!         |
+ |   +----+    +----+    +----+                                |
+ |   | 48 |    | 48 |    | 48 |                                |
+ |   +----+    +----+    +----+                                |
+ |     v          v          v                                 |
+ |   [ATM셀]    [ATM셀]     [ATM셀] (헤더 5바이트가 씌워져 광랜으로 전송)|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** AAL 1, 2, 3/4 등 복잡한 맞춤형 칼질 룰이 있었지만, 결국 시장을 제패한 것은 **"그냥 1500바이트 고깃덩어리를 통째로 대충 48그람씩 막 썰어 담고 마지막 그릇에만 유통기한([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 스티커를 딱 하나 붙여버리는 상남자식 포장법(AAL5)"**이었습니다. 이것이 컴퓨터 인터넷 세상에 가장 완벽하게 들어맞았기 때문입니다.
@@ -137,12 +137,12 @@ AAL는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: VPI / VCI]
-    │
-    ▼
+    |
+    v
 [현재 개념: AAL]
-    │
-    ├──▶ [확장 A: 패킷 교환 vs 회선 교환 vs 메시지 교환]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 패킷 교환 vs 회선 교환 vs 메시지 교환]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 AAL는 VPI / VCI에서 출발해 현재 메커니즘을 정교화하고, 이후 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ AAL는 VPI / VCI에서 출발해 현재 메커니즘을 정교화하고, 이후 
 
 **진행 상황**: 396 / 1120
 
-← **이전**: [274. VPI / VCI (Virtual Path/Channel Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/274_vpi_vci_virtual_path_channel_identifier/)
-**다음**: [276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) →
+<- **이전**: [274. VPI / VCI (Virtual Path/Channel Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/274_vpi_vci_virtual_path_channel_identifier/)
+**다음**: [276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) ->
 
 ---

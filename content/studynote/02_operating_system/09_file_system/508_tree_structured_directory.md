@@ -26,29 +26,29 @@ tags = ["studynote-operating-system"]
 운영체제가 이 거대한 숲(트리) 속에서 커서의 네비게이션 위치를 어떻게 제어하고 통달하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 분리 해체하면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 현대 OS의 표준 : 트리(Tree)형 무한 뎁스 파일 파이프 트리     │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │  [ 리눅스 루트(Root) 트리의 계층 구조 생태계 융합 ]                          │
-  │                                                                              │
-  │                     / (Root Directory 뿌리) ◀ 절대 시작점 0단계              │
-  │                    /                   \                                     │
-  │           [👤 user]                   [⚙️ bin]                               │
-  │            /      \                       |                                  │
-  │     [Alice]        [Bob]                bash (실행파일 단말노드)             │
-  │        |            /    \                                                   │
-  │     [work]     [music]   [docs]  ◀ 폴더 내부에 언제든 하위 폴더 쪼개기!      │
-  │        |          |         |                                                │
-  │      c.txt      1.mp3   report.pdf  ◀ (Leaf 최말단 데이터파편 본진)          │
-  │                                                                              │
-  │  =============================================================               │
-  │  [ 현재 디렉터리 (CWD) 포인터 요술 나침반 작동 구역 ]                        │
-  │   - 지금 터미널에서 프로그래머가 `Bob` 의 `music` 방에 서 있다면?            │
-  │     👉 커널은 메모리 스펙에 `CWD = /user/Bob/music` 를 기록 록(Lock)!        │
-  │   - 여기서 `1.mp3` 를 열려고, 매번 재수없게 0단계부터 주소 낭비를 안 함!     │
-  │     그냥 "틀어! `1.mp3`" 하면 나침반이 현재 방에서 즉시 초광속 점프 타격함.  │
-  └──────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------+
+  |                 현대 OS의 표준 : 트리(Tree)형 무한 뎁스 파일 파이프 트리     |
+  +------------------------------------------------------------------------------+
+  |                                                                              |
+  |  [ 리눅스 루트(Root) 트리의 계층 구조 생태계 융합 ]                          |
+  |                                                                              |
+  |                     / (Root Directory 뿌리) <- 절대 시작점 0단계              |
+  |                    /                   \                                     |
+  |           [👤 user]                   [⚙️ bin]                               |
+  |            /      \                       |                                  |
+  |     [Alice]        [Bob]                bash (실행파일 단말노드)             |
+  |        |            /    \                                                   |
+  |     [work]     [music]   [docs]  <- 폴더 내부에 언제든 하위 폴더 쪼개기!      |
+  |        |          |         |                                                |
+  |      c.txt      1.mp3   report.pdf  <- (Leaf 최말단 데이터파편 본진)          |
+  |                                                                              |
+  |  =============================================================               |
+  |  [ 현재 디렉터리 (CWD) 포인터 요술 나침반 작동 구역 ]                        |
+  |   - 지금 터미널에서 프로그래머가 `Bob` 의 `music` 방에 서 있다면?            |
+  |     👉 커널은 메모리 스펙에 `CWD = /user/Bob/music` 를 기록 록(Lock)!        |
+  |   - 여기서 `1.mp3` 를 열려고, 매번 재수없게 0단계부터 주소 낭비를 안 함!     |
+  |     그냥 "틀어! `1.mp3`" 하면 나침반이 현재 방에서 즉시 초광속 점프 타격함.  |
+  +------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 컴퓨터 트리 자료형의 특징답게 가장 위의 `/`(루트)는 나무의 뿌리(Root Node)며, 맨 마지막 끄트머리에 매달린 진짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들(`c.txt` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 나뭇잎(Leaf Node 단말 노드)이라고 부른다. 중간에 뻗어나가는 모든 관절(폴더들)은 부모이자 동시에 자식이 되는 서브 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(내부 노드)다. 이 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 트리 구조 덕분에 S/W [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 검색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 인덱스와 별도)은 찾고자 하는 가지(Branch 경로)만 타고 내려가면 나머지 99% 의 불필요한 폴더를 완전 탐색 무시([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 할 수 있어 O(log N) 에 수렴하는 극강의 탐색 I/O 병목 박살 시스템을 장악 전개 해 낸다.
@@ -140,12 +140,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)]
-    │
-    ▼
+    |
+    v
 [트리 구조 디렉터리 (Tree-structured Directory)]
-    │
-    ├──▶ [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
-    └──▶ [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
+    |
+    +---> [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
+    +---> [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -162,7 +162,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 508 / 800
 
-← **이전**: [507. 1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)](/knowledge-base/studynote/02_operating_system/09_file_system/507_single_two_level_directory_ufd/)
-**다음**: [509. 절대 경로 (Absolute Path) / 상대 경로 (Relative Path)](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) →
+<- **이전**: [507. 1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)](/knowledge-base/studynote/02_operating_system/09_file_system/507_single_two_level_directory_ufd/)
+**다음**: [509. 절대 경로 (Absolute Path) / 상대 경로 (Relative Path)](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) ->
 
 ---

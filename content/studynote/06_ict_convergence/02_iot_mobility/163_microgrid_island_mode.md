@@ -45,19 +45,19 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 평상시와 아일랜드 모드 전환 시 흐름을 함께 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 마이크로그리드의 평상시/비상시 전환 구조            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Utility Grid ── PCC ── Local Bus ── Critical Loads                  │
-│                    │            └─ Non-Critical Loads               │
-│                    │                                                 │
-│                    ├─ DER: Solar / Fuel Cell / Generator            │
-│                    ├─ ESS                                            │
-│                    └─ EMS / Microgrid Controller                     │
-│                                                                      │
-│ Fault Detected → PCC Open → ESS Fast Support → Load Shedding        │
-│               → DER Rebalance → Stable Island Mode                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 마이크로그리드의 평상시/비상시 전환 구조            |
++----------------------------------------------------------------------+
+| Utility Grid -- PCC -- Local Bus -- Critical Loads                  |
+|                    |            +- Non-Critical Loads               |
+|                    |                                                 |
+|                    +- DER: Solar / Fuel Cell / Generator            |
+|                    +- ESS                                            |
+|                    +- EMS / Microgrid Controller                     |
+|                                                                      |
+| Fault Detected -> PCC Open -> ESS Fast Support -> Load Shedding        |
+|               -> DER Rebalance -> Stable Island Mode                  |
++----------------------------------------------------------------------+
 ```
 
 아일랜드 모드의 기술적 핵심은 전환 순간의 불안정을 버티는 것이다. 상위 계통은 원래 거대한 관성원 역할을 하므로, 분리 직후에는 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 흔들리기 쉽다. 이때 ESS와 인버터 기반 전원이 먼저 빠르게 응답하고, 필요하면 비중요 부하를 차단해 수급 균형을 맞춘다. 이후에는 드룹 제어 (Droop Control), 2차 제어, 블랙스타트 (Black Start) 절차가 연계되어 장시간 독립 운전을 뒷받침한다.
@@ -139,21 +139,21 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 중앙집중 전력망
-    │
-    ▼
+    |
+    v
 스마트 그리드 (계측 · 통신 · 제어)
-    │
-    ▼
+    |
+    v
 마이크로그리드
-    │
-    ├─ 계통 연계 모드
-    └─ 아일랜드 모드
-            │
-            ▼
+    |
+    +- 계통 연계 모드
+    +- 아일랜드 모드
+            |
+            v
 ESS · V2G · 자율 에너지 운영
 ```
 
-이 흐름은 "대규모 송전 중심 → 지능형 전력망 → 지역 자립형 전력망 → 독립 운전 고도화"로 이어지는 발전 경로를 보여준다.
+이 흐름은 "대규모 송전 중심 -> 지능형 전력망 -> 지역 자립형 전력망 -> 독립 운전 고도화"로 이어지는 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -167,7 +167,7 @@ ESS · V2G · 자율 에너지 운영
 
 **진행 상황**: 163 / 552
 
-← **이전**: [162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)
-**다음**: [164. ESS (Energy Storage System)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) →
+<- **이전**: [162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)
+**다음**: [164. ESS (Energy Storage System)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) ->
 
 ---

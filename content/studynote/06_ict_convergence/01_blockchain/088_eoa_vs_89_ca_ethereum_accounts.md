@@ -38,23 +38,23 @@ EOA는 우리가 흔히 메타마스크(MetaMask) 같은 지갑을 통해 [생�
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Hash</strong> | 비어 있음 (코드 없음) | 배포된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 바이트코드 해시 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            트랜잭션(Transaction) 발생과 전파 흐름          │
-├──────────────────────────────────────────────────────────────┤
-│ [인간/외부 시스템]                                           │
-│       │ 1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)     │
-│       ▼                                                      │
-│ ┌───────────┐         2. 트랜잭션 전송          ┌───────────┐│
-│ │    EOA    │─────────────────────────────────▶│    CA     ││
-│ │(코드 없음)│                                  │(코드 있음)││
-│ └───────────┘                                  └───────────┘│
-│                                                      │       │
-│               3. 내부 메시지(Internal Call) 발생       │       │
-│               (CA는 스스로 트랜잭션을 시작할 수 없음)   ▼       │
-│                                                ┌───────────┐│
-│                                                │ 다른 CA   ││
-│                                                └───────────┘│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            트랜잭션(Transaction) 발생과 전파 흐름          |
++--------------------------------------------------------------+
+| [인간/외부 시스템]                                           |
+|       | 1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)     |
+|       v                                                      |
+| +-----------+         2. 트랜잭션 전송          +-----------+|
+| |    EOA    |---------------------------------->|    CA     ||
+| |(코드 없음)|                                  |(코드 있음)||
+| +-----------+                                  +-----------+|
+|                                                      |       |
+|               3. 내부 메시지(Internal Call) 발생       |       |
+|               (CA는 스스로 트랜잭션을 시작할 수 없음)   v       |
+|                                                +-----------+|
+|                                                | 다른 CA   ||
+|                                                +-----------+|
++--------------------------------------------------------------+
 ```
 가장 중요한 원리는 <strong>"<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 시작점은 항상 EOA여야 한다"</strong>는 것이다. CA는 EOA나 다른 CA로부터 메시지(호출)를 받았을 때만 깨어나서 코드를 실행하고, 다시 잠든다.
 
@@ -121,17 +121,17 @@ EOA의 가장 큰 치명적 약점은 <strong>"개인키를 잃어버리면 모�
 
 ```text
 UTXO (비트코인의 단순 잔고 증명)
-    │
-    ▼
+    |
+    v
 Account Model 도입 (이더리움의 상태 저장)
-    │
-    ├─▶ EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불
-    └─▶ CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출
-             │
-             ▼
+    |
+    +--> EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불
+    +--> CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출
+             |
+             v
 Smart Contract Wallet (다중 서명, 소셜 복구 기능 등 제한적 적용)
-             │
-             ▼
+             |
+             v
 Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 및 UX 혁신
 ```
 
@@ -147,7 +147,7 @@ Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 �
 
 **진행 상황**: 88 / 552
 
-← **이전**: [87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/)
-**다음**: [89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) →
+<- **이전**: [87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/)
+**다음**: [89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) ->
 
 ---

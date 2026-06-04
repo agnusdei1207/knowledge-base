@@ -21,21 +21,21 @@ tags = ["studynote-ict-convergence"]
 스마트 홈에서 조명·에어컨·도어록·센서를 제어하려면 <strong>저전력으로 수백 개 디바이스가 안정적으로 통신</strong>해야 한다. Wi-Fi는 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 크고, BLE는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 지원이 제한적이다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      Zigbee 메시 토폴로지 구조                         │
-├───────────────────────────────────────────────────────┤
-│        [Coordinator]                                  │
-│         /    |    \                                    │
-│   [Router] [Router] [Router]                          │
-│    / \       |       / \                               │
-│  [ED] [ED] [ED]  [ED] [ED]   (ED = End Device)       │
-│                                                       │
-│  Coordinator: 네트워크 생성·관리 (1개)                │
-│  Router: 중계·라우팅 (상시 전원, 메시 구성)           │
-│  End Device: 센서/스위치 (배터리, Sleep 모드)          │
-│                                                       │
-│  Self-healing: Router 1개 고장 → 자동 우회 경로 탐색  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      Zigbee 메시 토폴로지 구조                         |
++-------------------------------------------------------+
+|        [Coordinator]                                  |
+|         /    |    \                                    |
+|   [Router] [Router] [Router]                          |
+|    / \       |       / \                               |
+|  [ED] [ED] [ED]  [ED] [ED]   (ED = End Device)       |
+|                                                       |
+|  Coordinator: 네트워크 생성·관리 (1개)                |
+|  Router: 중계·라우팅 (상시 전원, 메시 구성)           |
+|  End Device: 센서/스위치 (배터리, Sleep 모드)          |
+|                                                       |
+|  Self-healing: Router 1개 고장 -> 자동 우회 경로 탐색  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 마을 소문 전파 시스템이다. 이장([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))이 소식을 내리면, 반장(Router)들이 릴레이로 전달하고, 주민(End Device)이 수신한다. 반장 1명이 아파도 다른 반장이 대신 전달한다.
@@ -101,17 +101,17 @@ Zigbee는 스마트 홈 WPAN의 선구자이지만, <strong><a href="/knowledge-
 
 ```text
 [IEEE 802.15.4 (2003) — 저전력 WPAN 표준]
-    │
-    ▼
+    |
+    v
 [Zigbee 1.0 (2004) — 스마트 홈 메시 네트워크]
-    │
-    ▼
+    |
+    v
 [Zigbee 3.0 (2016) — 프로파일 통합 (HA/LL/SE)]
-    │
-    ▼
+    |
+    v
 [Thread (2015~) — IPv6 메시, Google Nest 채택]
-    │
-    ▼
+    |
+    v
 [Matter (2022~) — Apple·Google·Amazon 통합 표준]
 ```
 
@@ -126,7 +126,7 @@ Zigbee는 스마트 홈 WPAN의 선구자이지만, <strong><a href="/knowledge-
 
 **진행 상황**: 112 / 552
 
-← **이전**: [111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/111_licensed_lpwan_nb_iot_lte_m/)
-**다음**: [113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/113_z_wave_smart_home_900mhz/) →
+<- **이전**: [111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/111_licensed_lpwan_nb_iot_lte_m/)
+**다음**: [113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/113_z_wave_smart_home_900mhz/) ->
 
 ---

@@ -29,16 +29,16 @@ tags = ["data_engineering"]
 [전통적 DW의 적재 병목과 데이터 레이크의 수용성 비교]
 
 [과거: 스키마 강제 저장 (DW ETL 병목)]
-정형 데이터 ───┐   (엄격한 ETL 변환)   ┌───────────────────┐
-반정형 로그 ───┼───────── X ─────────> │ [ RDBMS / EDW ]   │ (비정형 수용 불가,
-비정형 이미지 ─┘   (데이터 유실 발생)  └───────────────────┘  목적 외 데이터 폐기)
+정형 데이터 ---+   (엄격한 ETL 변환)   +-------------------+
+반정형 로그 ---+--------- X ---------> | [ RDBMS / EDW ]   | (비정형 수용 불가,
+비정형 이미지 -+   (데이터 유실 발생)  +-------------------+  목적 외 데이터 폐기)
 
 [현재: 무제한 원시 저장 (데이터 레이크 패러다임)]
-정형 데이터 (DB) ──┐   (스키마 없이 덤프)      ┌─────────────────────────────┐
-반정형 (JSON)    ──┼── (Extract & Load) ──> │ [ Data Lake (S3 / HDFS) ] │
-비정형 (Image)   ──┘   (ELT 병목 해소)      │ (Raw, Silver, Gold Zones) │
-                                             └──────────────┬──────────────┘
-                                                            ↓ (Schema-on-Read)
+정형 데이터 (DB) --+   (스키마 없이 덤프)      +-----------------------------+
+반정형 (JSON)    --+-- (Extract & Load) --> | [ Data Lake (S3 / HDFS) ] |
+비정형 (Image)   --+   (ELT 병목 해소)      | (Raw, Silver, Gold Zones) |
+                                             +--------------+--------------+
+                                                            v (Schema-on-Read)
                                                 [ ML / AI / Data Science ]
 ```
 이 도식은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입 단계의 허들을 어떻게 완벽히 제거했는지를 직관적으로 보여줍니다. 좁은 깔때기 역할을 하던 사전 정제(Transform) 단계를 뒤로 미루고([ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)), 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림을 유실 없이 1차 확보합니다. AWS S3와 같은 저비용 클라우드 스토리지를 사용하기 때문에 페타바이트급 확장이 가능하며, 정제 과정에서 잘려나갔을지도 모르는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 숨겨진 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(Feature)를 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습에 온전히 활용할 수 있게 되었습니다.
@@ -65,18 +65,18 @@ tags = ["data_engineering"]
 [스토리지-컴퓨팅 분리 아키텍처 및 스키마 온 리드 흐름]
 
        [ Storage Layer ] (비용 저렴, 용량 무한 스케일 아웃)
-       ┌─────────────────────────────────────────────────┐
-       │ HDFS / Amazon S3 / Google Cloud Storage         │
-       │  {JSON}   [Parquet]   [CSV]   <Images>          │
-       └────────────────────────┬────────────────────────┘
-                                │ (Read: 쿼리 실행 시 파일 접근)
-       ┌────────────────────────▼────────────────────────┐
-       │ [ Meta Data Catalog ] (Hive Metastore)          │ => "이 CSV는 3개의 컬럼 속성을 가짐"
-       ├─────────────────────────────────────────────────┤
-       │ [ Compute Layer ] (연산력 탄력적 확장/축소)     │
-       │ Apache Spark / Presto / AWS Athena              │
-       └────────────────────────┬────────────────────────┘
-                                │ (분석 결과 DataFrame 반환)
+       +-------------------------------------------------+
+       | HDFS / Amazon S3 / Google Cloud Storage         |
+       |  {JSON}   [Parquet]   [CSV]   <Images>          |
+       +------------------------+------------------------+
+                                | (Read: 쿼리 실행 시 파일 접근)
+       +------------------------v------------------------+
+       | [ Meta Data Catalog ] (Hive Metastore)          | => "이 CSV는 3개의 컬럼 속성을 가짐"
+       +-------------------------------------------------+
+       | [ Compute Layer ] (연산력 탄력적 확장/축소)     |
+       | Apache Spark / Presto / AWS Athena              |
+       +------------------------+------------------------+
+                                | (분석 결과 DataFrame 반환)
                        [ Data Scientist / Analyst ]
 ```
 이 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아두는 물리적 계층과 이를 처리하는 연산 계층을 어떻게 완벽히 분리하여 동작하는지를 보여줍니다. 기존 RDBMS는 CPU와 디스크가 한 장비(Node)에 강하게 결합되어 있어 용량만 늘리려 해도 비싼 CPU까지 통째로 사야 했습니다. 그러나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 S3 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓아두고, 연산이 필요할 때만 Spark 클러스터를 일시적으로 띄워 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어옵니다. 이때 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong>가 작동하여, 단순 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(CSV, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)의 껍데기([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 동적으로 씌워 마치 DB 테이블처럼 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행 가능하게 만듭니다.
@@ -119,13 +119,13 @@ tags = ["data_engineering"]
 [데이터 늪 방지를 위한 강제화된 거버넌스 파이프라인]
 
 [Source Data Ingestion]
-       ↓ (무조건 S3 적재 금지, 엄격한 검증 톨게이트 배치)
+       v (무조건 S3 적재 금지, 엄격한 검증 톨게이트 배치)
 [단계 1: Data Contract 검증] => 필수 메타데이터(스키마, 소유자) 미달 시 적재 거부 (DLQ로 격리)
-       ↓
+       v
 [단계 2: Partitioning & Format] => 날짜별(YYYY/MM/DD) 파티셔닝 강제, Parquet 컬럼형 압축 변환
-       ↓
+       v
 [단계 3: Metadata Cataloging] => 데이터 카탈로그(Glue) 크롤러 스캔 및 Hive Metastore 자동 등록
-       ↓
+       v
 [단계 4: Access Control & Masking] => IAM 기반 접근 제어, PII 민감 정보 난독화 후 Silver 구역 이동
 ```
 이 의사결정 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 쓰레기장이 되지 않도록 입구에서 막는 '문지기(Gatekeeper)'의 역할을 명확히 보여줍니다. 실무적으로 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 "그냥 덤프하면 끝나는" 마법의 공간이 아닙니다. 들어오는 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이름표([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))를 달고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 컬럼 지향 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/))으로 바꾸며, 연도/월/일 단위로 디렉터리를 쪼개는([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 고도화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 작업이 동반되지 않으면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한 번에 수백 달러의 비용이 청구되는 재앙을 맞이합니다. 또한, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 네임노드의 메모리 고갈을 막기 위해 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 병합하는 주기적인 [콤팩션](/knowledge-base/studynote/05_database/06_dw_olap_trends/378_lsm_compaction_tombstone/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))이 필수적입니다.
@@ -164,20 +164,20 @@ tags = ["data_engineering"]
 
 ```text
 [데이터 웨어하우스 (Data Warehouse)]
-    │
-    ▼
+    |
+    v
 [데이터 마트 (Data Mart)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크 (Data Lake)]
-    │
-    ▼
+    |
+    v
 [데이터 레이크하우스 (Data Lakehouse)]
-    │
-    ▼
+    |
+    v
 [데이터 메시 (Data Mesh)]
-    │
-    ▼
+    |
+    v
 [데이터 패브릭 (Data Fabric)]
 ```
 
@@ -194,7 +194,7 @@ tags = ["data_engineering"]
 
 **진행 상황**: 7 / 258
 
-← **이전**: [6. 데이터 마트 (Data Mart) - 부서별(영업, 재무 등) 필요에 맞춘 소규모 분석 DB (Kimball 모델)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/006_data_mart/)
-**다음**: [8. 데이터 레이크하우스 (Data Lakehouse) - 데이터 레이크의 유연성/저비용과 DW의 ACID 트랜잭션, SQL 성능을 단일](/knowledge-base/studynote/14_data_engineering/01_infrastructure/008_data_lakehouse/) →
+<- **이전**: [6. 데이터 마트 (Data Mart) - 부서별(영업, 재무 등) 필요에 맞춘 소규모 분석 DB (Kimball 모델)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/006_data_mart/)
+**다음**: [8. 데이터 레이크하우스 (Data Lakehouse) - 데이터 레이크의 유연성/저비용과 DW의 ACID 트랜잭션, SQL 성능을 단일](/knowledge-base/studynote/14_data_engineering/01_infrastructure/008_data_lakehouse/) ->
 
 ---

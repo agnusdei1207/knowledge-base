@@ -41,46 +41,46 @@ HTAP은 이 [ETL](/knowledge-base/studynote/12_it_management/05_security_complia
 |:---|:---|:---|:---|
 | Delta Store (행) | 행 지향 (Row) | INSERT/UPDATE/DELETE ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 |
 | Main Store (열) | 컬럼 지향 (Column) | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 분석 ([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) | 읽기·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 최적화 |
-| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 실시간 병합 | Delta → Main 지속 병합 | <1초 신선도 |
+| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 실시간 병합 | Delta -> Main 지속 병합 | <1초 신선도 |
 
 ### [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 인식 메모리 레이아웃
 
 ```
 NUMA Node 0              NUMA Node 1
-┌────────────────┐       ┌────────────────┐
-│  CPU Cores 0-7 │       │  CPU Cores 8-15│
-│  Local RAM 256G│       │  Local RAM 256G│
-│  (빠른 접근)   │       │  (빠른 접근)   │
-└───────┬────────┘       └────────┬───────┘
-        │  Remote 접근 (2~3x 느림)  │
-        └──────────────────────────┘
-→ HTAP 엔진은 쿼리를 로컬 NUMA 노드 데이터에 배치해 성능 극대화
++----------------+       +----------------+
+|  CPU Cores 0-7 |       |  CPU Cores 8-15|
+|  Local RAM 256G|       |  Local RAM 256G|
+|  (빠른 접근)   |       |  (빠른 접근)   |
++-------+--------+       +--------+-------+
+        |  Remote 접근 (2~3x 느림)  |
+        +--------------------------+
+-> HTAP 엔진은 쿼리를 로컬 NUMA 노드 데이터에 배치해 성능 극대화
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 이중 스토어 아키텍처
 
 ```
   애플리케이션 (OLTP)        분석 도구 (OLAP)
-  ┌──────────────────┐     ┌──────────────────┐
-  │ INSERT/UPDATE    │     │ SELECT SUM/GROUP │
-  │ (실시간 거래)     │     │ (실시간 대시보드) │
-  └────────┬─────────┘     └────────┬─────────┘
-           │ 쓰기                    │ 분석 쿼리
-           ▼                        ▼
-  ┌────────────────────────────────────────────┐
-  │           HTAP In-Memory Engine            │
-  │  ┌────────────────┐   ┌──────────────────┐ │
-  │  │  Delta Store   │──▶│  Main Store      │ │
-  │  │  (행 지향)      │   │  (컬럼 지향)     │ │
-  │  │  최신 변경분   │   │  사전 집계·압축  │ │
-  │  │  (인메모리)    │   │  (인메모리+NVM)  │ │
-  │  └────────────────┘   └──────────────────┘ │
-  │   실시간 동기화 <1초                         │
-  │  ┌──────────────────────────────────────┐  │
-  │  │  Persistence (로그+체크포인트)        │  │
-  │  │  NVM (Optane) or SSD                 │  │
-  │  └──────────────────────────────────────┘  │
-  └────────────────────────────────────────────┘
+  +------------------+     +------------------+
+  | INSERT/UPDATE    |     | SELECT SUM/GROUP |
+  | (실시간 거래)     |     | (실시간 대시보드) |
+  +--------+---------+     +--------+---------+
+           | 쓰기                    | 분석 쿼리
+           v                        v
+  +--------------------------------------------+
+  |           HTAP In-Memory Engine            |
+  |  +----------------+   +------------------+ |
+  |  |  Delta Store   |--->|  Main Store      | |
+  |  |  (행 지향)      |   |  (컬럼 지향)     | |
+  |  |  최신 변경분   |   |  사전 집계·압축  | |
+  |  |  (인메모리)    |   |  (인메모리+NVM)  | |
+  |  +----------------+   +------------------+ |
+  |   실시간 동기화 <1초                         |
+  |  +--------------------------------------+  |
+  |  |  Persistence (로그+체크포인트)        |  |
+  |  |  NVM (Optane) or SSD                 |  |
+  |  +--------------------------------------+  |
+  +--------------------------------------------+
 ```
 
 ### 전통 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) vs [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 비교
@@ -113,7 +113,7 @@ NUMA Node 0              NUMA Node 1
 ### [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 요구: <1초가 비즈니스 가치 창출하는가? (재고, 사기, 금융)
-- [ ] 인메모리 비용 정당화: 전체 워킹셋이 수백GB~수TB → 비용 대비 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산
+- [ ] 인메모리 비용 정당화: 전체 워킹셋이 수백GB~수TB -> 비용 대비 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산
 - [ ] 워크로드 격리: OLTP와 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 간 리소스 경쟁 방지 설계
 - [ ] [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): NVM(Intel Optane) 또는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기반 체크포인트 주기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - [ ] HA 구성: 인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 방지를 위한 레플리카 구성 필수
@@ -163,17 +163,17 @@ NUMA Node 0              NUMA Node 1
 
 ```
 OLTP/OLAP 완전 분리 - ETL 지연 (T+1 분석)
-    │
-    ▼
+    |
+    v
 인메모리 DB (SAP HANA) - 단일 엔진 HTAP 시도
-    │
-    ▼
+    |
+    v
 행·열 혼합 스토리지 + 분리된 워크로드 격리
-    │
-    ▼
+    |
+    v
 TiDB/SingleStore - 분산 HTAP 클라우드 네이티브
-    │
-    ▼
+    |
+    v
 실시간 OLAP 분석 (Freshness < 1s) 달성
 ```
 
@@ -191,7 +191,7 @@ TiDB/SingleStore - 분산 HTAP 클라우드 네이티브
 
 **진행 상황**: 313 / 482
 
-← **이전**: [312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/312_hash_sharding_directory_sharding/)
-**다음**: [314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/314_telemetry_bigdata_parsing/) →
+<- **이전**: [312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/312_hash_sharding_directory_sharding/)
+**다음**: [314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/314_telemetry_bigdata_parsing/) ->
 
 ---

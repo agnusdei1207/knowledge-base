@@ -35,19 +35,19 @@ tags = ["studynote-ai"]
 $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)} - \text{Filter}}{\text{Stride}} \rfloor + 1 $$
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       Stride 1 vs Stride 2 의 스캔 방식 비교 (1D 예시)       │
-├──────────────────────────────────────────────────────────────┤
-│ [입력 데이터]  1   2   3   4   5                           │
-│                                                              │
-│ [Stride = 1] ┌─┴─┐                                           │
-│  필터 이동   1,2,3 -> 2,3,4 -> 3,4,5  (출력 크기: 3)         │
-│                                                              │
-│ [Stride = 2] ┌─┴─┐                                           │
-│  필터 이동   1,2,3 ----------> 3,4,5  (출력 크기: 2)         │
-│                                                              │
-│ * Stride가 커지면 필터의 중첩(Overlap) 영역이 줄어듦       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       Stride 1 vs Stride 2 의 스캔 방식 비교 (1D 예시)       |
++--------------------------------------------------------------+
+| [입력 데이터]  1   2   3   4   5                           |
+|                                                              |
+| [Stride = 1] +-+-+                                           |
+|  필터 이동   1,2,3 -> 2,3,4 -> 3,4,5  (출력 크기: 3)         |
+|                                                              |
+| [Stride = 2] +-+-+                                           |
+|  필터 이동   1,2,3 ----------> 3,4,5  (출력 크기: 2)         |
+|                                                              |
+| * Stride가 커지면 필터의 중첩(Overlap) 영역이 줄어듦       |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 스트라이드의 크기에 따라 필터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건너뛰는 방식을 보여준다. `Stride=2`를 적용하면 가로와 세로 차원이 각각 1/2로 줄어들어 전체 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 면적(연산량)은 1/4로 극적으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다.
@@ -113,21 +113,21 @@ $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/k
 
 ```text
 합성곱 층 연산 기초 확립
-    │
-    ▼
+    |
+    v
 스트라이드 (Stride) · 필터 이동 보폭 제어
-    │
-    ▼
+    |
+    v
 맥스 풀링 (Max Pooling) 대체 · Strided Convolution 활성화
-    │
-    ▼
+    |
+    v
 모바일 최적화 네트워크 (MobileNet 등) · 연산량 감소
-    │
-    ▼
+    |
+    v
 확장 합성곱 (Dilated Convolution) · 해상도 유지하며 수용 영역 확장
 ```
 
-이 흐름도는 "보폭 제어 → [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대체 → 경량화 → 단점(해상도 저하) 보완"으로 이어지는 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 구조의 진화 과정을 보여준다.
+이 흐름도는 "보폭 제어 -> [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대체 -> 경량화 -> 단점(해상도 저하) 보완"으로 이어지는 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 구조의 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/k
 
 **진행 상황**: 97 / 420
 
-← **이전**: [96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)
-**다음**: [98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) →
+<- **이전**: [96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)
+**다음**: [98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ->
 
 ---

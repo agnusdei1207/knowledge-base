@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 여러 개의 실행 흐름([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 프로세스)이 하나의 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), DB 등)를 읽고 쓸 때, 그 순서나 타이밍이 꼬이지 않도록 교통정리를 해주는 모든 기법과 도구를 총칭한다.
-- **필요성**: 컴퓨터의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 우리가 생각하는 것만큼 원자적(Atomic)이지 않다. `count++` 이라는 단순한 C언어 코드 1줄도 CPU 내부에서는 [읽기 ─▶ 더하기 ─▶ 쓰기] 의 3단계 어셈블리어로 쪼개져 실행된다. 만약 A가 '읽기'만 하고 '더하기'를 하기 직전에 B가 끼어들어([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 값을 바꿔버리면, A가 나중에 덮어쓸 때 B의 작업 내역이 허공으로 증발해 버린다.
+- **필요성**: 컴퓨터의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 우리가 생각하는 것만큼 원자적(Atomic)이지 않다. `count++` 이라는 단순한 C언어 코드 1줄도 CPU 내부에서는 [읽기 --> 더하기 --> 쓰기] 의 3단계 어셈블리어로 쪼개져 실행된다. 만약 A가 '읽기'만 하고 '더하기'를 하기 직전에 B가 끼어들어([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 값을 바꿔버리면, A가 나중에 덮어쓸 때 B의 작업 내역이 허공으로 증발해 버린다.
 
 - **등장 배경**: 과거 단일 프로그래밍 시대에는 프로그램이 순서대로 하나씩 실행되어 동기화가 필요 없었다. 그러나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 의한 선점형 OS([시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/))와 여러 코어가 동시에 메모리를 때리는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)([대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/)) 시대가 도래하면서, 언제 어디서 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 터질지 모르는 비결정적(Non-deterministic) 환경을 통제할 족쇄가 필요해졌다.
 
@@ -72,24 +72,24 @@ tags = ["studynote-operating-system"]
   - 현대의 모든 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조(Java의 `AtomicInteger` 등)를 지탱하는 가장 위대한 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         Test-And-Set (TAS) 하드웨어 명령어를 이용한 스핀락 구현     │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [공유 변수: lock = 0 (0이면 열림, 1이면 잠김)]                    │
-  │                                                                     │
-  │   [ 프로세스 A 진입 시도 ]                                          │
-  │   while ( TestAndSet(&lock) == 1 ) {                                │
-  │       // 뺑뺑이 (Spinning) ─▶ 누군가 잠갔으면 계속 헛돎             │
-  │   }                                                                 │
-  │   // ─▶ A가 들어가는 순간 TestAndSet이 lock을 1로 바꿔버림!         │
-  │                                                                     │
-  │   [ 임계 구역 (Critical Section) 실행 ]                             │
-  │   Bank_Account += 50;                                               │
-  │                                                                     │
-  │   [ 퇴장 구역 ]                                                     │
-  │   lock = 0;  // 락 풀기 (이제 밖에서 헛돌던 B가 들어올 수 있음)     │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |         Test-And-Set (TAS) 하드웨어 명령어를 이용한 스핀락 구현     |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [공유 변수: lock = 0 (0이면 열림, 1이면 잠김)]                    |
+  |                                                                     |
+  |   [ 프로세스 A 진입 시도 ]                                          |
+  |   while ( TestAndSet(&lock) == 1 ) {                                |
+  |       // 뺑뺑이 (Spinning) --> 누군가 잠갔으면 계속 헛돎             |
+  |   }                                                                 |
+  |   // --> A가 들어가는 순간 TestAndSet이 lock을 1로 바꿔버림!         |
+  |                                                                     |
+  |   [ 임계 구역 (Critical Section) 실행 ]                             |
+  |   Bank_Account += 50;                                               |
+  |                                                                     |
+  |   [ 퇴장 구역 ]                                                     |
+  |   lock = 0;  // 락 풀기 (이제 밖에서 헛돌던 B가 들어올 수 있음)     |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** `TestAndSet`이 단순한 소프트웨어 함수였다면, "0인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 -> 1로 바꾸는" 그 찰나의 순간에 B가 끼어들어 A와 B가 동시에 방에 들어가는 대형 사고가 터진다. 하지만 이 명령은 CPU 실리콘 칩 레벨에서 락을 걸고 실행하므로 절대로 쪼개지지 않는다. 이것이 모든 상위 동기화 도구(뮤텍스, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))가 기반을 두고 있는 절대 흔들리지 않는 하드웨어 주춧돌이다.
 
@@ -128,26 +128,26 @@ tags = ["studynote-operating-system"]
    - **아키텍처 혁신**: 언어 차원에서 아예 클래스나 객체 껍데기에 동기화 박스를 씌워버렸다. Java의 `synchronized` 키워드를 메서드에 붙이면, JVM이 알아서 내부적으로 뮤텍스([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 걸고 메서드가 끝날 때 무조건 예외 없이 풀어준다. 개발자의 실수를 컴파일러가 원천 차단하는 가장 우아한 상위 레벨 동기화 도구다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     고동시성(High-Concurrency) 백엔드의 동기화 객체 튜닝 트리       │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [요구사항: 초당 100만 건의 캐시 Hit 수치(Counter)를 올려야 함]    │
-  │                │                                                    │
-  │                ▼ 동기화 도구 선택                                   │
-  │   [ 1. 일반 Mutex 적용 ]                                            │
-  │     ▶ 결과: 스레드 1만 개가 수치 올리려다 모조리 Sleep 상태로 빠짐. │
-  │     ▶ 장애: Context Switch만 초당 100만 번 발생, CPU 100% 마비.     │
-  │                                                                     │
-  │   [ 2. Spinlock 적용 ]                                              │
-  │     ▶ 결과: Sleep은 안 하지만 100코어가 루프 돌며 CPU 사이클 태움.  │
-  │     ▶ 장애: 쓸데없는 발열 폭발 및 전력 낭비.                        │
-  │                                                                     │
-  │   [ 3. Lock-free 자료구조 (CAS: Compare-And-Swap) 적용 ]            │
-  │     ▶ (Java의 AtomicInteger.incrementAndGet() 활용)                 │
-  │     ▶ 결과: OS 커널 락을 1도 쓰지 않고, 하드웨어 명령어 1줄로 돌파. │
-  │     ▶ 성능: 락(Lock) 경합 0%. 초당 100만 건 무지연(Zero-Delay) 통과!│
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     고동시성(High-Concurrency) 백엔드의 동기화 객체 튜닝 트리       |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [요구사항: 초당 100만 건의 캐시 Hit 수치(Counter)를 올려야 함]    |
+  |                |                                                    |
+  |                v 동기화 도구 선택                                   |
+  |   [ 1. 일반 Mutex 적용 ]                                            |
+  |     -> 결과: 스레드 1만 개가 수치 올리려다 모조리 Sleep 상태로 빠짐. |
+  |     -> 장애: Context Switch만 초당 100만 번 발생, CPU 100% 마비.     |
+  |                                                                     |
+  |   [ 2. Spinlock 적용 ]                                              |
+  |     -> 결과: Sleep은 안 하지만 100코어가 루프 돌며 CPU 사이클 태움.  |
+  |     -> 장애: 쓸데없는 발열 폭발 및 전력 낭비.                        |
+  |                                                                     |
+  |   [ 3. Lock-free 자료구조 (CAS: Compare-And-Swap) 적용 ]            |
+  |     -> (Java의 AtomicInteger.incrementAndGet() 활용)                 |
+  |     -> 결과: OS 커널 락을 1도 쓰지 않고, 하드웨어 명령어 1줄로 돌파. |
+  |     -> 성능: 락(Lock) 경합 0%. 초당 100만 건 무지연(Zero-Delay) 통과!|
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 동기화의 궁극적인 지향점은 <strong>"동기화를 하지 않는 것(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>)"</strong>이다. 락을 건다는 것 자체가 시스템의 병렬성(Parallelism)을 포기하고 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/))로 줄을 세운다는 뜻이다. 현대 백엔드 아키텍트는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 어떻게든 공유 자원을 잘게 쪼개어(Thread-Local Storage 등) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)끼리 부딪히지 않게 설계하거나, 충돌이 나도 OS 락을 부르지 않는 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘으로 동기화 병목을 폭파시킨다.
 
@@ -181,12 +181,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [리눅스 CFS (Completely Fair Scheduler)]
-    │
-    ▼
+    |
+    v
 [동기화 (Synchronization) 메커니즘]
-    │
-    ├──▶ [윈도우 스케줄링]
-    └──▶ [동적 우선순위 승급 (Priority Boost)]
+    |
+    +---> [윈도우 스케줄링]
+    +---> [동적 우선순위 승급 (Priority Boost)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -203,7 +203,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 212 / 800
 
-← **이전**: [211. 문맥 교환 (Context Switch)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)
-**다음**: [213. 경쟁 조건 (Race Condition)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) →
+<- **이전**: [211. 문맥 교환 (Context Switch)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)
+**다음**: [213. 경쟁 조건 (Race Condition)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 와해성 혁신(Disruptive Innovation)은 처음에는 기존 주류 시장보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮지만 더 저렴하고 간단하여 새로운 시장·고객층을 창출한 뒤, 점차 주류 시장을 잠식하는 현상이다. Clayton Christensen이 1997년 제시한 이론이다.
 > 2. **가치**: 와해성 혁신의 핵심 통찰은 '기존 강자가 왜 신기술에 대응 실패하는가'다. 기존 기업은 현재 고마진 고객 유지에 집중하다가 저가 신기술이 시장 하단에서 올라와 주류를 잠식할 때 대응이 늦어진다(Innovator's Dilemma).
-> 3. **판단 포인트**: 모든 새로운 기술이 와해성 혁신은 아니다. 기존 제품보다 처음부터 더 나은 기술(예: Intel CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선)은 지속적 혁신(Sustaining Innovation)이다. 와해성은 반드시 "처음에 열등 → 점차 주류 장악"의 경로가 있어야 한다.
+> 3. **판단 포인트**: 모든 새로운 기술이 와해성 혁신은 아니다. 기존 제품보다 처음부터 더 나은 기술(예: Intel CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선)은 지속적 혁신(Sustaining Innovation)이다. 와해성은 반드시 "처음에 열등 -> 점차 주류 장악"의 경로가 있어야 한다.
 
 ---
 
@@ -22,18 +22,18 @@ tags = ["studynote-it-management"]
 와해성 혁신 궤도:
 
 성능
-  │               기존 기술 궤도
-  │              /──────────────────→
-  │             /  ← 주류 고객 요구 수준
-  │            /
-  │           /────────── 와해성 기술 궤도
-  │          /           (점차 주류 잠식)
-  │         /(저가/단순/새 시장)
-  │────────/
-  └──────────────────────────────→ 시간
+  |               기존 기술 궤도
+  |              /------------------->
+  |             /  <- 주류 고객 요구 수준
+  |            /
+  |           /---------- 와해성 기술 궤도
+  |          /           (점차 주류 잠식)
+  |         /(저가/단순/새 시장)
+  |--------/
+  +-------------------------------> 시간
 
 처음: 와해성 기술 << 기존 기술 (성능 열등)
-나중: 와해성 기술이 주류 요구 수준에 도달 → 시장 역전
+나중: 와해성 기술이 주류 요구 수준에 도달 -> 시장 역전
 ```
 
 - **📢 섹션 요약 비유**: 와해성 혁신은 다윗과 골리앗이다. 다윗(와해성 기술)은 처음에 골리앗(기존 기술)보다 약하지만, 다른 무기(저가·단순·[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 새 영역에서 성장해 결국 골리앗을 쓰러뜨린다.
@@ -46,23 +46,23 @@ tags = ["studynote-it-management"]
 
 | 와해성 기술 | 기존 강자 | 새 시장/가치 |
 |:---|:---|:---|
-| **스마트폰** | Nokia, 모토로라 | 저성능 인터넷폰 → [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대체 |
-| **넷플릭스 (DVD)** | 블록버스터 | 온라인 DVD 배송 → 스트리밍 |
-| **AWS 클라우드** | HP·Dell 서버 | 소규모 스타트업 → 기업 표준 |
-| **ChatGPT** | 전통 검색엔진 | 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) → 정보 검색 패턴 변화 |
-| **디지털 카메라** | 코닥 필름 | 저품질 → 필름 시장 완전 대체 |
+| **스마트폰** | Nokia, 모토로라 | 저성능 인터넷폰 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대체 |
+| **넷플릭스 (DVD)** | 블록버스터 | 온라인 DVD 배송 -> 스트리밍 |
+| **AWS 클라우드** | HP·Dell 서버 | 소규모 스타트업 -> 기업 표준 |
+| **ChatGPT** | 전통 검색엔진 | 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) -> 정보 검색 패턴 변화 |
+| **디지털 카메라** | 코닥 필름 | 저품질 -> 필름 시장 완전 대체 |
 
 ### Innovator's Dilemma (혁신가의 딜레마)
 
 ```text
 기존 기업 행동 패턴:
-  1. 와해성 기술 인지 → "성능이 낮아서 주류 고객에겐 필요없어"
-  2. 기존 고마진 고객 집중 → 와해성 기술 무시
-  3. 와해성 기술 성장 → "아직 우리 고객 수준 못 됨"
-  4. 와해성 기술 주류 도달 → 기존 고객 이탈 시작
-  5. 뒤늦은 대응 → 이미 시장 잃음
+  1. 와해성 기술 인지 -> "성능이 낮아서 주류 고객에겐 필요없어"
+  2. 기존 고마진 고객 집중 -> 와해성 기술 무시
+  3. 와해성 기술 성장 -> "아직 우리 고객 수준 못 됨"
+  4. 와해성 기술 주류 도달 -> 기존 고객 이탈 시작
+  5. 뒤늦은 대응 -> 이미 시장 잃음
 
-→ 합리적 결정의 누적 = 시장 붕괴
+-> 합리적 결정의 누적 = 시장 붕괴
 ```
 
 - **📢 섹션 요약 비유**: Innovator's Dilemma는 개구리 냄비 이야기다. 서서히 데워지는 물(와해성 기술 성장)을 인지하지 못하고 안주하다가 결국 시장에서 퇴출된다.
@@ -73,7 +73,7 @@ tags = ["studynote-it-management"]
 
 | 비교 | 와해성 혁신 | 지속적 혁신 |
 |:---|:---|:---|
-| 방향 | 아래서 위로 (새 시장→주류) | 위에서 위로 (기존 개선) |
+| 방향 | 아래서 위로 (새 시장->주류) | 위에서 위로 (기존 개선) |
 | 위험 | 기존 강자 위협 | 기존 강자에게 유리 |
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 기존보다 열등 | 기존보다 우월 |
 | 예시 | 클라우드·스마트폰 | CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선·카메라 화소 향상 |
@@ -133,17 +133,17 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/knowle
 
 ```text
 [Sustaining Innovation — 기존 고객 대상 지속 개선]
-    │
-    ▼
-[Disruptive Innovation — 새 시장 저성능 → 주류 잠식]
-    │
-    ▼
+    |
+    v
+[Disruptive Innovation — 새 시장 저성능 -> 주류 잠식]
+    |
+    v
 [Innovator's Dilemma — 기존 강자의 합리적 실패]
-    │
-    ▼
+    |
+    v
 [양손잡이 경영 — 기존 최적화 + 와해성 탐색 동시]
-    │
-    ▼
+    |
+    v
 [AI 와해 — LLM이 지식 산업 전반에 새 파도 형성]
 ```
 
@@ -159,7 +159,7 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/knowle
 
 **진행 상황**: 52 / 587
 
-← **이전**: [29. IT 포트폴리오 관리 (IT PPM)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/)
-**다음**: [31. 롱테일 법칙 (Long Tail)](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_long_tail/) →
+<- **이전**: [29. IT 포트폴리오 관리 (IT PPM)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/)
+**다음**: [31. 롱테일 법칙 (Long Tail)](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_long_tail/) ->
 
 ---

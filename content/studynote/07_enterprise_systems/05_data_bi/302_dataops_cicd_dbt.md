@@ -13,7 +13,7 @@ tags = ["studynote-enterprise-systems"]
 
 > 1. **본질**: DataOps는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙을 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용해, 코드 변경이 자동으로 테스트되고 배포되는 문화·프로세스·기술 체계다.
 > 2. **가치**: dbt ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)는 SQL 기반 변환 레이어를 코드로 관리하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 제어하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 80% 이상 향상시킨다.
-> 3. **판단 포인트**: staging → intermediate → mart 3단계 레이어 구분이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제의 발생 지점을 즉시 특정 가능하게 한다.
+> 3. **판단 포인트**: staging -> intermediate -> mart 3단계 레이어 구분이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제의 발생 지점을 즉시 특정 가능하게 한다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -24,8 +24,8 @@ dbt ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/
 dbt는 단순 변환 실행 도구가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 코드의 테스트·문서화·계보 추적을 하나의 프레임워크에 통합한 플랫폼이다.
 
 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 도입 효과 (Gartner 2024):
-- [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 배포 빈도: 월 1회 → 일 수회
-- 장애 감지까지의 시간: 평균 4시간 → 15분 이내
+- [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 배포 빈도: 월 1회 -> 일 수회
+- 장애 감지까지의 시간: 평균 4시간 -> 15분 이내
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 인시던트: 연간 40% 감소
 
 📢 **섹션 요약 비유**: DataOps는 요리 레시피를 Git에 올리고 매 요리마다 자동으로 맛 테스트를 하는 식당 주방 시스템이다.
@@ -52,32 +52,32 @@ dbt는 단순 변환 실행 도구가 아니라, [데이터](/knowledge-base/stu
 
 ```
   개발자 Git Push
-        │
-        ▼
-  ┌─────────────────────────────────────────────────────────────┐
-  │                CI Pipeline (GitHub Actions)                 │
-  │  ┌─────────────┐  ┌─────────────┐  ┌──────────────────┐   │
-  │  │ dbt compile │─▶│  dbt test   │─▶│ dbt run (slim CI)│   │
-  │  │ (SQL 검증)  │  │ (스키마 검사)│  │ (변경 모델만)    │   │
-  │  └─────────────┘  └──────┬──────┘  └────────┬─────────┘   │
-  │                          │ 실패 시 PR 블록    │ 성공 시     │
-  └──────────────────────────┼───────────────────┼─────────────┘
-                             ▼                   ▼
+        |
+        v
+  +-------------------------------------------------------------+
+  |                CI Pipeline (GitHub Actions)                 |
+  |  +-------------+  +-------------+  +------------------+   |
+  |  | dbt compile |-->|  dbt test   |-->| dbt run (slim CI)|   |
+  |  | (SQL 검증)  |  | (스키마 검사)|  | (변경 모델만)    |   |
+  |  +-------------+  +------+------+  +--------+---------+   |
+  |                          | 실패 시 PR 블록    | 성공 시     |
+  +--------------------------+-------------------+-------------+
+                             v                   v
                         Slack 알림           CD Pipeline
-                                         ┌──────────────────┐
-                                         │ dbt run (전체)   │
-                                         │ + dbt test       │
-                                         │ → Production DW  │
-                                         └──────────────────┘
+                                         +------------------+
+                                         | dbt run (전체)   |
+                                         | + dbt test       |
+                                         | -> Production DW  |
+                                         +------------------+
 ```
 
 ### dbt [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 (Lineage) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ```
-raw_orders → stg_orders → int_order_items → fct_orders → dim_customer_ltv
+raw_orders -> stg_orders -> int_order_items -> fct_orders -> dim_customer_ltv
 ```
 
-📢 **섹션 요약 비유**: dbt의 레이어 구조는 건물 시공도다. 기초(staging) → 골조(intermediate) → 인테리어(mart) 순서를 지켜야 어느 층에서 문제가 났는지 바로 찾을 수 있다.
+📢 **섹션 요약 비유**: dbt의 레이어 구조는 건물 시공도다. 기초(staging) -> 골조(intermediate) -> 인테리어(mart) 순서를 지켜야 어느 층에서 문제가 났는지 바로 찾을 수 있다.
 
 ## Ⅲ. 비교 및 연결
 
@@ -134,8 +134,8 @@ raw_orders → stg_orders → int_order_items → fct_orders → dim_customer_lt
 
 ### 한계 및 선결 과제
 
-- dbt는 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 SQL 변환에 특화 → Python 복잡 로직은 dbt Python 모델 병행
-- [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이어 설계 실수는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 비용 매우 큼 → 아키텍처 리뷰 필수
+- dbt는 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 SQL 변환에 특화 -> Python 복잡 로직은 dbt Python 모델 병행
+- [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이어 설계 실수는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 비용 매우 큼 -> 아키텍처 리뷰 필수
 - [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 비용 관리: slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 미적용 시 풀 리빌드로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 비용 수백만 원 발생 가능
 
 📢 **섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)+dbt는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장의 자동화 품질 검사 라인이다. 불량품(오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 마트 진열대(BI 대시보드)에 올라가기 전에 자동으로 걸러낸다.
@@ -145,26 +145,26 @@ raw_orders → stg_orders → int_order_items → fct_orders → dim_customer_lt
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | dbt | 도구 | SQL 변환 + 테스트 + 문서화 |
-| Staging Layer | 전처리 단계 | 원천 → [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| Staging Layer | 전처리 단계 | 원천 -> [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 | [Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) | 품질 계약 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)/[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)/품질 기준 명세 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | Git Push → 자동 테스트 → 배포 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | Git Push -> 자동 테스트 -> 배포 |
 | [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) | 계보 추적 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```
 수작업 SQL 쿼리 관리 - 버전관리 부재
-    │
-    ▼
+    |
+    v
 ETL 도구 GUI 기반 파이프라인 (Informatica 등)
-    │
-    ▼
+    |
+    v
 dbt - SQL 변환 코드화 + Git 버전관리
-    │
-    ▼
+    |
+    v
 DataOps - CI/CD + 테스트 + 모니터링 통합
-    │
-    ▼
+    |
+    v
 DataOps 플랫폼 (데이터 파이프라인 자동화 표준화)
 ```
 
@@ -182,7 +182,7 @@ DataOps 플랫폼 (데이터 파이프라인 자동화 표준화)
 
 **진행 상황**: 302 / 482
 
-← **이전**: [301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/301_kafka_topic_partition_consumer_group/)
-**다음**: [303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/303_mlops_feature_store/) →
+<- **이전**: [301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/301_kafka_topic_partition_consumer_group/)
+**다음**: [303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/303_mlops_feature_store/) ->
 
 ---

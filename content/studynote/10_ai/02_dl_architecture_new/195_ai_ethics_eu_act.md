@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 이 공포에서 탄생한 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 윤리와 거버넌스(Governance)</strong> 체계다. 단순히 "AI를 착하게 쓰자"는 도덕책 수준의 구호가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모을 때 차별이 없는지, 모델이 결과를 냈을 때 책임을 누가 질지(Accountability), 왜 그런 결과가 나왔는지 엑스레이를 찍어 증명([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))할 수 있는지 강제하는, 거대하고 깐깐한 인프라 프로세스와 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 규제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 완성이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스는 도심을 달리는 맹견([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게 입마개와 목줄을 채우는 법이다. 맹견이 사냥(정확도)을 아무리 잘해도, 이빨로 행인(소수자)을 무는 순간 개 주인(기업)에게 전 재산을 빼앗는 벌금을 매기겠다고 국가가 선전포고한 것이다. 기업은 살아남기 위해 맹견이 사냥만 잘하는 게 아니라 절대 사람을 물지 않게 수만 번의 예절 교육(거버넌스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)을 강제로 시켜야만 목줄을 풀어줄 수 있게 된 시대가 왔다.
@@ -43,27 +43,27 @@ tags = ["studynote-ai"]
 이 전 지구적인 통제 움직임의 정점에 있는 가장 강력하고 폭력적인 규제 법안이 2024년에 통과된 <strong>유럽 연합 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>법 (EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act)</strong>이다. 이 법안은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술 전체를 4개의 극단적인 신분 계급([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 피라미드)으로 찢어놓았다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           유럽 연합 인공지능법 (EU AI Act) 4단계 리스크 피라미드 규제 도해│
-├──────────────────────────────────────────────────────────────┤
-│  [1단계: 수용 불가 위험 (Unacceptable Risk) ─▶ 100% 무조건 불법 금지!]│
-│   * 중국식 안면 인식 통제망, 잠재의식을 조작하는 장난감, 사람의 점수를 매기는 │
-│     소셜 스코어링(Social Scoring). 적발 시 글로벌 매출 7% 벌금 철퇴!    │
-│                                                              │
-│  [2단계: 고위험 (High Risk) ─▶ 규제 지옥, 완벽한 문서와 XAI 감사 요구!]  │
-│   * 자율주행, 대출/신용 심사, 채용 면접 AI, 수능 채점 AI, 생체 인식.      │
-│   * 요구사항: 이 데이터가 편향이 없는지 100% 증명해라! 모델이 왜 이런     │
-│             결과를 냈는지 설명(XAI)해라! 사람이 무조건 중간에 개입해라!   │
-│                                                              │
-│  [3단계: 제한적 위험 (Limited Risk) ─▶ 투명성 의무 (나 로봇이야!)]     │
-│   * 챗봇, 딥페이크 이미지, 감정 인식 AI.                              │
-│   * 요구사항: "이 그림과 글은 사람이 아니라 AI(ChatGPT)가 만든 것입니다" │
-│             라고 화면에 워터마크나 딱지를 무조건 대문짝만하게 붙일 것!       │
-│                                                              │
-│  [4단계: 최소/저위험 (Minimal Risk) ─▶ 자유 방임]                   │
-│   * 스팸 필터, 게임 AI, 재고 관리 AI.                                │
-│   * 요구사항: 규제 없음. 알아서 잘 쓰세요. (현재 AI의 90% 이상이 여기 속함)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           유럽 연합 인공지능법 (EU AI Act) 4단계 리스크 피라미드 규제 도해|
++--------------------------------------------------------------+
+|  [1단계: 수용 불가 위험 (Unacceptable Risk) --> 100% 무조건 불법 금지!]|
+|   * 중국식 안면 인식 통제망, 잠재의식을 조작하는 장난감, 사람의 점수를 매기는 |
+|     소셜 스코어링(Social Scoring). 적발 시 글로벌 매출 7% 벌금 철퇴!    |
+|                                                              |
+|  [2단계: 고위험 (High Risk) --> 규제 지옥, 완벽한 문서와 XAI 감사 요구!]  |
+|   * 자율주행, 대출/신용 심사, 채용 면접 AI, 수능 채점 AI, 생체 인식.      |
+|   * 요구사항: 이 데이터가 편향이 없는지 100% 증명해라! 모델이 왜 이런     |
+|             결과를 냈는지 설명(XAI)해라! 사람이 무조건 중간에 개입해라!   |
+|                                                              |
+|  [3단계: 제한적 위험 (Limited Risk) --> 투명성 의무 (나 로봇이야!)]     |
+|   * 챗봇, 딥페이크 이미지, 감정 인식 AI.                              |
+|   * 요구사항: "이 그림과 글은 사람이 아니라 AI(ChatGPT)가 만든 것입니다" |
+|             라고 화면에 워터마크나 딱지를 무조건 대문짝만하게 붙일 것!       |
+|                                                              |
+|  [4단계: 최소/저위험 (Minimal Risk) --> 자유 방임]                   |
+|   * 스팸 필터, 게임 AI, 재고 관리 AI.                                |
+|   * 요구사항: 규제 없음. 알아서 잘 쓰세요. (현재 AI의 90% 이상이 여기 속함)  |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 기반 접근과 범용 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 규제)</strong>:
@@ -135,7 +135,7 @@ EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [AI 윤리, 거버넌스와 EU AI Act (Ethics EU ACT)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [AI 윤리, 거버넌스와 EU AI Act (Ethics EU ACT)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture
 
 **진행 상황**: 195 / 420
 
-← **이전**: [194. 딥 드림 (DeepDream)과 Grad-CAM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/194_deepdream_gradcam/)
-**다음**: [196. 모델 편향성 (AI Bias & Fairness)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/196_ai_bias_fairness/) →
+<- **이전**: [194. 딥 드림 (DeepDream)과 Grad-CAM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/194_deepdream_gradcam/)
+**다음**: [196. 모델 편향성 (AI Bias & Fairness)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/196_ai_bias_fairness/) ->
 
 ---

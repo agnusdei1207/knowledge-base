@@ -24,39 +24,39 @@ tags = ["studynote-it-management"]
 특히 2024~2025년은 (1) EU AI Act(2024.8 시행), (2) 한국 개인정보보호법 개정(2023.9, 가명정보 활용), (3) 클라우드 보안인증制度(CSAP) 고도화, (4) ISO/IEC 42001(AI 경영시스템) 국제표준화 등 IT 거버넌스를 둘러싼 규제 환경이 급변하는 시점임. 이러한 환경에서 IT 경영 관리의 본질은 **"기술 도입"이 아닌 "가치 실현(Value Realization)"**이며, 이를 위해 End-to-End 거버넌스 체계 확립이 필수적임.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           기업 거버넌스 → IT 거버넌스 → IT 운영체계 (3-Layer Model)   │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  [Layer 1: Enterprise Governance]                                    │
-│  ┌────────────────────────────────────────────────────────────────┐ │
-│  │  Board ──→ CEO ──→ CxO(CDO/CIO/CTO/CISO)                       │ │
-│  │   │                                                            │ │
-│  │   └── ESG·이사회 보고·리스크위원회·감사위원회                  │ │
-│  └────────────────────────────────────────────────────────────────┘ │
-│         │ 평가(Evaluate) · 지시(Direct) · 모니터(Monitor)            │
-│         ▼                                                            │
-│  [Layer 2: IT Governance (ISO 38500 / COBIT 2019)]                  │
-│  ┌────────────────────────────────────────────────────────────────┐ │
-│  │  ◉ 책임(Responsibility)  ◉ 전략(Strategy)  ◉ 획득(Acquisition)│ │
-│  │  ◉ 성능(Performance)     ◉ 적합성(Conformance) ◉ 인적행태      │ │
-│  └────────────────────────────────────────────────────────────────┘ │
-│         │ 관리·조율                                                    │
-│         ▼                                                            │
-│  [Layer 3: IT Management (ITIL 4 / DevOps / SRE)]                   │
-│  ┌────────────────────────────────────────────────────────────────┐ │
-│  │  Service Value System(SVS) → Value Chain → Practices(34개)    │ │
-│  │  Plan → Build → Engage → Design & Transition → Obtain/Build   │ │
-│  │  Deliver & Support → Improve                                  │ │
-│  └────────────────────────────────────────────────────────────────┘ │
-│                                                                      │
-│  ※ 기술사 논점: 3계층 간 KPI/RACI/Metric의 정합성 설계             │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           기업 거버넌스 -> IT 거버넌스 -> IT 운영체계 (3-Layer Model)   |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [Layer 1: Enterprise Governance]                                    |
+|  +----------------------------------------------------------------+ |
+|  |  Board ---> CEO ---> CxO(CDO/CIO/CTO/CISO)                       | |
+|  |   |                                                            | |
+|  |   +-- ESG·이사회 보고·리스크위원회·감사위원회                  | |
+|  +----------------------------------------------------------------+ |
+|         | 평가(Evaluate) · 지시(Direct) · 모니터(Monitor)            |
+|         v                                                            |
+|  [Layer 2: IT Governance (ISO 38500 / COBIT 2019)]                  |
+|  +----------------------------------------------------------------+ |
+|  |  ◉ 책임(Responsibility)  ◉ 전략(Strategy)  ◉ 획득(Acquisition)| |
+|  |  ◉ 성능(Performance)     ◉ 적합성(Conformance) ◉ 인적행태      | |
+|  +----------------------------------------------------------------+ |
+|         | 관리·조율                                                    |
+|         v                                                            |
+|  [Layer 3: IT Management (ITIL 4 / DevOps / SRE)]                   |
+|  +----------------------------------------------------------------+ |
+|  |  Service Value System(SVS) -> Value Chain -> Practices(34개)    | |
+|  |  Plan -> Build -> Engage -> Design & Transition -> Obtain/Build   | |
+|  |  Deliver & Support -> Improve                                  | |
+|  +----------------------------------------------------------------+ |
+|                                                                      |
+|  ※ 기술사 논점: 3계층 간 KPI/RACI/Metric의 정합성 설계             |
++----------------------------------------------------------------------+
 ```
 
 **구(舊) vs 신(新) 패러다임 비교**:
-- **구(1990~2010)**: ITIL v2/v3 기반 프로세스 중심 → Tier 1·2·3 분리 → SLA(서비스수준협약) 위주 → "IT 부서의 품질 관리" 관점
-- **신(2019~현재)**: ITIL 4 + COBIT 2019 + SAFe + SRE 융합 → 가치 흐름(Value Stream) 중심 → SLO/SLI/SLI 기반 경험 품질(QoE) → "전사(全社)의 가치 공학(Value Engineering)" 관점
+- **구(1990~2010)**: ITIL v2/v3 기반 프로세스 중심 -> Tier 1·2·3 분리 -> SLA(서비스수준협약) 위주 -> "IT 부서의 품질 관리" 관점
+- **신(2019~현재)**: ITIL 4 + COBIT 2019 + SAFe + SRE 융합 -> 가치 흐름(Value Stream) 중심 -> SLO/SLI/SLI 기반 경험 품질(QoE) -> "전사(全社)의 가치 공학(Value Engineering)" 관점
 
 - **📢 섹션 요약 비유**: IT 경영 관리는 마치 **오케스트라의 지휘자**와 같습니다. 바이올린(IT 운영), 첼로(보안), 트럼펫(개발) 등 다양한 악기(부서)가 각자 실력은 출중해도, 지휘자(거버넌스) 없이는 하모니(기업 가치)를 만들 수 없으며, 악보(전략) 없이는 공연(사업) 자체가 불가능합니다.
 
@@ -67,38 +67,38 @@ tags = ["studynote-it-management"]
 IT 경영 관리 체계는 **5대 핵심 영역(Domain)**과 **3대 메커니즘(Mechanism)**으로 구성됨. 본 절에서는 COBIT 2019의 Governance & Management Objectives를 중심으로 아키텍처를 해부함.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│         COBIT 2019 - 40개 Governance & Management Objectives        │
-│         + ISO 38500 6원칙 + ITIL 4 SVS 통합 참조 모델               │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  [Domain 1] EDM ──→ Evaluate, Direct, Monitor (5 Objectives)        │
-│       │      거버넌스 의사결정: 투자 우선순위, 리스크 허용수준       │
-│       ▼                                                              │
-│  [Domain 2] APO ──→ Align, Plan, Organize (14 Objectives)            │
-│       │      전략 정렬, 포트폴리오 관리, 예산, 아키텍처, 혁신,       │
-│       │      인적자원, 관계, 서비스 합의, 벤더관리, 품질, 리스크,    │
-│       │      보안, 데이터, 호환성                                    │
-│       ▼                                                              │
-│  [Domain 3] BAI ──→ Build, Acquire, Implement (11 Objectives)        │
-│       │      프로그램/프로젝트 관리, 요구사항, 솔루션, 품질보증,    │
-│       │      변경, 조직변화, 수용, 구성, 자산, 모니터링              │
-│       ▼                                                              │
-│  [Domain 4] DSS ──→ Deliver, Service, Support (6 Objectives)         │
-│       │      운영, 서비스 요청/사고/문제, 연속성, 보안서비스,        │
-│       │      비즈니스 프로세스 통제                                  │
-│       ▼                                                              │
-│  [Domain 5] MEA ──→ Monitor, Evaluate, Assess (4 Objectives)         │
-│       │      성과/내부통제/외부보증/규제 준수                        │
-│       ▼                                                              │
-│  [Continuous] ──→ 프로세스 활동의 7단계 (PGMF: Process Goal Mngmt)  │
-│       ① Practice Identification → ② Purpose → ③ Goal Cascade      │
-│       → ④ Process Practices → ⑤ Capability Levels(0~5)             │
-│       → ⑥ Performance Management → ⑦ Success Factors                │
-│                                                                      │
-│  ★ 핵심 공식: Capability Level = f(PA: Process Attribute 점수)      │
-│    Level 0(불완전) → 1(초기) → 2(관리) → 3(확립) → 4(예측) → 5(최적)│
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|         COBIT 2019 - 40개 Governance & Management Objectives        |
+|         + ISO 38500 6원칙 + ITIL 4 SVS 통합 참조 모델               |
++---------------------------------------------------------------------+
+|                                                                      |
+|  [Domain 1] EDM ---> Evaluate, Direct, Monitor (5 Objectives)        |
+|       |      거버넌스 의사결정: 투자 우선순위, 리스크 허용수준       |
+|       v                                                              |
+|  [Domain 2] APO ---> Align, Plan, Organize (14 Objectives)            |
+|       |      전략 정렬, 포트폴리오 관리, 예산, 아키텍처, 혁신,       |
+|       |      인적자원, 관계, 서비스 합의, 벤더관리, 품질, 리스크,    |
+|       |      보안, 데이터, 호환성                                    |
+|       v                                                              |
+|  [Domain 3] BAI ---> Build, Acquire, Implement (11 Objectives)        |
+|       |      프로그램/프로젝트 관리, 요구사항, 솔루션, 품질보증,    |
+|       |      변경, 조직변화, 수용, 구성, 자산, 모니터링              |
+|       v                                                              |
+|  [Domain 4] DSS ---> Deliver, Service, Support (6 Objectives)         |
+|       |      운영, 서비스 요청/사고/문제, 연속성, 보안서비스,        |
+|       |      비즈니스 프로세스 통제                                  |
+|       v                                                              |
+|  [Domain 5] MEA ---> Monitor, Evaluate, Assess (4 Objectives)         |
+|       |      성과/내부통제/외부보증/규제 준수                        |
+|       v                                                              |
+|  [Continuous] ---> 프로세스 활동의 7단계 (PGMF: Process Goal Mngmt)  |
+|       ① Practice Identification -> ② Purpose -> ③ Goal Cascade      |
+|       -> ④ Process Practices -> ⑤ Capability Levels(0~5)             |
+|       -> ⑥ Performance Management -> ⑦ Success Factors                |
+|                                                                      |
+|  ★ 핵심 공식: Capability Level = f(PA: Process Attribute 점수)      |
+|    Level 0(불완전) -> 1(초기) -> 2(관리) -> 3(확립) -> 4(예측) -> 5(최적)|
++---------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -122,7 +122,7 @@ Capability Level = Σ(PA 점수 × 가중치) / 7개 Process Attribute
   - PA 5: Process Measurement
   - PA 6: Process Control
   - PA 7: Process Innovation
-  ※ 0~100% 점수 → 5단계(0~5) 매핑
+  ※ 0~100% 점수 -> 5단계(0~5) 매핑
 ```
 
 **② BSC-IT 4관점 KPI 예시**
@@ -132,7 +132,7 @@ Capability Level = Σ(PA 점수 × 가중치) / 7개 Process Attribute
 - **학습·성장**: 직원 1인당 교육시간, 핵심 인재 유지율, 기술 스킬 매트릭스 갭
 
 **③ 가치 흐름 최적화 - DORA Metrics + 확장 지표**
-- Deployment Frequency → Elite: 1일 다수, High: 주 1~일 1, Medium: 월 1~주 1, Low: 6개월 이상
+- Deployment Frequency -> Elite: 1일 다수, High: 주 1~일 1, Medium: 월 1~주 1, Low: 6개월 이상
 - Lead Time for Changes, Change Failure Rate, MTTR, Reliability(가용률 99.99%)
 
 - **📢 섹션 요약 비유**: COBIT 2019의 5개 Domain은 마치 **병원 진료 체계**와 같습니다. EDM은 진료 방향을 결정하는 **진료위원회**, APO는 환자별 **치료 계획**, BAI는 **수술/시술**, DSS는 **회복/입원 케어**, MEA는 **사후 검진 및 의료감사**에 해당하며, 이 5단계가 끊김 없이 흘러야 환자의 건강(기업 가치)이 회복됩니다.
@@ -150,48 +150,48 @@ IT 경영 관리 영역에서 혼동하기 쉬운 핵심 프레임워크/개념�
 | **구성** | 40 Governance/Management Objectives | 34 Practices + SVS(Value Chain) | 6개 원칙 + 모델(Direct/Monitor) | 4관점(재무/고객/내부/학습) |
 | **적용 주체** | CIO·IT Manager·감사인 | 서비스 데스크·운영팀 | 이사회·CxO·비IT 임원 | 전략기획·IT 전략팀 |
 | **측정 방식** | Capability Level(0~5), KPI 200+ | SLO/SLI, CSI 등록부 | 원칙 준수 여부(Maturity) | 원인-결과 맵 + 인과관계 |
-| **핵심 가치** | "I&T 거버넌스 + 관리 + 통제" | "서비스 가치 공학" | "책임·전략·적합성·인적행태" | "전략→측정→실행 정렬" |
+| **핵심 가치** | "I&T 거버넌스 + 관리 + 통제" | "서비스 가치 공학" | "책임·전략·적합성·인적행태" | "전략->측정->실행 정렬" |
 | **생성형 AI 대응** | AI 거버넌스 Objective 1.1 추가 | AI Service Desk Practice | ISO/IEC 42001 별도 표준화 | AI ROI 관점 신설 |
 | **법적/감사** | SOX, ISMS 감사 연계 | 인증 제도 없음(자발적) | 한국 IT 거버넌스 법(2023) | BSC 자체는 인증 없음 |
 
 ### 타 시스템·도구 통합 (Integration)
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│        IT 거버넌스 프레임워크 통합 아키텍처                    │
-├────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐        │
-│   │  ISO 38500  │   │  COBIT 2019 │   │   ITIL 4    │        │
-│   │   (원칙)    │◄─►│ (프레임워크)│◄─►│ (운영모범)  │        │
-│   └─────────────┘   └──────┬──────┘   └─────────────┘        │
-│         │                  │                  │                │
-│         └──────────────────┼──────────────────┘                │
-│                            ▼                                   │
-│                ┌───────────────────────┐                        │
-│                │  조직 맞춤형 거버넌스  │                        │
-│                │  체계(Governance       │                        │
-│                │  System)              │                        │
-│                └───────────┬───────────┘                        │
-│                            │                                   │
-│         ┌──────────────────┼──────────────────┐                │
-│         ▼                  ▼                  ▼                │
-│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐         │
-│  │  ERP/CRM   │   │  ITSM Tool  │   │  GRC Platform│        │
-│  │ (SAP/Oracle)│   │ (ServiceNow)│   │ (Archer/Opt) │         │
-│  └─────────────┘   └─────────────┘   └─────────────┘         │
-│         │                  │                  │                │
-│         └──────────────────┼──────────────────┘                │
-│                            ▼                                   │
-│                  ┌──────────────────────┐                      │
-│                  │  Enterprise Dashboard │                     │
-│                  │  (Power BI/Grafana)  │                      │
-│                  └────────────────────
++----------------------------------------------------------------+
+|        IT 거버넌스 프레임워크 통합 아키텍처                    |
++----------------------------------------------------------------+
+|                                                                 |
+|   +-------------+   +-------------+   +-------------+        |
+|   |  ISO 38500  |   |  COBIT 2019 |   |   ITIL 4    |        |
+|   |   (원칙)    |◄-►| (프레임워크)|◄-►| (운영모범)  |        |
+|   +-------------+   +------+------+   +-------------+        |
+|         |                  |                  |                |
+|         +------------------+------------------+                |
+|                            v                                   |
+|                +-----------------------+                        |
+|                |  조직 맞춤형 거버넌스  |                        |
+|                |  체계(Governance       |                        |
+|                |  System)              |                        |
+|                +-----------+-----------+                        |
+|                            |                                   |
+|         +------------------+------------------+                |
+|         v                  v                  v                |
+|  +-------------+   +-------------+   +-------------+         |
+|  |  ERP/CRM   |   |  ITSM Tool  |   |  GRC Platform|        |
+|  | (SAP/Oracle)|   | (ServiceNow)|   | (Archer/Opt) |         |
+|  +-------------+   +-------------+   +-------------+         |
+|         |                  |                  |                |
+|         +------------------+------------------+                |
+|                            v                                   |
+|                  +----------------------+                      |
+|                  |  Enterprise Dashboard |                     |
+|                  |  (Power BI/Grafana)  |                      |
+|                  +--------------------
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 784 / 800
 
-← **이전**: [783. IT 경영 관리 핵심 토픽 783번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/783_it_management_core_topic_783_exam_summary/)
-**다음**: [785. IT 경영 관리 핵심 토픽 785번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/785_it_management_core_topic_785_exam_summary/) →
+<- **이전**: [783. IT 경영 관리 핵심 토픽 783번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/783_it_management_core_topic_783_exam_summary/)
+**다음**: [785. IT 경영 관리 핵심 토픽 785번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/785_it_management_core_topic_785_exam_summary/) ->
 
 ---

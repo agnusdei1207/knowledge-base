@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))를 최소화하기 위해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 갱신하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, α)은 한 번에 얼마나 이동할지 결정하는 핵심 하이퍼파라미터다.
 > 2. **가치**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 너무 크면 손실이 발산(Diverge)하고, 너무 작으면 수렴이 느려지므로 적절한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이 학습 품질을 좌우한다.
-> 3. **판단 포인트**: SGD → [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) → RMSProp → [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 순으로 발전했으며, 기술사 시험에서는 각 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 구분과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 역할을 묻는 문제가 출제된다.
+> 3. **판단 포인트**: SGD -> [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) -> RMSProp -> [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 순으로 발전했으며, 기술사 시험에서는 각 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 구분과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 역할을 묻는 문제가 출제된다.
 
 ---
 
@@ -23,19 +23,19 @@ tags = ["studynote-ai"]
 
 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, α)은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 가장 핵심적인 하이퍼파라미터다.
 
-- **α 너무 큼** → [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 곡면을 과도하게 건너뛰어 발산(Divergence)
-- **α 너무 작음** → 극소값(Minimum)으로 수렴하는 속도가 극히 느림
-- **α 적절** → 안정적이고 빠른 수렴
+- **α 너무 큼** -> [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 곡면을 과도하게 건너뛰어 발산(Divergence)
+- **α 너무 작음** -> 극소값(Minimum)으로 수렴하는 속도가 극히 느림
+- **α 적절** -> 안정적이고 빠른 수렴
 
 딥러닝 모델은 수백만 개의 파라미터를 가지므로, 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적용하는 것은 비효율적이다. 이를 해결하기 위해 <strong>적응형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/">Adaptive Learning</a> Rate)</strong> 개념이 등장했다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 산에서 내려갈 때 한 걸음의 보폭이다. 보폭이 너무 크면 건너편 산으로 튀어오르고, 보폭이 너무 작으면 평생 내려가도 산 중턱을 못 벗어난다.
@@ -48,33 +48,33 @@ tags = ["studynote-ai"]
 
 ```
 손실(Loss)
-    │
-    │  ← α 너무 큼: 발산
-    │        ↗↘↗↘
-높음│       /    \
-    │      /      \   ← α 적절: 수렴
-    │     /        ↘↗↘↗→ 최솟값
-    │    /                  ●
-낮음│___/____________________
-    └──────────────────────→ 가중치(Weight)
+    |
+    |  <- α 너무 큼: 발산
+    |        ↗↘↗↘
+높음|       /    \
+    |      /      \   <- α 적절: 수렴
+    |     /        ↘↗↘↗-> 최솟값
+    |    /                  ●
+낮음|___/____________________
+    +-----------------------> 가중치(Weight)
 ```
 
 ### [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 발전 계보
 
 ```
-┌─────────────────────────────────────────────────────┐
-│             옵티마이저(Optimizer) 계보                │
-├──────────────┬──────────────┬───────────────────────┤
-│  SGD         │  Momentum    │  Adam                 │
-│  기본 경사   │  관성 추가   │  Momentum +           │
-│  하강법      │  지역 최솟값 │  RMSProp 결합         │
-│              │  탈출 가능   │  적응형 학습률         │
-└──────────────┴──────────────┴───────────────────────┘
-         ↓               ↓               ↓
-┌──────────────┐  ┌─────────────┐  ┌──────────────────┐
-│  w = w - α∇L │  │ v = βv-α∇L  │  │ m̂, v̂ 보정 후 갱신│
-│              │  │ w = w + v   │  │                  │
-└──────────────┘  └─────────────┘  └──────────────────┘
++-----------------------------------------------------+
+|             옵티마이저(Optimizer) 계보                |
++--------------+--------------+-----------------------+
+|  SGD         |  Momentum    |  Adam                 |
+|  기본 경사   |  관성 추가   |  Momentum +           |
+|  하강법      |  지역 최솟값 |  RMSProp 결합         |
+|              |  탈출 가능   |  적응형 학습률         |
++--------------+--------------+-----------------------+
+         v               v               v
++--------------+  +-------------+  +------------------+
+|  w = w - α∇L |  | v = βv-α∇L  |  | m̂, v̂ 보정 후 갱신|
+|              |  | w = w + v   |  |                  |
++--------------+  +-------------+  +------------------+
 ```
 
 ### [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 종류 비교
@@ -176,7 +176,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [옵티마이저 (Optimizer)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [옵티마이저 (Optimizer)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -191,7 +191,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 274 / 420
 
-← **이전**: [273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수](/knowledge-base/studynote/10_ai/03_llm_nlp/273_mse_cross_entropy_loss/)
-**다음**: [275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) →
+<- **이전**: [273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수](/knowledge-base/studynote/10_ai/03_llm_nlp/273_mse_cross_entropy_loss/)
+**다음**: [275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ->
 
 ---

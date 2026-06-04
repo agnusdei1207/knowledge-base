@@ -32,28 +32,28 @@ tags = ["studynote-devops-sre"]
 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 묻지 마 파괴가 아니라, 철저하게 5단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 통제되는 과학 실험(Scientific Experiment)의 뼈대를 갖는다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          SRE 십자 방어망: 카오스 엔지니어링 실험 5단계 록온 도해        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 1️⃣ [ 정상 상태 정의 (Steady State) ]                           │
-│  - "우리 쇼핑몰은 결제 성공률 99.9%, 응답 시간 200ms가 팩트 룰임."     │
-│             ▼                                               │
-│ 2️⃣ [ 가설 수립 (Hypothesis) ] 뇌피셜 공격!                     │
-│  - "야, 쿠폰 서버 3대 중 1대가 뻗어도 서킷 브레이커가 돌아서, 쇼핑몰 결제   │
-│    성공률은 여전히 99.9% 정상 상태를 무결점으로 유지할 것이다. 베팅 콜?"│
-│             ▼                                               │
-│ 3️⃣ [ 장애 변수 주입 (Variable / Fault Injection) ] 맹독 투입 💉 │
-│  - 대낮 오후 2시에, 실제 라이브 망의 쿠폰 서버 Pod 1개 전원을 강제로    │
-│    Kill(죽여버림) 치거나 네트워크 지연(Lag 5초) 딜레이를 콱 때려 박음 쾅!│
-│             ▼                                               │
-│ 4️⃣ [ 블라스트 반경 최소화 및 실험 실행 (Blast Radius) ] 쉴드 🛡️  │
-│  - 전 고객 쏘지 말고 딱 1% 유저에게만 트래픽 실험! 망하면 즉시 복구 스위치 대기!│
-│             ▼                                               │
-│ 5️⃣ [ 결과 분석 및 맷집 증강 (Analyze & Improve) ]             │
-│  - 가설 폭망 💥: "미친 쿠폰 서버 죽이니까 결제까지 같이 타임아웃 뻗었네!!"   │
-│  - 당장 코드 고쳐서 비동기 타임아웃(Timeout) 방어막 치고 맷집(Resiliency)업!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          SRE 십자 방어망: 카오스 엔지니어링 실험 5단계 록온 도해        |
++-------------------------------------------------------------+
+|                                                             |
+| 1️⃣ [ 정상 상태 정의 (Steady State) ]                           |
+|  - "우리 쇼핑몰은 결제 성공률 99.9%, 응답 시간 200ms가 팩트 룰임."     |
+|             v                                               |
+| 2️⃣ [ 가설 수립 (Hypothesis) ] 뇌피셜 공격!                     |
+|  - "야, 쿠폰 서버 3대 중 1대가 뻗어도 서킷 브레이커가 돌아서, 쇼핑몰 결제   |
+|    성공률은 여전히 99.9% 정상 상태를 무결점으로 유지할 것이다. 베팅 콜?"|
+|             v                                               |
+| 3️⃣ [ 장애 변수 주입 (Variable / Fault Injection) ] 맹독 투입 💉 |
+|  - 대낮 오후 2시에, 실제 라이브 망의 쿠폰 서버 Pod 1개 전원을 강제로    |
+|    Kill(죽여버림) 치거나 네트워크 지연(Lag 5초) 딜레이를 콱 때려 박음 쾅!|
+|             v                                               |
+| 4️⃣ [ 블라스트 반경 최소화 및 실험 실행 (Blast Radius) ] 쉴드 🛡️  |
+|  - 전 고객 쏘지 말고 딱 1% 유저에게만 트래픽 실험! 망하면 즉시 복구 스위치 대기!|
+|             v                                               |
+| 5️⃣ [ 결과 분석 및 맷집 증강 (Analyze & Improve) ]             |
+|  - 가설 폭망 💥: "미친 쿠폰 서버 죽이니까 결제까지 같이 타임아웃 뻗었네!!"   |
+|  - 당장 코드 고쳐서 비동기 타임아웃(Timeout) 방어막 치고 맷집(Resiliency)업!|
++-------------------------------------------------------------+
 ```
 
 **[장애 주입 4대 타겟 부위]**
@@ -127,17 +127,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 과거의 방어 / QA 테스트와 격리된 Staging 서버 스트레스 테스트 (우발적 장애 재현 불가능 한계 💥)
-    │
-    ▼
+    |
+    v
 넷플릭스 Chaos Monkey의 탄생 / AWS 클라우드의 불안정성 극복을 위해 대낮 라이브 서버를 강제 척살!
-    │
-    ▼
+    |
+    v
 카오스 엔지니어링 5단계 파이프라인 정립 / 정상 상태 ➔ 가설 ➔ 에러 주입 ➔ 반경 쉴드 ➔ 분석 및 복원력 증강
-    │
-    ▼
+    |
+    v
 Chaos Mesh, Gremlin 등 자동화 툴 융합 / CI/CD 배포 파이프라인에 아예 카오스 테스트를 강제 삽입(Continuous Chaos)
-    │
-    ▼
+    |
+    v
 AI 기반 AIOps 자율 카오스 주입 (미래) / AI가 알아서 시스템 약점을 스캔하고 야금야금 폭탄을 터뜨려 맷집을 오토 튜닝
 ```
 
@@ -153,7 +153,7 @@ AI 기반 AIOps 자율 카오스 주입 (미래) / AI가 알아서 시스템 약
 
 **진행 상황**: 148 / 373
 
-← **이전**: [147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/)
-**다음**: [149. 카오스 몽키 (Chaos Monkey) & 카오스 메시 (Chaos Mesh)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) →
+<- **이전**: [147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/)
+**다음**: [149. 카오스 몽키 (Chaos Monkey) & 카오스 메시 (Chaos Mesh)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) ->
 
 ---

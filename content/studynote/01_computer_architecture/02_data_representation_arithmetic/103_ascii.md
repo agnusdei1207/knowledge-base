@@ -31,28 +31,28 @@ ASCII 표준이 없던 [초기](/knowledge-base/studynote/03_network/08_transpor
 ASCII는 7비트([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 공간을 활용하여 총 128개의 문자와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 할당한 정밀한 수학적 레이아웃이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ASCII 7-Bit Architecture Table Map                 │
-├──────────────────────────────────────────────────────────────┤
-│  용량: 2^7 = 128 codes (0 ~ 127)                             │
-│                                                              │
-│  [ 제어 문자 (0 ~ 31, 127) ]                                 │
-│   하드웨어 I/O 통제용 제어 신호.                               │
-│   0 (NUL): Null 문자 (C언어 문자열 종료)                       │
-│   10 (LF): Line Feed (줄 바꿈)                               │
-│   13 (CR): Carriage Return (커서 맨 앞으로)                    │
-│                                                              │
-│  [ 기호 및 숫자 (32 ~ 64) ]                                  │
-│   32 (Space), 48~57 ('0' ~ '9')                              │
-│   * 팁: 문자 '5' (53) - 48 = 정수 5                          │
-│                                                              │
-│  [ 영문 알파벳 대소문자 (65 ~ 122) ]                           │
-│   65 ('A'): 0100 0001    |  97 ('a'): 0110 0001              │
-│   66 ('B'): 0100 0010    |  98 ('b'): 0110 0010              │
-│                                                              │
-│   * 수학적 설계: 'a' (97) - 'A' (65) = 32 (비트 5)           │
-│     ──▶ 5번째 비트 하나만 XOR 반전시키면 대소문자가 바뀜!          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ASCII 7-Bit Architecture Table Map                 |
++--------------------------------------------------------------+
+|  용량: 2^7 = 128 codes (0 ~ 127)                             |
+|                                                              |
+|  [ 제어 문자 (0 ~ 31, 127) ]                                 |
+|   하드웨어 I/O 통제용 제어 신호.                               |
+|   0 (NUL): Null 문자 (C언어 문자열 종료)                       |
+|   10 (LF): Line Feed (줄 바꿈)                               |
+|   13 (CR): Carriage Return (커서 맨 앞으로)                    |
+|                                                              |
+|  [ 기호 및 숫자 (32 ~ 64) ]                                  |
+|   32 (Space), 48~57 ('0' ~ '9')                              |
+|   * 팁: 문자 '5' (53) - 48 = 정수 5                          |
+|                                                              |
+|  [ 영문 알파벳 대소문자 (65 ~ 122) ]                           |
+|   65 ('A'): 0100 0001    |  97 ('a'): 0110 0001              |
+|   66 ('B'): 0100 0010    |  98 ('b'): 0110 0010              |
+|                                                              |
+|   * 수학적 설계: 'a' (97) - 'A' (65) = 32 (비트 5)           |
+|     ---> 5번째 비트 하나만 XOR 반전시키면 대소문자가 바뀜!          |
++--------------------------------------------------------------+
 ```
 
 ASCII의 진정한 아키텍처적 무서움은 단순한 순서 나열이 아니라는 점이다. 대문자 `A(65)`와 소문자 `a(97)`의 차이는 정확히 $32$ (이진수 `0010 0000`)다. 즉, 대문자 판독이나 변환 함수를 구현할 때 복잡한 매핑 테이블을 검색할 필요 없이, 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와이즈 XOR 연산으로 튕겨주기만 하면 단 1클럭([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 만에 상태가 스위칭된다.
@@ -115,17 +115,17 @@ ASCII는 하드웨어 자원이 극도로 제한적이었던 시기에 7비트�
 
 ```text
 독자적 기계어 비트 표 (혼돈)
-    │
-    ▼
+    |
+    v
 ASCII (American Standard Code for Information Interchange) 제정
-    │ 7비트 범용 문자 인코딩 통일
-    ▼
+    | 7비트 범용 문자 인코딩 통일
+    v
 EUC-KR / CP949 등 국가별 확장 (8비트)
-    │
-    ▼
+    |
+    v
 Unicode (유니코드) 통합 평면
-    │
-    ▼
+    |
+    v
 UTF-8 (ASCII 하위 호환 가변 길이 인코딩)
 ```
 
@@ -141,7 +141,7 @@ UTF-8 (ASCII 하위 호환 가변 길이 인코딩)
 
 **진행 상황**: 103 / 803
 
-← **이전**: [102. 그레이 코드 (Gray Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)
-**다음**: [104. 유니코드 (Unicode)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/) →
+<- **이전**: [102. 그레이 코드 (Gray Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)
+**다음**: [104. 유니코드 (Unicode)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/) ->
 
 ---

@@ -97,9 +97,9 @@ MUX-DEMUX 쌍:
   송신측: DEMUX - 여러 데이터를 하나 선로에 다중화
   수신측: MUX - 하나 선로에서 해당 데이터 선택
 
-  데이터1 -┐              ┌-> 데이터1
-  데이터2 -┤ DEMUX ─선로─ MUX ├-> 데이터2
-  데이터3 -┘              └-> 데이터3
+  데이터1 -+              +-> 데이터1
+  데이터2 -+ DEMUX -선로- MUX +-> 데이터2
+  데이터3 -+              +-> 데이터3
 
 TDM (Time Division Multiplexing) 구현
 ```
@@ -118,9 +118,9 @@ TDM (Time Division Multiplexing) 구현
   2단계로 구현 (게이트 수 절약)
 
   [4:1]        [4:1]
-  I0~I3  ─┐
-  [4:1]   ├-> [4:1] -> Y
-  I4~I7  ─┘
+  I0~I3  -+
+  [4:1]   +-> [4:1] -> Y
+  I4~I7  -+
   ...
 
 버스 선택 (Bus Multiplexing):
@@ -231,7 +231,7 @@ SerDes (직렬화/역직렬화)
 
 **진행 상황**: 41 / 803
 
-← **이전**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)
-**다음**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/) →
+<- **이전**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)
+**다음**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/) ->
 
 ---

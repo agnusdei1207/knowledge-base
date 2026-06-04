@@ -33,15 +33,15 @@ tags = ["studynote-operating-system"]
 
 ```text
 높은 주소
-┌──────────────────┐
-│ 이전 프레임      │
-├──────────────────┤
-│ 복귀 주소        │
-├──────────────────┤
-│ 지역 변수 / 임시값│
-├──────────────────┤
-│ 현재 SP          │
-└──────────────────┘
++------------------+
+| 이전 프레임      |
++------------------+
+| 복귀 주소        |
++------------------+
+| 지역 변수 / 임시값|
++------------------+
+| 현재 SP          |
++------------------+
 낮은 주소
 ```
 
@@ -115,13 +115,13 @@ tags = ["studynote-operating-system"]
 
 ```text
 함수 호출
-   ↓
+   v
 새 스택 프레임 생성
-   ↓
+   v
 지역 변수 / 복귀 주소 저장
-   ↓
+   v
 함수 종료
-   ↓
+   v
 프레임 제거
 ```
 
@@ -137,7 +137,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 85 / 800
 
-← **이전**: [84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)](/knowledge-base/studynote/02_operating_system/02_process_thread/084_heap_segment/)
-**다음**: [86. 프로세스 상태 (Process State)](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) →
+<- **이전**: [84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)](/knowledge-base/studynote/02_operating_system/02_process_thread/084_heap_segment/)
+**다음**: [86. 프로세스 상태 (Process State)](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) ->
 
 ---

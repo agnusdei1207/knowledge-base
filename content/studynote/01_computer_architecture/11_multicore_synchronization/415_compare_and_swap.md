@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 CAS는 이 문제를 <strong>낙관적 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Optimistic <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong> 로 바꾼다. 먼저 계산은 각 코어가 독립적으로 수행하고, 마지막 반영 순간에만 충돌 여부를 판정한다. 충돌이 없으면 한 번에 성공하고, 충돌이 있으면 실패를 반환해 다시 시도하면 된다. 즉, "항상 막아두는 방식"이 아니라 "마지막 순간만 검표하는 방식"이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│     왜 CAS가 필요한가: 읽기와 쓰기 사이의 틈을 막아야 함      │
-├──────────────────────────────────────────────────────────────┤
-│ 스레드 A: 값 읽기(10) ── 계산(11) ── 쓰기(11)                │
-│ 스레드 B: 값 읽기(10) ── 계산(11) ── 쓰기(11)                │
-│                                                              │
-│ 일반 연산 결과: 10 -> 11  (한 번 증가가 사라짐)              │
-│ CAS 결과    : 한 스레드만 성공, 다른 스레드는 실패 후 재시도  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|     왜 CAS가 필요한가: 읽기와 쓰기 사이의 틈을 막아야 함      |
++--------------------------------------------------------------+
+| 스레드 A: 값 읽기(10) -- 계산(11) -- 쓰기(11)                |
+| 스레드 B: 값 읽기(10) -- 계산(11) -- 쓰기(11)                |
+|                                                              |
+| 일반 연산 결과: 10 -> 11  (한 번 증가가 사라짐)              |
+| CAS 결과    : 한 스레드만 성공, 다른 스레드는 실패 후 재시도  |
++--------------------------------------------------------------+
 ```
 
 결국 CAS는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 "무조건 순서대로 줄 세우는 문제"에서 "충돌을 빠르게 감지하고 재시도하는 문제"로 바꿔 준다. 그래서 멀티코어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 락프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘의 출발점으로 자주 등장한다.
@@ -57,17 +57,17 @@ CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계�
 아래 그림은 CAS가 메모리 갱신을 어떻게 단일 판정으로 묶는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                CAS의 원자적 판정 흐름                        │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 스레드가 old 값을 읽음                                    │
-│ 2) 코어 내부에서 new 값을 계산                               │
-│ 3) CAS(addr, expected=old, new) 실행                         │
-│                                                              │
-│    현재 메모리 값 == expected ?                              │
-│            ├─ 예  ──> new 기록, 성공 반환                    │
-│            └─ 아니오 ─> 값 유지, 실패 반환                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                CAS의 원자적 판정 흐름                        |
++--------------------------------------------------------------+
+| 1) 스레드가 old 값을 읽음                                    |
+| 2) 코어 내부에서 new 값을 계산                               |
+| 3) CAS(addr, expected=old, new) 실행                         |
+|                                                              |
+|    현재 메모리 값 == expected ?                              |
+|            +- 예  --> new 기록, 성공 반환                    |
+|            +- 아니오 -> 값 유지, 실패 반환                   |
++--------------------------------------------------------------+
 ```
 
 실제 칩에서는 이 순간 해당 캐시 라인에 대한 독점권을 확보해야 한다. 현대 멀티코어는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그기보다 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜을 이용해 특정 캐시 라인만 배타적으로 다룬다. 그래서 CAS의 비용은 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개 비용이 아니라, **캐시 라인을 누구 소유로 만들 것인가** 까지 포함한 비용이다.
@@ -154,22 +154,22 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
 
 ```text
 공유 데이터 경합
-    │
-    ▼
+    |
+    v
 하드웨어 동기화 (Hardware Synchronization)
-    │
-    ├─ Test-and-Set
-    │
-    └─ Compare-and-Swap (CAS)
-            │
-            ├─ 락프리 (Lock-free) 자료구조
-            │
-            ├─ ABA 문제 대응
-            │     └─ 버전 태그 · 해저드 포인터
-            │
-            └─ 메모리 배리어 · Acquire/Release
-                    │
-                    ▼
+    |
+    +- Test-and-Set
+    |
+    +- Compare-and-Swap (CAS)
+            |
+            +- 락프리 (Lock-free) 자료구조
+            |
+            +- ABA 문제 대응
+            |     +- 버전 태그 · 해저드 포인터
+            |
+            +- 메모리 배리어 · Acquire/Release
+                    |
+                    v
         고성능 동시성 라이브러리 · HTM
 ```
 
@@ -187,7 +187,7 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
 
 **진행 상황**: 416 / 803
 
-← **이전**: [414. Test-and-Set 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/)
-**다음**: [416. 메모리 배리어 (Memory Barrier / Fence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) →
+<- **이전**: [414. Test-and-Set 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/)
+**다음**: [416. 메모리 배리어 (Memory Barrier / Fence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ->
 
 ---

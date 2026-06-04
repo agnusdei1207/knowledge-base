@@ -26,13 +26,13 @@ tags = ["Software Engineering"]
 아래 그림은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석이 없는 경우와 있는 경우의 차이를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              도메인 분석이 없을 때 vs 있을 때               │
-├──────────────────────────┬───────────────────────────────────┤
-│ 화면/테이블부터 설계     │ 용어·규칙·이벤트부터 합의        │
-│ "회원" 의미가 부서마다 다름 │ 공통 용어 사전과 모델이 먼저 생김 │
-│ 변경 영향이 뒤늦게 드러남 │ 요구사항·설계·코드가 같은 뜻 사용 │
-└──────────────────────────┴───────────────────────────────────┘
++--------------------------------------------------------------+
+|              도메인 분석이 없을 때 vs 있을 때               |
++--------------------------+-----------------------------------+
+| 화면/테이블부터 설계     | 용어·규칙·이벤트부터 합의        |
+| "회원" 의미가 부서마다 다름 | 공통 용어 사전과 모델이 먼저 생김 |
+| 변경 영향이 뒤늦게 드러남 | 요구사항·설계·코드가 같은 뜻 사용 |
++--------------------------+-----------------------------------+
 ```
 
 즉 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석은 구현 전에 잠깐 거치는 형식 절차가 아니라, 이후 모든 산출물의 해석 기준을 만드는 단계다. 여기서 의미가 흔들리면 뒤 단계에서 아무리 깔끔한 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 다이어그램이나 코드가 나와도 실제 업무와 맞지 않을 수 있다.
@@ -48,17 +48,17 @@ tags = ["Software Engineering"]
 복잡한 시스템에서는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))의 개념이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석을 더 정교하게 만든다. [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))는 같은 개념을 모든 문서와 코드에서 같은 이름으로 쓰게 하고, 경계 지어진 문맥 ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))은 같은 단어라도 문맥이 바뀌면 의미가 달라질 수 있음을 인정하게 만든다. 하지만 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석 자체는 DDD를 채택한 프로젝트에만 필요한 것이 아니라, 모든 요구공학의 기반 활동으로 볼 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 도메인 분석의 기본 흐름                      │
-├──────────────────────────────────────────────────────────────┤
-│ 현업 인터뷰 · 규정 · 업무 흐름 · 기존 시스템                 │
-│                     │                                        │
-│                     ▼                                        │
-│ 용어 정리 -> 핵심 개념 식별 -> 규칙/예외 추출 -> 경계 설정   │
-│                     │                                        │
-│                     ▼                                        │
-│ 용어 사전 · 도메인 모델 · 핵심 이벤트 · 컨텍스트 맵          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 도메인 분석의 기본 흐름                      |
++--------------------------------------------------------------+
+| 현업 인터뷰 · 규정 · 업무 흐름 · 기존 시스템                 |
+|                     |                                        |
+|                     v                                        |
+| 용어 정리 -> 핵심 개념 식별 -> 규칙/예외 추출 -> 경계 설정   |
+|                     |                                        |
+|                     v                                        |
+| 용어 사전 · 도메인 모델 · 핵심 이벤트 · 컨텍스트 맵          |
++--------------------------------------------------------------+
 ```
 
 이 흐름에서 가장 중요한 산출물은 단순 목록이 아니라 관계가 드러나는 모델이다. 예를 들어 `주문(Order)`과 `결제(Payment)`가 독립 개체인지, `승인(Approval)`이 상태인지 이벤트인지, `한도 초과`가 비즈니스 규칙인지 예외 처리인지 분리돼야 한다. 그래야 이후 [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/), 유스케이스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계가 같은 의미 위에 쌓인다.
@@ -98,17 +98,17 @@ tags = ["Software Engineering"]
 실무에서는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석이 특히 용어 충돌과 규칙 누락을 줄이는 데 큰 효과를 낸다. 예를 들어 은행 시스템에서 "출금"이라는 단어는 일반 예금 계좌, 마이너스 통장, 한도 대출 계좌에서 서로 다른 규칙을 가질 수 있다. 이런 규칙이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서 먼저 정리되지 않으면, 개발자는 화면 입력과 테이블 컬럼만 보고 잘못된 제약을 넣기 쉽다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               도메인 경계를 가를 때 보는 질문               │
-├──────────────────────────────────────────────────────────────┤
-│ 같은 용어가 부서마다 같은 뜻인가?                           │
-│   ├─ 예  -> 하나의 컨텍스트 후보                            │
-│   └─ 아니오 -> 컨텍스트 분리 후 매핑 규칙 정의              │
-│                                                             │
-│ 핵심 규칙이 UI/DB 세부사항보다 안정적인가?                  │
-│   ├─ 예  -> 도메인 모델 중심 설계 유지                      │
-│   └─ 아니오 -> 구현 세부와 본질 규칙을 재분리               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               도메인 경계를 가를 때 보는 질문               |
++--------------------------------------------------------------+
+| 같은 용어가 부서마다 같은 뜻인가?                           |
+|   +- 예  -> 하나의 컨텍스트 후보                            |
+|   +- 아니오 -> 컨텍스트 분리 후 매핑 규칙 정의              |
+|                                                             |
+| 핵심 규칙이 UI/DB 세부사항보다 안정적인가?                  |
+|   +- 예  -> 도메인 모델 중심 설계 유지                      |
+|   +- 아니오 -> 구현 세부와 본질 규칙을 재분리               |
++--------------------------------------------------------------+
 ```
 
 전자상거래 시스템도 좋은 예다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 `상품(Product)`은 설명과 가격, 노출 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 중요하지만, 물류 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 `상품`은 무게, 재고 위치, 박스 단위가 더 중요할 수 있다. 이때 하나의 거대한 `Product` 모델로 통합하려 들면 각 팀의 규칙이 섞여 복잡해진다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석은 이런 의미 차이를 발견하고, 필요하면 서로 다른 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 분리하게 만든다. 이는 나중에 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 경계나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권을 정할 때도 직접적인 기준이 된다.
@@ -159,17 +159,17 @@ tags = ["Software Engineering"]
 
 ```text
 현실 업무 영역
-    │
-    ▼
+    |
+    v
 용어 · 규칙 · 이벤트 정리
-    │
-    ▼
+    |
+    v
 도메인 모델 · 컨텍스트 정의
-    │
-    ├──────────────▶ 요구사항 명세
-    ├──────────────▶ 아키텍처 경계 설정
-    ├──────────────▶ 데이터 / API / 이벤트 설계
-    ▼
+    |
+    +---------------> 요구사항 명세
+    +---------------> 아키텍처 경계 설정
+    +---------------> 데이터 / API / 이벤트 설계
+    v
 구현 · 테스트 · 변경 영향 분석
 ```
 
@@ -187,7 +187,7 @@ tags = ["Software Engineering"]
 
 **진행 상황**: 170 / 973
 
-← **이전**: [169. 품질의 집 (HoQ, House of Quality) 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/)
-**다음**: [171. 요구사항 일관성 검사 (Consistency Checking)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/171_requirements_consistency_checking/) →
+<- **이전**: [169. 품질의 집 (HoQ, House of Quality) 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/)
+**다음**: [171. 요구사항 일관성 검사 (Consistency Checking)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/171_requirements_consistency_checking/) ->
 
 ---

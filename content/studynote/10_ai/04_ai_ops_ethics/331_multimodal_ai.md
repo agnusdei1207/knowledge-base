@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 반면 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3는 텍스트만, ResNet은 이미지만 처리한다. 현실은 텍스트·이미지·소리·동영상이 뒤섞여 있다. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>는 이 현실에 맞게 여러 감각(모달리티)을 동시에 처리하는 AI다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4V, Gemini, Claude 3가 이미지를 보고 질문에 답하는 것이 바로 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 대표 사례다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 단일 모달 AI는 눈을 감고 글만 읽는 학자다. [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI는 눈·귀·피부·코를 모두 열어 세상을 느끼는 사람이다. "이 식물이 뭔지 알아봐줘(이미지)"라고 사진을 보여주면서 말하는(음성) 복합 요청을 처리할 수 있어야 진정한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트가 된다.
@@ -39,28 +39,28 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         멀티모달 AI 아키텍처 (CLIP + LLM 결합 방식)                  │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① CLIP (Contrastive Language-Image Pre-training) 구조:          │
-│  텍스트 인코더 ─────────── 공통 임베딩 공간 ─────── 이미지 인코더  │
-│  "고양이 사진"              ← 정렬 →              [고양이 사진]  │
-│  (코사인 유사도 최대화: 쌍 일치, 최소화: 쌍 불일치)                │
-│                                                                  │
-│  ② Vision-Language Model (LLaVA, GPT-4V 방식):                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  이미지 → 비전 인코더(ViT) → 이미지 토큰                   │   │
-│  │  텍스트 → 텍스트 토큰                                       │   │
-│  │  [이미지 토큰 + 텍스트 토큰] → LLM (Projection Layer 거쳐)  │   │
-│  │  → 텍스트 응답 생성                                         │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  ③ Any-to-Any 멀티모달 (GPT-4o, Gemini Ultra):                  │
-│  텍스트 ↔ 이미지 ↔ 오디오 ↔ 비디오 자유롭게 입출력               │
-│  단일 Transformer가 모든 모달리티 토큰을 통합 처리                 │
-│  → End-to-End 학습, 크로스모달 추론                              │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         멀티모달 AI 아키텍처 (CLIP + LLM 결합 방식)                  |
++------------------------------------------------------------------+
+|                                                                  |
+|  ① CLIP (Contrastive Language-Image Pre-training) 구조:          |
+|  텍스트 인코더 ----------- 공통 임베딩 공간 ------- 이미지 인코더  |
+|  "고양이 사진"              <- 정렬 ->              [고양이 사진]  |
+|  (코사인 유사도 최대화: 쌍 일치, 최소화: 쌍 불일치)                |
+|                                                                  |
+|  ② Vision-Language Model (LLaVA, GPT-4V 방식):                  |
+|  +----------------------------------------------------------+   |
+|  |  이미지 -> 비전 인코더(ViT) -> 이미지 토큰                   |   |
+|  |  텍스트 -> 텍스트 토큰                                       |   |
+|  |  [이미지 토큰 + 텍스트 토큰] -> LLM (Projection Layer 거쳐)  |   |
+|  |  -> 텍스트 응답 생성                                         |   |
+|  +----------------------------------------------------------+   |
+|                                                                  |
+|  ③ Any-to-Any 멀티모달 (GPT-4o, Gemini Ultra):                  |
+|  텍스트 ↔ 이미지 ↔ 오디오 ↔ 비디오 자유롭게 입출력               |
+|  단일 Transformer가 모든 모달리티 토큰을 통합 처리                 |
+|  -> End-to-End 학습, 크로스모달 추론                              |
++------------------------------------------------------------------+
 ```
 
 | 모델 | 입력 모달리티 | 출력 | 대표 기능 |
@@ -69,7 +69,7 @@ tags = ["studynote-ai"]
 | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4V | 텍스트+이미지 | 텍스트 | 이미지 이해·설명 |
 | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4o | 텍스트+이미지+오디오 | 텍스트+오디오 | 실시간 대화 |
 | Gemini | 텍스트+이미지+오디오+비디오 | 텍스트+이미지 | [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 분석 |
-| Stable Diffusion XL | 텍스트 | 이미지 | 텍스트→이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| Stable Diffusion XL | 텍스트 | 이미지 | 텍스트->이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 - **📢 섹션 요약 비유**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 학습은 그림과 설명 카드를 수억 장 보면서 "이 그림은 이 설명이랑 짝이에요"를 반복 학습하는 것이다. 고양이 사진과 "고양이" 텍스트를 공통 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 가깝게, "자동차" 텍스트와는 멀게 배치하도록 대조 학습한다. 이 학습만으로 처음 보는 사진도 텍스트와 연결할 수 있는 제로샷 비전-언어 이해가 가능해진다.
 
@@ -78,9 +78,9 @@ tags = ["studynote-ai"]
 ## Ⅲ. 비교 및 연결
 
 **크로스모달 정렬(Cross-Modal Alignment)의 활용**:
-- **이미지 캡셔닝**: 이미지 → 텍스트 설명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) + [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))
+- **이미지 캡셔닝**: 이미지 -> 텍스트 설명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) + [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))
 - **텍스트-이미지 검색**: 텍스트 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 관련 이미지 검색 ([CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))
-- **시각적 질의응답(VQA)**: 이미지 + 질문 → 답변 ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4V)
+- **시각적 질의응답(VQA)**: 이미지 + 질문 -> 답변 ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4V)
 - **문서 이해**: 스캔된 PDF의 텍스트+표+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 통합 해석 ([Multimodal](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) DocAI)
 
 | 구분 | 핵심 초점 | 적용 상황 |
@@ -89,17 +89,17 @@ tags = ["studynote-ai"]
 | [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Multimodal AI](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/286_multimodal_ai/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
 | 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
-- **📢 섹션 요약 비유**: 크로스모달 검색은 사서가 "이 사진과 비슷한 내용의 책"을 찾아주는 것이다. 사진(이미지)을 보고 "이건 바다 낚시 장면이군" → 텍스트 공간에서 "낚시, 바다, 낚시대"와 가까운 책들을 검색한다. 이미지와 텍스트를 같은 공간([CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))에 배치한 덕분에 가능한 마법이다.
+- **📢 섹션 요약 비유**: 크로스모달 검색은 사서가 "이 사진과 비슷한 내용의 책"을 찾아주는 것이다. 사진(이미지)을 보고 "이건 바다 낚시 장면이군" -> 텍스트 공간에서 "낚시, 바다, 낚시대"와 가까운 책들을 검색한다. 이미지와 텍스트를 같은 공간([CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))에 배치한 덕분에 가능한 마법이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 실무 응용 시나리오</strong>:
-1. <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: X선+[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(이미지) + 환자 증상 텍스트 → 종합 진단 및 설명
-2. **제조 품질 검사**: 생산 라인 카메라(이미지) + 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수치) → 불량 원인 분석
-3. <strong>고객 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 제품 사진(이미지) + 음성 질문(오디오) → 텍스트+이미지 답변
-4. <strong>교육 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 학생 작성 수식 사진(이미지) + 음성 설명 → 틀린 부분 피드백
+1. <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: X선+[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(이미지) + 환자 증상 텍스트 -> 종합 진단 및 설명
+2. **제조 품질 검사**: 생산 라인 카메라(이미지) + 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수치) -> 불량 원인 분석
+3. <strong>고객 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 제품 사진(이미지) + 음성 질문(오디오) -> 텍스트+이미지 답변
+4. <strong>교육 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 학생 작성 수식 사진(이미지) + 음성 설명 -> 틀린 부분 피드백
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a> <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">Multimodal</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)의 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 이미지에 없는 물체를 "있다"고 설명하거나, 이미지의 텍스트를 잘못 읽는 현상. 이미지-텍스트 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수.
 
@@ -128,7 +128,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [멀티모달 AI (Multimodal AI)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [멀티모달 AI (Multimodal AI)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -143,7 +143,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 331 / 420
 
-← **이전**: [330. AI 윤리 (AI Ethics)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/)
-**다음**: [332. GNN (Graph Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/332_gnn/) →
+<- **이전**: [330. AI 윤리 (AI Ethics)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/330_ai_ethics/)
+**다음**: [332. GNN (Graph Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/332_gnn/) ->
 
 ---

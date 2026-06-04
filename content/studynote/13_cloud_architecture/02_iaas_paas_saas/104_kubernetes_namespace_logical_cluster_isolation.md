@@ -32,18 +32,18 @@ tags = ["studynote-cloud-architecture"]
 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 단순한 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 역할을 넘어, K8s 자원 관리의 강력한 바운더리로 작동한다. [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)별로 자원 한도 (Resource [Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))를 설정하여 특정 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 클러스터 전체 자원을 고갈시키지 않도록 방어한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Kubernetes 단일 물리 클러스터 (Node 1~N)           │
-├──────────────────────────────────────────────────────────────┤
-│ ┌──────────────────────┐ ┌───────────────────────────────┐ │
-│ │  Namespace: dev      │ │      Namespace: prod          │ │
-│ │                      │ │                               │ │
-│ │  [Pod: frontend]     │ │  [Pod: frontend]              │ │
-│ │  (Quota: CPU 2, M 4G)│ │  (Quota: CPU 10, M 32G)       │ │
-│ │                      │ │                               │ │
-│ │ ⛔ 이름 충돌 없음!   │ │ ⛔ dev의 자원 독식 차단!      │ │
-│ └──────────────────────┘ └───────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Kubernetes 단일 물리 클러스터 (Node 1~N)           |
++--------------------------------------------------------------+
+| +----------------------+ +-------------------------------+ |
+| |  Namespace: dev      | |      Namespace: prod          | |
+| |                      | |                               | |
+| |  [Pod: frontend]     | |  [Pod: frontend]              | |
+| |  (Quota: CPU 2, M 4G)| |  (Quota: CPU 10, M 32G)       | |
+| |                      | |                               | |
+| | ⛔ 이름 충돌 없음!   | | ⛔ dev의 자원 독식 차단!      | |
+| +----------------------+ +-------------------------------+ |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 물리적 서버 노드들이 하나의 거대한 자원 풀로 묶여 있지만, 그 위에 씌워진 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 논리적인 칸막이와 자원 한계선을 긋고 있음을 보여준다.
@@ -111,17 +111,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 Default Namespace 혼재 (자원 독식, 충돌)
-    │
-    ▼
+    |
+    v
 논리적 분할 도입: K8s Namespace
-    │
-    ▼
+    |
+    v
 자원 및 권한 통제: ResourceQuota, RBAC 적용
-    │
-    ▼
+    |
+    v
 네트워크 보안 격리: Network Policy
-    │
-    ▼
+    |
+    v
 클러스터 플릿 관리: Multi-Cluster, vCluster (가상 클러스터)
 ```
 
@@ -139,7 +139,7 @@ Default Namespace 혼재 (자원 독식, 충돌)
 
 **진행 상황**: 103 / 371
 
-← **이전**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/)
-**다음**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/) →
+<- **이전**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/)
+**다음**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/) ->
 
 ---

@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 포털 갱신율과 현행성 감리는 전사아키텍처 포털([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/) Portal)의 갱신율과 현행성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 운영 거버넌스가 기준선으로 정리되지 않으면 [데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/)은 사람 의존 절차로 흩어지고, 최종적으로 활용도가 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 운영 거버넌스 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 데이터 스튜어드십 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 활용도 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 운영 거버넌스 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 데이터 스튜어드십 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 활용도 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 포털 갱신율과 현행성 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 활용도를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 운영 거버넌스, [데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship/), 활용도는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[운영 거버넌스] → EA 포털 갱신율과 현행성 감리] → [클라우드 네이티브 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)]
+[운영 거버넌스] -> EA 포털 갱신율과 현행성 감리] -> [클라우드 네이티브 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운영 거버넌스는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 366 / 530
 
-← **이전**: [303. EA 모델 현행화 동기화율 검증 (EA Model Synchronization Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/303_audit/)
-**다음**: [304. ITIL 4 SVS 운영가치체계 감리 (ITIL 4 Service Value System Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/304_itil_v4_svs/) →
+<- **이전**: [303. EA 모델 현행화 동기화율 검증 (EA Model Synchronization Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/303_audit/)
+**다음**: [304. ITIL 4 SVS 운영가치체계 감리 (ITIL 4 Service Value System Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/304_itil_v4_svs/) ->
 
 ---

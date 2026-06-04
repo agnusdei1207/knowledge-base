@@ -26,8 +26,8 @@ tags = ["studynote-ict-convergence"]
   또는 근본적 규칙 변경
 
   구버전 노드: 새 블록을 무효로 인식
-  → 체인 분리 (구버전 체인 vs 신버전 체인)
-  → 모든 노드의 강제 업그레이드 필요
+  -> 체인 분리 (구버전 체인 vs 신버전 체인)
+  -> 모든 노드의 강제 업그레이드 필요
 
   예: Ethereum의 DAO 포크 (ETH vs ETC)
 
@@ -35,14 +35,14 @@ tags = ["studynote-ict-convergence"]
   규칙 강화 (기존에 허용되던 것을 제한)
 
   구버전 노드: 새 블록을 유효로 인식 (하위 호환)
-  → 체인 분리 없음
-  → 채굴자 과반수 지지만으로 활성화 가능
+  -> 체인 분리 없음
+  -> 채굴자 과반수 지지만으로 활성화 가능
 
   예: 비트코인 P2SH (2012), SegWit (2017)
 
 소프트 포크가 가능한 이유:
-  구버전: "이 블록이 내 규칙을 위반하지 않는가?" → 패스
-  신버전: "이 블록이 새로운 엄격한 규칙을 준수하는가?" → 추가 검증
+  구버전: "이 블록이 내 규칙을 위반하지 않는가?" -> 패스
+  신버전: "이 블록이 새로운 엄격한 규칙을 준수하는가?" -> 추가 검증
 
   새 블록은 두 규칙을 동시에 만족:
   - 기존 규칙: 준수 (구버전 노드 통과)
@@ -67,35 +67,35 @@ BIP (Bitcoin Improvement Proposal):
   소프트 포크 활성화 메커니즘:
 
 IsSuperMajority (초기 방식):
-  950/1000 블록이 특정 버전 신호 → 활성화
+  950/1000 블록이 특정 버전 신호 -> 활성화
 
   문제: 채굴자가 신호 보내도 실제 업그레이드 안 함
 
 BIP9 (Version Bits):
   블록 헤더 versionbits 필드 활용
-  2,016블록마다 75% 이상 신호 → 활성화
+  2,016블록마다 75% 이상 신호 -> 활성화
   타임아웃 없으면 실패 처리
 
   예: SegWit (BIP141) BIP9으로 처음 시도
-  → 채굴자 저항으로 실패
+  -> 채굴자 저항으로 실패
 
 BIP148 (UASF: User Activated Soft Fork):
   사용자/노드 주도 활성화
   특정 날짜 이후 SegWit 미신호 블록 거부
 
   "채굴자가 아닌 사용자가 규칙 집행"
-  → 채굴자 게임 이론적 압박
+  -> 채굴자 게임 이론적 압박
 
 BIP91:
-  80% 채굴자 동의 → 2,016블록 내 활성화
+  80% 채굴자 동의 -> 2,016블록 내 활성화
   SegWit 활성화에 실제 사용됨
 
 Taproot 활성화 (2021):
   Speedy Trial:
   2,016블록 기간 동안 90% 채굴자 신호
-  → 성공 시 즉시 확정 (타임아웃 후 락인)
+  -> 성공 시 즉시 확정 (타임아웃 후 락인)
 
-  결과: 90%+ 신호 → 826,848블록에서 활성화
+  결과: 90%+ 신호 -> 826,848블록에서 활성화
 ```
 
 > 📢 **섹션 요약 비유**: BIP 활성화 = 법안 통과 과정 — BIP9(국회 75% 찬성), UASF(국민 청원으로 강제), BIP91(신속처리). SegWit은 채굴자 저항에도 결국 사용자 압박으로 통과!
@@ -113,11 +113,11 @@ SegWit (BIP141, 2017):
   트랜잭션 서명 데이터: 전체의 ~60~70%
 
   처리량 병목:
-  1MB 블록 → 평균 7 TPS
+  1MB 블록 -> 평균 7 TPS
 
   트랜잭션 변조 취약성(TxID Malleability):
-  서명 데이터 변경 → 트랜잭션 ID 변경 가능
-  → Lightning Network 구현의 전제 조건 해결 필요
+  서명 데이터 변경 -> 트랜잭션 ID 변경 가능
+  -> Lightning Network 구현의 전제 조건 해결 필요
 
 SegWit 해결책:
 
@@ -135,16 +135,16 @@ SegWit 해결책:
 
   실질 효과:
   순수 SegWit 트랜잭션 블록: 최대 ~1.8~2.7MB 동등
-  → 처리량: 7 TPS → 약 14~18 TPS
+  -> 처리량: 7 TPS -> 약 14~18 TPS
 
 하위 호환성:
-  구버전 노드: Witness 필드 무시 → 블록 유효로 인식
-  신버전 노드: Witness 검증 → 추가 보안
+  구버전 노드: Witness 필드 무시 -> 블록 유효로 인식
+  신버전 노드: Witness 검증 -> 추가 보안
 
 부가 효과:
   TxID Malleability 해결
-  → Lightning Network 활성화 가능
-  → 레이어 2 결제 채널 기반 구축
+  -> Lightning Network 활성화 가능
+  -> 레이어 2 결제 채널 기반 구축
 ```
 
 > 📢 **섹션 요약 비유**: SegWit = 여권 수하물 분리 — 여권(거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 수하물(서명)을 분리해서 같은 비행기(블록)에 더 많은 여행자([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 탑승. 수하물 요금 할인(서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 1/4)!
@@ -160,25 +160,25 @@ Taproot (BIP340/341/342, 2021):
   3가지 BIP 결합:
 
 BIP340: Schnorr Signatures (슈노르 서명):
-  기존 ECDSA → Schnorr으로 교체
+  기존 ECDSA -> Schnorr으로 교체
 
   장점:
-  선형성(Linearity): 여러 서명 → 하나로 집계
+  선형성(Linearity): 여러 서명 -> 하나로 집계
   MuSig: n-of-n 다중 서명을 단일 서명처럼
-  공간 절약: ECDSA 71바이트 → Schnorr 64바이트
+  공간 절약: ECDSA 71바이트 -> Schnorr 64바이트
 
 BIP341: Taproot:
   MAST (Merklized Alternative Script Trees)와 결합
 
   스마트 컨트랙트 프라이버시:
-  복잡한 조건 스크립트 → Merkle 트리로 숨기기
+  복잡한 조건 스크립트 -> Merkle 트리로 숨기기
 
   "키 경로(Key Path)": 모두 동의 시 단순 서명처럼
   "스크립트 경로": 조건 분기 시 해당 경로만 공개
 
   장점:
-  복잡한 계약 = 단순 결제와 구분 불가 → 프라이버시
-  Merkle 브랜치만 공개 → 공간 효율
+  복잡한 계약 = 단순 결제와 구분 불가 -> 프라이버시
+  Merkle 브랜치만 공개 -> 공간 효율
 
 BIP342: Tapscript:
   Taproot 스크립트 해석 규칙 업데이트
@@ -217,7 +217,7 @@ SegWit 도입 의사결정:
 마이그레이션 과정:
 
   Phase 1 (1개월): 출금 SegWit 전환
-  거래소 HOT 지갑: Legacy → SegWit 지갑
+  거래소 HOT 지갑: Legacy -> SegWit 지갑
   출금 트랜잭션: SegWit 타입으로 전환
   수수료 절감: 즉시 발생
 
@@ -228,7 +228,7 @@ SegWit 도입 의사결정:
   Phase 3: P2SH-SegWit (3...주소) 단계적 폐지
 
 결과:
-  거래소 비트코인 출금 수수료: $30 → $10 (67% 감소)
+  거래소 비트코인 출금 수수료: $30 -> $10 (67% 감소)
   블록 공간 효율: 약 40% 개선
   사용자 불만 감소
 
@@ -259,7 +259,7 @@ SegWit 도입 의사결정:
 +-- 비교
 |   +-- 하드 포크 (체인 분리)
 +-- BIP 프로세스
-    +-- 제안 → 검토 → BIP → 구현 → 활성화
+    +-- 제안 -> 검토 -> BIP -> 구현 -> 활성화
 ```
 
 ---
@@ -311,7 +311,7 @@ OP_CTV (Covenant)
 
 **진행 상황**: 48 / 552
 
-← **이전**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/)
-**다음**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/knowledge-base/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/) →
+<- **이전**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/)
+**다음**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/knowledge-base/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/) ->
 
 ---

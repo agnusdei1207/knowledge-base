@@ -209,7 +209,7 @@ TCP/IP 인터넷 체크섬
 이더넷 CRC-32 (1980)
       |
       v
-[해밍 코드 → RS 코드]
+[해밍 코드 -> RS 코드]
 오류 정정으로 확장 (CD, DVD)
       |
       v
@@ -236,7 +236,7 @@ CPU 개입 없는 라인 속도 처리
 
 **진행 상황**: 40 / 800
 
-← **이전**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/)
-**다음**: [041. 자원 할당 (Resource Allocation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) →
+<- **이전**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/)
+**다음**: [041. 자원 할당 (Resource Allocation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) ->
 
 ---

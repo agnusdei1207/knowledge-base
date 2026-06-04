@@ -28,18 +28,18 @@ tags = ["studynote-database"]
 아래 그림은 왜 "한 축만으로는 부족한지"를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why one axis is not enough                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Retention axis needed : drop / archive by month                   │
-│ Distribution axis needed : spread hot rows inside the month       │
-│                                                                    │
-│ order_date   ──▶ Main partition (Range)                           │
-│ customer_id  ──▶ Subpartition   (Hash)                            │
-│ region_code  ──▶ Subpartition   (List)                            │
-│                                                                    │
-│ Result : manage by time, distribute by load or business meaning   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Why one axis is not enough                                        |
++--------------------------------------------------------------------+
+| Retention axis needed : drop / archive by month                   |
+| Distribution axis needed : spread hot rows inside the month       |
+|                                                                    |
+| order_date   ---> Main partition (Range)                           |
+| customer_id  ---> Subpartition   (Hash)                            |
+| region_code  ---> Subpartition   (List)                            |
+|                                                                    |
+| Result : manage by time, distribute by load or business meaning   |
++--------------------------------------------------------------------+
 ```
 
 중요한 점은 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션이 같은 질문에 답하지 않는다는 것이다. 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "무엇을 한 번에 버리거나 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)할 것인가"에 답하고, 서브파티션은 "그 안에서 어떻게 고르게 나누거나 의미 있게 나눌 것인가"에 답한다.
@@ -73,20 +73,20 @@ SUBPARTITIONS 8 (
 아래 그림은 입력과 조회가 두 단계로 좁혀지는 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Two-stage routing and pruning                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Insert row                                                        │
-│   ├─ main key = order_date  ─▶ P_2025_Q1                          │
-│   └─ sub  key = customer_id ─▶ SP_HASH_03                         │
-│                                                                    │
-│ Query: order_date + customer_id                                   │
-│   1) prune main partitions first                                  │
-│   2) then narrow reachable subpartitions                          │
-│                                                                    │
-│ Query: only order_date                                             │
-│   └─ main pruning only, all subpartitions in that range remain    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Two-stage routing and pruning                                     |
++--------------------------------------------------------------------+
+| Insert row                                                        |
+|   +- main key = order_date  --> P_2025_Q1                          |
+|   +- sub  key = customer_id --> SP_HASH_03                         |
+|                                                                    |
+| Query: order_date + customer_id                                   |
+|   1) prune main partitions first                                  |
+|   2) then narrow reachable subpartitions                          |
+|                                                                    |
+| Query: only order_date                                             |
+|   +- main pruning only, all subpartitions in that range remain    |
++--------------------------------------------------------------------+
 ```
 
 | 조합 | 메인 기준 | 서브 기준 | 잘 맞는 요구 | 주의점 |
@@ -177,15 +177,15 @@ SUBPARTITIONS 8 (
 
 ```text
 기간 관리 요구 + 내부 분산 요구
-            │
-            ▼
+            |
+            v
 컴포지트 파티셔닝 (Composite Partitioning)
-            │
-            ├──────────────► Range + Hash
-            ├──────────────► Range + List
-            ├──────────────► List + Hash
-            │
-            ▼
+            |
+            +--------------► Range + Hash
+            +--------------► Range + List
+            +--------------► List + Hash
+            |
+            v
 파티션 프루닝 · 로컬 인덱스 · 운영 자동화 결합
 ```
 
@@ -203,7 +203,7 @@ SUBPARTITIONS 8 (
 
 **진행 상황**: 183 / 600
 
-← **이전**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/)
-**다음**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) →
+<- **이전**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/)
+**다음**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ->
 
 ---

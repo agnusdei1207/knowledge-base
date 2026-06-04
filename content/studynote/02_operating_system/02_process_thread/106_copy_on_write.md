@@ -38,25 +38,25 @@ COW는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_
 | **4. 복사 및 권한 갱신**| 폴트 핸들러 | 기존 내용을 새 프레임에 복사하고, 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 새 프레임으로 연결한 뒤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한 (Read-Write)을 부여함. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Copy-on-Write (COW) 메커니즘 흐름도                │
-├──────────────────────────────────────────────────────────────┤
-│ [1. fork() 직후 - 자원 공유]                                     │
-│ 부모 프로세스 (PTE: Read-Only) ────┐                            │
-│                                  ▼                            │
-│                             [물리 메모리 페이지 A]                │
-│                                  ▲                            │
-│ 자식 프로세스 (PTE: Read-Only) ────┘                            │
-│                                                              │
-│ [2. 자식 프로세스가 쓰기(Write) 시도]                            │
-│ 자식 ──(쓰기 명령)──▶ MMU가 읽기 전용 위반 감지 ──▶ Page Fault 발생 │
-│                                                              │
-│ [3. 커널의 개입 및 페이지 개별 복사]                             │
-│ 부모 프로세스 (PTE: Read-Only) ────▶ [물리 메모리 페이지 A]      │
-│                                                              │
-│ 자식 프로세스 (PTE: Read-Write) ───▶ [새로운 물리 페이지 A']     │
-│ (새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Copy-on-Write (COW) 메커니즘 흐름도                |
++--------------------------------------------------------------+
+| [1. fork() 직후 - 자원 공유]                                     |
+| 부모 프로세스 (PTE: Read-Only) ----+                            |
+|                                  v                            |
+|                             [물리 메모리 페이지 A]                |
+|                                  ^                            |
+| 자식 프로세스 (PTE: Read-Only) ----+                            |
+|                                                              |
+| [2. 자식 프로세스가 쓰기(Write) 시도]                            |
+| 자식 --(쓰기 명령)---> MMU가 읽기 전용 위반 감지 ---> Page Fault 발생 |
+|                                                              |
+| [3. 커널의 개입 및 페이지 개별 복사]                             |
+| 부모 프로세스 (PTE: Read-Only) -----> [물리 메모리 페이지 A]      |
+|                                                              |
+| 자식 프로세스 (PTE: Read-Write) ----> [새로운 물리 페이지 A']     |
+| (새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)           |
++--------------------------------------------------------------+
 ```
 
 이 그림이 보여주듯 COW의 마법은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 '오류'를 적극적인 '[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)'로 활용한다는 점이다. MMU가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도를 감시하고 있다가 걸러내면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 비로소 단 1개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(일반적으로 4KB)만 복사하는 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))를 수행한다.
@@ -120,14 +120,14 @@ Copy-on-Write는 "필요해질 때까지 일하지 않는다"는 컴퓨터 과�
 
 ```text
 Deep Copy (물리적 전체 복사, 높은 지연)
-    │
-    ▼
+    |
+    v
 Copy-on-Write (메모리 지연 복사, fork() 속도 최적화)
-    │
-    ▼
+    |
+    v
 KSM (Kernel Same-page Merging, 가상화 메모리 중복 제거 병합)
-    │
-    ▼
+    |
+    v
 OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 최적화)
 ```
 
@@ -143,7 +143,7 @@ OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 �
 
 **진행 상황**: 106 / 800
 
-← **이전**: [105. 부모 프로세스 (Parent Process) / 자식 프로세스 (Child Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)
-**다음**: [107. 프로세스 종료 (Process Termination) - exit(), wait()](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) →
+<- **이전**: [105. 부모 프로세스 (Parent Process) / 자식 프로세스 (Child Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)
+**다음**: [107. 프로세스 종료 (Process Termination) - exit(), wait()](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) ->
 
 ---

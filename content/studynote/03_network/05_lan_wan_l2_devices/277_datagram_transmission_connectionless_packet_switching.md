@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [패킷 교환 vs 회선 교환 vs 메시지 교환]
-    │
-    ▼
+    |
+    v
 [데이터그램 전송 방식]
-    │
-    └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
+    |
+    +---> [가상 회선 전송 방식 (연결형 패킷 교환]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>그램 전송은 목적지만 알려주고 100명의 병사에게 각자 알아서 목적지로 집결하라고 명령하는 </strong>"각개전투(게릴라) 전술"**입니다. 지휘관(라우터)이 죽어도 병사들은 멈추지 않고 스스로 살길을 찾습니다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [패킷 교환 vs 회선 교환 vs 메시지 교환]
-    │
-    ▼
+    |
+    v
 [데이터그램 전송 방식]
-    │
-    └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
+    |
+    +---> [가상 회선 전송 방식 (연결형 패킷 교환]
 ```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -65,23 +65,23 @@ tags = ["studynote-network"]
 - 1번 패킷이 통과한 직후 A 도로에 교통사고(링크 장애)가 났다면, 2번 패킷이 도착했을 때 라우터는 즉시 B 도로로 우회시켜 버린다. (동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 핵심)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                데이터그램 (Datagram) 전송의 순서 역전           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                          [ 라우터 2 ] (빠른 고속도로)         │
- │                        ↗           ↘                       │
- │  (패킷 1, 2, 3) ── [ 라우터 1 ]          [ 라우터 4 ] ── (수신)  │
- │                        ↘           ↗                       │
- │                          [ 라우터 3 ] (막히는 국도)           │
- │                                                             │
- │   1) 패킷 1 발송 ──▶ 라우터 1이 라우터 3(국도)으로 보냄.          │
- │   2) 패킷 2 발송 ──▶ 1초 뒤, 라우터 1이 라우터 2(고속도로)로 보냄.  │
- │   3) 패킷 3 발송 ──▶ 라우터 2(고속도로)로 보냄.                  │
- │                                                             │
- │   ▶ 수신 측 도착 결과: [ 패킷 2 ] -> [ 패킷 3 ] -> [ 패킷 1 ]   │
- │   ▶ 결론: 출발 순서와 도착 순서가 뒤죽박죽 됨! (수신자가 재조립해야 함)│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                데이터그램 (Datagram) 전송의 순서 역전           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |                          [ 라우터 2 ] (빠른 고속도로)         |
+ |                        ↗           ↘                       |
+ |  (패킷 1, 2, 3) -- [ 라우터 1 ]          [ 라우터 4 ] -- (수신)  |
+ |                        ↘           ↗                       |
+ |                          [ 라우터 3 ] (막히는 국도)           |
+ |                                                             |
+ |   1) 패킷 1 발송 ---> 라우터 1이 라우터 3(국도)으로 보냄.          |
+ |   2) 패킷 2 발송 ---> 1초 뒤, 라우터 1이 라우터 2(고속도로)로 보냄.  |
+ |   3) 패킷 3 발송 ---> 라우터 2(고속도로)로 보냄.                  |
+ |                                                             |
+ |   -> 수신 측 도착 결과: [ 패킷 2 ] -> [ 패킷 3 ] -> [ 패킷 1 ]   |
+ |   -> 결론: 출발 순서와 도착 순서가 뒤죽박죽 됨! (수신자가 재조립해야 함)|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 신뢰성의 결여와 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 역할
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 패킷 교환 vs 회선 교환 vs 메시지 교환]
-    │
-    ▼
+    |
+    v
 [현재 개념: 데이터그램 전송 방식]
-    │
-    ├──▶ [확장 A: 가상 회선 전송 방식 (연결형 패킷 교환]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 가상 회선 전송 방식 (연결형 패킷 교환]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식는 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환에서 출발해 현재 메커니즘을 정교화하고, 이후 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 398 / 1120
 
-← **이전**: [276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)
-**다음**: [278. 가상 회선 전송 방식 (연결형 패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/278_virtual_circuit_transmission_connection_oriented_packet_switching/) →
+<- **이전**: [276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)
+**다음**: [278. 가상 회선 전송 방식 (연결형 패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/278_virtual_circuit_transmission_connection_oriented_packet_switching/) ->
 
 ---

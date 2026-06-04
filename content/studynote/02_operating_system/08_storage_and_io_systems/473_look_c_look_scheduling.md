@@ -30,32 +30,32 @@ tags = ["studynote-operating-system"]
   3. **현업 스탠다드 등극**: C-SCAN의 완벽한 공평성에 LOOK의 동선 다이어트가 결합된 C-LOOK이 기계식 하드의 궁극적 최종 진화형으로 교과서를 덮음.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        멍청한 C-SCAN vs 똑똑한 C-LOOK의 허공 스윙(헛발질) 절약 시각화     │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 큐 요청 순서 ]:  98, 183, 37, 122, 14, 124                              │
-│ [ 헤드 위치 ]: 53번 트랙 / [ 199번을 향해 상행 중! ]                      │
-│                                                                           │
-│ ▶ 1. 멍청한 C-SCAN (무조건 199번 벽 끝까지 가서 점프)                     │
-│   14   37     53     98    122 124        183      199                    │
-│   │    │      [시작] ──▶     │  │          │        │                     │
-│   │    │                    └─────────▶ │        │                        │
-│   │    │                                  └───────▶ ││ (허공 낭비)
-│ 0 │    │ ◀─ (199 찍자마자 0번 끝으로 미친 듯이 뒤로 날아감)  ───┘         │
-│ └─▶│    │                                                                 │
-│                                                                           │
-│ ▶ 2. 센스 만점 C-LOOK (가장 먼 183번까지만 가고 바로 점프!)               │
-│   14   37     53     98    122 124        183      199                    │
-│   │    │      [시작] ──▶     │  │          │                              │
-│   │    │                    └─────────▶ │                                 │
-│   │    │                                  └───────▶                       │
-│   │ ◀─ (183번 줍자마자, "뒤에 없지?" 확인 후 14번으로 직통 점프!)         │
-│   └─▶│                                                                    │
-│                                                                           │
-│ ✅ 결과: 183~199번 허공(16트랙) 이동 + 14~0번 허공(14트랙) 이동           │
-│         총 30트랙(왕복 60트랙)의 무의미한 쇳덩어리 헛수고를 완벽히 도려냄!│
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|        멍청한 C-SCAN vs 똑똑한 C-LOOK의 허공 스윙(헛발질) 절약 시각화     |
++---------------------------------------------------------------------------+
+|                                                                           |
+| [ 큐 요청 순서 ]:  98, 183, 37, 122, 14, 124                              |
+| [ 헤드 위치 ]: 53번 트랙 / [ 199번을 향해 상행 중! ]                      |
+|                                                                           |
+| -> 1. 멍청한 C-SCAN (무조건 199번 벽 끝까지 가서 점프)                     |
+|   14   37     53     98    122 124        183      199                    |
+|   |    |      [시작] --->     |  |          |        |                     |
+|   |    |                    +----------> |        |                        |
+|   |    |                                  +--------> || (허공 낭비)
+| 0 |    | <-- (199 찍자마자 0번 끝으로 미친 듯이 뒤로 날아감)  ---+         |
+| +-->|    |                                                                 |
+|                                                                           |
+| -> 2. 센스 만점 C-LOOK (가장 먼 183번까지만 가고 바로 점프!)               |
+|   14   37     53     98    122 124        183      199                    |
+|   |    |      [시작] --->     |  |          |                              |
+|   |    |                    +----------> |                                 |
+|   |    |                                  +-------->                       |
+|   | <-- (183번 줍자마자, "뒤에 없지?" 확인 후 14번으로 직통 점프!)         |
+|   +-->|                                                                    |
+|                                                                           |
+| ✅ 결과: 183~199번 허공(16트랙) 이동 + 14~0번 허공(14트랙) 이동           |
+|         총 30트랙(왕복 60트랙)의 무의미한 쇳덩어리 헛수고를 완벽히 도려냄!|
++---------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 그림에서 보듯 C-LOOK은 '쓸데없는 짓'을 안 한다. 바늘이 183번을 줍는 찰나에 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 큐를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Look)한다. "더 이상 큰 번호 없지? 오케이 그럼 벽(199) 안 찍는다. 제일 작은 요청 번호가 뭐야? 14번이네. 그럼 0번 벽까지 가지도 말고 바로 14번으로 점프 뛴다!" 기계 모터의 동선(Seek Distance)을 뼈까지 발라먹는 소프트웨어의 지독한 마이크로 튜닝이다.
 
@@ -107,13 +107,13 @@ C-SCAN과 C-LOOK은 한쪽 방향으로만 [데이터](/knowledge-base/studynote
 - 이 철통같은 "[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))" 덕분에 어떤 구석에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 1바퀴 안에는 무조건 구제받는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 박멸이 성립된다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 스케줄러   │ 동선 낭비 (Seek)│ 공평성 (Variance)│ 기아 (Starvation) │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ FCFS     │ ☠️ 최악 널뛰기 │ 🟢 제일 공평함 │ 절대 안 터짐           │
-│ SSTF     │ 🚀 우주 최강   │ ☠️ 랜덤 로또 수준 │ ☠️ 구석탱이 아사    │
-│ C-LOOK   │ 🟢 아주 훌륭함 │ 🟢 매우 일정함 │ 절대 안 터짐           │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
++----------+------------+------------+--------------------------------+
+| 스케줄러   | 동선 낭비 (Seek)| 공평성 (Variance)| 기아 (Starvation) |
++----------+------------+------------+--------------------------------+
+| FCFS     | ☠️ 최악 널뛰기 | 🟢 제일 공평함 | 절대 안 터짐           |
+| SSTF     | 🚀 우주 최강   | ☠️ 랜덤 로또 수준 | ☠️ 구석탱이 아사    |
+| C-LOOK   | 🟢 아주 훌륭함 | 🟢 매우 일정함 | 절대 안 터짐           |
++----------+------------+------------+--------------------------------+
 ```
 **[매트릭스 해설]** C-LOOK은 마법이 아니다. SSTF가 가진 '최단 거리'의 폭발적 효율을 조금 포기하고, FCFS가 가진 '공평성'을 조금 섞어서 빚어낸 황금비율의 비빔밥이다. 세상 모든 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처는 결국 극단주의([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/), [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/))가 실패하고 중도주의(C-LOOK)가 승리한다는 것을 가장 잘 보여주는 산증인이다.
 
@@ -171,12 +171,12 @@ LOOK 및 C-LOOK [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_b
 
 ```text
 [C-SCAN (Circular SCAN)]
-    │
-    ▼
+    |
+    v
 [LOOK 및 C-LOOK]
-    │
-    ├──▶ [리눅스 I/O 스케줄러]
-    └──▶ [솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
+    |
+    +---> [리눅스 I/O 스케줄러]
+    +---> [솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ LOOK 및 C-LOOK [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_b
 
 **진행 상황**: 473 / 800
 
-← **이전**: [472. C-SCAN (Circular SCAN) - 한 방향으로만 처리하고 끝에 도달하면 시작점으로 빠르게 복귀 (대기 시간 균등화)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/)
-**다음**: [474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/474_linux_io_schedulers/) →
+<- **이전**: [472. C-SCAN (Circular SCAN) - 한 방향으로만 처리하고 끝에 도달하면 시작점으로 빠르게 복귀 (대기 시간 균등화)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/)
+**다음**: [474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/474_linux_io_schedulers/) ->
 
 ---

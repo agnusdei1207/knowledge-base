@@ -32,25 +32,25 @@ tags = ["studynote-devops-sre"]
 진정한 평가는 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드만 보지 않는다. 조직의 밑바닥 하드웨어(기술)부터 사람의 뇌 구조(문화)까지 3차원 축을 입체적으로 뜯어본다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           애자일 성숙도 평가 프레임워크 (Maturity Model Axes)   │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   1. [ 프로세스 (Process) ] : 스프린트, 백로그, 회고의 규격화 │
-│      - 껍데기만 스크럼인가? 가치(Value) 위주의 우선순위인가? │
-│                                                        │
-│   2. [ 기  술 (Technology) ] : CI/CD Pipeline, TDD, 자동화│
-│      - "자동화된 테스트 없이 어떻게 빠르게 배포(Agile) 합니까?" │
-│      - 쇳덩어리(Jenkins, k8s) 인프라의 뒷받침 여부 진단      │
-│                                                        │
-│   3. [ 문  화 (Culture) ] : 심리적 안전감, 자율적 조직(Cross-F)│
-│      - 실패를 처벌하는가? (그렇다면 절대 애자일이 아니다)      │
-│      - 비즈니스 부서와 IT 부서 간의 벽(Silo)이 존재하는가?   │
-│                                                        │
-│ * 핵심 논리: 프로세스만 레벨 5인데, 기술(CI/CD)이 레벨 1이면     │
-│   개발자들이 매일 밤새워 수동 배포를 하다가 번아웃(Burnout)으로  │
-│   조직 전체가 붕괴한다. 세 축의 밸런스(정렬)가 평가의 핵심이다.  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           애자일 성숙도 평가 프레임워크 (Maturity Model Axes)   |
++--------------------------------------------------------+
+|                                                        |
+|   1. [ 프로세스 (Process) ] : 스프린트, 백로그, 회고의 규격화 |
+|      - 껍데기만 스크럼인가? 가치(Value) 위주의 우선순위인가? |
+|                                                        |
+|   2. [ 기  술 (Technology) ] : CI/CD Pipeline, TDD, 자동화|
+|      - "자동화된 테스트 없이 어떻게 빠르게 배포(Agile) 합니까?" |
+|      - 쇳덩어리(Jenkins, k8s) 인프라의 뒷받침 여부 진단      |
+|                                                        |
+|   3. [ 문  화 (Culture) ] : 심리적 안전감, 자율적 조직(Cross-F)|
+|      - 실패를 처벌하는가? (그렇다면 절대 애자일이 아니다)      |
+|      - 비즈니스 부서와 IT 부서 간의 벽(Silo)이 존재하는가?   |
+|                                                        |
+| * 핵심 논리: 프로세스만 레벨 5인데, 기술(CI/CD)이 레벨 1이면     |
+|   개발자들이 매일 밤새워 수동 배포를 하다가 번아웃(Burnout)으로  |
+|   조직 전체가 붕괴한다. 세 축의 밸런스(정렬)가 평가의 핵심이다.  |
++--------------------------------------------------------+
 ```
 
 - <strong>Level 1 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: 팀마다 알아서 주먹구구식으로 함.
@@ -114,21 +114,21 @@ tags = ["studynote-devops-sre"]
 
 ```text
 애자일 방법론의 무분별한 유행 (포스트잇과 스탠드업 미팅만 흉내 내는 Fake Agile 만연)
-    │
-    ▼
+    |
+    v
 애자일 도입 실패율 증가 및 정량적/객관적 진단의 필요성 대두
-    │
-    ▼
+    |
+    v
 성숙도 평가 프레임워크 도입 (Culture, Process, Technology 3축 기반 진단)
-    │
-    ▼
-주관적 설문 진단의 한계 ──▶ DORA 메트릭스 등 데이터 기반 기술 성숙도 자동 측정 결합
-    │
-    ▼
+    |
+    v
+주관적 설문 진단의 한계 ---> DORA 메트릭스 등 데이터 기반 기술 성숙도 자동 측정 결합
+    |
+    v
 엔터프라이즈 스케일(SAFe, LeSS) 전사적 민첩성(Business Agility) 거버넌스 모델로 진화
 ```
 
-이 흐름도는 "무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 부작용 → 체계적 진단 도구의 필요성 → 정성적 설문과 정량적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 결합 → 전사 단위(엔터프라이즈) 거버넌스로의 승격"이라는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도의 발전사를 보여준다.
+이 흐름도는 "무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 부작용 -> 체계적 진단 도구의 필요성 -> 정성적 설문과 정량적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 결합 -> 전사 단위(엔터프라이즈) 거버넌스로의 승격"이라는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도의 발전사를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 51 / 373
 
-← **이전**: [BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/050_bizdevops_business_alignment/)
-**다음**: [52. Git 브랜치 전략 (Git Branching Strategies)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/) →
+<- **이전**: [BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/050_bizdevops_business_alignment/)
+**다음**: [52. Git 브랜치 전략 (Git Branching Strategies)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/052_git_branching_strategies/) ->
 
 ---

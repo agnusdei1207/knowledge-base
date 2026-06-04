@@ -30,7 +30,7 @@ tags = ["studynote-devops"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-feature → main → dev → staging → prod
+feature -> main -> dev -> staging -> prod
 ```
 
 | 브랜치 | 의미 |
@@ -97,11 +97,11 @@ GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기�
 
 ```text
 feature
-  ↓
+  v
 main
-  ↓
+  v
 dev / staging / prod
-  ↓
+  v
 Deployment Traceability
 ```
 
@@ -111,11 +111,11 @@ Deployment Traceability
 
 ```text
 GitHub Flow
-  ↓
+  v
 GitLab Flow
-  ↓
+  v
 Environment Branching
-  ↓
+  v
 CI/CD
 ```
 
@@ -133,7 +133,7 @@ GitLab Flow는 그런 환경별 배치 방법이에요.
 
 **진행 상황**: 66 / 373
 
-← **이전**: [65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/065_github_flow_branch_strategy/)
-**다음**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) →
+<- **이전**: [65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/065_github_flow_branch_strategy/)
+**다음**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ->
 
 ---

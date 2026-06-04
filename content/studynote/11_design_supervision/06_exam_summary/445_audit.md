@@ -22,11 +22,11 @@ tags = ["studynote-design-supervision"]
 특히 공공·금융처럼 가동 중단 허용 폭이 좁은 환경에서는 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구축 자체보다 전환 경계의 설계가 더 중요하다. 요청이 어느 순간부터 신규로 분기되는지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 어떤 기준으로 이관되는지, 레거시는 언제 폐기 가능한지를 명확히 해야 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 통제된다.
 
 ```text
-┌──────────────┐    ┌────────────────┐    ┌──────────────────┐
-│ Legacy Only  │──▶│ Dual Operation │──▶│ Legacy Retire    │
-└──────────────┘    └────────────────┘    └──────────────────┘
-       │                     │                        │
-       └──── 고위험 구간 ────┴──── 통제 필요 ────────┘
++--------------+    +----------------+    +------------------+
+| Legacy Only  |--->| Dual Operation |--->| Legacy Retire    |
++--------------+    +----------------+    +------------------+
+       |                     |                        |
+       +---- 고위험 구간 ----+---- 통제 필요 --------+
 ```
 
 위 흐름은 현대화의 본질이 신규 개발보다 단계적 축소 통제에 있음을 보여 준다. 감리 문서는 단계별 진입 기준과 종료 기준을 함께 제시해야 설계와 운영이 어긋나지 않는다.
@@ -38,16 +38,16 @@ tags = ["studynote-design-supervision"]
 [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)의 핵심 원리는 가로채기(Intercept) - 점진 이전(Strangle) - 종료(Retire)를 한 체계로 묶는 데 있다. 전면 게이트웨이가 모든 요청을 받아 신구 시스템으로 분기하고, 기능 단위로 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 늘리며, 마지막에는 잔존 기능과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 철거 가능 상태를 판정한다. 감리 관점에서는 기능 분리보다도 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 추적 가능하게 남아 있는지가 중요하다.
 
 ```text
-┌─────────────┐      ┌──────────────────┐      ┌──────────────┐
-│ 사용자 요청 │───▶│ Gateway / Facade │───▶│ 신규 서비스   │
-└─────────────┘      └──────────────────┘      └──────────────┘
-                             │
-                             ├───────────────▶┌──────────────┐
-                             │                │ 레거시 시스템 │
-                             │                └──────────────┘
-                             └───────────────▶┌──────────────┐      ┌──────────┐
-                                              │ CDC / 동기화 │───▶│ 신규 DB   │
-                                              └──────────────┘      └──────────┘
++-------------+      +------------------+      +--------------+
+| 사용자 요청 |---->| Gateway / Facade |---->| 신규 서비스   |
++-------------+      +------------------+      +--------------+
+                             |
+                             +---------------->+--------------+
+                             |                | 레거시 시스템 |
+                             |                +--------------+
+                             +---------------->+--------------+      +----------+
+                                              | CDC / 동기화 |---->| 신규 DB   |
+                                              +--------------+      +----------+
 ```
 
 | 구성축 | 핵심 내용 | 감리 포인트 |
@@ -115,29 +115,29 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-┌─────────────────┐
-│ Monolith Legacy │
-└─────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ Gateway Intercept  │
-└────────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ Service Extraction │
-└────────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ Data Sync / Split  │
-└────────────────────┘
-          │
-          ▼
-┌────────────────────┐
-│ Legacy Retirement  │
-└────────────────────┘
++-----------------+
+| Monolith Legacy |
++-----------------+
+          |
+          v
++--------------------+
+| Gateway Intercept  |
++--------------------+
+          |
+          v
++--------------------+
+| Service Extraction |
++--------------------+
+          |
+          v
++--------------------+
+| Data Sync / Split  |
++--------------------+
+          |
+          v
++--------------------+
+| Legacy Retirement  |
++--------------------+
 ```
 
 [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)는 단순 분해가 아니라 가로채기, 병행 운영, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정리, 폐기로 이어지는 장기 통제 흐름으로 이해해야 한다.
@@ -154,7 +154,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 523 / 530
 
-← **이전**: [444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/444_sbom/)
-**다음**: [446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public](/knowledge-base/studynote/11_design_supervision/06_exam_summary/446_csap/) →
+<- **이전**: [444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/444_sbom/)
+**다음**: [446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public](/knowledge-base/studynote/11_design_supervision/06_exam_summary/446_csap/) ->
 
 ---

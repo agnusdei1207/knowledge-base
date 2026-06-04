@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 프로시저 vs 함수 컴파일 재사용 구조은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 저장 방식과 질의 방식, 정합성과 확장성의 균형점을 설명한다. 이름만 외우면 실제 적용 위치를 잘못 잡기 쉽다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Requirement -> Current concept -> Implementation             │
-├──────────────────────────────────────────────────────────────┤
-│ Need -> design choice -> effect                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Requirement -> Current concept -> Implementation             |
++--------------------------------------------------------------+
+| Need -> design choice -> effect                              |
++--------------------------------------------------------------+
 ```
 
 이 그림은 프로시저 vs 함수 컴파일 재사용 구조를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `트리거`·`클러스터링 팩터 인덱스 효율 평가 지표`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> process -> current concept -> output                │
-├──────────────────────────────────────────────────────────────┤
-│ Mechanism -> trade-off -> decision                           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input -> process -> current concept -> output                |
++--------------------------------------------------------------+
+| Mechanism -> trade-off -> decision                           |
++--------------------------------------------------------------+
 ```
 
 핵심은 프로시저 vs 함수 컴파일 재사용 구조를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [트리거]
-    │
-    ▼
+    |
+    v
 [프로시저 vs 함수 컴파일 재사용 구조]
-    │
-    ├──▶ [클러스터링 팩터 인덱스 효율 평가 지표]
-    └──▶ [바인드 변수 적용 하드 파싱 회피]
+    |
+    +---> [클러스터링 팩터 인덱스 효율 평가 지표]
+    +---> [바인드 변수 적용 하드 파싱 회피]
 ```
 
 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)에서 출발한 논점이 프로시저 vs 함수 컴파일 재사용 구조에서 핵심 판단으로 모이고, 이후 [클러스터링 팩터](/knowledge-base/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 효율 평가 지표·[바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 적용 하드 파싱 회피 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 508 / 600
 
-← **이전**: [507. 트리거 (Trigger 이벤트 연동 프로시저 콜)](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
-**다음**: [509. 클러스터링 팩터 인덱스 효율 평가 지표 (Data Dictionary)](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/) →
+<- **이전**: [507. 트리거 (Trigger 이벤트 연동 프로시저 콜)](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+**다음**: [509. 클러스터링 팩터 인덱스 효율 평가 지표 (Data Dictionary)](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/) ->
 
 ---

@@ -31,13 +31,13 @@ tags = ["studynote-ai"]
 
 ```text
 x1, x2, x3
-  ↓   ↓   ↓
+  v   v   v
 w1, w2, w3
-  ↓   ↓   ↓
+  v   v   v
    Σ(wi × xi) + b
-          ↓
+          v
    Activation / Threshold
-          ↓
+          v
           y
 ```
 
@@ -105,13 +105,13 @@ w1, w2, w3
 
 ```text
 Input
-   ↓
+   v
 Weighted Sum
-   ↓
+   v
 Threshold
-   ↓
+   v
 Perceptron
-   ↓
+   v
 MLP / Deep Learning
 ```
 
@@ -121,11 +121,11 @@ MLP / Deep Learning
 
 ```text
 MCP 뉴런
-   ↓
+   v
 Perceptron
-   ↓
+   v
 XOR 한계
-   ↓
+   v
 MLP / Backpropagation
 ```
 
@@ -143,7 +143,7 @@ MLP / Backpropagation
 
 **진행 상황**: 62 / 420
 
-← **이전**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)
-**다음**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/knowledge-base/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/) →
+<- **이전**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)
+**다음**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/knowledge-base/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/) ->
 
 ---

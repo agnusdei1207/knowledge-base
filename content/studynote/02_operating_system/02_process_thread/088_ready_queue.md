@@ -38,17 +38,17 @@ Ready Queue는 내부에 실제 프로그램 코드가 아니라, 프로세스�
 | [Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)) | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 실행 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 고른 프로세스로 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switch를 수행하여 Running 상태로 변경 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          프로세스 상태 전이와 Ready Queue의 위치          │
-├─────────────────────────────────────────────────────────────┤
-│                 [CPU Scheduler]                             │
-│                       ▼ (선택)                              │
-│ [New] ──▶ ┌─(Head) Ready Queue (Tail)─┐ ──▶ [Running]     │
-│           │ PCB_1 ─▶ PCB_4 ─▶ PCB_2   │       │           │
-│           └───────────────────────────┘       │           │
-│                 ▲                             ▼           │
-│                 └─────── [Waiting (I/O)] ◀────┘           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          프로세스 상태 전이와 Ready Queue의 위치          |
++-------------------------------------------------------------+
+|                 [CPU Scheduler]                             |
+|                       v (선택)                              |
+| [New] ---> +-(Head) Ready Queue (Tail)-+ ---> [Running]     |
+|           | PCB_1 --> PCB_4 --> PCB_2   |       |           |
+|           +---------------------------+       |           |
+|                 ^                             v           |
+|                 +------- [Waiting (I/O)] <-----+           |
++-------------------------------------------------------------+
 ```
 
 CPU를 쓰던 프로세스가 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 소진([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생)하면 다시 Ready Queue의 꼬리(또는 적합한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))로 되돌아가 대기하는 사이클이 반복된다.
@@ -108,17 +108,17 @@ Ready Queue를 효율적으로 관리하면 CPU의 유휴 시간([Idle](/knowled
 
 ```text
 단일 큐 (FIFO 순서 대기)
-    │
-    ▼
+    |
+    v
 우선순위 기반 다중 Ready Queue (우선순위 역전 문제 대두)
-    │
-    ▼
+    |
+    v
 MLFQ (Multi-Level Feedback Queue - 상태에 따른 큐 간 이동)
-    │
-    ▼
+    |
+    v
 멀티코어 환경 Per-CPU Ready Queue 및 Work Stealing
-    │
-    ▼
+    |
+    v
 CFS (Completely Fair Scheduler - Red-Black Tree 기반 대기열)
 ```
 
@@ -134,7 +134,7 @@ CFS (Completely Fair Scheduler - Red-Black Tree 기반 대기열)
 
 **진행 상황**: 88 / 800
 
-← **이전**: [87. 생성 (New) -> 준비 (Ready) -> 실행 (Running) -> 대기 (Waiting/Blocked) -> 종료 (Terminated)](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-**다음**: [89. 대기 큐 (Wait Queue / Device Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) →
+<- **이전**: [87. 생성 (New) -> 준비 (Ready) -> 실행 (Running) -> 대기 (Waiting/Blocked) -> 종료 (Terminated)](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+**다음**: [89. 대기 큐 (Wait Queue / Device Queue)](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) ->
 
 ---

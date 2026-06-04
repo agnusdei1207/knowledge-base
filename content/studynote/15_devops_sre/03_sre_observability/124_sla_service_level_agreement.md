@@ -19,18 +19,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    SLI → SLO → SLA 계층                              │
-├───────────────────────────────────────────────────────┤
-│  SLI = 99.95% (측정 결과)                             │
-│  SLO = 99.9% (내부 목표) → SLI > SLO ✅ OK          │
-│  SLA = 99.5% (고객 계약) → SLI > SLA ✅ 계약 준수    │
-│                                                       │
-│  SLI가 SLA 미달(99.4%):                              │
-│   → 계약 위반 → 월 요금 10% 크레딧 반환             │
-│                                                       │
-│  핵심: SLO(엄격) > SLA(느슨) → 내부 여유 확보        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    SLI -> SLO -> SLA 계층                              |
++-------------------------------------------------------+
+|  SLI = 99.95% (측정 결과)                             |
+|  SLO = 99.9% (내부 목표) -> SLI > SLO ✅ OK          |
+|  SLA = 99.5% (고객 계약) -> SLI > SLA ✅ 계약 준수    |
+|                                                       |
+|  SLI가 SLA 미달(99.4%):                              |
+|   -> 계약 위반 -> 월 요금 10% 크레딧 반환             |
+|                                                       |
+|  핵심: SLO(엄격) > SLA(느슨) -> 내부 여유 확보        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SLA는 보험 계약이다. "화재(장애) 시 보험금(크레딧) 지급"처럼, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 미달 시 보상을 약속한다.
@@ -79,7 +79,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-SLA는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 비즈니스 표현</strong>이며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)→[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)→SLA의 체계적 관리가 SRE의 핵심이다.
+SLA는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 비즈니스 표현</strong>이며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)->SLA의 체계적 관리가 SRE의 핵심이다.
 
 ---
 
@@ -97,17 +97,17 @@ SLA는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 ```text
 [전통 SLA (통신·호스팅, 2000s)]
-    │
-    ▼
+    |
+    v
 [클라우드 SLA (AWS·GCP·Azure, 2010~)]
-    │
-    ▼
+    |
+    v
 [SRE — SLI/SLO/Error Budget 체계 (2016)]
-    │
-    ▼
+    |
+    v
 [OpenSLO — SLA/SLO를 코드로 정의 (2022~)]
-    │
-    ▼
+    |
+    v
 [현재: AI SLA — AI 서비스 성능 보장 계약]
 ```
 
@@ -122,7 +122,7 @@ SLA는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 **진행 상황**: 124 / 373
 
-← **이전**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)
-**다음**: [125. Error Budget (에러 예산) - 신뢰성과 혁신 속도의 균형 도구](/knowledge-base/studynote/15_devops_sre/03_sre_observability/125_error_budget/) →
+<- **이전**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)
+**다음**: [125. Error Budget (에러 예산) - 신뢰성과 혁신 속도의 균형 도구](/knowledge-base/studynote/15_devops_sre/03_sre_observability/125_error_budget/) ->
 
 ---

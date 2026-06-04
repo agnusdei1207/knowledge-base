@@ -72,11 +72,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [상위 개념: 분산 데이터베이스, NoSQL]
-    │
-    ▼
+    |
+    v
 [하위 개념: 결과적 일관성, 가용성 (Availability)]
-    │
-    ▼
+    |
+    v
 [연관 개념: CAP 정리, PACELC 이론, ACID]
 ```
 
@@ -93,7 +93,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 124 / 262
 
-← **이전**: [NoSQL 아키텍처와 분산 데이터 모델링 (NoSQL Architecture)](/knowledge-base/studynote/16_bigdata/06_nosql/123_nosql_architecture/)
-**다음**: [CAP 정리 (CAP Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/125_cap_theorem_distributed_db/) →
+<- **이전**: [NoSQL 아키텍처와 분산 데이터 모델링 (NoSQL Architecture)](/knowledge-base/studynote/16_bigdata/06_nosql/123_nosql_architecture/)
+**다음**: [CAP 정리 (CAP Theorem)](/knowledge-base/studynote/16_bigdata/06_nosql/125_cap_theorem_distributed_db/) ->
 
 ---

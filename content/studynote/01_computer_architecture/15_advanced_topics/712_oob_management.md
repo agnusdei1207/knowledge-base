@@ -46,19 +46,19 @@ OOB 관리망은 보통 전용 관리 [스위치](/knowledge-base/studynote/03_n
 다음 그림은 생산망과 관리망이 서로 다른 실패 도메인을 갖도록 만든 전형적인 구조다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    생산 평면과 관리 평면의 분리                      │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ 생산 평면                     │ 관리 평면                             │
-│ 사용자 · 애플리케이션         │ 관리자 · 보안 게이트웨이              │
-│                               │                                       │
-│ [Prod Switch] ─────────────┐  │ [VPN / Bastion] ── [OOB Switch] ──┐   │
-│                            │  │                                     │   │
-│                        ┌───▼──▼─────────────────────────────────┐   │   │
-│                        │               서버 랙                   │   │   │
-│                        │ [Host NIC]  [BMC]  [Serial]  [PDU]    │◀──┘   │
-│                        └────────────────────────────────────────┘       │
-└──────────────────────────────┴───────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    생산 평면과 관리 평면의 분리                      |
++------------------------------+---------------------------------------+
+| 생산 평면                     | 관리 평면                             |
+| 사용자 · 애플리케이션         | 관리자 · 보안 게이트웨이              |
+|                               |                                       |
+| [Prod Switch] -------------+  | [VPN / Bastion] -- [OOB Switch] --+   |
+|                            |  |                                     |   |
+|                        +---v--v---------------------------------+   |   |
+|                        |               서버 랙                   |   |   |
+|                        | [Host NIC]  [BMC]  [Serial]  [PDU]    |<---+   |
+|                        +----------------------------------------+       |
++------------------------------+---------------------------------------+
 ```
 
 이 구조 덕분에 생산 NIC가 죽어도 BMC와 시리얼 콘솔은 살아남을 수 있다. 더 나아가 원격 지사나 무인 설비실처럼 유선 관리망마저 불안정한 환경에서는 셀룰러 기반 보조 OOB 링크를 두기도 한다. 즉 OOB는 기술 하나가 아니라 "마지막까지 남길 제어 경로를 여러 겹으로 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이다.
@@ -123,17 +123,17 @@ OOB 관리의 직접적 효과는 평균 [복구](/knowledge-base/studynote/09_s
 
 ```text
 현장 직접 복구 중심 운영
-    │
-    ▼
+    |
+    v
 시리얼 콘솔 기반 원격 복구
-    │
-    ▼
+    |
+    v
 BMC + IPMI 기반 OOB 관리
-    │
-    ▼
+    |
+    v
 Redfish · KVM · Virtual Media 통합
-    │
-    ▼
+    |
+    v
 Zero Trust 관리망 · 자동화된 복구 체계
 ```
 
@@ -151,7 +151,7 @@ Zero Trust 관리망 · 자동화된 복구 체계
 
 **진행 상황**: 713 / 803
 
-← **이전**: [711. Redfish 관리 API](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/711_redfish_api/)
-**다음**: [713. KVM (Keyboard, Video, Mouse) 오버 IP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) →
+<- **이전**: [711. Redfish 관리 API](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/711_redfish_api/)
+**다음**: [713. KVM (Keyboard, Video, Mouse) 오버 IP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) ->
 
 ---

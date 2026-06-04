@@ -28,11 +28,11 @@ tags = ["studynote-database"]
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> Rule -> Current Concept -> Outcome                 │
-├──────────────────────────────────────────────────────────────┤
-│ separation-of-sto… -> current scope -> data-mesh          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input -> Rule -> Current Concept -> Outcome                 |
++--------------------------------------------------------------+
+| separation-of-sto… -> current scope -> data-mesh          |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 `스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
@@ -55,11 +55,11 @@ tags = ["studynote-database"]
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Pre-condition -> Current Rule -> Validation -> Result       │
-├──────────────────────────────────────────────────────────────┤
-│ 클라우드 데이터 웨어하우스 … -> 스토리지와 컴퓨팅 분리 아키… -> 데이터 메시 (Data Me… │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Pre-condition -> Current Rule -> Validation -> Result       |
++--------------------------------------------------------------+
+| 클라우드 데이터 웨어하우스 … -> 스토리지와 컴퓨팅 분리 아키… -> 데이터 메시 (Data Me… |
++--------------------------------------------------------------+
 ```
 
 결국 `스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
@@ -78,7 +78,7 @@ tags = ["studynote-database"]
 | 초점 | 배경, 전제, 한계가 중심이다. | `클라우드 네이티브 DW 핵심, 독립적 탄력적 확장`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
 | 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
-또한 `스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)`는 `데이터 웨어하우스 (Data Warehouse)`·`ETL (Extract, Transform, Load)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 → 현재 통제 → 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
+또한 `스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)`는 `데이터 웨어하우스 (Data Warehouse)`·`ETL (Extract, Transform, Load)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 -> 현재 통제 -> 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: 지도에서 전체 지도와 확대 지도를 번갈아 보는 일과 비슷하다.
 
@@ -123,12 +123,12 @@ tags = ["studynote-database"]
 
 ```text
 [클라우드 데이터 웨어하우스 솔루션]
-    │
-    ▼
+    |
+    v
 [스토리지와 컴퓨팅 분리 아키텍처 (Separati…]
-    │
-    ├──▶ [데이터 메시 (Data Mesh)]
-    └──▶ [데이터 패브릭 (Data Fabric) 플…]
+    |
+    +---> [데이터 메시 (Data Mesh)]
+    +---> [데이터 패브릭 (Data Fabric) 플…]
 ```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `데이터 메시 (Data Mesh)`와 `데이터 패브릭 (Data Fabric) 플랫폼 (가상화 연계망)` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
@@ -145,7 +145,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 357 / 600
 
-← **이전**: [356. 클라우드 데이터 웨어하우스 솔루션](/knowledge-base/studynote/05_database/06_dw_olap_trends/356_cloud_data_warehouse_redshift_bigquery_snowflake/)
-**다음**: [358. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/05_database/06_dw_olap_trends/358_data_mesh/) →
+<- **이전**: [356. 클라우드 데이터 웨어하우스 솔루션](/knowledge-base/studynote/05_database/06_dw_olap_trends/356_cloud_data_warehouse_redshift_bigquery_snowflake/)
+**다음**: [358. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/05_database/06_dw_olap_trends/358_data_mesh/) ->
 
 ---

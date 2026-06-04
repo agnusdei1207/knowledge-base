@@ -22,8 +22,8 @@ tags = ["studynote-design-supervision"]
 유지보수 인수인계 컨텍스트:
 
 소프트웨어 생명주기:
-  요구분석 → 설계 → 구현 → 테스트
-  → 인수인계 → 운영·유지보수
+  요구분석 -> 설계 -> 구현 -> 테스트
+  -> 인수인계 -> 운영·유지보수
 
   인수인계 = 개발 완료 후 운영 이관
 
@@ -34,7 +34,7 @@ tags = ["studynote-design-supervision"]
   사용자: 최종 서비스 이용자
 
 인수인계 유형:
-  완전 이관: 개발팀 → 운영팀 완전 교체
+  완전 이관: 개발팀 -> 운영팀 완전 교체
   점진적 이관: 운영팀과 병행 운영 후 단계적 이관
   자체 운영: 개발팀이 운영팀 역할 병행
 
@@ -144,7 +144,7 @@ tags = ["studynote-design-supervision"]
   □ 인수인계 서명
 ```
 
-> 📢 **섹션 요약 비유**: 인수인계 프로세스는 운전 교육 — 이론(교육) → 동승 연습(병행 운영) → 혼자 운전(독립 운영) → 면허증(완료 서명). 한 단계씩 책임 이전!
+> 📢 **섹션 요약 비유**: 인수인계 프로세스는 운전 교육 — 이론(교육) -> 동승 연습(병행 운영) -> 혼자 운전(독립 운영) -> 면허증(완료 서명). 한 단계씩 책임 이전!
 
 ---
 
@@ -180,7 +180,7 @@ tags = ["studynote-design-supervision"]
 
 위험 지표 (Red Flag):
   이관 후 2주 내 장애 3회 이상
-  → 인수인계 기간 연장 검토
+  -> 인수인계 기간 연장 검토
   개발팀 추가 지원 투입
 ```
 
@@ -195,13 +195,13 @@ tags = ["studynote-design-supervision"]
 
 배경:
   3년 SI 개발 완료
-  개발팀 → 운영팀(내부 전산실) 이관
+  개발팀 -> 운영팀(내부 전산실) 이관
   시스템 복잡도: 마이크로서비스 15개, DB 5종
 
 인수인계 계획 (12주):
 
 Week 1-2: 준비
-  문서 현황 점검: 60% 작성 → 100% 보완 필요
+  문서 현황 점검: 60% 작성 -> 100% 보완 필요
   운영팀 4명 교육 계획 수립
   인수인계 항목 127개 체크리스트 작성
 
@@ -209,13 +209,13 @@ Week 3-6: 교육
   아키텍처·인프라 교육 (2주)
   각 마이크로서비스 기능 교육 (2주)
   모의 장애 훈련 (DB 장애, 서비스 다운 시나리오)
-  지식 평가: 운영팀 평균 72점 → 80점 목표 미달
-  → 1주 추가 교육 실시
+  지식 평가: 운영팀 평균 72점 -> 80점 목표 미달
+  -> 1주 추가 교육 실시
 
 Week 7-10: 병행 운영
   운영팀 주도 운영
   실제 민원 피크타임(평일 오전) 경험
-  장애 1건 발생 → 공동 대응 (1.5시간 해결)
+  장애 1건 발생 -> 공동 대응 (1.5시간 해결)
 
 Week 11-12: 독립 운영
   개발팀 대기 (연락 가능 상태)
@@ -245,7 +245,7 @@ Week 11-12: 독립 운영
 |   +-- 유지보수 가이드
 |   +-- 데이터 사전
 +-- 프로세스
-|   +-- 준비 → 교육 → 병행 → 독립 → 완료
+|   +-- 준비 -> 교육 -> 병행 -> 독립 -> 완료
 +-- 품질 지표
 |   +-- MTBF/MTTR
 |   +-- 문서 완결성
@@ -296,7 +296,7 @@ IaC (Terraform) 인계
 
 **진행 상황**: 67 / 530
 
-← **이전**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/)
-**다음**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/) →
+<- **이전**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/)
+**다음**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/) ->
 
 ---

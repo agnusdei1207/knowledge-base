@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 Split Cache가 단순한 저장 공간 분할이 아니라 <strong>접근 경로 분리</strong>인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        단일 L1 캐시와 분리 L1 캐시의 접근 충돌 차이         │
-├──────────────────────────────────────────────────────────────┤
-│ [단일 L1 캐시]                                               │
-│ IF: 명령어 읽기 ─┐                                           │
-│                  ├──▶ [하나의 캐시 포트] ───▶ 충돌 가능      │
-│ MEM: 데이터 접근 ─┘                                           │
-│                                                              │
-│ [Split Cache]                                                │
-│ IF: 명령어 읽기 ───────▶ [I-Cache]                           │
-│ MEM: 데이터 접근 ─────▶ [D-Cache]                            │
-│                                                              │
-│ 핵심: 저장공간을 나눈 것이 아니라 동시 접근 경로를 나눔      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        단일 L1 캐시와 분리 L1 캐시의 접근 충돌 차이         |
++--------------------------------------------------------------+
+| [단일 L1 캐시]                                               |
+| IF: 명령어 읽기 -+                                           |
+|                  +---> [하나의 캐시 포트] ----> 충돌 가능      |
+| MEM: 데이터 접근 -+                                           |
+|                                                              |
+| [Split Cache]                                                |
+| IF: 명령어 읽기 --------> [I-Cache]                           |
+| MEM: 데이터 접근 ------> [D-Cache]                            |
+|                                                              |
+| 핵심: 저장공간을 나눈 것이 아니라 동시 접근 경로를 나눔      |
++--------------------------------------------------------------+
 ```
 
 즉 Split Cache는 폰 노이만 병목 ([Von Neumann Bottleneck](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/))을 완전히 없애는 기술이라기보다, 최소한 코어 바로 앞단에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 서로의 발목을 잡지 않게 하는 현실적 해법이다. 없으면 작은 캐시라도 입구 하나에 모든 트래픽이 몰리고, 있으면 각 흐름이 자기 전용 통로를 통해 더 예측 가능하게 움직인다.
@@ -65,20 +65,20 @@ Split Cache의 핵심은 단순히 캐시를 반으로 자르는 것이 아니�
 이 구조는 [하버드 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/) ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/))의 아이디어를 L1에 부분적으로 적용한 것으로 볼 수 있다. 즉 메모리 전체를 완전히 분리하지는 않더라도, 코어가 가장 빠른 응답을 요구하는 첫 계층에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 따로 둔다. 하지만 두 경로가 영원히 분리되는 것은 아니며, 아래 계층으로 내려갈수록 하나의 백엔드 메모리 시스템으로 합류하는 경우가 일반적이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             현대 프로세서에서의 Split Cache 위치            │
-├──────────────────────────────────────────────────────────────┤
-│                    CPU Core                                  │
-│              ┌───────────────┐                               │
-│ 명령어 경로 ─▶   L1 I-Cache   ├────┐                          │
-│              └───────────────┘    │                          │
-│                                   ├──▶ L2 Unified Cache      │
-│              ┌───────────────┐    │          │               │
-│ 데이터 경로 ─▶   L1 D-Cache   ├────┘          ▼               │
-│              └───────────────┘         L3 / Main Memory      │
-│                                                              │
-│ 앞단은 분리, 뒷단은 통합: 속도와 유연성의 절충               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             현대 프로세서에서의 Split Cache 위치            |
++--------------------------------------------------------------+
+|                    CPU Core                                  |
+|              +---------------+                               |
+| 명령어 경로 -->   L1 I-Cache   +----+                          |
+|              +---------------+    |                          |
+|                                   +---> L2 Unified Cache      |
+|              +---------------+    |          |               |
+| 데이터 경로 -->   L1 D-Cache   +----+          v               |
+|              +---------------+         L3 / Main Memory      |
+|                                                              |
+| 앞단은 분리, 뒷단은 통합: 속도와 유연성의 절충               |
++--------------------------------------------------------------+
 ```
 
 중요한 점은 Split Cache가 "항상 더 큰 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)"을 뜻하는 것이 아니라, <strong>L1 수준에서 독립 접근 가능성</strong>을 확보한다는 뜻이라는 점이다. 만약 코어가 매 사이클 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 동시에 수행할 수 있다면, 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 캐시보다 훨씬 자연스럽게 파이프라인을 유지할 수 있다. 반대로 이 분리 덕분에 캐시 용량이 고정 분할되므로, 접근 충돌 완화와 용량 유연성 사이에는 분명한 교환관계가 생긴다.
@@ -159,20 +159,20 @@ Split Cache의 가장 직접적인 효과는 파이프라인 전면부의 정체
 
 ```text
 폰 노이만 구조의 단일 메모리 접근
-        │
-        ▼
+        |
+        v
 파이프라인 확장 · IF / MEM 동시 접근 문제
-        │
-        ▼
+        |
+        v
 L1 Split Cache (I-Cache + D-Cache)
-        │
-        ├──────────────▶ I-Cache 최적화
-        │                 (분기 예측 · 코드 배치 · 명령어 프리페치)
-        │
-        └──────────────▶ D-Cache 최적화
+        |
+        +---------------> I-Cache 최적화
+        |                 (분기 예측 · 코드 배치 · 명령어 프리페치)
+        |
+        +---------------> D-Cache 최적화
                           (쓰기 정책 · 더티 비트 · 데이터 지역성)
-        │
-        ▼
+        |
+        v
 L2/L3 Unified Cache와 결합한 하이브리드 계층
 ```
 
@@ -190,7 +190,7 @@ L2/L3 Unified Cache와 결합한 하이브리드 계층
 
 **진행 상황**: 279 / 803
 
-← **이전**: [278. 더티 비트 (Dirty Bit)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/)
-**다음**: [280. 프리페칭 (Prefetching)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/) →
+<- **이전**: [278. 더티 비트 (Dirty Bit)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/)
+**다음**: [280. 프리페칭 (Prefetching)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/) ->
 
 ---

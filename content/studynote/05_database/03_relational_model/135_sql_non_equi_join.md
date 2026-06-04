@@ -48,9 +48,9 @@ Non-Equi·Self JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Equi JOIN (기본)] → [Non-Equi JOIN (범위)]
-    → [Self JOIN (자기 참조)] → [Recursive CTE (계층 대체)]
-    → [현재: Graph Query — 계층·관계 전용 쿼리]
+[Equi JOIN (기본)] -> [Non-Equi JOIN (범위)]
+    -> [Self JOIN (자기 참조)] -> [Recursive CTE (계층 대체)]
+    -> [현재: Graph Query — 계층·관계 전용 쿼리]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ Non-Equi·Self JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02
 
 **진행 상황**: 135 / 600
 
-← **이전**: [134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합](/knowledge-base/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/)
-**다음**: [136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합](/knowledge-base/studynote/05_database/03_relational_model/136_cross_join_cartesian_product/) →
+<- **이전**: [134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합](/knowledge-base/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/)
+**다음**: [136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합](/knowledge-base/studynote/05_database/03_relational_model/136_cross_join_cartesian_product/) ->
 
 ---

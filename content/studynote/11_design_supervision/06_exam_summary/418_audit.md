@@ -22,9 +22,9 @@ tags = ["studynote-design-supervision"]
 감리 관점에서는 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)를 코드 커버리지의 대체재가 아니라 <strong>보강 지표</strong>로 본다. 즉 “얼마나 많이 실행했는가” 다음 단계로 “얼마나 날카롭게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가”를 묻는 도구다. 안전·정산·권한 같은 핵심 로직에서 특히 의미가 크다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 원본 소스코드   │──▶│ 변이체 생성     │──▶│ 테스트 스위트   │──▶│ 제거/생존 판정 │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+   +--------------+
+| 원본 소스코드   |--->| 변이체 생성     |--->| 테스트 스위트   |--->| 제거/생존 판정 |
++--------------+   +--------------+   +--------------+   +--------------+
         기준 코드          작은 결함 주입         기존 테스트 실행      테스트 강도 판정
 ```
 
@@ -37,21 +37,21 @@ tags = ["studynote-design-supervision"]
 감리에서는 모든 코드를 무차별적으로 변이시키는지보다, 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 집중하고 실행 비용을 통제하는지 본다. 또한 동등 변이체(결과적으로 의미가 같은 변이)를 구분하지 못하면 점수가 왜곡되므로, 결과 해석 체계가 중요하다.
 
 ```text
-┌────────────────────┐
-│ 1. 변이 연산자 선택  │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 2. 변이체 생성/실행  │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 3. 제거/생존 분류    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 4. 테스트 보강       │
-└────────────────────┘
++--------------------+
+| 1. 변이 연산자 선택  |
++---------+----------+
+          v
++--------------------+
+| 2. 변이체 생성/실행  |
++---------+----------+
+          v
++--------------------+
+| 3. 제거/생존 분류    |
++---------+----------+
+          v
++--------------------+
+| 4. 테스트 보강       |
++--------------------+
 ```
 
 | 단계 | 핵심 활동 | 감리 포인트 |
@@ -96,7 +96,7 @@ tags = ["studynote-design-supervision"]
 
 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)를 잘 활용하면 테스트 커버리지 수치 뒤에 숨은 취약한 테스트를 찾아낼 수 있다. 그 결과 핵심 로직의 회귀 방어력이 높아지고, “통과는 했지만 불안한 테스트”를 줄일 수 있다. 특히 안전성·정확성이 중요한 시스템일수록 투자 가치가 크다.
 
-결론적으로 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)는 테스트 체계의 품질 감리 도구다. 답안에서는 변이체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)→제거/생존 판정→테스트 보강 흐름과 함께, 커버리지 지표와의 차이를 대비해 설명하는 것이 중요하다.
+결론적으로 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)는 테스트 체계의 품질 감리 도구다. 답안에서는 변이체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)->제거/생존 판정->테스트 보강 흐름과 함께, 커버리지 지표와의 차이를 대비해 설명하는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: 자물쇠가 달려 있다는 사실보다, 가짜 열쇠를 넣었을 때도 잘 막아내는지가 더 중요한 것과 같다.
 
@@ -113,21 +113,21 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 변이 연산자, 변이체 제거, 생존 변이체, 동등 변이체, 뮤테이션 점수, 선택 실행
-- 발전 흐름: 코드 실행 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 분기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강화 → 변이체 기반 테스트 강도 평가 → 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 집중 최적화
+- 발전 흐름: 코드 실행 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 분기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강화 -> 변이체 기반 테스트 강도 평가 -> 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 집중 최적화
 
 ```text
 단위 테스트 구축
-      │
-      ▼
+      |
+      v
 커버리지 측정
-      │
-      ▼
+      |
+      v
 변이체 생성
-      │
-      ▼
+      |
+      v
 제거/생존 분석
-      │
-      ▼
+      |
+      v
 테스트 보강
 ```
 
@@ -143,7 +143,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 496 / 530
 
-← **이전**: [417. 테스트 오라클의 참·샘플링·휴리스틱·일관성 유형 (Test Oracle)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/417_process/)
-**다음**: [419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/419_mc_dc/) →
+<- **이전**: [417. 테스트 오라클의 참·샘플링·휴리스틱·일관성 유형 (Test Oracle)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/417_process/)
+**다음**: [419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/419_mc_dc/) ->
 
 ---

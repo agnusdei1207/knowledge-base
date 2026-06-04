@@ -37,16 +37,16 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 
 ```
           제품 차원
-          ┌──────────────┐
-시간 차원  │  매출 큐브   │  지역 차원
-    ──────►│  [날짜][제품]│◄──────
-          │  [지역][금액]│
-          └──────────────┘
+          +--------------+
+시간 차원  |  매출 큐브   |  지역 차원
+    ------►|  [날짜][제품]|◄------
+          |  [지역][금액]|
+          +--------------+
 ```
 
 - **측정값(Measure)**: 매출액, 수량, 이익률 등 집계 대상 숫자
 - **차원(Dimension)**: 분석 관점 — 시간, 제품, 지역, 고객
-- **계층(Hierarchy)**: 연도→분기→월→일, 국가→시도→시군구
+- **계층(Hierarchy)**: 연도->분기->월->일, 국가->시도->시군구
 
 📢 **섹션 요약 비유**: OLAP은 거대한 루빅스 큐브다 — 회사 전체 매출이라는 큐브를 시간·제품·지역 축으로 돌리면서 원하는 단면만 꺼내 보는 것이다.
 
@@ -60,31 +60,31 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 |:---|:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/">ROLAP</a></strong> | [Relational OLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB 테이블 | 유연, 대용량 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 느림 |
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/">MOLAP</a></strong> | [Multidimensional OLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/) | 다차원 큐브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 집계 | 공간 낭비, 희소성 문제 |
-| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/">HOLAP</a></strong> | [Hybrid OLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/) | 세부→RDB, 집계→큐브 | 균형 | 복잡한 관리 |
+| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/">HOLAP</a></strong> | [Hybrid OLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/) | 세부->RDB, 집계->큐브 | 균형 | 복잡한 관리 |
 
 ### 2.2 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) ([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 구조
 
 ```
-             ┌─────────────────┐
-             │  DIM_시간       │
-             │  surrogate_key  │
-             │  날짜/월/분기   │
-             └────────┬────────┘
-                      │
-┌─────────────┐  ┌────┴──────────────┐  ┌─────────────┐
-│  DIM_제품   │  │  FACT_매출        │  │  DIM_지역   │
-│ product_sk  ├──┤  time_sk          ├──┤ region_sk   │
-│ 제품명/카테 │  │  product_sk       │  │ 도시/국가   │
-└─────────────┘  │  region_sk        │  └─────────────┘
-                 │  customer_sk      │
-                 │  매출액 / 수량    │
-                 └───────────────────┘
-                         │
-             ┌───────────┴──────────┐
-             │  DIM_고객            │
-             │  customer_sk         │
-             │  고객명/등급/연령대  │
-             └──────────────────────┘
+             +-----------------+
+             |  DIM_시간       |
+             |  surrogate_key  |
+             |  날짜/월/분기   |
+             +--------+--------+
+                      |
++-------------+  +----+--------------+  +-------------+
+|  DIM_제품   |  |  FACT_매출        |  |  DIM_지역   |
+| product_sk  +--+  time_sk          +--+ region_sk   |
+| 제품명/카테 |  |  product_sk       |  | 도시/국가   |
++-------------+  |  region_sk        |  +-------------+
+                 |  customer_sk      |
+                 |  매출액 / 수량    |
+                 +-------------------+
+                         |
+             +-----------+----------+
+             |  DIM_고객            |
+             |  customer_sk         |
+             |  고객명/등급/연령대  |
+             +----------------------+
 ```
 
 ### 2.3 [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/))
@@ -104,7 +104,7 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 
 ```
 고객_SK  고객_자연키  고객명  등급  시작일      종료일      현재
-───────  ──────────  ──────  ────  ──────────  ──────────  ──────
+-------  ----------  ------  ----  ----------  ----------  ------
 1001     C-00123     홍길동  GOLD  2020-01-01  2022-05-31  N
 1002     C-00123     홍길동  VIP   2022-06-01  9999-12-31  Y
 ```
@@ -112,17 +112,17 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 ### 2.4 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 연산 4종
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  롤업 Roll-Up : 세부 → 요약 (일→월→분기→연도)          │
-│  ↑                                                      │
-│  드릴다운 Drill-Down : 요약 → 세부 (연도→분기→월→일)   │
-│  ↓                                                      │
-│  슬라이스 Slice : 한 차원을 고정값으로 필터링           │
-│  (예: 지역='서울'로 고정 → 2D 단면 추출)               │
-│                                                         │
-│  다이스 Dice : 여러 차원을 범위 필터링                  │
-│  (예: 지역 IN('서울','부산') AND 월 IN(1,2,3))         │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  롤업 Roll-Up : 세부 -> 요약 (일->월->분기->연도)          |
+|  ^                                                      |
+|  드릴다운 Drill-Down : 요약 -> 세부 (연도->분기->월->일)   |
+|  v                                                      |
+|  슬라이스 Slice : 한 차원을 고정값으로 필터링           |
+|  (예: 지역='서울'로 고정 -> 2D 단면 추출)               |
+|                                                         |
+|  다이스 Dice : 여러 차원을 범위 필터링                  |
+|  (예: 지역 IN('서울','부산') AND 월 IN(1,2,3))         |
++---------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 연산은 지도 앱과 같다 — [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 줌아웃(전국 보기), 드릴다운은 줌인(골목길 보기), [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 서울만 보기, 다이스는 서울·부산 겨울철만 보기다.
@@ -168,10 +168,10 @@ WHERE ([지역].[도시].[서울])
 ```
 ETL 파이프라인 내 SK 생성 흐름:
 
-소스DB     →  스테이징 영역     →  DW 차원 테이블
+소스DB     ->  스테이징 영역     ->  DW 차원 테이블
 고객ID(자)     중복제거/정제         customer_sk(SK)=시퀀스
-C-00123    →  C-00123          →  1001
-C-00456    →  C-00456          →  1002
+C-00123    ->  C-00123          ->  1001
+C-00456    ->  C-00456          ->  1002
 ```
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
@@ -183,16 +183,16 @@ C-00456    →  C-00456          →  1002
 
 ```
 데이터 크기가 크고 갱신 빈도가 높다면?
-       ↓
+       v
   ROLAP or HOLAP
 
 데이터 크기가 작고 쿼리 속도가 최우선이라면?
-       ↓
+       v
   MOLAP (사전 집계 큐브)
 
 혼합 워크로드라면?
-       ↓
-  HOLAP (세부 데이터→ROLAP, 집계→MOLAP)
+       v
+  HOLAP (세부 데이터->ROLAP, 집계->MOLAP)
 ```
 
 📢 **섹션 요약 비유**: MOLAP은 미리 요리해 놓은 도시락(빠르나 메뉴 고정), ROLAP은 즉석 주문 조리(느리나 메뉴 무한대)다. 둘의 장점을 합친 게 HOLAP이다.
@@ -237,17 +237,17 @@ C-00456    →  C-00456          →  1002
 
 ```text
 OLTP (행 기반 트랜잭션)
-    │
-    ▼
+    |
+    v
 OLAP: 다차원 분석 (Cube · Drill-Down · Roll-Up)
-    ├─► MOLAP: 사전 집계 큐브 (빠름 · 유연성↓)
-    ├─► ROLAP: RDBMS 기반 (유연 · 속도↓)
-    └─► HOLAP: 혼합 방식
-    │
-    ▼
+    +-► MOLAP: 사전 집계 큐브 (빠름 · 유연성v)
+    +-► ROLAP: RDBMS 기반 (유연 · 속도v)
+    +-► HOLAP: 혼합 방식
+    |
+    v
 Surrogate Key: 비즈니스 키 대체 인조키 (SCD 연동)
-    │
-    ▼
+    |
+    v
 클라우드 MPP DW: BigQuery · Snowflake (OLAP 현대화)
 ```
 2. 드릴다운은 전국 매출에서 서울, 서울에서 강남, 강남에서 특정 매장으로 점점 깊이 파고드는 거야 — 마치 지도 줌인처럼!
@@ -259,7 +259,7 @@ Surrogate Key: 비즈니스 키 대체 인조키 (SCD 연동)
 
 **진행 상황**: 211 / 258
 
-← **이전**: [210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)
-**다음**: [212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/212_etl_elt_cloud_transformation_bottleneck/) →
+<- **이전**: [210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)
+**다음**: [212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/212_etl_elt_cloud_transformation_bottleneck/) ->
 
 ---

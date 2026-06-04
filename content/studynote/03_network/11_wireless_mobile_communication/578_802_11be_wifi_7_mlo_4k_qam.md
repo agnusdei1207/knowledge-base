@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [11ax 6GHz]
-    │
-    ▼
+    |
+    v
 [11be]
-    │
-    └──▶ [무선 LAN 보안 진화]
+    |
+    +---> [무선 LAN 보안 진화]
 ```
 
 - **📢 섹션 요약 비유**: 11be는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ tags = ["studynote-network"]
 
 ```text
 [11ax 6GHz]
-    │
-    ▼
+    |
+    v
 [11be]
-    │
-    └──▶ [무선 LAN 보안 진화]
+    |
+    +---> [무선 LAN 보안 진화]
 ```
 
 - **📢 섹션 요약 비유**: 음료수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 빨리 마시는 대회입니다. Wi-Fi 6까지는 지름이 1cm인 빨대(5GHz)를 하나 물고 쭈욱 빨거나, 지름이 2cm인 빨대(6GHz)로 바꿔 물고 빠는 식(둘 중 하나만 선택)이었습니다. Wi-Fi 7(MLO 기술)은 입에 1cm, 2cm, 0.5cm짜리 빨대 3개를 동시에 다 꽂아버리고(다중 링크), 음료수를 폐활량 한계치까지 한 번에 맹렬하게 흡입하는 완벽한 반칙 기술입니다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 11ax 6GHz]
-    │
-    ▼
+    |
+    v
 [현재 개념: 11be]
-    │
-    ├──▶ [확장 A: 무선 LAN 보안 진화]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: 무선 LAN 보안 진화]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 11be는 [11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 6GHz에서 출발해 현재 메커니즘을 정교화하고, 이후 무선 LAN 보안 진화와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 699 / 1120
 
-← **이전**: [577. 11ax 6GHz (Wi-Fi 6E)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/577_802_11ax_6ghz_wifi_6e/)
-**다음**: [579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/579_wlan_security_evolution_wep_wpa/) →
+<- **이전**: [577. 11ax 6GHz (Wi-Fi 6E)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/577_802_11ax_6ghz_wifi_6e/)
+**다음**: [579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/579_wlan_security_evolution_wep_wpa/) ->
 
 ---

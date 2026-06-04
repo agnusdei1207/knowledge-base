@@ -184,7 +184,7 @@ MFA, EDR, 백업 미비시 보험 거절/보험료 상승
 
 **진행 상황**: 35 / 1108
 
-← **이전**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/knowledge-base/studynote/09_security/01_intro_principles/034_risk_avoidance/)
-**다음**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/) →
+<- **이전**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/knowledge-base/studynote/09_security/01_intro_principles/034_risk_avoidance/)
+**다음**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/) ->
 
 ---

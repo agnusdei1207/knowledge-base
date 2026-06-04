@@ -26,18 +26,18 @@ TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리�
 이 그림은 패킷 헤더가 TCAM에 들어갈 때 어떤 식으로 규칙과 맞물리는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                입력 헤더 1개를 수많은 규칙과 동시에 비교하는 구조                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Input Key : 101100... [Destination Address | Source Address | Protocol]   │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Rule 1 : 1011XX... -> Match                                                │
-│ Rule 2 : 0010XX... -> Miss                                                 │
-│ Rule 3 : 101100... -> Match                                                │
-│      │                                                                     │
-│      └─ Match가 여러 개면 우선순위가 가장 높은 규칙을 선택한다              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                입력 헤더 1개를 수많은 규칙과 동시에 비교하는 구조                |
++----------------------------------------------------------------------------+
+| Input Key : 101100... [Destination Address | Source Address | Protocol]   |
+|      |                                                                     |
+|      v                                                                     |
+| Rule 1 : 1011XX... -> Match                                                |
+| Rule 2 : 0010XX... -> Miss                                                 |
+| Rule 3 : 101100... -> Match                                                |
+|      |                                                                     |
+|      +- Match가 여러 개면 우선순위가 가장 높은 규칙을 선택한다              |
++----------------------------------------------------------------------------+
 ```
 
 결국 TCAM의 필요성은 "빠른 검색"보다 더 구체적이다. <strong>wildcard가 있는 규칙을 우선순위까지 포함해 결정적 시간 안에 고르는 것</strong>이 핵심이며, 이 특성 때문에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 보안 장비에서 여전히 중요한 위치를 차지한다.
@@ -60,20 +60,20 @@ TCAM 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classi
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 내부의 흐름을 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   TCAM 기반 패킷 분류 파이프라인의 기본 구조                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Packet Parser -> Classification Key -> TCAM Parallel Match                │
-│                                           │                                │
-│                                           ▼                                │
-│                                   Priority Encoder                         │
-│                                           │                                │
-│                                           ▼                                │
-│                                     Action SRAM                            │
-│                                           │                                │
-│                                           ▼                                │
-│                                Forward / Drop / Mirror / Meter             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   TCAM 기반 패킷 분류 파이프라인의 기본 구조                  |
++----------------------------------------------------------------------------+
+| Packet Parser -> Classification Key -> TCAM Parallel Match                |
+|                                           |                                |
+|                                           v                                |
+|                                   Priority Encoder                         |
+|                                           |                                |
+|                                           v                                |
+|                                     Action SRAM                            |
+|                                           |                                |
+|                                           v                                |
+|                                Forward / Drop / Mirror / Meter             |
++----------------------------------------------------------------------------+
 ```
 
 TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이다. 반대로 비싼 이유도 바로 여기에 있다. 셀 수가 많고 폭이 넓을수록 전력과 발열이 커지므로, 실제 장비는 bank 분할, entry [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), exact match의 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 분리 같은 절전 기법을 함께 쓴다. 즉 TCAM의 진짜 설계 포인트는 속도 자체보다 <strong>속도를 얼마의 전력과 용량으로 살 것인가</strong>다.
@@ -152,17 +152,17 @@ TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104
 
 ```text
 선형 소프트웨어 탐색
-        │
-        ▼
+        |
+        v
 Trie / Algorithmic LPM
-        │
-        ▼
+        |
+        v
 TCAM 기반 ACL · LPM 가속
-        │
-        ▼
+        |
+        v
 ASIC Match-Action Pipeline
-        │
-        ▼
+        |
+        v
 SRAM + TCAM Hybrid 분류기
 ```
 
@@ -180,7 +180,7 @@ SRAM + TCAM Hybrid 분류기
 
 **진행 상황**: 591 / 803
 
-← **이전**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/)
-**다음**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/) →
+<- **이전**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/)
+**다음**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/) ->
 
 ---

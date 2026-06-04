@@ -34,21 +34,21 @@ FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 �
 다음 그림은 비용 관측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 기본 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│         FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs              │
-│                │                                                        │
-│                ▼                                                        │
-│      Cost Allocation Layer (tag, label, account, service)              │
-│                │                                                        │
-│                ├─▶ Unit Cost Dashboard                                 │
-│                ├─▶ Anomaly Detection                                   │
-│                └─▶ Budget / SLO-aware Alert                            │
-│                                │                                        │
-│                                ▼                                        │
-│                Rightsizing / 예약 구매 / 종료 자동화                    │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|         FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합         |
++--------------------------------------------------------------------------+
+| Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs              |
+|                |                                                        |
+|                v                                                        |
+|      Cost Allocation Layer (tag, label, account, service)              |
+|                |                                                        |
+|                +--> Unit Cost Dashboard                                 |
+|                +--> Anomaly Detection                                   |
+|                +--> Budget / SLO-aware Alert                            |
+|                                |                                        |
+|                                v                                        |
+|                Rightsizing / 예약 구매 / 종료 자동화                    |
++--------------------------------------------------------------------------+
 ```
 
 핵심 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 아래처럼 "총액"보다 "원인과 단위"를 보도록 설계한다.
@@ -145,16 +145,16 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 ```text
 월말 청구서 확인
-      │
-      ▼
+      |
+      v
 태그 기반 비용 할당
-      │
-      ▼
+      |
+      v
 FinOps 대시보드 + 이상 탐지
-      │
-      ├─▶ Rightsizing / 예약 구매
-      ├─▶ 로그·스토리지 최적화
-      └─▶ SLO 연계 비용 의사결정
+      |
+      +--> Rightsizing / 예약 구매
+      +--> 로그·스토리지 최적화
+      +--> SLO 연계 비용 의사결정
 ```
 
 이 흐름은 클라우드 비용 관리가 "청구서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 단계에서 "운영 자동화와 설계 판단" 단계로 발전하는 과정을 보여준다.
@@ -171,7 +171,7 @@ FinOps 대시보드 + 이상 탐지
 
 **진행 상황**: 169 / 373
 
-← **이전**: [168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/168_event_sourcing_replay_monitoring/)
-**다음**: [170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs](/knowledge-base/studynote/15_devops_sre/03_sre_observability/170_self_healing_filesystem_zfs_btrfs/) →
+<- **이전**: [168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/168_event_sourcing_replay_monitoring/)
+**다음**: [170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs](/knowledge-base/studynote/15_devops_sre/03_sre_observability/170_self_healing_filesystem_zfs_btrfs/) ->
 
 ---

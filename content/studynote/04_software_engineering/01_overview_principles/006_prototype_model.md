@@ -30,14 +30,14 @@ tags = ["software_engineering"]
 이 도식은 폭포수 모델의 문서 기반 소통 한계와 프로토타입 모델의 가시성 갭 해소 원리를 보여줍니다.
 
 [문서 기반 소통의 한계 (폭포수 모델)]
-고객의 머릿속 요구사항 (A) ──(말과 글)──> 개발자가 이해한 요구사항 (B)
-                                          ↑ (의미적 간극 발생: 치명적 병목)
+고객의 머릿속 요구사항 (A) --(말과 글)--> 개발자가 이해한 요구사항 (B)
+                                          ^ (의미적 간극 발생: 치명적 병목)
 
 [프로토타입 기반 소통 (프로토타입 모델)]
-고객의 모호한 요구사항 (A) ──(시제품 시연)──> 동작하는 UI/기능 (Prototype)
-                                          ↓
+고객의 모호한 요구사항 (A) --(시제품 시연)--> 동작하는 UI/기능 (Prototype)
+                                          v
                                   고객 피드백 & 요구사항 수정 (A')
-                                          ↓
+                                          v
                          명확해진 요구사항 기반으로 본 시스템 개발 (C)
 ```
 이 도식에서 핵심은 고객의 "암묵지(머릿속 생각)"가 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)이라는 "[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)(실행 가능한 형태)"로 변환되는 과정입니다. 이런 배치는 추상적인 단어들이 가진 다의성을 시각적 실체로 고정시키기 때문이며, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 해석 차이로 인한 요구사항 누락을 원천 차단합니다. 실무에서는 화면 플로우나 복잡한 업무 로직의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 할 때 유리하고, 반대로 백엔드 배치 처리처럼 UI가 없는 로직에서는 불필요한 오버헤드가 될 수 있습니다.
@@ -61,13 +61,13 @@ tags = ["software_engineering"]
 ```text
 이 순차 흐름도는 프로토타입이 구축되고 고객과 상호작용하며 요구사항이 정제되는 상태 전이를 보여줍니다.
 
-[요구사항 수집] ─────┐
-       ↑           ↓
-       │      [빠른 설계]
-       │           ↓
+[요구사항 수집] -----+
+       ^           v
+       |      [빠른 설계]
+       |           v
    (수정/보완) [프로토타입 구축]
-       │           ↓
-       └───── [고객 평가] ──(만족/확정)──> [상세 구현 및 테스트] ──> [운영 환경 배포]
+       |           v
+       +----- [고객 평가] --(만족/확정)--> [상세 구현 및 테스트] --> [운영 환경 배포]
 ```
 이 흐름의 핵심은 '고객 평가' 단계에서 발생하는 피드백 루프입니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 구축은 예외 처리를 고려하지 않고 오직 가시적 기능 구현에 집중합니다. 따라서 개발 속도는 극대화되지만 이 코드를 그대로 운영에 배포할 경우 치명적인 시스템 붕괴를 초래할 수 있습니다. 실무에서는 이 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 '버리기형'으로 규정하여 요구사항 추출용으로만 쓰고 본 개발은 새로운 아키텍처 위에서 다시 작성하는 것이 일반적입니다.
 
@@ -89,13 +89,13 @@ tags = ["software_engineering"]
 ```text
 이 매트릭스는 프로토타입의 두 가지 주요 구현 방식(버리기형과 진화형)의 아키텍처적 트레이드오프를 비교합니다.
 
-┌───────────────┬───────────────────────────────┬───────────────────────────────┐
-│ 속성          │ 버리기형 (Throw-away)         │ 진화형 (Evolutionary)         │
-├───────────────┼───────────────────────────────┼───────────────────────────────┤
-│ 개발 목적     │ 요구사항 검증 및 폐기         │ 점진적 확장 및 최종 제품화    │
-│ 코드 품질     │ Quick & Dirty (유지보수 X)    │ High Quality (확장성 고려 O)  │
-│ 위험 병목     │ 고객이 폐기를 반대할 때       │ 초기 아키텍처 설계가 엉망일 때│
-└───────────────┴───────────────────────────────┴───────────────────────────────┘
++---------------+-------------------------------+-------------------------------+
+| 속성          | 버리기형 (Throw-away)         | 진화형 (Evolutionary)         |
++---------------+-------------------------------+-------------------------------+
+| 개발 목적     | 요구사항 검증 및 폐기         | 점진적 확장 및 최종 제품화    |
+| 코드 품질     | Quick & Dirty (유지보수 X)    | High Quality (확장성 고려 O)  |
+| 위험 병목     | 고객이 폐기를 반대할 때       | 초기 아키텍처 설계가 엉망일 때|
++---------------+-------------------------------+-------------------------------+
 ```
 이 비교표의 핵심은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)의 '생존 여부'에 따른 품질 관리의 차이입니다. 진화형 방식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 견고한 아키텍처를 잡아야 하므로 단일 루프 속도가 느리지만, 작성한 코드가 자산으로 남습니다. 반면 버리기형은 속도가 가장 빠르지만 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)입니다. 비즈니스 요구사항만 파악할 때는 버리기형을, 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는 진화형을 선택해야 합니다.
 
@@ -111,13 +111,13 @@ tags = ["software_engineering"]
 이 의사결정 트리는 프로토타입 모델 적용 시 발생할 수 있는 안티패턴 병목과 PM의 통제 플로우를 보여줍니다.
 
 [프로토타입 시연 완료]
-        │
-        ├─▶ 고객: "바로 내일 오픈합시다!" ──(방치 시)──▶ [기술 부채 폭발, 시스템 붕괴]
-        │
-        └─▶ PM 통제: "이것은 가설 검증용 폐기 모델입니다."
-                 │
-                 ▼
-          [본 개발 아키텍처 수립 및 코딩 시작] ──▶ [견고하고 안정적인 시스템 배포]
+        |
+        +--> 고객: "바로 내일 오픈합시다!" --(방치 시)---> [기술 부채 폭발, 시스템 붕괴]
+        |
+        +--> PM 통제: "이것은 가설 검증용 폐기 모델입니다."
+                 |
+                 v
+          [본 개발 아키텍처 수립 및 코딩 시작] ---> [견고하고 안정적인 시스템 배포]
 ```
 이 흐름도의 핵심은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 모델의 끝단에서 반드시 '버림'과 '새로운 시작'이라는 의사결정 관문이 존재해야 한다는 점입니다. 이런 배치는 고객의 조급함이 아키텍처 품질을 파괴하는 것을 막기 위함이며, 프로젝트 초반 계약 시점부터 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)의 폐기 조건을 명확히 합의해야 합니다.
 
@@ -151,14 +151,14 @@ tags = ["software_engineering"]
 
 ```text
 [요구분석 (Requirements Analysis)]
-    │
-    ▼
+    |
+    v
 [프로토타입 (Prototype)]
-    │
-    ▼
+    |
+    v
 [피드백 반영 (Feedback)]
-    │
-    ▼
+    |
+    v
 [정식 시스템 (Final System)]
 ```
 
@@ -174,7 +174,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 6 / 973
 
-← **이전**: [5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응](/knowledge-base/studynote/04_software_engineering/01_overview_principles/005_v_model/)
-**다음**: [7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) →
+<- **이전**: [5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응](/knowledge-base/studynote/04_software_engineering/01_overview_principles/005_v_model/)
+**다음**: [7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/) ->
 
 ---

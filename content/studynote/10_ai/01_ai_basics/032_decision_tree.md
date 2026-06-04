@@ -21,16 +21,16 @@ tags = ["studynote-ai"]
 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 <strong>트리 구조로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 반복 분할해 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>·회귀 문제를 해결</strong>하는 지도학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ```
-          [나이 <= 30?]  ← 루트 노드 (Root Node)
+          [나이 <= 30?]  <- 루트 노드 (Root Node)
           /          \
        예(Y)         아니오(N)
          |               |
-  [학생?]       [신용 점수 > 700?]  ← 내부 노드
+  [학생?]       [신용 점수 > 700?]  <- 내부 노드
   /    \              /      \
  예    아니오        예        아니오
  |       |           |           |
 구매  구매안함     구매       구매안함
-↑         ↑
+^         ^
 리프 노드 (Leaf Node, 최종 분류)
 ```
 
@@ -61,7 +61,7 @@ Entropy = -Σ p_i × log₂(p_i)
 ### [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/) ([Gini Impurity](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/))
 
 ```
-Gini(S) = 1 - Σ p_i²
+Gini(S) = 1 - Σ p_i^
 ```
 
 - 0 = 완전 순수, 0.5 = 최대 불순 (이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))
@@ -84,7 +84,7 @@ Gini(S) = 1 - Σ p_i²
 
 ```
 과적합 문제:
-깊은 트리 → 훈련 데이터에 완벽 적합 → 새 데이터 예측력 저하
+깊은 트리 -> 훈련 데이터에 완벽 적합 -> 새 데이터 예측력 저하
 ```
 
 ### 사전 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (Pre-[Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) / [Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))
@@ -97,7 +97,7 @@ Gini(S) = 1 - Σ p_i²
 
 1. 트리 완전히 성장 후
 2. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트로 각 노드 제거 시 정확도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-3. 정확도 저하 없으면 노드 제거 (서브트리 → 리프 변환)
+3. 정확도 저하 없으면 노드 제거 (서브트리 -> 리프 변환)
 
 <strong>비용 복잡도 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (CCP, scikit-learn)</strong>: α 값으로 트리 크기 제어
 
@@ -139,12 +139,12 @@ print(export_text(clf, feature_names=load_iris().feature_names))
 
 ```
 단일 의사결정 트리
-       ↓
+       v
 배깅 (Bagging):
-   다수의 트리 → 다수결/평균 → 랜덤 포레스트
-       ↓
+   다수의 트리 -> 다수결/평균 -> 랜덤 포레스트
+       v
 부스팅 (Boosting):
-   순차 학습 (이전 오류 보완) → XGBoost / LightGBM / CatBoost
+   순차 학습 (이전 오류 보완) -> XGBoost / LightGBM / CatBoost
 ```
 
 | 모델            | 기반    | 특징                         |
@@ -162,20 +162,20 @@ print(export_text(clf, feature_names=load_iris().feature_names))
 
 ```
 의사결정 트리 (Decision Tree)
-├── 분기 기준
-│   ├── 정보 이득 / 엔트로피 (ID3)
-│   ├── 정보 이득비 (C4.5)
-│   └── 지니 불순도 (CART)
-├── 과적합 방지
-│   ├── 사전 가지치기 (Pre-Pruning)
-│   └── 사후 가지치기 (Post-Pruning)
-├── 앙상블 확장
-│   ├── 랜덤 포레스트 (Random Forest) — 배깅
-│   ├── XGBoost — 그레이디언트 부스팅
-│   └── LightGBM — 리프 기반 부스팅
-└── 해석 가능성
-    ├── 특성 중요도 (Feature Importance)
-    └── SHAP 값 (트리 기반)
++-- 분기 기준
+|   +-- 정보 이득 / 엔트로피 (ID3)
+|   +-- 정보 이득비 (C4.5)
+|   +-- 지니 불순도 (CART)
++-- 과적합 방지
+|   +-- 사전 가지치기 (Pre-Pruning)
+|   +-- 사후 가지치기 (Post-Pruning)
++-- 앙상블 확장
+|   +-- 랜덤 포레스트 (Random Forest) — 배깅
+|   +-- XGBoost — 그레이디언트 부스팅
+|   +-- LightGBM — 리프 기반 부스팅
++-- 해석 가능성
+    +-- 특성 중요도 (Feature Importance)
+    +-- SHAP 값 (트리 기반)
 ```
 
 ---
@@ -183,21 +183,21 @@ print(export_text(clf, feature_names=load_iris().feature_names))
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              의사결정 트리 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ CLS 알고리즘       │ 트리 기반 학습 원형          │
-│ 1979년       │ ID3 (Quinlan)      │ 정보 이득 기반 분기          │
-│ 1986년       │ C4.5 (Quinlan)     │ 연속형·결측값 처리           │
-│ 1984년       │ CART (Breiman)     │ 지니 불순도·이진 분기        │
-│ 2001년       │ Random Forest      │ 배깅 앙상블로 성능 대폭 향상 │
-│ 2014년       │ XGBoost            │ 부스팅 혁명, Kaggle 석권     │
-│ 2017년       │ LightGBM / CatBoost│ 대용량·고속 학습             │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              의사결정 트리 발전 흐름                             |
++--------------+--------------------+-----------------------------+
+| 1960년대     | CLS 알고리즘       | 트리 기반 학습 원형          |
+| 1979년       | ID3 (Quinlan)      | 정보 이득 기반 분기          |
+| 1986년       | C4.5 (Quinlan)     | 연속형·결측값 처리           |
+| 1984년       | CART (Breiman)     | 지니 불순도·이진 분기        |
+| 2001년       | Random Forest      | 배깅 앙상블로 성능 대폭 향상 |
+| 2014년       | XGBoost            | 부스팅 혁명, Kaggle 석권     |
+| 2017년       | LightGBM / CatBoost| 대용량·고속 학습             |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-DT → 지니/엔트로피 → 가지치기 → RF → XGBoost
-  ↓       ↓              ↓         ↓
+DT -> 지니/엔트로피 -> 가지치기 -> RF -> XGBoost
+  v       v              v         v
 화이트박스 분기기준    과적합 방지  앙상블 최강자
 ```
 
@@ -215,7 +215,7 @@ DT → 지니/엔트로피 → 가지치기 → RF → XGBoost
 
 **진행 상황**: 32 / 420
 
-← **이전**: [31. 교차 검증 심화 — k-Fold부터 시계열 분할까지](/knowledge-base/studynote/10_ai/01_ai_basics/031_cross_validation/)
-**다음**: [랜덤 포레스트 (Random Forest)](/knowledge-base/studynote/10_ai/01_ai_basics/033_random_forest/) →
+<- **이전**: [31. 교차 검증 심화 — k-Fold부터 시계열 분할까지](/knowledge-base/studynote/10_ai/01_ai_basics/031_cross_validation/)
+**다음**: [랜덤 포레스트 (Random Forest)](/knowledge-base/studynote/10_ai/01_ai_basics/033_random_forest/) ->
 
 ---

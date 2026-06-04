@@ -34,13 +34,13 @@ tags = ["enterprise_systems"]
   | Customization | ERP를 수정 | 규제/산업 특수성 |
   | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) | [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/) | 업그레이드·유지보수 포함 |
 
-  ┌──────────── [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) 업무 ────────────┐
-  ▼                                           ▼
-Fit-Gap ────▶ 표준으로 흡수 가능? ── yes ─▶ [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)
-  │
+  +------------ [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) 업무 ------------+
+  v                                           v
+Fit-Gap -----> 표준으로 흡수 가능? -- yes --> [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)
+  |
   no
-  ▼
-Customization ─▶ 시스템 수정 ─▶ 운영/업그레이드 영향 검토
+  v
+Customization --> 시스템 수정 --> 운영/업그레이드 영향 검토
 - **📢 섹션 요약 비유**: Fit-Gap이 선택의 기준이다.
 
 ---
@@ -90,7 +90,7 @@ BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-AS-IS (현행) → Fit-Gap 분석 → 표준으로 흡수 가능? → yes/BPR, no/Customization → 운영·업그레이드 검토
+AS-IS (현행) -> Fit-Gap 분석 -> 표준으로 흡수 가능? -> yes/BPR, no/Customization -> 운영·업그레이드 검토
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -105,7 +105,7 @@ AS-IS (현행) → Fit-Gap 분석 → 표준으로 흡수 가능? → yes/BPR, n
 
 **진행 상황**: 86 / 482
 
-← **이전**: [85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/085_erp_implementation_lifecycle/)
-**다음**: [87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/) →
+<- **이전**: [85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/085_erp_implementation_lifecycle/)
+**다음**: [87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/) ->
 
 ---

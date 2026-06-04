@@ -48,33 +48,33 @@ tags = ["studynote-operating-system"]
 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 쓸 때의 동작 차이를 보자.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 모놀리식 커널 vs 마이크로 커널 데이터 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [Monolithic Kernel (예: 리눅스)]                                   │
-  │   [User Space]                                                    │
-  │   - App 프로그램이 `write()` 시스템 콜 호출                              │
-  │  ========================= [Ring 0] ==============================│
-  │   [Kernel Space]                                                  │
-  │   - VFS(가상파일시스템) ──(C 함수 호출)──▶ ext4 모듈 ──(C 함수 호출)──▶ │
-  │   - 블록 디바이스 드라이버 ──(C 함수 호출)──▶ 디스크 하드웨어 조작           │
-  │   ★ 장점: 모든 통신이 C언어 포인터(메모리 공유)로 직결. 속도 100%           │
-  │                                                                   │
-  │ ----------------------------------------------------------------- │
-  │                                                                   │
-  │  [Micro Kernel (예: QNX, MINIX)]                                  │
-  │   [User Space]                                                    │
-  │   - App 프로그램           [File System Server]   [Disk Driver]   │
-  │        │ (1. 메시지 발송)          ▲ (2. IPC)           ▲ (4. IPC)  │
-  │  ======▼======================│====================│==========│
-  │   [Kernel Space (초경량)]         │                    │          │
-  │   - [ IPC 엔진 (메시지 패싱) ] ───┘                    │          │
-  │        │ (3. 메시지 발송)                              │          │
-  │        └──────────────────────────────────────────┘          │
-  │   ★ 단점: App -> 커널 -> File Server -> 커널 -> Disk Driver 순으로   │
-  │           컨텍스트 스위치(Context Switch)가 4번이나 발생! 속도 박살.    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 모놀리식 커널 vs 마이크로 커널 데이터 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [Monolithic Kernel (예: 리눅스)]                                   |
+  |   [User Space]                                                    |
+  |   - App 프로그램이 `write()` 시스템 콜 호출                              |
+  |  ========================= [Ring 0] ==============================|
+  |   [Kernel Space]                                                  |
+  |   - VFS(가상파일시스템) --(C 함수 호출)---> ext4 모듈 --(C 함수 호출)---> |
+  |   - 블록 디바이스 드라이버 --(C 함수 호출)---> 디스크 하드웨어 조작           |
+  |   ★ 장점: 모든 통신이 C언어 포인터(메모리 공유)로 직결. 속도 100%           |
+  |                                                                   |
+  | ----------------------------------------------------------------- |
+  |                                                                   |
+  |  [Micro Kernel (예: QNX, MINIX)]                                  |
+  |   [User Space]                                                    |
+  |   - App 프로그램           [File System Server]   [Disk Driver]   |
+  |        | (1. 메시지 발송)          ^ (2. IPC)           ^ (4. IPC)  |
+  |  ======v======================|====================|==========|
+  |   [Kernel Space (초경량)]         |                    |          |
+  |   - [ IPC 엔진 (메시지 패싱) ] ---+                    |          |
+  |        | (3. 메시지 발송)                              |          |
+  |        +------------------------------------------+          |
+  |   ★ 단점: App -> 커널 -> File Server -> 커널 -> Disk Driver 순으로   |
+  |           컨텍스트 스위치(Context Switch)가 4번이나 발생! 속도 박살.    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)은 모든 개발자가 한 테이블에 앉아있어서 "철수야 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 써!" 하면 끝난다([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)). [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)은 각 부서가 다른 건물에 있다. "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 써"라는 명령을 우체국([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 접수해야 하고, 우체국이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 부서(유저 스페이스 서버)로 배달해 주면, 그 부서가 다시 디스크 부서로 택배를 부쳐야 한다. 이 과정에서 유저 모드와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드를 쉴 새 없이 와리가리하는 <strong>Mode <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> 오버헤드</strong>가 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)의 치명적 아킬레스건이다.
@@ -126,27 +126,27 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 임베디드/엔터프라이즈 운영체제 아키텍처 선택 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 디바이스(스마트폰, 자동차, 서버)를 위한 기반 OS 선정]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      결함(Bug) 발생 시 인명 피해나 천문학적 재산 피해가 발생하는가?            │
-  │      (예: 우주선, 자율주행차, 원자력 발전소 제어기)                       │
-  │          ├─ 예 ─────▶ [마이크로 커널 (Microkernel) 아키텍처 도입]     │
-  │          │            (QNX, seL4) : 통신 지연을 감수하더라도 완벽한 격리 보장│
-  │          └─ 아니오 (웹 서버, 스마트폰, 일반 데스크탑 PC)                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      방대한 하드웨어(수만 종의 드라이버) 지원과 극강의 I/O 성능이 필요한가?     │
-  │          ├─ 예 ─────▶ [모놀리식 커널 (Monolithic Kernel) 유지]       │
-  │          │            (Linux) : 수십 년간 누적된 드라이버 생태계와 0-copy 성능│
-  │          │                                                        │
-  │          └─ 애매함 ──▶ [하이브리드 커널 (Hybrid) 타협]                 │
-  │                         (Windows NT, macOS) : 유저 편의성과 커널 성능의 절충│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 임베디드/엔터프라이즈 운영체제 아키텍처 선택 플로우          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 디바이스(스마트폰, 자동차, 서버)를 위한 기반 OS 선정]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      결함(Bug) 발생 시 인명 피해나 천문학적 재산 피해가 발생하는가?            |
+  |      (예: 우주선, 자율주행차, 원자력 발전소 제어기)                       |
+  |          +- 예 ------> [마이크로 커널 (Microkernel) 아키텍처 도입]     |
+  |          |            (QNX, seL4) : 통신 지연을 감수하더라도 완벽한 격리 보장|
+  |          +- 아니오 (웹 서버, 스마트폰, 일반 데스크탑 PC)                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      방대한 하드웨어(수만 종의 드라이버) 지원과 극강의 I/O 성능이 필요한가?     |
+  |          +- 예 ------> [모놀리식 커널 (Monolithic Kernel) 유지]       |
+  |          |            (Linux) : 수십 년간 누적된 드라이버 생태계와 0-copy 성능|
+  |          |                                                        |
+  |          +- 애매함 ---> [하이브리드 커널 (Hybrid) 타협]                 |
+  |                         (Windows NT, macOS) : 유저 편의성과 커널 성능의 절충|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "리눅스가 짱이다"라는 생각은 서버/클라우드 시장에 한정된 시각이다. 자동차 전장(Automotive) 시장을 100% 장악한 것은 QNX라는 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)이다. 아키텍트는 속도([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))라는 달콤한 마약에 취해 안정성(Fault [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))을 내팽개쳐서는 안 되며, 시스템의 용도(Mission Critical 여부)에 따라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 철학을 깐깐하게 골라내야 한다.
@@ -193,12 +193,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [시스템 콜 API 래퍼]
-    │
-    ▼
+    |
+    v
 [모놀리식 vs 마이크로 커널 성능 비교 (Monolithic Vs Microkernel Performance)]
-    │
-    ├──▶ [IPC 기법 성능 오버헤드]
-    └──▶ [프로세스 주소 공간 분리]
+    |
+    +---> [IPC 기법 성능 오버헤드]
+    +---> [프로세스 주소 공간 분리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -215,7 +215,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 680 / 800
 
-← **이전**: [679. 시스템 콜 API 래퍼 (System Call API Wrapper)](/knowledge-base/studynote/02_operating_system/11_exam_summary/679_system_call_api_wrapper/)
-**다음**: [681. IPC 기법 성능 오버헤드 (IPC Performance Overhead)](/knowledge-base/studynote/02_operating_system/11_exam_summary/681_ipc_performance_overhead/) →
+<- **이전**: [679. 시스템 콜 API 래퍼 (System Call API Wrapper)](/knowledge-base/studynote/02_operating_system/11_exam_summary/679_system_call_api_wrapper/)
+**다음**: [681. IPC 기법 성능 오버헤드 (IPC Performance Overhead)](/knowledge-base/studynote/02_operating_system/11_exam_summary/681_ipc_performance_overhead/) ->
 
 ---

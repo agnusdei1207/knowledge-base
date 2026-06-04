@@ -25,14 +25,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 전류의 관계를 가장 단순한 회로 관점에서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          전류의 자리: 밀어주는 힘과 흐르는 양의 관계         │
-├──────────────────────────────────────────────────────────────┤
-│  전압 (V) ──▶ [ 회로 경로 / 저항 R ] ──▶ 전류 (I)            │
-│                                                              │
-│  V가 크면 더 밀고, R이 크면 더 막는다                        │
-│  따라서 I는 "얼마나 잘 흐르는가"의 결과값이 된다             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          전류의 자리: 밀어주는 힘과 흐르는 양의 관계         |
++--------------------------------------------------------------+
+|  전압 (V) ---> [ 회로 경로 / 저항 R ] ---> 전류 (I)            |
+|                                                              |
+|  V가 크면 더 밀고, R이 크면 더 막는다                        |
+|  따라서 I는 "얼마나 잘 흐르는가"의 결과값이 된다             |
++--------------------------------------------------------------+
 ```
 
 핵심은 전류를 단순한 부가 개념으로 보면 안 된다는 점이다. 메모리 읽기, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구동, I/O 출력, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 계산 모두 전류 흐름 위에서 성립한다. 결국 아키텍처가 빠르게 동작한다는 말은 필요한 순간에 필요한 경로로 충분한 전류를 안정적으로 전달했다는 뜻과 같다.
@@ -55,15 +55,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 칩에서 전류가 어디서 문제를 만들고, 왜 전력망 설계가 중요한지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            칩 내부 전류의 흐름과 주요 손실 지점              │
-├──────────────────────────────────────────────────────────────┤
-│ Power Source ─▶ Power Grid ─▶ Logic Gate ─▶ Load / Wire      │
-│                    │               │                │         │
-│                    │               │                └─ 충방전 │
-│                    │               └─ 누설 / 단락 전류        │
-│                    └─ IR Drop / 전류 밀도 문제               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            칩 내부 전류의 흐름과 주요 손실 지점              |
++--------------------------------------------------------------+
+| Power Source --> Power Grid --> Logic Gate --> Load / Wire      |
+|                    |               |                |         |
+|                    |               |                +- 충방전 |
+|                    |               +- 누설 / 단락 전류        |
+|                    +- IR Drop / 전류 밀도 문제               |
++--------------------------------------------------------------+
 ```
 
 전류 해석의 기본은 옴의 법칙 (Ohm's Law) `I = V / R` 이다. 하지만 칩 설계에서는 여기서 한 단계 더 들어가야 한다. [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 낮다고 무조건 좋은 것이 아니라, 너무 큰 전류가 좁은 배선에 몰리면 일렉트로마이그레이션 (Electromigration)과 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 함께 발생해 오히려 오동작 위험이 커진다.
@@ -100,14 +100,14 @@ tags = ["studynote-computer-architecture"]
 이 그림은 전류 관련 실무 판단 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             전류 이상 징후에 대한 실무 판단 흐름             │
-├──────────────────────────────────────────────────────────────┤
-│ 발열 증가 또는 배터리 급감 발견                              │
-│   ├─ 고부하 시에만 심한가? ─▶ 동적 전류 / 전력망 점검        │
-│   ├─ 유휴 상태에서도 큰가? ─▶ 누설 전류 / 파워 게이팅 점검   │
-│   └─ 특정 인터페이스만 문제인가? ─▶ I/O 구동 전류 점검       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             전류 이상 징후에 대한 실무 판단 흐름             |
++--------------------------------------------------------------+
+| 발열 증가 또는 배터리 급감 발견                              |
+|   +- 고부하 시에만 심한가? --> 동적 전류 / 전력망 점검        |
+|   +- 유휴 상태에서도 큰가? --> 누설 전류 / 파워 게이팅 점검   |
+|   +- 특정 인터페이스만 문제인가? --> I/O 구동 전류 점검       |
++--------------------------------------------------------------+
 ```
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
@@ -155,17 +155,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 [전압 (Voltage)]
-    │
-    ▼
+    |
+    v
 [저항 (Resistance)]
-    │
-    ▼
+    |
+    v
 [전력 (Power)]
-    │
-    ▼
+    |
+    v
 [일렉트로마이그레이션 (Electromigration)]
-    │
-    ▼
+    |
+    v
 [파워 게이팅 (Power Gating)]
 ```
 
@@ -183,7 +183,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 2 / 803
 
-← **이전**: [1. 전압 (Voltage)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)
-**다음**: [3. 저항 (Resistance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) →
+<- **이전**: [1. 전압 (Voltage)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)
+**다음**: [3. 저항 (Resistance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ->
 
 ---

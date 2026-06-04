@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [Well-Known 포트, Registere…]
-    │
-    ▼
+    |
+    v
 [소켓 주소 = IP 주소 + 포트 번호]
-    │
-    └──▶ [TCP]
+    |
+    +---> [TCP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 주소는 우편물 겉면에 적힌 </strong>"서울특별시 강남구 테헤란로 123 (IP 주소), 101동 502호 ([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))"**라는 풀네임(완전체) 주소입니다. 이 두 개가 합쳐져야만 택배 기사가 아파트 경비실(라우터)을 거쳐 내 방문 앞(프로그램)까지 물건을 정확히 내려놓을 수 있습니다.
@@ -47,10 +47,10 @@ tags = ["studynote-network"]
 
 1. **출발지 IP 주소** (`10.1.1.1` - 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))
 2. <strong>출발지 <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a></strong> (`50001` - 내 크롬 창)
-   ▶ *(1+2) 합쳐서 = 나의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소*
+   -> *(1+2) 합쳐서 = 나의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소*
 3. **목적지 IP 주소** (`8.8.8.8` - 구글 서버)
 4. <strong>목적지 <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a></strong> (`443` - 구글 암호화 웹서버)
-   ▶ *(3+4) 합쳐서 = 너의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소*
+   -> *(3+4) 합쳐서 = 너의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소*
 5. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong> (`TCP` 또는 `UDP` - 전송 방식)
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Stateful [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 이 5개의 숫자를 테이블에 메모해 두고, 이 숫자가 완벽히 똑같은 패킷들이 1시간 동안 왔다 갔다 하면 "아, 얘네 아까부터 계속 수다 떨고 있는 1개의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이구나!"라고 판단하여 검사 없이 프리패스로 통과시켜 준다.
@@ -58,28 +58,28 @@ tags = ["studynote-network"]
 ### 2. 서버의 동시 접속 마법 (Fork)
 네이버 서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 `80번` 하나뿐이다. 그런데 한국 사람 1,000만 명이 동시에 접속한다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1개인데 어떻게 충돌이 안 날까?
 - [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)의 정의 때문이다. 터널은 "출발지 + 목적지"의 조합으로 이루어진다.
-- 유저 A: `1.1.1.1:50000` ────▶ `네이버IP:80` (1번 터널)
-- 유저 B: `2.2.2.2:40000` ────▶ `네이버IP:80` (2번 터널)
-- 유저 A가 탭을 하나 더 엶: `1.1.1.1:50001` ────▶ `네이버IP:80` (3번 터널)
+- 유저 A: `1.1.1.1:50000` -----> `네이버IP:80` (1번 터널)
+- 유저 B: `2.2.2.2:40000` -----> `네이버IP:80` (2번 터널)
+- 유저 A가 탭을 하나 더 엶: `1.1.1.1:50001` -----> `네이버IP:80` (3번 터널)
 - **결과**: 네이버 웹서버(80번)는 가만히 앉아있지만, 들어오는 놈들의 "출발지 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소"가 전부 다르기 때문에, 운영체제는 1,000만 개의 각기 다른 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Fork)해서 하나하나 독립적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴준다. 절대로 A의 카톡이 B에게 잘못 가는 일은 없다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                소켓 프로그래밍(코딩)의 극단적 요약 흐름             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서버 개발자 ]                                              │
- │   1. socket() : "OS야 빈 콘센트 구멍 하나 만들어줘"                │
- │   2. bind(80) : "이 콘센트에 80번 이라는 이름표를 붙일게"           │
- │   3. listen() : "이제 손님 올 때까지 귀 열고 대기 탄다!"            │
- │   4. accept() : "오! 손님 왔다! 1:1 비밀 통로 파서 대화 시작!"       │
- │                                                             │
- │   [ 클라이언트(유저) ]                                          │
- │   1. socket() : "나도 빈 콘센트 하나 줘"                        │
- │   2. connect(네이버IP:80) : "저쪽 80번 콘센트로 냅다 전기 꽂아버려!!"│
- │                                                             │
- │   ▶ "이 6줄의 코드로 전 세계 수십억 대의 컴퓨터가 인터넷을 한다!"         │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                소켓 프로그래밍(코딩)의 극단적 요약 흐름             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 서버 개발자 ]                                              |
+ |   1. socket() : "OS야 빈 콘센트 구멍 하나 만들어줘"                |
+ |   2. bind(80) : "이 콘센트에 80번 이라는 이름표를 붙일게"           |
+ |   3. listen() : "이제 손님 올 때까지 귀 열고 대기 탄다!"            |
+ |   4. accept() : "오! 손님 왔다! 1:1 비밀 통로 파서 대화 시작!"       |
+ |                                                             |
+ |   [ 클라이언트(유저) ]                                          |
+ |   1. socket() : "나도 빈 콘센트 하나 줘"                        |
+ |   2. connect(네이버IP:80) : "저쪽 80번 콘센트로 냅다 전기 꽂아버려!!"|
+ |                                                             |
+ |   -> "이 6줄의 코드로 전 세계 수십억 대의 컴퓨터가 인터넷을 한다!"         |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 주소 묶음(5-Tuple)은 은행의 </strong>"1:1 창구 상담표"**입니다. 내 주민번호(출발지 IP), 대기표 번호(출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)), 창구 직원 이름(목적지 IP), 창구 창구 번호(목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 완벽히 매칭되어야만 두 사람만의 프라이빗한 상담([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이 시작되며, 옆 창구 사람과 절대 대화가 섞이지 않습니다.
@@ -140,12 +140,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Well-Known 포트, Registere…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 소켓 주소 = IP 주소 + 포트 번호]
-    │
-    ├──▶ [확장 A: TCP]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소 = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)는 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…에서 출발해 현재 메커니즘을 정교화하고, 이후 TCP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 525 / 1120
 
-← **이전**: [403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)](/knowledge-base/studynote/03_network/08_transport_layer/403_port_categories_well_known_registered_dynamic/)
-**다음**: [405. TCP (Transmission Control Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) →
+<- **이전**: [403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)](/knowledge-base/studynote/03_network/08_transport_layer/403_port_categories_well_known_registered_dynamic/)
+**다음**: [405. TCP (Transmission Control Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ->
 
 ---

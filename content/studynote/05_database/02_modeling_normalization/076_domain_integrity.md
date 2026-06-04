@@ -24,11 +24,11 @@ RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transaction
 
 ```text
 INSERT / UPDATE
-     │
-     ▼
+     |
+     v
 [도메인 검사]
-   ├─ 통과 → 저장
-   └─ 실패 → 오류 / 롤백
+   +- 통과 -> 저장
+   +- 실패 -> 오류 / 롤백
 ```
 
 이 그림처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 "저장 직전의 관문"이다. 이 관문이 없으면 잘못된 값이 보고서와 집계까지 번진다.
@@ -52,12 +52,12 @@ INSERT / UPDATE
 
 ```text
 도메인 정의
-   │
-   ├─ 타입/길이
-   ├─ NOT NULL
-   ├─ CHECK
-   └─ DEFAULT / 코드 테이블
-   ▼
+   |
+   +- 타입/길이
+   +- NOT NULL
+   +- CHECK
+   +- DEFAULT / 코드 테이블
+   v
 유효한 값만 저장
 ```
 
@@ -127,17 +127,17 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 ```text
 값의 형식 정의
-    │
-    ▼
+    |
+    v
 데이터 타입 / 길이 / NOT NULL
-    │
-    ▼
+    |
+    v
 CHECK / DEFAULT / 코드 테이블
-    │
-    ▼
+    |
+    v
 도메인 무결성
-    │
-    ▼
+    |
+    v
 엔터티·참조 무결성과 결합
 ```
 
@@ -155,7 +155,7 @@ CHECK / DEFAULT / 코드 테이블
 
 **진행 상황**: 76 / 600
 
-← **이전**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)
-**다음**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/knowledge-base/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/) →
+<- **이전**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)
+**다음**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/knowledge-base/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/) ->
 
 ---

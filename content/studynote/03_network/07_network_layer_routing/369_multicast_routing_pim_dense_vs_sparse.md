@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP Route Reflector / Co…]
-    │
-    ▼
+    |
+    v
 [멀티캐스트 라우팅]
-    │
-    └──▶ [RP, RPF 멀티캐스트 루프 방지]
+    |
+    +---> [RP, RPF 멀티캐스트 루프 방지]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-DM이 원치도 않는 집에까지 무조건 신문을 쑤셔 넣고 거부해야만 끊어주는 </strong>"악질 스팸 찌라시 배달"<strong>이라면, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-SM은 내가 넷플릭스 구독 버튼(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)을 눌렀을 때만 집으로 영상을 쏴주는 </strong>"합리적인 VOD 구독 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"**입니다.
@@ -56,26 +56,26 @@ PIM은 이름 그대로 "[Protocol](/knowledge-base/studynote/03_network/06_netw
 3. **트리 완성 (Shared Tree)**: RP에서부터 제주도까지 내려오는 밸브가 착착 열리면서 영상이 배달된다. 만약 춘천에 시청자가 없으면 춘천 쪽 밸브는 영원히 닫혀 있다. 단 1바이트의 트래픽 낭비도 없다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                PIM-SM(Sparse Mode)의 랑데부(만남) 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 방송국 (Source) ]                    [ 제주도 시청자 (Receiver) ]│
- │          │                                          ▲       │
- │          │ 1. 영상 송출 (나 방송 시작함!)                   │       │
- │          ▼                                          │       │
- │   [ 송신 라우터 ]                                [ 수신 라우터 ]  │
- │          │                                          ▲       │
- │          │ 2. RP로 직행!               3. "RP야 영상 줘!" │       │
- │          │                             (PIM Join)   │       │
- │          ▼                                          │       │
- │       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      │
- │       ┃       [ RP (Rendezvous Point) ] 라우터      ┃      │
- │       ┃       (송신자와 수신자가 만나는 중앙 우체국)          ┃      │
- │       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      │
- │                                                             │
- │   ▶ "RP라는 중매쟁이가 없으면 송신자와 수신자는 영영 만나지 못한다!"   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                PIM-SM(Sparse Mode)의 랑데부(만남) 도식           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 방송국 (Source) ]                    [ 제주도 시청자 (Receiver) ]|
+ |          |                                          ^       |
+ |          | 1. 영상 송출 (나 방송 시작함!)                   |       |
+ |          v                                          |       |
+ |   [ 송신 라우터 ]                                [ 수신 라우터 ]  |
+ |          |                                          ^       |
+ |          | 2. RP로 직행!               3. "RP야 영상 줘!" |       |
+ |          |                             (PIM Join)   |       |
+ |          v                                          |       |
+ |       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      |
+ |       ┃       [ RP (Rendezvous Point) ] 라우터      ┃      |
+ |       ┃       (송신자와 수신자가 만나는 중앙 우체국)          ┃      |
+ |       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      |
+ |                                                             |
+ |   -> "RP라는 중매쟁이가 없으면 송신자와 수신자는 영영 만나지 못한다!"   |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. SPT Switchover (지름길 타기 꼼수)
@@ -142,12 +142,12 @@ PIM은 이름 그대로 "[Protocol](/knowledge-base/studynote/03_network/06_netw
 
 ```text
 [선행 개념: BGP Route Reflector / Co…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 멀티캐스트 라우팅]
-    │
-    ├──▶ [확장 A: RP, RPF 멀티캐스트 루프 방지]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: RP, RPF 멀티캐스트 루프 방지]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…에서 출발해 현재 메커니즘을 정교화하고, 이후 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -164,7 +164,7 @@ PIM은 이름 그대로 "[Protocol](/knowledge-base/studynote/03_network/06_netw
 
 **진행 상황**: 490 / 1120
 
-← **이전**: [368. BGP Route Reflector / Confederation (iBGP 풀 메시 문제 해결)](/knowledge-base/studynote/03_network/07_network_layer_routing/368_bgp_route_reflector_confederation/)
-**다음**: [370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) →
+<- **이전**: [368. BGP Route Reflector / Confederation (iBGP 풀 메시 문제 해결)](/knowledge-base/studynote/03_network/07_network_layer_routing/368_bgp_route_reflector_confederation/)
+**다음**: [370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) ->
 
 ---

@@ -27,20 +27,20 @@ tags = ["ai"]
 
 ```text
        평가 점수 (Objective Function Value)
-          ▲
-          │                          [Global Maxima]
-          │                           전역 최적해 (진짜 목표)
-          │                              /▼\
-          │                             /   \
-          │                            /     \
-          │     [Local Maxima]        /       \
-          │       지역 최적해        /        [Plateau] 평탄역
-          │         /▼\            /         (기울기 0)
-          │        /   \          /         ─────
-          │       /     \________/
-          │      /      [Ridge] 능선
-          │[Start]
-          └───────────────────────────────────────────────► 상태 공간 (State Space)
+          ^
+          |                          [Global Maxima]
+          |                           전역 최적해 (진짜 목표)
+          |                              /v\
+          |                             /   \
+          |                            /     \
+          |     [Local Maxima]        /       \
+          |       지역 최적해        /        [Plateau] 평탄역
+          |         /v\            /         (기울기 0)
+          |        /   \          /         -----
+          |       /     \________/
+          |      /      [Ridge] 능선
+          |[Start]
+          +-----------------------------------------------► 상태 공간 (State Space)
 ```
 
 이 흐름의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 오직 "현재 위치보다 높은 곳"으로만 이동한다는 점이다. 따라서 [Start] 지점에서 출발할 경우 가장 가까운 꼭대기인 [Local Maxima]에 도달하게 되며, 이 지점에서는 더 이상 주변에 높은 곳이 없으므로 탐색이 종료된다. 시스템 전체의 해법(Global Maxima)을 찾지 못한 채 멈춰버리는 이 현상이 언덕 오르기의 가장 치명적인 병목이자 구조적 한계이다. 실무에서는 이 지점의 실패율을 낮추기 위해 무작위 재시작(Random-Restart) 등을 결합하여 관찰해야 한다.
@@ -64,19 +64,19 @@ tags = ["ai"]
 
 ```text
 [현재 상태 S 평가]
-       │
-       ▼
+       |
+       v
 [이웃 상태 N1, N2, N3 생성]
-       │
-       ▼ (목적 함수 적용)
+       |
+       v (목적 함수 적용)
 [점수 N1=10, N2=25, N3=5 도출]
-       │
-       ▼
+       |
+       v
 [최고 점수 N_max 탐색] (N_max = N2)
-       │
-       ├─ (N_max <= S의 점수?) ──[YES]──► (탐색 종료: 지역 최적해 도달)
-       │
-       └─ [NO] ─────────────────────────► (S = N_max 갱신 후 반복)
+       |
+       +- (N_max <= S의 점수?) --[YES]--► (탐색 종료: 지역 최적해 도달)
+       |
+       +- [NO] -------------------------► (S = N_max 갱신 후 반복)
 ```
 
 이 구조도의 핵심은 현재 점수와 최고 이웃 점수를 비교하는 판단 분기(Branch)에 있다. 평가 점수가 갱신되지 않으면 즉시 탐색을 종료하는 그리디(Greedy) 특성 때문에, 탐색 속도는 극단적으로 빠르지만 전역 해를 보장하지 못한다. 이를 수식으로 나타내면 `if f(Neighbor) <= f(Current) then Return Current` 와 같이 표현되며, 내리막길을 허용하지 않는 엄격성 때문에 국소 최적화의 늪에 빠지게 된다.
@@ -112,12 +112,12 @@ tags = ["ai"]
 ```text
 [실무 의사결정 트리: 최적화 탐색 알고리즘 선택]
 [문제: 해 공간이 무한/연속적인가?]
- ├─ [No] ─► 완전 탐색(A*, BFS) 고려
- └─ [Yes] ─► [메모리 제한이 극심한가?]
-              ├─ [No] ─► 유전 알고리즘 (Population 기반)
-              └─ [Yes] ─► [전역 최적해가 필수인가?]
-                           ├─ [No] ─► 기본 Hill Climbing (속도 최우선)
-                           └─ [Yes] ─► 시뮬레이티드 어닐링 (Simulated Annealing)
+ +- [No] -► 완전 탐색(A*, BFS) 고려
+ +- [Yes] -► [메모리 제한이 극심한가?]
+              +- [No] -► 유전 알고리즘 (Population 기반)
+              +- [Yes] -► [전역 최적해가 필수인가?]
+                           +- [No] -► 기본 Hill Climbing (속도 최우선)
+                           +- [Yes] -► 시뮬레이티드 어닐링 (Simulated Annealing)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 공간 크기와 메모리, 그리고 해의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 요구사항을 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)한다는 점이다. 언덕 오르기 단독 배포는 매우 위험하며, 언제든 "갇힘(Stuck)" 상태를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화할 수 있는 워치독(Watchdog) 메커니즘을 함께 운영해야 한다.
@@ -147,17 +147,17 @@ tags = ["ai"]
 
 ```text
 [무작위 탐색 (Random Search) — 해 공간 무작위 표본, 보장 없음]
-    │
-    ▼
+    |
+    v
 [언덕 오르기 (Hill Climbing) — 현재보다 나은 이웃으로 이동, 지역 최적해 위험]
-    │
-    ▼
+    |
+    v
 [무작위 재시작 언덕 오르기 (Random-Restart HC) — 여러 시작점으로 지역 최적해 완화]
-    │
-    ▼
+    |
+    v
 [모의 담금질 (Simulated Annealing) — 확률적 내리막 허용으로 탈출]
-    │
-    ▼
+    |
+    v
 [경사 하강법 (Gradient Descent) — 연속 미분 가능 공간에서 언덕 내리기, 딥러닝 핵심]
 ```
 이 흐름은 탐욕적 이웃 이동이라는 언덕 오르기의 직관적 아이디어가 지역 최적해 함정을 극복하는 다양한 메타휴리스틱으로 발전하고, 그 역방향(최소화) 개념이 현대 딥러닝의 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)으로 계승되는 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 계보를 보여준다.
@@ -173,7 +173,7 @@ tags = ["ai"]
 
 **진행 상황**: 16 / 420
 
-← **이전**: [15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/)
-**다음**: [17. A* (A-Star) 알고리즘 - f(n) = g(n) + h(n), 시작점부터의 실제 비용 g(n)과 목표까지의 예상 비용 h(n)을](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/) →
+<- **이전**: [15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/)
+**다음**: [17. A* (A-Star) 알고리즘 - f(n) = g(n) + h(n), 시작점부터의 실제 비용 g(n)과 목표까지의 예상 비용 h(n)을](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/) ->
 
 ---

@@ -23,17 +23,17 @@ tags = ["studynote-data-engineering"]
 A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α, 검정력 1-β, 효과 크기 δ, 표본 크기 n)가 서로 톱니바퀴처럼 맞물려 결정된다. 검정력을 높이려면 더 큰 표본(n)을 수집하거나, 더 큰 효과(δ)를 기대해야 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 A/B 테스트 가설 검정 매트릭스               │
-├─────────────────────────────────────────────────────────────┤
-│   판단 결과   │    H0 참 (실제 효과 없음)    │  H1 참 (실제 효과 있음)   │
-│---------------│------------------------------│---------------------------│
-│ 대립가설 채택 │        제1종 오류 (α)        │      올바른 결정 (1-β)    │
-│ (효과 있다!)  │       (False Positive)       │      검정력 (Power)       │
-│---------------│------------------------------│---------------------------│
-│ 귀무가설 채택 │         올바른 결정          │        제2종 오류 (β)     │
-│ (효과 없다!)  │       (True Negative)        │       (False Negative)    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 A/B 테스트 가설 검정 매트릭스               |
++-------------------------------------------------------------+
+|   판단 결과   |    H0 참 (실제 효과 없음)    |  H1 참 (실제 효과 있음)   |
+|---------------|------------------------------|---------------------------|
+| 대립가설 채택 |        제1종 오류 (α)        |      올바른 결정 (1-β)    |
+| (효과 있다!)  |       (False Positive)       |      검정력 (Power)       |
+|---------------|------------------------------|---------------------------|
+| 귀무가설 채택 |         올바른 결정          |        제2종 오류 (β)     |
+| (효과 없다!)  |       (True Negative)        |       (False Negative)    |
++-------------------------------------------------------------+
 ```
 
 이 매트릭스는 의사결정의 두 가지 위험을 보여준다. p-hacking은 실험 도중 중간 결과를 훔쳐보며(Peeking) 유리할 때 실험을 멈추는 행위로, 이 경우 제1종 오류(α)가 설정값(예: 5%)을 넘어 기하급수적으로 폭증하게 된다. 반대로 표본이 부족하면 효과가 있어도 증명하지 못해 제2종 오류(β)에 빠진다.
@@ -80,17 +80,17 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledg
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 A/B 테스트의 도입 (직관에서 데이터로)
-    │
-    ▼
+    |
+    v
 p-value의 맹신과 Peeking 문제 발생
-    │
-    ▼
+    |
+    v
 p-hacking (데이터 마사지 및 통계적 왜곡)
-    │
-    ▼
+    |
+    v
 Power Analysis (사전 검정력 분석 및 표본 산정)
-    │
-    ▼
+    |
+    v
 Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)
 ```
 이 흐름도는 단순한 A/B 테스트가 통계적 함정을 극복하며 사전 설계와 고급 통계 기법으로 진화하는 과정을 보여준다.
@@ -106,7 +106,7 @@ Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)
 
 **진행 상황**: 99 / 258
 
-← **이전**: [결정 계수 (Coefficient of Determination) - R-Squared](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)
-**다음**: [K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)](/knowledge-base/studynote/14_data_engineering/02_math_mining/100_k_means_clustering_elbow_silhouette/) →
+<- **이전**: [결정 계수 (Coefficient of Determination) - R-Squared](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)
+**다음**: [K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)](/knowledge-base/studynote/14_data_engineering/02_math_mining/100_k_means_clustering_elbow_silhouette/) ->
 
 ---

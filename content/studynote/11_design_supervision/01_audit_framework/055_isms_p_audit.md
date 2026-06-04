@@ -32,7 +32,7 @@ ISMS-P는 정보보호와 [개인정보보호](/knowledge-base/studynote/09_secu
 감사는 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 기준 매핑, 증적 수집, 부적합 판정, 개선 권고로 흐른다. ISMS-P는 정보보호와 [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 요구사항을 함께 본다.
 
 ```text
-Requirements → Evidence → Compliance Check → Findings → Improvement
+Requirements -> Evidence -> Compliance Check -> Findings -> Improvement
 ```
 
 | 영역 | 예시 | 증거 |
@@ -111,14 +111,14 @@ ISMS-P는 법규 준수와 내부 통제를 동시에 다뤄야 하므로, 증�
 
 ```text
 요구사항
-    │
-    ▼
+    |
+    v
 정책/절차
-    │
-    ▼
+    |
+    v
 증적/운영
-    │
-    ▼
+    |
+    v
 감사 판정 / 개선
 ```
 
@@ -136,7 +136,7 @@ ISMS-P는 법규 준수와 내부 통제를 동시에 다뤄야 하므로, 증�
 
 **진행 상황**: 82 / 530
 
-← **이전**: [54. ITIL/ITSM 감사 (ITIL ITSM Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/054_itil_itsm_audit/)
-**다음**: [56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_hardware_sizing_verification/) →
+<- **이전**: [54. ITIL/ITSM 감사 (ITIL ITSM Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/054_itil_itsm_audit/)
+**다음**: [56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_hardware_sizing_verification/) ->
 
 ---

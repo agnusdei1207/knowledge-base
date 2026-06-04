@@ -36,22 +36,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 프로그램 순서는 유지하되, 실행 시점은 달라질 수 있다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Same program order, different execution time                            │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Program order:   S0(addr late) -> L1 -> L2 -> S3                        │
-│                    │              │     │      │                        │
-│ Dispatch:          SQ             LQ    LQ     SQ                       │
-│                    │              │                                     │
-│                    │      older-store check                             │
-│                    │              │                                     │
-│                    │      ┌──── no conflict ────> issue to cache        │
-│                    │      │                                              │
-│                    └──── same addr + data ready ─> forward to load      │
-│                                                                          │
-│ Late conflict found -> replay younger loads                              │
-│ Stores become globally visible only at commit in original order          │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Same program order, different execution time                            |
++--------------------------------------------------------------------------+
+| Program order:   S0(addr late) -> L1 -> L2 -> S3                        |
+|                    |              |     |      |                        |
+| Dispatch:          SQ             LQ    LQ     SQ                       |
+|                    |              |                                     |
+|                    |      older-store check                             |
+|                    |              |                                     |
+|                    |      +---- no conflict ----> issue to cache        |
+|                    |      |                                              |
+|                    +---- same addr + data ready -> forward to load      |
+|                                                                          |
+| Late conflict found -> replay younger loads                              |
+| Stores become globally visible only at commit in original order          |
++--------------------------------------------------------------------------+
 ```
 
 | 상황 | 하드웨어의 선택 | 의미 |
@@ -126,24 +126,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차적 메모리 파이프라인
-    │
-    ▼
+    |
+    v
 논블로킹 캐시
-    │
-    ▼
+    |
+    v
 로드 우회와 스토어 포워딩
-    │
-    ▼
+    |
+    v
 메모리 의존성 예측
-    │
-    ▼
+    |
+    v
 대형 LSQ 기반 비순차 메모리 접근
-    │
-    ▼
+    |
+    v
 보안 인지형 선택적 스펙큘레이션
 ```
 
-이 흐름은 "단순 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은폐 → 공격적 재배치 → 예측과 통제 결합"으로 메모리 실행 엔진이 고도화되는 과정을 보여준다.
+이 흐름은 "단순 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은폐 -> 공격적 재배치 -> 예측과 통제 결합"으로 메모리 실행 엔진이 고도화되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -157,7 +157,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 506 / 803
 
-← **이전**: [505. 캐시 라인 프리패치 (Cache Line Prefetching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/505_cache_line_prefetch/)
-**다음**: [507. 메모리 의존성 예측기 (Memory Dependence Predictor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/) →
+<- **이전**: [505. 캐시 라인 프리패치 (Cache Line Prefetching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/505_cache_line_prefetch/)
+**다음**: [507. 메모리 의존성 예측기 (Memory Dependence Predictor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/) ->
 
 ---

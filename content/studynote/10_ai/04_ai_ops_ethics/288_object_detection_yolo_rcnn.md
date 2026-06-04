@@ -39,12 +39,12 @@ tags = ["studynote-ai"]
 | 인스턴스 분할 (Instance [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | 이미지 | 클래스+박스+픽셀 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 | Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 "사진에 고양이 있어?"라면, 객체 탐지는 "어디에 몇 마리나 있어?"다. 넓은 사진에서 수십 개 객체를 동시에 찾고 박스를 쳐야 하니 훨씬 어렵다.
@@ -59,18 +59,18 @@ tags = ["studynote-ai"]
 두 바운딩 박스의 겹침 정도를 0~1로 표현한다. 일반적으로 IoU > 0.5이면 정탐(True Positive)으로 판정.
 
 ```
-┌──────────────────────────────────────────┐
-│  예측 박스 (Predicted Box)               │
-│  ┌──────────────────┐                   │
-│  │         ┌────────┼───────┐            │
-│  │         │ 교집합 │       │            │
-│  │         │(Inter- │  GT   │            │
-│  └─────────┼section)│  Box  │            │
-│            └────────┴───────┘            │
-│                                          │
-│  IoU = 교집합 넓이 / 합집합 넓이         │
-│      = Intersection / Union              │
-└──────────────────────────────────────────┘
++------------------------------------------+
+|  예측 박스 (Predicted Box)               |
+|  +------------------+                   |
+|  |         +--------+-------+            |
+|  |         | 교집합 |       |            |
+|  |         |(Inter- |  GT   |            |
+|  +---------+section)|  Box  |            |
+|            +--------+-------+            |
+|                                          |
+|  IoU = 교집합 넓이 / 합집합 넓이         |
+|      = Intersection / Union              |
++------------------------------------------+
 ```
 
 **NMS (Non-Maximum Suppression)**:
@@ -93,24 +93,24 @@ NMS 동작 순서:
 R-CNN 계열 발전 과정:
 
 R-CNN (2014)
-    │  입력 이미지
-    │  → Selective Search (영역 제안 ~2000개)
-    │  → 각 영역 CNN 특징 추출 (개별 처리)
-    │  → SVM 분류 + 박스 회귀
-    │  속도: 47초/이미지 (느림)
-    ▼
+    |  입력 이미지
+    |  -> Selective Search (영역 제안 ~2000개)
+    |  -> 각 영역 CNN 특징 추출 (개별 처리)
+    |  -> SVM 분류 + 박스 회귀
+    |  속도: 47초/이미지 (느림)
+    v
 Fast R-CNN (2015)
-    │  입력 이미지 → CNN 전체 특징 맵
-    │  → RoI Pooling (영역별 특징 추출)
-    │  → FC + 분류 + 회귀
-    │  속도: 2초/이미지
-    ▼
+    |  입력 이미지 -> CNN 전체 특징 맵
+    |  -> RoI Pooling (영역별 특징 추출)
+    |  -> FC + 분류 + 회귀
+    |  속도: 2초/이미지
+    v
 Faster R-CNN (2015)
-    │  입력 이미지 → CNN 특징 맵
-    │  → RPN (Region Proposal Network, 학습 가능)
-    │  → RoI Pooling → 분류 + 회귀
-    │  속도: 0.2초/이미지 (5 FPS)
-    │  정확도: mAP ~70% (PASCAL VOC)
+    |  입력 이미지 -> CNN 특징 맵
+    |  -> RPN (Region Proposal Network, 학습 가능)
+    |  -> RoI Pooling -> 분류 + 회귀
+    |  속도: 0.2초/이미지 (5 FPS)
+    |  정확도: mAP ~70% (PASCAL VOC)
 ```
 
 ### 1단계 탐지기: YOLO
@@ -121,26 +121,26 @@ YOLO (You Only Look Once)는 이미지를 S×S 그리드로 나누고, <strong>�
 YOLO 아키텍처 (YOLOv1 기준):
 
 입력 이미지 (448×448)
-        │
+        |
    CNN 백본
   (24개 합성곱층)
-        │
+        |
    출력 텐서: S×S×(B×5 + C)
    S=7 (그리드 크기)
    B=2 (셀당 박스 수)
    C=20 (클래스 수, PASCAL VOC)
-        │
+        |
   7×7×30 텐서
-        │
+        |
    각 셀의 예측:
-   ┌────────────────────────────────┐
-   │ 박스1: x, y, w, h, confidence │
-   │ 박스2: x, y, w, h, confidence │
-   │ 클래스 확률: P(C1)...P(C20)   │
-   └────────────────────────────────┘
-        │
+   +--------------------------------+
+   | 박스1: x, y, w, h, confidence |
+   | 박스2: x, y, w, h, confidence |
+   | 클래스 확률: P(C1)...P(C20)   |
+   +--------------------------------+
+        |
       NMS 적용
-        │
+        |
    최종 탐지 결과
 ```
 
@@ -148,7 +148,7 @@ YOLO 아키텍처 (YOLOv1 기준):
 
 | 비교 항목 | 1단계 탐지기 (YOLO, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) | 2단계 탐지기 (Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) |
 |:---|:---|:---|
-| 처리 방식 | 단일 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) | 영역 제안 → [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 2단계 |
+| 처리 방식 | 단일 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) | 영역 제안 -> [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 2단계 |
 | 속도 | 빠름 (30~100 FPS) | 느림 (5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) FPS) |
 | 정확도 | 상대적으로 낮음 (특히 소형) | 높음 |
 | 소형 객체 탐지 | 취약 | 우수 |
@@ -177,12 +177,12 @@ YOLO 아키텍처 (YOLOv1 기준):
 
 ```
 SSD 다중 스케일 예측:
-38×38  ─ 소형 객체 탐지
-19×19  ─ 중형 객체 탐지
-10×10  ─ 대형 객체 탐지
- 5×5   ─ 더 큰 객체
- 3×3   ─ 매우 큰 객체
- 1×1   ─ 전체 이미지 크기 객체
+38×38  - 소형 객체 탐지
+19×19  - 중형 객체 탐지
+10×10  - 대형 객체 탐지
+ 5×5   - 더 큰 객체
+ 3×3   - 매우 큰 객체
+ 1×1   - 전체 이미지 크기 객체
 ```
 
 ### mAP (mean Average [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) 평가 지표
@@ -217,8 +217,8 @@ DETR ([DEtection](/knowledge-base/studynote/09_security/19_ai_advanced_security/
 
 ```
 DETR 파이프라인:
-이미지 → CNN 백본 → 플래튼 → 트랜스포머 인코더
-→ N개 쿼리 + 트랜스포머 디코더 → N개 예측 (클래스+박스)
+이미지 -> CNN 백본 -> 플래튼 -> 트랜스포머 인코더
+-> N개 쿼리 + 트랜스포머 디코더 -> N개 예측 (클래스+박스)
 (N = 100, 빈 예측은 "No Object"로 처리)
 ```
 
@@ -241,21 +241,21 @@ DETR 파이프라인:
 ### 탐지기 선택 프레임워크
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              탐지기 선택 기준                            │
-│                                                          │
-│  실시간 처리 필요?                                       │
-│      ├── Yes → 1단계 탐지기 (YOLO, SSD)                 │
-│      └── No  → 2단계 탐지기 (Faster R-CNN)             │
-│                                                          │
-│  소형 객체 많음?                                         │
-│      ├── Yes → FPN 결합 탐지기 / SSD 다중 스케일        │
-│      └── No  → 표준 YOLO 또는 R-CNN                     │
-│                                                          │
-│  Annotation 비용?                                        │
-│      ├── 박스만 → 일반 탐지기                           │
-│      └── 픽셀 마스크 → Mask R-CNN                       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              탐지기 선택 기준                            |
+|                                                          |
+|  실시간 처리 필요?                                       |
+|      +-- Yes -> 1단계 탐지기 (YOLO, SSD)                 |
+|      +-- No  -> 2단계 탐지기 (Faster R-CNN)             |
+|                                                          |
+|  소형 객체 많음?                                         |
+|      +-- Yes -> FPN 결합 탐지기 / SSD 다중 스케일        |
+|      +-- No  -> 표준 YOLO 또는 R-CNN                     |
+|                                                          |
+|  Annotation 비용?                                        |
+|      +-- 박스만 -> 일반 탐지기                           |
+|      +-- 픽셀 마스크 -> Mask R-CNN                       |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 객체 탐지는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감시 요원 배치'다. 화면을 빠르게 훑는 YOLO 요원은 위급 상황에 즉각 대응하고, 꼼꼼히 조사하는 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 요원은 증거를 철저히 수집한다. 임무 성격에 맞는 요원을 선택해야 한다.
@@ -276,7 +276,7 @@ DETR 파이프라인:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [객체 탐지 (Object Detection)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [객체 탐지 (Object Detection)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -291,7 +291,7 @@ DETR 파이프라인:
 
 **진행 상황**: 288 / 420
 
-← **이전**: [287. ResNet (Residual Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)
-**다음**: [289. 이미지 분할 (Image Segmentation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/) →
+<- **이전**: [287. ResNet (Residual Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)
+**다음**: [289. 이미지 분할 (Image Segmentation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/) ->
 
 ---

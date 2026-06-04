@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [확인응답번호]
-    │
-    ▼
+    |
+    v
 [헤더 길이/데이터 오프셋]
-    │
-    └──▶ [TCP 제어 플래그]
+    |
+    +---> [TCP 제어 플래그]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Offset 필드는 장문의 편지를 쓸 때 머리말(인사, 안부)이 얼마나 긴지 미리 알려주는 </strong>"본문 시작 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호"**입니다. 이 번호 덕분에 바쁜 사람은 머리말을 다 건너뛰고 정확히 본문이 시작되는 줄부터 곧바로 읽어 내려갈 수 있습니다.
@@ -46,8 +46,8 @@ tags = ["studynote-network"]
 - 4비트로 표현할 수 있는 숫자는 `0000` (0) 부터 `1111` (15) 까지다.
 - 만약 이걸 그대로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 단위로 썼다면, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더는 최대 15바이트까지만 커질 수 있다는 치명적 한계에 부딪힌다. (기본 뼈대만 20바이트인데 담을 수가 없다!).
 - **설계자의 천재적 꼼수**: "야, 어차피 헤더 디자인할 때 무조건 가로 32비트(4바이트) 크기로 줄을 맞춰서 블록을 쌓잖아? 그럼 숫자를 적을 때 <strong>4바이트짜리 블록(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">Word</a>)이 몇 개냐</strong>로 적자!"
-  - 오프셋 필드에 십진수 <strong><code>5</code></strong> (`0101`)가 적혀 있다 ──▶ $5 \times 4$[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = **헤더 크기 20바이트 (기본 뼈대만 있음)**
-  - 오프셋 필드에 십진수 <strong><code>15</code></strong> (`1111`)가 적혀 있다 ──▶ $15 \times 4$[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = **헤더 크기 60바이트 (옵션 꽉 찬 비만 패킷)**
+  - 오프셋 필드에 십진수 <strong><code>5</code></strong> (`0101`)가 적혀 있다 ---> $5 \times 4$[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = **헤더 크기 20바이트 (기본 뼈대만 있음)**
+  - 오프셋 필드에 십진수 <strong><code>15</code></strong> (`1111`)가 적혀 있다 ---> $15 \times 4$[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = **헤더 크기 60바이트 (옵션 꽉 찬 비만 패킷)**
 
 ### 2. 옵션(Options) 구역엔 무엇이 들어가는가?
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더가 20바이트를 초과해서 늘어나게 만드는 요물들이다. 이 옵션들 덕분에 TCP는 수십 년이 지난 기가비트 인터넷 시대에도 속도를 뽐내며 왕좌를 유지한다.
@@ -57,21 +57,21 @@ tags = ["studynote-network"]
 3. **SACK (Selective ACK)**: 방금 전 장에서 배운 "중간에 이빨 빠진 패킷 딱 그놈 하나만 콕 집어서 다시 쏴줘!"라는 핀셋 재전송 요구를 적어두는 특수 메모장 구역.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 패킷 분해 시 16진수 Data Offset 판독         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 와이어샤크(Wireshark)에서 헥사(16진수) 값으로 찍힌 모습 ]        │
- │                                                             │
- │   Offset 필드 주변의 바이트: `50 02 20 00`                     │
- │   - 맨 앞의 `5`가 바로 Data Offset 값이다! (`0101` = 5)      │
- │   - 5 * 4 = 20바이트.                                       │
- │   - 해독: "아! 이 패킷은 옵션이 하나도 안 붙은 아주 담백하고 날씬한       │
- │           가장 기본 20바이트짜리 순정 헤더를 달고 있구나!"          │
- │                                                             │
- │   ▶ "방화벽 엔지니어는 저 첫 번째 숫자가 5부터 F(15)까지 변할 수       │
- │      있다는 사실을 완벽히 꿰고 있어야 패킷 필터링 룰을 짤 수 있다."     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 패킷 분해 시 16진수 Data Offset 판독         |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 와이어샤크(Wireshark)에서 헥사(16진수) 값으로 찍힌 모습 ]        |
+ |                                                             |
+ |   Offset 필드 주변의 바이트: `50 02 20 00`                     |
+ |   - 맨 앞의 `5`가 바로 Data Offset 값이다! (`0101` = 5)      |
+ |   - 5 * 4 = 20바이트.                                       |
+ |   - 해독: "아! 이 패킷은 옵션이 하나도 안 붙은 아주 담백하고 날씬한       |
+ |           가장 기본 20바이트짜리 순정 헤더를 달고 있구나!"          |
+ |                                                             |
+ |   -> "방화벽 엔지니어는 저 첫 번째 숫자가 5부터 F(15)까지 변할 수       |
+ |      있다는 사실을 완벽히 꿰고 있어야 패킷 필터링 룰을 짤 수 있다."     |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Offset 값은 기차가 출발할 때 기관실 앞 유리에 적어놓은 </strong>"이번 기차는 총 몇 량짜리입니다"**라는 알림판입니다. 5량짜리(기본 20바이트) 기본 열차인지, 뒤에 특수 화물칸(옵션)을 15량(60바이트)까지 잔뜩 이어 붙인 대형 열차인지 역장(수신자)이 미리 알고 화물을 깔끔하게 떼어낼 수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리) 있게 돕습니다.
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 확인응답번호]
-    │
-    ▼
+    |
+    v
 [현재 개념: 헤더 길이/데이터 오프셋]
-    │
-    ├──▶ [확장 A: TCP 제어 플래그]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: TCP 제어 플래그]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 헤더 길이/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프셋는 [확인응답번호](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 531 / 1120
 
-← **이전**: [409. 확인응답번호 (Acknowledgment Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)
-**다음**: [411. TCP 제어 플래그(6bit)](/knowledge-base/studynote/03_network/08_transport_layer/411_tcp_control_flags_urg_ack_psh_rst_syn_fin/) →
+<- **이전**: [409. 확인응답번호 (Acknowledgment Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)
+**다음**: [411. TCP 제어 플래그(6bit)](/knowledge-base/studynote/03_network/08_transport_layer/411_tcp_control_flags_urg_ack_psh_rst_syn_fin/) ->
 
 ---

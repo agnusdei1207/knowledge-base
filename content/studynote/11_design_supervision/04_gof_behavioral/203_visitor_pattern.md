@@ -24,9 +24,9 @@ tags = ["studynote-design-supervision"]
   // 연산 하나가 추가될 때마다 모든 Element 클래스 수정
   class NumberNode {
       serialize() { ... }     // 연산 1
-      prettyPrint() { ... }   // 연산 2  ← 추가됨
-      generateCode() { ... }  // 연산 3  ← 추가됨
-      typeCheck() { ... }     // 연산 4  ← 추가됨
+      prettyPrint() { ... }   // 연산 2  <- 추가됨
+      generateCode() { ... }  // 연산 3  <- 추가됨
+      typeCheck() { ... }     // 연산 4  <- 추가됨
   }
   // Element가 10개면, 연산 1개 추가 = 10개 클래스 수정
 ```
@@ -36,16 +36,16 @@ tags = ["studynote-design-supervision"]
 Visitor의 핵심 메커니즘. 일반적인 단일 디스패치(Single Dispatch)는 메서드를 호출하는 객체 타입만으로 메서드가 결정된다. Visitor는 <strong>두 객체의 타입</strong>으로 최종 메서드가 결정된다:
 
 ```
-  element.accept(visitor)   → 1st dispatch: element의 타입으로 accept() 결정
-    └─ visitor.visit(this)  → 2nd dispatch: visitor의 타입으로 visit() 결정
+  element.accept(visitor)   -> 1st dispatch: element의 타입으로 accept() 결정
+    +- visitor.visit(this)  -> 2nd dispatch: visitor의 타입으로 visit() 결정
 
-  결과: Element 타입 × Visitor 타입 → 구체적 연산 메서드
+  결과: Element 타입 × Visitor 타입 -> 구체적 연산 메서드
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 박물관 도슨트([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))가 전시물(Element)을 방문할 때, 전시물마다 다른 설명을 한다. 새로운 전시 프로그램(연산)을 추가할 때 전시물(Element)을 바꾸지 않아도 된다.
@@ -56,12 +56,12 @@ Visitor의 핵심 메커니즘. 일반적인 단일 디스패치(Single Dispatch
 ```
   «interface»              «interface»
   Element                  Visitor
-  ─────────────            ──────────────────────────
+  -------------            --------------------------
   + accept(Visitor)        + visit(ConcreteElementA)
-        ▲                  + visit(ConcreteElementB)
-        │                        ▲
-   ┌────┴────┐          ┌────────┴────────┐
-   ▼         ▼          ▼                 ▼
+        ^                  + visit(ConcreteElementB)
+        |                        ^
+   +----+----+          +--------+--------+
+   v         v          v                 v
  ElemA     ElemB    ConcreteVisitor1  ConcreteVisitor2
  accept(v){        (코드 생성)        (타입 체크)
    v.visit(this)
@@ -78,13 +78,13 @@ Visitor의 핵심 메커니즘. 일반적인 단일 디스패치(Single Dispatch
            NumberNode(4)  NumberNode(5)
 
   Visitor 1: PrettyPrintVisitor
-    → "3 + (4 * 5)"
+    -> "3 + (4 * 5)"
 
   Visitor 2: EvaluateVisitor
-    → 3 + (4 × 5) = 23
+    -> 3 + (4 × 5) = 23
 
   Visitor 3: TypeCheckVisitor
-    → 모든 노드가 Number 타입인지 검증
+    -> 모든 노드가 Number 타입인지 검증
 ```
 
 ```java
@@ -127,9 +127,9 @@ class EvaluateVisitor implements ExpressionVisitor {
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Input/State  |--->| Control Point |--->| Output/Action |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 세금 조사관([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))이 각 기업(Element)을 방문한다. 기업은 문을 열어주기만 하면 되고(accept), 세금 계산 방식은 조사관([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))이 결정한다.
@@ -166,25 +166,25 @@ class EvaluateVisitor implements ExpressionVisitor {
   </html>
 
   Visitor 1: HTMLValidatorVisitor
-    → <p>, <div> 태그 유효성 검사
+    -> <p>, <div> 태그 유효성 검사
 
   Visitor 2: TextExtractorVisitor
-    → "Hello", "World" 텍스트 추출
+    -> "Hello", "World" 텍스트 추출
 
   Visitor 3: SecurityScanVisitor
-    → XSS (Cross-Site Scripting) 스크립트 탐지
+    -> XSS (Cross-Site Scripting) 스크립트 탐지
 ```
 
 ```
   Visitor 적합 판단:
-  ┌────────────────────────────────────────────────┐
-  │  데이터 구조(Element)의 변화가 적고,            │
-  │  그 위에서 수행하는 연산(Operation)이           │
-  │  자주 추가·변경되는가?                          │
-  │                                                │
-  │  YES → Visitor Pattern 적용                    │
-  │  NO  → 일반 메서드 또는 Strategy 적용          │
-  └────────────────────────────────────────────────┘
+  +------------------------------------------------+
+  |  데이터 구조(Element)의 변화가 적고,            |
+  |  그 위에서 수행하는 연산(Operation)이           |
+  |  자주 추가·변경되는가?                          |
+  |                                                |
+  |  YES -> Visitor Pattern 적용                    |
+  |  NO  -> 일반 메서드 또는 Strategy 적용          |
+  +------------------------------------------------+
 ```
 
 - **Double Dispatch** 메커니즘 명확히 설명 (두 번의 동적 바인딩)
@@ -209,8 +209,8 @@ class EvaluateVisitor implements ExpressionVisitor {
 | 기능 추가 용이 | 새 연산 = 새 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스만 추가 |
 | 복합 구조 순회 | [Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴과 자연스럽게 결합 |
 
-- <strong>Element 추가 시 모든 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 수정</strong> → 추상 기본 구현(Default 메서드)으로 완화 가능
-- **캡슐화 약화** → 내부를 노출하는 범위를 Package-Private 등으로 제한
+- <strong>Element 추가 시 모든 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 수정</strong> -> 추상 기본 구현(Default 메서드)으로 완화 가능
+- **캡슐화 약화** -> 내부를 노출하는 범위를 Package-Private 등으로 제한
 
 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 안정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 위에 <strong>다양한 연산을 플러그인처럼 추가</strong>해야 하는 상황에서 가장 빛을 발한다. 컴파일러 설계, AST (Abstract Syntax Tree) 분석, DOM 조작 등이 대표적이다. OCP와 캡슐화의 트레이드오프를 명확히 이해하고 적용해야 한다.
 
@@ -231,7 +231,7 @@ class EvaluateVisitor implements ExpressionVisitor {
 | 연관 개념 | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) | 연산 확장에서 달성, Element 확장에서 비용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조 → [방문자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/) → AST 분석/코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+[Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조 -> [방문자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/) -> AST 분석/코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 동물원의 동물들(Element)은 우리 안에 있고, 수의사([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))가 차례로 방문해요.
@@ -244,7 +244,7 @@ class EvaluateVisitor implements ExpressionVisitor {
 
 **진행 상황**: 264 / 530
 
-← **이전**: [202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/202_mediator_observer_combined/)
-**다음**: [204. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/204_iterator_pattern/) →
+<- **이전**: [202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/202_mediator_observer_combined/)
+**다음**: [204. 이터레이터 패턴 (Iterator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/204_iterator_pattern/) ->
 
 ---

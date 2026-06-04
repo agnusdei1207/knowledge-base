@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
   (1) 배열 구조 (O(N))
   [ P1(10) | P2(30) | P3(50) | P4(100) ]
-   ▶ P5(20)이 들어오면? P2,P3,P4를 다 뒤로 한 칸씩 밀어야 함 (최악의 지연)
+   -> P5(20)이 들어오면? P2,P3,P4를 다 뒤로 한 칸씩 밀어야 함 (최악의 지연)
 
   (2) 일반 이진 탐색 트리 (기울어짐 발생 시 O(N))
       [10]
@@ -42,7 +42,7 @@ tags = ["studynote-operating-system"]
    [ 20 (Red) ]        [ 50 (Red) ]
    ↙      ↘          ↙          ↘
  [10(B)]  [25(B)]  [40(B)]       [100(B)]
-  ▶ 값이 어떻게 들어오든 스스로 회전하여 피라미드 모양을 예쁘게 꽉 채워 유지함.
+  -> 값이 어떻게 들어오든 스스로 회전하여 피라미드 모양을 예쁘게 꽉 채워 유지함.
 ```
 **[다이어그램 해설]** [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 데이터가 어떻게 미친 듯이 쏟아져 들어오든 트리의 깊이(Depth) 차이를 2배 이내로 유지한다. 10만 개의 프로세스가 있어도 트리의 높이는 기껏해야 17층 안팎이다. 즉, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 새 프로세스를 집어넣을 때 최대 17번의 노드 비교만 하면 완벽한 자기 자리를 찾아가는 미친듯한 효율성을 보여준다.
 
@@ -68,26 +68,26 @@ CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
    - 1번 놈이 오른쪽으로 도망갔으므로, 2등으로 작았던 놈이 자연스럽게 새로운 `Leftmost`가 되어 다음번 CPU 옥좌에 앉을 준비를 마친다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         CFS 내부 레드-블랙 트리의 Leftmost 갱신 라이프사이클         │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [상태 1: P1 실행 전]                                                │
-  │                  [ P2 (vruntime: 30) ]                               │
-  │                 /                     \                              │
-  │  ⭐Leftmost ─▶ [ P1 (10) ]              [ P3 (50) ]                  │
-  │                                                                      │
-  │  [상태 2: P1이 CPU를 점유하여 vruntime이 35로 폭등함]                │
-  │                                                                      │
-  │  [상태 3: P1 재삽입 (Re-insert) 후 트리 자동 재정렬]                 │
-  │                  [ P2 (vruntime: 30) ]                               │
-  │                 /                     \                              │
-  │  ⭐Leftmost ─▶ [ ??? (비어있음) ]       [ P1 (35) ]                  │
-  │               (새로운 1등은 누구?)          \                        │
-  │                                           [ P3 (50) ]                │
-  │                                                                      │
-  │  ✅ 결과: P2가 30으로 시스템 내 최저값이 되어 새로운 Leftmost로 승격!│
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |         CFS 내부 레드-블랙 트리의 Leftmost 갱신 라이프사이클         |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [상태 1: P1 실행 전]                                                |
+  |                  [ P2 (vruntime: 30) ]                               |
+  |                 /                     \                              |
+  |  ⭐Leftmost --> [ P1 (10) ]              [ P3 (50) ]                  |
+  |                                                                      |
+  |  [상태 2: P1이 CPU를 점유하여 vruntime이 35로 폭등함]                |
+  |                                                                      |
+  |  [상태 3: P1 재삽입 (Re-insert) 후 트리 자동 재정렬]                 |
+  |                  [ P2 (vruntime: 30) ]                               |
+  |                 /                     \                              |
+  |  ⭐Leftmost --> [ ??? (비어있음) ]       [ P1 (35) ]                  |
+  |               (새로운 1등은 누구?)          \                        |
+  |                                           [ P3 (50) ]                |
+  |                                                                      |
+  |  ✅ 결과: P2가 30으로 시스템 내 최저값이 되어 새로운 Leftmost로 승격!|
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 CFS가 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 같은 더러운 꼼수 없이 완벽한 공정성을 획득하는 원리다. 누군가를 억지로 끌어올리지 않아도, 1등 하던 놈이 밥(CPU)을 먹으면 먹은 만큼 무거워져서 트리 오른쪽으로 굴러 떨어지기 때문에, 가만히 굶고 있던 놈들이 자연스럽게 왼쪽 끝(Leftmost)으로 밀려 나와 1등석을 차지하게 된다.
 
@@ -125,23 +125,23 @@ $O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowl
    - <strong>실무 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 로직</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 항상 트리에 있는 가장 작은 값(`min_vruntime`)을 추적 변수로 들고 있다. 1년 자다 깬 프로세스가 트리에 진입하려고 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 녀석의 vruntime을 1년 전의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(극단적 작은 값)으로 두지 않고, 현재 트리의 `min_vruntime - 보너스 알파` 수준으로 강제로 값을 조작하여 트리에 꽂아 넣는다. 트리 모양이 왼쪽으로 기형적으로 길어지는 것을 막는 수학적 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     K8s 엔지니어의 CPU Limit 튜닝과 RB-Tree의 상관관계 분석         │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ K8s 파드 설정: requests: 1, limits: 2 ]                         │
-  │                │                                                    │
-  │                ▼ 커널 내부 스케줄러(CFS)의 동작 변화                │
-  │   ▶ Requests(1): 파드의 가중치(Weight)로 변환됨.                    │
-  │      결과: CFS 트리에서 vruntime이 천천히 증가하게 만들어,          │
-  │            다른 쩌리 파드들보다 트리 왼쪽(Leftmost)에 오래          │
-  │            머물게 하여 1코어만큼의 최소 지분을 절대 방어함.         │
-  │                                                                     │
-  │   ▶ Limits(2): CFS 대역폭 제어기(Bandwidth Controller) 가동.        │
-  │      결과: 파드가 2코어 분량의 시간을 다 써버리면, 아예 CFS         │
-  │            RB-Tree에서 이 파드 노드 전체를 **뽑아버림(Throttled)**! │
-  │            다음 충전 주기가 될 때까지 트리에 못 들어와서 서버 멈춤. │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     K8s 엔지니어의 CPU Limit 튜닝과 RB-Tree의 상관관계 분석         |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [ K8s 파드 설정: requests: 1, limits: 2 ]                         |
+  |                |                                                    |
+  |                v 커널 내부 스케줄러(CFS)의 동작 변화                |
+  |   -> Requests(1): 파드의 가중치(Weight)로 변환됨.                    |
+  |      결과: CFS 트리에서 vruntime이 천천히 증가하게 만들어,          |
+  |            다른 쩌리 파드들보다 트리 왼쪽(Leftmost)에 오래          |
+  |            머물게 하여 1코어만큼의 최소 지분을 절대 방어함.         |
+  |                                                                     |
+  |   -> Limits(2): CFS 대역폭 제어기(Bandwidth Controller) 가동.        |
+  |      결과: 파드가 2코어 분량의 시간을 다 써버리면, 아예 CFS         |
+  |            RB-Tree에서 이 파드 노드 전체를 **뽑아버림(Throttled)**! |
+  |            다음 충전 주기가 될 때까지 트리에 못 들어와서 서버 멈춤. |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 클라우드 엔지니어가 작성하는 YAML 파일의 CPU 할당량은, 그 즉시 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 RB-Tree 노드 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 수식으로 번역되어 삽입된다. 트리에 노드가 어떻게 꽂히고(Request), 언제 트리에서 뽑혀서 버려지는지(Limit) 이 역학 관계를 이해해야 K8s 서버의 이유 없는 멈춤(CPU Throttling) 장애를 해결할 수 있다.
 
@@ -175,12 +175,12 @@ CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_da
 
 ```text
 [경성 실시간 (Hard Real-time) 시스템]
-    │
-    ▼
+    |
+    v
 [레드-블랙 트리 (Red-Black Tree)와 CFS]
-    │
-    ├──▶ [주기적 태스크 (Periodic Task)]
-    └──▶ [RM (Rate-Monotonic) 스케줄링]
+    |
+    +---> [주기적 태스크 (Periodic Task)]
+    +---> [RM (Rate-Monotonic) 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -197,7 +197,7 @@ CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_da
 
 **진행 상황**: 204 / 800
 
-← **이전**: [203. 가상 실행 시간 (vruntime, Virtual Runtime)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)
-**다음**: [205. 우선순위 역전 (Priority Inversion)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) →
+<- **이전**: [203. 가상 실행 시간 (vruntime, Virtual Runtime)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)
+**다음**: [205. 우선순위 역전 (Priority Inversion)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ->
 
 ---

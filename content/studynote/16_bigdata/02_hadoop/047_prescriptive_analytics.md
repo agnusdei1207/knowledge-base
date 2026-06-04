@@ -19,26 +19,26 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│           데이터 분석 4단계 성숙도                            │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 기술 분석  (Descriptive)  : 무슨 일이 일어났나?          │
-│     → 과거 매출 리포트, 대시보드                              │
-│                                                            │
-│  2. 진단 분석  (Diagnostic)   : 왜 일어났나?                 │
-│     → 원인 분석, 이상 탐지                                   │
-│                                                            │
-│  3. 예측 분석  (Predictive)   : 무슨 일이 일어날 것인가?      │
-│     → ML 모델, 수요 예측                                     │
-│                                                            │
-│  4. 처방 분석  (Prescriptive) : 무엇을 해야 하는가?      ★   │
-│     → 최적화, 시뮬레이션, 강화학습                            │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|           데이터 분석 4단계 성숙도                            |
++------------------------------------------------------------+
+|                                                            |
+|  1. 기술 분석  (Descriptive)  : 무슨 일이 일어났나?          |
+|     -> 과거 매출 리포트, 대시보드                              |
+|                                                            |
+|  2. 진단 분석  (Diagnostic)   : 왜 일어났나?                 |
+|     -> 원인 분석, 이상 탐지                                   |
+|                                                            |
+|  3. 예측 분석  (Predictive)   : 무슨 일이 일어날 것인가?      |
+|     -> ML 모델, 수요 예측                                     |
+|                                                            |
+|  4. 처방 분석  (Prescriptive) : 무엇을 해야 하는가?      ★   |
+|     -> 최적화, 시뮬레이션, 강화학습                            |
+|                                                            |
++------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 처방 분석은 의사의 역할이다. 환자 검사 결과(기술 분석) → 증상 원인 파악(진단 분석) → 병의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 예측([예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)) → 최적 치료법 처방(처방 분석). 처방 분석만이 "이 약을 이 용량으로 복용하세요"라는 구체적 행동 지침을 준다.
+- **📢 섹션 요약 비유**: 처방 분석은 의사의 역할이다. 환자 검사 결과(기술 분석) -> 증상 원인 파악(진단 분석) -> 병의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 예측([예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)) -> 최적 치료법 처방(처방 분석). 처방 분석만이 "이 약을 이 용량으로 복용하세요"라는 구체적 행동 지침을 준다.
 
 ---
 
@@ -47,15 +47,15 @@ tags = ["studynote-bigdata"]
 ### 처방 분석 핵심 기술
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│             처방 분석 방법론                                  │
-├──────────────────────────────────────────────────────────┤
-│  선형 최적화 (LP):    목적 함수 최대화/최소화 (제약 조건 하)  │
-│  정수 최적화 (ILP):   이산 결정 변수 (배차, 스케줄링)         │
-│  시뮬레이션:          몬테카를로, 이산 이벤트 시뮬레이션       │
-│  강화학습 (RL):       순차적 의사결정 최적화 (알파고, 로봇)    │
-│  의사결정 트리:       규칙 기반 처방 (의료 프로토콜)           │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|             처방 분석 방법론                                  |
++----------------------------------------------------------+
+|  선형 최적화 (LP):    목적 함수 최대화/최소화 (제약 조건 하)  |
+|  정수 최적화 (ILP):   이산 결정 변수 (배차, 스케줄링)         |
+|  시뮬레이션:          몬테카를로, 이산 이벤트 시뮬레이션       |
+|  강화학습 (RL):       순차적 의사결정 최적화 (알파고, 로봇)    |
+|  의사결정 트리:       규칙 기반 처방 (의료 프로토콜)           |
++------------------------------------------------------------+
 ```
 
 ### [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ORION: 처방 분석 실제 사례
@@ -86,8 +86,8 @@ tags = ["studynote-bigdata"]
 | <strong><a href="/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/">예측 분석</a></strong> | 무슨 일이? | ML, 통계 모델 | 낮음 (사람이 판단) |
 | **처방 분석** | 어떻게 해야? | OR, RL, 시뮬레이션 | 높음 (자동 실행 가능) |
 
-처방 분석은 MLOps와 결합하여 "예측 → 처방 → 자동 실행"의 완전 자동화 의사결정 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다:
-- Amazon 동적 가격 책정: 수요 예측(예측) → 최적 가격 계산(처방) → 가격 자동 변경(실행)
+처방 분석은 MLOps와 결합하여 "예측 -> 처방 -> 자동 실행"의 완전 자동화 의사결정 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다:
+- Amazon 동적 가격 책정: 수요 예측(예측) -> 최적 가격 계산(처방) -> 가격 자동 변경(실행)
 
 - **📢 섹션 요약 비유**: [예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)은 일기 예보(비 올 것 같다)이고, 처방 분석은 날씨앱의 자동 우산 주문(비가 예보되면 우산을 자동 구매)이다. 처방 분석은 예측을 넘어 행동까지 자동화한다.
 
@@ -118,7 +118,7 @@ scale_deployment("my-service", optimal_pods)
 처방 분석이 자동 의사결정에 사용될 때 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향(Algorithmic [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 발생할 수 있다.
 - 채용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 성별/인종을 불리하게 처방
 - 신용 점수 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 소득 수준에 따라 불공정하게 처방
-→ 공정성(Fairness) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Equal Opportunity, Demographic Parity) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
+-> 공정성(Fairness) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Equal Opportunity, Demographic Parity) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
 
 - **📢 섹션 요약 비유**: 처방 분석의 편향은 편견 있는 의사의 처방과 같다. 훌륭한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 편향이 반영되면, 특정 그룹에 불공정한 처방을 내릴 수 있다. 처방이 강력할수록 공정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 더욱 중요하다.
 
@@ -132,9 +132,9 @@ scale_deployment("my-service", optimal_pods)
 | **비용 절감** | 물류·에너지·인력 최적화로 수억~수십억 절감 |
 | **실시간 대응** | 동적 환경 변화에 실시간 최적 처방 |
 
-[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini)를 처방 분석 엔진으로 활용하는 Agentic AI가 등장했다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 → 처방 → 실행([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))을 자율적으로 수행하며, 이는 처방 분석의 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 비전문가에게까지 확장하고 있다.
+[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini)를 처방 분석 엔진으로 활용하는 Agentic AI가 등장했다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 -> 처방 -> 실행([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))을 자율적으로 수행하며, 이는 처방 분석의 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 비전문가에게까지 확장하고 있다.
 
-- **📢 섹션 요약 비유**: 처방 분석의 미래([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트)는 자율주행 자동차다. 목적지(목표)만 입력하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(예측) → 최적 경로 계산(처방) → 자동 운전(실행)을 사람 개입 없이 완전 자동화한다.
+- **📢 섹션 요약 비유**: 처방 분석의 미래([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트)는 자율주행 자동차다. 목적지(목표)만 입력하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(예측) -> 최적 경로 계산(처방) -> 자동 운전(실행)을 사람 개입 없이 완전 자동화한다.
 
 ---
 
@@ -152,17 +152,17 @@ scale_deployment("my-service", optimal_pods)
 
 ```text
 [기술 분석 (Descriptive) — 과거 설명]
-    │
-    ▼
+    |
+    v
 [진단 분석 (Diagnostic) — 원인 탐지]
-    │
-    ▼
+    |
+    v
 [예측 분석 (Predictive) — 미래 예측]
-    │
-    ▼
+    |
+    v
 [처방 분석 (Prescriptive) — 최적 행동 처방]
-    │
-    ▼
+    |
+    v
 [Agentic AI — 처방+실행 완전 자동화]
 ```
 
@@ -178,7 +178,7 @@ scale_deployment("my-service", optimal_pods)
 
 **진행 상황**: 47 / 262
 
-← **이전**: [24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)
-**다음**: [26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰](/knowledge-base/studynote/16_bigdata/02_hadoop/048_hdfs_viewfs/) →
+<- **이전**: [24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)
+**다음**: [26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰](/knowledge-base/studynote/16_bigdata/02_hadoop/048_hdfs_viewfs/) ->
 
 ---

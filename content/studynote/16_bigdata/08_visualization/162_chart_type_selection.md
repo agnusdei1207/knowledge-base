@@ -37,23 +37,23 @@ tags = ["studynote-bigdata"]
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이야기 유형별 차트 선택 체계
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│              차트 선택 결정 트리                            │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  무엇을 이야기할 것인가?                                    │
-│       │                                                    │
-│  ┌────┴────┬────────┬──────────┬──────────┬──────────┐    │
-│  │비교     │추세    │비율      │분포      │상관      │    │
-│  │Compare  │Trend   │Part-Whole│Distribut.│Correlat. │    │
-│  └────┬────┴─┬──────┴──┬───────┴──┬───────┴──┬───────┘    │
-│       │      │         │          │          │            │
-│      막대   꺾은선    파이(≤5)   히스토그램  산점도        │
-│      그래프  그래프   도넛      박스플롯   버블차트        │
-│      (Bar)  (Line)   트리맵    바이올린   히트맵          │
-│      그룹형 Area     워터폴    능선 그림               │
-│      누적형 Sparkline                                      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              차트 선택 결정 트리                            |
++------------------------------------------------------------+
+|                                                            |
+|  무엇을 이야기할 것인가?                                    |
+|       |                                                    |
+|  +----+----+--------+----------+----------+----------+    |
+|  |비교     |추세    |비율      |분포      |상관      |    |
+|  |Compare  |Trend   |Part-Whole|Distribut.|Correlat. |    |
+|  +----+----+-+------+--+-------+--+-------+--+-------+    |
+|       |      |         |          |          |            |
+|      막대   꺾은선    파이(≤5)   히스토그램  산점도        |
+|      그래프  그래프   도넛      박스플롯   버블차트        |
+|      (Bar)  (Line)   트리맵    바이올린   히트맵          |
+|      그룹형 Area     워터폴    능선 그림               |
+|      누적형 Sparkline                                      |
++------------------------------------------------------------+
 ```
 
 ### 유형별 상세 차트 가이드
@@ -113,14 +113,14 @@ tags = ["studynote-bigdata"]
 상키 다이어그램은 <strong>노드(Node) 간 흐름의 양(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a>)</strong>을 표시하는 특수 차트다:
 
 ```
-[방문] ─── 1000 ─→ [홈페이지]
-                        │
-               600 ─→ [상품 목록]
-                        │
-               300 ─→ [장바구니]
-                        │
-               150 ─→ [결제 완료]
-               150 ────→ [이탈]
+[방문] --- 1000 --> [홈페이지]
+                        |
+               600 --> [상품 목록]
+                        |
+               300 --> [장바구니]
+                        |
+               150 --> [결제 완료]
+               150 -----> [이탈]
 ```
 
 - **선 두께**: 흐름의 양에 비례
@@ -205,17 +205,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [비교 차트]
-    │
-    ▼
+    |
+    v
 [추세 차트]
-    │
-    ▼
+    |
+    v
 [비율 차트]
-    │
-    ▼
+    |
+    v
 [분포 차트]
-    │
-    ▼
+    |
+    v
 [상관 차트]
 ```
 
@@ -233,7 +233,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 162 / 262
 
-← **이전**: [161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율](/knowledge-base/studynote/16_bigdata/08_visualization/161_visualization_principles/)
-**다음**: [163. 대시보드 설계 (Dashboard Design) — KPI 중심 5초 규칙 인터랙티브](/knowledge-base/studynote/16_bigdata/08_visualization/163_dashboard_design/) →
+<- **이전**: [161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율](/knowledge-base/studynote/16_bigdata/08_visualization/161_visualization_principles/)
+**다음**: [163. 대시보드 설계 (Dashboard Design) — KPI 중심 5초 규칙 인터랙티브](/knowledge-base/studynote/16_bigdata/08_visualization/163_dashboard_design/) ->
 
 ---

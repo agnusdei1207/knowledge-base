@@ -27,13 +27,13 @@ tags = ["studynote-network"]
 
 ```text
 [외부 전자기파 간섭(EMI)]
-       ↓   ↓   ↓   ↓
+       v   v   v   v
     +--+---+---+---+---+--+  (선 A: + 신호)
     |   \ /     \ /     \ |
     |    X       X       X|  => 위상이 반대인 두 신호가 꼬인 지점마다 간섭을 스위칭
     |   / \     / \     / |
     +--+---+---+---+---+--+  (선 B: - 신호)
-       ↑   ↑   ↑   ↑
+       ^   ^   ^   ^
 [인접 선로의 누화(Crosstalk)]
 ```
 *이 그림의 핵심은 평행한 두 선 대신 꼬인 선을 사용함으로써, 외부 간섭이 두 선에 동일하게 미치더라도 수신단에서 두 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 차이(Differential Signaling)를 계산할 때 노이즈가 수학적으로 상쇄된다는 점이다. 이러한 배치는 별도의 차폐재 없이도 일정 수준의 노이즈 내성을 제공하며, 꼬임이 촘촘할수록 고주파 간섭을 더 잘 방어한다. 따라서 케이블 등급이 올라갈수록 단위 길이당 꼬임 횟수(Pitch)가 증가하여 제조 단가와 굵기에 영향을 준다.*
@@ -57,16 +57,16 @@ tags = ["studynote-network"]
 다음은 케이블 등급 상향에 따른 내부 물리적 구조의 진화 과정을 나타낸 구조도이다.
 
 ```text
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│     Cat 5e      │ │      Cat 6      │ │   Cat 7 / 8     │
-│  (UTP 구조)     │ │  (Cross-web)    │ │   (S/FTP 구조)  │
-├─────────────────┤ ├─────────────────┤ ├─────────────────┤
-│                 │ │                 │ │ +-[외곽 편조 Shield]-+
-│  (쌍 1)  (쌍 2) │ │ (쌍 1) │ (쌍 2) │ │ | [F]│[F] |
-│                 │ │ ─── 십자 개재 ──│ │ | ───┼─── |
-│  (쌍 3)  (쌍 4) │ │ (쌍 3) │ (쌍 4) │ │ | [F]│[F] |
-│                 │ │                 │ │ +---------------+
-└─────────────────┘ └─────────────────┘ └─────────────────┘
++-----------------+ +-----------------+ +-----------------+
+|     Cat 5e      | |      Cat 6      | |   Cat 7 / 8     |
+|  (UTP 구조)     | |  (Cross-web)    | |   (S/FTP 구조)  |
++-----------------+ +-----------------+ +-----------------+
+|                 | |                 | | +-[외곽 편조 Shield]-+
+|  (쌍 1)  (쌍 2) | | (쌍 1) | (쌍 2) | | | [F]|[F] |
+|                 | | --- 십자 개재 --| | | ---+--- |
+|  (쌍 3)  (쌍 4) | | (쌍 3) | (쌍 4) | | | [F]|[F] |
+|                 | |                 | | +---------------+
++-----------------+ +-----------------+ +-----------------+
  * F = Foil Shield (개별 쌍 호일 차폐)
 ```
 *이 구조도의 핵심은 주파수 대역이 높아질수록 내부 선간의 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT)를 방지하기 위해 십자 개재(Cross-web)를 넣거나(Cat 6), 개별 쌍을 호일로 감싸는(S/[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/), Cat 7/8) 물리적 격리가 추가된다는 점이다. 이런 배치는 전기적 간섭을 물리적으로 차단하기 때문이며, 따라서 케이블의 굵기가 두꺼워지고 유연성이 떨어져 곡률 반경(Bending [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)) 확보가 어려워져 포설 작업의 난이도에 영향을 준다. 실무에서는 제한된 배관 공간 내에 다수의 선을 매설해야 할 때 UTP와 STP의 외경 차이를 반드시 고려해야 한다.*
@@ -114,24 +114,24 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 ```text
 [구축 대상 및 용도 확인]
-           │
-           ├─▶ (데이터센터 내 랙(Rack) 간 25G/40G 단거리 연결인가?) ── Yes ──▶ [Cat 8 또는 DAC/광케이블 선택]
-           │
+           |
+           +--> (데이터센터 내 랙(Rack) 간 25G/40G 단거리 연결인가?) -- Yes ---> [Cat 8 또는 DAC/광케이블 선택]
+           |
            No
-           │
-           ▼
+           |
+           v
 [10Gbps 보장 및 수명 요구사항]
-           │
-           ├─▶ (10년 이상 사용하며 10G 완벽 보장이 필요한가?) ── Yes ──▶ [Cat 6a 선택] (※ 배관 내경 20% 이상 여유 확인)
-           │
+           |
+           +--> (10년 이상 사용하며 10G 완벽 보장이 필요한가?) -- Yes ---> [Cat 6a 선택] (※ 배관 내경 20% 이상 여유 확인)
+           |
            No
-           │
-           ▼
+           |
+           v
 [단말기 특성 및 예산]
-           │
-           ├─▶ (AP, CCTV, 일반 PC 위주이며 가성비가 중요한가?) ── Yes ──▶ [Cat 6 선택]
-           │
-           ▼
+           |
+           +--> (AP, CCTV, 일반 PC 위주이며 가성비가 중요한가?) -- Yes ---> [Cat 6 선택]
+           |
+           v
 [PoE (Power over Ethernet) 고려]
  * 60W 이상 고전력 PoE++ 인가 시, 발열로 인한 저항 증가 방지를 위해 최소 Cat 6 이상 권장
 ```
@@ -182,12 +182,12 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 ```text
 [선행 개념: STP / FTP]
-    │
-    ▼
+    |
+    v
 [현재 개념: UTP 카테고리]
-    │
-    ├──▶ [확장 A: 동축 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 동축 케이블]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) / FTP에서 출발해 현재 메커니즘을 정교화하고, 이후 동축 케이블와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -204,7 +204,7 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 **진행 상황**: 247 / 1120
 
-← **이전**: [125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/)
-**다음**: [127. 동축 케이블 (Coaxial Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) →
+<- **이전**: [125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/)
+**다음**: [127. 동축 케이블 (Coaxial Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) ->
 
 ---

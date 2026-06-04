@@ -19,21 +19,21 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                Porter 가치 사슬 구조                        │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  지원 활동:  ┌─────────────────────────────────────────┐   │
-│              │ 기업 인프라 / HR / 기술 개발 / 조달      │   │
-│              └─────────────────────────────────────────┘   │
-│                                                            │
-│  본원적 활동: [내부물류]→[운영]→[외부물류]→[마케팅]→[서비스]│
-│                                        ───────────────►    │
-│                                          이익 마진          │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                Porter 가치 사슬 구조                        |
++------------------------------------------------------------+
+|                                                            |
+|  지원 활동:  +-----------------------------------------+   |
+|              | 기업 인프라 / HR / 기술 개발 / 조달      |   |
+|              +-----------------------------------------+   |
+|                                                            |
+|  본원적 활동: [내부물류]->[운영]->[외부물류]->[마케팅]->[서비스]|
+|                                        ---------------►    |
+|                                          이익 마진          |
++------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 음식점 운영 흐름이다. 식재료 입고(내부 물류) → 요리(운영) → 서빙(외부 물류) → 홍보(마케팅) → 애프터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)). 각 단계를 잘할수록 더 많은 이익이 남는다.
+- **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 음식점 운영 흐름이다. 식재료 입고(내부 물류) -> 요리(운영) -> 서빙(외부 물류) -> 홍보(마케팅) -> 애프터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)). 각 단계를 잘할수록 더 많은 이익이 남는다.
 
 ---
 
@@ -108,23 +108,23 @@ AI와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 
 ```text
 [전통 가치 사슬 — 5개 본원적 활동 순차 흐름]
-    │
-    ▼
+    |
+    v
 [가치 사슬 분석 — 경쟁 우위 원천 활동 식별]
-    │
-    ▼
+    |
+    v
 [IT 통합 — ERP/SCM/CRM으로 활동 연결]
-    │
-    ▼
+    |
+    v
 [디지털 가치 사슬 — AI·IoT·클라우드 통합]
-    │
-    ▼
+    |
+    v
 [가치 네트워크 — 플랫폼 기반 다방향 가치 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 본원적 활동은 음식점 운영 5단계예요! 재료 입고 → 요리 → 서빙 → 홍보 → [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 순서예요.
+1. [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 본원적 활동은 음식점 운영 5단계예요! 재료 입고 -> 요리 -> 서빙 -> 홍보 -> [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 순서예요.
 2. 각 단계를 더 잘하거나 더 싸게 할수록 경쟁자를 이길 수 있어요!
 3. 요즘은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·IoT가 모든 단계를 자동화해서 더 빠르고 저렴하게 운영할 수 있는 디지털 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)로 진화하고 있답니다!
 
@@ -134,7 +134,7 @@ AI와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 
 **진행 상황**: 27 / 482
 
-← **이전**: [26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/)
-**다음**: [28. 가치 사슬 지원 활동 (Value Chain Support Activities)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/028_value_chain_support_activities/) →
+<- **이전**: [26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/)
+**다음**: [28. 가치 사슬 지원 활동 (Value Chain Support Activities)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/028_value_chain_support_activities/) ->
 
 ---

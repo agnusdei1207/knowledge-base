@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP 메서드]
-    │
-    ▼
+    |
+    v
 [HTTP 1.0]
-    │
-    └──▶ [HTTP 1.1]
+    |
+    +---> [HTTP 1.1]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드는 식당의 "진동벨 번호"와 같습니다. 요리사(서버)가 바쁠 때 손님(클라이언트)에게 일일이 말로 설명하지 않고, 진동벨에 '200(요리 완성)', '404(재료 소진)' 등의 숫자만 띄워주면 손님은 다음에 무엇을 해야 할지 즉각 알아차릴 수 있는 글로벌 공용어입니다.
@@ -43,33 +43,33 @@ tags = ["studynote-network"]
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드의 첫 번째 자릿수는 응답의 <strong>전체적인 카테고리(Class)</strong>를 결정합니다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버나 CDN은 뒷자리 숫자를 몰라도 앞자리(1~5)만 보고 패킷의 운명을 결정합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              [ HTTP 상태 코드 5대 클래스 요약 ]             │
-│                                                             │
-│  ▶ 1xx (Informational) : 요청을 받았으며 작업을 계속 진행 중│
-│     - 100 Continue: 클라이언트가 큰 본문을 계속 보내도 좋음 │
-│                                                             │
-│  ▶ 2xx (Successful)    : 클라이언트의 요청을 성공적으로 처리│
-│     - 200 OK: 성공 / 201 Created: 리소스 생성 성공          │
-│     - 204 No Content: 성공했으나 반환할 Body 데이터가 없음  │
-│                                                             │
-│  ▶ 3xx (Redirection)   : 요청을 완료하려면 클라이언트의 추가│
-│                          조치(URL 이동 등)가 필요함         │
-│     - 301 Moved Permanently: 영구 이동 (캐시됨, SEO 영향 O) │
-│     - 302 Found: 임시 이동 (캐시 안됨, SEO 영향 X)          │
-│     - 304 Not Modified: 캐시된 데이터가 최신이니 그대로 써라│
-│                                                             │
-│  ▶ 4xx (Client Error)  : 클라이언트의 잘못된 요청 (문법 오류)│
-│     - 400 Bad Request: 파라미터 누락, JSON 문법 오류        │
-│     - 401 Unauthorized: 인증(로그인) 안 됨                  │
-│     - 403 Forbidden: 로그인 했으나 권한(인가) 없음          │
-│     - 404 Not Found: 요청한 URI 리소스가 존재하지 않음      │
-│                                                             │
-│  ▶ 5xx (Server Error)  : 서버 내부의 치명적 오류로 처리 실패│
-│     - 500 Internal Server Error: 서버 DB 다운, Null 에러    │
-│     - 502 Bad Gateway: 앞단 프록시가 뒷단 서버 응답을 못 받음│
-│     - 503 Service Unavailable: 서버가 폭주하여 처리 불능    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              [ HTTP 상태 코드 5대 클래스 요약 ]             |
+|                                                             |
+|  -> 1xx (Informational) : 요청을 받았으며 작업을 계속 진행 중|
+|     - 100 Continue: 클라이언트가 큰 본문을 계속 보내도 좋음 |
+|                                                             |
+|  -> 2xx (Successful)    : 클라이언트의 요청을 성공적으로 처리|
+|     - 200 OK: 성공 / 201 Created: 리소스 생성 성공          |
+|     - 204 No Content: 성공했으나 반환할 Body 데이터가 없음  |
+|                                                             |
+|  -> 3xx (Redirection)   : 요청을 완료하려면 클라이언트의 추가|
+|                          조치(URL 이동 등)가 필요함         |
+|     - 301 Moved Permanently: 영구 이동 (캐시됨, SEO 영향 O) |
+|     - 302 Found: 임시 이동 (캐시 안됨, SEO 영향 X)          |
+|     - 304 Not Modified: 캐시된 데이터가 최신이니 그대로 써라|
+|                                                             |
+|  -> 4xx (Client Error)  : 클라이언트의 잘못된 요청 (문법 오류)|
+|     - 400 Bad Request: 파라미터 누락, JSON 문법 오류        |
+|     - 401 Unauthorized: 인증(로그인) 안 됨                  |
+|     - 403 Forbidden: 로그인 했으나 권한(인가) 없음          |
+|     - 404 Not Found: 요청한 URI 리소스가 존재하지 않음      |
+|                                                             |
+|  -> 5xx (Server Error)  : 서버 내부의 치명적 오류로 처리 실패|
+|     - 500 Internal Server Error: 서버 DB 다운, Null 에러    |
+|     - 502 Bad Gateway: 앞단 프록시가 뒷단 서버 응답을 못 받음|
+|     - 503 Service Unavailable: 서버가 폭주하여 처리 불능    |
++-------------------------------------------------------------+
 ```
 
 ### 2. 작동 메커니즘 (클라이언트 에러 vs 서버 에러의 차이)
@@ -163,12 +163,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP 메서드]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP 1.0]
-    │
-    ├──▶ [확장 A: HTTP 1.1]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP 1.1]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -185,7 +185,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 584 / 1120
 
-← **이전**: [462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)](/knowledge-base/studynote/03_network/09_application_layer_web_email/462_http_methods_get_post_put_delete/)
-**다음**: [464. HTTP 1.1](/knowledge-base/studynote/03_network/09_application_layer_web_email/464_http_1_1_persistent_connection_pipelining/) →
+<- **이전**: [462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)](/knowledge-base/studynote/03_network/09_application_layer_web_email/462_http_methods_get_post_put_delete/)
+**다음**: [464. HTTP 1.1](/knowledge-base/studynote/03_network/09_application_layer_web_email/464_http_1_1_persistent_connection_pipelining/) ->
 
 ---

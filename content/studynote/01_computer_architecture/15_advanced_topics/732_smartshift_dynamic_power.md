@@ -44,22 +44,22 @@ SmartShift의 제어 대상은 CPU 단독이 아니라 <strong>플랫폼 전체�
 아래 그림은 SmartShift가 "둘 중 하나를 무조건 올리는 기능"이 아니라, 공유된 한도 안에서 병목 방향으로 예산을 움직이는 구조임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                SmartShift: one system budget, two clients             │
-├────────────────────────────────────────────────────────────────────────┤
-│ CPU telemetry  ─┐                                                     │
-│ GPU telemetry  ─┼─> platform policy engine                            │
-│ Thermal status ─┘                                                     │
-│                │                                                       │
-│                ▼                                                       │
-│      decide where extra budget helps more right now                   │
-│                │                                                       │
-│      ┌─────────┴─────────┐                                             │
-│      ▼                   ▼                                             │
-│ more CPU allowance   more GPU allowance                               │
-│ compile / encode     gaming / graphics                                │
-│      └──── shared platform power limit remains enforced ─────┘        │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                SmartShift: one system budget, two clients             |
++------------------------------------------------------------------------+
+| CPU telemetry  -+                                                     |
+| GPU telemetry  -+-> platform policy engine                            |
+| Thermal status -+                                                     |
+|                |                                                       |
+|                v                                                       |
+|      decide where extra budget helps more right now                   |
+|                |                                                       |
+|      +---------+---------+                                             |
+|      v                   v                                             |
+| more CPU allowance   more GPU allowance                               |
+| compile / encode     gaming / graphics                                |
+|      +---- shared platform power limit remains enforced -----+        |
++------------------------------------------------------------------------+
 ```
 
 이 기술이 중요한 이유는, 모바일 플랫폼의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 이제 개별 칩의 사양보다도 <strong>섀시 전체의 전력·열 분배 능력</strong>에 더 민감해졌기 때문이다. 좋은 CPU와 GPU를 넣어도 공유 예산을 비효율적으로 쓰면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아진다. SmartShift는 그 비효율을 줄이는 시스템 레벨 해법이다.
@@ -138,18 +138,18 @@ SmartShift의 가장 큰 효과는 같은 섀시에서 더 나은 실효 [성능
 
 ```text
 CPU와 GPU의 고정 전력 분할
-    │
-    ▼
+    |
+    v
 개별 칩 내부 Dynamic Voltage and Frequency Scaling (DVFS) / Turbo 제어
-    │
-    ▼
+    |
+    v
 플랫폼 텔레메트리 통합
-    │
-    ▼
+    |
+    v
 SmartShift
 : CPU ↔ GPU 사이의 동적 예산 재배분
-    │
-    ▼
+    |
+    v
 이종 자원 전체로 확장되는 시스템 전력 오케스트레이션
 ```
 
@@ -167,7 +167,7 @@ SmartShift
 
 **진행 상황**: 733 / 803
 
-← **이전**: [731. AMD 프리시전 부스트 (Precision Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/731_amd_precision_boost/)
-**다음**: [733. 동적 주파수 한계 (Thermal Velocity Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/733_tvb/) →
+<- **이전**: [731. AMD 프리시전 부스트 (Precision Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/731_amd_precision_boost/)
+**다음**: [733. 동적 주파수 한계 (Thermal Velocity Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/733_tvb/) ->
 
 ---

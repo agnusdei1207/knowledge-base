@@ -37,29 +37,29 @@ tags = ["studynote-operating-system"]
   - 예방 및 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 막대한 런타임 오버헤드를 견디지 못한 상용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)들이, '사후 약방문'이 가장 현실적인 최적의 가성비(Cost-effective) 솔루션임을 깨닫고 도입한 방어 체계다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 데드락 탐지 및 희생자 롤백 복구 시퀀스 시각화           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 1. 데드락 발생 (환형 대기, Circular Wait) ]                   │
-  │     P1(DB 업데이트) ──(Lock A 점유)──▶ 기다림 ──(Lock B 요청)──┐ │
-  │        ▲                                               │ │
-  │        │                                               ▼ │
-  │   (Lock A 요청) ◀──기다림 ──(Lock B 점유)── P2(통계 배치 작업)   │
-  │                                                             │
-  │   [ 2. 데드락 탐지기 (Detection Algorithm) 작동 ]                │
-  │     - OS: "이봐, P1과 P2가 서로 맞물려서 사이클(Cycle)이 생겼어!"      │
-  │                                                             │
-  │   [ 3. 희생자 선택 (Victim Selection) ]                         │
-  │     - P1 비용: 99% 진행 완료, 중요도 높음, 롤백 비용 수만 클럭.         │
-  │     - P2 비용: 방금 1% 진행 시작함, 중요도 낮음, 롤백 비용 저렴.         │
-  │     ▶ OS의 판결: "P2, 네가 희생자(Victim)다! 죽어라!"               │
-  │                                                             │
-  │   [ 4. 롤백(Rollback) 및 복구 ]                                │
-  │     - P2를 강제 종료(또는 중간 지점으로 후퇴) 시킴.                    │
-  │     - P2가 쥐고 있던 [Lock B]가 허공에 툭 떨어짐! 🔓                │
-  │     - 꽉 막혀있던 P1이 Lock B를 낚아채고 정상적으로 실행 마침. 🚀        │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 데드락 탐지 및 희생자 롤백 복구 시퀀스 시각화           |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 1. 데드락 발생 (환형 대기, Circular Wait) ]                   |
+  |     P1(DB 업데이트) --(Lock A 점유)---> 기다림 --(Lock B 요청)--+ |
+  |        ^                                               | |
+  |        |                                               v |
+  |   (Lock A 요청) <---기다림 --(Lock B 점유)-- P2(통계 배치 작업)   |
+  |                                                             |
+  |   [ 2. 데드락 탐지기 (Detection Algorithm) 작동 ]                |
+  |     - OS: "이봐, P1과 P2가 서로 맞물려서 사이클(Cycle)이 생겼어!"      |
+  |                                                             |
+  |   [ 3. 희생자 선택 (Victim Selection) ]                         |
+  |     - P1 비용: 99% 진행 완료, 중요도 높음, 롤백 비용 수만 클럭.         |
+  |     - P2 비용: 방금 1% 진행 시작함, 중요도 낮음, 롤백 비용 저렴.         |
+  |     -> OS의 판결: "P2, 네가 희생자(Victim)다! 죽어라!"               |
+  |                                                             |
+  |   [ 4. 롤백(Rollback) 및 복구 ]                                |
+  |     - P2를 강제 종료(또는 중간 지점으로 후퇴) 시킴.                    |
+  |     - P2가 쥐고 있던 [Lock B]가 허공에 툭 떨어짐! 🔓                |
+  |     - 꽉 막혀있던 P1이 Lock B를 낚아채고 정상적으로 실행 마침. 🚀        |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 냉혹하고도 기계적인 자본주의 철학을 보여준다. [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 꽉 막힌 사거리를 뚫는 유일한 방법은 누군가 가진 자원([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 강제로 빼앗는 것(Preemption)뿐이다. 하지만 무턱대고 아무나 죽이면 기껏 1시간 동안 연산해 둔 아까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통째로 날릴 수 있다. 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 DB 엔진은 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황, 우선순위, 소모한 자원의 양을 종합적으로 계산하여 가장 '값싼' 녀석(P2)의 모가지를 친다. 죽은 P2는 자원을 토해내고, 이로 인해 고리가 끊기며 시스템 전체에 다시 피가 돌기 시작한다.
@@ -89,23 +89,23 @@ tags = ["studynote-operating-system"]
 | <strong>부분 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (Partial <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>| 프로세스가 작업을 하며 주기적으로 저장해 둔 '체크포인트(Checkpoint/[Savepoint](/knowledge-base/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/))'로 시간을 되돌린다. 얽힌 락만 살짝 푸는 수준까지만 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/). | **장점**: 잃어버리는 연산 자원을 극소화하여 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도가 압도적으로 빠르다.<br>**단점**: OS가 시스템의 모든 상태를 틈틈이 백업해야 하므로 런타임 오버헤드가 존재한다. | 엔터프라이즈 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) |
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 세이브포인트(Savepoint) 기반의 부분 롤백 매커니즘         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 희생자 프로세스의 타임라인 ]                                        │
-  │   시작 ──▶ [SP 1 저장] ──▶ 연산 ──▶ [SP 2 저장] ──▶ Lock 요청(데드락 펑!) │
-  │                                                                   │
-  │   [ 일반적인 전체 롤백 ]                                              │
-  │   전부 폐기하고 `시작` 지점으로 강제 환생! (지금까지의 작업 100% 날아감)         │
-  │   ◀─────────────────────────────────────────────────────────────  │
-  │                                                                   │
-  │   [ 우아한 부분 롤백 (Partial Rollback) ]                            │
-  │   데드락을 일으킨 그 Lock 요청 직전의 가장 안전한 저장소인 [SP 2] 로만 후퇴!     │
-  │                                            ◀───────────────────   │
-  │   ※ 결과: SP 2 시점에서 쥐고 있던 불법 락만 살짝 토해내어 데드락 고리를 끊어냄.    │
-  │           앞선 99%의 연산 내용은 고스란히 살려서 연산 낭비(Cost)를 극도로 줄임.  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 세이브포인트(Savepoint) 기반의 부분 롤백 매커니즘         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 희생자 프로세스의 타임라인 ]                                        |
+  |   시작 ---> [SP 1 저장] ---> 연산 ---> [SP 2 저장] ---> Lock 요청(데드락 펑!) |
+  |                                                                   |
+  |   [ 일반적인 전체 롤백 ]                                              |
+  |   전부 폐기하고 `시작` 지점으로 강제 환생! (지금까지의 작업 100% 날아감)         |
+  |   <--------------------------------------------------------------  |
+  |                                                                   |
+  |   [ 우아한 부분 롤백 (Partial Rollback) ]                            |
+  |   데드락을 일으킨 그 Lock 요청 직전의 가장 안전한 저장소인 [SP 2] 로만 후퇴!     |
+  |                                            <--------------------   |
+  |   ※ 결과: SP 2 시점에서 쥐고 있던 불법 락만 살짝 토해내어 데드락 고리를 끊어냄.    |
+  |           앞선 99%의 연산 내용은 고스란히 살려서 연산 낭비(Cost)를 극도로 줄임.  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 부분 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 시간을 되돌리는 마법사다. 게임을 하다가 보스한테 죽었다고 게임을 처음 튜토리얼부터 다시 하는(전체 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 바보는 없다. 가장 최근에 저장해 둔 모닥불 세이브 포인트([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 2)에서 되살아나서 보스전만 다시 치르는 것이 정상이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시스템(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL)이 위대하게 평가받는 이유가 바로 이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 트리의 촘촘한 세이브포인트 구축 능력 덕분이며, 이를 통해 데드락 희생자가 되더라도 수십만 줄의 이전 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 연산을 안전하게 보존한다.
@@ -149,29 +149,29 @@ tags = ["studynote-operating-system"]
    - **아키텍트 판단 (애플리케이션 계층의 Retry 아키텍처)**: 데드락 희생자로 지목당해 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)당하는 것은 '코드의 버그'가 아니라 고도로 동시성이 높은 시스템에서 발생하는 '자연스러운 기상 현상(교통 체증)'이다. 따라서 데드락 에러(예: MySQL Error 1213)를 캐치했다면, 쫄지 말고 <strong>아무 일도 없었다는 듯이 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 처음부터 다시 묶어서 재시도(Retry)하는 로직</strong>을 애플리케이션 프레임워크(Spring Retry 등) 단에 반드시 캡슐화해 두어야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안전한 데드락 예외 처리(Exception Handling) 설계 템플릿     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   int retry_count = 0;                                            │
-  │   while (retry_count < MAX_RETRIES) {                             │
-  │       try {                                                       │
-  │           [ 트랜잭션 시작 (Begin) ]                                  │
-  │           // ... 복잡한 다중 테이블 Insert / Update 수행 ...          │
-  │           [ 트랜잭션 완료 (Commit) ]                                 │
-  │           break;  // 🟢 성공 시 즉시 탈출!                           │
-  │                                                                   │
-  │       } catch (DeadlockVictimException e) {                       │
-  │           // 🚨 내가 희생자(Victim)로 지목당해 롤백당했다!                │
-  │           retry_count++;                                          │
-  │           if (retry_count == MAX_RETRIES) throw e; // 최종 실패 처리  │
-  │                                                                   │
-  │           // 다시 충돌하는 걸 피하기 위해 짧게 랜덤 백오프(Sleep) 대기        │
-  │           sleep(random(10, 100) ms);                              │
-  │           // 🔄 while 문을 타고 트랜잭션을 처음부터 씩씩하게 재시도함!        │
-  │       }                                                           │
-  │   }                                                               │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안전한 데드락 예외 처리(Exception Handling) 설계 템플릿     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   int retry_count = 0;                                            |
+  |   while (retry_count < MAX_RETRIES) {                             |
+  |       try {                                                       |
+  |           [ 트랜잭션 시작 (Begin) ]                                  |
+  |           // ... 복잡한 다중 테이블 Insert / Update 수행 ...          |
+  |           [ 트랜잭션 완료 (Commit) ]                                 |
+  |           break;  // 🟢 성공 시 즉시 탈출!                           |
+  |                                                                   |
+  |       } catch (DeadlockVictimException e) {                       |
+  |           // 🚨 내가 희생자(Victim)로 지목당해 롤백당했다!                |
+  |           retry_count++;                                          |
+  |           if (retry_count == MAX_RETRIES) throw e; // 최종 실패 처리  |
+  |                                                                   |
+  |           // 다시 충돌하는 걸 피하기 위해 짧게 랜덤 백오프(Sleep) 대기        |
+  |           sleep(random(10, 100) ms);                              |
+  |           // 🔄 while 문을 타고 트랜잭션을 처음부터 씩씩하게 재시도함!        |
+  |       }                                                           |
+  |   }                                                               |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 코드는 클라우드 및 대용량 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 아키텍처의 필수 교양이다. OS나 DB가 나를 희생양으로 삼아 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시켰다고 분노할 필요가 없다. 희생양의 미덕은 "조용히 한 템포 쉬었다가, 방해꾼이 지나간 빈 다리로 다시 건너가는 것"이다. 약간의 랜덤 대기 시간(Exponential Backoff)을 주어 동시 진입을 비틀어버린 후 재시도(Retry)하면, 사용자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 눈에는 단지 로딩 바가 0.1초 정도 더 돌아가고 완벽하게 결제가 성공한 것처럼 보이는 환상의 에러 복원력을 갖추게 된다.
@@ -220,12 +220,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [CAS (Compare And Swap) 명령어 기초]
-    │
-    ▼
+    |
+    v
 [데드락 희생자 롤백 복구망 (Deadlock Victim Rollback Recovery)]
-    │
-    ├──▶ [역 페이지 테이블 전역 해시 매핑]
-    └──▶ [플래시 메모리 마모 평준화 (Wear Leveling)]
+    |
+    +---> [역 페이지 테이블 전역 해시 매핑]
+    +---> [플래시 메모리 마모 평준화 (Wear Leveling)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -242,7 +242,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 769 / 800
 
-← **이전**: [768. CAS (Compare And Swap) 명령어 기초](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)
-**다음**: [770. 역 페이지 테이블 전역 해시 매핑 (Inverted Page Table Hash)](/knowledge-base/studynote/02_operating_system/11_exam_summary/770_inverted_page_table_hash/) →
+<- **이전**: [768. CAS (Compare And Swap) 명령어 기초](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)
+**다음**: [770. 역 페이지 테이블 전역 해시 매핑 (Inverted Page Table Hash)](/knowledge-base/studynote/02_operating_system/11_exam_summary/770_inverted_page_table_hash/) ->
 
 ---

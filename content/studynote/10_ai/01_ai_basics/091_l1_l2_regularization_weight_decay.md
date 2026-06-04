@@ -38,16 +38,16 @@ L1/L2 규제 ([Regularization](/knowledge-base/studynote/14_data_engineering/03_
 | **L2 규제항** | $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \sum W^2$ ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱의 합, Ridge) | 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 강하게 억눌러 '0'에 가깝게 평탄화 (감쇠) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             규제 기법에 따른 가중치 최적화 경로             │
-├──────────────────────────────────────────────────────────────┤
-│ [오차 최소화 구역]                    [가중치 패널티 구역] │
-│                                                            │
-│ 손실(Loss) 작아짐  ◀──── 갈등 ────▶ 가중치(W) 커지려 함   │
-│                                                            │
-│ L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 ─▶ 가중치 = 0   │
-│ L2 규제 (원 꼴)     : 교점이 중간에서 발생  ─▶ 가중치 억제  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             규제 기법에 따른 가중치 최적화 경로             |
++--------------------------------------------------------------+
+| [오차 최소화 구역]                    [가중치 패널티 구역] |
+|                                                            |
+| 손실(Loss) 작아짐  <----- 갈등 -----> 가중치(W) 커지려 함   |
+|                                                            |
+| L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 --> 가중치 = 0   |
+| L2 규제 (원 꼴)     : 교점이 중간에서 발생  --> 가중치 억제  |
++--------------------------------------------------------------+
 ```
 
 딥러닝에서는 주로 L2 규제를 사용하며, 이를 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 감쇠 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Decay)</strong>라고 부른다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트할 때마다 기존 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 값에서 일정 비율을 강제로 덜어냄으로써(Decay), 어떤 뉴런 하나가 독단적으로 결과값을 지배하지 못하게 모든 뉴런이 골고루 책임을 나누도록 만든다.
@@ -113,18 +113,18 @@ L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_dat
 
 ```text
 오차 최소화 집착 (과적합 발생)
-    │
-    ▼
+    |
+    v
 손실 함수 + 패널티 항 도입 (Regularization)
-    │
-    ├─────────┬─────────┐
-    ▼         ▼         ▼
+    |
+    +---------+---------+
+    v         v         v
   L1 규제   L2 규제   Elastic Net
  (Lasso)   (Ridge)  (L1+L2 혼합)
-    │         │
+    |         |
  희소모델   가중치감쇠
-    │         │
-    ▼         ▼
+    |         |
+    v         v
 최신 딥러닝의 일반화 최적화 (Dropout, Batch Norm과 결합)
 ```
 
@@ -140,7 +140,7 @@ L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_dat
 
 **진행 상황**: 91 / 420
 
-← **이전**: [90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제](/knowledge-base/studynote/10_ai/01_ai_basics/090_regularization_overfitting_prevention/)
-**다음**: [92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제](/knowledge-base/studynote/10_ai/01_ai_basics/092_dropout_regularization_overfitting_prevention/) →
+<- **이전**: [90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제](/knowledge-base/studynote/10_ai/01_ai_basics/090_regularization_overfitting_prevention/)
+**다음**: [92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제](/knowledge-base/studynote/10_ai/01_ai_basics/092_dropout_regularization_overfitting_prevention/) ->
 
 ---

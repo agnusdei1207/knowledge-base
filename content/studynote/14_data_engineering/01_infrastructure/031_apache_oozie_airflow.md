@@ -31,8 +31,8 @@ tags = ["studynote-data-engineering"]
     </action>                 t1 >> t2
   </workflow-app>
 
-  XML 설정 → Python 코드
-  복잡하고 장황 → 직관적
+  XML 설정 -> Python 코드
+  복잡하고 장황 -> 직관적
 ```
 
 - **📢 섹션 요약 비유**: Oozie vs Airflow는 요리 레시피 형식이다. Oozie(XML)는 고대 문서처럼 태그로 작성해야 하고, Airflow(Python)는 자연스러운 한국어 레시피처럼 읽기 쉽고 작성하기 편하다.
@@ -101,17 +101,17 @@ with DAG(
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Oozie → Airflow 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### Oozie -> Airflow 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```text
 1단계: Oozie XML 분석
-  - workflow.xml → 태스크 그래프 추출
-  - coordinator.xml → 스케줄 패턴 추출
+  - workflow.xml -> 태스크 그래프 추출
+  - coordinator.xml -> 스케줄 패턴 추출
 
 2단계: Airflow DAG 변환
-  - Oozie Action → Airflow Operator 매핑
-  - Oozie OK/Error → Airflow trigger_rule
-  - Oozie 변수 → Airflow Jinja 템플릿
+  - Oozie Action -> Airflow Operator 매핑
+  - Oozie OK/Error -> Airflow trigger_rule
+  - Oozie 변수 -> Airflow Jinja 템플릿
 
 3단계: 병행 운영
   - 동일 파이프라인 양쪽 실행 비교
@@ -170,18 +170,18 @@ Azure Data Factory:
 
 ```text
 [Cron + 쉘 스크립트 — 기초 배치 스케줄링]
-    │
-    ▼
+    |
+    v
 [Apache Oozie — Hadoop 전용 XML 스케줄러]
-    │
-    ▼
+    |
+    v
 [Apache Airflow — Python DAG 범용 오케스트레이터]
-    │
-    ▼
+    |
+    v
 [관리형 Airflow — AWS MWAA, GCP Composer]
-    │
-    ▼
-[LLM DAG 생성 — 자연어 → 파이프라인 자동 생성]
+    |
+    v
+[LLM DAG 생성 — 자연어 -> 파이프라인 자동 생성]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -196,7 +196,7 @@ Azure Data Factory:
 
 **진행 상황**: 31 / 258
 
-← **이전**: [30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/030_split_brain_quorum/)
-**다음**: [CDC (Change Data Capture, 변경 데이터 캡처)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/032_cdc/) →
+<- **이전**: [30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/030_split_brain_quorum/)
+**다음**: [CDC (Change Data Capture, 변경 데이터 캡처)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/032_cdc/) ->
 
 ---

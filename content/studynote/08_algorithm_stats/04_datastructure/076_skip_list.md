@@ -21,22 +21,22 @@ tags = ["studynote-algorithm-stats"]
 정렬된 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)는 탐색이 O(n)으로 느리다. [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 이 문제를 여러 레벨의 "고속 레인(Express Lane)"을 추가하여 해결한다.
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│              스킵 리스트 구조 (값: 1~10 일부)               │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  레벨3:  [1] ────────────────────────────────→ [9] → NIL │
-│  레벨2:  [1] ────────────→ [5] ──────────────→ [9] → NIL │
-│  레벨1:  [1] ──→ [3] ────→ [5] ──→ [7] ──────→ [9] → NIL │
-│  레벨0:  [1] →[2]→[3] →[4]→[5] →[6]→[7] →[8]→[9] → NIL │
-│                                                           │
-│  탐색 7: 레벨3(1→9 X) → 레벨2(1→5 ok, 5→9 X) →          │
-│          레벨1(5→7 ok!) → 발견 ✓                          │
-│  비교 횟수: ~4회 vs 연결리스트 7회                          │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|              스킵 리스트 구조 (값: 1~10 일부)               |
++-----------------------------------------------------------+
+|                                                           |
+|  레벨3:  [1] ---------------------------------> [9] -> NIL |
+|  레벨2:  [1] -------------> [5] ---------------> [9] -> NIL |
+|  레벨1:  [1] ---> [3] -----> [5] ---> [7] -------> [9] -> NIL |
+|  레벨0:  [1] ->[2]->[3] ->[4]->[5] ->[6]->[7] ->[8]->[9] -> NIL |
+|                                                           |
+|  탐색 7: 레벨3(1->9 X) -> 레벨2(1->5 ok, 5->9 X) ->          |
+|          레벨1(5->7 ok!) -> 발견 ✓                          |
+|  비교 횟수: ~4회 vs 연결리스트 7회                          |
++-----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도시 교통 시스템이다. 모든 골목(레벨0)을 걷는 대신, 도시 고속도로(레벨3)→간선도로(레벨2)→지선(레벨1)→골목 순으로 내려가며 목적지를 빠르게 찾는다.
+- **📢 섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도시 교통 시스템이다. 모든 골목(레벨0)을 걷는 대신, 도시 고속도로(레벨3)->간선도로(레벨2)->지선(레벨1)->골목 순으로 내려가며 목적지를 빠르게 찾는다.
 
 ---
 
@@ -55,7 +55,7 @@ def random_level(max_level, p=0.5):
 # 레벨0: 100%, 레벨1: 50%, 레벨2: 25%, 레벨3: 12.5%
 ```
 
-기대 레벨 수: O(log n), 평균 포인터 수: O(n) → 전체 공간 O(n log n) (상수 작음).
+기대 레벨 수: O(log n), 평균 포인터 수: O(n) -> 전체 공간 O(n log n) (상수 작음).
 
 ### [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
@@ -90,9 +90,9 @@ def random_level(max_level, p=0.5):
 ### 실무 시나리오: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sorted Set 활용
 실시간 게임 리더보드 구현.
 
-- `ZADD leaderboard 9800 "player1"` → O(log n) 삽입 (내부 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)).
-- `ZRANK leaderboard "player1"` → 순위 조회 O(log n).
-- `ZRANGE leaderboard 0 9 WITHSCORES` → 상위 10명 범위 조회 O(log n + k).
+- `ZADD leaderboard 9800 "player1"` -> O(log n) 삽입 (내부 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)).
+- `ZRANK leaderboard "player1"` -> 순위 조회 O(log n).
+- `ZRANGE leaderboard 0 9 WITHSCORES` -> 상위 10명 범위 조회 O(log n + k).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)를 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장이 필요한 실시간 시스템에 사용하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). p=0.5의 확률로 최악 O(n)이 발생할 수 있으며, 의료·항공 안전 시스템처럼 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 상한 보장이 필요한 경우에는 AVL이나 B-Tree가 적합하다.
@@ -107,7 +107,7 @@ def random_level(max_level, p=0.5):
 |:---|:---|
 | **단순 구현** | 트리 회전 불필요, 코드 간결 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 친화</strong> | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구현 가능 |
-| <strong>범위 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 순서 유지 → 범위 탐색 효율 |
+| <strong>범위 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 순서 유지 -> 범위 탐색 효율 |
 
 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 LevelDB·RocksDB의 [memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) 자료구조로 사용되어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화에 기여하며, CRDTs (Conflict-free Replicated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Types) 등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서도 확률적 자료구조의 활용이 증가하고 있다.
 
@@ -129,23 +129,23 @@ def random_level(max_level, p=0.5):
 
 ```text
 [연결 리스트 — O(n) 탐색, 단순 구조]
-    │
-    ▼
+    |
+    v
 [스킵 리스트 (1990) — 확률적 레벨, 평균 O(log n)]
-    │
-    ▼
+    |
+    v
 [Redis Sorted Set — 스킵 리스트 실무 적용]
-    │
-    ▼
+    |
+    v
 [LevelDB / RocksDB memtable — 쓰기 최적화 활용]
-    │
-    ▼
+    |
+    v
 [Lock-free 스킵 리스트 — 동시성 분산 환경 활용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도서관 책 찾기처럼, 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨3)→중간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨2)→작은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨1)→실제 책(레벨0) 순으로 점점 좁혀가는 방식이에요!
+1. [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도서관 책 찾기처럼, 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨3)->중간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨2)->작은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(레벨1)->실제 책(레벨0) 순으로 점점 좁혀가는 방식이에요!
 2. 처음부터 모든 책을 하나씩 뒤지는 대신, 위층 빠른 길을 먼저 타고 내려와서 훨씬 빠르게 찾을 수 있어요.
 3. 유명한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) Redis에서 순위표를 빠르게 처리할 때 이 방법을 쓴답니다!
 
@@ -155,7 +155,7 @@ def random_level(max_level, p=0.5):
 
 **진행 상황**: 76 / 175
 
-← **이전**: [23. HashMap vs TreeMap — 해시맵과 트리맵 비교](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/075_hashmap_vs_treemap/)
-**다음**: [25. Union-Find (Disjoint Set) — 분리 집합 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) →
+<- **이전**: [23. HashMap vs TreeMap — 해시맵과 트리맵 비교](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/075_hashmap_vs_treemap/)
+**다음**: [25. Union-Find (Disjoint Set) — 분리 집합 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) ->
 
 ---

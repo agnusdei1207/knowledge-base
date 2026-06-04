@@ -41,32 +41,32 @@ tags = ["studynote-cloud-architecture"]
 | 성숙도 | 매우 높음 | 높음 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Istio 서비스 메시 구조                            │
-│                                                                      │
-│  ┌──────────────────────────────────────────────────────────────┐   │
-│  │                   컨트롤 플레인 (Istiod)                     │   │
-│  │  ┌────────────┐  ┌────────────┐  ┌──────────────────────┐  │   │
-│  │  │  Pilot     │  │  Citadel   │  │  Galley              │  │   │
-│  │  │ (트래픽 설정)│  │ (인증서 관리)│  │ (설정 유효성 검증)  │  │   │
-│  │  └────────────┘  └────────────┘  └──────────────────────┘  │   │
-│  └─────────────────────────┬────────────────────────────────────┘   │
-│                             │ xDS API (정책 배포)                    │
-│  ┌─────────────────────────▼────────────────────────────────────┐   │
-│  │                 데이터 플레인 (Envoy Sidecar)                 │   │
-│  │                                                              │   │
-│  │  ┌──────────────────────┐     ┌──────────────────────────┐  │   │
-│  │  │  서비스 A Pod        │     │  서비스 B Pod            │  │   │
-│  │  │  ┌────────────────┐  │     │  ┌────────────────────┐  │  │   │
-│  │  │  │  App Container  │  │     │  │  App Container      │  │  │   │
-│  │  │  └───────┬─────────┘  │     │  └──────────┬──────────┘  │  │   │
-│  │  │  ┌───────▼─────────┐  │mTLS │  ┌──────────▼──────────┐  │  │   │
-│  │  │  │  Envoy Proxy     │◄──────►│  │  Envoy Proxy        │  │  │   │
-│  │  │  │  (사이드카)      │  │     │  │  (사이드카)         │  │  │   │
-│  │  │  └─────────────────┘  │     │  └─────────────────────┘  │  │   │
-│  │  └──────────────────────┘     └──────────────────────────┘  │   │
-│  └──────────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    Istio 서비스 메시 구조                            |
+|                                                                      |
+|  +--------------------------------------------------------------+   |
+|  |                   컨트롤 플레인 (Istiod)                     |   |
+|  |  +------------+  +------------+  +----------------------+  |   |
+|  |  |  Pilot     |  |  Citadel   |  |  Galley              |  |   |
+|  |  | (트래픽 설정)|  | (인증서 관리)|  | (설정 유효성 검증)  |  |   |
+|  |  +------------+  +------------+  +----------------------+  |   |
+|  +-------------------------+------------------------------------+   |
+|                             | xDS API (정책 배포)                    |
+|  +-------------------------v------------------------------------+   |
+|  |                 데이터 플레인 (Envoy Sidecar)                 |   |
+|  |                                                              |   |
+|  |  +----------------------+     +--------------------------+  |   |
+|  |  |  서비스 A Pod        |     |  서비스 B Pod            |  |   |
+|  |  |  +----------------+  |     |  +--------------------+  |  |   |
+|  |  |  |  App Container  |  |     |  |  App Container      |  |  |   |
+|  |  |  +-------+---------+  |     |  +----------+----------+  |  |   |
+|  |  |  +-------v---------+  |mTLS |  +----------v----------+  |  |   |
+|  |  |  |  Envoy Proxy     |◄------►|  |  Envoy Proxy        |  |  |   |
+|  |  |  |  (사이드카)      |  |     |  |  (사이드카)         |  |  |   |
+|  |  |  +-----------------+  |     |  +---------------------+  |  |   |
+|  |  +----------------------+     +--------------------------+  |   |
+|  +--------------------------------------------------------------+   |
++----------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 경호원 — [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(VIP)가 어디를 가든 옆에서 모든 출입을 통제하고 기록하지만, VIP는 경호 방법을 알 필요가 없다.
@@ -149,16 +149,16 @@ Istio는 풍부한 기능과 높은 성숙도로 대규모 엔터프라이즈에
 
 ```text
 서비스 간 직접 통신 (보안 · 관찰 부재)
-    │
-    ▼
+    |
+    v
 Service Mesh: Sidecar Proxy 기반 통신 제어
-    ├─► Data Plane: Envoy · Linkerd-proxy (트래픽 가로채기)
-    └─► Control Plane: Istio · Linkerd (정책 · 관찰)
-    │
-    ▼
+    +-► Data Plane: Envoy · Linkerd-proxy (트래픽 가로채기)
+    +-► Control Plane: Istio · Linkerd (정책 · 관찰)
+    |
+    v
 기능: mTLS · Retry · Circuit Breaker · 분산 추적
-    │
-    ▼
+    |
+    v
 eBPF 기반 Mesh: Cilium Service Mesh (Sidecar-less)
 ```
 2. 학생들은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 설치 방법을 몰라도 되고, 경비원(Envoy)이 알아서 감시하고 보고해요.
@@ -170,7 +170,7 @@ eBPF 기반 Mesh: Cilium Service Mesh (Sidecar-less)
 
 **진행 상황**: 159 / 371
 
-← **이전**: [159. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/159_eventual_consistency_distributed_systems/)
-**다음**: [데브옵스 (DevOps: Culture, Automation, Collaboration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/161_devops_culture_automation_collaboration/) →
+<- **이전**: [159. 결과적 일관성 (Eventual Consistency)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/159_eventual_consistency_distributed_systems/)
+**다음**: [데브옵스 (DevOps: Culture, Automation, Collaboration)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/161_devops_culture_automation_collaboration/) ->
 
 ---

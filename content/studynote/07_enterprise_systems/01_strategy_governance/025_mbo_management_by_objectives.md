@@ -21,14 +21,14 @@ tags = ["studynote-enterprise-systems"]
 MBO는 1950~60년대 대규모 조직에서 "내가 왜 이 일을 하는지 모르겠다"는 구성원의 소외감 문제를 해결하기 위해 등장했다. 목표를 상위에서 하위까지 일관되게 연결하여 모든 구성원이 자신의 일이 조직 목표에 어떻게 기여하는지 알게 한다.
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│             MBO 프로세스 4단계                         │
-├──────────────────────────────────────────────────────┤
-│  1. 목표 설정   │ 관리자↔구성원 협의로 SMART 목표 수립   │
-│  2. 실행        │ 자율적 업무 수행, 중간 점검             │
-│  3. 평가        │ 목표 대비 성과 측정                     │
-│  4. 피드백      │ 결과 반영, 다음 주기 목표 재조정         │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|             MBO 프로세스 4단계                         |
++------------------------------------------------------+
+|  1. 목표 설정   | 관리자↔구성원 협의로 SMART 목표 수립   |
+|  2. 실행        | 자율적 업무 수행, 중간 점검             |
+|  3. 평가        | 목표 대비 성과 측정                     |
+|  4. 피드백      | 결과 반영, 다음 주기 목표 재조정         |
++------------------------------------------------------+
 ```
 
 SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) · **A**chievable(달성 가능) · **R**elevant(관련성 있음) · **T**ime-bound(기간 한정)
@@ -42,28 +42,28 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 ### MBO vs [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 비교
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│              MBO vs OKR 핵심 비교                        │
-├──────────────────┬──────────────────────────────────────┤
-│      MBO         │           OKR                        │
-├──────────────────┼──────────────────────────────────────┤
-│ 1년 주기         │ 분기(3개월) 주기                       │
-│ 비공개 (관리자↔팀)│ 전사 공개                             │
-│ 100% 달성 목표   │ 70% 달성 = 성공 (도전적 목표)          │
-│ 급여·인사 연동   │ 급여 연동 분리 (자율성 보호)            │
-│ Top-down 위주    │ Bottom-up 가능                        │
-└──────────────────┴──────────────────────────────────────┘
++---------------------------------------------------------+
+|              MBO vs OKR 핵심 비교                        |
++------------------+--------------------------------------+
+|      MBO         |           OKR                        |
++------------------+--------------------------------------+
+| 1년 주기         | 분기(3개월) 주기                       |
+| 비공개 (관리자↔팀)| 전사 공개                             |
+| 100% 달성 목표   | 70% 달성 = 성공 (도전적 목표)          |
+| 급여·인사 연동   | 급여 연동 분리 (자율성 보호)            |
+| Top-down 위주    | Bottom-up 가능                        |
++------------------+--------------------------------------+
 ```
 
 ### 목표 연쇄 (Goal Cascade)
 
 ```text
 [조직 목표] 시장 점유율 15% 달성
-    │
-    ▼
+    |
+    v
 [부서 목표] 신규 고객 1,000명 유치
-    │
-    ▼
+    |
+    v
 [개인 목표] 분기 신규 계약 25건
 ```
 
@@ -86,15 +86,15 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: IT 기업의 MBO → [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 전환
+### 실무 시나리오: IT 기업의 MBO -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 전환
 1. 기존 MBO 문제: 연간 목표가 경영 환경 변화에 맞지 않고, 개인 평가 연동으로 구성원이 쉬운 목표만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 2. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 전환: 분기별 목표 재설정, 전사 공개로 투명성 확보, 평가 연동 분리로 도전적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 유도.
 3. 결과: 구성원의 목표 도전성 지수 40% 향상, 분기 핵심 지표 달성률 15% 개선.
 
 ### MBO 실패 원인 Top 3
-1. **목표 수 과다**: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15개 목표 → 집중력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/). 권장 3~5개.
-2. **평가 연동 과도**: 목표 달성 = 급여 직결 → 구성원이 쉬운 목표만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
-3. **프로세스 무시**: 결과만 평가하고 과정(어떻게)을 무시 → 비윤리적 행동 유발.
+1. **목표 수 과다**: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15개 목표 -> 집중력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/). 권장 3~5개.
+2. **평가 연동 과도**: 목표 달성 = 급여 직결 -> 구성원이 쉬운 목표만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+3. **프로세스 무시**: 결과만 평가하고 과정(어떻게)을 무시 -> 비윤리적 행동 유발.
 
 - **📢 섹션 요약 비유**: MBO 실패는 점수만 보는 수능 교육과 같다. 결과(점수)만 평가하면 학생들은 시험 요령만 익히고 진짜 실력(역량)은 키우지 않는다.
 
@@ -104,7 +104,7 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **자율성** | 구성원 스스로 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 자기 효능감 향상 |
+| **자율성** | 구성원 스스로 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 자기 효능감 향상 |
 | **방향 정렬** | 조직-부서-개인 목표 일치 |
 | **성과 명확화** | 정량적 목표 기반 공정한 평가 |
 
@@ -128,17 +128,17 @@ MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/0
 
 ```text
 [MBO (1954) — 드러커, 참여적 목표 설정]
-    │
-    ▼
+    |
+    v
 [KPI 중심 성과 관리 — 정량 목표 측정 체계화]
-    │
-    ▼
+    |
+    v
 [BSC (1992) — 4관점 전략 목표 체계]
-    │
-    ▼
+    |
+    v
 [OKR (2000s) — 분기 민첩성, 도전적 목표]
-    │
-    ▼
+    |
+    v
 [데이터 기반 목표 관리 — AI 예측, 실시간 대시보드]
 ```
 
@@ -154,7 +154,7 @@ MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/0
 
 **진행 상황**: 25 / 482
 
-← **이전**: [24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/024_okr_objectives_and_key_results/)
-**다음**: [26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/) →
+<- **이전**: [24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/024_okr_objectives_and_key_results/)
+**다음**: [26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/) ->
 
 ---

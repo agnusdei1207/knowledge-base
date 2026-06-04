@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)(Vanishing Gradient) 문제를 유발해 깊은 신경망 학습을 어렵게 하며, [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)([Rectified Linear Unit](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))가 이를 해결하는 핵심 대안이다.
 > 2. **가치**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))의 연쇄 법칙(Chain Rule)을 통해 기울기가 전파되므로, [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)·폭발(Vanishing/[Exploding Gradient](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)) 문제는 신경망 깊이와 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택에 직접적으로 연결된다.
-> 3. **판단 포인트**: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)/GELU, 출력층에는 회귀→선형(Linear), 이진분류→[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 다중분류→[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 사용하는 조합 원칙을 논술에서 명확히 제시해야 한다.
+> 3. **판단 포인트**: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)/GELU, 출력층에는 회귀->선형(Linear), 이진분류->[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 다중분류->[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 사용하는 조합 원칙을 논술에서 명확히 제시해야 한다.
 
 ---
 
@@ -24,7 +24,7 @@ tags = ["studynote-data-engineering"]
 
 **원인:**
 - [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 함수의 최대 미분값 = 0.25 (입력이 ±2 이상이면 거의 0)
-- 30층 신경망에서 0.25^30 ≈ 8.7 × [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^-19 → 사실상 기울기 0
+- 30층 신경망에서 0.25^30 ≈ 8.7 × [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^-19 -> 사실상 기울기 0
 - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 층의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 거의 업데이트되지 않음
 
 **결과:**
@@ -49,35 +49,35 @@ tags = ["studynote-data-engineering"]
 
 ```
 활성화 함수 특성 비교
-┌──────────────┬────────────┬──────────────┬───────────────────┐
-│  함수         │  수식       │  출력 범위   │  특징             │
-├──────────────┼────────────┼──────────────┼───────────────────┤
-│ Sigmoid      │ 1/(1+e^-x) │  (0, 1)      │ 기울기 소실 심각  │
-│ Tanh         │ (e^x-e^-x) │  (-1, 1)     │ 기울기 소실 존재  │
-│              │ /(e^x+e^-x)│              │                   │
-│ ReLU         │ max(0, x)  │  [0, ∞)      │ 빠름, Dead ReLU   │
-│ Leaky ReLU   │ max(0.01x,x│  (-∞, ∞)    │ Dead ReLU 개선    │
-│ ELU          │ x if x>0   │  (-1, ∞)    │ 음수 포화 개선    │
-│              │ α(e^x-1) else│            │                   │
-│ GELU         │ x·Φ(x)     │  (-∞, ∞)    │ Transformer 표준  │
-│ Softmax      │ e^xi/Σe^xj │  (0, 1), Σ=1│ 다중 클래스 출력  │
-└──────────────┴────────────┴──────────────┴───────────────────┘
++--------------+------------+--------------+-------------------+
+|  함수         |  수식       |  출력 범위   |  특징             |
++--------------+------------+--------------+-------------------+
+| Sigmoid      | 1/(1+e^-x) |  (0, 1)      | 기울기 소실 심각  |
+| Tanh         | (e^x-e^-x) |  (-1, 1)     | 기울기 소실 존재  |
+|              | /(e^x+e^-x)|              |                   |
+| ReLU         | max(0, x)  |  [0, ∞)      | 빠름, Dead ReLU   |
+| Leaky ReLU   | max(0.01x,x|  (-∞, ∞)    | Dead ReLU 개선    |
+| ELU          | x if x>0   |  (-1, ∞)    | 음수 포화 개선    |
+|              | α(e^x-1) else|            |                   |
+| GELU         | x·Φ(x)     |  (-∞, ∞)    | Transformer 표준  |
+| Softmax      | e^xi/Σe^xj |  (0, 1), Σ=1| 다중 클래스 출력  |
++--------------+------------+--------------+-------------------+
 ```
 
 ### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))와 연쇄 법칙(Chain Rule)
 
 ```
 순전파 (Forward Pass):
-Input → [Layer1] → [Layer2] → [Layer3] → Output
+Input -> [Layer1] -> [Layer2] -> [Layer3] -> Output
   x      a1=f(W1·x)  a2=f(W2·a1)  ŷ=f(W3·a2)
 
 역전파 (Backward Pass):
-Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
+Loss L 계산 -> ∂L/∂W3 -> ∂L/∂W2 -> ∂L/∂W1
 연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1
 ```
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)의 역할:</strong>
-- 각 층의 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 완화
+- 각 층의 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 완화
 - 더 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 사용 가능
 - [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 효과를 부분 대체
 
@@ -99,7 +99,7 @@ Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
 
 ### Dead [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 문제와 해결
 
-ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
+ReLU의 음수 입력 시 기울기 = 0 -> 뉴런이 "죽음(Dead)"
 
 **해결 방법:**
 1. Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/): 음수 구간에서도 작은 기울기(0.01) 유지
@@ -128,7 +128,7 @@ ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
 ```
 Softmax(xi) = exp(xi) / Σ exp(xj)
 
-예시: [2.0, 1.0, 0.5] →
+예시: [2.0, 1.0, 0.5] ->
   exp([2.0, 1.0, 0.5]) = [7.39, 2.72, 1.65]
   합계 = 11.76
   결과: [0.628, 0.231, 0.140]  (합 = 1.0)
@@ -136,7 +136,7 @@ Softmax(xi) = exp(xi) / Σ exp(xj)
 
 - 모든 출력을 0~1 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환
 - 합이 1이므로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 해석 가능
-- 온도 파라미터([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)): T>1 → 분포 평탄화, T<1 → 분포 첨예화
+- 온도 파라미터([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)): T>1 -> 분포 평탄화, T<1 -> 분포 첨예화
 
 📢 **섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 <strong>득표율 계산</strong>이다. 세 후보가 7표, 2표, 1표를 받으면 득표율이 70%, 20%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%가 되고, 이 비율의 합은 100%다.
 
@@ -181,17 +181,17 @@ ReLU와 그 변형들은 딥러닝의 <strong>깊이 문제를 해결</strong>�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-Sigmoid/Tanh → 기울기 소실 (깊은 네트워크 학습 불가)
-    │
-    ▼
-ReLU: max(0,x) → 기울기 소실 해결 · Dying ReLU 문제
-    ├─► Leaky ReLU · PReLU · ELU · Swish · GELU
-    │
-    ▼
+Sigmoid/Tanh -> 기울기 소실 (깊은 네트워크 학습 불가)
+    |
+    v
+ReLU: max(0,x) -> 기울기 소실 해결 · Dying ReLU 문제
+    +-► Leaky ReLU · PReLU · ELU · Swish · GELU
+    |
+    v
 Softmax (출력층): 다중 클래스 확률 분포
-    │
-    ▼
-역전파 + Chain Rule → Autograd (자동 미분)
+    |
+    v
+역전파 + Chain Rule -> Autograd (자동 미분)
 ```
 2. ReLU는 <strong>양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙</strong>이야. 이 덕분에 신호가 소리치듯 전달돼.
 3. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 <strong>시험 점수를 퍼센트로 바꾸는 것</strong>이야. 모든 답의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 더하면 100%가 되니까 "이게 고양이일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 70%야"라고 말할 수 있어.
@@ -202,7 +202,7 @@ Softmax (출력층): 다중 클래스 확률 분포
 
 **진행 상황**: 240 / 258
 
-← **이전**: [239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)
-**다음**: [241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/) →
+<- **이전**: [239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)
+**다음**: [241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/) ->
 
 ---

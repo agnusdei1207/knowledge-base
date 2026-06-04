@@ -33,7 +33,7 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
-          ↑       ↑       ↑       ↑
+          ^       ^       ^       ^
         같은 CLK가 모두에 동시에 들어감
 ```
 
@@ -94,11 +94,11 @@ SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
 
 ```text
 플립플롭
-   ↓
+   v
 직렬 연결
-   ↓
+   v
 비트 이동
-   ↓
+   v
 통신 / LFSR / Barrel Shifter
 ```
 
@@ -106,11 +106,11 @@ SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) → 기본 저장과 이동
-2. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신 요구 → SISO/SIPO/PISO/PIPO 등장
-3. [산술 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/) → 빠른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이동 활용
-4. LFSR → 난수와 패턴 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 응용
-5. Barrel Shifter → 고속 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시프트로 발전
+1. [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) -> 기본 저장과 이동
+2. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신 요구 -> SISO/SIPO/PISO/PIPO 등장
+3. [산술 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/) -> 빠른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이동 활용
+4. LFSR -> 난수와 패턴 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 응용
+5. Barrel Shifter -> 고속 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시프트로 발전
 
 ---
 
@@ -126,7 +126,7 @@ SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
 
 **진행 상황**: 58 / 803
 
-← **이전**: [57. 레지스터 (Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
-**다음**: [59. 카운터 (Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) →
+<- **이전**: [57. 레지스터 (Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
+**다음**: [59. 카운터 (Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) ->
 
 ---

@@ -29,9 +29,9 @@ tags = ["studynote-ai"]
 ```
 
 시그모이드는 모든 실수 입력을 (0, 1) 사이로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다:
-- x → +∞ : σ(x) → 1
+- x -> +∞ : σ(x) -> 1
 - x = 0   : σ(x) = 0.5
-- x → -∞ : σ(x) → 0
+- x -> -∞ : σ(x) -> 0
 
 ### 역사적 배경
 
@@ -42,11 +42,11 @@ tags = ["studynote-ai"]
 ```
 |x| > 4 이상에서 σ'(x) ≈ 0 (포화)
 
-  x = 0:   σ'(0) = 0.25      ← 최대 기울기
+  x = 0:   σ'(0) = 0.25      <- 최대 기울기
   x = 2:   σ'(2) ≈ 0.105
   x = 4:   σ'(4) ≈ 0.018
-  x = 6:   σ'(6) ≈ 0.002     ← 거의 0
-  x = 10:  σ'(10) ≈ 0.00005  ← 사실상 0
+  x = 6:   σ'(6) ≈ 0.002     <- 거의 0
+  x = 10:  σ'(10) ≈ 0.00005  <- 사실상 0
 ```
 
 - **📢 섹션 요약 비유**: 시그모이드는 물을 S자 관으로 흘리는 것 — 중앙에서는 물이 잘 흐르지만(기울기 0.25), 양쪽 끝으로 갈수록 관이 막혀 물이 거의 흐르지 않는다(기울기 ≈ 0).
@@ -58,28 +58,28 @@ tags = ["studynote-ai"]
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제 ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│             역전파에서 기울기 소실 발생 과정                        │
-│                                                                  │
-│  출력층        은닉층3        은닉층2        은닉층1               │
-│    │             │             │             │                   │
-│  ∂L/∂W₄=1.0 → ×σ'(z₃)≈0.1 → ×σ'(z₂)≈0.1 → ×σ'(z₁)≈0.1        │
-│                                                                  │
-│  각 층에서 최대 0.25 곱셈 → 3층 통과 후: 1.0×0.1×0.1×0.1=0.001   │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐ │
-│  │ 10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 ← 사실상 0     │ │
-│  │ → 앞쪽 층의 가중치가 전혀 학습되지 않음!                   │ │
-│  └────────────────────────────────────────────────────────────┘ │
-│                                                                  │
-│  층 수     기울기 크기 (모든 층에서 σ'≈0.25 가정)                 │
-│  ┌──────┬────────────┐                                          │
-│  │  1층 │ 0.25       │                                          │
-│  │  5층 │ 0.001      │ ← 학습 매우 느림                         │
-│  │ 10층 │ 0.000001   │ ← 사실상 소멸                            │
-│  │ 20층 │ 10⁻¹²     │ ← 완전 소멸                              │
-│  └──────┴────────────┘                                          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             역전파에서 기울기 소실 발생 과정                        |
+|                                                                  |
+|  출력층        은닉층3        은닉층2        은닉층1               |
+|    |             |             |             |                   |
+|  ∂L/∂W₄=1.0 -> ×σ'(z₃)≈0.1 -> ×σ'(z₂)≈0.1 -> ×σ'(z₁)≈0.1        |
+|                                                                  |
+|  각 층에서 최대 0.25 곱셈 -> 3층 통과 후: 1.0×0.1×0.1×0.1=0.001   |
+|                                                                  |
+|  +------------------------------------------------------------+ |
+|  | 10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 <- 사실상 0     | |
+|  | -> 앞쪽 층의 가중치가 전혀 학습되지 않음!                   | |
+|  +------------------------------------------------------------+ |
+|                                                                  |
+|  층 수     기울기 크기 (모든 층에서 σ'≈0.25 가정)                 |
+|  +------+------------+                                          |
+|  |  1층 | 0.25       |                                          |
+|  |  5층 | 0.001      | <- 학습 매우 느림                         |
+|  | 10층 | 0.000001   | <- 사실상 소멸                            |
+|  | 20층 | 10⁻¹^     | <- 완전 소멸                              |
+|  +------+------------+                                          |
++------------------------------------------------------------------+
 ```
 
 ### 시그모이드 vs [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) vs [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 기울기 비교
@@ -92,11 +92,11 @@ tags = ["studynote-ai"]
 
 ### Sigmoid의 비중심 출력 문제
 
-출력이 항상 양수 (0,1) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신이 <strong>모두 같은 방향</strong>으로만 발생:
+출력이 항상 양수 (0,1) -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신이 <strong>모두 같은 방향</strong>으로만 발생:
 
 ```
-∂L/∂wⱼ = δ × xⱼ  (xⱼ는 이전 층 Sigmoid 출력 → 항상 양수)
-→ 모든 가중치가 동시에 증가 또는 동시에 감소 → 지그재그(zigzag) 학습
+∂L/∂wⱼ = δ × xⱼ  (xⱼ는 이전 층 Sigmoid 출력 -> 항상 양수)
+-> 모든 가중치가 동시에 증가 또는 동시에 감소 -> 지그재그(zigzag) 학습
 ```
 
 이를 <strong>출력 비중심화 문제(Non-<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">zero</a> Centered Output Problem)</strong>라 한다. Tanh는 출력이 (-1,1)이므로 이 문제가 없다.
@@ -133,8 +133,8 @@ tags = ["studynote-ai"]
 
 ### 기술사 시험 핵심 논점
 
-1. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>의 수학적 원인</strong>: σ'(x) = σ(x)(1-σ(x)) ≤ 0.25 → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 층마다 0.25 이하로 곱해짐 → 기하급수적 감소
-2. **왜 ReLU로 대체되었는가**: ReLU는 양수 구간에서 기울기=1 → 곱해도 기울기가 줄지 않음
+1. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>의 수학적 원인</strong>: σ'(x) = σ(x)(1-σ(x)) ≤ 0.25 -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 층마다 0.25 이하로 곱해짐 -> 기하급수적 감소
+2. **왜 ReLU로 대체되었는가**: ReLU는 양수 구간에서 기울기=1 -> 곱해도 기울기가 줄지 않음
 3. **Tanh의 장점과 한계**: 중심화된 출력(-1,1)으로 비중심화 문제 해결, 그러나 최대 기울기=1이지만 여전히 포화 구간 존재
 4. **언제 Sigmoid를 사용하는가**: 출력층의 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (이진 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)와 조합), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트
 
@@ -142,12 +142,12 @@ tags = ["studynote-ai"]
 
 ```
 은닉층 활성화 함수 선택 가이드:
-├── 일반 딥러닝    →  ReLU (기본값)
-├── 배치 정규화와 함께 →  ReLU 또는 Leaky ReLU
-├── 순환 신경망    →  Tanh (게이트는 Sigmoid)
-└── 출력층 이진 분류 → Sigmoid
-    출력층 다중 분류 → Softmax
-    출력층 회귀     → Linear (없음)
++-- 일반 딥러닝    ->  ReLU (기본값)
++-- 배치 정규화와 함께 ->  ReLU 또는 Leaky ReLU
++-- 순환 신경망    ->  Tanh (게이트는 Sigmoid)
++-- 출력층 이진 분류 -> Sigmoid
+    출력층 다중 분류 -> Softmax
+    출력층 회귀     -> Linear (없음)
 ```
 
 - **📢 섹션 요약 비유**: Sigmoid를 은닉층에 쓰는 것은 마라톤 선수에게 수영복을 입히는 것 — 수영(이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력)에는 최적이지만, 달리기(딥러닝 은닉층)에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 운동복이 훨씬 적합하다.
@@ -190,7 +190,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [시그모이드 (Sigmoid) 활성화] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [시그모이드 (Sigmoid) 활성화] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -205,7 +205,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 268 / 420
 
-← **이전**: [267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)
-**다음**: [269. ReLU (Rectified Linear Unit)](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) →
+<- **이전**: [267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)
+**다음**: [269. ReLU (Rectified Linear Unit)](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) ->
 
 ---

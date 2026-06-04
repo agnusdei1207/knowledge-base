@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [CMAF]
-    │
-    ▼
+    |
+    v
 [화상 회의 지터 버퍼]
-    │
-    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    |
+    +---> [FEC 실시간 비디오 손실 은닉 기법 미디어…]
 ```
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [CMAF]
-    │
-    ▼
+    |
+    v
 [화상 회의 지터 버퍼]
-    │
-    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    |
+    +---> [FEC 실시간 비디오 손실 은닉 기법 미디어…]
 ```
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: CMAF]
-    │
-    ▼
+    |
+    v
 [현재 개념: 화상 회의 지터 버퍼]
-    │
-    ├──▶ [확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 화상 회의 지터 버퍼는 CMAF에서 출발해 현재 메커니즘을 정교화하고, 이후 FEC 실시간 비디오 손실 은닉 기법 미디어…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1028 / 1120
 
-← **이전**: [906. CMAF (Common Media Application Format DASH/HLS 파편화 인코딩 단일 미디어 컨테이너 포맷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/)
-**다음**: [908. FEC 실시간 비디오 손실 은닉 기법 미디어 품질 보상 (에러 패킷 무시 보간 재생 보정망 통신 대역 폭증 대비 잉여 비트 기술](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/908_fec_error_concealment_video_streaming_quality_compensation/) →
+<- **이전**: [906. CMAF (Common Media Application Format DASH/HLS 파편화 인코딩 단일 미디어 컨테이너 포맷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/)
+**다음**: [908. FEC 실시간 비디오 손실 은닉 기법 미디어 품질 보상 (에러 패킷 무시 보간 재생 보정망 통신 대역 폭증 대비 잉여 비트 기술](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/908_fec_error_concealment_video_streaming_quality_compensation/) ->
 
 ---

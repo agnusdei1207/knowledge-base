@@ -22,15 +22,15 @@ MC/DC는 단순히 분기문의 참·거짓을 한 번씩 실행하는 수준을
 이 기준이 중요한 이유는 항공·자동차·국방처럼 안전 필수 소프트웨어에서 복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 비용이 매우 크기 때문이다. 감리에서는 MC/DC를 단순한 고급 커버리지 용어가 아니라, <strong>복합 조건 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>를 얼마나 엄격하게 통제하는가</strong>를 보여 주는 증거로 본다.
 
 ```text
-┌────────────────────┐
-│ 결정식: (A ∧ B) ∨ C │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ A 독립 영향 입증    │
-│ B 독립 영향 입증    │
-│ C 독립 영향 입증    │
-└────────────────────┘
++--------------------+
+| 결정식: (A ∧ B) ∨ C |
++---------+----------+
+          v
++--------------------+
+| A 독립 영향 입증    |
+| B 독립 영향 입증    |
+| C 독립 영향 입증    |
++--------------------+
 ```
 
 - **📢 섹션 요약 비유**: 세 개의 스위치가 달린 전등이라면, 각 스위치가 정말 불을 켜고 끄는 데 영향을 주는지 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 검사다.
@@ -42,21 +42,21 @@ MC/DC 설계의 핵심은 조건 분해, 영향 분석, 테스트 쌍 선정, �
 감리에서는 테스트 수가 적다고 무조건 좋은 것이 아니다. 최소 집합을 만들더라도 각 조건의 독립 영향이 실제로 증명되는지, 도달 불가능한 경로나 단락 평가(short-circuit) 때문에 왜곡된 판정이 없는지를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 ```text
-┌────────────────────┐
-│ 조건 분해(A,B,C)    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 독립 영향 쌍 선정    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 실행·결과 기록       │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 요구사항 추적성 확인 │
-└────────────────────┘
++--------------------+
+| 조건 분해(A,B,C)    |
++---------+----------+
+          v
++--------------------+
+| 독립 영향 쌍 선정    |
++---------+----------+
+          v
++--------------------+
+| 실행·결과 기록       |
++---------+----------+
+          v
++--------------------+
+| 요구사항 추적성 확인 |
++--------------------+
 ```
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 요소 | 설명 | 감리 포인트 |
@@ -118,21 +118,21 @@ MC/DC를 적용하면 복합 조건식에 숨어 있는 [논리](/knowledge-base
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/), [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/), [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/), MC/DC, 단락 평가, 안전 필수 소프트웨어
-- 발전 흐름: 구문 실행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 분기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 조건/결정 결합 → MC/DC 독립성 입증 → 다중 조건 완전 조합 검토
+- 발전 흐름: 구문 실행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 분기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 조건/결정 결합 -> MC/DC 독립성 입증 -> 다중 조건 완전 조합 검토
 
 ```text
 구문 커버리지
-      │
-      ▼
+      |
+      v
 결정 커버리지
-      │
-      ▼
+      |
+      v
 조건 커버리지
-      │
-      ▼
+      |
+      v
 조건/결정 커버리지
-      │
-      ▼
+      |
+      v
 MC/DC
 ```
 
@@ -148,7 +148,7 @@ MC/DC
 
 **진행 상황**: 497 / 530
 
-← **이전**: [418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/418_audit/)
-**다음**: [420. 페어와이즈·직교배열 기반 조합 축소 (Pairwise & Orthogonal Array Reduction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/420_process/) →
+<- **이전**: [418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/418_audit/)
+**다음**: [420. 페어와이즈·직교배열 기반 조합 축소 (Pairwise & Orthogonal Array Reduction)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/420_process/) ->
 
 ---

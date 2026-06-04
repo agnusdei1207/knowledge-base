@@ -32,7 +32,7 @@ GPT-3(175B 파라미터) 전체 파인튜닝에 필요한 [GPU](/knowledge-base/
 
 ### 인스트럭션 파인튜닝 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))
 
-단순 언어 모델 사전훈련 → 지시사항 따르기([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Following) 능력 습득
+단순 언어 모델 사전훈련 -> 지시사항 따르기([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Following) 능력 습득
 
 ```
 프롬프트 형식:
@@ -53,16 +53,16 @@ GPT-3(175B 파라미터) 전체 파인튜닝에 필요한 [GPU](/knowledge-base/
 
 ```
 PEFT 방법론 분류
-┌─────────────────────────────────────────────────────────┐
-│  PEFT (Parameter-Efficient Fine-Tuning)                  │
-├──────────────────┬──────────────────┬───────────────────┤
-│  Adapter 기반    │  Prompt 기반     │  LoRA 기반        │
-├──────────────────┼──────────────────┼───────────────────┤
-│ - Adapter        │ - Prefix Tuning  │ - LoRA            │
-│  (작은 MLP 삽입) │ - Prompt Tuning  │ - QLoRA (양자화)  │
-│                  │ - P-Tuning       │ - AdaLoRA         │
-│ 추가 파라미터 삽입│ 입력 프롬프트 학습│ 행렬 분해 근사    │
-└──────────────────┴──────────────────┴───────────────────┘
++---------------------------------------------------------+
+|  PEFT (Parameter-Efficient Fine-Tuning)                  |
++------------------+------------------+-------------------+
+|  Adapter 기반    |  Prompt 기반     |  LoRA 기반        |
++------------------+------------------+-------------------+
+| - Adapter        | - Prefix Tuning  | - LoRA            |
+|  (작은 MLP 삽입) | - Prompt Tuning  | - QLoRA (양자화)  |
+|                  | - P-Tuning       | - AdaLoRA         |
+| 추가 파라미터 삽입| 입력 프롬프트 학습| 행렬 분해 근사    |
++------------------+------------------+-------------------+
 ```
 
 ### [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([Low-Rank Adaptation](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)) 원리
@@ -71,16 +71,16 @@ LoRA의 핵심: <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_
 
 ```
 원래 파인튜닝:
-W' = W + ΔW  (ΔW: d×d 행렬 → 수십억 파라미터)
+W' = W + ΔW  (ΔW: d×d 행렬 -> 수십억 파라미터)
 
 LoRA:
 W' = W + ΔW = W + A·B
   A: d×r 행렬 (r << d)
   B: r×d 행렬
-  ΔW 파라미터 수: d² → 2·d·r (r=8이면 d/4로 감소)
+  ΔW 파라미터 수: d^ -> 2·d·r (r=8이면 d/4로 감소)
 
 예: d=4096, r=8이면
-  원래: 4096² = 16,777,216 파라미터
+  원래: 4096^ = 16,777,216 파라미터
   LoRA: 2 × 4096 × 8 = 65,536 파라미터 (99.6% 감소!)
 ```
 
@@ -101,7 +101,7 @@ W' = W + ΔW = W + A·B
 ### [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/))
 
 LoRA를 4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))와 결합:
-- 베이스 모델: 4-bit NormalFloat(NF4) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) → VRAM 75% 절감
+- 베이스 모델: 4-bit NormalFloat(NF4) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) -> VRAM 75% 절감
 - [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/): [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 파라미터는 16비트 유지
 - 결과: <strong>65B 파라미터 모델도 단일 48GB <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a></strong>에서 파인튜닝 가능
 
@@ -131,26 +131,26 @@ Transformer의 어떤 레이어에 LoRA를 적용할 것인가:
 
 ```
 베이스 모델 선택 (Llama 3, Mistral, Gemma 등)
-         ↓
+         v
 도메인 데이터 준비
 (지시-응답 쌍 수천~수만 건)
-         ↓
+         v
 LoRA 설정 결정
 (r=8, alpha=16, target=q_proj,v_proj)
-         ↓
+         v
 QLoRA 학습 (단일 GPU 가능)
-         ↓
+         v
 LoRA 가중치 병합 (Merge)
 또는 분리 서빙 (VLLM, TGI)
-         ↓
+         v
 평가 (MMLU, 도메인 벤치마크)
 ```
 
 ### 기술사 판단 포인트
 
-1. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">PEFT</a> 선택 기준</strong>: 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/소규모 팀 → [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/); 대규모 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환 → Full FT
-2. <strong>멀티 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> 서빙</strong>: 단일 베이스 모델 + 여러 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) → 고객별 맞춤 모델 경제적 운용
-3. **재앙적 망각(Catastrophic Forgetting)**: Full FT 시 원래 능력 손실 → LoRA는 베이스 보존
+1. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">PEFT</a> 선택 기준</strong>: 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/소규모 팀 -> [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/); 대규모 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환 -> Full FT
+2. <strong>멀티 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> 서빙</strong>: 단일 베이스 모델 + 여러 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) -> 고객별 맞춤 모델 경제적 운용
+3. **재앙적 망각(Catastrophic Forgetting)**: Full FT 시 원래 능력 손실 -> LoRA는 베이스 보존
 4. **거버넌스**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 데이터의 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/)·[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 필수
 
 📢 **섹션 요약 비유**: 멀티 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 서빙은 <strong>하나의 다용도 칼 + 여러 전문 날</strong>이다. 칼 몸체(베이스 모델)는 하나인데, 교체 가능한 날([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))을 붙여 의료용·요리용·목공용으로 쓴다.
@@ -196,16 +196,16 @@ PEFT와 LoRA는 LLM의 <strong>민주화</strong>를 실현하는 핵심 기술�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-풀 파인튜닝 (전체 파라미터 학습, 비용 ↑↑)
-    │
-    ▼
+풀 파인튜닝 (전체 파라미터 학습, 비용 ^^)
+    |
+    v
 PEFT: 소수 파라미터만 학습 (0.1~1%)
-    ├─► LoRA: 저랭크 행렬 분해 어댑터
-    ├─► Prefix Tuning · Prompt Tuning
-    └─► QLoRA: 4-bit 양자화 + LoRA
-    │
-    ▼
-Instruction Fine-Tuning → 인간 선호 정렬
+    +-► LoRA: 저랭크 행렬 분해 어댑터
+    +-► Prefix Tuning · Prompt Tuning
+    +-► QLoRA: 4-bit 양자화 + LoRA
+    |
+    v
+Instruction Fine-Tuning -> 인간 선호 정렬
 ```
 2. LoRA는 그 대신 <strong>교과서에 포스트잇만 붙이는 것</strong>이야. 교과서는 그대로 두고, 새로운 것은 포스트잇에만 써. 훨씬 빠르고 싸!
 3. QLoRA는 그 교과서를 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>해서 더 얇게 만든 다음 포스트잇 붙이기</strong>야. 책장 공간([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리)을 엄청 아낄 수 있어.
@@ -216,7 +216,7 @@ Instruction Fine-Tuning → 인간 선호 정렬
 
 **진행 상황**: 249 / 258
 
-← **이전**: [248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)
-**다음**: [250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) →
+<- **이전**: [248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)
+**다음**: [250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ->
 
 ---

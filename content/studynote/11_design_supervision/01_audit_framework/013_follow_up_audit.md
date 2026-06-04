@@ -32,23 +32,23 @@ tags = ["studynote-design-supervision"]
 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리는 핑퐁(Ping-pong)이 아니라 단판 승부다. 감리원이 지적한 항목(A)에 대해 수행사가 조치(B)를 하면, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리원(C)이 최종 판정(D)을 내린다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           확인 감리 (Follow-up Audit) 검증 프로세스 아키텍처   │
-├────────────────────────────────────────────────────────┤
-│   [ 단계 감리 (설계/종료) ]                               │
-│     ├──▶ 감리 보고서 발행 ("비밀번호 암호화 누락됨. 고치시오")  │
-│     │                                                  │
-│     ▼                                                  │
-│   [ 수행사 (개발 업체) ]                                  │
-│     ├──▶ 조치 수행 (SHA-256 적용) 및 '조치 결과서' 작성 제출  │
-│     │                                                  │
-│     ▼                                                  │
-│   [ 확인 감리 (Follow-up) ] ◀── (감리원이 쇳덩어리 실사 수행)│
-│     │   - 코드 리뷰, DB 덤프 확인, 시연(Demonstration)     │
-│     ├──▶ 1. 조치 완료 (Accept) ──▶ 클로징               │
-│     ├──▶ 2. 미조치 (Reject) ──▶ 발주처 통보 ──▶ 지체상금 발생│
-│     └──▶ 3. 해당 없음 (N/A, 업무 변경으로 취소된 경우)      │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           확인 감리 (Follow-up Audit) 검증 프로세스 아키텍처   |
++--------------------------------------------------------+
+|   [ 단계 감리 (설계/종료) ]                               |
+|     +---> 감리 보고서 발행 ("비밀번호 암호화 누락됨. 고치시오")  |
+|     |                                                  |
+|     v                                                  |
+|   [ 수행사 (개발 업체) ]                                  |
+|     +---> 조치 수행 (SHA-256 적용) 및 '조치 결과서' 작성 제출  |
+|     |                                                  |
+|     v                                                  |
+|   [ 확인 감리 (Follow-up) ] <--- (감리원이 쇳덩어리 실사 수행)|
+|     |   - 코드 리뷰, DB 덤프 확인, 시연(Demonstration)     |
+|     +---> 1. 조치 완료 (Accept) ---> 클로징               |
+|     +---> 2. 미조치 (Reject) ---> 발주처 통보 ---> 지체상금 발생|
+|     +---> 3. 해당 없음 (N/A, 업무 변경으로 취소된 경우)      |
++--------------------------------------------------------+
 ```
 
 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리의 가장 무서운 점은 <strong>새로운 것을 지적하지 않는다</strong>는 것이다. 오직 과거에 지적했던 리스트([Checklist](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))와 현재의 조치 결과만을 1:1로 매핑하여 참/거짓만 판별한다. 여기서 거짓(미조치)이 나오면, 수행사는 발주처의 잔혹한 징계(대금 지불 보류)를 맞게 된다.
@@ -110,21 +110,21 @@ tags = ["studynote-design-supervision"]
 
 ```text
 IT 프로젝트의 부실화 및 지적 사항 방치 (감리의 실효성 논란)
-    │
-    ▼
+    |
+    v
 강제성 부여를 위한 정보시스템 감리 기준 법제화
-    │
-    ▼
+    |
+    v
 단계 감리(요구사항, 설계, 종료) 체계 확립 및 시정 요구서 발행
-    │
-    ▼
+    |
+    v
 조치 여부의 객관적 검증을 위한 '확인 감리(Follow-up Audit)' 의무화
-    │
-    ▼
+    |
+    v
 미조치 시 대금 지급 보류 및 지체상금 부과라는 법적 거버넌스의 종착역으로 완성
 ```
 
-이 흐름도는 "단순 지적의 한계 → 강제성 부여 → 사후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리)의 신설 → 법적/재무적 통제권과 결합"으로 이어지는 감리 거버넌스의 진화 궤적을 보여준다.
+이 흐름도는 "단순 지적의 한계 -> 강제성 부여 -> 사후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리)의 신설 -> 법적/재무적 통제권과 결합"으로 이어지는 감리 거버넌스의 진화 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ IT 프로젝트의 부실화 및 지적 사항 방치 (감리의 실효성 논�
 
 **진행 상황**: 14 / 530
 
-← **이전**: [13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_audit_planning/)
-**다음**: [14. 감리 계획 수립 (Audit Planning) - 예비조사, 감리 일정 및 인력 배치, 감리 계획서 작성](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) →
+<- **이전**: [13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_audit_planning/)
+**다음**: [14. 감리 계획 수립 (Audit Planning) - 예비조사, 감리 일정 및 인력 배치, 감리 계획서 작성](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) ->
 
 ---

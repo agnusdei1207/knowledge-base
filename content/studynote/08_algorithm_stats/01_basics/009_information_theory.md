@@ -27,19 +27,19 @@ tags = ["algorithm_stats"]
 이 다이어그램은 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)이 제시하는 통신 시스템의 근본적인 한계 모델(Shannon's Model)과 발생하는 문제를 보여준다.
 
 ```text
-[Source] ──> 데이터 발생 (엔트로피 H 제한: 최대로 압축할 수 있는 한계선)
-   │
-   ▼
-[Transmitter] ──> Source Coding (압축) + Channel Coding (오류 정정 패리티 추가)
-   │
-   ▼             ★ 물리적 채널 한계 (채널 용량 C: 초당 전송 가능한 최대 비트)
-[Channel] ────//───> 노이즈(Noise) 개입! 비트 플립 발생
-   │
-   ▼
-[Receiver] ──> 오류 정정 디코딩 + 압축 해제
-   │
-   ▼
-[Destination] ──> 데이터 수신 완수
+[Source] --> 데이터 발생 (엔트로피 H 제한: 최대로 압축할 수 있는 한계선)
+   |
+   v
+[Transmitter] --> Source Coding (압축) + Channel Coding (오류 정정 패리티 추가)
+   |
+   v             ★ 물리적 채널 한계 (채널 용량 C: 초당 전송 가능한 최대 비트)
+[Channel] ----//---> 노이즈(Noise) 개입! 비트 플립 발생
+   |
+   v
+[Receiver] --> 오류 정정 디코딩 + 압축 해제
+   |
+   v
+[Destination] --> 데이터 수신 완수
 ```
 
 이 모델의 핵심은 송신 단의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 한계([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H)와 전송 단의 속도 한계([채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C)를 명확히 분리했다는 점이다. 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 특성을 분석하여 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 타당성을 검증하고, 네트워크 패킷 드랍율을 극복하기 위해 어느 정도의 여분 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Redundancy)를 추가할지 결정하는 데 이 뼈대 모델을 사용한다. 아무리 뛰어난 해커나 천재 개발자도 섀넌이 증명한 이 두 가지 한계선(H와 C)을 물리적으로 넘어설 수는 없다.
@@ -65,9 +65,9 @@ tags = ["algorithm_stats"]
 
 ```text
 [데이터 분포: 'A' 50%, 'B' 25%, 'C' 12.5%, 'D' 12.5%]
-       │
+       |
 [트리 병합 (가장 확률이 낮은 C, D부터 묶음)]
-       │
+       |
       (100%)
       /    \
    (A:50%) (50%)
@@ -75,13 +75,13 @@ tags = ["algorithm_stats"]
        (B:25%) (25%)
                /   \
           (C:12.5%) (D:12.5%)
-       │
+       |
 [비트 할당 (왼쪽=0, 오른쪽=1)]
    - A = 0       (1 bit)  -> 빈도 높으니 가장 짧게!
    - B = 10      (2 bits)
    - C = 110     (3 bits) -> 빈도 낮으니 가장 길게!
    - D = 111     (3 bits)
-       │
+       |
 [결과: 평균 비트 길이 = 1.75 비트/심볼 (엔트로피 H와 정확히 일치!)]
 ```
 
@@ -102,15 +102,15 @@ tags = ["algorithm_stats"]
 이 매트릭스는 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)의 두 핵심 척도인 KL 다이버전스와 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)가 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 평가에서 어떻게 사용되는지 그 구조적 차이를 비교한다.
 
 ```text
-┌──────────────┬─────────────────────────────┬─────────────────────────────┬─────────────┐
-│ 항목         │ KL 다이버전스 (KL Divergence) │ 크로스 엔트로피 (Cross-Entropy)│ 판단 포인트   │
-│              │ (상대 엔트로피)             │                             │             │
-├──────────────┼─────────────────────────────┼─────────────────────────────┼─────────────┤
-│ 수식 구조    │ D_KL(P || Q) = Σ P log(P/Q) │ H(P, Q) = -Σ P log(Q)      │ 척도의 분리   │
-│ 물리적 의미  │ 진짜 분포(P)와 예측 분포(Q)의 차이│ 진짜(P)를 예측(Q)로 압축할 때의 비용│ 정보 손실량   │
-│ 비대칭성     │ D_KL(P||Q) ≠ D_KL(Q||P)     │ 적용 불가                   │ 교환 법칙 불가│
-│ 딥러닝 활용  │ GAN, VAE의 분포 근사 Loss    │ 분류 모델(분류기)의 기본 Loss  │ 최적화 목표   │
-└──────────────┴─────────────────────────────┴─────────────────────────────┴─────────────┘
++--------------+-----------------------------+-----------------------------+-------------+
+| 항목         | KL 다이버전스 (KL Divergence) | 크로스 엔트로피 (Cross-Entropy)| 판단 포인트   |
+|              | (상대 엔트로피)             |                             |             |
++--------------+-----------------------------+-----------------------------+-------------+
+| 수식 구조    | D_KL(P || Q) = Σ P log(P/Q) | H(P, Q) = -Σ P log(Q)      | 척도의 분리   |
+| 물리적 의미  | 진짜 분포(P)와 예측 분포(Q)의 차이| 진짜(P)를 예측(Q)로 압축할 때의 비용| 정보 손실량   |
+| 비대칭성     | D_KL(P||Q) ≠ D_KL(Q||P)     | 적용 불가                   | 교환 법칙 불가|
+| 딥러닝 활용  | GAN, VAE의 분포 근사 Loss    | 분류 모델(분류기)의 기본 Loss  | 최적화 목표   |
++--------------+-----------------------------+-----------------------------+-------------+
 ```
 
 A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 얼마나 찌그러졌는지 그 '거리의 차이(정확히는 거리 개념이 아님)'를 잰다. 반면 B 방식([크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))은 정답(P)을 예측모델(Q)의 방식으로 코딩했을 때 발생하는 '전체 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 길이'를 잰다. 수학적으로 `Cross Entropy = Entropy(P) + KL Divergence`가 성립한다. 실무의 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 딥러닝 모델에서 정답 레이블(P)은 이미 고정되어 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 상수이므로, [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)를 최소화하는 것은 결국 모델의 예측(Q)과 정답(P) 사이의 KL 다이버전스를 0으로 만드는 것과 완벽히 동일한 최적화 과정이다.
@@ -127,25 +127,25 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 ```text
 [대용량 데이터의 저장/전송 병목 발생]
-   │
-   ▼
+   |
+   v
 [데이터의 무작위성(엔트로피) 측정]
-   ├─(높음: 암호화된 파일, 압축된 미디어 등)
-   │     └─> 🚨 안티패턴: 더 이상 무손실 압축 불가능!
-   │         판단: 압축 시도 중단. 대역폭 증설 또는 '손실 압축(JPEG/MP4)'으로 비즈니스 타협.
-   │
-   └─(낮음: JSON, 텍스트 로그, 반복된 데이터)
-         │
-         ▼
+   +-(높음: 암호화된 파일, 압축된 미디어 등)
+   |     +-> 🚨 안티패턴: 더 이상 무손실 압축 불가능!
+   |         판단: 압축 시도 중단. 대역폭 증설 또는 '손실 압축(JPEG/MP4)'으로 비즈니스 타협.
+   |
+   +-(낮음: JSON, 텍스트 로그, 반복된 데이터)
+         |
+         v
 [채널의 상태 파악 (패킷 손실률, 노이즈)]
-   ├─(안정적: 내부 백본망, 로컬 디스크)
-   │     └─> 압축률이 높은 소스 코딩(Gzip, LZ4, Zstd)을 공격적으로 적용하여 I/O 비용 절약.
-   │
-   └─(불안정: 무선 통신, 위성, 딥스페이스)
-         │
-         ▼
+   +-(안정적: 내부 백본망, 로컬 디스크)
+   |     +-> 압축률이 높은 소스 코딩(Gzip, LZ4, Zstd)을 공격적으로 적용하여 I/O 비용 절약.
+   |
+   +-(불안정: 무선 통신, 위성, 딥스페이스)
+         |
+         v
 [오류 정정 코딩(FEC, Forward Error Correction) 개입 여부]
-         └─> 판단: 압축과 역행하여 잉여 비트(Parity)를 의도적으로 추가.
+         +-> 판단: 압축과 역행하여 잉여 비트(Parity)를 의도적으로 추가.
              해밍 코드, 리드-솔로몬, LDPC 등을 통해 재전송(ARQ) 지연 없이 수신단에서 자가 복구.
 ```
 
@@ -164,7 +164,7 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 미래의 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)은 고전적 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 넘어 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))를 다루는 양자 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))으로 진화하고 있다. [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/)([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/)) 상태를 활용한 통신은 섀넌 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)의 제약을 다른 차원으로 우회하여 완벽한 보안([QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/))과 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전송을 약속한다. 기술사는 딥러닝 최적화의 수학적 뒷단에서 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)이 어떻게 Loss 함수를 조향하는지 이해하고, 향후 다가올 양자 네트워크 설계에서 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 개념이 어떻게 확장되는지 철학적 관점을 유지해야 한다.
 
-📢 **섹션 요약 비유**: 물리학에 아인슈타인의 E=mc² 이 있듯이, IT 세상에는 모든 정보의 크기와 속도의 한계를 규정짓는 섀넌의 '신성한 공식'이 있어 우리가 허상을 쫓지 않게 꽉 잡아주고 있습니다.
+📢 **섹션 요약 비유**: 물리학에 아인슈타인의 E=mc^ 이 있듯이, IT 세상에는 모든 정보의 크기와 속도의 한계를 규정짓는 섀넌의 '신성한 공식'이 있어 우리가 허상을 쫓지 않게 꽉 잡아주고 있습니다.
 
 ---
 
@@ -179,17 +179,17 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 ```text
 [확률 분포 — 정보 발생의 출발점]
-    │
-    ▼
+    |
+    v
 [자기 정보량(Shannon) — 사건의 놀라움 측정]
-    │
-    ▼
+    |
+    v
 [엔트로피(Entropy) — 평균 정보량]
-    │
-    ▼
+    |
+    v
 [채널 용량(Channel Capacity) — 전송 한계]
-    │
-    ▼
+    |
+    v
 [데이터 압축/오류 정정 — 실제 응용]
 ```
 
@@ -206,7 +206,7 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 **진행 상황**: 9 / 175
 
-← **이전**: [8. 메모이제이션 (Memoization) — Top-Down DP](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)
-**다음**: [10. 백트래킹 (Backtracking) — 가지치기](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) →
+<- **이전**: [8. 메모이제이션 (Memoization) — Top-Down DP](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)
+**다음**: [10. 백트래킹 (Backtracking) — 가지치기](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) ->
 
 ---

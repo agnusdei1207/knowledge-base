@@ -27,15 +27,15 @@ tags = ["software_engineering"]
 ```text
 [폭포수 모델의 직렬적 단계 흐름]
 
-[요구사항 분석] ──(명세서)──┐
-                            ▼
-                    [시스템 설계] ──(설계도)──┐
-                                              ▼
-                                      [구현(Coding)] ──(코드)──┐
-                                                               ▼
+[요구사항 분석] --(명세서)--+
+                            v
+                    [시스템 설계] --(설계도)--+
+                                              v
+                                      [구현(Coding)] --(코드)--+
+                                                               v
                                                        [테스트(Test)]
-                                                               │
-     * 병목: 물은 거꾸로 흐르지 않는다. (이전 단계 복귀 비용 극대화) ▼
+                                                               |
+     * 병목: 물은 거꾸로 흐르지 않는다. (이전 단계 복귀 비용 극대화) v
                                                           [운영/유지보수]
 ```
 **[도식 설명]**
@@ -57,8 +57,8 @@ tags = ["software_engineering"]
 [폭포수 모델의 베이스라인(Baseline) 동결 메커니즘]
 
    Phase 1 완료       Phase 2 완료        Phase 3 완료
-[요구사항] ───/───> [설계] ───/───> [구현] ───/───> [테스트]
-            ▲               ▲               ▲
+[요구사항] ---/---> [설계] ---/---> [구현] ---/---> [테스트]
+            ^               ^               ^
        (Baseline 1)    (Baseline 2)    (Baseline 3)
            동결            동결            동결
 
@@ -82,14 +82,14 @@ tags = ["software_engineering"]
 [시간에 따른 리스크(위험) 감소 그래프 비교]
 
 위험(Risk)
- ▲
- │        [폭포수 모델] (후반 테스트 전까지 위험 지속)
- │ ───────――――――――――――――――――――――\
- │                               \
- │ [애자일 모델]                  \
- │   \/\/\/\/\/\/\/\/\/\/\/\/\     \ (Big Bang 테스트)
- │                            \     \
- └─────────────────────────────\─────\───────► 시간(Time)
+ ^
+ |        [폭포수 모델] (후반 테스트 전까지 위험 지속)
+ | -------――――――――――――――――――――――\
+ |                               \
+ | [애자일 모델]                  \
+ |   \/\/\/\/\/\/\/\/\/\/\/\/\     \ (Big Bang 테스트)
+ |                            \     \
+ +-----------------------------\-----\-------► 시간(Time)
 ```
 **[도식 설명]**
 이 그래프는 프로젝트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 시간에 따른 두 모델의 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 해소' 패턴을 보여준다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 짧은 반복 주기를 통해 초반부터 조금씩 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄여나가지만, 폭포수 모델은 코드 작성 내내(구현 단계) 시스템이 실제로 돌아가는지 알 수 없는 '블랙박스' 상태가 유지된다. 오직 개발 후반부 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 단계에 진입해서야 폭발적인 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 한꺼번에 맞닥뜨리는 구조적 병목(Big Bang [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 내포하고 있다.
@@ -112,12 +112,12 @@ tags = ["software_engineering"]
 ```text
 [하이브리드 적용: Water-Scrum-Fall 아키텍처 플로우]
 
-[요구분석/설계] ───> [ 구현 (Scrum 적용) ] ───> [통합 테스트/릴리즈]
-  (폭포수)            ┌───────────────┐           (폭포수)
-    철저한            │ Sprint 1      │             엄격한
-  문서화/승인      ==>│ Sprint 2      │==>       보안/규제 검증
-    (거시적)          │ Sprint 3 ...  │           (안정성)
-                      └───────────────┘
+[요구분석/설계] ---> [ 구현 (Scrum 적용) ] ---> [통합 테스트/릴리즈]
+  (폭포수)            +---------------+           (폭포수)
+    철저한            | Sprint 1      |             엄격한
+  문서화/승인      ==>| Sprint 2      |==>       보안/규제 검증
+    (거시적)          | Sprint 3 ...  |           (안정성)
+                      +---------------+
                      (점진적 기능 개발)
 ```
 **[도식 설명]**
@@ -150,17 +150,17 @@ tags = ["software_engineering"]
 
 ```text
 [SDLC (Software Development Life Cycle)]
-    │
-    ▼
+    |
+    v
 [애자일 (Agile Methodology)]
-    │
-    ▼
+    |
+    v
 [베이스라인 (Baseline)]
-    │
-    ▼
+    |
+    v
 [나선형 모델 (Spiral Model)]
-    │
-    ▼
+    |
+    v
 [V-모델 (V-Model)]
 ```
 
@@ -177,7 +177,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 4 / 973
 
-← **이전**: [3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/)
-**다음**: [5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응](/knowledge-base/studynote/04_software_engineering/01_overview_principles/005_v_model/) →
+<- **이전**: [3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/)
+**다음**: [5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응](/knowledge-base/studynote/04_software_engineering/01_overview_principles/005_v_model/) ->
 
 ---

@@ -31,44 +31,44 @@ tags = ["studynote-operating-system"]
 POSIX IPC의 세 가지 메커니즘과 System V IPC의 대응 관계를 비교 다이어그램으로 시각화하면, 두 표준의 구조적 차이가 명확해진다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │          POSIX IPC vs System V IPC — 구조적 비교                       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [System V IPC]                      [POSIX IPC]                       │
-  │                                                                        │
-  │  식별: key_t (ftok)                  식별: 파일 경로 (문자열)          │
-  │  생성: shmget()/semget()/msgget()    생성: shm_open()/sem_open()       │
-  │                                         /mq_open()                     │
-  │  반환: 정수 ID (shmid/semid/msqid)    반환: 파일 디스크립터 (int fd)   │
-  │  ──────────────────────────────────────────────────────────            │
-  │                                                                        │
-  │  ┌──────────────┐  대응  ┌──────────────┐                              │
-  │  │ shmget+shmat │───────▶│ shm_open()   │ + mmap()                     │
-  │  │ System V     │       │ POSIX        │ + ftruncate()                 │
-  │  │ Shared Mem   │       │ Shared Mem   │                               │
-  │  └──────────────┘       └──────────────┘                               │
-  │                                                                        │
-  │  ┌──────────────┐  대응  ┌──────────────┐                              │
-  │  │ semget+semop │───────▶│ sem_open()   │ 명명된 세마포어              │
-  │  │ System V     │       │ POSIX        │ (Named)                       │
-  │  │ Semaphore    │       │ Semaphore    │                               │
-  │  │              │       │              │                               │
-  │  │              │       │ sem_init()   │ 익명 세마포어                 │
-  │  │              │       │ POSIX        │ (Unnamed, 스레드용)           │
-  │  └──────────────┘       └──────────────┘                               │
-  │                                                                        │
-  │  ┌──────────────┐  대응  ┌──────────────┐                              │
-  │  │ msgget+msgsnd│───────▶│ mq_open()    │                              │
-  │  │ System V     │       │ POSIX        │ 우선순위 큐 지원              │
-  │  │ Message Queue│       │ Message Queue│                               │
-  │  └──────────────┘       └──────────────┘                               │
-  │                                                                        │
-  │  [핵심 차이]                                                           │
-  │  POSIX IPC: fd 기반 → select()/poll()/epoll() 통합 가능                │
-  │  POSIX IPC: close() 시 자동 정리 (참조 카운트 = 0 → 객체 삭제)         │
-  │  POSIX IPC: 파일 시스템 경로 기반 → ls, rm, stat 등으로 관리           │
-  └────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------+
+  |          POSIX IPC vs System V IPC — 구조적 비교                       |
+  +------------------------------------------------------------------------+
+  |                                                                        |
+  |  [System V IPC]                      [POSIX IPC]                       |
+  |                                                                        |
+  |  식별: key_t (ftok)                  식별: 파일 경로 (문자열)          |
+  |  생성: shmget()/semget()/msgget()    생성: shm_open()/sem_open()       |
+  |                                         /mq_open()                     |
+  |  반환: 정수 ID (shmid/semid/msqid)    반환: 파일 디스크립터 (int fd)   |
+  |  ----------------------------------------------------------            |
+  |                                                                        |
+  |  +--------------+  대응  +--------------+                              |
+  |  | shmget+shmat |-------->| shm_open()   | + mmap()                     |
+  |  | System V     |       | POSIX        | + ftruncate()                 |
+  |  | Shared Mem   |       | Shared Mem   |                               |
+  |  +--------------+       +--------------+                               |
+  |                                                                        |
+  |  +--------------+  대응  +--------------+                              |
+  |  | semget+semop |-------->| sem_open()   | 명명된 세마포어              |
+  |  | System V     |       | POSIX        | (Named)                       |
+  |  | Semaphore    |       | Semaphore    |                               |
+  |  |              |       |              |                               |
+  |  |              |       | sem_init()   | 익명 세마포어                 |
+  |  |              |       | POSIX        | (Unnamed, 스레드용)           |
+  |  +--------------+       +--------------+                               |
+  |                                                                        |
+  |  +--------------+  대응  +--------------+                              |
+  |  | msgget+msgsnd|-------->| mq_open()    |                              |
+  |  | System V     |       | POSIX        | 우선순위 큐 지원              |
+  |  | Message Queue|       | Message Queue|                               |
+  |  +--------------+       +--------------+                               |
+  |                                                                        |
+  |  [핵심 차이]                                                           |
+  |  POSIX IPC: fd 기반 -> select()/poll()/epoll() 통합 가능                |
+  |  POSIX IPC: close() 시 자동 정리 (참조 카운트 = 0 -> 객체 삭제)         |
+  |  POSIX IPC: 파일 시스템 경로 기반 -> ls, rm, stat 등으로 관리           |
+  +------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** POSIX IPC와 System V IPC의 가장 근본적인 차이는 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층"에 있다. System V IPC는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전용 이름 공간에 독립적인 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로 전용 API와 관리 도구 (`ipcs`/`ipcrm`)가 필요하다. 반면 POSIX IPC는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 네임스페이스를 차용하므로, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 `/dev/shm/myapp.shm`, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 `/dev/shm/myapp.sem`, 메시지 큐는 `/dev/mqueue/myapp.mq`와 같은 경로로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이 덕분에 `ls` 명령으로 객체 목록을 확인하고, `rm`으로 삭제하며, `stat`으로 상태를 조회할 수 있다. 특히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터를 반환한다는 점이 결정적 장치인데, `select()`/`poll()`/`epoll()`은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 집합을 입력으로 받으므로, POSIX 메시지 큐를 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에 직접 통합할 수 있다. System V 메시지 큐는 이것이 불가능하여 별도의 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 필요했다. POSIX [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 명명된 (Named) [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)와 익명 (Unnamed) [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 두 종류가 있으며, 익명 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 `pthread_mutex`와 유사하게 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 동기화에 사용된다.
@@ -92,48 +92,48 @@ POSIX IPC의 세 가지 메커니즘과 System V IPC의 대응 관계를 비교 
 POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 사용까지의 전체 흐름을 아키텍처 다이어그램으로 시각화하면, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터와 `mmap()`의 조합이 어떻게 동작하는지 파악할 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │           POSIX 공유 메모리 생성 및 사용 흐름                           │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [1. 공유 메모리 객체 생성]                                             │
-  │  int fd = shm_open("/myapp_shared", O_RDWR | O_CREAT, 0660);            │
-  │  // /dev/shm/myapp_shared 파일 생성, fd 반환                            │
-  │                                                                         │
-  │  [2. 크기 설정]                                                         │
-  │  ftruncate(fd, 65536);  // 64KB 크기로 설정                             │
-  │                                                                         │
-  │  ┌────────────────────────────────────────────────────────────┐         │
-  │  │  Process A (Writer)                Process B (Reader)       │        │
-  │  │                                                            │         │
-  │  │  fd = shm_open("/myapp_shared")   fd = shm_open(동일 경로) │         │
-  │  │         │                               │                   │        │
-  │  │         ▼                               ▼                   │        │
-  │  │  ┌──────────────┐              ┌──────────────┐            │         │
-  │  │  │ fd=3         │              │ fd=4         │            │         │
-  │  │  └──────┬───────┘              └──────┬───────┘            │         │
-  │  │         │ mmap()                       │ mmap()            │         │
-  │  │         ▼                              ▼                    │        │
-  │  │  ┌──────────────┐              ┌──────────────┐            │         │
-  │  │  │ VMA          │              │ VMA          │            │         │
-  │  │  │ 0x7f1000     │              │ 0x7f5000     │            │         │
-  │  │  └──────┬───────┘              └──────┬───────┘            │         │
-  │  │         │                              │                    │        │
-  │  │         ▼                              ▼                    │        │
-  │  │  ┌─────────────────────────────────────────────┐           │         │
-  │  │  │      /dev/shm/myapp_shared (64KB)           │           │         │
-  │  │  │      ┌───────────────────────────────┐      │           │         │
-  │  │  │      │   Physical Page (Shared)      │      │           │         │
-  │  │  │      │   A의 쓰기가 B에 즉시 반영됨     │      │           │      │
-  │  │  │      └───────────────────────────────┘      │           │         │
-  │  │  └─────────────────────────────────────────────┘           │         │
-  │  └────────────────────────────────────────────────────────────┘         │
-  │                                                                         │
-  │  [3. 정리]                                                              │
-  │  munmap(addr, 65536);  close(fd);  // 각 프로세스                       │
-  │  shm_unlink("/myapp_shared");  // 마지막 close 후 객체 자동 삭제        │
-  │  // 또는: rm /dev/shm/myapp_shared                                      │
-  └─────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------+
+  |           POSIX 공유 메모리 생성 및 사용 흐름                           |
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |  [1. 공유 메모리 객체 생성]                                             |
+  |  int fd = shm_open("/myapp_shared", O_RDWR | O_CREAT, 0660);            |
+  |  // /dev/shm/myapp_shared 파일 생성, fd 반환                            |
+  |                                                                         |
+  |  [2. 크기 설정]                                                         |
+  |  ftruncate(fd, 65536);  // 64KB 크기로 설정                             |
+  |                                                                         |
+  |  +------------------------------------------------------------+         |
+  |  |  Process A (Writer)                Process B (Reader)       |        |
+  |  |                                                            |         |
+  |  |  fd = shm_open("/myapp_shared")   fd = shm_open(동일 경로) |         |
+  |  |         |                               |                   |        |
+  |  |         v                               v                   |        |
+  |  |  +--------------+              +--------------+            |         |
+  |  |  | fd=3         |              | fd=4         |            |         |
+  |  |  +------+-------+              +------+-------+            |         |
+  |  |         | mmap()                       | mmap()            |         |
+  |  |         v                              v                    |        |
+  |  |  +--------------+              +--------------+            |         |
+  |  |  | VMA          |              | VMA          |            |         |
+  |  |  | 0x7f1000     |              | 0x7f5000     |            |         |
+  |  |  +------+-------+              +------+-------+            |         |
+  |  |         |                              |                    |        |
+  |  |         v                              v                    |        |
+  |  |  +---------------------------------------------+           |         |
+  |  |  |      /dev/shm/myapp_shared (64KB)           |           |         |
+  |  |  |      +-------------------------------+      |           |         |
+  |  |  |      |   Physical Page (Shared)      |      |           |         |
+  |  |  |      |   A의 쓰기가 B에 즉시 반영됨     |      |           |      |
+  |  |  |      +-------------------------------+      |           |         |
+  |  |  +---------------------------------------------+           |         |
+  |  +------------------------------------------------------------+         |
+  |                                                                         |
+  |  [3. 정리]                                                              |
+  |  munmap(addr, 65536);  close(fd);  // 각 프로세스                       |
+  |  shm_unlink("/myapp_shared");  // 마지막 close 후 객체 자동 삭제        |
+  |  // 또는: rm /dev/shm/myapp_shared                                      |
+  +-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 `shm_open()`과 `mmap()`의 두 단계로 구성된다. `shm_open()`은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 특수 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 포인트 (`/dev/shm`, Linux 기준 tmpfs)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터를 반환한다. 이 단계에서는 실제 메모리가 할당되지 않는다. `ftruncate()`로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 후, `mmap()`으로 이 fd를 가상 주소 공간에 매핑하면 비로소 물리 페이지가 할당되고 프로세스 간 공유가 이루어진다. System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)와의 핵심 차이는 정리 메커니즘에 있다. System V IPC는 모든 프로세스가 `shmdt()`해도 세그먼트가 남지만, POSIX IPC는 `shm_unlink()`를 호출한 후 마지막 `close()`가 수행되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트 ([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count)가 0이 되어 객체가 자동으로 삭제된다. 이는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 unlink와 동일한 동작으로, 프로세스가 비정상 종료해도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터가 닫히므로 누수가 발생하지 않는다.
@@ -143,43 +143,43 @@ POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_proces
 POSIX 메시지 큐는 System V 메시지 큐와 달리 메시지에 우선순위 (Priority)를 부여할 수 있다. `mq_send()` 호출 시 우선순위를 지정하면, 큐는 우선순위 순서로 메시지를 정렬하여 유지하며, `mq_receive()`는 항상 가장 높은 우선순위의 가장 오래된 메시지를 반환한다. 이 기능은 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)에서 중요한 이벤트가 일반 이벤트보다 먼저 처리되도록 보장하는 핵심 메커니즘이다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │       POSIX 메시지 큐 — 우선순위 기반 정렬 동작                      │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [mq_send() 호출 순서]                                               │
-  │  1. mq_send(mqd, msg1, len1, pri=2)  // 보통 우선순위                │
-  │  2. mq_send(mqd, msg2, len2, pri=5)  // 최고 우선순위                │
-  │  3. mq_send(mqd, msg3, len3, pri=1)  // 최저 우선순위                │
-  │  4. mq_send(mqd, msg4, len4, pri=5)  // 최고 우선순위                │
-  │                                                                      │
-  │  [큐 내부 상태 — 우선순위순 정렬]                                    │
-  │  ┌─────────────────────────────────────────────────────────┐         │
-  │  │  POSIX Message Queue: /myapp_queue                      │         │
-  │  │                                                          │        │
-  │  │  mq_receive() 반환 순서:                                  │       │
-  │  │  ┌────────┬──────────┬───────────────────┐                │       │
-  │  │  │ 순서   │ 메시지   │ 우선순위          │                │       │
-  │  │  ├────────┼──────────┼───────────────────┤                │       │
-  │  │  │ 1번째  │ msg2     │ pri=5 (최고)     │ ◀─ 먼저 반환    │       │
-  │  │  │ 2번째  │ msg4     │ pri=5 (최고)     │ ◀─ 동일 우선순위│       │
-  │  │  │ 3번째  │ msg1     │ pri=2 (보통)     │    는 FIFO     │        │
-  │  │  │ 4번째  │ msg3     │ pri=1 (최저)     │                │        │
-  │  │  └────────┴──────────┴───────────────────┘                │       │
-  │  │                                                          │        │
-  │  │  정렬 규칙: 우선순위 내림차순 → 동일 우선순위 내 FIFO       │     │
-  │  └─────────────────────────────────────────────────────────┘         │
-  │                                                                      │
-  │  [우선순위 범위]                                                     │
-  │  0 (최저) ~ mq_getattr(mqd, &attr).mq_maxpriority (최고)             │
-  │  Linux 기본: mq_maxpriority = 0 (우선순위 1개, 즉 FIFO만)            │
-  │  설정 변경: /proc/sys/fs/mqueue/msg_max 등 커널 파라미터             │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |       POSIX 메시지 큐 — 우선순위 기반 정렬 동작                      |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |  [mq_send() 호출 순서]                                               |
+  |  1. mq_send(mqd, msg1, len1, pri=2)  // 보통 우선순위                |
+  |  2. mq_send(mqd, msg2, len2, pri=5)  // 최고 우선순위                |
+  |  3. mq_send(mqd, msg3, len3, pri=1)  // 최저 우선순위                |
+  |  4. mq_send(mqd, msg4, len4, pri=5)  // 최고 우선순위                |
+  |                                                                      |
+  |  [큐 내부 상태 — 우선순위순 정렬]                                    |
+  |  +---------------------------------------------------------+         |
+  |  |  POSIX Message Queue: /myapp_queue                      |         |
+  |  |                                                          |        |
+  |  |  mq_receive() 반환 순서:                                  |       |
+  |  |  +--------+----------+-------------------+                |       |
+  |  |  | 순서   | 메시지   | 우선순위          |                |       |
+  |  |  +--------+----------+-------------------+                |       |
+  |  |  | 1번째  | msg2     | pri=5 (최고)     | <-- 먼저 반환    |       |
+  |  |  | 2번째  | msg4     | pri=5 (최고)     | <-- 동일 우선순위|       |
+  |  |  | 3번째  | msg1     | pri=2 (보통)     |    는 FIFO     |        |
+  |  |  | 4번째  | msg3     | pri=1 (최저)     |                |        |
+  |  |  +--------+----------+-------------------+                |       |
+  |  |                                                          |        |
+  |  |  정렬 규칙: 우선순위 내림차순 -> 동일 우선순위 내 FIFO       |     |
+  |  +---------------------------------------------------------+         |
+  |                                                                      |
+  |  [우선순위 범위]                                                     |
+  |  0 (최저) ~ mq_getattr(mqd, &attr).mq_maxpriority (최고)             |
+  |  Linux 기본: mq_maxpriority = 0 (우선순위 1개, 즉 FIFO만)            |
+  |  설정 변경: /proc/sys/fs/mqueue/msg_max 등 커널 파라미터             |
+  +----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** POSIX 메시지 큐의 우선순위 기능은 System V 메시지 큐의 `mtype` 필터링과 근본적으로 다른 동작 원리를 가진다. System V의 `msgrcv()`는 수신 측에서 특정 타입의 메시지만 선택적으로 읽을 수 있지만, 큐 내부에서는 전송 순서 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))를 유지한다. 반면 POSIX의 `mq_receive()`는 수신 측에 선택권을 주지 않고 항상 "가장 높은 우선순위 + 가장 오래된" 메시지를 반환한다. 이는 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)에서 핵심적인 차이다. 긴급 알람 이벤트 (우선순위 5)가 일반 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 메시지 (우선순위 1)보다 먼저 처리되도록 하드웨어적으로 보장되므로, 애플리케이션 레벨의 우선순위 관리 코드를 작성할 필요가 없다. 동일 우선순위 내에서는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 순서를 유지하여 공정성을 보장한다. `mq_notify()`를 사용하면 큐가 비어있는 상태에서 새 메시지가 도착할 때 시그널이나 콜백 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 비동기 통지를 받을 수 있어, `select()`/`poll()`과 결합하여 효율적인 이벤트 드리븐 아키텍처를 구축할 수 있다.
 
-① `mq_open()`으로 메시지 큐 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → ② `mq_send(mqd, data, len, priority)`로 우선순위와 함께 메시지 송신 → ③ 큐 내부가 우선순위 순으로 자동 정렬 → ④ `mq_receive(mqd, buf, maxlen, &priority)`로 최고 우선순위 메시지 수신 → ⑤ `mq_close(mqd)`로 fd 닫기, `mq_unlink(name)`으로 큐 삭제.
+① `mq_open()`으로 메시지 큐 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> ② `mq_send(mqd, data, len, priority)`로 우선순위와 함께 메시지 송신 -> ③ 큐 내부가 우선순위 순으로 자동 정렬 -> ④ `mq_receive(mqd, buf, maxlen, &priority)`로 최고 우선순위 메시지 수신 -> ⑤ `mq_close(mqd)`로 fd 닫기, `mq_unlink(name)`으로 큐 삭제.
 
 - **📢 섹션 요약 비유**: 은행 창구에서 손님(메시지)이 도착한 순서대로 줄을 서는 것이 아니라, VIP(높은 우선순위) 손님이 도착하면 일반 손님보다 먼저 창구를 이용하게 하는 우선순위 처리 시스템과 같습니다.
 
@@ -218,51 +218,51 @@ POSIX 메시지 큐는 System V 메시지 큐와 달리 메시지에 우선순�
 POSIX IPC가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 기반이라는 특성을 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 통합 관점에서 시각화하면, System V IPC와의 실무적 차이가 명확해진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │       POSIX IPC의 epoll 통합 — 이벤트 루프 아키텍처                   │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [POSIX IPC — 자연스러운 epoll 통합]                                  │
-  │                                                                       │
-  │  ┌────────────────────────────────────────────────────────────┐       │
-  │  │  Event Loop (epoll)                                        │       │
-  │  │                                                            │       │
-  │  │  epoll_fd = epoll_create1(0);                              │       │
-  │  │                                                            │       │
-  │  │  // 소켓 등록                                               │      │
-  │  │  epoll_ctl(epoll_fd, EPOLLIN, sock_fd, &ev);               │       │
-  │  │                                                            │       │
-  │  │  // POSIX 메시지 큐 등록 (fd 기반이므로 가능!)               │     │
-  │  │  mqd_t mqd = mq_open("/myqueue", O_RDONLY);                │       │
-  │  │  epoll_ctl(epoll_fd, EPOLLIN, mqd, &ev);  ◀─ 바로 통합!   │        │
-  │  │                                                            │       │
-  │  │  while (1) {                                               │       │
-  │  │    nfds = epoll_wait(epoll_fd, events, MAX, -1);           │       │
-  │  │    for (i = 0; i < nfds; i++) {                            │       │
-  │  │      if (events[i].data.fd == sock_fd)                    │        │
-  │  │        handle_network(sock_fd);     // 네트워크 이벤트      │      │
-  │  │      else if (events[i].data.fd == (int)mqd)              │        │
-  │  │        handle_mq(mqd);             // 메시지 큐 이벤트      │      │
-  │  │    }                                                       │       │
-  │  │  }                                                         │       │
-  │  └────────────────────────────────────────────────────────────┘       │
-  │                                                                       │
-  │  [System V IPC — 통합 불가 (별도 스레드 필요)]                        │
-  │                                                                       │
-  │  ┌────────────────────────────────────────────────────────────┐       │
-  │  │  Main Thread              Polling Thread (추가 필요!)       │      │
-  │  │  ┌──────────────────┐    ┌──────────────────┐             │        │
-  │  │  │ epoll_wait()     │    │ msgrcv(BLOCK)    │             │        │
-  │  │  │ (소켓만 감시)    │    │ (메시지 대기)     │             │       │
-  │  │  └──────────────────┘    └────────┬─────────┘             │        │
-  │  │                                  │                        │        │
-  │  │         스레드 간 통신 필요 ───────┘                        │      │
-  │  │         (파이프 or 소켓 또는 추가 IPC)                       │     │
-  │  └────────────────────────────────────────────────────────────┘       │
-  │                                                                       │
-  │  ✅ POSIX: 단일 이벤트 루프에 모든 I/O 소스를 통합                    │
-  │  ⚠ System V: 메시지 큐 감시를 위해 별도 폴링 스레드 필수              │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |       POSIX IPC의 epoll 통합 — 이벤트 루프 아키텍처                   |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |  [POSIX IPC — 자연스러운 epoll 통합]                                  |
+  |                                                                       |
+  |  +------------------------------------------------------------+       |
+  |  |  Event Loop (epoll)                                        |       |
+  |  |                                                            |       |
+  |  |  epoll_fd = epoll_create1(0);                              |       |
+  |  |                                                            |       |
+  |  |  // 소켓 등록                                               |      |
+  |  |  epoll_ctl(epoll_fd, EPOLLIN, sock_fd, &ev);               |       |
+  |  |                                                            |       |
+  |  |  // POSIX 메시지 큐 등록 (fd 기반이므로 가능!)               |     |
+  |  |  mqd_t mqd = mq_open("/myqueue", O_RDONLY);                |       |
+  |  |  epoll_ctl(epoll_fd, EPOLLIN, mqd, &ev);  <-- 바로 통합!   |        |
+  |  |                                                            |       |
+  |  |  while (1) {                                               |       |
+  |  |    nfds = epoll_wait(epoll_fd, events, MAX, -1);           |       |
+  |  |    for (i = 0; i < nfds; i++) {                            |       |
+  |  |      if (events[i].data.fd == sock_fd)                    |        |
+  |  |        handle_network(sock_fd);     // 네트워크 이벤트      |      |
+  |  |      else if (events[i].data.fd == (int)mqd)              |        |
+  |  |        handle_mq(mqd);             // 메시지 큐 이벤트      |      |
+  |  |    }                                                       |       |
+  |  |  }                                                         |       |
+  |  +------------------------------------------------------------+       |
+  |                                                                       |
+  |  [System V IPC — 통합 불가 (별도 스레드 필요)]                        |
+  |                                                                       |
+  |  +------------------------------------------------------------+       |
+  |  |  Main Thread              Polling Thread (추가 필요!)       |      |
+  |  |  +------------------+    +------------------+             |        |
+  |  |  | epoll_wait()     |    | msgrcv(BLOCK)    |             |        |
+  |  |  | (소켓만 감시)    |    | (메시지 대기)     |             |       |
+  |  |  +------------------+    +--------+---------+             |        |
+  |  |                                  |                        |        |
+  |  |         스레드 간 통신 필요 -------+                        |      |
+  |  |         (파이프 or 소켓 또는 추가 IPC)                       |     |
+  |  +------------------------------------------------------------+       |
+  |                                                                       |
+  |  ✅ POSIX: 단일 이벤트 루프에 모든 I/O 소스를 통합                    |
+  |  ⚠ System V: 메시지 큐 감시를 위해 별도 폴링 스레드 필수              |
+  +-----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 다이어그램은 POSIX IPC의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 기반 설계가 실무에서 어떤 차이를 만드는지 보여준다. POSIX 메시지 큐의 `mq_open()`은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터를 반환하므로, 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 타이머 fd, 이벤트fd와 함께 단일 `epoll` [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에 등록할 수 있다. [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)는 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 모든 I/O 이벤트를 균일하게 처리하므로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 오버헤드가 없고, 코드 구조가 단순해진다. 반면 System V 메시지 큐는 `msqid`가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터가 아니므로 `epoll()`에 직접 등록할 수 없다. 이벤트를 감시하려면 별도의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 `msgrcv()`를 블로킹 호출해야 하고, 수신한 메시지를 메인 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)로 전달하기 위해 또 다른 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 등)가 필요하다. 이러한 구조적 복잡성은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전성 버그와 경쟁 조건의 원인이 되며, 특히 고성능 네트워크 서버에서는 병목으로 작용한다.
@@ -284,45 +284,45 @@ POSIX IPC가 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 POSIX [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 도입 시 선택 기준과 주의사항을 판단하는 의사결정 플로우를 시각화한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │           POSIX IPC 도입 의사결정 플로우                                │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [IPC 요구사항 분석]                                                    │
-  │         │                                                               │
-  │         ▼                                                               │
-  │  epoll/select 이벤트 루프과 통합이 필요한가?                            │
-  │     ├─ 예 ──▶ [POSIX IPC 강력 추천]                                     │
-  │     │          fd 기반이므로 epoll에 직접 등록 가능                     │
-  │     │                                                                   │
-  │     └─ 아니오                                                           │
-  │         │                                                               │
-  │         ▼                                                               │
-  │  메시지의 우선순위 구분이 필요한가?                                     │
-  │     ├─ 예 ──▶ [POSIX 메시지 큐 (mq_send priority)]                      │
-  │     │          큐 내부에서 자동 정렬, mq_receive가 최고 우선순위 반환   │
-  │     │                                                                   │
-  │     └─ 아니오                                                           │
-  │         │                                                               │
-  │         ▼                                                               │
-  │  스레드 간 동기화인가 프로세스 간 동기화인가?                           │
-  │     ├─ 스레드 간 ──▶ [POSIX 익명 세마포어 (sem_init)]                   │
-  │     │                  가볍고, pthread_mutex와 유사                     │
-  │     │                                                                   │
-  │     └─ 프로세스 간 ──▶ [POSIX 명명된 세마포어 (sem_open)]               │
-  │                       또는 System V 세마포어 (SEM_UNDO 필요 시)         │
-  │                                                                         │
-  │  [추가 고려사항]                                                        │
-  │  ┌────────────────────────────────────────────────────────────┐         │
-  │  │ · Linux 커널 파라미터 확인:                                 │        │
-  │  │   /proc/sys/fs/mqueue/msg_max      (최대 큐 메시지 수)      │        │
-  │  │   /proc/sys/fs/mqueue/msgsize_max   (최대 메시지 크기)     │         │
-  │  │   /proc/sys/fs/mqueue/queues_max    (최대 큐 수)          │          │
-  │  │                                                            │         │
-  │  │ · 컨테이너 환경에서는 커널 파라미터가 노드 전체에 공유됨     │       │
-  │  │   → Pod별 제한 불가, 네임스페이스 격리 필요 시 대안 검토     │       │
-  │  └────────────────────────────────────────────────────────────┘         │
-  └─────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------+
+  |           POSIX IPC 도입 의사결정 플로우                                |
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |  [IPC 요구사항 분석]                                                    |
+  |         |                                                               |
+  |         v                                                               |
+  |  epoll/select 이벤트 루프과 통합이 필요한가?                            |
+  |     +- 예 ---> [POSIX IPC 강력 추천]                                     |
+  |     |          fd 기반이므로 epoll에 직접 등록 가능                     |
+  |     |                                                                   |
+  |     +- 아니오                                                           |
+  |         |                                                               |
+  |         v                                                               |
+  |  메시지의 우선순위 구분이 필요한가?                                     |
+  |     +- 예 ---> [POSIX 메시지 큐 (mq_send priority)]                      |
+  |     |          큐 내부에서 자동 정렬, mq_receive가 최고 우선순위 반환   |
+  |     |                                                                   |
+  |     +- 아니오                                                           |
+  |         |                                                               |
+  |         v                                                               |
+  |  스레드 간 동기화인가 프로세스 간 동기화인가?                           |
+  |     +- 스레드 간 ---> [POSIX 익명 세마포어 (sem_init)]                   |
+  |     |                  가볍고, pthread_mutex와 유사                     |
+  |     |                                                                   |
+  |     +- 프로세스 간 ---> [POSIX 명명된 세마포어 (sem_open)]               |
+  |                       또는 System V 세마포어 (SEM_UNDO 필요 시)         |
+  |                                                                         |
+  |  [추가 고려사항]                                                        |
+  |  +------------------------------------------------------------+         |
+  |  | · Linux 커널 파라미터 확인:                                 |        |
+  |  |   /proc/sys/fs/mqueue/msg_max      (최대 큐 메시지 수)      |        |
+  |  |   /proc/sys/fs/mqueue/msgsize_max   (최대 메시지 크기)     |         |
+  |  |   /proc/sys/fs/mqueue/queues_max    (최대 큐 수)          |          |
+  |  |                                                            |         |
+  |  | · 컨테이너 환경에서는 커널 파라미터가 노드 전체에 공유됨     |       |
+  |  |   -> Pod별 제한 불가, 네임스페이스 격리 필요 시 대안 검토     |       |
+  |  +------------------------------------------------------------+         |
+  +-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 플로우는 POSIX IPC가 System V IPC보다 우월한 상황과 그렇지 않은 상황을 명확히 구분한다. POSIX IPC의 가장 큰 강점은 fd 기반이라는 점이며, `epoll` 기반의 이벤트 드리븐 서버에서는 사실상 유일한 선택이다. 우선순위 메시지 큐 역시 POSIX 전용 기능으로, System V의 mtype 필터링과는 근본적으로 다른 동작을 한다. 그러나 프로세스 간 동기화에서 `SEM_UNDO` 기능이 필요한 경우에는 System V [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 여전히 유일한 선택지다. POSIX [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 `SEM_UNDO`에 해당하는 기능을 표준으로 제공하지 않으므로, 프로세스 크래시 시 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 애플리케이션 레벨의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직을 직접 구현해야 한다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경 ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))에서는 POSIX 메시지 큐의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터가 노드 전체에 공유되므로, 다중 테넌트 환경에서는 자원 경합이 발생할 수 있다는 점도 반드시 고려해야 한다.
@@ -378,12 +378,12 @@ POSIX IPC는 System V IPC가 40년간 축적한 실무 경험을 바탕으로, [
 
 ```text
 [시스템 V IPC]
-    │
-    ▼
+    |
+    v
 [POSIX IPC]
-    │
-    ├──▶ [D-Bus (Desktop Bus)]
-    └──▶ [안드로이드 바인더 (Android Binder)]
+    |
+    +---> [D-Bus (Desktop Bus)]
+    +---> [안드로이드 바인더 (Android Binder)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -400,7 +400,7 @@ POSIX IPC는 System V IPC가 40년간 축적한 실무 경험을 바탕으로, [
 
 **진행 상황**: 133 / 800
 
-← **이전**: [132. 시스템 V IPC (System V IPC)](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/)
-**다음**: [134. D-Bus (Desktop Bus) - 리눅스 데스크톱 환경 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/134_dbus/) →
+<- **이전**: [132. 시스템 V IPC (System V IPC)](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/)
+**다음**: [134. D-Bus (Desktop Bus) - 리눅스 데스크톱 환경 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/134_dbus/) ->
 
 ---

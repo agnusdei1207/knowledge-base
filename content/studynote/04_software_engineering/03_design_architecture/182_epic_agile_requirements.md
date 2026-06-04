@@ -44,22 +44,22 @@ tags = ["studynote-software-engineering"]
 아래 그림은 제품 목표가 에픽을 거쳐 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 스토리로 내려가는 구조를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From product goal to sprint backlog                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Product Goal : 결제 전환율 향상                                   │
-│        │                                                           │
-│        ▼                                                           │
-│ Epic : 간편결제 도입                                               │
-│   ├─ Story 1 : 카드 등록                                           │
-│   ├─ Story 2 : 생체 인증 결제                                      │
-│   ├─ Story 3 : 결제 실패 재시도                                    │
-│   └─ Story 4 : 정산/환불 조회                                      │
-│        │                                                           │
-│        ├─ Sprint 1 : 등록 + 기본 결제                              │
-│        ├─ Sprint 2 : 실패 처리 + 예외 흐름                         │
-│        └─ Sprint 3 : 정산/조회 + 운영 검증                         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| From product goal to sprint backlog                               |
++--------------------------------------------------------------------+
+| Product Goal : 결제 전환율 향상                                   |
+|        |                                                           |
+|        v                                                           |
+| Epic : 간편결제 도입                                               |
+|   +- Story 1 : 카드 등록                                           |
+|   +- Story 2 : 생체 인증 결제                                      |
+|   +- Story 3 : 결제 실패 재시도                                    |
+|   +- Story 4 : 정산/환불 조회                                      |
+|        |                                                           |
+|        +- Sprint 1 : 등록 + 기본 결제                              |
+|        +- Sprint 2 : 실패 처리 + 예외 흐름                         |
+|        +- Sprint 3 : 정산/조회 + 운영 검증                         |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 에픽이 "큰 요구를 그냥 붙잡아 두는 상자"가 아니라, <strong>스토리 분해와 순차 전달의 중심축</strong>이라는 점이다. 좋은 에픽은 스토리 분해 기준이 명확하다. 예를 들어 사용자 역할별, 업무 단계별, 정상/예외 흐름별, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위별로 나눌 수 있어야 한다. 반대로 분해 기준이 없다면 그것은 아직 요구가 아니라 구호에 가깝다.
@@ -141,17 +141,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 비즈니스 목표 · 제품 방향
-        │
-        ▼
+        |
+        v
 에픽 (큰 가치 단위 정의)
-        │
-        ▼
+        |
+        v
 유저 스토리로 분해
-        │
-        ▼
+        |
+        v
 스프린트 단위 구현 · 검증
-        │
-        ▼
+        |
+        v
 릴리스 · 성과 측정 · 다음 에픽 조정
 ```
 
@@ -169,7 +169,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 182 / 973
 
-← **이전**: [181. 역공학을 통한 요구사항 추출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/181_reverse_engineering_requirements/)
-**다음**: [183. 유저 스토리 맵 (User Story Mapping)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) →
+<- **이전**: [181. 역공학을 통한 요구사항 추출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/181_reverse_engineering_requirements/)
+**다음**: [183. 유저 스토리 맵 (User Story Mapping)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) ->
 
 ---

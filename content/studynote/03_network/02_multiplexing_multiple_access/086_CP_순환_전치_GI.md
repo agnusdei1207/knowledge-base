@@ -34,11 +34,11 @@ CP는 이 침범을 흡수하는 쿠션 역할을 한다.
 | delay spread | 경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭 | CP보다 작아야 유리 |
 | [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) window | 실제 복조 구간 | CP 뒤에서 시작 |
 
-┌──────────── CP / GI ─────────────┐
-│ [tail copy] [  useful symbol  ]  │
-│     ↑             ↑             │
-│     └── delay spread absorbs ───┘│
-└──────────────────────────────────┘
++------------ CP / GI -------------+
+| [tail copy] [  useful symbol  ]  |
+|     ^             ^             |
+|     +-- delay spread absorbs ---+|
++----------------------------------+
              채널 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ↘  ↘  ↘
              [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 창        [ useful symbol ]
 - **📢 섹션 요약 비유**: 꼬리 복사가 간섭을 흡수한다.
@@ -90,7 +90,7 @@ CP/GI는 비 오는 날 문 앞에 깔아 두는 발판 같다. 물이 집 안�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-송신 심볼 끝부분 복사 → 앞에 CP 삽입 → 채널 지연 흡수 → FFT 복조 → 서브캐리어 직교성 유지
+송신 심볼 끝부분 복사 -> 앞에 CP 삽입 -> 채널 지연 흡수 -> FFT 복조 -> 서브캐리어 직교성 유지
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -105,7 +105,7 @@ CP/GI는 비 오는 날 문 앞에 깔아 두는 발판 같다. 물이 집 안�
 
 **진행 상황**: 86 / 1120
 
-← **이전**: [85. 부반송파 (Subcarrier)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)
-**다음**: [87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) →
+<- **이전**: [85. 부반송파 (Subcarrier)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)
+**다음**: [87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ->
 
 ---

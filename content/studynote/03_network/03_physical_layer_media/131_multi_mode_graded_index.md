@@ -24,16 +24,16 @@ tags = ["studynote-network"]
 
 ```text
 이 도식은 계단형(Step-index) MMF에서 발생하는 모드 분산 한계를 보여준다.
-┌────────────────────────────────────────────────────────┐
-│ [Step-Index MMF의 한계: 모드 분산]                     │
-│                                                        │
-│ 입력 펄스             코어 (균일 굴절률 n1)            │ 출력 펄스
-│   __               /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\            │   ____
-│  |  |  (모드 1) ──>─────────────────────────> (빠름)   │  /    \
-│  |  |  (모드 2) ──>\/\/\/\/\/\/\/\/\/\/\/\/\> (느림)   │ /      \
-│ ‾‾‾‾‾‾              클래딩 (n2)                        │‾‾‾‾‾‾‾‾‾‾
-│ => 직선 경로와 반사 경로의 거리 차이로 펄스가 겹침(ISI)│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [Step-Index MMF의 한계: 모드 분산]                     |
+|                                                        |
+| 입력 펄스             코어 (균일 굴절률 n1)            | 출력 펄스
+|   __               /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\            |   ____
+|  |  |  (모드 1) -->-------------------------> (빠름)   |  /    \
+|  |  |  (모드 2) -->\/\/\/\/\/\/\/\/\/\/\/\/\> (느림)   | /      \
+| ‾‾‾‾‾‾              클래딩 (n2)                        |‾‾‾‾‾‾‾‾‾‾
+| => 직선 경로와 반사 경로의 거리 차이로 펄스가 겹침(ISI)|
++--------------------------------------------------------+
 ```
 이 그림의 핵심은 코어 내 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 일정할 경우 물리적 이동 거리가 긴 외곽 경로(모드 2)의 빛이 늦게 도착하여 펄스 폭이 넓어진다는 점이다. 따라서 전송 속도를 높일수록 인접 펄스와 겹치는 [심볼 상호 간섭](/knowledge-base/studynote/03_network/01_data_communication/022_심볼_상호_간섭_ISI/)(ISI)이 발생해 대역폭이 극도로 제한된다. 실무에서는 이러한 한계 때문에 Step-index MMF를 저속 제어망 이외에는 사용하지 않는다.
 
@@ -55,18 +55,18 @@ GI-MMF의 구조적 핵심은 [굴절률](/knowledge-base/studynote/03_network/0
 
 ```text
 이 도식은 GI-MMF 내부의 포물선 굴절률 분포와 빛의 진행 궤적을 보여준다.
-┌──────────────────────────────────────────────────────────────┐
-│ [Graded-Index MMF의 굴절률과 광경로]                         │
-│                                                              │
-│ 굴절률(n) 프로파일      코어 내부 진행 궤적                  │
-│     │               클래딩 (n2)                              │
-│ n2 ─┤             --------------------------------           │
-│     │  포물선     __ 궤적 A (중심: n 높음 -> v 느림)         │
-│ n1 ─┼────       /  \ 궤적 B (외곽: n 낮음 -> v 빠름)         │
-│     │           \__/                                         │
-│     │             --------------------------------           │
-│     └───── 중심반경                                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| [Graded-Index MMF의 굴절률과 광경로]                         |
+|                                                              |
+| 굴절률(n) 프로파일      코어 내부 진행 궤적                  |
+|     |               클래딩 (n2)                              |
+| n2 -+             --------------------------------           |
+|     |  포물선     __ 궤적 A (중심: n 높음 -> v 느림)         |
+| n1 -+----       /  \ 궤적 B (외곽: n 낮음 -> v 빠름)         |
+|     |           \__/                                         |
+|     |             --------------------------------           |
+|     +----- 중심반경                                          |
++--------------------------------------------------------------+
 ```
 이 흐름의 핵심은 중심을 지나는 빛(궤적 A)은 거리가 짧은 대신 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 높아 속도가 느리고, 외곽을 도는 빛(궤적 B)은 거리가 긴 대신 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 낮아 속도가 빠르다는 점이다. 이를 통해 모든 모드의 빛이 주기적으로 교차하며 수신단에 거의 동시에 도달하게 되어 펄스 퍼짐을 상쇄한다. 따라서 수 GHz·km 이상의 넓은 대역폭을 확보할 수 있게 된다. 실무에서는 제조 공정의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다.
 
@@ -89,21 +89,21 @@ GI-MMF의 포지셔닝을 명확히 하기 위해 다른 광섬유 규격과 정
 
 ```text
 이 매트릭스는 대역폭과 전송 거리 측면에서 세 가지 광섬유의 실무적 의사결정 경계를 시각화한다.
-┌────────────────────────────────────────────────────────┐
-│ [광섬유 규격별 성능/비용 포지셔닝]                     │
-│                                                        │
-│ 거리/대역폭 ▲                                         │
-│    100km+   │                    [ SMF ]             │
-│             │                  장거리 백본망         │
-│             │               (고가 송수신기 필요)     │
-│      1km    │                                        │
-│             │            [ GI-MMF (OM4) ]            │
-│             │           데이터센터 (10G~100G)        │
-│     100m    │   [ SI-MMF ]                           │
-│             │    구형망                              │
-│             └──────────────────────────────────────▶│
-│                 저비용          중간비용        고비용 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [광섬유 규격별 성능/비용 포지셔닝]                     |
+|                                                        |
+| 거리/대역폭 ^                                         |
+|    100km+   |                    [ SMF ]             |
+|             |                  장거리 백본망         |
+|             |               (고가 송수신기 필요)     |
+|      1km    |                                        |
+|             |            [ GI-MMF (OM4) ]            |
+|             |           데이터센터 (10G~100G)        |
+|     100m    |   [ SI-MMF ]                           |
+|             |    구형망                              |
+|             +--------------------------------------->|
+|                 저비용          중간비용        고비용 |
++--------------------------------------------------------+
 ```
 이 비교도의 핵심은 GI-MMF가 단일모드([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))의 비싼 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(Laser [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 및 정밀 패키징) 비용을 절감하면서도 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 랙 간 통신(수백 미터)에 필요한 대역폭을 완벽히 충족한다는 점이다. 반면 SMF는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 아예 없으므로 장거리 통신에 필수적이나, 광원 정렬에 마이크로미터 단위의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 요구되어 비용이 치솟는다. 따라서 실무 환경의 물리적 반경에 따라 매체를 엄격히 분리 설계해야 한다.
 
@@ -120,19 +120,19 @@ GI-MMF의 포지셔닝을 명확히 하기 위해 다른 광섬유 규격과 정
 
 ```text
 이 도식은 데이터센터 내 광케이블 등급별 대역폭 한계와 적용 100G 마이그레이션 판별 흐름이다.
-┌────────────────────────────────────────────────────────────┐
-│ [데이터센터 MMF 마이그레이션 의사결정 플로우]                │
-│                                                            │
-│ [요구사항: 스위치 간 링크 구축]                            │
-│        │                                                   │
-│   (거리 > 500m?) ── YES ──> [ SMF 채택 (OS2/100G-LR4) ]  │
-│        │ NO                                                │
-│        v                                                   │
-│   (속도 > 40G?) ─── NO ───> [ OM3 채택 (충분한 대역폭) ]   │
-│        │ YES                                               │
-│        v                                                   │
-│ [ OM4 또는 OM5 (SWDM 적용) 채택 및 SR4/SR8 광학모듈 연동 ] │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+| [데이터센터 MMF 마이그레이션 의사결정 플로우]                |
+|                                                            |
+| [요구사항: 스위치 간 링크 구축]                            |
+|        |                                                   |
+|   (거리 > 500m?) -- YES --> [ SMF 채택 (OS2/100G-LR4) ]  |
+|        | NO                                                |
+|        v                                                   |
+|   (속도 > 40G?) --- NO ---> [ OM3 채택 (충분한 대역폭) ]   |
+|        | YES                                               |
+|        v                                                   |
+| [ OM4 또는 OM5 (SWDM 적용) 채택 및 SR4/SR8 광학모듈 연동 ] |
++------------------------------------------------------------+
 ```
 이 흐름도의 요지는 500m 미만의 구간에서는 무조건 GI-MMF 계열이 채택되며, 속도에 따라 OM3/OM4/OM5의 코어 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 등급을 선택해야 한다는 점이다. 특히 100G 이상의 속도에서는 단일 파장으로 한계가 있어 OM5 광섬유에 SWDM(단파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 기술을 얹어 케이블 가닥 수를 줄이는 전략이 실무적으로 권장된다.
 
@@ -168,12 +168,12 @@ GI-MMF는 광통신의 대중화와 [데이터센터](/knowledge-base/studynote/
 
 ```text
 [선행 개념: 멀티모드 계단형 광섬유]
-    │
-    ▼
+    |
+    v
 [현재 개념: 멀티모드 언덕형 광섬유]
-    │
-    ├──▶ [확장 A: 단일모드 광섬유 / 다중모드 광섬유]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 단일모드 광섬유 / 다중모드 광섬유]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 멀티모드 언덕형 광섬유는 멀티모드 계단형 광섬유에서 출발해 현재 메커니즘을 정교화하고, 이후 [단일모드 광섬유](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/) / 다중모드 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -190,7 +190,7 @@ GI-MMF는 광통신의 대중화와 [데이터센터](/knowledge-base/studynote/
 
 **진행 상황**: 252 / 1120
 
-← **이전**: [130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)](/knowledge-base/studynote/03_network/03_physical_layer_media/130_multimode_step_index_fiber/)
-**다음**: [132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/) →
+<- **이전**: [130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)](/knowledge-base/studynote/03_network/03_physical_layer_media/130_multimode_step_index_fiber/)
+**다음**: [132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/) ->
 
 ---

@@ -27,14 +27,14 @@ tags = ["ai"]
 이 구조도는 데이터가 지식으로 변환되는 DIKW 피라미드와, 지식 표현이 추론 엔진과 결합하는 기본 흐름을 보여준다.
 
 [World / Environment]
-         │ (관찰/센서)
-         ▼
-    [Data] ───> [Information] ───> [Knowledge Base (KB)]
+         | (관찰/센서)
+         v
+    [Data] ---> [Information] ---> [Knowledge Base (KB)]
   (Raw 팩트)    (가공된 의미)        (관계/규칙이 부여된 망)
-                                           │
-                                           │ (지식 표현 기법 적용)
-                                           ▼
-                                [Inference Engine (추론 엔진)] ──> [Action/Decision]
+                                           |
+                                           | (지식 표현 기법 적용)
+                                           v
+                                [Inference Engine (추론 엔진)] --> [Action/Decision]
 ```
 이 도식의 핵심은 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(KB)가 추론 엔진에 입력되기 위해서는 기계가 읽을 수 있는(Machine-Readable) 특수한 문법(지식 표현 기법)으로 변환되어야 한다는 점이다. 이런 배치는 단순히 RDB에 값을 넣는 것과는 차원이 다르며, 따라서 시스템 아키텍트는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 특성에 맞춰 규칙(Rule), 프레임(Frame), 의미망(Semantic Net) 중 가장 효율적인 검색/추론 연산이 가능한 표현 구조를 선택해야 한다. 실무에서는 이 변환 과정에서의 정보 손실을 막는 것이 가장 큰 병목이다.
 
@@ -65,15 +65,15 @@ tags = ["ai"]
 이 도식은 '의미망(Semantic Network)'의 전형적인 방향성 그래프 구조와 상속 메커니즘을 시각화한 것이다.
 
            [동물 (Animal)]
-             ▲        ▲
+             ^        ^
      is-a  /            \ is-a
          /                \
  [조류 (Bird)]         [포유류 (Mammal)] ---has-a---> [다리 4개]
-     ▲                      ▲
-     │ is-a                 │ is-a
+     ^                      ^
+     | is-a                 | is-a
  [펭귄 (Penguin)]        [개 (Dog)]
-     │                      │
-     └--can-do--> [수영]    └--instance-of--> [바둑이]
+     |                      |
+     +--can-do--> [수영]    +--instance-of--> [바둑이]
 ```
 이 그림의 핵심은 노드 간의 `is-a`(상하위 개념)와 `has-a`([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 통해 명시적 선언 없이도 새로운 지식을 자동 추론할 수 있다는 점이다. 이 도식에서 '개'는 명시적으로 다리가 4개라고 적혀 있지 않지만, '포유류'의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아 자동으로 다리가 4개임이 추론(Inference)된다. 따라서 메모리를 절약하면서도 지식을 무한 확장할 수 있다. 실무에서는 노드의 깊이가 깊어질수록 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 충돌(Multiple Inheritance)이나 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Circular [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 인한 무한 루프 병목이 발생하므로 이를 회피할 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 설계가 필수적이다.
 
@@ -98,18 +98,18 @@ tags = ["ai"]
 ```text
 이 매트릭스는 순수 딥러닝(연결주의)의 블랙박스 한계를 극복하기 위해 지식 표현(기호주의)이 어떻게 결합하는지 비교 대조한다.
 
-┌────────────┬────────────────────────┬────────────────────────┬───────────────┐
-│ AI 패러다임│ 지식의 저장 형태       │ 추론 및 연산 방식      │ 해석 가능성   │
-├────────────┼────────────────────────┼────────────────────────┼───────────────┤
-│ 연결주의   │ 고차원 연속 밀집 벡터  │ 역전파, 행렬 곱 기반   │ 극도로 낮음   │
-│ (딥러닝)   │ (Distributed Rep.)     │ 확률적 통계 생성       │ (블랙박스)    │
-├────────────┼────────────────────────┼────────────────────────┼───────────────┤
-│ 기호주의   │ 이산적 노드와 엣지     │ 규칙 매칭 및 속성 상속 │ 완벽히 투명함 │
-│ (지식 표현)│ (Symbolic Graph)       │ 확정적 논리 도출       │ (화이트박스)  │
-├────────────┼────────────────────────┼────────────────────────┼───────────────┤
-│ 융합 모델  │ 그래프 신경망 (GNN) +  │ 벡터 유사도 검색 +     │ 높음 (근거    │
-│ (GraphRAG) │ 지식 그래프 메타데이터 │ 논리적 검증 (교차확인) │ 출처 제시)    │
-└────────────┴────────────────────────┴────────────────────────┴───────────────┘
++------------+------------------------+------------------------+---------------+
+| AI 패러다임| 지식의 저장 형태       | 추론 및 연산 방식      | 해석 가능성   |
++------------+------------------------+------------------------+---------------+
+| 연결주의   | 고차원 연속 밀집 벡터  | 역전파, 행렬 곱 기반   | 극도로 낮음   |
+| (딥러닝)   | (Distributed Rep.)     | 확률적 통계 생성       | (블랙박스)    |
++------------+------------------------+------------------------+---------------+
+| 기호주의   | 이산적 노드와 엣지     | 규칙 매칭 및 속성 상속 | 완벽히 투명함 |
+| (지식 표현)| (Symbolic Graph)       | 확정적 논리 도출       | (화이트박스)  |
++------------+------------------------+------------------------+---------------+
+| 융합 모델  | 그래프 신경망 (GNN) +  | 벡터 유사도 검색 +     | 높음 (근거    |
+| (GraphRAG) | 지식 그래프 메타데이터 | 논리적 검증 (교차확인) | 출처 제시)    |
++------------+------------------------+------------------------+---------------+
 ```
 이 융합 모델 비교표의 핵심은 지식 표현이 딥러닝의 가장 큰 약점인 '[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))'을 방어하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 방패로 작동한다는 점이다. A 방식(순수 딥러닝)은 유창하지만 거짓말을 지어낼 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높고, B 방식(순수 지식 표현)은 정확하지만 유연한 자연어 변환이 어렵다. 따라서 실무에서는 LLM이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변을 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)(의미망) 노드를 거쳐 팩트 체크하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축함으로써 안정성과 유연성이라는 트레이드오프를 동시에 해결한다.
 
@@ -133,15 +133,15 @@ tags = ["ai"]
 이 의사결정 트리는 도메인의 성격에 따라 어떤 지식 표현 기법을 도입해야 하는지를 가이드하는 플로우다.
 
 [시스템 도입 목표]
-         │
+         |
 [도메인의 규칙이 명확하고 법적 책임이 따르는가?]
- ├─(Yes)──> [규칙 기반 (Rule-based) 선택] ──> 감사 로그 및 유지보수 용이
- │
- └─(No)───> [데이터 간의 복잡한 계층과 관계 추론이 필요한가?]
-              ├─(Yes)──> [의미망 / 프레임 선택] ──> Knowledge Graph 구축
-              │
-              └─(No)───> [연속적인 시간의 사건/시퀀스 묘사인가?]
-                           └──> [스크립트 기반 표현 선택]
+ +-(Yes)--> [규칙 기반 (Rule-based) 선택] --> 감사 로그 및 유지보수 용이
+ |
+ +-(No)---> [데이터 간의 복잡한 계층과 관계 추론이 필요한가?]
+              +-(Yes)--> [의미망 / 프레임 선택] --> Knowledge Graph 구축
+              |
+              +-(No)---> [연속적인 시간의 사건/시퀀스 묘사인가?]
+                           +--> [스크립트 기반 표현 선택]
 ```
 이 트리의 핵심은 '[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)'과 '설명 가능성'의 법적 요구 수준에 따라 아키텍처가 갈린다는 점이다. 이런 배치는 금융, 의료 등 생명과 자산에 직결되는 분야에서는 1%의 에러도 허용되지 않기 때문이다. 실무에서는 규칙 기반을 도입할 때 규칙이 1,000개를 넘어가면 룰 간의 간섭(Conflict)으로 유지보수가 불가능해지므로, 비즈니스 룰 관리 시스템(BRMS)을 통해 중복과 충돌을 상시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야만 한다.
 
@@ -175,20 +175,20 @@ tags = ["ai"]
 
 ```text
 [지식 획득 (Knowledge Acquisition)]
-    │
-    ▼
+    |
+    v
 [지식 표현 (Knowledge Representation)]
-    │
-    ▼
+    |
+    v
 [온톨로지 (Ontology)]
-    │
-    ▼
+    |
+    v
 [추론 엔진 (Inference Engine)]
-    │
-    ▼
+    |
+    v
 [전문가 시스템 (Expert System)]
-    │
-    ▼
+    |
+    v
 [지식 그래프 (Knowledge Graph)]
 ```
 
@@ -205,7 +205,7 @@ tags = ["ai"]
 
 **진행 상황**: 7 / 420
 
-← **이전**: [6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)
-**다음**: [8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference 엔진)](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) →
+<- **이전**: [6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)
+**다음**: [8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference 엔진)](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) ->
 
 ---

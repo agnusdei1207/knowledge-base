@@ -245,7 +245,7 @@ Spark SQL: UNION ALL 파티션 병렬 처리
 
 **진행 상황**: 39 / 600
 
-← **이전**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)
-**다음**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/) →
+<- **이전**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)
+**다음**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/) ->
 
 ---

@@ -36,17 +36,17 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>(HCL) Plan-Apply 워크플로</strong>:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    GitOps + Terraform 흐름                   │
-│                                                             │
-│  개발자 → PR(HCL 변경) → 코드 리뷰 → merge                  │
-│                                    ↓                        │
-│             terraform plan  (변경 사항 미리 보기)             │
-│                    ↓        (diff: +3 리소스, -1 리소스)      │
-│             terraform apply (실제 적용, State 파일 갱신)      │
-│                    ↓                                        │
-│             State 파일 (terraform.tfstate, S3 원격 저장)      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    GitOps + Terraform 흐름                   |
+|                                                             |
+|  개발자 -> PR(HCL 변경) -> 코드 리뷰 -> merge                  |
+|                                    v                        |
+|             terraform plan  (변경 사항 미리 보기)             |
+|                    v        (diff: +3 리소스, -1 리소스)      |
+|             terraform apply (실제 적용, State 파일 갱신)      |
+|                    v                                        |
+|             State 파일 (terraform.tfstate, S3 원격 저장)      |
++-------------------------------------------------------------+
 ```
 
 | 도구 | 방식 | 특징 | 주요 사용 |
@@ -57,10 +57,10 @@ tags = ["studynote-ict-convergence"]
 | CloudFormation | 선언적 | AWS 전용, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/YAML | AWS 네이티브 관리 |
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>) vs <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/">가변 인프라</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/">Mutable Infrastructure</a>)</strong>:
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/">가변 인프라</a></strong>: 서버를 멈추지 않고 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 → 시간이 지나면 [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 발생
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a></strong>: 변경이 필요하면 새 이미지를 만들어 기존 서버를 교체 → 항상 동일한 상태 보장
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/170_immutable_infrastructure_mutable_vs_immutable/">가변 인프라</a></strong>: 서버를 멈추지 않고 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 -> 시간이 지나면 [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 발생
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a></strong>: 변경이 필요하면 새 이미지를 만들어 기존 서버를 교체 -> 항상 동일한 상태 보장
 
-[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) + Terraform의 조합으로 구현된다: 코드 변경 → [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 → 새 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드 → Terraform으로 새 EC2/ECS 인스턴스 배포 → 구 인스턴스 종료.
+[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) + Terraform의 조합으로 구현된다: 코드 변경 -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 -> 새 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드 -> Terraform으로 새 EC2/ECS 인스턴스 배포 -> 구 인스턴스 종료.
 
 - **📢 섹션 요약 비유**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 스마트폰 OS 업데이트와 같다 — 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정하지 않고 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 전체를 설치하기 때문에, 업데이트 전과 후의 상태가 항상 명확히 다르다.
 
@@ -82,10 +82,10 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 시험 판단 포인트**:
 1. 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) vs 절차적(Procedural) IaC의 차이를 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) vs Ansible로 대비 설명한다.
-2. [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 구현 흐름(이미지 빌드 → 배포 → 구 인스턴스 교체)을 순서대로 기술한다.
+2. [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 구현 흐름(이미지 빌드 -> 배포 -> 구 인스턴스 교체)을 순서대로 기술한다.
 3. [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 역할과 원격 저장 필요성(팀 협업, 잠금)을 보안 관점에서 언급한다.
 
-**실무 시나리오**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 50개를 운영하는 기업이 서버 [구성 편류](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 문제로 장애를 반복 경험. 해결책: 모든 서비스를 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지화 + Terraform으로 EKS 클러스터 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) + Atlantis로 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 인프라 변경 승인 → 장애 원인의 60%를 차지하던 "환경 차이" 문제 해소.
+**실무 시나리오**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 50개를 운영하는 기업이 서버 [구성 편류](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 문제로 장애를 반복 경험. 해결책: 모든 서비스를 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지화 + Terraform으로 EKS 클러스터 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) + Atlantis로 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 인프라 변경 승인 -> 장애 원인의 60%를 차지하던 "환경 차이" 문제 해소.
 
 - **📢 섹션 요약 비유**: GitOps는 인프라도 코드처럼 관리하는 방식이다. 회계 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 혼자 관리하면 실수가 나지만, 팀 리뷰([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 승인)를 거치면 오류가 줄어든다.
 
@@ -94,7 +94,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅴ. 기대효과 및 결론
 
 IaC와 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)를 도입하면:
-- **재현성 100%**: 동일 코드 → 동일 환경, 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 수 분 내 인프라 재생성
+- **재현성 100%**: 동일 코드 -> 동일 환경, 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 수 분 내 인프라 재생성
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a> 제거</strong>: 불변 이미지 교체로 서버 상태 항상 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지
 - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong>: Git 커밋 이력이 인프라 변경 내역의 완전한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)
 - **팀 협업**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)/코드 리뷰로 보안 검토와 지식 공유 자동화
@@ -118,7 +118,7 @@ IaC는 단순한 도구가 아니라 <strong>인프라 관리의 패러다임 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Terraform · 이식성] → [IaC 테라폼과 불변 인프라 선언] → [파이프라인 · 빌드]
+[Terraform · 이식성] -> [IaC 테라폼과 불변 인프라 선언] -> [파이프라인 · 빌드]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -133,7 +133,7 @@ IaC는 단순한 도구가 아니라 <strong>인프라 관리의 패러다임 �
 
 **진행 상황**: 504 / 552
 
-← **이전**: [503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/503_serverless_cold_start_latency_control/)
-**다음**: [505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/505_microservices_api_gateway_service_mesh/) →
+<- **이전**: [503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/503_serverless_cold_start_latency_control/)
+**다음**: [505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/505_microservices_api_gateway_service_mesh/) ->
 
 ---

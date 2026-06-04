@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [Type 필드 / Length 필드]
-    │
-    ▼
+    |
+    v
 [페이로드 크기, 패딩]
-    │
-    └──▶ [충돌 도메인 / 브로드캐스트 도메인]
+    |
+    +---> [충돌 도메인 / 브로드캐스트 도메인]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)은 택배 상자가 너무 텅 비어있을 때 상자가 찌그러지거나(에러 감지 불가) 분실되는 것을 막기 위해 억지로 욱여넣는 </strong>"에어캡(뽁뽁이)"**입니다.
@@ -55,24 +55,24 @@ tags = ["studynote-network"]
 - **점보 프레임 (Jumbo Frame)**: 현대의 1Gbps, 10Gbps [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서는 1500바이트씩 쪼개 보내면 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 너무 커진다. 따라서 MTU를 9000바이트까지 늘려 보내는 비표준 확장을 점보 프레임이라 부른다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                이더넷 프레임 길이 제약 도식도                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   ┌───────────┬──────────────┬──────────────────┬───────┐   │
- │   │ MAC 헤더  │   Payload    │ Padding (패딩)   │  FCS  │   │
- │   │ (14 Byte) │ (가정: 10 B) │ (부족분: 36 B)   │ (4 B) │   │
- │   └───────────┴──────────────┴──────────────────┴───────┘   │
- │   │◀──────────────── 전체 최소 64 Bytes ─────────────────▶│   │
- │                                                             │
- │                                                             │
- │   ┌───────────┬─────────────────────────────────┬───────┐   │
- │   │ MAC 헤더  │   Payload (MTU 1500 Bytes)      │  FCS  │   │
- │   │ (14 Byte) │     IP 패킷이 꽉 차게 들어감       │ (4 B) │   │
- │   └───────────┴─────────────────────────────────┴───────┘   │
- │   │◀──────────────── 전체 최대 1518 Bytes ────────────────▶│   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                이더넷 프레임 길이 제약 도식도                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   +-----------+--------------+------------------+-------+   |
+ |   | MAC 헤더  |   Payload    | Padding (패딩)   |  FCS  |   |
+ |   | (14 Byte) | (가정: 10 B) | (부족분: 36 B)   | (4 B) |   |
+ |   +-----------+--------------+------------------+-------+   |
+ |   |<----------------- 전체 최소 64 Bytes ------------------>|   |
+ |                                                             |
+ |                                                             |
+ |   +-----------+---------------------------------+-------+   |
+ |   | MAC 헤더  |   Payload (MTU 1500 Bytes)      |  FCS  |   |
+ |   | (14 Byte) |     IP 패킷이 꽉 차게 들어감       | (4 B) |   |
+ |   +-----------+---------------------------------+-------+   |
+ |   |<----------------- 전체 최대 1518 Bytes ----------------->|   |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 화물차(프레임)는 짐칸(페이로드)에 짐을 적어도 46kg(최소) 이상 실어야 브레이크(충돌 감지)가 제대로 작동하고, 1500kg(최대)까지만 실을 수 있도록 법으로 정해진 </strong>"규격 트럭"**입니다.
@@ -133,12 +133,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Type 필드 / Length 필드]
-    │
-    ▼
+    |
+    v
 [현재 개념: 페이로드 크기, 패딩]
-    │
-    ├──▶ [확장 A: 충돌 도메인 / 브로드캐스트 도메인]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 충돌 도메인 / 브로드캐스트 도메인]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 페이로드 크기, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)는 Type 필드 / Length 필드에서 출발해 현재 메커니즘을 정교화하고, 이후 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 357 / 1120
 
-← **이전**: [235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/)
-**다음**: [237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) →
+<- **이전**: [235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/)
+**다음**: [237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) ->
 
 ---

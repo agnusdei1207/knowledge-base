@@ -44,21 +44,21 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 아래 그림은 Li-Fi 셀에서 조명과 통신이 함께 동작하는 모습을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Li-Fi room cell: light and data together               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Ethernet / Switch]                                                       │
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Li-Fi Controller]                                                         │
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Ceiling LED AP]  >>> visible-light downlink >>>  [Laptop / Phone + PD]   │
-│        ▲                                              │                    │
-│        └──────────── IR / RF uplink (optional) ───────┘                    │
-│                                                                            │
-│ Wall blocks light leakage  → higher spatial reuse / stronger room security │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    Li-Fi room cell: light and data together               |
++----------------------------------------------------------------------------+
+| [Ethernet / Switch]                                                       |
+|        |                                                                   |
+|        v                                                                   |
+| [Li-Fi Controller]                                                         |
+|        |                                                                   |
+|        v                                                                   |
+| [Ceiling LED AP]  >>> visible-light downlink >>>  [Laptop / Phone + PD]   |
+|        ^                                              |                    |
+|        +------------ IR / RF uplink (optional) -------+                    |
+|                                                                            |
+| Wall blocks light leakage  -> higher spatial reuse / stronger room security |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 다운로드는 천장 조명에서 넓게 제공하되, 업로드는 적외선이나 다른 보조 채널로 분리할 수 있다는 점이다. 또한 조명 셀 반경이 작아 같은 건물 안에서도 공간 재사용이 쉽고, 벽을 통과하지 않으므로 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높다. 반면 손으로 수신부를 가리거나, 직사광선이 강하게 들어오거나, 단말이 빠르게 이동하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질이 급격히 나빠질 수 있다.
@@ -132,16 +132,16 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 ```text
 광무선 통신 (OWC)
-    │
-    ▼
+    |
+    v
 가시광 통신 (VLC)
-    │
-    ├── IM/DD · LED 변조 · Photodiode 수신
-    │
-    ▼
+    |
+    +-- IM/DD · LED 변조 · Photodiode 수신
+    |
+    v
 Li-Fi 네트워킹
-    │
-    ▼
+    |
+    v
 실내 고밀도 셀 · 보안 구역 통신 · 위치기반 서비스 · 6G 실내망
 ```
 
@@ -159,7 +159,7 @@ Li-Fi 네트워킹
 
 **진행 상황**: 279 / 1120
 
-← **이전**: [157. 테라헤르츠 (THz) - 6G 통신 대상 대역](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)
-**다음**: [159. 음향 통신 (수중 음파 통신)](/knowledge-base/studynote/03_network/03_physical_layer_media/159_underwater_acoustic_communication/) →
+<- **이전**: [157. 테라헤르츠 (THz) - 6G 통신 대상 대역](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)
+**다음**: [159. 음향 통신 (수중 음파 통신)](/knowledge-base/studynote/03_network/03_physical_layer_media/159_underwater_acoustic_communication/) ->
 
 ---

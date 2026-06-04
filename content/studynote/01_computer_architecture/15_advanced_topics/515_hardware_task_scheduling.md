@@ -34,26 +34,26 @@ tags = ["studynote-computer-architecture"]
 일반적인 하드웨어 지원 경로는 작업 기술자 큐, 우선순위·나이 기반 중재기, 의존성 스코어보드, 디스패치 경로, 완료 피드백으로 구성된다. 소프트웨어나 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 엔진이 작업 기술자를 큐에 넣으면, 하드웨어는 준비된 작업만 골라 가장 적절한 실행 유닛에 보낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Hardware-assisted task dispatch                                         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Producer Software / DMA -> Doorbell                                     │
-│        │                                                                 │
-│        ▼                                                                 │
-│   [Ready Queues] -> [Priority + Age Arbiter] -> [Dependency Scoreboard] │
-│                                                   │                      │
-│                                                   ▼                      │
-│                                            [Dispatch Crossbar]           │
-│                                          /        |        \             │
-│                                       Core0     Core1    EngineN         │
-│                                          \        |        /             │
-│                                           [Completion + Credits]         │
-│                                                     │                    │
-│                                                     └─ wake next task    │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Hardware-assisted task dispatch                                         |
++--------------------------------------------------------------------------+
+| Producer Software / DMA -> Doorbell                                     |
+|        |                                                                 |
+|        v                                                                 |
+|   [Ready Queues] -> [Priority + Age Arbiter] -> [Dependency Scoreboard] |
+|                                                   |                      |
+|                                                   v                      |
+|                                            [Dispatch Crossbar]           |
+|                                          /        |        \             |
+|                                       Core0     Core1    EngineN         |
+|                                          \        |        /             |
+|                                           [Completion + Credits]         |
+|                                                     |                    |
+|                                                     +- wake next task    |
++--------------------------------------------------------------------------+
 ```
 
-이 그림이 보여 주는 핵심은 스케줄링이 단일 명령이 아니라, <strong>준비 상태 판별 → 우선순위 선택 → 의존성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → 자원 배정 → 완료 회수</strong>로 이어지는 파이프라인이라는 점이다. 하드웨어화의 효과는 이 각 단계를 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 연결하는 데서 나온다.
+이 그림이 보여 주는 핵심은 스케줄링이 단일 명령이 아니라, <strong>준비 상태 판별 -> 우선순위 선택 -> 의존성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> -> 자원 배정 -> 완료 회수</strong>로 이어지는 파이프라인이라는 점이다. 하드웨어화의 효과는 이 각 단계를 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 연결하는 데서 나온다.
 
 | 블록 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -140,24 +140,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 소프트웨어 시분할 스케줄링
-    │
-    ▼
+    |
+    v
 코어 내부 하드웨어 스레드 선택
-    │
-    ▼
+    |
+    v
 워프 · 요청 단위 하드웨어 디스패치
-    │
-    ▼
+    |
+    v
 큐 기반 가속기 스케줄링 지원
-    │
-    ▼
+    |
+    v
 이종 장치 통합 디스패치
-    │
-    ▼
+    |
+    v
 정책-기구 분리형 계층 스케줄링
 ```
 
-이 흐름은 "범용 소프트웨어 결정 → 장치 내부 빠른 경로 하드웨어화 → 이종 시스템 전체 조율"로 스케줄링이 진화하는 방향을 보여 준다.
+이 흐름은 "범용 소프트웨어 결정 -> 장치 내부 빠른 경로 하드웨어화 -> 이종 시스템 전체 조율"로 스케줄링이 진화하는 방향을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 515 / 803
 
-← **이전**: [514. 소프트웨어 트랜잭셔널 메모리 (Software Transactional Memory, STM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/514_stm/)
-**다음**: [516. 이종 컴퓨팅 메모리 공유 (Heterogeneous Memory Sharing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/516_heterogeneous_memory_sharing/) →
+<- **이전**: [514. 소프트웨어 트랜잭셔널 메모리 (Software Transactional Memory, STM)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/514_stm/)
+**다음**: [516. 이종 컴퓨팅 메모리 공유 (Heterogeneous Memory Sharing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/516_heterogeneous_memory_sharing/) ->
 
 ---

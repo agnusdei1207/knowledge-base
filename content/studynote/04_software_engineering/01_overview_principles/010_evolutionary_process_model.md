@@ -30,10 +30,10 @@ tags = ["software_engineering"]
 이 도식은 선형적 예측 한계와 진화적 적응의 궤적 차이를 보여줍니다.
 
 [선형적 모델의 예측 실패 (폭포수)]
-목표점(Goal) 예측 ───(일직선 개발)──▶ [도착] ... 그러나 시장의 실제 요구는 옆으로 이동함 (실패)
+목표점(Goal) 예측 ---(일직선 개발)---> [도착] ... 그러나 시장의 실제 요구는 옆으로 이동함 (실패)
 
 [진화적 모델의 적응 궤적 (Evolutionary)]
-초기 Core 릴리즈 ─(피드백)─▶ 1차 진화 ─(시장 변화)─▶ 2차 진화 ─(피드백)─▶ 실제 시장 요구에 안착!
+초기 Core 릴리즈 -(피드백)--> 1차 진화 -(시장 변화)--> 2차 진화 -(피드백)--> 실제 시장 요구에 안착!
  (버전 1.0)                 (버전 2.0)                 (버전 3.0)
 ```
 이 도식에서 핵심은 진화적 모델의 개발 궤적이 일직선이 아니라 톱니바퀴처럼 지속적인 '방향 수정(Course Correction)'을 포함한다는 점입니다. 이런 배치는 코드를 한 번 짜고 끝내는 것이 아니라 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)과 확장을 전제로 아키텍처를 수립하게 만들기 때문이며, 따라서 단기적인 구축 비용은 다소 증가할지라도 시스템의 장기적인 생존성과 시장 적합성(Product-Market Fit)을 보장하는 결정적 요인이 됩니다. 실무에서는 B2C 플랫폼 개발에 필수적입니다.
@@ -57,16 +57,16 @@ tags = ["software_engineering"]
 ```text
 이 아키텍처 다이어그램은 코어 시스템을 중심으로 버전이 진화하며 외연이 확장되는 구조를 보여줍니다.
 
-                 ┌─────────────────────────┐
-                 │       Version 3.0       │ (추가 기능, 외부 API 연동 등)
-                 │  ┌───────────────────┐  │
-                 │  │    Version 2.0    │  │ (사용자 편의성 UI, 부가 로직)
-                 │  │  ┌─────────────┐  │  │
-    지속적 확장 ──┼─▶│  │ Core System │  │  │ ◀── 지속적 피드백 수용
-     (Evolution) │  │  │   (v 1.0)   │  │  │
-                 │  │  └─────────────┘  │  │
-                 │  └───────────────────┘  │
-                 └─────────────────────────┘
+                 +-------------------------+
+                 |       Version 3.0       | (추가 기능, 외부 API 연동 등)
+                 |  +-------------------+  |
+                 |  |    Version 2.0    |  | (사용자 편의성 UI, 부가 로직)
+                 |  |  +-------------+  |  |
+    지속적 확장 --+-->|  | Core System |  |  | <--- 지속적 피드백 수용
+     (Evolution) |  |  |   (v 1.0)   |  |  |
+                 |  |  +-------------+  |  |
+                 |  +-------------------+  |
+                 +-------------------------+
 ```
 이 그림의 핵심은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 올라가면서 껍질(외연)이 커지는 구조입니다. 진화적 프로토타이핑(Evolutionary Prototyping)과 나선형(Spiral) 모델은 모두 이 그림처럼 작동합니다. 따라서 가장 안쪽에 있는 Core System([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1.0)의 아키텍처가 엉망으로 설계되어 있으면(예: 스파게티 코드, 강한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0으로 진화하려는 순간 코어가 하중을 견디지 못하고 시스템 전체가 붕괴됩니다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 빠르게 런칭하더라도 DB 정규화나 코어 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계만큼은 고도의 품질을 강제해야 하는 이유가 바로 여기에 있습니다.
 
@@ -88,12 +88,12 @@ tags = ["software_engineering"]
 ```text
 이 매트릭스는 프로젝트 성격에 따라 선형, 진화형, 버리기형을 선택하는 기준을 보여줍니다.
 
-┌───────────────┬───────────────────────────────┬───────────────────────────────┐
-│ 기술적 이해도 │ 요구사항 이해도 (높음)        │ 요구사항 이해도 (낮음)        │
-├───────────────┼───────────────────────────────┼───────────────────────────────┤
-│ 높음 (완벽함) │ 폭포수 모델 (단순/명확한 SI)  │ 버리기형 프로토타입 (UI 중심) │
-│ 낮음 (모호함) │ 점진적 모델 (안전한 확장)     │ ▶ 진화적 모델 / 나선형 모델 ◀│
-└───────────────┴───────────────────────────────┴───────────────────────────────┘
++---------------+-------------------------------+-------------------------------+
+| 기술적 이해도 | 요구사항 이해도 (높음)        | 요구사항 이해도 (낮음)        |
++---------------+-------------------------------+-------------------------------+
+| 높음 (완벽함) | 폭포수 모델 (단순/명확한 SI)  | 버리기형 프로토타입 (UI 중심) |
+| 낮음 (모호함) | 점진적 모델 (안전한 확장)     | -> 진화적 모델 / 나선형 모델 <-|
++---------------+-------------------------------+-------------------------------+
 ```
 이 표의 해석 포인트는 기술적 난이도와 비즈니스 요구사항이 모두 불확실한 최악의 조건(우측 하단)에서 진화적 모델이 구원투수가 된다는 점입니다. 이때 진화적 모델은 '동시 공학(Concurrent 엔진ering)'과 결합합니다. 개발팀이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0을 코딩하고 있는 동시에, 기획팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0의 요구사항을 수집하고, QA팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1.0의 결함을 테스트하는 등 다양한 상태가 겹쳐서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)(Concurrent)됩니다. 이 복잡성을 제어하기 위한 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 역량이 없으면 진화적 모델은 혼돈 상태에 빠집니다.
 
@@ -109,13 +109,13 @@ tags = ["software_engineering"]
 이 의사결정 트리는 진화적 모델 적용 중 마주치는 아키텍처 부패(Rot) 현상의 통제 플로우입니다.
 
 [새로운 기능(v3.0) 추가 요구 접수]
-        │
-        ├─▶ 기존 Core 코드에 억지로 끼워 넣기(Hack) ──▶ (안티패턴) 기술 부채 누적, 차기 릴리즈 불가능
-        │
-        └─▶ 기존 Core 리팩토링(Refactoring) 수행
-                 │
-                 ▼
-          [유연해진 구조 위에 새 기능 깔끔하게 통합] ──▶ 지속 가능한 진화 보장
+        |
+        +--> 기존 Core 코드에 억지로 끼워 넣기(Hack) ---> (안티패턴) 기술 부채 누적, 차기 릴리즈 불가능
+        |
+        +--> 기존 Core 리팩토링(Refactoring) 수행
+                 |
+                 v
+          [유연해진 구조 위에 새 기능 깔끔하게 통합] ---> 지속 가능한 진화 보장
 ```
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 판단</strong>
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 공수 인정</strong>: 진화적 모델에서 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 선택이 아니라 생존 필수재입니다. 경영진과 고객이 "기능 추가 없이 왜 코드를 뜯어고치느라 2주를 허비하느냐"고 물을 때, 이를 기술적으로 설득하고 일정에 포함시킬 수 있는 PM의 역량이 필수적입니다.
@@ -154,18 +154,18 @@ tags = ["software_engineering"]
 
 ```text
 [폭포수 모델 (Waterfall) — 선형 순차 개발]
-    │
-    ▼
+    |
+    v
 [프로토타이핑 (Prototyping) — 초기 요구 불확실성 해소]
-    │
-    ▼
+    |
+    v
 [진화적 모델 (Evolutionary) — 점진적 피드백 반영 개발]
-    │
-    ├─▶ [증분 모델 (Incremental) — 기능 추가 순차 배포]
-    │
-    └─▶ [나선형 모델 (Spiral) — 위험 분석 반복 사이클]
-                │
-                ▼
+    |
+    +--> [증분 모델 (Incremental) — 기능 추가 순차 배포]
+    |
+    +--> [나선형 모델 (Spiral) — 위험 분석 반복 사이클]
+                |
+                v
             [애자일 (Agile) — 짧은 이터레이션 지속 개선]
 ```
 진화적 프로세스 모델은 요구사항의 불확실성을 현실로 받아들이고, 점진적 증분 또는 위험 기반 나선형 사이클을 통해 소프트웨어를 완성해 가는 방법론의 원조다.
@@ -181,7 +181,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 10 / 973
 
-← **이전**: [9. RAD (Rapid Application Development) 모델 - JAD, CASE 도구 활용](/knowledge-base/studynote/04_software_engineering/01_overview_principles/009_rad_model/)
-**다음**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) →
+<- **이전**: [9. RAD (Rapid Application Development) 모델 - JAD, CASE 도구 활용](/knowledge-base/studynote/04_software_engineering/01_overview_principles/009_rad_model/)
+**다음**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) ->
 
 ---

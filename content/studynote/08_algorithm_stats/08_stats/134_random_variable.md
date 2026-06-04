@@ -24,12 +24,12 @@ tags = ["studynote-algorithm"]
 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X 는 표본공간 (Sample Space) Ω 에서 실수로의 **측도 가능 함수 (Measurable Function)**:
 
 ```
-X: Ω → ℝ
+X: Ω -> ℝ
 
 예시:
   Ω = {HH, HT, TH, TT} (동전 2번)
   X(HH) = 2,  X(HT) = 1,  X(TH) = 1,  X(TT) = 0
-  → X = "앞면 나온 횟수"
+  -> X = "앞면 나온 횟수"
 ```
 
 ### 이산 vs 연속 비교
@@ -62,9 +62,9 @@ P(X=x) = pₓ  (각 이산 값에서의 확률 질량)
 
 ```
   P(X=x)
-   1/6 ┤ ■  ■  ■  ■  ■  ■
-       ┤ │  │  │  │  │  │
-       ┼──────────────────────→ x
+   1/6 + ■  ■  ■  ■  ■  ■
+       + |  |  |  |  |  |
+       +-----------------------> x
        0  1  2  3  4  5  6
 ```
 
@@ -83,13 +83,13 @@ F(x) = P(X ≤ x) = Σ_{t≤x} P(X=t)
 
 ```
 F(x)
- 1.0 ┤               ┌───────
- 5/6 ┤           ┌───┘
- 4/6 ┤       ┌───┘
- 3/6 ┤   ┌───┘
- 2/6 ┤ ┌─┘
- 1/6 ┤─┘
-     ┼────────────────────→ x
+ 1.0 +               +-------
+ 5/6 +           +---+
+ 4/6 +       +---+
+ 3/6 +   +---+
+ 2/6 + +-+
+ 1/6 +-+
+     +---------------------> x
      0  1  2  3  4  5  6
 ```
 
@@ -117,19 +117,19 @@ P(a ≤ X ≤ b) = ∫ₐᵇ f(x) dx
 **PMF vs PDF 비교 다이어그램**:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  이산 (PMF)               연속 (PDF)                    │
-│                                                         │
-│  P(X=x)                  f(x)                          │
-│    │                       │    ╭───╮                   │
-│    │ ■  ■                  │   ╭╯   ╰╮                  │
-│    │ │  │  ■  ■            │  ╭╯      ╰╮                │
-│    │ │  │  │  │  ■         │ ╭╯        ╰╮               │
-│    │ │  │  │  │  │  ■      │╭╯           ╰╮             │
-│    └─────────────────→ x   └───────────────→ x          │
-│                                                         │
-│  P(X=k) = 막대 높이       P(a≤X≤b) = 곡선 아래 넓이   │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  이산 (PMF)               연속 (PDF)                    |
+|                                                         |
+|  P(X=x)                  f(x)                          |
+|    |                       |    +---+                   |
+|    | ■  ■                  |   ++   ++                  |
+|    | |  |  ■  ■            |  ++      ++                |
+|    | |  |  |  |  ■         | ++        ++               |
+|    | |  |  |  |  |  ■      |++           ++             |
+|    +------------------> x   +----------------> x          |
+|                                                         |
+|  P(X=k) = 막대 높이       P(a≤X≤b) = 곡선 아래 넓이   |
++---------------------------------------------------------+
 ```
 
 ### 연속형 CDF
@@ -156,7 +156,7 @@ F(x) = P(X ≤ x) = ∫₋∞^x f(t) dt
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) Var[X]
 
 ```
-Var[X] = E[(X-μ)²] = E[X²] - (E[X])²   (계산 공식)
+Var[X] = E[(X-μ)^] = E[X^] - (E[X])^   (계산 공식)
 ```
 
 ### [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환 (Transformation)
@@ -168,8 +168,8 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 연속: f_Y(y) = f_X(g⁻¹(y)) · |dg⁻¹/dy|   (변수 변환 공식)
 
-예: X ~ Uniform(0,1), Y = -ln(X) → Y ~ Exponential(1)
-   (균등 분포 → 지수 분포 변환 — 역변환 샘플링에 사용)
+예: X ~ Uniform(0,1), Y = -ln(X) -> Y ~ Exponential(1)
+   (균등 분포 -> 지수 분포 변환 — 역변환 샘플링에 사용)
 ```
 
 📢 **섹션 요약 비유**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환은 "섭씨온도 데이터를 화씨로 바꾸는 것"처럼, 숫자 척도를 바꿔도 내부 분포 구조를 보존하는 함수 합성이다.
@@ -197,15 +197,15 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 ```
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  결합 분포 → 주변 분포                                │
-│                                                      │
-│  Y↑  │ p₁₁  p₁₂  p₁₃ │  P(X=x₁) = Σⱼ p₁ⱼ         │
-│     │ p₂₁  p₂₂  p₂₃ │  P(X=x₂) = Σⱼ p₂ⱼ         │
-│     │ p₃₁  p₃₂  p₃₃ │  P(X=x₃) = Σⱼ p₃ⱼ         │
-│     └────────────────→ X                            │
-│  P(Y=yⱼ) = Σᵢ pᵢⱼ (행을 따라 합산)                 │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  결합 분포 -> 주변 분포                                |
+|                                                      |
+|  Y^  | p₁₁  p₁₂  p₁₃ |  P(X=x₁) = Σⱼ p₁ⱼ         |
+|     | p₂₁  p₂₂  p₂₃ |  P(X=x₂) = Σⱼ p₂ⱼ         |
+|     | p₃₁  p₃₂  p₃₃ |  P(X=x₃) = Σⱼ p₃ⱼ         |
+|     +-----------------> X                            |
+|  P(Y=yⱼ) = Σᵢ pᵢⱼ (행을 따라 합산)                 |
++------------------------------------------------------+
 ```
 
 ### 몬테카를로 시뮬레이션 (Monte Carlo Simulation)
@@ -220,19 +220,19 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 3. **응용**: 파생상품 가격 결정, 물리 시뮬레이션, 베이즈 사후 분포 추론
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  몬테카를로 π 추정                                   │
-│  단위 원 내부 점 개수 / 전체 점 개수 ≈ π/4          │
-│                                                     │
-│  ┌───────────┐                                      │
-│  │ . ●  . ● │   ● : 원 내부 (성공)                  │
-│  │●  ╭──╮  .│   . : 원 외부 (실패)                  │
-│  │. ╭╯  ╰╮●│                                       │
-│  │●╭╯    ╰╮│   N개 균등 샘플 후                    │
-│  │.╰╮    ╭╯│   π ≈ 4 × (내부 수) / N               │
-│  │ .╰────╯ │                                       │
-│  └───────────┘                                      │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  몬테카를로 π 추정                                   |
+|  단위 원 내부 점 개수 / 전체 점 개수 ≈ π/4          |
+|                                                     |
+|  +-----------+                                      |
+|  | . ●  . ● |   ● : 원 내부 (성공)                  |
+|  |●  +--+  .|   . : 원 외부 (실패)                  |
+|  |. ++  ++●|                                       |
+|  |●++    ++|   N개 균등 샘플 후                    |
+|  |.++    ++|   π ≈ 4 × (내부 수) / N               |
+|  | .+----+ |                                       |
+|  +-----------+                                      |
++-----------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 몬테카를로는 "눈 감고 다트를 수천 번 던져서 원의 넓이를 측정하는 것"이다 — 수학으로 풀기 힘든 문제를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 샘플링으로 근사한다.
@@ -243,7 +243,7 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 변수 → 분포로 특성화 |
+| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 변수 -> 분포로 특성화 |
 | PMF | 이항 분포, 포아송 분포 | 이산형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
 | PDF | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/), 지수 분포 | 연속형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
 | CDF | 분위수 (Quantile), 백분위수 | 역함수로 분위수 계산 |
@@ -256,17 +256,17 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ```text
 [확률 변수 (Random Variable)]
-    │
-    ▼
+    |
+    v
 [PMF (Probability Mass Function)]
-    │
-    ▼
+    |
+    v
 [PDF (Probability Density Function)]
-    │
-    ▼
+    |
+    v
 [CDF (Cumulative Distribution Function)]
-    │
-    ▼
+    |
+    v
 [결합 분포 (Joint Distribution)]
 ```
 
@@ -284,7 +284,7 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 **진행 상황**: 134 / 175
 
-← **이전**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/)
-**다음**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]] →
+<- **이전**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/)
+**다음**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]] ->
 
 ---

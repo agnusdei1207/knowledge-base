@@ -31,7 +31,7 @@ Jenkinsfile로 관리하면 [코드 리뷰](/knowledge-base/studynote/04_softwar
 
 ```text
 Jenkinsfile
-  ↓ declarative pipeline
+  v declarative pipeline
 Stages / Steps
 ```
 
@@ -103,11 +103,11 @@ Jenkinsfile은 [파이프](/knowledge-base/studynote/02_operating_system/02_proc
 
 ```text
 Jenkinsfile
-  ↓
+  v
 Declarative Pipeline
-  ↓
+  v
 Stages / Steps
-  ↓
+  v
 CI/CD
 ```
 
@@ -117,9 +117,9 @@ CI/CD
 
 ```text
 Pipeline as Code
-  ↓
+  v
 Jenkinsfile
-  ↓
+  v
 Declarative Pipeline
 ```
 
@@ -137,7 +137,7 @@ Declarative Pipeline
 
 **진행 상황**: 72 / 373
 
-← **이전**: [71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)
-**다음**: [073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/) →
+<- **이전**: [71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)
+**다음**: [073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/) ->
 
 ---

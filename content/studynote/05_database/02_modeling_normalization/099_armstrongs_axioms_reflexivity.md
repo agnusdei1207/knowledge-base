@@ -32,19 +32,19 @@ tags = ["database"]
    - 꼬리물기다. `사번 \rightarrow 부서코드`이고 `부서코드 \rightarrow 부서명`이면, 결과적으로 `사번 \rightarrow 부서명`이 성립한다. [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 위반의 핵심 원인이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  암스트롱의 3대 기본 공리 흐름                │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 반사 (Reflexivity)  : [ X, Y ] ────────────▶ [ Y ]       │
-│                          (전체 집합은 부분 집합을 결정함)     │
-│                                                              │
-│ 2. 첨가 (Augmentation) : [ X ] ─▶ [ Y ]  => [ X, Z ] ─▶ [ Y, Z ] │
-│                          (양쪽에 같은 속성 Z를 더해도 유지됨) │
-│                                                              │
-│ 3. 이행 (Transitivity) : [ X ] ─▶ [ Y ] ─▶ [ Z ]           │
-│                          => [ X ] ───────────▶ [ Z ]       │
-│                          (건너뛰기 결정이 가능함)             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  암스트롱의 3대 기본 공리 흐름                |
++--------------------------------------------------------------+
+| 1. 반사 (Reflexivity)  : [ X, Y ] -------------> [ Y ]       |
+|                          (전체 집합은 부분 집합을 결정함)     |
+|                                                              |
+| 2. 첨가 (Augmentation) : [ X ] --> [ Y ]  => [ X, Z ] --> [ Y, Z ] |
+|                          (양쪽에 같은 속성 Z를 더해도 유지됨) |
+|                                                              |
+| 3. 이행 (Transitivity) : [ X ] --> [ Y ] --> [ Z ]           |
+|                          => [ X ] ------------> [ Z ]       |
+|                          (건너뛰기 결정이 가능함)             |
++--------------------------------------------------------------+
 ```
 
 이 세 가지 공리는 <strong>건전성(Soundness, 잘못된 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 만들지 않음)</strong>과 <strong>완전성(Completeness, 모든 참인 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 찾을 수 있음)</strong>을 수학적으로 보장한다.
@@ -100,17 +100,17 @@ tags = ["database"]
 
 ```text
 비즈니스 룰 분석
-    │
-    ▼
+    |
+    v
 명시적 함수적 종속성 (FD) 도출
-    │
-    ▼
+    |
+    v
 암스트롱의 공리 (Armstrong's Axioms) 적용
-    │ (반사, 첨가, 이행을 통한 폐포 F+ 계산)
-    ▼
+    | (반사, 첨가, 이행을 통한 폐포 F+ 계산)
+    v
 숨겨진 종속성 (이행적 종속 등) 발견
-    │
-    ▼
+    |
+    v
 정규화 (Normalization) 및 무손실 분해 검증
 ```
 
@@ -126,7 +126,7 @@ tags = ["database"]
 
 **진행 상황**: 99 / 600
 
-← **이전**: [98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/)
-**다음**: [100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정](/knowledge-base/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/) →
+<- **이전**: [98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/)
+**다음**: [100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정](/knowledge-base/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/) ->
 
 ---

@@ -46,19 +46,19 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 해독 단계가 단일 동작이 아니라 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 준비 단계임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                해독 사이클의 병렬 준비 흐름                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ IR 입력                                                             │
-│  │                                                                   │
-│  ├──▶ Opcode 분리 ───────▶ 디코더 ───────▶ 제어 신호 생성           │
-│  │                                                                   │
-│  ├──▶ rs / rt 분리 ───────▶ 레지스터 파일 읽기 ─▶ 피연산자 준비     │
-│  │                                                                   │
-│  └──▶ Immediate 분리 ────▶ 부호/영 확장 ─────▶ ALU 입력 후보 준비   │
-│                                                                      │
-│ 결과: "무엇을 할지"와 "무엇으로 할지"를 같은 클럭 안에 정렬        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                해독 사이클의 병렬 준비 흐름                         |
++----------------------------------------------------------------------+
+| IR 입력                                                             |
+|  |                                                                   |
+|  +---> Opcode 분리 --------> 디코더 --------> 제어 신호 생성           |
+|  |                                                                   |
+|  +---> rs / rt 분리 --------> 레지스터 파일 읽기 --> 피연산자 준비     |
+|  |                                                                   |
+|  +---> Immediate 분리 -----> 부호/영 확장 ------> ALU 입력 후보 준비   |
+|                                                                      |
+| 결과: "무엇을 할지"와 "무엇으로 할지"를 같은 클럭 안에 정렬        |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 해독 단계가 순차 번역기가 아니라 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분배기라는 점이다. 명령 종류를 완전히 이해한 다음 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 읽는 것이 아니라, 필드 구조가 정해져 있다는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 규칙을 이용해 여러 준비를 동시에 시작한다. 그래서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 구조는 [고정 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/171_fixed_length_instruction/) 덕분에 이런 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 쉽고, [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 구조는 길이와 형식이 다양해 해독 회로가 더 무거워진다.
@@ -143,17 +143,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 명령어 인출 (Fetch)
-    │
-    ▼
+    |
+    v
 명령어 형식 해석 · opcode 분리
-    │
-    ▼
+    |
+    v
 레지스터 읽기 · 즉치값 확장 · 제어 신호 생성
-    │
-    ▼
+    |
+    v
 해저드 감지 · 분기 조기 판단
-    │
-    ▼
+    |
+    v
 uOP 변환 · uOP 캐시 · 프론트엔드 최적화
 ```
 
@@ -171,7 +171,7 @@ uOP 변환 · uOP 캐시 · 프론트엔드 최적화
 
 **진행 상황**: 209 / 803
 
-← **이전**: [208. 인출 사이클 (Fetch Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/)
-**다음**: [210. 실행 사이클 (Execute Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/) →
+<- **이전**: [208. 인출 사이클 (Fetch Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/)
+**다음**: [210. 실행 사이클 (Execute Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/) ->
 
 ---

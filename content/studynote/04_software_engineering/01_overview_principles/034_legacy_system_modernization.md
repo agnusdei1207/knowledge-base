@@ -39,12 +39,12 @@ tags = ["studynote-software-engineering"]
 ```
 6R 전략 (Cloud Migration + Modernization):
 
-Retain    → 현상 유지 (수명 연장, 일정 기간 유지)
-Retire    → 폐기 (사용하지 않는 시스템 제거)
-Rehost    → 리호스팅 "Lift & Shift" (코드 변경 없이 클라우드 이전)
-Replatform→ 리플랫폼 (최소 변경, 클라우드 최적화)
-Refactor  → 리팩터 (아키텍처 재설계, MSA 전환)
-Replace   → 교체 (SaaS·COTS 제품으로 대체)
+Retain    -> 현상 유지 (수명 연장, 일정 기간 유지)
+Retire    -> 폐기 (사용하지 않는 시스템 제거)
+Rehost    -> 리호스팅 "Lift & Shift" (코드 변경 없이 클라우드 이전)
+Replatform-> 리플랫폼 (최소 변경, 클라우드 최적화)
+Refactor  -> 리팩터 (아키텍처 재설계, MSA 전환)
+Replace   -> 교체 (SaaS·COTS 제품으로 대체)
 ```
 
 ### [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 기준
@@ -68,14 +68,14 @@ Martin Fowler가 제안한 <strong>점진적 레거시 교체 패턴</strong>이
 Strangler Fig 전환 단계:
 
 1단계: 새 API 게이트웨이/프록시 앞에 배치
-   [클라이언트] → [API Gateway] → [레거시 모놀리스]
+   [클라이언트] -> [API Gateway] -> [레거시 모놀리스]
 
 2단계: 기능을 하나씩 새 MSA로 이관
-   [클라이언트] → [API Gateway] → [신규 MSA 1 (주문)]
-                              → [레거시 (나머지)]
+   [클라이언트] -> [API Gateway] -> [신규 MSA 1 (주문)]
+                              -> [레거시 (나머지)]
 
 3단계: 레거시가 완전히 대체됨
-   [클라이언트] → [API Gateway] → [MSA 1, 2, 3, ...]
+   [클라이언트] -> [API Gateway] -> [MSA 1, 2, 3, ...]
    (레거시 종료)
 ```
 
@@ -118,20 +118,20 @@ Strangler Fig 전환 단계:
 
 ```
 레거시 시스템 현대화
-├── 전략 프레임워크
-│   ├── 6R (Retain/Retire/Rehost/Replatform/Refactor/Replace)
-│   └── 기술 부채 측정 (SQALE·SonarQube)
-├── 전환 패턴
-│   ├── Strangler Fig (점진적 교체)
-│   ├── Branch by Abstraction
-│   └── Event Interception
-├── KPI
-│   ├── DORA 4대 지표 (배포 빈도·리드 타임·MTTR·변경 실패율)
-│   └── 비용 절감 (TCO)
-└── 연관 기술
-    ├── 마이크로서비스 아키텍처
-    ├── API Gateway
-    └── 역 콘웨이 기동
++-- 전략 프레임워크
+|   +-- 6R (Retain/Retire/Rehost/Replatform/Refactor/Replace)
+|   +-- 기술 부채 측정 (SQALE·SonarQube)
++-- 전환 패턴
+|   +-- Strangler Fig (점진적 교체)
+|   +-- Branch by Abstraction
+|   +-- Event Interception
++-- KPI
+|   +-- DORA 4대 지표 (배포 빈도·리드 타임·MTTR·변경 실패율)
+|   +-- 비용 절감 (TCO)
++-- 연관 기술
+    +-- 마이크로서비스 아키텍처
+    +-- API Gateway
+    +-- 역 콘웨이 기동
 ```
 
 ---
@@ -139,22 +139,22 @@ Strangler Fig 전환 단계:
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              레거시 현대화 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2004년       │ Strangler Fig 제안 │ Martin Fowler, MSA 전환 패턴│
-│ 2010년       │ 클라우드 이전 붐   │ AWS 6R 전략 표준화           │
-│ 2015년       │ 마이크로서비스     │ Netflix·Amazon MSA 공개      │
-│ 2018년       │ DORA 보고서        │ DevOps 현대화 지표 체계화    │
-│ 2020년대     │ Platform Eng.      │ 현대화 + 개발자 플랫폼 통합 │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              레거시 현대화 발전 흐름                             |
++--------------+--------------------+-----------------------------+
+| 2004년       | Strangler Fig 제안 | Martin Fowler, MSA 전환 패턴|
+| 2010년       | 클라우드 이전 붐   | AWS 6R 전략 표준화           |
+| 2015년       | 마이크로서비스     | Netflix·Amazon MSA 공개      |
+| 2018년       | DORA 보고서        | DevOps 현대화 지표 체계화    |
+| 2020년대     | Platform Eng.      | 현대화 + 개발자 플랫폼 통합 |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-레거시 진단 → 6R 전략 선택 → Strangler Fig 점진 전환
-    ↓              ↓                    ↓
+레거시 진단 -> 6R 전략 선택 -> Strangler Fig 점진 전환
+    v              v                    v
 기술 부채 측정  Lift&Shift/Refactor  API Gateway + MSA
-    ↓
-DORA 지표 개선 → 비즈니스 민첩성 확보
+    v
+DORA 지표 개선 -> 비즈니스 민첩성 확보
 ```
 
 ---
@@ -171,7 +171,7 @@ DORA 지표 개선 → 비즈니스 민첩성 확보
 
 **진행 상황**: 34 / 973
 
-← **이전**: [기술 부채 (Technical Debt)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/033_technical_debt/)
-**다음**: [035. PMBOK 10대 지식 영역](/knowledge-base/studynote/04_software_engineering/01_overview_principles/035_pmbok_10_knowledge_areas/) →
+<- **이전**: [기술 부채 (Technical Debt)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/033_technical_debt/)
+**다음**: [035. PMBOK 10대 지식 영역](/knowledge-base/studynote/04_software_engineering/01_overview_principles/035_pmbok_10_knowledge_areas/) ->
 
 ---

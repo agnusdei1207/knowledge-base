@@ -31,14 +31,14 @@ tags = ["studynote-design"]
 
 ```text
 주 센터
-  ├─ 운영 DB
-  ├─ 애플리케이션
-  └─ 서비스 트래픽
-        ↓ Failover
+  +- 운영 DB
+  +- 애플리케이션
+  +- 서비스 트래픽
+        v Failover
 DR 센터
-  ├─ 복제 DB
-  ├─ 대기 시스템
-  └─ 복구 절차
+  +- 복제 DB
+  +- 대기 시스템
+  +- 복구 절차
 ```
 
 | 용어 | 의미 |
@@ -107,13 +107,13 @@ Hot Site는 거의 실시간 [복제](/knowledge-base/studynote/14_data_engineer
 
 ```text
 BCP / DRP
-   ↓
+   v
 Failover
-   ↓
+   v
 RTO / RPO
-   ↓
+   v
 Failback
-   ↓
+   v
 Service Continuity
 ```
 
@@ -123,13 +123,13 @@ Service Continuity
 
 ```text
 백업
-   ↓
+   v
 DR 센터
-   ↓
+   v
 모의 훈련
-   ↓
+   v
 RTO / RPO 검증
-   ↓
+   v
 지속적 복구 체계
 ```
 
@@ -147,7 +147,7 @@ RTO / RPO 검증
 
 **진행 상황**: 92 / 530
 
-← **이전**: [60. 공공데이터 개방 (Open Data) 표준 규격 및 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/)
-**다음**: [62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/062_backup_archiving_policy/) →
+<- **이전**: [60. 공공데이터 개방 (Open Data) 표준 규격 및 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/)
+**다음**: [62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/062_backup_archiving_policy/) ->
 
 ---

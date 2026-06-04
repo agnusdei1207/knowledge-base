@@ -35,7 +35,7 @@ tags = ["studynote-bigdata"]
 | 접근 요청 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 누가 승인 권한자인지 불명확 |
 | 규제 대응 실패 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 시 책임 소재 불분명 |
 | 과도한 접근 권한 | [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) 집행자 부재 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 불이행 | 보유 기간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 부재 → 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 축적 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 불이행 | 보유 기간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 부재 -> 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 축적 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 방치 | 품질 기준 결정 권한자 없음 |
 
 **📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>무주공산(無主空山)</strong>과 같다. 아무도 책임지지 않으면 누구나 사용하다가 결국 아무도 관리하지 않게 된다.
@@ -47,26 +47,26 @@ tags = ["studynote-bigdata"]
 ### 2.1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 위치와 책임 구조
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│                    데이터 거버넌스 책임 계층                     │
-│                                                               │
-│  ┌─────────────────────────────────────────────────────────┐  │
-│  │  CDO (Chief Data Officer)                               │  │
-│  │  전사 데이터 전략 및 거버넌스 총괄                         │  │
-│  └───────────────────────────────────┬─────────────────────┘  │
-│                                      │ 도메인별 위임             │
-│  ┌──────────────┬──────────────┬─────▼─────────────────────┐  │
-│  │ Customer DO  │ Finance DO   │    Product DO              │  │
-│  │ (CMO급)      │ (CFO급)      │    (CPO급)                 │  │
-│  │              │              │                            │  │
-│  │ 고객 도메인   │ 재무 도메인   │ 제품 도메인                │  │
-│  │ 접근정책 결정 │ 접근정책 결정 │ 접근정책 결정              │  │
-│  └──────┬───────┴──────┬───────┴────────────┬──────────────┘  │
-│         │              │                    │                 │
-│         ▼              ▼                    ▼                 │
-│     Data Steward   Data Steward         Data Steward         │
-│     (운영 위임)     (운영 위임)           (운영 위임)           │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                    데이터 거버넌스 책임 계층                     |
+|                                                               |
+|  +---------------------------------------------------------+  |
+|  |  CDO (Chief Data Officer)                               |  |
+|  |  전사 데이터 전략 및 거버넌스 총괄                         |  |
+|  +-----------------------------------+---------------------+  |
+|                                      | 도메인별 위임             |
+|  +--------------+--------------+-----v---------------------+  |
+|  | Customer DO  | Finance DO   |    Product DO              |  |
+|  | (CMO급)      | (CFO급)      |    (CPO급)                 |  |
+|  |              |              |                            |  |
+|  | 고객 도메인   | 재무 도메인   | 제품 도메인                |  |
+|  | 접근정책 결정 | 접근정책 결정 | 접근정책 결정              |  |
+|  +------+-------+------+-------+------------+--------------+  |
+|         |              |                    |                 |
+|         v              v                    v                 |
+|     Data Steward   Data Steward         Data Steward         |
+|     (운영 위임)     (운영 위임)           (운영 위임)           |
++---------------------------------------------------------------+
 ```
 
 ### 2.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner의 핵심 책임 6가지
@@ -125,34 +125,34 @@ tags = ["studynote-bigdata"]
 
 ```
 [접근 요청자가 시스템에 요청]
-         │
-         ▼
+         |
+         v
 [Data Steward: 비즈니스 필요성·위험 검토]
-         │
-    ┌────▼────┐
-    │ 저위험  │──▶ Steward가 직접 승인 (위임 권한 내)
-    └────┬────┘
-         │고위험 / 대량 데이터
-         ▼
+         |
+    +----v----+
+    | 저위험  |---> Steward가 직접 승인 (위임 권한 내)
+    +----+----+
+         |고위험 / 대량 데이터
+         v
 [Data Owner: 최종 승인/거부]
-         │
-         ▼
+         |
+         v
 [Data Custodian: 기술적 권한 부여]
-         │
-         ▼
+         |
+         v
 [감사 로그에 이력 기록]
 ```
 
 ### 4.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패 패턴
 
-- **공동 소유 함정**: "모든 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner"라고 선언 → 실질적 책임자 없음
-- **IT 위임 함정**: IT 팀장을 Owner로 지정 → 비즈니스 맥락 없는 기술적 결정
-- **겸직 과부하**: 한 임원이 10개 이상 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Owner → 형식적 역할만 유지
+- **공동 소유 함정**: "모든 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner"라고 선언 -> 실질적 책임자 없음
+- **IT 위임 함정**: IT 팀장을 Owner로 지정 -> 비즈니스 맥락 없는 기술적 결정
+- **겸직 과부하**: 한 임원이 10개 이상 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Owner -> 형식적 역할만 유지
 
 ### 4.3 기술사 답안 핵심 포인트
 
 - [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner ≠ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 소유한다는 의미 (법적 소유권 개념 아님)
-- [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 24: Controller는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subject 권리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 적절한 기술·조직적 조치를 취해야 함 → [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할의 법적 근거
+- [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 24: Controller는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subject 권리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 적절한 기술·조직적 조치를 취해야 함 -> [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할의 법적 근거
 - 조직이 클수록 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Owner를 세분화하고, 작은 조직은 CDO가 Owner 기능 겸직 가능
 
 **📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패는 <strong>선장 없는 배</strong>와 같다. 선원(Steward, Custodian)이 아무리 잘 해도, 배의 방향([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 결정하는 선장이 없으면 항구에 도착하지 못한다.
@@ -196,20 +196,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 생성 (Data Creation) — 비즈니스 프로세스에서 데이터 발생]
-    │
-    ▼
+    |
+    v
 [데이터 오너 (Data Owner) — 데이터 자산의 최종 책임자 지정]
-    │
-    ▼
+    |
+    v
 [데이터 스튜어드 (Data Steward) — 일상적 품질·분류 관리 담당자]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 위원회 (DGC) — 정책 수립·충돌 조정 조직]
-    │
-    ▼
+    |
+    v
 [데이터 메시 도메인 오너십 — 도메인팀이 데이터 제품 소유·배포]
-    │
-    ▼
+    |
+    v
 [GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오너는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 책임 주체로, 스튜어드와의 역할 분담을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·컴플라이언스를 조직적으로 보장한다.
@@ -226,7 +226,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 200 / 262
 
-← **이전**: [193. 데이터 스튜어드 (Data Steward) — 도메인 데이터 책임자](/knowledge-base/studynote/16_bigdata/10_governance/199_data_steward/)
-**다음**: [195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성](/knowledge-base/studynote/16_bigdata/10_governance/201_data_quality_dimensions/) →
+<- **이전**: [193. 데이터 스튜어드 (Data Steward) — 도메인 데이터 책임자](/knowledge-base/studynote/16_bigdata/10_governance/199_data_steward/)
+**다음**: [195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성](/knowledge-base/studynote/16_bigdata/10_governance/201_data_quality_dimensions/) ->
 
 ---

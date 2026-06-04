@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [AH]
-    │
-    ▼
+    |
+    v
 [ESP]
-    │
-    └──▶ [IKE, ISAKMP, SA]
+    |
+    +---> [IKE, ISAKMP, SA]
 ```
 
 - **📢 섹션 요약 비유**: ** ESP는 보안을 위해 내용물을 **"블랙박스"** 처리하면서도, 겉면의 배송 딱지는 우체국이 맘대로 고쳐 쓸 수 있게 허용하는 **"융통성 있는 1티어 배달원"**입니다. 이 융통성 덕분에 전 세계 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 시장을 통일했습니다.
@@ -56,22 +56,22 @@ tags = ["studynote-network"]
 - **결과**: 중간에 집 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 `New IP 헤더`의 출발지 주소를 자기 맘대로 사설 IP에서 공인 IP로 뜯어고쳐도, <strong>어차피 거기는 도장이 안 찍힌 구역이라 목적지 방화벽이 검사할 때 "에러 없음!"으로 무사 통과(합격)</strong>하게 된다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ESP의 암호화와 인증(무결성) 범위 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 패킷 전체 구조 ]                                            │
- │   [ New IP ] ─ [ ESP 헤더 ] ─ [ 원본 IP ] ─ [ Data ] ─ [ ESP 꼬리 ] │
- │                                                             │
- │   1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)                    │
- │      ▶ [ 원본 IP ] 부터 [ Data ] 끝까지!                         │
- │                                                             │
- │   2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)              │
- │      ▶ [ ESP 헤더 ] 부터 [ ESP 꼬리 ] 끝까지!                    │
- │                                                             │
- │   3) 아무 보호도 받지 않는 헐벗은 구역                             │
- │      ▶ [ New IP ] (덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!) │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                ESP의 암호화와 인증(무결성) 범위 도식             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 패킷 전체 구조 ]                                            |
+ |   [ New IP ] - [ ESP 헤더 ] - [ 원본 IP ] - [ Data ] - [ ESP 꼬리 ] |
+ |                                                             |
+ |   1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)                    |
+ |      -> [ 원본 IP ] 부터 [ Data ] 끝까지!                         |
+ |                                                             |
+ |   2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)              |
+ |      -> [ ESP 헤더 ] 부터 [ ESP 꼬리 ] 끝까지!                    |
+ |                                                             |
+ |   3) 아무 보호도 받지 않는 헐벗은 구역                             |
+ |      -> [ New IP ] (덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!) |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ESP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -129,12 +129,12 @@ ESP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ```text
 [선행 개념: AH]
-    │
-    ▼
+    |
+    v
 [현재 개념: ESP]
-    │
-    ├──▶ [확장 A: IKE, ISAKMP, SA]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: IKE, ISAKMP, SA]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), ISAKMP, SA와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -151,7 +151,7 @@ ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 [IKE](/
 
 **진행 상황**: 503 / 1120
 
-← **이전**: [381. AH (Authentication Header)](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/)
-**다음**: [383. IKE (Internet Key Exchange), ISAKMP, SA (Security Associations)](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) →
+<- **이전**: [381. AH (Authentication Header)](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/)
+**다음**: [383. IKE (Internet Key Exchange), ISAKMP, SA (Security Associations)](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) ->
 
 ---

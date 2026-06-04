@@ -32,11 +32,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAT]
-    │
-    ▼
+    |
+    v
 [Static NAT / Dynamic NAT…]
-    │
-    └──▶ [헤어핀 NAT]
+    |
+    +---> [헤어핀 NAT]
 ```
 
 - **📢 섹션 요약 비유**: ** 우리가 집에서 쓰는 'ipTime 공유기'는 사실 공유기가 아니라 **"PAT([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소 변환기)"**라고 부르는 것이 기술적으로 가장 정확한 명칭입니다. IP 하나를 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)로 썰어서 가족 모두에게 나눠주는 기계이기 때문입니다.
@@ -67,19 +67,19 @@ tags = ["studynote-network"]
   - 공유기는 장부를 뒤져보고 "아 5000번은 아까 내 폰(`192.168.0.2`)이 보낸 거네!" 하고 정확하게 내 폰으로만 패킷을 돌려준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 PAT (NAPT)의 1:N 포트 변환 마법 도식              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 집안 식구들 ]                 [ 공유기 (211.x.x.x) ]         │
- │                                     (NAT 장부)                │
- │   아빠 폰 (192.168.0.10) ───▶ [ 211.x.x.x : 포트 10001 ] ───▶ │
- │   엄마 폰 (192.168.0.11) ───▶ [ 211.x.x.x : 포트 10002 ] ───▶ │
- │   내 PC  (192.168.0.12) ───▶ [ 211.x.x.x : 포트 10003 ] ───▶ │
- │                                                             │
- │   ▶ 결과: 공유기 밖(인터넷)에서 보면 그냥 211.x.x.x 라는 놈 혼자서  │
- │          포트 번호만 바꿔가며 수만 개의 인터넷 창을 띄운 것처럼 보임! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 PAT (NAPT)의 1:N 포트 변환 마법 도식              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 집안 식구들 ]                 [ 공유기 (211.x.x.x) ]         |
+ |                                     (NAT 장부)                |
+ |   아빠 폰 (192.168.0.10) ----> [ 211.x.x.x : 포트 10001 ] ----> |
+ |   엄마 폰 (192.168.0.11) ----> [ 211.x.x.x : 포트 10002 ] ----> |
+ |   내 PC  (192.168.0.12) ----> [ 211.x.x.x : 포트 10003 ] ----> |
+ |                                                             |
+ |   -> 결과: 공유기 밖(인터넷)에서 보면 그냥 211.x.x.x 라는 놈 혼자서  |
+ |          포트 번호만 바꿔가며 수만 개의 인터넷 창을 띄운 것처럼 보임! |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** PAT는 우체국 사서함과 같습니다. 우체국 건물 주소(공인 IP)는 단 1개지만, 건물 벽면에 뚫린 수만 개의 **"작은 사서함 칸([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))"** 덕분에 수만 명의 사람이 절대 우편물을 헷갈리지 않고 안전하게 받아볼 수 있습니다.
@@ -140,12 +140,12 @@ Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_ne
 
 ```text
 [선행 개념: NAT]
-    │
-    ▼
+    |
+    v
 [현재 개념: Static NAT / Dynamic NAT…]
-    │
-    ├──▶ [확장 A: 헤어핀 NAT]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 헤어핀 NAT]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) / Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)…는 NAT에서 출발해 현재 메커니즘을 정교화하고, 이후 헤어핀 NAT와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_ne
 
 **진행 상황**: 429 / 1120
 
-← **이전**: [307. NAT (Network Address Translation)](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)
-**다음**: [309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)](/knowledge-base/studynote/03_network/06_network_layer_ip/309_hairpin_nat_loopback/) →
+<- **이전**: [307. NAT (Network Address Translation)](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)
+**다음**: [309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)](/knowledge-base/studynote/03_network/06_network_layer_ip/309_hairpin_nat_loopback/) ->
 
 ---

@@ -107,15 +107,15 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 ```text
 탐색 공간 정의
-   ↓
+   v
 후보 생성
-   ↓
+   v
 학습 / 검증
-   ↓
+   v
 성능 평가
-   ↓
+   v
 다음 후보 선택
-   ↓
+   v
 최종 모델 확정
 ```
 
@@ -131,7 +131,7 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 **진행 상황**: 153 / 587
 
-← **이전**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/)
-**다음**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) →
+<- **이전**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/)
+**다음**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ->
 
 ---

@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 메모리 낭비의 굴레를 박살 낸 구원자가 마이크로소프트의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/">Zero Redundancy Optimizer</a>)</strong>다. "아니, 어차피 8명이 다 똑같은 장부를 복사해서 들고 있을 거면, 차라리 장부를 8쪽으로 북북 찢어서 1명당 1쪽씩만 들고 있으면 메모리가 8분의 1로 텅텅 비지 않겠어?!"라는 발상의 전환. 이것이 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 최적화가 전 세계 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 표준(De Facto)으로 등극한 위대한 서막이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 8명의 학생이 조별 과제를 하는데, DDP(구형)는 8명 모두가 각자 100쪽짜리 두꺼운 전과 백과사전(모델 상태)을 가방에 무겁게 넣고 다니며 똑같은 걸 보는 짓이다. 가방이 찢어진다. [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)(새로운 유형의)는 전과 백과사전을 8등분 해서 북북 찢은 다음, 1번 학생은 1~12페이지만 들고, 2번 학생은 13~24페이지만 가방에 넣고 가볍게 다니는 것이다. 만약 2번 학생이 1번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하면 0.1초 만에 1번 학생에게 카톡을 쳐서 빌려보면 된다. 가방의 여유 공간이 무한대로 늘어난다.
@@ -44,26 +44,26 @@ tags = ["studynote-ai"]
 ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태, 기울기, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 단계적으로 찢어발기는 3가지 Stage 아키텍처로 작동한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ZeRO (DeepSpeed)의 3단계 메모리 파티셔닝(찢기) 아키텍처         │
-├──────────────────────────────────────────────────────────────┤
-│  [메모리 도둑 3대장]: 파라미터(Weight) / 기울기(Gradient) / 옵티마이저(Adam) │
-│                                                              │
-│  [ ZeRO Stage 1: 옵티마이저 찢기 (가성비 甲) ]                      │
-│   * 훈련 시 가장 뚱뚱하게 메모리를 처먹는 놈은 '옵티마이저의 모멘텀 상태'임.       │
-│   * 조치: 옵티마이저 장부만 GPU 개수(N)만큼 N등분 해서 각자 나눠 가짐.       │
-│   * 효과: 통신 지연 거의 없이 메모리 용량을 확! 비워버림 (기본으로 무조건 켬).   │
-│                                                              │
-│  [ ZeRO Stage 2: 기울기(Gradient)까지 찢기 ]                     │
-│   * 조치: 오차를 계산한 기울기 숫자들마저 N등분으로 찢어서 파티셔닝함.         │
-│   * 효과: 메모리가 절반 더 비워짐. 여기까지가 훈련 속도와 타협할 수 있는 마지노선.│
-│                                                              │
-│  [ ZeRO Stage 3: 파라미터(모델 가중치 뇌)마저 갈기갈기 찢기 ]          │
-│   * 조치: 각 GPU는 모델 전체를 모름. 파라미터마저 조각조각 나눠 가짐.          │
-│   * 효과: VRAM 메모리가 기적처럼 텅텅 비어, 1조 개짜리 모델도 훈련 가능!      │
-│   * 부작용: 1번 GPU가 훈련하다가 남의 파라미터 조각이 필요할 때마다 옆 GPU에    │
-│             전화 걸어(통신) 받아와야 하므로 네트워크 랜선이 불타며 엄청 느려짐!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ZeRO (DeepSpeed)의 3단계 메모리 파티셔닝(찢기) 아키텍처         |
++--------------------------------------------------------------+
+|  [메모리 도둑 3대장]: 파라미터(Weight) / 기울기(Gradient) / 옵티마이저(Adam) |
+|                                                              |
+|  [ ZeRO Stage 1: 옵티마이저 찢기 (가성비 甲) ]                      |
+|   * 훈련 시 가장 뚱뚱하게 메모리를 처먹는 놈은 '옵티마이저의 모멘텀 상태'임.       |
+|   * 조치: 옵티마이저 장부만 GPU 개수(N)만큼 N등분 해서 각자 나눠 가짐.       |
+|   * 효과: 통신 지연 거의 없이 메모리 용량을 확! 비워버림 (기본으로 무조건 켬).   |
+|                                                              |
+|  [ ZeRO Stage 2: 기울기(Gradient)까지 찢기 ]                     |
+|   * 조치: 오차를 계산한 기울기 숫자들마저 N등분으로 찢어서 파티셔닝함.         |
+|   * 효과: 메모리가 절반 더 비워짐. 여기까지가 훈련 속도와 타협할 수 있는 마지노선.|
+|                                                              |
+|  [ ZeRO Stage 3: 파라미터(모델 가중치 뇌)마저 갈기갈기 찢기 ]          |
+|   * 조치: 각 GPU는 모델 전체를 모름. 파라미터마저 조각조각 나눠 가짐.          |
+|   * 효과: VRAM 메모리가 기적처럼 텅텅 비어, 1조 개짜리 모델도 훈련 가능!      |
+|   * 부작용: 1번 GPU가 훈련하다가 남의 파라미터 조각이 필요할 때마다 옆 GPU에    |
+|             전화 걸어(통신) 받아와야 하므로 네트워크 랜선이 불타며 엄청 느려짐!|
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (동적 브로드캐스트통신과 수집)**:
@@ -136,7 +136,7 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [ZeRO (Zero Redundancy Optimizer)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [ZeRO (Zero Redundancy Optimizer)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -151,7 +151,7 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 
 **진행 상황**: 189 / 420
 
-← **이전**: [188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/188_multi_gpu_distributed_training/)
-**다음**: [190. 연합 학습 (Federated Learning)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/190_federated_learning/) →
+<- **이전**: [188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/188_multi_gpu_distributed_training/)
+**다음**: [190. 연합 학습 (Federated Learning)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/190_federated_learning/) ->
 
 ---

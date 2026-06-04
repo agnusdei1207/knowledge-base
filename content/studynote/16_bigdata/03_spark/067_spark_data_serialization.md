@@ -63,20 +63,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 [Java 기본 직렬화 (Java Serialization) — 느리고 무거운 리플렉션 기반, Spark 기본값]
-    │
-    ▼
+    |
+    v
 [Kryo 직렬화 — 수동 등록 필요하나 Java 대비 10배 빠름, Spark 권장]
-    │
-    ▼
+    |
+    v
 [Apache Avro — 스키마 진화 지원, Kafka 메시지 직렬화 표준]
-    │
-    ▼
+    |
+    v
 [Apache Parquet — 컬럼 지향 파일 포맷, 스키마 내장·압축 최적화]
-    │
-    ▼
+    |
+    v
 [Apache Arrow — 인메모리 컬럼 포맷, 직렬화 없는 Zero-copy 공유, Spark 4.x+ 내부 표준]
 ```
-이 흐름은 Spark 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 오버헤드를 줄이기 위해 Java→Kryo→Avro/Parquet를 거쳐 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 자체를 없애는 [Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) Arrow 포맷으로 수렴하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 기술의 발전을 보여준다.
+이 흐름은 Spark 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 오버헤드를 줄이기 위해 Java->Kryo->Avro/Parquet를 거쳐 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 자체를 없애는 [Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) Arrow 포맷으로 수렴하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 기술의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 커다란 레고 성(메모리 객체)을 다른 집으로 보낼 때, 그대로 보낼 수 없으니 다 분해해서 상자(바이너리)에 담는 과정이에요.
@@ -89,7 +89,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 67 / 262
 
-← **이전**: [Spark Shuffle 최적화 (Shuffle Optimization)](/knowledge-base/studynote/16_bigdata/03_spark/066_spark_shuffle_optimization/)
-**다음**: [Spark Broadcast Join](/knowledge-base/studynote/16_bigdata/03_spark/068_spark_broadcast_join/) →
+<- **이전**: [Spark Shuffle 최적화 (Shuffle Optimization)](/knowledge-base/studynote/16_bigdata/03_spark/066_spark_shuffle_optimization/)
+**다음**: [Spark Broadcast Join](/knowledge-base/studynote/16_bigdata/03_spark/068_spark_broadcast_join/) ->
 
 ---

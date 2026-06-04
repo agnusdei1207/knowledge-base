@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
+    |
+    v
 [브로드캐스트 스톰]
-    │
-    └──▶ [LACP 이더채널 포트 논리 그룹화]
+    |
+    +---> [LACP 이더채널 포트 논리 그룹화]
 ```
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
+    |
+    v
 [브로드캐스트 스톰]
-    │
-    └──▶ [LACP 이더채널 포트 논리 그룹화]
+    |
+    +---> [LACP 이더채널 포트 논리 그룹화]
 ```
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
+    |
+    v
 [현재 개념: 브로드캐스트 스톰]
-    │
-    ├──▶ [확장 A: LACP 이더채널 포트 논리 그룹화]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: LACP 이더채널 포트 논리 그룹화]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 브로드캐스트 스톰는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 206 / 1120
 
-← **이전**: [1096. EIGRP DUAL 지연 스케일 분산](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1096_eigrp_dual_algorithm_diffusing_update/)
-**다음**: [1098. LACP 이더채널 포트 논리 그룹화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1098_lacp_etherchannel_link_aggregation_port/) →
+<- **이전**: [1096. EIGRP DUAL 지연 스케일 분산](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1096_eigrp_dual_algorithm_diffusing_update/)
+**다음**: [1098. LACP 이더채널 포트 논리 그룹화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1098_lacp_etherchannel_link_aggregation_port/) ->
 
 ---

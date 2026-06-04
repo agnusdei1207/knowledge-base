@@ -105,13 +105,13 @@ tags = ["database"]
 
 ```text
 비즈니스 규칙
-   ↓
+   v
 ER 모델링
-   ↓
+   v
 전체/부분 참여 판별
-   ↓
+   v
 카디널리티 및 관계 정의
-   ↓
+   v
 FK / NOT NULL / 삭제 정책 반영
 ```
 
@@ -127,7 +127,7 @@ FK / NOT NULL / 삭제 정책 반영
 
 **진행 상황**: 85 / 600
 
-← **이전**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/)
-**다음**: [86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)](/knowledge-base/studynote/05_database/02_modeling_normalization/086_weak_entity_identifying_relationship/) →
+<- **이전**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/)
+**다음**: [86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)](/knowledge-base/studynote/05_database/02_modeling_normalization/086_weak_entity_identifying_relationship/) ->
 
 ---

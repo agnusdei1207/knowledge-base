@@ -39,14 +39,14 @@ tags = ["studynote-ict-convergence"]
 
 ```
                    실제 상황
-                ┌──────────┬──────────┐
-                │  H₀ 참   │  H₁ 참   │
- 판정  H₀ 채택  │  정확 ✓  │ β(2종↑)  │
-       H₀ 기각  │ α(1종↑)  │  검정력  │
-                └──────────┴──────────┘
-  α = P(H₀ 기각 | H₀ 참)  ← 1종 오류(False Positive)
-  β = P(H₀ 채택 | H₁ 참)  ← 2종 오류(False Negative)
-  Power = 1 - β            ← 통계적 검정력
+                +----------+----------+
+                |  H₀ 참   |  H₁ 참   |
+ 판정  H₀ 채택  |  정확 ✓  | β(2종^)  |
+       H₀ 기각  | α(1종^)  |  검정력  |
+                +----------+----------+
+  α = P(H₀ 기각 | H₀ 참)  <- 1종 오류(False Positive)
+  β = P(H₀ 채택 | H₁ 참)  <- 2종 오류(False Negative)
+  Power = 1 - β            <- 통계적 검정력
 ```
 
 ### p-값 vs [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) 구분
@@ -73,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 | 단측 검정 (One-Tailed) | H₁: μ > μ₀ | α 한쪽 | 방향 명확한 경우 |
 
 **다중 비교 문제 (Multiple Comparisons)**:
-검정을 반복하면 1종 오류 누적 → Bonferroni 보정: α' = α / 검정 횟수.
+검정을 반복하면 1종 오류 누적 -> Bonferroni 보정: α' = α / 검정 횟수.
 
 - **📢 섹션 요약 비유**: 동전을 한 번 던져서 앞면이 나오면 그냥 운일 수 있어. 하지만 20번 중 18번 앞면이 나오면 이건 이상한 동전이라고 확신할 수 있지 — 양측 검정은 앞면이든 뒷면이든 둘 다 의심하는 거야.
 
@@ -85,12 +85,12 @@ tags = ["studynote-ict-convergence"]
 - H₀: 신약과 위약(Placebo) 간 혈압 차이 없음 (μ₁ = μ₂)
 - H₁: 신약이 혈압을 낮춤 (μ₁ < μ₂, 단측 검정)
 - α = 0.01 (의료는 엄격한 기준 적용)
-- n=200, t-통계량 = −3.2, p-값 = 0.0008 < 0.01 → H₀ 기각
-- Cohen's d = 0.65 (중간 효과 크기) → 임상적으로도 의미 있음
+- n=200, t-통계량 = −3.2, p-값 = 0.0008 < 0.01 -> H₀ 기각
+- Cohen's d = 0.65 (중간 효과 크기) -> 임상적으로도 의미 있음
 
 <strong>검정력 분석 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Analysis)</strong>:
-- 목표 검정력 0.80, α=0.05, Cohen's d=0.5 → 필요 표본 크기 n≈64 (per group).
-- 표본이 작으면 실제 효과가 있어도 놓칠 수 있음(2종 오류 위험↑).
+- 목표 검정력 0.80, α=0.05, Cohen's d=0.5 -> 필요 표본 크기 n≈64 (per group).
+- 표본이 작으면 실제 효과가 있어도 놓칠 수 있음(2종 오류 위험^).
 
 **기술사 판단 포인트**:
 - p-값만 보고 결론 내리는 "p-값 숭배(p-hacking)" 경계.
@@ -126,7 +126,7 @@ tags = ["studynote-ict-convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[p-값 · 유의 수준] → [가설 검정과 유의 수준 P-Value] → [다중 비교 문제 · A]
+[p-값 · 유의 수준] -> [가설 검정과 유의 수준 P-Value] -> [다중 비교 문제 · A]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -141,7 +141,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 512 / 552
 
-← **이전**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/knowledge-base/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/)
-**다음**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/knowledge-base/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/) →
+<- **이전**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/knowledge-base/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/)
+**다음**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/knowledge-base/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/) ->
 
 ---

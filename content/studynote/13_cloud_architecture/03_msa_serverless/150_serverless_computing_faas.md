@@ -40,24 +40,24 @@ tags = ["studynote-cloud-architecture"]
 | 제한 시간 | 최대 15분 (AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 기준) | 장시간 작업 부적합 |
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                     서버리스 실행 흐름                              │
-│                                                                     │
-│  이벤트 소스                 FaaS 플랫폼              실행 환경     │
-│  ┌──────────┐  트리거         ┌──────────────┐      ┌──────────┐   │
-│  │ HTTP API │────────────────►│              │ 생성 │ Function │   │
-│  │ S3 업로드│                 │  이벤트       │─────►│ Instance │   │
-│  │ SQS 큐   │                 │  라우터       │      │          │   │
-│  │ 스케줄러 │                 │              │◄─────│  결과 반환│   │
-│  └──────────┘                 └──────────────┘ 소멸 └──────────┘   │
-│                                      │                              │
-│                               과금: 실행ms × 메모리                  │
-│                                                                     │
-│  ┌──────────────────────────────────────────────────────────────┐   │
-│  │  외부 연동 (상태 저장)                                        │   │
-│  │  DynamoDB / S3 / RDS Proxy / ElastiCache / SQS              │   │
-│  └──────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|                     서버리스 실행 흐름                              |
+|                                                                     |
+|  이벤트 소스                 FaaS 플랫폼              실행 환경     |
+|  +----------+  트리거         +--------------+      +----------+   |
+|  | HTTP API |----------------►|              | 생성 | Function |   |
+|  | S3 업로드|                 |  이벤트       |-----►| Instance |   |
+|  | SQS 큐   |                 |  라우터       |      |          |   |
+|  | 스케줄러 |                 |              |◄-----|  결과 반환|   |
+|  +----------+                 +--------------+ 소멸 +----------+   |
+|                                      |                              |
+|                               과금: 실행ms × 메모리                  |
+|                                                                     |
+|  +--------------------------------------------------------------+   |
+|  |  외부 연동 (상태 저장)                                        |   |
+|  |  DynamoDB / S3 / RDS Proxy / ElastiCache / SQS              |   |
+|  +--------------------------------------------------------------+   |
++---------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 함수는 자판기 — 동전(이벤트)을 넣으면 그때만 모터가 돌아가고 음료가 나오면 멈춘다. 24시간 가동하지 않는다.
@@ -82,10 +82,10 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 적합 시나리오</strong>
-- 이미지·동영상 변환(S3 이벤트 → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) → 변환 완료 저장)
-- 정기 배치 작업([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계 → DB 저장)
-- [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이벤트 처리(수천 개 디바이스 → 이벤트 큐 → 함수 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)
-- 챗봇·[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 수신([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) → 응답)
+- 이미지·동영상 변환(S3 이벤트 -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) -> 변환 완료 저장)
+- 정기 배치 작업([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계 -> DB 저장)
+- [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이벤트 처리(수천 개 디바이스 -> 이벤트 큐 -> 함수 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)
+- 챗봇·[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 수신([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) -> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) -> 응답)
 
 **부적합 시나리오**
 - 수 시간 실행이 필요한 ML 학습 파이프라인
@@ -123,13 +123,13 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 항상 가동 서버 (유휴 비용 발생)
-    │
-    ▼
+    |
+    v
 Serverless / FaaS: 이벤트 기반 · Pay-per-Use
-    ├─► AWS Lambda · GCP Cloud Functions · Azure Functions
-    └─► BaaS: Firebase · Supabase (백엔드 서비스)
-    │
-    ▼
+    +-► AWS Lambda · GCP Cloud Functions · Azure Functions
+    +-► BaaS: Firebase · Supabase (백엔드 서비스)
+    |
+    v
 Cold Start 최적화 · Knative (K8s 기반 서버리스)
 ```
 2. 개발자는 전구(코드) 디자인만 하면 되고, 전선 공사(서버 관리)는 클라우드 회사가 다 해준다.
@@ -141,7 +141,7 @@ Cold Start 최적화 · Knative (K8s 기반 서버리스)
 
 **진행 상황**: 149 / 371
 
-← **이전**: [149. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/149_bounded_context_ddd/)
-**다음**: [151. 서버리스 컴퓨팅 (Serverless Computing / FaaS) - 인프라 짬처리의 궁극적 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/151_aws_lambda_cloud_functions/) →
+<- **이전**: [149. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/149_bounded_context_ddd/)
+**다음**: [151. 서버리스 컴퓨팅 (Serverless Computing / FaaS) - 인프라 짬처리의 궁극적 진화](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/151_aws_lambda_cloud_functions/) ->
 
 ---

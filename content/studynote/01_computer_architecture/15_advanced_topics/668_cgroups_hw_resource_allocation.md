@@ -45,17 +45,17 @@ cgroups는 이 문제를 해결하기 위해 등장했다. 프로세스를 계�
 
 ```text
 /
-└─ kubepods.slice
-   ├─ guaranteed
-   │  └─ pod-a
-   │     ├─ cpu.max = 200000 100000
-   │     ├─ memory.high = 4G
-   │     └─ io.max = dev 8:0 rbps=200M
-   └─ burstable
-      └─ pod-b
-         ├─ cpu.weight = 100
-         ├─ memory.max = 2G
-         └─ pids.max = 512
++- kubepods.slice
+   +- guaranteed
+   |  +- pod-a
+   |     +- cpu.max = 200000 100000
+   |     +- memory.high = 4G
+   |     +- io.max = dev 8:0 rbps=200M
+   +- burstable
+      +- pod-b
+         +- cpu.weight = 100
+         +- memory.max = 2G
+         +- pids.max = 512
 ```
 
 여기서 특히 자주 혼동하는 개념이 `cpu.weight`와 `cpu.max`다. `cpu.weight`는 경합이 있을 때 상대적으로 얼마만큼 더 CPU를 받을지 정하는 값이고, `cpu.max`는 한가한 시스템에서도 절대로 넘을 수 없는 상한선이다. 메모리도 비슷하다. `memory.high`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 재회수를 적극적으로 시작하는 경고선이고, `memory.max`는 더 이상 버티지 못할 때 강한 제한으로 이어진다.
@@ -136,21 +136,21 @@ cgroups를 잘 설계하면 한 대의 서버 안에서도 [서비스](/knowledg
 
 ```text
 ulimit 중심 제한
-    │
-    ▼
+    |
+    v
 cgroup v1 개별 컨트롤러
-    │
-    ▼
+    |
+    v
 cgroup v2 단일 계층
-    │
-    ▼
+    |
+    v
 container orchestrator QoS
-    │
-    ▼
+    |
+    v
 PSI + 자동 튜닝 루프
 ```
 
-이 흐름은 "단순 사용자 제한 → 그룹별 자원 제어 → 통합 계층화 → [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 연동 → 관측 기반 자동화"로 cgroups가 발전한 과정을 보여준다.
+이 흐름은 "단순 사용자 제한 -> 그룹별 자원 제어 -> 통합 계층화 -> [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 연동 -> 관측 기반 자동화"로 cgroups가 발전한 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ PSI + 자동 튜닝 루프
 
 **진행 상황**: 669 / 803
 
-← **이전**: [667. 컨테이너 런타임 (runc) HW 네임스페이스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/)
-**다음**: [669. BPF (Berkeley Packet Filter) HW 오프로딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/669_bpf_hw_offloading/) →
+<- **이전**: [667. 컨테이너 런타임 (runc) HW 네임스페이스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/)
+**다음**: [669. BPF (Berkeley Packet Filter) HW 오프로딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/669_bpf_hw_offloading/) ->
 
 ---

@@ -31,23 +31,23 @@ tags = ["software_engineering"]
 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 심장부는 만들기 (Build) ➔ 측정 (Measure) ➔ 학습 (Learn)으로 이어지는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           린 스타트업의 핵심 엔진: BML 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"]            │
-│                           │                                  │
-│       ┌───────────────────┴───────────────────┐              │
-│       │                                       │              │
-│  1. 만들기 (Build)                       3. 학습 (Learn)      │
-│  최소 기능만 있는 MVP 개발          데이터 기반 가설 기각 및 깨달음  │
-│       │                                       ▲              │
-│       ▼                                       │              │
-│       └──────────▶ 2. 측정 (Measure) ─────────┘              │
-│                 고객 반응과 전환율 정량 지표 수집               │
-│                           │                                  │
-│             [결정: 비즈니스 모델 방향을 꺾는 Pivot 실행]         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           린 스타트업의 핵심 엔진: BML 피드백 루프             |
++--------------------------------------------------------------+
+|                                                              |
+|       [가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"]            |
+|                           |                                  |
+|       +-------------------+-------------------+              |
+|       |                                       |              |
+|  1. 만들기 (Build)                       3. 학습 (Learn)      |
+|  최소 기능만 있는 MVP 개발          데이터 기반 가설 기각 및 깨달음  |
+|       |                                       ^              |
+|       v                                       |              |
+|       +-----------> 2. 측정 (Measure) ---------+              |
+|                 고객 반응과 전환율 정량 지표 수집               |
+|                           |                                  |
+|             [결정: 비즈니스 모델 방향을 꺾는 Pivot 실행]         |
++--------------------------------------------------------------+
 ```
 
 1. **가설과 만들기 (Build)**: 완벽한 디자인은 사치다. 핵심 가설만을 검증할 수 있는 최소 기능 제품([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))을 한 달 만에 조잡하더라도 뚝딱 만들어낸다.
@@ -111,17 +111,17 @@ tags = ["software_engineering"]
 
 ```text
 전통적 폭포수 모델의 높은 실패율
-    │
-    ▼
+    |
+    v
 애자일 (Agile) 개발 및 린 (Lean) 제조 철학의 융합
-    │
-    ▼
+    |
+    v
 MVP (최소 기능 제품) 구축 및 시장 출시 (Build)
-    │
-    ▼
+    |
+    v
 허영 지표 배제 및 정량적 행동 지표 측정 (Measure)
-    │
-    ▼
+    |
+    v
 가설 검증 실패 인정 및 피벗 (Pivot)을 통한 방향 전환 (Learn)
 ```
 
@@ -139,7 +139,7 @@ MVP (최소 기능 제품) 구축 및 시장 출시 (Build)
 
 **진행 상황**: 89 / 973
 
-← **이전**: [88. 가치 스트림 맵 (Value Stream Mapping)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)
-**다음**: [90. 최소 존립 제품 (MVP, Minimum Viable Product)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/) →
+<- **이전**: [88. 가치 스트림 맵 (Value Stream Mapping)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)
+**다음**: [90. 최소 존립 제품 (MVP, Minimum Viable Product)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/) ->
 
 ---

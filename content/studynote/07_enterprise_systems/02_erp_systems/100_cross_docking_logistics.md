@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 물류센터는 상품을 보관하고 저장하는 거대한 '창고(Warehouse)' 역할을 했다. 상품이 입고되면 팔레트에 실려 랙(Rack)에 보관되고, 주문이 들어오면 다시 지게차를 몰고 가 피킹(Picking) 과정을 거쳐 출하한다. 이러한 "입고 → 적치 → 보관 → 피킹 → 출고"의 과정은 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 과도한 창고 임대료, 악성 재고 발생, 신선식품의 부패를 초래했다.
+전통적인 물류센터는 상품을 보관하고 저장하는 거대한 '창고(Warehouse)' 역할을 했다. 상품이 입고되면 팔레트에 실려 랙(Rack)에 보관되고, 주문이 들어오면 다시 지게차를 몰고 가 피킹(Picking) 과정을 거쳐 출하한다. 이러한 "입고 -> 적치 -> 보관 -> 피킹 -> 출고"의 과정은 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 과도한 창고 임대료, 악성 재고 발생, 신선식품의 부패를 초래했다.
 
 이러한 비효율을 타파하기 위해 등장한 혁신이 크로스 도킹(Cross-Docking)이다. 1980년대 월마트(Walmart)가 도입하여 유통 혁명을 일으킨 이 기법은 물류센터를 '물건이 자는 여관'에서 '스쳐 지나가는 고속도로 톨게이트'로 개념을 완전히 바꿨다. 이는 중간 보관 단계의 낭비 요소를 원천 제거하기 위한 필연적인 진화였다.
 
@@ -39,17 +39,17 @@ tags = ["enterprise_systems"]
 | <strong>정밀 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong> | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             크로스 도킹 (Cross-Docking) 물류 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ [공급처 트럭]                                   [고객 배송 트럭] │
-│      │        (창고 보관, 적치, 피킹 과정 삭제!)        ▲      │
-│      ▼        ================================       │      │
-│ ┌─────────┐   │ [초고속 자동 분류 컨베이어]  │    ┌─────────┐ │
-│ │ 입고 도크 │ ──▶ [바코드 스캔] ─▶ [행선지 분류] ──▶ │ 출고 도크 │ │
-│ └─────────┘   ================================    └─────────┘ │
-│ (Inbound)        머무는 시간: 보통 24시간 이내         (Outbound)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             크로스 도킹 (Cross-Docking) 물류 흐름              |
++--------------------------------------------------------------+
+| [공급처 트럭]                                   [고객 배송 트럭] |
+|      |        (창고 보관, 적치, 피킹 과정 삭제!)        ^      |
+|      v        ================================       |      |
+| +---------+   | [초고속 자동 분류 컨베이어]  |    +---------+ |
+| | 입고 도크 | ---> [바코드 스캔] --> [행선지 분류] ---> | 출고 도크 | |
+| +---------+   ================================    +---------+ |
+| (Inbound)        머무는 시간: 보통 24시간 이내         (Outbound)|
++--------------------------------------------------------------+
 ```
 
 그림에서 보듯 가운데 존재해야 할 거대한 선반 창고 구역이 통째로 삭제되고, 입고와 출고가 컨베이어 벨트를 통해 하나의 직선 흐름으로 직결된다.
@@ -115,17 +115,17 @@ tags = ["enterprise_systems"]
 
 ```text
 전통적 보관 중심 창고 (Warehousing)
-    │
-    ▼
+    |
+    v
 바코드/RFID 및 EDI/ASN 정보 인프라 확충
-    │
-    ▼
+    |
+    v
 크로스 도킹 (Cross-Docking) 도입 (보관 시간 최소화)
-    │
-    ▼
+    |
+    v
 물류센터 자동화 (고속 Sorter, 무인 AGV 결합)
-    │
-    ▼
+    |
+    v
 데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화
 ```
 
@@ -143,7 +143,7 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 100 / 482
 
-← **이전**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)
-**다음**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) →
+<- **이전**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)
+**다음**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) ->
 
 ---

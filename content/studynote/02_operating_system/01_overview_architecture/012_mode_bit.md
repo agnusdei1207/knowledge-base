@@ -33,15 +33,15 @@ tags = ["studynote-operating-system"]
 
 ```text
   [Instruction Register]     [Mode Bit Register]
-          │                                  │
-          ▼                          ▼
-  ┌───────────────┐          ┌───────────────┐
-  │  Opcode Dec.  │          │   Status: 0/1 │
-  └───────┬───────┘          └───────┬───────┘
-          │      ┌──────────┐                │
-          └─────▶│ AND Gate │◀───────────────┘
-                 └─────┬─────────────────────┘
-                       ▼
+          |                                  |
+          v                          v
+  +---------------+          +---------------+
+  |  Opcode Dec.  |          |   Status: 0/1 |
+  +-------+-------+          +-------+-------+
+          |      +----------+                |
+          +------>| AND Gate |<----------------+
+                 +-----+---------------------+
+                       v
           [Execution Unit Enable/Disable]
 ```
 
@@ -68,14 +68,14 @@ tags = ["studynote-operating-system"]
 
 ```text
  Time  [User Mode (Bit=1)]        [Hardware Logic]        [Kernel Mode (Bit=0)]
-  │   ┌───────────────────┐      ┌────────────────┐      ┌───────────────────┐
-  │   │ 1. Run App Code   │      │                │      │                   │
-  │   │ 2. Syscall/Int    │─────▶│ 3. Push CS, IP │      │                   │
-  │   │                   │      │ 4. Push SS, SP │      │                   │
-  │   │                   │      │ 5. Set Bit=0   │─────▶│ 6. Run OS Service │
-  │   │                   │      │ 6. Jump to ISR │      │ 7. iret Command   │
-  │   │ 9. Resume Code    │◀─────│ 8. Pop All     │◀─────│                   │
-  ▼   └───────────────────┘      └────────────────┘      └───────────────────┘
+  |   +-------------------+      +----------------+      +-------------------+
+  |   | 1. Run App Code   |      |                |      |                   |
+  |   | 2. Syscall/Int    |------>| 3. Push CS, IP |      |                   |
+  |   |                   |      | 4. Push SS, SP |      |                   |
+  |   |                   |      | 5. Set Bit=0   |------>| 6. Run OS Service |
+  |   |                   |      | 6. Jump to ISR |      | 7. iret Command   |
+  |   | 9. Resume Code    |<------| 8. Pop All     |<------|                   |
+  v   +-------------------+      +----------------+      +-------------------+
 ```
 
 **[다이어그램 해설]** 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 전환은 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나를 바꾸는 작업이 아니라, 시스템의 '문맥 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'을 안전하게 교체하는 원자적 (Atomic) 작업이다. ① 사용자가 실행 중일 때 어떤 사건([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 또는 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))이 발생하면, ② 하드웨어는 현재의 코드 세그먼트 (CS), 명령 포인터 (IP), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트 (SS) 등을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 자동으로 푸시 (Push)한다. ③ 그 직후 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 변경한다. 이 순서가 중요한 이유는 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 먼저 바뀌면 사용자 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 정보가 유출될 수 있기 때문이다. ④ 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이 된 후 CPU는 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/)가 가리키는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 점프한다. ⑤ 작업을 마친 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `iret` ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Return) 명령을 내리면 하드웨어는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 정보를 꺼내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 다시 1로 환원한다. 이 정교한 하드웨어 시퀀스는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 '신뢰할 수 있는 상태'에서 시작함을 보장한다.
@@ -130,20 +130,20 @@ void malicious_code() {
 
 ```text
 [Monolithic Kernel]                 [Microkernel]
-┌──────────────────────────┐        ┌────────────────────────────┐
-│ User App (Bit 1)         │        │ User App (Bit 1)           │
-└─────┬───────────▲────────┘        └─────┬───────────▲──────────┘
-      │ Syscall   │                       │ IPC                  │
-┌─────▼───────────┴────────┐        ┌─────▼───────────┴──────────┐
-│ OS Services              │        │ Minimal Kernel (Bit 0)     │
-│ (VFS, Net, Drv) (Bit 0)  │        └─────┬───────────▲──────────┘
-└──────────────────────────┘              │ IPC                  │
-                                    ┌─────▼───────────┴──────────┐
-                                    │ OS Server (FS, Net) (Bit 1)│
-                                    └────────────────────────────┘
++--------------------------+        +----------------------------+
+| User App (Bit 1)         |        | User App (Bit 1)           |
++-----+-----------^--------+        +-----+-----------^----------+
+      | Syscall   |                       | IPC                  |
++-----v-----------+--------+        +-----v-----------+----------+
+| OS Services              |        | Minimal Kernel (Bit 0)     |
+| (VFS, Net, Drv) (Bit 0)  |        +-----+-----------^----------+
++--------------------------+              | IPC                  |
+                                    +-----v-----------+----------+
+                                    | OS Server (FS, Net) (Bit 1)|
+                                    +----------------------------+
 ```
 
-**[다이어그램 해설]** [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) ([Monolithic Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))은 대부분의 서비스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 0)에서 실행되므로, 한 번의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)로 많은 작업을 처리하고 사용자 모드 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 1)로 복귀한다. 모드 전환 횟수가 적어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 유리하다. 반면 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 네트워크와 같은 서비스도 사용자 모드의 별도 서버 프로세스로 동작한다. 따라서 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 [앱 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) → 앱]과 같이 여러 번의 모드 전환과 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication)가 발생한다. 이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 야기하지만, 특정 서비스가 죽어도 전체 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽지 않는 높은 안정성을 제공한다. 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라는 하드웨어 제약이 소프트웨어 아키텍처의 근본적인 트레이드오프를 결정하는 셈이다.
+**[다이어그램 해설]** [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) ([Monolithic Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))은 대부분의 서비스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 0)에서 실행되므로, 한 번의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)로 많은 작업을 처리하고 사용자 모드 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 1)로 복귀한다. 모드 전환 횟수가 적어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 유리하다. 반면 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 네트워크와 같은 서비스도 사용자 모드의 별도 서버 프로세스로 동작한다. 따라서 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 [앱 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 앱]과 같이 여러 번의 모드 전환과 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication)가 발생한다. 이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 야기하지만, 특정 서비스가 죽어도 전체 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽지 않는 높은 안정성을 제공한다. 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라는 하드웨어 제약이 소프트웨어 아키텍처의 근본적인 트레이드오프를 결정하는 셈이다.
 
 - **📢 섹션 요약 비유**: 모든 업무를 한 사무실(모놀리식)에서 처리할지, 보안을 위해 여러 칸막이 사무실(마이크로)을 옮겨 다니며 결재를 받을지의 차이와 같습니다.
 
@@ -171,19 +171,19 @@ void malicious_code() {
 
 ```text
 성능 저하 발생 (High Syscall CPU %)
-          │
-          ▼
-작업이 단순 조회성인가? ─── 예 ──▶ [vDSO / Shared Memory 적용]
-          │
+          |
+          v
+작업이 단순 조회성인가? --- 예 ---> [vDSO / Shared Memory 적용]
+          |
          아니오
-          ▼
-데이터 전송량이 큰가? ──── 예 ──▶ [Zero-copy (sendfile, mmap) 적용]
-          │
+          v
+데이터 전송량이 큰가? ---- 예 ---> [Zero-copy (sendfile, mmap) 적용]
+          |
          아니오
-          ▼
-요청 빈도가 높은가? ───── 예 ──▶ [Batching / IO_uring 적용]
-          │
-         아니오 ──▶ [기본 시스템 호출 유지 및 알고리즘 최적화]
+          v
+요청 빈도가 높은가? ----- 예 ---> [Batching / IO_uring 적용]
+          |
+         아니오 ---> [기본 시스템 호출 유지 및 알고리즘 최적화]
 ```
 
 **[다이어그램 해설]** 실무에서 `top` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해 `sy` (System CPU) 수치가 높게 나온다면, 이는 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 너무 자주 바뀌고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 이때 엔지니어는 세 가지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 취할 수 있다. ① 단순 조회(시간, 프로세스 ID 등)는 모드 전환을 생략하는 vDSO를 쓴다. ② 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간 복사를 없애는 Zero-copy를 쓴다. ③ 작은 요청이 너무 많다면 리눅스의 최신 기술인 `io_uring` 등을 통해 여러 요청을 한 번의 모드 전환으로 묶어서 처리([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))한다. 이 의사결정은 결국 모드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라는 하드웨어 장벽을 "어떻게 하면 안전하면서도 가장 적게 넘나들 것인가"에 대한 기술적 답안이다.
@@ -230,17 +230,17 @@ void malicious_code() {
 
 ```text
 [특권 명령 (Privileged Instruction) — 사용자 모드에서 제한되는 고위험 연산]
-    │
-    ▼
+    |
+    v
 [모드 비트 (Mode Bit) — CPU 권한을 0/1로 구분하는 플래그]
-    │
-    ▼
+    |
+    v
 [트랩/인터럽트 (Trap/Interrupt) — 보호 규칙 위반 시 커널로 제어를 넘김]
-    │
-    ▼
+    |
+    v
 [커널 모드 (Kernel Mode) — OS가 자원을 직접 제어하는 실행 상태]
-    │
-    ▼
+    |
+    v
 [가상화 링 -1 (Virtualization Ring -1) — 하이퍼바이저가 커널보다 아래에서 중재]
 ```
 
@@ -259,7 +259,7 @@ void malicious_code() {
 
 **진행 상황**: 12 / 800
 
-← **이전**: [11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/)
-**다음**: [13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) →
+<- **이전**: [11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/)
+**다음**: [13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) ->
 
 ---

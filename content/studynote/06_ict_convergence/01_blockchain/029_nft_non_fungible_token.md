@@ -19,24 +19,24 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           NFT 구조                                        │
-├──────────────────────────────────────────────────────────┤
-│  온체인 데이터:                                           │
-│    Token ID: 12345 (고유 식별자)                         │
-│    Owner: 0xABC...DEF (소유자 주소)                       │
-│    Contract: ERC-721 스마트 컨트랙트                      │
-│    Metadata URI: ipfs://QmXyz... (메타데이터 링크)        │
-│                                                           │
-│  메타데이터 (IPFS):                                       │
-│    {                                                      │
-│      "name": "CryptoPunk #12345",                        │
-│      "image": "ipfs://QmAbc...",  ← 실제 이미지 링크      │
-│      "attributes": [...]                                  │
-│    }                                                      │
-│                                                           │
-│  → 이미지 자체는 IPFS에 저장, NFT는 포인터만 온체인       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           NFT 구조                                        |
++----------------------------------------------------------+
+|  온체인 데이터:                                           |
+|    Token ID: 12345 (고유 식별자)                         |
+|    Owner: 0xABC...DEF (소유자 주소)                       |
+|    Contract: ERC-721 스마트 컨트랙트                      |
+|    Metadata URI: ipfs://QmXyz... (메타데이터 링크)        |
+|                                                           |
+|  메타데이터 (IPFS):                                       |
+|    {                                                      |
+|      "name": "CryptoPunk #12345",                        |
+|      "image": "ipfs://QmAbc...",  <- 실제 이미지 링크      |
+|      "attributes": [...]                                  |
+|    }                                                      |
+|                                                           |
+|  -> 이미지 자체는 IPFS에 저장, NFT는 포인터만 온체인       |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: NFT는 고급 예술품의 소유권 증서다. 루브르 박물관에 걸린 그림(디지털 자산)은 박물관([IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))에 있고, NFT는 "내가 이 그림의 공식 소유자"라는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(소유권 증서)다.
@@ -56,15 +56,15 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 민팅 (Minting):
-  아티스트 → 스마트 컨트랙트 배포 → NFT 발행
-  (가스비 소모, 이더리움 → 레이어2로 이전)
+  아티스트 -> 스마트 컨트랙트 배포 -> NFT 발행
+  (가스비 소모, 이더리움 -> 레이어2로 이전)
 
 거래:
-  OpenSea/Blur → 구매자 지갑 → 소유권 온체인 이전
+  OpenSea/Blur -> 구매자 지갑 -> 소유권 온체인 이전
   로열티: 2차 거래 시 원작자에 자동 분배 (ERC-2981)
 
 소각 (Burning):
-  Token ID 삭제 → 희소성 증가 전략
+  Token ID 삭제 -> 희소성 증가 전략
 ```
 
 - **📢 섹션 요약 비유**: NFT 민팅은 한정판 수집카드 인쇄다. 포켓몬 카드를 1000장만 인쇄(민팅)하면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 각 카드의 고유 번호와 소유자가 영구 기록된다. 누군가가 팔면 새 소유자 이름이 자동으로 기록된다.
@@ -90,7 +90,7 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 학위·자격증 NFT:
-  MIT, 서울대 → 졸업증서를 NFT로 발행
+  MIT, 서울대 -> 졸업증서를 NFT로 발행
   위조 불가, 전 세계 즉시 검증
 
 티켓 NFT:
@@ -138,17 +138,17 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 
 ```text
 [ERC-20 FT — 동질 토큰 표준]
-    │
-    ▼
+    |
+    v
 [ERC-721 NFT — 고유성·소유권 토큰 표준]
-    │
-    ▼
+    |
+    v
 [NFT 투기 시장 — 예술품·PFP 버블 (2021)]
-    │
-    ▼
+    |
+    v
 [실용 NFT — 학위·티켓·게임·기업 로열티]
-    │
-    ▼
+    |
+    v
 [RWA NFT — 부동산·채권 실물 자산 소유권 증명]
 ```
 
@@ -164,7 +164,7 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 
 **진행 상황**: 29 / 552
 
-← **이전**: [28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/)
-**다음**: [30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심](/knowledge-base/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/) →
+<- **이전**: [28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/)
+**다음**: [30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심](/knowledge-base/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/) ->
 
 ---

@@ -38,12 +38,12 @@ tags = ["studynote-ai"]
 | 스태킹 (Stacking) | 메타 학습기가 결합 학습 | 복잡한 패턴 포착 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 앙상블은 "혼자 결정하지 말고 팀원들에게 물어보라"는 원칙이다. 팀원들의 의견이 서로 다를수록(다양성) 집단 지성의 힘이 강해진다.
@@ -56,38 +56,38 @@ tags = ["studynote-ai"]
 
 ```
   훈련 데이터 (Training Data)
-         │
-  ┌──────┴───────────────────────────────────┐
-  │              앙상블 전략                  │
-  ├──────────────┬──────────────┬────────────┤
-  │   Bagging    │   Boosting   │  Stacking  │
-  │  (병렬)      │  (직렬)      │  (2단계)   │
-  │              │              │            │
-  │ Bootstrap    │ 오차 가중치  │ Level-0    │
-  │ 샘플링 →     │ → 다음 모델  │ 모델들 →   │
-  │ 병렬 학습    │ 순차 학습    │ Meta Model │
-  └──────┬───────┴──────┬───────┴─────┬──────┘
-         │              │             │
-  ┌──────▼──────────────▼─────────────▼──────┐
-  │              예측 집계 (Aggregation)       │
-  │  분류: 다수결 투표 / 확률 평균             │
-  │  회귀: 평균 / 가중 평균                   │
-  └───────────────────────────────────────────┘
-                     │
+         |
+  +------+-----------------------------------+
+  |              앙상블 전략                  |
+  +--------------+--------------+------------+
+  |   Bagging    |   Boosting   |  Stacking  |
+  |  (병렬)      |  (직렬)      |  (2단계)   |
+  |              |              |            |
+  | Bootstrap    | 오차 가중치  | Level-0    |
+  | 샘플링 ->     | -> 다음 모델  | 모델들 ->   |
+  | 병렬 학습    | 순차 학습    | Meta Model |
+  +------+-------+------+-------+-----+------+
+         |              |             |
+  +------v--------------v-------------v------+
+  |              예측 집계 (Aggregation)       |
+  |  분류: 다수결 투표 / 확률 평균             |
+  |  회귀: 평균 / 가중 평균                   |
+  +-------------------------------------------+
+                     |
               최종 예측 (Final Prediction)
 ```
 
 ### [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)와 앙상블
 
 ```
-  총 오류(MSE) = 편향² + 분산 + 노이즈
-  ┌─────────────────────────────────────────────┐
-  │  고분산 모델(예: 깊은 결정트리)             │
-  │  → Bagging → 분산 ↓ (편향은 유지)          │
-  │                                             │
-  │  고편향 모델(예: 얕은 결정트리)             │
-  │  → Boosting → 편향 ↓ (분산은 증가 가능)    │
-  └─────────────────────────────────────────────┘
+  총 오류(MSE) = 편향^ + 분산 + 노이즈
+  +---------------------------------------------+
+  |  고분산 모델(예: 깊은 결정트리)             |
+  |  -> Bagging -> 분산 v (편향은 유지)          |
+  |                                             |
+  |  고편향 모델(예: 얕은 결정트리)             |
+  |  -> Boosting -> 편향 v (분산은 증가 가능)    |
+  +---------------------------------------------+
 ```
 
 ### 다양성(Diversity) 확보 방법
@@ -122,16 +122,16 @@ tags = ["studynote-ai"]
 
 ```
   훈련 데이터
-       │
-  ┌────┴──────────────────────┐
-  │     Level-0 모델들        │
-  │  RF    SVM    LR    KNN   │
-  └────┬───────────────────────┘
-       │ 각 모델의 예측값
-  ┌────▼─────────────────────┐
-  │   Meta Learner (LR 등)  │
-  └────┬─────────────────────┘
-       │
+       |
+  +----+----------------------+
+  |     Level-0 모델들        |
+  |  RF    SVM    LR    KNN   |
+  +----+-----------------------+
+       | 각 모델의 예측값
+  +----v---------------------+
+  |   Meta Learner (LR 등)  |
+  +----+---------------------+
+       |
   최종 예측
 ```
 
@@ -143,8 +143,8 @@ tags = ["studynote-ai"]
 
 ### 앙상블 선택 기준
 
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 크고 과적합이 문제</strong>: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
-2. <strong>단순 모델이지만 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 개선 필요</strong>: [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) (XGBoost) → 편향 감소
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 크고 과적합이 문제</strong>: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
+2. <strong>단순 모델이지만 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 개선 필요</strong>: [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) (XGBoost) -> 편향 감소
 3. **완전히 다른 모델들을 결합**: [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 또는 Stacking
 4. **계산 비용이 중요**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능)
 
@@ -193,7 +193,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [앙상블 (Ensemble) 학습] → [최적화·운영 자동화]
+[데이터 전처리] -> [앙상블 (Ensemble) 학습] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -208,7 +208,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 257 / 420
 
-← **이전**: [256. ROC 곡선 (ROC Curve) / AUC](/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/)
-**다음**: [258. 보팅 (Voting)](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) →
+<- **이전**: [256. ROC 곡선 (ROC Curve) / AUC](/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/)
+**다음**: [258. 보팅 (Voting)](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) ->
 
 ---

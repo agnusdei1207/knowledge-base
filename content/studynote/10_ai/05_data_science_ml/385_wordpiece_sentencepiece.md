@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 두 방법 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 서브워드 어휘 구축이라는 목표를 공유하지만, 병합 기준과 공백 처리 방식에서 차이가 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: WordPiece는 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 가장 유리한 조합을 고르는 영리한 합병", SentencePiece는 "언어의 공백 규칙을 무시하고 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림처럼 처리하는 언어 중립적 합병"이다.
@@ -43,13 +43,13 @@ tags = ["studynote-ai"]
 **병합 기준**: 두 서브워드 A, B를 병합했을 때 언어 모델 우도 증가량 최대
 ```
 Score(A, B) = freq(AB) / (freq(A) × freq(B))
-→ 단독으로 자주 나오는 쌍보다 함께 나올 때 더 의미 있는 쌍 우선
+-> 단독으로 자주 나오는 쌍보다 함께 나올 때 더 의미 있는 쌍 우선
 ```
 
 <strong><code>##</code> 표기</strong>: 단어 내부 서브워드에 `##` 접두사 부착
 ```
-"playing" → ["play", "##ing"]
-"unbelievable" → ["un", "##believe", "##able"]
+"playing" -> ["play", "##ing"]
+"unbelievable" -> ["un", "##believe", "##able"]
 ```
 
 ### SentencePiece
@@ -57,31 +57,31 @@ Score(A, B) = freq(AB) / (freq(A) × freq(B))
 언어에 독립적으로 작동하기 위한 핵심 아이디어:
 ```
 공백을 특수 메타 심볼 ▁ (U+2581)로 대체
-"Hello world" → "▁Hello▁world" → 토크나이징 → ["▁Hello", "▁world"]
-"Hello" → ["▁Hello"]
+"Hello world" -> "▁Hello▁world" -> 토크나이징 -> ["▁Hello", "▁world"]
+"Hello" -> ["▁Hello"]
 ```
 
 공백이 토큰의 일부가 되어, 디토크나이징(역변환) 시 공백을 자동 복원:
 ```
-["▁Hello", "▁world"] → "Hello world"  (역방향 결정론적)
+["▁Hello", "▁world"] -> "Hello world"  (역방향 결정론적)
 ```
 
 ```
-┌───────────────────────────────────────────────────────┐
-│  WordPiece vs SentencePiece 비교                      │
-│                                                       │
-│  입력: "Hello world"                                  │
-│                                                       │
-│  WordPiece:  ["Hello", "world"]                       │
-│              (단어 분리 후 서브워드)                   │
-│                                                       │
-│  SentencePiece: ["▁Hello", "▁world"]                  │
-│              (원시 텍스트 직접 → 공백 포함)            │
-│                                                       │
-│  "unhappy" 처리:                                      │
-│  WordPiece: ["un", "##happy"]                         │
-│  SentencePiece(BPE): ["▁un", "happy"]                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|  WordPiece vs SentencePiece 비교                      |
+|                                                       |
+|  입력: "Hello world"                                  |
+|                                                       |
+|  WordPiece:  ["Hello", "world"]                       |
+|              (단어 분리 후 서브워드)                   |
+|                                                       |
+|  SentencePiece: ["▁Hello", "▁world"]                  |
+|              (원시 텍스트 직접 -> 공백 포함)            |
+|                                                       |
+|  "unhappy" 처리:                                      |
+|  WordPiece: ["un", "##happy"]                         |
+|  SentencePiece(BPE): ["▁un", "happy"]                 |
++-------------------------------------------------------+
 ```
 
 | 특성 | BPE | WordPiece | SentencePiece |
@@ -89,7 +89,7 @@ Score(A, B) = freq(AB) / (freq(A) × freq(B))
 | 병합 기준 | 빈도 최대 | 우도 증가 최대 | BPE 또는 Unigram |
 | 공백 처리 | 외부 의존 | 외부 의존 | ▁ 내재화 |
 | OOV 처리 | 서브워드 분해 | 서브워드 분해 | 완전 제거 가능 |
-| 디토크나이징 | 복잡 | `##` 제거 | ▁ → 공백 |
+| 디토크나이징 | 복잡 | `##` 제거 | ▁ -> 공백 |
 | 대표 모델 | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | T5, LLaMA |
 
 ### Unigram Language Model 토크나이저 (SentencePiece 옵션)
@@ -127,7 +127,7 @@ BPE와 반대 방향: 큰 어휘에서 시작해 제거
 
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">fine-tuning</a> 시</strong>: `##` 표기 토큰의 오프셋 매핑 주의 ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) 등 span 예측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))
 <strong>T5/LLaMA <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">fine-tuning</a></strong>: SentencePiece의 ▁ 처리로 공백 복원이 자동
-**토크나이저 재사용**: 동일 토크나이저로 사전학습 → 파인튜닝 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수
+**토크나이저 재사용**: 동일 토크나이저로 사전학습 -> 파인튜닝 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수
 
 기술사 포인트: WordPiece의 스코어 함수(빈도 비율) vs BPE(빈도 합산)의 차이, SentencePiece의 언어 독립성 강점을 비교 설명.
 
@@ -157,7 +157,7 @@ WordPiece와 SentencePiece는 BPE의 발전 형태로, 각각 BERT와 T5/LLaMA �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -172,7 +172,7 @@ WordPiece와 SentencePiece는 BPE의 발전 형태로, 각각 BERT와 T5/LLaMA �
 
 **진행 상황**: 385 / 420
 
-← **이전**: [384. 토크나이저 BPE (Byte Pair Encoding)](/knowledge-base/studynote/10_ai/05_data_science_ml/384_tokenizer_bpe/)
-**다음**: [386. LLM 온도 (Temperature) 파라미터](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) →
+<- **이전**: [384. 토크나이저 BPE (Byte Pair Encoding)](/knowledge-base/studynote/10_ai/05_data_science_ml/384_tokenizer_bpe/)
+**다음**: [386. LLM 온도 (Temperature) 파라미터](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) ->
 
 ---

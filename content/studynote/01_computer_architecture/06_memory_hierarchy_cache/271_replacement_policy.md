@@ -31,22 +31,22 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "미스 발생 → 빈 자리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 희생 블록 선택 → 새 블록 적재"의 흐름에서 동작한다. 이때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 활용하는 핵심 신호는 최근성, 빈도, 삽입 시점, 접근 패턴이다. 최근에 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 쓸 가능성이 높다는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 이용하면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높일 수 있지만, 그 이력을 추적하는 회로 자체가 느리면 오히려 캐시 접근 시간이 늘어난다.
+교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "미스 발생 -> 빈 자리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 희생 블록 선택 -> 새 블록 적재"의 흐름에서 동작한다. 이때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 활용하는 핵심 신호는 최근성, 빈도, 삽입 시점, 접근 패턴이다. 최근에 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 쓸 가능성이 높다는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 이용하면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높일 수 있지만, 그 이력을 추적하는 회로 자체가 느리면 오히려 캐시 접근 시간이 늘어난다.
 
 아래 그림은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 실제로 개입하는 지점을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ 교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다      │
-├────────────────────────────────────────────────────────────────────┤
-│ CPU 요청 ─▶ 태그 비교 ─▶ Miss 확인 ─▶ 빈 Way 존재? ── 예 ─▶ 적재   │
-│                                  │                                │
-│                                  └─ 아니오 ─▶ Victim 선택         │
-│                                                  │                │
-│                        최근성 · 빈도 · 삽입 위치 · 비용 고려       │
-│                                                  │                │
-│                                 기존 블록 축출 후 새 블록 적재     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| 교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다      |
++--------------------------------------------------------------------+
+| CPU 요청 --> 태그 비교 --> Miss 확인 --> 빈 Way 존재? -- 예 --> 적재   |
+|                                  |                                |
+|                                  +- 아니오 --> Victim 선택         |
+|                                                  |                |
+|                        최근성 · 빈도 · 삽입 위치 · 비용 고려       |
+|                                                  |                |
+|                                 기존 블록 축출 후 새 블록 적재     |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모든 접근에 대해 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 단계"가 아니라, **미스가 발생했고 빈 자리가 없을 때만** 본격적으로 개입한다는 점이다. 그러나 실제 하드웨어는 그 순간을 위해 평소에도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 계속 갱신해야 한다. 예를 들어 [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 접근할 때마다 순서를 업데이트해야 하고, [Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 관리해야 한다.
@@ -144,17 +144,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 직접 매핑의 단순 충돌
-    │
-    ▼
+    |
+    v
 세트 연관 매핑 · 희생 블록 선택 필요
-    │
-    ▼
+    |
+    v
 FIFO · LRU · LFU · Random
-    │
-    ▼
+    |
+    v
 PLRU · Clock · 삽입 위치 조절
-    │
-    ▼
+    |
+    v
 적응형 교체 정책 · workload 인식 캐시
 ```
 
@@ -172,7 +172,7 @@ PLRU · Clock · 삽입 위치 조절
 
 **진행 상황**: 271 / 803
 
-← **이전**: [270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/)
-**다음**: [272. LRU (Least Recently Used)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/272_lru/) →
+<- **이전**: [270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/)
+**다음**: [272. LRU (Least Recently Used)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/272_lru/) ->
 
 ---

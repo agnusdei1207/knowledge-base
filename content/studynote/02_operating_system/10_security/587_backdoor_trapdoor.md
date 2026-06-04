@@ -57,8 +57,8 @@ if (DEBUG_MODE && strcmp(password, "admin1234") == 0) {
 
 | 유형 | 설명 | Diagram |
 |:---|:---|:---|
-| <strong>Bind <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/">Shell</a></strong> | 대상 시스템에Port([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 열고 기다림 | 공격자 → 대상: 접속 요청 |
-| <strong>Reverse <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/">Shell</a></strong> | 대상 시스템이 공격자에게 연결을 요청 | 대상 → 공격자: 역방향 연결 |
+| <strong>Bind <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/">Shell</a></strong> | 대상 시스템에Port([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 열고 기다림 | 공격자 -> 대상: 접속 요청 |
+| <strong>Reverse <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/">Shell</a></strong> | 대상 시스템이 공격자에게 연결을 요청 | 대상 -> 공격자: 역방향 연결 |
 
 ### 2.2 [Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)
 
@@ -147,12 +147,12 @@ Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_
 
 ```text
 [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-    │
-    ▼
+    |
+    v
 [트랩 도어 (Trap Door / Backdoor)]
-    │
-    ├──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
-    └──▶ [바이러스 (Virus)]
+    |
+    +---> [로직 밤 (Logic Bomb) / 타이머 밤]
+    +---> [바이러스 (Virus)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -171,7 +171,7 @@ Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_
 
 **진행 상황**: 587 / 800
 
-← **이전**: [586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)
-**다음**: [588. 로직 밤 (Logic Bomb) / 타이머 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/) →
+<- **이전**: [586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)
+**다음**: [588. 로직 밤 (Logic Bomb) / 타이머 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/) ->
 
 ---

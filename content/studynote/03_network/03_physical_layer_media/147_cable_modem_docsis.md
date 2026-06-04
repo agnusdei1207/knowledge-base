@@ -23,8 +23,8 @@ tags = ["studynote-network"]
 케이블 TV [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 MHz 단위의 넓은 주파수 대역을 사용한다. 이 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신에 일부 채널을 할당하면 기존 인프라 투자 없이도 광대역 인터넷을 제공할 수 있다. 이를 표준화한 것이 CableLabs가 개발한 <strong>DOCSIS(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Over Cable <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Interface <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong> 이다.
 
 <strong>케이블 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/">모뎀</a> 없으면 발생하는 문제</strong>:
-- 가정마다 새로운 광섬유 직결(FTTH) 배선 필요 → 막대한 비용
-- 기존 CATV 인프라 유휴화 → 투자 손실
+- 가정마다 새로운 광섬유 직결(FTTH) 배선 필요 -> 막대한 비용
+- 기존 CATV 인프라 유휴화 -> 투자 손실
 - 도심 외곽 광대역 인터넷 공급 공백
 
 - **📢 섹션 요약 비유**: 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 <strong>'TV 채널이 지나가는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/">동축 케이블</a>)에 인터넷 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널을 몰래 끼워 보내는 기술'</strong> 입니다. 케이블 TV [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 쓰지 않는 주파수 대역 슬롯에 인터넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어서, 한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 TV와 인터넷을 동시에 전달하는 주파수 분리 기술입니다.
@@ -37,16 +37,16 @@ tags = ["studynote-network"]
 
 ```text
 인터넷
-  │
-  ▼
+  |
+  v
 헤드엔드 (Headend)
-  │ 광섬유 (Fiber)          ← 높은 대역폭, 간선망
-  ▼
+  | 광섬유 (Fiber)          <- 높은 대역폭, 간선망
+  v
 광 노드 (Optical Node / CMTS 연결점)
-  │ 동축 케이블 (Coaxial)   ← 라스트 마일, 가정까지
-  ├── 가정 A: [Cable Modem] ─ [Router] ─ [PC]
-  ├── 가정 B: [Cable Modem] ─ [Router] ─ [PC]
-  └── 가정 C: [Cable Modem] ─ [TV]
+  | 동축 케이블 (Coaxial)   <- 라스트 마일, 가정까지
+  +-- 가정 A: [Cable Modem] - [Router] - [PC]
+  +-- 가정 B: [Cable Modem] - [Router] - [PC]
+  +-- 가정 C: [Cable Modem] - [TV]
 ```
 
 - **CMTS (Cable Modem Termination System)**: 헤드엔드에 위치하는 장비로, 여러 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)과의 통신을 집선하고 인터넷과 연결함
@@ -58,10 +58,10 @@ tags = ["studynote-network"]
 동축 케이블 주파수 대역 (DOCSIS 3.1 기준)
 
   5 MHz                       85 MHz              1,218 MHz
-  │◄──── 업스트림 (Upstream) ────►│◄──── 다운스트림 (Downstream) ────►│
-  │  가정 → CMTS               │      CMTS → 가정                  │
-  │  OFDMA 다중 접속             │      OFDM 고속 다운로드             │
-  │  최대 ~1 Gbps 이론           │      최대 ~10 Gbps 이론            │
+  |◄---- 업스트림 (Upstream) ----►|◄---- 다운스트림 (Downstream) ----►|
+  |  가정 -> CMTS               |      CMTS -> 가정                  |
+  |  OFDMA 다중 접속             |      OFDM 고속 다운로드             |
+  |  최대 ~1 Gbps 이론           |      최대 ~10 Gbps 이론            |
 ```
 
 - 다운스트림이 더 넓은 주파수를 차지: 인터넷 사용 패턴이 다운로드 중심이기 때문
@@ -89,7 +89,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) | [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) | 구리 전화선 | 광섬유 |
 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 최대 ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps (DOCSIS 3.1) | 수십~수백 Mbps | 1 Gbps ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps |
-| 거리 영향 | 적음 | 거리↑ → 속도↓ 심각 | 없음 |
+| 거리 영향 | 적음 | 거리^ -> 속도v 심각 | 없음 |
 | 공유 여부 | 이웃과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 공유 | 전용 회선 | 전용 회선 |
 | 인프라 재활용 | CATV 망 재활용 | 전화망 재활용 | 신규 광섬유 필요 |
 | 설치 비용 | 낮음 | 낮음 | 높음 |
@@ -98,7 +98,7 @@ tags = ["studynote-network"]
 
 ### 연결 개념 흐름
 
-CATV 동축망 → HFC 구조 → CMTS (헤드엔드) → DOCSIS 표준 → 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) → 가정 라우터 → 최종 사용자
+CATV 동축망 -> HFC 구조 -> CMTS (헤드엔드) -> DOCSIS 표준 -> 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) -> 가정 라우터 -> 최종 사용자
 
 - **📢 섹션 요약 비유**: 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) vs. FTTH 선택은 **'아파트 공용 엘리베이터 vs. 개인 전용 엘리베이터'** 의 차이입니다. 공용(케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/))은 이웃과 나눠 쓰니 출퇴근 시간(피크 타임)에 느려지지만, 건물 이미 있으니 공사비(설치비)가 적습니다. 전용(FTTH)은 항상 빠르지만 내 집까지 광섬유를 새로 끌어와야 합니다.
 
@@ -153,20 +153,20 @@ CATV 동축망 → HFC 구조 → CMTS (헤드엔드) → DOCSIS 표준 → 케�
 
 ```text
 CATV 동축 케이블 인프라 (기존 TV 배선)
-    │
-    ▼
+    |
+    v
 HFC (Hybrid Fiber-Coaxial) 망 구축
-    │
-    ▼
+    |
+    v
 DOCSIS 1.0 / 2.0 (SC-QAM, 수십 Mbps)
-    │
-    ▼
+    |
+    v
 DOCSIS 3.0 (채널 본딩, 1 Gbps)
-    │
-    ▼
+    |
+    v
 DOCSIS 3.1 (OFDM/OFDMA, ~10 Gbps)
-    │
-    ▼
+    |
+    v
 DOCSIS 4.0 (Full Duplex ESD, 멀티기가빗 업스트림)
 ```
 
@@ -182,7 +182,7 @@ DOCSIS 4.0 (Full Duplex ESD, 멀티기가빗 업스트림)
 
 **진행 상황**: 268 / 1120
 
-← **이전**: [146. 모뎀 (Modem, Modulator/Demodulator)](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)
-**다음**: [148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast](/knowledge-base/studynote/03_network/03_physical_layer_media/148_adsl_vdsl_gfast/) →
+<- **이전**: [146. 모뎀 (Modem, Modulator/Demodulator)](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)
+**다음**: [148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast](/knowledge-base/studynote/03_network/03_physical_layer_media/148_adsl_vdsl_gfast/) ->
 
 ---

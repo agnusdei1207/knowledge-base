@@ -74,9 +74,9 @@ tags = ["studynote-design-supervision"]
      -> TER(5%) 이하 -> 통제 효과적
 
 표본 크기 영향 요소:
-  신뢰 수준 ↑ -> 표본 크기 ↑
-  허용 오류율 ↓ -> 표본 크기 ↑
-  예상 모집단 오류율 ↑ -> 표본 크기 ↑
+  신뢰 수준 ^ -> 표본 크기 ^
+  허용 오류율 v -> 표본 크기 ^
+  예상 모집단 오류율 ^ -> 표본 크기 ^
 ```
 
 > 📢 **섹션 요약 비유**: [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 샘플링은 선거 여론조사처럼 — 1,000명 물어보고 "60% 지지 ± 3%" 추론, 더 확실하려면 더 많이 물어봐야 함.
@@ -254,7 +254,7 @@ ISACA, IIA 가이드라인
 
 **진행 상황**: 55 / 530
 
-← **이전**: [39. 전자정부 표준 프레임워크 아키텍처 및 적용 기준 점검 (eGovFrame Architecture Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/039_egovframe_architecture_audit/)
-**다음**: [040. 감리인 독립성 (Auditor Independence)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_auditor_independence/) →
+<- **이전**: [39. 전자정부 표준 프레임워크 아키텍처 및 적용 기준 점검 (eGovFrame Architecture Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/039_egovframe_architecture_audit/)
+**다음**: [040. 감리인 독립성 (Auditor Independence)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_auditor_independence/) ->
 
 ---

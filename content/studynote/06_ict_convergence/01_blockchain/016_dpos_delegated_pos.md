@@ -27,17 +27,17 @@ tags = ["ict_convergence"]
 
 이 그림은 기존 PoW 및 PoS 기반 네트워크가 가지는 전체 노드 합의 구조의 병목과, DPoS가 채택한 대의제 구조의 차이를 명확히 보여준다.
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [기존 구조의 한계: 브로드캐스팅 오버헤드]              │
-│ Node A ←→ Node B ←→ Node C ←→ Node D ... (수만 개)  │
-│  ※ 모든 노드가 블록을 검증하고 합의해야 하므로 병목 발생 │
-├────────────────────────────────────────────────────────┤
-│ [DPoS의 혁신 패러다임: 대표자 위임]                    │
-│ [일반 유저 집단] (Stake 투표) ====> [BP 21명 선출]     │
-│   User 1, 2, 3 ... 10,000            Block Producer    │
-│                                           │            │
-│  ※ 오직 21명의 BP만 고속 네트워크로 연결되어 즉시 합의│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [기존 구조의 한계: 브로드캐스팅 오버헤드]              |
+| Node A <--> Node B <--> Node C <--> Node D ... (수만 개)  |
+|  ※ 모든 노드가 블록을 검증하고 합의해야 하므로 병목 발생 |
++--------------------------------------------------------+
+| [DPoS의 혁신 패러다임: 대표자 위임]                    |
+| [일반 유저 집단] (Stake 투표) ====> [BP 21명 선출]     |
+|   User 1, 2, 3 ... 10,000            Block Producer    |
+|                                           |            |
+|  ※ 오직 21명의 BP만 고속 네트워크로 연결되어 즉시 합의|
++--------------------------------------------------------+
 ```
 이 도식의 핵심은 합의에 참여하는 주체의 수가 수만 개에서 수십 개 단위로 급감한다는 점이다. 이런 배치는 네트워크 홉(Hop) 수와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대기 시간을 기하급수적으로 줄이기 때문이며, 따라서 DPoS는 TPS(Transactions Per Second) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에서 다른 퍼블릭 합의 방식을 압도한다. 실무에서는 이처럼 합의 노드를 소수로 제한할 경우 담합의 위험이 커지므로, 투표를 통한 견제 장치가 필수적으로 동반되어야 한다.
 
@@ -63,16 +63,16 @@ DPoS 아키텍처는 투표 시스템, BP 스케줄링, 그리고 고속 합의 
 [DPoS 블록 생성 및 검증 순차 흐름도]
 
 [Stakeholders] --(1. 토큰 스테이킹 및 투표)--> [Voting System]
-                                                  │
-   ┌──────────────────────────────────────────────┘
-   │ (2. 실시간 득표수 집계 및 상위 21명 선출)
-   ↓
+                                                  |
+   +----------------------------------------------+
+   | (2. 실시간 득표수 집계 및 상위 21명 선출)
+   v
 [Active BP 1~21] --(3. 라운드 로빈 순서 할당)--> [Block Generation Queue]
-   │
-   ├─ BP #1 : 0.5초 동안 블록 A 생성 ──┐
-   ├─ BP #2 : 0.5초 동안 블록 B 생성 ──┼─ (4. 2/3 이상 BP 서명 시) => [Finality 획득]
-   └─ BP #3 : 0.5초 동안 블록 C 생성 ──┘
-   │
+   |
+   +- BP #1 : 0.5초 동안 블록 A 생성 --+
+   +- BP #2 : 0.5초 동안 블록 B 생성 --+- (4. 2/3 이상 BP 서명 시) => [Finality 획득]
+   +- BP #3 : 0.5초 동안 블록 C 생성 --+
+   |
 [Standby BPs] <--(5. BP가 악의적 행동 시 투표 철회로 즉시 교체)
 ```
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계가 불특정 다수를 거치지 않고, 오직 상위 21명의 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) BP 안에서만 순차적으로 이루어진다는 점이다. 이런 배치는 각 BP가 자신의 턴(Time Slot)에만 블록을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 보장하기 때문이며, 따라서 블록 간 경합(Fork)이나 고아 블록(Orphan Block) 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 제로에 가깝게 만든다. 실무에서는 BP 간의 네트워크 레이턴시가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하므로, BP들은 주로 고성능 클라우드 인프라에 노드를 호스팅하게 된다.
@@ -110,18 +110,18 @@ DPoS는 다른 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stat
 PoW 방식은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)가 완벽하지만 속도가 느려 가치 저장 수단으로 전락했고, 일반 PoS는 속도가 개선되었지만 100% 확정성을 보장하기 까다롭다. 반면 DPoS는 소수 정예 체제로 운영되어 단일 요청 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 극도로 짧고 수평 확장이 유리하다.
 
 ```text
-┌─────────── [블록체인 합의 아키텍처 트레이드오프] ───────────┐
-│                                                           │
-│  [Decentralization 극대화]         [Scalability 극대화]   │
-│   ▲                              ▲                        │
-│   │ Bitcoin (PoW)                │ EOS (DPoS)             │
-│   │ Ethereum 1.0                 │ Tron, Steem            │
-│   │                              │                        │
-│   │                              │ ※ 소수 BP 담합 리스크  │
-│   │ ※ 51% 해시 공격 리스크        │ 카르텔(Cartel) 형성 주의│
-│   └──────────────────────────────┴────────────────────────┘
-│           Ethereum 2.0 (PoS) => 중앙에서 밸런스 모색      │
-└───────────────────────────────────────────────────────────┘
++----------- [블록체인 합의 아키텍처 트레이드오프] -----------+
+|                                                           |
+|  [Decentralization 극대화]         [Scalability 극대화]   |
+|   ^                              ^                        |
+|   | Bitcoin (PoW)                | EOS (DPoS)             |
+|   | Ethereum 1.0                 | Tron, Steem            |
+|   |                              |                        |
+|   |                              | ※ 소수 BP 담합 리스크  |
+|   | ※ 51% 해시 공격 리스크        | 카르텔(Cartel) 형성 주의|
+|   +------------------------------+------------------------+
+|           Ethereum 2.0 (PoS) => 중앙에서 밸런스 모색      |
++-----------------------------------------------------------+
 ```
 이 트레이드오프 도식의 핵심은 속도와 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)가 반비례 관계에 있음을 나타낸다. DPoS는 우측 상단에 위치하여 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))에 최적화된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하지만, 21개의 노드만 담합하면 네트워크 전체를 통제할 수 있다는 치명적인 보안 약점을 가진다. 실무에서는 이를 방어하기 위해 지분 편중을 막는 분배 로직과, BP의 수익을 커뮤니티에 환원하게 강제하는 거버넌스 룰을 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 단에서 구현해야만 생태계가 붕괴되지 않는다.
 
@@ -152,11 +152,11 @@ PoW 방식은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blo
 [DPoS 거버넌스 붕괴(안티패턴) 전파도]
 
 [거대 자본 유입] => [특정 거래소/고래가 지분 과점]
-       ↓
+       v
 [자체 BP에 몰표 행사] => [21개 BP 중 과반수 이상 장악 (카르텔)]
-       ↓
+       v
 [블록 검증 권한 독점] => [경쟁 BP 블랙리스트 처리 및 보상 독식]
-       ↓
+       v
 [생태계 신뢰 하락 및 사용자 이탈] ===> 🚨 네트워크 가치 0으로 수렴
 ```
 이 그림은 DPoS 시스템에서 기술적 장애보다 거버넌스 실패가 시스템을 붕괴시키는 과정을 보여준다. 이 도식에서 핵심은 자본의 집중이 곧 합의 권력의 독점으로 직결된다는 점이다. 따라서 아무리 시스템 TPS가 높아도, 이 거버넌스 붕괴를 막지 못하면 생태계는 파괴된다. 실무에서는 제곱근 투표(Quadratic [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))나 1인 1표(Proof of Personhood) 체계를 보조적으로 도입하여 자본의 크기가 곧바로 비례 권력이 되지 않도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 방어벽을 구축해야 한다.
@@ -193,17 +193,17 @@ DPoS는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchai
 
 ```text
 [PoW (Proof of Work) — 해시 연산 경쟁, 높은 에너지 소비]
-    │
-    ▼
+    |
+    v
 [PoS (Proof of Stake) — 지분 비례 검증, 에너지 효율 개선]
-    │
-    ▼
+    |
+    v
 [DPoS (Delegated PoS) — 대표 노드(BP) 선출, TPS 수천 단위 고성능]
-    │
-    ▼
+    |
+    v
 [DPoS + BFT 융합 — 블록 최종성(Finality) 확정, 엔터프라이즈 신뢰 확보]
-    │
-    ▼
+    |
+    v
 [레이어 2 롤업 시퀀서 (L2 Rollup Sequencer) — DPoS 원리의 고성능 레이어 2 적용]
 ```
 이 흐름은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 에너지 소비와 속도 사이의 트레이드오프를 풀기 위해 전체 참여 방식에서 대표 선출 방식으로 진화하고, 이를 레이어 2 확장 솔루션에까지 이식하는 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전 경로를 보여준다.
@@ -219,7 +219,7 @@ DPoS는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchai
 
 **진행 상황**: 16 / 552
 
-← **이전**: [15. 지분 증명 (PoS, Proof of Stake) - 보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/)
-**다음**: [17. 권위 증명 (PoA, Proof of Authority) - 신원 인증된 노드만 합의 참여 (프라이빗 블록체인)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/) →
+<- **이전**: [15. 지분 증명 (PoS, Proof of Stake) - 보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/)
+**다음**: [17. 권위 증명 (PoA, Proof of Authority) - 신원 인증된 노드만 합의 참여 (프라이빗 블록체인)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/017_poa_proof_of_authority/) ->
 
 ---

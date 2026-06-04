@@ -57,9 +57,9 @@ tags = ["studynote-ict-convergence"]
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)    | 의미                           | 동굴 비유                     |
 |-------|-------------------------------|------------------------------|
-| 완전성  | 진짜 지식 → 항상 증명 성공     | 진짜 비밀번호면 항상 통과      |
-| 건전성  | 가짜 지식 → 속임 불가         | 모르면 매번 요청 방향 못 맞춤  |
-| 영지식성| 증명 과정 → 내용 비공개       | Victor가 비밀번호를 못 알아냄 |
+| 완전성  | 진짜 지식 -> 항상 증명 성공     | 진짜 비밀번호면 항상 통과      |
+| 건전성  | 가짜 지식 -> 속임 불가         | 모르면 매번 요청 방향 못 맞춤  |
+| 영지식성| 증명 과정 -> 내용 비공개       | Victor가 비밀번호를 못 알아냄 |
 
 > 📢 **섹션 요약 비유**: 의사에게 "나는 건강합니다"를 병력 공개 없이 증명하는 것 — 완전성(정말 건강하면 증명), 건전성(아프면 속임 불가), 영지식성(병력 비공개).
 
@@ -204,7 +204,7 @@ AI+ZKP: 추론 결과 무결성 증명
 
 **진행 상황**: 37 / 552
 
-← **이전**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/)
-**다음**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/) →
+<- **이전**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/)
+**다음**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/) ->
 
 ---

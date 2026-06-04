@@ -19,20 +19,20 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Matter 이전 vs 이후                                │
-├───────────────────────────────────────────────────────┤
-│  [이전] 파편화                                        │
-│   전구 A → HomeKit만 지원                             │
-│   전구 B → Google Home만 지원                        │
-│   전구 C → Alexa만 지원                               │
-│   → 소비자: 3개 다 구매해야 함                       │
-│                                                       │
-│  [이후: Matter]                                       │
-│   전구 M → Matter 인증                               │
-│   → HomeKit ✅ Google Home ✅ Alexa ✅ 모두 동작!    │
-│   → 소비자: 1개만 구매                               │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Matter 이전 vs 이후                                |
++-------------------------------------------------------+
+|  [이전] 파편화                                        |
+|   전구 A -> HomeKit만 지원                             |
+|   전구 B -> Google Home만 지원                        |
+|   전구 C -> Alexa만 지원                               |
+|   -> 소비자: 3개 다 구매해야 함                       |
+|                                                       |
+|  [이후: Matter]                                       |
+|   전구 M -> Matter 인증                               |
+|   -> HomeKit ✅ Google Home ✅ Alexa ✅ 모두 동작!    |
+|   -> 소비자: 1개만 구매                               |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 이전은 나라마다 충전기가 다른 세상이고, Matter는 <strong>USB-C</strong>처럼 하나로 통일된 세상이다.
@@ -80,7 +80,7 @@ tags = ["studynote-ict-convergence"]
 조명, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 스마트 플러그, 도어록, 온도 조절기, 블라인드, 센서.
 
 ### 기존 디바이스 전환
-[Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)/[Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) → <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a></strong>를 통해 [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 생태계에 편입 가능.
+[Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)/[Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) -> <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a></strong>를 통해 [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 생태계에 편입 가능.
 
 ---
 
@@ -98,23 +98,23 @@ Matter는 스마트 홈의 <strong>USB-C 모먼트</strong>이며, 플랫폼 파
 | **Wi-Fi** | Matter의 고속 전송 계층 |
 | <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a></strong> | [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 디바이스 커미셔닝 전용 |
 | **CSA (Connectivity Standards Alliance)** | [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 관리 기관 |
-| **Multi-admin** | 1 디바이스 → 다수 플랫폼 동시 제어 |
+| **Multi-admin** | 1 디바이스 -> 다수 플랫폼 동시 제어 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [플랫폼 파편화 (HomeKit·Google Home·Alexa 각각)]
-    │
-    ▼
+    |
+    v
 [Project CHIP (2019) — Apple·Google·Amazon 표준 합의]
-    │
-    ▼
+    |
+    v
 [Matter 1.0 (2022) — 조명·스위치·플러그 지원]
-    │
-    ▼
+    |
+    v
 [Matter 1.2 (2023) — 로봇 청소기·센서 추가]
-    │
-    ▼
+    |
+    v
 [현재: Matter 2.0 — 카메라·가전·에너지 관리 확대]
 ```
 
@@ -129,7 +129,7 @@ Matter는 스마트 홈의 <strong>USB-C 모먼트</strong>이며, 플랫폼 파
 
 **진행 상황**: 116 / 552
 
-← **이전**: [115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/115_thread_protocol_ipv6_smart_home/)
-**다음**: [117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/) →
+<- **이전**: [115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/115_thread_protocol_ipv6_smart_home/)
+**다음**: [117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/) ->
 
 ---

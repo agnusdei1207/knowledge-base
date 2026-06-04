@@ -42,15 +42,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 혼합 기록과 스트림 분리 기록의 차이를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              Mixed placement vs stream-aware placement      │
-├──────────────────────────────────────────────────────────────┤
-│ Legacy block                     Stream-aware blocks         │
-│ [Hot][Cold][Hot][Cold]           [Hot][Hot][Hot][Hot]       │
-│        │                         [Cold][Cold][Cold][Cold]   │
-│        └─ Hot data dies early    Reclaim hot block at once  │
-│           => copy cold pages     Keep cold block untouched   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              Mixed placement vs stream-aware placement      |
++--------------------------------------------------------------+
+| Legacy block                     Stream-aware blocks         |
+| [Hot][Cold][Hot][Cold]           [Hot][Hot][Hot][Hot]       |
+|        |                         [Cold][Cold][Cold][Cold]   |
+|        +- Hot data dies early    Reclaim hot block at once  |
+|           => copy cold pages     Keep cold block untouched   |
++--------------------------------------------------------------+
 ```
 
 현실적으로는 스트림 수가 무한하지 않다. 많은 장치가 동시에 잘 처리할 수 있는 활성 스트림 수는 제한적이며, 스트림마다 열어 둬야 하는 블록과 메타데이터가 늘어난다. 그래서 보통은 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 3~5개 정도의 굵은 수명 그룹으로 나누는 편이 효과적이다.
@@ -125,17 +125,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 혼합 수명 데이터 기록
-    │
-    ▼
+    |
+    v
 블록 내부 온도 혼합
-    │
-    ▼
+    |
+    v
 GC 증가 · WAF 상승
-    │
-    ▼
+    |
+    v
 쓰기 수명 힌트 제공
-    │
-    ▼
+    |
+    v
 스트림 분리 배치 · 마모 완화
 ```
 
@@ -153,7 +153,7 @@ GC 증가 · WAF 상승
 
 **진행 상황**: 703 / 803
 
-← **이전**: [701. NVMe 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/701_nvme_reservation/)
-**다음**: [703. ZNS (Zoned Namespace) SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) →
+<- **이전**: [701. NVMe 서브시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/701_nvme_reservation/)
+**다음**: [703. ZNS (Zoned Namespace) SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) ->
 
 ---

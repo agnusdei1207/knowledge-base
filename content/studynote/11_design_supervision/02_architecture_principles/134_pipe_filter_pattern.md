@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 이 패턴은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 이미지·오디오 처리, 텍스트 분석, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일련의 변환 단계를 거치는 모든 시나리오에 적용된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             파이프-필터 패턴 구조                             │
-├─────────────────────────────────────────────────────────────┤
-│  입력 데이터                                                 │
-│      │                                                      │
-│  ┌───▼───┐  파이프  ┌───────┐  파이프  ┌───────┐           │
-│  │필터 A  │ ──────> │필터 B  │ ──────> │필터 C  │           │
-│  │(검증)  │         │(변환)  │         │(집계)  │           │
-│  └───────┘         └───────┘         └───┬───┘           │
-│                                          │                  │
-│                                      출력 데이터             │
-│  각 필터: 독립적, 재사용 가능, 교체 가능                    │
-│  파이프: 동기(메모리) 또는 비동기(메시지 큐)                │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             파이프-필터 패턴 구조                             |
++-------------------------------------------------------------+
+|  입력 데이터                                                 |
+|      |                                                      |
+|  +---v---+  파이프  +-------+  파이프  +-------+           |
+|  |필터 A  | ------> |필터 B  | ------> |필터 C  |           |
+|  |(검증)  |         |(변환)  |         |(집계)  |           |
+|  +-------+         +-------+         +---+---+           |
+|                                          |                  |
+|                                      출력 데이터             |
+|  각 필터: 독립적, 재사용 가능, 교체 가능                    |
+|  파이프: 동기(메모리) 또는 비동기(메시지 큐)                |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 공장 조립 라인처럼 원자재(입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 컨베이어 벨트([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 따라 이동하며 각 작업대(필터)에서 가공된다.
@@ -55,18 +55,18 @@ tags = ["studynote-design-supervision"]
 | Consumer | 최종 저장·전송 | DB 저장, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전송, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 출력 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       ETL 파이프라인 예시 (파이프-필터 적용)                 │
-├─────────────────────────────────────────────────────────────┤
-│  [Producer]      [Transformer]    [Transformer]  [Consumer] │
-│  DB 쿼리    →   JSON 파싱    →   필드 매핑    →  Elasticsearch│
-│               (Kafka Topic A)  (Kafka Topic B)   저장        │
-│                                                             │
-│  각 단계가 Kafka Topic(파이프)으로 연결됨                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       ETL 파이프라인 예시 (파이프-필터 적용)                 |
++-------------------------------------------------------------+
+|  [Producer]      [Transformer]    [Transformer]  [Consumer] |
+|  DB 쿼리    ->   JSON 파싱    ->   필드 매핑    ->  Elasticsearch|
+|               (Kafka Topic A)  (Kafka Topic B)   저장        |
+|                                                             |
+|  각 단계가 Kafka Topic(파이프)으로 연결됨                    |
++-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 조리법(레시피)에서 재료를 손질→볶기→간 맞추기→플레이팅 순서로 처리하듯, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단계적으로 변환한다.
+- **📢 섹션 요약 비유**: 조리법(레시피)에서 재료를 손질->볶기->간 맞추기->플레이팅 순서로 처리하듯, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단계적으로 변환한다.
 
 ---
 ## Ⅲ. 비교 및 연결
@@ -110,7 +110,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[Unix [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 개념] → [파이프-필터 패턴] → [Java [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] → Apache Kafka Streams] → [서버리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] → [ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인]
+[Unix [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 개념] -> [파이프-필터 패턴] -> [Java [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)] -> Apache Kafka Streams] -> [서버리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] -> [ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -121,7 +121,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[Unix 파이프] → [파이프-필터 패턴] → ETL [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] → Kafka Streams 실시간] → [서버리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] → AI/ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인]
+[Unix 파이프] -> [파이프-필터 패턴] -> ETL [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] -> Kafka Streams 실시간] -> [서버리스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] -> AI/ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 190 / 530
 
-← **이전**: [133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/)
-**다음**: [135. 블랙보드 패턴 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/135_blackboard_pattern/) →
+<- **이전**: [133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/)
+**다음**: [135. 블랙보드 패턴 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/135_blackboard_pattern/) ->
 
 ---

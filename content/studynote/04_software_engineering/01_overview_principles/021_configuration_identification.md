@@ -39,20 +39,20 @@ tags = ["software_engineering"]
 
 ```text
 
-┌────────────────────────────────────────────────────────────┐
-│                  System Level (Level 0 / 레벨 0)                    │
-│                  [System-100-v1.0]                         │
-└────────┬──────────────────────────────────────────┬────────┘
-         ↓                                          ↓
-┌─────────────────────┐                    ┌─────────────────────┐
-│ Subsystem (Level 1 / 레벨 1) │                    │ Subsystem (Level 1 / 레벨 1) │
-│  [CI-WEB-200-v1.1]  │                    │  [CI-DB-300-v1.0]   │
-└────┬───────────┬────┘                    └─────────┬───────────┘
-     ↓           ↓                                   ↓
-┌─────────┐ ┌─────────┐                         ┌─────────┐
-│ Module  │ │ Module  │                         │ Config  │
-│ [M-201] │ │ [M-202] │                         │ [C-301] │
-└─────────┘ └─────────┘                         └─────────┘
++------------------------------------------------------------+
+|                  System Level (Level 0 / 레벨 0)                    |
+|                  [System-100-v1.0]                         |
++--------+------------------------------------------+--------+
+         v                                          v
++---------------------+                    +---------------------+
+| Subsystem (Level 1 / 레벨 1) |                    | Subsystem (Level 1 / 레벨 1) |
+|  [CI-WEB-200-v1.1]  |                    |  [CI-DB-300-v1.0]   |
++----+-----------+----+                    +---------+-----------+
+     v           v                                   v
++---------+ +---------+                         +---------+
+| Module  | | Module  |                         | Config  |
+| [M-201] | | [M-202] |                         | [C-301] |
++---------+ +---------+                         +---------+
 ```
 
 이 흐름의 핵심은 분할의 깊이(Granularity)를 결정하는 것이다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 트리를 너무 깊게 구성하면 관리 오버헤드가 급증하고, 너무 얕게 구성하면 변경 시 영향도를 정확히 파악하기 어렵다. 따라서 각 계층에서 관리해야 하는 정보의 성격에 맞춰 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기준을 수립해야 한다.
@@ -82,14 +82,14 @@ tags = ["software_engineering"]
 다음 매트릭스는 거친 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/))과 세밀한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)) 방식의 아키텍처적 트레이드오프를 보여준다. [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 입도는 시스템의 관리 비용과 직결된다.
 
 ```text
-┌──────────┬──────────────────────────┬──────────────────────────┬────────────────┐
-│ 비교 항목│ 거친 식별 (Coarse)       │ 세밀한 식별 (Fine)       │ 판단 포인트    │
-├──────────┼──────────────────────────┼──────────────────────────┼────────────────┤
-│ CI 단위  │ 서브시스템 단위 통관리   │ 개별 소스파일/클래스 단위│ 변경의 빈도    │
-│ 관리 비용│ 낮음 (항목 수 적음)      │ 높음 (항목 수 많음)      │ 팀의 규모/역량 │
-│ 추적성   │ 약함 (내부 변경 파악 난해)│ 강함 (정밀한 의존성 파악)│ 결함 추적 난이도│
-│ 적합 환경│ 단일(Monolith) 레거시    │ MSA, 컴포넌트 기반(CBD)  │ 시스템 아키텍처│
-└──────────┴──────────────────────────┴──────────────────────────┴────────────────┘
++----------+--------------------------+--------------------------+----------------+
+| 비교 항목| 거친 식별 (Coarse)       | 세밀한 식별 (Fine)       | 판단 포인트    |
++----------+--------------------------+--------------------------+----------------+
+| CI 단위  | 서브시스템 단위 통관리   | 개별 소스파일/클래스 단위| 변경의 빈도    |
+| 관리 비용| 낮음 (항목 수 적음)      | 높음 (항목 수 많음)      | 팀의 규모/역량 |
+| 추적성   | 약함 (내부 변경 파악 난해)| 강함 (정밀한 의존성 파악)| 결함 추적 난이도|
+| 적합 환경| 단일(Monolith) 레거시    | MSA, 컴포넌트 기반(CBD)  | 시스템 아키텍처|
++----------+--------------------------+--------------------------+----------------+
 ```
 
 거친 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입 비용이 적지만, 단일 패키지 내부에서 발생하는 세부적인 충돌을 방지하기 어렵다. 반면 세밀한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식은 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 관리 오버헤드가 다소 크지만, 의존성 격리와 수평 확장성이 뛰어나기 때문에 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경처럼 독립적 배포가 잦은 구조에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 유리하다.
@@ -110,19 +110,19 @@ tags = ["software_engineering"]
 
 ```text
 [산출물 발생]
-   ↓
-[변경 가능성이 있는가?] ──(No)──> 식별 제외 (단순 보관)
-   │
+   v
+[변경 가능성이 있는가?] --(No)--> 식별 제외 (단순 보관)
+   |
  (Yes)
-   ↓
-[다른 모듈과 의존성을 가지는가?] ──(No)──> 단일 문서로 관리
-   │
+   v
+[다른 모듈과 의존성을 가지는가?] --(No)--> 단일 문서로 관리
+   |
  (Yes)
-   ↓
-[독립적으로 테스트 및 배포가 가능한가?] ──(No)──> 상위 CI에 병합 관리
-   │
+   v
+[독립적으로 테스트 및 배포가 가능한가?] --(No)--> 상위 CI에 병합 관리
+   |
  (Yes)
-   ↓
+   v
 [독립 CI로 식별 및 베이스라인 부여]
 ```
 
@@ -164,20 +164,20 @@ tags = ["software_engineering"]
 
 ```text
 [CI (형상 항목 — Configuration Item) 식별 및 명명]
-    │
-    ▼
+    |
+    v
 [기준선 (Baseline) 설정 — 특정 시점 승인 버전 묶음]
-    │
-    ▼
+    |
+    v
 [형상 통제 (Configuration Control) — CCB 변경 승인]
-    │
-    ▼
+    |
+    v
 [형상 기록/보고 (Configuration Status Accounting)]
-    │
-    ▼
+    |
+    v
 [형상 감사 (Configuration Audit) — 기능/물리 감사]
 ```
-SCM의 4대 활동은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)→[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)→통제→기록→[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 흐름으로 이어지며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 첫 단추로 모든 변경 추적성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성의 기반이 된다.
+SCM의 4대 활동은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)->[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)->통제->기록->[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 흐름으로 이어지며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 첫 단추로 모든 변경 추적성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성의 기반이 된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 장난감 로봇을 만들 때, 그냥 섞어두지 않고 머리, 팔, 다리로 나누는 것을 형상 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이라고 해요.
@@ -190,7 +190,7 @@ SCM의 4대 활동은 [식별](/knowledge-base/studynote/09_security/13_secops_i
 
 **진행 상황**: 21 / 973
 
-← **이전**: [20. 형상 관리 (SCM, Software Configuration Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)
-**다음**: [22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) →
+<- **이전**: [20. 형상 관리 (SCM, Software Configuration Management)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)
+**다음**: [22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) ->
 
 ---

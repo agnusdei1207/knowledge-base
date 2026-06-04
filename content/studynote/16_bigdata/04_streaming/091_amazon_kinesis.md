@@ -26,7 +26,7 @@ Amazon Kinesis는 스트리밍 [데이터](/knowledge-base/studynote/05_database
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 역할 | 비교 대상 |
 |:---|:---|:---|
 | Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams | 내구성 있는 스트림 저장 ([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐) | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) |
-| Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Firehose | 스트림 → S3/Redshift/ES 자동 전달 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect |
+| Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Firehose | 스트림 -> S3/Redshift/ES 자동 전달 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect |
 | Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analytics | 스트림에 SQL/Flink 적용 | Flink/ksqlDB |
 | Kinesis Video Streams | 비디오 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | (특수 목적) |
 
@@ -49,22 +49,22 @@ Amazon Kinesis는 스트리밍 [데이터](/knowledge-base/studynote/05_database
 ### 1. Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams 구조
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Kinesis Data Streams: "OrderEvents" 스트림                  │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
-│  │  Shard 1     │  │  Shard 2     │  │  Shard 3     │       │
-│  │              │  │              │  │              │       │
-│  │ 1MB/s 쓰기   │  │ 1MB/s 쓰기   │  │ 1MB/s 쓰기   │       │
-│  │ 2MB/s 읽기   │  │ 2MB/s 읽기   │  │ 2MB/s 읽기   │       │
-│  │ 오프셋(시퀀스)│  │ 오프셋(시퀀스)│  │ 오프셋(시퀀스)│      │
-│  └──────────────┘  └──────────────┘  └──────────────┘       │
-│                                                              │
-│  데이터 보존: 24시간(기본) ~ 7일(확장) ~ 365일(장기)          │
-└──────────────────────────────────────────────────────────────┘
-                 │                     │
-    ┌────────────┘                     └─────────────┐
-    ▼                                               ▼
++--------------------------------------------------------------+
+|  Kinesis Data Streams: "OrderEvents" 스트림                  |
+|                                                              |
+|  +--------------+  +--------------+  +--------------+       |
+|  |  Shard 1     |  |  Shard 2     |  |  Shard 3     |       |
+|  |              |  |              |  |              |       |
+|  | 1MB/s 쓰기   |  | 1MB/s 쓰기   |  | 1MB/s 쓰기   |       |
+|  | 2MB/s 읽기   |  | 2MB/s 읽기   |  | 2MB/s 읽기   |       |
+|  | 오프셋(시퀀스)|  | 오프셋(시퀀스)|  | 오프셋(시퀀스)|      |
+|  +--------------+  +--------------+  +--------------+       |
+|                                                              |
+|  데이터 보존: 24시간(기본) ~ 7일(확장) ~ 365일(장기)          |
++--------------------------------------------------------------+
+                 |                     |
+    +------------+                     +-------------+
+    v                                               v
 Lambda (서버리스)                          Kinesis Data Analytics
 (실시간 트리거)                             (Flink SQL/Java 처리)
 ```
@@ -78,12 +78,12 @@ Lambda (서버리스)                          Kinesis Data Analytics
 읽기 샤드 = 소비자 수 × MB/s 소비량 / 2MB
 
 예시: 초당 5,000 레코드, 평균 레코드 크기 500 bytes
-  → 쓰기 처리량 = 5,000 × 500B = 2.5MB/s
-  → 쓰기 샤드 = ceil(2.5 / 1) = 3 샤드
+  -> 쓰기 처리량 = 5,000 × 500B = 2.5MB/s
+  -> 쓰기 샤드 = ceil(2.5 / 1) = 3 샤드
 
   3개 Lambda 함수가 각각 1MB/s씩 소비한다면:
-  → 읽기 처리량 = 3 × 1MB = 3MB/s
-  → 읽기 샤드 = ceil(3 / 2) = 2 샤드 (쓰기가 더 많으므로 3 샤드 유지)
+  -> 읽기 처리량 = 3 × 1MB = 3MB/s
+  -> 읽기 샤드 = ceil(3 / 2) = 2 샤드 (쓰기가 더 많으므로 3 샤드 유지)
 ```
 
 ### 3. Kinesis vs [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 비교
@@ -112,12 +112,12 @@ Lambda (서버리스)                          Kinesis Data Analytics
 
 ```
 기본 모드 (Shared):
-  샤드 1: 2MB/s → Consumer A + Consumer B + Consumer C 공유 (~0.67MB/s 각각)
+  샤드 1: 2MB/s -> Consumer A + Consumer B + Consumer C 공유 (~0.67MB/s 각각)
 
 Enhanced Fan-Out:
-  샤드 1 → Consumer A: 2MB/s (독립)
-         → Consumer B: 2MB/s (독립)
-         → Consumer C: 2MB/s (독립)
+  샤드 1 -> Consumer A: 2MB/s (독립)
+         -> Consumer B: 2MB/s (독립)
+         -> Consumer C: 2MB/s (독립)
 ```
 
 ### 2. AWS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통합
@@ -193,17 +193,17 @@ Amazon Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ```text
 [배치 수집 (Batch Ingestion) — 주기적 ETL 파이프라인, 높은 지연]
-    │
-    ▼
+    |
+    v
 [Amazon Kinesis Data Streams — 실시간 스트림 수집, 샤드 기반 병렬 처리]
-    │
-    ▼
-[Kinesis Data Firehose — 무서버 스트림→S3/Redshift 자동 전달, 변환 내장]
-    │
-    ▼
+    |
+    v
+[Kinesis Data Firehose — 무서버 스트림->S3/Redshift 자동 전달, 변환 내장]
+    |
+    v
 [Kinesis Data Analytics (Apache Flink) — SQL·Flink로 스트림 실시간 분석]
-    │
-    ▼
+    |
+    v
 [Lambda Architecture / Kappa Architecture — 배치+스트림 통합 또는 스트림 단일화 아키텍처]
 ```
 이 흐름은 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)의 높은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계를 극복하기 위해 Amazon Kinesis가 실시간 스트림 수집의 관리형 표준으로 자리잡고, 저장·분석 레이어와 결합하여 엔드투엔드 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처로 진화하는 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 계보를 보여준다.
@@ -218,7 +218,7 @@ Amazon Kinesis는 AWS가 운영하는 컨베이어 벨트예요. 공장(여러�
 
 **진행 상황**: 91 / 262
 
-← **이전**: [15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR](/knowledge-base/studynote/16_bigdata/04_streaming/090_kafka_mirrormaker2/)
-**다음**: [17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스](/knowledge-base/studynote/16_bigdata/04_streaming/092_google_pubsub/) →
+<- **이전**: [15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR](/knowledge-base/studynote/16_bigdata/04_streaming/090_kafka_mirrormaker2/)
+**다음**: [17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스](/knowledge-base/studynote/16_bigdata/04_streaming/092_google_pubsub/) ->
 
 ---

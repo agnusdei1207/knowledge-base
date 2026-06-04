@@ -26,14 +26,14 @@ NVRAM 로깅은 [데이터베이스](/knowledge-base/studynote/05_database/01_db
 아래 그림은 전통적 동기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 경로와 NVRAM 로깅 경로의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          Commit path: where durability is decided            │
-├──────────────────────────────────────────────────────────────┤
-│ Traditional: Request -> SSD/HDD log -> Commit reply         │
-│ NVRAM path : Request -> NVRAM log  -> Commit reply          │
-│                              │                               │
-│                              └-> Later destage to SSD        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          Commit path: where durability is decided            |
++--------------------------------------------------------------+
+| Traditional: Request -> SSD/HDD log -> Commit reply         |
+| NVRAM path : Request -> NVRAM log  -> Commit reply          |
+|                              |                               |
+|                              +-> Later destage to SSD        |
++--------------------------------------------------------------+
 ```
 
 즉 NVRAM 로깅은 저장 원칙을 바꾸는 기술이 아니라, 그 원칙을 만족시키는 위치를 바꾸는 기술이다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 먼저 안전해야 한다는 전제는 그대로지만, 그 안전 판정 시점을 디스크 회전이나 플래시 프로그램 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 묶지 않게 해 준다.
@@ -59,16 +59,16 @@ NVRAM 로깅의 핵심 구성은 [로그](/knowledge-base/studynote/04_software_
 아래 그림은 NVRAM 로깅의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  NVRAM logging data path                     │
-├──────────────────────────────────────────────────────────────┤
-│ Transaction log -> NVRAM region -> Commit reply             │
-│                    │                                        │
-│                    ├-> checksum / ordering                  │
-│                    └-> async destage -> SSD/HDD             │
-│                                         │                   │
-│                              recovery replays persisted log │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  NVRAM logging data path                     |
++--------------------------------------------------------------+
+| Transaction log -> NVRAM region -> Commit reply             |
+|                    |                                        |
+|                    +-> checksum / ordering                  |
+|                    +-> async destage -> SSD/HDD             |
+|                                         |                   |
+|                              recovery replays persisted log |
++--------------------------------------------------------------+
 ```
 
 정량 관점에서도 차이가 크다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 급 경로는 나노초에서 마이크로초 수준이고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 동기 flush는 큐 상태에 따라 수백 마이크로초 이상이 되며, [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 동기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 밀리초 단위까지 늘어난다. NVRAM 로깅이 특히 강력한 이유는 평균 처리량보다도 최악 구간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄여, 짧은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 길게 줄 서는 현상을 완화하기 때문이다.
@@ -149,17 +149,17 @@ NVRAM 로깅의 가장 큰 효과는 지속성 보장 비용을 낮추는 데 �
 
 ```text
 Disk-based WAL
-     │
-     ▼
+     |
+     v
 SSD synchronous logging
-     │
-     ▼
+     |
+     v
 Controller cache + power protection
-     │
-     ▼
+     |
+     v
 NVRAM / PMem logging
-     │
-     ▼
+     |
+     v
 Replicated persistent log architecture
 ```
 
@@ -177,7 +177,7 @@ Replicated persistent log architecture
 
 **진행 상황**: 690 / 803
 
-← **이전**: [688. 배터리 백업 캐시 (BBU)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)
-**다음**: [690. 디스크 스핀다운 (Disk Spin-down)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/690_disk_spindown/) →
+<- **이전**: [688. 배터리 백업 캐시 (BBU)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)
+**다음**: [690. 디스크 스핀다운 (Disk Spin-down)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/690_disk_spindown/) ->
 
 ---

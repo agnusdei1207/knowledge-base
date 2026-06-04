@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 왜 "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나"가 아니라 "작업에 필요한 묶음"으로 이해되어야 하는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        최근 참조 구간으로 보는 워킹 셋: 필요한 책 한 묶음을 남긴다       │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 시간 흐름 →                                                              │
-│ ... 4  8  4  9  8  3  8  9  3  3  9  | 현재 t                           │
-│                     <------ Δ (관찰 구간) ------>                        │
-│                                                                          │
-│ 최근 Δ 동안 등장한 페이지 = {8, 9, 3}                                   │
-│                                                                          │
-│ 의미: 지금 이 프로세스는 페이지 8·9·3이 함께 있어야 계산 흐름이 끊기지 않음 │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|        최근 참조 구간으로 보는 워킹 셋: 필요한 책 한 묶음을 남긴다       |
++--------------------------------------------------------------------------+
+| 시간 흐름 ->                                                              |
+| ... 4  8  4  9  8  3  8  9  3  3  9  | 현재 t                           |
+|                     <------ Δ (관찰 구간) ------>                        |
+|                                                                          |
+| 최근 Δ 동안 등장한 페이지 = {8, 9, 3}                                   |
+|                                                                          |
+| 의미: 지금 이 프로세스는 페이지 8·9·3이 함께 있어야 계산 흐름이 끊기지 않음 |
++--------------------------------------------------------------------------+
 ```
 
 즉 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 "최근에 한 번이라도 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 목록"이 아니라, 현재 실행 국면을 지탱하는 최소한의 메모리 작업 공간이라는 의미를 가진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이 크기를 무시한 채 프로세스를 과도하게 메모리에 올리면, 시스템은 겉으로는 멀티태스킹이지만 실제로는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 운반만 반복하는 상태가 된다.
@@ -66,21 +66,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 개별 프로세스의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 계산과 시스템 수준 판단이 어떻게 연결되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 워킹 셋 모델의 시스템 제어 루프                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 프로세스 A 참조열 ─┐                                                     │
-│ 프로세스 B 참조열 ─┼─▶ 최근 Δ 구간 분석 ─▶ 각 W(t, Δ) 계산 ─┐           │
-│ 프로세스 C 참조열 ─┘                                       │           │
-│                                                            ▼           │
-│                                            Σ|W_i| 와 가용 프레임 비교    │
-│                                                            │           │
-│                           ┌────────────────────────────────┴─────────┐ │
-│                           │                                          │ │
-│                           ▼                                          ▼ │
-│                 충분함: 실행 유지, 지역성 보존         부족함: 프레임 재분배,
-│                                                  일부 프로세스 보류/Swap-out │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 워킹 셋 모델의 시스템 제어 루프                          |
++--------------------------------------------------------------------------+
+| 프로세스 A 참조열 -+                                                     |
+| 프로세스 B 참조열 -+--> 최근 Δ 구간 분석 --> 각 W(t, Δ) 계산 -+           |
+| 프로세스 C 참조열 -+                                       |           |
+|                                                            v           |
+|                                            Σ|W_i| 와 가용 프레임 비교    |
+|                                                            |           |
+|                           +--------------------------------+---------+ |
+|                           |                                          | |
+|                           v                                          v |
+|                 충분함: 실행 유지, 지역성 보존         부족함: 프레임 재분배,
+|                                                  일부 프로세스 보류/Swap-out |
++--------------------------------------------------------------------------+
 ```
 
 여기서 가장 어려운 변수는 `Δ`다. `Δ`가 너무 작으면 아직 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)에서 빠져 실제 필요 메모리를 낮게 잡는다. 반대로 `Δ`가 너무 크면 이미 지나간 작업 단계의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)까지 포함되어 불필요한 프레임을 붙잡게 된다. 그래서 순수 이론형 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 정확하지만 비용이 높고, 실제 시스템은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 주기적 샘플링으로 이를 근사하는 경우가 많다.
@@ -162,19 +162,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 참조의 지역성 (Locality)
-        │
-        ▼
+        |
+        v
 가상 메모리 (Virtual Memory) · 페이지 교체
-        │
-        ▼
+        |
+        v
 워킹 셋 모델 (Working Set Model)
-        │
-        ├──▶ 스래싱 제어 · DoM 조절
-        │
-        └──▶ PFF (Page Fault Frequency) · 근사형 운영 정책
+        |
+        +---> 스래싱 제어 · DoM 조절
+        |
+        +---> PFF (Page Fault Frequency) · 근사형 운영 정책
 ```
 
-이 흐름은 "지역성 이해 → [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리 → [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 기반 수요 추정 → 시스템 수준 제어"로 확장되는 맥락을 보여준다.
+이 흐름은 "지역성 이해 -> [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리 -> [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 기반 수요 추정 -> 시스템 수준 제어"로 확장되는 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 305 / 803
 
-← **이전**: [304. 스래싱 (Thrashing)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/304_thrashing/)
-**다음**: [306. PFF (Page Fault Frequency)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) →
+<- **이전**: [304. 스래싱 (Thrashing)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/304_thrashing/)
+**다음**: [306. PFF (Page Fault Frequency)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) ->
 
 ---

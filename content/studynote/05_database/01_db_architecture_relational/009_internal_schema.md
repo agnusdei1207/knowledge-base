@@ -25,14 +25,14 @@ tags = ["database"]
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 테이블이 내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 거쳐 물리적 스토리지로 매핑되는 계층 구조를 보여줍니다.
 ```text
 [개념 스키마]    Employee 테이블 (Row & Column)
-                       ↓ (개념/내부 사상)
-[내부 스키마] ┌──────────────────────────────────────────┐
-              │ - 레코드 포맷: 가변 길이 (Row Chaining)  │
-              │ - 인덱스 구조: B+Tree (Clustered)        │
-              │ - 파티셔닝   : Range Partition by Date   │
-              │ - 데이터 압축: LZ4 / Page 암호화(TDE)    │
-              └──────────────────────────────────────────┘
-                       ↓ (OS 파일 시스템 매핑)
+                       v (개념/내부 사상)
+[내부 스키마] +------------------------------------------+
+              | - 레코드 포맷: 가변 길이 (Row Chaining)  |
+              | - 인덱스 구조: B+Tree (Clustered)        |
+              | - 파티셔닝   : Range Partition by Date   |
+              | - 데이터 압축: LZ4 / Page 암호화(TDE)    |
+              +------------------------------------------+
+                       v (OS 파일 시스템 매핑)
 [물리 저장소]    Data File 1 (Extent -> Block -> OS Page -> HDD/SSD)
 ```
 이 도식에서 핵심은 내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Employee)를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이해할 수 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/블록 구조로 '번역'하고 '포장'하는 역할을 수행한다는 점입니다. [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)는 하나지만, DBA는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 테이블을 여러 개의 물리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 분할하거나([파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)), [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추가하는 등 내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 자유롭게 재구성할 수 있습니다. 이것이 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)(Physical [Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/))의 근간입니다.
@@ -52,16 +52,16 @@ tags = ["database"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크 블록에 물리적으로 저장되는 (내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관점) 세부 구조는 다음과 같습니다.
 ```text
-┌── DB Block (e.g., 8KB) ───────────────────────────┐
-│ [Block Header] LSN, Checksum, Transaction ID      │
-│ [Row Directory] -> 각 Record의 오프셋 포인터 배열 │
-│                                                   │
-│ [Free Space] (향후 Update를 대비한 빈 공간, PCTFREE)│
-│                                                   │
-│ [Record 3] (Col A=..., Col B=...)                 │
-│ [Record 2] (Col A=..., Col B=...)                 │
-│ [Record 1] (Col A=..., Col B=...)                 │
-└───────────────────────────────────────────────────┘
++-- DB Block (e.g., 8KB) ---------------------------+
+| [Block Header] LSN, Checksum, Transaction ID      |
+| [Row Directory] -> 각 Record의 오프셋 포인터 배열 |
+|                                                   |
+| [Free Space] (향후 Update를 대비한 빈 공간, PCTFREE)|
+|                                                   |
+| [Record 3] (Col A=..., Col B=...)                 |
+| [Record 2] (Col A=..., Col B=...)                 |
+| [Record 1] (Col A=..., Col B=...)                 |
++---------------------------------------------------+
 ```
 이 구조의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드가 블록의 밑바닥부터 쌓이고, 헤더 포인터는 위에서부터 내려오는 구조라는 점입니다. 중간에 있는 `Free Space`는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중 레코드 길이가 늘어날 때(Update 시) 다른 블록으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 튕겨 나가는 현상(Row Migration)을 방지하기 위한 여유 공간입니다. DBA는 내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 설계 시 이 빈 공간의 비율(PCTFREE)을 튜닝하여 디스크 낭비와 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 사이의 타협점을 찾습니다.
 
@@ -91,12 +91,12 @@ tags = ["database"]
 아래 트리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 내부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 튜닝의 의사결정 흐름을 보여줍니다.
 ```text
 [쿼리 성능 저하 감지]
-   ↓
+   v
 [실행 계획(Plan) 분석]
-   ├─> (풀 스캔 발생) ──> 인덱스 트리 추가 (내부 스키마 변경)
-   └─> (인덱스 스캔 됨) ──> [병목 원인 파악]
-          ├─> 랜덤 I/O 과다? ──> 클러스터드 인덱스 재정렬 (리빌드)
-          └─> 블록 경합? ──> PCTFREE 증가 (블록당 레코드 수 감소시켜 락 분산)
+   +-> (풀 스캔 발생) --> 인덱스 트리 추가 (내부 스키마 변경)
+   +-> (인덱스 스캔 됨) --> [병목 원인 파악]
+          +-> 랜덤 I/O 과다? --> 클러스터드 인덱스 재정렬 (리빌드)
+          +-> 블록 경합? --> PCTFREE 증가 (블록당 레코드 수 감소시켜 락 분산)
 ```
 이 흐름의 핵심은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(외부/개념) 수정 없이, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 배치와 블록 밀도를 조정하는 것만으로 극적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 이뤄낸다는 점입니다. 이것이 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)이 실무에서 주는 가장 강력한 무기입니다.
 
@@ -126,17 +126,17 @@ tags = ["database"]
 
 ```text
 [개념 스키마 — 전체 데이터 의미 정의]
-    │
-    ▼
+    |
+    v
 [논리 스키마 — 테이블/관계 구조 설계]
-    │
-    ▼
+    |
+    v
 [내부 스키마(물리 설계) — 저장 구조 구체화]
-    │
-    ▼
+    |
+    v
 [인덱스/파티셔닝 — 접근 성능 최적화]
-    │
-    ▼
+    |
+    v
 [스토리지 엔진 최적화 — 실제 I/O 튜닝]
 ```
 
@@ -153,7 +153,7 @@ tags = ["database"]
 
 **진행 상황**: 9 / 600
 
-← **이전**: [8. 개념 스키마 (Conceptual Schema) - 조직 전체 관점, 논리적 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)
-**다음**: [10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) →
+<- **이전**: [8. 개념 스키마 (Conceptual Schema) - 조직 전체 관점, 논리적 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)
+**다음**: [10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) ->
 
 ---

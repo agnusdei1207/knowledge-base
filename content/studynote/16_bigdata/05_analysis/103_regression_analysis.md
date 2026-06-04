@@ -75,11 +75,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [상위 개념: Predictive Analytics, Supervised Learning]
-    │
-    ▼
+    |
+    v
 [하위 개념: OLS, Regularization (L1, L2), Logistic Regression]
-    │
-    ▼
+    |
+    v
 [연관 기술: Pearson Correlation, VIF, R-Squared, Gradient Descent]
 ```
 
@@ -96,7 +96,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 103 / 262
 
-← **이전**: [탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/102_eda_exploratory_data_analysis/)
-**다음**: [분류 (Classification) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) →
+<- **이전**: [탐색적 데이터 분석 (EDA, Exploratory Data Analysis)](/knowledge-base/studynote/16_bigdata/05_analysis/102_eda_exploratory_data_analysis/)
+**다음**: [분류 (Classification) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ->
 
 ---

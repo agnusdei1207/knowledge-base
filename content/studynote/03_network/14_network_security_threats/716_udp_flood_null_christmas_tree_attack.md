@@ -33,11 +33,11 @@ tags = ["studynote-network"]
 
 ```text
 [TearDrop 공격]
-    │
-    ▼
+    |
+    v
 [UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    └──▶ [반사 증폭 공격]
+    |
+    +---> [반사 증폭 공격]
 ```
 
 - **📢 섹션 요약 비유**: [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -61,11 +61,11 @@ tags = ["studynote-network"]
 
 ```text
 [TearDrop 공격]
-    │
-    ▼
+    |
+    v
 [UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    └──▶ [반사 증폭 공격]
+    |
+    +---> [반사 증폭 공격]
 ```
 
 - **📢 섹션 요약 비유**: [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Flood는 집 앞마당에 계속 쓰레기봉투를 던지는 테러입니다. 집주인(서버)은 봉투를 열어보고 "이거 내 택배 아님!"이라고 반송장([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 에러)을 써서 반품하느라 하루 종일 아무 일도 못 하고 과로사합니다. 한편 크리스마스 공격은 우편물 겉면에 '초특급 긴급, 절대 열어보지 마, 당장 버려, 반송 요망'이라는 모순된 도장들을 한꺼번에 덕지덕지 찍어 보낸 것입니다. 우체국 직원이 어느 도장 규정에 맞춰 처리해야 할지 멘붕에 빠져 뇌정지가 오는 상황을 노린 비열한 속임수입니다.
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: TearDrop 공격]
-    │
-    ▼
+    |
+    v
 [현재 개념: UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ├──▶ [확장 A: 반사 증폭 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 반사 증폭 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…는 TearDrop 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [반사 증폭 공격](/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 837 / 1120
 
-← **이전**: [715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)](/knowledge-base/studynote/03_network/14_network_security_threats/715_teardrop_attack_ip_offset_overlap/)
-**다음**: [717. 반사 증폭 공격 (Amplification Attack / DRDoS)](/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/) →
+<- **이전**: [715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)](/knowledge-base/studynote/03_network/14_network_security_threats/715_teardrop_attack_ip_offset_overlap/)
+**다음**: [717. 반사 증폭 공격 (Amplification Attack / DRDoS)](/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/) ->
 
 ---

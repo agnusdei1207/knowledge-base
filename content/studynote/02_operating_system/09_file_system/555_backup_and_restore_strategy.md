@@ -31,35 +31,35 @@ tags = ["studynote-operating-system"]
 만약 금요일에 서버가 랜섬웨어로 완전히 참수당했을 때, 각 모델별로 "복원 합체 로봇 수술([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))" 을 몇 번이나 해야 하는지 그 렌더를 까보면 다음과 같다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "백업할 땐 편했지? 복원할 때 피눈물 쏟으며 깨닫는 트레이드오프!"         │
-  ├──────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                          │
-  │  🚨 [ 대전제 록백 ]: 일요일에 Full(원판) 생성. 서버는 목요일 밤 사망!                    │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  ✅ [ 모델 1: 증분 (Incremental 백업) 최악의 수작업 복구 폭쇄 렌더!! ]                   │
-  │     (특징: 매일매일 '어제 뜬 백업본' 이후 바뀐 점만 찔끔찔끔 긁어감)                     │
-  │                                                                                          │
-  │      [ 복구 순서 빔! ]: 총 5번의 덤프 파일 수술 퍼즐을 순서대로 맞출 것!                 │
-  │       1. 일요일 [Full 원본] 로딩  (어휴 안도..)                                          │
-  │       2. 월요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       3. 화요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       4. 수요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       5. 목요일 [Incr 쪼가리] 덮어쓰기 -> "휴! 드디어 100% 원래대로 복원 컷!"            │
-  │       => 단점: 중간 화요일 파일 하나 깨져있으면 수/목 파일 전부 연쇄 쓰레기 파단!        │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  🔥 [ 모델 2: 차등 (Differential 백업) 중간자 합체 스왑!! ]                              │
-  │     (특징: 무조건 '일요일 Full 원본' 기준으로 바뀐 덩어리를 계속 크게 누적해 떠감)       │
-  │                                                                                          │
-  │      [ 복구 순서 빔! ]: 딱 2방 콤보! (속도 엄청 빠름 부스트)                             │
-  │       1. 일요일 [Full 원본] 로딩                                                         │
-  │       2. 목요일 [Diff 뚱보 쪼가리 (월+화+수+목 변동분 누적결합체)] 1방 덮어쓰기 끝!      │
-  │       => 단점: 목요일 백업 뜰 때 덩치가 월~목 누적 4배로 존나 커서 평소 디스크 비효율 늪!│
-  └──────────────────────────────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------------------------------+
+  |                 "백업할 땐 편했지? 복원할 때 피눈물 쏟으며 깨닫는 트레이드오프!"         |
+  +------------------------------------------------------------------------------------------+
+  |                                                                                          |
+  |  🚨 [ 대전제 록백 ]: 일요일에 Full(원판) 생성. 서버는 목요일 밤 사망!                    |
+  |                                                                                          |
+  |  =========================v===================================                           |
+  |                                                                                          |
+  |  ✅ [ 모델 1: 증분 (Incremental 백업) 최악의 수작업 복구 폭쇄 렌더!! ]                   |
+  |     (특징: 매일매일 '어제 뜬 백업본' 이후 바뀐 점만 찔끔찔끔 긁어감)                     |
+  |                                                                                          |
+  |      [ 복구 순서 빔! ]: 총 5번의 덤프 파일 수술 퍼즐을 순서대로 맞출 것!                 |
+  |       1. 일요일 [Full 원본] 로딩  (어휴 안도..)                                          |
+  |       2. 월요일 [Incr 쪼가리] 덮어쓰기                                                   |
+  |       3. 화요일 [Incr 쪼가리] 덮어쓰기                                                   |
+  |       4. 수요일 [Incr 쪼가리] 덮어쓰기                                                   |
+  |       5. 목요일 [Incr 쪼가리] 덮어쓰기 -> "휴! 드디어 100% 원래대로 복원 컷!"            |
+  |       => 단점: 중간 화요일 파일 하나 깨져있으면 수/목 파일 전부 연쇄 쓰레기 파단!        |
+  |                                                                                          |
+  |  =========================v===================================                           |
+  |                                                                                          |
+  |  🔥 [ 모델 2: 차등 (Differential 백업) 중간자 합체 스왑!! ]                              |
+  |     (특징: 무조건 '일요일 Full 원본' 기준으로 바뀐 덩어리를 계속 크게 누적해 떠감)       |
+  |                                                                                          |
+  |      [ 복구 순서 빔! ]: 딱 2방 콤보! (속도 엄청 빠름 부스트)                             |
+  |       1. 일요일 [Full 원본] 로딩                                                         |
+  |       2. 목요일 [Diff 뚱보 쪼가리 (월+화+수+목 변동분 누적결합체)] 1방 덮어쓰기 끝!      |
+  |       => 단점: 목요일 백업 뜰 때 덩치가 월~목 누적 4배로 존나 커서 평소 디스크 비효율 늪!|
+  +------------------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 백업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 3대장 뼈대다. **1. 증분(Incremental)** 은 도미노 사슬이다. 매일 백업 용량이 $O(1)$ 로 작아 통신 속도는 빛의 빔이지만, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙) 시 사슬을 10번 끼워야 하고 1개라도 분실하면 그 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 박살(Chain Corruption 단절) 난다. **2. 차등(Differential)** 은 타협점(Trade-off 렌더)이다. 일요일을 기준으로 뚱뚱한 차등 덩어리 1개만 들고 다니다가, 사고 나면 [원본 1방 + 차등본 1방] 으로 목숨을 살린다. 엔터프라이즈(기업) C-Level은 멍청한 "오래 걸리는 백업" 보다 1분 1초가 급한 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스피드([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))에 환장하기 때문에 실제 실무에선 단순 증분 대신 Differential 또는 진화형 합성 모드를 강제 병행 조율한다 도출.
@@ -142,12 +142,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [FUSE (Filesystem in Userspace)]
-    │
-    ▼
+    |
+    v
 [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
-    │
-    ├──▶ [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
-    └──▶ [임시 파일 시스템 (tmpfs / ramfs)]
+    |
+    +---> [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
+    +---> [임시 파일 시스템 (tmpfs / ramfs)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -164,7 +164,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 555 / 800
 
-← **이전**: [554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/)
-**다음**: [556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리](/knowledge-base/studynote/02_operating_system/09_file_system/556_undelete_data_carving/) →
+<- **이전**: [554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/)
+**다음**: [556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리](/knowledge-base/studynote/02_operating_system/09_file_system/556_undelete_data_carving/) ->
 
 ---

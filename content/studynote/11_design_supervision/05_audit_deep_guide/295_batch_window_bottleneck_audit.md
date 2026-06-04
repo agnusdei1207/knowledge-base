@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 배치 윈도우 병목 감리는 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 윈도우(Window)와 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 병목 관리 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 대규모 트랜잭션과 실시간 계측 도구가 보편화되면서 평균값만 보는 운영에서 병목 경로를 추적하는 운영으로 무게중심이 이동했다. 특히 일정 여유가 기준선으로 정리되지 않으면 의존 체인은 사람 의존 절차로 흩어지고, 최종적으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 튜닝이 남지 않아 의사결정이 감각에 의존하게 된다. 이 기준이 약하면 지연이 누적되어 장애 확산과 자원 증설 비용 증가가 동시에 발생한다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 일정 여유 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 의존 체인 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 처리량 튜닝 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 일정 여유 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 의존 체인 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 처리량 튜닝 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 배치 윈도우 병목 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 튜닝을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 일정 여유, 의존 체인, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 튜닝은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 자율 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화(Autonomous Optimization)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[일정 여유] → [배치 윈도우 병목 감리] → [자율 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화(Autonomous Optimization)]
+[일정 여유] -> [배치 윈도우 병목 감리] -> [자율 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화(Autonomous Optimization)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 일정 여유는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 356 / 530
 
-← **이전**: [294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/294_test_data_masking_nonprod/)
-**다음**: [296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/) →
+<- **이전**: [294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/294_test_data_masking_nonprod/)
+**다음**: [296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/) ->
 
 ---

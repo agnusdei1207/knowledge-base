@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 [엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/)는 단순히 캐시 서버를 하나 두는 개념이 아니라, 사용자와 가까운 지점에서 정적 자산 전달, 요청 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 간단한 가공, 지역별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행하는 방식이다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선의 핵심은 서버를 더 크게 만드는 것이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 연산을 어디까지 앞당겨 둘 것인가</strong>에 있다.
 
 ```text
-┌─────────────┐   ┌────────────────────────────┐
-│ 사용자 A/B/C │──▶│ 가까운 엣지 거점 (PoP)     │
-└─────────────┘   └────────────┬───────────────┘
-                                │
-                  ┌─────────────┴──────────────┐
-                  │ 캐시 적중: 즉시 응답       │
-                  │ 캐시 미스: 원본 요청 전달  │
-                  └─────────────┬──────────────┘
-                                ▼
-                       ┌──────────────────────┐
-                       │ 원본 서비스·데이터 저장소 │
-                       └──────────────────────┘
++-------------+   +----------------------------+
+| 사용자 A/B/C |--->| 가까운 엣지 거점 (PoP)     |
++-------------+   +------------+---------------+
+                                |
+                  +-------------+--------------+
+                  | 캐시 적중: 즉시 응답       |
+                  | 캐시 미스: 원본 요청 전달  |
+                  +-------------+--------------+
+                                v
+                       +----------------------+
+                       | 원본 서비스·데이터 저장소 |
+                       +----------------------+
 ```
 
 기술사 답안에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 단축을 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·배포 토폴로지·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최신성 간의 균형 문제로 쓰는 것이 좋다. 감리 관점에서도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치뿐 아니라 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 무효화 증적을 함께 봐야 한다.
@@ -42,15 +42,15 @@ tags = ["studynote-design-supervision"]
 [엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/) 구조는 보통 전역 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 시스템 ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 캐시, 엣지 함수, 원본 서버의 네 층으로 이해하면 쉽다. 요청은 먼저 가장 가까운 엣지 거점으로 유도되고, 캐시에 있으면 즉시 응답한다. 캐시에 없거나 개인화된 요청이면 원본으로 전달하되, 응답 결과를 다시 캐시에 적재하거나 지역별 규칙에 따라 짧게 보관한다.
 
 ```text
-┌────────┐   ┌────────────┐   ┌──────────────────┐   ┌────────┐
-│ Client │──▶│ Global DNS │──▶│ Edge Cache/Func. │──▶│ Origin │
-└────────┘   └────────────┘   └──────┬───────────┘   └────────┘
-                                      │
-                     ┌────────────────┼─────────────────┐
-                     │ Cache Hit : 즉시 응답            │
-                     │ Cache Miss: 원본 조회            │
-                     │ Edge Logic: 헤더·지역 라우팅     │
-                     └──────────────────────────────────┘
++--------+   +------------+   +------------------+   +--------+
+| Client |--->| Global DNS |--->| Edge Cache/Func. |--->| Origin |
++--------+   +------------+   +------+-----------+   +--------+
+                                      |
+                     +----------------+-----------------+
+                     | Cache Hit : 즉시 응답            |
+                     | Cache Miss: 원본 조회            |
+                     | Edge Logic: 헤더·지역 라우팅     |
+                     +----------------------------------+
 ```
 
 | 구성 축 | 핵심 역할 | 감리·기술사 포인트 |
@@ -113,17 +113,17 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 글로벌 사용자 증가
-        │
-        ▼
+        |
+        v
 CDN 캐싱 도입
-        │
-        ▼
+        |
+        v
 엣지 라우팅 · 경량 연산 확장
-        │
-        ▼
+        |
+        v
 캐시 일관성 · 무효화 고도화
-        │
-        ▼
+        |
+        v
 빠른 응답 · 원본 보호 · 지역 최적화 달성
 ```
 
@@ -140,7 +140,7 @@ CDN 캐싱 도입
 
 **진행 상황**: 515 / 530
 
-← **이전**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/436_management/)
-**다음**: [438. PWA 오프라인 우선 서비스 워커 설계 (Progressive Web App Offline-First Service Worker](/knowledge-base/studynote/11_design_supervision/06_exam_summary/438_architecture/) →
+<- **이전**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/436_management/)
+**다음**: [438. PWA 오프라인 우선 서비스 워커 설계 (Progressive Web App Offline-First Service Worker](/knowledge-base/studynote/11_design_supervision/06_exam_summary/438_architecture/) ->
 
 ---

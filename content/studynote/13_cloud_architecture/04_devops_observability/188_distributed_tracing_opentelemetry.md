@@ -18,13 +18,13 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리식 애플리케이션에서는 하나의 느린 함수 호출을 프로파일러로 찾을 수 있었다. 그러나 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 사용자 결제 요청은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연쇄 호출할 수 있다. 응답이 2초 걸렸다면 어느 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늦은 걸까? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로는 파악이 어렵다.
+모놀리식 애플리케이션에서는 하나의 느린 함수 호출을 프로파일러로 찾을 수 있었다. 그러나 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 사용자 결제 요청은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연쇄 호출할 수 있다. 응답이 2초 걸렸다면 어느 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늦은 걸까? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로는 파악이 어렵다.
 
 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 요청의 첫 진입점에서 고유 Trace ID를 생성하고, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이 ID를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더로 전파하면서 자신이 처리한 시간(Span)을 기록한다. 최종적으로 모든 Span을 모으면 전체 요청의 타임라인이 완성된다.
 
 2021년 이후 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)([OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 프로젝트로 성숙하면서, 계측 표준화가 이루어졌다. 이전에는 Jaeger SDK, Zipkin SDK가 서로 달라 도구를 바꾸면 코드도 바꿔야 했지만, OTel로 한 번 계측하면 백엔드는 자유롭게 교체 가능하다.
 
-📢 **섹션 요약 비유**: [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 택배 배송 추적 시스템이다. 하나의 택배(요청)가 발송 센터 → [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 센터 → 배달 센터 → 고객 집을 거치며 각 단계의 시간이 기록된다. 어느 단계에서 가장 오래 걸렸는지 한눈에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+📢 **섹션 요약 비유**: [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 택배 배송 추적 시스템이다. 하나의 택배(요청)가 발송 센터 -> [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 센터 -> 배달 센터 -> 고객 집을 거치며 각 단계의 시간이 기록된다. 어느 단계에서 가장 오래 걸렸는지 한눈에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 ---
 
@@ -35,21 +35,21 @@ tags = ["studynote-cloud-architecture"]
 ```
 [사용자 결제 요청 추적]
 
-User → API Gateway → Auth Svc → Cart Svc → Payment Svc → Notif Svc
-│      │              │           │            │              │
-│      trace_id=X001  ←──────── HTTP 헤더로 trace_id 전파 ──→│
-│
-│
+User -> API Gateway -> Auth Svc -> Cart Svc -> Payment Svc -> Notif Svc
+|      |              |           |            |              |
+|      trace_id=X001  <--------- HTTP 헤더로 trace_id 전파 --->|
+|
+|
 Trace X001 재구성:
-┌─────────────────────────────────────────────────────────┐
-│ Span: API-GW         [|────────────────────────|]  250ms│
-│   Span: Auth         [  |──|  ]  30ms                   │
-│   Span: Cart         [      |────|  ]  80ms             │
-│   Span: Payment      [           |──────────|  ] 120ms  │
-│     Span: DB-Query   [             |────────|  ]  90ms  │← 병목!
-│   Span: Notification [                       |─|]  20ms │
-└─────────────────────────────────────────────────────────┘
-→ Payment 서비스의 DB 쿼리가 90ms (전체의 36%) 차지 → 최적화 대상
++---------------------------------------------------------+
+| Span: API-GW         [|------------------------|]  250ms|
+|   Span: Auth         [  |--|  ]  30ms                   |
+|   Span: Cart         [      |----|  ]  80ms             |
+|   Span: Payment      [           |----------|  ] 120ms  |
+|     Span: DB-Query   [             |--------|  ]  90ms  |<- 병목!
+|   Span: Notification [                       |-|]  20ms |
++---------------------------------------------------------+
+-> Payment 서비스의 DB 쿼리가 90ms (전체의 36%) 차지 -> 최적화 대상
 ```
 
 | 개념 | 설명 |
@@ -60,7 +60,7 @@ Trace X001 재구성:
 | Child Span | 호출받은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 Span |
 | [Context Propagation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/570_trace_id_span_id_context_propagation/) | Trace ID를 다음 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전달 |
 
-📢 **섹션 요약 비유**: Trace는 여행 일정표, Span은 각 구간의 체류 시간이다. 서울→부산 여행(Trace)에서 기차(Span 1), 택시(Span 2), 체크인(Span 3) 각각 얼마나 걸렸는지 기록한다.
+📢 **섹션 요약 비유**: Trace는 여행 일정표, Span은 각 구간의 체류 시간이다. 서울->부산 여행(Trace)에서 기차(Span 1), 택시(Span 2), 체크인(Span 3) 각각 얼마나 걸렸는지 기록한다.
 
 ---
 
@@ -100,9 +100,9 @@ java -javaagent:opentelemetry-javaagent.jar \
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a> Collector 역할:</strong>
 ```
-앱 SDK → OTel Collector → Jaeger (트레이스)
-                        → Prometheus (메트릭)
-                        → Loki (로그)
+앱 SDK -> OTel Collector -> Jaeger (트레이스)
+                        -> Prometheus (메트릭)
+                        -> Loki (로그)
 [하나의 Collector에서 백엔드 분기, 앱은 하나의 엔드포인트만 알면 됨]
 ```
 
@@ -144,13 +144,13 @@ java -javaagent:opentelemetry-javaagent.jar \
 
 ```text
 단일 서버 로그 분석 (MSA에서 불가)
-    │
-    ▼
+    |
+    v
 분산 추적: Trace ID로 서비스 간 요청 흐름 추적
-    ├─► Jaeger · Zipkin · Tempo
-    └─► Span: 각 서비스 호출 단위
-    │
-    ▼
+    +-► Jaeger · Zipkin · Tempo
+    +-► Span: 각 서비스 호출 단위
+    |
+    v
 OpenTelemetry: 벤더 중립 수집 표준
 ```
 2. Trace ID는 바통이고, 각 선수의 시간 기록이 Span이에요.
@@ -162,7 +162,7 @@ OpenTelemetry: 벤더 중립 수집 표준
 
 **진행 상황**: 187 / 371
 
-← **이전**: [187. 로그 및 ELK Stack (Logs, Centralized Logging)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/187_logging_elk_stack_centralized/)
-**다음**: [189. Trace ID / Span ID / Context Propagation](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/189_trace_id_span_context_propagation/) →
+<- **이전**: [187. 로그 및 ELK Stack (Logs, Centralized Logging)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/187_logging_elk_stack_centralized/)
+**다음**: [189. Trace ID / Span ID / Context Propagation](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/189_trace_id_span_context_propagation/) ->
 
 ---

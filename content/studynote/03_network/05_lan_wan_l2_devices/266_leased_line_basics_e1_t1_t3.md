@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [PoE]
-    │
-    ▼
+    |
+    v
 [전용선 기초]
-    │
-    └──▶ [다이얼업 다중화, X.25]
+    |
+    +---> [다이얼업 다중화, X.25]
 ```
 
 - **📢 섹션 요약 비유**: ** 전용선은 일반 버스나 지하철(인터넷)을 타지 않고, 매달 엄청난 렌트비를 통신사에 내고 **"기사님이 딸린 고급 리무진(1:1 독점 연결)"**을 24시간 대기시켜 놓는 것과 같습니다.
@@ -51,20 +51,20 @@ tags = ["studynote-network"]
 - **E1**: 64Kbps 음성 회선 <strong>30개</strong>에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어용 2개를 합쳐 총 32개의 채널을 묶었다. 대역폭은 <strong>2.048 Mbps</strong>다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                디지털 전용선 (T-Carrier) 속도 계층              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ DS0 (기본 채널) ] ──▶ 64 Kbps (음성 1통화 분량)            │
- │           │                                                 │
- │           ▼ (24개를 묶음)                                    │
- │   [ T1 (DS1) ] ────────▶ 1.544 Mbps (초기 벤처기업/지사 급)    │
- │           │                                                 │
- │           ▼ (T1을 28개 묶음)                                 │
- │   [ T3 (DS3) ] ────────▶ 45 Mbps (대기업 본사/데이터센터 급)    │
- │                                                             │
- │   * 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다. │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                디지털 전용선 (T-Carrier) 속도 계층              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ DS0 (기본 채널) ] ---> 64 Kbps (음성 1통화 분량)            |
+ |           |                                                 |
+ |           v (24개를 묶음)                                    |
+ |   [ T1 (DS1) ] ---------> 1.544 Mbps (초기 벤처기업/지사 급)    |
+ |           |                                                 |
+ |           v (T1을 28개 묶음)                                 |
+ |   [ T3 (DS3) ] ---------> 45 Mbps (대기업 본사/데이터센터 급)    |
+ |                                                             |
+ |   * 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다. |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전용선 기초의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: PoE]
-    │
-    ▼
+    |
+    v
 [현재 개념: 전용선 기초]
-    │
-    ├──▶ [확장 A: 다이얼업 다중화, X.25]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: 다이얼업 다중화, X.25]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 전용선 기초는 PoE에서 출발해 현재 메커니즘을 정교화하고, 이후 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 387 / 1120
 
-← **이전**: [265. PoE (Power over Ethernet)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)
-**다음**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/) →
+<- **이전**: [265. PoE (Power over Ethernet)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)
+**다음**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [트래픽 텔레메트리]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 및 관제 시스템 연동]
-    │
-    └──▶ [양자 암호 키 분배]
+    |
+    +---> [양자 암호 키 분배]
 ```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [트래픽 텔레메트리]
-    │
-    ▼
+    |
+    v
 [디지털 트윈 및 관제 시스템 연동]
-    │
-    └──▶ [양자 암호 키 분배]
+    |
+    +---> [양자 암호 키 분배]
 ```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 트래픽 텔레메트리]
-    │
-    ▼
+    |
+    v
 [현재 개념: 디지털 트윈 및 관제 시스템 연동]
-    │
-    ├──▶ [확장 A: 양자 암호 키 분배]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 양자 암호 키 분배]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동는 트래픽 텔레메트리에서 출발해 현재 메커니즘을 정교화하고, 이후 양자 암호 키 분배와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 164 / 1120
 
-← **이전**: [1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/)
-**다음**: [105. 1-Persistent, Non-Persistent, p-Persistent CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/105_csma_persistence/) →
+<- **이전**: [1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/)
+**다음**: [105. 1-Persistent, Non-Persistent, p-Persistent CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/105_csma_persistence/) ->
 
 ---

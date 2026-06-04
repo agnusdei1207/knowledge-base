@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [MTBF 통신망 생존성]
-    │
-    ▼
+    |
+    v
 [MTTR 회선 이중화]
-    │
-    └──▶ [백홀]
+    |
+    +---> [백홀]
 ```
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [MTBF 통신망 생존성]
-    │
-    ▼
+    |
+    v
 [MTTR 회선 이중화]
-    │
-    └──▶ [백홀]
+    |
+    +---> [백홀]
 ```
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 
 ```text
 [선행 개념: MTBF 통신망 생존성]
-    │
-    ▼
+    |
+    v
 [현재 개념: MTTR 회선 이중화]
-    │
-    ├──▶ [확장 A: 백홀]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 백홀]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성에서 출발해 현재 메커니즘을 정교화하고, 이후 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 
 **진행 상황**: 108 / 1120
 
-← **이전**: [1007. MTBF (평균 무고장 시간) 통신망 생존성](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1007_mtbf_mean_time_between_failures_mttf_reliability/)
-**다음**: [1009. 백홀 (Backhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) →
+<- **이전**: [1007. MTBF (평균 무고장 시간) 통신망 생존성](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1007_mtbf_mean_time_between_failures_mttf_reliability/)
+**다음**: [1009. 백홀 (Backhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) ->
 
 ---

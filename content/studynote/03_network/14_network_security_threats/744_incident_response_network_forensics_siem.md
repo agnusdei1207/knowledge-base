@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
+    |
+    v
 [침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    └──▶ [SOAR]
+    |
+    +---> [SOAR]
 ```
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
+    |
+    v
 [침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    └──▶ [SOAR]
+    |
+    +---> [SOAR]
 ```
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ├──▶ [확장 A: SOAR]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SOAR]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…에서 출발해 현재 메커니즘을 정교화하고, 이후 SOAR와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 865 / 1120
 
-← **이전**: [743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템](/knowledge-base/studynote/03_network/14_network_security_threats/743_cspm_cwpp_cloud_security_posture/)
-**다음**: [745. SOAR (Security Orchestration, Automation and Response)](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) →
+<- **이전**: [743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템](/knowledge-base/studynote/03_network/14_network_security_threats/743_cspm_cwpp_cloud_security_posture/)
+**다음**: [745. SOAR (Security Orchestration, Automation and Response)](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ->
 
 ---

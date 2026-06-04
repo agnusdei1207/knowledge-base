@@ -307,12 +307,12 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 ```text
 [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
-    │
-    ▼
+    |
+    v
 [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
-    │
-    ├──▶ [캐시 미스 오버헤드 측정 분석망 구조 적용]
-    └──▶ [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
+    |
+    +---> [캐시 미스 오버헤드 측정 분석망 구조 적용]
+    +---> [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -329,7 +329,7 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 **진행 상황**: 617 / 800
 
-← **이전**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/)
-**다음**: [618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)](/knowledge-base/studynote/02_operating_system/10_security/618_cache_miss_overhead/) →
+<- **이전**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/)
+**다음**: [618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)](/knowledge-base/studynote/02_operating_system/10_security/618_cache_miss_overhead/) ->
 
 ---

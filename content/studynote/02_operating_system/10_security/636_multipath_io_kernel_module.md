@@ -54,41 +54,41 @@ tags = ["studynote-operating-system"]
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 I/O 파이프라인에서 Multipath가 어떻게 패킷(BIO 구조체)을 가로채는지 보여준다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Linux Device Mapper Multipath 아키텍처             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [User Space]       Application (예: Oracle DB, KVM)               │
-  │                           │ (I/O 요청)                            │
-  │                           ▼                                       │
-  │                 File System (ext4, XFS)                           │
-  │                           │ (블록 주소 계산)                       │
-  │                           ▼                                       │
-  │  [Kernel Space] ┌───────────────────────────┐                     │
-  │                 │  가상 디바이스 (mpatha)      │ ◀(단일 디스크로 착각)│
-  │                 │  /dev/mapper/mpatha       │                     │
-  │                 └──────────┬────────────────┘                     │
-  │                            │ (BIO 전달)                            │
-  │                            ▼                                       │
-  │                 ┌───────────────────────────┐                     │
-  │                 │  dm-multipath 커널 모듈     │ ◀(경로 선택 / 헬스체크)│
-  │                 └─┬───────────────────────┬─┘                     │
-  │       (로드밸런싱) │                       │ (경로 이중화)           │
-  │                   ▼                       ▼                       │
-  │            [SCSI 하위 계층]          [SCSI 하위 계층]                 │
-  │            물리 경로 1 (sda)         물리 경로 2 (sdb)                │
-  │                   │                       │                       │
-  │ ──────────────────┼───────────────────────┼────────────────────── │
-  │   [Hardware]      ▼                       ▼                       │
-  │                 HBA 카드 1               HBA 카드 2               │
-  │                   │(Fibre Channel)        │(iSCSI 등)             │
-  │                   ▼                       ▼                       │
-  │                SAN 스위치 A             SAN 스위치 B                  │
-  │                   │                       │                       │
-  │                   └──────────┬────────────┘                       │
-  │                              ▼                                    │
-  │                   [ 스토리지 어레이 (LUN 0) ]                         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Linux Device Mapper Multipath 아키텍처             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [User Space]       Application (예: Oracle DB, KVM)               |
+  |                           | (I/O 요청)                            |
+  |                           v                                       |
+  |                 File System (ext4, XFS)                           |
+  |                           | (블록 주소 계산)                       |
+  |                           v                                       |
+  |  [Kernel Space] +---------------------------+                     |
+  |                 |  가상 디바이스 (mpatha)      | <-(단일 디스크로 착각)|
+  |                 |  /dev/mapper/mpatha       |                     |
+  |                 +----------+----------------+                     |
+  |                            | (BIO 전달)                            |
+  |                            v                                       |
+  |                 +---------------------------+                     |
+  |                 |  dm-multipath 커널 모듈     | <-(경로 선택 / 헬스체크)|
+  |                 +-+-----------------------+-+                     |
+  |       (로드밸런싱) |                       | (경로 이중화)           |
+  |                   v                       v                       |
+  |            [SCSI 하위 계층]          [SCSI 하위 계층]                 |
+  |            물리 경로 1 (sda)         물리 경로 2 (sdb)                |
+  |                   |                       |                       |
+  | ------------------+-----------------------+---------------------- |
+  |   [Hardware]      v                       v                       |
+  |                 HBA 카드 1               HBA 카드 2               |
+  |                   |(Fibre Channel)        |(iSCSI 등)             |
+  |                   v                       v                       |
+  |                SAN 스위치 A             SAN 스위치 B                  |
+  |                   |                       |                       |
+  |                   +----------+------------+                       |
+  |                              v                                    |
+  |                   [ 스토리지 어레이 (LUN 0) ]                         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 오직 최상단의 가상 디바이스 `/dev/mapper/mpatha`에만 I/O를 내린다. 이 I/O 블록(BIO)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `dm-multipath` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 도착한다. 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 현재 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(예: Round-robin)에 따라, 이번 I/O는 1번 길(`sda`)로, 다음 I/O는 2번 길(`sdb`)로 분배한다. 만약 1번 길로 보낸 I/O가 스토리지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고장으로 응답이 없으면(SCSI [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), `dm-multipath` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 즉시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉을 내지 않고, 조용히 해당 패킷을 회수하여 살아있는 2번 길(`sdb`)로 재전송(Retry)한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 입장에서는 시간이 아주 살짝 지연됐을 뿐([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)), I/O 에러(EIO)는 발생하지 않아 서버 운영이 완벽히 지속된다.
@@ -143,27 +143,27 @@ Multipath는 "동일한 디스크([LUN](/knowledge-base/studynote/01_computer_ar
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SAN 스토리지 Multipath 성능/안정성 튜닝 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [SAN 환경에서 스토리지 지연(Latency) 증가 또는 경로 단절 이벤트 발생]    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스토리지가 Active/Active인가 Active/Passive(ALUA) 인가?         │
-  │          ├─ Active/Active ──▶ [I/O 분배 알고리즘: round-robin 설정]   │
-  │          │                   (모든 경로로 부하를 균등 분산하여 성능 극대화) │
-  │          └─ ALUA (비대칭)   ──▶ [I/O 분배 알고리즘: service-time 설정]  │
-  │                │             (스토리지가 알려준 '가장 응답이 빠른' 경로만 │
-  │                │              우선 사용하여 Trespass 병목 회피)        │
-  │                ▼                                                  │
-  │      경로 단절 시, 상위 애플리케이션(DB/VM)의 타임아웃이 며칠인가?          │
-  │          ├─ 짧음 (< 30초)  ──▶ SCSI 하위 계층의 fast_io_fail_tmo 단축  │
-  │          │                                                        │
-  │          └─ 긺 / 무제한    ──▶ queue_if_no_path 옵션 활성화           │
-  │                            (모든 경로가 끊어져도 에러를 뱉지 않고 램에      │
-  │                             I/O를 버퍼링하며 관리자가 복구할 때까지 무한 대기)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SAN 스토리지 Multipath 성능/안정성 튜닝 플로우           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [SAN 환경에서 스토리지 지연(Latency) 증가 또는 경로 단절 이벤트 발생]    |
+  |                |                                                  |
+  |                v                                                  |
+  |      스토리지가 Active/Active인가 Active/Passive(ALUA) 인가?         |
+  |          +- Active/Active ---> [I/O 분배 알고리즘: round-robin 설정]   |
+  |          |                   (모든 경로로 부하를 균등 분산하여 성능 극대화) |
+  |          +- ALUA (비대칭)   ---> [I/O 분배 알고리즘: service-time 설정]  |
+  |                |             (스토리지가 알려준 '가장 응답이 빠른' 경로만 |
+  |                |              우선 사용하여 Trespass 병목 회피)        |
+  |                v                                                  |
+  |      경로 단절 시, 상위 애플리케이션(DB/VM)의 타임아웃이 며칠인가?          |
+  |          +- 짧음 (< 30초)  ---> SCSI 하위 계층의 fast_io_fail_tmo 단축  |
+  |          |                                                        |
+  |          +- 긺 / 무제한    ---> queue_if_no_path 옵션 활성화           |
+  |                            (모든 경로가 끊어져도 에러를 뱉지 않고 램에      |
+  |                             I/O를 버퍼링하며 관리자가 복구할 때까지 무한 대기)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자는 길이 하나 죽으면 무조건 남은 길로 갈 것이라 착각한다. 하지만 OS는 죽은 길이 잠시 아픈 것인지(재전송 대기), 진짜 죽은 것인지 판단하느라 수십 초를 멍때린다. 기술사의 핵심 역량은 이 <strong>'장애 인지 시간(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)'과 '대체 경로 전환 시간'을 상위 애플리케이션의 인내심보다 짧게 조율</strong>하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 간의 파라미터 매칭(Parameter Matching)에 있다.
@@ -210,12 +210,12 @@ Multipath는 "동일한 디스크([LUN](/knowledge-base/studynote/01_computer_ar
 
 ```text
 [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
-    │
-    ▼
+    |
+    v
 [다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]
-    │
-    ├──▶ [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
-    └──▶ [Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향]
+    |
+    +---> [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
+    +---> [Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -232,7 +232,7 @@ Multipath는 "동일한 디스크([LUN](/knowledge-base/studynote/01_computer_ar
 
 **진행 상황**: 636 / 800
 
-← **이전**: [635. 동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)](/knowledge-base/studynote/02_operating_system/10_security/635_concurrency_debugging_tsan/)
-**다음**: [637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) →
+<- **이전**: [635. 동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)](/knowledge-base/studynote/02_operating_system/10_security/635_concurrency_debugging_tsan/)
+**다음**: [637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) ->
 
 ---

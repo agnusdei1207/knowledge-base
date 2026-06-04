@@ -61,20 +61,20 @@ Map 함수는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136
 
 ```text
 [원시 입력 데이터 (Raw Input) — HDFS 블록 분할 저장]
-    │
-    ▼
+    |
+    v
 [맵 함수 (Map Function) — 각 레코드를 키-값 쌍으로 변환]
-    │
-    ▼
+    |
+    v
 [셔플 & 정렬 (Shuffle & Sort) — 동일 키별 값 그룹화]
-    │
-    ▼
+    |
+    v
 [리듀스 함수 (Reduce Function) — 키별 집계·연산]
-    │
-    ▼
+    |
+    v
 [MapReduce 출력 — HDFS에 최종 결과 저장]
-    │
-    ▼
+    |
+    v
 [Spark RDD / DataFrame — MapReduce 진화형 인메모리 분산 처리]
 ```
 맵 함수의 키-값 출력은 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 출발점이며, 이후 Spark의 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)·DataFrame 변환 연산으로 이어지는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 원형이다.
@@ -90,7 +90,7 @@ Map 함수는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136
 
 **진행 상황**: 32 / 262
 
-← **이전**: [09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델](/knowledge-base/studynote/16_bigdata/02_hadoop/031_mapreduce_programming_model_parallel_processing/)
-**다음**: [Reduce 함수: 분산 데이터의 최종 집계 및 요약](/knowledge-base/studynote/16_bigdata/02_hadoop/033_reduce_function_aggregation_logic/) →
+<- **이전**: [09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델](/knowledge-base/studynote/16_bigdata/02_hadoop/031_mapreduce_programming_model_parallel_processing/)
+**다음**: [Reduce 함수: 분산 데이터의 최종 집계 및 요약](/knowledge-base/studynote/16_bigdata/02_hadoop/033_reduce_function_aggregation_logic/) ->
 
 ---

@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장소 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Store)은 노드(Node), 엣지(Edge), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Property) 구조, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 최적화, Neo4j, Amazon Neptune에 초점을 맞춘 개념이다. 수평 확장과 유연한 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이 필요할 때는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 먼저 설계해야 한다. [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/)와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 잘못 정하면 핫스팟과 재배치 비용이 급증한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Router -> Current concept -> Shard/Replica         │
-├──────────────────────────────────────────────────────────────┤
-│ Traffic growth -> distribution -> scale-out                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Router -> Current concept -> Shard/Replica         |
++--------------------------------------------------------------+
+| Traffic growth -> distribution -> scale-out                  |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장소를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `컬럼 패밀리 저장소`·`샤딩`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Shard key -> route -> current concept -> rebalance           │
-├──────────────────────────────────────────────────────────────┤
-│ Partition choice -> hotspot risk -> expansion cost           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Shard key -> route -> current concept -> rebalance           |
++--------------------------------------------------------------+
+| Partition choice -> hotspot risk -> expansion cost           |
++--------------------------------------------------------------+
 ```
 
 핵심은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장소를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [컬럼 패밀리 저장소]
-    │
-    ▼
+    |
+    v
 [그래프 저장소]
-    │
-    ├──▶ [샤딩]
-    └──▶ [샤드 키]
+    |
+    +---> [샤딩]
+    +---> [샤드 키]
 ```
 
 [컬럼 패밀리 저장소](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/278_column_family_store/)에서 출발한 논점이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장소에서 핵심 판단으로 모이고, 이후 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·[샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 279 / 600
 
-← **이전**: [278. 컬럼 패밀리 저장소 (Column Family / Wide-Column Store)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/278_column_family_store/)
-**다음**: [280. 샤딩 (Sharding)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) →
+<- **이전**: [278. 컬럼 패밀리 저장소 (Column Family / Wide-Column Store)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/278_column_family_store/)
+**다음**: [280. 샤딩 (Sharding)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ->
 
 ---

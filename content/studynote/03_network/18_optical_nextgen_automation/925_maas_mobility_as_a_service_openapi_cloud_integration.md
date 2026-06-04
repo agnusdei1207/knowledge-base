@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
+    |
+    v
 [오픈API와 MaaS]
-    │
-    └──▶ [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
+    |
+    +---> [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
 ```
 
 - **📢 섹션 요약 비유**: 오픈API와 MaaS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
+    |
+    v
 [오픈API와 MaaS]
-    │
-    └──▶ [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
+    |
+    +---> [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
 ```
 
 - **📢 섹션 요약 비유**: 오픈API와 MaaS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](
 
 ```text
 [선행 개념: 메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 오픈API와 MaaS]
-    │
-    ├──▶ [확장 A: 지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 지향성 안테나 MAC 계층 노출/은닉 망 탐…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 오픈API와 MaaS는 [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 대역/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 렌더링 오프로…에서 출발해 현재 메커니즘을 정교화하고, 이후 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 노출/은닉 망 탐…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](
 
 **진행 상황**: 1046 / 1120
 
-← **이전**: [924. 메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/)
-**다음**: [926. 지향성 안테나 MAC 제어](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/926_directional_antenna_mac_sweep_discovery/) →
+<- **이전**: [924. 메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/)
+**다음**: [926. 지향성 안테나 MAC 제어](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/926_directional_antenna_mac_sweep_discovery/) ->
 
 ---

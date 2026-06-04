@@ -44,17 +44,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 "정해진 클럭 수 뒤에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다"는 사실을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Synchronous Bus Cycle : fixed timing contract            │
-├──────────────┬──────────────┬──────────────┬──────────────┬──────────┤
-│ Clock        │      C1      │      C2      │      C3      │    C4    │
-├──────────────┼──────────────┼──────────────┼──────────────┼──────────┤
-│ Master       │ Addr + Read  │ Hold control │ Sample data  │ Finish   │
-│ Slave        │ Decode addr  │ Access data  │ Drive bus    │ Release  │
-│ Data bus     │    ----      │    ----      │  VALID DATA  │   ----   │
-├──────────────┴──────────────┴──────────────┴──────────────┴──────────┤
-│ Rule: data must become valid by the agreed sampling edge.           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            Synchronous Bus Cycle : fixed timing contract            |
++--------------+--------------+--------------+--------------+----------+
+| Clock        |      C1      |      C2      |      C3      |    C4    |
++--------------+--------------+--------------+--------------+----------+
+| Master       | Addr + Read  | Hold control | Sample data  | Finish   |
+| Slave        | Decode addr  | Access data  | Drive bus    | Release  |
+| Data bus     |    ----      |    ----      |  VALID DATA  |   ----   |
++--------------+--------------+--------------+--------------+----------+
+| Rule: data must become valid by the agreed sampling edge.           |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 식은 간단하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/">클럭 주기</a> ≥ 주소 해석 시간 + 장치 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> + 배선 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> + 안전 마진</strong>이어야 한다. 메모리가 이 시간 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리지 못하면, 마스터는 잘못된 값을 읽게 된다. 그래서 실제 시스템은 느린 장치를 위해 대기 상태를 삽입하거나, 아예 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 분리한다.
@@ -129,19 +129,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공통 시간 기준 수립
-    │
-    ▼
+    |
+    v
 동기식 버스 (Synchronous Bus)
-    │
-    ├─▶ 고정 버스 사이클 · 버스트 전송
-    │
-    ▼
+    |
+    +--> 고정 버스 사이클 · 버스트 전송
+    |
+    v
 SDRAM (Synchronous Dynamic Random Access Memory)
-    │
-    ▼
+    |
+    v
 DDR (Double Data Rate) 계열 고속 메모리
-    │
-    ▼
+    |
+    v
 멀티버스 구조 · 브리지 · 클럭 도메인 분리
 ```
 
@@ -159,7 +159,7 @@ DDR (Double Data Rate) 계열 고속 메모리
 
 **진행 상황**: 349 / 803
 
-← **이전**: [347. 제어 버스 (Control Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)
-**다음**: [349. 비동기식 버스 (Asynchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/349_asynchronous_bus/) →
+<- **이전**: [347. 제어 버스 (Control Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)
+**다음**: [349. 비동기식 버스 (Asynchronous Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/349_asynchronous_bus/) ->
 
 ---

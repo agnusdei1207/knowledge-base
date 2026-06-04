@@ -26,17 +26,17 @@ FinOps는 클라우드 비용을 재무팀만의 월말 정산 업무가 아니�
 아래 그림은 전통적 예산 통제와 FinOps의 차이를 요약한다. 핵심은 속도를 포기하지 않으면서도 비용 책임을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 내려보내는 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why FinOps exists                                           │
-├──────────────────────────────────────────────────────────────┤
-│ Traditional IT finance:                                     │
-│   request ─▶ approval ─▶ purchase                           │
-│                                                              │
-│ Cloud reality:                                               │
-│   engineer click/API ─▶ resource created ─▶ bill later       │
-│                                                              │
-│ FinOps adds: tagging + visibility + shared accountability    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why FinOps exists                                           |
++--------------------------------------------------------------+
+| Traditional IT finance:                                     |
+|   request --> approval --> purchase                           |
+|                                                              |
+| Cloud reality:                                               |
+|   engineer click/API --> resource created --> bill later       |
+|                                                              |
+| FinOps adds: tagging + visibility + shared accountability    |
++--------------------------------------------------------------+
 ```
 
 따라서 FinOps는 비용 절감 프로젝트가 아니라 operating model의 변화다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 속도와 비용 책임을 동시에 잡기 위해 만들어진다.
@@ -58,20 +58,20 @@ FinOps는 클라우드 비용을 재무팀만의 월말 정산 업무가 아니�
 아래 구조는 FinOps를 단순 보고 체계가 아니라 운영 루프로 보는 이유를 보여 준다. 각 단계는 다른 부서가 따로 하는 일이 아니라 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에서 연결된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ FinOps operating loop                                        │
-├──────────────────────────────────────────────────────────────┤
-│ Inform ─────▶ Optimize ─────▶ Operate                        │
-│   │             │               │                            │
-│   │             │               ├─ policy / automation       │
-│   │             ├─ rightsize    ├─ anomaly response          │
-│   ├─ tagging    ├─ RI / SP      └─ budget guardrail          │
-│   └─ showback   └─ waste remove                               │
-│                                                              │
-│ finance ◀──────── shared cost data ────────▶ engineering      │
-│                       ▲                                       │
-│                       └──────── product / business            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| FinOps operating loop                                        |
++--------------------------------------------------------------+
+| Inform ------> Optimize ------> Operate                        |
+|   |             |               |                            |
+|   |             |               +- policy / automation       |
+|   |             +- rightsize    +- anomaly response          |
+|   +- tagging    +- RI / SP      +- budget guardrail          |
+|   +- showback   +- waste remove                               |
+|                                                              |
+| finance <--------- shared cost data ---------> engineering      |
+|                       ^                                       |
+|                       +-------- product / business            |
++--------------------------------------------------------------+
 ```
 
 FinOps의 실질적 성과는 단위 비용 (Unit Cost)을 통해 드러난다. 총비용이 조금 늘어도 사용자 수나 거래량이 더 빠르게 늘어 단위당 비용이 내려가면 좋은 최적화일 수 있다. 그래서 FinOps는 절대 금액만 보는 비용 절감과 구별된다.
@@ -145,17 +145,17 @@ FinOps가 정착되면 클라우드 비용은 더 이상 월말 놀라움이 아
 
 ```text
 Cloud bill visibility
-        │
-        ▼
+        |
+        v
 Tagging and showback
-        │
-        ▼
+        |
+        v
 Rightsizing and commitment strategy
-        │
-        ▼
+        |
+        v
 Policy automation and anomaly response
-        │
-        ▼
+        |
+        v
 Continuous FinOps operating model
 ```
 
@@ -173,7 +173,7 @@ Continuous FinOps operating model
 
 **진행 상황**: 226 / 482
 
-← **이전**: [225. TCO 분석 (Total Cost of Ownership Analysis)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/225_tco_analysis_cloud_migration/)
-**다음**: [227. 클라우드 비용 최적화 (Cloud Cost Optimization)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/) →
+<- **이전**: [225. TCO 분석 (Total Cost of Ownership Analysis)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/225_tco_analysis_cloud_migration/)
+**다음**: [227. 클라우드 비용 최적화 (Cloud Cost Optimization)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/) ->
 
 ---

@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 MIN은 이 두 극단 사이의 절충안이다. 큰 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나를 두는 대신, 작은 $2 \times 2$ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 여러 단계로 나누어 배치한다. 그 결과 한 번에 도달하는 직통성은 줄어들지만, 훨씬 적은 비용으로 꽤 높은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 확보할 수 있다. 즉 MIN은 "모든 길을 한 번에 뚫는 구조"가 아니라 "적당한 환승을 허용해 전체 도로망을 싸게 만드는 구조"라고 이해하면 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       왜 MIN이 필요한가: 버스와 크로스바 사이의 절충         │
-├─────────────────────┬──────────────────────┬─────────────────┤
-│ 공유 버스           │ 크로스바 스위치      │ 다단 연결망     │
-├─────────────────────┼──────────────────────┼─────────────────┤
-│ 비용 낮음           │ 성능 높음            │ 비용/성능 절충  │
-│ 구조 단순           │ 동시 통신 우수       │ 단계적 확장 가능│
-│ 병목 심함           │ 비용 O(N^2)          │ 블로킹 가능     │
-└─────────────────────┴──────────────────────┴─────────────────┘
++--------------------------------------------------------------+
+|       왜 MIN이 필요한가: 버스와 크로스바 사이의 절충         |
++---------------------+----------------------+-----------------+
+| 공유 버스           | 크로스바 스위치      | 다단 연결망     |
++---------------------+----------------------+-----------------+
+| 비용 낮음           | 성능 높음            | 비용/성능 절충  |
+| 구조 단순           | 동시 통신 우수       | 단계적 확장 가능|
+| 병목 심함           | 비용 O(N^2)          | 블로킹 가능     |
++---------------------+----------------------+-----------------+
 ```
 
 이 그림이 보여 주는 핵심은 MIN이 "최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라 "현실적인 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"을 목표로 등장했다는 점이다. 따라서 MIN을 이해할 때는 속도 자체보다 <strong>비용 대비 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>이라는 관점을 먼저 잡아야 한다.
@@ -56,22 +56,22 @@ MIN의 기본 재료는 작은 [스위치](/knowledge-base/studynote/03_network/
 
 대표적인 오메가 망 (Omega Network)은 목적지 주소의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 이용해 각 단계에서 진로를 정한다. 예를 들어 8개의 출력이 있다면 3비트 목적지 주소가 필요하고, 3단계의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 차례대로 첫째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 둘째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 셋째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 직진(Straight) 또는 교차(Cross)를 결정한다. 이 때문에 중앙 제어기가 모든 경로를 계산하지 않아도 비교적 단순한 자기 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Self-routing)이 가능하다.
 
-아래 그림은 8입력 8출력 오메가 망의 개념을 단순화한 것이다. 목적지 `101`을 향하는 패킷은 단계마다 `1 → 0 → 1` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 순서대로 해석하며 경로를 바꾼다.
+아래 그림은 8입력 8출력 오메가 망의 개념을 단순화한 것이다. 목적지 `101`을 향하는 패킷은 단계마다 `1 -> 0 -> 1` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 순서대로 해석하며 경로를 바꾼다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        8×8 오메가 망의 개념: 목적지 비트로 단계별 진로 결정   │
-├──────────────────────────────────────────────────────────────┤
-│ 입력      Stage 0         Stage 1         Stage 2      출력  │
-│  I0 ───┐   ┌──────┐       ┌──────┐       ┌──────┐      O0    │
-│  I1 ───┼──▶│ 2×2  │──┐ ┌─▶│ 2×2  │──┐ ┌─▶│ 2×2  │────▶ O1    │
-│  I2 ───┼──▶│ sw   │  │ │  │ sw   │  │ │  │ sw   │────▶ O2    │
-│  I3 ───┼──▶│      │──┘ │  │      │──┘ │  │      │────▶ O3    │
-│  I4 ───┼──▶│ bit0 │────┼─▶│ bit1 │────┼─▶│ bit2 │────▶ O4    │
-│  I5 ───┼──▶│ 판정 │────┘  │ 판정 │────┘  │ 판정 │────▶ O5    │
-│  I6 ───┼──▶│      │       │      │       │      │────▶ O6    │
-│  I7 ───┘   └──────┘       └──────┘       └──────┘────▶ O7    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        8×8 오메가 망의 개념: 목적지 비트로 단계별 진로 결정   |
++--------------------------------------------------------------+
+| 입력      Stage 0         Stage 1         Stage 2      출력  |
+|  I0 ---+   +------+       +------+       +------+      O0    |
+|  I1 ---+--->| 2×2  |--+ +-->| 2×2  |--+ +-->| 2×2  |-----> O1    |
+|  I2 ---+--->| sw   |  | |  | sw   |  | |  | sw   |-----> O2    |
+|  I3 ---+--->|      |--+ |  |      |--+ |  |      |-----> O3    |
+|  I4 ---+--->| bit0 |----+-->| bit1 |----+-->| bit2 |-----> O4    |
+|  I5 ---+--->| 판정 |----+  | 판정 |----+  | 판정 |-----> O5    |
+|  I6 ---+--->|      |       |      |       |      |-----> O6    |
+|  I7 ---+   +------+       +------+       +------+-----> O7    |
++--------------------------------------------------------------+
 ```
 
 다만 단계가 존재한다는 것은 곧 홉(Hop) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 존재한다는 뜻이다. 크로스바가 1단에 가까운 직통 구조라면, MIN은 $\log_2 N$ 단계 정도를 지나야 하므로 기본 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 더 크다. 또한 두 요청이 중간 단계의 같은 링크를 동시에 요구하면 내부 블로킹이 발생할 수 있다. 그래서 MIN의 핵심 원리는 "작은 비용으로 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"이지, "항상 완전한 비차단"은 아니다.
@@ -98,11 +98,11 @@ MIN의 특징은 다른 연결망과 비교할 때 더 선명해진다. 공유 [
 
 ```text
 클래식 병렬 컴퓨터 관점
-버스 ──▶ 크로스바 ──▶ MIN
+버스 ---> 크로스바 ---> MIN
           비용 문제      절충안
 
 현대 네트워크 관점
-MIN 철학 ──▶ Clos ──▶ Fat-tree / Spine-Leaf
+MIN 철학 ---> Clos ---> Fat-tree / Spine-Leaf
           계층 스위칭   대규모 데이터센터 패브릭
 ```
 
@@ -170,21 +170,21 @@ MIN의 가장 큰 효과는 대규모 시스템에서 연결 비용을 통제하
 
 ```text
 공유 버스의 병목
-    │
-    ▼
+    |
+    v
 크로스바 스위치의 고비용 문제
-    │
-    ▼
+    |
+    v
 다단 연결망 (MIN, Multistage Interconnection Network)
-    │
-    ├─ 오메가 망 (Omega Network)
-    ├─ 버터플라이 망 (Butterfly Network)
-    └─ 벤얀 망 (Banyan Network)
-    │
-    ▼
+    |
+    +- 오메가 망 (Omega Network)
+    +- 버터플라이 망 (Butterfly Network)
+    +- 벤얀 망 (Banyan Network)
+    |
+    v
 클로스 망 (Clos Network) · 팻 트리 (Fat-tree)
-    │
-    ▼
+    |
+    v
 스파인-리프 (Spine-Leaf) · 현대 데이터센터 패브릭
 ```
 
@@ -200,7 +200,7 @@ MIN의 가장 큰 효과는 대규모 시스템에서 연결 비용을 통제하
 
 **진행 상황**: 393 / 803
 
-← **이전**: [391. 하이퍼큐브 (Hypercube)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)
-**다음**: [393. 멀티코어 프로세서 (Multi-core Processor)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/) →
+<- **이전**: [391. 하이퍼큐브 (Hypercube)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)
+**다음**: [393. 멀티코어 프로세서 (Multi-core Processor)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/) ->
 
 ---

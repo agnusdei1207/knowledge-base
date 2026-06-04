@@ -43,21 +43,21 @@ OOM은 단순히 “메모리가 가득 찼다”는 숫자 하나로 발생하�
 아래 그림은 OOM 발생 경로를 단계별로 요약한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    memory allocation failure path                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ alloc request                                                             │
-│      │                                                                     │
-│      ├── reclaim page cache / shrink slabs                                │
-│      ├── compact memory / swap out pages                                  │
-│      └── still cannot satisfy request                                     │
-│              ▼                                                            │
-│      OOM context decided                                                  │
-│      ├── global OOM  : system-wide victim selection                       │
-│      └── memcg OOM   : action inside one memory cgroup                    │
-│              ▼                                                            │
-│ badness heuristic + oom_score_adj  ──▶  SIGKILL  ──▶  memory released │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    memory allocation failure path                         |
++----------------------------------------------------------------------------+
+| alloc request                                                             |
+|      |                                                                     |
+|      +-- reclaim page cache / shrink slabs                                |
+|      +-- compact memory / swap out pages                                  |
+|      +-- still cannot satisfy request                                     |
+|              v                                                            |
+|      OOM context decided                                                  |
+|      +-- global OOM  : system-wide victim selection                       |
+|      +-- memcg OOM   : action inside one memory cgroup                    |
+|              v                                                            |
+| badness heuristic + oom_score_adj  --->  SIGKILL  --->  memory released |
++----------------------------------------------------------------------------+
 ```
 
 희생자 선정에는 메모리 사용량, 프로세스 특성, `oom_score_adj` 값 등이 반영된다. 사용자 공간에서는 `/proc/<pid>/oom_score`로 현재 위험도를 확인할 수 있고, `/proc/<pid>/oom_score_adj`로 중요도를 조정할 수 있다. 여기서 `-1000`은 사실상 면제에 가깝고, `+1000`은 가장 먼저 종료될 가능성을 크게 높인다.
@@ -131,17 +131,17 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 ```text
 메모리 압박
-    │
-    ▼
+    |
+    v
 페이지 회수 · 스왑 · 압축
-    │
-    ▼
+    |
+    v
 전역 OOM / 메모리 cgroup OOM
-    │
-    ▼
+    |
+    v
 oom_score · oom_score_adj
-    │
-    ▼
+    |
+    v
 SIGKILL · 자동 재시작 · PSI 기반 선제 대응
 ```
 
@@ -159,7 +159,7 @@ SIGKILL · 자동 재시작 · PSI 기반 선제 대응
 
 **진행 상황**: 157 / 800
 
-← **이전**: [156. 환경 변수 (Environment Variables) 상속](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)
-**다음**: [158. oom_score_adj - OOM 킬러 우선순위 조정](/knowledge-base/studynote/02_operating_system/02_process_thread/158_oom_score_adj/) →
+<- **이전**: [156. 환경 변수 (Environment Variables) 상속](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)
+**다음**: [158. oom_score_adj - OOM 킬러 우선순위 조정](/knowledge-base/studynote/02_operating_system/02_process_thread/158_oom_score_adj/) ->
 
 ---

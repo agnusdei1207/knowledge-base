@@ -11,165 +11,157 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 신원 관리 IAM 통합 인증 SSO은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IAM은 신원(Identity), 인증(Authentication), 권한(Authorization), 감사(Auditing)의 4A 통합 거버넌스 체계이며, SSO는 SAML 2.0, OAuth 2.0/OIDC, Kerberos, FIDO2/WebAuthn 등 신뢰된 토큰/Assertion 교환 프로토콜을 통해 N개의 애플리케이션에 대한 단일 로그온을 실현하는 신원 페더레이션(Identity Federation) 아키텍처이다.
+> 2. **가치**: 평균 기업 내 25~150개의 SaaS 애플리케이션에서 사용자가 기억하는 패스워드 수를 평균 2.7개(Forrester)로 줄이고, 헬프데스크 패스워드 리셋 비용의 70% 절감, 피싱 성공률 약 99% 감소(MFA 적용 시, Microsoft 2019), 사용자 온보딩 시간을 주 단위에서 시간 단위로 단축시킨다.
+> 3. **판단 포인트**: SAML 2.0(엔터프라이즈 B2E, XML/Assertion) vs OIDC(모던 클라우드/SPA/API, JWT) vs Kerberos(사내 AD, 티켓 기반) 프로토콜 선택, IdP 집중화(Single Point of Failure) 대비 페일오버 및 다중 IdP 전략, 토큰 수명(Access Token TTL 5~15분, Refresh Token 8~24시간)과 세션 하이재킹 방어 설계가 핵심 트레이드오프이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-신원 관리 IAM 통합 인증 SSO은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Identity Management IAM SSO Integration 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 사용자 계정 관리 모델은 각 애플리케이션·시스템이 자체적으로 사용자 ID/패스워드 저장소(User Store)를 보유하는 **Siloed Identity Model**이었다. 이는 ① 사용자 입장에서 평균 70~100개의 계정(ID Chaos) 관리 부담, ② 관리자 입장의 계정 생성/폐기/권한 변경의 비일관성(Provisioning 지연 평균 3~5일), ③ 보안 측면의 약한 패스워드 재사용와 유출 시 Lateral Movement 위험이라는 3중 고충(Triple Burden)을 야기했다. 2017년 NIST SP 800-63B의 Digital Identity Guidelines는 "Memorized Secret" 만으로 인증하는 모델을 deprecated로 규정하고, 이후 클라우드 전환과 Zero Trust Architecture(ZTA) 가속화로 IAM + SSO는 **신뢰의 뿌리(Root of Trust)** 로 자리 잡았다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    신원 관리 IAM 통합 인증 SSO 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+[Before: Siloed Identity Chaos]                    [After: Federated IAM with SSO]
++----------+  +----------+  +----------+          +----------------------------+
+|  ERP     |  |  CRM     |  |  Mail    |          |       IdP (Identity Hub)   |
+|  [ID/PW] |  |  [ID/PW] |  |  [ID/PW] |          | +----------------------+  |
+|  Local   |  |  Local   |  |  Local   |    ---►  | | SAML 2.0 / OIDC /   |  |
++----------+  +----------+  +----------+          | | Kerberos / FIDO2    |  |
+   N개 ID     N개 ID      N개 ID                  | +----------------------+  |
+   관리 곤란    정책 불일치    감사 불가            |  AD/LDAP ◄-- SCIM 2.0 --+|
+                                                   +----+------+------+-----+ |
+                                                        |      |      |       |
+                                                   +----v-+ +--v--+ +-v---+  |
+                                                   | ERP  | | CRM | | Mail| ◄+
+                                                   |(SP)  | |(SP) | |(SP) |
+                                                   +------+ +-----+ +-----+
+                                                   Single Sign-On + 중앙 집중 거버넌스
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+최근 5년간의 패러다임 전환을 정리하면 다음과 같다.
 
-- **📢 섹션 요약 비유**: 신원 관리 IAM 통합 인증 SSO은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 시대 | 패러다임 | 인증 수단 | 위험/한계 |
+| :--- | :--- | :--- | :--- |
+| 1990s | Siloed ID/PW | 사용자 기억 | 패스워드 재사용, 관리 비용 |
+| 2000s | LDAP 중앙화 | Directory 기반 | 도메인 종속, Federation 미지원 |
+| 2010s | SAML 2.0 SSO | XML Assertion, IdP/SP | 모바일/JSON 미흡, X.509 PKI 복잡 |
+| 2020s | OAuth 2.0 + OIDC | JWT, Token-based | 토큰 탈취, Refresh Token 관리 |
+| 2025+ | Passwordless / ZTA | FIDO2, Passkey, MFA | 디바이스 신뢰, Step-up Auth |
+
+- **📢 섹션 요약 비유**: 시루대(Silo)마다 다른 열쇠를 들고 다녀야 했던 것이, 단 하나의 만능 키카드(IdP 발급 토큰) 로 건물 전체 출입이 가능해지고, 출입 기록이 중앙 관제실(Identity Governance)에 모두 기록되는 시스템으로 진화한 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-신원 관리 IAM 통합 인증 SSO의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IAM 통합 인증 SSO는 크게 **신원 저장(Identity Store)**, **인증(Authentication)**, **권한(Authorization)**, **프로비저닝(Provisioning)**, **감사(Audit)** 의 5계층으로 구성된다. 핵심 동작은 사용자가 처음 로그인할 때 **신원 확인(AuthN)** 으로 토큰(또는 Assertion)을 발급받고, 이후 다른 서비스 접근 시에는 **재인증 없이** 신뢰할 수 있는 **토큰 재사용(AuthZ delegation)** 으로 권한만 검증하는 방식이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              Identity Management IAM SSO Integration 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+[OIDC Authorization Code Flow with PKCE — 표준 SSO 시퀀스]
+
+User          Client App (RP)        IdP (Authorization Server)        Resource Server
+ |                |                          |                              |
+ | ① 로그인요청   |                          |                              |
+ +---------------►|                          |                              |
+ |                | ② /authorize (scope,    |                              |
+ |                |   code_challenge)        |                              |
+ |                +-------------------------►|                              |
+ |                |                          | ③ 인증 (MFA/WebAuthn)         |
+ |                |                          |◄---- 사용자 인증 -------+     |
+ |                | ④ Authorization Code     |                           |     |
+ |                |◄-------------------------+                           |     |
+ |                | ⑤ /token (code+verifier) |                              |
+ |                +-------------------------►|                              |
+ |                |                          | ⑥ Access Token(JWT) +       |
+ |                |  {sub, aud, iss, exp,    |     Refresh Token 발급       |
+ |                |   iat, scope, amr, acr}  |                              |
+ |                |◄-------------------------+                              |
+ |                | ⑦ Bearer <access_token>  |                              |
+ |                +---------------------------------------------------------►|
+ |                |                          |                              |
+ |                |                          | ⑧ JWT 검증 (서명, 만료,     |
+ |                |                          |    audience, claims)         |
+ |                |                          |◄-----------------------------+
+ |                |                          | ⑨ Protected Resource 응답    |
+ |                |◄---------------------------------------------------------+
+ | ⑩ 데이터 표시 |                          |                              |
+ |◄---------------+                          |                              |
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Identity Store (저장소)** | 신원·속성·자격의 영속 보관 | LDAP(RFC 4511) 디렉터리, 관계형 DB, Microsoft AD(Windows 인증 통합), Azure Entra ID(Graph API), Okta Universal Directory |
+| **IdP (Identity Provider)** | 인증 수행 및 토큰/Assertion 발급 | SAML 2.0(Assertion XML), OIDC(ID Token + Access Token JWT), Kerberos(KDC가 TGT/ST 발급), FIDO2(WebAuthn 디지털 서명) |
+| **SP / RP (Relying Party)** | 사용자 신원 신뢰 후 서비스 제공 | SAML SP(AcsUrl, Signed Assertion 검증), OIDC Client(JWKS로 IdP 공개키 검증, RS256/ES256 서명 알고리즘) |
+| **Token / Assertion** | 신원·권한·세션 정보를 담은 검증 가능한 객체 | SAML Assertion(XML, XMLDSig/EncryptedAssertion), JWT(Header.Payload.Signature, JWE로 암호화 가능), Kerberos Ticket(TGS, PAC 구조체) |
+| **Provisioning Engine** | 사용자/권한의 생성·수정·삭제 자동화 | SCIM 2.0(RFC 7644) REST API, Just-In-Time(JIT) Provisioning, HR-Driven(Workday/SAP SuccessFactors 동기화), Deprovisioning Hook |
+| **MFA / Risk Engine** | 추가 인증 요소 및 위험 기반 적응형 인증 | TOTP(RFC 6238), WebAuthn(FIDO2, CTAP2.1), Push(Okta Verify/Duo), Adaptive(Risk Score > 0.7 시 Step-up), Risk Signal(IP/디바이스 핑거프린트) |
+| **Audit / SIEM** | 인증/인가 이벤트 통합 로깅 및 분석 | syslog/CEF, Splunk/Elastic, 인증 로그 보존(ISMS-P 1년, PCI-DSS 1년), UEBA(User Entity Behavior Analytics) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**JWT 상세 구조 (OIDC ID Token 예시)**:
+```
+Header  : { "alg": "RS256", "typ": "JWT", "kid": "Gaidop..." }
+Payload : { "iss": "https://idp.example.com",
+            "sub": "user-uuid-1234",
+            "aud": "client-id-abc",
+            "exp": 1717660800,    <- 1시간 후 만료
+            "iat": 1717657200,
+            "nonce": "abc-123",   <- replay 방지
+            "amr": ["pwd","mfa"], <- 인증 방법
+            "acr": "urn:mace:incommon:iap:silver" }
+Signature: RSA-SHA256(base64url(header) + "." + base64url(payload), IdP_private_key)
+```
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**핵심 설계 파라미터**:
+
+| 파라미터 | 권장 값 | 근거 |
+| :--- | :--- | :--- |
+| Access Token TTL | 5~15분 | 탈취 시 피해 최소화 (RFC 6749 권장 1시간 이하) |
+| Refresh Token TTL | 8~24시간 (앱) / 30일 (모바일, Rotation) | UX vs 보안 균형 |
+| SAML Assertion 유효시간 | 2~5분 | Replay Attack 방지 (SAML 2.0 Profiles §4.1.4.5) |
+| MFA Step-up 임계값 | Risk Score ≥ 70 / 24시간 무활동 | NIST SP 800-63B AAL2/AAL3 |
+| Cookie `SameSite` | `Strict` (1st party) / `Lax` (cross-site redirect) | CSRF 방어 |
+| `Secure`, `HttpOnly` | 필수 | XSS 토큰 탈취 방지 |
+| 토큰 서명 알고리즘 | `RS256`/`ES256` 이상 (HS256은 비권장) | 대칭키 유출 방지 |
+| 세션 동시성 | 동시 1~2 디바이스 | 세션 하이재킹 탐지 |
+
+- **📢 섹션 요약 비유**: **공항 출국장**에 비유할 수 있다. 여권(Identity)은 한 번만 검사(IdP 인증)받고, 이후 탑승 게이트마다 **탑승권(Token)** 만 보여주며, 위험물 탐지(MFA/Risk Engine) 가 추가 수색를 결정한다. 탑승권에는 좌석·목적지·유효시간(Claims/TTL) 이 인쇄되어 있어 위조가 어렵다(서명 검증).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-신원 관리 IAM 통합 인증 SSO을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | **SAML 2.0** | **OIDC (OAuth 2.0 기반)** | **Kerberos** | **FIDO2 / Passkey** |
+| :--- | :--- | :--- | :--- | :--- |
+| **데이터 형식** | XML (Assertion) | JSON / JWT | Binary Ticket (ASN.1) | CBOR / Public Key |
+| **전송 프로토콜** | HTTP Redirect/POST (Browser) | HTTP REST + JSON | UDP 88 (KDC), TCP 88 | CTAP2 over USB/NFC/BLE |
+| **주 용도** | B2E 엔터프라이즈 SaaS, 정부 | 모바일/SPA/API, B2C, 모던 클라우드 | 사내 AD 환경, Windows 통합 | Passwordless, Phishing-resistant MFA |
+| **서명 알고리즘** | XMLDSig (RSA, ECDSA) | JWS (RS256/ES256/EdDSA) | AES-256 (Ticket 암호화) | ECDSA P-256 (디바이스 개인키) |
+| **토큰 유효시간** | Assertion 2~5분 (NotOnOrAfter) | Access 5~15분, Refresh 8~24h | TGT 10h, ST 4~8h | Session 의존, 디바이스 바인딩 |
+| **장점** | 검증된 표준(2005), 풍부한 Attribute | REST/JSON 친화, 모던 SPA 적합 | 단방향/상호 인증, 투명 SSO | 피싱 내성(Origin-bound), 패스워드 제거 |
+| **단점** | XML 파서 취약점, 모바일 불편 | 토큰 저장·갱신 복잡, IdP 과부하 | 도메인 신뢰 한계, KDC SPOF | 디바이스 분실 시 Recovery 필요 |
+| **적합 조직** | 금융·공공·대기업 레거시 | 스타트업·모바일 1st | Windows Active Directory | Zero Trust, B2C 확장 |
 
-| 구분 | 전통적 접근 | 신원 관리 IAM 통합 인증 SSO |
+**다른 시스템과의 연결 관계**:
+
+- **API Gateway / Zero Trust Network Access (ZTNA)**: Zscaler ZIA/ZPA, Cloudflare Access가 JWT/Header 검증을 통해 사용자 신원을 경계에서 강제.
+- **PAM (Privileged Access Management)**: CyberArk, BeyondTrust가 IdP 인증을 받아 Admin 계정 자격증명 Vault 임시 발급(Just-in-Time Elevation).
+- **HR 시스템**: Workday, SAP HR -> SCIM 2.0 -> IdP로 사용자 라이프사이클(Join/Move/Leave) 자동 동기화.
+- **DevOps / IaC**: SPIFFE/SPIRE로 워크로드 아이덴티티(SVID) 발급, IAM과 Workload Identity 통합.
+- **감사/컴플라이언스**: ISMS-P, ISO 27001, PCI-DSS 8장(식별·인증), GDPR Article 32(보안 처리) 충족을 위한 인증 로그/세션 정책.
+
+| 통합 패턴 | 대표 사례 | 적용 시 고려사항 |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 신원 관리 IAM 통합 인증 SSO은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 신원 관리 IAM 통합 인증 SSO은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 신원 관리 IAM 통합 인증 SSO을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-신원 관리 IAM 통합 인증 SSO을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 신원 관리 IAM 통합 인증 SSO 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 신원 관리 IAM 통합 인증 SSO은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 신원 관리 IAM 통합 인증 SSO의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 신원 관리 IAM 통합 인증 SSO의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-신원 관리 IAM 통합 인증 SSO 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 신원 관리 IAM 통합 인증 SSO은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **HR-Driven Provisioning** | Workday -> SCIM -> Okta -> 200개 SaaS | 동시성 이슈(Source of Truth 단일화) |
+| **Federation (Cross-Org)** | A회사 직원 -> B회사 IdP에 인증 위임 | 신뢰 메타데이터 교환, AssertionConsumerService URL 화이트리스트 |
+| **Conditional Access** | Entra ID Conditional Access (위치/디바이스/위험 기반) | 토큰 클레임(groups, roles) 에 정책 매핑 |
+| **Just-In-Time Access** | JIT Elevation (CyberArk, AWS IAM Identity Center) | TTL 짧게, 자동 회수, 감사 이벤트
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 376 / 800
 
-← **이전**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/knowledge-base/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/)
-**다음**: [377. 다중 인증 MFA 생체 인증 패스키](/knowledge-base/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/) →
+<- **이전**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/knowledge-base/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/)
+**다음**: [377. 다중 인증 MFA 생체 인증 패스키](/knowledge-base/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/) ->
 
 ---

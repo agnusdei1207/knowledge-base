@@ -27,16 +27,16 @@ tags = ["software_engineering"]
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 관리와 도구 기반 관리의 차이를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Spreadsheet silo vs managed requirement repository                 │
-├────────────────────────────────────────────────────────────────────┤
-│ spreadsheet / mail / chat      -> versions diverge                │
-│ design doc / code / test       -> links are manual and fragile    │
-│                                                                    │
-│ managed repository             -> one requirement ID               │
-│                                -> version history + trace links    │
-│                                -> impact analysis on change        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Spreadsheet silo vs managed requirement repository                 |
++--------------------------------------------------------------------+
+| spreadsheet / mail / chat      -> versions diverge                |
+| design doc / code / test       -> links are manual and fragile    |
+|                                                                    |
+| managed repository             -> one requirement ID               |
+|                                -> version history + trace links    |
+|                                -> impact analysis on change        |
++--------------------------------------------------------------------+
 ```
 
 즉 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 도구의 역할은 "기획 문서 정리"보다 훨씬 넓다. 요구사항이 바뀌었을 때 누가 승인해야 하는지, 어떤 설계와 코드가 영향을 받는지, 어느 테스트가 다시 수행되어야 하는지까지 보이게 만드는 것이 핵심이다.
@@ -63,18 +63,18 @@ tags = ["software_engineering"]
 아래 그림은 요구사항 도구가 만드는 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Requirement digital thread                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ stakeholder need                                                    │
-│      │                                                              │
-│      ▼                                                              │
-│ requirement ID  ----> design item ----> dev task / commit          │
-│      │                                   │                          │
-│      └-------------------------------> test case / result          │
-│                                                                    │
-│ change on requirement ID -> impact analysis across the thread      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Requirement digital thread                                         |
++--------------------------------------------------------------------+
+| stakeholder need                                                    |
+|      |                                                              |
+|      v                                                              |
+| requirement ID  ----> design item ----> dev task / commit          |
+|      |                                   |                          |
+|      +-------------------------------> test case / result          |
+|                                                                    |
+| change on requirement ID -> impact analysis across the thread      |
++--------------------------------------------------------------------+
 ```
 
 여기서 중요한 점은 도구가 자동으로 품질을 보장하지는 않는다는 사실이다. Requirement ID 규칙, 링크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 승인 절차가 함께 있어야만 도구가 추적성과 영향 분석을 제대로 제공한다. 도구는 거버넌스를 실행 가능한 형태로 고정해 주는 장치다.
@@ -113,16 +113,16 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 아래 흐름은 도구 선택 시 자주 쓰는 판단 기준을 정리한 것이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Selecting a requirements tool strategy                             │
-├────────────────────────────────────────────────────────────────────┤
-│ strict regulation / formal baseline / audit evidence required?    │
-│   ├─ yes -> DOORS-centric or hybrid model                         │
-│   └─ no                                                           │
-│        ├─ agile backlog and dev integration are primary?          │
-│        │      └─ yes -> Jira-centric model                        │
-│        └─ both are important -> synchronize DOORS and Jira        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Selecting a requirements tool strategy                             |
++--------------------------------------------------------------------+
+| strict regulation / formal baseline / audit evidence required?    |
+|   +- yes -> DOORS-centric or hybrid model                         |
+|   +- no                                                           |
+|        +- agile backlog and dev integration are primary?          |
+|        |      +- yes -> Jira-centric model                        |
+|        +- both are important -> synchronize DOORS and Jira        |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -170,19 +170,19 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 
 ```text
 stakeholder needs
-        │
-        ▼
+        |
+        v
 requirement repository with unique IDs
-        │
-        ▼
+        |
+        v
 baseline and change control
-        │
-        ▼
+        |
+        v
 trace links to design / code / test
-        │
-        ├──────────────▶ impact analysis
-        │
-        └──────────────▶ audit evidence and release confidence
+        |
+        +---------------> impact analysis
+        |
+        +---------------> audit evidence and release confidence
 ```
 
 이 흐름도는 요구사항 도구가 단순 목록 관리에서 끝나지 않고, 변경 통제와 추적성을 통해 실제 릴리스 품질과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응력까지 연결된다는 점을 보여 준다.
@@ -199,7 +199,7 @@ trace links to design / code / test
 
 **진행 상황**: 177 / 973
 
-← **이전**: [176. 페트리 넷 (Petri Net) - 병행 시스템 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/)
-**다음**: [178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) →
+<- **이전**: [176. 페트리 넷 (Petri Net) - 병행 시스템 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/)
+**다음**: [178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ->
 
 ---

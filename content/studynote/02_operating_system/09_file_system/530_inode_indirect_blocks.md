@@ -31,29 +31,29 @@ tags = ["studynote-operating-system"]
 운영체제가 단 3개의 C언어 포인터 슬롯으로 어떻게 수 테라바이트(TB) 급 블록을 무한 증식(Growth) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 마스킹 트리를 전개하는지 깊이 뎁스(Depth) 맵핑 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │                 기가바이트 벽을 허무는 1차, 2차, 3차 피라미드 계층 블록 트리  │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │  [[ 145번 i-node (256 Byte 한정된 쥐꼬리 장부 속 스로틀 포팅) ]]              │
-  │  -------------------------------------------------------------                │
-  │   [0~11] Direct 포인터 ──▶ (즉시 48KB 데이터 조달 빔 속도 통치!)              │
-  │                                                                               │
-  │   [12] 단일 간접 포인터  ──▶ [[ 1차 하청 장부 블록 (4KB 크기 Index) ]]        │
-  │                             ├──▶ 데이터블록 1 (4KB)                           │
-  │  (수용량: 1024개 $\times$ 4KB = 4MB)  ├──▶ 데이터블록 2 (4KB)                 │
-  │                             └──▶ 데이터블록 1024 (끝)                         │
-  │                                                                               │
-  │   [13] 이중 간접 포인터  ──▶ [[ 2차 거물 임원 장부 (Double Index) ]]          │
-  │  (수용량: 1024 $\times$ 4MB = 4GB!)   │                                       │
-  │                             ├──▶ [1차 하청 장부 A] ─▶ 1024개 데이터!          │
-  │                             ├──▶ [1차 하청 장부 B] ─▶ 1024개 데이터!          │
-  │                             └──▶ [1차 하청 장부 C (총 1024개 하청)]           │
-  │                                                                               │
-  │   [14] 삼중 간접 포인터  ──▶ [[ 3차 마왕 황제 장부 (Triple Index 우주) ]]     │
-  │                              ──▶ [2차 임원 장부 1024개 ──▶ 엄청 커짐!]        │
-  │  (수용량: 1024 $\times$ 4GB = 4TB!)                                           │
-  └───────────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------------+
+  |                 기가바이트 벽을 허무는 1차, 2차, 3차 피라미드 계층 블록 트리  |
+  +-------------------------------------------------------------------------------+
+  |                                                                               |
+  |  [[ 145번 i-node (256 Byte 한정된 쥐꼬리 장부 속 스로틀 포팅) ]]              |
+  |  -------------------------------------------------------------                |
+  |   [0~11] Direct 포인터 ---> (즉시 48KB 데이터 조달 빔 속도 통치!)              |
+  |                                                                               |
+  |   [12] 단일 간접 포인터  ---> [[ 1차 하청 장부 블록 (4KB 크기 Index) ]]        |
+  |                             +---> 데이터블록 1 (4KB)                           |
+  |  (수용량: 1024개 $\times$ 4KB = 4MB)  +---> 데이터블록 2 (4KB)                 |
+  |                             +---> 데이터블록 1024 (끝)                         |
+  |                                                                               |
+  |   [13] 이중 간접 포인터  ---> [[ 2차 거물 임원 장부 (Double Index) ]]          |
+  |  (수용량: 1024 $\times$ 4MB = 4GB!)   |                                       |
+  |                             +---> [1차 하청 장부 A] --> 1024개 데이터!          |
+  |                             +---> [1차 하청 장부 B] --> 1024개 데이터!          |
+  |                             +---> [1차 하청 장부 C (총 1024개 하청)]           |
+  |                                                                               |
+  |   [14] 삼중 간접 포인터  ---> [[ 3차 마왕 황제 장부 (Triple Index 우주) ]]     |
+  |                              ---> [2차 임원 장부 1024개 ---> 엄청 커짐!]        |
+  |  (수용량: 1024 $\times$ 4GB = 4TB!)                                           |
+  +-------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [12], [13], [14] 이 세 개의 포인터 락백 구멍 속에서 <strong>수학의 지수 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 성장이 폭발적인 데카르트 승수 뻥튀기 융합 공간 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 마법</strong> 을 우당탕 일으킨다. `단일 간접(Single)` 하나를 뚫을 때마다, 1024칸의 주소록 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 4KB 디스크 섹터 빈칸 하청 방에서 생성되고 포팅된다. 이 4KB 장부가 모자라면 그다음 [13] `이중(Double)` 칸이 해금(Unlock 렌더)되면서 1024 $\times$ 1024 = 100만 개(4GB 용량 거대화수용) 트리가 펼쳐진다. 최후의 보루인 [14] `삼중(Triple)` 까지 영혼을 끌어 쓰면 1024 $\times$ 1024 $\times$ 1024 = 10억 개 조각(4TB 용량 압살 한계 스위칭)을 이 i-node 포인터 하나가 우주 피라미드 점조직으로 싸잡아 거느리는 괴팍한 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 최후의 보루 병합 시스템 증거 뷰를 만천하에 드러내는 셈이다!
@@ -157,12 +157,12 @@ i-node 단일/이중/삼중 간접 블록 ([Indirect](/knowledge-base/studynote/
 
 ```text
 [i-node 직접 블록 (Direct Blocks)]
-    │
-    ▼
+    |
+    v
 [i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
-    │
-    ├──▶ [익스텐트 (Extent)]
-    └──▶ [빈 공간 관리 (Free-Space Management) 알고리즘]
+    |
+    +---> [익스텐트 (Extent)]
+    +---> [빈 공간 관리 (Free-Space Management) 알고리즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -179,7 +179,7 @@ i-node 단일/이중/삼중 간접 블록 ([Indirect](/knowledge-base/studynote/
 
 **진행 상황**: 530 / 800
 
-← **이전**: [529. i-node 직접 블록 (Direct Blocks) - 보통 12~15개, 작은 파일 고속 접근](/knowledge-base/studynote/02_operating_system/09_file_system/529_inode_direct_blocks/)
-**다음**: [531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) →
+<- **이전**: [529. i-node 직접 블록 (Direct Blocks) - 보통 12~15개, 작은 파일 고속 접근](/knowledge-base/studynote/02_operating_system/09_file_system/529_inode_direct_blocks/)
+**다음**: [531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) ->
 
 ---

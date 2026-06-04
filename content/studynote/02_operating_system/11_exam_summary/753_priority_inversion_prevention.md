@@ -33,26 +33,26 @@ tags = ["studynote-operating-system"]
   - 단일 CPU에서 복잡한 멀티스레드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 락([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), 뮤텍스)이 도입되면서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 우선순위 로직과 락의 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 로직이 서로 충돌(불일치)하여 생겨난 현대적 난제다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 우선순위 역전(Priority Inversion) 발생 메커니즘       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [우선순위: H(High) > M(Medium) > L(Low)]                    │
-  │                                                             │
-  │  L 프로세스: ──[Lock 획득]──█████████████(M에게 CPU 뺏김)       │
-  │                             ↑ Lock 쥔 상태로 정지됨 (Preempt)     │
-  │                                                             │
-  │  M 프로세스:                  ┌─────────────────┐             │
-  │                              │ CPU 점유! (실행) │             │
-  │                              └─────────────────┘             │
-  │                                                             │
-  │  H 프로세스:         ┌──────┐             (영원히 대기)          │
-  │                     │ Lock │ ◀─────────❓─────────────────  │
-  │                     │ 요청 │ L이 Lock을 놔줘야 내가 실행되는데,   │
-  │                     └──────┘ M이 L의 CPU를 뺏어서 Lock이 안 풀려!│
-  │                                                             │
-  │  결과: 가장 중요한 H가 M 때문에 멈추는 "역전(Inversion)" 현상 발생.     │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 우선순위 역전(Priority Inversion) 발생 메커니즘       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [우선순위: H(High) > M(Medium) > L(Low)]                    |
+  |                                                             |
+  |  L 프로세스: --[Lock 획득]--█████████████(M에게 CPU 뺏김)       |
+  |                             ^ Lock 쥔 상태로 정지됨 (Preempt)     |
+  |                                                             |
+  |  M 프로세스:                  +-----------------+             |
+  |                              | CPU 점유! (실행) |             |
+  |                              +-----------------+             |
+  |                                                             |
+  |  H 프로세스:         +------+             (영원히 대기)          |
+  |                     | Lock | <----------❓-----------------  |
+  |                     | 요청 | L이 Lock을 놔줘야 내가 실행되는데,   |
+  |                     +------+ M이 L의 CPU를 뺏어서 Lock이 안 풀려!|
+  |                                                             |
+  |  결과: 가장 중요한 H가 M 때문에 멈추는 "역전(Inversion)" 현상 발생.     |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 타이밍 다이어그램은 화성 탐사선 패스파인더를 미치게 만든 정확한 시퀀스다. 하위 프로세스 L이 뮤텍스 락을 쥔 상태에서, CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 그저 "M이 L보다 우선순위가 높네?"라는 단순 무식한 규칙만 보고 L을 멈추고 M을 실행시켜 버린다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 L이 어떤 락을 들고 있는지, 그리고 저 위에서 H가 그 락을 애타게 기다리고 있다는 전체적 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 보지 못했다. 이것이 뮤텍스(공유 자원)와 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CPU 제어)가 분리되어 있을 때 발생하는 끔찍한 아키텍처적 사각지대다.
@@ -73,25 +73,25 @@ tags = ["studynote-operating-system"]
 - **효과**: L이 갑자기 1순위 권력을 쥐게 되므로, 중간에 깔짝대던 M 프로세스들이 절대 L을 선점(Preempt)할 수 없다. L은 방해받지 않고 초고속으로 자원 사용을 끝낸 뒤 락을 반환하고 다시 Low로 돌아간다. 락이 풀리면 원래 H가 즉시 자원을 쥐고 실행된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 우선순위 상속 (Priority Inheritance) 동작 원리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [우선순위: H(High) > M(Medium) > L(Low)]                          │
-  │                                                                   │
-  │  L 프로세스: ──[Lock]───(H의 요청 도착!)───▶ [임시 High로 권력 상승!]    │
-  │                         │                     ████████ (방해금지) │
-  │                         │                     [Lock 해제]         │
-  │                         ▼                        │ (권력 반납)      │
-  │  H 프로세스:         ┌──────┐                    ▼                │
-  │                     │ Lock │                 ┌────────────┐     │
-  │                     │ 요청 │                 │ H 실행 성공! │     │
-  │                     └──────┘                 └────────────┘     │
-  │                                                                   │
-  │  M 프로세스: ────────────────────────── (L이 High라 못 덤빔) ─────  │
-  │                                                                   │
-  │  결과: L이 H의 우선순위를 상속받아 방패를 두르고 임계 구역을 최단기에 탈출함. │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 우선순위 상속 (Priority Inheritance) 동작 원리          |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [우선순위: H(High) > M(Medium) > L(Low)]                          |
+  |                                                                   |
+  |  L 프로세스: --[Lock]---(H의 요청 도착!)----> [임시 High로 권력 상승!]    |
+  |                         |                     ████████ (방해금지) |
+  |                         |                     [Lock 해제]         |
+  |                         v                        | (권력 반납)      |
+  |  H 프로세스:         +------+                    v                |
+  |                     | Lock |                 +------------+     |
+  |                     | 요청 |                 | H 실행 성공! |     |
+  |                     +------+                 +------------+     |
+  |                                                                   |
+  |  M 프로세스: -------------------------- (L이 High라 못 덤빔) -----  |
+  |                                                                   |
+  |  결과: L이 H의 우선순위를 상속받아 방패를 두르고 임계 구역을 최단기에 탈출함. |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 메커니즘의 천재성은 "내가 너를 기다려야 한다면, 네가 빨리 끝낼 수 있게 내 계급장을 잠시 빌려주겠다"는 철학에 있다. H 프로세스가 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 요청 큐에서 블로킹되는 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뮤텍스 로직은 락을 쥐고 있는 주인이 L임을 확인하고 L의 스케줄링 `nice` 값을 H와 동일하게 끌어올린다. M은 이제 L을 선점할 수 없게 되어 입을 다물게 된다. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 끝나고 `unlock()`이 호출되는 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 다시 L의 계급장을 빼앗고 락을 H에게 넘겨주며 상황을 완벽하게 수습한다.
@@ -142,29 +142,29 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a> 회피 아키텍처)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뮤텍스를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 모드로 바꾸는 것은 무거운 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 동반한다. 1초에 수백 번 호출되는 오디오 파이프라인에서는 락 자체를 없애는 것이 정답이다. 아키텍트는 오디오 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 뮤텍스 대신 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">락-프리</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>) 링 버퍼(Ring Buffer)</strong> 구조로 변경하여, 애초에 하위 프로세스가 상위 프로세스를 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))할 기회 자체를 원천적으로 박탈하는 시큐어 설계를 적용한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안전한 실시간 동기화(RT Synchronization) 의사결정 트리    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 멀티스레드 환경에서 공유 자원(Data) 보호 방식을 설계한다 ]             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      우선순위가 다른(예: UI스레드 vs 실시간 통신 스레드) 스레드가 섞여 있는가?│
-  │          ├─ 아니오 ──▶ [ 일반 Mutex 또는 Spinlock 사용 무방 ]          │
-  │          │                                                        │
-  │          └─ 예                                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유 데이터를 락(Lock) 없이 큐(Queue/Ring Buffer)로 넘길 수 있는가? │
-  │          ├─ 예 ─────▶ [ Lock-Free 자료구조 채택 (궁극의 해결책) ]       │
-  │          │                                                        │
-  │          └─ 아니오 (반드시 락을 통해 상호 배제 제어가 필요함)             │
-  │                │                                                  │
-  │                ▼ [아키텍트 강제 지침]                                  │
-  │      1. 절대 세마포어(Semaphore)를 사용하지 마라! (주인 추적 불가)         │
-  │      2. Pthreads 사용 시 반드시 `pthread_mutexattr_setprotocol` 함수로│
-  │         `PTHREAD_PRIO_INHERIT` 속성을 켜고 뮤텍스를 생성할 것!          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안전한 실시간 동기화(RT Synchronization) 의사결정 트리    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 멀티스레드 환경에서 공유 자원(Data) 보호 방식을 설계한다 ]             |
+  |                |                                                  |
+  |                v                                                  |
+  |      우선순위가 다른(예: UI스레드 vs 실시간 통신 스레드) 스레드가 섞여 있는가?|
+  |          +- 아니오 ---> [ 일반 Mutex 또는 Spinlock 사용 무방 ]          |
+  |          |                                                        |
+  |          +- 예                                                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      공유 데이터를 락(Lock) 없이 큐(Queue/Ring Buffer)로 넘길 수 있는가? |
+  |          +- 예 ------> [ Lock-Free 자료구조 채택 (궁극의 해결책) ]       |
+  |          |                                                        |
+  |          +- 아니오 (반드시 락을 통해 상호 배제 제어가 필요함)             |
+  |                |                                                  |
+  |                v [아키텍트 강제 지침]                                  |
+  |      1. 절대 세마포어(Semaphore)를 사용하지 마라! (주인 추적 불가)         |
+  |      2. Pthreads 사용 시 반드시 `pthread_mutexattr_setprotocol` 함수로|
+  |         `PTHREAD_PRIO_INHERIT` 속성을 켜고 뮤텍스를 생성할 것!          |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 트리는 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)조차 허용하지 않는 임베디드, 금융, 미디어 시스템 엔지니어들의 바이블이다. 락을 쓰면 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이 따라올 수밖에 없다. 따라서 1원칙은 "락을 치워라([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))"다. 락을 피할 수 없다면, 기본 제공되는 깡통 뮤텍스를 절대 쓰지 말고 OS가 제공하는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나 로버스트(Robust) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 명시적으로 켜서 '스마트한 방패'를 씌워주어야 시스템이 극한의 부하에서도 데드라인을 보장한다.
@@ -213,12 +213,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [인터럽트 구동 입출력]
-    │
-    ▼
+    |
+    v
 [우선순위 역전 (Priority Inversion) 방지]
-    │
-    ├──▶ [문맥 교환 비용 (레지스터 저장 복원)]
-    └──▶ [고아 좀비 프로세스 init 처리]
+    |
+    +---> [문맥 교환 비용 (레지스터 저장 복원)]
+    +---> [고아 좀비 프로세스 init 처리]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -235,7 +235,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 753 / 800
 
-← **이전**: [752. 인터럽트 구동 입출력 (Interrupt Driven I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/752_interrupt_driven_io/)
-**다음**: [754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) →
+<- **이전**: [752. 인터럽트 구동 입출력 (Interrupt Driven I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/752_interrupt_driven_io/)
+**다음**: [754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) ->
 
 ---

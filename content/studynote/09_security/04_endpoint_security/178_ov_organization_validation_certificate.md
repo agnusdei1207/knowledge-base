@@ -26,15 +26,15 @@ OV [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/30
 따라서 OV는 <strong>자동화 중심의 DV와 고강도 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> 사이를 메우는 중간층</strong>으로 등장했다. 일반 사용자가 주소창만 보고 차이를 알아보기는 어렵지만, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 상세 정보·계약 심사·상대 시스템의 주체 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 중요한 환경에서는 여전히 의미가 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Identity depth across certificate types                              │
-├──────────────────────────────────────────────────────────────────────┤
-│ DV  -> proves domain control                                          │
-│ OV  -> proves domain control + basic verified organization            │
-│ EV  -> proves domain control + stricter organization / requester      │
-│                                                                      │
-│ same TLS encryption strength can be used across all three types      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Identity depth across certificate types                              |
++----------------------------------------------------------------------+
+| DV  -> proves domain control                                          |
+| OV  -> proves domain control + basic verified organization            |
+| EV  -> proves domain control + stricter organization / requester      |
+|                                                                      |
+| same TLS encryption strength can be used across all three types      |
++----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DV가 "이 문 열쇠를 갖고 있나"만 보는 출입카드라면, OV는 "이 사무실이 실제 등록된 회사 맞나"까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 회사 출입증이고, EV는 거기에 대표 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 더한 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차에 가깝다.
@@ -55,27 +55,27 @@ OV의 핵심은 암호 알고리즘이 아니라 <strong>발급 절차의 추가
 아래 그림은 OV 발급이 무엇을 추가하고, 무엇은 여전히 보장하지 않는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ OV issuance flow                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant                                                            │
-│   ├─ generate key pair + CSR                                         │
-│   ├─ prove domain control                                            │
-│   └─ submit organization details / documents                         │
-│            │                                                         │
-│            ▼                                                         │
-│ CA                                                                  │
-│   ├─ validate domain                                                 │
-│   ├─ verify organization existence                                   │
-│   ├─ cross-check official contact information                        │
-│   └─ issue OV certificate                                            │
-│            │                                                         │
-│            ▼                                                         │
-│ Certificate contains domain names + verified organization fields     │
-│                                                                      │
-│ Proven: encrypted channel, domain control, basic organization ID     │
-│ Not proven: service safety, business ethics, malware absence         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| OV issuance flow                                                     |
++----------------------------------------------------------------------+
+| Applicant                                                            |
+|   +- generate key pair + CSR                                         |
+|   +- prove domain control                                            |
+|   +- submit organization details / documents                         |
+|            |                                                         |
+|            v                                                         |
+| CA                                                                  |
+|   +- validate domain                                                 |
+|   +- verify organization existence                                   |
+|   +- cross-check official contact information                        |
+|   +- issue OV certificate                                            |
+|            |                                                         |
+|            v                                                         |
+| Certificate contains domain names + verified organization fields     |
+|                                                                      |
+| Proven: encrypted channel, domain control, basic organization ID     |
+| Not proven: service safety, business ethics, malware absence         |
++----------------------------------------------------------------------+
 ```
 
 중요한 점은 브라우저 핸드셰이크에서 OV가 특별한 암호 강도를 제공하지 않는다는 사실이다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 키 길이, [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), PFS (Perfect [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy)는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 등급과 별개다. OV의 가치는 <strong>누가 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 받았는지에 대한 설명력</strong>에 있다.
@@ -165,23 +165,23 @@ OV [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/30
 
 ```text
 평문 HTTP 시대
-    │
-    ▼
+    |
+    v
 HTTPS 보급 확대
-    │
-    ▼
+    |
+    v
 DV (Domain Validation) 자동화 확산
-    │
-    ▼
+    |
+    v
 조직 신원 공백 인식
-    │
-    ▼
+    |
+    v
 OV (Organization Validation)
-    ├─ 조직명 검증
-    ├─ B2B / 감사 설명력
-    └─ 중간 수준 운영 부담
-    │
-    ▼
+    +- 조직명 검증
+    +- B2B / 감사 설명력
+    +- 중간 수준 운영 부담
+    |
+    v
 EV · CT 모니터링 · 브랜드 보호 · mTLS 정책으로 확장
 ```
 
@@ -199,7 +199,7 @@ EV · CT 모니터링 · 브랜드 보호 · mTLS 정책으로 확장
 
 **진행 상황**: 231 / 1108
 
-← **이전**: [177. DV (Domain Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)
-**다음**: [179. Self-signed 인증서 — 자체 발급 인증서, 내부용](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/) →
+<- **이전**: [177. DV (Domain Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)
+**다음**: [179. Self-signed 인증서 — 자체 발급 인증서, 내부용](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/) ->
 
 ---

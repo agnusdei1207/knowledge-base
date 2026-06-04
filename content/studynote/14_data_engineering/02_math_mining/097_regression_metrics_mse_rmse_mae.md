@@ -38,21 +38,21 @@ tags = ["studynote-data-engineering"]
 | **MAE** | Mean Absolute Error | $\frac{1}{n} \sum \|Y - \hat{Y}\|$ | 오차의 절대값 평균. [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))에 강건(Robust)하며 직관적인 '평균 차이'를 제공. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           오차(Error) 처리 방식에 따른 지표 성질 비교        │
-├──────────────────────────────────────────────────────────────┤
-│ 예측값(10) vs 실제값(15) ─▶ 오차: 5                          │
-│                                                              │
-│ 1) MSE 처리  : 5² = 25 (큰 오차를 극단적으로 증폭시킴)       │
-│ 2) RMSE 처리 : √25 = 5 (단위 복구, 증폭 성향은 유지)         │
-│ 3) MAE 처리  : |5| = 5 (오차 그대로 정직하게 반영)           │
-│                                                              │
-│ * 만약 오차가 100(이상치)이라면?                             │
-│   MSE는 10,000으로 폭발, MAE는 100으로 유지 ─▶ 이상치 민감도│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           오차(Error) 처리 방식에 따른 지표 성질 비교        |
++--------------------------------------------------------------+
+| 예측값(10) vs 실제값(15) --> 오차: 5                          |
+|                                                              |
+| 1) MSE 처리  : 5^ = 25 (큰 오차를 극단적으로 증폭시킴)       |
+| 2) RMSE 처리 : √25 = 5 (단위 복구, 증폭 성향은 유지)         |
+| 3) MAE 처리  : |5| = 5 (오차 그대로 정직하게 반영)           |
+|                                                              |
+| * 만약 오차가 100(이상치)이라면?                             |
+|   MSE는 10,000으로 폭발, MAE는 100으로 유지 --> 이상치 민감도|
++--------------------------------------------------------------+
 ```
 
-MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))에서 미분하기 쉬운 장점이 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단위(예: 달러)가 제곱(달러²)이 되어 사람이 직관적으로 이해하기 어렵다는 단점을 RMSE가 해결한다.
+MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))에서 미분하기 쉬운 장점이 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단위(예: 달러)가 제곱(달러^)이 되어 사람이 직관적으로 이해하기 어렵다는 단점을 RMSE가 해결한다.
 
 - **📢 섹션 요약 비유**: MSE는 5cm 빗나간 화살에 25점의 벌점을 주는 '엄격한 코치'이고, MAE는 5cm 빗나가면 정직하게 5점만 벌점을 주는 '다정한 코치'다.
 
@@ -113,17 +113,17 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([Gradient D
 
 ```text
 오차의 단순 합산 (0으로 상쇄되는 문제)
-    │
-    ▼
+    |
+    v
 절대값 및 제곱 변환 (MAE, MSE 도입)
-    │
-    ▼
+    |
+    v
 단위 일치성 확보 (RMSE의 표준화)
-    │
-    ▼
+    |
+    v
 비율 기반 및 스케일 조정 (MAPE, RMSLE로의 확장)
-    │
-    ▼
+    |
+    v
 확률적 회귀 평가 (Quantile Loss, 신뢰 구간 등)
 ```
 
@@ -141,7 +141,7 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([Gradient D
 
 **진행 상황**: 97 / 258
 
-← **이전**: [불균형 데이터 증강 (Oversampling) - SMOTE](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)
-**다음**: [결정 계수 (Coefficient of Determination) - R-Squared](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) →
+<- **이전**: [불균형 데이터 증강 (Oversampling) - SMOTE](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)
+**다음**: [결정 계수 (Coefficient of Determination) - R-Squared](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) ->
 
 ---

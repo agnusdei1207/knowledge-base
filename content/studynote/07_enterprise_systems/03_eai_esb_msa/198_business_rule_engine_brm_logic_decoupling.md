@@ -44,16 +44,16 @@ BRE의 기본 흐름은 규칙 작성, 저장, 실행, 설명 가능성으로 �
 아래 그림은 애플리케이션이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 계산하지 않고, 외부화된 결정 계층을 호출하는 구조를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Externalized decision architecture                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application ──▶ Decision Service ──▶ Inference Engine                     │
-│                    │                        │                              │
-│                    │                        ├─▶ Rule Repository            │
-│                    │                        └─▶ Priority / agenda / cache  │
-│                    ▼                                                       │
-│          Audit trail · explanation · effective date history               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    Externalized decision architecture                     |
++----------------------------------------------------------------------------+
+| Application ---> Decision Service ---> Inference Engine                     |
+|                    |                        |                              |
+|                    |                        +--> Rule Repository            |
+|                    |                        +--> Priority / agenda / cache  |
+|                    v                                                       |
+|          Audit trail · explanation · effective date history               |
++----------------------------------------------------------------------------+
 ```
 
 엔진 내부에서는 규칙 충돌 해결, 우선순위, 전방 추론 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) 또는 후방 추론 ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) 같은 메커니즘이 사용된다. 대규모 규칙 집합에서는 Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)처럼 변경된 사실만 효율적으로 재평가하는 방식이 중요하다. 핵심은 BRE가 단순한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라, 규칙 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 실행 근거까지 관리하는 결정 플랫폼이라는 점이다.
@@ -126,17 +126,17 @@ BRE를 제대로 도입하면 [정책](/knowledge-base/studynote/10_ai/02_dl_arc
 
 ```text
 하드코딩된 if-else 정책
-    │
-    ▼
+    |
+    v
 규칙 분리 요구
-    │
-    ▼
+    |
+    v
 BRMS 기반 규칙 작성 · 버전 관리
-    │
-    ▼
+    |
+    v
 결정 서비스 + 추론 엔진 실행
-    │
-    ▼
+    |
+    v
 시뮬레이션 · 감사 추적 · 실시간 정책 반영
 ```
 
@@ -154,7 +154,7 @@ BRMS 기반 규칙 작성 · 버전 관리
 
 **진행 상황**: 198 / 482
 
-← **이전**: [197. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/197_data_mesh_decentralized_domain_ownership/)
-**다음**: [199. BPM (Business Process Management) 및 오케스트레이터 모델](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) →
+<- **이전**: [197. 데이터 메시 (Data Mesh)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/197_data_mesh_decentralized_domain_ownership/)
+**다음**: [199. BPM (Business Process Management) 및 오케스트레이터 모델](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) ->
 
 ---

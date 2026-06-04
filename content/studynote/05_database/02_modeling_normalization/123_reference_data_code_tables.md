@@ -19,19 +19,19 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    코드 테이블 예시                                    │
-├───────────────────────────────────────────────────────┤
-│  [통합 코드 테이블]                                   │
-│  ┌──────────┬──────┬──────┬────────┐                 │
-│  │ 코드유형  │ 코드  │ 코드명│ 정렬순서│                 │
-│  ├──────────┼──────┼──────┼────────┤                 │
-│  │ GENDER   │ M    │ 남성  │ 1      │                 │
-│  │ GENDER   │ F    │ 여성  │ 2      │                 │
-│  │ STATUS   │ ACT  │ 활성  │ 1      │                 │
-│  │ STATUS   │ INA  │ 비활성│ 2      │                 │
-│  └──────────┴──────┴──────┴────────┘                 │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    코드 테이블 예시                                    |
++-------------------------------------------------------+
+|  [통합 코드 테이블]                                   |
+|  +----------+------+------+--------+                 |
+|  | 코드유형  | 코드  | 코드명| 정렬순서|                 |
+|  +----------+------+------+--------+                 |
+|  | GENDER   | M    | 남성  | 1      |                 |
+|  | GENDER   | F    | 여성  | 2      |                 |
+|  | STATUS   | ACT  | 활성  | 1      |                 |
+|  | STATUS   | INA  | 비활성| 2      |                 |
+|  +----------+------+------+--------+                 |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 코드 테이블은 사전의 <strong>약어 색인</strong>이다. "M=남성, F=여성"처럼 약속된 코드의 의미를 한 곳에서 관리한다.
@@ -90,17 +90,17 @@ tags = ["studynote-database"]
 
 ```text
 [하드코딩 (1990s)]
-    │
-    ▼
+    |
+    v
 [코드 테이블 (DB 관리, 2000s)]
-    │
-    ▼
+    |
+    v
 [데이터 표준 관리 (메타데이터, 2010s)]
-    │
-    ▼
+    |
+    v
 [MDM + 참조 데이터 통합 관리 (2015~)]
-    │
-    ▼
+    |
+    v
 [현재: 데이터 카탈로그 — 코드 메타데이터 자동 관리]
 ```
 
@@ -115,7 +115,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 123 / 600
 
-← **이전**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/knowledge-base/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/)
-**다음**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/) →
+<- **이전**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/knowledge-base/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/)
+**다음**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/) ->
 
 ---

@@ -49,10 +49,10 @@ Window Function은 <strong>현대 SQL 분석의 핵심</strong>이며, [상관 �
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[GROUP BY (집계)] → [상관 서브쿼리 (비효율)]
-    → [Window Function (SQL:2003)]
-    → [ROWS/RANGE Frame (세밀한 윈도우)]
-    → [현재: 대부분 DB 완전 지원 — 분석 쿼리 필수]
+[GROUP BY (집계)] -> [상관 서브쿼리 (비효율)]
+    -> [Window Function (SQL:2003)]
+    -> [ROWS/RANGE Frame (세밀한 윈도우)]
+    -> [현재: 대부분 DB 완전 지원 — 분석 쿼리 필수]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Window Function은 <strong>현대 SQL 분석의 핵심</strong>이며, [상관 �
 
 **진행 상황**: 139 / 600
 
-← **이전**: [138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리](/knowledge-base/studynote/05_database/03_relational_model/138_sql_subquery/)
-**다음**: [140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/140_sql_subquery/) →
+<- **이전**: [138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리](/knowledge-base/studynote/05_database/03_relational_model/138_sql_subquery/)
+**다음**: [140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/140_sql_subquery/) ->
 
 ---

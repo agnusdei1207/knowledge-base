@@ -58,29 +58,29 @@ Btrfs는 이름 그대로 모든 것을 [B-Tree](/knowledge-base/studynote/08_al
 서브볼륨은 일반적인 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))처럼 보이지만, 내부적으로는 독립적인 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 루트를 가지는 별도의 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Btrfs 서브볼륨 및 스냅샷 트리 아키텍처              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [물리 디스크 전체 (Btrfs Pool)]                                     │
-  │   └── Root Tree (최상위 관리자)                                      │
-  │                                                                   │
-  │       ├── Subvolume 1 (@root)      ──── 마운트 ──▶ / (루트 파티션) │
-  │       │    ├── /usr                                               │
-  │       │    └── /etc                                               │
-  │       │                                                           │
-  │       ├── Subvolume 2 (@home)      ──── 마운트 ──▶ /home           │
-  │       │    ├── /pf_user                                           │
-  │       │    └── /guest                                             │
-  │       │                                                           │
-  │       └── Snapshot 1 (@root_snap)  ◀── (@root)의 특정 시점 복제본   │
-  │                                                                   │
-  │  ※ 서브볼륨의 특징:                                                 │
-  │  1. @root와 @home은 물리적(LVM)으로 쪼개져 있지 않다. 디스크 빈 공간을     │
-  │     경쟁하며 공유한다. (용량 할당의 고통 제로)                        │
-  │  2. 서브볼륨 단위로 스냅샷을 찍을 수 있다. /home은 냅두고 OS 루트(/)만      │
-  │     스냅샷을 찍어 시스템 롤백(Rollback)을 쉽게 구현할 수 있다.           │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Btrfs 서브볼륨 및 스냅샷 트리 아키텍처              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [물리 디스크 전체 (Btrfs Pool)]                                     |
+  |   +-- Root Tree (최상위 관리자)                                      |
+  |                                                                   |
+  |       +-- Subvolume 1 (@root)      ---- 마운트 ---> / (루트 파티션) |
+  |       |    +-- /usr                                               |
+  |       |    +-- /etc                                               |
+  |       |                                                           |
+  |       +-- Subvolume 2 (@home)      ---- 마운트 ---> /home           |
+  |       |    +-- /pf_user                                           |
+  |       |    +-- /guest                                             |
+  |       |                                                           |
+  |       +-- Snapshot 1 (@root_snap)  <--- (@root)의 특정 시점 복제본   |
+  |                                                                   |
+  |  ※ 서브볼륨의 특징:                                                 |
+  |  1. @root와 @home은 물리적(LVM)으로 쪼개져 있지 않다. 디스크 빈 공간을     |
+  |     경쟁하며 공유한다. (용량 할당의 고통 제로)                        |
+  |  2. 서브볼륨 단위로 스냅샷을 찍을 수 있다. /home은 냅두고 OS 루트(/)만      |
+  |     스냅샷을 찍어 시스템 롤백(Rollback)을 쉽게 구현할 수 있다.           |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기존 LVM 환경에서는 `/` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 50GB, `/home` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 50GB를 할당했다. 만약 사용자가 영화를 많이 다운받아 `/home`이 꽉 차면, `/`에 40GB가 남아돌아도 쓸 수 없었다. Btrfs에서는 디스크 100GB 풀 하나만 만들고, 안에 `@root`와 `@home`이라는 두 개의 서브볼륨(독립된 가상 트리)을 만든다. 이 둘은 100GB라는 공간 안에서 유동적으로 공간을 차지한다. 심지어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 옵션도 다르게 줄 수 있어서(예: `/home`은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 켜기, `/`는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 끄기), LVM의 격리 효과와 단일 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 공간 효율성을 동시에 달성한다.
@@ -133,28 +133,28 @@ Btrfs는 이름 그대로 모든 것을 [B-Tree](/knowledge-base/studynote/08_al
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Btrfs 스토리지 아키텍처 도입 의사결정 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [파일 시스템 / 볼륨 매니저 신규 설계]                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      주요 워크로드가 데이터베이스(DB)나 가상머신(VM) 이미지인가?            │
-  │          ├─ 예 ─────▶ [Btrfs 도입 시 치명적 성능 저하 주의]               │
-  │          │            대책: 해당 디렉터리(서브볼륨)에 대해 COW 기능 강제 해제 │
-  │          │            (chattr +C 옵션 / 마운트 옵션 nodatacow)        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버가 SSD(플래시 메모리)를 주력 스토리지로 사용하는가?               │
-  │          ├─ 예 ─────▶ [마운트 옵션: ssd, discard=async, compress=zstd] │
-  │          │            (비동기 TRIM 적용 및 압축을 통한 플래시 수명 극대화) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [HDD 환경 최적화] 스냅샷 개수가 너무 많아지면       │
-  │                         탐색(Seek) 지연이 폭증하므로 주기적인 밸런싱(Balance)│
-  │                         작업을 크론(Cron)으로 등록할 것.                │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Btrfs 스토리지 아키텍처 도입 의사결정 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [파일 시스템 / 볼륨 매니저 신규 설계]                                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      주요 워크로드가 데이터베이스(DB)나 가상머신(VM) 이미지인가?            |
+  |          +- 예 ------> [Btrfs 도입 시 치명적 성능 저하 주의]               |
+  |          |            대책: 해당 디렉터리(서브볼륨)에 대해 COW 기능 강제 해제 |
+  |          |            (chattr +C 옵션 / 마운트 옵션 nodatacow)        |
+  |          +- 아니오                                                |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버가 SSD(플래시 메모리)를 주력 스토리지로 사용하는가?               |
+  |          +- 예 ------> [마운트 옵션: ssd, discard=async, compress=zstd] |
+  |          |            (비동기 TRIM 적용 및 압축을 통한 플래시 수명 극대화) |
+  |          |                                                        |
+  |          +- 아니오 ---> [HDD 환경 최적화] 스냅샷 개수가 너무 많아지면       |
+  |                         탐색(Seek) 지연이 폭증하므로 주기적인 밸런싱(Balance)|
+  |                         작업을 크론(Cron)으로 등록할 것.                |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 치명적 아킬레스건은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 이미지 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(.qcow2)과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(InnoDB)</strong>이다. 이들은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에서 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random Write)를 남발한다. Btrfs는 덮어쓰기를 안 하고 무조건 빈 공간에 새 블록을 만들다 보니([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)), 10GB짜리 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 디스크 전역에 수만 개의 조각([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))으로 박살 나서 흩뿌려진다. 결국 디스크 I/O가 멈춰버린다. 기술사는 반드시 DB가 저장되는 특정 서브볼륨에 `nodatacow` ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 끄기) 속성을 부여해 ext4처럼 In-place 업데이트가 되도록 예외 처리를 해야 한다.
@@ -201,12 +201,12 @@ Btrfs는 전통적인 스토리지 [스택](/knowledge-base/studynote/08_algorit
 
 ```text
 [ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]
-    │
-    ▼
+    |
+    v
 [Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)]
-    │
-    ├──▶ [RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
-    └──▶ [유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]
+    |
+    +---> [RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
+    +---> [유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -223,7 +223,7 @@ Btrfs는 전통적인 스토리지 [스택](/knowledge-base/studynote/08_algorit
 
 **진행 상황**: 638 / 800
 
-← **이전**: [637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)
-**다음**: [639. RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) →
+<- **이전**: [637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)
+**다음**: [639. RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) ->
 
 ---

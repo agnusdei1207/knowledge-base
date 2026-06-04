@@ -64,17 +64,17 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ```text
 [선형 자료구조 (Linear Data Structure)]
-    │
-    ▼
+    |
+    v
 [입력 제한 덱 (Scroll)]
-    │
-    ▼
+    |
+    v
 [출력 제한 덱 (Shelf)]
-    │
-    ▼
+    |
+    v
 [이중 연결 리스트]
-    │
-    ▼
+    |
+    v
 [슬라이딩 윈도우]
 ```
 
@@ -91,7 +91,7 @@ tags = ["datastructure", "studynote-algorithm"]
 
 **진행 상황**: 59 / 175
 
-← **이전**: [큐 (Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)
-**다음**: [이진 트리 (Binary Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) →
+<- **이전**: [큐 (Queue)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)
+**다음**: [이진 트리 (Binary Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) ->
 
 ---

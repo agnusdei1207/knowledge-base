@@ -33,66 +33,66 @@ tags = ["cloud_architecture"]
 
 ### 시험 빈출 핵심 개념 체계도
 
-이 도식은 클라우드 기술사 시험에서 80% 이상 출제되는 핵심 개념들의 상호 관계를 보여준다. 중앙의 클라우드 서비스 모델에서 출발하여, 좌측은 인프라추상화 단계(IaaS → PaaS → SaaS), 우측은 설계 패턴(MSA, Serverless, Event-Driven), 하단은 운영 도구(CI/CD, GitOps, SRE)를 각각 배치하였다.
+이 도식은 클라우드 기술사 시험에서 80% 이상 출제되는 핵심 개념들의 상호 관계를 보여준다. 중앙의 클라우드 서비스 모델에서 출발하여, 좌측은 인프라추상화 단계(IaaS -> PaaS -> SaaS), 우측은 설계 패턴(MSA, Serverless, Event-Driven), 하단은 운영 도구(CI/CD, GitOps, SRE)를 각각 배치하였다.
 
 ```
         [Cloud Service Models]
               IaaS | PaaS | SaaS
                  Shared Responsibility
-    ┌──────────────┼──────────────────┐
-    │              │                  │
+    +--------------+------------------+
+    |              |                  |
  [Infra Abstraction]        [Design Patterns]
-  ┌─────┴─────┐          ┌────┴────┐
-  │Virtualiza-│          │MSA|Pat- │
-  │tion       │          │terns   │
-  ├───────────┤          ├────────┤
-  │Containers │          │Server- │
-  │K8s        │          │less    │
-  ├───────────┤          ├────────┤
-  │Microserv- │          │Event   │
-  │ices       │          │Driven  │
-  └─────┬─────┘          └────┬────┘
-        │                    │
+  +-----+-----+          +----+----+
+  |Virtualiza-|          |MSA|Pat- |
+  |tion       |          |terns   |
+  +-----------+          +--------+
+  |Containers |          |Server- |
+  |K8s        |          |less    |
+  +-----------+          +--------+
+  |Microserv- |          |Event   |
+  |ices       |          |Driven  |
+  +-----+-----+          +----+----+
+        |                    |
     [Orchestration]       [Data Eng]
-     ┌───┴───┐           ┌───┴────┐
-     │K8s    │           │ETL|ELT│
-     │GitOps │           │DataLake│
-     │SRE    │           │Stream  │
-     └───────┘           └────────┘
+     +---+---+           +---+----+
+     |K8s    |           |ETL|ELT|
+     |GitOps |           |DataLake|
+     |SRE    |           |Stream  |
+     +-------+           +--------+
 ```
 
-이 체계도의 핵심은 각 영역이 독립적으로 존재하지 않고 좌→우, 상→하로 깊이 연결되어 있다는 점이다. 예를 들어 "Auto Scaling"이라는 키워드 하나만령더라도, IaaS 층에서는 VM 실례 수 조정이되고, PaaS 층에서는 Container Replica 수 조정으로, K8s 층에서는 HPA/CABPK 형태로 각기 다른 메커니즘으로 동작한다. 시험에서 이러한 대응 관계를 명확히 서술해야 가점 을 받을 수 있다.
+이 체계도의 핵심은 각 영역이 독립적으로 존재하지 않고 좌->우, 상->하로 깊이 연결되어 있다는 점이다. 예를 들어 "Auto Scaling"이라는 키워드 하나만령더라도, IaaS 층에서는 VM 실례 수 조정이되고, PaaS 층에서는 Container Replica 수 조정으로, K8s 층에서는 HPA/CABPK 형태로 각기 다른 메커니즘으로 동작한다. 시험에서 이러한 대응 관계를 명확히 서술해야 가점 을 받을 수 있다.
 
 ### 빈출 기술 간 동작 메커니즘 비교도
 
 이 그림은 흔히 혼동되는 기술 조합들을 각기 다른 동작 계층과 트리거 조건으로 구분하여 나타낸다. 자주 출제되는 서로 게이트웨이 패턴과 서비스 메시의 차이, Saga 패턴과 2PC의 동작 시점 차이, 그리고 스트림 처리와 배치 처리의 시간 창개념을 명확히 구분해야 한다.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              빈출 기술 동작 비교 다이어그램                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [API Gateway]          [Service Mesh]                     │
-│   - L7 Routing          - Sidecar Proxy                     │
-│   - Auth/Throttle       - mTLS (상호 인증)                  │
-│   - Rate Limit          - Traffic Management               │
-│   위치: Client ↔ MS    위치: 각 Pod 옆                     │
-│                                                             │
-│  ┌─────────────────┐      ┌─────────────────────────────┐ │
-│  │   Saga Pattern   │      │   2PC (Two-Phase Commit)   │ │
-│  │ Local Tx +       │      │ Coordinator가 Lock 보유     │ │
-│  │ Compensation      │      │ Blinding Blocking 유발    │ │
-│  │ 비동기 最终적     │      │ 동기적 即時 一致성           │ │
-│  │ Eventual Consist- │      │ Strong Consistency          │ │
-│  │ ency             │      │                             │ │
-│  └─────────────────┘      └─────────────────────────────┘ │
-│                                                             │
-│  [Stream Processing]      [Batch Processing]               │
-│  실시간 창(Window)        주기적 일괄 처리                   │
-│  Kafka/Flink/Spark       Spark/Hadoop MR                  │
-│  └ms~sec 지연            └min~hour 지연                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              빈출 기술 동작 비교 다이어그램                      |
++-------------------------------------------------------------+
+|                                                             |
+|  [API Gateway]          [Service Mesh]                     |
+|   - L7 Routing          - Sidecar Proxy                     |
+|   - Auth/Throttle       - mTLS (상호 인증)                  |
+|   - Rate Limit          - Traffic Management               |
+|   위치: Client ↔ MS    위치: 각 Pod 옆                     |
+|                                                             |
+|  +-----------------+      +-----------------------------+ |
+|  |   Saga Pattern   |      |   2PC (Two-Phase Commit)   | |
+|  | Local Tx +       |      | Coordinator가 Lock 보유     | |
+|  | Compensation      |      | Blinding Blocking 유발    | |
+|  | 비동기 最终적     |      | 동기적 即時 一致성           | |
+|  | Eventual Consist- |      | Strong Consistency          | |
+|  | ency             |      |                             | |
+|  +-----------------+      +-----------------------------+ |
+|                                                             |
+|  [Stream Processing]      [Batch Processing]               |
+|  실시간 창(Window)        주기적 일괄 처리                   |
+|  Kafka/Flink/Spark       Spark/Hadoop MR                  |
+|  +ms~sec 지연            +min~hour 지연                    |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 비교도의 핵심 관찰 포인트는 다음과 같다. API Gateway와 Service Mesh는 둘 다 "프록시"라는 이름을 사용하지만, 위치와 책임이 완전히 다르다. API Gateway는 Client-Ingress의간에위치하여 공통 인증,류량정형,청구취합을 담당하고, Service Mesh는 각 서비스 Pod마다 Sidecar 형태로 배치되어 서비스 간 통신 보안(mTLS), 분산 추적, 회복탄력성(Circuit Breaker)을 담당한다. 따라서 시험에서 "Service Mesh를 도입하면 API Gateway가 불필요하다"는 답안은 부분 correto이지만 완전한 정답이 아니다. 둘은 보완적 관계이며, API Gateway가 L7 라우팅을, Service Mesh가 L4~L7 서비스 간 통신을 담당하는 것이 바람직한 분리이다.
@@ -103,13 +103,13 @@ tags = ["cloud_architecture"]
 
 ```
 [Client A] --요청--> [API Gateway]
-                           │
+                           |
                     [Service A] ---조회--> [DB Master]
-                           │                    │
+                           |                    |
                     [Circuit Open]           [Deadlock]
-                           │                    │
-                    [Fallback Cache] ← 회복 시도  │
-                           │                    │
+                           |                    |
+                    [Fallback Cache] <- 회복 시도  |
+                           |                    |
               [连锁적 전파 차단] ----X-----> [Service B], [Service C]
 ```
 
@@ -166,7 +166,7 @@ tags = ["cloud_architecture"]
 
 4. **네 번째 분석**: 이러한 분산 구조를 Kubernetes에 배포할 경우, HPA와 Cluster Autoscaler의 연동으로 트래픽 변화에 실시간 대응할 수 있다.
 
-### 시나리오 2: 레거시 모놀리식 → MSA 점진적 전환
+### 시나리오 2: 레거시 모놀리식 -> MSA 점진적 전환
 
 **문제 상황**: 15년 된 대규모 모놀리식 ERP 시스템을 클라우드-native MSA로 재설계해야 하지만, 동시에 서비스를 중단할 수 없는 제약이 있다.
 

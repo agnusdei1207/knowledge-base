@@ -103,13 +103,13 @@ Bloom Filter는 정확도와 자원의 균형을 잘 맞춘 [확률](/knowledge-
 
 ```text
 Bit Array
-   ↓
+   v
 Bloom Filter
-   ↓
+   v
 Probabilistic Membership Test
-   ↓
+   v
 Cache / Crawler / Log Dedup
-   ↓
+   v
 Large-scale Systems
 ```
 
@@ -119,13 +119,13 @@ Large-scale Systems
 
 ```text
 HashSet
-   ↓
+   v
 Bloom Filter
-   ↓
+   v
 Counting Bloom Filter
-   ↓
+   v
 Cuckoo Filter
-   ↓
+   v
 Approximate Membership Query
 ```
 
@@ -143,7 +143,7 @@ Approximate Membership Query
 
 **진행 상황**: 105 / 587
 
-← **이전**: [60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)
-**다음**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/) →
+<- **이전**: [60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)
+**다음**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/) ->
 
 ---

@@ -21,23 +21,23 @@ tags = ["studynote-network"]
 
 - **개념**: NetFlow는 Cisco 라우터와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 IP 네트워크 트래픽의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(흐름, Flow)를 수집하고 전송하기 위해 개발된 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 패킷의 페이로드(내용) 전체를 복사하는 대신, 패킷 헤더 정보를 바탕으로 특정 통신 연결의 시작과 끝, 전송량에 대한 '요약 영수증'을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 - **필요성**: 기업 네트워크 관리자들은 "왜 인터넷이 느리지?"라는 질문에 직면할 때 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)만으로는 원인을 알 수 없다. SNMP는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 90% 찼다는 '현상'만 알려줄 뿐, 그 안의 '내용물'을 알려주지 않기 때문이다. 보안 침해 조사, 부서별 네트워크 과금(Billing), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립을 위해서는 흐름 단위의 정밀한 가시성이 반드시 필요하다.
-- **등장 배경**: ① 패킷 전체를 떠서 분석하는 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)(Packet Capture)은 디스크 용량 한계와 장비 부하로 장기 운영 불가 → ② SNMP의 단순 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 통계 제공 한계 노출 → ③ 라우터 내부 메모리에 플로우(Flow) 상태 테이블을 만들어 '[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)'만 가볍게 중앙으로 전송하는 NetFlow 아키텍처의 탄생.
+- **등장 배경**: ① 패킷 전체를 떠서 분석하는 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)(Packet Capture)은 디스크 용량 한계와 장비 부하로 장기 운영 불가 -> ② SNMP의 단순 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 통계 제공 한계 노출 -> ③ 라우터 내부 메모리에 플로우(Flow) 상태 테이블을 만들어 '[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)'만 가볍게 중앙으로 전송하는 NetFlow 아키텍처의 탄생.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 SNMP와 NetFlow의 가시성 차이 비교                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [SNMP] (계량기)                                            │
-│   "GigabitEthernet 0/1 포트의 현재 사용량은 850Mbps 입니다."      │
-│   ─▶ 원인 파악 불가능 (정상 업무 트래픽인가? 악성코드 전파인가?)       │
-│                                                             │
-│   [NetFlow] (영수증)                                          │
-│   "Source: 192.168.1.5 (PC) ─▶ Dest: 104.20.15.5 (외부)      │
-│    Protocol: TCP, Port: 443 (HTTPS)                         │
-│    Packets: 15,000, Bytes: 22 MB, Time: 09:10~09:12"        │
-│   ─▶ 특정 사용자(192.168.1.5)가 암호화된 대용량 트래픽을 유발 중임을 확인!│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 SNMP와 NetFlow의 가시성 차이 비교                |
++-------------------------------------------------------------+
+|                                                             |
+|   [SNMP] (계량기)                                            |
+|   "GigabitEthernet 0/1 포트의 현재 사용량은 850Mbps 입니다."      |
+|   --> 원인 파악 불가능 (정상 업무 트래픽인가? 악성코드 전파인가?)       |
+|                                                             |
+|   [NetFlow] (영수증)                                          |
+|   "Source: 192.168.1.5 (PC) --> Dest: 104.20.15.5 (외부)      |
+|    Protocol: TCP, Port: 443 (HTTPS)                         |
+|    Packets: 15,000, Bytes: 22 MB, Time: 09:10~09:12"        |
+|   --> 특정 사용자(192.168.1.5)가 암호화된 대용량 트래픽을 유발 중임을 확인!|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 네트워크 모니터링 패러다임이 '인프라 관점'에서 '[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 및 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 관점'으로 어떻게 진화했는지 보여준다. SNMP는 수도 계량기처럼 총량만 측정하므로, 물이 어디로 새는지 알 수 없다. 반면 NetFlow는 신용카드 결제 영수증처럼 누가 어디서 무엇을 샀는지([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 기록한다. 실무에서는 이 두 가지가 결합되어, SNMP로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 알람을 띄우고 NetFlow로 그 알람의 정확한 내역을 뜯어보는 워크플로우를 형성한다.
@@ -72,31 +72,31 @@ NetFlow에서 가장 중요한 것은 패킷을 어떻게 하나의 '플로우(F
 위 7가지 중 하나라도 다르면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 메모리에 새로운 플로우 엔트리(Entry)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│                 NetFlow Exporter 내부 처리 흐름도                 │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [패킷 유입] ───▶ [7-Tuple 검사]                                │
-│                        │                                      │
-│                (기존 테이블에 있는가?)                             │
-│                  ↙                ↘                           │
-│              [예 (Match)]        [아니오 (Miss)]                │
-│                   │                   │                       │
-│        [패킷/바이트 카운트 증가]    [새로운 플로우 테이블 생성]         │
-│                   │                   │                       │
-│                   ▼                   ▼                       │
-│           ┌────────────────────────────────────────┐          │
-│           │       NetFlow Cache (RAM 메모리)       │          │
-│           │ 1. Src: A, Dst: B, Port: 80 ... 5MB    │          │
-│           │ 2. Src: C, Dst: D, Port: 22 ... 10KB   │          │
-│           └────────────────────────────────────────┘          │
-│                               │                               │
-│              [Active Timer / Inactive Timer 만료]              │
-│                 (통신 종료 FIN/RST 감지 시 즉시)                  │
-│                               │                               │
-│                               ▼                               │
-│          [NetFlow 요약 패킷(UDP 2055) 생성 및 Collector로 푸시]    │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                 NetFlow Exporter 내부 처리 흐름도                 |
++---------------------------------------------------------------+
+|                                                               |
+|   [패킷 유입] ----> [7-Tuple 검사]                                |
+|                        |                                      |
+|                (기존 테이블에 있는가?)                             |
+|                  ↙                ↘                           |
+|              [예 (Match)]        [아니오 (Miss)]                |
+|                   |                   |                       |
+|        [패킷/바이트 카운트 증가]    [새로운 플로우 테이블 생성]         |
+|                   |                   |                       |
+|                   v                   v                       |
+|           +----------------------------------------+          |
+|           |       NetFlow Cache (RAM 메모리)       |          |
+|           | 1. Src: A, Dst: B, Port: 80 ... 5MB    |          |
+|           | 2. Src: C, Dst: D, Port: 22 ... 10KB   |          |
+|           +----------------------------------------+          |
+|                               |                               |
+|              [Active Timer / Inactive Timer 만료]              |
+|                 (통신 종료 FIN/RST 감지 시 즉시)                  |
+|                               |                               |
+|                               v                               |
+|          [NetFlow 요약 패킷(UDP 2055) 생성 및 Collector로 푸시]    |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 패킷이 초당 백만 개 단위로 쏟아질 때, 라우터는 이 패킷들을 하나하나 서버로 보내지 않는다. 대신 라우터 내부의 RAM(Cache)에 장부를 차려두고 통계(카운트)만 올린다. 통신이 완료([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) FIN)되거나, 플로우가 한동안 활동이 없는 경우(Inactive [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/), 보통 15초), 또는 통신이 너무 오래 지속되어 쪼갤 필요가 있을 때([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/), 보통 1분~30분) 라우터는 해당 플로우 장부 내역을 지우면서 그 영수증을 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷 하나로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 중앙의 수집기(Collector)에 던진다. 이 방식은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소비를 실제 트래픽의 1% 미만으로 획기적으로 줄여주지만, 캐시 메모리를 점유하므로 라우터의 자원(CPU/RAM) 부하를 유발한다는 트레이드오프가 있다.
@@ -110,26 +110,26 @@ NetFlow에서 가장 중요한 것은 패킷을 어떻게 하나의 '플로우(F
    - 탐지 솔루션은 즉시 엣지 라우터에 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Flowspec [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용해 동적으로 차단 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰을 전파하거나, RTBH (Remotely Triggered Black Hole) 기능을 이용해 타겟으로 가는 트래픽을 상단 라우터에서 쓰레기통(Null0)으로 버려 인프라 내부로 유입되지 않도록 선제 방어한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          NetFlow + BGP Flowspec을 활용한 DDoS 방어 토폴로지     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [공격 트래픽 50G]                                             │
-│         │                                                   │
-│         ▼                                                   │
-│  ┌───────────────┐                  ┌───────────────────┐   │
-│  │ 인터넷 엣지 라우터 │── NetFlow (수집) ─▶│ DDoS 탐지/분석 서버 │   │
-│  └───────────────┘                  │ (임계치 초과 판별)  │   │
-│         │                           └───────────────────┘   │
-│         │                                    │              │
-│     (DDoS 유입)                    BGP Flowspec 차단 룰 주입     │
-│         │                           (예: UDP 포트 80 차단)    │
-│         ▼                                    │              │
-│  [내부 서버 (장애)] ◀─────────────────────────┘              │
-│                                                             │
-│  => 결과: 라우터가 BGP 룰을 받아 하드웨어 ASIC 레벨에서 패킷을 드롭함.   │
-│           네트워크 부하 즉시 해소, 정상 서비스 복구.                 │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          NetFlow + BGP Flowspec을 활용한 DDoS 방어 토폴로지     |
++-------------------------------------------------------------+
+|                                                             |
+|   [공격 트래픽 50G]                                             |
+|         |                                                   |
+|         v                                                   |
+|  +---------------+                  +-------------------+   |
+|  | 인터넷 엣지 라우터 |-- NetFlow (수집) -->| DDoS 탐지/분석 서버 |   |
+|  +---------------+                  | (임계치 초과 판별)  |   |
+|         |                           +-------------------+   |
+|         |                                    |              |
+|     (DDoS 유입)                    BGP Flowspec 차단 룰 주입     |
+|         |                           (예: UDP 포트 80 차단)    |
+|         v                                    |              |
+|  [내부 서버 (장애)] <--------------------------+              |
+|                                                             |
+|  => 결과: 라우터가 BGP 룰을 받아 하드웨어 ASIC 레벨에서 패킷을 드롭함.   |
+|           네트워크 부하 즉시 해소, 정상 서비스 복구.                 |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처는 현대 통신사 및 대형 클라우드에서 필수적으로 사용하는 Out-of-Band DDoS 방어 체계다. 트래픽의 모든 패킷을 보안 장비가 일일이 까보지 않는다. 라우터가 넘겨주는 가벼운 'NetFlow 영수증'만 분석 서버가 모니터링하다가 폭증하는 패턴이 보이면, 즉각 라우터에게 "이런 패턴의 패킷은 하드웨어 단에서 바로 버려라"라는 명령([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Flowspec)을 내린다. 이 과정이 플립플롭이 닫히듯 수 초 내에 자동으로 이루어짐으로써 거대 볼륨 공격을 인프라 엣지에서 손쉽게 무력화할 수 있다.
@@ -157,21 +157,21 @@ NetFlow에서 가장 중요한 것은 패킷을 어떻게 하나의 '플로우(F
 NetFlow는 정확한 가계부를 쓰는 방식이고, sFlow는 여론조사(출구조사)를 하는 방식이다. 100G, 400G 백본 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 라인에서는 모든 패킷의 상태를 캐싱하는 NetFlow가 불가능에 가까우므로 하드웨어 스위칭에 전혀 영향을 주지 않는 sFlow가 필수적이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│                DDoS 공격 상황 시 NetFlow와 sFlow의 부하 차이        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [DDoS IP 스푸핑 공격 발생: 무작위 Source IP로 100만 패킷 유입]     │
-│                                                               │
-│   [NetFlow 스위치]                             [sFlow 스위치]      │
-│          │                                         │          │
-│   7-Tuple 검사 시 IP가 모두 다름                  1000개당 1개만 뽑음 │
-│          │                                         │          │
-│          ▼                                         ▼          │
-│  캐시 테이블에 100만 개의 Entry 생성 시도           단 1000개의 샘플만 │
-│  ─▶ 메모리 풀(Full) 발생, 라우터 다운 위험!         그대로 수집기로 전송 │
-│  ─▶ Sampled NetFlow 모드 긴급 적용 필요         ─▶ 장비 부하 전혀 없음! │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                DDoS 공격 상황 시 NetFlow와 sFlow의 부하 차이        |
++---------------------------------------------------------------+
+|                                                               |
+|   [DDoS IP 스푸핑 공격 발생: 무작위 Source IP로 100만 패킷 유입]     |
+|                                                               |
+|   [NetFlow 스위치]                             [sFlow 스위치]      |
+|          |                                         |          |
+|   7-Tuple 검사 시 IP가 모두 다름                  1000개당 1개만 뽑음 |
+|          |                                         |          |
+|          v                                         v          |
+|  캐시 테이블에 100만 개의 Entry 생성 시도           단 1000개의 샘플만 |
+|  --> 메모리 풀(Full) 발생, 라우터 다운 위험!         그대로 수집기로 전송 |
+|  --> Sampled NetFlow 모드 긴급 적용 필요         --> 장비 부하 전혀 없음! |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** DDoS(예: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/), IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 공격 시 출발지 IP가 계속 바뀌어 들어오면, NetFlow는 이를 전부 새로운 '통신 흐름'으로 오해하여 메모리 상에 무수히 많은 플로우 테이블을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하려고 시도한다. 결과적으로 캐시 오버플로우가 발생하여 네트워크 장비 자체가 뻗어버릴 수 있다. 이를 방지하기 위해 최신 라우터는 Sampled NetFlow 모드를 지원하지만, 태생적으로 상태비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))인 sFlow는 애초에 무작위로 추출한 패킷 헤더 자체를 수집기로 쏴버리기 때문에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 단의 메모리 고갈 위험 자체가 존재하지 않아 대용량 백본망 보호에 더 유리하다.
@@ -235,12 +235,12 @@ NetFlow는 정확한 가계부를 쓰는 방식이고, sFlow는 여론조사(출
 
 ```text
 [선행 개념: SSH 포트 22 / Telnet 포트 23…]
-    │
-    ▼
+    |
+    v
 [현재 개념: NetFlow / sFlow 트래픽 흐름 모…]
-    │
-    ├──▶ [확장 A: RMON]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: RMON]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 NetFlow / sFlow 트래픽 흐름 모…는 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 22 / Telnet [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 23…에서 출발해 현재 메커니즘을 정교화하고, 이후 RMON와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -257,7 +257,7 @@ NetFlow / sFlow 트래픽 흐름 모…는 [SSH](/knowledge-base/studynote/03_ne
 
 **진행 상황**: 660 / 1120
 
-← **이전**: [538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)
-**다음**: [540. RMON (Remote Network Monitoring)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/540_rmon_remote_network_monitoring/) →
+<- **이전**: [538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)
+**다음**: [540. RMON (Remote Network Monitoring)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/540_rmon_remote_network_monitoring/) ->
 
 ---

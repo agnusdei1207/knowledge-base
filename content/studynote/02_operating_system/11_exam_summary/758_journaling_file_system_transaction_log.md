@@ -36,27 +36,27 @@ tags = ["studynote-operating-system"]
   - 엔터프라이즈 서버 디스크 용량이 10GB를 넘어가면서 디스크 전체 검사(fsck) 시간이 인내의 한계를 돌파하자, IBM의 JFS나 SGI의 XFS 등 고성능 UNIX 진영에서 DB의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기법을 차용해 개발했고 리눅스의 ext3/ext4로 대중화되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 파일 시스템 충돌(Crash) 시의 복구 메커니즘 차이       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 전통적 파일 시스템 (ext2, FAT32) ]                         │
-  │                                                             │
-  │   정전 발생! ⚡                                               │
-  │   재부팅 -> OS: "아 찝찝해. 디스크 어딘가 꼬였을지 몰라."            │
-  │   [fsck 실행]                                                │
-  │   블록 1 검사.. 블록 2 검사.. ...... 블록 10,000,000 검사 완료!     │
-  │   ▶ 결과: 수백 GB 탐색으로 수십 분 ~ 몇 시간 부팅 지연 ☠️            │
-  │                                                             │
-  │  [ 저널링 파일 시스템 (ext4, NTFS, XFS) ]                     │
-  │                                                             │
-  │   정전 발생! ⚡                                               │
-  │   재부팅 -> OS: "일기장(Journal)의 최근 5줄만 확인하자."            │
-  │   [로그 리플레이 (Log Replay)]                                 │
-  │   - 로그: "파일 A 만들려다 말았음" -> 롤백 (작업 취소, 블록 해제)      │
-  │   - 로그: "파일 B 다 쓰고 기록만 안했음" -> 리두 (저널에서 원본 덮어씀) │
-  │   ▶ 결과: 디스크 용량과 무관하게 단 2~3초 만에 100% 복구 완료! 🚀     │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 파일 시스템 충돌(Crash) 시의 복구 메커니즘 차이       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 전통적 파일 시스템 (ext2, FAT32) ]                         |
+  |                                                             |
+  |   정전 발생! ⚡                                               |
+  |   재부팅 -> OS: "아 찝찝해. 디스크 어딘가 꼬였을지 몰라."            |
+  |   [fsck 실행]                                                |
+  |   블록 1 검사.. 블록 2 검사.. ...... 블록 10,000,000 검사 완료!     |
+  |   -> 결과: 수백 GB 탐색으로 수십 분 ~ 몇 시간 부팅 지연 ☠️            |
+  |                                                             |
+  |  [ 저널링 파일 시스템 (ext4, NTFS, XFS) ]                     |
+  |                                                             |
+  |   정전 발생! ⚡                                               |
+  |   재부팅 -> OS: "일기장(Journal)의 최근 5줄만 확인하자."            |
+  |   [로그 리플레이 (Log Replay)]                                 |
+  |   - 로그: "파일 A 만들려다 말았음" -> 롤백 (작업 취소, 블록 해제)      |
+  |   - 로그: "파일 B 다 쓰고 기록만 안했음" -> 리두 (저널에서 원본 덮어씀) |
+  |   -> 결과: 디스크 용량과 무관하게 단 2~3초 만에 100% 복구 완료! 🚀     |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 저널링의 본질은 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 디스크 크기 비례(O(N))에서, 저널 크기 비례(O(1))로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"한 위대한 알고리즘적 승리다. 과거에는 디스크가 10TB면 검사 시간도 10배 늘어났지만, 저널링 시스템에서는 디스크가 100PB(페타바이트)라 하더라도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 확인해야 할 영역은 수십 MB 크기의 작고 고정된 '저널([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))' 구역뿐이다. 부팅 시 이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구역만 재빨리 훑어보면 정전 직전에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이던 미완성 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 무엇인지 정확히 짚어내고 외과 수술처럼 그 부위만 치료([Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)/[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))할 수 있다.
@@ -82,27 +82,27 @@ tags = ["studynote-operating-system"]
 저널 영역에 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름, 크기 등)"만 적을 것인지, 아니면 "실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용물([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"까지 전부 다 적을 것인지에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안전성의 시소가 크게 널뛰기한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ext4 저널링 모드 비교 (성능 vs 무결성 트레이드오프)         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 1. Data=Journal 모드 ] - 최강의 안전 (파라노이아 모드)             │
-  │   동작: 메타데이터 + 실제 파일 데이터를 통째로 저널에 먼저 씀.                  │
-  │   효과: 전원 차단 시 파일 내용까지 100% 완벽 복구.                         │
-  │   부작용: 1GB 파일을 저장하면 저널에 1GB 쓰고, 원본에 1GB 쓰는 [2배 쓰기 페널티] │
-  │        -> 속도가 반토막 나므로 실무에서는 거의 안 씀.                       │
-  │                                                                   │
-  │   [ 2. Data=Ordered 모드 (★ 디폴트 및 권장) ]                        │
-  │   동작: 저널에는 "메타데이터(파일이름/크기)"만 씀.                          │
-  │        단, 원본 위치에 "실제 데이터"를 쓴 것이 확실해진 후에야 저널을 커밋함!     │
-  │   효과: 메타데이터와 파일 내용이 꼬일 일 없음. 쓰기 페널티 방어. 완벽한 타협점.   │
-  │                                                                   │
-  │   [ 3. Data=Writeback 모드 ] - 최강의 속도 (위험 모드)                │
-  │   동작: 저널에 메타데이터만 씀. 실제 데이터는 언제 쓰이든 순서 상관없이 내팽개침.    │
-  │   효과: 가장 빠름. (파일 시스템 뼈대는 안 깨짐 보장)                       │
-  │   부작용: 정전 후 복구 시 파일 이름은 멀쩡한데 열어보면 안의 내용은 텅 비어있거나 │
-  │         쓰레기 값이 들어있는 '파일 내용물 부패(Stale Data)' 위험 존재.        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 ext4 저널링 모드 비교 (성능 vs 무결성 트레이드오프)         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 1. Data=Journal 모드 ] - 최강의 안전 (파라노이아 모드)             |
+  |   동작: 메타데이터 + 실제 파일 데이터를 통째로 저널에 먼저 씀.                  |
+  |   효과: 전원 차단 시 파일 내용까지 100% 완벽 복구.                         |
+  |   부작용: 1GB 파일을 저장하면 저널에 1GB 쓰고, 원본에 1GB 쓰는 [2배 쓰기 페널티] |
+  |        -> 속도가 반토막 나므로 실무에서는 거의 안 씀.                       |
+  |                                                                   |
+  |   [ 2. Data=Ordered 모드 (★ 디폴트 및 권장) ]                        |
+  |   동작: 저널에는 "메타데이터(파일이름/크기)"만 씀.                          |
+  |        단, 원본 위치에 "실제 데이터"를 쓴 것이 확실해진 후에야 저널을 커밋함!     |
+  |   효과: 메타데이터와 파일 내용이 꼬일 일 없음. 쓰기 페널티 방어. 완벽한 타협점.   |
+  |                                                                   |
+  |   [ 3. Data=Writeback 모드 ] - 최강의 속도 (위험 모드)                |
+  |   동작: 저널에 메타데이터만 씀. 실제 데이터는 언제 쓰이든 순서 상관없이 내팽개침.    |
+  |   효과: 가장 빠름. (파일 시스템 뼈대는 안 깨짐 보장)                       |
+  |   부작용: 정전 후 복구 시 파일 이름은 멀쩡한데 열어보면 안의 내용은 텅 비어있거나 |
+  |         쓰레기 값이 들어있는 '파일 내용물 부패(Stale Data)' 위험 존재.        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 설계자들의 깊은 고뇌가 담긴 설정이다. OS는 기본적으로 속도와 안전의 균형점인 `Ordered` 모드를 선택한다. 왜 `Writeback` 모드가 위험할까? 저널에 "A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10KB [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"이라고만 적어두고 커밋을 쳤는데 정전이 났다 치자. 재부팅하면 OS는 저널을 보고 "아, A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10KB 할당!" 하고 빈 공간을 연결해 준다. 그런데 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10KB는 아직 기록되기 전이었다. 그 결과, 할당된 10KB 블록에 이전에 쓰다 버린 '다른 사람의 은밀한 사진이나 비밀번호' 쓰레기 찌꺼기가 그대로 유저에게 노출되는 치명적 보안 사고가 터진다. `Ordered` 모드는 "반드시 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 원본에 바른 뒤에야 저널을 커밋한다"는 순서(Order)를 강제하여 이 재앙을 원천 봉쇄한다.
@@ -146,26 +146,26 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/">BBU</a> 장착 및 배리어 점검)</strong>: 이 현상을 막으려면 OS가 내리는 `flush` / `fua` (Force Unit Access) 장벽 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 스토리지 하드웨어가 절대 씹지 않도록 설정해야 한다. 특히 하드웨어 레이드 컨트롤러를 쓴다면 정전 시 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 며칠간 살려두는 <strong>배터리 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 유닛(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/">BBU</a>, Battery <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> Unit)이나 플래시 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a>(FBWC)</strong>가 반드시 정상 동작하는지 모니터링해야 한다. BBU가 고장 나면 컨트롤러는 살기 위해 즉시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 캐시([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))를 끄고 느린 [Write-through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 모드로 강등되어 전체 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 반토막 난다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 파일 시스템 계층의 이중 쓰기(Double Write) 병목 현상        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 1건의 DB 트랜잭션이 디스크에 박히기까지의 숨겨진 비효율 ]                  │
-  │                                                                   │
-  │   DBMS (MySQL)     : 1. Redo Log 씀 ──▶ 2. Data 씀                 │
-  │   (사용자 공간)                │                  │                     │
-  │   ──────────────────────────┼──────────────────┼────────────────── │
-  │   File System (ext4) :      ▼ (파일 용량/수정시간 변경됨)             │
-  │   (OS 커널 공간)          3. Journal 씀 ──▶ 4. 메타데이터 씀           │
-  │                                                                   │
-  │   결과: 1건의 데이터 저장을 위해 총 4번의 자잘한 랜덤 쓰기가 발생함!         │
-  │        (DB 로그 1번 + DB 데이터 1번 + OS 저널 1번 + OS 메타 1번)       │
-  │                                                                   │
-  │   [ 아키텍트의 해결 솔루션 (Tuning) ]                                   │
-  │   1. DB 데이터 파티션은 ext4 대신 **XFS** 사용 (메타데이터 로깅 최적화 우수)│
-  │   2. DB 파일 크기를 미리 크게 할당(Pre-allocate)하여 OS의 저널링 개입 억제  │
-  │   3. NVMe 기반 O_DIRECT를 사용하여 OS 페이지 캐시 및 저널 간섭 우회       │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 파일 시스템 계층의 이중 쓰기(Double Write) 병목 현상        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 1건의 DB 트랜잭션이 디스크에 박히기까지의 숨겨진 비효율 ]                  |
+  |                                                                   |
+  |   DBMS (MySQL)     : 1. Redo Log 씀 ---> 2. Data 씀                 |
+  |   (사용자 공간)                |                  |                     |
+  |   --------------------------+------------------+------------------ |
+  |   File System (ext4) :      v (파일 용량/수정시간 변경됨)             |
+  |   (OS 커널 공간)          3. Journal 씀 ---> 4. 메타데이터 씀           |
+  |                                                                   |
+  |   결과: 1건의 데이터 저장을 위해 총 4번의 자잘한 랜덤 쓰기가 발생함!         |
+  |        (DB 로그 1번 + DB 데이터 1번 + OS 저널 1번 + OS 메타 1번)       |
+  |                                                                   |
+  |   [ 아키텍트의 해결 솔루션 (Tuning) ]                                   |
+  |   1. DB 데이터 파티션은 ext4 대신 **XFS** 사용 (메타데이터 로깅 최적화 우수)|
+  |   2. DB 파일 크기를 미리 크게 할당(Pre-allocate)하여 OS의 저널링 개입 억제  |
+  |   3. NVMe 기반 O_DIRECT를 사용하여 OS 페이지 캐시 및 저널 간섭 우회       |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 클라우드나 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 인프라를 지탱하는 아키텍트는 층층이 쌓인 소프트웨어 스택의 '안전망'들이 서로 충돌하여 만들어내는 중복 비용을 발라내야 한다. DB 엔진이 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 책임지고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ext4가 저널링을 책임지고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부의 FTL이 또 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쓴다. "책임의 중첩"은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 암살자다. 고성능 인프라 엔지니어링의 정수는 이 중첩된 안전망 중 어느 층(Layer) 하나에만 책임을 몰아주고 나머지는 빗장을 풀어버리는 날카로운 결단에 있다.
@@ -214,12 +214,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [파일 지연 쓰기 (Delayed Write)]
-    │
-    ▼
+    |
+    v
 [저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)]
-    │
-    ├──▶ [블로킹 / 논블로킹 / 비동기 I/O]
-    └──▶ [슬랩 (Slab) 할당기 객체 캐싱]
+    |
+    +---> [블로킹 / 논블로킹 / 비동기 I/O]
+    +---> [슬랩 (Slab) 할당기 객체 캐싱]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -236,7 +236,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 758 / 800
 
-← **이전**: [757. 파일 지연 쓰기 (Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/)
-**다음**: [759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/759_blocking_nonblocking_async_io/) →
+<- **이전**: [757. 파일 지연 쓰기 (Delayed Write)](/knowledge-base/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/)
+**다음**: [759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)](/knowledge-base/studynote/02_operating_system/11_exam_summary/759_blocking_nonblocking_async_io/) ->
 
 ---

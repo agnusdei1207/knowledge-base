@@ -61,27 +61,27 @@ C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/kno
 이것은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 할 때 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 교묘하게 조작하기 때문이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 x86 아키텍처 기반의 TLS 포인터 매핑 구조               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황: 스레드 1 실행 중]                                             │
-  │   - 커널 스케줄러가 스레드 1로 문맥 교환 시,                           │
-  │     특수 레지스터인 [FS 레지스터]에 "0x1000" (스레드 1의 TLS 주소)를 넣음.│
-  │   - `my_id` 변수는 컴파일러에 의해 `FS:[0x08]` 위치로 번역됨.            │
-  │   - 스레드 1이 `my_id = 5`를 하면 물리적으로 "0x1008" 에 5가 써짐.      │
-  │                                                                   │
-  │  ========== ⚡ 스레드 2로 문맥 교환 (Context Switch) ⚡ ===========│
-  │                                                                   │
-  │  [상황: 스레드 2 실행 중]                                             │
-  │   - 커널이 이번엔 [FS 레지스터]에 "0x2000" (스레드 2의 TLS 주소)를 넣음.│
-  │   - 스레드 2가 동일한 코드 `my_id = 10`을 실행함. (명령어는 `FS:[0x08]`) │
-  │   - 하지만 FS가 0x2000이므로, 물리적으로 "0x2008" 에 10이 써짐!         │
-  │                                                                   │
-  │  [결론] 소스 코드 상의 이름(`my_id`)과 어셈블리 명령어(`FS:[0x08]`)는     │
-  │         완벽하게 똑같지만, OS가 스위칭 때마다 기준점(FS)을 바꿔치기하여    │
-  │         마법처럼 다른 메모리를 건드리게 한다.                            │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 x86 아키텍처 기반의 TLS 포인터 매핑 구조               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황: 스레드 1 실행 중]                                             |
+  |   - 커널 스케줄러가 스레드 1로 문맥 교환 시,                           |
+  |     특수 레지스터인 [FS 레지스터]에 "0x1000" (스레드 1의 TLS 주소)를 넣음.|
+  |   - `my_id` 변수는 컴파일러에 의해 `FS:[0x08]` 위치로 번역됨.            |
+  |   - 스레드 1이 `my_id = 5`를 하면 물리적으로 "0x1008" 에 5가 써짐.      |
+  |                                                                   |
+  |  ========== ⚡ 스레드 2로 문맥 교환 (Context Switch) ⚡ ===========|
+  |                                                                   |
+  |  [상황: 스레드 2 실행 중]                                             |
+  |   - 커널이 이번엔 [FS 레지스터]에 "0x2000" (스레드 2의 TLS 주소)를 넣음.|
+  |   - 스레드 2가 동일한 코드 `my_id = 10`을 실행함. (명령어는 `FS:[0x08]`) |
+  |   - 하지만 FS가 0x2000이므로, 물리적으로 "0x2008" 에 10이 써짐!         |
+  |                                                                   |
+  |  [결론] 소스 코드 상의 이름(`my_id`)과 어셈블리 명령어(`FS:[0x08]`)는     |
+  |         완벽하게 똑같지만, OS가 스위칭 때마다 기준점(FS)을 바꿔치기하여    |
+  |         마법처럼 다른 메모리를 건드리게 한다.                            |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 개발자는 `my_id`라는 똑같은 글자를 친다. 하지만 컴파일러는 이 변수가 TLS임을 알고, 절대 주소를 쓰지 않고 `FS 레지스터로부터 +8칸 떨어진 곳`이라는 <strong>상대 주소</strong>로 코드를 짠다. OS는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교체할 때마다 이 FS [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 '영점(Base)'을 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 전용 힙 공간(TCB 근처)으로 슬쩍 옮겨 놓는다. $O(1)$의 하드웨어 속도로 전역 변수 이름 충돌 없이 완벽한 격리가 달성되는 원리다.
@@ -127,25 +127,25 @@ C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/kno
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 전역(Global) 상태 변수 아키텍처 설계 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 환경에서 여러 함수가 공통으로 접근해야 하는 상태 변수 발생]          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      이 변수를 모든 스레드가 100% 동일한 값으로 공유해야 하는가? (예: 시스템 설정) │
-  │          ├─ 예 ─────▶ [전역 변수 + Reader-Writer Lock 사용]          │
-  │          │            (단, 수정이 잦으면 병목 터지므로 RCU 기법 등 고려)     │
-  │          └─ 아니오 (스레드마다 자기만의 값을 가지면 된다)                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      그 값을 스레드가 살아있는 내내 유지해야 하는가?                         │
-  │          ├─ 예 ─────▶ [Thread Local Storage (TLS) 적극 활용]       │
-  │          │            (Lock-free 효과로 성능 극대화. 메모리 할당기, 로깅 ID) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 그냥 지역 변수(Stack)와 함수 파라미터 패싱으로 해결    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 전역(Global) 상태 변수 아키텍처 설계 플로우               |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티스레드 환경에서 여러 함수가 공통으로 접근해야 하는 상태 변수 발생]          |
+  |                |                                                  |
+  |                v                                                  |
+  |      이 변수를 모든 스레드가 100% 동일한 값으로 공유해야 하는가? (예: 시스템 설정) |
+  |          +- 예 ------> [전역 변수 + Reader-Writer Lock 사용]          |
+  |          |            (단, 수정이 잦으면 병목 터지므로 RCU 기법 등 고려)     |
+  |          +- 아니오 (스레드마다 자기만의 값을 가지면 된다)                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      그 값을 스레드가 살아있는 내내 유지해야 하는가?                         |
+  |          +- 예 ------> [Thread Local Storage (TLS) 적극 활용]       |
+  |          |            (Lock-free 효과로 성능 극대화. 메모리 할당기, 로깅 ID) |
+  |          |                                                        |
+  |          +- 아니오 ---> 그냥 지역 변수(Stack)와 함수 파라미터 패싱으로 해결    |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "멀티스레드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))가 너무 힘들어요"라고 징징대는 개발자에게 시니어 아키텍트가 내리는 최고의 처방전은 "그럼 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 하지 마라([Shared Nothing](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/306_embedding_model/))"이다. 애초에 공유를 안 하면 락도 필요 없다. 전역 변수를 과감히 찢어서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 각자의 바구니(TLS)에 던져주고, 마지막에 결과만 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 합치는(Map-Reduce 방식) 설계가 초고성능 스케일 아웃의 비밀이다.
@@ -190,12 +190,12 @@ C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/kno
 
 ```text
 [멀티스레드 유저모드 커널모드]
-    │
-    ▼
+    |
+    v
 [스레드 로컬 스토리지 (TLS)]
-    │
-    ├──▶ [스레드 동기화 상호 배제]
-    └──▶ [경쟁 조건 (Race Condition)]
+    |
+    +---> [스레드 동기화 상호 배제]
+    +---> [경쟁 조건 (Race Condition)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -212,7 +212,7 @@ C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/kno
 
 **진행 상황**: 694 / 800
 
-← **이전**: [693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)](/knowledge-base/studynote/02_operating_system/11_exam_summary/693_multithread_user_mode_kernel_mode/)
-**다음**: [695. 스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)](/knowledge-base/studynote/02_operating_system/11_exam_summary/695_thread_synchronization_mutual_exclusion/) →
+<- **이전**: [693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)](/knowledge-base/studynote/02_operating_system/11_exam_summary/693_multithread_user_mode_kernel_mode/)
+**다음**: [695. 스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)](/knowledge-base/studynote/02_operating_system/11_exam_summary/695_thread_synchronization_mutual_exclusion/) ->
 
 ---

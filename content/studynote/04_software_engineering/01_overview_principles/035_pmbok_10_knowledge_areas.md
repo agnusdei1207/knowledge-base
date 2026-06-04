@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 
 ```
 프로젝트 관리 지식 영역 (PMBOK 6th)
-+-- 1. 통합 (Integration)        ← 핵심 조율
++-- 1. 통합 (Integration)        <- 핵심 조율
 +-- 2. 범위 (Scope)
 +-- 3. 일정 (Schedule)
 +-- 4. 원가 (Cost)
@@ -90,11 +90,11 @@ tags = ["studynote-software-engineering"]
 ### 3-2. 일정 관리 — [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))
 
 ```
-A(3일) → B(2일) → D(4일)
-              ↓
-         C(5일) → D
+A(3일) -> B(2일) -> D(4일)
+              v
+         C(5일) -> D
 
-CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
+CPM: A->C->D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 여유시간(Float): B = 12 - (3+2+4) = 3일
 ```
 
@@ -130,7 +130,7 @@ CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 | 단계       | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 적용 포인트                        |
 |-----------|------------------------------------------|
 | 착수       | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 분석(권력/관심 그리드), 헌장   |
-| 계획       | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) → 일정 → [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)            |
+| 계획       | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) -> 일정 -> [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)            |
 | 실행       | 품질 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 조달 관리, 팀 빌딩            |
 | 감시통제   | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)/[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 추적, [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))     |
 | 종료       | [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) 기록, 최종 인수 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)               |
@@ -198,7 +198,7 @@ Scrum + PMBOK 조합, SAFe 연계
 
 **진행 상황**: 35 / 973
 
-← **이전**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/)
-**다음**: [036. WBS — 작업 분해 구조 (Work Breakdown Structure)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/036_wbs/) →
+<- **이전**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/)
+**다음**: [036. WBS — 작업 분해 구조 (Work Breakdown Structure)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/036_wbs/) ->
 
 ---

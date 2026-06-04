@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 프로그램 순서와 외부 관찰 순서가 왜 달라질 수 있는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Program order vs observed order                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Core 0 program:   Store X=1  ───────────────▶ Store Flag=1        │
-│                      │                         │                   │
-│                      ▼                         ▼                   │
-│                  Store Buffer              Cache/Bus              │
-│                      │                         │                   │
-│                      └──── delayed expose ────┴──▶ visible later  │
-│                                                                    │
-│ Core 1 observe:                 Load Flag=1 ─────▶ Load X=0 가능   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Program order vs observed order                                   |
++--------------------------------------------------------------------+
+| Core 0 program:   Store X=1  ----------------> Store Flag=1        |
+|                      |                         |                   |
+|                      v                         v                   |
+|                  Store Buffer              Cache/Bus              |
+|                      |                         |                   |
+|                      +---- delayed expose ----+---> visible later  |
+|                                                                    |
+| Core 1 observe:                 Load Flag=1 ------> Load X=0 가능   |
++--------------------------------------------------------------------+
 ```
 
 핵심은 "명령이 실행된 것"과 "다른 코어에게 보이는 것"이 같은 순간이 아니라는 점이다. 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 이 시간차를 활용해 하드웨어 효율을 높이지만, 동시에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 코드에는 예기치 않은 결과를 만든다.
@@ -52,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 
 | 구성 요소 | 역할 | 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과의 연결 |
 | :-- | :-- | :-- |
-| 저장 버퍼 (Store Buffer) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 완료를 뒤로 미룸 | `Store → Load` 재배치의 직접 원인 |
+| 저장 버퍼 (Store Buffer) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 완료를 뒤로 미룸 | `Store -> Load` 재배치의 직접 원인 |
 | 로드 큐 (Load [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 읽기 요청을 선행 처리 | 앞선 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 먼저 값이 관찰될 수 있음 |
 | [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)기 | 독립 명령을 먼저 실행 | 프로그램 순서와 실행 순서 분리 |
 | 캐시 계층 | [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 활용 | 가시성 시점이 코어별로 달라짐 |
@@ -61,21 +61,21 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 실제로 어떤 경로에서 발생하는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Memory access pipeline                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Fetch/Decode                                                       │
-│     │                                                              │
-│     ▼                                                              │
-│ Reorder Buffer                                                     │
-│  ├─ Load  ───────────────▶ Load Queue  ───────▶ L1/L2 Cache        │
-│  └─ Store ───────────────▶ Store Buffer ──────▶ L1/L2 Cache        │
-│                                      │                             │
-│                                      └──── delayed global visible  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Memory access pipeline                                             |
++--------------------------------------------------------------------+
+| Fetch/Decode                                                       |
+|     |                                                              |
+|     v                                                              |
+| Reorder Buffer                                                     |
+|  +- Load  ----------------> Load Queue  --------> L1/L2 Cache        |
+|  +- Store ----------------> Store Buffer -------> L1/L2 Cache        |
+|                                      |                             |
+|                                      +---- delayed global visible  |
++--------------------------------------------------------------------+
 ```
 
-이 구조에서 중요한 질문은 "무엇을 얼마나 뒤집을 수 있는가"다. 예를 들어 TSO (Total Store Order)는 주로 `Store → Load` 재배치를 허용해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기고, ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine) 계열의 더 약한 모델은 `Load → Load`, `Load → Store`, `Store → Store`까지 더 넓게 완화한다. 즉 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 하나의 고정 규칙이 아니라, 아키텍처마다 허용하는 재배치 범위를 다르게 설계한 계열 개념이다.
+이 구조에서 중요한 질문은 "무엇을 얼마나 뒤집을 수 있는가"다. 예를 들어 TSO (Total Store Order)는 주로 `Store -> Load` 재배치를 허용해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기고, ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine) 계열의 더 약한 모델은 `Load -> Load`, `Load -> Store`, `Store -> Store`까지 더 넓게 완화한다. 즉 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 하나의 고정 규칙이 아니라, 아키텍처마다 허용하는 재배치 범위를 다르게 설계한 계열 개념이다.
 
 결국 핵심 원리는 단순하다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 의존성이 없고, 아키텍처 계약을 깨지 않는 범위라면 하드웨어는 순서를 늦추거나 앞당겨 자원을 비우려 한다.</strong> 그리고 이 재배치를 멈추는 비용이 곧 배리어 비용이다.
 
@@ -158,18 +158,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차적 일관성
-      │
-      ▼
+      |
+      v
 저장 버퍼 (Store Buffer) · 비순차 실행 (Out-of-Order Execution)
-      │
-      ▼
+      |
+      v
 완화된 일관성 (Relaxed Consistency)
-      │
-      ├──▶ 메모리 배리어 (Memory Barrier)
-      │
-      └──▶ 원자 연산 (Atomic Operation)
-               │
-               ▼
+      |
+      +---> 메모리 배리어 (Memory Barrier)
+      |
+      +---> 원자 연산 (Atomic Operation)
+               |
+               v
 언어 메모리 모델 · 락프리 자료구조 · NUMA 동기화
 ```
 
@@ -187,7 +187,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 413 / 803
 
-← **이전**: [411. 순차적 일관성 (Sequential Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/)
-**다음**: [413. 하드웨어 동기화 (Hardware Synchronization)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) →
+<- **이전**: [411. 순차적 일관성 (Sequential Consistency)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/411_sequential_consistency/)
+**다음**: [413. 하드웨어 동기화 (Hardware Synchronization)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) ->
 
 ---

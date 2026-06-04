@@ -37,17 +37,17 @@ tags = ["studynote-devops"]
 | **Image Automation Controller** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 저장소의 새 이미지를 감지하고 Git 저장소의 YAML을 스스로 자동 커밋 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             FluxCD의 GitOps Toolkit 동작 아키텍처             │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ◀──(감시)── [Source Controller]            │
-│       ▲                            │ (Artifact 생성)         │
-│       │ 자동 커밋                    ▼                       │
-│       │                 [Kustomize/Helm Controller]          │
-│ [Image Automation]                 │ (Sync & Apply)          │
-│       │ 감시                       ▼                       │
-│ [Docker Registry]         [Kubernetes Cluster]               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             FluxCD의 GitOps Toolkit 동작 아키텍처             |
++--------------------------------------------------------------+
+| [Git Repository] <---(감시)-- [Source Controller]            |
+|       ^                            | (Artifact 생성)         |
+|       | 자동 커밋                    v                       |
+|       |                 [Kustomize/Helm Controller]          |
+| [Image Automation]                 | (Sync & Apply)          |
+|       | 감시                       v                       |
+| [Docker Registry]         [Kubernetes Cluster]               |
++--------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 봇들이 철저히 분업화되어 있다는 점이다. 이미지가 새로 등록되면 Image Automation 봇이 Git을 업데이트하고, Source 봇이 이를 퍼오면, [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 봇이 배포를 실행하는 톱니바퀴 같은 자동화가 이루어진다.
@@ -105,17 +105,17 @@ FluxCD를 도입하면 보안 위험을 안고 있던 외부 연동 방식(Push)
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 Push 기반 배포 (Jenkins 외부 스크립트)
-    │
-    ▼
+    |
+    v
 보안 취약점 및 상태 불일치(Drift) 문제 대두
-    │
-    ▼
+    |
+    v
 GitOps 개념 탄생 (Weaveworks) 및 Flux v1 도입
-    │
-    ▼
+    |
+    v
 Flux v2 재설계 (GitOps Toolkit 마이크로서비스화)
-    │
-    ▼
+    |
+    v
 Image Automation 및 멀티 테넌시 분산 배포 고도화
 ```
 
@@ -130,7 +130,7 @@ Image Automation 및 멀티 테넌시 분산 배포 고도화
 
 **진행 상황**: 90 / 373
 
-← **이전**: [89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/089_argocd_gitops_continuous_delivery_kubernetes/)
-**다음**: [91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) →
+<- **이전**: [89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/089_argocd_gitops_continuous_delivery_kubernetes/)
+**다음**: [91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) ->
 
 ---

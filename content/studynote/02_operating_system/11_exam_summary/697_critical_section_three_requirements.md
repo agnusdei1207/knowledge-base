@@ -62,26 +62,26 @@ tags = ["studynote-operating-system"]
 단순히 `turn` 변수 1개만으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 구현한 전형적인 초보자의 코드(Strict Alternation)다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 진행(Progress) 조건을 위반한 잘못된 Lock 설계          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [상황: 공유 변수 `turn = 0` (0이면 P0 차례, 1이면 P1 차례)]               │
-  │                                                                   │
-  │   [ Process 0 의 코드 ]                   [ Process 1 의 코드 ]       │
-  │  while (turn != 0) { 대기 };          while (turn != 1) { 대기 }; │
-  │  (임계 구역 실행)                          (임계 구역 실행)               │
-  │  turn = 1;                             turn = 0;                  │
-  │                                                                   │
-  │  [버그 발생 시나리오 - Livelock 발생]                                    │
-  │   1. P0가 임계 구역을 끝내고 `turn = 1`로 바꾼 뒤 종료함.                   │
-  │   2. P1은 임계 구역에 들어갈 마음이 아예 없음 (화장실 안 급함).                │
-  │   3. 시간이 흘러 P0가 다시 화장실이 급해져서 코드를 실행함.                    │
-  │   4. P0: "어? turn이 1이네? P1이 들어갈 차례인가 보다. 기다려야지."            │
-  │   5. P1은 들어갈 생각이 없고, P0는 P1이 들어가서 0으로 바꿔주길 영원히 기다림.    │
-  │                                                                   │
-  │  ★ 결론: 임계 구역(화장실)은 텅 비어있는데, P0가 들어가지 못하고 무한 대기함.   │
-  │          이것이 바로 "진행(Progress)" 조건 위반의 전형적인 모습이다.          │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 진행(Progress) 조건을 위반한 잘못된 Lock 설계          |
+  +-------------------------------------------------------------------+
+  |  [상황: 공유 변수 `turn = 0` (0이면 P0 차례, 1이면 P1 차례)]               |
+  |                                                                   |
+  |   [ Process 0 의 코드 ]                   [ Process 1 의 코드 ]       |
+  |  while (turn != 0) { 대기 };          while (turn != 1) { 대기 }; |
+  |  (임계 구역 실행)                          (임계 구역 실행)               |
+  |  turn = 1;                             turn = 0;                  |
+  |                                                                   |
+  |  [버그 발생 시나리오 - Livelock 발생]                                    |
+  |   1. P0가 임계 구역을 끝내고 `turn = 1`로 바꾼 뒤 종료함.                   |
+  |   2. P1은 임계 구역에 들어갈 마음이 아예 없음 (화장실 안 급함).                |
+  |   3. 시간이 흘러 P0가 다시 화장실이 급해져서 코드를 실행함.                    |
+  |   4. P0: "어? turn이 1이네? P1이 들어갈 차례인가 보다. 기다려야지."            |
+  |   5. P1은 들어갈 생각이 없고, P0는 P1이 들어가서 0으로 바꿔주길 영원히 기다림.    |
+  |                                                                   |
+  |  ★ 결론: 임계 구역(화장실)은 텅 비어있는데, P0가 들어가지 못하고 무한 대기함.   |
+  |          이것이 바로 "진행(Progress)" 조건 위반의 전형적인 모습이다.          |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)(동시 입장 금지)는 완벽히 성공했다. 하지만 "양보의 저주"에 빠졌다. 내가 화장실이 급한데 화장실이 비어있으면 그냥 들어가야지([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)), 화장실 생각도 없는 옆 사람에게 "너 먼저 가"라고 강요하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 시스템을 데드락(멈춤)으로 몰고 간다.
@@ -131,30 +131,30 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템 동기화 락(Lock) 메커니즘 설계 검증 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [자체적인 락이나 동기화 알고리즘을 개발/적용할 때의 3단계 검문]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      1. [상호 배제 확인] 두 스레드가 정확히 0.0001초 차이로 진입해도          │
-  │         둘 중 하나는 반드시 블로킹되거나 튕겨 나가는가? (원자성 여부)           │
-  │          ├─ 실패 ─▶ 데이터 오염 발생. 하드웨어 CAS 연산으로 락 보강 요망       │
-  │          └─ 통과                                                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      2. [진행(Progress) 확인] 락을 쥔 스레드가 갑자기 죽었을 때,             │
-  │         다른 스레드들이 락을 탈취(Timeout/Recovery)할 메커니즘이 있는가?    │
-  │          ├─ 실패 ─▶ 데드락 발생. 타임아웃 큐 또는 OS 반환 기능 도입 요망       │
-  │          └─ 통과                                                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      3. [한정된 대기 확인] 트래픽이 미친 듯이 몰릴 때, 가장 운 없는 스레드라도 │
-  │         결국에는 락을 얻을 수 있다는 대기 큐(Wait Queue/FIFO)가 보장되는가? │
-  │          ├─ 실패 ─▶ 특정 스레드 타임아웃 및 에러 뿜음. 공평한 큐잉 로직(RR) 필요│
-  │          └─ 통과 ─▶ [완벽하고 안전한 임계 구역 설계 완료!]                │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 시스템 동기화 락(Lock) 메커니즘 설계 검증 플로우           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [자체적인 락이나 동기화 알고리즘을 개발/적용할 때의 3단계 검문]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      1. [상호 배제 확인] 두 스레드가 정확히 0.0001초 차이로 진입해도          |
+  |         둘 중 하나는 반드시 블로킹되거나 튕겨 나가는가? (원자성 여부)           |
+  |          +- 실패 --> 데이터 오염 발생. 하드웨어 CAS 연산으로 락 보강 요망       |
+  |          +- 통과                                                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      2. [진행(Progress) 확인] 락을 쥔 스레드가 갑자기 죽었을 때,             |
+  |         다른 스레드들이 락을 탈취(Timeout/Recovery)할 메커니즘이 있는가?    |
+  |          +- 실패 --> 데드락 발생. 타임아웃 큐 또는 OS 반환 기능 도입 요망       |
+  |          +- 통과                                                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      3. [한정된 대기 확인] 트래픽이 미친 듯이 몰릴 때, 가장 운 없는 스레드라도 |
+  |         결국에는 락을 얻을 수 있다는 대기 큐(Wait Queue/FIFO)가 보장되는가? |
+  |          +- 실패 --> 특정 스레드 타임아웃 및 에러 뿜음. 공평한 큐잉 로직(RR) 필요|
+  |          +- 통과 --> [완벽하고 안전한 임계 구역 설계 완료!]                |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만 잘되면 된 거 아냐?"라는 안일한 생각이 수백억 짜리 시스템을 멈추게 한다. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 지키는 조건이고, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)과 [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)는 '시스템의 생명(Liveness)'을 지키는 조건이다. 아무리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨끗해도 시스템이 멈춰있으면 그건 죽은 서비스다. 3가지 조건은 타협 불가능한 삼위일체(Trinity)다.
@@ -200,12 +200,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [경쟁 조건 (Race Condition)]
-    │
-    ▼
+    |
+    v
 [임계 구역 3가지 요구조건 (Critical Section Three Requirements)]
-    │
-    ├──▶ [Test-and-Set 연산 하드웨어]
-    └──▶ [뮤텍스 락 (Mutex Lock)]
+    |
+    +---> [Test-and-Set 연산 하드웨어]
+    +---> [뮤텍스 락 (Mutex Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -222,7 +222,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 697 / 800
 
-← **이전**: [696. 경쟁 조건 (Race Condition)](/knowledge-base/studynote/02_operating_system/11_exam_summary/696_race_condition_concurrency_bug/)
-**다음**: [698. Test-and-Set 연산 하드웨어 (Test And Set Hardware Atomic)](/knowledge-base/studynote/02_operating_system/11_exam_summary/698_test_and_set_hardware_atomic/) →
+<- **이전**: [696. 경쟁 조건 (Race Condition)](/knowledge-base/studynote/02_operating_system/11_exam_summary/696_race_condition_concurrency_bug/)
+**다음**: [698. Test-and-Set 연산 하드웨어 (Test And Set Hardware Atomic)](/knowledge-base/studynote/02_operating_system/11_exam_summary/698_test_and_set_hardware_atomic/) ->
 
 ---

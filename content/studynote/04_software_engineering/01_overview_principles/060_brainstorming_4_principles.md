@@ -33,13 +33,13 @@ tags = ["studynote-software-engineering"]
 
 ```text
 아이디어 발산
-   ↓
+   v
 비판 금지
-   ↓
+   v
 자유분방
-   ↓
+   v
 다다익선
-   ↓
+   v
 결합 개선
 ```
 
@@ -107,11 +107,11 @@ tags = ["studynote-software-engineering"]
 
 ```text
 문제 정의
-   ↓
+   v
 브레인스토밍
-   ↓
+   v
 아이디어 발산
-   ↓
+   v
 조합 / 평가
 ```
 
@@ -121,11 +121,11 @@ tags = ["studynote-software-engineering"]
 
 ```text
 아이디어 막힘
-   ↓
+   v
 4원칙 적용
-   ↓
+   v
 NGT / 브레인라이팅
-   ↓
+   v
 창의적 해결안 도출
 ```
 
@@ -143,7 +143,7 @@ NGT / 브레인라이팅
 
 **진행 상황**: 60 / 973
 
-← **이전**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
-**다음**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/) →
+<- **이전**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
+**다음**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/) ->
 
 ---

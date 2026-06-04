@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 SSP가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 경계가 어디인지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│   SSP가 막는 경로: 지역 버퍼 overflow가 제어 정보까지 이어지는 흐름   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 높은 주소                                                           │
-│   [ Return Address ]      ◀─ 공격자가 최종적으로 바꾸고 싶은 값       │
-│   [ Saved Frame Pointer ]                                           │
-│   [ Canary ]              ◀─ 먼저 훼손돼야 하는 감시값               │
-│   [ Local Buffer[64] ]    ◀─ 길이 초과 입력이 시작되는 지점          │
-│ 낮은 주소                                                           │
-│                                                                      │
-│ 오버플로우 경로: Buffer ──▶ Canary ──▶ Saved Frame Pointer          │
-│                                        ──▶ Return Address           │
-│ 반환 직전: Canary mismatch ──▶ __stack_chk_fail ──▶ 프로세스 중단   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|   SSP가 막는 경로: 지역 버퍼 overflow가 제어 정보까지 이어지는 흐름   |
++----------------------------------------------------------------------+
+| 높은 주소                                                           |
+|   [ Return Address ]      <-- 공격자가 최종적으로 바꾸고 싶은 값       |
+|   [ Saved Frame Pointer ]                                           |
+|   [ Canary ]              <-- 먼저 훼손돼야 하는 감시값               |
+|   [ Local Buffer[64] ]    <-- 길이 초과 입력이 시작되는 지점          |
+| 낮은 주소                                                           |
+|                                                                      |
+| 오버플로우 경로: Buffer ---> Canary ---> Saved Frame Pointer          |
+|                                        ---> Return Address           |
+| 반환 직전: Canary mismatch ---> __stack_chk_fail ---> 프로세스 중단   |
++----------------------------------------------------------------------+
 ```
 
 즉 SSP의 목적은 "오염을 예방"하기보다 "제어 정보에 닿기 전 탐지"에 가깝다. 그래서 지역 변수 내용 일부가 망가지는 것 자체를 모두 막지는 못해도, 적어도 함수 복귀 경로를 장악해 코드 실행을 탈취하는 대표 공격은 크게 어렵게 만든다.
@@ -136,20 +136,20 @@ SSP의 가장 큰 효과는 메모리 오류가 곧바로 권한 탈취나 원�
 
 ```text
 무경계 문자열 처리 · 스택 기반 버퍼 오버플로우
-                    │
-                    ▼
+                    |
+                    v
 StackGuard · SSP (Stack Smashing Protector)
-                    │
-                    ▼
+                    |
+                    v
 NX (No-eXecute) · ASLR (Address Space Layout Randomization)
-                    │
-                    ▼
+                    |
+                    v
 RELRO (Relocation Read-Only) · FORTIFY · 정적 분석 · 퍼징
-                    │
-                    ▼
+                    |
+                    v
 Shadow Stack · PAC (Pointer Authentication Code)
-                    │
-                    ▼
+                    |
+                    v
 메모리 안전 언어 · 하드웨어 메모리 태깅
 ```
 
@@ -167,7 +167,7 @@ Shadow Stack · PAC (Pointer Authentication Code)
 
 **진행 상황**: 541 / 803
 
-← **이전**: [540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/)
-**다음**: [542. 포인터 인증 (Pointer Authentication, ARM PAC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) →
+<- **이전**: [540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/)
+**다음**: [542. 포인터 인증 (Pointer Authentication, ARM PAC)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) ->
 
 ---

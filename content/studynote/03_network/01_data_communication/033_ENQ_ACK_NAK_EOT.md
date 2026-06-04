@@ -40,26 +40,26 @@ tags = ["studynote-network"]
 
 ```
 송신 측                          수신 측
-   │                                │
-   │──────── ENQ ──────────────────→│  (회선 확보 요청)
-   │←─────── ACK ───────────────────│  (회선 사용 허가)
-   │                                │
-   │──── STX [데이터] ETX BCC ─────→│  (블록 1 전송)
-   │←─────── ACK ───────────────────│  (블록 1 수신 확인)
-   │                                │
-   │──── STX [데이터] ETX BCC ─────→│  (블록 2 전송)
-   │←─────── ACK ───────────────────│  (블록 2 수신 확인)
-   │                                │
-   │──────── EOT ──────────────────→│  (전송 종료)
+   |                                |
+   |-------- ENQ ------------------->|  (회선 확보 요청)
+   |<-------- ACK -------------------|  (회선 사용 허가)
+   |                                |
+   |---- STX [데이터] ETX BCC ------>|  (블록 1 전송)
+   |<-------- ACK -------------------|  (블록 1 수신 확인)
+   |                                |
+   |---- STX [데이터] ETX BCC ------>|  (블록 2 전송)
+   |<-------- ACK -------------------|  (블록 2 수신 확인)
+   |                                |
+   |-------- EOT ------------------->|  (전송 종료)
 ```
 
 ### 오류 발생 시나리오 ([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/))
 
 ```
-   │──── STX [데이터] ETX BCC ─────→│  (블록 전송)
-   │←─────── NAK ───────────────────│  (CRC 오류 감지)
-   │──── STX [데이터] ETX BCC ─────→│  (동일 블록 재전송)
-   │←─────── ACK ───────────────────│  (재전송 성공)
+   |---- STX [데이터] ETX BCC ------>|  (블록 전송)
+   |<-------- NAK -------------------|  (CRC 오류 감지)
+   |---- STX [데이터] ETX BCC ------>|  (동일 블록 재전송)
+   |<-------- ACK -------------------|  (재전송 성공)
 ```
 
 📢 **섹션 요약 비유**: [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 전송 시퀀스는 소포 배달 절차다 — 벨 누르기(ENQ), 문 열기(ACK), 소포 전달, 사인(ACK), 영수증 끊기(EOT). 내용물이 파손되면 NAK로 재배송 요청.
@@ -71,9 +71,9 @@ tags = ["studynote-network"]
 BSC에서는 오류 감지를 위해 <strong>ACK0과 ACK1을 교대로 사용</strong>해 블록 번호를 구분한다.
 
 ```
-블록 1 전송 → ACK1 수신 (홀수 블록 확인)
-블록 2 전송 → ACK0 수신 (짝수 블록 확인)
-블록 3 전송 → ACK1 수신 (홀수 블록 확인)
+블록 1 전송 -> ACK1 수신 (홀수 블록 확인)
+블록 2 전송 -> ACK0 수신 (짝수 블록 확인)
+블록 3 전송 -> ACK1 수신 (홀수 블록 확인)
 ...
 ```
 
@@ -87,12 +87,12 @@ BSC에서는 오류 감지를 위해 <strong>ACK0과 ACK1을 교대로 사용</s
 
 ```
 BSC ENQ/ACK (1960년대)
-        ↓
+        v
 HDLC I-Frame/S-Frame (1970년대) — 더 효율적인 비트 지향
-        ↓
+        v
 TCP SYN/ACK (1974년~) — 연결 지향, 스트림 기반
-  3-Way Handshake: SYN → SYN-ACK → ACK
-        ↓
+  3-Way Handshake: SYN -> SYN-ACK -> ACK
+        v
 QUIC (2018~) — UDP + ACK, 0-RTT, 손실 기반 혼잡 제어
 ```
 
@@ -115,10 +115,10 @@ QUIC (2018~) — UDP + ACK, 0-RTT, 손실 기반 혼잡 제어
 
 ```
 마스터(PLC)                    슬레이브(센서/액추에이터)
-   │                                   │
-   │──[주소][기능코드][데이터][CRC]───→│ (ENQ 역할)
-   │←──[주소][기능코드][데이터][CRC]───│ (ACK 역할)
-   │←──[주소][오류코드][CRC]───────────│ (NAK 역할: 예외 응답)
+   |                                   |
+   |--[주소][기능코드][데이터][CRC]---->| (ENQ 역할)
+   |<---[주소][기능코드][데이터][CRC]---| (ACK 역할)
+   |<---[주소][오류코드][CRC]-----------| (NAK 역할: 예외 응답)
 ```
 
 현대 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/)·스마트팩토리에서도 이 원리가 기반이 된다.
@@ -131,20 +131,20 @@ QUIC (2018~) — UDP + ACK, 0-RTT, 손실 기반 혼잡 제어
 
 ```
 ENQ / ACK / NAK / EOT
-├── 프로토콜 컨텍스트
-│   └── BSC (Binary Synchronous Communication)
-├── 기능
-│   ├── ENQ: 회선 확보 요청
-│   ├── ACK (ACK0/ACK1): 긍정 응답
-│   ├── NAK: 부정 응답, 재전송 요청
-│   └── EOT: 전송 종료, 회선 해제
-├── 발전 계보
-│   ├── HDLC I/S/U 프레임
-│   ├── TCP SYN/ACK/FIN
-│   └── HTTP Request/Response
-└── 산업 응용
-    ├── Modbus RTU
-    └── SCADA 프로토콜
++-- 프로토콜 컨텍스트
+|   +-- BSC (Binary Synchronous Communication)
++-- 기능
+|   +-- ENQ: 회선 확보 요청
+|   +-- ACK (ACK0/ACK1): 긍정 응답
+|   +-- NAK: 부정 응답, 재전송 요청
+|   +-- EOT: 전송 종료, 회선 해제
++-- 발전 계보
+|   +-- HDLC I/S/U 프레임
+|   +-- TCP SYN/ACK/FIN
+|   +-- HTTP Request/Response
++-- 산업 응용
+    +-- Modbus RTU
+    +-- SCADA 프로토콜
 ```
 
 ---
@@ -152,23 +152,23 @@ ENQ / ACK / NAK / EOT
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│             ENQ/ACK/NAK/EOT 발전 흐름                           │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ BSC·ASCII 정의     │ 제어 문자 체계 표준화        │
-│ 1970년대     │ HDLC 비트 지향     │ ACK→RR, NAK→REJ 으로 발전   │
-│ 1974년       │ TCP 등장           │ SYN/ACK 3-Way Handshake     │
-│ 1980년대     │ Modbus RTU         │ 산업 자동화에 ENQ/ACK 계승   │
-│ 2000년대     │ HTTP/SMTP          │ 요청/응답 패러다임 지배적     │
-│ 2018년       │ QUIC/HTTP3         │ ACK 최적화, 0-RTT 핸드셰이크 │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|             ENQ/ACK/NAK/EOT 발전 흐름                           |
++--------------+--------------------+-----------------------------+
+| 1960년대     | BSC·ASCII 정의     | 제어 문자 체계 표준화        |
+| 1970년대     | HDLC 비트 지향     | ACK->RR, NAK->REJ 으로 발전   |
+| 1974년       | TCP 등장           | SYN/ACK 3-Way Handshake     |
+| 1980년대     | Modbus RTU         | 산업 자동화에 ENQ/ACK 계승   |
+| 2000년대     | HTTP/SMTP          | 요청/응답 패러다임 지배적     |
+| 2018년       | QUIC/HTTP3         | ACK 최적화, 0-RTT 핸드셰이크 |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-ENQ → 회선 확보 → ACK → 데이터 전송 → EOT
-  ↓       ↓        ↓         ↓
+ENQ -> 회선 확보 -> ACK -> 데이터 전송 -> EOT
+  v       v        v         v
 오류    폴링    긍정응답   NAK 재전송
-  ↓
-TCP 3-way → HTTPS → REST API 요청/응답
+  v
+TCP 3-way -> HTTPS -> REST API 요청/응답
 ```
 
 ---
@@ -185,7 +185,7 @@ TCP 3-way → HTTPS → REST API 요청/응답
 
 **진행 상황**: 33 / 1120
 
-← **이전**: [회선 제어 규약 (Line Control Protocol)](/knowledge-base/studynote/03_network/01_data_communication/032_회선_제어_규약/)
-**다음**: [에러 검출 방식 — 패리티·CRC·해밍코드](/knowledge-base/studynote/03_network/01_data_communication/034_에러_검출율/) →
+<- **이전**: [회선 제어 규약 (Line Control Protocol)](/knowledge-base/studynote/03_network/01_data_communication/032_회선_제어_규약/)
+**다음**: [에러 검출 방식 — 패리티·CRC·해밍코드](/knowledge-base/studynote/03_network/01_data_communication/034_에러_검출율/) ->
 
 ---

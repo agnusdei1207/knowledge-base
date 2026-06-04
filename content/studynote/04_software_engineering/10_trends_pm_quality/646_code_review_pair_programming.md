@@ -22,27 +22,27 @@ tags = ["studynote-software-engineering"]
 - **개념**: <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">Code Review</a>)</strong> 는 작성자 이외의 개발자가 소스 코드를 체계적으로 검토하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 보안 취약점, 아키텍처 문제를 식별하고 개선 의견을 제시하는 품질 보증 활동이다. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/">페어 프로그래밍</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/">Pair Programming</a>)</strong> 은 두 사람이 하나의 컴퓨터 앞에서 역할을 나눠 실시간으로 함께 코드를 작성하는 [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) ([eXtreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))의 핵심 실천 기법이다.
 - **필요성**: 복잡한 비즈니스 로직과 기술 스택이 얽힌 현대 소프트웨어에서 단독 개발자는 반드시 맹점(Blind Spot)을 가진다. 특히 보안 취약점(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 등)은 코드 작성자가 의도치 않게 심는 경우가 대부분이다. 동료 검토는 이 맹점을 데플로이(Deploy) 이전에 여러 눈으로 방어하는 마지막 관문이다.
 - **💡 비유**: [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)는 외과 수술실의 "[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(Time Out)" 제도와 같다. 집도의가 메스를 들기 직전, 팀 전원이 "환자 이름·수술 부위·사용 도구"를 큰 소리로 확인하는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 운영이다. 어색하지만 이 30초가 의료 사고를 막는다.
-- **등장 배경**: ① Fagan Inspection (1976년 IBM)이 형식적 코드 검사의 효과를 처음 수치화 → ② [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 운동에서 [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)으로 경량화 → ③ GitHub의 풀 리퀘스트([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기제가 비동기·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 리뷰를 대중화.
+- **등장 배경**: ① Fagan Inspection (1976년 IBM)이 형식적 코드 검사의 효과를 처음 수치화 -> ② [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 운동에서 [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)으로 경량화 -> ③ GitHub의 풀 리퀘스트([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기제가 비동기·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 리뷰를 대중화.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          결함 발견 시점별 수정 비용 곡선 (IBM 연구 기반)             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  비용                                                         │
-│   ▲                                         *** 100x         │
-│   │                               ****                       │
-│   │                      *****                               │
-│   │              *****                  ** 30x               │
-│   │      *****                  **** 10x                     │
-│   │  ***                  *** 6x                             │
-│   │ *                *** 3x                                  │
-│   │               1x (코드 리뷰 단계에서 발견 = 최저 비용!)    │
-│   └──────────────────────────────────────────────────────▶  │
-│      설계  →  코드  →  코드리뷰  →  QA  →  스테이징  →  운영   │
-│                           ↑                                  │
-│                      이 지점이 황금 게이트!                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          결함 발견 시점별 수정 비용 곡선 (IBM 연구 기반)             |
++--------------------------------------------------------------+
+|                                                              |
+|  비용                                                         |
+|   ^                                         *** 100x         |
+|   |                               ****                       |
+|   |                      *****                               |
+|   |              *****                  ** 30x               |
+|   |      *****                  **** 10x                     |
+|   |  ***                  *** 6x                             |
+|   | *                *** 3x                                  |
+|   |               1x (코드 리뷰 단계에서 발견 = 최저 비용!)    |
+|   +------------------------------------------------------->  |
+|      설계  ->  코드  ->  코드리뷰  ->  QA  ->  스테이징  ->  운영   |
+|                           ^                                  |
+|                      이 지점이 황금 게이트!                    |
++--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 곡선은 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용이 발견 시점이 늦어질수록 기하급수적으로 증가함을 보여준다. [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 단계(커밋 직전)에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 차단하는 경우 비용은 1배 수준이지만, 운영 환경에서 고객이 발견하면 100배 이상으로 폭증한다. 따라서 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)는 "선택적 모범 사례"가 아니라 "비용 통제 도구"다. 팀 전체의 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 참여율이 80%를 넘는 조직은 그렇지 않은 조직 대비 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도가 평균 60~70% 낮다는 Google 연구 결과도 이를 뒷받침한다.
@@ -146,21 +146,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 코드 리뷰 페어 프로그래밍 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 812 / 973
 
-← **이전**: [645. 리팩토링 악취(Code Smell) 제거](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/645_refactoring_code_smell/)
-**다음**: [647. FTR (정형 기술 검토) 인스펙션/워크스루](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) →
+<- **이전**: [645. 리팩토링 악취(Code Smell) 제거](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/645_refactoring_code_smell/)
+**다음**: [647. FTR (정형 기술 검토) 인스펙션/워크스루](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ->
 
 ---

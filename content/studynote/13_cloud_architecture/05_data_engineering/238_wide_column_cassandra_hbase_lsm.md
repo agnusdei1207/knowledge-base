@@ -25,15 +25,15 @@ tags = ["studynote-cloud-architecture"]
 ```
 [와이드 컬럼 저장소 개념]
 Row Key: "sensor:IoT-001:2024-01-15:09:00:00"
-┌──────────────────────────────────────────────────────────┐
-│  Column Family "cf_data"                                 │
-│  ├── temperature: 23.5                                   │
-│  ├── humidity: 60.2                                      │
-│  └── pressure: 1013.25                                   │
-│  Column Family "cf_meta"                                 │
-│  ├── firmware: "v2.1"                                    │
-│  └── location: "서울 강남"                                │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  Column Family "cf_data"                                 |
+|  +-- temperature: 23.5                                   |
+|  +-- humidity: 60.2                                      |
+|  +-- pressure: 1013.25                                   |
+|  Column Family "cf_meta"                                 |
+|  +-- firmware: "v2.1"                                    |
+|  +-- location: "서울 강남"                                |
++----------------------------------------------------------+
 
 특징:
 - 행마다 컬럼 수와 종류가 다를 수 있음
@@ -51,39 +51,39 @@ Row Key: "sensor:IoT-001:2024-01-15:09:00:00"
 
 ```
 [LSM-Tree 쓰기 흐름]
-쓰기 요청 → WAL(Write-Ahead Log) → MemTable(메모리 버퍼)
-                                        │ MemTable 가득 찰 때
-                                        ▼
+쓰기 요청 -> WAL(Write-Ahead Log) -> MemTable(메모리 버퍼)
+                                        | MemTable 가득 찰 때
+                                        v
                               SSTable (Sorted String Table)
-                              → 디스크에 순차 쓰기 (랜덤 I/O 없음!)
-                                        │ 백그라운드 Compaction
-                                        ▼
+                              -> 디스크에 순차 쓰기 (랜덤 I/O 없음!)
+                                        | 백그라운드 Compaction
+                                        v
                               더 큰 SSTable로 병합 (Leveled Compaction)
 
 핵심 원리:
-1. 모든 쓰기는 순차 (Random I/O → Sequential I/O)
-2. 인메모리 버퍼 → 디스크 플러시
+1. 모든 쓰기는 순차 (Random I/O -> Sequential I/O)
+2. 인메모리 버퍼 -> 디스크 플러시
 3. Compaction으로 읽기 성능 주기적 최적화
 ```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 (Masterless Ring)
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│               Cassandra 링 토폴로지                       │
-│                                                         │
-│            Node A (token 0~249)                         │
-│           /                      \                      │
-│  Node D  (token 750~999)    Node B (token 250~499)      │
-│           \                      /                      │
-│            Node C (token 500~749)                       │
-│                                                         │
-│  특징:                                                   │
-│  - 마스터 없음 (모든 노드 동등)                           │
-│  - 컨시스턴트 해싱으로 데이터 분산                         │
-│  - Replication Factor: 3 (각 데이터 3개 노드 복제)        │
-│  - Gossip Protocol: 노드 상태 전파                       │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|               Cassandra 링 토폴로지                       |
+|                                                         |
+|            Node A (token 0~249)                         |
+|           /                      \                      |
+|  Node D  (token 750~999)    Node B (token 250~499)      |
+|           \                      /                      |
+|            Node C (token 500~749)                       |
+|                                                         |
+|  특징:                                                   |
+|  - 마스터 없음 (모든 노드 동등)                           |
+|  - 컨시스턴트 해싱으로 데이터 분산                         |
+|  - Replication Factor: 3 (각 데이터 3개 노드 복제)        |
+|  - Gossip Protocol: 노드 상태 전파                       |
++---------------------------------------------------------+
 ```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Level)
@@ -97,7 +97,7 @@ Row Key: "sensor:IoT-001:2024-01-15:09:00:00"
 
 ```
 WRITE QUORUM + READ QUORUM = 강한 일관성 보장
-(쓰기 2/3 노드 + 읽기 2/3 노드 → 최소 1개 노드 겹침)
+(쓰기 2/3 노드 + 읽기 2/3 노드 -> 최소 1개 노드 겹침)
 ```
 
 📢 **섹션 요약 비유**: [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 링과 Quorum은 다수결 투표다. 3명 중 2명(Quorum)이 "이 값이 맞아요"라고 하면 신뢰한다. 1명만 물어보면(ONE) 빠르지만 잘못된 답을 줄 수 있고, 3명 모두(ALL) 물어보면 정확하지만 느리다.
@@ -129,12 +129,12 @@ WRITE QUORUM + READ QUORUM = 강한 일관성 보장
 ❌ 나쁜 설계:
    파티션 키: sensor_id
    클러스터링 키: timestamp
-   문제: 한 센서 데이터가 영원히 같은 파티션에 쌓임 → 파티션 크기 무한 증가
+   문제: 한 센서 데이터가 영원히 같은 파티션에 쌓임 -> 파티션 크기 무한 증가
 
 ✅ 좋은 설계 (Bucket 전략):
    파티션 키: sensor_id + year_month (예: "IoT-001:2024-01")
    클러스터링 키: timestamp
-   효과: 월별로 파티션 분리 → 파티션 크기 제어 + 시간 범위 쿼리 최적화
+   효과: 월별로 파티션 분리 -> 파티션 크기 제어 + 시간 범위 쿼리 최적화
 ```
 
 ```cql
@@ -168,9 +168,9 @@ LIMIT 100;
 [IoT 스마트 팩토리 아키텍처]
 센서 1,000개 × 초당 100건 = 100,000 이벤트/초
 
-Kafka 버퍼 → Flink 스트림 처리 → Cassandra (실시간 저장)
-                                  → 파티션: sensor_id + date
-                                  → 클러스터링: timestamp
+Kafka 버퍼 -> Flink 스트림 처리 -> Cassandra (실시간 저장)
+                                  -> 파티션: sensor_id + date
+                                  -> 클러스터링: timestamp
 
 Cassandra 적합 이유:
 - 초당 10만+ 쓰기 처리 가능
@@ -211,7 +211,7 @@ Cassandra 적합 이유:
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 불가</strong> | 관계형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 지원 없음 |
 | **전체 테이블 스캔 금지** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 AllowFiltering 필요 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극악) |
-| <strong>설계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴에 맞게 테이블 설계 → [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 변경 시 테이블 재설계 |
+| <strong>설계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴에 맞게 테이블 설계 -> [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 변경 시 테이블 재설계 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> 부하</strong> | 배경 Compaction이 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 간섭 |
 
 📢 **섹션 요약 비유**: Cassandra는 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 천재, 읽기는 규칙 준수자"다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 무조건 빠르지만, 읽기는 반드시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키(주소)를 알아야 한다. 주소를 모르면 전체 동(AllowFiltering)을 뒤지는 극악의 비효율이 발생한다.
@@ -236,11 +236,11 @@ Cassandra 적합 이유:
 
 ```text
 Wide-Column: 행 키 + 컬럼 패밀리 구조
-    ├─► Cassandra: 고가용성 · 멀티 DC · 최종 일관성
-    ├─► HBase: HDFS 기반 · 강한 일관성
-    └─► Bigtable: Google 관리형 서비스
-    │
-    ▼
+    +-► Cassandra: 고가용성 · 멀티 DC · 최종 일관성
+    +-► HBase: HDFS 기반 · 강한 일관성
+    +-► Bigtable: Google 관리형 서비스
+    |
+    v
 활용: IoT 시계열 · 로그 · 대규모 쓰기 워크로드
 ```
 2. [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 칠판에 먼저 적고 나중에 공책에 옮기는 방식이다. 칠판 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(메모리)는 빠르고, 나중에 공책 정리(SSTable [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 순서대로 하니 효율적이다.
@@ -252,7 +252,7 @@ Wide-Column: 행 키 + 컬럼 패밀리 구조
 
 **진행 상황**: 237 / 371
 
-← **이전**: [237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/237_document_store_mongodb_elasticsearch/)
-**다음**: [239. 그래프 데이터베이스 (Neo4j, AWS Neptune)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/239_graph_database_neo4j_neptune/) →
+<- **이전**: [237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/237_document_store_mongodb_elasticsearch/)
+**다음**: [239. 그래프 데이터베이스 (Neo4j, AWS Neptune)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/239_graph_database_neo4j_neptune/) ->
 
 ---

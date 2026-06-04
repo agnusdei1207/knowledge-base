@@ -26,20 +26,20 @@ Intel [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/)
 아래 그림은 SGX가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 경계가 어디인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            SGX의 위협 모델: 앱은 보호하되, OS와 하이퍼바이저는 의심한다     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application Process                                                        │
-│  ├─ 일반 코드              ── OS가 메모리와 시스템 호출을 관리             │
-│  └─ Enclave 코드           ── CPU가 별도 보호                             │
-│                                                                            │
-│ Untrusted Layers                                                           │
-│  ├─ OS Kernel                                                              │
-│  ├─ Hypervisor                                                             │
-│  └─ Host Administrator                                                     │
-│                                                                            │
-│ SGX의 목표: 위 계층이 존재해도 Enclave 내부 비밀은 직접 읽지 못하게 하기    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            SGX의 위협 모델: 앱은 보호하되, OS와 하이퍼바이저는 의심한다     |
++----------------------------------------------------------------------------+
+| Application Process                                                        |
+|  +- 일반 코드              -- OS가 메모리와 시스템 호출을 관리             |
+|  +- Enclave 코드           -- CPU가 별도 보호                             |
+|                                                                            |
+| Untrusted Layers                                                           |
+|  +- OS Kernel                                                              |
+|  +- Hypervisor                                                             |
+|  +- Host Administrator                                                     |
+|                                                                            |
+| SGX의 목표: 위 계층이 존재해도 Enclave 내부 비밀은 직접 읽지 못하게 하기    |
++----------------------------------------------------------------------------+
 ```
 
 따라서 SGX는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 대체품이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 통과해도 끝까지 드러나면 안 되는 계산 조각을 위한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이다. 반대로 I/O 중심 애플리케이션이나 대용량 메모리 작업 전체를 통째로 넣으면 SGX의 제약이 먼저 드러난다.
@@ -64,26 +64,26 @@ SGX의 핵심 구성은 [Enclave](/knowledge-base/studynote/09_security/04_endpo
 아래 그림은 SGX가 메모리와 인터페이스를 어떻게 다루는지 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                SGX 실행 흐름: 작은 보호 구역과 엄격한 출입문               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User Process                                                                │
-│  ├─ Untrusted Part                                                          │
-│  │    └─ 시스템 호출, 파일 I/O, 네트워크                                   │
-│  │                                                                          │
-│  └─ ECALL ───────────────▶ Enclave                                          │
-│                               ├─ 비밀 계산                                  │
-│                               ├─ 키 사용                                     │
-│                               └─ 민감 상태 저장                              │
-│                                     │                                       │
-│                                     ▼                                       │
-│                             EPC (Protected Pages)                            │
-│                                     │                                       │
-│                                     ▼                                       │
-│                    CPU 외부로 나갈 때 암호화 및 무결성 보호                  │
-│                                                                            │
-│ Enclave 밖에서는 결과값만 사용, 내부 메모리는 직접 열람 불가                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                SGX 실행 흐름: 작은 보호 구역과 엄격한 출입문               |
++----------------------------------------------------------------------------+
+| User Process                                                                |
+|  +- Untrusted Part                                                          |
+|  |    +- 시스템 호출, 파일 I/O, 네트워크                                   |
+|  |                                                                          |
+|  +- ECALL ----------------> Enclave                                          |
+|                               +- 비밀 계산                                  |
+|                               +- 키 사용                                     |
+|                               +- 민감 상태 저장                              |
+|                                     |                                       |
+|                                     v                                       |
+|                             EPC (Protected Pages)                            |
+|                                     |                                       |
+|                                     v                                       |
+|                    CPU 외부로 나갈 때 암호화 및 무결성 보호                  |
+|                                                                            |
+| Enclave 밖에서는 결과값만 사용, 내부 메모리는 직접 열람 불가                 |
++----------------------------------------------------------------------------+
 ```
 
 이 구조 때문에 SGX는 경계 설계가 전부라고 해도 과언이 아니다. [Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) 바깥과 자주 왕복할수록 ECALL ([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))·OCALL (Outside [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 비용이 커지고, 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 EPC에 억지로 넣을수록 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 부담이 늘어난다. 결국 SGX는 "비밀 계산을 작고 선명하게 잘라 넣는 기술"이다.
@@ -162,17 +162,17 @@ SGX의 가장 큰 공헌은 "클라우드에서도 CPU가 직접 신뢰 경계�
 
 ```text
 디스크 암호화 · 전송 암호화
-        │
-        ▼
+        |
+        v
 Intel SGX (Software Guard Extensions)
-        │
-        ▼
+        |
+        v
 Enclave 측정값 · Remote Attestation
-        │
-        ▼
+        |
+        v
 Confidential Computing
-        │
-        ▼
+        |
+        v
 TDX · SEV-SNP · 차세대 하드웨어 기밀 VM
 ```
 
@@ -190,7 +190,7 @@ TDX · SEV-SNP · 차세대 하드웨어 기밀 VM
 
 **진행 상황**: 480 / 803
 
-← **이전**: [479. ARM TrustZone](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/479_arm_trustzone/)
-**다음**: [481. 사이드 채널 공격 (Side-channel Attack)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/) →
+<- **이전**: [479. ARM TrustZone](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/479_arm_trustzone/)
+**다음**: [481. 사이드 채널 공격 (Side-channel Attack)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/) ->
 
 ---

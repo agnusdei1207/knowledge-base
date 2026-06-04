@@ -28,18 +28,18 @@ tags = ["studynote-computer-architecture"]
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 왜 빠른지 먼저 보면 구조적 차이가 분명해진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        same operation, different hardware organization       │
-├───────────────────────┬──────────────────────────────────────┤
-│ scalar CPU            │ array processor                      │
-├───────────────────────┼──────────────────────────────────────┤
-│ one ALU handles       │ many PE cells handle                │
-│ data0 -> data1 -> ... │ data0,data1,... at same time        │
-│                       │                                      │
-│ cycle1 : data0        │ cycle1 : data0 data1 data2 data3    │
-│ cycle2 : data1        │          data4 data5 data6 data7    │
-│ cycle3 : data2        │                                      │
-└───────────────────────┴──────────────────────────────────────┘
++--------------------------------------------------------------+
+|        same operation, different hardware organization       |
++-----------------------+--------------------------------------+
+| scalar CPU            | array processor                      |
++-----------------------+--------------------------------------+
+| one ALU handles       | many PE cells handle                |
+| data0 -> data1 -> ... | data0,data1,... at same time        |
+|                       |                                      |
+| cycle1 : data0        | cycle1 : data0 data1 data2 data3    |
+| cycle2 : data1        |          data4 data5 data6 data7    |
+| cycle3 : data2        |                                      |
++-----------------------+--------------------------------------+
 ```
 
 이 그림의 핵심은 명령 수를 줄이는 것이 아니라, <strong>같은 명령을 받아 실행하는 자리 자체를 복제한다</strong>는 점이다. 따라서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나를 극적으로 줄이는 구조라기보다, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조로 이해해야 한다.
@@ -65,22 +65,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 전역 명령 배포와 국소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 동시에 작동하는 모습을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            broadcast control + local data movement           │
-├──────────────────────────────────────────────────────────────┤
-│                  Control Unit                               │
-│                       │                                      │
-│          instruction broadcast to all PE                     │
-│                       ▼                                      │
-│    ┌────────┬────────┬────────┬────────┐                     │
-│    │  PE00  │  PE01  │  PE02  │  PE03  │                     │
-│    ├────────┼────────┼────────┼────────┤                     │
-│    │  PE10  │  PE11  │  PE12  │  PE13  │                     │
-│    ├────────┼────────┼────────┼────────┤                     │
-│    │  PE20  │  PE21  │  PE22  │  PE23  │                     │
-│    └────────┴────────┴────────┴────────┘                     │
-│      ↔ local exchange ↔ local exchange ↔ local exchange      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            broadcast control + local data movement           |
++--------------------------------------------------------------+
+|                  Control Unit                               |
+|                       |                                      |
+|          instruction broadcast to all PE                     |
+|                       v                                      |
+|    +--------+--------+--------+--------+                     |
+|    |  PE00  |  PE01  |  PE02  |  PE03  |                     |
+|    +--------+--------+--------+--------+                     |
+|    |  PE10  |  PE11  |  PE12  |  PE13  |                     |
+|    +--------+--------+--------+--------+                     |
+|    |  PE20  |  PE21  |  PE22  |  PE23  |                     |
+|    +--------+--------+--------+--------+                     |
+|      ↔ local exchange ↔ local exchange ↔ local exchange      |
++--------------------------------------------------------------+
 ```
 
 이 구조에서는 두 종류의 흐름이 분리된다. 위에서 아래로 내려오는 것은 <strong>제어 흐름</strong>이고, 좌우 또는 상하로 움직이는 것은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>이다. 제어는 중앙 집중적이지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 분산적으로 움직이기 때문에, 같은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이라도 [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)보다 공간 구조가 훨씬 더 강하게 드러난다.
@@ -163,25 +163,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 플린의 분류법
-    │
-    ▼
+    |
+    v
 SIMD (Single Instruction Multiple Data)
-    │
-    ├─ 벡터 프로세서 (1D stream 중심)
-    │
-    └─ 배열 프로세서 (2D/space 병렬 중심)
-             │
-             ▼
+    |
+    +- 벡터 프로세서 (1D stream 중심)
+    |
+    +- 배열 프로세서 (2D/space 병렬 중심)
+             |
+             v
 GPU (Graphics Processing Unit)
-             │
-             ▼
+             |
+             v
 시스톨릭 배열 · TPU (Tensor Processing Unit)
-             │
-             ▼
+             |
+             v
 인공지능 가속기 · 이기종 컴퓨팅
 ```
 
-이 흐름은 "[SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 원리 → 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구현 → 상용 가속기 → [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 특화"로 이어지는 계보를 보여준다.
+이 흐름은 "[SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 원리 -> 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구현 -> 상용 가속기 -> [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 특화"로 이어지는 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -195,7 +195,7 @@ GPU (Graphics Processing Unit)
 
 **진행 상황**: 375 / 803
 
-← **이전**: [373. 벡터 프로세서 (Vector Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)
-**다음**: [375. 다중 프로세서 (Multiprocessor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) →
+<- **이전**: [373. 벡터 프로세서 (Vector Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)
+**다음**: [375. 다중 프로세서 (Multiprocessor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) ->
 
 ---

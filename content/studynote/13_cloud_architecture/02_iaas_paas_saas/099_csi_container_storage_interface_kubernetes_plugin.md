@@ -23,23 +23,23 @@ tags = ["studynote-cloud-architecture"]
 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 아키텍처는 클러스터 외부의 스토리지 API와 통신하는 `CSI Controller`와, 실제 파드가 실행되는 물리 노드에서 볼륨을 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)하는 `CSI Node`로 역할을 분담한다. K8s는 스토리지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, 연결 등의 명령을 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 표준 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 규격에 맞춰 호출할 뿐, 실제 하드웨어 제어는 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 드라이버가 전담한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 CSI (Container Storage Interface) 구조      │
-├─────────────────────────────────────────────────────────────┤
-│  [K8s Control Plane]                     [External Storage] │
-│      │                                         ▲            │
-│      ▼ (1) CreateVolume RPC                    │ (2) API    │
-│  ┌──────────────────────┐                      │     Call   │
-│  │    CSI Controller    │──────────────────────┘            │
-│  │ (StatefulSet/Deploy) │                                   │
-│  └──────────────────────┘                                   │
-│      │                                                      │
-│      ▼ (3) NodePublishVolume RPC (Mount)                    │
-│  ┌──────────────────────┐     (4) /dev/sdb                  │
-│  │       CSI Node       │ ◀──────── 물리 디스크 부착           │
-│  │     (DaemonSet)      │                                   │
-│  └──────────────────────┘                                   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 CSI (Container Storage Interface) 구조      |
++-------------------------------------------------------------+
+|  [K8s Control Plane]                     [External Storage] |
+|      |                                         ^            |
+|      v (1) CreateVolume RPC                    | (2) API    |
+|  +----------------------+                      |     Call   |
+|  |    CSI Controller    |----------------------+            |
+|  | (StatefulSet/Deploy) |                                   |
+|  +----------------------+                                   |
+|      |                                                      |
+|      v (3) NodePublishVolume RPC (Mount)                    |
+|  +----------------------+     (4) /dev/sdb                  |
+|  |       CSI Node       | <--------- 물리 디스크 부착           |
+|  |     (DaemonSet)      |                                   |
+|  +----------------------+                                   |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 K8s가 통제실(Controller)과 현장(Node)을 분리하여 외부 스토리지를 프로비저닝하고 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)하는 흐름을 보여준다. [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) Controller는 클라우드 API를 호출해 가상 디스크를 만들고, [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) Node 데몬은 해당 노드에 리눅스 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 명령을 내려 파드가 디스크를 사용할 수 있게 한다.
@@ -86,17 +86,17 @@ CSI의 도입으로 K8s는 스토리지 관리의 무거운 짐을 벗어던지�
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 K8s 코어 비대화 및 병목 발생 (In-Tree)
-    │
-    ▼
+    |
+    v
 Out-of-Tree 아키텍처 전환 요구
-    │
-    ▼
+    |
+    v
 CSI (Container Storage Interface) 표준 제정
-    │
-    ▼
+    |
+    v
 CSI Controller (프로비저닝) · CSI Node (마운트) 분업화
-    │
-    ▼
+    |
+    v
 Volume Snapshot · Volume Cloning · 동적 확장 지원 (미래 확장)
 ```
 이 흐름도는 스토리지 코드가 K8s 내부에서 분리되어 표준화되고, 점차 고급 기능으로 확장되는 과정을 보여준다.
@@ -112,7 +112,7 @@ Volume Snapshot · Volume Cloning · 동적 확장 지원 (미래 확장)
 
 **진행 상황**: 98 / 371
 
-← **이전**: [98. K8s 스토리지 관리 - 볼륨, PV, PVC (영구 스토리지)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/)
-**다음**: [100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/) →
+<- **이전**: [98. K8s 스토리지 관리 - 볼륨, PV, PVC (영구 스토리지)](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/)
+**다음**: [100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/) ->
 
 ---

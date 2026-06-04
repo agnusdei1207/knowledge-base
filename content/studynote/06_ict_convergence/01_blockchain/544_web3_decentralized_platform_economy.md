@@ -38,23 +38,23 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 ### Web 3.0 플랫폼 경제 구조
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              Web 3.0 탈중앙화 플랫폼 경제                │
-│                                                         │
-│  사용자(User) ◄──── 토큰 보상 ────┐                     │
-│       │                           │                     │
-│       │ 사용·기여                 │                     │
-│       ▼                           │                     │
-│  프로토콜(Protocol)                │                     │
-│  스마트 컨트랙트 자동 집행         │                     │
-│       │                           │                     │
-│       │ 프로토콜 수수료           │                     │
-│       ▼                           │                     │
-│  DAO 트레저리 ────── 거버넌스 투표 ─►  토큰 홀더         │
-│       │              (수익 분배 결정)                     │
-│       │                                                  │
-│       └──────────────────── 개발자 보조금                │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              Web 3.0 탈중앙화 플랫폼 경제                |
+|                                                         |
+|  사용자(User) ◄---- 토큰 보상 ----+                     |
+|       |                           |                     |
+|       | 사용·기여                 |                     |
+|       v                           |                     |
+|  프로토콜(Protocol)                |                     |
+|  스마트 컨트랙트 자동 집행         |                     |
+|       |                           |                     |
+|       | 프로토콜 수수료           |                     |
+|       v                           |                     |
+|  DAO 트레저리 ------ 거버넌스 투표 -►  토큰 홀더         |
+|       |              (수익 분배 결정)                     |
+|       |                                                  |
+|       +-------------------- 개발자 보조금                |
++---------------------------------------------------------+
 ```
 
 ### 토크노믹스(Tokenomics) 핵심 설계 요소
@@ -64,7 +64,7 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 | **공급량(Supply)** | 총 발행량, 인플레이션 일정 | 인플레이션 ≤ 실사용 가치 성장 |
 | **배분(Distribution)** | 팀·투자자·커뮤니티 비율 | 커뮤니티 50%+ 권장 |
 | **유틸리티(Utility)** | 토큰 사용처 (거버넌스·수수료·스테이킹) | 다중 유틸리티로 수요 창출 |
-| **소각(Burn)** | 수수료 일부 소각 → 디플레이션 | EIP-1559, buyback-and-burn |
+| **소각(Burn)** | 수수료 일부 소각 -> 디플레이션 | EIP-1559, buyback-and-burn |
 | **베스팅(Vesting)** | 팀 토큰 잠금 기간 | 1년 클리프 + 3~4년 선형 |
 
 - **📢 섹션 요약 비유**: — "토크노믹스는 게임 화폐 시스템 설계 — 아이템 가격, 일일 보상, 화폐 소각량을 잘못 설계하면 게임 경제가 붕괴된다.
@@ -101,15 +101,15 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 
 ### Creator Economy의 Web3 전환
 
-1. **팬 토큰(Fan Token)**: 크리에이터가 자신의 커뮤니티 토큰 발행 → 팬이 투자자·파트너화
+1. **팬 토큰(Fan Token)**: 크리에이터가 자신의 커뮤니티 토큰 발행 -> 팬이 투자자·파트너화
 2. **NFT 로열티**: 2차 판매 시 창작자 자동 로열티(ERC-2981)
-3. **Music NFT**: 음악 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 분할 소유 → 팬이 음원 수익 참여
+3. **Music NFT**: 음악 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 분할 소유 -> 팬이 음원 수익 참여
 4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 크리에이터</strong>: 커뮤니티가 토큰으로 콘텐츠 자금 조달
 
 ### 기술사 핵심 판단
-- **컴포저빌리티(Composability)**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 레고처럼 조합 가능 → 혁신 속도 가속
-- **Fork 위협**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 경쟁자가 Fork하여 동일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 가능 → 커뮤니티 충성도·브랜드가 경쟁력
-- <strong>규제 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 토큰이 증권으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 SEC 규제 대상 → STO·유틸리티 토큰 구분 설계 중요
+- **컴포저빌리티(Composability)**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 레고처럼 조합 가능 -> 혁신 속도 가속
+- **Fork 위협**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 경쟁자가 Fork하여 동일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 가능 -> 커뮤니티 충성도·브랜드가 경쟁력
+- <strong>규제 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 토큰이 증권으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 SEC 규제 대상 -> STO·유틸리티 토큰 구분 설계 중요
 - **Rug Pull 방지**: 창업팀 토큰 베스팅·[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스·멀티시그 트레저리 필수
 
 - **📢 섹션 요약 비유**: — "Web 3.0 플랫폼은 가맹점이 아닌 협동조합 — 플랫폼 이익이 구성원 전체에 귀속되어야 지속 가능하다.
@@ -144,7 +144,7 @@ Web 3.0은 단순한 기술 트렌드가 아니라 인터넷 플랫폼 경제의
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[관계 설명] → [Web 3.0 탈중앙화 플랫폼 경제] → [Web 3.0 디지털 자산 · 소유권]
+[관계 설명] -> [Web 3.0 탈중앙화 플랫폼 경제] -> [Web 3.0 디지털 자산 · 소유권]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -159,7 +159,7 @@ Web 3.0은 단순한 기술 트렌드가 아니라 인터넷 플랫폼 경제의
 
 **진행 상황**: 544 / 552
 
-← **이전**: [543. SBT 소울바운드 토큰과 신원 인증 (SBT Soulbound Token Identity Credential)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/543_sbt_soulbound_token_identity/)
-**다음**: [545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/545_modular_blockchain_da_consensus_separation/) →
+<- **이전**: [543. SBT 소울바운드 토큰과 신원 인증 (SBT Soulbound Token Identity Credential)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/543_sbt_soulbound_token_identity/)
+**다음**: [545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/545_modular_blockchain_da_consensus_separation/) ->
 
 ---

@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-텍스트를 컴퓨터가 처리하려면 수치화(Vectorization)가 필수다. BoW부터 BERT까지의 진화는 "단어 빈도 → 의미 → 문맥 이해"로의 발전 과정이다.
+텍스트를 컴퓨터가 처리하려면 수치화(Vectorization)가 필수다. BoW부터 BERT까지의 진화는 "단어 빈도 -> 의미 -> 문맥 이해"로의 발전 과정이다.
 
 ### 텍스트 표현 방법의 진화
 
@@ -40,16 +40,16 @@ tags = ["studynote-ict-convergence"]
 
 ```
 문서 컬렉션 (D개 문서)
-        │
-        ▼
+        |
+        v
 TF(t,d) = 단어 t가 문서 d에 나타난 횟수 / 문서 d의 전체 단어 수
-        │
+        |
 IDF(t) = log(D / df(t))     df(t) = 단어 t를 포함한 문서 수
-        │
-        ▼
+        |
+        v
 TF-IDF(t,d) = TF(t,d) × IDF(t)
-        │
-높은 TF-IDF ──→ 이 문서에 자주 나타나면서
+        |
+높은 TF-IDF ---> 이 문서에 자주 나타나면서
                 전체 문서에서는 희귀한 단어
 ```
 
@@ -57,7 +57,7 @@ TF-IDF(t,d) = TF(t,d) × IDF(t)
 
 $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 
-- 두 벡터의 내적을 각 벡터의 크기로 나눔 → 범위 [-1, 1].
+- 두 벡터의 내적을 각 벡터의 크기로 나눔 -> 범위 [-1, 1].
 - 문서 길이에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 방향(의미)만 비교 — 유클리드 거리보다 텍스트에 적합.
 
 | 유사도 값 | 의미 |
@@ -86,20 +86,20 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 
 ```
 쿼리 입력
-    │
-    ├─ BM25 검색 (키워드 매칭) ──┐
-    │                            ├─ RRF 융합 → 최종 문서 순위
-    └─ Dense Vector 검색         │
-       (의미 유사도)  ────────────┘
+    |
+    +- BM25 검색 (키워드 매칭) --+
+    |                            +- RRF 융합 -> 최종 문서 순위
+    +- Dense Vector 검색         |
+       (의미 유사도)  ------------+
 ```
 
 **RRF(Reciprocal Rank Fusion)**: 두 검색 결과의 순위를 결합하는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법.
 
 ### [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/) ([Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)) 방법
 
-- <strong>BPE (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/">Byte Pair Encoding</a>)</strong>: 빈번한 문자 쌍을 반복 합병 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열 사용.
-- **WordPiece**: BPE 변형, 하위 단어(Subword) 어휘 학습 → [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 사용.
-- **Unigram LM**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 최적 분할 → SentencePiece.
+- <strong>BPE (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/">Byte Pair Encoding</a>)</strong>: 빈번한 문자 쌍을 반복 합병 -> [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열 사용.
+- **WordPiece**: BPE 변형, 하위 단어(Subword) 어휘 학습 -> [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 사용.
+- **Unigram LM**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 최적 분할 -> SentencePiece.
 
 - **📢 섹션 요약 비유**: BM25는 "이 책에 '파이썬'이라는 단어가 많이 나와"라고 검색하는 도서관 사서이고, Dense Vector는 "파이썬이라는 단어는 없지만 내용이 프로그래밍에 관한 책이야"라는 것을 이해하는 스마트 사서야.
 
@@ -108,8 +108,8 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **시나리오 1 - 고객 리뷰 분석**:
-- 10만 건 리뷰 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 벡터화 → [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)로 유사 리뷰 클러스터링.
-- 상위 키워드: "배송 빠름"([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 0.82), "포장 불량"(0.71) → 운영 개선 우선순위 결정.
+- 10만 건 리뷰 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 벡터화 -> [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)로 유사 리뷰 클러스터링.
+- 상위 키워드: "배송 빠름"([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 0.82), "포장 불량"(0.71) -> 운영 개선 우선순위 결정.
 
 <strong>시나리오 2 - 사내 문서 검색 시스템 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>)</strong>:
 - BM25: 정확한 제품명 검색에 강점.
@@ -150,7 +150,7 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[BoW · BM25] → [TF-IDF · 코사인 유사도] → [BM25+Dense · RRF]
+[BoW · BM25] -> [TF-IDF · 코사인 유사도] -> [BM25+Dense · RRF]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -165,7 +165,7 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 
 **진행 상황**: 518 / 552
 
-← **이전**: [517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)](/knowledge-base/studynote/06_ict_convergence/05_data_science/517_time_series_arima_stationarity_smoothing/)
-**다음**: [519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)](/knowledge-base/studynote/06_ict_convergence/05_data_science/519_collaborative_filtering_cold_start_recommendation/) →
+<- **이전**: [517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)](/knowledge-base/studynote/06_ict_convergence/05_data_science/517_time_series_arima_stationarity_smoothing/)
+**다음**: [519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)](/knowledge-base/studynote/06_ict_convergence/05_data_science/519_collaborative_filtering_cold_start_recommendation/) ->
 
 ---

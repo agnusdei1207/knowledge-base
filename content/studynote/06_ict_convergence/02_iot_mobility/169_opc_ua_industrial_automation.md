@@ -44,23 +44,23 @@ OPC UA의 중심에는 서버가 제공하는 주소 공간 (Address Space)이 �
 아래 그림은 OPC UA가 장비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 상위 애플리케이션을 어떻게 연결하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 OPC UA stack from machine to enterprise             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cloud / MES / Historian / Analytics                                 │
-│        ▲     Browse / Read / Write / Subscribe                      │
-│        │                                                            │
-│ Client applications                                                 │
-│        │  SecureChannel + Session + User auth                       │
-│        ▼                                                            │
-│ OPC UA Services                                                     │
-│        │                                                            │
-│ Address Space : Object -> Variable -> Method -> Event               │
-│        │                                                            │
-│ OPC UA Server in PLC / Robot / Edge Gateway                         │
-│        │                                                            │
-│ Transport : OPC TCP / HTTPS / PubSub over UDP or TSN               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 OPC UA stack from machine to enterprise             |
++----------------------------------------------------------------------+
+| Cloud / MES / Historian / Analytics                                 |
+|        ^     Browse / Read / Write / Subscribe                      |
+|        |                                                            |
+| Client applications                                                 |
+|        |  SecureChannel + Session + User auth                       |
+|        v                                                            |
+| OPC UA Services                                                     |
+|        |                                                            |
+| Address Space : Object -> Variable -> Method -> Event               |
+|        |                                                            |
+| OPC UA Server in PLC / Robot / Edge Gateway                         |
+|        |                                                            |
+| Transport : OPC TCP / HTTPS / PubSub over UDP or TSN               |
++----------------------------------------------------------------------+
 ```
 
 이 구조의 강점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 스스로 의미를 설명한다는 점이다. 예를 들어 값 `35.5`만 보내는 대신, 이 값이 "A라인 모터의 현재 온도, 단위는 섭씨, 상태 코드는 정상"이라는 문맥까지 함께 전달할 수 있다. 덕분에 상위 시스템은 벤더별 문서나 별도 엑셀 매핑에 덜 의존하고 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이나 분석 모델을 더 안정적으로 만들 수 있다.
@@ -145,18 +145,18 @@ OPC UA를 제대로 적용하면 벤더 종속성을 줄이고, 장비 [데이�
 
 ```text
 벤더별 전용 프로토콜
-    │
-    ▼
+    |
+    v
 OPC Classic
-    │
-    ▼
+    |
+    v
 OPC UA (Model + Security + Services)
-    │
-    ├─ Client/Server 통합
-    ├─ Pub/Sub 확장
-    └─ 정보 모델 표준화
-    │
-    ▼
+    |
+    +- Client/Server 통합
+    +- Pub/Sub 확장
+    +- 정보 모델 표준화
+    |
+    v
 OPC UA over TSN · Edge Integration · Digital Twin
 ```
 
@@ -174,7 +174,7 @@ OPC UA over TSN · Edge Integration · Digital Twin
 
 **진행 상황**: 169 / 552
 
-← **이전**: [168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)
-**다음**: [170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/170_private_5g_network/) →
+<- **이전**: [168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)
+**다음**: [170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/170_private_5g_network/) ->
 
 ---

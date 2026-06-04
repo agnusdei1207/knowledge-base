@@ -12,7 +12,7 @@ tags = ["studynote-dataengineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LoRA는 <strong>사전 학습된 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 행렬 W에 저랭크 분해 행렬(A·B)을 추가</strong>하여, 전체 파라미터의 <strong>0.1~1%만 학습</strong>하면서도 Full Fine-tuning과 유사한 성능을 달성하는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([Parameter-Efficient Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)) 기법이다.
 > 2. **가치**: 7B 모델 Full FT는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리 112GB+(FP16)</strong> 필요하지만, LoRA는 <strong>추가 파라미터만 학습</strong>하여 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(24GB)로도 가능하다. [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)(4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 더 적은 메모리로 가능하다.
-> 3. **판단 포인트**: 랭크 r(4~64)이 핵심 하이퍼파라미터이며, r이 클수록 표현력↑ 비용↑. 어텐션 레이어(Q·V)에 적용하는 것이 표준이다.
+> 3. **판단 포인트**: 랭크 r(4~64)이 핵심 하이퍼파라미터이며, r이 클수록 표현력^ 비용^. 어텐션 레이어(Q·V)에 적용하는 것이 표준이다.
 
 ---
 
@@ -23,7 +23,7 @@ LoRA: W' = W + ΔW = W + B·A
   W: 고정 (사전 학습 가중치)
   B: d×r, A: r×d (r << d, 예: r=16, d=4096)
   학습 파라미터: 2×r×d (vs 원래 d×d)
-  → 99%+ 파라미터 절감
+  -> 99%+ 파라미터 절감
 ```
 
 - **📢 섹션 요약 비유**: LoRA는 **교과서(W)에 포스트잇(ΔW)을 붙이는** 것이다. 교과서는 그대로 두고 포스트잇만 바꾸면 된다.
@@ -49,9 +49,9 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Full Fine-tuning (비용↑)] → [Adapter (2019)]
-    → [LoRA (Microsoft, 2021)] → [QLoRA (2023)]
-    → [DoRA (2024)] → [현재: LoRA+ — 학습률 분리]
+[Full Fine-tuning (비용^)] -> [Adapter (2019)]
+    -> [LoRA (Microsoft, 2021)] -> [QLoRA (2023)]
+    -> [DoRA (2024)] -> [현재: LoRA+ — 학습률 분리]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 **진행 상황**: 145 / 258
 
-← **이전**: [144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/144_fine_tuning_transfer_learning/)
-**다음**: [146. 양자화 & QLoRA - 모델 압축과 효율적 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/146_quantization_qlora_model_compression/) →
+<- **이전**: [144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/144_fine_tuning_transfer_learning/)
+**다음**: [146. 양자화 & QLoRA - 모델 압축과 효율적 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/146_quantization_qlora_model_compression/) ->
 
 ---

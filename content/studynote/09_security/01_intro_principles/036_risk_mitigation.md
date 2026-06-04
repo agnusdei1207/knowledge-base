@@ -191,7 +191,7 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 **진행 상황**: 36 / 1108
 
-← **이전**: [035. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/035_risk_transfer/)
-**다음**: [037. 위험 수용 (Risk Acceptance)](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) →
+<- **이전**: [035. 위험 전가 (Risk Transfer)](/knowledge-base/studynote/09_security/01_intro_principles/035_risk_transfer/)
+**다음**: [037. 위험 수용 (Risk Acceptance)](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) ->
 
 ---

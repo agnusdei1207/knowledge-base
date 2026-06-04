@@ -29,12 +29,12 @@ tags = ["cloud_architecture"]
 
 ```text
 [기존 물리적 인프라 환경의 병목]
-요청 → [발주/배송 (Weeks)] → [IDC 입고/마운트 (Days)] → [OS/네트워크 수동 설정 (Days)] → 투입
-              ▲ 물리적 시간 지연이 비즈니스 속도를 제약
+요청 -> [발주/배송 (Weeks)] -> [IDC 입고/마운트 (Days)] -> [OS/네트워크 수동 설정 (Days)] -> 투입
+              ^ 물리적 시간 지연이 비즈니스 속도를 제약
 
 [IaaS 환경의 소프트웨어 정의 인프라]
-요청 → [Cloud API/IaC 실행] → [하이퍼바이저 자원 논리 할당 (ms)] → [가상 인스턴스 부팅 (Sec)] → 투입
-              ▲ 모든 물리 장비가 추상화되어 API 엔드포인트로 통제됨
+요청 -> [Cloud API/IaC 실행] -> [하이퍼바이저 자원 논리 할당 (ms)] -> [가상 인스턴스 부팅 (Sec)] -> 투입
+              ^ 모든 물리 장비가 추상화되어 API 엔드포인트로 통제됨
 ```
 
 이 그림이 보여주듯, IaaS의 본질은 하드웨어의 제거가 아니라 '하드웨어 제어권의 API화'에 있다. 사용자는 복잡한 물리적 케이블링 대신 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 코드를 통해 몇 줄의 텍스트로 가상 네트워크([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))를 뚫고 수백 대의 서버를 동시에 띄울 수 있다. 따라서 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경에서는 시스템 장애 시 서버를 고쳐 쓰는(Mutable) 것이 아니라 파기하고 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))하는 새로운 운영 패러다임이 요구된다.
@@ -58,20 +58,20 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 ```text
 이 도식은 IaaS의 제어 평면(Control Plane)과 데이터 평면(Data Plane)이 분리되어, 사용자의 프로비저닝 명령이 어떻게 하이퍼바이저로 전달되는지를 보여준다.
 
-┌─────────────── [IaaS Control Plane / IaaS 제어 평면] ───────────────┐
-│ [사용자 API/CLI] ──> [API Server & Auth (IAM)]       │
-│                             │                        │
-│                     [Resource Scheduler / 스케줄러]  │
-└─────────────────────────────│────────────────────────┘
-                              ▼ (Hypercall / API)
-┌─────────────── [ IaaS Data Plane (물리 서버) ] ────────┐
-│  ┌───── VM 1 ─────┐  ┌───── VM 2 ─────┐              │
-│  │ Guest OS (Web) │  │ Guest OS (DB)  │              │
-│  └────────────────┘  └────────────────┘              │
-│  =========== Hypervisor (KVM / Nitro) ===========    │
-│  [ 가상 스위치(OVS) ]  ↔  [ 오버레이 네트워크 통로 ] │
-│  [ CPU / RAM 할당 ]  ↔  [ 물리 NIC / Disk I/O  ]     │
-└──────────────────────────────────────────────────────┘
++--------------- [IaaS Control Plane / IaaS 제어 평면] ---------------+
+| [사용자 API/CLI] --> [API Server & Auth (IAM)]       |
+|                             |                        |
+|                     [Resource Scheduler / 스케줄러]  |
++-----------------------------|------------------------+
+                              v (Hypercall / API)
++--------------- [ IaaS Data Plane (물리 서버) ] --------+
+|  +----- VM 1 -----+  +----- VM 2 -----+              |
+|  | Guest OS (Web) |  | Guest OS (DB)  |              |
+|  +----------------+  +----------------+              |
+|  =========== Hypervisor (KVM / Nitro) ===========    |
+|  [ 가상 스위치(OVS) ]  ↔  [ 오버레이 네트워크 통로 ] |
+|  [ CPU / RAM 할당 ]  ↔  [ 물리 NIC / Disk I/O  ]     |
++------------------------------------------------------+
 ```
 
 이 흐름의 핵심은 제어 평면의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 수만 대의 물리 노드 중 자원 여유가 있는 노드를 탐색하고, 해당 노드의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 지시한다는 점이다. 특히 최신 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 벤더(예: AWS Nitro System)는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 부하(네트워크, 스토리지 I/O 처리)를 메인 CPU가 아닌 별도의 하드웨어 카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC)로 오프로드(Offload)하여, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드를 제로에 가깝게 만들고 보안을 극대화한다. 실무에서는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 격리 수준([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 보안 그룹)을 철저히 설계해야만 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 환경의 해킹 위협([Hypervisor Escape](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/) 등)을 막을 수 있다.
@@ -95,14 +95,14 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 이 도식은 클라우드 서비스 모델에 따른 '사용자의 관리 영역(노란색)'과 '클라우드 제공자의 관리 영역(파란색)'의 경계를 명확히 보여준다.
 
 [On-Premise / 온프레미스]     [IaaS]           [PaaS]           [SaaS]
-┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
-│ Apps     │     │ Apps     │     │ Apps     │     │ Apps     │ (Data)
-│ Runtime  │     │ Runtime  │     │ Runtime  │     ├──────────┤
-│ OS / DB  │     │ OS / DB  │     ├──────────┤     │ OS / DB  │
-│ Virtual  │     ├──────────┤     │ Virtual  │     │ Virtual  │
-│ Server   │     │ Server   │     │ Server   │     │ Server   │
-│ Network  │     │ Network  │     │ Network  │     │ Network  │ (Provider)
-└──────────┘     └──────────┘     └──────────┘     └──────────┘
++----------+     +----------+     +----------+     +----------+
+| Apps     |     | Apps     |     | Apps     |     | Apps     | (Data)
+| Runtime  |     | Runtime  |     | Runtime  |     +----------+
+| OS / DB  |     | OS / DB  |     +----------+     | OS / DB  |
+| Virtual  |     +----------+     | Virtual  |     | Virtual  |
+| Server   |     | Server   |     | Server   |     | Server   |
+| Network  |     | Network  |     | Network  |     | Network  | (Provider)
++----------+     +----------+     +----------+     +----------+
 ```
 
 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 모델은 사용자가 OS 계층부터 위쪽으로 모든 권한(Root Access)을 갖는다. 이는 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝이나 상용 레거시 소프트웨어를 수정 없이 얹어 쓰기에는 최고지만, 반대로 말하면 OS 보안 패치, 미들웨어 업그레이드, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트를 사용자가 직접 구성해야 한다는 뜻이다. 반면 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 방식은 단건 지연은 다소 크지만 운영 복잡도를 벤더에게 전가할 수 있어, 신규 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱을 구축할 때 더 유리할 수 있다.
@@ -122,18 +122,18 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 이 구조도는 IaaS 도입 시 장애 전파를 막고 보안을 확보하기 위한 멀티-가용영역(AZ) 배치의 모범 사례를 보여준다.
 
 [Internet / 인터넷]
-   ↓
+   v
 [ Internet Gateway / WAF ]
-   ↓
-┌──[ VPC (Virtual Private Cloud) ]───────────────────────────┐
-│  ┌─[ 가용영역(AZ) A ]─┐           ┌─[ 가용영역(AZ) B ]─┐   │
-│  │ Public Subnet      │ ── LB ──> │ Public Subnet      │   │
-│  │  [Web VM / 웹 VM]  │           │  [Web VM / 웹 VM]  │   │
-│  ├────────────────────┤           ├────────────────────┤   │
-│  │ Private Subnet     │ ── Sync ─ │ Private Subnet     │   │
-│  │  [DB Master VM / DB 마스터 VM]    │           │  [DB Replica VM / DB 레플리카]   │   │
-│  └────────────────────┘           └────────────────────┘   │
-└────────────────────────────────────────────────────────────┘
+   v
++--[ VPC (Virtual Private Cloud) ]---------------------------+
+|  +-[ 가용영역(AZ) A ]-+           +-[ 가용영역(AZ) B ]-+   |
+|  | Public Subnet      | -- LB --> | Public Subnet      |   |
+|  |  [Web VM / 웹 VM]  |           |  [Web VM / 웹 VM]  |   |
+|  +--------------------+           +--------------------+   |
+|  | Private Subnet     | -- Sync - | Private Subnet     |   |
+|  |  [DB Master VM / DB 마스터 VM]    |           |  [DB Replica VM / DB 레플리카]   |   |
+|  +--------------------+           +--------------------+   |
++------------------------------------------------------------+
 ```
 
 이 흐름도의 핵심은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하기 위해 서로 다른 물리적 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(가용영역 A, B)에 인스턴스를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하고, DB를 프라이빗 서브넷에 숨겼다는 점이다. 실무에서는 이러한 구성을 수동 클릭으로 만들면 휴먼 에러가 필연적으로 발생하므로, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드로 작성하여 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거친 후 프로비저닝해야 한다.
@@ -167,17 +167,17 @@ IaaS의 도입은 기업 인프라 운영의 민첩성과 유연성을 극대화
 
 ```text
 [소프트웨어 정의 데이터센터 (SDDC)]
-    │
-    ▼
+    |
+    v
 [하이퍼바이저 (Hypervisor)]
-    │
-    ▼
+    |
+    v
 [불변 인프라 (Immutable Infrastructure)]
-    │
-    ▼
+    |
+    v
 [데브옵스 / IaC (테라폼)]
-    │
-    ▼
+    |
+    v
 [베어메탈 클라우드 (Bare Metal Cloud)]
 ```
 
@@ -194,8 +194,8 @@ IaaS의 도입은 기업 인프라 운영의 민첩성과 유연성을 극대화
 
 **진행 상황**: 1 / 371
 
-← **이전**: (첫 번째 글입니다)
+<- **이전**: (첫 번째 글입니다)
 
-**다음**: [3. PaaS (Platform as a Service) - OS, 런타임, 미들웨어, DB가 세팅된 개발/운영 플랫폼 제공 (AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/003_paas/) →
+**다음**: [3. PaaS (Platform as a Service) - OS, 런타임, 미들웨어, DB가 세팅된 개발/운영 플랫폼 제공 (AWS](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/003_paas/) ->
 
 ---

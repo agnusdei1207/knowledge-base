@@ -21,22 +21,22 @@ tags = ["studynote-enterprise-systems"]
 운영 CRM은 "어제 김 고객이 장바구니에 신발을 담았다"는 사실을 기록한다. 분석 CRM은 "김 고객처럼 30대 남성이 장바구니에 담고 3일 내 결제 안 하면 이탈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 72%"라는 <strong>패턴(통찰)</strong>을 추출한다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│      운영 CRM → 분석 CRM 선순환 루프                   │
-├───────────────────────────────────────────────────────┤
-│  운영 CRM (손발)                                      │
-│   [행동 데이터 수집]  ─────▶  DW/Data Lake            │
-│   주문·클릭·상담 기록                │                 │
-│                                      ▼                 │
-│                              분석 CRM (두뇌)           │
-│                              [AI 마이닝]               │
-│                              세분화·이탈예측·추천      │
-│                                      │                 │
-│   [캠페인/영업 자동화]  ◀─────  인사이트 피드백        │
-│   "이 고객에게 15% 쿠폰"            │                 │
-│   운영 CRM에 자동 적용               ▼                 │
-│                              성과 측정 → 모델 개선     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|      운영 CRM -> 분석 CRM 선순환 루프                   |
++-------------------------------------------------------+
+|  운영 CRM (손발)                                      |
+|   [행동 데이터 수집]  ------>  DW/Data Lake            |
+|   주문·클릭·상담 기록                |                 |
+|                                      v                 |
+|                              분석 CRM (두뇌)           |
+|                              [AI 마이닝]               |
+|                              세분화·이탈예측·추천      |
+|                                      |                 |
+|   [캠페인/영업 자동화]  <------  인사이트 피드백        |
+|   "이 고객에게 15% 쿠폰"            |                 |
+|   운영 CRM에 자동 적용               v                 |
+|                              성과 측정 -> 모델 개선     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 운영 CRM이 범죄 현장(고객 접점)에서 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 수집하는 형사라면, 분석 CRM은 증거를 분석하여 "다음 범행(이탈) 장소를 예측"하는 프로파일러([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))다.
@@ -80,11 +80,11 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 효과 시나리오
-- **이탈 예측**: 모바일 통신사가 XGBoost로 다음 달 해지 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70%+ 고객 5,000명 추출 → 타겟 쿠폰 발송 → 이탈률 30% 감소.
-- **교차 판매**: 이커머스에서 "이 상품을 산 사람은 이것도 샀습니다" → 객단가 15% 상승.
+- **이탈 예측**: 모바일 통신사가 XGBoost로 다음 달 해지 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70%+ 고객 5,000명 추출 -> 타겟 쿠폰 발송 -> 이탈률 30% 감소.
+- **교차 판매**: 이커머스에서 "이 상품을 산 사람은 이것도 샀습니다" -> 객단가 15% 상승.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **분석 결과를 보고서로만 공유**: PPT에 "VIP 세그먼트" 적어두고 운영 CRM에 반영 안 함 → 인사이트 사장.
+- **분석 결과를 보고서로만 공유**: PPT에 "VIP 세그먼트" 적어두고 운영 CRM에 반영 안 함 -> 인사이트 사장.
 
 ---
 
@@ -114,14 +114,14 @@ tags = ["studynote-enterprise-systems"]
 
 ```text
 [엑셀 기반 고객 분석 (1990s) — 수동 RFM 분류]
-    │
-    ▼
+    |
+    v
 [데이터 웨어하우스 + OLAP (2000s) — 다차원 큐브 분석]
-    │
-    ▼
+    |
+    v
 [ML 기반 예측 (2010s) — XGBoost 이탈 예측, 추천 엔진]
-    │
-    ▼
+    |
+    v
 [현재: GenAI + CRM — 자연어 질의 분석, AI 에이전트 자동 캠페인]
 ```
 
@@ -136,7 +136,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 111 / 482
 
-← **이전**: [110. 운영 CRM (Operational CRM) - SFA·MA·CSS 프론트 오피스 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/110_operational_crm_sfa_ma_css/)
-**다음**: [112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/112_collaborative_crm_omnichannel/) →
+<- **이전**: [110. 운영 CRM (Operational CRM) - SFA·MA·CSS 프론트 오피스 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/110_operational_crm_sfa_ma_css/)
+**다음**: [112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/112_collaborative_crm_omnichannel/) ->
 
 ---

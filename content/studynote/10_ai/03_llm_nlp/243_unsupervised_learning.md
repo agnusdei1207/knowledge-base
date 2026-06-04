@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이 발상의 전환에서 태어난 것이 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">Unsupervised Learning</a>)</strong>이다. 지도(Supervision, 인간 선생님의 가이드)를 완전히 끊어버리고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속에 흐르는 수학적 거리(Distance)와 밀도(Density)만으로 1억 명의 고객을 "돈 많이 쓰는 30대 그룹", "가전제품만 보는 50대 그룹"으로 0.1초 만에 묶어버린 것이다. 이 야생의 훈련법 덕분에 기업들은 정답지가 없는 빅데이터의 바다에서도 완벽한 통찰력을 건져 올리며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 마케팅의 신세계를 열어젖혔다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 '정답이 있는 퍼즐 맞추기'다. 완성된 그림(정답)을 힐끔힐끔 보면서 퍼즐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 맞추니 100점 맞기가 쉽다. [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)은 '모래사장에서 외계인 유물 조립하기'다. 완성된 그림(정답지) 따윈 아예 없다. 그냥 조각들 수백만 개를 모아놓고, "이 조각은 저 조각이랑 홈이 대충 비슷하게 생겼네?" 하고 기계 스스로 끼리끼리 뭉쳐보는 거다. 다 뭉치고 났더니 인간도 상상 못한 멋진 성벽(숨겨진 패턴)이 완성되는 신비로운 야생 조입법이다.
@@ -44,28 +44,28 @@ tags = ["studynote-ai"]
 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)의 아키텍처는 정답(Target $Y$) 없이 오직 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)($X$)만으로 지지고 볶아 새로운 3가지 출력물(Insight)을 뽑아내는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 가진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           비지도 학습 (Unsupervised Learning) 3대 알고리즘 뼈대 도해      │
-├──────────────────────────────────────────────────────────────┤
-│  [입력]: 정답지(Label)가 아예 없는 100만 명의 백화점 영수증 데이터($X$만 존재)│
-│                                                              │
-│  [1. 군집화 (Clustering) - "유유상종 끼리끼리 묶어라!"]                │
-│   * 방식: K-Means 알고리즘 발동! 고객 데이터를 수학적 3차원 공간에 점으로 쫙 뿌림.│
-│   * 계산: 점들 사이의 거리(유클리드 거리)를 재서 제일 가까운 놈들끼리 올가미로 묶음.│
-│   ─▶ 출력 결과: "사장님! 고객을 [A: 명품 사는 VIP], [B: 지하 푸드코트만 가는│
-│                 구두쇠], [C: 화장품 사는 20대] 3개의 그룹으로 찢었습니다!" │
-│                                                              │
-│  [2. 연관 규칙 탐색 (Association Rules) - "장바구니 훔쳐보기"]         │
-│   * 방식: Apriori 알고리즘. 영수증 100만 장에 어떤 물건들이 같이 찍혔나 통계 냄.│
-│   ─▶ 출력 결과: "신박한 팩트 발견! [기저귀]를 산 남자는 80% 확률로 [맥주]도   │
-│                 같이 삽니다! 기저귀 옆에 맥주 매대를 당장 배치하시죠!"        │
-│                                                              │
-│  [3. 차원 축소 (Dimensionality Reduction) - "핵심만 남기고 찌그러뜨려!"]│
-│   * 방식: PCA 알고리즘. 데이터 칼럼(나이, 키, 몸무게, 시력...)이 1,000개나 돼서│
-│          컴퓨터가 터지려 함.                                      │
-│   ─▶ 출력 결과: 1,000개의 쓸모없는 변수들을 수학적으로 쥐어짜서, 정보 손실을 최소로│
-│                 유지한 채 가장 엑기스인 딱 '10개의 슈퍼 칼럼'으로 압축 완료!  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           비지도 학습 (Unsupervised Learning) 3대 알고리즘 뼈대 도해      |
++--------------------------------------------------------------+
+|  [입력]: 정답지(Label)가 아예 없는 100만 명의 백화점 영수증 데이터($X$만 존재)|
+|                                                              |
+|  [1. 군집화 (Clustering) - "유유상종 끼리끼리 묶어라!"]                |
+|   * 방식: K-Means 알고리즘 발동! 고객 데이터를 수학적 3차원 공간에 점으로 쫙 뿌림.|
+|   * 계산: 점들 사이의 거리(유클리드 거리)를 재서 제일 가까운 놈들끼리 올가미로 묶음.|
+|   --> 출력 결과: "사장님! 고객을 [A: 명품 사는 VIP], [B: 지하 푸드코트만 가는|
+|                 구두쇠], [C: 화장품 사는 20대] 3개의 그룹으로 찢었습니다!" |
+|                                                              |
+|  [2. 연관 규칙 탐색 (Association Rules) - "장바구니 훔쳐보기"]         |
+|   * 방식: Apriori 알고리즘. 영수증 100만 장에 어떤 물건들이 같이 찍혔나 통계 냄.|
+|   --> 출력 결과: "신박한 팩트 발견! [기저귀]를 산 남자는 80% 확률로 [맥주]도   |
+|                 같이 삽니다! 기저귀 옆에 맥주 매대를 당장 배치하시죠!"        |
+|                                                              |
+|  [3. 차원 축소 (Dimensionality Reduction) - "핵심만 남기고 찌그러뜨려!"]|
+|   * 방식: PCA 알고리즘. 데이터 칼럼(나이, 키, 몸무게, 시력...)이 1,000개나 돼서|
+|          컴퓨터가 터지려 함.                                      |
+|   --> 출력 결과: 1,000개의 쓸모없는 변수들을 수학적으로 쥐어짜서, 정보 손실을 최소로|
+|                 유지한 채 가장 엑기스인 딱 '10개의 슈퍼 칼럼'으로 압축 완료!  |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (K-Means 거리 기반 분할)**:
@@ -137,7 +137,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [비지도 학습 (군집화, 연관성, 차원 축소)] → [최적화·운영 자동화]
+[데이터 전처리] -> [비지도 학습 (군집화, 연관성, 차원 축소)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -152,7 +152,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 243 / 420
 
-← **이전**: [242. 지도 학습 (Supervised Learning) : 분류와 회귀](/knowledge-base/studynote/10_ai/03_llm_nlp/242_supervised_learning/)
-**다음**: [244. 강화 학습 (Reinforcement Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/244_reinforcement_learning_mdp/) →
+<- **이전**: [242. 지도 학습 (Supervised Learning) : 분류와 회귀](/knowledge-base/studynote/10_ai/03_llm_nlp/242_supervised_learning/)
+**다음**: [244. 강화 학습 (Reinforcement Learning)](/knowledge-base/studynote/10_ai/03_llm_nlp/244_reinforcement_learning_mdp/) ->
 
 ---

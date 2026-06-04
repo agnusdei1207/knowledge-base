@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [홀드다운 타이머, 트리거드 업데이트]
-    │
-    ▼
+    |
+    v
 [RIP]
-    │
-    └──▶ [RIPv1 vs RIPv2]
+    |
+    +---> [RIPv1 vs RIPv2]
 ```
 
 - **📢 섹션 요약 비유**: ** RIP 알고리즘은 지하철의 **"노선도 역 개수 세기"<strong>입니다. 목적지까지 쾌적한 KTX를 타고 5정거장을 가는 길과, 콩나물시루 같은 1호선 완행열차를 타고 3정거장을 가는 길이 있을 때, RIP는 무조건 역 개수가 적은 </strong>지옥철(3정거장)을 1등 경로로 채택하는 단순무식한 길 찾기 앱**입니다.
@@ -54,22 +54,22 @@ RIP의 최대 홉(Hop) 허용치는 15다. (16은 죽음, Unreachable을 의미�
 OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통신하는 것과 달리, RIP는 대충 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 520번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>에 엽서를 싣고 허공에 냅다 던진다. "가다가 엽서가 분실되면 어떡하죠?" "어차피 30초 뒤에 똑같은 엽서 또 던질 건데 뭐 어때!"라는 극강의 무책임한 방식을 쓴다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP의 비효율적인 최적 경로 선택 시나리오             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ] ──── (10Mbps 구형 모뎀 선) ────▶ [ Z망 ]      │
- │        │                                             ▲      │
- │        └── (10Gbps 광랜) ──▶ [라우터 B] ── (10Gbps) ──┘      │
- │                                                             │
- │   * RIP의 뇌구조 판단:                                         │
- │   - 직통으로 가는 윗길: 라우터 0개 거침 (Hop Count = 1)         │
- │   - B를 거쳐 가는 아랫길: 라우터 1개 거침 (Hop Count = 2)        │
- │                                                             │
- │   ▶ 결과: "1이 2보다 작으니까 직통이 무조건 짱이야!!"                │
- │           10Gbps 광랜을 놔두고, 수만 명의 트래픽을 10Mbps 썩은 선에  │
- │           때려 박아 인터넷을 마비시켜 버린다.                     │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                RIP의 비효율적인 최적 경로 선택 시나리오             |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 라우터 ] ---- (10Mbps 구형 모뎀 선) -----> [ Z망 ]      |
+ |        |                                             ^      |
+ |        +-- (10Gbps 광랜) ---> [라우터 B] -- (10Gbps) --+      |
+ |                                                             |
+ |   * RIP의 뇌구조 판단:                                         |
+ |   - 직통으로 가는 윗길: 라우터 0개 거침 (Hop Count = 1)         |
+ |   - B를 거쳐 가는 아랫길: 라우터 1개 거침 (Hop Count = 2)        |
+ |                                                             |
+ |   -> 결과: "1이 2보다 작으니까 직통이 무조건 짱이야!!"                |
+ |           10Gbps 광랜을 놔두고, 수만 명의 트래픽을 10Mbps 썩은 선에  |
+ |           때려 박아 인터넷을 마비시켜 버린다.                     |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** RIP는 기억력이 30초밖에 안 되는 금붕어와 같아서, 동네 지도(테이블)를 한 번 외우고 끝내는 게 아니라 **30초마다 이웃에게 "우리 동네 지도 이거 맞지?"라고 똑같은 소리를 끊임없이 앵무새처럼 반복**하는, 낡고 시끄러운 옛날식 확성기입니다.
@@ -130,12 +130,12 @@ RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ```text
 [선행 개념: 홀드다운 타이머, 트리거드 업데이트]
-    │
-    ▼
+    |
+    v
 [현재 개념: RIP]
-    │
-    ├──▶ [확장 A: RIPv1 vs RIPv2]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: RIPv1 vs RIPv2]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 RIP는 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트에서 출발해 현재 메커니즘을 정교화하고, 이후 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ RIP는 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_
 
 **진행 상황**: 472 / 1120
 
-← **이전**: [350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/)
-**다음**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) →
+<- **이전**: [350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/)
+**다음**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) ->
 
 ---

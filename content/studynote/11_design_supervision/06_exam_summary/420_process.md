@@ -31,13 +31,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)·직교배열 기반 축소는 무작정 케이스를 줄이는 작업이 아니다. 먼저 테스트 대상을 **요인(Factor)** 과 **수준(Level)** 으로 분해하고, 그다음 상호작용을 커버하는 최소 세트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤, 마지막으로 업무상 금지 조합과 고위험 예외를 보정한다. 즉 “모델링 → 조합 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 위험 보완”의 3단계가 핵심이다.
+[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)·직교배열 기반 축소는 무작정 케이스를 줄이는 작업이 아니다. 먼저 테스트 대상을 **요인(Factor)** 과 **수준(Level)** 으로 분해하고, 그다음 상호작용을 커버하는 최소 세트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤, 마지막으로 업무상 금지 조합과 고위험 예외를 보정한다. 즉 “모델링 -> 조합 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 위험 보완”의 3단계가 핵심이다.
 
 ```text
-┌─────────────────┐    ┌──────────────────┐    ┌────────────────────┐
-│ 요인·수준 식별   │──▶│ Pairwise / OA 생성 │──▶│ 제약 반영·보정 케이스 │
-│ Browser, Role… │    │ 2-way 균형 커버    │    │ 금지 조합·고위험 추가 │
-└─────────────────┘    └──────────────────┘    └────────────────────┘
++-----------------+    +------------------+    +--------------------+
+| 요인·수준 식별   |--->| Pairwise / OA 생성 |--->| 제약 반영·보정 케이스 |
+| Browser, Role… |    | 2-way 균형 커버    |    | 금지 조합·고위험 추가 |
++-----------------+    +------------------+    +--------------------+
 ```
 
 | 핵심 요소 | 설명 | 기술사 포인트 |
@@ -120,17 +120,17 @@ tags = ["studynote-design-supervision"]
 
 ```text
 동등 분할 · 경계값 분석
-        │
-        ▼
+        |
+        v
 입력 요인·수준 모델링
-        │
-        ▼
+        |
+        v
 페어와이즈 (2-way) 조합 축소
-        │
-        ▼
+        |
+        v
 직교 배열 (OA) 기반 균형 설계
-        │
-        ▼
+        |
+        v
 제약 처리 · 고위험 조합 보강 · t-way 확장
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 498 / 530
 
-← **이전**: [419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/419_mc_dc/)
-**다음**: [421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/421_process/) →
+<- **이전**: [419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/419_mc_dc/)
+**다음**: [421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/421_process/) ->
 
 ---

@@ -43,18 +43,18 @@ CAA 레코드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_n
 아래 그림은 CAA가 인증서 발급 파이프라인 어디에 개입하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  CAA check in certificate issuance                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant ─▶ CA request                                              │
-│                │                                                     │
-│                ▼                                                     │
-│         CA queries DNS CAA record                                    │
-│                │                                                     │
-│       Allowed? ── Yes ─▶ Validate domain ─▶ Issue certificate        │
-│                │                                                     │
-│                └─ No ─▶ Reject / alert via iodef                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  CAA check in certificate issuance                   |
++----------------------------------------------------------------------+
+| Applicant --> CA request                                              |
+|                |                                                     |
+|                v                                                     |
+|         CA queries DNS CAA record                                    |
+|                |                                                     |
+|       Allowed? -- Yes --> Validate domain --> Issue certificate        |
+|                |                                                     |
+|                +- No --> Reject / alert via iodef                     |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 `example.com. IN CAA 0 issue "digicert.com"`은 DigiCert 계열만 일반 인증서를 발급할 수 있다는 뜻이다. `issuewild`를 비워 두거나 특정 CA만 지정하면 [와일드카드 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) 발급 범위를 더 엄격히 제한할 수 있다. 또한 `iodef`를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 위반 시도나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 오류를 보안팀이 더 빨리 감지할 수 있다.
@@ -138,18 +138,18 @@ CAA의 가장 큰 장점은 비용 대비 효과가 크다는 점이다. [DNS](/
 
 ```text
 다수 CA를 신뢰하는 웹 PKI
-    │
-    ▼
+    |
+    v
 오발급 · 약한 고리 문제 부각
-    │
-    ▼
+    |
+    v
 CAA (Certification Authority Authorization)
-    │
-    ├─ issue / issuewild 정책
-    ├─ iodef 통지
-    └─ 발급 전 DNS 조회
-    │
-    ▼
+    |
+    +- issue / issuewild 정책
+    +- iodef 통지
+    +- 발급 전 DNS 조회
+    |
+    v
 DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스
 ```
 
@@ -167,7 +167,7 @@ DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스
 
 **진행 상황**: 221 / 1108
 
-← **이전**: [167. SCT (Signed Certificate Timestamp) — CT 증명](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/)
-**다음**: [169. PKCS#10 — 인증서 서명 요청 (CSR) 형식](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) →
+<- **이전**: [167. SCT (Signed Certificate Timestamp) — CT 증명](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/)
+**다음**: [169. PKCS#10 — 인증서 서명 요청 (CSR) 형식](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) ->
 
 ---

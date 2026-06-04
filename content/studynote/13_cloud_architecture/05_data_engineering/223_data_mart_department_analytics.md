@@ -26,21 +26,21 @@ tags = ["studynote-cloud-architecture"]
 [데이터 마트 위치]
                  운영 시스템
                  (ERP/CRM/SCM)
-                      │ ETL
-                      ▼
-           ┌────────────────────┐
-           │   Enterprise DW    │  ← 전사 통합 데이터
-           │   (전사 팩트/차원)   │
-           └──────────┬─────────┘
-                      │ 요약/가공
-          ┌───────────┼───────────┐
-          ▼           ▼           ▼
-   ┌────────────┐ ┌──────────┐ ┌──────────────┐
-   │ 영업 마트   │ │ 재무 마트  │ │ 마케팅 마트   │
-   │ (매출/지역) │ │(비용/손익) │ │(캠페인 효과)  │
-   └──────┬─────┘ └────┬─────┘ └──────┬───────┘
-          │             │              │
-          ▼             ▼              ▼
+                      | ETL
+                      v
+           +--------------------+
+           |   Enterprise DW    |  <- 전사 통합 데이터
+           |   (전사 팩트/차원)   |
+           +----------+---------+
+                      | 요약/가공
+          +-----------+-----------+
+          v           v           v
+   +------------+ +----------+ +--------------+
+   | 영업 마트   | | 재무 마트  | | 마케팅 마트   |
+   | (매출/지역) | |(비용/손익) | |(캠페인 효과)  |
+   +------+-----+ +----+-----+ +------+-------+
+          |             |              |
+          v             v              v
       Tableau         Excel         Power BI
 ```
 
@@ -54,16 +54,16 @@ tags = ["studynote-cloud-architecture"]
 
 ```
 [종속형 (Dependent) - Inmon 방식]
-운영 DB → ETL → 중앙 DW → 요약/추출 → 데이터 마트
-                    │
+운영 DB -> ETL -> 중앙 DW -> 요약/추출 -> 데이터 마트
+                    |
               Single Source of Truth
               데이터 일관성 보장
 
 [독립형 (Independent) - Bottom-up 방식]
-운영 DB → ETL → 영업 마트 (독자적 ETL)
-운영 DB → ETL → 재무 마트 (독자적 ETL)
-운영 DB → ETL → 마케팅 마트 (독자적 ETL)
-              ↓
+운영 DB -> ETL -> 영업 마트 (독자적 ETL)
+운영 DB -> ETL -> 재무 마트 (독자적 ETL)
+운영 DB -> ETL -> 마케팅 마트 (독자적 ETL)
+              v
          각 마트가 자체 ETL로 소스에서 직접 수집
          구축 속도 빠름, 일관성 위험
 ```
@@ -73,11 +73,11 @@ tags = ["studynote-cloud-architecture"]
 ```
 [Star Schema]                    [Snowflake Schema]
        날짜                           날짜
-        │                              │
-상품 ── 팩트 ── 고객            상품 ── 팩트 ── 고객 ── 지역
-        │                              │              │
+        |                              |
+상품 -- 팩트 -- 고객            상품 -- 팩트 -- 고객 -- 지역
+        |                              |              |
        지역                            카테고리      도시
-                                       │
+                                       |
                                       브랜드
 단순한 JOIN (1 단계)          복잡한 JOIN (다단계)
 빠른 쿼리 속도                저장 공간 절약
@@ -136,7 +136,7 @@ BI 분석에 적합                복잡 집계에 적합
    - Star 또는 Snowflake 선택
 
 3. ETL 파이프라인 구현
-   - DW → 마트 증분 적재
+   - DW -> 마트 증분 적재
    - 데이터 품질 검증 포함
 
 4. 집계 테이블/구체화 뷰 생성
@@ -184,7 +184,7 @@ BI 분석에 적합                복잡 집계에 적합
 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)의 소스, 종속형 마트의 상위 저장소 |
 | [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 물리 설계 표준 패턴 |
 | [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)가 지원하는 다차원 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 |
-| [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) → 마트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 핵심 메커니즘 |
+| [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> 마트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 핵심 메커니즘 |
 | BI 도구 ([Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)/[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)를 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로 연결 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) | 독립형 마트 남발 시 발생하는 부작용 |
 | 구체화 뷰 | 마트 내 반복 집계 사전 계산 최적화 기법 |
@@ -196,13 +196,13 @@ BI 분석에 적합                복잡 집계에 적합
 
 ```text
 전사 DW (모든 데이터 통합)
-    │
-    ▼
+    |
+    v
 Data Mart: 부서/주제별 서브셋 (마케팅 · 재무 · 영업)
-    ├─► Dependent: DW에서 추출
-    └─► Independent: 소스에서 직접 구축
-    │
-    ▼
+    +-► Dependent: DW에서 추출
+    +-► Independent: 소스에서 직접 구축
+    |
+    v
 셀프서비스 BI: Looker · Tableau · Metabase
 ```
 2. 영업팀 마트는 영업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만, 재무팀 마트는 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 있어서, 각 팀은 자기 팀에 필요한 정보를 빠르게 꺼내볼 수 있다.
@@ -214,7 +214,7 @@ Data Mart: 부서/주제별 서브셋 (마케팅 · 재무 · 영업)
 
 **진행 상황**: 222 / 371
 
-← **이전**: [222. 스키마 온 라이트 (Schema-on-Write)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/222_schema_on_write_etl_warehouse/)
-**다음**: [224. 데이터 레이크하우스 (Data Lakehouse)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/224_data_lakehouse_delta_lake_databricks/) →
+<- **이전**: [222. 스키마 온 라이트 (Schema-on-Write)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/222_schema_on_write_etl_warehouse/)
+**다음**: [224. 데이터 레이크하우스 (Data Lakehouse)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/224_data_lakehouse_delta_lake_databricks/) ->
 
 ---

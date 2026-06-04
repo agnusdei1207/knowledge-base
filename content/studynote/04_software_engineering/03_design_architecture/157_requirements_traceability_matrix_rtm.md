@@ -44,15 +44,15 @@ RTM의 핵심 원리는 모든 요구사항에 고유한 [식별자](/knowledge-
 아래 그림은 RTM이 왜 누락과 과잉 구현을 동시에 잡아낼 수 있는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    RTM links intent to delivery evidence                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ REQ-001 ─▶ SRS-2.3 ─▶ Design-D07 ─▶ PR-142 ─▶ TC-019 Pass                │
-│ REQ-002 ─▶ SRS-2.4 ─▶ Design-D09 ─▶ PR-155 ─▶ TC-021 Pass                │
-│ REQ-003 ─▶ SRS-2.7 ─▶    GAP     ─▶   GAP   ─▶    GAP                    │
-│    ▲                                                                      │
-│    └──── backward trace checks whether code/test exists without REQ ID    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    RTM links intent to delivery evidence                  |
++----------------------------------------------------------------------------+
+| REQ-001 --> SRS-2.3 --> Design-D07 --> PR-142 --> TC-019 Pass                |
+| REQ-002 --> SRS-2.4 --> Design-D09 --> PR-155 --> TC-021 Pass                |
+| REQ-003 --> SRS-2.7 -->    GAP     -->   GAP   -->    GAP                    |
+|    ^                                                                      |
+|    +---- backward trace checks whether code/test exists without REQ ID    |
++----------------------------------------------------------------------------+
 ```
 
 정방향으로 보면 어떤 요구가 어디까지 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있고, 역방향으로 보면 근거 없는 코드나 테스트를 찾을 수 있다. 그래서 RTM은 표 하나로 끝나는 문서가 아니라, [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)·[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)·테스트 관리의 접점을 묶는 구조라고 봐야 한다.
@@ -123,17 +123,17 @@ RTM을 제대로 운영하면 요구사항 누락 방지, 변경 영향 분석, 
 
 ```text
 요구사항 도출
-    │
-    ▼
+    |
+    v
 SRS (Software Requirements Specification) · Requirement ID 부여
-    │
-    ▼
+    |
+    v
 RTM (Requirements Traceability Matrix)
-    │
-    ▼
+    |
+    v
 설계 · 코드 · 테스트 링크 연결
-    │
-    ▼
+    |
+    v
 변경 영향 분석 · 품질 보증 · 감사 대응 자동화
 ```
 
@@ -151,7 +151,7 @@ RTM (Requirements Traceability Matrix)
 
 **진행 상황**: 157 / 973
 
-← **이전**: [156. 요구사항 추적성 (Traceability) - 수직적/수평적 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)
-**다음**: [158. 요구사항 관리 (Management) - 변경 통제, 버전 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) →
+<- **이전**: [156. 요구사항 추적성 (Traceability) - 수직적/수평적 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)
+**다음**: [158. 요구사항 관리 (Management) - 변경 통제, 버전 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) ->
 
 ---

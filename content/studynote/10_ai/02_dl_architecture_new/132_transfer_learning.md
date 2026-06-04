@@ -19,8 +19,8 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-사전 학습 (ImageNet 100만장) → 범용 표현 학습
-  → Fine-tuning (의료 X-ray 1000장) → 전문 모델
+사전 학습 (ImageNet 100만장) -> 범용 표현 학습
+  -> Fine-tuning (의료 X-ray 1000장) -> 전문 모델
   소량 데이터로도 높은 성능!
 ```
 
@@ -57,10 +57,10 @@ Transfer Learning은 <strong>현대 AI의 기본 패러다임</strong>이며, [L
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[ImageNet Pre-training (2012)] → [ULMFiT (NLP 전이, 2018)]
-    → [BERT/GPT Fine-tuning (2018~)]
-    → [LoRA (2021) — 효율적 미세 조정]
-    → [현재: QLoRA + Prompt Tuning — 초효율 전이]
+[ImageNet Pre-training (2012)] -> [ULMFiT (NLP 전이, 2018)]
+    -> [BERT/GPT Fine-tuning (2018~)]
+    -> [LoRA (2021) — 효율적 미세 조정]
+    -> [현재: QLoRA + Prompt Tuning — 초효율 전이]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ Transfer Learning은 <strong>현대 AI의 기본 패러다임</strong>이며, [L
 
 **진행 상황**: 132 / 420
 
-← **이전**: [131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/131_self_supervised_learning/)
-**다음**: [133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) →
+<- **이전**: [131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/131_self_supervised_learning/)
+**다음**: [133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) ->
 
 ---

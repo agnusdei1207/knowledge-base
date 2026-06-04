@@ -29,26 +29,26 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 **💡 비유**: 뷔페([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블)에 진입한 사람(2PL [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)). [1단계 확장기]: 새우 초밥 접시(자원 락) 집고, 연어 초밥 접시 집어 손에 가득 쌓는다. [2단계 수축기]: 다 처먹고 나서 빈 접시 하나라도 테이블 위에 팅~ 내려놓는(Unlock) 그 순간부터? 영원히 그 뷔페의 어떤 새 초밥도 다시는 집지 못한다([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 금지 룰)며 식당 밖으로 퇴장해야만 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         2PL (Two-Phase Locking)의 락 획득 곡선과 비극          │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  Lock 획득 개수                                                │
-│       ▲                                                        │
-│  4개 ─┤      [정점 도달]  ◀ 락 포인트 (Lock Point)             │
-│  3개 ─┤       /  \    ◀ 여기서 락 1개 푸는 순간 돌이킬 수 없음 │
-│  2개 ─┤      /    \                                            │
-│  1개 ─┤     /      \                                           │
-│  0개 ─┼────/──────────\───────▶ 시간 흐름                      │
-│         [Phase 1] | [Phase 2]                                  │
-│       (확장:잡기만) | (수축:풀기만)                            │
-│                                                                │
-│  [2PL 룰의 위대한 성패 (왜 데드락 공장인가?)]                  │
-│  ▶ 결과 1. 2PL을 지키면 스케줄 트랜잭션 오염을 원천 차단함!    │
-│  ▶ 결과 2. 하지만 Phase 1에서 락을 4개 다 모을 때까지 한 번도  │
-│     양보(Unlock) 안 하고 버티다 보니, 딴 놈이랑 부딪히면 얄짤  │
-│     없이 서로 자원만 쥐고 침묵하는 "데드락"이 1000% 폭주함.    │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         2PL (Two-Phase Locking)의 락 획득 곡선과 비극          |
++----------------------------------------------------------------+
+|                                                                |
+|  Lock 획득 개수                                                |
+|       ^                                                        |
+|  4개 -+      [정점 도달]  <- 락 포인트 (Lock Point)             |
+|  3개 -+       /  \    <- 여기서 락 1개 푸는 순간 돌이킬 수 없음 |
+|  2개 -+      /    \                                            |
+|  1개 -+     /      \                                           |
+|  0개 -+----/----------\--------> 시간 흐름                      |
+|         [Phase 1] | [Phase 2]                                  |
+|       (확장:잡기만) | (수축:풀기만)                            |
+|                                                                |
+|  [2PL 룰의 위대한 성패 (왜 데드락 공장인가?)]                  |
+|  -> 결과 1. 2PL을 지키면 스케줄 트랜잭션 오염을 원천 차단함!    |
+|  -> 결과 2. 하지만 Phase 1에서 락을 4개 다 모을 때까지 한 번도  |
+|     양보(Unlock) 안 하고 버티다 보니, 딴 놈이랑 부딪히면 얄짤  |
+|     없이 서로 자원만 쥐고 침묵하는 "데드락"이 1000% 폭주함.    |
++----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 꼬이게 할 심산으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 자원을 미련하게 품 안에 잔뜩 껴안기만 하다가 나중에야 한 번에 뿜어버리는 극단적 이기주의 룰 때문에, "양손 무거운 두 사람이 외나무다리에서 마주치면 영원히 오가도 못하고 꽉 막히는 교착([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))" 병목 현상을 필연적으로 잉태합니다.
@@ -90,7 +90,7 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - <strong>Application 단에서 임의로 락 풀기 (Release <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 중간 삽입 꼼수)</strong>: "야 DB 데드락 빡치네? [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (2PL 기반) 안에서 우리가 임의로 저기 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 사이사이에 Unlock 명령어로 락 푸는 꼼수 코드 짜넣어라 데드락 예방하게!"
-   ▶ 이건 비즈니스 자살 행위다. 데드락은 운 좋게 줄어들겠지만, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중간에 락 풀린 그 찰나의 1밀리초 사이 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 녀석이 그 Row를 덮어써 버려서 `초과 인출(Lost Update) 은행 폭파 사고 버그`가 발생하여 회사 파산 및 법적 구속을 맞는다.
+   -> 이건 비즈니스 자살 행위다. 데드락은 운 좋게 줄어들겠지만, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중간에 락 풀린 그 찰나의 1밀리초 사이 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 녀석이 그 Row를 덮어써 버려서 `초과 인출(Lost Update) 은행 폭파 사고 버그`가 발생하여 회사 파산 및 법적 구속을 맞는다.
 
 **📢 섹션 요약 비유**: 실무자들의 피로 쓴 절대 원칙: "데드락 에러 팝업창이 수백 개 터지는 한이 있더라도 2PL의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 규칙(함부로 중간에 락을 풀지 않는다)은 목숨을 바쳐 사수한다." 데드락이 나면 로직 단에서 우아하게 캐치해서 재시도(Retry)하면 그만이지만, 2PL 규칙을 임의로 어기면 그 즉시 통장 잔액 천만 원이 남의 계좌로 증발하는 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재앙이기 때문입니다.
 
@@ -122,12 +122,12 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ```text
 [교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용]
-    │
-    ▼
+    |
+    v
 [2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)]
-    │
-    ├──▶ [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-    └──▶ [논리 주소 (Logical/Virtual Address)]
+    |
+    +---> [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
+    +---> [논리 주소 (Logical/Virtual Address)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -144,7 +144,7 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 **진행 상황**: 320 / 800
 
-← **이전**: [319. 교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)
-**다음**: [321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근](/knowledge-base/studynote/02_operating_system/06_memory_management/321_memory_hierarchy/) →
+<- **이전**: [319. 교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)
+**다음**: [321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근](/knowledge-base/studynote/02_operating_system/06_memory_management/321_memory_hierarchy/) ->
 
 ---

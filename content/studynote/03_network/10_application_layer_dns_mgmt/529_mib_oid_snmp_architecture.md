@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SNMP]
-    │
-    ▼
+    |
+    v
 [MIB / OID]
-    │
-    └──▶ [SMI]
+    |
+    +---> [SMI]
 ```
 
 - **📢 섹션 요약 비유**: MIB / OID는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,14 +43,14 @@ MIB 트리의 각 노드(정보 단위)에 접근하기 위해 부여된 <strong
 [ MIB 트리와 OID 체계 예시 ]
 
 Root ( . )
- └── iso (1)
-      └── org (3)
-           └── dod (6)
-                └── internet (1)
-                     ├── mgmt (2) ──▶ mib-2 (1) ──▶ system (1) ──▶ sysName (5)
-                     │                            (장비 이름의 OID: .1.3.6.1.2.1.1.5)
-                     │
-                     └── private (4) ──▶ enterprises (1) ──▶ cisco (9)
+ +-- iso (1)
+      +-- org (3)
+           +-- dod (6)
+                +-- internet (1)
+                     +-- mgmt (2) ---> mib-2 (1) ---> system (1) ---> sysName (5)
+                     |                            (장비 이름의 OID: .1.3.6.1.2.1.1.5)
+                     |
+                     +-- private (4) ---> enterprises (1) ---> cisco (9)
                                                   (시스코 장비 온도: .1.3.6.1.4.1.9.9.13...)
 ```
 
@@ -110,12 +110,12 @@ MIB / OID는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을
 
 ```text
 [선행 개념: SNMP]
-    │
-    ▼
+    |
+    v
 [현재 개념: MIB / OID]
-    │
-    ├──▶ [확장 A: SMI]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: SMI]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 MIB / OID는 SNMP에서 출발해 현재 메커니즘을 정교화하고, 이후 SMI와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -132,7 +132,7 @@ MIB / OID는 SNMP에서 출발해 현재 메커니즘을 정교화하고, 이후
 
 **진행 상황**: 650 / 1120
 
-← **이전**: [528. SNMP (Simple Network Management Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)
-**다음**: [530. SMI (Structure of Management Information)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) →
+<- **이전**: [528. SNMP (Simple Network Management Protocol)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)
+**다음**: [530. SMI (Structure of Management Information)](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) ->
 
 ---

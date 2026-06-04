@@ -32,19 +32,19 @@ tags = ["studynote-it-management"]
 [정보 보안 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)의 핵심은 보호해야 할 대상의 본질적 목표인 'CIA 트라이애드([CIA Triad](/knowledge-base/studynote/09_security/01_intro_principles/001_cia_triad/))'를 달성하고, 이를 지키기 위해 3중 통제 장치를 구성하는 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           정보 보안 관리 통제 프레임워크 (ISMS)            │
-├──────────────────────────────────────────────────────────────┤
-│                         [목표: CIA]                          │
-│     기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability) │
-│                              ▲                               │
-│ ┌─────────────────────────┼─────────────────────────┐ │
-│ │  기술적 통제 (Technical)│  관리적 통제 (Admin)    │ │
-│ │  - IPS/IDS 방화벽       │  - 보안 지침, 서약서    │ │
-│ │  - 암호화, 접근제어     │  - 직원 교육, 정기 감사 │ │
-│ ├─────────────────────────┴─────────────────────────┤ │
-│ │  물리적 통제 (Physical): 출입 통제, 무정전 전원 장치      │ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           정보 보안 관리 통제 프레임워크 (ISMS)            |
++--------------------------------------------------------------+
+|                         [목표: CIA]                          |
+|     기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability) |
+|                              ^                               |
+| +-------------------------+-------------------------+ |
+| |  기술적 통제 (Technical)|  관리적 통제 (Admin)    | |
+| |  - IPS/IDS 방화벽       |  - 보안 지침, 서약서    | |
+| |  - 암호화, 접근제어     |  - 직원 교육, 정기 감사 | |
+| +-------------------------+-------------------------+ |
+| |  물리적 통제 (Physical): 출입 통제, 무정전 전원 장치      | |
++--------------------------------------------------------------+
 ```
 
 1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (CIA)</strong>: 정보가 인가된 자에게만 노출되며([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), 위변조 없이 정확히 유지되고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 필요할 때 언제든 접근 가능해야([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 한다.
@@ -108,17 +108,17 @@ tags = ["studynote-it-management"]
 
 ```text
 개별적 보안 기술 도입 (방화벽, 백신)
-    │
-    ▼
+    |
+    v
 정보 자산 식별 및 위험 평가 (Risk Assessment)
-    │
-    ▼
+    |
+    v
 관리적 / 물리적 / 기술적 다층 통제 구축 (Defense in Depth)
-    │
-    ▼
+    |
+    v
 ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수
-    │
-    ▼
+    |
+    v
 지속적 보안 개선 (PDCA) 및 전사적 위험 관리 (ERM) 통합
 ```
 
@@ -136,7 +136,7 @@ ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수
 
 **진행 상황**: 174 / 587
 
-← **이전**: [95. 정보 보안 관리 (Information Security Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)
-**다음**: [96. ISO/IEC 20000](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/) →
+<- **이전**: [95. 정보 보안 관리 (Information Security Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)
+**다음**: [96. ISO/IEC 20000](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/) ->
 
 ---

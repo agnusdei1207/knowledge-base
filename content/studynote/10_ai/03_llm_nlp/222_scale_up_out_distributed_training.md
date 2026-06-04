@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 이제 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라 엔지니어들의 숙제는 "어떻게 코드를 짜야 이 멍청한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대가 서로 싸우거나 놀지 않고 완벽한 오케스트라처럼 1조 개짜리 파라미터를 나눠서 계산할 것인가?"로 옮겨갔다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 피자를 엄청나게 많이 굽기 위해 주방장 1명에게 최고의 프라이팬과 람보르기니 오토바이를 사줘서 <strong>'초인적인 요리사 1명'</strong>을 만드는 짓이다(한계가 명확함). 반면 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 오토바이 살 돈으로 동네 알바생 100명을 고용해 <strong>'컨베이어 벨트 분업 공장'</strong>을 만드는 짓이다. 알바생 한 명 한 명은 느리지만, 100명이 합을 맞추면 초인 요리사보다 50배 더 많은 피자를 찍어내는 무적의 군단이 된다.
@@ -44,29 +44,29 @@ tags = ["studynote-ai"]
 수많은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 군단([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))에게 1조 개짜리 모델을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 방법은 뇌(모델)를 찢느냐, 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 찢느냐에 따라 3차원 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습(3D Parallelism) 아키텍처로 진화했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Scale-out 스케일 아웃 파라미터 분산(3D Parallelism) 아키텍처 도해│
-├──────────────────────────────────────────────────────────────┤
-│  [1. 데이터 병렬화 (Data Parallelism) - "책을 찢어 나눠 읽기"]        │
-│   * GPU 1, GPU 2, GPU 3 모두 똑같은 '완벽한 전체 뇌(Model)' 복사본을 가짐. │
-│   * 대신 훈련할 100만 장의 사진(데이터)을 33만 장씩 찢어서 각자 GPU에 던짐. │
-│   * 계산 끝나면 지들끼리 "내 결과값(Gradient) 섞자!"(All-Reduce 통신) 합체. │
-│   [한계]: 모델 뇌 크기가 GPU 1대(80GB)보다 크면 아예 이 방식은 시도도 못 함!│
-│                                                              │
-│  [2. 텐서 병렬화 (Tensor Parallelism) - "뇌의 가로(행렬)를 찢기"]      │
-│   * 거대한 행렬 곱셈 1개를 반으로 가름.                               │
-│   * GPU 1은 수학 공식의 앞부분 절반 계산, GPU 2는 뒷부분 절반 계산.        │
-│   * 계산 속도가 미치도록 빠르지만, 둘이 한 몸이라 통신을 1초에 1,000번씩 해야 함.│
-│   ─▶ 그래서 같은 기계통(Node) 안에 있는 GPU들끼리만 엮어야 렉이 안 걸림.  │
-│                                                              │
-│  [3. 파이프라인 병렬화 (Pipeline Parallelism) - "뇌의 세로(층)를 찢기"] │
-│   * 트랜스포머 100층짜리 모델을 썰어버림.                              │
-│   * GPU 1은 [1층~25층] 담당 ─▶ 끝나면 결괏값을 GPU 2 [26층~50층]에 토스.│
-│   * 컨베이어 벨트처럼 릴레이로 일을 넘김. 통신량이 적어 기계 간(Inter-node) 연결 용이!│
-│                                                              │
-│  [★ 최종판: 3D Parallelism (위의 3개를 다 섞어버린 GPT 훈련법)]       │
-│   * 1,000대 GPU = 파이프라인으로 세로 찢고 + 텐서로 가로 찢고 + 데이터로 복사! │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Scale-out 스케일 아웃 파라미터 분산(3D Parallelism) 아키텍처 도해|
++--------------------------------------------------------------+
+|  [1. 데이터 병렬화 (Data Parallelism) - "책을 찢어 나눠 읽기"]        |
+|   * GPU 1, GPU 2, GPU 3 모두 똑같은 '완벽한 전체 뇌(Model)' 복사본을 가짐. |
+|   * 대신 훈련할 100만 장의 사진(데이터)을 33만 장씩 찢어서 각자 GPU에 던짐. |
+|   * 계산 끝나면 지들끼리 "내 결과값(Gradient) 섞자!"(All-Reduce 통신) 합체. |
+|   [한계]: 모델 뇌 크기가 GPU 1대(80GB)보다 크면 아예 이 방식은 시도도 못 함!|
+|                                                              |
+|  [2. 텐서 병렬화 (Tensor Parallelism) - "뇌의 가로(행렬)를 찢기"]      |
+|   * 거대한 행렬 곱셈 1개를 반으로 가름.                               |
+|   * GPU 1은 수학 공식의 앞부분 절반 계산, GPU 2는 뒷부분 절반 계산.        |
+|   * 계산 속도가 미치도록 빠르지만, 둘이 한 몸이라 통신을 1초에 1,000번씩 해야 함.|
+|   --> 그래서 같은 기계통(Node) 안에 있는 GPU들끼리만 엮어야 렉이 안 걸림.  |
+|                                                              |
+|  [3. 파이프라인 병렬화 (Pipeline Parallelism) - "뇌의 세로(층)를 찢기"] |
+|   * 트랜스포머 100층짜리 모델을 썰어버림.                              |
+|   * GPU 1은 [1층~25층] 담당 --> 끝나면 결괏값을 GPU 2 [26층~50층]에 토스.|
+|   * 컨베이어 벨트처럼 릴레이로 일을 넘김. 통신량이 적어 기계 간(Inter-node) 연결 용이!|
+|                                                              |
+|  [★ 최종판: 3D Parallelism (위의 3개를 다 섞어버린 GPT 훈련법)]       |
+|   * 1,000대 GPU = 파이프라인으로 세로 찢고 + 텐서로 가로 찢고 + 데이터로 복사! |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>의 기적)</strong>:
@@ -139,7 +139,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 222 / 420
 
-← **이전**: [221. 벡터 차원 색인 ANN (HNSW / PQ)](/knowledge-base/studynote/10_ai/03_llm_nlp/221_ann_vector_index/)
-**다음**: [223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)](/knowledge-base/studynote/10_ai/03_llm_nlp/223_kv_cache_pagedattention/) →
+<- **이전**: [221. 벡터 차원 색인 ANN (HNSW / PQ)](/knowledge-base/studynote/10_ai/03_llm_nlp/221_ann_vector_index/)
+**다음**: [223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)](/knowledge-base/studynote/10_ai/03_llm_nlp/223_kv_cache_pagedattention/) ->
 
 ---

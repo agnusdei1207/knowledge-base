@@ -44,23 +44,23 @@ Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops
 아래 그림은 브라우저가 Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 어떻게 바라보는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Self-signed certificate verification path                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server presents certificate                                         │
-│   Subject = intranet.example                                        │
-│   Issuer  = intranet.example   <- same entity                       │
-│   Signature = signed by its own private key                         │
-│                                                                      │
-│ Client checks                                                        │
-│   1. Valid time window ......................... OK / FAIL           │
-│   2. SAN matches requested host ............... OK / FAIL            │
-│   3. Signature math is consistent ............. OK                   │
-│   4. Chain reaches trusted root store ......... FAIL by default      │
-│                                                                      │
-│ Result                                                               │
-│   Encryption can still work, but trusted identity is not granted    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Self-signed certificate verification path                           |
++----------------------------------------------------------------------+
+| Server presents certificate                                         |
+|   Subject = intranet.example                                        |
+|   Issuer  = intranet.example   <- same entity                       |
+|   Signature = signed by its own private key                         |
+|                                                                      |
+| Client checks                                                        |
+|   1. Valid time window ......................... OK / FAIL           |
+|   2. SAN matches requested host ............... OK / FAIL            |
+|   3. Signature math is consistent ............. OK                   |
+|   4. Chain reaches trusted root store ......... FAIL by default      |
+|                                                                      |
+| Result                                                               |
+|   Encryption can still work, but trusted identity is not granted    |
++----------------------------------------------------------------------+
 ```
 
 중요한 오해 하나를 바로잡아야 한다. Self-signed라고 해서 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 자체가 평문이 되는 것은 아니다. 사용자가 경고를 무시하고 접속하면 대개 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 교환과 암호화는 그대로 일어난다. 문제는 그 채널의 반대편이 <strong>진짜 서버인지, 같은 모양의 다른 Self-signed <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 내민 공격자인지</strong>를 기본적으로 분간하지 못한다는 데 있다.
@@ -149,18 +149,18 @@ Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops
 
 ```text
 평문 내부 통신
-    │
-    ▼
+    |
+    v
 TLS 적용 필요 인식
-    │
-    ├─ 소수 고정 클라이언트 -> Self-signed 인증서
-    │                          ├─ Trust Store 배포
-    │                          └─ Pinning / mTLS 적용
-    │
-    ▼
+    |
+    +- 소수 고정 클라이언트 -> Self-signed 인증서
+    |                          +- Trust Store 배포
+    |                          +- Pinning / mTLS 적용
+    |
+    v
 엔드포인트 증가 · 자동화 필요
-    │
-    ▼
+    |
+    v
 사설 PKI 또는 공인 CA + ACME 체계로 확장
 ```
 
@@ -178,7 +178,7 @@ TLS 적용 필요 인식
 
 **진행 상황**: 232 / 1108
 
-← **이전**: [178. OV (Organization Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/)
-**다음**: [180. 인증서 체인 검증 (Certificate Chain of Trust)](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) →
+<- **이전**: [178. OV (Organization Validation) 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/)
+**다음**: [180. 인증서 체인 검증 (Certificate Chain of Trust)](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/) ->
 
 ---

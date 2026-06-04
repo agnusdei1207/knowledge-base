@@ -44,23 +44,23 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 아래 그림은 일반적인 웜 사이트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Warm site recovery flow                                              │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary Site (active)                                                │
-│   App / DB / Storage                                                 │
-│      │                                                               │
-│      ├─ periodic backup / async replication ───▶ Warm Site           │
-│      │                                         infra pre-installed    │
-│      │                                         apps mostly standby    │
-│      │                                                               │
-│ Disaster declared                                                    │
-│   1. power on / scale up servers                                     │
-│   2. restore or catch up data                                        │
-│   3. validate app and security settings                              │
-│   4. switch DNS / Load Balancer / routes                             │
-│   5. resume prioritized services                                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Warm site recovery flow                                              |
++----------------------------------------------------------------------+
+| Primary Site (active)                                                |
+|   App / DB / Storage                                                 |
+|      |                                                               |
+|      +- periodic backup / async replication ----> Warm Site           |
+|      |                                         infra pre-installed    |
+|      |                                         apps mostly standby    |
+|      |                                                               |
+| Disaster declared                                                    |
+|   1. power on / scale up servers                                     |
+|   2. restore or catch up data                                        |
+|   3. validate app and security settings                              |
+|   4. switch DNS / Load Balancer / routes                             |
+|   5. resume prioritized services                                     |
++----------------------------------------------------------------------+
 ```
 
 이 그림이 보여 주는 핵심은 웜 사이트의 병목이 하드웨어 설치가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 적재와 기동 절차</strong>라는 점이다. 서버가 이미 있어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 시간이 길면 전체 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))가 늘어난다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 주기를 촘촘히 잡으면 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 줄어들지만, 비용과 운영 복잡도는 높아진다.
@@ -151,18 +151,18 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 ```text
 Business Impact Analysis
-        │
-        ▼
+        |
+        v
 RTO / RPO target definition
-        │
-        ├─ very low target  -> Mirror / Hot Site
-        ├─ medium target    -> Warm Site
-        └─ relaxed target   -> Cold Site
-        │
-        ▼
+        |
+        +- very low target  -> Mirror / Hot Site
+        +- medium target    -> Warm Site
+        +- relaxed target   -> Cold Site
+        |
+        v
 Runbook, restore test, failover/failback drill
-        │
-        ▼
+        |
+        v
 Cloud Warm Standby / Pilot Light evolution
 ```
 
@@ -180,7 +180,7 @@ Cloud Warm Standby / Pilot Light evolution
 
 **진행 상황**: 294 / 587
 
-← **이전**: [179. 핫 사이트 (Hot Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)
-**다음**: [181. 콜드 사이트 (Cold Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/) →
+<- **이전**: [179. 핫 사이트 (Hot Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)
+**다음**: [181. 콜드 사이트 (Cold Site)](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/) ->
 
 ---

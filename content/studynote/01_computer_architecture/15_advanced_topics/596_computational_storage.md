@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 계산형 스토리지가 필요한지 직관적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Computational storage turns many storage devices into many small workers   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host-only model                                                            │
-│ Many Drives -> Raw Data Flood -> Host CPU Farm -> Result                   │
-│                                                                            │
-│ Computational-storage model                                                │
-│ Many Device Workers -> Local Filter / Transform -> Small Partial Results -> Host │
-│                                                                            │
-│ The host orchestrates; devices reduce and preprocess near the data         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Computational storage turns many storage devices into many small workers   |
++----------------------------------------------------------------------------+
+| Host-only model                                                            |
+| Many Drives -> Raw Data Flood -> Host CPU Farm -> Result                   |
+|                                                                            |
+| Computational-storage model                                                |
+| Many Device Workers -> Local Filter / Transform -> Small Partial Results -> Host |
+|                                                                            |
+| The host orchestrates; devices reduce and preprocess near the data         |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 CPU를 없애는 것이 아니라 CPU가 모든 바이트를 직접 받는 구조를 바꾸는 것이다. 따라서 계산형 스토리지는 단독 장치 기술이 아니라, 저장 경로 전체에서 “어떤 연산을 어디에 배치할지”를 다시 묻는 시스템 설계 방식으로 이해해야 한다.
@@ -60,18 +60,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 이 계층들이 어떻게 협력하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Computational storage is an orchestration model, not just a single drive  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host Orchestrator                                                          │
-│     │                                                                      │
-│     ├─ Dispatch function -> CSD #1 -> local result                         │
-│     ├─ Dispatch function -> CSD #2 -> local result                         │
-│     ├─ Dispatch function -> CSP  -> filtered / joined result               │
-│     └─ Aggregate partial outputs -> final answer                           │
-│                                                                            │
-│ CSA packages the scheduling, security, and management around this flow     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Computational storage is an orchestration model, not just a single drive  |
++----------------------------------------------------------------------------+
+| Host Orchestrator                                                          |
+|     |                                                                      |
+|     +- Dispatch function -> CSD #1 -> local result                         |
+|     +- Dispatch function -> CSD #2 -> local result                         |
+|     +- Dispatch function -> CSP  -> filtered / joined result               |
+|     +- Aggregate partial outputs -> final answer                           |
+|                                                                            |
+| CSA packages the scheduling, security, and management around this flow     |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 원리는 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리다. 호스트는 어떤 함수를 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합에 적용할지 지시하고, 저장 근처 장치는 그 함수의 지역적 실행을 맡는다. 다시 말해 계산형 스토리지는 “스토리지가 똑똑해졌다”보다 <strong>호스트는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">orchestration</a>, 장치는 local compute</strong>라는 분업으로 이해해야 정확하다.
@@ -151,20 +151,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Host-only Storage + Centralized Compute
-                  │
-                  ▼
+                  |
+                  v
 Drive-level Smart SSD offload
-                  │
-                  ▼
+                  |
+                  v
 Computational Storage Drive (CSD)
-                  │
-                  ▼
+                  |
+                  v
 Computational Storage Processor (CSP)
-                  │
-                  ▼
+                  |
+                  v
 Computational Storage Array (CSA)
-                  │
-                  ▼
+                  |
+                  v
 Data-Centric Distributed Infrastructure
 ```
 
@@ -182,7 +182,7 @@ Data-Centric Distributed Infrastructure
 
 **진행 상황**: 596 / 803
 
-← **이전**: [595. 스마트 SSD (Smart Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/)
-**다음**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) →
+<- **이전**: [595. 스마트 SSD (Smart Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/)
+**다음**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) ->
 
 ---

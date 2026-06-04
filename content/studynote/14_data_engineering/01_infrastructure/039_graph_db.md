@@ -42,7 +42,7 @@ tags = ["studynote-data-engineering"]
   관계형: 친구의 친구의 친구 = 3번 JOIN
   그래프: MATCH (a)-[:KNOWS*3]->(c) RETURN c
 
-  JOIN 깊이 ↑ -> 관계형 성능 급감
+  JOIN 깊이 ^ -> 관계형 성능 급감
   그래프 탐색 -> 깊이에 관계없이 일정
 ```
 
@@ -252,7 +252,7 @@ AI + 지식 그래프 통합 (LLM + KG)
 
 **진행 상황**: 39 / 258
 
-← **이전**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/)
-**다음**: [040. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/040_cap_theorem_consistency_availability_partition/) →
+<- **이전**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/)
+**다음**: [040. CAP 정리 (CAP Theorem)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/040_cap_theorem_consistency_availability_partition/) ->
 
 ---

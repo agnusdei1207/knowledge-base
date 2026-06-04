@@ -241,7 +241,7 @@ ZK 증명 기술 고도화
 
 **진행 상황**: 40 / 552
 
-← **이전**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/)
-**다음**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/) →
+<- **이전**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/)
+**다음**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/) ->
 
 ---

@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [40GbE / 100GbE / 400GbE…]
-    │
-    ▼
+    |
+    v
 [MDI/MDI-X]
-    │
-    └──▶ [Auto-MDIX]
+    |
+    +---> [Auto-MDIX]
 ```
 
 - **📢 섹션 요약 비유**: <strong> MDI는 입(Tx)이 위에 있고 귀(Rx)가 아래에 있는 사람이고, MDI-X는 귀(Rx)가 위에 있고 입(Tx)이 아래에 있는 외계인입니다. </strong>사람과 외계인이 마주 보면(다이렉트 케이블) 서로의 입과 귀가 정확히 맞닿아 대화가 잘 통합니다.** 하지만 사람끼리 마주 보면 입은 입끼리 닿아 대화가 안 되므로, 파이프를 크로스(크로스 케이블)로 꼬아서 연결해 주어야 합니다.
@@ -61,8 +61,8 @@ tags = ["studynote-network"]
 
 ```text
 [ PC (MDI 포트) ]                 [ 스위치 (MDI-X 포트) ]
- 1,2번 핀 (송신 Tx) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)
- 3,6번 핀 (수신 Rx) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
+ 1,2번 핀 (송신 Tx) --(다이렉트)---> 1,2번 핀 (수신 Rx)
+ 3,6번 핀 (수신 Rx) <---(다이렉트)-- 3,6번 핀 (송신 Tx)
 ```
 
 - **📢 섹션 요약 비유**: MDI/MDI-X의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ MDI/MDI-X는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ```text
 [선행 개념: 40GbE / 100GbE / 400GbE…]
-    │
-    ▼
+    |
+    v
 [현재 개념: MDI/MDI-X]
-    │
-    ├──▶ [확장 A: Auto-MDIX]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: Auto-MDIX]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 MDI/MDI-X는 40GbE / 100GbE / 400GbE…에서 출발해 현재 메커니즘을 정교화하고, 이후 Auto-MDIX와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ MDI/MDI-X는 40GbE / 100GbE / 400GbE…에서 출발해 현재 메커니즘을 �
 
 **진행 상황**: 263 / 1120
 
-← **이전**: [141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷](/knowledge-base/studynote/03_network/03_physical_layer_media/141_40gbe_100gbe_400gbe_ethernet/)
-**다음**: [143. Auto-MDIX (크로스 케이블 자동 인식)](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/) →
+<- **이전**: [141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷](/knowledge-base/studynote/03_network/03_physical_layer_media/141_40gbe_100gbe_400gbe_ethernet/)
+**다음**: [143. Auto-MDIX (크로스 케이블 자동 인식)](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/) ->
 
 ---

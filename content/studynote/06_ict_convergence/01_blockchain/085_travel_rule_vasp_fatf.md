@@ -107,15 +107,15 @@ tags = ["ict_convergence"]
 
 ```text
 가상자산 송금
-   ↓
+   v
 고객 식별(KYC)
-   ↓
+   v
 Travel Rule payload 생성
-   ↓
+   v
 VASP 간 안전 전송
-   ↓
+   v
 수신자 확인 / 제재 점검
-   ↓
+   v
 기록 보관 / 감사 대응
 ```
 
@@ -131,7 +131,7 @@ VASP 간 안전 전송
 
 **진행 상황**: 85 / 552
 
-← **이전**: [84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/)
-**다음**: [86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑](/knowledge-base/studynote/06_ict_convergence/01_blockchain/086_multisig_wallet_n_of_m/) →
+<- **이전**: [84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/)
+**다음**: [86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑](/knowledge-base/studynote/06_ict_convergence/01_blockchain/086_multisig_wallet_n_of_m/) ->
 
 ---

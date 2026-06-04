@@ -26,19 +26,19 @@ tags = ["studynote-enterprise-systems"]
 아래 그림은 "단일 공용 진입점만 있는 구조"와 "채널별 BFF를 둔 구조"의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                BFF의 필요성: 하나의 화면에는 하나의 조립창구           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without BFF                                                          │
-│ Mobile/Web ─▶ API Gateway ─▶ Many Services                           │
-│                ▲                                                     │
-│                └─ 화면별 조합 요구가 모두 몰려 비대화                 │
-│                                                                      │
-│ With BFF                                                             │
-│ Mobile App ─▶ Mobile BFF ─┐                                          │
-│ Web App    ─▶ Web BFF    ├─▶ Domain Services                         │
-│ Smart TV   ─▶ TV BFF     ┘                                          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                BFF의 필요성: 하나의 화면에는 하나의 조립창구           |
++----------------------------------------------------------------------+
+| Without BFF                                                          |
+| Mobile/Web --> API Gateway --> Many Services                           |
+|                ^                                                     |
+|                +- 화면별 조합 요구가 모두 몰려 비대화                 |
+|                                                                      |
+| With BFF                                                             |
+| Mobile App --> Mobile BFF -+                                          |
+| Web App    --> Web BFF    +--> Domain Services                         |
+| Smart TV   --> TV BFF     +                                          |
++----------------------------------------------------------------------+
 ```
 
 즉 BFF는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 대체하는 개념이 아니라, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층 아래에서 채널별 최적화를 맡는 보조 계층으로 이해하는 것이 자연스럽다.
@@ -49,7 +49,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BFF의 핵심 원리는 `클라이언트 요구 수집 → 도메인 서비스 호출 → 응답 조합/가공 → 채널 최적화`다. 각 BFF는 공통 상품, 주문, 결제, 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하되, 화면에 필요한 필드만 추려 주고, 여러 응답을 합치고, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 오류 표현을 채널 특성에 맞게 조정한다. 따라서 BFF는 비즈니스 로직의 본체라기보다, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 사용자 경험에 맞게 번역하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a></strong>에 가깝다.
+BFF의 핵심 원리는 `클라이언트 요구 수집 -> 도메인 서비스 호출 -> 응답 조합/가공 -> 채널 최적화`다. 각 BFF는 공통 상품, 주문, 결제, 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하되, 화면에 필요한 필드만 추려 주고, 여러 응답을 합치고, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 오류 표현을 채널 특성에 맞게 조정한다. 따라서 BFF는 비즈니스 로직의 본체라기보다, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 사용자 경험에 맞게 번역하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a></strong>에 가깝다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -62,18 +62,18 @@ BFF의 핵심 원리는 `클라이언트 요구 수집 → 도메인 서비스 �
 아래 그림은 BFF가 단순 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 아니라, 화면 친화적 응답을 만드는 가공 계층임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    BFF 요청 처리 흐름                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client Screen Request                                                │
-│      │                                                               │
-│      ▼                                                               │
-│ [BFF] ──▶ [Auth Context] ──▶ [Service A]                             │
-│   │                           [Service B]                            │
-│   │                           [Service C]                            │
-│   ▼                                                               │
-│ [Aggregate] ─▶ [Transform for Screen] ─▶ [Optimized Response]        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    BFF 요청 처리 흐름                                |
++----------------------------------------------------------------------+
+| Client Screen Request                                                |
+|      |                                                               |
+|      v                                                               |
+| [BFF] ---> [Auth Context] ---> [Service A]                             |
+|   |                           [Service B]                            |
+|   |                           [Service C]                            |
+|   v                                                               |
+| [Aggregate] --> [Transform for Screen] --> [Optimized Response]        |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 BFF가 채널 최적화는 맡되, 주문 금액 계산이나 재고 차감 같은 핵심 비즈니스 규칙을 소유하지 않는다는 것이다. 그런 로직까지 BFF에 쌓이면 모바일용 규칙, 웹용 규칙이 따로 생겨 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨진다. 그래서 좋은 BFF는 얇고 빠르지만, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 경계를 분명히 지킨다.
@@ -159,18 +159,18 @@ BFF를 잘 설계하면 프론트엔드가 더 가볍고 빨라진다. 클라이
 
 ```text
 모놀리식 백엔드
-    │
-    ▼
+    |
+    v
 API 게이트웨이 (API Gateway)
-    │
-    ▼
+    |
+    v
 BFF (Backend For Frontend)
-    │
-    ├─ 모바일 최적화
-    ├─ 웹 대시보드 조합
-    └─ 채널별 캐시·응답 변환
-    │
-    ▼
+    |
+    +- 모바일 최적화
+    +- 웹 대시보드 조합
+    +- 채널별 캐시·응답 변환
+    |
+    v
 서버 주도 UI · 그래프큐엘 결합 · 엣지 경험 최적화
 ```
 
@@ -188,7 +188,7 @@ BFF (Backend For Frontend)
 
 **진행 상황**: 167 / 482
 
-← **이전**: [166. API 게이트웨이 (API Gateway) - 클라이언트 요청을 단일 진입점으로 받아 적절한 마이크로서비스로 라우팅, 인증/인가,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/166_api_gateway_architecture/)
-**다음**: [168. 서비스 디스커버리 (Service Discovery) 동적 컨테이너 위치 레지스트리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/168_service_discovery/) →
+<- **이전**: [166. API 게이트웨이 (API Gateway) - 클라이언트 요청을 단일 진입점으로 받아 적절한 마이크로서비스로 라우팅, 인증/인가,](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/166_api_gateway_architecture/)
+**다음**: [168. 서비스 디스커버리 (Service Discovery) 동적 컨테이너 위치 레지스트리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/168_service_discovery/) ->
 
 ---

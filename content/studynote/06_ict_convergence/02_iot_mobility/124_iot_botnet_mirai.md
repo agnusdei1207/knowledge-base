@@ -19,15 +19,15 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Mirai 봇넷 공격 흐름                               │
-├───────────────────────────────────────────────────────┤
-│  1. Mirai 스캔: Telnet(23) 포트 열린 IoT 디바이스 탐색│
-│  2. 기본 비밀번호(admin/admin) 무차별 대입 → 감염    │
-│  3. 수십만 대 봇넷 구성 (C&C 서버 제어)              │
-│  4. C&C 명령 → 타겟 서버에 대규모 DDoS 공격         │
-│  5. 2016년: Dyn DNS 공격 → 주요 인터넷 서비스 마비  │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Mirai 봇넷 공격 흐름                               |
++-------------------------------------------------------+
+|  1. Mirai 스캔: Telnet(23) 포트 열린 IoT 디바이스 탐색|
+|  2. 기본 비밀번호(admin/admin) 무차별 대입 -> 감염    |
+|  3. 수십만 대 봇넷 구성 (C&C 서버 제어)              |
+|  4. C&C 명령 -> 타겟 서버에 대규모 DDoS 공격         |
+|  5. 2016년: Dyn DNS 공격 -> 주요 인터넷 서비스 마비  |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Mirai는 비밀번호를 안 바꾼 수십만 개의 현관문([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))을 열고 들어가서, 좀비 군대([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))를 만들어 건물(서버)을 공격하는 것이다.
@@ -89,17 +89,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [전통 PC 봇넷 (2000s)]
-    │
-    ▼
+    |
+    v
 [Mirai IoT 봇넷 (2016) — 1.2Tbps DDoS]
-    │
-    ▼
+    |
+    v
 [IoT 보안 표준화 (NIST, 2018~)]
-    │
-    ▼
+    |
+    v
 [기본 비밀번호 금지법 (영국 PSTI Act, 2024)]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 IoT 이상 트래픽 탐지]
 ```
 
@@ -114,7 +114,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 124 / 552
 
-← **이전**: [123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/)
-**다음**: [125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/) →
+<- **이전**: [123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/)
+**다음**: [125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/) ->
 
 ---

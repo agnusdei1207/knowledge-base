@@ -21,22 +21,22 @@ tags = ["studynote-data-engineering"]
 
 CDC는 "원본 DB에 생긴 변화를 다른 시스템으로 언제, 얼마나 정확하게 옮길 것인가?"라는 문제에서 출발한다. 전통적인 배치 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)은 하루 한 번 전체 테이블을 읽거나 `updated_at` 기준으로 증분을 가져와 DW에 적재한다. 이 방식은 구현이 단순하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 늦고 삭제가 빠지기 쉬우며 소스 DB에 스캔 부하를 준다.
 
-특히 주문, 결제, 사용자 프로필처럼 계속 바뀌는 Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 "최종 상태만" 복사하는 방식이 부족하다. 오전 10시에 `A → B`, 10시 1분에 `B → C`로 바뀐 행을 밤 12시에 한 번 읽으면 중간 상태와 정확한 변경 순서를 잃는다. 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 캐시 무효화, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/), ML) 온라인 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 실시간 대시보드는 바로 이 중간 변화까지 필요로 하는 경우가 많다.
+특히 주문, 결제, 사용자 프로필처럼 계속 바뀌는 Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 "최종 상태만" 복사하는 방식이 부족하다. 오전 10시에 `A -> B`, 10시 1분에 `B -> C`로 바뀐 행을 밤 12시에 한 번 읽으면 중간 상태와 정확한 변경 순서를 잃는다. 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 캐시 무효화, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/), ML) 온라인 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 실시간 대시보드는 바로 이 중간 변화까지 필요로 하는 경우가 많다.
 
 아래 그림은 전통 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC의 차이를 보여 준다. 핵심은 CDC가 테이블을 반복 조회하는 것이 아니라, <strong>이미 DB가 쓰고 있는 커밋 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 읽는다</strong>는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 전통 동기화 vs 로그 기반 CDC                                  │
-├──────────────────────────────────────────────────────────────┤
-│ Polling / Batch                                               │
-│ Source DB ─▶ SELECT updated_at > t ─▶ ETL ─▶ Target          │
-│   └─ full scan · delete 누락 · T+1 지연                      │
-│                                                              │
-│ Log-based CDC                                                 │
-│ COMMIT ─▶ Binlog / WAL ─▶ Debezium ─▶ Kafka ─▶ Targets       │
-│   └─ 순서 보존 · delete 캡처 · source 부하 최소화            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 전통 동기화 vs 로그 기반 CDC                                  |
++--------------------------------------------------------------+
+| Polling / Batch                                               |
+| Source DB --> SELECT updated_at > t --> ETL --> Target          |
+|   +- full scan · delete 누락 · T+1 지연                      |
+|                                                              |
+| Log-based CDC                                                 |
+| COMMIT --> Binlog / WAL --> Debezium --> Kafka --> Targets       |
+|   +- 순서 보존 · delete 캡처 · source 부하 최소화            |
++--------------------------------------------------------------+
 ```
 
 그래서 CDC는 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술이 아니라, 운영계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석계·검색계·이벤트계로 안전하게 확장하는 연결 계층이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점에서는 배치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 수단이고, [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) 관점에서는 온라인·오프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간 차를 줄이는 기반이 된다.
@@ -60,19 +60,19 @@ Debezium 기반 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 Debezium의 동작은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a></strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 스트리밍</strong> 두 단계로 나뉜다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 현재 테이블 상태를 한 번 읽어 기준선을 만들고, 이후부터는 Binlog/WAL에서 들어오는 변경만 계속 전송한다. 이때 Debezium은 마지막으로 읽은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 위치를 저장해 재시작 뒤에도 이어서 읽을 수 있게 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Debezium 동작 단계                                            │
-├──────────────────────────────────────────────────────────────┤
-│ 1) Initial Snapshot                                           │
-│    Table Scan ─▶ op = r 이벤트 생성                           │
-│                     │                                         │
-│                     └─ 현재 로그 위치 기록                    │
-│                                                              │
-│ 2) Streaming Phase                                            │
-│    Binlog / WAL ─▶ op = c / u / d 이벤트 ─▶ Kafka Topic      │
-│                     │                                         │
-│                     └─ Offset 저장 후 재시작 복구             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Debezium 동작 단계                                            |
++--------------------------------------------------------------+
+| 1) Initial Snapshot                                           |
+|    Table Scan --> op = r 이벤트 생성                           |
+|                     |                                         |
+|                     +- 현재 로그 위치 기록                    |
+|                                                              |
+| 2) Streaming Phase                                            |
+|    Binlog / WAL --> op = c / u / d 이벤트 --> Kafka Topic      |
+|                     |                                         |
+|                     +- Offset 저장 후 재시작 복구             |
++--------------------------------------------------------------+
 ```
 
 이벤트 구조도 중요하다. Debezium 이벤트는 보통 `before`, `after`, `op`, `source`, `ts_ms` 정보를 가진다. `before/after`는 변경 전후 값을, `op`는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Create)·수정(Update)·삭제(Delete)를, `source`는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 위치와 테이블 정보를 나타낸다. 그래서 Sink는 "지금 상태가 무엇인가"뿐 아니라 "무슨 이유로 바뀌었는가"를 기준으로 반영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 세울 수 있다.
@@ -134,7 +134,7 @@ expire_logs_days=7
 4. [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) ([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)) 변경 시 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 5. 테이블별 토픽 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 키 분산과 순서 보존 요구를 동시에 만족하는가?
 
-흔한 안티패턴도 분명하다. `updated_at` [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 "사실상 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)"라고 착각하는 경우, [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 없는 테이블을 그대로 싱크에 밀어 넣는 경우, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트를 중복 제거 없이 바로 집계 테이블에 합산하는 경우가 대표적이다. 기술사 답안에서는 단순히 "Debezium이 편하다"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> → <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">snapshot</a> → offset <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> → sink <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> → <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong>를 한 줄로 이어 설명해야 설계력이 드러난다.
+흔한 안티패턴도 분명하다. `updated_at` [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 "사실상 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)"라고 착각하는 경우, [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 없는 테이블을 그대로 싱크에 밀어 넣는 경우, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트를 중복 제거 없이 바로 집계 테이블에 합산하는 경우가 대표적이다. 기술사 답안에서는 단순히 "Debezium이 편하다"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> -> <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">snapshot</a> -> offset <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> -> sink <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> -> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong>를 한 줄로 이어 설명해야 설계력이 드러난다.
 
 - **📢 섹션 요약 비유**: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 운영은 수도관을 여는 일보다 수압·밸브·역류 방지 장치를 함께 설계하는 일에 가깝다. 물이 흐르기만 하면 끝이 아니라, 끊겨도 다시 이어지고 새지도 않아야 한다.
 
@@ -168,19 +168,19 @@ CDC를 잘 도입하면 OLTP와 [Online Analytical Processing](/knowledge-base/s
 
 ```text
 OLTP 트랜잭션 커밋
-    │
-    ▼
+    |
+    v
 Binlog / WAL 기록
-    │
-    ▼
+    |
+    v
 Debezium CDC 이벤트 변환
-    │
-    ▼
+    |
+    v
 Kafka Topic 축적 · 재전송
-    │
-    ├─▶ DW / Lakehouse 적재
-    ├─▶ Search / Cache 동기화
-    └─▶ Feature Store / Microservice 소비
+    |
+    +--> DW / Lakehouse 적재
+    +--> Search / Cache 동기화
+    +--> Feature Store / Microservice 소비
 ```
 
 이 흐름은 테이블 복사 중심 사고에서, 변경 이벤트를 여러 소비자가 재사용하는 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인으로의 전환을 보여 준다.
@@ -197,7 +197,7 @@ Kafka Topic 축적 · 재전송
 
 **진행 상황**: 180 / 258
 
-← **이전**: [179. 카프카 (Kafka) + 플링크 (Flink) 시간 창 (Time Window) 워터마크 (Watermark)](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)
-**다음**: [181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/) →
+<- **이전**: [179. 카프카 (Kafka) + 플링크 (Flink) 시간 창 (Time Window) 워터마크 (Watermark)](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)
+**다음**: [181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/) ->
 
 ---

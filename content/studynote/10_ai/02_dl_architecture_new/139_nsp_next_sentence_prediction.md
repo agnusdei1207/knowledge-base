@@ -21,9 +21,9 @@ tags = ["studynote-ai"]
 ```text
 NSP 학습:
   [CLS] 문장A [SEP] 문장B [SEP]
-  → IsNext (50%): 원래 연속 문장
-  → NotNext (50%): 랜덤 다른 문서의 문장
-  → [CLS] 토큰으로 이진 분류
+  -> IsNext (50%): 원래 연속 문장
+  -> NotNext (50%): 랜덤 다른 문서의 문장
+  -> [CLS] 토큰으로 이진 분류
 ```
 
 - **📢 섹션 요약 비유**: NSP는 <strong>연결된 퍼즐 조각인지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>하는 것이다. 두 조각이 맞는지(IsNext) 아닌지(NotNext) 판별한다.
@@ -49,9 +49,9 @@ NSP는 <strong>문장 <a href="/knowledge-base/studynote/05_database/02_modeling
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[BERT NSP (2018)] → [RoBERTa: NSP 제거 (2019)]
-    → [ALBERT: SOP 대체 (2019)]
-    → [현재: 대부분 모델에서 NSP 미사용]
+[BERT NSP (2018)] -> [RoBERTa: NSP 제거 (2019)]
+    -> [ALBERT: SOP 대체 (2019)]
+    -> [현재: 대부분 모델에서 NSP 미사용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ NSP는 <strong>문장 <a href="/knowledge-base/studynote/05_database/02_modeling
 
 **진행 상황**: 139 / 420
 
-← **이전**: [138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)
-**다음**: [140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델](/knowledge-base/studynote/10_ai/02_dl_architecture_new/140_gpt/) →
+<- **이전**: [138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)
+**다음**: [140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델](/knowledge-base/studynote/10_ai/02_dl_architecture_new/140_gpt/) ->
 
 ---

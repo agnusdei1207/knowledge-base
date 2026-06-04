@@ -23,7 +23,7 @@ tags = ["studynote-security"]
 핵심은 "키가 짧으면 시간이 문제를 해결한다"는 점이다. AES는 이 문제를 키 길이와 구조로 동시에 해결했다. 128비트 블록은 고정하고, 키는 128/192/256비트로 제공해 장기 보안 요구와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구를 나눠 받는다.
 
 ```text
-DES(56bit) ─► 전수조사 취약 ─► NIST 공모전 ─► Rijndael ─► AES
+DES(56bit) -► 전수조사 취약 -► NIST 공모전 -► Rijndael -► AES
 ```
 
 - **📢 섹션 요약 비유**: 4자리 자물쇠가 너무 빨리 풀리자, 더 길고 더 촘촘한 새 자물쇠를 표준으로 정한 것이다.
@@ -43,10 +43,10 @@ AES는 4x4 [바이트](/knowledge-base/studynote/01_computer_architecture/02_dat
 라운드마다 수행하는 핵심 연산은 네 가지다. SubBytes는 S-Box로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 비선형 치환하고, ShiftRows는 행을 밀어 확산을 돕는다. MixColumns는 GF(2^8) 곱셈으로 열을 섞고, AddRoundKey는 라운드 키를 XOR한다. 마지막 라운드에서는 MixColumns를 생략한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ 평문 128비트 → State → SubBytes → ShiftRows → MixColumns → XOR 키 │
-│                              └──────────── 라운드 반복 ────────────┘│
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+| 평문 128비트 -> State -> SubBytes -> ShiftRows -> MixColumns -> XOR 키 |
+|                              +------------ 라운드 반복 ------------+|
++---------------------------------------------------------------------+
 ```
 
 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions)는 이 과정을 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 가속한다. 그래서 같은 AES라도 소프트웨어만 쓰는 경우보다 훨씬 빠르고, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화 같은 실무 환경에서 충분한 처리량을 낸다.
@@ -112,15 +112,15 @@ AES의 강점은 표준화, [성능](/knowledge-base/studynote/04_software_engin
 
 ```text
 DES
-    │
-    ▼
+    |
+    v
 AES (Advanced Encryption Standard)
-    │
-    ├────────► AES-NI (AES New Instructions)
-    │
-    ├────────► CBC / CTR / GCM
-    │
-    └────────► TLS / VPN / 파일 암호화
+    |
+    +--------► AES-NI (AES New Instructions)
+    |
+    +--------► CBC / CTR / GCM
+    |
+    +--------► TLS / VPN / 파일 암호화
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -135,7 +135,7 @@ AES (Advanced Encryption Standard)
 
 **진행 상황**: 83 / 1108
 
-← **이전**: [82. Salsa20/ChaCha20 (Salsa20/ChaCha20)](/knowledge-base/studynote/09_security/02_crypto/082_salsa20_chacha20/)
-**다음**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/knowledge-base/studynote/09_security/02_crypto/084_aes_spn_structure/) →
+<- **이전**: [82. Salsa20/ChaCha20 (Salsa20/ChaCha20)](/knowledge-base/studynote/09_security/02_crypto/082_salsa20_chacha20/)
+**다음**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/knowledge-base/studynote/09_security/02_crypto/084_aes_spn_structure/) ->
 
 ---

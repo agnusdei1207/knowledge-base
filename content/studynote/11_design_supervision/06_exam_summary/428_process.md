@@ -20,18 +20,18 @@ tags = ["studynote-design-supervision"]
 
 이 주제는 서로 다른 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법을 한 번에 묶어 물을 때 자주 등장한다. 시험에서 중요한 것은 각 기법의 정의를 따로 외우는 것보다 <strong>무엇을 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>하려는가</strong>를 먼저 구분하는 것이다. 델타(Delta)는 변경분만 저장·전송하여 전체 원본 노출과 전송량을 줄이는 차등 처리이고, 암호(Encryption)는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을, 해시(Hash)는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))은 패스워드 대입 공격 저항성을, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))는 코드 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용 증가를 담당한다.
 
-즉 같은 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"라도 대상과 효과가 다르다. 여기서 오류가 나면 패스워드를 복호화 가능한 형태로 저장하거나, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)만 해 놓고 서버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 식의 치명적 오해가 생긴다. 따라서 감리·설계 답안은 항상 **자산 → 위협 → 적합한 기법** 순으로 구성하는 것이 안전하다.
+즉 같은 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"라도 대상과 효과가 다르다. 여기서 오류가 나면 패스워드를 복호화 가능한 형태로 저장하거나, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)만 해 놓고 서버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 식의 치명적 오해가 생긴다. 따라서 감리·설계 답안은 항상 **자산 -> 위협 -> 적합한 기법** 순으로 구성하는 것이 안전하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보호하려는 것 ──▶ 필요한 속성 ──▶ 선택 기법                   │
-├──────────────────────────────────────────────────────────────┤
-│ 변경분 전송      효율·노출 축소      Delta                   │
-│ 비밀 데이터      기밀성 확보         Encryption              │
-│ 데이터 검증      무결성 확인         Hash                    │
-│ 패스워드 저장    대입 공격 저항      Key Stretching          │
-│ 배포 코드        역공학 난이도 상승   Obfuscation            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 보호하려는 것 ---> 필요한 속성 ---> 선택 기법                   |
++--------------------------------------------------------------+
+| 변경분 전송      효율·노출 축소      Delta                   |
+| 비밀 데이터      기밀성 확보         Encryption              |
+| 데이터 검증      무결성 확인         Hash                    |
+| 패스워드 저장    대입 공격 저항      Key Stretching          |
+| 배포 코드        역공학 난이도 상승   Obfuscation            |
++--------------------------------------------------------------+
 ```
 
 이 그림은 기술 이름보다 먼저 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 속성을 정해야 올바른 통제 선택이 가능하다는 점을 보여 준다.
@@ -53,15 +53,15 @@ tags = ["studynote-design-supervision"]
 | [Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) | 코드 의미를 읽기 어렵게 만들어 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용 증가 | 보안의 보조 수단이지 비밀 저장 수단은 아니다 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Asset / Data / Code                                           │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 변경 배포/백업   ──▶ Delta                                 │
-│ 2) 저장·전송 비밀   ──▶ Encryption                            │
-│ 3) 위변조 검증      ──▶ Hash / MAC                            │
-│ 4) 패스워드 저장    ──▶ Salt + Key Stretching                 │
-│ 5) 클라이언트 코드  ──▶ Obfuscation + 서버측 검증             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Asset / Data / Code                                           |
++--------------------------------------------------------------+
+| 1) 변경 배포/백업   ---> Delta                                 |
+| 2) 저장·전송 비밀   ---> Encryption                            |
+| 3) 위변조 검증      ---> Hash / MAC                            |
+| 4) 패스워드 저장    ---> Salt + Key Stretching                 |
+| 5) 클라이언트 코드  ---> Obfuscation + 서버측 검증             |
++--------------------------------------------------------------+
 ```
 
 실무적으로는 이 기법들이 경쟁 관계가 아니라 **계층적으로 함께 쓰인다**. 예를 들어 모바일 앱은 소스 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)로 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 난도를 높이고, 통신은 TLS로 암호화하며, 패스워드는 서버에서 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)을 적용해 저장한다. 각 층의 역할을 구분해 설명하는 것이 중요하다.
@@ -133,12 +133,12 @@ tags = ["studynote-design-supervision"]
 
 ```text
 자산 식별
-    │
-    ├── 비밀 보호 ─────────▶ Encryption
-    ├── 위변조 검증 ───────▶ Hash / HMAC
-    ├── 패스워드 저장 ─────▶ Salt + Key Stretching
-    ├── 코드 역공학 방어 ─▶ Obfuscation
-    └── 변경분 전송 최적화 ▶ Delta
+    |
+    +-- 비밀 보호 ----------> Encryption
+    +-- 위변조 검증 --------> Hash / HMAC
+    +-- 패스워드 저장 ------> Salt + Key Stretching
+    +-- 코드 역공학 방어 --> Obfuscation
+    +-- 변경분 전송 최적화 -> Delta
 ```
 
 이 흐름은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상에 따라 통제 수단이 갈라진다는 점을 한눈에 보여 준다.
@@ -155,7 +155,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 506 / 530
 
-← **이전**: [427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/427_metric/)
-**다음**: [429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/429_process/) →
+<- **이전**: [427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/427_metric/)
+**다음**: [429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/429_process/) ->
 
 ---

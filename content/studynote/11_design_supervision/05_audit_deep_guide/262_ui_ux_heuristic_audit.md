@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 감리는 사용자 인터페이스와 사용자 경험(User Interface/User Experience, UI/UX) [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 멀티 디바이스와 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 요구가 확대되면서 화면 예쁨보다 과업 성공률과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 중요성이 커졌다. 특히 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가가 기준선으로 정리되지 않으면 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)는 사람 의존 절차로 흩어지고, 최종적으로 과업 완료율이 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 사용자 이탈, 민원 증가, 심사 반려가 반복된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 휴리스틱 평가 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 인지 부하 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 과업 완료율 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 휴리스틱 평가 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 인지 부하 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 과업 완료율 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_schedu
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 과업 완료율을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가, [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/), 과업 완료율은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_schedu
 - 확장 개념: 경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[휴리스틱 평가] → [UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 감리] → [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
+[휴리스틱 평가] -> [UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 감리] -> [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ UI/UX [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_schedu
 
 **진행 상황**: 323 / 530
 
-← **이전**: [261. 모바일 앱 감리 HIG와 Material Design (Mobile App Audit for HIG and Material Design)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/261_mobile_app_audit_store_hig/)
-**다음**: [263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/263_web_compatibility_activex/) →
+<- **이전**: [261. 모바일 앱 감리 HIG와 Material Design (Mobile App Audit for HIG and Material Design)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/261_mobile_app_audit_store_hig/)
+**다음**: [263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/263_web_compatibility_activex/) ->
 
 ---

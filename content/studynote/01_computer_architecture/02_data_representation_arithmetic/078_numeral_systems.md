@@ -23,10 +23,10 @@ tags = ["studynote-computer-architecture"]
 hex는 binary를 4비트씩 묶어 보기 쉽게 만든 것이고, octal은 옛 시스템에서 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) group을 줄여 읽기 쉽게 만든 것이다.
 ```text
 값 255
-├─ binary 11111111
-├─ octal 377
-├─ decimal 255
-└─ hex FF
++- binary 11111111
++- octal 377
++- decimal 255
++- hex FF
 ```
 
 - **📢 섹션 요약 비유**: 컴퓨터와 사람이 같은 숫자를 다른 언어로 읽는다.
@@ -107,17 +107,17 @@ BCD는 각 숫자를 4비트로 따로 담아 십진 표현을 보존하고, pur
 
 ```text
 digit
-  │
-  ▼
+  |
+  v
 place value
-  │
-  ▼
+  |
+  v
 radix conversion
-  │
-  ▼
+  |
+  v
 memory / logic representation
-  │
-  ▼
+  |
+  v
 debugging
 ```
 
@@ -133,7 +133,7 @@ debugging
 
 **진행 상황**: 78 / 803
 
-← **이전**: [77. 기수 (Radix)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)
-**다음**: [79. LSB (Least Significant Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) →
+<- **이전**: [77. 기수 (Radix)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)
+**다음**: [79. LSB (Least Significant Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) ->
 
 ---

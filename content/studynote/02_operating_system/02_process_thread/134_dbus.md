@@ -25,34 +25,34 @@ tags = ["studynote-operating-system"]
 D-Bus의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크 토폴로지와 두 가지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 계층을 아키텍처 다이어그램으로 확인할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    D-Bus 버스 아키텍처                             │
-│                                                                    │
-│  ┌─── 세션 버스 (Session Bus) ─────────────────────────────────┐   │
-│  │                                                             │   │
-│  │  ┌─────┐  ┌─────┐  ┌─────┐       ┌──────────────┐         │     │
-│  │  │App A│  │App B│  │App C│       │  Session Bus  │         │    │
-│  │  └──┬──┘  └──┬──┘  └──┬──┘       │   Daemon      │         │    │
-│  │     │        │        │          │  (dbus-daemon) │         │   │
-│  │     └────────┼────────┘          └──────┬───────┘         │     │
-│  │              │                          │                  │    │
-│  └──────────────┼──────────────────────────┼──────────────────┘    │
-│                 │                          │                       │
-│                 │     유저 세션당 1개       │                      │
-│                                                                    │
-│  ┌─── 시스템 버스 (System Bus) ────────────────────────────────┐   │
-│  │                                                             │   │
-│  │  ┌────────┐ ┌────────┐ ┌────────┐  ┌──────────────┐       │     │
-│  │  │Network │ │  udev  │ │systemd │  │ System Bus   │       │     │
-│  │  │Manager │ │        │ │        │  │   Daemon     │       │     │
-│  │  └───┬────┘ └───┬────┘ └───┬────┘  └──────┬───────┘       │     │
-│  │      └──────────┼──────────┘              │                │    │
-│  │                 │                         │                │    │
-│  └─────────────────┼─────────────────────────┼────────────────┘    │
-│                    │    시스템 전역 1개       │                    │
-└────────────────────┼─────────────────────────┼─────────────────────┘
-                     │                                               │
-                     ▼                         ▼
++--------------------------------------------------------------------+
+|                    D-Bus 버스 아키텍처                             |
+|                                                                    |
+|  +--- 세션 버스 (Session Bus) ---------------------------------+   |
+|  |                                                             |   |
+|  |  +-----+  +-----+  +-----+       +--------------+         |     |
+|  |  |App A|  |App B|  |App C|       |  Session Bus  |         |    |
+|  |  +--+--+  +--+--+  +--+--+       |   Daemon      |         |    |
+|  |     |        |        |          |  (dbus-daemon) |         |   |
+|  |     +--------+--------+          +------+-------+         |     |
+|  |              |                          |                  |    |
+|  +--------------+--------------------------+------------------+    |
+|                 |                          |                       |
+|                 |     유저 세션당 1개       |                      |
+|                                                                    |
+|  +--- 시스템 버스 (System Bus) --------------------------------+   |
+|  |                                                             |   |
+|  |  +--------+ +--------+ +--------+  +--------------+       |     |
+|  |  |Network | |  udev  | |systemd |  | System Bus   |       |     |
+|  |  |Manager | |        | |        |  |   Daemon     |       |     |
+|  |  +---+----+ +---+----+ +---+----+  +------+-------+       |     |
+|  |      +----------+----------+              |                |    |
+|  |                 |                         |                |    |
+|  +-----------------+-------------------------+----------------+    |
+|                    |    시스템 전역 1개       |                    |
++--------------------+-------------------------+---------------------+
+                     |                                               |
+                     v                         v
             Unix Domain Socket (소켓 경로:
             /run/dbus/system_bus_socket,
             /run/user/{UID}/bus)
@@ -79,27 +79,27 @@ D-Bus의 메서드 호출 [RPC](/knowledge-base/studynote/02_operating_system/02
 
 ```text
   클라이언트                 버스 데몬              서비스 (NetworkManager)
-     │                        │                            │
-     ├── Method Call ────────▶│                            │
-     │  Dest: org.freedesktop.│                            │
-     │    NetworkManager      │                            │
-     │  Path: /org/freedesktop│                            │
-     │    /NetworkManager     │                            │
-     │  IFace: .Manager       │                            │
-     │  Method: GetDevices    │                            │
-     │                        │                            │
-     │                        ├── Method Call ──────────▶  │
-     │                        │   (라우팅 규칙에 따라      │
-     │                        │    수신자에게 전달)        │
-     │                        │                            │
-     │                        │   [서비스가 요청 처리]     │
-     │                        │                            │
-     │                        │◀── Method Return ──────────┤
-     │                        │   (결과 데이터 포함)       │
-     │                        │                            │
-     │◀── Method Return ──────┤                            │
-     │   (결과를 클라이언트에  │                           │
-     │    전달)                │                           │
+     |                        |                            |
+     +-- Method Call --------->|                            |
+     |  Dest: org.freedesktop.|                            |
+     |    NetworkManager      |                            |
+     |  Path: /org/freedesktop|                            |
+     |    /NetworkManager     |                            |
+     |  IFace: .Manager       |                            |
+     |  Method: GetDevices    |                            |
+     |                        |                            |
+     |                        +-- Method Call ----------->  |
+     |                        |   (라우팅 규칙에 따라      |
+     |                        |    수신자에게 전달)        |
+     |                        |                            |
+     |                        |   [서비스가 요청 처리]     |
+     |                        |                            |
+     |                        |<--- Method Return ----------+
+     |                        |   (결과 데이터 포함)       |
+     |                        |                            |
+     |<--- Method Return ------+                            |
+     |   (결과를 클라이언트에  |                           |
+     |    전달)                |                           |
 ```
 
 **[다이어그램 해설]** 이 흐름도는 D-Bus가 단순한 메시지 큐가 아니라 완전한 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 프레임워크라는 점을 보여준다. 클라이언트는 수신자의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소를 알 필요 없이, 목적지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 이름(`org.freedesktop.NetworkManager`)과 객체 경로(`/org/freedesktop/NetworkManager`)를 지정하여 메서드를 호출한다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 데몬은 이 메시지를 해당 이름을 소유한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))한다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 메서드를 실행하고 결과를 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 데몬을 통해 클라이언트에게 반환한다. 이 과정에서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 데몬은 단순한 중계자(Relay) 역할만 수행하므로 메시지 내용을 검사하거나 수정하지 않는다. 시그널([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))의 경우에는 특정 수신자가 아닌 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 연결된 모든 프로세스(또는 특정 규칙을 일치하는 수신자)에게 브로드캐스트(Broadcast)된다.
@@ -125,7 +125,7 @@ D-Bus와 직통 IPC의 메시지 경로를 비교하면 [성능](/knowledge-base
 ```text
   [직통 IPC (POSIX shm / Unix Socket)]     [D-Bus (버스 데몬 경유)]
 
-  Process A ─────────────────▶ Process B     Process A ──────▶ DBus Daemon ──────▶ Process B
+  Process A ------------------> Process B     Process A -------> DBus Daemon -------> Process B
 
   1홉 (직접 전달)                         2홉 (데몬 경유)
   지연: ~1 us                              지연: ~10~50 us
@@ -155,20 +155,20 @@ D-[Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interco
 
 ```text
    [ D-Bus 도입 적합성 판단 기준 ]
-                       │
-                ▼
+                       |
+                v
      통신 대상이 서비스 이름으로 식별 가능한가?
-        ├── 아니오 ──▶ Unix Domain Socket 또는 POSIX IPC 사용
-        │              (고정된 피어 간 고성능 통신)
-                       │
-        └── 예 ──▶ 이벤트 브로드캐스팅이 필요한가?
-                       ├── 예 ──▶ D-Bus 시그널 활용
-                       │          (예: 네트워크 상태 변경, USB 장치 연결)
-                       │
-                       └── 아니오 ──▶ RPC 의미론이 필요한가?
-                                      ├── 예 ──▶ D-Bus 메서드 호출
-                                      │          (예: systemd 서비스 제어)
-                                      └── 아니오 ──▶ 직통 IPC 더 적합
+        +-- 아니오 ---> Unix Domain Socket 또는 POSIX IPC 사용
+        |              (고정된 피어 간 고성능 통신)
+                       |
+        +-- 예 ---> 이벤트 브로드캐스팅이 필요한가?
+                       +-- 예 ---> D-Bus 시그널 활용
+                       |          (예: 네트워크 상태 변경, USB 장치 연결)
+                       |
+                       +-- 아니오 ---> RPC 의미론이 필요한가?
+                                      +-- 예 ---> D-Bus 메서드 호출
+                                      |          (예: systemd 서비스 제어)
+                                      +-- 아니오 ---> 직통 IPC 더 적합
                                                      (지연 최소화 우선)
 ```
 
@@ -221,12 +221,12 @@ D-Bus는 기존의 UNIX [Domain](/knowledge-base/studynote/05_database/02_modeli
 
 ```text
 [POSIX IPC]
-    │
-    ▼
+    |
+    v
 [D-Bus (Desktop Bus)]
-    │
-    ├──▶ [안드로이드 바인더 (Android Binder)]
-    └──▶ [좀비 스레드 (Zombie Thread)]
+    |
+    +---> [안드로이드 바인더 (Android Binder)]
+    +---> [좀비 스레드 (Zombie Thread)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -243,7 +243,7 @@ D-Bus는 기존의 UNIX [Domain](/knowledge-base/studynote/05_database/02_modeli
 
 **진행 상황**: 134 / 800
 
-← **이전**: [133. POSIX IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/133_posix_ipc/)
-**다음**: [135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/135_android_binder/) →
+<- **이전**: [133. POSIX IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/133_posix_ipc/)
+**다음**: [135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/135_android_binder/) ->
 
 ---

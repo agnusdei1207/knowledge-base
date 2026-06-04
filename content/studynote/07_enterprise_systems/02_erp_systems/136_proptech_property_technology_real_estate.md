@@ -49,9 +49,9 @@ PropTech는 <strong>부동산 산업의 <a href="/knowledge-base/studynote/12_it
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[오프라인 부동산 (~2010s)] → [온라인 플랫폼 (직방·다방)]
-    → [VR 모델하우스 (2018~)] → [스마트 빌딩 (IoT)]
-    → [현재: AI 시세 예측 + STO 투자]
+[오프라인 부동산 (~2010s)] -> [온라인 플랫폼 (직방·다방)]
+    -> [VR 모델하우스 (2018~)] -> [스마트 빌딩 (IoT)]
+    -> [현재: AI 시세 예측 + STO 투자]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ PropTech는 <strong>부동산 산업의 <a href="/knowledge-base/studynote/12_it
 
 **진행 상황**: 136 / 482
 
-← **이전**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/)
-**다음**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) →
+<- **이전**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/)
+**다음**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) ->
 
 ---

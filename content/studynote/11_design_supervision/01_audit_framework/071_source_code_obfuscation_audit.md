@@ -31,7 +31,7 @@ tags = ["studynote-design"]
 
 ```text
 Source Code
-  ↓ obfuscation
+  v obfuscation
 Hard to Reverse Engineer
 ```
 
@@ -103,11 +103,11 @@ Hard to Reverse Engineer
 
 ```text
 Source Code
-  ↓
+  v
 Obfuscation
-  ↓
+  v
 Reverse Engineering Resistance
-  ↓
+  v
 Mobile Security
 ```
 
@@ -117,11 +117,11 @@ Mobile Security
 
 ```text
 Obfuscation
-  ↓
+  v
 Anti-Reversing
-  ↓
+  v
 Mobile Security
-  ↓
+  v
 Secure Coding
 ```
 
@@ -139,7 +139,7 @@ Secure Coding
 
 **진행 상황**: 110 / 530
 
-← **이전**: [70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_svn_ci_audit/)
-**다음**: [72. 개인정보 파기 정책 및 로그 보존 기간 감리 (법적 요건)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/072_personal_data_destruction_log_retention_audit/) →
+<- **이전**: [70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_svn_ci_audit/)
+**다음**: [72. 개인정보 파기 정책 및 로그 보존 기간 감리 (법적 요건)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/072_personal_data_destruction_log_retention_audit/) ->
 
 ---

@@ -26,28 +26,28 @@ tags = ["studynote-operating-system"]
 어떻게 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들과 XOR 계산 값이 전담 디스크 한 곳에만 몰리는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 4 어레이 병목의 구조 (단일 패리티 집중)                │
-  ├─────────────────────────────────────────────────────────────────────────────┤
-  │                                                                             │
-  │     가상 볼륨 /dev/md0 에 [ A | B | C ] 3개의 블록 쓰기 명령 하달           │
-  │                                                                             │
-  │      [ 데이터 분산 처리 ]             [ 패리티 단독 계산 및 몰빵 ]          │
-  │   ┌────────┐  ┌────────┐  ┌────────┐    ┌────────────────────┐              │
-  │   │ 디스크 1│  │ 디스크 2│  │ 디스크 3│    │ 패리티 전담 디스크(P)│         │
-  │   │        │  │        │  │        │    │    (Bottleneck!)   │              │
-  │   │        │  │        │  │        │    │                    │              │
-  │   │ Data A │  │ Data B │  │ Data C │ == │ Parity(P1) =A⊕B⊕C  │◀─┐           │
-  │   │ Data D │  │ Data E │  │ Data F │ == │ Parity(P2) =D⊕E⊕F  │  │           │
-  │   │ Data G │  │ Data H │  │ Data I │ == │ Parity(P3) =G⊕H⊕I  │  │           │
-  │   │  ...   │  │  ...   │  │  ...   │    │     ... (혹사)     │  │           │
-  │   └────────┘  └────────┘  └────────┘    └────────────────────┘  │           │
-  │                                                 🔥 불타는 부하 발생 │       │
-  │                                                                   │         │
-  │  * 문제점: 1~3번 디스크가 독립적으로 다른 블록을 무작위로 쓸 때마다,      │ │
-  │           이 불쌍한 패리티 전담 4번 디스크는 매번 무조건 같이 불려나가     ││
-  │           자신의 I/O(쓰기암 리프트)를 허덕이며 바꿔치기해야 함.          │  │
-  └─────────────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------------+
+  |                 RAID 4 어레이 병목의 구조 (단일 패리티 집중)                |
+  +-----------------------------------------------------------------------------+
+  |                                                                             |
+  |     가상 볼륨 /dev/md0 에 [ A | B | C ] 3개의 블록 쓰기 명령 하달           |
+  |                                                                             |
+  |      [ 데이터 분산 처리 ]             [ 패리티 단독 계산 및 몰빵 ]          |
+  |   +--------+  +--------+  +--------+    +--------------------+              |
+  |   | 디스크 1|  | 디스크 2|  | 디스크 3|    | 패리티 전담 디스크(P)|         |
+  |   |        |  |        |  |        |    |    (Bottleneck!)   |              |
+  |   |        |  |        |  |        |    |                    |              |
+  |   | Data A |  | Data B |  | Data C | == | Parity(P1) =A⊕B⊕C  |<--+           |
+  |   | Data D |  | Data E |  | Data F | == | Parity(P2) =D⊕E⊕F  |  |           |
+  |   | Data G |  | Data H |  | Data I | == | Parity(P3) =G⊕H⊕I  |  |           |
+  |   |  ...   |  |  ...   |  |  ...   |    |     ... (혹사)     |  |           |
+  |   +--------+  +--------+  +--------+    +--------------------+  |           |
+  |                                                 🔥 불타는 부하 발생 |       |
+  |                                                                   |         |
+  |  * 문제점: 1~3번 디스크가 독립적으로 다른 블록을 무작위로 쓸 때마다,      | |
+  |           이 불쌍한 패리티 전담 4번 디스크는 매번 무조건 같이 불려나가     ||
+  |           자신의 I/O(쓰기암 리프트)를 허덕이며 바꿔치기해야 함.          |  |
+  +-----------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 핵심 아키텍처는 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 된(Striped) 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무방비로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기록될 때(1, 2, 3번 디스크), 이 수치들의 이진수 배타적 논리합(XOR)을 계산하여 유일하게 지정된 Parity 디스크 한 곳에만 들이붓는다. 이 XOR 연산(예: $1 \oplus 0 \oplus 1 = 0$) 덕에 디스크 중 하나가 물리적으로 사망하더라도 복원이 가능해졌다. 이 방식은 순차적(Sequential) 대형 파일을 읽을 때는(Read) 훌륭한 속도를 보여주지만, 작고 수많은 무작위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random Write)가 여기저기서 일어날 때마다 무조건 패리티 디스크 1대에만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 몰리게(Traffic Jam) 되므로 구조적 한계인 패리티 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목(Parity Disk [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))의 대재앙이 일어난다.
@@ -136,12 +136,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [RAID 1 (미러링, Mirroring)]
-    │
-    ▼
+    |
+    v
 [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)]
-    │
-    ├──▶ [RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
-    └──▶ [RAID 6 (분산 이중 패리티)]
+    |
+    +---> [RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
+    +---> [RAID 6 (분산 이중 패리티)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -158,7 +158,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 486 / 800
 
-← **이전**: [485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)
-**다음**: [487. RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) →
+<- **이전**: [485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)
+**다음**: [487. RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) ->
 
 ---

@@ -38,7 +38,7 @@ tags = ["studynote-it-management"]
 | 일반 변경   | [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)       | 수일~수주  | 완전    |
 | **긴급 변경** | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">ECAB</a></strong> | **수시간** | 사후 완전|
 
-> 📢 **섹션 요약 비유**: 국회가 일반 법안은 상임위→본회의를 거치지만, 계엄 해제는 긴급회의로 빠르게 결정 — ECAB는 IT판 긴급회의.
+> 📢 **섹션 요약 비유**: 국회가 일반 법안은 상임위->본회의를 거치지만, 계엄 해제는 긴급회의로 빠르게 결정 — ECAB는 IT판 긴급회의.
 
 ---
 
@@ -73,7 +73,7 @@ ECAB 구성원 (소규모, 권한 위임):
 긴급 변경 요청(RFC: Request For Change) 작성
       |
       v
-변경 관리자 → ECAB 소집 (전화, 화상)
+변경 관리자 -> ECAB 소집 (전화, 화상)
       |
       v
 영향 분석, 롤백 계획, 위험 평가 (30분 이내)
@@ -195,7 +195,7 @@ Change Advisory Board -> Feature Toggle
 
 **진행 상황**: 61 / 587
 
-← **이전**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_platform_business_model/)
-**다음**: [35. 린 스타트업 (Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) →
+<- **이전**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_platform_business_model/)
+**다음**: [35. 린 스타트업 (Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ->
 
 ---

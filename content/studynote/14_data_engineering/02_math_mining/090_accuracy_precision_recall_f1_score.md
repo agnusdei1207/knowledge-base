@@ -40,16 +40,16 @@ tags = ["studynote-data-engineering"]
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/">F1-Score</a></strong> | `2 × (Precision × Recall) / (Precision + Recall)` | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 조화 평균 | 두 지표의 균형 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             정밀도와 재현율의 트레이드오프 (Trade-off)          │
-├──────────────────────────────────────────────────────────────┤
-│ [판단 임계값(Threshold) 하향 조정] ─▶ 더 쉽게 '양성'으로 판정  │
-│    │                                                         │
-│    ├─▶ 실제 양성을 더 많이 찾아냄 ====> 재현율(Recall) 상승    │
-│    └─▶ 정상도 양성으로 잘못 판정 증가 ===> 정밀도(Precision) 하락│
-│                                                              │
-│ ※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             정밀도와 재현율의 트레이드오프 (Trade-off)          |
++--------------------------------------------------------------+
+| [판단 임계값(Threshold) 하향 조정] --> 더 쉽게 '양성'으로 판정  |
+|    |                                                         |
+|    +--> 실제 양성을 더 많이 찾아냄 ====> 재현율(Recall) 상승    |
+|    +--> 정상도 양성으로 잘못 판정 증가 ===> 정밀도(Precision) 하락|
+|                                                              |
+| ※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.      |
++--------------------------------------------------------------+
 ```
 
 이러한 반비례 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 때문에 한 지표만 높이는 꼼수를 막기 위해, 둘 다 높아야만 좋은 점수를 받는 조화 평균인 F1-Score를 종합 지표로 사용한다.
@@ -106,17 +106,17 @@ tags = ["studynote-data-engineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 분류 예측 및 혼동 행렬 도입
-    │
-    ▼
+    |
+    v
 정확도의 한계 인식 (데이터 불균형 문제)
-    │
-    ▼
+    |
+    v
 정밀도 (Precision) · 재현율 (Recall) 세분화 (FP/FN 억제)
-    │
-    ▼
+    |
+    v
 F1-Score (두 지표의 조화 평균으로 종합 평가)
-    │
-    ▼
+    |
+    v
 비용 민감 학습 및 도메인 특화 지표(F-Beta) 적용
 ```
 
@@ -131,7 +131,7 @@ F1-Score (두 지표의 조화 평균으로 종합 평가)
 
 **진행 상황**: 90 / 258
 
-← **이전**: [혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)
-**다음**: [정밀도와 재현율의 트레이드오프: 임계값 조절 전략](/knowledge-base/studynote/14_data_engineering/02_math_mining/091_precision_vs_recall_tradeoff/) →
+<- **이전**: [혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)
+**다음**: [정밀도와 재현율의 트레이드오프: 임계값 조절 전략](/knowledge-base/studynote/14_data_engineering/02_math_mining/091_precision_vs_recall_tradeoff/) ->
 
 ---

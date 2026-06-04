@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SR-IOV]
-    │
-    ▼
+    |
+    v
 [SmartNIC와 DPU]
-    │
-    └──▶ [SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    |
+    +---> [SD-WAN 가속 오버레이 토폴로지 암호망/…]
 ```
 
 - **📢 섹션 요약 비유**: SmartNIC와 DPU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [SR-IOV]
-    │
-    ▼
+    |
+    v
 [SmartNIC와 DPU]
-    │
-    └──▶ [SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    |
+    +---> [SD-WAN 가속 오버레이 토폴로지 암호망/…]
 ```
 
 - **📢 섹션 요약 비유**: SmartNIC와 DPU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ SmartNIC와 DPU는 [데이터센터](/knowledge-base/studynote/03_network/16_dat
 
 ```text
 [선행 개념: SR-IOV]
-    │
-    ▼
+    |
+    v
 [현재 개념: SmartNIC와 DPU]
-    │
-    ├──▶ [확장 A: SD-WAN 가속 오버레이 토폴로지 암호망/…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 SmartNIC와 DPU는 SR-IOV에서 출발해 현재 메커니즘을 정교화하고, 이후 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 가속 오버레이 토폴로지 암호망/…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ SmartNIC와 DPU는 SR-IOV에서 출발해 현재 메커니즘을 정교화하고
 
 **진행 상황**: 969 / 1120
 
-← **이전**: [847. SR-IOV 통과 구조](/knowledge-base/studynote/03_network/16_data_center_cloud/847_sr_iov_single_root_io_virtualization_pass_through/)
-**다음**: [849. SD-WAN (소프트웨어 정의 광역망)](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) →
+<- **이전**: [847. SR-IOV 통과 구조](/knowledge-base/studynote/03_network/16_data_center_cloud/847_sr_iov_single_root_io_virtualization_pass_through/)
+**다음**: [849. SD-WAN (소프트웨어 정의 광역망)](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) ->
 
 ---

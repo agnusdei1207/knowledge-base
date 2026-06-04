@@ -114,12 +114,12 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 ```text
 [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-    │
-    ▼
+    |
+    v
 [임의적 접근 제어 (DAC, Discretionary Access Control)]
-    │
-    ├──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
-    └──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
+    |
+    +---> [강제적 접근 제어 (MAC, Mandatory Access Control)]
+    +---> [벨-라파둘라 모델 (Bell-LaPadula)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -138,7 +138,7 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 **진행 상황**: 578 / 800
 
-← **이전**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/knowledge-base/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/)
-**다음**: [579. 강제적 접근 제어 (MAC, Mandatory Access Control) - 시스템/보안 관리자가 등급 라벨 기반 강제 통제](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/) →
+<- **이전**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/knowledge-base/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/)
+**다음**: [579. 강제적 접근 제어 (MAC, Mandatory Access Control) - 시스템/보안 관리자가 등급 라벨 기반 강제 통제](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/) ->
 
 ---

@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 빈 공간([Free-Space Management](/knowledge-base/studynote/02_operating_system/09_file_system/532_free_space_management/) 렌더) 관리의 최종 3, 4번째 종착 진화형이다.
   - **그룹화 (Grouping 블록 트리 파싱)**: 빈 디스크 블록 1개의 철판 여백(4KB짜리 완전 빈 방울)에다가, 바보처럼 다음 주소 꼬리 1개만 적는(Linked 방식) 뻘짓을 멈추고! `자신의 빈칸` + `나머지 빈칸 주소 포인터 999개 우당탕 무더기 뭉텅이` 를 한방에 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 리스트로 쓸어담아 물리 구겨 넣는 하이브리드 인덱싱 체제다.
-  - **계수 (Counting 요약 통치 압살)**: 531장의 "[익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)([Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/))" 사상을 [빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/532_free_space_management/)에 고스란히 이식 포팅한 매커니즘. 1번, 2번 빈칸을 개별 숫자로 장부에 적지 않고 <strong><code>[블록 90번지부터 ─ 빈 공간 500개 연속 덩어리 공터 직행 빔!]</code></strong> 이라 숫자쌍 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(시작 + Count) 단 하나로 요약 종결 통치하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 체계 아크다.
+  - **계수 (Counting 요약 통치 압살)**: 531장의 "[익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)([Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/))" 사상을 [빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/532_free_space_management/)에 고스란히 이식 포팅한 매커니즘. 1번, 2번 빈칸을 개별 숫자로 장부에 적지 않고 <strong><code>[블록 90번지부터 - 빈 공간 500개 연속 덩어리 공터 직행 빔!]</code></strong> 이라 숫자쌍 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(시작 + Count) 단 하나로 요약 종결 통치하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 체계 아크다.
 - **필요성**: 엔지니어들은 미쳐버렸다. "아니 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 전광판(RAM 식충이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 폭발 데들락 30GB 고문!)은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 싫고, 연결 방식(모터 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 5만 바퀴 뺑뺑이)도 디스크 기스나서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 싫다. 대체 엑사바이트 클라우드를 어찌 관리하라고 결착!!?" 여기서 타협안(Trade-off Hybrid 조율)의 두 톱니바퀴 결속을 발동한다.
   "야! 그냥 빈 철판 블록(Grouping)을 전광판 종이로 치환(Decoupling 록백) 시켜! 그럼 RAM도 안 퍼먹고 모터도 1번만 긁어도 장부 무더기 주워서 이득!"
   "아니 그럴 바엔 그냥 연속된 방들(Counting) 묶음으로 파악해서 수억 개 주소를 단 1줄짜리로 슈퍼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 마스킹 부스트 부활시키면 되잖아 융합 타격!!" 이 극한 효율의 콤비 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 렌더 진화가 빅데이터 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 파괴 구동 부스트의 종지부를 찍었다 보장.
@@ -34,31 +34,31 @@ tags = ["studynote-operating-system"]
 운영체제가 연결 꼬리놀이(Linked)의 피로를 어떻게 혁파하여 빈 공간 10만 개를 쾌속 픽업수거 통치하는지 메모리 철판 맵핑 포팅 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────┐
-  │                 RAM 식충 파괴! "텅 빈 블록을 장부 통째 폴더로 재활용 우회해라!" │
-  ├─────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                 │
-  │  1️⃣ [ 그룹화 (Grouping 덩어리 통치 트리 스택 마스킹 렌더) ]                    │
-  │                                                                                 │
-  │     [[ 디스크 첫 번째 빈칸 방 "15번 철판 블록 (텅 비었음 4KB)!" ]]              │
-  │      - (공터 여백에다 빈칸 주소록 500개를 한 덩어리로 몰래 적어 포스트잇 봉인)  │
-  │      - `이 방(15번) 포함, 23번, 50번, 99번 ... 총 499개 다 내 부하 빈방임!`     │
-  │      - `마지막 500번째 포인터: 다음 그룹장 장부 빈방은 '5000번 블록' 임 스왑`   │
-  │                                                                                 │
-  │   => 결과: CPU가 15번 철판을 1번만(모터 $O(1)$) 찍어서 `읽기 쾅!` 하면?         │
-  │            그 속에서 연속 500개의 공짜 빈칸 주소를 와라락 루팅(수확) 개이득!    │
-  │            연결 리스트 500바퀴 뺑뺑이 모터 지연을 단숨에 물리 파괴 결착 완료.   │
-  │                                                                                 │
-  │  =========================▼===================================                  │
-  │                                                                                 │
-  │  2️⃣ [ 계수 (Counting 익스텐트 요약 SRE 묶음 연속 부스트 타격) ]                │
-  │                                                                                 │
-  │     [[ 10바이트 사이즈 초소형 B-Tree 요약 노드 (RAM 띠지 VFS 캐시 장착) ]]      │
-  │      - `시작 주소 (Location) : 100번 트랙 부터 출발 빔!`                        │
-  │      - `길이 갯수 (Counting) : 연속 500 덩어리 다 비었소 공항 활주로 통대관!`   │
-  │                                                                                 │
-  │   => 결과: 주소 배열 500개를 1줄짜리 숫자쌍(100, 500)으로 요약 무극 압축 타결.  │
-  └─────────────────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------------------+
+  |                 RAM 식충 파괴! "텅 빈 블록을 장부 통째 폴더로 재활용 우회해라!" |
+  +---------------------------------------------------------------------------------+
+  |                                                                                 |
+  |  1️⃣ [ 그룹화 (Grouping 덩어리 통치 트리 스택 마스킹 렌더) ]                    |
+  |                                                                                 |
+  |     [[ 디스크 첫 번째 빈칸 방 "15번 철판 블록 (텅 비었음 4KB)!" ]]              |
+  |      - (공터 여백에다 빈칸 주소록 500개를 한 덩어리로 몰래 적어 포스트잇 봉인)  |
+  |      - `이 방(15번) 포함, 23번, 50번, 99번 ... 총 499개 다 내 부하 빈방임!`     |
+  |      - `마지막 500번째 포인터: 다음 그룹장 장부 빈방은 '5000번 블록' 임 스왑`   |
+  |                                                                                 |
+  |   => 결과: CPU가 15번 철판을 1번만(모터 $O(1)$) 찍어서 `읽기 쾅!` 하면?         |
+  |            그 속에서 연속 500개의 공짜 빈칸 주소를 와라락 루팅(수확) 개이득!    |
+  |            연결 리스트 500바퀴 뺑뺑이 모터 지연을 단숨에 물리 파괴 결착 완료.   |
+  |                                                                                 |
+  |  =========================v===================================                  |
+  |                                                                                 |
+  |  2️⃣ [ 계수 (Counting 익스텐트 요약 SRE 묶음 연속 부스트 타격) ]                |
+  |                                                                                 |
+  |     [[ 10바이트 사이즈 초소형 B-Tree 요약 노드 (RAM 띠지 VFS 캐시 장착) ]]      |
+  |      - `시작 주소 (Location) : 100번 트랙 부터 출발 빔!`                        |
+  |      - `길이 갯수 (Counting) : 연속 500 덩어리 다 비었소 공항 활주로 통대관!`   |
+  |                                                                                 |
+  |   => 결과: 주소 배열 500개를 1줄짜리 숫자쌍(100, 500)으로 요약 무극 압축 타결.  |
+  +---------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 상단 1️⃣ 그룹화(Grouping)는 앞선 챕터 유닉스 i-node의 "단일 간접 포인터([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 블록)" 와 유전자가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 쌍둥이 판박이다. "텅 빈 디스크 조각 방 자체를, 다른 빈칸들 주소 1,000개를 적어 넣는 하청 관리자 장부([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Block의 도플갱어)로 둔갑 재활용 포팅 스위칭" 시켜버린 기막힌 묘수기 때문이다. 덕분에 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 15번 장부 한 놈만 디스크에서 털면(모터 1회 다이브 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 500마리 빈칸을 무더기로 건져 RAM 캐시 옥상에 킵해두고 쾌적 $O(1)$ 융합 레이턴시를 뿜는다.
@@ -162,12 +162,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [연결 리스트 (Linked List) 빈 공간 관리]
-    │
-    ▼
+    |
+    v
 [그룹화 (Grouping) / 계수 (Counting) 기법]
-    │
-    ├──▶ [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
-    └──▶ [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+    |
+    +---> [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
+    +---> [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -184,7 +184,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 535 / 800
 
-← **이전**: [534. 연결 리스트 (Linked List) 빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/534_linked_list_free_space/)
-**다음**: [536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) →
+<- **이전**: [534. 연결 리스트 (Linked List) 빈 공간 관리](/knowledge-base/studynote/02_operating_system/09_file_system/534_linked_list_free_space/)
+**다음**: [536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) ->
 
 ---

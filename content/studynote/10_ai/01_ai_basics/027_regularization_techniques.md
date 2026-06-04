@@ -19,16 +19,16 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│          과적합 vs. 과소적합 vs. 일반화                   │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│ 과소적합 (Underfitting): 훈련·테스트 모두 낮은 성능        │
-│ 과적합 (Overfitting):   훈련 높음, 테스트 낮음            │
-│ 일반화 (Generalization): 훈련·테스트 모두 높은 성능        │
-│                                                         │
-│ 규제화 목표: 과적합을 방지하여 일반화 달성                 │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|          과적합 vs. 과소적합 vs. 일반화                   |
++---------------------------------------------------------+
+|                                                         |
+| 과소적합 (Underfitting): 훈련·테스트 모두 낮은 성능        |
+| 과적합 (Overfitting):   훈련 높음, 테스트 낮음            |
+| 일반화 (Generalization): 훈련·테스트 모두 높은 성능        |
+|                                                         |
+| 규제화 목표: 과적합을 방지하여 일반화 달성                 |
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 규제화는 시험 공부 방법이다. 기출 문제(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 달달 외우면 처음 보는 문제([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))에서 낮은 점수가 나온다. 규제화는 "개념 이해"를 강제하여 어떤 문제도 풀 수 있는 실력을 기른다.
@@ -41,7 +41,7 @@ tags = ["studynote-ai"]
 
 | 비교 | L1 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | L2 (Ridge) |
 |:---|:---|:---|
-| 페널티 | λ·Σ|wᵢ| | λ·Σwᵢ² |
+| 페널티 | λ·Σ|wᵢ| | λ·Σwᵢ^ |
 | 효과 | 일부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) = 0 (희소) | 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 작게 균일 축소 |
 | 특성 선택 | 자동 (0이 된 특성 제거) | 없음 |
 | 적합 상황 | 특성 수 많고 일부만 관련 | 모든 특성 관련 |
@@ -50,10 +50,10 @@ tags = ["studynote-ai"]
 
 ```text
 훈련 중: 각 뉴런을 확률 p로 랜덤 비활성화
-        → 앙상블 효과 (다양한 서브 네트워크 학습)
+        -> 앙상블 효과 (다양한 서브 네트워크 학습)
 
 추론 중: 모든 뉴런 활성화
-        → 가중치에 (1-p) 스케일링
+        -> 가중치에 (1-p) 스케일링
 ```
 
 - **📢 섹션 요약 비유**: Dropout은 팀 훈련에서 무작위로 선수를 빼는 연습이다. 특정 선수(뉴런)에 의존하지 않도록 전체 팀(네트워크)이 다양한 조합으로 연습하여 어떤 상황에서도 대처 가능해진다.
@@ -77,8 +77,8 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 하이퍼파라미터 λ([람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 선택
-- λ = 0: 규제화 없음 → 과적합 위험.
-- λ 너무 큼: 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) → 0 → 과소적합.
+- λ = 0: 규제화 없음 -> 과적합 위험.
+- λ 너무 큼: 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) -> 0 -> 과소적합.
 - Cross-Validation으로 최적 λ 탐색.
 
 ### 딥러닝 실전 규제화 조합
@@ -122,17 +122,17 @@ tags = ["studynote-ai"]
 
 ```text
 [과적합 문제 — 훈련 데이터 암기, 일반화 실패]
-    │
-    ▼
+    |
+    v
 [L1/L2 규제화 — 손실 함수 패널티 추가]
-    │
-    ▼
+    |
+    v
 [Dropout / Batch Normalization — 딥러닝 특화 규제화]
-    │
-    ▼
+    |
+    v
 [AutoML — 최적 규제화 하이퍼파라미터 자동 탐색]
-    │
-    ▼
+    |
+    v
 [LLM 파인튜닝 — Weight Decay + LoRA 규제화]
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 27 / 420
 
-← **이전**: [26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단](/knowledge-base/studynote/10_ai/01_ai_basics/026_overfitting_underfitting/)
-**다음**: [28. L1/L2 규제화 상세 (L1/L2 Regularization)](/knowledge-base/studynote/10_ai/01_ai_basics/028_l1_l2_regularization/) →
+<- **이전**: [26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단](/knowledge-base/studynote/10_ai/01_ai_basics/026_overfitting_underfitting/)
+**다음**: [28. L1/L2 규제화 상세 (L1/L2 Regularization)](/knowledge-base/studynote/10_ai/01_ai_basics/028_l1_l2_regularization/) ->
 
 ---

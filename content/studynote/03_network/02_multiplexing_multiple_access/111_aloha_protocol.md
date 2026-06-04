@@ -26,16 +26,16 @@ tags = ["studynote-network"]
 이 도식은 고정 할당([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 ALOHA의 즉각 전송 구조가 갖는 본질적 차이를 대조하여 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [TDMA 대역 할당: 자원 낭비 및 지연 발생]               │
-│ Node A: [비어있음] [A 패킷] [비어있음] [비어있음]      │
-│ Node B: [비어있음] [비어있음] [비어있음] [B 패킷]      │
-├────────────────────────────────────────────────────────┤
-│ [Pure ALOHA 무작위 접근: 즉각 전송 및 충돌 감수]       │
-│ Node A:      [A 패킷 전송]                             │
-│ Node B:                 [B 패킷 전송]                  │
-│ Node C:          [C 패킷 전송] (A와 C의 물리적 충돌!)  │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [TDMA 대역 할당: 자원 낭비 및 지연 발생]               |
+| Node A: [비어있음] [A 패킷] [비어있음] [비어있음]      |
+| Node B: [비어있음] [비어있음] [비어있음] [B 패킷]      |
++--------------------------------------------------------+
+| [Pure ALOHA 무작위 접근: 즉각 전송 및 충돌 감수]       |
+| Node A:      [A 패킷 전송]                             |
+| Node B:                 [B 패킷 전송]                  |
+| Node C:          [C 패킷 전송] (A와 C의 물리적 충돌!)  |
++--------------------------------------------------------+
 ```
 *해설*: 이 그림의 핵심은 ALOHA가 타임 슬롯이라는 정해진 규격을 탈피하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생 즉시 전송을 허용한다는 점이다. 이런 배치는 트래픽이 희소할 때 대기 시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 0에 가깝게 최소화하기 때문이며, 결과적으로 중앙 제어 비용을 없애지만 다중 노드 동시 발송 시 신호가 파괴되는 트레이드오프를 감수해야 한다. 실무에서는 이러한 이유로 트래픽 발생이 매우 간헐적이고 간섭이 적은 특수 환경에 제한적으로 채택된다.
 
@@ -58,13 +58,13 @@ tags = ["studynote-network"]
 이 도식은 순수 알로하에서 기준 패킷이 온전히 살아남기 위해 다른 패킷이 침범해서는 안 되는 '취약 시간'이 왜 프레임 시간의 2배가 되는지 증명한다.
 
 ```text
-       |<─── Vulnerable Time (2 × T_f) ───>|
+       |<--- Vulnerable Time (2 × T_f) --->|
        |                                   |
 Node B | [패킷 B]                          |  <-- A의 앞부분과 충돌
 Node A |           [패킷 A (기준 프레임)]  |
 Node C |                           [패킷 C]|  <-- A의 뒷부분과 충돌
        |                                   |
-Time ──┴───────────┴───────────────┴───────┴───────>
+Time --+-----------+---------------+-------+------->
      t_0 - T_f    t_0            t_0 + T_f
 ```
 *해설*: 이 도식의 핵심은 기준 프레임(Node A)이 시간 $t_0$부터 $t_0 + T_f$까지 전송될 때, 다른 노드의 프레임이 단 1비트라도 겹치면 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨진다는 것을 나타낸다. 이런 배치는 채널 센싱 로직이 부재하기 때문이며, A보다 약간 먼저 시작한 패킷 B나 A가 끝나기 직전에 시작한 패킷 C 모두 A 프레임을 파괴한다. 따라서 순수 알로하의 총 취약 시간은 프레임 [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)의 2배($2T_f$)가 되며, 이는 전체 네트워크 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)의 수학적 상한선을 억누르는 가장 큰 병목 지점이 된다.
@@ -88,15 +88,15 @@ Time ──┴───────────┴──────────
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 진화 단계에서 순수 알로하가 갖는 구조적 한계와 개선 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 정량적으로 분석한다.
 
 ```text
-┌──────────┬─────────────────┬─────────────────┬─────────────────┐
-│ 항목     │ Pure ALOHA      │ Slotted ALOHA   │ CSMA/CD (이더넷)│
-├──────────┼─────────────────┼─────────────────┼─────────────────┤
-│ 전송 기준│ 데이터 생성 즉시│ 다음 슬롯 경계시│ 채널 유휴 감지후│
-│ 취약 시간│ 2 × T_f         │ 1 × T_f         │ 전파 지연 수준  │
-│ 최대 효율│ 18.4% (G=0.5일때) 36.8% (G=1.0일때) 80~90% 이상     │
-│ 동기화   │ 불필요 (비동기) │ 필수 (클럭 동기)│ 불필요 (동적)   │
-│ 운영 복잡│ 매우 낮음       │ 보통            │ 높음            │
-└──────────┴─────────────────┴─────────────────┴─────────────────┘
++----------+-----------------+-----------------+-----------------+
+| 항목     | Pure ALOHA      | Slotted ALOHA   | CSMA/CD (이더넷)|
++----------+-----------------+-----------------+-----------------+
+| 전송 기준| 데이터 생성 즉시| 다음 슬롯 경계시| 채널 유휴 감지후|
+| 취약 시간| 2 × T_f         | 1 × T_f         | 전파 지연 수준  |
+| 최대 효율| 18.4% (G=0.5일때) 36.8% (G=1.0일때) 80~90% 이상     |
+| 동기화   | 불필요 (비동기) | 필수 (클럭 동기)| 불필요 (동적)   |
+| 운영 복잡| 매우 낮음       | 보통            | 높음            |
++----------+-----------------+-----------------+-----------------+
 ```
 *해설*: 이 그림의 핵심은 채널 효율을 18.4%에서 36.8%로 올리기 위해 Slotted ALOHA가 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)라는 복잡성을 추가했다는 점이다. 순수 알로하는 아무런 룰이 없어 효율이 가장 낮지만, 그만큼 구현 하드웨어가 극도로 저렴해진다. 반면 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 남이 송신 중인지 물리적으로 귀를 기울이는(Carrier Sense) 회로가 추가되어 충돌 시간을 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) 수준으로 대폭 단축시켰다. 실무에서는 망 구축 예산과 노드의 컴퓨팅 파워 한계에 따라 이 세 가지 철학 중 하나를 선택하거나 변형하여 적용한다.
 
@@ -113,14 +113,14 @@ Time ──┴───────────┴──────────
 
 ```text
 [요구사항: 수만 개의 분산 노드가 무선 채널 1개를 공유]
-         │
-         ├─> 고정 지연 보장 및 고대역폭 데이터 전송이 필요한가?
-         │    ├─ (Yes) ─> 중앙 통제형 MAC (TDMA, Polling, 토큰 패싱) 도입
-         │    └─ (No)  ─> 초저전력 및 산발적인 센싱 데이터 전송인가? (IoT/RFID)
-         │                 │
-         │                 ├─> 노드 간 초정밀 시간 동기화(비콘 등) 지원이 가능한가?
-         │                 │    ├─ (Yes) ─> Slotted ALOHA 채택 (성능 향상)
-         │                 │    └─ (No)  ─> Pure ALOHA 기반 초경량 설계 (가장 저렴)
+         |
+         +-> 고정 지연 보장 및 고대역폭 데이터 전송이 필요한가?
+         |    +- (Yes) -> 중앙 통제형 MAC (TDMA, Polling, 토큰 패싱) 도입
+         |    +- (No)  -> 초저전력 및 산발적인 센싱 데이터 전송인가? (IoT/RFID)
+         |                 |
+         |                 +-> 노드 간 초정밀 시간 동기화(비콘 등) 지원이 가능한가?
+         |                 |    +- (Yes) -> Slotted ALOHA 채택 (성능 향상)
+         |                 |    +- (No)  -> Pure ALOHA 기반 초경량 설계 (가장 저렴)
 ```
 *해설*: 이 흐름의 핵심은 비용([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전력, 하드웨어)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(채널 효율) 사이의 트래픽 트레이드오프를 결정하는 것이다. 중앙 제어나 클럭 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 센서 노드의 배터리를 빠르게 갉아먹는다. 실무에서는 수동형 RFID 태그나 해저/지하 깊숙이 매설된 1회용 센서 등에서 구현 비용을 0으로 만들어야 할 때 순수 알로하 기반의 충돌 회피 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 설계한다.
 
@@ -167,12 +167,12 @@ Time ──┴───────────┴──────────
 
 ```text
 [선행 개념: 노출 노드 문제]
-    │
-    ▼
+    |
+    v
 [현재 개념: ALOHA]
-    │
-    ├──▶ [확장 A: Slotted ALOHA]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: Slotted ALOHA]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 ALOHA는 노출 노드 문제에서 출발해 현재 메커니즘을 정교화하고, 이후 [Slotted ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
@@ -189,7 +189,7 @@ ALOHA는 노출 노드 문제에서 출발해 현재 메커니즘을 정교화�
 
 **진행 상황**: 231 / 1120
 
-← **이전**: [1119. 6G 융합 테라헤르츠 예측 지표망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1119_6g_convergence_terahertz_thz_network_indicators/)
-**다음**: [1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) →
+<- **이전**: [1119. 6G 융합 테라헤르츠 예측 지표망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1119_6g_convergence_terahertz_thz_network_indicators/)
+**다음**: [1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) ->
 
 ---

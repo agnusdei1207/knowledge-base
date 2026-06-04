@@ -26,18 +26,18 @@ tags = ["studynote-software-engineering"]
 애플리케이션을 살아 숨 쉬는 '생물'로 보고, 이 생물이 데이터센터라는 척박한 환경에서 버티기 위한 <strong>인프라 적합성, 모니터링 연동성, 재난 복원력</strong>을 검증하는 매우 차갑고 기계적인 테스트입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  UAT와 OAT의 관점 차이 비교                     │
-├──────────────────────────────────────────────────────────────┤
-│ [UAT (User Acceptance Testing) - 비즈니스 현업 사용자]             │
-│   "장바구니 결제 버튼을 누르면 이니시스 창이 뜨면서 결제가 되는가?"     │
-│    ──▶ (Yes!) "좋아, 오픈하자!"                                │
-│                                                              │
-│ [OAT (Operational Acceptance Testing) - 시스템 운영팀]             │
-│   "결제 중 DB 디스크를 강제로 하나 빼버리면 스탠바이 DB로 5초 내 넘어가는가?"│
-│   "에러가 났을 때 슬랙/문자로 운영자에게 즉시 로그가 발송되는가?"          │
-│    ──▶ (No..) "이대로 오픈하면 밤에 나 휴가 못 간다. 배포 반려!"        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  UAT와 OAT의 관점 차이 비교                     |
++--------------------------------------------------------------+
+| [UAT (User Acceptance Testing) - 비즈니스 현업 사용자]             |
+|   "장바구니 결제 버튼을 누르면 이니시스 창이 뜨면서 결제가 되는가?"     |
+|    ---> (Yes!) "좋아, 오픈하자!"                                |
+|                                                              |
+| [OAT (Operational Acceptance Testing) - 시스템 운영팀]             |
+|   "결제 중 DB 디스크를 강제로 하나 빼버리면 스탠바이 DB로 5초 내 넘어가는가?"|
+|   "에러가 났을 때 슬랙/문자로 운영자에게 즉시 로그가 발송되는가?"          |
+|    ---> (No..) "이대로 오픈하면 밤에 나 휴가 못 간다. 배포 반려!"        |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 새로 산 비행기가 하늘을 잘 나는지 타보는 게 UAT라면, 비행 중 엔진 하나가 꺼졌을 때 비상 발전기가 도는지, 산소마스크가 일제히 떨어지는지 매뉴얼을 들고 화재 상황을 시험해보는 정비사의 최종 점검이 OAT입니다.
@@ -142,21 +142,21 @@ OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하�
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 OAT (Operational Acceptance Testing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +170,7 @@ OAT (Operational Acceptance Testing) 개념 정립
 
 **진행 상황**: 409 / 973
 
-← **이전**: [408. 베타 테스트 (Beta Test) - 실제 환경에서 다수 사용자 수행 (필드 테스트)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)
-**다음**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/) →
+<- **이전**: [408. 베타 테스트 (Beta Test) - 실제 환경에서 다수 사용자 수행 (필드 테스트)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)
+**다음**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/) ->
 
 ---

@@ -36,34 +36,34 @@ tags = ["studynote-bigdata"]
 ### 편향 유형별 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 매핑
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              AI 파이프라인 단계별 편향 유형                  │
-├─────────────────────────────────────────────────────────────┤
-│  [데이터 수집]                                              │
-│  ■ Representation Bias (표현 편향):                         │
-│    특정 그룹이 훈련 데이터에 과소/과다 표현                  │
-│    예: 임상시험 데이터에 여성·고령자 부족                    │
-│                                                             │
-│  [데이터 전처리]                                            │
-│  ■ Measurement Bias (측정 편향):                            │
-│    그룹별로 다른 방식으로 데이터 측정                        │
-│    예: 빈곤층 의료 데이터는 응급실 기록, 부유층은 정기검진   │
-│                                                             │
-│  [모델 학습]                                                │
-│  ■ Aggregation Bias (집계 편향):                            │
-│    다양한 그룹을 하나의 단일 모델로 처리                     │
-│    예: 당뇨 진단 기준이 인종별로 다름에도 단일 모델 사용     │
-│                                                             │
-│  [레이블링]                                                 │
-│  ■ Label Bias (레이블 편향):                                │
-│    레이블링 과정에서 레이블러의 편견 반영                    │
-│    예: 감정 분석 레이블에 문화적 편견 포함                   │
-│                                                             │
-│  [배포·운영]                                                │
-│  ■ Deployment Bias (배포 편향):                             │
-│    의도와 다른 환경에서 모델 사용                            │
-│    예: 영어 화자용 감정 분석 모델을 비영어권에 적용          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              AI 파이프라인 단계별 편향 유형                  |
++-------------------------------------------------------------+
+|  [데이터 수집]                                              |
+|  ■ Representation Bias (표현 편향):                         |
+|    특정 그룹이 훈련 데이터에 과소/과다 표현                  |
+|    예: 임상시험 데이터에 여성·고령자 부족                    |
+|                                                             |
+|  [데이터 전처리]                                            |
+|  ■ Measurement Bias (측정 편향):                            |
+|    그룹별로 다른 방식으로 데이터 측정                        |
+|    예: 빈곤층 의료 데이터는 응급실 기록, 부유층은 정기검진   |
+|                                                             |
+|  [모델 학습]                                                |
+|  ■ Aggregation Bias (집계 편향):                            |
+|    다양한 그룹을 하나의 단일 모델로 처리                     |
+|    예: 당뇨 진단 기준이 인종별로 다름에도 단일 모델 사용     |
+|                                                             |
+|  [레이블링]                                                 |
+|  ■ Label Bias (레이블 편향):                                |
+|    레이블링 과정에서 레이블러의 편견 반영                    |
+|    예: 감정 분석 레이블에 문화적 편견 포함                   |
+|                                                             |
+|  [배포·운영]                                                |
+|  ■ Deployment Bias (배포 편향):                             |
+|    의도와 다른 환경에서 모델 사용                            |
+|    예: 영어 화자용 감정 분석 모델을 비영어권에 적용          |
++-------------------------------------------------------------+
 ```
 
 ### 공정성 지표 3종
@@ -93,21 +93,21 @@ tags = ["studynote-bigdata"]
 
 ```
 금지 (Prohibited)
-  ├─ 사회 신용 점수 시스템
-  ├─ 생체 인식 대량 감시
-  └─ 무의식적 조작 AI
+  +- 사회 신용 점수 시스템
+  +- 생체 인식 대량 감시
+  +- 무의식적 조작 AI
 
-고위험 (High Risk) ← 규정 준수 의무 부과
-  ├─ 의료 기기 AI
-  ├─ 채용·교육 AI
-  ├─ 신용 평가 AI
-  └─ 형사 사법 AI (COMPAS 유형)
+고위험 (High Risk) <- 규정 준수 의무 부과
+  +- 의료 기기 AI
+  +- 채용·교육 AI
+  +- 신용 평가 AI
+  +- 형사 사법 AI (COMPAS 유형)
 
 제한적 위험 (Limited Risk)
-  └─ 챗봇 (사람임을 알려야 함)
+  +- 챗봇 (사람임을 알려야 함)
 
 최소 위험 (Minimal Risk)
-  └─ 스팸 필터, 게임 AI
+  +- 스팸 필터, 게임 AI
 ```
 
 **📢 섹션 요약 비유**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 <strong>의약품 허가 등급</strong>과 같다. 감기약(최소 위험)은 약국에서 자유 판매지만, 항암제(고위험)는 임상시험·허가·처방전이 필요하고, 독성 화합물(금지)은 아예 판매 불가다.
@@ -132,10 +132,10 @@ tags = ["studynote-bigdata"]
 ```
 Accuracy-Fairness Frontier:
 
-  정확도 ↑         × (공정성·정확도 동시 최고는 이론적으로 불가)
-  ↑                ×
-  ↑               ×
-  ↑──────────────────────→ 공정성 ↑
+  정확도 ^         × (공정성·정확도 동시 최고는 이론적으로 불가)
+  ^                ×
+  ^               ×
+  ^-----------------------> 공정성 ^
 
   현실적 선택:
   - 의료 AI: 공정성 > 약간의 정확도 손실 허용
@@ -182,17 +182,17 @@ Accuracy-Fairness Frontier:
 
 ```text
 [데이터 수집 단계 — 표현 편향 (Representation Bias) 내재]
-    │
-    ▼
+    |
+    v
 [AI 모델 훈련 — 편향 학습 및 증폭]
-    │
-    ▼
+    |
+    v
 [XAI (설명 가능 AI — SHAP/LIME) — 의사결정 근거 투명화]
-    │
-    ▼
+    |
+    v
 [공정성 지표 (Fairness Metrics) — Demographic Parity 등]
-    │
-    ▼
+    |
+    v
 [EU AI Act / 알고리즘 영향 평가 (AIA) — 법적 의무화]
 ```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향은 수집 단계에서 시작해 모델 훈련을 통해 증폭되며, XAI로 투명성을 확보하고 공정성 지표 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거쳐 EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 같은 규제 의무 이행까지 이어지는 전주기 거버넌스가 필요하다.
@@ -209,7 +209,7 @@ Accuracy-Fairness Frontier:
 
 **진행 상황**: 211 / 262
 
-← **이전**: [204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체](/knowledge-base/studynote/16_bigdata/10_governance/210_synthetic_data/)
-**다음**: [206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용](/knowledge-base/studynote/16_bigdata/10_governance/212_bigdata_disputes/) →
+<- **이전**: [204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체](/knowledge-base/studynote/16_bigdata/10_governance/210_synthetic_data/)
+**다음**: [206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용](/knowledge-base/studynote/16_bigdata/10_governance/212_bigdata_disputes/) ->
 
 ---

@@ -29,12 +29,12 @@ MDP는 이 과정을 수학적으로 표현한다:
 - **할인 계수(Discount Factor, γ)**: 미래 보상의 현재 가치 (0~1)
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: MDP는 보드게임 설계도다. 게임판(환경), 말의 위치(상태), 주사위 굴리기(행동), 카드 뽑기 보너스(보상), 주사위 눈에 따른 이동 규칙(전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 모두 정의하면 "최선의 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))"을 수학적으로 계산할 수 있게 된다.
@@ -44,30 +44,30 @@ MDP는 이 과정을 수학적으로 표현한다:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         MDP (Markov Decision Process) 상호작용 루프                 │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│       ┌──────────────────────────────────────────┐              │
-│       │               환경 (Environment)           │              │
-│       │  - 현재 상태 s_t 제공                       │              │
-│       │  - 행동 a_t 수행 후 보상 r_t, 다음 상태 s_{t+1}│              │
-│       └──────┬──────────────────────┬────────────┘              │
-│              │ 상태(s_t), 보상(r_t)  │ 행동(a_t)                  │
-│              ▼                      ▲                            │
-│       ┌──────────────────────────────────────────┐              │
-│       │          에이전트 (Agent)                  │              │
-│       │  정책: π(a|s) = P(A=a | S=s)             │              │
-│       │  "상태 s에서 행동 a를 선택할 확률"          │              │
-│       │                                           │              │
-│       │  목표: 누적 할인 보상 최대화                │              │
-│       │  G_t = R_{t+1} + γR_{t+2} + γ²R_{t+3}... │              │
-│       │      = Σ_{k=0}^∞ γ^k · R_{t+k+1}         │              │
-│       └──────────────────────────────────────────┘              │
-│                                                                  │
-│  마르코프 성질: P(s_{t+1} | s_t, a_t, s_{t-1}, ...) = P(s_{t+1} | s_t, a_t)│
-│  "과거 모든 이력 없이, 현재 상태만으로 미래가 결정된다"                │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         MDP (Markov Decision Process) 상호작용 루프                 |
++------------------------------------------------------------------+
+|                                                                  |
+|       +------------------------------------------+              |
+|       |               환경 (Environment)           |              |
+|       |  - 현재 상태 s_t 제공                       |              |
+|       |  - 행동 a_t 수행 후 보상 r_t, 다음 상태 s_{t+1}|              |
+|       +------+----------------------+------------+              |
+|              | 상태(s_t), 보상(r_t)  | 행동(a_t)                  |
+|              v                      ^                            |
+|       +------------------------------------------+              |
+|       |          에이전트 (Agent)                  |              |
+|       |  정책: π(a|s) = P(A=a | S=s)             |              |
+|       |  "상태 s에서 행동 a를 선택할 확률"          |              |
+|       |                                           |              |
+|       |  목표: 누적 할인 보상 최대화                |              |
+|       |  G_t = R_{t+1} + γR_{t+2} + γ^R_{t+3}... |              |
+|       |      = Σ_{k=0}^∞ γ^k · R_{t+k+1}         |              |
+|       +------------------------------------------+              |
+|                                                                  |
+|  마르코프 성질: P(s_{t+1} | s_t, a_t, s_{t-1}, ...) = P(s_{t+1} | s_t, a_t)|
+|  "과거 모든 이력 없이, 현재 상태만으로 미래가 결정된다"                |
++------------------------------------------------------------------+
 ```
 
 | [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 요소 | 수식/표기 | 의미 | 체스 예시 |
@@ -76,7 +76,7 @@ MDP는 이 과정을 수학적으로 표현한다:
 | 행동 (Action) | a ∈ A | 에이전트 선택지 | 말 이동 가능한 수 |
 | 보상 (Reward) | R(s,a) | 즉각 피드백 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 킹 잡으면 +1, 졌으면 -1 |
 | 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | P(s'|s,a) | 행동 결과의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 변화 | 상대방 반응 (결정론적/[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적) |
-| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | π(a|s) | 상태→행동 매핑 | 각 상황에서 최선의 수 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | π(a|s) | 상태->행동 매핑 | 각 상황에서 최선의 수 |
 | [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) | V^π(s) | 상태 s의 기대 누적 보상 | 이 포지션의 승리 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 
 - **📢 섹션 요약 비유**: [마르코프 성질](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/)은 체스 선수가 "현재 체스판 배치만 보면 다음 수를 결정하는 데 충분하다, 어떤 순서로 지금에 이르렀는지는 중요하지 않다"는 원칙이다. 과거 100수를 기억하지 않아도 현재 판 배치만으로 최선의 수를 찾을 수 있다. 이 단순화 덕분에 수학적 최적화가 가능해진다.
@@ -135,7 +135,7 @@ MDP는 이 과정을 수학적으로 표현한다:
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [강화 학습 MDP (Markov Decision Process)] → [최적화·운영 자동화]
+[데이터 전처리] -> [강화 학습 MDP (Markov Decision Process)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ MDP는 이 과정을 수학적으로 표현한다:
 
 **진행 상황**: 314 / 420
 
-← **이전**: [313. SLM (Small Language Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)
-**다음**: [315. 탐험(Exploration) vs 활용(Exploitation) 딜레마](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) →
+<- **이전**: [313. SLM (Small Language Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)
+**다음**: [315. 탐험(Exploration) vs 활용(Exploitation) 딜레마](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) ->
 
 ---

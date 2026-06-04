@@ -32,7 +32,7 @@ tags = ["studynote-design-supervision"]
 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 프로세스 정의, 증적 수집, 샘플 검사, 부적합 판정, 개선 권고로 흐른다. ITSM은 사람의 기억이 아니라 기록으로 평가해야 한다.
 
 ```text
-Process Definition → Ticket/Evidence Review → Compliance Check → Findings → Improvement
+Process Definition -> Ticket/Evidence Review -> Compliance Check -> Findings -> Improvement
 ```
 
 | 대상 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 포인트 | 예시 |
@@ -111,14 +111,14 @@ Process Definition → Ticket/Evidence Review → Compliance Check → Findings 
 
 ```text
 프로세스 정의
-    │
-    ▼
+    |
+    v
 운영 증적
-    │
-    ▼
+    |
+    v
 감사 검토
-    │
-    ▼
+    |
+    v
 부적합 / 개선
 ```
 
@@ -136,7 +136,7 @@ Process Definition → Ticket/Evidence Review → Compliance Check → Findings 
 
 **진행 상황**: 81 / 530
 
-← **이전**: [53. 블록체인 감사 (Blockchain Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/053_blockchain_audit/)
-**다음**: [55. ISMS-P 감사 (ISMS-P Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/055_isms_p_audit/) →
+<- **이전**: [53. 블록체인 감사 (Blockchain Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/053_blockchain_audit/)
+**다음**: [55. ISMS-P 감사 (ISMS-P Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/055_isms_p_audit/) ->
 
 ---

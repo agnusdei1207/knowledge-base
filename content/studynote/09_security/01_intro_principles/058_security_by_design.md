@@ -93,11 +93,11 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 ```text
 요구사항
-   ↓
+   v
 위협 모델링
-   ↓
+   v
 보안 설계
-   ↓
+   v
 구현 / 테스트 / 운영
 ```
 
@@ -105,11 +105,11 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [사후 보안](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) → 늦은 패치와 재설계 비용 증가
-2. [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Design → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 보안 내재화
-3. [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) → 공격 경로 사전 분석
-4. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) → 보안과 개발의 자동화 결합
-5. [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 아키텍처로 확장
+1. [사후 보안](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) -> 늦은 패치와 재설계 비용 증가
+2. [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Design -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 보안 내재화
+3. [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) -> 공격 경로 사전 분석
+4. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) -> 보안과 개발의 자동화 결합
+5. [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 아키텍처로 확장
 
 ---
 
@@ -125,7 +125,7 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 **진행 상황**: 58 / 1108
 
-← **이전**: [57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치](/knowledge-base/studynote/09_security/01_intro_principles/057_compensating_controls/)
-**다음**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) →
+<- **이전**: [57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치](/knowledge-base/studynote/09_security/01_intro_principles/057_compensating_controls/)
+**다음**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) ->
 
 ---

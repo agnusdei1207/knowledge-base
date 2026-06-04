@@ -26,18 +26,18 @@ tags = ["studynote-database"]
 아래 그림은 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블 위에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경계를 어디에 두는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Partitioned table and index boundary                              │
-├────────────────────────────────────────────────────────────────────┤
-│ sales_history                                                     │
-│   ├─ p_2026_01                                                    │
-│   ├─ p_2026_02                                                    │
-│   ├─ p_2026_03                                                    │
-│   └─ p_2026_04                                                    │
-│                                                                   │
-│ Global Index : one search structure spans all partitions          │
-│ Local  Index : one index partition follows one table partition    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Partitioned table and index boundary                              |
++--------------------------------------------------------------------+
+| sales_history                                                     |
+|   +- p_2026_01                                                    |
+|   +- p_2026_02                                                    |
+|   +- p_2026_03                                                    |
+|   +- p_2026_04                                                    |
+|                                                                   |
+| Global Index : one search structure spans all partitions          |
+| Local  Index : one index partition follows one table partition    |
++--------------------------------------------------------------------+
 ```
 
 즉 질문은 단순히 "어느 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 더 빠른가"가 아니다. 더 정확한 질문은 "우리 시스템은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 독립적으로 다뤄야 하는가, 아니면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계를 넘어선 일관된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 더 중요한가"다.
@@ -53,21 +53,21 @@ tags = ["studynote-database"]
 여기서 자주 오해하는 점이 하나 있다. 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)라고 해서 반드시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선두 컬럼이어야 하는 것은 아니다. 핵심은 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>의 물리적 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 경계가 테이블 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 경계와 일치한다</strong>는 것이며, 질의 최적화에서 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/))과 자연스럽게 결합된다는 데 의미가 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Access and maintenance path                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Query A : order_month = '2026-03' AND customer_id = 42            │
-│   1) partition pruning -> p_2026_03                               │
-│   2) local index in p_2026_03 -> matching rows                    │
-│                                                                   │
-│ Query B : customer_id = 42 only                                   │
-│   1) global index -> row locations across partitions              │
-│   2) visit only referenced partitions                             │
-│                                                                   │
-│ Maintenance : DROP p_2025_12                                      │
-│   local  -> drop only matching index partition                    │
-│   global -> update or rebuild affected entries                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Access and maintenance path                                       |
++--------------------------------------------------------------------+
+| Query A : order_month = '2026-03' AND customer_id = 42            |
+|   1) partition pruning -> p_2026_03                               |
+|   2) local index in p_2026_03 -> matching rows                    |
+|                                                                   |
+| Query B : customer_id = 42 only                                   |
+|   1) global index -> row locations across partitions              |
+|   2) visit only referenced partitions                             |
+|                                                                   |
+| Maintenance : DROP p_2025_12                                      |
+|   local  -> drop only matching index partition                    |
+|   global -> update or rebuild affected entries                    |
++--------------------------------------------------------------------+
 ```
 
 | 항목 | 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
@@ -111,22 +111,22 @@ tags = ["studynote-database"]
 그렇다고 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 항상 최선은 아니다. 전역 유일성을 꼭 보장해야 하는 요구라도, 별도의 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이나 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 테이블, 복합 키 설계로 대체 가능한지 먼저 따져봐야 한다. 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 질의 하나를 빠르게 만드는 대신, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교체·재구성·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 더 민감하게 만드는 경우가 많기 때문이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Partitioned index decision flow                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Frequent partition drop / archive / exchange ?                    │
-│        ├─ Yes -> Local Index first                                │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Need uniqueness without partition key ?                           │
-│        ├─ Yes -> consider Global Index                            │
-│        └─ No  -> Local Index remains safer default                │
-│                                                                   │
-│ Query mostly includes partition key ?                             │
-│        ├─ Yes -> Local + partition pruning                        │
-│        └─ No  -> justify Global or redesign access path           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Partitioned index decision flow                                   |
++--------------------------------------------------------------------+
+| Frequent partition drop / archive / exchange ?                    |
+|        +- Yes -> Local Index first                                |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Need uniqueness without partition key ?                           |
+|        +- Yes -> consider Global Index                            |
+|        +- No  -> Local Index remains safer default                |
+|                                                                   |
+| Query mostly includes partition key ?                             |
+|        +- Yes -> Local + partition pruning                        |
+|        +- No  -> justify Global or redesign access path           |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -177,20 +177,20 @@ tags = ["studynote-database"]
 
 ```text
 대용량 테이블
-    │
-    ▼
+    |
+    v
 파티셔닝 (Partitioning)
-    │
-    ├──────────────► 파티션 프루닝 (Partition Pruning)
-    │
-    ▼
+    |
+    +--------------► 파티션 프루닝 (Partition Pruning)
+    |
+    v
 인덱스 경계 선택
-    │
-    ├──────────────► 지역 인덱스 (Local Index)
-    │                    └─ 파티션 독립성 · 운영 단순성
-    │
-    └──────────────► 전역 인덱스 (Global Index)
-                         └─ 전체 유일성 · 전 구간 점 조회
+    |
+    +--------------► 지역 인덱스 (Local Index)
+    |                    +- 파티션 독립성 · 운영 단순성
+    |
+    +--------------► 전역 인덱스 (Global Index)
+                         +- 전체 유일성 · 전 구간 점 조회
 ```
 
 이 흐름은 "테이블 분할"에서 끝나지 않고, 그 분할 구조를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 연결해야 진짜 설계가 완성된다는 점을 보여 준다.
@@ -207,7 +207,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 185 / 600
 
-← **이전**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)
-**다음**: [186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/) →
+<- **이전**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)
+**다음**: [186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/) ->
 
 ---

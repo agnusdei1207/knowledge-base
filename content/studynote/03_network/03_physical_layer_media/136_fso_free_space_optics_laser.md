@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [광전송 용어]
-    │
-    ▼
+    |
+    v
 [자유 공간 광통신 / 레이저 통신]
-    │
-    └──▶ [이더넷 물리 계층 표준]
+    |
+    +---> [이더넷 물리 계층 표준]
 ```
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신 / 레이저 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,16 +46,16 @@ tags = ["studynote-network"]
 
 ```text
   [Building A]                                      [Building B]
- ┌────────────┐                                    ┌────────────┐
- │ Network    │                                    │ Network    │
- │ Equipment  │◀──(Electrical Signal)──▶          │ Equipment  │
- └─────┬──────┘                                    └──────┬─────┘
-       │                                                  │
-┌──────┴──────┐                                    ┌──────┴──────┐
-│ FSO Trans-  │       (Laser Beam in Free Space)   │ FSO Trans-  │
-│ ceiver      │ ◀────────────────────────────────▶ │ ceiver      │
-│ (Laser/APD) │      Clear Line of Sight (LOS)     │ (Laser/APD) │
-└─────────────┘                                    └─────────────┘
+ +------------+                                    +------------+
+ | Network    |                                    | Network    |
+ | Equipment  |<---(Electrical Signal)--->          | Equipment  |
+ +-----+------+                                    +------+-----+
+       |                                                  |
++------+------+                                    +------+------+
+| FSO Trans-  |       (Laser Beam in Free Space)   | FSO Trans-  |
+| ceiver      | <----------------------------------> | ceiver      |
+| (Laser/APD) |      Clear Line of Sight (LOS)     | (Laser/APD) |
++-------------+                                    +-------------+
 ```
 
 1. **전광 변환 (E/O)**: 송신 측에서 전기적 데이터를 레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)(LD)를 이용해 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환합니다.
@@ -124,12 +124,12 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 ```text
 [선행 개념: 광전송 용어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 자유 공간 광통신 / 레이저 통신]
-    │
-    ├──▶ [확장 A: 이더넷 물리 계층 표준]
-    └──▶ [확장 B: 고속 광전송 최적화]
+    |
+    +---> [확장 A: 이더넷 물리 계층 표준]
+    +---> [확장 B: 고속 광전송 최적화]
 ```
 
 자유 공간 광통신 / 레이저 통신는 [광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 **진행 상황**: 257 / 1120
 
-← **이전**: [135. 광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)
-**다음**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/) →
+<- **이전**: [135. 광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)
+**다음**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/) ->
 
 ---

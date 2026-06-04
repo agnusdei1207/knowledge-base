@@ -40,25 +40,25 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 | 적합 사용 사례 | 금융 거래, 재고 감소 | SNS 좋아요, 추천 피드, 장바구니 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              결과적 일관성: MSA 이벤트 기반 구현                     │
-│                                                                      │
-│  주문 서비스                이벤트 버스              재고 서비스      │
-│  ┌────────────────┐                               ┌──────────────┐  │
-│  │ 1. 주문 DB     │                               │ 3. 재고 DB   │  │
-│  │    저장        │  2. OrderPlaced  이벤트 발행   │    감소       │  │
-│  │    (커밋)      │──────────────────────────────►│    (비동기)  │  │
-│  └────────────────┘                               └──────────────┘  │
-│                                                                      │
-│  T=0:  주문 DB = "주문완료", 재고 DB = "아직 반영 안됨" [불일치]     │
-│  T=1s: 이벤트 전달 완료 → 재고 DB = "감소" [일치]                  │
-│                                                                      │
-│  SAGA 패턴 보상 트랜잭션:                                            │
-│  재고 부족 시 OrderFailed 이벤트 발행 → 주문 서비스가 주문 취소      │
-│                                                                      │
-│  Outbox 패턴:                                                        │
-│  DB 변경 + 이벤트 발행을 로컬 트랜잭션으로 묶어 이중 커밋 방지       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              결과적 일관성: MSA 이벤트 기반 구현                     |
+|                                                                      |
+|  주문 서비스                이벤트 버스              재고 서비스      |
+|  +----------------+                               +--------------+  |
+|  | 1. 주문 DB     |                               | 3. 재고 DB   |  |
+|  |    저장        |  2. OrderPlaced  이벤트 발행   |    감소       |  |
+|  |    (커밋)      |------------------------------►|    (비동기)  |  |
+|  +----------------+                               +--------------+  |
+|                                                                      |
+|  T=0:  주문 DB = "주문완료", 재고 DB = "아직 반영 안됨" [불일치]     |
+|  T=1s: 이벤트 전달 완료 -> 재고 DB = "감소" [일치]                  |
+|                                                                      |
+|  SAGA 패턴 보상 트랜잭션:                                            |
+|  재고 부족 시 OrderFailed 이벤트 발행 -> 주문 서비스가 주문 취소      |
+|                                                                      |
+|  Outbox 패턴:                                                        |
+|  DB 변경 + 이벤트 발행을 로컬 트랜잭션으로 묶어 이중 커밋 방지       |
++----------------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Eventual Consistency는 은행 이체 후 잔액 반영 — 이체 직후 ATM과 앱이 잠깐 다른 잔액을 보일 수 있지만, 몇 초 후엔 동기화된다.
@@ -88,14 +88,14 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong>도메인별 <a href="/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/">일관성 수준 선택</a></strong>
-- 금융 이체·재고 감소 → ACID 또는 [SAGA](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 (보상 필수)
-- 장바구니·좋아요 수 → [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) (잠시 불일치 허용)
-- 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시 → [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 기반 [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
+- 금융 이체·재고 감소 -> ACID 또는 [SAGA](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 (보상 필수)
+- 장바구니·좋아요 수 -> [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) (잠시 불일치 허용)
+- 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시 -> [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 기반 [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
 
 **Outbox 패턴 (이중 커밋 방지)**
 1. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 주문 레코드 + 이벤트 레코드를 동일 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 저장
 2. [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 또는 Relay 프로세스가 이벤트 레코드를 읽어 메시지 큐 발행
-3. 이벤트 발행 성공 시 이벤트 레코드 상태 업데이트 → 이중 커밋 없이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장
+3. 이벤트 발행 성공 시 이벤트 레코드 상태 업데이트 -> 이중 커밋 없이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장
 
 📢 **섹션 요약 비유**: Outbox 패턴은 복사 카본지 — 원본 주문서(DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))를 쓸 때 동시에 이벤트 복사본(Outbox)이 생겨, 나중에 배달(메시지 큐)에 사용한다.
 
@@ -128,13 +128,13 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 
 ```text
 강한 일관성 (2PC · Paxos: 높은 지연)
-    │
-    ▼
+    |
+    v
 Eventual Consistency: 최종적 일관성 보장
-    ├─► SAGA 패턴: 보상 트랜잭션
-    └─► Outbox + CDC: 이벤트 안정 발행
-    │
-    ▼
+    +-► SAGA 패턴: 보상 트랜잭션
+    +-► Outbox + CDC: 이벤트 안정 발행
+    |
+    v
 Tunable Consistency · CRDTs (충돌 해소 자료구조)
 ```
 2. 지도 회사(클라우드)는 일단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 끊기지 않게 하고, 나중에 업데이트를 맞춰요.
@@ -146,7 +146,7 @@ Tunable Consistency · CRDTs (충돌 해소 자료구조)
 
 **진행 상황**: 158 / 371
 
-← **이전**: [158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/158_grpc_protocol_buffers_http2/)
-**다음**: [160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/160_service_mesh_istio_linkerd/) →
+<- **이전**: [158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/158_grpc_protocol_buffers_http2/)
+**다음**: [160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/160_service_mesh_istio_linkerd/) ->
 
 ---

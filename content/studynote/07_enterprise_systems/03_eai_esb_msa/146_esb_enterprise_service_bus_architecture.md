@@ -49,15 +49,15 @@ ESB는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_ad
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Hub-and-Spoke (2000s)] → [ESB (TIBCO·MuleSoft, 2005~)]
-    → [SOA + ESB (전성기, 2008~)]
-    → [MSA + Kafka (ESB 대체, 2015~)]
-    → [현재: iPaaS — 클라우드 통합 플랫폼]
+[Hub-and-Spoke (2000s)] -> [ESB (TIBCO·MuleSoft, 2005~)]
+    -> [SOA + ESB (전성기, 2008~)]
+    -> [MSA + Kafka (ESB 대체, 2015~)]
+    -> [현재: iPaaS — 클라우드 통합 플랫폼]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ESB는 <strong>고속도로 인터체인지</strong>예요. 여러 방향의 차를 <strong>자동 안내</strong>해요.
-2. 서울→부산, 대전→광주 차들이 <strong>인터체인지에서 방향</strong>을 바꿔요.
+2. 서울->부산, 대전->광주 차들이 <strong>인터체인지에서 방향</strong>을 바꿔요.
 3. 하지만 너무 **복잡해져서** 요즘은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(우편함)로 바꾸고 있어요!
 
 ---
@@ -66,7 +66,7 @@ ESB는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_ad
 
 **진행 상황**: 146 / 482
 
-← **이전**: [145. 메시지 브로커 (Message Broker) - 동기·비동기 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)
-**다음**: [147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/147_data_application_process_integration_etl_api_bpm/) →
+<- **이전**: [145. 메시지 브로커 (Message Broker) - 동기·비동기 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)
+**다음**: [147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/147_data_application_process_integration_etl_api_bpm/) ->
 
 ---

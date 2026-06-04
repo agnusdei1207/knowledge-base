@@ -36,18 +36,18 @@ EC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 아래 그림은 EC의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 함께 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ EC write / rebuild pipeline                                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Write path                                                      │
-│   User data -> [Stripe Buffer] -> [RS Encoder] -> D0 D1 D2 D3  │
-│                                               \-> P0 P1        │
-│                                                  │             │
-│                                                  └-> 6 devices │
-│                                                                  │
-│ Rebuild path (if D2 is lost)                                     │
-│   D0 D1 D3 P0 P1 -> [GF Decoder] -> rebuilt D2                   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| EC write / rebuild pipeline                                     |
++------------------------------------------------------------------+
+| Write path                                                      |
+|   User data -> [Stripe Buffer] -> [RS Encoder] -> D0 D1 D2 D3  |
+|                                               \-> P0 P1        |
+|                                                  |             |
+|                                                  +-> 6 devices |
+|                                                                  |
+| Rebuild path (if D2 is lost)                                     |
+|   D0 D1 D3 P0 P1 -> [GF Decoder] -> rebuilt D2                   |
++------------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 스트라이프 단위다. 컨트롤러는 먼저 같은 스트라이프에 들어갈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 모은 뒤 패리티를 계산하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 디스크나 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기록한다. 장애가 나면 남은 조각들을 다시 읽어 디코더에 넣고, 사라진 조각만 재생성한다.
@@ -121,21 +121,21 @@ EC의 가장 큰 효과는 저장 효율 향상이다. 같은 내구성을 더 �
 
 ```text
 3중 복제
-    │  용량 낭비 문제
-    ▼
+    |  용량 낭비 문제
+    v
 RAID 패리티
-    │  로컬 디스크 보호 확장
-    ▼
+    |  로컬 디스크 보호 확장
+    v
 EC (Erasure Coding)
-    │  복구 트래픽 최적화
-    ▼
+    |  복구 트래픽 최적화
+    v
 LRC (Local Reconstruction Code)
-    │  계산 오프로딩
-    ▼
+    |  계산 오프로딩
+    v
 DPU 기반 가속 저장 경로
 ```
 
-이 흐름은 “단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) → 패리티 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코드화 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 → 하드웨어 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)”으로 발전하는 저장 기술의 방향을 보여준다.
+이 흐름은 “단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) -> 패리티 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코드화 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 -> 하드웨어 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)”으로 발전하는 저장 기술의 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -149,7 +149,7 @@ DPU 기반 가속 저장 경로
 
 **진행 상황**: 682 / 803
 
-← **이전**: [680. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/680_hdfs/)
-**다음**: [682. 데이터 중복 제거 (Data Deduplication)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/682_data_deduplication/) →
+<- **이전**: [680. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/680_hdfs/)
+**다음**: [682. 데이터 중복 제거 (Data Deduplication)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/682_data_deduplication/) ->
 
 ---

@@ -26,17 +26,17 @@ BCI는 인간의 뇌 활동을 직접 계측하여 기계 명령으로 변환하
 중요한 오해 하나를 먼저 정리해야 한다. BCI는 아직 자유로운 자연어 문장을 마음속에서 그대로 꺼내는 범용 독심술이 아니다. 보통은 "왼손 상상", "커서 위로", "이 글자를 선택"처럼 <strong>정의된 명령 집합 안에서 확률적으로 의도를 추정하는 시스템</strong>이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Intent path: traditional input vs BCI                              │
-├────────────────────────────────────────────────────────────────────┤
-│ 기존 입력                                                           │
-│   의도 → 운동 피질 → 신경/근육 → 손·입 → 키보드/음성 → 컴퓨터       │
-│                                                                    │
-│ BCI 입력                                                            │
-│   의도 → 신경 신호 → 센서 획득 → 디코더 → 기계 명령 → 컴퓨터/로봇   │
-│                                                                    │
-│ 근육 경로가 손상될수록 BCI의 가치가 커짐                            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Intent path: traditional input vs BCI                              |
++--------------------------------------------------------------------+
+| 기존 입력                                                           |
+|   의도 -> 운동 피질 -> 신경/근육 -> 손·입 -> 키보드/음성 -> 컴퓨터       |
+|                                                                    |
+| BCI 입력                                                            |
+|   의도 -> 신경 신호 -> 센서 획득 -> 디코더 -> 기계 명령 -> 컴퓨터/로봇   |
+|                                                                    |
+| 근육 경로가 손상될수록 BCI의 가치가 커짐                            |
++--------------------------------------------------------------------+
 ```
 
 즉 BCI는 "몸을 건너뛰는 지름길"이면서도, 동시에 매우 까다로운 의료·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처리·[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 융합 기술이다. 그래서 단순한 입력 장치가 아니라, 인간의 의도를 안전하게 외부 세계와 연결하는 시스템으로 봐야 한다.
@@ -58,24 +58,24 @@ BCI의 핵심 구조는 [신호](/knowledge-base/studynote/02_operating_system/0
 아래 그림은 BCI가 단순 센서가 아니라 <strong>연속적인 해석 파이프라인</strong>임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ BCI signal processing pipeline                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Neural activity                                                    │
-│   │                                                                │
-│   ├─ EEG / ECoG / intracortical acquisition                        │
-│   │        │                                                       │
-│   │        └─ artifact removal                                     │
-│   │           (eye blink, muscle noise, power-line noise)          │
-│   ▼                                                                │
-│ feature extraction ─▶ decoder model ─▶ command output              │
-│ (band power, ERP,     (classification /       │                    │
-│  spike rate)           regression)            ▼                    │
-│                                        cursor / text / robot arm   │
-│                                                  │                 │
-│                                                  ▼                 │
-│                                   visual / tactile feedback loop   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| BCI signal processing pipeline                                     |
++--------------------------------------------------------------------+
+| Neural activity                                                    |
+|   |                                                                |
+|   +- EEG / ECoG / intracortical acquisition                        |
+|   |        |                                                       |
+|   |        +- artifact removal                                     |
+|   |           (eye blink, muscle noise, power-line noise)          |
+|   v                                                                |
+| feature extraction --> decoder model --> command output              |
+| (band power, ERP,     (classification /       |                    |
+|  spike rate)           regression)            v                    |
+|                                        cursor / text / robot arm   |
+|                                                  |                 |
+|                                                  v                 |
+|                                   visual / tactile feedback loop   |
++--------------------------------------------------------------------+
 ```
 
 전처리 단계에서는 눈 깜빡임, 근전도 (EMG, Electromyography) 혼입, 전원 잡음 같은 아티팩트를 제거한다. 특징 추출 단계는 주파수 대역의 에너지, 사건 관련 전위 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), Event-Related Potential), 발화율 같은 정보를 계산해 사람이 만든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 후보로 압축한다. 마지막 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 기계학습이나 딥러닝을 이용해 "왼쪽 상상", "선택", "잡기" 같은 결과를 출력한다.
@@ -161,22 +161,22 @@ BCI가 성숙하면 사람은 손과 입이 아니라 의도 자체로 디지털
 
 ```text
 의도 형성
-    │
-    ▼
+    |
+    v
 신경 신호 획득
-    │
-    ▼
+    |
+    v
 잡음 제거 · 특징 추출
-    │
-    ▼
+    |
+    v
 디코더 분류/회귀
-    │
-    ├──────────────► 문자 · 커서 · 로봇 팔 제어
-    │
-    └──────────────► 시각/촉각 피드백 기반 폐루프 재활
+    |
+    +--------------► 문자 · 커서 · 로봇 팔 제어
+    |
+    +--------------► 시각/촉각 피드백 기반 폐루프 재활
 ```
 
-이 흐름도는 "의도 → 측정 → 해석 → 명령 → 피드백"이라는 BCI의 핵심 작동 경로를 요약한다.
+이 흐름도는 "의도 -> 측정 -> 해석 -> 명령 -> 피드백"이라는 BCI의 핵심 작동 경로를 요약한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -190,7 +190,7 @@ BCI가 성숙하면 사람은 손과 입이 아니라 의도 자체로 디지털
 
 **진행 상황**: 179 / 552
 
-← **이전**: [178. 디지털 후각 / 촉각 텔레햅틱 (Tele-haptics) 통신 지연 제어](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/178_tele_haptics_communication/)
-**다음**: [180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/180_drone_swarm_control_algorithm/) →
+<- **이전**: [178. 디지털 후각 / 촉각 텔레햅틱 (Tele-haptics) 통신 지연 제어](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/178_tele_haptics_communication/)
+**다음**: [180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/180_drone_swarm_control_algorithm/) ->
 
 ---

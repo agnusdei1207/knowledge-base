@@ -19,20 +19,20 @@ tags = ["studynote-it-management"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│               3C 분석 삼각 구도                           │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│           [Customer (고객·시장)]                         │
-│            누가 무엇을 원하는가?                          │
-│                  /\                                      │
-│                 /  \                                     │
-│                /    \                                    │
-│       [Company]──────[Competitor]                       │
-│       (자사 강·약점)  (경쟁자 전략·강약점)                │
-│                                                         │
-│  전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점│
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|               3C 분석 삼각 구도                           |
++---------------------------------------------------------+
+|                                                         |
+|           [Customer (고객·시장)]                         |
+|            누가 무엇을 원하는가?                          |
+|                  /\                                      |
+|                 /  \                                     |
+|                /    \                                    |
+|       [Company]------[Competitor]                       |
+|       (자사 강·약점)  (경쟁자 전략·강약점)                |
+|                                                         |
+|  전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점|
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 3C 분석은 레스토랑 창업 전 조사다. 손님이 뭘 먹고 싶은지([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 주변 레스토랑이 무엇을 잘하고 못하는지(Competitor), 우리 셰프의 전문 요리가 무엇인지(Company)를 삼각 검토한다.
@@ -55,7 +55,7 @@ tags = ["studynote-it-management"]
 Customer:
   - 타깃: 중소기업 IT 담당자
   - 니즈: 저비용, 쉬운 사용, 빠른 온보딩
-  - 변화: 원격 근무 증가 → 협업 툴 수요 급증
+  - 변화: 원격 근무 증가 -> 협업 툴 수요 급증
 
 Competitor:
   - Microsoft 365: 강(기업 신뢰도, 통합), 약(가격, 복잡성)
@@ -65,7 +65,7 @@ Company:
   - 강: 빠른 온보딩 (5분), 저가 구독 모델
   - 약: 브랜드 인지도 낮음, 엔터프라이즈 기능 부족
 
-→ 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝
+-> 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝
 ```
 
 - **📢 섹션 요약 비유**: 3C 분석으로 찾은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포인트는 틈새시장이다. 큰 경쟁자(Microsoft, Google)가 대기업에 집중하는 동안, 중소기업([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 니즈)을 공략하는 것이 우리(Company)의 기회다.
@@ -87,10 +87,10 @@ Company:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### DT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립에서 3C 활용
-1. [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/): 고객의 디지털 경험 니즈 조사 → 모바일 퍼스트, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추천 기대.
-2. Competitor: 경쟁사 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 현황 → 클라우드 마이그레이션 속도, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기능.
-3. Company: 자사 디지털 역량 자가 진단 → 레거시 시스템 비중, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량.
-→ [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 경쟁자보다 빠른 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) + 자사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 활용.
+1. [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/): 고객의 디지털 경험 니즈 조사 -> 모바일 퍼스트, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추천 기대.
+2. Competitor: 경쟁사 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 현황 -> 클라우드 마이그레이션 속도, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기능.
+3. Company: 자사 디지털 역량 자가 진단 -> 레거시 시스템 비중, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량.
+-> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 경쟁자보다 빠른 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) + 자사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 활용.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - Company 분석만 집중하고 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)·Competitor를 소홀히 하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("자기 중심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"). 우리가 잘하는 것만 강화해도 고객이 원하지 않거나 경쟁자가 이미 더 잘하면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실패한다.
@@ -127,17 +127,17 @@ Company:
 
 ```text
 [3C 분석 — 고객·경쟁자·자사 삼각 분석]
-    │
-    ▼
+    |
+    v
 [STP 연계 — 고객 세분화·타기팅·포지셔닝]
-    │
-    ▼
+    |
+    v
 [SWOT 통합 — 내외부 종합 전략 도출]
-    │
-    ▼
+    |
+    v
 [데이터 기반 3C — 실시간 시장 인텔리전스]
-    │
-    ▼
+    |
+    v
 [AI 전략 분석 — 동적 경쟁 환경 자동 감지]
 ```
 
@@ -153,7 +153,7 @@ Company:
 
 **진행 상황**: 45 / 587
 
-← **이전**: [25. PEST 분석 — 거시 환경 분석 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis_macro_environment/)
-**다음**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) →
+<- **이전**: [25. PEST 분석 — 거시 환경 분석 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis_macro_environment/)
+**다음**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) ->
 
 ---

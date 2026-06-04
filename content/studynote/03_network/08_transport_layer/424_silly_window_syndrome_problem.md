@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [송신 버퍼 / 수신 버퍼]
-    │
-    ▼
+    |
+    v
 [어리석은 윈도우 증후군 문제]
-    │
-    └──▶ [네이글 알고리즘]
+    |
+    +---> [네이글 알고리즘]
 ```
 
 - **📢 섹션 요약 비유**: ** 이 증후군은 식당에서 손님이 나갈 때마다 직원이 치우지 않고, 손님이 **"밥 한 숟가락을 먹어 상 위에 빈 공간 1cm가 날 때마다, 주방장이 뛰어나와 그 1cm 공간에 반찬 한 가닥을 올려두고 가는 미련한 서빙의 극치"**입니다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 이 문제는 수신자가 찔끔찔끔 빼가는 문제(수신자 원인)와, 송신자가 1바이트짜리라도 생기면 찔끔찔끔 보내는 문제(송신자 원인)가 결합하여 끔찍한 시너지를 낸다.
 (송신자가 1바이트짜리를 찔끔찔끔 보내는 멍청한 짓을 해결하는 방법은 다음 장의 '네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'에서 다룬다. 이번 장은 오직 수신자 관점이다).
 
-1. 수신 버퍼 100% 꽉 참 ──▶ 송신자에게 `Window=0` 전송. 통신 정지.
+1. 수신 버퍼 100% 꽉 참 ---> 송신자에게 `Window=0` 전송. 통신 정지.
 2. 수신 앱이 `1바이트` 가져감. 수신 버퍼 `1바이트` 비었음.
-3. 멍청한 수신자 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ──▶ 송신자에게 `Window=1` 전송.
-4. 멍청한 송신자 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ──▶ 1바이트 알맹이 + 40바이트 헤더 붙여서 발사!
-5. 수신 버퍼 다시 100% 꽉 참 ──▶ 다시 `Window=0` 전송... 무한 반복.
+3. 멍청한 수신자 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ---> 송신자에게 `Window=1` 전송.
+4. 멍청한 송신자 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ---> 1바이트 알맹이 + 40바이트 헤더 붙여서 발사!
+5. 수신 버퍼 다시 100% 꽉 참 ---> 다시 `Window=0` 전송... 무한 반복.
 
 ### 2. Clark의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (수신자의 침묵)
 이 꼴을 보다 못한 데이비드 클라크(David Clark)가 수신자(내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 코드를 뜯어고쳤다.
@@ -67,22 +67,22 @@ tags = ["studynote-network"]
 그제야 수신자 OS는 <strong><code>Window=1460</code></strong> 엽서를 쏘고, 기다리던 송신자는 트럭에 1460바이트를 꽉꽉 욱여넣어 단 한 번의 배달로 완벽한 가성비를 뽑아낸다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Clark의 알고리즘에 의한 멍청함 극복 시나리오       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신자 버퍼 (총 3000바이트 크기) ]                           │
- │   - 버퍼 꽉 참 (잔여 공간 0) ──▶ 송신자에게 Window=0 통보!         │
- │   - 앱이 1바이트 뺌 (잔여 1)  ──▶ OS: "입 꾹 다물어 (계속 Win=0 통보)" │
- │   - 앱이 500바이트 뺌 (잔여 501) ──▶ OS: "아직 안 돼 입 꾹 다물어!"   │
- │                                                             │
- │   - 앱이 왕창 빼서 드디어 [잔여 1500바이트 (절반 비움!)] 달성!        │
- │   - OS: "오예! 드디어 조건(50% 이상 비움) 달성이다!"                 │
- │   - 수신자 ──▶ 송신자에게 [Window=1500] 통보 엽서 발사!!            │
- │                                                             │
- │   ▶ 결과: 송신자는 1바이트씩 1500번 쏘는 미친 짓 대신,              │
- │           1500바이트짜리 택배 1개를 한방에 쏴서 대역폭을 극강으로 아낌! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Clark의 알고리즘에 의한 멍청함 극복 시나리오       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 수신자 버퍼 (총 3000바이트 크기) ]                           |
+ |   - 버퍼 꽉 참 (잔여 공간 0) ---> 송신자에게 Window=0 통보!         |
+ |   - 앱이 1바이트 뺌 (잔여 1)  ---> OS: "입 꾹 다물어 (계속 Win=0 통보)" |
+ |   - 앱이 500바이트 뺌 (잔여 501) ---> OS: "아직 안 돼 입 꾹 다물어!"   |
+ |                                                             |
+ |   - 앱이 왕창 빼서 드디어 [잔여 1500바이트 (절반 비움!)] 달성!        |
+ |   - OS: "오예! 드디어 조건(50% 이상 비움) 달성이다!"                 |
+ |   - 수신자 ---> 송신자에게 [Window=1500] 통보 엽서 발사!!            |
+ |                                                             |
+ |   -> 결과: 송신자는 1바이트씩 1500번 쏘는 미친 짓 대신,              |
+ |           1500바이트짜리 택배 1개를 한방에 쏴서 대역폭을 극강으로 아낌! |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> Clark의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 </strong>"세탁기 돌리기 룰"<strong>과 같습니다. 빨랫감이 1장(1바이트 빈 공간) 생겼다고 매번 세탁기(40바이트 헤더, 전기세)를 휙휙 돌리면 엄마한테 등짝을 맞습니다. 세탁기가 </strong>절반 이상 꽉 찰 때(50% 공간 확보)까지 빨랫감을 꾹 참고 모아두었다가 한 번에 돌리는 현명한 살림꾼의 지혜**입니다.
@@ -143,12 +143,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 송신 버퍼 / 수신 버퍼]
-    │
-    ▼
+    |
+    v
 [현재 개념: 어리석은 윈도우 증후군 문제]
-    │
-    ├──▶ [확장 A: 네이글 알고리즘]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 네이글 알고리즘]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 어리석은 윈도우 증후군 문제는 [송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/) / 수신 버퍼에서 출발해 현재 메커니즘을 정교화하고, 이후 네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 545 / 1120
 
-← **이전**: [423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)
-**다음**: [425. 네이글 알고리즘 (Nagle's Algorithm)](/knowledge-base/studynote/03_network/08_transport_layer/425_nagle_algorithm_small_packet_batching/) →
+<- **이전**: [423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)
+**다음**: [425. 네이글 알고리즘 (Nagle's Algorithm)](/knowledge-base/studynote/03_network/08_transport_layer/425_nagle_algorithm_small_packet_batching/) ->
 
 ---

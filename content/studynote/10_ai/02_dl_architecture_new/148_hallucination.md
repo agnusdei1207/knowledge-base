@@ -31,21 +31,21 @@ tags = ["studynote-ai"]
 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)이 발생하는 근본 원인은 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 아키텍처를 기반으로 한 언어 모델의 수학적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메커니즘 그 자체에 내재되어 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           LLM의 확률적 토큰 생성과 할루시네이션 발생 원리          │
-├─────────────────────────────────────────────────────────────┤
-│  [사용자 프롬프트]: "대한민국의 제100대 대통령은 누구인가?"          │
-│                                                             │
-│  [ 모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!) ]             │
-│    1. "대한민국의" ─▶ 2. "제100대" ─▶ 3. "대통령은"              │
-│                                                             │
-│  [ 확률적 연결 (통계적 말 이어붙이기) ]                           │
-│   ──▶ "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)             │
-│                                                             │
-│  [ 최종 출력 ]: "대한민국의 제100대 대통령은 이순신입니다."        │
-│   * 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운  │
-│     단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           LLM의 확률적 토큰 생성과 할루시네이션 발생 원리          |
++-------------------------------------------------------------+
+|  [사용자 프롬프트]: "대한민국의 제100대 대통령은 누구인가?"          |
+|                                                             |
+|  [ 모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!) ]             |
+|    1. "대한민국의" --> 2. "제100대" --> 3. "대통령은"              |
+|                                                             |
+|  [ 확률적 연결 (통계적 말 이어붙이기) ]                           |
+|   ---> "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)             |
+|                                                             |
+|  [ 최종 출력 ]: "대한민국의 제100대 대통령은 이순신입니다."        |
+|   * 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운  |
+|     단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.         |
++-------------------------------------------------------------+
 ```
 
 **발생 원인 분석**:
@@ -113,17 +113,17 @@ tags = ["studynote-ai"]
 
 ```text
 RNN / LSTM 기반 초기 언어 모델 / 짧은 문장 생성, 기억력 한계로 금방 엉뚱한 소리 시전
-    │
-    ▼
+    |
+    v
 Transformer 및 LLM (GPT) 등장 / 방대한 파라미터로 유창성(Fluency)은 극대화됨
-    │
-    ▼
+    |
+    v
 할루시네이션 (Hallucination) 부작용 폭발 / 팩트 체크 불가능, 거짓 정보 양산의 위협
-    │
-    ▼
+    |
+    v
 RLHF (인간 피드백 강화학습) 도입 / 거짓말과 유해한 답변을 억제하는 미세 조정(Fine-tuning)
-    │
-    ▼
+    |
+    v
 RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를 연동하여 팩트 기반의 생성 강제 (환각 최소화)
 ```
 
@@ -139,7 +139,7 @@ RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를
 
 **진행 상황**: 148 / 420
 
-← **이전**: [147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/)
-**다음**: [149. 할루시네이션 방어 전략 (Hallucination Defense Strategy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/149_hallucination_defense_strategy/) →
+<- **이전**: [147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/)
+**다음**: [149. 할루시네이션 방어 전략 (Hallucination Defense Strategy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/149_hallucination_defense_strategy/) ->
 
 ---

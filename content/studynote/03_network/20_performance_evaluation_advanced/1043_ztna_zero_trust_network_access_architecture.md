@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 구조]
-    │
-    └──▶ [마이크로 세그멘테이션]
+    |
+    +---> [마이크로 세그멘테이션]
 ```
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -49,11 +49,11 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 ```text
 [SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 구조]
-    │
-    └──▶ [마이크로 세그멘테이션]
+    |
+    +---> [마이크로 세그멘테이션]
 ```
 
 - **📢 섹션 요약 비유**: 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안은 <strong>'클럽 입구의 기도(가드)'</strong>였습니다. 신분증 내고 한 번 클럽 안에 들어가면, 그 안에서 VIP 룸을 가든 화장실을 가든 춤을 추든 아무도 검사하지 않았습니다(내부망 무한 신뢰). 해커([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/))가 환풍구로 클럽 안에 떨어지기만 하면 VIP 금고를 마음대로 털 수 있었습니다. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)</strong>는 클럽 안을 <strong>'수만 개의 레이저 보안 철창(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>)'</strong>으로 다 쪼개버린 미친 교도소입니다. 클럽에 들어와서 1번 테이블에서 2번 테이블로 1미터만 이동하려 해도, 테이블 사이의 가드가 튀어나와 "신분증 내놔! 홍채 인식해!(지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"라고 총을 들이밉니다. 게다가 내 신분으론 1번 테이블만 보이게 허락되었고(최소 권한), 2번 테이블 너머는 아예 투명 망토를 씌워 보이지도 않게 만들어 해커가 침투해도 단 한 발짝도 나아가지 못하고 굶어 죽게 만드는 극강의 내부 감시 아키텍처입니다.
@@ -128,12 +128,12 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 ```text
 [선행 개념: SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
+    |
+    v
 [현재 개념: 제로 트러스트 구조]
-    │
-    ├──▶ [확장 A: 마이크로 세그멘테이션]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 마이크로 세그멘테이션]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 **진행 상황**: 147 / 1120
 
-← **이전**: [1042. SASE 네트워킹/보안 융합 클라우드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1042_sase_secure_access_service_edge_cloud/)
-**다음**: [1044. 마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) →
+<- **이전**: [1042. SASE 네트워킹/보안 융합 클라우드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1042_sase_secure_access_service_edge_cloud/)
+**다음**: [1044. 마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) ->
 
 ---

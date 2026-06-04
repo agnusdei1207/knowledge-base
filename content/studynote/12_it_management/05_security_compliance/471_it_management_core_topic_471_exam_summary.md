@@ -21,39 +21,39 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영관리는 2000년대 들어 IT가 단순 비용(Cost Center)에서 **전략적 가치 창출원(Value Driver)** 으로 전환되면서, CFO·CEO·CIO가 공동으로 의사결정하는 **삼자 거버넌스(Three Lines of Defense)** 체계로 진화했다. 과거(1990년대)에는 IT 관리를 **"데이터센터 운영, 네트워크 가용성, 라이선스 관리"** 의 기술적 관점에 국한했으나, 현재는 **사이버보안 위협(연간 8.4조 손실 - IBM 2023), GDPR·개인정보보호법 등 규제강화, AI·클라우드 전환으로 인한 CapEx→OpEx 모델 변화** 등 경영환경의 구조적 변화로 인해 **IT 자체가 아닌 IT를 통해 무엇을 달성할 것인가(Outcomes)** 가 핵심 질문이 되었다.
+IT 경영관리는 2000년대 들어 IT가 단순 비용(Cost Center)에서 **전략적 가치 창출원(Value Driver)** 으로 전환되면서, CFO·CEO·CIO가 공동으로 의사결정하는 **삼자 거버넌스(Three Lines of Defense)** 체계로 진화했다. 과거(1990년대)에는 IT 관리를 **"데이터센터 운영, 네트워크 가용성, 라이선스 관리"** 의 기술적 관점에 국한했으나, 현재는 **사이버보안 위협(연간 8.4조 손실 - IBM 2023), GDPR·개인정보보호법 등 규제강화, AI·클라우드 전환으로 인한 CapEx->OpEx 모델 변화** 등 경영환경의 구조적 변화로 인해 **IT 자체가 아닌 IT를 통해 무엇을 달성할 것인가(Outcomes)** 가 핵심 질문이 되었다.
 
 정보관리기술사 시험 471번 유형은 주로 **(1) IT 전략수립 및 평가, (2) IT 성과측정 및 KPI 설계, (3) IT 거버넌스 프레임워크 비교, (4) IT 투자우선순위(Portfolio) 결정, (5) IT 위험 및 컴플라이언스 통합관리** 가 출제되며, **"프레임워크 암기"보다 "비즈니스 요구에 맞는 프레임워크 선택과 운영 모델(Operating Model) 설계"** 를 평가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│           IT 경영관리 4대 영역 통합 참조모델 (I-T-O-M)            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │ ① 전략/기획  │  │ ② 거버넌스   │  │ ③ 운영/전달  │          │
-│  │  (Strategy)  │→ │ (Governance) │→ │ (Operation)  │          │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
-│         │                  │                  │                  │
-│         ▼                  ▼                  ▼                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │ • SWOT/5-Forces│ │ • COBIT 2019 │  │ • ITIL 4     │          │
-│  │ • BMC Canvas  │ │ • ISO 38500  │  │ • DevOps     │          │
-│  │ • TOGAF EA    │ │ • SOX/내부통제│  │ • SLA/OLa    │          │
-│  │ • BPO/BPR     │ │ • GRC(통합)  │  │ • FinOps     │          │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
-│         │                  │                  │                  │
-│         └──────────────────┼──────────────────┘                  │
-│                            ▼                                     │
-│                  ┌──────────────────┐                            │
-│                  │ ④ 측정/개선(PSI) │                            │
-│                  │ • BSC(4관점)     │                            │
-│                  │ • KPI/KGI/CFS   │                            │
-│                  │ • CSF/CSF-Map   │                            │
-│                  │ • PDCA/DFSS     │                            │
-│                  └──────────────────┘                            │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|           IT 경영관리 4대 영역 통합 참조모델 (I-T-O-M)            |
++------------------------------------------------------------------+
+|                                                                  |
+|  +--------------+  +--------------+  +--------------+          |
+|  | ① 전략/기획  |  | ② 거버넌스   |  | ③ 운영/전달  |          |
+|  |  (Strategy)  |-> | (Governance) |-> | (Operation)  |          |
+|  +------+-------+  +------+-------+  +------+-------+          |
+|         |                  |                  |                  |
+|         v                  v                  v                  |
+|  +--------------+  +--------------+  +--------------+          |
+|  | • SWOT/5-Forces| | • COBIT 2019 |  | • ITIL 4     |          |
+|  | • BMC Canvas  | | • ISO 38500  |  | • DevOps     |          |
+|  | • TOGAF EA    | | • SOX/내부통제|  | • SLA/OLa    |          |
+|  | • BPO/BPR     | | • GRC(통합)  |  | • FinOps     |          |
+|  +------+-------+  +------+-------+  +------+-------+          |
+|         |                  |                  |                  |
+|         +------------------+------------------+                  |
+|                            v                                     |
+|                  +------------------+                            |
+|                  | ④ 측정/개선(PSI) |                            |
+|                  | • BSC(4관점)     |                            |
+|                  | • KPI/KGI/CFS   |                            |
+|                  | • CSF/CSF-Map   |                            |
+|                  | • PDCA/DFSS     |                            |
+|                  +------------------+                            |
+|                                                                  |
++------------------------------------------------------------------+
         [CobiT 2019 EDM(직접) ↔ APO(계획) ↔ BAI(실행) ↔ DSS(운영) ↔ MEA(측정)]
 ```
 
@@ -76,44 +76,44 @@ IT 경영관리는 2000년대 들어 IT가 단순 비용(Cost Center)에서 **�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영관리의 핵심은 **"전략(Why/What) → 거버넌스(Who/How) → 운영(Do) → 측정(Check) → 개선(Act)"** 의 폐루프(Closed-Loop)이며, 이를 **COBIT 2019의 5개 도메인(EDM, APO, BAI, DSS, MEA)** 과 매핑한다. 각 구성요소는 다음과 같이 작동한다.
+IT 경영관리의 핵심은 **"전략(Why/What) -> 거버넌스(Who/How) -> 운영(Do) -> 측정(Check) -> 개선(Act)"** 의 폐루프(Closed-Loop)이며, 이를 **COBIT 2019의 5개 도메인(EDM, APO, BAI, DSS, MEA)** 과 매핑한다. 각 구성요소는 다음과 같이 작동한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        IT 경영관리 계층구조 및 정보흐름 (Closed-Loop Cycle)        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│   ┌──────────────────────────────────────────────────────┐        │
-│   │  L1: 전략결정층 (C-LEVEL / STEERING COMMITTEE)        │        │
-│   │  → BSC, IT전략맵, Portfolio Prioritization            │        │
-│   └────────────────────┬─────────────────────────────────┘        │
-│                        │ 1. Cascade (전략→목표→지표)               │
-│                        ▼                                          │
-│   ┌──────────────────────────────────────────────────────┐        │
-│   │  L2: 거버넌스 실행층 (IT STEERING / PMO)               │        │
-│   │  → RACI, 단계별 Gate Review, 예산배분, Risk Log       │        │
-│   └────────────────────┬─────────────────────────────────┘        │
-│                        │ 2. Plan & Schedule                       │
-│                        ▼                                          │
-│   ┌──────────────────────────────────────────────────────┐        │
-│   │  L3: 서비스 전달층 (개발·운영 조직 / Squad)            │        │
-│   │  → Agile Sprint, ITIL Change, SRE Runbook            │        │
-│   └────────────────────┬─────────────────────────────────┘        │
-│                        │ 3. Measure & Monitor                     │
-│                        ▼                                          │
-│   ┌──────────────────────────────────────────────────────┐        │
-│   │  L4: 측정/피드백층 (DASHBOARD / MEA)                   │        │
-│   │  → 실시간 KPI, 변칙 탐지, COBIT Maturity Scoring     │        │
-│   └────────────────────┬─────────────────────────────────┘        │
-│                        │ 4. Review & Adjust                       │
-│                        └──────────────┐                           │
-│                                       │                           │
-│   ┌───────────────────────────────────▼──────────────────────┐    │
-│   │  L5: 지속적 개선 (CONTINUOUS IMPROVEMENT)              │    │
-│   │  → CAPA, Lessons Learned, Maturity Level Up            │    │
-│   └──────────────────────────────────────────────────────┘    │
-│                                                                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        IT 경영관리 계층구조 및 정보흐름 (Closed-Loop Cycle)        |
++--------------------------------------------------------------------+
+|                                                                    |
+|   +------------------------------------------------------+        |
+|   |  L1: 전략결정층 (C-LEVEL / STEERING COMMITTEE)        |        |
+|   |  -> BSC, IT전략맵, Portfolio Prioritization            |        |
+|   +--------------------+---------------------------------+        |
+|                        | 1. Cascade (전략->목표->지표)               |
+|                        v                                          |
+|   +------------------------------------------------------+        |
+|   |  L2: 거버넌스 실행층 (IT STEERING / PMO)               |        |
+|   |  -> RACI, 단계별 Gate Review, 예산배분, Risk Log       |        |
+|   +--------------------+---------------------------------+        |
+|                        | 2. Plan & Schedule                       |
+|                        v                                          |
+|   +------------------------------------------------------+        |
+|   |  L3: 서비스 전달층 (개발·운영 조직 / Squad)            |        |
+|   |  -> Agile Sprint, ITIL Change, SRE Runbook            |        |
+|   +--------------------+---------------------------------+        |
+|                        | 3. Measure & Monitor                     |
+|                        v                                          |
+|   +------------------------------------------------------+        |
+|   |  L4: 측정/피드백층 (DASHBOARD / MEA)                   |        |
+|   |  -> 실시간 KPI, 변칙 탐지, COBIT Maturity Scoring     |        |
+|   +--------------------+---------------------------------+        |
+|                        | 4. Review & Adjust                       |
+|                        +--------------+                           |
+|                                       |                           |
+|   +-----------------------------------v----------------------+    |
+|   |  L5: 지속적 개선 (CONTINUOUS IMPROVEMENT)              |    |
+|   |  -> CAPA, Lessons Learned, Maturity Level Up            |    |
+|   +------------------------------------------------------+    |
+|                                                                    |
++--------------------------------------------------------------------+
    ↕ (좌우 통합)  COSO 내부통제 / ISO 31000 리스크 / ISO 27001 정보보안
 ```
 
@@ -122,17 +122,17 @@ IT 경영관리의 핵심은 **"전략(Why/What) → 거버넌스(Who/How) → �
 | **전략 기획 (Strategy & Planning)** | 비즈니스·IT 정렬(Strategic Alignment), 로드맵 수립 | Porter 5-Forces, SWOT, **BMC(Business Model Canvas) 9블록, Ward-Peppard 방법론, TOGAF ADM(8단계)**, 시나리오 플래닝 |
 | **거버넌스 체계 (Governance)** | 의사결정·통제·책임 구조, 정책·표준 관리 | **COBIT 2019 (40개 Governance/Management Objectives), ISO/IEC 38500 6원칙(D-책임, E-전략, A-획득, P-성과, C-준수, H-인적행위), Raci Matrix**, Three Lines of Defense (1선: 운영, 2선: 리스크/컴플, 3선: 내부감사) |
 | **투자관리 (Portfolio Mgmt)** | IT 투자 프로젝트 우선순위, 자원배분, 수익률 관리 | **NPV(순현재가치), IRR(내부수익률), Payback Period, TCO(총소유비용), ROI/TVO**, Stage-Gate, MoSCoW 우선순위 |
-| **성과측정 (Performance Mgmt)** | 전략목표 달성도 정량 모니터링 | **BSC 4관점(재무/고객/내부/학습성장), KPI(Leading/Lagging), KGI(Key Goal Indicator), CSF(Critical Success Factor)**, COBIT Maturity Level(0~5: 불완전→최적화) |
-| **위험관리 (Risk & Compliance)** | 식별→평가→대응→모니터링 전과정 | **ISO 31000(Risk = L×I×C), NIST CSF 5함수(Identify-Protect-Detect-Respond-Recover)**, Heat Map, GRC 플랫폼(SAP GRC, ServiceNow GRC) |
+| **성과측정 (Performance Mgmt)** | 전략목표 달성도 정량 모니터링 | **BSC 4관점(재무/고객/내부/학습성장), KPI(Leading/Lagging), KGI(Key Goal Indicator), CSF(Critical Success Factor)**, COBIT Maturity Level(0~5: 불완전->최적화) |
+| **위험관리 (Risk & Compliance)** | 식별->평가->대응->모니터링 전과정 | **ISO 31000(Risk = L×I×C), NIST CSF 5함수(Identify-Protect-Detect-Respond-Recover)**, Heat Map, GRC 플랫폼(SAP GRC, ServiceNow GRC) |
 | **운영관리 (Service Delivery)** | 일관된 서비스 품질 제공, SLA 관리 | **ITIL 4 34개 Practice, SIAM(다중공급자)**, SLA/OLa/UC(Underpinning Contract) 3층 구조 |
-| **아키텍처 거버넌스 (EA)** | 기술·데이터·업무 표준화, 통합성 보장 | **TOGAF ADM(8단계: Preliminary→A~H), FEAF, Zachman 6×6**, Architecture Review Board |
+| **아키텍처 거버넌스 (EA)** | 기술·데이터·업무 표준화, 통합성 보장 | **TOGAF ADM(8단계: Preliminary->A~H), FEAF, Zachman 6×6**, Architecture Review Board |
 
 **핵심 메커니즘 (CSF 연계 원리)**
 
-1. **Balanced Scorecard (BSC, Kaplan & Norton 1992)**: 4관점(Financial, Customer, Internal Process, Learning & Growth)에 **Mission → Strategy → Objectives → Measures → Targets → Initiatives** 로 분해(Cascade). IT-BSC는 **"비즈니스 가치 기여도"** 를 정량화하며, 예: 재무관점(ROI 25%), 고객관점(시스템 만족도 4.5/5), 내부관점(평균 장애복구 2시간), 학습관점(개발자당 교육 60시간).
-2. **COBIT 2019 5도메인 40목표**: **EDM(Evaluate, Direct, Monitor) 5개 → APO(Align, Plan, Organize) 14개 → BAI(Build, Acquire, Implement) 11개 → DSS(Deliver, Service, Support) 6개 → MEA(Monitor, Evaluate, Assess) 4개**. 각 목표는 **Process Capability Level 0~5(ISO 15504 PAM)** 로 측정.
+1. **Balanced Scorecard (BSC, Kaplan & Norton 1992)**: 4관점(Financial, Customer, Internal Process, Learning & Growth)에 **Mission -> Strategy -> Objectives -> Measures -> Targets -> Initiatives** 로 분해(Cascade). IT-BSC는 **"비즈니스 가치 기여도"** 를 정량화하며, 예: 재무관점(ROI 25%), 고객관점(시스템 만족도 4.5/5), 내부관점(평균 장애복구 2시간), 학습관점(개발자당 교육 60시간).
+2. **COBIT 2019 5도메인 40목표**: **EDM(Evaluate, Direct, Monitor) 5개 -> APO(Align, Plan, Organize) 14개 -> BAI(Build, Acquire, Implement) 11개 -> DSS(Deliver, Service, Support) 6개 -> MEA(Monitor, Evaluate, Assess) 4개**. 각 목표는 **Process Capability Level 0~5(ISO 15504 PAM)** 로 측정.
 3. **ISO 38500 IT 거버넌스 6원칙**: **Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior** — 경영진(Board)이 반드시 수행해야 할 의사결정 사항을 정의.
-4. **Stage-Gate 모델**: 프로젝트 단계별 **Gate Review(개념→기획→개발→시험→출시)** 를 통해 **Go/Kill/Hold/Recycle** 결정. 통계적으로 Stage-Gate 적용 시 프로젝트 성공률 60%→80% (Cooper, 2017).
+4. **Stage-Gate 모델**: 프로젝트 단계별 **Gate Review(개념->기획->개발->시험->출시)** 를 통해 **Go/Kill/Hold/Recycle** 결정. 통계적으로 Stage-Gate 적용 시 프로젝트 성공률 60%->80% (Cooper, 2017).
 
 - **📢 섹션 요약 비유**: IT 경영관리는 **"비행기의 자동조종장치(Autopilot)"** 와 같습니다. 파일럿(거버넌스위원회)이 방향·고도·속도(전략)를 정하면, 자동조종장치(거버넌스 시스템)가 실시간 계기(측정)와 기상(리스크)을 보면서 끊임없이 보정합니다. 기상악화(사업환경변화) 시 파일럿이 직접 개입(예외결의)합니다.
 
@@ -154,7 +154,7 @@ IT 경영관리 관련 프레임워크는 **역할·관점·성숙도** 가 다�
 
 **진행 상황**: 471 / 800
 
-← **이전**: [470. IT 경영 관리 핵심 토픽 470번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/470_it_management_core_topic_470_exam_summary/)
-**다음**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/) →
+<- **이전**: [470. IT 경영 관리 핵심 토픽 470번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/470_it_management_core_topic_470_exam_summary/)
+**다음**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/) ->
 
 ---

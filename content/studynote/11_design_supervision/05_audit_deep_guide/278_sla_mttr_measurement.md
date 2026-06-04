@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 측정 감리는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))과 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간(Mean Time To Repair, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 측정 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영이 24x7 체계로 바뀌며 단순 운영 절차보다 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도와 자동화된 관제가 핵심 역량이 되었다. 특히 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표가 기준선으로 정리되지 않으면 장애 시계는 사람 의존 절차로 흩어지고, 최종적으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질이 남지 않아 의사결정이 감각에 의존하게 된다. 운영 설계가 약하면 작은 장애도 고객 체감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 확대된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 서비스 수준 목표 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 장애 시계 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 복구 품질 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 서비스 수준 목표 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 장애 시계 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 복구 품질 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 측정 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표, 장애 시계, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_
 - 확장 개념: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[서비스 수준 목표] → [SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 측정 감리] → SRE 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)]
+[서비스 수준 목표] -> [SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 측정 감리] -> SRE 자동화([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) Automation)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ SLA와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_
 
 **진행 상황**: 339 / 530
 
-← **이전**: [277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/277_oss_license_compliance/)
-**다음**: [279. 테스트 자동화 커버리지 감리 (Test Automation Coverage Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/279_test_automation_coverage/) →
+<- **이전**: [277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/277_oss_license_compliance/)
+**다음**: [279. 테스트 자동화 커버리지 감리 (Test Automation Coverage Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/279_test_automation_coverage/) ->
 
 ---

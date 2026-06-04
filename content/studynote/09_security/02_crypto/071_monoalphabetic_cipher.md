@@ -31,7 +31,7 @@ tags = ["studynote-security"]
 
 ```text
 Plaintext
-  ↓ substitution map
+  v substitution map
 Ciphertext
 ```
 
@@ -103,11 +103,11 @@ Ciphertext
 
 ```text
 Plaintext
-  ↓
+  v
 Monoalphabetic Cipher
-  ↓
+  v
 Substitution
-  ↓
+  v
 Ciphertext
 ```
 
@@ -117,9 +117,9 @@ Ciphertext
 
 ```text
 Substitution Cipher
-  ↓
+  v
 Monoalphabetic Cipher
-  ↓
+  v
 Frequency Analysis
 ```
 
@@ -137,7 +137,7 @@ Frequency Analysis
 
 **진행 상황**: 71 / 1108
 
-← **이전**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/)
-**다음**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/) →
+<- **이전**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/)
+**다음**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/) ->
 
 ---

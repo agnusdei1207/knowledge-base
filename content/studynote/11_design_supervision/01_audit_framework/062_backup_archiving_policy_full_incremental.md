@@ -31,10 +31,10 @@ tags = ["studynote-design"]
 
 ```text
 데이터
-  ├─ Full Backup
-  ├─ Incremental Backup
-  └─ Differential Backup
-        ↓
+  +- Full Backup
+  +- Incremental Backup
+  +- Differential Backup
+        v
 복구 / 보존 / 아카이빙
 ```
 
@@ -108,13 +108,13 @@ Full은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/65
 
 ```text
 Backup
-   ↓
+   v
 Full / Incremental / Differential
-   ↓
+   v
 Restore Test
-   ↓
+   v
 Archiving
-   ↓
+   v
 Retention Policy
 ```
 
@@ -124,11 +124,11 @@ Retention Policy
 
 ```text
 데이터 복제
-   ↓
+   v
 백업 정책
-   ↓
+   v
 복구 테스트
-   ↓
+   v
 아카이빙
 ```
 
@@ -146,7 +146,7 @@ Retention Policy
 
 **진행 상황**: 94 / 530
 
-← **이전**: [62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/062_backup_archiving_policy/)
-**다음**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance/) →
+<- **이전**: [62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/062_backup_archiving_policy/)
+**다음**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance/) ->
 
 ---

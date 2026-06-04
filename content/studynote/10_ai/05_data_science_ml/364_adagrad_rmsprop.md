@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 기본 SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)(η)을 적용한다. 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "the"같은 자주 나오는 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 그래디언트가 크므로 큰 업데이트가, "quasar" 같은 드문 단어는 작은 업데이트가 필요하다. Adagrad는 이를 각 파라미터의 과거 그래디언트 제곱 합(G_t)을 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 분모에 넣어 자동으로 조정한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Adagrad는 "자주 쓰는 도로는 속도를 줄이고, 처음 가는 샛길은 빠르게" 학습하는 지능형 내비게이션이다. 이미 많이 업데이트된 파라미터(자주 쓴 도로)는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄여 안정화하고, 거의 업데이트 안 된 파라미터(새 샛길)는 빠르게 학습시킨다.
@@ -37,24 +37,24 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│      Adagrad vs RMSProp 수식 비교                        │
-├──────────────────────────────────────────────────────────┤
-│  Adagrad:                                                │
-│  G_t = G_{t-1} + g_t²          (누적 제곱 합)          │
-│  θ_t = θ_{t-1} - η/√(G_t+ε) · g_t                     │
-│  문제: G_t는 단조 증가 → η/√(G_t) → 0 (학습률 소멸!)  │
-│                                                          │
-│  RMSProp:                                               │
-│  E[g²]_t = ρ·E[g²]_{t-1} + (1-ρ)·g_t²  (EMA)         │
-│  θ_t = θ_{t-1} - η/√(E[g²]_t+ε) · g_t                │
-│  해결: EMA로 최근 그래디언트만 반영 → 학습률 안정!     │
-│                                                          │
-│  Adam (결합):                                           │
-│  m_t = β₁·m_{t-1} + (1-β₁)·g_t  (1차 모멘트)         │
-│  v_t = β₂·v_{t-1} + (1-β₂)·g_t²  (2차 모멘트)        │
-│  θ_t = θ_{t-1} - η·m̂_t/√(v̂_t+ε)                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|      Adagrad vs RMSProp 수식 비교                        |
++----------------------------------------------------------+
+|  Adagrad:                                                |
+|  G_t = G_{t-1} + g_t^          (누적 제곱 합)          |
+|  θ_t = θ_{t-1} - η/√(G_t+ε) · g_t                     |
+|  문제: G_t는 단조 증가 -> η/√(G_t) -> 0 (학습률 소멸!)  |
+|                                                          |
+|  RMSProp:                                               |
+|  E[g^]_t = ρ·E[g^]_{t-1} + (1-ρ)·g_t^  (EMA)         |
+|  θ_t = θ_{t-1} - η/√(E[g^]_t+ε) · g_t                |
+|  해결: EMA로 최근 그래디언트만 반영 -> 학습률 안정!     |
+|                                                          |
+|  Adam (결합):                                           |
+|  m_t = β₁·m_{t-1} + (1-β₁)·g_t  (1차 모멘트)         |
+|  v_t = β₂·v_{t-1} + (1-β₂)·g_t^  (2차 모멘트)        |
+|  θ_t = θ_{t-1} - η·m̂_t/√(v̂_t+ε)                    |
++----------------------------------------------------------+
 ```
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 누적 | 소멸 문제 | 특이 사항 |
@@ -92,9 +92,9 @@ AMSGrad는 Adam의 과거 최대 2차 모멘트를 유지해 수렴 보장 문�
 
 ## Ⅴ. 기대효과 및 결론
 
-Adagrad → RMSProp → Adam으로 이어지는 적응적 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)의 진화는 딥러닝 최적화의 핵심 발전사다. RMSProp의 EMA 아이디어가 Adam의 2차 모멘트가 되었고, Momentum이 1차 모멘트가 되어 Adam이 완성됐다. 기술사 시험에서 Adagrad 소멸 문제 → RMSProp EMA 해결 → [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 수식까지 진화 경로를 설명하면 최고 수준의 답안이다.
+Adagrad -> RMSProp -> Adam으로 이어지는 적응적 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)의 진화는 딥러닝 최적화의 핵심 발전사다. RMSProp의 EMA 아이디어가 Adam의 2차 모멘트가 되었고, Momentum이 1차 모멘트가 되어 Adam이 완성됐다. 기술사 시험에서 Adagrad 소멸 문제 -> RMSProp EMA 해결 -> [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 수식까지 진화 경로를 설명하면 최고 수준의 답안이다.
 
-- **📢 섹션 요약 비유**: Adagrad→[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 진화는 "손으로 페달 밟기 → 자전거 → 전기자동차"다. 손으로 걷기(SGD)에서 자전거 기어(Adagrad 적응 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)), 자동 기어(RMSProp EMA), 최첨단 전기차([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)+적응 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)) 순으로 편리하고 효율적으로 진화했다.
+- **📢 섹션 요약 비유**: Adagrad->[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 진화는 "손으로 페달 밟기 -> 자전거 -> 전기자동차"다. 손으로 걷기(SGD)에서 자전거 기어(Adagrad 적응 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)), 자동 기어(RMSProp EMA), 최첨단 전기차([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)+적응 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)) 순으로 편리하고 효율적으로 진화했다.
 
 ---
 
@@ -110,7 +110,7 @@ Adagrad → RMSProp → Adam으로 이어지는 적응적 [학습률](/knowledge
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ Adagrad → RMSProp → Adam으로 이어지는 적응적 [학습률](/knowledge
 
 **진행 상황**: 364 / 420
 
-← **이전**: [363. 소프트맥스 역전파 (Softmax Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/363_softmax_backprop/)
-**다음**: [365. GloVe (Global Vectors for Word Representation)](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/) →
+<- **이전**: [363. 소프트맥스 역전파 (Softmax Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/363_softmax_backprop/)
+**다음**: [365. GloVe (Global Vectors for Word Representation)](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/) ->
 
 ---

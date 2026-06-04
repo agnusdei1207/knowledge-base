@@ -32,7 +32,7 @@ DBMS는 SQL을 그대로 실행하지 않는다. 먼저 [토큰화](/knowledge-b
 SQL 처리 흐름은 보통 lexer, parser, semantic analyzer, [optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/), executor 순서로 이어진다. 파서는 토큰을 문법 규칙에 맞춰 트리 구조로 조립한다.
 
 ```text
-SQL Text → Tokens → Parse Tree → Semantic Check → Query Plan
+SQL Text -> Tokens -> Parse Tree -> Semantic Check -> Query Plan
 ```
 
 | 단계 | 역할 | 결과 |
@@ -111,17 +111,17 @@ SQL Text → Tokens → Parse Tree → Semantic Check → Query Plan
 
 ```text
 SQL 문장
-    │
-    ▼
+    |
+    v
 토큰화 (Lexer)
-    │
-    ▼
+    |
+    v
 파스 트리 (Parser)
-    │
-    ▼
+    |
+    v
 AST / 의미 분석
-    │
-    ▼
+    |
+    v
 실행 계획 / 실행기
 ```
 
@@ -139,7 +139,7 @@ AST / 의미 분석
 
 **진행 상황**: 53 / 600
 
-← **이전**: [52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성](/knowledge-base/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/)
-**다음**: [54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/054_data_dictionary_catalog_manager/) →
+<- **이전**: [52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성](/knowledge-base/studynote/05_database/01_db_architecture_relational/052_db_optimizer_rbo_cbo/)
+**다음**: [54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)](/knowledge-base/studynote/05_database/01_db_architecture_relational/054_data_dictionary_catalog_manager/) ->
 
 ---

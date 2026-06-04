@@ -22,10 +22,10 @@ tags = ["studynote-data-engineering"]
 
 | RNN의 한계 | Transformer의 해결 |
 |:---|:---|
-| 순차 처리 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가 | 모든 토큰 동시 처리 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화) |
+| 순차 처리 -> [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가 | 모든 토큰 동시 처리 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화) |
 | 거리 비례 정보 감쇠 | 임의 거리 토큰도 직접 어텐션 |
 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 직접 연결로 기울기 안정 |
-| O(n) 훈련 시간 | O(n²) 어텐션이지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
+| O(n) 훈련 시간 | O(n^) 어텐션이지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
 
 📢 **섹션 요약 비유**: Transformer는 독서 토론 방식의 혁신이다. 기존 RNN은 책을 처음부터 끝까지 순서대로 읽어야 했다면, Transformer는 모든 참가자가 책 전체를 동시에 펼쳐 놓고 서로 관련된 부분끼리 바로바로 대화한다.
 
@@ -37,14 +37,14 @@ tags = ["studynote-data-engineering"]
 
 ```
 입력 시퀀스 X (n × d_model)
-      ↓ 선형 변환 (W_Q, W_K, W_V)
-Q = X·W_Q  (n × d_k)   ← 쿼리: "나는 무엇과 관련 있는가?"
-K = X·W_K  (n × d_k)   ← 키:   "내가 제공하는 정보의 라벨"
-V = X·W_V  (n × d_v)   ← 값:   "실제 전달할 정보 내용"
+      v 선형 변환 (W_Q, W_K, W_V)
+Q = X·W_Q  (n × d_k)   <- 쿼리: "나는 무엇과 관련 있는가?"
+K = X·W_K  (n × d_k)   <- 키:   "내가 제공하는 정보의 라벨"
+V = X·W_V  (n × d_v)   <- 값:   "실제 전달할 정보 내용"
 
 Attention(Q, K, V) = softmax(Q·K^T / √d_k) · V
 
-         ↑ 스케일링: 차원이 클수록 내적 값이 커져 softmax 포화 방지
+         ^ 스케일링: 차원이 클수록 내적 값이 커져 softmax 포화 방지
 ```
 
 ```
@@ -56,7 +56,7 @@ Attention(Q, K, V) = softmax(Q·K^T / √d_k) · V
 학교에[0.05 0.1   0.7    0.15]
 간다  [0.1  0.05  0.2    0.65]
 
-→ 각 토큰이 다른 모든 토큰과의 관련성 가중치
+-> 각 토큰이 다른 모든 토큰과의 관련성 가중치
 ```
 
 ### 멀티헤드 어텐션 ([Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/))
@@ -68,7 +68,7 @@ head_i = Attention(Q·W_Q_i, K·W_K_i, V·W_V_i)
 
 h개 헤드가 병렬로 서로 다른 관계 포착:
   head_1: 문법적 관계 (주어-동사)
-  head_2: 지시어 해소 (그것 → 고양이)
+  head_2: 지시어 해소 (그것 -> 고양이)
   head_3: 의미적 유사성
   ...
   head_h: 위치적 관계
@@ -76,30 +76,30 @@ h개 헤드가 병렬로 서로 다른 관계 포착:
 
 ```
 Transformer 인코더 블록 구조
-┌─────────────────────────────────────────────┐
-│  입력 임베딩 + 포지셔널 인코딩               │
-│                  ↓                           │
-│  ┌───────────────────────────────────────┐   │
-│  │   Multi-Head Self-Attention           │   │
-│  │   (쿼리·키·값 모두 같은 입력에서)     │   │
-│  └────────────────┬──────────────────────┘   │
-│                   │ + 잔차 연결 (Add)         │
-│             Layer Normalization              │
-│                   ↓                           │
-│  ┌───────────────────────────────────────┐   │
-│  │   Feed-Forward Network (FFN)          │   │
-│  │   FFN(x) = max(0, xW₁+b₁)W₂+b₂      │   │
-│  └────────────────┬──────────────────────┘   │
-│                   │ + 잔차 연결 (Add)         │
-│             Layer Normalization              │
-│                   ↓                           │
-│            다음 인코더 블록 or 출력           │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  입력 임베딩 + 포지셔널 인코딩               |
+|                  v                           |
+|  +---------------------------------------+   |
+|  |   Multi-Head Self-Attention           |   |
+|  |   (쿼리·키·값 모두 같은 입력에서)     |   |
+|  +----------------+----------------------+   |
+|                   | + 잔차 연결 (Add)         |
+|             Layer Normalization              |
+|                   v                           |
+|  +---------------------------------------+   |
+|  |   Feed-Forward Network (FFN)          |   |
+|  |   FFN(x) = max(0, xW₁+b₁)W₂+b₂      |   |
+|  +----------------+----------------------+   |
+|                   | + 잔차 연결 (Add)         |
+|             Layer Normalization              |
+|                   v                           |
+|            다음 인코더 블록 or 출력           |
++---------------------------------------------+
 ```
 
 ### [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))
 
-어텐션은 순서를 모른다 → 위치 정보를 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다.
+어텐션은 순서를 모른다 -> 위치 정보를 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다.
 
 ```
 PE(pos, 2i)   = sin(pos / 10000^{2i/d_model})
@@ -107,13 +107,13 @@ PE(pos, 2i+1) = cos(pos / 10000^{2i/d_model})
 
 X_input = Token_Embedding + Positional_Encoding
 
-위치 0   ───→ [특정 sin/cos 패턴]
-위치 1   ───→ [다른 sin/cos 패턴]
+위치 0   ----> [특정 sin/cos 패턴]
+위치 1   ----> [다른 sin/cos 패턴]
 ...
-위치 512 ───→ [고유한 sin/cos 패턴]
+위치 512 ----> [고유한 sin/cos 패턴]
 
-→ 각 위치는 고유한 벡터를 가짐
-→ 상대 위치 계산 가능 (내적 시 상대 거리 반영)
+-> 각 위치는 고유한 벡터를 가짐
+-> 상대 위치 계산 가능 (내적 시 상대 거리 반영)
 ```
 
 | 방법 | 특징 | 사용 모델 |
@@ -133,16 +133,16 @@ X_input = Token_Embedding + Positional_Encoding
 
 ```
 인코더 (6 블록)                  디코더 (6 블록)
-┌────────────────┐              ┌─────────────────────────┐
-│  Nx 인코더 블록│              │  Nx 디코더 블록          │
-│                │              │                          │
-│  Self-Attention│              │  Masked Self-Attention   │
-│  → FFN         │→ 메모리 K,V →│  → Cross-Attention (K,V) │
-│                │              │  → FFN                   │
-└────────────────┘              └─────────────────────────┘
-     ↑ 입력 시퀀스                     ↑↓ 출력 시퀀스 (자동회귀)
++----------------+              +-------------------------+
+|  Nx 인코더 블록|              |  Nx 디코더 블록          |
+|                |              |                          |
+|  Self-Attention|              |  Masked Self-Attention   |
+|  -> FFN         |-> 메모리 K,V ->|  -> Cross-Attention (K,V) |
+|                |              |  -> FFN                   |
++----------------+              +-------------------------+
+     ^ 입력 시퀀스                     ^v 출력 시퀀스 (자동회귀)
 
-Cross-Attention: 인코더 K,V + 디코더 Q → 번역 시 원문 참조
+Cross-Attention: 인코더 K,V + 디코더 Q -> 번역 시 원문 참조
 Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
 ```
 
@@ -152,10 +152,10 @@ Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
 |:---|:---|:---|
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | ❌ 순차 처리 | ✅ 완전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
 | 최대 경로 길이 | O(n) | O(1) |
-| 메모리 복잡도 | O(n) | O(n²) |
+| 메모리 복잡도 | O(n) | O(n^) |
 | 장거리 의존성 | 약함 | 강함 |
 | 훈련 속도 | 느림 | 빠름 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
-| 추론 속도 | 빠름 | 느림 (n² 어텐션) |
+| 추론 속도 | 빠름 | 느림 (n^ 어텐션) |
 
 📢 **섹션 요약 비유**: RNN이 전화 릴레이라면, Transformer는 화상 회의다. 릴레이는 순서대로 전달해 오래 걸리고 처음 정보가 왜곡되지만, 화상 회의는 모두가 동시에 직접 소통한다.
 
@@ -166,17 +166,17 @@ Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
 ### 어텐션 계산 복잡도와 긴 시퀀스 문제
 
 ```
-표준 어텐션: O(n² · d)  ← n = 시퀀스 길이, d = 차원
+표준 어텐션: O(n^ · d)  <- n = 시퀀스 길이, d = 차원
 
 n=512:   262K 연산    (일반 텍스트)
 n=4096:  16.7M 연산   (장문 문서)
-n=32768: 1G 연산      (책 한 권 → 메모리 부족!)
+n=32768: 1G 연산      (책 한 권 -> 메모리 부족!)
 
 해결 방법:
-  Flash Attention (2022): IO 최적화 → 메모리 O(n)
+  Flash Attention (2022): IO 최적화 -> 메모리 O(n)
   Sparse Attention:       핵심 위치만 어텐션
   Sliding Window:         지역 어텐션 + 전역 일부
-  Linear Attention:       커널 근사 → O(n)
+  Linear Attention:       커널 근사 -> O(n)
 ```
 
 ### 모델 크기와 하이퍼파라미터
@@ -199,13 +199,13 @@ n=32768: 1G 연산      (책 한 권 → 메모리 부족!)
 
 ```
 Transformer (2017)
-      ├── NLP: BERT (2018), GPT (2018~), T5 (2019)
-      ├── Vision: ViT (2020), DINO, MAE
-      ├── Multi-modal: CLIP, DALL-E, Flamingo
-      ├── Biology: AlphaFold2 (단백질 구조)
-      └── Code: Codex, GitHub Copilot
+      +-- NLP: BERT (2018), GPT (2018~), T5 (2019)
+      +-- Vision: ViT (2020), DINO, MAE
+      +-- Multi-modal: CLIP, DALL-E, Flamingo
+      +-- Biology: AlphaFold2 (단백질 구조)
+      +-- Code: Codex, GitHub Copilot
 
-→ 딥러닝 모든 분야의 기반 아키텍처
+-> 딥러닝 모든 분야의 기반 아키텍처
 ```
 
 ### 기술사 시험 핵심 포인트
@@ -239,13 +239,13 @@ Transformer (2017)
 
 ```text
 RNN (순차 처리, 병렬화 불가)
-    │
-    ▼
+    |
+    v
 Transformer: Self-Attention + Positional Encoding
-    ├─► Multi-Head Attention: 여러 관점에서 동시 분석
-    └─► Feed-Forward + Layer Norm + Residual
-    │
-    ▼
+    +-► Multi-Head Attention: 여러 관점에서 동시 분석
+    +-► Feed-Forward + Layer Norm + Residual
+    |
+    v
 Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
 ```
 2. 멀티헤드 어텐션은 같은 문장을 여러 명의 전문가(문법 선생님, 의미 분석가, 번역가)가 동시에 읽고 각자의 관점을 합치는 것이야.
@@ -257,7 +257,7 @@ Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
 
 **진행 상황**: 246 / 258
 
-← **이전**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)
-**다음**: [247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/247_foundation_model_llm_parameter_emergence_self_supervised/) →
+<- **이전**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)
+**다음**: [247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/247_foundation_model_llm_parameter_emergence_self_supervised/) ->
 
 ---

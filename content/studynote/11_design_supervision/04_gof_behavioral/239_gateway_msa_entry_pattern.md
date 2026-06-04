@@ -31,9 +31,9 @@ tags = ["studynote-design-supervision"]
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청의 진입점이라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 게이트웨이 (Message Gateway)</strong> 는 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 채널([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)에서 동일한 역할을 수행한다—[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 포맷 변환, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 필터링.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 쇼핑몰 백화점의 정문 안내 데스크처럼, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 모든 방문객(요청)을 맞이하고 적절한 매장([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 안내한다.
@@ -42,47 +42,47 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                    API Gateway 아키텍처                           │
-│                                                                  │
-│  [클라이언트]                                                     │
-│  Mobile App ─────┐                                               │
-│  Web Browser ────┤                                               │
-│  Partner API ────┤                                               │
-│                  ▼                                               │
-│         ┌────────────────────────────────────────┐               │
-│         │          API Gateway                   │               │
-│         │  ┌─────────────────────────────────┐   │               │
-│         │  │  1. SSL 종료 (TLS Termination)   │   │               │
-│         │  │  2. 인증/인가 (Auth/AuthZ)        │   │               │
-│         │  │  3. 요청 라우팅 (Routing)         │   │               │
-│         │  │  4. 속도 제한 (Rate Limiting)     │   │               │
-│         │  │  5. 요청 집계 (Aggregation)       │   │               │
-│         │  │  6. 로드 밸런싱 (Load Balancing)  │   │               │
-│         │  │  7. 캐싱 (Caching)               │   │               │
-│         │  └─────────────────────────────────┘   │               │
-│         └──────────────────┬───────────────────┘               │
-│                            │                                     │
-│          ┌─────────────────┼──────────────────────┐             │
-│          ▼                 ▼                       ▼             │
-│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐     │
-│  │ User Service │  │ Order Service│  │  Payment Service   │     │
-│  │ :8081        │  │ :8082        │  │  :8083             │     │
-│  └──────────────┘  └──────────────┘  └────────────────────┘     │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                    API Gateway 아키텍처                           |
+|                                                                  |
+|  [클라이언트]                                                     |
+|  Mobile App -----+                                               |
+|  Web Browser ----+                                               |
+|  Partner API ----+                                               |
+|                  v                                               |
+|         +----------------------------------------+               |
+|         |          API Gateway                   |               |
+|         |  +---------------------------------+   |               |
+|         |  |  1. SSL 종료 (TLS Termination)   |   |               |
+|         |  |  2. 인증/인가 (Auth/AuthZ)        |   |               |
+|         |  |  3. 요청 라우팅 (Routing)         |   |               |
+|         |  |  4. 속도 제한 (Rate Limiting)     |   |               |
+|         |  |  5. 요청 집계 (Aggregation)       |   |               |
+|         |  |  6. 로드 밸런싱 (Load Balancing)  |   |               |
+|         |  |  7. 캐싱 (Caching)               |   |               |
+|         |  +---------------------------------+   |               |
+|         +------------------+-------------------+               |
+|                            |                                     |
+|          +-----------------+----------------------+             |
+|          v                 v                       v             |
+|  +--------------+  +--------------+  +--------------------+     |
+|  | User Service |  | Order Service|  |  Payment Service   |     |
+|  | :8081        |  | :8082        |  |  :8083             |     |
+|  +--------------+  +--------------+  +--------------------+     |
++------------------------------------------------------------------+
 ```
 
 단일 게이트웨이 대신 클라이언트 유형별로 최적화된 게이트웨이를 두는 패턴:
 
 ```
-Mobile App  ──▶  Mobile BFF  ──▶  마이크로서비스들
-Web App     ──▶  Web BFF     ──▶  마이크로서비스들
-Partner     ──▶  Partner GW  ──▶  마이크로서비스들
+Mobile App  --->  Mobile BFF  --->  마이크로서비스들
+Web App     --->  Web BFF     --->  마이크로서비스들
+Partner     --->  Partner GW  --->  마이크로서비스들
 ```
 
 | 기능 | 설명 | 대표 구현 |
 |:---|:---|:---|
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) | URL → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑 | Spring Cloud Gateway, Kong |
+| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) | URL -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑 | Spring Cloud Gateway, Kong |
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | OAuth2 통합 |
 | 속도 제한 ([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/)) | 초당 요청 수 제한 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 기반 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) |
 | [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) | 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 격리 | Resilience4j |
@@ -104,12 +104,12 @@ Partner     ──▶  Partner GW  ──▶  마이크로서비스들
 | 항목 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) |
 |:---|:---|:---|
 | 위치 | 외부 경계 (Edge) | 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 (East-West) |
-| 제어 대상 | 외부 → 내부 트래픽 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 트래픽 |
+| 제어 대상 | 외부 -> 내부 트래픽 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 트래픽 |
 | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) | 불필요 | Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 필요 |
 | 복잡도 | 중간 | 높음 |
 | 주요 기능 | 외부 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 내부 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), 트레이싱 |
 
-- **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 나라의 국경 검문소(외부→내부), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 나라 안에서 도시 간 이동을 관리하는 고속도로 시스템이다.
+- **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 나라의 국경 검문소(외부->내부), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 나라 안에서 도시 간 이동을 관리하는 고속도로 시스템이다.
 
 ---
 
@@ -181,7 +181,7 @@ spring:
 | 연관 개념 | [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) (로드 밸런서) | 요청 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 인프라 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-edge [routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) → 게이트웨이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 진입점 패턴 → [service mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)·[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)
+edge [routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) -> 게이트웨이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 진입점 패턴 -> [service mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)·[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 놀이공원 입구([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)에서 표를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 어떤 놀이기구([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 갈지 안내해 줘.
@@ -194,7 +194,7 @@ edge [routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339
 
 **진행 상황**: 300 / 530
 
-← **이전**: [238. 클래스 테이블 상속 (Class Table Inheritance)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/)
-**다음**: [240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/) →
+<- **이전**: [238. 클래스 테이블 상속 (Class Table Inheritance)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/238_class_table_inheritance/)
+**다음**: [240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/240_refactoring_conditional_to_polymorphism/) ->
 
 ---

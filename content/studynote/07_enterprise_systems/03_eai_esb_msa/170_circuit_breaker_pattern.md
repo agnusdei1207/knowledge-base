@@ -28,18 +28,18 @@ tags = ["studynote-enterprise"]
 아래 흐름은 연쇄 장애가 어떻게 커지는지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Slow dependency can poison healthy callers            │
-├──────────────────────────────────────────────────────────────────────┤
-│ User Request -> Order Service -> Payment Service -> External API    │
-│                               │                  │                  │
-│                               │                  └─ slow / timeout  │
-│                               │                                     │
-│                               └─ waiting threads accumulate         │
-│                                                     │               │
-│                                                     ▼               │
-│                                      queue growth -> pool exhaustion│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               Slow dependency can poison healthy callers            |
++----------------------------------------------------------------------+
+| User Request -> Order Service -> Payment Service -> External API    |
+|                               |                  |                  |
+|                               |                  +- slow / timeout  |
+|                               |                                     |
+|                               +- waiting threads accumulate         |
+|                                                     |               |
+|                                                     v               |
+|                                      queue growth -> pool exhaustion|
++----------------------------------------------------------------------+
 ```
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 이 경로에서 "외부 API가 이미 아픈데 왜 계속 문을 두드리느냐"를 묻는 장치다. 장애를 없애지는 못하지만, 장애 범위를 국소화해 시스템 전체 붕괴를 막는다.
@@ -61,17 +61,17 @@ tags = ["studynote-enterprise"]
 아래 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 대부분의 구현이 공유하는 기본 골격이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     Circuit Breaker state machine                    │
-├──────────────────────────────────────────────────────────────────────┤
-│   failure rate / slow calls > threshold                             │
-│  CLOSED  ------------------------------------------->  OPEN         │
-│    │                                                    │           │
-│    │ success traffic                                    │ wait time  │
-│    │                                                    ▼           │
-│    └<-----------------------  HALF-OPEN  <--------------┘           │
-│             enough probe success        any probe failure            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     Circuit Breaker state machine                    |
++----------------------------------------------------------------------+
+|   failure rate / slow calls > threshold                             |
+|  CLOSED  ------------------------------------------->  OPEN         |
+|    |                                                    |           |
+|    | success traffic                                    | wait time  |
+|    |                                                    v           |
+|    +<-----------------------  HALF-OPEN  <--------------+           |
+|             enough probe success        any probe failure            |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 "무엇을 실패로 세느냐"다. 일반적으로 연결 실패, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 5xx 응답, 과도한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 실패로 집계하지만, 잘못된 사용자 입력으로 인한 4xx 응답까지 실패로 포함하면 브레이커가 왜곡된다. 즉 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 <strong>비즈니스 예외</strong>보다 <strong>의존성 건강 상태</strong>를 감시해야 한다.
@@ -162,18 +162,18 @@ tags = ["studynote-enterprise"]
 
 ```text
 Remote call instability
-    │
-    ▼
+    |
+    v
 Timeout / Retry control
-    │
-    ▼
+    |
+    v
 Circuit Breaker state machine
-    │
-    ├─ Open  -> fail fast / fallback
-    ├─ Half-Open -> probe recovery
-    └─ Closed -> normal traffic with metrics
-    │
-    ▼
+    |
+    +- Open  -> fail fast / fallback
+    +- Half-Open -> probe recovery
+    +- Closed -> normal traffic with metrics
+    |
+    v
 Bulkhead · Service Mesh · Resilience operations
 ```
 
@@ -191,7 +191,7 @@ Bulkhead · Service Mesh · Resilience operations
 
 **진행 상황**: 170 / 482
 
-← **이전**: [169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/)
-**다음**: [171. 폴백 (Fallback) 회복탄력성 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) →
+<- **이전**: [169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/)
+**다음**: [171. 폴백 (Fallback) 회복탄력성 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ->
 
 ---

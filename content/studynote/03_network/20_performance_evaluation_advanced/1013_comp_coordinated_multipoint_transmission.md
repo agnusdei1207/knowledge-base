@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [셀 엣지 수율]
-    │
-    ▼
+    |
+    v
 [CoMP]
-    │
-    └──▶ [캐리어 어그리게이션]
+    |
+    +---> [캐리어 어그리게이션]
 ```
 
 - **📢 섹션 요약 비유**: CoMP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [셀 엣지 수율]
-    │
-    ▼
+    |
+    v
 [CoMP]
-    │
-    └──▶ [캐리어 어그리게이션]
+    |
+    +---> [캐리어 어그리게이션]
 ```
 
 - **📢 섹션 요약 비유**: CoMP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ CoMP는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ```text
 [선행 개념: 셀 엣지 수율]
-    │
-    ▼
+    |
+    v
 [현재 개념: CoMP]
-    │
-    ├──▶ [확장 A: 캐리어 어그리게이션]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 캐리어 어그리게이션]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 CoMP는 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ CoMP는 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_
 
 **진행 상황**: 114 / 1120
 
-← **이전**: [1012. 셀 엣지 수율 (Cell Edge Throughput)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)
-**다음**: [1014. 캐리어 어그리게이션 (CA)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) →
+<- **이전**: [1012. 셀 엣지 수율 (Cell Edge Throughput)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)
+**다음**: [1014. 캐리어 어그리게이션 (CA)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) ->
 
 ---

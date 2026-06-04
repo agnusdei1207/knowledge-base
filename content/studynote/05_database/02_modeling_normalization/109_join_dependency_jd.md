@@ -18,28 +18,28 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))의 각 단계는 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형이 일으키는 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 제거한다. [1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)→2NF는 부분 함수 종속, [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)→3NF는 이행 함수 종속, BCNF는 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건, 4NF는 [다치 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/)을 다룬다. 그런데 4NF까지 완벽하게 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>삽입·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/">삭제 이상</a></strong>이 발생하는 극한 사례가 존재한다.
+[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))의 각 단계는 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형이 일으키는 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 제거한다. [1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)->2NF는 부분 함수 종속, [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)->3NF는 이행 함수 종속, BCNF는 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건, 4NF는 [다치 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/)을 다룬다. 그런데 4NF까지 완벽하게 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>삽입·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/">삭제 이상</a></strong>이 발생하는 극한 사례가 존재한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│           2개 분해 vs 3개 분해: 무손실 복원의 차이              │
-├───────────────────────────────────────────────────────────────┤
-│  원본 R(과목, 강사, 교재)                                      │
-│  ┌────────┬────────┬────────┐                                 │
-│  │ 수학   │ 홍길동 │ A교재  │                                 │
-│  │ 수학   │ 이순신 │ B교재  │                                 │
-│  │ 영어   │ 홍길동 │ B교재  │                                 │
-│  └────────┴────────┴────────┘                                 │
-│                                                               │
-│  [시도 1] 2개 분해 → R1(과목,강사) ⋈ R2(강사,교재)            │
-│   결과: 원본에 없던 (수학, 홍길동, B교재) 유령 튜플 출현!      │
-│   → 손실 분해 (Lossy Decomposition) 💥                        │
-│                                                               │
-│  [시도 2] 3개 분해 → R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) │
-│   결과: R3 필터가 유령 튜플을 걸러냄 → 원본 100% 복원!        │
-│   → 무손실 분해 (Lossless Decomposition) ✅                    │
-│   → 이것이 조인 종속성 JD(R1, R2, R3)                         │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|           2개 분해 vs 3개 분해: 무손실 복원의 차이              |
++---------------------------------------------------------------+
+|  원본 R(과목, 강사, 교재)                                      |
+|  +--------+--------+--------+                                 |
+|  | 수학   | 홍길동 | A교재  |                                 |
+|  | 수학   | 이순신 | B교재  |                                 |
+|  | 영어   | 홍길동 | B교재  |                                 |
+|  +--------+--------+--------+                                 |
+|                                                               |
+|  [시도 1] 2개 분해 -> R1(과목,강사) ⋈ R2(강사,교재)            |
+|   결과: 원본에 없던 (수학, 홍길동, B교재) 유령 튜플 출현!      |
+|   -> 손실 분해 (Lossy Decomposition) 💥                        |
+|                                                               |
+|  [시도 2] 3개 분해 -> R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) |
+|   결과: R3 필터가 유령 튜플을 걸러냄 -> 원본 100% 복원!        |
+|   -> 무손실 분해 (Lossless Decomposition) ✅                    |
+|   -> 이것이 조인 종속성 JD(R1, R2, R3)                         |
++---------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 마술사가 미녀 상자를 2도막 내면 미녀가 다치지만(손실), 관절을 정확히 노려 3도막 내면 합쳤을 때 생채기 없이 원래 모습 그대로 살아나오는 수학적 환상이다.
@@ -113,17 +113,17 @@ tags = ["studynote-database"]
 
 ```text
 [1NF~3NF (Codd, 1970s) — 함수 종속성(FD) 기반 정규화]
-    │
-    ▼
+    |
+    v
 [BCNF (Boyce-Codd, 1974) — 결정자 조건 강화]
-    │
-    ▼
+    |
+    v
 [4NF (Fagin, 1977) — 다치 종속성(MVD) 제거]
-    │
-    ▼
+    |
+    v
 [5NF/PJ-NF (Fagin, 1979) — 조인 종속성(JD) 제거, 정규화 이론 완결]
-    │
-    ▼
+    |
+    v
 [현재: 실무에서는 BCNF~4NF에서 멈추고, 역정규화로 성능 최적화]
 ```
 
@@ -138,7 +138,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 109 / 600
 
-← **이전**: [108. 제4정규형 (4NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)
-**다음**: [110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/) →
+<- **이전**: [108. 제4정규형 (4NF)](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)
+**다음**: [110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/) ->
 
 ---

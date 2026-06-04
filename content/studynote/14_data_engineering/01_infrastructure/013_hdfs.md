@@ -31,14 +31,14 @@ HDFS는 이 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_
 [단일 파일 시스템의 한계와 HDFS 블록 분할 메커니즘]
 
 [Local File System 한계]            [HDFS 블록 기반 분산 스토리지]
-                                   ┌───────────────────────┐ (128MB 단위 분할)
- 파일 크기: 500GB                      │     파일 (500GB)       │
- ┌─────────────────┐               └─┬──────┬──────┬───────┘
- │   OS Disk       │                 ↓      ↓      ↓  ...
- │  (최대 100GB)   │          ┌─────┐┌─────┐┌─────┐   (Network)
- │ ❌ 공간 부족!    │          │Blk 1││Blk 2││Blk 3│... ┌─────┐
- └─────────────────┘          └──┬──┘└──┬──┘└──┬──┘   │Blk N│
-                                 ↓      ↓      ↓      └──┬──┘
+                                   +-----------------------+ (128MB 단위 분할)
+ 파일 크기: 500GB                      |     파일 (500GB)       |
+ +-----------------+               +-+------+------+-------+
+ |   OS Disk       |                 v      v      v  ...
+ |  (최대 100GB)   |          +-----++-----++-----+   (Network)
+ | ❌ 공간 부족!    |          |Blk 1||Blk 2||Blk 3|... +-----+
+ +-----------------+          +--+--++--+--++--+--+   |Blk N|
+                                 v      v      v      +--+--+
                               [노드A] [노드B] [노드C] ... [노드Z]
 ```
 
@@ -63,24 +63,24 @@ HDFS 아키텍처는 마스터-슬레이브(Master-Slave) 구조의 극단을 �
 아래의 HDFS 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아키텍처 계층도는 클라이언트가 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 HDFS에 저장할 때 NameNode와 DataNode가 어떻게 상호작용하는지 통신 흐름을 보여준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│                    [HDFS Client (사용자 / Spark 등)]          │
-│                      │ 1. 쓰기 요청 (파일 분할)               │
-└──────────────────────┼────────────────────────────────────────┘
-                       ▼
-             ┌──────────────────┐
-             │    NameNode      │ 2. 메타데이터 기록 및
-             │ (장부/디렉토리)  │ 블록을 저장할 DataNode 목록 반환
-             └───────┬──────────┘
-                     │ 3. 할당된 노드 리스트 (예: D1, D3, D5) 반환
-        ┌────────────┴─────────────┐
-        ▼                          ▼
-┌──────────────┐          ┌──────────────┐          ┌──────────────┐
-│ DataNode 1   │ 4. 블록  │ DataNode 3   │ 5. 파이프│ DataNode 5   │
-│ (블록 1-본본)│──전송───>│ (블록 1-복제1)│──라인───>│ (블록 1-복제2)│
-└──────────────┘          └──────────────┘          └──────────────┘
-      ▲                           ▲                        ▲
-      └───────────────────────────┴────────────────────────┘
++---------------------------------------------------------------+
+|                    [HDFS Client (사용자 / Spark 등)]          |
+|                      | 1. 쓰기 요청 (파일 분할)               |
++----------------------+----------------------------------------+
+                       v
+             +------------------+
+             |    NameNode      | 2. 메타데이터 기록 및
+             | (장부/디렉토리)  | 블록을 저장할 DataNode 목록 반환
+             +-------+----------+
+                     | 3. 할당된 노드 리스트 (예: D1, D3, D5) 반환
+        +------------+-------------+
+        v                          v
++--------------+          +--------------+          +--------------+
+| DataNode 1   | 4. 블록  | DataNode 3   | 5. 파이프| DataNode 5   |
+| (블록 1-본본)|--전송--->| (블록 1-복제1)|--라인--->| (블록 1-복제2)|
++--------------+          +--------------+          +--------------+
+      ^                           ^                        ^
+      +---------------------------+------------------------+
                  6. 3초마다 Heartbeat 및 Block Report 송신
 ```
 
@@ -109,16 +109,16 @@ HDFS는 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_wor
 [HDFS 노드 장애 발생 시 블록 자가 복구 (Under-replicated) 메커니즘]
 
 [정상 상태] D1(블록A), D2(블록A), D3(블록A) 유지 => 복제 계수(Replication Factor) 3 만족
-     │
-     │ 💥 DataNode 2 하드웨어 크래시 (Heartbeat 중단)
-     ▼
+     |
+     | 💥 DataNode 2 하드웨어 크래시 (Heartbeat 중단)
+     v
 [NameNode 감지] "D2가 10분간 무응답. 블록A의 복제본이 2개(D1, D3)로 떨어짐!"
-     │
-     │ 복구 명령 (Replication Command) 하달
-     ▼
-[파이프라인 재가동] D1에게 지시 ──복사──> [새로운 D4 노드]에 블록A 전송
-     │
-     ▼
+     |
+     | 복구 명령 (Replication Command) 하달
+     v
+[파이프라인 재가동] D1에게 지시 --복사--> [새로운 D4 노드]에 블록A 전송
+     |
+     v
 [상태 수렴] D1, D3, D4가 블록A를 소유하게 되어 다시 안전한 복제 계수 3 회복 완료
 ```
 
@@ -140,13 +140,13 @@ A 방식(로컬/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_a
 [HDFS 스토리지 운영 효율화 및 파일 최적화 의사결정 트리]
 
 [일일 로그 데이터가 10KB 단위로 HDFS에 지속 유입]
-       ↓
-[단순 적재 방치 시] ──> [NameNode 메타데이터 메모리 폭발 💥 (클러스터 중단)]
-       ↓
+       v
+[단순 적재 방치 시] --> [NameNode 메타데이터 메모리 폭발 💥 (클러스터 중단)]
+       v
 [어떻게 전처리할 것인가?]
-  ├─ (주기적 배치 병합) ──> [Spark/Hive 잡으로 자정마다 작은 파일을 1GB 파케이(Parquet)로 뭉치기]
-  ├─ (Hadoop 기본 아카이브) ──> [HAR (Hadoop Archive) 명령어로 묶음 압축 저장]
-  └─ (스트리밍 버퍼링) ──> [Kafka → Flink 파이프라인에서 메모리에 들고 있다가 128MB가 차면 Flush]
+  +- (주기적 배치 병합) --> [Spark/Hive 잡으로 자정마다 작은 파일을 1GB 파케이(Parquet)로 뭉치기]
+  +- (Hadoop 기본 아카이브) --> [HAR (Hadoop Archive) 명령어로 묶음 압축 저장]
+  +- (스트리밍 버퍼링) --> [Kafka -> Flink 파이프라인에서 메모리에 들고 있다가 128MB가 차면 Flush]
 ```
 
 이 의사결정의 핵심은 HDFS를 절대 범용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 디스크처럼 써서는 안 된다는 점이다. 실무에서는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 등에서 유입되는 수많은 자잘한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)스태시(Logstash)나 플링크(Flink) 단계에서 윈도우 버퍼에 들고 있다가, 최소 128MB 이상의 덩어리가 되었을 때 한 방에 HDFS로 떨어뜨리는(Flush) 구조가 강제된다. 또한 저장 시에는 단순 Text가 아니라 Columnar 포맷([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC)과 Snappy [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 결합하여 I/O 비용을 극한으로 깎아내야 한다.
@@ -182,17 +182,17 @@ HDFS는 빅데이터 시대에 스토리지가 가야 할 '[분산](/knowledge-b
 
 ```text
 [GFS (Google File System) — 대규모 분산 파일시스템 설계 원리 제시]
-    │
-    ▼
+    |
+    v
 [HDFS (Hadoop Distributed File System) — GFS 영감, 블록 분산 저장·복제]
-    │
-    ▼
+    |
+    v
 [NameNode / DataNode — 메타데이터 중앙 관리 + 실제 블록 분산 저장 구조]
-    │
-    ▼
+    |
+    v
 [HDFS Federation — 다수 NameNode로 네임스페이스 수평 확장]
-    │
-    ▼
+    |
+    v
 [클라우드 오브젝트 스토리지 (S3/GCS) — HDFS 이후 데이터 레이크 저장소 주류]
 ```
 
@@ -209,7 +209,7 @@ HDFS는 빅데이터 시대에 스토리지가 가야 할 '[분산](/knowledge-b
 
 **진행 상황**: 13 / 258
 
-← **이전**: [12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크](/knowledge-base/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/)
-**다음**: [14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) →
+<- **이전**: [12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크](/knowledge-base/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/)
+**다음**: [14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) ->
 
 ---

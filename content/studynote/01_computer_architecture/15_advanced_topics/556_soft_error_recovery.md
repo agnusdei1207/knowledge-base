@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 보통 <strong>탐지 → 격리 → <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> → 에스컬레이션</strong>의 4단계로 설계한다. 먼저 parity, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), duplication, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교 등으로 이상을 감지하고, 오류가 난 코어·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)·연산 결과를 격리한다. 그 뒤 retry, [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/), [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) restore, 다수결 투표 같은 방법으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고, 끝내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않으면 리셋·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 은퇴·[안전 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) 전환으로 상위 계층에 넘긴다.
+[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 보통 <strong>탐지 -> 격리 -> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> -> 에스컬레이션</strong>의 4단계로 설계한다. 먼저 parity, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), duplication, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교 등으로 이상을 감지하고, 오류가 난 코어·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)·연산 결과를 격리한다. 그 뒤 retry, [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/), [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) restore, 다수결 투표 같은 방법으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고, 끝내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않으면 리셋·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 은퇴·[안전 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) 전환으로 상위 계층에 넘긴다.
 
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층 | 대표 기법 | 장점 | 비용/한계 |
 | :-- | :-- | :-- | :-- |
@@ -44,19 +44,19 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 좋은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 "가능하면 낮은 계층에서 바로 고치고, 안 되면 단계적으로 올리는" 구조임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Soft error recovery ladder: recover locally first, escalate only if needed│
-├────────────────────────────────────────────────────────────────────────────┤
-│ Strike -> [Detect] -> [Contain] -> [Recover] -> [Resume or Escalate]      │
-│             │          │             │                                     │
-│             │          │             ├-> ECC fix                           │
-│             │          │             ├-> Replay / Rollback                 │
-│             │          │             └-> TMR vote                          │
-│             │          └-> Isolate core / poison page / freeze output      │
-│             └-> Parity / ECC / Lockstep compare / Watchdog                 │
-│                                                                            │
-│ Persistent fault  --------------------------------------> retire / reset   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Soft error recovery ladder: recover locally first, escalate only if needed|
++----------------------------------------------------------------------------+
+| Strike -> [Detect] -> [Contain] -> [Recover] -> [Resume or Escalate]      |
+|             |          |             |                                     |
+|             |          |             +-> ECC fix                           |
+|             |          |             +-> Replay / Rollback                 |
+|             |          |             +-> TMR vote                          |
+|             |          +-> Isolate core / poison page / freeze output      |
+|             +-> Parity / ECC / Lockstep compare / Watchdog                 |
+|                                                                            |
+| Persistent fault  --------------------------------------> retire / reset   |
++----------------------------------------------------------------------------+
 ```
 
 핵심 원리는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술마다 보호하는 범위와 시간 특성이 다르다는 점이다. ECC는 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전에 매우 빠르지만, 이미 레지스터와 제어 흐름으로 번진 오류는 checkpoint/rollback이 더 적합하다. lockstep은 자동차 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)처럼 결정론적 응답이 중요한 환경에서 강력하고, TMR은 우주·원전처럼 현장 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 어려운 곳에서 비용을 감수할 가치가 있다.
@@ -132,17 +132,17 @@ soft error는 일시적이어서 재시도나 상태 복원이 잘 통하는 반
 
 ```text
 Parity · ECC 기반 국소 오류 탐지
-        │
-        ▼
+        |
+        v
 Retry · Rollback · Checkpoint
-        │
-        ▼
+        |
+        v
 Lockstep · DMR 기반 실시간 비교
-        │
-        ▼
+        |
+        v
 TMR · Fail-operational 시스템
-        │
-        ▼
+        |
+        v
 선택적 하드닝 · 예측형 신뢰성 관리
 ```
 
@@ -160,7 +160,7 @@ TMR · Fail-operational 시스템
 
 **진행 상황**: 556 / 803
 
-← **이전**: [555. 메모리 스크러빙 (Memory Scrubbing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/)
-**다음**: [557. 펌웨어 OTA 하드웨어 지원 (Firmware Over-The-Air Hardware Support)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/557_ota_hardware_support/) →
+<- **이전**: [555. 메모리 스크러빙 (Memory Scrubbing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/)
+**다음**: [557. 펌웨어 OTA 하드웨어 지원 (Firmware Over-The-Air Hardware Support)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/557_ota_hardware_support/) ->
 
 ---

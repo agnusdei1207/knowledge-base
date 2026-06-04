@@ -28,18 +28,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 운영체제가 같은 주소를 반복 기록해도, FTL이 실제 저장 위치를 회전시키는 이유를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        같은 논리 주소라도 실제 물리 블록은 순환 배치됨      │
-├──────────────────────────────────────────────────────────────┤
-│ OS 요청: LBA 120 갱신                                        │
-│                                                              │
-│ 시간 t1  LBA 120 ───────────────▶ PBA Block 07  (Erase 120)  │
-│ 시간 t2  LBA 120 ───────────────▶ PBA Block 31  (Erase  84)  │
-│ 시간 t3  LBA 120 ───────────────▶ PBA Block 12  (Erase  86)  │
-│ 시간 t4  LBA 120 ───────────────▶ PBA Block 44  (Erase  85)  │
-│                                                              │
-│ 결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        같은 논리 주소라도 실제 물리 블록은 순환 배치됨      |
++--------------------------------------------------------------+
+| OS 요청: LBA 120 갱신                                        |
+|                                                              |
+| 시간 t1  LBA 120 ----------------> PBA Block 07  (Erase 120)  |
+| 시간 t2  LBA 120 ----------------> PBA Block 31  (Erase  84)  |
+| 시간 t3  LBA 120 ----------------> PBA Block 12  (Erase  86)  |
+| 시간 t4  LBA 120 ----------------> PBA Block 44  (Erase  85)  |
+|                                                              |
+| 결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산 |
++--------------------------------------------------------------+
 ```
 
 핵심은 사용자가 보는 주소 체계는 그대로 유지하면서, 내부 마모 상태만 재배치한다는 점이다. 이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분에 운영체제는 블록 수명을 직접 계산하지 않아도 되고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 남은 수명 여유를 활용해 전체 장치를 더 오래 서비스할 수 있다.
@@ -50,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 FTL이 보유한 매핑 테이블, 블록별 소거 횟수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 여유 블록 풀을 기반으로 동작한다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 오면 FTL은 기존 PBA에 덮어쓰지 않고, 지워진 횟수가 상대적으로 낮은 빈 블록이나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록한 뒤 LBA→PBA 매핑만 갱신한다. 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무효 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 되고, 이후 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)이 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 옮긴 뒤 블록 단위로 소거한다. 즉 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 독립 기능이 아니라, "배치·이동·회수"가 묶인 플래시 관리 정책이다.
+[마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 FTL이 보유한 매핑 테이블, 블록별 소거 횟수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 여유 블록 풀을 기반으로 동작한다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 오면 FTL은 기존 PBA에 덮어쓰지 않고, 지워진 횟수가 상대적으로 낮은 빈 블록이나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록한 뒤 LBA->PBA 매핑만 갱신한다. 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무효 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 되고, 이후 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)이 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 옮긴 뒤 블록 단위로 소거한다. 즉 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 독립 기능이 아니라, "배치·이동·회수"가 묶인 플래시 관리 정책이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -64,16 +64,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 동적 방식과 정적 방식의 차이를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           동적 vs 정적 마모 평준화의 판단 기준               │
-├───────────────────────┬──────────────────────────────────────┤
-│ 동적 방식             │ 정적 방식                            │
-├───────────────────────┼──────────────────────────────────────┤
-│ 새 쓰기만 분산        │ 새 쓰기 + 오래된 콜드 데이터도 이동   │
-│ 추가 복사 적음        │ 추가 복사 많음                       │
-│ 구현 단순             │ 수명 편차를 더 작게 만듦             │
-│ 편한 블록이 남을 수 있음│ 전체 블록을 더 고르게 사용           │
-└───────────────────────┴──────────────────────────────────────┘
++--------------------------------------------------------------+
+|           동적 vs 정적 마모 평준화의 판단 기준               |
++-----------------------+--------------------------------------+
+| 동적 방식             | 정적 방식                            |
++-----------------------+--------------------------------------+
+| 새 쓰기만 분산        | 새 쓰기 + 오래된 콜드 데이터도 이동   |
+| 추가 복사 적음        | 추가 복사 많음                       |
+| 구현 단순             | 수명 편차를 더 작게 만듦             |
+| 편한 블록이 남을 수 있음| 전체 블록을 더 고르게 사용           |
++-----------------------+--------------------------------------+
 ```
 
 따라서 컨트롤러 설계의 핵심은 "얼마나 자주 옮길 것인가"다. 지나치게 소극적이면 일부 블록이 먼저 닳고, 지나치게 공격적이면 평준화를 위해 옮기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체가 수명을 줄인다. 결국 최적점은 워크로드의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편중도, 여유 공간 비율, 낸드 종류에 따라 달라진다.
@@ -146,20 +146,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 낸드 플래시의 소거 한계
-    │
-    ▼
+    |
+    v
 LBA/PBA 분리 + FTL 매핑
-    │
-    ▼
+    |
+    v
 동적 마모 평준화 (Dynamic Wear Leveling)
-    │
-    ▼
+    |
+    v
 정적 마모 평준화 (Static Wear Leveling)
-    │
-    ▼
+    |
+    v
 가비지 컬렉션 · TRIM · 오버프로비저닝 통합 최적화
-    │
-    ▼
+    |
+    v
 고밀도 TLC/QLC SSD 수명 관리 고도화
 ```
 
@@ -177,7 +177,7 @@ LBA/PBA 분리 + FTL 매핑
 
 **진행 상황**: 330 / 803
 
-← **이전**: [328. 가비지 컬렉션 (Garbage Collection in SSD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/328_ssd_garbage_collection/)
-**다음**: [330. FTL (Flash Translation Layer)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/330_ftl/) →
+<- **이전**: [328. 가비지 컬렉션 (Garbage Collection in SSD)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/328_ssd_garbage_collection/)
+**다음**: [330. FTL (Flash Translation Layer)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/330_ftl/) ->
 
 ---

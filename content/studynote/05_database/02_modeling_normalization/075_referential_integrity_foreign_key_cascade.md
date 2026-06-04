@@ -23,11 +23,11 @@ tags = ["database"]
 `SQL (Structured Query Language)`에서 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) 제약은 단순한 문법이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 부모 행이 사라질 때 자식도 같이 사라질지, 막을지, 빈값으로 남길지를 미리 정해야 운영 중 예외를 줄일 수 있다.
 
 ```text
-Parent PK ───► Child FK
-   │             │
-   ├─ RESTRICT   ├─ no delete
-   ├─ CASCADE    ─┼─ delete child
-   └─ SET NULL   ─┴─ keep row
+Parent PK ---► Child FK
+   |             |
+   +- RESTRICT   +- no delete
+   +- CASCADE    -+- delete child
+   +- SET NULL   -+- keep row
 ```
 
 이 규칙이 없으면 조인은 되지만 의미는 무너진다.
@@ -108,15 +108,15 @@ FK 제약은 [데이터](/knowledge-base/studynote/05_database/01_db_architectur
 
 ```text
 parent insert/update
-    │
-    ▼
+    |
+    v
 FK constraint check
-    │
-    ├── reject
-    │
-    └── propagate / set null / set default
-    │
-    ▼
+    |
+    +-- reject
+    |
+    +-- propagate / set null / set default
+    |
+    v
 commit
 ```
 
@@ -132,7 +132,7 @@ commit
 
 **진행 상황**: 75 / 600
 
-← **이전**: [74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/)
-**다음**: [76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/) →
+<- **이전**: [74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/)
+**다음**: [76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/) ->
 
 ---

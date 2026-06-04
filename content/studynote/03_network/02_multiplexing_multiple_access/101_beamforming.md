@@ -32,23 +32,23 @@ tags = ["network"]
 빔포밍의 심장부는 **위상 천이기(Phase Shifter)** 와 **파동의 보강/상쇄 간섭** 원리다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [기저대역 신호] ───────▶ 분배 (위상 지연 계산)                  │
-│                                                              │
-│        [PS 1]      [PS 2]      [PS 3]      [PS 4]            │
-│         │ (0초)     │ (0.1초 지연)│ (0.2초 지연)│ (0.3초 지연)       │
-│        [Ant 1]     [Ant 2]     [Ant 3]     [Ant 4]           │
-│         │           │           │           │                │
-│         ))))        │           │           │                │
-│             ))))    )           │           │    기울어진 파면    │
-│                 ))))│  )        )           │   (Wavefront)  │
-│                     ││    ))))  │)          )  ============▶ │
-│                     ││        ││   ))))     │   원하는 타겟 각도  │
-│                     ││        ││         ││                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리    |
++--------------------------------------------------------------+
+|                                                              |
+|       [기저대역 신호] --------> 분배 (위상 지연 계산)                  |
+|                                                              |
+|        [PS 1]      [PS 2]      [PS 3]      [PS 4]            |
+|         | (0초)     | (0.1초 지연)| (0.2초 지연)| (0.3초 지연)       |
+|        [Ant 1]     [Ant 2]     [Ant 3]     [Ant 4]           |
+|         |           |           |           |                |
+|         ))))        |           |           |                |
+|             ))))    )           |           |    기울어진 파면    |
+|                 ))))|  )        )           |   (Wavefront)  |
+|                     ||    ))))  |)          )  ============-> |
+|                     ||        ||   ))))     |   원하는 타겟 각도  |
+|                     ||        ||         ||                  |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 어떻게 꺾이는지를 보여준다. 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자(Ant 1~4)에서 전파가 뿜어져 나올 때, 위상 천이기(PS)가 신호의 출발 타이밍을 인위적으로 미세하게 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다. Ant 1이 가장 먼저 쏘고 Ant 4가 가장 늦게 쏘면 공간에서 퍼져나가는 파동의 파면(Wavefront)이 대각선으로 형성된다. 이 계산된 각도에서 보강 간섭이 일어나 에너지가 극대화되고, 나머지 각도에서는 파동이 찌그러지며 상쇄된다. [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) 프로세서는 단말로부터 채널 상태 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))를 피드백받아 이 정밀한 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Vector)을 밀리초 단위로 실시간 연산해 낸다.
@@ -113,20 +113,20 @@ tags = ["network"]
 
 ```text
 무지향성 (Omni) 및 섹터 (Sector) 안테나
-    │
-    ▼
+    |
+    v
 신호 에너지 낭비 및 셀 간 전파 간섭 한계 직면
-    │
-    ▼
+    |
+    v
 빔포밍 (Beamforming) 및 위상 제어 기술 도입
-    │
-    ▼
+    |
+    v
 공간 분할 다중 접속 (SDMA) 구현 및 용량 극대화
-    │
-    ▼
+    |
+    v
 아날로그/디지털 결합: 하이브리드 (Hybrid) 빔포밍 표준화
-    │
-    ▼
+    |
+    v
 Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화
 ```
 
@@ -141,7 +141,7 @@ Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화
 
 **진행 상황**: 121 / 1120
 
-← **이전**: [1019. 테라헤르츠 (THz) 대역](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1019_thz_terahertz_6g_frequency_band_characteristics/)
-**다음**: [1020. 자유 공간 광통신 (FSO)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1020_fso_free_space_optics_laser_communication/) →
+<- **이전**: [1019. 테라헤르츠 (THz) 대역](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1019_thz_terahertz_6g_frequency_band_characteristics/)
+**다음**: [1020. 자유 공간 광통신 (FSO)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1020_fso_free_space_optics_laser_communication/) ->
 
 ---

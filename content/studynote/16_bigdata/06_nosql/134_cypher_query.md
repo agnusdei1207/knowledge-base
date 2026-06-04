@@ -24,22 +24,22 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 ### Cypher 문법 기초
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│              Cypher 핵심 문법 요소                      │
-│                                                       │
-│  (n)          ← 모든 노드                              │
-│  (n:Person)   ← 라벨이 Person인 노드                   │
-│  (n:Person {name:"홍길동"})  ← 속성 필터링             │
-│                                                       │
-│  -[:KNOWS]->  ← 방향 있는 관계                         │
-│  -[:KNOWS]-   ← 방향 없는 관계                         │
-│  -[r]->       ← 관계 변수 r로 참조                     │
-│  -[:KNOWS*2..5]-> ← 2~5홉 가변 길이 탐색               │
-│                                                       │
-│  패턴 예시:                                            │
-│  (alice:Person)-[:FOLLOWS]->(bob:Person)              │
-│  (p)-[:BOUGHT]->(product:Product {category:"전자"})   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|              Cypher 핵심 문법 요소                      |
+|                                                       |
+|  (n)          <- 모든 노드                              |
+|  (n:Person)   <- 라벨이 Person인 노드                   |
+|  (n:Person {name:"홍길동"})  <- 속성 필터링             |
+|                                                       |
+|  -[:KNOWS]->  <- 방향 있는 관계                         |
+|  -[:KNOWS]-   <- 방향 없는 관계                         |
+|  -[r]->       <- 관계 변수 r로 참조                     |
+|  -[:KNOWS*2..5]-> <- 2~5홉 가변 길이 탐색               |
+|                                                       |
+|  패턴 예시:                                            |
+|  (alice:Person)-[:FOLLOWS]->(bob:Person)              |
+|  (p)-[:BOUGHT]->(product:Product {category:"전자"})   |
++-------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**
@@ -52,24 +52,24 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 ### Cypher 주요 절(Clause) 정리
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│             Cypher 절(Clause) 역할 요약                    │
-├──────────────┬───────────────────────────────────────────┤
-│  MATCH       │ 패턴과 일치하는 노드/관계 찾기 (SELECT)     │
-│  OPTIONAL MATCH │ LEFT JOIN 과 동일, 없으면 null          │
-│  WHERE       │ 필터 조건 (AND/OR/NOT/IN/STARTS WITH)     │
-│  RETURN      │ 결과 반환 (SELECT 절의 컬럼 선택)           │
-│  CREATE      │ 노드/관계 생성                             │
-│  MERGE       │ 없으면 CREATE, 있으면 MATCH (UPSERT)       │
-│  SET         │ 속성 추가/수정                             │
-│  DELETE      │ 노드/관계 삭제                             │
-│  DETACH DELETE│ 노드 + 연결 관계 모두 삭제                 │
-│  WITH        │ 파이프라인: 중간 결과를 다음 절에 전달       │
-│  UNWIND      │ 리스트를 행으로 분해 (explode)              │
-│  ORDER BY    │ 정렬                                      │
-│  SKIP/LIMIT  │ 페이지네이션                               │
-│  CALL        │ 프로시저/함수 호출 (GDS 알고리즘 등)        │
-└──────────────┴───────────────────────────────────────────┘
++----------------------------------------------------------+
+|             Cypher 절(Clause) 역할 요약                    |
++--------------+-------------------------------------------+
+|  MATCH       | 패턴과 일치하는 노드/관계 찾기 (SELECT)     |
+|  OPTIONAL MATCH | LEFT JOIN 과 동일, 없으면 null          |
+|  WHERE       | 필터 조건 (AND/OR/NOT/IN/STARTS WITH)     |
+|  RETURN      | 결과 반환 (SELECT 절의 컬럼 선택)           |
+|  CREATE      | 노드/관계 생성                             |
+|  MERGE       | 없으면 CREATE, 있으면 MATCH (UPSERT)       |
+|  SET         | 속성 추가/수정                             |
+|  DELETE      | 노드/관계 삭제                             |
+|  DETACH DELETE| 노드 + 연결 관계 모두 삭제                 |
+|  WITH        | 파이프라인: 중간 결과를 다음 절에 전달       |
+|  UNWIND      | 리스트를 행으로 분해 (explode)              |
+|  ORDER BY    | 정렬                                      |
+|  SKIP/LIMIT  | 페이지네이션                               |
+|  CALL        | 프로시저/함수 호출 (GDS 알고리즘 등)        |
++--------------+-------------------------------------------+
 ```
 
 ### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 예시 모음
@@ -182,7 +182,7 @@ RETURN recommended.name, cobuyers;
 Cypher 성능 최적화 지침:
 
 1. 시작점을 가장 선택적인 노드로 지정
-   MATCH (:Person {name:"홍길동"})  ← 인덱스 활용
+   MATCH (:Person {name:"홍길동"})  <- 인덱스 활용
    NOT: MATCH (p:Person) WHERE p.name = "홍길동"
 
 2. 인덱스 생성
@@ -193,7 +193,7 @@ Cypher 성능 최적화 지침:
    WHERE p.name = "홍길동" RETURN target
 
 4. 가변 길이 탐색 상한 제한
-   [:KNOWS*..5]  ← 상한 없으면 전체 그래프 탐색 위험
+   [:KNOWS*..5]  <- 상한 없으면 전체 그래프 탐색 위험
 ```
 
 📢 **섹션 요약 비유**
@@ -236,17 +236,17 @@ Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastruct
 
 ```text
 [그래프 데이터베이스 (Graph Database) — 노드/관계 모델]
-    │
-    ▼
+    |
+    v
 [Cypher 쿼리 언어 (Cypher Query Language) — 패턴 매칭]
-    │
-    ▼
+    |
+    v
 [기본 구문 (MATCH/WHERE/RETURN) — 쿼리 핵심 키워드]
-    │
-    ▼
+    |
+    v
 [경로 탐색 (Path Traversal) — 최단 경로]
-    │
-    ▼
+    |
+    v
 [그래프 쿼리 언어 GQL (Graph Query Language) — ISO 표준화]
 ```
 
@@ -263,7 +263,7 @@ Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastruct
 
 **진행 상황**: 134 / 262
 
-← **이전**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/knowledge-base/studynote/16_bigdata/06_nosql/133_graph_db/)
-**다음**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/) →
+<- **이전**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/knowledge-base/studynote/16_bigdata/06_nosql/133_graph_db/)
+**다음**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/) ->
 
 ---

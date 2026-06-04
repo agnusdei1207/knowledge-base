@@ -24,10 +24,10 @@ tags = ["studynote-computer-architecture"]
 용어는 환경마다 다르다. 16비트 시대의 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)와 32비트 시대의 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)는 같은 말이 아니고, 따라서 더블 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)도 고정된 숫자가 아니다. Windows API의 `DWORD`는 역사적으로 32비트를 뜻하지만, 현대 64비트 시스템의 기본 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)와는 관계가 달라진다.
 
 ```text
-바이트(8b) ─▶ 워드 ─▶ 더블 워드 ─▶ 쿼드 워드
-                 │        │
-                 │        └─ 2개의 워드를 묶은 확장 폭
-                 └─ 기준은 아키텍처마다 다름
+바이트(8b) --> 워드 --> 더블 워드 --> 쿼드 워드
+                 |        |
+                 |        +- 2개의 워드를 묶은 확장 폭
+                 +- 기준은 아키텍처마다 다름
 ```
 
 이 구조의 핵심은 "두 개를 묶어서 하나로 본다"는 점이다. 단순히 크기가 아니라 연산과 저장의 관점을 바꾼다.
@@ -48,9 +48,9 @@ tags = ["studynote-computer-architecture"]
 | Quad [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) | 64비트 | 포인터/[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)/64비트 연산 |
 
 ```text
-[상위 32비트] ─┐
-               ├─▶ 더블 워드(64비트)
-[하위 32비트] ─┘
+[상위 32비트] -+
+               +--> 더블 워드(64비트)
+[하위 32비트] -+
 ```
 
 상위와 하위는 논리적으로 하나지만, 실제 메모리 배치에서는 엔디언(Endianness)에 따라 순서가 달라질 수 있다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식이나 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 "순서"를 명확히 적어야 한다.
@@ -122,17 +122,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 8비트 바이트
-    │
-    ▼
+    |
+    v
 16/32비트 워드
-    │
-    ▼
+    |
+    v
 더블 워드(DWORD)
-    │
-    ▼
+    |
+    v
 64비트 주소/정밀도
-    │
-    ▼
+    |
+    v
 ABI 호환성과 데이터 포맷 표준화
 ```
 
@@ -150,7 +150,7 @@ ABI 호환성과 데이터 포맷 표준화
 
 **진행 상황**: 76 / 803
 
-← **이전**: [75. 워드 (Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)
-**다음**: [77. 기수 (Radix)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) →
+<- **이전**: [75. 워드 (Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)
+**다음**: [77. 기수 (Radix)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) ->
 
 ---

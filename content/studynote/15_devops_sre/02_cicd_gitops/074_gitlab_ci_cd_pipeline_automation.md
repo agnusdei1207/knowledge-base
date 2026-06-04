@@ -31,7 +31,7 @@ GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configur
 
 ```text
 .gitlab-ci.yml
-  ↓ runner
+  v runner
 Jobs / Stages
 ```
 
@@ -102,9 +102,9 @@ GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configur
 
 ```text
 .gitlab-ci.yml
-  ↓
+  v
 Runner
-  ↓
+  v
 Pipeline
 ```
 
@@ -114,9 +114,9 @@ Pipeline
 
 ```text
 GitLab
-  ↓
+  v
 CI/CD
-  ↓
+  v
 Runner
 ```
 
@@ -134,7 +134,7 @@ GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configur
 
 **진행 상황**: 74 / 373
 
-← **이전**: [073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/)
-**다음**: [75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) →
+<- **이전**: [073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/073_github_actions_ci_cd_workflow/)
+**다음**: [75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) ->
 
 ---

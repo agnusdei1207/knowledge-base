@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 소프트웨어 개발에서는 결함이 발견되고 수정되는 시점에 따라 비용이 크게 달라진다. 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 결함을 발견하면 수정 비용이 적지만, 운영 환경에서 결함이 발견되면 수정 비용이 수십 배심지수백배 될 수 있다. 식스 시그마는 이러한 결함을 사전에방지하고 프로세스를 안정화하여품질개선을실현하는.
 
-- **💡 비유**: 식스 시그마는 "정밀 공장 생산 라인"에 비유할 수 있다. 대량 생산되는 제품의 불량률을 100만 개당 3.4개 이하로 줄이려면,원재료매입부터최종제품출엄까지 모든 단계에서 품질을 관리해야 한다. 소프트웨어 개발에서도 동일하게, 기획 → 설계 → 구현 → 테스트 → 배포의 각 단계에서 품질을관리해야 결함률을 낮출 수 있다.
+- **💡 비유**: 식스 시그마는 "정밀 공장 생산 라인"에 비유할 수 있다. 대량 생산되는 제품의 불량률을 100만 개당 3.4개 이하로 줄이려면,원재료매입부터최종제품출엄까지 모든 단계에서 품질을 관리해야 한다. 소프트웨어 개발에서도 동일하게, 기획 -> 설계 -> 구현 -> 테스트 -> 배포의 각 단계에서 품질을관리해야 결함률을 낮출 수 있다.
 
 - **등장 배경**: 식스 시그마는 1986년 Motorola사의 마이클 해리 (Michael Harry)와 빌 스미스 (Bill Smith)가개발한방법론에서, 이후 GE (General Electric)의 잭 웰치 (Jack Welch)가전사적으로도입하여성공을수めた. ，현재에서는제조업다け에서なく금융, 의료, ソフトウェア개발등폭광い분야에적용되고 있다.
 
@@ -34,16 +34,16 @@ tags = ["studynote-software-engineering"]
 다음은 식스 시그마 (6 Sigma)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  식스 시그마 (6 Sigma)                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  식스 시그마 (6 Sigma)                            |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 식스 시그마 (6 Sigma)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 식스 시그마 (6 Sigma) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 351 / 973
 
-← **이전**: [350. 전사적 품질 관리 (TQM, Total Quality Management)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/)
-**다음**: [352. 결함(Defect)의 정의 - 오류(Error/Mistake), 결점(Fault/Bug), 고장/실패(Failure)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) →
+<- **이전**: [350. 전사적 품질 관리 (TQM, Total Quality Management)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/)
+**다음**: [352. 결함(Defect)의 정의 - 오류(Error/Mistake), 결점(Fault/Bug), 고장/실패(Failure)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) ->
 
 ---

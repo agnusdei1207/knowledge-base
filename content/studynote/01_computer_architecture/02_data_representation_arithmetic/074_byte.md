@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 8 Bits
-  ↓
+  v
 1 Byte
 ```
 
@@ -103,9 +103,9 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Bit
-  ↓
+  v
 Byte
-  ↓
+  v
 KB / MB / GB
 ```
 
@@ -115,9 +115,9 @@ KB / MB / GB
 
 ```text
 Bit
-  ↓
+  v
 Byte
-  ↓
+  v
 Data Size
 ```
 
@@ -135,7 +135,7 @@ Data Size
 
 **진행 상황**: 74 / 803
 
-← **이전**: [73. 비트 (Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
-**다음**: [75. 워드 (Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) →
+<- **이전**: [73. 비트 (Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
+**다음**: [75. 워드 (Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ->
 
 ---

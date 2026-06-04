@@ -24,15 +24,15 @@ tags = ["studynote-ai"]
 이 한계를 해결하기 위해 등장한 것이 IN과 GN이다. 둘 다 통계량 계산 범위를 배치 밖에서 찾지 않고, 현재 샘플 내부로 가져온다. 그래서 배치 크기가 1이어도 수식이 성립하고, 추론 시에도 학습 시와 다른 이동 평균을 붙잡고 흔들릴 일이 적다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         정규화 축의 차이: 배치 밖을 볼 것인가, 안을 볼 것인가 │
-├──────────────────────────────────────────────────────────────┤
-│ BN : [N, H, W] 축으로 채널별 평균/분산 계산                  │
-│ IN : [H, W] 축으로 샘플·채널별 평균/분산 계산                │
-│ GN : [C/G, H, W] 축으로 샘플 내부 그룹별 평균/분산 계산      │
-│                                                              │
-│ 핵심: IN/GN은 배치 크기 N에 의존하지 않는다                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         정규화 축의 차이: 배치 밖을 볼 것인가, 안을 볼 것인가 |
++--------------------------------------------------------------+
+| BN : [N, H, W] 축으로 채널별 평균/분산 계산                  |
+| IN : [H, W] 축으로 샘플·채널별 평균/분산 계산                |
+| GN : [C/G, H, W] 축으로 샘플 내부 그룹별 평균/분산 계산      |
+|                                                              |
+| 핵심: IN/GN은 배치 크기 N에 의존하지 않는다                  |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "무엇을 묶어 평균을 낼 것인가"다. BN은 같은 채널을 여러 샘플에 걸쳐 평균 내지만, IN/GN은 한 샘플 내부에서만 계산한다. 즉, 배치 통계의 불안정성을 구조적으로 제거한 것이다.
@@ -43,7 +43,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-입력 텐서를 `x ∈ R^{N×C×H×W}`라고 하자. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 기본적으로 `x̂ = (x - μ) / sqrt(σ² + ε)` 형태를 따른다. 차이는 평균 `μ`와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) `σ²`를 어떤 축에서 계산하느냐다.
+입력 텐서를 `x ∈ R^{N×C×H×W}`라고 하자. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 기본적으로 `x̂ = (x - μ) / sqrt(σ^ + ε)` 형태를 따른다. 차이는 평균 `μ`와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) `σ^`를 어떤 축에서 계산하느냐다.
 
 | 기법   | 평균/[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산 범위          | 장점                    | 약점                     |
 | :----- | :--------------------------- | :---------------------- | :----------------------- |
@@ -62,19 +62,19 @@ $$
 여기서 `S_g`는 하나의 그룹에 속한 채널과 공간 위치 집합이다. IN은 채널을 더 세밀하게 나누고, GN은 여러 채널을 한 그룹으로 묶는다. 그래서 IN은 스타일을 강하게 제거하는 반면, GN은 채널 간 상관관계를 어느 정도 보존한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            샘플 하나 내부에서 통계량을 계산하는 방식          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 feature map                                              │
-│                                                              │
-│ IN : [채널 1] [채널 2] [채널 3] [채널 4]                     │
-│      └각 채널이 자기 H×W 평균/분산을 따로 계산┘              │
-│                                                              │
-│ GN : [채널 1|채널 2] [채널 3|채널 4]                         │
-│      └그룹별로 묶어 H×W와 함께 평균/분산 계산┘               │
-│                                                              │
-│ 결과: 배치 크기와 무관하게 정규화 가능                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            샘플 하나 내부에서 통계량을 계산하는 방식          |
++--------------------------------------------------------------+
+| 입력 feature map                                              |
+|                                                              |
+| IN : [채널 1] [채널 2] [채널 3] [채널 4]                     |
+|      +각 채널이 자기 H×W 평균/분산을 따로 계산+              |
+|                                                              |
+| GN : [채널 1|채널 2] [채널 3|채널 4]                         |
+|      +그룹별로 묶어 H×W와 함께 평균/분산 계산+               |
+|                                                              |
+| 결과: 배치 크기와 무관하게 정규화 가능                        |
++--------------------------------------------------------------+
 ```
 
 CNN에서는 GN이 특히 유용하다. 객체 검출과 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 입력 해상도가 커서 배치 크기를 크게 가져가기 어렵기 때문이다. 반대로 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 시간축 의존성이 강하고 채널 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)보다 은닉 상태 전체 정렬이 중요해, 실무에서는 보통 LN이 더 자주 쓰인다. 따라서 "[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 소배치 문제"냐 "순환 은닉 상태 안정화"냐에 따라 선택 축이 갈린다.
@@ -151,7 +151,7 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -166,7 +166,7 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 
 **진행 상황**: 415 / 420
 
-← **이전**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/)
-**다음**: [416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/05_data_science_ml/416_dp_sgd_model_inversion_defense/) →
+<- **이전**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/)
+**다음**: [416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/05_data_science_ml/416_dp_sgd_model_inversion_defense/) ->
 
 ---

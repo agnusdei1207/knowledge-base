@@ -31,9 +31,9 @@ tags = ["studynote-security"]
 
 ```text
 Plaintext
-  ↓
+  v
 Crypto Primitive
-  ↓
+  v
 Ciphertext / Signature / Digest
 ```
 
@@ -108,11 +108,11 @@ Ciphertext / Signature / Digest
 
 ```text
 Cryptography
-  ↓
+  v
 Symmetric / Asymmetric / Hash
-  ↓
+  v
 Security Properties
-  ↓
+  v
 Secure Design
 ```
 
@@ -122,11 +122,11 @@ Secure Design
 
 ```text
 Classic Cipher
-  ↓
+  v
 Modern Cryptography
-  ↓
+  v
 Public Key / Hash
-  ↓
+  v
 Security Protocols
 ```
 
@@ -144,7 +144,7 @@ Security Protocols
 
 **진행 상황**: 68 / 1108
 
-← **이전**: [067. Attack Surface Analysis — 공격 표면 관리](/knowledge-base/studynote/09_security/01_intro_principles/067_attack_surface_analysis/)
-**다음**: [069. 고전 암호 — 치환 암호, 전치 암호](/knowledge-base/studynote/09_security/02_crypto/069_classical_cipher/) →
+<- **이전**: [067. Attack Surface Analysis — 공격 표면 관리](/knowledge-base/studynote/09_security/01_intro_principles/067_attack_surface_analysis/)
+**다음**: [069. 고전 암호 — 치환 암호, 전치 암호](/knowledge-base/studynote/09_security/02_crypto/069_classical_cipher/) ->
 
 ---

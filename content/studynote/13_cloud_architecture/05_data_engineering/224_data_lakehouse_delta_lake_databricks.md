@@ -21,23 +21,23 @@ tags = ["studynote-cloud-architecture"]
 2020년대 초 Databricks가 제창한 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/">Data Lakehouse</a></strong> 아키텍처는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 웨어하우스의 장점을 융합하려는 시도에서 출발했다.
 
 **기존 이중 구조의 문제점:**
-- DW와 레이크를 별도 운영 → 비용 2배, 파이프라인 중복
-- DW에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → ML은 레이크에서 학습 → 최신성 불일치
-- 레이크의 ACID 부재 → [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌, 부분 실패 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염
+- DW와 레이크를 별도 운영 -> 비용 2배, 파이프라인 중복
+- DW에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> ML은 레이크에서 학습 -> 최신성 불일치
+- 레이크의 ACID 부재 -> [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌, 부분 실패 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염
 
 ```
 [기존 이중 아키텍처]                  [레이크하우스 통합]
-┌─────────────────┐                 ┌──────────────────────┐
-│   Data Lake      │                 │    Data Lakehouse     │
-│  (ML/탐색용)     │                 │                      │
-│  S3 + Parquet   │   → 통합 →     │  S3 + Delta Lake     │
-└─────────────────┘                 │  ┌────────────────┐   │
-┌─────────────────┐                 │  │ ACID 트랜잭션   │   │
-│  Data Warehouse │                 │  │ 스키마 진화     │   │
-│  (BI/SQL용)     │                 │  │ 타임트래블      │   │
-│  Snowflake/BQ   │                 │  │ ML + BI 통합   │   │
-└─────────────────┘                 │  └────────────────┘   │
-                                    └──────────────────────┘
++-----------------+                 +----------------------+
+|   Data Lake      |                 |    Data Lakehouse     |
+|  (ML/탐색용)     |                 |                      |
+|  S3 + Parquet   |   -> 통합 ->     |  S3 + Delta Lake     |
++-----------------+                 |  +----------------+   |
++-----------------+                 |  | ACID 트랜잭션   |   |
+|  Data Warehouse |                 |  | 스키마 진화     |   |
+|  (BI/SQL용)     |                 |  | 타임트래블      |   |
+|  Snowflake/BQ   |                 |  | ML + BI 통합   |   |
++-----------------+                 |  +----------------+   |
+                                    +----------------------+
 ```
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 "캠핑카"다. 텐트(레이크, 저렴·유연)와 집(웨어하우스, 편안·안전)의 장점을 하나의 차량에 담아, 어디서든 집처럼 생활하면서 비용도 아끼는 최신 아키텍처다.
@@ -49,29 +49,29 @@ tags = ["studynote-cloud-architecture"]
 ### [Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/) ([메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  Data Lakehouse (S3 기반)                     │
-│                                                              │
-│  ┌─────────────────┐                                         │
-│  │   Bronze Zone    │ ← 원시 수집 (CDC/배치/스트리밍)          │
-│  │  (Raw/원시)      │   스키마 없음, 원본 보존                  │
-│  └────────┬────────┘                                         │
-│           │ Spark ETL (데이터 정제)                           │
-│           ▼                                                  │
-│  ┌─────────────────┐                                         │
-│  │   Silver Zone    │   중복 제거, NULL 처리, 타입 통일         │
-│  │  (Cleansed/정제) │   ACID 보장, 스키마 등록                 │
-│  └────────┬────────┘                                         │
-│           │ Spark 집계·비즈니스 로직                           │
-│           ▼                                                  │
-│  ┌─────────────────┐                                         │
-│  │    Gold Zone     │   BI 대시보드 전용 집계 테이블            │
-│  │  (Curated/가공)  │   ML Feature Store 연결                 │
-│  └─────────────────┘                                         │
-└──────────────────────────────────────────────────────────────┘
-         ↓ SQL 쿼리 엔진 (Spark SQL / Presto / Athena)
-         ↓ BI 도구 (Tableau / Power BI / Looker)
-         ↓ ML 플랫폼 (MLflow / SageMaker)
++--------------------------------------------------------------+
+|                  Data Lakehouse (S3 기반)                     |
+|                                                              |
+|  +-----------------+                                         |
+|  |   Bronze Zone    | <- 원시 수집 (CDC/배치/스트리밍)          |
+|  |  (Raw/원시)      |   스키마 없음, 원본 보존                  |
+|  +--------+--------+                                         |
+|           | Spark ETL (데이터 정제)                           |
+|           v                                                  |
+|  +-----------------+                                         |
+|  |   Silver Zone    |   중복 제거, NULL 처리, 타입 통일         |
+|  |  (Cleansed/정제) |   ACID 보장, 스키마 등록                 |
+|  +--------+--------+                                         |
+|           | Spark 집계·비즈니스 로직                           |
+|           v                                                  |
+|  +-----------------+                                         |
+|  |    Gold Zone     |   BI 대시보드 전용 집계 테이블            |
+|  |  (Curated/가공)  |   ML Feature Store 연결                 |
+|  +-----------------+                                         |
++--------------------------------------------------------------+
+         v SQL 쿼리 엔진 (Spark SQL / Presto / Athena)
+         v BI 도구 (Tableau / Power BI / Looker)
+         v ML 플랫폼 (MLflow / SageMaker)
 ```
 
 ### [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 핵심 기능 비교
@@ -132,7 +132,7 @@ spark = SparkSession.builder \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .getOrCreate()
 
-# Bronze → Silver 변환 (Upsert with MERGE)
+# Bronze -> Silver 변환 (Upsert with MERGE)
 deltaTable = DeltaTable.forPath(spark, "s3://bucket/silver/customers")
 deltaTable.alias("silver").merge(
     updates.alias("new"),
@@ -152,14 +152,14 @@ df_old = spark.read.format("delta") \
 ```
 [레이크하우스 도입 판단 기준]
 Q1: 현재 DW와 레이크를 둘 다 운영 중인가?
-  → YES: 레이크하우스로 통합 비용 절감 검토
-  → NO: 신규 구축 시 레이크하우스 우선 고려
+  -> YES: 레이크하우스로 통합 비용 절감 검토
+  -> NO: 신규 구축 시 레이크하우스 우선 고려
 
 Q2: ML/AI 워크로드가 BI와 동일한 데이터를 사용하는가?
-  → YES: 레이크하우스 도입 강력 권장 (피처 일관성)
+  -> YES: 레이크하우스 도입 강력 권장 (피처 일관성)
 
 Q3: 실시간 데이터 변경(CDC/Upsert)이 필요한가?
-  → YES: Hudi 또는 Delta Lake 선택
+  -> YES: Hudi 또는 Delta Lake 선택
 ```
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 도입은 사무실과 공장을 따로 쓰다가 스마트팩토리(사무+생산 통합)로 전환하는 것과 같다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 전환 비용이 있지만, 장기적으로 커뮤니케이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동) 비용과 관리 복잡성을 크게 줄인다.
@@ -173,7 +173,7 @@ Q3: 실시간 데이터 변경(CDC/Upsert)이 필요한가?
 | 효과 | 정량 기준 |
 |:---|:---|
 | **비용 절감** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)+레이크 이중 운영 대비 30~50% 비용 절감 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도</strong> | BI와 ML이 동일 Gold 테이블 사용 → 지표 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도</strong> | BI와 ML이 동일 Gold 테이블 사용 -> 지표 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **파이프라인 단순화** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 수 30~50% 감소 |
 | **ACID 보장** | [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌·부분 실패로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 제거 |
 | **타임트래블** | 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 롤백으로 규정 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 |
@@ -210,11 +210,11 @@ Q3: 실시간 데이터 변경(CDC/Upsert)이 필요한가?
 ```text
 Data Lake: 유연 저장 (거버넌스 약함)
 Data Warehouse: ACID + 고성능 쿼리 (비쌈)
-    │
-    ▼
+    |
+    v
 Lakehouse: Lake 위에 DW 기능 구현
-    ├─► Delta Lake (Databricks) · Apache Iceberg · Hudi
-    └─► ACID + Time Travel + Schema Evolution
+    +-► Delta Lake (Databricks) · Apache Iceberg · Hudi
+    +-► ACID + Time Travel + Schema Evolution
 ```
 2. 마치 스위스 아미 나이프처럼, 하나의 도구([레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))가 분석·[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)·실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 모두 해결해 주는 만능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이다.
 3. 타임트래블 기능은 "되돌리기(Ctrl+Z)" 버튼과 같다. 실수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘못 바꿔도, 이전 버전으로 돌아갈 수 있어서 안전하게 작업할 수 있다.
@@ -225,7 +225,7 @@ Lakehouse: Lake 위에 DW 기능 구현
 
 **진행 상황**: 223 / 371
 
-← **이전**: [223. 데이터 마트 (Data Mart)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/223_data_mart_department_analytics/)
-**다음**: [225. 델타 레이크 / Apache Iceberg / Apache Hudi](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/225_delta_lake_apache_iceberg_hudi/) →
+<- **이전**: [223. 데이터 마트 (Data Mart)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/223_data_mart_department_analytics/)
+**다음**: [225. 델타 레이크 / Apache Iceberg / Apache Hudi](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/225_delta_lake_apache_iceberg_hudi/) ->
 
 ---

@@ -87,11 +87,11 @@ DX가 좋아지면 속도뿐 아니라 품질도 좋아진다. 하지만 도구�
 
 ```text
 개발자 마찰
-   ↓
+   v
 DX
-   ↓
+   v
 IDP / 골든 패스
-   ↓
+   v
 몰입 / 생산성 향상
 ```
 
@@ -99,11 +99,11 @@ IDP / 골든 패스
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 운영 → 개발자 마찰 증가
-2. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) → 자동화와 협업 강화
-3. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) → [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/) 표준화
-4. Golden Path → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 추천 경로 제공
-5. [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 문화 → 생산성과 만족도 동시 개선
+1. 수동 운영 -> 개발자 마찰 증가
+2. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) -> 자동화와 협업 강화
+3. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) -> [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/) 표준화
+4. Golden Path -> [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 추천 경로 제공
+5. [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 문화 -> 생산성과 만족도 동시 개선
 
 ---
 
@@ -119,7 +119,7 @@ DX는 개발자가 쓰는 책상이 편해지게 만드는 거예요.
 
 **진행 상황**: 58 / 373
 
-← **이전**: [57. Jenkins / Buildkite - CI 도구 비교와 선택 기준](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/)
-**다음**: [59. Argo CD / Flux - GitOps 지속적 배포](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/059_argocd_flux/) →
+<- **이전**: [57. Jenkins / Buildkite - CI 도구 비교와 선택 기준](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/)
+**다음**: [59. Argo CD / Flux - GitOps 지속적 배포](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/059_argocd_flux/) ->
 
 ---

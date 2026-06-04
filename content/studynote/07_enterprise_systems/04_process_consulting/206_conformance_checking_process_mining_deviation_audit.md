@@ -41,13 +41,13 @@ tags = ["studynote-enterprise"]
 아래 그림은 모델과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 나란히 놓고 어느 지점에서 일탈이 발생하는지 찾는 기본 구조를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Model : Request -> Approve -> Ship -> Invoice                       │
-│ Log   : Request -> Ship -----> Invoice                              │
-│                    │                                                 │
-│                    └-> missing Approve = deviation                  │
-│ Result: fitness down / compliance alert / root cause analysis       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Model : Request -> Approve -> Ship -> Invoice                       |
+| Log   : Request -> Ship -----> Invoice                              |
+|                    |                                                 |
+|                    +-> missing Approve = deviation                  |
+| Result: fitness down / compliance alert / root cause analysis       |
++----------------------------------------------------------------------+
 ```
 
 이때 중요한 것은 위반 탐지가 단순히 "다르다"고 말하는 데 그치지 않는다는 점이다. Fitness는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 모델을 얼마나 잘 따르는지, Precision은 모델이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 비해 지나치게 느슨하지 않은지를 보여 준다. 따라서 적합성 검사는 모델이 너무 이상적이라 현실을 못 담는지, 혹은 통제가 느슨해 위반이 반복되는지까지 함께 판단하게 해 준다.
@@ -117,17 +117,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 표준 프로세스 모델 수립
-    │
-    ▼
+    |
+    v
 Event Log 수집
-    │
-    ▼
+    |
+    v
 Token Replay · Alignment
-    │
-    ▼
+    |
+    v
 Deviation 분류 · Fitness 평가
-    │
-    ▼
+    |
+    v
 RCA · Internal Control Improvement
 ```
 
@@ -145,7 +145,7 @@ RCA · Internal Control Improvement
 
 **진행 상황**: 206 / 482
 
-← **이전**: [205. 프로세스 마이닝 (Process Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)
-**다음**: [207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/) →
+<- **이전**: [205. 프로세스 마이닝 (Process Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/205_process_mining_event_log_discovery_conformance/)
+**다음**: [207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/) ->
 
 ---

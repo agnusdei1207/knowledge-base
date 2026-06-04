@@ -24,11 +24,11 @@ tags = ["studynote-data-engineering"]
 
 ```
 ACID 분산 트랜잭션 문제:
-  서버 A  ──── 락 획득 ────► 서버 B (응답 대기)
-          ◄─── 커밋 확인 ────          │
-                                      │ 네트워크 지연
-                                      ▼ 50ms 지연
-  → 50ms × 수백만 TPS = 시스템 마비
+  서버 A  ---- 락 획득 ----► 서버 B (응답 대기)
+          ◄--- 커밋 확인 ----          |
+                                      | 네트워크 지연
+                                      v 50ms 지연
+  -> 50ms × 수백만 TPS = 시스템 마비
 ```
 
 Eric Brewer는 2000년 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리로 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용성 3가지를 동시에 완벽하게 지킬 수 없다"고 증명했다. NoSQL의 BASE는 이 현실을 반영한 실용적 절충이다.
@@ -57,8 +57,8 @@ Eric Brewer는 2000년 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_
 
 ```
 예: 쇼핑몰 상품 재고 조회
-  ACID (RDBMS): 재고 서버 장애 → 전체 쇼핑몰 접속 불가
-  BASE (NoSQL): 재고 서버 장애 → "재고 정보 임시 불가" 표시 후 나머지 기능 정상
+  ACID (RDBMS): 재고 서버 장애 -> 전체 쇼핑몰 접속 불가
+  BASE (NoSQL): 재고 서버 장애 -> "재고 정보 임시 불가" 표시 후 나머지 기능 정상
 ```
 
 **Soft-state (소프트 상태)**:
@@ -72,9 +72,9 @@ Eric Brewer는 2000년 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_
   t=0  : Node A에 "user=홍길동, 등급=VIP" 업데이트
   t=10ms: Node A 반영 완료, Node B·C는 여전히 "GOLD"
   t=50ms: Node B에 복제 완료
-  t=100ms: Node C에 복제 완료 → 모든 노드 일치!
+  t=100ms: Node C에 복제 완료 -> 모든 노드 일치!
 
-  → 100ms 동안은 노드마다 다른 값을 반환할 수 있음
+  -> 100ms 동안은 노드마다 다른 값을 반환할 수 있음
 ```
 
 ### 2.2 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) — 수평 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계
@@ -93,17 +93,17 @@ Eric Brewer는 2000년 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_
 ```
 해시 샤딩 (Consistent Hashing, 일관 해시):
 
-사용자 ID → 해시 함수 → 샤드 번호
+사용자 ID -> 해시 함수 -> 샤드 번호
 
-user_id=1001 → hash=2847  → 샤드 0 (0~3000)
-user_id=1002 → hash=7231  → 샤드 2 (6000~9000)
-user_id=1003 → hash=5119  → 샤드 1 (3000~6000)
+user_id=1001 -> hash=2847  -> 샤드 0 (0~3000)
+user_id=1002 -> hash=7231  -> 샤드 2 (6000~9000)
+user_id=1003 -> hash=5119  -> 샤드 1 (3000~6000)
 
-┌──────────┐  ┌──────────┐  ┌──────────┐
-│  샤드 0  │  │  샤드 1  │  │  샤드 2  │
-│ user 1001│  │ user 1003│  │ user 1002│
-│ user ...  │  │ user ...  │  │ user ...  │
-└──────────┘  └──────────┘  └──────────┘
++----------+  +----------+  +----------+
+|  샤드 0  |  |  샤드 1  |  |  샤드 2  |
+| user 1001|  | user 1003|  | user 1002|
+| user ...  |  | user ...  |  | user ...  |
++----------+  +----------+  +----------+
    서버 A         서버 B         서버 C
 ```
 
@@ -115,17 +115,17 @@ user_id=1003 → hash=5119  → 샤드 1 (3000~6000)
 Cassandra의 일관성 수준 (Consistency Level):
 
 쓰기 요청
-  Client ──────────────────► 코디네이터 노드
-                                  │
-              ┌───────────────────┼────────────────┐
-              ▼                   ▼                ▼
+  Client ------------------► 코디네이터 노드
+                                  |
+              +-------------------+----------------+
+              v                   v                v
            노드 A              노드 B           노드 C
          (Primary)           (Replica)        (Replica)
 
 Consistency Level 설정:
-  ONE    : 1개 노드 확인 → 빠름, 일관성 약함
-  QUORUM : (N/2+1)개 확인 → 균형
-  ALL    : 모든 노드 확인 → 느림, 일관성 강함
+  ONE    : 1개 노드 확인 -> 빠름, 일관성 약함
+  QUORUM : (N/2+1)개 확인 -> 균형
+  ALL    : 모든 노드 확인 -> 느림, 일관성 강함
 ```
 
 📢 **섹션 요약 비유**: [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 큰 도서관을 여러 분관으로 나눈 것이다 — 과학책은 1분관, 소설책은 2분관처럼 분류하면 각 분관이 독립적으로 작동해서 방문객이 몰려도 한 분관만 막힌다.
@@ -146,15 +146,15 @@ Consistency Level 설정:
 
 ```
 데이터 구조가 고정적이고 트랜잭션이 중요한가?
-  YES → RDBMS (PostgreSQL, MySQL)
+  YES -> RDBMS (PostgreSQL, MySQL)
 
 데이터 구조가 동적이거나 수평 확장이 필요한가?
-  YES → NoSQL
+  YES -> NoSQL
 
-   ├── 단순 키-값 빠른 조회   → Redis / DynamoDB
-   ├── JSON 도큐먼트 저장     → MongoDB
-   ├── 시계열/대용량 쓰기     → Cassandra / HBase
-   └── 관계 탐색              → Neo4j
+   +-- 단순 키-값 빠른 조회   -> Redis / DynamoDB
+   +-- JSON 도큐먼트 저장     -> MongoDB
+   +-- 시계열/대용량 쓰기     -> Cassandra / HBase
+   +-- 관계 탐색              -> Neo4j
 ```
 
 📢 **섹션 요약 비유**: [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)은 인터넷 뉴스 기사가 수정될 때 네이버·다음·구글에 동시에 반영되지 않는 것과 같다 — 잠시 차이가 있지만, 결국 모든 플랫폼이 같은 내용을 보여주게 된다.
@@ -224,14 +224,14 @@ Consistency Level 설정:
 
 ```text
 ACID (RDBMS: 강한 일관성)
-    │
-    ▼
+    |
+    v
 BASE (NoSQL: 유연한 일관성)
-    ├─► Basically Available: 항상 응답
-    ├─► Soft State: 시간이 지나면 변할 수 있음
-    └─► Eventual Consistency: 최종적 일관성 보장
-    │
-    ▼
+    +-► Basically Available: 항상 응답
+    +-► Soft State: 시간이 지나면 변할 수 있음
+    +-► Eventual Consistency: 최종적 일관성 보장
+    |
+    v
 Sharding: 수평 분할 · Consistent Hashing
 ```
 2. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 학교 급식 배식대를 여러 줄로 나눈 것이야 — 줄이 많을수록 밥을 빨리 받을 수 있어!
@@ -243,7 +243,7 @@ Sharding: 수평 분할 · Consistent Hashing
 
 **진행 상황**: 218 / 258
 
-← **이전**: [217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)
-**다음**: [219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/) →
+<- **이전**: [217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)
+**다음**: [219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/) ->
 
 ---

@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라그랑주 승수법 (Lagrange Multiplier) 은 *등호 제약 조건 g(x)=0 아래에서의 최적화를 무제약 최적화로 변환*하는 기법 — 최적점에서 ∇f와 ∇g가 평행하다는 기하적 사실을 이용한다.
-> 2. **가치**: KKT (Karush-Kuhn-Tucker) 조건으로 부등호 제약 일반화 → SVM의 마진 최대화, 포트폴리오 최적화, 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 모델의 수학적 기반이 모두 여기서 출발한다.
+> 2. **가치**: KKT (Karush-Kuhn-Tucker) 조건으로 부등호 제약 일반화 -> SVM의 마진 최대화, 포트폴리오 최적화, 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 모델의 수학적 기반이 모두 여기서 출발한다.
 > 3. **판단 포인트**: 쌍대 문제 (Dual Problem) 전환 — 원 문제의 변수가 많아도 지지 벡터([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector) 수가 적으면 듀얼이 빠르다. SVM의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭이 가능한 이유가 바로 듀얼 표현이다.
 
 ---
@@ -45,8 +45,8 @@ subject to gᵢ(x) = 0    (등호 제약, i = 1,...,m)
 ```
 L(x, λ) = f(x) - λ · g(x)
 
-∂L/∂x = 0  →  ∇f(x) = λ · ∇g(x)    [∇f ∥ ∇g]
-∂L/∂λ = 0  →  g(x) = 0               [제약 만족]
+∂L/∂x = 0  ->  ∇f(x) = λ · ∇g(x)    [∇f ∥ ∇g]
+∂L/∂λ = 0  ->  g(x) = 0               [제약 만족]
 ```
 
 λ: 라그랑주 승수 (Lagrange Multiplier) — 제약을 1단위 완화할 때 목적 함수의 변화율.
@@ -56,16 +56,16 @@ L(x, λ) = f(x) - λ · g(x)
 ```
 등고선 f(x) = c₁, c₂, c₃   제약 g(x) = 0 (파란 곡선)
 
-             ╭─────────────────╮
-            ╭───────────────────╮
-           ╭─────────────────────╮
-          ╭───────────────────────╮
-          │                  ★ 최적점
-──────────┼────────────────────────── g(x) = 0
-          ╰───────────────────────╯
+             +-----------------+
+            +-------------------+
+           +---------------------+
+          +-----------------------+
+          |                  ★ 최적점
+----------+-------------------------- g(x) = 0
+          +-----------------------+
 
 최적점 ★ 에서: ∇f와 ∇g가 평행 (접선 일치)
-→ f의 등고선과 g(x)=0이 접하는 지점!
+-> f의 등고선과 g(x)=0이 접하는 지점!
 ```
 
 ### KKT (Karush-Kuhn-Tucker) 조건 — 부등호 제약 확장
@@ -96,19 +96,19 @@ KKT 조건 (필요충분 조건, 볼록 문제일 때):
 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 원 문제 (Primal):
 
 ```
-min_{w,b}  ½‖w‖²
+min_{w,b}  ½‖w‖^
 s.t.       yᵢ(wᵀxᵢ + b) ≥ 1    ∀i
-           → hᵢ(w,b) = 1 - yᵢ(wᵀxᵢ + b) ≤ 0
+           -> hᵢ(w,b) = 1 - yᵢ(wᵀxᵢ + b) ≤ 0
 ```
 
 라그랑지안:
 
 ```
-L(w, b, α) = ½‖w‖² - Σᵢ αᵢ[yᵢ(wᵀxᵢ + b) - 1]
+L(w, b, α) = ½‖w‖^ - Σᵢ αᵢ[yᵢ(wᵀxᵢ + b) - 1]
 ```
 
-∂L/∂w = 0 → w = Σᵢ αᵢyᵢxᵢ  (w는 지지 벡터의 선형 조합)
-∂L/∂b = 0 → Σᵢ αᵢyᵢ = 0
+∂L/∂w = 0 -> w = Σᵢ αᵢyᵢxᵢ  (w는 지지 벡터의 선형 조합)
+∂L/∂b = 0 -> Σᵢ αᵢyᵢ = 0
 
 듀얼 문제 (Dual) — αᵢ에 대한 최대화:
 
@@ -116,7 +116,7 @@ L(w, b, α) = ½‖w‖² - Σᵢ αᵢ[yᵢ(wᵀxᵢ + b) - 1]
 max_{α}  Σᵢ αᵢ - ½ Σᵢ Σⱼ αᵢαⱼyᵢyⱼ xᵢᵀxⱼ
 s.t.     Σᵢ αᵢyᵢ = 0,  αᵢ ≥ 0
 
-내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체!  ← 커널 트릭 가능
+내적 xᵢᵀxⱼ -> 커널 K(xᵢ, xⱼ)로 교체!  <- 커널 트릭 가능
 ```
 
 KKT 상보 여유: αᵢ > 0인 샘플이 <strong>지지 벡터 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Vector)</strong>.
@@ -130,7 +130,7 @@ maximize   H(P) = -Σ P(x) log P(x)
 s.t.       Σ P(x)·fₖ(x) = c̃ₖ   ∀k
            Σ P(x) = 1
 
-→ 라그랑주 → Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))
+-> 라그랑주 -> Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))
                          (로지스틱 회귀의 분포 형태와 동일!)
 ```
 
@@ -156,15 +156,15 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 ### 신경망 제약 최적화 응용
 
 딥러닝에서 제약이 있는 학습:
-- <strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> = ‖w‖² ≤ c 제약 최적화의 라그랑지안 → λ‖w‖² 페널티
+- <strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> = ‖w‖^ ≤ c 제약 최적화의 라그랑지안 -> λ‖w‖^ 페널티
 - <strong>스펙트럼 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> = 각 레이어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 최대 특이값 ≤ 1
 - **페어니스 제약** = 인구통계 집단 간 오류율 차이 ≤ ε
 
 ### 기술사 판단 포인트
 
-1. **"라그랑주 승수 λ의 의미는?"** → 제약 완화 시 목적 함수 변화율 (Shadow Price, 경제학의 가격 해석)
-2. <strong>"SVM에서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 트릭이 가능한 이유?"</strong> → 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 대체 가능
-3. **"KKT 조건이 충분조건이 되는 경우?"** → 볼록 최적화 (원 문제와 듀얼 강한 쌍대성 성립 시)
+1. **"라그랑주 승수 λ의 의미는?"** -> 제약 완화 시 목적 함수 변화율 (Shadow Price, 경제학의 가격 해석)
+2. <strong>"SVM에서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 트릭이 가능한 이유?"</strong> -> 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 대체 가능
+3. **"KKT 조건이 충분조건이 되는 경우?"** -> 볼록 최적화 (원 문제와 듀얼 강한 쌍대성 성립 시)
 
 📢 **섹션 요약 비유**: 라그랑주 승수 λ는 "제약의 가격표"다 — 제약을 1단위 완화할 때 목적 함수가 얼마나 개선되는지, 그 한계 가치가 λ다.
 
@@ -174,7 +174,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 라그랑주 승수법과 KKT 조건은 <strong>제약 최적화의 통일 언어</strong>다. 물리학(에너지 최소화), 경제학(효용 최대화), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)), 공학(설계 최적화) 모두 같은 수학 도구를 공유한다.
 
-강한 쌍대성 (Strong Duality): 볼록 + Slater 조건 만족 → 원 문제와 듀얼 문제의 최적값 일치 → 쉬운 듀얼로 원 문제 해결 가능.
+강한 쌍대성 (Strong Duality): 볼록 + Slater 조건 만족 -> 원 문제와 듀얼 문제의 최적값 일치 -> 쉬운 듀얼로 원 문제 해결 가능.
 
 📢 **섹션 요약 비유**: 강한 쌍대성은 "두 가지 방법으로 같은 답"이다 — 어렵고 복잡한 원 문제(Primal)와, 변수가 다른 듀얼 문제(Dual)가 같은 최적값을 공유한다.
 
@@ -194,20 +194,20 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 ```text
 [무제약 최적화 (Unconstrained Optimization)]
-    │
-    ▼
+    |
+    v
 [등식 제약 (Equality Constraint)]
-    │
-    ▼
+    |
+    v
 [라그랑주 승수법 (Lagrange Multiplier)]
-    │
-    ▼
+    |
+    v
 [KKT 조건 (Karush-Kuhn-Tucker Conditions)]
-    │
-    ▼
+    |
+    v
 [볼록 최적화 (Convex Optimization)]
-    │
-    ▼
+    |
+    v
 [SVM 최적화 (Support Vector Machine Optimization)]
 ```
 
@@ -227,7 +227,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 **진행 상황**: 166 / 175
 
-← **이전**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)
-**다음**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/) →
+<- **이전**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)
+**다음**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/) ->
 
 ---

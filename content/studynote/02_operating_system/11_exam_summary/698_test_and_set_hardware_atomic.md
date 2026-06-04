@@ -60,27 +60,27 @@ boolean TestAndSet(boolean *target) {
 위의 치트키 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 사용하면 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 락 코드가 허무할 정도로 짧고 완벽해진다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Test-And-Set 기반의 완벽한 상호 배제 아키텍처            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [공유 변수: boolean lock = false (초기에는 문이 열려있음)]              │
-  │                                                                   │
-  │  [스레드 A 진입 시도]                                                │
-  │   - while (TestAndSet(&lock)) { ... }                             │
-  │   - TestAndSet이 lock을 읽음 -> false (열려있음!)                    │
-  │   - TestAndSet이 즉시 lock = true로 덮어씀. (이제 잠김!)              │
-  │   - false를 반환했으므로 while문을 뚫고 [임계 구역] 진입 성공!            │
-  │                                                                   │
-  │  [스레드 B 진입 시도 (A가 임계 구역에 있을 때)]                          │
-  │   - while (TestAndSet(&lock)) { ... }                             │
-  │   - TestAndSet이 lock을 읽음 -> true (A가 잠가둠!)                   │
-  │   - TestAndSet이 lock을 true로 덮어씀. (어차피 true였으니 변화 없음)    │
-  │   - true를 반환했으므로 B는 while문에 갇혀서 무한 뺑뺑이 (Spinning) 도는 중! │
-  │                                                                   │
-  │  [스레드 A 퇴출]                                                    │
-  │   - lock = false; (A가 볼일 다 보고 문을 엶)                          │
-  │   - 뺑뺑이 돌던 B가 드디어 false를 반환받고 임계 구역으로 들어감!             │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Test-And-Set 기반의 완벽한 상호 배제 아키텍처            |
+  +-------------------------------------------------------------------+
+  |  [공유 변수: boolean lock = false (초기에는 문이 열려있음)]              |
+  |                                                                   |
+  |  [스레드 A 진입 시도]                                                |
+  |   - while (TestAndSet(&lock)) { ... }                             |
+  |   - TestAndSet이 lock을 읽음 -> false (열려있음!)                    |
+  |   - TestAndSet이 즉시 lock = true로 덮어씀. (이제 잠김!)              |
+  |   - false를 반환했으므로 while문을 뚫고 [임계 구역] 진입 성공!            |
+  |                                                                   |
+  |  [스레드 B 진입 시도 (A가 임계 구역에 있을 때)]                          |
+  |   - while (TestAndSet(&lock)) { ... }                             |
+  |   - TestAndSet이 lock을 읽음 -> true (A가 잠가둠!)                   |
+  |   - TestAndSet이 lock을 true로 덮어씀. (어차피 true였으니 변화 없음)    |
+  |   - true를 반환했으므로 B는 while문에 갇혀서 무한 뺑뺑이 (Spinning) 도는 중! |
+  |                                                                   |
+  |  [스레드 A 퇴출]                                                    |
+  |   - lock = false; (A가 볼일 다 보고 문을 엶)                          |
+  |   - 뺑뺑이 돌던 B가 드디어 false를 반환받고 임계 구역으로 들어감!             |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 핵심은 "이미 잠긴 문을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 놈(B)이 다시 잠가도 어차피 잠긴 상태"라는 점이다. `TestAndSet`은 무조건 문을 잠가버리면서, <strong>"방금 전까지 문이 열려있었나?"</strong>를 나에게 알려준다. 오직 문이 열려있었다는 대답(false)을 들은 단 한 명의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 합법적인 주인이 되는 완벽한 하드웨어 로터리 시스템이다.
@@ -135,25 +135,25 @@ TAS는 무조건 값을 1(True)로 바꾸기 때문에 단순한 락(잠금/해�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 동시성 제어 인프라(락 vs 락프리) 결정 플로우              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 환경에서 공유 변수 조작 로직을 작성해야 함]                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유 변수를 조작하는 임계 구역이 긴가? (I/O, 파일 쓰기, 긴 루프 포함)      │
-  │          ├─ 예 ─────▶ [OS 뮤텍스(Mutex/Semaphore) 사용 필수]          │
-  │          │            (TAS 기반의 락으로, 락 획득 실패 시 스레드를 재워버림)  │
-  │          └─ 아니오 (단순히 숫자 1을 더하거나 노드 포인터 하나만 바꿈)           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스레드 간의 락 경합(Contention)이 매우 심한가? (초당 수십만 번 호출)     │
-  │          ├─ 예 ─────▶ [CAS 하드웨어 명령어 기반의 Lock-Free 자료구조 도입]│
-  │          │            (Atomic 클래스 사용. 스레드가 자지 않고 무한 재시도)   │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 단순 Spinlock (순수 TAS 명령어 루프) 사용 가부 판단 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 동시성 제어 인프라(락 vs 락프리) 결정 플로우              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티스레드 환경에서 공유 변수 조작 로직을 작성해야 함]                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      공유 변수를 조작하는 임계 구역이 긴가? (I/O, 파일 쓰기, 긴 루프 포함)      |
+  |          +- 예 ------> [OS 뮤텍스(Mutex/Semaphore) 사용 필수]          |
+  |          |            (TAS 기반의 락으로, 락 획득 실패 시 스레드를 재워버림)  |
+  |          +- 아니오 (단순히 숫자 1을 더하거나 노드 포인터 하나만 바꿈)           |
+  |                |                                                  |
+  |                v                                                  |
+  |      스레드 간의 락 경합(Contention)이 매우 심한가? (초당 수십만 번 호출)     |
+  |          +- 예 ------> [CAS 하드웨어 명령어 기반의 Lock-Free 자료구조 도입]|
+  |          |            (Atomic 클래스 사용. 스레드가 자지 않고 무한 재시도)   |
+  |          |                                                        |
+  |          +- 아니오 ---> 단순 Spinlock (순수 TAS 명령어 루프) 사용 가부 판단 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "락 프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))가 무조건 제일 빠르다"는 것은 주니어의 환상이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1,000개가 동시에 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)(Atomic) 연산을 시도하면, 1개만 성공하고 999개는 실패하여 `while` 문을 다시 돈다(CPU 100% 점유율). 차라리 OS 뮤텍스를 써서 999개를 쿨하게 재워버리는(Sleep) 것이 전체 시스템 성능에 훨씬 좋을 때가 많다. 아키텍트는 락이 물려있는 '시간(Duration)'을 정확히 계산해 무기를 골라야 한다.
@@ -198,12 +198,12 @@ Test-and-Set(TAS) 연산은 컴퓨터 구조가 소프트웨어의 한계를 구
 
 ```text
 [임계 구역 3가지 요구조건]
-    │
-    ▼
+    |
+    v
 [Test-and-Set 연산 하드웨어 (Test And Set Hardware Atomic)]
-    │
-    ├──▶ [뮤텍스 락 (Mutex Lock)]
-    └──▶ [스핀락 바쁜 대기 (Busy Wait)]
+    |
+    +---> [뮤텍스 락 (Mutex Lock)]
+    +---> [스핀락 바쁜 대기 (Busy Wait)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -220,7 +220,7 @@ Test-and-Set(TAS) 연산은 컴퓨터 구조가 소프트웨어의 한계를 구
 
 **진행 상황**: 698 / 800
 
-← **이전**: [697. 임계 구역 3가지 요구조건 (Critical Section Three Requirements)](/knowledge-base/studynote/02_operating_system/11_exam_summary/697_critical_section_three_requirements/)
-**다음**: [699. 뮤텍스 락 (Mutex Lock)](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) →
+<- **이전**: [697. 임계 구역 3가지 요구조건 (Critical Section Three Requirements)](/knowledge-base/studynote/02_operating_system/11_exam_summary/697_critical_section_three_requirements/)
+**다음**: [699. 뮤텍스 락 (Mutex Lock)](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ->
 
 ---

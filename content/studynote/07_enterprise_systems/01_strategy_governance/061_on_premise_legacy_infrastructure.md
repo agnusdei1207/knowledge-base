@@ -31,11 +31,11 @@ tags = ["studynote-enterprise"]
 
 ```text
 [업무 시스템]
-    ↓
+    v
 [서버 / 스토리지 / 네트워크]
-    ↓
+    v
 [전산실 / 데이터센터]
-    ↓
+    v
 [전원 / 냉각 / 물리 보안]
 ```
 
@@ -105,13 +105,13 @@ tags = ["studynote-enterprise"]
 
 ```text
 On-Premise
-   ↓
+   v
 Data Center
-   ↓
+   v
 Hybrid Cloud
-   ↓
+   v
 Direct Connect
-   ↓
+   v
 Shared Architecture
 ```
 
@@ -121,13 +121,13 @@ Shared Architecture
 
 ```text
 메인프레임
-   ↓
+   v
 클라이언트-서버
-   ↓
+   v
 온프레미스
-   ↓
+   v
 클라우드
-   ↓
+   v
 하이브리드 클라우드
 ```
 
@@ -145,7 +145,7 @@ Shared Architecture
 
 **진행 상황**: 61 / 482
 
-← **이전**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/)
-**다음**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/) →
+<- **이전**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/)
+**다음**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/) ->
 
 ---

@@ -24,16 +24,16 @@ HDFS의 NameNode는 두 가지 근본적 한계를 가진다.
 
 ```
 NameNode 구조적 한계
-┌─────────────────────────────────────────────────────────┐
-│  NameNode (단일 서버)                                    │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │ FsImage (파일시스템 스냅샷) + EditLog (변경 로그) │    │
-│  │ 모두 메모리에 상주 → RAM 한계에 수억 파일 저장 불가│    │
-│  └─────────────────────────────────────────────────┘    │
-│                                                         │
-│  문제 1: SPOF — NameNode 장애 = 전체 HDFS 접근 불가     │
-│  문제 2: 메모리 확장 한계 — 파일 수 증가 시 RAM 소진      │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  NameNode (단일 서버)                                    |
+|  +-------------------------------------------------+    |
+|  | FsImage (파일시스템 스냅샷) + EditLog (변경 로그) |    |
+|  | 모두 메모리에 상주 -> RAM 한계에 수억 파일 저장 불가|    |
+|  +-------------------------------------------------+    |
+|                                                         |
+|  문제 1: SPOF — NameNode 장애 = 전체 HDFS 접근 불가     |
+|  문제 2: 메모리 확장 한계 — 파일 수 증가 시 RAM 소진      |
++---------------------------------------------------------+
 ```
 
 ### MapReduce의 디스크 I/O 병목
@@ -42,15 +42,15 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ```
 MapReduce 다단계 처리의 디스크 I/O
-┌────────────────────────────────────────────────────────────┐
-│ Job 1: Map → [디스크 쓰기] → Reduce → [HDFS 저장]          │
-│         ↓                                                  │
-│ Job 2: [HDFS 읽기] → Map → [디스크 쓰기] → Reduce → [HDFS] │
-│         ↓                                                  │
-│ Job N: [HDFS 읽기] → Map → ... (반복할수록 I/O 누적)        │
-│                                                            │
-│ K-Means 100 이터레이션 = 200회 HDFS 읽기+쓰기 발생!         │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+| Job 1: Map -> [디스크 쓰기] -> Reduce -> [HDFS 저장]          |
+|         v                                                  |
+| Job 2: [HDFS 읽기] -> Map -> [디스크 쓰기] -> Reduce -> [HDFS] |
+|         v                                                  |
+| Job N: [HDFS 읽기] -> Map -> ... (반복할수록 I/O 누적)        |
+|                                                            |
+| K-Means 100 이터레이션 = 200회 HDFS 읽기+쓰기 발생!         |
++------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: MapReduce의 디스크 병목은 "계산할 때마다 종이에 답을 써서 금고에 넣고, 다음 계산 시 금고에서 꺼내 다시 보는 것"이다. 100번 계산하면 200번 금고를 여닫아야 한다. 이걸 머릿속(메모리)에서 전부 처리하면 훨씬 빠르다.
@@ -63,23 +63,23 @@ MapReduce 다단계 처리의 디스크 I/O
 
 ```
 NameNode 메타데이터 흐름
-┌────────────────────────────────────────────────────────────┐
-│  NameNode RAM                                              │
-│  ┌──────────────────────────────────────────────────────┐ │
-│  │ FsImage (최신 스냅샷) + EditLog (최신 변경사항) 병합  │ │
-│  │ → 전체 파일시스템 트리 메모리 유지                    │ │
-│  └──────────────────────────────────────────────────────┘ │
-│               │                    │                       │
-│               ▼                    ▼                       │
-│  ┌──────────────────┐  ┌──────────────────────────────┐   │
-│  │   FsImage (디스크) │  │  EditLog (디스크)              │   │
-│  │   (체크포인트)     │  │  (모든 변경사항 순차 기록)      │   │
-│  └──────────────────┘  └──────────────────────────────┘   │
-│               │                                            │
-│               ▼                                            │
-│  Secondary NameNode (체크포인팅):                          │
-│  FsImage + EditLog 병합 → 새 FsImage 생성 → NameNode 전송 │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|  NameNode RAM                                              |
+|  +------------------------------------------------------+ |
+|  | FsImage (최신 스냅샷) + EditLog (최신 변경사항) 병합  | |
+|  | -> 전체 파일시스템 트리 메모리 유지                    | |
+|  +------------------------------------------------------+ |
+|               |                    |                       |
+|               v                    v                       |
+|  +------------------+  +------------------------------+   |
+|  |   FsImage (디스크) |  |  EditLog (디스크)              |   |
+|  |   (체크포인트)     |  |  (모든 변경사항 순차 기록)      |   |
+|  +------------------+  +------------------------------+   |
+|               |                                            |
+|               v                                            |
+|  Secondary NameNode (체크포인팅):                          |
+|  FsImage + EditLog 병합 -> 새 FsImage 생성 -> NameNode 전송 |
++------------------------------------------------------------+
 ```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 중요 주의사항 |
@@ -95,24 +95,24 @@ NameNode 메타데이터 흐름
 
 ```
 HA NameNode 아키텍처
-┌────────────────────────────────────────────────────────────┐
-│                                                            │
-│  ┌──────────────────┐       ┌──────────────────────────┐  │
-│  │  Active NameNode │       │   Standby NameNode       │  │
-│  │  (읽기/쓰기)      │       │   (편집로그 동기 추적)    │  │
-│  └────────┬─────────┘       └───────────┬──────────────┘  │
-│           │  EditLog 쓰기               │ EditLog 읽기     │
-│           ▼                            ▼                  │
-│  ┌─────────────────────────────────────────────────────┐  │
-│  │  JournalNode 클러스터 (3대 이상, Quorum 방식)          │  │
-│  └─────────────────────────────────────────────────────┘  │
-│                         │                                  │
-│                         ▼                                  │
-│  ┌─────────────────────────────────────────────────────┐  │
-│  │  ZooKeeper 클러스터 (3/5대)                           │  │
-│  │  → Active/Standby 역할 선출 (Failover Controller)    │  │
-│  └─────────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                                                            |
+|  +------------------+       +--------------------------+  |
+|  |  Active NameNode |       |   Standby NameNode       |  |
+|  |  (읽기/쓰기)      |       |   (편집로그 동기 추적)    |  |
+|  +--------+---------+       +-----------+--------------+  |
+|           |  EditLog 쓰기               | EditLog 읽기     |
+|           v                            v                  |
+|  +-----------------------------------------------------+  |
+|  |  JournalNode 클러스터 (3대 이상, Quorum 방식)          |  |
+|  +-----------------------------------------------------+  |
+|                         |                                  |
+|                         v                                  |
+|  +-----------------------------------------------------+  |
+|  |  ZooKeeper 클러스터 (3/5대)                           |  |
+|  |  -> Active/Standby 역할 선출 (Failover Controller)    |  |
+|  +-----------------------------------------------------+  |
++------------------------------------------------------------+
 ```
 
 | 방식 | 구성 | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 한계 |
@@ -125,16 +125,16 @@ HA NameNode 아키텍처
 
 ```
 Hadoop 1.x (MapReduce v1) vs Hadoop 2.x (YARN)
-┌─────────────────────────────────────────────────────────────┐
-│  Hadoop 1.x:                                                │
-│  JobTracker (단일 마스터) ─── TaskTracker (슬레이브)          │
-│  → JobTracker가 클러스터 관리 + 작업 스케줄링 모두 담당       │
-│  → SPOF, Map/Reduce 작업만 지원                             │
-│                                                             │
-│  Hadoop 2.x (YARN):                                         │
-│  ResourceManager (클러스터 자원) + ApplicationMaster (앱별)  │
-│  → 역할 분리로 SPOF 개선, Spark/Tez/MPI 등 다중 프레임워크   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  Hadoop 1.x:                                                |
+|  JobTracker (단일 마스터) --- TaskTracker (슬레이브)          |
+|  -> JobTracker가 클러스터 관리 + 작업 스케줄링 모두 담당       |
+|  -> SPOF, Map/Reduce 작업만 지원                             |
+|                                                             |
+|  Hadoop 2.x (YARN):                                         |
+|  ResourceManager (클러스터 자원) + ApplicationMaster (앱별)  |
+|  -> 역할 분리로 SPOF 개선, Spark/Tez/MPI 등 다중 프레임워크   |
++-------------------------------------------------------------+
 ```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x ([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)) |
@@ -144,7 +144,7 @@ Hadoop 1.x (MapReduce v1) vs Hadoop 2.x (YARN)
 | 애플리케이션 관리 | JobTracker 내장 | ApplicationMaster (앱별 독립) |
 | 지원 프레임워크 | MapReduce만 | Spark, Tez, MPI 등 |
 
-📢 **섹션 요약 비유**: YARN으로의 전환은 "소방서장(JobTracker)이 화재 진압도 하고 소방차도 배치하고 인사 관리도 혼자 하던 것을 → 소방청장(ResourceManager)은 소방차만 배치하고, 각 사건 현장 지휘관(ApplicationMaster)이 현장을 직접 지휘하는 구조"로 바꾼 것이다.
+📢 **섹션 요약 비유**: YARN으로의 전환은 "소방서장(JobTracker)이 화재 진압도 하고 소방차도 배치하고 인사 관리도 혼자 하던 것을 -> 소방청장(ResourceManager)은 소방차만 배치하고, 각 사건 현장 지휘관(ApplicationMaster)이 현장을 직접 지휘하는 구조"로 바꾼 것이다.
 
 ---
 
@@ -164,17 +164,17 @@ Hadoop 1.x (MapReduce v1) vs Hadoop 2.x (YARN)
 
 ```
 MapReduce vs Spark 처리 방식
-┌─────────────────────────────────────────────────────────────┐
-│  MapReduce (디스크 중심):                                    │
-│  Input → [Map] → 디스크 → [Shuffle] → 디스크 → [Reduce]    │
-│                                          → HDFS 저장        │
-│                                                             │
-│  Spark (메모리 중심):                                        │
-│  Input → [RDD Transform1] → RAM → [RDD Transform2] → RAM   │
-│        → [Action] → 최종 출력 (중간 결과는 메모리만!)         │
-│                                                             │
-│  성능 차이: 반복 알고리즘에서 Spark가 10~100배 빠름           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  MapReduce (디스크 중심):                                    |
+|  Input -> [Map] -> 디스크 -> [Shuffle] -> 디스크 -> [Reduce]    |
+|                                          -> HDFS 저장        |
+|                                                             |
+|  Spark (메모리 중심):                                        |
+|  Input -> [RDD Transform1] -> RAM -> [RDD Transform2] -> RAM   |
+|        -> [Action] -> 최종 출력 (중간 결과는 메모리만!)         |
+|                                                             |
+|  성능 차이: 반복 알고리즘에서 Spark가 10~100배 빠름           |
++-------------------------------------------------------------+
 ```
 
 | 항목 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) |
@@ -194,14 +194,14 @@ MapReduce vs Spark 처리 방식
 
 ```
 NameNode HA 설계 체크리스트
-┌──────────────────────────────────────────────────────────┐
-│  ✓ JournalNode: 3개 이상 (Quorum 방식, 과반수 쓰기 성공)  │
-│  ✓ ZooKeeper: 3 또는 5개 (홀수 과반수 보장)               │
-│  ✓ Fencing (펜싱): Split-Brain 방지                       │
-│    - 네트워크 펜싱: 구 Active의 네트워크 격리              │
-│    - STONITH: 구 Active 노드 강제 전원 차단                │
-│  ✓ DNS/VIP: 클라이언트는 Active 위치를 투명하게 접근       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  ✓ JournalNode: 3개 이상 (Quorum 방식, 과반수 쓰기 성공)  |
+|  ✓ ZooKeeper: 3 또는 5개 (홀수 과반수 보장)               |
+|  ✓ Fencing (펜싱): Split-Brain 방지                       |
+|    - 네트워크 펜싱: 구 Active의 네트워크 격리              |
+|    - STONITH: 구 Active 노드 강제 전원 차단                |
+|  ✓ DNS/VIP: 클라이언트는 Active 위치를 투명하게 접근       |
++----------------------------------------------------------+
 ```
 
 **Split-Brain 문제**: 두 NameNode가 모두 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 상태를 주장하는 상황. 두 NameNode가 서로 다른 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 갱신하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 손상이 발생한다. Fencing (울타리치기) 메커니즘으로 반드시 방지해야 한다.
@@ -240,15 +240,15 @@ NameNode HA 설계 체크리스트
 
 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) SPOF와 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 디스크 병목은 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 성숙 과정에서 식별되고 해결된 대표적 기술 한계다. HA NameNode는 SPOF를 제거했고, YARN은 단일 프레임워크 의존성을 끊었으며, Spark는 디스크 병목을 메모리로 극복했다. 이 진화 과정은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"과 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라는 두 가치를 점진적으로 달성하는 방식의 모범 사례다.
 
-📢 **섹션 요약 비유**: HDFS의 발전 과정은 "자전거([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) → 오토바이([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) + [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) → 자동차(Spark on [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/))"의 진화다. 자전거도 목적지에는 도달하지만, 자동차는 더 빠르고 더 많은 짐을 실을 수 있다. 다만 자동차는 주차 공간(메모리)이 더 필요하다.
+📢 **섹션 요약 비유**: HDFS의 발전 과정은 "자전거([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) -> 오토바이([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) + [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) -> 자동차(Spark on [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/))"의 진화다. 자전거도 목적지에는 도달하지만, 자동차는 더 빠르고 더 많은 짐을 실을 수 있다. 다만 자동차는 주차 공간(메모리)이 더 필요하다.
 
 ---
 
 ### 📌 관련 개념 맵
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 문제 → 해결 | [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) → HA [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 기반 자동 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) |
-| 문제 → 해결 | 디스크 병목 → [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) | 인메모리 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 처리 |
+| 문제 -> 해결 | [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) -> HA [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 기반 자동 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) |
+| 문제 -> 해결 | 디스크 병목 -> [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) | 인메모리 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 처리 |
 | 구성 요소 | JournalNode 클러스터 | HA [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) EditLog 공유 저장소 |
 | 구성 요소 | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) | [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 리더 선출 조정자 |
 | 관련 개념 | Split-Brain | 두 NameNode가 모두 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 주장하는 이상 상태 |
@@ -262,15 +262,15 @@ NameNode HA 설계 체크리스트
 
 ```text
 NameNode 단일 장애점 (SPOF)
-    │
-    ▼
+    |
+    v
 HA NameNode: Active-Standby · JournalNode 동기화
-    │
-    ▼
-MapReduce: Map → Shuffle → Reduce (디스크 기반)
-    │ 디스크 I/O 병목
-    ▼
-Spark: 인메모리 처리 → 10~100배 성능 향상
+    |
+    v
+MapReduce: Map -> Shuffle -> Reduce (디스크 기반)
+    | 디스크 I/O 병목
+    v
+Spark: 인메모리 처리 -> 10~100배 성능 향상
 ```
 2. HA NameNode는 "지도를 두 명이 갖고, 한 명이 아프면 다른 사람이 바로 지도를 꺼내는 것"이에요.
 3. [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 디스크 병목은 "덧셈할 때마다 칠판에 지우고 다시 쓰는 것"인데, Spark는 "머릿속으로 연산해서 최종 답만 칠판에 쓰는 것"처럼 훨씬 빠르답니다!
@@ -281,7 +281,7 @@ Spark: 인메모리 처리 → 10~100배 성능 향상
 
 **진행 상황**: 204 / 258
 
-← **이전**: [203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/)
-**다음**: [205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/) →
+<- **이전**: [203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/)
+**다음**: [205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/) ->
 
 ---

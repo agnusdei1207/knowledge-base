@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [VLSM]
-    │
-    ▼
+    |
+    v
 [NAT]
-    │
-    └──▶ [Static NAT / Dynamic NAT…]
+    |
+    +---> [Static NAT / Dynamic NAT…]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 사설 IP를 단 노트북이 인터넷이라는 클럽에 들어가려면 신분증(공인 IP)이 필요합니다. NAT 장비(공유기)는 문 앞에서 10명의 노트북들에게 </strong>자신이 가진 단 1개의 "합법적 신분증(공인 IP)"을 돌려가며 빌려주어 모두가 클럽에 입장할 수 있게 해주는 기막힌 브로커**입니다.
@@ -40,14 +40,14 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 나갈 때 (Inside Local ──▶ Inside Global)
+### 1. 나갈 때 (Inside Local ---> Inside Global)
 내 방 노트북(`192.168.0.5`)에서 구글(`8.8.8.8`)로 웹 브라우저를 켰다.
 - 패킷 헤더: `[출발지: 192.168.0.5, 목적지: 8.8.8.8]`
 - 공유기가 이 패킷을 받는다. "이 녀석, 이 사설 IP로 나가면 인터넷 미아 되는데? 내 통신사 주소로 바꿔치기해야겠다!"
 - 공유기는 출발지 주소를 자신의 공인 IP(`211.200.x.x`)로 지우개로 지우고 덮어쓴다.
 - 그리고 즉시 수첩(NAT Table)을 꺼내 적는다. **"수첩 기록: 192.168.0.5가 구글로 나갔음."**
 
-### 2. 들어올 때 (Outside Global ──▶ Inside Local)
+### 2. 들어올 때 (Outside Global ---> Inside Local)
 구글 서버(`8.8.8.8`)는 요청을 받고 응답 패킷을 보낸다. 구글은 공유기 뒤에 누가 있는지 알 바가 아니므로 목적지를 그냥 공유기(`211.200.x.x`)로 적어서 쏜다.
 - 패킷 헤더: `[출발지: 8.8.8.8, 목적지: 211.200.x.x]`
 - 공유기가 이 패킷을 받는다. 자기가 웹서핑을 한 적이 없으니 수첩(NAT Table)을 뒤져본다.
@@ -55,22 +55,22 @@ tags = ["studynote-network"]
 - 공유기는 목적지 주소를 다시 `192.168.0.5`로 지우고 덮어쓴 뒤 거실의 노트북으로 쏴준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                NAT의 IP 헤더 바꿔치기 마법 도식                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 노트북 ] ── (192.168.0.5 -> 8.8.8.8) ──┐             │
- │                                             ▼              │
- │                                       [ 거실 공유기 ]         │
- │                                    (211.200.x.x 공인IP)     │
- │                                             │              │
- │                   ┌─── (211.200.x.x -> 8.8.8.8 로 변조!) ───┘  │
- │                   ▼                                         │
- │   [ 인터넷 ] ── (구글 서버 도착) ─────────────────────────┘  │
- │                                                             │
- │   ▶ 핵심: 노트북은 공유기가 주소를 바꾼 사실조차 모른다 (투명성).        │
- │           구글은 공유기 뒤에 노트북이 숨어있다는 사실을 전혀 모른다.   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                NAT의 IP 헤더 바꿔치기 마법 도식                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 노트북 ] -- (192.168.0.5 -> 8.8.8.8) --+             |
+ |                                             v              |
+ |                                       [ 거실 공유기 ]         |
+ |                                    (211.200.x.x 공인IP)     |
+ |                                             |              |
+ |                   +--- (211.200.x.x -> 8.8.8.8 로 변조!) ---+  |
+ |                   v                                         |
+ |   [ 인터넷 ] -- (구글 서버 도착) -------------------------+  |
+ |                                                             |
+ |   -> 핵심: 노트북은 공유기가 주소를 바꾼 사실조차 모른다 (투명성).        |
+ |           구글은 공유기 뒤에 노트북이 숨어있다는 사실을 전혀 모른다.   |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 용어 정리 ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 표준 기준)
@@ -138,12 +138,12 @@ NAT는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: VLSM]
-    │
-    ▼
+    |
+    v
 [현재 개념: NAT]
-    │
-    ├──▶ [확장 A: Static NAT / Dynamic NAT…]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: Static NAT / Dynamic NAT…]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 NAT는 VLSM에서 출발해 현재 메커니즘을 정교화하고, 이후 [Static NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) / Dynamic NAT…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -160,7 +160,7 @@ NAT는 VLSM에서 출발해 현재 메커니즘을 정교화하고, 이후 [Stat
 
 **진행 상황**: 428 / 1120
 
-← **이전**: [306. VLSM (Variable Length Subnet Mask)](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)
-**다음**: [308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) →
+<- **이전**: [306. VLSM (Variable Length Subnet Mask)](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)
+**다음**: [308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) ->
 
 ---

@@ -18,24 +18,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-형상 상태 기록(CSA)은 SCM의 네 가지 핵심 활동([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 통제 → 상태 기록 → [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 중 세 번째로, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 CI가 어떻게 변경되고 승인되었는지의 전 이력을 데이터베이스에 기록·보관하고 필요 시 보고서를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 활동이다.
+형상 상태 기록(CSA)은 SCM의 네 가지 핵심 활동([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) -> 통제 -> 상태 기록 -> [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 중 세 번째로, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 CI가 어떻게 변경되고 승인되었는지의 전 이력을 데이터베이스에 기록·보관하고 필요 시 보고서를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 활동이다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│              SCM 4대 활동과 CSA의 위치                  │
-├───────────────────────────────────────────────────────┤
-│                                                       │
-│  1. CI 식별 (Configuration Identification)            │
-│           ↓                                           │
-│  2. 형상 통제 (Configuration Control) — CCB 승인       │
-│           ↓                                           │
-│  3. ★ 형상 상태 기록 (CSA) ← 지금 여기                │
-│     ├─ 변경 이력 DB 기록                               │
-│     ├─ 상태 보고서(CSR) 생성                           │
-│     └─ 이해관계자 배포                                 │
-│           ↓                                           │
-│  4. 형상 감사 (Configuration Audit) — 검증             │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|              SCM 4대 활동과 CSA의 위치                  |
++-------------------------------------------------------+
+|                                                       |
+|  1. CI 식별 (Configuration Identification)            |
+|           v                                           |
+|  2. 형상 통제 (Configuration Control) — CCB 승인       |
+|           v                                           |
+|  3. ★ 형상 상태 기록 (CSA) <- 지금 여기                |
+|     +- 변경 이력 DB 기록                               |
+|     +- 상태 보고서(CSR) 생성                           |
+|     +- 이해관계자 배포                                 |
+|           v                                           |
+|  4. 형상 감사 (Configuration Audit) — 검증             |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CSA는 병원 진료 기록부다. 환자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 진료 이력(변경 이력), 처방전(승인 내용), 현재 복용약(현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))이 모두 기록되어 있어 언제든 현황을 파악하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)할 수 있다.
@@ -53,18 +53,18 @@ tags = ["studynote-software-engineering"]
 | **변경 이유** | 결함수정, 기능추가, 개선 |
 | **승인자** | [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> | 포함된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) |
-| **상태** | 요청→검토→승인→구현→완료 |
+| **상태** | 요청->검토->승인->구현->완료 |
 
 ### 형상 상태 보고서([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 예시
 
 ```text
 프로젝트: 결제시스템 v3.2   기준일: 2026-04-29
-─────────────────────────────────────────────
+---------------------------------------------
 CI             버전    상태    CR 번호   완료일
 PaymentAPI     3.2.1   ✅완료  CR-2041  04-25
 OrderService   3.1.9   🔄진행  CR-2055  미정
 DBSchema       3.2.0   ✅완료  CR-2038  04-20
-─────────────────────────────────────────────
+---------------------------------------------
 미해결 CR: 1개 (CR-2055), 완료율 66.7%
 ```
 
@@ -132,17 +132,17 @@ CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/
 
 ```text
 [SCM 형상 식별 — CI 정의 및 기준선 설정]
-    │
-    ▼
+    |
+    v
 [형상 통제 — CCB 변경 승인 프로세스]
-    │
-    ▼
+    |
+    v
 [CSA — 변경 이력 기록, CSR 생성 (★ 지금 여기)]
-    │
-    ▼
+    |
+    v
 [형상 감사 — 기준선 일치 검증, 인증 증적]
-    │
-    ▼
+    |
+    v
 [SW BOM + GitOps — 자동화 CSA, 공급망 보안]
 ```
 
@@ -158,7 +158,7 @@ CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/
 
 **진행 상황**: 24 / 973
 
-← **이전**: [23. 형상 감사 (Configuration Audit)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)
-**다음**: [25. 기준선 (Baseline) — 형상 관리의 공식 참조점](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) →
+<- **이전**: [23. 형상 감사 (Configuration Audit)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)
+**다음**: [25. 기준선 (Baseline) — 형상 관리의 공식 참조점](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-design-supervision"]
 특히 공공사업이나 대형 구축 사업처럼 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 편차, 보안 이슈가 함께 얽히는 환경에서는 문서 한 장의 적합 여부보다 실행 흔적의 정합성이 더 중요하다. 따라서 모바일 앱 사업 감리는 단순 점검표가 아니라, 기준·증거·조치가 하나의 폐루프로 돌아가는 통제 구조로 이해해야 한다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Baseline     │──▶│ Evidence     │──▶│ Finding      │
-└──────┬───────┘   └──────────────┘   └──────┬───────┘
-       │                                     │
-       └──────────────▶ Corrective Action ◀──┘
++--------------+   +--------------+   +--------------+
+| Baseline     |--->| Evidence     |--->| Finding      |
++------+-------+   +--------------+   +------+-------+
+       |                                     |
+       +---------------> Corrective Action <---+
 ```
 
 이 그림은 한 번의 판정으로 끝나는 활동이 아니라, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 증거 수집, 시정조치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 연속 흐름임을 보여 준다.
@@ -110,14 +110,14 @@ tags = ["studynote-design-supervision"]
 
 ```text
 [선행 개념: 기준선 수립]
-    │
-    ▼
+    |
+    v
 [현재 개념: 모바일 앱 사업 감리]
-    │
-    ├──▶ [확장 A: 앱 스토어 배포 기준]
-    └──▶ [확장 B: 자동화 점검]
-            │
-            ▼
+    |
+    +---> [확장 A: 앱 스토어 배포 기준]
+    +---> [확장 B: 자동화 점검]
+            |
+            v
         [다음 단계: 지속적 개선]
 ```
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 75 / 530
 
-← **이전**: [049. 인수인계 및 유지보수 매뉴얼 검증](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_maintenance_manual_verification/)
-**다음**: [모바일 앱 감리 — 스토어 배포 기준 (Mobile App Audit: Store Deployment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit_store_deployment/) →
+<- **이전**: [049. 인수인계 및 유지보수 매뉴얼 검증](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_maintenance_manual_verification/)
+**다음**: [모바일 앱 감리 — 스토어 배포 기준 (Mobile App Audit: Store Deployment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit_store_deployment/) ->
 
 ---

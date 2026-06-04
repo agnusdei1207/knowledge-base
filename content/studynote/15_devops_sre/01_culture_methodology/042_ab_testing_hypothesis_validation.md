@@ -26,7 +26,7 @@ Variant Group (B): 변경 버전 (새로운 기능/UI)
 
 실험 설계:
   1. 가설 수립:
-     "버튼 색상을 파란색 → 초록색으로 변경하면
+     "버튼 색상을 파란색 -> 초록색으로 변경하면
       클릭률이 10% 이상 증가할 것이다"
 
   2. 성공 지표 정의 (Primary/Secondary Metric):
@@ -61,29 +61,29 @@ Variant Group (B): 변경 버전 (새로운 기능/UI)
 
 p-value:
   귀무가설이 참일 때 관측된 결과가 나올 확률
-  p < 0.05 → 5% 유의수준에서 귀무가설 기각
+  p < 0.05 -> 5% 유의수준에서 귀무가설 기각
   = "이 차이는 랜덤이 아닌 실제 차이일 가능성 95%"
 
 통계적 검정력 (Statistical Power = 1-β):
   실제 효과가 있을 때 탐지할 확률
   일반적 목표: 80% 이상
-  낮은 검정력 → 실제 효과를 놓칠 위험 (False Negative)
+  낮은 검정력 -> 실제 효과를 놓칠 위험 (False Negative)
 
 α (Type I Error): 차이 없는데 있다고 판단 (False Positive)
 β (Type II Error): 차이 있는데 없다고 판단 (False Negative)
 
 최소 표본 크기 계산:
-  n = (Z_α + Z_β)² × 2σ² / δ²
+  n = (Z_α + Z_β)^ × 2σ^ / δ^
   또는 도구 사용: Evan Miller A/B Calculator
 
 예시:
   기준 전환율: 5%
-  목표 최소 탐지 효과: 상대적 20% 증가 (5% → 6%)
+  목표 최소 탐지 효과: 상대적 20% 증가 (5% -> 6%)
   α = 0.05, Power = 80%
-  → 필요 표본: 각 그룹 약 3,700명
+  -> 필요 표본: 각 그룹 약 3,700명
 
 p-hacking / 피킹(Peeking) 위험:
-  실험 중간에 반복 확인 → 우연히 p < 0.05 발생 가능
+  실험 중간에 반복 확인 -> 우연히 p < 0.05 발생 가능
   해결: Sequential Testing (α-spending function)
         또는 실험 기간 사전 확정
 ```
@@ -109,19 +109,19 @@ p-hacking / 피킹(Peeking) 위험:
   AWS AppConfig, Firebase Remote Config
 
 트래픽 배분 방식:
-  Hash-based: hash(userId) % 100 < 50 → A
+  Hash-based: hash(userId) % 100 < 50 -> A
   일관성: 동일 유저는 항상 동일 그룹 배정
 
 DevOps 통합:
   CD 파이프라인:
-    코드 머지 → 배포 → 피처 플래그 OFF
-    실험 시작 → 피처 플래그 50% 활성화
-    통계적 유의성 달성 → 100% 롤아웃 또는 롤백
+    코드 머지 -> 배포 -> 피처 플래그 OFF
+    실험 시작 -> 피처 플래그 50% 활성화
+    통계적 유의성 달성 -> 100% 롤아웃 또는 롤백
 
   배포 전략 연계:
-    Canary 배포: 5% 트래픽 → 성능 모니터링
-    A/B 테스트: 50% 트래픽 → 비즈니스 지표 측정
-    Blue/Green: 100% 전환 → 다운타임 없는 배포
+    Canary 배포: 5% 트래픽 -> 성능 모니터링
+    A/B 테스트: 50% 트래픽 -> 비즈니스 지표 측정
+    Blue/Green: 100% 전환 -> 다운타임 없는 배포
 
 장점:
   배포와 출시 분리 (Decouple Deployment/Release)
@@ -166,7 +166,7 @@ A/B vs MAB 비교:
     강한 통계적 보장
 
   MAB:
-    동적 트래픽 배분 (60:40 → 80:20 → 95:5)
+    동적 트래픽 배분 (60:40 -> 80:20 -> 95:5)
     비용 최소화 (나쁜 변형 노출 감소)
     약한 통계적 보장 (전통 A/B보다)
 
@@ -185,7 +185,7 @@ A/B vs MAB 비교:
 이커머스 결제 페이지 A/B 테스트:
 
 가설:
-  "결제 버튼 문구를 '주문하기' → '지금 구매하기'로 변경하면
+  "결제 버튼 문구를 '주문하기' -> '지금 구매하기'로 변경하면
    결제 전환율이 15% 이상 증가한다"
 
 실험 설계:
@@ -195,10 +195,10 @@ A/B vs MAB 비교:
 
 표본 크기 계산:
   현재 결제 전환율: 12%
-  최소 탐지 효과: 15% 상대적 증가 (12% → 13.8%)
+  최소 탐지 효과: 15% 상대적 증가 (12% -> 13.8%)
   α = 0.05, Power = 80%
-  → 각 그룹 약 12,000명 필요
-  → 일일 유니크 방문자 2,000명이면 12일 소요
+  -> 각 그룹 약 12,000명 필요
+  -> 일일 유니크 방문자 2,000명이면 12일 소요
 
 실험 진행:
   기간: 14일 (2주, 주간 패턴 2회 포함)
@@ -215,9 +215,9 @@ A/B vs MAB 비교:
   통계적 유의성: O
   실용적 유의성: △ (11.7% < 15% 목표)
   Guard Rail: 이탈률 변화 없음
-  → 긍정적 결과지만 기대보다 낮음
-  → 100% 롤아웃 결정 (연간 추정 매출 +8억)
-  → 추가 실험 계획 (버튼 색상, 크기 등)
+  -> 긍정적 결과지만 기대보다 낮음
+  -> 100% 롤아웃 결정 (연간 추정 매출 +8억)
+  -> 추가 실험 계획 (버튼 색상, 크기 등)
 ```
 
 > 📢 **섹션 요약 비유**: A/B 테스트 의사결정은 선거 개표 — 유의수준(51% 이상 득표)과 투표 수(표본 크기)가 충분해야 당선 확정(롤아웃).
@@ -290,7 +290,7 @@ MAB + DRL (딥 강화학습)
 
 **진행 상황**: 42 / 373
 
-← **이전**: [041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/041_trunk_based_development_tbd/)
-**다음**: [043. 다크 런칭 & 섀도우 트래픽](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/043_dark_launching_shadow_traffic/) →
+<- **이전**: [041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/041_trunk_based_development_tbd/)
+**다음**: [043. 다크 런칭 & 섀도우 트래픽](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/043_dark_launching_shadow_traffic/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [Calico]
-    │
-    ▼
+    |
+    v
 [Cilium]
-    │
-    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    |
+    +---> [Kube-Proxy 쿠버네티스 서비스 트래픽…]
 ```
 
 - **📢 섹션 요약 비유**: Cilium는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [Calico]
-    │
-    ▼
+    |
+    v
 [Cilium]
-    │
-    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    |
+    +---> [Kube-Proxy 쿠버네티스 서비스 트래픽…]
 ```
 
 - **📢 섹션 요약 비유**: Cilium의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ Cilium는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ```text
 [선행 개념: Calico]
-    │
-    ▼
+    |
+    v
 [현재 개념: Cilium]
-    │
-    ├──▶ [확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 Cilium는 Calico에서 출발해 현재 메커니즘을 정교화하고, 이후 Kube-Proxy [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ Cilium는 Calico에서 출발해 현재 메커니즘을 정교화하고, 이후 
 
 **진행 상황**: 946 / 1120
 
-← **이전**: [824. Calico (BGP 라우팅 CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)
-**다음**: [826. Kube-Proxy 서비스 로드밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/826_kube_proxy_service_load_balancing_iptables_ipvs/) →
+<- **이전**: [824. Calico (BGP 라우팅 CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)
+**다음**: [826. Kube-Proxy 서비스 로드밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/826_kube_proxy_service_load_balancing_iptables_ipvs/) ->
 
 ---

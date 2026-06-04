@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 과거 가상 현실(VR)은 나를 100% 가짜 세상에 가두었고, 증강 현실(AR)은 포켓몬고처럼 허접하게 카메라 화면 위에 스티커를 대충 붙이는 수준이었다. 하지만 딥러닝(Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기술이 폭발하면서, 카메라가 0.01초 만에 방 안의 책상과 바닥의 깊이(Depth)를 수학적으로 100% 이해하고, 가상의 공을 던지면 그 공이 진짜 소파 모서리를 맞고 튕겨 나가는 <strong>혼합 현실 (Mixed Reality, MR)</strong>의 신세계가 열렸다. 애플(Apple)이 "비전 프로는 스마트폰을 잇는 최초의 공간 컴퓨터다"라고 선언한 이유가 바로 이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 물리 공간의 완벽한 융합에 있다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 속에 갇혀 있던 '아이언맨의 자비스([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))'를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 밖 현실 세계로 소환하는 마법이다. 예전엔 자비스에게 날씨를 물어보려면 폰(유리판)을 켜야 했지만, 이젠 허공을 손가락으로 까딱하면 내 눈앞의 거실 식탁 위로 3D 날씨 홀로그램 창이 자연스럽게 내려앉아 현실과 완벽히 섞이는 마법사 같은 삶이다.
@@ -43,24 +43,24 @@ tags = ["studynote-ai"]
 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 단순한 디스플레이 기술이 아니다. 빛과 공간을 수학적 텐서(Tensor) 공간으로 변환하는 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라의 집약체다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           공간 컴퓨팅 (Spatial Computing)의 AI 렌더링 파이프라인        │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 환경 인식 (Spatial Mapping & SLAM)]                       │
-│   * 수십 개의 카메라와 라이다(LiDAR) 센서가 1초에 90번씩 방 안을 스캔.    │
-│   * AI 비전 모델이 실시간으로 방 안의 3D 메시(Mesh) 지도를 직조함.        │
-│   ─▶ "여기는 소파(푹신함), 여기는 바닥(단단함), 여기는 1m 앞 벽!"        │
-│                                                              │
-│  [2. 사용자 의도 추적 (Eye & Hand Tracking)]                    │
-│   * 적외선 센서가 동공의 움직임을 추적하고(시선이 곧 마우스 포인터!),         │
-│   * 딥러닝 관절 인식 모델이 손가락 뼈대(21개 관절)를 실시간으로 추적함.      │
-│   ─▶ "사용자가 시선을 '메시지 창'에 두고, 엄지와 검지를 맞부딪혀(Click) 꼬집었다!"│
-│                                                              │
-│  [3. 동적 혼합 렌더링 (Foveated Rendering & Passthrough)]       │
-│   * 가상의 물체에 현실 거실의 조명 색깔과 그림자를 똑같이 입혀서 렌더링함.     │
-│   * 꼼수(Foveated): 눈동자가 쳐다보는 곳만 4K 고화질로 그리고, 시야 주변부는  │
-│     해상도를 확 뭉개서 GPU 연산량을 1/10로 깎아버리는 초절전 AI 최적화!     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           공간 컴퓨팅 (Spatial Computing)의 AI 렌더링 파이프라인        |
++--------------------------------------------------------------+
+|  [1. 환경 인식 (Spatial Mapping & SLAM)]                       |
+|   * 수십 개의 카메라와 라이다(LiDAR) 센서가 1초에 90번씩 방 안을 스캔.    |
+|   * AI 비전 모델이 실시간으로 방 안의 3D 메시(Mesh) 지도를 직조함.        |
+|   --> "여기는 소파(푹신함), 여기는 바닥(단단함), 여기는 1m 앞 벽!"        |
+|                                                              |
+|  [2. 사용자 의도 추적 (Eye & Hand Tracking)]                    |
+|   * 적외선 센서가 동공의 움직임을 추적하고(시선이 곧 마우스 포인터!),         |
+|   * 딥러닝 관절 인식 모델이 손가락 뼈대(21개 관절)를 실시간으로 추적함.      |
+|   --> "사용자가 시선을 '메시지 창'에 두고, 엄지와 검지를 맞부딪혀(Click) 꼬집었다!"|
+|                                                              |
+|  [3. 동적 혼합 렌더링 (Foveated Rendering & Passthrough)]       |
+|   * 가상의 물체에 현실 거실의 조명 색깔과 그림자를 똑같이 입혀서 렌더링함.     |
+|   * 꼼수(Foveated): 눈동자가 쳐다보는 곳만 4K 고화질로 그리고, 시야 주변부는  |
+|     해상도를 확 뭉개서 GPU 연산량을 1/10로 깎아버리는 초절전 AI 최적화!     |
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (SLAM과 뉴럴 렌더링)**:
@@ -133,7 +133,7 @@ XR(확장 현실) 기기들이 [공간 컴퓨팅](/knowledge-base/studynote/12_i
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[도메인 데이터 수집] → [공간 컴퓨팅 (Spatial Computing) 결합 AI] → [현장 최적화·자동화]
+[도메인 데이터 수집] -> [공간 컴퓨팅 (Spatial Computing) 결합 AI] -> [현장 최적화·자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ XR(확장 현실) 기기들이 [공간 컴퓨팅](/knowledge-base/studynote/12_i
 
 **진행 상황**: 199 / 420
 
-← **이전**: [198. 멀티모달 AI (Multimodal AI)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/198_multimodal_ai/)
-**다음**: [200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/200_robotics_motion_policy/) →
+<- **이전**: [198. 멀티모달 AI (Multimodal AI)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/198_multimodal_ai/)
+**다음**: [200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/200_robotics_motion_policy/) ->
 
 ---

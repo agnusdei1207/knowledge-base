@@ -29,32 +29,32 @@ tags = ["studynote-bigdata"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│               로그 분석 파이프라인 (ELK + Kafka)                    │
-├────────────────────────────────────────────────────────────────────┤
-│  [수집 (Collection)]                                               │
-│   앱 서버 / 컨테이너 / 네트워크 장비 / OS                           │
-│       │                                                            │
-│       ▼                                                            │
-│  [에이전트 (Agent)]                                                │
-│   Fluentd / Filebeat / Logstash                                    │
-│       │                                                            │
-│       ▼                                                            │
-│  [메시지 큐 (Message Queue)]                                       │
-│   Apache Kafka (고가용성, 버퍼링)                                  │
-│       │                                                            │
-│       ▼                                                            │
-│  [처리 (Processing)]                                               │
-│   Logstash (파싱·필터링·변환) / Spark Streaming (복잡 분석)        │
-│       │                                                            │
-│       ▼                                                            │
-│  [저장 (Storage)]                                                  │
-│   Elasticsearch (검색 인덱스) / S3 (장기 아카이브)                 │
-│       │                                                            │
-│       ▼                                                            │
-│  [시각화 & 알림]                                                   │
-│   Kibana / Grafana / PagerDuty 알림 연동                           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|               로그 분석 파이프라인 (ELK + Kafka)                    |
++--------------------------------------------------------------------+
+|  [수집 (Collection)]                                               |
+|   앱 서버 / 컨테이너 / 네트워크 장비 / OS                           |
+|       |                                                            |
+|       v                                                            |
+|  [에이전트 (Agent)]                                                |
+|   Fluentd / Filebeat / Logstash                                    |
+|       |                                                            |
+|       v                                                            |
+|  [메시지 큐 (Message Queue)]                                       |
+|   Apache Kafka (고가용성, 버퍼링)                                  |
+|       |                                                            |
+|       v                                                            |
+|  [처리 (Processing)]                                               |
+|   Logstash (파싱·필터링·변환) / Spark Streaming (복잡 분석)        |
+|       |                                                            |
+|       v                                                            |
+|  [저장 (Storage)]                                                  |
+|   Elasticsearch (검색 인덱스) / S3 (장기 아카이브)                 |
+|       |                                                            |
+|       v                                                            |
+|  [시각화 & 알림]                                                   |
+|   Kibana / Grafana / PagerDuty 알림 연동                           |
++--------------------------------------------------------------------+
 ```
 
 ### [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱: Grok 패턴
@@ -62,8 +62,8 @@ tags = ["studynote-bigdata"]
 ```text
 Grok 패턴 예시 (Apache Access Log):
 %{IPORHOST:clientip} %{WORD:ident} %{WORD:auth} \[%{HTTPDATE:timestamp}\]
-→ "192.168.1.1 - - [21/Apr/2026:10:30:00] 200 1234"
-→ {clientip: "192.168.1.1", timestamp: "21/Apr/2026:10:30:00", status: 200}
+-> "192.168.1.1 - - [21/Apr/2026:10:30:00] 200 1234"
+-> {clientip: "192.168.1.1", timestamp: "21/Apr/2026:10:30:00", status: 200}
 ```
 
 ### [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 레벨 및 이상 패턴
@@ -100,16 +100,16 @@ Grok 패턴 예시 (Apache Access Log):
 
 ### 적용 시나리오
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 장애 추적</strong>: [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) ([OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))과 통합 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출 체인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-2. <strong>보안 <a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 급증 → [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) → 계정 탈취 시도 자동 차단
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목 분석</strong>: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 분포 분석 → 95th/99th 퍼센타일 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 탐지
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 장애 추적</strong>: [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) ([OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))과 통합 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출 체인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+2. <strong>보안 <a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 급증 -> [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) -> 계정 탈취 시도 자동 차단
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목 분석</strong>: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 분포 분석 -> 95th/99th 퍼센타일 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 탐지
 4. <strong>컴플라이언스 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 90일 보관 + 비정상 접근 패턴 리포트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 시 PII (Personally Identifiable Information) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹이 에이전트 단계에서 처리됐는가?
 2. [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 시 샤드 수와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 수가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)됐는가?
-3. ILM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 Hot→Warm→Cold→Frozen→Delete 단계가 정의됐는가?
+3. ILM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 Hot->Warm->Cold->Frozen->Delete 단계가 정의됐는가?
 4. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 누락 방지를 위한 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 데드레터 큐 (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 있는가?
 5. 알림 피로 (Alert Fatigue) 방지를 위해 동적 임계값 ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))을 사용하는가?
 
@@ -149,17 +149,17 @@ Grok 패턴 예시 (Apache Access Log):
 
 ```text
 [로그 수집 에이전트 (Fluentd / Filebeat) — 분산 노드 로그 수집]
-    │
-    ▼
+    |
+    v
 [메시지 큐 (Apache Kafka) — 고처리량 버퍼링 및 스트리밍 전달]
-    │
-    ▼
+    |
+    v
 [중앙 저장·인덱싱 (Elasticsearch / OpenSearch) — 전문 검색 및 집계]
-    │
-    ▼
+    |
+    v
 [시각화 (Kibana / Grafana) — 대시보드 및 알림 규칙 설정]
-    │
-    ▼
+    |
+    v
 [이상 감지 (ML 기반 Anomaly Detection) — 보안·장애 자동 탐지]
 ```
 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 에이전트에서 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)을 거쳐 Elasticsearch로 인덱싱하고, Kibana로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 뒤 ML 기반 이상 감지로 보안·장애를 자동 탐지하는 것이 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 표준 흐름이다.
@@ -175,7 +175,7 @@ Grok 패턴 예시 (Apache Access Log):
 
 **진행 상황**: 119 / 262
 
-← **이전**: [115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리](/knowledge-base/studynote/16_bigdata/05_analysis/118_image_analysis/)
-**다음**: [117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화](/knowledge-base/studynote/16_bigdata/05_analysis/120_clickstream_analysis/) →
+<- **이전**: [115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리](/knowledge-base/studynote/16_bigdata/05_analysis/118_image_analysis/)
+**다음**: [117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화](/knowledge-base/studynote/16_bigdata/05_analysis/120_clickstream_analysis/) ->
 
 ---

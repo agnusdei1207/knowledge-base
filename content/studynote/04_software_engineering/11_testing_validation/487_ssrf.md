@@ -30,16 +30,16 @@ tags = ["studynote-software-engineering"]
 다음은 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Re의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SSRF (Server-Side Re                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  SSRF (Server-Side Re                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Re가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
@@ -143,21 +143,21 @@ SSRF를 막으면 내부 시스템과 클라우드 자산을 지킬 수 있다.
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 SSRF (Server-Side Request Forgery) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ SSRF (Server-Side Request Forgery) 개념 정립
 
 **진행 상황**: 565 / 973
 
-← **이전**: [486. Security Logging and Monitoring Failures (보안 로깅 및 모니터링 실패)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/486_security_logging_and_monitoring_failures/)
-**다음**: [487. SSRF (Server-Side Request Forgery) - 서버 측 요청 위조](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/487_ssrf_server_side_request_forgery/) →
+<- **이전**: [486. Security Logging and Monitoring Failures (보안 로깅 및 모니터링 실패)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/486_security_logging_and_monitoring_failures/)
+**다음**: [487. SSRF (Server-Side Request Forgery) - 서버 측 요청 위조](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/487_ssrf_server_side_request_forgery/) ->
 
 ---

@@ -37,11 +37,11 @@ tags = ["ict_convergence"]
 
 ```text
 Client
-  ↓ Proposal
+  v Proposal
 Peer / Endorsement
-  ↓
+  v
 Orderer
-  ↓
+  v
 Channel Ledger
 ```
 
@@ -85,11 +85,11 @@ Fabric은 거래를 먼저 제안 받고, 승인 서명을 모은 뒤, 순서를
 
 ```text
 허가형 참여자
-   ↓
+   v
 MSP / Channel / Peer / Orderer
-   ↓
+   v
 체인코드
-   ↓
+   v
 기업용 장부
 ```
 
@@ -97,11 +97,11 @@ MSP / Channel / Peer / Orderer
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) 한계 → 프라이버시와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제
-2. 허가형 네트워크 → 기업 참여 통제
-3. 채널 구조 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 권한 관리
-4. [체인코드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/) → 비즈니스 규칙 자동화
-5. 엔터프라이즈 협업 → [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 정산 분야로 확장
+1. [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) 한계 -> 프라이버시와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제
+2. 허가형 네트워크 -> 기업 참여 통제
+3. 채널 구조 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 권한 관리
+4. [체인코드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/) -> 비즈니스 규칙 자동화
+5. 엔터프라이즈 협업 -> [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 정산 분야로 확장
 
 ---
 
@@ -117,7 +117,7 @@ MSP / Channel / Peer / Orderer
 
 **진행 상황**: 58 / 552
 
-← **이전**: [57. 솔리디티 (Solidity) - 이더리움 스마트 컨트랙트 개발 언어](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/)
-**다음**: [59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/) →
+<- **이전**: [57. 솔리디티 (Solidity) - 이더리움 스마트 컨트랙트 개발 언어](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/)
+**다음**: [59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/) ->
 
 ---

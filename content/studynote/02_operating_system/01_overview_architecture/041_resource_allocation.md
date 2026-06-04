@@ -238,7 +238,7 @@ FinOps: 비용 최적화 자원 할당
 
 **진행 상황**: 41 / 800
 
-← **이전**: [040. 오류 탐지 (Error Detection)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)
-**다음**: [042. 회계 및 로깅 (Accounting and Logging)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/) →
+<- **이전**: [040. 오류 탐지 (Error Detection)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)
+**다음**: [042. 회계 및 로깅 (Accounting and Logging)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/) ->
 
 ---

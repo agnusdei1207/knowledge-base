@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ▼
+    |
+    v
 [브리지 ID, 비용]
-    │
-    └──▶ [STP 4단계 상태 전이]
+    |
+    +---> [STP 4단계 상태 전이]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 </strong>"군번(계급장)"**이고, Path Cost는 도로의 넓이에 따라 매겨진 **"통행료"**입니다. 군번이 가장 빠른 자가 지휘관이 되고, 통행료가 가장 싼 길만 남겨두고 비싼 길은 모두 통제(Block)해 버립니다.
@@ -51,17 +51,17 @@ tags = ["studynote-network"]
 - 만약 Priority가 같다면? [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 비교하여 더 작은 놈이 이긴다. 공장에서 옛날에 생산된 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일수록 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 앞 번호이므로, 관리자가 Priority 설정을 안 해두면 회사 내의 가장 낡고 구린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대장이 되어 망 전체가 느려지는 대참사가 발생한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                브리지 ID (Bridge ID) 비교 예시                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스위치 A ]                      [ 스위치 B ]               │
- │   Priority: 32768                 Priority: 32768           │
- │   MAC: 00:00:AA:11:22:33          MAC: 00:00:BB:11:22:33    │
- │                                                             │
- │   * 대결 결과: Priority가 같으므로 MAC 주소가 더 낮은(AA < BB) │
- │     스위치 A가 승리하여 Root Bridge가 된다!                    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                브리지 ID (Bridge ID) 비교 예시                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 스위치 A ]                      [ 스위치 B ]               |
+ |   Priority: 32768                 Priority: 32768           |
+ |   MAC: 00:00:AA:11:22:33          MAC: 00:00:BB:11:22:33    |
+ |                                                             |
+ |   * 대결 결과: Priority가 같으므로 MAC 주소가 더 낮은(AA < BB) |
+ |     스위치 A가 승리하여 Root Bridge가 된다!                    |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 비용 (Path Cost)의 기준과 누적 연산
@@ -132,12 +132,12 @@ Root Bridge가 선출되면, 나머지 [스위치](/knowledge-base/studynote/03_
 
 ```text
 [선행 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 브리지 ID, 비용]
-    │
-    ├──▶ [확장 A: STP 4단계 상태 전이]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: STP 4단계 상태 전이]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용는 [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…에서 출발해 현재 메커니즘을 정교화하고, 이후 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ Root Bridge가 선출되면, 나머지 [스위치](/knowledge-base/studynote/03_
 
 **진행 상황**: 377 / 1120
 
-← **이전**: [255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/)
-**다음**: [257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/257_stp_4_states_blocking_listening_learning_forwarding/) →
+<- **이전**: [255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/)
+**다음**: [257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/257_stp_4_states_blocking_listening_learning_forwarding/) ->
 
 ---

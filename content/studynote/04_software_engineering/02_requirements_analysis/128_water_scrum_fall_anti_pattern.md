@@ -19,18 +19,18 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Water-Scrum-Fall 구조                              │
-├───────────────────────────────────────────────────────┤
-│  [Water] — 요구사항: 6개월 전 확정, 변경 불가        │
-│     ↓                                                 │
-│  [Scrum] — 개발: 2주 스프린트, 데일리 스크럼          │
-│     ↓                                                 │
-│  [Fall]  — 배포: 3개월 릴리스, 수동 QA, 승인 절차    │
-│                                                       │
-│  문제: 개발만 Agile, 전후는 Waterfall                │
-│  → Agile 이점 소멸, 개발팀만 고통                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Water-Scrum-Fall 구조                              |
++-------------------------------------------------------+
+|  [Water] — 요구사항: 6개월 전 확정, 변경 불가        |
+|     v                                                 |
+|  [Scrum] — 개발: 2주 스프린트, 데일리 스크럼          |
+|     v                                                 |
+|  [Fall]  — 배포: 3개월 릴리스, 수동 QA, 승인 절차    |
+|                                                       |
+|  문제: 개발만 Agile, 전후는 Waterfall                |
+|  -> Agile 이점 소멸, 개발팀만 고통                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>고속도로(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>) 양쪽에 비포장 도로(Water·Fall)</strong>를 붙인 것이다. 고속도로에서 빨라도 비포장에서 막히면 의미 없다.
@@ -92,18 +92,18 @@ Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/65
 
 ```text
 [Waterfall (전통, ~2000s)]
-    │
-    ▼
+    |
+    v
 [Agile 도입 시도 (2001~) — Scrum만 적용]
-    │
-    ▼
+    |
+    v
 [Water-Scrum-Fall (안티패턴 인식, 2010~)]
-    │
-    ▼
+    |
+    v
 [DevOps + CI/CD (2015~) — Fall 해소]
-    │
-    ▼
-[현재: 전체 흐름 Agile — Discovery → Dev → Deploy 통합]
+    |
+    v
+[현재: 전체 흐름 Agile — Discovery -> Dev -> Deploy 통합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -117,7 +117,7 @@ Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/65
 
 **진행 상황**: 128 / 973
 
-← **이전**: [127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)
-**다음**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) →
+<- **이전**: [127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)
+**다음**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) ->
 
 ---

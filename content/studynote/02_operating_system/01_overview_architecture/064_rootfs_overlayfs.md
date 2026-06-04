@@ -31,11 +31,11 @@ OverlayFS는 이 루트 위에 읽기 전용 계층과 [쓰기](/knowledge-base/
 
 ```text
 lowerdir (read-only)
-  ↓
+  v
 overlayfs
-  ↑
+  ^
 upperdir (writable)
-  ↓
+  v
 merged view
 ```
 
@@ -103,11 +103,11 @@ OverlayFS 덕분에 [컨테이너](/knowledge-base/studynote/04_software_enginee
 
 ```text
 Boot Process
-  ↓
+  v
 RootFS
-  ↓
+  v
 Mount / OverlayFS
-  ↓
+  v
 Container Image Layer
 ```
 
@@ -117,11 +117,11 @@ Container Image Layer
 
 ```text
 rootfs
-  ↓
+  v
 overlayfs
-  ↓
+  v
 copy-on-write
-  ↓
+  v
 container layers
 ```
 
@@ -139,7 +139,7 @@ container layers
 
 **진행 상황**: 64 / 800
 
-← **이전**: [63. 도커 (Docker) 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)
-**다음**: [65. 시스템 콜 래퍼 (System Call Wrapper)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/065_system_call_wrapper/) →
+<- **이전**: [63. 도커 (Docker) 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)
+**다음**: [65. 시스템 콜 래퍼 (System Call Wrapper)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/065_system_call_wrapper/) ->
 
 ---

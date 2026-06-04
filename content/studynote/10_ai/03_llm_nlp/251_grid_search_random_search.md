@@ -40,12 +40,12 @@ tags = ["studynote-ai"]
 | [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) | K 값 | 작을수록 복잡한 경계 |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 하이퍼파라미터는 오븐 온도와 굽는 시간 같은 것이다. 반죽([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 레시피(모델 구조)가 같아도 온도와 시간(하이퍼파라미터)을 잘 맞춰야 맛있는 빵(좋은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))이 나온다.
@@ -57,21 +57,21 @@ tags = ["studynote-ai"]
 ### 2.1 탐색 기법 비교 도식
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│            하이퍼파라미터 탐색 공간 비교                     │
-│                                                          │
-│  파라미터 A  │  그리드 서치      │  랜덤 서치              │
-│  (학습률)    │  ● ● ● ● ●      │  ●   ●   ●            │
-│  10⁻¹       │  ● ● ● ● ●      │      ● ●    ●         │
-│  10⁻²       │  ● ● ● ● ●      │  ●      ●   ●         │
-│  10⁻³       │  ● ● ● ● ●      │     ●    ●            │
-│  10⁻⁴       │  ● ● ● ● ●      │  ●   ●       ●        │
-│             └────────────────   └────────────────        │
-│              파라미터 B(깊이)     파라미터 B(깊이)          │
-│                                                          │
-│  그리드: 격자 모든 교점 탐색 → 완전 탐색                    │
-│  랜덤:   무작위 샘플링 → 같은 시간에 더 넓은 범위 탐색        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|            하이퍼파라미터 탐색 공간 비교                     |
+|                                                          |
+|  파라미터 A  |  그리드 서치      |  랜덤 서치              |
+|  (학습률)    |  ● ● ● ● ●      |  ●   ●   ●            |
+|  10⁻¹       |  ● ● ● ● ●      |      ● ●    ●         |
+|  10⁻^       |  ● ● ● ● ●      |  ●      ●   ●         |
+|  10⁻³       |  ● ● ● ● ●      |     ●    ●            |
+|  10⁻⁴       |  ● ● ● ● ●      |  ●   ●       ●        |
+|             +----------------   +----------------        |
+|              파라미터 B(깊이)     파라미터 B(깊이)          |
+|                                                          |
+|  그리드: 격자 모든 교점 탐색 -> 완전 탐색                    |
+|  랜덤:   무작위 샘플링 -> 같은 시간에 더 넓은 범위 탐색        |
++----------------------------------------------------------+
 ```
 
 ### 2.2 그리드 서치 (Grid Search)
@@ -83,8 +83,8 @@ tags = ["studynote-ai"]
 
 ```
 예시: LR = {0.001, 0.01, 0.1} × Depth = {3, 5, 7, 10} × λ = {0.1, 1.0}
-→ 3 × 4 × 2 = 24번 모델 학습 필요
-각 학습에 K=5 CV 적용 시 → 24 × 5 = 120번 학습
+-> 3 × 4 × 2 = 24번 모델 학습 필요
+각 학습에 K=5 CV 적용 시 -> 24 × 5 = 120번 학습
 ```
 
 ### 2.3 랜덤 서치 (Random Search)
@@ -108,7 +108,7 @@ tags = ["studynote-ai"]
 반복 2: 결과 기반 확률 모델(Gaussian Process) 업데이트
 반복 3: 획득 함수(Acquisition Function)로 탐색 지점 결정
 ...
-→ 탐색 이력이 쌓일수록 더 효율적으로 최적값 근사
+-> 탐색 이력이 쌓일수록 더 효율적으로 최적값 근사
 ```
 
 - **📢 섹션 요약 비유**: 그리드 서치는 지도의 모든 교차로를 다 방문하는 것이고, 랜덤 서치는 무작위 위치를 돌아다니는 것이다. 베이지안 최적화는 지금까지 좋은 곳이 발견된 동네 근처를 집중 탐색하는 부동산 투자 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
@@ -137,11 +137,11 @@ tags = ["studynote-ai"]
 하이퍼파라미터 튜닝 전체 프로세스:
 
 탐색 공간 정의
-→ Grid/Random/Bayesian 중 선택
-→ 각 후보에 K-Fold CV 적용
-→ CV 평균 성능 기준 최적 파라미터 선택
-→ 최적 파라미터로 전체 훈련 데이터 재학습
-→ 테스트 세트 최종 평가
+-> Grid/Random/Bayesian 중 선택
+-> 각 후보에 K-Fold CV 적용
+-> CV 평균 성능 기준 최적 파라미터 선택
+-> 최적 파라미터로 전체 훈련 데이터 재학습
+-> 테스트 세트 최종 평가
 ```
 
 - **📢 섹션 요약 비유**: 그리드 서치는 수능 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 모든 기출문제 유형을 빠짐없이 풀어보는 것이고, 랜덤 서치는 무작위로 여러 단원에서 골고루 풀어보는 것이다. 베이지안 최적화는 "이 단원에서 자꾸 틀리네, 집중 공략하자"는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
@@ -163,13 +163,13 @@ tags = ["studynote-ai"]
 
 ```
 좋은 탐색 공간:
-  학습률: [1e-5, 1e-1] (로그 스케일)  ← 수십 배 범위
+  학습률: [1e-5, 1e-1] (로그 스케일)  <- 수십 배 범위
   트리 깊이: {3, 5, 7, 10, 15}
   정규화: [1e-4, 1e2] (로그 스케일)
 
 나쁜 탐색 공간:
-  학습률: {0.001, 0.0011, 0.0012, ...} ← 너무 촘촘
-  트리 깊이: {3, 4} ← 너무 좁음
+  학습률: {0.001, 0.0011, 0.0012, ...} <- 너무 촘촘
+  트리 깊이: {3, 4} <- 너무 좁음
 ```
 
 ### 4.3 기술사 핵심 판단 포인트
@@ -209,7 +209,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)] → [최적화·운영 자동화]
+[데이터 전처리] -> [그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -224,7 +224,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 251 / 420
 
-← **이전**: [250. 교차 검증 (Cross-Validation)](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)
-**다음**: [252. 혼동 행렬 (Confusion Matrix)](/knowledge-base/studynote/10_ai/03_llm_nlp/252_confusion_matrix/) →
+<- **이전**: [250. 교차 검증 (Cross-Validation)](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)
+**다음**: [252. 혼동 행렬 (Confusion Matrix)](/knowledge-base/studynote/10_ai/03_llm_nlp/252_confusion_matrix/) ->
 
 ---

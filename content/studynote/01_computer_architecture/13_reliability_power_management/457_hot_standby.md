@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 핫 스탠바이가 왜 단순 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)보다 본질적으로 다른지 보여준다. 차이는 예비 장비의 존재 여부가 아니라, <strong>장애 전부터 준비를 얼마나 끝내 두었는가</strong>에 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            장애 대응 방식의 차이: 복구 준비 시점이 다르다           │
-├──────────────────────┬──────────────────────┬────────────────────────┤
-│ 구분                 │ 평상시 예비 장비 상태 │ 장애 후 필요한 추가 작업 │
-├──────────────────────┼──────────────────────┼────────────────────────┤
-│ 백업만 있는 구조     │ 꺼져 있거나 미구성     │ 부팅 + 복원 + 전환        │
-│ 콜드 스탠바이       │ 전원 OFF               │ 설치 + 복원 + 전환        │
-│ 웜 스탠바이         │ 일부 기동              │ 애플리케이션 완성 + 전환  │
-│ 핫 스탠바이         │ 서비스 가능 상태       │ 권한 전환 중심            │
-└──────────────────────┴──────────────────────┴────────────────────────┘
++----------------------------------------------------------------------+
+|            장애 대응 방식의 차이: 복구 준비 시점이 다르다           |
++----------------------+----------------------+------------------------+
+| 구분                 | 평상시 예비 장비 상태 | 장애 후 필요한 추가 작업 |
++----------------------+----------------------+------------------------+
+| 백업만 있는 구조     | 꺼져 있거나 미구성     | 부팅 + 복원 + 전환        |
+| 콜드 스탠바이       | 전원 OFF               | 설치 + 복원 + 전환        |
+| 웜 스탠바이         | 일부 기동              | 애플리케이션 완성 + 전환  |
+| 핫 스탠바이         | 서비스 가능 상태       | 권한 전환 중심            |
++----------------------+----------------------+------------------------+
 ```
 
 핫 스탠바이는 결국 시간을 돈으로 사는 전략이다. 예비 서버, 네트워크, 라이선스, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널을 평소에도 유지해야 하므로 비용은 크지만, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단절에 대한 사업 리스크를 줄이는 데는 매우 강력하다.
@@ -61,23 +61,23 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 장애 감지부터 절체까지의 논리를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               핫 스탠바이의 평상시와 절체 시퀀스                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ [Client]                                                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ [VIP / LB] ───────────────▶ [Active] ───────▶ 서비스 응답            │
-│    │                           │                                      │
-│    │                           ├──── Heartbeat ────▶ [Standby]        │
-│    │                           └──── Replication ──▶ [Standby]        │
-│    │                                                                  │
-│ 장애 감지                                                             │
-│    │                                                                  │
-│    ├──── Active 응답 중단                                             │
-│    ├──── 오케스트레이터가 fencing 수행                                │
-│    └──── VIP / 역할 전환 ─────────▶ [Standby → New Active]            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|               핫 스탠바이의 평상시와 절체 시퀀스                    |
++----------------------------------------------------------------------+
+| [Client]                                                            |
+|    |                                                                 |
+|    v                                                                 |
+| [VIP / LB] ----------------> [Active] --------> 서비스 응답            |
+|    |                           |                                      |
+|    |                           +---- Heartbeat -----> [Standby]        |
+|    |                           +---- Replication ---> [Standby]        |
+|    |                                                                  |
+| 장애 감지                                                             |
+|    |                                                                  |
+|    +---- Active 응답 중단                                             |
+|    +---- 오케스트레이터가 fencing 수행                                |
+|    +---- VIP / 역할 전환 ----------> [Standby -> New Active]            |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 까다로운 지점은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식이다. 동기식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 예비 장비가 기록을 받기 전까지 완료를 인정하지 않아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 가능성을 낮춘다. 반면 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘고, 예비 장비가 느려지면 주 장비 처리량도 함께 흔들린다. 비동기식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 유리하지만 장애 직전 변경분이 누락될 수 있다. 즉 핫 스탠바이는 "무조건 빠른 절체"가 아니라 <strong>정합성과 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 사이의 설계 선택</strong>이다.
@@ -160,21 +160,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 장비 운영
-    │
-    ▼
+    |
+    v
 이중화 (Redundancy)
-    │
-    ├── 콜드 스탠바이 (Cold Standby)
-    ├── 웜 스탠바이 (Warm Standby)
-    └── 핫 스탠바이 (Hot Standby)
-            │
-            ▼
+    |
+    +-- 콜드 스탠바이 (Cold Standby)
+    +-- 웜 스탠바이 (Warm Standby)
+    +-- 핫 스탠바이 (Hot Standby)
+            |
+            v
 하트비트 + 복제 + 자동 페일오버
-            │
-            ▼
+            |
+            v
 고가용성 (HA, High Availability) / 재해 복구 (DR, Disaster Recovery)
-            │
-            ▼
+            |
+            v
 액티브-액티브 · 클라우드 관리형 고가용성 아키텍처
 ```
 
@@ -192,7 +192,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 458 / 803
 
-← **이전**: [456. 이중화 (Dual Redundancy)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)
-**다음**: [458. 콜드 스탠바이 (Cold Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/) →
+<- **이전**: [456. 이중화 (Dual Redundancy)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)
+**다음**: [458. 콜드 스탠바이 (Cold Standby)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/) ->
 
 ---

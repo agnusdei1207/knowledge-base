@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 > **핵심 인사이트 3줄**
 > 1. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 Ward Cunningham(1992)이 제안한 개념으로, 더 나은 설계 대신 빠른 구현을 선택할 때 발생하는 미래 추가 비용의 은유다.
 > 2. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 의도적·비의도적으로 발생하며, 방치하면 이자(유지보수 비용 증가)가 쌓여 최초 부채보다 큰 비용이 된다.
-> 3. 측정(코드 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·SQALE 모델)→[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(4분면)→[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 로드맵→지속적 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 모니터링이 현대적 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리의 표준 사이클이다.
+> 3. 측정(코드 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·SQALE 모델)->[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(4분면)->[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 로드맵->지속적 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 모니터링이 현대적 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리의 표준 사이클이다.
 
 ---
 
@@ -33,13 +33,13 @@ tags = ["studynote-software-engineering"]
 
 ```
             의도적          비의도적
-무모한  │무모-의도: 출시   │무모-비의도: 레이어    │
-        │압박으로 설계    │가 뭔지 몰랐어         │
-        │포기 ("나중에")  │                      │
-────────┼────────────────┼──────────────────────┤
-신중한  │신중-의도: 배포  │신중-비의도: "이제는   │
-        │먼저, 결과 처리  │어떻게 해야 했는지    │
-        │는 나중에        │알겠다"               │
+무모한  |무모-의도: 출시   |무모-비의도: 레이어    |
+        |압박으로 설계    |가 뭔지 몰랐어         |
+        |포기 ("나중에")  |                      |
+--------+----------------+----------------------+
+신중한  |신중-의도: 배포  |신중-비의도: "이제는   |
+        |먼저, 결과 처리  |어떻게 해야 했는지    |
+        |는 나중에        |알겠다"               |
 ```
 
 📢 **섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 신용카드다 — 지금 당장 사고 나중에 갚지만, 방치하면 이자가 쌓여 원금보다 이자가 더 커진다.
@@ -51,7 +51,7 @@ tags = ["studynote-software-engineering"]
 | 유형            | 발생 원인                    | 예시                         |
 |---------------|-----------------------------|-----------------------------|
 | 코드 부채       | 중복 코드, 긴 메서드          | Copy-paste 프로그래밍         |
-| [설계 부채](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)       | 잘못된 아키텍처·패턴          | 모놀리식 → [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 미완료    |
+| [설계 부채](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)       | 잘못된 아키텍처·패턴          | 모놀리식 -> [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 미완료    |
 | 테스트 부채     | 테스트 커버리지 부족           | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만          |
 | 문서 부채       | 코드·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서 미작성          | 레거시 코드 설명 없음          |
 | 의존성 부채    | 구버전 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 방치         | Spring Boot 1.x 미업그레이드  |
@@ -81,12 +81,12 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
 
 ```
 SonarQube 대시보드:
-├── Bugs: 0 (결함)
-├── Vulnerabilities: 2 (보안 취약점)
-├── Code Smells: 128 (코드 악취)
-├── Technical Debt: 3d 2h (수정 소요 시간)
-├── Coverage: 72.3% (테스트 커버리지)
-└── Duplications: 8.1% (코드 중복)
++-- Bugs: 0 (결함)
++-- Vulnerabilities: 2 (보안 취약점)
++-- Code Smells: 128 (코드 악취)
++-- Technical Debt: 3d 2h (수정 소요 시간)
++-- Coverage: 72.3% (테스트 커버리지)
++-- Duplications: 8.1% (코드 중복)
 ```
 
 📢 **섹션 요약 비유**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 대시보드는 자동차 계기판이다 — 연료(커버리지), 엔진 경고등(버그), 배기가스(중복 코드)를 한눈에 보여준다.
@@ -98,16 +98,16 @@ SonarQube 대시보드:
 ### 부채 관리 사이클
 
 ```
-측정 → 분류 → 우선순위화 → 리팩토링 → 재측정
-  ↑                                          │
-  └──────────────────────────────────────────┘
+측정 -> 분류 -> 우선순위화 -> 리팩토링 -> 재측정
+  ^                                          |
+  +------------------------------------------+
             지속적 모니터링
 ```
 
 ### 보이 스카우트 규칙 (Boy Scout Rule)
 
 > "캠프장을 떠날 때는 도착했을 때보다 깨끗이 남겨라"
-> → 코드를 수정할 때마다 주변 코드를 조금씩 개선
+> -> 코드를 수정할 때마다 주변 코드를 조금씩 개선
 
 ### [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) vs 재구축
 
@@ -127,10 +127,10 @@ SonarQube 대시보드:
 ### [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)·CD 파이프라인 통합
 
 ```
-코드 커밋 → SonarQube SAST → 기술 부채 증가 감지 → PR 차단
-               ↓
+코드 커밋 -> SonarQube SAST -> 기술 부채 증가 감지 -> PR 차단
+               v
          SQALE 지수 임계값 초과 시 빌드 실패
-               ↓
+               v
          자동 리팩토링 제안 (AI 코드 리뷰)
 ```
 
@@ -147,23 +147,23 @@ SonarQube 대시보드:
 
 ```
 기술 부채 (Technical Debt)
-├── 분류 (Fowler 4분면)
-│   ├── 의도적·무모
-│   ├── 의도적·신중
-│   ├── 비의도적·무모
-│   └── 비의도적·신중
-├── 측정 도구
-│   ├── SonarQube (코드 메트릭)
-│   ├── SQALE 모델 (수리 시간 기반)
-│   └── CodeClimate
-├── 관리 전략
-│   ├── 보이 스카우트 규칙
-│   ├── 리팩토링 로드맵
-│   └── ADR (Architecture Decision Record)
-└── 관련 개념
-    ├── 코드 악취 (Code Smell)
-    ├── 소프트웨어 엔트로피
-    └── 지속적 리팩토링
++-- 분류 (Fowler 4분면)
+|   +-- 의도적·무모
+|   +-- 의도적·신중
+|   +-- 비의도적·무모
+|   +-- 비의도적·신중
++-- 측정 도구
+|   +-- SonarQube (코드 메트릭)
+|   +-- SQALE 모델 (수리 시간 기반)
+|   +-- CodeClimate
++-- 관리 전략
+|   +-- 보이 스카우트 규칙
+|   +-- 리팩토링 로드맵
+|   +-- ADR (Architecture Decision Record)
++-- 관련 개념
+    +-- 코드 악취 (Code Smell)
+    +-- 소프트웨어 엔트로피
+    +-- 지속적 리팩토링
 ```
 
 ---
@@ -171,23 +171,23 @@ SonarQube 대시보드:
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              기술 부채 개념 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1992년       │ Cunningham 제안    │ 금융 부채 은유 최초 도입     │
-│ 1999년       │ Fowler 코드 악취   │ 리팩토링 기법 체계화         │
-│ 2009년       │ SQALE 모델 제안    │ 기술 부채 정량화 방법론      │
-│ 2013년       │ SonarQube 보급     │ CI/CD 통합 자동 측정         │
-│ 2018년       │ ADR 실천 확산      │ 의도적 부채 투명 관리        │
-│ 2020년대     │ AI 코드 리뷰       │ GitHub Copilot 등 자동 탐지  │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              기술 부채 개념 발전 흐름                            |
++--------------+--------------------+-----------------------------+
+| 1992년       | Cunningham 제안    | 금융 부채 은유 최초 도입     |
+| 1999년       | Fowler 코드 악취   | 리팩토링 기법 체계화         |
+| 2009년       | SQALE 모델 제안    | 기술 부채 정량화 방법론      |
+| 2013년       | SonarQube 보급     | CI/CD 통합 자동 측정         |
+| 2018년       | ADR 실천 확산      | 의도적 부채 투명 관리        |
+| 2020년대     | AI 코드 리뷰       | GitHub Copilot 등 자동 탐지  |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-기술 부채 → 측정(SQALE) → 분류(4분면) → 리팩토링 → SonarQube
-    ↓              ↓              ↓             ↓
+기술 부채 -> 측정(SQALE) -> 분류(4분면) -> 리팩토링 -> SonarQube
+    v              v              v             v
 빠른 구현     수리 시간     의도적/비의도  코드 개선
-    ↓
-소프트웨어 노후화 → 레거시 마이그레이션 (5R 전략)
+    v
+소프트웨어 노후화 -> 레거시 마이그레이션 (5R 전략)
 ```
 
 ---
@@ -204,7 +204,7 @@ SonarQube 대시보드:
 
 **진행 상황**: 33 / 973
 
-← **이전**: [소프트웨어 노후화 (Software Obsolescence)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/)
-**다음**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/) →
+<- **이전**: [소프트웨어 노후화 (Software Obsolescence)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/)
+**다음**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/) ->
 
 ---

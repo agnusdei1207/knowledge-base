@@ -26,18 +26,18 @@ SCT (Signed Certificate Timestamp)는 [CT](/knowledge-base/studynote/14_data_eng
 아래 그림은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서명만으로는 충분하지 않고, 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 대한 증빙이 왜 추가로 필요한지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            SCT의 필요성: 유효한 서명만으로는 은닉 발급을 막기 어려움   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Certificate from CA                                                  │
-│      │                                                               │
-│      ├─ CT 증빙 없음 ─────────────▶ 은닉 발급 탐지 어려움              │
-│      │                                                               │
-│      └─ SCT 포함 ────────────────▶ Browser can require public trail   │
-│                                        │                              │
-│                                        ▼                              │
-│                              Monitor / Auditor can inspect            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            SCT의 필요성: 유효한 서명만으로는 은닉 발급을 막기 어려움   |
++----------------------------------------------------------------------+
+| Certificate from CA                                                  |
+|      |                                                               |
+|      +- CT 증빙 없음 --------------> 은닉 발급 탐지 어려움              |
+|      |                                                               |
+|      +- SCT 포함 -----------------> Browser can require public trail   |
+|                                        |                              |
+|                                        v                              |
+|                              Monitor / Auditor can inspect            |
++----------------------------------------------------------------------+
 ```
 
 즉 SCT는 인증서를 더 강하게 암호화하는 장치가 아니라, 발급 과정을 더 투명하게 만드는 장치다. 보안의 초점이 "누가 서명했는가"에서 "그 발급을 숨길 수 있는가"까지 확장된 결과라고 볼 수 있다.
@@ -48,7 +48,7 @@ SCT (Signed Certificate Timestamp)는 [CT](/knowledge-base/studynote/14_data_eng
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SCT의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 흐름은 보통 `사전 인증서 생성 → CT 로그 제출 → SCT 수신 → 인증서에 포함 또는 별도 전달 → 브라우저 검증` 순서로 이뤄진다. CA는 최종 인증서를 만들기 전에 사전 인증서를 신뢰된 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 제출하고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이를 접수했다는 서명된 SCT를 돌려준다. 이후 CA나 서버는 이 SCT를 X.509 인증서 확장 필드에 넣거나, 전송 계층 보안 ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 확장 또는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링 ([OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/)) 응답으로 전달한다.
+SCT의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 흐름은 보통 `사전 인증서 생성 -> CT 로그 제출 -> SCT 수신 -> 인증서에 포함 또는 별도 전달 -> 브라우저 검증` 순서로 이뤄진다. CA는 최종 인증서를 만들기 전에 사전 인증서를 신뢰된 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 제출하고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이를 접수했다는 서명된 SCT를 돌려준다. 이후 CA나 서버는 이 SCT를 X.509 인증서 확장 필드에 넣거나, 전송 계층 보안 ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 확장 또는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링 ([OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/)) 응답으로 전달한다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -61,15 +61,15 @@ SCT의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/
 아래 그림은 SCT가 "인증서가 완성된 뒤 덧붙는 메모"가 아니라, 발급 파이프라인 중간에 얻어지는 증명이라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   SCT 생성과 전달 흐름                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA ── create precertificate ──▶ CT Log                               │
-│ CA ◀────── SCT (signed promise) ────── CT Log                        │
-│ CA ── embed SCT in cert / attach via TLS or OCSP ──▶ Web Server      │
-│ Web Server ── certificate + SCT ──▶ Browser                          │
-│ Browser ── verify log signature / policy ──▶ Allow or reject         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   SCT 생성과 전달 흐름                               |
++----------------------------------------------------------------------+
+| CA -- create precertificate ---> CT Log                               |
+| CA <------- SCT (signed promise) ------ CT Log                        |
+| CA -- embed SCT in cert / attach via TLS or OCSP ---> Web Server      |
+| Web Server -- certificate + SCT ---> Browser                          |
+| Browser -- verify log signature / policy ---> Allow or reject         |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 기술적 포인트는 SCT가 "이미 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 완전히 포함되었다"는 증명은 아니라는 점이다. 정확히는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 정해진 MMD 안에 포함하겠다고 서명한 약속이며, 이후 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자 (Auditor)가 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 반영 여부와 일관성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 따라서 SCT는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 브라우저 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 돌아갈 때 의미가 완성된다.
@@ -155,18 +155,18 @@ SCT가 정착되면 웹 인증서 생태계는 훨씬 더 투명해진다. CA의
 
 ```text
 CA 중심의 폐쇄적 발급 신뢰
-    │
-    ▼
+    |
+    v
 오발급 사고와 은닉 발급 문제
-    │
-    ▼
+    |
+    v
 인증서 투명성 (CT, Certificate Transparency)
-    │
-    ├─ CT 로그 서버
-    ├─ SCT (Signed Certificate Timestamp)
-    └─ 모니터링 · 감사
-    │
-    ▼
+    |
+    +- CT 로그 서버
+    +- SCT (Signed Certificate Timestamp)
+    +- 모니터링 · 감사
+    |
+    v
 브라우저 정책 강제 · 자동화된 발급 검증 · 공개 감시 강화
 ```
 
@@ -184,7 +184,7 @@ CA 중심의 폐쇄적 발급 신뢰
 
 **진행 상황**: 220 / 1108
 
-← **이전**: [166. CT 로그 서버 — Google/Rustproof 등 다수 운영](/knowledge-base/studynote/09_security/04_endpoint_security/166_ct_log_server/)
-**다음**: [168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/) →
+<- **이전**: [166. CT 로그 서버 — Google/Rustproof 등 다수 운영](/knowledge-base/studynote/09_security/04_endpoint_security/166_ct_log_server/)
+**다음**: [168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/) ->
 
 ---

@@ -36,28 +36,28 @@ NIST (National Institute of Standards and Technology) [SP](/knowledge-base/study
 아래 그림은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 의사결정 루프를 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Zero Trust decision loop                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Subject: user + device + workload                                   │
-│        │ request                                                    │
-│        ▼                                                            │
-│ PEP (Policy Enforcement Point)                                      │
-│        │ ask decision                                               │
-│        ▼                                                            │
-│ PDP (Policy Decision Point)                                         │
-│   ├─ PE (Policy Engine): risk / context evaluation                  │
-│   └─ PA (Policy Administrator): token / session issue               │
-│        ▲                                                            │
-│        │ signals                                                    │
-│ IdP + MFA | device posture | threat intel | data sensitivity        │
-│        │                                                            │
-│        ▼                                                            │
-│ allow / deny / step-up auth / short-lived session                   │
-│        │                                                            │
-│        ▼                                                            │
-│ resource-specific access + continuous re-evaluation                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Zero Trust decision loop                                            |
++----------------------------------------------------------------------+
+| Subject: user + device + workload                                   |
+|        | request                                                    |
+|        v                                                            |
+| PEP (Policy Enforcement Point)                                      |
+|        | ask decision                                               |
+|        v                                                            |
+| PDP (Policy Decision Point)                                         |
+|   +- PE (Policy Engine): risk / context evaluation                  |
+|   +- PA (Policy Administrator): token / session issue               |
+|        ^                                                            |
+|        | signals                                                    |
+| IdP + MFA | device posture | threat intel | data sensitivity        |
+|        |                                                            |
+|        v                                                            |
+| allow / deny / step-up auth / short-lived session                   |
+|        |                                                            |
+|        v                                                            |
+| resource-specific access + continuous re-evaluation                 |
++----------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 "로그인 한 번으로 끝나지 않는다"는 점이다. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 중에도 기기 보안 상태가 나빠지거나, 위치가 급변하거나, 이상 행위가 감지되면 접근을 다시 평가할 수 있어야 한다. 그래서 ZTA는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))뿐 아니라 권한 부여([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), 세분화([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수명 관리, 지속 관찰(Telemetry)을 한 묶음으로 본다.
@@ -160,20 +160,20 @@ ZTA를 강하게 만드는 핵심 문장은 "최소 권한([Least Privilege](/kn
 
 ```text
 경계 기반 보안
-    │
-    ▼
+    |
+    v
 원격근무 · SaaS · 클라우드 확산
-    │
-    ▼
+    |
+    v
 내부망 과신의 한계 노출
-    │
-    ▼
+    |
+    v
 MFA + Device Posture + Least Privilege
-    │
-    ▼
+    |
+    v
 PEP / PDP 기반 Zero Trust Architecture
-    │
-    ▼
+    |
+    v
 ZTNA + Micro-Segmentation + Continuous Telemetry
 ```
 
@@ -191,7 +191,7 @@ ZTNA + Micro-Segmentation + Continuous Telemetry
 
 **진행 상황**: 298 / 587
 
-← **이전**: [183. 망연계 시스템 (Network Linkage System)](/knowledge-base/studynote/12_it_management/05_security_compliance/183_network_linkage_system/)
-**다음**: [185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)](/knowledge-base/studynote/12_it_management/05_security_compliance/185_access_control_mac_dac_rbac_abac/) →
+<- **이전**: [183. 망연계 시스템 (Network Linkage System)](/knowledge-base/studynote/12_it_management/05_security_compliance/183_network_linkage_system/)
+**다음**: [185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)](/knowledge-base/studynote/12_it_management/05_security_compliance/185_access_control_mac_dac_rbac_abac/) ->
 
 ---

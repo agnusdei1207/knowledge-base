@@ -27,25 +27,25 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 **💡 비유**: 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(OS)는 사고 날 때마다 에어백을 터트려 목숨을 살려주는 안전장치다. 하지만 매일 교차로에서 사고가 나고 매일 에어백이 터진다면? 타는 사람은 미친다([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 결국 운전자가 내려서 그 교차로의 신호등 체계를 아예 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시켜 고쳐놔야(코드 디버깅 및 패치) 에어백이 터질 일 자체가 영원히 사라진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         [스레드 덤프]에서 동기화 결함 범인 잡아내는 추리 과정    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  서버가 멈췄다 (행, Hang). 개발자가 강제로 스레드 덤프 추출!     │
-│                                                                  │
-│  [ Thread-1의 검시관 기록지 ]                                    │
-│  - 상태: BLOCKED (기절함)                                        │
-│  - 손에 쥔 것: locked <0x00A> (DB 락 A는 지가 꽉 쥐고 있음)      │
-│  - 기다리는 것: waiting to lock <0x00B> (B를 달라고 조름)        │
-│                                                                  │
-│  [ Thread-2의 검시관 기록지 ]                                    │
-│  - 상태: BLOCKED (기절함)                                        │
-│  - 손에 쥔 것: locked <0x00B> (DB 락 B는 지가 꽉 쥐고 있음)      │
-│  - 기다리는 것: waiting to lock <0x00A> (A를 달라고 조름)        │
-│                                                                  │
-│  ▶ 발견 유레카!: "A를 쥐고 B를 패는 놈"과 "B를 쥐고 A를 패는 놈" │
-│     이 딱 마주쳤구나. 이것이 완벽한 데드락 사이클(환형 대기)!    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         [스레드 덤프]에서 동기화 결함 범인 잡아내는 추리 과정    |
++------------------------------------------------------------------+
+|                                                                  |
+|  서버가 멈췄다 (행, Hang). 개발자가 강제로 스레드 덤프 추출!     |
+|                                                                  |
+|  [ Thread-1의 검시관 기록지 ]                                    |
+|  - 상태: BLOCKED (기절함)                                        |
+|  - 손에 쥔 것: locked <0x00A> (DB 락 A는 지가 꽉 쥐고 있음)      |
+|  - 기다리는 것: waiting to lock <0x00B> (B를 달라고 조름)        |
+|                                                                  |
+|  [ Thread-2의 검시관 기록지 ]                                    |
+|  - 상태: BLOCKED (기절함)                                        |
+|  - 손에 쥔 것: locked <0x00B> (DB 락 B는 지가 꽉 쥐고 있음)      |
+|  - 기다리는 것: waiting to lock <0x00A> (A를 달라고 조름)        |
+|                                                                  |
+|  -> 발견 유레카!: "A를 쥐고 B를 패는 놈"과 "B를 쥐고 A를 패는 놈" |
+|     이 딱 마주쳤구나. 이것이 완벽한 데드락 사이클(환형 대기)!    |
++------------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: 이 기법은 의사(엔지니어)가 엑스레이([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)를 쫙 찍어놓고 "여기 이 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1)랑 저 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2)가 서로 반대 방향으로 엇갈려 껴버렸네!" 하고 100% 확실한 X자 버그의 원점을 핀셋으로 집어내는 검시 과정입니다.
@@ -59,8 +59,8 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 보통 개발자의 '락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 순서 엇갈림'에서 폭발한다.
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a> Reversal (락 점유 순서 위반)</strong>:
-   - [A개발자]: 함수 짜면서 `Lock(User)` → `Lock(Point)` 순서로 짰다.
-   - [B개발자]: 딴 파일에 함수 짜면서 `Lock(Point)` → `Lock(User)` 순서로 짰다.
+   - [A개발자]: 함수 짜면서 `Lock(User)` -> `Lock(Point)` 순서로 짰다.
+   - [B개발자]: 딴 파일에 함수 짜면서 `Lock(Point)` -> `Lock(User)` 순서로 짰다.
    - **타파**: 사내 코딩 컨벤션에 무조건 "User 먼저 락 잡고, 그다음 Point 락 잡아라" (락 획득 순서 강제화 = [Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방) 를 박아버려 소스 레벨에서 박멸한다.
 2. **콜백 루프 (Callback Circular Dependency)**:
    - 클래스 A가 락을 쥔 채로 남이 만든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B의 함수(Callback)를 빙글 호출했는데, 하필 B도 내부에서 락을 쥐고 A로 되돌려 쏘는 구조.
@@ -121,12 +121,12 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 ```text
 [라이브락 (Livelock)과 교착 상태의 차이점]
-    │
-    ▼
+    |
+    v
 [동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)]
-    │
-    ├──▶ [락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
-    └──▶ [분산 시스템에서의 교착 상태 탐지]
+    |
+    +---> [락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
+    +---> [분산 시스템에서의 교착 상태 탐지]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -143,7 +143,7 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 **진행 상황**: 316 / 800
 
-← **이전**: [315. 라이브락 (Livelock)과 교착 상태의 차이점](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
-**다음**: [317. 락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) →
+<- **이전**: [315. 라이브락 (Livelock)과 교착 상태의 차이점](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
+**다음**: [317. 락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) ->
 
 ---

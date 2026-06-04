@@ -26,16 +26,16 @@ tags = ["studynote-security"]
 이 그림은 기존 OCSP와 스테이플링의 차이를 단순화해 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              Direct OCSP vs stapled OCSP response               │
-├──────────────────────────────────────────────────────────────────┤
-│ Direct OCSP:                                                    │
-│ Browser ──▶ Server ──▶ Browser ──▶ CA responder                 │
-│                                                                  │
-│ Stapling:                                                        │
-│ Server ──▶ CA responder  (pre-fetch)                            │
-│ Browser ──▶ Server + stapled OCSP response                      │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              Direct OCSP vs stapled OCSP response               |
++------------------------------------------------------------------+
+| Direct OCSP:                                                    |
+| Browser ---> Server ---> Browser ---> CA responder                 |
+|                                                                  |
+| Stapling:                                                        |
+| Server ---> CA responder  (pre-fetch)                            |
+| Browser ---> Server + stapled OCSP response                      |
++------------------------------------------------------------------+
 ```
 
 즉 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링의 핵심은 브라우저가 매번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화를 거는 구조를, 서버가 미리 서류를 떼어 와 제시하는 구조로 바꾼 데 있다. 덕분에 인증서 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 더 빠르고 조용해진다.
@@ -57,15 +57,15 @@ tags = ["studynote-security"]
 아래 흐름은 스테이플링이 실제 핸드셰이크에 어떻게 끼어드는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  Stapled response in handshake                  │
-├──────────────────────────────────────────────────────────────────┤
-│ 1) Server fetches OCSP response from CA and caches it           │
-│ 2) ClientHello + status_request                                 │
-│ 3) ServerHello + certificate + stapled OCSP response            │
-│ 4) Client verifies signature, cert match, thisUpdate/nextUpdate │
-│ 5) TLS session continues                                         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                  Stapled response in handshake                  |
++------------------------------------------------------------------+
+| 1) Server fetches OCSP response from CA and caches it           |
+| 2) ClientHello + status_request                                 |
+| 3) ServerHello + certificate + stapled OCSP response            |
+| 4) Client verifies signature, cert match, thisUpdate/nextUpdate |
+| 5) TLS session continues                                         |
++------------------------------------------------------------------+
 ```
 
 여기서 중요한 보안 포인트는 서버가 응답 내용을 마음대로 조작할 수 없다는 점이다. [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 또는 위임된 응답자에 의해 전자서명되어 있으므로, 서버는 그 서명된 답변을 전달할 뿐이다. 다만 응답이 오래되었거나 누락되면, 스테이플링을 지원해도 기대한 보안 효과가 떨어질 수 있다.
@@ -141,17 +141,17 @@ tags = ["studynote-security"]
 
 ```text
 인증서 해지 검증 필요
-    │
-    ▼
+    |
+    v
 OCSP (Online Certificate Status Protocol)
-    │
-    ▼
+    |
+    v
 OCSP 스테이플링 (OCSP Stapling)
-    │
-    ▼
+    |
+    v
 Must-Staple · 자동 갱신 · 모니터링
-    │
-    ▼
+    |
+    v
 짧은 수명 인증서 · CRLite · 고도화된 검증 체계
 ```
 
@@ -169,7 +169,7 @@ Must-Staple · 자동 갱신 · 모니터링
 
 **진행 상황**: 217 / 1108
 
-← **이전**: [163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의](/knowledge-base/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/)
-**다음**: [165. CT (Certificate Transparency) — 인증서 발급 공개 로그](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/) →
+<- **이전**: [163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의](/knowledge-base/studynote/09_security/04_endpoint_security/163_ocsp_online_certificate_status_protocol/)
+**다음**: [165. CT (Certificate Transparency) — 인증서 발급 공개 로그](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/) ->
 
 ---

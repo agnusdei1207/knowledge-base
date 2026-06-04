@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 직관적으로 매력적인지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Write-Update의 기본 생각: "지우지 말고 같이 최신값으로 맞춘다" │
-├──────────────────────────────────────────────────────────────────────┤
-│ 코어 A 캐시 : X = 5                                                  │
-│ 코어 B 캐시 : X = 5                                                  │
-│ 메모리      : X = 5                                                  │
-│                                                                      │
-│ 1) 코어 A가 X를 10으로 씀                                            │
-│ 2) 인터커넥트가 "X=10" 데이터를 공유자에게 전달                      │
-│ 3) 코어 B 캐시도 X = 10으로 즉시 갱신                                │
-│ 4) 코어 B가 곧바로 읽으면 Cache Miss 없이 최신값 사용                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        Write-Update의 기본 생각: "지우지 말고 같이 최신값으로 맞춘다" |
++----------------------------------------------------------------------+
+| 코어 A 캐시 : X = 5                                                  |
+| 코어 B 캐시 : X = 5                                                  |
+| 메모리      : X = 5                                                  |
+|                                                                      |
+| 1) 코어 A가 X를 10으로 씀                                            |
+| 2) 인터커넥트가 "X=10" 데이터를 공유자에게 전달                      |
+| 3) 코어 B 캐시도 X = 10으로 즉시 갱신                                |
+| 4) 코어 B가 곧바로 읽으면 Cache Miss 없이 최신값 사용                |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "나중에 읽을 때 다시 가져오게 하지 말고, 지금 미리 최신본을 넣어 두자"는 선제 대응이다. 따라서 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 읽기 지역성(Locality)이 아니라 <strong>공유 읽기 타이밍</strong>을 잘 맞출 때 효과가 난다.
@@ -60,21 +60,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 한 번이 어떤 식으로 퍼지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Write-Update의 데이터 전파 경로                         │
-├──────────────────────────────────────────────────────────────────────┤
-│  코어 A                인터커넥트                 코어 B / 코어 C     │
-│  ┌─────────┐           ┌──────────────┐           ┌──────────────┐    │
-│  │ write X │ ───────▶ │ Update(X=10) │ ───────▶ │ line X := 10  │    │
-│  └─────────┘           └──────────────┘           └──────────────┘    │
-│         │                         └────────────────▶ line X := 10      │
-│         └─────────────────────────────────────────────────────────────▶ │
-│                                                                      │
-│ 결과: 다른 코어는 invalid가 아니라 "최신 공유본"을 계속 유지          │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              Write-Update의 데이터 전파 경로                         |
++----------------------------------------------------------------------+
+|  코어 A                인터커넥트                 코어 B / 코어 C     |
+|  +---------+           +--------------+           +--------------+    |
+|  | write X | --------> | Update(X=10) | --------> | line X := 10  |    |
+|  +---------+           +--------------+           +--------------+    |
+|         |                         +-----------------> line X := 10      |
+|         +--------------------------------------------------------------> |
+|                                                                      |
+| 결과: 다른 코어는 invalid가 아니라 "최신 공유본"을 계속 유지          |
++----------------------------------------------------------------------+
 ```
 
-문제는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 한 번으로 끝나지 않는 경우다. `X=1 → X=2 → X=3`처럼 같은 라인을 연속 수정하면 매번 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전파된다. [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)은 첫 한 번만 다른 복사본을 끊어 놓으면 이후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 조용히 이어 갈 수 있지만, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>모든 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>마다 통신 비용</strong>이 발생한다.
+문제는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 한 번으로 끝나지 않는 경우다. `X=1 -> X=2 -> X=3`처럼 같은 라인을 연속 수정하면 매번 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전파된다. [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)은 첫 한 번만 다른 복사본을 끊어 놓으면 이후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 조용히 이어 갈 수 있지만, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>모든 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>마다 통신 비용</strong>이 발생한다.
 
 이 특성 때문에 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "읽기 지연을 줄이는 대신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 대역폭을 소비하는 구조"로 이해해야 한다. 특히 캐시 라인 크기가 64바이트이고 실제 바뀌는 필드는 몇 바이트뿐이라면, 부분 갱신 처리조차 인터커넥트 설계를 복잡하게 만든다.
 
@@ -150,19 +150,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 데이터 읽기 문제
-    │
-    ▼
+    |
+    v
 캐시 일관성 (Cache Coherence)
-    │
-    ├──▶ 갱신 정책 (Write-Update)
-    │         │
-    │         ├──▶ Dragon 프로토콜 (Dragon Protocol)
-    │         └──▶ 읽기 지연 최소화 지향
-    │
-    └──▶ 무효화 정책 (Write-Invalidate)
-              │
-              ├──▶ MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)
-              └──▶ 대역폭·확장성 중심 진화
+    |
+    +---> 갱신 정책 (Write-Update)
+    |         |
+    |         +---> Dragon 프로토콜 (Dragon Protocol)
+    |         +---> 읽기 지연 최소화 지향
+    |
+    +---> 무효화 정책 (Write-Invalidate)
+              |
+              +---> MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)
+              +---> 대역폭·확장성 중심 진화
 ```
 
 이 흐름은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 설계가 "최신값을 미리 보내는 길"과 "필요할 때 다시 가져오게 하는 길"로 갈라졌음을 보여준다.
@@ -179,7 +179,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 407 / 803
 
-← **이전**: [405. 무효화 정책 (Write-Invalidate)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)
-**다음**: [407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/407_mesi_protocol/) →
+<- **이전**: [405. 무효화 정책 (Write-Invalidate)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)
+**다음**: [407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/407_mesi_protocol/) ->
 
 ---

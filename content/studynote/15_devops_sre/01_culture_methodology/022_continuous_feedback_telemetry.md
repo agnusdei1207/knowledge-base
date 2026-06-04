@@ -39,22 +39,22 @@ tags = ["studynote-devops-sre"]
 피드백은 단순한 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)이 아니라, 개발(Plan) 단계로 돌아가는 화살표입니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback) ]│
-│                                                             │
-│   ┌────────┐          ┌────────┐          ┌────────┐        │
-│ ─▶│ Plan   │─────────▶│ Code   │─────────▶│ Build  │─ ─ ┐   │
-│ │ └────────┘          └────────┘          └────────┘    │   │
-│ │(피드백 반영 백로그)                                        ▼   │
-│ │                                               ┌────────┐  │
-│ │   [ 지속적 피드백 (Continuous Feedback) ] <---│ Test   │  │
-│ │            (Telemetry & APM 융합)             └────────┘  │
-│ │                                                   │       │
-│ │ ┌────────┐          ┌────────┐          ┌────────┐▼       │
-│ └─│ Monitor│◀─────────│ Operate│◀─────────│ Deploy │        │
-│   └────────┘          └────────┘          └────────┘        │
-│  (A/B 지표, 에러 로그)      (라이브 서비스)                        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ 데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback) ]|
+|                                                             |
+|   +--------+          +--------+          +--------+        |
+| -->| Plan   |---------->| Code   |---------->| Build  |- - +   |
+| | +--------+          +--------+          +--------+    |   |
+| |(피드백 반영 백로그)                                        v   |
+| |                                               +--------+  |
+| |   [ 지속적 피드백 (Continuous Feedback) ] <---| Test   |  |
+| |            (Telemetry & APM 융합)             +--------+  |
+| |                                                   |       |
+| | +--------+          +--------+          +--------+v       |
+| +-| Monitor|<----------| Operate|<----------| Deploy |        |
+|   +--------+          +--------+          +--------+        |
+|  (A/B 지표, 에러 로그)      (라이브 서비스)                        |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림 하단의 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)/Operate 영역에서 추출된 방대한 텔레메트리(Telemetry: 원격 측정) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가공되어, 다시 상단의 Plan 영역(기획자/개발자의 Jira 티켓)으로 꽂히는 이 상승 기류(화살표)가 바로 피드백 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 본질입니다.
@@ -143,17 +143,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 [CD (지속적 배포) — 프로덕션 릴리스]
-    │
-    ▼
+    |
+    v
 [Telemetry 수집 — 로그·메트릭·트레이스 (Observability)]
-    │
-    ▼
+    |
+    v
 [APM / SLI 측정 — 성능·신뢰성 실시간 모니터링]
-    │
-    ▼
-[피드백 알람 — 슬랙·PagerDuty → 개발팀 즉각 통지]
-    │
-    ▼
+    |
+    v
+[피드백 알람 — 슬랙·PagerDuty -> 개발팀 즉각 통지]
+    |
+    v
 [백로그 반영 (Plan 단계 귀환) — DORA 개선 루프 완성]
 ```
 배포 후 Telemetry가 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·SLI로 분석되고, 피드백 알람이 개발 백로그로 귀환하여 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 개선하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 무한 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 완성 흐름이다.
@@ -173,7 +173,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 22 / 373
 
-← **이전**: [21. 지속적 배포 (CD, Continuous Deployment) - 수동 승인조차 생략하고 테스트를 통과한 모든 코드를 프로덕션](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/021_continuous_deployment_cd/)
-**다음**: [23. DORA 배포 빈도 (DORA Deployment Frequency)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/023_dora_deployment_frequency/) →
+<- **이전**: [21. 지속적 배포 (CD, Continuous Deployment) - 수동 승인조차 생략하고 테스트를 통과한 모든 코드를 프로덕션](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/021_continuous_deployment_cd/)
+**다음**: [23. DORA 배포 빈도 (DORA Deployment Frequency)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/023_dora_deployment_frequency/) ->
 
 ---

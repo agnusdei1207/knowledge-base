@@ -19,9 +19,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-CPU는 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 올라갈수록 더 많은 일을 할 수 있지만, 동시에 더 많은 열을 낸다. 동적 소비전력은 대략 `P ≈ C × V² × f`에 비례하고, 온도가 올라가면 누설 전류도 증가해 추가 발열을 만든다. 그래서 냉각이 따라오지 못하는 순간 CPU는 단순히 "조금 느려지는" 수준이 아니라, 타이밍 오류와 열 폭주(Thermal Runaway) 위험 구간으로 빠르게 진입한다.
+CPU는 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 올라갈수록 더 많은 일을 할 수 있지만, 동시에 더 많은 열을 낸다. 동적 소비전력은 대략 `P ≈ C × V^ × f`에 비례하고, 온도가 올라가면 누설 전류도 증가해 추가 발열을 만든다. 그래서 냉각이 따라오지 못하는 순간 CPU는 단순히 "조금 느려지는" 수준이 아니라, 타이밍 오류와 열 폭주(Thermal Runaway) 위험 구간으로 빠르게 진입한다.
 
-이때 필요한 것이 바로 안전 모드 형태의 다운클럭킹이다. [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) (Maximum Junction [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/))가 보통 95~105°C 부근으로 설정된 현대 CPU는 이 경계 근처에 도달하면 운영체제의 의사와 무관하게 스스로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낮춘다. 목적은 벤치마크 점수 유지가 아니라, 실리콘, 패키지, 솔더 범프, 메인보드 전원부가 파괴되기 전에 시스템을 살아 있게 만드는 것이다.
+이때 필요한 것이 바로 안전 모드 형태의 다운클럭킹이다. [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) (Maximum Junction [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/))가 보통 95~105+C 부근으로 설정된 현대 CPU는 이 경계 근처에 도달하면 운영체제의 의사와 무관하게 스스로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낮춘다. 목적은 벤치마크 점수 유지가 아니라, 실리콘, 패키지, 솔더 범프, 메인보드 전원부가 파괴되기 전에 시스템을 살아 있게 만드는 것이다.
 
 - **📢 섹션 요약 비유**: 자동차 엔진이 과열될 때 운전자가 액셀을 밟아도 차가 스스로 출력을 줄여 엔진을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 비상 모드처럼, CPU도 너무 뜨거워지면 스스로 "천천히 달리기"를 선택한다.
 
@@ -29,7 +29,7 @@ CPU는 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CPU 안전 모드 다운클럭킹은 보통 <strong>온도 감지 → 임계값 비교 → <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 제한 → 냉각 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 여부 판단 → 필요 시 셧다운</strong> 흐름으로 작동한다. 코어 내부의 DTS (Digital Thermal Sensor)가 실시간으로 온도를 측정하고, TCC (Thermal Control Circuit)가 TjMax와의 차이를 계산한다. 임계점에 도달하면 먼저 터보 부스트를 해제하고 배수(Ratio)를 낮추며, 세대에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 인하, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), 듀티 사이클 modulation을 추가로 적용한다.
+CPU 안전 모드 다운클럭킹은 보통 <strong>온도 감지 -> 임계값 비교 -> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 제한 -> 냉각 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 여부 판단 -> 필요 시 셧다운</strong> 흐름으로 작동한다. 코어 내부의 DTS (Digital Thermal Sensor)가 실시간으로 온도를 측정하고, TCC (Thermal Control Circuit)가 TjMax와의 차이를 계산한다. 임계점에 도달하면 먼저 터보 부스트를 해제하고 배수(Ratio)를 낮추며, 세대에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 인하, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), 듀티 사이클 modulation을 추가로 적용한다.
 
 현대 CPU에서는 단순히 MHz 숫자만 내리는 것이 아니라, <strong>유효 스위칭 활동량 자체를 줄이는 것</strong>이 핵심이다. 그래서 어떤 세대는 배수를 크게 낮추고, 어떤 세대는 T-state 기반 클럭 modulation으로 실제 유효 동작 시간을 줄인다. 그래도 온도가 내려가지 않으면 PROCHOT# [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 플랫폼 전체에 전파되고, 최후에는 THERMTRIP#이 작동해 시스템 전원이 차단된다.
 
@@ -43,20 +43,20 @@ CPU 안전 모드 다운클럭킹은 보통 <strong>온도 감지 → 임계값 
 아래 그림은 다운클럭킹이 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조절 기능"이 아니라 "열을 줄이기 위한 단계적 브레이크"라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CPU 열 보호 단계의 시간 흐름                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 정상 부하                                                            │
-│   │                                                                  │
-│   ▼                                                                  │
-│ 온도 상승 ──▶ TjMax 근접 ──▶ TCC 활성화 ──▶ 배수 하향/터보 해제     │
-│                                   │                                  │
-│                                   ├── 온도 하강 성공 ─▶ 정상 복귀    │
-│                                   │                                  │
-│                                   └── 실패 ─▶ PROCHOT# 유지          │
-│                                                    │                 │
-│                                                    └── THERMTRIP#    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 CPU 열 보호 단계의 시간 흐름                        |
++----------------------------------------------------------------------+
+| 정상 부하                                                            |
+|   |                                                                  |
+|   v                                                                  |
+| 온도 상승 ---> TjMax 근접 ---> TCC 활성화 ---> 배수 하향/터보 해제     |
+|                                   |                                  |
+|                                   +-- 온도 하강 성공 --> 정상 복귀    |
+|                                   |                                  |
+|                                   +-- 실패 --> PROCHOT# 유지          |
+|                                                    |                 |
+|                                                    +-- THERMTRIP#    |
++----------------------------------------------------------------------+
 ```
 
 즉 안전 모드 다운클럭킹은 단순한 속도 감소가 아니라, <strong>열 예산을 넘은 CPU가 스스로 열 생산량을 줄이는 폐루프 제어</strong>다. 이 메커니즘이 있어야 팬 응답, 방열판 열전도, 냉각수 순환처럼 상대적으로 느린 물리 시스템이 뒤늦게라도 따라올 시간을 벌 수 있다.
@@ -132,17 +132,17 @@ CPU 클럭 다운클럭킹(안전 모드)의 기대효과는 명확하다. [성�
 
 ```text
 고정 클럭 시대
-    │
-    ▼
+    |
+    v
 DVFS 기반 효율 최적화
-    │
-    ▼
+    |
+    v
 TCC 기반 열 스로틀링
-    │
-    ▼
+    |
+    v
 PROCHOT# 기반 플랫폼 연동
-    │
-    ▼
+    |
+    v
 THERMTRIP# 포함 다단계 안전 보호
 ```
 
@@ -160,7 +160,7 @@ THERMTRIP# 포함 다단계 안전 보호
 
 **진행 상황**: 720 / 803
 
-← **이전**: [718. EDAC (Error Detection and Correction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/718_edac/)
-**다음**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/) →
+<- **이전**: [718. EDAC (Error Detection and Correction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/718_edac/)
+**다음**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/) ->
 
 ---

@@ -33,10 +33,10 @@ tags = ["studynote-network"]
 
 ```text
            Q
-           ↑
+           ^
       •    |    •
            |
-  •─────────┼─────────• → I
+  •---------+---------• -> I
            |
       •    |    •
 ```
@@ -118,17 +118,17 @@ tags = ["studynote-network"]
 
 ```text
 비트
-    │
-    ▼
+    |
+    v
 심볼 매핑
-    │
-    ▼
+    |
+    v
 I/Q 변조
-    │
-    ▼
+    |
+    v
 성상도
-    │
-    ▼
+    |
+    v
 EVM / SNR / BER 분석
 ```
 
@@ -146,7 +146,7 @@ EVM / SNR / BER 분석
 
 **진행 상황**: 53 / 1120
 
-← **이전**: [52. 고차 QAM (16-QAM, 64-QAM, 256-QAM, 1024-QAM)](/knowledge-base/studynote/03_network/01_data_communication/052_고차_QAM_16_64_256_1024/)
-**다음**: [54. 반송파 (Carrier Wave)](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) →
+<- **이전**: [52. 고차 QAM (16-QAM, 64-QAM, 256-QAM, 1024-QAM)](/knowledge-base/studynote/03_network/01_data_communication/052_고차_QAM_16_64_256_1024/)
+**다음**: [54. 반송파 (Carrier Wave)](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) ->
 
 ---

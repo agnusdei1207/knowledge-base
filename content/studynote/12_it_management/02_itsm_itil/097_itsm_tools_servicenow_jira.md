@@ -40,18 +40,18 @@ tags = ["studynote-it-management"]
 | <strong>셀프서비스 포털 및 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/">KEDB</a></strong> | 사용자 직접 해결 및 지식 축적 | "비밀번호 초기화" 같은 단순 문의를 FAQ (알려진 오류 DB)로 유도하여 IT 인력 개입 최소화 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 ITSM 플랫폼 프로세스 워크플로우              │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 포털 접속] ──▶ [이슈 접수/티켓 생성] ──▶ [SLA 타이머 시작] │
-│                                │                             │
-│       ┌────────────────────────┴──────────────┐              │
-│       ▼                                     ▼              │
-│ [알려진 장애 (KEDB)]                 [신규 장애/변경 요청]   │
-│ 자동 답변 제공 후 종료               담당자 할당 & CAB 승인  │
-│                                             │              │
-│  [사용자 만족도 평가] ◀── [해결 및 티켓 종료] ◀───────┘      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 ITSM 플랫폼 프로세스 워크플로우              |
++--------------------------------------------------------------+
+| [사용자 포털 접속] ---> [이슈 접수/티켓 생성] ---> [SLA 타이머 시작] |
+|                                |                             |
+|       +------------------------+--------------+              |
+|       v                                     v              |
+| [알려진 장애 (KEDB)]                 [신규 장애/변경 요청]   |
+| 자동 답변 제공 후 종료               담당자 할당 & CAB 승인  |
+|                                             |              |
+|  [사용자 만족도 평가] <--- [해결 및 티켓 종료] <--------+      |
++--------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 시스템이 사람(IT 담당자)을 감시하고 재촉한다는 점이다. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 타이머가 작동하여 일정 시간 내에 처리가 안 되면 워크플로우가 자동으로 상위 관리자를 호출한다.
@@ -117,21 +117,21 @@ tags = ["studynote-it-management"]
 
 ```text
 Help Desk (헬프 데스크) · 단순 IT 문의 응대
-    │
-    ▼
+    |
+    v
 Service Desk (서비스 데스크) · SPOC (단일 접점) 기반 통합 지원
-    │
-    ▼
+    |
+    v
 ITSM (IT Service Management) 플랫폼 · ITIL 프로세스 전면 자동화 (ServiceNow 등)
-    │
-    ▼
+    |
+    v
 ESM (Enterprise Service Management) · IT를 넘어 HR, 재무 등 전사 워크플로우 통합
-    │
-    ▼
+    |
+    v
 AIOps 및 AI 기반 ITSM · 티켓 자동 분류 및 인프라 자가 치유 (Self-healing)
 ```
 
-이 흐름도는 "단순 민원 처리 → IT 프로세스 자동화 → 전사 확장 → [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 자율화"로 진화하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 도구의 발전을 보여준다.
+이 흐름도는 "단순 민원 처리 -> IT 프로세스 자동화 -> 전사 확장 -> [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 자율화"로 진화하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 도구의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ AIOps 및 AI 기반 ITSM · 티켓 자동 분류 및 인프라 자가 치유 (Se
 
 **진행 상황**: 178 / 587
 
-← **이전**: [97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)](/knowledge-base/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/)
-**다음**: [98. 셀프 서비스 포털 (Self-Service Portal)](/knowledge-base/studynote/12_it_management/02_itsm_itil/098_self_service_portal/) →
+<- **이전**: [97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)](/knowledge-base/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/)
+**다음**: [98. 셀프 서비스 포털 (Self-Service Portal)](/knowledge-base/studynote/12_it_management/02_itsm_itil/098_self_service_portal/) ->
 
 ---

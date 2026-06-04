@@ -104,17 +104,17 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 ```text
 commit
-  │
-  ▼
+  |
+  v
 CI
-  │
-  ▼
+  |
+  v
 review
-  │
-  ▼
+  |
+  v
 merge
-  │
-  ▼
+  |
+  v
 shared responsibility
 ```
 
@@ -130,7 +130,7 @@ shared responsibility
 
 **진행 상황**: 75 / 973
 
-← **이전**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)
-**다음**: [76. 지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) →
+<- **이전**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)
+**다음**: [76. 지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ->
 
 ---

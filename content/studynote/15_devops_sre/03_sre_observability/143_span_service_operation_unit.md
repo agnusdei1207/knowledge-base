@@ -52,10 +52,10 @@ Span은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_re
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Dapper Span (Google, 2010)] → [Zipkin Span (2012)]
-    → [OpenTracing Span (2016)]
-    → [OTel Span (2019, 표준 통합)]
-    → [현재: Span Links — 비동기 Span 연결]
+[Dapper Span (Google, 2010)] -> [Zipkin Span (2012)]
+    -> [OpenTracing Span (2016)]
+    -> [OTel Span (2019, 표준 통합)]
+    -> [현재: Span Links — 비동기 Span 연결]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -69,7 +69,7 @@ Span은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_re
 
 **진행 상황**: 143 / 373
 
-← **이전**: [142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성](/knowledge-base/studynote/15_devops_sre/03_sre_observability/142_trace_request_context/)
-**다음**: [144. Context Propagation & Trace ID 전파 상세](/knowledge-base/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) →
+<- **이전**: [142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성](/knowledge-base/studynote/15_devops_sre/03_sre_observability/142_trace_request_context/)
+**다음**: [144. Context Propagation & Trace ID 전파 상세](/knowledge-base/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) ->
 
 ---

@@ -34,28 +34,28 @@ AIOps는 운영 환경에서 발생하는 대량의 [신호](/knowledge-base/stu
 AIOps는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집층, 분석층, 실행층으로 나뉜다. 먼저 관측성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 변경 이력을 모으고, [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/), [Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)) 같은 자산 정보까지 함께 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한다. 그 뒤 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)와 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) 모델이 사건 후보를 만들고, 우선순위를 정해 사람에게 알리거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 런북으로 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    AIOps 파이프라인: 탐지 → 판단 → 실행             │
-├──────────────────────────────────────────────────────────────────────┤
-│  데이터 수집                                                         │
-│  메트릭 · 로그 · 트레이스 · 이벤트 · 배포 이력 · CMDB               │
-│      │                                                               │
-│      ▼                                                               │
-│  정규화 / 상관 분석                                                  │
-│  시간축 정렬 · 서비스 관계 맵 · 중복 알람 묶기                      │
-│      │                                                               │
-│      ▼                                                               │
-│  이상 탐지 / 원인 추정                                               │
-│  정상 패턴 이탈 탐지 · 근접한 원인 후보 도출                        │
-│      │                                                               │
-│      ▼                                                               │
-│  조치 결정                                                           │
-│  사람 승인 요청 또는 자동 런북 실행                                 │
-│      │                                                               │
-│      ▼                                                               │
-│  결과 학습                                                           │
-│  실제 조치 결과를 다시 피드백해 모델과 룰 보정                      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    AIOps 파이프라인: 탐지 -> 판단 -> 실행             |
++----------------------------------------------------------------------+
+|  데이터 수집                                                         |
+|  메트릭 · 로그 · 트레이스 · 이벤트 · 배포 이력 · CMDB               |
+|      |                                                               |
+|      v                                                               |
+|  정규화 / 상관 분석                                                  |
+|  시간축 정렬 · 서비스 관계 맵 · 중복 알람 묶기                      |
+|      |                                                               |
+|      v                                                               |
+|  이상 탐지 / 원인 추정                                               |
+|  정상 패턴 이탈 탐지 · 근접한 원인 후보 도출                        |
+|      |                                                               |
+|      v                                                               |
+|  조치 결정                                                           |
+|  사람 승인 요청 또는 자동 런북 실행                                 |
+|      |                                                               |
+|      v                                                               |
+|  결과 학습                                                           |
+|  실제 조치 결과를 다시 피드백해 모델과 룰 보정                      |
++----------------------------------------------------------------------+
 ```
 
 | 기능 | 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 출력 가치 |
@@ -143,17 +143,17 @@ AIOps가 잘 자리 잡으면 중복 알람이 줄고, 인시던트 [식별](/kn
 
 ```text
 헬스 체크 · 기본 모니터링
-    │
-    ▼
+    |
+    v
 AIOps (이상 탐지 · 알람 상관 분석)
-    │
-    ▼
+    |
+    v
 APM · RUM · 합성 모니터링 데이터 결합
-    │
-    ▼
+    |
+    v
 서비스 메시 텔레메트리 · 운영 토폴로지 이해
-    │
-    ▼
+    |
+    v
 런북 기반 자동 복구 · 예측 운영 고도화
 ```
 
@@ -171,7 +171,7 @@ APM · RUM · 합성 모니터링 데이터 결합
 
 **진행 상황**: 161 / 373
 
-← **이전**: [160. 헬스 체크/프로브 (Health Check/Probes)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/160_health_check_probes_liveness_readiness/)
-**다음**: [162. APM (Application Performance Management)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) →
+<- **이전**: [160. 헬스 체크/프로브 (Health Check/Probes)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/160_health_check_probes_liveness_readiness/)
+**다음**: [162. APM (Application Performance Management)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) ->
 
 ---

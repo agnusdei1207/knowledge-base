@@ -166,12 +166,12 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ```text
 [비바 모델 (Biba Model)]
-    │
-    ▼
+    |
+    v
 [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-    │
-    ├──▶ [SELinux]
-    └──▶ [AppArmor]
+    |
+    +---> [SELinux]
+    +---> [AppArmor]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -190,7 +190,7 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 **진행 상황**: 582 / 800
 
-← **이전**: [581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)](/knowledge-base/studynote/02_operating_system/10_security/581_biba_model/)
-**다음**: [583. SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) →
+<- **이전**: [581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)](/knowledge-base/studynote/02_operating_system/10_security/581_biba_model/)
+**다음**: [583. SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) ->
 
 ---

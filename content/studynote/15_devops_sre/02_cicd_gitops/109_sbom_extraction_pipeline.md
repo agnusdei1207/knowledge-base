@@ -21,24 +21,24 @@ tags = ["studynote-devops-sre"]
 소프트웨어의 80~90%는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성된다. 직접 설치한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)뿐 아니라 그것이 끌어오는 하위 의존성(Transitive Dependency)까지 합치면 수백~수천 개에 달한다. [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) 사태에서 전 세계 기업이 "우리 시스템에 Log4j가 있는가?"라는 질문에 수주간 답하지 못한 것이 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화의 직접적 계기다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│              SBOM 추출 파이프라인 흐름도                │
-├───────────────────────────────────────────────────────┤
-│  [Source Code]  →  [Build Engine]  →  [SBOM Generator]│
-│  (pom, npm)       (Maven, npm)      (Syft, Trivy)    │
-│                                          │            │
-│                         ┌────────────────▼──────────┐ │
-│                         │ Standard SBOM Format      │ │
-│                         │ - SPDX (ISO 5962:2021)    │ │
-│                         │ - CycloneDX (OWASP)       │ │
-│                         └────────────┬──────────────┘ │
-│                                      │                │
-│                    ┌─────────────────▼──────────┐     │
-│                    │ CVE DB 대조 (취약점 스캔)    │     │
-│                    │ + VEX (악용 가능성 평가)     │     │
-│                    │ + Sigstore 서명 (무결성)     │     │
-│                    └─────────────────────────────┘     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|              SBOM 추출 파이프라인 흐름도                |
++-------------------------------------------------------+
+|  [Source Code]  ->  [Build Engine]  ->  [SBOM Generator]|
+|  (pom, npm)       (Maven, npm)      (Syft, Trivy)    |
+|                                          |            |
+|                         +----------------v----------+ |
+|                         | Standard SBOM Format      | |
+|                         | - SPDX (ISO 5962:2021)    | |
+|                         | - CycloneDX (OWASP)       | |
+|                         +------------+--------------+ |
+|                                      |                |
+|                    +-----------------v----------+     |
+|                    | CVE DB 대조 (취약점 스캔)    |     |
+|                    | + VEX (악용 가능성 평가)     |     |
+|                    | + Sigstore 서명 (무결성)     |     |
+|                    +-----------------------------+     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SBOM은 식품 뒷면의 <strong>성분표</strong>다. 나쁜 재료(취약점)가 발견되면 성분표를 보고 우리 과자가 안전한지 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
@@ -65,9 +65,9 @@ tags = ["studynote-devops-sre"]
 
 ### 3단 보안 결합
 
-1. <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a></strong>: "우리가 뭘 쓰고 있는가?" → 재고 파악
-2. **VEX (Vulnerability Exploitability eXchange)**: "취약하지만 우리 코드에서 실제 실행되는가?" → 오탐 제거
-3. **Sigstore/Cosign**: "이 SBOM은 위조되지 않았는가?" → [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보증
+1. <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a></strong>: "우리가 뭘 쓰고 있는가?" -> 재고 파악
+2. **VEX (Vulnerability Exploitability eXchange)**: "취약하지만 우리 코드에서 실제 실행되는가?" -> 오탐 제거
+3. **Sigstore/Cosign**: "이 SBOM은 위조되지 않았는가?" -> [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보증
 
 - **📢 섹션 요약 비유**: SBOM은 재료 목록, VEX는 "이 재료가 진짜 위험한가?" 판단, Sigstore는 목록 자체의 위조 방지 인감이다.
 
@@ -89,11 +89,11 @@ tags = ["studynote-devops-sre"]
 ### [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong>Syft/Trivy</strong>를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 빌드 스텝에 추가하여 매 빌드마다 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 2. **Full Inventory**: 직접 의존성뿐 아니라 Transitive Dependency까지 포함.
-3. **서명**: Cosign으로 SBOM에 디지털 서명 부착 → 배포 시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
+3. **서명**: Cosign으로 SBOM에 디지털 서명 부착 -> 배포 시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 4. **저장**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Registry에 SBOM을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지와 함께 Attestation으로 첨부.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>빌드 후 수동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 빌드 환경과 불일치하는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) → [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 0.
+- <strong>빌드 후 수동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 빌드 환경과 불일치하는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) -> [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 0.
 - <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>만 하고 스캔 미연동</strong>: 명세서를 만들어놓고 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 대조를 안 하면 의미 없음.
 
 ---
@@ -125,17 +125,17 @@ SBOM은 Google SLSA 프레임워크와 결합하여 빌드 전 과정의 [무결
 
 ```text
 [Log4Shell 사태 (2021.12) — 공급망 취약점 충격]
-    │
-    ▼
+    |
+    v
 [미 행정명령 EO 14028 (2021) — 연방 SW에 SBOM 의무화]
-    │
-    ▼
+    |
+    v
 [SPDX ISO 표준화 (2021) — ISO/IEC 5962:2021]
-    │
-    ▼
+    |
+    v
 [Sigstore + SLSA (2022~) — 빌드 무결성 + 서명 자동화]
-    │
-    ▼
+    |
+    v
 [현재: SBOM + VEX + SLSA 3단 결합이 DevSecOps 표준]
 ```
 
@@ -150,7 +150,7 @@ SBOM은 Google SLSA 프레임워크와 결합하여 빌드 전 과정의 [무결
 
 **진행 상황**: 109 / 373
 
-← **이전**: [108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)
-**다음**: [110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/) →
+<- **이전**: [108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)
+**다음**: [110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/) ->
 
 ---

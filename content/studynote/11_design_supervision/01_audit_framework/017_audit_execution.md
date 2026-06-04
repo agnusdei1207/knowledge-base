@@ -50,22 +50,22 @@ tags = ["design_supervision"]
 
 | 수집 기법 | 핵심 역할 | 내부 동작 메커니즘 / 대상 | 한계 및 극복 방안 |
 |:---|:---|:---|:---|
-| <strong>문서 검토 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a>)</strong> | 기준점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | RFP, 산출물(설계서), 테스트 결과서 대조 | [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 미흡 가능성 → 도구/시연 교차검증 |
-| **면담 (Interview)** | 맥락 및 의도 파악 | PM, PL, 아키텍트 대상 개방/폐쇄형 질의 | 주관적 편향 → 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| **관찰/시연 (Observation)** | 실제 작동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 사용자 UI 흐름, [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) 실행 참관 | 시연용 조작([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) → 직접 임의 테스트 요구 |
-| **도구 진단 (Tooling)** | 정량적/전수 검사 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(시큐어코딩), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부하 툴, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 툴 | 오탐(False Positive) 존재 → 수동 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
+| <strong>문서 검토 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a>)</strong> | 기준점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | RFP, 산출물(설계서), 테스트 결과서 대조 | [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 미흡 가능성 -> 도구/시연 교차검증 |
+| **면담 (Interview)** | 맥락 및 의도 파악 | PM, PL, 아키텍트 대상 개방/폐쇄형 질의 | 주관적 편향 -> 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| **관찰/시연 (Observation)** | 실제 작동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 사용자 UI 흐름, [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) 실행 참관 | 시연용 조작([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) -> 직접 임의 테스트 요구 |
+| **도구 진단 (Tooling)** | 정량적/전수 검사 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(시큐어코딩), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부하 툴, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 툴 | 오탐(False Positive) 존재 -> 수동 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
 
 이 다이어그램은 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기간(보통 1주~2주) 동안 감리원의 일일 작업 흐름을 나타냅니다.
 
 ```text
 [Day N: 실지 감사 흐름도]
 
-(오전) [문서/산출물 분석] ───> 식별된 의문점/결함 후보 도출 (Finding Candidates)
-                                 │
-(오후) [도구 진단/직접 테스트] ──> 후보 검증 (실제 결함 여부 확인)
-                                 │
-(오후) [관련 담당자 인터뷰] ─────> 왜 발생했는가? 조치 방안은 무엇인가? (원인 파악)
-                                 │
+(오전) [문서/산출물 분석] ---> 식별된 의문점/결함 후보 도출 (Finding Candidates)
+                                 |
+(오후) [도구 진단/직접 테스트] --> 후보 검증 (실제 결함 여부 확인)
+                                 |
+(오후) [관련 담당자 인터뷰] -----> 왜 발생했는가? 조치 방안은 무엇인가? (원인 파악)
+                                 |
 (저녁) [일일 점검(Daily Wrap-up)] > 수집 증거 취합 및 사업자 이견 1차 조율
 ```
 
@@ -109,13 +109,13 @@ tags = ["design_supervision"]
 ```text
 [객관적 증거 채택 의사결정 트리]
 발견된 문제점(Finding)
-   ├─ 요구사항/제안서/법적기준 위반인가?
-   │     ├─ Yes ──> 충분한 증거(로그, 캡처)가 있는가?
-   │     │             ├─ Yes ──> 필수 [시정 조치] 채택
-   │     │             └─ No  ──> 추가 증거 수집 또는 기각
-   │     └─ No ───> 시스템의 성능/안전성에 중대한 위협인가?
-   │                   ├─ Yes ──> [권고 사항] 또는 [개선 사항] 채택
-   │                   └─ No  ──> 단순 의견 교환 후 종결
+   +- 요구사항/제안서/법적기준 위반인가?
+   |     +- Yes --> 충분한 증거(로그, 캡처)가 있는가?
+   |     |             +- Yes --> 필수 [시정 조치] 채택
+   |     |             +- No  --> 추가 증거 수집 또는 기각
+   |     +- No ---> 시스템의 성능/안전성에 중대한 위협인가?
+   |                   +- Yes --> [권고 사항] 또는 [개선 사항] 채택
+   |                   +- No  --> 단순 의견 교환 후 종결
 ```
 
 이 의사결정 트리는 감리원이 '개인적인 취향'으로 설계나 코드를 지적하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(오버엔지니어링 요구)을 막아줍니다. 모든 지적은 명확한 '[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)'에 근거해야 합니다.
@@ -154,20 +154,20 @@ tags = ["design_supervision"]
 
 ```text
 [감리 계획 (Audit Planning) — 감리 범위·일정·방법론 수립, 체크리스트 준비]
-    │
-    ▼
+    |
+    v
 [감리 수행 (Audit Execution) — 실지 감사, 인터뷰·문서 검토·자동화 도구 진단]
-    │
-    ▼
+    |
+    v
 [증거 수집 (Evidence Collection) — 산출물·로그·인터뷰 기록 체계적 수집]
-    │
-    ▼
+    |
+    v
 [감리 보고서 (Audit Report) — 지적 사항·권고 사항 문서화, 시정 조치 요구]
-    │
-    ▼
+    |
+    v
 [시정 조치 확인 (Follow-up Audit) — 지적 사항 이행 여부 재검증]
-    │
-    ▼
+    |
+    v
 [지속적 감리 (Continuous Auditing) — 실시간 모니터링·자동화 도구 상시 감리]
 ```
 이 흐름은 일회성 감리 계획과 수행에서 증거 기반 보고·시정 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로 발전하고, 자동화 도구를 활용한 상시 지속적 감리 체계로 진화하는 IT 감리 방법론의 성숙도를 보여준다.
@@ -183,7 +183,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 18 / 530
 
-← **이전**: [16. 착수 회의 (Kick-off Meeting) - 감리 목적, 일정, 범위, 협조 사항 공유](/knowledge-base/studynote/11_design_supervision/01_audit_framework/016_kick_off_meeting/)
-**다음**: [18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/) →
+<- **이전**: [16. 착수 회의 (Kick-off Meeting) - 감리 목적, 일정, 범위, 협조 사항 공유](/knowledge-base/studynote/11_design_supervision/01_audit_framework/016_kick_off_meeting/)
+**다음**: [18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/) ->
 
 ---

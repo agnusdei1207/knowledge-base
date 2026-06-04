@@ -37,28 +37,28 @@ SCE는 물건이 주문되고 출고되어 도착하기까지의 물류 동선�
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">TMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">Transportation Management System</a>)</strong>| **운송 관리**: 배송망 통제. 트럭 내 적재 최적화(테트리스), 배차 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 최단 경로 내비게이션, 위치 추적 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SCE의 핵심 모듈 간 데이터 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ [ 고객 결제 ]                                                │
-│      │                                                       │
-│      ▼                                                       │
-│ ┌─────────┐ "결제완료! 서울 강남 물류센터, A상품 내보내!"  │
-│ │   OMS   │─────────────────────────────────┐                │
-│ └─────────┘                                 │                │
-│                                             ▼                │
-│                                         ┌───────┐            │
-│ "선반 3번에서 A상품 꺼내 포장해!" ◀────│  WMS  │            │
-│ (지게차/AGV 동선 제어, 재고 차감)       └───────┘            │
-│                                             │                │
-│                                             ▼                │
-│                                         ┌───────┐            │
-│ "오늘 오후 2시, 남부순환로 타고 배송!" ◀│  TMS  │            │
-│ (최적 배차, 차량 트래킹, 고객 알림)     └───────┘            │
-│                                             │                │
-│                                             ▼                │
-│                                        [ 실물 배송 ]         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  SCE의 핵심 모듈 간 데이터 흐름              |
++--------------------------------------------------------------+
+| [ 고객 결제 ]                                                |
+|      |                                                       |
+|      v                                                       |
+| +---------+ "결제완료! 서울 강남 물류센터, A상품 내보내!"  |
+| |   OMS   |---------------------------------+                |
+| +---------+                                 |                |
+|                                             v                |
+|                                         +-------+            |
+| "선반 3번에서 A상품 꺼내 포장해!" <-----|  WMS  |            |
+| (지게차/AGV 동선 제어, 재고 차감)       +-------+            |
+|                                             |                |
+|                                             v                |
+|                                         +-------+            |
+| "오늘 오후 2시, 남부순환로 타고 배송!" <-|  TMS  |            |
+| (최적 배차, 차량 트래킹, 고객 알림)     +-------+            |
+|                                             |                |
+|                                             v                |
+|                                        [ 실물 배송 ]         |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 단순한 정보의 전달이 아니라, 소프트웨어(OMS)의 명령이 창고 내의 물리적 움직임([WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))을 거쳐 도로 위의 트럭([TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))까지 끊김 없이 제어하는 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 과정을 보여준다.
@@ -123,18 +123,18 @@ SCE 인프라를 구축할 때, SI 사업자나 기업의 물류 담당자는 �
 
 ```text
 전통적 재고 관리 (수작업, 엑셀)
-    │
-    ▼
+    |
+    v
 개별 시스템 도입 (단독 WMS, 단독 TMS 운영)
-    │
-    ▼
+    |
+    v
 SCE (Supply Chain Execution) 통합
 (OMS-WMS-TMS의 심리스 데이터 연계 및 가시성 확보)
-    │
-    ▼
+    |
+    v
 로보틱스 융합 (AGV/AMR, 자동 피킹)
-    │
-    ▼
+    |
+    v
 초자동화 물류 시스템 (AI 예측 기반 선제적 물류 실행)
 ```
 
@@ -150,7 +150,7 @@ SCE (Supply Chain Execution) 통합
 
 **진행 상황**: 96 / 482
 
-← **이전**: [95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/)
-**다음**: [97. WMS (Warehouse Management System) - 창고 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) →
+<- **이전**: [95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/)
+**다음**: [97. WMS (Warehouse Management System) - 창고 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ->
 
 ---

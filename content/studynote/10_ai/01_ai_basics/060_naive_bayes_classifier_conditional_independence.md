@@ -33,11 +33,11 @@ tags = ["studynote-ai"]
 
 ```text
 입력 특징 x1, x2, x3...
-   ↓
+   v
 P(C) × Π P(xi|C)
-   ↓
+   v
 클래스별 점수 비교
-   ↓
+   v
 최대 확률 클래스 선택
 ```
 
@@ -103,11 +103,11 @@ P(C) × Π P(xi|C)
 
 ```text
 베이즈 정리
-   ↓
+   v
 조건부 독립
-   ↓
+   v
 나이브 베이즈
-   ↓
+   v
 스팸 필터 / 텍스트 분류
 ```
 
@@ -117,11 +117,11 @@ P(C) × Π P(xi|C)
 
 ```text
 확률 기반 분류
-   ↓
+   v
 나이브 베이즈
-   ↓
+   v
 라플라스 스무딩
-   ↓
+   v
 텍스트 분류 Baseline
 ```
 
@@ -139,7 +139,7 @@ P(C) × Π P(xi|C)
 
 **진행 상황**: 60 / 420
 
-← **이전**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)
-**다음**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/) →
+<- **이전**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)
+**다음**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/) ->
 
 ---

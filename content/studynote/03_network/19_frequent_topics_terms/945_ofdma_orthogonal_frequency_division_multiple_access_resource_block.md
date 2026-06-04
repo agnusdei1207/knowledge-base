@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [다중화기 / 역다중화기]
-    │
-    ▼
+    |
+    v
 [직교주파수분할다중접속]
-    │
-    └──▶ [FDM 가드 밴드]
+    |
+    +---> [FDM 가드 밴드]
 ```
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [다중화기 / 역다중화기]
-    │
-    ▼
+    |
+    v
 [직교주파수분할다중접속]
-    │
-    └──▶ [FDM 가드 밴드]
+    |
+    +---> [FDM 가드 밴드]
 ```
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 다중화기 / 역다중화기]
-    │
-    ▼
+    |
+    v
 [현재 개념: 직교주파수분할다중접속]
-    │
-    ├──▶ [확장 A: FDM 가드 밴드]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: FDM 가드 밴드]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 직교주파수분할다중접속는 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기에서 출발해 현재 메커니즘을 정교화하고, 이후 FDM 가드 밴드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1066 / 1120
 
-← **이전**: [944. 다중화기 (MUX) / 역다중화기 (DEMUX)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)
-**다음**: [946. FDM 가드 밴드 (Guard Band)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) →
+<- **이전**: [944. 다중화기 (MUX) / 역다중화기 (DEMUX)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)
+**다음**: [946. FDM 가드 밴드 (Guard Band)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) ->
 
 ---

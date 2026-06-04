@@ -32,7 +32,7 @@ DDL과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attenti
 캐시는 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)의 자주 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되는 객체 정보를 담는다. 테이블, 컬럼, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 권한 같은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 대상이다.
 
 ```text
-SQL/DDL → Dictionary Lookup → Cache → Metadata
+SQL/DDL -> Dictionary Lookup -> Cache -> Metadata
 ```
 
 | 대상 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ SQL/DDL → Dictionary Lookup → Cache → Metadata
 
 ```text
 메타데이터 조회
-    │
-    ▼
+    |
+    v
 데이터 사전 캐시
-    │
-    ▼
+    |
+    v
 빠른 SQL 처리
-    │
-    ▼
+    |
+    v
 일관성 / 무효화 관리
 ```
 
@@ -136,7 +136,7 @@ SQL/DDL → Dictionary Lookup → Cache → Metadata
 
 **진행 상황**: 56 / 600
 
-← **이전**: [55. 커넥션 풀과 DBCP (Connection Pool / DBCP)](/knowledge-base/studynote/05_database/01_db_architecture_relational/055_connection_pool_dbcp/)
-**다음**: [57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/) →
+<- **이전**: [55. 커넥션 풀과 DBCP (Connection Pool / DBCP)](/knowledge-base/studynote/05_database/01_db_architecture_relational/055_connection_pool_dbcp/)
+**다음**: [57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/) ->
 
 ---

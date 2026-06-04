@@ -26,16 +26,16 @@ tags = ["studynote-ai"]
 그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 단순 저장소가 아니라 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>의 의미, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 규칙, 제공 시점, 소비 경로를 표준화하는 운영 계층</strong>으로 등장했다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 모으는 것이 아니라, 모델이 언제 어디서나 <strong>같은 의미의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a></strong>를 받게 하는 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why teams need a feature store                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Team A -> defines user_30d_spend in SQL                              │
-│ Team B -> redefines user_30d_spend in Python                         │
-│ Serving API -> redefines it again in application code                │
-│                                                                      │
-│ result: duplicate work + inconsistent feature meaning                │
-│ fix   : one shared feature definition and serving path               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why teams need a feature store                                       |
++----------------------------------------------------------------------+
+| Team A -> defines user_30d_spend in SQL                              |
+| Team B -> redefines user_30d_spend in Python                         |
+| Serving API -> redefines it again in application code                |
+|                                                                      |
+| result: duplicate work + inconsistent feature meaning                |
+| fix   : one shared feature definition and serving path               |
++----------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 요리사마다 양파를 각자 써는 주방이 아니라, 중앙 조리실에서 재료를 같은 규격으로 손질해 두어 모든 요리가 같은 맛을 내게 하는 공용 준비실과 같다.
@@ -57,26 +57,26 @@ tags = ["studynote-ai"]
 아래 그림은 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 학습과 추론 사이에서 어떤 역할을 하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Feature Store architecture                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Raw events / DB / stream                                             │
-│        │                                                             │
-│        ▼                                                             │
-│ Feature pipelines (batch / stream transforms)                        │
-│        │                                                             │
-│        ├──────────────▶ Feature Registry                             │
-│        │                  ├─ schema / owner / version                │
-│        │                  └─ entity / freshness policy               │
-│        │                                                             │
-│        ├──────────────▶ Offline Store ──▶ training / backfill        │
-│        │                     ▲                                        │
-│        │                     └─ point-in-time join                    │
-│        │                                                             │
-│        └──────────────▶ Online Store  ──▶ low-latency inference      │
-│                              ▲                                        │
-│                              └─ materialization / stream updates      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Feature Store architecture                                           |
++----------------------------------------------------------------------+
+| Raw events / DB / stream                                             |
+|        |                                                             |
+|        v                                                             |
+| Feature pipelines (batch / stream transforms)                        |
+|        |                                                             |
+|        +---------------> Feature Registry                             |
+|        |                  +- schema / owner / version                |
+|        |                  +- entity / freshness policy               |
+|        |                                                             |
+|        +---------------> Offline Store ---> training / backfill        |
+|        |                     ^                                        |
+|        |                     +- point-in-time join                    |
+|        |                                                             |
+|        +---------------> Online Store  ---> low-latency inference      |
+|                              ^                                        |
+|                              +- materialization / stream updates      |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 가장 중요한 기술 포인트는 <strong>Point-in-Time Correctness</strong>다. 모델이 2026년 4월 1일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습한다면, 그 시점 이후에 들어온 이벤트가 절대 섞이면 안 된다. 이를 위해 오프라인 스토어는 과거 시점 기준으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 조회할 수 있어야 하고, 온라인 스토어는 현재 시점의 최신 값을 빠르게 제공해야 한다. 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)라도 학습과 추론이 보는 시점이 다르기 때문에, "같은 정의 + 다른 시간 축"을 제대로 다뤄야 한다.
@@ -165,20 +165,20 @@ tags = ["studynote-ai"]
 
 ```text
 원천 이벤트 / 업무 데이터
-    │
-    ▼
+    |
+    v
 피처 엔지니어링
-    │
-    ▼
+    |
+    v
 Feature Registry 구축
-    │
-    ├─ Offline Store -> 학습 / 백필 / 재현성
-    └─ Online Store  -> 실시간 추론 / 최신성
-    │
-    ▼
+    |
+    +- Offline Store -> 학습 / 백필 / 재현성
+    +- Online Store  -> 실시간 추론 / 최신성
+    |
+    v
 Point-in-Time Join · Materialization
-    │
-    ▼
+    |
+    v
 Model Registry · Monitoring과 연결된 MLOps 고도화
 ```
 
@@ -196,7 +196,7 @@ Model Registry · Monitoring과 연결된 MLOps 고도화
 
 **진행 상황**: 178 / 420
 
-← **이전**: [177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/177_mlops_pipeline_components/)
-**다음**: [179. 쿠브플로우 (Kubeflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/179_kubeflow/) →
+<- **이전**: [177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/177_mlops_pipeline_components/)
+**다음**: [179. 쿠브플로우 (Kubeflow)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/179_kubeflow/) ->
 
 ---

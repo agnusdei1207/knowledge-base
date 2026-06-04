@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 - 최적화 입력: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)·Quine-McCluskey 알고리즘의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
 ```text
-┌───────────────────────────────────────────────────┐
-│       2입력 기본 게이트 진리표 모음                  │
-├─────┬─────┬─────┬────┬─────┬──────┬──────┐
-│  A  │  B  │ AND │ OR │ XOR │ NAND │ NOR  │
-├─────┼─────┼─────┼────┼─────┼──────┼──────┤
-│  0  │  0  │  0  │ 0  │  0  │  1   │  1   │
-│  0  │  1  │  0  │ 1  │  1  │  1   │  0   │
-│  1  │  0  │  0  │ 1  │  1  │  1   │  0   │
-│  1  │  1  │  1  │ 1  │  0  │  0   │  0   │
-└─────┴─────┴─────┴────┴─────┴──────┴──────┘
++---------------------------------------------------+
+|       2입력 기본 게이트 진리표 모음                  |
++-----+-----+-----+----+-----+------+------+
+|  A  |  B  | AND | OR | XOR | NAND | NOR  |
++-----+-----+-----+----+-----+------+------+
+|  0  |  0  |  0  | 0  |  0  |  1   |  1   |
+|  0  |  1  |  0  | 1  |  1  |  1   |  0   |
+|  1  |  0  |  0  | 1  |  1  |  1   |  0   |
+|  1  |  1  |  1  | 1  |  0  |  0   |  0   |
++-----+-----+-----+----+-----+------+------+
 ```
 
 - **📢 섹션 요약 비유**: 진리표는 요리 레시피의 재료 조합표다. 재료(입력)의 모든 조합에 따라 요리 결과(출력)가 정해지며, 이 표가 있으면 어떤 조합도 예측할 수 있다.
@@ -50,15 +50,15 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 예: F(A,B,C) = A'BC + AB'C + ABC' + ABC
-A B C | F          ← F=1인 행: 011, 101, 110, 111
-0 0 0 | 0          → 최소항: m3, m5, m6, m7
-0 0 1 | 0          → SOP: F = Σm(3,5,6,7)
+A B C | F          <- F=1인 행: 011, 101, 110, 111
+0 0 0 | 0          -> 최소항: m3, m5, m6, m7
+0 0 1 | 0          -> SOP: F = Σm(3,5,6,7)
 0 1 0 | 0
-0 1 1 | 1  ← m3
+0 1 1 | 1  <- m3
 1 0 0 | 0
-1 0 1 | 1  ← m5
-1 1 0 | 1  ← m6
-1 1 1 | 1  ← m7
+1 0 1 | 1  <- m5
+1 1 0 | 1  <- m6
+1 1 1 | 1  <- m7
 ```
 
 ### [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/))과의 연계
@@ -95,10 +95,10 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 ### 실무 시나리오: 엘리베이터 제어 회로 설계
 3층 엘리베이터 위치(A=현재층 상위비트, B=하위비트)와 목표층(C) 입력으로 상승(F=1)·하강(F=0) 결정.
 
-1. 진리표 8행 작성 → 상승 조건 F=1 행 추출.
+1. 진리표 8행 작성 -> 상승 조건 F=1 행 추출.
 2. SOP: F = A'B'C + A'BC + AB'C.
-3. [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화 → F = A'C + B'C = C(A'+B') = C·(AB)'.
-4. 2개의 NAND 게이트로 구현 → 게이트 수 50% 절감.
+3. [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화 -> F = A'C + B'C = C(A'+B') = C·(AB)'.
+4. 2개의 NAND 게이트로 구현 -> 게이트 수 50% 절감.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 진리표를 작성하지 않고 직관으로 회로를 설계하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). n=4 이상이면 16가지 조합을 머릿속으로 추적하기 어렵고, 반드시 예외 케이스가 누락된다. 진리표 없는 설계는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 근거도 없다.
@@ -135,17 +135,17 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 
 ```text
 [불 대수 — 0/1 이진 논리의 수학적 기반]
-    │
-    ▼
+    |
+    v
 [진리표 — 모든 입력 조합에 대한 출력 완전 명세]
-    │
-    ▼
+    |
+    v
 [카르노 맵 / Quine-McCluskey — 진리표 기반 논리 최적화]
-    │
-    ▼
+    |
+    v
 [논리 게이트 구현 — AND/OR/NOT/NAND/NOR/XOR]
-    │
-    ▼
+    |
+    v
 [HDL (VHDL/Verilog) — 진리표를 하드웨어 기술 언어로 합성]
 ```
 불 대수에서 진리표, [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화, 게이트 구현, [HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) 합성으로 이어지는 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 흐름이다.
@@ -162,7 +162,7 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 
 **진행 상황**: 24 / 803
 
-← **이전**: [23. 드모르간의 법칙 (De Morgan's Law)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/023_demorgans_law/)
-**다음**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) →
+<- **이전**: [23. 드모르간의 법칙 (De Morgan's Law)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/023_demorgans_law/)
+**다음**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) ->
 
 ---

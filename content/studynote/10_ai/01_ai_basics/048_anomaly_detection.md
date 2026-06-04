@@ -29,16 +29,16 @@ tags = ["studynote-ai"]
 
   예:
   신용카드 거래: 평소 3만원 결제
-  → 갑자기 500만원 결제 (이상!)
+  -> 갑자기 500만원 결제 (이상!)
 
-  체온: 정상 36.5°C
-  → 갑자기 42°C (이상!)
+  체온: 정상 36.5+C
+  -> 갑자기 42+C (이상!)
 
 2. 맥락적 이상 (Contextual Anomaly):
   맥락을 고려할 때 이상 (단독으로는 정상)
 
   예:
-  기온 30°C: 여름에는 정상, 12월에는 이상!
+  기온 30+C: 여름에는 정상, 12월에는 이상!
 
   웹 트래픽 5000RPS: 이벤트 시 정상, 새벽에는 이상!
 
@@ -47,10 +47,10 @@ tags = ["studynote-ai"]
 
   예:
   ECG: 각 심전도 값은 정상 범위
-  → 전체 파형이 비정상 패턴
+  -> 전체 파형이 비정상 패턴
 
   네트워크: 단일 패킷은 정상
-  → 수천 개의 작은 패킷이 DDoS 패턴
+  -> 수천 개의 작은 패킷이 DDoS 패턴
 
 이상 탐지 접근법:
   통계 기반: Z-score, IQR, 가우시안
@@ -71,14 +71,14 @@ tags = ["studynote-ai"]
 
 Z-Score:
   z = (x - μ) / σ
-  |z| > 3 → 이상 (99.7% 벗어남)
+  |z| > 3 -> 이상 (99.7% 벗어남)
 
   가정: 정규 분포
   장점: 단순, 빠름
   단점: 정규 분포 아닌 데이터에 취약
 
 IQR (Interquartile Range):
-  Q1, Q3 계산 → IQR = Q3 - Q1
+  Q1, Q3 계산 -> IQR = Q3 - Q1
   이상치 경계: [Q1 - 1.5×IQR, Q3 + 1.5×IQR]
 
   비정규 분포에도 robust
@@ -87,10 +87,10 @@ IQR (Interquartile Range):
 
 LOF (Local Outlier Factor):
   각 점의 지역 밀도를 주변 점들과 비교
-  LOF >> 1 → 이상 (주변보다 밀도 낮음)
+  LOF >> 1 -> 이상 (주변보다 밀도 낮음)
 
   장점: 지역적 이상 탐지 (전역 기준 불필요)
-  단점: 계산 비용 O(n²)
+  단점: 계산 비용 O(n^)
 
 3. 앙상블 기반:
 
@@ -109,10 +109,10 @@ Isolation Forest:
 4. 딥러닝:
 
 Autoencoder:
-  인코더 → 잠재 표현 → 디코더
+  인코더 -> 잠재 표현 -> 디코더
   학습: 정상 데이터로만 재구성 훈련
 
-  이상 감지: 재구성 오류(MSE) 임계값 초과 → 이상
+  이상 감지: 재구성 오류(MSE) 임계값 초과 -> 이상
 
   장점: 복잡한 패턴 학습
   단점: 임계값 설정 어려움
@@ -162,11 +162,11 @@ LSTM Autoencoder:
 
 동적 임계값:
   고정 임계값 문제: 계절성 무시
-  → 롤링 평균 ± nσ (동적 경계)
+  -> 롤링 평균 ± nσ (동적 경계)
 
   예: 서버 CPU
-  월요일 오전 9시 평균 70% → 임계값 90%
-  일요일 새벽 평균 20% → 임계값 40%
+  월요일 오전 9시 평균 70% -> 임계값 90%
+  일요일 새벽 평균 20% -> 임계값 40%
 
 모델 기반 임계값:
   Percentile 기반: 99.9번째 백분위수
@@ -188,14 +188,14 @@ LSTM Autoencoder:
 이상 탐지의 트레이드오프:
 
          탐지 경계 낮춤         탐지 경계 높임
-          ────────────────────────────────
+          --------------------------------
 탐지율   높음 (더 많이 탐지)   낮음 (덜 탐지)
 FPR     높음 (과탐 많음)      낮음 (과탐 적음)
 FNR     낮음 (미탐 적음)      높음 (미탐 많음)
 
 Alert Fatigue (경보 피로):
   SOC 팀 현실:
-  일 300~500건 보안 경보 → 실제 위협 5건
+  일 300~500건 보안 경보 -> 실제 위협 5건
 
   결과:
   분석가가 경보를 무시하기 시작
@@ -204,22 +204,22 @@ Alert Fatigue (경보 피로):
 FP 감소 전략:
 
 1. 화이트리스트:
-  알려진 정상 패턴/IP/행동 → 탐지 제외
-  예: 정기 백업 작업 → 트래픽 이상 제외
+  알려진 정상 패턴/IP/행동 -> 탐지 제외
+  예: 정기 백업 작업 -> 트래픽 이상 제외
 
 2. 문맥 보강:
-  단일 이상 신호 → 다중 신호 상관관계
+  단일 이상 신호 -> 다중 신호 상관관계
   "IP 스캔 + 비정상 로그인 + 새 프로세스"
-  → 복합 조건 충족 시 경보
+  -> 복합 조건 충족 시 경보
 
 3. 학습 기반 FP 억제:
-  분석가가 "False Positive" 레이블 → 모델 재학습
+  분석가가 "False Positive" 레이블 -> 모델 재학습
   점진적 FP 감소
 
 4. 경보 우선순위화:
   위험도(Risk Score) 계산
-  Critical → 즉시 대응
-  Low → 주간 배치 검토
+  Critical -> 즉시 대응
+  Low -> 주간 배치 검토
 
 Precision-Recall 트레이드오프:
   보안: 높은 Recall 선호 (미탐 비용 > 과탐 비용)
@@ -275,15 +275,15 @@ Precision-Recall 트레이드오프:
   FPR: 0.8% (허용 1% 이내)
 
   고객 경험:
-  정상 거래 차단: 0.8% → 월 약 20,000건 문의
+  정상 거래 차단: 0.8% -> 월 약 20,000건 문의
   자동 재인증(OTP)으로 50%는 즉시 해결
 
   ROI:
   탐지 사기 = 월 평균 손실 예방 12억원
-  시스템 운영 비용 2억원 → 순 ROI 6배
+  시스템 운영 비용 2억원 -> 순 ROI 6배
 ```
 
-> 📢 **섹션 요약 비유**: 금융 [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) = 카드 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) — [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)+규칙 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 → [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 6배!
+> 📢 **섹션 요약 비유**: 금융 [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) = 카드 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) — [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)+규칙 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 6배!
 
 ---
 
@@ -353,7 +353,7 @@ Z-Score, Control Chart
 
 **진행 상황**: 48 / 420
 
-← **이전**: [047. 계층적 군집화 — Hierarchical Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/047_hierarchical_clustering/)
-**다음**: [049. 앙상블 학습 — Ensemble Learning](/knowledge-base/studynote/10_ai/01_ai_basics/049_ensemble_learning_bagging_boosting/) →
+<- **이전**: [047. 계층적 군집화 — Hierarchical Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/047_hierarchical_clustering/)
+**다음**: [049. 앙상블 학습 — Ensemble Learning](/knowledge-base/studynote/10_ai/01_ai_basics/049_ensemble_learning_bagging_boosting/) ->
 
 ---

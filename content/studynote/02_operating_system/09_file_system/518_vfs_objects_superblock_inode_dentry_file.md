@@ -31,32 +31,32 @@ tags = ["studynote-operating-system"]
 사용자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열(open) 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리(RAM)에 4대 객체가 어떻게 파이프를 열고 이어지는지 렌더 스택을 까보면 다음과 같다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 메모리에 올라간 VFS 4기둥의 유기적 상호참조 파이프 렌더        │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  [ 프로세스 (Process A) ]            [ 도서 대출증/행위 장부 ]                 │
-  │     | 열린 파일 테이블(포인터) -----> 4️⃣ [ 파일 객체 (File Object) ]          │
-  │     └────────────────────────────────▶ "읽기모드, 105번 바이트 I/O 커서 위치!" │
-  │                                           │ (가리킴 연결 링크)                 │
-  │  =========================================▼===================                 │
-  │                                                                                │
-  │                       ▼(도서관 팻말 간판 이름표) ▼                             │
-  │  [ 부모 덴트리(/var) ◀ 3️⃣ [ 덴트리 (Dentry /var/log/a.txt) ] ──┐              │
-  │      (캐싱된 트리 계층 구조 RAM 메모리 Dentry Cache 종결 통치)       │         │
-  │                                           │ (가리킴 결착 빔 쏜다!)  │          │
-  │  =========================================▼===================                 │
-  │                                                                                │
-  │                 ▼(진짜 물리 파일 육체 메타데이터 속성) ▼                       │
-  │                  2️⃣ [ 아이노드 (Inode 번호 108번 진성 육체) ]      │          │
-  │                       "소유자 Bob, 크기 1GB, 물리블록 디스크 좌표 록!" │       │
-  │                                           │ (내가 속한 파티션 우주) │          │
-  │  =========================================▼===================                 │
-  │                                                                                │
-  │                 ▼(우주 대관장! C드라이브 디스크 볼륨 통치 장부) ▼              │
-  │                  1️⃣ [ 슈퍼블록 (Superblock 디스크 총괄 통제) ]    │           │
-  │                        "1TB 하드, VFS Vnode 룰 포맷 ext4 블록 스로틀!" │       │
-  └────────────────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------------------+
+  |                 메모리에 올라간 VFS 4기둥의 유기적 상호참조 파이프 렌더        |
+  +--------------------------------------------------------------------------------+
+  |                                                                                |
+  |  [ 프로세스 (Process A) ]            [ 도서 대출증/행위 장부 ]                 |
+  |     | 열린 파일 테이블(포인터) -----> 4️⃣ [ 파일 객체 (File Object) ]          |
+  |     +---------------------------------> "읽기모드, 105번 바이트 I/O 커서 위치!" |
+  |                                           | (가리킴 연결 링크)                 |
+  |  =========================================v===================                 |
+  |                                                                                |
+  |                       v(도서관 팻말 간판 이름표) v                             |
+  |  [ 부모 덴트리(/var) <- 3️⃣ [ 덴트리 (Dentry /var/log/a.txt) ] --+              |
+  |      (캐싱된 트리 계층 구조 RAM 메모리 Dentry Cache 종결 통치)       |         |
+  |                                           | (가리킴 결착 빔 쏜다!)  |          |
+  |  =========================================v===================                 |
+  |                                                                                |
+  |                 v(진짜 물리 파일 육체 메타데이터 속성) v                       |
+  |                  2️⃣ [ 아이노드 (Inode 번호 108번 진성 육체) ]      |          |
+  |                       "소유자 Bob, 크기 1GB, 물리블록 디스크 좌표 록!" |       |
+  |                                           | (내가 속한 파티션 우주) |          |
+  |  =========================================v===================                 |
+  |                                                                                |
+  |                 v(우주 대관장! C드라이브 디스크 볼륨 통치 장부) v              |
+  |                  1️⃣ [ 슈퍼블록 (Superblock 디스크 총괄 통제) ]    |           |
+  |                        "1TB 하드, VFS Vnode 룰 포맷 ext4 블록 스로틀!" |       |
+  +--------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 4대 객체 중 가장 하위단 1️⃣(슈퍼블록 우주 통치)과 2️⃣(아이노드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 육체)는 본래 하드디스크(철판)에 아로새겨져 있던 찐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다! 반면 3️⃣(덴트리 이름 캐시)와 4️⃣([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 오픈 문맥) 객체는 디스크에는 아예 존재하지 않는 순수 "컴퓨터 RAM (메모리 가상 창조물)" 환상 록백 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 덩어리다. 디스크에서 1, 2번 알맹이를 퍼 올려서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리로 끌어온 뒤, 그 위에 3번 4번 껍데기를 씌워서 S/W 프로그램들이 고속 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)으로 갖고 렌더링 놀게 해 주는 VFS의 천재적인 캡슐화 설계 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 통치 지배다.
@@ -152,12 +152,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [VFS (Virtual File System)]
-    │
-    ▼
+    |
+    v
 [VFS 객체]
-    │
-    ├──▶ [디스크 상의 구조]
-    └──▶ [메모리 내의 구조]
+    |
+    +---> [디스크 상의 구조]
+    +---> [메모리 내의 구조]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -174,7 +174,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 518 / 800
 
-← **이전**: [517. VFS (Virtual File System) - 다양한 파일 시스템(ext4, NTFS, FAT)을 추상화하는 공통 인터페이스](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)
-**다음**: [519. 디스크 상의 구조 (On Disk Structures)](/knowledge-base/studynote/02_operating_system/09_file_system/519_on_disk_structures/) →
+<- **이전**: [517. VFS (Virtual File System) - 다양한 파일 시스템(ext4, NTFS, FAT)을 추상화하는 공통 인터페이스](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)
+**다음**: [519. 디스크 상의 구조 (On Disk Structures)](/knowledge-base/studynote/02_operating_system/09_file_system/519_on_disk_structures/) ->
 
 ---

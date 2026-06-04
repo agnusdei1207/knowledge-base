@@ -34,23 +34,23 @@ tags = ["studynote-ai"]
 가장 핵심적인 평가 지표는 예측한 박스가 정답과 얼마나 일치하는지를 따지는 `IoU (Intersection over Union)`다. 모델이 수많은 박스를 예측하면, `NMS (Non-Maximum Suppression)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 겹치는 박스 중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 높은 하나만 남기고 나머지를 지워버려 최종 결과를 확정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           [객체 탐지 구조 및 IoU (Intersection over Union)]  │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 딥러닝 출력 (Dual Head)                                     │
-│ [입력 이미지] ─▶ [CNN 특징 추출] ┬─▶ 분류: "사람 (98%)"         │
-│                                 └─▶ 위치: [x:150, y:200, w:50] │
-│                                                              │
-│ 2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)                    │
-│                                                              │
-│   정답 박스 (A)      예측 박스 (B)         IoU = 교집합 / 합집합    │
-│   ┌──────┐         ┌──────┐             = (A ∩ B) / (A ∪ B)  │
-│   │      │         │      │                                  │
-│   │   ┌──┼─────────┤      │         * IoU > 0.5 이면 정답 인정  │
-│   │   │  │ 교집합  │      │                                  │
-│   └──┼──┘         │      │                                  │
-│      └────────────┘      │                                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           [객체 탐지 구조 및 IoU (Intersection over Union)]  |
++--------------------------------------------------------------+
+| 1. 딥러닝 출력 (Dual Head)                                     |
+| [입력 이미지] --> [CNN 특징 추출] +--> 분류: "사람 (98%)"         |
+|                                 +--> 위치: [x:150, y:200, w:50] |
+|                                                              |
+| 2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)                    |
+|                                                              |
+|   정답 박스 (A)      예측 박스 (B)         IoU = 교집합 / 합집합    |
+|   +------+         +------+             = (A ∩ B) / (A ∪ B)  |
+|   |      |         |      |                                  |
+|   |   +--+---------+      |         * IoU > 0.5 이면 정답 인정  |
+|   |   |  | 교집합  |      |                                  |
+|   +--+--+         |      |                                  |
+|      +------------+      |                                  |
++--------------------------------------------------------------+
 ```
 
 위 그림은 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델이 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 동시에 수행하며, 예측된 박스의 품질을 면적 비율(IoU)로 채점하는 방식을 보여준다.
@@ -114,17 +114,17 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 
 ```text
 이미지 분류 (Classification)
-    │
-    ▼
+    |
+    v
 2-Stage 탐지: R-CNN (Region-based CNN)
-    │
-    ▼
+    |
+    v
 속도 개선: Faster R-CNN (RPN 도입)
-    │
-    ▼
+    |
+    v
 1-Stage 혁명: YOLO (격자 기반 실시간 탐지)
-    │
-    ▼
+    |
+    v
 경량화 및 통합: YOLO 최신 버전, Vision Transformer 기반 탐지
 ```
 
@@ -140,7 +140,7 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 
 **진행 상황**: 106 / 420
 
-← **이전**: [105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/)
-**다음**: [107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/107_rcnn_fast_faster_region_proposal_network/) →
+<- **이전**: [105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/)
+**다음**: [107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/107_rcnn_fast_faster_region_proposal_network/) ->
 
 ---

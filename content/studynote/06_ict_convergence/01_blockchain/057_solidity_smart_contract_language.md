@@ -37,10 +37,10 @@ tags = ["ict_convergence"]
 
 ```text
 contract
- ├─ state variables
- ├─ functions
- ├─ events
- └─ modifiers
+ +- state variables
+ +- functions
+ +- events
+ +- modifiers
 ```
 
 - **📢 섹션 요약 비유**: 부엌에서 그릇, 재료, 조리법을 미리 라벨링해 두는 것과 같다.
@@ -91,11 +91,11 @@ contract
 
 ```text
 Solidity
-   ↓
+   v
 EVM 바이트코드
-   ↓
+   v
 Gas / 상태 저장
-   ↓
+   v
 스마트 컨트랙트 배포
 ```
 
@@ -103,11 +103,11 @@ Gas / 상태 저장
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 튜링 완전 언어 → 복잡한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 로직 표현
-2. contract 중심 구조 → 상태와 동작 통합
-3. [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 바이트코드 → 이더리움 실행 환경 표준화
-4. [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)와 보안 패턴 → 비용과 안전성 동시 관리
-5. 업그레이드 패턴과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) → 실무 배포의 핵심
+1. 튜링 완전 언어 -> 복잡한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 로직 표현
+2. contract 중심 구조 -> 상태와 동작 통합
+3. [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 바이트코드 -> 이더리움 실행 환경 표준화
+4. [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)와 보안 패턴 -> 비용과 안전성 동시 관리
+5. 업그레이드 패턴과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) -> 실무 배포의 핵심
 
 ---
 
@@ -123,7 +123,7 @@ Gas / 상태 저장
 
 **진행 상황**: 57 / 552
 
-← **이전**: [56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/)
-**다음**: [58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) →
+<- **이전**: [56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/)
+**다음**: [58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) ->
 
 ---

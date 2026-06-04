@@ -25,7 +25,7 @@ tags = ["studynote-ai"]
 정밀도(Precision) = TP / (TP + FP)
 
             실제로 Positive인 것
-= ─────────────────────────────────────────
+= -----------------------------------------
   내가 Positive라고 예측한 것(TP + FP) 전체
 ```
 
@@ -54,27 +54,27 @@ tags = ["studynote-ai"]
 ### 2.1 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프 도식
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│         정밀도(Precision) - 재현율(Recall) 트레이드오프     │
-│                                                          │
-│  정밀도                                                   │
-│  (Precision)                                             │
-│  ↑                                                       │
-│  1.0 │╲                                                  │
-│      │ ╲   이상적 곡선 (정밀도·재현율 모두 최대)             │
-│  0.8 │  ╲                                                │
-│      │   ╲    ← PR 곡선 (Precision-Recall Curve)         │
-│  0.6 │    ╲                                              │
-│      │     ╲                                             │
-│  0.4 │      ╲                                            │
-│      │       ╲                                           │
-│  0.2 │        ╲                                          │
-│      └──────────────────────────────────────→ 재현율     │
-│       0.0   0.2   0.4   0.6   0.8   1.0    (Recall)     │
-│                                                          │
-│  임계값(Threshold)↑ → 정밀도↑, 재현율↓                    │
-│  임계값(Threshold)↓ → 정밀도↓, 재현율↑                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         정밀도(Precision) - 재현율(Recall) 트레이드오프     |
+|                                                          |
+|  정밀도                                                   |
+|  (Precision)                                             |
+|  ^                                                       |
+|  1.0 |╲                                                  |
+|      | ╲   이상적 곡선 (정밀도·재현율 모두 최대)             |
+|  0.8 |  ╲                                                |
+|      |   ╲    <- PR 곡선 (Precision-Recall Curve)         |
+|  0.6 |    ╲                                              |
+|      |     ╲                                             |
+|  0.4 |      ╲                                            |
+|      |       ╲                                           |
+|  0.2 |        ╲                                          |
+|      +---------------------------------------> 재현율     |
+|       0.0   0.2   0.4   0.6   0.8   1.0    (Recall)     |
+|                                                          |
+|  임계값(Threshold)^ -> 정밀도^, 재현율v                    |
+|  임계값(Threshold)v -> 정밀도v, 재현율^                    |
++----------------------------------------------------------+
 ```
 
 ### 2.2 임계값 (Threshold) 조정 원리
@@ -83,17 +83,17 @@ tags = ["studynote-ai"]
 
 | 임계값 | 효과 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) |
 |:---:|:---|:---:|:---:|
-| 0.9 (높음) | 매우 확실할 때만 Positive | ↑↑ | ↓↓ |
+| 0.9 (높음) | 매우 확실할 때만 Positive | ^^ | vv |
 | 0.5 (기본) | 표준 판정 | 중간 | 중간 |
-| 0.1 (낮음) | 조금만 Positive 같아도 판정 | ↓↓ | ↑↑ |
+| 0.1 (낮음) | 조금만 Positive 같아도 판정 | vv | ^^ |
 
 **구체적 예시:**
 ```
 샘플별 스팸 확률: [0.92, 0.85, 0.73, 0.55, 0.41, 0.29, 0.12]
 
-임계값=0.5 → [Spam, Spam, Spam, Spam, Normal, Normal, Normal]
-임계값=0.8 → [Spam, Spam, Normal, Normal, Normal, Normal, Normal]
-임계값=0.3 → [Spam, Spam, Spam, Spam, Spam, Normal, Normal]
+임계값=0.5 -> [Spam, Spam, Spam, Spam, Normal, Normal, Normal]
+임계값=0.8 -> [Spam, Spam, Normal, Normal, Normal, Normal, Normal]
+임계값=0.3 -> [Spam, Spam, Spam, Spam, Spam, Normal, Normal]
 ```
 
 ### 2.3 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 수식 비교
@@ -115,11 +115,11 @@ tags = ["studynote-ai"]
 
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 우선 지표 | 이유 | 감수할 수 있는 오류 |
 |:---|:---|:---|:---|
-| 암 진단 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↑ | FN(미검출) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(과잉 검사)는 추가 검사로 해결 |
-| 스팸 필터 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)↑ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(정상 차단) 치명적 | FN(일부 스팸 허용)은 수용 가능 |
-| 사기 탐지 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↑ | FN(사기 미탐지) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(의심 거래 차단)는 해결 가능 |
-| 법률 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)↑ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(무죄인 유죄 판정) 치명적 | FN은 다른 수단으로 탐지 |
-| 유해 콘텐츠 필터 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↑ | FN(유해 콘텐츠 통과) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(일부 정상 콘텐츠 차단) 수용 |
+| 암 진단 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)^ | FN(미검출) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(과잉 검사)는 추가 검사로 해결 |
+| 스팸 필터 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)^ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(정상 차단) 치명적 | FN(일부 스팸 허용)은 수용 가능 |
+| 사기 탐지 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)^ | FN(사기 미탐지) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(의심 거래 차단)는 해결 가능 |
+| 법률 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)^ | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(무죄인 유죄 판정) 치명적 | FN은 다른 수단으로 탐지 |
+| 유해 콘텐츠 필터 | [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)^ | FN(유해 콘텐츠 통과) 치명적 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(일부 정상 콘텐츠 차단) 수용 |
 
 ### 3.2 Average [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))와 AUPRC
 
@@ -135,7 +135,7 @@ tags = ["studynote-ai"]
 | 2종 오류(Type II Error) | FN (False Negative) | 실제 양성을 음성으로 잘못 판정 |
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 1 - FDR (False Discovery Rate) | FP를 줄이는 것이 목표 |
 
-- **📢 섹션 요약 비유**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 검사의 기소율이다. 기소한 피의자 중 실제 유죄 비율이 높아야([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)↑) 억울한 사람이 없다. 하지만 기소를 너무 신중히 하면 진짜 범인을 놓칠 수 있다([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↓) — 이것이 트레이드오프다.
+- **📢 섹션 요약 비유**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 검사의 기소율이다. 기소한 피의자 중 실제 유죄 비율이 높아야([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)^) 억울한 사람이 없다. 하지만 기소를 너무 신중히 하면 진짜 범인을 놓칠 수 있다([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)v) — 이것이 트레이드오프다.
 
 ---
 
@@ -160,19 +160,19 @@ tags = ["studynote-ai"]
 
 ```
 모델 A: 정밀도=0.50, 재현율=0.80
-→ 사기라고 예측한 것 중 50%만 실제 사기
-→ 정상 거래 차단이 절반 → 고객 불만
+-> 사기라고 예측한 것 중 50%만 실제 사기
+-> 정상 거래 차단이 절반 -> 고객 불만
 
 모델 B: 정밀도=0.85, 재현율=0.50
-→ 사기라고 예측한 것의 85% 실제 사기
-→ 일부 사기는 놓치지만 정상 거래 차단 최소화
+-> 사기라고 예측한 것의 85% 실제 사기
+-> 일부 사기는 놓치지만 정상 거래 차단 최소화
 ```
 
 ### 4.3 기술사 핵심 판단 포인트
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>가 중요한 이유를 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 맥락으로 설명</strong>할 것
-- [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프 → <strong>임계값 조정</strong>으로 해결
+- [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프 -> <strong>임계값 조정</strong>으로 해결
 - F1-Score는 균형이 필요할 때, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특성에 따라 가중 F-Score(Fβ)</strong>로 조정 가능
-- `Fβ = (1+β²) × (P×R) / (β²×P + R)` — β>1이면 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중시, β<1이면 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 중시
+- `Fβ = (1+β^) × (P×R) / (β^×P + R)` — β>1이면 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중시, β<1이면 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 중시
 
 - **📢 섹션 요약 비유**: 광고 타기팅 AI의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 30%라면, 광고를 보여준 10명 중 7명이 전혀 관심 없는 사람이라는 뜻이다. 광고주는 광고비를 70% 낭비하는 것 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 높이면 예산 효율이 극적으로 개선된다.
 
@@ -181,15 +181,15 @@ tags = ["studynote-ai"]
 ## Ⅴ. 기대효과 및 결론
 
 ### 5.1 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상의 기대효과
-- **스팸 필터**: 중요 이메일 차단율 감소 → 사용자 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상
-- **광고 시스템**: 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), Click-Through Rate) 향상 → [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선
-- <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조 진단</strong>: 의사 추가 검토 부담 감소 → 업무 효율 향상
+- **스팸 필터**: 중요 이메일 차단율 감소 -> 사용자 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상
+- **광고 시스템**: 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), Click-Through Rate) 향상 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선
+- <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조 진단</strong>: 의사 추가 검토 부담 감소 -> 업무 효율 향상
 - **자동화 품질 검사**: 정상 제품 폐기 비용 절감
 
 ### 5.2 결론
 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 "정확하게 예측했을 때만 발언하라"는 원칙을 수치화한 지표다. [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(False Positive)를 최소화해야 하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 핵심 지표이며, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프를 이해하고 임계값 조정과 Fβ-Score를 통해 실무 요구사항에 맞게 균형을 조율하는 능력이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어의 핵심 역량이다.
 
-- **📢 섹션 요약 비유**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 바둑 기사의 수 선택과 같다. 확실히 좋은 수만 두는 기사([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)↑)는 실수는 없지만 빠른 대응을 못 할 수 있다. 빠르게 많은 수를 두는 기사([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)↑)는 공격적이지만 실수도 많다 — 최고의 기사는 이 둘의 균형을 잡는다.
+- **📢 섹션 요약 비유**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 바둑 기사의 수 선택과 같다. 확실히 좋은 수만 두는 기사([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)^)는 실수는 없지만 빠른 대응을 못 할 수 있다. 빠르게 많은 수를 두는 기사([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)^)는 공격적이지만 실수도 많다 — 최고의 기사는 이 둘의 균형을 잡는다.
 
 ---
 
@@ -207,7 +207,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [정밀도 (Precision)] → [최적화·운영 자동화]
+[데이터 전처리] -> [정밀도 (Precision)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -222,7 +222,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 253 / 420
 
-← **이전**: [252. 혼동 행렬 (Confusion Matrix)](/knowledge-base/studynote/10_ai/03_llm_nlp/252_confusion_matrix/)
-**다음**: [254. 재현율 (Recall) / 민감도](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) →
+<- **이전**: [252. 혼동 행렬 (Confusion Matrix)](/knowledge-base/studynote/10_ai/03_llm_nlp/252_confusion_matrix/)
+**다음**: [254. 재현율 (Recall) / 민감도](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) ->
 
 ---

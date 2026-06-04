@@ -39,23 +39,23 @@ CA (Contract Account)는 이더리움이 비트코인의 한계를 부수고 '�
 CA가 작동하는 원리는 철저히 수동적이다. 개발자가 코드를 메인넷에 배포하면 새로운 CA 주소가 생성된다. 이 CA는 잠들어 있다가, 누군가([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))가 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 지불하며 특정 함수를 찔러주면(호출), 이더리움 가상머신([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))이 깨어나 CA 내부의 코드를 한 줄씩 실행하고 그 결과로 Storage(상태 변수)를 변경하거나 다른 곳으로 돈을 보낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CA 호출 흐름 및 내부 아키텍처                 │
-├──────────────────────────────────────────────────────────────┤
-│ [사람의 지갑 (EOA)]                                           │
-│   │  (트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")   │
-│   ▼                                                          │
-│ ┌───────────────── [ CA (Contract Account) ] ──────────────┐ │
-│ │                                                          │ │
-│ │  ▶ 잔고(Balance): 100 ETH                                │ │
-│ │  ▶ 논스(Nonce): 생성한 컨트랙트 수                          │ │
-│ │  ▶ 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")      │ │
-│ │  ▶ 스토리지(Storage): 영구 저장소 (변수 A = 500)            │ │
-│ └─────────────────────────┬────────────────────────────────┘ │
-│                           │ (EVM에서 코드 실행 후 상태 갱신)      │
-│                           ▼                                │
-│                     [블록체인 상태 변경]                        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  CA 호출 흐름 및 내부 아키텍처                 |
++--------------------------------------------------------------+
+| [사람의 지갑 (EOA)]                                           |
+|   |  (트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")   |
+|   v                                                          |
+| +----------------- [ CA (Contract Account) ] --------------+ |
+| |                                                          | |
+| |  -> 잔고(Balance): 100 ETH                                | |
+| |  -> 논스(Nonce): 생성한 컨트랙트 수                          | |
+| |  -> 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")      | |
+| |  -> 스토리지(Storage): 영구 저장소 (변수 A = 500)            | |
+| +-------------------------+--------------------------------+ |
+|                           | (EVM에서 코드 실행 후 상태 갱신)      |
+|                           v                                |
+|                     [블록체인 상태 변경]                        |
++--------------------------------------------------------------+
 ```
 이 다이어그램은 CA가 코드와 데이터를 담는 거대한 캡슐이며, 반드시 외부의 자극([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))이 있어야만 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 위에서 상태가 전이된다는 것을 보여준다.
 
@@ -114,17 +114,17 @@ CA의 등장은 중개인의 신용에 기대던 인류의 계약 문화를, 수
 
 ```text
 비트코인의 상태 한계 (단순 장부)
-    │
-    ▼
+    |
+    v
 이더리움의 계정 분리 (EOA와 CA의 등장)
-    │
-    ▼
+    |
+    v
 CA (Contract Account) · 스마트 컨트랙트 코드와 스토리지 탑재
-    │
-    ▼
+    |
+    v
 DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화
-    │
-    ▼
+    |
+    v
 계정 추상화 (ERC-4337) · 스마트 컨트랙트 지갑으로의 진화
 ```
 
@@ -142,7 +142,7 @@ DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화
 
 **진행 상황**: 89 / 552
 
-← **이전**: [88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/)
-**다음**: [90. 거버넌스 51% 방어 체계 (분산 슬래싱 Slashing) - 악의적 행동 적발 시 스테이킹한 지분을 몰수하는 PoS 방어 기법](/knowledge-base/studynote/06_ict_convergence/01_blockchain/090_slashing_pos_governance_defense/) →
+<- **이전**: [88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/)
+**다음**: [90. 거버넌스 51% 방어 체계 (분산 슬래싱 Slashing) - 악의적 행동 적발 시 스테이킹한 지분을 몰수하는 PoS 방어 기법](/knowledge-base/studynote/06_ict_convergence/01_blockchain/090_slashing_pos_governance_defense/) ->
 
 ---

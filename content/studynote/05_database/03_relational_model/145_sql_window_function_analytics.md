@@ -47,9 +47,9 @@ Window Frame은 <strong>이동 평균·누적합·연속 집계의 핵심</stron
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[기본 Window Function (SQL:2003)] → [ROWS/RANGE Frame]
-    → [GROUPS Frame (SQL:2011)]
-    → [현재: Window Function 최적화 — Segment Tree 기반]
+[기본 Window Function (SQL:2003)] -> [ROWS/RANGE Frame]
+    -> [GROUPS Frame (SQL:2011)]
+    -> [현재: Window Function 최적화 — Segment Tree 기반]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -63,7 +63,7 @@ Window Frame은 <strong>이동 평균·누적합·연속 집계의 핵심</stron
 
 **진행 상황**: 145 / 600
 
-← **이전**: [144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)
-**다음**: [146. PARTITION BY & ORDER BY - Window 함수 핵심 절](/knowledge-base/studynote/05_database/03_relational_model/146_window_function_partition_by_order_by/) →
+<- **이전**: [144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)
+**다음**: [146. PARTITION BY & ORDER BY - Window 함수 핵심 절](/knowledge-base/studynote/05_database/03_relational_model/146_window_function_partition_by_order_by/) ->
 
 ---

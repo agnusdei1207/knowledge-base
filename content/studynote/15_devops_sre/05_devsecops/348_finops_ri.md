@@ -29,7 +29,7 @@ FinOps는 비용을 재무팀만의 문제가 아니라, 엔지니어와 제품�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 운영은 보통 `가시성 확보 → 비용 할당 → 최적화 → 지속 개선`의 순환 구조를 가진다. 가시성이 있어야 제품/팀/환경별 비용을 볼 수 있고, 그다음에야 스팟·RI·Rightsizing 같은 최적화가 의미를 가진다.
+[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 운영은 보통 `가시성 확보 -> 비용 할당 -> 최적화 -> 지속 개선`의 순환 구조를 가진다. 가시성이 있어야 제품/팀/환경별 비용을 볼 수 있고, 그다음에야 스팟·RI·Rightsizing 같은 최적화가 의미를 가진다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -39,15 +39,15 @@ FinOps는 비용을 재무팀만의 문제가 아니라, 엔지니어와 제품�
 | Governance | 예산과 경보 | [anomaly detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/), unit economics |
 
 ```text
-┌──────────────┐   usage data  ┌──────────────┐   allocate  ┌──────────────┐
-│ Cloud Bills  │ ───────────▶ │ Cost Layer   │ ──────────▶ │ Team / Product│
-└──────────────┘              └──────────────┘             └──────────────┘
-        │                              │                            │
-        │ anomaly                      │ optimize                   │ feedback
-        ▼                              ▼                            ▼
-┌──────────────┐              ┌──────────────┐             ┌──────────────┐
-│ Alerts       │ ◀─────────── │ RI / Spot    │ ──────────▶ │ Budget / KPI │
-└──────────────┘              └──────────────┘             └──────────────┘
++--------------+   usage data  +--------------+   allocate  +--------------+
+| Cloud Bills  | ------------> | Cost Layer   | -----------> | Team / Product|
++--------------+              +--------------+             +--------------+
+        |                              |                            |
+        | anomaly                      | optimize                   | feedback
+        v                              v                            v
++--------------+              +--------------+             +--------------+
+| Alerts       | <------------ | RI / Spot    | -----------> | Budget / KPI |
++--------------+              +--------------+             +--------------+
 ```
 
 핵심 원리는 “비용을 기술 선택과 연결해 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만드는 것”이다. 예를 들어 배치 워크로드는 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)로, 예측 가능한 장기 사용량은 RI나 Savings Plan으로, 개발 환경은 야간 자동 종료로 관리하는 식이다. 이때 비용 최적화는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 운영 부하를 함께 보지 않으면 실패한다.
@@ -118,18 +118,18 @@ FinOps가 성숙하면 제품 출시 속도를 해치지 않으면서도 비용 
 
 ```text
 Cloud Cost Visibility
-   │
-   ▼
+   |
+   v
 Tagging / Allocation
-   │
-   ▼
+   |
+   v
 RI / Spot / Rightsizing
-   │
-   ▼
+   |
+   v
 FinOps Governance + Unit Economics
 ```
 
-이 흐름은 “보이는 비용 → 귀속되는 비용 → 최적화되는 비용 → 가치와 연결된 비용”으로 성숙하는 과정을 보여준다.
+이 흐름은 “보이는 비용 -> 귀속되는 비용 -> 최적화되는 비용 -> 가치와 연결된 비용”으로 성숙하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ FinOps Governance + Unit Economics
 
 **진행 상황**: 348 / 373
 
-← **이전**: [347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/)
-**다음**: [349. 하이브리드 멀티 클라우드 록인 회피 (Hybrid Multi-Cloud)](/knowledge-base/studynote/15_devops_sre/05_devsecops/349_process/) →
+<- **이전**: [347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/)
+**다음**: [349. 하이브리드 멀티 클라우드 록인 회피 (Hybrid Multi-Cloud)](/knowledge-base/studynote/15_devops_sre/05_devsecops/349_process/) ->
 
 ---

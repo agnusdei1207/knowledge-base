@@ -34,30 +34,30 @@ Spark의 핵심 아이디어: <strong>메모리에 <a href="/knowledge-base/stud
 ### Spark 아키텍처
 
 ```
-  ┌──────────────────────────────────────────────────────────┐
-  │                    Spark 애플리케이션                      │
-  ├──────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  ┌─────────────────┐                                     │
-  │  │   Driver Program │  ← 사용자 코드 실행, Job 생성        │
-  │  │   SparkContext   │  ← 클러스터 연결 및 실행 조율         │
-  │  └────────┬─────────┘                                     │
-  │           │ Task 분배                                     │
-  │           ▼                                               │
-  │  ┌─────────────────────────────────────────────────────┐ │
-  │  │           Cluster Manager (YARN/K8s/Standalone)      │ │
-  │  └────────────────────┬────────────────────────────────┘ │
-  │                        │ Executor 할당                    │
-  │     ┌──────────────────┼─────────────────┐               │
-  │     ▼                  ▼                 ▼               │
-  │  ┌───────────┐   ┌───────────┐   ┌───────────┐          │
-  │  │ Executor 1│   │ Executor 2│   │ Executor 3│          │
-  │  │ (노드1)   │   │ (노드2)   │   │ (노드3)   │          │
-  │  │ [Task1]   │   │ [Task3]   │   │ [Task5]   │          │
-  │  │ [Task2]   │   │ [Task4]   │   │ [Task6]   │          │
-  │  │ [메모리 캐시] │ [메모리 캐시] │ [메모리 캐시] │        │
-  │  └───────────┘   └───────────┘   └───────────┘          │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |                    Spark 애플리케이션                      |
+  +----------------------------------------------------------+
+  |                                                           |
+  |  +-----------------+                                     |
+  |  |   Driver Program |  <- 사용자 코드 실행, Job 생성        |
+  |  |   SparkContext   |  <- 클러스터 연결 및 실행 조율         |
+  |  +--------+---------+                                     |
+  |           | Task 분배                                     |
+  |           v                                               |
+  |  +-----------------------------------------------------+ |
+  |  |           Cluster Manager (YARN/K8s/Standalone)      | |
+  |  +--------------------+--------------------------------+ |
+  |                        | Executor 할당                    |
+  |     +------------------+-----------------+               |
+  |     v                  v                 v               |
+  |  +-----------+   +-----------+   +-----------+          |
+  |  | Executor 1|   | Executor 2|   | Executor 3|          |
+  |  | (노드1)   |   | (노드2)   |   | (노드3)   |          |
+  |  | [Task1]   |   | [Task3]   |   | [Task5]   |          |
+  |  | [Task2]   |   | [Task4]   |   | [Task6]   |          |
+  |  | [메모리 캐시] | [메모리 캐시] | [메모리 캐시] |        |
+  |  +-----------+   +-----------+   +-----------+          |
+  +----------------------------------------------------------+
 ```
 
 ### Spark 통합 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
@@ -199,14 +199,14 @@ Apache Spark는 현재 빅데이터 처리의 사실상 표준(De facto Standard
 
 ```text
 MapReduce: 단계마다 디스크 I/O (느림)
-    │
-    ▼
+    |
+    v
 Spark: In-Memory 처리 (DAG 기반 실행 계획)
-    ├─► Spark SQL · DataFrame: 구조화 데이터
-    ├─► Spark Streaming: 마이크로배치 스트리밍
-    └─► MLlib · GraphX: ML + 그래프 연산
-    │
-    ▼
+    +-► Spark SQL · DataFrame: 구조화 데이터
+    +-► Spark Streaming: 마이크로배치 스트리밍
+    +-► MLlib · GraphX: ML + 그래프 연산
+    |
+    v
 Spark on K8s · Databricks Lakehouse
 ```
 2. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)도, SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)도, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)도, 실시간 분석도 모두 Spark 하나로 할 수 있어. 스위스 군용 칼처럼 다기능이야.
@@ -218,7 +218,7 @@ Spark on K8s · Databricks Lakehouse
 
 **진행 상황**: 214 / 371
 
-← **이전**: [214. YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/214_yarn_resource_manager_hadoop/)
-**다음**: [216. RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/216_rdd_resilient_distributed_dataset/) →
+<- **이전**: [214. YARN (Yet Another Resource Negotiator)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/214_yarn_resource_manager_hadoop/)
+**다음**: [216. RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/216_rdd_resilient_distributed_dataset/) ->
 
 ---

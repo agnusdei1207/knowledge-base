@@ -25,21 +25,21 @@ tags = ["studynote-software-engineering"]
 이 꼬여버린 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 실타래를 가장 확실하게 푸는 블랙박스 테스터의 도구가 바로 <strong>의사 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">결정 테이블</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">Decision Table</a>)</strong>입니다. 눈에 보이지 않는 `if` 중첩 코드를 투명한 표(Table)로 끄집어내어, 조건들의 교차로를 하나하나 짚어볼 수 있게 만드는 완전무결한 지도입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  의사 결정 테이블의 시각적 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│ [조건 (Conditions)]        | Rule 1 | Rule 2 | Rule 3 | Rule 4 |
-│ C1: 골드 회원인가?         |    T   |    T   |    F   |    F   |
-│ C2: 일요일인가?            |    T   |    F   |    T   |    F   |
-│ ─────────────────────────┼────────┼────────┼────────┼────────┤
-│ [동작 (Actions)]           |        |        |        |        |
-│ A1: 20% 추가 할인 적용      |    X   |        |        |        |
-│ A2: 5% 포인트만 적립        |        |    X   |        |        |
-│ A3: 평일 일반 요금 징수      |        |        |        |    X   |
-│ A4: 주말 일반 요금 징수      |        |        |    X   |        |
-│                                                              │
-│ ※ Rule 1~4의 각 세로줄이 바로 하나의 독립된 "테스트 케이스"가 됨.    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  의사 결정 테이블의 시각적 구조                 |
++--------------------------------------------------------------+
+| [조건 (Conditions)]        | Rule 1 | Rule 2 | Rule 3 | Rule 4 |
+| C1: 골드 회원인가?         |    T   |    T   |    F   |    F   |
+| C2: 일요일인가?            |    T   |    F   |    T   |    F   |
+| -------------------------+--------+--------+--------+--------+
+| [동작 (Actions)]           |        |        |        |        |
+| A1: 20% 추가 할인 적용      |    X   |        |        |        |
+| A2: 5% 포인트만 적립        |        |    X   |        |        |
+| A3: 평일 일반 요금 징수      |        |        |        |    X   |
+| A4: 주말 일반 요금 징수      |        |        |    X   |        |
+|                                                              |
+| ※ Rule 1~4의 각 세로줄이 바로 하나의 독립된 "테스트 케이스"가 됨.    |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 수백 개의 갈래길로 나뉘는 꼬불꼬불한 미로(비즈니스 로직)를 헤매는 대신, 천장 유리를 뜯고 위에서 내려다보며 도화지에 바둑판처럼 지도를 그려놓고, 안 가본 블록이 어딘지 네임펜으로 하나씩 칠해가는 완벽한 완전 정복 맵핑입니다.
@@ -143,21 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 의사 결정 테이블 (Decision Table) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 421 / 973
 
-← **이전**: [414. 경계값 분석 (Boundary Value Analysis) - 경계 부분에서 결함이 많다는 점 이용 (분할의 가장자리 값)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)
-**다음**: [415. 의사 결정 테이블 (Decision Table) - 복잡한 논리적 조건들의 조합을 표로 구성하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/) →
+<- **이전**: [414. 경계값 분석 (Boundary Value Analysis) - 경계 부분에서 결함이 많다는 점 이용 (분할의 가장자리 값)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)
+**다음**: [415. 의사 결정 테이블 (Decision Table) - 복잡한 논리적 조건들의 조합을 표로 구성하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/) ->
 
 ---

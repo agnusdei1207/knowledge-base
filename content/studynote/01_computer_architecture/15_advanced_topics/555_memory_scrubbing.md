@@ -44,17 +44,17 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 스크러빙이 단순 read loop가 아니라, "순회-판정-[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)-기록"으로 이어지는 관리 루프임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Scrubbing loop: scan memory, repair correctable faults, record bad spots  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Timer/Credit] -> [Address Walker] -> [Read DRAM line] -> [ECC Decode]    │
-│                                                            │               │
-│                      no error ----------------------------->│ advance       │
-│                      correctable error -> [Write Back] ----┤               │
-│                      uncorrectable error -> [Log/Alert] ---┘               │
-│                                                                            │
-│ Low priority rule: application traffic > scrub traffic                     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Scrubbing loop: scan memory, repair correctable faults, record bad spots  |
++----------------------------------------------------------------------------+
+| [Timer/Credit] -> [Address Walker] -> [Read DRAM line] -> [ECC Decode]    |
+|                                                            |               |
+|                      no error ----------------------------->| advance       |
+|                      correctable error -> [Write Back] ----+               |
+|                      uncorrectable error -> [Log/Alert] ---+               |
+|                                                                            |
+| Low priority rule: application traffic > scrub traffic                     |
++----------------------------------------------------------------------------+
 ```
 
 운용 방식은 크게 두 가지다. 패트롤 스크러빙 (Patrol Scrubbing)은 유휴 시간에 메모리 전체를 일정 주기로 순회하고, 디맨드 스크러빙 (Demand Scrubbing)은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 발견된 correctable error를 즉시 write-back으로 치유한다. 전자는 <strong>보이지 않는 오류를 찾는 능력</strong>이 강하고, 후자는 <strong>자주 쓰이는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 즉시성</strong>이 좋기 때문에 실무에서는 둘을 함께 쓰는 경우가 많다.
@@ -134,17 +134,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 ECC 기반 단발성 오류 정정
-        │
-        ▼
+        |
+        v
 Demand Scrubbing
-        │
-        ▼
+        |
+        v
 Patrol Scrubbing · 메모리 컨트롤러 순회
-        │
-        ▼
+        |
+        v
 Page Retirement · Spare Rank · RAS 운영
-        │
-        ▼
+        |
+        v
 적응형 스크러빙 · CXL 메모리 풀 신뢰성 관리
 ```
 
@@ -162,7 +162,7 @@ Page Retirement · Spare Rank · RAS 운영
 
 **진행 상황**: 555 / 803
 
-← **이전**: [554. 오류 정정 부호 (ECC) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)
-**다음**: [556. 소프트 에러 복구 매커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/556_soft_error_recovery/) →
+<- **이전**: [554. 오류 정정 부호 (ECC) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)
+**다음**: [556. 소프트 에러 복구 매커니즘](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/556_soft_error_recovery/) ->
 
 ---

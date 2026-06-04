@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             현대 부팅 시퀀스 (UEFI 기준)               │
-├────────────────────────────────────────────────────────┤
-│ 전원 ON                                                │
-│   ↓                                                   │
-│ UEFI 펌웨어 실행 (ROM)                                 │
-│   ↓ POST (Power-On Self Test) — 하드웨어 초기화        │
-│   ↓                                                   │
-│ EFI Boot Manager → Boot Loader (GRUB2/Windows Boot)   │
-│   ↓                                                   │
-│ OS 커널 로드 (initramfs/init.sys)                      │
-│   ↓                                                   │
-│ 커널 초기화 → systemd/init 실행 → 사용자 서비스        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             현대 부팅 시퀀스 (UEFI 기준)               |
++--------------------------------------------------------+
+| 전원 ON                                                |
+|   v                                                   |
+| UEFI 펌웨어 실행 (ROM)                                 |
+|   v POST (Power-On Self Test) — 하드웨어 초기화        |
+|   v                                                   |
+| EFI Boot Manager -> Boot Loader (GRUB2/Windows Boot)   |
+|   v                                                   |
+| OS 커널 로드 (initramfs/init.sys)                      |
+|   v                                                   |
+| 커널 초기화 -> systemd/init 실행 -> 사용자 서비스        |
++--------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 부트스트랩은 공장 가동 시작이다. 전기가 들어오면(전원 ON) 제일 먼저 중앙 제어실(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))이 깨어나서 모든 기계(하드웨어)를 점검하고, 설계도(OS)를 가져와 공장을 완전히 가동시킨다.
@@ -55,11 +55,11 @@ tags = ["studynote-operating-system"]
 ```text
 UEFI Secure Boot:
   1. 부트 로더 코드에 디지털 서명 요구
-  2. 허가된 서명만 실행 → 악성 부트킷 차단
+  2. 허가된 서명만 실행 -> 악성 부트킷 차단
   3. 키 관리: DB(허가), DBX(차단) 데이터베이스
 ```
 
-- **📢 섹션 요약 비유**: Secure Boot는 공장 입장 시 사원증 확인이다. 서명된 사원증(디지털 서명)이 없으면 입장 불가 → 악성 직원([부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/) 악성코드)이 몰래 들어올 수 없다.
+- **📢 섹션 요약 비유**: Secure Boot는 공장 입장 시 사원증 확인이다. 서명된 사원증(디지털 서명)이 없으면 입장 불가 -> 악성 직원([부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/) 악성코드)이 몰래 들어올 수 없다.
 
 ---
 
@@ -67,9 +67,9 @@ UEFI Secure Boot:
 
 | 비교 | BIOS 부팅 | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 부팅 |
 |:---|:---|:---|
-| 1단계 | [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) BIOS → POST | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) → POST |
+| 1단계 | [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) BIOS -> POST | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) -> POST |
 | 2단계 | [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 읽기 (512 bytes) | EFI 시스템 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) |
-| 3단계 | Boot Sector → OS Loader | Boot Manager → [Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) |
+| 3단계 | Boot Sector -> OS Loader | Boot Manager -> [Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) |
 | 디스크 제한 | 2TB | 8 ZB ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) |
 
 - **📢 섹션 요약 비유**: BIOS는 구형 문서 보관소 — 오래된 규칙(16비트, 2TB)에 묶여있다. UEFI는 현대 디지털 도서관 — 대용량 자료([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)), 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)), 빠른 검색(Fast Boot)이 모두 지원된다.
@@ -80,7 +80,7 @@ UEFI Secure Boot:
 
 ### 클라우드 인스턴스 부팅
 - AWS EC2: [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 부팅 지원, EFI 변수로 부팅 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 저장.
-- PXE(Preboot Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)): 네트워크를 통한 OS 이미지 부팅 → 디스크 없는 서버 가능.
+- PXE(Preboot Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)): 네트워크를 통한 OS 이미지 부팅 -> 디스크 없는 서버 가능.
 
 ### [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/) 부트스트랩
 - U-Boot: ARM [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)의 표준 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/).
@@ -118,17 +118,17 @@ UEFI Secure Boot:
 
 ```text
 [ROM BIOS — 16비트 레거시 부팅]
-    │
-    ▼
+    |
+    v
 [UEFI — 64비트, GPT, Secure Boot 현대 부팅]
-    │
-    ▼
+    |
+    v
 [PXE / 네트워크 부팅 — 디스크 없는 서버]
-    │
-    ▼
+    |
+    v
 [컨테이너 Cold Start — 밀리초 부팅 목표]
-    │
-    ▼
+    |
+    v
 [스냅샷 복원 / 유니커널 — 초경량 즉시 시작]
 ```
 
@@ -144,7 +144,7 @@ UEFI Secure Boot:
 
 **진행 상황**: 28 / 800
 
-← **이전**: [27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/027_unikernel/)
-**다음**: [29. 부트로더 (Bootloader)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) →
+<- **이전**: [27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/027_unikernel/)
+**다음**: [29. 부트로더 (Bootloader)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) ->
 
 ---

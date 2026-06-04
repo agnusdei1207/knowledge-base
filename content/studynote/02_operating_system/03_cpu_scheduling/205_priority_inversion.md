@@ -29,17 +29,17 @@ tags = ["studynote-operating-system"]
 
   [ 우선순위: H(높음) > M(중간) > L(낮음) ]
 
-  시간 1: L 실행 시작 ─▶ 공유 자원 'DB' 락(Lock) 획득
-  시간 2: H 가 도착함 ─▶ H가 L을 쫓아내고(선점) CPU 차지
-  시간 3: H 가 'DB'에 접근 시도 ─▶ L이 락을 쥐고 있으므로 H는 대기(Block) 상태로 빠짐
+  시간 1: L 실행 시작 --> 공유 자원 'DB' 락(Lock) 획득
+  시간 2: H 가 도착함 --> H가 L을 쫓아내고(선점) CPU 차지
+  시간 3: H 가 'DB'에 접근 시도 --> L이 락을 쥐고 있으므로 H는 대기(Block) 상태로 빠짐
   시간 4: L 이 다시 CPU를 잡아 락을 풀려고 함
-  시간 5: 🚨 이때 M 이 도착함! ─▶ M의 우선순위가 L보다 높으므로 L을 쫓아냄!
+  시간 5: 🚨 이때 M 이 도착함! --> M의 우선순위가 L보다 높으므로 L을 쫓아냄!
   시간 6: M 이 CPU를 독점하며 긴 연산을 시작함.
 
   [결과적 재앙]
-  ▶ M은 락과 아무 상관없는 놈인데, L이 락을 푸는 걸 막아버림.
-  ▶ 최고 권력자 H는 M의 연산이 다 끝나고 L이 락을 풀 때까지 영원히 멈춤.
-  ▶ "M이 H를 멈추게 한" 실질적인 신분 역전 발생!
+  -> M은 락과 아무 상관없는 놈인데, L이 락을 푸는 걸 막아버림.
+  -> 최고 권력자 H는 M의 연산이 다 끝나고 L이 락을 풀 때까지 영원히 멈춤.
+  -> "M이 H를 멈추게 한" 실질적인 신분 역전 발생!
 ```
 **[다이어그램 해설]** H가 L을 기다리는 것 자체는 역전이 아니다(락의 정상적인 동작이다). 진짜 문제는 중간에 낀 M이다. M은 H보다 계급이 낮으면서도, H가 볼일을 보지 못하게 간접적으로 방해(L을 묶어둠)하는 엄청난 권력을 행사하게 된다. 이 도미노 현상은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 많아질수록 걷잡을 수 없이 길어지며 시스템을 완벽히 마비시킨다.
 
@@ -66,24 +66,24 @@ PIP보다 더 엄격하고 강력한(그리고 무거운) 방식이다.
 - **결과**: L이 자원을 다 쓸 때까지 시스템 내의 그 어떤 놈(M이든 뭐든)도 L을 건드릴 수 없는 절대 무적 상태가 된다. 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))과 연쇄적인 역전을 한 방에 차단하는 수학적으로 완벽한 방어막이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │         우선순위 상속 (Priority Inheritance) 동작 타임라인 시뮬레이션 │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [일반 뮤텍스(역전 터짐)]                                            │
-  │   L(Lock쥠) ─▶ H(Lock요청/대기) ─▶ M(L을 선점) ─▶ 🚨 H 무한대기       │
-  │                                                                       │
-  │   [RT 뮤텍스(우선순위 상속 가동!)]                                    │
-  │   L(Lock쥠, 우선순위:10)                                              │
-  │     ↓                                                                 │
-  │   H(우선순위:1)가 Lock 요청 ─▶ L의 우선순위가 즉시 1로 임시 승급! ⭐  │
-  │     ↓                                                                 │
-  │   M(우선순위:5) 도착 ─▶ L(현재 1)을 이길 수 없어서 조용히 찌그러짐.   │
-  │     ↓                                                                 │
-  │   L이 방해받지 않고 Lock 해제 ─▶ L은 다시 10으로 강등.                │
-  │     ↓                                                                 │
-  │   H가 즉시 Lock을 쥐고 연산 ─▶ H 완료 후 M이 실행됨. ✅ (완벽!)       │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |         우선순위 상속 (Priority Inheritance) 동작 타임라인 시뮬레이션 |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   [일반 뮤텍스(역전 터짐)]                                            |
+  |   L(Lock쥠) --> H(Lock요청/대기) --> M(L을 선점) --> 🚨 H 무한대기       |
+  |                                                                       |
+  |   [RT 뮤텍스(우선순위 상속 가동!)]                                    |
+  |   L(Lock쥠, 우선순위:10)                                              |
+  |     v                                                                 |
+  |   H(우선순위:1)가 Lock 요청 --> L의 우선순위가 즉시 1로 임시 승급! ⭐  |
+  |     v                                                                 |
+  |   M(우선순위:5) 도착 --> L(현재 1)을 이길 수 없어서 조용히 찌그러짐.   |
+  |     v                                                                 |
+  |   L이 방해받지 않고 Lock 해제 --> L은 다시 10으로 강등.                |
+  |     v                                                                 |
+  |   H가 즉시 Lock을 쥐고 연산 --> H 완료 후 M이 실행됨. ✅ (완벽!)       |
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)의 핵심은 "급한 놈(H)이 안 급한 놈(L)에게 자기 권력을 빌려줘서 빨리 일을 끝내게 만드는 것"이다. 이는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))와 스케줄링(Priority)이라는 두 개의 분리된 세계를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 하나의 자료구조로 묶어버린 위대한 통합(Integration) 아키텍처다.
 
@@ -121,27 +121,27 @@ PIP보다 더 엄격하고 강력한(그리고 무거운) 방식이다.
    - 단 1비트를 바꾸자마자 기상 관측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 통신 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 선점을 이겨내고 락을 반환했고, 화성 탐사선은 완벽하게 수리되어 임무를 완수했다. (아키텍트의 이론적 깊이가 2억 5천만 킬로미터 밖의 하드웨어를 살려낸 사례다.)
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     실시간(RT) 환경에서 락(Lock) 설계 시 아키텍트의 의사결정       │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [요구사항: 초당 10만 번 호출되는 공유 메모리(센서 데이터) 보호]  │
-  │                │                                                   │
-  │                ▼ 동기화 기법 선택                                  │
-  │   [ 1. 세마포어 (Semaphore) 사용 ]                                 │
-  │     ▶ 결과: 소유권 추적 불가로 PIP 작동 불가.                      │
-  │     ▶ 장애: 중간 우선순위 스레드 개입 시 100% 우선순위 역전 발생!  │
-  │     ▶ 판정: 🚨 실시간 시스템에서 절대 사용 금지.                   │
-  │                                                                    │
-  │   [ 2. 일반 뮤텍스 (Mutex) 사용 ]                                  │
-  │     ▶ 결과: PIP 옵션이 꺼져있으면 세마포어와 똑같이 터짐.          │
-  │     ▶ 판정: 반드시 pthread_mutexattr_setprotocol(&attr,            │
-  │             PTHREAD_PRIO_INHERIT) 를 명시적으로 켜야 함.           │
-  │                                                                    │
-  │   [ 3. Lock-free 자료구조 (CAS 연산) 사용 ]                        │
-  │     ▶ 결과: 아예 락을 잡지 않으므로 역전이나 데드락 자체가 소멸.   │
-  │     ▶ 판정: ✅ 하드 리얼타임(HFT, 드론)의 궁극적이고 완벽한 해법.  │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     실시간(RT) 환경에서 락(Lock) 설계 시 아키텍트의 의사결정       |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [요구사항: 초당 10만 번 호출되는 공유 메모리(센서 데이터) 보호]  |
+  |                |                                                   |
+  |                v 동기화 기법 선택                                  |
+  |   [ 1. 세마포어 (Semaphore) 사용 ]                                 |
+  |     -> 결과: 소유권 추적 불가로 PIP 작동 불가.                      |
+  |     -> 장애: 중간 우선순위 스레드 개입 시 100% 우선순위 역전 발생!  |
+  |     -> 판정: 🚨 실시간 시스템에서 절대 사용 금지.                   |
+  |                                                                    |
+  |   [ 2. 일반 뮤텍스 (Mutex) 사용 ]                                  |
+  |     -> 결과: PIP 옵션이 꺼져있으면 세마포어와 똑같이 터짐.          |
+  |     -> 판정: 반드시 pthread_mutexattr_setprotocol(&attr,            |
+  |             PTHREAD_PRIO_INHERIT) 를 명시적으로 켜야 함.           |
+  |                                                                    |
+  |   [ 3. Lock-free 자료구조 (CAS 연산) 사용 ]                        |
+  |     -> 결과: 아예 락을 잡지 않으므로 역전이나 데드락 자체가 소멸.   |
+  |     -> 판정: ✅ 하드 리얼타임(HFT, 드론)의 궁극적이고 완벽한 해법.  |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 초보 개발자는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 할 때 아무 생각 없이 `Mutex`나 `Semaphore`를 가져다 쓴다. 하지만 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 아키텍트는 락을 거는 순간 스케줄링 큐가 어떻게 꼬이고(역전), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 어떻게 이 락을 해제([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))해 주는지 그 오버헤드의 나비효과를 계산한다. 가장 훌륭한 실무적 대답은 "우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 켜는 것"보다, 아예 락을 쓰지 않는 락 프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 큐로 설계하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 자체를 0으로 만드는 것이다.
 
@@ -174,12 +174,12 @@ PIP보다 더 엄격하고 강력한(그리고 무거운) 방식이다.
 
 ```text
 [지연 시간 (Latency)]
-    │
-    ▼
+    |
+    v
 [우선순위 역전 (Priority Inversion)]
-    │
-    ├──▶ [RM (Rate-Monotonic) 스케줄링]
-    └──▶ [EDF (Earliest Deadline First) 스케줄링]
+    |
+    +---> [RM (Rate-Monotonic) 스케줄링]
+    +---> [EDF (Earliest Deadline First) 스케줄링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -196,7 +196,7 @@ PIP보다 더 엄격하고 강력한(그리고 무거운) 방식이다.
 
 **진행 상황**: 205 / 800
 
-← **이전**: [204. 레드-블랙 트리 (Red-Black Tree)와 CFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/)
-**다음**: [206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/) →
+<- **이전**: [204. 레드-블랙 트리 (Red-Black Tree)와 CFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/)
+**다음**: [206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/) ->
 
 ---

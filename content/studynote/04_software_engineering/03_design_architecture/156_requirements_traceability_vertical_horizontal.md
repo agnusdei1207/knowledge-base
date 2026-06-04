@@ -30,31 +30,31 @@ tags = ["studynote-software-engineering"]
   2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> 및 ISO 인증의 강제화</strong>: 미국 국방부 같은 거대 기관이 "추적표([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 없이는 너희 소프트웨어를 믿고 사지 않겠다"며 공학 품질 관리의 0순위 증빙 자료로 강제 채택했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          추적성의 양방향(수직적/수평적) 아키텍처 생태계 맵 (Map)          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 1️⃣ [ 수직적 (Vertical) 추적성 - 생명주기(SDLC)를 관통하는 파급력 ]  │
-│                                                             │
-│   (Backward 역추적) ◀────────────────────────▶ (Forward 정추적)│
-│                                                             │
-│  [고객의 요구] ➔ [SRS 명세서] ➔ [설계도/DB] ➔ [소스코드] ➔ [테스트]  │
-│  "카드결제해줘" ➔ REQ-PAY-01 ➔ UML_PAY_01 ➔ Pay.java ➔ TC-005  │
-│                                                             │
-│  🌟 정추적 (가시성): REQ-PAY-01이 끝까지 누락 없이 구현/테스트되었나?    │
-│  🌟 역추적 (정당성): Pay.java라는 코드는 도대체 왜 짠 건가? (근원 파악)    │
-│                                                             │
-│                                                             │
-│ 2️⃣ [ 수평적 (Horizontal) 추적성 - 같은 단계 안에서의 얽힘과 충돌 ]  │
-│                                                             │
-│  [ REQ-PAY-01 (결제 기능) ] ◀─ (충돌) ─▶ [ REQ-SEC-05 (보안 암호화) ] │
-│   - "결제 로직은 무조건 1초 이내에 끝나야 한다."                     │
-│   - "결제 데이터는 10번 암호화해서 무겁게 처리해야 한다."                │
-│                                                             │
-│  🌟 아키텍트 판단: 추적성은 단순히 앞뒤(수직)만 잇는 게 아니다. 옆에 있는    │
-│     요구사항끼리 서로 논리적 모순(Conflict)을 일으키는지 거미줄(수평)을 쳐서 │
-│     스펙 간의 종속성과 충돌을 관리하는 극강의 의존성(Dependency) 매핑이다.│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          추적성의 양방향(수직적/수평적) 아키텍처 생태계 맵 (Map)          |
++-------------------------------------------------------------+
+|                                                             |
+| 1️⃣ [ 수직적 (Vertical) 추적성 - 생명주기(SDLC)를 관통하는 파급력 ]  |
+|                                                             |
+|   (Backward 역추적) <--------------------------> (Forward 정추적)|
+|                                                             |
+|  [고객의 요구] ➔ [SRS 명세서] ➔ [설계도/DB] ➔ [소스코드] ➔ [테스트]  |
+|  "카드결제해줘" ➔ REQ-PAY-01 ➔ UML_PAY_01 ➔ Pay.java ➔ TC-005  |
+|                                                             |
+|  🌟 정추적 (가시성): REQ-PAY-01이 끝까지 누락 없이 구현/테스트되었나?    |
+|  🌟 역추적 (정당성): Pay.java라는 코드는 도대체 왜 짠 건가? (근원 파악)    |
+|                                                             |
+|                                                             |
+| 2️⃣ [ 수평적 (Horizontal) 추적성 - 같은 단계 안에서의 얽힘과 충돌 ]  |
+|                                                             |
+|  [ REQ-PAY-01 (결제 기능) ] <-- (충돌) --> [ REQ-SEC-05 (보안 암호화) ] |
+|   - "결제 로직은 무조건 1초 이내에 끝나야 한다."                     |
+|   - "결제 데이터는 10번 암호화해서 무겁게 처리해야 한다."                |
+|                                                             |
+|  🌟 아키텍트 판단: 추적성은 단순히 앞뒤(수직)만 잇는 게 아니다. 옆에 있는    |
+|     요구사항끼리 서로 논리적 모순(Conflict)을 일으키는지 거미줄(수평)을 쳐서 |
+|     스펙 간의 종속성과 충돌을 관리하는 극강의 의존성(Dependency) 매핑이다.|
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기술사 시험에서 단골로 묻는 수직(Vertical)과 수평(Horizontal)의 차이다. 수직적 추적성은 폭포수 계단을 타고 내려가거나 올라가는 <strong>'시간/산출물'의 핏줄</strong>이다. 무언가 바뀌었을 때 파도타기(Ripple Effect)를 계산하는 데 쓴다. 수평적 추적성은 같은 명세서(문서 1장) 안에서 1번 요구사항과 5번 요구사항이 서로 어떤 관계를 맺고 있는지 따지는 <strong>'공간/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>'의 핏줄</strong>이다. 결제 버튼(1번)을 누르면 반드시 재고 차감(5번)이 실행되어야 한다는 의존성을 묶어두어, 나중에 하나를 삭제할 때 남은 하나가 고아(Orphan)가 되어 시스템이 붕괴하는 것을 막는 방어 기제다.
@@ -158,21 +158,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 요구사항 추적성 (Traceability) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -186,7 +186,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 156 / 973
 
-← **이전**: [155. 동료 검토 (Peer Review) - 좆목질 사일로를 찢어버린 애자일 집단 지성 스캐너](/knowledge-base/studynote/04_software_engineering/03_design_architecture/155_peer_review/)
-**다음**: [157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) →
+<- **이전**: [155. 동료 검토 (Peer Review) - 좆목질 사일로를 찢어버린 애자일 집단 지성 스캐너](/knowledge-base/studynote/04_software_engineering/03_design_architecture/155_peer_review/)
+**다음**: [157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) ->
 
 ---

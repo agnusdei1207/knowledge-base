@@ -31,23 +31,23 @@ tags = ["studynote-cloud-architecture"]
 컨피그맵과 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 Key-Value 쌍으로 데이터를 저장하며, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 생성될 때 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) (ENV) 또는 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) ([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)) 형태로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부에 주입된다. [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)의 경우 추가적으로 데이터를 Base64로 인코딩하여 저장하며, 노드의 디스크가 아닌 휘발성 메모리 (tmpfs)에 저장되어 보안을 강화한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│       쿠버네티스 파드 설정 주입 아키텍처 (Config Injection)       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ConfigMap] (일반 텍스트)       [Secret] (Base64 인코딩)    │
-│  DB_PORT=3306                 DB_PASS=cGFzc3dvcmQ=           │
-│       │                              │                       │
-│       │ (주입 방식 선택)             │ (메모리 기반 마운트)  │
-│       ▼                              ▼                       │
-│  ┌───────────────── 파드 (Pod) ───────────────────────────┐  │
-│  │                                                        │  │
-│  │ 1. 환경 변수 (ENV): OS 환경 변수로 일회성 로드         │  │
-│  │ 2. 볼륨 마운트 (Volume Mount): /etc/config/ 파일 연결  │  │
-│  │                                                        │  │
-│  │ ─────────▶ [컨테이너 프로세스 실행] ◀──────────        │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|       쿠버네티스 파드 설정 주입 아키텍처 (Config Injection)       |
++--------------------------------------------------------------+
+|                                                              |
+|  [ConfigMap] (일반 텍스트)       [Secret] (Base64 인코딩)    |
+|  DB_PORT=3306                 DB_PASS=cGFzc3dvcmQ=           |
+|       |                              |                       |
+|       | (주입 방식 선택)             | (메모리 기반 마운트)  |
+|       v                              v                       |
+|  +----------------- 파드 (Pod) ---------------------------+  |
+|  |                                                        |  |
+|  | 1. 환경 변수 (ENV): OS 환경 변수로 일회성 로드         |  |
+|  | 2. 볼륨 마운트 (Volume Mount): /etc/config/ 파일 연결  |  |
+|  |                                                        |  |
+|  | ----------> [컨테이너 프로세스 실행] <-----------        |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 위 다이어그램은 외부에 저장된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부로 전달되는 흐름을 보여준다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 방식은 주입이 간단하지만 런타임에 동적으로 값을 업데이트할 수 없고, 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 방식은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 제공되어 값이 변경되면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 없이도 실시간 갱신 (Hot Reload)이 가능하다는 차이가 있다.
@@ -119,17 +119,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 하드코딩 (Hard-coding)
-    │
-    ▼
+    |
+    v
 환경 변수 (OS ENV) 분리 · 12-Factor App
-    │
-    ▼
+    |
+    v
 ConfigMap · Secret (쿠버네티스 네이티브 설정 주입)
-    │
-    ▼
+    |
+    v
 볼륨 마운트 (Volume Mount) · 핫 리로드 (Hot Reload)
-    │
-    ▼
+    |
+    v
 External Secrets Operator · KMS (Key Management Service) 연동
 ```
 
@@ -144,7 +144,7 @@ External Secrets Operator · KMS (Key Management Service) 연동
 
 **진행 상황**: 101 / 371
 
-← **이전**: [101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/)
-**다음**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/) →
+<- **이전**: [101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/)
+**다음**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/) ->
 
 ---

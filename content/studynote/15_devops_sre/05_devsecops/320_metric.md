@@ -19,12 +19,12 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. Three Pillars of [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│             Observability 세 기둥                   │
-│                                                      │
-│  Metrics (수치 집계)  Logs (이벤트)  Traces (흐름)  │
-│     무엇이               왜              어디서       │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|             Observability 세 기둥                   |
+|                                                      |
+|  Metrics (수치 집계)  Logs (이벤트)  Traces (흐름)  |
+|     무엇이               왜              어디서       |
++------------------------------------------------------+
 ```
 
 | 기둥      | 질문               | 도구 예시                     |
@@ -72,14 +72,14 @@ tags = ["studynote-devops-sre"]
 Distributed Tracing은 단일 요청이 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 거치는 경로를 Trace ID로 연결해 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
 
 ```
-User Request → API Gateway → Order Svc → Inventory Svc → DB
+User Request -> API Gateway -> Order Svc -> Inventory Svc -> DB
       Trace ID: xyz   Span 1         Span 2           Span 3
 ```
 
 세 기둥 연결 흐름:
-- Alert([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)) → 문제 시간대 특정
-- Log 검색 → 에러 원인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- Trace [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) → 병목 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특정
+- Alert([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)) -> 문제 시간대 특정
+- Log 검색 -> 에러 원인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- Trace [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) -> 병목 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특정
 
 > 📢 **Ⅳ 섹션 요약 비유**
 > 택배 추적 시스템이 [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) — 어느 물류센터에서 얼마나 지체됐는지 한눈에 보인다.
@@ -104,10 +104,10 @@ User Request → API Gateway → Order Svc → Inventory Svc → DB
 
 ```
 Observability
-    ├── Metrics → Prometheus + Grafana
-    ├── Logs → ELK Stack / Loki
-    ├── Traces → Jaeger / Zipkin / Tempo
-    └── OpenTelemetry → 세 기둥 통합 표준 SDK
+    +-- Metrics -> Prometheus + Grafana
+    +-- Logs -> ELK Stack / Loki
+    +-- Traces -> Jaeger / Zipkin / Tempo
+    +-- OpenTelemetry -> 세 기둥 통합 표준 SDK
 ```
 
 > 🧒 **어린이 비유**
@@ -119,7 +119,7 @@ Observability
 
 **진행 상황**: 320 / 373
 
-← **이전**: [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/05_devsecops/319_process/)
-**다음**: [Distributed Tracing Trace ID](/knowledge-base/studynote/15_devops_sre/05_devsecops/321_trace_id/) →
+<- **이전**: [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/05_devsecops/319_process/)
+**다음**: [Distributed Tracing Trace ID](/knowledge-base/studynote/15_devops_sre/05_devsecops/321_trace_id/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [지연된 ACK]
-    │
-    ▼
+    |
+    v
 [TCP 혼잡 제어]
-    │
-    └──▶ [혼잡 윈도우]
+    |
+    +---> [혼잡 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 혼잡 제어는 뷔페에서 음식(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 쓸어 담으려는 손님에게, "당신 배(수신 버퍼)가 아무리 고파도, 지금 요리사(라우터)들이 파업 직전이니까 </strong>당장 접시 내려놓고 5분에 1개씩만 집어가라!**"고 제지하는 식당 매니저의 위기관리 능력입니다.
@@ -61,25 +61,25 @@ tags = ["studynote-network"]
    - 내 PC의 판단: "음, 대답이 오긴 오니까 길이 아예 꽉 막힌 건 아니네. 근데 300번 패킷 딱 한 놈만 가다가 옆 차선 차랑 부딪혀서(유실) 드랍됐나 보네. **가벼운 정체 상황이군! 속도를 절반으로만 깎자!**"
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                혼잡 제어(Congestion Control)의 거시적 사이클       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 출발! (Slow Start)                                      │
- │      - 도로가 어떤지 모르니까 아주 천천히 1개 쏘고, 2개 쏘고 조심조심 출발.│
- │                                                             │
- │   2. 가속! (Congestion Avoidance)                            │
- │      - 오? 뻥 뚫렸네? 영수증 잘 오네? 액셀 밟자! 속도 서서히 증가!       │
- │                                                             │
- │   3. 사고 발생! (Packet Drop 감지)                              │
- │      - 앗 ㅆ... 톨게이트 꽉 차서 내 패킷 죽음! 영수증이 안 오거나 징징댐! │
- │                                                             │
- │   4. 급브레이크! (Window Size 삭감)                            │
- │      - 타임아웃 났어?! ──▶ 속도 1로 완전 초기화! 찌그러져 있자...     │
- │      - 3 Dup-ACK 났어?! ──▶ 속도 절반으로만 줄이자! (Fast Recovery) │
- │                                                             │
- │   ▶ "이 짓을 평생 반복하며 톱니바퀴 모양(Sawtooth) 그래프를 그린다."   │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                혼잡 제어(Congestion Control)의 거시적 사이클       |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. 출발! (Slow Start)                                      |
+ |      - 도로가 어떤지 모르니까 아주 천천히 1개 쏘고, 2개 쏘고 조심조심 출발.|
+ |                                                             |
+ |   2. 가속! (Congestion Avoidance)                            |
+ |      - 오? 뻥 뚫렸네? 영수증 잘 오네? 액셀 밟자! 속도 서서히 증가!       |
+ |                                                             |
+ |   3. 사고 발생! (Packet Drop 감지)                              |
+ |      - 앗 ㅆ... 톨게이트 꽉 차서 내 패킷 죽음! 영수증이 안 오거나 징징댐! |
+ |                                                             |
+ |   4. 급브레이크! (Window Size 삭감)                            |
+ |      - 타임아웃 났어?! ---> 속도 1로 완전 초기화! 찌그러져 있자...     |
+ |      - 3 Dup-ACK 났어?! ---> 속도 절반으로만 줄이자! (Fast Recovery) |
+ |                                                             |
+ |   -> "이 짓을 평생 반복하며 톱니바퀴 모양(Sawtooth) 그래프를 그린다."   |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 왜 이게 위대한가?
@@ -143,12 +143,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 지연된 ACK]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 혼잡 제어]
-    │
-    ├──▶ [확장 A: 혼잡 윈도우]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 혼잡 윈도우]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -165,7 +165,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 549 / 1120
 
-← **이전**: [427. 지연된 ACK (Delayed ACK)](/knowledge-base/studynote/03_network/08_transport_layer/427_delayed_ack_tcp_optimization/)
-**다음**: [429. 혼잡 윈도우 (CWND, Congestion Window)](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) →
+<- **이전**: [427. 지연된 ACK (Delayed ACK)](/knowledge-base/studynote/03_network/08_transport_layer/427_delayed_ack_tcp_optimization/)
+**다음**: [429. 혼잡 윈도우 (CWND, Congestion Window)](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SD-WAN 가속 오버레이 토폴로지 암호망/…]
-    │
-    ▼
+    |
+    v
 [소프트웨어 정의 네트워킹]
-    │
-    └──▶ [SDN 데이터 평면]
+    |
+    +---> [SDN 데이터 평면]
 ```
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 
 ```text
 [SD-WAN 가속 오버레이 토폴로지 암호망/…]
-    │
-    ▼
+    |
+    v
 [소프트웨어 정의 네트워킹]
-    │
-    └──▶ [SDN 데이터 평면]
+    |
+    +---> [SDN 데이터 평면]
 ```
 
 - **📢 섹션 요약 비유**: 옛날 전통적 라우터 군대는 '모든 사병이 각자 지도를 들고 고민하는 오합지졸'이었습니다. 사병 1,000명(라우터)이 각자 머리를 굴려 목적지를 찾아가려니, 장군(관리자)이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 하나를 바꾸려면 1,000명의 사병 귀에다 대고 일일이 작전을 속삭여야 했습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 혁명</strong>은 장군이 사병 1,000명에게서 '지도(두뇌, 제어 평면)'를 전부 뺏어 불태워버리고 사병들을 생각 없는 깡통 근육([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)으로 만든 것입니다. 대신 장군([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)이 막사에서 드론을 띄워 전쟁터 전체 지도를 완벽히 내려다보고(중앙 집중 통제), 무전기(오픈플로우)로 "1소대 좌로 가! 2소대 우로 가!"라고 버튼 한 번에 전체 대오를 움직입니다. 사병들은 고민할 필요 없이 즉각 움직이고, 장군은 파이썬 코딩(애플리케이션)으로 수십만 대의 군대를 춤추게 조종하는 궁극의 지휘 통제 시스템입니다.
@@ -124,12 +124,12 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 
 ```text
 [선행 개념: SD-WAN 가속 오버레이 토폴로지 암호망/…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 소프트웨어 정의 네트워킹]
-    │
-    ├──▶ [확장 A: SDN 데이터 평면]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: SDN 데이터 평면]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 소프트웨어 정의 네트워킹는 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 가속 오버레이 토폴로지 암호망/…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 
 **진행 상황**: 971 / 1120
 
-← **이전**: [849. SD-WAN (소프트웨어 정의 광역망)](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)
-**다음**: [851. SDN 데이터 평면](/knowledge-base/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) →
+<- **이전**: [849. SD-WAN (소프트웨어 정의 광역망)](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)
+**다음**: [851. SDN 데이터 평면](/knowledge-base/studynote/03_network/17_sdn_nfv/851_sdn_data_plane_forwarding_pipeline_asic/) ->
 
 ---

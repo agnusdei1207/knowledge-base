@@ -100,11 +100,11 @@ Queue: enqueue / dequeue
 
 ```text
 Stack
-  ↓
+  v
 LIFO
-  ↓
+  v
 Queue
-  ↓
+  v
 FIFO
 ```
 
@@ -114,11 +114,11 @@ FIFO
 
 ```text
 List
-  ↓
+  v
 Stack / Queue
-  ↓
+  v
 Deque
-  ↓
+  v
 Scheduling / Traversal
 ```
 
@@ -136,7 +136,7 @@ Scheduling / Traversal
 
 **진행 상황**: 120 / 587
 
-← **이전**: [68. 지속적 서비스 개선 (CSI, Continual Service Improvement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)
-**다음**: [69. 데크/원형 큐 (Deque / Circular Queue)](/knowledge-base/studynote/12_it_management/02_itsm_itil/069_deque_circular_queue/) →
+<- **이전**: [68. 지속적 서비스 개선 (CSI, Continual Service Improvement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)
+**다음**: [69. 데크/원형 큐 (Deque / Circular Queue)](/knowledge-base/studynote/12_it_management/02_itsm_itil/069_deque_circular_queue/) ->
 
 ---

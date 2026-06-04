@@ -26,17 +26,17 @@ tags = ["studynote-software-engineering"]
 아래 그림은 테마가 없을 때 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)이 흩어진 기능 목록처럼 보이지만, 테마가 있을 때는 같은 방향으로 정렬된다는 점을 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Why backlog needs themes                                          │
-├───────────────────────────────────────────────────────────────────┤
-│ Without theme : [Login flow] [Coupon] [Fraud Check] [Wallet] ...  │
-│                  many epics, but weak strategic narrative          │
-│                                                                   │
-│ With theme    : "Increase checkout conversion"                     │
-│                  ├─ Epic A : one-click payment                     │
-│                  ├─ Epic B : payment experience redesign           │
-│                  └─ Epic C : failed payment recovery               │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Why backlog needs themes                                          |
++-------------------------------------------------------------------+
+| Without theme : [Login flow] [Coupon] [Fraud Check] [Wallet] ...  |
+|                  many epics, but weak strategic narrative          |
+|                                                                   |
+| With theme    : "Increase checkout conversion"                     |
+|                  +- Epic A : one-click payment                     |
+|                  +- Epic B : payment experience redesign           |
+|                  +- Epic C : failed payment recovery               |
++-------------------------------------------------------------------+
 ```
 
 결국 테마는 단순한 묶음표가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>과 실행 사이의 설명 가능한 연결선</strong>이다. 그래서 규모가 큰 제품일수록 테마를 정의하는 능력이 곧 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 능력으로 이어진다.
@@ -59,19 +59,19 @@ tags = ["studynote-software-engineering"]
 좋은 테마는 보통 <strong>결과 지향성, 측정 가능성, 다에픽성, 크로스펑셔널 성격</strong>을 가진다. 결과 지향성은 "무엇을 만들겠다"보다 "무엇을 개선하겠다"에 가깝고, 측정 가능성은 전환율·이탈률·오류율처럼 판단 기준이 있음을 뜻한다. 또한 하나의 팀 기능이 아니라 여러 역할이 함께 움직여야 할 정도로 충분히 넓어야 한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Strategy-to-execution hierarchy                                   │
-├───────────────────────────────────────────────────────────────────┤
-│ Product Vision / OKR                                              │
-│        │                                                          │
-│        ▼                                                          │
-│ Theme : "Reduce purchase drop-off by 15%"                         │
-│   ├─ Epic 1 : one-click payment                                   │
-│   ├─ Epic 2 : payment page redesign                               │
-│   └─ Epic 3 : retry / recovery flow                               │
-│        │                                                          │
-│        └─ Stories / Tasks for each epic                           │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Strategy-to-execution hierarchy                                   |
++-------------------------------------------------------------------+
+| Product Vision / OKR                                              |
+|        |                                                          |
+|        v                                                          |
+| Theme : "Reduce purchase drop-off by 15%"                         |
+|   +- Epic 1 : one-click payment                                   |
+|   +- Epic 2 : payment page redesign                               |
+|   +- Epic 3 : retry / recovery flow                               |
+|        |                                                          |
+|        +- Stories / Tasks for each epic                           |
++-------------------------------------------------------------------+
 ```
 
 이 구조가 중요한 이유는 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))을 확보하기 때문이다. 스토리 하나를 보더라도 어떤 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)에 속하는지, 그 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)이 어떤 테마를 지원하는지 보이면 우선순위와 투자 설명이 쉬워진다. 반대로 테마가 모호하면 하위 항목도 쉽게 "왜 하는지 모르는 기능"이 된다.
@@ -91,7 +91,7 @@ tags = ["studynote-software-engineering"]
 | Story | 사용자가 무엇을 할까? | 작은 가치 단위 | 내부 작업을 스토리로 착각 |
 | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | 어떤 수치 결과를 낼까? | 조직 목표와 측정치 | [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)와 단절 |
 
-또한 테마는 [유저 스토리 맵](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) ([User Story Mapping](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/)), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)), 로드맵과도 자연스럽게 연결된다. 테마가 상위 방향을 정하면, 스토리 맵은 그 테마 아래의 사용자 흐름을 정리하고, MVP는 그중 가장 먼저 전달할 얇은 가치 묶음을 자른다. 따라서 테마는 단독 문서가 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> → 백로그 → 릴리스 계획</strong>을 이어 주는 허브다.
+또한 테마는 [유저 스토리 맵](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) ([User Story Mapping](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/)), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)), 로드맵과도 자연스럽게 연결된다. 테마가 상위 방향을 정하면, 스토리 맵은 그 테마 아래의 사용자 흐름을 정리하고, MVP는 그중 가장 먼저 전달할 얇은 가치 묶음을 자른다. 따라서 테마는 단독 문서가 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> -> 백로그 -> 릴리스 계획</strong>을 이어 주는 허브다.
 
 이 비교에서 가장 흔한 실수는 테마를 "로그인 화면 개편" 같은 단일 기능명으로 쓰거나, 반대로 "고객 만족 향상"처럼 측정 기준 없이 너무 넓게 쓰는 것이다. 전자는 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)에 가깝고, 후자는 슬로건에 가깝다. 좋은 테마는 그 사이에서 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>성과 실행 가능성의 균형</strong>을 잡는다.
 
@@ -157,17 +157,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 Business strategy / OKR
-        │
-        ▼
+        |
+        v
 Theme definition
-        │
-        ▼
+        |
+        v
 Epic grouping
-        │
-        ▼
+        |
+        v
 User stories / MVP / release plan
-        │
-        ▼
+        |
+        v
 Outcome metrics and portfolio feedback
 ```
 
@@ -185,7 +185,7 @@ Outcome metrics and portfolio feedback
 
 **진행 상황**: 184 / 973
 
-← **이전**: [183. 유저 스토리 맵 (User Story Mapping)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/)
-**다음**: [185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/) →
+<- **이전**: [183. 유저 스토리 맵 (User Story Mapping)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/)
+**다음**: [185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/) ->
 
 ---

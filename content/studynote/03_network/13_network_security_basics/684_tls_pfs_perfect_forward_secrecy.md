@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
+    |
+    v
 [TLS 전방향 안전성 보장 원리]
-    │
-    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
+    |
+    +---> [TLS 1.3 업그레이드 변화와 0-RTT/…]
 ```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
+    |
+    v
 [TLS 전방향 안전성 보장 원리]
-    │
-    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
+    |
+    +---> [TLS 1.3 업그레이드 변화와 0-RTT/…]
 ```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -111,12 +111,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
+    |
+    v
 [현재 개념: TLS 전방향 안전성 보장 원리]
-    │
-    ├──▶ [확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 Cipher Suite 모델 표기방식 예시…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -133,7 +133,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 805 / 1120
 
-← **이전**: [683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식](/knowledge-base/studynote/03_network/13_network_security_basics/683_cipher_suite_notation/)
-**다음**: [685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이](/knowledge-base/studynote/03_network/13_network_security_basics/685_tls_1_3_0_rtt_1_rtt/) →
+<- **이전**: [683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식](/knowledge-base/studynote/03_network/13_network_security_basics/683_cipher_suite_notation/)
+**다음**: [685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이](/knowledge-base/studynote/03_network/13_network_security_basics/685_tls_1_3_0_rtt_1_rtt/) ->
 
 ---

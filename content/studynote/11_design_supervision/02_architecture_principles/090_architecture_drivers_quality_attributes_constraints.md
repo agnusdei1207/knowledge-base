@@ -32,22 +32,22 @@ tags = ["studynote-design"]
 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 크게 핵심 기능, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약 사항의 3대 요소로 구성되며, 이들이 결합하여 최종적인 설계 결정을 이끌어낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             아키텍처 드라이버 (Architecture Drivers)         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 핵심 기능 (Primary Functionality)                         │
-│    - 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)       │
-│                                                              │
-│ 2. 품질 속성 (Quality Attributes)                            │
-│    - 가용성, 성능, 보안성, 확장성, 유지보수성                │
-│    - (상충 관계 발생 -> 트레이드오프 분석 필수)              │
-│                                                              │
-│ 3. 제약 사항 (Constraints)                                   │
-│    - 비즈니스 제약 (예산, 일정, 라이선스)                    │
-│    - 기술적 제약 (레거시 연동, 특정 OS 사용 강제)            │
-└───────────────────────┬──────────────────────────────────────┘
-                        │
-                        ▼
++--------------------------------------------------------------+
+|             아키텍처 드라이버 (Architecture Drivers)         |
++--------------------------------------------------------------+
+| 1. 핵심 기능 (Primary Functionality)                         |
+|    - 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)       |
+|                                                              |
+| 2. 품질 속성 (Quality Attributes)                            |
+|    - 가용성, 성능, 보안성, 확장성, 유지보수성                |
+|    - (상충 관계 발생 -> 트레이드오프 분석 필수)              |
+|                                                              |
+| 3. 제약 사항 (Constraints)                                   |
+|    - 비즈니스 제약 (예산, 일정, 라이선스)                    |
+|    - 기술적 제약 (레거시 연동, 특정 OS 사용 강제)            |
++-----------------------+--------------------------------------+
+                        |
+                        v
                  [ 아키텍처 도면 / 구조 결정 ]
 ```
 
@@ -112,17 +112,17 @@ tags = ["studynote-design"]
 
 ```text
 비즈니스 목표 및 제약 사항 발생
-    │
-    ▼
+    |
+    v
 요구사항 수집 및 분류 (기능 / 비기능)
-    │
-    ▼
+    |
+    v
 아키텍처 드라이버 식별 (핵심기능, 품질속성, 제약사항)
-    │
-    ▼
+    |
+    v
 유틸리티 트리 (Utility Tree) 작성 및 우선순위 도출
-    │
-    ▼
+    |
+    v
 아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)
 ```
 
@@ -140,7 +140,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 133 / 530
 
-← **이전**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)
-**다음**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/) →
+<- **이전**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)
+**다음**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/) ->
 
 ---

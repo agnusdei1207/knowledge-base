@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 "프롬프트(Prompt)"는 단순히 질문이 아니다. 역할 지정, 맥락 제공, 예시 삽입, 출력 형식 명시, 사고 단계 안내 등 다양한 요소를 체계적으로 구성한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 입력이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 천재 신입 직원에게 업무 지시하는 기술이다. "고객 불만 처리해줘(나쁜 프롬프트)"보다 "당신은 10년 경력의 CS 팀장입니다. 다음 고객 불만 사례를 분석하고, 해결책 3가지를 번호 목록으로 작성하세요(좋은 프롬프트)"가 훨씬 좋은 결과를 낸다. 같은 천재라도 지시 방법에 따라 결과가 천지차이다.
@@ -39,34 +39,34 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         주요 프롬프트 엔지니어링 기법 비교                             │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① 제로샷 (Zero-Shot):                                            │
-│  "다음 리뷰의 감성을 긍정/부정으로 분류하세요: '이 제품은 최악이에요'"     │
-│  → 예시 없이 태스크 설명만으로 수행. 간단한 태스크에 적합               │
-│                                                                  │
-│  ② 퓨샷 (Few-Shot):                                               │
-│  "리뷰 감성 분류:                                                   │
-│   입력: '배송이 빠르고 좋아요' → 출력: 긍정                           │
-│   입력: '품질이 너무 나빠요' → 출력: 부정                             │
-│   입력: '이 제품은 최악이에요' → 출력: ???"                          │
-│  → 2~10개 예시(샷)로 태스크 패턴 학습. 정확도 크게 향상               │
-│                                                                  │
-│  ③ 체인 오브 소트 (CoT, Chain-of-Thought):                         │
-│  "철수가 사과 5개를 가지고 있다가 3개를 먹고, 2개를 받았다면?            │
-│   생각하는 단계:                                                    │
-│   1) 먹기 전: 5개                                                  │
-│   2) 3개 먹음: 5-3=2개                                             │
-│   3) 2개 받음: 2+2=4개                                             │
-│   따라서 답은 4개입니다."                                            │
-│  → 중간 추론 단계를 명시해 복잡한 수학·논리 문제 정확도 대폭 향상         │
-│                                                                  │
-│  ④ 역할 부여 (Role Playing):                                       │
-│  "당신은 20년 경력의 의대 교수입니다. 다음 증상을 분석하세요..."         │
-│  → 페르소나 설정으로 전문성과 출력 스타일 조정                         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         주요 프롬프트 엔지니어링 기법 비교                             |
++------------------------------------------------------------------+
+|                                                                  |
+|  ① 제로샷 (Zero-Shot):                                            |
+|  "다음 리뷰의 감성을 긍정/부정으로 분류하세요: '이 제품은 최악이에요'"     |
+|  -> 예시 없이 태스크 설명만으로 수행. 간단한 태스크에 적합               |
+|                                                                  |
+|  ② 퓨샷 (Few-Shot):                                               |
+|  "리뷰 감성 분류:                                                   |
+|   입력: '배송이 빠르고 좋아요' -> 출력: 긍정                           |
+|   입력: '품질이 너무 나빠요' -> 출력: 부정                             |
+|   입력: '이 제품은 최악이에요' -> 출력: ???"                          |
+|  -> 2~10개 예시(샷)로 태스크 패턴 학습. 정확도 크게 향상               |
+|                                                                  |
+|  ③ 체인 오브 소트 (CoT, Chain-of-Thought):                         |
+|  "철수가 사과 5개를 가지고 있다가 3개를 먹고, 2개를 받았다면?            |
+|   생각하는 단계:                                                    |
+|   1) 먹기 전: 5개                                                  |
+|   2) 3개 먹음: 5-3=2개                                             |
+|   3) 2개 받음: 2+2=4개                                             |
+|   따라서 답은 4개입니다."                                            |
+|  -> 중간 추론 단계를 명시해 복잡한 수학·논리 문제 정확도 대폭 향상         |
+|                                                                  |
+|  ④ 역할 부여 (Role Playing):                                       |
+|  "당신은 20년 경력의 의대 교수입니다. 다음 증상을 분석하세요..."         |
+|  -> 페르소나 설정으로 전문성과 출력 스타일 조정                         |
++------------------------------------------------------------------+
 ```
 
 | 기법 | 입력 예시 수 | 특징 | 적합 상황 |
@@ -76,7 +76,7 @@ tags = ["studynote-ai"]
 | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) ([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)) | 0~few | 단계별 추론 유도 | 수학, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 다단계 추론 |
 | 자기 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) × N회 | 다수결 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 답변 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 |
 
-- **📢 섹션 요약 비유**: 퓨샷(Few-Shot)은 시험 전 예시 문제를 보여주는 것이다. "이런 문제는 이렇게 풀어요(예시 2~5개)" → 모델이 패턴을 파악해 유사 문제를 풀어낸다. CoT는 수학 문제 풀 때 "답을 바로 쓰지 말고, 풀이 과정을 한 줄씩 쓰면서"라고 지시하는 것이다. 과정을 쓰다 보면 답이 더 정확해진다.
+- **📢 섹션 요약 비유**: 퓨샷(Few-Shot)은 시험 전 예시 문제를 보여주는 것이다. "이런 문제는 이렇게 풀어요(예시 2~5개)" -> 모델이 패턴을 파악해 유사 문제를 풀어낸다. CoT는 수학 문제 풀 때 "답을 바로 쓰지 말고, 풀이 과정을 한 줄씩 쓰면서"라고 지시하는 것이다. 과정을 쓰다 보면 답이 더 정확해진다.
 
 ---
 
@@ -133,7 +133,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [프롬프트 엔지니어링 (Prompt Engineering)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [프롬프트 엔지니어링 (Prompt Engineering)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 305 / 420
 
-← **이전**: [304. 파인 튜닝 (Fine-Tuning)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)
-**다음**: [306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) →
+<- **이전**: [304. 파인 튜닝 (Fine-Tuning)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)
+**다음**: [306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) ->
 
 ---

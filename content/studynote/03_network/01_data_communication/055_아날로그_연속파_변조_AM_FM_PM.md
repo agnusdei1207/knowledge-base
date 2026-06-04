@@ -32,7 +32,7 @@ tags = ["studynote-network"]
 AM은 진폭을, FM은 주파수를, PM은 위상을 바꿔 정보를 표현한다. [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)는 정보를 담는 그릇이고, 변조는 그릇에 표시를 넣는 방식이다.
 
 ```text
-정보 신호 → AM/FM/PM → 반송파 → 채널 → 복조 → 정보 신호
+정보 신호 -> AM/FM/PM -> 반송파 -> 채널 -> 복조 -> 정보 신호
 ```
 
 | 방식 | 바꾸는 값 | 특성 |
@@ -110,14 +110,14 @@ AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [대역폭](/know
 
 ```text
 베이스밴드
-    │
-    ▼
+    |
+    v
 AM / FM / PM
-    │
-    ▼
+    |
+    v
 반송파 전송
-    │
-    ▼
+    |
+    v
 복조 / 수신
 ```
 
@@ -135,7 +135,7 @@ AM / FM / PM
 
 **진행 상황**: 55 / 1120
 
-← **이전**: [54. 반송파 (Carrier Wave)](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)
-**다음**: [56. 표본화 (Sampling)](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) →
+<- **이전**: [54. 반송파 (Carrier Wave)](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)
+**다음**: [56. 표본화 (Sampling)](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ->
 
 ---

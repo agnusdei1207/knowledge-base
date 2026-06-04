@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [DF 비트 / MF 비트]
-    │
-    ▼
+    |
+    v
 [단편화 및 재조립]
-    │
-    └──▶ [패킷 캡슐화, MTU]
+    |
+    +---> [패킷 캡슐화, MTU]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 라우터는 통과 구멍이 작은 우체통 앞에서, 고객이 보낸 거대한 택배 박스를 가차 없이 칼로 찢어 </strong>여러 개의 작은 박스로 재포장해 구겨 넣는 "무자비한 포장 센터"**입니다.
@@ -51,19 +51,19 @@ tags = ["studynote-network"]
 - TCP는 원본 패킷이 안 온 줄 알고 원본 4000바이트 전체를 처음부터 다시 재전송한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                단편화의 '전부 아니면 무(All or Nothing)' 딜레마   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ] ──▶ (원본 4000B 전송) ──▶ [ 라우터 (MTU 1500) ]  │
- │                                             │               │
- │                      ┌─ (조각 1) ── (조립 대기 중) ─┐           │
- │   [ 수신자 PC ] ◀────┼─ (조각 2) ── (조립 대기 중) ─┤           │
- │                      └─ (조각 3) ── (X 분실 X)    ─┘           │
- │                                                             │
- │   * 결과: 조각 3 하나만 잃어버렸는데, 수신자 PC는 15초 뒤에 조각 1, 2  │
- │          마저 폐기해 버림. 결국 4000B "통째로 다시 보내라"고 윽박지름.  │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                단편화의 '전부 아니면 무(All or Nothing)' 딜레마   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 송신자 ] ---> (원본 4000B 전송) ---> [ 라우터 (MTU 1500) ]  |
+ |                                             |               |
+ |                      +- (조각 1) -- (조립 대기 중) -+           |
+ |   [ 수신자 PC ] <-----+- (조각 2) -- (조립 대기 중) -+           |
+ |                      +- (조각 3) -- (X 분실 X)    -+           |
+ |                                                             |
+ |   * 결과: 조각 3 하나만 잃어버렸는데, 수신자 PC는 15초 뒤에 조각 1, 2  |
+ |          마저 폐기해 버림. 결국 4000B "통째로 다시 보내라"고 윽박지름.  |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 현대 네트워크의 회피 전술
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DF 비트 / MF 비트]
-    │
-    ▼
+    |
+    v
 [현재 개념: 단편화 및 재조립]
-    │
-    ├──▶ [확장 A: 패킷 캡슐화, MTU]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 패킷 캡슐화, MTU]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 단편화 및 재조립는 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 캡슐화, MTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 412 / 1120
 
-← **이전**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/knowledge-base/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/)
-**다음**: [292. 패킷 캡슐화, MTU (Maximum Transmission Unit)](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/) →
+<- **이전**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/knowledge-base/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/)
+**다음**: [292. 패킷 캡슐화, MTU (Maximum Transmission Unit)](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/) ->
 
 ---

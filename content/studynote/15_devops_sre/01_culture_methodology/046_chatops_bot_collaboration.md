@@ -22,14 +22,14 @@ tags = ["studynote-devops-sre"]
 ChatOps 정의:
 
 전통 DevOps:
-  엔지니어 A → SSH → 서버 작업
-  엔지니어 B → 모르는 상태
+  엔지니어 A -> SSH -> 서버 작업
+  엔지니어 B -> 모르는 상태
   기록: 없음 또는 별도 문서
 
 ChatOps:
-  엔지니어 A → 슬랙 채널 명령어
-  봇 → 실제 작업 실행
-  팀 전체 → 결과 실시간 확인
+  엔지니어 A -> 슬랙 채널 명령어
+  봇 -> 실제 작업 실행
+  팀 전체 -> 결과 실시간 확인
   자동 기록: 채팅 로그 = 감사 추적
 
 ChatOps 3대 구성:
@@ -49,14 +49,14 @@ ChatOps 3대 구성:
 ChatOps 핵심 명령 예:
   #deploy-prod 채널:
   "hubot deploy myapp v1.2.3 to production"
-  → 봇: 배포 시작, 결과 채널에 보고
+  -> 봇: 배포 시작, 결과 채널에 보고
 
   #incident 채널:
   "hubot incident create P1 api-server-down"
-  → 봇: PagerDuty 알림, 티켓 생성, 온콜 호출
+  -> 봇: PagerDuty 알림, 티켓 생성, 온콜 호출
 
   "hubot scale api-server to 10"
-  → AWS Auto Scaling 그룹 크기 변경
+  -> AWS Auto Scaling 그룹 크기 변경
 ```
 
 > 📢 **섹션 요약 비유**: ChatOps는 공개 업무 방송 — 혼자 조용히 서버 작업(전통 방식) 대신, 팀 채팅방에서 "배포할게요!"라고 말하면 봇이 실행 + 전체 공개. 모두가 지켜보는 투명한 운영!
@@ -101,14 +101,14 @@ Hubot (GitHub, CoffeeScript/JavaScript):
 
 슬래시 명령어:
   /deploy myapp v1.2.3
-  → 봇이 deploy.sh 실행 → 결과 보고
+  -> 봇이 deploy.sh 실행 -> 결과 보고
 
 버튼/인터랙티브 메시지:
   배포 전 확인 버튼:
   "정말로 production에 배포할까요?"
   [✅ 확인] [❌ 취소]
 
-  → 실수 방지 UX
+  -> 실수 방지 UX
 ```
 
 > 📢 **섹션 요약 비유**: [ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/) 봇은 채팅 비서 — "배포해줘"라고 말하면 비서(봇)가 실행하고 결과 보고. 슬래시 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 채팅방에서 쓰는 특별 주문!
@@ -120,10 +120,10 @@ Hubot (GitHub, CoffeeScript/JavaScript):
 ```
 인시던트 ChatOps 흐름:
 
-인시던트 탐지 → 채팅 알림 → 대응:
+인시던트 탐지 -> 채팅 알림 -> 대응:
 
 1. 모니터링 알림:
-  Datadog → Slack #alerts
+  Datadog -> Slack #alerts
   경보: "API 서버 P99 응답시간 5초 초과"
 
   봇 자동 생성:
@@ -134,28 +134,28 @@ Hubot (GitHub, CoffeeScript/JavaScript):
 
 2. 인시던트 채널 자동 생성:
   봇: #incident-2024-0301 채널 생성
-  → 관련자 자동 초대
-  → PagerDuty 온콜 호출
-  → Jira 티켓 자동 생성
+  -> 관련자 자동 초대
+  -> PagerDuty 온콜 호출
+  -> Jira 티켓 자동 생성
 
 3. 진단 명령어:
   "/k8s pods api-namespace"
-  → 봇: kubectl 실행 → 결과 표시
+  -> 봇: kubectl 실행 -> 결과 표시
 
   "/logs api-server 5m"
-  → 봇: 최근 5분 로그 요약
+  -> 봇: 최근 5분 로그 요약
 
   "/metrics api-server"
-  → 봇: Datadog 현재 지표
+  -> 봇: Datadog 현재 지표
 
 4. 롤백:
   "/rollback api-server to v1.1.9"
-  → 봇: 배포 롤백 실행 → 결과 보고
+  -> 봇: 배포 롤백 실행 -> 결과 보고
 
 5. 인시던트 종료:
   "/incident resolve INC-2024-0301"
-  → 봇: 타임라인 정리, 채널 아카이브
-  → 자동 포스트모텀 템플릿 생성
+  -> 봇: 타임라인 정리, 채널 아카이브
+  -> 자동 포스트모텀 템플릿 생성
 
 장점:
   모든 대응 채팅 로그 = 타임라인 자동 완성
@@ -163,7 +163,7 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   원격 팀 동기화 (어디서나 동참)
 ```
 
-> 📢 **섹션 요약 비유**: 인시던트 ChatOps는 공개 소방 대응 — 화재(장애) 신고(알림) → 소방관(팀) 자동 소집(PagerDuty) → 채팅방에서 실시간 소화 작업([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) → 모든 과정 기록!
+> 📢 **섹션 요약 비유**: 인시던트 ChatOps는 공개 소방 대응 — 화재(장애) 신고(알림) -> 소방관(팀) 자동 소집(PagerDuty) -> 채팅방에서 실시간 소화 작업([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) -> 모든 과정 기록!
 
 ---
 
@@ -174,8 +174,8 @@ ChatOps 보안 고려사항:
 
 위험:
   채팅 플랫폼 = 민감한 운영 명령의 통로
-  계정 탈취 → 모든 운영 명령 가능
-  채팅 로그 → 운영 정보 노출
+  계정 탈취 -> 모든 운영 명령 가능
+  채팅 로그 -> 운영 정보 노출
 
 보안 대책:
 
@@ -215,7 +215,7 @@ ChatOps 보안 고려사항:
   봇 계정 MFA
 
 6. 감사 로그:
-  모든 명령어 실행 → 별도 감사 로그 DB
+  모든 명령어 실행 -> 별도 감사 로그 DB
   SIEM 연동
 ```
 
@@ -230,40 +230,40 @@ SaaS 스타트업 (엔지니어 15명) ChatOps:
 
 문제:
   배포: SSH 직접 접속, 누가 언제 배포했는지 모름
-  장애: 이메일 알림 → 늦은 대응
+  장애: 이메일 알림 -> 늦은 대응
   신입: 운영 프로세스 파악 오래 걸림
 
 ChatOps 구축 (4주):
 
 Week 1: 기반 알림 연결
-  GitHub → Slack: PR/배포 알림
-  Datadog → Slack: 경보 알림
+  GitHub -> Slack: PR/배포 알림
+  Datadog -> Slack: 경보 알림
   #deploys, #alerts 채널 생성
 
 Week 2: 배포 봇
   Slack Bolt (Python) 개발
   /deploy <app> <version> <env>
-  → GitHub Actions 트리거
-  → 결과 채널 보고
+  -> GitHub Actions 트리거
+  -> 결과 채널 보고
 
   승인 워크플로:
-  프로덕션 배포 → 팀장 슬랙 버튼 승인
+  프로덕션 배포 -> 팀장 슬랙 버튼 승인
 
 Week 3: 인시던트 봇
   #incident 채널 자동화
-  /incident create → PagerDuty + Jira 연동
-  /rollback → 이전 버전 배포
+  /incident create -> PagerDuty + Jira 연동
+  /rollback -> 이전 버전 배포
 
 Week 4: 진단 봇
-  /status <service> → 헬스체크
-  /logs <service> <분> → 최근 로그
-  /scale <service> <n> → 레플리카 조정
+  /status <service> -> 헬스체크
+  /logs <service> <분> -> 최근 로그
+  /scale <service> <n> -> 레플리카 조정
 
 결과:
   배포 추적: 100% (슬랙 로그)
-  인시던트 MTTR: 45분 → 18분
-  신입 온보딩: 4주 → 2주 (채팅 로그 학습)
-  프로덕션 실수 배포: 월 3건 → 0건 (승인 프로세스)
+  인시던트 MTTR: 45분 -> 18분
+  신입 온보딩: 4주 -> 2주 (채팅 로그 학습)
+  프로덕션 실수 배포: 월 3건 -> 0건 (승인 프로세스)
 
   엔지니어 만족도:
   "배포하면서 팀 전체가 보는 게 처음엔 불편했지만
@@ -340,7 +340,7 @@ GPT/Copilot 통합 봇
 
 **진행 상황**: 46 / 373
 
-← **이전**: [045. 시프트 레프트 — Shift Left Testing & Security](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/045_shift_left_testing_security/)
-**다음**: [047. Error Budget — 오류 예산과 SLO](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/) →
+<- **이전**: [045. 시프트 레프트 — Shift Left Testing & Security](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/045_shift_left_testing_security/)
+**다음**: [047. Error Budget — 오류 예산과 SLO](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/) ->
 
 ---

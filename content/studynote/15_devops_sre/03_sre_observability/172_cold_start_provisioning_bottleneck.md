@@ -24,19 +24,19 @@ tags = ["studynote-devops-sre"]
 문제는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 자주 보이지 않는다는 점이다. 전체 요청의 0.5%만 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)여도 평균값은 멀쩡해 보일 수 있다. 하지만 사용자가 체감하는 첫 요청, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인, 결제, 알림 처리처럼 중요한 구간에서는 그 0.5%가 곧 장애로 받아들여진다. 그래서 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이슈라기보다 <strong>관측 가능한 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a> 병목</strong>으로 봐야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 First request to zero-capacity service            │
-├────────────────────────────────────────────────────────────────────┤
-│ request                                                            │
-│   │                                                                │
-│   ▼                                                                │
-│ no warm instance -> queue / wait -> provision -> init -> ready    │
-│                                                     │              │
-│                                                     ▼              │
-│                                               first response       │
-│                                                                    │
-│ warm path = business logic only                                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 First request to zero-capacity service            |
++--------------------------------------------------------------------+
+| request                                                            |
+|   |                                                                |
+|   v                                                                |
+| no warm instance -> queue / wait -> provision -> init -> ready    |
+|                                                     |              |
+|                                                     v              |
+|                                               first response       |
+|                                                                    |
+| warm path = business logic only                                    |
++--------------------------------------------------------------------+
 ```
 
 즉 "[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)가 있다"는 말은 단순히 언어 런타임이 무겁다는 뜻이 아니다. 플랫폼 계층과 애플리케이션 계층의 준비 시간이 합쳐져 첫 요청에만 별도의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 경로가 열린다는 뜻이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관점에서는 이 경로를 따로 보지 않으면 진짜 병목을 놓치기 쉽다.
@@ -50,19 +50,19 @@ tags = ["studynote-devops-sre"]
 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 관측의 핵심은 첫 요청 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 "한 덩어리"로 보지 않고 단계별로 분해하는 것이다. 일반적으로 첫 요청 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 `queue wait + provisioning + runtime init + app init + business latency`로 나눌 수 있다. 이 다섯 구간 중 어디가 길어지는지 알아야 대응 방식도 달라진다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Cold-start latency decomposition                  │
-├────────────────────────────────────────────────────────────────────┤
-│ request                                                            │
-│   │                                                                │
-│   ├─ queue wait            : no instance available                 │
-│   ├─ provisioning          : schedule, sandbox, image/code fetch   │
-│   ├─ runtime init          : Java Virtual Machine (JVM) / Python   │
-│   │                            / Node.js boot                      │
-│   ├─ app init              : dependency wiring, database client,   │
-│   │                            cache                               │
-│   └─ business latency      : actual request handling               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                  Cold-start latency decomposition                  |
++--------------------------------------------------------------------+
+| request                                                            |
+|   |                                                                |
+|   +- queue wait            : no instance available                 |
+|   +- provisioning          : schedule, sandbox, image/code fetch   |
+|   +- runtime init          : Java Virtual Machine (JVM) / Python   |
+|   |                            / Node.js boot                      |
+|   +- app init              : dependency wiring, database client,   |
+|   |                            cache                               |
+|   +- business latency      : actual request handling               |
++--------------------------------------------------------------------+
 ```
 
 | 구간 | 대표 관측 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 무엇을 의미하나 | 주된 개선 방향 |
@@ -104,19 +104,19 @@ tags = ["studynote-devops-sre"]
 실무에서는 먼저 "이 경로가 cold-start budget을 얼마까지 허용하는가"를 정해야 한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 결제, 사용자-facing webhook처럼 첫 요청도 바로 빨라야 하는 경로는 비용을 더 내고 warm capacity를 유지하는 편이 맞다. 반대로 배치 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 관리자용 작업, 낮은 빈도의 내부 잡이라면 scale-to-zero를 유지하고 몇 초의 첫 요청 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 받아들이는 것이 합리적일 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Cold-start response playbook                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Is first-request latency above SLO budget?                         │
-│      ├─ yes -> keep warm (Provisioned Concurrency / minScale)      │
-│      └─ no  -> keep scale-to-zero                                  │
-│                                                                    │
-│ Then inspect dominant phase:                                       │
-│   provisioning  -> image, node pool, cache                         │
-│   runtime init  -> SnapStart, native, lighter framework            │
-│   app init      -> lazy init, split dependencies                   │
-│   queue wait    -> autoscaler speed, baseline capacity             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Cold-start response playbook                    |
++--------------------------------------------------------------------+
+| Is first-request latency above SLO budget?                         |
+|      +- yes -> keep warm (Provisioned Concurrency / minScale)      |
+|      +- no  -> keep scale-to-zero                                  |
+|                                                                    |
+| Then inspect dominant phase:                                       |
+|   provisioning  -> image, node pool, cache                         |
+|   runtime init  -> SnapStart, native, lighter framework            |
+|   app init      -> lazy init, split dependencies                   |
+|   queue wait    -> autoscaler speed, baseline capacity             |
++--------------------------------------------------------------------+
 ```
 
 | 판단 상황 | 권장 조치 | 이유 |
@@ -167,18 +167,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Elastic scale-to-zero
-    │
-    ├─ no warm instance
-    ▼
+    |
+    +- no warm instance
+    v
 queue wait + provisioning + runtime/app init
-    │
-    ▼
+    |
+    v
 cold_start_rate / cold_start_duration / tagged tracing
-    │
-    ├─ keep warm for hot path
-    ├─ optimize image and init path
-    └─ accept delay for low-frequency jobs
-    ▼
+    |
+    +- keep warm for hot path
+    +- optimize image and init path
+    +- accept delay for low-frequency jobs
+    v
 SLO-aware cost and latency control
 ```
 
@@ -196,7 +196,7 @@ SLO-aware cost and latency control
 
 **진행 상황**: 172 / 373
 
-← **이전**: [171. 용량 계획 및 부하 테스트 (Capacity Planning/Load Testing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/171_capacity_planning_load_testing/)
-**다음**: [173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/173_microburst_traffic_spike_detection/) →
+<- **이전**: [171. 용량 계획 및 부하 테스트 (Capacity Planning/Load Testing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/171_capacity_planning_load_testing/)
+**다음**: [173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/173_microburst_traffic_spike_detection/) ->
 
 ---

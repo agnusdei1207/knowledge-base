@@ -28,17 +28,17 @@ tags = ["studynote-database"]
 이 그림은 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조인이 세 가지 전혀 다른 물리 경로로 바뀌는 이유를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      One logical join, three very different physical executions      │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL : A JOIN B ON A.key = B.key                                      │
-│                                                                      │
-│ few rows from A + index probe on B      -> Nested Loop Join          │
-│ large equality join + enough memory     -> Hash Join                 │
-│ sorted inputs or order reuse available  -> Sort Merge Join           │
-│                                                                      │
-│ same result set, different I/O pattern, different total cost         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      One logical join, three very different physical executions      |
++----------------------------------------------------------------------+
+| SQL : A JOIN B ON A.key = B.key                                      |
+|                                                                      |
+| few rows from A + index probe on B      -> Nested Loop Join          |
+| large equality join + enough memory     -> Hash Join                 |
+| sorted inputs or order reuse available  -> Sort Merge Join           |
+|                                                                      |
+| same result set, different I/O pattern, different total cost         |
++----------------------------------------------------------------------+
 ```
 
 결국 조인 방식은 결과의 정답을 바꾸지 않지만, 정답에 도달하는 <strong>시간과 자원 소비 구조</strong>를 바꾼다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 이 차이는 "조금 느림"이 아니라 "즉시 완료 vs 장시간 대기" 수준으로 벌어진다.
@@ -49,7 +49,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 보통 <strong>예상 결과 건수 → <a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">조인 순서</a> → 물리 조인 방식</strong> 순으로 판단한다. 먼저 필터 조건을 적용했을 때 각 테이블에서 몇 행이 남을지를 추정하고, 그 결과를 바탕으로 어느 쪽을 먼저 읽을지 정한 뒤, 마지막으로 조인 방식을 결정한다. 따라서 조인 방식은 독립적으로 존재하지 않고 <strong>통계 정보와 액세스 경로 위에 올라가는 마지막 선택</strong>에 가깝다.
+[비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 보통 <strong>예상 결과 건수 -> <a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">조인 순서</a> -> 물리 조인 방식</strong> 순으로 판단한다. 먼저 필터 조건을 적용했을 때 각 테이블에서 몇 행이 남을지를 추정하고, 그 결과를 바탕으로 어느 쪽을 먼저 읽을지 정한 뒤, 마지막으로 조인 방식을 결정한다. 따라서 조인 방식은 독립적으로 존재하지 않고 <strong>통계 정보와 액세스 경로 위에 올라가는 마지막 선택</strong>에 가깝다.
 
 | 조인 방식 | 핵심 동작 | 유리한 조건 | 대표 병목 |
 | :--- | :--- | :--- | :--- |
@@ -66,15 +66,15 @@ tags = ["studynote-database"]
 아래 그림은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조인 방식을 고를 때 실제로 보는 분기 구조를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                How the optimizer reasons about a join                │
-├──────────────────────────────────────────────────────────────────────┤
-│ row estimate -> join order -> physical join method                   │
-│                                                                      │
-│ small outer + index on inner  -----------------> Nested Loop Join    │
-│ equality join + build side fits memory --------> Hash Join           │
-│ sorted streams / order reuse available --------> Sort Merge Join     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                How the optimizer reasons about a join                |
++----------------------------------------------------------------------+
+| row estimate -> join order -> physical join method                   |
+|                                                                      |
+| small outer + index on inner  -----------------> Nested Loop Join    |
+| equality join + build side fits memory --------> Hash Join           |
+| sorted streams / order reuse available --------> Sort Merge Join     |
++----------------------------------------------------------------------+
 ```
 
 핵심은 "좋은 조인 방식"이 따로 있는 것이 아니라, <strong>현재 입력 상태에 맞는 방식</strong>이 있다는 점이다. 그래서 조인 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)보다 먼저 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도, 메모리 작업 영역이 왜 그렇게 보이는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
@@ -166,18 +166,18 @@ tags = ["studynote-database"]
 
 ```text
 Logical Join
-    │
-    ▼
+    |
+    v
 Cardinality / Selectivity Estimate
-    │
-    ▼
+    |
+    v
 Join Order Decision
-    │
-    ├─ small outer + index probe -> Nested Loop Join
-    ├─ large equality + memory    -> Hash Join
-    └─ sorted inputs + order use  -> Sort Merge Join
-    │
-    ▼
+    |
+    +- small outer + index probe -> Nested Loop Join
+    +- large equality + memory    -> Hash Join
+    +- sorted inputs + order use  -> Sort Merge Join
+    |
+    v
 Stable execution plan and join tuning
 ```
 
@@ -195,7 +195,7 @@ Stable execution plan and join tuning
 
 **진행 상황**: 171 / 600
 
-← **이전**: [170. 선택도 (Selectivity) / 기수성 (Cardinality) / 분포도 (Distribution)](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)
-**다음**: [172. 중첩 루프 조인 (NL Join, Nested Loop Join)](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/) →
+<- **이전**: [170. 선택도 (Selectivity) / 기수성 (Cardinality) / 분포도 (Distribution)](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)
+**다음**: [172. 중첩 루프 조인 (NL Join, Nested Loop Join)](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/) ->
 
 ---

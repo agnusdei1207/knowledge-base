@@ -39,17 +39,17 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">초자동화</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">Hyperautomation</a>)</strong> | NLP(자연어처리) + [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇 결합 | 이메일 견적서를 읽고 시스템에 자동 주문 등록 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           인텔리전트 ERP의 '자율주행 경영' 사이클          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [데이터 감지] 외부 데이터 (날씨/환율) + 내부 장부 실시간 수집│
-│          ▼                                                   │
-│ 2. [지능형 분석] ML 엔진 ──▶ "다음 주 원자재 가격 10% 폭등 확률 95%"│
-│          ▼                                                   │
-│ 3. [행동 제안] NLP 챗봇 ──▶ "선제 발주서 생성했습니다. 승인하시겠습니까?"│
-│          ▼                                                   │
-│ 4. [자동 실행] 사용자가 'YES' 누르면 ─▶ RPA 봇이 협력사에 발주 메일 전송│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           인텔리전트 ERP의 '자율주행 경영' 사이클          |
++--------------------------------------------------------------+
+| 1. [데이터 감지] 외부 데이터 (날씨/환율) + 내부 장부 실시간 수집|
+|          v                                                   |
+| 2. [지능형 분석] ML 엔진 ---> "다음 주 원자재 가격 10% 폭등 확률 95%"|
+|          v                                                   |
+| 3. [행동 제안] NLP 챗봇 ---> "선제 발주서 생성했습니다. 승인하시겠습니까?"|
+|          v                                                   |
+| 4. [자동 실행] 사용자가 'YES' 누르면 --> RPA 봇이 협력사에 발주 메일 전송|
++--------------------------------------------------------------+
 ```
 
 이 그림은 기존에 사람이 일일이 조회하고 기안을 작성하던 긴 과정이, AI의 판단과 RPA의 손발을 통해 하나의 버튼(승인) 클릭으로 단축되는 과정을 묘사한다.
@@ -114,17 +114,17 @@ ERP의 진화를 세대별로 비교해보면, 지향점(가치)이 철저하게
 
 ```text
 수작업 기록 장부 (Legacy ERP / SOR)
-    │
-    ▼
+    |
+    v
 모바일 및 클라우드 결합 (Cloud ERP)
-    │
-    ▼
+    |
+    v
 AI/ML 엔진 탑재 (예측 및 이상 탐지 도입)
-    │
-    ▼
+    |
+    v
 RPA 및 챗봇 결합 (Hyperautomation / CUI)
-    │
-    ▼
+    |
+    v
 자율주행 경영 실현 (Intelligent ERP / Touchless Operation)
 ```
 
@@ -142,7 +142,7 @@ RPA 및 챗봇 결합 (Hyperautomation / CUI)
 
 **진행 상황**: 90 / 482
 
-← **이전**: [89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/089_postmodern_erp_best_of_breed/)
-**다음**: [91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/091_composable_erp_pbc_api/) →
+<- **이전**: [89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/089_postmodern_erp_best_of_breed/)
+**다음**: [91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/091_composable_erp_pbc_api/) ->
 
 ---

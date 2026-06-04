@@ -22,9 +22,9 @@ tags = ["studynote-database"]
 상관 서브쿼리:
 SELECT * FROM emp e1
 WHERE sal > (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);
-  → e1의 각 행마다 e2 서브쿼리 실행
-  → 100행 × 100행 = 10,000회 실행 가능
-대안: Window Function → AVG(sal) OVER (PARTITION BY dept_id)
+  -> e1의 각 행마다 e2 서브쿼리 실행
+  -> 100행 × 100행 = 10,000회 실행 가능
+대안: Window Function -> AVG(sal) OVER (PARTITION BY dept_id)
 ```
 
 - **📢 섹션 요약 비유**: 상관 서브쿼리는 <strong>각 학생마다 반 평균을 따로 계산</strong>하는 것이다. 한 번에 계산하는 것(Window)보다 비효율적이다.
@@ -50,10 +50,10 @@ WHERE sal > (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[상관 서브쿼리 (SQL-92)] → [성능 문제 인식]
-    → [옵티마이저 Semi-Join 변환]
-    → [Window Function 대안 (SQL:2003)]
-    → [현재: LATERAL JOIN — 고급 대안]
+[상관 서브쿼리 (SQL-92)] -> [성능 문제 인식]
+    -> [옵티마이저 Semi-Join 변환]
+    -> [Window Function 대안 (SQL:2003)]
+    -> [현재: LATERAL JOIN — 고급 대안]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ WHERE sal > (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);
 
 **진행 상황**: 144 / 600
 
-← **이전**: [143. 중첩 서브쿼리 & WHERE EXISTS 심화](/knowledge-base/studynote/05_database/03_relational_model/143_nested_subquery_where_exists/)
-**다음**: [145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합](/knowledge-base/studynote/05_database/03_relational_model/145_sql_window_function_analytics/) →
+<- **이전**: [143. 중첩 서브쿼리 & WHERE EXISTS 심화](/knowledge-base/studynote/05_database/03_relational_model/143_nested_subquery_where_exists/)
+**다음**: [145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합](/knowledge-base/studynote/05_database/03_relational_model/145_sql_window_function_analytics/) ->
 
 ---

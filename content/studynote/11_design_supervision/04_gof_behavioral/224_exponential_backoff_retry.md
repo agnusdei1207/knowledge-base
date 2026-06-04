@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Exponential Backoff and Retry (지수 백오프 재시도) 패턴은 일시적 네트워크 오류나 서버 과부하 시 재시도 간격을 지수적으로 증가시켜(1s → 2s → 4s → 8s...), 서버가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)될 시간을 주면서 불필요한 재시도 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 방지하는 패턴이다.
+> 1. **본질**: Exponential Backoff and Retry (지수 백오프 재시도) 패턴은 일시적 네트워크 오류나 서버 과부하 시 재시도 간격을 지수적으로 증가시켜(1s -> 2s -> 4s -> 8s...), 서버가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)될 시간을 주면서 불필요한 재시도 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 방지하는 패턴이다.
 > 2. **가치**: Thundering Herd Problem (천둥 떼 문제) — 모든 클라이언트가 동시에 재시도하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 중인 서버가 다시 과부하 — 을 Jitter (지터, 무작위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 추가함으로써 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 재시도로 해결한다.
 > 3. **판단 포인트**: [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 없는 작업(결제, 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))에는 재시도가 위험하다 — 중복 실행 방지를 위한 [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) ([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 키) 설계가 반드시 병행되어야 한다.
 
@@ -20,17 +20,17 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 ```
 [단순 즉시 재시도 시나리오]
-  서버 과부하 → 1,000개 클라이언트 모두 즉시 재시도
-  → 서버 복구 중에 갑자기 3,000 요청 폭발 (원래 요청 + 재시도 × 2회)
-  → 서버 다시 다운 → 무한 루프
+  서버 과부하 -> 1,000개 클라이언트 모두 즉시 재시도
+  -> 서버 복구 중에 갑자기 3,000 요청 폭발 (원래 요청 + 재시도 × 2회)
+  -> 서버 다시 다운 -> 무한 루프
 
 [Thundering Herd Problem]
-  ┌──────────────────────────────────────────────┐
-  │ 시각   | 요청 수                               │
-  │ 0s     | 1,000 (정상)     ← 서버 과부하 발생   │
-  │ 1s     | 3,000 (재시도 2회) ← 천둥 떼 재시도   │
-  │ 2s     | 3,000            ← 서버 다시 다운     │
-  └──────────────────────────────────────────────┘
+  +----------------------------------------------+
+  | 시각   | 요청 수                               |
+  | 0s     | 1,000 (정상)     <- 서버 과부하 발생   |
+  | 1s     | 3,000 (재시도 2회) <- 천둥 떼 재시도   |
+  | 2s     | 3,000            <- 서버 다시 다운     |
+  +----------------------------------------------+
 ```
 
 ```
@@ -47,10 +47,10 @@ tags = ["studynote-design-supervision"]
   시도 2: min(32, 1 × 2^2) = 4초
   시도 3: min(32, 1 × 2^3) = 8초
   시도 4: min(32, 1 × 2^4) = 16초
-  시도 5: min(32, 1 × 2^5) = 32초 ← cap 이후 고정
+  시도 5: min(32, 1 × 2^5) = 32초 <- cap 이후 고정
 ```
 
-- **📢 섹션 요약 비유**: 지수 백오프는 자동차 엔진이 안 걸릴 때 시동 거는 방법 — 처음엔 바로 다시 시도, 다음엔 잠깐 기다렸다가, 그다음엔 더 기다렸다가 → 배터리를 아끼면서 엔진(서버) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 준다.
+- **📢 섹션 요약 비유**: 지수 백오프는 자동차 엔진이 안 걸릴 때 시동 거는 방법 — 처음엔 바로 다시 시도, 다음엔 잠깐 기다렸다가, 그다음엔 더 기다렸다가 -> 배터리를 아끼면서 엔진(서버) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 준다.
 
 ---
 
@@ -58,26 +58,26 @@ tags = ["studynote-design-supervision"]
 ```
 Jitter 없는 지수 백오프의 문제:
   모든 클라이언트가 동시에 같은 시간(2초, 4초, 8초...)에 재시도
-  → 여전히 주기적인 스파이크 발생
+  -> 여전히 주기적인 스파이크 발생
 
 Full Jitter 공식:
   wait = random_between(0, min(cap, base × 2^attempt))
 
 효과:
   클라이언트마다 대기 시간이 무작위로 분산
-  → 시간축에 고르게 분포 → 서버 부하 평활화
+  -> 시간축에 고르게 분포 -> 서버 부하 평활화
 
-┌──────────────────────────────────────────────────────────────┐
-│  재시도 요청 분포 비교                                         │
-│                                                              │
-│  Jitter 없음:                                                │
-│  t=1s  ████████████████████ (모두 동시 재시도 = 스파이크)     │
-│  t=2s  ████████████████████                                  │
-│                                                              │
-│  Full Jitter:                                                │
-│  t=0~2s  ████ ██ █ ██ ███ ██ █ ██  (고르게 분산)             │
-│  t=0~4s  ██ █ ██ █ ███ █ ██ █ █ ██                          │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  재시도 요청 분포 비교                                         |
+|                                                              |
+|  Jitter 없음:                                                |
+|  t=1s  ████████████████████ (모두 동시 재시도 = 스파이크)     |
+|  t=2s  ████████████████████                                  |
+|                                                              |
+|  Full Jitter:                                                |
+|  t=0~2s  ████ ██ █ ██ ███ ██ █ ██  (고르게 분산)             |
+|  t=0~4s  ██ █ ██ █ ███ █ ██ █ █ ██                          |
++--------------------------------------------------------------+
 ```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 공식 | 특징 |
@@ -90,13 +90,13 @@ Full Jitter 공식:
 
 ```
 재시도 안전한 연산 (멱등성 O):
-  GET /users/1        → 항상 같은 결과
-  DELETE /orders/1    → 이미 삭제됐으면 404 반환 (OK)
-  PUT /users/1 {name} → 동일 값으로 덮어쓰기 = 안전
+  GET /users/1        -> 항상 같은 결과
+  DELETE /orders/1    -> 이미 삭제됐으면 404 반환 (OK)
+  PUT /users/1 {name} -> 동일 값으로 덮어쓰기 = 안전
 
 재시도 위험한 연산 (멱등성 X):
-  POST /orders        → 두 번 실행 = 두 개의 주문
-  POST /payments      → 두 번 실행 = 이중 결제
+  POST /orders        -> 두 번 실행 = 두 개의 주문
+  POST /payments      -> 두 번 실행 = 이중 결제
 
 해결: Idempotency Key
   헤더에 고유 키 포함: Idempotency-Key: uuid-123
@@ -111,31 +111,31 @@ Full Jitter 공식:
 | 패턴 | 적합한 실패 유형 | 목적 | 상호보완 |
 |:---|:---|:---|:---|
 | Retry + Exponential Backoff | 일시적 오류 (순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | Circuit Breaker가 열리면 재시도 중단 |
-| [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | 지속적 장애 ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운) | 빠른 실패 | 실패율 누적 → [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | 지속적 장애 ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운) | 빠른 실패 | 실패율 누적 -> [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
 조합 패턴:
 ```
 요청
- │
- ├─ Circuit Breaker OPEN? → 즉시 Fallback 반환 (재시도 안 함)
- │
- └─ Circuit Breaker CLOSED → 시도
-        │
-        ├─ 성공 → 반환
-        └─ 실패 → Exponential Backoff + Retry
-                    │
-                    └─ 최대 재시도 초과 → Dead Letter Queue
+ |
+ +- Circuit Breaker OPEN? -> 즉시 Fallback 반환 (재시도 안 함)
+ |
+ +- Circuit Breaker CLOSED -> 시도
+        |
+        +- 성공 -> 반환
+        +- 실패 -> Exponential Backoff + Retry
+                    |
+                    +- 최대 재시도 초과 -> Dead Letter Queue
 ```
 
 ```
 최대 재시도 횟수(maxAttempts) 초과 시:
-  → 메시지를 DLQ(Dead Letter Queue)로 이동
-  → 운영자 알림 (PagerDuty, Slack)
-  → 수동 재처리 또는 데이터 보정 절차
+  -> 메시지를 DLQ(Dead Letter Queue)로 이동
+  -> 운영자 알림 (PagerDuty, Slack)
+  -> 수동 재처리 또는 데이터 보정 절차
 
 AWS SQS 예:
-  원본 큐 → 재시도 (maxReceiveCount: 3)
-           → 실패 시 DLQ로 자동 이동
+  원본 큐 -> 재시도 (maxReceiveCount: 3)
+           -> 실패 시 DLQ로 자동 이동
 ```
 
 - **📢 섹션 요약 비유**: DLQ는 우체국 반송 보관함 — 여러 번 배달 시도(재시도)해도 수취인이 없으면 반송함(DLQ)에 보관하고, 나중에 수취인(운영자)이 직접 처리한다.
@@ -219,7 +219,7 @@ Exponential Backoff and Retry 패턴은 [분산](/knowledge-base/studynote/08_al
 | 구현체 | AWS SDK 기본 재시도 | Exponential + Full Jitter 내장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) → 지수 백오프 재시도 패턴 → adaptive retry
+재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) -> 지수 백오프 재시도 패턴 -> adaptive retry
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 게임에서 통신 오류가 났을 때 1초 후 다시 접속, 실패하면 2초 후, 또 실패하면 4초 후... 이렇게 기다리는 시간을 두 배씩 늘리는 것이 지수 백오프야.
@@ -232,7 +232,7 @@ Exponential Backoff and Retry 패턴은 [분산](/knowledge-base/studynote/08_al
 
 **진행 상황**: 285 / 530
 
-← **이전**: [223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/)
-**다음**: [225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/) →
+<- **이전**: [223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/223_circuit_breaker_pattern/)
+**다음**: [225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/) ->
 
 ---

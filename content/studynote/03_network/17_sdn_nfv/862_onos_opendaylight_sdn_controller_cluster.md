@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
-    │
-    ▼
+    |
+    v
 [ONOS / OpenDaylight]
-    │
-    └──▶ [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    |
+    +---> [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
 ```
 
 - **📢 섹션 요약 비유**: ONOS / OpenDaylight는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
-    │
-    ▼
+    |
+    v
 [ONOS / OpenDaylight]
-    │
-    └──▶ [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    |
+    +---> [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
 ```
 
 - **📢 섹션 요약 비유**: ONOS / OpenDaylight의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ ONOS / OpenDaylight는 [SDN](/knowledge-base/studynote/01_computer_architecture/
 
 ```text
 [선행 개념: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
-    │
-    ▼
+    |
+    v
 [현재 개념: ONOS / OpenDaylight]
-    │
-    ├──▶ [확장 A: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 ONOS / OpenDaylight는 [미니넷](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 토폴로지 에뮬레이터 연구 평가…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ ONOS / OpenDaylight는 [미니넷](/knowledge-base/studynote/03_network/17_sdn_n
 
 **진행 상황**: 983 / 1120
 
-← **이전**: [861. 미니넷 (Mininet)](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/)
-**다음**: [863. SDN 분산 컨트롤러 이중화](/knowledge-base/studynote/03_network/17_sdn_nfv/863_sdn_controller_split_brain_ha_cluster_raft/) →
+<- **이전**: [861. 미니넷 (Mininet)](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/)
+**다음**: [863. SDN 분산 컨트롤러 이중화](/knowledge-base/studynote/03_network/17_sdn_nfv/863_sdn_controller_split_brain_ha_cluster_raft/) ->
 
 ---

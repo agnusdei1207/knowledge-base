@@ -41,24 +41,24 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 자기 선택 방식의 흐름을 보여준다. 이 방식에서는 각 노드가 자신의 우선순위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 공용 선에 올리고, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 남은 실제 값을 읽으면서 자신이 계속 경쟁할지 포기할지 결정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      자기 선택(Self-Selection) 기반 분산식 중재의 비트 비교 흐름      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 우선순위 비트: 상위 비트부터 비교, 1이 0보다 우선한다고 가정          │
-│                                                                      │
-│ Master A : 1 0 1                                                     │
-│ Master B : 1 1 0                                                     │
-│ Master C : 0 1 1                                                     │
-│             │ │ │                                                    │
-│ 공용 중재선 : 1 1 1   ← wired-OR / dominant bit 결과                  │
-│             │                                                        │
-│ 판정 과정                                                            │
-│  1) 첫 비트: A,B 생존 / C 탈락                                       │
-│  2) 둘째 비트: B 생존 / A 탈락                                       │
-│  3) 셋째 비트: B 단독 승리                                            │
-│                                                                      │
-│ 결과: 더 낮은 비트를 낸 노드는 "내 우선순위가 밀렸다"고 스스로 철수    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      자기 선택(Self-Selection) 기반 분산식 중재의 비트 비교 흐름      |
++----------------------------------------------------------------------+
+| 우선순위 비트: 상위 비트부터 비교, 1이 0보다 우선한다고 가정          |
+|                                                                      |
+| Master A : 1 0 1                                                     |
+| Master B : 1 1 0                                                     |
+| Master C : 0 1 1                                                     |
+|             | | |                                                    |
+| 공용 중재선 : 1 1 1   <- wired-OR / dominant bit 결과                  |
+|             |                                                        |
+| 판정 과정                                                            |
+|  1) 첫 비트: A,B 생존 / C 탈락                                       |
+|  2) 둘째 비트: B 생존 / A 탈락                                       |
+|  3) 셋째 비트: B 단독 승리                                            |
+|                                                                      |
+| 결과: 더 낮은 비트를 낸 노드는 "내 우선순위가 밀렸다"고 스스로 철수    |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 중요한 점은 <strong>중앙 심판이 판정하지 않아도, <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 자체가 비교 결과를 드러낸다</strong> 는 것이다. 이를 가능하게 하려면 노드들은 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 의미, 같은 비교 순서, 같은 전기적 우선 규칙을 공유해야 한다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 단순히 "모두가 알아서 한다"가 아니라, **모두가 완전히 같은 약속을 하드웨어 수준에서 지킨다** 는 전제가 있어야 성립한다.
@@ -138,25 +138,25 @@ CAN (Controller Area Network) [버스](/knowledge-base/studynote/01_computer_arc
 
 ```text
 중앙 아비터 기반 버스 공유
-    │
-    ▼
+    |
+    v
 SPOF (Single Point of Failure) 문제 인식
-    │
-    ▼
+    |
+    v
 분산식 중재 (Distributed Arbitration)
-    │
-    ├─▶ 분산 데이지 체인 (Distributed Daisy Chain)
-    │
-    └─▶ 자기 선택 (Self-Selection)
-              │
-              ▼
+    |
+    +--> 분산 데이지 체인 (Distributed Daisy Chain)
+    |
+    +--> 자기 선택 (Self-Selection)
+              |
+              v
 CAN (Controller Area Network) 비파괴 중재
-              │
-              ▼
+              |
+              v
 고신뢰 멀티마스터 제어 네트워크 확장
 ```
 
-이 흐름은 "중앙 의존의 한계 발견 → 중재 규칙의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → 실시간 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장"이라는 맥락을 보여준다.
+이 흐름은 "중앙 의존의 한계 발견 -> 중재 규칙의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) -> 실시간 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장"이라는 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +170,7 @@ CAN (Controller Area Network) 비파괴 중재
 
 **진행 상황**: 354 / 803
 
-← **이전**: [352. 중앙 집중식 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/352_centralized_arbitration/)
-**다음**: [354. 데이지 체인 (Daisy Chain)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/) →
+<- **이전**: [352. 중앙 집중식 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/352_centralized_arbitration/)
+**다음**: [354. 데이지 체인 (Daisy Chain)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/) ->
 
 ---

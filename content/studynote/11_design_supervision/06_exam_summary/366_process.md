@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) (Hexagonal [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은 애플리케이션 코어를 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 감싸 외부 입출력 채널을 교체 가능하게 만드는 구조다. UI, 배치, 메시지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 바뀌어도 핵심 규칙을 그대로 유지하려는 요구에서 등장했다. 이 개념이 필요한 이유는 애플리케이션 코어와 외부 채널을 명확히 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 입력 채널이 달라질 때마다 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드가 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 세부사항에 오염된다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Request   │──▶│    Hex     │──▶│   Stable   │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+|  Request   |--->|    Hex     |--->|   Stable   |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->| Boundary |--->|   Core   |--->|  Infra   |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) | [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) (Hexagonal [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[채널별 개별 구현] → [헥사고날 아키텍처] → [멀티 채널 재사용]
+[채널별 개별 구현] -> [헥사고날 아키텍처] -> [멀티 채널 재사용]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) (Hexagonal [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은 같은 충전기에 여러 모양의 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 끼워 쓰는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 444 / 530
 
-← **이전**: [365. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/365_architecture/)
-**다음**: [367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) →
+<- **이전**: [365. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/365_architecture/)
+**다음**: [367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) ->
 
 ---

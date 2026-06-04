@@ -24,30 +24,30 @@ IT 경영 관리(Information Technology Management & Governance)는 기업이 IT
 특히 **2018년 EU GDPR(General Data Protection Regulation)**, **2024년 EU AI Act**, **2024년 한국 개인정보보호법 개정**, **ESG 공시 의무화(IFRS S1/S2)** 등 컴플라이언스 환경이 폭증하면서, IT 거버넌스는 **선택이 아닌 생존의 필수 조건**이 되었음. 한국정보통신기술협회(TTA)의 2023년 survey에 따르면, 국내 500대 기업 중 **63%가 IT 거버넌스 체계 미비로 인한 디지털 전환 실패 경험**이 있다고 응답함.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        IT 경영 관리 3대 프레임워크 통합 참조 모델 (Reference Model)     │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│   ┌──────────────────┐    ┌──────────────────┐    ┌────────────────┐  │
-│   │  WHY (목적/방향)  │───▶│ HOW (방법/구조)  │───▶│ WHAT(실행결과) │  │
-│   │   ISO/IEC 38500  │    │   COBIT 2019     │    │   ITIL 4       │  │
-│   │  ┌────────────┐  │    │  ┌────────────┐  │    │  ┌──────────┐  │  │
-│   │  │  Evaluate  │  │    │  │ 40 Governance│  │    │  │ 34 Prac- │  │  │
-│   │  │  Direct    │  │    │  │ & Management │  │    │  │ tices    │  │  │
-│   │  │  Monitor   │  │    │  │ Objectives  │  │    │  │ SVS 기반 │  │  │
-│   │  └────────────┘  │    │  └────────────┘  │    │  └──────────┘  │  │
-│   │   Board Level    │    │  Mgmt Level      │    │  Operation Lv  │  │
-│   └──────────────────┘    └──────────────────┘    └────────────────┘  │
-│            │                       │                       │          │
-│            └───────────────────────┼───────────────────────┘          │
-│                                    ▼                                  │
-│                    ┌──────────────────────────┐                       │
-│                    │  Value Creation (SVS)    │                       │
-│                    │  • Benefits Realization  │                       │
-│                    │  • Risk Optimization     │                       │
-│                    │  • Resource Optimization │                       │
-│                    └──────────────────────────┘                       │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        IT 경영 관리 3대 프레임워크 통합 참조 모델 (Reference Model)     |
++------------------------------------------------------------------------+
+|                                                                        |
+|   +------------------+    +------------------+    +----------------+  |
+|   |  WHY (목적/방향)  |---->| HOW (방법/구조)  |---->| WHAT(실행결과) |  |
+|   |   ISO/IEC 38500  |    |   COBIT 2019     |    |   ITIL 4       |  |
+|   |  +------------+  |    |  +------------+  |    |  +----------+  |  |
+|   |  |  Evaluate  |  |    |  | 40 Governance|  |    |  | 34 Prac- |  |  |
+|   |  |  Direct    |  |    |  | & Management |  |    |  | tices    |  |  |
+|   |  |  Monitor   |  |    |  | Objectives  |  |    |  | SVS 기반 |  |  |
+|   |  +------------+  |    |  +------------+  |    |  +----------+  |  |
+|   |   Board Level    |    |  Mgmt Level      |    |  Operation Lv  |  |
+|   +------------------+    +------------------+    +----------------+  |
+|            |                       |                       |          |
+|            +-----------------------+-----------------------+          |
+|                                    v                                  |
+|                    +--------------------------+                       |
+|                    |  Value Creation (SVS)    |                       |
+|                    |  • Benefits Realization  |                       |
+|                    |  • Risk Optimization     |                       |
+|                    |  • Resource Optimization |                       |
+|                    +--------------------------+                       |
++------------------------------------------------------------------------+
 ```
 
 **Old Paradigm vs New Paradigm 비교:**
@@ -60,54 +60,54 @@ IT 경영 관리(Information Technology Management & Governance)는 기업이 IT
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리의 핵심 아키텍처는 **"Strategy → Governance → Management → Operations → Value"**의 5계층으로 구성되며, 각 계층 간의 **정렬(Alignment)**과 **피드백 루프(Feedback Loop)**가 전체 시스템의 효과를 결정함.
+IT 경영 관리의 핵심 아키텍처는 **"Strategy -> Governance -> Management -> Operations -> Value"**의 5계층으로 구성되며, 각 계층 간의 **정렬(Alignment)**과 **피드백 루프(Feedback Loop)**가 전체 시스템의 효과를 결정함.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              COBIT 2019 Governance System Architecture               │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌────────────────────────────────────────────────────────────┐    │
-│  │  1. Strategy Layer (전략 계층)                              │    │
-│  │     └─ Business Goals ↔ IT Goals Cascade Mapping          │    │
-│  │        (예: "매출 20% 성장" → "고객체험 디지털화")          │    │
-│  └────────────────────┬───────────────────────────────────────┘    │
-│                       ▼                                              │
-│  ┌────────────────────────────────────────────────────────────┐    │
-│  │  2. Governance Layer (거버넌스 계층 - EDM Cycle)            │    │
-│  │     • EDM01: Governance Framework 설정/유지                │    │
-│  │     • EDM02: Benefits Delivery 보장                        │    │
-│  │     • EDM03: Risk Optimization 보장                        │    │
-│  │     • EDM04: Resource Optimization 보장                    │    │
-│  │     • EDM05: Stakeholder Transparency 보장                 │    │
-│  └────────────────────┬───────────────────────────────────────┘    │
-│                       ▼                                              │
-│  ┌────────────────────────────────────────────────────────────┐    │
-│  │  3. Management Layer (관리 계층 - 4 Domains, 40 Objectives)│    │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐     │    │
-│  │  │ EDM(5)   │ │ APO(14)  │ │ BAI(11)  │ │ DSS(6)   │     │    │
-│  │  │ Evalu.   │ │ Align,   │ │ Build,   │ │ Deliver, │     │    │
-│  │  │ Direct,  │ │ Plan,    │ │ Acquire, │ │ Service, │     │    │
-│  │  │ Monitor  │ │ Organize │ │ Implement│ │ Support  │     │    │
-│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘     │    │
-│  │                                                       + MEA(4)│
-│  │                                                       Monitor│
-│  └────────────────────┬───────────────────────────────────────┘    │
-│                       ▼                                              │
-│  ┌────────────────────────────────────────────────────────────┐    │
-│  │  4. Operations Layer (운영 계층)                            │    │
-│  │     • ITIL 4 Service Value System (SVS)                   │    │
-│  │     • 34 Practices (14 General + 17 Service + 3 Tech)      │    │
-│  │     • Incident, Problem, Change, Service Request Mgmt     │    │
-│  └────────────────────┬───────────────────────────────────────┘    │
-│                       ▼                                              │
-│  ┌────────────────────────────────────────────────────────────┐    │
-│  │  5. Value Layer (가치 계층)                                │    │
-│  │     • Financial: ROI, NPV, IRR, TCO                       │    │
-│  │     • Non-Financial: NPS, CSAT, Time-to-Market            │    │
-│  │     • Balanced Scorecard 4 Perspectives                   │    │
-│  └────────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              COBIT 2019 Governance System Architecture               |
++----------------------------------------------------------------------+
+|                                                                      |
+|  +------------------------------------------------------------+    |
+|  |  1. Strategy Layer (전략 계층)                              |    |
+|  |     +- Business Goals ↔ IT Goals Cascade Mapping          |    |
+|  |        (예: "매출 20% 성장" -> "고객체험 디지털화")          |    |
+|  +--------------------+---------------------------------------+    |
+|                       v                                              |
+|  +------------------------------------------------------------+    |
+|  |  2. Governance Layer (거버넌스 계층 - EDM Cycle)            |    |
+|  |     • EDM01: Governance Framework 설정/유지                |    |
+|  |     • EDM02: Benefits Delivery 보장                        |    |
+|  |     • EDM03: Risk Optimization 보장                        |    |
+|  |     • EDM04: Resource Optimization 보장                    |    |
+|  |     • EDM05: Stakeholder Transparency 보장                 |    |
+|  +--------------------+---------------------------------------+    |
+|                       v                                              |
+|  +------------------------------------------------------------+    |
+|  |  3. Management Layer (관리 계층 - 4 Domains, 40 Objectives)|    |
+|  |  +----------+ +----------+ +----------+ +----------+     |    |
+|  |  | EDM(5)   | | APO(14)  | | BAI(11)  | | DSS(6)   |     |    |
+|  |  | Evalu.   | | Align,   | | Build,   | | Deliver, |     |    |
+|  |  | Direct,  | | Plan,    | | Acquire, | | Service, |     |    |
+|  |  | Monitor  | | Organize | | Implement| | Support  |     |    |
+|  |  +----------+ +----------+ +----------+ +----------+     |    |
+|  |                                                       + MEA(4)|
+|  |                                                       Monitor|
+|  +--------------------+---------------------------------------+    |
+|                       v                                              |
+|  +------------------------------------------------------------+    |
+|  |  4. Operations Layer (운영 계층)                            |    |
+|  |     • ITIL 4 Service Value System (SVS)                   |    |
+|  |     • 34 Practices (14 General + 17 Service + 3 Tech)      |    |
+|  |     • Incident, Problem, Change, Service Request Mgmt     |    |
+|  +--------------------+---------------------------------------+    |
+|                       v                                              |
+|  +------------------------------------------------------------+    |
+|  |  5. Value Layer (가치 계층)                                |    |
+|  |     • Financial: ROI, NPV, IRR, TCO                       |    |
+|  |     • Non-Financial: NPS, CSAT, Time-to-Market            |    |
+|  |     • Balanced Scorecard 4 Perspectives                   |    |
+|  +------------------------------------------------------------+    |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -125,7 +125,7 @@ IT 경영 관리의 핵심 아키텍처는 **"Strategy → Governance → Manage
 2. **IT Cost as % of Revenue**: 벤치마크 산업별 1.5~4.5%
 3. **NPV(순현재가치)**: $\sum_{t=0}^{n} \frac{CF_t}{(1+r)^t} - I_0$, r=할인율, IT 투자 의사결정의 핵심
 4. **Total Economic Impact(TEI)**: Benefits(PV) + Flexibility(PV) − Costs(PV) − Risk(PV)
-5. **CSF/KPI Cascade**: Critical Success Factor → Key Performance Indicator → PI(Performance Indicator)
+5. **CSF/KPI Cascade**: Critical Success Factor -> Key Performance Indicator -> PI(Performance Indicator)
 
 - **📢 섹션 요약 비유**: COBIT 2019의 5개 도메인(EDM, APO, BAI, DSS, MEA)은 **인체의 5대 기관**과 같습니다. EDM(뇌-의사결정), APO(심장-자원공급), BAI(근육-구축), DSS(소화기-서비스 전달), MEA(면역-모니터링)가 각자 역할하면서도 **하나의 유기체(SVS)**로 작동해야 합니다.
 
@@ -141,28 +141,28 @@ IT 경영 관리의 핵심 아키텍처는 **"Strategy → Governance → Manage
 | **대상** | **Board, Executive, Stakeholder** (전략층) | **서비스 운영팀, ITSM 실무자** (운영층) | **프로젝트 매니저, 프로젝트 팀** (수행층) |
 | **시간축** | 영속적(Permanent), 무한 루프 | 영속적, 서비스 라이프사이클 | 한시적(Temporary), 시작/종료 명확 |
 | **핵심 산출물** | Governance Charter, Policy, KPI | Service Catalogue, SLA, OLAs, UC | Project Charter, WBS, Risk Register |
-| **측정 기준** | 거버넌스 목표 달성도, Benefits Realization | SLA 가용성(99.9%↑), MTTR, MTBF | SPI, CPI, Earned Value |
+| **측정 기준** | 거버넌스 목표 달성도, Benefits Realization | SLA 가용성(99.9%^), MTTR, MTBF | SPI, CPI, Earned Value |
 | **적용 사례** | "IT 투자 의사결정", "리스크 허용 한도 설정" | "장애 대응", "변경 관리", "서비스 데스크" | "신규 시스템 구축", "ERP 도입 프로젝트" |
 | **결합점** | Steering Committee 승인 | 서비스 전환(Transition) | 프로젝트 이행을 통한 서비스 인도 |
 
 ### 관련 프레임워크 간 통합 관계
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                    Framework Integration Map                        │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│   ISO/IEC 38500 ──▶ COBIT 2019 ──▶ ITIL 4 ──▶ ISO 20000           │
-│    (거버넌스 원칙)   (실행 프레임)  (운영)      (서비스 인증)        │
-│            │              │              │             │             │
-│            └──────────────┴──────────────┴─────────────┘             │
-│                              │                                      │
-│                              ▼                                      │
-│                    TOGAF (EA Architecture)                          │
-│                    + PMBOK 7 (Project Mgmt)                         │
-│                    + ISO 27001 (보안) + ISO 31000 (리스크)            │
-│                    = 통합 거버넌스 체계                              │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+|                    Framework Integration Map                        |
++---------------------------------------------------------------------+
+|                                                                     |
+|   ISO/IEC 38500 ---> COBIT 2019 ---> ITIL 4 ---> ISO 20000           |
+|    (거버넌스 원칙)   (실행 프레임)  (운영)      (서비스 인증)        |
+|            |              |              |             |             |
+|            +--------------+--------------+-------------+             |
+|                              |                                      |
+|                              v                                      |
+|                    TOGAF (EA Architecture)                          |
+|                    + PMBOK 7 (Project Mgmt)                         |
+|                    + ISO 27001 (보안) + ISO 31000 (리스크)            |
+|                    = 통합 거버넌스 체계                              |
++---------------------------------------------------------------------+
 ```
 
 | 비교 항목 | **Centralized (중앙집중형)** | **Federated (연합형)** | **Hybrid (하이브리드)** |
@@ -174,7 +174,7 @@ IT 경영 관리의 핵심 아키텍처는 **"Strategy → Governance → Manage
 
 **진행 상황**: 550 / 800
 
-← **이전**: [549. IT 경영 관리 핵심 토픽 549번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/549_it_management_core_topic_549_exam_summary/)
-**다음**: [551. IT 경영 관리 핵심 토픽 551번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/551_it_management_core_topic_551_exam_summary/) →
+<- **이전**: [549. IT 경영 관리 핵심 토픽 549번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/549_it_management_core_topic_549_exam_summary/)
+**다음**: [551. IT 경영 관리 핵심 토픽 551번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/551_it_management_core_topic_551_exam_summary/) ->
 
 ---

@@ -39,10 +39,10 @@ tags = ["studynote-design"]
 | [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물 | JAR, DLL, 이미지 등 배포 단위 |
 
 ```text
-[ui package] ──► [application package] ──► [domain package]
-       │                    │                   │
-       │                    ▼                   ▼
-       └──────────────► [interface contract] [infra package]
+[ui package] --► [application package] --► [domain package]
+       |                    |                   |
+       |                    v                   v
+       +--------------► [interface contract] [infra package]
 ```
 
 이 구조가 중요한 이유는 코드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 존재하는 방식과, 설계자가 책임을 나눈 방식이 같아야 변경 비용이 줄어들기 때문이다.
@@ -110,14 +110,14 @@ tags = ["studynote-design"]
     ### 📈 관련 키워드 및 발전 흐름도
 
     클래스 설계
-    │
-    ▼
+    |
+    v
 패키지/[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리
-    │
-    ▼
+    |
+    v
 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 인터페이스 정의
-    │
-    ▼
+    |
+    v
 빌드 산출물과 배포 단위 정렬
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -132,7 +132,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 130 / 530
 
-← **이전**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)
-**다음**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/) →
+<- **이전**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)
+**다음**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/) ->
 
 ---

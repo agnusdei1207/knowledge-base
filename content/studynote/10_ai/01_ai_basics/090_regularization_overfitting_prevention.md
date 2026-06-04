@@ -32,16 +32,16 @@ tags = ["studynote-ai"]
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 가장 대표적인 방식인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 ([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 크기에 비례하는 벌점 (Penalty) 항을 추가하여 작동한다. 이를 통해 모델은 예측 오차를 줄이는 동시에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 크기도 작게 유지해야 하는 이중 과제를 안게 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           정규화가 적용된 손실 함수 (Loss Function)          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Total Loss = [ 기존 예측 오차 (MSE, Cross Entropy 등) ]     │
-│             + [ λ × (가중치 페널티) ]                        │
-│                                                              │
-│  * λ (Lambda): 규제의 강도를 조절하는 하이퍼파라미터         │
-│  * 가중치 페널티: L1(절댓값의 합) 또는 L2(제곱의 합)         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           정규화가 적용된 손실 함수 (Loss Function)          |
++--------------------------------------------------------------+
+|                                                              |
+|  Total Loss = [ 기존 예측 오차 (MSE, Cross Entropy 등) ]     |
+|             + [ λ × (가중치 페널티) ]                        |
+|                                                              |
+|  * λ (Lambda): 규제의 강도를 조절하는 하이퍼파라미터         |
+|  * 가중치 페널티: L1(절댓값의 합) 또는 L2(제곱의 합)         |
++--------------------------------------------------------------+
 ```
 
 이 수식에서 페널티 항이 커질수록 모델은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) $W$ 값을 0에 가깝게 유지하려 압박을 받는다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작아지면 신경망을 구성하는 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)들이 선형적인 구간에서 동작하게 되어, 결과적으로 결정 경계(Decision Boundary)가 날카로운 곡선에서 부드러운 직선 형태로 완화되며 과적합이 해소된다.
@@ -106,17 +106,17 @@ L1 규제는 수많은 입력 변수 중 불필요한 것을 걸러내는 "특�
 
 ```text
 과적합 (Overfitting) 발생 인식
-    │
-    ▼
+    |
+    v
 파라미터 제어: L1 규제 (Lasso) / L2 규제 (Ridge)
-    │
-    ▼
+    |
+    v
 구조적 제어: 드롭아웃 (Dropout)
-    │
-    ▼
+    |
+    v
 훈련 과정 제어: 조기 종료 (Early Stopping)
-    │
-    ▼
+    |
+    v
 현대적 최적화 결합: 배치 정규화 (Batch Normalization) 및 가중치 감쇠 (Weight Decay) 혼용
 ```
 
@@ -134,7 +134,7 @@ L1 규제는 수많은 입력 변수 중 불필요한 것을 걸러내는 "특�
 
 **진행 상황**: 90 / 420
 
-← **이전**: [89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)
-**다음**: [91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) →
+<- **이전**: [89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)
+**다음**: [91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) ->
 
 ---

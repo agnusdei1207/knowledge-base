@@ -36,16 +36,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨과 물리 풀의 관계를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Thin provisioning map                                           │
-├──────────────────────────────────────────────────────────────────┤
-│ Logical volume: [L0][L1][L2][L3][L4][L5]...                     │
-│                  │       │       │                              │
-│                  ▼       ▼       ▼                              │
-│ Physical pool : [P7]    [P9]    [P21]                           │
-│                                                                  │
-│ Unwritten logical blocks do not consume physical extents         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Thin provisioning map                                           |
++------------------------------------------------------------------+
+| Logical volume: [L0][L1][L2][L3][L4][L5]...                     |
+|                  |       |       |                              |
+|                  v       v       v                              |
+| Physical pool : [P7]    [P9]    [P21]                           |
+|                                                                  |
+| Unwritten logical blocks do not consume physical extents         |
++------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 매핑 테이블과 자유 공간 관리자다. 매핑 테이블은 어떤 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록이 어느 물리 [익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)에 연결되어 있는지 기록하고, 자유 공간 관리자는 풀 안에서 아직 배정되지 않은 블록을 추적한다. 삭제 후 운영체제가 TRIM/UNMAP 회수 신호를 보내면, 스토리지는 해당 [익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)를 다시 풀로 돌려 다른 볼륨에 재사용할 수 있다.
@@ -117,21 +117,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Thick Provisioning
-    │  유휴 공간 낭비 문제
-    ▼
+    |  유휴 공간 낭비 문제
+    v
 Thin Provisioning
-    │  삭제 공간 회수 필요
-    ▼
+    |  삭제 공간 회수 필요
+    v
 TRIM / UNMAP 연동
-    │  데이터 서비스 결합
-    ▼
+    |  데이터 서비스 결합
+    v
 Thin + 압축 + 중복 제거
-    │  자동 운영 고도화
-    ▼
+    |  자동 운영 고도화
+    v
 예측 기반 자율 용량 관리
 ```
 
-이 흐름은 “즉시 예약 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당 → 회수 자동화 → 복합 절감 → 예측 기반 운영”으로 이어지는 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 진화를 보여준다.
+이 흐름은 “즉시 예약 -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당 -> 회수 자동화 -> 복합 절감 -> 예측 기반 운영”으로 이어지는 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ Thin + 압축 + 중복 제거
 
 **진행 상황**: 685 / 803
 
-← **이전**: [683. 인라인 압축 (Inline Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/683_inline_compression/)
-**다음**: [685. LUN (Logical Unit Number) 마스킹](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) →
+<- **이전**: [683. 인라인 압축 (Inline Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/683_inline_compression/)
+**다음**: [685. LUN (Logical Unit Number) 마스킹](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) ->
 
 ---

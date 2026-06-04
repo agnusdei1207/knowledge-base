@@ -24,22 +24,22 @@ tags = ["studynote-design-supervision"]
 ACL은 이 오염을 방지한다. 외부 API와 접촉하는 지점에 변환 레이어를 두어 외부 개념을 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델로 번역하고, 그 이후의 내부 코드는 오직 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념만 사용한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│               ACL 동작 구조                                  │
-├─────────────────────────────────────────────────────────────┤
-│  [외부 결제 시스템]                                          │
-│  paymentCode, orderId, merchantKey (외부 개념)              │
-│       │                                                     │
-│  ┌────▼────────────────────────────────────────────────┐    │
-│  │  ACL (Anti-Corruption Layer)                         │    │
-│  │  PaymentGatewayAdapter (Facade + Translator)         │    │
-│  │  - paymentCode → paymentId (번역)                    │    │
-│  │  - 외부 예외 → 내부 DomainException (변환)           │    │
-│  └────┬────────────────────────────────────────────────┘    │
-│       │ (내부 도메인 언어만 사용)                            │
-│  [주문 바운디드 컨텍스트]                                    │
-│  paymentId, orderId (내부 개념)                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|               ACL 동작 구조                                  |
++-------------------------------------------------------------+
+|  [외부 결제 시스템]                                          |
+|  paymentCode, orderId, merchantKey (외부 개념)              |
+|       |                                                     |
+|  +----v------------------------------------------------+    |
+|  |  ACL (Anti-Corruption Layer)                         |    |
+|  |  PaymentGatewayAdapter (Facade + Translator)         |    |
+|  |  - paymentCode -> paymentId (번역)                    |    |
+|  |  - 외부 예외 -> 내부 DomainException (변환)           |    |
+|  +----+------------------------------------------------+    |
+|       | (내부 도메인 언어만 사용)                            |
+|  [주문 바운디드 컨텍스트]                                    |
+|  paymentId, orderId (내부 개념)                             |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ACL은 외교관처럼, 두 나라(시스템) 간에 서로 다른 언어([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)를 번역하여 한 나라의 문화(외부 모델)가 다른 나라 내부를 오염시키지 않게 막는다.
@@ -58,16 +58,16 @@ ACL은 이 오염을 방지한다. 외부 API와 접촉하는 지점에 변환 �
 | Repository (방향) | 외부 저장소를 내부 모델로 | LegacyProductRepository |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         레거시 통합 시 ACL 위치                              │
-├─────────────────────────────────────────────────────────────┤
-│  [신규 도메인 서비스]                                        │
-│       │ (내부 도메인 객체 사용)                              │
-│  [ACL: LegacySystemAdapter]                                 │
-│       │ (레거시 모델 ↔ 내부 모델 변환)                      │
-│  [레거시 시스템 API]                                        │
-│  (오래된 필드명, 구조, 예외 타입)                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         레거시 통합 시 ACL 위치                              |
++-------------------------------------------------------------+
+|  [신규 도메인 서비스]                                        |
+|       | (내부 도메인 객체 사용)                              |
+|  [ACL: LegacySystemAdapter]                                 |
+|       | (레거시 모델 ↔ 내부 모델 변환)                      |
+|  [레거시 시스템 API]                                        |
+|  (오래된 필드명, 구조, 예외 타입)                           |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ACL은 수입통관(변환)과 같다. 외국 제품(외부 모델)이 국내 기준(내부 모델)에 맞게 검사·변환되어야 국내 시장(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 유통될 수 있다.
@@ -113,7 +113,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 
 ### 📌 관련 개념 맵
 
-[외부 시스템 의존성 오염] → ACL 패턴(Evans [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))] → Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator] → BFF 패턴 결합] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 자동화]
+[외부 시스템 의존성 오염] -> ACL 패턴(Evans [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))] -> Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator] -> BFF 패턴 결합] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 자동화]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -124,7 +124,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[외부 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 문제] → DDD [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴] → Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator 구현] → BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 통합 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)]
+[외부 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 문제] -> DDD [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴] -> Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator 구현] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 통합 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +138,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 
 **진행 상황**: 189 / 530
 
-← **이전**: [132. 엔티티와 값 객체 (Entity and Value Object)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/132_entity_value_object/)
-**다음**: [134. 파이프-필터 패턴 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/) →
+<- **이전**: [132. 엔티티와 값 객체 (Entity and Value Object)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/132_entity_value_object/)
+**다음**: [134. 파이프-필터 패턴 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/) ->
 
 ---

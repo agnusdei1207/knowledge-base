@@ -26,17 +26,17 @@ tags = ["studynote-database"]
 아래 그림은 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 "정렬 의미" 대신 "부하 균형"을 택하는 구조임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Business meaning vs physical balance                               │
-├────────────────────────────────────────────────────────────────────┤
-│ order_no values : 1001 1002 1003 1004 1005 1006 1007 1008          │
-│                                                                    │
-│ range layout  : P_recent[1001 1002 1003 1004 1005 1006 1007 1008]  │
-│ hash layout   : P0[1001 1005] P1[1002 1006] P2[1003 1007]          │
-│                 P3[1004 1008]                                      │
-│                                                                    │
-│ result        : order meaning is weaker, load balance is stronger  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Business meaning vs physical balance                               |
++--------------------------------------------------------------------+
+| order_no values : 1001 1002 1003 1004 1005 1006 1007 1008          |
+|                                                                    |
+| range layout  : P_recent[1001 1002 1003 1004 1005 1006 1007 1008]  |
+| hash layout   : P0[1001 1005] P1[1002 1006] P2[1003 1007]          |
+|                 P3[1004 1008]                                      |
+|                                                                    |
+| result        : order meaning is weaker, load balance is stronger  |
++--------------------------------------------------------------------+
 ```
 
 핵심은 해시가 무작위 저장처럼 보이지만, 실제로는 <strong>같은 키가 항상 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 가는 결정적 (Deterministic) 규칙</strong>이라는 점이다. 그래서 `customer_id = 12345` 같은 동등 조건은 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 좁힐 수 있지만, `BETWEEN` 같은 범위 조건은 의미를 잃기 쉽다.
@@ -47,28 +47,28 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 동작은 "키 추출 → 해시 계산 → 버킷 매핑 → 물리 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 저장"의 흐름으로 이해하면 된다. 새 행이 들어오면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 엔진은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, 내부 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용해 정수 값으로 바꾼다. 그런 다음 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수 또는 내부 버킷 맵에 따라 어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 넣을지 결정한다.
+해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 동작은 "키 추출 -> 해시 계산 -> 버킷 매핑 -> 물리 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 저장"의 흐름으로 이해하면 된다. 새 행이 들어오면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 엔진은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, 내부 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용해 정수 값으로 바꾼다. 그런 다음 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수 또는 내부 버킷 맵에 따라 어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 넣을지 결정한다.
 
 여기서 중요한 점은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)마다 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 다를 수 있다는 것이다. 설계자는 보통 `hash(key) mod N`처럼 개념적으로 이해하면 충분하지만, 실제 구현은 벤더가 숨긴 내부 버킷 구조를 쓸 수 있다. 중요한 것은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이름이 아니라 <strong>같은 키가 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 안정적으로 매핑되고, 전체 분포가 한쪽으로 지나치게 치우치지 않는가</strong>다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Deterministic routing and pruning                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ incoming row : customer_id = 1005                                  │
-│        │                                                           │
-│        ▼                                                           │
-│ hash(customer_id) = 84291                                          │
-│        │                                                           │
-│        ▼                                                           │
-│ bucket mapping -> partition 3                                      │
-│        │                                                           │
-│        ▼                                                           │
-│ store in P3                                                        │
-│                                                                    │
-│ query customer_id = 1005  -> probe P3 first                        │
-│ query customer_id BETWEEN ... -> often scan many or all partitions │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Deterministic routing and pruning                                  |
++--------------------------------------------------------------------+
+| incoming row : customer_id = 1005                                  |
+|        |                                                           |
+|        v                                                           |
+| hash(customer_id) = 84291                                          |
+|        |                                                           |
+|        v                                                           |
+| bucket mapping -> partition 3                                      |
+|        |                                                           |
+|        v                                                           |
+| store in P3                                                        |
+|                                                                    |
+| query customer_id = 1005  -> probe P3 first                        |
+| query customer_id BETWEEN ... -> often scan many or all partitions |
++--------------------------------------------------------------------+
 ```
 
 실무 구성 요소를 정리하면 다음과 같다.
@@ -161,19 +161,19 @@ tags = ["studynote-database"]
 
 ```text
 입력 집중 · 데이터 쏠림 문제
-        │
-        ▼
+        |
+        v
 높은 카디널리티 키 선정
-        │
-        ▼
+        |
+        v
 해시 함수 + 버킷 매핑
-        │
-        ▼
+        |
+        v
 해시 파티셔닝 (Hash Partitioning)
-        │
-        ├──────────────► 동등 조건 프루닝 (=, IN)
-        ├──────────────► 병렬 입출력 · 쓰기 분산
-        └──────────────► Range + Hash 복합 파티셔닝 확장
+        |
+        +--------------► 동등 조건 프루닝 (=, IN)
+        +--------------► 병렬 입출력 · 쓰기 분산
+        +--------------► Range + Hash 복합 파티셔닝 확장
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -188,7 +188,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 181 / 600
 
-← **이전**: [180. 레인지 파티셔닝 (Range Partitioning) - 범위(날짜 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/)
-**다음**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) →
+<- **이전**: [180. 레인지 파티셔닝 (Range Partitioning) - 범위(날짜 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/)
+**다음**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) ->
 
 ---

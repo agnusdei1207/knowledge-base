@@ -36,31 +36,31 @@ tags = ["studynote-operating-system"]
   - 안드로이드 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 구글 엔지니어들이 데스크톱용 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모바일의 극악한 메모리 환경을 견디지 못하는 것을 보고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 뜯어고쳐 LMK 모듈을 쑤셔 넣었다. 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바깥(유저 스페이스) 데몬인 `lmkd`로 진화하며 현대 안드로이드 램 관리의 핵심이 되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 안드로이드 LMK의 단계적 암살(Kill) 메커니즘 시각화      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 스마트폰 전체 RAM: 8GB ]                                   │
-  │                                                             │
-  │   메모리 잔여량 📉          [ LMK 트리거 및 희생자 선정 타겟 ]        │
-  │   ───────────────────────────────────────────────────────   │
-  │   (안전) 2GB 남음 ──▶ 아무 일 없음. 평화로운 상태.                   │
-  │                                                             │
-  │   (경고) 1GB 남음 ──▶ ⚡ [ 1단계 타격 ]: 빈 앱 (Empty App) 사살     │
-  │                        (이미 다 끝났는데 찌꺼기만 남은 앱들 강제 종료)  │
-  │                                                             │
-  │   (위험) 500MB 남음 ─▶ ⚡ [ 2단계 타격 ]: 캐시된 앱 (Cached App) 사살│
-  │                        (어제 쓰다 홈버튼 누르고 백그라운드에 쌓인 앱들) │
-  │                                                             │
-  │   (심각) 200MB 남음 ─▶ ⚡ [ 3단계 타격 ]: 서비스 앱 (Service App) 사살│
-  │                        (음악 재생 등 뒤에서 몰래 도는 앱들까지 쳐냄)   │
-  │                                                             │
-  │   (최악) 50MB 남음 ──▶ 🚨 [ 4단계 타격 ]: 보여지는 앱 (Visible App) 사살│
-  │                        (화면에 떠 있는 게임을 제외한 모든 앱 몰살)     │
-  │                                                             │
-  │  ▶ 결과: 현재 손가락으로 터치 중인 [Foreground App]을 살리기 위해,      │
-  │          뒤에 숨어있는 앱들을 등급별로 썰어버리며 램을 지속적으로 상납함.      │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 안드로이드 LMK의 단계적 암살(Kill) 메커니즘 시각화      |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 스마트폰 전체 RAM: 8GB ]                                   |
+  |                                                             |
+  |   메모리 잔여량 📉          [ LMK 트리거 및 희생자 선정 타겟 ]        |
+  |   -------------------------------------------------------   |
+  |   (안전) 2GB 남음 ---> 아무 일 없음. 평화로운 상태.                   |
+  |                                                             |
+  |   (경고) 1GB 남음 ---> ⚡ [ 1단계 타격 ]: 빈 앱 (Empty App) 사살     |
+  |                        (이미 다 끝났는데 찌꺼기만 남은 앱들 강제 종료)  |
+  |                                                             |
+  |   (위험) 500MB 남음 --> ⚡ [ 2단계 타격 ]: 캐시된 앱 (Cached App) 사살|
+  |                        (어제 쓰다 홈버튼 누르고 백그라운드에 쌓인 앱들) |
+  |                                                             |
+  |   (심각) 200MB 남음 --> ⚡ [ 3단계 타격 ]: 서비스 앱 (Service App) 사살|
+  |                        (음악 재생 등 뒤에서 몰래 도는 앱들까지 쳐냄)   |
+  |                                                             |
+  |   (최악) 50MB 남음 ---> 🚨 [ 4단계 타격 ]: 보여지는 앱 (Visible App) 사살|
+  |                        (화면에 떠 있는 게임을 제외한 모든 앱 몰살)     |
+  |                                                             |
+  |  -> 결과: 현재 손가락으로 터치 중인 [Foreground App]을 살리기 위해,      |
+  |          뒤에 숨어있는 앱들을 등급별로 썰어버리며 램을 지속적으로 상납함.      |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 안드로이드의 메모리 관리는 '계급 사회'다. 유저와 상호작용하는 앱(Foreground)은 성골 귀족이고, 한 달 전에 쓰다 놔둔 앱(Cached)은 언제든 죽여도 되는 천민이다. 이 계급을 바탕으로 안드로이드는 잔여 메모리가 특정 선([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))을 넘을 때마다 해당 선에 배정된 천민 계급부터 학살을 시작한다. 사용자가 무거운 게임(Genshin 등)을 켜면 메모리가 500MB, 200MB 훅훅 떨어지는데, 이때 LMK가 뒤에서 캐시된 앱과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앱들을 0.1초 만에 연속으로 수십 개씩 도륙(SIGKILL)내며 램을 확보해 준다. 덕분에 게임은 단 1초의 버벅임 없이 실행될 수 있다. 나중에 홈 화면으로 돌아가서 어제 쓰던 앱을 다시 켰을 때 처음 로고부터 다시 로딩된다면(리프레시 현상), 그건 그 앱이 어제 이 LMK의 칼날에 암살당했기 때문이다.
@@ -87,26 +87,26 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 안드로이드는 이 킬러 로직을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 한가운데 박아버렸다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서 복잡한 정책을 돌리려니 오버헤드가 크고 구글이 맘대로 로직을 튜닝하기 힘들었다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안드로이드 9(Pie) 이후의 차세대 lmkd (User-space) 구조 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 1. 메모리 압박 감지 (Kernel PSI) ]                                │
-  │   리눅스 커널의 PSI (Pressure Stall Information) 모니터가                │
-  │   "어! RAM이 모자라서 CPU가 스와핑 대기하느라 10% 지연되고 있어!" 라고 탐지.  │
-  │                 │                                                 │
-  │                 ▼ (이벤트 알람 발송)                                  │
-  │  ========================= (커널/유저 경계) ========================== │
-  │                 │                                                 │
-  │   [ 2. 유저 스페이스 lmkd (Low Memory Killer Daemon) ]              │
-  │   - AMS(안드로이드 프레임워크)가 준 `OOM_ADJ` 점수표(생사부)를 들고 있음.  │
-  │   - 알람을 받자마자, 점수표에서 점수가 가장 높은 999점(캐시 앱)부터 찾음.    │
-  │                 │                                                 │
-  │                 ▼ (사형 선고)                                       │
-  │   [ 3. SIGKILL (-9) 발송 및 메모리 회수 ]                              │
-  │   - 타겟 앱의 프로세스를 강제 사살.                                     │
-  │   - 회수된 수백 MB의 램이 즉시 Foreground(게임) 앱으로 흘러 들어감. 🚀     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안드로이드 9(Pie) 이후의 차세대 lmkd (User-space) 구조 |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 1. 메모리 압박 감지 (Kernel PSI) ]                                |
+  |   리눅스 커널의 PSI (Pressure Stall Information) 모니터가                |
+  |   "어! RAM이 모자라서 CPU가 스와핑 대기하느라 10% 지연되고 있어!" 라고 탐지.  |
+  |                 |                                                 |
+  |                 v (이벤트 알람 발송)                                  |
+  |  ========================= (커널/유저 경계) ========================== |
+  |                 |                                                 |
+  |   [ 2. 유저 스페이스 lmkd (Low Memory Killer Daemon) ]              |
+  |   - AMS(안드로이드 프레임워크)가 준 `OOM_ADJ` 점수표(생사부)를 들고 있음.  |
+  |   - 알람을 받자마자, 점수표에서 점수가 가장 높은 999점(캐시 앱)부터 찾음.    |
+  |                 |                                                 |
+  |                 v (사형 선고)                                       |
+  |   [ 3. SIGKILL (-9) 발송 및 메모리 회수 ]                              |
+  |   - 타겟 앱의 프로세스를 강제 사살.                                     |
+  |   - 회수된 수백 MB의 램이 즉시 Foreground(게임) 앱으로 흘러 들어감. 🚀     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것이 안드로이드 메모리 아키텍처의 거대한 전환점이다. 옛날엔 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 죽였다면, 이제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 단순히 "지금 메모리 숨 막혀요(PSI)"라고 알람만 울린다. 진짜 살생부 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 들고 다니며 누구 목을 칠지 결정하는 '사형 집행인' 역할은 완전히 유저 영역(User Space)의 독립된 C/C++ 데몬인 `lmkd`로 빠져나왔다. 이렇게 역할을 분리함으로써 구글은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 수정하지 않고도 기기 제조사(삼성, 샤오미)마다 램 용량(4GB, 12GB 등)에 맞춰 킬러의 성향(잔인하게 죽일지, 버틸지)을 정밀하게 튜닝할 수 있게 되었다.
@@ -150,26 +150,26 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
    - <strong>아키텍트 판단 (Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 승격)</strong>: 음악 재생, GPS 추적 같은 작업은 안드로이드 시스템의 룰에 맞춰 <strong>Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (포그라운드 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>라는 특수 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 분리하여 실행해야 한다. 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 상단 노티피케이션 바에 강제로 알림을 띄우는 조건으로, 시스템에게 "나 뒤에 숨어있지만 사용자에게 아주 중요한 일을 하고 있어!"라고 어필한다. 이 순간 AMS는 앱의 ADJ 점수를 귀족 급(보이는 앱 수준)으로 끌어올려 주어, 웬만한 메모리 부족 사태에도 LMK가 절대 건드리지 못하는 철갑 방패를 얻게 된다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안드로이드 앱 생존(LMK 회피)을 위한 아키텍처 생명주기       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 📱 내 앱이 백그라운드로 내려갔을 때 생존하는 법 ]                      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      앱이 보이지 않을 때도 음악 재생/위치 추적을 계속해야 하는가?            │
-  │          ├─ 예 ─────▶ [ Foreground Service 적용 ]                 │
-  │          │             (상단바 알림 띄우고 ADJ 점수 올려서 깡패 생존 보장)  │
-  │          └─ 아니오 (단순히 화면에서 사라진 일반 앱임)                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      `onTrimMemory(TRIM_MEMORY_UI_HIDDEN)` 콜백 신호가 커널에서 날아옴! │
-  │          ├─ 무시함 ──▶ 🚨 [ OOM 킬러의 1순위 먹잇감 등극 ]             │
-  │          │             (무거운 캐시를 쥐고 있다가 램 용량 강탈 목적으로 사살됨)│
-  │          │                                                        │
-  │          └─ 비움 ───▶ 🟢 [ 이미지 캐시와 불필요한 메모리 즉각 해제(null) ] │
-  │                        (몸집을 깃털처럼 줄여서 LMK 눈에 안 띄게 숨어 생존 연장)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 안드로이드 앱 생존(LMK 회피)을 위한 아키텍처 생명주기       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 📱 내 앱이 백그라운드로 내려갔을 때 생존하는 법 ]                      |
+  |                |                                                  |
+  |                v                                                  |
+  |      앱이 보이지 않을 때도 음악 재생/위치 추적을 계속해야 하는가?            |
+  |          +- 예 ------> [ Foreground Service 적용 ]                 |
+  |          |             (상단바 알림 띄우고 ADJ 점수 올려서 깡패 생존 보장)  |
+  |          +- 아니오 (단순히 화면에서 사라진 일반 앱임)                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      `onTrimMemory(TRIM_MEMORY_UI_HIDDEN)` 콜백 신호가 커널에서 날아옴! |
+  |          +- 무시함 ---> 🚨 [ OOM 킬러의 1순위 먹잇감 등극 ]             |
+  |          |             (무거운 캐시를 쥐고 있다가 램 용량 강탈 목적으로 사살됨)|
+  |          |                                                        |
+  |          +- 비움 ----> 🟢 [ 이미지 캐시와 불필요한 메모리 즉각 해제(null) ] |
+  |                        (몸집을 깃털처럼 줄여서 LMK 눈에 안 띄게 숨어 생존 연장)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 안드로이드 개발자는 절대 메모리가 무한하다고 생각하면 안 된다. "내 앱만 소중하다"며 메모리를 물고 늘어지는 악덕 앱은 OS(LMK)의 가차 없는 철퇴를 맞고 유저에게 "최적화 개판인 앱"으로 별점 테러를 받게 된다. 훌륭한 아키텍처는 운영체제와 대화(Callback)하는 앱이다. OS가 힘들다고 SOS 신호를 보낼 때 스스로 캐시를 비워주는 '양보의 미덕'을 코딩하는 것만이 멀티태스킹의 리프레시(재시작) 지옥에서 내 앱을 살려내는 유일한 정도(正道)다.
@@ -218,12 +218,12 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 
 ```text
 [cgroups 메모리, CPU 자원 제한 격리 컨테이너]
-    │
-    ▼
+    |
+    v
 [안드로이드 LMK (Low Memory Killer) 작동]
-    │
-    ├──▶ [iOS 앱 샌드박싱 구조]
-    └──▶ [라이브 패칭 (Kpatch) 커널 정지 없는 보안]
+    |
+    +---> [iOS 앱 샌드박싱 구조]
+    +---> [라이브 패칭 (Kpatch) 커널 정지 없는 보안]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -240,7 +240,7 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 
 **진행 상황**: 787 / 800
 
-← **이전**: [786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)](/knowledge-base/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/)
-**다음**: [788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)](/knowledge-base/studynote/02_operating_system/11_exam_summary/788_ios_app_sandboxing_architecture/) →
+<- **이전**: [786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)](/knowledge-base/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/)
+**다음**: [788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)](/knowledge-base/studynote/02_operating_system/11_exam_summary/788_ios_app_sandboxing_architecture/) ->
 
 ---

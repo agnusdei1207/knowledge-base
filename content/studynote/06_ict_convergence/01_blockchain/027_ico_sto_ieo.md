@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ICO (Initial Coin Offering), STO ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering), IEO (Initial Exchange Offering)는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 디지털 자산을 발행하여 프로젝트 자금을 조달하는 세 가지 방식으로, 규제 강도와 투자자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준에서 큰 차이가 있다.
-> 2. **가치**: ICO → STO → IEO로의 진화는 "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자금 조달의 제도화" 방향을 보여준다. ICO는 규제 없이 빠른 자금 조달이 가능하지만 사기(Scam) 위험이 높고, STO는 증권법 적용으로 투자자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 강화되며, IEO는 거래소가 중개자 역할을 하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높인다.
+> 2. **가치**: ICO -> STO -> IEO로의 진화는 "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자금 조달의 제도화" 방향을 보여준다. ICO는 규제 없이 빠른 자금 조달이 가능하지만 사기(Scam) 위험이 높고, STO는 증권법 적용으로 투자자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 강화되며, IEO는 거래소가 중개자 역할을 하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높인다.
 > 3. **판단 포인트**: 한국에서는 ICO가 2017년부터 사실상 금지 상태이고, STO는 토큰 증권 가이드라인(2023)에 따라 제도권 진입 중이다. 디지털 자산 관련 법제도 동향을 파악하는 것이 기술사 시험과 실무 모두에서 중요하다.
 
 ---
@@ -19,15 +19,15 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│     ICO / STO / IEO 비교 요약                           │
-├──────────────┬──────────────┬────────────────────────────┤
-│    ICO       │    IEO       │          STO               │
-├──────────────┼──────────────┼────────────────────────────┤
-│ 규제 없음    │ 거래소 심사  │ 증권법 적용                │
-│ 빠른 조달    │ 중간 신뢰    │ 완전 제도권                │
-│ 사기 위험 高 │ 사기 위험 中 │ 사기 위험 低               │
-└──────────────┴──────────────┴────────────────────────────┘
++---------------------------------------------------------+
+|     ICO / STO / IEO 비교 요약                           |
++--------------+--------------+----------------------------+
+|    ICO       |    IEO       |          STO               |
++--------------+--------------+----------------------------+
+| 규제 없음    | 거래소 심사  | 증권법 적용                |
+| 빠른 조달    | 중간 신뢰    | 완전 제도권                |
+| 사기 위험 高 | 사기 위험 中 | 사기 위험 低               |
++--------------+--------------+----------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ICO는 노상에서 판매하는 복권(규제 없음), IEO는 편의점에서 파는 복권(편의점이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), STO는 금융위원회가 허가한 공모주 청약이다.
@@ -37,18 +37,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### ICO (Initial Coin Offering)
-- [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)로 토큰 발행 → 직접 투자자에게 판매.
-- 규제 없음 → 화이트페이퍼(White Paper)만으로 자금 조달.
-- 2017-2018년 버블 → 대규모 스캠·규제 강화.
+- [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)로 토큰 발행 -> 직접 투자자에게 판매.
+- 규제 없음 -> 화이트페이퍼(White Paper)만으로 자금 조달.
+- 2017-2018년 버블 -> 대규모 스캠·규제 강화.
 
 ### STO ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)
-- 토큰이 증권([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 증권법 적용.
+- 토큰이 증권([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) -> 증권법 적용.
 - 부동산·주식·채권을 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)([Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)).
 - 한국: 2023년 토큰 증권 가이드라인 시행.
 
 ### IEO (Initial Exchange Offering)
 - 거래소(Binance Launchpad 등)가 중개자.
-- 거래소가 프로젝트 심사 → [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보증.
+- 거래소가 프로젝트 심사 -> [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보증.
 - 투자자는 거래소 계정에서 직접 구매.
 
 - **📢 섹션 요약 비유**: STO의 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)는 건물을 주식처럼 쪼개는 것이다. 100억 원짜리 빌딩을 1만 개 토큰으로 나눠 소액 투자자도 지분을 가질 수 있다.
@@ -64,7 +64,7 @@ tags = ["studynote-ict-convergence"]
 | [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | 누구나 | 적격 투자자 | 거래소 회원 |
 | 자금 조달 속도 | 빠름 | 느림 | 중간 |
 
-- **📢 섹션 요약 비유**: 세 방식의 진화는 시장의 성숙도를 반영한다. 개척 시대(ICO) → 조합 규제 시대(IEO) → 완전 금융 제도권 편입(STO)으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 금융이 점차 제도화되는 과정이다.
+- **📢 섹션 요약 비유**: 세 방식의 진화는 시장의 성숙도를 반영한다. 개척 시대(ICO) -> 조합 규제 시대(IEO) -> 완전 금융 제도권 편입(STO)으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 금융이 점차 제도화되는 과정이다.
 
 ---
 
@@ -111,17 +111,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [ICO — 규제 없는 탈중앙 자금 조달 (2017-2018)]
-    │
-    ▼
+    |
+    v
 [IEO — 거래소 중개 신뢰성 보완]
-    │
-    ▼
+    |
+    v
 [STO — 증권법 편입, 투자자 보호]
-    │
-    ▼
+    |
+    v
 [토큰화(Tokenization) — 부동산·채권·주식 디지털화]
-    │
-    ▼
+    |
+    v
 [DeFi+STO+CBDC — 완전 자동화 디지털 금융 시장]
 ```
 
@@ -137,7 +137,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 27 / 552
 
-← **이전**: [26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/)
-**다음**: [28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/) →
+<- **이전**: [26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/)
+**다음**: [28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/) ->
 
 ---

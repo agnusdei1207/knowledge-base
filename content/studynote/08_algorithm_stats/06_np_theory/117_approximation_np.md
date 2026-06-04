@@ -33,8 +33,8 @@ tags = ["studynote-algorithm-stats"]
   OPT(I): 최적해 값
 
   ρ=1: 완벽 최적해 (=정확 알고리즘)
-  ρ=2: 최적의 2배 이하 (최소화) → "2-근사"
-  ρ=1.5: 최적의 1.5배 → TSP Christofides
+  ρ=2: 최적의 2배 이하 (최소화) -> "2-근사"
+  ρ=1.5: 최적의 1.5배 -> TSP Christofides
 
 근사 스키마:
   PTAS (Polynomial-Time Approximation Scheme):
@@ -48,7 +48,7 @@ tags = ["studynote-algorithm-stats"]
 한계 (Inapproximability):
   모든 NP-하드 문제에 좋은 근사 존재 X
   Clique: n^(1-ε) 근사 불가 (ZPP≠NP)
-  → 근사 자체가 NP-하드인 경우
+  -> 근사 자체가 NP-하드인 경우
 ```
 
 > 📢 **섹션 요약 비유**: [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "충분히 좋은 답" — 완벽한 답(최적해)은 너무 오래 걸리므로, "최적의 1.5배 이내"를 빠르게! 1.5배 이내 보장이 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 가치.
@@ -63,7 +63,7 @@ tags = ["studynote-algorithm-stats"]
   = NP-완전
 
 2-근사 알고리즘:
-  아이디어: 임의 에지 선택 → 양 끝점 추가 → 반복
+  아이디어: 임의 에지 선택 -> 양 끝점 추가 -> 반복
 
   알고리즘:
   C = {}
@@ -75,20 +75,20 @@ tags = ["studynote-algorithm-stats"]
 
   예시:
   그래프: 1-2, 2-3, 3-4, 4-5
-  에지 (1,2) 선택 → {1,2} 추가
-  에지 (3,4) 선택 → {3,4} 추가
-  에지 5에 연결된 것 → {5} or 에지 (4,5) 커버됨
-  → C = {1,2,3,4}
+  에지 (1,2) 선택 -> {1,2} 추가
+  에지 (3,4) 선택 -> {3,4} 추가
+  에지 5에 연결된 것 -> {5} or 에지 (4,5) 커버됨
+  -> C = {1,2,3,4}
 
   최적해: {2,4} (크기 2)
   알고리즘: 크기 4 ≤ 2 × 최적(2) ✓ 2-근사!
 
 증명:
   선택한 에지들 = 매칭(공유 정점 없음)
-  → 매칭 크기 = k
-  → 알고리즘: 2k 정점
-  → 최적: ≥ k (각 에지 최소 1개 정점 필요)
-  → 2k / k = 2 → 2-근사 증명
+  -> 매칭 크기 = k
+  -> 알고리즘: 2k 정점
+  -> 최적: ≥ k (각 에지 최소 1개 정점 필요)
+  -> 2k / k = 2 -> 2-근사 증명
 
 시간 복잡도: O(V+E)
 ```
@@ -120,14 +120,14 @@ tags = ["studynote-algorithm-stats"]
 근사 비율:
   H_n = 1 + 1/2 + 1/3 + ... + 1/n ≈ ln(n)
 
-  → O(log |U|) 근사 보장
+  -> O(log |U|) 근사 보장
 
-  예: |U|=100 → 최적 k개, 그리디 ≤ k × ln(100) ≈ 4.6k
+  예: |U|=100 -> 최적 k개, 그리디 ≤ k × ln(100) ≈ 4.6k
 
 불가능 결과:
   (1-ε) × ln(n) 보다 좋은 근사는
   P≠NP 가정 하에 불가능 (Feige 1998)
-  → ln(n) 근사가 사실상 최선
+  -> ln(n) 근사가 사실상 최선
 
 적용:
   네트워크 감시 (모든 링크 커버)
@@ -161,7 +161,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 증명 (개략):
   MST 비용 ≤ OPT (최적 경로에서 에지 하나 제거 = 신장 트리)
   최소 완전 매칭 ≤ OPT/2 (삼각 부등식 + 홀수 정점쌍)
-  → Christofides: MST + 매칭 ≤ 1.5 × OPT
+  -> Christofides: MST + 매칭 ≤ 1.5 × OPT
 
 최근 개선 (2020):
   Karlin-Klein-Gharan: (1.5-ε)-근사 증명
@@ -205,7 +205,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 3. 실용 선택 — LKH (Lin-Kernighan):
    100개 도시: 밀리초~초
    품질: 최적과 0.1~0.5% 차이
-   → 이론 보장은 없지만 실용 최고
+   -> 이론 보장은 없지만 실용 최고
 
 4. 시뮬레이티드 어닐링 (SA):
    랜덤 탐색 + 확률적 수용
@@ -225,7 +225,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 
 비용 효과:
   배송 경로 최적화 10% 단축
-  드라이버 일 평균 이동: 200km → 180km
+  드라이버 일 평균 이동: 200km -> 180km
   연료 비용 10% 절감 = 수천만원/년
 ```
 
@@ -276,7 +276,7 @@ Christofides 1.5-근사 TSP
 [현재: 딥러닝 + 근사]
 Graph Neural Network + TSP
 강화학습 기반 경로 최적화
-TSP Christofides 1.5→(1.5-ε) (2020)
+TSP Christofides 1.5->(1.5-ε) (2020)
 ```
 
 ---
@@ -293,7 +293,7 @@ TSP Christofides 1.5→(1.5-ε) (2020)
 
 **진행 상황**: 117 / 175
 
-← **이전**: [011. 배낭 문제 — Knapsack Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)
-**다음**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) →
+<- **이전**: [011. 배낭 문제 — Knapsack Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)
+**다음**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) ->
 
 ---

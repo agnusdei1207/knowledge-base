@@ -37,33 +37,33 @@ tags = ["studynote-ict-convergence"]
 
 ```
 모집단 분포 (임의 형태)
-        │
-        │ 반복 무작위 표본 추출 (n ≥ 30)
-        ▼
-┌───────────────────────────┐
-│  표본 평균의 분포           │
-│  X̄ ~ N(μ, σ²/n)          │  ← CLT 보장
-│  (모집단과 관계없이 정규화) │
-└───────────────────────────┘
-        │
-        │ n → ∞
-        ▼
-┌───────────────────────────┐
-│  X̄ → μ (모집단 평균)      │  ← 대수의 법칙
-└───────────────────────────┘
+        |
+        | 반복 무작위 표본 추출 (n ≥ 30)
+        v
++---------------------------+
+|  표본 평균의 분포           |
+|  X̄ ~ N(μ, σ^/n)          |  <- CLT 보장
+|  (모집단과 관계없이 정규화) |
++---------------------------+
+        |
+        | n -> ∞
+        v
++---------------------------+
+|  X̄ -> μ (모집단 평균)      |  <- 대수의 법칙
++---------------------------+
 ```
 
 ### 관련 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 비교
 
 | 분포 | 특성 | 활용 |
 |:---|:---|:---|
-| [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) N(μ,σ²) | 연속, 대칭, 종 모양 | 키·몸무게, 측정 오차 |
+| [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) N(μ,σ^) | 연속, 대칭, 종 모양 | 키·몸무게, 측정 오차 |
 | 이항 분포 B(n,p) | 이산, 성공/실패 n회 | 불량품 수, 클릭률 |
 | 포아송 분포 P(λ) | 이산, 단위 시간 발생 횟수 | 서버 요청 수, 사고 발생 |
 | t 분포 | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) + 자유도 | 소표본 추론 (n<30) |
 
-**이항 → 정규 근사**: n이 크고 p가 0.5에 가까우면 B(n,p) ≈ N(np, np(1-p)).
-**포아송 → 정규 근사**: λ ≥ 30이면 P(λ) ≈ N(λ, λ).
+**이항 -> 정규 근사**: n이 크고 p가 0.5에 가까우면 B(n,p) ≈ N(np, np(1-p)).
+**포아송 -> 정규 근사**: λ ≥ 30이면 P(λ) ≈ N(λ, λ).
 
 - **📢 섹션 요약 비유**: CLT는 "어떤 식당 메뉴가 있어도, 여러 테이블의 평균 주문 금액은 결국 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)를 따른다"는 것이고, [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/)은 "손님이 많을수록 평균 주문 금액이 실제 단골 평균에 가까워진다"는 것이야.
 
@@ -75,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 | 구분 | 의미 | 수렴 강도 |
 |:---|:---|:---|
-| 약한 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (WLLN) | n→∞에서 X̄가 μ에 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 수렴 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 수렴 |
+| 약한 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (WLLN) | n->∞에서 X̄가 μ에 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 수렴 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 수렴 |
 | 강한 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (SLLN) | 거의 확실하게(Almost Surely) 수렴 | 더 강한 보장 |
 
 <strong>CLT와 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/">중심 극한 정리</a>의 통계 추론 연결</strong>:
@@ -88,14 +88,14 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 1 - A/B 테스트**: 신규 UI의 전환율(Conversion Rate) 비교. n=2,000, [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) 적용으로 전환율 차이의 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 가정 → Z-검정(Z-Test) 수행. p=0.003 < 0.05 → 신규 UI가 통계적으로 유의미하게 우수.
+**시나리오 1 - A/B 테스트**: 신규 UI의 전환율(Conversion Rate) 비교. n=2,000, [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) 적용으로 전환율 차이의 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 가정 -> Z-검정(Z-Test) 수행. p=0.003 < 0.05 -> 신규 UI가 통계적으로 유의미하게 우수.
 
-**시나리오 2 - 배치 학습**: SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)) 미니배치 크기 32~256 선택. 배치가 클수록 그래디언트 추정의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소([대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) 작동) → 학습 안정성 향상, 단 메모리·연산 비용 증가.
+**시나리오 2 - 배치 학습**: SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)) 미니배치 크기 32~256 선택. 배치가 클수록 그래디언트 추정의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소([대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) 작동) -> 학습 안정성 향상, 단 메모리·연산 비용 증가.
 
 **기술사 판단 포인트**:
 - 표본 크기 n < 30: t-분포 사용, 자유도(Degrees of Freedom) = n−1.
 - 이상값이 많아 정규 가정 위배: 비모수 검정(Mann-Whitney U Test) 전환.
-- 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) 직접 적용 불가 → 자기상관(Autocorrelation) 고려 필요.
+- 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) 직접 적용 불가 -> 자기상관(Autocorrelation) 고려 필요.
 
 - **📢 섹션 요약 비유**: CLT는 복권 당첨자가 누구인지는 몰라도 당첨자 평균 나이는 예측할 수 있게 해주는 마법이야. 표본이 충분히 크면 모집단 모양에 상관없이 평균의 분포는 종 모양이 돼.
 
@@ -126,7 +126,7 @@ CLT와 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Z-Score · 신뢰 구간] → [정규 분포 · 중심 극한 정리] → [서버 요청 수 · λ 추정]
+[Z-Score · 신뢰 구간] -> [정규 분포 · 중심 극한 정리] -> [서버 요청 수 · λ 추정]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -141,7 +141,7 @@ CLT와 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_
 
 **진행 상황**: 511 / 552
 
-← **이전**: [510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)](/knowledge-base/studynote/06_ict_convergence/05_data_science/510_statistics_mean_variance_skewness_kurtosis/)
-**다음**: [512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)](/knowledge-base/studynote/06_ict_convergence/05_data_science/512_hypothesis_testing_p_value_significance/) →
+<- **이전**: [510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)](/knowledge-base/studynote/06_ict_convergence/05_data_science/510_statistics_mean_variance_skewness_kurtosis/)
+**다음**: [512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)](/knowledge-base/studynote/06_ict_convergence/05_data_science/512_hypothesis_testing_p_value_significance/) ->
 
 ---

@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 또한 간접 사이클은 포인터 (Pointer), [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)), 함수 테이블 같은 소프트웨어 개념을 기계 수준에서 가능하게 하는 다리 역할을 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자주 이동하거나 실행 중 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대상이 바뀌는 환경에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 수정하지 않고도 메모리 속 주소값만 바꿔 동작 대상을 전환할 수 있다. 없으면 하드웨어는 유연성을 잃고, 프로그램은 고정된 주소에 더 강하게 묶인다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  직접 참조와 간접 참조의 차이                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 직접 주소 지정                                                             │
-│ 명령어 주소부 ───────────────▶ 실제 데이터 주소                            │
-│                                                                            │
-│ 간접 주소 지정                                                             │
-│ 명령어 주소부 ─▶ 주소가 저장된 메모리 칸 ─▶ 실제 데이터 주소               │
-│                  (한 번 더 읽기 필요)                                      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  직접 참조와 간접 참조의 차이                              |
++----------------------------------------------------------------------------+
+| 직접 주소 지정                                                             |
+| 명령어 주소부 ----------------> 실제 데이터 주소                            |
+|                                                                            |
+| 간접 주소 지정                                                             |
+| 명령어 주소부 --> 주소가 저장된 메모리 칸 --> 실제 데이터 주소               |
+|                  (한 번 더 읽기 필요)                                      |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 간접 사이클이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 단계 이전에 <strong>주소를 한 번 더 해석하는 시간</strong>이라는 점이다. 즉 추가 비용은 연산 때문이 아니라, "어디를 읽어야 하는가"를 최종 확정하기 위한 주소 추적 때문에 생긴다.
@@ -58,16 +58,16 @@ tags = ["studynote-computer-architecture"]
 전형적인 마이크로 오퍼레이션은 아래와 같이 정리할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                간접 사이클의 전형적 마이크로 오퍼레이션                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 전제 : IR의 주소부 = A, 간접 비트 I = 1                                    │
-│                                                                            │
-│ T0 : MAR ← IR(Address)                                                     │
-│ T1 : MBR ← M[MAR]          ; 메모리에서 실제 주소(EA) 읽기                 │
-│ T2 : IR(Address) ← MBR     ; 또는 EA Register ← MBR                        │
-│ T3 : Execute 단계로 진입    ; 확정된 EA를 사용해 피연산자 접근             │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                간접 사이클의 전형적 마이크로 오퍼레이션                    |
++----------------------------------------------------------------------------+
+| 전제 : IR의 주소부 = A, 간접 비트 I = 1                                    |
+|                                                                            |
+| T0 : MAR <- IR(Address)                                                     |
+| T1 : MBR <- M[MAR]          ; 메모리에서 실제 주소(EA) 읽기                 |
+| T2 : IR(Address) <- MBR     ; 또는 EA Register <- MBR                        |
+| T3 : Execute 단계로 진입    ; 확정된 EA를 사용해 피연산자 접근             |
++----------------------------------------------------------------------------+
 ```
 
 이 흐름은 "메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다"와 "메모리에서 주소를 읽는다"가 하드웨어적으로 같은 read 동작이지만, 의미가 다르다는 점을 보여준다. 첫 번째 read의 결과는 연산 대상 값이 아니라 다음 read에 사용할 주소다. 그래서 간접 사이클은 <strong>주소 해석의 재귀를 1단계 확장한 것</strong>으로 이해하면 좋다.
@@ -75,23 +75,23 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻기까지 어떤 경로를 거치는지 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  간접 사이클에서 주소가 확정되는 흐름                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PC ─▶ 명령어 인출 ─▶ IR = LOAD @A                                          │
-│                           │                                                │
-│                           ▼                                                │
-│                    MAR ← A                                                 │
-│                           │                                                │
-│                           ▼                                                │
-│                 메모리[A] = EA 값을 읽음                                   │
-│                           │                                                │
-│                           ▼                                                │
-│                 IR 주소부 또는 EA 레지스터 갱신                            │
-│                           │                                                │
-│                           ▼                                                │
-│                 메모리[EA]에서 실제 데이터 접근                            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                  간접 사이클에서 주소가 확정되는 흐름                       |
++----------------------------------------------------------------------------+
+| PC --> 명령어 인출 --> IR = LOAD @A                                          |
+|                           |                                                |
+|                           v                                                |
+|                    MAR <- A                                                 |
+|                           |                                                |
+|                           v                                                |
+|                 메모리[A] = EA 값을 읽음                                   |
+|                           |                                                |
+|                           v                                                |
+|                 IR 주소부 또는 EA 레지스터 갱신                            |
+|                           |                                                |
+|                           v                                                |
+|                 메모리[EA]에서 실제 데이터 접근                            |
++----------------------------------------------------------------------------+
 ```
 
 이 구조의 병목은 분명하다. [직접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)이라면 `메모리[EA]`만 읽으면 되지만, [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)은 그 전에 `메모리[A]`를 먼저 읽어야 한다. 캐시가 없는 고전 구조에서는 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 그대로 한 번 더 붙고, 캐시가 있는 현대 구조에서는 포인터가 가리키는 위치가 예측 불가능할수록 적중률이 떨어져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
@@ -177,20 +177,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 직접 주소 지정 중심의 단순 메모리 접근
-    │
-    ▼
+    |
+    v
 간접 주소 지정 (Indirect Addressing)
-    │
-    ▼
+    |
+    v
 유효 주소 (Effective Address, EA) 확정용 간접 사이클
-    │
-    ▼
+    |
+    v
 포인터 (Pointer) · 인터럽트 벡터 · 페이지 테이블
-    │
-    ▼
+    |
+    v
 캐시/파이프라인 관점의 포인터 추적 최적화
-    │
-    ▼
+    |
+    v
 RISC 기반 로드 분해 · 프리페치 · 데이터 평탄화 전략
 ```
 
@@ -208,7 +208,7 @@ RISC 기반 로드 분해 · 프리페치 · 데이터 평탄화 전략
 
 **진행 상황**: 211 / 803
 
-← **이전**: [210. 실행 사이클 (Execute Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/)
-**다음**: [212. 인터럽트 사이클 (Interrupt Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/) →
+<- **이전**: [210. 실행 사이클 (Execute Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/)
+**다음**: [212. 인터럽트 사이클 (Interrupt Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/) ->
 
 ---

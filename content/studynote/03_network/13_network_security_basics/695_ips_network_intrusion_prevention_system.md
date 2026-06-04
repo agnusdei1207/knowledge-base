@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
+    |
+    v
 [IPS 차단 아키텍처]
-    │
-    └──▶ [WAF]
+    |
+    +---> [WAF]
 ```
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ NIDS가 탐지만 하고 막지 못했던 이유는 네트워크 밖에서 남�
 
 ```text
 [스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
+    |
+    v
 [IPS 차단 아키텍처]
-    │
-    └──▶ [WAF]
+    |
+    +---> [WAF]
 ```
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -120,12 +120,12 @@ IPS 차단 아키텍처는 [네트워크 보안](/knowledge-base/studynote/03_ne
 
 ```text
 [선행 개념: 스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPS 차단 아키텍처]
-    │
-    ├──▶ [확장 A: WAF]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: WAF]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 IPS 차단 아키텍처는 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…에서 출발해 현재 메커니즘을 정교화하고, 이후 WAF와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -142,7 +142,7 @@ IPS 차단 아키텍처는 [스노트](/knowledge-base/studynote/03_network/13_n
 
 **진행 상황**: 816 / 1120
 
-← **이전**: [694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/)
-**다음**: [696. WAF (Web Application Firewall, 애플리케이션L7 특화)](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) →
+<- **이전**: [694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/)
+**다음**: [696. WAF (Web Application Firewall, 애플리케이션L7 특화)](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) ->
 
 ---

@@ -239,7 +239,7 @@ eBPF로 커널 기능 동적 확장
 
 **진행 상황**: 39 / 800
 
-← **이전**: [038. init과 systemd — 부팅 초기화 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/038_init_systemd/)
-**다음**: [040. 오류 탐지 (Error Detection)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/) →
+<- **이전**: [038. init과 systemd — 부팅 초기화 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/038_init_systemd/)
+**다음**: [040. 오류 탐지 (Error Detection)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/) ->
 
 ---

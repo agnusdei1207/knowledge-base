@@ -31,11 +31,11 @@ tags = ["studynote-enterprise"]
 
 ```text
 Legacy System
-  ↓
+  v
 6R Decision
-  ↓
+  v
 Cloud Migration Plan
-  ↓
+  v
 Execution
 ```
 
@@ -108,11 +108,11 @@ Execution
 
 ```text
 Legacy System
-  ↓
+  v
 6R Strategy
-  ↓
+  v
 Migration Plan
-  ↓
+  v
 Cloud Execution
 ```
 
@@ -122,11 +122,11 @@ Cloud Execution
 
 ```text
 Rehost
-  ↓
+  v
 Replatform / Refactor
-  ↓
+  v
 Repurchase / Retire / Retain
-  ↓
+  v
 Cloud Transformation
 ```
 
@@ -144,7 +144,7 @@ Cloud Transformation
 
 **진행 상황**: 64 / 482
 
-← **이전**: [63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/)
-**다음**: [65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/065_shadow_data_cloud_security/) →
+<- **이전**: [63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/)
+**다음**: [65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/065_shadow_data_cloud_security/) ->
 
 ---

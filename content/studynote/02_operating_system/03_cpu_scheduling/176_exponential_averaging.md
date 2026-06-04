@@ -26,20 +26,20 @@ tags = ["studynote-operating-system"]
 아래 그림은 지수 평균법이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 의사결정 앞단에서 어떤 역할을 하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Burst prediction for scheduling                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ actual bursts: t0, t1, t2, ...                                     │
-│              │                                                      │
-│              ▼                                                      │
-│     exponential averaging estimator                                │
-│              │                                                      │
-│              ▼                                                      │
-│ predicted next burst τ(n+1)                                        │
-│              │                                                      │
-│              ▼                                                      │
-│ SJF / SRTF-like scheduling priority                                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Burst prediction for scheduling                                    |
++--------------------------------------------------------------------+
+| actual bursts: t0, t1, t2, ...                                     |
+|              |                                                      |
+|              v                                                      |
+|     exponential averaging estimator                                |
+|              |                                                      |
+|              v                                                      |
+| predicted next burst τ(n+1)                                        |
+|              |                                                      |
+|              v                                                      |
+| SJF / SRTF-like scheduling priority                                |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 텍스트 편집기 프로세스는 평소에는 짧은 burst를 반복하다가, 사용자가 대용량 Portable [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Format (PDF) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 출력 버튼을 누르는 순간 긴 burst로 바뀔 수 있다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 오래된 짧은 이력만 믿고 있으면 잘못된 우선순위를 계속 부여하게 된다. 지수 평균법은 이런 페이즈 변화 (Phase Change)를 조금이라도 빨리 감지하기 위해 등장한 현실적 타협이다.
@@ -72,15 +72,15 @@ tags = ["studynote-operating-system"]
 아래 예시는 프로세스가 갑자기 짧은 작업에서 긴 작업으로 바뀔 때 예측이 어떻게 따라가는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Phase change example (τ0 = 8 ms, α = 0.5)                          │
-├────────────────────────────────────────────────────────────────────┤
-│ actual burst t :   6   ->   7   ->   40   ->   40                  │
-│ predicted τ    :   7   ->   7   ->  23.5  ->  31.75                │
-│                                                                    │
-│ meaning: the predictor does not jump instantly,                    │
-│ but it turns toward the new trend quickly.                         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Phase change example (τ0 = 8 ms, α = 0.5)                          |
++--------------------------------------------------------------------+
+| actual burst t :   6   ->   7   ->   40   ->   40                  |
+| predicted τ    :   7   ->   7   ->  23.5  ->  31.75                |
+|                                                                    |
+| meaning: the predictor does not jump instantly,                    |
+| but it turns toward the new trend quickly.                         |
++--------------------------------------------------------------------+
 ```
 
 이 예시에서 보듯 지수 평균법은 완벽한 예언 도구가 아니다. 다만 과거를 모두 버리지 않으면서도 최근 변화를 무시하지 않는 균형점을 제공한다. 운영체제는 바로 이 "싸고 빠른 근사"를 필요로 한다.
@@ -123,14 +123,14 @@ tags = ["studynote-operating-system"]
 아래 흐름은 `α`를 조정할 때 보는 실무 판단을 요약한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing α in practice                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ need fast reaction to workload phase change?                       │
-│   ├─ yes -> raise α                                                │
-│   └─ no  -> lower α for smoother prediction                        │
-│ then verify: prediction error, fairness, starvation control        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Choosing α in practice                                             |
++--------------------------------------------------------------------+
+| need fast reaction to workload phase change?                       |
+|   +- yes -> raise α                                                |
+|   +- no  -> lower α for smoother prediction                        |
+| then verify: prediction error, fairness, starvation control        |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -177,19 +177,19 @@ tags = ["studynote-operating-system"]
 
 ```text
 future burst is unknowable
-        │
-        ▼
+        |
+        v
 observe past CPU bursts
-        │
-        ▼
+        |
+        v
 exponential averaging with recency weight α
-        │
-        ▼
+        |
+        v
 predicted next burst
-        │
-        ├──────────────▶ SJF / SRTF approximation
-        │
-        └──────────────▶ MLFQ-like recent-behavior heuristics
+        |
+        +---------------> SJF / SRTF approximation
+        |
+        +---------------> MLFQ-like recent-behavior heuristics
 ```
 
 이 흐름도는 지수 평균법이 "미래를 모른다"는 문제에서 출발해, 과거 burst를 최근성 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 압축하고, 그 결과를 실제 스케줄링 정책의 입력값으로 사용하는 과정을 보여 준다.
@@ -206,7 +206,7 @@ predicted next burst
 
 **진행 상황**: 176 / 800
 
-← **이전**: [175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)
-**다음**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) →
+<- **이전**: [175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)
+**다음**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) ->
 
 ---

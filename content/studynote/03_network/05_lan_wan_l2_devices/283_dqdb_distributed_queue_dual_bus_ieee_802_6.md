@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [FDDI]
-    │
-    ▼
+    |
+    v
 [DQDB]
-    │
-    └──▶ [PON / AON]
+    |
+    +---> [PON / AON]
 ```
 
 - **📢 섹션 요약 비유**: <strong> DQDB는 양방향 통행이 불가능해 툭하면 사고가 나던 1차선 좁은 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>) 망에, 서로 반대 방향으로 질주하는 </strong>"상행선/하행선 두 개의 거대한 컨베이어 벨트(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))"**를 깔아 도시 전체의 택배를 해결하려 했던 물류 시스템입니다.
@@ -56,23 +56,23 @@ DQDB는 물리적으로 [버스](/knowledge-base/studynote/01_computer_architect
 4. 노드 1, 2가 양보해서 흘려보내 준 빈 상자가 노드 3에 도착하면, 그때 노드 3이 짐을 싣는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │               DQDB 분산 큐 (상행선 짐 싣기 예약 과정)           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [노드 1]        [노드 2]        [노드 3]        [노드 4]       │
- │                                    │ 나 짐 실을래! (오른쪽으로)  │
- │                                    ▼                        │
- │  ======================= Bus A (상행선 빈 상자 뿜뿜) =====▶    │
- │                                    │                        │
- │  ◀======== Bus B (하행선, 여기에 "예약증" 던짐) ===========    │
- │     ▲               ▲             │                        │
- │     │ (예약증 확인)   │ (예약증 확인) ┘                        │
- │   "아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"     │
- │                                                             │
- │   * 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로       │
- │     양보하는 '분산(Distributed)' 대기열(Queue) 시스템.          │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |               DQDB 분산 큐 (상행선 짐 싣기 예약 과정)           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [노드 1]        [노드 2]        [노드 3]        [노드 4]       |
+ |                                    | 나 짐 실을래! (오른쪽으로)  |
+ |                                    v                        |
+ |  ======================= Bus A (상행선 빈 상자 뿜뿜) =====->    |
+ |                                    |                        |
+ |  <-======== Bus B (하행선, 여기에 "예약증" 던짐) ===========    |
+ |     ^               ^             |                        |
+ |     | (예약증 확인)   | (예약증 확인) +                        |
+ |   "아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"     |
+ |                                                             |
+ |   * 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로       |
+ |     양보하는 '분산(Distributed)' 대기열(Queue) 시스템.          |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. DQDB의 몰락
@@ -137,12 +137,12 @@ DQDB는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ```text
 [선행 개념: FDDI]
-    │
-    ▼
+    |
+    v
 [현재 개념: DQDB]
-    │
-    ├──▶ [확장 A: PON / AON]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: PON / AON]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 DQDB는 FDDI에서 출발해 현재 메커니즘을 정교화하고, 이후 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) / AON와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ DQDB는 FDDI에서 출발해 현재 메커니즘을 정교화하고, 이후 [PON
 
 **진행 상황**: 404 / 1120
 
-← **이전**: [282. FDDI (Fiber Distributed Data Interface)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)
-**다음**: [284. PON (Passive Optical Network) / AON (Active Optical Network)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) →
+<- **이전**: [282. FDDI (Fiber Distributed Data Interface)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)
+**다음**: [284. PON (Passive Optical Network) / AON (Active Optical Network)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) ->
 
 ---

@@ -32,8 +32,8 @@ tags = ["studynote-computer-architecture"]
 카운터의 핵심은 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)) 여러 개를 연결해 상태를 저장하고, 클럭 에지([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Edge)에서만 값을 바꾸는 데 있다. 3비트 카운터는 000부터 111까지 상태를 순서대로 훑는다.
 
 ```text
-클럭 ─▶ [T FF Q0] ─▶ [T FF Q1] ─▶ [T FF Q2]
-         │            │            │
+클럭 --> [T FF Q0] --> [T FF Q1] --> [T FF Q2]
+         |            |            |
          1/2          1/4          1/8
 ```
 
@@ -109,11 +109,11 @@ T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 
 ```text
 클럭(Clock)
-   ↓
+   v
 플립플롭(Flip-Flop)
-   ↓
+   v
 카운터(Counter)
-   ↓
+   v
 주파수 분주 / 타이머 / PC
 ```
 
@@ -123,13 +123,13 @@ T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 
 ```text
 수동 계산
-   ↓
+   v
 T FF / JK FF 기반 카운터
-   ↓
-비동기식(Ripple) → 동기식(Synchronous)
-   ↓
+   v
+비동기식(Ripple) -> 동기식(Synchronous)
+   v
 Mod-N / Gray Code / 분주기
-   ↓
+   v
 타이머 · PC · 인코더 제어
 ```
 
@@ -147,7 +147,7 @@ Mod-N / Gray Code / 분주기
 
 **진행 상황**: 59 / 803
 
-← **이전**: [58. 시프트 레지스터 (Shift Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/)
-**다음**: [60. 동기식 카운터 (Synchronous Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/) →
+<- **이전**: [58. 시프트 레지스터 (Shift Register)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/)
+**다음**: [60. 동기식 카운터 (Synchronous Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/) ->
 
 ---

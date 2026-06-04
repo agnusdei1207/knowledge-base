@@ -34,17 +34,17 @@ UPS의 핵심 구조는 정류기, 직류 [버스](/knowledge-base/studynote/01_
 아래 그림은 온라인 UPS의 대표적인 전력 경로를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Online UPS power conditioning path                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Utility AC ─▶ Rectifier ─▶ DC Bus ─▶ Inverter ─▶ Critical Load           │
-│                     │          ▲                                          │
-│                     │          │                                          │
-│                     └────▶ Battery / BMS                                 │
-│                                                                            │
-│ Utility AC ─────────────────────▶ Static Bypass ───────────────────────▶  │
-│                               (fault or maintenance path)                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   Online UPS power conditioning path                      |
++----------------------------------------------------------------------------+
+| Utility AC --> Rectifier --> DC Bus --> Inverter --> Critical Load           |
+|                     |          ^                                          |
+|                     |          |                                          |
+|                     +-----> Battery / BMS                                 |
+|                                                                            |
+| Utility AC ----------------------> Static Bypass ------------------------>  |
+|                               (fault or maintenance path)                 |
++----------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -67,7 +67,7 @@ UPS 토폴로지는 [보호](/knowledge-base/studynote/02_operating_system/10_se
 
 | 항목 | 오프라인 (Offline) | 라인 인터랙티브 (Line-Interactive) | 온라인 이중 변환 (Online Double Conversion) |
 | :--- | :--- | :--- | :--- |
-| 평상시 전력 경로 | 상용 전원 직통 | 상용 전원 + [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 | 항상 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)→DC→[AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 변환 |
+| 평상시 전력 경로 | 상용 전원 직통 | 상용 전원 + [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 | 항상 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)->DC->[AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 변환 |
 | 절체 시간 | 수 ms~수십 ms | 수 ms 수준 | 사실상 0 ms |
 | 전력 품질 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 낮음 | 중간 | 가장 높음 |
 | 효율 | 높음 | 높음 | 상대적으로 낮음 |
@@ -127,20 +127,20 @@ UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/s
 
 ```text
 상용 전원 직접 공급
-    │
-    ▼
+    |
+    v
 오프라인 UPS
 : 정전 시 배터리 절체
-    │
-    ▼
+    |
+    v
 라인 인터랙티브 UPS
 : 전압 조정 기능 추가
-    │
-    ▼
+    |
+    v
 온라인 이중 변환 UPS
 : 상시 전력 정화 · 0ms급 절체
-    │
-    ▼
+    |
+    v
 모듈형 UPS · 리튬이온 · 발전기 연계 · 에너지 서비스화
 ```
 
@@ -156,7 +156,7 @@ UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/s
 
 **진행 상황**: 653 / 803
 
-← **이전**: [651. 서버 랙 PDU (Power Distribution Unit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/651_server_rack_pdu/)
-**다음**: [653. ARM Cortex-A 시리즈 특징](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/653_arm_cortex_a_series/) →
+<- **이전**: [651. 서버 랙 PDU (Power Distribution Unit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/651_server_rack_pdu/)
+**다음**: [653. ARM Cortex-A 시리즈 특징](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/653_arm_cortex_a_series/) ->
 
 ---

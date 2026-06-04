@@ -23,18 +23,18 @@ tags = ["studynote-cloud-architecture"]
 SDN은 이 제어 로직을 중앙 컨트롤러로 추출하여 "소프트웨어처럼" 관리한다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│            SDN 3계층 아키텍처                               │
-├────────────────────────────────────────────────────────────┤
-│  애플리케이션 레이어 (Application Layer)                     │
-│  [네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링]           │
-│       │ 노스바운드 API (Northbound API, REST)               │
-│  제어 레이어 (Control Layer)                                │
-│  [SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI]             │
-│       │ 사우스바운드 API (Southbound API, OpenFlow)         │
-│  인프라 레이어 (Infrastructure/Data Layer)                  │
-│  [물리·가상 스위치: 패킷 포워딩만 담당]                        │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|            SDN 3계층 아키텍처                               |
++------------------------------------------------------------+
+|  애플리케이션 레이어 (Application Layer)                     |
+|  [네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링]           |
+|       | 노스바운드 API (Northbound API, REST)               |
+|  제어 레이어 (Control Layer)                                |
+|  [SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI]             |
+|       | 사우스바운드 API (Southbound API, OpenFlow)         |
+|  인프라 레이어 (Infrastructure/Data Layer)                  |
+|  [물리·가상 스위치: 패킷 포워딩만 담당]                        |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전통 네트워크는 각 교통경찰이 자기 교차로를 독립 관리하는 것이고, SDN은 중앙 교통 관제센터(컨트롤러)가 도시 모든 신호를 소프트웨어로 일괄 제어하는 것이다.
@@ -48,8 +48,8 @@ SDN은 이 제어 로직을 중앙 컨트롤러로 추출하여 "소프트웨어
 OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이의 표준 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 컨트롤러가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 플로우 테이블(Flow Table)에 직접 규칙을 설치한다.
 
 ```text
-컨트롤러 → [OpenFlow 메시지: "IP=10.0.0.5면 포트3으로 전송"]
-스위치 플로우 테이블 업데이트 → 패킷 도착 시 테이블 매칭 후 포워딩
+컨트롤러 -> [OpenFlow 메시지: "IP=10.0.0.5면 포트3으로 전송"]
+스위치 플로우 테이블 업데이트 -> 패킷 도착 시 테이블 매칭 후 포워딩
 ```
 
 ### [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 전통 네트워크 비교
@@ -86,9 +86,9 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 ### 실무 시나리오: 대규모 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 네트워크 자동화
 1,000개 서버 규모 클라우드 DC에서 신규 테넌트 네트워크 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 자동화.
 
-1. **기존 방식**: 네트워크 엔지니어가 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·ACL을 장비별 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 2주 소요.
+1. **기존 방식**: 네트워크 엔지니어가 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·ACL을 장비별 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 2주 소요.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 도입 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> ACI)</strong>: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) + ACI API로 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화.
-3. **자동화 결과**: 신규 테넌트 네트워크 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 2주 → 15분 단축 (99% 감소).
+3. **자동화 결과**: 신규 테넌트 네트워크 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 2주 -> 15분 단축 (99% 감소).
 4. **추가 효과**: 네트워크 오설정 사고 70% 감소 (코드 검토·테스트 가능).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -126,17 +126,17 @@ SDN은 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_arc
 
 ```text
 [전통 네트워크 — 분산 제어, 장비별 독립 설정]
-    │
-    ▼
+    |
+    v
 [SDN — 제어/데이터 평면 분리, 중앙 컨트롤러]
-    │
-    ▼
+    |
+    v
 [NFV + SDN — 네트워크 기능 가상화 결합]
-    │
-    ▼
+    |
+    v
 [클라우드 네트워킹 — VPC, Kubernetes CNI]
-    │
-    ▼
+    |
+    v
 [AI 자율 네트워킹 — ML 기반 자동 트래픽 최적화]
 ```
 
@@ -152,7 +152,7 @@ SDN은 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_arc
 
 **진행 상황**: 23 / 371
 
-← **이전**: [23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/)
-**다음**: [25. SDS (Software Defined Storage) — 소프트웨어 정의 스토리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/025_sds_software_defined_storage/) →
+<- **이전**: [23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/)
+**다음**: [25. SDS (Software Defined Storage) — 소프트웨어 정의 스토리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/025_sds_software_defined_storage/) ->
 
 ---

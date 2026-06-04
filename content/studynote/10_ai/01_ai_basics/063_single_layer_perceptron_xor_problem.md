@@ -31,13 +31,13 @@ tags = ["studynote-ai"]
 
 ```text
 x1, x2
-  ↓
+  v
 w1, w2, b
-  ↓
+  v
 z = w1x1 + w2x2 + b
-  ↓
+  v
 Activation
-  ↓
+  v
 0 or 1
 ```
 
@@ -110,11 +110,11 @@ XOR 문제는 "[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_e
 
 ```text
 Perceptron
-  ↓
+  v
 Linear Decision Boundary
-  ↓
+  v
 XOR Problem
-  ↓
+  v
 Multi-Layer Neural Network
 ```
 
@@ -124,11 +124,11 @@ Multi-Layer Neural Network
 
 ```text
 AND / OR
-  ↓
+  v
 Perceptron
-  ↓
+  v
 XOR Limitation
-  ↓
+  v
 MLP / Backpropagation
 ```
 
@@ -146,7 +146,7 @@ XOR 문제는 그걸 보여 주는 대표 예예요.
 
 **진행 상황**: 63 / 420
 
-← **이전**: [62. 퍼셉트론 (Perceptron) - 단층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/062_perceptron_rosenblatt_single_layer/)
-**다음**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/knowledge-base/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/) →
+<- **이전**: [62. 퍼셉트론 (Perceptron) - 단층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/062_perceptron_rosenblatt_single_layer/)
+**다음**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/knowledge-base/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/) ->
 
 ---

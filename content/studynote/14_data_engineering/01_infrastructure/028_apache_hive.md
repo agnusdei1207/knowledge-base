@@ -19,22 +19,22 @@ tags = ["studynote-data-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│                Apache Hive 아키텍처                       │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  분석가  →  HiveQL (SQL)                                 │
-│                 │                                         │
-│          Hive Query Compiler                              │
-│                 │ SQL → MapReduce/Tez/Spark Job 변환      │
-│          Hive Metastore (HMS)                             │
-│          (테이블 스키마·파티션·통계 중앙 저장)            │
-│                 │                                         │
-│          실행 엔진 (MapReduce / Tez / Spark)              │
-│                 │                                         │
-│          HDFS / S3 / ADLS (스토리지)                     │
-│                                                           │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                Apache Hive 아키텍처                       |
++----------------------------------------------------------+
+|                                                           |
+|  분석가  ->  HiveQL (SQL)                                 |
+|                 |                                         |
+|          Hive Query Compiler                              |
+|                 | SQL -> MapReduce/Tez/Spark Job 변환      |
+|          Hive Metastore (HMS)                             |
+|          (테이블 스키마·파티션·통계 중앙 저장)            |
+|                 |                                         |
+|          실행 엔진 (MapReduce / Tez / Spark)              |
+|                 |                                         |
+|          HDFS / S3 / ADLS (스토리지)                     |
+|                                                           |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Apache Hive는 HDFS용 SQL 번역기다. 분석가가 SQL을 말하면 Hive가 이를 Hadoop이 이해하는 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 언어로 번역해서 실행하고 결과를 가져온다.
@@ -49,7 +49,7 @@ tags = ["studynote-data-engineering"]
 |:---|:---|
 | **HiveQL** | ANSI SQL 호환 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> Metastore (HMS)</strong> | 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·통계 중앙 저장소 |
-| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 컴파일러</strong> | SQL → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 컴파일러</strong> | SQL -> [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
 | **실행 엔진** | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Tez / Spark 중 선택 |
 | **SerDe** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화/역직렬화 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC) |
 
@@ -59,11 +59,11 @@ tags = ["studynote-data-engineering"]
 파티셔닝 (Partitioning):
   CREATE TABLE sales (id INT, amount DOUBLE)
   PARTITIONED BY (year INT, month INT);
-  → 연·월별 디렉토리로 분리 → 쿼리 시 불필요 파티션 스킵
+  -> 연·월별 디렉토리로 분리 -> 쿼리 시 불필요 파티션 스킵
 
 버킷팅 (Bucketing):
   CLUSTERED BY (customer_id) INTO 32 BUCKETS;
-  → 해시 기반 데이터 분산 → JOIN 최적화
+  -> 해시 기반 데이터 분산 -> JOIN 최적화
 ```
 
 - **📢 섹션 요약 비유**: [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 파티셔닝은 도서관 책 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다. 연도·월별로 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 서가에 정리해서 "2024년 3월" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요할 때 다른 서가는 아예 뒤지지 않는다.
@@ -90,13 +90,13 @@ tags = ["studynote-data-engineering"]
 ```text
 데이터 레이크하우스 메타데이터 허브:
 
-  Spark SQL ─┐
-  Trino      ├─→ Hive Metastore → S3/HDFS 데이터
-  Presto     │   (테이블 스키마·파티션 정보)
-  Flink      ─┘
+  Spark SQL -+
+  Trino      +--> Hive Metastore -> S3/HDFS 데이터
+  Presto     |   (테이블 스키마·파티션 정보)
+  Flink      -+
 
-→ 모든 엔진이 HMS를 통해 동일한 테이블 메타데이터 공유
-→ 현대적 대안: AWS Glue Catalog, Nessie, Unity Catalog
+-> 모든 엔진이 HMS를 통해 동일한 테이블 메타데이터 공유
+-> 현대적 대안: AWS Glue Catalog, Nessie, Unity Catalog
 ```
 
 ### ORC vs [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식
@@ -143,17 +143,17 @@ Parquet:
 
 ```text
 [HDFS + MapReduce — 원시 Hadoop 배치 처리]
-    │
-    ▼
+    |
+    v
 [Apache Hive — SQL 인터페이스, HMS 메타데이터 표준화]
-    │
-    ▼
+    |
+    v
 [Tez/Spark 엔진 — Hive 쿼리 실행 가속]
-    │
-    ▼
+    |
+    v
 [Presto/Trino — 인터랙티브 MPP SQL 엔진]
-    │
-    ▼
+    |
+    v
 [Iceberg/Delta + Unity Catalog — 오픈 테이블 포맷 + 통합 메타스토어]
 ```
 
@@ -169,7 +169,7 @@ Parquet:
 
 **진행 상황**: 28 / 258
 
-← **이전**: [27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/027_offset_consumer_group/)
-**다음**: [29. Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) →
+<- **이전**: [27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/027_offset_consumer_group/)
+**다음**: [29. Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) ->
 
 ---

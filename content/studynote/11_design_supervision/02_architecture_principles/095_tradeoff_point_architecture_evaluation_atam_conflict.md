@@ -32,15 +32,15 @@ tags = ["studynote-design"]
 상충점은 단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 미치는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))이 2개 이상의 상반된 품질 요구사항을 동시에 건드릴 때 발생한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           상충점(Trade-off Point)의 작동 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│               [품질 속성 A: 보안성] ▲ 향상                  │
-│                        │                                     │
-│ (암호화 수준 강화) ─▶ [ 시스템 설계 결정 / 변수 ] ◀─ (상충점) │
-│                        │                                     │
-│               [품질 속성 B: 성능]   ▼ 저하                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           상충점(Trade-off Point)의 작동 메커니즘          |
++--------------------------------------------------------------+
+|               [품질 속성 A: 보안성] ^ 향상                  |
+|                        |                                     |
+| (암호화 수준 강화) --> [ 시스템 설계 결정 / 변수 ] <-- (상충점) |
+|                        |                                     |
+|               [품질 속성 B: 성능]   v 저하                  |
++--------------------------------------------------------------+
 ```
 
 예를 들어, 통신 데이터의 암호화 키 길이를 128비트에서 256비트로 늘리는 조치는 해독 시간을 무한대로 늘려 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 극대화하는 훌륭한 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)이다. 그러나 이 과정에서 서버의 CPU 연산 부하가 기하급수적으로 증가하여 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 느려지므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))은 급격히 떨어진다. 결국 '암호화 알고리즘의 복잡도'라는 변수는 보안과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 교차하는 상충점이 된다.
@@ -55,9 +55,9 @@ tags = ["studynote-design"]
 
 | 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 선택 시나리오 A | 선택 시나리오 B |
 | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> vs <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 복잡한 암호화 및 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 적용 (보안↑, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↓) | 평문 통신 및 단순 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 활용 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↑, 보안↓) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> vs 비용</strong> | 액티브-액티브(Active-Active) 다중 리전 구성 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)↑, 비용↑) | 단일 서버 및 주기적 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (비용↓, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)↓) |
-| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> vs <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 강한 정합성 보장 ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)↑, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↓) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 허용 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↑, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)↓) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> vs <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 복잡한 암호화 및 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 적용 (보안^, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)v) | 평문 통신 및 단순 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 활용 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)^, 보안v) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> vs 비용</strong> | 액티브-액티브(Active-Active) 다중 리전 구성 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)^, 비용^) | 단일 서버 및 주기적 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (비용v, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)v) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> vs <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 강한 정합성 보장 ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)^, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)v) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 허용 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)^, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)v) |
 
 이러한 상충점들은 요구사항 공학에서 정의한 비기능적 요구사항(Non-Functional Requirements) 간의 충돌을 나타내며, ATAM과 같은 아키텍처 평가 방법론에서 가장 중요한 토론 주제로 다루어진다.
 
@@ -101,17 +101,17 @@ tags = ["studynote-design"]
 
 ```text
 비기능 요구사항 정의 (NFRs)
-    │
-    ▼
+    |
+    v
 민감도점 (Sensitivity Point) 식별 · 단일 속성 영향 파악
-    │
-    ▼
+    |
+    v
 상충점 (Trade-off Point) 도출 · 복수 속성 간 모순 발견
-    │
-    ▼
+    |
+    v
 ATAM 평가 및 위험 분석 (Risk Analysis)
-    │
-    ▼
+    |
+    v
 아키텍처 의사결정 (Architecture Decision Record, ADR) 및 합의
 ```
 
@@ -129,7 +129,7 @@ ATAM 평가 및 위험 분석 (Risk Analysis)
 
 **진행 상황**: 138 / 530
 
-← **이전**: [94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)
-**다음**: [96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) →
+<- **이전**: [94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)
+**다음**: [96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) ->
 
 ---

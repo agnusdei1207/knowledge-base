@@ -51,9 +51,9 @@ Microservice Chassis는 <strong><a href="/knowledge-base/studynote/01_computer_a
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[수동 보일러플레이트 (~2015)] → [Spring Boot (2014, Java)]
-    → [Go-kit (Go)] → [Dapr (2019, 사이드카)]
-    → [현재: Chassis + 서비스 메시 하이브리드]
+[수동 보일러플레이트 (~2015)] -> [Spring Boot (2014, Java)]
+    -> [Go-kit (Go)] -> [Dapr (2019, 사이드카)]
+    -> [현재: Chassis + 서비스 메시 하이브리드]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -67,7 +67,7 @@ Microservice Chassis는 <strong><a href="/knowledge-base/studynote/01_computer_a
 
 **진행 상황**: 140 / 371
 
-← **이전**: [140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/)
-**다음**: [142. Externalized Configuration - 외부 설정 관리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/142_externalized_configuration/) →
+<- **이전**: [140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/)
+**다음**: [142. Externalized Configuration - 외부 설정 관리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/142_externalized_configuration/) ->
 
 ---

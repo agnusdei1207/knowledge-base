@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 > **핵심 인사이트**
 > 1. 디코더(Decoder)는 n비트 이진 입력을 최대 2^n개의 출력 중 정확히 하나만 활성화하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))의 역함수이며 메모리 주소 디코딩과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독의 핵심 요소다.
 > 2. n-to-2^n 디코더의 출력 Yi는 각 입력 조합의 민터름(Minterm)에 해당 — 모든 조합 회로는 이론상 디코더 + OR 게이트 조합으로 구현 가능하며, 이것이 "디코더는 완전 조합 회로의 기반"이라는 의미다.
-> 3. 실제 CPU에서 디코더는 두 가지 핵심 역할 — [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decoder: 연산코드 → 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))과 메모리 어드레스 디코딩(Address Decoder: 주소 → 메모리 셀 선택) — 으로 디지털 시스템의 '결정' 회로를 담당한다.
+> 3. 실제 CPU에서 디코더는 두 가지 핵심 역할 — [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decoder: 연산코드 -> 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))과 메모리 어드레스 디코딩(Address Decoder: 주소 -> 메모리 셀 선택) — 으로 디지털 시스템의 '결정' 회로를 담당한다.
 
 ---
 
@@ -227,7 +227,7 @@ NPU 내부 명령어 스케줄링
 
 **진행 상황**: 39 / 803
 
-← **이전**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/)
-**다음**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) →
+<- **이전**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/)
+**다음**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ->
 
 ---

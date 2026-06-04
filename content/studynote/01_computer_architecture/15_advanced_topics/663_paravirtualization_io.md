@@ -24,19 +24,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O가 왜 빠른지, 그리고 어떤 통로를 새로 만든 것인지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              반가상화 I/O의 기본 구조: 전용 통로로 직접 협력             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest 가상 머신                                                            │
-│   App ─▶ Front-end Driver ─┐                                               │
-│                            │ Shared Memory Ring                            │
-│                            ├──────────────────────────────┐                │
-│                            │                              ▼                │
-│                        Notify / Hypercall         Back-end Driver          │
-│                                                       │                    │
-│                                                       ▼                    │
-│                                                 Physical Device            │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              반가상화 I/O의 기본 구조: 전용 통로로 직접 협력             |
++----------------------------------------------------------------------------+
+| Guest 가상 머신                                                            |
+|   App --> Front-end Driver -+                                               |
+|                            | Shared Memory Ring                            |
+|                            +------------------------------+                |
+|                            |                              v                |
+|                        Notify / Hypercall         Back-end Driver          |
+|                                                       |                    |
+|                                                       v                    |
+|                                                 Physical Device            |
++----------------------------------------------------------------------------+
 ```
 
 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 제어 경로를 분리하는 데 있다. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 버퍼에 쌓아 두고, “처리 시작”이나 “완료 통지” 같은 최소한의 신호만 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 주고받는다. 그래서 게스트는 굳이 오래된 하드웨어 규약을 흉내 낼 필요가 없고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)도 복잡한 장치 동작을 전부 연기할 필요가 없다.
@@ -128,17 +128,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 장치 에뮬레이션 중심 I/O
-    │
-    ▼
+    |
+    v
 게스트 협력형 반가상화 I/O
-    │
-    ▼
+    |
+    v
 공유 메모리 링 · 하이퍼콜 · 다중 큐
-    │
-    ▼
+    |
+    v
 Virtio 표준화
-    │
-    ▼
+    |
+    v
 SR-IOV · vhost 같은 고성능 데이터 경로 최적화
 ```
 
@@ -156,7 +156,7 @@ SR-IOV · vhost 같은 고성능 데이터 경로 최적화
 
 **진행 상황**: 664 / 803
 
-← **이전**: [662. 그림자 페이지 테이블 (Shadow Page Table)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/)
-**다음**: [664. 전가상화 (Full Virtualization) I/O](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/664_full_virtualization_io/) →
+<- **이전**: [662. 그림자 페이지 테이블 (Shadow Page Table)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/662_shadow_page_table/)
+**다음**: [664. 전가상화 (Full Virtualization) I/O](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/664_full_virtualization_io/) ->
 
 ---

@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [MTTR 회선 이중화]
-    │
-    ▼
+    |
+    v
 [백홀]
-    │
-    └──▶ [미드홀]
+    |
+    +---> [미드홀]
 ```
 
 - **📢 섹션 요약 비유**: 백홀은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [MTTR 회선 이중화]
-    │
-    ▼
+    |
+    v
 [백홀]
-    │
-    └──▶ [미드홀]
+    |
+    +---> [미드홀]
 ```
 
 - **📢 섹션 요약 비유**: 백홀의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MTTR 회선 이중화]
-    │
-    ▼
+    |
+    v
 [현재 개념: 백홀]
-    │
-    ├──▶ [확장 A: 미드홀]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 미드홀]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 백홀는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 109 / 1120
 
-← **이전**: [1008. MTTR (평균 수리 시간) 회선 이중화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1008_mttr_mean_time_to_repair_availability_redundancy/)
-**다음**: [100. 공간 다중화 (Spatial Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) →
+<- **이전**: [1008. MTTR (평균 수리 시간) 회선 이중화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1008_mttr_mean_time_to_repair_availability_redundancy/)
+**다음**: [100. 공간 다중화 (Spatial Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) ->
 
 ---

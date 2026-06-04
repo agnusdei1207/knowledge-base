@@ -19,16 +19,16 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    히스토그램 vs KDE 비교                              │
-├───────────────────────────────────────────────────────┤
-│  [히스토그램]          [KDE]                           │
-│   ┌─┐ ┌─┐             ╭──╮                            │
-│   │ │ │ │ ┌─┐         │  ╰──╮                         │
-│   │ │ │ │ │ │         ╰──╮  │                         │
-│   └─┘ └─┘ └─┘           ╰──╯                         │
-│   불연속, bin 크기 의존   연속, 매끄러운 곡선          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    히스토그램 vs KDE 비교                              |
++-------------------------------------------------------+
+|  [히스토그램]          [KDE]                           |
+|   +-+ +-+             +--+                            |
+|   | | | | +-+         |  +--+                         |
+|   | | | | | |         +--+  |                         |
+|   +-+ +-+ +-+           +--+                         |
+|   불연속, bin 크기 의존   연속, 매끄러운 곡선          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 히스토그램은 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(계단)이고, KDE는 매끄러운 산등성이(곡선)이다.
@@ -73,7 +73,7 @@ $\hat{f}(x) = \frac{1}{n \cdot h} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 활용 시나리오
-1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 KDE를 추정 → 밀도가 낮은 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/).
+1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 KDE를 추정 -> 밀도가 낮은 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/).
 2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/">데이터 시각화</a></strong>: Seaborn `kdeplot`으로 분포 매끄럽게 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/).
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 모델 기초</strong>: KDE 자체가 비모수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 (밀도에서 샘플링 가능).
 
@@ -99,17 +99,17 @@ KDE는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ```text
 [히스토그램 (1891, Pearson) — 불연속 빈도 분포]
-    │
-    ▼
+    |
+    v
 [KDE (1962, Parzen·Rosenblatt) — 연속 밀도 추정]
-    │
-    ▼
+    |
+    v
 [Silverman's Rule (1986) — 자동 대역폭 선택]
-    │
-    ▼
+    |
+    v
 [Fast KDE (2000s~) — FFT 기반 고속 계산]
-    │
-    ▼
+    |
+    v
 [현재: Seaborn/Matplotlib 기본 시각화 도구]
 ```
 
@@ -124,7 +124,7 @@ KDE는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 **진행 상황**: 116 / 258
 
-← **이전**: [115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터](/knowledge-base/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/)
-**다음**: [117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한](/knowledge-base/studynote/14_data_engineering/02_math_mining/117_bayes_error/) →
+<- **이전**: [115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터](/knowledge-base/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/)
+**다음**: [117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한](/knowledge-base/studynote/14_data_engineering/02_math_mining/117_bayes_error/) ->
 
 ---

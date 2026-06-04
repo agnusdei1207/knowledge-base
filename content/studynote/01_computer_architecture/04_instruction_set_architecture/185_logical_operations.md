@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 숫자일 수도 있고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드일 수도 있음을 보여 준다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 이 두 해석 중 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 필드 해석</strong>을 담당한다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ One value, two interpretations                                    │
-├───────────────────────────────────────────────────────────────────┤
-│ Register value : 0010 1101                                        │
-│                                                                   │
-│ As number    : decimal 45                                         │
-│ As bit-field : [IRQ][MODE][CACHE][RW][VALID][E][W][X]             │
-│                                                                   │
-│ Arithmetic   : changes numeric magnitude                          │
-│ Logic op     : edits selected bit positions only                  │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| One value, two interpretations                                    |
++-------------------------------------------------------------------+
+| Register value : 0010 1101                                        |
+|                                                                   |
+| As number    : decimal 45                                         |
+| As bit-field : [IRQ][MODE][CACHE][RW][VALID][E][W][X]             |
+|                                                                   |
+| Arithmetic   : changes numeric magnitude                          |
+| Logic op     : edits selected bit positions only                  |
++-------------------------------------------------------------------+
 ```
 
 즉 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 의미를 가질 때 등장하는 <strong>가장 직접적인 제어 수단</strong>이다. 그래서 ISA에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 산술 연산의 보조 기능이 아니라, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 다루는 독립된 핵심 계열로 취급된다.
@@ -60,21 +60,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 유닛이 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치끼리만 계산한다는 점을 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Bitwise logical datapath                                          │
-├───────────────────────────────────────────────────────────────────┤
-│ Register A : a7 a6 a5 a4 a3 a2 a1 a0                              │
-│ Register B : b7 b6 b5 b4 b3 b2 b1 b0                              │
-│              │  │  │  │  │  │  │  │                              │
-│              ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼                              │
-│         Logic Unit (AND / OR / XOR / NOT / TEST)                  │
-│              │  │  │  │  │  │  │  │                              │
-│              ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼                              │
-│ Result     : r7 r6 r5 r4 r3 r2 r1 r0                              │
-│ Flags      : Zero Flag, Negative Flag, parity or condition codes  │
-│                                                                   │
-│ No carry chain between r0 -> r1 -> r2 ...                         │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Bitwise logical datapath                                          |
++-------------------------------------------------------------------+
+| Register A : a7 a6 a5 a4 a3 a2 a1 a0                              |
+| Register B : b7 b6 b5 b4 b3 b2 b1 b0                              |
+|              |  |  |  |  |  |  |  |                              |
+|              v  v  v  v  v  v  v  v                              |
+|         Logic Unit (AND / OR / XOR / NOT / TEST)                  |
+|              |  |  |  |  |  |  |  |                              |
+|              v  v  v  v  v  v  v  v                              |
+| Result     : r7 r6 r5 r4 r3 r2 r1 r0                              |
+| Flags      : Zero Flag, Negative Flag, parity or condition codes  |
+|                                                                   |
+| No carry chain between r0 -> r1 -> r2 ...                         |
++-------------------------------------------------------------------+
 ```
 
 이 구조 때문에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 "값 전체를 새로 계산"하기보다 "패턴을 통과시키거나 막는" 데 유리하다. 예를 들어 `AND 1111 0000`은 하위 4비트를 한 번에 잘라 내고, `OR 0000 0100`은 2번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 강제로 1로 세운다. `TEST`처럼 결과를 저장하지 않고 조건 코드만 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 분기 직전 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 상태를 확인할 때 특히 효율적이다.
@@ -109,17 +109,17 @@ tags = ["studynote-computer-architecture"]
 실무에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쓸 때 가장 중요한 질문은 <strong>"값을 바꾸고 싶은가, 검사만 하고 싶은가, 어느 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 대상으로 하는가"</strong> 다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 끄려면 inverse mask와 AND, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켜려면 OR, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집으려면 XOR, 상태만 보려면 TEST 또는 AND 후 compare가 정석이다. 이 선택을 잘못하면 원하지 않는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 바뀌거나, 산술 부작용 때문에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전체 의미가 손상된다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Common bit-manipulation patterns                                  │
-├───────────────────────────────────────────────────────────────────┤
-│ Original : 1011 0110                                              │
-│ Mask     : 0000 0100                                              │
-│                                                                   │
-│ Clear bit   : 1011 0110 AND 1111 1011 = 1011 0010                 │
-│ Set bit     : 1011 0110 OR  0000 0100 = 1011 0110                 │
-│ Toggle bit  : 1011 0110 XOR 0000 0100 = 1011 0010                 │
-│ Test bit    : 1011 0110 AND 0000 0100 -> non-zero, bit is set     │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Common bit-manipulation patterns                                  |
++-------------------------------------------------------------------+
+| Original : 1011 0110                                              |
+| Mask     : 0000 0100                                              |
+|                                                                   |
+| Clear bit   : 1011 0110 AND 1111 1011 = 1011 0010                 |
+| Set bit     : 1011 0110 OR  0000 0100 = 1011 0110                 |
+| Toggle bit  : 1011 0110 XOR 0000 0100 = 1011 0010                 |
+| Test bit    : 1011 0110 AND 0000 0100 -> non-zero, bit is set     |
++-------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -168,16 +168,16 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Boolean Algebra
-    │
-    ▼
+    |
+    v
 AND · OR · XOR · NOT
-    │
-    ▼
+    |
+    v
 Bit Masking and Flag Control
-    │
-    ├──────────────▶ Shift + field extraction
-    ├──────────────▶ Status / permission register handling
-    └──────────────▶ Networking · cryptography · graphics
+    |
+    +---------------> Shift + field extraction
+    +---------------> Status / permission register handling
+    +---------------> Networking · cryptography · graphics
 ```
 
 이 흐름도는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 불 대수에서 출발해, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹을 거쳐 시스템 제어와 응용 영역으로 확장되는 과정을 보여 준다.
@@ -194,7 +194,7 @@ Bit Masking and Flag Control
 
 **진행 상황**: 185 / 803
 
-← **이전**: [184. 산술 연산 명령어 (Arithmetic Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/184_arithmetic_instructions/)
-**다음**: [186. 제어 흐름 명령어 (Control Flow)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) →
+<- **이전**: [184. 산술 연산 명령어 (Arithmetic Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/184_arithmetic_instructions/)
+**다음**: [186. 제어 흐름 명령어 (Control Flow)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) ->
 
 ---

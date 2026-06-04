@@ -36,18 +36,18 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 스마트 그리드의 기본 아키텍처를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    스마트 그리드의 양방향 구조                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [발전/ESS/태양광] --전력--> [송배전망] --전력--> [가정·공장·EV]    │
-│        ▲                           │                    │          │
-│        │                           │                    │          │
-│   출력 정보                    계통 상태 정보         사용량 정보 │
-│        │                           ▼                    ▼          │
-│   [운영 센터/EMS] <---- 통신망 ---- [AMI/DCU] <---- 스마트 미터   │
-│        │                                                            │
-│        └---- 요금 신호 · 수요 반응 제어 · 충전 스케줄 ---->          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    스마트 그리드의 양방향 구조                    |
++--------------------------------------------------------------------+
+| [발전/ESS/태양광] --전력--> [송배전망] --전력--> [가정·공장·EV]    |
+|        ^                           |                    |          |
+|        |                           |                    |          |
+|   출력 정보                    계통 상태 정보         사용량 정보 |
+|        |                           v                    v          |
+|   [운영 센터/EMS] <---- 통신망 ---- [AMI/DCU] <---- 스마트 미터   |
+|        |                                                            |
+|        +---- 요금 신호 · 수요 반응 제어 · 충전 스케줄 ---->          |
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 전기가 한쪽으로 흐르더라도 <strong>정보는 양방향으로 순환</strong>한다는 것이다. 운영 센터는 단순 검침 서버가 아니라, 수요 예측, 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 고장 탐지, 신재생 출력 관리까지 담당하는 의사결정 허브가 된다. 즉 스마트 그리드는 "계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집"이 아니라 **센싱-분석-제어 폐루프 (Closed Loop)** 를 만드는 아키텍처다.
@@ -136,21 +136,21 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 단방향 전력망
-    │
-    ▼
+    |
+    v
 스마트 미터 · AMI
-    │
-    ▼
+    |
+    v
 수요 반응 (DR) · 실시간 요금제
-    │
-    ▼
+    |
+    v
 ESS · DER · EV 연계
-    │
-    ▼
+    |
+    v
 마이크로그리드 · 지능형 에너지 운영
 ```
 
-이 흐름은 "검침 자동화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 제어 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 통합 → 자율 운영"으로 스마트 그리드가 확장되는 과정을 나타낸다.
+이 흐름은 "검침 자동화 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 제어 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 통합 -> 자율 운영"으로 스마트 그리드가 확장되는 과정을 나타낸다.
 
 ### 👶 어린이 비유 설명
 
@@ -164,7 +164,7 @@ ESS · DER · EV 연계
 
 **진행 상황**: 161 / 552
 
-← **이전**: [160. UWB (Ultra-Wideband / 초광대역) 통신 - 매우 짧은 임펄스(Impulse) 신호를 넒은 주파수에 걸쳐 송신,](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)
-**다음**: [162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) →
+<- **이전**: [160. UWB (Ultra-Wideband / 초광대역) 통신 - 매우 짧은 임펄스(Impulse) 신호를 넒은 주파수에 걸쳐 송신,](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)
+**다음**: [162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ->
 
 ---

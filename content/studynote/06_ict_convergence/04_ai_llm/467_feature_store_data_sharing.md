@@ -34,22 +34,22 @@ tags = ["studynote-ict-convergence"]
 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하는 '오프라인 창고'와 실시간으로 쏴주는 '온라인 매대'의 듀얼 아키텍처로 구성된다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│             [ 피처 스토어 (Feature Store)의 듀얼 아키텍처 ]     │
-├────────────────────────────────────────────────────────┤
-│ 1. 피처 파이프라인 (Feature Pipeline)                   │
-│    - 원본 데이터(Raw)를 끌어와서 가공함 (나이 -> 연령대로 변경 등)│
-│    - 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음              │
-│                                                        │
-│ 2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고     │
-│    - 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고│
-│    - 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.  │
-│                                                        │
-│ 3. 온라인 스토어 (Online Store) : '추론용' 번개 매대      │
-│    - 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB│
-│    - 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"│
-│      할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)         │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             [ 피처 스토어 (Feature Store)의 듀얼 아키텍처 ]     |
++--------------------------------------------------------+
+| 1. 피처 파이프라인 (Feature Pipeline)                   |
+|    - 원본 데이터(Raw)를 끌어와서 가공함 (나이 -> 연령대로 변경 등)|
+|    - 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음              |
+|                                                        |
+| 2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고     |
+|    - 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고|
+|    - 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.  |
+|                                                        |
+| 3. 온라인 스토어 (Online Store) : '추론용' 번개 매대      |
+|    - 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB|
+|    - 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"|
+|      할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)         |
++--------------------------------------------------------+
 ```
 
 1. **단일 진실 공급원 (SSOT, Single Source of Truth)**: A팀이 계산한 "우수 고객"의 정의와 B팀이 계산한 "우수 고객"의 정의가 다르면 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬인다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 전사적으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 정의와 계산 로직을 딱 한 곳으로 통일하여, 모든 부서가 똑같은 잣대(단일 진실)로 AI를 훈련하게 강제한다.
@@ -113,7 +113,7 @@ DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_securi
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[MLOps · 데이터 아키텍처] → [피처 스토어 · 특징 변수 공유] → [데이터 레이크 · 데이터 웨어하우스]
+[MLOps · 데이터 아키텍처] -> [피처 스토어 · 특징 변수 공유] -> [데이터 레이크 · 데이터 웨어하우스]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -128,7 +128,7 @@ DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_securi
 
 **진행 상황**: 467 / 552
 
-← **이전**: [466. MLOps 파이프라인과 CI/CD/CT](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/466_mlops_pipeline_ci_cd_ct/)
-**다음**: [468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) →
+<- **이전**: [466. MLOps 파이프라인과 CI/CD/CT](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/466_mlops_pipeline_ci_cd_ct/)
+**다음**: [468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) ->
 
 ---

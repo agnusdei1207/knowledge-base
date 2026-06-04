@@ -26,21 +26,21 @@ SLI는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 아래 그림은 사용자 경험 지표와 내부 진단 지표의 경계를 보여 준다. 핵심은 SLI가 원인 분석용 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 아니라, <strong>사용자 관점의 품질 결과물</strong>이라는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 사용자 경험과 내부 메트릭의 경계                              │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                   │
-│    │                                                         │
-│    ▼                                                         │
-│ 로그인 / 결제 / 조회 / 데이터 적재                           │
-│    │                                                         │
-│    ├─ 성공했는가? ───────────────▶ Availability SLI           │
-│    ├─ 충분히 빨랐는가? ─────────▶ Latency SLI                │
-│    └─ 결과가 올바른가? ─────────▶ Quality SLI                │
-│                                                              │
-│ CPU · Memory · Queue Depth · DB Connection                   │
-│    └─ 원인 분석용 supporting metric, SLI 자체는 아님         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 사용자 경험과 내부 메트릭의 경계                              |
++--------------------------------------------------------------+
+| 사용자 요청                                                   |
+|    |                                                         |
+|    v                                                         |
+| 로그인 / 결제 / 조회 / 데이터 적재                           |
+|    |                                                         |
+|    +- 성공했는가? ----------------> Availability SLI           |
+|    +- 충분히 빨랐는가? ----------> Latency SLI                |
+|    +- 결과가 올바른가? ----------> Quality SLI                |
+|                                                              |
+| CPU · Memory · Queue Depth · DB Connection                   |
+|    +- 원인 분석용 supporting metric, SLI 자체는 아님         |
++--------------------------------------------------------------+
 ```
 
 결국 SLI는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 피라미드의 맨 아래층이다. SLI가 정의되어야 SLO를 세울 수 있고, 그 SLO가 외부 계약으로 올라가면 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 된다. 따라서 SLI가 부정확하면 이후의 목표와 계약도 모두 흔들린다.
@@ -63,25 +63,25 @@ SLI는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 특히 계산식 설계가 중요하다. 예를 들어 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLI는 흔히 `성공 요청 수 / 전체 적격 요청 수`로 계산한다. 반면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 평균으로 계산하면 극단값을 숨기기 쉬우므로, `p99 200ms 이내` 또는 `200ms 이하 응답 비율 99.5%`처럼 tail latency를 반영하는 식이 더 실무적이다.
 
-아래 그림은 SLI가 어떻게 수집·가공되는지 보여 준다. 한 번의 요청 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 곧바로 SLI가 되는 것이 아니라, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>good/bad <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 집계 → 시계열화</strong>를 거쳐 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 판단 자료가 된다.
+아래 그림은 SLI가 어떻게 수집·가공되는지 보여 준다. 한 번의 요청 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 곧바로 SLI가 되는 것이 아니라, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>good/bad <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> -> 집계 -> 시계열화</strong>를 거쳐 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 판단 자료가 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SLI 계산 파이프라인                                           │
-├──────────────────────────────────────────────────────────────┤
-│ Real User Monitoring / Load Balancer Log / Trace / Synthetic │
-│                    │                                         │
-│                    ▼                                         │
-│         요청별 good / bad / slow 분류                        │
-│                    │                                         │
-│        ┌───────────┼───────────┐                             │
-│        ▼                       ▼                             │
-│  5분 단기 집계             30일 장기 집계                    │
-│        │                       │                             │
-│        └───────────┬───────────┘                             │
-│                    ▼                                         │
-│      SLI Time Series → SLO 비교 → Error Budget 계산         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SLI 계산 파이프라인                                           |
++--------------------------------------------------------------+
+| Real User Monitoring / Load Balancer Log / Trace / Synthetic |
+|                    |                                         |
+|                    v                                         |
+|         요청별 good / bad / slow 분류                        |
+|                    |                                         |
+|        +-----------+-----------+                             |
+|        v                       v                             |
+|  5분 단기 집계             30일 장기 집계                    |
+|        |                       |                             |
+|        +-----------+-----------+                             |
+|                    v                                         |
+|      SLI Time Series -> SLO 비교 -> Error Budget 계산         |
++--------------------------------------------------------------+
 ```
 
 수집 지점 역시 설계 요소다. 로드밸런서에서 재면 외부 관점 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)에 강하고, 애플리케이션 내부에서 재면 비즈니스 성공 여부를 더 정교하게 볼 수 있다. 모바일·웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 Synthetic Monitoring과 Real User Monitoring을 같이 써서 "밖에서 보이는 품질"과 "실제 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 품질"을 동시에 보는 경우가 많다.
@@ -138,7 +138,7 @@ SLI는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 
 흔한 안티패턴도 분명하다. 첫째, 너무 많은 SLI를 만들어 아무도 보지 않게 만드는 경우다. 둘째, 200 OK만 성공으로 보고 실제 비즈니스 실패를 놓치는 경우다. 셋째, 평균 응답시간만 보고 tail [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 악화를 숨기는 경우다. 넷째, 인프라 지표를 SLI로 오인해 배포 중단 판단을 잘못 내리는 경우다.
 
-기술사 답안에서는 "SLI는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 지표다"로 끝내지 말고, <strong>사용자 여정 선정 → 성공 기준 정의 → 집계 창 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> → <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> 연결</strong>의 순서로 설명해야 설계 판단이 드러난다. 좋은 SLI는 운영팀을 바쁘게 만드는 지표가 아니라, 팀이 무엇을 먼저 고쳐야 하는지 분명하게 알려 주는 지표다.
+기술사 답안에서는 "SLI는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 지표다"로 끝내지 말고, <strong>사용자 여정 선정 -> 성공 기준 정의 -> 집계 창 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> -> <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> 연결</strong>의 순서로 설명해야 설계 판단이 드러난다. 좋은 SLI는 운영팀을 바쁘게 만드는 지표가 아니라, 팀이 무엇을 먼저 고쳐야 하는지 분명하게 알려 주는 지표다.
 
 - **📢 섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 선택은 병원 건강검진 항목을 고르는 일과 같다. 몸 상태를 보여 주는 핵심 수치를 골라야지, 측정하기 쉬운 숫자만 많이 모으면 정작 중요한 병을 놓칠 수 있다.
 
@@ -172,20 +172,20 @@ SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/1
 
 ```text
 사용자 여정 정의
-    │
-    ▼
+    |
+    v
 good / bad 기준 설정
-    │
-    ▼
+    |
+    v
 SLI (Service Level Indicator) 시계열 계산
-    │
-    ▼
+    |
+    v
 SLO (Service Level Objective) 설정
-    │
-    ▼
+    |
+    v
 Error Budget · Burn Rate 운영
-    │
-    ▼
+    |
+    v
 SLA (Service Level Agreement) 및 배포 정책 의사결정
 ```
 
@@ -203,7 +203,7 @@ SLA (Service Level Agreement) 및 배포 정책 의사결정
 
 **진행 상황**: 179 / 371
 
-← **이전**: [179. 토일 (Toil - SRE 운영 노동)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/179_toil_sre_operational_work/)
-**다음**: [181. SLO (Service Level Objective, 서비스 수준 목표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) →
+<- **이전**: [179. 토일 (Toil - SRE 운영 노동)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/179_toil_sre_operational_work/)
+**다음**: [181. SLO (Service Level Objective, 서비스 수준 목표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ->
 
 ---

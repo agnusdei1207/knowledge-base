@@ -20,12 +20,12 @@ tags = ["studynote-devops-sre"]
 
 ```
 Trace ID: abc-123
-──────────────────────────────────────────────────────
-Span 1: API Gateway       [0ms ──────────────── 200ms]
-  Span 2: Order Service     [10ms ─────── 180ms]
-    Span 3: Inventory Svc      [20ms ── 80ms]
-    Span 4: DB Query              [90ms ─ 160ms]
-──────────────────────────────────────────────────────
+------------------------------------------------------
+Span 1: API Gateway       [0ms ---------------- 200ms]
+  Span 2: Order Service     [10ms ------- 180ms]
+    Span 3: Inventory Svc      [20ms -- 80ms]
+    Span 4: DB Query              [90ms - 160ms]
+------------------------------------------------------
 ```
 
 | 개념       | 정의                                          |
@@ -111,10 +111,10 @@ Tail Sampling이 더 유용하지만 구현 복잡도가 높다 — [OpenTelemet
 
 ```
 Distributed Tracing
-    ├── Trace / Span / Trace ID → 기본 데이터 구조
-    ├── W3C Trace Context / B3 → 전파 표준
-    ├── Sampling → Head / Tail / Rate Limiting
-    └── OpenTelemetry → 표준 계측 SDK + Collector
+    +-- Trace / Span / Trace ID -> 기본 데이터 구조
+    +-- W3C Trace Context / B3 -> 전파 표준
+    +-- Sampling -> Head / Tail / Rate Limiting
+    +-- OpenTelemetry -> 표준 계측 SDK + Collector
 ```
 
 > 🧒 **어린이 비유**
@@ -126,7 +126,7 @@ Distributed Tracing
 
 **진행 상황**: 321 / 373
 
-← **이전**: [Observability Metrics Logs Traces](/knowledge-base/studynote/15_devops_sre/05_devsecops/320_metric/)
-**다음**: [OpenTelemetry CNCF](/knowledge-base/studynote/15_devops_sre/05_devsecops/322_cncf/) →
+<- **이전**: [Observability Metrics Logs Traces](/knowledge-base/studynote/15_devops_sre/05_devsecops/320_metric/)
+**다음**: [OpenTelemetry CNCF](/knowledge-base/studynote/15_devops_sre/05_devsecops/322_cncf/) ->
 
 ---

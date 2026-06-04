@@ -26,7 +26,7 @@ tags = ["studynote-enterprise"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-EIP는 보통 `사용자 → 포털 → 인증/권한 → 콘텐츠 집계 → 업무 위젯 → 백엔드 시스템` 구조로 움직인다. 핵심은 정보 통합과 권한 통제를 동시에 만족시키는 것이다.
+EIP는 보통 `사용자 -> 포털 -> 인증/권한 -> 콘텐츠 집계 -> 업무 위젯 -> 백엔드 시스템` 구조로 움직인다. 핵심은 정보 통합과 권한 통제를 동시에 만족시키는 것이다.
 
 | 구성 요소 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -38,16 +38,16 @@ EIP는 보통 `사용자 → 포털 → 인증/권한 → 콘텐츠 집계 → �
 
 ```text
 사용자
-  │
-  ▼
+  |
+  v
 포털(EIP)
-  │
-  ├─ SSO (Single Sign-On)
-  ├─ RBAC (Role-Based Access Control)
-  ├─ 개인화 대시보드
-  └─ 검색 / 업무 위젯
-         │
-         ▼
+  |
+  +- SSO (Single Sign-On)
+  +- RBAC (Role-Based Access Control)
+  +- 개인화 대시보드
+  +- 검색 / 업무 위젯
+         |
+         v
 ERP · CRM · 그룹웨어 · 문서관리
 ```
 
@@ -102,17 +102,17 @@ EIP는 화면만 통합하는 것이 아니라, [메타데이터](/knowledge-bas
 
 ```text
 분산된 시스템
-    │
-    ▼
+    |
+    v
 인트라넷 / 그룹웨어 / ERP / CRM
-    │
-    ▼
+    |
+    v
 EP / EIP
-    │
-    ▼
+    |
+    v
 SSO · RBAC · 개인화 · 검색
-    │
-    ▼
+    |
+    v
 단일 창구 기반 업무 경험
 ```
 
@@ -128,7 +128,7 @@ SSO · RBAC · 개인화 · 검색
 
 **진행 상황**: 77 / 482
 
-← **이전**: [76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/076_value_stream_mapping_lean/)
-**다음**: [78. 스마트워크 (Smart Work) / 모바일 오피스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/) →
+<- **이전**: [76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/076_value_stream_mapping_lean/)
+**다음**: [78. 스마트워크 (Smart Work) / 모바일 오피스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/) ->
 
 ---

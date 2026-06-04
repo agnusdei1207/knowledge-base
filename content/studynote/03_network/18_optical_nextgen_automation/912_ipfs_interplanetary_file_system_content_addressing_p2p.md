@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
+    |
+    v
 [IPFS]
-    │
-    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
+    |
+    +---> [V2I 노변 기지국 RSU 교통 관제 시스템…]
 ```
 
 - **📢 섹션 요약 비유**: IPFS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
+    |
+    v
 [IPFS]
-    │
-    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
+    |
+    +---> [V2I 노변 기지국 RSU 교통 관제 시스템…]
 ```
 
 - **📢 섹션 요약 비유**: IPFS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ IPFS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ```text
 [선행 개념: 에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPFS]
-    │
-    ├──▶ [확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 IPFS는 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE에서 출발해 현재 메커니즘을 정교화하고, 이후 V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ IPFS는 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_sec
 
 **진행 상황**: 1033 / 1120
 
-← **이전**: [911. SSE (에지 보안 서비스)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/911_sse_security_service_edge_sase_evolution/)
-**다음**: [913. V2I 노변 기지국 (RSU)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) →
+<- **이전**: [911. SSE (에지 보안 서비스)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/911_sse_security_service_edge_sase_evolution/)
+**다음**: [913. V2I 노변 기지국 (RSU)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) ->
 
 ---

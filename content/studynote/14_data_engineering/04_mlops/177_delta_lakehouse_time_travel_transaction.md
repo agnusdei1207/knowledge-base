@@ -24,15 +24,15 @@ Delta Lakehouse는 객체 스토리지나 [분산](/knowledge-base/studynote/08_
 특히 분석 파이프라인이 `append only`가 아니라 `update`, `delete`, [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 재처리를 요구하는 순간 문제가 선명해진다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 새로 쓰는 것은 쉽지만, "테이블 전체가 어느 시점에 일관된 상태였는가"를 보장하기는 어렵다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse처럼 신뢰성을 원하면서도 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake처럼 개방성과 확장성을 유지하려다 보니 Delta [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 같은 테이블 포맷이 등장했다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Plain Parquet Lake의 난점                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Writer A : part-001, part-002 갱신 중                        │
-│ Writer B : part-003 삭제 반영                                │
-│ Reader   : 어떤 파일 집합이 같은 시점 snapshot인지 불명확     │
-│                                                              │
-│ 파일 저장은 쉬워도 테이블 단위 commit / rollback은 약하다     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Plain Parquet Lake의 난점                                    |
++--------------------------------------------------------------+
+| Writer A : part-001, part-002 갱신 중                        |
+| Writer B : part-003 삭제 반영                                |
+| Reader   : 어떤 파일 집합이 같은 시점 snapshot인지 불명확     |
+|                                                              |
+| 파일 저장은 쉬워도 테이블 단위 commit / rollback은 약하다     |
++--------------------------------------------------------------+
 ```
 
 이 구조에서는 "어제 오전 9시 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 다시 학습해 달라" 같은 요구가 매우 비싸다. 결국 별도 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 복제하거나 수동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 보관해야 하고, 그만큼 저장 비용과 운영 복잡도가 늘어난다. Delta의 Time Travel은 이 문제를 테이블 수준 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 흡수한다.
@@ -56,13 +56,13 @@ Delta 테이블의 실체는 `data files + _delta_log` 조합이다. 실제 레�
 아래 흐름은 Delta의 커밋과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 재구성이 어떻게 이뤄지는지 보여준다. 핵심은 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 먼저 쓰고, 마지막에 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 올리는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">낙관적 동시성 제어</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">Optimistic Concurrency Control</a>)</strong>다. 커밋 전까지 독자는 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)만 보고, 커밋이 성공한 뒤에만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 본다.
 
 ```text
-┌──────────────────── Delta Commit ────────────────────┐
-│ 1. New Parquet files written                         │
-│ 2. Read current table version N                      │
-│ 3. Conflict check (optimistic concurrency)           │
-│ 4. Commit _delta_log/000...N+1.json                  │
-│ 5. Readers jump atomically from snapshot N to N+1    │
-└──────────────────────────────────────────────────────┘
++-------------------- Delta Commit --------------------+
+| 1. New Parquet files written                         |
+| 2. Read current table version N                      |
+| 3. Conflict check (optimistic concurrency)           |
+| 4. Commit _delta_log/000...N+1.json                  |
+| 5. Readers jump atomically from snapshot N to N+1    |
++------------------------------------------------------+
 
 snapshot v127 = checkpoint v120.parquet + 121.json ... 127.json
 ```
@@ -159,17 +159,17 @@ Delta Lakehouse를 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 ```text
 Parquet 중심 Data Lake
-    │
-    ▼
+    |
+    v
 Delta Log 추가
-    │
-    ▼
+    |
+    v
 ACID Snapshot · Schema Enforcement · MERGE
-    │
-    ▼
+    |
+    v
 Time Travel · RESTORE · CDF
-    │
-    ▼
+    |
+    v
 Lakehouse Governance · ML Reproducibility
 ```
 
@@ -187,7 +187,7 @@ Lakehouse Governance · ML Reproducibility
 
 **진행 상황**: 177 / 258
 
-← **이전**: [176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)
-**다음**: [178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) →
+<- **이전**: [176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)
+**다음**: [178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) ->
 
 ---

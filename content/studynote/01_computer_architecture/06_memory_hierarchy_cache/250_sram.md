@@ -28,17 +28,17 @@ SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아�
 아래 그림은 SRAM이 왜 필요한지를 "거리"가 아니라 "시간 차이"로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                Why SRAM exists: hide the memory wall                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│ CPU core decision                : sub-ns ~ 1 ns                         │
-│        │                                                             │   │
-│        ├─ L1/L2 cache by SRAM   : about 1 ~ few ns                   │   │
-│        │                                                             ▼   │
-│        └─ Main memory by DRAM   : tens of ns  ──> pipeline stall         │
-│                                                                          │
-│ Key idea: pay silicon area to save waiting time                          │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                Why SRAM exists: hide the memory wall                     |
++--------------------------------------------------------------------------+
+| CPU core decision                : sub-ns ~ 1 ns                         |
+|        |                                                             |   |
+|        +- L1/L2 cache by SRAM   : about 1 ~ few ns                   |   |
+|        |                                                             v   |
+|        +- Main memory by DRAM   : tens of ns  --> pipeline stall         |
+|                                                                          |
+| Key idea: pay silicon area to save waiting time                          |
++--------------------------------------------------------------------------+
 ```
 
 이 그림의 요점은 SRAM이 "많이 저장하는 메모리"가 아니라 "기다리지 않게 만드는 메모리"라는 점이다. 그래서 메모리 계층에서 SRAM은 대용량 창고가 아니라 CPU의 바로 옆 계산용 작업대에 가깝다.
@@ -56,20 +56,20 @@ SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아�
 아래 그림은 6T 셀의 저장 방식과 접근 경로를 한눈에 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 6T SRAM cell: keep state by feedback                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│                          VDD                    VDD                      │
-│                           │                      │                       │
-│                    ┌──────┴──────┐      ┌───────┴──────┐                │
-│ BL ──[Access TR]───┤   Inverter   ├──Q──┤   Inverter    ├──[Access TR]──│
-│        WL          └──────┬──────┘      └───────┬──────┘       WL       │
-│                           │                      │                    BL_bar
-│                          GND                    GND                      │
-│                                                                          │
-│ Read  : precharge BL/BL_bar -> open WL -> sense tiny delta               │
-│ Write : drive BL/BL_bar strongly -> open WL -> flip latch                │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 6T SRAM cell: keep state by feedback                     |
++--------------------------------------------------------------------------+
+|                          VDD                    VDD                      |
+|                           |                      |                       |
+|                    +------+------+      +-------+------+                |
+| BL --[Access TR]---+   Inverter   +--Q--+   Inverter    +--[Access TR]--|
+|        WL          +------+------+      +-------+------+       WL       |
+|                           |                      |                    BL_bar
+|                          GND                    GND                      |
+|                                                                          |
+| Read  : precharge BL/BL_bar -> open WL -> sense tiny delta               |
+| Write : drive BL/BL_bar strongly -> open WL -> flip latch                |
++--------------------------------------------------------------------------+
 ```
 
 설계자는 단순히 "빠른가"만 보지 않는다. 읽기 안정성(Read [Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/)), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능성(Write Ability), 대기 누설전력(Leakage [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)), 셀 면적(Cell Area)을 함께 맞춰야 한다. 셀을 너무 작게 줄이면 읽기 중 상태가 뒤집히기 쉽고, 너무 강한 래치는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 어려워진다. 그래서 SRAM 설계는 디지털처럼 보이지만 실제로는 상당히 아날로그적인 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 마진 설계이기도 하다.
@@ -171,17 +171,17 @@ SRAM을 적절한 위치에 쓰면 시스템은 평균 [성능](/knowledge-base/
 
 ```text
 래치 기반 비트 저장
-    │
-    ▼
+    |
+    v
 6T SRAM 셀 · 비파괴적 읽기
-    │
-    ▼
+    |
+    v
 온칩 캐시 (L1/L2/L3) · 레지스터 파일
-    │
-    ▼
+    |
+    v
 누설전력 관리 · 멀티포트 설계 · 파워 게이팅
-    │
-    ▼
+    |
+    v
 3D 적층 캐시 · eDRAM · MRAM 대체 연구
 ```
 
@@ -199,7 +199,7 @@ SRAM을 적절한 위치에 쓰면 시스템은 평균 [성능](/knowledge-base/
 
 **진행 상황**: 250 / 803
 
-← **이전**: [249. 순차적 지역성 (Sequential Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)
-**다음**: [251. DRAM (Dynamic RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) →
+<- **이전**: [249. 순차적 지역성 (Sequential Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)
+**다음**: [251. DRAM (Dynamic RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) ->
 
 ---

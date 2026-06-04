@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 ```java
 // ❌ Busy-Waiting (CPU 낭비)
 while (queue.isEmpty()) {
-    // 아무것도 안 하고 계속 확인 → CPU 100% 낭비
+    // 아무것도 안 하고 계속 확인 -> CPU 100% 낭비
 }
 T item = queue.poll();
 ```
@@ -34,9 +34,9 @@ T item = queue.poll();
 // ✅ Guarded Suspension (wait/notify 기반)
 synchronized (lock) {
     while (queue.isEmpty()) {   // Guard Condition
-        lock.wait();            // 조건 불만족 → suspend (CPU 반납)
+        lock.wait();            // 조건 불만족 -> suspend (CPU 반납)
     }
-    return queue.poll();        // 조건 만족 → 실행 재개
+    return queue.poll();        // 조건 만족 -> 실행 재개
 }
 
 // 생산자가 아이템 추가 후 notify
@@ -48,17 +48,17 @@ synchronized (lock) {
 
 ```
   Producer Threads            Consumer Threads
-        │                           │
-        │ produce(item)             │ consume()
-        ▼                           ▼
-  ┌─────────────────────────────────────────────┐
-  │       Shared Buffer (BlockingQueue)         │
-  │                                             │
-  │  [Guard: 가득 참] Producer → wait()         │
-  │  [Guard: 비어 있음] Consumer → wait()       │
-  │                                             │
-  │  → 조건 충족 시 notify()로 재개             │
-  └─────────────────────────────────────────────┘
+        |                           |
+        | produce(item)             | consume()
+        v                           v
+  +---------------------------------------------+
+  |       Shared Buffer (BlockingQueue)         |
+  |                                             |
+  |  [Guard: 가득 참] Producer -> wait()         |
+  |  [Guard: 비어 있음] Consumer -> wait()       |
+  |                                             |
+  |  -> 조건 충족 시 notify()로 재개             |
+  +---------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 식당의 주문 대기표 — 테이블이 없을 때 손님(Consumer [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 쇼파에 앉아 기다린다. 직원이 "6번 테이블 준비됐습니다"라고 부를 때까지(notify) 무작정 서서 기다리지 않는다.
@@ -70,16 +70,16 @@ synchronized (lock) {
   [ Guarded Suspension 실행 흐름 ]
 
   Thread A (Consumer)                Thread B (Producer)
-       │                                    │
-       │ synchronized(lock)                 │
-       │ {                                  │
-       │   while(!condition) {              │
-       │     lock.wait();    ──────────────►│  (Thread A → Wait Set)
-       │   }                                │
-       │   // 조건 충족 시 실행             │  synchronized(lock) {
-       │   doWork();                        │    setCondition(true);
-       │ }                                  │    lock.notifyAll(); ──►  Thread A 재개
-                                            │  }
+       |                                    |
+       | synchronized(lock)                 |
+       | {                                  |
+       |   while(!condition) {              |
+       |     lock.wait();    --------------►|  (Thread A -> Wait Set)
+       |   }                                |
+       |   // 조건 충족 시 실행             |  synchronized(lock) {
+       |   doWork();                        |    setCondition(true);
+       | }                                  |    lock.notifyAll(); --►  Thread A 재개
+                                            |  }
 ```
 
 ```java
@@ -113,23 +113,23 @@ public class SimpleBlockingQueue<T> {
 ```
 
 ```
-  Java `synchronized` + `wait/notify`  ←→  Condition Variable
+  Java `synchronized` + `wait/notify`  <-->  Condition Variable
 
   ReentrantLock 기반 (더 정교한 제어):
-  ┌──────────────────────────────────────────────┐
-  │  Lock lock = new ReentrantLock();            │
-  │  Condition notEmpty = lock.newCondition();   │
-  │  Condition notFull  = lock.newCondition();   │
-  │                                              │
-  │  put():                                      │
-  │    while (isFull)  notFull.await();  ← wait  │
-  │    notEmpty.signal();                ← notify│
-  │                                              │
-  │  take():                                     │
-  │    while (isEmpty) notEmpty.await(); ← wait  │
-  │    notFull.signal();                 ← notify│
-  └──────────────────────────────────────────────┘
-  → 생산자/소비자 조건을 별도로 관리 가능
+  +----------------------------------------------+
+  |  Lock lock = new ReentrantLock();            |
+  |  Condition notEmpty = lock.newCondition();   |
+  |  Condition notFull  = lock.newCondition();   |
+  |                                              |
+  |  put():                                      |
+  |    while (isFull)  notFull.await();  <- wait  |
+  |    notEmpty.signal();                <- notify|
+  |                                              |
+  |  take():                                     |
+  |    while (isEmpty) notEmpty.await(); <- wait  |
+  |    notFull.signal();                 <- notify|
+  +----------------------------------------------+
+  -> 생산자/소비자 조건을 별도로 관리 가능
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -154,19 +154,19 @@ public class SimpleBlockingQueue<T> {
   데드락 발생 시나리오:
   - Thread A: lock1 점유, lock2 대기
   - Thread B: lock2 점유, lock1 대기
-  → 영원히 서로를 기다림 = 데드락
+  -> 영원히 서로를 기다림 = 데드락
 
   Guarded Suspension에서의 주의:
-  ┌────────────────────────────────────────────────┐
-  │  ❌ 위험: notifyAll() 누락                     │
-  │    → 생산자가 아이템 추가 후 알리지 않으면     │
-  │       소비자가 영원히 대기 = 잠재적 데드락     │
-  │                                                │
-  │  ✅ 안전: while + notifyAll 패턴               │
-  │    → if 대신 while: spurious wakeup 방지       │
-  │    → notifyAll: 모든 대기 스레드 깨움          │
-  │    → 타임아웃: wait(5000) 최대 5초 대기        │
-  └────────────────────────────────────────────────┘
+  +------------------------------------------------+
+  |  ❌ 위험: notifyAll() 누락                     |
+  |    -> 생산자가 아이템 추가 후 알리지 않으면     |
+  |       소비자가 영원히 대기 = 잠재적 데드락     |
+  |                                                |
+  |  ✅ 안전: while + notifyAll 패턴               |
+  |    -> if 대신 while: spurious wakeup 방지       |
+  |    -> notifyAll: 모든 대기 스레드 깨움          |
+  |    -> 타임아웃: wait(5000) 최대 5초 대기        |
+  +------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 경비원(Guard) 근무교대 — 교대 인원이 도착할 때까지 자리를 비우지 않고 기다린다(suspend). 교대 인원이 오면(notify) 임무를 넘기고 자리를 뜬다.
@@ -197,7 +197,7 @@ Executors.newFixedThreadPool(4).submit(() -> {
 
 - Guarded Suspension의 핵심: **Guard Condition + wait() + notifyAll()** 3요소
 - `if` 대신 `while`을 사용하는 이유: **Spurious Wakeup (허위 깨움)** 방지
-- `notify()` vs `notifyAll()` 차이: `notify()`는 임의 하나만 깨움 → `notifyAll()` 권장
+- `notify()` vs `notifyAll()` 차이: `notify()`는 임의 하나만 깨움 -> `notifyAll()` 권장
 - 실무에서는 `java.util.concurrent.BlockingQueue`로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 활용
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -220,7 +220,7 @@ Executors.newFixedThreadPool(4).submit(() -> {
 
 - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a></strong>: notifyAll() 누락 시 영원한 대기 위험
 - **Spurious Wakeup**: `if` 대신 `while`로 조건 재확인 필수
-- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a> (기아)</strong>: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 대기하는 상황 방지 → 공정성(Fairness) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a> (기아)</strong>: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 대기하는 상황 방지 -> 공정성(Fairness) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 핵심 기법이다. Java의 `wait/notify`, `Condition.await/signal`, `BlockingQueue` 모두 이 패턴을 구현한 것이다. 생산자-소비자 아키텍처의 근간으로, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)과 효율성을 동시에 달성하는 방법이다.
 
@@ -241,7 +241,7 @@ Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 �
 | 연관 개념 | [Monitor Object Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) | Guarded Suspension의 상위 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-조건 대기 → 가드 서스펜션 패턴 → Producer-Consumer
+조건 대기 -> 가드 서스펜션 패턴 -> Producer-Consumer
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 엄마가 밥을 다 차릴 때까지 아이들은 식탁에서 기다려요(suspend).
@@ -254,7 +254,7 @@ Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 �
 
 **진행 상황**: 269 / 530
 
-← **이전**: [207. 널 객체 패턴 (Null Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/)
-**다음**: [209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/) →
+<- **이전**: [207. 널 객체 패턴 (Null Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/)
+**다음**: [209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/209_read_write_lock_pattern/) ->
 
 ---

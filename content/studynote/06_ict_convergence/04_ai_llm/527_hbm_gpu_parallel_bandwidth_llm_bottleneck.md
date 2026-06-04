@@ -24,7 +24,7 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 하드웨어 병목 이중 구조</strong>
 - **연산 병목(Compute Bound)**: 배치 크기 크고 행렬 연산 많을 때
 - <strong>메모리 병목(Memory <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> Bound)</strong>: 배치 크기 작고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 로드가 주를 이룰 때
-- [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자기회귀([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) 추론: 한 번에 토큰 1개씩 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 배치 크기 1 → **메모리 바운드 지배**
+- [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자기회귀([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) 추론: 한 번에 토큰 1개씩 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 배치 크기 1 -> **메모리 바운드 지배**
 
 - **📢 섹션 요약 비유**: 요리사([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산)는 빠른데 냉장고에서 재료 꺼내는 속도(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 느리면 결국 기다릴 수밖에 없다.
 
@@ -33,27 +33,27 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────┐
-│                GPU 메모리 계층                   │
-│                                                 │
-│  ┌─────────────────────────────────────────┐    │
-│  │           HBM(High Bandwidth Memory)    │    │
-│  │  ┌──────┐ TSV  ┌──────┐ TSV  ┌──────┐ │    │
-│  │  │DRAM_1│──────│DRAM_2│──────│DRAM_3│ │    │
-│  │  │ Die  │      │ Die  │      │ Die  │ │    │
-│  │  └──────┘      └──────┘      └──────┘ │    │
-│  │        수직 적층(3D Stacking)           │    │
-│  │        대역폭: 2~4 TB/s               │    │
-│  └─────────────────────────────────────────┘    │
-│                      │                          │
-│  ┌───────────────────▼──────────────────────┐   │
-│  │           SM(Streaming Multiprocessor)   │   │
-│  │  ┌──────────────────────────────────┐   │   │
-│  │  │     텐서 코어(Tensor Core)        │   │   │
-│  │  │  FP16/BF16/INT8 행렬 곱 가속     │   │   │
-│  │  └──────────────────────────────────┘   │   │
-│  └──────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|                GPU 메모리 계층                   |
+|                                                 |
+|  +-----------------------------------------+    |
+|  |           HBM(High Bandwidth Memory)    |    |
+|  |  +------+ TSV  +------+ TSV  +------+ |    |
+|  |  |DRAM_1|------|DRAM_2|------|DRAM_3| |    |
+|  |  | Die  |      | Die  |      | Die  | |    |
+|  |  +------+      +------+      +------+ |    |
+|  |        수직 적층(3D Stacking)           |    |
+|  |        대역폭: 2~4 TB/s               |    |
+|  +-----------------------------------------+    |
+|                      |                          |
+|  +-------------------v----------------------+   |
+|  |           SM(Streaming Multiprocessor)   |   |
+|  |  +----------------------------------+   |   |
+|  |  |     텐서 코어(Tensor Core)        |   |   |
+|  |  |  FP16/BF16/INT8 행렬 곱 가속     |   |   |
+|  |  +----------------------------------+   |   |
+|  +------------------------------------------+   |
++-------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 구조</strong>
@@ -87,7 +87,7 @@ KV 캐시 크기 = 2 × 레이어 수 × 헤드 수 × 헤드 차원 × 시퀀�
 ```
 
 - Llama 3 70B, FP16, 시퀀스 4096 토큰: ≈ **8GB** (모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 140GB에 추가)
-- 시퀀스 길이 증가 시 KV 캐시 선형 증가 → [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 용량 한계 도달
+- 시퀀스 길이 증가 시 KV 캐시 선형 증가 -> [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 용량 한계 도달
 
 **연산 강도(Arithmetic Intensity)와 루프라인 분석**
 
@@ -105,14 +105,14 @@ KV 캐시 크기 = 2 × 레이어 수 × 헤드 수 × 헤드 차원 × 시퀀�
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 서빙 하드웨어 선택 기준</strong>
 
-1. <strong>모델 파라미터 수 → 최소 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 용량 계산</strong>
-   - 7B FP16: ~14GB → 단일 A100 40GB 가능
-   - 70B FP16: ~140GB → A100 2장 또는 H100 2장 필요
+1. <strong>모델 파라미터 수 -> 최소 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 용량 계산</strong>
+   - 7B FP16: ~14GB -> 단일 A100 40GB 가능
+   - 70B FP16: ~140GB -> A100 2장 또는 H100 2장 필요
 
-2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 목표 → <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 기준 TPS 계산</strong>
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 목표 -> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 기준 TPS 계산</strong>
    - Tokens/s ≈ [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(GB/s) / 모델 크기(GB) × 1000
 
-3. **전력 효율**: H100 TDP 700W → [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership) 계산에 포함
+3. **전력 효율**: H100 TDP 700W -> [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership) 계산에 포함
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/">MFU</a>(Model <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/">FLOPs</a> Utilization)</strong>: 실제 사용 비율, 50% 이상이면 좋은 설계
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 인프라 대안 비교</strong>
@@ -148,7 +148,7 @@ HBM과 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_acc
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[GPU 메모리 · 수직 적층 고대역폭 메모리] → [HBM GPU 병렬 대역폭과 LLM 병목 완화] → [성능 지표 · 모델 FLOPs 활용률]
+[GPU 메모리 · 수직 적층 고대역폭 메모리] -> [HBM GPU 병렬 대역폭과 LLM 병목 완화] -> [성능 지표 · 모델 FLOPs 활용률]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -163,7 +163,7 @@ HBM과 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_acc
 
 **진행 상황**: 527 / 552
 
-← **이전**: [526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/)
-**다음**: [528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/528_vllm_paged_attention_kv_cache_optimization/) →
+<- **이전**: [526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/526_dpu_smartnic_infrastructure_offloading/)
+**다음**: [528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/528_vllm_paged_attention_kv_cache_optimization/) ->
 
 ---

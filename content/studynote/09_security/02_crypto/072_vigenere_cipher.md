@@ -31,9 +31,9 @@ tags = ["studynote-security"]
 
 ```text
 Plaintext
-  ↓ key repeat
+  v key repeat
 Multiple Caesar-like shifts
-  ↓
+  v
 Ciphertext
 ```
 
@@ -105,11 +105,11 @@ Ciphertext
 
 ```text
 Plaintext
-  ↓
+  v
 Vigenère
-  ↓
+  v
 Polyalphabetic Cipher
-  ↓
+  v
 Ciphertext
 ```
 
@@ -119,9 +119,9 @@ Ciphertext
 
 ```text
 Monoalphabetic
-  ↓
+  v
 Vigenère
-  ↓
+  v
 Cryptanalysis
 ```
 
@@ -139,7 +139,7 @@ Cryptanalysis
 
 **진행 상황**: 72 / 1108
 
-← **이전**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/)
-**다음**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/knowledge-base/studynote/09_security/02_crypto/073_enigma/) →
+<- **이전**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/)
+**다음**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/knowledge-base/studynote/09_security/02_crypto/073_enigma/) ->
 
 ---

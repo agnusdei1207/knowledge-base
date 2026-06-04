@@ -39,32 +39,32 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 512바이트 파편화 제약의 늪 💀</strong>: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 53)는 속도를 위해 한 번에 보낼 수 있는 편지 크기가 512바이트(구석기 제약)로 시멘트 락 걸려 있었다. 근데 장부 10만 줄(10MB)을 복사해 달라는데 512바이트 조각 2만 개로 찢어서 UDP로 쏘다간 ➔ 순서 다 꼬이고 중간에 조각 1개 날아가 엑셀 찢어짐 파산 멸망. "야 장부 복사할 땐 걍 대용량 스트리밍 끄떡없는 튼튼한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 53 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뚫어 록온 쾅!" [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 스위칭 마법이 추가되었다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         DNS 53번 포트의 이중생활: UDP 스피드 닌자 vs TCP 강철 장갑차 엑스레이 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 🥷 [ 1. 일반 유저의 무지성 1타점 검색 (UDP 53 / Speed 100배 쾌속 ✨) ] │
-  │   - 철수 브라우저 ➔ (UDP 핑퐁 툭) ➔ "야 KT DNS! `shop.com` IP 줘 ㅋ"    │
-  │   - DNS 왈: "ㅇㅇ 10.1.1.5 임 ㅋ" (15바이트 데이터, 연결(Handshake) 없음 광속)│
-  │   ➔ 팩트 컷: 트래픽 오버헤드 0%, 0.1초 컷 퇴근 무결점 가성비 꿀.          │
-  │                                                             │
-  │        ======= [ 🛡️ 아키텍트의 메스: 대용량 장부 복제의 딜레마 💥 ] ========│
-  │                                                             │
-  │ 🚀 [ 2. 백업 봇의 10만 줄 장부 털기 (Zone Transfer / TCP 53 록온 쾅!) ] │
-  │   - 백업 DNS 봇 ➔ 메인 대장 DNS 대문 찔러 쾅!!                            │
-  │   - "형님! 나 SOA 3시간 타이머(Refresh) 돼서 왔음! 장부 10만 줄 통째 덤프 줘 쾅!"│
-  │                                                             │
-  │   🌟 기계 뇌 180도 스위칭 록온 발동 ✨!!                                │
-  │   - 대장 DNS 왈: "어? 이 새끼 일반 1줄짜리 질문이 아니라 [존 트랜스퍼 AXFR]   │
-  │     거대 통나무 복제 요청이네?! 야 10MB짜리를 UDP 깃털 쪼가리에 태웠다간 바람 불어│
-  │     패킷 1개만 날아가도 엑셀 10만 줄 싹 다 백지 붕괴 에러 뻗어 타임아웃 뒤짐 💀!! │
-  │                                                             │
-  │   - 당장 오토바이(UDP) 폐기 찢어 차단 스톱 락 쾅!!!                      │
-  │   - ➔ 0.1초 컷 무.조.건. [TCP 53번 포트 강철 파이프라인] 3-Way Handshake │
-  │     방폭문 열어 쑤셔 꼽고 락킹 결합(Bind) 쳐!! 이 튼튼한 무결점 신뢰망 텐트 파이프 │
-  │     안으로 10만 줄 장부 엑셀 데이터 스트리밍(Byte Stream) 100% 압살 무손실  │
-  │     완벽 에러 정정(Error Correction) 배달 팩폭 보증 쏴 날려버려 쓩🚀!!!"     │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         DNS 53번 포트의 이중생활: UDP 스피드 닌자 vs TCP 강철 장갑차 엑스레이 |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | 🥷 [ 1. 일반 유저의 무지성 1타점 검색 (UDP 53 / Speed 100배 쾌속 ✨) ] |
+  |   - 철수 브라우저 ➔ (UDP 핑퐁 툭) ➔ "야 KT DNS! `shop.com` IP 줘 ㅋ"    |
+  |   - DNS 왈: "ㅇㅇ 10.1.1.5 임 ㅋ" (15바이트 데이터, 연결(Handshake) 없음 광속)|
+  |   ➔ 팩트 컷: 트래픽 오버헤드 0%, 0.1초 컷 퇴근 무결점 가성비 꿀.          |
+  |                                                             |
+  |        ======= [ 🛡️ 아키텍트의 메스: 대용량 장부 복제의 딜레마 💥 ] ========|
+  |                                                             |
+  | 🚀 [ 2. 백업 봇의 10만 줄 장부 털기 (Zone Transfer / TCP 53 록온 쾅!) ] |
+  |   - 백업 DNS 봇 ➔ 메인 대장 DNS 대문 찔러 쾅!!                            |
+  |   - "형님! 나 SOA 3시간 타이머(Refresh) 돼서 왔음! 장부 10만 줄 통째 덤프 줘 쾅!"|
+  |                                                             |
+  |   🌟 기계 뇌 180도 스위칭 록온 발동 ✨!!                                |
+  |   - 대장 DNS 왈: "어? 이 새끼 일반 1줄짜리 질문이 아니라 [존 트랜스퍼 AXFR]   |
+  |     거대 통나무 복제 요청이네?! 야 10MB짜리를 UDP 깃털 쪼가리에 태웠다간 바람 불어|
+  |     패킷 1개만 날아가도 엑셀 10만 줄 싹 다 백지 붕괴 에러 뻗어 타임아웃 뒤짐 💀!! |
+  |                                                             |
+  |   - 당장 오토바이(UDP) 폐기 찢어 차단 스톱 락 쾅!!!                      |
+  |   - ➔ 0.1초 컷 무.조.건. [TCP 53번 포트 강철 파이프라인] 3-Way Handshake |
+  |     방폭문 열어 쑤셔 꼽고 락킹 결합(Bind) 쳐!! 이 튼튼한 무결점 신뢰망 텐트 파이프 |
+  |     안으로 10만 줄 장부 엑셀 데이터 스트리밍(Byte Stream) 100% 압살 무손실  |
+  |     완벽 에러 정정(Error Correction) 배달 팩폭 보증 쏴 날려버려 쓩🚀!!!"     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "야 DNS는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)번호 몇 번 씀? ➔ [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 53번이요 ㅋ" 라며 면접 대답 1차원 암기충 주니어의 뚝배기를 깨버리는 아키텍처 십자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 맵이다.
@@ -112,11 +112,11 @@ DNS는 전 우주에서 가장 변태적으로 <strong>'하나의 <a href="/know
 
 ```text
 [DNS 레코드]
-    │
-    ▼
+    |
+    v
 [영역 전송]
-    │
-    └──▶ [일반 DNS 질의]
+    |
+    +---> [일반 DNS 질의]
 ```
 
 - **📢 섹션 요약 비유**: Zone Transfer(도면 엑셀 털림)를 아무나 허용하는 짓은, <strong>'은행 100억 금고 비밀번호, <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 위치, 뒷문 열쇠 위치가 싹 다 적힌 1급 기밀 설계 도면을 ➔ 은행 정문 길바닥 대문에 전단지 복사해서 아무나 줏어 가라고 1만 장 뿌려둔 짓'</strong>과 100% 완벽히 똑같습니다. 해커 도둑놈이 "우와 개꿀 ㅋ(AXFR 털기)" 도면 하나 주워서 쓱 읽습니다. "아하! 돈(DB)은 지하 3층 구석방(test.db.com)에 보안 헐렁하게 짱박혀 있네 ㅋ 1초 컷 스나이퍼 다이렉트 암살 침투 타격 쾅💥!" 은행 파산 타죽음 💀. 아키텍트의 철통 방어 록온 🚀!! <strong>"야 닥쳐 도면 전단지 다 불태워 락 쾅!! 우리 회사 구조 도면 엑셀(Zone <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)은 오.직 10.1.1.2 부점장님 딱 1명(allow-transfer IP 지정 락킹 쉴드)] 한테만 금고방 밀실에서 1:1로 직접 손에 쥐여 넘겨주고!! 모르는 외부인 해커가 와서 '도면 1장만 주소' 찌르면 ➔ 단 1글자 텍스트도 혀 내밀지 말고 403 밴 거절 모가지 컷 찢어 발겨 대문 셔터 강제 철문 폐쇄 내려버려 쾅!!!"</strong>
@@ -240,12 +240,12 @@ DNS는 전 우주에서 가장 변태적으로 <strong>'하나의 <a href="/know
 
 ```text
 [선행 개념: DNS 레코드]
-    │
-    ▼
+    |
+    v
 [현재 개념: 영역 전송]
-    │
-    ├──▶ [확장 A: 일반 DNS 질의]
-    └──▶ [확장 B: 자율 운영 네트워크]
+    |
+    +---> [확장 A: 일반 DNS 질의]
+    +---> [확장 B: 자율 운영 네트워크]
 ```
 
 영역 전송는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드에서 출발해 현재 메커니즘을 정교화하고, 이후 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -262,7 +262,7 @@ DNS는 전 우주에서 가장 변태적으로 <strong>'하나의 <a href="/know
 
 **진행 상황**: 637 / 1120
 
-← **이전**: [515. DNS 레코드](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/515_dns_records_txt_soa/)
-**다음**: [517. 일반 DNS 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/517_dns_query_udp_53/) →
+<- **이전**: [515. DNS 레코드](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/515_dns_records_txt_soa/)
+**다음**: [517. 일반 DNS 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/517_dns_query_udp_53/) ->
 
 ---

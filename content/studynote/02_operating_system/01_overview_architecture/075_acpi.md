@@ -25,8 +25,8 @@ ACPI는 하드웨어가 무엇을 할 수 있는지와 [운영체제](/knowledge
 
 ```text
 Firmware -> ACPI Tables -> OS Kernel -> Drivers -> Devices
-            │             │          │
-            └─ sleep / wake / thermal / power state
+            |             |          |
+            +- sleep / wake / thermal / power state
 ```
 
 결국 ACPI는 "하드웨어 설명서"이면서 동시에 "전원 계약서"다.
@@ -109,20 +109,20 @@ ACPI는 하드웨어와 OS의 경계를 부드럽게 만든다. 덕분에 절전
 
 ```text
 Boot
-  │
-  ▼
+  |
+  v
 Firmware tables
-  │
-  ▼
+  |
+  v
 OS parse
-  │
-  ▼
+  |
+  v
 Device enumeration
-  │
-  ▼
+  |
+  v
 Runtime power management
-  │
-  ▼
+  |
+  v
 Sleep / Resume
 ```
 
@@ -138,7 +138,7 @@ Sleep / Resume
 
 **진행 상황**: 75 / 800
 
-← **이전**: [74. 틱리스 커널 (Tickless Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/)
-**다음**: [76. 시스템 전원 상태 (S-States, S0~S5)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/076_s_states/) →
+<- **이전**: [74. 틱리스 커널 (Tickless Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/)
+**다음**: [76. 시스템 전원 상태 (S-States, S0~S5)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/076_s_states/) ->
 
 ---

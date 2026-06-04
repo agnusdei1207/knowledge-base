@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가지치기 지원 하드웨어의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장 → 위치 복원 → 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 연산</strong>의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
+가지치기 지원 하드웨어의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장 -> 위치 복원 -> 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 연산</strong>의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
 
 아래 표는 대표 구성 요소와 역할을 정리한 것이다.
 
@@ -46,27 +46,27 @@ tags = ["studynote-computer-architecture"]
 이 그림은 가지치기 지원 하드웨어가 "메모리 절감"과 "연산 스킵"을 동시에 만드는 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            가지치기 지원 하드웨어의 실행 경로: 0을 싣지 않고, 0은 계산하지 않음            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 원본 가중치   [ w0 ][  0 ][ w2 ][  0 ]                                    │
-│                  │                                                         │
-│                  ▼                                                         │
-│ 압축 저장     [ w0 ][ w2 ] + 위치 마스크(예: 1010)                        │
-│                  │                                                         │
-│                  ▼                                                         │
-│ 디코더        유효 위치만 복원 ───────────────┐                             │
-│                  │                            │                             │
-│ 활성값 입력     [ x0 ][ x1 ][ x2 ][ x3 ]      │                             │
-│                  │                            │                             │
-│                  └──── Selector/MUX ────────▶ [ x0 ][ x2 ]                 │
-│                                                   │                        │
-│                                                   ▼                        │
-│ MAC Array                                      2개만 연산                  │
-│                                                   │                        │
-│                                                   ▼                        │
-│ 결과 누산                                      출력 벡터 갱신               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            가지치기 지원 하드웨어의 실행 경로: 0을 싣지 않고, 0은 계산하지 않음            |
++----------------------------------------------------------------------------+
+| 원본 가중치   [ w0 ][  0 ][ w2 ][  0 ]                                    |
+|                  |                                                         |
+|                  v                                                         |
+| 압축 저장     [ w0 ][ w2 ] + 위치 마스크(예: 1010)                        |
+|                  |                                                         |
+|                  v                                                         |
+| 디코더        유효 위치만 복원 ---------------+                             |
+|                  |                            |                             |
+| 활성값 입력     [ x0 ][ x1 ][ x2 ][ x3 ]      |                             |
+|                  |                            |                             |
+|                  +---- Selector/MUX ---------> [ x0 ][ x2 ]                 |
+|                                                   |                        |
+|                                                   v                        |
+| MAC Array                                      2개만 연산                  |
+|                                                   |                        |
+|                                                   v                        |
+| 결과 누산                                      출력 벡터 갱신               |
++----------------------------------------------------------------------------+
 ```
 
 문제는 희소성이 높다고 해서 언제나 하드웨어가 행복해지는 것은 아니라는 점이다. 비정형 가지치기 (Unstructured Pruning) 는 정확도 보존에는 유리할 수 있지만, 살아남은 값의 위치가 들쭉날쭉해 주소 계산과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 그래서 실제 상용 가속기는 `2:4`, `4:8`, 블록 스파시티 (Block Sparsity) 같은 구조적 희소성 규칙을 선호한다. 예를 들어 연속된 4개 값 중 정확히 2개만 남기는 `2:4` 규칙은 소프트웨어 입장에서는 제약이지만, 하드웨어 입장에서는 회로를 단순하게 만들어 안정적인 2배 내외 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 노릴 수 있다.
@@ -110,27 +110,27 @@ tags = ["studynote-computer-architecture"]
 아래 판단 트리는 실무 도입 여부를 가르는 핵심 질문을 요약한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 가지치기 지원 하드웨어 도입 판단 트리                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ 모델을 가지치기했다                                                  │
-│   │                                                                  │
-│   ├─ 하드웨어가 희소 연산 명령을 지원하는가?                         │
-│   │      ├─ 아니오 → 모델 크기 축소 효과는 있어도 실행 가속은 제한적 │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   ├─ 희소성 형식이 하드웨어 규격과 일치하는가?                       │
-│   │      ├─ 아니오 → 재학습 또는 재배치 필요                         │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   ├─ 메타데이터/디코딩 오버헤드가 수용 가능한가?                     │
-│   │      ├─ 아니오 → 이득이 상쇄될 가능성 큼                         │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   └─ 정확도 하락을 재학습으로 회복 가능한가?                         │
-│          ├─ 아니오 → 채택 보류                                       │
-│          └─ 예    → 실제 배포 가치 높음                              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 가지치기 지원 하드웨어 도입 판단 트리                 |
++----------------------------------------------------------------------+
+| 모델을 가지치기했다                                                  |
+|   |                                                                  |
+|   +- 하드웨어가 희소 연산 명령을 지원하는가?                         |
+|   |      +- 아니오 -> 모델 크기 축소 효과는 있어도 실행 가속은 제한적 |
+|   |      +- 예                                                        |
+|   |            |                                                      |
+|   +- 희소성 형식이 하드웨어 규격과 일치하는가?                       |
+|   |      +- 아니오 -> 재학습 또는 재배치 필요                         |
+|   |      +- 예                                                        |
+|   |            |                                                      |
+|   +- 메타데이터/디코딩 오버헤드가 수용 가능한가?                     |
+|   |      +- 아니오 -> 이득이 상쇄될 가능성 큼                         |
+|   |      +- 예                                                        |
+|   |            |                                                      |
+|   +- 정확도 하락을 재학습으로 회복 가능한가?                         |
+|          +- 아니오 -> 채택 보류                                       |
+|          +- 예    -> 실제 배포 가치 높음                              |
++----------------------------------------------------------------------+
 ```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -176,20 +176,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 밀집 행렬 연산
-    │
-    ▼
+    |
+    v
 모델 가지치기 (Pruning)
-    │
-    ▼
+    |
+    v
 희소성 (Sparsity) 인식 소프트웨어 포맷
-    │
-    ▼
+    |
+    v
 구조적 희소성 (Structured Sparsity, N:M)
-    │
-    ▼
+    |
+    v
 가지치기 지원 하드웨어 · Zero-skipping 실행기
-    │
-    ▼
+    |
+    v
 양자화 · 메모리 오프로딩과 결합한 통합 추론 최적화
 ```
 
@@ -207,7 +207,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 436 / 803
 
-← **이전**: [434. 양자화 (Quantization, INT8, INT4)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
-**다음**: [436. DPU (Data Processing Unit / SmartNIC)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) →
+<- **이전**: [434. 양자화 (Quantization, INT8, INT4)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
+**다음**: [436. DPU (Data Processing Unit / SmartNIC)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ->
 
 ---

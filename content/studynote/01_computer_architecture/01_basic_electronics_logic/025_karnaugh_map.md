@@ -21,17 +21,17 @@ tags = ["studynote-computer-architecture"]
 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)에서 직접 도출한 SOP는 보통 최소화되지 않은 형태다. K-Map은 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)의 2차원 시각화로, 불 대수 공식(X + X' = 1)을 자동 적용하여 항을 소거한다.
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│   3변수 K-Map 구조 (변수: A, B, C)                    │
-├──────────────────────────────────────────────────────┤
-│        BC                                            │
-│    AB  00  01  11  10                                │
-│     00 │m0│m1│m3│m2│                                │
-│     01 │m4│m5│m7│m6│  ← 그레이 코드 순서 (00→01→11→10)│
-│        (인접 셀: 1비트만 다름 → AB 소거 가능)          │
-│                                                      │
-│  wrap-around: 좌우 끝/상하 끝도 인접 처리             │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|   3변수 K-Map 구조 (변수: A, B, C)                    |
++------------------------------------------------------+
+|        BC                                            |
+|    AB  00  01  11  10                                |
+|     00 |m0|m1|m3|m2|                                |
+|     01 |m4|m5|m7|m6|  <- 그레이 코드 순서 (00->01->11->10)|
+|        (인접 셀: 1비트만 다름 -> AB 소거 가능)          |
+|                                                      |
+|  wrap-around: 좌우 끝/상하 끝도 인접 처리             |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: K-Map은 스도쿠처럼, 숫자(1) 대신 인접한 1을 최대한 크게 묶는 퍼즐이다. 더 크게 묶을수록 더 간단한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식이 나온다.
@@ -47,14 +47,14 @@ F(A,B,C,D) = Σm(0,1,2,5,8,9,10)
 
         CD
    AB   00  01  11  10
-   00 │ 1 │ 1 │ 0 │ 1 │
-   01 │ 0 │ 1 │ 0 │ 0 │
-   11 │ 0 │ 0 │ 0 │ 0 │
-   10 │ 1 │ 1 │ 0 │ 1 │
+   00 | 1 | 1 | 0 | 1 |
+   01 | 0 | 1 | 0 | 0 |
+   11 | 0 | 0 | 0 | 0 |
+   10 | 1 | 1 | 0 | 1 |
 
-그룹1: {m0,m1,m8,m9} (4개 → 2비트 소거) → B'D'
-그룹2: {m0,m2,m8,m10} (4개) → B'C'
-그룹3: {m1,m5} (2개) → A'C'D
+그룹1: {m0,m1,m8,m9} (4개 -> 2비트 소거) -> B'D'
+그룹2: {m0,m2,m8,m10} (4개) -> B'C'
+그룹3: {m1,m5} (2개) -> A'C'D
 
 F = B'D' + B'C' + A'C'D  (최소화 완료)
 ```
@@ -64,7 +64,7 @@ F = B'D' + B'C' + A'C'D  (최소화 완료)
 | 그룹 크기 | 소거되는 변수 수 | 남는 리터럴 |
 |:---:|:---:|:---:|
 | 2 (2¹) | 1 | n-1 |
-| 4 (2²) | 2 | n-2 |
+| 4 (2^) | 2 | n-2 |
 | 8 (2³) | 3 | n-3 |
 | 16 (2⁴) | 4 | n-4 |
 
@@ -92,9 +92,9 @@ F = B'D' + B'C' + A'C'D  (최소화 완료)
 Xilinx [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 설계에서 4입력 LUT (Look-Up Table) 자원 최소화.
 
 1. 4변수 불 함수를 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)로 표현.
-2. K-Map으로 최소 SOP 도출 → 게이트 수 최소화.
+2. K-Map으로 최소 SOP 도출 -> 게이트 수 최소화.
 3. VHDL/Verilog로 구현 후 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 도구(Vivado)가 최적 LUT 매핑.
-4. 결과: 비최적화 대비 LUT 30% 절감 → 더 많은 기능을 같은 FPGA에 구현 가능.
+4. 결과: 비최적화 대비 LUT 30% 절감 -> 더 많은 기능을 같은 FPGA에 구현 가능.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - K-Map에서 소수 함의항(Prime Implicant)을 모두 찾지 않고 임의로 큰 그룹만 선택하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 모든 최소항(Minterm)을 최소 1개 그룹이 커버해야 하며, Essential Prime Implicant를 먼저 선택한 후 남은 최소항을 처리하는 체계적 절차를 따라야 한다.
@@ -108,7 +108,7 @@ Xilinx [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 | 기대효과 | 내용 |
 |:---|:---|
 | **게이트 최소화** | 필요 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 수 감소 |
-| **전력 절감** | 게이트 수 감소 → [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 감소 |
+| **전력 절감** | 게이트 수 감소 -> [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 감소 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a> 효율</strong> | LUT 사용률 감소 |
 
 K-Map은 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 기초로, 현대 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)(Electronic Design Automation) 도구의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 내부에서 자동화되어 수천 개 변수의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 최적화한다. [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 설계·[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 합성·[마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 조건 최적화까지 광범위하게 적용된다.
@@ -131,17 +131,17 @@ K-Map은 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_se
 
 ```text
 [진리표 — 모든 입력 조합에 대한 출력 명세]
-    │
-    ▼
+    |
+    v
 [K-Map — 시각적 인접 묶기로 논리 최소화]
-    │
-    ▼
+    |
+    v
 [SOP/POS 도출 — 최소 게이트 수 논리식]
-    │
-    ▼
+    |
+    v
 [Quine-McCluskey — K-Map의 컴퓨터 알고리즘화]
-    │
-    ▼
+    |
+    v
 [EDA 논리 합성 — 자동화된 다변수 최적화 (FPGA/ASIC)]
 ```
 
@@ -157,7 +157,7 @@ K-Map은 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_se
 
 **진행 상황**: 25 / 803
 
-← **이전**: [24. 진리표 (Truth Table) — 논리 함수의 완전한 진술](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
-**다음**: [26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/026_minterm_maxterm/) →
+<- **이전**: [24. 진리표 (Truth Table) — 논리 함수의 완전한 진술](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+**다음**: [26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/026_minterm_maxterm/) ->
 
 ---

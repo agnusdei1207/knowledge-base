@@ -43,14 +43,14 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 폴아웃이 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 대기실"의 잔상을 읽는 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Fallout leak path                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Victim store ──▶ Store Buffer ──▶ L1 / memory commit             │
-│                    ▲                                               │
-│                    │ partial address match                         │
-│ Attacker faulting load ── transient forward ──▶ cache decode      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Fallout leak path                                                 |
++--------------------------------------------------------------------+
+| Victim store ---> Store Buffer ---> L1 / memory commit             |
+|                    ^                                               |
+|                    | partial address match                         |
+| Attacker faulting load -- transient forward ---> cache decode      |
++--------------------------------------------------------------------+
 ```
 
 공격자는 먼저 피해자가 저장한 값이 스토어 버퍼를 거치도록 만든다. 이어서 하위 주소 비트가 겹치도록 설계한 로드 명령을 예외 상황과 함께 던지면, CPU는 완전한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전에 스토어 버퍼의 값을 잠깐 전달할 수 있다. 그 뒤 공격자는 캐시 접근 시간 차이를 통해 어느 값이 포워딩되었는지 추정한다. 이 과정은 결정적 단일 읽기보다 반복 관측에 가깝지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 포인터처럼 구조가 뚜렷한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 꽤 강력하게 작동한다.
@@ -68,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 | 항목 | Fallout | [RIDL](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/765_ridl_attack/) | [ZombieLoad](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/767_zombieload_attack/) |
 | :--- | :--- | :--- | :--- |
 | 핵심 표적 | Store Buffer | LFB, Load [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | Fill Buffer |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방향 | CPU → 메모리 직전 | 메모리 → 실행 유닛 경로 | 최근 로드된 캐시 라인 조각 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방향 | CPU -> 메모리 직전 | 메모리 -> 실행 유닛 경로 | 최근 로드된 캐시 라인 조각 |
 | 강점 | KASLR 우회, 포인터 흔적 수집 | 주소 모를 때 광범위 샘플링 | 연속적인 트래픽 샘플링 |
 | 실무 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계, 포인터 유출 | 동일 코어 공존 위험 | 브라우저/[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 트래픽 유출 |
 
@@ -123,17 +123,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Store buffering
-    │
-    ▼
+    |
+    v
 Store-to-Load Forwarding
-    │
-    ▼
+    |
+    v
 Store Buffer residue
-    │
-    ▼
+    |
+    v
 Fallout: pointer / KASLR leakage
-    │
-    ▼
+    |
+    v
 Buffer clear + core isolation
 ```
 
@@ -149,7 +149,7 @@ Buffer clear + core isolation
 
 **진행 상황**: 767 / 803
 
-← **이전**: [765. 리들 (RIDL) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/765_ridl_attack/)
-**다음**: [767. 좀비로드 (ZombieLoad)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/767_zombieload_attack/) →
+<- **이전**: [765. 리들 (RIDL) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/765_ridl_attack/)
+**다음**: [767. 좀비로드 (ZombieLoad)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/767_zombieload_attack/) ->
 
 ---

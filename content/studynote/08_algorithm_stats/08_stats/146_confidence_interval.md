@@ -49,14 +49,14 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 ```
 100번 반복 실험 시 신뢰 구간 시각화:
 
-실험  1: ├────────•────────┤ ← 모수 포함 ✅
-실험  2:     ├────────•────────┤ ✅
-실험  3: ├──────•──────┤ ✅
-실험  4:               ├────•────┤ ❌ (모수 미포함)
-실험  5:         ├────────•────────┤ ✅
+실험  1: +--------•--------+ <- 모수 포함 ✅
+실험  2:     +--------•--------+ ✅
+실험  3: +------•------+ ✅
+실험  4:               +----•----+ ❌ (모수 미포함)
+실험  5:         +--------•--------+ ✅
 ...
-약 95개의 구간이 모수 μ를 포함 ─────│──────
-                                    ↑ 모수 μ (고정값)
+약 95개의 구간이 모수 μ를 포함 -----|------
+                                    ^ 모수 μ (고정값)
 ```
 
 📢 **섹션 요약 비유**: 신뢰 구간은 "낚시 그물의 크기"와 같다. 그물을 100번 던지면 약 95번은 물고기(모수)를 잡는다 — 물고기가 그물 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%가 아니라, 그물을 던지는 방법이 95% 성공률을 보장하는 것이다.
@@ -103,7 +103,7 @@ df가 커질수록 t-분포는 [정규 분포](/knowledge-base/studynote/08_algo
 **필요 표본 크기 계산** (원하는 MoE 달성):
 
 ```
-n = (z_{α/2} · σ / MoE)²
+n = (z_{α/2} · σ / MoE)^
 ```
 
 <strong>표본 크기별 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 폭 변화</strong>:
@@ -111,21 +111,21 @@ n = (z_{α/2} · σ / MoE)²
 | n | 상대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 | 설명 |
 |:---:|:---:|:---|
 | 25 | 100% (기준) | |
-| 100 | 50% | n 4배 → 폭 2배 감소 |
-| 400 | 25% | n 16배 → 폭 4배 감소 |
-| 900 | 16.7% | n 36배 → 폭 6배 감소 |
+| 100 | 50% | n 4배 -> 폭 2배 감소 |
+| 400 | 25% | n 16배 -> 폭 4배 감소 |
+| 900 | 16.7% | n 36배 -> 폭 6배 감소 |
 
-**핵심 법칙**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(폭)를 k배 높이려면 표본 크기를 k²배 늘려야 한다.
+**핵심 법칙**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(폭)를 k배 높이려면 표본 크기를 k^배 늘려야 한다.
 
 ```
-┌──────────────────────────────────────────────┐
-│         표본 크기와 CI 폭의 관계               │
-├──────┬───────────────────────────────────────┤
-│ n=10 │ ├──────────────────────────────────┤  │
-│ n=25 │     ├──────────────────────┤         │
-│ n=100│          ├──────────┤                │
-│ n=400│               ├─────┤               │
-└──────┴───────────────────────────────────────┘
++----------------------------------------------+
+|         표본 크기와 CI 폭의 관계               |
++------+---------------------------------------+
+| n=10 | +----------------------------------+  |
+| n=25 |     +----------------------+         |
+| n=100|          +----------+                |
+| n=400|               +-----+               |
++------+---------------------------------------+
               x̄ 중심
 ```
 
@@ -139,7 +139,7 @@ n = (z_{α/2} · σ / MoE)²
 
 **절차**:
 1. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(n개)에서 복원 추출([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) with Replacement)로 B개 부트스트랩 표본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-2. 각 표본에서 통계량(평균, 중앙값 등) 계산 → {θ̂*₁, ..., θ̂*_B}
+2. 각 표본에서 통계량(평균, 중앙값 등) 계산 -> {θ̂*₁, ..., θ̂*_B}
 3. 이 B개 통계량의 경험적 분포로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 구성
 
 <strong>방법별 부트스트랩 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>:
@@ -161,8 +161,8 @@ CI for (p_B - p_A):
 (p̂_B - p̂_A) ± z_{α/2} · √[p̂_A(1-p̂_A)/n_A + p̂_B(1-p̂_B)/n_B]
 ```
 
-CI가 0을 포함하면 → 통계적으로 유의미한 차이 없음
-CI가 0을 포함하지 않으면 → 유의미한 차이 있음
+CI가 0을 포함하면 -> 통계적으로 유의미한 차이 없음
+CI가 0을 포함하지 않으면 -> 유의미한 차이 있음
 
 **임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
 - 규제 기관(FDA)은 단순 p-값이 아닌 <strong>효과 크기의 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong> 요구
@@ -191,7 +191,7 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 |:---|:---|:---|
 | 신뢰 구간 | 표본 크기 n | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 ∝ 1/√n |
 | 신뢰 구간 | [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α | α 낮으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 넓어짐 |
-| 학생 t-분포 | 자유도 df | df → ∞이면 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) |
+| 학생 t-분포 | 자유도 df | df -> ∞이면 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) |
 | 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 비모수 방법 | 분포 가정 불필요 |
 | 신뢰 구간 | [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) | CI에 귀무값 포함 여부 = p > α |
 | 베이즈 Credible Interval | CI와 비교 | 해석 차이 (θ를 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/) 취급) |
@@ -202,20 +202,20 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 ```text
 [점 추정 (Point Estimation) — 표본 통계량 하나로 모수 추정, 불확실성 미표현]
-    │
-    ▼
+    |
+    v
 [신뢰 구간 (Confidence Interval) — 표본 분포 기반 모수의 범위 추정]
-    │
-    ▼
+    |
+    v
 [t-분포 (Student's t-Distribution) — 소표본 신뢰 구간, 자유도에 따른 폭 조정]
-    │
-    ▼
+    |
+    v
 [부트스트랩 신뢰 구간 (Bootstrap CI) — 재표본 시뮬레이션, 분포 가정 없이 구간 추정]
-    │
-    ▼
+    |
+    v
 [베이즈 신용 구간 (Bayesian Credible Interval) — 사전 분포 반영, 사후 확률 직접 해석]
-    │
-    ▼
+    |
+    v
 [A/B 테스트 신뢰 구간 — 실험 설계·표본 크기 계산·통계적 유의성 판단의 실무 표준]
 ```
 이 흐름은 단일 점 추정의 한계를 보완하기 위해 신뢰 구간이 도입되고, 소표본·비정규·사전 정보 반영 요건에 따라 다양한 구간 추정 기법으로 확장되는 통계적 추론 방법론의 발전을 보여준다.
@@ -232,7 +232,7 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 **진행 상황**: 146 / 175
 
-← **이전**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)
-**다음**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) →
+<- **이전**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)
+**다음**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) ->
 
 ---

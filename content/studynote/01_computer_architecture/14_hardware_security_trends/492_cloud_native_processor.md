@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 클라우드가 "큰 코어 몇 개"보다 "효율 좋은 코어 많이"를 원하게 되었는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Scale-up to scale-out shift                                              │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Legacy server  : [big core][big core][big core][big core]               │
-│ Cloud service  : [svc][svc][svc][svc][svc][svc] ... many small workers  │
-│                                                                          │
-│ Design target  : predictable core, high perf/W, large memory/I/O         │
-│ Result         : more tenants per rack, lower power per request          │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Scale-up to scale-out shift                                              |
++--------------------------------------------------------------------------+
+| Legacy server  : [big core][big core][big core][big core]               |
+| Cloud service  : [svc][svc][svc][svc][svc][svc] ... many small workers  |
+|                                                                          |
+| Design target  : predictable core, high perf/W, large memory/I/O         |
+| Result         : more tenants per rack, lower power per request          |
++--------------------------------------------------------------------------+
 ```
 
 이 그림의 요점은 클라우드가 더 이상 "가장 빠른 단일 서버"만 원하지 않는다는 데 있다. 오히려 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 들쭉날쭉함을 줄이고, 같은 랙 전력 한도 안에 더 많은 워크로드를 담는 능력이 중요해졌다.
@@ -59,20 +59,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서가 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 노드 안에서 어떤 구성으로 놓이는지 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Cloud-native processor block view                                        │
-├──────────────────────────────────────────────────────────────────────────┤
-│ NIC / DPU                                                                 │
-│    │                                                                      │
-│    ▼                                                                      │
-│ Mesh interconnect                                                         │
-│ ├─ Core tiles x N   : container / VM execution                            │
-│ ├─ SLC / LLC        : shared cache for tail-latency control               │
-│ ├─ Crypto + virt    : tenant isolation, secure services                   │
-│ └─ DDR5 / PCIe5 / CXL controllers                                         │
-│                                                                            │
-│ Goal: high tenant density with stable latency per watt                     │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Cloud-native processor block view                                        |
++--------------------------------------------------------------------------+
+| NIC / DPU                                                                 |
+|    |                                                                      |
+|    v                                                                      |
+| Mesh interconnect                                                         |
+| +- Core tiles x N   : container / VM execution                            |
+| +- SLC / LLC        : shared cache for tail-latency control               |
+| +- Crypto + virt    : tenant isolation, secure services                   |
+| +- DDR5 / PCIe5 / CXL controllers                                         |
+|                                                                            |
+| Goal: high tenant density with stable latency per watt                     |
++--------------------------------------------------------------------------+
 ```
 
 이 구조에서 CPU 혼자 모든 일을 떠안는 것도 아니다. 네트워크, 스토리지, 보안 처리 일부는 DPU나 스마트닉으로 오프로드하고, CPU는 애플리케이션과 제어 평면에 집중하는 방향이 많아지고 있다. 따라서 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 단독 칩이 아니라, <strong>CPU + 메모리 + 네트워크 오프로드가 함께 만든 플랫폼</strong>으로 보는 편이 정확하다.
@@ -146,17 +146,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 범용 x86 수직 확장 서버
-          │
-          ▼
+          |
+          v
 대규모 가상화 호스팅
-          │
-          ▼
+          |
+          v
 컨테이너 · 마이크로서비스
-          │
-          ▼
+          |
+          v
 ARM Neoverse 기반 맞춤형 CPU
-          │
-          ▼
+          |
+          v
 DPU + CXL 기반 조합형 클라우드
 ```
 
@@ -174,7 +174,7 @@ DPU + CXL 기반 조합형 클라우드
 
 **진행 상황**: 492 / 803
 
-← **이전**: [491. 포그 컴퓨팅 하드웨어](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/491_fog_computing_hw/)
-**다음**: [493. 차세대 비휘발성 메모리 (SCM: PRAM, MRAM, ReRAM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/493_scm_pram_mram/) →
+<- **이전**: [491. 포그 컴퓨팅 하드웨어](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/491_fog_computing_hw/)
+**다음**: [493. 차세대 비휘발성 메모리 (SCM: PRAM, MRAM, ReRAM)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/493_scm_pram_mram/) ->
 
 ---

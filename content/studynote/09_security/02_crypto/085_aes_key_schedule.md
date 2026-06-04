@@ -100,13 +100,13 @@ Master Key -> Word Split -> RotWord -> SubWord(S-box) -> Rcon XOR -> Round Keys
 
 ```text
 마스터 키
-   ↓
+   v
 워드 분해
-   ↓
+   v
 RotWord / SubWord / Rcon
-   ↓
+   v
 라운드 키 생성
-   ↓
+   v
 AES 라운드 암호화
 ```
 
@@ -122,7 +122,7 @@ AES 라운드 암호화
 
 **진행 상황**: 85 / 1108
 
-← **이전**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/knowledge-base/studynote/09_security/02_crypto/084_aes_spn_structure/)
-**다음**: [086. DES (Data Encryption Standard) — 56비트 키, 취약](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) →
+<- **이전**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/knowledge-base/studynote/09_security/02_crypto/084_aes_spn_structure/)
+**다음**: [086. DES (Data Encryption Standard) — 56비트 키, 취약](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ->
 
 ---

@@ -42,17 +42,17 @@ tags = ["studynote-computer-architecture"]
 | 인루프 필터 | 복원 화질 보정, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 복원 프레임 정제 | 라인 버퍼와 필터 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ video codec hardware acceleration                                         │
-├──────────────────────────── encode path ──────────────────────────────────┤
-│ Raw Frame → Block Partition → Prediction → Transform/Q → Entropy Out     │
-│      │                                                     ▲              │
-│      └────────────── Reference Buffer ◀── In-loop Filter ──┘              │
-├──────────────────────────── decode path ──────────────────────────────────┤
-│ Bitstream → Parser/Entropy → Inv.Q/Inv.Transform → Prediction → Display   │
-│                                   │                                        │
-│                                   └──── Reference Buffer / In-loop Filter  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| video codec hardware acceleration                                         |
++---------------------------- encode path ----------------------------------+
+| Raw Frame -> Block Partition -> Prediction -> Transform/Q -> Entropy Out     |
+|      |                                                     ^              |
+|      +-------------- Reference Buffer <--- In-loop Filter --+              |
++---------------------------- decode path ----------------------------------+
+| Bitstream -> Parser/Entropy -> Inv.Q/Inv.Transform -> Prediction -> Display   |
+|                                   |                                        |
+|                                   +---- Reference Buffer / In-loop Filter  |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 "계산량"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용"이다. 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임을 여러 블록이 반복해서 읽기 때문에, 온칩 정적 램 ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/), Static Random Access Memory)과 타일 버퍼가 충분하지 않으면 외부 동적 램 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory) 왕복이 늘어 전력과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 폭증한다. 따라서 좋은 코덱 가속기는 계산 유닛만 큰 것이 아니라, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임 접근 패턴을 줄이는 메모리 계층 설계가 함께 좋아야 한다.
@@ -134,17 +134,17 @@ H.265와 AV1은 모두 고효율 [압축](/knowledge-base/studynote/02_operating
 
 ```text
 MPEG-2 / H.264 era fixed decode assist
-        │
-        ▼
+        |
+        v
 Dedicated H.265 encode + decode engines
-        │
-        ▼
+        |
+        v
 AV1 hardware decode, then full encode support
-        │
-        ▼
+        |
+        v
 Multi-stream 4K/8K HDR zero-copy media pipeline
-        │
-        ▼
+        |
+        v
 VVC · AI-assisted codec hybrid engines
 ```
 
@@ -162,7 +162,7 @@ VVC · AI-assisted codec hybrid engines
 
 **진행 상황**: 551 / 803
 
-← **이전**: [550. 스마트 팩토리 엣지 게이트웨이 HW](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/550_smart_factory_gateway/)
-**다음**: [552. 이미지 센서 ISP (Image Signal Processor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/) →
+<- **이전**: [550. 스마트 팩토리 엣지 게이트웨이 HW](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/550_smart_factory_gateway/)
+**다음**: [552. 이미지 센서 ISP (Image Signal Processor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/) ->
 
 ---

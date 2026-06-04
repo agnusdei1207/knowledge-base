@@ -24,22 +24,22 @@ K8s는 서버 한 대의 [설정](/knowledge-base/studynote/15_devops_sre/01_cul
 이 분리가 필요한 이유는 규모와 장애 때문이다. 워커 노드가 늘수록 수동 배치는 불가능해지고, 노드가 한 번 죽을 때마다 사람이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 복원 시간이 너무 길어진다. 그래서 K8s는 의도를 저장하는 Control Plane과 실제 일을 하는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane을 분리했다.
 
 ```text
-┌────────────────────┐      ┌──────────────────┐
-│ kubectl / Manifest │ ---> │ API Server       │
-└────────────────────┘      └─────────┬────────┘
-                                        │
++--------------------+      +------------------+
+| kubectl / Manifest | ---> | API Server       |
++--------------------+      +---------+--------+
+                                        |
                                         v
-                                 ┌────────────┐
-                                 │ etcd       │
-                                 └────┬───────┘
+                                 +------------+
+                                 | etcd       |
+                                 +----+-------+
                                       v
-                      ┌───────────────┐   ┌───────────────┐
-                      │ Scheduler     │   │ Controller    │
-                      └──────┬────────┘   └──────┬────────┘
+                      +---------------+   +---------------+
+                      | Scheduler     |   | Controller    |
+                      +------+--------+   +------+--------+
                              v                   v
-                            ┌────────────────────────────┐
-                            │ Worker Node / kubelet / Pod │
-                            └────────────────────────────┘
+                            +----------------------------+
+                            | Worker Node / kubelet / Pod |
+                            +----------------------------+
 ```
 
 핵심은 K8s가 실행기이면서도 상태 재조정 루프라는 점이다.
@@ -125,26 +125,26 @@ K8s는 서버 묶음을 하나의 컴퓨터처럼 보이게 하되, 실제로는
 
 ```text
 Desired State
-    │
-    ▼
+    |
+    v
 API Server
-    │
-    ▼
+    |
+    v
 etcd
-    │
-    ▼
+    |
+    v
 Scheduler / Controller
-    │
-    ▼
+    |
+    v
 kubelet
-    │
-    ▼
+    |
+    v
 Container Runtime
-    │
-    ▼
+    |
+    v
 Pod
-    │
-    └──────────────► Status back to Control Plane
+    |
+    +--------------► Status back to Control Plane
 ```
 
 ### 어린이를 위한 3줄 비유 설명
@@ -159,7 +159,7 @@ Pod
 
 **진행 상황**: 74 / 371
 
-← **이전**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/)
-**다음**: [76. K8s 마스터 노드 컴포넌트 4가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/076_kubernetes_master_node_components/) →
+<- **이전**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/)
+**다음**: [76. K8s 마스터 노드 컴포넌트 4가지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/076_kubernetes_master_node_components/) ->
 
 ---

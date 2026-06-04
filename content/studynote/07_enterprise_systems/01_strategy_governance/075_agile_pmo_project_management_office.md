@@ -105,17 +105,17 @@ strategy -> portfolio -> team cadence -> metrics -> decision
 
 ```text
 strategy
-  │
-  ▼
+  |
+  v
 portfolio
-  │
-  ▼
+  |
+  v
 team cadence
-  │
-  ▼
+  |
+  v
 metrics
-  │
-  ▼
+  |
+  v
 decision
 ```
 
@@ -131,7 +131,7 @@ decision
 
 **진행 상황**: 75 / 482
 
-← **이전**: [74. 데이터 리터러시 (Data Literacy) 민주화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/074_data_literacy_democratization/)
-**다음**: [76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/076_value_stream_mapping_lean/) →
+<- **이전**: [74. 데이터 리터러시 (Data Literacy) 민주화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/074_data_literacy_democratization/)
+**다음**: [76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/076_value_stream_mapping_lean/) ->
 
 ---

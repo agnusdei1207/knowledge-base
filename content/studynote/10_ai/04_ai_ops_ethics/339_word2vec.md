@@ -26,18 +26,18 @@ tags = ["studynote-ai"]
 | 한계 | 설명 |
 |:---|:---|
 | 의미 유사도 측정 불가 | "고양이"와 "강아지" 벡터 내적 = 0 (직교) |
-| 차원의 저주 | 어휘 100만 개 → 100만 차원 희소 벡터 |
+| 차원의 저주 | 어휘 100만 개 -> 100만 차원 희소 벡터 |
 | 일반화 불가 | 유사 단어 간 지식 공유 없음 |
 
 Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 (Dense Vector)** 로 단어를 표현한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: One-Hot 은 "각 학생에게 출석부에서 자기 이름 칸만 1, 나머지는 0인 카드" 를 주는 방식이다. 이 카드로는 학생들이 서로 얼마나 친한지 알 수 없다. Word2Vec 은 각 학생의 "성격·취미 점수표"를 만들어 비슷한 사람끼리 점수가 가까워지게 한다.
@@ -50,32 +50,32 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 ```
   CBOW (Continuous Bag of Words):
-  컨텍스트 단어들 → 중심 단어 예측
-  ┌──────┐ ┌──────┐             ┌──────┐
-  │w(t-2)│ │w(t-1)│ → [평균] → │ w(t) │ (예측)
-  └──────┘ └──────┘             └──────┘
-  ┌──────┐ ┌──────┐
-  │w(t+1)│ │w(t+2)│
-  └──────┘ └──────┘
+  컨텍스트 단어들 -> 중심 단어 예측
+  +------+ +------+             +------+
+  |w(t-2)| |w(t-1)| -> [평균] -> | w(t) | (예측)
+  +------+ +------+             +------+
+  +------+ +------+
+  |w(t+1)| |w(t+2)|
+  +------+ +------+
 
-  Skip-Gram: 중심 단어 → 컨텍스트 단어들 예측
-              ┌──────┐             ┌──────┐
-              │ w(t) │ → [은닉층] → │w(t-2)│ (예측)
-              └──────┘             ├──────┤
-                                   │w(t-1)│
-                                   ├──────┤
-                                   │w(t+1)│
-                                   ├──────┤
-                                   │w(t+2)│
-                                   └──────┘
+  Skip-Gram: 중심 단어 -> 컨텍스트 단어들 예측
+              +------+             +------+
+              | w(t) | -> [은닉층] -> |w(t-2)| (예측)
+              +------+             +------+
+                                   |w(t-1)|
+                                   +------+
+                                   |w(t+1)|
+                                   +------+
+                                   |w(t+2)|
+                                   +------+
 ```
 
 ### 네거티브 샘플링 (Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 원리
 
 기본 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 전체 어휘 V 에 대해 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 필요해 O(V) 비용 발생. 네거티브 샘플링은 이를 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 로 단순화한다.
 
-- **긍정 샘플**: 실제로 함께 등장하는 (중심, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 쌍 → label = 1
-- **부정 샘플**: 무작위로 선택된 k개 단어 쌍 → label = 0
+- **긍정 샘플**: 실제로 함께 등장하는 (중심, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 쌍 -> label = 1
+- **부정 샘플**: 무작위로 선택된 k개 단어 쌍 -> label = 0
 - **목적 함수**: `L = log σ(v_c · v_w) + Σk log σ(-v_n · v_w)`
 - **비용**: O(k) — k 는 보통 5~20 (V 대비 수만 배 감소)
 
@@ -92,7 +92,7 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 | 비교 항목 | CBOW | Skip-Gram |
 |:---|:---|:---|
-| 예측 방향 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) → 중심 단어 | 중심 단어 → [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) |
+| 예측 방향 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) -> 중심 단어 | 중심 단어 -> [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) |
 | 학습 속도 | 빠름 | 느림 |
 | 희귀 단어 표현 | 약함 | 강함 |
 | 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 유리 | 유리 |
@@ -140,9 +140,9 @@ result = model.wv["king"] - model.wv["man"] + model.wv["woman"]
 ### 기술사 출제 포인트
 
 - CBOW vs Skip-Gram 예측 방향과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성 비교
-- 네거티브 샘플링의 계산 복잡도 개선: O(V) → O(k)
+- 네거티브 샘플링의 계산 복잡도 개선: O(V) -> O(k)
 - [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현의 의미적 덧셈 연산 예시 (King-Man+Woman=Queen)
-- Word2Vec 의 한계: 다의어 미구분, 문맥 무시 → [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 로의 발전
+- Word2Vec 의 한계: 다의어 미구분, 문맥 무시 -> [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 로의 발전
 
 - **📢 섹션 요약 비유**: Word2Vec 의 네거티브 샘플링은 "100만 명 전교생 명단을 다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 무작위로 10명만 골라 '이 사람이 짝꿍이냐?'를 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는" 근사 방법이다.
 
@@ -165,8 +165,8 @@ Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/knowledge-base/studynot
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| CBOW (Continuous Bag of Words) | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)→중심 예측 / Word2Vec 학습 방식 1 |
-| Skip-Gram | 중심→[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 예측 / Word2Vec 학습 방식 2 |
+| CBOW (Continuous Bag of Words) | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)->중심 예측 / Word2Vec 학습 방식 1 |
+| Skip-Gram | 중심->[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 예측 / Word2Vec 학습 방식 2 |
 | 네거티브 샘플링 (Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | O(k) 계산, 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 대체 최적화 |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현 (Distributed Representation) | 밀집 벡터, 의미 공간 / One-Hot 의 비선형 대안 |
 | [GloVe](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/) (Global Vectors) | 공기 행렬, 전역 통계 / Word2Vec 의 경쟁 모델 |
@@ -175,7 +175,7 @@ Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/knowledge-base/studynot
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [Word2Vec (Word2vec)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [Word2Vec (Word2vec)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -190,7 +190,7 @@ Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/knowledge-base/studynot
 
 **진행 상황**: 339 / 420
 
-← **이전**: [338. vLLM과 PagedAttention (페이지드 어텐션)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/)
-**다음**: [340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/340_deepfm_recommendation/) →
+<- **이전**: [338. vLLM과 PagedAttention (페이지드 어텐션)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/)
+**다음**: [340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/340_deepfm_recommendation/) ->
 
 ---

@@ -44,16 +44,16 @@ tags = ["studynote-operating-system"]
 아래 그림은 퀀텀 1회분이 실제로 어떻게 소모되는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One quantum cycle                                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ [ useful work by P1 : q ms ] [ switch cost : s ms ] [ P2 starts ]  │
-│                                                                    │
-│ timer interrupt -> save PCB -> choose next -> restore next PCB     │
-│                                                                    │
-│ CPU efficiency ≈ q / (q + s)                                       │
-│ response bound in RR ≈ (n - 1) × q  (+ switch overhead)            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| One quantum cycle                                                  |
++--------------------------------------------------------------------+
+| [ useful work by P1 : q ms ] [ switch cost : s ms ] [ P2 starts ]  |
+|                                                                    |
+| timer interrupt -> save PCB -> choose next -> restore next PCB     |
+|                                                                    |
+| CPU efficiency ≈ q / (q + s)                                       |
+| response bound in RR ≈ (n - 1) × q  (+ switch overhead)            |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 [문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) `s = 1 ms`라면, `q = 20 ms`일 때 유효 CPU 비율은 약 `20 / 21 ≈ 95.2%`지만, `q = 4 ms`면 `4 / 5 = 80%`로 떨어진다. 여기에 실제 시스템에서는 L1/L2 캐시와 TLB의 재예열 비용이 더해지므로 체감 손실은 더 커질 수 있다. 그래서 "[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 저장 자체는 짧다"는 말만 보고 퀀텀을 과도하게 줄이면 안 된다.
@@ -89,17 +89,17 @@ tags = ["studynote-operating-system"]
 관찰 지표도 중요하다. `vmstat`의 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 횟수, `top`의 `sy/us` 비율, tail [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), run [queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 길이, CPU cache miss 패턴을 함께 봐야 한다. `cs`가 급증하고 `sy` 비율이 높으며 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다면 퀀텀이 너무 작거나 runnable thread가 지나치게 많을 가능성이 높다. 반대로 CPU는 한가로운데 UI나 짧은 요청 반응이 굼뜨다면 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 너무 길 가능성이 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Quantum tuning decision flow                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ latency complaint?                                                 │
-│   ├─ yes                                                           │
-│   │   ├─ cs/s, sy high? -> enlarge slice or reduce thread count    │
-│   │   └─ cs/s low, long wait? -> shorten slice carefully           │
-│   └─ no                                                            │
-│       ├─ throughput job with warm cache benefit? -> longer slice   │
-│       └─ hard deadline system? -> use RT (Real-Time) scheduler     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Quantum tuning decision flow                                       |
++--------------------------------------------------------------------+
+| latency complaint?                                                 |
+|   +- yes                                                           |
+|   |   +- cs/s, sy high? -> enlarge slice or reduce thread count    |
+|   |   +- cs/s low, long wait? -> shorten slice carefully           |
+|   +- no                                                            |
+|       +- throughput job with warm cache benefit? -> longer slice   |
+|       +- hard deadline system? -> use RT (Real-Time) scheduler     |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -147,17 +147,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 시분할 요구
-    │
-    ▼
+    |
+    v
 고정 시간 할당량과 RR
-    │
-    ▼
+    |
+    v
 문맥 교환 오버헤드 인식
-    │
-    ▼
+    |
+    v
 캐시/TLB 지역성 고려
-    │
-    ▼
+    |
+    v
 목표 지연 시간 + 최소 보장 슬라이스 기반의 동적 스케줄링
 ```
 
@@ -175,7 +175,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 179 / 800
 
-← **이전**: [178. 라운드 로빈 (Round Robin, RR) 스케줄링 - 시분할 시스템, 선점형](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)
-**다음**: [180. 우선순위 스케줄링 (Priority Scheduling) - 무한 대기 문제 발생 가능](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) →
+<- **이전**: [178. 라운드 로빈 (Round Robin, RR) 스케줄링 - 시분할 시스템, 선점형](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)
+**다음**: [180. 우선순위 스케줄링 (Priority Scheduling) - 무한 대기 문제 발생 가능](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) ->
 
 ---

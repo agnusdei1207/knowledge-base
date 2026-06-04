@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 > **핵심 인사이트**
 > 1. 클라우드 이전(Migration) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 6R(또는 7R) 프레임워크 — Retire(폐기), Retain(유지), Rehost([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift), Replatform(이식), Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 전환), [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(재설계), Relocate(이전)으로 각 워크로드에 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한다.
-> 2. Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 재구매)는 사내 구축 소프트웨어를 SaaS로 교체 — 이메일(Exchange→Office 365), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Siebel→Salesforce), [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)→SAP S/4HANA Cloud) 전환이 대표적이며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용보다 장기 총소유비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 분석이 핵심이다.
+> 2. Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 재구매)는 사내 구축 소프트웨어를 SaaS로 교체 — 이메일(Exchange->Office 365), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Siebel->Salesforce), [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)->SAP S/4HANA Cloud) 전환이 대표적이며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용보다 장기 총소유비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 분석이 핵심이다.
 > 3. [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 전환의 핵심 과제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Migration)과 통합(Integration) — 수년간 축적된 레거시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델로 변환하고, 기존 시스템과의 연동([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통합)이 프로젝트 복잡성의 80%를 차지한다.
 
 ---
@@ -39,32 +39,32 @@ AWS 클라우드 이전 6R 프레임워크:
 
    속도: 빠름 (가장 간단)
    비용: 초기 이전 이후 최적화 별도 필요
-   예: VM → EC2 1:1 이전
+   예: VM -> EC2 1:1 이전
    도구: AWS MGN (Application Migration Service)
 
 4. Replatform (이식):
    핵심 아키텍처 유지, 일부 최적화
 
-   예: DB → RDS (관리형 서비스), Tomcat → Elastic Beanstalk
+   예: DB -> RDS (관리형 서비스), Tomcat -> Elastic Beanstalk
    비용 절감 + 운영 부담 감소
 
 5. Repurchase (SaaS 재구매):
-   기존 On-Premise 소프트웨어 → SaaS 교체
+   기존 On-Premise 소프트웨어 -> SaaS 교체
 
-   예: Exchange → Microsoft 365
-       Siebel → Salesforce
+   예: Exchange -> Microsoft 365
+       Siebel -> Salesforce
    개발/운영 부담 완전 제거
 
 6. Refactor / Re-architect (재설계):
    클라우드 네이티브 아키텍처로 완전 재설계
 
-   예: 모놀리식 → MSA + 컨테이너
+   예: 모놀리식 -> MSA + 컨테이너
    비용: 가장 높음, 장기 이익 최대
    적용: 핵심 비즈니스 차별화 서비스
 
 선택 기준:
-  ROI 기준: Rehost(최저) ← → Refactor(최고)
-  기간 기준: Retire → Rehost → Repurchase → Refactor
+  ROI 기준: Rehost(최저) <- -> Refactor(최고)
+  기간 기준: Retire -> Rehost -> Repurchase -> Refactor
 ```
 
 > 📢 **섹션 요약 비유**: 6R은 이사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 버리기(Retire), 두고가기(Retain), 그대로 옮기기(Rehost), 포장 개선(Replatform), 새 가구로 교체(Repurchase), 집 자체를 새로([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))!
@@ -77,14 +77,14 @@ AWS 클라우드 이전 6R 프레임워크:
 Repurchase SaaS 전환 유형:
 
 이메일/협업:
-  On-Premise Exchange → Microsoft 365 (Exchange Online)
-  On-Premise 파일서버 → SharePoint Online / Teams
+  On-Premise Exchange -> Microsoft 365 (Exchange Online)
+  On-Premise 파일서버 -> SharePoint Online / Teams
 
   장점: 라이선스+서버+패치 비용 제거
   비용: 사용자당 월 $12~35 (M365 E3)
 
 CRM:
-  SAP CRM, Siebel → Salesforce
+  SAP CRM, Siebel -> Salesforce
 
   과정:
   1. 데이터 이전 (Customer, Account, Opportunity)
@@ -93,18 +93,18 @@ CRM:
   4. 커스터마이제이션 (Flow, Apex)
 
 ERP:
-  SAP ECC → SAP S/4HANA Cloud
-  Oracle EBS → Oracle Fusion Cloud
+  SAP ECC -> SAP S/4HANA Cloud
+  Oracle EBS -> Oracle Fusion Cloud
 
   복잡도 최고: 핵심 비즈니스 프로세스
   기간: 1~3년
   비용: 수억~수백억
 
 HR/급여:
-  자체 HR → Workday, SAP SuccessFactors
+  자체 HR -> Workday, SAP SuccessFactors
 
 보안:
-  자체 방화벽/이메일 보안 → 클라우드 SEG (Proofpoint, Mimecast)
+  자체 방화벽/이메일 보안 -> 클라우드 SEG (Proofpoint, Mimecast)
 
 의사결정 기준:
   SaaS 적합:
@@ -136,9 +136,9 @@ SaaS 데이터 이전 (Data Migration):
 2. 데이터 매핑:
    소스 스키마 ↔ SaaS 데이터 모델 매핑
 
-   예: Siebel → Salesforce
-   Siebel: ACCOUNT.ACCOUNT_NAME → SF: Account.Name
-   Siebel: S_CONTACT.FST_NAME → SF: Contact.FirstName
+   예: Siebel -> Salesforce
+   Siebel: ACCOUNT.ACCOUNT_NAME -> SF: Account.Name
+   Siebel: S_CONTACT.FST_NAME -> SF: Contact.FirstName
 
 3. ETL 구축:
    Extract: 소스 DB에서 데이터 추출
@@ -183,7 +183,7 @@ On-Premise CRM 5년 TCO:
   기반 SW (OS, DB): 0.5억
   데이터센터 (전력, 공간): 0.3억
   패치/업그레이드: 연 2천 × 5 = 1억
-  ─────────────────────────────
+  -----------------------------
   5년 총비용: 8.3억
 
 Salesforce 5년 TCO:
@@ -191,7 +191,7 @@ Salesforce 5년 TCO:
   구현/커스터마이징: 2억
   통합 유지: 연 3천 × 5 = 1.5억
   교육: 0.3억
-  ─────────────────────────────
+  -----------------------------
   5년 총비용: 9.8억
 
 단순 숫자만 보면 On-Premise가 저렴!
@@ -229,10 +229,10 @@ TCO 결론:
   자체 파일 서버 수백 대
 
 전환 결정:
-  Exchange 2013 EOL → 강제 이전 필요
+  Exchange 2013 EOL -> 강제 이전 필요
   신규 Exchange 서버 vs M365 선택
   TCO 분석: 5년 기준 M365 2억 절감
-  → M365 E3 선택
+  -> M365 E3 선택
 
 이전 전략:
   물결 방식 (Wave Approach):
@@ -241,14 +241,14 @@ TCO 결론:
   총 기간: 8개월
 
 기술 과제:
-  DNS 변경: MX 레코드 → EOP(Exchange Online Protection)
+  DNS 변경: MX 레코드 -> EOP(Exchange Online Protection)
   메일 데이터: Exchange Migration (ExchangeGUID 매핑)
   공유 폴더: SharePoint Online 마이그레이션
   (SharePoint Migration Tool)
 
   통합:
   SAP ↔ M365 (Azure AD SSO)
-  Teams ↔ 화상회의 레거시 → Teams Rooms
+  Teams ↔ 화상회의 레거시 -> Teams Rooms
 
 결과:
   이전 완료: 8개월 (계획 대비 -1개월)
@@ -326,7 +326,7 @@ SaaS First 정책 (비커스텀 기능)
 
 **진행 상황**: 44 / 371
 
-← **이전**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/)
-**다음**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/) →
+<- **이전**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/)
+**다음**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/) ->
 
 ---

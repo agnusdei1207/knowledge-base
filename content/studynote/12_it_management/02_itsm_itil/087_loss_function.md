@@ -42,7 +42,7 @@ tags = ["it_management"]
 | Focal loss | 불균형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 어려운 샘플에 집중 |
 
 ```text
-입력 x ─► 모델 ─► 예측 ŷ ─► 손실 L(y, ŷ) ─► 기울기 ─► 파라미터 업데이트
+입력 x -► 모델 -► 예측 ŷ -► 손실 L(y, ŷ) -► 기울기 -► 파라미터 업데이트
 ```
 
 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 "틀림의 크기"를 만드는 동시에 "어떻게 고칠지"를 함께 결정한다. 그래서 학습 곡선이 좋은지는 모델 구조뿐 아니라 손실 설계에 달려 있다.
@@ -109,14 +109,14 @@ tags = ["it_management"]
     ### 📈 관련 키워드 및 발전 흐름도
 
     예측값 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-    │
-    ▼
+    |
+    v
 손실 계산
-    │
-    ▼
+    |
+    v
 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) / 경사 하강
-    │
-    ▼
+    |
+    v
 모델 파라미터 갱신
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -131,7 +131,7 @@ tags = ["it_management"]
 
 **진행 상황**: 157 / 587
 
-← **이전**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)
-**다음**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) →
+<- **이전**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)
+**다음**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) ->
 
 ---

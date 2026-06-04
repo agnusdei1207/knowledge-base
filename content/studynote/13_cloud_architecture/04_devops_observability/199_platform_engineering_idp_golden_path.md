@@ -34,25 +34,25 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 ### [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 조직 구조
 
 ```
-  ┌───────────────────────────────────────────────────────┐
-  │               Product Teams (개발자)                    │
-  │   팀 A: 검색서비스    팀 B: 결제서비스    팀 C: 추천    │
-  │      ↓                    ↓                  ↓         │
-  │   "새 서비스 배포해줘"  "DB 필요해"    "모니터링 켜줘" │
-  └───────────────────┬───────────────────────────────────┘
-                      │  IDP (Internal Developer Platform)
-                      ▼
-  ┌───────────────────────────────────────────────────────┐
-  │              Platform Team (플랫폼 팀)                  │
-  │                                                        │
-  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
-  │  │ 셀프서비스    │ │  골든 패스   │ │  템플릿      │  │
-  │  │ 인프라 프로비 │ │  CI/CD 파이프│ │  보안 기본값 │  │
-  │  │ DB, 캐시 생성 │ │  라인 자동화 │ │  (Security   │  │
-  │  └──────────────┘ └──────────────┘ │  by Default) │  │
-  │                                    └──────────────┘  │
-  │  기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger│
-  └───────────────────────────────────────────────────────┘
+  +-------------------------------------------------------+
+  |               Product Teams (개발자)                    |
+  |   팀 A: 검색서비스    팀 B: 결제서비스    팀 C: 추천    |
+  |      v                    v                  v         |
+  |   "새 서비스 배포해줘"  "DB 필요해"    "모니터링 켜줘" |
+  +-------------------+-----------------------------------+
+                      |  IDP (Internal Developer Platform)
+                      v
+  +-------------------------------------------------------+
+  |              Platform Team (플랫폼 팀)                  |
+  |                                                        |
+  |  +--------------+ +--------------+ +--------------+  |
+  |  | 셀프서비스    | |  골든 패스   | |  템플릿      |  |
+  |  | 인프라 프로비 | |  CI/CD 파이프| |  보안 기본값 |  |
+  |  | DB, 캐시 생성 | |  라인 자동화 | |  (Security   |  |
+  |  +--------------+ +--------------+ |  by Default) |  |
+  |                                    +--------------+  |
+  |  기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger|
+  +-------------------------------------------------------+
 ```
 
 ### 골든 패스 (Golden Path) 개념
@@ -104,11 +104,11 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 **성숙도 단계**:
 ```
 Level 1: 스크립트 모음 (ad-hoc)
-    ↓
+    v
 Level 2: CI/CD 파이프라인 표준화
-    ↓
+    v
 Level 3: IDP 셀프서비스 포털 (티켓 없이 직접 사용)
-    ↓
+    v
 Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
 ```
 
@@ -127,7 +127,7 @@ Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
 |:---|:---|
 | 개발 속도 향상 | 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시간 제거, 비즈니스 로직에 집중 |
 | 표준화 강화 | 보안·모니터링 기본값이 골든 패스에 내재화 |
-| [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 개선 | 배포 빈도↑, 리드타임↓, 변경 실패율↓ |
+| [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 개선 | 배포 빈도^, 리드타임v, 변경 실패율v |
 | 지식 이전 용이 | 온보딩 시간 단축 (골든 패스 따라가면 됨) |
 
 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 "DevOps의 민주화"다. 모든 개발자가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 전문가가 될 필요 없이, 잘 설계된 플랫폼을 통해 DevOps의 혜택을 누릴 수 있게 하는 것이 목표다. 2025년 이후 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 조직의 핵심 경쟁력이 될 것으로 전망된다.
@@ -155,14 +155,14 @@ Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
 
 ```text
 각 팀이 개별 인프라 구축 (중복 · 비효율)
-    │
-    ▼
+    |
+    v
 Platform Engineering: 내부 개발자 플랫폼(IDP) 구축
-    ├─► Golden Path: 표준화된 워크플로
-    └─► Self-Service: 개발자 자율 프로비저닝
-    │
-    ▼
-Backstage · Port · Humanitec → IDP 도구
+    +-► Golden Path: 표준화된 워크플로
+    +-► Self-Service: 개발자 자율 프로비저닝
+    |
+    v
+Backstage · Port · Humanitec -> IDP 도구
 ```
 2. 학생(개발자)은 공부(비즈니스 로직 개발)에만 집중하고, 조리사(플랫폼 팀)가 밥(인프라)을 책임져.
 3. 만약 특별한 음식이 먹고 싶다면(커스텀 인프라) 직접 만들 수 있지만, 대부분은 급식만으로 충분해.
@@ -173,7 +173,7 @@ Backstage · Port · Humanitec → IDP 도구
 
 **진행 상황**: 198 / 371
 
-← **이전**: [198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/198_shadow_deployment_traffic_mirroring/)
-**다음**: [200. IDP / Backstage (Internal Developer Platform)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/) →
+<- **이전**: [198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/198_shadow_deployment_traffic_mirroring/)
+**다음**: [200. IDP / Backstage (Internal Developer Platform)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/) ->
 
 ---

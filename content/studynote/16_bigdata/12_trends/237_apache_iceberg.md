@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 포맷 경쟁 ([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 사실상 표준화 움직임)은 빅데이터 환경에서 포맷 표준화을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 목표/전략        |--->| 운영/통제        |--->| 지표/개선        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 조타실처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 지표/개선 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 목표/전략        |--->| 운영/통제        |--->| 지표/개선        |
++--------------+   +--------------+   +--------------+
 ```
 
 Apache Iceberg와 오픈 포맷은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ Apache Iceberg와 오픈 포맷은 이 흐름을 보강하는 대표 축이다. 
 
 ```text
 [Hive Metastore — 파티션 열거 병목]
-    │
-    ▼
+    |
+    v
 [Apache Iceberg — 오픈 테이블 포맷 표준]
-    │
-    ▼
+    |
+    v
 [스냅샷 / 타임 트래블 (Time Travel)]
-    │
-    ▼
+    |
+    v
 [멀티 엔진 접근 (Multi-Engine) — Spark / Flink / Trino]
-    │
-    ▼
+    |
+    v
 [오픈 데이터 레이크하우스 생태계 (Open Lakehouse)]
 ```
 
@@ -138,7 +138,7 @@ Apache Iceberg와 오픈 포맷은 이 흐름을 보강하는 대표 축이다. 
 
 **진행 상황**: 237 / 262
 
-← **이전**: [231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)
-**다음**: [233. 양자 컴퓨팅 + 빅데이터 (최적화 문제, 양자 ML 초기 연구)](/knowledge-base/studynote/16_bigdata/12_trends/238_architecture/) →
+<- **이전**: [231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)
+**다음**: [233. 양자 컴퓨팅 + 빅데이터 (최적화 문제, 양자 ML 초기 연구)](/knowledge-base/studynote/16_bigdata/12_trends/238_architecture/) ->
 
 ---

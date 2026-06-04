@@ -32,10 +32,10 @@ tags = ["data_engineering"]
 
 [기존 방식 (Scale-up)]                [하둡 패러다임 (Scale-out)]
    고가 스토리지 + 고성능 CPU              저가형 x86 서버 수천 대 묶음
-   ┌─────────┐                       ┌───┐ ┌───┐ ┌───┐ ┌───┐
-   │ RDBMS   │   (데이터 병목 발생) => │ N1│ │ N2│ │ N3│ │ N4│ ...
-   │ (단일)  │   ────────────────>   └───┘ └───┘ └───┘ └───┘
-   └─────────┘                       (HDFS 기반 무한 분산 저장)
+   +---------+                       +---+ +---+ +---+ +---+
+   | RDBMS   |   (데이터 병목 발생) => | N1| | N2| | N3| | N4| ...
+   | (단일)  |   ---------------->   +---+ +---+ +---+ +---+
+   +---------+                       (HDFS 기반 무한 분산 저장)
     - 엄격한 스키마 필요                - 스키마 온 리드 (Schema-on-Read)
     - 데이터 이동 비용 높음             - 데이터가 있는 곳으로 연산을 이동
 ```
@@ -53,7 +53,7 @@ tags = ["data_engineering"]
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> (저장)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 128MB 블록으로 쪼개 3벌씩 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 보관 | [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) | 거대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 창고 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> (연산)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치(Batch) 처리 | Map(필터링/매핑) → Shuffle(정렬/[그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)) → Reduce(집계) 과정을 디스크 기반으로 수행 | Java [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 수만 명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> (연산)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치(Batch) 처리 | Map(필터링/매핑) -> Shuffle(정렬/[그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)) -> Reduce(집계) 과정을 디스크 기반으로 수행 | Java [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 수만 명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a> (자원 관리)</strong> | 클러스터 자원 스케줄링 | 전체 노드의 CPU/Memory 현황을 파악하여 각 애플리케이션(Spark, [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))에 자원 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 할당 | [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 인력 사무소 소장 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> (마스터)</strong> | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 중앙 관리 | 블록이 어느 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드에 있는지 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조와 매핑 테이블을 RAM에서 관리 | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 창고 장부(목록) 관리자 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/">DataNode</a> (워커)</strong> | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 입출력 | 클라이언트의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 요청을 처리하고, 주기적으로 NameNode에 Heartbeat 보고 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP | 실제 물건을 쌓는 창고지기 |
@@ -61,29 +61,29 @@ tags = ["data_engineering"]
 아래의 구조도는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0 이상의 에코시스템에서 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에 YARN이 올라가고, 그 위에서 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)를 비롯한 다양한 엔진이 동작하는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 코어 아키텍처를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           [Hadoop Ecosystem (Hive, Pig, Spark)]        │
-├────────────────────────────────────────────────────────┤
-│           [Data Processing Layer - 맵리듀스 외]        │
-│    ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
-│    │ MapReduce V2 │ │ Apache Spark │ │ Apache Flink │  │
-│    └──────┬───────┘ └──────┬───────┘ └──────┬───────┘  │
-├───────────┼────────────────┼────────────────┼──────────┤
-│    ┌──────▼────────────────▼────────────────▼──────┐   │
-│    │    YARN (Cluster Resource Management)         │   │
-│    │  [ResourceManager] <--> [NodeManager]         │   │
-│    └───────────────────────┬───────────────────────┘   │
-├────────────────────────────┼───────────────────────────┤
-│    ┌───────────────────────▼───────────────────────┐   │
-│    │     HDFS (Hadoop Distributed File System)     │   │
-│    │   [NameNode]       <-->      [DataNode(s)]    │   │
-│    └───────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           [Hadoop Ecosystem (Hive, Pig, Spark)]        |
++--------------------------------------------------------+
+|           [Data Processing Layer - 맵리듀스 외]        |
+|    +--------------+ +--------------+ +--------------+  |
+|    | MapReduce V2 | | Apache Spark | | Apache Flink |  |
+|    +------+-------+ +------+-------+ +------+-------+  |
++-----------+----------------+----------------+----------+
+|    +------v----------------v----------------v------+   |
+|    |    YARN (Cluster Resource Management)         |   |
+|    |  [ResourceManager] <--> [NodeManager]         |   |
+|    +-----------------------+-----------------------+   |
++----------------------------+---------------------------+
+|    +-----------------------v-----------------------+   |
+|    |     HDFS (Hadoop Distributed File System)     |   |
+|    |   [NameNode]       <-->      [DataNode(s)]    |   |
+|    +-----------------------------------------------+   |
++--------------------------------------------------------+
 ```
 
 이 아키텍처의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 저장 레이어([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))와 자원 스케줄링 레이어([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)), 그리고 실제 연산 레이어([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/Spark)가 완벽하게 분리(Decoupling)되어 있다는 점이다. 과거에는 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)만 사용할 수 있어 실시간 처리가 불가능했지만, YARN의 도입으로 인해 메모리 기반의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 엔진인 스파크(Spark)나 스트리밍 엔진들이 동일한 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클러스터 자원을 공유하며 동시에 구동될 수 있게 되었다. 실무에서는 이 구조를 통해 하나의 클러스터로 배치, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), 실시간 분석을 모두 소화하는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 구성한다.
 
-[맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 내부 동작 원리 (Map → Shuffle → Reduce)는 다음과 같은 텍스트 처리 예제([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Count)로 설명된다.
+[맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 내부 동작 원리 (Map -> Shuffle -> Reduce)는 다음과 같은 텍스트 처리 예제([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Count)로 설명된다.
 ```java
 // Map 과정: 한 줄을 읽어 단어별로 <단어, 1> 이라는 Key-Value 쌍 방출
 public void map(LongWritable key, Text value, Context context) {
@@ -123,12 +123,12 @@ public void reduce(Text key, Iterable<IntWritable> values, Context context) {
 [하둡 MapReduce와 Spark의 동작 타이밍 및 디스크 의존도 비교]
 
 하둡 MapReduce :
-[HDFS Read] ─> [Map 연산] ─> [Disk Write] ─> (Shuffle) ─> [Disk Read] ─> [Reduce 연산] ─> [HDFS Write]
-                            ▲ 병목! 임시 결과를 모두 디스크에 씀
+[HDFS Read] -> [Map 연산] -> [Disk Write] -> (Shuffle) -> [Disk Read] -> [Reduce 연산] -> [HDFS Write]
+                            ^ 병목! 임시 결과를 모두 디스크에 씀
 
 스파크 Spark :
-[HDFS Read] ─> [Map/Filter/Join 등의 복합 연산이 메모리 위에서 연속 실행] ─> [최종 액션 시 HDFS Write]
-                            ▲ 성능! 메모리에서 파이프라이닝 되어 중간 I/O 제거
+[HDFS Read] -> [Map/Filter/Join 등의 복합 연산이 메모리 위에서 연속 실행] -> [최종 액션 시 HDFS Write]
+                            ^ 성능! 메모리에서 파이프라이닝 되어 중간 I/O 제거
 ```
 
 A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))은 한 단계가 끝날 때마다 안전을 위해 다음 단계를 위한 임시 결과를 디스크에 저장한다. 이는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 허용에는 극도로 안정적이지만, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수천 번 반복해서 읽고 써야 하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서는 끔찍한 속도 저하를 부른다. 반면 B 방식(스파크)은 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올려두고([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 연산을 이어가므로 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 대비 10배~100배 빠른 성능을 낸다. 실무에서는 보통 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 HDFS를 무한 저장소([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))로 유지하면서, 연산 엔진만 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)에서 스파크로 교체하여 상호 보완적인 융합 아키텍처를 구축한다.
@@ -149,13 +149,13 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 [하둡 도입 및 운영 시 안티패턴 대응 의사결정 트리]
 
 [하둡 클러스터 내 성능/안정성 이슈 감지]
-       ↓
+       v
 [NameNode 메모리가 지속적으로 부족한가?]
-  ├─ (Yes) ─> HDFS 내 파일 크기 점검 ─> (수많은 작은 파일 발견) ─> [해결: 하이브 병합 배치 잡 또는 SequenceFile 압축 적용]
-  └─ (No) ──> [Task가 한 노드에서만 느리게 도는가?]
-                     ↓
+  +- (Yes) -> HDFS 내 파일 크기 점검 -> (수많은 작은 파일 발견) -> [해결: 하이브 병합 배치 잡 또는 SequenceFile 압축 적용]
+  +- (No) --> [Task가 한 노드에서만 느리게 도는가?]
+                     v
              (Data Skew / 데이터 쏠림 현상)
-                     ↓
+                     v
              [해결: MapReduce 파티션 키(해시 키) 재설계 및 Salt 값 추가]
 ```
 
@@ -192,17 +192,17 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 ```text
 [GFS (Google File System) — 분산 파일 아이디어]
-    │
-    ▼
+    |
+    v
 [HDFS (Hadoop Distributed File System) — 블록 복제]
-    │
-    ▼
+    |
+    v
 [맵리듀스 (MapReduce) — 병렬 처리]
-    │
-    ▼
+    |
+    v
 [YARN (Yet Another Resource Negotiator) — 자원 관리]
-    │
-    ▼
+    |
+    v
 [아파치 스파크 (Apache Spark) — 인메모리 후계]
 ```
 
@@ -219,7 +219,7 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 **진행 상황**: 12 / 258
 
-← **이전**: [11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능](/knowledge-base/studynote/14_data_engineering/01_infrastructure/011_distributed_computing_scale_out/)
-**다음**: [13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) →
+<- **이전**: [11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능](/knowledge-base/studynote/14_data_engineering/01_infrastructure/011_distributed_computing_scale_out/)
+**다음**: [13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ->
 
 ---

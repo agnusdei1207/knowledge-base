@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자가 보유한 단말기의 **TPM/SE(Secure Enclave)** 내부에서 **ECDSA P-256 / Ed25519** 기반 공개키 쌍을 생성·저장하고, **FIDO2(WebAuthn + CTAP2)** 프로토콜로 챌린지-서명 방식의 **Passwordless 인증**을 수행하는 비대칭키 기반 신원확인 체계
-> 2. **가치**: 피싱·크리덴셜 스터핑 공격 표면을 제거하고(피싱 저항성 99.9% 이상, Microsoft/Google 실증), UX 측면에서 비밀번호 재설정 비용을 평균 **$70/건 → 0원** 수준으로 절감하며 평균 로그인 소요시간 30초 → 3초 단축
+> 2. **가치**: 피싱·크리덴셜 스터핑 공격 표면을 제거하고(피싱 저항성 99.9% 이상, Microsoft/Google 실증), UX 측면에서 비밀번호 재설정 비용을 평균 **$70/건 -> 0원** 수준으로 절감하며 평균 로그인 소요시간 30초 -> 3초 단축
 > 3. **판단 포인트**: **Device-bound Passkey(사내 단말 종속)** vs **Synced Passkey(클라우드 동기화)** 정책 결정, 생체정보 **TEE/SE 내부 매칭 후 T/F 반환** vs 서버 매칭 방식의 프라이버시 트레이드오프, **Fallback Recovery** 채널의 설계가 핵심 의사결정 사항
 
 ---
@@ -26,37 +26,37 @@ tags = ["studynote-it-management"]
 ```text
 [ 패스워드 기반 인증의 문제점 ]
 
-   사용자 ──(ID/PW 평문 입력)──▶ [ 피싱 사이트 / 키로거 / DB 유출 ]
-                                       │
-                                       ▼
+   사용자 --(ID/PW 평문 입력)---> [ 피싱 사이트 / 키로거 / DB 유출 ]
+                                       |
+                                       v
                                 ① Reuse 공격     (동일 PW 다계정 시도)
                                 ② Credential     (유출 DB 매칭 로그인)
                                    Stuffing
                                 ③ Phishing        (가짜 도메인 입력 유도)
                                 ④ Brute-force     (오프라인 해시 크래킹)
-                                       │
-                                       ▼
+                                       |
+                                       v
                               평균 침해 MTTC : 277일
                               Reset 비용      : $70/건
                               Helpdesk 부하   : 전체 티켓 30~50%
 
 [ MFA / Passkey 패러다임 전환 ]
 
-   ┌──────────────────────────────────────────────────────────┐
-   │  Knowledge  (PW)  ──▶  ✕ 제거  (Passwordless)            │
-   │  Possession (단말) ──▶  ◯ 단말 내 비공개키 서명           │
-   │  Inherence  (생체) ──▶  ◯ TEE/SE 내부 1:1 매칭(T/F)      │
-   └──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
+   +----------------------------------------------------------+
+   |  Knowledge  (PW)  --->  ✕ 제거  (Passwordless)            |
+   |  Possession (단말) --->  ◯ 단말 내 비공개키 서명           |
+   |  Inherence  (생체) --->  ◯ TEE/SE 내부 1:1 매칭(T/F)      |
+   +----------------------------------------------------------+
+                              |
+                              v
                   Origin-bound + Phishing-resistant
                   (도메인 종속 + 피싱 저항)
 ```
 
-**기존 패러다임 → 신규 패러다임 비교**
+**기존 패러다임 -> 신규 패러다임 비교**
 
-- **기존**: "사용자가 기억하는 것(비밀번호)"을 매번 평문 전송 → 서버에서 해시 비교 → 단방향 취약점 다수
-- **신규**: "사용자가 가진 단말이 비공개키로 서명한 서명값"을 전송 → 서버는 등록된 공개키로 검증 → 도메인(Origin) 종속, 재전송 불가, 피싱 사이트에서 도용 불가
+- **기존**: "사용자가 기억하는 것(비밀번호)"을 매번 평문 전송 -> 서버에서 해시 비교 -> 단방향 취약점 다수
+- **신규**: "사용자가 가진 단말이 비공개키로 서명한 서명값"을 전송 -> 서버는 등록된 공개키로 검증 -> 도메인(Origin) 종속, 재전송 불가, 피싱 사이트에서 도용 불가
 
 - **📢 섹션 요약 비유**: 기존 자물쇠가 "비밀번호"라는 깃털 열쇠 한 자루였다면, FIDO2는 **"현관문 DNA 인식 + 도어락이 1회용 암호문 생성"**이 결합된 차세대 잠금장치라 할 수 있다.
 
@@ -71,39 +71,39 @@ FIDO2는 **W3C WebAuthn**(웹 API) + **FIDO CTAP2**(클라이언트↔인증기 
 ```text
 [ FIDO2 / WebAuthn 등록(Registration) 프로토콜 ]
 
-   ┌────────┐         ┌──────────────┐         ┌──────────────────┐
-   │ Browser│         │   Web Server │         │ Authenticator    │
-   │ (Relying│         │  (RP Server) │         │ (TPM/SE/보안키)   │
-   │  Party)│         │              │         │                  │
-   └───┬────┘         └──────┬───────┘         └────────┬─────────┘
-       │  ① navigator.       │                          │
-       │  credentials.       │                          │
-       │  create()           │                          │
-       │ ─────────────────▶  │                          │
-       │                     │  ② challenge             │
-       │                     │  (32B random nonce)      │
-       │ ◀────────────────── │                          │
-       │  ③ challenge 전달    │                          │
-       │ ──────────────────────────────────────────────▶│
-       │                     │                          │
-       │                     │  ④ User Verification     │
-       │                     │     (생체/PIN/Touch)     │
-       │                     │                          │
-       │                     │  ⑤ KeyPair 생성           │
-       │                     │     (ECDSA P-256 /       │
-       │                     │      Ed25519 / RSA-PSS)  │
-       │                     │                          │
-       │                     │  ⑥ attestation Object    │
-       │  ◀──────────────────────────────────────────── │
-       │  { id, rawId,      │                          │
-       │    response:{       │                          │
-       │     attestationObject,                          │
-       │     clientDataJSON } }                         │
-       │  ⑦ RP 서버로 전송   │                          │
-       │ ─────────────────▶  │                          │
-       │                     │  ⑧ 공개키 + CredentialID │
-       │                     │     DB 저장 (회원가입)   │
-       └─────────────────────┴──────────────────────────┘
+   +--------+         +--------------+         +------------------+
+   | Browser|         |   Web Server |         | Authenticator    |
+   | (Relying|         |  (RP Server) |         | (TPM/SE/보안키)   |
+   |  Party)|         |              |         |                  |
+   +---+----+         +------+-------+         +--------+---------+
+       |  ① navigator.       |                          |
+       |  credentials.       |                          |
+       |  create()           |                          |
+       | ------------------>  |                          |
+       |                     |  ② challenge             |
+       |                     |  (32B random nonce)      |
+       | <------------------- |                          |
+       |  ③ challenge 전달    |                          |
+       | ----------------------------------------------->|
+       |                     |                          |
+       |                     |  ④ User Verification     |
+       |                     |     (생체/PIN/Touch)     |
+       |                     |                          |
+       |                     |  ⑤ KeyPair 생성           |
+       |                     |     (ECDSA P-256 /       |
+       |                     |      Ed25519 / RSA-PSS)  |
+       |                     |                          |
+       |                     |  ⑥ attestation Object    |
+       |  <--------------------------------------------- |
+       |  { id, rawId,      |                          |
+       |    response:{       |                          |
+       |     attestationObject,                          |
+       |     clientDataJSON } }                         |
+       |  ⑦ RP 서버로 전송   |                          |
+       | ------------------>  |                          |
+       |                     |  ⑧ 공개키 + CredentialID |
+       |                     |     DB 저장 (회원가입)   |
+       +---------------------+--------------------------+
 ```
 
 ### 2. 인증(Assertion) 프로토콜
@@ -112,31 +112,31 @@ FIDO2는 **W3C WebAuthn**(웹 API) + **FIDO CTAP2**(클라이언트↔인증기 
 [ FIDO2 / WebAuthn 인증(Login) 프로토콜 ]
 
    Client(UA)                RP Server              Authenticator
-       │                         │                        │
-       │  ① login()              │                        │
-       │ ──────────────────────▶ │                        │
-       │                         │  ② challenge(Nonce)    │
-       │ ◀────────────────────── │                        │
-       │  ③ challenge 전달        │                        │
-       │ ───────────────────────────────────────────────▶│
-       │                         │                        │
-       │                         │  ④ User Verify         │
-       │                         │     (생체 매칭)         │
-       │                         │                        │
-       │                         │  ⑤ assertion           │
-       │                         │     { signature,       │
-       │                         │       authenticatorData,│
-       │                         │        counter++ }     │
-       │ ◀───────────────────────────────────────────────│
-       │  ⑥ assertion 전송       │                        │
-       │ ──────────────────────▶ │                        │
-       │                         │  ⑦ 공개키로 서명검증    │
-       │                         │     + counter 증가 확인 │
-       │                         │     + origin 검증       │
-       │                         │                        │
-       │  ⑧ Session 발급         │                        │
-       │ ◀────────────────────── │                        │
-       └─────────────────────────┴────────────────────────┘
+       |                         |                        |
+       |  ① login()              |                        |
+       | -----------------------> |                        |
+       |                         |  ② challenge(Nonce)    |
+       | <----------------------- |                        |
+       |  ③ challenge 전달        |                        |
+       | ------------------------------------------------>|
+       |                         |                        |
+       |                         |  ④ User Verify         |
+       |                         |     (생체 매칭)         |
+       |                         |                        |
+       |                         |  ⑤ assertion           |
+       |                         |     { signature,       |
+       |                         |       authenticatorData,|
+       |                         |        counter++ }     |
+       | <------------------------------------------------|
+       |  ⑥ assertion 전송       |                        |
+       | -----------------------> |                        |
+       |                         |  ⑦ 공개키로 서명검증    |
+       |                         |     + counter 증가 확인 |
+       |                         |     + origin 검증       |
+       |                         |                        |
+       |  ⑧ Session 발급         |                        |
+       | <----------------------- |                        |
+       +-------------------------+------------------------+
 
    * Signature 검증 식 (ECDSA):
      verify( Puk, SHA256(authData || clientDataHash) ) = true
@@ -147,14 +147,14 @@ FIDO2는 **W3C WebAuthn**(웹 API) + **FIDO CTAP2**(클라이언트↔인증기 
 
 ```text
 authenticatorData (최소 37B):
-┌─────────────────────────────────────────────────────┐
-│  rpIdHash (32B)        : SHA256("login.example.com") │
-│  flags (1B)            : UP|UV|AT|ED|TFLAGS         │
-│  signCount (4B)        : 0x0000000A (10회)          │
-│  attestedCredentialData: {aaguid(16), credLen(2),  │
-│                           credId, publicKey}        │
-│  extensions (optional) : hmac-secret, credProps     │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  rpIdHash (32B)        : SHA256("login.example.com") |
+|  flags (1B)            : UP|UV|AT|ED|TFLAGS         |
+|  signCount (4B)        : 0x0000000A (10회)          |
+|  attestedCredentialData: {aaguid(16), credLen(2),  |
+|                           credId, publicKey}        |
+|  extensions (optional) : hmac-secret, credProps     |
++-----------------------------------------------------+
 
 clientDataJSON:
   {"type":"webauthn.create",
@@ -192,24 +192,24 @@ publicKey (COSE_Key):
 ```text
 [ Synced Passkey : E2EE 동기화 구조 ]
 
-   ┌──────────┐    ┌──────────┐    ┌──────────┐
-   │iPhone(A) │    │ iPad (B) │    │ Mac (C)  │
-   │  SE encl.│    │  SE encl.│    │  SE encl.│
-   └────┬─────┘    └────┬─────┘    └────┬─────┘
-        │  Hardware-Backed Key(HBK)  │
-        │  (device의 개인키로 wrap)  │
-        └──────────┬──────────────────┘
-                   ▼
-        ┌──────────────────────┐
-        │ iCloud Keychain (E2EE) │  ← Apple은 HKDF+HPKE로
-        │  또는 Google PMS     │     Apple/Google조차 복호화 불가
-        │  또는 MS Account     │
-        └──────────┬───────────┘
-                   ▼
-        ┌──────────────────────┐
-        │ 다른 디바이스로 sync  │
-        │  (브랜드 생태계 한정)  │
-        └──────────────────────┘
+   +----------+    +----------+    +----------+
+   |iPhone(A) |    | iPad (B) |    | Mac (C)  |
+   |  SE encl.|    |  SE encl.|    |  SE encl.|
+   +----+-----+    +----+-----+    +----+-----+
+        |  Hardware-Backed Key(HBK)  |
+        |  (device의 개인키로 wrap)  |
+        +----------+------------------+
+                   v
+        +----------------------+
+        | iCloud Keychain (E2EE) |  <- Apple은 HKDF+HPKE로
+        |  또는 Google PMS     |     Apple/Google조차 복호화 불가
+        |  또는 MS Account     |
+        +----------+-----------+
+                   v
+        +----------------------+
+        | 다른 디바이스로 sync  |
+        |  (브랜드 생태계 한정)  |
+        +----------------------+
 
    * Apple/Google 모두 E2EE(End-to-End Encryption) 적용
    * 단말 분실 시 icloud/family recovery 또는 신뢰 디바이스 quorum
@@ -255,7 +255,7 @@ publicKey (COSE_Key):
 
 **진행 상황**: 377 / 800
 
-← **이전**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/)
-**다음**: [378. 암호화 기술 대칭 비대칭 하이브리드](/knowledge-base/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/) →
+<- **이전**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/)
+**다음**: [378. 암호화 기술 대칭 비대칭 하이브리드](/knowledge-base/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/) ->
 
 ---

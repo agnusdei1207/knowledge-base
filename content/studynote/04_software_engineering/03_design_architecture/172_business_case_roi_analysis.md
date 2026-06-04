@@ -27,12 +27,12 @@ tags = ["software_engineering"]
 아래 그림은 기술 아이디어가 투자 결정으로 바뀌는 기본 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Idea -> Business case -> Funding decision                   │
-├──────────────────────────────────────────────────────────────┤
-│ business problem -> options -> cash flow -> risk -> approve │
-│ no measurable value -> no investment rationale              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Idea -> Business case -> Funding decision                   |
++--------------------------------------------------------------+
+| business problem -> options -> cash flow -> risk -> approve |
+| no measurable value -> no investment rationale              |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 프로젝트가 "필요해 보인다"는 감각만으로는 승인되지 않는다는 점이다. 문제 정의가 있어야 하고, 대안이 있어야 하며, 그 대안을 실행했을 때의 비용·편익·위험이 수치와 가정으로 정리되어야 한다. 그래서 비즈니스 케이스는 결재용 종이가 아니라, 프로젝트 시작 전 가장 중요한 품질 필터라고 볼 수 있다.
@@ -57,16 +57,16 @@ tags = ["software_engineering"]
 예를 들어 결재 자동화 시스템을 도입한다고 하자. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 3억 원이고, 연간 순편익이 1.2억 원씩 4년간 발생한다고 가정하면 총편익은 4.8억 원이다. 이때 단순 ROI는 `((4.8 - 3.0) / 3.0) × 100 = 60%`이고, 투자 회수 기간 ([Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/))은 약 2.5년이다. 할인율 8%를 적용한 NPV는 약 +0.97억 원으로, 시간 가치를 반영해도 투자 여지가 있음을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Example cash flow: approval workflow automation             │
-├──────────────────────────────────────────────────────────────┤
-│ Year 0 : -300M KRW                                          │
-│ Year 1 : +120M KRW                                          │
-│ Year 2 : +120M KRW                                          │
-│ Year 3 : +120M KRW                                          │
-│ Year 4 : +120M KRW                                          │
-│ ROI = 60% / Payback ≈ 2.5 years / NPV @ 8% ≈ +97M KRW       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Example cash flow: approval workflow automation             |
++--------------------------------------------------------------+
+| Year 0 : -300M KRW                                          |
+| Year 1 : +120M KRW                                          |
+| Year 2 : +120M KRW                                          |
+| Year 3 : +120M KRW                                          |
+| Year 4 : +120M KRW                                          |
+| ROI = 60% / Payback ≈ 2.5 years / NPV @ 8% ≈ +97M KRW       |
++--------------------------------------------------------------+
 ```
 
 이 예시는 왜 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 하나만 보면 안 되는지도 보여 준다. 총편익만 보면 매력적이지만, 실제로는 언제 들어오는 돈인지가 중요하다. 똑같이 60% ROI라도 편익이 1년 안에 들어오는 안과 4년 뒤에 몰려 들어오는 안은 경영적으로 가치가 다르기 때문에, NPV와 Payback이 함께 필요하다.
@@ -101,15 +101,15 @@ tags = ["software_engineering"]
 실무에서 좋은 비즈니스 케이스를 만들려면 숫자보다 먼저 가정을 관리해야 한다. 예상 사용자 수, 채택률, 장애 감소율, 절감되는 인력 시간, 할인율 같은 가정이 흔들리면 재무 지표도 함께 흔들린다. 그래서 base, optimistic, pessimistic 시나리오를 나누고 민감도 분석을 통해 어떤 변수가 의사결정을 뒤집는지 확인해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Practical approval checklist                                │
-├──────────────────────────────────────────────────────────────┤
-│ clear business problem?                                     │
-│ measurable benefit or risk proxy?                           │
-│ full TCO included?                                          │
-│ scenarios and sensitivity tested?                           │
-│ positive risk-adjusted NPV or justified mandatory need?     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Practical approval checklist                                |
++--------------------------------------------------------------+
+| clear business problem?                                     |
+| measurable benefit or risk proxy?                           |
+| full TCO included?                                          |
+| scenarios and sensitivity tested?                           |
+| positive risk-adjusted NPV or justified mandatory need?     |
++--------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -163,17 +163,17 @@ tags = ["software_engineering"]
 
 ```text
 business problem identification
-    │
-    ▼
+    |
+    v
 options · cost · benefit · risk modeling
-    │
-    ├──────────────▶ ROI
-    ├──────────────▶ NPV / IRR
-    ├──────────────▶ Payback Period
-    ▼
+    |
+    +---------------> ROI
+    +---------------> NPV / IRR
+    +---------------> Payback Period
+    v
 investment decision
-    │
-    ▼
+    |
+    v
 post-launch KPI tracking and feedback
 ```
 
@@ -191,7 +191,7 @@ post-launch KPI tracking and feedback
 
 **진행 상황**: 172 / 973
 
-← **이전**: [171. 요구사항 일관성 검사 (Consistency Checking)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/171_requirements_consistency_checking/)
-**다음**: [173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) →
+<- **이전**: [171. 요구사항 일관성 검사 (Consistency Checking)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/171_requirements_consistency_checking/)
+**다음**: [173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) ->
 
 ---

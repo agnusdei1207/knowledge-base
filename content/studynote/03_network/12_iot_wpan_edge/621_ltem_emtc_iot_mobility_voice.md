@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [NB-IoT]
-    │
-    ▼
+    |
+    v
 [LTE-M]
-    │
-    └──▶ [MQTT]
+    |
+    +---> [MQTT]
 ```
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [NB-IoT]
-    │
-    ▼
+    |
+    v
 [LTE-M]
-    │
-    └──▶ [MQTT]
+    |
+    +---> [MQTT]
 ```
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NB-IoT]
-    │
-    ▼
+    |
+    v
 [현재 개념: LTE-M]
-    │
-    ├──▶ [확장 A: MQTT]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: MQTT]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M는 NB-IoT에서 출발해 현재 메커니즘을 정교화하고, 이후 MQTT와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 742 / 1120
 
-← **이전**: [620. NB-IoT (Narrowband IoT)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)
-**다음**: [622. MQTT (Message Queuing Telemetry Transport)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) →
+<- **이전**: [620. NB-IoT (Narrowband IoT)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)
+**다음**: [622. MQTT (Message Queuing Telemetry Transport)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) ->
 
 ---

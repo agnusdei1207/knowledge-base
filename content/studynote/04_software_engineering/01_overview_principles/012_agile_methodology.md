@@ -32,18 +32,18 @@ tags = ["software_engineering"]
 ```text
 [기존 폭포수: Plan-Driven]
 요구사항 고정 (Fixed)
-  │
-  ├─► [설계] ──► [구현] ──► [테스트] ──► [결과]
-                                           ▼
+  |
+  +-► [설계] --► [구현] --► [테스트] --► [결과]
+                                           v
 일정과 자원은 가변적 (Estimated)           (고객이 원하는 것과 다름!)
 
 [애자일: Value-Driven]
 일정과 자원 고정 (Timeboxed, Sprint)
-  │
-  ├─► [Sprint 1] ──► (작동하는 SW) ──► 피드백
-  ├─► [Sprint 2] ──► (기능 추가) ──► 피드백
-  └─► [Sprint 3] ──► (방향 수정) ──► 피드백
-                                           ▼
+  |
+  +-► [Sprint 1] --► (작동하는 SW) --► 피드백
+  +-► [Sprint 2] --► (기능 추가) --► 피드백
+  +-► [Sprint 3] --► (방향 수정) --► 피드백
+                                           v
 요구사항은 가변적 (Estimated)              (고객의 현재 니즈에 완벽 부합!)
 ```
 
@@ -71,16 +71,16 @@ tags = ["software_engineering"]
 [스크럼 프레임워크 동작 흐름도]
 
 (Product Owner)         (Sprint Planning)            (Development Team)
-[제품 백로그] ───────► [스프린트 백로그] ───────► ┌──────────────────┐
- 우선순위가 높은          이번 스프린트(2주)에        │   [Sprint]       │
- 사용자 스토리들          할당된 작업 목록            │  설계/개발/테스트│
-       ▲                                              │      ↑           │
-       │                                              │      │ 24h       │
-       │                                              │  [Daily Scrum]   │
-       │                                              └────────┬─────────┘
-       │                                                       │
-       │     (Sprint Retrospective)                    (Sprint Review)
-       └──────── [회고: 프로세스 개선] ◄──────── [잠재적으로 출시 가능한 제품]
+[제품 백로그] -------► [스프린트 백로그] -------► +------------------+
+ 우선순위가 높은          이번 스프린트(2주)에        |   [Sprint]       |
+ 사용자 스토리들          할당된 작업 목록            |  설계/개발/테스트|
+       ^                                              |      ^           |
+       |                                              |      | 24h       |
+       |                                              |  [Daily Scrum]   |
+       |                                              +--------+---------+
+       |                                                       |
+       |     (Sprint Retrospective)                    (Sprint Review)
+       +-------- [회고: 프로세스 개선] ◄-------- [잠재적으로 출시 가능한 제품]
                  팀의 업무 방식 성찰             고객 시연 및 요구사항 피드백
 ```
 
@@ -139,8 +139,8 @@ tags = ["software_engineering"]
 [Water-Scrum-Fall 안티패턴의 병목 시각화]
 
 [요구사항] ===> [기획/디자인] ===> [ 2주 단위 개발 (Scrum) ] ===> [QA 및 배포]
-(수개월 소요)   (수개월 소요)      │Sprint1│Sprint2│Sprint3│    (수개월 대기)
-  병목!                            │       │       │       │       병목!
+(수개월 소요)   (수개월 소요)      |Sprint1|Sprint2|Sprint3|    (수개월 대기)
+  병목!                            |       |       |       |       병목!
 ```
 
 이 그림이 보여주는 가장 흔한 실패 사례의 핵심은, 개발팀 내부만 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 돌리고 전단(기획)과 후단(배포)은 여전히 폭포수 방식에 머물러 있는 상태다. 이 경우 개발자는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 압박과 잦은 요구사항 변경에 시달리지만, 실제 고객에게 가치가 전달되는 속도는 폭포수 때와 똑같이 느리다. 실무에서는 이러한 병목 지점을 파악하고, 비즈니스 부서부터 IT 운영 부서까지 전체 가치 스트림(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)화해야 한다.
@@ -179,17 +179,17 @@ tags = ["software_engineering"]
 
 ```text
 [워터폴 (Waterfall) — 단계별 산출물 중심의 순차 개발]
-    │
-    ▼
+    |
+    v
 [애자일 선언 (Agile Manifesto) — 변화 대응과 고객 협업의 가치 정립]
-    │
-    ▼
+    |
+    v
 [스크럼 (Scrum) — 스프린트로 반복 학습하는 프레임워크]
-    │
-    ▼
+    |
+    v
 [스케일드 애자일 (SAFe, Scaled Agile Framework) — 대규모 조직 확장]
-    │
-    ▼
+    |
+    v
 [비즈니스 어질리티 (Business Agility) — AI 자동화로 빠른 의사결정]
 ```
 
@@ -206,7 +206,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 12 / 973
 
-← **이전**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)
-**다음**: [13. ISO/IEC 12207 (소프트웨어 생명주기 공정 표준) - 기본, 지원, 조직 공정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/013_iso_iec_12207/) →
+<- **이전**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)
+**다음**: [13. ISO/IEC 12207 (소프트웨어 생명주기 공정 표준) - 기본, 지원, 조직 공정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/013_iso_iec_12207/) ->
 
 ---

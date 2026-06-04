@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 키 분포를 보면 남성(평균 175cm)과 여성(평균 162cm)이 섞여있어 이중 봉우리(bimodal) 분포를 보인다. 단일 가우시안으로는 이 분포를 표현 못한다. GMM은 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 2개의 가우시안 분포가 혼합된 것"으로 모델링하여, 남성 분포와 여성 분포를 동시에 추정한다. 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트는 "80% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 남성 분포, 20% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 여성 분포"처럼 소프트하게 배정된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: GMM은 "두 종류의 물감이 섞인 그림"을 분리하는 AI다. 파란색과 노란색이 섞인 그림([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보고, "이 부분은 70% 파랑, 30% 노랑"으로 분리 추정하는 것이 GMM이고, 이를 반복적으로 정확히 추정하는 과정이 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
@@ -37,26 +37,26 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│           GMM + EM 알고리즘 반복 구조                    │
-├──────────────────────────────────────────────────────────┤
-│  GMM 모델:  p(x) = Σₖ πₖ · N(x | μₖ, Σₖ)             │
-│  πₖ: 혼합 가중치, Σπₖ=1                                │
-│  μₖ: k번째 분포의 평균                                  │
-│  Σₖ: k번째 분포의 공분산 행렬                           │
-│                                                          │
-│  E-step (Expectation):                                   │
-│  γ(zₙₖ) = πₖN(xₙ|μₖ,Σₖ) / Σⱼπⱼ N(xₙ|μⱼ,Σⱼ)         │
-│  → 각 포인트 xₙ이 군집 k에 속할 사후 확률(책임감)      │
-│                                                          │
-│  M-step (Maximization):                                  │
-│  Nₖ = Σₙ γ(zₙₖ)                                       │
-│  μₖ = (1/Nₖ) Σₙ γ(zₙₖ) xₙ                            │
-│  Σₖ = (1/Nₖ) Σₙ γ(zₙₖ)(xₙ-μₖ)(xₙ-μₖ)ᵀ               │
-│  πₖ = Nₖ/N                                              │
-│                                                          │
-│  반복: E→M→E→M→... 로그 우도 수렴까지                  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           GMM + EM 알고리즘 반복 구조                    |
++----------------------------------------------------------+
+|  GMM 모델:  p(x) = Σₖ πₖ · N(x | μₖ, Σₖ)             |
+|  πₖ: 혼합 가중치, Σπₖ=1                                |
+|  μₖ: k번째 분포의 평균                                  |
+|  Σₖ: k번째 분포의 공분산 행렬                           |
+|                                                          |
+|  E-step (Expectation):                                   |
+|  γ(zₙₖ) = πₖN(xₙ|μₖ,Σₖ) / Σⱼπⱼ N(xₙ|μⱼ,Σⱼ)         |
+|  -> 각 포인트 xₙ이 군집 k에 속할 사후 확률(책임감)      |
+|                                                          |
+|  M-step (Maximization):                                  |
+|  Nₖ = Σₙ γ(zₙₖ)                                       |
+|  μₖ = (1/Nₖ) Σₙ γ(zₙₖ) xₙ                            |
+|  Σₖ = (1/Nₖ) Σₙ γ(zₙₖ)(xₙ-μₖ)(xₙ-μₖ)ᵀ               |
+|  πₖ = Nₖ/N                                              |
+|                                                          |
+|  반복: E->M->E->M->... 로그 우도 수렴까지                  |
++----------------------------------------------------------+
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 배정 방식 | 군집 형태 | 겹침 허용 |
@@ -102,7 +102,7 @@ GMM은 K-Means보다 표현력이 높고 [확률](/knowledge-base/studynote/08_a
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| K-Means | 하드 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) / GMM의 특수 케이스 (Σ=σ²I) |
+| K-Means | 하드 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) / GMM의 특수 케이스 (Σ=σ^I) |
 | HMM (Hidden [Markov Model](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)) | 시계열 / EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 다른 응용 |
 | BIC / AIC | 모델 선택 / 최적 K 결정 기준 |
 | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 / 잠재 변수 모델 패밀리 |
@@ -110,7 +110,7 @@ GMM은 K-Means보다 표현력이 높고 [확률](/knowledge-base/studynote/08_a
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [GMM (Gaussian Mixture Model) 과 EM 알고리즘] → [최적화·운영 자동화]
+[데이터 전처리] -> [GMM (Gaussian Mixture Model) 과 EM 알고리즘] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ GMM은 K-Means보다 표현력이 높고 [확률](/knowledge-base/studynote/08_a
 
 **진행 상황**: 360 / 420
 
-← **이전**: [359. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/05_data_science_ml/359_cosine_similarity_math/)
-**다음**: [361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)](/knowledge-base/studynote/10_ai/05_data_science_ml/361_multicollinearity_vif/) →
+<- **이전**: [359. 코사인 유사도 (Cosine Similarity)](/knowledge-base/studynote/10_ai/05_data_science_ml/359_cosine_similarity_math/)
+**다음**: [361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)](/knowledge-base/studynote/10_ai/05_data_science_ml/361_multicollinearity_vif/) ->
 
 ---

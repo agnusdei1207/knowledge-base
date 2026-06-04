@@ -105,7 +105,7 @@ GraphRAG는 단순한 정보 검색을 넘어 '지식 발견'의 도구로 진�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Retrieval-Augmented Generation] → [지식 그래프 기반 검색 증강 생성] → [Microsoft GraphRAG · Neo4j GraphRAG]
+[Retrieval-Augmented Generation] -> [지식 그래프 기반 검색 증강 생성] -> [Microsoft GraphRAG · Neo4j GraphRAG]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -120,7 +120,7 @@ GraphRAG는 단순한 정보 검색을 넘어 '지식 발견'의 도구로 진�
 
 **진행 상황**: 530 / 552
 
-← **이전**: [529. DSPy 프롬프트 자동 최적화와 컴파일 (DSPy Prompt Auto-Optimization Compilation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/529_dspy_prompt_auto_optimization_compilation/)
-**다음**: [531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/) →
+<- **이전**: [529. DSPy 프롬프트 자동 최적화와 컴파일 (DSPy Prompt Auto-Optimization Compilation)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/529_dspy_prompt_auto_optimization_compilation/)
+**다음**: [531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/) ->
 
 ---

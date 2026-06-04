@@ -29,7 +29,7 @@ EDAC은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_over
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EDAC의 동작은 <strong>하드웨어 검출 → 플랫폼 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 기록 → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 드라이버 해석 → <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 노출</strong>의 흐름으로 이해하면 쉽다. 메모리 오류가 발생하면 메모리 컨트롤러는 이를 CE (Corrected Error) 또는 UE (Uncorrected Error)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, MCA ([Machine Check Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 메모리 컨트롤러 전용 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 상태를 남긴다. 이후 리눅스의 EDAC 드라이버가 주기적으로 값을 읽거나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로를 받아, 어떤 메모리 컨트롤러, 채널, DIMM에서 문제가 생겼는지 디코딩한다.
+EDAC의 동작은 <strong>하드웨어 검출 -> 플랫폼 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 기록 -> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 드라이버 해석 -> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 노출</strong>의 흐름으로 이해하면 쉽다. 메모리 오류가 발생하면 메모리 컨트롤러는 이를 CE (Corrected Error) 또는 UE (Uncorrected Error)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, MCA ([Machine Check Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 메모리 컨트롤러 전용 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 상태를 남긴다. 이후 리눅스의 EDAC 드라이버가 주기적으로 값을 읽거나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로를 받아, 어떤 메모리 컨트롤러, 채널, DIMM에서 문제가 생겼는지 디코딩한다.
 
 EDAC의 진짜 가치는 단순 출력이 아니라 <strong>토폴로지 해석</strong>에 있다. 같은 "정정 오류 1회"라도 `mc0/channel1/dimm0`에서 난 것인지, CPU [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 2의 특정 랭크에서 난 것인지에 따라 운영 대응이 달라진다. EDAC은 이 정보를 `sysfs`, `dmesg`, `rasdaemon` 같은 사용자 영역 도구로 노출해 장기적인 관측과 알림 연계를 가능하게 한다.
 
@@ -44,24 +44,24 @@ EDAC의 진짜 가치는 단순 출력이 아니라 <strong>토폴로지 해석<
 아래 그림은 EDAC이 오류를 "고치는 기술"이 아니라, 하드웨어의 조용한 복구를 밖으로 꺼내는 관측 파이프라인임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     EDAC의 관측 파이프라인                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ DIMM 비트 오류                                                      │
-│     │                                                               │
-│     ▼                                                               │
-│ ECC / 메모리 컨트롤러 ──▶ CE 교정 또는 UE 판정                     │
-│     │                                                               │
-│     ▼                                                               │
-│ MCA 레지스터 · IMC 카운터에 기록                                   │
-│     │                                                               │
-│     ▼                                                               │
-│ EDAC 커널 드라이버가 슬롯/채널 정보로 디코딩                       │
-│     │                                                               │
-│     ├── /sys/devices/system/edac/... 카운터                         │
-│     ├── dmesg / 커널 로그                                            │
-│     └── rasdaemon · 모니터링 시스템으로 전달                        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                     EDAC의 관측 파이프라인                          |
++----------------------------------------------------------------------+
+| DIMM 비트 오류                                                      |
+|     |                                                               |
+|     v                                                               |
+| ECC / 메모리 컨트롤러 ---> CE 교정 또는 UE 판정                     |
+|     |                                                               |
+|     v                                                               |
+| MCA 레지스터 · IMC 카운터에 기록                                   |
+|     |                                                               |
+|     v                                                               |
+| EDAC 커널 드라이버가 슬롯/채널 정보로 디코딩                       |
+|     |                                                               |
+|     +-- /sys/devices/system/edac/... 카운터                         |
+|     +-- dmesg / 커널 로그                                            |
+|     +-- rasdaemon · 모니터링 시스템으로 전달                        |
++----------------------------------------------------------------------+
 ```
 
 결국 EDAC의 핵심 원리는 <strong>하드웨어 오류를 시간축이 있는 운영 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 바꾸는 것</strong>이다. 이 덕분에 운영자는 일회성 노이즈와 지속적 열화를 구분할 수 있고, 장애가 현실화되기 전에 부품 교체를 예약할 수 있다.
@@ -137,17 +137,17 @@ EDAC의 기대효과는 장애가 터진 뒤 원인을 찾는 시간을 줄이�
 
 ```text
 ECC 메모리 보호
-    │
-    ▼
+    |
+    v
 MCA 기반 오류 기록
-    │
-    ▼
+    |
+    v
 EDAC 커널 가시화
-    │
-    ▼
+    |
+    v
 rasdaemon · 중앙 모니터링
-    │
-    ▼
+    |
+    v
 예지 정비 · 자동 교체 판단 · 운영 RAS 고도화
 ```
 
@@ -165,7 +165,7 @@ rasdaemon · 중앙 모니터링
 
 **진행 상황**: 719 / 803
 
-← **이전**: [717. 메모리 MCA (Machine Check Architecture)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)
-**다음**: [719. CPU 클럭 다운클럭킹 (안전 모드)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) →
+<- **이전**: [717. 메모리 MCA (Machine Check Architecture)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)
+**다음**: [719. CPU 클럭 다운클럭킹 (안전 모드)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) ->
 
 ---

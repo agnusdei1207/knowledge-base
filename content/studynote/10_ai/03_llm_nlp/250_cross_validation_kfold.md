@@ -45,12 +45,12 @@ tags = ["studynote-ai"]
 | Time-Series Split | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | K회 (시간 순서 유지) |
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 단일 Hold-out은 음식점 위생 점검을 1년에 한 번, 같은 날 같은 시간에만 하는 것과 같다. K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 무작위 날, 다양한 시간에 K번 점검해서 음식점의 진짜 위생 수준을 파악하는 것이다.
@@ -62,22 +62,22 @@ tags = ["studynote-ai"]
 ### 2.1 K-겹 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (K-Fold Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 동작
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│             K-Fold Cross-Validation (K=5 예시)             │
-│                                                            │
-│  전체 데이터를 K개 Fold로 균등 분할                           │
-│  ┌──────┬──────┬──────┬──────┬──────┐                     │
-│  │ F1   │ F2   │ F3   │ F4   │ F5   │                     │
-│  └──────┴──────┴──────┴──────┴──────┘                     │
-│                                                            │
-│  반복 1: [훈련][훈련][훈련][훈련][검증F5] → 성능 Score₁      │
-│  반복 2: [훈련][훈련][훈련][검증F4][훈련] → 성능 Score₂      │
-│  반복 3: [훈련][훈련][검증F3][훈련][훈련] → 성능 Score₃      │
-│  반복 4: [훈련][검증F2][훈련][훈련][훈련] → 성능 Score₄      │
-│  반복 5: [검증F1][훈련][훈련][훈련][훈련] → 성능 Score₅      │
-│                                                            │
-│  최종 성능 = mean(Score₁~Score₅) ± std                    │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|             K-Fold Cross-Validation (K=5 예시)             |
+|                                                            |
+|  전체 데이터를 K개 Fold로 균등 분할                           |
+|  +------+------+------+------+------+                     |
+|  | F1   | F2   | F3   | F4   | F5   |                     |
+|  +------+------+------+------+------+                     |
+|                                                            |
+|  반복 1: [훈련][훈련][훈련][훈련][검증F5] -> 성능 Score₁      |
+|  반복 2: [훈련][훈련][훈련][검증F4][훈련] -> 성능 Score₂      |
+|  반복 3: [훈련][훈련][검증F3][훈련][훈련] -> 성능 Score₃      |
+|  반복 4: [훈련][검증F2][훈련][훈련][훈련] -> 성능 Score₄      |
+|  반복 5: [검증F1][훈련][훈련][훈련][훈련] -> 성능 Score₅      |
+|                                                            |
+|  최종 성능 = mean(Score₁~Score₅) ± std                    |
++------------------------------------------------------------+
 ```
 
 - 각 반복마다 서로 다른 fold가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋 역할
@@ -93,7 +93,7 @@ tags = ["studynote-ai"]
 
 일반 K-Fold:                 Stratified K-Fold:
 Fold1: 양성 0%               Fold1: 양성 5%
-Fold2: 양성 15%    →         Fold2: 양성 5%
+Fold2: 양성 15%    ->         Fold2: 양성 5%
 Fold3: 양성 2%               Fold3: 양성 5%
 (클래스 비율 불균등)           (클래스 비율 균등)
 ```
@@ -127,23 +127,23 @@ Fold3: 양성 2%               Fold3: 양성 5%
 
 ```
 전체 데이터
-    │
-    ├── 훈련+검증 세트 (80%)  ─── K-Fold CV로 하이퍼파라미터 선택
-    │        │
-    │        ├── Fold 1~K-1: 훈련 (모델 가중치 학습)
-    │        └── Fold K:     검증 (하이퍼파라미터 선택)
-    │
-    └── 테스트 세트 (20%)  ─── 최종 성능 평가 (한 번만 사용)
+    |
+    +-- 훈련+검증 세트 (80%)  --- K-Fold CV로 하이퍼파라미터 선택
+    |        |
+    |        +-- Fold 1~K-1: 훈련 (모델 가중치 학습)
+    |        +-- Fold K:     검증 (하이퍼파라미터 선택)
+    |
+    +-- 테스트 세트 (20%)  --- 최종 성능 평가 (한 번만 사용)
 ```
 
-**핵심 원칙**: 테스트 세트는 모델 선택 과정에서 절대 사용하지 않음 → 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대표하는 순수한 최종 평가용
+**핵심 원칙**: 테스트 세트는 모델 선택 과정에서 절대 사용하지 않음 -> 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대표하는 순수한 최종 평가용
 
 ### 3.3 시계열 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Time-Series Split)
 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>미래 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 훈련에 포함되는 것(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage)</strong> 방지 필요:
 ```
-반복1: 훈련[1~100] → 검증[101~120]
-반복2: 훈련[1~120] → 검증[121~140]
-반복3: 훈련[1~140] → 검증[141~160]
+반복1: 훈련[1~100] -> 검증[101~120]
+반복2: 훈련[1~120] -> 검증[121~140]
+반복3: 훈련[1~140] -> 검증[141~160]
 ```
 
 - **📢 섹션 요약 비유**: Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분리는 학교 시험과 같다. K-Fold는 모의고사([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 여러 번 보는 것이고, Test 세트는 실제 수능(한 번만, 결과가 최종 성적)이다. 수능 문제로 모의고사 연습을 하면 성적이 부풀려진다.
@@ -159,10 +159,10 @@ Fold3: 양성 2%               Fold3: 양성 5%
 하이퍼파라미터 후보: λ = {0.001, 0.01, 0.1}
 
 각 (모델, λ) 조합에 K-Fold 적용:
-  → CV 평균 점수 계산
-  → 최고 CV 점수 조합 선택
-  → 전체 훈련 데이터로 재학습
-  → 테스트 세트에서 최종 평가
+  -> CV 평균 점수 계산
+  -> 최고 CV 점수 조합 선택
+  -> 전체 훈련 데이터로 재학습
+  -> 테스트 세트에서 최종 평가
 ```
 
 ### 4.2 [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 점수 해석
@@ -189,7 +189,7 @@ Fold3: 양성 2%               Fold3: 양성 5%
 ### 5.1 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 기대효과
 - 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상
 - 단일 분할 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 (√K 비율 개선)
-- 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훈련과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 활용 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율성 극대화
+- 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훈련과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 활용 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율성 극대화
 - 통계적 근거 있는 모델 비교 가능
 
 ### 5.2 결론
@@ -213,7 +213,7 @@ K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_obje
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [교차 검증 (Cross-Validation)] → [최적화·운영 자동화]
+[데이터 전처리] -> [교차 검증 (Cross-Validation)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -228,7 +228,7 @@ K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_obje
 
 **진행 상황**: 250 / 420
 
-← **이전**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)
-**다음**: [251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/) →
+<- **이전**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)
+**다음**: [251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/) ->
 
 ---

@@ -24,23 +24,23 @@ tags = ["studynote-design-supervision"]
 실제 예: Java의 `Iterator`를 반환하는 `Collection.iterator()` 메서드는 팩터리 메서드 패턴의 대표 예시다. `ArrayList.iterator()`는 `ArrayList`의 내부 이터레이터를 반환하고, `LinkedList.iterator()`는 `LinkedList`의 내부 이터레이터를 반환한다. 클라이언트는 `Collection` 인터페이스를 통해 동일하게 사용한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│           팩터리 메서드 패턴 구조                             │
-├─────────────────────────────────────────────────────────────┤
-│  Creator (추상 클래스 / 인터페이스)                          │
-│  + createProduct(): Product  ← 팩터리 메서드(추상)          │
-│  + someOperation(): void {                                  │
-│      Product p = createProduct(); // 팩터리 메서드 호출      │
-│      p.doSomething();                                       │
-│  }                                                          │
-│       ▲                                                     │
-│  ┌────┴─────────────────────┐                               │
-│  ConcreteCreatorA          ConcreteCreatorB                 │
-│  + createProduct(): ProductA  + createProduct(): ProductB   │
-│                                                             │
-│  Product (인터페이스)                                        │
-│  ← ProductA, ProductB가 구현                                │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|           팩터리 메서드 패턴 구조                             |
++-------------------------------------------------------------+
+|  Creator (추상 클래스 / 인터페이스)                          |
+|  + createProduct(): Product  <- 팩터리 메서드(추상)          |
+|  + someOperation(): void {                                  |
+|      Product p = createProduct(); // 팩터리 메서드 호출      |
+|      p.doSomething();                                       |
+|  }                                                          |
+|       ^                                                     |
+|  +----+---------------------+                               |
+|  ConcreteCreatorA          ConcreteCreatorB                 |
+|  + createProduct(): ProductA  + createProduct(): ProductB   |
+|                                                             |
+|  Product (인터페이스)                                        |
+|  <- ProductA, ProductB가 구현                                |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 피자 가게(Creator) 체인에서 각 지점(ConcreteCreator)이 자신의 레시피([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))로 피자(Product)를 만들지만, 손님(클라이언트)은 어느 지점이든 '피자 주문'이라는 동일한 방식으로 주문한다.
@@ -59,15 +59,15 @@ tags = ["studynote-design-supervision"]
 | ConcreteCreator | 팩터리 메서드 구현 | ArrayList, WindowsDialog |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       팩터리 메서드 vs 추상 팩터리 메서드 차이              │
-├─────────────────────────────────────────────────────────────┤
-│  팩터리 메서드: 단일 제품 생성 메서드를 서브클래스에 위임   │
-│  추상 팩터리: 관련 제품군 생성 인터페이스를 제공            │
-│                                                             │
-│  팩터리 메서드 → 상속(Inheritance) 활용                    │
-│  추상 팩터리 → 구성(Composition) 활용                      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       팩터리 메서드 vs 추상 팩터리 메서드 차이              |
++-------------------------------------------------------------+
+|  팩터리 메서드: 단일 제품 생성 메서드를 서브클래스에 위임   |
+|  추상 팩터리: 관련 제품군 생성 인터페이스를 제공            |
+|                                                             |
+|  팩터리 메서드 -> 상속(Inheritance) 활용                    |
+|  추상 팩터리 -> 구성(Composition) 활용                      |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 출판사(Creator)가 책(Product) 제작 방식을 규정하지만, 각 편집팀(ConcreteCreator)이 자신의 방식으로 특정 책(ConcreteProduct)을 제작한다.
@@ -116,7 +116,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[GoF [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴] → [팩터리 메서드 패턴] → [추상 팩터리 패턴] → DI 컨테이너] → [스프링 @Bean 팩터리 메서드]
+[GoF [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴] -> [팩터리 메서드 패턴] -> [추상 팩터리 패턴] -> DI 컨테이너] -> [스프링 @Bean 팩터리 메서드]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -127,7 +127,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)(1994)] → [추상 팩터리 확장] → [스프링 BeanFactory] → DI [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통합] → [함수형 팩터리 함수]
+[GoF [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)(1994)] -> [추상 팩터리 확장] -> [스프링 BeanFactory] -> DI [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통합] -> [함수형 팩터리 함수]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 202 / 530
 
-← **이전**: [145. 싱글턴 구현 기법 (Singleton Implementation Techniques)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/145_singleton_implementation_techniques/)
-**다음**: [147. 추상 팩토리 (Abstract Factory) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/) →
+<- **이전**: [145. 싱글턴 구현 기법 (Singleton Implementation Techniques)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/145_singleton_implementation_techniques/)
+**다음**: [147. 추상 팩토리 (Abstract Factory) 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/147_abstract_factory_pattern/) ->
 
 ---

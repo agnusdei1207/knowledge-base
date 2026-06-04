@@ -36,21 +36,21 @@ tags = ["studynote-operating-system"]
 아래 그림은 디스패치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디서 생기는지 시간축으로 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              dispatch latency on a context switch           │
-├──────────────────────────────────────────────────────────────┤
-│ Running T0                                                   │
-│    │ timer interrupt / wake-up                               │
-│    ▼                                                         │
-│ [kernel entry]                                               │
-│    ├─ save old context                                       │
-│    ├─ wait for preemption-safe point / lock release          │
-│    ├─ choose next runnable task                              │
-│    ├─ restore new context + address space                    │
-│    └─ return to user mode ───────────────▶ Running T1        │
-│                                                              │
-│ <------------------- dispatch latency ---------------------> │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|              dispatch latency on a context switch           |
++--------------------------------------------------------------+
+| Running T0                                                   |
+|    | timer interrupt / wake-up                               |
+|    v                                                         |
+| [kernel entry]                                               |
+|    +- save old context                                       |
+|    +- wait for preemption-safe point / lock release          |
+|    +- choose next runnable task                              |
+|    +- restore new context + address space                    |
+|    +- return to user mode ----------------> Running T1        |
+|                                                              |
+| <------------------- dispatch latency ---------------------> |
++--------------------------------------------------------------+
 ```
 
 디스패치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 핵심 비용은 크게 네 가지다. 첫째, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 저장·복원 비용이다. 둘째, 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))와 변환 색인 버퍼 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 관련 비용이다. 셋째, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락 때문에 즉시 선점하지 못하는 대기 시간이다. 넷째, 전환 후 캐시가 차가워져 원래 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 복귀하기까지의 숨은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이다.
@@ -138,19 +138,19 @@ tags = ["studynote-operating-system"]
 
 ```text
 타이머 인터럽트 · wake-up 이벤트
-    │
-    ▼
+    |
+    v
 커널 진입
-    │
-    ▼
+    |
+    v
 문맥 저장 · 스케줄러 선택 · 문맥 복원
-    │
-    ▼
+    |
+    v
 Dispatch Latency 측정
-    │
-    ├──────────────▶ 선점 커널 최적화
-    ├──────────────▶ CPU affinity · cache locality 개선
-    └──────────────▶ RTOS · Kernel Bypass 선택
+    |
+    +---------------> 선점 커널 최적화
+    +---------------> CPU affinity · cache locality 개선
+    +---------------> RTOS · Kernel Bypass 선택
 ```
 
 이 흐름도는 이벤트 반응이 단순 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에서 끝나지 않고, 실제 실행 전환과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최적화 문제로 확장되는 구조를 보여준다.
@@ -167,7 +167,7 @@ Dispatch Latency 측정
 
 **진행 상황**: 169 / 800
 
-← **이전**: [168. 디스패처 (Dispatcher) - 문맥 교환 수행 모듈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)
-**다음**: [170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/) →
+<- **이전**: [168. 디스패처 (Dispatcher) - 문맥 교환 수행 모듈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)
+**다음**: [170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/) ->
 
 ---

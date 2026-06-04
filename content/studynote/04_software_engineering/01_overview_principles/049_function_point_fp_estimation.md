@@ -27,15 +27,15 @@ Function Point (기능 점수):
 
 트랜잭션 기능:
   EI (External Input): 외부 입력
-     사용자 → 시스템 데이터 입력
+     사용자 -> 시스템 데이터 입력
      예: 회원가입 폼 제출, 주문 입력
 
   EO (External Output): 외부 출력
-     시스템 → 사용자 데이터 출력 (계산 포함)
+     시스템 -> 사용자 데이터 출력 (계산 포함)
      예: 매출 보고서, 세금 계산서 출력
 
   EQ (External Query): 외부 조회
-     시스템 → 사용자 데이터 조회 (단순 검색)
+     시스템 -> 사용자 데이터 조회 (단순 검색)
      예: 회원 목록 조회, 주문 현황 조회
 
 데이터 기능:
@@ -238,7 +238,7 @@ FP 산정 절차:
 
 5. 감리 결과:
   발주처 FP: 480 FP
-  수주업체 검증: 495 FP (+3.1% 이내 → 적정)
+  수주업체 검증: 495 FP (+3.1% 이내 -> 적정)
 
   FP 차이 ±5% 이내: 적정 범위 인정
 ```
@@ -311,7 +311,7 @@ FP와 병행 사용
 
 **진행 상황**: 49 / 973
 
-← **이전**: [048. COCOMO II — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/)
-**다음**: [기능점수 간이법 vs 상세법 (FP Simple vs Detailed)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/050_fp_simple_vs_detailed/) →
+<- **이전**: [048. COCOMO II — 소프트웨어 비용 추정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/)
+**다음**: [기능점수 간이법 vs 상세법 (FP Simple vs Detailed)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/050_fp_simple_vs_detailed/) ->
 
 ---

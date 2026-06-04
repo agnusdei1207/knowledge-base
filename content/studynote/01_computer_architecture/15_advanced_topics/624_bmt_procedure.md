@@ -44,16 +44,16 @@ BMT가 필요한 이유는 제조사 스펙이 대개 특정 조건에서 측정
 아래 흐름은 BMT가 단순 벤치마크 한 번이 아니라, 사전 기준을 둔 의사결정 과정임을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            BMT flow: same workload, same rules, measurable result         │
-├────────────────────────────────────────────────────────────────────────────┤
-│  Requirement                                                               │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Workload Model -> Testbed Setup -> Run & Repeat -> Fault Injection       │
-│      │                                │                    │               │
-│      └─────────────── Scorecard & Pass/Fail Decision ─────┘               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            BMT flow: same workload, same rules, measurable result         |
++----------------------------------------------------------------------------+
+|  Requirement                                                               |
+|      |                                                                     |
+|      v                                                                     |
+|  Workload Model -> Testbed Setup -> Run & Repeat -> Fault Injection       |
+|      |                                |                    |               |
+|      +--------------- Scorecard & Pass/Fail Decision -----+               |
++----------------------------------------------------------------------------+
 ```
 
 이 과정에서 중요한 것은 워밍업 구간과 정상 상태 구간을 분리하고, 평균값뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 자원 여유율을 함께 보는 것이다. 또한 장애 시험은 단순 핑 손실이 아니라 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 절체, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 운영 알람까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. BMT의 품질은 테스트 도구보다 <strong>조건 통제와 평가 기준의 명확성</strong>에서 결정된다.
@@ -119,17 +119,17 @@ BMT를 제대로 수행하면 장비 선정의 실패 확률을 줄이고, 운�
 
 ```text
 요구사항 · SLA 정의
-    │
-    ▼
+    |
+    v
 워크로드 모델링 · 시험 환경 통일
-    │
-    ▼
+    |
+    v
 성능 · 가용성 · 운영성 반복 측정
-    │
-    ▼
+    |
+    v
 점수화 · 우선순위 결정
-    │
-    ▼
+    |
+    v
 도입 이후 FAT/SAT 및 운영 검증 연계
 ```
 
@@ -147,7 +147,7 @@ BMT를 제대로 수행하면 장비 선정의 실패 확률을 줄이고, 운�
 
 **진행 상황**: 624 / 803
 
-← **이전**: [623. 데이터센터 PUE (Power Usage Effectiveness)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/)
-**다음**: [625. SLA (Service Level Agreement) 하드웨어 가용성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/625_sla_hardware_availability/) →
+<- **이전**: [623. 데이터센터 PUE (Power Usage Effectiveness)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/)
+**다음**: [625. SLA (Service Level Agreement) 하드웨어 가용성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/625_sla_hardware_availability/) ->
 
 ---

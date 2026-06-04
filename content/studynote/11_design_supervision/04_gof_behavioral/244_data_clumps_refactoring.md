@@ -25,20 +25,20 @@ tags = ["studynote-design-supervision"]
 - 복붙 (Copy-and-Paste) 개발로 동일 패턴이 여러 곳에 확산
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  데이터 클럼프 발생 위치                             │
-├──────────────────────────────────────────────────────┤
-│  1. 클래스 필드: 여러 필드가 항상 함께 변경됨       │
-│     예) User { String firstName; String lastName;    │
-│              String email; String phoneCountryCode;  │
-│              String phoneNumber; }                   │
-├──────────────────────────────────────────────────────┤
-│  2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음   │
-│     예) send(String host, int port, boolean ssl)     │
-├──────────────────────────────────────────────────────┤
-│  3. 반환값: 여러 관련 값을 배열이나 맵으로 반환     │
-│     예) return new Object[]{lat, lng, altitude}     │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  데이터 클럼프 발생 위치                             |
++------------------------------------------------------+
+|  1. 클래스 필드: 여러 필드가 항상 함께 변경됨       |
+|     예) User { String firstName; String lastName;    |
+|              String email; String phoneCountryCode;  |
+|              String phoneNumber; }                   |
++------------------------------------------------------+
+|  2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음   |
+|     예) send(String host, int port, boolean ssl)     |
++------------------------------------------------------+
+|  3. 반환값: 여러 관련 값을 배열이나 맵으로 반환     |
+|     예) return new Object[]{lat, lng, altitude}     |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 항상 같이 다니는 친구들을 매번 이름 하나하나 불러 모으는 것보다 "농구팀"이라는 그룹 이름으로 부르는 게 효율적이다.
@@ -48,33 +48,33 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [ 변환 전 — 클럼프 산재 ]
-┌────────────────────────────────────────────────────────┐
-│  class Server {                                        │
-│    String host; int port; boolean ssl;                 │
-│  }                                                     │
-│  class HttpClient {                                    │
-│    connect(String host, int port, boolean ssl) {}      │
-│    ping   (String host, int port, boolean ssl) {}      │
-│    retry  (String host, int port, boolean ssl, n) {}   │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
-         ↓  클래스 분리 (Extract Class) / 파라미터 객체화
-┌────────────────────────────────────────────────────────┐
-│  class ConnectionEndpoint {                            │
-│    final String host;                                  │
-│    final int    port;                                  │
-│    final boolean ssl;                                  │
-│    ConnectionEndpoint(host, port, ssl) { validate(); } │
-│    String toUri() { return (ssl?"https":"http")        │
-│                     + "://" + host + ":" + port; }     │
-│  }                                                     │
-│  class Server { ConnectionEndpoint endpoint; }         │
-│  class HttpClient {                                    │
-│    connect(ConnectionEndpoint ep) {}                   │
-│    ping   (ConnectionEndpoint ep) {}                   │
-│    retry  (ConnectionEndpoint ep, int n) {}            │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|  class Server {                                        |
+|    String host; int port; boolean ssl;                 |
+|  }                                                     |
+|  class HttpClient {                                    |
+|    connect(String host, int port, boolean ssl) {}      |
+|    ping   (String host, int port, boolean ssl) {}      |
+|    retry  (String host, int port, boolean ssl, n) {}   |
+|  }                                                     |
++--------------------------------------------------------+
+         v  클래스 분리 (Extract Class) / 파라미터 객체화
++--------------------------------------------------------+
+|  class ConnectionEndpoint {                            |
+|    final String host;                                  |
+|    final int    port;                                  |
+|    final boolean ssl;                                  |
+|    ConnectionEndpoint(host, port, ssl) { validate(); } |
+|    String toUri() { return (ssl?"https":"http")        |
+|                     + "://" + host + ":" + port; }     |
+|  }                                                     |
+|  class Server { ConnectionEndpoint endpoint; }         |
+|  class HttpClient {                                    |
+|    connect(ConnectionEndpoint ep) {}                   |
+|    ping   (ConnectionEndpoint ep) {}                   |
+|    retry  (ConnectionEndpoint ep, int n) {}            |
+|  }                                                     |
++--------------------------------------------------------+
 ```
 
 | 클럼프 위치 | 권장 처방 | 결과 |
@@ -86,9 +86,9 @@ tags = ["studynote-design-supervision"]
 클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong> 가 높아진다.
 
 ```
-ConnectionEndpoint.isSecure()    ← ssl 판단 로직 이전
-ConnectionEndpoint.toUri()       ← URI 조합 로직 이전
-ConnectionEndpoint.validate()    ← 포트 범위 검사 이전
+ConnectionEndpoint.isSecure()    <- ssl 판단 로직 이전
+ConnectionEndpoint.toUri()       <- URI 조합 로직 이전
+ConnectionEndpoint.validate()    <- 포트 범위 검사 이전
 ```
 
 - **📢 섹션 요약 비유**: 흩어진 퍼즐 조각을 상자에 담고 나면, 상자 라벨을 붙이고 완성 그림 미리보기를 상자에 인쇄할 수 있다 — 그게 클럼프에 클래스를 만드는 일이다.
@@ -134,7 +134,7 @@ public final class Money {
 
 지도 서비스에서 `double latitude, double longitude, double altitude`가 100곳에 흩어진 경우, `GeoCoordinate` 객체로 통합하면 거리 계산 (`distanceTo`), 유효 범위 검사 (`isValid`), WKT (Well-Known Text) 직렬화 등을 한곳에서 관리한다.
 
-- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model) 풍부화</strong>: 클럼프 → 클래스 전환은 빈약한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 (Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model) 을 탈출하는 첫걸음이다.
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model) 풍부화</strong>: 클럼프 -> 클래스 전환은 빈약한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 (Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model) 을 탈출하는 첫걸음이다.
 - **테스트 집중화**: 유효성 검사가 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자에 모이므로 테스트 1개로 모든 사용처를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 - <strong>불변 객체 (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/">Immutable Object</a>)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전성 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Safety) 이 보장되어 멀티스레드 환경에서도 안전하다.
 
@@ -176,7 +176,7 @@ public final class Money {
 | 처방 | [파라미터 객체화](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) ([Introduce Parameter Object](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)) | 매개변수 클럼프 처방 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-중복 매개변수 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) → 개념 모델 정제
+중복 매개변수 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) -> 개념 모델 정제
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 알림장에 매일 "국어책, 수학책, 연필, 지우개"를 따로따로 적는 대신 "1교시 준비물 세트"라고 묶어서 적으면 더 빠르다.
@@ -189,7 +189,7 @@ public final class Money {
 
 **진행 상황**: 305 / 530
 
-← **이전**: [243. 코드 스멜 진단 (Code Smell Diagnosis)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/)
-**다음**: [245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/245_temporary_field_refactoring/) →
+<- **이전**: [243. 코드 스멜 진단 (Code Smell Diagnosis)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/243_code_smell_diagnosis/)
+**다음**: [245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/245_temporary_field_refactoring/) ->
 
 ---

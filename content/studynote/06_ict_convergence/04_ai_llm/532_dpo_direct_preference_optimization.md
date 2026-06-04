@@ -39,24 +39,24 @@ RLHF 3단계:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              RLHF vs DPO 비교                            │
-│                                                         │
-│  RLHF                          DPO                      │
-│  ┌─────────┐                   ┌─────────────────────┐  │
-│  │선호 데이터│                   │선호 데이터            │  │
-│  └────┬────┘                   │(chosen, rejected)   │  │
-│       │                        └──────────┬──────────┘  │
-│  ┌────▼────┐                              │             │
-│  │보상 모델 │                   ┌──────────▼──────────┐  │
-│  │(별도훈련)│                   │DPO 손실 함수         │  │
-│  └────┬────┘                   │(Bradley-Terry 내재화)│  │
-│       │                        └──────────┬──────────┘  │
-│  ┌────▼────┐                              │             │
-│  │PPO 강화 │                   ┌──────────▼──────────┐  │
-│  │학습     │                   │LLM 직접 업데이트     │  │
-│  └─────────┘                   └─────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|              RLHF vs DPO 비교                            |
+|                                                         |
+|  RLHF                          DPO                      |
+|  +---------+                   +---------------------+  |
+|  |선호 데이터|                   |선호 데이터            |  |
+|  +----+----+                   |(chosen, rejected)   |  |
+|       |                        +----------+----------+  |
+|  +----v----+                              |             |
+|  |보상 모델 |                   +----------v----------+  |
+|  |(별도훈련)|                   |DPO 손실 함수         |  |
+|  +----+----+                   |(Bradley-Terry 내재화)|  |
+|       |                        +----------+----------+  |
+|  +----v----+                              |             |
+|  |PPO 강화 |                   +----------v----------+  |
+|  |학습     |                   |LLM 직접 업데이트     |  |
+|  +---------+                   +---------------------+  |
++---------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> 핵심 수식</strong>
@@ -111,22 +111,22 @@ $$\mathcal{L}_{[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_
 
 **실제 적용 사례**
 
-- **Llama 3 Instruct**: DPO로 선호 정렬, SFT → [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 2단계 파이프라인
+- **Llama 3 Instruct**: DPO로 선호 정렬, SFT -> [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 2단계 파이프라인
 - **Mistral Instruct**: SimPO 변형으로 효율적 정렬
-- **Zephyr-7B**: ULTRA Feedback [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 + [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) → 소형 모델 정렬 성공 사례
+- **Zephyr-7B**: ULTRA Feedback [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 + [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) -> 소형 모델 정렬 성공 사례
 
 <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확보 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
 1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 고)
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 피드백(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a>)</strong>: GPT-4로 선호 레이블 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)
-3. <strong>Reject <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 자동 선별
+3. <strong>Reject <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 자동 선별
 
 **기술사 판단 포인트**
 
 1. **β 값 튜닝**: β 낮으면 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) 이탈 위험, 높으면 정렬 효과 감소
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 > 양**: 노이즈 있는 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 역전 가능
+2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 > 양**: 노이즈 있는 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 역전 가능
 3. **평가 지표**: MT-Bench, AlpacaEval 2.0으로 정렬 품질 측정
-4. **안전 정렬**: DPO만으로는 탈옥(Jailbreak) 방어 불충분 → [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) 보완 권장
+4. **안전 정렬**: DPO만으로는 탈옥(Jailbreak) 방어 불충분 -> [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) 보완 권장
 
 - **📢 섹션 요약 비유**: [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 요리 재료의 신선도 — 좋은 재료(선호 쌍)가 없으면 최고 레시피도 소용없다.
 
@@ -153,7 +153,7 @@ DPO는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_larg
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비교 대상 · 보상 모델 + PPO 정렬] → [DPO 직접 선호 최적화] → [평가 지표 · 정렬 품질 벤치마크]
+[비교 대상 · 보상 모델 + PPO 정렬] -> [DPO 직접 선호 최적화] -> [평가 지표 · 정렬 품질 벤치마크]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -168,7 +168,7 @@ DPO는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_larg
 
 **진행 상황**: 532 / 552
 
-← **이전**: [531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/)
-**다음**: [533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/533_ldm_latent_diffusion_model_optimization/) →
+<- **이전**: [531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/531_api_throttling_bff_backend_for_frontend/)
+**다음**: [533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/533_ldm_latent_diffusion_model_optimization/) ->
 
 ---

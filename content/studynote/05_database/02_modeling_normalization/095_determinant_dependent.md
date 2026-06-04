@@ -33,17 +33,17 @@ tags = ["database"]
 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 결정자가 될 수도 있다. 예를 들어 수강 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)(학번, 과목코드, 성적)에서 '학번' 단독으로는 여러 과목을 수강하므로 성적을 결정할 수 없고, '과목코드' 단독으로도 수강생이 많아 성적을 결정할 수 없다. 오직 `{학번, 과목코드}`라는 복합 키가 뭉쳐야만 하나의 결정자 집합으로서 `성적`을 종속자로 거느릴 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  함수적 종속성(FD) 관계도                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ 결정자 (Determinant, X) ]      [ 종속자 (Dependent, Y) ] │
-│                                                              │
-│   단일 속성:       학번 ───────────────────▶ 이름, 학과       │
-│                                                              │
-│   복합 속성: {학번, 과목코드} ───────────────▶ 성적             │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  함수적 종속성(FD) 관계도                  |
++--------------------------------------------------------------+
+|                                                              |
+|       [ 결정자 (Determinant, X) ]      [ 종속자 (Dependent, Y) ] |
+|                                                              |
+|   단일 속성:       학번 --------------------> 이름, 학과       |
+|                                                              |
+|   복합 속성: {학번, 과목코드} ----------------> 성적             |
+|                                                              |
++--------------------------------------------------------------+
 ```
 이 그림은 결정자가 단일 컬럼일 수도 있고 복합 컬럼일 수도 있으며, 화살표의 방향이 곧 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 식별의 주도권임을 보여준다.
 
@@ -97,17 +97,17 @@ tags = ["database"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 엔티티 및 속성 도출
-    │
-    ▼
+    |
+    v
 결정자 (Determinant) 및 종속자 (Dependent) 식별
-    │
-    ▼
+    |
+    v
 함수적 종속성 (Functional Dependency) 분석 (완전, 부분, 이행)
-    │
-    ▼
+    |
+    v
 정규화 (Normalization) 수행 (1NF ~ BCNF)
-    │
-    ▼
+    |
+    v
 반정규화 (De-normalization) 판단 (성능 요건 고려)
 ```
 이 흐름도는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 나열한 뒤, 권력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(결정자)를 파악하고, 이를 기반으로 테이블을 쪼개고([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 합치는(반정규화) 실무 설계 과정을 보여준다.
@@ -123,7 +123,7 @@ tags = ["database"]
 
 **진행 상황**: 95 / 600
 
-← **이전**: [94. 함수적 종속성 (Functional Dependency, FD)](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)
-**다음**: [96. 완전 함수적 종속 (Full Functional Dependency)](/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/) →
+<- **이전**: [94. 함수적 종속성 (Functional Dependency, FD)](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)
+**다음**: [96. 완전 함수적 종속 (Full Functional Dependency)](/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/) ->
 
 ---

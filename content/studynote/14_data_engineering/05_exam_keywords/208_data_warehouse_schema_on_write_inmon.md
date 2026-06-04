@@ -47,41 +47,41 @@ tags = ["studynote-data-engineering"]
 ### Inmon의 CIF (Corporate Information Factory) 아키텍처
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              Inmon CIF (기업 정보 팩토리)                  │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐              │
-│  │ 운영 DB  │  │ ERP 시스 │  │ 외부 데이 │              │
-│  │ (OLTP)   │  │ 템(SAP)  │  │ 터 소스   │              │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘              │
-│       └─────────────┴─────────────┘                     │
-│                          │                               │
-│              ┌───────────▼───────────┐                  │
-│              │   ETL 계층            │                  │
-│              │  (추출→변환→적재)      │                  │
-│              └───────────┬───────────┘                  │
-│                          │                               │
-│              ┌───────────▼───────────┐                  │
-│              │   ODS (Operational    │                  │
-│              │   Data Store)         │                  │
-│              │   실시간 통합 뷰       │                  │
-│              └───────────┬───────────┘                  │
-│                          │                               │
-│              ┌───────────▼───────────┐                  │
-│              │   EDW (Enterprise     │                  │
-│              │   Data Warehouse)     │                  │
-│              │   3NF 정규화 통합 저장 │                  │
-│              └───────────┬───────────┘                  │
-│                          │                               │
-│         ┌────────────────┼────────────────┐             │
-│         │                │                │             │
-│  ┌──────▼──┐     ┌───────▼───────┐ ┌─────▼────┐       │
-│  │영업 마트 │     │ 재무 마트      │ │인사 마트  │       │
-│  │(Sales   │     │(Finance Mart) │ │(HR Mart) │       │
-│  │Mart)    │     │               │ │          │       │
-│  └─────────┘     └───────────────┘ └──────────┘       │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              Inmon CIF (기업 정보 팩토리)                  |
++----------------------------------------------------------+
+|                                                          |
+|  +----------+  +----------+  +----------+              |
+|  | 운영 DB  |  | ERP 시스 |  | 외부 데이 |              |
+|  | (OLTP)   |  | 템(SAP)  |  | 터 소스   |              |
+|  +----+-----+  +----+-----+  +----+-----+              |
+|       +-------------+-------------+                     |
+|                          |                               |
+|              +-----------v-----------+                  |
+|              |   ETL 계층            |                  |
+|              |  (추출->변환->적재)      |                  |
+|              +-----------+-----------+                  |
+|                          |                               |
+|              +-----------v-----------+                  |
+|              |   ODS (Operational    |                  |
+|              |   Data Store)         |                  |
+|              |   실시간 통합 뷰       |                  |
+|              +-----------+-----------+                  |
+|                          |                               |
+|              +-----------v-----------+                  |
+|              |   EDW (Enterprise     |                  |
+|              |   Data Warehouse)     |                  |
+|              |   3NF 정규화 통합 저장 |                  |
+|              +-----------+-----------+                  |
+|                          |                               |
+|         +----------------+----------------+             |
+|         |                |                |             |
+|  +------v--+     +-------v-------+ +-----v----+       |
+|  |영업 마트 |     | 재무 마트      | |인사 마트  |       |
+|  |(Sales   |     |(Finance Mart) | |(HR Mart) |       |
+|  |Mart)    |     |               | |          |       |
+|  +---------+     +---------------+ +----------+       |
++----------------------------------------------------------+
 ```
 
 ### [Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) ([스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) 메커니즘
@@ -89,8 +89,8 @@ tags = ["studynote-data-engineering"]
 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 핵심 특성: <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 적재 전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 확정</strong>
 
 ```
-소스 데이터 → [ETL 변환] → [스키마 검증] → [DW 적재]
-              ↑                ↑
+소스 데이터 -> [ETL 변환] -> [스키마 검증] -> [DW 적재]
+              ^                ^
           타입 변환         NULL 검사
           코드 매핑         참조 무결성
           중복 제거         비즈니스 규칙
@@ -136,8 +136,8 @@ tags = ["studynote-data-engineering"]
 
 ### 기술사 판단 포인트
 
-1. **설계 방법론 선택**: 전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요 → [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/), 빠른 비즈니스 가치 → [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/)
-2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a></strong>: ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 필요 → [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), ML 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병행 → [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)
+1. **설계 방법론 선택**: 전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요 -> [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/), 빠른 비즈니스 가치 -> [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/)
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a></strong>: ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 필요 -> [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), ML 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병행 -> [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)
 3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 진화</strong>: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/)([Slowly Changing Dimension](/knowledge-base/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/)) 타입 2로 이력 보존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필수
 
 📢 **섹션 요약 비유**: 클라우드 DW는 <strong>자동화된 도서관 로봇</strong>과 같다. 입고부터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)까지 자동으로 처리하며, 수백만 권도 순식간에 검색한다.
@@ -184,16 +184,16 @@ tags = ["studynote-data-engineering"]
 
 ```text
 OLTP (운영 DB: MySQL · PostgreSQL)
-    │ ETL
-    ▼
+    | ETL
+    v
 Data Warehouse: Schema-on-Write · 정형 분석 (Inmon · Kimball)
-    ├─► Star Schema · Snowflake Schema
-    └─► OLAP Cube: Drill-Down · Roll-Up · Slice · Dice
-    │
-    ▼
+    +-► Star Schema · Snowflake Schema
+    +-► OLAP Cube: Drill-Down · Roll-Up · Slice · Dice
+    |
+    v
 클라우드 DW: BigQuery · Snowflake · Redshift
-    │
-    ▼
+    |
+    v
 Lakehouse: DW 기능 + Lake 유연성 통합
 ```
 2. 이 도서관은 책을 넣을 때 <strong>미리 꼼꼼히 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>해서 정리</strong>해. 그래서 찾을 때는 아주 빠르게 찾을 수 있어.
@@ -205,7 +205,7 @@ Lakehouse: DW 기능 + Lake 유연성 통합
 
 **진행 상황**: 208 / 258
 
-← **이전**: [207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/207_data_lake_schema_on_read_raw_storage/)
-**다음**: [209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) →
+<- **이전**: [207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/207_data_lake_schema_on_read_raw_storage/)
+**다음**: [209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) ->
 
 ---

@@ -43,20 +43,20 @@ tags = ["studynote-enterprise"]
 아래 그림은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)가 "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성"과 "공통 플랫폼"을 동시에 요구한다는 점을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Domain-owned data products on shared platform            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Sales Domain      Payment Domain      Logistics Domain                     │
-│      │                 │                    │                              │
-│      ▼                 ▼                    ▼                              │
-│ [Data Product]    [Data Product]       [Data Product]                     │
-│      └───────────────┬────────────────────┬───────────────┘               │
-│                      ▼                    ▼                               │
-│   Catalog · Access Control · Observability · Storage · Pipeline Runtime   │
-│                              │                                             │
-│                              ▼                                             │
-│                Cross-domain analytics / reports / apps                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                   Domain-owned data products on shared platform            |
++----------------------------------------------------------------------------+
+| Sales Domain      Payment Domain      Logistics Domain                     |
+|      |                 |                    |                              |
+|      v                 v                    v                              |
+| [Data Product]    [Data Product]       [Data Product]                     |
+|      +---------------+--------------------+---------------+               |
+|                      v                    v                               |
+|   Catalog · Access Control · Observability · Storage · Pipeline Runtime   |
+|                              |                                             |
+|                              v                                             |
+|                Cross-domain analytics / reports / apps                 |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 플랫폼 팀은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대신 만들지 않는다. 대신 표준 템플릿, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집, [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)), 접근 제어, 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 같은 기반 기능을 제공해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 빠르게 제품을 만들게 돕는다. 즉 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "모두가 각자 알아서 하라"가 아니라, "공통 기반 위에서 책임만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하라"는 모델이다.
@@ -135,20 +135,20 @@ tags = ["studynote-enterprise"]
 
 ```text
 중앙 데이터 웨어하우스
-    │
-    ▼
+    |
+    v
 데이터 레이크 · 레이크하우스
-    │
-    ▼
+    |
+    v
 중앙 병목과 의미 왜곡 인식
-    │
-    ▼
+    |
+    v
 도메인 소유 데이터 제품
-    │
-    ▼
+    |
+    v
 셀프서비스 플랫폼 + 연합 거버넌스
-    │
-    ▼
+    |
+    v
 데이터 메시 운영 모델
 ```
 
@@ -166,7 +166,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 197 / 482
 
-← **이전**: [196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/196_serverless_architecture_baas_integration/)
-**다음**: [198. 비즈니스 룰 엔진 (BRE, Business Rule 엔진)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/) →
+<- **이전**: [196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/196_serverless_architecture_baas_integration/)
+**다음**: [198. 비즈니스 룰 엔진 (BRE, Business Rule 엔진)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/) ->
 
 ---

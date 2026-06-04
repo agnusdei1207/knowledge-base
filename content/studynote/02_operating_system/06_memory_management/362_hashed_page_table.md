@@ -28,22 +28,22 @@ tags = ["studynote-operating-system"]
   3. **해시(Hash)의 구원**: 입력 공간(64비트)은 무한대에 가깝지만 실제 쓰는 공간(활성 프로세스 수)은 작으므로, 해시를 통해 고정된 크기의 배열로 뭉뚱그려([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) $O(1)$ 속도로 찾자는 이상적인 대안이 등장했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        다단계 페이징 vs 해시 페이지 테이블의 탐색 동선 비교             │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 4단계 다단계 페이징의 지옥 (TLB Miss 시) ]                            │
-│ CPU ─1번▶ (PGD 램) ─2번▶ (PUD 램) ─3번▶ (PMD 램) ─4번▶ (PTE 램)         │
-│ (결과: 번역 한 번 하려고 램을 4번이나 덜그럭대며 방문해야 함)           │
-│                                                                         │
-│ [ 해시 페이지 테이블의 혁신 ]                                           │
-│ CPU 가상 주소 (p = 100)                                                 │
-│       │                                                                 │
-│       ▼ 하드웨어 해시 함수 [ H(100) = 인덱스 5 ]                        │
-│       │                                                                 │
-│       ▼ (RAM 방문 1회 만에 정답 칸에 도달!)                             │
-│ [ 해시 테이블 5번 인덱스 ] ──▶ [ p:100 | Frame: 12 ] ──▶ 끝!            │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|        다단계 페이징 vs 해시 페이지 테이블의 탐색 동선 비교             |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 4단계 다단계 페이징의 지옥 (TLB Miss 시) ]                            |
+| CPU -1번-> (PGD 램) -2번-> (PUD 램) -3번-> (PMD 램) -4번-> (PTE 램)         |
+| (결과: 번역 한 번 하려고 램을 4번이나 덜그럭대며 방문해야 함)           |
+|                                                                         |
+| [ 해시 페이지 테이블의 혁신 ]                                           |
+| CPU 가상 주소 (p = 100)                                                 |
+|       |                                                                 |
+|       v 하드웨어 해시 함수 [ H(100) = 인덱스 5 ]                        |
+|       |                                                                 |
+|       v (RAM 방문 1회 만에 정답 칸에 도달!)                             |
+| [ 해시 테이블 5번 인덱스 ] ---> [ p:100 | Frame: 12 ] ---> 끝!            |
++-------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)은 단계가 깊어질수록 포인터를 타고 램(RAM)을 연속해서 왕복해야 하는 최악의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Memory Walk)을 겪는다. 반면 해시 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 연산(CPU 내부에서 즉시 처리)을 거치고 나면, 이론적으로 램에 딱 1번만 방문하여 결과를 낚아챌 수 있다. 시간 복잡도가 $O(Depth)$에서 $O(1)$로 기적처럼 단축된다.
 
@@ -58,26 +58,26 @@ tags = ["studynote-operating-system"]
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에는 치명적인 약점이 있다. 바로 다른 가상 주소 `p1`과 `p2`를 넣었는데 우연히 같은 [해시 인덱스](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/) `5`가 튀어나오는 <strong>충돌(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>)</strong>이다. 이를 막기 위해 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 칸은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a>)</strong>로 구성된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              해시 충돌(Collision) 해결과 체이닝 탐색 아키텍처        │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 1. CPU가 가상 페이지 P=50을 요구 ]                                 │
-│   해시 함수: Hash(50) = 인덱스 3                                     │
-│                                                                      │
-│ [ 2. 해시 테이블의 인덱스 3번 칸으로 직행 (RAM 1차 접근) ]           │
-│  ┌─────────────────────────────┐                                     │
-│  │ 0번 칸: NULL                │                                     │
-│  │ 1번 칸: [P:10 | Fr:8]       │                                     │
-│  │ 2번 칸: NULL                │                                     │
-│  │ 3번 칸: [P:22 | Fr:4 | Next] ───▶ [P:50 | Fr:9 | NULL]            │
-│  └─────────────────────────────┘       (빙고! 찾았다)                │
-│                                                                      │
-│ [ 3. Linked List 비교 (체이닝 탐색) ]                                │
-│  - 3번 칸 첫 노드를 봄. "P가 22네? 내가 찾는 50이 아니군."           │
-│  - 포인터를 타고 다음 노드로 넘어감 (RAM 2차 접근)                   │
-│  - "P가 50 맞네! 매핑된 프레임 번호는 9번이구나!"                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              해시 충돌(Collision) 해결과 체이닝 탐색 아키텍처        |
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 1. CPU가 가상 페이지 P=50을 요구 ]                                 |
+|   해시 함수: Hash(50) = 인덱스 3                                     |
+|                                                                      |
+| [ 2. 해시 테이블의 인덱스 3번 칸으로 직행 (RAM 1차 접근) ]           |
+|  +-----------------------------+                                     |
+|  | 0번 칸: NULL                |                                     |
+|  | 1번 칸: [P:10 | Fr:8]       |                                     |
+|  | 2번 칸: NULL                |                                     |
+|  | 3번 칸: [P:22 | Fr:4 | Next] ----> [P:50 | Fr:9 | NULL]            |
+|  +-----------------------------+       (빙고! 찾았다)                |
+|                                                                      |
+| [ 3. Linked List 비교 (체이닝 탐색) ]                                |
+|  - 3번 칸 첫 노드를 봄. "P가 22네? 내가 찾는 50이 아니군."           |
+|  - 포인터를 타고 다음 노드로 넘어감 (RAM 2차 접근)                   |
+|  - "P가 50 맞네! 매핑된 프레임 번호는 9번이구나!"                    |
++----------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 해시가 아무리 $O(1)$을 자랑한다지만 충돌이 발생하면 Linked List를 타고 들어가야 하므로 램에 2번, 3번 접근하게 된다. 따라서 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 크기를 넉넉하게 잡고 우수한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 알고리즘을 써서 충돌(Chain 길이)을 1~2개 수준으로 극도로 억제하는 것이 이 아키텍처 성능의 핵심이다. 최악의 경우(모두 한 칸에 충돌) [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 전체를 스캔하는 $O(N)$이라는 끔찍한 사태가 발생할 수도 있다.
@@ -116,12 +116,12 @@ tags = ["studynote-operating-system"]
 이러한 트레이드오프의 패배로 해시 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 x86 주류 시장에서 밀려났다.
 
 ```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 아키텍처   │ TLB Miss 시 │ 시간 예측성  │ 메모리 사용량      │
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ 다단계 트리│ 무조건 느림   │ 완벽 (상수)  │ 가장 적음        │
-│ 해시 테이블│ 평균적으로 빠름│ 불안정 (충돌)│ 해시맵 낭비 존재│
-└──────────┴────────────┴────────────┴─────────────────────────┘
++----------+------------+------------+-------------------------+
+| 아키텍처   | TLB Miss 시 | 시간 예측성  | 메모리 사용량      |
++----------+------------+------------+-------------------------+
+| 다단계 트리| 무조건 느림   | 완벽 (상수)  | 가장 적음        |
+| 해시 테이블| 평균적으로 빠름| 불안정 (충돌)| 해시맵 낭비 존재|
++----------+------------+------------+-------------------------+
 ```
 **[매트릭스 해설]** 이론적 평균치(Big-O Average case)는 해시가 좋지만, OS 설계자는 시스템이 멈추는 '최악의 경우(Worst case)'를 더 무서워한다. [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)로 인한 꼬리물기([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 현상은 OS 스케줄러의 타임아웃을 유발할 수 있어 대중화되지 못했다.
 
@@ -177,12 +177,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [다단계 페이징 (Hierarchical Paging)]
-    │
-    ▼
+    |
+    v
 [해시 페이지 테이블 (Hashed Page Table)]
-    │
-    ├──▶ [역 페이지 테이블 (Inverted Page Table)]
-    └──▶ [세그멘테이션 (Segmentation)]
+    |
+    +---> [역 페이지 테이블 (Inverted Page Table)]
+    +---> [세그멘테이션 (Segmentation)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -199,7 +199,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 362 / 800
 
-← **이전**: [361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)
-**다음**: [363. 역 페이지 테이블 (Inverted Page Table) - 시스템 내 단 하나의 페이지 테이블, 프레임 중심](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) →
+<- **이전**: [361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)
+**다음**: [363. 역 페이지 테이블 (Inverted Page Table) - 시스템 내 단 하나의 페이지 테이블, 프레임 중심](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) ->
 
 ---

@@ -19,19 +19,19 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Persistent vs Ephemeral Runner                     │
-├───────────────────────────────────────────────────────┤
-│  [Persistent (영구)]                                  │
-│   Build 1 → Runner A (파일 잔여) →                   │
-│   Build 2 → Runner A (오염된 환경!) ⚠️               │
-│   → 재현 불가, 보안 취약                              │
-│                                                       │
-│  [Ephemeral (일회성)]                                 │
-│   Build 1 → Runner X (새 생성) → 빌드 → 삭제 🗑️     │
-│   Build 2 → Runner Y (새 생성) → 빌드 → 삭제 🗑️     │
-│   → 완전 격리, 재현 가능, 보안 강화                   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Persistent vs Ephemeral Runner                     |
++-------------------------------------------------------+
+|  [Persistent (영구)]                                  |
+|   Build 1 -> Runner A (파일 잔여) ->                   |
+|   Build 2 -> Runner A (오염된 환경!) ⚠️               |
+|   -> 재현 불가, 보안 취약                              |
+|                                                       |
+|  [Ephemeral (일회성)]                                 |
+|   Build 1 -> Runner X (새 생성) -> 빌드 -> 삭제 🗑️     |
+|   Build 2 -> Runner Y (새 생성) -> 빌드 -> 삭제 🗑️     |
+|   -> 완전 격리, 재현 가능, 보안 강화                   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Persistent Runner는 매번 같은 접시에 음식을 담는 것(이전 음식 잔여물 위험)이고, Ephemeral Runner는 매번 새 일회용 접시를 사용하는 것이다.
@@ -75,7 +75,7 @@ tags = ["studynote-devops-sre"]
 
 ### [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
 1. **러너**: Ephemeral 기본, 캐시는 외부 저장소(S3) 활용.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a></strong>: 러너 종료 시 메모리에서 삭제 → 유출 방지.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a></strong>: 러너 종료 시 메모리에서 삭제 -> 유출 방지.
 3. **Self-hosted**: K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제.
 
 ---
@@ -106,17 +106,17 @@ Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/
 
 ```text
 [물리 빌드 서버 (Persistent, 2000s)]
-    │
-    ▼
+    |
+    v
 [Docker 기반 CI (GitLab Runner, 2015~)]
-    │
-    ▼
+    |
+    v
 [GitHub Actions (2019) — 기본 Ephemeral VM]
-    │
-    ▼
+    |
+    v
 [K8s Pod Agent (2020~) — 자동 생성·삭제]
-    │
-    ▼
+    |
+    v
 [현재: SLSA + Ephemeral — 공급망 보안 필수 요건]
 ```
 
@@ -131,7 +131,7 @@ Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/
 
 **진행 상황**: 118 / 373
 
-← **이전**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/)
-**다음**: [119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/) →
+<- **이전**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/)
+**다음**: [119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/) ->
 
 ---

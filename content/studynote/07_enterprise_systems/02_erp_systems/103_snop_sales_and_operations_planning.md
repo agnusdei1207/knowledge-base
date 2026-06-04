@@ -39,22 +39,22 @@ S&OP는 일회성 행사가 아니라 보통 월 단위로 반복되는 5단계 
 | **5단계** | 임원 S&OP (Executive S&OP) | 미해결 이슈에 대해 재무적 영향을 고려하여 CEO가 최종 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜(숫자) 승인 | CEO, 재무 임원 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                S&OP 의사결정 깔때기 구조 (Funnel)            │
-├──────────────────────────────────────────────────────────────┤
-│ [영업의 희망수요 10만 개]       [생산의 가용능력 7만 개]     │
-│             │                               │                │
-│             ▼                               ▼                │
-│         [Pre-S&OP: 수요/공급 1차 충돌 및 대안 모색]          │
-│          (외주 1만 개 추가 가능, 나머지 2만 개는 불가)       │
-│                             │                                │
-│                             ▼                                │
-│             [Executive S&OP: 재무 기반 최종 결정]            │
-│  "외주 단가 상승으로 이익 감소! 최종 7.5만 개만 생산 승인!"  │
-│                             │                                │
-│                             ▼                                │
-│        ★ [One Number 확정] SCM 및 ERP 마스터 데이터 반영 ★ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                S&OP 의사결정 깔때기 구조 (Funnel)            |
++--------------------------------------------------------------+
+| [영업의 희망수요 10만 개]       [생산의 가용능력 7만 개]     |
+|             |                               |                |
+|             v                               v                |
+|         [Pre-S&OP: 수요/공급 1차 충돌 및 대안 모색]          |
+|          (외주 1만 개 추가 가능, 나머지 2만 개는 불가)       |
+|                             |                                |
+|                             v                                |
+|             [Executive S&OP: 재무 기반 최종 결정]            |
+|  "외주 단가 상승으로 이익 감소! 최종 7.5만 개만 생산 승인!"  |
+|                             |                                |
+|                             v                                |
+|        ★ [One Number 확정] SCM 및 ERP 마스터 데이터 반영 ★ |
++--------------------------------------------------------------+
 ```
 
 이 프로세스의 핵심은 단순히 수량을 맞추는 물리적 조정을 넘어, 최종 결정 기준이 '수익성(Profitability)'이라는 재무적 원칙에 뿌리를 두고 있다는 점이다.
@@ -116,14 +116,14 @@ S&OP는 단순히 회의를 하는 절차가 아니라, 기업의 문화를 '개
 
 ```text
 부서 이기주의 (Silo Effect) 및 채찍 효과 발생
-    │
-    ▼ (운영 통합의 필요성 대두)
+    |
+    v (운영 통합의 필요성 대두)
 MRP / MRPII · 자재 및 생산 자원의 물리적 계획 수립
-    │
-    ▼ (영업 수요와 생산 공급의 전사적 조율)
+    |
+    v (영업 수요와 생산 공급의 전사적 조율)
 S&OP (Sales and Operations Planning) · 물량 기반의 단일 마스터플랜 합의
-    │
-    ▼ (재무 목표와의 완벽한 동기화)
+    |
+    v (재무 목표와의 완벽한 동기화)
 IBP (Integrated Business Planning) · 가치(Value)와 이익(Profit) 중심의 시나리오 경영
 ```
 
@@ -141,7 +141,7 @@ IBP (Integrated Business Planning) · 가치(Value)와 이익(Profit) 중심의 
 
 **진행 상황**: 103 / 482
 
-← **이전**: [102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/)
-**다음**: [104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/) →
+<- **이전**: [102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/)
+**다음**: [104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/) ->
 
 ---

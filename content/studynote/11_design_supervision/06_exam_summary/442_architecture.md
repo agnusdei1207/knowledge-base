@@ -24,14 +24,14 @@ tags = ["studynote-design-supervision"]
 감리와 설계 관점에서 중요한 이유는, 네트워크가 더 이상 단순 인프라가 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질·보안·규제 준수의 핵심 통제 지점이기 때문이다. 따라서 시험 답안에서는 IBN을 단순 유행어가 아니라 **의도 입력 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변환 -> 지속 보증** 구조로 설명해야 한다.
 
 ```text
-┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
-│ Business Intent  │ ───▶ │ Policy Translate │ ───▶ │ Network Changes  │
-└──────────────────┘      └──────────────────┘      └──────────────────┘
-                                                                 │
-                                                                 ▼
-                                                       ┌──────────────────┐
-                                                       │ Assurance Loop   │
-                                                       └──────────────────┘
++------------------+      +------------------+      +------------------+
+| Business Intent  | ----> | Policy Translate | ----> | Network Changes  |
++------------------+      +------------------+      +------------------+
+                                                                 |
+                                                                 v
+                                                       +------------------+
+                                                       | Assurance Loop   |
+                                                       +------------------+
 ```
 
 이 그림은 IBN이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화만이 아니라, 적용 후에도 원래 의도가 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조라는 점을 보여 준다.
@@ -51,28 +51,28 @@ IBN의 핵심은 변환(Translation), 활성화(Activation), 보증(Assurance)�
 | Assurance / Telemetry | 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 세그멘트 상태를 측정·교정 | 의도 이탈 시 경보·재구성·자가 치유 체계 필요 |
 
 ```text
-┌───────────────────┐
-│ Intent Statement  │
-└───────────────────┘
-          │
-          ▼
-┌───────────────────┐      ┌───────────────────┐
-│ Policy Model      │ ───▶ │ Controller        │
-└───────────────────┘      └───────────────────┘
-                                     │
-                                     ▼
-                             ┌───────────────────┐
-                             │ Network Fabric    │
-                             └───────────────────┘
-                                     │
++-------------------+
+| Intent Statement  |
++-------------------+
+          |
+          v
++-------------------+      +-------------------+
+| Policy Model      | ----> | Controller        |
++-------------------+      +-------------------+
+                                     |
+                                     v
+                             +-------------------+
+                             | Network Fabric    |
+                             +-------------------+
+                                     |
                                 telemetry
-                                     ▼
-                             ┌───────────────────┐
-                             │ Assurance Engine  │
-                             └───────────────────┘
-                                     │
+                                     v
+                             +-------------------+
+                             | Assurance Engine  |
+                             +-------------------+
+                                     |
                                 feedback loop
-                                     └────────────▶
+                                     +------------->
 ```
 
 따라서 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 평가는 "얼마나 멋지게 자동화했는가"보다, <strong>의도와 실제 상태의 차이를 얼마나 짧게 닫는가</strong>로 보는 것이 핵심이다.
@@ -167,7 +167,7 @@ Assurance / Telemetry / Self-Healing
 
 **진행 상황**: 520 / 530
 
-← **이전**: [441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/441_mlops/)
-**다음**: [443. 지식 그래프 시맨틱 웹 온톨로지망 (Knowledge Graph Semantic Web Ontology)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/443_process/) →
+<- **이전**: [441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/441_mlops/)
+**다음**: [443. 지식 그래프 시맨틱 웹 온톨로지망 (Knowledge Graph Semantic Web Ontology)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/443_process/) ->
 
 ---

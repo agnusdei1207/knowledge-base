@@ -68,17 +68,17 @@ tags = ["studynote-algorithm"]
 
 ```text
 [직접 주소 테이블 (Direct Address Table) — 키를 인덱스로 직접 사용, 공간 낭비]
-    │
-    ▼
+    |
+    v
 [체인법 (Chaining) — 충돌 시 연결 리스트로 분리, 외부 메모리 할당]
-    │
-    ▼
-[개방 주소법 — 선형 탐사 → 이차 탐사 → 이중 해싱, 테이블 내부 배치]
-    │
-    ▼
+    |
+    v
+[개방 주소법 — 선형 탐사 -> 이차 탐사 -> 이중 해싱, 테이블 내부 배치]
+    |
+    v
 [로빈 후드 해싱 (Robin Hood Hashing) — 탐사 거리 편차를 균등화하는 개선판]
-    │
-    ▼
+    |
+    v
 [쿠쿠 해싱 (Cuckoo Hashing) — 최악 O(1) 조회 보장, 두 테이블 교차 배치]
 ```
 이 흐름은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)을 외부 자료구조에 위임하는 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 포인터 오버헤드를 줄이기 위해 테이블 내부에서 탐사를 수행하는 개방 주소법이 등장하고, 클러스터링 문제를 해결하는 방향으로 점진적으로 정교화되는 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전을 보여준다.
@@ -94,7 +94,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 68 / 175
 
-← **이전**: [15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)
-**다음**: [17. 체인법 (Chaining) — 연결 리스트 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) →
+<- **이전**: [15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)
+**다음**: [17. 체인법 (Chaining) — 연결 리스트 충돌 처리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) ->
 
 ---

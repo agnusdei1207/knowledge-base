@@ -59,16 +59,16 @@ tags = ["ai"]
 ```text
 [미니맥스 값 역전파 계산 메커니즘]
 
-          (MAX: 3) ◄──────────────────── (나의 턴: 큰 값 3 선택)
+          (MAX: 3) ◄-------------------- (나의 턴: 큰 값 3 선택)
            /   \
           /     \
          /       \
-  (MIN: 3)       (MIN: 2) ◄───────────── (상대 턴: 각각 가장 작은 값 선택)
+  (MIN: 3)       (MIN: 2) ◄------------- (상대 턴: 각각 가장 작은 값 선택)
    /   \          /    \
   /     \        /      \
-(3)     (9)    (2)      (8) ◄─────────── (단말 노드: 게임 평가 점수 반환)
- ▲       ▲      ▲        ▲
- └───────┴──────┴────────┴── 단말에서 평가된 점수들이 위로 올라감
+(3)     (9)    (2)      (8) ◄----------- (단말 노드: 게임 평가 점수 반환)
+ ^       ^      ^        ^
+ +-------+------+--------+-- 단말에서 평가된 점수들이 위로 올라감
 ```
 
 이 구조도의 핵심은 최하단의 숫자 9와 8처럼 매우 매력적으로 보이는 큰 보상이 있음에도 불구하고, 상대방(MIN)이 절대 그 길을 허락하지 않을 것임을 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 예측한다는 점이다. 상대가 (3)과 (2)라는 최악의 수로 방어할 것을 전제하기 때문에, 나는 결국 오른쪽의 (2) 루트 대신, 차악을 피할 수 있는 왼쪽의 (3) 루트를 최종 선택(MAX: 3)하게 된다. 이것이 최악의 상황 속에서 최고의 이익을 보전하는 '안전 제일주의' [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)이다.
@@ -106,11 +106,11 @@ tags = ["ai"]
 [실무 의사결정 트리: 깊이 제한에 따른 연산 시간 붕괴 통제]
 
 [현재 게임 턴 진입]
- ├─ [알파-베타 가지치기 적용 O] ──► 탐색 속도 2배 이상 향상
- │   └─ [시간 제한(예: 3초) 임박?]
- │       ├─ [Yes] ──► 현재까지 계산된 최선의 수 즉시 반환 (Iterative Deepening)
- │       └─ [No]  ──► 깊이를 1 더 늘려서 재탐색 시도
- └─ [알파-베타 가지치기 적용 X] ──► (도입 금지, OOM 발생 위험 극대화)
+ +- [알파-베타 가지치기 적용 O] --► 탐색 속도 2배 이상 향상
+ |   +- [시간 제한(예: 3초) 임박?]
+ |       +- [Yes] --► 현재까지 계산된 최선의 수 즉시 반환 (Iterative Deepening)
+ |       +- [No]  --► 깊이를 1 더 늘려서 재탐색 시도
+ +- [알파-베타 가지치기 적용 X] --► (도입 금지, OOM 발생 위험 극대화)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 실무 엔진이 어떻게 제한된 시간 안에 "가장 그럴싸한 정답"을 내놓는지 보여준다. [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)의 심장부에 반복적 깊이 심화(Iterative Deepening) 타이머를 달아두지 않으면, 유저가 AI의 턴을 기다리다 지쳐 게임을 꺼버리는 운영 실패가 발생한다.
@@ -139,17 +139,17 @@ tags = ["ai"]
 
 ```text
 [게임 트리 (Game Tree) — 가능한 모든 수를 나열한 탐색 공간]
-    │
-    ▼
+    |
+    v
 [미니맥스 (Minimax) — MAX·MIN 교대로 최선 수 선택]
-    │
-    ▼
+    |
+    v
 [알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요 분기 제거, 깊이 2배 확장]
-    │
-    ▼
+    |
+    v
 [MCTS (Monte Carlo Tree Search) — 무작위 시뮬레이션으로 방대한 탐색 공간 근사]
-    │
-    ▼
+    |
+    v
 [AlphaGo/AlphaZero — MCTS + 심층 강화학습으로 인간 초월]
 ```
 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 게임 트리의 모든 경우를 평가하는 기반이 되고, [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)와 MCTS로 발전해 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임 플레이의 토대가 되었다.
@@ -165,7 +165,7 @@ tags = ["ai"]
 
 **진행 상황**: 19 / 420
 
-← **이전**: [18. 허용적 휴리스틱 (Admissible Heuristic) - A*가 최적해를 보장하기 위한 조건, h(n)이 실제 목표까지의 비용을](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/)
-**다음**: [20. 알파-베타 가지치기 (Alpha-Beta Pruning) - 미니맥스 트리에서 탐색할 필요가 없는 가지를 잘라내어 연산량 감소](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/) →
+<- **이전**: [18. 허용적 휴리스틱 (Admissible Heuristic) - A*가 최적해를 보장하기 위한 조건, h(n)이 실제 목표까지의 비용을](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/)
+**다음**: [20. 알파-베타 가지치기 (Alpha-Beta Pruning) - 미니맥스 트리에서 탐색할 필요가 없는 가지를 잘라내어 연산량 감소](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/) ->
 
 ---

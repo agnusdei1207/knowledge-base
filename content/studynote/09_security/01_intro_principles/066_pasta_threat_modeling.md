@@ -31,13 +31,13 @@ PASTA는 비즈니스 중심으로 시작해 위협과 공격 시나리오를 �
 
 ```text
 Business Objectives
-  ↓
+  v
 Technical Scope
-  ↓
+  v
 Threat Analysis
-  ↓
+  v
 Attack Simulation
-  ↓
+  v
 Risk Management
 ```
 
@@ -108,11 +108,11 @@ PASTA는 보안과 비즈니스를 연결해 더 현실적인 대응을 돕는�
 
 ```text
 Business Goal
-  ↓
+  v
 PASTA
-  ↓
+  v
 Attack Simulation
-  ↓
+  v
 Risk Response
 ```
 
@@ -122,11 +122,11 @@ Risk Response
 
 ```text
 STRIDE
-  ↓
+  v
 DREAD
-  ↓
+  v
 PASTA
-  ↓
+  v
 Risk-based Security
 ```
 
@@ -144,7 +144,7 @@ PASTA는 그런 보안 생각 순서예요.
 
 **진행 상황**: 66 / 1108
 
-← **이전**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/)
-**다음**: [067. Attack Surface Analysis — 공격 표면 관리](/knowledge-base/studynote/09_security/01_intro_principles/067_attack_surface_analysis/) →
+<- **이전**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/)
+**다음**: [067. Attack Surface Analysis — 공격 표면 관리](/knowledge-base/studynote/09_security/01_intro_principles/067_attack_surface_analysis/) ->
 
 ---

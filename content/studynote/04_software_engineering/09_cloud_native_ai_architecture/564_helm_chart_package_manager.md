@@ -39,16 +39,16 @@ tags = ["studynote-software-engineering"]
 다음은 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  헬름 (Helm) 차트를 이용한 SW                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  헬름 (Helm) 차트를 이용한 SW                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
 ```
 
 이 다이어그램은 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
@@ -148,21 +148,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 헬름 (Helm) 차트를 이용한 SW 패키지 관리 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 720 / 973
 
-← **이전**: [564. 헬름 (Helm) 차트를 이용한 SW 패키지 관리](/knowledge-base/studynote/04_software_engineering/11_testing_validation/564_helm_chart_package_management/)
-**다음**: [565. 오퍼레이터 (Operator) 패턴 - 쿠버네티스 사용자 정의 컨트롤러 확장을 통한 복잡한 앱 관리 자동화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/) →
+<- **이전**: [564. 헬름 (Helm) 차트를 이용한 SW 패키지 관리](/knowledge-base/studynote/04_software_engineering/11_testing_validation/564_helm_chart_package_management/)
+**다음**: [565. 오퍼레이터 (Operator) 패턴 - 쿠버네티스 사용자 정의 컨트롤러 확장을 통한 복잡한 앱 관리 자동화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/) ->
 
 ---

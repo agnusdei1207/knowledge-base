@@ -23,8 +23,8 @@ tags = ["studynote-bigdata"]
 
 | 보장 수준 | 설명 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| At-Most-Once (최대 한 번) | 처리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 전송 → 유실 가능 | 가장 빠름, 최저 오버헤드 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 가능 |
-| At-Least-Once (최소 한 번) | 장애 시 재전송 → 중복 가능 | 빠름, 유실 없음 | 중복 처리 가능 |
+| At-Most-Once (최대 한 번) | 처리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 전송 -> 유실 가능 | 가장 빠름, 최저 오버헤드 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 가능 |
+| At-Least-Once (최소 한 번) | 장애 시 재전송 -> 중복 가능 | 빠름, 유실 없음 | 중복 처리 가능 |
 | Exactly-Once ([정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)) | 중복도 없고 유실도 없음 | 완전한 정합성 | 가장 느림, 복잡함 |
 
 ### 2. 왜 Exactly-Once가 어려운가
@@ -34,13 +34,13 @@ tags = ["studynote-bigdata"]
 ```
 [장애 발생 시나리오]
 
-Source → Process → Sink
+Source -> Process -> Sink
 
 Sink에 쓰는 도중 프로세스가 죽으면:
   - 결과가 Sink에 절반 쓰였나? 안 쓰였나?
   - Source의 오프셋을 커밋했나? 안 했나?
 
-→ 재시작 시 어디서부터 다시 처리해야 할지 불명확!
+-> 재시작 시 어디서부터 다시 처리해야 할지 불명확!
 ```
 
 **📢 섹션 요약 비유**
@@ -55,19 +55,19 @@ Sink에 쓰는 도중 프로세스가 죽으면:
 ```
 [Flink Exactly-Once 동작 흐름]
 
-1. 체크포인트 시작 (JobManager → Barrier 삽입)
-   Kafka Source ──── [Barrier N] ───→ Process ──── [Barrier N] ───→ Sink
+1. 체크포인트 시작 (JobManager -> Barrier 삽입)
+   Kafka Source ---- [Barrier N] ----> Process ---- [Barrier N] ----> Sink
                                                                     (Pre-commit)
 
-2. 모든 연산자 Barrier 수신 → 상태 스냅샷 저장
-   Process: 현재 집계 상태 → HDFS/S3 저장
+2. 모든 연산자 Barrier 수신 -> 상태 스냅샷 저장
+   Process: 현재 집계 상태 -> HDFS/S3 저장
 
 3. Sink: Pre-commit (2PC Phase 1)
    Kafka Sink: Transaction 열기, 메시지 쓰기 (미완료 상태)
    Database Sink: Prepared Statement 실행
 
-4. JobManager: 모든 확인 수신 → Commit 신호 (2PC Phase 2)
-   Kafka Sink: Transaction Commit ← Exactly-Once 완료
+4. JobManager: 모든 확인 수신 -> Commit 신호 (2PC Phase 2)
+   Kafka Sink: Transaction Commit <- Exactly-Once 완료
    Database Sink: COMMIT 실행
 
 5. Source Offset Commit
@@ -99,13 +99,13 @@ env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 
 ```
 Idempotent Sink 예시:
-  Elasticsearch: 고유 ID로 UPSERT → 중복 써도 같은 결과
-  HBase: Row Key 기반 PUT → 같은 Row Key 중복 써도 덮어씀
-  Parquet: 파티션 덮어쓰기 → 동일 파티션 재처리 시 정확히 한 번과 동일
+  Elasticsearch: 고유 ID로 UPSERT -> 중복 써도 같은 결과
+  HBase: Row Key 기반 PUT -> 같은 Row Key 중복 써도 덮어씀
+  Parquet: 파티션 덮어쓰기 -> 동일 파티션 재처리 시 정확히 한 번과 동일
 
 Non-Idempotent Sink:
-  Kafka Topic 쓰기 → 중복 메시지 발생 (2PC 필요)
-  카운터 업데이트 → INCREMENT 중복 시 값 증가
+  Kafka Topic 쓰기 -> 중복 메시지 발생 (2PC 필요)
+  카운터 업데이트 -> INCREMENT 중복 시 값 증가
 ```
 
 ### 4. 보장 수준 비교
@@ -126,24 +126,24 @@ Non-Idempotent Sink:
 
 ### 1. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Transactions와 Exactly-Once
 
-[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 0.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)+부터 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) API를 지원하여 프로듀서 → 토픽 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 Exactly-Once가 가능하다.
+[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 0.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)+부터 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) API를 지원하여 프로듀서 -> 토픽 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 Exactly-Once가 가능하다.
 
 ```
 Kafka Transactions:
   ProducerID + Epoch: 장애 후 재시작 시 이전 트랜잭션 식별
   TransactionalId: 같은 논리적 프로듀서 식별
-  Isolation Level: Consumer의 read_committed → 커밋된 메시지만 읽음
+  Isolation Level: Consumer의 read_committed -> 커밋된 메시지만 읽음
 ```
 
 ### 2. Flink [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Exactly-Once [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)
 
 ```
 Kafka Source (읽기 오프셋 관리)
-  → Flink 처리 (체크포인트 기반 상태 저장)
-  → Kafka Sink (Transaction 기반 쓰기)
-  → Consumer (read_committed isolation)
+  -> Flink 처리 (체크포인트 기반 상태 저장)
+  -> Kafka Sink (Transaction 기반 쓰기)
+  -> Consumer (read_committed isolation)
 
-→ 전 구간 Exactly-Once 달성
+-> 전 구간 Exactly-Once 달성
 ```
 
 **📢 섹션 요약 비유**
@@ -209,17 +209,17 @@ Exactly-Once Semantics는 <strong>스트리밍 <a href="/knowledge-base/studynot
 
 ```text
 [최대 1회 (At-Most-Once) — 손실 허용]
-    │
-    ▼
+    |
+    v
 [최소 1회 (At-Least-Once) — 중복 허용]
-    │
-    ▼
+    |
+    v
 [정확히 1회 (Exactly-Once Semantics) — 완전 보장]
-    │
-    ▼
+    |
+    v
 [분산 트랜잭션 (Distributed Transaction) — 2PC 커밋]
-    │
-    ▼
+    |
+    v
 [멱등 프로듀서 (Idempotent Producer) — 트랜잭션 API Kafka]
 ```
 
@@ -235,7 +235,7 @@ Exactly-Once Semantics는 <strong>스트리밍 <a href="/knowledge-base/studynot
 
 **진행 상황**: 87 / 262
 
-← **이전**: [11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)
-**다음**: [13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)](/knowledge-base/studynote/16_bigdata/04_streaming/088_kafka_partitioning/) →
+<- **이전**: [11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)
+**다음**: [13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)](/knowledge-base/studynote/16_bigdata/04_streaming/088_kafka_partitioning/) ->
 
 ---

@@ -30,26 +30,26 @@ tags = ["studynote-network"]
 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 도입을 통해 네트워크 스니핑 공격이 어떻게 무력화되는지를 패킷 분석 관점에서 시각화하면, ESP의 '[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장'이라는 가치가 명확히 드러난다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │              네트워크 스니핑 공격에 대한 ESP의 방어 원리              │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ESP 미적용 (일반 IP 통신)]                                      │
-  │  송신자 ────▶ [인터넷 라우터(해커 잠복)] ────▶ 수신자                  │
-  │                                                             │
-  │  와이어샤크(Wireshark) 패킷 캡처:                                │
-  │  [ IP Header ] [ TCP Header ] [ Data: "ID:admin, PW:1234" ] │
-  │  ⚠ 해커: "평문이네? 비밀번호를 획득했다!" (스니핑 성공)                 │
-  │                                                             │
-  │  [ESP 터널 모드 적용 시]                                         │
-  │  송신자(VPN) ────▶ [인터넷 라우터(해커 잠복)] ────▶ 수신자(VPN)        │
-  │                                                             │
-  │  와이어샤크(Wireshark) 패킷 캡처:                                │
-  │  [ New IP Header ] [ ESP Header ] [ Data: "0x8f7a2b9..." ]  │
-  │                                   └─ 이 구간 전체가 난수화됨 ──┘  │
-  │  ✅ 해커: "ESP 헤더 이후로는 완벽히 암호화된 쓰레기 데이터로군.          │
-  │           TCP 포트 번호조차 알 수 없다!" (스니핑 완전 실패)               │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |              네트워크 스니핑 공격에 대한 ESP의 방어 원리              |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ESP 미적용 (일반 IP 통신)]                                      |
+  |  송신자 -----> [인터넷 라우터(해커 잠복)] -----> 수신자                  |
+  |                                                             |
+  |  와이어샤크(Wireshark) 패킷 캡처:                                |
+  |  [ IP Header ] [ TCP Header ] [ Data: "ID:admin, PW:1234" ] |
+  |  ⚠ 해커: "평문이네? 비밀번호를 획득했다!" (스니핑 성공)                 |
+  |                                                             |
+  |  [ESP 터널 모드 적용 시]                                         |
+  |  송신자(VPN) -----> [인터넷 라우터(해커 잠복)] -----> 수신자(VPN)        |
+  |                                                             |
+  |  와이어샤크(Wireshark) 패킷 캡처:                                |
+  |  [ New IP Header ] [ ESP Header ] [ Data: "0x8f7a2b9..." ]  |
+  |                                   +- 이 구간 전체가 난수화됨 --+  |
+  |  ✅ 해커: "ESP 헤더 이후로는 완벽히 암호화된 쓰레기 데이터로군.          |
+  |           TCP 포트 번호조차 알 수 없다!" (스니핑 완전 실패)               |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 없이 인터넷을 통해 통신할 경우, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷의 헤더([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))와 페이로드(실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 모두 평문으로 전송된다. 중간 경로에 있는 라우터 관리자나 해커가 스니핑 툴을 이용해 패킷을 캡처하면 민감한 정보가 그대로 노출된다. 그러나 ESP를 적용하면, 원본 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함한 핵심 영역 전체가 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 강력한 대칭키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 암호화된다. 해커가 패킷을 캡처하더라도 볼 수 있는 것은 새로 붙인 껍데기 IP 주소(보통 게이트웨이 IP)와 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더뿐이며, 어떤 애플리케이션([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는지는 수학적으로 해독할 수 없어 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)이 완벽하게 보장된다.
@@ -75,37 +75,37 @@ tags = ["studynote-network"]
 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 구조의 가장 큰 특징은 패킷을 앞에서 덮는 헤더(Header)뿐만 아니라, 뒤를 감싸는 트레일러(Trailer) 구조를 함께 갖는 캡슐화(Encapsulating) 형태라는 점이다. 암호화 영역과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 영역의 경계가 명확히 구분된다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 IPSec ESP 패킷 캡슐화 구조 (터널 모드 기준)            │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │                          ←───────────── 암호화 구간 ───────────────→│
-  │ ┌───────────────┬───────┬───────────────┬──────────────┬───────┐ │
-  │ │ New IP Header │  ESP  │ Orig IP Header│ TCP + Data   │  ESP  │ │
-  │ │(인터넷 라우팅 용)│ Header│ (내부망 IP 구조)│              │Trailer│ │
-  │ └───────────────┴───────┴───────────────┴──────────────┴───────┘ │
-  │                         ←──────────────── 인증 구간 ────────────────→│
-  │                                                ┌───────────────┐ │
-  │                                                │ESP Auth (ICV) │ │
-  │                                                └───────────────┘ │
-  │                                                                  │
-  │ [ESP 내부 상세 구조]                                               │
-  │  0                   1                   2                   3   │
-  │  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 │
-  │ ┌───────────────────────────────────────────────────────────────┐│
-  │ │                  Security Parameters Index (SPI)              ││ Header
-  │ ├───────────────────────────────────────────────────────────────┤│
-  │ │                      Sequence Number                          ││
-  │ ├───────────────────────────────────────────────────────────────┤│
-  │ │                                                               ││
-  │ │         Payload Data (변수 길이, 터널 모드 시 원본 패킷 전체)         ││ Encrypted
-  │ │                                                               ││
-  │ ├───────────────────────┬───────────────────────┬───────────────┤│
-  │ │    Padding (0-255)    │      Pad Length       │  Next Header  ││ Trailer
-  │ ├───────────────────────┴───────────────────────┴───────────────┤│
-  │ │           Integrity Check Value (ICV) - 선택적 추가              ││ Auth
-  │ └───────────────────────────────────────────────────────────────┘│
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 IPSec ESP 패킷 캡슐화 구조 (터널 모드 기준)            |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |                          <-------------- 암호화 구간 ---------------->|
+  | +---------------+-------+---------------+--------------+-------+ |
+  | | New IP Header |  ESP  | Orig IP Header| TCP + Data   |  ESP  | |
+  | |(인터넷 라우팅 용)| Header| (내부망 IP 구조)|              |Trailer| |
+  | +---------------+-------+---------------+--------------+-------+ |
+  |                         <----------------- 인증 구간 ----------------->|
+  |                                                +---------------+ |
+  |                                                |ESP Auth (ICV) | |
+  |                                                +---------------+ |
+  |                                                                  |
+  | [ESP 내부 상세 구조]                                               |
+  |  0                   1                   2                   3   |
+  |  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 |
+  | +---------------------------------------------------------------+|
+  | |                  Security Parameters Index (SPI)              || Header
+  | +---------------------------------------------------------------+|
+  | |                      Sequence Number                          ||
+  | +---------------------------------------------------------------+|
+  | |                                                               ||
+  | |         Payload Data (변수 길이, 터널 모드 시 원본 패킷 전체)         || Encrypted
+  | |                                                               ||
+  | +-----------------------+-----------------------+---------------+|
+  | |    Padding (0-255)    |      Pad Length       |  Next Header  || Trailer
+  | +-----------------------+-----------------------+---------------+|
+  | |           Integrity Check Value (ICV) - 선택적 추가              || Auth
+  | +---------------------------------------------------------------+|
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림에서 가장 중요한 것은 상단의 '암호화 구간(Encrypted)'과 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 구간(Authenticated)'의 화살표 범위다. 원본 IP 헤더와 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 그리고 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규격을 맞추기 위해 추가된 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 및 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 트레일러까지가 철저히 암호화되어 내용이 난독화된다. 반면, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), Sequence Number)는 수신자가 누구의 키로 복호화할지 알아야 하므로 암호화되지 않고 평문으로 노출된다. 마지막으로 덧붙여지는 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) Auth (ICV)는 평문인 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더부터 암호화된 트레일러까지 전체를 HMAC으로 해싱하여 패킷의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장한다. 외부 IP 헤더([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP Header)는 암호화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에서 완벽히 배제되므로, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비가 IP 주소를 마음대로 변경해도 ESP의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직은 전혀 깨지지 않는다.
@@ -138,27 +138,27 @@ ESP의 심장인 [암호화 알고리즘](/knowledge-base/studynote/04_software_
 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 내부에서 암호화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 연산을 처리하는 아키텍처의 패러다임 변화를 시각화하면, 최신 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 모드가 왜 실무에서 압도적으로 선호되는지 알 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 ESP 알고리즘 진화: 직렬 처리(CBC) vs 병렬 통합 처리(GCM)│
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │ [전통적 방식: Encrypt-then-MAC (AES-CBC + HMAC-SHA256)]           │
-  │   평문 ──▶ [AES 암호화 연산 (직렬, 느림)] ──▶ 암호문               │
-  │                                            │                     │
-  │             ┌──────────────────────────────┘                     │
-  │             ▼                                                    │
-  │             ├─▶ [HMAC 해시 연산 (별도 키, 느림)] ──▶ ICV 부착       │
-  │                                                                  │
-  │   * 문제: 두 번의 무거운 수학적 연산을 순차적으로 거쳐야 하므로 CPU 과부하 │
-  │                                                                  │
-  │ [현대적 방식: AEAD 통합 연산 (AES-GCM)]                            │
-  │             ┌────── 병렬 가속 연산 (AES-NI 지원) ─────┐            │
-  │   평문 ──▶ │         단일 AES-GCM 엔진           │ ──▶ 암호문    │
-  │             │   (기밀성 암호화 + 무결성 인증 동시 수행) │ ──▶ ICV 부착 │
-  │             └─────────────────────────────────────┘            │
-  │                                                                  │
-  │   * 결과: 연산 사이클 대폭 감소, 지연 시간 최소화, 패딩 취약점 근본적 해결│
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 ESP 알고리즘 진화: 직렬 처리(CBC) vs 병렬 통합 처리(GCM)|
+  +------------------------------------------------------------------+
+  |                                                                  |
+  | [전통적 방식: Encrypt-then-MAC (AES-CBC + HMAC-SHA256)]           |
+  |   평문 ---> [AES 암호화 연산 (직렬, 느림)] ---> 암호문               |
+  |                                            |                     |
+  |             +------------------------------+                     |
+  |             v                                                    |
+  |             +--> [HMAC 해시 연산 (별도 키, 느림)] ---> ICV 부착       |
+  |                                                                  |
+  |   * 문제: 두 번의 무거운 수학적 연산을 순차적으로 거쳐야 하므로 CPU 과부하 |
+  |                                                                  |
+  | [현대적 방식: AEAD 통합 연산 (AES-GCM)]                            |
+  |             +------ 병렬 가속 연산 (AES-NI 지원) -----+            |
+  |   평문 ---> |         단일 AES-GCM 엔진           | ---> 암호문    |
+  |             |   (기밀성 암호화 + 무결성 인증 동시 수행) | ---> ICV 부착 |
+  |             +-------------------------------------+            |
+  |                                                                  |
+  |   * 결과: 연산 사이클 대폭 감소, 지연 시간 최소화, 패딩 취약점 근본적 해결|
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적인 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서는 패킷을 암호화([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 등)하는 작업과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 해시 연산([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))이 철저히 분리된 프로세스로 동작했다. 이를 Encrypt-then-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 접근법이라 하는데, 두 개의 각기 다른 키를 관리해야 하고 연산을 두 번 수행하므로 네트워크 장비의 CPU를 크게 소모했다. 반면, [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 계열인 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-GCM은 갈루아 유한체(Galois Field) 수학 연산을 활용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하는 동시에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 태그)을 뱉어내는 혁신적인 구조를 가졌다. 특히 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 물고 들어가는 CBC와 달리, GCM은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 이용해 블록을 완전히 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 쪼개어 동시 암호화할 수 있으므로, 인텔 CPU의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI 명령어를 100% 활용해 와이어 스피드([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어낸다.
@@ -181,32 +181,32 @@ ESP의 심장인 [암호화 알고리즘](/knowledge-base/studynote/04_software_
 실무에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 간 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 구성할 때, 엔지니어가 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 페이즈 2 ([IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))를 맺기 위해 선택해야 하는 암호군(Transform Set) 의사결정 트리를 도식화하면, 최적의 보안과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출하는 기준을 잡을 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 IPSec ESP 암호군(Cipher Suite) 의사결정 트리            │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [새로운 VPN 터널링 프로필 설계]                                       │
-  │                │                                                 │
-  │                ▼                                                 │
-  │      상대방(Peer) 장비가 최신 GCM을 지원하는가?                       │
-  │          ├─ 예 ─────▶ [AES-256-GCM / 128-GCM 선택]                 │
-  │          │                     │                                 │
-  │          │                     └─▶ [해시 알고리즘 선택 불필요(통합)]      │
-  │          │                                                       │
-  │          └─ 아니오                                               │
-  │                │                                                 │
-  │                ▼                                                 │
-  │      대역폭 성능보다 최고 수준의 보안 강도가 우선인가?                  │
-  │          ├─ 예 ─────▶ [AES-256-CBC + SHA-256 (또는 SHA-512)]      │
-  │          │                     │                                 │
-  │          │                     └─▶ [CPU 부하 증가 모니터링 필수]       │
-  │          │                                                       │
-  │          └─ 아니오 ──▶ [AES-128-CBC + SHA-256 선택]                 │
-  │                                                                  │
-  │   ⚠ 절대 금지 안티패턴 (보안 감사 실패 사유):                          │
-  │   - 암호화: DES, 3DES (무차별 대입 공격에 취약)                       │
-  │   - 해시: MD5, SHA-1 (충돌 공격 증명됨)                             │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 IPSec ESP 암호군(Cipher Suite) 의사결정 트리            |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [새로운 VPN 터널링 프로필 설계]                                       |
+  |                |                                                 |
+  |                v                                                 |
+  |      상대방(Peer) 장비가 최신 GCM을 지원하는가?                       |
+  |          +- 예 ------> [AES-256-GCM / 128-GCM 선택]                 |
+  |          |                     |                                 |
+  |          |                     +--> [해시 알고리즘 선택 불필요(통합)]      |
+  |          |                                                       |
+  |          +- 아니오                                               |
+  |                |                                                 |
+  |                v                                                 |
+  |      대역폭 성능보다 최고 수준의 보안 강도가 우선인가?                  |
+  |          +- 예 ------> [AES-256-CBC + SHA-256 (또는 SHA-512)]      |
+  |          |                     |                                 |
+  |          |                     +--> [CPU 부하 증가 모니터링 필수]       |
+  |          |                                                       |
+  |          +- 아니오 ---> [AES-128-CBC + SHA-256 선택]                 |
+  |                                                                  |
+  |   ⚠ 절대 금지 안티패턴 (보안 감사 실패 사유):                          |
+  |   - 암호화: DES, 3DES (무차별 대입 공격에 취약)                       |
+  |   - 해시: MD5, SHA-1 (충돌 공격 증명됨)                             |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널을 생성할 때 양쪽 게이트웨이는 어떤 자물쇠([암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/))와 어떤 도장(해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 사용할지 협상([IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/))해야 한다. 이 의사결정 트리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안의 트레이드오프를 보여준다. 최신 장비 간의 통신이라면 무조건 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드를 1순위로 선택하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 없애야 한다. 구형 장비와의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 때문에 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드를 써야 한다면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256-CBC와 SHA-2(SHA-256 이상)의 조합이 현재 기업 보안의 마지노선이다. 과거에 흔히 쓰이던 [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/), [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이미 컴퓨터 연산 능력의 발전으로 몇 시간 내에 해독이 가능해졌으므로, ISMS나 ISO27001 같은 보안 감사에서 즉각적인 부적합 사유가 되는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
@@ -245,23 +245,23 @@ ESP의 심장인 [암호화 알고리즘](/knowledge-base/studynote/04_software_
 미래의 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) 환경에서 ESP가 네트워크 인프라에 어떻게 녹아들고 있는지를 추상화하면, 단순히 가장자리의 성벽이 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간의 세포막과 같은 역할로 진화하고 있음을 알 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │              ESP 기반 보안 아키텍처의 패러다임 전환 (미래 로드맵)          │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [과거: 경계 기반 (Perimeter Security)]                               │
-  │    사내망 ──(평문)──▶ [ 방화벽(VPN GW) ] ══(ESP 터널)══▶ 인터넷       │
-  │    * 외부는 위험하고 내부는 안전하다는 잘못된 가정                         │
-  │                                                                  │
-  │  [현재 & 미래: 제로 트러스트 마이크로 세그멘테이션 (Zero Trust)]           │
-  │             (ESP)             (ESP)                              │
-  │    [App A] ◀═════▶ [App B] ◀═════▶ [DB C]                        │
-  │    * 클라우드 내의 모든 개별 컨테이너/서버 간 통신을 기본적으로 암호화       │
-  │                                                                  │
-  │  변화의 핵심: 하드웨어 가속기(스마트 NIC)의 발전으로 ESP 암호화 비용이 '0'에 │
-  │             가까워지면서, 네트워크의 경계가 무너지고 '모든 노드 투 노드'    │
-  │             통신에 ESP를 투명하게 적용하는 시대로 진입했다.               │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |              ESP 기반 보안 아키텍처의 패러다임 전환 (미래 로드맵)          |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [과거: 경계 기반 (Perimeter Security)]                               |
+  |    사내망 --(평문)---> [ 방화벽(VPN GW) ] --(ESP 터널)---> 인터넷       |
+  |    * 외부는 위험하고 내부는 안전하다는 잘못된 가정                         |
+  |                                                                  |
+  |  [현재 & 미래: 제로 트러스트 마이크로 세그멘테이션 (Zero Trust)]           |
+  |             (ESP)             (ESP)                              |
+  |    [App A] <-------> [App B] <-------> [DB C]                        |
+  |    * 클라우드 내의 모든 개별 컨테이너/서버 간 통신을 기본적으로 암호화       |
+  |                                                                  |
+  |  변화의 핵심: 하드웨어 가속기(스마트 NIC)의 발전으로 ESP 암호화 비용이 '0'에 |
+  |             가까워지면서, 네트워크의 경계가 무너지고 '모든 노드 투 노드'    |
+  |             통신에 ESP를 투명하게 적용하는 시대로 진입했다.               |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 과거에는 사내 네트워크는 안전하다는 전제하에 인터넷으로 나가는 관문에 위치한 거대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비 한 대만 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연산을 전담했다. 그러나 현대의 [지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/))은 한 번 내부망에 침투하면 평문 통신을 가로채어 내부망 전체를 장악한다(Lateral Movement). 이에 대응하는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 패러다임에서는 "어떤 네트워크 선로도 신뢰하지 않는다"는 원칙에 따라, 클라우드 내부의 서버나 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때조차 호스트의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 등)이나 스마트 랜카드가 투명하게 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 터널(수송 모드)을 맺어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화한다. CPU 부담이 대폭 줄어든 현대 컴퓨팅 환경이 만든 놀라운 진화 방향이다.
@@ -283,12 +283,12 @@ ESP의 심장인 [암호화 알고리즘](/knowledge-base/studynote/04_software_
 
 ```text
 [선행 개념: AH]
-    │
-    ▼
+    |
+    v
 [현재 개념: ESP]
-    │
-    ├──▶ [확장 A: SSL/TLS 핸드셰이크]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: SSL/TLS 핸드셰이크]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -305,7 +305,7 @@ ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 SSL/[TL
 
 **진행 상황**: 1102 / 1120
 
-← **이전**: [980. AH (Authentication Header)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/980_ah_authentication_header/)
-**다음**: [982. SSL/TLS 핸드셰이크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/982_ssl_tls_handshake/) →
+<- **이전**: [980. AH (Authentication Header)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/980_ah_authentication_header/)
+**다음**: [982. SSL/TLS 핸드셰이크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/982_ssl_tls_handshake/) ->
 
 ---

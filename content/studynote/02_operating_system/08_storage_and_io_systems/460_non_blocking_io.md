@@ -28,28 +28,28 @@ tags = ["studynote-operating-system"]
   3. **I/O 멀티플렉싱의 날개**: 넌블로킹이 그냥 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(무한 찌르기)으로 전락하지 않도록, `epoll`이라는 감시자가 결합하며 완전체 생태계를 이룩함.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        블로킹(Blocking) vs 넌블로킹(Non-blocking) I/O의 치명적 차이 시각화│
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ ▶ 1. 블로킹 I/O (과거 톰캣, 아파치의 지옥)                                │
-│  [유저 스레드] ──`read(소켓)`──▶ [OS 커널]                                │
-│      |                      | "네트워크에 데이터 안 왔네?"                │
-│      | (10초 동안 멍때림)       | (10초 대기...)                          │
-│      | ◀── `Hello` 리턴 ───  | "오! 왔다 가져가라!"                       │
-│    (수만 개의 스레드가 이런 식으로 굳어버리며 램(스택) 터져나감 ☠️)       │
-│                                                                           │
-│ ▶ 2. 넌블로킹 I/O (Nginx, Node.js의 꿀벌 텐션)                            │
-│  [유저 스레드] ──`read(소켓A)`─▶ [OS 커널]                                │
-│      | ◀── `EAGAIN (없음)` ─  | "데이터 없네? 꺼져!" (1ms 컷)             │
-│      |                                                                    │
-│      | ──`read(소켓B)`─▶ [OS 커널]                                        │
-│      | ◀── `Hello 리턴!` ──  | "얜 데이터 왔네! 가져가!"                  │
-│      |                                                                    │
-│      | ──`read(소켓C)`─▶ [OS 커널]                                        │
-│      | ◀── `EAGAIN (없음)` ─  | "없네? 꺼져!"                             │
-│    (단 1개의 스레드가 10초 동안 수백만 개의 소켓을 찔러대며 다 쳐냄 🚀)   │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|        블로킹(Blocking) vs 넌블로킹(Non-blocking) I/O의 치명적 차이 시각화|
++---------------------------------------------------------------------------+
+|                                                                           |
+| -> 1. 블로킹 I/O (과거 톰캣, 아파치의 지옥)                                |
+|  [유저 스레드] --`read(소켓)`---> [OS 커널]                                |
+|      |                      | "네트워크에 데이터 안 왔네?"                |
+|      | (10초 동안 멍때림)       | (10초 대기...)                          |
+|      | <--- `Hello` 리턴 ---  | "오! 왔다 가져가라!"                       |
+|    (수만 개의 스레드가 이런 식으로 굳어버리며 램(스택) 터져나감 ☠️)       |
+|                                                                           |
+| -> 2. 넌블로킹 I/O (Nginx, Node.js의 꿀벌 텐션)                            |
+|  [유저 스레드] --`read(소켓A)`--> [OS 커널]                                |
+|      | <--- `EAGAIN (없음)` -  | "데이터 없네? 꺼져!" (1ms 컷)             |
+|      |                                                                    |
+|      | --`read(소켓B)`--> [OS 커널]                                        |
+|      | <--- `Hello 리턴!` --  | "얜 데이터 왔네! 가져가!"                  |
+|      |                                                                    |
+|      | --`read(소켓C)`--> [OS 커널]                                        |
+|      | <--- `EAGAIN (없음)` -  | "없네? 꺼져!"                             |
+|    (단 1개의 스레드가 10초 동안 수백만 개의 소켓을 찔러대며 다 쳐냄 🚀)   |
++---------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "멈추지 않는다(Never Block)." 이것이 현대 고성능 백엔드 아키텍처의 절대 헌법이다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 늪([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 빠지는 순간 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잡아먹은 2MB [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리와 소중한 타임 퀀텀은 우주 쓰레기가 된다. 넌블로킹은 0.1초의 망설임 없이 에러(EAGAIN)를 뱉고 도망쳐 나오게 만듦으로써, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 숨통을 트이게 하고 미친듯한 핑퐁([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 가능케 한 물리적 마법이다.
 
@@ -105,12 +105,12 @@ tags = ["studynote-operating-system"]
 - 그래서 Node.js([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))가 네트워크는 넌블로킹으로 수만 개를 쳐내지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `read`를 하는 순간 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 굳어버려서 서버가 즉사한다. 이를 우회하려고 Node.js는 뒤에서 몰래 <strong>C++ <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> 4개를 띄워놓고 거기에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블로킹 읽기 작업을 하청 주는 눈물겨운 꼼수를 쓴다. (진정한 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) AIO는 `io_uring`이 나오기 전까진 전멸 상태였다).
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
-│ 장치 종류  │ Blocking 먹힘│ Non-block 작동│ 백엔드 튜닝 전략               │
-├──────────┼────────────┼────────────┼───────────────────────────────────────┤
-│ 네트워크 소켓│ 🟢 (느려터짐)│ 🚀 (미친 속도)│ 100% 넌블로킹 강제 적용      │
-│ 디스크 파일 │ 🟢 (기본값)  │ ❌ (커널이 씹음)│ 몰래 스레드풀 따로 파서 던짐│
-└──────────┴────────────┴────────────┴───────────────────────────────────────┘
++----------+------------+------------+---------------------------------------+
+| 장치 종류  | Blocking 먹힘| Non-block 작동| 백엔드 튜닝 전략               |
++----------+------------+------------+---------------------------------------+
+| 네트워크 소켓| 🟢 (느려터짐)| 🚀 (미친 속도)| 100% 넌블로킹 강제 적용      |
+| 디스크 파일 | 🟢 (기본값)  | ❌ (커널이 씹음)| 몰래 스레드풀 따로 파서 던짐|
++----------+------------+------------+---------------------------------------+
 ```
 **[매트릭스 해설]** [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착할지 안 할지 아무도 모르므로 넌블로킹이 완벽하게 들어맞는다. 하지만 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 이미 거기 있다는 게 확정되어 있으므로, 디스크 암(Arm)이 돌아서 가져오기 전까지 넌블로킹 핑계를 대고 돌아갈 수 없게 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 못 박아놨다. 이 한계점을 아는 것이 진짜 시스템 아키텍트다.
 
@@ -172,12 +172,12 @@ Node.js는 이 넌블로킹 철학으로 무장한 최강의 싱글 [스레드](
 
 ```text
 [블로킹 I/O (Blocking I/O)]
-    │
-    ▼
+    |
+    v
 [논블로킹 I/O (Non-blocking I/O)]
-    │
-    ├──▶ [비동기 I/O (Asynchronous I/O, AIO)]
-    └──▶ [I/O 완료 포트 (IOCP, I/O Completion Port)]
+    |
+    +---> [비동기 I/O (Asynchronous I/O, AIO)]
+    +---> [I/O 완료 포트 (IOCP, I/O Completion Port)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -194,7 +194,7 @@ Node.js는 이 넌블로킹 철학으로 무장한 최강의 싱글 [스레드](
 
 **진행 상황**: 460 / 800
 
-← **이전**: [459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/459_blocking_io/)
-**다음**: [461. 비동기 I/O (Asynchronous I/O, AIO) - I/O 요청 후 즉시 작업 진행, 완료 시 시그널/콜백 알림](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/461_asynchronous_io_aio/) →
+<- **이전**: [459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/459_blocking_io/)
+**다음**: [461. 비동기 I/O (Asynchronous I/O, AIO) - I/O 요청 후 즉시 작업 진행, 완료 시 시그널/콜백 알림](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/461_asynchronous_io_aio/) ->
 
 ---

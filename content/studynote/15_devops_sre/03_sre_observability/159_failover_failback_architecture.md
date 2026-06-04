@@ -32,26 +32,26 @@ tags = ["studynote-devops-sre"]
 페일오버 아키텍처는 단순히 서버를 하나 더 두는 문제가 아니다. 헬스 체크 (Health Check), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식, 트래픽 전환 계층, 상태 저장 위치, 복귀 절차가 함께 맞물려야 한다. 특히 무상태 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 전환이 비교적 쉽지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시처럼 상태가 있는 계층은 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심 병목이 된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            페일오버/페일백의 기본 흐름과 상태 동기화 지점           │
-├──────────────────────────────────────────────────────────────────────┤
-│  Client                                                              │
-│    │                                                                  │
-│    ▼                                                                  │
-│  DNS / Load Balancer ──▶ Primary Region / AZ                          │
-│           │                     │                                      │
-│           │                     ├─ 서비스 인스턴스                    │
-│           │                     └─ Primary DB                          │
-│           │                           │ 복제                            │
-│           │                           ▼                                 │
-│           └──────── 장애 감지 ─────▶ Standby Region / AZ              │
-│                                         │                               │
-│                                         ├─ Standby 서비스              │
-│                                         └─ Replica DB                  │
-│                                                                      │
-│  Failover : 트래픽을 Standby로 전환                                   │
-│  Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            페일오버/페일백의 기본 흐름과 상태 동기화 지점           |
++----------------------------------------------------------------------+
+|  Client                                                              |
+|    |                                                                  |
+|    v                                                                  |
+|  DNS / Load Balancer ---> Primary Region / AZ                          |
+|           |                     |                                      |
+|           |                     +- 서비스 인스턴스                    |
+|           |                     +- Primary DB                          |
+|           |                           | 복제                            |
+|           |                           v                                 |
+|           +-------- 장애 감지 ------> Standby Region / AZ              |
+|                                         |                               |
+|                                         +- Standby 서비스              |
+|                                         +- Replica DB                  |
+|                                                                      |
+|  Failover : 트래픽을 Standby로 전환                                   |
+|  Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀               |
++----------------------------------------------------------------------+
 ```
 
 이 그림이 말해 주는 핵심은 전환 대상이 서버 한 대가 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계층 + <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong>이라는 점이다. 헬스 체크가 빨라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 늦으면 RPO가 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 맞아도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) TTL이 길면 체감 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘어난다.
@@ -91,7 +91,7 @@ tags = ["studynote-devops-sre"]
 
 실무에서는 페일오버 자체보다 전환 조건과 페일백 조건을 명확히 문서화하는 것이 중요하다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자동 승격이 가능한 환경이라도, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 일정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 자동 페일오버를 막고 수동 승인으로 전환해야 할 수 있다. 반대로 무상태 웹 계층은 헬스 체크 실패 2~3회만으로도 자동 전환이 가능하다.
 
-페일백은 더 보수적으로 설계해야 한다. 주 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 곧바로 전체 트래픽을 되돌리면, 캐시 워밍업 부족과 연결 폭증으로 다시 장애가 날 수 있다. 따라서 읽기 전용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재동기화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) ([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 방식의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%→50%→100% 점진 복귀가 일반적인 모범 사례다.
+페일백은 더 보수적으로 설계해야 한다. 주 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 곧바로 전체 트래픽을 되돌리면, 캐시 워밍업 부족과 연결 폭증으로 다시 장애가 날 수 있다. 따라서 읽기 전용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재동기화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) ([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 방식의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%->50%->100% 점진 복귀가 일반적인 모범 사례다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,21 +136,21 @@ tags = ["studynote-devops-sre"]
 
 ```text
 SPOF 제거 필요성
-    │
-    ▼
+    |
+    v
 RTO · RPO 정의
-    │
-    ▼
+    |
+    v
 핫/웜/콜드 스탠바이 · 파일럿 라이트 선택
-    │
-    ▼
+    |
+    v
 헬스 체크 · 자동 전환 · 데이터 복제
-    │
-    ▼
+    |
+    v
 페일백 검증 · 카오스 테스트 · SRE 운영 자동화
 ```
 
-이 흐름은 "장애 위험 인식 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 수립 → 아키텍처 선택 → 자동 전환 → 복귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 설계 사고를 정리한다.
+이 흐름은 "장애 위험 인식 -> [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 수립 -> 아키텍처 선택 -> 자동 전환 -> 복귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 설계 사고를 정리한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +164,7 @@ RTO · RPO 정의
 
 **진행 상황**: 159 / 373
 
-← **이전**: [158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/158_mtbf_mttr_optimization/)
-**다음**: [160. 헬스 체크/프로브 (Health Check/Probes)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/160_health_check_probes_liveness_readiness/) →
+<- **이전**: [158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/158_mtbf_mttr_optimization/)
+**다음**: [160. 헬스 체크/프로브 (Health Check/Probes)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/160_health_check_probes_liveness_readiness/) ->
 
 ---

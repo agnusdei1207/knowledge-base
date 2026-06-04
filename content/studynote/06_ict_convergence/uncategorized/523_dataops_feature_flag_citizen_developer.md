@@ -33,17 +33,17 @@ tags = ["studynote-ict-convergence"]
 
 ```
 소스 시스템
-    │
-    ▼
-┌───────────────────────────────────────────┐
-│              DataOps 파이프라인            │
-│  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐  │
-│  │Ingest│─►│Trans-│─►│Test  │─►│Serve │  │
-│  │(수집) │  │form  │  │(CT)  │  │(서빙) │  │
-│  └──────┘  └──────┘  └──────┘  └──────┘  │
-│       ▲          데이터 품질 게이트         │
-│       └──────────[모니터링/알림]───────────┘
-└───────────────────────────────────────────┘
+    |
+    v
++-------------------------------------------+
+|              DataOps 파이프라인            |
+|  +------+  +------+  +------+  +------+  |
+|  |Ingest|-►|Trans-|-►|Test  |-►|Serve |  |
+|  |(수집) |  |form  |  |(CT)  |  |(서빙) |  |
+|  +------+  +------+  +------+  +------+  |
+|       ^          데이터 품질 게이트         |
+|       +----------[모니터링/알림]-----------+
++-------------------------------------------+
 ```
 
 | 개념 | 핵심 원리 | 주요 도구 |
@@ -78,7 +78,7 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/">DataOps</a> <a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>(<a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">Data Contract</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산자와 소비자 간 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·품질 기준을 명문화. 파이프라인 파괴적 변경을 사전에 탐지. dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)의 테스트 기능과 결합 시 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 자동화 실현.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a> A/B 테스트</strong>: 신규 결제 UI를 전체 사용자의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에만 노출 → 전환율 측정 → 성과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 100% 롤아웃. 쿠팡·당근마켓 등에서 일상적으로 사용.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a> A/B 테스트</strong>: 신규 결제 UI를 전체 사용자의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에만 노출 -> 전환율 측정 -> 성과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 100% 롤아웃. 쿠팡·당근마켓 등에서 일상적으로 사용.
 
 **기술사 판단**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 수가 수백 개를 넘으면 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 부채(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a> Sprawl)</strong>가 생긴다. 만료 기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Time to Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 정책과 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 의무화로 정기 정리 필요.
 
@@ -109,7 +109,7 @@ DataOps는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[dbt · Great Expectations] → [DataOps · 피처 플래그] → [배포 빈도 · 변경 실패율]
+[dbt · Great Expectations] -> [DataOps · 피처 플래그] -> [배포 빈도 · 변경 실패율]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ DataOps는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 
 **진행 상황**: 523 / 552
 
-← **이전**: [522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)](/knowledge-base/studynote/06_ict_convergence/uncategorized/522_dark_data_clean_room_mydata/)
-**다음**: [524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)](/knowledge-base/studynote/06_ict_convergence/uncategorized/524_aiops_llmops_observability_distributed_tracing/) →
+<- **이전**: [522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)](/knowledge-base/studynote/06_ict_convergence/uncategorized/522_dark_data_clean_room_mydata/)
+**다음**: [524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)](/knowledge-base/studynote/06_ict_convergence/uncategorized/524_aiops_llmops_observability_distributed_tracing/) ->
 
 ---

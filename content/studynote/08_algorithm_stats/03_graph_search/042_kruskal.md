@@ -24,7 +24,7 @@ tags = ["studynote-algorithm"]
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E log E) — 정렬 지배 |
 | [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V+E) |
 | 핵심 자료구조 | 간선 리스트 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) |
-| 적합 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse, E ≪ V²) |
+| 적합 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse, E ≪ V^) |
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 유형 | 탐욕 (Greedy) |
 
 📢 **섹션 요약 비유**: 크루스칼은 공사 계약서(간선)를 예산 순서로 쌓아놓고 싼 것부터 계약하되, 이미 연결된 구역끼리 다시 연결하는 낭비는 피하는 방식이다.
@@ -42,45 +42,45 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 최적화:
   경로 압축 (Path Compression): Find 시 루트까지 직접 연결
   랭크 기반 합집합 (Union by Rank): 작은 트리를 큰 트리에 합침
-  → 두 최적화 적용 시 연산당 O(α(V)) ≈ O(1) (α = 역아커만 함수)
+  -> 두 최적화 적용 시 연산당 O(α(V)) ≈ O(1) (α = 역아커만 함수)
 ```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 크루스칼 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  그래프 간선 목록 (가중치 정렬):                           │
-│  (1,A,C), (2,B,D), (3,B,C), (4,A,B), (5,C,D), (6,C,E)   │
-│                                                          │
-│  Union-Find 상태:                                        │
-│  초기: parent=[A,B,C,D,E] (각자 독립)                    │
-│                                                          │
-│  Step1: (1) A-C → Find(A)≠Find(C) → Union(A,C)          │
-│         parent: A←C (C의 루트=A)                         │
-│         MST: [A-C(1)]                                    │
-│                                                          │
-│  Step2: (2) B-D → Find(B)≠Find(D) → Union(B,D)          │
-│         MST: [A-C(1), B-D(2)]                            │
-│                                                          │
-│  Step3: (3) B-C → Find(B)=B, Find(C)=A → 다른 집합      │
-│         Union(B,A) → MST: [A-C(1), B-D(2), B-C(3)]      │
-│         → 이제 {A,B,C,D} 연결됨                          │
-│                                                          │
-│  Step4: (4) A-B → Find(A)=A, Find(B)=A → 같은 집합!     │
-│         사이클 형성 → 스킵                               │
-│                                                          │
-│  Step5: (6) C-E → Find(C)=A, Find(E)=E → Union          │
-│         MST: [A-C(1), B-D(2), B-C(3), C-E(6)]           │
-│         → V-1=4개 간선 완성                              │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  그래프 간선 목록 (가중치 정렬):                           |
+|  (1,A,C), (2,B,D), (3,B,C), (4,A,B), (5,C,D), (6,C,E)   |
+|                                                          |
+|  Union-Find 상태:                                        |
+|  초기: parent=[A,B,C,D,E] (각자 독립)                    |
+|                                                          |
+|  Step1: (1) A-C -> Find(A)≠Find(C) -> Union(A,C)          |
+|         parent: A<-C (C의 루트=A)                         |
+|         MST: [A-C(1)]                                    |
+|                                                          |
+|  Step2: (2) B-D -> Find(B)≠Find(D) -> Union(B,D)          |
+|         MST: [A-C(1), B-D(2)]                            |
+|                                                          |
+|  Step3: (3) B-C -> Find(B)=B, Find(C)=A -> 다른 집합      |
+|         Union(B,A) -> MST: [A-C(1), B-D(2), B-C(3)]      |
+|         -> 이제 {A,B,C,D} 연결됨                          |
+|                                                          |
+|  Step4: (4) A-B -> Find(A)=A, Find(B)=A -> 같은 집합!     |
+|         사이클 형성 -> 스킵                               |
+|                                                          |
+|  Step5: (6) C-E -> Find(C)=A, Find(E)=E -> Union          |
+|         MST: [A-C(1), B-D(2), B-C(3), C-E(6)]           |
+|         -> V-1=4개 간선 완성                              |
++----------------------------------------------------------+
 ```
 
 ### 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 예시
 
 ```
-초기 Find(D) 경로: D → B → A  (3단계)
-경로 압축 후:      D → A      (D가 직접 루트 A를 가리킴)
-다음 Find(D):      D → A      (1단계로 단축)
+초기 Find(D) 경로: D -> B -> A  (3단계)
+경로 압축 후:      D -> A      (D가 직접 루트 A를 가리킴)
+다음 Find(D):      D -> A      (1단계로 단축)
 ```
 
 | 연산 | 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없음 | 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 있음 |
@@ -108,7 +108,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 크루스칼의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)은 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 증명된다:
 - [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 간선 (u, v)를 추가할 때, 현재 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 정점 집합 S와 나머지 V-S를 나누는 컷이 존재
-- (u, v)는 그 컷을 지나는 최소 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 간선 → 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 의해 MST에 포함
+- (u, v)는 그 컷을 지나는 최소 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 간선 -> 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 의해 MST에 포함
 - 따라서 탐욕적 선택이 항상 최적임이 보장
 
 📢 **섹션 요약 비유**: 크루스칼의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 증명은 "가장 싼 도로를 먼저 놓으면 결국 최적 도로망이 된다"는 직관을 수학적으로 보증하는 것이다.
@@ -119,7 +119,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 **시나리오 1**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 광케이블 배선 최적화
 - V=200 서버 노드, E=2,000 가능한 연결 (희소)
-- 크루스칼: 2,000개 정렬 O(E log E) + 199번 Union → 빠른 완성
+- 크루스칼: 2,000개 정렬 O(E log E) + 199번 Union -> 빠른 완성
 
 **시나리오 2**: 클러스터링 전처리 (Single-Linkage 계층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))
 - [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 간선을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 순서로 추가하는 크루스칼 과정 = 계층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)
@@ -134,7 +134,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 | 상황 | 판단 |
 |:---|:---|
 | 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (E ≈ V) | 크루스칼 선택 |
-| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (E ≈ V²) | Prim 선택 |
+| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (E ≈ V^) | Prim 선택 |
 | 간선 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 이미 정렬됨 | 크루스칼 특히 유리 (정렬 비용 0) |
 | 비연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 크루스칼로 최소 신장 포레스트 (MSF) 구성 |
 | 동적 간선 추가 | Borůvka 기반 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 갱신 |
@@ -165,17 +165,17 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 ```text
 [최소 신장 트리 (MST, Minimum Spanning Tree) — 모든 노드 연결 최소 비용]
-    │
-    ▼
+    |
+    v
 [크루스칼 (Kruskal) — 간선 오름차순 정렬 + Union-Find 사이클 방지]
-    │
-    ▼
+    |
+    v
 [프림 (Prim) — 시작 노드에서 최소 비용 간선 탐욕적 선택, 밀집 그래프 유리]
-    │
-    ▼
+    |
+    v
 [Union-Find (Disjoint Set) — 경로 압축·랭크로 O(α(N)) 연결성 판단]
-    │
-    ▼
+    |
+    v
 [네트워크 토폴로지 최적화 — MST 기반 물리 네트워크·클러스터 배선 설계]
 ```
 
@@ -194,7 +194,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 **진행 상황**: 42 / 175
 
-← **이전**: [13. 최소 신장 트리 (MST, Minimum Spanning Tree) — Kruskal / Prim](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)
-**다음**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) →
+<- **이전**: [13. 최소 신장 트리 (MST, Minimum Spanning Tree) — Kruskal / Prim](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)
+**다음**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) ->
 
 ---

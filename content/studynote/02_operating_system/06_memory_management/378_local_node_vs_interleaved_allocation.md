@@ -30,27 +30,27 @@ tags = ["studynote-operating-system"]
   3. **Interleave의 대안적 부상**: "로컬의 60ns 빠른 응답성([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 버리더라도, 리모트를 섞어 써서 트래픽 4차선을 뚫어버리는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 거대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업엔 이득이다"라는 결론 도출.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        로컬 할당(Local) vs 인터리브 할당(Interleave) 매핑 구조         │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: 16KB(4개 페이지 조각) 데이터를 램에 매핑할 때 ]                │
-│                                                                        │
-│ ▶ 1. 로컬 노드 할당 (Local / First-Touch)                              │
-│    "스레드가 Node 0에서 돌고 있네? 몽땅 0번에 박아!"                   │
-│    Node 0 RAM: [ Pg 1 ] [ Pg 2 ] [ Pg 3 ] [ Pg 4 ]                     │
-│    Node 1 RAM: [ 텅 빔 ]                                               │
-│    ✅ 장점: Node 0 코어가 혼자 읽을 땐 QPI 다리를 안 건너 초고속.      │
-│    ⚠ 단점: Node 1 코어들이 이거 읽으려면 병목 터짐 (대역폭 독점).      │
-│                                                                        │
-│ ▶ 2. 인터리브 할당 (Interleaved)                                       │
-│    "노드 0, 1을 번갈아가며(Round-Robin) 공평하게 흩뿌려라!"            │
-│    Node 0 RAM: [ Pg 1 ]          [ Pg 3 ]                              │
-│    Node 1 RAM:          [ Pg 2 ]          [ Pg 4 ]                     │
-│    ⚠ 단점: 누군가는 절반 확률로 무조건 Remote 지연(느림)을 맞아야 함.  │
-│    ✅ 장점: 0번과 1번 코어가 동시에 읽을 때 메모리 버스 2개를 다 써서  │
-│            다운로드 속도가 2배로 넓어짐 (대역폭 병렬화).               │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        로컬 할당(Local) vs 인터리브 할당(Interleave) 매핑 구조         |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상황: 16KB(4개 페이지 조각) 데이터를 램에 매핑할 때 ]                |
+|                                                                        |
+| -> 1. 로컬 노드 할당 (Local / First-Touch)                              |
+|    "스레드가 Node 0에서 돌고 있네? 몽땅 0번에 박아!"                   |
+|    Node 0 RAM: [ Pg 1 ] [ Pg 2 ] [ Pg 3 ] [ Pg 4 ]                     |
+|    Node 1 RAM: [ 텅 빔 ]                                               |
+|    ✅ 장점: Node 0 코어가 혼자 읽을 땐 QPI 다리를 안 건너 초고속.      |
+|    ⚠ 단점: Node 1 코어들이 이거 읽으려면 병목 터짐 (대역폭 독점).      |
+|                                                                        |
+| -> 2. 인터리브 할당 (Interleaved)                                       |
+|    "노드 0, 1을 번갈아가며(Round-Robin) 공평하게 흩뿌려라!"            |
+|    Node 0 RAM: [ Pg 1 ]          [ Pg 3 ]                              |
+|    Node 1 RAM:          [ Pg 2 ]          [ Pg 4 ]                     |
+|    ⚠ 단점: 누군가는 절반 확률로 무조건 Remote 지연(느림)을 맞아야 함.  |
+|    ✅ 장점: 0번과 1번 코어가 동시에 읽을 때 메모리 버스 2개를 다 써서  |
+|            다운로드 속도가 2배로 넓어짐 (대역폭 병렬화).               |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 로컬 할당은 "[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 최소화"에 미쳐 있는 구조이고, 인터리브 할당은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 폭([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 극대화"에 미쳐 있는 구조다. 고속도로로 치면, 로컬 할당은 1차선 직통 고속도로고, 인터리브는 신호등이 조금 섞여 있어도 4차선으로 뚫어버린 국도다. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 10대면 로컬이 무조건 빠르지만, 차가 10만 대 몰려오면 인터리브 4차선이 훨씬 빨리 차를 빼낸다.
 
@@ -65,22 +65,22 @@ tags = ["studynote-operating-system"]
 리눅스의 기본(Default) 메모리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>"Local Allocation (First-touch)"</strong>다. 이 철학은 일반적인 데스크톱이나 소규모 웹 서버에서는 아주 훌륭하게 작동하지만, 대형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 환경에서는 치명적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))으로 돌변한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              First-Touch 정책이 낳는 거대 DB 서버의 붕괴                │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ 1. [ 부팅 시점 ] 데이터베이스(DB) 엔진이 켜지며 100GB 메모리 할당 요청. │
-│ 2. [ 초기화 스레드 ] DB 엔진의 '1번 스레드(Main)'가 루프를 돌며         │
-│    100GB 공간 전체에 0으로 초기화(Zeroing) 쓰기 작업을 수행함.          │
-│ 3. [ 🔴 OS의 맹신 ] OS는 "아! 이 100GB는 Main 스레드가 도는             │
-│    Node 0번 코어 전용 데이터구나!" 착각하고 Node 0 램에 100GB 몰빵!     │
-│                                                                         │
-│ 4. [ 런타임 참사 터짐 ]                                                 │
-│    - 수만 명의 유저가 접속해 64개의 코어(Node 0~3)가 동시에 쿼리 연산.  │
-│    - Node 1, 2, 3 코어들이 쿼리를 위해 데이터를 가져가려고 전부         │
-│      Node 0 램으로 연결된 가느다란 QPI 링크 다리로 수만 대 몰려듦.      │
-│    💥 결과: Node 0 램 컨트롤러 병목 폭발 -> 서버 전체 렉 유발 (Stall)   │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|              First-Touch 정책이 낳는 거대 DB 서버의 붕괴                |
++-------------------------------------------------------------------------+
+|                                                                         |
+| 1. [ 부팅 시점 ] 데이터베이스(DB) 엔진이 켜지며 100GB 메모리 할당 요청. |
+| 2. [ 초기화 스레드 ] DB 엔진의 '1번 스레드(Main)'가 루프를 돌며         |
+|    100GB 공간 전체에 0으로 초기화(Zeroing) 쓰기 작업을 수행함.          |
+| 3. [ 🔴 OS의 맹신 ] OS는 "아! 이 100GB는 Main 스레드가 도는             |
+|    Node 0번 코어 전용 데이터구나!" 착각하고 Node 0 램에 100GB 몰빵!     |
+|                                                                         |
+| 4. [ 런타임 참사 터짐 ]                                                 |
+|    - 수만 명의 유저가 접속해 64개의 코어(Node 0~3)가 동시에 쿼리 연산.  |
+|    - Node 1, 2, 3 코어들이 쿼리를 위해 데이터를 가져가려고 전부         |
+|      Node 0 램으로 연결된 가느다란 QPI 링크 다리로 수만 대 몰려듦.      |
+|    💥 결과: Node 0 램 컨트롤러 병목 폭발 -> 서버 전체 렉 유발 (Stall)   |
++-------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "메모리를 최초로 건드린 놈에게 땅을 준다"는 OS의 휴리스틱이 빅데이터 서버 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 패턴 앞에서는 완전히 헛발질한 꼴이 되었다. 이 하나의 쓰레드([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 낳은 참극 때문에 1억 원짜리 서버가 1천만 원짜리 구형 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 속도로 기어 다니게 된다. 이를 해결하는 튜닝이 바로 "인터리브(Interleave) 강제 세팅"이다.
@@ -113,12 +113,12 @@ tags = ["studynote-operating-system"]
 - **Local Policy의 필수 짝꿍**: 무지성으로 로컬 할당만 켜두면, 스케줄러가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 다른 노드로 이사(Migration)시킬 때 100% 리모트 페널티를 맞는다. 따라서 로컬 할당의 진수를 뽑아내려면 무조건 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 코어에 밧줄로 묶어두는 "CPU Pinning (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)"</strong> 튜닝을 동반해야만 논리적 완결성이 보장된다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 튜닝 전략  │ 지연(Latency)│ 대역폭(BW)  │ 셋업 난이도         │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ Local + 묶음│ ⭐ 최상 (빠름)│ 나쁨 (쏠림)  │ ☠️ 지옥 수준     │
-│ Interleave │ 보통 (리모트 섞임)│ ⭐ 최상 (분산)│ 🟢 매우 쉬움 │
-└──────────┴────────────┴────────────┴──────────────────────────┘
++----------+------------+------------+--------------------------+
+| 튜닝 전략  | 지연(Latency)| 대역폭(BW)  | 셋업 난이도         |
++----------+------------+------------+--------------------------+
+| Local + 묶음| ⭐ 최상 (빠름)| 나쁨 (쏠림)  | ☠️ 지옥 수준     |
+| Interleave | 보통 (리모트 섞임)| ⭐ 최상 (분산)| 🟢 매우 쉬움 |
++----------+------------+------------+--------------------------+
 ```
 **[매트릭스 해설]** 로컬 메모리를 100% 활용하기 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 핀(Pinning)으로 묶는 작업(Taskset)은, 개발자가 서버의 하드웨어 코어 지도와 L3 캐시 공유 구조를 완벽히 꿰고 코드를 분리해 내야 하는 미친 난이도의 수작업이다. 반면 `Interleave`는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나 치고 "어차피 램을 골고루 찢어놨으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어딜 가든 평균 속도는 나오겠지!"라고 타협하는 가장 가성비 좋은 실무형 대안이다.
 
@@ -179,12 +179,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
-    │
-    ▼
+    |
+    v
 [로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)]
-    │
-    ├──▶ [캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
-    └──▶ [가비지 컬렉션 (Garbage Collection) 기초]
+    |
+    +---> [캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
+    +---> [가비지 컬렉션 (Garbage Collection) 기초]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -201,7 +201,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 378 / 800
 
-← **이전**: [377. NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)
-**다음**: [379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링](/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/) →
+<- **이전**: [377. NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)
+**다음**: [379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링](/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/) ->
 
 ---

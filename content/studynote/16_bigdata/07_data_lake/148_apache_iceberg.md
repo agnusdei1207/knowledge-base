@@ -20,7 +20,7 @@ tags = ["studynote-bigdata"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 기반 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조를 그대로 노출했다(`/year=2026/month=04/day=21`). 이 방식은 사용자가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 조건을 명시해야만 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)이 작동하여 실수 시 풀 스캔(Full Table Scan)이 발생했다. 또한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경 시 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 재작성해야 하는 운영 부담이 있었다.
 
-Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극복하기 위해 Iceberg를 설계했다. Iceberg는 테이블 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 트리 구조([Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) → [Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) → Manifest List → Manifest [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) → [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 관리하여 물리적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조를 숨기고, 엔진이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 읽어 최적 접근 경로를 선택하게 한다.
+Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극복하기 위해 Iceberg를 설계했다. Iceberg는 테이블 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 트리 구조([Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) -> [Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) -> Manifest List -> Manifest [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 관리하여 물리적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조를 숨기고, 엔진이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 읽어 최적 접근 경로를 선택하게 한다.
 
 | 항목 | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | Iceberg 히든 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) |
 |:---|:---|:---|
@@ -36,30 +36,30 @@ Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                 Apache Iceberg 메타데이터 트리                    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [Catalog]  (Hive / REST / AWS Glue / Nessie)                   │
-│       │                                                          │
-│       └─▶  [Table Metadata]  (metadata.json)                    │
-│                  │   스키마 / 파티션 스펙 / 스냅샷 목록          │
-│                  │                                               │
-│                  └─▶  [Snapshot]  (커밋 시점 스냅샷)             │
-│                            │                                     │
-│                            └─▶  [Manifest List]  (*.avro)       │
-│                                       │  파티션 범위 요약        │
-│                                       │                          │
-│                            ┌──────────┴──────────┐              │
-│                            ▼                     ▼              │
-│                    [Manifest File]        [Manifest File]        │
-│                    (데이터 파일 목록,      (추가/삭제 델타)        │
-│                     컬럼 통계 포함)                              │
-│                            │                                     │
-│                    ┌───────┴────────┐                            │
-│                    ▼               ▼                             │
-│              part-001.parquet  part-002.parquet                  │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                 Apache Iceberg 메타데이터 트리                    |
++------------------------------------------------------------------+
+|                                                                  |
+|  [Catalog]  (Hive / REST / AWS Glue / Nessie)                   |
+|       |                                                          |
+|       +-->  [Table Metadata]  (metadata.json)                    |
+|                  |   스키마 / 파티션 스펙 / 스냅샷 목록          |
+|                  |                                               |
+|                  +-->  [Snapshot]  (커밋 시점 스냅샷)             |
+|                            |                                     |
+|                            +-->  [Manifest List]  (*.avro)       |
+|                                       |  파티션 범위 요약        |
+|                                       |                          |
+|                            +----------+----------+              |
+|                            v                     v              |
+|                    [Manifest File]        [Manifest File]        |
+|                    (데이터 파일 목록,      (추가/삭제 델타)        |
+|                     컬럼 통계 포함)                              |
+|                            |                                     |
+|                    +-------+--------+                            |
+|                    v               v                             |
+|              part-001.parquet  part-002.parquet                  |
++------------------------------------------------------------------+
 ```
 
 **핵심 기능 요약**
@@ -110,7 +110,7 @@ Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극�
 |:---|:---|
 | 히든 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 원리 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 변환 함수를 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)에 저장, 엔진이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 필터에서 자동 추론 |
 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 격리 메커니즘 | 각 커밋이 새 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 구 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 expire snapshots로 GC |
-| Manifest 역할 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 + 컬럼별 min/max 통계 → [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스킵 최적화 |
+| Manifest 역할 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 + 컬럼별 min/max 통계 -> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스킵 최적화 |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 진화 장점 | ALTER TABLE 후 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 새 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 적용, 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 불변 |
 
 > 📢 **섹션 요약 비유**: Iceberg 운영은 스마트 빌딩 관리와 같다. 새 층을 추가해도 기존 층 구조를 바꾸지 않고, 모든 층의 현황은 통제 센터([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))에서 실시간으로 파악된다.
@@ -122,11 +122,11 @@ Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극�
 | 효과 | 내용 |
 |:---|:---|
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | Min/Max 통계 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스킵으로 풀 스캔 최소화 |
-| 운영 비용 절감 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 변경 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재작성 불필요 → 컴퓨팅 비용 절감 |
+| 운영 비용 절감 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 변경 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재작성 불필요 -> 컴퓨팅 비용 절감 |
 | 벤더 독립성 | 오픈 포맷으로 클라우드·엔진 변경 자유로움 |
 | 규정 준수 | 행 수준 삭제로 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 우측 삭제 요건 충족 |
 
-Apache Iceberg는 2024년 이후 AWS Athena, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Spark 3.x, Flink, Trino의 기본 테이블 포맷으로 채택되며 오픈 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 생태계의 중심축이 됐다. 기술사 시험에서는 <strong>히든 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> 원리</strong>, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 트리 구조(Manifest List → Manifest → <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 진화</strong>가 핵심 논점이다.
+Apache Iceberg는 2024년 이후 AWS Athena, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Spark 3.x, Flink, Trino의 기본 테이블 포맷으로 채택되며 오픈 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 생태계의 중심축이 됐다. 기술사 시험에서는 <strong>히든 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> 원리</strong>, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 트리 구조(Manifest List -> Manifest -> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 진화</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: Iceberg는 도시 지도 앱과 같다. 길이 바뀌어도([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 진화) 앱 지도만 업데이트하면 되고, 어느 네비게이션 앱(엔진)을 써도 같은 지도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용할 수 있다.
 
@@ -149,14 +149,14 @@ Apache Iceberg는 2024년 이후 AWS Athena, [Snowflake](/knowledge-base/studyno
 
 ```text
 [데이터 레이크 (Data Lake)]
-    │
-    ▼
+    |
+    v
 [테이블 포맷 (Table Format)]
-    │
-    ▼
+    |
+    v
 [Apache Iceberg (Apache Iceberg)]
-    │
-    ▼
+    |
+    v
 [타임 트래블 (Time Travel)]
 ```
 
@@ -172,7 +172,7 @@ Apache Iceberg는 2024년 이후 AWS Athena, [Snowflake](/knowledge-base/studyno
 
 **진행 상황**: 148 / 262
 
-← **이전**: [147. Delta Lake — ACID 트랜잭션 지원 오픈 테이블 포맷](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)
-**다음**: [149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) →
+<- **이전**: [147. Delta Lake — ACID 트랜잭션 지원 오픈 테이블 포맷](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)
+**다음**: [149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) ->
 
 ---

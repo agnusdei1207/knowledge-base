@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 평균 온도와 국소 핫스팟이 왜 다른 판단 기준인지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Package Avg = 78℃                                                          │
-│                                                                            │
-│ [Core0 94℃] [Core1 76℃] [Cache 79℃] [Core2 71℃] [Fabric 74℃]              │
-│     ▲                                                                      │
-│     └─ Hot Spot -> timing margin down -> leakage up -> early throttling    │
-│                                                                            │
-│ 평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다      |
++----------------------------------------------------------------------------+
+| Package Avg = 78℃                                                          |
+|                                                                            |
+| [Core0 94℃] [Core1 76℃] [Cache 79℃] [Core2 71℃] [Fabric 74℃]              |
+|     ^                                                                      |
+|     +- Hot Spot -> timing margin down -> leakage up -> early throttling    |
+|                                                                            |
+| 평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.   |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 큰 교실의 평균 온도가 시원해도 창가 한쪽만 햇빛을 정통으로 받으면 그 자리에 앉은 학생은 먼저 지친다. 칩도 전체 평균보다 "제일 더운 자리"가 문제를 만든다.
@@ -60,19 +60,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 열이 어떻게 한 지점에서 시작해 칩 전체 제약으로 번지는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      온도 불균형의 생성 경로: 전력 집중 -> 핫스팟 -> 열 결합 -> 제어 압박      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Workload Concentration                                                     │
-│      │                                                                      │
-│      ▼                                                                      │
-│ High-Power Block -> Local ΔT Up -> Leakage Up -> More Heat                 │
-│      │                    │                                                  │
-│      │                    ├─ Neighbor Core / NoC Heat-Up -> Margin Down     │
-│      │                    └─ Sensor Delay -> Late DVFS / Throttle           │
-│      ▼                                                                      │
-│ 결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.                 │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|      온도 불균형의 생성 경로: 전력 집중 -> 핫스팟 -> 열 결합 -> 제어 압박      |
++----------------------------------------------------------------------------+
+| Workload Concentration                                                     |
+|      |                                                                      |
+|      v                                                                      |
+| High-Power Block -> Local ΔT Up -> Leakage Up -> More Heat                 |
+|      |                    |                                                  |
+|      |                    +- Neighbor Core / NoC Heat-Up -> Margin Down     |
+|      |                    +- Sensor Delay -> Late DVFS / Throttle           |
+|      v                                                                      |
+| 결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.                 |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 한 냄비의 국이 한쪽만 세게 끓으면 그 부분이 먼저 넘치고, 옆 재료까지 함께 익어 버린다. 열은 한 점에서 시작해 주변까지 연쇄적으로 영향을 준다.
@@ -149,20 +149,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Dennard Scaling 종료
-        │
-        ▼
+        |
+        v
 멀티코어 확산 + 국소 핫스팟 문제
-        │
-        ▼
+        |
+        v
 온칩 센서 · DTM · Thermal-Aware Scheduling
-        │
-        ▼
+        |
+        v
 DVFS · Migration · Power Gating
-        │
-        ▼
+        |
+        v
 Dark Silicon · Heterogeneous Accelerator
-        │
-        ▼
+        |
+        v
 Chiplet / 3D 적층의 열-배치 공동 설계
 ```
 
@@ -180,7 +180,7 @@ Chiplet / 3D 적층의 열-배치 공동 설계
 
 **진행 상황**: 569 / 803
 
-← **이전**: [568. ABA 문제 (ABA Problem, 동기화 이슈)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/568_aba_problem/)
-**다음**: [570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) →
+<- **이전**: [568. ABA 문제 (ABA Problem, 동기화 이슈)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/568_aba_problem/)
+**다음**: [570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) ->
 
 ---

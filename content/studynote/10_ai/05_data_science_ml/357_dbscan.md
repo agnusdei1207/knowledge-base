@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 위성 사진에서 도시 군집을 탐지하거나 소셜 미디어 게시물의 지역 이벤트를 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)할 때, 도시 모양은 원형이 아닌 복잡한 형태다. K-Means는 원형 군집만 탐지할 수 있어 이런 상황에서 완전히 실패한다. DBSCAN은 "이 점의 주변 반경 ε 안에 점이 충분히 많으면(≥MinPts) 군집이다"라는 직관적 원리로 임의 형태 군집을 탐지하고, 주변에 점이 없는 고립된 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 자동으로 -1(노이즈)로 표시한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DBSCAN은 "친구 연결망 탐색기"다. 반경 ε 안에 친구(MinPts)가 충분히 있는 사람은 '핵심 멤버'이고, 핵심 멤버와 연결된 사람은 같은 그룹(군집)이 된다. 아무와도 연결되지 않은 고립된 사람은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(Noise)로 표시된다.
@@ -37,25 +37,25 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│             DBSCAN 점 분류 규칙                           │
-├──────────────────────────────────────────────────────────┤
-│  입력 파라미터: ε (반경), MinPts (최소 이웃 수)          │
-│                                                          │
-│  ε-이웃 (ε-Neighborhood):                               │
-│  N_ε(p) = {q | dist(p,q) ≤ ε}                          │
-│                                                          │
-│  점 분류:                                               │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │ 핵심점 (Core Point):  |N_ε(p)| ≥ MinPts         │    │
-│  │ 경계점 (Border Point): 핵심점의 이웃, 자신은 아님│    │
-│  │ 노이즈 (Noise Point):  핵심점 이웃 아님          │    │
-│  └─────────────────────────────────────────────────┘    │
-│                                                          │
-│  군집 형성: 핵심점 → 핵심점으로 밀도 연결(Density      │
-│  Connected) 전파 → 같은 군집                           │
-│  시간 복잡도: O(n log n) with spatial indexing         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|             DBSCAN 점 분류 규칙                           |
++----------------------------------------------------------+
+|  입력 파라미터: ε (반경), MinPts (최소 이웃 수)          |
+|                                                          |
+|  ε-이웃 (ε-Neighborhood):                               |
+|  N_ε(p) = {q | dist(p,q) ≤ ε}                          |
+|                                                          |
+|  점 분류:                                               |
+|  +-------------------------------------------------+    |
+|  | 핵심점 (Core Point):  |N_ε(p)| ≥ MinPts         |    |
+|  | 경계점 (Border Point): 핵심점의 이웃, 자신은 아님|    |
+|  | 노이즈 (Noise Point):  핵심점 이웃 아님          |    |
+|  +-------------------------------------------------+    |
+|                                                          |
+|  군집 형성: 핵심점 -> 핵심점으로 밀도 연결(Density      |
+|  Connected) 전파 -> 같은 군집                           |
+|  시간 복잡도: O(n log n) with spatial indexing         |
++----------------------------------------------------------+
 ```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | K 사전 지정 | 군집 형태 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 처리 | 계산 복잡도 |
@@ -110,7 +110,7 @@ DBSCAN은 군집 형태 제약 없음, [이상치](/knowledge-base/studynote/14_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [DBSCAN (Density-Based Spatial Clustering)] → [최적화·운영 자동화]
+[데이터 전처리] -> [DBSCAN (Density-Based Spatial Clustering)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -125,7 +125,7 @@ DBSCAN은 군집 형태 제약 없음, [이상치](/knowledge-base/studynote/14_
 
 **진행 상황**: 357 / 420
 
-← **이전**: [356. 마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/10_ai/05_data_science_ml/356_mahalanobis_distance/)
-**다음**: [358. 계층적 군집화 (Hierarchical Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/) →
+<- **이전**: [356. 마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/10_ai/05_data_science_ml/356_mahalanobis_distance/)
+**다음**: [358. 계층적 군집화 (Hierarchical Clustering)](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/) ->
 
 ---

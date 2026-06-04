@@ -32,7 +32,7 @@ tags = ["studynote-cloud-architecture"]
 Service는 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 묶음에 안정적인 네트워크를 제공하고, Ingress는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앞에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 수행한다. 실제 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller가 맡는다.
 
 ```text
-Client → Ingress Controller → Ingress Rule → Service → Pod
+Client -> Ingress Controller -> Ingress Rule -> Service -> Pod
 ```
 
 | 객체 | 역할 | 포인트 |
@@ -111,14 +111,14 @@ Ingress와 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paa
 
 ```text
 클러스터 내부 서비스
-    │
-    ▼
+    |
+    v
 Service Type
-    │
-    ▼
+    |
+    v
 Ingress Controller
-    │
-    ▼
+    |
+    v
 외부 HTTP/HTTPS 라우팅
 ```
 
@@ -136,7 +136,7 @@ Ingress Controller
 
 **진행 상황**: 54 / 371
 
-← **이전**: [54. ConfigMap과 Secret](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/054_configmap_secret/)
-**다음**: [56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/) →
+<- **이전**: [54. ConfigMap과 Secret](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/054_configmap_secret/)
+**다음**: [56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/) ->
 
 ---

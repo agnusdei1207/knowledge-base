@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [IP 스푸핑]
-    │
-    ▼
+    |
+    v
 [DNS 스푸핑 / DNS Cache Pois…]
-    │
-    └──▶ [중간자 공격 도청 흐름과 통제 조치]
+    |
+    +---> [중간자 공격 도청 흐름과 통제 조치]
 ```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [IP 스푸핑]
-    │
-    ▼
+    |
+    v
 [DNS 스푸핑 / DNS Cache Pois…]
-    │
-    └──▶ [중간자 공격 도청 흐름과 통제 조치]
+    |
+    +---> [중간자 공격 도청 흐름과 통제 조치]
 ```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/k
 
 ```text
 [선행 개념: IP 스푸핑]
-    │
-    ▼
+    |
+    v
 [현재 개념: DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ├──▶ [확장 A: 중간자 공격 도청 흐름과 통제 조치]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 중간자 공격 도청 흐름과 통제 조치]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/k
 
 **진행 상황**: 826 / 1120
 
-← **이전**: [704. IP 스푸핑 (IP Spoofing)](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/)
-**다음**: [706. 중간자 공격 (MitM, Man-in-the-Middle) 도청 흐름과 통제 조치 (TLS 암호 검증 중요성, HSTS 설정](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) →
+<- **이전**: [704. IP 스푸핑 (IP Spoofing)](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/)
+**다음**: [706. 중간자 공격 (MitM, Man-in-the-Middle) 도청 흐름과 통제 조치 (TLS 암호 검증 중요성, HSTS 설정](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) ->
 
 ---

@@ -19,17 +19,17 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    이미지 보안 스캐닝 파이프라인                       │
-├───────────────────────────────────────────────────────┤
-│  1. 개발자: Dockerfile → docker build                 │
-│  2. CI: Trivy 스캔 → CVE 탐지                        │
-│     HIGH: 3개, CRITICAL: 1개 → ❌ 빌드 실패          │
-│  3. 수정: base image 업데이트, 라이브러리 패치        │
-│  4. 재스캔 → CVE 0개 → ✅ 레지스트리 Push            │
-│  5. K8s: Admission Controller → 스캔 미통과 이미지   │
-│     배포 자동 거부                                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    이미지 보안 스캐닝 파이프라인                       |
++-------------------------------------------------------+
+|  1. 개발자: Dockerfile -> docker build                 |
+|  2. CI: Trivy 스캔 -> CVE 탐지                        |
+|     HIGH: 3개, CRITICAL: 1개 -> ❌ 빌드 실패          |
+|  3. 수정: base image 업데이트, 라이브러리 패치        |
+|  4. 재스캔 -> CVE 0개 -> ✅ 레지스트리 Push            |
+|  5. K8s: Admission Controller -> 스캔 미통과 이미지   |
+|     배포 자동 거부                                    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 이미지 스캐닝은 공항 수하물 X-ray다. 위험물([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 발견되면 비행기(프로덕션)에 못 태운다.
@@ -48,7 +48,7 @@ tags = ["studynote-cloud-architecture"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Scout</strong> | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 내장 | ✅ |
 
 ### [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))
-이미지 내 모든 패키지·버전을 <strong>재료 목록</strong>으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 매칭·라이선스 감사에 활용.
+이미지 내 모든 패키지·버전을 <strong>재료 목록</strong>으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 매칭·라이선스 감사에 활용.
 
 - **📢 섹션 요약 비유**: SBOM은 식품 성분표이다. "이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 openssl 1.1.1이 들어있다"를 알아야 취약점 알림 시 영향 범위를 즉시 파악한다.
 
@@ -99,17 +99,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 [수동 취약점 관리 (2010s)]
-    │
-    ▼
+    |
+    v
 [Clair / Anchore (2016~) — 초기 이미지 스캐너]
-    │
-    ▼
+    |
+    v
 [Trivy / Snyk (2019~) — All-in-one, 개발자 친화]
-    │
-    ▼
+    |
+    v
 [SBOM 의무화 (2021, 미국 행정명령 14028)]
-    │
-    ▼
+    |
+    v
 [현재: CI + Registry + Admission 전 구간 스캐닝]
 ```
 
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 115 / 371
 
-← **이전**: [115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/115_terraform_infrastructure_provisioning/)
-**다음**: [117. K8s Network Policy 마이크로 세그멘테이션 - Pod 간 트래픽 격리·제로 트러스트](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/117_kubernetes_network_policy_micro_segmentation/) →
+<- **이전**: [115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/115_terraform_infrastructure_provisioning/)
+**다음**: [117. K8s Network Policy 마이크로 세그멘테이션 - Pod 간 트래픽 격리·제로 트러스트](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/117_kubernetes_network_policy_micro_segmentation/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Choreography Saga는 <strong>중앙 오케스트레이터 없이 각 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 이벤트를 발행·구독하여 자율적으로 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a></strong>하는 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴이다.
-> 2. **가치**: 중앙 제어점([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 없어 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성·독립 배포·느슨한 결합</strong>이 유지되지만, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아지면 이벤트 흐름 추적이 어려워진다(디버깅 복잡도↑).
+> 2. **가치**: 중앙 제어점([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 없어 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성·독립 배포·느슨한 결합</strong>이 유지되지만, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아지면 이벤트 흐름 추적이 어려워진다(디버깅 복잡도^).
 > 3. **판단 포인트**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 3~5개 이하면 Choreography, 복잡한 비즈니스 흐름이면 [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(Temporal)이 적합하며, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)·RabbitMQ가 이벤트 브로커이다.
 
 ---
@@ -19,10 +19,10 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-주문 서비스 → "주문 생성" 이벤트 발행
-결제 서비스 ← 구독 → 결제 처리 → "결제 완료" 이벤트 발행
-배송 서비스 ← 구독 → 배송 시작
-실패 시: "결제 실패" 이벤트 → 주문 서비스 → 보상(주문 취소)
+주문 서비스 -> "주문 생성" 이벤트 발행
+결제 서비스 <- 구독 -> 결제 처리 -> "결제 완료" 이벤트 발행
+배송 서비스 <- 구독 -> 배송 시작
+실패 시: "결제 실패" 이벤트 -> 주문 서비스 -> 보상(주문 취소)
 ```
 
 - **📢 섹션 요약 비유**: Choreography는 <strong>재즈 즉흥 연주</strong>이다. 지휘자 없이 각 연주자가 서로의 소리를 듣고 자율적으로 연주한다.
@@ -48,10 +48,10 @@ Choreography는 <strong>소규모 MSA의 <a href="/knowledge-base/studynote/05_d
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[2PC (모노리스)] → [Choreography Saga (MSA, 2014~)]
-    → [Kafka 이벤트 기반 (2016~)]
-    → [Orchestration 대안 (Temporal, 2020~)]
-    → [현재: 하이브리드 — Choreography + Orchestration 혼합]
+[2PC (모노리스)] -> [Choreography Saga (MSA, 2014~)]
+    -> [Kafka 이벤트 기반 (2016~)]
+    -> [Orchestration 대안 (Temporal, 2020~)]
+    -> [현재: 하이브리드 — Choreography + Orchestration 혼합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Choreography는 <strong>소규모 MSA의 <a href="/knowledge-base/studynote/05_d
 
 **진행 상황**: 134 / 371
 
-← **이전**: [134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/134_saga_pattern/)
-**다음**: [136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/136_orchestration_saga/) →
+<- **이전**: [134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/134_saga_pattern/)
+**다음**: [136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/136_orchestration_saga/) ->
 
 ---

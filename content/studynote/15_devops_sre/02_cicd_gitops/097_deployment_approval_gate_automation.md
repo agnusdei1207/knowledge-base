@@ -38,16 +38,16 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a> 게이트 (Scheduling Window)</strong> | 배포 가능 시간대(예: 금요일 저녁 배포 금지)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 위험 시간대 차단 | [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/), ServiceNow |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        CI/CD 파이프라인 내 Approval Gate의 동작 흐름         │
-├──────────────────────────────────────────────────────────────┤
-│ [개발 환경]         [Approval Gate 검증 구역]         [운영] │
-│ 코드 병합 ─▶ 빌드 ─▶ 1차: 정적 코드 분석 (자동) ─┐           │
-│                      2차: 보안 취약점 스캔 (자동) ├─▶ 배포   │
-│                      3차: PM 최종 승인 클릭(수동) ─┘           │
-│                                                              │
-│ * 조건 하나라도 미달 시 ─▶ 파이프라인 Block & 롤백(Reject)   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        CI/CD 파이프라인 내 Approval Gate의 동작 흐름         |
++--------------------------------------------------------------+
+| [개발 환경]         [Approval Gate 검증 구역]         [운영] |
+| 코드 병합 --> 빌드 --> 1차: 정적 코드 분석 (자동) -+           |
+|                      2차: 보안 취약점 스캔 (자동) +--> 배포   |
+|                      3차: PM 최종 승인 클릭(수동) -+           |
+|                                                              |
+| * 조건 하나라도 미달 시 --> 파이프라인 Block & 롤백(Reject)   |
++--------------------------------------------------------------+
 ```
 
 현대의 승인 게이트는 [챗옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)([ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/))와 강하게 결합된다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 게이트에 도달하면 슬랙(Slack) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전송하고, 권한자가 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 내 'Approve' 버튼을 누르면 즉시 CD로 이어지는 비동기 결재를 지원한다.
@@ -112,17 +112,17 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 
 ```text
 수동 스크립트 배포 및 구두 승인
-    │
-    ▼
+    |
+    v
 파이프라인 내 수동 승인 버튼 (Manual Approval)
-    │
-    ▼
+    |
+    v
 메트릭 기반 품질 자동 통제 (Quality Gate / SonarQube)
-    │
-    ▼
+    |
+    v
 ITSM 티켓 자동 연동 및 챗옵스 (ChatOps) 비동기 결재
-    │
-    ▼
+    |
+    v
 AI 기반 장애 예측 모델링 및 자동 롤백 결합 게이트
 ```
 
@@ -140,7 +140,7 @@ AI 기반 장애 예측 모델링 및 자동 롤백 결합 게이트
 
 **진행 상황**: 97 / 373
 
-← **이전**: [96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/096_k8s_sealed_secrets_gitops_encryption/)
-**다음**: [98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) →
+<- **이전**: [96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/096_k8s_sealed_secrets_gitops_encryption/)
+**다음**: [98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ->
 
 ---

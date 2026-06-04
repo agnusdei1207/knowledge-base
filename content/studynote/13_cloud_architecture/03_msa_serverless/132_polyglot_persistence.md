@@ -19,11 +19,11 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-주문 서비스 → PostgreSQL (관계형, ACID)
-카탈로그    → MongoDB (문서형, 유연 스키마)
-추천        → Neo4j (그래프, 관계 탐색)
-캐시        → Redis (인메모리, 고속)
-로그        → InfluxDB (시계열)
+주문 서비스 -> PostgreSQL (관계형, ACID)
+카탈로그    -> MongoDB (문서형, 유연 스키마)
+추천        -> Neo4j (그래프, 관계 탐색)
+캐시        -> Redis (인메모리, 고속)
+로그        -> InfluxDB (시계열)
 ```
 
 - **📢 섹션 요약 비유**: Polyglot은 <strong>요리마다 최적의 칼(도구)을 쓰는 것</strong>이다. 모든 요리에 식빵 칼만 쓸 순 없다.
@@ -61,10 +61,10 @@ Polyglot Persistence는 <strong>MSA의 <a href="/knowledge-base/studynote/05_dat
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[단일 RDBMS (모노리스)] → [NoSQL 등장 (2010s)]
-    → [Polyglot Persistence (MSA, 2014~)]
-    → [관리형 서비스 (AWS RDS/DynamoDB)]
-    → [현재: NewSQL + Polyglot — 최적 조합]
+[단일 RDBMS (모노리스)] -> [NoSQL 등장 (2010s)]
+    -> [Polyglot Persistence (MSA, 2014~)]
+    -> [관리형 서비스 (AWS RDS/DynamoDB)]
+    -> [현재: NewSQL + Polyglot — 최적 조합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -78,7 +78,7 @@ Polyglot Persistence는 <strong>MSA의 <a href="/knowledge-base/studynote/05_dat
 
 **진행 상황**: 131 / 371
 
-← **이전**: [131. Database per Service - MSA 데이터 분리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/131_database_per_service/)
-**다음**: [133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/133_2pc_limitations/) →
+<- **이전**: [131. Database per Service - MSA 데이터 분리 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/131_database_per_service/)
+**다음**: [133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/133_2pc_limitations/) ->
 
 ---

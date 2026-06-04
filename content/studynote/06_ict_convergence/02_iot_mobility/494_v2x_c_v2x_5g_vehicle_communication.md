@@ -35,24 +35,24 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              V2X 통신 기술 체계 및 아키텍처               │
-├──────────────────────────────────────────────────────────┤
-│  [WAVE / DSRC]               [C-V2X (3GPP)]              │
-│  IEEE 802.11p                                            │
-│  5.9GHz DSRC 대역            모드 4 (직접 통신, PC5 인터페이스)│
-│  독립 인프라 필요              ↑ 셀룰러 망 없이 차량 간 직접  │
-│                                                          │
-│  RSU(Road Side Unit)        모드 3 (네트워크 통신, Uu 인터페이스)│
-│  ↕ 차량 통신                  ↑ 기지국(eNB/gNB) 경유       │
-│                                                          │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  5G NR-V2X (Release 16+)                         │   │
-│  │  - uRLLC 슬라이스 활용 (지연 < 1ms 목표)          │   │
-│  │  - 그룹캐스트(Groupcast) 지원                     │   │
-│  │  - 군집주행(Platooning) 핵심 인프라               │   │
-│  └──────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|              V2X 통신 기술 체계 및 아키텍처               |
++----------------------------------------------------------+
+|  [WAVE / DSRC]               [C-V2X (3GPP)]              |
+|  IEEE 802.11p                                            |
+|  5.9GHz DSRC 대역            모드 4 (직접 통신, PC5 인터페이스)|
+|  독립 인프라 필요              ^ 셀룰러 망 없이 차량 간 직접  |
+|                                                          |
+|  RSU(Road Side Unit)        모드 3 (네트워크 통신, Uu 인터페이스)|
+|  ↕ 차량 통신                  ^ 기지국(eNB/gNB) 경유       |
+|                                                          |
+|  +--------------------------------------------------+   |
+|  |  5G NR-V2X (Release 16+)                         |   |
+|  |  - uRLLC 슬라이스 활용 (지연 < 1ms 목표)          |   |
+|  |  - 그룹캐스트(Groupcast) 지원                     |   |
+|  |  - 군집주행(Platooning) 핵심 인프라               |   |
+|  +--------------------------------------------------+   |
++----------------------------------------------------------+
 ```
 
 ### [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) vs [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 비교표
@@ -133,7 +133,7 @@ V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다.
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[IEEE 802.11p · 5.9GHz] → [V2X 차량 통신과 C-V2X 5G 연계] → [V2V · 5G uRLLC]
+[IEEE 802.11p · 5.9GHz] -> [V2X 차량 통신과 C-V2X 5G 연계] -> [V2V · 5G uRLLC]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다.
 
 **진행 상황**: 494 / 552
 
-← **이전**: [493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/493_autonomous_driving_lidar_sensor_fusion/)
-**다음**: [495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/495_5g_embb_urllc_mmtc_network_slicing/) →
+<- **이전**: [493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/493_autonomous_driving_lidar_sensor_fusion/)
+**다음**: [495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/495_5g_embb_urllc_mmtc_network_slicing/) ->
 
 ---

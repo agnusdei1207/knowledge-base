@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법 (Log-based [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `WAL 프로토콜`·`지연 갱신`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [WAL 프로토콜]
-    │
-    ▼
+    |
+    v
 [로그 기반 회복 기법]
-    │
-    ├──▶ [지연 갱신]
-    └──▶ [즉시 갱신]
+    |
+    +---> [지연 갱신]
+    +---> [즉시 갱신]
 ```
 
 WAL [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발한 논점이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법에서 핵심 판단으로 모이고, 이후 [지연 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/)·[즉시 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ WAL [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_
 
 **진행 상황**: 237 / 600
 
-← **이전**: [236. WAL 프로토콜 (Write-Ahead Logging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)
-**다음**: [238. 지연 갱신 (Deferred Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/) →
+<- **이전**: [236. WAL 프로토콜 (Write-Ahead Logging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)
+**다음**: [238. 지연 갱신 (Deferred Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/) ->
 
 ---

@@ -273,12 +273,12 @@ dtrace -n 'vfs:::entry /timestamp - last_io > 10000000/ {
 
 ```text
 [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-    │
-    ▼
+    |
+    v
 [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
-    │
-    ├──▶ [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
-    └──▶ [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
+    |
+    +---> [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
+    +---> [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -295,7 +295,7 @@ dtrace -n 'vfs:::entry /timestamp - last_io > 10000000/ {
 
 **진행 상황**: 614 / 800
 
-← **이전**: [613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)
-**다음**: [615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) →
+<- **이전**: [613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)
+**다음**: [615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ->
 
 ---

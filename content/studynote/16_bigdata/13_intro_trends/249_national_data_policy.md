@@ -216,7 +216,7 @@ EU (GDPR, 2018):
 [현재: 데이터 거버넌스 고도화]
 AI 학습 데이터 규정 (AI 기본법 준비)
 데이터 거래소 활성화
-마이데이터 금융→의료→공공 확산
+마이데이터 금융->의료->공공 확산
 ```
 
 ---
@@ -233,7 +233,7 @@ AI 학습 데이터 규정 (AI 기본법 준비)
 
 **진행 상황**: 249 / 262
 
-← **이전**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/)
-**다음**: [038. 데이터 주권 (Data Sovereignty)](/knowledge-base/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/) →
+<- **이전**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/)
+**다음**: [038. 데이터 주권 (Data Sovereignty)](/knowledge-base/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/) ->
 
 ---

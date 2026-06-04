@@ -26,24 +26,24 @@ tags = ["studynote-operating-system"]
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템들은 패스워드 해시 저장이 안전하다고 믿었다. 하지만 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시라도 `123456` 같은 흔한 패스워드의 해시값은 항상 똑같이 나온다는 치명적 맹점이 존재했다. 공격자들은 "어차피 사람들이 쓰는 패스워드는 수천만 개 정도니, 모든 경우의 수의 해시값을 미리 계산해서 표(레인보우 테이블, [Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))로 만들어 두자"는 발상을 실행에 옮겼다. 서버 DB가 털리면 해커는 이 거대한 엑셀 표(레인보우 테이블)에서 DB의 해시값을 검색(Look-up)하기만 하면 단 1초 만에 원래 패스워드를 알아낼 수 있었다. 이를 파괴하기 위해 소금([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 뿌려 해커의 미리 계산된 식단을 망쳐버리는 솔팅 기술이 등장했다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      단순 해시(Unsalted) 시스템의 치명적 한계 (레인보우 테이블)│
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [동일한 패스워드 = 동일한 해시값 생성]                    │
-│  사용자 A (PW: apple123) ──(해시 SHA256)──▶ 1a2b3c...      │
-│  사용자 B (PW: apple123) ──(해시 SHA256)──▶ 1a2b3c...      │
-│                                                            │
-│  [해커의 무기: 레인보우 테이블 (미리 계산된 해시 사전)]    │
-│    평문 패스워드  │   SHA-256 해시값                       │
-│    ─────────────┼─────────────────────────────           │
-│    password     │   5e8848...                              │
-│    123456       │   8d969e...                              │
-│    apple123     │   1a2b3c... ◀─ 빙고! 1초 만에 탈취 성공 │
-│                                                            │
-│  결과: DB가 유출되면 1a2b3c 해시값을 가진 A와 B의 패스워드는 │
-│        복호화(Decryption) 연산 없이 '검색'만으로 털리게 됨. │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      단순 해시(Unsalted) 시스템의 치명적 한계 (레인보우 테이블)|
++------------------------------------------------------------+
+|                                                            |
+|  [동일한 패스워드 = 동일한 해시값 생성]                    |
+|  사용자 A (PW: apple123) --(해시 SHA256)---> 1a2b3c...      |
+|  사용자 B (PW: apple123) --(해시 SHA256)---> 1a2b3c...      |
+|                                                            |
+|  [해커의 무기: 레인보우 테이블 (미리 계산된 해시 사전)]    |
+|    평문 패스워드  |   SHA-256 해시값                       |
+|    -------------+-----------------------------           |
+|    password     |   5e8848...                              |
+|    123456       |   8d969e...                              |
+|    apple123     |   1a2b3c... <-- 빙고! 1초 만에 탈취 성공 |
+|                                                            |
+|  결과: DB가 유출되면 1a2b3c 해시값을 가진 A와 B의 패스워드는 |
+|        복호화(Decryption) 연산 없이 '검색'만으로 털리게 됨. |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 "해시(Hash)는 복호화가 불가능하니까 안전하다"는 고정관념을 해커들이 어떻게 박살 냈는지를 보여준다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 자체는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)이 맞지만, 수학적 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매핑이 성립하므로(동일 입력 = 동일 출력), 해커가 오프라인에서 미리 10테라바이트짜리 거대한 '입력-출력 매핑 테이블([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))'을 수년 동안 만들어두면 방어막이 순식간에 뚫린다. 특히 여러 사용자가 동일한 패스워드를 쓰는 경우, 한 명의 패스워드가 풀리면 똑같은 해시값을 가진 수천 명의 패스워드도 동시에 노출되는 군집 붕괴 현상이 발생한다.
@@ -69,29 +69,29 @@ tags = ["studynote-operating-system"]
 현대 OS와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 프레임워크(Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), Django 등)는 단순히 [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 하나만 추가하는 것에 만족하지 않는다. 해커들의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산(초당 수십 억 번 해시 계산)이 너무 빨라졌기 때문이다. 이에 대응하기 위해 해시를 한 번만 하는 것이 아니라 반복 횟수(Work Factor/Cost)를 주어 일부러 계산을 느리게 만드는 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a>(<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>)</strong>을 솔팅과 융합하여 아키텍처를 설계한다. 대표적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 **bcrypt, PBKDF2, Argon2** 이다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      Bcrypt 알고리즘 기반 솔팅 및 키 스트레칭 파이프라인   │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [1. 계정 생성 시 데이터베이스 저장 과정]                  │
-│  사용자 PW : "apple123"                                    │
-│  난수 Salt : "xY7#z9Q" (사용자 전용 고유 난수 생성)        │
-│                                                            │
-│  [2. 키 스트레칭 엔진 (수만 번 반복 연산)]                 │
-│  Hash_0 = SHA256 ( "apple123" + "xY7#z9Q" )                │
-│  Hash_1 = SHA256 ( Hash_0 + "xY7#z9Q" )                    │
-│  Hash_2 = SHA256 ( Hash_1 + "xY7#z9Q" )                    │
-│    ...                                                     │
-│  Hash_10000 = 최종 다이제스트(Digest) 생성 완료            │
-│                                                            │
-│  [3. 리눅스 /etc/shadow 또는 DB 저장 포맷 ($ 분리자)]      │
-│  db_row: $2b$12$xY7#z9Q.............1a2b3c4d5e6f7g8h9i     │
-│          ─── ── ───────             ──────────────────     │
-│           │   │    │                        │              │
-│  알고리즘(Bcrypt)  │                        └── 최종 해시값│
-│        Cost Factor (2^12회 반복)                           │
-│                 └── 솔트(Salt) 평문 값 (해커가 봐도 상관없음)│
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      Bcrypt 알고리즘 기반 솔팅 및 키 스트레칭 파이프라인   |
++------------------------------------------------------------+
+|                                                            |
+|  [1. 계정 생성 시 데이터베이스 저장 과정]                  |
+|  사용자 PW : "apple123"                                    |
+|  난수 Salt : "xY7#z9Q" (사용자 전용 고유 난수 생성)        |
+|                                                            |
+|  [2. 키 스트레칭 엔진 (수만 번 반복 연산)]                 |
+|  Hash_0 = SHA256 ( "apple123" + "xY7#z9Q" )                |
+|  Hash_1 = SHA256 ( Hash_0 + "xY7#z9Q" )                    |
+|  Hash_2 = SHA256 ( Hash_1 + "xY7#z9Q" )                    |
+|    ...                                                     |
+|  Hash_10000 = 최종 다이제스트(Digest) 생성 완료            |
+|                                                            |
+|  [3. 리눅스 /etc/shadow 또는 DB 저장 포맷 ($ 분리자)]      |
+|  db_row: $2b$12$xY7#z9Q.............1a2b3c4d5e6f7g8h9i     |
+|          --- -- -------             ------------------     |
+|           |   |    |                        |              |
+|  알고리즘(Bcrypt)  |                        +-- 최종 해시값|
+|        Cost Factor (2^12회 반복)                           |
+|                 +-- 솔트(Salt) 평문 값 (해커가 봐도 상관없음)|
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도는 단순한 암호화가 아닌, 해커의 컴퓨팅 파워를 소모시키기 위한 "의도적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)" 아키텍처를 보여준다. 사용자 계정이 생성될 때마다 새로운 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))가 발급되므로, 두 사용자가 똑같이 `apple123`이라는 패스워드를 쓰더라도 DB에 저장되는 최종 해시값은 완전히 달라진다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 값 자체는 암호가 아니므로 DB에 해시값과 나란히 평문으로 저장해도 무방하다. ([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)는 레인보우 테이블을 무력화할 뿐, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 자체가 비밀일 필요는 없다). 여기에 `Cost Factor(12)`가 주어지면, 해시 연산을 $2^{12}$(4,096)번 이상 반복한다. 정상 사용자가 로그인할 때는 0.1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 생기므로 UX에 지장이 없지만, 해커가 DB를 털어가서 1억 개의 패스워드 사전을 브루트 포스(Brute-Force) 공격으로 대입하려 하면, 한 번 시도할 때마다 0.1초가 걸려 해킹에 수천 년이 걸리게 만드는 물리적 방어 체계다.
@@ -116,25 +116,25 @@ tags = ["studynote-operating-system"]
 가장 최신 표준인 <strong>Argon2</strong>의 핵심은 해시 연산 시 CPU뿐만 아니라 대량의 메모리(Memory-Hard)를 요구한다는 점이다. 해커는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 안에 수천 개의 코어를 가지고 있지만 RAM 용량은 제한적이므로, Argon2 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 앞에서는 GPU의 장점을 전혀 살릴 수 없다.
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│      Bcrypt (연산 지연형) vs Argon2 (메모리 의존형) 방어 비교│
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [해커의 GPU 공격 장비 구조]                               │
-│  GPU 1개당 4,000개의 연산 코어 보유 (RAM은 상대적으로 적음)│
-│                                                            │
-│  [Bcrypt 기반 방어 타격 시]                                │
-│  CPU 연산만 복잡하게 만듦. 해커는 4,000개의 코어를         │
-│  병렬로 돌려 동시에 4,000개의 비밀번호를 대입해버림.       │
-│  => 방어력 한계치 봉착 (GPU 팜 앞에서는 뚫림)              │
-│                                                            │
-│  [Argon2 기반 방어 타격 시 (Memory-Hard Feature)]          │
-│  규칙: "이 해시 1개를 계산하려면 반드시 1GB의 RAM을 채워야함"│
-│  해커의 시도: 4,000개 코어를 동시에 돌리려 함              │
-│  결과: RAM이 4,000GB(4TB)나 필요해짐! GPU 메모리 터짐.💥  │
-│  => 해커는 억지로 코어 10개만 돌릴 수밖에 없어 공격 속도가 │
-│     1/400로 극단적으로 수렴하여 포기하게 됨.               │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|      Bcrypt (연산 지연형) vs Argon2 (메모리 의존형) 방어 비교|
++------------------------------------------------------------+
+|                                                            |
+|  [해커의 GPU 공격 장비 구조]                               |
+|  GPU 1개당 4,000개의 연산 코어 보유 (RAM은 상대적으로 적음)|
+|                                                            |
+|  [Bcrypt 기반 방어 타격 시]                                |
+|  CPU 연산만 복잡하게 만듦. 해커는 4,000개의 코어를         |
+|  병렬로 돌려 동시에 4,000개의 비밀번호를 대입해버림.       |
+|  => 방어력 한계치 봉착 (GPU 팜 앞에서는 뚫림)              |
+|                                                            |
+|  [Argon2 기반 방어 타격 시 (Memory-Hard Feature)]          |
+|  규칙: "이 해시 1개를 계산하려면 반드시 1GB의 RAM을 채워야함"|
+|  해커의 시도: 4,000개 코어를 동시에 돌리려 함              |
+|  결과: RAM이 4,000GB(4TB)나 필요해짐! GPU 메모리 터짐.💥  |
+|  => 해커는 억지로 코어 10개만 돌릴 수밖에 없어 공격 속도가 |
+|     1/400로 극단적으로 수렴하여 포기하게 됨.               |
++------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 비교도는 사이버 창과 방패의 싸움이 단순한 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 넘어 하드웨어 아키텍처(CPU vs Memory)의 한계를 공략하는 물리전으로 진화했음을 보여준다. Bcrypt나 PBKDF2는 연산 시간을 늘려(Time-cost) 방어하지만, 해커들이 비트코인 채굴에 쓰이는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 특화 괴물 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 팜을 구성하자 이 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 무력화되었다. 이에 방어자들은 해시 계산 과정에 거대한 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 쓰고 읽기를 반복하게 만드는 Argon2 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 도입했다. 해커가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어를 돌리려 해도 메모리(Memory-cost) 대역폭과 용량이 발목을 잡아, 하드웨어 확장의 가성비가 최악으로 떨어지게 만들어 브루트 포스 공격의 경제성을 완전히 파괴해버린 예술적 방어 설계다.
@@ -202,12 +202,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [사용자 인증 (Authentication) 요소]
-    │
-    ▼
+    |
+    v
 [비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]
-    │
-    ├──▶ [감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]
-    └──▶ [물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]
+    |
+    +---> [감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]
+    +---> [물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -224,7 +224,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 605 / 800
 
-← **이전**: [604. 사용자 인증 (Authentication) 요소 - Something you know, have, are](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)
-**다음**: [606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) →
+<- **이전**: [604. 사용자 인증 (Authentication) 요소 - Something you know, have, are](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)
+**다음**: [606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ->
 
 ---

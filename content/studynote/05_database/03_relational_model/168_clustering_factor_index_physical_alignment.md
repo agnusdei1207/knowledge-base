@@ -37,16 +37,16 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 아래 그림은 CF가 실제로 무엇을 세는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│     CF counts table-block changes while scanning index leaf order    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Index leaf order : K101 ─ K102 ─ K103 ─ K104 ─ K105                 │
-│ Table block map  : B07  ─ B07  ─ B08  ─ B08  ─ B21                  │
-│ CF counter       :  1       1       2       2       3               │
-│                                                                      │
-│ Few block changes  => rows are physically aligned                    │
-│ Many block changes => random table access increases                  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|     CF counts table-block changes while scanning index leaf order    |
++----------------------------------------------------------------------+
+| Index leaf order : K101 - K102 - K103 - K104 - K105                 |
+| Table block map  : B07  - B07  - B08  - B08  - B21                  |
+| CF counter       :  1       1       2       2       3               |
+|                                                                      |
+| Few block changes  => rows are physically aligned                    |
+| Many block changes => random table access increases                  |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 CF가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 높이나 키 분포를 세는 값이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>가 연결하는 테이블 블록의 이동 횟수</strong>를 세는 값이라는 점이다. 따라서 CF는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이 아니라 물리 접근 비용과 직접 연결된다. 같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000건 범위 조회라도 CF가 좋으면 200개 블록만 읽고 끝날 수 있지만, 나쁘면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개 블록을 각각 건드릴 수 있다.
@@ -137,17 +137,17 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 ```text
 기본 인덱스 탐색
-    │
-    ▼
+    |
+    v
 선택도 (Selectivity) 판단
-    │
-    ▼
+    |
+    v
 클러스터링 팩터 (CF)로 물리 정렬 평가
-    │
-    ├─ 좋음  → 인덱스 범위 스캔 강화
-    └─ 나쁨  → 풀 스캔 · 재구성 · 파티셔닝 검토
-    │
-    ▼
+    |
+    +- 좋음  -> 인덱스 범위 스캔 강화
+    +- 나쁨  -> 풀 스캔 · 재구성 · 파티셔닝 검토
+    |
+    v
 물리 모델링 최적화 (Clustered Storage / IOT / Covering Index)
 ```
 
@@ -165,7 +165,7 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 **진행 상황**: 168 / 600
 
-← **이전**: [167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)
-**다음**: [169. 클러스터링 팩터 (Clustering Factor) - 인덱스 정렬 순서와 실제 물리적 데이터 정렬 순서의 일치 정도](/knowledge-base/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) →
+<- **이전**: [167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)
+**다음**: [169. 클러스터링 팩터 (Clustering Factor) - 인덱스 정렬 순서와 실제 물리적 데이터 정렬 순서의 일치 정도](/knowledge-base/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) ->
 
 ---

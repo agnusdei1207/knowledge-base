@@ -1,5 +1,5 @@
 +++
-title = "134. 요구사항 공학 프로세스 - 도출→분석→명세→검증→관리 상세"
+title = "134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,9 +10,9 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 도출(Elicitation)→분석(Analysis)→명세([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/), SRS)→[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))→관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.
+> 1. **본질**: 요구 도출(Elicitation)->분석(Analysis)->명세([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/), SRS)->[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))->관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.
 > 2. **가치**: 도출 기법(인터뷰·워크숍·프로토타이핑)을 적절히 조합해야 <strong>숨겨진 요구사항(Hidden Requirements)</strong>을 발견할 수 있고, 명세의 품질이 전체 프로젝트 품질을 결정한다.
-> 3. **판단 포인트**: 도출 기법 선택, SRS 구조(IEEE 830), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(리뷰·[프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)·[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)), [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)(요구→설계→코드→테스트 추적)이 핵심이다.
+> 3. **판단 포인트**: 도출 기법 선택, SRS 구조(IEEE 830), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(리뷰·[프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)·[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)), [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)(요구->설계->코드->테스트 추적)이 핵심이다.
 
 ---
 
@@ -42,15 +42,15 @@ tags = ["studynote-software-engineering"]
 |:---|:---|
 | **도출** | 인터뷰·JAD·프로토타이핑 |
 | **SRS** | IEEE 830 명세서 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a></strong> | 요구→테스트 추적 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a></strong> | 요구->테스트 추적 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a></strong> | [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) |
 | **MoSCoW** | 우선순위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 요구 수집] → [IEEE 830 SRS (1998)] → [유스케이스 (UML)]
-    → [User Story (Agile)] → [현재: AI 요구 분석 — 자연어→요구 자동 분류]
+[비공식 요구 수집] -> [IEEE 830 SRS (1998)] -> [유스케이스 (UML)]
+    -> [User Story (Agile)] -> [현재: AI 요구 분석 — 자연어->요구 자동 분류]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 134 / 973
 
-← **이전**: [133. 비기능 요구사항 (NFR) - 시스템 품질 속성 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)
-**다음**: [135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍](/knowledge-base/studynote/04_software_engineering/03_design_architecture/135_requirements_elicitation_techniques/) →
+<- **이전**: [133. 비기능 요구사항 (NFR) - 시스템 품질 속성 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)
+**다음**: [135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍](/knowledge-base/studynote/04_software_engineering/03_design_architecture/135_requirements_elicitation_techniques/) ->
 
 ---

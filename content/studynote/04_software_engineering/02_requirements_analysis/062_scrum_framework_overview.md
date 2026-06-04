@@ -109,13 +109,13 @@ tags = ["software_engineering"]
 
 ```text
 Agile
-   ↓
+   v
 Scrum
-   ↓
+   v
 Sprint / Backlog / Increment
-   ↓
+   v
 Feedback Loop
-   ↓
+   v
 Continuous Improvement
 ```
 
@@ -125,11 +125,11 @@ Continuous Improvement
 
 ```text
 Waterfall
-   ↓
+   v
 Agile
-   ↓
+   v
 Scrum
-   ↓
+   v
 Sprint Review / Retrospective
 ```
 
@@ -147,7 +147,7 @@ Sprint Review / Retrospective
 
 **진행 상황**: 62 / 973
 
-← **이전**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/)
-**다음**: [63. 제품 책임자 (Product Owner, PO)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) →
+<- **이전**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/)
+**다음**: [63. 제품 책임자 (Product Owner, PO)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) ->
 
 ---

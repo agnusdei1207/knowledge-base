@@ -28,15 +28,15 @@ tags = ["studynote-database"]
 이 그림은 왜 소트 머지 조인이 등장하는지, 다른 조인과 어떤 비용 구조 차이를 가지는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│            Why a merge-based join becomes attractive               │
-├────────────────────────────────────────────────────────────────────┤
-│ small outer + good index   -> Nested Loop Join                    │
-│ large equality join        -> Hash Join                           │
-│ large range join or order reuse needed -> Sort Merge Join         │
-│                                                                    │
-│ pay sort once, then scan both sides forward in order              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|            Why a merge-based join becomes attractive               |
++--------------------------------------------------------------------+
+| small outer + good index   -> Nested Loop Join                    |
+| large equality join        -> Hash Join                           |
+| large range join or order reuse needed -> Sort Merge Join         |
+|                                                                    |
+| pay sort once, then scan both sides forward in order              |
++--------------------------------------------------------------------+
 ```
 
 소트 머지 조인의 핵심은 결과가 아니라 <strong>도달 경로의 성격</strong>을 바꾸는 데 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 여기저기 찌르던 조인을, 정렬된 두 흐름을 맞춰 내려가는 순차 작업으로 바꾸는 것이다.
@@ -47,7 +47,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-소트 머지 조인은 보통 **정렬 단계 (Sort Phase) → 병합 단계 (Merge Phase)** 로 움직인다. [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 는 양쪽 입력의 크기, 기존 정렬 여부, 조인 조건, 작업 메모리 크기를 보고 이 방식을 고른다.
+소트 머지 조인은 보통 **정렬 단계 (Sort Phase) -> 병합 단계 (Merge Phase)** 로 움직인다. [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 는 양쪽 입력의 크기, 기존 정렬 여부, 조인 조건, 작업 메모리 크기를 보고 이 방식을 고른다.
 
 | 단계 | 엔진이 하는 일 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 | 주요 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | :--- | :--- | :--- | :--- |
@@ -58,18 +58,18 @@ tags = ["studynote-database"]
 아래 그림은 병합 단계의 핵심 동작을 보여 준다. 두 입력이 같은 키 순서로 정렬되어 있으면, 포인터는 뒤로 돌아가지 않고 앞으로만 움직인다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Merge phase: two pointers move forward             │
-├────────────────────────────────────────────────────────────────────┤
-│ A : 10   20   20   40   70                                        │
-│       ▲                                                           │
-│ B : 15   20   20   60                                             │
-│       ▲                                                           │
-│                                                                    │
-│ A < B  -> advance A                                                │
-│ A > B  -> advance B                                                │
-│ A = B  -> join equal-key runs, then advance both runs             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                 Merge phase: two pointers move forward             |
++--------------------------------------------------------------------+
+| A : 10   20   20   40   70                                        |
+|       ^                                                           |
+| B : 15   20   20   60                                             |
+|       ^                                                           |
+|                                                                    |
+| A < B  -> advance A                                                |
+| A > B  -> advance B                                                |
+| A = B  -> join equal-key runs, then advance both runs             |
++--------------------------------------------------------------------+
 ```
 
 동등 조인에서는 같은 키 값이 만나는 순간 해당 키 구간(run)을 묶어서 결과를 만들어 낸다. 예를 들어 A에 `20, 20`, B에 `20, 20` 이 있으면 병합 단계에서 이 동등 키 묶음을 조합해 출력한다. 비동등 조인에서는 정렬 순서를 이용해 어느 쪽 포인터를 전진시킬지 판단하므로, [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)으로는 어려운 범위 매칭을 다룰 수 있다.
@@ -153,21 +153,21 @@ tags = ["studynote-database"]
 
 ```text
 Large join requirement
-        │
-        ▼
+        |
+        v
 Need ordered inputs or range comparison
-        │
-        ▼
+        |
+        v
 Sort both sides on join key
-        │
-        ▼
+        |
+        v
 Merge scan with forward-only pointers
-        │
-        ▼
+        |
+        v
 Reuse ordered result for group/order analytics
 ```
 
-이 흐름은 "대량 조인 필요 → 정렬 기반 준비 → 병합 스캔 → 정렬 재활용"으로 이어지는 소트 머지 조인의 사고 순서를 보여 준다.
+이 흐름은 "대량 조인 필요 -> 정렬 기반 준비 -> 병합 스캔 -> 정렬 재활용"으로 이어지는 소트 머지 조인의 사고 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,7 +181,7 @@ Reuse ordered result for group/order analytics
 
 **진행 상황**: 173 / 600
 
-← **이전**: [172. 중첩 루프 조인 (NL Join, Nested Loop Join)](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)
-**다음**: [174. 해시 조인 (Hash Join) - 작은 테이블로 해시 맵 생성 후 큰 테이블 탐색, 대량 데이터/동등(=) 조인 전용, 성능](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) →
+<- **이전**: [172. 중첩 루프 조인 (NL Join, Nested Loop Join)](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)
+**다음**: [174. 해시 조인 (Hash Join) - 작은 테이블로 해시 맵 생성 후 큰 테이블 탐색, 대량 데이터/동등(=) 조인 전용, 성능](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ->
 
 ---

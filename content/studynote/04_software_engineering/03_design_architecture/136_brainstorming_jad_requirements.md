@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ~Ⅴ. 결론
 
-브레인스토밍+JAD는 <strong>그룹 기반 요구 도출의 핵심 기법</strong>이며, 발산→수렴의 조합으로 활용한다.
+브레인스토밍+JAD는 <strong>그룹 기반 요구 도출의 핵심 기법</strong>이며, 발산->수렴의 조합으로 활용한다.
 
 ---
 
@@ -41,16 +41,16 @@ tags = ["studynote-software-engineering"]
 | **브레인스토밍** | 아이디어 발산 |
 | **JAD** | 합의 워크숍 |
 | **퍼실리테이터** | JAD [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 촉진자 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/">Design Thinking</a></strong> | 발산→수렴 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/">Design Thinking</a></strong> | 발산->수렴 프레임워크 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a> Diagram</strong> | 아이디어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 회의 (~2000s)] → [JAD (IBM, 1977)]
-    → [브레인스토밍 (Osborn, 1953)]
-    → [Design Thinking 통합 (2010s)]
-    → [현재: AI 퍼실리테이터 — 회의 요약·아이디어 분류 자동화]
+[비공식 회의 (~2000s)] -> [JAD (IBM, 1977)]
+    -> [브레인스토밍 (Osborn, 1953)]
+    -> [Design Thinking 통합 (2010s)]
+    -> [현재: AI 퍼실리테이터 — 회의 요약·아이디어 분류 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 136 / 973
 
-← **이전**: [135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍](/knowledge-base/studynote/04_software_engineering/03_design_architecture/135_requirements_elicitation_techniques/)
-**다음**: [137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/137_persona_analysis_modeling/) →
+<- **이전**: [135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍](/knowledge-base/studynote/04_software_engineering/03_design_architecture/135_requirements_elicitation_techniques/)
+**다음**: [137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출](/knowledge-base/studynote/04_software_engineering/03_design_architecture/137_persona_analysis_modeling/) ->
 
 ---

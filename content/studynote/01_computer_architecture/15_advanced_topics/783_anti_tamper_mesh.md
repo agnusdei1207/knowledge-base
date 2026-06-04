@@ -45,21 +45,21 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 능동 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 어떻게 보안 블록 위를 덮고 반응하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 Active mesh: detect before the secret is touched          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Challenge Gen ─────▶ Mesh Layer A ─────▶ Mesh Layer B ─────▶ Sense Comp   │
-│                         │                     │                              │
-│                         │ abnormal open/short │ abnormal capacitance         │
-│                         └──────────────┬──────┴──────────────┐               │
-│                                        ▼                     │               │
-│                                  Tamper Latch                │               │
-│                                        │                     │               │
-│                                        ▼                     │               │
-│                        Zeroization / lockout / debug disable │               │
-│                                                              │               │
-│                        Sensitive bus / key store / control logic below       │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 Active mesh: detect before the secret is touched          |
++----------------------------------------------------------------------------+
+| Challenge Gen ------> Mesh Layer A ------> Mesh Layer B ------> Sense Comp   |
+|                         |                     |                              |
+|                         | abnormal open/short | abnormal capacitance         |
+|                         +--------------+------+--------------+               |
+|                                        v                     |               |
+|                                  Tamper Latch                |               |
+|                                        |                     |               |
+|                                        v                     |               |
+|                        Zeroization / lockout / debug disable |               |
+|                                                              |               |
+|                        Sensitive bus / key store / control logic below       |
++----------------------------------------------------------------------------+
 ```
 
 실제로는 여기서 세 가지 트레이드오프가 생긴다. 첫째, 피치를 촘촘히 할수록 공격 난도는 높아지지만 배선 자원과 면적이 늘어난다. 둘째, 동적 검사를 강화할수록 보안은 좋아지지만 테스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 복잡해진다. 셋째, 상단 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)만 강해도 배면 박막화 후 뒤쪽에서 접근하는 우회 경로가 남을 수 있으므로, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 패키지 센서·배면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 묶어 보는 것이 중요하다.
@@ -136,20 +136,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 수동 차폐층
-      │
-      ▼
+      |
+      v
 정적 연속성 기반 active mesh
-      │
-      ▼
+      |
+      v
 동적 challenge-response mesh
-      │
-      ▼
+      |
+      v
 광 · 온도 · 전압 · 정전용량 sensor fusion
-      │
-      ▼
+      |
+      v
 상단 + 배면 보호
-      │
-      ▼
+      |
+      v
 zeroization 연계형 전주기 tamper envelope
 ```
 
@@ -167,7 +167,7 @@ zeroization 연계형 전주기 tamper envelope
 
 **진행 상황**: 784 / 803
 
-← **이전**: [782. 디캡핑 (Decapping) 및 프로빙 (Probing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)
-**다음**: [784. 제로화 (Zeroization) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) →
+<- **이전**: [782. 디캡핑 (Decapping) 및 프로빙 (Probing)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)
+**다음**: [784. 제로화 (Zeroization) 회로](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) ->
 
 ---

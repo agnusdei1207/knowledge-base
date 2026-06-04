@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 계층 분리</strong>: 리눅스는 `/dev/` 밑에 하드디스크는 `b(블록)`로, 키보드와 마우스는 `c(문자)`로 철저히 족보를 분리하여 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)가 멍청한 캐시 짓거리를 못 하게 락(Bypass)을 걸었다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        문자 장치(Character Device)의 데이터 스트림(Stream) 시각화      │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 유저가 키보드로 H, E, L, L, O 를 쳤을 때의 파이프라인 ]              │
-│                                                                        │
-│ 1. [ 하드웨어: 키보드 컨트롤러 ]                                       │
-│    'H' 타이핑 ──▶ 즉시 CPU에 하드웨어 인터럽트(IRQ) 빵! 발사           │
-│                                                                        │
-│ 2. [ OS 커널: 문자 디바이스 드라이버 ]                                 │
-│    OS: "앗 인터럽트네! 키보드 큐(Queue)에 문자 1개 도착했구나!"        │
-│    (커널 내부의 작은 Line Discipline 큐에 'H'를 쏙 집어넣음)           │
-│                                                                        │
-│ 3. [ 큐의 흐름 (일방통행) ]                                            │
-│    (Tail)  [O] - [L] - [L] - [E] - [H]  (Head) ──▶ 방향                │
-│                                                                        │
-│ 4. [ 유저 프로그램: 터미널 창 ]                                        │
-│    `scanf()`나 `read()`로 큐의 맨 앞(Head)부터 차례대로 빨아들임.      │
-│    💥 특징: 한 번 빨아들인 'H'는 큐에서 영원히 소멸함. 다시 못 읽음!   │
-│            내가 3번째 'L'만 콕 집어서 먼저 가져가는 것 불가능(No Seek) │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        문자 장치(Character Device)의 데이터 스트림(Stream) 시각화      |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 유저가 키보드로 H, E, L, L, O 를 쳤을 때의 파이프라인 ]              |
+|                                                                        |
+| 1. [ 하드웨어: 키보드 컨트롤러 ]                                       |
+|    'H' 타이핑 ---> 즉시 CPU에 하드웨어 인터럽트(IRQ) 빵! 발사           |
+|                                                                        |
+| 2. [ OS 커널: 문자 디바이스 드라이버 ]                                 |
+|    OS: "앗 인터럽트네! 키보드 큐(Queue)에 문자 1개 도착했구나!"        |
+|    (커널 내부의 작은 Line Discipline 큐에 'H'를 쏙 집어넣음)           |
+|                                                                        |
+| 3. [ 큐의 흐름 (일방통행) ]                                            |
+|    (Tail)  [O] - [L] - [L] - [E] - [H]  (Head) ---> 방향                |
+|                                                                        |
+| 4. [ 유저 프로그램: 터미널 창 ]                                        |
+|    `scanf()`나 `read()`로 큐의 맨 앞(Head)부터 차례대로 빨아들임.      |
+|    💥 특징: 한 번 빨아들인 'H'는 큐에서 영원히 소멸함. 다시 못 읽음!   |
+|            내가 3번째 'L'만 콕 집어서 먼저 가져가는 것 불가능(No Seek) |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 문자 장치는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))라는 자료구조의 화신이다. 들어온 순서대로 처리되고, 처리되면 증발한다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드디스크)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "보관(Storage)"을 목적으로 한다면, 문자 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>"통과(Transit)"와 "소통(Communication)"</strong>을 목적으로 디자인된 태생부터 다른 생명체다.
 
@@ -101,12 +101,12 @@ tags = ["studynote-operating-system"]
 이 꼼수 덕분에 우리는 USB에 굽지 않고도 ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 윈도우/리눅스에서 가상 CD롬으로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))해서 클릭하며 폴더처럼 뒤져볼 수 있는 것이다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────────────┐
-│ 장치 분류  │ 버퍼링(Buffering)│ 주소 체계(Seek)│ 주요 성능 병목             │
-├──────────┼────────────┼────────────┼────────────────────────────────────────┤
-│ 블록 장치  │ 대용량 (수 MB)│ 완벽 지원 (LBA)│ 디스크 암 이동(Seek 렉)       │
-│ 문자 장치  │ 극소량 (수 Byte)│ 절대 불가 (Stream)│ 인터럽트 폭발(CPU 과부하)│
-└──────────┴────────────┴────────────┴────────────────────────────────────────┘
++----------+------------+------------+----------------------------------------+
+| 장치 분류  | 버퍼링(Buffering)| 주소 체계(Seek)| 주요 성능 병목             |
++----------+------------+------------+----------------------------------------+
+| 블록 장치  | 대용량 (수 MB)| 완벽 지원 (LBA)| 디스크 암 이동(Seek 렉)       |
+| 문자 장치  | 극소량 (수 Byte)| 절대 불가 (Stream)| 인터럽트 폭발(CPU 과부하)|
++----------+------------+------------+----------------------------------------+
 ```
 **[매트릭스 해설]** 문자 장치는 하드웨어 자체가 느린 게 아니라, 그놈이 CPU를 너무 자주 괴롭혀서 시스템 전체를 느리게 만드는([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉) 게 문제다. 반면 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 CPU는 한가한데 지 혼자 바늘 찾느라 낑낑대는(기계적 렉) 게 문제다. 이 두 장치의 병목 지점이 완전히 대척점에 있기 때문에 OS는 이 둘의 스케줄링 코드를 완전히 찢어서 개발할 수밖에 없었다.
 
@@ -167,12 +167,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [블록 장치]
-    │
-    ▼
+    |
+    v
 [문자 장치 (Character Device)]
-    │
-    ├──▶ [네트워크 장치 (소켓 인터페이스)]
-    └──▶ [I/O 하드웨어 인터페이스 요소]
+    |
+    +---> [네트워크 장치 (소켓 인터페이스)]
+    +---> [I/O 하드웨어 인터페이스 요소]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 443 / 800
 
-← **이전**: [442. 블록 장치 (Block Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)
-**다음**: [444. 네트워크 장치 (소켓 인터페이스) (Network Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/) →
+<- **이전**: [442. 블록 장치 (Block Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)
+**다음**: [444. 네트워크 장치 (소켓 인터페이스) (Network Device)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), BN)는 미니배치의 각 특성을 평균 0, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 1로 표준화한 뒤 학습 가능한 스케일(γ)과 이동(β) 파라미터로 재조정하여, 각 층의 입력 분포를 안정화시키는 [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이다.
 > 2. **가치**: 내부 공변량 이동(Internal Covariate Shift) 현상을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)해 더 큰 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 사용을 가능하게 하고, [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 없이도 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과를 내어 깊은 신경망(Deep Network)의 훈련을 극적으로 가속한다.
-> 3. **판단 포인트**: 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 시에는 미니배치의 μ_B, σ²_B를 사용하고, 추론(Inference) 시에는 훈련 중 계산한 이동 평균(Moving Average) μ̄, σ̄²를 사용한다.
+> 3. **판단 포인트**: 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 시에는 미니배치의 μ_B, σ^_B를 사용하고, 추론(Inference) 시에는 훈련 중 계산한 이동 평균(Moving Average) μ̄, σ̄^를 사용한다.
 
 ---
 
@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)에서 각 층의 파라미터가 업데이트될 때마다 이전 층의 출력 분포가 변한다. 이를 내부 공변량 이동([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/), Internal Covariate Shift)이라 한다. ICS가 심하면 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 작게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화에 민감해져 훈련이 느리고 불안정해진다. BN은 각 미니배치에서 활성화(Activation) 이전 또는 이후에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 수행해 분포를 안정시킨다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: BN이 없는 깊은 신경망은 "전화 게임(끝말잇기)"이다. [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0명이 속삭이면 첫 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 왜곡되어 마지막엔 완전히 다른 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 된다([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)). BN은 매 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명마다 "원본 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))"하는 체크포인트다.
@@ -37,21 +37,21 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│           배치 정규화 (Batch Normalization) 수식          │
-├──────────────────────────────────────────────────────────┤
-│  미니배치 B = {x₁, ..., xₘ}                             │
-│                                                          │
-│  1. 배치 평균:  μ_B = (1/m) Σᵢ xᵢ                     │
-│  2. 배치 분산:  σ²_B = (1/m) Σᵢ (xᵢ - μ_B)²          │
-│  3. 정규화:     x̂ᵢ = (xᵢ - μ_B) / √(σ²_B + ε)       │
-│  4. 스케일·이동: yᵢ = γ · x̂ᵢ + β                     │
-│     (γ, β: 학습 가능 파라미터)                          │
-│                                                          │
-│  추론 시:                                               │
-│  μ̄ = EMA(μ_B), σ̄² = EMA(σ²_B) 사용                  │
-│  (이동 지수 평균, 훈련 중 누적)                         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           배치 정규화 (Batch Normalization) 수식          |
++----------------------------------------------------------+
+|  미니배치 B = {x₁, ..., xₘ}                             |
+|                                                          |
+|  1. 배치 평균:  μ_B = (1/m) Σᵢ xᵢ                     |
+|  2. 배치 분산:  σ^_B = (1/m) Σᵢ (xᵢ - μ_B)^          |
+|  3. 정규화:     x̂ᵢ = (xᵢ - μ_B) / √(σ^_B + ε)       |
+|  4. 스케일·이동: yᵢ = γ · x̂ᵢ + β                     |
+|     (γ, β: 학습 가능 파라미터)                          |
+|                                                          |
+|  추론 시:                                               |
+|  μ̄ = EMA(μ_B), σ̄^ = EMA(σ^_B) 사용                  |
+|  (이동 지수 평균, 훈련 중 누적)                         |
++----------------------------------------------------------+
 ```
 
 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방법 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 축 | 사용 상황 |
@@ -81,7 +81,7 @@ Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-BN 적용 위치: Conv → BN → [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 순서가 일반적이나, 최근 연구에서 Conv → [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) → BN이 더 나은 경우도 있다. 배치 크기가 너무 작을 때(배치 크기 < 8) BN 통계 추정이 부정확해지므로 Group Norm 또는 Layer Norm으로 대체한다. [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))에서 사전 훈련된 모델의 BN 레이어를 고정(freeze)할지 여부가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 큰 영향을 준다.
+BN 적용 위치: Conv -> BN -> [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 순서가 일반적이나, 최근 연구에서 Conv -> [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) -> BN이 더 나은 경우도 있다. 배치 크기가 너무 작을 때(배치 크기 < 8) BN 통계 추정이 부정확해지므로 Group Norm 또는 Layer Norm으로 대체한다. [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))에서 사전 훈련된 모델의 BN 레이어를 고정(freeze)할지 여부가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 큰 영향을 준다.
 
 - **📢 섹션 요약 비유**: 작은 배치에서 BN이 불안정한 것은 "3명을 보고 전 국민 평균 키를 추정"하는 것과 같다. 표본이 너무 작으면 통계가 왜곡된다. Group Norm은 "키를 연령대별로 따로 평균 내는" 접근으로 작은 배치에서도 안정적이다.
 
@@ -107,7 +107,7 @@ BN은 2015년 도입 이후 깊은 신경망 훈련의 표준 도구가 됐다. 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [배치 정규화 (Batch Normalization) in CNN] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [배치 정규화 (Batch Normalization) in CNN] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -122,7 +122,7 @@ BN은 2015년 도입 이후 깊은 신경망 훈련의 표준 도구가 됐다. 
 
 **진행 상황**: 369 / 420
 
-← **이전**: [368. RBF 커널 (Radial Basis Function Kernel)](/knowledge-base/studynote/10_ai/05_data_science_ml/368_rbf_kernel/)
-**다음**: [370. BPTT (Backpropagation Through Time)](/knowledge-base/studynote/10_ai/05_data_science_ml/370_bptt/) →
+<- **이전**: [368. RBF 커널 (Radial Basis Function Kernel)](/knowledge-base/studynote/10_ai/05_data_science_ml/368_rbf_kernel/)
+**다음**: [370. BPTT (Backpropagation Through Time)](/knowledge-base/studynote/10_ai/05_data_science_ml/370_bptt/) ->
 
 ---

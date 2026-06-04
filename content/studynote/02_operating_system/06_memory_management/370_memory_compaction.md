@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong>Memory <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> (2.6.35 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 도입)</strong>: 리눅스의 천재 개발자 Mel Gorman이 스왑 없이 램 내부에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이동시키는 고도화된 마이그레이션 스캐너 아키텍처를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합(Merge)하며 파편화 문제의 숨통을 텄다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 컴팩션 전: 걸레짝이 된 물리 램 프레임들 ]                             │
-│ (왼쪽 끝)                                       (오른쪽 끝)             │
-│ [ █ ][   ][ █ ][ █ ][   ][ █ ][   ][ █ ][ █ ][   ]                      │
-│  ※ █: 데이터 있음, [ ]: 4KB 빈 방.                                      │
-│  ⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!                  │
-│                                                                         │
-│                    ↓↓ 컴팩션 발동 ↓↓                                    │
-│                                                                         │
-│ 1. 왼쪽 스캐너 ─▶ 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음              │
-│ 2. 오른쪽 스캐너 ◀─ 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음  │
-│ 3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!     │
-│ 4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush) │
-│                                                                         │
-│ [ 컴팩션 후: 깨끗한 연속 구역 확보 ]                                    │
-│ [   ][   ][   ][   ][   ][ █ ][ █ ][ █ ][ █ ][ █ ]                      │
-│ └─ 20KB 연속된 텅 빈 공간(Big Hole) 탄생! ──┘                           │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|        리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)        |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 컴팩션 전: 걸레짝이 된 물리 램 프레임들 ]                             |
+| (왼쪽 끝)                                       (오른쪽 끝)             |
+| [ █ ][   ][ █ ][ █ ][   ][ █ ][   ][ █ ][ █ ][   ]                      |
+|  ※ █: 데이터 있음, [ ]: 4KB 빈 방.                                      |
+|  ⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!                  |
+|                                                                         |
+|                    vv 컴팩션 발동 vv                                    |
+|                                                                         |
+| 1. 왼쪽 스캐너 --> 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음              |
+| 2. 오른쪽 스캐너 <-- 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음  |
+| 3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!     |
+| 4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush) |
+|                                                                         |
+| [ 컴팩션 후: 깨끗한 연속 구역 확보 ]                                    |
+| [   ][   ][   ][   ][   ][ █ ][ █ ][ █ ][ █ ][ █ ]                      |
+| +- 20KB 연속된 텅 빈 공간(Big Hole) 탄생! --+                           |
++-------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 리눅스 컴팩션의 핵심은 '양방향 스캐너(Two-Finger Scan)'다. 왼쪽에서는 마이그레이션(이사) 시킬 블록을 찾고, 오른쪽에서는 이사 갈 빈집을 찾는다. 둘이 중간에서 만날 때까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 오른쪽 끝으로 복사해 던져버리면, 기적처럼 메모리 왼쪽 절반에 거대하고 깨끗한 텅 빈 활주로(연속 공간)가 뚫린다. [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))은 이 거대한 공간을 덥석 집어 1MB, 2MB짜리 굵직한 블록으로 쾌재를 부르며 묶어버린다.
 
@@ -78,23 +78,23 @@ tags = ["studynote-operating-system"]
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 4KB를 이사시키는 숨 막히는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 과정이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              페이지 마이그레이션의 무거운 오버헤드 사이클                 │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ 1. 격리 (Isolation)                                                       │
-│    - 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.       │
-│    - 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).         │
-│                                                                           │
-│ 2. 복사 및 매핑 갱신 (Copy & Update)                                      │
-│    - 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)     │
-│    - 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!     │
-│    - 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!        │
-│                                                                           │
-│ 3. 반환 (Putback)                                                         │
-│    - பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.  │
-│    - 유저 앱 락(Lock) 해제, 정상 동작 재개.                               │
-└───────────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------------+
+|              페이지 마이그레이션의 무거운 오버헤드 사이클                 |
++---------------------------------------------------------------------------+
+|                                                                           |
+| 1. 격리 (Isolation)                                                       |
+|    - 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.       |
+|    - 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).         |
+|                                                                           |
+| 2. 복사 및 매핑 갱신 (Copy & Update)                                      |
+|    - 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)     |
+|    - 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!     |
+|    - 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!        |
+|                                                                           |
+| 3. 반환 (Putback)                                                         |
+|    - பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.  |
+|    - 유저 앱 락(Lock) 해제, 정상 동작 재개.                               |
++---------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 복사한다고 끝나는 게 아니다. 주소가 바뀌었으니 그 주소를 물고 있던 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)' 장부를 뜯어고쳐야 하고, 장부가 고쳐졌으니 CPU 코어들 안의 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시'를 모조리 강제로 날려버려야(Flush) 한다. 즉, 메모리 컴팩션이 백그라운드에서 너무 격렬하게 돌면 멀티코어 서버 전체가 캐시 미스와 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합으로 덜덜 떨며 렉에 빠지는 치명상을 입는다.
@@ -112,7 +112,7 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 메모리 반환 (Reclaim / Swap-out) | 메모리 컴팩션 ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) |
 |:---|:---|:---|
 | **목적** | 램(RAM)의 **총 용량 잔고** 자체를 늘리기 위함 | 램 용량은 놔두고, <strong>물리적으로 연속된 큰 덩어리</strong>를 뭉치기 위함 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동선</strong> | RAM ──▶ 하드디스크(Swap)로 내쫓음 | RAM (A번지) ──▶ RAM (B번지)로 램 내부에서 셔플링 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동선</strong> | RAM ---> 하드디스크(Swap)로 내쫓음 | RAM (A번지) ---> RAM (B번지)로 램 내부에서 셔플링 |
 | **속도(페널티)**| 디스크 I/O 발생으로 **최악의 시스템 정지(수 초)** 발생 | 램 내부 복사라 상대적으로 **양호함(수 밀리초 수준)** |
 | **발동 조건** | 램 사용률이 100%에 도달해 램이 터지기 직전 | 남은 램은 많은데 파편화가 심해 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 생성에 실패할 때 |
 
@@ -124,12 +124,12 @@ tags = ["studynote-operating-system"]
 이 둘의 적절한 백그라운드 활약 덕분에, 유저가 메모리를 요구했을 때 시스템이 얼어붙는 일([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Reclaim / [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 미연에 방지할 수 있다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 트리거 상황│ 총 메모리 상태│ 파편화 상태  │ 출동하는 데몬 스레드│
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 잔고 고갈  │ 부족 🚨     │ 상관없음    │ kswapd (버리기)        │
-│ 거대 할당  │ 여유 🟢     │ 걸레짝 🚨  │ kcompactd (밀기)        │
-└──────────┴────────────┴────────────┴────────────────────────────┘
++----------+------------+------------+----------------------------+
+| 트리거 상황| 총 메모리 상태| 파편화 상태  | 출동하는 데몬 스레드|
++----------+------------+------------+----------------------------+
+| 잔고 고갈  | 부족 🚨     | 상관없음    | kswapd (버리기)        |
+| 거대 할당  | 여유 🟢     | 걸레짝 🚨  | kcompactd (밀기)        |
++----------+------------+------------+----------------------------+
 ```
 **[매트릭스 해설]** 실무에서 서버의 Load Average가 갑자기 미친 듯이 치솟을 때, 많은 엔지니어가 `top`이나 `vmstat`을 보며 원인을 찾는다. CPU 연산이 아니라 %system, %iowait이 치솟는다면 이 두 청소부 데몬이 살기 위해 램을 뒤엎으며 멱살 캐리를 하고 있는 현장일 확률이 99%다.
 
@@ -187,12 +187,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [메모리 풀 (Memory Pool) 기법]
-    │
-    ▼
+    |
+    v
 [파편화 관리 및 조각 모음]
-    │
-    ├──▶ [거대 페이지 (Huge Pages / Transparent Huge Pages)]
-    └──▶ [아키텍처 종속적인 MMU 인터페이스]
+    |
+    +---> [거대 페이지 (Huge Pages / Transparent Huge Pages)]
+    +---> [아키텍처 종속적인 MMU 인터페이스]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -209,7 +209,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 370 / 800
 
-← **이전**: [369. 메모리 풀 (Memory Pool) 기법](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)
-**다음**: [371. 거대 페이지 (Huge Pages / Transparent Huge Pages) - TLB 미스 감소](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) →
+<- **이전**: [369. 메모리 풀 (Memory Pool) 기법](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)
+**다음**: [371. 거대 페이지 (Huge Pages / Transparent Huge Pages) - TLB 미스 감소](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) ->
 
 ---

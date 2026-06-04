@@ -19,15 +19,15 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Reality-Virtuality Continuum (Milgram, 1994)       │
-├───────────────────────────────────────────────────────┤
-│  현실 ──── AR ──── MR ──── VR ──── 가상              │
-│  100%실세계  정보오버레이  상호작용  100%가상         │
-│                                                       │
-│  XR = VR + AR + MR (확장현실 통칭)                   │
-│  Spatial Computing = XR + 공간 인식 + 자연 UI        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Reality-Virtuality Continuum (Milgram, 1994)       |
++-------------------------------------------------------+
+|  현실 ---- AR ---- MR ---- VR ---- 가상              |
+|  100%실세계  정보오버레이  상호작용  100%가상         |
+|                                                       |
+|  XR = VR + AR + MR (확장현실 통칭)                   |
+|  Spatial Computing = XR + 공간 인식 + 자연 UI        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: VR은 꿈속(완전 가상), AR은 안경 위 글씨(현실+정보), MR은 홀로그램과 대화(현실+가상 상호작용)이다.
@@ -89,17 +89,17 @@ XR/[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_com
 
 ```text
 [VR (Oculus Rift, 2012~)]
-    │
-    ▼
+    |
+    v
 [AR (포켓몬GO, 2016)]
-    │
-    ▼
+    |
+    v
 [MR (HoloLens, 2016~)]
-    │
-    ▼
+    |
+    v
 [XR (통칭, 2018~)]
-    │
-    ▼
+    |
+    v
 [현재: 공간 컴퓨팅 (Apple Vision Pro, 2024~)]
 ```
 
@@ -114,7 +114,7 @@ XR/[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_com
 
 **진행 상황**: 128 / 552
 
-← **이전**: [127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/)
-**다음**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/) →
+<- **이전**: [127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/)
+**다음**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/) ->
 
 ---

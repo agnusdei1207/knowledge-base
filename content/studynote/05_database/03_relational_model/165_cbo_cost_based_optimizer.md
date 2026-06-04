@@ -26,20 +26,20 @@ tags = ["studynote-database"]
 이 그림은 CBO가 단순 문법 해석기가 아니라, 통계와 비용 모델을 바탕으로 물리 경로를 정하는 의사결정기임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                CBO의 기본 역할: SQL을 비용 기반으로 해석            │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                            │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Parse / Rewrite ──▶ Statistics Check ──▶ Candidate Plans             │
-│                                   │                 │                │
-│                                   ▼                 ▼                │
-│                         Selectivity / Cardinality   Cost Compare     │
-│                                                      │               │
-│                                                      ▼               │
-│                                               Best Execution Plan    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                CBO의 기본 역할: SQL을 비용 기반으로 해석            |
++----------------------------------------------------------------------+
+| SQL Text                                                            |
+|   |                                                                  |
+|   v                                                                  |
+| Parse / Rewrite ---> Statistics Check ---> Candidate Plans             |
+|                                   |                 |                |
+|                                   v                 v                |
+|                         Selectivity / Cardinality   Cost Compare     |
+|                                                      |               |
+|                                                      v               |
+|                                               Best Execution Plan    |
++----------------------------------------------------------------------+
 ```
 
 핵심은 CBO가 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있느냐"만 보는 것이 아니라, <strong>그 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>를 타는 편이 정말 싼가</strong>를 따진다는 점이다. 그래서 현대 SQL 튜닝은 문법 암기보다 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)과 통계를 읽는 능력이 더 중요해졌다.
@@ -50,7 +50,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CBO는 보통 <strong>통계 수집 결과 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> → 후보 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> → 비용 추정 → 최종 선택</strong> 순서로 동작한다. 통계에는 테이블 행 수, 블록 수, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 깊이, 값 분포, 히스토그램 (Histogram) 같은 정보가 포함된다. 이 정보가 있어야 특정 조건이 전체의 0.1%를 읽는지, 30%를 읽는지 예측할 수 있고, 그 예측값으로 접근 경로와 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 계산할 수 있다.
+CBO는 보통 <strong>통계 수집 결과 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> -> 후보 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> -> 비용 추정 -> 최종 선택</strong> 순서로 동작한다. 통계에는 테이블 행 수, 블록 수, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 깊이, 값 분포, 히스토그램 (Histogram) 같은 정보가 포함된다. 이 정보가 있어야 특정 조건이 전체의 0.1%를 읽는지, 30%를 읽는지 예측할 수 있고, 그 예측값으로 접근 경로와 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 계산할 수 있다.
 
 | 단계 | CBO가 하는 일 | 핵심 판단 기준 |
 | :--- | :--- | :--- |
@@ -63,22 +63,22 @@ CBO는 보통 <strong>통계 수집 결과 <a href="/knowledge-base/studynote/05
 아래 그림은 하나의 SQL이 여러 후보 계획으로 갈라졌다가, 비용 비교를 통해 하나로 수렴하는 과정을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  후보 계획 생성과 비용 비교 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Query                                                                │
-│  │                                                                   │
-│  ▼                                                                   │
-│ Rewrite                                                               │
-│  ├─ Plan A: Index Range Scan + Nested Loop                           │
-│  ├─ Plan B: Full Table Scan + Hash Join                              │
-│  └─ Plan C: Index Scan + Sort Merge Join                             │
-│                 │        │        │                                   │
-│                 └────────┴────────┴──▶ Cost Estimation               │
-│                                         │                             │
-│                                         ▼                             │
-│                                   Lowest Cost Plan                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  후보 계획 생성과 비용 비교 흐름                    |
++----------------------------------------------------------------------+
+| Query                                                                |
+|  |                                                                   |
+|  v                                                                   |
+| Rewrite                                                               |
+|  +- Plan A: Index Range Scan + Nested Loop                           |
+|  +- Plan B: Full Table Scan + Hash Join                              |
+|  +- Plan C: Index Scan + Sort Merge Join                             |
+|                 |        |        |                                   |
+|                 +--------+--------+---> Cost Estimation               |
+|                                         |                             |
+|                                         v                             |
+|                                   Lowest Cost Plan                    |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 주문 테이블 1,000만 건 중 100건만 찾는다면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 범위 스캔이 유리할 수 있다. 반대로 300만 건을 읽어야 한다면, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 따라가며 행마다 테이블 블록을 다시 찾는 랜덤 I/O가 오히려 더 무거워져 전체 테이블 스캔이 더 경제적일 수 있다. CBO의 핵심 원리는 바로 이런 <strong>손익분기점</strong>을 기계적으로 계산하는 데 있다.
@@ -160,17 +160,17 @@ CBO는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154
 
 ```text
 고정 규칙 기반 최적화
-    │
-    ▼
+    |
+    v
 RBO (Rule Based Optimizer)
-    │
-    ▼
+    |
+    v
 통계 수집 · 선택도 · 카디널리티
-    │
-    ▼
+    |
+    v
 CBO (Cost Based Optimizer)
-    │
-    ▼
+    |
+    v
 히스토그램 · 적응형 최적화 · 실행 중 재최적화
 ```
 
@@ -188,7 +188,7 @@ CBO (Cost Based Optimizer)
 
 **진행 상황**: 165 / 600
 
-← **이전**: [164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)](/knowledge-base/studynote/05_database/03_relational_model/164_rbo_rule_based_optimizer/)
-**다음**: [166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) →
+<- **이전**: [164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)](/knowledge-base/studynote/05_database/03_relational_model/164_rbo_rule_based_optimizer/)
+**다음**: [166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ->
 
 ---

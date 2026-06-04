@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [포트 포워딩]
-    │
-    ▼
+    |
+    v
 [백도어]
-    │
-    └──▶ [제로 트러스트 보안]
+    |
+    +---> [제로 트러스트 보안]
 ```
 
 - **📢 섹션 요약 비유**: 백도어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [포트 포워딩]
-    │
-    ▼
+    |
+    v
 [백도어]
-    │
-    └──▶ [제로 트러스트 보안]
+    |
+    +---> [제로 트러스트 보안]
 ```
 
 - **📢 섹션 요약 비유**: 백도어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 포트 포워딩]
-    │
-    ▼
+    |
+    v
 [현재 개념: 백도어]
-    │
-    ├──▶ [확장 A: 제로 트러스트 보안]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 제로 트러스트 보안]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 백도어는 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 858 / 1120
 
-← **이전**: [736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)
-**다음**: [738. 제로 트러스트 보안 (Zero Trust Architecture, 내부망도 검증, 최소 권한 원칙 지속 검토 적용 프레임워크](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) →
+<- **이전**: [736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)
+**다음**: [738. 제로 트러스트 보안 (Zero Trust Architecture, 내부망도 검증, 최소 권한 원칙 지속 검토 적용 프레임워크](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) ->
 
 ---

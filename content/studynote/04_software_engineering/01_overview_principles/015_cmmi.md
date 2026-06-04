@@ -33,11 +33,11 @@ tags = ["software_engineering"]
 [프로세스 성숙도에 따른 조직의 차이]
 
 (성숙도 레벨 1 조직: Hero 중심)
-[프로젝트 위기 발생] ──► (프로세스 붕괴) ──► 철야, 주먹구구식 대처 ──► "영웅(Hero)" 개발자의 개인기로 극복
+[프로젝트 위기 발생] --► (프로세스 붕괴) --► 철야, 주먹구구식 대처 --► "영웅(Hero)" 개발자의 개인기로 극복
   * 특징: 성공 경험이 조직에 남지 않음. 영웅이 퇴사하면 다음 프로젝트는 실패.
 
 (성숙도 레벨 3 조직: Process 중심)
-[프로젝트 위기 발생] ──► (표준 프로세스 가동) ──► 위험 관리/이슈 추적 ──► 조직의 시스템으로 극복
+[프로젝트 위기 발생] --► (표준 프로세스 가동) --► 위험 관리/이슈 추적 --► 조직의 시스템으로 극복
   * 특징: 경험이 자산(Process Asset)으로 축적됨. 누가 와도 일정한 품질과 속도 유지.
 ```
 
@@ -69,14 +69,14 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 ```text
 [CMMI 성숙도 레벨업 계단]
 
-                    [ L5. 최적화 ] <── (결함 원인 제거, 지속적 혁신)
-                      ▲
-                  [ L4. 정량적 관리 ] <── (통계적 공정 통제(SPC), 데이터화)
-                    ▲
-                [ L3. 정의 ] <── (전사 표준 수립, 테일러링, 지식 자산화)
-                  ▲
-              [ L2. 관리 ] <── (프로젝트 기본 관리: 형상, 요구사항, 일정 통제)
-                ▲
+                    [ L5. 최적화 ] <-- (결함 원인 제거, 지속적 혁신)
+                      ^
+                  [ L4. 정량적 관리 ] <-- (통계적 공정 통제(SPC), 데이터화)
+                    ^
+                [ L3. 정의 ] <-- (전사 표준 수립, 테일러링, 지식 자산화)
+                  ^
+              [ L2. 관리 ] <-- (프로젝트 기본 관리: 형상, 요구사항, 일정 통제)
+                ^
             [ L1. 초기 ] (무질서, 영웅 중심)
 ```
 
@@ -101,18 +101,18 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 ```text
 [애자일과 CMMI의 상호보완적 융합 구조]
 
-┌────────────────────────────────────────────────────────┐
-│             CMMI (조직적 뼈대 및 확장성)               │
-│  - 전사적 비전 정렬, 예산 분배, 리스크 관리, 규제 대응 │
-│  - 성과 측정의 객관적 지표(Metrics) 제공               │
-│       ▲                                                │
-│       │ (표준 가이드 하달)      (진척 데이터 및 개선점 보고)
-│       ▼                                                │
-│ ┌────────────────┐ ┌────────────────┐ ┌────────────────┐ │
-│ │  Agile Team A  │ │  Agile Team B  │ │  Agile Team C  │ │
-│ │(스크럼, 2주 주기)│ │(칸반, CI/CD)   │ │(TDD, 페어코딩) │ │
-│ └────────────────┘ └────────────────┘ └────────────────┘ │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|             CMMI (조직적 뼈대 및 확장성)               |
+|  - 전사적 비전 정렬, 예산 분배, 리스크 관리, 규제 대응 |
+|  - 성과 측정의 객관적 지표(Metrics) 제공               |
+|       ^                                                |
+|       | (표준 가이드 하달)      (진척 데이터 및 개선점 보고)
+|       v                                                |
+| +----------------+ +----------------+ +----------------+ |
+| |  Agile Team A  | |  Agile Team B  | |  Agile Team C  | |
+| |(스크럼, 2주 주기)| |(칸반, CI/CD)   | |(TDD, 페어코딩) | |
+| +----------------+ +----------------+ +----------------+ |
++--------------------------------------------------------+
 ```
 
 이 구조도의 핵심은 <strong>"Agile은 배의 노를 빠르게 젓는 엔진이고, CMMI는 배가 암초에 부딪히지 않게 조타하는 내비게이션"</strong>이라는 점이다. 수십 개의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 각자 자기 방식대로 달리면 거대한 금융 시스템이나 국방 시스템의 통합(Integration) 시점에 대참사가 발생한다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3 구조 하에서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀들이 '전사 표준(가드레일)'을 지키면서 릴리즈를 반복하면, 속도와 안정성(거버넌스)이라는 두 마리 토끼를 모두 잡을 수 있다.
@@ -134,13 +134,13 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 ```text
 [CMMI 도입 실패의 악순환 (안티패턴)]
 
-[인증 자체가 목표가 됨] ──► (평가 심사일을 위한 가짜 문서 양산)
-                                   │
-                                   ▼
-[인증서 액자 획득 (L3 달성!)] ◄── (개발팀의 분노와 냉소: 프로세스 무시)
-       │
-       ▼
-(심사관 철수 후 원래의 주먹구구식 개발로 복귀) ──► 실질적 품질 향상 제로!
+[인증 자체가 목표가 됨] --► (평가 심사일을 위한 가짜 문서 양산)
+                                   |
+                                   v
+[인증서 액자 획득 (L3 달성!)] ◄-- (개발팀의 분노와 냉소: 프로세스 무시)
+       |
+       v
+(심사관 철수 후 원래의 주먹구구식 개발로 복귀) --► 실질적 품질 향상 제로!
 ```
 
 이 플로우의 핵심은 <strong>'보여주기식 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Paperwork for Certification)'</strong>의 위험성이다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 모델 자체는 특정한 양식의 문서를 요구하지 않는다. 단지 "요구사항이 추적되고 있는가?"를 묻는다. 이를 Jira의 이슈 티켓 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 연동)로 증명할 수도 있는데, 굳이 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서로 수백 장의 산출물을 억지로 찍어내는 것이 최악의 오용 사례다. 기술사는 조직에 CMMI를 내재화할 때 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용해 개발자의 숨은 노력 없이(Zero-effort) 프로세스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동 수집되도록 설계해야 한다.
@@ -176,17 +176,17 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 ```text
 [SW-CMM (초기 능력 성숙도 모델) — 소프트웨어 프로세스 5단계 평가 원형]
-    │
-    ▼
+    |
+    v
 [CMMI v1 — SW·HW·서비스 통합, 단계적/연속적 표현 이원화]
-    │
-    ▼
+    |
+    v
 [CMMI v2.0 — 애자일 통합, 성과(Performance) 중심 지표 재편]
-    │
-    ▼
+    |
+    v
 [SPICE (ISO/IEC 15504) — 프로세스×능력 2차원 국제 평가 표준]
-    │
-    ▼
+    |
+    v
 [DevSecOps + CMMI 4~5단계 — 자동화 파이프라인과 통계적 제어(SPC)로 지속 개선]
 ```
 
@@ -203,7 +203,7 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 **진행 상황**: 15 / 973
 
-← **이전**: [14. ISO/IEC 15504 (SPICE) - 소프트웨어 프로세스 평가 표준](/knowledge-base/studynote/04_software_engineering/01_overview_principles/014_iso_iec_15504_spice/)
-**다음**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/) →
+<- **이전**: [14. ISO/IEC 15504 (SPICE) - 소프트웨어 프로세스 평가 표준](/knowledge-base/studynote/04_software_engineering/01_overview_principles/014_iso_iec_15504_spice/)
+**다음**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/) ->
 
 ---

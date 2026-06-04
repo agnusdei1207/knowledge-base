@@ -36,25 +36,25 @@ HATEOAS 응답은 보통 리소스 [데이터](/knowledge-base/studynote/05_data
 아래 그림은 주문 상태에 따른 Level 3 응답 개념을 나타낸다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Level 3 HATEOAS의 상태 전이 구조                   │
-├────────────────────────────────────────────────────────────────────┤
-│ GET /orders/1001                                                  │
-│                                                                    │
-│ state = CREATED                                                    │
-│ links:                                                             │
-│   self    -> /orders/1001                                          │
-│   pay     -> /orders/1001/payment                                  │
-│   cancel  -> /orders/1001/cancel                                   │
-│                                                                    │
-│ state = SHIPPED                                                    │
-│ links:                                                             │
-│   self    -> /orders/1001                                          │
-│   track   -> /orders/1001/tracking                                 │
-│   cancel  -> 제공하지 않음                                         │
-│                                                                    │
-│ 핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다     │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                Level 3 HATEOAS의 상태 전이 구조                   |
++--------------------------------------------------------------------+
+| GET /orders/1001                                                  |
+|                                                                    |
+| state = CREATED                                                    |
+| links:                                                             |
+|   self    -> /orders/1001                                          |
+|   pay     -> /orders/1001/payment                                  |
+|   cancel  -> /orders/1001/cancel                                   |
+|                                                                    |
+| state = SHIPPED                                                    |
+| links:                                                             |
+|   self    -> /orders/1001                                          |
+|   track   -> /orders/1001/tracking                                 |
+|   cancel  -> 제공하지 않음                                         |
+|                                                                    |
+| 핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다     |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 의미는 "같은 리소스라도 상태가 바뀌면 인터페이스도 함께 바뀐다"는 것이다. 클라이언트는 `cancel` 링크가 없으면 취소가 불가능하다는 사실을 자연스럽게 이해할 수 있다. 이렇게 하면 비즈니스 규칙을 문서 외부가 아니라 <strong>응답 표현 자체</strong>에 더 가깝게 실을 수 있다.
@@ -140,21 +140,21 @@ Level 3를 적절히 적용하면 클라이언트가 서버의 [상태 전이](/
 
 ```text
 RPC 스타일 API
-    │
-    ▼
+    |
+    v
 리소스 중심 URI
-    │
-    ▼
+    |
+    v
 HTTP 메서드 의미 분리
-    │
-    ▼
+    |
+    v
 HATEOAS (Hypermedia As The Engine Of Application State)
-    │
-    ▼
+    |
+    v
 자기 서술적 워크플로 API
 ```
 
-이 흐름은 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)형 인터페이스 → 리소스화 → 웹 의미 활용 → [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 안내"로 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 발전하는 맥락을 보여준다.
+이 흐름은 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)형 인터페이스 -> 리소스화 -> 웹 의미 활용 -> [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 안내"로 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 발전하는 맥락을 보여준다.
 
 ### 👶 어린이 비유 설명
 
@@ -168,7 +168,7 @@ HATEOAS (Hypermedia As The Engine Of Application State)
 
 **진행 상황**: 161 / 482
 
-← **이전**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/)
-**다음**: [162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/) →
+<- **이전**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/)
+**다음**: [162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/) ->
 
 ---

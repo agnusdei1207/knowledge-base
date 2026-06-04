@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴 ([Interpreter Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))은 문법 규칙을 클래스 구조로 표현해 문장을 해석하거나 실행하는 행동 패턴이다. 간단한 DSL, 검색식, 규칙식을 프로그램 안에서 해석해야 할 때 구문과 의미를 구조화할 필요가 있다. 이 개념이 필요한 이유는 문법 규칙과 해석 규칙을 구조화하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 문법 규칙이 흩어진 문자열 파싱 코드로 남아 유지보수와 확장이 어려워진다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Interp   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Interp   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Interp  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Interp  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 규칙 엔진 | [해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴 ([Interpreter Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[문자열 분기 파싱] → [해석자 패턴] → [문법 객체화]
+[문자열 분기 파싱] -> [해석자 패턴] -> [문법 객체화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴 ([Interpreter Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))은 암호문 규칙표를 보고 한 글자씩 뜻을 바꿔 읽는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 478 / 530
 
-← **이전**: [399. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/)
-**다음**: [401. 데이터 전송 객체 (Data Transfer Object, DTO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/401_process/) →
+<- **이전**: [399. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/)
+**다음**: [401. 데이터 전송 객체 (Data Transfer Object, DTO)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/401_process/) ->
 
 ---

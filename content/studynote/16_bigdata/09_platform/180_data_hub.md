@@ -26,21 +26,21 @@ tags = ["studynote-bigdata"]
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한 이유를 보여 준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 단순 보관소가 아니라 <strong>흩어진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 설명, 책임, 흐름을 한 곳에 연결하는 계층</strong>이라는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ 데이터 허브가 풀어 주는 단절 문제                             │
-├──────────────────────────────────────────────────────────────┤
-│ Source Systems                                                │
-│  DB · SaaS · Stream · File                                   │
-│        │                                                     │
-│        ▼                                                     │
-│  각기 다른 파이프라인 · 용어 · 권한 체계                     │
-│        │                                                     │
-│        ▼                                                     │
-│  "어디 있지?" "누가 책임지지?" "믿어도 되나?"                │
-│        │                                                     │
-│        ▼                                                     │
-│  Data Hub: Catalog + Lineage + Policy + Ownership            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| 데이터 허브가 풀어 주는 단절 문제                             |
++--------------------------------------------------------------+
+| Source Systems                                                |
+|  DB · SaaS · Stream · File                                   |
+|        |                                                     |
+|        v                                                     |
+|  각기 다른 파이프라인 · 용어 · 권한 체계                     |
+|        |                                                     |
+|        v                                                     |
+|  "어디 있지?" "누가 책임지지?" "믿어도 되나?"                |
+|        |                                                     |
+|        v                                                     |
+|  Data Hub: Catalog + Lineage + Policy + Ownership            |
++--------------------------------------------------------------+
 ```
 
 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 중앙 집중 저장소라기보다 중앙 집중 <strong>이해 계층</strong>에 가깝다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), 웨어하우스, 스트림 플랫폼에 흩어져 있어도, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스를 묶어 주면 조직은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지도를 갖게 된다.
@@ -65,26 +65,26 @@ tags = ["studynote-bigdata"]
 아래 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 대체하는 것이 아니라, 그 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 통제 레이어를 얹는 방식을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Data Hub 아키텍처                                             │
-├──────────────────────────────────────────────────────────────┤
-│ Producers                                                     │
-│  Operational DB · Change Stream · Batch · dbt · BI          │
-│        │                                                     │
-│        ▼                                                     │
-│  Ingestion Connectors                                         │
-│        │                                                     │
-│        ├─ Data Plane ─────▶ Lakehouse / Warehouse / Topic    │
-│        │                                                     │
-│        └─ Metadata Plane ─▶ Entity Graph                     │
-│                              ├─ Catalog / Search             │
-│                              ├─ Lineage                      │
-│                              ├─ Ownership / Policy           │
-│                              └─ Quality / Freshness          │
-│                                        │                     │
-│                                        ▼                     │
-│                           BI · Model · App · Audit Consumer  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Data Hub 아키텍처                                             |
++--------------------------------------------------------------+
+| Producers                                                     |
+|  Operational DB · Change Stream · Batch · dbt · BI          |
+|        |                                                     |
+|        v                                                     |
+|  Ingestion Connectors                                         |
+|        |                                                     |
+|        +- Data Plane ------> Lakehouse / Warehouse / Topic    |
+|        |                                                     |
+|        +- Metadata Plane --> Entity Graph                     |
+|                              +- Catalog / Search             |
+|                              +- Lineage                      |
+|                              +- Ownership / Policy           |
+|                              +- Quality / Freshness          |
+|                                        |                     |
+|                                        v                     |
+|                           BI · Model · App · Audit Consumer  |
++--------------------------------------------------------------+
 ```
 
 이 구조의 핵심 원리는 엔티티(Entity) 중심 모델이다. 예를 들어 `sales.orders`라는 Dataset이 있고, 이를 읽는 dbt 모델, 이를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 Dashboard, 이를 소유한 Team, 이를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ML) Feature가 모두 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 묶인다. 그러면 단순 검색을 넘어 "이 컬럼을 바꾸면 어떤 리포트와 배치가 깨지는가?"를 즉시 추적할 수 있다.
@@ -169,17 +169,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 다양한 데이터 소스 증가
-    │
-    ▼
+    |
+    v
 메타데이터 자동 수집
-    │
-    ▼
+    |
+    v
 Catalog + Lineage + Ownership 통합
-    │
-    ▼
+    |
+    v
 Policy · Quality · PII 제어 연동
-    │
-    ▼
+    |
+    v
 셀프서비스 분석 · 영향 분석 · 규정 준수 강화
 ```
 
@@ -197,7 +197,7 @@ Policy · Quality · PII 제어 연동
 
 **진행 상황**: 180 / 262
 
-← **이전**: [179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합](/knowledge-base/studynote/16_bigdata/09_platform/179_unified_batch_streaming/)
-**다음**: [181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks](/knowledge-base/studynote/16_bigdata/09_platform/181_multicloud_data_platform/) →
+<- **이전**: [179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합](/knowledge-base/studynote/16_bigdata/09_platform/179_unified_batch_streaming/)
+**다음**: [181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks](/knowledge-base/studynote/16_bigdata/09_platform/181_multicloud_data_platform/) ->
 
 ---

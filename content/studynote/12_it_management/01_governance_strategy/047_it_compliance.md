@@ -23,11 +23,11 @@ IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_s
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 규제 해석, 통제 설계, 증빙 관리 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_s
 | 개선 체계 | 피드백을 다음 단계와 투자 우선순위에 반영한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_s
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [IT 컴플라이언스 (IT Compliance)]
-    │
-    ├──▶ [통제 설계]
-    └──▶ [증빙 관리]
+    |
+    +---> [통제 설계]
+    +---> [증빙 관리]
 ```
 
 이 흐름은 선행 요구를 기준으로 IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 정착시키고, 이후 통제 설계와 증빙 관리 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_s
 
 **진행 상황**: 85 / 587
 
-← **이전**: [046. SLA — 서비스 수준 협약 측정 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement_metrics/)
-**다음**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/) →
+<- **이전**: [046. SLA — 서비스 수준 협약 측정 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement_metrics/)
+**다음**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/) ->
 
 ---

@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | Governance Layer | 보안·비용·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화 | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) |
 
 ```text
-┌──────────────┐   self-service ┌──────────────┐   deploy    ┌──────────────┐
-│ Product Teams│ ─────────────▶ │ Platform DX  │ ──────────▶ │ Delivery Flow│
-└──────────────┘                └──────────────┘             └──────────────┘
-        │                                │                           │
-        │ feedback                       │ templates                 │ runtime
-        ▼                                ▼                           ▼
-┌──────────────┐                ┌──────────────┐             ┌──────────────┐
-│ Observability│ ◀───────────── │ Guardrails   │ ◀────────── │ Cloud / Data │
-└──────────────┘                └──────────────┘             └──────────────┘
++--------------+   self-service +--------------+   deploy    +--------------+
+| Product Teams| --------------> | Platform DX  | -----------> | Delivery Flow|
++--------------+                +--------------+             +--------------+
+        |                                |                           |
+        | feedback                       | templates                 | runtime
+        v                                v                           v
++--------------+                +--------------+             +--------------+
+| Observability| <-------------- | Guardrails   | <----------- | Cloud / Data |
++--------------+                +--------------+             +--------------+
 ```
 
 이 구조에서 중요한 것은 플랫폼이 단순 운영팀 도구 모음이 아니라 “내부 고객을 위한 제품”이라는 점이다. 좋은 플랫폼은 표준을 강요하지 않고, 더 쉽고 빠른 기본 경로를 제공함으로써 자연스럽게 표준을 따르게 만든다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Tool Sprawl
-   │
-   ▼
+   |
+   v
 Standardized Delivery
-   │
-   ▼
+   |
+   v
 Internal Developer Platform
-   │
-   ▼
+   |
+   v
 Integrated Platform Engineering + Continuous Feedback
 ```
 
-이 흐름은 “도구 난립 → 표준화 → 셀프서비스 플랫폼 → 통합 운영 피드백”으로 조직 역량이 성숙하는 방향을 보여준다.
+이 흐름은 “도구 난립 -> 표준화 -> 셀프서비스 플랫폼 -> 통합 운영 피드백”으로 조직 역량이 성숙하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Integrated Platform Engineering + Continuous Feedback
 
 **진행 상황**: 373 / 373
 
-← **이전**: [372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)](/knowledge-base/studynote/15_devops_sre/05_devsecops/372_zero_trust/)
+<- **이전**: [372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)](/knowledge-base/studynote/15_devops_sre/05_devsecops/372_zero_trust/)
 
 ✅ **마지막 글입니다.**
 

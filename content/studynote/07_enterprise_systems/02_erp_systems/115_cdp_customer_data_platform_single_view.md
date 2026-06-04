@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Platform)는 웹·앱·매장·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·소셜 등 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 모든 고객 접점 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집하여 통합 고객 프로파일(Single <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>을 구축하는 패키지 소프트웨어다.
-> 2. **가치**: DMP([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform)가 익명 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반·광고 타겟팅 전용이라면, CDP는 <strong>실명(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/">1st Party</a>) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반</strong>으로 고객 ID를 통합하여 마케팅·CS·영업 전 부서에서 활용 가능한 <strong>360° 고객 뷰</strong>를 제공한다.
+> 2. **가치**: DMP([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform)가 익명 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반·광고 타겟팅 전용이라면, CDP는 <strong>실명(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/">1st Party</a>) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반</strong>으로 고객 ID를 통합하여 마케팅·CS·영업 전 부서에서 활용 가능한 <strong>360+ 고객 뷰</strong>를 제공한다.
 > 3. **판단 포인트**: CDP의 핵심은 <strong>ID Resolution(동일 고객의 이메일·전화·앱ID를 1명으로 통합)</strong>이며, [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)·mParticle·Treasure Data가 대표 제품이다.
 
 ---
@@ -19,25 +19,25 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    CDP의 데이터 통합 흐름                              │
-├───────────────────────────────────────────────────────┤
-│  [데이터 소스]                                        │
-│   웹 로그 + 앱 이벤트 + CRM + POS(매장)              │
-│   + 이메일 + 소셜 + CS 상담 이력                     │
-│         │                                             │
-│         ▼                                             │
-│  [CDP - ID Resolution]                                │
-│   이메일=a@b.com + 전화=010-1234 + 앱ID=user_123     │
-│   → 동일 고객 "김철수"로 통합                         │
-│         │                                             │
-│         ▼                                             │
-│  [통합 고객 프로파일]                                 │
-│   김철수: 최근 구매 3건, 앱 DAU, 불만 CS 1건         │
-│         │                                             │
-│         ▼                                             │
-│  [활용] 마케팅 타겟팅 | CS 컨텍스트 | 이탈 예측       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    CDP의 데이터 통합 흐름                              |
++-------------------------------------------------------+
+|  [데이터 소스]                                        |
+|   웹 로그 + 앱 이벤트 + CRM + POS(매장)              |
+|   + 이메일 + 소셜 + CS 상담 이력                     |
+|         |                                             |
+|         v                                             |
+|  [CDP - ID Resolution]                                |
+|   이메일=a@b.com + 전화=010-1234 + 앱ID=user_123     |
+|   -> 동일 고객 "김철수"로 통합                         |
+|         |                                             |
+|         v                                             |
+|  [통합 고객 프로파일]                                 |
+|   김철수: 최근 구매 3건, 앱 DAU, 불만 CS 1건         |
+|         |                                             |
+|         v                                             |
+|  [활용] 마케팅 타겟팅 | CS 컨텍스트 | 이탈 예측       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CDP는 각 과목 선생님(채널)이 따로 적은 학생 평가를 <strong>한 장의 생활기록부</strong>로 합치는 시스템이다.
@@ -70,7 +70,7 @@ tags = ["studynote-enterprise-systems"]
 ### [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 인벤토리</strong>: 현재 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 있는지 목록화.
 2. <strong>ID Resolution <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 이메일·전화·앱ID [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/) 정의.
-3. **Activation 연동**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) → 마케팅 자동화(Braze)·분석(Amplitude) 연결.
+3. **Activation 연동**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) -> 마케팅 자동화(Braze)·분석(Amplitude) 연결.
 
 ---
 
@@ -78,11 +78,11 @@ tags = ["studynote-enterprise-systems"]
 
 | 지표 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 미도입 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 도입 | 개선 |
 |:---|:---|:---|:---|
-| 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 채널별 분리 | **통합 1명** | 360° 뷰 |
+| 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 채널별 분리 | **통합 1명** | 360+ 뷰 |
 | 마케팅 전환율 | 2% | **5%** | 2.5× |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 부서 | 마케팅만 | **전사** | 확장 |
 
-CDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 세분화·예측 모델과 결합하여 "고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 → 통합 → 인사이트 → 실행"이 자동화되는 방향으로 진화하고 있다.
+CDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 세분화·예측 모델과 결합하여 "고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 -> 통합 -> 인사이트 -> 실행"이 자동화되는 방향으로 진화하고 있다.
 
 ---
 
@@ -100,17 +100,17 @@ CDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 ```text
 [CRM (1990s) — 자사 거래 데이터 관리]
-    │
-    ▼
+    |
+    v
 [DMP (2010s) — 3rd Party 쿠키 기반 광고 타겟팅]
-    │
-    ▼
+    |
+    v
 [CDP (2015~) — 1st Party 실명 데이터 통합]
-    │
-    ▼
+    |
+    v
 [3rd Party 쿠키 폐지 (2023~) — CDP 중요성 급증]
-    │
-    ▼
+    |
+    v
 [현재: AI CDP — 자동 세분화·예측·개인화]
 ```
 
@@ -125,7 +125,7 @@ CDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 **진행 상황**: 115 / 482
 
-← **이전**: [114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/114_ai_based_crm_salesforce_einstein/)
-**다음**: [116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/116_first_party_data_cookie_less_strategy/) →
+<- **이전**: [114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/114_ai_based_crm_salesforce_einstein/)
+**다음**: [116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/116_first_party_data_cookie_less_strategy/) ->
 
 ---

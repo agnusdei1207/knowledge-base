@@ -62,27 +62,27 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 ```text
 [A* 상태 전이 메커니즘]
 
-   ┌──────────────────────────────────────────────┐
-   │ 1. [Start] 노드를 Open List에 삽입             │
-   └──────┬───────────────────────────────────────┘
-          ▼
-   ┌──────────────────────────────────────────────┐
-   │ 2. Open List에서 f(n)이 가장 작은 노드 [X] 추출  │◄──┐
-   └──────┬───────────────────────────────────────┘   │
-          ▼                                           │
-   ┌──────────────────────────────────────────────┐   │
-   │ 3. [X]가 목표(Goal)인가?                       │   │
-   │    ├─ [YES] ──► 탐색 종료 (경로 반환)              │   │
-   │    └─ [NO]  ──► [X]를 Closed List로 이동        │   │
-   └──────┬───────────────────────────────────────┘   │
-          ▼                                           │
-   ┌──────────────────────────────────────────────┐   │
-   │ 4. [X]의 이웃 노드 전개                        │   │
-   │   (이미 Closed에 있다면 무시)                   │   │
-   │   (g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신) │   │
-   │   (Open List에 정렬 삽입 혹은 더 적은 g로 갱신)    │   │
-   └──────┬───────────────────────────────────────┘   │
-          └───────────────────────────────────────────┘
+   +----------------------------------------------+
+   | 1. [Start] 노드를 Open List에 삽입             |
+   +------+---------------------------------------+
+          v
+   +----------------------------------------------+
+   | 2. Open List에서 f(n)이 가장 작은 노드 [X] 추출  |◄--+
+   +------+---------------------------------------+   |
+          v                                           |
+   +----------------------------------------------+   |
+   | 3. [X]가 목표(Goal)인가?                       |   |
+   |    +- [YES] --► 탐색 종료 (경로 반환)              |   |
+   |    +- [NO]  --► [X]를 Closed List로 이동        |   |
+   +------+---------------------------------------+   |
+          v                                           |
+   +----------------------------------------------+   |
+   | 4. [X]의 이웃 노드 전개                        |   |
+   |   (이미 Closed에 있다면 무시)                   |   |
+   |   (g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신) |   |
+   |   (Open List에 정렬 삽입 혹은 더 적은 g로 갱신)    |   |
+   +------+---------------------------------------+   |
+          +-------------------------------------------+
 ```
 
 이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름도의 병목 지점은 'Open List에서 가장 작은 f(n)을 찾는 과정'이다. 노드 수가 수백만 개로 늘어나면 이 리스트를 정렬하고 갱신하는 연산이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지배한다. 따라서 실무에서는 Open List를 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아닌 최소 힙(Min-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이나 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)) 기반으로 구현하여 접근 복잡도를 O(log N)으로 방어해야 한다.
@@ -154,20 +154,20 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 ```text
 [BFS (너비 우선 탐색) — 최단 홉 탐색, 가중치 무시, 메모리 폭발]
-    │
-    ▼
+    |
+    v
 [다익스트라 (Dijkstra) — 가중치 최단 경로, g(n) 기반, 목표 방향성 없음]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 — f(n) = g(n) + h(n), 휴리스틱으로 탐색 공간 대폭 축소]
-    │
-    ▼
+    |
+    v
 [IDA* (Iterative Deepening A*) — 메모리 O(d), 깊이 제한 반복 심화 탐색]
-    │
-    ▼
+    |
+    v
 [JPS (Jump Point Search) — 균일 격자에서 A* 불필요 노드 건너뜀, 수십 배 속도]
-    │
-    ▼
+    |
+    v
 [신경망 휴리스틱 (Neural Heuristic) — 학습된 h(n)으로 복잡 환경 경로 계획]
 ```
 이 흐름은 방향성 없는 BFS에서 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기반 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)를 거쳐 목표 지향 A*로 수렴하고, 메모리·속도 최적화와 학습 기반 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)으로 진화하는 경로 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전을 보여준다.
@@ -183,7 +183,7 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 **진행 상황**: 17 / 420
 
-← **이전**: [16. 언덕 오르기 탐색 (Hill Climbing) - 현재 상태에서 이웃 상태 중 가장 좋은 곳으로만 이동 (지역 최적해에 빠질 위험)](/knowledge-base/studynote/10_ai/01_ai_basics/016_hill_climbing/)
-**다음**: [18. 허용적 휴리스틱 (Admissible Heuristic) - A*가 최적해를 보장하기 위한 조건, h(n)이 실제 목표까지의 비용을](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/) →
+<- **이전**: [16. 언덕 오르기 탐색 (Hill Climbing) - 현재 상태에서 이웃 상태 중 가장 좋은 곳으로만 이동 (지역 최적해에 빠질 위험)](/knowledge-base/studynote/10_ai/01_ai_basics/016_hill_climbing/)
+**다음**: [18. 허용적 휴리스틱 (Admissible Heuristic) - A*가 최적해를 보장하기 위한 조건, h(n)이 실제 목표까지의 비용을](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/) ->
 
 ---

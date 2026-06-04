@@ -32,27 +32,27 @@ CDCT는 이 두 문제를 해결한다. 소비자가 [Mock](/knowledge-base/stud
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│             Pact CDCT 흐름 (소비자 주도 계약 테스트)          │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [소비자 서비스 (Consumer)]                                 │
-│       │ 1. Pact Mock Server로 API 호출 테스트               │
-│       │ 2. 실제 HTTP 상호작용 → Pact 파일 생성               │
-│       ▼                                                    │
-│  ┌───────────────────────────────┐                         │
-│  │  Pact Broker (계약 저장소)      │                        │
-│  │  - Pact 파일 저장               │                        │
-│  │  - 호환성 매트릭스 관리          │                        │
-│  └──────────────┬────────────────┘                         │
-│                 │ 3. 공급자가 계약 검증                      │
-│                 ▼                                          │
-│  [공급자 서비스 (Provider)]                                  │
-│       │ 4. Pact Broker에서 계약 다운로드                     │
-│       │ 5. 실제 서비스로 계약 재생, 응답 검증                  │
-│       ▼                                                    │
-│  ✅ 통과: 배포 가능 / ❌ 실패: 소비자에게 피드백              │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|             Pact CDCT 흐름 (소비자 주도 계약 테스트)          |
++------------------------------------------------------------+
+|                                                            |
+|  [소비자 서비스 (Consumer)]                                 |
+|       | 1. Pact Mock Server로 API 호출 테스트               |
+|       | 2. 실제 HTTP 상호작용 -> Pact 파일 생성               |
+|       v                                                    |
+|  +-------------------------------+                         |
+|  |  Pact Broker (계약 저장소)      |                        |
+|  |  - Pact 파일 저장               |                        |
+|  |  - 호환성 매트릭스 관리          |                        |
+|  +--------------+----------------+                         |
+|                 | 3. 공급자가 계약 검증                      |
+|                 v                                          |
+|  [공급자 서비스 (Provider)]                                  |
+|       | 4. Pact Broker에서 계약 다운로드                     |
+|       | 5. 실제 서비스로 계약 재생, 응답 검증                  |
+|       v                                                    |
+|  ✅ 통과: 배포 가능 / ❌ 실패: 소비자에게 피드백              |
++------------------------------------------------------------+
 ```
 
 | 항목 | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 | Contract Testing (CDCT) |
@@ -127,8 +127,8 @@ Contract Testing의 본질은 <strong>"팀 간 신뢰를 코드화"</strong>하�
 
 ```text
 모놀리식 통합 테스트 시대      MSA Contract Testing 시대       자동화 성숙
-──────────────────────   ──────────────────────────   ────────────────────────
-E2E 통합 테스트 의존     →  Pact CDCT 등장             →  Pact Broker/PactFlow
+----------------------   --------------------------   ------------------------
+E2E 통합 테스트 의존     ->  Pact CDCT 등장             ->  Pact Broker/PactFlow
 느린 CI 파이프라인            Spring Cloud Contract          Can I Deploy 게이트
 Mock 드리프트 문제             소비자-공급자 분리 테스트        API 버전 호환성 매트릭스
                                Pact Broker 중앙화              Bi-directional Contract
@@ -146,7 +146,7 @@ Mock 드리프트 문제             소비자-공급자 분리 테스트       
 
 **진행 상황**: 336 / 373
 
-← **이전**: [335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid](/knowledge-base/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/)
-**다음**: [337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker](/knowledge-base/studynote/15_devops_sre/05_devsecops/337_audit/) →
+<- **이전**: [335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid](/knowledge-base/studynote/15_devops_sre/05_devsecops/335_tdd_bdd/)
+**다음**: [337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker](/knowledge-base/studynote/15_devops_sre/05_devsecops/337_audit/) ->
 
 ---

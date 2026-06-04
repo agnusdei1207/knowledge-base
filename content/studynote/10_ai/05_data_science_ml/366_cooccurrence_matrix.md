@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 분포 가설(Distributional Hypothesis): "비슷한 문맥에서 사용되는 단어는 비슷한 의미를 가진다"(John Firth, 1957). 이 가설을 수치화한 것이 동시 등장 행렬이다. "은행"이라는 단어 주변에 "돈", "이자", "대출"이 자주 등장한다면, 이 공동 등장 패턴(동시 등장 벡터)이 "은행"의 의미를 담는다. [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [GloVe](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모두 이 원리를 기반으로 한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 동시 등장 행렬은 "단어의 친구 목록"이다. "은행"의 친구가 "돈, 이자, [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)"이고, "강둑"의 친구가 "물, 낚시, 물고기"라면 두 단어는 다른 의미를 가진다. 친구 목록(동시 등장 패턴)이 단어의 신분증이다.
@@ -37,26 +37,26 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│         동시 등장 행렬 구성 및 PPMI 변환                 │
-├──────────────────────────────────────────────────────────┤
-│  윈도우 크기 k=2 예시:                                  │
-│  "나는 오늘 맛있는 밥을 먹었다"                         │
-│  오늘 기준: {나는(2), 맛있는(1)} 윈도우 내 등장        │
-│                                                          │
-│  X_ij: 단어 i 기준 단어 j의 동시 등장 횟수             │
-│                                                          │
-│  PMI (Pointwise Mutual Information):                    │
-│  PMI(i,j) = log[P(i,j) / (P(i)·P(j))]                 │
-│  = log[X_ij·N / (Σⱼ X_ij · Σᵢ X_ij)]                 │
-│                                                          │
-│  PPMI (Positive PMI):                                   │
-│  PPMI(i,j) = max(0, PMI(i,j))                          │
-│  → 음수 PMI 제거 (음수 = 이 조합이 우연보다 드문 경우) │
-│                                                          │
-│  차원 축소: Truncated SVD                               │
-│  X ≈ U_k · Σ_k · V_kᵀ  (k 차원 근사)                 │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         동시 등장 행렬 구성 및 PPMI 변환                 |
++----------------------------------------------------------+
+|  윈도우 크기 k=2 예시:                                  |
+|  "나는 오늘 맛있는 밥을 먹었다"                         |
+|  오늘 기준: {나는(2), 맛있는(1)} 윈도우 내 등장        |
+|                                                          |
+|  X_ij: 단어 i 기준 단어 j의 동시 등장 횟수             |
+|                                                          |
+|  PMI (Pointwise Mutual Information):                    |
+|  PMI(i,j) = log[P(i,j) / (P(i)·P(j))]                 |
+|  = log[X_ij·N / (Σⱼ X_ij · Σᵢ X_ij)]                 |
+|                                                          |
+|  PPMI (Positive PMI):                                   |
+|  PPMI(i,j) = max(0, PMI(i,j))                          |
+|  -> 음수 PMI 제거 (음수 = 이 조합이 우연보다 드문 경우) |
+|                                                          |
+|  차원 축소: Truncated SVD                               |
+|  X ≈ U_k · Σ_k · V_kᵀ  (k 차원 근사)                 |
++----------------------------------------------------------+
 ```
 
 | 변환 방법 | 수식 | 특성 | 주요 문제 |
@@ -112,7 +112,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [동시 등장 행렬 (Co-occurrence Matrix)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [동시 등장 행렬 (Co-occurrence Matrix)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -127,7 +127,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 366 / 420
 
-← **이전**: [365. GloVe (Global Vectors for Word Representation)](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/)
-**다음**: [367. SVM 슬랙 변수 (Slack Variable)](/knowledge-base/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/) →
+<- **이전**: [365. GloVe (Global Vectors for Word Representation)](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/)
+**다음**: [367. SVM 슬랙 변수 (Slack Variable)](/knowledge-base/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/) ->
 
 ---

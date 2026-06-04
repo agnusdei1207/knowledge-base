@@ -22,9 +22,9 @@ tags = ["studynote-design-supervision"]
 감리 관점에서는 단순히 많은 패킷을 쏘는 것보다, <strong>어떤 자산에 어떤 규칙으로 주입했고 무엇을 발견했는지</strong>가 중요하다. 네트워크 장비, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 메시지 브로커처럼 입력 경계가 있는 곳이 우선 대상이며, 탐지 결과는 재현 가능한 테스트 케이스로 환원되어야 한다.
 
 ```text
-┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│ 시드 패킷     │──▶│ 변이 엔진     │──▶│ 대상 시스템   │──▶│ 모니터링     │
-└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
++-------------+   +-------------+   +-------------+   +-------------+
+| 시드 패킷     |--->| 변이 엔진     |--->| 대상 시스템   |--->| 모니터링     |
++-------------+   +-------------+   +-------------+   +-------------+
        정상 입력        길이/순서/필드 변형     예외 발생 여부      크래시·로그 수집
 ```
 
@@ -37,21 +37,21 @@ tags = ["studynote-design-supervision"]
 감리에서는 “도구를 돌렸다”보다 “재현 가능하고 조치 가능한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 목록을 만들었는가”를 본다. 즉 퍼징 결과는 크래시 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 중복 제거, 재현 스크립트, 위험도 평가, 수정 후 재검증까지 이어져야 한다.
 
 ```text
-┌────────────────────┐
-│ 1. 시드/명세 수집   │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 2. 변이·생성 규칙   │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 3. 격리 실행/감시    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 4. 크래시 분류/재현  │
-└────────────────────┘
++--------------------+
+| 1. 시드/명세 수집   |
++---------+----------+
+          v
++--------------------+
+| 2. 변이·생성 규칙   |
++---------+----------+
+          v
++--------------------+
+| 3. 격리 실행/감시    |
++---------+----------+
+          v
++--------------------+
+| 4. 크래시 분류/재현  |
++--------------------+
 ```
 
 | 구성 요소 | 역할 | 감리 포인트 |
@@ -113,21 +113,21 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 시드 패킷, 변이 엔진, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기반 퍼징, 샌드박스, 크래시 트리아지, 재현 스크립트
-- 발전 흐름: 단순 랜덤 입력 → 변이 기반 퍼징 → 명세 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 퍼징 → 커버리지 유도 퍼징 → 자동 재현·우선순위화
+- 발전 흐름: 단순 랜덤 입력 -> 변이 기반 퍼징 -> 명세 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 퍼징 -> 커버리지 유도 퍼징 -> 자동 재현·우선순위화
 
 ```text
 정상 샘플 확보
-      │
-      ▼
+      |
+      v
 변이/생성 규칙 수립
-      │
-      ▼
+      |
+      v
 대량 이상 패킷 주입
-      │
-      ▼
+      |
+      v
 크래시·예외 탐지
-      │
-      ▼
+      |
+      v
 재현·분류·조치
 ```
 
@@ -143,7 +143,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 494 / 530
 
-← **이전**: [415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit](/knowledge-base/studynote/11_design_supervision/06_exam_summary/415_oat_opertional_uat_user/)
-**다음**: [417. 테스트 오라클의 참·샘플링·휴리스틱·일관성 유형 (Test Oracle)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/417_process/) →
+<- **이전**: [415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit](/knowledge-base/studynote/11_design_supervision/06_exam_summary/415_oat_opertional_uat_user/)
+**다음**: [417. 테스트 오라클의 참·샘플링·휴리스틱·일관성 유형 (Test Oracle)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/417_process/) ->
 
 ---

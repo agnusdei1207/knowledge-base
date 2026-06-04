@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [다크 데이터 / Data Loss Preve…]
-    │
-    ▼
+    |
+    v
 [ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    └──▶ [3GPP 표준 개발]
+    |
+    +---> [3GPP 표준 개발]
 ```
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 ```text
 [다크 데이터 / Data Loss Preve…]
-    │
-    ▼
+    |
+    v
 [ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    └──▶ [3GPP 표준 개발]
+    |
+    +---> [3GPP 표준 개발]
 ```
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 ```text
 [선행 개념: 다크 데이터 / Data Loss Preve…]
-    │
-    ▼
+    |
+    v
 [현재 개념: ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    ├──▶ [확장 A: 3GPP 표준 개발]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 3GPP 표준 개발]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…에서 출발해 현재 메커니즘을 정교화하고, 이후 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 **진행 상황**: 871 / 1120
 
-← **이전**: [749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념](/knowledge-base/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/)
-**다음**: [751. 3GPP (3rd Generation Partnership Project) 표준 개발](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) →
+<- **이전**: [749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념](/knowledge-base/studynote/03_network/14_network_security_threats/749_dlp_data_loss_prevention_dark_data/)
+**다음**: [751. 3GPP (3rd Generation Partnership Project) 표준 개발](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) ->
 
 ---

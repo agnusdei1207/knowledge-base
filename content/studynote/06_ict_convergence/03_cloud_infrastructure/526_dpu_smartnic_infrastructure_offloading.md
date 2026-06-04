@@ -22,7 +22,7 @@ tags = ["studynote-ict-convergence"]
 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서 서버 CPU의 상당 부분(20~30%)이 네트워크 패킷 처리, 스토리지 I/O, 암호화 등 인프라 작업에 소비된다. 이는 비즈니스 로직 실행에 써야 할 자원이 낭비되는 것이다.
 
 **문제 발생 배경**:
-- 네트워크 속도: 10Gbps → 100Gbps → 400Gbps로 고도화, 소프트웨어 처리 한계 도달
+- 네트워크 속도: 10Gbps -> 100Gbps -> 400Gbps로 고도화, 소프트웨어 처리 한계 도달
 - [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드: [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), [Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)), [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 처리가 CPU를 직접 소비
 - 보안 강화: [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 모델에서 모든 패킷에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/암호화 요구 증가
 
@@ -37,21 +37,21 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 내부 구조</strong>:
 
 ```
-┌───────────────────────────────────────────────────────────┐
-│                  DPU / SmartNIC 카드                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐ │
-│  │  NIC 포트    │  │  ARM 코어    │  │ FPGA/ASIC 가속기 │ │
-│  │ (100/400Gbps)│  │ (OS 실행     │  │ (암호화, 압축,   │ │
-│  │              │  │  SW 프로그래밍)│  │  매칭, 오프로드) │ │
-│  └──────┬───────┘  └──────┬───────┘  └──────────────────┘ │
-│         └─────────────────┘                               │
-│              PCIe 인터페이스                               │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|                  DPU / SmartNIC 카드                       |
+|  +--------------+  +--------------+  +------------------+ |
+|  |  NIC 포트    |  |  ARM 코어    |  | FPGA/ASIC 가속기 | |
+|  | (100/400Gbps)|  | (OS 실행     |  | (암호화, 압축,   | |
+|  |              |  |  SW 프로그래밍)|  |  매칭, 오프로드) | |
+|  +------+-------+  +------+-------+  +------------------+ |
+|         +-----------------+                               |
+|              PCIe 인터페이스                               |
++-----------------------------------------------------------+
          ↕ PCIe 연결
-  ┌──────────────────┐
-  │   호스트 CPU     │
-  │  (애플리케이션)   │
-  └──────────────────┘
+  +------------------+
+  |   호스트 CPU     |
+  |  (애플리케이션)   |
+  +------------------+
 ```
 
 | [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 기능 | 내용 | 효과 |
@@ -125,7 +125,7 @@ DPU는 서버 아키텍처를 "하나의 CPU가 모든 것을 처리"에서 "전
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[인터커넥트 · 메모리 공유] → [DPU SmartNIC 인프라 오프로딩 가속] → [커스텀 칩 · 하이퍼바이저 오프로딩]
+[인터커넥트 · 메모리 공유] -> [DPU SmartNIC 인프라 오프로딩 가속] -> [커스텀 칩 · 하이퍼바이저 오프로딩]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -140,7 +140,7 @@ DPU는 서버 아키텍처를 "하나의 CPU가 모든 것을 처리"에서 "전
 
 **진행 상황**: 526 / 552
 
-← **이전**: [525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)](/knowledge-base/studynote/06_ict_convergence/uncategorized/525_spatial_computing_micro_frontends_webassembly/)
-**다음**: [527. HBM GPU 병렬 대역폭과 LLM 병목 완화 (HBM GPU Parallel Bandwidth LLM Bottleneck)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) →
+<- **이전**: [525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)](/knowledge-base/studynote/06_ict_convergence/uncategorized/525_spatial_computing_micro_frontends_webassembly/)
+**다음**: [527. HBM GPU 병렬 대역폭과 LLM 병목 완화 (HBM GPU Parallel Bandwidth LLM Bottleneck)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/527_hbm_gpu_parallel_bandwidth_llm_bottleneck/) ->
 
 ---

@@ -19,18 +19,18 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────┐
-│           RWA 토큰화 구조                             │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  실물 자산        Legal Wrapper      온체인 토큰       │
-│  (부동산·채권) → [SPV/신탁 설립] → [ERC-20/ERC-1400] │
-│                        │                              │
-│                   법적 소유권                         │
-│                   토큰 보유자에게 귀속                 │
-│                                                       │
-│  투자자 → 토큰 구매 → 분할 소유권 + 수익 분배         │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|           RWA 토큰화 구조                             |
++------------------------------------------------------+
+|                                                       |
+|  실물 자산        Legal Wrapper      온체인 토큰       |
+|  (부동산·채권) -> [SPV/신탁 설립] -> [ERC-20/ERC-1400] |
+|                        |                              |
+|                   법적 소유권                         |
+|                   토큰 보유자에게 귀속                 |
+|                                                       |
+|  투자자 -> 토큰 구매 -> 분할 소유권 + 수익 분배         |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: RWA는 건물 지분을 아파트 주식처럼 파는 것이다. 100억짜리 빌딩을 1만 개의 주식(토큰)으로 쪼개면 100만 원으로도 빌딩 투자가 가능하고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 즉시 사고팔 수 있다.
@@ -51,11 +51,11 @@ tags = ["studynote-ict-convergence"]
 ### 주요 RWA 자산 유형
 
 ```text
-부동산 → 상업용 부동산 펀드 토큰화 (예: Ondo Finance)
-채권   → 미국 국채 토큰화 (예: BlackRock BUIDL)
-사모   → 프라이빗 크레딧 토큰화 (예: Maple Finance)
-탄소   → 탄소 크레딧 토큰화 (예: Toucan Protocol)
-예술품 → 블루칩 아트 분할 소유 (예: Masterworks)
+부동산 -> 상업용 부동산 펀드 토큰화 (예: Ondo Finance)
+채권   -> 미국 국채 토큰화 (예: BlackRock BUIDL)
+사모   -> 프라이빗 크레딧 토큰화 (예: Maple Finance)
+탄소   -> 탄소 크레딧 토큰화 (예: Toucan Protocol)
+예술품 -> 블루칩 아트 분할 소유 (예: Masterworks)
 ```
 
 - **📢 섹션 요약 비유**: RWA 레이어 구조는 해외 부동산 투자 펀드와 같다. 법인(SPV)이 자산을 소유하고, 펀드 매니저(오라클)가 가치를 평가하며, 투자자는 펀드 증서(토큰)를 보유하고, 규제 기관(컴플라이언스)이 적법성을 검증한다.
@@ -107,7 +107,7 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SPV** | 실물 자산 법적 보유 구조 |
-| **오라클** | 실물 가치 → 온체인 반영 |
+| **오라클** | 실물 가치 -> 온체인 반영 |
 | **ERC-1400** | 증권형 토큰 표준 |
 | **STO** | 증권형 토큰 공모 |
 | **컴플라이언스** | KYC/AML·증권법 준수 |
@@ -116,17 +116,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [전통 자산 — 높은 진입 장벽, 낮은 유동성]
-    │
-    ▼
+    |
+    v
 [디지털 증권 (STO) — 증권형 토큰 공모]
-    │
-    ▼
+    |
+    v
 [RWA 토큰화 — SPV/신탁 + 오라클 + ERC-1400]
-    │
-    ▼
+    |
+    v
 [기관 RWA — BlackRock BUIDL, JPMorgan Onyx]
-    │
-    ▼
+    |
+    v
 [글로벌 금융 인프라 — 모든 자산의 온체인 표현]
 ```
 
@@ -142,7 +142,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 28 / 552
 
-← **이전**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/knowledge-base/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/)
-**다음**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/) →
+<- **이전**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/knowledge-base/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/)
+**다음**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/) ->
 
 ---

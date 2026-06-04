@@ -26,20 +26,20 @@ tags = ["studynote-network"]
 이 도식은 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 망에서 자율 경쟁 모델이 겪는 충돌 혼란과 중앙 관리형 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모델이 갖는 권한 통제 메커니즘을 극명하게 대조한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [자율 경쟁 망 (CSMA/CD 등): 눈치 게임]                 │
-│ Node A: "채널 비었네? 내가 쏜다!" ---> [충돌 파괴 쾅!] │
-│ Node B: "채널 비었네? 내가 쏜다!" --->                 │
-├────────────────────────────────────────────────────────┤
-│ [폴링 기반 망 (Polling Access): 지휘 통제]             │
-│ [Primary] (지휘관)                                     │
-│   │                                                    │
-│   ├─> "A야, 보낼 거 있니?" (Poll)  ──> [Secondary A] │
-│   │   <── "없습니다" (NAK)                            │
-│   │                                                    │
-│   ├─> "B야, 보낼 거 있니?" (Poll)  ──> [Secondary B] │
-│       <── "데이터 전송합니다!" (Data)                 │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [자율 경쟁 망 (CSMA/CD 등): 눈치 게임]                 |
+| Node A: "채널 비었네? 내가 쏜다!" ---> [충돌 파괴 쾅!] |
+| Node B: "채널 비었네? 내가 쏜다!" --->                 |
++--------------------------------------------------------+
+| [폴링 기반 망 (Polling Access): 지휘 통제]             |
+| [Primary] (지휘관)                                     |
+|   |                                                    |
+|   +-> "A야, 보낼 거 있니?" (Poll)  --> [Secondary A] |
+|   |   <-- "없습니다" (NAK)                            |
+|   |                                                    |
+|   +-> "B야, 보낼 거 있니?" (Poll)  --> [Secondary B] |
+|       <-- "데이터 전송합니다!" (Data)                 |
++--------------------------------------------------------+
 ```
 *해설*: 이 그림의 핵심은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 시스템의 절대적 권력 집중형 통제 구조를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 경쟁 망에서는 A와 B가 동시에 판단하여 채널로 튀어나오다 자멸할 위험이 항상 내재되어 있다. 반면, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 망에서는 지휘관(Primary)이 발언권을 호명하는 순서를 철저히 지키기 때문에 A와 B가 서로 충돌할 가능성이 수학적으로 제로(0)에 수렴한다. 이런 배치는 안정성을 극한으로 끌어올리지만, 지휘관이 묻기 전까지는 긴급한 재난 상황이라도 종국이 마음대로 입을 열 수 없다는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 명확한 트레이드오프를 가져온다.
 
@@ -63,19 +63,19 @@ tags = ["studynote-network"]
 
 ```text
 [상황 1: 주국이 종국의 데이터를 수집할 때 - Poll 동작]
-Primary        [Poll(주소B)]  ────>   Secondary B (전송할 짐 있음)
-               <── [Data] ────
-               [ACK] ─────────>       (수신 완료 승인)
+Primary        [Poll(주소B)]  ---->   Secondary B (전송할 짐 있음)
+               <-- [Data] ----
+               [ACK] --------->       (수신 완료 승인)
 
 [상황 2: 주국이 잉여 종국을 순회할 때 - Poll Overhead]
-Primary        [Poll(주소C)]  ────>   Secondary C (전송할 짐 없음)
-               <── [NAK] ─────        (빈 응답, 즉각 다음 턴 이동)
+Primary        [Poll(주소C)]  ---->   Secondary C (전송할 짐 없음)
+               <-- [NAK] -----        (빈 응답, 즉각 다음 턴 이동)
 
 [상황 3: 주국이 종국에게 데이터를 내보낼 때 - Select 동작]
-Primary        [Select(주소A)] ───>   Secondary A
-               <── [ACK(준비됨)] ──
-               [Data] ────────>       (주국의 데이터 전송)
-               <── [ACK(잘받음)] ──
+Primary        [Select(주소A)] --->   Secondary A
+               <-- [ACK(준비됨)] --
+               [Data] -------->       (주국의 데이터 전송)
+               <-- [ACK(잘받음)] --
 ```
 *해설*: 이 도식의 핵심은 모든 통신의 시작점이 무조건 주국(Primary)의 제어 프레임 발송에 의존한다는 점이다. 상황 1의 Poll은 슬레이브가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어올리는 과정이며, 상황 3의 Select는 마스터가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려꽂는 과정이다. 이런 배치는 전체 토폴로지 상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 원천 통제하지만, 최악의 약점을 유발한다. 바로 상황 2처럼 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 노드(C)에게도 일일이 찾아가서 물어봐야 하는 '[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Overhead)'다. NAK를 받기 위해 보내는 질문 프레임과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체가 채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 심각하게 낭비하는 잉여 작업이 된다.
 
@@ -95,16 +95,16 @@ Primary        [Select(주소A)] ───>   Secondary A
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 채널 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성 측면에서 어떠한 극단적 양상을 보이는지 비교한다.
 
 ```text
-┌──────────┬─────────────────┬─────────────────┬─────────────────┐
-│ 평가 요소│ Polling Access  │ Token Passing   │ CSMA/CD (경쟁)  │
-├──────────┼─────────────────┼─────────────────┼─────────────────┤
-│ 통제 방식│ 중앙 집중 지휘  │ 분산 순환 (토큰)│ 개별 자율 (눈치)│
-│ 충돌 발생│ 원천 차단 (0%)  │ 원천 차단 (0%)  │ 부하 시 잦음    │
-│ 대기 지연│ 순번 올때까지 긴 대기│ 토큰 올때까지 대기│ 즉시 전송 가능  │
-│ 치명적 약점│ 주국(Primary) 고장시│ 토큰 분실 시 마비 │ 혼잡 시 대역 붕괴 │
-│         │ 네트워크 전면 마비│ (복구 로직 필요)│ (예측 불가 지연)│
-│ 채널 낭비│ 잉여 Poll/NAK 질의비용│ 토큰 자체 순회 비용│ 충돌 후 백오프 시간│
-└──────────┴─────────────────┴─────────────────┴─────────────────┘
++----------+-----------------+-----------------+-----------------+
+| 평가 요소| Polling Access  | Token Passing   | CSMA/CD (경쟁)  |
++----------+-----------------+-----------------+-----------------+
+| 통제 방식| 중앙 집중 지휘  | 분산 순환 (토큰)| 개별 자율 (눈치)|
+| 충돌 발생| 원천 차단 (0%)  | 원천 차단 (0%)  | 부하 시 잦음    |
+| 대기 지연| 순번 올때까지 긴 대기| 토큰 올때까지 대기| 즉시 전송 가능  |
+| 치명적 약점| 주국(Primary) 고장시| 토큰 분실 시 마비 | 혼잡 시 대역 붕괴 |
+|         | 네트워크 전면 마비| (복구 로직 필요)| (예측 불가 지연)|
+| 채널 낭비| 잉여 Poll/NAK 질의비용| 토큰 자체 순회 비용| 충돌 후 백오프 시간|
++----------+-----------------+-----------------+-----------------+
 ```
 *해설*: 이 표의 핵심은 신뢰성을 얻기 위해 무엇을 희생했는가를 드러낸다. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 빠른 응답성을 취하고 충돌을 허용했다. 반면 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 마스터의 명령이라는 절대적 질서를 채택해 충돌을 삭제했지만, [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)라는 구조적 시한폭탄을 안았다. 주국 라우터가 죽는 순간 그 아래 종속된 모든 통신망은 일순간에 고철로 변한다. 또한 아무도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지 않을 때 주국 혼자서 빈 허공에 질문(Poll)을 던지는 오버헤드가 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹는다. 실무에서는 이 오버헤드와 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험을 비용으로 지불하고서라도 '확정된 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)'이 필요한가에 따라 도입 여부를 결정한다.
 
@@ -121,16 +121,16 @@ Primary        [Select(주소A)] ───>   Secondary A
 
 ```text
 [요구사항: 여러 기기들의 센싱 및 데이터 통신 인프라 설계]
-         │
-         ├─> 통신 지연 시간이 반드시 예측 가능해야(Bounded) 하는가?
-         │    ├─ (No) ─> 일반 이더넷(CSMA)이나 Wi-Fi(CSMA/CA) 도입 (값싸고 빠름)
-         │    │
-         │    └─ (Yes) ─> 산업용 로봇, 제어 밸브 등 1ms의 오차도 치명적인 OT 환경인가?
-         │                 │
-         │                 ├─> 노드가 동등한 권한을 가져야 하는가?
-         │                 │    ├─ (Yes) ─> 분산 제어 기반 토큰 패싱(Token Bus) 채택
-         │                 │    └─ (No)  ─> 중앙 PLC가 밸브들을 관리하는 마스터-슬레이브
-         │                 │                구조이므로 Polling Access(Modbus) 전격 도입!
+         |
+         +-> 통신 지연 시간이 반드시 예측 가능해야(Bounded) 하는가?
+         |    +- (No) -> 일반 이더넷(CSMA)이나 Wi-Fi(CSMA/CA) 도입 (값싸고 빠름)
+         |    |
+         |    +- (Yes) -> 산업용 로봇, 제어 밸브 등 1ms의 오차도 치명적인 OT 환경인가?
+         |                 |
+         |                 +-> 노드가 동등한 권한을 가져야 하는가?
+         |                 |    +- (Yes) -> 분산 제어 기반 토큰 패싱(Token Bus) 채택
+         |                 |    +- (No)  -> 중앙 PLC가 밸브들을 관리하는 마스터-슬레이브
+         |                 |                구조이므로 Polling Access(Modbus) 전격 도입!
 ```
 *해설*: 이 흐름의 핵심은 '모든 기기가 동일한 지위를 갖느냐'는 비즈니스적 통제 논리다. 용광로의 온도를 감시하는 센서 100개가 있다고 치자. 이 센서들이 마음대로 본부(주국)에 알람을 쏘다 충돌해서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 것보다, 메인 제어기(Primary [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))가 1번부터 100번 센서까지 정확히 10ms 단위로 순회([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하며 물어보는 방식이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 시간의 예측 가능성(Determinism) 측면에서 압도적으로 우수하다. 실무 공장 자동화나 스카다([SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/)) 통신망에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 표준으로 군림하는 이유가 바로 이 결정론적 안정성에 있다.
 
@@ -177,12 +177,12 @@ Primary        [Select(주소A)] ───>   Secondary A
 
 ```text
 [선행 개념: 예약 방식 접속]
-    │
-    ▼
+    |
+    v
 [현재 개념: 폴링 접속]
-    │
-    ├──▶ [확장 A: 토큰 패싱]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: 토큰 패싱]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속는 예약 방식 접속에서 출발해 현재 메커니즘을 정교화하고, 이후 [토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -199,7 +199,7 @@ Primary        [Select(주소A)] ───>   Secondary A
 
 **진행 상황**: 235 / 1120
 
-← **이전**: [113. 예약 방식 접속 (Reservation Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/)
-**다음**: [115. 토큰 패싱 (Token Passing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) →
+<- **이전**: [113. 예약 방식 접속 (Reservation Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/)
+**다음**: [115. 토큰 패싱 (Token Passing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ->
 
 ---

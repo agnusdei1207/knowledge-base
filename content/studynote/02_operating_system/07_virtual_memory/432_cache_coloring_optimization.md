@@ -28,31 +28,31 @@ tags = ["studynote-operating-system"]
   3. **OS의 뒷수습**: "우리가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)로 장난친 거 인정할게. 미안하니까 남는 프레임 줄 때 하드웨어 캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(색깔) 계산해서 골고루 흩어줄게"라며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 패치가 들어감.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        캐시 컬러링(Page Coloring) 성공과 실패의 하드웨어 단면도      │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 상황: 2-way L2 캐시 (1방에 2개만 들어감). 앱이 3장(A,B,C) 요구 ]   │
-│                                                                      │
-│ ▶ 1. 멍청한 OS 매핑 (Coloring OFF) - 최악의 병목 터짐                │
-│   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        │
-│                │          │          │ (매핑)                        │
-│   물리 프레임: [🔴빨강]    [🔴빨강]   [🔴빨강] (우연히 다 빨강)      │
-│                                                                      │
-│   💥 L2 캐시 상태:                                                   │
-│   [ 파란색 방 ] : 텅 빔 (100% 낭비)                                  │
-│   [ 빨간색 방 ] : A와 B가 들어있음. C가 들어오려다 1놈 쫓아냄! (Miss)│
-│                                                                      │
-│ ▶ 2. 컬러링 매핑 최적화 (Coloring ON) - 평화로운 공존                │
-│   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        │
-│                │          │          │ (컬러 계산 할당)              │
-│   물리 프레임: [🔴빨강]    [🔵파랑]   [🟡노랑] (골고루 배식)         │
-│                                                                      │
-│   ✅ L2 캐시 상태:                                                   │
-│   [ 빨간색 방 ] : A 안착!                                            │
-│   [ 파란색 방 ] : B 안착!                                            │
-│   [ 노란색 방 ] : C 안착! (충돌 0%, 캐시 활용률 100% 달성 🚀)        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        캐시 컬러링(Page Coloring) 성공과 실패의 하드웨어 단면도      |
++----------------------------------------------------------------------+
+|                                                                      |
+| [ 상황: 2-way L2 캐시 (1방에 2개만 들어감). 앱이 3장(A,B,C) 요구 ]   |
+|                                                                      |
+| -> 1. 멍청한 OS 매핑 (Coloring OFF) - 최악의 병목 터짐                |
+|   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        |
+|                |          |          | (매핑)                        |
+|   물리 프레임: [🔴빨강]    [🔴빨강]   [🔴빨강] (우연히 다 빨강)      |
+|                                                                      |
+|   💥 L2 캐시 상태:                                                   |
+|   [ 파란색 방 ] : 텅 빔 (100% 낭비)                                  |
+|   [ 빨간색 방 ] : A와 B가 들어있음. C가 들어오려다 1놈 쫓아냄! (Miss)|
+|                                                                      |
+| -> 2. 컬러링 매핑 최적화 (Coloring ON) - 평화로운 공존                |
+|   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        |
+|                |          |          | (컬러 계산 할당)              |
+|   물리 프레임: [🔴빨강]    [🔵파랑]   [🟡노랑] (골고루 배식)         |
+|                                                                      |
+|   ✅ L2 캐시 상태:                                                   |
+|   [ 빨간색 방 ] : A 안착!                                            |
+|   [ 파란색 방 ] : B 안착!                                            |
+|   [ 노란색 방 ] : C 안착! (충돌 0%, 캐시 활용률 100% 달성 🚀)        |
++----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 가상 주소는 0, 1, 2로 완벽하게 연속적(Locality)이라 하더라도, 물리 프레임 매핑이 꼬이면 하드웨어 캐시의 지역성 버프를 전혀 받지 못한다. 즉, <strong>"<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 체제에서는 램을 그냥 비어있다고 막 주면 안 되고, 반드시 하드웨어 캐시 맵의 지형도(Color)를 머릿속에 그리고 바둑돌을 놔야 한다"</strong>는 무시무시한 통제 기술이 컬러링의 본질이다.
 
@@ -108,12 +108,12 @@ tags = ["studynote-operating-system"]
 - **결과**: 현대 고성능 x86 프로세서 위에서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 피땀 흘려 코딩한 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring 매핑은 <strong>사실상 아무 효과가 없는 뻘짓</strong>으로 전락했다. 하드웨어의 무식한 수량 공세가 소프트웨어의 우아한 튜닝을 완벽히 압살해버린 대표적 역사다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 시대/아키텍처│ 캐시 구조    │ OS의 컬러링 개입│ 성능 향상 효과  │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 구형 / ARM │ 2-way, 4-way│ 적극적으로 개입 │ 🚀 30% 이상 폭등   │
-│ 최신 x86  │ 16-way + 해시│ 무시당함 (Bypass)│ 🐢 0% (차이 없음) │
-└──────────┴────────────┴────────────┴────────────────────────────┘
++----------+------------+------------+----------------------------+
+| 시대/아키텍처| 캐시 구조    | OS의 컬러링 개입| 성능 향상 효과  |
++----------+------------+------------+----------------------------+
+| 구형 / ARM | 2-way, 4-way| 적극적으로 개입 | 🚀 30% 이상 폭등   |
+| 최신 x86  | 16-way + 해시| 무시당함 (Bypass)| 🐢 0% (차이 없음) |
++----------+------------+------------+----------------------------+
 ```
 **[매트릭스 해설]** "소프트웨어 최적화는 하드웨어가 가난할 때 빛을 발한다." 인텔과 AMD 데스크톱 환경에서는 컬러링 코드가 주석 처리되거나 사장되었지만, 배터리와 칩셋 면적(원가)을 쥐어짜야 하는 스마트워치, 임베디드 칩(저가형 ARM)에서는 무거운 16-way 캐시를 달 수 없으므로 여전히 이 OS 컬러링 기술이 시스템의 생사를 가르는 핵심 코어 로직으로 살아있다.
 
@@ -173,12 +173,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
-    │
-    ▼
+    |
+    v
 [캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
-    │
-    ├──▶ [역 페이지 테이블 탐색 최적화 해시 함수]
-    └──▶ [비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
+    |
+    +---> [역 페이지 테이블 탐색 최적화 해시 함수]
+    +---> [비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -195,7 +195,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 432 / 800
 
-← **이전**: [431. 더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/431_dirty_page_writeback/)
-**다음**: [433. 역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/433_inverted_page_table_hash/) →
+<- **이전**: [431. 더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/431_dirty_page_writeback/)
+**다음**: [433. 역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/433_inverted_page_table_hash/) ->
 
 ---

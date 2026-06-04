@@ -137,20 +137,20 @@ tags = ["studynote-bigdata"]
 
 \\\	ext
 데이터 폭발 (3V: Volume · Velocity · Variety)
-    │
-    ▼
+    |
+    v
 분산 저장·처리 (Hadoop HDFS + MapReduce)
-    │
-    ▼
+    |
+    v
 고속 처리 (Apache Spark 인메모리 연산)
-    │
-    ├─► 실시간 스트리밍 (Kafka + Flink)
-    ├─► 데이터 레이크 → 레이크하우스
-    ├─► NoSQL (Cassandra, MongoDB, HBase)
-    │
-    ▼
+    |
+    +-► 실시간 스트리밍 (Kafka + Flink)
+    +-► 데이터 레이크 -> 레이크하우스
+    +-► NoSQL (Cassandra, MongoDB, HBase)
+    |
+    v
 빅데이터 거버넌스 (품질·보안·메타데이터 관리)
-    │
-    ▼
+    |
+    v
 데이터 메시 / AI-Native 플랫폼 (미래)
 \\\

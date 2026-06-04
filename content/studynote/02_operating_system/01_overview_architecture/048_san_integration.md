@@ -25,9 +25,9 @@ SAN 구성요소:
    |         |         |
   HBA       HBA       HBA   (Host Bus Adapter: FC/iSCSI)
    |         |         |
-   └────[SAN 스위치 (Fabric)]────┘
+   +----[SAN 스위치 (Fabric)]----+
               |
-   ┌──────────┼──────────┐
+   +----------+----------+
   [스토리지 1] [스토리지 2] [스토리지 3]
    (LUN)       (LUN)       (LUN)
 
@@ -50,7 +50,7 @@ LUN (Logical Unit Number):
 
 Zoning (존 설정):
   SAN 패브릭에서의 접근 제어
-  서버 A → LUN 1, 2만 접근 허용
+  서버 A -> LUN 1, 2만 접근 허용
   보안 + 트래픽 격리
 ```
 
@@ -78,7 +78,7 @@ Fibre Channel (FC):
   성숙한 기술, 강력한 보안 (Zoning)
 
   단점:
-  전용 인프라 필요 → 높은 비용
+  전용 인프라 필요 -> 높은 비용
   FC HBA, FC 스위치, FC 케이블
   관리 복잡도 높음
 
@@ -168,7 +168,7 @@ SAN (Storage Area Network):
 하이퍼 컨버지드 (HCI):
   SAN + 서버를 소프트웨어 정의로 통합
   VMware vSAN, Nutanix
-  → 전통적 SAN을 대체하는 추세
+  -> 전통적 SAN을 대체하는 추세
 ```
 
 > 📢 **섹션 요약 비유**: [DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/)/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)/[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) = 개인 서랍/공용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)함/전용 창고 — [DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/)(내 서랍: 빠르지만 혼자), [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(공용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)함: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유), [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)(전용 창고: 블록 단위, 고성능 공유)!
@@ -194,7 +194,7 @@ SAN 통합 후:
   서버 2: LUN 2 (150GB 할당)
   서버 3: LUN 3 (100GB 할당)
 
-  활용률: 30% → 70%+ (동적 재할당)
+  활용률: 30% -> 70%+ (동적 재할당)
 
 LUN 마스킹 & Zoning:
   LUN 마스킹: 스토리지에서 서버별 LUN 접근 제한
@@ -212,14 +212,14 @@ LUN 마스킹 & Zoning:
 
 HA 구성:
   멀티패스 (Multipathing):
-  서버 → [HBA 1] → [FC 스위치 A] → 스토리지
-  서버 → [HBA 2] → [FC 스위치 B] → 스토리지
+  서버 -> [HBA 1] -> [FC 스위치 A] -> 스토리지
+  서버 -> [HBA 2] -> [FC 스위치 B] -> 스토리지
 
-  경로 1 장애 → 경로 2 자동 전환
+  경로 1 장애 -> 경로 2 자동 전환
   Linux: DM-Multipath, Windows: MPIO
 ```
 
-> 📢 **섹션 요약 비유**: [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 통합 = 창고 공유 — 회사 부서별 창고([DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/)) 대신 큰 공용 창고([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)). 활용률 30%→70%. 필요할 때 공간 재배분, 서버 꺼지지 않고도 이전!
+> 📢 **섹션 요약 비유**: [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 통합 = 창고 공유 — 회사 부서별 창고([DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/)) 대신 큰 공용 창고([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)). 활용률 30%->70%. 필요할 때 공간 재배분, 서버 꺼지지 않고도 이전!
 
 ---
 
@@ -254,12 +254,12 @@ LUN 설계:
 Oracle RAC 구성:
   2개 DB 서버가 동일 LUN 공유
   Clusterware: 동시 접근 조율
-  → 서버 1대 장애 → 서버 2 자동 이어받기
+  -> 서버 1대 장애 -> 서버 2 자동 이어받기
 
 결과:
   IOPS: DAS 대비 5× 향상 (SSD + 캐시)
-  P99 DB 응답시간: 50ms → 8ms
-  활용률: 35% → 72%
+  P99 DB 응답시간: 50ms -> 8ms
+  활용률: 35% -> 72%
   Oracle RAC: RTO < 30초 달성
   연간 스토리지 비용: 15% 절감
 
@@ -342,7 +342,7 @@ S3 API 통합
 
 **진행 상황**: 48 / 800
 
-← **이전**: [047. DLM — 분산 잠금 관리자](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/)
-**다음**: [049. 클라이언트-서버 — Client-Server Architecture](/knowledge-base/studynote/02_operating_system/01_overview_architecture/049_client_server/) →
+<- **이전**: [047. DLM — 분산 잠금 관리자](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/)
+**다음**: [049. 클라이언트-서버 — Client-Server Architecture](/knowledge-base/studynote/02_operating_system/01_overview_architecture/049_client_server/) ->
 
 ---

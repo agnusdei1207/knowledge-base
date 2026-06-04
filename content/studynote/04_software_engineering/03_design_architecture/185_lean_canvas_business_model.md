@@ -36,15 +36,15 @@ tags = ["studynote-software-engineering"]
 아래 그림은 린 캔버스의 기본 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다.
 
 ```text
-┌────────────┬────────────┬────────────┬────────────┬────────────┐
-│ Problem    │ Solution   │ Unique     │ Unfair     │ Customer   │
-│ Top pains  │ MVP answer │ Value Prop │ Advantage  │ Segments   │
-│            │            │            │            │ Early Ad.  │
-├────────────┼────────────┤            ├────────────┼────────────┤
-│ Key Metrics│            │            │ Channels   │            │
-├────────────┴────────────┴────────────┴────────────┴────────────┤
-│ Cost Structure                     │ Revenue Streams           │
-└────────────────────────────────────┴───────────────────────────┘
++------------+------------+------------+------------+------------+
+| Problem    | Solution   | Unique     | Unfair     | Customer   |
+| Top pains  | MVP answer | Value Prop | Advantage  | Segments   |
+|            |            |            |            | Early Ad.  |
++------------+------------+            +------------+------------+
+| Key Metrics|            |            | Channels   |            |
++------------+------------+------------+------------+------------+
+| Cost Structure                     | Revenue Streams           |
++------------------------------------+---------------------------+
 ```
 
 | 블록 | 핵심 질문 | 좋은 작성 기준 |
@@ -76,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 변경 속도 | 매우 빠름 | 빠름 | 느림 |
 | 대표 장점 | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)과 학습에 유리 | 전체 사업 구조를 폭넓게 봄 | 설득력 있는 상세 설명 |
 
-또한 린 캔버스는 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), Problem-Solution Fit, Product-Market Fit과 자연스럽게 이어진다. 문제와 고객이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되면 solution을 MVP로 줄여 실험하고, [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) metrics로 학습한 뒤, 채널과 수익 구조가 실제로 돌아가는지를 보면서 product-market fit에 접근한다. 즉 린 캔버스는 단일 문서가 아니라 **가설 → 실험 → 학습** 사이클의 출발점이다.
+또한 린 캔버스는 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), Problem-Solution Fit, Product-Market Fit과 자연스럽게 이어진다. 문제와 고객이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되면 solution을 MVP로 줄여 실험하고, [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) metrics로 학습한 뒤, 채널과 수익 구조가 실제로 돌아가는지를 보면서 product-market fit에 접근한다. 즉 린 캔버스는 단일 문서가 아니라 **가설 -> 실험 -> 학습** 사이클의 출발점이다.
 
 따라서 린 캔버스를 그냥 "9칸 사업 아이디어 표"로만 보면 절반만 이해한 것이다. 진짜 차별점은 예쁜 완성본이 아니라, 어떤 칸이 아직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않았는지를 드러내고 계속 바꾸게 만드는 데 있다.
 
@@ -89,19 +89,19 @@ tags = ["studynote-software-engineering"]
 실무에서 린 캔버스는 문서를 잘 채우는 기술보다 <strong>각 칸을 어떤 실험으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할지 연결하는 능력</strong>이 중요하다. Problem 칸에 적은 내용은 고객 인터뷰로, UVP는 landing page나 메시지 테스트로, revenue는 가격 실험으로, channels는 CAC ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost) 관점의 파일럿으로 확인해야 한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나지 않은 칸은 "사실"이 아니라 "가설"로 표시하는 태도가 핵심이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Lean Canvas learning loop                                         │
-├───────────────────────────────────────────────────────────────────┤
-│ Problem / Customer hypothesis                                     │
-│          │                                                        │
-│          ▼                                                        │
-│ Interview / MVP / landing page test                              │
-│          │                                                        │
-│          ▼                                                        │
-│ Metric learning                                                   │
-│      ├─ validated  -> deepen next block                           │
-│      └─ rejected   -> pivot canvas                                │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Lean Canvas learning loop                                         |
++-------------------------------------------------------------------+
+| Problem / Customer hypothesis                                     |
+|          |                                                        |
+|          v                                                        |
+| Interview / MVP / landing page test                              |
+|          |                                                        |
+|          v                                                        |
+| Metric learning                                                   |
+|      +- validated  -> deepen next block                           |
+|      +- rejected   -> pivot canvas                                |
++-------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -152,17 +152,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 Idea hypothesis
-    │
-    ▼
+    |
+    v
 Customer segment + problem
-    │
-    ▼
+    |
+    v
 UVP + MVP solution
-    │
-    ▼
+    |
+    v
 Channel / revenue / cost / metrics
-    │
-    ▼
+    |
+    v
 Experiment learning -> pivot or persevere
 ```
 
@@ -180,7 +180,7 @@ Experiment learning -> pivot or persevere
 
 **진행 상황**: 185 / 973
 
-← **이전**: [184. 테마 (Theme) - 에픽들의 상위 카테고리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)
-**다음**: [186. 가치 제안 캔버스 (Value Proposition Canvas)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/186_value_proposition_canvas/) →
+<- **이전**: [184. 테마 (Theme) - 에픽들의 상위 카테고리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)
+**다음**: [186. 가치 제안 캔버스 (Value Proposition Canvas)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/186_value_proposition_canvas/) ->
 
 ---

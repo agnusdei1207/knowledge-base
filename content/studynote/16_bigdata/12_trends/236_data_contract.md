@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계약 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Contract) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 안정성 보장 생산자-소비자 합의은 빅데이터 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계약을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 목표/전략        |--->| 운영/통제        |--->| 지표/개선        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 조타실처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 지표/개선 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 목표/전략        |--->| 운영/통제        |--->| 지표/개선        |
++--------------+   +--------------+   +--------------+
 ```
 
 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Contract와 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 안정성은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [데이터 공급자]
-    │
-    ▼
+    |
+    v
 [스키마 정의]
-    │
-    ▼
+    |
+    v
 [데이터 계약]
-    │
-    ▼
+    |
+    v
 [데이터 품질 SLA]
-    │
-    ▼
+    |
+    v
 [데이터 메시]
 ```
 
@@ -138,7 +138,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 236 / 262
 
-← **이전**: [230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)
-**다음**: [232. 오픈소스 포맷 경쟁 (Apache Iceberg 사실상 표준화 움직임)](/knowledge-base/studynote/16_bigdata/12_trends/237_apache_iceberg/) →
+<- **이전**: [230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)
+**다음**: [232. 오픈소스 포맷 경쟁 (Apache Iceberg 사실상 표준화 움직임)](/knowledge-base/studynote/16_bigdata/12_trends/237_apache_iceberg/) ->
 
 ---

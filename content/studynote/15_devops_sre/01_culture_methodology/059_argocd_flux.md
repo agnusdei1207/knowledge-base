@@ -33,11 +33,11 @@ GitOps의 핵심은 선언적(manifest) 정의와 지속적 비교다. Argo CD�
 
 ```text
 Git Repo
-   ↓ desired state
+   v desired state
 Argo CD / Flux
-   ↓ reconcile
+   v reconcile
 Kubernetes Cluster
-   ↑ live state diff
+   ^ live state diff
 ```
 
 | 구성 요소 | 역할 |
@@ -104,11 +104,11 @@ Argo CD와 Flux는 배포를 사람 손의 작업에서 선언적 운영으로 �
 
 ```text
 Git Repo
-   ↓
+   v
 Argo CD / Flux
-   ↓
+   v
 Reconciliation
-   ↓
+   v
 Kubernetes Desired State
 ```
 
@@ -118,11 +118,11 @@ Kubernetes Desired State
 
 ```text
 Push 배포
-   ↓
+   v
 GitOps
-   ↓
+   v
 Argo CD / Flux
-   ↓
+   v
 드리프트 감지 / 자동 롤백
 ```
 
@@ -140,7 +140,7 @@ Argo CD와 Flux는 공책에 적어 둔 약속대로 방을 정리하는 로봇�
 
 **진행 상황**: 59 / 373
 
-← **이전**: [58. 개발자 경험 (DX, Developer Experience) 향상 전략](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)
-**다음**: [60. ChatOps (Chat + Operations) 협업 운영 모델](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/060_chatops/) →
+<- **이전**: [58. 개발자 경험 (DX, Developer Experience) 향상 전략](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)
+**다음**: [60. ChatOps (Chat + Operations) 협업 운영 모델](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/060_chatops/) ->
 
 ---

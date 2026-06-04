@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 즉시 갱신 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Update)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중에도 DB 기록, [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시 Redo와 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 모두 필요에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Change -> Log -> Current concept -> Restart                  │
-├──────────────────────────────────────────────────────────────┤
-│ Failure -> replay/undo -> consistent state                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Change -> Log -> Current concept -> Restart                  |
++--------------------------------------------------------------+
+| Failure -> replay/undo -> consistent state                   |
++--------------------------------------------------------------+
 ```
 
 이 그림은 즉시 갱신을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `지연 갱신`·`그림자 페이징 기법`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Log record -> checkpoint -> current concept -> restart       │
-├──────────────────────────────────────────────────────────────┤
-│ Analysis -> redo/undo -> consistent DB                       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Log record -> checkpoint -> current concept -> restart       |
++--------------------------------------------------------------+
+| Analysis -> redo/undo -> consistent DB                       |
++--------------------------------------------------------------+
 ```
 
 핵심은 즉시 갱신을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [지연 갱신]
-    │
-    ▼
+    |
+    v
 [즉시 갱신]
-    │
-    ├──▶ [그림자 페이징 기법]
-    └──▶ [검사점 회복 기법]
+    |
+    +---> [그림자 페이징 기법]
+    +---> [검사점 회복 기법]
 ```
 
 [지연 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/)에서 출발한 논점이 즉시 갱신에서 핵심 판단으로 모이고, 이후 [그림자 페이징 기법](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/)·[검사점 회복 기법](/knowledge-base/studynote/05_database/04_transactions_concurrency/241_checkpoint_recovery_time_reduction/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 239 / 600
 
-← **이전**: [238. 지연 갱신 (Deferred Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/)
-**다음**: [240. 그림자 페이징 기법 (Shadow Paging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/) →
+<- **이전**: [238. 지연 갱신 (Deferred Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/238_deferred_update_recovery_no_undo/)
+**다음**: [240. 그림자 페이징 기법 (Shadow Paging)](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/) ->
 
 ---

@@ -29,7 +29,7 @@ Weight와 Bias를 이해하면 모델이 왜 어떤 입력에는 민감하고 �
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-x ──(W)──> sum ──(+ b)──> activation ──> output
+x --(W)--> sum --(+ b)--> activation --> output
 ```
 
 | 파라미터 | 역할 |
@@ -100,11 +100,11 @@ Weight와 Bias는 신경망에서 가장 기본적이면서도 중요한 학습 
 
 ```text
 y = Wx + b
-  ↓
+  v
 Activation
-  ↓
+  v
 Neuron
-  ↓
+  v
 Neural Network
 ```
 
@@ -114,11 +114,11 @@ Neural Network
 
 ```text
 Linear Equation
-  ↓
+  v
 Weight / Bias
-  ↓
+  v
 Perceptron
-  ↓
+  v
 DNN
 ```
 
@@ -136,7 +136,7 @@ DNN
 
 **진행 상황**: 66 / 420
 
-← **이전**: [65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)
-**다음**: [67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수](/knowledge-base/studynote/10_ai/01_ai_basics/067_activation_function_neural_network_non_linearity/) →
+<- **이전**: [65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)
+**다음**: [67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수](/knowledge-base/studynote/10_ai/01_ai_basics/067_activation_function_neural_network_non_linearity/) ->
 
 ---

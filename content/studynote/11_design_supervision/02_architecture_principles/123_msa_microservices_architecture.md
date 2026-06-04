@@ -24,22 +24,22 @@ MSA는 마틴 파울러(Martin Fowler)와 제임스 루이스(James Lewis)가 20
 모놀리식 시스템의 한계는 세 가지다. ① 배포 병목: 하나의 기능 변경에도 전체 시스템 재배포가 필요, ② 확장 제약: 특정 기능만 확장하려 해도 전체를 스케일 아웃해야 함, ③ 기술 잠금: 하나의 언어·프레임워크가 전체 시스템을 구속. MSA는 이 세 문제를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립성으로 해결한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         모놀리식 → MSA 전환 구조 비교                        │
-├─────────────────────────────────────────────────────────────┤
-│  [모놀리식]                                                 │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  주문 | 결제 | 배송 | 회원 | 알림 | 정산 (단일 배포) │     │
-│  └────────────────────────────────────────────────────┘     │
-│                                                             │
-│  [MSA]                                                      │
-│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐   │
-│  │ 주문 │ │ 결제 │ │ 배송 │ │ 회원 │ │ 알림 │ │ 정산 │   │
-│  │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│   │
-│  │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │   │
-│  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘   │
-│   각각 독립 배포, 독립 확장, 독립 기술 스택                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         모놀리식 -> MSA 전환 구조 비교                        |
++-------------------------------------------------------------+
+|  [모놀리식]                                                 |
+|  +----------------------------------------------------+     |
+|  |  주문 | 결제 | 배송 | 회원 | 알림 | 정산 (단일 배포) |     |
+|  +----------------------------------------------------+     |
+|                                                             |
+|  [MSA]                                                      |
+|  +------+ +------+ +------+ +------+ +------+ +------+   |
+|  | 주문 | | 결제 | | 배송 | | 회원 | | 알림 | | 정산 |   |
+|  | 서비스| | 서비스| | 서비스| | 서비스| | 서비스| | 서비스|   |
+|  | +DB  | | +DB  | | +DB  | | +DB  | | +DB  | | +DB  |   |
+|  +------+ +------+ +------+ +------+ +------+ +------+   |
+|   각각 독립 배포, 독립 확장, 독립 기술 스택                  |
++-------------------------------------------------------------+
 ```
 
 MSA에서 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자체 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Database per Service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/) 패턴)를 갖는다. 공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 MSA에서 가장 나쁜 안티패턴으로, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 수준에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 강결합이 발생하여 독립 배포가 불가능해진다.
@@ -61,19 +61,19 @@ MSA의 12가지 핵심 패턴은 [서비스 설계](/knowledge-base/studynote/12
 | 운영 | [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), 중앙 로깅 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       MSA 핵심 운영 인프라 구성                               │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│       │                                                     │
-│  [API Gateway] ─── 인증·라우팅·로드밸런싱                   │
-│       │                                                     │
-│  [Service Mesh (Istio)] ── mTLS·트래픽 제어·관찰성          │
-│       │                                                     │
-│  [서비스들] ── [서비스 디스커버리(Consul/Eureka)]            │
-│       │                                                     │
-│  [분산 트레이싱(Jaeger)] + [중앙 로깅(ELK)] + [메트릭(Prometheus)]│
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       MSA 핵심 운영 인프라 구성                               |
++-------------------------------------------------------------+
+|  클라이언트                                                  |
+|       |                                                     |
+|  [API Gateway] --- 인증·라우팅·로드밸런싱                   |
+|       |                                                     |
+|  [Service Mesh (Istio)] -- mTLS·트래픽 제어·관찰성          |
+|       |                                                     |
+|  [서비스들] -- [서비스 디스커버리(Consul/Eureka)]            |
+|       |                                                     |
+|  [분산 트레이싱(Jaeger)] + [중앙 로깅(ELK)] + [메트릭(Prometheus)]|
++-------------------------------------------------------------+
 ```
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴은 MSA에서 장애 전파를 차단하는 핵심 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 패턴이다. 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 실패율이 임계치를 초과하면 회로를 "열어" 즉각 실패(fail-fast)를 반환하고, 일정 시간 후 반개방 상태로 전환하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 복구를 시험한다.
@@ -129,7 +129,7 @@ MSA는 기술이 아니라 "조직 역량과 운영 성숙도의 표현"이다. 
 
 ### 📌 관련 개념 맵
 
-[모놀리식 한계] → MSA] → API 게이트웨이·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시] → DDD 바운디드 컨텍스트] → Kubernetes 운영]
+[모놀리식 한계] -> MSA] -> API 게이트웨이·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시] -> DDD 바운디드 컨텍스트] -> Kubernetes 운영]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -140,7 +140,7 @@ MSA는 기술이 아니라 "조직 역량과 운영 성숙도의 표현"이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[모놀리식 배포 병목] → SOA ([서비스 지향 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/212_soa_service_oriented_architecture_esb/))] → MSA 정립(파울러·루이스)] → [컨테이너·[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)] → Wasm 초경량 서비스]
+[모놀리식 배포 병목] -> SOA ([서비스 지향 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/212_soa_service_oriented_architecture_esb/))] -> MSA 정립(파울러·루이스)] -> [컨테이너·[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)] -> Wasm 초경량 서비스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ MSA는 기술이 아니라 "조직 역량과 운영 성숙도의 표현"이다. 
 
 **진행 상황**: 179 / 530
 
-← **이전**: [122. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/122_event_sourcing/)
-**다음**: [124. API 게이트웨이 (API Gateway)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/124_api_gateway/) →
+<- **이전**: [122. 이벤트 소싱 (Event Sourcing)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/122_event_sourcing/)
+**다음**: [124. API 게이트웨이 (API Gateway)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/124_api_gateway/) ->
 
 ---

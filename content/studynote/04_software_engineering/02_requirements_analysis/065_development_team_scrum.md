@@ -30,11 +30,11 @@ tags = ["software_engineering"]
 
 ```text
 Product Backlog
-  ↓
+  v
 Development Team
-  ↓
+  v
 Self-organization
-  ↓
+  v
 Increment
 ```
 
@@ -107,11 +107,11 @@ Increment
 
 ```text
 Backlog
-  ↓
+  v
 Development Team
-  ↓
+  v
 Increment
-  ↓
+  v
 Sprint Goal
 ```
 
@@ -121,11 +121,11 @@ Sprint Goal
 
 ```text
 기능별 조직
-  ↓
+  v
 다기능 팀
-  ↓
+  v
 자기 조직화
-  ↓
+  v
 애자일 팀
 ```
 
@@ -143,7 +143,7 @@ Sprint Goal
 
 **진행 상황**: 65 / 973
 
-← **이전**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)
-**다음**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) →
+<- **이전**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)
+**다음**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ->
 
 ---

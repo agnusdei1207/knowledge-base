@@ -64,7 +64,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 729 / 800
 
-← **이전**: [728. IT 경영 관리 핵심 토픽 728번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/728_it_management_core_topic_728_exam_summary/)
-**다음**: [730. IT 경영 관리 핵심 토픽 730번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/730_it_management_core_topic_730_exam_summary/) →
+<- **이전**: [728. IT 경영 관리 핵심 토픽 728번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/728_it_management_core_topic_728_exam_summary/)
+**다음**: [730. IT 경영 관리 핵심 토픽 730번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/730_it_management_core_topic_730_exam_summary/) ->
 
 ---

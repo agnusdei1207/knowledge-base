@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    ▼
+    |
+    v
 [EUI-64]
-    │
-    └──▶ [SLAAC 무상태 주소 자동 설정]
+    |
+    +---> [SLAAC 무상태 주소 자동 설정]
 ```
 
 - **📢 섹션 요약 비유**: <strong> EUI-64는 핫도그 빵(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)의 한가운데를 나이프로 가르고 그 속에 </strong>고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
@@ -49,34 +49,34 @@ tags = ["studynote-network"]
 
 ### 2단계: 첫 번째 바이트의 7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(U/L [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 반전
 이제 가장 중요한 '신분 보증' 작업이 남았다.
-- 맨 앞의 숫자 `00`을 2진수로 푼다. ──▶ `0000 0000`
+- 맨 앞의 숫자 `00`을 2진수로 푼다. ---> `0000 0000`
 - 왼쪽에서부터 7번째 자리에 있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Universal/Local [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 찾는다.
 - 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 1로, 1이면 0으로 무조건 **뒤집는다(Flip/Invert)**.
-- `0000 00`<strong><code>0</code></strong>`0` ──▶ `0000 00`<strong><code>1</code></strong>`0` 으로 바뀐다!
+- `0000 00`<strong><code>0</code></strong>`0` ---> `0000 00`<strong><code>1</code></strong>`0` 으로 바뀐다!
 - 이를 다시 16진수로 돌리면 <strong><code>02</code></strong>가 된다.
 - (참고: 이 U/L [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1이 되면 "이 주소는 전 세계적으로 유일무이한 공장 출고([BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)) MAC에서 파생된 진짜 글로벌 주소다"라는 것을 우주 만물에 증명하는 것이다).
 
 ### 3단계: 최종 완성 ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 포맷에 맞춤)
 - **최종 결과**: `02:1A:2B:FF:FE:3C:4D:5E`
 - 이제 이걸 IPv6의 우아한 16비트 콜론 표기법으로 묶는다.
-- ──▶ <strong><code>021a:2bff:fe3c:4d5e</code></strong>
+- ---> <strong><code>021a:2bff:fe3c:4d5e</code></strong>
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                EUI-64 마법의 변환 과정 요약 도식                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 내 MAC 주소:  00:11:22:33:44:55                        │
- │                                                             │
- │   2. 쪼개고 삽입!: 00:11:22  [ FF:FE ]  33:44:55            │
- │                                                             │
- │   3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로! │
- │                                                             │
- │   4. 최종 IP 뒷자리:  0211:22ff:fe33:4455                    │
- │                                                             │
- │   ▶ 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서         │
- │      2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생! │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                EUI-64 마법의 변환 과정 요약 도식                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   1. 내 MAC 주소:  00:11:22:33:44:55                        |
+ |                                                             |
+ |   2. 쪼개고 삽입!: 00:11:22  [ FF:FE ]  33:44:55            |
+ |                                                             |
+ |   3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로! |
+ |                                                             |
+ |   4. 최종 IP 뒷자리:  0211:22ff:fe33:4455                    |
+ |                                                             |
+ |   -> 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서         |
+ |      2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생! |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 현대의 보안적 한계 (Privacy Extension)
@@ -142,12 +142,12 @@ EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는
 
 ```text
 [선행 개념: 링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    ▼
+    |
+    v
 [현재 개념: EUI-64]
-    │
-    ├──▶ [확장 A: SLAAC 무상태 주소 자동 설정]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: SLAAC 무상태 주소 자동 설정]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -164,7 +164,7 @@ EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network
 
 **진행 상황**: 451 / 1120
 
-← **이전**: [329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)
-**다음**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) →
+<- **이전**: [329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)
+**다음**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) ->
 
 ---

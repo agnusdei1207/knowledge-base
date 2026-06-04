@@ -31,8 +31,8 @@ tags = ["Great Expectations", "Kafka", "anomaly detection", "data quality", "dat
 ### 1.2 주요 품질 이슈
 
 ```
-[데이터 소스] → Kafka → [소비자]
-      ↓ 발생 가능한 품질 이슈:
+[데이터 소스] -> Kafka -> [소비자]
+      v 발생 가능한 품질 이슈:
   - 스키마 불일치: 필드 추가/제거/타입 변경
   - 누락값: 필수 필드 null
   - 범위 위반: 음수 금액, 미래 타임스탬프
@@ -50,11 +50,11 @@ tags = ["Great Expectations", "Kafka", "anomaly detection", "data quality", "dat
 
 ```
 생산자                    스키마 레지스트리        소비자
-  │                            │                    │
-  ├─[스키마 등록/확인]──────▶  │                    │
-  │                            │                    │
-  ├─[메시지 직렬화(Avro)]──▶ Kafka ──▶[스키마 확인]─▶│
-                                                     │
+  |                            |                    |
+  +-[스키마 등록/확인]------->  |                    |
+  |                            |                    |
+  +-[메시지 직렬화(Avro)]---> Kafka --->[스키마 확인]-->|
+                                                     |
                                                [역직렬화]
 ```
 
@@ -124,13 +124,13 @@ results = validator.validate()
 
 ```
 메인 토픽 (orders)
-      ↓
+      v
 [소비자 + 검증]
-      ├─ 유효 이벤트 → 처리 파이프라인 진행
-      └─ 오류 이벤트 → DLQ (orders.dlq)
-                            ↓
+      +- 유효 이벤트 -> 처리 파이프라인 진행
+      +- 오류 이벤트 -> DLQ (orders.dlq)
+                            v
                      [알림/모니터링]
-                            ↓
+                            v
                      [수동 검토/재처리]
 ```
 
@@ -156,7 +156,7 @@ results = validator.validate()
 
 ### 5.1 통계 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)
 
-3σ 규칙: |값 - 평균| > 3 × 표준편차 → 이상값
+3σ 규칙: |값 - 평균| > 3 × 표준편차 -> 이상값
 
 ```python
 from collections import deque
@@ -187,18 +187,18 @@ def detect_anomaly(value):
 
 ```
 스트리밍 데이터 품질
-├── 1단: 스키마 검증
-│   ├── Schema Registry (Avro/Protobuf)
-│   └── 호환성 모드 (BACKWARD/FORWARD)
-├── 2단: 인라인 검증
-│   ├── Great Expectations Streaming
-│   └── Flink/Spark 내 커스텀 검증
-├── 3단: 이상 탐지
-│   ├── 통계 기반 (3σ, Z-score)
-│   └── ML 기반 (Isolation Forest, LSTM)
-└── 오류 처리
-    ├── 데드 레터 큐 (DLQ)
-    └── 알림 + 재처리 흐름
++-- 1단: 스키마 검증
+|   +-- Schema Registry (Avro/Protobuf)
+|   +-- 호환성 모드 (BACKWARD/FORWARD)
++-- 2단: 인라인 검증
+|   +-- Great Expectations Streaming
+|   +-- Flink/Spark 내 커스텀 검증
++-- 3단: 이상 탐지
+|   +-- 통계 기반 (3σ, Z-score)
+|   +-- ML 기반 (Isolation Forest, LSTM)
++-- 오류 처리
+    +-- 데드 레터 큐 (DLQ)
+    +-- 알림 + 재처리 흐름
 ```
 
 ---
@@ -207,17 +207,17 @@ def detect_anomaly(value):
 
 ```
 배치 ETL 품질 관리 (SQL 검증, Great Expectations)
-     │  스트리밍 데이터 증가
-     ▼
+     |  스트리밍 데이터 증가
+     v
 Kafka + Schema Registry 도입 (2014~)
-     │  실시간 검증 필요
-     ▼
+     |  실시간 검증 필요
+     v
 스트리밍 인라인 검증 (Flink/Spark + DLQ)
-     │  ML 기반 이상 탐지
-     ▼
+     |  ML 기반 이상 탐지
+     v
 지능형 스트리밍 DQ (Anomaly Detection + Auto-Remediation)
-     │  DataOps + 스트리밍 통합
-     ▼
+     |  DataOps + 스트리밍 통합
+     v
 실시간 데이터 옵저버빌리티 플랫폼 (현재~)
 ```
 
@@ -237,7 +237,7 @@ Kafka + Schema Registry 도입 (2014~)
 
 **진행 상황**: 262 / 262
 
-← **이전**: [049. 지식 그래프 — Knowledge Graph](/knowledge-base/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/)
+<- **이전**: [049. 지식 그래프 — Knowledge Graph](/knowledge-base/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/)
 
 ✅ **마지막 글입니다.**
 

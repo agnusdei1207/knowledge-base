@@ -27,13 +27,13 @@ tags = ["security"]
 
 ```text
 [데이터 생성자] ===(네트워크 전송)====> [데이터 저장소] ====(애플리케이션 처리)====> [최종 사용자]
-       │                 ▲                  ▲                      ▲
-       │                 │                  │                      │
+       |                 ^                  ^                      ^
+       |                 |                  |                      |
    (원본 해시)      (네트워크 공격)      (DB 직접 변조)         (메모리 변조)
-       │         - MITM 패킷 변조      - SQL 인젝션           - 버퍼 오버플로우
-       │         - MAC / IPsec 방어    - 무결성 모니터링      - ASLR, 메모리 보호
-       │                                                         │
-       └──────────────────────── (해시값 대조) ──────────────────┘
+       |         - MITM 패킷 변조      - SQL 인젝션           - 버퍼 오버플로우
+       |         - MAC / IPsec 방어    - 무결성 모니터링      - ASLR, 메모리 보호
+       |                                                         |
+       +------------------------ (해시값 대조) ------------------+
 ```
 
 이 그림의 핵심은 무결성이 어느 한 구간에서만 보장되어서는 안 되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 탄생하는 순간부터 최종 소비되는 순간까지 생명주기 전체에 걸쳐 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다는 점이다. 네트워크 구간에서의 변조를 막더라도 DB 관리자가 악의적으로 값을 수정한다면 무결성은 파괴된다. 따라서 실무에서는 전송 구간의 무결성([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))과 저장 구간의 무결성(FIM, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))을 입체적으로 결합해야 한다.
@@ -57,12 +57,12 @@ tags = ["security"]
 
 ```text
 [단순 해시 함수 (Hash) 흐름]
-메시지(M) ──(SHA-256)──> 다이제스트(H)  ===> 해커가 메시지 조작 후 해시도 새로 만들면 탐지 불가!
+메시지(M) --(SHA-256)--> 다이제스트(H)  ===> 해커가 메시지 조작 후 해시도 새로 만들면 탐지 불가!
 
 [메시지 인증 코드 (HMAC) 흐름]
-메시지(M) ─┐
-           ├─(SHA-256)─> MAC 값  ===> 해커는 대칭키가 없으므로 올바른 MAC을 새로 생성할 수 없음!
-대칭키(K) ─┘
+메시지(M) -+
+           +-(SHA-256)-> MAC 값  ===> 해커는 대칭키가 없으므로 올바른 MAC을 새로 생성할 수 없음!
+대칭키(K) -+
 ```
 
 이 흐름의 핵심은 단순 해시는 우연한 오류나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부패(Corruption)를 막는 데는 유용하지만, 지능적인 해커의 의도적 조작은 막을 수 없다는 점이다. 해커가 원본을 A에서 B로 바꾼 뒤 B의 해시값을 다시 계산해서 덮어씌우면 수신자는 변조 사실을 알 수 없다. 따라서 실무 시스템(예: [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 보안)에서는 반드시 송수신자만이 아는 비밀키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 섞어 해시를 만드는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 방식을 사용해야만 악의적인 위변조를 완벽히 차단할 수 있다.
@@ -78,17 +78,17 @@ tags = ["security"]
 <strong>1. <a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a> 기술 비교 매트릭스</strong>
 
 ```text
-┌────────────┬─────────────┬──────────────┬──────────────┬───────────────┐
-│ 검증 기술  │ 검증 대상   │ 사용되는 키  │ 보장하는 보안│ 처리 속도     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ CRC32      │ 통신 노이즈 │ 키 없음      │ 오류 탐지    │ 매우 빠름 (HW)│
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ Hash (SHA) │ 의도적 변조 │ 키 없음      │ 무결성       │ 빠름 (SW)     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ HMAC       │ 위조/변조   │ 대칭키 (공유)│ 무결성+인증성│ 약간 느림     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ 전자서명   │ 위조/부인   │ 비대칭키 쌍  │ 무결성+부인방지 매우 느림     │
-└────────────┴─────────────┴──────────────┴──────────────┴───────────────┘
++------------+-------------+--------------+--------------+---------------+
+| 검증 기술  | 검증 대상   | 사용되는 키  | 보장하는 보안| 처리 속도     |
++------------+-------------+--------------+--------------+---------------+
+| CRC32      | 통신 노이즈 | 키 없음      | 오류 탐지    | 매우 빠름 (HW)|
++------------+-------------+--------------+--------------+---------------+
+| Hash (SHA) | 의도적 변조 | 키 없음      | 무결성       | 빠름 (SW)     |
++------------+-------------+--------------+--------------+---------------+
+| HMAC       | 위조/변조   | 대칭키 (공유)| 무결성+인증성| 약간 느림     |
++------------+-------------+--------------+--------------+---------------+
+| 전자서명   | 위조/부인   | 비대칭키 쌍  | 무결성+부인방지 매우 느림     |
++------------+-------------+--------------+--------------+---------------+
 ```
 
 이 매트릭스의 핵심은 우측 아래([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))로 갈수록 보안성이 기하급수적으로 높아지지만, 연산 오버헤드 또한 급증한다는 점이다. 고성능 네트워크 라우터가 매 패킷마다 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면 시스템은 즉각적으로 마비([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 침해)될 것이다. 따라서 실무에서는 계층(Layer)별로 적절한 무결성 기술을 혼용해야 한다. L2/L3에서는 CRC를, L4/L7 세션에서는 HMAC을, 그리고 최종 애플리케이션의 중요 계약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 사용하는 식이다.
@@ -116,20 +116,20 @@ tags = ["security"]
 
 ```text
 [Baseline 생성 (안전한 상태)]
-   1. OS 및 주요 설정 파일의 SHA-256 해시 계산 → 보안 DB에 저장
-          │
-          ▼
+   1. OS 및 주요 설정 파일의 SHA-256 해시 계산 -> 보안 DB에 저장
+          |
+          v
 [정기적 / 실시간 모니터링]
    2. 현재 파일들의 해시를 지속적으로 계산
-          │
-          ▼
+          |
+          v
 [무결성 검증 판단 트리]
    3. 기준 해시 == 현재 해시 ?
-          ├─ (Yes) ──> 안전 (계속 모니터링)
-          │
-          └─ (No) ──> [변경 원인 추적]
-                           ├─ (예정된 패치 시간인가?) ──> Baseline 업데이트 (정상)
-                           └─ (비인가 변경인가?) ──────> 악성코드 의심! (즉시 격리 및 알람)
+          +- (Yes) --> 안전 (계속 모니터링)
+          |
+          +- (No) --> [변경 원인 추적]
+                           +- (예정된 패치 시간인가?) --> Baseline 업데이트 (정상)
+                           +- (비인가 변경인가?) ------> 악성코드 의심! (즉시 격리 및 알람)
 ```
 
 이 플로우의 핵심은 단순한 탐지를 넘어 "누가, 왜 바꾸었는가"라는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 결합해야 오탐(False Positive)을 줄일 수 있다는 점이다. 실무에서 FIM을 도입할 때 정기적인 OS 패치 작업 시 해시가 변경되는 것을 공격으로 오인하는 경우가 매우 많다. 따라서 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 시스템([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))과 연동하여 승인된 변경 창(Change Window)에서는 베이스라인을 자동 갱신하도록 설계해야 한다.
@@ -165,17 +165,17 @@ tags = ["security"]
 
 ```text
 [해시 함수 (Hash Function)]
-    │
-    ▼
+    |
+    v
 [전자서명 (Digital Signature)]
-    │
-    ▼
+    |
+    v
 [FIM (File Integrity Monitoring)]
-    │
-    ▼
+    |
+    v
 [블록체인 (Blockchain)]
-    │
-    ▼
+    |
+    v
 [CAP 정리 (CAP Theorem)]
 ```
 
@@ -192,7 +192,7 @@ tags = ["security"]
 
 **진행 상황**: 3 / 1108
 
-← **이전**: [2. 기밀성 (Confidentiality) — 암호화, 접근 제어, DRM, 분류](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)
-**다음**: [4. 가용성 (Availability) — HA 설계, RAID, 부하 분산, DDoS 방어, SLA](/knowledge-base/studynote/09_security/01_intro_principles/004_availability/) →
+<- **이전**: [2. 기밀성 (Confidentiality) — 암호화, 접근 제어, DRM, 분류](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)
+**다음**: [4. 가용성 (Availability) — HA 설계, RAID, 부하 분산, DDoS 방어, SLA](/knowledge-base/studynote/09_security/01_intro_principles/004_availability/) ->
 
 ---

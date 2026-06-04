@@ -21,12 +21,12 @@ tags = ["studynote-design-supervision"]
 
 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴 ([Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/))은 복잡한 서브시스템을 감싸는 단순한 진입점을 제공해 사용성을 높이는 구조 패턴이다. 여러 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 순서대로 호출해야 하는 API는 사용자가 내부 절차를 모두 알아야 한다. 이 개념이 필요한 이유는 복잡한 사용 절차를 단순한 창구로 제공하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 클라이언트마다 호출 순서와 예외 처리가 중복 구현되어 오류가 늘어난다.
 
-아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
+아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Variation  │──▶│   Facade   │──▶│   Reuse    │
-└────────────┘   └────────────┘   └────────────┘
++------------+   +------------+   +------------+
+| Variation  |--->|   Facade   |--->|   Reuse    |
++------------+   +------------+   +------------+
 ```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
@@ -48,9 +48,9 @@ tags = ["studynote-design-supervision"]
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Client  │──▶│  Facade  │──▶│  Object  │──▶│  Result  │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
++----------+   +----------+   +----------+   +----------+
+|  Client  |--->|  Facade  |--->|  Object  |--->|  Result  |
++----------+   +----------+   +----------+   +----------+
 ```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 | 온보딩 비용 | [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴 ([Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[서브시스템 직접 호출] → [퍼사드 패턴] → [단일 진입점]
+[서브시스템 직접 호출] -> [퍼사드 패턴] -> [단일 진입점]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴 ([Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/))은 복잡한 놀이공원에서 안내 데스크가 표와 길을 한 번에 알려 주는 것처럼 약속을 먼저 정하는 거예요.
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 465 / 530
 
-← **이전**: [386. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/386_decorator_pattern_summary/)
-**다음**: [388. 플라이웨이트 패턴 (Flyweight Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/) →
+<- **이전**: [386. 데코레이터 패턴 (Decorator Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/386_decorator_pattern_summary/)
+**다음**: [388. 플라이웨이트 패턴 (Flyweight Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/388_flyweight_pattern_summary/) ->
 
 ---

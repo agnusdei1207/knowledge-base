@@ -30,9 +30,9 @@ tags = ["studynote-computer-architecture"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-FF1 → FF2 → FF3 → FF4
- ↑                 ↓
- └────── inverted ─┘
+FF1 -> FF2 -> FF3 -> FF4
+ ^                 v
+ +------ inverted -+
 ```
 
 | 구성 요소 | 역할 |
@@ -43,7 +43,7 @@ FF1 → FF2 → FF3 → FF4
 | Reset | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태 지정 |
 
 ```text
-0000 → 1000 → 1100 → 1110 → 1111 → 0111 → 0011 → 0001 → 0000
+0000 -> 1000 -> 1100 -> 1110 -> 1111 -> 0111 -> 0011 -> 0001 -> 0000
 ```
 
 존슨 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 연속된 1과 0의 조합을 만들어 해독이 쉽다. 그래서 디코딩 로직이 단순하고, 제한된 하드웨어에서 많은 순서를 표현할 수 있다.
@@ -103,11 +103,11 @@ FF1 → FF2 → FF3 → FF4
 
 ```text
 Shift Register
-  ↓
+  v
 Inverted Feedback
-  ↓
+  v
 Johnson Counter
-  ↓
+  v
 2n State Sequence
 ```
 
@@ -117,11 +117,11 @@ Johnson Counter
 
 ```text
 Ring Counter
-  ↓
+  v
 Johnson Counter
-  ↓
+  v
 Sequence Generator
-  ↓
+  v
 Timing Control
 ```
 
@@ -139,7 +139,7 @@ Timing Control
 
 **진행 상황**: 64 / 803
 
-← **이전**: [63. 링 카운터 (Ring Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/063_ring_counter/)
-**다음**: [65. 상태도 (State Diagram)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) →
+<- **이전**: [63. 링 카운터 (Ring Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/063_ring_counter/)
+**다음**: [65. 상태도 (State Diagram)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) ->
 
 ---

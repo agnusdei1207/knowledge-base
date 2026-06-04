@@ -19,29 +19,29 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 3-Tier 아키텍처(Presentation → Application → [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 잠금으로 DB가 병목이 된다.
+전통적인 3-Tier 아키텍처(Presentation -> Application -> [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 잠금으로 DB가 병목이 된다.
 
 공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid)로 대체한다. 모든 처리 유닛이 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 공간(Tuple Space)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│         공간 기반 아키텍처 구조                              │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트 요청                                             │
-│       │                                                     │
-│  [Messaging Grid] (요청 분배)                               │
-│       │                                                     │
-│  ┌────▼────┐  ┌─────────┐  ┌─────────┐                     │
-│  │처리 유닛│  │처리 유닛│  │처리 유닛│ (수평 확장)          │
-│  │(PU-1)  │  │(PU-2)  │  │(PU-3)  │                     │
-│  └────┬────┘  └────┬────┘  └────┬────┘                     │
-│       └────────────┼────────────┘                          │
-│                    ▼                                        │
-│         [In-Memory Data Grid] (공유 메모리)                 │
-│                    │ (비동기)                               │
-│                    ▼                                        │
-│             [Database] (영속화 전용)                        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|         공간 기반 아키텍처 구조                              |
++-------------------------------------------------------------+
+|  클라이언트 요청                                             |
+|       |                                                     |
+|  [Messaging Grid] (요청 분배)                               |
+|       |                                                     |
+|  +----v----+  +---------+  +---------+                     |
+|  |처리 유닛|  |처리 유닛|  |처리 유닛| (수평 확장)          |
+|  |(PU-1)  |  |(PU-2)  |  |(PU-3)  |                     |
+|  +----+----+  +----+----+  +----+----+                     |
+|       +------------+------------+                          |
+|                    v                                        |
+|         [In-Memory Data Grid] (공유 메모리)                 |
+|                    | (비동기)                               |
+|                    v                                        |
+|             [Database] (영속화 전용)                        |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 여러 요리사(처리 유닛)가 각자의 미니 냉장고(메모리 그리드)에서 재료를 꺼내 요리하고, 창고(DB)에는 나중에 일괄 입고한다.
@@ -60,15 +60,15 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Pump | 비동기 DB 영속화 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), 배치 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       데이터 그리드 복제 전략                                │
-├─────────────────────────────────────────────────────────────┤
-│  처리 유닛 A: 데이터 쓰기 → 그리드에 분산 복제             │
-│                                                             │
-│  처리 유닛 B: 그리드에서 읽기 (A가 쓴 데이터 즉시 가시)    │
-│                                                             │
-│  PU 장애 시: 그리드가 복제본으로 자동 복구                  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       데이터 그리드 복제 전략                                |
++-------------------------------------------------------------+
+|  처리 유닛 A: 데이터 쓰기 -> 그리드에 분산 복제             |
+|                                                             |
+|  처리 유닛 B: 그리드에서 읽기 (A가 쓴 데이터 즉시 가시)    |
+|                                                             |
+|  PU 장애 시: 그리드가 복제본으로 자동 복구                  |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 구글 독스([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 그리드에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 읽고 쓴다.
@@ -118,7 +118,7 @@ SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [데�
 
 ### 📌 관련 개념 맵
 
-[DB 병목 문제] → [공간 기반 아키텍처([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))] → [인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그리드] → [선형 수평 확장] → [클라우드 네이티브 인메모리]
+[DB 병목 문제] -> [공간 기반 아키텍처([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))] -> [인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그리드] -> [선형 수평 확장] -> [클라우드 네이티브 인메모리]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -129,7 +129,7 @@ SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [데�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[DB 확장 병목] → [Tuple Space 개념] → [In-Memory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid] → [Hazelcast·Ignite] → [클라우드 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 그리드]
+[DB 확장 병목] -> [Tuple Space 개념] -> [In-Memory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid] -> [Hazelcast·Ignite] -> [클라우드 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 그리드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [데�
 
 **진행 상황**: 193 / 530
 
-← **이전**: [136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/136_microkernel_plugin_architecture/)
-**다음**: [138. 아키텍처 리팩터링 (Architectural Refactoring)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/138_architectural_refactoring/) →
+<- **이전**: [136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/136_microkernel_plugin_architecture/)
+**다음**: [138. 아키텍처 리팩터링 (Architectural Refactoring)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/138_architectural_refactoring/) ->
 
 ---

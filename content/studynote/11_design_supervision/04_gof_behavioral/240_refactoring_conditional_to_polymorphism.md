@@ -48,9 +48,9 @@ double getDeliveryDays(String orderType) {
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 매번 직원 유형(정규직/알바/계약직)을 물어보고 처우를 결정하는 것보다, 각 유형이 자신의 처우 계산법을 직접 알고 있는 게 훨씬 효율적이다.
@@ -60,42 +60,42 @@ double getDeliveryDays(String orderType) {
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
 [리팩토링 전: 조건문 분기]
-┌──────────────────────────────────────────────────────────┐
-│  OrderService                                            │
-│                                                          │
-│  getShippingCost(type)                                   │
-│    if EXPRESS  → 10%                                     │
-│    if STANDARD → 5%          ← 새 타입 추가 시           │
-│    if ECONOMY  → 2%            여기를 수정해야 함 (OCP 위반)│
-│                                                          │
-│  getDeliveryDays(type)                                   │
-│    if EXPRESS  → 1일         ← 여기도 수정해야 함!        │
-│    if STANDARD → 3일                                     │
-│    if ECONOMY  → 7일                                     │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  OrderService                                            |
+|                                                          |
+|  getShippingCost(type)                                   |
+|    if EXPRESS  -> 10%                                     |
+|    if STANDARD -> 5%          <- 새 타입 추가 시           |
+|    if ECONOMY  -> 2%            여기를 수정해야 함 (OCP 위반)|
+|                                                          |
+|  getDeliveryDays(type)                                   |
+|    if EXPRESS  -> 1일         <- 여기도 수정해야 함!        |
+|    if STANDARD -> 3일                                     |
+|    if ECONOMY  -> 7일                                     |
++----------------------------------------------------------+
 
 [리팩토링 후: 다형성 기반]
-┌────────────────────────────────────────────────────────────┐
-│  <<interface>> ShippingStrategy                            │
-│  + getShippingCost(): double                               │
-│  + getDeliveryDays(): int                                  │
-└───────────────────────┬────────────────────────────────────┘
-                        │ implements
-          ┌─────────────┼──────────────────┐
-          ▼             ▼                  ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
-│  Express     │ │  Standard    │ │  Economy         │
-│  Shipping    │ │  Shipping    │ │  Shipping        │
-│  cost: 10%   │ │  cost: 5%    │ │  cost: 2%        │
-│  days: 1     │ │  days: 3     │ │  days: 7         │
-└──────────────┘ └──────────────┘ └──────────────────┘
-                                          ▲
-                                          │ 새 타입 추가 시
-                               ┌──────────────────────┐
-                               │  SameDay Shipping    │ ← 클래스만 추가!
-                               │  cost: 20%           │   기존 코드 수정 없음
-                               │  days: 0             │
-                               └──────────────────────┘
++------------------------------------------------------------+
+|  <<interface>> ShippingStrategy                            |
+|  + getShippingCost(): double                               |
+|  + getDeliveryDays(): int                                  |
++-----------------------+------------------------------------+
+                        | implements
+          +-------------+------------------+
+          v             v                  v
++--------------+ +--------------+ +------------------+
+|  Express     | |  Standard    | |  Economy         |
+|  Shipping    | |  Shipping    | |  Shipping        |
+|  cost: 10%   | |  cost: 5%    | |  cost: 2%        |
+|  days: 1     | |  days: 3     | |  days: 7         |
++--------------+ +--------------+ +------------------+
+                                          ^
+                                          | 새 타입 추가 시
+                               +----------------------+
+                               |  SameDay Shipping    | <- 클래스만 추가!
+                               |  cost: 20%           |   기존 코드 수정 없음
+                               |  days: 0             |
+                               +----------------------+
 ```
 
 ```java
@@ -149,10 +149,10 @@ public class Order {
 
 ```
 Before (OCP 위반):
-  신규 타입 추가 → 기존 switch 문 수정 → 기존 코드 변경 → 회귀 버그 위험
+  신규 타입 추가 -> 기존 switch 문 수정 -> 기존 코드 변경 -> 회귀 버그 위험
 
 After (OCP 준수):
-  신규 타입 추가 → 새 클래스 추가 → 기존 코드 무변경 → 안전
+  신규 타입 추가 -> 새 클래스 추가 -> 기존 코드 무변경 -> 안전
 ```
 
 - **📢 섹션 요약 비유**: 조건문은 새 메뉴를 추가할 때마다 주방 레이아웃을 바꾸는 것이고, 다형성은 새 요리사를 고용하는 것이다. 주방은 그대로, 메뉴만 늘어난다.
@@ -180,7 +180,7 @@ After (OCP 준수):
   ❌ 분기가 2개이고 확장 가능성 없음
 ```
 
-"[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 목적은 무엇인가?" — 답은 **"동작 변경 없이 코드 구조를 개선하여 미래 변경 비용을 낮추는 것"** 이다. 조건문→다형성 전환은 그 대표 사례로, [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙 중 OCP와 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/): [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)) 를 동시에 실현한다.
+"[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 목적은 무엇인가?" — 답은 **"동작 변경 없이 코드 구조를 개선하여 미래 변경 비용을 낮추는 것"** 이다. 조건문->다형성 전환은 그 대표 사례로, [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙 중 OCP와 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/): [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)) 를 동시에 실현한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -228,7 +228,7 @@ GoF (Gang of Four) 패턴과의 연결:
 | 하위 개념 | Polymorphism (다형성) | 동일 인터페이스로 다양한 구현 교체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-조건문 냄새 → 조건문을 다형성으로 전환 → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)/[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 분기 제거
+조건문 냄새 -> 조건문을 다형성으로 전환 -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)/[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 분기 제거
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. "강아지면 짖고, 고양이면 야옹하고, 새면 짹짹해"라고 매번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 동물에게 직접 "소리내봐!"라고 시키는 거야.
@@ -241,7 +241,7 @@ GoF (Gang of Four) 패턴과의 연결:
 
 **진행 상황**: 301 / 530
 
-← **이전**: [239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/)
-**다음**: [241. 메서드 분리 리팩토링 (Extract Method Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/) →
+<- **이전**: [239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/)
+**다음**: [241. 메서드 분리 리팩토링 (Extract Method Refactoring)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/) ->
 
 ---

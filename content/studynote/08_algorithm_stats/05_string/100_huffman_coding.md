@@ -24,7 +24,7 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 ### 섀넌 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 허프만의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
-엔트로피 H(S) = -Σ p_i × log₂(p_i)  ← 이론적 최소 평균 코드 길이
+엔트로피 H(S) = -Σ p_i × log₂(p_i)  <- 이론적 최소 평균 코드 길이
 
 허프만 코드의 평균 길이 L:
   H(S) ≤ L < H(S) + 1
@@ -32,7 +32,7 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 즉, 허프만은 엔트로피 하한에 1비트 이내로 근접하는 최적 코드
 ```
 
-📢 **섹션 요약 비유**: 허프만 코딩은 모스 부호의 과학적 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)—자주 쓰는 'E'는 짧은 "·", 드물게 쓰는 'Q'는 긴 "──·──"처럼 빈도에 따라 코드 길이를 최적화한다.
+📢 **섹션 요약 비유**: 허프만 코딩은 모스 부호의 과학적 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)—자주 쓰는 'E'는 짧은 "·", 드물게 쓰는 'Q'는 긴 "--·--"처럼 빈도에 따라 코드 길이를 최적화한다.
 
 ---
 
@@ -47,16 +47,16 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
   [C:1, B:2, D:3, E:4, A:5]
 
 단계 2: 두 개 최소 노드 병합 반복
-  [C:1] + [B:2] → [CB:3]
+  [C:1] + [B:2] -> [CB:3]
   큐: [CB:3, D:3, E:4, A:5]
 
-  [CB:3] + [D:3] → [CBD:6]
+  [CB:3] + [D:3] -> [CBD:6]
   큐: [E:4, A:5, CBD:6]
 
-  [E:4] + [A:5] → [EA:9]
+  [E:4] + [A:5] -> [EA:9]
   큐: [CBD:6, EA:9]
 
-  [CBD:6] + [EA:9] → [root:15]
+  [CBD:6] + [EA:9] -> [root:15]
 
 단계 3: 허프만 트리 완성
         [root:15]
@@ -81,16 +81,16 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 허프만 코드:  A=11, B=001, C=000, D=01, E=10
 
 디코딩 "001011":
-  0 → 진행
-  00 → 진행
-  001 → B (완성!)
-  0 → 진행
-  01 → D (완성!)
-  1 → 진행
-  11 → A (완성!)
+  0 -> 진행
+  00 -> 진행
+  001 -> B (완성!)
+  0 -> 진행
+  01 -> D (완성!)
+  1 -> 진행
+  11 -> A (완성!)
   결과: B D A
 
-구분자(공백) 없이도 유일 복호화 가능 ← 프리픽스 코드의 핵심
+구분자(공백) 없이도 유일 복호화 가능 <- 프리픽스 코드의 핵심
 ```
 
 ### 정적 vs 적응형 허프만 코딩
@@ -142,11 +142,11 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 ### 기술사 판단 기준
 
 ```
-단순 반복 데이터                       →  RLE 우선
-빈도 불균일 데이터 (텍스트)            →  허프만 코딩
-반복 패턴 + 빈도 불균일 (일반 파일)   →  DEFLATE = LZ77 + 허프만
-극고압축 텍스트                        →  bzip2 (BWT + 허프만)
-실시간 스트리밍 압축                   →  적응형 허프만 또는 Zstandard
+단순 반복 데이터                       ->  RLE 우선
+빈도 불균일 데이터 (텍스트)            ->  허프만 코딩
+반복 패턴 + 빈도 불균일 (일반 파일)   ->  DEFLATE = LZ77 + 허프만
+극고압축 텍스트                        ->  bzip2 (BWT + 허프만)
+실시간 스트리밍 압축                   ->  적응형 허프만 또는 Zstandard
 ```
 
 📢 **섹션 요약 비유**: 허프만 코딩만으로는 반복 패턴을 못 잡지만, LZ77이 반복을 없애고 허프만이 남은 기호를 최적 코드로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 ZIP이 탄생한다.
@@ -176,20 +176,20 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 
 ```text
 [데이터 표현 (Data Representation)]
-    │
-    ▼
+    |
+    v
 [가변 길이 코드 (Variable-Length Code)]
-    │
-    ▼
+    |
+    v
 [허프만 코딩 (Huffman Coding)]
-    │
-    ▼
+    |
+    v
 [엔트로피 압축 (Entropy Compression)]
-    │
-    ▼
+    |
+    v
 [산술 코딩 (Arithmetic Coding)]
-    │
-    ▼
+    |
+    v
 [LZ77/DEFLATE 압축 (Lempel-Ziv Compression)]
 ```
 
@@ -209,7 +209,7 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 
 **진행 상황**: 100 / 175
 
-← **이전**: [6. 런-길이 인코딩 (RLE, Run-Length Encoding) — 연속 반복 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)
-**다음**: [8. LZ77 / LZ78 / LZW — 사전 기반 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/101_lz77_lz78_lzw/) →
+<- **이전**: [6. 런-길이 인코딩 (RLE, Run-Length Encoding) — 연속 반복 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)
+**다음**: [8. LZ77 / LZ78 / LZW — 사전 기반 압축](/knowledge-base/studynote/08_algorithm_stats/05_string/101_lz77_lz78_lzw/) ->
 
 ---

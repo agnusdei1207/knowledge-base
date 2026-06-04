@@ -26,12 +26,12 @@ tags = ["studynote-ai"]
 MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))의 흐름과 인과관계를 인간의 수능 비문학 독해(국어 영역) 수준으로 이해하게 만드는 인지 능력의 퀀텀 점프였다. 이 모델들의 지능을 채점하기 위해 스탠퍼드 대학이 위키백과를 긁어 만든 <strong>SQuAD (Stanford Question Answering Dataset)</strong>라는 수능 모의고사 벤치마크가 등장했고, 인간의 평균 독해 점수(82점)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 90점으로 짓밟아버리며 자연어 처리의 황금기를 열어젖혔다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 검색 엔진이 도서관 사서다. "공룡 멸종 이유 찾아주세요" 하면 관련 책 10권을 내 책상에 쿵 하고 던져주고 사라진다(책 읽기는 내 몫). MRC [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 책을 다 읽은 초천재 비서다. 책 10권을 1초 만에 스캔하더니 책 3권 15페이지 딱 한 줄에 형광펜을 쫙 그어 내밀며 "소행성 충돌 때문입니다"라고 정답의 알맹이만 입에 떠먹여 주는 기적의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
@@ -43,24 +43,24 @@ MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](
 순수 MRC 딥러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 심장부에는 텍스트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generation)하는 게 아니라, 텍스트의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)표를 찢어서 찾아내는 **Extractive (추출형)** 아키텍처가 박혀 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           기계 독해 (MRC)의 정답 밑줄 긋기 (Span Extraction) 수학적 뇌 구조 │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 융합 입력 (Input Formulation)]                            │
-│   * (질문 Question): "이순신이 태어난 해는?"                       │
-│   * (본문 Context) : "조선의 명장 이순신은 한양에서 1545년에 태어났다." │
-│   * 트랜스포머 뇌에 주입: [CLS] 이순신이 태어난 해는? [SEP] 조선의 명장... │
-│                                                              │
-│  [2. 딥러닝 뇌(BERT)의 문맥 파악 연산 (Self-Attention)]            │
-│   * '태어난'이라는 단어 텐서와 '1545년'이라는 단어 텐서가 3차원 우주 공간에서 │
-│     서로 강력하게 달라붙으며(Attention) 강한 문맥적 교집합을 형성함!      │
-│                                                              │
-│  [3. 정답 색출 (Start/End Pointer Network) - 핵심 마법!]         │
-│   * 모델은 말을 지어내지 않음. 오직 본문의 모든 단어 위에 2개의 확률 화살표를 던짐.│
-│   * 화살표 1 (Start): "정답의 시작 단어일 확률은?" ─▶ '1545년' 단어에 99% 확신!│
-│   * 화살표 2 (End): "정답이 끝나는 단어일 확률은?" ─▶ '1545년에' 단어에 99% 확신!│
-│   * 결과 렌더링: 본문에서 딱 [1545년] 부분만 가위로 싹둑 잘라서 유저에게 뱉어냄!│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           기계 독해 (MRC)의 정답 밑줄 긋기 (Span Extraction) 수학적 뇌 구조 |
++--------------------------------------------------------------+
+|  [1. 융합 입력 (Input Formulation)]                            |
+|   * (질문 Question): "이순신이 태어난 해는?"                       |
+|   * (본문 Context) : "조선의 명장 이순신은 한양에서 1545년에 태어났다." |
+|   * 트랜스포머 뇌에 주입: [CLS] 이순신이 태어난 해는? [SEP] 조선의 명장... |
+|                                                              |
+|  [2. 딥러닝 뇌(BERT)의 문맥 파악 연산 (Self-Attention)]            |
+|   * '태어난'이라는 단어 텐서와 '1545년'이라는 단어 텐서가 3차원 우주 공간에서 |
+|     서로 강력하게 달라붙으며(Attention) 강한 문맥적 교집합을 형성함!      |
+|                                                              |
+|  [3. 정답 색출 (Start/End Pointer Network) - 핵심 마법!]         |
+|   * 모델은 말을 지어내지 않음. 오직 본문의 모든 단어 위에 2개의 확률 화살표를 던짐.|
+|   * 화살표 1 (Start): "정답의 시작 단어일 확률은?" --> '1545년' 단어에 99% 확신!|
+|   * 화살표 2 (End): "정답이 끝나는 단어일 확률은?" --> '1545년에' 단어에 99% 확신!|
+|   * 결과 렌더링: 본문에서 딱 [1545년] 부분만 가위로 싹둑 잘라서 유저에게 뱉어냄!|
++--------------------------------------------------------------+
 ```
 
 **핵심 원리 (추출형 포인터 네트워크)**:
@@ -135,7 +135,7 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문서·임베딩 준비] → [기계 독해 (MRC, Machine Reading Comprehension)] → [관측성·평가·거버넌스 확장]
+[문서·임베딩 준비] -> [기계 독해 (MRC, Machine Reading Comprehension)] -> [관측성·평가·거버넌스 확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 
 **진행 상황**: 208 / 420
 
-← **이전**: [207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)](/knowledge-base/studynote/10_ai/03_llm_nlp/207_audio_mel_spectrogram/)
-**다음**: [209. 감성 분석 (Sentiment Analysis)](/knowledge-base/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/) →
+<- **이전**: [207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)](/knowledge-base/studynote/10_ai/03_llm_nlp/207_audio_mel_spectrogram/)
+**다음**: [209. 감성 분석 (Sentiment Analysis)](/knowledge-base/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/) ->
 
 ---

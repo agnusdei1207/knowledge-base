@@ -31,27 +31,27 @@ tags = ["studynote-operating-system"]
 사용자 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 생명은 '단절'과 '유저 공간 내 자체 해결'에 있다. [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) (N:1) 매핑 모델을 근간으로 작동한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           사용자 수준 스레드 (ULT) 아키텍처 도해             │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 영역 (User Space)]                                   │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ ┌─────┐  ┌─────┐  ┌─────┐                              │  │
-│  │ │ ULT1│  │ ULT2│  │ ULT3│ ◀ 유저 TCB에 상태 백업     │  │
-│  │ └──┬──┘  └──┬──┘  └──┬──┘                              │  │
-│  │    └────────┼────────┘                                 │  │
-│  │             ▼                                          │  │
-│  │ [사용자 수준 스레드 라이브러리 (스케줄러)]             │  │
-│  └─────────────┬──────────────────────────────────────────┘  │
-│ ───────────────┼──────── Mode Boundary ───────────────────   │
-│                ▼                                             │
-│ [커널 영역 (Kernel Space)]                                   │
-│  ┌─────────────┴──────────────────────────────────────────┐  │
-│  │     [ 커널 스레드 1개 (KLT) ] ◀ 단 1개의 흐름만 인식  │  │
-│  │             │                                          │  │
-│  │        [ CPU 코어 ]                                    │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           사용자 수준 스레드 (ULT) 아키텍처 도해             |
++--------------------------------------------------------------+
+| [사용자 영역 (User Space)]                                   |
+|  +--------------------------------------------------------+  |
+|  | +-----+  +-----+  +-----+                              |  |
+|  | | ULT1|  | ULT2|  | ULT3| <- 유저 TCB에 상태 백업     |  |
+|  | +--+--+  +--+--+  +--+--+                              |  |
+|  |    +--------+--------+                                 |  |
+|  |             v                                          |  |
+|  | [사용자 수준 스레드 라이브러리 (스케줄러)]             |  |
+|  +-------------+------------------------------------------+  |
+| ---------------+-------- Mode Boundary -------------------   |
+|                v                                             |
+| [커널 영역 (Kernel Space)]                                   |
+|  +-------------+------------------------------------------+  |
+|  |     [ 커널 스레드 1개 (KLT) ] <- 단 1개의 흐름만 인식  |  |
+|  |             |                                          |  |
+|  |        [ CPU 코어 ]                                    |  |
+|  +--------------------------------------------------------+  |
++--------------------------------------------------------------+
 ```
 
 위 다이어그램처럼, 사용자 영역의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 유저 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 관리하며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교체한다. [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 시, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 인터럽트가 아니라 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 `yield()` [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 통해 현재 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 메모리에 `push`하고 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 값을 `pop`하여 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 주소만 점프한다. 이 과정은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환(Mode [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 없이 순수한 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 조작 수준으로 이루어지므로, 마이크로초 단위의 극단적인 속도를 자랑한다.
@@ -114,17 +114,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 프로세스 기반 다중 작업 (단일 흐름)
-    │
-    ▼
+    |
+    v
 사용자 수준 스레드 (ULT, N:1 모델) · POSIX 초기
-    │
-    ▼
+    |
+    v
 블로킹 한계 직면 및 KLT(1:1 모델) 발전
-    │
-    ▼
+    |
+    v
 Non-blocking I/O · Jacketing 기법 도입
-    │
-    ▼
+    |
+    v
 현대 M:N 하이브리드 스레딩 (Goroutine, Virtual Thread)
 ```
 
@@ -140,7 +140,7 @@ Non-blocking I/O · Jacketing 기법 도입
 
 **진행 상황**: 96 / 800
 
-← **이전**: [95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)
-**다음**: [97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리](/knowledge-base/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/) →
+<- **이전**: [95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)
+**다음**: [97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리](/knowledge-base/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/) ->
 
 ---

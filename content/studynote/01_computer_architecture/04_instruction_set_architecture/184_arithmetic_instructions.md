@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))에서 처리된 뒤, 조건 코드까지 갱신해 분기와 저장으로 이어지는 흐름을 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Arithmetic instruction in program flow                            │
-├───────────────────────────────────────────────────────────────────┤
-│ Load operands ─▶ Integer ALU ─▶ Result writeback                 │
-│                         │                                         │
-│                         └─▶ Flags(Z/N/C/V) ─▶ Branch / compare    │
-│                                                                   │
-│ Example: sum += a[i]                                              │
-│          index = index + 1                                        │
-│          remain = remain - 1                                      │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Arithmetic instruction in program flow                            |
++-------------------------------------------------------------------+
+| Load operands --> Integer ALU --> Result writeback                 |
+|                         |                                         |
+|                         +--> Flags(Z/N/C/V) --> Branch / compare    |
+|                                                                   |
+| Example: sum += a[i]                                              |
+|          index = index + 1                                        |
+|          remain = remain - 1                                      |
++-------------------------------------------------------------------+
 ```
 
 이 흐름의 핵심은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 결과값 하나만 만드는 것이 아니라, 다음 명령의 행동 기준까지 만든다는 점이다. 그래서 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서 산술 연산은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 주소 계산, 조건 분기의 공통 분모로 취급된다.
@@ -60,20 +60,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 어떤 실행 유닛을 거쳐 결과와 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 만드는지 압축해서 보여 준다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Integer arithmetic datapath                                       │
-├───────────────────────────────────────────────────────────────────┤
-│ Register A ─┐                                                     │
-│             ├─▶ Adder/Subtractor ───────▶ Result Register         │
-│ Register B ─┘                    │                                │
-│ Immediate ───────────────────────┘                                │
-│                                  ├─▶ C : Carry / borrow info      │
-│                                  ├─▶ V : Signed overflow          │
-│                                  ├─▶ Z : Zero result             │
-│                                  └─▶ N : Negative(sign) result    │
-│                                                                   │
-│ Multiplier / Divider are usually separate, slower execution units │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+| Integer arithmetic datapath                                       |
++-------------------------------------------------------------------+
+| Register A -+                                                     |
+|             +--> Adder/Subtractor --------> Result Register         |
+| Register B -+                    |                                |
+| Immediate -----------------------+                                |
+|                                  +--> C : Carry / borrow info      |
+|                                  +--> V : Signed overflow          |
+|                                  +--> Z : Zero result             |
+|                                  +--> N : Negative(sign) result    |
+|                                                                   |
+| Multiplier / Divider are usually separate, slower execution units |
++-------------------------------------------------------------------+
 ```
 
 여기서 특히 중요한 것은 <strong>Carry Flag와 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a> Flag가 다르다</strong>는 점이다. Carry Flag는 unsigned 연산에서 자리올림·자리내림을 뜻하고, [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) Flag는 signed 연산에서 표현 범위를 벗어났음을 뜻한다. 예를 들어 8비트 signed 정수에서 `127 + 1`은 결과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴상 `10000000`이 되므로 Carry보다 [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해석이 핵심이 된다.
@@ -156,17 +156,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Binary number representation
-        │
-        ▼
+        |
+        v
 Adder / Two's Complement
-        │
-        ▼
+        |
+        v
 ADD · SUB · INC · DEC
-        │
-        ├──────────────▶ MUL · DIV specialization
-        ├──────────────▶ Flags and conditional branch
-        ├──────────────▶ Load/Store + address arithmetic
-        └──────────────▶ SIMD · FPU · checked arithmetic
+        |
+        +---------------> MUL · DIV specialization
+        +---------------> Flags and conditional branch
+        +---------------> Load/Store + address arithmetic
+        +---------------> SIMD · FPU · checked arithmetic
 ```
 
 이 흐름도는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 단순 덧셈 회로에서 출발해, 곱셈·나눗셈 전용 유닛과 조건 분기, 벡터화, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 관리까지 확장되는 과정을 보여 준다.
@@ -183,7 +183,7 @@ ADD · SUB · INC · DEC
 
 **진행 상황**: 184 / 803
 
-← **이전**: [183. 데이터 전송 명령어 (Data Transfer Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/183_data_transfer_instructions/)
-**다음**: [185. 논리 연산 명령어 (Logical Operation Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/185_logical_operations/) →
+<- **이전**: [183. 데이터 전송 명령어 (Data Transfer Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/183_data_transfer_instructions/)
+**다음**: [185. 논리 연산 명령어 (Logical Operation Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/185_logical_operations/) ->
 
 ---

@@ -29,12 +29,12 @@ tags = ["studynote-ai"]
 5. 1~4 반복
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 비밀 레시피 공유 없는 요리 대회다. 100명의 요리사가 각자 집에서 자신만의 비밀 재료(개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 요리를 연습하고, "레시피 발전 방향([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"만 주최사에 보낸다. 주최사가 모든 방향을 평균내서 "다음 연습 방향"을 다시 배포한다. 어떤 요리사도 다른 요리사의 비밀 재료를 알 수 없지만, 전체적으로 요리 수준이 높아진다.
@@ -44,29 +44,29 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         연합 학습 (Federated Learning) FedAvg 알고리즘 구조          │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │            중앙 집계 서버 (Aggregation Server)            │   │
-│  │            전역 모델 W_global 관리                         │   │
-│  └──────┬────────────────────┬──────────────────────────────┘   │
-│         │ 전역 모델 배포       │ 가중치 업데이트 수신             │
-│    ┌────▼────┐           ┌────▼────┐           ┌────▼────┐      │
-│    │ 병원 A  │           │ 병원 B  │    ...     │ 기업 N  │      │
-│    │ 로컬학습│           │ 로컬학습│           │ 로컬학습│      │
-│    │ ΔW_A   │           │ ΔW_B   │           │ ΔW_N   │      │
-│    └─────────┘           └─────────┘           └─────────┘      │
-│                                                                  │
-│  FedAvg 집계:                                                     │
-│  W_global ← Σᵢ (nᵢ/n) × W_local_i  (데이터 수 가중 평균)         │
-│                                                                  │
-│  Non-IID 문제:                                                    │
-│  병원 A (폐암 케이스 많음) ≠ 병원 B (심장 질환 케이스 많음)           │
-│  → 국소 학습이 전역 모델에서 멀어져 집계 후 성능 저하 (Drift)          │
-│  → FedProx: 국소 손실에 정규화 추가하여 전역 모델 근방에 고정          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         연합 학습 (Federated Learning) FedAvg 알고리즘 구조          |
++------------------------------------------------------------------+
+|                                                                  |
+|  +----------------------------------------------------------+   |
+|  |            중앙 집계 서버 (Aggregation Server)            |   |
+|  |            전역 모델 W_global 관리                         |   |
+|  +------+--------------------+------------------------------+   |
+|         | 전역 모델 배포       | 가중치 업데이트 수신             |
+|    +----v----+           +----v----+           +----v----+      |
+|    | 병원 A  |           | 병원 B  |    ...     | 기업 N  |      |
+|    | 로컬학습|           | 로컬학습|           | 로컬학습|      |
+|    | ΔW_A   |           | ΔW_B   |           | ΔW_N   |      |
+|    +---------+           +---------+           +---------+      |
+|                                                                  |
+|  FedAvg 집계:                                                     |
+|  W_global <- Σᵢ (nᵢ/n) × W_local_i  (데이터 수 가중 평균)         |
+|                                                                  |
+|  Non-IID 문제:                                                    |
+|  병원 A (폐암 케이스 많음) ≠ 병원 B (심장 질환 케이스 많음)           |
+|  -> 국소 학습이 전역 모델에서 멀어져 집계 후 성능 저하 (Drift)          |
+|  -> FedProx: 국소 손실에 정규화 추가하여 전역 모델 근방에 고정          |
++------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 |
@@ -84,7 +84,7 @@ tags = ["studynote-ai"]
 
 <strong>프라이버시 강화 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>:
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>: 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버로 전송하지 않음
-2. <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (DP)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트에 노이즈 추가 → 역추론([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/)) 공격 방지
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (DP)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트에 노이즈 추가 -> 역추론([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/)) 공격 방지
 3. **안전한 다자 계산 (SMC)**: 서버가 개별 클라이언트 업데이트를 보지 못하게 암호화 집계
 4. <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a> (HE)</strong>: 암호화 상태에서 모델 집계 수행
 
@@ -108,8 +108,8 @@ tags = ["studynote-ai"]
 - **의료 분야**: NVIDIA FLARE 플랫폼으로 여러 병원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 한계</strong>:
-- 통신 비용: 다수 라운드의 모델 업데이트 전송 → 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담
-- 계산 비용: 클라이언트 측 학습 연산 필요 → 배터리 소모
+- 통신 비용: 다수 라운드의 모델 업데이트 전송 -> 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담
+- 계산 비용: 클라이언트 측 학습 연산 필요 -> 배터리 소모
 - 무임승차(Free Rider): 학습에 기여하지 않고 전역 모델만 사용하는 악의적 클라이언트
 - [데이터 포이즈닝](/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/) 공격: 악의적 클라이언트가 모델을 오염시키는 업데이트 전송
 
@@ -138,7 +138,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 수집·평가] → [연합 학습 (Federated Learning)] → [감사·규제 대응·지속 개선]
+[데이터 수집·평가] -> [연합 학습 (Federated Learning)] -> [감사·규제 대응·지속 개선]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 328 / 420
 
-← **이전**: [327. SHAP (SHapley Additive exPlanations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)
-**다음**: [329. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/) →
+<- **이전**: [327. SHAP (SHapley Additive exPlanations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)
+**다음**: [329. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/) ->
 
 ---

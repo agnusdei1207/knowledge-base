@@ -120,7 +120,7 @@ B+트리 높이 계산 (실제 데이터베이스):
   높이 = log2(10^8) = 27 (27번 I/O!)
 ```
 
-> 📢 **섹션 요약 비유**: B+트리는 도서관 서가를 3단계(관→층→칸)로 나눈 것 — 2억 권 중 3번만 찾으면 원하는 책에 도달.
+> 📢 **섹션 요약 비유**: B+트리는 도서관 서가를 3단계(관->층->칸)로 나눈 것 — 2억 권 중 3번만 찾으면 원하는 책에 도달.
 
 ---
 
@@ -199,7 +199,7 @@ Cassandra, RocksDB, LevelDB
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. B+트리는 도서관 서가처럼 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)→중간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)→실제 책 순서로 3단계로 나눠 빠르게 찾는 구조예요.
+1. B+트리는 도서관 서가처럼 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)->중간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)->실제 책 순서로 3단계로 나눠 빠르게 찾는 구조예요.
 2. 실제 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 맨 아래 단에만 있고, 연속된 칸들이 연결되어 있어 "20세~30세" 같은 범위 검색도 빠르답니다.
 3. MySQL이 수억 개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 3번만에 원하는 행을 찾을 수 있는 비결이 바로 이 B+트리예요!
 
@@ -209,7 +209,7 @@ Cassandra, RocksDB, LevelDB
 
 **진행 상황**: 37 / 600
 
-← **이전**: [036. B-트리 (B-Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/036_b_tree/)
-**다음**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) →
+<- **이전**: [036. B-트리 (B-Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/036_b_tree/)
+**다음**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) ->
 
 ---

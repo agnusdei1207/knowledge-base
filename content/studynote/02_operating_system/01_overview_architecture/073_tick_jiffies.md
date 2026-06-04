@@ -31,7 +31,7 @@ Tick과 jiffies는 그 기준을 제공한다.
 
 ```text
 Timer Tick
-  ↓
+  v
 Jiffies++
 ```
 
@@ -102,9 +102,9 @@ Tick과 jiffies를 이해하면 [커널](/knowledge-base/studynote/02_operating_
 
 ```text
 Timer Tick
-  ↓
+  v
 Jiffies
-  ↓
+  v
 Kernel Timekeeping
 ```
 
@@ -114,9 +114,9 @@ Kernel Timekeeping
 
 ```text
 Tick
-  ↓
+  v
 Jiffies
-  ↓
+  v
 Timekeeping
 ```
 
@@ -134,7 +134,7 @@ Timekeeping
 
 **진행 상황**: 73 / 800
 
-← **이전**: [72. 타이머 인터럽트 - 선점형 스케줄링의 기반](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/)
-**다음**: [74. 틱리스 커널 (Tickless Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/) →
+<- **이전**: [72. 타이머 인터럽트 - 선점형 스케줄링의 기반](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/)
+**다음**: [74. 틱리스 커널 (Tickless Kernel)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/) ->
 
 ---

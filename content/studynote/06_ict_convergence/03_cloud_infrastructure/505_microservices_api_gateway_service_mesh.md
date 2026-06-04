@@ -35,20 +35,20 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 통신 계층 구조</strong>:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│            외부 클라이언트 (모바일/웹/IoT)                    │
-└───────────────────────┬─────────────────────────────────────┘
-                        ↓
-┌───────────────────────────────────────────────────────────┐
-│          API Gateway (Kong / AWS API GW / Nginx)          │
-│  인증/인가 │ 라우팅 │ Rate Limiting │ LB │ 로깅            │
-└──────┬─────────────┬────────────────┬──────────────────────┘
-       ↓             ↓                ↓
-┌──────────┐  ┌──────────┐   ┌──────────────┐
-│ 주문 서비스│  │ 재고 서비스│   │ 결제 서비스   │
-│ +Sidecar │  │ +Sidecar │   │ +Sidecar     │
-└──────────┘  └──────────┘   └──────────────┘
-  ↑ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리
++-------------------------------------------------------------+
+|            외부 클라이언트 (모바일/웹/IoT)                    |
++-----------------------+-------------------------------------+
+                        v
++-----------------------------------------------------------+
+|          API Gateway (Kong / AWS API GW / Nginx)          |
+|  인증/인가 | 라우팅 | Rate Limiting | LB | 로깅            |
++------+-------------+----------------+----------------------+
+       v             v                v
++----------+  +----------+   +--------------+
+| 주문 서비스|  | 재고 서비스|   | 결제 서비스   |
+| +Sidecar |  | +Sidecar |   | +Sidecar     |
++----------+  +----------+   +--------------+
+  ^ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리
 ```
 
 | 기술 | 역할 | 구현 위치 | 대표 도구 |
@@ -124,7 +124,7 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Resilience4j · 장애 격리] → [마이크로서비스 · API 게이트웨이] → [Pod · 사이드카 주입]
+[Resilience4j · 장애 격리] -> [마이크로서비스 · API 게이트웨이] -> [Pod · 사이드카 주입]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -139,7 +139,7 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 **진행 상황**: 505 / 552
 
-← **이전**: [504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/504_iac_terraform_immutable_infrastructure/)
-**다음**: [506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/506_cqrs_event_sourcing_saga_pattern/) →
+<- **이전**: [504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/504_iac_terraform_immutable_infrastructure/)
+**다음**: [506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/506_cqrs_event_sourcing_saga_pattern/) ->
 
 ---

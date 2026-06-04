@@ -21,18 +21,18 @@ tags = ["studynote-ai"]
 
 Hinton et al. (2015) "Distilling the Knowledge in a Neural Network"이 제안한 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 거대한 교사 모델의 지식을 작은 학생 모델로 전이하는 기법이다. 모바일, 엣지 기기 배포를 위한 경량화의 핵심 방법이다.
 
-원-핫 레이블: [0, 0, 1, 0, ...] → 오직 정답 정보만 제공
-소프트 타겟: [0.01, 0.02, 0.85, 0.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), ...] → 클래스 간 유사도 포함
+원-핫 레이블: [0, 0, 1, 0, ...] -> 오직 정답 정보만 제공
+소프트 타겟: [0.01, 0.02, 0.85, 0.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), ...] -> 클래스 간 유사도 포함
 
 예: 고양이 사진에서 소프트 타겟이 "호랑이 0.08, 개 0.05"를 출력하면, 고양이가 개보다 호랑이에 더 가깝다는 구조적 지식을 전달한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "선생님의 노트(교사 모델)"를 복사하는 게 아니라, 선생님이 "왜 그렇게 생각했는지(소프트 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))"를 배우는 것이다.
@@ -54,35 +54,35 @@ zᵀ: 교사 로짓, zˢ: 학생 로짓
 ### 증류 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)
 
 ```
-L_KD   = T² · KL(q || p)
-       = T² · Σᵢ qᵢ · log(qᵢ / pᵢ)   (소프트 타겟 손실)
+L_KD   = T^ · KL(q || p)
+       = T^ · Σᵢ qᵢ · log(qᵢ / pᵢ)   (소프트 타겟 손실)
 
 L_CE   = CrossEntropy(y_hard, p_학생)   (하드 타겟 손실)
 
 L_total = α · L_KD + (1-α) · L_CE
 
 α ∈ [0,1]: 증류 강도 조절 (보통 0.1~0.9)
-T²: 그래디언트 스케일 보정 항
+T^: 그래디언트 스케일 보정 항
 ```
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  교사 모델 (Teacher, 대형)                                │
-│  입력 x → [거대 네트워크] → 로짓 zᵀ → 소프트 타겟 q(T) │
-│                                          ↓               │
-│  학생 모델 (Student, 소형)               KL 다이버전스    │
-│  입력 x → [작은 네트워크] → 로짓 zˢ → 소프트 예측 p(T)  │
-│                              ↓                           │
-│                         하드 타겟 CE 손실                 │
-│                              ↓                           │
-│               L_total = α·L_KD + (1-α)·L_CE             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  교사 모델 (Teacher, 대형)                                |
+|  입력 x -> [거대 네트워크] -> 로짓 zᵀ -> 소프트 타겟 q(T) |
+|                                          v               |
+|  학생 모델 (Student, 소형)               KL 다이버전스    |
+|  입력 x -> [작은 네트워크] -> 로짓 zˢ -> 소프트 예측 p(T)  |
+|                              v                           |
+|                         하드 타겟 CE 손실                 |
+|                              v                           |
+|               L_total = α·L_KD + (1-α)·L_CE             |
++----------------------------------------------------------+
 ```
 
 | 구성요소 | 역할 | 온도 T의 역할 |
 |:---|:---|:---|
-| 소프트 타겟 | 클래스 간 유사도 전달 | T↑: 더 균등, 더 풍부한 정보 |
-| [KL 다이버전스](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) | 분포 차이 측정 | T² 보정으로 그래디언트 스케일 |
+| 소프트 타겟 | 클래스 간 유사도 전달 | T^: 더 균등, 더 풍부한 정보 |
+| [KL 다이버전스](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) | 분포 차이 측정 | T^ 보정으로 그래디언트 스케일 |
 | 하드 타겟 CE | 정답 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | T=1 고정 |
 | α | 두 손실 균형 | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 튜닝 |
 
@@ -97,7 +97,7 @@ T²: 그래디언트 스케일 보정 항
 | 소프트 타겟 (Hinton) | 출력 분포 | 낮음 |
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 증류 (Feature KD) | 중간 레이어 표현 | 중간 |
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 증류 (RKD) | 샘플 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 중간 |
-| 자기 증류 (Self-KD) | 큰 모델 → 자기 자신 | 낮음 |
+| 자기 증류 (Self-KD) | 큰 모델 -> 자기 자신 | 낮음 |
 
 DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)0M)를 6레이어 학생(66M)으로 증류해 97% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 40% 속도 향상을 달성했다.
 
@@ -107,11 +107,11 @@ DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_m
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 증류</strong>: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5, LLaMA-70B → LLaMA-7B 증류 예시
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 증류</strong>: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 -> [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5, LLaMA-70B -> LLaMA-7B 증류 예시
 **온-디바이스**: MobileNet, TinyBERT 등 모바일 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 기반 증류</strong>: 교사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출로 소프트 타겟 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 학생 모델 학습
 
-기술사 포인트: [KL 다이버전스](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 수식, T² [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 이유, α [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 역할을 명확히 설명.
+기술사 포인트: [KL 다이버전스](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 수식, T^ [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 이유, α [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 역할을 명확히 설명.
 
 - **📢 섹션 요약 비유**: α·L_KD는 "교사의 철학을 배우는 부분", (1-α)·L_CE는 "시험 정답을 맞추는 연습"이다. 두 훈련의 비율을 상황에 맞게 조절한다.
 
@@ -129,7 +129,7 @@ DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_m
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 교사-학생, 경량화 / 큰 모델 → 작은 모델 |
+| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 교사-학생, 경량화 / 큰 모델 -> 작은 모델 |
 | 소프트 타겟 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포, 온도 T / 풍부한 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 | KL 다이버전스 | 분포 거리, 증류 손실 / 소프트 타겟 손실 측정 |
 | 하드 타겟 | 원-핫, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) / 정답 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실 |
@@ -139,7 +139,7 @@ DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_m
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [지식 증류 소프트 타겟 (Soft Target)] → [최적화·운영 자동화]
+[데이터 전처리] -> [지식 증류 소프트 타겟 (Soft Target)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_m
 
 **진행 상황**: 389 / 420
 
-← **이전**: [388. RAG 파이프라인 (RAG HNSW ANN)](/knowledge-base/studynote/10_ai/05_data_science_ml/388_rag_hnsw_ann/)
-**다음**: [390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/390_maml_meta_learning/) →
+<- **이전**: [388. RAG 파이프라인 (RAG HNSW ANN)](/knowledge-base/studynote/10_ai/05_data_science_ml/388_rag_hnsw_ann/)
+**다음**: [390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)](/knowledge-base/studynote/10_ai/05_data_science_ml/390_maml_meta_learning/) ->
 
 ---

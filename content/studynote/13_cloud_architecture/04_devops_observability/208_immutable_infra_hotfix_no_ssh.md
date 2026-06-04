@@ -11,9 +11,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 원칙은 운영 중인 서버에 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속하여 변경하는 것을 금지하고, 모든 변경은 코드→빌드→배포 파이프라인을 통해서만 적용하여 Configuration Drift를 원천 차단한다.
+> 1. **본질**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 원칙은 운영 중인 서버에 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속하여 변경하는 것을 금지하고, 모든 변경은 코드->빌드->배포 파이프라인을 통해서만 적용하여 Configuration Drift를 원천 차단한다.
 > 2. **가치**: 모든 서버가 Git 코드와 동일한 상태임을 보장하면, 인프라 상태를 언제든지 재현할 수 있고 "이 서버만 특이하게 동작하는" 스노우플레이크([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) 서버 문제가 사라진다.
-> 3. **판단 포인트**: 긴급 핫픽스 압박 상황에서 불변 원칙을 지키려면 "코드 수정→빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD→배포"가 30분 이내에 완료되는 파이프라인 속도가 뒷받침되어야 한다.
+> 3. **판단 포인트**: 긴급 핫픽스 압박 상황에서 불변 원칙을 지키려면 "코드 수정->빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD->배포"가 30분 이내에 완료되는 파이프라인 속도가 뒷받침되어야 한다.
 
 ---
 
@@ -36,16 +36,16 @@ tags = ["studynote-cloud-architecture"]
 ```
 [뮤터블 인프라 - 전통 방식]
   서버 A: 초기 설정 v1
-    → SSH 접속: 패키지 추가
-    → SSH 접속: 설정 변경
-    → 상태: 알 수 없음 (누가 뭘 바꿨는지)
+    -> SSH 접속: 패키지 추가
+    -> SSH 접속: 설정 변경
+    -> 상태: 알 수 없음 (누가 뭘 바꿨는지)
 
 [불변 인프라 - 현대 방식]
   코드 변경 (Git)
-    → 이미지 빌드 (Docker/AMI)
-    → 이미지 테스트
-    → 새 서버 프로비저닝 (v2 이미지)
-    → 기존 서버 삭제 (v1)
+    -> 이미지 빌드 (Docker/AMI)
+    -> 이미지 테스트
+    -> 새 서버 프로비저닝 (v2 이미지)
+    -> 기존 서버 삭제 (v1)
   서버 상태 = 항상 Git 코드와 동일
 ```
 
@@ -56,15 +56,15 @@ tags = ["studynote-cloud-architecture"]
           A = B = C = v1 ✅
 
   Day 10: 긴급상황! 엔지니어가 A에 SSH 접속
-          A: SSH → 패치 적용
+          A: SSH -> 패치 적용
           B, C: 변경 없음
           A ≠ B = C ❌ (Drift 시작)
 
   Day 30: A에 또 다른 변경 적용
           A: 수동 설정 2번 적용
-          A ≠ B ≠ C ← 아무도 정확한 차이를 모름 ❌
+          A ≠ B ≠ C <- 아무도 정확한 차이를 모름 ❌
 
-  장애 발생 시: "왜 A만 이상하게 동작하지?" → 원인 불명
+  장애 발생 시: "왜 A만 이상하게 동작하지?" -> 원인 불명
 ```
 
 ### [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 구현 패턴
@@ -135,7 +135,7 @@ Kcattle, not Pets(소떼, 펫 아님):
 ```
 
 **기술사 판단 포인트**:
-- 진짜 긴급 상황에서는 "[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"이 "핫픽스"보다 항상 빠르다. 이전 이미지로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) → 근본 원인 파악 → 수정 후 재배포가 안전한 순서다.
+- 진짜 긴급 상황에서는 "[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"이 "핫픽스"보다 항상 빠르다. 이전 이미지로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) -> 근본 원인 파악 -> 수정 후 재배포가 안전한 순서다.
 - [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 감지: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) `terraform plan`이나 AWS Config로 실제 상태와 코드 상태의 차이를 주기적으로 확인한다.
 - 불변 원칙을 강제하는 조직 문화는 "SSH가 불편해야 한다"는 환경 설계로 완성된다. 편리하면 유혹이 생긴다.
 
@@ -176,15 +176,15 @@ Kcattle, not Pets(소떼, 펫 아님):
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-기존: SSH 접속 → 핫픽스 패치 (드리프트 · 추적 불가)
-    │
-    ▼
-불변 인프라: 변경 = 새 이미지 빌드 → 교체
-    ├─► No SSH: SSM Session Manager · kubectl exec
-    └─► 긴급 대응: Git 커밋 → CI/CD → 새 이미지 배포
+기존: SSH 접속 -> 핫픽스 패치 (드리프트 · 추적 불가)
+    |
+    v
+불변 인프라: 변경 = 새 이미지 빌드 -> 교체
+    +-► No SSH: SSM Session Manager · kubectl exec
+    +-► 긴급 대응: Git 커밋 -> CI/CD -> 새 이미지 배포
 ```
 2. SSH로 서버를 직접 고치는 건 레고 블록에 매직펜으로 낙서하는 것과 같아. 나중에 뭐가 원본이고 뭐가 낙서인지 모르게 돼.
-3. 모든 변경은 새 레고 블록을 만드는 것(코드 → 이미지 빌드 → 배포)으로만 해야 해.
+3. 모든 변경은 새 레고 블록을 만드는 것(코드 -> 이미지 빌드 -> 배포)으로만 해야 해.
 
 ---
 
@@ -192,7 +192,7 @@ Kcattle, not Pets(소떼, 펫 아님):
 
 **진행 상황**: 207 / 371
 
-← **이전**: [207. ChatOps (챗옵스)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)
-**다음**: [209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/209_resilience_reliability_redundancy/) →
+<- **이전**: [207. ChatOps (챗옵스)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)
+**다음**: [209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/209_resilience_reliability_redundancy/) ->
 
 ---

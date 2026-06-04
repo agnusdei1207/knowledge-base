@@ -23,7 +23,7 @@ tags = ["GEMM", "O(N^2.81)", "Strassen", "block matrix", "cache optimization", "
 
 C[i][j] = Σ_{k=0}^{N-1} A[i][k] × B[k][j]
 
-3중 루프 → O(N³)
+3중 루프 -> O(N³)
 
 ```python
 def matmul_naive(A, B):
@@ -40,8 +40,8 @@ def matmul_naive(A, B):
 
 ```
 메모리 접근 패턴:
-A[i][k]: 행 방향 접근 → 캐시 친화적 ✓
-B[k][j]: 열 방향 접근 → 캐시 미스 빈번 ✗
+A[i][k]: 행 방향 접근 -> 캐시 친화적 ✓
+B[k][j]: 열 방향 접근 -> 캐시 미스 빈번 ✗
 ```
 
 B 행렬을 전치(transpose)하면 j 방향 접근이 행 방향으로 바뀌어 캐시 효율 개선.
@@ -60,7 +60,7 @@ B 행렬을 전치(transpose)하면 j 방향 접근이 행 방향으로 바뀌�
 [C11 C12]   [A11 A12]   [B11 B12]
 [C21 C22] = [A21 A22] × [B21 B22]
 
-나이브: 8번 재귀 곱셈 → T(N) = 8T(N/2) + O(N²) → O(N³)
+나이브: 8번 재귀 곱셈 -> T(N) = 8T(N/2) + O(N^) -> O(N³)
 
 Strassen:
 M1 = (A11+A22)(B11+B22)
@@ -75,7 +75,7 @@ C11 = M1+M4-M5+M7
 C12 = M3+M5
 C21 = M2+M4
 C22 = M1-M2+M3+M6
-→ 7번 재귀 곱셈 → O(N^log₂7) ≈ O(N^2.807)
+-> 7번 재귀 곱셈 -> O(N^log₂7) ≈ O(N^2.807)
 ```
 
 ### 2.2 실용성 한계
@@ -130,12 +130,12 @@ CPU (단일 코어 순차):
 
 GPU (수천 코어 병렬):
   C[i][j] 각각을 독립 스레드로 계산
-  → 이론상 N² 병렬 처리
+  -> 이론상 N^ 병렬 처리
 ```
 
 ### 4.2 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) (NVIDIA)
 
-- FP32 연산 대비 FP16/BF16 → ~2배, INT8 → ~4배 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
+- FP32 연산 대비 FP16/BF16 -> ~2배, INT8 -> ~4배 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
 - A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/): FP16 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 312 TFLOPS
 - 딥러닝 matmul에서 Automatic Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(AMP)으로 활용
 
@@ -181,21 +181,21 @@ C = α·op(A)·op(B) + β·C
 
 ```
 행렬 곱셈 최적화
-├── 알고리즘
-│   ├── 나이브 O(N³)
-│   ├── Strassen O(N^2.807)
-│   └── 이론 한계 (O(N^2.37))
-├── 캐시 최적화
-│   ├── 전치 최적화
-│   └── 블록 행렬 곱셈
-├── 하드웨어 가속
-│   ├── SIMD (AVX-512)
-│   ├── GPU (Tensor Core)
-│   └── TPU (Google)
-└── 라이브러리
-    ├── BLAS (OpenBLAS, MKL)
-    ├── cuBLAS (NVIDIA GPU)
-    └── NumPy/PyTorch 자동 활용
++-- 알고리즘
+|   +-- 나이브 O(N³)
+|   +-- Strassen O(N^2.807)
+|   +-- 이론 한계 (O(N^2.37))
++-- 캐시 최적화
+|   +-- 전치 최적화
+|   +-- 블록 행렬 곱셈
++-- 하드웨어 가속
+|   +-- SIMD (AVX-512)
+|   +-- GPU (Tensor Core)
+|   +-- TPU (Google)
++-- 라이브러리
+    +-- BLAS (OpenBLAS, MKL)
+    +-- cuBLAS (NVIDIA GPU)
+    +-- NumPy/PyTorch 자동 활용
 ```
 
 ---
@@ -204,20 +204,20 @@ C = α·op(A)·op(B) + β·C
 
 ```
 나이브 행렬 곱셈 O(N³)
-     │  이론적 개선
-     ▼
+     |  이론적 개선
+     v
 Strassen O(N^2.807) (1969)
-     │  캐시 효율 최적화
-     ▼
+     |  캐시 효율 최적화
+     v
 블록 GEMM + BLAS (1970s~80s)
-     │  GPU 병렬화
-     ▼
+     |  GPU 병렬화
+     v
 cuBLAS / cuDNN (2007~)
-     │  딥러닝 전용 하드웨어
-     ▼
+     |  딥러닝 전용 하드웨어
+     v
 Tensor Core FP16/INT8 (2017~)
-     │  이론 한계 접근
-     ▼
+     |  이론 한계 접근
+     v
 Williams et al. O(N^2.37) (2024)
 ```
 
@@ -237,7 +237,7 @@ Williams et al. O(N^2.37) (2024)
 
 **진행 상황**: 127 / 175
 
-← **이전**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)
-**다음**: [9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근](/knowledge-base/studynote/08_algorithm_stats/07_numerical/128_newton_raphson/) →
+<- **이전**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)
+**다음**: [9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근](/knowledge-base/studynote/08_algorithm_stats/07_numerical/128_newton_raphson/) ->
 
 ---

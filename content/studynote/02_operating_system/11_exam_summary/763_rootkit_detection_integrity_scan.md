@@ -35,35 +35,35 @@ tags = ["studynote-operating-system"]
   - 1990년대 해커들이 유닉스 환경의 `login`, `ps` 같은 기본 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 바이너리 자체를 덮어쓰는 1세대 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([User-mode Rootkit](/knowledge-base/studynote/09_security/04_endpoint_security/361_user_mode_rootkit/))을 유행시켰고, 2000년대 [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 악용한 2세대 [커널 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/360_kernel_rootkit/)(Kernel-mode [Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이 판을 치자, 이에 맞서 Tripwire, AIDE 같은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 감시 도구들이 엔터프라이즈 보안의 표준으로 정착했다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 루트킷의 은닉(Cloaking) 원리와 무결성 탐지 구조       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 1. 루트킷이 관리자의 눈을 멀게 하는 원리 (System Call 후킹) ]    │
-  │                                                             │
-  │   관리자: `$ ps` (프로세스 목록 좀 보여줘)                     │
-  │        │                                                    │
-  │        ▼                                                    │
-  │   [ 😈 루트킷이 장악한 커널 테이블 (sys_call_table) ]            │
-  │   원래 `sys_getdents` 주소 대신 ──▶ [ 해커의 가짜 함수 ]로 점프!  │
-  │        │                              │ (해커의 프로세스 ID=99 삭제)│
-  │        ▼                              ▼                     │
-  │   진짜 프로세스 목록 가져옴 ──▶ (필터링 후 조작된 찌꺼기 리턴) ──▶ 관리자 騙│
-  │                                                             │
-  │  [ 2. 무결성 스캐너 (AIDE / Tripwire)의 방어 원리 ]             │
-  │                                                             │
-  │   ┌── 안전 금고 (Offline DB) ───────────────┐               │
-  │   │ 원본 `/bin/ps` 의 SHA-256 해시: a1b2... │               │
-  │   └─────────────────────────────────────────┘               │
-  │        ▲ 대조 (Match?)                                      │
-  │        │                                                    │
-  │   무결성 스캐너 (자체 엔진으로 직접 디스크 바이너리 스캔)             │
-  │        ▼ 해시 재계산                                          │
-  │   현재 `/bin/ps` 의 SHA-256 해시: x9y8... (다름! 변조됨!)        │
-  │                                                             │
-  │   ▶ 결과: 루트킷이 파일 크기와 수정 날짜(Timestamp)를 똑같이 위조해도, │
-  │           내용이 1바이트라도 바뀌면 해시값이 완전히 틀어져 무조건 적발됨! │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 루트킷의 은닉(Cloaking) 원리와 무결성 탐지 구조       |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 1. 루트킷이 관리자의 눈을 멀게 하는 원리 (System Call 후킹) ]    |
+  |                                                             |
+  |   관리자: `$ ps` (프로세스 목록 좀 보여줘)                     |
+  |        |                                                    |
+  |        v                                                    |
+  |   [ 😈 루트킷이 장악한 커널 테이블 (sys_call_table) ]            |
+  |   원래 `sys_getdents` 주소 대신 ---> [ 해커의 가짜 함수 ]로 점프!  |
+  |        |                              | (해커의 프로세스 ID=99 삭제)|
+  |        v                              v                     |
+  |   진짜 프로세스 목록 가져옴 ---> (필터링 후 조작된 찌꺼기 리턴) ---> 관리자 騙|
+  |                                                             |
+  |  [ 2. 무결성 스캐너 (AIDE / Tripwire)의 방어 원리 ]             |
+  |                                                             |
+  |   +-- 안전 금고 (Offline DB) ---------------+               |
+  |   | 원본 `/bin/ps` 의 SHA-256 해시: a1b2... |               |
+  |   +-----------------------------------------+               |
+  |        ^ 대조 (Match?)                                      |
+  |        |                                                    |
+  |   무결성 스캐너 (자체 엔진으로 직접 디스크 바이너리 스캔)             |
+  |        v 해시 재계산                                          |
+  |   현재 `/bin/ps` 의 SHA-256 해시: x9y8... (다름! 변조됨!)        |
+  |                                                             |
+  |   -> 결과: 루트킷이 파일 크기와 수정 날짜(Timestamp)를 똑같이 위조해도, |
+  |           내용이 1바이트라도 바뀌면 해시값이 완전히 틀어져 무조건 적발됨! |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 그림 상단은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)의 고전적인 수법인 '시스템 콜 후킹(Hooking)'을 보여준다. OS의 모든 정보는 결국 시스템 콜 관문(Table)을 통과해야 하므로, 이 문지기를 해커 매수로 매수해 버리면 OS 위에서 도는 모든 백신과 모니터링 도구는 조작된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(눈먼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 받게 된다. 이 은폐막을 뚫는 유일한 방법이 하단의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 스캔이다. 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 날짜와 크기를 똑같이 위조하는 '타임스톰핑(Timestomping)' 기술을 써도, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부 기계어 1비트의 변화가 발생하면 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256)의 성질(눈사태 효과)에 의해 해시값이 완전히 달라져 버린다. 수학은 절대 거짓말을 하지 않기 때문에 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)을 완벽히 색출할 수 있다.
@@ -88,30 +88,30 @@ Tripwire, OSSEC 등 [무결성](/knowledge-base/studynote/09_security/01_intro_p
 해커들도 진화하여, 디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 남기지 않고 <strong>오직 RAM (메모리) 위에만 존재하는 Fileless <a href="/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/">루트킷</a>(메모리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a>)</strong>을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다. 디스크 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 스캐너는 메모리 위의 유령을 잡을 수 없다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Direct Kernel Object Manipulation (DKOM) 탐지 원리    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 해커의 DKOM 은닉 수법 (연결 리스트 조작) ]                          │
-  │                                                                   │
-  │   OS의 프로세스 관리 리스트 (task_struct Double Linked List)          │
-  │                                                                   │
-  │   [PID 100] ◀──▶ [PID 101(해커)] ◀──▶ [PID 102]                  │
-  │         └─────────────── (건너뛰기) ───────────────┘                  │
-  │                                                                   │
-  │   ※ 해커가 커널 메모리를 직접 조작하여, 100번이 102번을 가리키게 포인터만 뺌. │
-  │   ※ 101번은 스케줄러 큐에 남아 실행은 되지만, 관리 리스트에는 없어서 투명해짐! │
-  │                                                                   │
-  │   [ 메모리 포렌식 도구(Volatility)의 교차 검증 탐지 ]                     │
-  │                                                                   │
-  │   1. 시점 1: 조작된 커널 리스트를 따라가며 PID 수집 -> [100, 102] 발견     │
-  │   2. 시점 2: 메모리를 바이트 단위로 풀스캔(Carving)하여 `task_struct`의   │
-  │             특정 시그니처(Magic Number)를 무식하게 다 찾아냄.            │
-  │             -> 메모리 바닥에서 [100, 101, 102] 3개 덩어리 발견!         │
-  │                                                                   │
-  │   ▶ 교차 비교: "어? 정상 리스트엔 없는데 메모리 바닥엔 101번이 숨어있네?"      │
-  │             -> 🚨 루트킷(DKOM) 은닉 100% 탐지 성공!                   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Direct Kernel Object Manipulation (DKOM) 탐지 원리    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 해커의 DKOM 은닉 수법 (연결 리스트 조작) ]                          |
+  |                                                                   |
+  |   OS의 프로세스 관리 리스트 (task_struct Double Linked List)          |
+  |                                                                   |
+  |   [PID 100] <----> [PID 101(해커)] <----> [PID 102]                  |
+  |         +--------------- (건너뛰기) ---------------+                  |
+  |                                                                   |
+  |   ※ 해커가 커널 메모리를 직접 조작하여, 100번이 102번을 가리키게 포인터만 뺌. |
+  |   ※ 101번은 스케줄러 큐에 남아 실행은 되지만, 관리 리스트에는 없어서 투명해짐! |
+  |                                                                   |
+  |   [ 메모리 포렌식 도구(Volatility)의 교차 검증 탐지 ]                     |
+  |                                                                   |
+  |   1. 시점 1: 조작된 커널 리스트를 따라가며 PID 수집 -> [100, 102] 발견     |
+  |   2. 시점 2: 메모리를 바이트 단위로 풀스캔(Carving)하여 `task_struct`의   |
+  |             특정 시그니처(Magic Number)를 무식하게 다 찾아냄.            |
+  |             -> 메모리 바닥에서 [100, 101, 102] 3개 덩어리 발견!         |
+  |                                                                   |
+  |   -> 교차 비교: "어? 정상 리스트엔 없는데 메모리 바닥엔 101번이 숨어있네?"      |
+  |             -> 🚨 루트킷(DKOM) 은닉 100% 탐지 성공!                   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이것은 OS 해킹의 최고봉인 DKOM(직접 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 조작)과 이를 잡는 [메모리 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/665_memory_forensics/)의 쫓고 쫓기는 추격전이다. 해커는 시스템 콜 테이블을 건드리는 게 너무 잘 걸리자, 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자료구조 포인터 선을 끊어서(Unlink) OS의 정상적인 명부에서 자기 프로세스를 지워버렸다. 명부에 없으니 `ps` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 당연히 해커를 못 본다. 방어자(Volatility 등 메모리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 스캐너)는 OS가 주는 엑셀 명부 따위는 쓰레기통에 버리고, <strong>램(RAM) 덤프 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 전체를 1바이트씩 노가다로 훑어가며(Memory Carving) 프로세스 구조체 모양을 가진 덩어리</strong>를 싹 다 건져 올린다. 그리고 두 결과를 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Cross [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))하여 숨겨진 투명 프로세스를 멱살 잡아 끌어낸다.
@@ -152,24 +152,24 @@ Tripwire, OSSEC 등 [무결성](/knowledge-base/studynote/09_security/01_intro_p
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a> Tetragon / Falco 도입)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/))을 이용한 보안 도구는 오히려 OS 패닉을 유발할 수 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 수정하지 않고도 시스템 콜 훅(Hook)을 마이크로초 단위로 추적할 수 있는 최첨단 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a>)</strong> 기반의 런타임 보안 도구를 배포한다. 만약 Nginx 프로세스가 갑자기 쉘(`/bin/bash`)을 실행하려 하거나, `chmod` 권한을 몰래 바꾸려는 비정상 행위(Behavior)를 시도하면, [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 엔진이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 즉각 그 시스템 콜을 차단하고 프로세스를 죽여(Kill) [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)의 활동 자체를 마비시킨다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 OS 계층별 안티-루트킷(Anti-Rootkit) 방어 스택 설계도        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   1. [ 펌웨어 레벨 (Ring -1) ] : 부트킷/펌웨어 변조 방어                   │
-  │       - 조치: 메인보드 UEFI Secure Boot 활성화, TPM 하드웨어 칩 결합       │
-  │               (OS 부트로더의 해시 서명이 안 맞으면 아예 부팅 거부)             │
-  │                                                                   │
-  │   2. [ 커널 레벨 (Ring 0) ] : 커널 모듈/LKM 루트킷 방어                    │
-  │       - 조치: 커널 파라미터 `modules_disabled=1` 설정 (모듈 적재 원천 차단) │
-  │               커널 모듈 서명(Signed Module) 의무화 강제 적용              │
-  │                                                                   │
-  │   3. [ 런타임 행동 분석 (eBPF) ] : 메모리 은닉(DKOM)/파일리스 방어            │
-  │       - 조치: Falco 등 도입하여 허가되지 않은 시스템 콜 호출 실시간 차단        │
-  │                                                                   │
-  │   4. [ 파일 시스템 레벨 (Ring 3) ] : 바이너리 변조/백도어 방어              │
-  │       - 조치: AIDE, Tripwire를 통한 매일 자정 크론탭 무결성 해시 스캔        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 OS 계층별 안티-루트킷(Anti-Rootkit) 방어 스택 설계도        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   1. [ 펌웨어 레벨 (Ring -1) ] : 부트킷/펌웨어 변조 방어                   |
+  |       - 조치: 메인보드 UEFI Secure Boot 활성화, TPM 하드웨어 칩 결합       |
+  |               (OS 부트로더의 해시 서명이 안 맞으면 아예 부팅 거부)             |
+  |                                                                   |
+  |   2. [ 커널 레벨 (Ring 0) ] : 커널 모듈/LKM 루트킷 방어                    |
+  |       - 조치: 커널 파라미터 `modules_disabled=1` 설정 (모듈 적재 원천 차단) |
+  |               커널 모듈 서명(Signed Module) 의무화 강제 적용              |
+  |                                                                   |
+  |   3. [ 런타임 행동 분석 (eBPF) ] : 메모리 은닉(DKOM)/파일리스 방어            |
+  |       - 조치: Falco 등 도입하여 허가되지 않은 시스템 콜 호출 실시간 차단        |
+  |                                                                   |
+  |   4. [ 파일 시스템 레벨 (Ring 3) ] : 바이너리 변조/백도어 방어              |
+  |       - 조치: AIDE, Tripwire를 통한 매일 자정 크론탭 무결성 해시 스캔        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) 방어는 절대 단일 솔루션으로 불가능한 '심층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))'의 결정체다. 4번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스캔만 맹신하면 이미 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 장악한 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)의 눈속임에 당한다. 1번 펌웨어부터 4번 유저 스페이스까지 이어지는 트러스트 체인(Chain of Trust)을 설계하는 것이 아키텍트의 임무다. 특히 운영 중인 서버라면 함부로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 꽂히지 못하게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터(sysctl)로 아예 `insmod` 기능을 잠가버리는(modules_disabled) 하드코어한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 하드닝(Hardening) 결단도 필요하다.
@@ -218,12 +218,12 @@ Tripwire, OSSEC 등 [무결성](/knowledge-base/studynote/09_security/01_intro_p
 
 ```text
 [인터럽트 처리 상프/하프 메커니즘]
-    │
-    ▼
+    |
+    v
 [루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)]
-    │
-    ├──▶ [ASLR 메모리 레이아웃 난수화]
-    └──▶ [SELinux 보안 강제 접근 통제]
+    |
+    +---> [ASLR 메모리 레이아웃 난수화]
+    +---> [SELinux 보안 강제 접근 통제]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -240,7 +240,7 @@ Tripwire, OSSEC 등 [무결성](/knowledge-base/studynote/09_security/01_intro_p
 
 **진행 상황**: 763 / 800
 
-← **이전**: [762. 인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)](/knowledge-base/studynote/02_operating_system/11_exam_summary/762_interrupt_top_bottom_half/)
-**다음**: [764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/764_aslr_memory_layout_randomization/) →
+<- **이전**: [762. 인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)](/knowledge-base/studynote/02_operating_system/11_exam_summary/762_interrupt_top_bottom_half/)
+**다음**: [764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/764_aslr_memory_layout_randomization/) ->
 
 ---

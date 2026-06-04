@@ -11,7 +11,7 @@ tags = ["studynote-algorithm-stats"]
 
 > **핵심 인사이트**
 > 1. 소수 판별(Primality Test)의 기본 최적화는 √N까지만 나눗셈을 시도하는 것 — N이 합성수라면 N=a×b에서 min(a,b) ≤ √N이 항상 성립하므로, √N 이하의 약수가 없으면 소수다.
-> 2. 밀러-라빈 테스트(Miller-Rabin Test)는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 소수 판별의 표준 — O(k log²N)의 빠른 복잡도로 대용량 수(256~4096 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))의 소수 여부를 검사하며, k번 반복으로 2^(-2k)의 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 달성한다.
+> 2. 밀러-라빈 테스트(Miller-Rabin Test)는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 소수 판별의 표준 — O(k log^N)의 빠른 복잡도로 대용량 수(256~4096 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))의 소수 여부를 검사하며, k번 반복으로 2^(-2k)의 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 달성한다.
 > 3. 결정론적 밀러-라빈(Deterministic Miller-Rabin)이 실무의 답 — 특정 범위의 수에 대해 고정된 베이스 집합을 사용하면 오류 없는 결정론적 판별이 가능하며, 2^64 미만 수에 대해 {2,3,5,7,[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/),13,17,19,23,29,31,37} 7개면 충분하다.
 
 ---
@@ -37,7 +37,7 @@ tags = ["studynote-algorithm-stats"]
 
 최적화 2 - 2와 홀수만:
   짝수(2 제외)는 소수 불가
-  → 2로 나눈 후 3, 5, 7, ... (홀수만 검사)
+  -> 2로 나눈 후 3, 5, 7, ... (홀수만 검사)
 
   약 50% 추가 최적화
 
@@ -91,8 +91,8 @@ Python 구현:
   561 = 3 × 11 × 17: 카마이클 수
   1105, 1729, 2465, ... 무한히 많음
 
-  → 페르마 테스트는 카마이클 수에 실패
-  → 보완 필요 → 밀러-라빈 테스트
+  -> 페르마 테스트는 카마이클 수에 실패
+  -> 보완 필요 -> 밀러-라빈 테스트
 
 모듈러 거듭제곱 (Fast Exponentiation):
   a^(p-1) mod p 계산
@@ -133,15 +133,15 @@ Miller-Rabin 소수 판별 (1975):
   1. n-1 = 2^r × d로 분해 (d는 홀수)
   2. 베이스 a 선택
   3. x = a^d mod n 계산
-  4. x가 1 또는 n-1이면 → 이번 라운드 통과
+  4. x가 1 또는 n-1이면 -> 이번 라운드 통과
   5. r-1번 반복: x = x^2 mod n
      x가 n-1이 되면 통과
-     끝까지 n-1이 안 되면 → 합성수!
-  6. 여러 a로 반복 → 모두 통과하면 "아마도 소수"
+     끝까지 n-1이 안 되면 -> 합성수!
+  6. 여러 a로 반복 -> 모두 통과하면 "아마도 소수"
 
 오류 확률:
   합성수가 임의의 a에 대해 테스트 통과할 확률 ≤ 1/4
-  k번 반복 → 오류 확률 ≤ (1/4)^k
+  k번 반복 -> 오류 확률 ≤ (1/4)^k
 
   k=15: 오류 확률 < 10^(-9)
 
@@ -217,7 +217,7 @@ Python 내장:
 복잡도 요약:
   나이브: O(N)
   √N: O(√N)
-  밀러-라빈: O(k log²N)
+  밀러-라빈: O(k log^N)
   AKS: O(log^6(N)) - 실용적으로 느림
 ```
 
@@ -264,15 +264,15 @@ RSA-2048 키 쌍 생성에서의 소수 판별:
 
   통계:
   1024비트 수 밀도: ~1/709 (소수 정리)
-  평균 709번 시도 → 1개 소수
+  평균 709번 시도 -> 1개 소수
   빠른 필터로: ~240번 밀러-라빈 시도
 
 OpenSSL 소수 생성:
   openssl genrsa 2048
-  내부: BN_generate_prime_ex() → 밀러-라빈
+  내부: BN_generate_prime_ex() -> 밀러-라빈
 ```
 
-> 📢 **섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 + 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 1024비트 랜덤수(복권) 뽑기 → 빠른 필터(가짜 당첨 70% 제거) → 밀러-라빈 20라운드(진짜 당첨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 평균 240번 시도!
+> 📢 **섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 + 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 1024비트 랜덤수(복권) 뽑기 -> 빠른 필터(가짜 당첨 70% 제거) -> 밀러-라빈 20라운드(진짜 당첨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 평균 240번 시도!
 
 ---
 
@@ -288,7 +288,7 @@ OpenSSL 소수 생성:
 +-- AKS (이론적 완벽, 실용적 느림)
 +-- 복잡도
 |   +-- √N: O(√N)
-|   +-- 밀러-라빈: O(k log²N)
+|   +-- 밀러-라빈: O(k log^N)
 +-- 응용
     +-- RSA/DSA 소수 생성
     +-- 코딩테스트 (N ≤ 10^18)
@@ -338,7 +338,7 @@ Post-Quantum 연구
 
 **진행 상황**: 122 / 175
 
-← **이전**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/)
-**다음**: [004. 빠른 거듭제곱 — Fast Exponentiation](/knowledge-base/studynote/08_algorithm_stats/07_numerical/123_fast_exponentiation/) →
+<- **이전**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/)
+**다음**: [004. 빠른 거듭제곱 — Fast Exponentiation](/knowledge-base/studynote/08_algorithm_stats/07_numerical/123_fast_exponentiation/) ->
 
 ---

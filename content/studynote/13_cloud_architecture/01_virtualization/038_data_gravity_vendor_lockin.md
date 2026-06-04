@@ -229,7 +229,7 @@ FinOps 영역 성숙
 
 **진행 상황**: 37 / 371
 
-← **이전**: [037. 클라우드 브로커와 MSP (Cloud Broker & MSP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/037_cloud_broker_msp/)
-**다음**: [039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/039_kvm_ovf/) →
+<- **이전**: [037. 클라우드 브로커와 MSP (Cloud Broker & MSP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/037_cloud_broker_msp/)
+**다음**: [039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/039_kvm_ovf/) ->
 
 ---

@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [PON / AON]
-    │
-    ▼
+    |
+    v
 [네트워크 계층의 핵심 3기능]
-    │
-    └──▶ [IPv4]
+    |
+    +---> [IPv4]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>이 머릿속으로 </strong>"내비게이션 경로 탐색 버튼"**을 누르는 두뇌 회전이라면, 포워딩은 교차로에 도착할 때마다 핸들을 돌리고 **"우회전 깜빡이"**를 켜는 몸의 움직임입니다.
@@ -54,23 +54,23 @@ tags = ["studynote-network"]
 - 패킷을 스위칭 패브릭(내부 고속도로)을 통해 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 빛의 속도로 넘긴다. ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 1초에 한 번 일어나는 회의라면, 포워딩은 1초에 수백만 번 일어나는 단순 반복 노동이다.)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                라우팅(Routing)과 포워딩(Forwarding)의 분리     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 라우팅 소프트웨어 두뇌 (OSPF, BGP 연산) ]                     │
- │      │ "미국 가는 최적의 길은 Port 3이다! 테이블 업데이트!"          │
- │      ▼                                                      │
- │   [ 라우팅 테이블 (Routing Table) ]                            │
- │     - 10.1.1.0/24 ──▶ Port 1                              │
- │     - 8.8.8.0/24  ──▶ Port 3 (미국행)                       │
- │      ▲                                                      │
- │      │ "목적지 IP 8.8.8.8 발견! 테이블 뒤져보자!"                 │
- │   [ 포워딩 하드웨어 (데이터 패킷 스위칭) ]                         │
- │      ▲                                          │           │
- │      │ 패킷 들어옴 (Rx)                           ▼ 3번으로 발송!│
- │   (Port 1)                                   (Port 3)       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                라우팅(Routing)과 포워딩(Forwarding)의 분리     |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 라우팅 소프트웨어 두뇌 (OSPF, BGP 연산) ]                     |
+ |      | "미국 가는 최적의 길은 Port 3이다! 테이블 업데이트!"          |
+ |      v                                                      |
+ |   [ 라우팅 테이블 (Routing Table) ]                            |
+ |     - 10.1.1.0/24 ---> Port 1                              |
+ |     - 8.8.8.0/24  ---> Port 3 (미국행)                       |
+ |      ^                                                      |
+ |      | "목적지 IP 8.8.8.8 발견! 테이블 뒤져보자!"                 |
+ |   [ 포워딩 하드웨어 (데이터 패킷 스위칭) ]                         |
+ |      ^                                          |           |
+ |      | 패킷 들어옴 (Rx)                           v 3번으로 발송!|
+ |   (Port 1)                                   (Port 3)       |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)) - 체증 방지
@@ -137,12 +137,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: PON / AON]
-    │
-    ▼
+    |
+    v
 [현재 개념: 네트워크 계층의 핵심 3기능]
-    │
-    ├──▶ [확장 A: IPv4]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IPv4]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 네트워크 계층의 핵심 3기능는 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) / AON에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv4와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -159,7 +159,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 406 / 1120
 
-← **이전**: [284. PON (Passive Optical Network) / AON (Active Optical Network)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/)
-**다음**: [286. IPv4 (Internet Protocol Version 4)](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) →
+<- **이전**: [284. PON (Passive Optical Network) / AON (Active Optical Network)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/)
+**다음**: [286. IPv4 (Internet Protocol Version 4)](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) ->
 
 ---

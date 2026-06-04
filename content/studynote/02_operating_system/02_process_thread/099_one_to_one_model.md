@@ -32,25 +32,25 @@ tags = ["studynote-operating-system"]
 일대일 모델의 핵심 원리는 스케줄링의 주도권이 전적으로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 있다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           일대일 (One-to-One) 스레드 모델 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [사용자 공간 (User Space)]                                  │
-│   ┌───────┐      ┌───────┐      ┌───────┐                    │
-│   │ ULT 1 │      │ ULT 2 │      │ ULT 3 │                    │
-│   └───┬───┘      └───┬───┘      └───┬───┘                    │
-│       │ 1:1 매핑     │              │                        │
-│ ──────┼──────────────┼──────────────┼─────────────────────── │
-│       ▼              ▼              ▼                        │
-│   ┌───────┐      ┌───────┐      ┌───────┐                    │
-│   │ KLT 1 │      │ KLT 2 │      │ KLT 3 │                    │
-│   └───┬───┘      └───┬───┘      └───┬───┘                    │
-│  [커널 공간 (Kernel Space)]                                  │
-│       │              │              │                        │
-│       ▼              ▼              ▼                        │
-│  [ Core 0 ]     [ Core 1 ]     [ Core 2 ]                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           일대일 (One-to-One) 스레드 모델 아키텍처           |
++--------------------------------------------------------------+
+|                                                              |
+|  [사용자 공간 (User Space)]                                  |
+|   +-------+      +-------+      +-------+                    |
+|   | ULT 1 |      | ULT 2 |      | ULT 3 |                    |
+|   +---+---+      +---+---+      +---+---+                    |
+|       | 1:1 매핑     |              |                        |
+| ------+--------------+--------------+----------------------- |
+|       v              v              v                        |
+|   +-------+      +-------+      +-------+                    |
+|   | KLT 1 |      | KLT 2 |      | KLT 3 |                    |
+|   +---+---+      +---+---+      +---+---+                    |
+|  [커널 공간 (Kernel Space)]                                  |
+|       |              |              |                        |
+|       v              v              v                        |
+|  [ Core 0 ]     [ Core 1 ]     [ Core 2 ]                    |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 [사용자 수준 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT, [User-Level Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/))는 공유 라이브러리의 개입 없이 즉시 독립적인 KLT와 직결된다. 각 KLT는 자신만의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 블록 (TCB, [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 유지하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러에 의해 개별적으로 코어에 할당된다.
@@ -115,17 +115,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 단일 스레드 프로세스 (동시성 없음)
-    │
-    ▼
+    |
+    v
 다대일 모델 (Many-to-One) · 사용자 수준 동시성 (블로킹 시 정지)
-    │
-    ▼
+    |
+    v
 일대일 모델 (One-to-One) · 커널 수준 병렬성 (완벽 격리, 무거운 오버헤드)
-    │
-    ▼
+    |
+    v
 스레드 풀 (Thread Pool) · KLT 재사용을 통한 생성 오버헤드 회피
-    │
-    ▼
+    |
+    v
 이벤트 구동 & 코루틴 (Goroutine 등) · C10K 극복을 위한 현대적 비동기 진화
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 99 / 800
 
-← **이전**: [98. 다대일 (Many-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)
-**다음**: [100. 다대다 (Many-to-Many) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) →
+<- **이전**: [98. 다대일 (Many-to-One) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)
+**다음**: [100. 다대다 (Many-to-Many) 스레드 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) ->
 
 ---

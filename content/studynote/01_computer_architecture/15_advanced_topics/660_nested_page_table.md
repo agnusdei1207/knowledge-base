@@ -26,11 +26,11 @@ NPT 이전에는 이를 해결하기 위해 섀도 [페이지 테이블](/knowle
 아래 그림은 NPT가 왜 필요한지 주소 관점에서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Address translation in a virtualized system                  │
-├──────────────────────────────────────────────────────────────┤
-│ GVA  ─▶ guest page tables ─▶ GPA ─▶ NPT ─▶ HPA ─▶ real memory │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Address translation in a virtualized system                  |
++--------------------------------------------------------------+
+| GVA  --> guest page tables --> GPA --> NPT --> HPA --> real memory |
++--------------------------------------------------------------+
 ```
 
 핵심은 게스트가 자신의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 평소처럼 관리하게 두면서도, 최종 물리 위치 결정권은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 잃지 않는다는 점이다. 이 균형이 있어야 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 빠르면서도 안전해진다.
@@ -45,8 +45,8 @@ NPT는 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studyno
 
 | 계층 | 관리 주체 | 변환 의미 | 관찰 포인트 |
 | :--- | :--- | :--- | :--- |
-| 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) | GVA → GPA | 게스트 내부 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| NPT | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) | GPA → [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) | 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 격리와 실제 메모리 배치 |
+| 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) | 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) | GVA -> GPA | 게스트 내부 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| NPT | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) | GPA -> [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) | 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 격리와 실제 메모리 배치 |
 | 주소 변환 캐시 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) | 하드웨어 | 최근 결과 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 워크 부하와 지연시간 안정성 |
 
 NPT의 대가도 있다. 예를 들어 x86-64 4단계 페이징에서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) miss가 나면, 게스트 쪽 4단계 워크와 NPT 쪽 4단계 워크가 겹치며 최대 24회의 테이블 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 뒤에 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 이어질 수 있다. 그래서 NPT는 "[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입 감소"를 얻는 대신 "주소 변환 깊이 증가"를 감수하는 기술이다.
@@ -118,21 +118,21 @@ NPT는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualiza
 
 ```text
 Shadow page table maintenance
-    │
-    ▼
+    |
+    v
 NPT / RVI on AMD
-    │
-    ▼
+    |
+    v
 EPT on Intel and two-dimensional paging
-    │
-    ▼
+    |
+    v
 Huge Page · TLB reach · ASID tuning
-    │
-    ▼
+    |
+    v
 Large-scale cloud memory virtualization
 ```
 
-이 흐름은 "소프트웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) → 하드웨어 2단 변환 → 캐시/[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 최적화 → 대규모 운영"으로 이어진다.
+이 흐름은 "소프트웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) -> 하드웨어 2단 변환 -> 캐시/[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 최적화 -> 대규모 운영"으로 이어진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +146,7 @@ Large-scale cloud memory virtualization
 
 **진행 상황**: 661 / 803
 
-← **이전**: [659. AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/)
-**다음**: [661. 확장 페이지 테이블 (Extended Page Table, EPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/) →
+<- **이전**: [659. AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/)
+**다음**: [661. 확장 페이지 테이블 (Extended Page Table, EPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/) ->
 
 ---

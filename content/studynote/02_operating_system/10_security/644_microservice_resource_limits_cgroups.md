@@ -58,36 +58,36 @@ CPU는 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_managem
 K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통해 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 번역한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 K8s 자원 제약 (Requests / Limits) 커널 매핑            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [K8s Pod YAML 설정]                                               │
-  │  resources:                                                       │
-  │    requests:                                                      │
-  │      cpu: "1"        (1 코어 보장)                                  │
-  │      memory: "1Gi"   (1 GB 보장)                                   │
-  │    limits:                                                        │
-  │      cpu: "2"        (최대 2 코어 제한)                               │
-  │      memory: "2Gi"   (최대 2 GB 제한)                               │
-  │            │                                                      │
-  │  ==========▼ (Kubelet이 Linux cgroups 파일에 기록) ====================│
-  │                                                                   │
-  │  [Linux cgroups v1 파일 시스템]                                       │
-  │  1. CPU Requests ──▶ cpu.shares = 1024 (상대적 가중치 비율)            │
-  │                      * 경쟁이 심할 때 1코어만큼의 시간을 보장해줌.         │
-  │                                                                   │
-  │  2. CPU Limits   ──▶ cpu.cfs_quota_us = 200000, period = 100000    │
-  │                      * 100ms(주기) 동안 200ms(2코어 분량)만 쓰도록 강제. │
-  │                        초과하면 CPU 뺏김 (Throttled)                 │
-  │                                                                   │
-  │  3. Mem Requests ──▶ 메모리는 '가중치' 개념이 없음. 오직 스케줄러가 노드를 │
-  │                      선택할 때(빈 공간이 1GB 남았나?)만 사용됨.           │
-  │                                                                   │
-  │  4. Mem Limits   ──▶ memory.limit_in_bytes = 2147483648 (2GB)      │
-  │                      * 프로세스가 2GB + 1바이트를 할당 요청하는 순간,      │
-  │                        커널의 OOM Killer가 발동하여 프로세스 사살!         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 K8s 자원 제약 (Requests / Limits) 커널 매핑            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [K8s Pod YAML 설정]                                               |
+  |  resources:                                                       |
+  |    requests:                                                      |
+  |      cpu: "1"        (1 코어 보장)                                  |
+  |      memory: "1Gi"   (1 GB 보장)                                   |
+  |    limits:                                                        |
+  |      cpu: "2"        (최대 2 코어 제한)                               |
+  |      memory: "2Gi"   (최대 2 GB 제한)                               |
+  |            |                                                      |
+  |  ==========v (Kubelet이 Linux cgroups 파일에 기록) ====================|
+  |                                                                   |
+  |  [Linux cgroups v1 파일 시스템]                                       |
+  |  1. CPU Requests ---> cpu.shares = 1024 (상대적 가중치 비율)            |
+  |                      * 경쟁이 심할 때 1코어만큼의 시간을 보장해줌.         |
+  |                                                                   |
+  |  2. CPU Limits   ---> cpu.cfs_quota_us = 200000, period = 100000    |
+  |                      * 100ms(주기) 동안 200ms(2코어 분량)만 쓰도록 강제. |
+  |                        초과하면 CPU 뺏김 (Throttled)                 |
+  |                                                                   |
+  |  3. Mem Requests ---> 메모리는 '가중치' 개념이 없음. 오직 스케줄러가 노드를 |
+  |                      선택할 때(빈 공간이 1GB 남았나?)만 사용됨.           |
+  |                                                                   |
+  |  4. Mem Limits   ---> memory.limit_in_bytes = 2147483648 (2GB)      |
+  |                      * 프로세스가 2GB + 1바이트를 할당 요청하는 순간,      |
+  |                        커널의 OOM Killer가 발동하여 프로세스 사살!         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** CPU Request는 시스템에 여유가 있을 때는 아무 의미가 없다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 Limit까지 CPU를 펑펑 쓴다. 그러다 모든 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 CPU를 달라고 싸우기 시작하면(경합), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러인 CFS(Completely Fair Scheduler)는 `cpu.shares` 비율에 맞춰 정확히 Request 양만큼만 공평하게 CPU 시간을 쪼개어 준다. 반면 메모리는 저장 공간이므로 비율로 나눌 수 없다. Memory Request는 단순히 "이 노드에 나를 올리려면 최소 1GB의 빈 공간이 있어야 해"라고 K8s 마스터에게 스케줄링을 부탁하는 용도로만 쓰이고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 차원에서는 오직 `Memory Limit`만이 방어선 역할을 한다.
@@ -143,29 +143,29 @@ K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통�
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 컨테이너 자원(Requests/Limits) 설정 의사결정 플로우        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 마이크로서비스(Pod)를 K8s 클러스터에 배포]                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      이 서비스가 죽으면 시스템 전체가 마비되는 핵심(Core) 서비스인가?         │
-  │          ├─ 예 ─────▶ [QoS 클래스: Guaranteed 설정 강제]             │
-  │          │            - CPU Requests == CPU Limits                │
-  │          │            - Mem Requests == Mem Limits                │
-  │          │            (단, CPU Throttling 방지를 위해 Limits는 충분히 크게) │
-  │          └─ 아니오 (배치 작업, 개발 서버 등)                             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      자원 효율성(Overcommit)을 극대화하여 비용을 줄여야 하는가?            │
-  │          ├─ 예 ─────▶ [QoS 클래스: Burstable 설정]                 │
-  │          │            - CPU Limits는 아예 삭제 (또는 높게)             │
-  │          │            - Mem Limits는 Requests의 1.5~2배 수준으로 설정 │
-  │          │            (단, 메모리 누수로 죽을 수 있음은 감수해야 함)      │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 모든 서비스에 Limits 강제 룰(LimitRange) 적용   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 컨테이너 자원(Requests/Limits) 설정 의사결정 플로우        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 마이크로서비스(Pod)를 K8s 클러스터에 배포]                       |
+  |                |                                                  |
+  |                v                                                  |
+  |      이 서비스가 죽으면 시스템 전체가 마비되는 핵심(Core) 서비스인가?         |
+  |          +- 예 ------> [QoS 클래스: Guaranteed 설정 강제]             |
+  |          |            - CPU Requests == CPU Limits                |
+  |          |            - Mem Requests == Mem Limits                |
+  |          |            (단, CPU Throttling 방지를 위해 Limits는 충분히 크게) |
+  |          +- 아니오 (배치 작업, 개발 서버 등)                             |
+  |                |                                                  |
+  |                v                                                  |
+  |      자원 효율성(Overcommit)을 극대화하여 비용을 줄여야 하는가?            |
+  |          +- 예 ------> [QoS 클래스: Burstable 설정]                 |
+  |          |            - CPU Limits는 아예 삭제 (또는 높게)             |
+  |          |            - Mem Limits는 Requests의 1.5~2배 수준으로 설정 |
+  |          |            (단, 메모리 누수로 죽을 수 있음은 감수해야 함)      |
+  |          |                                                        |
+  |          +- 아니오 ---> 모든 서비스에 Limits 강제 룰(LimitRange) 적용   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "Limits를 빡빡하게 거는 것이 안전하다"는 것은 초보자의 가장 큰 오해다. 메모리 Limits는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 지키는 방패가 아니라 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 목을 조르는 밧줄이다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 살리고 싶다면 Limits를 Requests와 동일하게 넉넉히(Guaranteed) 주어야 하며, 클러스터의 집적도(돈)를 높이고 싶다면 Limits를 풀고 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬(죽음)을 받아들이는 아키텍처로 가야 한다.
@@ -212,12 +212,12 @@ K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통�
 
 ```text
 [분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
-    │
-    ▼
+    |
+    v
 [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
-    │
-    ├──▶ [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
-    └──▶ [리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
+    |
+    +---> [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
+    +---> [리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -234,7 +234,7 @@ K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통�
 
 **진행 상황**: 644 / 800
 
-← **이전**: [643. 분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)](/knowledge-base/studynote/02_operating_system/10_security/643_distributed_lock_manager_zookeeper/)
-**다음**: [645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제](/knowledge-base/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/) →
+<- **이전**: [643. 분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)](/knowledge-base/studynote/02_operating_system/10_security/643_distributed_lock_manager_zookeeper/)
+**다음**: [645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제](/knowledge-base/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/) ->
 
 ---

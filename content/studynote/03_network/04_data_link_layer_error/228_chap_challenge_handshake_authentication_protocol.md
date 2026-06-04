@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [PAP]
-    │
-    ▼
+    |
+    v
 [CHAP]
-    │
-    └──▶ [EAP]
+    |
+    +---> [EAP]
 ```
 
 - **📢 섹션 요약 비유**: <strong> CHAP <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>은 비밀번호를 그대로 말하지 않고, 매번 바뀌는 </strong>"1회용 난수 퍼즐 조각"**에 비밀번호를 끼워 맞춘 결과물(해시)만 검사관에게 보여주어 정답을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 고도의 보안 검문소입니다.
@@ -48,26 +48,26 @@ CHAP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 3. **Success / Failure (결과)**: 서버도 자신이 보낸 난수와 DB에 저장된 클라이언트의 비밀번호를 똑같이 해시 함수에 넣어 결과값을 계산한다. 서버가 계산한 값과 클라이언트가 보낸 응답값(Response)이 정확히 일치하면 승인(Success)한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    CHAP 동작 방식 (3-Way)                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [클라이언트 (Peer)]                       [서버 (Authenticator)]│
- │     (PW = "sec123")                          (DB: PW = "sec123")│
- │           │                                         │       │
- │           │      1. Challenge (난수값 X 전송)         │       │
- │           │◀────────────────────────────────────────┤       │
- │           │                                         │       │
- │ MD5(X + "sec123")                                   │       │
- │ = 해시값 Y 도출     2. Response (해시값 Y 전송)         │       │
- │           ├────────────────────────────────────────▶│ 서버도 자체적으로  │
- │           │                                         │ MD5(X + "sec123") │
- │           │                                         │ = 해시값 Y' 계산  │
- │           │                                         │                   │
- │           │      3. Success/Failure (Y == Y' 비교)  │                   │
- │           │◀────────────────────────────────────────┤       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                    CHAP 동작 방식 (3-Way)                   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [클라이언트 (Peer)]                       [서버 (Authenticator)]|
+ |     (PW = "sec123")                          (DB: PW = "sec123")|
+ |           |                                         |       |
+ |           |      1. Challenge (난수값 X 전송)         |       |
+ |           |<-----------------------------------------+       |
+ |           |                                         |       |
+ | MD5(X + "sec123")                                   |       |
+ | = 해시값 Y 도출     2. Response (해시값 Y 전송)         |       |
+ |           +----------------------------------------->| 서버도 자체적으로  |
+ |           |                                         | MD5(X + "sec123") |
+ |           |                                         | = 해시값 Y' 계산  |
+ |           |                                         |                   |
+ |           |      3. Success/Failure (Y == Y' 비교)  |                   |
+ |           |<-----------------------------------------+       |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 해시 함수의 일방향성(One-way)과 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) 방어
@@ -133,12 +133,12 @@ CHAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ```text
 [선행 개념: PAP]
-    │
-    ▼
+    |
+    v
 [현재 개념: CHAP]
-    │
-    ├──▶ [확장 A: EAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: EAP]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 CHAP는 PAP에서 출발해 현재 메커니즘을 정교화하고, 이후 EAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ CHAP는 PAP에서 출발해 현재 메커니즘을 정교화하고, 이후 EAP�
 
 **진행 상황**: 349 / 1120
 
-← **이전**: [227. PAP (Password Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/)
-**다음**: [229. EAP (Extensible Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) →
+<- **이전**: [227. PAP (Password Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/)
+**다음**: [229. EAP (Extensible Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) ->
 
 ---

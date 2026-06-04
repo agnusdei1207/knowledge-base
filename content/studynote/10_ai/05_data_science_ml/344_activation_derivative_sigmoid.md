@@ -25,9 +25,9 @@ tags = ["studynote-ai"]
 
 ```
   ∂L/∂w₁ = ∂L/∂aL · ∏ᵢ σ'(zᵢ)
-  ─────────────────────────────────────
+  -------------------------------------
   Sigmoid 의 경우: σ'(zᵢ) ≤ 0.25
-  L=10 레이어: 0.25¹⁰ = 9.5 × 10⁻⁷  → 사실상 0!
+  L=10 레이어: 0.25¹⁰ = 9.5 × 10⁻⁷  -> 사실상 0!
 ```
 
 | 레이어 수 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 기울기 크기 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 기울기 크기 |
@@ -35,7 +35,7 @@ tags = ["studynote-ai"]
 | 1 | 0.25 | 1.0 |
 | 5 | 0.25⁵ ≈ 0.001 | 1.0 |
 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 0.25¹⁰ ≈ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁷ | 1.0 |
-| 20 | 0.25²⁰ ≈ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻¹² | 1.0 |
+| 20 | 0.25^⁰ ≈ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻¹^ | 1.0 |
 
 - **📢 섹션 요약 비유**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 "복사기로 10번 복사하면 글씨가 흐려지는 것"과 같다. 매번 0.25 배로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 줄어드니, 10번이면 원본의 100만분의 1 만 남는다.
 
@@ -51,14 +51,14 @@ tags = ["studynote-ai"]
 
   도함수 유도:
   σ'(x) = d/dx [1 / (1 + e⁻ˣ)]
-         = e⁻ˣ / (1 + e⁻ˣ)²      ← 몫의 미분 규칙
+         = e⁻ˣ / (1 + e⁻ˣ)^      <- 몫의 미분 규칙
          = [1/(1+e⁻ˣ)] · [e⁻ˣ/(1+e⁻ˣ)]
-         = σ(x) · [1 - σ(x)]      ← 최종 도함수
+         = σ(x) · [1 - σ(x)]      <- 최종 도함수
 
   최대값 증명:
-  σ'(x) = σ(x)(1 - σ(x)) ≤ [σ(x) + (1-σ(x))]²/4 = 1/4 = 0.25
-  (AM-GM 부등식: ab ≤ (a+b)²/4)
-  등호 성립: σ(x) = 1-σ(x) → σ(x) = 0.5 → x = 0
+  σ'(x) = σ(x)(1 - σ(x)) ≤ [σ(x) + (1-σ(x))]^/4 = 1/4 = 0.25
+  (AM-GM 부등식: ab ≤ (a+b)^/4)
+  등호 성립: σ(x) = 1-σ(x) -> σ(x) = 0.5 -> x = 0
 ```
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 도함수 비교 다이어그램
@@ -66,14 +66,14 @@ tags = ["studynote-ai"]
 ```
   σ'(x) 크기 비교 (x 축 = 입력값)
 
-  1.0 ┤                                          ReLU'
-      │                                          ─────
-  0.5 ┤                               Leaky ReLU'(x<0)
-      │                              ─── (작은 양수)
-  0.25┤─── ─── ─── Sigmoid'(최대) ─── ─── ─── ─── ───
-      │        ╱‾‾‾‾‾‾╲
-  0.0 ┤──────╱          ╲───────────────────────────
-      └──────────────────────────────────────────────→ x
+  1.0 +                                          ReLU'
+      |                                          -----
+  0.5 +                               Leaky ReLU'(x<0)
+      |                              --- (작은 양수)
+  0.25+--- --- --- Sigmoid'(최대) --- --- --- --- ---
+      |        ╱‾‾‾‾‾‾╲
+  0.0 +------╱          ╲---------------------------
+      +-----------------------------------------------> x
         -5   -3   -1    0    1    3    5
   Sigmoid' 범위: (0, 0.25]
   ReLU'   범위: {0 (x≤0), 1 (x>0)}
@@ -84,7 +84,7 @@ tags = ["studynote-ai"]
 | 함수 | 수식 | 도함수 | 범위 | 문제점 |
 |:---|:---|:---|:---:|:---|
 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | 1/(1+e⁻ˣ) | σ(x)(1-σ(x)) | (0, 0.25] | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) |
-| [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) | (eˣ-e⁻ˣ)/(eˣ+e⁻ˣ) | 1-tanh²(x) | (0, 1] | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) (완화) |
+| [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) | (eˣ-e⁻ˣ)/(eˣ+e⁻ˣ) | 1-tanh^(x) | (0, 1] | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) (완화) |
 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(0, x) | 0 or 1 | {0, 1} | Dead [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) |
 | Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(αx, x) | α or 1 | {α, 1} | α [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 민감 |
 | GELU | x·Φ(x) | 복잡 | (0, ~1) | 계산 비용 |
@@ -92,7 +92,7 @@ tags = ["studynote-ai"]
 
 ### Dead [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 문제
 
-[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)(x) = max(0,x) 에서 x ≤ 0 이면 도함수 = 0 → 그 뉴런은 영구적으로 기울기 전파 차단.
+[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)(x) = max(0,x) 에서 x ≤ 0 이면 도함수 = 0 -> 그 뉴런은 영구적으로 기울기 전파 차단.
 
 ```
   Dead ReLU 발생 조건:
@@ -130,12 +130,12 @@ tags = ["studynote-ai"]
 
 ```
   은닉층 기본 선택: ReLU (빠르고 효과적)
-  ─────────────────────────────────────────
-  Dead ReLU 우려  → Leaky ReLU or ELU
-  Transformer 모델 → GELU (GPT-2/3/4 채택)
-  출력층 분류     → Softmax (다중 클래스)
-  출력층 이진 분류 → Sigmoid
-  출력층 회귀     → Linear (활성화 없음)
+  -----------------------------------------
+  Dead ReLU 우려  -> Leaky ReLU or ELU
+  Transformer 모델 -> GELU (GPT-2/3/4 채택)
+  출력층 분류     -> Softmax (다중 클래스)
+  출력층 이진 분류 -> Sigmoid
+  출력층 회귀     -> Linear (활성화 없음)
 ```
 
 ### 기술사 출제 포인트
@@ -177,7 +177,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [활성화 함수 도함수 (Activation Derivative Sigmoid)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [활성화 함수 도함수 (Activation Derivative Sigmoid)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -192,7 +192,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 344 / 420
 
-← **이전**: [343. 라그랑주 승수법 (Lagrange Multiplier)](/knowledge-base/studynote/10_ai/05_data_science_ml/343_lagrange_multiplier_svm/)
-**다음**: [345. 역전파 편미분 (Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/345_backprop_chain_rule_math/) →
+<- **이전**: [343. 라그랑주 승수법 (Lagrange Multiplier)](/knowledge-base/studynote/10_ai/05_data_science_ml/343_lagrange_multiplier_svm/)
+**다음**: [345. 역전파 편미분 (Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/345_backprop_chain_rule_math/) ->
 
 ---

@@ -31,7 +31,7 @@ CPLD는 그런 자리에 맞는 프로그래머블 장치다.
 
 ```text
 Logic Blocks
-  ↓ programmable interconnect
+  v programmable interconnect
 Configured Output
 ```
 
@@ -103,11 +103,11 @@ CPLD는 간단한 제어 로직과 빠른 [초기](/knowledge-base/studynote/03_
 
 ```text
 CPLD
-  ↓
+  v
 Programmable Logic
-  ↓
+  v
 Fast Startup
-  ↓
+  v
 Control Logic
 ```
 
@@ -117,11 +117,11 @@ Control Logic
 
 ```text
 PAL
-  ↓
+  v
 CPLD
-  ↓
+  v
 FPGA
-  ↓
+  v
 Programmable Hardware
 ```
 
@@ -139,7 +139,7 @@ CPLD는 그런 칩이에요.
 
 **진행 상황**: 71 / 803
 
-← **이전**: [70. ASIC (주문형 반도체)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)
-**다음**: [72. 하드웨어 기술 언어 (VHDL, Verilog)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) →
+<- **이전**: [70. ASIC (주문형 반도체)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)
+**다음**: [72. 하드웨어 기술 언어 (VHDL, Verilog)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) ->
 
 ---

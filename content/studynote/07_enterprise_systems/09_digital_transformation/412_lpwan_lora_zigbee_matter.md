@@ -24,14 +24,14 @@ tags = ["studynote-enterprise"]
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 기술 시연에 머물고 운영 설계가 비는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 통신 표준은 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                     LPWAN 로라 지그비 …의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [LPWAN 로라 지그비 …] ─────▶ [LPWAN 로라 지그비 …] ─────▶ [기술 내재화]                  │
-│      │                           │                           │
-│      └────────▶ [기술 시연에 머물고 운영…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                     LPWAN 로라 지그비 …의 필요성                         |
++--------------------------------------------------------------+
+| 현장 입력             설계 기준                기대 결과     |
+| [LPWAN 로라 지그비 …] ------> [LPWAN 로라 지그비 …] ------> [기술 내재화]                  |
+|      |                           |                           |
+|      +---------> [기술 시연에 머물고 운영…] 완화 ----------------> 운영 안정화 |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램은 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 통신 표준이 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
@@ -52,13 +52,13 @@ tags = ["studynote-enterprise"]
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [LPWAN 로라 지그비 …] ─────▶ [LPWAN: Low Po…] ─────▶ [LPWAN]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             핵심 원리: 기준 -> 실행 -> 피드백 루프             |
++--------------------------------------------------------------+
+| [LPWAN 로라 지그비 …] ------> [LPWAN: Low Po…] ------> [LPWAN]                       |
+|      ^                                             |         |
+|      +------------- 지표·리스크·교정 루프 ----------+         |
++--------------------------------------------------------------+
 ```
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 통신 표준은 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
@@ -128,12 +128,12 @@ tags = ["studynote-enterprise"]
 
 ```text
 [LPWAN 로라 지그비 … 정리]
-    │
-    ▼
+    |
+    v
 [LPWAN 로라 지그비 … 적용]
-    │
-    ├──▶ [LPWAN: Low Po… 최적화]
-    └──▶ [플랫폼 기반 서비스화 확장]
+    |
+    +---> [LPWAN: Low Po… 최적화]
+    +---> [플랫폼 기반 서비스화 확장]
 ```
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
@@ -150,7 +150,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 412 / 482
 
-← **이전**: [411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/411_iot_edge_fog_computing/)
-**다음**: [413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/413_mqtt_pubsub_broker_iot/) →
+<- **이전**: [411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/411_iot_edge_fog_computing/)
+**다음**: [413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/413_mqtt_pubsub_broker_iot/) ->
 
 ---

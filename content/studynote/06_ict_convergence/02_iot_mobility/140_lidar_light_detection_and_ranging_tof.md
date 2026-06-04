@@ -12,16 +12,16 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LiDAR는 <strong>레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정</strong>하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.
 > 2. **가치**: 카메라는 2D 이미지만 제공하고 깊이 추정이 부정확하지만, LiDAR는 <strong>cm 단위의 정밀 3D 거리 측정</strong>으로 자율주행·지형 측량·건설·로봇에 핵심이다.
-> 3. **판단 포인트**: 기계식(Velodyne, 고비용)→솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(저비용)→FMCW(속도+거리 동시 측정)로 진화하며, iPhone LiDAR(dToF)가 소비자 시장에 진입했다.
+> 3. **판단 포인트**: 기계식(Velodyne, 고비용)->솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(저비용)->FMCW(속도+거리 동시 측정)로 진화하며, iPhone LiDAR(dToF)가 소비자 시장에 진입했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2 = 거리
-  → 초당 30만 포인트 → 3D 포인트 클라우드 생성
-종류: 기계식(360° 회전) | 솔리드 스테이트(고정, 저비용) | FMCW(차세대)
+LiDAR 원리: 레이저 발사 -> 반사 -> 왕복 시간 × 빛의 속도 / 2 = 거리
+  -> 초당 30만 포인트 -> 3D 포인트 클라우드 생성
+종류: 기계식(360+ 회전) | 솔리드 스테이트(고정, 저비용) | FMCW(차세대)
 ```
 
 - **📢 섹션 요약 비유**: LiDAR는 <strong>박쥐의 초음파</strong>이다. 소리(레이저) 대신 빛을 쏘고 반사 시간으로 거리를 측정한다.
@@ -47,10 +47,10 @@ LiDAR는 <strong>자율주행·측량의 핵심 센서</strong>이며, 솔리드
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[기계식 LiDAR (Velodyne, 2007)] → [자율주행 적용 (2015)]
-    → [솔리드 스테이트 (2020, 저비용)]
-    → [iPhone LiDAR (dToF, 2020)]
-    → [현재: FMCW LiDAR — 속도+거리 동시 측정]
+[기계식 LiDAR (Velodyne, 2007)] -> [자율주행 적용 (2015)]
+    -> [솔리드 스테이트 (2020, 저비용)]
+    -> [iPhone LiDAR (dToF, 2020)]
+    -> [현재: FMCW LiDAR — 속도+거리 동시 측정]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ LiDAR는 <strong>자율주행·측량의 핵심 센서</strong>이며, 솔리드
 
 **진행 상황**: 140 / 552
 
-← **이전**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)
-**다음**: [141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) →
+<- **이전**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)
+**다음**: [141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) ->
 
 ---

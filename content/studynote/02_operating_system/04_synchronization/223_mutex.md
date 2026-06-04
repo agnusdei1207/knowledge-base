@@ -29,14 +29,14 @@ tags = ["studynote-operating-system"]
 
   [ 스레드 A ]                                      [ 스레드 B ]
   1. mutex.lock() 호출
-     ▶ 성공! (임계구역 진입)
+     -> 성공! (임계구역 진입)
                                                   1. mutex.lock() 호출
-                                                     ▶ 실패! (이미 잠김)
+                                                     -> 실패! (이미 잠김)
                                                   2. OS가 B를 'Wait Queue'에 넣고 Sleep 시킴.
                                                      (B는 CPU를 놓고 기절함 💤)
   2. 임계구역 실행 (1초 소요)
   3. mutex.unlock() 호출
-     ▶ 락 반환!
+     -> 락 반환!
   4. OS가 Wait Queue에 자고 있던 B를 깨움! (Wakeup)
                                                   3. B가 Ready Queue로 이동하여 CPU를 할당받음.
                                                   4. B가 임계구역 진입! 🏃‍♂️
@@ -63,24 +63,24 @@ tags = ["studynote-operating-system"]
 - 만약 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 뮤텍스를 잠갔는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `unlock()`을 호출하면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 **"네가 잠근 것도 아닌데 어딜 감히 풀어!"** 라며 예외(Exception)를 뱉고 강제 종료시킨다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │         뮤텍스(Mutex)의 소유권이 가져다주는 '우선순위 상속' 방어막      │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │   [ 락 대기 상황 ]                                                      │
-  │   1. 스레드 L(우선순위 낮음)이 뮤텍스를 잡고 있음.                      │
-  │   2. 스레드 H(우선순위 높음)가 뮤텍스를 요청하고 Sleep.                 │
-  │                                                                         │
-  │   🚨 여기서 중간 순위(M)가 L의 CPU를 뺏으려 덤벼드는 위기 발생!         │
-  │                                                                         │
-  │   [ OS 커널의 구출 로직 (PI: Priority Inheritance) ]                    │
-  │   - 커널: "H가 자고 있네? H가 기다리는 락이 뭐지? 뮤텍스 1번!"          │
-  │   - 커널: "뮤텍스 1번의 소유자(Owner)가 누구지? 아 L이구나!"            │
-  │   - 커널: "L의 멱살을 잡고 우선순위를 일시적으로 H급으로 끌어올려!"     │
-  │                                                                         │
-  │   ✅ 결과: 소유자가 명확히 기록되어 있기 때문에, 커널이 정확한 타깃(L)을│
-  │           찾아서 우선순위를 상속시켜 역전 버그를 100% 방어해 낸다.      │
-  └─────────────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------------+
+  |         뮤텍스(Mutex)의 소유권이 가져다주는 '우선순위 상속' 방어막      |
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |   [ 락 대기 상황 ]                                                      |
+  |   1. 스레드 L(우선순위 낮음)이 뮤텍스를 잡고 있음.                      |
+  |   2. 스레드 H(우선순위 높음)가 뮤텍스를 요청하고 Sleep.                 |
+  |                                                                         |
+  |   🚨 여기서 중간 순위(M)가 L의 CPU를 뺏으려 덤벼드는 위기 발생!         |
+  |                                                                         |
+  |   [ OS 커널의 구출 로직 (PI: Priority Inheritance) ]                    |
+  |   - 커널: "H가 자고 있네? H가 기다리는 락이 뭐지? 뮤텍스 1번!"          |
+  |   - 커널: "뮤텍스 1번의 소유자(Owner)가 누구지? 아 L이구나!"            |
+  |   - 커널: "L의 멱살을 잡고 우선순위를 일시적으로 H급으로 끌어올려!"     |
+  |                                                                         |
+  |   ✅ 결과: 소유자가 명확히 기록되어 있기 때문에, 커널이 정확한 타깃(L)을|
+  |           찾아서 우선순위를 상속시켜 역전 버그를 100% 방어해 낸다.      |
+  +-------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 소유권 기록이 없어서 H가 락을 기다려도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 누구의 우선순위를 올려줘야 할지(타깃) 찾을 수 없다. 하지만 뮤텍스는 영수증(Owner)이 명확하므로, RTOS나 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 가장 치명적인 버그인 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">Priority Inversion</a>)'을 시스템 레벨에서 자동 치료</strong>할 수 있는 유일한 자물쇠다.
 
@@ -94,8 +94,8 @@ tags = ["studynote-operating-system"]
 
 뮤텍스는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)의 CPU 낭비를 없앴지만, 그 대가로 <strong>'수면과 기상'이라는 엄청난 세금(오버헤드)</strong>을 내야 한다.
 
-1. **Sleep 오버헤드**: 락 획득 실패 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 콜 발생 ─▶ [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프 ─▶ [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 호출 ─▶ 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 복원 (약 2,000ns 소모)
-2. **Wakeup 오버헤드**: 락 해제 시 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 ─▶ [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 꺼냄 ─▶ Ready 큐 삽입 ─▶ [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 재호출 (약 2,000ns 소모)
+1. **Sleep 오버헤드**: 락 획득 실패 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 콜 발생 --> [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프 --> [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 호출 --> 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 복원 (약 2,000ns 소모)
+2. **Wakeup 오버헤드**: 락 해제 시 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 --> [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 꺼냄 --> Ready 큐 삽입 --> [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 재호출 (약 2,000ns 소모)
 
 만약 내가 잠그려는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 코드 실행 시간이 고작 10ns(단순 덧셈)인데, 앞사람이 문을 잠가서 10ns를 기다리지 않고 바로 Sleep 해버리면?
 <strong>10ns를 아끼려다 잠들고 깨는 데 4,000ns를 버리게 되는 바보 같은 짓</strong>이 발생한다.
@@ -105,8 +105,8 @@ tags = ["studynote-operating-system"]
 
 | 적응형 뮤텍스의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 획득 판단 로직 |
 |:---|
-| 1. 락을 쥔 소유자(Owner) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 현재 다른 CPU 코어에서 **실행 중(Running)**[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? <br> ▶ "어? 일하고 있네? 곧 풀겠지?" ─▶ <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong> 모드로 짧게 뺑뺑이를 돌며 대기한다. ([문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) 세이브!) |
-| 2. 락을 쥔 소유자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 대기 등으로 **수면(Sleep)** 상태인가? <br> ▶ "아, 저놈 자고 있네. 당장 안 풀리겠다." ─▶ 나도 즉시 <strong>수면(Sleep) 모드</strong>로 빠진다. |
+| 1. 락을 쥔 소유자(Owner) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 현재 다른 CPU 코어에서 **실행 중(Running)**[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? <br> -> "어? 일하고 있네? 곧 풀겠지?" --> <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong> 모드로 짧게 뺑뺑이를 돌며 대기한다. ([문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) 세이브!) |
+| 2. 락을 쥔 소유자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 대기 등으로 **수면(Sleep)** 상태인가? <br> -> "아, 저놈 자고 있네. 당장 안 풀리겠다." --> 나도 즉시 <strong>수면(Sleep) 모드</strong>로 빠진다. |
 
 - **📢 섹션 요약 비유**: 화장실 문이 잠겼을 때, 안에서 물 내리는 소리(실행 중)가 들리면 문 앞에서 10초만 버티는 것([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이 낫습니다. 하지만 안에서 코 고는 소리(Sleep 중)가 들리면, 백날 문 두드려봤자 안 나오니까 나도 내 방 침대로 돌아가서 자는 것(Sleep)이 바로 어댑티브(적응형) 뮤텍스의 융통성입니다.
 
@@ -131,25 +131,25 @@ tags = ["studynote-operating-system"]
      이렇게 뮤텍스는 수술용 메스처럼 "절대 안 쓰면 안 되는 최소한의 1줄"에만 아주 정밀하게 타격([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/))해야 한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     교착 상태(Deadlock)를 부르는 Mutex 사용 안티패턴 방어 트리   │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [요구사항: 스레드가 Mutex A와 Mutex B를 동시에 잡아야 함]      │
-  │                │                                                 │
-  │                ▼ 개발자의 Mutex 획득 순서 작성                   │
-  │   스레드 1: lock(A) -> lock(B)                                   │
-  │   스레드 2: lock(B) -> lock(A)                                   │
-  │          ├─ [이대로 배포하면?]                                   │
-  │          │      │                                                │
-  │          │      ▼ 🚨 영원한 데드락(Deadlock) 지옥 발생           │
-  │          │  1번은 A쥐고 B기다리고, 2번은 B쥐고 A를 영원히 기다림.│
-  │          │                                                       │
-  │          ▼ [아키텍트의 설계 교정 (Lock Ordering)]                │
-  │          모든 사내 코드는 자원을 잡을 때 알파벳 순서, 혹은       │
-  │          메모리 주소의 오름차순으로만 Mutex를 잡도록 강제함.     │
-  │          (스레드 2도 무조건 lock(A) -> lock(B) 순서 강제)        │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |     교착 상태(Deadlock)를 부르는 Mutex 사용 안티패턴 방어 트리   |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |   [요구사항: 스레드가 Mutex A와 Mutex B를 동시에 잡아야 함]      |
+  |                |                                                 |
+  |                v 개발자의 Mutex 획득 순서 작성                   |
+  |   스레드 1: lock(A) -> lock(B)                                   |
+  |   스레드 2: lock(B) -> lock(A)                                   |
+  |          +- [이대로 배포하면?]                                   |
+  |          |      |                                                |
+  |          |      v 🚨 영원한 데드락(Deadlock) 지옥 발생           |
+  |          |  1번은 A쥐고 B기다리고, 2번은 B쥐고 A를 영원히 기다림.|
+  |          |                                                       |
+  |          v [아키텍트의 설계 교정 (Lock Ordering)]                |
+  |          모든 사내 코드는 자원을 잡을 때 알파벳 순서, 혹은       |
+  |          메모리 주소의 오름차순으로만 Mutex를 잡도록 강제함.     |
+  |          (스레드 2도 무조건 lock(A) -> lock(B) 순서 강제)        |
+  +------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 뮤텍스의 가장 큰 부작용은 프로그래머가 락의 획득과 해제를 수동으로 짝맞춰야 한다는 점이다. `lock()`을 하고 `unlock()` 전에 예외(Exception)가 터져서 함수를 빠져나가면? 그 뮤텍스는 우주가 멸망할 때까지 영원히 풀리지 않는 좀비 락(Orphaned [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 되어 시스템을 마비시킨다. 반드시 `try-finally` 블록이나 C++의 `std::lock_guard` (RAII 패턴)를 써서 스코프를 벗어날 때 락이 무조건 풀리도록 방어 코딩을 해야 한다.
 
@@ -183,12 +183,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [임계 구역 (Critical Section)]
-    │
-    ▼
+    |
+    v
 [임계 구역 문제 해결의 3조건]
-    │
-    ├──▶ [선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)]
-    └──▶ [피터슨의 해결책 (Peterson's Algorithm)]
+    |
+    +---> [선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)]
+    +---> [피터슨의 해결책 (Peterson's Algorithm)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -205,7 +205,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 223 / 800
 
-← **이전**: [222. 스핀락 (Spinlock)](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)
-**다음**: [224. 세마포어 (Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) →
+<- **이전**: [222. 스핀락 (Spinlock)](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)
+**다음**: [224. 세마포어 (Semaphore)](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ->
 
 ---

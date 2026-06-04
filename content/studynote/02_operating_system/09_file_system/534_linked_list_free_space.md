@@ -30,32 +30,32 @@ tags = ["studynote-operating-system"]
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 메모리 통쾌적을 이룬 대신, 디스크 물리 암 모터를 어떻게 혹사시키며 징검다리를 건너는지 그 I/O [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뷰를 까보면 다음과 같다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────────────────┐
-  │                 "장부 따윈 없다! 빈 철판에 다음 주소만 적는다!" 릴레이 추적 뷰  │
-  ├─────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                 │
-  │  [[ RAM 영역 캐시 락백 메타데이터 객체 ]]                                       │
-  │    - Head Pointer (시작점) : `2번 블록!` ◀── (RAM은 오직 이 숫자 1개만 기억함)  │
-  │    - (Size 요약 : 0 Bytes RAM 소모, 미친 메모리 다이어트 극강 부스트 포팅)      │
-  │                                                                                 │
-  │  =========================▼===================================                  │
-  │                                                                                 │
-  │  [[ 하드디스크 C드라이브 물리 철판 체제 지옥 타격 렌더 ]]                       │
-  │                                                                                 │
-  │  블록 1 (사용중) ── (무시)                                                      │
-  │  블록 2 (빈칸)   ── [ 여백에 적힌 포스트잇: 다음 빈칸은 `5번` 이다! ]           │
-  │                   │                                                             │
-  │                   └─▶ 블록 5 (빈칸) ── [ 다음 빈칸 `8번` ! ]                    │
-  │                           │                                                     │
-  │                           └─▶ 블록 8 (빈칸) ── [ 다음 `9번`! ]                  │
-  │                                  │                                              │
-  │                                  └─▶ 블록 9 (빈칸) ── [ NULL 끝 ]               │
-  │                                                                                 │
-  │  => "야! 나 새 파일 넣게 빈칸 3개만 당장 가져와!"                               │
-  │  => 커널: "어.. 전광판이 없으니 일단 2번으로 점프 긁기 쾅! 그다음 디스크 모터를 │
-  │          크게 휙! 돌려서 저기 5번 점프 긁기 쾅! 또 돌려서 8번 점프 긁기 쾅! 아  │
-  │          존나 힘들어 I/O 레이턴시 터지겠네 데들락 С로틀!!"                      │
-  └─────────────────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------------------+
+  |                 "장부 따윈 없다! 빈 철판에 다음 주소만 적는다!" 릴레이 추적 뷰  |
+  +---------------------------------------------------------------------------------+
+  |                                                                                 |
+  |  [[ RAM 영역 캐시 락백 메타데이터 객체 ]]                                       |
+  |    - Head Pointer (시작점) : `2번 블록!` <--- (RAM은 오직 이 숫자 1개만 기억함)  |
+  |    - (Size 요약 : 0 Bytes RAM 소모, 미친 메모리 다이어트 극강 부스트 포팅)      |
+  |                                                                                 |
+  |  =========================v===================================                  |
+  |                                                                                 |
+  |  [[ 하드디스크 C드라이브 물리 철판 체제 지옥 타격 렌더 ]]                       |
+  |                                                                                 |
+  |  블록 1 (사용중) -- (무시)                                                      |
+  |  블록 2 (빈칸)   -- [ 여백에 적힌 포스트잇: 다음 빈칸은 `5번` 이다! ]           |
+  |                   |                                                             |
+  |                   +--> 블록 5 (빈칸) -- [ 다음 빈칸 `8번` ! ]                    |
+  |                           |                                                     |
+  |                           +--> 블록 8 (빈칸) -- [ 다음 `9번`! ]                  |
+  |                                  |                                              |
+  |                                  +--> 블록 9 (빈칸) -- [ NULL 끝 ]               |
+  |                                                                                 |
+  |  => "야! 나 새 파일 넣게 빈칸 3개만 당장 가져와!"                               |
+  |  => 커널: "어.. 전광판이 없으니 일단 2번으로 점프 긁기 쾅! 그다음 디스크 모터를 |
+  |          크게 휙! 돌려서 저기 5번 점프 긁기 쾅! 또 돌려서 8번 점프 긁기 쾅! 아  |
+  |          존나 힘들어 I/O 레이턴시 터지겠네 데들락 С로틀!!"                      |
+  +---------------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이전 장비트맵은 RAM 상단 옥상에서 빛의 속도로 머리만 써서 `01010` 맵을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 타격했다. 하지만 534장의 Connected Linked 철학은 RAM엔 아무런 장부(맵)도 없다! 그저 Head 숫자 2번만 덜렁 쳐다보고 디스크 모터를 회전시켜 직접 철판을 기어 다닌다. `[2번 읽기(10ms) -> 꼬리표 파싱 -> 5번 읽기(10ms) -> 꼬리표 파싱 -> 8번 읽기(10ms)]` 라는 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 병목이 연속적으로 체인 발화 폭파한다. 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 만약 10MB짜리면 빈칸 2,500개를 찾아야 하는데, 이 모터 징검다리 여정을 무려 2,500번 긁으며 여행(Seek Overhead 지옥 늪)해야 하므로 서버는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) I/O 프리징이 걸려 완전히 다운 멸망 셧다운 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 처박히는 거시적 렌더 구조다 증명!
@@ -156,12 +156,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [비트 벡터 (Bit Vector / Bitmap)]
-    │
-    ▼
+    |
+    v
 [연결 리스트 (Linked List) 빈 공간 관리]
-    │
-    ├──▶ [그룹화 (Grouping) / 계수 (Counting) 기법]
-    └──▶ [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
+    |
+    +---> [그룹화 (Grouping) / 계수 (Counting) 기법]
+    +---> [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -178,7 +178,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 534 / 800
 
-← **이전**: [533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/)
-**다음**: [535. 그룹화 (Grouping) / 계수 (Counting) 기법](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) →
+<- **이전**: [533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/)
+**다음**: [535. 그룹화 (Grouping) / 계수 (Counting) 기법](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) ->
 
 ---

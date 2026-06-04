@@ -33,17 +33,17 @@ tags = ["devops_sre"]
 이 도식은 컨테이너 환경에서 로컬 파일 로깅이 왜 실패하는지, 그리고 표준 출력 기반의 스트림 로깅이 어떻게 데이터를 보존하는지 대조하여 보여준다.
 
 [과거: 파일 기반 로깅 안티패턴]
-┌─ Container ──────────────┐
-│ App ─(write)─> app.log   │  ← 컨테이너 종료(Crash) 시
-└──────────────────────────┘    로그 파일도 함께 삭제(유실)됨!
++- Container --------------+
+| App -(write)-> app.log   |  <- 컨테이너 종료(Crash) 시
++--------------------------+    로그 파일도 함께 삭제(유실)됨!
          (단절)
 
 [현대: 스트림 기반 중앙집중식 로깅]
-┌─ Container ──────────────┐       ┌─ Node / Infra ────────────┐
-│ App ─(stdout)─> [Stream] │ ───>  │ Log Router (Fluent Bit)   │
-└──────────────────────────┘       └────────────┬──────────────┘
-                                                │ (Forwarding)
-                                                ↓
++- Container --------------+       +- Node / Infra ------------+
+| App -(stdout)-> [Stream] | --->  | Log Router (Fluent Bit)   |
++--------------------------+       +------------+--------------+
+                                                | (Forwarding)
+                                                v
                                    [Central Log Backend (ELK)]
 ```
 
@@ -70,26 +70,26 @@ tags = ["devops_sre"]
 ```text
 이 아키텍처는 데이터 평면(Data Plane)의 로그가 제어 평면의 개입 없이 로컬 노드의 데몬을 거쳐 외부 대용량 클러스터로 전달되는 전체 라이프사이클을 보여준다.
 
-┌───────────────── Kubernetes Worker Node ──────────────────┐
-│  ┌─ Pod A ─────┐   ┌─ Pod B ─────┐                        │
-│  │ App (stdout)│   │ App (stdout)│                        │
-│  └──────┬──────┘   └──────┬──────┘                        │
-│         │                 │                               │
-│         ↓                 ↓                               │
-│ [ /var/log/containers/*.log ] (Kubelet이 임시 파일화)     │
-│         │                                                 │
-│         ├──────── (Tailing & Parsing) ────────┐           │
-│         ↓                                     ↓           │
-│  ┌─────────────────────────────────────────────────────┐  │
-│  │ DaemonSet Log Router (Fluent Bit / Vector)          │  │
-│  │  - 파드 메타데이터(Namespace, Pod명) 태깅 주입      │  │
-│  └────────────────────────┬────────────────────────────┘  │
-└───────────────────────────┼───────────────────────────────┘
-                            │ (Batch / Forward)
-                            ↓
-┌─────────────────────── External ──────────────────────────┐
-│  [ Buffer: Kafka ]  ==>  [ Storage: Elasticsearch ]     │
-└───────────────────────────────────────────────────────────┘
++----------------- Kubernetes Worker Node ------------------+
+|  +- Pod A -----+   +- Pod B -----+                        |
+|  | App (stdout)|   | App (stdout)|                        |
+|  +------+------+   +------+------+                        |
+|         |                 |                               |
+|         v                 v                               |
+| [ /var/log/containers/*.log ] (Kubelet이 임시 파일화)     |
+|         |                                                 |
+|         +-------- (Tailing & Parsing) --------+           |
+|         v                                     v           |
+|  +-----------------------------------------------------+  |
+|  | DaemonSet Log Router (Fluent Bit / Vector)          |  |
+|  |  - 파드 메타데이터(Namespace, Pod명) 태깅 주입      |  |
+|  +------------------------+----------------------------+  |
++---------------------------+-------------------------------+
+                            | (Batch / Forward)
+                            v
++----------------------- External --------------------------+
+|  [ Buffer: Kafka ]  ==>  [ Storage: Elasticsearch ]     |
++-----------------------------------------------------------+
 ```
 
 이 흐름의 핵심은 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/)([DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터의 역할이다. Kubelet은 `stdout` 스트림을 노드의 특정 경로에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덤프한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 추적(Tailing)하면서 단순히 텍스트만 보내는 것이 아니라, 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 어떤 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 나온 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인지 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 주입(Enrichment)</strong>한다. 이 과정이 없으면 중앙 서버에 쌓인 수백만 줄의 텍스트가 누구의 것인지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없다.
@@ -135,15 +135,15 @@ tags = ["devops_sre"]
 아래 다이어그램은 수집 비용과 레이턴시 관점에서 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 방식의 트레이드오프를 보여준다.
 
 ```text
-┌──────────┬─────────────────────────┬────────────────────────┐
-│ 수집 방식│ 사이드카(Sidecar) 패턴  │ 데몬셋(DaemonSet) 패턴 │
-├──────────┼─────────────────────────┼────────────────────────┤
-│ 구조     │ [App + Log Router] / Pod│ [App]...[App] / Node   │
-│          │                         │        └> [Log Router] │
-│ 장점     │ 격리성 최상, 개별 튜닝  │ 자원 소모 최소화       │
-│ 단점     │ 파드 100개면 라우터 100개│ 특정 파드 폭주 시 병목 │
-│ 권장 환경│ 멀티테넌트, 특수 보안망 │ 일반적인 K8s 표준 환경 │
-└──────────┴─────────────────────────┴────────────────────────┘
++----------+-------------------------+------------------------+
+| 수집 방식| 사이드카(Sidecar) 패턴  | 데몬셋(DaemonSet) 패턴 |
++----------+-------------------------+------------------------+
+| 구조     | [App + Log Router] / Pod| [App]...[App] / Node   |
+|          |                         |        +> [Log Router] |
+| 장점     | 격리성 최상, 개별 튜닝  | 자원 소모 최소화       |
+| 단점     | 파드 100개면 라우터 100개| 특정 파드 폭주 시 병목 |
+| 권장 환경| 멀티테넌트, 특수 보안망 | 일반적인 K8s 표준 환경 |
++----------+-------------------------+------------------------+
 ```
 
 이 비교의 핵심은 자원 효율성이다. 기본적으로 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/) 방식이 자원 소모를 압도적으로 줄여주므로 업계 표준으로 쓰인다. 그러나 멀티테넌시([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서 A 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 B 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 완벽히 다른 클러스터로 보내야 할 때는, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 형태로 수집기를 붙여 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 물리적으로 격리하는 방식이 쓰인다.
@@ -162,7 +162,7 @@ tags = ["devops_sre"]
 
 2. **민감 정보(PII) 누출 및 보안 규제**
    - **상황**: 개발자의 실수로 `stdout`에 사용자의 주민번호나 신용카드 번호가 평문으로 스트림에 흘러들어감.
-   - **판단**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 중앙 저장소에 안착하기 전, Log Router(수집기) 단계에서 정규표현식 기반의 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">Data Masking</a>) 필터</strong>를 강제 적용해야 한다. (예: `카드번호 \d{4}-.*` → `****-****`). 일단 저장소에 들어간 뒤에는 삭제가 매우 어려워 컴플라이언스([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)) 위반이 된다.
+   - **판단**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 중앙 저장소에 안착하기 전, Log Router(수집기) 단계에서 정규표현식 기반의 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">Data Masking</a>) 필터</strong>를 강제 적용해야 한다. (예: `카드번호 \d{4}-.*` -> `****-****`). 일단 저장소에 들어간 뒤에는 삭제가 매우 어려워 컴플라이언스([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)) 위반이 된다.
 
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 볼륨에 따른 스토리지 비용 폭발 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a>)</strong>
    - **상황**: 하루 5TB씩 쌓이는 디버그 수준(DEBUG) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 때문에 클라우드 비용이 월 수천만 원에 달함.
@@ -174,18 +174,18 @@ tags = ["devops_sre"]
 이 도식은 중앙 로그 대시보드(Kibana)에서 로그가 보이지 않을 때 SRE가 추적하는 장애 격리 흐름을 보여준다.
 
 [이슈: Kibana에서 방금 발생한 에러 로그 검색 불가]
-   │
-   ├─ 1. App 자체에서 출력을 안 했나? (kubectl logs 파드명)
-   │  ├─ 안 보임 ──> [결론] 코드 버그. 로깅 레벨이나 stdout 출력 누락 확인.
-   │  └─ 잘 보임 ──> ↓ (인프라 파이프라인 문제로 좁혀짐)
-   │
-   ├─ 2. Log Router(데몬셋)가 수집을 못하나? (Router 에러 로그 확인)
-   │  ├─ 파일 권한 에러 ──> [결론] Kubelet 경로 볼륨 마운트 권한 수정
-   │  └─ 전송(Flush) 타임아웃 ──> ↓
-   │
-   └─ 3. Buffer(Kafka) 또는 Storage(Elastic)가 멈췄나?
-      ├─ Kafka Lag 증가 ──> [결론] Elasticsearch 인덱싱 병목, 스케일 아웃 필요
-      └─ 매핑 파싱 에러 ──> [결론] 앱이 보낸 JSON 포맷이 깨짐 (구조화 로깅 위반)
+   |
+   +- 1. App 자체에서 출력을 안 했나? (kubectl logs 파드명)
+   |  +- 안 보임 --> [결론] 코드 버그. 로깅 레벨이나 stdout 출력 누락 확인.
+   |  +- 잘 보임 --> v (인프라 파이프라인 문제로 좁혀짐)
+   |
+   +- 2. Log Router(데몬셋)가 수집을 못하나? (Router 에러 로그 확인)
+   |  +- 파일 권한 에러 --> [결론] Kubelet 경로 볼륨 마운트 권한 수정
+   |  +- 전송(Flush) 타임아웃 --> v
+   |
+   +- 3. Buffer(Kafka) 또는 Storage(Elastic)가 멈췄나?
+      +- Kafka Lag 증가 --> [결론] Elasticsearch 인덱싱 병목, 스케일 아웃 필요
+      +- 매핑 파싱 에러 --> [결론] 앱이 보낸 JSON 포맷이 깨짐 (구조화 로깅 위반)
 ```
 
 이 진단 흐름의 핵심은 시스템이 완전히 디커플링되어 있기 때문에, 어느 구간(App -> Node -> Buffer -> Storage)에서 물길이 막혔는지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Lag)을 통해 신속히 단절 구간을 찾아낼 수 있다는 것이다. 실무에서는 이러한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구간별 헬스 체크 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 자체를 프로메테우스([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/))로 감시해야 한다.
@@ -221,20 +221,20 @@ tags = ["devops_sre"]
 
 ```text
 [파일 기반 로그 (File-based Logging) — 서버 내 로그 파일, 분산 수집 어려움]
-    │
-    ▼
+    |
+    v
 [로그 이벤트 스트림 (Log as Event Stream) — stdout 출력, 12-Factor App 원칙]
-    │
-    ▼
+    |
+    v
 [로그 집계 (Log Aggregation) — Fluentd / Logstash 수집·파싱, 중앙 저장]
-    │
-    ▼
+    |
+    v
 [분산 추적 (Distributed Tracing) — OpenTelemetry Trace ID, 마이크로서비스 요청 흐름 추적]
-    │
-    ▼
+    |
+    v
 [통합 관측성 (Observability) — 로그·메트릭·트레이스 3-pillar, Grafana / Datadog]
-    │
-    ▼
+    |
+    v
 [AIOps 로그 분석 — 머신러닝 이상 패턴 탐지, 자동 근본 원인 분석(RCA)]
 ```
 이 흐름은 서버 내 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 이벤트 스트림 아키텍처로 전환된 뒤, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)·통합 관측성을 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 장애 분석으로 진화하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 로깅 기술의 발전을 보여준다.
@@ -250,7 +250,7 @@ tags = ["devops_sre"]
 
 **진행 상황**: 17 / 373
 
-← **이전**: [16. 개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/016_dev_prod_parity/)
-**다음**: [18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) →
+<- **이전**: [16. 개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/016_dev_prod_parity/)
+**다음**: [18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) ->
 
 ---

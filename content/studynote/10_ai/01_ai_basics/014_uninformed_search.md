@@ -24,8 +24,8 @@ tags = ["ai"]
 ```text
 [맹목적 탐색 (Uninformed)]           [휴리스틱 탐색 (Informed)]
         (Start)                             (Start)
-      ↙    ↓    ↘                         ↙         ↘ (목표 쪽으로 유도됨)
-   (N1)   (N2)   (N3)                  (N1:무시)      (N2) ─> (Goal)
+      ↙    v    ↘                         ↙         ↘ (목표 쪽으로 유도됨)
+   (N1)   (N2)   (N3)                  (N1:무시)      (N2) -> (Goal)
   ↙  ↘   ↙  ↘   ↙  ↘
 ( )  () ( ) () () (Goal)               * 맹목 탐색은 방향을 모르기 때문에
 (목표 위치를 몰라 층별로 모두 전개)              자식 노드를 기계적으로 전부 메모리에 적재함
@@ -56,11 +56,11 @@ tags = ["ai"]
  [D]  [E] [F]  [G]
 
 (1) BFS 탐색 순서 (Queue: A 빼고 B,C 넣음)
-경로: A ──> B ──> C ──> D ──> E ──> F ──> G
+경로: A --> B --> C --> D --> E --> F --> G
 (층 단위로 평행하게 진행. 한 층을 다 봐야 다음 층 전개)
 
 (2) DFS 탐색 순서 (Stack: A 빼고 C,B 넣고 B부터 꺼냄)
-경로: A ──> B ──> D ──> E ──> C ──> F ──> G
+경로: A --> B --> D --> E --> C --> F --> G
 (왼쪽 끝 바닥까지 파고든 후, 막히면 형제 노드로 회귀)
 ```
 이 구조의 핵심은 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/))의 병목 지점이다. BFS는 트리의 폭이 넓어질수록 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 담아두어야 할 형제 노드의 수가 지수적으로 증가하므로, 시간보다 '메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))'으로 먼저 죽는다. 반면 DFS는 현재 뻗어나가는 경로 상의 노드들만 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 들고 있으면 되므로 메모리를 매우 적게 소모하지만, 목표 노드가 오른쪽에 있음에도 끝없는 깊이를 가진 왼쪽 가지에 빠지면 영원히 헤어 나오지 못하는 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 지닌다.
@@ -93,16 +93,16 @@ tags = ["ai"]
 <strong>실무 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 채택)</strong>
 ```text
 [상태 공간 탐색 문제 발생]
-   ↓
+   v
 [Q1. 도메인 특성상 목표까지의 거리를 추정(Heuristic)할 수 있는가?]
- ├── (Yes) -> A* 알고리즘 등 정보 기반 탐색으로 전환
- └── (No, 맹목적 탐색 사용)
-      ↓
+ +-- (Yes) -> A* 알고리즘 등 정보 기반 탐색으로 전환
+ +-- (No, 맹목적 탐색 사용)
+      v
 [Q2. 트리 깊이가 매우 깊거나 무한 루프 가능성이 있는가?]
- ├── (Yes) -> 순수 DFS 배제 (무한 루프 위험) -> IDS 알고리즘 채택
- └── (No) -> [Q3. 메모리(RAM) 용량이 트리의 폭(Branch Factor)을 감당하는가?]
-       ├── (Yes) -> 최단 경로를 보장하는 BFS 채택 (웹 크롤링 등)
-       └── (No)  -> 메모리 절약을 위해 DFS 기반 백트래킹 채택 (퍼즐, 미로 등)
+ +-- (Yes) -> 순수 DFS 배제 (무한 루프 위험) -> IDS 알고리즘 채택
+ +-- (No) -> [Q3. 메모리(RAM) 용량이 트리의 폭(Branch Factor)을 감당하는가?]
+       +-- (Yes) -> 최단 경로를 보장하는 BFS 채택 (웹 크롤링 등)
+       +-- (No)  -> 메모리 절약을 위해 DFS 기반 백트래킹 채택 (퍼즐, 미로 등)
 ```
 이 의사결정의 핵심 병목은 '메모리 한계(Memory Constraint)'다. 구글과 같은 검색 엔진이 웹페이지 링크를 탐색할 때(Web Crawling), DFS를 쓰면 링크가 꼬리를 물어 특정 스팸 사이트의 무한 루프에 영원히 갇히게 된다. 따라서 반드시 큐 기반의 BFS를 통해 1-Depth 링크들을 먼저 수집하고 인덱싱하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 취해야 한다. 반면, 보드게임이나 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 퍼즐의 해답을 찾을 때는 노드가 넓게 퍼지므로, 램 초과 방지를 위해 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반의 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)을 적용하는 것이 정석이다.
 
@@ -141,17 +141,17 @@ tags = ["ai"]
 
 ```text
 [상태 공간 (State Space) — 초기 상태에서 목표까지 모든 가능 상태 집합]
-    │
-    ▼
+    |
+    v
 [BFS (Breadth-First Search) — 큐 기반 층별 탐색, 최단 거리 보장]
-    │
-    ▼
+    |
+    v
 [DFS (Depth-First Search) — 스택 기반 깊이 우선 탐색, 메모리 효율]
-    │
-    ▼
+    |
+    v
 [IDS (Iterative Deepening Search) — DFS 깊이 제한 반복, BFS+DFS 장점 결합]
-    │
-    ▼
+    |
+    v
 [A* 알고리즘 (Informed Search) — 휴리스틱 함수로 맹목적 탐색의 한계 초월]
 ```
 
@@ -169,7 +169,7 @@ tags = ["ai"]
 
 **진행 상황**: 14 / 420
 
-← **이전**: [13. 상태 공간 탐색 (State Space Search)](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/)
-**다음**: [15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/) →
+<- **이전**: [13. 상태 공간 탐색 (State Space Search)](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/)
+**다음**: [15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/) ->
 
 ---

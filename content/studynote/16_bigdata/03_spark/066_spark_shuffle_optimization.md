@@ -64,21 +64,21 @@ tags = ["studynote-bigdata"]
 
 ```text
 [스파크 RDD 와이드 의존성 (Wide Dependency) — 셔플 발생 원인, 파티션 간 데이터 이동]
-    │
-    ▼
+    |
+    v
 [셔플 (Shuffle) — groupBy·join 시 네트워크를 통한 데이터 재분배, 성능 병목의 핵심]
-    │
-    ▼
+    |
+    v
 [AQE (Adaptive Query Execution) — 런타임 통계 기반 셔플 파티션 수 동적 최적화]
-    │
-    ▼
+    |
+    v
 [브로드캐스트 조인 (Broadcast Join) — 작은 테이블을 모든 노드에 복제하여 셔플 전체 제거]
-    │
-    ▼
+    |
+    v
 [데이터 스큐 처리 (Skew Handling) — 편향 파티션 분할·솔팅으로 불균형 셔플 해소]
 ```
 
-이 흐름은 스파크에서 셔플이 와이드 의존성으로 발생하는 원리를 이해하고, AQE의 동적 최적화→브로드캐스트 조인으로 셔플 자체를 제거하거나 최소화하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 처리로 불균형 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)까지 해소하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심 계보를 보여준다.
+이 흐름은 스파크에서 셔플이 와이드 의존성으로 발생하는 원리를 이해하고, AQE의 동적 최적화->브로드캐스트 조인으로 셔플 자체를 제거하거나 최소화하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 처리로 불균형 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)까지 해소하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 여러 명의 요리사가 각자 재료를 썰다가, 요리를 완성하기 위해 재료를 서로 바꾸는 시간이에요.
@@ -91,7 +91,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 66 / 262
 
-← **이전**: [스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)](/knowledge-base/studynote/16_bigdata/03_spark/065_spark_runtime_architecture/)
-**다음**: [Spark 데이터 직렬화 (Data Serialization)](/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/) →
+<- **이전**: [스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)](/knowledge-base/studynote/16_bigdata/03_spark/065_spark_runtime_architecture/)
+**다음**: [Spark 데이터 직렬화 (Data Serialization)](/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/) ->
 
 ---

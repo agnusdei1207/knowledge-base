@@ -28,12 +28,12 @@ LSTM은 1997년 Hochreiter와 Schmidhuber가 제안한 구조로, 두 개의 분
 핵심 직관: 셀 상태는 컨베이어 벨트처럼 정보가 큰 손실 없이 장거리를 이동하는 경로이고, 세 게이트는 어떤 정보를 버릴지(망각), 추가할지(입력), 출력할지(출력)를 학습한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 표준 RNN이 하나의 작은 수첩에 모든 것을 적는 것이라면, LSTM은 긴 메모를 보관하는 별도 노트(셀 상태)와 오늘 할 일을 적는 일정표(은닉 상태)를 분리해 관리하는 이중 노트 시스템이다.
@@ -71,21 +71,21 @@ h_t = o_t ⊙ tanh(C_t)
 ### 게이트 역할 다이어그램
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  C_{t-1} ──────────────────────────────────── C_t           │
-│            │                │                               │
-│           ⊗ f_t             ⊕                               │
-│            │           ⊗ i_t                                │
-│           망각           │                                   │
-│           게이트       tanh(·)                               │
-│                         (C̃_t)                               │
-│  h_{t-1}──┐                                                  │
-│  x_t  ────┤→[σ]→f_t                                         │
-│           │→[σ]→i_t    ┌─────────────┐                      │
-│           │→[tanh]→C̃_t │ C_t → tanh │                      │
-│           │→[σ]→o_t    │      ⊗ o_t  │ → h_t               │
-│           └────────────└─────────────┘                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  C_{t-1} ------------------------------------ C_t           |
+|            |                |                               |
+|           ⊗ f_t             ⊕                               |
+|            |           ⊗ i_t                                |
+|           망각           |                                   |
+|           게이트       tanh(·)                               |
+|                         (C̃_t)                               |
+|  h_{t-1}--+                                                  |
+|  x_t  ----+->[σ]->f_t                                         |
+|           |->[σ]->i_t    +-------------+                      |
+|           |->[tanh]->C̃_t | C_t -> tanh |                      |
+|           |->[σ]->o_t    |      ⊗ o_t  | -> h_t               |
+|           +------------+-------------+                      |
++--------------------------------------------------------------+
 ```
 
 ### 각 게이트의 의미
@@ -108,7 +108,7 @@ h_t = o_t ⊙ tanh(C_t)
 f_t ≈ 1이면 그래디언트 = 1 (소실 없음!)
 ```
 
-표준 RNN의 [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)'(·)·W_h 반복 곱셈(→ 0 수렴) 대신, LSTM의 셀 상태 경로는 f_t에 의해 제어되어 그래디언트 소실이 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)된다.
+표준 RNN의 [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)'(·)·W_h 반복 곱셈(-> 0 수렴) 대신, LSTM의 셀 상태 경로는 f_t에 의해 제어되어 그래디언트 소실이 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)된다.
 
 - **📢 섹션 요약 비유**: [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트는 수문(Water Gate)과 같다. 망각 게이트는 오래된 물을 얼마나 내보낼지, 입력 게이트는 새 물을 얼마나 받아들일지, 출력 게이트는 저수지에서 얼마나 공급할지 결정한다. 셀 상태(C_t)는 저수지 자체다.
 
@@ -132,7 +132,7 @@ h_t = (1 - z_t) ⊙ h_{t-1} + z_t ⊙ h̃_t
 |:---|:---|:---|
 | 게이트 수 | 3 (망각, 입력, 출력) | 2 (업데이트, 리셋) |
 | 상태 벡터 | 2 (h_t, C_t) | 1 (h_t) |
-| 파라미터 수 | 4×(d²+d×n) | 3×(d²+d×n) |
+| 파라미터 수 | 4×(d^+d×n) | 3×(d^+d×n) |
 | 장거리 의존성 | 우수 | 보통 |
 | 계산 효율 | 낮음 | 높음 |
 
@@ -182,7 +182,7 @@ LSTM은 1997년 제안 이후 NLP, 음성 인식, 시계열 예측 분야의 표
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [LSTM 셀 게이트 수식 (LSTM CELL MATH)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [LSTM 셀 게이트 수식 (LSTM CELL MATH)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -197,7 +197,7 @@ LSTM은 1997년 제안 이후 NLP, 음성 인식, 시계열 예측 분야의 표
 
 **진행 상황**: 371 / 420
 
-← **이전**: [370. BPTT (Backpropagation Through Time)](/knowledge-base/studynote/10_ai/05_data_science_ml/370_bptt/)
-**다음**: [372. 벨만 방정식 (Bellman Equation)](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) →
+<- **이전**: [370. BPTT (Backpropagation Through Time)](/knowledge-base/studynote/10_ai/05_data_science_ml/370_bptt/)
+**다음**: [372. 벨만 방정식 (Bellman Equation)](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ->
 
 ---

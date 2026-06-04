@@ -29,7 +29,7 @@ tags = ["studynote-data-engineering"]
 | <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, S)</strong> | 현재 환경 관찰 정보 | 차량 위치·속도·주변 차량 |
 | **행동(Action, A)** | 에이전트의 선택 | 가속·감속·조향 |
 | **보상(Reward, R)** | 행동 결과의 피드백 | +1(안전), -[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(충돌) |
-| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>, π)</strong> | 상태→행동 매핑 함수 | "이 상황에서 무엇을 할지" |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>, π)</strong> | 상태->행동 매핑 함수 | "이 상황에서 무엇을 할지" |
 
 ### 1.2 강화 학습이 필요한 이유
 
@@ -49,7 +49,7 @@ MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 |:---|:---|:---|
 | **S** | 상태 공간([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space) | 가능한 모든 상태 집합 |
 | **A** | 행동 공간(Action Space) | 가능한 모든 행동 집합 |
-| **P(s'│s,a)** | 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Transition [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) | 상태 s에서 a 수행 후 s'로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| **P(s'|s,a)** | 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Transition [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) | 상태 s에서 a 수행 후 s'로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | **R(s,a)** | 보상 함수(Reward Function) | 상태 s에서 a 수행 시 즉각 보상 |
 | **γ** | 할인율(Discount Factor, 0~1) | 미래 보상의 현재 가치 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
 
@@ -58,62 +58,62 @@ MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 ### 2.2 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)([Value Function](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/))와 Q함수
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│           가치 함수 계층 구조                                    │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  V^π(s) = 상태 가치 함수 (State Value Function)                  │
-│         = 상태 s에서 정책 π를 따를 때 기대 누적 보상             │
-│         = E[R_t + γR_{t+1} + γ²R_{t+2} + ...]                  │
-│                                                                  │
-│  Q^π(s,a) = 행동-가치 함수 (Action-Value Function, Q함수)        │
-│           = 상태 s에서 행동 a를 취한 후 정책 π를 따를 때         │
-│             기대 누적 보상                                        │
-│           = E[R_t + γ·max_a Q(s_{t+1}, a)]                     │
-│                                                                  │
-│  최적 정책: π*(s) = argmax_a Q*(s,a)                            │
-│                                                                  │
-│  벨만 방정식 (Bellman Equation):                                  │
-│  Q(s,a) ← Q(s,a) + α[r + γ·max_a' Q(s',a') - Q(s,a)]         │
-│            ↑업데이트   ↑ TD 에러 (Temporal Difference Error)    │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|           가치 함수 계층 구조                                    |
++-----------------------------------------------------------------+
+|                                                                  |
+|  V^π(s) = 상태 가치 함수 (State Value Function)                  |
+|         = 상태 s에서 정책 π를 따를 때 기대 누적 보상             |
+|         = E[R_t + γR_{t+1} + γ^R_{t+2} + ...]                  |
+|                                                                  |
+|  Q^π(s,a) = 행동-가치 함수 (Action-Value Function, Q함수)        |
+|           = 상태 s에서 행동 a를 취한 후 정책 π를 따를 때         |
+|             기대 누적 보상                                        |
+|           = E[R_t + γ·max_a Q(s_{t+1}, a)]                     |
+|                                                                  |
+|  최적 정책: π*(s) = argmax_a Q*(s,a)                            |
+|                                                                  |
+|  벨만 방정식 (Bellman Equation):                                  |
+|  Q(s,a) <- Q(s,a) + α[r + γ·max_a' Q(s',a') - Q(s,a)]         |
+|            ^업데이트   ^ TD 에러 (Temporal Difference Error)    |
++-----------------------------------------------------------------+
 ```
 
 ### 2.3 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) 구조
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                DQN (Deep Q-Network) 아키텍처                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  상태 입력(State)                                                │
-│  [게임 화면 픽셀 84x84x4]                                        │
-│         │                                                        │
-│         ▼                                                        │
-│  ┌─────────────────┐                                            │
-│  │  CNN 레이어      │  특징 추출 (Feature Extraction)            │
-│  │  Conv→Pool×3    │                                            │
-│  └────────┬────────┘                                            │
-│           │                                                      │
-│           ▼                                                      │
-│  ┌─────────────────┐                                            │
-│  │  FC 레이어       │  Q값 예측                                  │
-│  │  Dense×2        │                                            │
-│  └────────┬────────┘                                            │
-│           │                                                      │
-│           ▼                                                      │
-│  Q값 출력: [Q(s,left)=2.3, Q(s,right)=1.5, Q(s,fire)=3.1]     │
-│  행동 선택: argmax → fire 선택                                    │
-│                                                                  │
-│  ┌────────────────────────────────────────────┐                 │
-│  │  경험 재생 버퍼 (Experience Replay Buffer)  │                 │
-│  │  (s, a, r, s') 100만개 저장                │                 │
-│  │  미니배치 랜덤 샘플링으로 학습              │                 │
-│  └────────────────────────────────────────────┘                 │
-│                                                                  │
-│  타겟 네트워크 (Target Network): 주기적으로 가중치 복사           │
-│  → 학습 안정화 (TD 에러 발산 방지)                               │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                DQN (Deep Q-Network) 아키텍처                     |
++-----------------------------------------------------------------+
+|                                                                  |
+|  상태 입력(State)                                                |
+|  [게임 화면 픽셀 84x84x4]                                        |
+|         |                                                        |
+|         v                                                        |
+|  +-----------------+                                            |
+|  |  CNN 레이어      |  특징 추출 (Feature Extraction)            |
+|  |  Conv->Pool×3    |                                            |
+|  +--------+--------+                                            |
+|           |                                                      |
+|           v                                                      |
+|  +-----------------+                                            |
+|  |  FC 레이어       |  Q값 예측                                  |
+|  |  Dense×2        |                                            |
+|  +--------+--------+                                            |
+|           |                                                      |
+|           v                                                      |
+|  Q값 출력: [Q(s,left)=2.3, Q(s,right)=1.5, Q(s,fire)=3.1]     |
+|  행동 선택: argmax -> fire 선택                                    |
+|                                                                  |
+|  +--------------------------------------------+                 |
+|  |  경험 재생 버퍼 (Experience Replay Buffer)  |                 |
+|  |  (s, a, r, s') 100만개 저장                |                 |
+|  |  미니배치 랜덤 샘플링으로 학습              |                 |
+|  +--------------------------------------------+                 |
+|                                                                  |
+|  타겟 네트워크 (Target Network): 주기적으로 가중치 복사           |
+|  -> 학습 안정화 (TD 에러 발산 방지)                               |
++-----------------------------------------------------------------+
 ```
 
 ### 2.4 DQN의 두 가지 핵심 혁신
@@ -144,7 +144,7 @@ MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 ε-탐욕(ε-greedy) 전략:
 - ε 확률로 무작위 행동 (탐색, Exploration)
 - (1-ε) 확률로 최적 행동 선택 (활용, Exploitation)
-- 학습 초기: ε=1.0 → 후기: ε=0.1 (점진적 감소)
+- 학습 초기: ε=1.0 -> 후기: ε=0.1 (점진적 감소)
 
 UCB (Upper Confidence Bound):
 - 불확실성이 큰 행동을 우선 탐색
@@ -163,16 +163,16 @@ UCB (Upper Confidence Bound):
 ```
 AlphaGo 학습 파이프라인:
 1단계: 지도 학습 (SL Policy Network)
-  → 인간 기보 16만 게임으로 정책 초기화
+  -> 인간 기보 16만 게임으로 정책 초기화
 
 2단계: 자기 대국 강화 학습 (RL Policy Network)
-  → SL 모델과 셀프 플레이로 승리 보상 최대화
+  -> SL 모델과 셀프 플레이로 승리 보상 최대화
 
 3단계: 가치 네트워크 (Value Network)
-  → 각 포지션의 승률 예측 학습
+  -> 각 포지션의 승률 예측 학습
 
 4단계: MCTS(Monte Carlo Tree Search) + 두 네트워크 결합
-  → 정책 네트워크(이동 선택) + 가치 네트워크(포지션 평가)
+  -> 정책 네트워크(이동 선택) + 가치 네트워크(포지션 평가)
 ```
 
 ### 4.2 산업 적용 사례별 보상 설계
@@ -233,15 +233,15 @@ AlphaGo 학습 파이프라인:
 
 ```text
 MDP: 상태(S) · 행동(A) · 보상(R) · 전이(T)
-    │
-    ▼
-가치 기반: Q-Learning → DQN (딥러닝 결합)
-정책 기반: REINFORCE → PPO · A3C
-    │
-    ▼
+    |
+    v
+가치 기반: Q-Learning -> DQN (딥러닝 결합)
+정책 기반: REINFORCE -> PPO · A3C
+    |
+    v
 모델 기반 RL · Offline RL · Multi-Agent RL
-    │
-    ▼
+    |
+    v
 응용: 게임 AI · 로봇 · RLHF (LLM 정렬)
 ```
 2. Q러닝은 각 상황에서 어떤 선택이 미래에 제일 많은 점수를 줄지 표를 만들어 기억하는 것이고, DQN은 그 표가 너무 커질 때 신경망([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 두뇌)으로 대신 계산하는 방법이에요.
@@ -253,7 +253,7 @@ MDP: 상태(S) · 행동(A) · 보상(R) · 전이(T)
 
 **진행 상황**: 253 / 258
 
-← **이전**: [252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)
-**다음**: [254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/254_mlops_data_concept_drift_feature_store_monitoring/) →
+<- **이전**: [252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)
+**다음**: [254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/254_mlops_data_concept_drift_feature_store_monitoring/) ->
 
 ---

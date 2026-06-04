@@ -19,8 +19,8 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-O2O 흐름: 온라인 검색/예약 → 오프라인 서비스 이용 → 온라인 리뷰/결제
-  예: 배달의민족 주문 → 식당 조리 → 배달 → 리뷰
+O2O 흐름: 온라인 검색/예약 -> 오프라인 서비스 이용 -> 온라인 리뷰/결제
+  예: 배달의민족 주문 -> 식당 조리 -> 배달 -> 리뷰
   핵심: 플랫폼이 양쪽(소비자·사업자)을 연결
 ```
 
@@ -38,7 +38,7 @@ O2O는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strat
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **O2O** | 온→오프 연결 |
+| **O2O** | 온->오프 연결 |
 | **OMO** | 온·오프 융합 (진화) |
 | **플랫폼** | 양면 시장 |
 | **뉴 리테일** | 알리바바 OMO |
@@ -47,10 +47,10 @@ O2O는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strat
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[e-Commerce (2000s)] → [O2O (배달앱·차량호출, 2014~)]
-    → [OMO (온·오프 융합, 2018~)]
-    → [뉴 리테일 (알리바바, 허마센셩)]
-    → [현재: AI 기반 수요 예측·동적 가격]
+[e-Commerce (2000s)] -> [O2O (배달앱·차량호출, 2014~)]
+    -> [OMO (온·오프 융합, 2018~)]
+    -> [뉴 리테일 (알리바바, 허마센셩)]
+    -> [현재: AI 기반 수요 예측·동적 가격]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ O2O는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strat
 
 **진행 상황**: 139 / 482
 
-← **이전**: [138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/138_digital_onboarding_automation_ux/)
-**다음**: [140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/) →
+<- **이전**: [138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/138_digital_onboarding_automation_ux/)
+**다음**: [140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/) ->
 
 ---

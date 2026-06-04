@@ -38,19 +38,19 @@ VSM은 작업 과정을 시간 축 위에 매핑하며, `현재 상태 맵 (Curr
 | Flow Efficiency (흐름 효율성) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Time ÷ [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) × 100 (%) | [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 중 진짜 일한 비율 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          가치 스트림 맵의 전형적인 시간 흐름 시각화         │
-├─────────────────────────────────────────────────────────────┤
-│   [요구사항] ─▶ [설계/기획] ─▶ [개발/코딩] ─▶ [QA/승인] ─▶ [배포]  │
-│                                                             │
-│ 가치 창출 시간  :   3일          5일         2일         1일   │
-│ (Process Time) : ───┴────────────┴───────────┴───────────┴─  │
-│ 대기/낭비 시간  : 7일 (승인대기) 10일 (백로그) 5일 (환경세팅) 4일   │
-│ (Wait Time)    : ──────────────────────────────────────────  │
-│                                                             │
-│ * 총 Lead Time: 37일 (실제 작업 11일 + 대기 26일)           │
-│ * 흐름 효율성 : 11 / 37 = 약 29.7%                          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          가치 스트림 맵의 전형적인 시간 흐름 시각화         |
++-------------------------------------------------------------+
+|   [요구사항] --> [설계/기획] --> [개발/코딩] --> [QA/승인] --> [배포]  |
+|                                                             |
+| 가치 창출 시간  :   3일          5일         2일         1일   |
+| (Process Time) : ---+------------+-----------+-----------+-  |
+| 대기/낭비 시간  : 7일 (승인대기) 10일 (백로그) 5일 (환경세팅) 4일   |
+| (Wait Time)    : ------------------------------------------  |
+|                                                             |
+| * 총 Lead Time: 37일 (실제 작업 11일 + 대기 26일)           |
+| * 흐름 효율성 : 11 / 37 = 약 29.7%                          |
++-------------------------------------------------------------+
 ```
 
 위 다이어그램처럼 전체 시간 중 대기가 차지하는 비중이 압도적으로 높다. 핵심 원리는 이 비율을 가시화하여 개발자 증원보다 결재 프로세스 간소화나 QA 자동화가 더 시급함을 입증하는 것이다.
@@ -110,17 +110,17 @@ VSM을 성공적으로 적용하면 조직은 무의미하게 바쁜 상태에�
 
 ```text
 제조업의 린(Lean) 생산 방식
-    │
-    ▼
+    |
+    v
 소프트웨어 개발로 도입 (애자일과 결합)
-    │
-    ▼
+    |
+    v
 VSM (Value Stream Mapping) 도출 (현재 상태 맵 작성)
-    │
-    ▼
+    |
+    v
 대기 시간(Wait Time) 및 프로세스 병목 식별
-    │
-    ▼
+    |
+    v
 Kanban (WIP 제한) 및 CI/CD (자동화) 연계로 미래 상태 맵 달성
 ```
 
@@ -136,7 +136,7 @@ Kanban (WIP 제한) 및 CI/CD (자동화) 연계로 미래 상태 맵 달성
 
 **진행 상황**: 88 / 973
 
-← **이전**: [87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)
-**다음**: [89. 린 스타트업 (Lean Startup) - 구축-측정-학습 피드백 루프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/089_lean_startup_bml_loop/) →
+<- **이전**: [87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)
+**다음**: [89. 린 스타트업 (Lean Startup) - 구축-측정-학습 피드백 루프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/089_lean_startup_bml_loop/) ->
 
 ---

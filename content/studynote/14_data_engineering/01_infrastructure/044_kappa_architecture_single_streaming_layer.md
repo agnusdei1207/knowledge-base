@@ -24,7 +24,7 @@ tags = ["studynote-data-engineering"]
 
   람다의 문제:
   배치 레이어 + 스피드 레이어 = 동일 로직 2회 구현
-  → 코드 불일치 위험, 유지보수 비용 2배
+  -> 코드 불일치 위험, 유지보수 비용 2배
 
   카파의 해결:
   스트리밍 레이어만 사용 (배치 레이어 제거)
@@ -32,19 +32,19 @@ tags = ["studynote-data-engineering"]
 
 아키텍처:
   모든 데이터 소스
-      │
-      ↓
+      |
+      v
   Kafka (이벤트 로그, 영구 보관)
-      │
-      ├── 스트리밍 처리 v1 (현재 버전)
-      │       │
-      │       ↓ 서빙 레이어 (실시간 결과)
-      │
-      └── 재처리 필요 시: 스트리밍 v2 (새 버전)
-              │ (Kafka 처음부터 재실행)
-              ↓ 새 서빙 레이어
+      |
+      +-- 스트리밍 처리 v1 (현재 버전)
+      |       |
+      |       v 서빙 레이어 (실시간 결과)
+      |
+      +-- 재처리 필요 시: 스트리밍 v2 (새 버전)
+              | (Kafka 처음부터 재실행)
+              v 새 서빙 레이어
 
-  v2 안정화 후 v1 폐기 → v2가 메인
+  v2 안정화 후 v1 폐기 -> v2가 메인
 
 핵심 원칙:
   1. 모든 데이터는 이벤트 로그 (Kafka)
@@ -125,8 +125,8 @@ Apache Flink:
   - 상태 관리 (State Backend: RocksDB)
 
   카파 재처리:
-  Flink Job v2 시작 → Kafka 처음부터 소비
-  → 병렬 처리로 히스토리 빠르게 재처리
+  Flink Job v2 시작 -> Kafka 처음부터 소비
+  -> 병렬 처리로 히스토리 빠르게 재처리
 
 Apache Kafka Streams:
   Kafka 내장 스트리밍 라이브러리
@@ -161,27 +161,27 @@ Apache Spark Structured Streaming:
 코드 복잡도:
   람다: 동일 로직을 Spark(배치) + Flink(스피드) 두 번 구현
   카파: Flink 하나로 통합
-  → 카파: 코드 50% 절감
+  -> 카파: 코드 50% 절감
 
 재처리 성능:
-  람다: Spark 배치 → 빠른 재처리 (수천 TB/시간)
-  카파: Flink 스트리밍 → 느린 재처리 (수백 GB/시간)
-  → 람다: 대규모 재처리 유리
+  람다: Spark 배치 -> 빠른 재처리 (수천 TB/시간)
+  카파: Flink 스트리밍 -> 느린 재처리 (수백 GB/시간)
+  -> 람다: 대규모 재처리 유리
 
 보관 비용:
   람다: S3 파일 시스템 (저렴)
-  카파: Kafka 무한 보관 → 비용 증가
-  → 람다: 장기 보관 유리
+  카파: Kafka 무한 보관 -> 비용 증가
+  -> 람다: 장기 보관 유리
 
 데이터 일관성:
   람다: 배치 뷰 + 스피드 뷰 병합 (복잡한 쿼리)
   카파: 단일 스트리밍 출력 (단순한 쿼리)
-  → 카파: 일관성 단순
+  -> 카파: 일관성 단순
 
 운영 복잡도:
   람다: 두 파이프라인 운영
   카파: 하나의 파이프라인
-  → 카파: 운영 단순
+  -> 카파: 운영 단순
 
 선택 기준:
   카파 적합:
@@ -217,13 +217,13 @@ Apache Spark Structured Streaming:
   모델 업데이트 시 전체 재처리 가능
 
 카파 아키텍처:
-  결제 이벤트 → Kafka (무한 보관)
-               → Flink Job v1 (사기 탐지 모델 v1)
-                     → 결과: Redis (블랙리스트) + Cassandra (로그)
-                     → 결제 API: Redis 조회 후 허용/거부
+  결제 이벤트 -> Kafka (무한 보관)
+               -> Flink Job v1 (사기 탐지 모델 v1)
+                     -> 결과: Redis (블랙리스트) + Cassandra (로그)
+                     -> 결제 API: Redis 조회 후 허용/거부
 
 모델 업데이트 시나리오:
-  사기 패턴 변경 → 모델 v2 학습
+  사기 패턴 변경 -> 모델 v2 학습
 
   재처리 과정:
   1. Flink Job v2 시작 (새 모델 적용)
@@ -232,7 +232,7 @@ Apache Spark Structured Streaming:
   4. 새 Redis/Cassandra에 결과 저장
 
   v2 재처리 완료 후:
-  5. 결제 API: v1 Redis → v2 Redis로 전환
+  5. 결제 API: v1 Redis -> v2 Redis로 전환
   6. v1 Flink Job 종료
 
 성능:
@@ -247,7 +247,7 @@ Apache Spark Structured Streaming:
 
   람다 필요 사례:
     월간 집계 정산 (TB 단위 배치 처리 필요)
-    → 카파의 재처리로는 비효율적
+    -> 카파의 재처리로는 비효율적
 ```
 
 > 📢 **섹션 요약 비유**: 결제 사기 탐지 카파는 보안 카메라 + 즉시 알림 — 모든 거래(이벤트)를 실시간으로 분석하고, 의심 패턴 발견 시 즉시 차단. 녹화([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 보관)를 처음부터 재생하면 과거 분석도 가능.
@@ -316,7 +316,7 @@ Kafka + Flink 사실상 표준
 
 **진행 상황**: 44 / 258
 
-← **이전**: [043. 람다 아키텍처 — 배치 & 스피드 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/043_lambda_architecture_batch_speed_layer/)
-**다음**: [045. 컬럼형 저장 형식 — Parquet & ORC](/knowledge-base/studynote/14_data_engineering/01_infrastructure/045_columnar_storage_format_parquet_orc/) →
+<- **이전**: [043. 람다 아키텍처 — 배치 & 스피드 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/043_lambda_architecture_batch_speed_layer/)
+**다음**: [045. 컬럼형 저장 형식 — Parquet & ORC](/knowledge-base/studynote/14_data_engineering/01_infrastructure/045_columnar_storage_format_parquet_orc/) ->
 
 ---

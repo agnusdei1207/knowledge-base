@@ -32,27 +32,27 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                SCA 스캔 흐름                             │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  package.json / pom.xml / requirements.txt             │
-│          │                                             │
-│          ▼                                             │
-│  ┌────────────────────┐                                │
-│  │  SCA 도구           │  (Trivy, Snyk, OWASP          │
-│  │  의존성 그래프 분석  │   Dependency-Check)           │
-│  └──────────┬─────────┘                                │
-│             │                                          │
-│    ┌────────┴───────────────┐                          │
-│    ▼                        ▼                          │
-│  CVE 취약점 조회         라이선스 분류                   │
-│  (NVD, GitHub Advisory)  (MIT, Apache, GPL, AGPL)      │
-│    │                        │                          │
-│    ▼                        ▼                          │
-│  위험도 점수화           라이선스 컴플라이언스 판단       │
-│  (CVSS v3 + Reachability)  (허용/검토 필요/금지)        │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                SCA 스캔 흐름                             |
++--------------------------------------------------------+
+|                                                        |
+|  package.json / pom.xml / requirements.txt             |
+|          |                                             |
+|          v                                             |
+|  +--------------------+                                |
+|  |  SCA 도구           |  (Trivy, Snyk, OWASP          |
+|  |  의존성 그래프 분석  |   Dependency-Check)           |
+|  +----------+---------+                                |
+|             |                                          |
+|    +--------+---------------+                          |
+|    v                        v                          |
+|  CVE 취약점 조회         라이선스 분류                   |
+|  (NVD, GitHub Advisory)  (MIT, Apache, GPL, AGPL)      |
+|    |                        |                          |
+|    v                        v                          |
+|  위험도 점수화           라이선스 컴플라이언스 판단       |
+|  (CVSS v3 + Reachability)  (허용/검토 필요/금지)        |
++--------------------------------------------------------+
 ```
 
 라이선스 위험도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/):
@@ -129,8 +129,8 @@ SCA의 본질은 <strong>"내가 사용하는 것을 아는 것"</strong>이다.
 
 ```text
 오픈소스 무관리 시대        SCA 등장                    공급망 보안 시대
-──────────────────   ──────────────────────────   ────────────────────────
-의존성 수동 관리    →  OWASP Dependency-Check   →  SBOM 의무화 (EO 14028)
+------------------   --------------------------   ------------------------
+의존성 수동 관리    ->  OWASP Dependency-Check   ->  SBOM 의무화 (EO 14028)
 CVE 수동 확인           Snyk, Trivy 등장              Reachability 분석
 Log4Shell 대응 혼란      CI 통합 스캔                 AI 기반 취약점 예측
                           라이선스 컴플라이언스 도구     CNAPP 내 SCA 통합
@@ -148,7 +148,7 @@ Log4Shell 대응 혼란      CI 통합 스캔                 AI 기반 취약�
 
 **진행 상황**: 327 / 373
 
-← **이전**: [326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/)
-**다음**: [328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense](/knowledge-base/studynote/15_devops_sre/05_devsecops/328_sbom/) →
+<- **이전**: [326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/)
+**다음**: [328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense](/knowledge-base/studynote/15_devops_sre/05_devsecops/328_sbom/) ->
 
 ---

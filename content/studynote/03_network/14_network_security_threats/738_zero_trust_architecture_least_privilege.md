@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [백도어]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 보안]
-    │
-    └──▶ [마이크로 세그멘테이션]
+    |
+    +---> [마이크로 세그멘테이션]
 ```
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ tags = ["studynote-network"]
 
 ```text
 [백도어]
-    │
-    ▼
+    |
+    v
 [제로 트러스트 보안]
-    │
-    └──▶ [마이크로 세그멘테이션]
+    |
+    +---> [마이크로 세그멘테이션]
 ```
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -124,12 +124,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 백도어]
-    │
-    ▼
+    |
+    v
 [현재 개념: 제로 트러스트 보안]
-    │
-    ├──▶ [확장 A: 마이크로 세그멘테이션]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 마이크로 세그멘테이션]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -146,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 859 / 1120
 
-← **이전**: [737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)
-**다음**: [739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement](/knowledge-base/studynote/03_network/14_network_security_threats/739_micro_segmentation_lateral_movement_zero_trust/) →
+<- **이전**: [737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)
+**다음**: [739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement](/knowledge-base/studynote/03_network/14_network_security_threats/739_micro_segmentation_lateral_movement_zero_trust/) ->
 
 ---

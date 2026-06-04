@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    DDD 전략적·전술적 설계                             │
-├───────────────────────────────────────────────────────┤
-│  [전략적 설계 — 큰 그림]                              │
-│   Bounded Context: 도메인별 경계                     │
-│   Context Map: BC 간 관계 (ACL, OHS, CF)             │
-│   Ubiquitous Language: 공통 용어                     │
-│                                                       │
-│  [전술적 설계 — 코드 레벨]                            │
-│   Entity (식별자), Value Object (불변)               │
-│   Aggregate (일관성 경계), Repository (저장소)        │
-│   Domain Service, Domain Event                       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    DDD 전략적·전술적 설계                             |
++-------------------------------------------------------+
+|  [전략적 설계 — 큰 그림]                              |
+|   Bounded Context: 도메인별 경계                     |
+|   Context Map: BC 간 관계 (ACL, OHS, CF)             |
+|   Ubiquitous Language: 공통 용어                     |
+|                                                       |
+|  [전술적 설계 — 코드 레벨]                            |
+|   Entity (식별자), Value Object (불변)               |
+|   Aggregate (일관성 경계), Repository (저장소)        |
+|   Domain Service, Domain Event                       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DDD는 회사 조직도([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 부서 경계)와 업무 매뉴얼(전술: 역할·규칙)을 동시에 설계하는 것이다.
@@ -60,7 +60,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **시작점** | DB 테이블 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델</strong> |
 | **용어** | 기술 용어 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 용어</strong> |
-| **변경** | DB 변경 → 전파 | **모델 변경 = 코드 변경** |
+| **변경** | DB 변경 -> 전파 | **모델 변경 = 코드 변경** |
 
 ---
 
@@ -93,17 +93,17 @@ DDD는 <strong>복잡한 비즈니스 <a href="/knowledge-base/studynote/05_data
 
 ```text
 [데이터 중심 설계 (ERD 기반, ~2000s)]
-    │
-    ▼
+    |
+    v
 [DDD (Eric Evans, 2003) — 도메인 중심]
-    │
-    ▼
+    |
+    v
 [CQRS + Event Sourcing (2010~)]
-    │
-    ▼
+    |
+    v
 [DDD + MSA (2014~) — Bounded Context = Service]
-    │
-    ▼
+    |
+    v
 [현재: Event Storming + DDD — 협업 기반 도메인 분석]
 ```
 
@@ -118,7 +118,7 @@ DDD는 <strong>복잡한 비즈니스 <a href="/knowledge-base/studynote/05_data
 
 **진행 상황**: 127 / 973
 
-← **이전**: [126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/)
-**다음**: [128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) →
+<- **이전**: [126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/)
+**다음**: [128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ->
 
 ---

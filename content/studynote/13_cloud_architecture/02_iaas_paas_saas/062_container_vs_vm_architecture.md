@@ -112,17 +112,17 @@ VM은 보안과 호환성의 바닥을 맡고, [컨테이너](/knowledge-base/st
 
 ```text
 Hypervisor
-  ↓
+  v
 Virtual Machine
-  ↓
+  v
 Guest OS
-  ↓
+  v
 Workload Isolation
 
 Namespace + cgroups
-  ↓
+  v
 Container
-  ↓
+  v
 Kubernetes / CI-CD
 ```
 
@@ -132,11 +132,11 @@ Kubernetes / CI-CD
 
 ```text
 Bare Metal
-  ↓
+  v
 Virtualization
-  ↓
+  v
 Containerization
-  ↓
+  v
 MicroVM / Serverless
 ```
 
@@ -154,7 +154,7 @@ VM은 집을 통째로 빌리는 것처럼 무겁지만 안전해요.
 
 **진행 상황**: 61 / 371
 
-← **이전**: [61. 컨테이너 (Container) - 경량 가상화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/061_container_lightweight_virtualization/)
-**다음**: [63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/063_linux_namespace_isolation/) →
+<- **이전**: [61. 컨테이너 (Container) - 경량 가상화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/061_container_lightweight_virtualization/)
+**다음**: [63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/063_linux_namespace_isolation/) ->
 
 ---

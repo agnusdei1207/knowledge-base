@@ -30,15 +30,15 @@ tags = ["studynote-operating-system"]
   (상황: 사용자 A는 프로세스 1개, 사용자 B는 꼼수로 프로세스 9개 띄움)
 
   [1. 기존 RR 스케줄링 (개체 수 평등)]
-  전체 프로세스 10개 ─▶ 각각 10%씩 분배
-  ▶ 사용자 A 획득량: 10%
-  ▶ 사용자 B 획득량: 90% (🚨 꼼수로 시스템 90% 강탈 성공! A는 분통 터짐)
+  전체 프로세스 10개 --> 각각 10%씩 분배
+  -> 사용자 A 획득량: 10%
+  -> 사용자 B 획득량: 90% (🚨 꼼수로 시스템 90% 강탈 성공! A는 분통 터짐)
 
   [2. Fair-share 스케줄링 (사용자별 50:50 보장)]
   시스템이 먼저 사용자 단위로 반반(50%) 쪼갬.
-  ▶ 사용자 A 획득량: 50% (자신의 1개 프로세스에 50% 통째로 투입. 초고속!)
-  ▶ 사용자 B 획득량: 50% (이 50%를 내부의 9개 프로세스가 피 터지게 나눠 가짐)
-      └─▶ 꼼수를 써봐야 자기 몫 안에서만 싸우므로 남에게 피해 불가!
+  -> 사용자 A 획득량: 50% (자신의 1개 프로세스에 50% 통째로 투입. 초고속!)
+  -> 사용자 B 획득량: 50% (이 50%를 내부의 9개 프로세스가 피 터지게 나눠 가짐)
+      +--> 꼼수를 써봐야 자기 몫 안에서만 싸우므로 남에게 피해 불가!
 ```
 **[다이어그램 해설]** 공평 몫 스케줄링의 혁명적 철학을 완벽히 보여준다. 기존 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 눈에는 오직 프로세스라는 말단 병사만 보였기에 머릿수대로 밥을 주어 '의도된 수량 공세'에 무력하게 당했다. 반면 Fair-share는 위에서 내려다보며 장군(User) 단위로 식량을 뭉텅이로 떨어뜨려, 각 진영 안에서 지들이 굶어 죽든 말든 남의 진영(타 사용자)은 절대 침범하지 못하게 철통 방어벽을 세운 것이다.
 
@@ -59,22 +59,22 @@ tags = ["studynote-operating-system"]
    - 우선순위가 떨어졌으므로 [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)/[MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 이 그룹의 프로세스들을 레디 큐 바닥으로 유배 보내고, 아직 지분을 못 채운 다른 그룹의 프로세스를 멱살 잡고 끌어올려 CPU를 먹여준다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │        Fair-share 내부의 그룹 연대 책임(Penalty) 메커니즘            │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │   [그룹 B (목표 지분: 50%)]                                          │
-  │   - 소속 프로세스: P1, P2, P3, P4                                    │
-  │                                                                      │
-  │   1. P1이 CPU를 미친듯이 씀 ─▶ 그룹 B 전체의 누적 사용량 급증!       │
-  │   2. 커널 스케줄러: "그룹 B가 지분 50%를 뚫고 60%를 먹으려 하네?"    │
-  │   3. [연대 책임 발동] 💥                                             │
-  │      P1 때문에 CPU 구경도 못 한 P2, P3, P4의 우선순위까지            │
-  │      싸잡아서 몽둥이로 내려쳐 바닥으로 강등시켜 버림.                │
-  │   4. 그 사이 그룹 A의 우선순위가 상대적으로 역전되어 CPU 탈환.       │
-  │                                                                      │
-  │   ✅ 효과: 어떤 꼼수를 써도 그룹 B의 뚝배기를 깨서 50%로 맞춰버림.   │
-  └──────────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------------+
+  |        Fair-share 내부의 그룹 연대 책임(Penalty) 메커니즘            |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  |   [그룹 B (목표 지분: 50%)]                                          |
+  |   - 소속 프로세스: P1, P2, P3, P4                                    |
+  |                                                                      |
+  |   1. P1이 CPU를 미친듯이 씀 --> 그룹 B 전체의 누적 사용량 급증!       |
+  |   2. 커널 스케줄러: "그룹 B가 지분 50%를 뚫고 60%를 먹으려 하네?"    |
+  |   3. [연대 책임 발동] 💥                                             |
+  |      P1 때문에 CPU 구경도 못 한 P2, P3, P4의 우선순위까지            |
+  |      싸잡아서 몽둥이로 내려쳐 바닥으로 강등시켜 버림.                |
+  |   4. 그 사이 그룹 A의 우선순위가 상대적으로 역전되어 CPU 탈환.       |
+  |                                                                      |
+  |   ✅ 효과: 어떤 꼼수를 써도 그룹 B의 뚝배기를 깨서 50%로 맞춰버림.   |
+  +----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 Fair-share의 가장 가혹하면서도 위대한 매커니즘인 '연대 책임'이다. 한 사용자가 프로세스 백만 개를 띄워서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 압도하려 해도, 그 백만 개의 프로세스가 사용하는 순간 그룹 계좌의 잔고가 초당 백만 배로 깎여나간다. 잔고가 바닥나는 순간 백만 개의 프로세스 전체의 우선순위가 -1000으로 처박혀 즉각 정지되므로 시스템 점거는 수리적으로 불가능하다.
 
@@ -110,25 +110,25 @@ Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드�
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">Cgroups</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>) 의 CPU Share</strong>: 리눅스 환경의 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), K8s는 이 Fair-share 스케줄링의 끝판왕인 `cgroups`를 사용한다. Pod를 띄울 때 `cpu.shares=1024`, `cpu.shares=512`를 주는 행위가 바로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 "내 그룹([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 몫(Share)을 저 비율 2:1로 찢어서 Fair-share의 연대 책임 룰에 넣어라"라고 명령을 내리는 것이다. 이 값이 없었다면 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 하나가 뻗었을 때 Node 전체가 즉사했을 것이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────┐
-  │     Linux Cgroups의 계층적 Fair-share 아키텍처 의사결정         │
-  ├─────────────────────────────────────────────────────────────────┤
-  │                                                                 │
-  │   [ 리눅스 물리 서버 CPU 100% ]                                 │
-  │        │ (Cgroup 기반 계층적 몫 분배)                           │
-  │        │                                                        │
-  │        ├─ [ 시스템 데몬 그룹 ]  ─── CPU Shares 2048 (66%)       │
-  │        │                                                        │
-  │        └─ [ 사용자 컨테이너 그룹 ] ── CPU Shares 1024 (33%)     │
-  │                 │                                               │
-  │                 ├─ [ Nginx 컨테이너 ] ── Shares 512             │
-  │                 └─ [ Redis 컨테이너 ] ── Shares 512             │
-  │                                                                 │
-  │   🚨 튜닝 포인트: 만약 Redis에서 무한 루프 버그가 터져서        │
-  │      CPU를 100% 땡겨 쓰려 해도, 리눅스 스케줄러는 부모 그룹의   │
-  │      방파제(33%)와 자신의 몫(512)에 의해 막혀, 전체 시스템의    │
-  │      16.5% 선에서 Redis의 모가지를 가차 없이 쳐버린다.          │
-  └─────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------+
+  |     Linux Cgroups의 계층적 Fair-share 아키텍처 의사결정         |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  |   [ 리눅스 물리 서버 CPU 100% ]                                 |
+  |        | (Cgroup 기반 계층적 몫 분배)                           |
+  |        |                                                        |
+  |        +- [ 시스템 데몬 그룹 ]  --- CPU Shares 2048 (66%)       |
+  |        |                                                        |
+  |        +- [ 사용자 컨테이너 그룹 ] -- CPU Shares 1024 (33%)     |
+  |                 |                                               |
+  |                 +- [ Nginx 컨테이너 ] -- Shares 512             |
+  |                 +- [ Redis 컨테이너 ] -- Shares 512             |
+  |                                                                 |
+  |   🚨 튜닝 포인트: 만약 Redis에서 무한 루프 버그가 터져서        |
+  |      CPU를 100% 땡겨 쓰려 해도, 리눅스 스케줄러는 부모 그룹의   |
+  |      방파제(33%)와 자신의 몫(512)에 의해 막혀, 전체 시스템의    |
+  |      16.5% 선에서 Redis의 모가지를 가차 없이 쳐버린다.          |
+  +-----------------------------------------------------------------+
 ```
 **[다이어그램 해설]** Fair-share는 평면적이지 않다. 현대 리눅스는 이 몫(Share)을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조처럼 트리(Tree) 계층으로 무한히 파고들 수 있게 설계했다. 부모 그룹의 제한을 자식 그룹이 절대 뚫을 수 없게 만듦으로써, 한 프로세스의 미친 짓이 시스템 루트(Root)로 전파되는 장애 전이(Cascading Failure) 현상을 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 원천적으로 폭파시킨 위대한 아키텍처다.
 
@@ -161,12 +161,12 @@ Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드�
 
 ```text
 [복권 스케줄링 (Lottery Scheduling)]
-    │
-    ▼
+    |
+    v
 [공평 몫 스케줄링 (Fair-share Scheduling)]
-    │
-    ├──▶ [스레드 스케줄링]
-    └──▶ [LWP 디스패치]
+    |
+    +---> [스레드 스케줄링]
+    +---> [LWP 디스패치]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -183,7 +183,7 @@ Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드�
 
 **진행 상황**: 190 / 800
 
-← **이전**: [189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/)
-**다음**: [191. 스레드 스케줄링 - 프로세스 경쟁 범위(PCS) vs 시스템 경쟁 범위(SCS)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/) →
+<- **이전**: [189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/)
+**다음**: [191. 스레드 스케줄링 - 프로세스 경쟁 범위(PCS) vs 시스템 경쟁 범위(SCS)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/) ->
 
 ---

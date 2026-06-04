@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트
 
 > 베이즈 정리 (Bayes' Theorem) 는 "새로운 증거가 들어올 때마다 내 믿음을 정확하게 업데이트하는 공식"이다.
-> 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Prior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) → 우도 (Likelihood) → 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Posterior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 의 흐름이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론의 핵심 골격이다.
+> 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Prior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) -> 우도 (Likelihood) -> 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Posterior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 의 흐름이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론의 핵심 골격이다.
 > 직관과 반대되는 결과(기저율 무시 오류)가 자주 발생하므로, 분모 P(B) 계산에 전확률 법칙을 정확히 적용해야 한다.
 
 ---
@@ -29,17 +29,17 @@ P(B|A) = P(A∩B) / P(A)
 
 두 식에서 P(A∩B) = P(B|A)·P(A) 를 대입하면:
 
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│   P(A|B) = P(B|A) · P(A)                           │
-│             ─────────────                           │
-│                 P(B)                                │
-│                                                     │
-│   = P(B|A) · P(A)                                  │
-│     ─────────────────────────────────────────────  │
-│     P(B|A)·P(A)  +  P(B|Ā)·P(Ā)   (전확률 공식)   │
-│                                                     │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|                                                     |
+|   P(A|B) = P(B|A) · P(A)                           |
+|             -------------                           |
+|                 P(B)                                |
+|                                                     |
+|   = P(B|A) · P(A)                                  |
+|     ---------------------------------------------  |
+|     P(B|A)·P(A)  +  P(B|Ā)·P(Ā)   (전확률 공식)   |
+|                                                     |
++-----------------------------------------------------+
 ```
 
 ### 각 항의 이름과 역할
@@ -68,20 +68,20 @@ P(B) = Σᵢ P(B|Aᵢ) · P(Aᵢ)
 **베이즈 업데이트 흐름도**:
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                  베이즈 추론 파이프라인                    │
-│                                                          │
-│  ┌──────────┐   관찰 증거   ┌──────────┐   ┌──────────┐ │
-│  │  사전    │  ──────────→  │  우도    │   │  사후    │ │
-│  │  확률    │               │  계산    │ → │  확률    │ │
-│  │  P(A)    │               │ P(B|A)   │   │ P(A|B)   │ │
-│  └──────────┘               └──────────┘   └──────────┘ │
-│       ↑                         ↓                ↓      │
-│   도메인 지식                전확률 법칙          다음    │
-│  이전 실험 결과              P(B) 계산         사전 확률 │
-│                                                          │
-│  → 증거가 쌓일수록 사후 확률은 더욱 정밀해짐             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                  베이즈 추론 파이프라인                    |
+|                                                          |
+|  +----------+   관찰 증거   +----------+   +----------+ |
+|  |  사전    |  ----------->  |  우도    |   |  사후    | |
+|  |  확률    |               |  계산    | -> |  확률    | |
+|  |  P(A)    |               | P(B|A)   |   | P(A|B)   | |
+|  +----------+               +----------+   +----------+ |
+|       ^                         v                v      |
+|   도메인 지식                전확률 법칙          다음    |
+|  이전 실험 결과              P(B) 계산         사전 확률 |
+|                                                          |
+|  -> 증거가 쌓일수록 사후 확률은 더욱 정밀해짐             |
++----------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 전확률 법칙은 "비가 올 전체 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 구할 때, "봄에 비 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 봄일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)" + "여름에 비 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 여름일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)" + ...처럼 모든 경로를 합산하는 것이다.
@@ -93,8 +93,8 @@ P(B) = Σᵢ P(B|Aᵢ) · P(Aᵢ)
 ### 문제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 - 희귀 질환 유병률 (Prevalence) = 0.1% (기저율, Base Rate)
-- 검사 민감도 (Sensitivity) = 99% → 실제 환자 중 99%를 양성으로 판별
-- 검사 특이도 (Specificity) = 95% → 정상인 중 95%를 음성으로 판별
+- 검사 민감도 (Sensitivity) = 99% -> 실제 환자 중 99%를 양성으로 판별
+- 검사 특이도 (Specificity) = 95% -> 정상인 중 95%를 음성으로 판별
 
 <strong>양성 판정을 받았을 때 실제 환자일 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (PPV, Positive Predictive Value)?</strong>
 
@@ -170,10 +170,10 @@ P(정상|단어들) ∝ 0.7 × 0.05 × 0.10 × 0.20 = 0.0007
 
 ```
 초기: P(θ)  (사전 지식)
-증거 1 관찰: P(θ|x₁) ← 새로운 사전 확률로 사용
-증거 2 관찰: P(켭|x₁,x₂) ← 다시 업데이트
+증거 1 관찰: P(θ|x₁) <- 새로운 사전 확률로 사용
+증거 2 관찰: P(켭|x₁,x₂) <- 다시 업데이트
 ...
-증거 n 관찰: P(θ|x₁,...,xₙ) ← 최종 사후 확률
+증거 n 관찰: P(θ|x₁,...,xₙ) <- 최종 사후 확률
 ```
 
 **응용 분야**:
@@ -204,17 +204,17 @@ P(정상|단어들) ∝ 0.7 × 0.05 × 0.10 × 0.20 = 0.0007
 
 ```text
 [베이즈 정리]
-    │
-    ▼
+    |
+    v
 [사전 확률]
-    │
-    ▼
+    |
+    v
 [전확률 법칙]
-    │
-    ▼
+    |
+    v
 [나이브 베이즈]
-    │
-    ▼
+    |
+    v
 [민감도·특이도]
 ```
 
@@ -232,7 +232,7 @@ P(정상|단어들) ∝ 0.7 × 0.05 × 0.10 × 0.20 = 0.0007
 
 **진행 상황**: 131 / 175
 
-← **이전**: [1. 확률 (Probability) — 고전/상대도수/주관 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
-**다음**: [3. 조건부 확률 (Conditional Probability) — P(A|B)](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) →
+<- **이전**: [1. 확률 (Probability) — 고전/상대도수/주관 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+**다음**: [3. 조건부 확률 (Conditional Probability) — P(A|B)](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) ->
 
 ---

@@ -41,18 +41,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 factor 4 언롤링이 무엇을 줄이고 무엇을 늘리는지 직관적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ factor = 4 언롤링의 효과                                                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 원본 루프                                                                  │
-│   [LD][ADD][ST][BR]  × 4 iterations                                        │
-│                                                                            │
-│ 언롤링 후                                                                  │
-│   [LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][BR]                │
-│                                                                            │
-│ 이익: branch 4회 → 1회, independent ops 증가                               │
-│ 비용: live value 증가 → register pressure, code size 증가                  │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| factor = 4 언롤링의 효과                                                   |
++----------------------------------------------------------------------------+
+| 원본 루프                                                                  |
+|   [LD][ADD][ST][BR]  × 4 iterations                                        |
+|                                                                            |
+| 언롤링 후                                                                  |
+|   [LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][BR]                |
+|                                                                            |
+| 이익: branch 4회 -> 1회, independent ops 증가                               |
+| 비용: live value 증가 -> register pressure, code size 증가                  |
++----------------------------------------------------------------------------+
 ```
 
 언롤링이 특히 강한 경우는 누산 루프다. 예를 들어 `sum += a[i]` 형태는 `sum` 하나에 모든 iteration이 매달려 있어 파이프라인이 기다리기 쉽다. 언롤링 후 `sum0, sum1, sum2, sum3`처럼 여러 부분 합으로 나누면, 하드웨어는 각각을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 진행하고 마지막에만 합칠 수 있다. 즉 언롤링은 단순한 "코드 복사"가 아니라, 분기 감소와 의존성 완화를 함께 노리는 변환이다.
@@ -126,20 +126,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 반복문 최적화
-        │
-        ▼
+        |
+        v
 루프 제어 오버헤드 감소 요구
-        │
-        ▼
+        |
+        v
 루프 언롤링 (Loop Unrolling)
-        │
-        ├─▶ 다중 누산기 · latency hiding
-        ├─▶ 분기 감소 · issue window 확대
-        │
-        ▼
+        |
+        +--> 다중 누산기 · latency hiding
+        +--> 분기 감소 · issue window 확대
+        |
+        v
 오토 벡터라이제이션 · 소프트웨어 파이프라이닝
-        │
-        ▼
+        |
+        v
 프로파일 유도 언롤링 · 타깃별 자동 팩터 선택
 ```
 
@@ -157,7 +157,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 538 / 803
 
-← **이전**: [537. 오토 벡터라이제이션 (Auto-vectorization)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/537_auto_vectorization/)
-**다음**: [539. 루프 타일링 (Loop Tiling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) →
+<- **이전**: [537. 오토 벡터라이제이션 (Auto-vectorization)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/537_auto_vectorization/)
+**다음**: [539. 루프 타일링 (Loop Tiling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) ->
 
 ---

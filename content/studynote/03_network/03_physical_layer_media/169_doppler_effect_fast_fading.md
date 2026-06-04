@@ -36,20 +36,20 @@ tags = ["studynote-network"]
 아래 그림은 고속 이동체가 여러 경로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 받는 상황을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          moving receiver: shift + spread + fast fading      │
-├──────────────────────────────────────────────────────────────┤
-│        반사체 A                                              │
-│          \                                                   │
-│           \  경로 2: θ ≠ 0  → +작은 f_d                     │
-│ Base      \                                                  │
-│ Station ───▶▶▶▶▶▶▶▶ Receiver → 이동 방향                     │
-│   │        경로 1: θ ≈ 0  → +큰 f_d                          │
-│   │                                                          │
-│   └───── 반사체 B 경로 3: θ ≈ π  → -f_d                      │
-│                                                              │
-│ 여러 경로의 다른 f_d가 합쳐지면 채널이 시간축에서 빠르게 변함 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          moving receiver: shift + spread + fast fading      |
++--------------------------------------------------------------+
+|        반사체 A                                              |
+|          \                                                   |
+|           \  경로 2: θ ≠ 0  -> +작은 f_d                     |
+| Base      \                                                  |
+| Station ---->->->->->->->-> Receiver -> 이동 방향                     |
+|   |        경로 1: θ ≈ 0  -> +큰 f_d                          |
+|   |                                                          |
+|   +----- 반사체 B 경로 3: θ ≈ π  -> -f_d                      |
+|                                                              |
+| 여러 경로의 다른 f_d가 합쳐지면 채널이 시간축에서 빠르게 변함 |
++--------------------------------------------------------------+
 ```
 
 도플러와 빠른 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 연결하는 핵심 값은 결맞음 시간이다. 도플러 확산이 크면 채널의 상관성이 빨리 깨져, 조금 전 추정한 채널 상태 정보 (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information, [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))가 곧바로 낡아 버린다. 그래서 OFDM 시스템에서는 파일럿 배치, 채널 추적 루프, 주파수 오프셋 보정이 매우 중요하다.
@@ -138,19 +138,19 @@ tags = ["studynote-network"]
 
 ```text
 상대 속도 증가
-    │
-    ▼
+    |
+    v
 도플러 천이 (Doppler Shift)
-    │
-    ▼
+    |
+    v
 다중 경로별 도플러 확산 (Doppler Spread)
-    │
-    ▼
+    |
+    v
 결맞음 시간 감소
-    │
-    ├──────────────▶ 빠른 페이딩 (Fast Fading)
-    ├──────────────▶ OFDM ICI 증가
-    └──────────────▶ 파일럿 추적 · 핸드오버 최적화 필요
+    |
+    +---------------> 빠른 페이딩 (Fast Fading)
+    +---------------> OFDM ICI 증가
+    +---------------> 파일럿 추적 · 핸드오버 최적화 필요
 ```
 
 이 흐름도는 이동 속도가 주파수 이동을 만들고, 그것이 결국 채널 시변성 문제와 설계 대책으로 이어지는 과정을 요약한다.
@@ -167,7 +167,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 290 / 1120
 
-← **이전**: [168. 다중 경로 페이딩 (Multipath Fading) - 주파수 선택적/평탄 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)
-**다음**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/) →
+<- **이전**: [168. 다중 경로 페이딩 (Multipath Fading) - 주파수 선택적/평탄 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)
+**다음**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/) ->
 
 ---

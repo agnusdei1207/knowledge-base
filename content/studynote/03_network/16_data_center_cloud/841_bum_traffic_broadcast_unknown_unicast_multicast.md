@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [BDI]
-    │
-    ▼
+    |
+    v
 [BUM 트래픽]
-    │
-    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
+    |
+    +---> [마이크로 터스트 존 방화벽 보안 적용 체계…]
 ```
 
 - **📢 섹션 요약 비유**: BUM 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [BDI]
-    │
-    ▼
+    |
+    v
 [BUM 트래픽]
-    │
-    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
+    |
+    +---> [마이크로 터스트 존 방화벽 보안 적용 체계…]
 ```
 
 - **📢 섹션 요약 비유**: BUM 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -125,12 +125,12 @@ BUM 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_
 
 ```text
 [선행 개념: BDI]
-    │
-    ▼
+    |
+    v
 [현재 개념: BUM 트래픽]
-    │
-    ├──▶ [확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 BUM 트래픽는 BDI에서 출발해 현재 메커니즘을 정교화하고, 이후 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -147,7 +147,7 @@ BUM 트래픽는 BDI에서 출발해 현재 메커니즘을 정교화하고, 이
 
 **진행 상황**: 962 / 1120
 
-← **이전**: [840. BDI와 VTEP](/knowledge-base/studynote/03_network/16_data_center_cloud/840_bdi_vtep_vxlan_overlay_bridge_domain/)
-**다음**: [842. 마이크로 트러스트 존](/knowledge-base/studynote/03_network/16_data_center_cloud/842_micro_trust_zone_distributed_firewall_zero_trust/) →
+<- **이전**: [840. BDI와 VTEP](/knowledge-base/studynote/03_network/16_data_center_cloud/840_bdi_vtep_vxlan_overlay_bridge_domain/)
+**다음**: [842. 마이크로 트러스트 존](/knowledge-base/studynote/03_network/16_data_center_cloud/842_micro_trust_zone_distributed_firewall_zero_trust/) ->
 
 ---

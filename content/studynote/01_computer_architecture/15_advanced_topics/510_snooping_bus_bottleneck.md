@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 스누핑 구조에서 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 전역 직렬화 지점이 되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      스누핑 버스에서는 요청·무효화·응답이 모두 한 줄로 선다        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core0: BusUpgr(A) ─┐                                                │
-│ Core1: BusRd(B)   ─┼──────▶ [ Shared Bus ] ──────▶ one at a time    │
-│ Core2: BusRd(C)   ─┘                                                │
-│                                                                      │
-│ 버스에 실리는 동안                                                   │
-│   1) 모든 캐시가 태그를 snoop                                        │
-│   2) 필요한 코어가 응답 여부를 결정                                  │
-│   3) 메모리 또는 owner가 데이터 전송                                 │
-│                                                                      │
-│ 코어 수↑ · 공유 쓰기↑  → 버스 중재↑ · 태그 탐색↑ · 대기 시간↑       │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      스누핑 버스에서는 요청·무효화·응답이 모두 한 줄로 선다        |
++----------------------------------------------------------------------+
+| Core0: BusUpgr(A) -+                                                |
+| Core1: BusRd(B)   -+-------> [ Shared Bus ] -------> one at a time    |
+| Core2: BusRd(C)   -+                                                |
+|                                                                      |
+| 버스에 실리는 동안                                                   |
+|   1) 모든 캐시가 태그를 snoop                                        |
+|   2) 필요한 코어가 응답 여부를 결정                                  |
+|   3) 메모리 또는 owner가 데이터 전송                                 |
+|                                                                      |
+| 코어 수^ · 공유 쓰기^  -> 버스 중재^ · 태그 탐색^ · 대기 시간^       |
++----------------------------------------------------------------------+
 ```
 
 즉 스누핑 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목은 단순한 배선 속도 문제가 아니라, 브로드캐스트 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 구조적 한계다. 작은 칩에서는 자연스럽지만, 규모가 커질수록 "모두가 모두를 듣는 비용"이 급격히 무거워진다.
@@ -137,18 +137,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 버스 기반 멀티프로세서
-        │
-        ▼
+        |
+        v
 스누핑 프로토콜 (Snooping Protocol)
-        │
-        ▼
+        |
+        v
 브로드캐스트 증가 · 버스 중재 병목 · 전기적 부하 증가
-        │
-        ├─▶ 분할 트랜잭션 버스
-        ├─▶ 스누프 필터 (Snoop Filter)
-        ├─▶ 계층형 버스 / 링 / 메시
-        │
-        ▼
+        |
+        +--> 분할 트랜잭션 버스
+        +--> 스누프 필터 (Snoop Filter)
+        +--> 계층형 버스 / 링 / 메시
+        |
+        v
 디렉터리 기반 프로토콜 · 대규모 ccNUMA 확장
 ```
 
@@ -166,7 +166,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 510 / 803
 
-← **이전**: [509. 레지스터 파일 포트 (Register File Ports)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/)
-**다음**: [511. 디렉터리 캐시 (Directory Cache)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/511_directory_cache/) →
+<- **이전**: [509. 레지스터 파일 포트 (Register File Ports)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/)
+**다음**: [511. 디렉터리 캐시 (Directory Cache)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/511_directory_cache/) ->
 
 ---

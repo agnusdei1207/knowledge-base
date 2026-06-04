@@ -29,16 +29,16 @@ tags = ["studynote-operating-system"]
 
   [ 1단계: 깃발만 사용 (상호 배제 실패) ]
   A: "깃발 들게. 어? B 깃발 없네? 들어간다!"
-  B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" ─▶ 💥 쾅! (둘 다 들어감)
+  B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" --> 💥 쾅! (둘 다 들어감)
 
   [ 2단계: 양보만 사용 (진행 실패, 데드락) ]
   A: "너 먼저 해." (turn = B)
-  B: "아니야 너 먼저 해." (turn = A) ─▶ 💥 서로 무한 양보하다 굶어 죽음.
+  B: "아니야 너 먼저 해." (turn = A) --> 💥 서로 무한 양보하다 굶어 죽음.
 
   [ 3단계: 깃발 + 양보 융합 (피터슨 알고리즘 - 완벽 성공) ]
   A: "나 깃발 들게. 근데 네가 먼저 들어가(turn = B)."
   B: "나도 깃발 들게. 근데 네가 먼저 들어가(turn = A)."
-  ▶ 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)
+  -> 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)
 ```
 **[다이어그램 해설]** 소프트웨어 락을 짤 때 가장 많이 하는 실수를 보여준다. 의사 표시(깃발)만으로는 찰나의 문맥 교환을 막을 수 없고, 양보(턴)만으로는 문 앞에서의 교착 상태를 막을 수 없다. 천재 수학자들은 이 두 가지 변수를 교묘하게 교차시켜 "내가 들어가고 싶음을 명확히 하되, 최종 결정권은 상대에게 넘기는" 아름다운 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 완성했다.
 
@@ -97,9 +97,9 @@ tags = ["studynote-operating-system"]
 
 | 현대 하드웨어의 배신 | 소프트웨어 락(피터슨)에 미치는 파괴적 영향 |
 |:---|:---|
-| **컴파일러 최적화 (Compiler Optimization)** | 컴파일러가 코드를 보니 `flag`와 `turn` 변수가 서로 연관이 없어 보임. 마음대로 `turn = 1`을 `flag = true` 보다 먼저 실행되게 코드를 섞어버림. ─▶ 락 붕괴. |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/">비순차 실행</a> (Out-of-Order Execution)</strong> | CPU 칩 자체가 1클럭이라도 아끼려고 메모리에 쓰는 순서를 지 맘대로 섞어서 실행함. ─▶ 락 붕괴. |
-| <strong>L1 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">Cache Coherence</a>) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 코어 0이 `flag[0]=true`로 바꿨는데, 코어 1의 캐시에는 아직 `false`로 남아있어 코어 1이 냅다 방으로 밀고 들어옴. ─▶ [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 박살. |
+| **컴파일러 최적화 (Compiler Optimization)** | 컴파일러가 코드를 보니 `flag`와 `turn` 변수가 서로 연관이 없어 보임. 마음대로 `turn = 1`을 `flag = true` 보다 먼저 실행되게 코드를 섞어버림. --> 락 붕괴. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/">비순차 실행</a> (Out-of-Order Execution)</strong> | CPU 칩 자체가 1클럭이라도 아끼려고 메모리에 쓰는 순서를 지 맘대로 섞어서 실행함. --> 락 붕괴. |
+| <strong>L1 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">Cache Coherence</a>) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 코어 0이 `flag[0]=true`로 바꿨는데, 코어 1의 캐시에는 아직 `false`로 남아있어 코어 1이 냅다 방으로 밀고 들어옴. --> [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 박살. |
 
 결론적으로, 아무리 위대한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 종이에 써놔도 밑바닥을 받쳐주는 컴파일러와 하드웨어가 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 순차적 실행(In-order)"을 보장해주지 않으면 소프트웨어 락은 종이 쪼가리에 불과하다.
 
@@ -117,26 +117,26 @@ tags = ["studynote-operating-system"]
    - **아키텍트 교정**: `volatile`은 "캐시를 쓰지 말고 메인 메모리에서 최신 값을 읽어와라"라는 뜻이지, `count++` 같은 동작을 원자적(Atomic)으로 묶어주는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 절대 아니다. 소프트웨어 변수만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 막으려 드는 시도 자체가 현대 실무에서는 <strong>최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>(<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>이며, 무조건 `synchronized` 블록이나 `AtomicBoolean` (내부적으로 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용)을 쓰는 것이 정답이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현]     │
-  │                │                                                  │
-  │                ▼ 1. 순수 소프트웨어 변수로 락을 구현할 것인가?    │
-  │      [ 예 (피터슨/빵집 알고리즘 사용 시도) ]                      │
-  │       ├─▶ 판정: 🚨 실무 적용 절대 불가. 버그의 온상.              │
-  │       └─▶ 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.│
-  │                                                                   │
-  │      [ 아니오 (OS 또는 하드웨어의 도움을 받음) ]                  │
-  │                 │                                                 │
-  │                 ▼ 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?     │
-  │          ├─ [ 예 ] ─▶ 하드웨어 Spinlock (TAS/CAS 기반) 적용       │
-  │          │             (문맥 교환 오버헤드 없이 뺑뺑이로 방어)    │
-  │          │                                                        │
-  │          └─ [ 아니오 ] ─▶ 운영체제 Mutex / Semaphore 적용         │
-  │                         (OS가 스레드를 Sleep 시켜서 자원 절약)    │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |     동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리   |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현]     |
+  |                |                                                  |
+  |                v 1. 순수 소프트웨어 변수로 락을 구현할 것인가?    |
+  |      [ 예 (피터슨/빵집 알고리즘 사용 시도) ]                      |
+  |       +--> 판정: 🚨 실무 적용 절대 불가. 버그의 온상.              |
+  |       +--> 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.|
+  |                                                                   |
+  |      [ 아니오 (OS 또는 하드웨어의 도움을 받음) ]                  |
+  |                 |                                                 |
+  |                 v 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?     |
+  |          +- [ 예 ] --> 하드웨어 Spinlock (TAS/CAS 기반) 적용       |
+  |          |             (문맥 교환 오버헤드 없이 뺑뺑이로 방어)    |
+  |          |                                                        |
+  |          +- [ 아니오 ] --> 운영체제 Mutex / Semaphore 적용         |
+  |                         (OS가 스레드를 Sleep 시켜서 자원 절약)    |
+  +-------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 과목에서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 배우는 이유는 "이걸 실무에 써라!"가 아니라, <strong>"<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 완벽해 보이는 코드도 하드웨어 구조에 의해 어떻게 처참하게 박살 나는가"</strong>를 뼈저리게 느끼게 하기 위함이다. 실무 엔지니어링은 무조건 하단 트리의 OS Mutex나 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 수렴한다.
 
@@ -170,12 +170,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [코-스케줄링 (Co-scheduling / Gang Scheduling)]
-    │
-    ▼
+    |
+    v
 [소프트웨어적 동기화 해결책 (Software Synchronization Solutions)]
-    │
-    ├──▶ [실시간 리눅스 (PREEMPT_RT 패치)]
-    └──▶ [무중단 라이브 마이그레이션 스케줄링 고려사항]
+    |
+    +---> [실시간 리눅스 (PREEMPT_RT 패치)]
+    +---> [무중단 라이브 마이그레이션 스케줄링 고려사항]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -192,7 +192,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 218 / 800
 
-← **이전**: [217. 한정된 대기 (Bounded Waiting)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)
-**다음**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/) →
+<- **이전**: [217. 한정된 대기 (Bounded Waiting)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)
+**다음**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/) ->
 
 ---

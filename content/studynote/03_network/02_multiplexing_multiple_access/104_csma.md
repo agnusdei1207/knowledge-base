@@ -38,22 +38,22 @@ CSMA의 내부 메커니즘은 단순한 '듣기'를 넘어 물리적 [전파 �
 | **취약 시간 (Vulnerable Time)** | [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/)에 의한 맹점 | 감지에는 성공했으나, 상대방의 전파가 아직 도달하지 않아 빈 채널로 오해하는 물리적 사각 시간 구간 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           CSMA의 치명적 한계: 취약 시간 (Vulnerable Time)      │
-├──────────────────────────────────────────────────────────────┤
-│  거리 축 (Distance)                                          │
-│    │                                                         │
-│  노드 A ├─────────────────────── 송신 시작 (t0)                │
-│    │    \  (전파가 B를 향해 날아가는 중...)                     │
-│    │     \           [취약 시간 구간]                         │
-│    │      \   (아직 A의 신호가 B에 도달하지 않음!)              │
-│    │       \                                                 │
-│  노드 B ├───┼─────────────────── 송신 시작 (t1)               │
-│    │        \   => B가 Sense할 때 채널은 'Idle'로 착각함!      │
-│    │         \                                               │
-│    ▼          💥 [ 쾅! 중간 지점에서 충돌 발생 ] 💥              │
-│  시간 축 (Time)                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           CSMA의 치명적 한계: 취약 시간 (Vulnerable Time)      |
++--------------------------------------------------------------+
+|  거리 축 (Distance)                                          |
+|    |                                                         |
+|  노드 A +----------------------- 송신 시작 (t0)                |
+|    |    \  (전파가 B를 향해 날아가는 중...)                     |
+|    |     \           [취약 시간 구간]                         |
+|    |      \   (아직 A의 신호가 B에 도달하지 않음!)              |
+|    |       \                                                 |
+|  노드 B +---+------------------- 송신 시작 (t1)               |
+|    |        \   => B가 Sense할 때 채널은 'Idle'로 착각함!      |
+|    |         \                                               |
+|    v          💥 [ 쾅! 중간 지점에서 충돌 발생 ] 💥              |
+|  시간 축 (Time)                                              |
++--------------------------------------------------------------+
 ```
 
 이 그림이 보여주듯, CSMA의 가장 큰 적은 전파가 물리적으로 이동하는 시간(Propagation Time)이다. A가 전송을 시작했더라도 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 구리선이나 공기를 타고 B에 닿기 전까지 B의 센서에는 아무것도 잡히지 않는다. B가 이때 전송을 시작하면 두 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 중간에서 충돌한다. 네트워크의 거리가 멀어질수록 이 '취약 시간'이 길어져 충돌 확률이 급증하는 구조적 한계를 안고 있다.
@@ -122,16 +122,16 @@ CSMA (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_mu
 
 ```text
 무작위 전송 다중 접속 (Pure ALOHA)
-    │
-    ▼
+    |
+    v
 매체 상태 사전 감지 도입 (CSMA - Listen Before Talk)
-    │
-    ▼
+    |
+    v
 유선/무선 매체 특성에 따른 기술적 분기 결단
-    │
-    ├──▶ [ 유선망 ] 충돌 즉시 감지 및 멈춤 (CSMA/CD)
-    │
-    └──▶ [ 무선망 ] 무작위 대기로 충돌 사전 회피 (CSMA/CA)
+    |
+    +---> [ 유선망 ] 충돌 즉시 감지 및 멈춤 (CSMA/CD)
+    |
+    +---> [ 무선망 ] 무작위 대기로 충돌 사전 회피 (CSMA/CA)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -146,7 +146,7 @@ CSMA (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_mu
 
 **진행 상황**: 154 / 1120
 
-← **이전**: [1049. NTP / GPS 동기화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1049_ntp_gps_network_time_synchronization/)
-**다음**: [1050. RDMA / RoCE 스토리지 서버 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/) →
+<- **이전**: [1049. NTP / GPS 동기화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1049_ntp_gps_network_time_synchronization/)
+**다음**: [1050. RDMA / RoCE 스토리지 서버 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1050_rdma_roce_remote_direct_memory_access_storage/) ->
 
 ---

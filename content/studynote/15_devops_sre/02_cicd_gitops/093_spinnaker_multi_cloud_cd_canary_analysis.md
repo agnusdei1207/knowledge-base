@@ -39,23 +39,23 @@ tags = ["cicd", "studynote-devops-sre"]
 | **Kayenta (카옌타)** | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 엔진. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 등)과 연동해 신/구 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 통계적으로 비교 판정 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│            Spinnaker 파이프라인 오케스트레이션 흐름          │
-├──────────────────────────────────────────────────────────────┤
-│ [CI 도구] ──▶ 빌드 완료 트리거 ──▶ (API Gate)                  │
-│                                      │                       │
-│ ┌────────────────────────────────────▼─────────────────────┐ │
-│ │ Orca (오케스트레이터): 파이프라인 상태 관리 및 명령 지휘     │ │
-│ │ 1. 테스트 환경 배포 ─▶ 2. 승인 대기 ─▶ 3. 카나리 배포 10% │ │
-│ └────────────────────────────────────┬─────────────────────┘ │
-│                                      │                       │
-│        ┌─────────────────────────────┼───────────────┐       │
-│        ▼                             ▼               │       │
-│ [ CloudDriver ]                [ Kayenta ]           │       │
-│ 이기종 API 호출 번역             메트릭 기반 자동 분석   │       │
-│ ├──▶ AWS EC2 인스턴스 생성      (에러율 튀면 즉시 롤백) │       │
-│ └──▶ GCP K8s 파드 업데이트                             │       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|            Spinnaker 파이프라인 오케스트레이션 흐름          |
++--------------------------------------------------------------+
+| [CI 도구] ---> 빌드 완료 트리거 ---> (API Gate)                  |
+|                                      |                       |
+| +------------------------------------v---------------------+ |
+| | Orca (오케스트레이터): 파이프라인 상태 관리 및 명령 지휘     | |
+| | 1. 테스트 환경 배포 --> 2. 승인 대기 --> 3. 카나리 배포 10% | |
+| +------------------------------------+---------------------+ |
+|                                      |                       |
+|        +-----------------------------+---------------+       |
+|        v                             v               |       |
+| [ CloudDriver ]                [ Kayenta ]           |       |
+| 이기종 API 호출 번역             메트릭 기반 자동 분석   |       |
+| +---> AWS EC2 인스턴스 생성      (에러율 튀면 즉시 롤백) |       |
+| +---> GCP K8s 파드 업데이트                             |       |
++--------------------------------------------------------------+
 ```
 
 가장 강력한 기능은 Kayenta를 활용한 <strong>ACA (Automated <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/268_canary_analysis_cpu_spinnaker_kayenta/">Canary Analysis</a>)</strong>다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 트래픽만 받도록 배포한 뒤, 인간이 대시보드를 쳐다보지 않아도 Kayenta가 CPU, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하여 "통과" 또는 "자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"을 기계적으로 결단한다.
@@ -120,17 +120,17 @@ tags = ["cicd", "studynote-devops-sre"]
 
 ```text
 수동 스크립트 배포
-    │
-    ▼
+    |
+    v
 Jenkins / CI 중심 배포 · 배포 과정의 복잡도 제어 한계
-    │
-    ▼
+    |
+    v
 Spinnaker (스핀네이커) · 멀티 클라우드 CD, 파이프라인 시각화 및 추상화
-    │
-    ▼
+    |
+    v
 Kayenta (ACA) 통합 · 인간 개입 없는 통계적 카나리 분석 및 롤백
-    │
-    ▼
+    |
+    v
 GitOps 융합 · K8s 전용 경량화 도구(ArgoCD)와의 하이브리드 아키텍처 진화
 ```
 
@@ -146,7 +146,7 @@ GitOps 융합 · K8s 전용 경량화 도구(ArgoCD)와의 하이브리드 아�
 
 **진행 상황**: 93 / 373
 
-← **이전**: [92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/092_helm_kubernetes_package_manager_chart_template/)
-**다음**: [94. 파이프라인 보안 락인 (Pipeline Security)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/094_pipeline_security_lock_in_ci_cd/) →
+<- **이전**: [92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/092_helm_kubernetes_package_manager_chart_template/)
+**다음**: [94. 파이프라인 보안 락인 (Pipeline Security)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/094_pipeline_security_lock_in_ci_cd/) ->
 
 ---

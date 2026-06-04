@@ -21,9 +21,9 @@ tags = ["studynote-design-supervision"]
 멀티스레드 환경에서 가변 객체를 공유하면:
 
 ```
-Thread A: user.setName("Alice");   ──┐
-Thread B: user.setName("Bob");     ──┼── 동시 실행 → Race Condition
-                                     │
+Thread A: user.setName("Alice");   --+
+Thread B: user.setName("Bob");     --+-- 동시 실행 -> Race Condition
+                                     |
 결과: user.getName() == ??? (예측 불가)
 ```
 
@@ -35,18 +35,18 @@ Thread B: user.setName("Bob");     ──┼── 동시 실행 → Race Condit
 ```
 불변 객체 설계 체크리스트:
 
-  1. final class       → 상속으로 인한 불변성 파괴 방지
-  2. final fields      → 재할당 방지
-  3. 생성자에서만 초기화 → 외부에서 값 세팅 불가 (setter 없음)
-  4. 가변 객체 필드는   → 방어적 복사(Defensive Copy) 적용
-     getters에서        → 방어적 복사본 반환
-  5. 깊은 복사(Deep Copy) → 컬렉션/배열 필드 초기화 시 복사
+  1. final class       -> 상속으로 인한 불변성 파괴 방지
+  2. final fields      -> 재할당 방지
+  3. 생성자에서만 초기화 -> 외부에서 값 세팅 불가 (setter 없음)
+  4. 가변 객체 필드는   -> 방어적 복사(Defensive Copy) 적용
+     getters에서        -> 방어적 복사본 반환
+  5. 깊은 복사(Deep Copy) -> 컬렉션/배열 필드 초기화 시 복사
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 불변 객체는 박물관 전시품 — 유리 케이스(final 클래스) 안에 있어서 누구나 볼 수 있지만(공유 가능), 아무도 건드릴 수 없다(상태 변경 불가). 복사본이 필요하면 3D 프린터(새 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))로 만든다.
@@ -85,22 +85,22 @@ public final class Money {                    // 1. final class
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  불변 객체 공유 안전성                           │
-│                                                                 │
-│   Thread A ──┐                                                  │
-│              ├──── 읽기(Read) ──▶ Money { amount=1000, KRW }    │
-│   Thread B ──┤                   (불변 객체 공유 — Lock 불필요)  │
-│              ├──── 읽기(Read) ──▶ (동일 참조 안전)               │
-│   Thread C ──┘                                                  │
-│                                                                 │
-│   Thread A가 상태 변경이 필요할 때:                               │
-│   Money original = Money(1000, KRW)                             │
-│   Money updated  = original.add(500)  ← 새 객체 생성            │
-│                                                                 │
-│   original → Money { amount=1000, KRW }  ← 그대로 유지           │
-│   updated  → Money { amount=1500, KRW }  ← 새 객체              │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  불변 객체 공유 안전성                           |
+|                                                                 |
+|   Thread A --+                                                  |
+|              +---- 읽기(Read) ---> Money { amount=1000, KRW }    |
+|   Thread B --+                   (불변 객체 공유 — Lock 불필요)  |
+|              +---- 읽기(Read) ---> (동일 참조 안전)               |
+|   Thread C --+                                                  |
+|                                                                 |
+|   Thread A가 상태 변경이 필요할 때:                               |
+|   Money original = Money(1000, KRW)                             |
+|   Money updated  = original.add(500)  <- 새 객체 생성            |
+|                                                                 |
+|   original -> Money { amount=1000, KRW }  <- 그대로 유지           |
+|   updated  -> Money { amount=1500, KRW }  <- 새 객체              |
++-----------------------------------------------------------------+
 ```
 
 | 클래스 | 설명 | 가변 대응 클래스 |
@@ -163,8 +163,8 @@ public record Money(long amount, Currency currency) {
 ```
 
 불변 객체는 [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)의 핵심 전제다:
-- 순수 함수(Pure Function)는 인수를 변경하지 않음 → 불변 객체가 이를 보장
-- [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 투명성([Referential](/knowledge-base/studynote/05_database/07_exam_summary/406_referential_integrity_foreign_key/) Transparency): 같은 인수 → 항상 같은 결과 → 불변 상태에서만 가능
+- 순수 함수(Pure Function)는 인수를 변경하지 않음 -> 불변 객체가 이를 보장
+- [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 투명성([Referential](/knowledge-base/studynote/05_database/07_exam_summary/406_referential_integrity_foreign_key/) Transparency): 같은 인수 -> 항상 같은 결과 -> 불변 상태에서만 가능
 - [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)): 불변 객체의 결과는 캐시 가능
 
 | 설계 원칙 | 불변 객체와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
@@ -194,7 +194,7 @@ public record Money(long amount, Currency currency) {
 - **코드 이해도 향상**: 한번 만들면 절대 바뀌지 않는 예측 가능성
 
 **트레이드오프**:
-- 상태 변경 시마다 새 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → GC([가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)) 부하 증가
+- 상태 변경 시마다 새 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> GC([가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)) 부하 증가
 - 매우 큰 객체를 자주 변경해야 하는 경우 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 - 해결책: [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 패턴, 내부 가변 구조 + 불변 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (예: CopyOnWriteArrayList)
 
@@ -218,7 +218,7 @@ public record Money(long amount, Currency currency) {
 | 연관 개념 | 모나드 (Monad) | 불변성 위에서 동작하는 함수형 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-값 객체 → 불변 객체 패턴 → 함수형 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)
+값 객체 -> 불변 객체 패턴 -> 함수형 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 불변 객체는 박제된 나비 표본처럼 — 아무리 많은 친구가 구경해도 나비는 변하지 않고, 나비가 필요하면 새 표본을 만든다.
@@ -231,7 +231,7 @@ public record Money(long amount, Currency currency) {
 
 **진행 상황**: 279 / 530
 
-← **이전**: [217. 커링과 지연 평가 (Currying and Lazy Evaluation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/217_currying_lazy_evaluation/)
-**다음**: [219. 객체 풀 패턴 (Object Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/) →
+<- **이전**: [217. 커링과 지연 평가 (Currying and Lazy Evaluation)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/217_currying_lazy_evaluation/)
+**다음**: [219. 객체 풀 패턴 (Object Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/) ->
 
 ---

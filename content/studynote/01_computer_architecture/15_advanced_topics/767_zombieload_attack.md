@@ -43,15 +43,15 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 좀비로드가 "실패한 로드"를 이용해 필 버퍼의 잔상을 빼내는 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ZombieLoad leak path                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Victim load traffic ──▶ Fill Buffer ──▶ L1 cache                  │
-│                            │                                       │
-│                            └─ stale bytes remain briefly           │
-│                                       │                            │
-│ Attacker invalid load ── transient consume ──▶ cache decode       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| ZombieLoad leak path                                              |
++--------------------------------------------------------------------+
+| Victim load traffic ---> Fill Buffer ---> L1 cache                  |
+|                            |                                       |
+|                            +- stale bytes remain briefly           |
+|                                       |                            |
+| Attacker invalid load -- transient consume ---> cache decode       |
++--------------------------------------------------------------------+
 ```
 
 공격자는 보통 의미 있는 한 번의 읽기를 기대하지 않는다. 대신 수천~수백만 번의 로드를 반복하면서 어떤 바이트가 얼마나 자주 나타나는지 통계적으로 모은다. 이 성격 때문에 좀비로드는 비밀번호 한 글자, 포인터 일부, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 조각처럼 "흐름 속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 엿듣는 데 강하다.
@@ -123,17 +123,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Out-of-Order load path
-    │
-    ▼
+    |
+    v
 Fill Buffer reuse
-    │
-    ▼
+    |
+    v
 Fault / Assist / Abort window
-    │
-    ▼
+    |
+    v
 ZombieLoad sampling
-    │
-    ▼
+    |
+    v
 MD_CLEAR + SMT / TSX policy
 ```
 
@@ -149,7 +149,7 @@ MD_CLEAR + SMT / TSX policy
 
 **진행 상황**: 768 / 803
 
-← **이전**: [766. 폴아웃 (Fallout) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/766_fallout_attack/)
-**다음**: [768. SGAxe 및 CrossTalk 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/768_sgaxe_crosstalk/) →
+<- **이전**: [766. 폴아웃 (Fallout) 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/766_fallout_attack/)
+**다음**: [768. SGAxe 및 CrossTalk 공격](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/768_sgaxe_crosstalk/) ->
 
 ---

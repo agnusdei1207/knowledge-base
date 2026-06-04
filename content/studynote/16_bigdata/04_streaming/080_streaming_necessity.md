@@ -72,17 +72,17 @@ tags = ["studynote-bigdata"]
 
 ```
 지연 시간 스펙트럼
-│
-│ < 1ms   ┤ 초고빈도 거래 (Custom FPGA/ASIC, CEP)
-│ < 100ms ┤ 결제 사기 탐지, 실시간 추천
-│ < 1s    ┤ IoT 이상 감지, 알림
-│ < 10s   ┤ 대시보드 실시간 지표, SIEM
-│ < 1min  ┤ Spark Structured Streaming (마이크로배치)
-│ < 1hr   ┤ Spark 배치 (소규모)
-│ < 1day  ┤ Hadoop MapReduce 야간 배치
-│
-└─────────────────────────────────────────────
-  스트리밍 필수 영역 ←─────────→ 배치 가능 영역
+|
+| < 1ms   + 초고빈도 거래 (Custom FPGA/ASIC, CEP)
+| < 100ms + 결제 사기 탐지, 실시간 추천
+| < 1s    + IoT 이상 감지, 알림
+| < 10s   + 대시보드 실시간 지표, SIEM
+| < 1min  + Spark Structured Streaming (마이크로배치)
+| < 1hr   + Spark 배치 (소규모)
+| < 1day  + Hadoop MapReduce 야간 배치
+|
++---------------------------------------------
+  스트리밍 필수 영역 <-----------> 배치 가능 영역
 ```
 
 ### 2. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처
@@ -136,16 +136,16 @@ tags = ["studynote-bigdata"]
 
 ```
 Step 1: 비즈니스 요구 지연 시간(Latency SLA) 명확화
-  - "1분 이내에 사기를 탐지해야 한다" → 스트리밍 필요
-  - "매일 아침 전날 매출 리포트" → 배치로 충분
+  - "1분 이내에 사기를 탐지해야 한다" -> 스트리밍 필요
+  - "매일 아침 전날 매출 리포트" -> 배치로 충분
 
 Step 2: 데이터 볼륨과 속도 추정
-  - 초당 수천~수백만 이벤트 → 스트리밍 인프라 필요
-  - 하루 수 GB → 야간 배치로 가능
+  - 초당 수천~수백만 이벤트 -> 스트리밍 인프라 필요
+  - 하루 수 GB -> 야간 배치로 가능
 
 Step 3: 상태 관리 요구사항 확인
-  - 이전 이벤트와 비교/연관 분석 필요? → 상태 기반 스트리밍 엔진
-  - 단순 필터/변환만 필요? → 간단한 마이크로배치로 가능
+  - 이전 이벤트와 비교/연관 분석 필요? -> 상태 기반 스트리밍 엔진
+  - 단순 필터/변환만 필요? -> 간단한 마이크로배치로 가능
 
 Step 4: 운영 역량 및 비용 검토
   - 스트리밍은 배치보다 운영 복잡도 2~5배 높음
@@ -172,7 +172,7 @@ Step 4: 운영 역량 및 비용 검토
 
 | 영역 | 효과 | 수치 예시 |
 |:---|:---|:---|
-| 사기 탐지 | 피해 예방 | 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1일 → 수 초 시 손실 90% 감소 |
+| 사기 탐지 | 피해 예방 | 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1일 -> 수 초 시 손실 90% 감소 |
 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 장비 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상 | 장애 예방율 30~50% 향상 |
 | 실시간 추천 | 전환율 증가 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 추천 시 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 15~25% 향상 |
 | 운영 비용 | 배치 대비 인프라 비용 증가 | 2~5배 운영 비용 증가 (트레이드오프) |
@@ -200,17 +200,17 @@ Step 4: 운영 역량 및 비용 검토
 
 ```text
 [Apache Flink]
-    │
-    ▼
+    |
+    v
 [Apache Kafka]
-    │
-    ▼
+    |
+    v
 [Lambda Architecture]
-    │
-    ▼
+    |
+    v
 [Kappa Architecture]
-    │
-    ▼
+    |
+    v
 [Watermark]
 ```
 
@@ -226,7 +226,7 @@ Step 4: 운영 역량 및 비용 검토
 
 **진행 상황**: 80 / 262
 
-← **이전**: [04. Apache Storm](/knowledge-base/studynote/16_bigdata/04_streaming/079_apache_storm/)
-**다음**: [06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph](/knowledge-base/studynote/16_bigdata/04_streaming/081_flink_architecture/) →
+<- **이전**: [04. Apache Storm](/knowledge-base/studynote/16_bigdata/04_streaming/079_apache_storm/)
+**다음**: [06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph](/knowledge-base/studynote/16_bigdata/04_streaming/081_flink_architecture/) ->
 
 ---

@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
+    |
+    v
 [EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    └──▶ [MME]
+    |
+    +---> [MME]
 ```
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -59,11 +59,11 @@ EPC는 거대한 통신사 전산실에 있는 라우터와 서버들의 집합�
 
 ```text
 [LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
+    |
+    v
 [EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    └──▶ [MME]
+    |
+    +---> [MME]
 ```
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -127,12 +127,12 @@ EPC S-GW, P-GW 제어 망 트래픽…는 차세대 통신 아키텍처를 이�
 
 ```text
 [선행 개념: LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
+    |
+    v
 [현재 개념: EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ├──▶ [확장 A: MME]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: MME]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 EPC S-GW, P-GW 제어 망 트래픽…는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…에서 출발해 현재 메커니즘을 정교화하고, 이후 MME와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ EPC S-GW, P-GW 제어 망 트래픽…는 [LTE](/knowledge-base/studynote/03_net
 
 **진행 상황**: 874 / 1120
 
-← **이전**: [752. LTE (Long Term Evolution 4세대 망 진화) All-IP 패킷 교환 완전 전환, OFDMA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)
-**다음**: [754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) →
+<- **이전**: [752. LTE (Long Term Evolution 4세대 망 진화) All-IP 패킷 교환 완전 전환, OFDMA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)
+**다음**: [754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) ->
 
 ---

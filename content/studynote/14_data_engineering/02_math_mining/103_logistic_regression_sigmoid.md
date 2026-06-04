@@ -36,23 +36,23 @@ tags = ["studynote-data-engineering"]
 3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/">시그모이드 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a> Function)</strong>: 로짓 함수의 역함수로, 무한대의 선형식 결과를 다시 $0 \sim 1$ 사이의 곡선으로 압축한다. $\sigma(z) = 1 / (1 + e^{-z})$
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  로지스틱 회귀의 데이터 변환 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [입력 데이터 X] ───▶ 선형 결합 (Linear Combination)          │
-│                          z = β0 + β1X1 + β2X2 + ...          │
-│                                 │                            │
-│ 2. [시그모이드 S-곡선] ◀──────────┘                            │
-│      1.0 ┤         .──────                                   │
-│          │       /                                           │
-│      0.5 ┤   ──*── (임계값 Threshold)                        │
-│          │    /                                              │
-│      0.0 ┤──/───────────  (z값)                              │
-│                                 │                            │
-│ 3. [출력 확률 P] ◀───────────────┘                            │
-│      P > 0.5 이면 클래스 1 (합격/양성)                          │
-│      P ≤ 0.5 이면 클래스 0 (불합격/음성)                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  로지스틱 회귀의 데이터 변환 흐름                 |
++--------------------------------------------------------------+
+| 1. [입력 데이터 X] ----> 선형 결합 (Linear Combination)          |
+|                          z = β0 + β1X1 + β2X2 + ...          |
+|                                 |                            |
+| 2. [시그모이드 S-곡선] <-----------+                            |
+|      1.0 +         .------                                   |
+|          |       /                                           |
+|      0.5 +   --*-- (임계값 Threshold)                        |
+|          |    /                                              |
+|      0.0 +--/-----------  (z값)                              |
+|                                 |                            |
+| 3. [출력 확률 P] <----------------+                            |
+|      P > 0.5 이면 클래스 1 (합격/양성)                          |
+|      P ≤ 0.5 이면 클래스 0 (불합격/음성)                         |
++--------------------------------------------------------------+
 ```
 
 최적의 파라미터($\beta$)를 찾을 때 선형 회귀는 최소제곱법([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))을 쓰지만, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 [최대 우도 추정법](/knowledge-base/studynote/06_ict_convergence/05_data_science/332_maximum_likelihood_estimation_mle/) ([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation)을 사용하여 실제 관측치가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 가장 극대화하는 계수를 찾는다.
@@ -115,17 +115,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 선형 예측의 한계 (Linear Regression)
-    │
-    ▼
+    |
+    v
 승산 및 로짓 변환 (Odds & Logit)
-    │
-    ▼
+    |
+    v
 확률 매핑 함수 도입 (Sigmoid Function)
-    │
-    ▼
+    |
+    v
 이진 분류의 표준 (Logistic Regression)
-    │
-    ▼
+    |
+    v
 다중 분류 (Softmax) 및 신경망(Deep Learning)으로 확장
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 103 / 258
 
-← **이전**: [회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)
-**다음**: [서포트 벡터 머신 (SVM, Support Vector Machine)](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/) →
+<- **이전**: [회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)
+**다음**: [서포트 벡터 머신 (SVM, Support Vector Machine)](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/) ->
 
 ---

@@ -26,16 +26,16 @@ Row 1: [order_id=1][customer_id=C001][product="책"][amount=30000][date=2024-01-
 Row 2: [order_id=2][customer_id=C002][product="노트북"][amount=1500000][date=2024-01-02]
 ...
 
-SELECT SUM(amount) FROM orders;  → 모든 행의 모든 컬럼을 읽어야 함
+SELECT SUM(amount) FROM orders;  -> 모든 행의 모든 컬럼을 읽어야 함
 
 [Column-oriented 저장]
 order_id: [1][2][3][4]...
 customer_id: [C001][C002][C003]...
 product: [책][노트북][마우스]...
-amount: [30000][1500000][25000]...  ← 이것만 읽음!
+amount: [30000][1500000][25000]...  <- 이것만 읽음!
 date: [2024-01-01][2024-01-02]...
 
-SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절감)
+SELECT SUM(amount) FROM orders;  -> amount 컬럼 파일만 읽음 (I/O 95% 절감)
 ```
 
 📢 **섹션 요약 비유**: Row-oriented는 엑셀 시트를 행 단위로 저장하는 것이고, Column-oriented는 같은 항목(열)끼리 묶어서 저장하는 것이다. "전체 직원 연봉 합계"를 구할 때, 연봉 열 하나만 꺼내면 되니 훨씬 빠르다.
@@ -47,27 +47,27 @@ SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절
 ### Apache [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조
 
 ```
-┌────────────────────────────────────────────────────────┐
-│                 Parquet 파일 구조                        │
-│                                                        │
-│  Magic Number (4 bytes)                                │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │ Row Group 1 (행 그룹, 예: 128MB)                 │  │
-│  │  ┌─────────────────────────────────────────┐    │  │
-│  │  │ Column Chunk 1 (order_id)               │    │  │
-│  │  │  - Data Pages (RLE+Dictionary 인코딩)   │    │  │
-│  │  │  - Column Statistics (min/max/null cnt) │    │  │
-│  │  ├─────────────────────────────────────────┤    │  │
-│  │  │ Column Chunk 2 (amount)                 │    │  │
-│  │  │  - Data Pages                           │    │  │
-│  │  │  - Column Statistics                    │    │  │
-│  │  └─────────────────────────────────────────┘    │  │
-│  ├─────────────────────────────────────────────────┤  │
-│  │ Row Group 2 ...                                  │  │
-│  └─────────────────────────────────────────────────┘  │
-│  File Footer (스키마, Row Group 위치, 통계)              │
-│  Magic Number (4 bytes)                                │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|                 Parquet 파일 구조                        |
+|                                                        |
+|  Magic Number (4 bytes)                                |
+|  +-------------------------------------------------+  |
+|  | Row Group 1 (행 그룹, 예: 128MB)                 |  |
+|  |  +-----------------------------------------+    |  |
+|  |  | Column Chunk 1 (order_id)               |    |  |
+|  |  |  - Data Pages (RLE+Dictionary 인코딩)   |    |  |
+|  |  |  - Column Statistics (min/max/null cnt) |    |  |
+|  |  +-----------------------------------------+    |  |
+|  |  | Column Chunk 2 (amount)                 |    |  |
+|  |  |  - Data Pages                           |    |  |
+|  |  |  - Column Statistics                    |    |  |
+|  |  +-----------------------------------------+    |  |
+|  +-------------------------------------------------+  |
+|  | Row Group 2 ...                                  |  |
+|  +-------------------------------------------------+  |
+|  File Footer (스키마, Row Group 위치, 통계)              |
+|  Magic Number (4 bytes)                                |
++--------------------------------------------------------+
 ```
 
 ### [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 및 인코딩 최적화
@@ -78,7 +78,7 @@ SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/">RLE</a> (Run-Length Encoding)</strong> | 연속 동일 값 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 정렬된 컬럼 효율적 |
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Delta Encoding</a></strong> | 이전 값과의 차이만 저장 | 타임스탬프, 순차 ID |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Packing</strong> | 필요 최소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 저장 | 정수 범위 최적화 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 코덱</strong> | Snappy, Zstd, Gzip | Snappy: 속도↑, Zstd: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률↑ |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 코덱</strong> | Snappy, Zstd, Gzip | Snappy: 속도^, Zstd: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률^ |
 
 ### Predicate Pushdown (조건 푸시다운)
 
@@ -87,8 +87,8 @@ SELECT * FROM orders WHERE amount > 1000000
 
 Parquet 엔진 동작:
 1. File Footer에서 Row Group 통계 확인
-2. Row Group 2: amount max=500000 → amount > 1000000 없음 → 스킵!
-3. Row Group 5: amount max=3000000 → 조건 가능성 → 읽기
+2. Row Group 2: amount max=500000 -> amount > 1000000 없음 -> 스킵!
+3. Row Group 5: amount max=3000000 -> 조건 가능성 -> 읽기
 
 효과: 전체 파일의 70~90% 읽지 않고 건너뜀
 ```
@@ -154,12 +154,12 @@ df = spark.read.parquet("s3://bucket/silver/orders/") \
 ```
 [파티셔닝 설계 예시]
 s3://bucket/orders/
-├── year=2024/month=01/day=01/part-00000.parquet
-├── year=2024/month=01/day=02/part-00000.parquet
++-- year=2024/month=01/day=01/part-00000.parquet
++-- year=2024/month=01/day=02/part-00000.parquet
 ...
 
 쿼리: WHERE date = '2024-01-15'
-→ year=2024/month=01/day=15/ 폴더만 읽음 (나머지 99% 스킵)
+-> year=2024/month=01/day=15/ 폴더만 읽음 (나머지 99% 스킵)
 
 주의: 파티션 과세분화 (너무 많은 소형 파일) 방지
      적정 파일 크기: 128MB ~ 512MB
@@ -178,7 +178,7 @@ s3://bucket/orders/
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률</strong> | CSV 대비 5~10배 저장 공간 절감 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 속도</strong> | Row 기반 대비 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 5~50배 빠름 |
 | **I/O 절감** | Column [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) + Predicate Pushdown으로 90%+ I/O 절감 |
-| **스토리지 비용** | S3 비용 50~80% 절감 (CSV → [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 전환) |
+| **스토리지 비용** | S3 비용 50~80% 절감 (CSV -> [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 전환) |
 
 ### 한계 및 주의점
 
@@ -211,13 +211,13 @@ s3://bucket/orders/
 
 ```text
 행 지향 (Row): OLTP 최적화 (INSERT/UPDATE 빠름)
-    │
-    ▼
+    |
+    v
 컬럼 지향 (Columnar): OLAP 최적화 (집계 쿼리 빠름)
-    ├─► Parquet · ORC: 파일 포맷
-    └─► 압축률 ↑: 같은 타입 데이터 연속 저장
-    │
-    ▼
+    +-► Parquet · ORC: 파일 포맷
+    +-► 압축률 ^: 같은 타입 데이터 연속 저장
+    |
+    v
 벡터화 실행: SIMD · Arrow 인메모리 포맷
 ```
 2. Parquet은 잘 정리된 서랍장이다. 각 서랍에 같은 종류의 물건이 빽빽이 정리되어([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)), 필요한 서랍만 열어도(컬럼 선택) 원하는 걸 빠르게 찾을 수 있다.
@@ -229,7 +229,7 @@ s3://bucket/orders/
 
 **진행 상황**: 233 / 371
 
-← **이전**: [233. 아파치 에어플로우 (Apache Airflow)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/233_apache_airflow_dag_orchestration/)
-**다음**: [235. 분산 NoSQL 데이터베이스 종류 개요](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/235_nosql_database_types_overview/) →
+<- **이전**: [233. 아파치 에어플로우 (Apache Airflow)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/233_apache_airflow_dag_orchestration/)
+**다음**: [235. 분산 NoSQL 데이터베이스 종류 개요](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/235_nosql_database_types_overview/) ->
 
 ---

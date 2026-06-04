@@ -23,7 +23,7 @@ tags = ["devops_sre"]
 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)과 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 일상인 환경에서는 어느 코드가 테스트되지 않았는지 빨리 알아야 한다. 코드 커버리지는 그 빈틈을 보여 주는 가장 기본적인 계량값이다.
 JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Coverage)와 Istanbul 같은 도구는 테스트 실행 후 어떤 줄과 분기가 실제로 지나갔는지 기록한다.
 ```text
-테스트 실행 → instrumented code → hit count → coverage report → quality gate
+테스트 실행 -> instrumented code -> hit count -> coverage report -> quality gate
 ```
 
 - **📢 섹션 요약 비유**: 테스트되지 않은 코드는 배포 시 가장 큰 불확실성이다.
@@ -103,17 +103,17 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 
 ```text
 테스트 작성
-  │
-  ▼
+  |
+  v
 계측 빌드 실행
-  │
-  ▼
+  |
+  v
 커버리지 수집
-  │
-  ▼
+  |
+  v
 보고서 확인
-  │
-  ▼
+  |
+  v
 품질 게이트 통과
 ```
 
@@ -129,7 +129,7 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 
 **진행 상황**: 78 / 373
 
-← **이전**: [77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/077_unit_testing_automation_junit_pytest_mocking/)
-**다음**: [079. 소나큐브 (SonarQube - 정적 코드 분석)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) →
+<- **이전**: [77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/077_unit_testing_automation_junit_pytest_mocking/)
+**다음**: [079. 소나큐브 (SonarQube - 정적 코드 분석)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) ->
 
 ---

@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 지표 정의     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 수집·정합성   │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 해석·조치     │
-└──────────────┘
++--------------+
+| 지표 정의     |
++------+-------+
+       |
++------v-------+
+| 수집·정합성   |
++------+-------+
+       |
++------v-------+
+| 해석·조치     |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 체온계 수치를 읽기 전에 언제 어떻게 쟀는지부터 맞추는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 해석·조치 | 튜닝 근거 변화를 원인·개선계획과 연결한다. | 숫자는 행동으로 이어져야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 기준값      │ 수집값      │ 개선값      │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 기준값      | 수집값      | 개선값      |
++------------+------------+------------+
 ```
 
 또한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 응답시간, TPS 병목, 튜닝 근거, 목표치와 추세
-[서버 자원 모니터링] → APM 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석] → [사용자 경험 중심 최적화]
+[서버 자원 모니터링] -> APM 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석] -> [사용자 경험 중심 최적화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 416 / 530
 
-← **이전**: [337. DR·RTO·RPO 모의 훈련 (DR RTO RPO Drill)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/337_dr_rto_rpo/)
-**다음**: [339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/339_process/) →
+<- **이전**: [337. DR·RTO·RPO 모의 훈련 (DR RTO RPO Drill)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/337_dr_rto_rpo/)
+**다음**: [339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/339_process/) ->
 
 ---

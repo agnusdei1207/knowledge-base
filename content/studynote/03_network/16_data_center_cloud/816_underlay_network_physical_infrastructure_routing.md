@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
+    |
+    v
 [언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    └──▶ [VXLAN]
+    |
+    +---> [VXLAN]
 ```
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ tags = ["studynote-network"]
 
 ```text
 [오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
+    |
+    v
 [언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    └──▶ [VXLAN]
+    |
+    +---> [VXLAN]
 ```
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -121,12 +121,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    ├──▶ [확장 A: VXLAN]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: VXLAN]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 언더레이 네트워크 오버레이 터널을 품는 물리…는 [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…에서 출발해 현재 메커니즘을 정교화하고, 이후 VXLAN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -143,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 937 / 1120
 
-← **이전**: [815. 오버레이 네트워크 (Overlay Network) 논리 스위치 L2 확장 터널 구조 터널링](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)
-**다음**: [817. VXLAN (Virtual eXtensible LAN)](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) →
+<- **이전**: [815. 오버레이 네트워크 (Overlay Network) 논리 스위치 L2 확장 터널 구조 터널링](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)
+**다음**: [817. VXLAN (Virtual eXtensible LAN)](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) ->
 
 ---

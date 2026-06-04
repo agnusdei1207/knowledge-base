@@ -28,20 +28,20 @@ tags = ["studynote-enterprise"]
 이 그림은 공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 [데이터베이스 퍼 서비스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)의 차이를 구조적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              Shared database vs service-owned data                 │
-├────────────────────────────────────────────────────────────────────┤
-│ shared database                                                    │
-│ Order Svc ---┐                                                     │
-│ Payment Svc -┼--> one schema, cross-service joins                  │
-│ Shipping Svc ┘                                                     │
-│                                                                    │
-│ database per service                                               │
-│ Order Svc   -> Order Database                                      │
-│ Payment Svc -> Payment Database                                    │
-│ Shipping Svc-> Shipping Database                                   │
-│ service-to-service access goes through API or events               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              Shared database vs service-owned data                 |
++--------------------------------------------------------------------+
+| shared database                                                    |
+| Order Svc ---+                                                     |
+| Payment Svc -+--> one schema, cross-service joins                  |
+| Shipping Svc +                                                     |
+|                                                                    |
+| database per service                                               |
+| Order Svc   -> Order Database                                      |
+| Payment Svc -> Payment Database                                    |
+| Shipping Svc-> Shipping Database                                   |
+| service-to-service access goes through API or events               |
++--------------------------------------------------------------------+
 ```
 
 즉 [데이터베이스 퍼 서비스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)의 본질은 저장소 개수보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 누구에게 직접 열어 줄 것인가</strong>를 명확히 끊는 데 있다.
@@ -66,15 +66,15 @@ tags = ["studynote-enterprise"]
 아래 그림은 [데이터베이스 퍼 서비스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)에서 직접 조인이 사라지고, 계약 기반 연계가 등장하는 이유를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│             Database per Service integration pattern               │
-├────────────────────────────────────────────────────────────────────┤
-│ Order Service   -> Order Database   -> outbox event ----------┐   │
-│ Payment Service -> Payment Database <- subscribes / API call <-┘   │
-│                                                                    │
-│ rule: no direct database query into another service database       │
-│ cross-service views are built by API composition or read models    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|             Database per Service integration pattern               |
++--------------------------------------------------------------------+
+| Order Service   -> Order Database   -> outbox event ----------+   |
+| Payment Service -> Payment Database <- subscribes / API call <-+   |
+|                                                                    |
+| rule: no direct database query into another service database       |
+| cross-service views are built by API composition or read models    |
++--------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복을 무조건 나쁘다고 보지 않는 태도다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 조회를 위해 읽기 전용 사본이나 조회 모델을 따로 유지할 수 있다. 대신 그 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 책임을 명시적으로 드러내야 한다. 감춰진 조인보다 드러난 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 더 관리 가능하다는 것이 MSA의 관점이다.
@@ -160,21 +160,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 Monolithic shared database
-          │
-          ▼
+          |
+          v
 Service boundary and data ownership
-          │
-          ▼
+          |
+          v
 Database per Service
-          │
-          ▼
+          |
+          v
 API / event based integration
-          │
-          ▼
+          |
+          v
 Saga, CQRS, read-model driven microservices
 ```
 
-이 흐름은 "공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 중심 사고 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 명확화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 분리 → 계약 기반 연계"로 발전하는 과정을 보여 준다.
+이 흐름은 "공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 중심 사고 -> [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 명확화 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 분리 -> 계약 기반 연계"로 발전하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ Saga, CQRS, read-model driven microservices
 
 **진행 상황**: 173 / 482
 
-← **이전**: [172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/172_polyglot_persistence/)
-**다음**: [174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/174_distributed_transaction_2pc_limit/) →
+<- **이전**: [172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/172_polyglot_persistence/)
+**다음**: [174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/174_distributed_transaction_2pc_limit/) ->
 
 ---

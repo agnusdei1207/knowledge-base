@@ -28,16 +28,16 @@ tags = ["studynote-operating-system"]
   [순수 페이징(Pre-paging) vs 요구 페이징(Demand Paging)의 차이]
 
   [ ❌ 과거: Pre-paging (무식한 전체 적재) ]
-  - 카카오톡 1GB ─▶ 실행 버튼 클릭 ─▶ 디스크가 1GB를 미친 듯이 읽음 (10초 멈춤)
+  - 카카오톡 1GB --> 실행 버튼 클릭 --> 디스크가 1GB를 미친 듯이 읽음 (10초 멈춤)
   - RAM에 1GB 전체가 꽂힘.
-  - 정작 유저는 로그인 화면 1MB만 쓰고 창을 꺼버림 ─▶ 999MB 램 낭비, 시간 낭비!
+  - 정작 유저는 로그인 화면 1MB만 쓰고 창을 꺼버림 --> 999MB 램 낭비, 시간 낭비!
 
   [ ✅ 현대: Demand Paging (스마트한 지연 적재) ]
-  - 카카오톡 1GB ─▶ 실행 버튼 클릭 ─▶ "일단 껍데기(페이지 테이블)만 만들어!" (0.1초 만에 켜짐)
+  - 카카오톡 1GB --> 실행 버튼 클릭 --> "일단 껍데기(페이지 테이블)만 만들어!" (0.1초 만에 켜짐)
   - 유저가 로그인 버튼을 누름 (CPU가 0x1000 번지 요구)
   - OS: "어? 로그인 코드 램에 없네?" (Page Fault 터짐)
   - OS가 디스크에서 딱 로그인 화면용 4KB(1페이지)만 램으로 쓱 가져옴.
-  ▶ 결과: 로딩 시간 제로(0), 램은 고작 4KB만 씀.
+  -> 결과: 로딩 시간 제로(0), 램은 고작 4KB만 씀.
 ```
 **[다이어그램 해설]** "게으른 자가 세상을 지배한다." 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 프로그래밍의 영원한 진리인 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))를 OS 레벨로 끌어내린 것이다. 꼭 필요할 때까지 죽어도 일을 안 하다가, CPU가 달라고 멱살을 잡을 때([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))만 마지못해 디스크를 읽어오는 이 극강의 게으름이 현대 컴퓨터를 빛의 속도로 만들었다.
 
@@ -66,22 +66,22 @@ CPU가 메모리를 읽으려다 🚨 **Invalid(i)** [비트](/knowledge-base/st
 6. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 재시작 (Restart)</strong>: 잠들었던 스레드를 깨워, 아까 실패했던 메모리 읽기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처음부터 다시 실행시킨다. 이번엔 `v`이므로 빛의 속도로 통과!
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │         페이지 폴트(Page Fault)의 시간적 파괴력 분석 시뮬레이션       │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   ▶ 정상 메모리 접근 시간 (v 일 때): 100 ns (나노초)                  │
-  │   ▶ 페이지 폴트 발생 시 처리 시간 (i 일 때): 8,000,000 ns (디스크)    │
-  │                                                                       │
-  │   [ 유효 접근 시간 (EAT, Effective Access Time) 공식 ]                │
-  │   EAT = (1 - p) * 100 + p * 8,000,000                                 │
-  │         (p는 페이지 폴트 발생 확률, 0 <= p <= 1)                      │
-  │                                                                       │
-  │   🚨 충격적 결과:                                                     │
-  │   만약 1,000번 중에 딱 1번(p = 0.001)만 페이지 폴트가 터진다면?       │
-  │   EAT = 0.999 * 100 + 0.001 * 8,000,000 = 8099 ns                     │
-  │   >> 단 0.1%의 폴트 때문에 컴퓨터 전체 속도가 **80배** 느려진다!      │
-  └───────────────────────────────────────────────────────────────────────┘
+  +-----------------------------------------------------------------------+
+  |         페이지 폴트(Page Fault)의 시간적 파괴력 분석 시뮬레이션       |
+  +-----------------------------------------------------------------------+
+  |                                                                       |
+  |   -> 정상 메모리 접근 시간 (v 일 때): 100 ns (나노초)                  |
+  |   -> 페이지 폴트 발생 시 처리 시간 (i 일 때): 8,000,000 ns (디스크)    |
+  |                                                                       |
+  |   [ 유효 접근 시간 (EAT, Effective Access Time) 공식 ]                |
+  |   EAT = (1 - p) * 100 + p * 8,000,000                                 |
+  |         (p는 페이지 폴트 발생 확률, 0 <= p <= 1)                      |
+  |                                                                       |
+  |   🚨 충격적 결과:                                                     |
+  |   만약 1,000번 중에 딱 1번(p = 0.001)만 페이지 폴트가 터진다면?       |
+  |   EAT = 0.999 * 100 + 0.001 * 8,000,000 = 8099 ns                     |
+  |   >> 단 0.1%의 폴트 때문에 컴퓨터 전체 속도가 **80배** 느려진다!      |
+  +-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 양날의 검이다. 램을 아끼는 기적을 보여주지만, CPU는 디스크를 혐오한다. 위 공식이 증명하듯, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템이 성공하려면 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>(p)이 0.000001 (수백만 번 중 한 번)</strong> 수준으로 극단적으로 낮아야만 한다. 그리고 이 기적 같은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 만들어주는 것이 바로 인간 코드의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">참조의 지역성</a>(Locality)'</strong>이다.
 
@@ -117,30 +117,30 @@ OS는 프로그램 시작 시 램에 [페이지](/knowledge-base/studynote/01_co
 1. <strong>JVM <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a> 튜닝의 역설 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>와의 충돌)</strong>: 백엔드 개발자가 JVM `-Xms` ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 힙 크기)와 `-Xmx` (최대 힙 크기)를 다르게 세팅했다(예: -Xms1G, -Xmx8G).
    - **사건**: 트래픽이 몰리자 JVM이 OS에게 메모리를 더 달라고 요구한다. OS는 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 법칙에 따라 1G에서 8G까지 디스크(Swap)와 램을 오가며 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 미친 듯이 빵빵 터뜨리며 메모리를 찔끔찔끔 늘려준다. 서버는 이 늘어나는 찰나의 시간(수십 초) 동안 렉에 걸려 TPS가 반 토막 난다.
    - **아키텍트 조치**: 서버 사이드에서는 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 "게으름([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/))"이 오히려 독이다. 무조건 <strong><code>-Xms8G -Xmx8G</code> 로 동일하게 맞추어(Pre-allocation)</strong>, 서버가 켜질 때 OS의 멱살을 잡고 물리 램 8GB를 한 번에 싹 다 확보해 놓게 만들어야 런타임 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault에 의한 서버 멈춤을 원천 차단할 수 있다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>() 시스템 콜을 활용한 제로 카피 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>) I/O</strong>: 10GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 파싱 해야 한다. `read()` 함수를 쓰면 디스크 ─▶ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 ─▶ 유저 메모리로 2번이나 복사되어 CPU가 터진다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>() 시스템 콜을 활용한 제로 카피 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>) I/O</strong>: 10GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 파싱 해야 한다. `read()` 함수를 쓰면 디스크 --> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 --> 유저 메모리로 2번이나 복사되어 CPU가 터진다.
    - **실무의 기적**: 아키텍트는 `mmap()` 함수를 쓴다. 이 함수는 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 메모리에 올리지 않고, 유저 가상 주소 공간에 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 디스크 주소'만 맵핑시켜놓고 끝낸다(요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 적용).
    - **효과**: 코드가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 읽듯이 `data[100]`을 호출하면, 그 순간 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터지며 OS가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 딱 그 4KB 부분만 램으로 쓱 퍼온다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사(Copy)가 생략되며 디스크를 마치 램처럼 다룰 수 있는 현대 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))의 코어 아키텍처다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     클라우드 서버의 Page Fault / 스래싱(Thrashing) 방어 아키텍처   │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [장애 현상: Top 명령어 상 CPU는 놀고 있는데 시스템 Load가 100임] │
-  │                │                                                   │
-  │                ▼ 원인 분석: vmstat 1 명령어로 스왑 I/O 확인        │
-  │   `si(Swap In)`, `so(Swap Out)` 수치가 0이 아니고 계속 튀는가?     │
-  │          ├─ [예 (디스크 스왑 지옥 - 스래싱)]                       │
-  │          │      │                                                  │
-  │          │      ▼ 아키텍트의 응급 처치                             │
-  │          │  1. 스왑을 끄는 게 국룰: `swapoff -a` (K8s 필수)        │
-  │          │  2. OOM 킬러가 작동하여 문제 프로세스 강제 사살 유도.   │
-  │          │  3. 근본적으로 물리적 RAM(Scale-up)을 증설해야 함.      │
-  │          │                                                         │
-  │          └─ [아니오 (스왑은 안 돔)]                                │
-  │                 │                                                  │
-  │                 ▼ 다른 병목(Lock, Network) 의심                    │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     클라우드 서버의 Page Fault / 스래싱(Thrashing) 방어 아키텍처   |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [장애 현상: Top 명령어 상 CPU는 놀고 있는데 시스템 Load가 100임] |
+  |                |                                                   |
+  |                v 원인 분석: vmstat 1 명령어로 스왑 I/O 확인        |
+  |   `si(Swap In)`, `so(Swap Out)` 수치가 0이 아니고 계속 튀는가?     |
+  |          +- [예 (디스크 스왑 지옥 - 스래싱)]                       |
+  |          |      |                                                  |
+  |          |      v 아키텍트의 응급 처치                             |
+  |          |  1. 스왑을 끄는 게 국룰: `swapoff -a` (K8s 필수)        |
+  |          |  2. OOM 킬러가 작동하여 문제 프로세스 강제 사살 유도.   |
+  |          |  3. 근본적으로 물리적 RAM(Scale-up)을 증설해야 함.      |
+  |          |                                                         |
+  |          +- [아니오 (스왑은 안 돔)]                                |
+  |                 |                                                  |
+  |                 v 다른 병목(Lock, Network) 의심                    |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "디스크를 램처럼 쓸 수 있다"는 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 달콤한 속삭임에 속은 대가는 처참하다. 실무 클라우드 엔지니어링에서 디스크 스왑(Swap)은 '보험'이 아니라 '서버를 식물인간으로 만드는 마취제'로 취급된다. 스왑을 치며 느리게 도느니, 차라리 에러([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))를 뱉고 화끈하게 죽은 뒤 1초 만에 새 컨테이너로 살아나는(Fail-Fast) 것이 현대 백엔드의 진정한 미덕이다.
 
@@ -174,12 +174,12 @@ OS는 프로그램 시작 시 램에 [페이지](/knowledge-base/studynote/01_co
 
 ```text
 [RCU (Read-Copy-Update)]
-    │
-    ▼
+    |
+    v
 [요구 페이징 (Demand Paging)]
-    │
-    ├──▶ [락-프리 (Lock-free) 자료구조]
-    └──▶ [웨이트-프리 (Wait-free) 알고리즘]
+    |
+    +---> [락-프리 (Lock-free) 자료구조]
+    +---> [웨이트-프리 (Wait-free) 알고리즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -196,7 +196,7 @@ OS는 프로그램 시작 시 램에 [페이지](/knowledge-base/studynote/01_co
 
 **진행 상황**: 255 / 800
 
-← **이전**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)
-**다음**: [256. 락-프리 (Lock-free) 자료구조 - CAS 연산 적극 활용](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) →
+<- **이전**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)
+**다음**: [256. 락-프리 (Lock-free) 자료구조 - CAS 연산 적극 활용](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) ->
 
 ---

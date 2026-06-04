@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 위상 정렬 (Topological Sort)은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))의 모든 간선 u→v에 대해 u가 v보다 앞에 오도록 정점을 순서화하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 1. **본질**: 위상 정렬 (Topological Sort)은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))의 모든 간선 u->v에 대해 u가 v보다 앞에 오도록 정점을 순서화하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 작업 선후관계, 빌드 시스템 의존성, 강의 수강 선수조건 등 "A를 먼저 해야 B를 할 수 있다"는 실세계 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 O(V+E)에 선형적으로 해결한다.
 > 3. **판단 포인트**: 사이클이 존재하면 위상 정렬 불가능 (사이클 = [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)) — Kahn's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 in-degree 0인 정점이 없으면 사이클을 자동 감지한다.
 
@@ -41,9 +41,9 @@ tags = ["studynote-algorithm"]
 ### 예시 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (강의 선수 조건)
 
 ```
-수학(A) → 선형대수(B) → 머신러닝(D)
-수학(A) → 통계(C) ────→ 머신러닝(D)
-프로그래밍(E) ─────────→ 머신러닝(D)
+수학(A) -> 선형대수(B) -> 머신러닝(D)
+수학(A) -> 통계(C) -----> 머신러닝(D)
+프로그래밍(E) ----------> 머신러닝(D)
 ```
 
 ### Kahn's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 기반, in-degree 추적)
@@ -54,7 +54,7 @@ tags = ["studynote-algorithm"]
 3. 큐에서 꺼낼 때마다 결과에 추가
 4. 해당 정점의 이웃 in-degree를 1씩 감소
 5. in-degree가 0이 된 이웃을 큐에 삽입
-6. 결과 크기 < V → 사이클 존재
+6. 결과 크기 < V -> 사이클 존재
 ```
 
 ### [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 위상 정렬 (역후위 순서)
@@ -67,23 +67,23 @@ DFS 탐색에서 정점이 완전 처리될 때(finish) 스택에 Push
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Kahn's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  DAG:   A → B → D                                        │
-│         A → C → D                                        │
-│         E ─────→ D                                       │
-│                                                          │
-│  in-degree: A=0, B=1, C=1, D=3, E=0                      │
-│                                                          │
-│  Step1: 큐=[A,E]                                         │
-│  Step2: A 꺼냄→결과[A] → B.in-=1(=0), C.in-=1(=0)       │
-│         큐=[E,B,C]                                       │
-│  Step3: E 꺼냄→결과[A,E] → D.in-=1(=2)  큐=[B,C]         │
-│  Step4: B 꺼냄→결과[A,E,B] → D.in-=1(=1) 큐=[C]          │
-│  Step5: C 꺼냄→결과[A,E,B,C] → D.in-=1(=0) 큐=[D]        │
-│  Step6: D 꺼냄→결과[A,E,B,C,D]                           │
-│                                                          │
-│  결과: A → E → B → C → D  (유효한 위상 순서 중 하나)      │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  DAG:   A -> B -> D                                        |
+|         A -> C -> D                                        |
+|         E ------> D                                       |
+|                                                          |
+|  in-degree: A=0, B=1, C=1, D=3, E=0                      |
+|                                                          |
+|  Step1: 큐=[A,E]                                         |
+|  Step2: A 꺼냄->결과[A] -> B.in-=1(=0), C.in-=1(=0)       |
+|         큐=[E,B,C]                                       |
+|  Step3: E 꺼냄->결과[A,E] -> D.in-=1(=2)  큐=[B,C]         |
+|  Step4: B 꺼냄->결과[A,E,B] -> D.in-=1(=1) 큐=[C]          |
+|  Step5: C 꺼냄->결과[A,E,B,C] -> D.in-=1(=0) 큐=[D]        |
+|  Step6: D 꺼냄->결과[A,E,B,C,D]                           |
+|                                                          |
+|  결과: A -> E -> B -> C -> D  (유효한 위상 순서 중 하나)      |
++----------------------------------------------------------+
 ```
 
 ### 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
@@ -103,11 +103,11 @@ DFS 탐색에서 정점이 완전 처리될 때(finish) 스택에 Push
 ### 위상 정렬이 불가능한 경우 (사이클)
 
 ```
-A → B → C → A  (사이클 존재)
+A -> B -> C -> A  (사이클 존재)
 
 Kahn's: A.in=1, B.in=1, C.in=1
-→ 초기 큐에 아무것도 없음
-→ 결과 크기=0 < V=3 → 사이클 감지
+-> 초기 큐에 아무것도 없음
+-> 결과 크기=0 < V=3 -> 사이클 감지
 ```
 
 ### 위상 정렬 응용 — 최장 경로 (Critical Path)
@@ -115,8 +115,8 @@ Kahn's: A.in=1, B.in=1, C.in=1
 DAG에서 위상 정렬 순서로 DP를 적용하면 최장 경로 (Critical Path)를 O(V+E)에 계산 가능:
 
 ```
-longest[v] = max(longest[u] + weight(u,v)) for all u→v
-→ 프로젝트 완료 최소 기간 계산 (CPM, Critical Path Method)
+longest[v] = max(longest[u] + weight(u,v)) for all u->v
+-> 프로젝트 완료 최소 기간 계산 (CPM, Critical Path Method)
 ```
 
 📢 **섹션 요약 비유**: 위상 정렬의 최장 경로 = 프로젝트 관리의 크리티컬 패스다. 이 경로를 지연시키면 전체 프로젝트가 지연된다.
@@ -127,11 +127,11 @@ longest[v] = max(longest[u] + weight(u,v)) for all u→v
 
 **시나리오 1**: [Apache Airflow DAG](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/) 실행 순서
 - [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 각 태스크를 정점, 의존성을 간선으로 모델링
-- 위상 정렬로 실행 순서 결정 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능한 작업 동시 실행
+- 위상 정렬로 실행 순서 결정 -> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능한 작업 동시 실행
 
 **시나리오 2**: npm/pip 패키지 의존성 해결
 - 패키지 설치 시 의존 패키지를 먼저 설치
-- [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) 감지 → 오류 보고 (npm의 peerDependency 경고)
+- [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) 감지 -> 오류 보고 (npm의 peerDependency 경고)
 
 **시나리오 3**: 대학 수강 신청 시스템
 - 선수 조건 위반 수강 신청 차단
@@ -145,9 +145,9 @@ longest[v] = max(longest[u] + weight(u,v)) for all u→v
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 최적화 | Kahn's 레벨별 처리 (같은 큐의 항목 = [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능) |
 | 역후위 순서 필요 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 위상 정렬 |
 | 최장 경로([CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)) | 위상 정렬 순서로 DP 적용 |
-| [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 사이클 가능성 | 위상 정렬 불가 → [SCC](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) 분해 후 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 변환 |
+| [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 사이클 가능성 | 위상 정렬 불가 -> [SCC](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) 분해 후 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 변환 |
 
-📢 **섹션 요약 비유**: 위상 정렬은 건설 현장의 작업 스케줄표 같다. 기초 공사 → 골조 → 외벽 → 내장 순서가 지켜져야 하며, 어느 단계도 뒤바꿀 수 없다.
+📢 **섹션 요약 비유**: 위상 정렬은 건설 현장의 작업 스케줄표 같다. 기초 공사 -> 골조 -> 외벽 -> 내장 순서가 지켜져야 하며, 어느 단계도 뒤바꿀 수 없다.
 
 ## Ⅴ. 기대효과 및 결론
 
@@ -172,17 +172,17 @@ longest[v] = max(longest[u] + weight(u,v)) for all u→v
 
 ```text
 [방향 비순환 그래프 (DAG — Directed Acyclic Graph) — 위상 정렬의 전제 조건]
-    │
-    ▼
+    |
+    v
 [진입 차수 (In-degree) 기반 탐색 — Kahn 알고리즘으로 순서 결정]
-    │
-    ▼
+    |
+    v
 [깊이 우선 탐색 (DFS) 기반 위상 정렬 — 후위 순회로 역순 배치]
-    │
-    ▼
+    |
+    v
 [빌드 의존성 해소 (Build Dependency) — Make·Gradle에서 컴파일 순서 결정]
-    │
-    ▼
+    |
+    v
 [작업 스케줄링 (Task Scheduling) — 선행 작업 제약을 지키는 CPM·PERT 경로 분석]
 ```
 
@@ -200,7 +200,7 @@ longest[v] = max(longest[u] + weight(u,v)) for all u→v
 
 **진행 상황**: 39 / 175
 
-← **이전**: [A* 알고리즘 (A-Star Algorithm)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/038_a_star_algorithm/)
-**다음**: [12. 강연결 요소 (SCC, Strongly Connected Components) — Kosaraju / Tarjan](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) →
+<- **이전**: [A* 알고리즘 (A-Star Algorithm)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/038_a_star_algorithm/)
+**다음**: [12. 강연결 요소 (SCC, Strongly Connected Components) — Kosaraju / Tarjan](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) ->
 
 ---

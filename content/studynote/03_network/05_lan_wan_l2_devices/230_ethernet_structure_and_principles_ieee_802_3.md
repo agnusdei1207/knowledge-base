@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [EAP]
-    │
-    ▼
+    |
+    v
 [이더넷 구조 및 원리]
-    │
-    └──▶ [MAC 주소]
+    |
+    +---> [MAC 주소]
 ```
 
 - **📢 섹션 요약 비유**: ** 이더넷은 컴퓨터들이 모인 방 안에서 대화하는 **"회의실 발언 규칙"**입니다. 발언권([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 가진 사람이, 남이 말하지 않을 때([반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지) 말을 시작하여 정보를 안전하게 전달하는 통신 질서입니다.
@@ -49,23 +49,23 @@ tags = ["studynote-network"]
 IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케이블로 쏘아진다. 프레임의 크기는 최소 64바이트 ~ 최대 1518바이트(페이로드 MTU 1500바이트 기준)다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 Ethernet II 프레임 (MAC 프레임) 구조          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │  [Preamble]  동기화 목적 (8 Byte) - 101010... 패턴으로 시작        │
- │      │                                                      │
- │      ▼                                                      │
- │  ┌───────┬────────────┬────────────┬────────┬───────────┐   │
- │  │ SFD   │ 목적지 MAC │ 출발지 MAC │ Type   │ Data(IP)  │   │
- │  │(1B)   │  (6 Byte)  │  (6 Byte)  │(2 Byte)│ (46~1500B)│   │
- │  └───────┴────────────┴────────────┴────────┴───────────┘   │
- │                                                   │         │
- │                                                   ▼         │
- │                                                 [FCS]       │
- │                                            에러 검출(4 Byte) │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 Ethernet II 프레임 (MAC 프레임) 구조          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |  [Preamble]  동기화 목적 (8 Byte) - 101010... 패턴으로 시작        |
+ |      |                                                      |
+ |      v                                                      |
+ |  +-------+------------+------------+--------+-----------+   |
+ |  | SFD   | 목적지 MAC | 출발지 MAC | Type   | Data(IP)  |   |
+ |  |(1B)   |  (6 Byte)  |  (6 Byte)  |(2 Byte)| (46~1500B)|   |
+ |  +-------+------------+------------+--------+-----------+   |
+ |                                                   |         |
+ |                                                   v         |
+ |                                                 [FCS]       |
+ |                                            에러 검출(4 Byte) |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 - **Preamble / SFD (Start Frame Delimiter)**: 수신 측 랜카드에 "지금부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 들어간다, 박자(클럭) 맞춰라!"라고 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
 - <strong>Type (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/">EtherType</a>)</strong>: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)에 포장된 상위 프로토콜이 IP(0x0800)인지 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(0x0806)인지 알려주는 식별표.
@@ -140,12 +140,12 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 
 ```text
 [선행 개념: EAP]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이더넷 구조 및 원리]
-    │
-    ├──▶ [확장 A: MAC 주소]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: MAC 주소]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 이더넷 구조 및 원리는 EAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -162,7 +162,7 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 
 **진행 상황**: 351 / 1120
 
-← **이전**: [229. EAP (Extensible Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)
-**다음**: [231. MAC 주소 (Media Access Control Address)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/231_mac_address_48bit_oui_nic/) →
+<- **이전**: [229. EAP (Extensible Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)
+**다음**: [231. MAC 주소 (Media Access Control Address)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/231_mac_address_48bit_oui_nic/) ->
 
 ---

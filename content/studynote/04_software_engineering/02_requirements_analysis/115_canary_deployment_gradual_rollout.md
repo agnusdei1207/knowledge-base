@@ -10,8 +10,8 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 <strong>전체 트래픽의 1~5%에만 먼저 노출</strong>하고, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%→50%→100%)하는 <strong>위험 최소화 배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
-> 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%→5%→25%→100%"로 <strong>단계적 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 후 전환하므로 장애 시 영향 범위가 극히 제한된다.
+> 1. **본질**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 <strong>전체 트래픽의 1~5%에만 먼저 노출</strong>하고, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%->50%->100%)하는 <strong>위험 최소화 배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
+> 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%->5%->25%->100%"로 <strong>단계적 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 후 전환하므로 장애 시 영향 범위가 극히 제한된다.
 > 3. **판단 포인트**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService·Argo Rollouts·AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 트래픽 비율을 제어하며, Kayenta 같은 <strong>자동 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 분석(ACA)</strong>과 결합하면 사람 개입 없는 완전 자동 롤아웃이 가능하다.
 
 ---
@@ -19,18 +19,18 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    카나리 배포 트래픽 점진 확대                         │
-├───────────────────────────────────────────────────────┤
-│  Phase 1: v2 → 1% 트래픽 (카나리)                    │
-│           v1 → 99% 트래픽 (베이스라인)                │
-│           → 메트릭 관찰 (에러율, 레이턴시)             │
-│  Phase 2: v2 → 10% 트래픽                            │
-│  Phase 3: v2 → 50% 트래픽                            │
-│  Phase 4: v2 → 100% 트래픽 (완전 전환)               │
-│                                                       │
-│  문제 발생 시: 즉시 v2 → 0%, v1 → 100% (롤백)       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    카나리 배포 트래픽 점진 확대                         |
++-------------------------------------------------------+
+|  Phase 1: v2 -> 1% 트래픽 (카나리)                    |
+|           v1 -> 99% 트래픽 (베이스라인)                |
+|           -> 메트릭 관찰 (에러율, 레이턴시)             |
+|  Phase 2: v2 -> 10% 트래픽                            |
+|  Phase 3: v2 -> 50% 트래픽                            |
+|  Phase 4: v2 -> 100% 트래픽 (완전 전환)               |
+|                                                       |
+|  문제 발생 시: 즉시 v2 -> 0%, v1 -> 100% (롤백)       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 탄광의 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새에서 유래했다. 새가 먼저 들어가서 유독 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(버그)를 감지하면 광부(사용자 전체)가 들어가지 않는다.
@@ -52,7 +52,7 @@ tags = ["studynote-software-engineering"]
 
 | 비교 | 블루/그린 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
 |:---|:---|:---|
-| **전환** | 100% 한 번에 | <strong>1%→<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%→100% 점진</strong> |
+| **전환** | 100% 한 번에 | <strong>1%-><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%->100% 점진</strong> |
 | **리소스** | 2배 (구/신 동시 운영) | **+α만 추가** |
 | **위험** | 100% 사용자 영향 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 1%만 영향</strong> |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 깊이</strong> | 배포 전 테스트 | <strong>실 트래픽으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> |
@@ -87,7 +87,7 @@ strategy:
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 비율 즉시 100%</strong>: 1%→100% 한 번에 올리면 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 아니라 빅뱅 배포.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 비율 즉시 100%</strong>: 1%->100% 한 번에 올리면 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 아니라 빅뱅 배포.
 
 ---
 
@@ -99,7 +99,7 @@ strategy:
 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도 | 분 단위 | **초 단위** | 즉시 |
 | 배포 자신감 | 낮음 | **높음** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 |
 
-[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)·ACA(Kayenta)와 결합하여 "배포→관찰→자동 판정→확대/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"이 완전 자동화되는 Progressive Delivery의 핵심 요소다.
+[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)·ACA(Kayenta)와 결합하여 "배포->관찰->자동 판정->확대/[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"이 완전 자동화되는 Progressive Delivery의 핵심 요소다.
 
 ---
 
@@ -117,17 +117,17 @@ strategy:
 
 ```text
 [롤링 업데이트 (2000s) — Pod 순차 교체]
-    │
-    ▼
+    |
+    v
 [블루/그린 배포 (2010s) — 100% 전환]
-    │
-    ▼
-[카나리 배포 (2015~) — 1%→100% 점진 확대]
-    │
-    ▼
+    |
+    v
+[카나리 배포 (2015~) — 1%->100% 점진 확대]
+    |
+    v
 [ACA + Argo Rollouts (2020~) — 자동 판정·자동 확대]
-    │
-    ▼
+    |
+    v
 [현재: Progressive Delivery — 카나리+피처플래그+ACA 통합]
 ```
 
@@ -142,7 +142,7 @@ strategy:
 
 **진행 상황**: 115 / 973
 
-← **이전**: [114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/114_feature_flag_toggle_deployment/)
-**다음**: [116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/116_blue_green_deployment/) →
+<- **이전**: [114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/114_feature_flag_toggle_deployment/)
+**다음**: [116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/116_blue_green_deployment/) ->
 
 ---

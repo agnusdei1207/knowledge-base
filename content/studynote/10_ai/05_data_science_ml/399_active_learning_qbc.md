@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성에 필요한 레이블 수를 70~90% 감소시키는 것이 가능하다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [액티브 러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/)은 "시험공부할 때 내가 잘 모르는 문제만 선생님께 질문하는" 효율적 학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
@@ -41,14 +41,14 @@ tags = ["studynote-ai"]
 ### [액티브 러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/) 사이클
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  [초기 레이블 풀] ─► [모델 학습] ─► [쿼리 전략]      │
-│                              ↑            ↓           │
-│  [미레이블 풀] ◄─── 정보 풍부 샘플 선택  │           │
-│       ↓                                  │           │
-│  [전문가 레이블링] ──────────────────────┘           │
-│  반복 → 성능 수렴                                     │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|  [초기 레이블 풀] -► [모델 학습] -► [쿼리 전략]      |
+|                              ^            v           |
+|  [미레이블 풀] ◄--- 정보 풍부 샘플 선택  |           |
+|       v                                  |           |
+|  [전문가 레이블링] ----------------------+           |
+|  반복 -> 성능 수렴                                     |
++------------------------------------------------------+
 ```
 
 ### 불확실성 샘플링 (Uncertainty [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))
@@ -110,7 +110,7 @@ x* = argmax I(y; θ | x, D)
 **자율주행**: 어엣지 케이스 자동 발굴 및 우선 레이블링
 
 구현 팁:
-- MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/): 추론 시 [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 활성화 → 다수 예측 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산
+- MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/): 추론 시 [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 활성화 -> 다수 예측 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산
 - Modular 설계: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 플러그인으로 교체 가능하게
 
 - **📢 섹션 요약 비유**: MC Dropout은 "같은 시험을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)번 칠 때마다 답이 달라지는 문제"를 찾는다. 그런 문제가 진짜 모르는 것이다.
@@ -139,7 +139,7 @@ x* = argmax I(y; θ | x, D)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [액티브 러닝 (Active Learning)] → [최적화·운영 자동화]
+[데이터 전처리] -> [액티브 러닝 (Active Learning)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ x* = argmax I(y; θ | x, D)
 
 **진행 상황**: 399 / 420
 
-← **이전**: [398. GAT (Graph Attention Network)](/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/)
-**다음**: [400. MLOps 드리프트 탐지 (Mlops Drift Detection)](/knowledge-base/studynote/10_ai/05_data_science_ml/400_mlops_drift_detection/) →
+<- **이전**: [398. GAT (Graph Attention Network)](/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/)
+**다음**: [400. MLOps 드리프트 탐지 (Mlops Drift Detection)](/knowledge-base/studynote/10_ai/05_data_science_ml/400_mlops_drift_detection/) ->
 
 ---

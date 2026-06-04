@@ -24,17 +24,17 @@ tags = ["studynote-devops-sre"]
 예를 들어 플래시 세일에서 특정 상품 ID 하나에 요청이 몰리면, 애플리케이션 서버 수를 아무리 늘려도 결국 같은 락 앞에서 줄을 서게 된다. 이때 CPU 사용률은 여전히 낮고 에러율도 없을 수 있지만, 사용자는 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 크게 체감한다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 단순 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어가 아니라, 관측 대상이 되는 공유 자원으로 다뤄야 한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│          분산 락 병목의 특징: 시스템은 멀쩡해 보여도 줄은 길다      │
-├────────────────────────────────────────────────────────────────────┤
-│ Request A ── lock(key=상품-1) ──▶ critical section ──▶ release     │
-│ Request B ── wait ................................................. │
-│ Request C ── wait ................................................. │
-│ Request D ── wait ................................................. │
-│                                                                    │
-│ Visible symptom: latency spike                                     │
-│ Hidden cause   : serialized access on same lock key                │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|          분산 락 병목의 특징: 시스템은 멀쩡해 보여도 줄은 길다      |
++--------------------------------------------------------------------+
+| Request A -- lock(key=상품-1) ---> critical section ---> release     |
+| Request B -- wait ................................................. |
+| Request C -- wait ................................................. |
+| Request D -- wait ................................................. |
+|                                                                    |
+| Visible symptom: latency spike                                     |
+| Hidden cause   : serialized access on same lock key                |
++--------------------------------------------------------------------+
 ```
 
 이 그림이 보여주는 핵심은 "락 병목은 계산 자원 부족이 아니라 순서 대기 문제"라는 점이다. 따라서 전통적인 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)만으로는 원인을 놓치기 쉽고, 락 전용 계측이 필요하다.
@@ -58,25 +58,25 @@ tags = ["studynote-devops-sre"]
 다음 다이어그램은 락 관측 포인트를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                distributed lock lifecycle telemetry                │
-├────────────────────────────────────────────────────────────────────┤
-│ T0: request arrives                                                │
-│   │                                                                │
-│   ├─ start span "lock.acquire"                                    │
-│   │                                                                │
-│ T1: lock acquired or timeout                                       │
-│   │<------ acquire_wait_ms ------>│                                │
-│   │                                                                │
-│   ├─ start critical section                                         │
-│   │                                                                │
-│ T2: business logic complete                                         │
-│   │<--------- lock_hold_ms ---------->│                            │
-│   │                                                                │
-│ T3: unlock + emit metrics + structured log + trace tag             │
-│                                                                    │
-│ End-to-end latency = acquire_wait_ms + critical section + downstream│
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                distributed lock lifecycle telemetry                |
++--------------------------------------------------------------------+
+| T0: request arrives                                                |
+|   |                                                                |
+|   +- start span "lock.acquire"                                    |
+|   |                                                                |
+| T1: lock acquired or timeout                                       |
+|   |<------ acquire_wait_ms ------>|                                |
+|   |                                                                |
+|   +- start critical section                                         |
+|   |                                                                |
+| T2: business logic complete                                         |
+|   |<--------- lock_hold_ms ---------->|                            |
+|   |                                                                |
+| T3: unlock + emit metrics + structured log + trace tag             |
+|                                                                    |
+| End-to-end latency = acquire_wait_ms + critical section + downstream|
++--------------------------------------------------------------------+
 ```
 
 관측 설계에서 중요한 트레이드오프는 태그 세분화와 비용이다. 락 키를 너무 세밀하게 전부 태깅하면 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 카디널리티 (Cardinality)가 폭증해 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템이 오히려 부담을 받는다. 그래서 보통은 락 종류, 업무 유형, 상위 리소스 범주를 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 태그로 두고, 상세 키 값은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 트레이스 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 남겨 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)하는 방식이 현실적이다.
@@ -121,7 +121,7 @@ tags = ["studynote-devops-sre"]
 - 락 보유 중 외부 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([Hypertext Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 호출을 수행해 병목을 스스로 확대하는 경우
 - 락 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)만 늘려 대기열을 숨기고 근본 원인을 방치하는 경우
 
-대표 시나리오로 플래시 세일 장애 대응에서는 `lock_wait_p95`, `lock_hold_p95`, 핫 키 Top N, 해당 요청 트레이스를 함께 봐야 한다. 병목이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 캐시 선반영, 키 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), 큐 기반 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화, 사전 토큰 발급 등으로 구조를 바꿀 수 있다. 기술사 답안에서는 "[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집 → 원인 분리 → 구조 대안 판단"의 흐름을 분명히 쓰는 것이 중요하다.
+대표 시나리오로 플래시 세일 장애 대응에서는 `lock_wait_p95`, `lock_hold_p95`, 핫 키 Top N, 해당 요청 트레이스를 함께 봐야 한다. 병목이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 캐시 선반영, 키 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), 큐 기반 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화, 사전 토큰 발급 등으로 구조를 바꿀 수 있다. 기술사 답안에서는 "[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집 -> 원인 분리 -> 구조 대안 판단"의 흐름을 분명히 쓰는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: 길이 막혔다고 무조건 도로를 더 만드는 것이 답은 아니다. 어느 교차로에서, 왜, 얼마나 오래 막히는지 본 뒤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 바꾸거나 우회로를 만드는 판단이 필요하다.
 
@@ -151,17 +151,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 단일 인스턴스 락
-        │
-        ▼
+        |
+        v
 분산 락 (Redis · ZooKeeper · etcd)
-        │
-        ▼
+        |
+        v
 락 메트릭 수집 (wait · hold · timeout)
-        │
-        ▼
+        |
+        v
 Trace/Log correlation + Hot Key analysis
-        │
-        ▼
+        |
+        v
 Sharding · Queueing · Optimistic Locking 개선
 ```
 
@@ -179,7 +179,7 @@ Sharding · Queueing · Optimistic Locking 개선
 
 **진행 상황**: 166 / 373
 
-← **이전**: [165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/165_service_mesh_telemetry_sidecar/)
-**다음**: [167. 트래픽 섀도잉 (Traffic Shadowing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) →
+<- **이전**: [165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/165_service_mesh_telemetry_sidecar/)
+**다음**: [167. 트래픽 섀도잉 (Traffic Shadowing)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) ->
 
 ---

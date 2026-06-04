@@ -22,7 +22,7 @@ tags = ["studynote-it-management"]
 
 > 우리는 소프트웨어를 개발하고, 또 다른 사람의 개발을 도와주면서 소프트웨어 개발의 더 나은 방법들을 찾아가고 있다.
 
-| 더 가치 있는 것    | ← 보다       | 덜 가치 있는 것     |
+| 더 가치 있는 것    | <- 보다       | 덜 가치 있는 것     |
 |-----------------|------------|-------------------|
 | 개인과 상호작용   | 프로세스와 도구 |
 | 작동하는 소프트웨어| 포괄적인 문서   |
@@ -47,12 +47,12 @@ tags = ["studynote-it-management"]
 
 ```
 스프린트 계획 (Planning) — 2h
-    ↓ 개발 (Sprint 1~10일)
-       ↓ 데일리 스크럼 (Daily, 15분)
-    ↓
+    v 개발 (Sprint 1~10일)
+       v 데일리 스크럼 (Daily, 15분)
+    v
 스프린트 리뷰 (Review) — 2h (고객 데모)
 스프린트 회고 (Retrospective) — 1.5h (팀 개선)
-    ↓ 다음 스프린트 시작
+    v 다음 스프린트 시작
 ```
 
 ### 산출물
@@ -73,11 +73,11 @@ tags = ["studynote-it-management"]
 Kanban 보드:
 
 To Do         In Progress     In Review      Done
-┌──────────┐  ┌──────────┐   ┌──────────┐  ┌──────────┐
-│ 기능 A   │  │ 기능 B   │   │ 기능 C   │  │ 기능 D   │
-│ 기능 E   │  │ 기능 F   │   │          │  │ 기능 G   │
-│ 기능 H   │  │ (WIP=2)  │   │ (WIP=1)  │  │          │
-└──────────┘  └──────────┘   └──────────┘  └──────────┘
++----------+  +----------+   +----------+  +----------+
+| 기능 A   |  | 기능 B   |   | 기능 C   |  | 기능 D   |
+| 기능 E   |  | 기능 F   |   |          |  | 기능 G   |
+| 기능 H   |  | (WIP=2)  |   | (WIP=1)  |  |          |
++----------+  +----------+   +----------+  +----------+
 WIP 제한 없음   최대 2개        최대 1개
 ```
 
@@ -95,23 +95,23 @@ WIP 제한 없음   최대 2개        최대 1개
 |-----------------|----------------------------------|
 | 벨로시티 (Velocity) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)당 완료 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)    |
 | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)        | 남은 작업량 vs 시간 (이상: 우하향) |
-| 사이클 타임        | 작업 시작 → 완료까지 경과 시간   |
-| [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)         | 요청 등록 → 완료까지 총 시간      |
+| 사이클 타임        | 작업 시작 -> 완료까지 경과 시간   |
+| [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)         | 요청 등록 -> 완료까지 총 시간      |
 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탈출률        | 프로덕션에서 발견된 버그 비율      |
 
 ### [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)
 
 ```
 포인트
-40 ┤●
-35 ┤  ●
-30 ┤    ●
-25 ┤      ●
-20 ┤        ●
-15 ┤          ● ← 이상적 번다운
-10 ┤
- 5 ┤
- 0 ┤────────────────→ 날짜 (스프린트 기간)
+40 +●
+35 +  ●
+30 +    ●
+25 +      ●
+20 +        ●
+15 +          ● <- 이상적 번다운
+10 +
+ 5 +
+ 0 +-----------------> 날짜 (스프린트 기간)
 ```
 
 📢 **섹션 요약 비유**: [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)는 눈사람 녹이기 게임이다 — 매일 얼마나 녹였는지(완료했는지) 그래프로 보여주며, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 끝에 0이 되면 성공이다.
@@ -148,20 +148,20 @@ Large SAFe:    Portfolio + Solution + ART + Team
 
 ```
 애자일 관리 (Agile Management)
-├── 이론 기반
-│   ├── 애자일 선언 (4대 가치·12원칙)
-│   └── 린(Lean) 사고방식
-├── 프레임워크
-│   ├── Scrum (반복·역할·이벤트)
-│   ├── Kanban (흐름·WIP 제한)
-│   └── SAFe (대규모 조율)
-├── 측정 지표
-│   ├── 벨로시티 / 번다운 차트
-│   └── 사이클 타임 / 리드 타임
-└── 관련 개념
-    ├── DevOps (애자일 + 운영)
-    ├── 스프린트 / PI Planning
-    └── 지속적 개선 (카이젠)
++-- 이론 기반
+|   +-- 애자일 선언 (4대 가치·12원칙)
+|   +-- 린(Lean) 사고방식
++-- 프레임워크
+|   +-- Scrum (반복·역할·이벤트)
+|   +-- Kanban (흐름·WIP 제한)
+|   +-- SAFe (대규모 조율)
++-- 측정 지표
+|   +-- 벨로시티 / 번다운 차트
+|   +-- 사이클 타임 / 리드 타임
++-- 관련 개념
+    +-- DevOps (애자일 + 운영)
+    +-- 스프린트 / PI Planning
+    +-- 지속적 개선 (카이젠)
 ```
 
 ---
@@ -169,23 +169,23 @@ Large SAFe:    Portfolio + Solution + ART + Team
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│               애자일 관리 발전 흐름                              │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1986년       │ Scrum 개념 등장    │ Takeuchi·Nonaka "럭비 팀"   │
-│ 1995년       │ Scrum 공식화       │ Sutherland·Schwaber         │
-│ 2001년       │ 애자일 선언        │ 17인 스노버드 모임           │
-│ 2011년       │ SAFe 1.0 발표      │ 대기업 애자일 확장           │
-│ 2016년       │ Scrum@Scale        │ Sutherland 확장 프레임워크   │
-│ 2020년대     │ 디지털 네이티브    │ 전 산업 애자일 확산          │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|               애자일 관리 발전 흐름                              |
++--------------+--------------------+-----------------------------+
+| 1986년       | Scrum 개념 등장    | Takeuchi·Nonaka "럭비 팀"   |
+| 1995년       | Scrum 공식화       | Sutherland·Schwaber         |
+| 2001년       | 애자일 선언        | 17인 스노버드 모임           |
+| 2011년       | SAFe 1.0 발표      | 대기업 애자일 확장           |
+| 2016년       | Scrum@Scale        | Sutherland 확장 프레임워크   |
+| 2020년대     | 디지털 네이티브    | 전 산업 애자일 확산          |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-애자일 선언 → Scrum → 스프린트 → 벨로시티 → 번다운 차트
-     ↓            ↓          ↓           ↓
+애자일 선언 -> Scrum -> 스프린트 -> 벨로시티 -> 번다운 차트
+     v            v          v           v
 4대 가치     PO/SM/Dev   2주 반복    측정·개선
-     ↓
-SAFe → 대규모 PI Planning → 포트폴리오 레벨 애자일
+     v
+SAFe -> 대규모 PI Planning -> 포트폴리오 레벨 애자일
 ```
 
 ---
@@ -202,7 +202,7 @@ SAFe → 대규모 PI Planning → 포트폴리오 레벨 애자일
 
 **진행 상황**: 57 / 587
 
-← **이전**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/)
-**다음**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/) →
+<- **이전**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/)
+**다음**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/) ->
 
 ---

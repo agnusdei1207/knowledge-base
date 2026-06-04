@@ -1,5 +1,5 @@
 +++
-title = "20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n²), 불안정"
+title = "20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n^), 불안정"
 
 [taxonomies]
 tags = ["algorithm_stats"]
@@ -11,7 +11,7 @@ tags = ["algorithm_stats"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 퀵 정렬(Quick Sort)은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))이라는 기준값을 선정하고, 이를 기준으로 작은 값은 왼쪽, 큰 값은 오른쪽으로 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))하는 과정을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 반복하는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 알고리즘이다.
 > 2. **가치**: 추가 메모리를 거의 쓰지 않는 제자리(In-place) 정렬이면서 하드웨어 캐시 효율이 극도로 높아, 현실의 일반적인 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 상수항 오버헤드가 가장 낮고 압도적으로 빠르다.
-> 3. **융합**: 최악의 경우 O(N²)으로 성능이 추락하는 치명적 약점이 있어, 이를 방어하기 위해 힙 정렬과 융합한 [인트로 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)([Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)) 등 방어적 아키텍처로 발전했다.
+> 3. **융합**: 최악의 경우 O(N^)으로 성능이 추락하는 치명적 약점이 있어, 이를 방어하기 위해 힙 정렬과 융합한 [인트로 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)([Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)) 등 방어적 아키텍처로 발전했다.
 
 ---
 
@@ -26,28 +26,28 @@ tags = ["algorithm_stats"]
 ```text
 [퀵 정렬: Hoare 파티셔닝 과정]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  배열: [5, 3, 8, 4, 9, 1, 6]  (Pivot = 5)      │
-│         L                                R          │
-│                                                      │
-│  Step 1: L은 5보다 큰 '8'에서 멈춤                │
-│           R은 5보다 작은 '1'에서 멈춤                │
-│           → Swap(8, 1)                             │
-│                                                      │
-│  Step 2: [5, 3, 1, 4, 9, 8, 6]                  │
-│                    L        R                        │
-│           L은 5보다 큰 '9'에서 멈춤                │
-│           R은 5보다 작은 '4'에서 멈춤                │
-│           → Swap(9, 4)                             │
-│                                                      │
-│  Step 3: [5, 3, 1, 4, 9, 8, 6]                  │
-│                         R  L  (교차!)              │
-│                                                      │
-│  Step 4: Swap(Pivot, R) → [4, 3, 1, (5), 9, 8, 6]│
-│           피벗 5는 이제 영원히 자기 자리에 고정!        │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  배열: [5, 3, 8, 4, 9, 1, 6]  (Pivot = 5)      |
+|         L                                R          |
+|                                                      |
+|  Step 1: L은 5보다 큰 '8'에서 멈춤                |
+|           R은 5보다 작은 '1'에서 멈춤                |
+|           -> Swap(8, 1)                             |
+|                                                      |
+|  Step 2: [5, 3, 1, 4, 9, 8, 6]                  |
+|                    L        R                        |
+|           L은 5보다 큰 '9'에서 멈춤                |
+|           R은 5보다 작은 '4'에서 멈춤                |
+|           -> Swap(9, 4)                             |
+|                                                      |
+|  Step 3: [5, 3, 1, 4, 9, 8, 6]                  |
+|                         R  L  (교차!)              |
+|                                                      |
+|  Step 4: Swap(Pivot, R) -> [4, 3, 1, (5), 9, 8, 6]|
+|           피벗 5는 이제 영원히 자기 자리에 고정!        |
+|                                                      |
++------------------------------------------------------+
 ```
 
 - **관찰**: 퀵 정렬의 핵심은 추가 메모리 없이(제자리) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 두 그룹으로 완벽히 분할한다는 것이다.
@@ -72,32 +72,32 @@ tags = ["algorithm_stats"]
 ```text
 [퀵 정렬 시간 복잡도 분석]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [평균적 경우: 균형 분할]                              │
-│  ────────────────────────────────────                │
-│  T(N) = 2T(N/2) + O(N) (파티셔닝)                 │
-│  → O(N log N)                                       │
-│                                                      │
-│  [최악의 경우: 극단적 편향 분할]                      │
-│  ────────────────────────────────────                │
-│  T(N) = T(N-1) + T(0) + O(N)                      │
-│  → O(N²)                                            │
-│                                                      │
-│  [적대적 입력 예: 이미 정렬된 배열 + 첫 원소 피벗]     │
-│  ────────────────────────────────────                │
-│  → 매번 1:N-1 분할 → 깊이 N의 재귀 트리             │
-│  → O(N²) 복잡도                                     │
-│                                                      │
-│  [방어 기법: Median-of-3 피벗 선택]                 │
-│  ────────────────────────────────────                │
-│  arr[low], arr[mid], arr[high] 중 중앙값을 피벗으로  │
-│  → 극단적 편향 분할 확률을 크게 줄임                  │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  [평균적 경우: 균형 분할]                              |
+|  ------------------------------------                |
+|  T(N) = 2T(N/2) + O(N) (파티셔닝)                 |
+|  -> O(N log N)                                       |
+|                                                      |
+|  [최악의 경우: 극단적 편향 분할]                      |
+|  ------------------------------------                |
+|  T(N) = T(N-1) + T(0) + O(N)                      |
+|  -> O(N^)                                            |
+|                                                      |
+|  [적대적 입력 예: 이미 정렬된 배열 + 첫 원소 피벗]     |
+|  ------------------------------------                |
+|  -> 매번 1:N-1 분할 -> 깊이 N의 재귀 트리             |
+|  -> O(N^) 복잡도                                     |
+|                                                      |
+|  [방어 기법: Median-of-3 피벗 선택]                 |
+|  ------------------------------------                |
+|  arr[low], arr[mid], arr[high] 중 중앙값을 피벗으로  |
+|  -> 극단적 편향 분할 확률을 크게 줄임                  |
+|                                                      |
++------------------------------------------------------+
 ```
 
-- **관찰**: 퀵 정렬의 평균 복잡도는 O(N log N)이지만, 최악은 O(N²)이다.
+- **관찰**: 퀵 정렬의 평균 복잡도는 O(N log N)이지만, 최악은 O(N^)이다.
 - **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택에 따라 분할 비율이 극단적으로 치우칠 수 있기 때문이다.
 - **결과**: 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이나 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용하면 최악에 도달할 확률이 극히 낮아진다.
 - **판단**: 실무에서는 항상 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이나 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용해야 한다.
@@ -115,25 +115,25 @@ tags = ["algorithm_stats"]
 ```text
 [퀵 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  function quick_sort(A, low, high):                  │
-│      if low < high:                                  │
-│          pivot_index = partition(A, low, high)        │
-│          quick_sort(A, low, pivot_index - 1)          │
-│          quick_sort(A, pivot_index + 1, high)         │
-│                                                      │
-│  function partition(A, low, high):                    │
-│      pivot = A[high]  // Lomuto 방식: 마지막 원소를 피벗│
-│      i = low - 1                                    │
-│      for j = low to high - 1:                       │
-│          if A[j] <= pivot:                          │
-│              i = i + 1                              │
-│              swap(A[i], A[j])                        │
-│      swap(A[i+1], A[high])                           │
-│      return i + 1                                    │
-│                                                      │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|                                                      |
+|  function quick_sort(A, low, high):                  |
+|      if low < high:                                  |
+|          pivot_index = partition(A, low, high)        |
+|          quick_sort(A, low, pivot_index - 1)          |
+|          quick_sort(A, pivot_index + 1, high)         |
+|                                                      |
+|  function partition(A, low, high):                    |
+|      pivot = A[high]  // Lomuto 방식: 마지막 원소를 피벗|
+|      i = low - 1                                    |
+|      for j = low to high - 1:                       |
+|          if A[j] <= pivot:                          |
+|              i = i + 1                              |
+|              swap(A[i], A[j])                        |
+|      swap(A[i+1], A[high])                           |
+|      return i + 1                                    |
+|                                                      |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 퀵 정렬은정리된ダンス와/과 같습니다. 지도자가「자분은좌단, 우단부터개시」와/과いう위치づけ을/를し고, 피험자를배치し고いく동적 방법은, 배치후취각々의참위가확정의에서, 체귀적에세분し고も심배하는필요가ありません.
@@ -169,24 +169,24 @@ tags = ["algorithm_stats"]
 |:---|:---|
 | <strong>Hoare <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong> | 양 끝 포인터가 교차하며 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)보다 큰/작은 값을 교환하는 가장 효율적인 분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 퀵 정렬의 원형 |
 | <strong>Dual-<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a> Quicksort</strong> | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 2개로 3구역 분할하여 캐시 효율을 높인 Java 7+ 표준 구현 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">Introsort</a></strong> | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 한계를 넘으면 힙 정렬로 전환하여 최악의 O(N²)를 방어하는 C++ STL 표준 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">Introsort</a></strong> | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 한계를 넘으면 힙 정렬로 전환하여 최악의 O(N^)를 방어하는 C++ STL 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [비교 기반 정렬 (Comparison Sort) — O(N log N) 하한 이론]
-    │
-    ▼
+    |
+    v
 [퀵 정렬 (Quick Sort) — 피벗 기반 분할 정복, 평균 O(N log N)]
-    │
-    ▼
+    |
+    v
 [파티셔닝 전략 — Hoare / Lomuto / Median-of-3 피벗 선택]
-    │
-    ▼
+    |
+    v
 [Dual-Pivot Quicksort — Java 7+ 표준, 3구역 분할로 캐시 효율 극대화]
-    │
-    ▼
-[Introsort — C++ STL 표준, 퀵+힙+삽입 Hybrid로 최악 O(N²) 방어]
+    |
+    v
+[Introsort — C++ STL 표준, 퀵+힙+삽입 Hybrid로 최악 O(N^) 방어]
 ```
 퀵 정렬은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전을 통해 최악 케이스를 방어하고, 현대 표준 라이브러리에서는 Dual-[Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 및 [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 형태로 진화했다.
 
@@ -202,7 +202,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 47 / 175
 
-← **이전**: [20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/)
-**다음**: [21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/048_bubble_sort_algorithm/) →
+<- **이전**: [20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/)
+**다음**: [21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/048_bubble_sort_algorithm/) ->
 
 ---

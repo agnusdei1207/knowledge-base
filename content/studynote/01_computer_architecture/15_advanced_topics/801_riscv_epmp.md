@@ -22,12 +22,12 @@ tags = ["studynote-computer-architecture"]
 표준 PMP는 하위 모드를 제한하는 데는 유용하지만, M-mode가 너무 강하면 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 버그 하나로 전체 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 경계가 무너질 수 있다. ePMP는 바로 이 문제를 줄이기 위해 나온다. 즉 "최고 권한도 무제한이면 위험하다"는 생각을 하드웨어에 반영한 것이다. 그래서 ePMP는 RISC-V에서 secure boot와 고신뢰 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설계를 더 현실적으로 만드는 중요한 연결 고리다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           ePMP constrains even the top privilege            │
-├──────────────────────────────────────────────────────────────┤
-│ Standard PMP : mainly lower-mode restriction                │
-│ ePMP         : stronger M-mode control + W^X intent         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           ePMP constrains even the top privilege            |
++--------------------------------------------------------------+
+| Standard PMP : mainly lower-mode restriction                |
+| ePMP         : stronger M-mode control + W^X intent         |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 왕에게도 안전벨트를 매는 셈이다. 왕이 가장 힘이 세더라도, 실수로 성문을 부수면 모두 위험해지기 때문이다.
@@ -46,13 +46,13 @@ ePMP의 핵심은 `mseccfg` 레지스터와 MML (Machine Mode [Lock](/knowledge-
 | W^X 강화 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한 영역의 실행 차단 | 부트 코드/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 분리 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 ePMP hardening transition                   │
-├──────────────────────────────────────────────────────────────┤
-│ Configure PMP -> verify code/stack regions -> set MML/RL    │
-│                                         │                    │
-│                                         └─ lock hardened mode │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 ePMP hardening transition                   |
++--------------------------------------------------------------+
+| Configure PMP -> verify code/stack regions -> set MML/RL    |
+|                                         |                    |
+|                                         +- lock hardened mode |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 문단속 규칙을 정한 뒤 실제 열쇠 위치를 확인하고 마지막으로 봉인 스티커를 붙이는 절차와 같다. 순서를 틀리면 안 된다.
@@ -102,15 +102,15 @@ ePMP는 [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instructi
 
 ```text
 [PMP Region Design]
-    │
-    ▼
+    |
+    v
 [ePMP Hardening Bits]
-    │
-    ▼
+    |
+    v
 [Locked M-mode Policy]
-    │
-    ├──▶ [Protected Boot Code]
-    └──▶ [Fault on Bad Execute / Write]
+    |
+    +---> [Protected Boot Code]
+    +---> [Fault on Bad Execute / Write]
 ```
 
 이 흐름은 일반 PMP 설계 위에 ePMP 강화 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 적용하고, 최종적으로 봉인된 M-mode [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 부트 코드와 실행 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 만든다는 구조를 보여준다. 즉 ePMP의 핵심은 락 이후의 안정 상태다.
@@ -127,7 +127,7 @@ ePMP는 [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instructi
 
 **진행 상황**: 802 / 803
 
-← **이전**: [800. RISC-V PMP (Physical Memory Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/800_riscv_pmp/)
-**다음**: [802. 오픈소스 하드웨어 RoT (OpenTitan)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/802_opentitan/) →
+<- **이전**: [800. RISC-V PMP (Physical Memory Protection)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/800_riscv_pmp/)
+**다음**: [802. 오픈소스 하드웨어 RoT (OpenTitan)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/802_opentitan/) ->
 
 ---

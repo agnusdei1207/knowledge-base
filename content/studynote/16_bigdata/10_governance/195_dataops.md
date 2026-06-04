@@ -41,44 +41,44 @@ tags = ["studynote-bigdata"]
 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) 아키텍처는 소프트웨어 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에맞춤화한 것으로, 크게 5단계로 구성됩니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    [ 데이터옵스 (DataOps) CI/CD 파이프라인 ]                 │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │  [ 1단계: 코드 작성 및 버전 관리 (Version Control) ]                   │    │
-│  │   dbt 모델 / Spark 코드 / Airflow DAG → Git Repository             │    │
-│  │   ▶ Pull Request로 변경 사항-review → Merge 시 자동トリガー           │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 2단계: 지속적 통합 (Continuous Integration) - 자동 테스트 ]        │    │
-│  │                                                                       │    │
-│  │   ① 스키마 변경 检测 (dbt test: not_null, unique, ...)              │    │
-│  │   ② 데이터品質 테스트 (Great Expectations: 결측치 < 1%, ...)         │    │
-│  │   ③ Unit Test (변환 로직이 정확한지)                                  │    │
-│  │   ④ Column lineage 检测 (존재하지 않는 컬럼 참조 시 FAIL)            │    │
-│  │   ▶ All Pass → 자동으로 다음 단계へ                                   │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 3단계: 빌드 및 스테이징 배포 (Staging Deployment) ]               │    │
-│  │   Production과 동일한 환경의 스테이징에서 실제 데이터로 테스트            │    │
-│  │   ▶ 실제 데이터셋의 10% 샘플로 End-to-End 파이프라인 테스트              │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 4단계: 지속적 배포 (Continuous Deployment) ]                     │    │
-│  │   스테이징 테스트 통과 → production automatic 배포                   │    │
-│  │   ▶ Airflow DAG自動更新 / dbt run --target prod                    │    │
-│  └──────────────────────────┬────────────────────────────────────────┘    │
-│                              │                                             │
-│  ┌──────────────────────────▼────────────────────────────────────────┐    │
-│  │  [ 5단계: 모니터링 및 피드백 (Monitoring & Feedback) ]                 │    │
-│  │   ▶ 데이터品質 대시보드 (Soda Core / Great Expectations)              │    │
-│  │   ▶ 파이프라인 실행 로깅 (Airflow XCom, MLflow)                      │    │
-│  │   ▶ Business Analyst에게 "새 데이터 Ready" Slack通知                  │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|                    [ 데이터옵스 (DataOps) CI/CD 파이프라인 ]                 |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |  [ 1단계: 코드 작성 및 버전 관리 (Version Control) ]                   |    |
+|  |   dbt 모델 / Spark 코드 / Airflow DAG -> Git Repository             |    |
+|  |   -> Pull Request로 변경 사항-review -> Merge 시 자동トリガー           |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 2단계: 지속적 통합 (Continuous Integration) - 자동 테스트 ]        |    |
+|  |                                                                       |    |
+|  |   ① 스키마 변경 检测 (dbt test: not_null, unique, ...)              |    |
+|  |   ② 데이터品質 테스트 (Great Expectations: 결측치 < 1%, ...)         |    |
+|  |   ③ Unit Test (변환 로직이 정확한지)                                  |    |
+|  |   ④ Column lineage 检测 (존재하지 않는 컬럼 참조 시 FAIL)            |    |
+|  |   -> All Pass -> 자동으로 다음 단계へ                                   |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 3단계: 빌드 및 스테이징 배포 (Staging Deployment) ]               |    |
+|  |   Production과 동일한 환경의 스테이징에서 실제 데이터로 테스트            |    |
+|  |   -> 실제 데이터셋의 10% 샘플로 End-to-End 파이프라인 테스트              |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 4단계: 지속적 배포 (Continuous Deployment) ]                     |    |
+|  |   스테이징 테스트 통과 -> production automatic 배포                   |    |
+|  |   -> Airflow DAG自動更新 / dbt run --target prod                    |    |
+|  +--------------------------+----------------------------------------+    |
+|                              |                                             |
+|  +--------------------------v----------------------------------------+    |
+|  |  [ 5단계: 모니터링 및 피드백 (Monitoring & Feedback) ]                 |    |
+|  |   -> 데이터品質 대시보드 (Soda Core / Great Expectations)              |    |
+|  |   -> 파이프라인 실행 로깅 (Airflow XCom, MLflow)                      |    |
+|  |   -> Business Analyst에게 "새 데이터 Ready" Slack通知                  |    |
+|  +-----------------------------------------------------------------+    |
++-------------------------------------------------------------------------+
 ```
 
 ### 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트 자동화
@@ -167,17 +167,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [CI/CD (지속적 통합/배포)]
-    │
-    ▼
+    |
+    v
 [데이터 품질 (Data Quality)]
-    │
-    ▼
+    |
+    v
 [자동화 파이프라인 (Automated Pipeline)]
-    │
-    ▼
+    |
+    v
 [버전 관리 (Version Control)]
-    │
-    ▼
+    |
+    v
 [옵저버빌리티 (Observability)]
 ```
 
@@ -198,7 +198,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 195 / 262
 
-← **이전**: [04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템](/knowledge-base/studynote/16_bigdata/10_governance/194_datalineage/)
-**다음**: [06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술](/knowledge-base/studynote/16_bigdata/10_governance/196_opentableformat/) →
+<- **이전**: [04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템](/knowledge-base/studynote/16_bigdata/10_governance/194_datalineage/)
+**다음**: [06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술](/knowledge-base/studynote/16_bigdata/10_governance/196_opentableformat/) ->
 
 ---

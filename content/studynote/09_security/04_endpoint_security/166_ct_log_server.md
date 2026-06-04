@@ -26,18 +26,18 @@ tags = ["studynote-security"]
 또한 하나의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버만 믿어서는 안 된다. 특정 운영자가 악의적이거나 장애를 일으키면 투명성 체계가 흔들릴 수 있기 때문이다. 그래서 브라우저 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 서로 다른 운영 주체의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 요구하고, 생태계 전체가 상호 감시 구조를 갖는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT 로그 서버의 필요성: 발급 사실을 숨기지 못하게 함  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA issues certificate                                                │
-│      │                                                               │
-│      ├─ Hidden issuance  ──▶ 탐지 어려움                              │
-│      │                                                               │
-│      └─ CT Log submission ──▶ Public record ──▶ Monitor / Browser    │
-│                                   ▲                                  │
-│                                   │                                  │
-│                           anyone can inspect                         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 CT 로그 서버의 필요성: 발급 사실을 숨기지 못하게 함  |
++----------------------------------------------------------------------+
+| CA issues certificate                                                |
+|      |                                                               |
+|      +- Hidden issuance  ---> 탐지 어려움                              |
+|      |                                                               |
+|      +- CT Log submission ---> Public record ---> Monitor / Browser    |
+|                                   ^                                  |
+|                                   |                                  |
+|                           anyone can inspect                         |
++----------------------------------------------------------------------+
 ```
 
 따라서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 인증서 보안의 "심판"이라기보다, 모두가 볼 수 있는 공용 기록장에 가깝다. 보안의 핵심은 기록을 남기는 것 자체와 그 기록이 삭제·변조되지 않음을 증명하는 데 있다.
@@ -61,15 +61,15 @@ tags = ["studynote-security"]
 아래 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 단순 저장소가 아니라, append-only 구조와 증명 체계를 함께 제공하는 인프라임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT 로그 서버의 핵심 동작 흐름                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA ── submit cert/precert ──▶ CT Log                                │
-│ CA ◀────── SCT (signed promise) ───── CT Log                         │
-│ CT Log ── append entry ──▶ Merkle Tree                               │
-│ Merkle Tree ── proofs ──▶ Browser / Auditor / Monitor                │
-│ Monitor ── suspicious domain alert ──▶ Security Team                 │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 CT 로그 서버의 핵심 동작 흐름                        |
++----------------------------------------------------------------------+
+| CA -- submit cert/precert ---> CT Log                                |
+| CA <------- SCT (signed promise) ----- CT Log                         |
+| CT Log -- append entry ---> Merkle Tree                               |
+| Merkle Tree -- proofs ---> Browser / Auditor / Monitor                |
+| Monitor -- suspicious domain alert ---> Security Team                 |
++----------------------------------------------------------------------+
 ```
 
 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)를 쓰는 이유는 과거 기록을 몰래 바꾸지 못하게 하기 위해서다. 새로운 인증서가 추가되면 루트 해시가 갱신되고, 과거 항목을 삭제하거나 수정하면 이후 증명 체계가 깨진다. 그래서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 단순한 공개 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 아니라, <strong>변조 시도가 드러나는 공개 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>라고 보는 편이 정확하다.
@@ -148,17 +148,17 @@ tags = ["studynote-security"]
 
 ```text
 폐쇄적 PKI 신뢰 모델
-    │
-    ▼
+    |
+    v
 CA 오발급·침해 사고 노출
-    │
-    ▼
+    |
+    v
 인증서 투명성 (CT, Certificate Transparency)
-    │
-    ▼
+    |
+    v
 CT 로그 서버 (CT Log Server) · SCT · 모니터링
-    │
-    ▼
+    |
+    v
 브라우저 정책 강제 · 로그 감사 · 폐기 체계 연동
 ```
 
@@ -176,7 +176,7 @@ CT 로그 서버 (CT Log Server) · SCT · 모니터링
 
 **진행 상황**: 219 / 1108
 
-← **이전**: [165. CT (Certificate Transparency) — 인증서 발급 공개 로그](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)
-**다음**: [167. SCT (Signed Certificate Timestamp) — CT 증명](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/) →
+<- **이전**: [165. CT (Certificate Transparency) — 인증서 발급 공개 로그](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)
+**다음**: [167. SCT (Signed Certificate Timestamp) — CT 증명](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/) ->
 
 ---

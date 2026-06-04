@@ -40,16 +40,16 @@ GlusterFS의 기본 단위는 브릭이다. 브릭은 보통 한 서버의 [디�
 | Self-heal | 장애 후 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 다시 맞춤 | 네트워크 분리 시 충돌 관리 중요 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Client mount                                                            │
-│   │                                                                     │
-│   ▼                                                                     │
-│ Gluster translator stack                                                │
-│   │                                                                     │
-│   ├─ distribute -> Brick A                                              │
-│   ├─ replicate  -> Brick B                                              │
-│   └─ disperse   -> Brick C / Brick D / Brick E                          │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Client mount                                                            |
+|   |                                                                     |
+|   v                                                                     |
+| Gluster translator stack                                                |
+|   |                                                                     |
+|   +- distribute -> Brick A                                              |
+|   +- replicate  -> Brick B                                              |
+|   +- disperse   -> Brick C / Brick D / Brick E                          |
++--------------------------------------------------------------------------+
 ```
 
 GlusterFS에서 중요한 볼륨 유형은 세 가지다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 볼륨은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 나눠 배치해 용량을 늘리고, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 볼륨은 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 저장해 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-삭제 코딩 (Dispersed) 볼륨은 두 요구를 함께 만족시키려는 절충안이다. 따라서 GlusterFS는 “무조건 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템”보다 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유의 용량·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 조합을 유연하게 선택하는 플랫폼”으로 보는 편이 맞다.
@@ -135,17 +135,17 @@ GlusterFS의 장점은 명확하다. 범용 서버를 붙여 용량을 키우기
 
 ```text
 단일 NAS (Network Attached Storage) 확장 한계
-        │
-        ▼
+        |
+        v
 브릭 기반 스케일아웃 파일 공유
-        │
-        ▼
+        |
+        v
 GlusterFS 분산 / 복제 볼륨
-        │
-        ▼
+        |
+        v
 분산-복제 / 분산-삭제 코딩 기반 고가용성 파일 저장
-        │
-        ▼
+        |
+        v
 온프레미스 / 엣지 환경의 단순한 공유 스토리지 확장
 ```
 
@@ -163,7 +163,7 @@ GlusterFS 분산 / 복제 볼륨
 
 **진행 상황**: 680 / 803
 
-← **이전**: [678. Ceph 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/678_ceph_architecture/)
-**다음**: [680. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/680_hdfs/) →
+<- **이전**: [678. Ceph 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/678_ceph_architecture/)
+**다음**: [680. HDFS (Hadoop Distributed File System)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/680_hdfs/) ->
 
 ---

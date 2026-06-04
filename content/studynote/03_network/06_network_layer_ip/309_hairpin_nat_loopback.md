@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [Static NAT / Dynamic NAT…]
-    │
-    ▼
+    |
+    v
 [헤어핀 NAT]
-    │
-    └──▶ [ALG]
+    |
+    +---> [ALG]
 ```
 
 - **📢 섹션 요약 비유**: ** 헤어핀 NAT는 여자의 머리에 꽂는 **"U자형 머리핀(Hairpin)"**과 완벽히 똑같은 모양입니다. 패킷이 공유기를 뚫고 인터넷(바깥)으로 나가지 못하고, 공유기 뱃속에서 180도 홱 꺾여서 다시 내부 방으로 되돌아오는 모습에서 유래했습니다.
@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 일반 공유기에서 접속이 실패하는 시나리오 (Hairpin 미지원)
-- 집 노트북(`192.168.0.10`) ──▶ `myhome.com (211.x.x.x 공인IP)` 접속 시도.
+- 집 노트북(`192.168.0.10`) ---> `myhome.com (211.x.x.x 공인IP)` 접속 시도.
 - 공유기는 이를 받아 통신사 게이트웨이([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))로 일단 던진다.
 - 통신사 라우터가 받아보니 "뭐야, 목적지 IP(`211.x.x.x`)가 아까 이거 보낸 공유기 본인이잖아?" 라며 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)(위조) 해킹 공격으로 간주하거나 멍청한 패킷이라 욕하며 버려버린다(Drop).
 
@@ -54,24 +54,24 @@ tags = ["studynote-network"]
 4. 공유기는 외부로 내보내려던 패킷의 핸들을 확 꺾어서, 목적지 IP를 `192.168.0.50`으로 지우개로 덮어쓰고(DNAT) 즉시 안방 랜선으로 던져준다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                헤어핀 NAT의 내부 U턴 (Loopback) 도식            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 노트북 ] ─────── (1) 목적지: 211.x.x.x ────────┐       │
- │   (192.168.0.10)                                 │       │
- │                                                  ▼       │
- │                                    [ 공유기 (NAT/포트포워드) ] │
- │                                     - 공인IP: 211.x.x.x    │
- │                                                  │       │
- │                                 (3) U턴! 꺾어라!! ◀─┘ (2)    │
- │                                                  ▼       │
- │   [ 안방 NAS ] ◀─────── (4) 목적지: 192.168.0.50 ───┘       │
- │   (192.168.0.50)                                          │
- │                                                             │
- │   ▶ 밖(인터넷)으로는 단 1바이트의 패킷도 나가지 않고 공유기 뱃속에서    │
- │     모든 처리가 180도 꺾여(Hairpin) 이루어진다!                 │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                헤어핀 NAT의 내부 U턴 (Loopback) 도식            |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 노트북 ] ------- (1) 목적지: 211.x.x.x --------+       |
+ |   (192.168.0.10)                                 |       |
+ |                                                  v       |
+ |                                    [ 공유기 (NAT/포트포워드) ] |
+ |                                     - 공인IP: 211.x.x.x    |
+ |                                                  |       |
+ |                                 (3) U턴! 꺾어라!! <--+ (2)    |
+ |                                                  v       |
+ |   [ 안방 NAS ] <-------- (4) 목적지: 192.168.0.50 ---+       |
+ |   (192.168.0.50)                                          |
+ |                                                             |
+ |   -> 밖(인터넷)으로는 단 1바이트의 패킷도 나가지 않고 공유기 뱃속에서    |
+ |     모든 처리가 180도 꺾여(Hairpin) 이루어진다!                 |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 헤어핀 NAT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: Static NAT / Dynamic NAT…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 헤어핀 NAT]
-    │
-    ├──▶ [확장 A: ALG]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: ALG]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 헤어핀 NAT는 [Static NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) / Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 ALG와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 430 / 1120
 
-← **이전**: [308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)
-**다음**: [310. ALG (Application Layer Gateway)](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) →
+<- **이전**: [308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)
+**다음**: [310. ALG (Application Layer Gateway)](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) ->
 
 ---

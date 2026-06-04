@@ -36,26 +36,26 @@ ARM의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/
 다음 그림은 ARM 코어가 왜 전력 효율적인지 보여준다. 복잡한 메모리-직접 연산을 줄이고, 규칙적인 해독과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심 실행으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정돈한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 ARM 코어의 기본 실행 흐름과 병목 분리                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 명령어 Fetch                                                            │
-│      │                                                                  │
-│      ▼                                                                  │
-│ 규칙적 Decode ─────▶ 레지스터 파일 (Register File)                       │
-│      │                              │                                    │
-│      │                              ├───────▶ ALU (Arithmetic Logic Unit)│
-│      │                              │                 │                  │
-│      │                              │                 ▼                  │
-│      │                              │            결과 레지스터 갱신       │
-│      │                              │                                    │
-│      └──────────────────────────────┴───────▶ LSU (Load/Store Unit)      │
-│                                                        │                  │
-│                                                        ▼                  │
-│                                                 캐시/메모리 접근          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리               │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|                 ARM 코어의 기본 실행 흐름과 병목 분리                    |
++--------------------------------------------------------------------------+
+| 명령어 Fetch                                                            |
+|      |                                                                  |
+|      v                                                                  |
+| 규칙적 Decode ------> 레지스터 파일 (Register File)                       |
+|      |                              |                                    |
+|      |                              +--------> ALU (Arithmetic Logic Unit)|
+|      |                              |                 |                  |
+|      |                              |                 v                  |
+|      |                              |            결과 레지스터 갱신       |
+|      |                              |                                    |
+|      +------------------------------+--------> LSU (Load/Store Unit)      |
+|                                                        |                  |
+|                                                        v                  |
+|                                                 캐시/메모리 접근          |
++--------------------------------------------------------------------------+
+| 핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리               |
++--------------------------------------------------------------------------+
 ```
 
 | 요소 | ARM에서의 의미 | 설계상 효과 |
@@ -141,20 +141,20 @@ ARM 아키텍처의 가장 큰 효과는 제한된 전력과 면적 안에서 �
 
 ```text
 Acorn의 저전력 RISC 설계
-    │
-    ▼
+    |
+    v
 ARM ISA 정착 · 로드/스토어 구조 확산
-    │
-    ▼
+    |
+    v
 Thumb / Thumb-2로 코드 밀도 개선
-    │
-    ▼
+    |
+    v
 AArch64 도입 · 모바일을 넘어 서버 확장
-    │
-    ▼
+    |
+    v
 big.LITTLE · NEON · SoC 통합 고도화
-    │
-    ▼
+    |
+    v
 클라우드 ARM 서버 · 고성능 노트북 · AI 결합형 플랫폼
 ```
 
@@ -172,7 +172,7 @@ big.LITTLE · NEON · SoC 통합 고도화
 
 **진행 상황**: 199 / 803
 
-← **이전**: [198. x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/)
-**다음**: [200. RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) →
+<- **이전**: [198. x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/)
+**다음**: [200. RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) ->
 
 ---

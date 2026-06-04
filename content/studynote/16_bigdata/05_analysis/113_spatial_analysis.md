@@ -31,17 +31,17 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 ### GIS [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  GIS 데이터 유형                                  │
-├─────────────────────────────┬────────────────────────────────────┤
-│  벡터 (Vector) 데이터        │  래스터 (Raster) 데이터             │
-├─────────────────────────────┼────────────────────────────────────┤
-│  점 (Point):  병원, ATM 위치 │  위성 영상, DEM (수치고도모델)      │
-│  선 (Line):   도로, 강, 철도 │  격자 셀 (Cell) 단위 값 저장        │
-│  면 (Polygon):행정구역, 건물 │  해상도: 픽셀 크기 = 정밀도          │
-│                             │                                    │
-│  속성 테이블과 공간 좌표 연결 │  밴드 (Band): 위성의 채널별 분석    │
-└─────────────────────────────┴────────────────────────────────────┘
++------------------------------------------------------------------+
+|                  GIS 데이터 유형                                  |
++-----------------------------+------------------------------------+
+|  벡터 (Vector) 데이터        |  래스터 (Raster) 데이터             |
++-----------------------------+------------------------------------+
+|  점 (Point):  병원, ATM 위치 |  위성 영상, DEM (수치고도모델)      |
+|  선 (Line):   도로, 강, 철도 |  격자 셀 (Cell) 단위 값 저장        |
+|  면 (Polygon):행정구역, 건물 |  해상도: 픽셀 크기 = 정밀도          |
+|                             |                                    |
+|  속성 테이블과 공간 좌표 연결 |  밴드 (Band): 위성의 채널별 분석    |
++-----------------------------+------------------------------------+
 ```
 
 ### 핵심 공간 연산
@@ -49,15 +49,15 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 | 연산 | 설명 | 활용 사례 |
 |:---|:---|:---|
 | **버퍼 (Buffer)** | 지형·객체 주변 일정 거리 내 영역 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 학교 반경 300m 내 유해업소 탐지 |
-| **오버레이 (Overlay)** | 두 레이어를 겹쳐 교집합/합집합 분석 | 홍수 침수구역 + 건물 위치 → 피해 건물 산출 |
-| <strong>공간 조인 (Spatial <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong> | 위치 기반 두 테이블 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 범죄 포인트 + 행정구역 → 구별 범죄율 |
-| <strong>보간 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/">Interpolation</a>)</strong> | 관측점 사이 미지 지점의 값 추정 | 기상 관측소 → 전국 기온 지도 |
+| **오버레이 (Overlay)** | 두 레이어를 겹쳐 교집합/합집합 분석 | 홍수 침수구역 + 건물 위치 -> 피해 건물 산출 |
+| <strong>공간 조인 (Spatial <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong> | 위치 기반 두 테이블 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 범죄 포인트 + 행정구역 -> 구별 범죄율 |
+| <strong>보간 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/">Interpolation</a>)</strong> | 관측점 사이 미지 지점의 값 추정 | 기상 관측소 -> 전국 기온 지도 |
 | **최근린 분석 (Nearest Neighbor)** | 가장 가까운 객체 탐색 | 최근접 병원·소방서 찾기 |
 
 ### Moran's I (공간 자기상관)
 
 공간적으로 인접한 지역끼리 유사한 값을 가지는지 측정:
-- I > 0: 유사한 값이 군집 (긍정적 공간 자기상관) → "부촌은 부촌끼리"
+- I > 0: 유사한 값이 군집 (긍정적 공간 자기상관) -> "부촌은 부촌끼리"
 - I ≈ 0: 랜덤 분포
 - I < 0: 인접 지역이 서로 다른 값 (부정적 자기상관)
 
@@ -93,17 +93,17 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### 적용 시나리오
 
-1. <strong>배달 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 최적화</strong>: H3 헥사고날 그리드로 배달 구역 분할 → 수요 밀도 히트맵 → 기사 배치 최적화
-2. **신규 매장 입지 선정**: 유동인구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 경쟁 매장 위치 + 교통 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) → 공간 다중 기준 분석
-3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a> 교통</strong>: 교통 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 집계 → 교통 혼잡 구역 자동 탐지 → [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화
-4. **역학 조사**: 확진자 위치 클러스터링 → 감염 핫스팟 (Hotspot) 지도 → 방역 자원 집중 배치
+1. <strong>배달 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 최적화</strong>: H3 헥사고날 그리드로 배달 구역 분할 -> 수요 밀도 히트맵 -> 기사 배치 최적화
+2. **신규 매장 입지 선정**: 유동인구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 경쟁 매장 위치 + 교통 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) -> 공간 다중 기준 분석
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a> 교통</strong>: 교통 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 집계 -> 교통 혼잡 구역 자동 탐지 -> [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화
+4. **역학 조사**: 확진자 위치 클러스터링 -> 감염 핫스팟 (Hotspot) 지도 -> 방역 자원 집중 배치
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 좌표 체계 ([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/), Coordinate [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) System)를 통일했는가? (WGS84 ↔ EPSG:5186 불일치 시 오류)
 2. 대규모 공간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 PostGIS의 공간 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (GIST)를 적용했는가?
-3. 공간 자기상관이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일반 회귀로 분석하면 잔차 독립 가정 위반 → 공간 회귀 모델 필요
-4. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/): 정확한 GPS 좌표는 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능 → [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) ([K-Anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)) 또는 위치 그리드화
+3. 공간 자기상관이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일반 회귀로 분석하면 잔차 독립 가정 위반 -> 공간 회귀 모델 필요
+4. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/): 정확한 GPS 좌표는 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능 -> [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) ([K-Anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)) 또는 위치 그리드화
 
 - **📢 섹션 요약 비유**: 좌표 체계가 다른 두 지도를 합치는 것은 시간대가 다른 두 나라 시계를 맞추지 않고 회의 시간을 잡는 것과 같다. 기준을 맞추지 않으면 모든 분석이 틀어진다.
 
@@ -142,17 +142,17 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ```text
 [GIS (Geographic Information System) — 지리 데이터 수집·저장·분석·시각화]
-    │
-    ▼
+    |
+    v
 [공간 데이터 모델 — 벡터(점·선·면) vs 래스터(픽셀 격자) 표현 방식]
-    │
-    ▼
+    |
+    v
 [공간 인덱스 — R-Tree / Quad-Tree로 영역 쿼리·인근 탐색 O(logN) 가속]
-    │
-    ▼
+    |
+    v
 [공간 분석 연산 — 버퍼·오버레이·인터섹션·보로노이 다이어그램]
-    │
-    ▼
+    |
+    v
 [위치 기반 서비스 (LBS) / 자율주행 — 실시간 공간 분석·HD맵 활용]
 ```
 
@@ -170,7 +170,7 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 **진행 상황**: 113 / 262
 
-← **이전**: [109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측](/knowledge-base/studynote/16_bigdata/05_analysis/112_time_series_analysis/)
-**다음**: [111. 그래프 분석 (Graph Analytics) — PageRank/커뮤니티 탐지/최단 경로](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) →
+<- **이전**: [109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측](/knowledge-base/studynote/16_bigdata/05_analysis/112_time_series_analysis/)
+**다음**: [111. 그래프 분석 (Graph Analytics) — PageRank/커뮤니티 탐지/최단 경로](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) ->
 
 ---

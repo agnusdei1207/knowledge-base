@@ -31,9 +31,9 @@ tags = ["studynote-enterprise"]
 
 ```text
 Data
-  ↓
+  v
 Literacy
-  ↓
+  v
 Decision
 ```
 
@@ -105,9 +105,9 @@ Decision
 
 ```text
 Data
-  ↓
+  v
 Data Literacy
-  ↓
+  v
 Democratization
 ```
 
@@ -117,9 +117,9 @@ Democratization
 
 ```text
 Analytics
-  ↓
+  v
 Data Literacy
-  ↓
+  v
 Democratization
 ```
 
@@ -137,7 +137,7 @@ Democratization
 
 **진행 상황**: 74 / 482
 
-← **이전**: [73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)
-**다음**: [75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/075_agile_pmo_project_management_office/) →
+<- **이전**: [73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)
+**다음**: [75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/075_agile_pmo_project_management_office/) ->
 
 ---

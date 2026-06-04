@@ -25,13 +25,13 @@ EIRP는 "무선 장비가 실제로 얼마나 멀리 세게 쏘느냐"를 비교
 아래 그림은 왜 EIRP가 송신기 출력 하나로 대체될 수 없는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One common yardstick for wireless emission                         │
-├────────────────────────────────────────────────────────────────────┤
-│ radio output -> feeder loss -> antenna gain -> main-lobe power    │
-│   20 dBm        -2 dB          +12 dBi        = 30 dBm EIRP       │
-│ same radio + different antenna => different legal/coverage result │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| One common yardstick for wireless emission                         |
++--------------------------------------------------------------------+
+| radio output -> feeder loss -> antenna gain -> main-lobe power    |
+|   20 dBm        -2 dB          +12 dBi        = 30 dBm EIRP       |
+| same radio + different antenna => different legal/coverage result |
++--------------------------------------------------------------------+
 ```
 
 즉 EIRP는 "장비 안에서 얼마나 만들었는가"가 아니라 "공간으로 얼마나 내보냈는가"를 말해 준다. 무선 설계, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 현장 튜닝에서 모두 EIRP를 보는 이유가 여기에 있다.
@@ -60,16 +60,16 @@ EIRP 계산은 데시벨 합산으로 표현하면 가장 단순하다.
 아래 그림은 EIRP가 계산되는 경로를 단계별로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ EIRP calculation chain                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ radio output  23 dBm                                               │
-│ minus losses   1 dB                                                │
-│ plus gain     15 dBi                                               │
-│ --------------------                                               │
-│ EIRP          37 dBm  ≈ 5 W                                        │
-│ note: this is a directional equivalent, not created energy         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| EIRP calculation chain                                             |
++--------------------------------------------------------------------+
+| radio output  23 dBm                                               |
+| minus losses   1 dB                                                |
+| plus gain     15 dBi                                               |
+| --------------------                                               |
+| EIRP          37 dBm  ≈ 5 W                                        |
+| note: this is a directional equivalent, not created energy         |
++--------------------------------------------------------------------+
 ```
 
 여기서 중요한 표현은 "등가"다. EIRP는 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 main lobe 방향으로 만들어 낸 전력 밀도와 같은 효과를 내려면, [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/)가 몇 dBm으로 방사해야 하는지를 나타낸다. 그래서 EIRP는 최종 방사 세기의 공통 번역 단위이지, 장비 내부 어딘가에서 직접 측정되는 단일 부품 값은 아니다.
@@ -105,16 +105,16 @@ EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[�
 아래 판단 흐름은 EIRP를 설계 변수로 쓸 때의 기본 순서를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Practical EIRP design check                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ required path margin known?                                        │
-│   ├─ no  -> do link budget first                                   │
-│   └─ yes                                                           │
-│        -> choose antenna pattern                                   │
-│        -> subtract feeder losses                                   │
-│        -> verify legal EIRP cap and interference footprint         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Practical EIRP design check                                        |
++--------------------------------------------------------------------+
+| required path margin known?                                        |
+|   +- no  -> do link budget first                                   |
+|   +- yes                                                           |
+|        -> choose antenna pattern                                   |
+|        -> subtract feeder losses                                   |
+|        -> verify legal EIRP cap and interference footprint         |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -165,20 +165,20 @@ EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고
 
 ```text
 conducted transmit power
-    │
-    ▼
+    |
+    v
 feeder / connector losses
-    │
-    ▼
+    |
+    v
 antenna gain (dBi)
-    │
-    ▼
+    |
+    v
 EIRP
-    │
-    ▼
+    |
+    v
 path loss and link budget
-    │
-    ▼
+    |
+    v
 received power / coverage / legal compliance
 ```
 
@@ -196,7 +196,7 @@ received power / coverage / legal compliance
 
 **진행 상황**: 296 / 1120
 
-← **이전**: [174. 안테나 이득 (Antenna Gain, dBi, dBd)](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)
-**다음**: [176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/176_antenna_yagi_parabolic_patch/) →
+<- **이전**: [174. 안테나 이득 (Antenna Gain, dBi, dBd)](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)
+**다음**: [176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/176_antenna_yagi_parabolic_patch/) ->
 
 ---

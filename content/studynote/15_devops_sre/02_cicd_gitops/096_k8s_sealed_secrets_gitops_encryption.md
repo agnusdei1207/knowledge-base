@@ -38,21 +38,21 @@ Sealed Secrets 시스템은 클러스터 내부에 상주하는 '컨트롤러(Co
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> Agent (ArgoCD)</strong> | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 반영 | Git에 푸시된 암호화 매니페스트를 K8s 클러스터로 끌고 와서 적용 (Pull) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Sealed Secrets 기반의 GitOps 파이프라인           │
-├──────────────────────────────────────────────────────────────┤
-│  [개발자 로컬 PC]             [Git 저장소]            [K8s 클러스터] │
-│                                                              │
-│ 1. 평문 Secret 작성                                          │
-│         │                                                    │
-│ 2. `kubeseal` 실행 ──(Public Key)──┐                       │
-│         │                          │                       │
-│ 3. 암호화된 SealedSecret 생성        │  [Controller] (Private Key)│
-│         │                          │                       │
-│ 4. Git Push ─────────────────▶ 저장 ────(ArgoCD Sync)──▶ 5. K8s 배포 │
-│                                                            │ │
-│                                        [원본 Secret 복원] ◀─┘ │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Sealed Secrets 기반의 GitOps 파이프라인           |
++--------------------------------------------------------------+
+|  [개발자 로컬 PC]             [Git 저장소]            [K8s 클러스터] |
+|                                                              |
+| 1. 평문 Secret 작성                                          |
+|         |                                                    |
+| 2. `kubeseal` 실행 --(Public Key)--+                       |
+|         |                          |                       |
+| 3. 암호화된 SealedSecret 생성        |  [Controller] (Private Key)|
+|         |                          |                       |
+| 4. Git Push ------------------> 저장 ----(ArgoCD Sync)---> 5. K8s 배포 |
+|                                                            | |
+|                                        [원본 Secret 복원] <--+ |
++--------------------------------------------------------------+
 ```
 
 가장 중요한 원리는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 워크플로</strong>다. 개발자는 퍼블릭 키를 사용해 평문을 묶어(Seal) 암호문 덩어리로 만들 수 있지만, 이 암호문은 개발자 본인조차도 다시 풀 수 없다. 오직 클러스터 안에서 프라이빗 키를 품고 있는 컨트롤러만이 이를 해독하여 K8s 내부에 실제 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체를 렌더링한다.
@@ -117,21 +117,21 @@ Sealed Secrets의 도입은 '[DevSecOps](/knowledge-base/studynote/04_software_e
 
 ```text
 Base64 인코딩 K8s Secret (단순 평문)
-    │
-    ▼
+    |
+    v
 GitOps 도입에 따른 시크릿 유출 취약점 발생
-    │
-    ▼
+    |
+    v
 K8s Sealed Secrets (GitOps 친화적 비대칭 암호화)
-    │
-    ▼
+    |
+    v
 HashiCorp Vault / External Secrets Operator (중앙 집중식 동적 관리)
-    │
-    ▼
+    |
+    v
 Secret Rotation & OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)
 ```
 
-이 흐름도는 인프라 보안 관리 방식이 "평문 노출 → 로컬 정적 암호화 → 외부 중앙화 → 단기 토큰/무암호화"로 진화하는 과정을 보여준다.
+이 흐름도는 인프라 보안 관리 방식이 "평문 노출 -> 로컬 정적 암호화 -> 외부 중앙화 -> 단기 토큰/무암호화"로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +145,7 @@ Secret Rotation & OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)
 
 **진행 상황**: 96 / 373
 
-← **이전**: [95. 시크릿 매니저 (Secret Manager)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)
-**다음**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/) →
+<- **이전**: [95. 시크릿 매니저 (Secret Manager)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)
+**다음**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/) ->
 
 ---

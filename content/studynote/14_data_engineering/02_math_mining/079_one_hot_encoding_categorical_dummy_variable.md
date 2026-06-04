@@ -79,11 +79,11 @@ tags = ["studynote-data-engineering"]
 
 | 기법 | 원리 | 적합 모델 | 한계 |
 |:---|:---|:---|:---|
-| **라벨 인코딩** | 범주 → 정수(1, 2, 3) | 트리 기반 (XGBoost, [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | 선형 모델에서 서열 오해 |
-| **원-핫 인코딩** | 범주 → [0, 1] 희소 벡터 | 선형 회귀, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 고카디널리티 시 차원 폭발 |
-| **타겟 인코딩** | 범주 → 타겟 변수의 조건부 평균 | 경진대회, 캐글 | 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 위험 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>)</strong> | 범주 → 저차원 연속 벡터 | 딥러닝 (신경망) | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요, 해석 어려움 |
-| **Hashing Trick** | 범주 → 해시 함수로 고정 차원 | 대규모 텍스트, 온라인 학습 | 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 발생 가능 |
+| **라벨 인코딩** | 범주 -> 정수(1, 2, 3) | 트리 기반 (XGBoost, [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | 선형 모델에서 서열 오해 |
+| **원-핫 인코딩** | 범주 -> [0, 1] 희소 벡터 | 선형 회귀, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 고카디널리티 시 차원 폭발 |
+| **타겟 인코딩** | 범주 -> 타겟 변수의 조건부 평균 | 경진대회, 캐글 | 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 위험 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>)</strong> | 범주 -> 저차원 연속 벡터 | 딥러닝 (신경망) | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요, 해석 어려움 |
+| **Hashing Trick** | 범주 -> 해시 함수로 고정 차원 | 대규모 텍스트, 온라인 학습 | 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 발생 가능 |
 
 #### 언제 뭘 쓸까? [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
@@ -91,15 +91,15 @@ tags = ["studynote-data-engineering"]
 범주형 변수 인코딩 의사결정
 
   카디널리티(고유값 수)가 몇 개?
-      │
-      ├─ 10개 미만 → 원-핫 인코딩 (안전한 기본값)
-      │                  └─ 선형 모델이면 Drop First (n-1)
-      │
-      ├─ 10~100개 → 타겟 인코딩 (+ K-fold 교차 검증으로 과적합 방지)
-      │              └─ 트리 모델이면 라벨 인코딩으로도 충분
-      │
-      └─ 100개 이상 → 임베딩 레이어 (딥러닝)
-                       └─ 또는 Hashing Trick (10만 카테고리 초과)
+      |
+      +- 10개 미만 -> 원-핫 인코딩 (안전한 기본값)
+      |                  +- 선형 모델이면 Drop First (n-1)
+      |
+      +- 10~100개 -> 타겟 인코딩 (+ K-fold 교차 검증으로 과적합 방지)
+      |              +- 트리 모델이면 라벨 인코딩으로도 충분
+      |
+      +- 100개 이상 -> 임베딩 레이어 (딥러닝)
+                       +- 또는 Hashing Trick (10만 카테고리 초과)
 ```
 
 📢 섹션 요약 비유: 범주형 인코딩은 **'외국어를 AI가 읽을 수 있는 언어로 번역하는 것'** 입니다. 번역 방법이 여러 가지(라벨·원-핫·[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))인데, 단어가 적으면 사전(원-핫)으로 충분하지만, 단어가 수만 개면 AI에게 문맥([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))을 가르쳐야 합니다.
@@ -134,21 +134,21 @@ tags = ["studynote-data-engineering"]
 
 ```text
 범주형 데이터 (Categorical Variable)
-    │
-    ▼
+    |
+    v
 라벨 인코딩 (Label Encoding) — 정수 매핑, 서열 오해 위험
-    │
-    ▼
+    |
+    v
 원-핫 인코딩 (One-Hot Encoding) — 평등한 [0,1] 벡터
-    │
-    ├─► Drop First (n-1): 다중공선성 방지
-    ├─► 한계: 차원의 저주 (고카디널리티)
-    │
-    ▼
+    |
+    +-► Drop First (n-1): 다중공선성 방지
+    +-► 한계: 차원의 저주 (고카디널리티)
+    |
+    v
 타겟 인코딩 / 임베딩 레이어 (Deep Learning)
-    │
-    ▼
-Entity Embedding (Kaggle) → 연속 벡터 공간에서 범주 표현
+    |
+    v
+Entity Embedding (Kaggle) -> 연속 벡터 공간에서 범주 표현
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -163,7 +163,7 @@ Entity Embedding (Kaggle) → 연속 벡터 공간에서 범주 표현
 
 **진행 상황**: 79 / 258
 
-← **이전**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/)
-**다음**: [80. 다중 공선성 (Multicollinearity) 및 VIF 지수](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) →
+<- **이전**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/)
+**다음**: [80. 다중 공선성 (Multicollinearity) 및 VIF 지수](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) ->
 
 ---

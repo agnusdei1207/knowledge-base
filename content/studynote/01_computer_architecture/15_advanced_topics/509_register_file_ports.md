@@ -26,22 +26,22 @@ tags = ["studynote-computer-architecture"]
 이 그림은 발급 폭이 넓어질수록 왜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 먼저 병목이 되는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          발급 폭이 넓어질수록 레지스터 파일 포트 수요가 폭증         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 4-way issue 예시                                                    │
-│                                                                      │
-│ Inst0: srcA, srcB ─┐                                                │
-│ Inst1: srcA, srcB ─┼──────▶ Read Port 8개 필요                      │
-│ Inst2: srcA, srcB ─┤                                                │
-│ Inst3: srcA, srcB ─┘                                                │
-│                                                                      │
-│ Result0,1,2,3 ───────────────▶ Write Port 4개 필요                  │
-│                                                                      │
-│ 실제 포트가 6R / 3W라면                                             │
-│   ready instruction 일부는 다음 사이클로 밀림                       │
-│   └─ 구조적 해저드 발생 → IPC (Instructions Per Cycle) 하락         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|          발급 폭이 넓어질수록 레지스터 파일 포트 수요가 폭증         |
++----------------------------------------------------------------------+
+| 4-way issue 예시                                                    |
+|                                                                      |
+| Inst0: srcA, srcB -+                                                |
+| Inst1: srcA, srcB -+-------> Read Port 8개 필요                      |
+| Inst2: srcA, srcB -+                                                |
+| Inst3: srcA, srcB -+                                                |
+|                                                                      |
+| Result0,1,2,3 ----------------> Write Port 4개 필요                  |
+|                                                                      |
+| 실제 포트가 6R / 3W라면                                             |
+|   ready instruction 일부는 다음 사이클로 밀림                       |
+|   +- 구조적 해저드 발생 -> IPC (Instructions Per Cycle) 하락         |
++----------------------------------------------------------------------+
 ```
 
 핵심은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 단순 부품명이 아니라, 실행 폭을 현실로 바꾸는 공급선이라는 점이다. 프런트엔드가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 가져오고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 준비를 마쳐도, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 부족하면 마지막 문턱에서 멈춘다.
@@ -140,18 +140,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단순 파이프라인의 2R / 1W 레지스터 파일
-        │
-        ▼
+        |
+        v
 수퍼스칼라 발급 폭 확대
-        │
-        ▼
+        |
+        v
 물리 레지스터 파일 (PRF, Physical Register File) + 리네이밍
-        │
-        ├─▶ 바이패스 / 포워딩 강화
-        ├─▶ 뱅크드 레지스터 파일
-        ├─▶ 클러스터 / 분산 실행 구조
-        │
-        ▼
+        |
+        +--> 바이패스 / 포워딩 강화
+        +--> 뱅크드 레지스터 파일
+        +--> 클러스터 / 분산 실행 구조
+        |
+        v
 오퍼랜드 캐시 · 근접 저장 · 초광폭 코어 최적화
 ```
 
@@ -169,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 509 / 803
 
-← **이전**: [508. 로드-스토어 큐 (Load-Store Queue, LSQ)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)
-**다음**: [510. 스누핑 버스 병목 현상 (Snooping Bus Bottleneck)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/510_snooping_bus_bottleneck/) →
+<- **이전**: [508. 로드-스토어 큐 (Load-Store Queue, LSQ)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)
+**다음**: [510. 스누핑 버스 병목 현상 (Snooping Bus Bottleneck)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/510_snooping_bus_bottleneck/) ->
 
 ---

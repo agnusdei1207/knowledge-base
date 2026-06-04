@@ -139,12 +139,12 @@ system_u:system_r:httpd_t:s0 httpd
 
 ```text
 [임의적 접근 제어 (DAC, Discretionary Access Control)]
-    │
-    ▼
+    |
+    v
 [강제적 접근 제어 (MAC, Mandatory Access Control)]
-    │
-    ├──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
-    └──▶ [비바 모델 (Biba Model)]
+    |
+    +---> [벨-라파둘라 모델 (Bell-LaPadula)]
+    +---> [비바 모델 (Biba Model)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -163,7 +163,7 @@ system_u:system_r:httpd_t:s0 httpd
 
 **진행 상황**: 579 / 800
 
-← **이전**: [578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/)
-**다음**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) →
+<- **이전**: [578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/)
+**다음**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ->
 
 ---

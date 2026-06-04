@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 병행 수행 시 문제점 ([격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 위배 시)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sessions -> Control rule -> Current concept -> Safe overlap  │
-├──────────────────────────────────────────────────────────────┤
-│ Read/Write race -> rule -> anomaly prevention                │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Sessions -> Control rule -> Current concept -> Safe overlap  |
++--------------------------------------------------------------+
+| Read/Write race -> rule -> anomaly prevention                |
++--------------------------------------------------------------+
 ```
 
 이 그림은 병행 수행 시 문제점을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `동시성 제어 의 목적`·`갱신 손실`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read/Write set -> current concept -> serialization           │
-├──────────────────────────────────────────────────────────────┤
-│ Acquire/validate -> conflict check -> correctness            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Read/Write set -> current concept -> serialization           |
++--------------------------------------------------------------+
+| Acquire/validate -> conflict check -> correctness            |
++--------------------------------------------------------------+
 ```
 
 핵심은 병행 수행 시 문제점을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ tags = ["studynote-database"]
 
 ```text
 [동시성 제어 의 목적]
-    │
-    ▼
+    |
+    v
 [병행 수행 시 문제점]
-    │
-    ├──▶ [갱신 손실]
-    └──▶ [모순성]
+    |
+    +---> [갱신 손실]
+    +---> [모순성]
 ```
 
 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 의 목적에서 출발한 논점이 병행 수행 시 문제점에서 핵심 판단으로 모이고, 이후 [갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)·[모순성](/knowledge-base/studynote/05_database/04_transactions_concurrency/204_inconsistency_unrepeatable_read_concurrency/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 202 / 600
 
-← **이전**: [201. 동시성 제어 의 목적 (Concurrency Control / 병행 제어)](/knowledge-base/studynote/05_database/04_transactions_concurrency/201_concurrency_control_objectives/)
-**다음**: [203. 갱신 손실 (Lost Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/) →
+<- **이전**: [201. 동시성 제어 의 목적 (Concurrency Control / 병행 제어)](/knowledge-base/studynote/05_database/04_transactions_concurrency/201_concurrency_control_objectives/)
+**다음**: [203. 갱신 손실 (Lost Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/) ->
 
 ---

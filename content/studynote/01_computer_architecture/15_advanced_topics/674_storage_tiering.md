@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-티어링 시스템은 보통 "관찰 → 점수화 → 이동"의 반복 루프로 동작한다. 먼저 각 블록, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 오브젝트의 접근 빈도, 최근 사용 시점, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 강도, 크기, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감도를 수집하고, 이를 바탕으로 heat score를 계산한다. 그다음 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리고 내릴지 결정하고, 마이그레이션 엔진이 실제 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 간 이동을 수행한다.
+티어링 시스템은 보통 "관찰 -> 점수화 -> 이동"의 반복 루프로 동작한다. 먼저 각 블록, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 오브젝트의 접근 빈도, 최근 사용 시점, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 강도, 크기, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감도를 수집하고, 이를 바탕으로 heat score를 계산한다. 그다음 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리고 내릴지 결정하고, 마이그레이션 엔진이 실제 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 간 이동을 수행한다.
 
 | 티어 | 대표 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) | 대략적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수준 | 잘 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | :--- | :--- | :--- | :--- |
@@ -41,11 +41,11 @@ tags = ["studynote-computer-architecture"]
 | Tier 3 | 오브젝트 아카이브, 테이프 | 초~분 단위 | 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 규제 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Access telemetry -> Heat score -> Policy engine -> Promote / Demote / Pin  │
-│ recency / frequency / size / latency / write rate                           │
-│ Tier 0/1: NVMe/SSD <-> Tier 2: HDD <-> Tier 3: object/tape                 │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| Access telemetry -> Heat score -> Policy engine -> Promote / Demote / Pin  |
+| recency / frequency / size / latency / write rate                           |
+| Tier 0/1: NVMe/SSD <-> Tier 2: HDD <-> Tier 3: object/tape                 |
++------------------------------------------------------------------------------+
 ```
 
 여기서 중요한 설계 포인트는 이동 단위다. 블록 단위 티어링은 작은 hot spot만 골라 올릴 수 있어 효율적이지만 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 제어가 복잡하다. 반대로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 또는 오브젝트 단위 티어링은 단순하지만, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부만 뜨거운 경우 전체를 통째로 올려야 해 비효율이 생길 수 있다. 또한 지나치게 민감한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위아래로 계속 흔들어, 백그라운드 복사 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 플래시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명을 낭비하게 만든다.
@@ -127,17 +127,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 고정 스토리지 계층
-        │
-        ▼
+        |
+        v
 SSD / HDD 혼합 배치
-        │
-        ▼
+        |
+        v
 Access telemetry 기반 heat scoring
-        │
-        ▼
+        |
+        v
 스토리지 티어링 (Storage Tiering)
-        │
-        ▼
+        |
+        v
 클라우드 수명주기 정책 + Intelligent placement
 ```
 
@@ -155,7 +155,7 @@ Access telemetry 기반 heat scoring
 
 **진행 상황**: 675 / 803
 
-← **이전**: [673. RDMA iWARP 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/673_rdma_iwarp/)
-**다음**: [675. 핫 데이터 (Hot Data) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) →
+<- **이전**: [673. RDMA iWARP 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/673_rdma_iwarp/)
+**다음**: [675. 핫 데이터 (Hot Data) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) ->
 
 ---

@@ -26,20 +26,20 @@ tags = ["studynote-ict-convergence"]
 아래 그림은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델이 결국 <strong>계층별 책임을 어디까지 위임하는가</strong>의 문제임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Shared responsibility by service model                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Layer          On-prem   IaaS    PaaS    SaaS                      │
-│ App            User      User    User    CSP                       │
-│ Data           User      User    User    Shared                    │
-│ Runtime        User      User    CSP     CSP                       │
-│ Middleware     User      User    CSP     CSP                       │
-│ OS             User      User    CSP     CSP                       │
-│ Virtualization User      CSP     CSP     CSP                       │
-│ Servers        User      CSP     CSP     CSP                       │
-│ Storage        User      CSP     CSP     CSP                       │
-│ Network        User      CSP     CSP     CSP                       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Shared responsibility by service model                             |
++--------------------------------------------------------------------+
+| Layer          On-prem   IaaS    PaaS    SaaS                      |
+| App            User      User    User    CSP                       |
+| Data           User      User    User    Shared                    |
+| Runtime        User      User    CSP     CSP                       |
+| Middleware     User      User    CSP     CSP                       |
+| OS             User      User    CSP     CSP                       |
+| Virtualization User      CSP     CSP     CSP                       |
+| Servers        User      CSP     CSP     CSP                       |
+| Storage        User      CSP     CSP     CSP                       |
+| Network        User      CSP     CSP     CSP                       |
++--------------------------------------------------------------------+
 ```
 
 여기서 SaaS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행이 `Shared`로 표시된 이유는 플랫폼 운영은 CSP가 맡더라도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분류와 접근 권한 같은 거버넌스 책임은 사용자 조직에 남기 때문이다. 즉 클라우드는 책임을 줄여 주지만, 책임을 완전히 없애 주지는 않는다.
@@ -71,15 +71,15 @@ tags = ["studynote-ict-convergence"]
 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 배포 모델과 자주 혼동되지만 질문 자체가 다르다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 "누가 어느 층을 운영하는가"를 묻고, 퍼블릭·프라이빗·하이브리드 클라우드는 "어디에 어떤 형태로 배치하는가"를 묻는다. 따라서 퍼블릭 클라우드에서도 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)·[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·SaaS가 모두 가능하고, 프라이빗 클라우드에서도 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 구성이 가능하다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ More abstraction changes the operating trade-off                  │
-├────────────────────────────────────────────────────────────────────┤
-│ On-prem -> IaaS -> CaaS/PaaS -> FaaS -> SaaS                      │
-│ control     high ------------------------------------------> low   │
-│ ops burden  high ------------------------------------------> low   │
-│ speed       low  ------------------------------------------> high  │
-│ lock-in     low  -------------------------------> higher            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| More abstraction changes the operating trade-off                  |
++--------------------------------------------------------------------+
+| On-prem -> IaaS -> CaaS/PaaS -> FaaS -> SaaS                      |
+| control     high ------------------------------------------> low   |
+| ops burden  high ------------------------------------------> low   |
+| speed       low  ------------------------------------------> high  |
+| lock-in     low  -------------------------------> higher            |
++--------------------------------------------------------------------+
 ```
 
 | 비교 축 | [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) | [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) |
@@ -105,23 +105,23 @@ tags = ["studynote-ict-convergence"]
 아래 의사결정 흐름은 모델 선택을 단순 가격 비교가 아니라 책임 범위 관점으로 바꿔 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Cloud service model decision path                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Is the function a common business utility?                        │
-│        ├─ Yes ─▶ SaaS first                                       │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Need OS / network / security appliance level control?             │
-│        ├─ Yes ─▶ IaaS                                             │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Need only code/runtime with managed deployment?                   │
-│        ├─ Yes ─▶ PaaS or CaaS                                     │
-│        └─ Event-driven and bursty? ─▶ FaaS                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Cloud service model decision path                                 |
++--------------------------------------------------------------------+
+| Is the function a common business utility?                        |
+|        +- Yes --> SaaS first                                       |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Need OS / network / security appliance level control?             |
+|        +- Yes --> IaaS                                             |
+|        +- No                                                      |
+|             |                                                     |
+|             v                                                     |
+| Need only code/runtime with managed deployment?                   |
+|        +- Yes --> PaaS or CaaS                                     |
+|        +- Event-driven and bursty? --> FaaS                        |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -174,17 +174,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 온프레미스 직접 운영
-        │
-        ▼
+        |
+        v
 IaaS (Infrastructure as a Service)
-        │
-        ▼
+        |
+        v
 PaaS / CaaS
-        │
-        ▼
+        |
+        v
 DBaaS / FaaS
-        │
-        ▼
+        |
+        v
 SaaS + XaaS (Everything as a Service)
 ```
 
@@ -200,7 +200,7 @@ SaaS + XaaS (Everything as a Service)
 
 **진행 상황**: 182 / 552
 
-← **이전**: [181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/181_cloud_computing_nist_characteristics/)
-**다음**: [183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) →
+<- **이전**: [181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/181_cloud_computing_nist_characteristics/)
+**다음**: [183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) ->
 
 ---

@@ -38,16 +38,16 @@ tags = ["database"]
 위의 비정규 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 1NF로 변환하면 다음과 같이 행이 늘어난다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  1NF 변환: 원자값 분할 메커니즘              │
-├──────────────────────────────────────────────────────────────┤
-│ [비정규 속성] "독서, 영화, 등산"                             │
-│       │                                                      │
-│       ▼ (Split)                                              │
-│ [Row 1] 101, 김철수, 독서  <-- 기본키: {학번, 취미}로 변경   │
-│ [Row 2] 101, 김철수, 영화                                    │
-│ [Row 3] 101, 김철수, 등산                                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  1NF 변환: 원자값 분할 메커니즘              |
++--------------------------------------------------------------+
+| [비정규 속성] "독서, 영화, 등산"                             |
+|       |                                                      |
+|       v (Split)                                              |
+| [Row 1] 101, 김철수, 독서  <-- 기본키: {학번, 취미}로 변경   |
+| [Row 2] 101, 김철수, 영화                                    |
+| [Row 3] 101, 김철수, 등산                                    |
++--------------------------------------------------------------+
 ```
 
 이 과정에서 원래의 기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))였던 '학번'만으로는 튜플을 유일하게 식별할 수 없게 된다. 따라서 기본키를 `{학번, 취미}`로 묶은 복합키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 형태로 변경해야 하며, 이로 인해 이름 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기본키의 일부인 학번에만 종속되는 부분 함수 종속 ([Partial Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/))이 필연적으로 발생하게 된다.
@@ -109,14 +109,14 @@ tags = ["database"]
 
 ```text
 비정규 릴레이션 (Unnormalized Form)
-    │
-    ▼ (다중값 속성 및 반복 그룹 제거)
+    |
+    v (다중값 속성 및 반복 그룹 제거)
 제1정규형 (1NF) · 원자값 (Atomic Value) 구성
-    │
-    ▼ (부분 함수 종속성 제거)
+    |
+    v (부분 함수 종속성 제거)
 제2정규형 (2NF) · 완전 함수 종속 달성
-    │
-    ▼ (이행적 함수 종속성 제거)
+    |
+    v (이행적 함수 종속성 제거)
 제3정규형 (3NF) · 일반 속성 간 독립성 확보
 ```
 
@@ -134,7 +134,7 @@ tags = ["database"]
 
 **진행 상황**: 103 / 600
 
-← **이전**: [102. 종속성 보존 (Dependency Preservation) - 분해 후에도 FD가 유지됨](/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/)
-**다음**: [104. 제2정규형 (2NF) - 1NF 만족 및 부분 함수 종속 제거 (완전 함수 종속화)](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) →
+<- **이전**: [102. 종속성 보존 (Dependency Preservation) - 분해 후에도 FD가 유지됨](/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/)
+**다음**: [104. 제2정규형 (2NF) - 1NF 만족 및 부분 함수 종속 제거 (완전 함수 종속화)](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ->
 
 ---

@@ -32,18 +32,18 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 [COBIT의 존재 이유: 목표의 폭포수 (Goals Cascade) 메커니즘]
 
 [이해관계자 요구] "시장 점유율 확대와 고객 정보 보호"
-       │
-       ▼ (번역 및 하향 전개)
-┌──────────────────────────────────────┐
-│           COBIT 프레임워크           │
-│ 1. 전사적 목표 (Enterprise Goals)    │ : "신규 서비스 매출 20% 증가"
-│                 ↓                    │
-│ 2. IT 관련 목표 (IT-related Goals)   │ : "민첩한 시스템 배포 및 보안 무결성"
-│                 ↓                    │
-│ 3. IT 프로세스 목표 (Process Goals)  │ : "CI/CD 자동화 및 취약점 점검"
-└──────────────────────────────────────┘
-       │
-       ▼ (실행 및 통제)
+       |
+       v (번역 및 하향 전개)
++--------------------------------------+
+|           COBIT 프레임워크           |
+| 1. 전사적 목표 (Enterprise Goals)    | : "신규 서비스 매출 20% 증가"
+|                 v                    |
+| 2. IT 관련 목표 (IT-related Goals)   | : "민첩한 시스템 배포 및 보안 무결성"
+|                 v                    |
+| 3. IT 프로세스 목표 (Process Goals)  | : "CI/CD 자동화 및 취약점 점검"
++--------------------------------------+
+       |
+       v (실행 및 통제)
 [IT 자원 및 운영 환경] -> 가치 창출 (Value) 및 위험 억제 (Risk) 증명
 ```
 *해설: 이 폭포수(Cascading) 흐름의 핵심은 '추적성'이다. 개발자가 수행하는 "취약점 점검(프로세스 목표)"이 최종적으로 "시장 점유율 확대([이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구)"와 어떻게 연결되는지 수학적으로 매핑된다. COBIT이 없다면 경영진과 개발자는 서로 다른 목표를 바라보고 달리게 된다.*
@@ -67,30 +67,30 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 아래의 구조도는 COBIT에서 가장 중요하게 다루는 <strong>거버넌스(Governance)와 관리(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)의 아키텍처 분리</strong>를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. COBIT은 모든 IT 활동을 5개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(총 40여 개의 프로세스)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                 [ Governance 영역 ] - 이사회 책임           │
-│                                                             │
-│       ▶ [ EDM ] : Evaluate(평가), Direct(지시), Monitor(모니터) │
-│       - 거버넌스 프레임워크 설정, 가치 전달, 위험/자원 최적화       │
-└──────┬────────────────────────────────────────────────────▲─┘
-지시(Direct) │                                                    │ 보고(Monitor)
-             ▼                                                   │
-┌─────────────────────────────────────────────────────────────┐
-│                [ Management 영역 ] - 경영진 및 IT 부서 책임     │
-│                                                             │
-│ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐ │
-│ │    [ APO ]    │ │    [ BAI ]    │ │    [ DSS ]    │ │
-│ │ Align, Plan,  │►│ Build, Acquire│►│ Deliver,      │ │
-│ │ Organize      │ │ & Implement   │ │ Service,      │ │
-│ │ (계획 및 조직)│ │ (구축 및 도입)│ │ Support (운영)│ │
-│ └───────┬───────┘ └───────┬───────┘ └───────┬───────┘ │
-│         │               │               │           │
-│         ▼               ▼               ▼           │
-│ ┌───────────────────────────────────────────────┐     │
-│ │                 [ MEA ]                       │     │
-│ │ Monitor, Evaluate and Assess (모니터링 및 평가)  │     │
-│ └───────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                 [ Governance 영역 ] - 이사회 책임           |
+|                                                             |
+|       -> [ EDM ] : Evaluate(평가), Direct(지시), Monitor(모니터) |
+|       - 거버넌스 프레임워크 설정, 가치 전달, 위험/자원 최적화       |
++------+----------------------------------------------------^-+
+지시(Direct) |                                                    | 보고(Monitor)
+             v                                                   |
++-------------------------------------------------------------+
+|                [ Management 영역 ] - 경영진 및 IT 부서 책임     |
+|                                                             |
+| +---------------+ +---------------+ +---------------+ |
+| |    [ APO ]    | |    [ BAI ]    | |    [ DSS ]    | |
+| | Align, Plan,  |►| Build, Acquire|►| Deliver,      | |
+| | Organize      | | & Implement   | | Service,      | |
+| | (계획 및 조직)| | (구축 및 도입)| | Support (운영)| |
+| +-------+-------+ +-------+-------+ +-------+-------+ |
+|         |               |               |           |
+|         v               v               v           |
+| +-----------------------------------------------+     |
+| |                 [ MEA ]                       |     |
+| | Monitor, Evaluate and Assess (모니터링 및 평가)  |     |
+| +-----------------------------------------------+     |
++-------------------------------------------------------------+
 ```
 *해설: 맨 위의 EDM 영역은 이사회가 방향을 정하는 '거버넌스' 파트이다. 그 아래 4개 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(APO, BAI, DSS, MEA)은 IT 부서가 실제로 시스템을 기획(APO)하고, 만들거나 사오며(BAI), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하고(DSS), 이를 자체 평가(MEA)하는 '관리' 파트이다. MEA의 결과가 다시 EDM으로 보고되어 사이클이 완성된다. 실무 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서는 각 약어(APO, BAI 등)에 속한 세부 프로세스들이 통제 기준을 만족하는지 집중 점검한다.*
 
@@ -113,19 +113,19 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 
 ```text
        [ 비즈니스 전략 및 목표 (Corporate Governance) ]
-                         │
+                         |
              (무엇을 통제하고 달성할 것인가?)
 ===========================================================
-      ▲       ┌─────────────────────────────────┐
-  최상위 지침  │     COBIT (IT 거버넌스 우산)    │ (What to do)
-      ▼       └──────┬────────┬────────┬────────┘
-                     │        │        │
+      ^       +---------------------------------+
+  최상위 지침  |     COBIT (IT 거버넌스 우산)    | (What to do)
+      v       +------+--------+--------+--------+
+                     |        |        |
            (어떻게 실행하고 운영할 것인가? - 세부 도메인별 표준)
 ===========================================================
-      ▲      ┌───────▼─┐┌─────▼─┐┌─────▼──┐
-   세부 실행  │  ITIL   ││ PMBOK ││ISO 27001 │ (How to do)
-   프레임워크 │(서비스) ││(구축)  ││ (보안)   │
-      ▼      └─────────┘└───────┘└──────────┘
+      ^      +-------v-++-----v-++-----v--+
+   세부 실행  |  ITIL   || PMBOK ||ISO 27001 | (How to do)
+   프레임워크 |(서비스) ||(구축)  || (보안)   |
+      v      +---------++-------++----------+
 ```
 *해설: COBIT은 "IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 효율적으로 관리하라(DSS [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))"라고 원칙을 제시하지만, "헬프데스크 전화를 어떻게 받고 장애를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가"하는 세부 절차(How)는 명시하지 않는다. 그 세부 실행은 ITIL을 가져다 쓰면 된다. 즉, COBIT은 기업 IT 프레임워크들의 '메인보드' 역할을 하여, 필요에 따라 ITIL이나 ISO 27001 같은 '그래픽 카드(세부 표준)'를 꽂아 쓸 수 있게 해 준다.*
 
@@ -153,19 +153,19 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 ```text
 [COBIT 도입 생명주기 (지속적 개선 루프)]
 
-Phase 1: 동인 파악 ──► (경영진) "보안 사고 발생! IT를 통제해야 해"
-          ↓
-Phase 2: 현재 상태 진단 ──► (감사인) "우리 IT 프로세스 수준은 Level 1입니다."
-          ↓
-Phase 3: 목표 상태 정의 ──► (IT 스티어링) "우선 보안 및 변경 관리만 Level 3으로 올립시다."
-          ↓
-Phase 4: 해결책 구축 ──► (실무진) 방화벽 도입, 변경 통제 위원회(CAB) 신설
-          ↓
-Phase 5: 실행 ──► (조직) 새로운 프로세스 적용 및 변화 관리(교육)
-          ↓
-Phase 6: 효익 실현 여부 ──► (평가자) "보안 사고가 0건으로 줄고 ROI가 증명됨"
-          ↓
-Phase 7: 모멘텀 유지 ──► (지속성) 새로운 비즈니스 목표에 맞춰 Phase 1로 피드백 반복
+Phase 1: 동인 파악 --► (경영진) "보안 사고 발생! IT를 통제해야 해"
+          v
+Phase 2: 현재 상태 진단 --► (감사인) "우리 IT 프로세스 수준은 Level 1입니다."
+          v
+Phase 3: 목표 상태 정의 --► (IT 스티어링) "우선 보안 및 변경 관리만 Level 3으로 올립시다."
+          v
+Phase 4: 해결책 구축 --► (실무진) 방화벽 도입, 변경 통제 위원회(CAB) 신설
+          v
+Phase 5: 실행 --► (조직) 새로운 프로세스 적용 및 변화 관리(교육)
+          v
+Phase 6: 효익 실현 여부 --► (평가자) "보안 사고가 0건으로 줄고 ROI가 증명됨"
+          v
+Phase 7: 모멘텀 유지 --► (지속성) 새로운 비즈니스 목표에 맞춰 Phase 1로 피드백 반복
 ```
 *해설: 이 생명주기의 핵심은 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 도입이 일회성 IT 프로젝트가 아니라 '변화 관리([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))' 과정이라는 점이다. 인간은 본능적으로 새로운 통제를 거부하므로, Phase 5(실행)에서 구성원의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 극복하기 위한 경영진의 강력한 스폰서십이 없다면 완벽한 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 아키텍처도 무용지물이 된다.*
 
@@ -201,17 +201,17 @@ COBIT은 기업이 비즈니스 목표라는 목적지에 도달하기 위해, I
 
 ```text
 [IT 거버넌스 (IT Governance)]
-    │
-    ▼
+    |
+    v
 [ITIL (IT Infrastructure Library)]
-    │
-    ▼
+    |
+    v
 [EA (전사 아키텍처)]
-    │
-    ▼
+    |
+    v
 [CMMI (성숙도 모델)]
-    │
-    ▼
+    |
+    v
 [SOX (사베인스-옥슬리법)]
 ```
 
@@ -228,7 +228,7 @@ COBIT은 기업이 비즈니스 목표라는 목적지에 도달하기 위해, I
 
 **진행 상황**: 4 / 482
 
-← **이전**: [3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/003_it_governance_5_domains/)
-**다음**: [5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/) →
+<- **이전**: [3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/003_it_governance_5_domains/)
+**다음**: [5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/) ->
 
 ---

@@ -36,16 +36,16 @@ S-State의 핵심 원리는 <strong>깊게 잘수록 더 적은 전기를 쓰지
 아래 그림은 S0에서 S5까지의 깊이를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    ACPI global power ladder                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ S0  Working      : user code runs, devices active                   │
-│ S1  Light sleep  : CPU stopped, context mostly retained             │
-│ S2  Deeper sleep : more CPU context lost, rarely implemented        │
-│ S3  STR          : only DRAM kept in self-refresh                   │
-│ S4  Hibernate    : memory image stored on nonvolatile storage       │
-│ S5  Soft Off     : no session context, wake logic only              │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    ACPI global power ladder                         |
++----------------------------------------------------------------------+
+| S0  Working      : user code runs, devices active                   |
+| S1  Light sleep  : CPU stopped, context mostly retained             |
+| S2  Deeper sleep : more CPU context lost, rarely implemented        |
+| S3  STR          : only DRAM kept in self-refresh                   |
+| S4  Hibernate    : memory image stored on nonvolatile storage       |
+| S5  Soft Off     : no session context, wake logic only              |
++----------------------------------------------------------------------+
 ```
 
 이 계단형 구조를 실제 의미와 함께 보면 다음과 같다.
@@ -138,20 +138,20 @@ S-State 체계의 가장 큰 효과는 [운영체제](/knowledge-base/studynote/
 
 ```text
 Always-on PC operation
-    │
-    ▼
+    |
+    v
 ACPI global sleep model (S0 ~ S5)
-    │
-    ├──▶ S3 Suspend-to-RAM
-    │
-    ├──▶ S4 Hibernation
-    │
-    ├──▶ S5 Soft Off
-    │
-    ▼
+    |
+    +---> S3 Suspend-to-RAM
+    |
+    +---> S4 Hibernation
+    |
+    +---> S5 Soft Off
+    |
+    v
 Fine-grained C-State / D-State coordination
-    │
-    ▼
+    |
+    v
 S0 low power idle and Modern Standby
 ```
 
@@ -169,7 +169,7 @@ S0 low power idle and Modern Standby
 
 **진행 상황**: 726 / 803
 
-← **이전**: [724. T-States (Throttling States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/724_t_states/)
-**다음**: [726. 모던 스탠바이 (Modern Standby, S0ix)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/726_modern_standby_s0ix/) →
+<- **이전**: [724. T-States (Throttling States)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/724_t_states/)
+**다음**: [726. 모던 스탠바이 (Modern Standby, S0ix)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/726_modern_standby_s0ix/) ->
 
 ---

@@ -28,17 +28,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 희생자 캐시가 [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) 캐시에 특히 잘 맞는지를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│      같은 인덱스를 쓰는 A, B가 번갈아 접근될 때의 차이                │
-├───────────────────────────────┬────────────────────────────────────────┤
-│ 희생자 캐시 없음              │ 희생자 캐시 있음                     │
-├───────────────────────────────┼────────────────────────────────────────┤
-│ A 적재 → 히트                 │ A 적재 → 히트                        │
-│ B 접근 → A 축출, B 적재       │ B 접근 → A는 Victim Cache로 이동     │
-│ A 재접근 → 또 미스            │ A 재접근 → Victim Cache 히트         │
-│ B 재접근 → 또 미스            │ B는 L1에서 내려와 교환(Swap)         │
-│                               │ 메모리까지 가지 않고 왕복 종료       │
-└───────────────────────────────┴────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|      같은 인덱스를 쓰는 A, B가 번갈아 접근될 때의 차이                |
++-------------------------------+----------------------------------------+
+| 희생자 캐시 없음              | 희생자 캐시 있음                     |
++-------------------------------+----------------------------------------+
+| A 적재 -> 히트                 | A 적재 -> 히트                        |
+| B 접근 -> A 축출, B 적재       | B 접근 -> A는 Victim Cache로 이동     |
+| A 재접근 -> 또 미스            | A 재접근 -> Victim Cache 히트         |
+| B 재접근 -> 또 미스            | B는 L1에서 내려와 교환(Swap)         |
+|                               | 메모리까지 가지 않고 왕복 종료       |
++-------------------------------+----------------------------------------+
 ```
 
 즉 희생자 캐시는 “미스를 줄이는 큰 창고”라기보다 “방금 퇴장당한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 문 앞에 세워 두는 대기석”에 가깝다. 그래서 적은 엔트리만으로도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 바꿀 수 있다.
@@ -70,19 +70,19 @@ tags = ["studynote-computer-architecture"]
 이 구조의 핵심은 “[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)”가 아니라 “교환”이다. 희생자 캐시 히트가 나면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사만 하는 것이 아니라, 현재 L1에 있는 충돌 상대를 내려보내고 필요한 라인을 올려 보낸다. 그래서 A와 B가 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두고 싸울 때, 두 라인이 L1과 희생자 캐시 사이를 오가며 메모리 왕복을 차단한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                 Victim Cache hit 시 데이터 이동                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ CPU Request X                                                         │
-│     │                                                                  │
-│     ▼                                                                  │
-│ L1 Lookup ── Miss ──▶ Victim Cache Lookup ── Hit ──▶ Swap              │
-│     │                                             ┌──────────────────┐ │
-│     │                                             │ X : VC → L1      │ │
-│     │                                             │ Y : L1 → VC      │ │
-│     ▼                                             └──────────────────┘ │
-│ 하위 메모리 접근 없음                                                  │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|                 Victim Cache hit 시 데이터 이동                        |
++------------------------------------------------------------------------+
+| CPU Request X                                                         |
+|     |                                                                  |
+|     v                                                                  |
+| L1 Lookup -- Miss ---> Victim Cache Lookup -- Hit ---> Swap              |
+|     |                                             +------------------+ |
+|     |                                             | X : VC -> L1      | |
+|     |                                             | Y : L1 -> VC      | |
+|     v                                             +------------------+ |
+| 하위 메모리 접근 없음                                                  |
++------------------------------------------------------------------------+
 ```
 
 정량적으로 보면, 희생자 캐시는 <strong>미스율 자체보다 미스 페널티 체감값</strong>을 낮추는 효과가 크다. L1 히트가 1~4사이클, L2 접근이 수~수십 사이클, 메인 메모리 접근이 수백 사이클인 구조에서, 방금 축출된 라인을 몇 사이클 안에 되살릴 수 있다는 점이 중요하다. 결국 희생자 캐시는 작은 저장공간으로 큰 지연을 잘라내는 장치다.
@@ -161,20 +161,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 직접 사상 캐시 (Direct-Mapped Cache)
-        │
-        ▼
+        |
+        v
 충돌 미스 (Conflict Miss) · 스래싱 (Thrashing)
-        │
-        ▼
+        |
+        v
 희생자 캐시 (Victim Cache)
-        │
-        ├──────────────▶ 완전 연관 탐색 · 교환 (Swap) 로직
-        │
-        ▼
+        |
+        +---------------> 완전 연관 탐색 · 교환 (Swap) 로직
+        |
+        v
 배타적 캐시 (Exclusive Cache) · 다계층 최적화
 ```
 
-이 흐름은 “단순한 빠른 캐시 → 충돌 문제 발생 → 축출 라인 임시 보관 → 계층 전체의 배타적 활용”으로 사고가 확장되는 과정을 보여준다.
+이 흐름은 “단순한 빠른 캐시 -> 충돌 문제 발생 -> 축출 라인 임시 보관 -> 계층 전체의 배타적 활용”으로 사고가 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 281 / 803
 
-← **이전**: [280. 프리페칭 (Prefetching)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/)
-**다음**: [282. 가상 메모리 (Virtual Memory)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/) →
+<- **이전**: [280. 프리페칭 (Prefetching)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/)
+**다음**: [282. 가상 메모리 (Virtual Memory)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/282_virtual_memory/) ->
 
 ---

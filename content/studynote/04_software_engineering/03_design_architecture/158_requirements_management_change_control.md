@@ -39,28 +39,28 @@ tags = ["studynote-software-engineering"]
 | [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) | 특정 시점 합의본 동결 | 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 개발하는지 명확화 |
 | Change Request | 변경 요청 공식화 | 구두 지시와 비공식 변경 차단 |
 | Impact Analysis | 영향 범위 평가 | 비용, 일정, 설계, 테스트 영향 판단 |
-| Version [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | `v1.0 → v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
+| Version [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | `v1.0 -> v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
 | Approval / [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) | 승인 여부 결정 | 가치 대비 비용과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단 |
 
 아래 그림은 요구사항 변경 통제가 어떤 흐름으로 돌아가는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                requirements control: baseline to approved update           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Requirement set ──▶ Baseline v1.0                                          │
-│                         │                                                   │
-│                         ├── change request raised                           │
-│                         ▼                                                   │
-│                  impact analysis (scope / cost / test / risk)              │
-│                         │                                                   │
-│              ┌──────────┴──────────┐                                        │
-│              │                     │                                        │
-│         Reject / defer        Approve via CCB                               │
-│                                    │                                        │
-│                                    ▼                                        │
-│                         update to v1.1 + RTM + test sync                    │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                requirements control: baseline to approved update           |
++----------------------------------------------------------------------------+
+| Requirement set ---> Baseline v1.0                                          |
+|                         |                                                   |
+|                         +-- change request raised                           |
+|                         v                                                   |
+|                  impact analysis (scope / cost / test / risk)              |
+|                         |                                                   |
+|              +----------+----------+                                        |
+|              |                     |                                        |
+|         Reject / defer        Approve via CCB                               |
+|                                    |                                        |
+|                                    v                                        |
+|                         update to v1.1 + RTM + test sync                    |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호 자체보다 <strong>무엇이 현재 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>인지 모두가 동일하게 아는 상태</strong>다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
@@ -132,17 +132,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 요구사항 도출 · 분석
-    │
-    ▼
+    |
+    v
 요구사항 ID 부여 · Baseline 확정
-    │
-    ▼
+    |
+    v
 변경 요청 (CR) · 영향도 분석 · CCB 승인
-    │
-    ▼
+    |
+    v
 버전 갱신 · RTM 연동 · 테스트/릴리스 동기화
-    │
-    ▼
+    |
+    v
 지속적 요구사항 관리 · 디지털 스레드 자동화
 ```
 
@@ -160,7 +160,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 158 / 973
 
-← **이전**: [157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)
-**다음**: [159. 베이스라인 (Baseline) 설정 및 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) →
+<- **이전**: [157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)
+**다음**: [159. 베이스라인 (Baseline) 설정 및 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ->
 
 ---

@@ -21,19 +21,19 @@ tags = ["studynote-cloud-architecture"]
 K8s를 운영하려면 노드(워커) 관리가 필수다: OS 패치, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트, 노드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 교체. 이 운영 부담이 소규모 팀에게는 K8s 도입 자체의 장벽이 된다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    기존 K8s vs 서버리스 K8s 관리 범위                   │
-├───────────────────────────────────────────────────────┤
-│  [기존 K8s (EKS + EC2)]                               │
-│   개발자 관리: Pod YAML + 노드 AMI + OS 패치          │
-│                + Cluster Autoscaler + Spot 관리       │
-│                                                       │
-│  [서버리스 K8s (EKS + Fargate)]                       │
-│   개발자 관리: Pod YAML만!                            │
-│   AWS 관리: 노드 생성·패치·스케일링·보안 전부         │
-│                                                       │
-│   트레이드오프: 파드당 비용 ↑, DaemonSet 불가          │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    기존 K8s vs 서버리스 K8s 관리 범위                   |
++-------------------------------------------------------+
+|  [기존 K8s (EKS + EC2)]                               |
+|   개발자 관리: Pod YAML + 노드 AMI + OS 패치          |
+|                + Cluster Autoscaler + Spot 관리       |
+|                                                       |
+|  [서버리스 K8s (EKS + Fargate)]                       |
+|   개발자 관리: Pod YAML만!                            |
+|   AWS 관리: 노드 생성·패치·스케일링·보안 전부         |
+|                                                       |
+|   트레이드오프: 파드당 비용 ^, DaemonSet 불가          |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 기존 K8s는 자가용(직접 관리·저렴), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 택시(관리 불필요·비쌈)이다.
@@ -71,9 +71,9 @@ EKS에 Fargate Profile을 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-- **상시 워크로드**: EC2 Managed Node Group ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)) → 비용 최적.
-- **버스트 워크로드**: Fargate → [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 시만 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 유휴 시 비용 0.
-- **배치 작업**: Fargate → Job 실행 후 자동 종료, 노드 낭비 없음.
+- **상시 워크로드**: EC2 Managed Node Group ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)) -> 비용 최적.
+- **버스트 워크로드**: Fargate -> [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 시만 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 유휴 시 비용 0.
+- **배치 작업**: Fargate -> Job 실행 후 자동 종료, 노드 낭비 없음.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **모든 워크로드를 Fargate에**: 상시 트래픽 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 Fargate로 돌리면 EC2 대비 **2~3배 비용**.
@@ -106,17 +106,17 @@ EKS에 Fargate Profile을 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 
 ```text
 [K8s + 자체 노드 관리 (2015~) — 운영 오버헤드 높음]
-    │
-    ▼
+    |
+    v
 [AWS Fargate for EKS (2019) — 노드 관리 제거]
-    │
-    ▼
+    |
+    v
 [GKE Autopilot (2021) — 완전 관리형 K8s]
-    │
-    ▼
+    |
+    v
 [Karpenter (2021~) — 지능형 노드 오토스케일링]
-    │
-    ▼
+    |
+    v
 [현재: 하이브리드 — 상시(자체 노드) + 버스트(서버리스)]
 ```
 
@@ -131,7 +131,7 @@ EKS에 Fargate Profile을 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 
 **진행 상황**: 111 / 371
 
-← **이전**: [111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/111_container_runtime_sandboxing_gvisor_kata_containers/)
-**다음**: [113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/113_kubeflow_mlops_orchestration/) →
+<- **이전**: [111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/111_container_runtime_sandboxing_gvisor_kata_containers/)
+**다음**: [113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/113_kubeflow_mlops_orchestration/) ->
 
 ---

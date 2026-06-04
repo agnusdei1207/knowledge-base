@@ -29,11 +29,11 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ```text
 [기저대역 선로 부호]
-    │
-    ▼
+    |
+    v
 [샤논-하틀리]
-    │
-    └──▶ [에일리어싱]
+    |
+    +---> [에일리어싱]
 ```
 
 - **📢 섹션 요약 비유**: 샤논-하틀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -58,11 +58,11 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ```text
 [기저대역 선로 부호]
-    │
-    ▼
+    |
+    v
 [샤논-하틀리]
-    │
-    └──▶ [에일리어싱]
+    |
+    +---> [에일리어싱]
 ```
 
 - **📢 섹션 요약 비유**: 샤논-하틀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ```text
 [선행 개념: 기저대역 선로 부호]
-    │
-    ▼
+    |
+    v
 [현재 개념: 샤논-하틀리]
-    │
-    ├──▶ [확장 A: 에일리어싱]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 에일리어싱]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 샤논-하틀리는 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) 선로 부호에서 출발해 현재 메커니즘을 정교화하고, 이후 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 **진행 상황**: 1062 / 1120
 
-← **이전**: [940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)
-**다음**: [942. 에일리어싱 (Aliasing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/942_aliasing_nyquist_sampling_theorem_distortion/) →
+<- **이전**: [940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)
+**다음**: [942. 에일리어싱 (Aliasing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/942_aliasing_nyquist_sampling_theorem_distortion/) ->
 
 ---

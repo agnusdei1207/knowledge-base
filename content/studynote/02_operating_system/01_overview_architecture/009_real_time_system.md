@@ -27,25 +27,25 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 중심이었으나, 미사일 유도나 핵발전소 제어와 같이 외부 상태 변화에 즉각 반응해야 하는 요구가 생기면서 실시간 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (RTOS, Real-time [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 기술이 발전하기 시작했다. 현대에는 복잡한 멀티미디어 처리와 자율주행 등 정밀한 타이밍 제어가 필요한 영역이 급증하며 그 중요성이 더욱 커졌다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │           실시간 시스템의 핵심: 타이밍 파라미터             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  Event Occur (t0)                                           │
-  │      │                                                      │
-  │      ▼ <--- Latency (지연 시간)                             │
-  │  Task Start (t1)                                            │
-  │      │                                                      │
-  │      ▼ <--- Execution Time (실행 시간)                      │
-  │  Task End (t2)                                              │
-  │      │                                                      │
-  │      └───────────────┬───────────────────────────┐          │
-  │                      ▼                           ▼          │
-  │             [ Deadline (D) ]            [ 성공 여부 판단 ]  │
-  │                                                             │
-  │  1. t2 <= D : 성공 (Success)                                │
-  │  2. t2 >  D : 실패 (System Failure)                         │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |           실시간 시스템의 핵심: 타이밍 파라미터             |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  Event Occur (t0)                                           |
+  |      |                                                      |
+  |      v <--- Latency (지연 시간)                             |
+  |  Task Start (t1)                                            |
+  |      |                                                      |
+  |      v <--- Execution Time (실행 시간)                      |
+  |  Task End (t2)                                              |
+  |      |                                                      |
+  |      +---------------+---------------------------+          |
+  |                      v                           v          |
+  |             [ Deadline (D) ]            [ 성공 여부 판단 ]  |
+  |                                                             |
+  |  1. t2 <= D : 성공 (Success)                                |
+  |  2. t2 >  D : 실패 (System Failure)                         |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 실시간 시스템의 성패는 오직 '데드라인([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))' 준수 여부에 달려 있다. 이벤트가 발생한 시점(t0)부터 실제 작업이 끝나는 시점(t2)까지의 총합이 데드라인(D) 이내여야 한다. 여기서 중요한 것은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 실행 시간([Execution Time](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))의 합이 언제나 일정하게 예측 가능해야 한다는 '결정론적 특성(Determinism)'이다. 일반적인 윈도우나 리눅스는 백그라운드 작업 등에 의해 이 시간이 들쭉날쭉할 수 있지만, 실시간 시스템은 어떤 상황에서도 t2가 D를 넘지 않도록 자원을 엄격히 통제한다. 만약 t2가 D를 단 1나노초라도 넘기는 순간, 하드 실시간 시스템에서는 이를 '시스템 붕괴'로 간주한다.
@@ -73,24 +73,24 @@ tags = ["studynote-operating-system"]
 실시간 시스템은 데드라인 위반 시의 파격 효과에 따라 엄격하게 구분된다.
 
 ```text
- ┌────────────────────────────────────────────────────────────────┐
- │               실시간 시스템의 분류 및 가치 곡선                │
- ├────────────────────────────────────────────────────────────────┤
- │                                                                │
- │  [ 가치 ]                                                      │
- │     ▲                                                          │
- │  1.0│───────┐             1. Hard Real-time (에어백)           │
- │     │       │             - 데드라인 위반 = 대참사             │
- │     │       │                                                  │
- │     │       │             2. Soft Real-time (동영상 스트리밍)  │
- │     │       └───────────┐ - 위반 시 품질 저하, 시스템 유지     │
- │     │                   │                                      │
- │  0  └───────┴───────────┴─────────────────▶ [ 시간 (Time) ]    │
- │           Deadline                                             │
- │                                                                │
- │  * Hard RT: 데드라인 즉시 가치가 -∞ 로 수렴                    │
- │  * Soft RT: 데드라인 이후 가치가 서서히 감소                   │
- └────────────────────────────────────────────────────────────────┘
+ +----------------------------------------------------------------+
+ |               실시간 시스템의 분류 및 가치 곡선                |
+ +----------------------------------------------------------------+
+ |                                                                |
+ |  [ 가치 ]                                                      |
+ |     ^                                                          |
+ |  1.0|-------+             1. Hard Real-time (에어백)           |
+ |     |       |             - 데드라인 위반 = 대참사             |
+ |     |       |                                                  |
+ |     |       |             2. Soft Real-time (동영상 스트리밍)  |
+ |     |       +-----------+ - 위반 시 품질 저하, 시스템 유지     |
+ |     |                   |                                      |
+ |  0  +-------+-----------+------------------> [ 시간 (Time) ]    |
+ |           Deadline                                             |
+ |                                                                |
+ |  * Hard RT: 데드라인 즉시 가치가 -∞ 로 수렴                    |
+ |  * Soft RT: 데드라인 이후 가치가 서서히 감소                   |
+ +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 위 그래프는 시간이 지남에 따라 작업의 결과가 갖는 가치(Utility)의 변화를 보여준다. 하드 실시간 시스템(Hard Real-time)은 데드라인이 지나는 순간 가치가 수직 낙하하여 시스템 전체의 실패로 이어진다. 원자력 발전소 제어나 항공기 비행 제어가 이에 해당한다. 반면 소프트 실시간 시스템(Soft Real-time)은 동영상 재생처럼 프레임이 한두 번 늦어도 화면이 조금 끊길 뿐 시스템이 멈추지는 않는 경우다. 실무 엔지니어는 시스템의 목적에 따라 하드 실시간의 엄격함(비용 높음)과 소프트 실시간의 유연성(비용 낮음) 중 무엇을 택할지 결정해야 한다. 현대의 자율주행차는 주행 제어(Hard)와 인포테인먼트(Soft)가 혼재된 복합 실시간 시스템의 정점이다.
@@ -187,17 +187,17 @@ GPOS는 사용자가 여러 앱을 띄워도 버벅거리지 않게 '공평하�
 
 ```text
 [임베디드 시스템 — 장치 제어의 시작]
-    │
-    ▼
+    |
+    v
 [실시간 OS(RTOS) — 지연 예측 가능성 확보]
-    │
-    ▼
+    |
+    v
 [하드/소프트 실시간 분류 — 기한 위반 허용 범위 구분]
-    │
-    ▼
+    |
+    v
 [스케줄링 정책(EDF, RMS) — 마감 시점 중심 배치]
-    │
-    ▼
+    |
+    v
 [자율주행/산업제어 응용 — 안전 핵심 시스템 적용]
 ```
 
@@ -214,7 +214,7 @@ GPOS는 사용자가 여러 앱을 띄워도 버벅거리지 않게 '공평하�
 
 **진행 상황**: 9 / 800
 
-← **이전**: [8. 약결합 시스템 (Loosely Coupled System) / 분산 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/008_loosely_coupled_system/)
-**다음**: [10. 임베디드 시스템 (Embedded System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/) →
+<- **이전**: [8. 약결합 시스템 (Loosely Coupled System) / 분산 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/008_loosely_coupled_system/)
+**다음**: [10. 임베디드 시스템 (Embedded System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/) ->
 
 ---

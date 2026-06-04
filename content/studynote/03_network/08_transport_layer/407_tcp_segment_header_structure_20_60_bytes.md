@@ -30,11 +30,11 @@ tags = ["studynote-network"]
 
 ```text
 [UDP]
-    │
-    ▼
+    |
+    v
 [TCP 세그먼트 헤더]
-    │
-    └──▶ [소스/목적지 포트 번호, 일련번호]
+    |
+    +---> [소스/목적지 포트 번호, 일련번호]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더는 짐(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 묶어두는 단순한 끈이 아니라, 짐의 순서, 온도, 파손 여부, 배송 기사의 스케줄까지 몽땅 통제하고 관리하는 </strong>"디지털 스마트 블랙박스 센서"**입니다.
@@ -65,27 +65,27 @@ TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/">Urgent Pointer</a> (16비트)</strong>: Control Flag에 `URG` 불이 켜져 있을 때만 쓴다. "이 패킷 안에 폭탄 해체 암호(긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어있는데, 그 암호가 정확히 어디쯤(포인터) 박혀있는지 알려줄게!"라는 핀셋 지시자다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 세그먼트 헤더 구조 (그림 암기)                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0                   15 16                 31 (Bits)       │
- │   +-----------------------+-----------------------+         │
- │   | Source Port (16)      | Destination Port (16) |         │
- │   +-----------------------+-----------------------+         │
- │   | Sequence Number (32)                          |         │
- │   +-----------------------------------------------+         │
- │   | Acknowledgment Number (32)                    |         │
- │   +-------+---+-----------+-----------------------+         │
- │   | Offset|Res| Flags(9)  | Window Size (16)      |         │
- │   +-------+---+-----------+-----------------------+         │
- │   | Checksum (16)         | Urgent Pointer (16)   |         │
- │   +-----------------------+-----------------------+         │
- │   | Options (가변 0 ~ 40 Bytes)                     |         │
- │   +-----------------------------------------------+         │
- │                                                             │
- │   ▶ "이 20바이트 뼈대를 완벽히 이해해야 보안 방화벽 룰을 짤 수 있다!"    │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                TCP 세그먼트 헤더 구조 (그림 암기)                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   0                   15 16                 31 (Bits)       |
+ |   +-----------------------+-----------------------+         |
+ |   | Source Port (16)      | Destination Port (16) |         |
+ |   +-----------------------+-----------------------+         |
+ |   | Sequence Number (32)                          |         |
+ |   +-----------------------------------------------+         |
+ |   | Acknowledgment Number (32)                    |         |
+ |   +-------+---+-----------+-----------------------+         |
+ |   | Offset|Res| Flags(9)  | Window Size (16)      |         |
+ |   +-------+---+-----------+-----------------------+         |
+ |   | Checksum (16)         | Urgent Pointer (16)   |         |
+ |   +-----------------------+-----------------------+         |
+ |   | Options (가변 0 ~ 40 Bytes)                     |         |
+ |   +-----------------------------------------------+         |
+ |                                                             |
+ |   -> "이 20바이트 뼈대를 완벽히 이해해야 보안 방화벽 룰을 짤 수 있다!"    |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더는 종합병원의 </strong>"환자 차트(Chart)"**입니다. 차트 안에는 환자의 인적 사항([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)), 오늘 맞아야 할 주사의 순서(Seq), 지난번 진료 기록 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK), 현재 환자의 남은 체력([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))이 빼곡히 적혀 있어, 의사([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 단 한 치의 오차도 없이 처방을 내릴 수 있게 돕습니다.
@@ -146,12 +146,12 @@ TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
 
 ```text
 [선행 개념: UDP]
-    │
-    ▼
+    |
+    v
 [현재 개념: TCP 세그먼트 헤더]
-    │
-    ├──▶ [확장 A: 소스/목적지 포트 번호, 일련번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 소스/목적지 포트 번호, 일련번호]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더는 UDP에서 출발해 현재 메커니즘을 정교화하고, 이후 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -168,7 +168,7 @@ TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
 
 **진행 상황**: 528 / 1120
 
-← **이전**: [406. UDP (User Datagram Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)
-**다음**: [408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/408_tcp_header_ports_and_sequence_number_32bit/) →
+<- **이전**: [406. UDP (User Datagram Protocol)](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)
+**다음**: [408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)](/knowledge-base/studynote/03_network/08_transport_layer/408_tcp_header_ports_and_sequence_number_32bit/) ->
 
 ---

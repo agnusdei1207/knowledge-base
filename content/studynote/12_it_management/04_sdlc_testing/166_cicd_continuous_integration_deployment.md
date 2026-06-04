@@ -24,16 +24,16 @@ tags = ["studynote-it-management"]
 CI는 이 문제를 "작은 변경의 빠른 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 줄인다. CD는 여기서 한 걸음 더 나아가, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 산출물을 스테이징이나 운영 환경으로 안전하게 보내는 자동 경로를 만든다. 결국 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 필요성은 단순 자동화가 아니라, 변경의 크기를 줄여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 관리 가능한 단위로 쪼개는 데 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│        대형 배치 통합 vs 지속 통합: 위험의 크기를 줄이는 전략      │
-├────────────────────────────────────────────────────────────────────┤
-│ Old way:                                                          │
-│   weeks of changes ─▶ big merge ─▶ late test ─▶ big failure       │
-│                                                                    │
-│ CI/CD way:                                                        │
-│   small commit ─▶ auto build ─▶ auto test ─▶ deploy-ready state   │
-│   repeated many times with smaller blast radius                    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|        대형 배치 통합 vs 지속 통합: 위험의 크기를 줄이는 전략      |
++--------------------------------------------------------------------+
+| Old way:                                                          |
+|   weeks of changes --> big merge --> late test --> big failure       |
+|                                                                    |
+| CI/CD way:                                                        |
+|   small commit --> auto build --> auto test --> deploy-ready state   |
+|   repeated many times with smaller blast radius                    |
++--------------------------------------------------------------------+
 ```
 
 이 그림에서 핵심은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 단지 속도를 올리는 장치가 아니라, 실패 반경 (Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 줄이는 구조라는 점이다. 변경 단위가 작을수록 원인 추적, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 재배포가 모두 쉬워진다.
@@ -57,21 +57,21 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/knowledge-base/studynote/
 다음 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램은 전형적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 흐름과 "한 번 만든 산출물을 같은 형태로 승격"하는 원칙을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     CI/CD pipeline with quality gates              │
-├────────────────────────────────────────────────────────────────────┤
-│ Commit/Pull Request                                               │
-│   │                                                                │
-│   ▼                                                                │
-│ Build ──▶ Unit Test ──▶ Integration Test ──▶ Security Scan         │
-│   │           │                  │                    │             │
-│   └──── fail fast and stop pipeline if any gate fails ───────────┐ │
-│                                                                  │ │
-│ Artifact Registry  ◀─────────────────────────────────────────────┘ │
-│   │                                                                │
-│   ▼                                                                │
-│ Staging Deploy ──▶ Manual Approval(optional) ──▶ Production Deploy │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                     CI/CD pipeline with quality gates              |
++--------------------------------------------------------------------+
+| Commit/Pull Request                                               |
+|   |                                                                |
+|   v                                                                |
+| Build ---> Unit Test ---> Integration Test ---> Security Scan         |
+|   |           |                  |                    |             |
+|   +---- fail fast and stop pipeline if any gate fails -----------+ |
+|                                                                  | |
+| Artifact Registry  <----------------------------------------------+ |
+|   |                                                                |
+|   v                                                                |
+| Staging Deploy ---> Manual Approval(optional) ---> Production Deploy |
++--------------------------------------------------------------------+
 ```
 
 여기서 좋은 파이프라인은 환경마다 다시 빌드하지 않는다. 같은 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 테스트, 스테이징, 운영으로 승격해야 환경 차이로 인한 "테스트에서는 성공했는데 운영에서 실패" 문제를 줄일 수 있다. 또한 Fail Fast 원칙에 따라 앞단에서 실패를 빨리 드러내야 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 짧아진다.
@@ -145,17 +145,17 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/knowledge-base/studynote/
 
 ```text
 수동 통합 · 수동 배포
-        │
-        ▼
+        |
+        v
 CI (Continuous Integration)
-        │
-        ▼
+        |
+        v
 Continuous Delivery
-        │
-        ▼
+        |
+        v
 Continuous Deployment
-        │
-        ▼
+        |
+        v
 GitOps · Progressive Delivery · DevSecOps
 ```
 
@@ -173,7 +173,7 @@ GitOps · Progressive Delivery · DevSecOps
 
 **진행 상황**: 280 / 587
 
-← **이전**: [165. BDD (Behavior Driven Development, 행위 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)
-**다음**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) →
+<- **이전**: [165. BDD (Behavior Driven Development, 행위 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)
+**다음**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ->
 
 ---

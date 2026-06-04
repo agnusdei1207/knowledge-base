@@ -30,22 +30,22 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              DPU 기반 서버 인프라 구조                           │
-├──────────────────────────────────────────────────────────────────┤
-│  [호스트 CPU + DRAM]                                             │
-│  애플리케이션 / VM / 컨테이너 실행                               │
-│         │ PCIe 버스                                              │
-│  [DPU (SmartNIC)]                                               │
-│  ┌─────────────────────────────────┐                            │
-│  │ ARM Cortex-A72 코어 (DPU OS)    │                            │
-│  │ P4 프로그래밍 가능 파이프라인   │                            │
-│  │ TLS/IPSec HW 가속기             │                            │
-│  │ VXLAN/GRE/Geneve 오프로드       │                            │
-│  └─────────────────────────────────┘                            │
-│         │ 100GbE / 400GbE 포트                                  │
-│  [데이터센터 패브릭 스위치]                                      │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              DPU 기반 서버 인프라 구조                           |
++------------------------------------------------------------------+
+|  [호스트 CPU + DRAM]                                             |
+|  애플리케이션 / VM / 컨테이너 실행                               |
+|         | PCIe 버스                                              |
+|  [DPU (SmartNIC)]                                               |
+|  +---------------------------------+                            |
+|  | ARM Cortex-A72 코어 (DPU OS)    |                            |
+|  | P4 프로그래밍 가능 파이프라인   |                            |
+|  | TLS/IPSec HW 가속기             |                            |
+|  | VXLAN/GRE/Geneve 오프로드       |                            |
+|  +---------------------------------+                            |
+|         | 100GbE / 400GbE 포트                                  |
+|  [데이터센터 패브릭 스위치]                                      |
++------------------------------------------------------------------+
 ```
 
 | 기능              | CPU 소프트웨어        | [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 오프로드  |
@@ -87,8 +87,8 @@ tags = ["studynote-devops-sre"]
 5. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) testpmd로 오프로드 전/후 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·레이턴시 비교
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 없이 100Gbps 전체 소프트웨어 처리 → CPU 과부하
-- [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 관리 평면 미분리 → 호스트 침해 시 DPU도 공격 경로
+- [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 없이 100Gbps 전체 소프트웨어 처리 -> CPU 과부하
+- [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 관리 평면 미분리 -> 호스트 침해 시 DPU도 공격 경로
 
 - 📢 섹션 요약 비유: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 없이 100G 네트워크를 운영하는 것은 스포츠카를 일반 엔진으로 달리는 것과 같다. 차체(하드웨어)는 빠른데, 엔진(CPU)이 버티지 못해 속도를 낼 수 없다.
 
@@ -118,20 +118,20 @@ NVIDIA BlueField-3 [DPU](/knowledge-base/studynote/01_computer_architecture/12_a
 
 ```text
 일반 NIC (소프트웨어 처리)
-    │
-    ▼
+    |
+    v
 DPDK — 커널 우회 패킷 처리
-    │
-    ▼
+    |
+    v
 eBPF / XDP — 커널 내 프로그래밍 가능 처리
-    │
-    ▼
+    |
+    v
 SmartNIC — 부분 하드웨어 오프로드
-    │
-    ▼
+    |
+    v
 DPU (BlueField, Intel IPU) — 풀 인프라 오프로드
-    │
-    ▼
+    |
+    v
 DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)
 ```
 
@@ -147,7 +147,7 @@ DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)
 
 **진행 상황**: 367 / 373
 
-← **이전**: [366. 퍼듀 모델 산업 제어망 스마트팩토리 보안 (Purdue Model ICS OT Security IEC 62443 Smart Factory)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/366_architecture/)
-**다음**: [368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)](/knowledge-base/studynote/15_devops_sre/05_devsecops/368_process/) →
+<- **이전**: [366. 퍼듀 모델 산업 제어망 스마트팩토리 보안 (Purdue Model ICS OT Security IEC 62443 Smart Factory)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/366_architecture/)
+**다음**: [368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)](/knowledge-base/studynote/15_devops_sre/05_devsecops/368_process/) ->
 
 ---

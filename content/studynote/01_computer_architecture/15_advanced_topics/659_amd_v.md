@@ -26,14 +26,14 @@ AMD는 이 문제를 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam
 아래 그림은 AMD-V가 VMCB를 중심으로 host와 guest를 왕복시키는 기본 흐름을 보여준다.
 
 ```text
-┌──────────────────────┐   VMRUN    ┌──────────────────────────┐
-│ Host / hypervisor    │ ───────▶  │ Guest execution          │
-│ reads and updates    │           │ under SVM guest mode     │
-│ VMCB                 │           │                          │
-└─────────┬────────────┘           └──────────┬───────────────┘
-          │                                   │
-          │   return on intercept             │
-          └───────────────────────────────────┘
++----------------------+   VMRUN    +--------------------------+
+| Host / hypervisor    | -------->  | Guest execution          |
+| reads and updates    |           | under SVM guest mode     |
+| VMCB                 |           |                          |
++---------+------------+           +----------+---------------+
+          |                                   |
+          |   return on intercept             |
+          +-----------------------------------+
 ```
 
 결국 AMD-V의 필요성은 "게스트를 속여서 돌리는 기술"이 아니라 "게스트를 많이 건드리지 않고도 안전하게 함께 돌리는 기술"에 있다. 이 점이 서버 집적도와 클라우드 효율을 좌우한다.
@@ -123,21 +123,21 @@ AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [�
 
 ```text
 Software virtualization limits on x86
-    │
-    ▼
+    |
+    v
 AMD-V with SVM host / guest split
-    │
-    ▼
+    |
+    v
 VMCB-based control path
-    │
-    ▼
+    |
+    v
 NPT / RVI · ASID · AVIC
-    │
-    ▼
+    |
+    v
 SEV and confidential computing
 ```
 
-이 흐름은 "실행 분리 → 상태 관리 단순화 → 메모리/[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 → 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
+이 흐름은 "실행 분리 -> 상태 관리 단순화 -> 메모리/[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 -> 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +151,7 @@ SEV and confidential computing
 
 **진행 상황**: 660 / 803
 
-← **이전**: [658. Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)
-**다음**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) →
+<- **이전**: [658. Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)
+**다음**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ->
 
 ---

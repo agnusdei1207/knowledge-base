@@ -24,10 +24,10 @@ tags = ["studynote-bigdata"]
 "Garbage In, Garbage Out" — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석과 AI의 근본 원칙이다. 아무리 정교한 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 품질 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로는 신뢰할 수 없는 결과를 낸다.
 
 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제 사례:
-- **의료**: 잘못된 환자 정보 → 오진·약물 오처방
-- **금융**: 중복 거래 레코드 → 과장된 매출 보고
-- **물류**: 부정확한 주소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 배송 실패율 증가
-- **ML**: 편향된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 차별적 모델 출력
+- **의료**: 잘못된 환자 정보 -> 오진·약물 오처방
+- **금융**: 중복 거래 레코드 -> 과장된 매출 보고
+- **물류**: 부정확한 주소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 배송 실패율 증가
+- **ML**: 편향된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 차별적 모델 출력
 
 ### 1.2 [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) 6차원 개요
 
@@ -51,34 +51,34 @@ tags = ["studynote-bigdata"]
 ### 2.1 6차원 상세 설명
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 품질 6차원                            │
-│                                                              │
-│  ┌──────────────┐  완전성(Completeness)                      │
-│  │ NULL 비율    │  · 필수 항목 채움 비율 = 채워진 값/전체 × 100│
-│  │ 측정         │  · 목표: 핵심 필드 99.9% 이상              │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  정확성(Accuracy)                          │
-│  │ 외부 기준    │  · 실세계 정보와 일치 여부                  │
-│  │ 비교         │  · 검증: 공공 DB 대조, 현장 확인 샘플링     │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  일관성(Consistency)                       │
-│  │ 시스템 간    │  · 동일 속성이 다른 시스템 간 일치           │
-│  │ 비교         │  · 예: CRM 고객 나이 ≠ DW 고객 나이 → 불일치│
-│  └──────────────┘                                            │
-│  ┌──────────────┐  적시성(Timeliness)                        │
-│  │ SLA 기준     │  · 데이터가 사용 가능한 시점의 최신성        │
-│  │ 측정         │  · 배치: 매일 06:00 갱신 SLA              │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  유일성(Uniqueness)                        │
-│  │ 중복 탐지    │  · 동일 엔티티의 중복 레코드 없음            │
-│  │ 알고리즘     │  · 중복률 = 중복 레코드 수/전체 레코드 수    │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  유효성(Validity)                          │
-│  │ 규칙 검사    │  · 형식·도메인·참조 무결성 준수             │
-│  │ 엔진         │  · 예: 날짜 형식, 코드 목록, FK 무결성      │
-│  └──────────────┘                                            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  데이터 품질 6차원                            |
+|                                                              |
+|  +--------------+  완전성(Completeness)                      |
+|  | NULL 비율    |  · 필수 항목 채움 비율 = 채워진 값/전체 × 100|
+|  | 측정         |  · 목표: 핵심 필드 99.9% 이상              |
+|  +--------------+                                            |
+|  +--------------+  정확성(Accuracy)                          |
+|  | 외부 기준    |  · 실세계 정보와 일치 여부                  |
+|  | 비교         |  · 검증: 공공 DB 대조, 현장 확인 샘플링     |
+|  +--------------+                                            |
+|  +--------------+  일관성(Consistency)                       |
+|  | 시스템 간    |  · 동일 속성이 다른 시스템 간 일치           |
+|  | 비교         |  · 예: CRM 고객 나이 ≠ DW 고객 나이 -> 불일치|
+|  +--------------+                                            |
+|  +--------------+  적시성(Timeliness)                        |
+|  | SLA 기준     |  · 데이터가 사용 가능한 시점의 최신성        |
+|  | 측정         |  · 배치: 매일 06:00 갱신 SLA              |
+|  +--------------+                                            |
+|  +--------------+  유일성(Uniqueness)                        |
+|  | 중복 탐지    |  · 동일 엔티티의 중복 레코드 없음            |
+|  | 알고리즘     |  · 중복률 = 중복 레코드 수/전체 레코드 수    |
+|  +--------------+                                            |
+|  +--------------+  유효성(Validity)                          |
+|  | 규칙 검사    |  · 형식·도메인·참조 무결성 준수             |
+|  | 엔진         |  · 예: 날짜 형식, 코드 목록, FK 무결성      |
+|  +--------------+                                            |
++--------------------------------------------------------------+
 ```
 
 ### 2.2 품질 점수 계산
@@ -139,21 +139,21 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 
 ```
 [소스 데이터 추출]
-         │
-         ▼
-[DQ 검사 1: 완전성 + 유효성 검사] ──실패──▶ [격리(Quarantine) + 알림]
-         │통과
-         ▼
+         |
+         v
+[DQ 검사 1: 완전성 + 유효성 검사] --실패---> [격리(Quarantine) + 알림]
+         |통과
+         v
 [데이터 변환(Transformation)]
-         │
-         ▼
-[DQ 검사 2: 일관성 + 유일성 검사] ──실패──▶ [오류 로그 + 수동 검토 큐]
-         │통과
-         ▼
+         |
+         v
+[DQ 검사 2: 일관성 + 유일성 검사] --실패---> [오류 로그 + 수동 검토 큐]
+         |통과
+         v
 [목적 시스템 로드]
-         │
-         ▼
-[DQ 검사 3: 적시성 + 정확성 샘플링] ──실패──▶ [대시보드 경보]
+         |
+         v
+[DQ 검사 3: 적시성 + 정확성 샘플링] --실패---> [대시보드 경보]
 ```
 
 **"Fail Fast" 원칙**: 품질 문제는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최대한 앞단에서 잡아야 수정 비용 최소화.
@@ -187,7 +187,7 @@ FROM customers;
 
 | 효과 | 정량적 기대치 |
 |:---|:---|
-| [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 모델 정확도 | 품질 개선 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% → 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 5~15% 향상 |
+| [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 모델 정확도 | 품질 개선 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% -> 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 5~15% 향상 |
 | 운영 효율 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 재작업 비용 30~50% 절감 |
 | 규제 준수 | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 위반 위험 제거 |
 | 의사결정 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | "이 숫자를 믿을 수 있나?" 토론 시간 제거 |
@@ -218,17 +218,17 @@ FROM customers;
 
 ```text
 [데이터 수집 (Data Ingestion) — 원천 시스템에서 원시 데이터 유입]
-    │
-    ▼
+    |
+    v
 [데이터 품질 진단 (DQ Assessment) — 완전성·정확성·일관성·적시성 측정]
-    │
-    ▼
+    |
+    v
 [데이터 클렌징 (Data Cleansing) — 결측·중복·오류 데이터 처리]
-    │
-    ▼
+    |
+    v
 [마스터 데이터 관리 (MDM — Master Data Management) — 핵심 데이터 단일 진실 공급원 확보]
-    │
-    ▼
+    |
+    v
 [데이터 거버넌스 (Data Governance) — 지속적 품질 측정·정책·책임 체계 운영]
 ```
 
@@ -246,7 +246,7 @@ FROM customers;
 
 **진행 상황**: 201 / 262
 
-← **이전**: [194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)
-**다음**: [196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core](/knowledge-base/studynote/16_bigdata/10_governance/202_data_quality_tools/) →
+<- **이전**: [194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)
+**다음**: [196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core](/knowledge-base/studynote/16_bigdata/10_governance/202_data_quality_tools/) ->
 
 ---

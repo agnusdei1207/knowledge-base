@@ -44,19 +44,19 @@ tags = ["studynote-computer-architecture"]
 이 그림은 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 왜 "한 번 배달하고 끝"이 아니라, 코어 지역성과 코어 간 협업까지 포함하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Device / MSI-X Vector                                                       │
-│          │                                                                   │
-│          ▼                                                                   │
-│   Distributor / I/O APIC ── target mask / priority ──▶ Core Local IF        │
-│          │                                                    │              │
-│          ├─▶ Core 0                                           ├─▶ Core 1    │
-│          ├─▶ Core 2                                           └─▶ Core N    │
-│          │                                                                   │
-│          └────────────── IPI / reschedule / TLB shootdown ───────────────▶  │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| 멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다 |
++------------------------------------------------------------------------------+
+| Device / MSI-X Vector                                                       |
+|          |                                                                   |
+|          v                                                                   |
+|   Distributor / I/O APIC -- target mask / priority ---> Core Local IF        |
+|          |                                                    |              |
+|          +--> Core 0                                           +--> Core 1    |
+|          +--> Core 2                                           +--> Core N    |
+|          |                                                                   |
+|          +-------------- IPI / reschedule / TLB shootdown ---------------->  |
++------------------------------------------------------------------------------+
 ```
 
 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로를 맞추는 것이다. 예를 들어 16개의 수신 큐를 가진 NIC는 각 큐의 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 벡터를 해당 큐를 소비하는 코어에 붙일 때 가장 효율적이다. 반대로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 실제 패킷 처리는 다른 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서 하게 두면 캐시 라인 이동과 원격 메모리 접근이 늘어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
@@ -139,17 +139,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 코어 공유 IRQ
-        │
-        ▼
+        |
+        v
 대칭형 다중처리 (Symmetric Multiprocessing, SMP)용 I/O APIC · GIC Distributor
-        │
-        ▼
+        |
+        v
 MSI / MSI-X 기반 다중 큐 인터럽트
-        │
-        ▼
+        |
+        v
 NUMA-aware Affinity · IPI 최적화
-        │
-        ▼
+        |
+        v
 Interrupt Remapping · Posted Interrupt
 ```
 
@@ -167,7 +167,7 @@ Interrupt Remapping · Posted Interrupt
 
 **진행 상황**: 560 / 803
 
-← **이전**: [559. 벡터형 인터럽트 컨트롤러 (VIC: Vectored Interrupt Controller, NVIC: Nested Vectored](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/559_vic_nvic/)
-**다음**: [561. MSI (Message Signaled Interrupts)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) →
+<- **이전**: [559. 벡터형 인터럽트 컨트롤러 (VIC: Vectored Interrupt Controller, NVIC: Nested Vectored](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/559_vic_nvic/)
+**다음**: [561. MSI (Message Signaled Interrupts)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) ->
 
 ---

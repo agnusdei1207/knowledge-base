@@ -33,30 +33,30 @@ APM이 필요한 핵심 이유는 원인 분석 시간을 줄이기 위해서다
 
 APM은 보통 애플리케이션 에이전트, 텔레메트리 수집 경로, 분석 백엔드, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드로 구성된다. 에이전트는 애플리케이션 프로세스 안에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 호출, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 예외, 런타임 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 계측한다. 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [오픈텔레메트리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/) ([OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)) 또는 벤더 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 백엔드에 전송되고, 백엔드는 이를 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 뷰·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 맵·슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 분석으로 재구성한다.
 
-아래 그림은 APM이 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장이 아니라 "요청 발생 → 계측 → 집계 → 병목 분석"의 폐쇄 루프라는 점을 보여 준다.
+아래 그림은 APM이 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장이 아니라 "요청 발생 -> 계측 -> 집계 -> 병목 분석"의 폐쇄 루프라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    APM 데이터 처리 흐름                      │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                  │
-│     │                                                        │
-│     ▼                                                        │
-│ 애플리케이션 + APM Agent / OpenTelemetry SDK                │
-│     │                                                        │
-│     ├─ 트랜잭션 시간 · 오류 · 스팬(Span) 수집               │
-│     ├─ DB 쿼리 · 외부 API · 런타임 메트릭 수집              │
-│     ▼                                                        │
-│ Collector / Vendor Ingest                                   │
-│     │                                                        │
-│     ▼                                                        │
-│ APM Backend                                                  │
-│     ├─ 서비스 맵(Service Map)                                │
-│     ├─ 슬로우 트랜잭션 분석                                  │
-│     ├─ 오류 상관관계 분석                                    │
-│     ▼                                                        │
-│ 운영자 대시보드 · 알람 · 최적화 액션                         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                    APM 데이터 처리 흐름                      |
++--------------------------------------------------------------+
+| 사용자 요청                                                  |
+|     |                                                        |
+|     v                                                        |
+| 애플리케이션 + APM Agent / OpenTelemetry SDK                |
+|     |                                                        |
+|     +- 트랜잭션 시간 · 오류 · 스팬(Span) 수집               |
+|     +- DB 쿼리 · 외부 API · 런타임 메트릭 수집              |
+|     v                                                        |
+| Collector / Vendor Ingest                                   |
+|     |                                                        |
+|     v                                                        |
+| APM Backend                                                  |
+|     +- 서비스 맵(Service Map)                                |
+|     +- 슬로우 트랜잭션 분석                                  |
+|     +- 오류 상관관계 분석                                    |
+|     v                                                        |
+| 운영자 대시보드 · 알람 · 최적화 액션                         |
++--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -141,20 +141,20 @@ APM을 잘 설계하면 장애 원인 분석 시간이 단축되고, [성능](/k
 
 ```text
 인프라 모니터링
-    │
-    ▼
+    |
+    v
 관측성 (Observability)
-    │
-    ├─▶ 메트릭 · 로그
-    │
-    └─▶ 분산 추적 (Distributed Tracing)
-             │
-             ▼
+    |
+    +--> 메트릭 · 로그
+    |
+    +--> 분산 추적 (Distributed Tracing)
+             |
+             v
 APM (Application Performance Management)
-             │
-             ├─▶ RUM (Real User Monitoring)
-             ├─▶ Synthetic Monitoring
-             └─▶ SLO 기반 성능 운영
+             |
+             +--> RUM (Real User Monitoring)
+             +--> Synthetic Monitoring
+             +--> SLO 기반 성능 운영
 ```
 
 이 흐름은 운영 관점이 서버 자원 감시에서 출발해, 애플리케이션 내부 분석과 사용자 경험 연계까지 확장되는 과정을 보여 준다.
@@ -171,7 +171,7 @@ APM (Application Performance Management)
 
 **진행 상황**: 162 / 373
 
-← **이전**: [161. AIOps (Artificial Intelligence for IT Operations)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/161_aiops_anomaly_detection_auto_remediation/)
-**다음**: [163. RUM (Real User Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/163_rum_real_user_monitoring/) →
+<- **이전**: [161. AIOps (Artificial Intelligence for IT Operations)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/161_aiops_anomaly_detection_auto_remediation/)
+**다음**: [163. RUM (Real User Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/163_rum_real_user_monitoring/) ->
 
 ---

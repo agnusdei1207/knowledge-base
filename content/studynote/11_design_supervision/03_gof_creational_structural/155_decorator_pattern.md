@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴은 이 '서브클래스 폭발' 문제를 해결한다. `new WhipDecorator(new SugarDecorator(new MilkDecorator(new Coffee())))`처럼 런타임에 자유롭게 기능을 조합할 수 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│            데코레이터 패턴 구조                               │
-├─────────────────────────────────────────────────────────────┤
-│  Component (인터페이스)                                      │
-│  + operation(): void                                        │
-│       ▲                        ▲                            │
-│  ConcreteComponent        Decorator (추상)                  │
-│  (원본 객체)              - component: Component            │
-│  + operation(): void      + operation(): void {             │
-│                               component.operation();       │
-│                           }   // 위임 + 추가 기능           │
-│                                ▲                            │
-│                    ConcreteDecoratorA, ConcreteDecoratorB   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|            데코레이터 패턴 구조                               |
++-------------------------------------------------------------+
+|  Component (인터페이스)                                      |
+|  + operation(): void                                        |
+|       ^                        ^                            |
+|  ConcreteComponent        Decorator (추상)                  |
+|  (원본 객체)              - component: Component            |
+|  + operation(): void      + operation(): void {             |
+|                               component.operation();       |
+|                           }   // 위임 + 추가 기능           |
+|                                ^                            |
+|                    ConcreteDecoratorA, ConcreteDecoratorB   |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 아이스크림(원본 객체)에 토핑([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))을 하나씩 올리는 방식이다. 아이스크림 자체를 바꾸지 않고 런타임에 초콜릿·견과류·크림을 자유롭게 조합한다.
@@ -65,15 +65,15 @@ InputStream is = new GZIPInputStream(
 | ConcreteDecorator | 특정 기능 추가 | BufferedInputStream |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       데코레이터 체이닝 흐름                                 │
-├─────────────────────────────────────────────────────────────┤
-│  GZIPInputStream.read()                                     │
-│       └── BufferedInputStream.read() (버퍼링 처리)          │
-│               └── FileInputStream.read() (실제 파일 읽기)   │
-│                                                             │
-│  각 데코레이터가 책임을 추가하고 원본에 위임                │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       데코레이터 체이닝 흐름                                 |
++-------------------------------------------------------------+
+|  GZIPInputStream.read()                                     |
+|       +-- BufferedInputStream.read() (버퍼링 처리)          |
+|               +-- FileInputStream.read() (실제 파일 읽기)   |
+|                                                             |
+|  각 데코레이터가 책임을 추가하고 원본에 위임                |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 러시아 마트료시카 인형처럼, 바깥 인형([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))이 안쪽 인형(원본)을 감싸며 추가 기능을 더한다. 각 인형은 동일한 '인형 인터페이스'를 갖는다.
@@ -122,7 +122,7 @@ InputStream is = new GZIPInputStream(
 
 ### 📌 관련 개념 맵
 
-[상속 기반 기능 확장 한계] → [데코레이터 패턴(구성+위임)] → [Java IO [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)] → [스프링 AOP] → [함수형 미들웨어]
+[상속 기반 기능 확장 한계] -> [데코레이터 패턴(구성+위임)] -> [Java IO [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)] -> [스프링 AOP] -> [함수형 미들웨어]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -133,7 +133,7 @@ InputStream is = new GZIPInputStream(
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[상속 서브클래스 폭발] → [GoF [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴(1994)] → [Java IO 구현] → [스프링 AOP 선언적 데코레이터] → [함수형 미들웨어 패턴]
+[상속 서브클래스 폭발] -> [GoF [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴(1994)] -> [Java IO 구현] -> [스프링 AOP 선언적 데코레이터] -> [함수형 미들웨어 패턴]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +147,7 @@ InputStream is = new GZIPInputStream(
 
 **진행 상황**: 211 / 530
 
-← **이전**: [154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/)
-**다음**: [156. 파사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) →
+<- **이전**: [154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/)
+**다음**: [156. 파사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) ->
 
 ---

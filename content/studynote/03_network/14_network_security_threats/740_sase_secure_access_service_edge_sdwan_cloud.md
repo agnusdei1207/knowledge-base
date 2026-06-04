@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [SASE]
-    │
-    └──▶ [CASB]
+    |
+    +---> [CASB]
 ```
 
 - **📢 섹션 요약 비유**: SASE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ SASE는 단일 제품이 아니라, 여러 혁신 기술을 하나로 묶은 패
 
 ```text
 [마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [SASE]
-    │
-    └──▶ [CASB]
+    |
+    +---> [CASB]
 ```
 
 - **📢 섹션 요약 비유**: SASE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ SASE는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ```text
 [선행 개념: 마이크로 세그멘테이션]
-    │
-    ▼
+    |
+    v
 [현재 개념: SASE]
-    │
-    ├──▶ [확장 A: CASB]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: CASB]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 SASE는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CASB와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ SASE는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/2
 
 **진행 상황**: 861 / 1120
 
-← **이전**: [739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement](/knowledge-base/studynote/03_network/14_network_security_threats/739_micro_segmentation_lateral_movement_zero_trust/)
-**다음**: [741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) →
+<- **이전**: [739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement](/knowledge-base/studynote/03_network/14_network_security_threats/739_micro_segmentation_lateral_movement_zero_trust/)
+**다음**: [741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) ->
 
 ---

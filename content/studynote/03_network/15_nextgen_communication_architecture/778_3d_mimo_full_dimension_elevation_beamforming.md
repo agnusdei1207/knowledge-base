@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [빔포밍 트래킹 기술 체계]
-    │
-    ▼
+    |
+    v
 [3D MIMO 수직/수평 고차원 송수신 구조…]
-    │
-    └──▶ [BSS Coloring]
+    |
+    +---> [BSS Coloring]
 ```
 
 - **📢 섹션 요약 비유**: 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [빔포밍 트래킹 기술 체계]
-    │
-    ▼
+    |
+    v
 [3D MIMO 수직/수평 고차원 송수신 구조…]
-    │
-    └──▶ [BSS Coloring]
+    |
+    +---> [BSS Coloring]
 ```
 
 - **📢 섹션 요약 비유**: 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 빔포밍 트래킹 기술 체계]
-    │
-    ▼
+    |
+    v
 [현재 개념: 3D MIMO 수직/수평 고차원 송수신 구조…]
-    │
-    ├──▶ [확장 A: BSS Coloring]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
+    |
+    +---> [확장 A: BSS Coloring]
+    +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 899 / 1120
 
-← **이전**: [777. 빔포밍 트래킹 기술 체계 (Beam Tracking 개별 단말 핀포인트 추적 지향 전력량 최적화 증폭/간섭억제 타겟 통신 품질](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/777_beam_tracking_beamforming_5g_mmwave/)
-**다음**: [779. BSS Coloring (간섭 채널 색상 코드 배정 구분 노이즈 신호 차단 무선 채널 활용 체계 고밀도 효율화 기능망 확장 연대](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/) →
+<- **이전**: [777. 빔포밍 트래킹 기술 체계 (Beam Tracking 개별 단말 핀포인트 추적 지향 전력량 최적화 증폭/간섭억제 타겟 통신 품질](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/777_beam_tracking_beamforming_5g_mmwave/)
+**다음**: [779. BSS Coloring (간섭 채널 색상 코드 배정 구분 노이즈 신호 차단 무선 채널 활용 체계 고밀도 효율화 기능망 확장 연대](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/) ->
 
 ---

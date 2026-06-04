@@ -33,11 +33,11 @@ tags = ["studynote-it-management"]
 
 ```text
 고객
-  ↓ 사용
+  v 사용
 서비스 제공자
-  ↓ 측정
+  v 측정
 사용량 / 요금제 / 결제 / 고객 지원
-  ↓
+  v
 반복 매출
 ```
 
@@ -101,11 +101,11 @@ XaaS는 모든 것을 [서비스](/knowledge-base/studynote/13_cloud_architectur
 
 ```text
 소유
-  ↓
+  v
 구독
-  ↓
+  v
 사용량 측정 / 결제 / 유지
-  ↓
+  v
 반복 매출 / 고객 생애 가치
 ```
 
@@ -113,11 +113,11 @@ XaaS는 모든 것을 [서비스](/knowledge-base/studynote/13_cloud_architectur
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 제품 판매 중심 → 일회성 매출
-2. 구독 모델 → 반복 매출 구조
-3. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 전환 → XaaS 확장
-4. 사용량 측정과 고객 성공 → 유지 중심 운영
-5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 수익 관리 → 장기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 최적화
+1. 제품 판매 중심 -> 일회성 매출
+2. 구독 모델 -> 반복 매출 구조
+3. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 전환 -> XaaS 확장
+4. 사용량 측정과 고객 성공 -> 유지 중심 운영
+5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 수익 관리 -> 장기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 최적화
 
 ---
 
@@ -133,7 +133,7 @@ XaaS는 모든 것을 [서비스](/knowledge-base/studynote/13_cloud_architectur
 
 **진행 상황**: 100 / 587
 
-← **이전**: [56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험](/knowledge-base/studynote/12_it_management/01_governance_strategy/056_omni_channel/)
-**다음**: [58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) →
+<- **이전**: [56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험](/knowledge-base/studynote/12_it_management/01_governance_strategy/056_omni_channel/)
+**다음**: [58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) ->
 
 ---

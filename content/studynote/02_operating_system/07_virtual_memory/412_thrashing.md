@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. **재앙의 나비효과**: 새로 들어온 앱이 기존 앱의 얼마 안 남은 램마저 빼앗으면서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 지수함수적으로 대폭발.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        스래싱(Thrashing)이 폭발하는 연쇄 작용 (Doom Loop) 시각화       │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 1. 메모리 부족 시작 ]                                                │
-│  - 프로세스 A, B가 램(16GB)을 꽉 채우고 치열하게 전역 교체 싸움 중.    │
-│  - A가 B의 페이지를 뺏음 -> B가 폴트 나서 A의 페이지를 다시 뺏음.      │
-│                                                                        │
-│ [ 2. I/O 대기 (CPU 놀림) ]                                             │
-│  - A와 B 둘 다 디스크 스왑을 기다리느라 뻗음(Wait/Sleep).              │
-│  - CPU 사용률이 10%로 폭락함.                                          │
-│                                                                        │
-│ [ 3. 💥 멍청한 스케줄러의 자해 공갈 (치명상) ]                         │
-│  - OS 스케줄러: "CPU가 왜 10%밖에 안 돌아? 놀지 말고 일해!"            │
-│  - 강제로 새로운 프로세스 C를 램에 들이밀어 실행시킴 (Degree 상승).    │
-│                                                                        │
-│ [ 4. 스래싱 지옥 도래 ]                                                │
-│  - C가 들어오면서 A와 B의 마지막 남은 핵심 램마저 다 스왑으로 날려버림.│
-│  - A, B, C 세 놈이 0.1초마다 폴트를 뿜으며 디스크 암(Arm)을 찢어버림.  │
-│  - CPU 이용률 0%, 디스크 사용률 100%. 서버 뇌사 상태 돌입.             │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        스래싱(Thrashing)이 폭발하는 연쇄 작용 (Doom Loop) 시각화       |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 1. 메모리 부족 시작 ]                                                |
+|  - 프로세스 A, B가 램(16GB)을 꽉 채우고 치열하게 전역 교체 싸움 중.    |
+|  - A가 B의 페이지를 뺏음 -> B가 폴트 나서 A의 페이지를 다시 뺏음.      |
+|                                                                        |
+| [ 2. I/O 대기 (CPU 놀림) ]                                             |
+|  - A와 B 둘 다 디스크 스왑을 기다리느라 뻗음(Wait/Sleep).              |
+|  - CPU 사용률이 10%로 폭락함.                                          |
+|                                                                        |
+| [ 3. 💥 멍청한 스케줄러의 자해 공갈 (치명상) ]                         |
+|  - OS 스케줄러: "CPU가 왜 10%밖에 안 돌아? 놀지 말고 일해!"            |
+|  - 강제로 새로운 프로세스 C를 램에 들이밀어 실행시킴 (Degree 상승).    |
+|                                                                        |
+| [ 4. 스래싱 지옥 도래 ]                                                |
+|  - C가 들어오면서 A와 B의 마지막 남은 핵심 램마저 다 스왑으로 날려버림.|
+|  - A, B, C 세 놈이 0.1초마다 폴트를 뿜으며 디스크 암(Arm)을 찢어버림.  |
+|  - CPU 이용률 0%, 디스크 사용률 100%. 서버 뇌사 상태 돌입.             |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)은 단순한 메모리 부족 에러가 아니다. "시스템이 살려고 발버둥 치는 스케줄링 로직(CPU 가동률 높이기)"이 하필이면 "메모리 시스템의 숨통을 조이는 방향"으로 작용하여 서로 물고 물리며 침몰하는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 내부의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">Feedback Loop</a>) 모순</strong>이다. 이 고리를 끊으려면 누군가가 칼을 들어야 한다.
 
@@ -101,13 +101,13 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
 - 앱 하나가 즉사하며 10GB의 램이 허공에 확 풀린다. 폴트가 멈추고 디스크가 조용해지며 서버가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽에서 극적으로 구출된다.
 
 ```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 위기 단계  │ 램 가용 상태  │ OS의 대응 행동 │ 시스템 체감 상태      │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 1단계    │ 약간 부족   │ kswapd가 조용히 청소│ 쾌적함               │
-│ 2단계    │ 거의 바닥   │ 강제 폴트(Direct Reclaim)│ 마우스 툭툭 끊김│
-│ 3단계(스래싱)│ 완전 바닥   │ ☠️ OOM 킬러 발동 │ 앱 하나 강제 종료   │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
++----------+------------+------------+--------------------------------+
+| 위기 단계  | 램 가용 상태  | OS의 대응 행동 | 시스템 체감 상태      |
++----------+------------+------------+--------------------------------+
+| 1단계    | 약간 부족   | kswapd가 조용히 청소| 쾌적함               |
+| 2단계    | 거의 바닥   | 강제 폴트(Direct Reclaim)| 마우스 툭툭 끊김|
+| 3단계(스래싱)| 완전 바닥   | ☠️ OOM 킬러 발동 | 앱 하나 강제 종료   |
++----------+------------+------------+--------------------------------+
 ```
 **[매트릭스 해설]** 초보자들은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 앱을 죽이는 걸 보고 OS를 원망하지만, 사실 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 <strong>서버 전체가 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>에 빠져 모든 서비스가 영원히 멈추는 동반 자살을 막기 위해 자신의 팔을 자르는(Fail-fast) 위대한 구원자</strong>다.
 
@@ -168,12 +168,12 @@ iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메�
 
 ```text
 [에이징 (Aging) 기반 페이지 교체 로직]
-    │
-    ▼
+    |
+    v
 [스래싱 (Thrashing)]
-    │
-    ├──▶ [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-    └──▶ [스래싱 원인]
+    |
+    +---> [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
+    +---> [스래싱 원인]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -190,7 +190,7 @@ iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메�
 
 **진행 상황**: 412 / 800
 
-← **이전**: [411. 에이징 (Aging) 기반 페이지 교체 로직](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)
-**다음**: [413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프](/knowledge-base/studynote/02_operating_system/07_virtual_memory/413_degree_of_multiprogramming_cpu_utilization/) →
+<- **이전**: [411. 에이징 (Aging) 기반 페이지 교체 로직](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)
+**다음**: [413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프](/knowledge-base/studynote/02_operating_system/07_virtual_memory/413_degree_of_multiprogramming_cpu_utilization/) ->
 
 ---

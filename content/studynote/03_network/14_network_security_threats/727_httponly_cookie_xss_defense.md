@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
+    |
+    v
 [XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    └──▶ [크로스 사이트 스크립팅 (XSS]
+    |
+    +---> [크로스 사이트 스크립팅 (XSS]
 ```
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
+    |
+    v
 [XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    └──▶ [크로스 사이트 스크립팅 (XSS]
+    |
+    +---> [크로스 사이트 스크립팅 (XSS]
 ```
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
+    |
+    v
 [현재 개념: XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    ├──▶ [확장 A: 크로스 사이트 스크립팅 (XSS]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 크로스 사이트 스크립팅 (XSS]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 무차별 대입 공격 통신 로그인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격에서 출발해 현재 메커니즘을 정교화하고, 이후 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 848 / 1120
 
-← **이전**: [726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)
-**다음**: [728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) →
+<- **이전**: [726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)
+**다음**: [728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) ->
 
 ---

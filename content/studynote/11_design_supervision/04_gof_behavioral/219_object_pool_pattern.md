@@ -28,30 +28,30 @@ tags = ["studynote-design-supervision"]
 
 이런 객체를 요청마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸하면:
 - 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 처리 시간을 초과)
-- DB 연결 한도 초과 → 연결 거부(Connection Refused)
-- GC 압박 → [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 급증
+- DB 연결 한도 초과 -> 연결 거부(Connection Refused)
+- GC 압박 -> [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 급증
 
 ```
 풀 초기화 (Startup):
-  └→ N개 객체를 미리 생성하여 IDLE 상태로 대기
+  +-> N개 객체를 미리 생성하여 IDLE 상태로 대기
 
 대여 (Acquire):
-  └→ Client가 풀에 객체 요청
-     ├─ IDLE 객체 존재 → 즉시 반환
-     └─ IDLE 없음      → 대기(Wait) 또는 타임아웃(Timeout) 후 예외
+  +-> Client가 풀에 객체 요청
+     +- IDLE 객체 존재 -> 즉시 반환
+     +- IDLE 없음      -> 대기(Wait) 또는 타임아웃(Timeout) 후 예외
 
 사용 (Use):
-  └→ Client가 객체로 작업 수행
+  +-> Client가 객체로 작업 수행
 
 반납 (Release):
-  └→ 객체를 IDLE 상태로 풀에 반환 (소멸 X)
-     └→ 다음 대여자가 즉시 재사용
+  +-> 객체를 IDLE 상태로 풀에 반환 (소멸 X)
+     +-> 다음 대여자가 즉시 재사용
 ```
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 도서관 대출 시스템 — 책(객체)이 없어질 때마다 새로 인쇄하는 것이 아니라, 반납된 책을 다시 대출하는 방식으로 비용을 아낀다.
@@ -60,24 +60,24 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌───────────────────────────────────────────────────────────────┐
-│                    Object Pool Pattern                        │
-│                                                               │
-│  ┌───────────┐  Acquire()   ┌────────────────────────────┐   │
-│  │  Client A │─────────────▶│         Object Pool        │   │
-│  └─────┬─────┘              │  ┌──────┐ ┌──────┐         │   │
-│        │                    │  │ Obj1 │ │ Obj2 │  ...    │   │
-│        │ Use                │  │BUSY  │ │IDLE  │         │   │
-│        │                    │  └──────┘ └──────┘         │   │
-│  ┌─────▼─────┐  Release()   │                            │   │
-│  │  Client A │─────────────▶│  재사용 (소멸하지 않음)      │   │
-│  └───────────┘              └────────────────────────────┘   │
-│                                                               │
-│  IDLE 없을 때:                                                 │
-│  ┌───────────┐              ┌────────────────────────────┐   │
-│  │  Client B │─ Acquire() ─▶│  대기(Wait) or 타임아웃     │   │
-│  └───────────┘              └────────────────────────────┘   │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|                    Object Pool Pattern                        |
+|                                                               |
+|  +-----------+  Acquire()   +----------------------------+   |
+|  |  Client A |-------------->|         Object Pool        |   |
+|  +-----+-----+              |  +------+ +------+         |   |
+|        |                    |  | Obj1 | | Obj2 |  ...    |   |
+|        | Use                |  |BUSY  | |IDLE  |         |   |
+|        |                    |  +------+ +------+         |   |
+|  +-----v-----+  Release()   |                            |   |
+|  |  Client A |-------------->|  재사용 (소멸하지 않음)      |   |
+|  +-----------+              +----------------------------+   |
+|                                                               |
+|  IDLE 없을 때:                                                 |
+|  +-----------+              +----------------------------+   |
+|  |  Client B |- Acquire() -->|  대기(Wait) or 타임아웃     |   |
+|  +-----------+              +----------------------------+   |
++---------------------------------------------------------------+
 ```
 
 | 파라미터 | 설명 | 기본값 |
@@ -96,7 +96,7 @@ Little's Law: L = λ × W
   W = 요청당 평균 처리 시간 (초)
 
 예시:
-  초당 100 요청, 평균 처리 시간 0.05초(50ms) → DB 쿼리 포함
+  초당 100 요청, 평균 처리 시간 0.05초(50ms) -> DB 쿼리 포함
   L = 100 × 0.05 = 5 커넥션 (평균 동시 사용)
   풀 크기 권장 = L × 1.5 ~ 2 = 7~10 커넥션
 ```
@@ -116,17 +116,17 @@ Little's Law: L = λ × W
 
 ```
 풀 객체 누수 시나리오:
-  1. 대여 후 예외 발생 → finally/close() 미호출 → 영구 BUSY 상태
-  2. 풀 크기 점점 감소 → 결국 모든 요청 타임아웃
+  1. 대여 후 예외 발생 -> finally/close() 미호출 -> 영구 BUSY 상태
+  2. 풀 크기 점점 감소 -> 결국 모든 요청 타임아웃
 
 방지 전략:
   1. try-with-resources 강제 사용:
      try (Connection conn = pool.acquire()) {
          // 사용
-     } // AutoCloseable.close() → 자동 반납
+     } // AutoCloseable.close() -> 자동 반납
 
   2. Leak Detection Timeout (HikariCP: leakDetectionThreshold):
-     일정 시간 이상 체크아웃된 커넥션 → 경고 로그 출력
+     일정 시간 이상 체크아웃된 커넥션 -> 경고 로그 출력
 
   3. 커넥션 최대 수명 설정 (maxLifetime):
      DB 서버가 커넥션을 먼저 끊을 때 대비
@@ -203,7 +203,7 @@ Object Pool 패턴은 [성능](/knowledge-base/studynote/04_software_engineering
 | 연관 개념 | try-with-resources | 자동 반납을 보장하는 Java 문법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-재사용 자원 → 객체 풀 패턴 → 연결 풀·버퍼 풀
+재사용 자원 -> 객체 풀 패턴 -> 연결 풀·버퍼 풀
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 도서관에서 책(DB 커넥션)을 매번 새로 인쇄([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))하는 게 아니라, 반납된 책을 다시 빌려주는 것이 객체 풀이야.
@@ -216,7 +216,7 @@ Object Pool 패턴은 [성능](/knowledge-base/studynote/04_software_engineering
 
 **진행 상황**: 280 / 530
 
-← **이전**: [218. 불변 객체 패턴 (Immutable Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/218_immutable_object_pattern/)
-**다음**: [220. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/) →
+<- **이전**: [218. 불변 객체 패턴 (Immutable Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/218_immutable_object_pattern/)
+**다음**: [220. 콜백 패턴 (Callback Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/220_callback_pattern/) ->
 
 ---

@@ -31,27 +31,27 @@ tags = ["studynote-bigdata"]
 ### 클릭스트림 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│              클릭스트림 실시간 분석 파이프라인                      │
-├────────────────────────────────────────────────────────────────────┤
-│  [이벤트 수집]                                                     │
-│   브라우저 JavaScript SDK / 모바일 SDK                             │
-│   클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료                       │
-│       │                                                            │
-│       ▼                                                            │
-│  [이벤트 스트림]                                                   │
-│   Apache Kafka (초당 수백만 이벤트 버퍼링)                         │
-│       │                                                            │
-│       ▼                                                            │
-│  [스트림 처리 (실시간)]       [배치 처리 (일/주/월)]               │
-│   Apache Spark Streaming      Apache Spark SQL                     │
-│   Apache Flink                데이터 웨어하우스 (BigQuery/Redshift) │
-│       │                              │                             │
-│       ▼                              ▼                             │
-│  [실시간 대시보드]            [분석 리포트]                         │
-│  A/B 테스트 모니터링         퍼널 분석, 코호트 분석                 │
-│  이상 트래픽 감지             경로 분석, 세그먼트 분석              │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|              클릭스트림 실시간 분석 파이프라인                      |
++--------------------------------------------------------------------+
+|  [이벤트 수집]                                                     |
+|   브라우저 JavaScript SDK / 모바일 SDK                             |
+|   클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료                       |
+|       |                                                            |
+|       v                                                            |
+|  [이벤트 스트림]                                                   |
+|   Apache Kafka (초당 수백만 이벤트 버퍼링)                         |
+|       |                                                            |
+|       v                                                            |
+|  [스트림 처리 (실시간)]       [배치 처리 (일/주/월)]               |
+|   Apache Spark Streaming      Apache Spark SQL                     |
+|   Apache Flink                데이터 웨어하우스 (BigQuery/Redshift) |
+|       |                              |                             |
+|       v                              v                             |
+|  [실시간 대시보드]            [분석 리포트]                         |
+|  A/B 테스트 모니터링         퍼널 분석, 코호트 분석                 |
+|  이상 트래픽 감지             경로 분석, 세그먼트 분석              |
++--------------------------------------------------------------------+
 ```
 
 ### 핵심 분석 유형
@@ -106,10 +106,10 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 ### 적용 시나리오
 
-1. **이커머스 퍼널 최적화**: 상품 조회→장바구니→결제 각 단계 이탈율 분석 → 이탈 원인 제거
-2. **콘텐츠 플랫폼 추천**: 시청/클릭 이력 실시간 분석 → 다음 추천 콘텐츠 개인화
-3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 → 낮은 사용 기능 UX 재설계 또는 제거
-4. **광고 효율화**: 광고 클릭 → 전환까지의 경로 분석 → 어트리뷰션 모델 최적화
+1. **이커머스 퍼널 최적화**: 상품 조회->장바구니->결제 각 단계 이탈율 분석 -> 이탈 원인 제거
+2. **콘텐츠 플랫폼 추천**: 시청/클릭 이력 실시간 분석 -> 다음 추천 콘텐츠 개인화
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 -> 낮은 사용 기능 UX 재설계 또는 제거
+4. **광고 효율화**: 광고 클릭 -> 전환까지의 경로 분석 -> 어트리뷰션 모델 최적화
 
 ### [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -161,18 +161,18 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 ```text
 [사용자 행동 이벤트 수집 (클릭·스크롤·페이지뷰)]
-    │
-    ▼
+    |
+    v
 [Apache Kafka (실시간 이벤트 스트리밍 수집)]
-    │
-    ▼
+    |
+    v
 [Apache Spark Streaming (실시간 집계 및 세션화)]
-    │
-    ▼
+    |
+    v
 [퍼널 분석 / 코호트 분석 (전환율·이탈 패턴 도출)]
-    │
-    ▼
-[A/B 테스트 → 제품 개선 (First-Party 데이터 전략)]
+    |
+    v
+[A/B 테스트 -> 제품 개선 (First-Party 데이터 전략)]
 ```
 클릭스트림은 Kafka로 수집·Spark로 집계하여 퍼널/코호트 분석으로 전환율 패턴을 도출하고, A/B 테스트를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 제품 개선 사이클로 완결된다.
 
@@ -187,7 +187,7 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 **진행 상황**: 120 / 262
 
-← **이전**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)
-**다음**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/knowledge-base/studynote/16_bigdata/05_analysis/121_ab_testing/) →
+<- **이전**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)
+**다음**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/knowledge-base/studynote/16_bigdata/05_analysis/121_ab_testing/) ->
 
 ---

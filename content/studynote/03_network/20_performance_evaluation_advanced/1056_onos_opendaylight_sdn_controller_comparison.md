@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [화이트박스 OCP 스위치]
-    │
-    ▼
+    |
+    v
 [ONOS / OpenDaylight 구조 모…]
-    │
-    └──▶ [NETCONF / YANG 모델링 규격체]
+    |
+    +---> [NETCONF / YANG 모델링 규격체]
 ```
 
 - **📢 섹션 요약 비유**: ONOS / OpenDaylight 구조 모…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [화이트박스 OCP 스위치]
-    │
-    ▼
+    |
+    v
 [ONOS / OpenDaylight 구조 모…]
-    │
-    └──▶ [NETCONF / YANG 모델링 규격체]
+    |
+    +---> [NETCONF / YANG 모델링 규격체]
 ```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 컨트롤러 대전은 <strong>'종합병원(ODL)'</strong>과 <strong>'최전방 119 응급센터(ONOS)'</strong>의 차이입니다. <strong>OpenDaylight(ODL)</strong>는 온갖 과(내과, 외과, 치과)가 다 모여있는 거대한 종합병원입니다. 옛날 구형 장비(할아버지 환자)든 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 장비(신생아)든 가리지 않고 다 진료할 수 있는 완벽한 번역 데스크(MD-SAL)를 갖추고 있어 기존 기업망에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편합니다. 반면 <strong>ONOS</strong>는 오직 목숨이 경각에 달린 대규모 응급 환자만 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 살려내는 야전 119 센터입니다. 자질구레한 동네 환자(레거시)는 받지 않는 대신, 응급실 건물이 폭격을 맞아 무너지면 0.1초 만에 옆 동네 응급실([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터링)이 튀어나와 수술을 1도 멈추지 않고 이어가는 미친 생존력에 올인했기 때문에 단 한 번도 인터넷이 끊기면 안 되는 전국망 통신사들의 심장으로 채택되었습니다.
@@ -131,12 +131,12 @@ ONOS / OpenDaylight 구조 모…는 [성능](/knowledge-base/studynote/04_softw
 
 ```text
 [선행 개념: 화이트박스 OCP 스위치]
-    │
-    ▼
+    |
+    v
 [현재 개념: ONOS / OpenDaylight 구조 모…]
-    │
-    ├──▶ [확장 A: NETCONF / YANG 모델링 규격체]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: NETCONF / YANG 모델링 규격체]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 ONOS / OpenDaylight 구조 모…는 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 출발해 현재 메커니즘을 정교화하고, 이후 NETCONF / YANG 모델링 규격체와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -153,7 +153,7 @@ ONOS / OpenDaylight 구조 모…는 화이트박스 [OCP](/knowledge-base/study
 
 **진행 상황**: 161 / 1120
 
-← **이전**: [1055. 화이트박스 OCP 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/)
-**다음**: [1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1057_netconf_yang_network_configuration_modeling/) →
+<- **이전**: [1055. 화이트박스 OCP 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/)
+**다음**: [1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1057_netconf_yang_network_configuration_modeling/) ->
 
 ---

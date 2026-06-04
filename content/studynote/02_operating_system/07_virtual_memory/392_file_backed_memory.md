@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
   3. **mmap의 탄생**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주소를 냅다 프로세스의 가상 주소 공간에 꽂아버려([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 프로세스가 램 변수를 건드리듯 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 조작하면 하드웨어가 알아서 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 터뜨려 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 로드하게 만드는 천재적 융합이 일어났다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조        │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함 ]                   │
-│                                                                        │
-│ ▶ 1. 타겟 A: 익명 메모리 (힙/스택)                                     │
-│   - OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"   │
-│   - 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️             │
-│                                                                        │
-│ ▶ 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)                 │
-│   - OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"   │
-│   - 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀               │
-│                                                                        │
-│ ▶ 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)                  │
-│   - OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"│
-│   - 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.       │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|        파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조        |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함 ]                   |
+|                                                                        |
+| -> 1. 타겟 A: 익명 메모리 (힙/스택)                                     |
+|   - OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"   |
+|   - 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️             |
+|                                                                        |
+| -> 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)                 |
+|   - OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"   |
+|   - 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀               |
+|                                                                        |
+| -> 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)                  |
+|   - OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"|
+|   - 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.       |
++------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 이것이 리눅스가 램 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 상황을 귀신같이 피하면서 버티는 진짜 이유다. 리눅스의 램에는 사실 내가 실행한 수많은 프로그램의 '실행 코드([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed)'들이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache) 형태로 가득 차 있다. 램이 모자라는 순간, OS는 이 코드들을 스왑 디스크에 쓰는 수고 없이 그냥 램 매핑만 툭툭 끊어버려 순식간에 수 기가바이트의 빈 램(Free Frame)을 창출해 낸다.
 
@@ -102,12 +102,12 @@ tags = ["studynote-operating-system"]
 - 즉, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리는 OS의 가장 거대하고 유연한 완충 지대(Shock Absorber)</strong>로서, 시스템의 체감 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 속도에서 RAM 속도로 끌어올려 주는 기적의 캐시다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 램 부족 시 │ Clean 파일 │ Dirty 파일 │ 익명(스택/힙)       │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ OS의 조치  │ 1순위 사살   │ 2순위 디스크 씀│ 3순위 스왑 씀 │
-│ 지연 시간  │ 🚀 로켓 속도 │ 🐢 느려짐    │ ☠️ 지옥의 렉    │
-└──────────┴────────────┴────────────┴───────────────────────┘
++----------+------------+------------+-----------------------+
+| 램 부족 시 | Clean 파일 | Dirty 파일 | 익명(스택/힙)       |
++----------+------------+------------+-----------------------+
+| OS의 조치  | 1순위 사살   | 2순위 디스크 씀| 3순위 스왑 씀 |
+| 지연 시간  | 🚀 로켓 속도 | 🐢 느려짐    | ☠️ 지옥의 렉    |
++----------+------------+------------+-----------------------+
 ```
 **[매트릭스 해설]** 리눅스의 메모리 회수(Reclaim) 정책의 뼈대다. 가장 싸고 버리기 쉬운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(Clean)부터 죽여서 램을 확보한다. 만약 Clean 캐시가 다 말라서 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)를 스왑으로 밀어내야 하는 순간이 오면, 그때부터 시스템은 멈추기([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 시작한다.
 
@@ -166,12 +166,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [익명 메모리 (Anonymous Memory)]
-    │
-    ▼
+    |
+    v
 [파일 지원 메모리 (File-backed Memory)]
-    │
-    ├──▶ [쓰기 시 복사 (COW, Copy-on-Write)]
-    └──▶ [vfork()]
+    |
+    +---> [쓰기 시 복사 (COW, Copy-on-Write)]
+    +---> [vfork()]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -188,7 +188,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 392 / 800
 
-← **이전**: [391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)
-**다음**: [393. 쓰기 시 복사 (COW, Copy-on-Write) - fork() 시 자원 공유하다 쓸 때 페이지 복제](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) →
+<- **이전**: [391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)
+**다음**: [393. 쓰기 시 복사 (COW, Copy-on-Write) - fork() 시 자원 공유하다 쓸 때 페이지 복제](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) ->
 
 ---

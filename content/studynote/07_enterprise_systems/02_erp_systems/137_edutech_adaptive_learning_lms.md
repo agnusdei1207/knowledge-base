@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EduTech는 <strong>교육에 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>·빅데이터·VR을 적용</strong>하는 기술이며, 적응형 학습(Adaptive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 <strong>학습자의 수준·패턴을 AI가 분석하여 맞춤 콘텐츠·속도·난이도를 자동 조절</strong>하는 개인화 학습 시스템이다.
 > 2. **가치**: 일률적 교육(One-size-fits-all)은 상위권에는 지루하고 하위권에는 어렵지만, 적응형 학습은 <strong>각자의 수준에 맞는 최적 경로</strong>를 제공하여 학습 효율을 극대화한다.
-> 3. **판단 포인트**: LMS([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, 학습 관리)→LXP([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Experience Platform, 학습 경험)로 진화하고 있으며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 튜터·VR 실습이 핵심 트렌드이다.
+> 3. **판단 포인트**: LMS([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, 학습 관리)->LXP([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Experience Platform, 학습 경험)로 진화하고 있으며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 튜터·VR 실습이 핵심 트렌드이다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-enterprise-systems"]
 ```text
 LMS: 강좌 관리·출석·성적 (관리자 중심)
 LXP: 추천·소셜·맞춤 경로 (학습자 중심)
-적응형 학습: AI가 학습자 수준 분석 → 맞춤 콘텐츠 제공
+적응형 학습: AI가 학습자 수준 분석 -> 맞춤 콘텐츠 제공
 ```
 
 - **📢 섹션 요약 비유**: 일률적 교육은 **기성복**, 적응형 학습은 <strong>맞춤복</strong>이다. 체형(수준)에 딱 맞는 옷(콘텐츠)을 제공한다.
@@ -47,10 +47,10 @@ LXP: 추천·소셜·맞춤 경로 (학습자 중심)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[e-Learning (2000s)] → [LMS (Moodle, 2002)]
-    → [MOOC (Coursera, 2012)] → [LXP (2018~)]
-    → [적응형 학습 (AI, 2020~)]
-    → [현재: AI 튜터 (ChatGPT 기반 개인 교사)]
+[e-Learning (2000s)] -> [LMS (Moodle, 2002)]
+    -> [MOOC (Coursera, 2012)] -> [LXP (2018~)]
+    -> [적응형 학습 (AI, 2020~)]
+    -> [현재: AI 튜터 (ChatGPT 기반 개인 교사)]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -64,7 +64,7 @@ LXP: 추천·소셜·맞춤 경로 (학습자 중심)
 
 **진행 상황**: 137 / 482
 
-← **이전**: [136. PropTech (부동산 기술) - 디지털 부동산 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/136_proptech_property_technology_real_estate/)
-**다음**: [138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/138_digital_onboarding_automation_ux/) →
+<- **이전**: [136. PropTech (부동산 기술) - 디지털 부동산 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/136_proptech_property_technology_real_estate/)
+**다음**: [138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/138_digital_onboarding_automation_ux/) ->
 
 ---

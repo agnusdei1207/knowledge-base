@@ -26,28 +26,28 @@ tags = ["studynote-computer-architecture"]
 이 그림은 ECC가 왜 필요한지를 "오류 발생 자체"보다 "오류가 어떤 결과로 흘러가느냐" 관점에서 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              메모리 오류가 서비스 장애로 번지는 경로                │
-├──────────────────────────────────────────────────────────────────────┤
-│  물리적 원인                                                         │
-│  방사선 · 잡음 · 열화                                                │
-│          │                                                           │
-│          ▼                                                           │
-│  DRAM 셀 비트 반전                                                   │
-│          │                                                           │
-│          ├─────────────── ECC 없음 ───────────────┐                  │
-│          │                                        │                  │
-│          ▼                                        ▼                  │
-│  잘못된 데이터 사용                              즉시 크래시         │
-│          │                                        │                  │
-│          ▼                                        ▼                  │
-│  SDC (Silent Data Corruption)                    서비스 중단         │
-│                                                                     │
-│          └─────────────── ECC 있음 ───────────────┐                  │
-│                                                   │                  │
-│                                                   ▼                  │
-│                              1비트 정정 또는 2비트 탐지 후 경보      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|              메모리 오류가 서비스 장애로 번지는 경로                |
++----------------------------------------------------------------------+
+|  물리적 원인                                                         |
+|  방사선 · 잡음 · 열화                                                |
+|          |                                                           |
+|          v                                                           |
+|  DRAM 셀 비트 반전                                                   |
+|          |                                                           |
+|          +--------------- ECC 없음 ---------------+                  |
+|          |                                        |                  |
+|          v                                        v                  |
+|  잘못된 데이터 사용                              즉시 크래시         |
+|          |                                        |                  |
+|          v                                        v                  |
+|  SDC (Silent Data Corruption)                    서비스 중단         |
+|                                                                     |
+|          +--------------- ECC 있음 ---------------+                  |
+|                                                   |                  |
+|                                                   v                  |
+|                              1비트 정정 또는 2비트 탐지 후 경보      |
++----------------------------------------------------------------------+
 ```
 
 핵심은 오류를 "없애는" 것이 아니라, 오류가 계산 결과와 저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 전파되기 전에 차단하는 데 있다. 따라서 ECC는 고장 방지 기술이라기보다 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 보존 기술</strong>로 기억하는 편이 정확하다.
@@ -73,22 +73,22 @@ syndrome은 "어느 위치가 틀렸는지"를 가리키는 오류 서명이다.
 이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기에서 ECC가 어떤 정보 흐름으로 동작하는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    ECC 메모리의 쓰기/읽기 흐름                      │
-├──────────────────────────────────────────────────────────────────────┤
-│  [쓰기 경로]                                                         │
-│  CPU 데이터 64b ──▶ ECC 엔진 ──▶ 코드 8b 계산 ──▶ 72b 저장           │
-│                                                                     │
-│  [읽기 경로]                                                         │
-│  72b 읽기 ──▶ ECC 엔진 재계산 ──▶ syndrome 판정                      │
-│                                 │                                   │
-│                                 ├─ 00000000 ─▶ 정상 데이터 전달      │
-│                                 ├─ 단일 위치값 ─▶ 1비트 정정 후 전달 │
-│                                 └─ 그 외 패턴 ─▶ 2비트 이상 탐지     │
-│                                                   │                 │
-│                                                   ▼                 │
-│                                   MCE 발생 또는 페이지 격리         │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                    ECC 메모리의 쓰기/읽기 흐름                      |
++----------------------------------------------------------------------+
+|  [쓰기 경로]                                                         |
+|  CPU 데이터 64b ---> ECC 엔진 ---> 코드 8b 계산 ---> 72b 저장           |
+|                                                                     |
+|  [읽기 경로]                                                         |
+|  72b 읽기 ---> ECC 엔진 재계산 ---> syndrome 판정                      |
+|                                 |                                   |
+|                                 +- 00000000 --> 정상 데이터 전달      |
+|                                 +- 단일 위치값 --> 1비트 정정 후 전달 |
+|                                 +- 그 외 패턴 --> 2비트 이상 탐지     |
+|                                                   |                 |
+|                                                   v                 |
+|                                   MCE 발생 또는 페이지 격리         |
++----------------------------------------------------------------------+
 ```
 
 실무적으로는 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 오버헤드가 생각보다 작다. 저장 용량은 약 12.5%의 여분 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요하지만, 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 지연은 메모리 접근 전체에서 일부에 불과해 일반적인 서버 워크로드에서는 체감이 크지 않다. 대신 정정 불가 오류를 빨리 식별해 장애 범위를 줄이는 편익이 훨씬 크다.
@@ -173,23 +173,23 @@ ECC를 이해하려면 비ECC 메모리, 칩킬 [ECC](/knowledge-base/studynote/
 
 ```text
 소프트 에러 (Soft Error) 증가와 메모리 고밀도화
-    │
-    ▼
+    |
+    v
 패리티 검사 한계 인식
-    │
-    ▼
+    |
+    v
 ECC (Error-Correcting Code) 메모리 · SECDED
-    │
-    ├──────────────▶ 메모리 스크러빙 (Memory Scrubbing)
-    │
-    ▼
+    |
+    +---------------> 메모리 스크러빙 (Memory Scrubbing)
+    |
+    v
 Chipkill ECC
-    │
-    ▼
+    |
+    v
 메모리 미러링 (Memory Mirroring) · RAS (Reliability, Availability, Serviceability)
 ```
 
-이 흐름은 "단순 검출 → 자동 정정 → 칩 단위 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 채널 단위 고가용성"으로 메모리 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 계층이 확장되는 방향을 보여준다.
+이 흐름은 "단순 검출 -> 자동 정정 -> 칩 단위 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) -> 채널 단위 고가용성"으로 메모리 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 계층이 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -203,7 +203,7 @@ Chipkill ECC
 
 **진행 상황**: 464 / 803
 
-← **이전**: [462. 소프트 에러 (Soft Error)와 하드 에러 (Hard Error)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)
-**다음**: [464. 메모리 미러링 (Memory Mirroring)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/464_memory_mirroring/) →
+<- **이전**: [462. 소프트 에러 (Soft Error)와 하드 에러 (Hard Error)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)
+**다음**: [464. 메모리 미러링 (Memory Mirroring)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/464_memory_mirroring/) ->
 
 ---

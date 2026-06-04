@@ -35,11 +35,11 @@ Flink는 배치(Batch)를 유한한 스트림(Bounded [Stream](/knowledge-base/s
 
 ```
 무한 스트림 (Unbounded Stream):
-  Kafka ──► [Flink] ──► 실시간 대시보드
+  Kafka --► [Flink] --► 실시간 대시보드
   이벤트가 끊임없이 흘러옴
 
 유한 스트림 (Bounded Stream = 배치):
-  HDFS 파일 ──► [Flink] ──► 배치 집계 결과
+  HDFS 파일 --► [Flink] --► 배치 집계 결과
   데이터가 시작과 끝이 있음
 ```
 
@@ -52,24 +52,24 @@ Flink는 배치(Batch)를 유한한 스트림(Bounded [Stream](/knowledge-base/s
 ### 2.1 Flink 아키텍처
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Flink 클러스터                             │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │             JobManager                               │   │
-│  │  - 잡 스케줄링 (Job Scheduling)                      │   │
-│  │  - 체크포인트 조율 (Checkpoint Coordination)         │   │
-│  │  - 장애 복구 (Fault Recovery)                        │   │
-│  └──────────────────────┬──────────────────────────────┘   │
-│                          │ 태스크 배분                        │
-│    ┌─────────────────────┼─────────────────────────────┐    │
-│    ▼                     ▼                             ▼    │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │ TaskManager  │  │ TaskManager  │  │ TaskManager  │     │
-│  │  Slot 1~N    │  │  Slot 1~N    │  │  Slot 1~N    │     │
-│  │  실제 처리   │  │  실제 처리   │  │  실제 처리   │     │
-│  └──────────────┘  └──────────────┘  └──────────────┘     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                    Flink 클러스터                             |
+|                                                             |
+|  +-----------------------------------------------------+   |
+|  |             JobManager                               |   |
+|  |  - 잡 스케줄링 (Job Scheduling)                      |   |
+|  |  - 체크포인트 조율 (Checkpoint Coordination)         |   |
+|  |  - 장애 복구 (Fault Recovery)                        |   |
+|  +----------------------+------------------------------+   |
+|                          | 태스크 배분                        |
+|    +---------------------+-----------------------------+    |
+|    v                     v                             v    |
+|  +--------------+  +--------------+  +--------------+     |
+|  | TaskManager  |  | TaskManager  |  | TaskManager  |     |
+|  |  Slot 1~N    |  |  Slot 1~N    |  |  Slot 1~N    |     |
+|  |  실제 처리   |  |  실제 처리   |  |  실제 처리   |     |
+|  +--------------+  +--------------+  +--------------+     |
++-------------------------------------------------------------+
 ```
 
 ### 2.2 시간 개념 3종
@@ -86,11 +86,11 @@ Flink는 이벤트 시간 처리에서 3가지 시간 개념을 엄격히 구분
 실제 시나리오 (이벤트 시간 역전):
 
 이벤트 발생:   10:00:01  10:00:02  10:00:03  10:00:04
-                │         │         │         │
+                |         |         |         |
 네트워크 지연:  정상      지연2초   정상      지연5초
-                │         │         │         │
+                |         |         |         |
 Flink 도착:    10:00:01  10:00:03  10:00:03  10:00:09
-                                   ↑          ↑
+                                   ^          ^
                                순서 역전!  늦게 도착!
 ```
 
@@ -105,15 +105,15 @@ Watermark = max(event_time_seen) - max_out_of_orderness
 이벤트 도착: 10:00:10
 워터마크   : 10:00:05
 
-→ 10:00:05 이전 이벤트는 더 이상 기다리지 않고 윈도우 닫음
-→ 10:00:05 이후 늦게 도착하는 이벤트는 '지연 데이터'로 처리
+-> 10:00:05 이전 이벤트는 더 이상 기다리지 않고 윈도우 닫음
+-> 10:00:05 이후 늦게 도착하는 이벤트는 '지연 데이터'로 처리
 
-┌─────────────────────────────────────────────────────────┐
-│  이벤트 스트림:  ●●●●●●●●●●●●●●●●●●●●●●●●●           │
-│  워터마크:       ─────────────WM──────────────►         │
-│                              ↑                          │
-│                         WM 통과 → 이전 윈도우 닫힘       │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|  이벤트 스트림:  ●●●●●●●●●●●●●●●●●●●●●●●●●           |
+|  워터마크:       -------------WM--------------►         |
+|                              ^                          |
+|                         WM 통과 -> 이전 윈도우 닫힘       |
++---------------------------------------------------------+
 ```
 
 ### 2.4 윈도우 유형 3종
@@ -126,15 +126,15 @@ Watermark = max(event_time_seen) - max_out_of_orderness
 
 ```
 텀블링 (Tumbling):
-[──1분──][──1분──][──1분──]
+[--1분--][--1분--][--1분--]
 
 슬라이딩 (Sliding, 1분 크기, 30초 슬라이드):
-[────1분────]
-      [────1분────]
-            [────1분────]
+[----1분----]
+      [----1분----]
+            [----1분----]
 
 세션 (Session, 비활성 30초):
-[──활동──]  [───활동───]  [──활동──]
+[--활동--]  [---활동---]  [--활동--]
          30초           30초
          갭(Gap)        갭(Gap)
 ```
@@ -177,11 +177,11 @@ Flink는 상태([State](/knowledge-base/studynote/04_software_engineering/05_dev
 ### 4.1 실시간 사기 탐지 파이프라인 (Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))
 
 ```
-신용카드 거래 ──► Kafka ──► Flink ──► 이상 거래 알림
+신용카드 거래 --► Kafka --► Flink --► 이상 거래 알림
   Event Time      토픽      워터마크
                            세션 윈도우 (5분)
                            상태: 사용자별 거래 패턴
-                           룰: 1분 내 5회 초과 → 사기 의심
+                           룰: 1분 내 5회 초과 -> 사기 의심
 ```
 
 ### 4.2 체크포인트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
@@ -236,18 +236,18 @@ Flink는 상태([State](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ```text
 배치 처리 (MapReduce · Spark)
-    │
-    ▼
+    |
+    v
 마이크로 배치 (Spark Structured Streaming)
-    │
-    ▼
+    |
+    v
 네이티브 스트리밍: Apache Flink
-    ├─► Event Time + Watermark: 지연 이벤트 허용
-    ├─► Window: Tumbling · Sliding · Session
-    └─► Exactly-Once: Checkpoint + 2PC Sink
-    │
-    ▼
-Flink SQL · Table API → 통합 배치/스트리밍
+    +-► Event Time + Watermark: 지연 이벤트 허용
+    +-► Window: Tumbling · Sliding · Session
+    +-► Exactly-Once: Checkpoint + 2PC Sink
+    |
+    v
+Flink SQL · Table API -> 통합 배치/스트리밍
 ```
 2. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 "이 날짜 전 편지는 다 도착했겠지"라고 판단하는 기준이야 — 그래야 늦게 도착하는 편지를 하염없이 기다리지 않아도 되거든.
 3. 텀블링 윈도우는 '10분마다 정리하는 서랍', [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우는 '손님이 없으면 문 닫는 가게' — 어떻게 묶어서 볼지 결정하는 방법이야.
@@ -258,7 +258,7 @@ Flink SQL · Table API → 통합 배치/스트리밍
 
 **진행 상황**: 215 / 258
 
-← **이전**: [214. 아파치 카프카 (Apache Kafka) Pub-Sub 토픽 파티션 오프셋 브로커](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)
-**다음**: [216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) →
+<- **이전**: [214. 아파치 카프카 (Apache Kafka) Pub-Sub 토픽 파티션 오프셋 브로커](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)
+**다음**: [216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) ->
 
 ---

@@ -24,20 +24,20 @@ DDD는 에릭 에반스(Eric Evans)가 2003년 저서 '[Domain-Driven Design](/k
 기존 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 설계에서는 CRUD(Create, Read, Update, Delete) 연산을 중심으로 설계하여 비즈니스 의도가 코드에 흐릿하게 표현되었다. DDD는 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델'을 소프트웨어의 심장에 놓고, 비즈니스 전문가와 개발자가 같은 언어로 소통하며 그 언어를 코드에 직접 반영한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                DDD 전략적 설계 vs 전술적 설계                 │
-├─────────────────────────────────────────────────────────────┤
-│  전략적 설계 (Strategic Design)                              │
-│  ├─ 바운디드 컨텍스트 (경계 정의)                            │
-│  ├─ 유비쿼터스 언어 (공통 언어)                              │
-│  └─ 컨텍스트 맵 (BC 간 관계)                                │
-│                                                             │
-│  전술적 설계 (Tactical Design)                              │
-│  ├─ 에그리게이트 (일관성 경계)                               │
-│  ├─ 엔티티 + 값 객체                                        │
-│  ├─ 도메인 서비스                                           │
-│  └─ 도메인 이벤트                                           │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                DDD 전략적 설계 vs 전술적 설계                 |
++-------------------------------------------------------------+
+|  전략적 설계 (Strategic Design)                              |
+|  +- 바운디드 컨텍스트 (경계 정의)                            |
+|  +- 유비쿼터스 언어 (공통 언어)                              |
+|  +- 컨텍스트 맵 (BC 간 관계)                                |
+|                                                             |
+|  전술적 설계 (Tactical Design)                              |
+|  +- 에그리게이트 (일관성 경계)                               |
+|  +- 엔티티 + 값 객체                                        |
+|  +- 도메인 서비스                                           |
+|  +- 도메인 이벤트                                           |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: DDD는 지도 제작과 같다. 전략적 설계는 세계 지도([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) 수준이고, 전술적 설계는 도시 세부 지도(에그리게이트·엔티티) 수준이다.
@@ -57,16 +57,16 @@ DDD는 에릭 에반스(Eric Evans)가 2003년 저서 '[Domain-Driven Design](/k
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 발생한 사건 | OrderConfirmedEvent |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          바운디드 컨텍스트 간 관계 (컨텍스트 맵)              │
-├─────────────────────────────────────────────────────────────┤
-│  [주문 BC] ──공개API──> [재고 BC]                           │
-│      │                      │                              │
-│  도메인 이벤트            도메인 이벤트                      │
-│  (OrderConfirmed)     (StockReserved)                       │
-│      │                      │                              │
-│  [결제 BC] <──ACL(Anti-Corruption Layer)── [외부 PG 시스템] │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          바운디드 컨텍스트 간 관계 (컨텍스트 맵)              |
++-------------------------------------------------------------+
+|  [주문 BC] --공개API--> [재고 BC]                           |
+|      |                      |                              |
+|  도메인 이벤트            도메인 이벤트                      |
+|  (OrderConfirmed)     (StockReserved)                       |
+|      |                      |                              |
+|  [결제 BC] <--ACL(Anti-Corruption Layer)-- [외부 PG 시스템] |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)는 의사와 간호사가 환자 차트에 의학 용어(표준어)로 소통하듯, 비즈니스 전문가와 개발자가 같은 용어로 소통하여 번역 오류를 없애는 것이다.
@@ -116,7 +116,7 @@ DDD를 적용하면 비즈니스 변화가 코드 변경으로 자연스럽게 �
 
 ### 📌 관련 개념 맵
 
-[비즈니스 복잡성] → DDD 전략적 설계(BC·[유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))] → DDD 전술적 설계([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)·Entity·Event)] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계] → CQRS+ES]
+[비즈니스 복잡성] -> DDD 전략적 설계(BC·[유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))] -> DDD 전술적 설계([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)·Entity·Event)] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계] -> CQRS+ES]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -127,7 +127,7 @@ DDD를 적용하면 비즈니스 변화가 코드 변경으로 자연스럽게 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[Object-Oriented Design] → [에릭 에반스 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)(2003)] → [전략적·전술적 패턴 분리] → [Event Storming 워크숍] → CQRS+ES 통합] → AI [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델링]
+[Object-Oriented Design] -> [에릭 에반스 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)(2003)] -> [전략적·전술적 패턴 분리] -> [Event Storming 워크숍] -> CQRS+ES 통합] -> AI [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델링]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +141,7 @@ DDD를 적용하면 비즈니스 변화가 코드 변경으로 자연스럽게 �
 
 **진행 상황**: 185 / 530
 
-← **이전**: [128. 마이크로 프론트엔드 (Micro Frontends)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/128_micro_frontends/)
-**다음**: [130. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/130_bounded_context/) →
+<- **이전**: [128. 마이크로 프론트엔드 (Micro Frontends)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/128_micro_frontends/)
+**다음**: [130. 바운디드 컨텍스트 (Bounded Context)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/130_bounded_context/) ->
 
 ---

@@ -24,15 +24,15 @@ tags = ["studynote-data-engineering"]
 ```
 OOM 원인 트리:
                     OOM (Out of Memory)
-                         │
-         ┌───────────────┼───────────────┐
+                         |
+         +---------------+---------------+
     메모리 누수         과다 데이터      비효율 파티셔닝
     (Memory Leak)       (Data Volume)    (Bad Partitioning)
-         │                   │                  │
-  ├─ 클로저 참조        ├─ 큰 스테이지     ├─ 소수 파티션
-  ├─ 정적 변수 누적     ├─ 넓은 조인      ├─ 데이터 스큐
-  ├─ 브로드캐스트 남용   ├─ 집계 과부하    ├─ 잘못된 캐싱
-  └─ DataFrame 캐시 미해제└─ UDF 비효율   └─ 넓은 윈도우 함수
+         |                   |                  |
+  +- 클로저 참조        +- 큰 스테이지     +- 소수 파티션
+  +- 정적 변수 누적     +- 넓은 조인      +- 데이터 스큐
+  +- 브로드캐스트 남용   +- 집계 과부하    +- 잘못된 캐싱
+  +- DataFrame 캐시 미해제+- UDF 비효율   +- 넓은 윈도우 함수
 ```
 
 ### 1.2 Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 시 에러 패턴
@@ -41,15 +41,15 @@ OOM 원인 트리:
 Executor OOM:
   ERROR Executor: Exception in task
   java.lang.OutOfMemoryError: Java heap space
-  → 파티션 크기 과다, 집계 메모리 부족
+  -> 파티션 크기 과다, 집계 메모리 부족
 
 Driver OOM:
   java.lang.OutOfMemoryError: GC overhead limit exceeded
-  → collect() / toPandas() 로 드라이버에 과다 데이터 수집
+  -> collect() / toPandas() 로 드라이버에 과다 데이터 수집
 
 GC 관련:
   WARN GCTimeRatio: JVM is spending too much time in GC
-  → 실제 OOM 전 단계 경고, 즉시 대응 필요
+  -> 실제 OOM 전 단계 경고, 즉시 대응 필요
 ```
 
 📢 **섹션 요약 비유**: OOM은 마치 너무 많은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 책상(메모리) 위에 올려놓아 더 이상 공간이 없어 작업을 멈추는 것과 같다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 서랍(디스크, Spill)에 잠깐 넣거나, 불필요한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 버리는(GC) 것이 해결책이다.
@@ -61,27 +61,27 @@ GC 관련:
 ### 2.1 Spark 메모리 모델 (Unified Memory Model)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                Spark Executor JVM 메모리 구조              │
-│                                                           │
-│  총 Executor 메모리 (spark.executor.memory = 4g 예시)     │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │  Reserved Memory (300MB) - JVM 내부 사용            │ │
-│  ├─────────────────────────────────────────────────────┤ │
-│  │  User Memory (40% × (4g-300MB) ≈ 1.5g)             │ │
-│  │  - UDF 데이터, 사용자 자료구조                        │ │
-│  ├─────────────────────────────────────────────────────┤ │
-│  │  Spark Memory (60% × (4g-300MB) ≈ 2.2g)            │ │
-│  │  ┌─────────────────────────────────────────────┐   │ │
-│  │  │ Storage Memory (초기 50%, 동적 조정 가능)     │   │ │
-│  │  │ - cache(), persist() 데이터                  │   │ │
-│  │  ├─────────────────────────────────────────────┤   │ │
-│  │  │ Execution Memory (초기 50%, 동적 조정 가능)  │   │ │
-│  │  │ - 셔플(Shuffle), 정렬(Sort), 조인(Join)      │   │ │
-│  │  │ - 부족 시 → Spill to Disk                   │   │ │
-│  │  └─────────────────────────────────────────────┘   │ │
-│  └─────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                Spark Executor JVM 메모리 구조              |
+|                                                           |
+|  총 Executor 메모리 (spark.executor.memory = 4g 예시)     |
+|  +-----------------------------------------------------+ |
+|  |  Reserved Memory (300MB) - JVM 내부 사용            | |
+|  +-----------------------------------------------------+ |
+|  |  User Memory (40% × (4g-300MB) ≈ 1.5g)             | |
+|  |  - UDF 데이터, 사용자 자료구조                        | |
+|  +-----------------------------------------------------+ |
+|  |  Spark Memory (60% × (4g-300MB) ≈ 2.2g)            | |
+|  |  +---------------------------------------------+   | |
+|  |  | Storage Memory (초기 50%, 동적 조정 가능)     |   | |
+|  |  | - cache(), persist() 데이터                  |   | |
+|  |  +---------------------------------------------+   | |
+|  |  | Execution Memory (초기 50%, 동적 조정 가능)  |   | |
+|  |  | - 셔플(Shuffle), 정렬(Sort), 조인(Join)      |   | |
+|  |  | - 부족 시 -> Spill to Disk                   |   | |
+|  |  +---------------------------------------------+   | |
+|  +-----------------------------------------------------+ |
++----------------------------------------------------------+
 
 핵심 파라미터:
   spark.memory.fraction          = 0.6 (Spark Memory 비율)
@@ -96,12 +96,12 @@ GC 관련:
 Tungsten (Code Generation + Off-Heap):
 
   On-Heap 방식 (JVM 객체):
-    DataFrame Row → Java Object → GC 압력 증가
+    DataFrame Row -> Java Object -> GC 압력 증가
     객체 헤더 오버헤드: 각 Row에 16~32 바이트 추가
 
   Off-Heap 방식 (Tungsten):
-    DataFrame Row → Binary 인코딩 → 직접 메모리 주소 접근
-    → GC 대상 아님, 캐시 친화적, 30~40% 성능 향상
+    DataFrame Row -> Binary 인코딩 -> 직접 메모리 주소 접근
+    -> GC 대상 아님, 캐시 친화적, 30~40% 성능 향상
 
   활성화:
     spark.memory.offHeap.enabled = true
@@ -130,28 +130,28 @@ G1GC Spark 최적화 설정:
 ### 2.4 Spill to Disk (디스크 스필) 메커니즘
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   Spill to Disk 흐름                       │
-│                                                           │
-│  집계/정렬/조인 연산 시작                                   │
-│       ↓                                                  │
-│  Execution Memory 사용 시작                               │
-│       ↓                                                  │
-│  메모리 한도 80% 도달?                                    │
-│  ┌──── No ────┐                                          │
-│  │  계속 진행  │                                          │
-│  └────────────┘                                          │
-│  ┌──── Yes ───┐                                          │
-│  │  현재 버퍼를 로컬 디스크에 Spill 파일로 직렬화          │ │
-│  │  → spark.local.dir 경로 (빠른 SSD 권장)               │ │
-│  │  메모리 해제 → 나머지 처리 계속                         │ │
-│  └────────────┘                                          │
-│       ↓                                                  │
-│  모든 Spill 파일 + 메모리 결과 → 최종 머지               │
-│                                                           │
-│  Spill 발생 확인:
-│  Spark UI → Stage → Shuffle Spill (Memory/Disk)         │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|                   Spill to Disk 흐름                       |
+|                                                           |
+|  집계/정렬/조인 연산 시작                                   |
+|       v                                                  |
+|  Execution Memory 사용 시작                               |
+|       v                                                  |
+|  메모리 한도 80% 도달?                                    |
+|  +---- No ----+                                          |
+|  |  계속 진행  |                                          |
+|  +------------+                                          |
+|  +---- Yes ---+                                          |
+|  |  현재 버퍼를 로컬 디스크에 Spill 파일로 직렬화          | |
+|  |  -> spark.local.dir 경로 (빠른 SSD 권장)               | |
+|  |  메모리 해제 -> 나머지 처리 계속                         | |
+|  +------------+                                          |
+|       v                                                  |
+|  모든 Spill 파일 + 메모리 결과 -> 최종 머지               |
+|                                                           |
+|  Spill 발생 확인:
+|  Spark UI -> Stage -> Shuffle Spill (Memory/Disk)         |
++----------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Spill to Disk는 마치 책상(메모리)이 가득 차면 임시로 서랍(디스크)에 넣어두고 작업을 계속하는 것이다. 서랍에서 꺼내는 것(디스크 I/O)이 느려 성능은 저하되지만 OOM으로 작업이 실패하는 것보다는 낫다.
@@ -165,30 +165,30 @@ G1GC Spark 최적화 설정:
 ```
 데이터 스큐 예시:
   파티션별 레코드 수:
-  P0: 100만 개 ← 스큐 (특정 키 집중)
+  P0: 100만 개 <- 스큐 (특정 키 집중)
   P1: 1만 개
   P2: 5만 개
   P3: 8천 개
 
-  → P0 태스크만 OOM, 나머지는 유휴
-  → 전체 스테이지는 가장 느린 P0 기다림
+  -> P0 태스크만 OOM, 나머지는 유휴
+  -> 전체 스테이지는 가장 느린 P0 기다림
 
 스큐 해결 방법:
   1. 솔트(Salt) 키 기법:
      스큐 키에 무작위 접미사 추가 (key + "_0", "_1", ...)
-     → 인위적으로 파티션 분산
+     -> 인위적으로 파티션 분산
 
   2. 브로드캐스트 조인 (작은 테이블 < 10MB):
      spark.sql.autoBroadcastJoinThreshold = 10MB
-     → 셔플 없이 전 파티션에 복사
+     -> 셔플 없이 전 파티션에 복사
 
   3. 버킷팅 (Bucketing):
      파티션 키 사전 정렬 + 저장
-     → 셔플 단계 자체를 제거
+     -> 셔플 단계 자체를 제거
 
   4. 적응형 쿼리 실행 (AQE, Adaptive Query Execution):
      spark.sql.adaptive.enabled = true
-     → 런타임 스큐 파티션 자동 분할
+     -> 런타임 스큐 파티션 자동 분할
 ```
 
 ### 3.2 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방지 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 설계
@@ -206,8 +206,8 @@ G1GC Spark 최적화 설정:
     df.repartition(800)                 (명시적 파티셔닝)
 
   주의:
-    파티션 수 너무 적음 → OOM (큰 파티션)
-    파티션 수 너무 많음 → 오버헤드 (작은 파티션, 스케줄링 비용)
+    파티션 수 너무 적음 -> OOM (큰 파티션)
+    파티션 수 너무 많음 -> 오버헤드 (작은 파티션, 스케줄링 비용)
 ```
 
 ### 3.3 메모리 최적화 기법 비교
@@ -234,23 +234,23 @@ G1GC Spark 최적화 설정:
 단계별 OOM 진단 프로세스:
 
   1단계: Spark UI 확인
-  ├─ Stage 탭 → Shuffle Spill (Memory/Disk) 크기 확인
-  ├─ Executor 탭 → GC Time (20% 초과 시 GC 튜닝 필요)
-  └─ Tasks 탭 → 태스크별 실행 시간 불균형 (스큐 확인)
+  +- Stage 탭 -> Shuffle Spill (Memory/Disk) 크기 확인
+  +- Executor 탭 -> GC Time (20% 초과 시 GC 튜닝 필요)
+  +- Tasks 탭 -> 태스크별 실행 시간 불균형 (스큐 확인)
 
   2단계: 로그 분석
-  ├─ "java.lang.OutOfMemoryError: Java heap space"
-  │   → spark.executor.memory 증가 or 파티션 수 증가
-  ├─ "GC overhead limit exceeded"
-  │   → G1GC 파라미터 튜닝 or 메모리 증가
-  └─ "Container killed by YARN for exceeding memory limits"
-      → spark.executor.memoryOverhead 증가 (기본 10%)
+  +- "java.lang.OutOfMemoryError: Java heap space"
+  |   -> spark.executor.memory 증가 or 파티션 수 증가
+  +- "GC overhead limit exceeded"
+  |   -> G1GC 파라미터 튜닝 or 메모리 증가
+  +- "Container killed by YARN for exceeding memory limits"
+      -> spark.executor.memoryOverhead 증가 (기본 10%)
 
   3단계: 코드 최적화
-  ├─ collect() / toPandas() 대용량 호출 제거
-  ├─ 불필요한 cache() / persist() 해제 (.unpersist())
-  ├─ UDF 대신 내장 함수 (SQL 함수) 사용
-  └─ 넓은 스키마 → 필요 컬럼만 select()
+  +- collect() / toPandas() 대용량 호출 제거
+  +- 불필요한 cache() / persist() 해제 (.unpersist())
+  +- UDF 대신 내장 함수 (SQL 함수) 사용
+  +- 넓은 스키마 -> 필요 컬럼만 select()
 ```
 
 ### 4.2 Spark 메모리 파라미터 튜닝 가이드
@@ -302,7 +302,7 @@ Spark OOM 방지 설계 시 필수 언급:
 
 | 최적화 기법 | 효과 |
 |:---|:---|
-| G1GC → ZGC 전환 | GC 정지 시간 200ms → 1ms 이하 |
+| G1GC -> ZGC 전환 | GC 정지 시간 200ms -> 1ms 이하 |
 | AQE 활성화 | 스큐 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 처리로 안정성 향상 |
 | Tungsten Off-Heap | GC 부담 30~40% 감소, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상 |
 | [파티션 최적화](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/) | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생률 80% 이상 감소 |
@@ -311,25 +311,25 @@ Spark OOM 방지 설계 시 필수 언급:
 ### 5.2 메모리 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│          Spark OOM 해결 의사결정 트리                   │
-│                                                      │
-│  OOM 발생                                            │
-│       ↓                                              │
-│  Driver OOM? → collect/toPandas 제거 → 해결          │
-│       ↓ No                                           │
-│  Executor OOM?                                       │
-│       ↓                                              │
-│  GC Time > 20%? → G1GC/ZGC 튜닝 → 개선 확인         │
-│       ↓ No                                           │
-│  스큐 파티션? → AQE/Salt 키 → 균등화                 │
-│       ↓ No                                           │
-│  파티션 크기 > 200MB? → 파티션 수 증가              │
-│       ↓ No                                           │
-│  캐시 미해제? → unpersist() 추가                     │
-│       ↓ No                                           │
-│  메모리 파라미터 증가 (executor.memory)              │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|          Spark OOM 해결 의사결정 트리                   |
+|                                                      |
+|  OOM 발생                                            |
+|       v                                              |
+|  Driver OOM? -> collect/toPandas 제거 -> 해결          |
+|       v No                                           |
+|  Executor OOM?                                       |
+|       v                                              |
+|  GC Time > 20%? -> G1GC/ZGC 튜닝 -> 개선 확인         |
+|       v No                                           |
+|  스큐 파티션? -> AQE/Salt 키 -> 균등화                 |
+|       v No                                           |
+|  파티션 크기 > 200MB? -> 파티션 수 증가              |
+|       v No                                           |
+|  캐시 미해제? -> unpersist() 추가                     |
+|       v No                                           |
+|  메모리 파라미터 증가 (executor.memory)              |
++------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 마치 건강 검진 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 같다. 혈압(GC Time)이 높으면 약(GC 튜닝)을 쓰고, 허리([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 균형)가 나쁘면 자세를 고치고, 그래도 안 되면 더 큰 침대(메모리)를 사용한다.
@@ -359,21 +359,21 @@ Spark OOM 방지 설계 시 필수 언급:
 
 ```text
 OOM (Out of Memory) 발생
-    │
-    ▼
+    |
+    v
 원인 진단
-    ├─► JVM: 힙 부족 · GC 오버헤드 · 메모리 누수
-    ├─► Spark: Executor 메모리 · Shuffle 스필 · 데이터 스큐
-    └─► GPU: VRAM 부족 · 배치 크기 과다
-    │
-    ▼
+    +-► JVM: 힙 부족 · GC 오버헤드 · 메모리 누수
+    +-► Spark: Executor 메모리 · Shuffle 스필 · 데이터 스큐
+    +-► GPU: VRAM 부족 · 배치 크기 과다
+    |
+    v
 방어 전략
-    ├─► GC 튜닝 (G1GC · ZGC) · 힙 조정
-    ├─► Spark: 파티션 수 증가 · Spill to Disk · AQE
-    └─► GPU: Mixed Precision · Gradient Checkpointing
-    │
-    ▼
-프로액티브 모니터링 → OOM 사전 경보 · 자동 스케일링
+    +-► GC 튜닝 (G1GC · ZGC) · 힙 조정
+    +-► Spark: 파티션 수 증가 · Spill to Disk · AQE
+    +-► GPU: Mixed Precision · Gradient Checkpointing
+    |
+    v
+프로액티브 모니터링 -> OOM 사전 경보 · 자동 스케일링
 ```
 2. <strong>GC(쓰레기 수거)</strong>는 마치 수업 중에 가끔 선생님이 "이제 필요 없는 노트 버려라!"라고 하는 것처럼, 컴퓨터가 사용이 끝난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 치워서 공간을 만드는 작업이에요—너무 자주 하면 수업이 멈추니 조절이 중요해요.
 3. <strong>Spill to Disk</strong>는 책상이 가득 찼을 때 당장 쓰지 않는 책을 임시로 사물함(디스크)에 넣어두는 것처럼, 메모리가 부족하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 잠깐 저장하고 나중에 다시 꺼내 작업을 계속하는 방법이에요.
@@ -384,7 +384,7 @@ OOM (Out of Memory) 발생
 
 **진행 상황**: 188 / 258
 
-← **이전**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)
-**다음**: [189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프](/knowledge-base/studynote/14_data_engineering/04_mlops/189_kafka_consumer_lag_monitoring_alert/) →
+<- **이전**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)
+**다음**: [189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프](/knowledge-base/studynote/14_data_engineering/04_mlops/189_kafka_consumer_lag_monitoring_alert/) ->
 
 ---

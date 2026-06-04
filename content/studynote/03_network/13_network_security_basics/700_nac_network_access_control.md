@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [샌드박스 망분석 시스템]
-    │
-    ▼
+    |
+    v
 [NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    └──▶ [도청 네트워크 토폴로지 취약]
+    |
+    +---> [도청 네트워크 토폴로지 취약]
 ```
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ NAC의 가장 강력하고 고유한 기능입니다. 신분이 직원이 맞아
 
 ```text
 [샌드박스 망분석 시스템]
-    │
-    ▼
+    |
+    v
 [NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    └──▶ [도청 네트워크 토폴로지 취약]
+    |
+    +---> [도청 네트워크 토폴로지 취약]
 ```
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_secu
 
 ```text
 [선행 개념: 샌드박스 망분석 시스템]
-    │
-    ▼
+    |
+    v
 [현재 개념: NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ├──▶ [확장 A: 도청 네트워크 토폴로지 취약]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 도청 네트워크 토폴로지 취약]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단는 [샌드박스 망분석 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_secu
 
 **진행 상황**: 821 / 1120
 
-← **이전**: [699. 샌드박스 망분석 시스템 (APT 이메일 악성 포맷 행위 추적 연동)](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)
-**다음**: [701. 도청 (Sniffing, Eavesdropping) 네트워크 토폴로지 취약 (프론미스큐어스 모드, 스위치 잼 체계 해소)](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) →
+<- **이전**: [699. 샌드박스 망분석 시스템 (APT 이메일 악성 포맷 행위 추적 연동)](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)
+**다음**: [701. 도청 (Sniffing, Eavesdropping) 네트워크 토폴로지 취약 (프론미스큐어스 모드, 스위치 잼 체계 해소)](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) ->
 
 ---

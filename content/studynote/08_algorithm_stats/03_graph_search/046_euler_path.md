@@ -44,11 +44,11 @@ tags = ["studynote-algorithm"]
 
 ```
 그래프 A:              그래프 B:
-A─B─C─D               A─B─C
-│   │                 │   │
-└───┘                 └───┘
-차수: A=2,B=2,C=2,D=2  차수: A=2,B=3,C=3 → 홀수 2개
-→ Euler Circuit 가능   → Euler Path만 가능 (B→C 또는 C→B)
+A-B-C-D               A-B-C
+|   |                 |   |
++---+                 +---+
+차수: A=2,B=2,C=2,D=2  차수: A=2,B=3,C=3 -> 홀수 2개
+-> Euler Circuit 가능   -> Euler Path만 가능 (B->C 또는 C->B)
 ```
 
 ### Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(E))
@@ -63,31 +63,31 @@ A─B─C─D               A─B─C
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Hierholzer 동작
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  그래프:  A─B─C─D                                        │
-│           │   │                                          │
-│           └───┘                                          │
-│                                                          │
-│  Hierholzer 진행 (A에서 시작):                            │
-│  DFS: A→B→C→A (사이클, 막힘) → 스택: [A]                 │
-│  역추적: C→D→B 방문 가능 → C에서 DFS                     │
-│  DFS: C→D→B→C (완성) → 스택: [A, C, B, D, C]             │
-│  역추적: B에서 A→B 사용 → 스택: [A, C, B, D, C, B, A]    │
-│                                                          │
-│  역순 출력: A→B→C→D→B→C→A (Euler Circuit)                │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  그래프:  A-B-C-D                                        |
+|           |   |                                          |
+|           +---+                                          |
+|                                                          |
+|  Hierholzer 진행 (A에서 시작):                            |
+|  DFS: A->B->C->A (사이클, 막힘) -> 스택: [A]                 |
+|  역추적: C->D->B 방문 가능 -> C에서 DFS                     |
+|  DFS: C->D->B->C (완성) -> 스택: [A, C, B, D, C]             |
+|  역추적: B에서 A->B 사용 -> 스택: [A, C, B, D, C, B, A]    |
+|                                                          |
+|  역순 출력: A->B->C->D->B->C->A (Euler Circuit)                |
++----------------------------------------------------------+
 ```
 
 ### Fleury [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs Hierholzer
 
 | 항목 | Fleury | Hierholzer |
 |:---|:---|:---|
-| [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E²) | O(E) |
+| [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E^) | O(E) |
 | 구현 복잡도 | 단순 (교량 우선 회피) | 약간 복잡 |
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 교량([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 간선 최대한 회피 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) + [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
 | 실용성 | 교육용 | 실무용 |
 
-Fleury는 간선 방문 시 "이 간선이 교량인가?"를 O(E) 검사하므로 전체 O(E²).
+Fleury는 간선 방문 시 "이 간선이 교량인가?"를 O(E) 검사하므로 전체 O(E^).
 Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 O(E)에 처리.
 
 📢 **섹션 요약 비유**: Hierholzer는 미로에서 막힌 곳에 도달할 때마다 표시해두고, 나중에 표시된 순서를 뒤집으면 경로가 완성되는 방식이다.
@@ -136,7 +136,7 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 |:---|:---|
 | 모든 간선 방문 | 오일러 경로/회로 (O(E)) |
 | 모든 정점 방문 | [해밀턴 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) (NP-완전) |
-| 홀수 차수 정점 수 | 0개→회로, 2개→경로, 나머지→불가 |
+| 홀수 차수 정점 수 | 0개->회로, 2개->경로, 나머지->불가 |
 | 비연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Euler 경로 불가능 |
 | DNA 재조합 | De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) Euler Path |
 
@@ -165,17 +165,17 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 
 ```text
 [그래프(Graph) 탐색 기초 — 정점(V)과 간선(E) 구조]
-    │
-    ▼
+    |
+    v
 [오일러 경로 조건 — 홀수 차수 정점 0개 또는 2개]
-    │
-    ▼
+    |
+    v
 [오일러 서킷 (Eulerian Circuit) — 모든 간선을 1회 순회 후 시작점 복귀]
-    │
-    ▼
+    |
+    v
 [플뢰리 알고리즘 / Hierholzer 알고리즘 — O(E) 탐색 구현]
-    │
-    ▼
+    |
+    v
 [해밀턴 경로 — 오일러 경로와 대비, 모든 정점을 1회 방문 (NP-완전)]
 ```
 오일러 경로는 간선을 기준으로 홀수 차수 조건을 검사하며, 플뢰리/Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E) 내에 탐색이 가능하다.
@@ -192,7 +192,7 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 
 **진행 상황**: 46 / 175
 
-← **이전**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)
-**다음**: [20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n²), 불안정](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) →
+<- **이전**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)
+**다음**: [20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n^), 불안정](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ->
 
 ---

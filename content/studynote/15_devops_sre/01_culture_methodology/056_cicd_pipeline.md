@@ -33,17 +33,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Commit
-  ↓
+  v
 Build
-  ↓
+  v
 Test
-  ↓
+  v
 Security Scan
-  ↓
+  v
 Package / Artifact
-  ↓
+  v
 Deploy
-  ↓
+  v
 Verify / Observe
 ```
 
@@ -108,11 +108,11 @@ Verify / Observe
 
 ```text
 코드 커밋
-   ↓
+   v
 자동 빌드 / 테스트 / 스캔
-   ↓
+   v
 패키징 / 배포
-   ↓
+   v
 검증 / 관측 / 롤백
 ```
 
@@ -120,11 +120,11 @@ Verify / Observe
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 배포 → 인적 오류와 긴 배포 시간
-2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) → 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-3. CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) → 언제든 배포 가능한 상태 유지
-4. GitOps와 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) → 선언적 운영 확장
-5. Progressive Delivery → [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 점진 배포로 발전
+1. 수동 배포 -> 인적 오류와 긴 배포 시간
+2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) -> 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+3. CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) -> 언제든 배포 가능한 상태 유지
+4. GitOps와 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) -> 선언적 운영 확장
+5. Progressive Delivery -> [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 점진 배포로 발전
 
 ---
 
@@ -140,7 +140,7 @@ Verify / Observe
 
 **진행 상황**: 56 / 373
 
-← **이전**: [55. Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/055_trunk_based_development/)
-**다음**: [57. Jenkins / Buildkite - CI 도구 비교와 선택 기준](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/) →
+<- **이전**: [55. Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/055_trunk_based_development/)
+**다음**: [57. Jenkins / Buildkite - CI 도구 비교와 선택 기준](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/057_jenkins_buildkite/) ->
 
 ---

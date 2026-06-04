@@ -26,20 +26,20 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 간접 주소 지정이 "주소를 한 번 더 따라가는 구조"라는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Indirect addressing: follow the address in memory                 │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction field A = 100                                         │
-│                 │                                                  │
-│                 ▼                                                  │
-│ Memory[100] = 5000        -> pointer slot                         │
-│                 │                                                  │
-│                 ▼                                                  │
-│ Memory[5000] = operand    -> actual data                          │
-│                                                                    │
-│ direct mode    : EA = A                                           │
-│ indirect mode  : EA = Memory[A]                                   │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Indirect addressing: follow the address in memory                 |
++--------------------------------------------------------------------+
+| instruction field A = 100                                         |
+|                 |                                                  |
+|                 v                                                  |
+| Memory[100] = 5000        -> pointer slot                         |
+|                 |                                                  |
+|                 v                                                  |
+| Memory[5000] = operand    -> actual data                          |
+|                                                                    |
+| direct mode    : EA = A                                           |
+| indirect mode  : EA = Memory[A]                                   |
++--------------------------------------------------------------------+
 ```
 
 핵심은 주소 필드 자체가 좁아도, 메모리 안에 더 넓은 주소를 저장해 두면 간접적으로 더 큰 세계를 다룰 수 있다는 점이다. 그래서 간접 주소 지정은 단순한 문법 차이가 아니라, 작은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 큰 메모리 사이를 연결하는 확장 장치로 이해해야 한다.
@@ -62,17 +62,17 @@ tags = ["studynote-computer-architecture"]
 다음 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 수준에서 간접 주소 지정이 어떻게 동작하는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Micro-steps of indirect addressing                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ IR.address ----> MAR ----> Memory read ----> MDR = pointer        │
-│                           cycle 1                                 │
-│                                                                    │
-│ MDR(pointer) -> MAR ----> Memory read ----> MDR = operand         │
-│                           cycle 2                                 │
-│                                                                    │
-│ result: EA = pointer, operand = Memory[EA]                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Micro-steps of indirect addressing                                 |
++--------------------------------------------------------------------+
+| IR.address ----> MAR ----> Memory read ----> MDR = pointer        |
+|                           cycle 1                                 |
+|                                                                    |
+| MDR(pointer) -> MAR ----> Memory read ----> MDR = operand         |
+|                           cycle 2                                 |
+|                                                                    |
+| result: EA = pointer, operand = Memory[EA]                        |
++--------------------------------------------------------------------+
 ```
 
 이 구조 때문에 간접 주소 지정은 유연하지만 느릴 수밖에 없다. 첫 번째 접근이 포인터를 읽는 동안 캐시 미스가 나면 지연이 커지고, 두 번째 접근에서 또 다른 캐시 미스가 나면 흔히 말하는 포인터 체이싱 (Pointer Chasing) 병목이 발생한다. 그래서 현대 구조는 순수 메모리 간접 주소 지정 자체를 남발하기보다, 일단 포인터를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올린 뒤 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간접 주소 지정 ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/))으로 후속 접근을 빠르게 처리하는 방향으로 발전했다.
@@ -112,15 +112,15 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 설계 시 간접 주소 지정을 어디에 쓸지 빠르게 가르는 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When should indirection be used?                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ target address changes at run time?                               │
-│   ├─ yes -> indirection is useful                                 │
-│   └─ no                                                           │
-│        ├─ fixed hardware register? -> direct access preferred     │
-│        └─ hot inner loop? -> keep pointer in register if possible │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When should indirection be used?                                  |
++--------------------------------------------------------------------+
+| target address changes at run time?                               |
+|   +- yes -> indirection is useful                                 |
+|   +- no                                                           |
+|        +- fixed hardware register? -> direct access preferred     |
+|        +- hot inner loop? -> keep pointer in register if possible |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -167,18 +167,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 small instruction address field
-          │
-          ▼
+          |
+          v
 direct addressing hits range limit
-          │
-          ▼
+          |
+          v
 indirect addressing  EA = Memory[A]
-          │
-          ├──────────────▶ pointer-based data structures
-          │
-          ├──────────────▶ dynamic binding and jump tables
-          │
-          ▼
+          |
+          +---------------> pointer-based data structures
+          |
+          +---------------> dynamic binding and jump tables
+          |
+          v
 register-indirect / TLB / cache-based optimization
 ```
 
@@ -196,7 +196,7 @@ register-indirect / TLB / cache-based optimization
 
 **진행 상황**: 177 / 803
 
-← **이전**: [176. 직접 주소 지정 (Direct)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)
-**다음**: [178. 레지스터 간접 주소 지정 (Register Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/) →
+<- **이전**: [176. 직접 주소 지정 (Direct)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)
+**다음**: [178. 레지스터 간접 주소 지정 (Register Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/) ->
 
 ---

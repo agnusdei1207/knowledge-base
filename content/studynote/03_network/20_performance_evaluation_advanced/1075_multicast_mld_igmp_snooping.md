@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPv6 SLAAC 자동할당]
-    │
-    ▼
+    |
+    v
 [멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    └──▶ [ARP 스푸핑 중간자 방어]
+    |
+    +---> [ARP 스푸핑 중간자 방어]
 ```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [IPv6 SLAAC 자동할당]
-    │
-    ▼
+    |
+    v
 [멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    └──▶ [ARP 스푸핑 중간자 방어]
+    |
+    +---> [ARP 스푸핑 중간자 방어]
 ```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: IPv6 SLAAC 자동할당]
-    │
-    ▼
+    |
+    v
 [현재 개념: 멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    ├──▶ [확장 A: ARP 스푸핑 중간자 방어]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: ARP 스푸핑 중간자 방어]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 182 / 1120
 
-← **이전**: [1074. IPv6 SLAAC 자동할당](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1074_ipv6_slaac_stateless_address_autoconfiguration/)
-**다음**: [1076. ARP 스푸핑 중간자 방어 (동적 검사 체계)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1076_arp_spoofing_mitm_dynamic_arp_inspection_dai/) →
+<- **이전**: [1074. IPv6 SLAAC 자동할당](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1074_ipv6_slaac_stateless_address_autoconfiguration/)
+**다음**: [1076. ARP 스푸핑 중간자 방어 (동적 검사 체계)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1076_arp_spoofing_mitm_dynamic_arp_inspection_dai/) ->
 
 ---

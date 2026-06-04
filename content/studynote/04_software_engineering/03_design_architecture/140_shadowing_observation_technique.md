@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 쉐도잉: 사용자 옆에서 하루 종일 관찰 (그림자처럼)
 관찰: 사용자 업무 수행을 비디오 녹화·분석
 Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
-→ "왜 이 버튼을 3번 누르세요?" → 숨겨진 비효율 발견
+-> "왜 이 버튼을 3번 누르세요?" -> 숨겨진 비효율 발견
 ```
 
 - **📢 섹션 요약 비유**: 관찰은 <strong>탐정 조사</strong>이다. 범인(비효율)은 스스로 자백하지 않으므로, 현장에서 단서를 찾아야 한다.
@@ -48,16 +48,16 @@ Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[비공식 관찰 (~2000s)] → [Contextual Design (Beyer, 1998)]
-    → [Ethnographic Study (2005~)]
-    → [Design Thinking 관찰 (2010s)]
-    → [현재: AI 행동 분석 — 사용자 클릭 패턴 자동 분석]
+[비공식 관찰 (~2000s)] -> [Contextual Design (Beyer, 1998)]
+    -> [Ethnographic Study (2005~)]
+    -> [Design Thinking 관찰 (2010s)]
+    -> [현재: AI 행동 분석 — 사용자 클릭 패턴 자동 분석]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 관찰은 <strong>탐정 조사</strong>예요. 현장에서 <strong>단서(비효율)</strong>를 찾아요.
 2. 사용자에게 물어봐도 <strong>모르는 습관</strong>이 있어요. 직접 봐야 알 수 있어요.
-3. "왜 이 버튼을 3번 누르세요?" → <strong>숨겨진 문제</strong>를 발견해요!
+3. "왜 이 버튼을 3번 누르세요?" -> <strong>숨겨진 문제</strong>를 발견해요!
 
 ---
 
@@ -65,7 +65,7 @@ Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
 
 **진행 상황**: 140 / 973
 
-← **이전**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/knowledge-base/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/)
-**다음**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) →
+<- **이전**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/knowledge-base/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/)
+**다음**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) ->
 
 ---

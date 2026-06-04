@@ -19,16 +19,16 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Service Discovery 동작                             │
-├───────────────────────────────────────────────────────┤
-│  1. 서비스 인스턴스 시작 → Registry에 등록           │
-│     (Order-Svc: 10.0.1.5:8080)                       │
-│  2. 호출자가 "Order-Svc 어디?" → Registry 조회       │
-│  3. Registry 응답: 10.0.1.5:8080                     │
-│  4. 호출자 → 10.0.1.5:8080 직접 호출                │
-│  5. 인스턴스 종료 → Registry에서 제거 (헬스체크)     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Service Discovery 동작                             |
++-------------------------------------------------------+
+|  1. 서비스 인스턴스 시작 -> Registry에 등록           |
+|     (Order-Svc: 10.0.1.5:8080)                       |
+|  2. 호출자가 "Order-Svc 어디?" -> Registry 조회       |
+|  3. Registry 응답: 10.0.1.5:8080                     |
+|  4. 호출자 -> 10.0.1.5:8080 직접 호출                |
+|  5. 인스턴스 종료 -> Registry에서 제거 (헬스체크)     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 <strong>전화번호부</strong>이다. 사람([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 이사(IP 변경)해도 전화번호부([레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))를 보면 **현재 주소를 찾을 수 있다**.
@@ -45,7 +45,7 @@ tags = ["studynote-cloud-architecture"]
 | **Server-side** | LB가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회 | <strong>K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> |
 
 ### K8s [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)
-- [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → kube-dns에 자동 등록.
+- [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> kube-dns에 자동 등록.
 - `order-svc.default.svc.cluster.local`로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회.
 
 - **📢 섹션 요약 비유**: Client-side는 직접 전화번호부를 찾는 것, Server-side는 안내 데스크(LB)에 물어보는 것이다.
@@ -92,17 +92,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 [하드코딩 IP (전통, ~2010s)]
-    │
-    ▼
+    |
+    v
 [Client-side Discovery (Eureka, 2012~)]
-    │
-    ▼
+    |
+    v
 [Server-side Discovery (K8s Service, 2015~)]
-    │
-    ▼
+    |
+    v
 [Service Mesh (Istio/Envoy, 2018~) — 투명한 Discovery]
-    │
-    ▼
+    |
+    v
 [현재: 멀티 클러스터 Discovery — 클러스터 간 서비스 탐색]
 ```
 
@@ -117,7 +117,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 126 / 371
 
-← **이전**: [126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/126_bff/)
-**다음**: [128. Circuit Breaker - MSA 장애 전파 차단 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/128_circuit_breaker/) →
+<- **이전**: [126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/126_bff/)
+**다음**: [128. Circuit Breaker - MSA 장애 전파 차단 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/128_circuit_breaker/) ->
 
 ---

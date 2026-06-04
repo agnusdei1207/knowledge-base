@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 첫 주소만 명시한 뒤 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 한 호흡에 전송하는 방식이다. 단일 전송에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 단어를 보낼 때마다 `중재 → 주소 → 응답 → 데이터` 절차가 반복되지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트에서는 이 제어 절차를 묶어 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat가 연속해서 흐른다. 따라서 본질은 "더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다"가 아니라, <strong>같은 제어 비용으로 더 많은 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 나른다</strong>에 가깝다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 첫 주소만 명시한 뒤 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 한 호흡에 전송하는 방식이다. 단일 전송에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 단어를 보낼 때마다 `중재 -> 주소 -> 응답 -> 데이터` 절차가 반복되지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트에서는 이 제어 절차를 묶어 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat가 연속해서 흐른다. 따라서 본질은 "더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다"가 아니라, <strong>같은 제어 비용으로 더 많은 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 나른다</strong>에 가깝다.
 
 이 기법이 필요한 이유는 현대 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 대개 뭉치로 이동하기 때문이다. Central Processing Unit (CPU)이 캐시 라인 64바이트를 읽을 때, 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)라면 8번의 beat가 필요하다. 이 8번을 각각 따로 주소 지정하면 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 상당 부분이 주소와 중재 신호에 소모된다. 반면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트로 묶으면 한 번의 주소 단계 뒤에 8개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat를 연속으로 받아올 수 있다.
 
@@ -44,20 +44,20 @@ tags = ["studynote-computer-architecture"]
 이 그림은 64바이트 캐시 라인을 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 읽을 때 주소가 왜 한 번이면 충분한지를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Grant -> Addr=0x8000, LEN=8, SIZE=8B                                        │
-│            │                                                                 │
-│            ├─ Beat0 : 0x8000 ~ 0x8007                                       │
-│            ├─ Beat1 : 0x8008 ~ 0x800F                                       │
-│            ├─ Beat2 : 0x8010 ~ 0x8017                                       │
-│            ├─ Beat3 : 0x8018 ~ 0x801F                                       │
-│            ├─ Beat4 : 0x8020 ~ 0x8027                                       │
-│            ├─ Beat5 : 0x8028 ~ 0x802F                                       │
-│            ├─ Beat6 : 0x8030 ~ 0x8037                                       │
-│            └─ Beat7 : 0x8038 ~ 0x803F -> Release                            │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+| 64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다       |
++------------------------------------------------------------------------------+
+| Grant -> Addr=0x8000, LEN=8, SIZE=8B                                        |
+|            |                                                                 |
+|            +- Beat0 : 0x8000 ~ 0x8007                                       |
+|            +- Beat1 : 0x8008 ~ 0x800F                                       |
+|            +- Beat2 : 0x8010 ~ 0x8017                                       |
+|            +- Beat3 : 0x8018 ~ 0x801F                                       |
+|            +- Beat4 : 0x8020 ~ 0x8027                                       |
+|            +- Beat5 : 0x8028 ~ 0x802F                                       |
+|            +- Beat6 : 0x8030 ~ 0x8037                                       |
+|            +- Beat7 : 0x8038 ~ 0x803F -> Release                            |
++------------------------------------------------------------------------------+
 ```
 
 실제 메모리 시스템에서는 이 연속성이 더 큰 이득을 만든다. [DDR SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) [Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random-Access Memory)은 내부적으로 Burst Length 8 (BL8) 같은 고정 burst 길이를 사용해 열린 행에서 여러 열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 출력한다. CPU 캐시 라인, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) burst 길이, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) burst 길이가 잘 맞아떨어질수록 주소 오버헤드와 행 전환 비용을 함께 줄일 수 있다.
@@ -140,17 +140,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 beat 전송
-        │
-        ▼
+        |
+        v
 INCR burst 기반 연속 블록 전송
-        │
-        ▼
+        |
+        v
 WRAP burst 기반 캐시 라인 최적화
-        │
-        ▼
+        |
+        v
 DDR BL8 · AXI 다중 beat 전송
-        │
-        ▼
+        |
+        v
 멀티채널 DMA · NoC 기반 대용량 스트리밍
 ```
 
@@ -168,7 +168,7 @@ DDR BL8 · AXI 다중 beat 전송
 
 **진행 상황**: 562 / 803
 
-← **이전**: [561. MSI (Message Signaled Interrupts)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)
-**다음**: [563. 분리 트랜잭션 버스 (Split Transaction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/563_split_transaction_bus/) →
+<- **이전**: [561. MSI (Message Signaled Interrupts)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)
+**다음**: [563. 분리 트랜잭션 버스 (Split Transaction)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/563_split_transaction_bus/) ->
 
 ---

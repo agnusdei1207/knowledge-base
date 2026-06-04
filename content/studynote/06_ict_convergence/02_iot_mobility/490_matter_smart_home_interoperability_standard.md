@@ -39,24 +39,24 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│                Matter 생태계 아키텍처                        │
-├────────────────────────────────────────────────────────────┤
-│  [Matter 컨트롤러]  Apple Home / Google Home / Amazon Alexa │
-│         │                                                  │
-│         │  Matter 프로토콜 (IPv6 기반)                      │
-│         │                                                  │
-│  [전송 계층]                                                │
-│  ┌──────────┬─────────────┬────────────────┐              │
-│  │ Thread   │   Wi-Fi     │   Ethernet     │              │
-│  │ (IPv6메시)│ (2.4/5GHz) │ (유선)          │              │
-│  └──────────┴─────────────┴────────────────┘              │
-│         │                                                  │
-│  [Matter 기기]                                              │
-│  조명·스위치·잠금장치·온도조절기·센서·가전 등               │
-│         │                                                  │
-│  [Border Router]  Thread ↔ Wi-Fi/Ethernet 브릿지           │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                Matter 생태계 아키텍처                        |
++------------------------------------------------------------+
+|  [Matter 컨트롤러]  Apple Home / Google Home / Amazon Alexa |
+|         |                                                  |
+|         |  Matter 프로토콜 (IPv6 기반)                      |
+|         |                                                  |
+|  [전송 계층]                                                |
+|  +----------+-------------+----------------+              |
+|  | Thread   |   Wi-Fi     |   Ethernet     |              |
+|  | (IPv6메시)| (2.4/5GHz) | (유선)          |              |
+|  +----------+-------------+----------------+              |
+|         |                                                  |
+|  [Matter 기기]                                              |
+|  조명·스위치·잠금장치·온도조절기·센서·가전 등               |
+|         |                                                  |
+|  [Border Router]  Thread ↔ Wi-Fi/Ethernet 브릿지           |
++------------------------------------------------------------+
 ```
 
 ### [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 핵심 구성 요소
@@ -132,7 +132,7 @@ Matter는 스마트홈 생태계의 표준화 이정표다. 제조사는 단일 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Matter · ZigBee] → [Matter 스마트홈 상호 운용성 표준] → [PASE · QR코드]
+[Matter · ZigBee] -> [Matter 스마트홈 상호 운용성 표준] -> [PASE · QR코드]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ Matter는 스마트홈 생태계의 표준화 이정표다. 제조사는 단일 
 
 **진행 상황**: 490 / 552
 
-← **이전**: [489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/489_mqtt_coap_iot_protocols_pubsub_rest/)
-**다음**: [491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/491_digital_twin_sync_simulation/) →
+<- **이전**: [489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/489_mqtt_coap_iot_protocols_pubsub_rest/)
+**다음**: [491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/491_digital_twin_sync_simulation/) ->
 
 ---

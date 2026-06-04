@@ -35,28 +35,28 @@ PROCHOT#의 핵심은 <strong>공유된 활성-로우 <a href="/knowledge-base/s
 
 | 방향 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 주체 | 의미 | 주된 후속 동작 |
 | :-- | :-- | :-- | :-- |
-| 내부 → 외부 | CPU / TCC | "CPU가 뜨겁다" | CPU 스로틀링, 팬 가속, 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 |
-| 외부 → 내부 | EC, [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 배터리 | "플랫폼 다른 곳이 위험하다" | CPU 강제 감속, 전체 발열 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| 내부 -> 외부 | CPU / TCC | "CPU가 뜨겁다" | CPU 스로틀링, 팬 가속, 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 |
+| 외부 -> 내부 | EC, [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 배터리 | "플랫폼 다른 곳이 위험하다" | CPU 강제 감속, 전체 발열 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 | 장기 유지 | 어느 한쪽이라도 Low 유지 | 위험 지속 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 유지, 필요 시 추가 셧다운 |
 
 아래 그림은 PROCHOT#이 CPU 전용 핀이 아니라, CPU와 보드가 함께 쓰는 열 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선이라는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  PROCHOT#의 양방향 열 보호 구조                     │
-├──────────────────────────────────────────────────────────────────────┤
-│  CPU 내부                                                            │
-│  DTS ─▶ TCC ─▶ PROCHOT# 드라이버 ───────┐                           │
-│                                         │                           │
-│                                         ▼                           │
-│                              [ 공유 Active-Low 라인 ]               │
-│                                         ▲                           │
-│                                         │                           │
-│             EC / VRM / GPU / Battery Hotspot 감지 ──────────────────┘
-│                                         │                           │
-│                                         ▼                           │
-│          CPU 배수 제한 · 팬 최대화 · 플랫폼 전력 억제               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  PROCHOT#의 양방향 열 보호 구조                     |
++----------------------------------------------------------------------+
+|  CPU 내부                                                            |
+|  DTS --> TCC --> PROCHOT# 드라이버 -------+                           |
+|                                         |                           |
+|                                         v                           |
+|                              [ 공유 Active-Low 라인 ]               |
+|                                         ^                           |
+|                                         |                           |
+|             EC / VRM / GPU / Battery Hotspot 감지 ------------------+
+|                                         |                           |
+|                                         v                           |
+|          CPU 배수 제한 · 팬 최대화 · 플랫폼 전력 억제               |
++----------------------------------------------------------------------+
 ```
 
 결국 PROCHOT#의 설계 철학은 간단하다. <strong>누가 뜨거운지보다, 지금 당장 전체 시스템이 열을 줄여야 하느냐</strong>를 가장 빠른 하드웨어 경로로 판단하고 전달하는 것이다.
@@ -76,7 +76,7 @@ PROCHOT#은 종종 단순한 "과열 [신호](/knowledge-base/studynote/02_opera
 | 결과 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 후 생존 시도 | 시스템 셧다운 | 팬 곡선, P-state 조정 |
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 | 냉각 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시 해제 가능 | 재부팅 필요 | 계속 조정 가능 |
 
-또한 PROCHOT#은 CPU 온도만의 함수가 아니라는 점이 중요하다. 얇은 노트북에서는 GPU와 CPU가 히트파이프를 공유하고, 서버 메인보드에서는 VRM이 별도 한계 온도를 가진다. 따라서 외부 BD PROCHOT이 작동하면 CPU 코어 온도는 70°C 수준이어도 클럭이 크게 떨어질 수 있다. 이는 고장이라기보다 플랫폼 전체를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 설계 선택이다.
+또한 PROCHOT#은 CPU 온도만의 함수가 아니라는 점이 중요하다. 얇은 노트북에서는 GPU와 CPU가 히트파이프를 공유하고, 서버 메인보드에서는 VRM이 별도 한계 온도를 가진다. 따라서 외부 BD PROCHOT이 작동하면 CPU 코어 온도는 70+C 수준이어도 클럭이 크게 떨어질 수 있다. 이는 고장이라기보다 플랫폼 전체를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 설계 선택이다.
 
 - **📢 섹션 요약 비유**: PROCHOT#이 속도 제한 표지판이라면, THERMTRIP#은 도로를 아예 막아 버리는 차단기다. 둘 다 안전을 위한 장치지만, 하나는 감속이고 다른 하나는 운행 중단이다.
 
@@ -131,17 +131,17 @@ PROCHOT#의 기대효과는 속도보다 생존을 우선하는 하드웨어 협
 
 ```text
 CPU 내부 온도 감지
-    │
-    ▼
+    |
+    v
 TCC 기반 내부 스로틀링
-    │
-    ▼
+    |
+    v
 PROCHOT# 기반 보드 연동
-    │
-    ▼
+    |
+    v
 BD PROCHOT 기반 외부 열원 반영
-    │
-    ▼
+    |
+    v
 플랫폼 전체 열 보호 · 최종 THERMTRIP# 연계
 ```
 
@@ -159,7 +159,7 @@ BD PROCHOT 기반 외부 열원 반영
 
 **진행 상황**: 721 / 803
 
-← **이전**: [719. CPU 클럭 다운클럭킹 (안전 모드)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/)
-**다음**: [721. 패키지 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/721_package_c_states/) →
+<- **이전**: [719. CPU 클럭 다운클럭킹 (안전 모드)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/)
+**다음**: [721. 패키지 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/721_package_c_states/) ->
 
 ---

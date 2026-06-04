@@ -22,15 +22,15 @@ tags = ["studynote-design-supervision"]
 DI 프레임워크는 이 문제를 <strong>객체지향 원칙을 인프라 수준으로 끌어올려 해결</strong>한다. 개발자는 필요한 의존 관계를 선언하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 객체 그래프를 조립하며, 프레임워크는 초기화와 후처리, 소멸까지 관리한다. Spring Bean 생명주기 이해가 중요한 이유도 `@Transactional`, AOP, `@PostConstruct`, 스코프 충돌 같은 실무 이슈가 모두 이 흐름 위에서 발생하기 때문이다.
 
 ```text
-┌──────────────────────── 직접 생성 방식 ────────────────────────┐
-│ Service ──new──▶ Repository ──new──▶ DataSource              │
-│        └─ 테스트 어려움 / 구현 교체 어려움 / 결합도 상승      │
-└──────────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌──────────────────────── DI 컨테이너 방식 ─────────────────────┐
-│ Bean 정의 ─▶ Container ─▶ 생성/주입/초기화 ─▶ Service 사용   │
-└──────────────────────────────────────────────────────────────┘
++------------------------ 직접 생성 방식 ------------------------+
+| Service --new---> Repository --new---> DataSource              |
+|        +- 테스트 어려움 / 구현 교체 어려움 / 결합도 상승      |
++--------------------------------------------------------------+
+                          |
+                          v
++------------------------ DI 컨테이너 방식 ---------------------+
+| Bean 정의 --> Container --> 생성/주입/초기화 --> Service 사용   |
++--------------------------------------------------------------+
 ```
 
 따라서 기술사 관점에서는 DI를 단순 문법이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 분리와 생명주기 통제 메커니즘</strong>으로 설명해야 한다.
@@ -42,15 +42,15 @@ DI 프레임워크는 이 문제를 <strong>객체지향 원칙을 인프라 수
 핵심 원리는 세 가지다. 첫째, 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 가진다. 둘째, 의존성은 선언적으로 연결된다. 셋째, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후 끝나는 것이 아니라 초기화와 후처리, 소멸까지 생명주기 전체가 관리된다. 이 덕분에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기반 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 보안, 로깅 같은 횡단 관심사도 자연스럽게 주입된다.
 
 ```text
-┌──────────────────────── Spring Bean Lifecycle ────────────────────────┐
-│ BeanDefinition 로딩                                                  │
-│        │                                                             │
-│        ▼                                                             │
-│ 인스턴스 생성 ─▶ 의존성 주입 ─▶ 초기화 콜백 ─▶ 후처리/프록시 ─▶ 사용 │
-│                                                        │             │
-│                                                        ▼             │
-│                                                   소멸 콜백          │
-└──────────────────────────────────────────────────────────────────────┘
++------------------------ Spring Bean Lifecycle ------------------------+
+| BeanDefinition 로딩                                                  |
+|        |                                                             |
+|        v                                                             |
+| 인스턴스 생성 --> 의존성 주입 --> 초기화 콜백 --> 후처리/프록시 --> 사용 |
+|                                                        |             |
+|                                                        v             |
+|                                                   소멸 콜백          |
++----------------------------------------------------------------------+
 ```
 
 | 단계 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작 | 실무 포인트 |
@@ -113,14 +113,14 @@ DI 방식은 모두 “외부에서 의존성을 넣어 준다”는 공통점�
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 직접 생성 중심 객체 설계
-        │
-        ▼
+        |
+        v
 IoC / DI 컨테이너 도입
-        │
-        ▼
+        |
+        v
 Bean 생명주기·후처리 표준화
-        │
-        ▼
+        |
+        v
 AOP·트랜잭션·환경 분리까지 통합 관리
 ```
 
@@ -135,7 +135,7 @@ AOP·트랜잭션·환경 분리까지 통합 관리
 
 **진행 상황**: 251 / 530
 
-← **이전**: [190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/190_di_framework_spring_bean_lifecycle/)
-**다음**: [191. 행위 패턴 개요 (Behavioral Patterns Overview)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/191_behavioral_patterns_overview/) →
+<- **이전**: [190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/190_di_framework_spring_bean_lifecycle/)
+**다음**: [191. 행위 패턴 개요 (Behavioral Patterns Overview)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/191_behavioral_patterns_overview/) ->
 
 ---

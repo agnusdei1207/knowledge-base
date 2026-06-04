@@ -22,7 +22,7 @@ tags = ["studynote-ai"]
 신경망 학습의 목표는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) L(w)를 최소화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 w를 찾는 것이다. 이를 위해 경사 하강법(GD, [Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 다음 갱신 규칙을 반복 적용한다:
 
 ```
-w ← w - α · ∇L(w)
+w <- w - α · ∇L(w)
 ```
 
 여기서 α는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate), ∇L(w)은 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 기울기(Gradient)다.
@@ -38,38 +38,38 @@ w ← w - α · ∇L(w)
 ### 배치 크기에 따른 경사 하강법 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              경사 하강법(GD) 세 가지 변형                 │
-├──────────────┬───────────────────┬───────────────────────┤
-│  Batch GD    │  SGD              │  Mini-batch GD        │
-│              │  (Stochastic GD)  │                       │
-├──────────────┼───────────────────┼───────────────────────┤
-│ 전체 N개     │ 1개 샘플로        │ k개(32~512)로         │
-│ 데이터로     │ 매 스텝 갱신      │ 매 스텝 갱신          │
-│ 한 번 갱신   │                   │                       │
-├──────────────┼───────────────────┼───────────────────────┤
-│ 정확한 기울기│ 노이즈 많음       │ 균형 잡힌 기울기       │
-│ 느린 갱신    │ 빠른 갱신         │ GPU 병렬 최적          │
-│ 메모리 한계  │ 지역 최솟값 탈출  │ 현대 DL 표준          │
-└──────────────┴───────────────────┴───────────────────────┘
++----------------------------------------------------------+
+|              경사 하강법(GD) 세 가지 변형                 |
++--------------+-------------------+-----------------------+
+|  Batch GD    |  SGD              |  Mini-batch GD        |
+|              |  (Stochastic GD)  |                       |
++--------------+-------------------+-----------------------+
+| 전체 N개     | 1개 샘플로        | k개(32~512)로         |
+| 데이터로     | 매 스텝 갱신      | 매 스텝 갱신          |
+| 한 번 갱신   |                   |                       |
++--------------+-------------------+-----------------------+
+| 정확한 기울기| 노이즈 많음       | 균형 잡힌 기울기       |
+| 느린 갱신    | 빠른 갱신         | GPU 병렬 최적          |
+| 메모리 한계  | 지역 최솟값 탈출  | 현대 DL 표준          |
++--------------+-------------------+-----------------------+
 ```
 
 ### 손실 곡면의 문제점
 
 ```
 손실(Loss)
-    │
-    │    지역 최솟값        안장점
-    │    (Local Min)        (Saddle)
-    │      ↓                  ↓
-높음│  ∩──●──∩         ──────●──────
-    │  │  │  │             / │ \
-    │  │  │  │            /  │  \
-낮음│──┘  │  └──      ───    │    ───
-    │     ↓                  │
-    │  전역 최솟값            기울기=0
-    │  (Global Min)          이지만 최솟값 아님
-    └────────────────────────────────→ 가중치
+    |
+    |    지역 최솟값        안장점
+    |    (Local Min)        (Saddle)
+    |      v                  v
+높음|  ∩--●--∩         ------●------
+    |  |  |  |             / | \
+    |  |  |  |            /  |  \
+낮음|--+  |  +--      ---    |    ---
+    |     v                  |
+    |  전역 최솟값            기울기=0
+    |  (Global Min)          이지만 최솟값 아님
+    +---------------------------------> 가중치
 ```
 
 ### [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) vs 안장점
@@ -88,7 +88,7 @@ w ← w - α · ∇L(w)
 SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 1개 또는 미니배치 샘플의 기울기로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 갱신하므로 <strong>매 스텝 기울기에 노이즈(Noise)가 포함</strong>된다. 이 노이즈가 오히려:
 - [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출 가능
 - 안장점에서 벗어나는 힘 제공
-- 더 <strong>평탄한(Flat) 최솟값</strong>에 수렴 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+- 더 <strong>평탄한(Flat) 최솟값</strong>에 수렴 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 - **📢 섹션 요약 비유**: SGD의 노이즈는 미끄럼틀 탈 때 엉덩이가 좌우로 흔들리는 것과 같다. 항상 직선으로만 내려오면 함정([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠지지만, 흔들림 덕분에 함정을 넘어 진짜 아래로 내려올 수 있다.
 
@@ -110,7 +110,7 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 기울기를 <strong>효율적으로 계산</strong>하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이고, 경사 하강법은 그 기울기를 <strong>어떻게 활용해 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 갱신할지</strong> 결정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 두 개념은 항상 함께 동작한다.
 
 ```
-순전파(Forward Pass)  →  손실 계산(Loss)  →  역전파(Backward Pass)  →  경사 하강법(GD)으로 갱신
+순전파(Forward Pass)  ->  손실 계산(Loss)  ->  역전파(Backward Pass)  ->  경사 하강법(GD)으로 갱신
 ```
 
 | 구분 | 핵심 초점 | 적용 상황 |
@@ -127,7 +127,7 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 
 ### 기술사 시험 판단 포인트
 
-1. **배치 크기 선택의 트레이드오프**: 배치가 클수록 메모리 필요량↑, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율↑, 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↓
+1. **배치 크기 선택의 트레이드오프**: 배치가 클수록 메모리 필요량^, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율^, 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)v
 2. **SGD의 노이즈 효과**: 노이즈가 [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)과 안장점 탈출에 기여한다는 점
 3. <strong>미니배치 크기 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 맞게 32, 64, 128, 256 중 선택. 2의 거듭제곱 권장
 4. **에포크 수 결정**: [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))와 연계해 과적합 방지
@@ -140,8 +140,8 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 
 ### 그래디언트 소실/폭발 문제
 
-- **그래디언트 소실(Gradient Vanishing)**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 0에 수렴 → [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)로 완화
-- **그래디언트 폭발(Gradient Explosion)**: 기울기가 기하급수적으로 커짐 → 그래디언트 클리핑(Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))으로 완화
+- **그래디언트 소실(Gradient Vanishing)**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 0에 수렴 -> [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)로 완화
+- **그래디언트 폭발(Gradient Explosion)**: 기울기가 기하급수적으로 커짐 -> 그래디언트 클리핑(Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))으로 완화
 
 - **📢 섹션 요약 비유**: 미니배치는 마라톤 대회 운영진이 참가자를 한꺼번에 출발시키지 않고 100명씩 나눠 보내는 것과 같다. 한 번에 너무 많이 보내면 혼잡하고(메모리 초과), 한 명씩 보내면 느리다(SGD). 100명씩이 가장 효율적이다.
 
@@ -176,7 +176,7 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [경사 하강법 (GD) / SGD (Stochastic Gradient Descent)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [경사 하강법 (GD) / SGD (Stochastic Gradient Descent)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -191,7 +191,7 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 
 **진행 상황**: 275 / 420
 
-← **이전**: [274. 옵티마이저 (Optimizer)](/knowledge-base/studynote/10_ai/03_llm_nlp/274_optimizer_learning_rate/)
-**다음**: [276. 모멘텀 (Momentum)](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) →
+<- **이전**: [274. 옵티마이저 (Optimizer)](/knowledge-base/studynote/10_ai/03_llm_nlp/274_optimizer_learning_rate/)
+**다음**: [276. 모멘텀 (Momentum)](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-devops-sre"]
 
 ```text
 OTel 아키텍처:
-  앱 → OTel SDK → OTel Collector → 백엔드
+  앱 -> OTel SDK -> OTel Collector -> 백엔드
          (자동 계측)   (수집·변환)   (Grafana/Datadog)
 ```
 
@@ -58,10 +58,10 @@ OpenTelemetry는 <strong><a href="/knowledge-base/studynote/13_cloud_architectur
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[OpenTracing + OpenCensus (2016~)] → [OpenTelemetry 통합 (2019)]
-    → [OTel GA (2023, Traces+Metrics)]
-    → [OTel Logs GA (2024)]
-    → [현재: OTel Profiling — 프로파일링까지 통합]
+[OpenTracing + OpenCensus (2016~)] -> [OpenTelemetry 통합 (2019)]
+    -> [OTel GA (2023, Traces+Metrics)]
+    -> [OTel Logs GA (2024)]
+    -> [현재: OTel Profiling — 프로파일링까지 통합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -75,7 +75,7 @@ OpenTelemetry는 <strong><a href="/knowledge-base/studynote/13_cloud_architectur
 
 **진행 상황**: 130 / 373
 
-← **이전**: [129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/129_observability_vs_monitoring/)
-**다음**: [131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/) →
+<- **이전**: [129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/129_observability_vs_monitoring/)
+**다음**: [131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/131_observability_three_pillars/) ->
 
 ---

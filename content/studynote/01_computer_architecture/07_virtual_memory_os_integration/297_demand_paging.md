@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 "실행 전에 모두 싣는 방식"과 "접근 시점에 싣는 방식"의 차이를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                전체 적재 vs 요구 페이징의 자원 사용 방식                  │
-├───────────────────────┬────────────────────────┬───────────────────────────┤
-│ 구분                  │ 전체 적재              │ 요구 페이징               │
-├───────────────────────┼────────────────────────┼───────────────────────────┤
-│ 시작 시 메모리 사용   │ 프로그램 전체          │ 초기 필요 페이지 일부     │
-│ 초기 실행 지연        │ 큼                     │ 작음                      │
-│ 안 쓰는 코드의 점유   │ 그대로 유지            │ 접근 전까지 미적재        │
-│ 메모리 압박 시 확장성 │ 낮음                   │ 상대적으로 높음           │
-└───────────────────────┴────────────────────────┴───────────────────────────┘
++----------------------------------------------------------------------------+
+|                전체 적재 vs 요구 페이징의 자원 사용 방식                  |
++-----------------------+------------------------+---------------------------+
+| 구분                  | 전체 적재              | 요구 페이징               |
++-----------------------+------------------------+---------------------------+
+| 시작 시 메모리 사용   | 프로그램 전체          | 초기 필요 페이지 일부     |
+| 초기 실행 지연        | 큼                     | 작음                      |
+| 안 쓰는 코드의 점유   | 그대로 유지            | 접근 전까지 미적재        |
+| 메모리 압박 시 확장성 | 낮음                   | 상대적으로 높음           |
++-----------------------+------------------------+---------------------------+
 ```
 
 핵심은 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)이 메모리를 공짜로 늘려 주는 기술이 아니라, <strong>당장 필요한 것과 나중에 필요한 것을 시간적으로 분리</strong>하는 기술이라는 점이다. 따라서 이 기법은 메모리 부족 자체를 없애는 해법이 아니라, 제한된 메모리를 더 영리하게 나누는 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 이해해야 한다.
@@ -56,29 +56,29 @@ tags = ["studynote-computer-architecture"]
 | 백킹 스토어 (Backing Store) | 아직 메모리에 없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 보관 | 디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 전체 비용 좌우 |
 | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러 | 적재·갱신·재실행 수행 | 예외 처리 순서와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
-이 그림은 "주소 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) → 부재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 적재 → 재실행"의 시간을 따라가며 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 실제 흐름을 보여준다.
+이 그림은 "주소 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) -> 부재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 적재 -> 재실행"의 시간을 따라가며 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 실제 흐름을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     요구 페이징의 동작 시퀀스                             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1. CPU references virtual address                                          │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 2. MMU checks page table entry                                             │
-│        │                                                                   │
-│   Present=1 ───────────────▶ 바로 접근                                     │
-│        │                                                                   │
-│   Present=0                                                                │
-│        ▼                                                                   │
-│ 3. Page Fault trap to OS                                                   │
-│        │                                                                   │
-│ 4. OS finds free frame or selects victim page                              │
-│        │                                                                   │
-│ 5. Disk/SSD reads missing page into RAM                                    │
-│        │                                                                   │
-│ 6. Page table updated + instruction restarted                              │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                     요구 페이징의 동작 시퀀스                             |
++----------------------------------------------------------------------------+
+| 1. CPU references virtual address                                          |
+|        |                                                                   |
+|        v                                                                   |
+| 2. MMU checks page table entry                                             |
+|        |                                                                   |
+|   Present=1 ----------------> 바로 접근                                     |
+|        |                                                                   |
+|   Present=0                                                                |
+|        v                                                                   |
+| 3. Page Fault trap to OS                                                   |
+|        |                                                                   |
+| 4. OS finds free frame or selects victim page                              |
+|        |                                                                   |
+| 5. Disk/SSD reads missing page into RAM                                    |
+|        |                                                                   |
+| 6. Page table updated + instruction restarted                              |
++----------------------------------------------------------------------------+
 ```
 
 여기서 중요한 것은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 곧바로 실패를 뜻하지 않는다는 점이다. [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)에서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 오히려 "이제 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하다"는 신호다. 다만 그 비용이 크다. 메모리 접근이 대략 수십~수백 나노초 (ns) 수준이라면, 저장장치 접근은 수십 마이크로초 (μs)에서 밀리초 (ms)까지 늘어날 수 있다. 즉 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 <strong>평소에는 절약하고, 필요 시 크게 지불하는 구조</strong>다.
@@ -158,21 +158,21 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 전체 적재 중심 메모리 운영
-        │
-        ▼
+        |
+        v
 가상 메모리 (Virtual Memory)
-        │
-        ▼
+        |
+        v
 요구 페이징 (Demand Paging)
-        │
-        ├──▶ 페이지 폴트 처리 (Page Fault Handling)
-        │
-        ├──▶ 페이지 교체 (Page Replacement)
-        │
-        ▼
+        |
+        +---> 페이지 폴트 처리 (Page Fault Handling)
+        |
+        +---> 페이지 교체 (Page Replacement)
+        |
+        v
 작업 집합 · 스래싱 제어 · 프리페이징
-        │
-        ▼
+        |
+        v
 지연 민감 워크로드별 메모리 최적화
 ```
 
@@ -190,7 +190,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 297 / 803
 
-← **이전**: [296. 페이징과 세그멘테이션 혼용 (Paging-Segmentation Hybrid)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/296_paging_segmentation_hybrid/)
-**다음**: [298. 페이지 부재 (Page Fault)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/298_page_fault/) →
+<- **이전**: [296. 페이징과 세그멘테이션 혼용 (Paging-Segmentation Hybrid)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/296_paging_segmentation_hybrid/)
+**다음**: [298. 페이지 부재 (Page Fault)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/298_page_fault/) ->
 
 ---

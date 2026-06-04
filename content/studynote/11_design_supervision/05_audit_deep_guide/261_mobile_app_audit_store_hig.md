@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 모바일 앱 감리 HIG와 Material Design는 애플 휴먼 인터페이스 가이드(Apple Human Interface Guidelines, HIG)와 머티리얼 디자인(Material Design) 기준을 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 멀티 디바이스와 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 요구가 확대되면서 화면 예쁨보다 과업 성공률과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 중요성이 커졌다. 특히 디자인 시스템이 기준선으로 정리되지 않으면 탐색 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 사람 의존 절차로 흩어지고, 최종적으로 스토어 심사 적합성이 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 사용자 이탈, 민원 증가, 심사 반려가 반복된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 디자인 시스템 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 탐색 일관성 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 스토어 심사 적합성 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 디자인 시스템 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 탐색 일관성 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 스토어 심사 적합성 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: 모바일 앱 감리 HIG와 Material Design는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 스토어 심사 적합성을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 디자인 시스템, 탐색 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 스토어 심사 적합성은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)
 
 ### 📈 관련 키워드 및 발전 흐름도
-[디자인 시스템] → [모바일 앱 감리 HIG와 Material Design] → [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
+[디자인 시스템] -> [모바일 앱 감리 HIG와 Material Design] -> [경험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선(Experience Analytics)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 디자인 시스템은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 322 / 530
 
-← **이전**: [260. DB 옵티마이저 슬로우 쿼리 진단 (DB Optimizer Slow Query Diagnosis)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/)
-**다음**: [262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/) →
+<- **이전**: [260. DB 옵티마이저 슬로우 쿼리 진단 (DB Optimizer Slow Query Diagnosis)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/260_db_optimizer_slow_query/)
+**다음**: [262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/262_ui_ux_heuristic_audit/) ->
 
 ---

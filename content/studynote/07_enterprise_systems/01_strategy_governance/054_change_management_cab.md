@@ -29,10 +29,10 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-변경은 보통 요청 → 평가 → 승인 → 실행 → 검토 순서로 흐른다. CAB는 이 과정에서 영향도와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 판단한다.
+변경은 보통 요청 -> 평가 -> 승인 -> 실행 -> 검토 순서로 흐른다. CAB는 이 과정에서 영향도와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 판단한다.
 
 ```text
-Change Request → Impact/Risk Review → CAB Approval → Implementation → Review
+Change Request -> Impact/Risk Review -> CAB Approval -> Implementation -> Review
 ```
 
 | 유형 | 의미 | 승인 흐름 |
@@ -110,14 +110,14 @@ CAB는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ```text
 변경 요청
-    │
-    ▼
+    |
+    v
 리스크 평가
-    │
-    ▼
+    |
+    v
 CAB / ECAB 승인
-    │
-    ▼
+    |
+    v
 실행 / 검토
 ```
 
@@ -135,7 +135,7 @@ CAB / ECAB 승인
 
 **진행 상황**: 54 / 482
 
-← **이전**: [53. 문제 관리와 근본 원인 분석 (Problem Management RCA)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/053_problem_management_rca/)
-**다음**: [55. 릴리스와 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/055_release_and_deployment_management/) →
+<- **이전**: [53. 문제 관리와 근본 원인 분석 (Problem Management RCA)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/053_problem_management_rca/)
+**다음**: [55. 릴리스와 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/055_release_and_deployment_management/) ->
 
 ---

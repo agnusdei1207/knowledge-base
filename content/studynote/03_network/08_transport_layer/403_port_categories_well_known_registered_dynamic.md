@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [포트 번호]
-    │
-    ▼
+    |
+    v
 [Well-Known 포트, Registere…]
-    │
-    └──▶ [소켓 주소 = IP 주소 + 포트 번호]
+    |
+    +---> [소켓 주소 = IP 주소 + 포트 번호]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>를 3개로 나눈 것은 도로의 </strong>"차선 지정제"**입니다. 1차선(Well-Known)은 허가받은 버스와 구급차만 달릴 수 있는 영구 전용차로이고, 나머지 차선(동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))은 일반 승용차들이 목적지로 갈 때 아무렇게나 밟고 달렸다가 빠지는 자유 도로입니다.
@@ -69,22 +69,22 @@ tags = ["studynote-network"]
 - *주의*: 구형 윈도우([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 시절)는 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 1024~5000번까지 아주 좁게 썼지만, 현대 운영체제들은 국제 표준을 지켜 49152번 이후를 쓴다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                클라이언트와 서버의 포트 번호 짝짜꿍 시나리오          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 폰 (클라이언트) ]                       [ 구글 (서버) ]   │
- │   (OS가 동적 포트 랜덤 생성)                  (Well-Known 고정) │
- │                                                             │
- │   * 유튜브 앱 실행!                                            │
- │   ▶ 폰: 출발지 51000 ──▶ 목적지 443(HTTPS) 으로 접속 요청!!      │
- │                                                             │
- │   * 구글 서버 응답!                                            │
- │   ◀ 구글: 출발지 443 ──▶ 목적지 51000 으로 영상 쏴줌!!            │
- │                                                             │
- │   ▶ 결과: 나는 443번 고정 간판을 보고 쉽게 구글을 찾아가고,         │
- │           구글은 내가 던져준 51000번 딱지를 보고 내 폰으로 정확히 배송함!│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                클라이언트와 서버의 포트 번호 짝짜꿍 시나리오          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 내 폰 (클라이언트) ]                       [ 구글 (서버) ]   |
+ |   (OS가 동적 포트 랜덤 생성)                  (Well-Known 고정) |
+ |                                                             |
+ |   * 유튜브 앱 실행!                                            |
+ |   -> 폰: 출발지 51000 ---> 목적지 443(HTTPS) 으로 접속 요청!!      |
+ |                                                             |
+ |   * 구글 서버 응답!                                            |
+ |   <- 구글: 출발지 443 ---> 목적지 51000 으로 영상 쏴줌!!            |
+ |                                                             |
+ |   -> 결과: 나는 443번 고정 간판을 보고 쉽게 구글을 찾아가고,         |
+ |           구글은 내가 던져준 51000번 딱지를 보고 내 폰으로 정확히 배송함!|
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a> 3대장은 백화점의 </strong>"층수 가이드"**입니다. 1층(Well-Known)은 명품관과 안내데스크처럼 절대 바뀌지 않는 고정석이고, 2층~3층(Registered)은 입점 계약을 맺은 브랜드 매장들이며, 꼭대기 층(Dynamic)은 주말마다 아무 상인이나 들어왔다 빠지는 벼룩시장(플리마켓)입니다.
@@ -145,12 +145,12 @@ Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and
 
 ```text
 [선행 개념: 포트 번호]
-    │
-    ▼
+    |
+    v
 [현재 개념: Well-Known 포트, Registere…]
-    │
-    ├──▶ [확장 A: 소켓 주소 = IP 주소 + 포트 번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
+    |
+    +---> [확장 A: 소켓 주소 = IP 주소 + 포트 번호]
+    +---> [확장 B: 적응형 저지연 전송]
 ```
 
 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…는 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -167,7 +167,7 @@ Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and
 
 **진행 상황**: 524 / 1120
 
-← **이전**: [402. 포트 번호 (Port Number)](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)
-**다음**: [404. 소켓 주소 (Socket Address) = IP 주소 + 포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) →
+<- **이전**: [402. 포트 번호 (Port Number)](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)
+**다음**: [404. 소켓 주소 (Socket Address) = IP 주소 + 포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) ->
 
 ---

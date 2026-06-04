@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Spike 프로세스                                     │
-├───────────────────────────────────────────────────────┤
-│  1. 불확실성 식별: "이 라이브러리가 요건을 충족할까?"│
-│  2. Spike 생성: 타임박스 2일, 목표 명확히            │
-│  3. 조사·PoC: 프로토타입·성능 테스트                 │
-│  4. 결과 공유: "A 라이브러리 사용 결정, 이유는..."   │
-│  5. 원래 스토리: 이제 추정 가능 → 스프린트 투입      │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Spike 프로세스                                     |
++-------------------------------------------------------+
+|  1. 불확실성 식별: "이 라이브러리가 요건을 충족할까?"|
+|  2. Spike 생성: 타임박스 2일, 목표 명확히            |
+|  3. 조사·PoC: 프로토타입·성능 테스트                 |
+|  4. 결과 공유: "A 라이브러리 사용 결정, 이유는..."   |
+|  5. 원래 스토리: 이제 추정 가능 -> 스프린트 투입      |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Spike는 <strong>정찰대</strong>이다. 본대(개발팀)가 진격하기 전에 정찰대가 먼저 가서 "이 길이 안전한지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
@@ -87,17 +87,17 @@ Spike는 <strong>Agile에서 기술 리스크를 사전 제거하는 유일한 �
 
 ```text
 [XP (Extreme Programming, 1999) — Spike 개념 도입]
-    │
-    ▼
+    |
+    v
 [Scrum + Spike (2005~)]
-    │
-    ▼
+    |
+    v
 [SAFe Spike (2015~) — 대규모 Agile에서의 Spike]
-    │
-    ▼
+    |
+    v
 [PoC as Code (2020~) — Spike 산출물 재사용]
-    │
-    ▼
+    |
+    v
 [현재: AI Spike — LLM으로 기술 조사 자동화]
 ```
 
@@ -112,7 +112,7 @@ Spike는 <strong>Agile에서 기술 리스크를 사전 제거하는 유일한 �
 
 **진행 상황**: 129 / 973
 
-← **이전**: [128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-**다음**: [130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/130_acceptance_criteria_vs_dod/) →
+<- **이전**: [128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+**다음**: [130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/130_acceptance_criteria_vs_dod/) ->
 
 ---

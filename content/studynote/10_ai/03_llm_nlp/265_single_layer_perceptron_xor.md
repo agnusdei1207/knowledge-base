@@ -39,7 +39,7 @@ z = w₁x₁ + w₂x₂ + ... + wₙxₙ - θ  (θ: 임계값, Threshold)
 ### [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙
 
 ```
-wᵢ ← wᵢ + η × (y_target - y_pred) × xᵢ
+wᵢ <- wᵢ + η × (y_target - y_pred) × xᵢ
 ```
 
 - **η**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)
@@ -54,39 +54,39 @@ wᵢ ← wᵢ + η × (y_target - y_pred) × xᵢ
 ### 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 구조
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                   단층 퍼셉트론 (SLP) 구조                    │
-│                                                              │
-│   입력층 (Input Layer)         출력층 (Output Layer)          │
-│                                                              │
-│   x₁ ──[w₁]──┐                                              │
-│               │                                              │
-│   x₂ ──[w₂]──┼──► Σ(wᵢxᵢ) - θ ──► 계단 함수 ──► ŷ (0 or 1) │
-│               │                                              │
-│   x₃ ──[w₃]──┘                                              │
-│                                                              │
-│   ┌────────────────────────────────────────────────────┐    │
-│   │ 결정 경계: w₁x₁ + w₂x₂ = θ  (직선, 초평면)         │    │
-│   └────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                   단층 퍼셉트론 (SLP) 구조                    |
+|                                                              |
+|   입력층 (Input Layer)         출력층 (Output Layer)          |
+|                                                              |
+|   x₁ --[w₁]--+                                              |
+|               |                                              |
+|   x₂ --[w₂]--+--► Σ(wᵢxᵢ) - θ --► 계단 함수 --► ŷ (0 or 1) |
+|               |                                              |
+|   x₃ --[w₃]--+                                              |
+|                                                              |
+|   +----------------------------------------------------+    |
+|   | 결정 경계: w₁x₁ + w₂x₂ = θ  (직선, 초평면)         |    |
+|   +----------------------------------------------------+    |
++--------------------------------------------------------------+
 ```
 
 ### XOR 문제와 선형 분리 불가능성
 
 ```
-┌─────────────────────────────────────────────────┐
-│        AND (선형 분리 가능)    XOR (불가능)        │
-│                                                 │
-│  x₂│           x₂│                             │
-│  1 │  ○  ●     1 │  ●  ○                        │
-│    │             │                              │
-│  0 │  ○  ○     0 │  ○  ●                        │
-│    └──────x₁    └──────x₁                       │
-│       0   1        0   1                        │
-│                                                 │
-│  ○=0 ●=1          직선 하나로 ○와 ●를             │
-│  직선으로 분리 ✓   분리 불가 ✗                    │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+|        AND (선형 분리 가능)    XOR (불가능)        |
+|                                                 |
+|  x₂|           x₂|                             |
+|  1 |  ○  ●     1 |  ●  ○                        |
+|    |             |                              |
+|  0 |  ○  ○     0 |  ○  ●                        |
+|    +------x₁    +------x₁                       |
+|       0   1        0   1                        |
+|                                                 |
+|  ○=0 ●=1          직선 하나로 ○와 ●를             |
+|  직선으로 분리 ✓   분리 불가 ✗                    |
++-------------------------------------------------+
 ```
 
 XOR [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/):
@@ -124,11 +124,11 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 ### [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)으로 구현 가능한 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/):
-- AND: w₁=1, w₂=1, θ=1.5 → 두 입력 모두 1일 때만 출력 1
-- OR: w₁=1, w₂=1, θ=0.5 → 하나 이상 1이면 출력 1
+- AND: w₁=1, w₂=1, θ=1.5 -> 두 입력 모두 1일 때만 출력 1
+- OR: w₁=1, w₂=1, θ=0.5 -> 하나 이상 1이면 출력 1
 - NAND: w₁=-1, w₂=-1, θ=-1.5
 
-**불가능**: XOR (두 개의 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 조합 필요 → MLP)
+**불가능**: XOR (두 개의 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 조합 필요 -> MLP)
 
 - **📢 섹션 요약 비유**: SLP로 할 수 있는 것과 없는 것의 경계는 "직선 한 개로 그림을 자를 수 있느냐"의 문제 — 직선 하나로 구역을 나눌 수 있으면 SLP로 가능, 그렇지 않으면 MLP가 필요하다.
 
@@ -139,25 +139,25 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 ### 기술사 시험 핵심 논점
 
 1. **왜 XOR 불가능한가**: 2차원 공간에서 XOR의 네 점이 선형 분리 불가능한 구조를 형성하기 때문 — 직선(결정 경계)이 아닌 비선형 경계가 필요
-2. **역사적 의의**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계 증명 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울 → MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 재발견 (1986) → 딥러닝 시대의 밑거름
+2. **역사적 의의**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계 증명 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울 -> MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 재발견 (1986) -> 딥러닝 시대의 밑거름
 3. <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>) 도입</strong>: 임계값 θ를 음수 편향 b = -θ로 치환하면 학습 가능 파라미터로 통일 가능
 4. **수렴 정리**: 선형 분리 가능 문제에서 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 유한 번의 반복으로 반드시 수렴 ([퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/), [Perceptron Convergence Theorem](/knowledge-base/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))
 
 ### [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계를 극복하는 방법
 
 ```
-┌──────────────────────────────────────────────────────┐
-│             XOR 해결 방법들                           │
-│                                                      │
-│  방법 1: MLP (은닉층 추가)                            │
-│  x₁, x₂ → [은닉층: AND, OR 조합] → [출력: XOR 결과]  │
-│                                                      │
-│  방법 2: 특징 공학 (Feature Engineering)              │
-│  새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가           │
-│                                                      │
-│  방법 3: 커널 방법 (Kernel Method, SVM)               │
-│  데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환   │
-└──────────────────────────────────────────────────────┘
++------------------------------------------------------+
+|             XOR 해결 방법들                           |
+|                                                      |
+|  방법 1: MLP (은닉층 추가)                            |
+|  x₁, x₂ -> [은닉층: AND, OR 조합] -> [출력: XOR 결과]  |
+|                                                      |
+|  방법 2: 특징 공학 (Feature Engineering)              |
+|  새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가           |
+|                                                      |
+|  방법 3: 커널 방법 (Kernel Method, SVM)               |
+|  데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환   |
++------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: SLP의 한계 극복은 "더 많은 눈금자(은닉층)"를 추가하거나 "3D로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들어올려([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))" 직선으로 나누는 것 — 평면에서 불가능한 분리가 입체에서는 가능해진다.
@@ -197,7 +197,7 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[배경 개념] → [단층 퍼셉트론 (Single-Layer Perceptron)] → [응용·확장]
+[배경 개념] -> [단층 퍼셉트론 (Single-Layer Perceptron)] -> [응용·확장]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -212,7 +212,7 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 **진행 상황**: 265 / 420
 
-← **이전**: [264. 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)
-**다음**: [266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) →
+<- **이전**: [264. 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)
+**다음**: [266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) ->
 
 ---

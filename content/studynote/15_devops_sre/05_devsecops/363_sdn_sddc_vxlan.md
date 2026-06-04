@@ -30,18 +30,18 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              VXLAN 오버레이 구조                                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [VM A] ─────────────────────────────── [VM B]                  │
-│  논리 네트워크 (Overlay, VNI=10001)                               │
-│    │                                       │                    │
-│  [VTEP A]                               [VTEP B]               │
-│  VXLAN 터널 엔드포인트                  VXLAN 터널 엔드포인트    │
-│    └── UDP/IP 캡슐화 ──▶ [물리 네트워크] ──▶ 역캡슐화 ──────────┘│
-│                                                                  │
-│  VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              VXLAN 오버레이 구조                                  |
++------------------------------------------------------------------+
+|  [VM A] ------------------------------- [VM B]                  |
+|  논리 네트워크 (Overlay, VNI=10001)                               |
+|    |                                       |                    |
+|  [VTEP A]                               [VTEP B]               |
+|  VXLAN 터널 엔드포인트                  VXLAN 터널 엔드포인트    |
+|    +-- UDP/IP 캡슐화 ---> [물리 네트워크] ---> 역캡슐화 ----------+|
+|                                                                  |
+|  VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)   |
++------------------------------------------------------------------+
 ```
 
 | 항목           | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)                  | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)                          |
@@ -81,8 +81,8 @@ tags = ["studynote-devops-sre"]
 4. VNI 네이밍 규칙 정의: 테넌트·환경(prod/dev)·[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 매핑 문서화
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) MTU 미설정 → 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
-- [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 없이 플러드 모드 → 브로드캐스트 폭풍
+- [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) MTU 미설정 -> 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 없이 플러드 모드 -> 브로드캐스트 폭풍
 - [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) Controller [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure) 구성
 
 - 📢 섹션 요약 비유: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) MTU [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수는 편지봉투(패킷)보다 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 커서 구겨 넣는 것과 같다.
@@ -113,20 +113,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 전통 VLAN (4,096 세그먼트 한계)
-    │
-    ▼
+    |
+    v
 OpenFlow + SDN Controller — 제어/데이터 평면 분리
-    │
-    ▼
+    |
+    v
 VXLAN (24비트 VNI, 16M 세그먼트) — 멀티테넌트 확장
-    │
-    ▼
+    |
+    v
 BGP EVPN — VXLAN 제어 평면, 플러드 제거
-    │
-    ▼
+    |
+    v
 SDDC (NSX-T + vSAN + vSphere) — 전체 데이터센터 추상화
-    │
-    ▼
+    |
+    v
 eBPF (Cilium) — 오버레이 없는 직접 네트워킹
 ```
 
@@ -142,7 +142,7 @@ eBPF (Cilium) — 오버레이 없는 직접 네트워킹
 
 **진행 상황**: 363 / 373
 
-← **이전**: [362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox](/knowledge-base/studynote/15_devops_sre/05_devsecops/362_o_ran/)
-**다음**: [364. 멀티클러스터 쿠버네티스 페더레이션 고가용성 배포 (Multi-cluster Kubernetes Federation High-Availability](/knowledge-base/studynote/15_devops_sre/05_devsecops/364_process/) →
+<- **이전**: [362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox](/knowledge-base/studynote/15_devops_sre/05_devsecops/362_o_ran/)
+**다음**: [364. 멀티클러스터 쿠버네티스 페더레이션 고가용성 배포 (Multi-cluster Kubernetes Federation High-Availability](/knowledge-base/studynote/15_devops_sre/05_devsecops/364_process/) ->
 
 ---

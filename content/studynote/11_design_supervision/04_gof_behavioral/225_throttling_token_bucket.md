@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 없이 무제한 요청을 허용하면:
 - DDoS 공격에 취약 (악의적 대량 요청)
 - 특정 클라이언트의 과도 사용으로 다른 클라이언트 피해
-- 백엔드 DB/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 과부하 → 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운
+- 백엔드 DB/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 과부하 -> 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운
 
 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> (속도 제한) 적용 목적</strong>:
 - 공정한 자원 배분 (Fair Usage)
@@ -38,9 +38,9 @@ tags = ["studynote-design-supervision"]
 | Leaky Bucket | 큐를 통한 일정 속도 출력 | 흡수 후 평활화 | 중간 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: Rate Limiting은 놀이공원 입장 관리 — 아무리 많은 손님이 몰려도 회전문이 초당 R명만 통과시키고, 토큰 버킷은 대기열에 R명씩 들어가는 입장권(토큰)을 주는 방식이다.
@@ -49,41 +49,41 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                   Token Bucket Algorithm                    │
-│                                                             │
-│  토큰 생성:                                                   │
-│    초당 R개 토큰 추가 ────▶  ┌──────────────────┐            │
-│    (Rate Refill)            │    Token Bucket   │            │
-│                             │  [T][T][T][T][T]  │            │
-│                             │  capacity = B개   │            │
-│                             └────────┬─────────┘            │
-│                                      │                       │
-│  요청 처리:                            │                       │
-│    ┌──────────┐  토큰 있음?  토큰 소비  │                       │
-│    │ Request  │────────────▶ (1개 차감) └──▶  처리(200 OK)    │
-│    └──────────┘                                             │
-│         │        토큰 없음                                    │
-│         └─────────────────────────────▶  거부(429 Too Many) │
-│                                                             │
-│  파라미터:                                                    │
-│    R (Rate): 초당 토큰 충전 속도                               │
-│    B (Bucket): 버킷 최대 용량 (최대 버스트 크기)               │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                   Token Bucket Algorithm                    |
+|                                                             |
+|  토큰 생성:                                                   |
+|    초당 R개 토큰 추가 ----->  +------------------+            |
+|    (Rate Refill)            |    Token Bucket   |            |
+|                             |  [T][T][T][T][T]  |            |
+|                             |  capacity = B개   |            |
+|                             +--------+---------+            |
+|                                      |                       |
+|  요청 처리:                            |                       |
+|    +----------+  토큰 있음?  토큰 소비  |                       |
+|    | Request  |-------------> (1개 차감) +--->  처리(200 OK)    |
+|    +----------+                                             |
+|         |        토큰 없음                                    |
+|         +------------------------------>  거부(429 Too Many) |
+|                                                             |
+|  파라미터:                                                    |
+|    R (Rate): 초당 토큰 충전 속도                               |
+|    B (Bucket): 버킷 최대 용량 (최대 버스트 크기)               |
++-------------------------------------------------------------+
 ```
 
 ```
 Token Bucket (토큰 버킷):
   입력:  [burst][burst][burst]···[quiet]···
   처리:  [burst][burst][burst]···[quiet]···
-  → 버킷에 토큰이 있으면 버스트 즉시 처리
-  → 버킷 비면 거부 (거부 또는 대기)
+  -> 버킷에 토큰이 있으면 버스트 즉시 처리
+  -> 버킷 비면 거부 (거부 또는 대기)
 
 Leaky Bucket (리키 버킷):
   입력:  [burst][burst][burst]···[quiet]···
   처리:  [▬][▬][▬][▬][▬][▬][▬]···  (일정 속도)
-  → 버스트를 버킷에 흡수하고 일정 속도로 '새어 나옴'
-  → 버킷 넘침 시 패킷 드롭
+  -> 버스트를 버킷에 흡수하고 일정 속도로 '새어 나옴'
+  -> 버킷 넘침 시 패킷 드롭
 ```
 
 ```
@@ -95,9 +95,9 @@ AWS API Gateway 쓰로틀링 설정:
   Rate  = 100 rps (초당 100개 토큰 충전)
   Burst = 500     (버킷 용량, 최대 버스트)
 
-  → 평시: 초당 100 요청 처리
-  → 갑자기 500 요청: 버킷에 토큰 남아있으면 즉시 처리
-  → 500 초과: 429 Too Many Requests 반환
+  -> 평시: 초당 100 요청 처리
+  -> 갑자기 500 요청: 버킷에 토큰 남아있으면 즉시 처리
+  -> 500 초과: 429 Too Many Requests 반환
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -243,7 +243,7 @@ Token Bucket 기반 Rate Limiting은 [API](/knowledge-base/studynote/02_operatin
 | 연관 개념 | [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | Rate Limit 초과 + 장애 복합 대응 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[rate limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) → 쓰로틀링과 토큰 버킷 패턴 → traffic governance
+[rate limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) -> 쓰로틀링과 토큰 버킷 패턴 -> traffic governance
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 토큰 버킷은 동전 게임기 — 동전(토큰)이 있어야 게임을 할 수 있고, 동전이 없으면 기다려야 해. 동전통(버킷)이 꽉 차면 새 동전이 더 들어오지 않아.
@@ -256,7 +256,7 @@ Token Bucket 기반 Rate Limiting은 [API](/knowledge-base/studynote/02_operatin
 
 **진행 상황**: 286 / 530
 
-← **이전**: [224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/224_exponential_backoff_retry/)
-**다음**: [226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/) →
+<- **이전**: [224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/224_exponential_backoff_retry/)
+**다음**: [226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/) ->
 
 ---

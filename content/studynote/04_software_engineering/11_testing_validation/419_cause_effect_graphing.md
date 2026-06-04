@@ -27,21 +27,21 @@ tags = ["studynote-software-engineering"]
 그래서 1970년대 베테랑 엔지니어들은 전자공학의 진리인 <strong>'디지털 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a>(Logic Gate)'</strong>를 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 테스팅에 차용합니다. 문장 속에 있는 조건(원인, Cause)들을 네모 상자로 두고, 최종 작동 결과(결과, Effect)를 동그라미 상자로 둔 다음, 그 사이를 `AND(∧)`, `OR(∨)` [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 선으로 연결해 시각적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)도면으로 도식화해 버렸습니다. 이것이 바로 <strong>원인-결과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Cause-Effect Graphing)</strong>입니다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  원인-결과 그래프 논리 게이트 맵핑 예시               │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 원인 (Cause = 입력 조건) ]           [ 결과 (Effect = 출력 동작) ]│
-│                                                              │
-│  Cause 1: 카드 한도 초과 아님 ───┐                                │
-│                            ├── AND(∧) ────▶ Effect: 신용 결제 승인 │
-│  Cause 2: 결제 암호 일치    ───┘                                │
-│                                                              │
-│  Cause 3: 현금성 계좌 이체  ──────────────▶ Effect: 즉시 공제 및 승인 │
-│                                                              │
-│   ★ 이렇게 다이오드 선으로 묶어서 전자회로(Boolean)처럼 그려보면     │
-│      꼬인 문구의 오류(스파게티 로직)가 단번에 투명해진다!                 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  원인-결과 그래프 논리 게이트 맵핑 예시               |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 원인 (Cause = 입력 조건) ]           [ 결과 (Effect = 출력 동작) ]|
+|                                                              |
+|  Cause 1: 카드 한도 초과 아님 ---+                                |
+|                            +-- AND(∧) -----> Effect: 신용 결제 승인 |
+|  Cause 2: 결제 암호 일치    ---+                                |
+|                                                              |
+|  Cause 3: 현금성 계좌 이체  ---------------> Effect: 즉시 공제 및 승인 |
+|                                                              |
+|   ★ 이렇게 다이오드 선으로 묶어서 전자회로(Boolean)처럼 그려보면     |
+|      꼬인 문구의 오류(스파게티 로직)가 단번에 투명해진다!                 |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 아무리 복잡한 설명서(이 선을 꼬고 저 선을 이으세요) 글귀라도, 그걸 천재 엔지니어가 칠판에 동그라미 2개랑 화살표로 "이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 누르고 저거 합선되면 전구에 불 들어옴!" 하고 전개도면 하나(원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 쫙 펼쳐주는 그림 해석의 승리입니다.
@@ -153,21 +153,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 원인-결과 그래프 (Cause-Effect Graphing) 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 429 / 973
 
-← **이전**: [418. 페어와이즈 테스팅 (Pairwise Testing) - 변수 값들의 모든 쌍(Pair) 조합이 최소 한 번 테스트되도록 최적화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/418_pairwise_testing/)
-**다음**: [419. 원인-결과 그래프 (Cause-Effect Graphing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/) →
+<- **이전**: [418. 페어와이즈 테스팅 (Pairwise Testing) - 변수 값들의 모든 쌍(Pair) 조합이 최소 한 번 테스트되도록 최적화](/knowledge-base/studynote/04_software_engineering/11_testing_validation/418_pairwise_testing/)
+**다음**: [419. 원인-결과 그래프 (Cause-Effect Graphing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/) ->
 
 ---

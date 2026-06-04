@@ -31,32 +31,32 @@ tags = ["studynote-software-engineering"]
 규모가 커짐에 따라 단일 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀에서 발생하는 의존성 지옥(Dependency Hell)과 이를 대규모 프레임워크가 어떻게 구조화하는지를 시각적으로 대비해 볼 수 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         단일 애자일의 한계(Silo) vs 대규모 애자일(정렬) 비교       │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [확장 전: 애자일 사일로 및 의존성 지옥]                         │
-  │   (Team A)   ──서로 일정 안맞음──▶  (Team B)                   │
-  │     스프린트                      스프린트                       │
-  │        │                             │                       │
-  │        ▼ 통합 실패 (Integration Hell) ▼                       │
-  │   [결과물 A] ◀─── 인터페이스 불일치 ───▶ [결과물 B]                 │
-  │   * 문제: 각자 빠르지만, 통합하면 시스템이 동작하지 않음.              │
-  │                                                              │
-  │  [확장 후: 대규모 애자일(Scaled Agile) 정렬 메커니즘]             │
-  │                                                              │
-  │           [전사 비전 / 포트폴리오 백로그]                        │
-  │                         │                                    │
-  │      ┌──────────────────┴──────────────────┐                 │
-  │      ▼ 동기화된 릴리스 기차 (예: SAFe ART)  ▼                 │
-  │   (Team A)                           (Team B)                │
-  │  동일한 주기의                        동일한 주기의               │
-  │  스프린트 진행                        스프린트 진행               │
-  │      │                                  │                    │
-  │      └──────────▶ 지속적 통합 ◀──────────┘                    │
-  │                     [하나의 완성된 시스템]                        │
-  │   * 해결: 동일한 박자(Cadence)와 통합 이벤트로 전체 정렬 확보.         │
-  └──────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------+
+  |         단일 애자일의 한계(Silo) vs 대규모 애자일(정렬) 비교       |
+  +--------------------------------------------------------------+
+  |                                                              |
+  |  [확장 전: 애자일 사일로 및 의존성 지옥]                         |
+  |   (Team A)   --서로 일정 안맞음--->  (Team B)                   |
+  |     스프린트                      스프린트                       |
+  |        |                             |                       |
+  |        v 통합 실패 (Integration Hell) v                       |
+  |   [결과물 A] <---- 인터페이스 불일치 ----> [결과물 B]                 |
+  |   * 문제: 각자 빠르지만, 통합하면 시스템이 동작하지 않음.              |
+  |                                                              |
+  |  [확장 후: 대규모 애자일(Scaled Agile) 정렬 메커니즘]             |
+  |                                                              |
+  |           [전사 비전 / 포트폴리오 백로그]                        |
+  |                         |                                    |
+  |      +------------------+------------------+                 |
+  |      v 동기화된 릴리스 기차 (예: SAFe ART)  v                 |
+  |   (Team A)                           (Team B)                |
+  |  동일한 주기의                        동일한 주기의               |
+  |  스프린트 진행                        스프린트 진행               |
+  |      |                                  |                    |
+  |      +-----------> 지속적 통합 <-----------+                    |
+  |                     [하나의 완성된 시스템]                        |
+  |   * 해결: 동일한 박자(Cadence)와 통합 이벤트로 전체 정렬 확보.         |
+  +--------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 확장 전의 모습은 각 팀이 자신만의 백로그와 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기를 가지고 독립적으로 달리는 상황이다. 소프트웨어의 크기가 작을 때는 문제가 없으나, 마이크로서비스나 대형 플랫폼처럼 시스템 간 결합도가 높은 환경에서는 A팀이 B팀의 API를 기다리며 노는(Block) 현상이나, 나중에 합쳤을 때 구조가 어긋나는 통합 지옥이 필연적으로 발생한다. [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)은 상위에 '포트폴리오 백로그'를 두어 목표를 통일하고, 아래의 모든 팀이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작일과 종료일(Cadence)을 완벽히 맞추어 정기적으로 결과물을 강제 통합([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))하게 만듦으로써 부분 최적화가 아닌 전체 최적화를 달성한다.
@@ -160,21 +160,21 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+    |
+    v
 대규모 애자일 SAFe, LeSS 개념 정립
-    │
-    ▼
+    |
+    v
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+    |
+    v
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+    |
+    v
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,7 +188,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 834 / 973
 
-← **이전**: [663. 스토리 포인트 플래닝 포커 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/663_story_point_planning_poker/)
-**다음**: [665. 린 스타트업 MVP 피벗 사이클](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/665_lean_development_7_principles/) →
+<- **이전**: [663. 스토리 포인트 플래닝 포커 합의](/knowledge-base/studynote/04_software_engineering/uncategorized/663_story_point_planning_poker/)
+**다음**: [665. 린 스타트업 MVP 피벗 사이클](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/665_lean_development_7_principles/) ->
 
 ---

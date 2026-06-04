@@ -304,30 +304,30 @@ LD_PRELOAD 공격 방어 레이어
 
 ```
 환경 변수 상속
-├── 기본 개념
-│   ├── 키-값(Key-Value) 쌍
-│   ├── 부모-자식 상속 (Inheritance)
-│   └── environ 블록 (메모리의 Stack 영역)
-├── 주요 환경 변수
-│   ├── PATH (실행 파일 검색 경로)
-│   ├── HOME (사용자 홈 디렉토리)
-│   ├── LANG (로케일 설정)
-│   ├── LD_LIBRARY_PATH (동적 라이브러리 경로)
-│   └── LD_PRELOAD (사전 로드 라이브러리)
-├── C API
-│   ├── getenv() (조회)
-│   ├── setenv() (설정)
-│   ├── putenv() (포인터 직접 설정)
-│   └── unsetenv() (제거)
-├── 프로세스 생성 시 동작
-│   ├── fork() -> 환경 변수 복사
-│   ├── exec() -> 유지 또는 대체
-│   ├── execl/execv -> 기존 환경 유지
-│   └── execle/execve -> 새 envp로 대체
-└── 보안
-    ├── LD_PRELOAD 공격 (함수 가로채기)
-    ├── SUID/SGID 바이너리 안전
-    └── 컨테이너 격리
++-- 기본 개념
+|   +-- 키-값(Key-Value) 쌍
+|   +-- 부모-자식 상속 (Inheritance)
+|   +-- environ 블록 (메모리의 Stack 영역)
++-- 주요 환경 변수
+|   +-- PATH (실행 파일 검색 경로)
+|   +-- HOME (사용자 홈 디렉토리)
+|   +-- LANG (로케일 설정)
+|   +-- LD_LIBRARY_PATH (동적 라이브러리 경로)
+|   +-- LD_PRELOAD (사전 로드 라이브러리)
++-- C API
+|   +-- getenv() (조회)
+|   +-- setenv() (설정)
+|   +-- putenv() (포인터 직접 설정)
+|   +-- unsetenv() (제거)
++-- 프로세스 생성 시 동작
+|   +-- fork() -> 환경 변수 복사
+|   +-- exec() -> 유지 또는 대체
+|   +-- execl/execv -> 기존 환경 유지
+|   +-- execle/execve -> 새 envp로 대체
++-- 보안
+    +-- LD_PRELOAD 공격 (함수 가로채기)
+    +-- SUID/SGID 바이너리 안전
+    +-- 컨테이너 격리
 ```
 
 ### 세 줄 설명 (어린이용)
@@ -364,12 +364,12 @@ LD_PRELOAD 공격 방어 레이어
 
 ```text
 [동적 링킹 프로세스 (ld.so) 로딩 과정]
-    │
-    ▼
+    |
+    v
 [환경 변수 (Environment Variables) 상속]
-    │
-    ├──▶ [OOM (Out Of Memory) Killer 프로세스 종료 정책]
-    └──▶ [oom_score_adj]
+    |
+    +---> [OOM (Out Of Memory) Killer 프로세스 종료 정책]
+    +---> [oom_score_adj]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -386,7 +386,7 @@ LD_PRELOAD 공격 방어 레이어
 
 **진행 상황**: 156 / 800
 
-← **이전**: [155. 동적 링킹 프로세스 (ld.so) 로딩 과정 - 파일 공유를 찢어발긴 메모리 텔레포트 융합술](/knowledge-base/studynote/02_operating_system/02_process_thread/155_dynamic_linking_process/)
-**다음**: [157. OOM (Out Of Memory) Killer 프로세스 종료 정책](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) →
+<- **이전**: [155. 동적 링킹 프로세스 (ld.so) 로딩 과정 - 파일 공유를 찢어발긴 메모리 텔레포트 융합술](/knowledge-base/studynote/02_operating_system/02_process_thread/155_dynamic_linking_process/)
+**다음**: [157. OOM (Out Of Memory) Killer 프로세스 종료 정책](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ->
 
 ---

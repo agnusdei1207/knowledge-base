@@ -31,14 +31,14 @@ tags = ["bigdata"]
 [연결 공격 (Linkage Attack)의 원리]
 
 [익명화된 의료 데이터 (병원 제공)]      [공개된 유권자 명부 (정부 제공)]
-┌────────┬────────┬──────┬─────┐  ┌────────┬────────┬──────┬──────┐
-│  나이  │우편번호│ 성별 │ 질병│  │  이름  │  나이  │우편번호│ 성별 │
-├────────┼────────┼──────┼─────┤  ├────────┼────────┼──────┼──────┤
-│   35   │ 13524  │  남  │ 암  │==│ 홍길동 │   35   │ 13524  │  남  │
-│   42   │ 04511  │  여  │감기 │  │ 김철수 │   29   │ 12345  │  남  │
-│   35   │ 13524  │  여  │치통 │  │ 이영희 │   42   │ 04511  │  여  │
-└────────┴────────┴──────┴─────┘  └────────┴────────┴──────┴──────┘
-      ▲ 준식별자(QI) 집합이 겹침!! => (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!
++--------+--------+------+-----+  +--------+--------+------+------+
+|  나이  |우편번호| 성별 | 질병|  |  이름  |  나이  |우편번호| 성별 |
++--------+--------+------+-----+  +--------+--------+------+------+
+|   35   | 13524  |  남  | 암  |==| 홍길동 |   35   | 13524  |  남  |
+|   42   | 04511  |  여  |감기 |  | 김철수 |   29   | 12345  |  남  |
+|   35   | 13524  |  여  |치통 |  | 이영희 |   42   | 04511  |  여  |
++--------+--------+------+-----+  +--------+--------+------+------+
+      ^ 준식별자(QI) 집합이 겹침!! => (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!
 ```
 
 이 도식의 핵심은, 이름이라는 '직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)'를 지웠더라도, [나이+우편번호+성별]이라는 '준식별자'의 조합이 세상에 단 한 명만을 가리킨다면 프라이버시는 철저히 파괴된다는 점이다. 이를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 의도적으로 흐릿하게 만드는 기술이 필요하다.
@@ -75,26 +75,26 @@ tags = ["bigdata"]
 36세, 서울, 위암
 38세, 부산, 감기
 -------------------
-      │ (범주화 연산: 30대, 수도권 등으로 묶음)
-      ▼
+      | (범주화 연산: 30대, 수도권 등으로 묶음)
+      v
 [k-익명성 적용 (k=2)] -> 2명씩 묶음, 특정 개인 식별 방지
 (30대, 수도권) -> 위암
 (30대, 수도권) -> 위암   <-- (문제점: 그룹을 찾으면 100% 위암임을 알게 됨! 동질성 공격 노출)
 -------------------
-      │ (민감 정보 섞기 연산)
-      ▼
+      | (민감 정보 섞기 연산)
+      v
 [l-다양성 적용 (l=2)] -> 그룹 내 민감정보 최소 2개 이상
 (30대, 수도권) -> 위암
 (30대, 수도권) -> 폐렴   <-- (문제점: 다양하긴 한데, 둘 다 중증 암/폐질환에 쏠려 있음!)
 -------------------
-      │ (분포 평활화 연산)
-      ▼
+      | (분포 평활화 연산)
+      v
 [t-근접성 적용] -> 그룹 분포가 전체 분포(경증 80%, 중증 20%)를 따르게 만듦
 (30대, 수도권) -> 위암
 (30대, 수도권) -> 감기   <-- (안전! 특정 질병을 유추하기 매우 어려워짐)
 ```
 
-이 메커니즘의 핵심은 단계를 거듭할수록(k → l → t) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준은 극대화되지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 섞고 평활화해야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본래 특징(유용성, Utility)이 심각하게 파괴된다는 트레이드오프를 갖는다는 점이다.
+이 메커니즘의 핵심은 단계를 거듭할수록(k -> l -> t) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준은 극대화되지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 섞고 평활화해야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본래 특징(유용성, Utility)이 심각하게 파괴된다는 트레이드오프를 갖는다는 점이다.
 
 > 📢 **섹션 요약 비유**: [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)이 숲 속에 나무를 여러 그루 심어 특정 나무를 못 찾게 하는 것이라면, [l-다양성](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/)은 그 숲에 소나무만 가득해 병을 유추하는 것을 막기 위해 참나무, 단풍나무를 섞어 심는 것이고, [t-근접성](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/)은 그 숲의 나무 비율을 우리나라 전체 산림 비율과 완벽히 똑같이 맞춰 완전히 눈치채지 못하게 하는 정밀한 위장술입니다.
 
@@ -141,23 +141,23 @@ tags = ["bigdata"]
 [실무 비식별화 파이프라인 의사결정 트리]
 
 [결합된 Raw Dataset]
-       │
-       ▼
+       |
+       v
 [QI 식별 및 k-익명성 수치 계산]
-       │
-       ├─ (k < 목표치) ──> [일반화/삭제 레벨 증가 (예: 동->구, 나이->10대)] ─┐
-       │                                                          │ (루프)
-       ▼ (k >= 목표치 달성) <─────────────────────────────────────────┘
+       |
+       +- (k < 목표치) --> [일반화/삭제 레벨 증가 (예: 동->구, 나이->10대)] -+
+       |                                                          | (루프)
+       v (k >= 목표치 달성) <-----------------------------------------+
 [민감정보 쏠림 분석 (l-다양성 검증)]
-       │
-       ├─ (특정 질병/연체 쏠림 발생) ──> [데이터 라우팅 재배치 또는 민감 데이터 억제]
-       │
-       ▼ (통과)
+       |
+       +- (특정 질병/연체 쏠림 발생) --> [데이터 라우팅 재배치 또는 민감 데이터 억제]
+       |
+       v (통과)
 [유용성(Utility Loss) 측정]
-       │
-       ├─ (정보 손실률 > 30%) ──> "비즈니스 가치 없음. 파라미터 재조정 요망"
-       │
-       ▼
+       |
+       +- (정보 손실률 > 30%) --> "비즈니스 가치 없음. 파라미터 재조정 요망"
+       |
+       v
 [최종 가명정보 데이터셋 생성 및 반출]
 ```
 
@@ -196,17 +196,17 @@ tags = ["bigdata"]
 
 ```text
 [개인정보 보호법·GDPR — 개인정보 처리 규제 강화]
-    │
-    ▼
+    |
+    v
 [비식별화 (De-identification) — 가명처리·익명처리·총계처리]
-    │
-    ▼
+    |
+    v
 [차등 프라이버시 (Differential Privacy) — 수학적 프라이버시 보장 노이즈 주입]
-    │
-    ▼
+    |
+    v
 [합성 데이터 (Synthetic Data) — GAN 기반 통계 패턴 보존 가상 데이터 생성]
-    │
-    ▼
+    |
+    v
 [연합 학습 (Federated Learning) — 원본 데이터 이동 없이 분산 학습]
 ```
 비식별화는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 균형을 맞추는 출발점이며, [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)·[합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)으로 진화해 프라이버시 보존 AI의 기반이 된다.
@@ -222,7 +222,7 @@ tags = ["bigdata"]
 
 **진행 상황**: 19 / 262
 
-← **이전**: [18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제](/knowledge-base/studynote/16_bigdata/01_intro/018_data_sovereignty/)
-**다음**: [20. 데이터 정형화 비율 — 전체 데이터 중 정형 < 20%, 비정형 > 80%](/knowledge-base/studynote/16_bigdata/01_intro/020_data_structure_ratio/) →
+<- **이전**: [18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제](/knowledge-base/studynote/16_bigdata/01_intro/018_data_sovereignty/)
+**다음**: [20. 데이터 정형화 비율 — 전체 데이터 중 정형 < 20%, 비정형 > 80%](/knowledge-base/studynote/16_bigdata/01_intro/020_data_structure_ratio/) ->
 
 ---

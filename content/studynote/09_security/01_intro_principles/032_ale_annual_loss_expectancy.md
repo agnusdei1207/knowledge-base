@@ -134,7 +134,7 @@ SLE는 <strong>위협 1회 발생 시 자산에 예상되는 손실 금액</stro
 ALE의 한계를 보완한 현대적 정량 위험 분석 프레임워크:
 - TEF (Threat Event Frequency)
 - VS (Vulnerability)
-- LM (Loss Magnitude) → Primary + Secondary 손실
+- LM (Loss Magnitude) -> Primary + Secondary 손실
 
 📢 **섹션 요약 비유**: 정량·정성 병행은 병원 진단과 같다 — 혈액 수치(정량)만으론 부족하고 의사 경험(정성)과 함께 써야 정확한 진단이 나온다.
 
@@ -144,19 +144,19 @@ ALE의 한계를 보완한 현대적 정량 위험 분석 프레임워크:
 
 ```
 ALE (Annual Loss Expectancy)
-├── 구성 요소
-│   ├── SLE (Single Loss Expectancy, 단일 예상 손실)
-│   │   ├── AV (Asset Value, 자산 가치)
-│   │   └── EF (Exposure Factor, 노출 계수)
-│   └── ARO (Annual Rate of Occurrence, 연간 발생률)
-├── 활용
-│   ├── 보안 투자 우선순위 결정
-│   ├── 사이버 보험 프리미엄 산정
-│   └── CISO 예산 정당화
-└── 보완 방법론
-    ├── 정성적 위험 분석 (Risk Matrix)
-    ├── FAIR 모델 (Factor Analysis of Information Risk)
-    └── CVSSv3 (취약점 심각도 점수)
++-- 구성 요소
+|   +-- SLE (Single Loss Expectancy, 단일 예상 손실)
+|   |   +-- AV (Asset Value, 자산 가치)
+|   |   +-- EF (Exposure Factor, 노출 계수)
+|   +-- ARO (Annual Rate of Occurrence, 연간 발생률)
++-- 활용
+|   +-- 보안 투자 우선순위 결정
+|   +-- 사이버 보험 프리미엄 산정
+|   +-- CISO 예산 정당화
++-- 보완 방법론
+    +-- 정성적 위험 분석 (Risk Matrix)
+    +-- FAIR 모델 (Factor Analysis of Information Risk)
+    +-- CVSSv3 (취약점 심각도 점수)
 ```
 
 ---
@@ -164,21 +164,21 @@ ALE (Annual Loss Expectancy)
 ## �� 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              ALE 기반 위험 분석 발전 흐름                        │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1970년대     │ 보험 수리학 도입   │ 기대 손실 계산 기법 차용     │
-│ 1990년대     │ NIST SP 800-30     │ 정보보안 정량 위험 분석 표준 │
-│ 2000년대     │ FAIR 모델 등장     │ ALE 고도화, 계층적 분해      │
-│ 2010년대     │ CVSSv3·위협 인텔  │ 실시간 ARO 업데이트          │
-│ 2020년대     │ 사이버 보험 급성장 │ ALE → 보험 언더라이팅 연계   │
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              ALE 기반 위험 분석 발전 흐름                        |
++--------------+--------------------+-----------------------------+
+| 1970년대     | 보험 수리학 도입   | 기대 손실 계산 기법 차용     |
+| 1990년대     | NIST SP 800-30     | 정보보안 정량 위험 분석 표준 |
+| 2000년대     | FAIR 모델 등장     | ALE 고도화, 계층적 분해      |
+| 2010년대     | CVSSv3·위협 인텔  | 실시간 ARO 업데이트          |
+| 2020년대     | 사이버 보험 급성장 | ALE -> 보험 언더라이팅 연계   |
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
 위험 = 자산가치 × 위협 × 취약성
 AV × EF = SLE
 SLE × ARO = ALE
-ALE → 보안 대책 비용 비교 → ROI 결정
+ALE -> 보안 대책 비용 비교 -> ROI 결정
 ```
 
 ---
@@ -195,7 +195,7 @@ ALE → 보안 대책 비용 비교 → ROI 결정
 
 **진행 상황**: 32 / 1108
 
-← **이전**: [31. ARO와 위험 정량화 — 연간 발생률의 의미](/knowledge-base/studynote/09_security/01_intro_principles/031_aro_annual_rate_of_occurrence/)
-**다음**: [위험 대응 전략 (Risk Response Strategies)](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/) →
+<- **이전**: [31. ARO와 위험 정량화 — 연간 발생률의 의미](/knowledge-base/studynote/09_security/01_intro_principles/031_aro_annual_rate_of_occurrence/)
+**다음**: [위험 대응 전략 (Risk Response Strategies)](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/) ->
 
 ---

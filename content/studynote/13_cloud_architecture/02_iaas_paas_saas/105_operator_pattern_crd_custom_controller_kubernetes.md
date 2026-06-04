@@ -37,19 +37,19 @@ tags = ["studynote-cloud-architecture"]
 | **Custom Controller** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직 실행 | CRD로 생성된 리소스의 상태를 지속적으로 관찰(Watch)하고, 기대 상태([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))로 조정(Reconcile)함 |
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│              Operator Pattern: Watch & Reconcile                │
-├─────────────────────────────────────────────────────────────────┤
-│ 1. [사용자] ─(CRD 정의 YAML)─▶ [K8s API 서버]                   │
-│                                  │                              │
-│ 2. [Custom Controller] ◀─(Watch)─┘                              │
-│    (DBA의 지식이 코딩된 로봇)                                   │
-│                                                                 │
-│ 3. [Custom Controller] ─(API 호출/명령)─▶ [Stateful Application]│
-│                                            - DB 마스터 선출     │
-│    "현재 상태와 기대 상태가 다르군!"       - 데이터 백업/복구   │
-│    "Reconcile(조정) 루프 실행!"            - 스케일 아웃/인     │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              Operator Pattern: Watch & Reconcile                |
++-----------------------------------------------------------------+
+| 1. [사용자] -(CRD 정의 YAML)--> [K8s API 서버]                   |
+|                                  |                              |
+| 2. [Custom Controller] <--(Watch)-+                              |
+|    (DBA의 지식이 코딩된 로봇)                                   |
+|                                                                 |
+| 3. [Custom Controller] -(API 호출/명령)--> [Stateful Application]|
+|                                            - DB 마스터 선출     |
+|    "현재 상태와 기대 상태가 다르군!"       - 데이터 백업/복구   |
+|    "Reconcile(조정) 루프 실행!"            - 스케일 아웃/인     |
++-----------------------------------------------------------------+
 ```
 
 이 구조의 핵심은 K8s의 핵심 철학인 `선언적 API (Declarative API)`와 `제어 루프 (Control Loop)`를 사용자 애플리케이션 레벨까지 끌어올렸다는 점이다. 컨트롤러는 끝없이 현재 상태를 확인하고, 정의된 운영 지침에 따라 장애를 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
@@ -118,24 +118,24 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 기본 배포 및 복구
-    │
-    ▼
+    |
+    v
 Deployment · StatefulSet (K8s 내장 컨트롤러 한계)
-    │
-    ▼
+    |
+    v
 CRD (Custom Resource Definition) (사용자 정의 단어 추가)
-    │
-    ▼
+    |
+    v
 Custom Controller (로직 구현 및 제어 루프 확장)
-    │
-    ▼
+    |
+    v
 Operator Pattern (DBA 지식의 코드화 및 완전 자동화)
-    │
-    ▼
+    |
+    v
 OperatorHub · OLM (Operator Lifecycle Manager) (생태계 및 생애주기 관리)
 ```
 
-이 흐름도는 "단순 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 관리 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 확장 → 로직 확장 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 완전 자동화 → 생태계 구축"으로 이어지는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 운영의 발전 궤적을 보여준다.
+이 흐름도는 "단순 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 관리 -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 확장 -> 로직 확장 -> [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 완전 자동화 -> 생태계 구축"으로 이어지는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 운영의 발전 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -149,7 +149,7 @@ OperatorHub · OLM (Operator Lifecycle Manager) (생태계 및 생애주기 관�
 
 **진행 상황**: 104 / 371
 
-← **이전**: [104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/104_kubernetes_namespace_logical_cluster_isolation/)
-**다음**: [106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) →
+<- **이전**: [104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/104_kubernetes_namespace_logical_cluster_isolation/)
+**다음**: [106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) ->
 
 ---

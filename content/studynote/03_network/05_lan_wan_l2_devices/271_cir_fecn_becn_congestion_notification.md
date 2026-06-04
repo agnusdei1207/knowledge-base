@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [DLCI]
-    │
-    ▼
+    |
+    v
 [CIR / FECN, BECN 혼잡 알림]
-    │
-    └──▶ [ATM]
+    |
+    +---> [ATM]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/">프레임 릴레이</a> 망은 고속도로 중간에서 속도위반 딱지를 직접 끊지 않고, 지나가는 차 유리에 </strong>"나 지금 길 병목"**이라는 포스트잇만 살짝 붙여서 양 끝단의 출발지/도착지가 알아서 속도를 줄이게 유도하는 **"자율 규제 고속도로"**입니다.
@@ -51,27 +51,27 @@ tags = ["studynote-network"]
 망 한가운데 있는 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 메모리(버퍼)가 80% 이상 차오르면 병목이 시작된다.
 
 - <strong>FECN (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Explicit Congestion Notification)</strong>:
-  - 서울(송신) ──▶ 부산(수신)으로 가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 프레임 헤더의 FECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
+  - 서울(송신) ---> 부산(수신)으로 가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 프레임 헤더의 FECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
   - 부산 라우터가 프레임을 받으면 "아, 중간에 길이 막히는구나. 서울 애들이 고생하겠네."라고 인지한다.
 - **BECN (Backward Explicit Congestion Notification)**:
-  - 부산(수신) ──▶ 서울(송신)로 돌아가는(응답) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 헤더의 BECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
+  - 부산(수신) ---> 서울(송신)로 돌아가는(응답) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 헤더의 BECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
   - 서울 라우터가 프레임을 받으면 "헉! 내가 보내는 방향의 길이 막혔대! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏘는 속도를 절반으로 줄여야지!"라고 스스로 전송 속도를 낮춘다. ([Traffic Shaping](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) 작동)
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                FECN과 BECN의 동작 방향성 도식                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서울 본사 (송신) ]                              [ 부산 지사 (수신) ]│
- │      │                                                  ▲    │
- │      │  1. 데이터 마구 쏨     [ 붐비는 스위치 ]               │    │
- │      └────────────────▶ (버퍼 폭발 직전) ──(FECN 붙여 보냄)─┘    │
- │                           │                                   │
- │   2. 송신 속도 감소! ◀──(BECN 붙여 보냄)── 부산에서 오는 일상 데이터 ──┘ │
- │                                                             │
- │   * 핵심: 스위치는 혼잡을 알리기 위해 일부러 새 패킷을 만들지 않는다.  │
- │     그냥 '지나가는' 패킷의 빈칸(비트)에 체크 표시만 할 뿐이다!       │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                FECN과 BECN의 동작 방향성 도식                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 서울 본사 (송신) ]                              [ 부산 지사 (수신) ]|
+ |      |                                                  ^    |
+ |      |  1. 데이터 마구 쏨     [ 붐비는 스위치 ]               |    |
+ |      +-----------------> (버퍼 폭발 직전) --(FECN 붙여 보냄)-+    |
+ |                           |                                   |
+ |   2. 송신 속도 감소! <---(BECN 붙여 보냄)-- 부산에서 오는 일상 데이터 --+ |
+ |                                                             |
+ |   * 핵심: 스위치는 혼잡을 알리기 위해 일부러 새 패킷을 만들지 않는다.  |
+ |     그냥 '지나가는' 패킷의 빈칸(비트)에 체크 표시만 할 뿐이다!       |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> DE <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>는 비행기의 </strong>"스탠바이(대기 예약) 티켓"**과 같습니다. 자리가 남으면 공짜로 태워주지만, 자리가 모자라면 1순위로 버려집니다. FECN/BECN은 앞뒤로 오가는 비행기 기장들끼리 **"난기류 조심해!"**라고 허공에서 수신호를 주고받는 극강의 효율적 통신법입니다.
@@ -132,12 +132,12 @@ CIR / FECN, BECN 혼잡 알림은 LAN/WAN과 2계층 장비를 이해할 때 핵
 
 ```text
 [선행 개념: DLCI]
-    │
-    ▼
+    |
+    v
 [현재 개념: CIR / FECN, BECN 혼잡 알림]
-    │
-    ├──▶ [확장 A: ATM]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: ATM]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 CIR / FECN, BECN 혼잡 알림는 DLCI에서 출발해 현재 메커니즘을 정교화하고, 이후 ATM와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ CIR / FECN, BECN 혼잡 알림는 DLCI에서 출발해 현재 메커니즘을 �
 
 **진행 상황**: 392 / 1120
 
-← **이전**: [270. DLCI (Data Link Connection Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/270_dlci_data_link_connection_identifier/)
-**다음**: [272. ATM (Asynchronous Transfer Mode)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) →
+<- **이전**: [270. DLCI (Data Link Connection Identifier)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/270_dlci_data_link_connection_identifier/)
+**다음**: [272. ATM (Asynchronous Transfer Mode)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) ->
 
 ---

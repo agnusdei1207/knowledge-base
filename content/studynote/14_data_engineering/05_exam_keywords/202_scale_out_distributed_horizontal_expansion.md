@@ -35,17 +35,17 @@ tags = ["studynote-data-engineering"]
 
 ```
 스케일 아웃 구조
-┌─────────────────────────────────────────────────────┐
-│                   부하 분산기 (Load Balancer)         │
-└─────────┬──────────┬──────────┬──────────┬──────────┘
-          │          │          │          │
-      ┌───▼───┐  ┌───▼───┐  ┌───▼───┐  ┌───▼───┐
-      │ Node1 │  │ Node2 │  │ Node3 │  │ Node4 │
-      │ CPU   │  │ CPU   │  │ CPU   │  │ CPU   │
-      │ MEM   │  │ MEM   │  │ MEM   │  │ MEM   │
-      │ DISK  │  │ DISK  │  │ DISK  │  │ DISK  │
-      └───────┘  └───────┘  └───────┘  └───────┘
-         ↑ 노드 추가 시 선형 성능 향상 (이상적)
++-----------------------------------------------------+
+|                   부하 분산기 (Load Balancer)         |
++---------+----------+----------+----------+----------+
+          |          |          |          |
+      +---v---+  +---v---+  +---v---+  +---v---+
+      | Node1 |  | Node2 |  | Node3 |  | Node4 |
+      | CPU   |  | CPU   |  | CPU   |  | CPU   |
+      | MEM   |  | MEM   |  | MEM   |  | MEM   |
+      | DISK  |  | DISK  |  | DISK  |  | DISK  |
+      +-------+  +-------+  +-------+  +-------+
+         ^ 노드 추가 시 선형 성능 향상 (이상적)
 ```
 
 📢 **섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 "혼자 더 많이 먹을 수 있게 위를 크게 하는 수술"이고, 스케일 아웃은 "친구를 더 불러서 나눠 먹는 것"이다. 수술은 한계가 있지만 친구는 계속 부를 수 있다.
@@ -74,15 +74,15 @@ tags = ["studynote-data-engineering"]
 
 ```
 파티셔닝 전략
-┌─────────────────────────────────────────────────────┐
-│  전체 데이터셋 (100TB)                               │
-│                                                     │
-│  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐    │
-│  │ 샤드 1  │  │ 샤드 2  │  │ 샤드 3  │  │ 샤드 4  │    │
-│  │ 25TB   │  │ 25TB   │  │ 25TB   │  │ 25TB   │    │
-│  │ 해시 0  │  │ 해시 1  │  │ 해시 2  │  │ 해시 3  │    │
-│  └────────┘  └────────┘  └────────┘  └────────┘    │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  전체 데이터셋 (100TB)                               |
+|                                                     |
+|  +--------+  +--------+  +--------+  +--------+    |
+|  | 샤드 1  |  | 샤드 2  |  | 샤드 3  |  | 샤드 4  |    |
+|  | 25TB   |  | 25TB   |  | 25TB   |  | 25TB   |    |
+|  | 해시 0  |  | 해시 1  |  | 해시 2  |  | 해시 3  |    |
+|  +--------+  +--------+  +--------+  +--------+    |
++-----------------------------------------------------+
 ```
 
 | [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 방식 | 설명 | 장점 | 단점 |
@@ -97,16 +97,16 @@ tags = ["studynote-data-engineering"]
 
 ```
 복제 아키텍처 (복제 계수 = 3)
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│  ┌──────────┐    복제    ┌──────────┐               │
-│  │ Primary  │──────────▶│ Replica1 │               │
-│  │  Node    │           └──────────┘               │
-│  └──────────┘                                       │
-│       │         복제    ┌──────────┐               │
-│       └───────────────▶│ Replica2 │               │
-│                         └──────────┘               │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|                                                     |
+|  +----------+    복제    +----------+               |
+|  | Primary  |----------->| Replica1 |               |
+|  |  Node    |           +----------+               |
+|  +----------+                                       |
+|       |         복제    +----------+               |
+|       +---------------->| Replica2 |               |
+|                         +----------+               |
++-----------------------------------------------------+
    쓰기: Primary만, 읽기: 세 노드 모두 처리 가능
 ```
 
@@ -114,15 +114,15 @@ tags = ["studynote-data-engineering"]
 
 ```
 L4/L7 부하 분산기 구조
-                   ┌──────────────────┐
-  클라이언트 ──────▶│  Load Balancer   │
-                   │  (라운드로빈/최소  │
-                   │   연결/IP해시)    │
-                   └──┬───┬───┬───┬──┘
-                      │   │   │   │
-                   ┌──▼─┐ ┌▼──┐ ┌▼──┐ ┌▼──┐
-                   │WS1 │ │WS2│ │WS3│ │WS4│
-                   └────┘ └───┘ └───┘ └───┘
+                   +------------------+
+  클라이언트 ------->|  Load Balancer   |
+                   |  (라운드로빈/최소  |
+                   |   연결/IP해시)    |
+                   +--+---+---+---+--+
+                      |   |   |   |
+                   +--v-+ +v--+ +v--+ +v--+
+                   |WS1 | |WS2| |WS3| |WS4|
+                   +----+ +---+ +---+ +---+
 ```
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "도서관 책을 A~Z 선반에 나눠 꽂기", [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 "같은 책을 3층 각 열람실에 비치하기", 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "어느 열람실에 안내할지 결정하는 안내 데스크"다.
@@ -181,25 +181,25 @@ CAP 트리앙글
 
 ```
 Stateful vs Stateless
-┌─────────────────────────────────────────────────────┐
-│  Stateful (문제):                                    │
-│  Client ──▶ Server1 (세션 A 보유)                    │
-│  Client ──▶ Server2 (세션 A 없음!) → 오류 발생        │
-│                                                     │
-│  Stateless (해결):                                   │
-│  Client ──▶ (JWT 토큰 포함) ──▶ Server1 또는 Server2  │
-│  모든 서버가 토큰으로 자체 검증 → 어디든 OK            │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  Stateful (문제):                                    |
+|  Client ---> Server1 (세션 A 보유)                    |
+|  Client ---> Server2 (세션 A 없음!) -> 오류 발생        |
+|                                                     |
+|  Stateless (해결):                                   |
+|  Client ---> (JWT 토큰 포함) ---> Server1 또는 Server2  |
+|  모든 서버가 토큰으로 자체 검증 -> 어디든 OK            |
++-----------------------------------------------------+
 ```
 
 #### 2. 실무 적용 사례: 전자상거래 플랫폼
 
 | 레이어 | 스케일 아웃 방법 | 효과 |
 |:---|:---|:---|
-| 웹 서버 | Nginx 로드밸런서 + 10대 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 | 동시 접속 10만 → 100만 처리 |
-| 캐시 레이어 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster ([샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 16384 슬롯) | 읽기 응답시간 50ms → 2ms |
+| 웹 서버 | Nginx 로드밸런서 + 10대 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 | 동시 접속 10만 -> 100만 처리 |
+| 캐시 레이어 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster ([샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 16384 슬롯) | 읽기 응답시간 50ms -> 2ms |
 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) | MySQL 읽기 레플리카 5대 | 읽기 부하 80% [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| 빅데이터 처리 | Spark 클러스터 50 Executor | 일 1TB 집계 처리 2시간 → 10분 |
+| 빅데이터 처리 | Spark 클러스터 50 Executor | 일 1TB 집계 처리 2시간 -> 10분 |
 
 #### 3. 기술사 판단 포인트
 
@@ -217,7 +217,7 @@ Stateful vs Stateless
 
 | 효과 영역 | 수치 사례 | 설명 |
 |:---|:---|:---|
-| 비용 절감 | 70% 비용 절감 | 고가 서버 1대 → 범용 서버 10대 |
+| 비용 절감 | 70% 비용 절감 | 고가 서버 1대 -> 범용 서버 10대 |
 | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상 | 99.99% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | N+1 리던던시로 노드 장애 무영향 |
 | 확장 유연성 | 분 단위 노드 추가 | 클라우드 [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 연동 |
 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상 | 선형적 TPS 증가 | 노드 2배 = [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 약 2배 |
@@ -257,14 +257,14 @@ Stateful vs Stateless
 
 ```text
 단일 서버 (Scale-Up: CPU·RAM 증설)
-    │ 물리적 한계
-    ▼
+    | 물리적 한계
+    v
 Scale-Out: 수평 분산 (노드 추가)
-    ├─► 데이터 샤딩 · 파티셔닝
-    ├─► 로드 밸런싱 · 장애 격리
-    └─► Shared-Nothing 아키텍처
-    │
-    ▼
+    +-► 데이터 샤딩 · 파티셔닝
+    +-► 로드 밸런싱 · 장애 격리
+    +-► Shared-Nothing 아키텍처
+    |
+    v
 클라우드 오토스케일링: K8s · Auto Scaling Group
 ```
 2. 슈퍼 셰프는 한 명이라 몸이 아프면 레스토랑 전체가 멈추지만, 100명 중 한 명이 아파도 나머지 99명이 계속 요리해요.
@@ -276,7 +276,7 @@ Scale-Out: 수평 분산 (노드 추가)
 
 **진행 상황**: 202 / 258
 
-← **이전**: [201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/201_bigdata_3v_5v_volume_velocity_variety/)
-**다음**: [203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/) →
+<- **이전**: [201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/201_bigdata_3v_5v_volume_velocity_variety/)
+**다음**: [203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/) ->
 
 ---

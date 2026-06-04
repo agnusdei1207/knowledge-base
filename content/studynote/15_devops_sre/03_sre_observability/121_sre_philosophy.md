@@ -12,29 +12,29 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 Google이 정립한 <strong>소프트웨어 엔지니어링으로 운영 문제를 해결</strong>하는 철학이며, "운영을 소프트웨어 문제로 다루겠다"는 원칙 아래 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong>으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 정량 관리한다.
 > 2. **가치**: 전통 Ops는 "장애 없이 100% 가용"을 목표로 하지만, SRE는 <strong>"100%는 잘못된 목표"</strong>라고 선언하고, [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 가능 장애 시간)을 활용하여 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 혁신 속도의 균형</strong>을 유지한다.
-> 3. **판단 포인트**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/))→[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(남은 여유)→[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층 구조를 이해하고, Error Budget이 소진되면 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 개발을 중단하고 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 개선에 집중</strong>하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심이다.
+> 3. **판단 포인트**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/))->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(남은 여유)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층 구조를 이해하고, Error Budget이 소진되면 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 개발을 중단하고 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 개선에 집중</strong>하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    SRE 핵심 계층                                      │
-├───────────────────────────────────────────────────────┤
-│  SLI (Service Level Indicator)                        │
-│   → 측정: 요청 성공률, p99 레이턴시                   │
-│                                                       │
-│  SLO (Service Level Objective)                        │
-│   → 목표: 성공률 ≥ 99.9% (30일 기준)                │
-│                                                       │
-│  Error Budget = 100% - SLO = 0.1%                     │
-│   → 30일 × 0.1% = 43.2분의 장애 허용                │
-│   → 43.2분 소진 → 피처 개발 중단, 안정화 집중!       │
-│                                                       │
-│  SLA (Service Level Agreement)                        │
-│   → 고객과의 계약 (SLO 미달 시 크레딧/위약금)        │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    SRE 핵심 계층                                      |
++-------------------------------------------------------+
+|  SLI (Service Level Indicator)                        |
+|   -> 측정: 요청 성공률, p99 레이턴시                   |
+|                                                       |
+|  SLO (Service Level Objective)                        |
+|   -> 목표: 성공률 ≥ 99.9% (30일 기준)                |
+|                                                       |
+|  Error Budget = 100% - SLO = 0.1%                     |
+|   -> 30일 × 0.1% = 43.2분의 장애 허용                |
+|   -> 43.2분 소진 -> 피처 개발 중단, 안정화 집중!       |
+|                                                       |
+|  SLA (Service Level Agreement)                        |
+|   -> 고객과의 계약 (SLO 미달 시 크레딧/위약금)        |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: Error Budget은 매월 주어지는 <strong>용돈(43분)</strong>이다. 장애가 나면 용돈이 줄고, 다 쓰면 <strong>새 장난감(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>) 구매 금지(개발 중단)</strong>, 안정화에 집중해야 한다.
@@ -98,17 +98,17 @@ SRE는 <strong>"완벽한 <a href="/knowledge-base/studynote/01_computer_archite
 
 ```text
 [전통 운영 (NOC, 100% 가용 목표, ~2000s)]
-    │
-    ▼
+    |
+    v
 [DevOps 문화 (2009~) — Dev+Ops 협업]
-    │
-    ▼
-[SRE (Google, 2003→2016 공개) — SLI/SLO/Error Budget]
-    │
-    ▼
+    |
+    v
+[SRE (Google, 2003->2016 공개) — SLI/SLO/Error Budget]
+    |
+    v
 [Platform Engineering (2022~) — SRE + 내부 개발자 플랫폼]
-    │
-    ▼
+    |
+    v
 [현재: AIOps + SRE — AI 기반 자동 인시던트 대응]
 ```
 
@@ -123,7 +123,7 @@ SRE는 <strong>"완벽한 <a href="/knowledge-base/studynote/01_computer_archite
 
 **진행 상황**: 121 / 373
 
-← **이전**: [120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)
-**다음**: [122. SLI (Service Level Indicator) - 서비스 수준 측정 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/122_sli_service_level_indicator/) →
+<- **이전**: [120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)
+**다음**: [122. SLI (Service Level Indicator) - 서비스 수준 측정 지표](/knowledge-base/studynote/15_devops_sre/03_sre_observability/122_sli_service_level_indicator/) ->
 
 ---

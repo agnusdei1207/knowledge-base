@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [SLAAC 무상태 주소 자동 설정]
-    │
-    ▼
+    |
+    v
 [IPv4-IPv6 전환 기술: 듀얼 스택,…]
-    │
-    └──▶ [IGMP]
+    |
+    +---> [IGMP]
 ```
 
 - **📢 섹션 요약 비유**: ** IPv4에서 IPv6로의 전환은, 온 나라 사람들이 우측통행([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))을 하다가 좌측통행([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))으로 법을 바꾸는 것과 같습니다. 한 번에 바꿀 수 없으니 도로를 두 개 깔거나(듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 우측통행 도로 한가운데 고가도로를 짓거나([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)), 교차로에 교통정리 요원(NAT64)을 배치하는 눈물겨운 공존의 역사입니다.
@@ -57,17 +57,17 @@ IPv6를 쓰는 본사와 지사 사이에, 통신사가 깔아둔 낡은 [IPv4](
   - **ISATAP**: 사내망 인트라넷 내부에서 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 라우터들 사이를 건너갈 때 쓰는 또 다른 자동 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                6to4 터널링(Tunneling) 캡슐화 마법              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ IPv6 본사 ]       [ 통신사 IPv4 라우터들 ]       [ IPv6 지사 ] │
- │                                                             │
- │   [ V6 패킷 ] ──▶ [ IPv4 헤더 | V6 패킷 ] ──▶ [ V6 패킷 ]   │
- │   (포장해라!)      (V4인 척 위장하여 무사 통과)     (껍질 벗겨!)    │
- │                                                             │
- │   ▶ 결과: 낡은 통신사 망(V4)을 1원도 안 들이고 V6 전용선처럼 사용함. │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                6to4 터널링(Tunneling) 캡슐화 마법              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ IPv6 본사 ]       [ 통신사 IPv4 라우터들 ]       [ IPv6 지사 ] |
+ |                                                             |
+ |   [ V6 패킷 ] ---> [ IPv4 헤더 | V6 패킷 ] ---> [ V6 패킷 ]   |
+ |   (포장해라!)      (V4인 척 위장하여 무사 통과)     (껍질 벗겨!)    |
+ |                                                             |
+ |   -> 결과: 낡은 통신사 망(V4)을 1원도 안 들이고 V6 전용선처럼 사용함. |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 변환 기술 (Translation: NAT64 / DNS64)
@@ -133,12 +133,12 @@ IPv6를 쓰는 본사와 지사 사이에, 통신사가 깔아둔 낡은 [IPv4](
 
 ```text
 [선행 개념: SLAAC 무상태 주소 자동 설정]
-    │
-    ▼
+    |
+    v
 [현재 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…]
-    │
-    ├──▶ [확장 A: IGMP]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: IGMP]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…는 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IGMP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -155,7 +155,7 @@ IPv6를 쓰는 본사와 지사 사이에, 통신사가 깔아둔 낡은 [IPv4](
 
 **진행 상황**: 453 / 1120
 
-← **이전**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/)
-**다음**: [333. IGMP (Internet Group Management Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) →
+<- **이전**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/)
+**다음**: [333. IGMP (Internet Group Management Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) ->
 
 ---

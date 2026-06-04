@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [OSPF 트래픽엔지니어링 연동]
-    │
-    ▼
+    |
+    v
 [OSPFv3]
-    │
-    └──▶ [IS-IS]
+    |
+    +---> [IS-IS]
 ```
 
 - **📢 섹션 요약 비유**: ** OSPFv3는 명작 게임(OSPFv2)의 **"4K 리마스터(Remaster) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)"**입니다. 게임의 스토리나 캐릭터([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), Area 구조)는 완벽히 똑같지만, 그래픽 엔진(패킷 포맷)과 해상도(128비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원)를 현대 컴퓨터에 맞게 싹 갈아치운 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)입니다.
@@ -53,19 +53,19 @@ v3는 봉투 규격이 바뀌면서 LSA Type의 이름과 용도가 살짝(사�
 - **Type 9 (Intra-Area Prefix LSA) ★신규**: 기존 v2의 Type 1, 2에서 떨어져 나온 순수 "[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소(Prefix) 목록" 엽서다. Area 내부로 쫙 퍼진다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                OSPFv2 vs OSPFv3 핵심 스펙 차이표               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 항목 ]              [ OSPFv2 ]          [ OSPFv3 ]        │
- │   --------------------------------------------------------- │
- │   프로토콜 대상          IPv4 전용           IPv6 (나중엔 v4도 지원)│
- │   친구 맺기 기준         서브넷 (Subnet)      링크 (Link)          │
- │   패킷 소스 IP          인터페이스 IP 주소    링크 로컬 주소 (FE80::) │
- │   멀티캐스트 주소        224.0.0.5 / .6      FF02::5 / FF02::6    │
- │   자체 암호화 (인증)      MD5 자체 지원       미지원 (IPsec 사용)    │
- │   LSA 종류             Type 1 ~ 5 (7)      Type 8, 9 등 추가 신설│
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                OSPFv2 vs OSPFv3 핵심 스펙 차이표               |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 항목 ]              [ OSPFv2 ]          [ OSPFv3 ]        |
+ |   --------------------------------------------------------- |
+ |   프로토콜 대상          IPv4 전용           IPv6 (나중엔 v4도 지원)|
+ |   친구 맺기 기준         서브넷 (Subnet)      링크 (Link)          |
+ |   패킷 소스 IP          인터페이스 IP 주소    링크 로컬 주소 (FE80::) |
+ |   멀티캐스트 주소        224.0.0.5 / .6      FF02::5 / FF02::6    |
+ |   자체 암호화 (인증)      MD5 자체 지원       미지원 (IPsec 사용)    |
+ |   LSA 종류             Type 1 ~ 5 (7)      Type 8, 9 등 추가 신설|
+ +-------------------------------------------------------------+
 ```
 
 ### 3. 단일 프로세스로 여러 인스턴스 구동
@@ -130,12 +130,12 @@ OSPFv3는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rout
 
 ```text
 [선행 개념: OSPF 트래픽엔지니어링 연동]
-    │
-    ▼
+    |
+    v
 [현재 개념: OSPFv3]
-    │
-    ├──▶ [확장 A: IS-IS]
-    └──▶ [확장 B: 의도 기반 라우팅]
+    |
+    +---> [확장 A: IS-IS]
+    +---> [확장 B: 의도 기반 라우팅]
 ```
 
 OSPFv3는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동에서 출발해 현재 메커니즘을 정교화하고, 이후 IS-IS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ OSPFv3는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/3
 
 **진행 상황**: 483 / 1120
 
-← **이전**: [361. OSPF 트래픽엔지니어링(TE) 연동](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)
-**다음**: [363. IS-IS (Intermediate System to Intermediate System)](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) →
+<- **이전**: [361. OSPF 트래픽엔지니어링(TE) 연동](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)
+**다음**: [363. IS-IS (Intermediate System to Intermediate System)](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) ->
 
 ---

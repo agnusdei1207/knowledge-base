@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 문제는 이 지도가 너무 거대하다는 것이다. 8퍼즐만 해도 점(경우의 수)이 36만 개고, 바둑은 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$개다. 이 미치도록 넓고 깊은 우주에서 AI가 '정답(목표 상태)'을 찾아 미로를 헤매는 맹인 탐색(Blind Search)의 가장 기본이 되는 두 가지 엔진이 바로 밑바닥으로 직진하는 <strong>깊이 우선(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong>과 옆으로 퍼져나가는 <strong>너비 우선(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 상태 공간 트리는 '수능 객관식 찍기 경우의 수 지도'다. 1번 문제에서 1~5번을 찍는 5갈래 길이 생기고, 2번 문제에서 또 5갈래가 생겨 25갈래가 된다. 이 수백만 개의 갈래 끝 어딘가에 '100점(목표 상태)'이라는 방이 하나 있다. AI는 눈을 감은 채 이 미로 속 방의 문을 열고 들어가서 100점 방을 찾아내는 무식하지만 확실한 미로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가다.
@@ -44,32 +44,32 @@ tags = ["studynote-ai"]
 AI가 상태 공간 트리를 뒤질 때 머릿속의 임시 저장소(자료구조)를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))으로 쓰냐 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 쓰냐에 따라 맹인 탐색의 경로가 완전히 정반대로 갈라진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           상태 공간 탐색: 깊이 우선(DFS) vs 너비 우선(BFS) 아키텍처 도해 │
-├──────────────────────────────────────────────────────────────┤
-│  [거대한 상태 공간 트리(Tree)]                                      │
-│         (A) 시작 노드 (1층)                                     │
-│        /   \                                                 │
-│      (B)   (C)       (2층)                                     │
-│     /  \   /  \                                              │
-│   (D) (E) (F) (G)    (3층)     ※ 목표 노드는 (F)라고 가정!         │
-│                                                              │
-│  [1. 깊이 우선 탐색 (DFS, Depth-First Search) - 외길 직진 멧돼지]    │
-│   * 사용 자료구조: Stack (스택, 후입선출 - 마지막에 본 곳부터 다시 파기)  │
-│   * 탐색 순서: A ─▶ B ─▶ D (끝까지 파봄, 꽝!) ─▶ 백트래킹(뒤로 빽!)    │
-│            ─▶ E (꽝!) ─▶ 백트래킹 ─▶ C ─▶ F (정답 발견! 빙고!)   │
-│   * 장점: 기억(메모리)해야 할 갈림길이 몇 개 없어서 RAM 소모가 미미함.    │
-│   * 단점: 운 나쁘면 정답은 바로 옆(C)에 있는데, 영원히 끝이 없는 D 밑바닥 │
-│          블랙홀로 빠져 영원히 못 돌아올 수 있음 (무한 루프 붕괴).      │
-│                                                              │
-│  [2. 너비 우선 탐색 (BFS, Breadth-First Search) - 안전제일 탐험대]   │
-│   * 사용 자료구조: Queue (큐, 선입선출 - 줄 선 순서대로 평등하게 수색)   │
-│   * 탐색 순서: A (1층 끝) ─▶ B ─▶ C (2층 다 뒤짐)                  │
-│            ─▶ D ─▶ E ─▶ F (정답 발견! 빙고!)                  │
-│   * 장점: 가장 얕은 층에 있는 '최단 거리 정답'을 무조건 100% 보장함!    │
-│   * 단점: 10층을 뒤지려면 1~9층의 모든 점(수십억 개)을 몽땅 RAM에 저장해 │
-│          둬야 해서 메모리가 우주 폭발함 (OOM 사망).               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           상태 공간 탐색: 깊이 우선(DFS) vs 너비 우선(BFS) 아키텍처 도해 |
++--------------------------------------------------------------+
+|  [거대한 상태 공간 트리(Tree)]                                      |
+|         (A) 시작 노드 (1층)                                     |
+|        /   \                                                 |
+|      (B)   (C)       (2층)                                     |
+|     /  \   /  \                                              |
+|   (D) (E) (F) (G)    (3층)     ※ 목표 노드는 (F)라고 가정!         |
+|                                                              |
+|  [1. 깊이 우선 탐색 (DFS, Depth-First Search) - 외길 직진 멧돼지]    |
+|   * 사용 자료구조: Stack (스택, 후입선출 - 마지막에 본 곳부터 다시 파기)  |
+|   * 탐색 순서: A --> B --> D (끝까지 파봄, 꽝!) --> 백트래킹(뒤로 빽!)    |
+|            --> E (꽝!) --> 백트래킹 --> C --> F (정답 발견! 빙고!)   |
+|   * 장점: 기억(메모리)해야 할 갈림길이 몇 개 없어서 RAM 소모가 미미함.    |
+|   * 단점: 운 나쁘면 정답은 바로 옆(C)에 있는데, 영원히 끝이 없는 D 밑바닥 |
+|          블랙홀로 빠져 영원히 못 돌아올 수 있음 (무한 루프 붕괴).      |
+|                                                              |
+|  [2. 너비 우선 탐색 (BFS, Breadth-First Search) - 안전제일 탐험대]   |
+|   * 사용 자료구조: Queue (큐, 선입선출 - 줄 선 순서대로 평등하게 수색)   |
+|   * 탐색 순서: A (1층 끝) --> B --> C (2층 다 뒤짐)                  |
+|            --> D --> E --> F (정답 발견! 빙고!)                  |
+|   * 장점: 가장 얕은 층에 있는 '최단 거리 정답'을 무조건 100% 보장함!    |
+|   * 단점: 10층을 뒤지려면 1~9층의 모든 점(수십억 개)을 몽땅 RAM에 저장해 |
+|          둬야 해서 메모리가 우주 폭발함 (OOM 사망).               |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> vs Queue의 메모리 딜레마)</strong>:
@@ -142,7 +142,7 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문제 표현] → [상태 공간 탐색 (DFS / BFS)] → [학습 기반 지능과 결합]
+[문제 표현] -> [상태 공간 탐색 (DFS / BFS)] -> [학습 기반 지능과 결합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -157,7 +157,7 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 
 **진행 상황**: 236 / 420
 
-← **이전**: [235. 전향 추론 (Forward) vs 후향 추론 (Backward)](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)
-**다음**: [237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) →
+<- **이전**: [235. 전향 추론 (Forward) vs 후향 추론 (Backward)](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)
+**다음**: [237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) ->
 
 ---

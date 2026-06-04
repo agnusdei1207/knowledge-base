@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SIP INVITE 기반 핸드셰이크]
-    │
-    ▼
+    |
+    v
 [IP PBX 멀티캐스트]
-    │
-    └──▶ [IPv6 SLAAC 자동할당]
+    |
+    +---> [IPv6 SLAAC 자동할당]
 ```
 
 - **📢 섹션 요약 비유**: [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [SIP INVITE 기반 핸드셰이크]
-    │
-    ▼
+    |
+    v
 [IP PBX 멀티캐스트]
-    │
-    └──▶ [IPv6 SLAAC 자동할당]
+    |
+    +---> [IPv6 SLAAC 자동할당]
 ```
 
 - **📢 섹션 요약 비유**: [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ IP PBX를 도입해서 너무 좋았는데, 사장님(또는 화재 경보기)�
 
 ```text
 [선행 개념: SIP INVITE 기반 핸드셰이크]
-    │
-    ▼
+    |
+    v
 [현재 개념: IP PBX 멀티캐스트]
-    │
-    ├──▶ [확장 A: IPv6 SLAAC 자동할당]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: IPv6 SLAAC 자동할당]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ IP PBX를 도입해서 너무 좋았는데, 사장님(또는 화재 경보기)�
 
 **진행 상황**: 180 / 1120
 
-← **이전**: [1072. SIP INVITE 기반 핸드셰이크](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1072_sip_invite_handshake_voip_session/)
-**다음**: [1074. IPv6 SLAAC 자동할당](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1074_ipv6_slaac_stateless_address_autoconfiguration/) →
+<- **이전**: [1072. SIP INVITE 기반 핸드셰이크](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1072_sip_invite_handshake_voip_session/)
+**다음**: [1074. IPv6 SLAAC 자동할당](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1074_ipv6_slaac_stateless_address_autoconfiguration/) ->
 
 ---

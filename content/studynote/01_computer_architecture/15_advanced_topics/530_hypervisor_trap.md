@@ -26,15 +26,15 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 없을 때와 있을 때의 차이를 단순하게 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            왜 트랩이 필요한가: 공유 하드웨어에 단일 통제점 확보           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest의 특권 동작 시도                                                     │
-│      │                                                                     │
-│      ├─ 직접 실행되면 ─────▶ 실제 CPU 상태 변경 ─────▶ 다른 VM에도 영향    │
-│      │                                                                     │
-│      └─ 트랩되면 ────────▶ 하이퍼바이저 판단 ───────▶ 가상 결과만 반환     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            왜 트랩이 필요한가: 공유 하드웨어에 단일 통제점 확보           |
++----------------------------------------------------------------------------+
+| Guest의 특권 동작 시도                                                     |
+|      |                                                                     |
+|      +- 직접 실행되면 ------> 실제 CPU 상태 변경 ------> 다른 VM에도 영향    |
+|      |                                                                     |
+|      +- 트랩되면 ---------> 하이퍼바이저 판단 --------> 가상 결과만 반환     |
++----------------------------------------------------------------------------+
 ```
 
 즉 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 늦추는 부수 효과가 있어도, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 자체를 성립시키는 안전 경계다. 중요한 질문은 "[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 좋은가 나쁜가"가 아니라, <strong>어떤 경계는 반드시 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>해야 하고 어떤 경계는 하드웨어 빠른 경로로 우회할 수 있는가</strong>다.
@@ -50,17 +50,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 빠른 경로와 느린 경로를 어떻게 가르는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 하이퍼바이저 트랩의 빠른 경로와 느린 경로                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest instruction / event                                                  │
-│      │                                                                     │
-│      ├─ 인터셉트 비대상 ───────────────▶ VM 내부 직접 실행                 │
-│      │                                                                     │
-│      └─ 인터셉트 대상 ──▶ VM Exit ─▶ 하이퍼바이저 처리 ─▶ VM Entry        │
-│                               │                                             │
-│                               └─ Exit Reason / Qualification 기록          │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                 하이퍼바이저 트랩의 빠른 경로와 느린 경로                 |
++----------------------------------------------------------------------------+
+| Guest instruction / event                                                  |
+|      |                                                                     |
+|      +- 인터셉트 비대상 ----------------> VM 내부 직접 실행                 |
+|      |                                                                     |
+|      +- 인터셉트 대상 ---> VM Exit --> 하이퍼바이저 처리 --> VM Entry        |
+|                               |                                             |
+|                               +- Exit Reason / Qualification 기록          |
++----------------------------------------------------------------------------+
 ```
 
 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 받으면 세 가지 중 하나를 선택한다. 첫째, 실제 하드웨어 접근을 막고 가상 결과만 돌려주는 에뮬레이션. 둘째, 권한을 검사한 뒤 제한적으로 허용하는 중재. 셋째, 게스트에게 예외나 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 주입해 스스로 처리하게 하는 방식이다. 이때 한번의 Exit/Entry는 수백~수천 사이클 이상이 들 수 있으므로, 빈도가 높으면 처리량뿐 아니라 tail latency도 악화된다.
@@ -148,20 +148,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 소프트웨어 Trap-and-Emulate
-        │
-        ▼
+        |
+        v
 VT-x / AMD-V 기반 인터셉트 제어
-        │
-        ▼
+        |
+        v
 VMCS / VMCB로 Exit Reason 구조화
-        │
-        ▼
+        |
+        v
 EPT · APICv · posted interrupt로 Trap 회피
-        │
-        ▼
+        |
+        v
 VirtIO · SR-IOV로 I/O Trap 축소
-        │
-        ▼
+        |
+        v
 Confidential VM · 더 정교한 선택적 인터셉트
 ```
 
@@ -179,7 +179,7 @@ Confidential VM · 더 정교한 선택적 인터셉트
 
 **진행 상황**: 530 / 803
 
-← **이전**: [529. 가상 머신 제어 구조 (VMCS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)
-**다음**: [531. 에뮬레이션 지연](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/531_emulation_latency/) →
+<- **이전**: [529. 가상 머신 제어 구조 (VMCS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)
+**다음**: [531. 에뮬레이션 지연](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/531_emulation_latency/) ->
 
 ---

@@ -39,18 +39,18 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 계층 구조</strong>:
 
 ```
-┌───────────────────────────────────────────────────────────┐
-│                    호스트 CPU                              │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │          CXL 패브릭 (PCIe 물리 계층)               │    │
-│  │  CXL.io │ CXL.cache │ CXL.mem                    │    │
-│  └──┬─────────────┬────────────────────┬─────────────┘   │
-│     ↓             ↓                    ↓                  │
-│  ┌──────┐  ┌────────────┐    ┌─────────────────────┐     │
-│  │ PCIe │  │ 가속기(GPU) │    │ CXL 메모리 확장 카드 │     │
-│  │ 장치 │  │ /FPGA/DPU  │    │ (수백 GB DRAM 풀링)  │     │
-│  └──────┘  └────────────┘    └─────────────────────┘     │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|                    호스트 CPU                              |
+|  +--------------------------------------------------+    |
+|  |          CXL 패브릭 (PCIe 물리 계층)               |    |
+|  |  CXL.io | CXL.cache | CXL.mem                    |    |
+|  +--+-------------+--------------------+-------------+   |
+|     v             v                    v                  |
+|  +------+  +------------+    +---------------------+     |
+|  | PCIe |  | 가속기(GPU) |    | CXL 메모리 확장 카드 |     |
+|  | 장치 |  | /FPGA/DPU  |    | (수백 GB DRAM 풀링)  |     |
+|  +------+  +------------+    +---------------------+     |
++-----------------------------------------------------------+
 ```
 
 | 기술 | 역할 | 핵심 특징 |
@@ -90,7 +90,7 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 **기술사 시험 판단 포인트**:
 1. CXL의 세 가지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).io, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).cache, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem)과 각각의 역할을 설명한다.
-2. [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 아키텍처가 수율(Yield) 개선에 기여하는 원리(작은 다이 → 불량 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소)를 수치적으로 설명한다.
+2. [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 아키텍처가 수율(Yield) 개선에 기여하는 원리(작은 다이 -> 불량 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소)를 수치적으로 설명한다.
 3. [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 CPU 효율을 개선하는 메커니즘을 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 컨텍스트에서 기술한다.
 
 **실무 시나리오**: 하이퍼스케일 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서 NVIDIA BlueField [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 도입 — [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 처리를 CPU에서 DPU로 이관하여, 100Gbps 네트워크 패킷 처리에 사용하던 CPU 코어 8개를 해방, 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 35% 향상 사례. [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 암호화도 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 가속으로 처리.
@@ -103,7 +103,7 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 차세대 인터커넥트 기술의 도입 효과:
 - **메모리 확장성**: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)으로 서버당 테라바이트(TB) 수준의 메모리 접근 가능
-- **칩 비용 절감**: [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 이종 집적으로 최첨단 공정 적용 면적 최소화 → 수율 개선
+- **칩 비용 절감**: [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 이종 집적으로 최첨단 공정 적용 면적 최소화 -> 수율 개선
 - **CPU 효율화**: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 애플리케이션 처리 가능 CPU 코어 20~40% 증가
 - **표준화**: [UCIe](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) 기반 멀티 벤더 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 생태계 형성
 
@@ -126,7 +126,7 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[SmartNIC · CPU 오프로딩] → [CXL · 칩렛] → [NUMA · 분산 메모리]
+[SmartNIC · CPU 오프로딩] -> [CXL · 칩렛] -> [NUMA · 분산 메모리]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -141,7 +141,7 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 **진행 상황**: 509 / 552
 
-← **이전**: [508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/508_quantum_computing_security_shor_grover_threat/)
-**다음**: [510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)](/knowledge-base/studynote/06_ict_convergence/05_data_science/510_statistics_mean_variance_skewness_kurtosis/) →
+<- **이전**: [508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/508_quantum_computing_security_shor_grover_threat/)
+**다음**: [510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)](/knowledge-base/studynote/06_ict_convergence/05_data_science/510_statistics_mean_variance_skewness_kurtosis/) ->
 
 ---

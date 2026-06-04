@@ -26,11 +26,11 @@ tags = ["studynote-database"]
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> Rule -> Current Concept -> Outcome                 │
-├──────────────────────────────────────────────────────────────┤
-│ window-functions-… -> current scope -> subquery-unnestin… │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input -> Rule -> Current Concept -> Outcome                 |
++--------------------------------------------------------------+
+| window-functions-… -> current scope -> subquery-unnestin… |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 핵심은 `윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
@@ -53,11 +53,11 @@ tags = ["studynote-database"]
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Pre-condition -> Current Rule -> Validation -> Result       │
-├──────────────────────────────────────────────────────────────┤
-│ 프로시저 플랜 캐시 스니핑 … -> 윈도우 함수 ROWS BET… -> 서브쿼리 언네스팅 (Subq… │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Pre-condition -> Current Rule -> Validation -> Result       |
++--------------------------------------------------------------+
+| 프로시저 플랜 캐시 스니핑 … -> 윈도우 함수 ROWS BET… -> 서브쿼리 언네스팅 (Subq… |
++--------------------------------------------------------------+
 ```
 
 결국 `윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
@@ -76,7 +76,7 @@ tags = ["studynote-database"]
 | 초점 | 배경, 전제, 한계가 중심이다. | `분산 데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
 | 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
-또한 `윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션`는 `분산 데이터베이스`·`복제 (Replication)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 → 현재 통제 → 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
+또한 `윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션`는 `분산 데이터베이스`·`복제 (Replication)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 -> 현재 통제 -> 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: 직영점, 가맹점, 온라인몰이 같은 주문을 어떻게 나눠 처리할지 비교하는 일과 닮았다.
 
@@ -121,12 +121,12 @@ tags = ["studynote-database"]
 
 ```text
 [프로시저 플랜 캐시 스니핑 (Parameter S…]
-    │
-    ▼
+    |
+    v
 [윈도우 함수 ROWS BETWEEN 누적 합계 구…]
-    │
-    ├──▶ [서브쿼리 언네스팅 (Subquery Unn…]
-    └──▶ [푸시 다운 조인 프레디케이트 (Join P…]
+    |
+    +---> [서브쿼리 언네스팅 (Subquery Unn…]
+    +---> [푸시 다운 조인 프레디케이트 (Join P…]
 ```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰`와 `푸시 다운 조인 프레디케이트 (Join Predicate Pushdown) 뷰 연산 쿼리 변환` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
@@ -143,7 +143,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 584 / 600
 
-← **이전**: [583. 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 실행 계획 악화](/knowledge-base/studynote/05_database/04_transactions_concurrency/583_parameter_sniffing_execution_plan_cache_pollution/)
-**다음**: [585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰](/knowledge-base/studynote/05_database/04_transactions_concurrency/585_subquery_unnesting_optimizer_query_transformation/) →
+<- **이전**: [583. 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 실행 계획 악화](/knowledge-base/studynote/05_database/04_transactions_concurrency/583_parameter_sniffing_execution_plan_cache_pollution/)
+**다음**: [585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰](/knowledge-base/studynote/05_database/04_transactions_concurrency/585_subquery_unnesting_optimizer_query_transformation/) ->
 
 ---

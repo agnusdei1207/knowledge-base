@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 (Multi-Master / [Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)은 양방향 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능, 충돌 해결 매커니즘 필수에 초점을 맞춘 개념이다. 수평 확장과 유연한 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이 필요할 때는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 먼저 설계해야 한다. [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/)와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 잘못 정하면 핫스팟과 재배치 비용이 급증한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Client -> Router -> Current concept -> Shard/Replica         │
-├──────────────────────────────────────────────────────────────┤
-│ Traffic growth -> distribution -> scale-out                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Client -> Router -> Current concept -> Shard/Replica         |
++--------------------------------------------------------------+
+| Traffic growth -> distribution -> scale-out                  |
++--------------------------------------------------------------+
 ```
 
 이 그림은 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
@@ -47,11 +47,11 @@ tags = ["studynote-database"]
 | 운영 주의 | `마스터-슬레이브 복제`·`동종 분산 DB vs 이종 분산 DB 통합`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Shard key -> route -> current concept -> rebalance           │
-├──────────────────────────────────────────────────────────────┤
-│ Partition choice -> hotspot risk -> expansion cost           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Shard key -> route -> current concept -> rebalance           |
++--------------------------------------------------------------+
+| Partition choice -> hotspot risk -> expansion cost           |
++--------------------------------------------------------------+
 ```
 
 핵심은 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -114,12 +114,12 @@ tags = ["studynote-database"]
 
 ```text
 [마스터-슬레이브 복제]
-    │
-    ▼
+    |
+    v
 [멀티 마스터 복제]
-    │
-    ├──▶ [동종 분산 DB vs 이종 분산 DB 통합]
-    └──▶ [NoSQL 데이터베이스]
+    |
+    +---> [동종 분산 DB vs 이종 분산 DB 통합]
+    +---> [NoSQL 데이터베이스]
 ```
 
 [마스터-슬레이브 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/271_master_slave_replication/)에서 출발한 논점이 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에서 핵심 판단으로 모이고, 이후 동종 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB vs 이종 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 통합·[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -136,7 +136,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 272 / 600
 
-← **이전**: [271. 마스터-슬레이브 복제 (Master-Slave / Primary-Replica)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/271_master_slave_replication/)
-**다음**: [273. 동종 분산 DB vs 이종 분산 DB 통합 (Heterogeneous)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) →
+<- **이전**: [271. 마스터-슬레이브 복제 (Master-Slave / Primary-Replica)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/271_master_slave_replication/)
+**다음**: [273. 동종 분산 DB vs 이종 분산 DB 통합 (Heterogeneous)](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) ->
 
 ---

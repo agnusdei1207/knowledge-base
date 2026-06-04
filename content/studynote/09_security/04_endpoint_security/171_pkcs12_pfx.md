@@ -26,18 +26,18 @@ PKCS#12는 "개인키까지 포함한 디지털 신분 꾸러미"를 안전하�
 아래 그림은 분리 보관과 PKCS#12 묶음의 차이를 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Separate files vs PKCS#12 bundle                                     │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ cert.pem                      │ bundle.p12 / bundle.pfx              │
-│ key.pem                       │  ├─ private key                      │
-│ chain.pem                     │  ├─ end-entity certificate           │
-│ passphrase stored elsewhere   │  ├─ intermediate CA chain            │
-│                               │  └─ import metadata + password lock  │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ Pairing error easy            │ One file to move and import          │
-│ Plain key copy risk           │ Better portability, fewer mistakes   │
-└───────────────────────────────┴──────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Separate files vs PKCS#12 bundle                                     |
++-------------------------------+--------------------------------------+
+| cert.pem                      | bundle.p12 / bundle.pfx              |
+| key.pem                       |  +- private key                      |
+| chain.pem                     |  +- end-entity certificate           |
+| passphrase stored elsewhere   |  +- intermediate CA chain            |
+|                               |  +- import metadata + password lock  |
++-------------------------------+--------------------------------------+
+| Pairing error easy            | One file to move and import          |
+| Plain key copy risk           | Better portability, fewer mistakes   |
++-------------------------------+--------------------------------------+
 ```
 
 핵심은 PKCS#12가 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 아니라 <strong>키와 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서의 운반 질서를 정하는 포장 규격</strong>이라는 점이다. 보안을 높이는 방식도 "개인키를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 넣지 않는다"가 아니라, "넣어야 할 상황이라면 최소한 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 함께 적용한다"에 가깝다.
@@ -60,18 +60,18 @@ PKCS#12 내부는 단순 ZIP [파일](/knowledge-base/studynote/02_operating_sys
 아래 그림은 비밀번호가 어디에 쓰이는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ PKCS#12 protection model                                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ user password                                                        │
-│      │                                                               │
-│      ├─ PBKDF2 ──> encryption key ──> ShroudedKeyBag(private key)    │
-│      │                                                               │
-│      └─ PBKDF2 ──> MAC key ───────> MacData(container integrity)     │
-│                                                                      │
-│ CertBag = end-entity certificate + intermediate CA certificates      │
-│ Attributes = friendlyName, localKeyId, usage hints                   │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| PKCS#12 protection model                                             |
++----------------------------------------------------------------------+
+| user password                                                        |
+|      |                                                               |
+|      +- PBKDF2 --> encryption key --> ShroudedKeyBag(private key)    |
+|      |                                                               |
+|      +- PBKDF2 --> MAC key -------> MacData(container integrity)     |
+|                                                                      |
+| CertBag = end-entity certificate + intermediate CA certificates      |
+| Attributes = friendlyName, localKeyId, usage hints                   |
++----------------------------------------------------------------------+
 ```
 
 이 구조 때문에 PKCS#12를 열 때는 보통 두 검사가 함께 이뤄진다. 먼저 비밀번호로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사를 통과해야 하고, 이어서 개인키를 복호화해 가져온다. 그래서 "비밀번호가 틀렸는지"와 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨졌는지"가 같은 오류로 보일 때가 많다.
@@ -153,22 +153,22 @@ PKCS#12의 가장 큰 효과는 [인증](/knowledge-base/studynote/04_software_e
 
 ```text
 Key pair generation
-        │
-        ▼
+        |
+        v
 PKCS#10 CSR (Certificate Signing Request)
-        │
-        ▼
+        |
+        v
 X.509 certificate issuance
-        │
-        ▼
+        |
+        v
 PKCS#12 bundle (.p12 / .pfx)
-        │
-        ├─ import to IIS / Keychain / Java KeyStore
-        │
-        └─ convert to PEM when runtime requires split files
+        |
+        +- import to IIS / Keychain / Java KeyStore
+        |
+        +- convert to PEM when runtime requires split files
 ```
 
-이 흐름은 "키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 → 이동용 묶음 → 플랫폼별 가져오기/변환"으로 PKCS#12가 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 운용의 교환 계층에 놓인다는 점을 보여 준다.
+이 흐름은 "키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 -> 이동용 묶음 -> 플랫폼별 가져오기/변환"으로 PKCS#12가 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 운용의 교환 계층에 놓인다는 점을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +182,7 @@ PKCS#12 bundle (.p12 / .pfx)
 
 **진행 상황**: 224 / 1108
 
-← **이전**: [170. PKCS#7 / CMS — 인증서 envelope 형식](/knowledge-base/studynote/09_security/04_endpoint_security/170_pkcs7_cms/)
-**다음**: [172. DER / PEM 인코딩 — 인증서 인코딩 형식](/knowledge-base/studynote/09_security/04_endpoint_security/172_der_pem_encoding/) →
+<- **이전**: [170. PKCS#7 / CMS — 인증서 envelope 형식](/knowledge-base/studynote/09_security/04_endpoint_security/170_pkcs7_cms/)
+**다음**: [172. DER / PEM 인코딩 — 인증서 인코딩 형식](/knowledge-base/studynote/09_security/04_endpoint_security/172_der_pem_encoding/) ->
 
 ---

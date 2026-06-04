@@ -96,11 +96,11 @@ tags = ["studynote-security"]
 
 ```text
 기본 통제 불가
-   ↓
+   v
 대체 수단 조합
-   ↓
+   v
 동등한 위험 감소
-   ↓
+   v
 감사 증빙 / 예외 승인
 ```
 
@@ -108,11 +108,11 @@ tags = ["studynote-security"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 기본 통제 → 이상적인 보안 기준
-2. 적용 불가 상황 → 레거시와 특수 장비 등장
-3. 보완 통제 → 대체 수단 조합
-4. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증빙 → 예외의 정당성 확보
-5. 재검토와 종료 → 예외를 줄이고 표준화로 복귀
+1. 기본 통제 -> 이상적인 보안 기준
+2. 적용 불가 상황 -> 레거시와 특수 장비 등장
+3. 보완 통제 -> 대체 수단 조합
+4. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증빙 -> 예외의 정당성 확보
+5. 재검토와 종료 -> 예외를 줄이고 표준화로 복귀
 
 ---
 
@@ -128,7 +128,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 57 / 1108
 
-← **이전**: [56. 억제 통제 (Deterrent Controls) - 위협 행동 억제](/knowledge-base/studynote/09_security/01_intro_principles/056_deterrent_controls/)
-**다음**: [58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/) →
+<- **이전**: [56. 억제 통제 (Deterrent Controls) - 위협 행동 억제](/knowledge-base/studynote/09_security/01_intro_principles/056_deterrent_controls/)
+**다음**: [58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/) ->
 
 ---

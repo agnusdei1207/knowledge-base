@@ -75,17 +75,17 @@ BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터]
 
 ```text
 [선형 탐색(O(n))]
-    │
-    ▼
+    |
+    v
 [이진 탐색(정렬 배열)]
-    │
-    ▼
+    |
+    v
 [BST — 좌/우 자식으로 분기]
-    │
-    ▼
+    |
+    v
 [AVL/Red-Black Tree — 균형 유지]
-    │
-    ▼
+    |
+    v
 [B-Tree — 디스크 인덱스]
 ```
 
@@ -102,7 +102,7 @@ BST는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_sea
 
 **진행 상황**: 61 / 175
 
-← **이전**: [이진 트리 (Binary Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)
-**다음**: [AVL 트리 (Adelson-Velsky and Landis Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/) →
+<- **이전**: [이진 트리 (Binary Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)
+**다음**: [AVL 트리 (Adelson-Velsky and Landis Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/) ->
 
 ---

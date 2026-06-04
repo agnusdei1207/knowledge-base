@@ -11,165 +11,136 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: API 보안 OAuth JWT 토큰 관리은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: API 보안의 핵심은 OAuth 2.0/2.1 기반의 위임 인가(Delegated Authorization) 프레임워크와 RFC 7519 기반의 JWT(JSON Web Token) 또는 RFC 9068의 JWT Bearer Access Token Profile을 결합하여, 무상태(Stateless) 환경에서 클라이언트·리소스·인가서버 간의 신뢰 사슬(Chain of Trust)을 JWS 서명·JWKS(Key Set) 회전·PKCE(code_challenge/S256)·DPoP(cnf claim) 등으로 구축하는 표준 메커니즘이다.
+> 2. **가치**: 세션 DB 조회 없이 마이크로서비스·Edge 게이트웨이·Serverless 환경에서 평균 0.5~3ms의 토큰 검증 레이턴시로 수평 확장이 가능하며, 중앙 IdP(Okta/Keycloak/Auth0) 연동 시 신규 시스템 추가에 따른 인증 로직 중복 구현을 약 70% 절감하고, OAuth 2.0 + OIDC는 FAPI(Financial-grade API)·PSD2·한국전자금융감독규정 등 컴플라이언스 감사 통과의 사실상 디팩트 스탠다드다.
+> 3. **판단 포인트**: `alg=none`·HS256 키 혼용·취약한 시크릿(JWT Inspector 자동화 공격 시 5분 내 크랙) 등 JOSE(Javascript Object Signing & Encryption) 헤더 신뢰 위험, Refresh Token Rotation 도입 여부, JWT vs Opaque Token(introspection), HMAC vs RSA/ECDSA 서명 선택, Token 사이즈와 HTTP/2 헤더 압축 고려, JWKS 캐시 TTL vs 키 회전(Key Rollover) 윈도우 설계가 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-API 보안 OAuth JWT 토큰 관리은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 웹 애플리케이션은 Cookie + Session ID 기반의 서버 세션(Stateful Session) 모델로 인증·인가를 처리했다. 하지만 **MSA(Microservices Architecture)**, **BFF(Backend-for-Frontend)**, **Open Banking(오픈뱅킹)**, **3rd Party API 플랫폼**, **SPA/모바일 하이브리드 앱** 환경으로 패러다임이 전환되면서, (1) 수십~수백 개의 서비스가 사용자 컨텍스트를 공유해야 하고, (2) Same-Origin이 아닌 외부 클라이언트도 자원에 접근해야 하며, (3) Cross-Domain SSO가 필수 요구사항이 되었다. 이러한 환경에서 자체 세션 구현은 SSRF·CSRF·세션 고정(Session Fixation)·CORS 정책 충돌·세션 동기화(Sticky Session) 문제로 한계에 부딪힌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, API Security OAuth JWT Token Management 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+**API 보안의 트라이어드**는 크게 ①인증(Authentication: 누구인가), ②인가(Authorization: 무엇을 할 수 있는가), ③감사(Auditing/Logging: 무엇을 했는가)로 나뉘며, OAuth 2.0(RFC 6749)은 ②의 표준 프레임워크, OIDC(OpenID Connect, OpenID Foundation 2014)는 ①의 표준 프로파일, JWT(RFC 7519)는 토큰의 **자기완결적(Self-contained)** 표현 포맷을 담당한다. 2012년 IETF OAuth WG에서 JWT가 OAuth 2.0의 토큰 포맷으로 채택된 이후, RFC 9068(JWT Profile for OAuth 2.0 Access Tokens, 2021)로 표준이 정착되었으며, 2024년 기준 전 세계 약 89%의 신규 API가 OAuth 2.0 기반의 토큰을 사용한다(Okta State of Secure Identity Report).
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    API 보안 OAuth JWT 토큰 관리 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+[ 전통 웹 vs API-First 환경 보안 모델 비교 ]
+
+  [전통 모놀리식 웹 - Stateful Cookie Session]
+  +----------+                    +------------------+
+  |  Browser | <-- Set-Cookie ----> |  App Server      |
+  |  + HTML  | <-- JSESSIONID -----> |  + SessionStore  |
+  +----------+                    |  (Redis/MemDB)   |
+                                  +------------------+
+       문제: ①Scale-out 시 세션 동기화 필요
+             ②Same-Origin 한정, CORS 제약
+             ③3rd Party 연동 불가 (위임 불가)
+
+  [API-First / MSA 환경 - Stateless OAuth+JWT]
+  +--------+   ①Authz Req    +------------+
+  | Client | ---------------> | Auth Server|
+  |(App/API| <----code+state-- |  (IdP)     |
+  | SPA)   |   ②Token Req    +----+-------+
+  |        | --------------->      | AT(RT)
+  |        | <-- JWT(RS256) ------+
+  |        |                      |
+  |        |  ③API Call(+Bearer)  v
+  |        | ---- GET /users ---> +--------------+
+  |        |                     | Resource API |
+  |        | <--- 200 OK+JWT ---> | (Stateless)  |
+  |        |                     |  JWKS Verify |
+  +--------+                     +--------------+
+       장점: ①Stateless -> 수평확장 용이
+             ②Cross-Domain 표준 (CORS, mTLS)
+             ③Scope/RBAC/ABAC 위임 가능
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+전통적 인가 모델(ACL·RBAC·ABAC)이 "내부 시스템"에 초점을 맞췄다면, OAuth 2.0은 "외부 위임 인가"를 1급 시민으로 다룬다는 결정적 차이가 있다. 즉, 자원 소유자(Resource Owner)가 자신의 자격증명을 노출하지 않고도, 클라이언트에게 제한된 접근권(Scope)을 위임할 수 있게 한다. 이는 한국인터넷진흥원(KISA)의 「개인정보의 기술적·관리적 보호조치 기준」과 OWASP API Security Top 10(2023)의 API1(BOLA)·API2(Broken Authentication)·API3(BOPLA)을 충족하기 위한 핵심 토대가 된다.
 
-- **📢 섹션 요약 비유**: API 보안 OAuth JWT 토큰 관리은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 옛날 호텔의 "수건 묶음 키(Room Key with #)"가 세션 쿠키라면, OAuth+JWT는 **체크인 시 프론트 데스크가 발급하는 보안카드+신분증**(Keycard+ID Badge)이다. 객실(API)마다 신분증을 보여주기만 하면 되고, 프론트 데스크(IdP)에 물어볼 필요가 없으며, 카드 유효기간·권한 등급·발급자 서명이 모두 카드 한 장에 인쇄되어 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-API 보안 OAuth JWT 토큰 관리의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+OAuth 2.0의 4대 역할은 **Resource Owner(자원 소유자, 일반 사용자)**, **Client(자원에 접근하려는 앱)**, **Authorization Server(인가 서버, 토큰 발급)**, **Resource Server(자원 서버, API)** 이며, OIDC는 여기에 **ID Token**과 **UserInfo Endpoint**를 추가해 SSO·프로필 정보를 표준화한다. 토큰 흐름의 핵심은 **Authorization Code + PKCE(RFC 7636)** 패턴이며, 2022년 OAuth 2.1 초안(IETF draft-ietf-oauth-v2-1)으로 deprecate된 Implicit Grant와 Resource Owner Password Credentials Grant는 신규 시스템에서 사용 금지다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              API Security OAuth JWT Token Management 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+[ OAuth 2.0 Authorization Code + PKCE Flow (RFC 6749 + RFC 7636) ]
+
+ Client                 Authorization Server              Resource Server
+(Public/Confidential)    (AS / IdP)                       (API Gateway)
+   |                          |                                |
+   |  0. PKCE 생성             |                                |
+   |  code_verifier = rand(43-128)                              |
+   |  code_challenge = B64URL( SHA256(code_verifier) )          |
+   |                          |                                |
+   |  1. /authorize?          |                                |
+   |     response_type=code   |                                |
+   |     &client_id=app123    |                                |
+   |     &redirect_uri=...    |                                |
+   |     &scope=read:user...  |                                |
+   |     &state=xyz           |                                |
+   |     &code_challenge=...  |                                |
+   |     &code_challenge_     |                                |
+   |      method=S256         |                                |
+   | ------------------------> |                                |
+   |   (User Login & Consent) |                                |
+   | <------------------------ |                                |
+   |  2. 302 Redirect         |                                |
+   |     ?code=AnQ7...        |                                |
+   |     &state=xyz           |                                |
+   |                          |                                |
+   |  3. /token               |                                |
+   |     grant_type=          |                                |
+   |      authorization_code  |                                |
+   |     &code=AnQ7...        |                                |
+   |     &code_verifier=...   |                                |
+   | ------------------------> |                                |
+   |                          | 4. Verify:                     |
+   |                          |  SHA256(verifier)==challenge?  |
+   |                          |  Authenticate client           |
+   |                          |                                |
+   | <------------------------ |                                |
+   |  5. {access_token,       |                                |
+   |     refresh_token,       |                                |
+   |     id_token,            |                                |
+   |     expires_in=3600,     |                                |
+   |     token_type=Bearer,   |                                |
+   |     scope="read:user"}   |                                |
+   |                          |                                |
+   |  6. GET /api/v1/user -------------------------------------->|
+   |     Authorization: Bearer eyJhbGciOi...                  |
+   |                          |  7. JWKS fetch <--- Verify Sig |
+   |                          |     sub, aud, exp, iss, nbf   |
+   | <----------------------------------------------- 200 OK    |
+   |                          |                                |
+   |  8. (AT 만료 후)          |                                |
+   |  POST /token             |                                |
+   |   grant_type=            |                                |
+   |    refresh_token         |                                |
+   | ------------------------> |                                |
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+JWT는 **Header.Payload.Signature**의 3-part Base64URL 인코딩 문자열로, Header에는 `alg`(RS256/ES256/HS256/EdDSA), `typ=JWT`, `kid`(Key ID) 등이, Payload(Claims Set)에는 **Registered Claims**(iss, sub, aud, exp, nbf, iat, jti), **Public Claims**(이름 충돌 방지 네임스페이스 권장), **Private Claims**(시스템 간 합의) 등이 위치한다. 서명은 JWS(JSON Web Signature, RFC 7515) 방식으로 `Base64URL(Header) + "." + Base64URL(Payload)`를 `alg`에 명시된 알고리즘으로 서명한 MAC(HS*) 또는 디지털서명(RS*/ES*/PS*/EdDSA)이다. 토큰의 위변조 무결성은 보장되지만, **페이로드는 평문**이므로 PII·비밀번호·API Key 등을 절대 넣지 않아야 한다. 민감 정보가 필요할 경우 JWE(RFC 7516, AES-GCM + RSA-OAEP)로 암호화하거나, **Token Reference Pattern**(Opaque Token + RFC 7662 Introspection)을 사용한다.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Authorization Server (AS)** | 토큰 발급·갱신·폐기·검증 엔드포인트 운영. 사용자 인증·동의(Consent) 수집 | OAuth 2.0(/authorize, /token, /revoke, /introspect), OIDC(/userinfo, /.well-known/openid-configuration, /jwks.json), PKCE·DPoP 검증, FAPI/PSD2 프로파일 |
+| **Resource Server (RS)** | API 요청에 대해 JWT 서명·만료·스코프 검증 후 비즈니스 로직 수행 | JWKS 캐시(LRU, 1~24h TTL) + `kid` 매칭, **로컬 서명 검증**으로 AS 라운드트립 제거(평균 0.5~3ms), Scope/RBAC/ABAC 정책 매핑, API Gateway 또는 Sidecar(Istio-Envoy) 계층 |
+| **Client** | PKCE code_verifier 생성, Token 저장·갱신, API 호출, Token 자동 회전(Rotation) | SPA: `localStorage` 비권장 -> **HttpOnly+SameSite=Strict 쿠키 + BFF Pattern**; 모바일: iOS Keychain/Android Keystore + Token Binding; 서버 간(M2M): **Client Credentials Grant** + mTLS |
+| **JWKS (JSON Web Key Set)** | AS의 공개키 집합을 캐시 가능한 URL로 노출(`/jwks.json`). RS256/ES256/EdDSA 서명 검증의 신뢰 앵커 | `kid`별 알고리즘 명시, 키 회전 시 신규 키 pre-publish(overlap window 1~7일), 응답 캐싱 헤더 `Cache-Control: public, max-age=3600`, mTLS 또는 HTTPS로 전송 |
+| **Token Storage** | AT·RT의 클라이언트 측 보관 위치 결정 — XSS·CSRF·탈취 위협 모델 균형 | HttpOnly+Secure+SameSite=Strict 쿠키, BFF Pattern, Service Worker, Secure Enclave, **Token Binding(DPoP, RFC 9449)**: `cnf` claim에 공개키 핀(Public Key Pin) |
+| **Refresh Token Rotation (RTR)** | RT 1회 사용 후 폐기, 새 RT+AT 재발급. 탈취 감지 시 RT 가족 단위 폐기(RTF Detection) | RFC 6749 + OAuth 2.1 권고, Keycloak·Auth0·Okta 등 지원, RT 재사용 감지 시 모든 디바이스 세션 강제 로그아웃 |
+| **PKCE (Proof Key for Code Exchange)** | 공개 클라이언트(SPA·모바일)에서도 Authorization Code 탈취(Man-in-the-Browser·Replay) 방지 | `code_verifier`(43~128자 entropy), `code_challenge = B64URL(SHA256(verifier))`, **S256 강제**(plain 금지), 2024년부터 Confidential Client도 PKCE 의무 권고 |
+| **Token Introspection (RFC 7662)** | Opaque Token 또는 JWT의 실시간 폐기/스코프 확인 | `POST /introspect` + Basic Auth(client_id:secret) 또는 mTLS, 응답: `{active, scope, sub, exp, aud, ...}`, 캐시 30~300s로 AS 부하 분산 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-API 보안 OAuth JWT 토큰 관리을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | API 보안 OAuth JWT 토큰 관리 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. API 보안 OAuth JWT 토큰 관리은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 API 보안 OAuth JWT 토큰 관리은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 API 보안 OAuth JWT 토큰 관리을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-API 보안 OAuth JWT 토큰 관리을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, API 보안 OAuth JWT 토큰 관리 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: API 보안 OAuth JWT 토큰 관리은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | API 보안 OAuth JWT 토큰 관리의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | API 보안 OAuth JWT 토큰 관리의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-API 보안 OAuth JWT 토큰 관리 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. API 보안 OAuth JWT 토큰 관리은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**JWT 알고리즘 선택의 기술적 고려사항**은 실무 핵심이다. **HS256**은 대칭키로 32바이트(256bit) 이상의 시크릿이 필수이며, 클라이언트가 서명 키를 알아야 하므로 일반적으로 Confidential Server-to-Server 시나리오에 한정한다. **RS256**(RSA-PKCS1v1.5+SHA-256, 2048bit 이상)은 가장 보편적이며 JWKS로 공개키 분배가 가능해 Public Client 검증에 적합하다. **ES256**(ECDSA P-256+SHA-256, 64바이트 서명)은 RS256 대비 약 1/8의 토큰 사이즈와 빠른 검증으로 모바일/IoT에서 유리하며, **EdDSA**(Ed25519, RFC 8037, 64바이트 고정)는 가장 현대적이고 side-channel 안전성이 우수하다. **PS256**(RSA-PSS+SHA-256)은 RS256보다 패딩 오라클에 강건해 FAPI-RW 1.0에서 강제된다. 2024년 기준 OWASP는 **`alg=none` 차단**, **`alg` 화이트리스트**(서버 측에서 서명 검증 시 accept 리스트에 명시된 알고리즘만 수락, 클라이언트가
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 404 / 800
 
-← **이전**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/knowledge-base/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/)
-**다음**: [405. 모바일 보안 MDM MAM 앱 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/) →
+<- **이전**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/knowledge-base/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/)
+**다음**: [405. 모바일 보안 MDM MAM 앱 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/) ->
 
 ---

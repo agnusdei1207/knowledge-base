@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [이더넷 프레임 포맷]
-    │
-    ▼
+    |
+    v
 [Preamble & SFD]
-    │
-    └──▶ [Type 필드 / Length 필드]
+    |
+    +---> [Type 필드 / Length 필드]
 ```
 
 - **📢 섹션 요약 비유**: ** 프리앰블은 100m 달리기 시합에서 심판이 **"제자리에~(Preamble) 차렷~(Preamble)"** 하고 예열을 시키다가, 마지막에 **"탕!(SFD)"** 하고 총을 쏴서 출발선([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 알리는 신호탄입니다.
@@ -46,25 +46,25 @@ tags = ["studynote-network"]
 - <strong>SFD (1 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a>)</strong>: `10101011` 패턴. 프리앰블과 똑같이 1010...으로 가다가 마지막 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `11`로 연속해서 나타난다. 수신기는 이 `11`이 나타나는 순간 "예열 끝! 다음 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)부터가 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 시작이구나!"라고 판단하여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 컨트롤러([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩)로 올려보내기 시작한다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Preamble과 SFD의 비트 타이밍 구조              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   Byte 1    Byte 2         Byte 7     Byte 8 (SFD)          │
- │  10101010  10101010  ...  10101010   10101011               │
- │  └───┬───┘ └───┬───┘      └───┬───┘  └───┬───┘              │
- │      │         │              │          │                  │
- │      └─────────┴──────────────┴──────────┘                  │
- │          Preamble (7 Bytes) : 수신기 클럭 예열               │
- │                                                             │
- │   ...1 0 1 0 1 0 1 1 │ 0 0 1 0 1 0 1 1 ...                  │
- │   ─────────┬──────── ┼ ───────┬───────                      │
- │           SFD        │   목적지 MAC 주소의 첫 번째 Byte       │
- │      (마지막이 11)    │                                     │
- │                      ▼                                     │
- │           여기서부터가 MAC 계층의 진짜 프레임!                    │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                Preamble과 SFD의 비트 타이밍 구조              |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   Byte 1    Byte 2         Byte 7     Byte 8 (SFD)          |
+ |  10101010  10101010  ...  10101010   10101011               |
+ |  +---+---+ +---+---+      +---+---+  +---+---+              |
+ |      |         |              |          |                  |
+ |      +---------+--------------+----------+                  |
+ |          Preamble (7 Bytes) : 수신기 클럭 예열               |
+ |                                                             |
+ |   ...1 0 1 0 1 0 1 1 | 0 0 1 0 1 0 1 1 ...                  |
+ |   ---------+-------- + -------+-------                      |
+ |           SFD        |   목적지 MAC 주소의 첫 번째 Byte       |
+ |      (마지막이 11)    |                                     |
+ |                      v                                     |
+ |           여기서부터가 MAC 계층의 진짜 프레임!                    |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 패킷 캡처 도구(Wireshark)에서 보이지 않는 이유
@@ -128,12 +128,12 @@ Preamble & SFD는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡�
 
 ```text
 [선행 개념: 이더넷 프레임 포맷]
-    │
-    ▼
+    |
+    v
 [현재 개념: Preamble & SFD]
-    │
-    ├──▶ [확장 A: Type 필드 / Length 필드]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: Type 필드 / Length 필드]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 Preamble & SFD는 [이더넷 프레임 포맷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Type 필드 / Length 필드와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ Preamble & SFD는 [이더넷 프레임 포맷](/knowledge-base/studynote/03_netw
 
 **진행 상황**: 355 / 1120
 
-← **이전**: [233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)
-**다음**: [235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/) →
+<- **이전**: [233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)
+**다음**: [235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/) ->
 
 ---

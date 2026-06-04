@@ -35,21 +35,21 @@ tags = ["ict_convergence"]
 이 4가지 계층 중 일부만 특화하여 서비스하는 네트워크들이 등장하면서, 이들을 어떻게 조합하느냐에 따라 다양한 아키텍처가 파생된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             모듈러 블록체인 아키텍처 및 계층 분리            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 실행 계층 (L2 Rollup) ] ──▶ 연산만 10,000 TPS로 초고속 처리│
-│       │ (트랜잭션 결과 및 증명 전달)                         │
-│       ▼                                                      │
-│  [ 정산 계층 (L1) ] ─────────▶ 롤업 사기 증명 검증, 최종 확정 │
-│       │ (원시 데이터 백업)                                   │
-│       ▼                                                      │
-│  [ 데이터 가용성 계층 (DA) ] ──▶ 저비용 대용량 블록 데이터 저장 │
-│       │                                                      │
-│  [ 합의 계층 (L1) ] ─────────▶ 글로벌 노드 간 순서와 룰 합의 │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             모듈러 블록체인 아키텍처 및 계층 분리            |
++--------------------------------------------------------------+
+|                                                              |
+|  [ 실행 계층 (L2 Rollup) ] ---> 연산만 10,000 TPS로 초고속 처리|
+|       | (트랜잭션 결과 및 증명 전달)                         |
+|       v                                                      |
+|  [ 정산 계층 (L1) ] ----------> 롤업 사기 증명 검증, 최종 확정 |
+|       | (원시 데이터 백업)                                   |
+|       v                                                      |
+|  [ 데이터 가용성 계층 (DA) ] ---> 저비용 대용량 블록 데이터 저장 |
+|       |                                                      |
+|  [ 합의 계층 (L1) ] ----------> 글로벌 노드 간 순서와 룰 합의 |
+|                                                              |
++--------------------------------------------------------------+
 ```
 이 그림은 연산의 부담(실행)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량의 부담([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))을 메인넷(합의/정산) 밖으로 빼내어 전체 병목을 해소하는 구조를 보여준다.
 
@@ -102,17 +102,17 @@ tags = ["ict_convergence"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 비트코인 / 초기 이더리움 (Monolithic)
-    │
-    ▼
+    |
+    v
 확장성 한계 직면 및 블록체인 트릴레마 발생
-    │
-    ▼
+    |
+    v
 실행 계층 분리 (L2 롤업: Arbitrum, Optimism)
-    │
-    ▼
+    |
+    v
 데이터 가용성(DA) 계층 독립 (Celestia, EigenDA)
-    │
-    ▼
+    |
+    v
 완전한 모듈러 블록체인 생태계 및 RaaS (Rollup-as-a-Service) 대중화
 ```
 이 흐름도는 모든 것을 혼자 처리하던 시스템이 속도 한계에 부딪힌 후, 실행을 떼어내고, 그다음 저장소([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))까지 분리해내어 최종적으로 조립식 인프라로 진화하는 과정을 보여준다.
@@ -128,7 +128,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 95 / 552
 
-← **이전**: [94. 데이터 가용성 (Data Availability, DA) 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)
-**다음**: [96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/) →
+<- **이전**: [94. 데이터 가용성 (Data Availability, DA) 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)
+**다음**: [96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/) ->
 
 ---

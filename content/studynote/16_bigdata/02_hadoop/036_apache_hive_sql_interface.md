@@ -75,17 +75,17 @@ Hive는 현대적인 '[데이터 레이크하우스](/knowledge-base/studynote/1
 
 ```text
 [MapReduce — 하둡 초기 배치 처리 엔진, SQL 없이 Java 코드 직접 작성]
-    │
-    ▼
+    |
+    v
 [Apache Hive — HiveQL로 MapReduce 추상화, SQL-on-Hadoop 구현]
-    │
-    ▼
+    |
+    v
 [Tez / LLAP (Live Long and Process) — 메모리 DAG 실행, Hive 성능 10배 향상]
-    │
-    ▼
+    |
+    v
 [Apache Spark SQL — RDD 대신 DataFrame API, Hive 메타스토어 호환 분석]
-    │
-    ▼
+    |
+    v
 [레이크하우스 (Lakehouse) — Delta Lake·Iceberg로 ACID 트랜잭션 SQL 분석]
 ```
 
@@ -103,7 +103,7 @@ Hive는 현대적인 '[데이터 레이크하우스](/knowledge-base/studynote/1
 
 **진행 상황**: 36 / 262
 
-← **이전**: [YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층](/knowledge-base/studynote/16_bigdata/02_hadoop/035_yarn_resource_negotiator/)
-**다음**: [Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스](/knowledge-base/studynote/16_bigdata/02_hadoop/037_apache_hbase_column_family/) →
+<- **이전**: [YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층](/knowledge-base/studynote/16_bigdata/02_hadoop/035_yarn_resource_negotiator/)
+**다음**: [Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스](/knowledge-base/studynote/16_bigdata/02_hadoop/037_apache_hbase_column_family/) ->
 
 ---

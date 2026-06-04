@@ -37,27 +37,27 @@ ISP의 핵심 원리는 '인터페이스의 세분화'와 그로 인한 '불필�
 | **Role Interface (준수)** | 클라이언트 역할별로 잘게 쪼개진 구체적 인터페이스 | 자신이 호출하는 메서드 접점에만 정확히 의존함 | 해당 역할을 쓰는 특정 클라이언트만 제한적으로 영향 받음 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  ISP 위반과 준수 구조 아키텍처 비교               │
-├──────────────────────────────────────────────────────────────┤
-│ [위반: Fat Interface]                                          │
-│ +-------------------+        강제 구현 (안 쓰는 기능도 억지 구현)   │
-│ │   MultiMachine    │◀───────── [일반 흑백 프린터]             │
-│ │ - print()         │               - print() : 정상 구현   │
-│ │ - scan()          │               - scan()  : 텅 빈 에러   │
-│ │ - fax()           │               - fax()   : 텅 빈 에러   │
-│ +-------------------+                                        │
-│                                                              │
-│ [준수: Segregated Interfaces]                                  │
-│ +-------------------+   +-------------------+                │
-│ │     IPrinter      │   │     IScanner      │                │
-│ │ - print()         │   │ - scan()          │                │
-│ +-------------------+   +-------------------+                │
-│          ▲                                                   │
-│          │ 필요한 계약(IPrinter)만 깔끔하게 구현                 │
-│  [일반 흑백 프린터]                                            │
-│    - print() : 정상 구현                                      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  ISP 위반과 준수 구조 아키텍처 비교               |
++--------------------------------------------------------------+
+| [위반: Fat Interface]                                          |
+| +-------------------+        강제 구현 (안 쓰는 기능도 억지 구현)   |
+| |   MultiMachine    |<---------- [일반 흑백 프린터]             |
+| | - print()         |               - print() : 정상 구현   |
+| | - scan()          |               - scan()  : 텅 빈 에러   |
+| | - fax()           |               - fax()   : 텅 빈 에러   |
+| +-------------------+                                        |
+|                                                              |
+| [준수: Segregated Interfaces]                                  |
+| +-------------------+   +-------------------+                |
+| |     IPrinter      |   |     IScanner      |                |
+| | - print()         |   | - scan()          |                |
+| +-------------------+   +-------------------+                |
+|          ^                                                   |
+|          | 필요한 계약(IPrinter)만 깔끔하게 구현                 |
+|  [일반 흑백 프린터]                                            |
+|    - print() : 정상 구현                                      |
++--------------------------------------------------------------+
 ```
 
 잘게 쪼개진 인터페이스를 도입하면 복합기(Copier) 같이 다기능이 필요한 클래스는 `IPrinter`, `IScanner`, `IFax`를 모두 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(다중 구현)하여 묶어 쓰면 되고, 단일 기능이 필요한 일반 프린터는 `IPrinter`만 구현하면 되므로 전체 코드가 훨씬 가벼워진다.
@@ -122,17 +122,17 @@ ISP를 철저히 지켜내면 [모듈](/knowledge-base/studynote/04_software_eng
 
 ```text
 객체지향 프로그래밍 (OOP)의 대중화 - 재사용성을 핑계로 한 거대 상속 구조 등장
-    │
-    ▼
+    |
+    v
 God Object 및 Fat Interface 문제 대두 - 결합도 폭발 및 샷건 수술 현상(수정 시 연쇄 붕괴) 발생
-    │
-    ▼
+    |
+    v
 SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 원칙) 공식화
-    │
-    ▼
+    |
+    v
 역할 인터페이스 (Role Interface) 패턴 - 구현체 중심에서 클라이언트(사용자 역할) 중심으로 설계 패러다임 완전 이동
-    │
-    ▼
+    |
+    v
 컴포넌트 및 MSA 아키텍처로 확장 - 코드 레벨의 인터페이스 분리 원칙이 분산 시스템의 API 설계(BFF 등) 원칙으로 거대하게 진화
 ```
 
@@ -148,7 +148,7 @@ SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 
 
 **진행 상황**: 153 / 530
 
-← **이전**: [105. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/105_isp_interface_segregation_principle/)
-**다음**: [106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/) →
+<- **이전**: [105. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/105_isp_interface_segregation_principle/)
+**다음**: [106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/) ->
 
 ---

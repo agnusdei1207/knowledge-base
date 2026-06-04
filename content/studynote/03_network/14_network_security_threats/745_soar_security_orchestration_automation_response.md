@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
+    |
+    v
 [SOAR]
-    │
-    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
+    |
+    +---> [TI 융합 / STIX, TAXII 표준 지…]
 ```
 
 - **📢 섹션 요약 비유**: SOAR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ tags = ["studynote-network"]
 
 ```text
 [침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
+    |
+    v
 [SOAR]
-    │
-    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
+    |
+    +---> [TI 융합 / STIX, TAXII 표준 지…]
 ```
 
 - **📢 섹션 요약 비유**: SOAR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ SOAR는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ```text
 [선행 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
+    |
+    v
 [현재 개념: SOAR]
-    │
-    ├──▶ [확장 A: TI 융합 / STIX, TAXII 표준 지…]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: TI 융합 / STIX, TAXII 표준 지…]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 SOAR는 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 융합 / STIX, TAXII 표준 지…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ SOAR는 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_pr
 
 **진행 상황**: 866 / 1120
 
-← **이전**: [744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)](/knowledge-base/studynote/03_network/14_network_security_threats/744_incident_response_network_forensics_siem/)
-**다음**: [746. TI (Threat Intelligence) 융합 / STIX, TAXII 표준 지표 관리, IoC (침해지표) 반영](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) →
+<- **이전**: [744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)](/knowledge-base/studynote/03_network/14_network_security_threats/744_incident_response_network_forensics_siem/)
+**다음**: [746. TI (Threat Intelligence) 융합 / STIX, TAXII 표준 지표 관리, IoC (침해지표) 반영](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) ->
 
 ---

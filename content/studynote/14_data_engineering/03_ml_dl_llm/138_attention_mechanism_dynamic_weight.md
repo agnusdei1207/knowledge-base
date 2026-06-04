@@ -20,9 +20,9 @@ tags = ["studynote-dataengineering"]
 
 ```text
 Attention(Q, K, V) = softmax(QK^T / √d_k) · V
-  Q: Query (현재 위치) → "무엇에 집중할까?"
-  K: Key (모든 위치) → "관련도 계산"
-  V: Value (모든 위치) → "가중 합산"
+  Q: Query (현재 위치) -> "무엇에 집중할까?"
+  K: Key (모든 위치) -> "관련도 계산"
+  V: Value (모든 위치) -> "가중 합산"
 ```
 
 - **📢 섹션 요약 비유**: Attention은 <strong>시험 문제(Query)에 맞는 교과서 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)를 찾아 해당 내용(Value)에 집중</strong>하는 것이다.
@@ -48,10 +48,10 @@ Attention은 <strong>현대 AI의 가장 중요한 메커니즘</strong>이며, 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Seq2Seq (2014)] → [Bahdanau Attention (2014)]
-    → [Luong Attention (2015)]
-    → [Self-Attention → Transformer (2017)]
-    → [현재: Flash Attention — 메모리 효율↑]
+[Seq2Seq (2014)] -> [Bahdanau Attention (2014)]
+    -> [Luong Attention (2015)]
+    -> [Self-Attention -> Transformer (2017)]
+    -> [현재: Flash Attention — 메모리 효율^]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Attention은 <strong>현대 AI의 가장 중요한 메커니즘</strong>이며, 
 
 **진행 상황**: 138 / 258
 
-← **이전**: [137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/137_lstm_gru_long_short_term_memory/)
-**다음**: [139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/139_transformer_architecture_self_attention/) →
+<- **이전**: [137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/137_lstm_gru_long_short_term_memory/)
+**다음**: [139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/139_transformer_architecture_self_attention/) ->
 
 ---

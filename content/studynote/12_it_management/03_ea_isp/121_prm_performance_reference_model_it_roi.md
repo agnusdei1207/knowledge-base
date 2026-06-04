@@ -23,11 +23,11 @@ PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_c
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 IT 성과의 역설 (Productivity Paradox):, PRM (성과 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))의 등판:, 측정 영역 (Measurement Areas)의 3단계 구조: 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Demand        Principle        Execution        Feedback     |
++--------------------------------------------------------------+
+| Business need ---> control point ---> operation ---> improve    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/), 성과 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
@@ -48,11 +48,11 @@ PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_c
 | 하위: IT 인프라/애플리케이션 성과 (기술적 관점): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Scope  --->  Role  --->  Process  --->  Measure  --->  Improve   |
++--------------------------------------------------------------+
+| boundary    owner      control       evidence      feedback  |
++--------------------------------------------------------------+
 ```
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
@@ -119,12 +119,12 @@ PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_c
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+    |
+    v
 [PRM (Performance Reference Model, 성과 참조 모델)]
-    │
-    ├──▶ [PRM (성과 참조 모델)의 등판:]
-    └──▶ [측정 영역 (Measurement Areas)의 3단계 구조:]
+    |
+    +---> [PRM (성과 참조 모델)의 등판:]
+    +---> [측정 영역 (Measurement Areas)의 3단계 구조:]
 ```
 
 이 흐름은 선행 요구를 기준으로 PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/), 성과 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))를 정착시키고, 이후 PRM (성과 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))의 등판:와 측정 영역 (Measurement Areas)의 3단계 구조: 같은 확장 축으로 고도화하는 전개를 보여 준다.
@@ -140,7 +140,7 @@ PRM ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 **진행 상황**: 226 / 587
 
-← **이전**: [121. PRM (Performance Reference Model, 성과 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model/)
-**다음**: [122. EA 거버넌스 (EA Governance)](/knowledge-base/studynote/12_it_management/03_ea_isp/122_ea_governance/) →
+<- **이전**: [121. PRM (Performance Reference Model, 성과 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model/)
+**다음**: [122. EA 거버넌스 (EA Governance)](/knowledge-base/studynote/12_it_management/03_ea_isp/122_ea_governance/) ->
 
 ---

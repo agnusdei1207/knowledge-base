@@ -31,23 +31,23 @@ tags = ["studynote-it-management"]
 
 ```text
 Business Understanding
-  ↓
+  v
 Data Understanding
-  ↓
+  v
 Data Preparation
-  ↓
+  v
 Modeling
-  ↓
+  v
 Evaluation
-  ↓
+  v
 Deployment
 ```
 
 | 프레임워크 | 핵심 단계 | 특징 |
 | :-- | :-- | :-- |
-| [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) | [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) → Preprocessing → Transformation → [Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) → Interpretation | 학술적 전통이 강함 |
-| CRISP-DM | Business → [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [Preparation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/654_ir_preparation/) → Modeling → Evaluation → [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 산업 표준에 가까움 |
-| SEMMA | Sample → Explore → Modify → Model → Assess | SAS 중심 흐름 |
+| [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) | [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) -> Preprocessing -> Transformation -> [Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) -> Interpretation | 학술적 전통이 강함 |
+| CRISP-DM | Business -> [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> [Preparation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/654_ir_preparation/) -> Modeling -> Evaluation -> [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 산업 표준에 가까움 |
+| SEMMA | Sample -> Explore -> Modify -> Model -> Assess | SAS 중심 흐름 |
 
 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 프레임워크는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 "일하는 순서"다. 좋은 순서가 있어야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 배포가 빠지지 않는다.
 
@@ -112,11 +112,11 @@ Deployment
 
 ```text
 Business Problem
-  ↓
+  v
 Data Mining Framework
-  ↓
+  v
 Modeling / Evaluation
-  ↓
+  v
 Deployment / Monitoring
 ```
 
@@ -126,11 +126,11 @@ Deployment / Monitoring
 
 ```text
 KDD
-  ↓
+  v
 CRISP-DM
-  ↓
+  v
 SEMMA
-  ↓
+  v
 DataOps / MLOps
 ```
 
@@ -148,7 +148,7 @@ DataOps / MLOps
 
 **진행 상황**: 109 / 587
 
-← **이전**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)
-**다음**: [63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계](/knowledge-base/studynote/12_it_management/02_itsm_itil/063_itil_v3_service_lifecycle/) →
+<- **이전**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)
+**다음**: [63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계](/knowledge-base/studynote/12_it_management/02_itsm_itil/063_itil_v3_service_lifecycle/) ->
 
 ---

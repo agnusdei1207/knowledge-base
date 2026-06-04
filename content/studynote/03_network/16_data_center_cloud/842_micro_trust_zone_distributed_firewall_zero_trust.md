@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [BUM 트래픽]
-    │
-    ▼
+    |
+    v
 [마이크로 트러스트 존]
-    │
-    └──▶ [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+    |
+    +---> [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
 ```
 
 - **📢 섹션 요약 비유**: 마이크로 트러스트 존은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 
 ```text
 [BUM 트래픽]
-    │
-    ▼
+    |
+    v
 [마이크로 트러스트 존]
-    │
-    └──▶ [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+    |
+    +---> [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
 ```
 
 - **📢 섹션 요약 비유**: 마이크로 트러스트 존의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: BUM 트래픽]
-    │
-    ▼
+    |
+    v
 [현재 개념: 마이크로 트러스트 존]
-    │
-    ├──▶ [확장 A: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+    |
+    +---> [확장 A: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+    +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
 마이크로 트러스트 존는 BUM 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 랙 인식 토폴로지 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 연…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 963 / 1120
 
-← **이전**: [841. BUM 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/841_bum_traffic_broadcast_unknown_unicast_multicast/)
-**다음**: [843. 하둡 (Hadoop) 랙 인식](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) →
+<- **이전**: [841. BUM 트래픽](/knowledge-base/studynote/03_network/16_data_center_cloud/841_bum_traffic_broadcast_unknown_unicast_multicast/)
+**다음**: [843. 하둡 (Hadoop) 랙 인식](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) ->
 
 ---

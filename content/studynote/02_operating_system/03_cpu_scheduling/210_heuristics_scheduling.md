@@ -29,12 +29,12 @@ tags = ["studynote-operating-system"]
 
   [ 커널 스케줄러의 은밀한 감시 카메라 ]
 
-  ▶ 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감.
+  -> 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감.
      (이 행동을 3번 반복함)
      💡 스케줄러의 휴리스틱 결론: "얘는 타자를 치는 놈이 분명해! (I/O Bound)
         응답 속도가 생명이니 보너스 +5점을 주고 VIP 큐에 박제해라!"
 
-  ▶ 프로세스 B: 10ms 퀀텀을 주니까 10ms 꽉꽉 채워 쓰고 더 달라고 아우성침.
+  -> 프로세스 B: 10ms 퀀텀을 주니까 10ms 꽉꽉 채워 쓰고 더 달라고 아우성침.
      (이 행동을 3번 반복함)
      💡 스케줄러의 휴리스틱 결론: "얘는 동영상 인코딩 하는 놈이야! (CPU Bound)
         앞에서 얼쩡거리면 남들 방해되니까 보너스 -5점을 주고 지하실로 내쫓아!"
@@ -100,25 +100,25 @@ tags = ["studynote-operating-system"]
    - **아키텍처 결단**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 프로세스를 짤 때는 `for` 루프를 돌릴 때마다 의도적으로 `usleep(1000)` 이나 디스크 비동기 I/O를 섞어 넣어 억지로 대기 시간(Sleep_avg)을 벌어주는 코딩 기법([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Cheating)을 써야 OS로부터 쩌리 취급을 받지 않고 부드럽게 백그라운드 작업을 마칠 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     휴리스틱(추측) 알고리즘 도입 시 아키텍트의 리스크 평가 트리     │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [신규 기능: AI 기반의 유저 행동 예측 프리패치(Prefetch) 로직]     │
-  │                │                                                    │
-  │                ▼ 이 기능은 휴리스틱(과거 패턴 기반 추측)인가?       │
-  │          ├─ [예]                                                    │
-  │          │   │                                                      │
-  │          │   ▼ 리스크 검증 1: 엣지 케이스에서의 타격도              │
-  │          │   "만약 AI의 추측이 완벽히 빗나갔을 때 시스템이 죽는가?" │
-  │          │     ├─ 예: 절대 도입 금지 (수학적 증명 로직으로 변경)    │
-  │          │     └─ 아니오: 도입 승인. 단, 틀렸을 때의 롤백 코드 필수 │
-  │          │                                                          │
-  │          └─ [아니오 (결정론적 알고리즘)]                            │
-  │                 │                                                   │
-  │                 ▼                                                   │
-  │             100% 신뢰 가능하므로 코어 로직(Kernel)에 병합 승인.     │
-  └─────────────────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------------------+
+  |     휴리스틱(추측) 알고리즘 도입 시 아키텍트의 리스크 평가 트리     |
+  +---------------------------------------------------------------------+
+  |                                                                     |
+  |   [신규 기능: AI 기반의 유저 행동 예측 프리패치(Prefetch) 로직]     |
+  |                |                                                    |
+  |                v 이 기능은 휴리스틱(과거 패턴 기반 추측)인가?       |
+  |          +- [예]                                                    |
+  |          |   |                                                      |
+  |          |   v 리스크 검증 1: 엣지 케이스에서의 타격도              |
+  |          |   "만약 AI의 추측이 완벽히 빗나갔을 때 시스템이 죽는가?" |
+  |          |     +- 예: 절대 도입 금지 (수학적 증명 로직으로 변경)    |
+  |          |     +- 아니오: 도입 승인. 단, 틀렸을 때의 롤백 코드 필수 |
+  |          |                                                          |
+  |          +- [아니오 (결정론적 알고리즘)]                            |
+  |                 |                                                   |
+  |                 v                                                   |
+  |             100% 신뢰 가능하므로 코어 로직(Kernel)에 병합 승인.     |
+  +---------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 컴퓨터 아키텍처에서 휴리스틱은 "성능을 영끌하기 위한 마약"과 같다. 먹으면 평소엔 기가 막히게 빠르지만, 예외 상황이 터지면 수습이 안 되는 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 낳는다. 리누스 토발즈가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 이 휴리스틱 덩어리인 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 가차 없이 찢어버린 이유가 바로 이 "유지보수의 더러움과 예측 불가능성" 때문이었다.
 
@@ -152,12 +152,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [POSIX 스케줄링 API]
-    │
-    ▼
+    |
+    v
 [휴리스틱 (Heuristics) 기반 스케줄링]
-    │
-    ├──▶ [리눅스 CFS (Completely Fair Scheduler)]
-    └──▶ [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
+    |
+    +---> [리눅스 CFS (Completely Fair Scheduler)]
+    +---> [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -174,7 +174,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 210 / 800
 
-← **이전**: [209. POSIX 스케줄링 API (Dynamic Priority Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/209_dynamic_priority_scheduling/)
-**다음**: [211. 문맥 교환 (Context Switch)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) →
+<- **이전**: [209. POSIX 스케줄링 API (Dynamic Priority Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/209_dynamic_priority_scheduling/)
+**다음**: [211. 문맥 교환 (Context Switch)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ->
 
 ---

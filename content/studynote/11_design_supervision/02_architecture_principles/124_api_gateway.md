@@ -24,21 +24,21 @@ tags = ["studynote-design-supervision"]
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 이 모든 문제를 단일 진입점으로 해결한다. 게이트웨이는 프런트엔드와 백엔드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 사이의 "역방향 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(reverse [proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))" 역할을 하며, [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/), 프론트엔드용 백엔드) 패턴으로 각 클라이언트 유형(모바일·웹·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))에 최적화된 게이트웨이를 별도로 구성하기도 한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          API 게이트웨이 통합 아키텍처                         │
-├─────────────────────────────────────────────────────────────┤
-│  [모바일 앱]  [웹 브라우저]  [IoT 디바이스]                 │
-│       │            │               │                        │
-│       └────────────┴───────────────┘                       │
-│                    │                                        │
-│           [API Gateway]                                     │
-│    인증/인가 │ 라우팅 │ 속도제한 │ 캐싱 │ 로깅              │
-│                    │                                        │
-│       ┌────────────┼────────────┐                          │
-│       ▼            ▼            ▼                          │
-│  [주문 서비스] [결제 서비스] [회원 서비스]                   │
-│   (내부 MSA 구조 클라이언트에게 투명)                        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          API 게이트웨이 통합 아키텍처                         |
++-------------------------------------------------------------+
+|  [모바일 앱]  [웹 브라우저]  [IoT 디바이스]                 |
+|       |            |               |                        |
+|       +------------+---------------+                       |
+|                    |                                        |
+|           [API Gateway]                                     |
+|    인증/인가 | 라우팅 | 속도제한 | 캐싱 | 로깅              |
+|                    |                                        |
+|       +------------+------------+                          |
+|       v            v            v                          |
+|  [주문 서비스] [결제 서비스] [회원 서비스]                   |
+|   (내부 MSA 구조 클라이언트에게 투명)                        |
++-------------------------------------------------------------+
 ```
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 핵심 기능은 ① [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(URL 패턴에 따른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), ② [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), OAuth 2.0), ③ 속도 제한([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/), 과부하 방지), ④ [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)(하위 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 격리), ⑤ 요청·응답 변환([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계)이다.
@@ -60,21 +60,21 @@ tags = ["studynote-design-supervision"]
 | 집계 (Aggregation) | 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 응답을 하나로 합침 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│     API 게이트웨이 요청 처리 파이프라인                       │
-├─────────────────────────────────────────────────────────────┤
-│  요청 수신                                                   │
-│     │                                                       │
-│  Pre-Filter: 인증 검증 → 속도 제한 → 로깅                   │
-│     │                                                       │
-│  라우팅: /api/orders/* → 주문 서비스                         │
-│     │                                                       │
-│  서비스 호출 (서킷 브레이커 보호)                            │
-│     │                                                       │
-│  Post-Filter: 응답 변환 → 헤더 추가 → 로깅                  │
-│     │                                                       │
-│  응답 반환                                                   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|     API 게이트웨이 요청 처리 파이프라인                       |
++-------------------------------------------------------------+
+|  요청 수신                                                   |
+|     |                                                       |
+|  Pre-Filter: 인증 검증 -> 속도 제한 -> 로깅                   |
+|     |                                                       |
+|  라우팅: /api/orders/* -> 주문 서비스                         |
+|     |                                                       |
+|  서비스 호출 (서킷 브레이커 보호)                            |
+|     |                                                       |
+|  Post-Filter: 응답 변환 -> 헤더 추가 -> 로깅                  |
+|     |                                                       |
+|  응답 반환                                                   |
++-------------------------------------------------------------+
 ```
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 모든 요청이 통과하므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 추가 최소화가 핵심이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 정적 응답 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 비동기 비차단(non-blocking) 처리 방식(WebFlux, Netty)으로 게이트웨이 자체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 최소화한다.
@@ -129,7 +129,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-MSA 진입점 문제] → API 게이트웨이] → BFF 패턴] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(내부)] → [관찰성 플랫폼]
+MSA 진입점 문제] -> API 게이트웨이] -> BFF 패턴] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(내부)] -> [관찰성 플랫폼]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -140,7 +140,7 @@ MSA 진입점 문제] → API 게이트웨이] → BFF 패턴] → [서비스 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-MSA 직접 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 복잡성] → API 게이트웨이 도입] → BFF 패턴] → GraphQL 게이트웨이] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 보완] → AI 기반 동적 트래픽 제어]
+MSA 직접 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 복잡성] -> API 게이트웨이 도입] -> BFF 패턴] -> GraphQL 게이트웨이] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 보완] -> AI 기반 동적 트래픽 제어]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ MSA 직접 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 **진행 상황**: 180 / 530
 
-← **이전**: [123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/123_msa_microservices_architecture/)
-**다음**: [125. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/125_service_mesh/) →
+<- **이전**: [123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/123_msa_microservices_architecture/)
+**다음**: [125. 서비스 메시 (Service Mesh)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/125_service_mesh/) ->
 
 ---

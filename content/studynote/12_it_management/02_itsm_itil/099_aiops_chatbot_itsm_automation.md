@@ -38,18 +38,18 @@ tags = ["studynote-it-management"]
 | **Back-end (분석/예방)** | AIOps [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 클러스터링) | 수많은 경보를 연관성 기반으로 묶고, 과거 유사 장애 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 해결책(Runbook) 제시 |
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              챗봇 & AIOps 결합 기반의 ITSM 워크플로              │
-├──────────────────────────────────────────────────────────────────┤
-│ [사용자 메신저] ─▶ [NLP 챗봇] ─(자가 조치/문서 제공)─▶ 티켓 증발!│
-│                        │ (해결 불가 시)                          │
-│                        ▼                                         │
-│                 [ML 라우팅 엔진] ─▶ 99% 확률로 네트워크 팀 할당 │
-│                        │                                         │
-│                        ▼     (수천 개의 동시다발적 알람 발생 시) │
-│              [AIOps 분석 엔진] ◀─ 인프라 로그/메트릭            │
-│   (노이즈 제거, 근본 원인(RCA) 파악, 자동화 스크립트 실행)       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              챗봇 & AIOps 결합 기반의 ITSM 워크플로              |
++------------------------------------------------------------------+
+| [사용자 메신저] --> [NLP 챗봇] -(자가 조치/문서 제공)--> 티켓 증발!|
+|                        | (해결 불가 시)                          |
+|                        v                                         |
+|                 [ML 라우팅 엔진] --> 99% 확률로 네트워크 팀 할당 |
+|                        |                                         |
+|                        v     (수천 개의 동시다발적 알람 발생 시) |
+|              [AIOps 분석 엔진] <-- 인프라 로그/메트릭            |
+|   (노이즈 제거, 근본 원인(RCA) 파악, 자동화 스크립트 실행)       |
++------------------------------------------------------------------+
 ```
 
 AIOps의 진가는 단일 임곗값(Threshold) 경고가 아닌 <strong>동적 <a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(<a href="/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>)</strong>에 있다. "평소 CPU 90%는 정상이지만, 오늘은 트래픽이 없는데 70%인 것이 이상하다"를 AI가 문맥적으로 학습해 불필요한 양치기 소년 경보(False Alarm)를 제거한다.
@@ -113,17 +113,17 @@ ITSM에 AI를 접목할 때 기술사적 관점에서 가장 중요한 판단 �
 
 ```text
 전통적 헬프데스크 (전화, 이메일 기반 수동 접수)
-    │
-    ▼
+    |
+    v
 ITSM 포털 도입 및 Rule 기반 워크플로 자동화
-    │
-    ▼
+    |
+    v
 자연어 처리(NLP) 기반 챗봇 접목 (Shift-Left, 단순 반복 제거)
-    │
-    ▼
+    |
+    v
 머신러닝 기반 자동 티켓 라우팅 및 텍스트 마이닝
-    │
-    ▼
+    |
+    v
 AIOps 엔진 결합 기반 이상 탐지(Anomaly Detection) 및 사전 예방 (Predictive Maintenance)
 ```
 
@@ -139,7 +139,7 @@ AIOps 엔진 결합 기반 이상 탐지(Anomaly Detection) 및 사전 예방 (P
 
 **진행 상황**: 182 / 587
 
-← **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm/)
-**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) →
+<- **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm/)
+**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ->
 
 ---

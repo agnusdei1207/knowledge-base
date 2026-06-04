@@ -36,20 +36,20 @@ tags = ["studynote-design-supervision"]
 아래 그림은 대표적인 이벤트 흐름을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Event Bus reference flow                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ OrderService publishes OrderPlaced(v1)                              │
-│        │                                                            │
-│        ▼                                                            │
-│ [Event Bus / Broker / Topic: order.events]                          │
-│        │ schema + routing key                                       │
-│        ├─ InventorySubscriber   -> reserve stock                    │
-│        ├─ NotificationSubscriber -> send message                    │
-│        └─ AnalyticsSubscriber   -> update dashboard                 │
-│                                                                      │
-│ failure path: retry -> DLQ (Dead Letter Queue) -> alert / replay    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Event Bus reference flow                                            |
++----------------------------------------------------------------------+
+| OrderService publishes OrderPlaced(v1)                              |
+|        |                                                            |
+|        v                                                            |
+| [Event Bus / Broker / Topic: order.events]                          |
+|        | schema + routing key                                       |
+|        +- InventorySubscriber   -> reserve stock                    |
+|        +- NotificationSubscriber -> send message                    |
+|        +- AnalyticsSubscriber   -> update dashboard                 |
+|                                                                      |
+| failure path: retry -> DLQ (Dead Letter Queue) -> alert / replay    |
++----------------------------------------------------------------------+
 ```
 
 핵심 구성 요소는 이벤트 계약(Event Contract), 채널(Topic/Channel), 전달 메커니즘, 구독자 처리기, 실패 처리다. 특히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 "이벤트 이름"보다 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 더 중요하다. 이벤트는 보통 과거형 사실(`OrderPlaced`, `PaymentFailed`)로 정의하고, 구독자는 이를 읽어 자기 책임 범위의 상태를 갱신한다. 이때 재시도와 중복 소비가 흔하므로, 구독 로직은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 확보해야 한다.
@@ -151,18 +151,18 @@ tags = ["studynote-design-supervision"]
 
 ```text
 직접 호출 기반 결합
-    │
-    ▼
+    |
+    v
 Observer / local event notification
-    │
-    ▼
+    |
+    v
 Event Bus / Publish-Subscribe
-    │
-    ├─ schema versioning
-    ├─ retry / DLQ
-    └─ observability / correlation ID
-    │
-    ▼
+    |
+    +- schema versioning
+    +- retry / DLQ
+    +- observability / correlation ID
+    |
+    v
 Event-Driven Architecture · CQRS 확장
 ```
 
@@ -180,7 +180,7 @@ Event-Driven Architecture · CQRS 확장
 
 **진행 상황**: 240 / 530
 
-← **이전**: [183. 마스터-워커 패턴 (Master-Worker Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/183_master_worker_pattern/)
-**다음**: [185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/185_peer_to_peer_architecture/) →
+<- **이전**: [183. 마스터-워커 패턴 (Master-Worker Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/183_master_worker_pattern/)
+**다음**: [185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/185_peer_to_peer_architecture/) ->
 
 ---

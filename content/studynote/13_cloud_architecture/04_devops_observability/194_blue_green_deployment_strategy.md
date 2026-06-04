@@ -34,21 +34,21 @@ tags = ["studynote-cloud-architecture"]
 ### 블루-그린 배포 구조
 
 ```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                     Load Balancer / DNS                      │
-  └──────────────────────────┬──────────────────────────────────┘
-                             │
-           ┌─────────────────┼─────────────────┐
-           ▼                                   ▼
-  ┌─────────────────┐                ┌─────────────────┐
-  │  Blue 환경 (v1) │  ←── 현재 운영 │  Green 환경(v2) │ ←── 준비 중
-  │  [App v1 x4]    │                │  [App v2 x4]    │
-  │  [DB: Schema A] │                │  [DB: Schema B] │
-  └─────────────────┘                └─────────────────┘
-           │
-           ▼
+  +-------------------------------------------------------------+
+  |                     Load Balancer / DNS                      |
+  +--------------------------+----------------------------------+
+                             |
+           +-----------------+-----------------+
+           v                                   v
+  +-----------------+                +-----------------+
+  |  Blue 환경 (v1) |  <--- 현재 운영 |  Green 환경(v2) | <--- 준비 중
+  |  [App v1 x4]    |                |  [App v2 x4]    |
+  |  [DB: Schema A] |                |  [DB: Schema B] |
+  +-----------------+                +-----------------+
+           |
+           v
   [트래픽 전환 후]
-  LB → Green 100% / Blue 대기 (즉시 롤백 대기)
+  LB -> Green 100% / Blue 대기 (즉시 롤백 대기)
 ```
 
 ### 배포 절차
@@ -60,7 +60,7 @@ tags = ["studynote-cloud-architecture"]
 | 3 | Green 환경에서 스모크 테스트·[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 수행 |
 | 4 | 로드밸런서 / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드를 Green으로 전환 |
 | 5 | 모니터링 (수 분~수 시간 안정화 관찰) |
-| 6 | 안정화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → Blue 환경 자원 해제 (또는 다음 배포까지 유지) |
+| 6 | 안정화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> Blue 환경 자원 해제 (또는 다음 배포까지 유지) |
 
 ### K8s에서의 구현
 
@@ -73,7 +73,7 @@ metadata:
 spec:
   selector:
     app: my-app
-    version: blue    # ← 이 셀렉터를 green으로 변경하면 전환 완료
+    version: blue    # <- 이 셀렉터를 green으로 변경하면 전환 완료
   ports:
   - port: 80
     targetPort: 8080
@@ -161,7 +161,7 @@ spec:
 - 해결책: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 외부 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소 사용 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 아키텍처 선행 필요)
 
 **기술사 판단 포인트**:
-- 금융, 의료 등 규제 산업에서는 배포 전 완전한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수 → Blue-Green 최적
+- 금융, 의료 등 규제 산업에서는 배포 전 완전한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수 -> Blue-Green 최적
 - [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 고려: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 전환 시 TTL만큼 구버전 응답이 섞일 수 있음 (IP 직접 전환 또는 짧은 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))
 - Blue 환경 유지 기간: 안정화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전까지 최소 1~24시간 유지 권장
 
@@ -203,14 +203,14 @@ spec:
 
 ```text
 Blue (현재 운영) ↔ Green (대기 환경)
-    │
-    ▼
-배포: Green에 신버전 → 검증 → 라우터 전환
-    │
-    ▼
+    |
+    v
+배포: Green에 신버전 -> 검증 -> 라우터 전환
+    |
+    v
 롤백: 라우터를 Blue로 되돌림 (즉시)
-    │
-    ▼
+    |
+    v
 비용 절감: 클라우드 Auto-Provision Green 환경
 ```
 2. 새 무대에 문제가 생기면 5초 만에 다시 옛날 무대로 돌아갈 수 있어서 관객은 거의 눈치채지 못해.
@@ -222,7 +222,7 @@ Blue (현재 운영) ↔ Green (대기 환경)
 
 **진행 상황**: 193 / 371
 
-← **이전**: [193. 롤링 배포 (Rolling Update Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)
-**다음**: [195. 카나리 배포 (Canary Release)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/) →
+<- **이전**: [193. 롤링 배포 (Rolling Update Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)
+**다음**: [195. 카나리 배포 (Canary Release)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/) ->
 
 ---

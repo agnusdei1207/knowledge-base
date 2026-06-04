@@ -19,8 +19,8 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-Choreography: 주문→이벤트→결제→이벤트→배송 (각자 독립)
-Orchestration: 오케스트레이터→주문, →결제, →배송 (중앙 제어)
+Choreography: 주문->이벤트->결제->이벤트->배송 (각자 독립)
+Orchestration: 오케스트레이터->주문, ->결제, ->배송 (중앙 제어)
 실패 시: 보상 트랜잭션 (주문 취소, 결제 환불)
 ```
 
@@ -47,11 +47,11 @@ Saga는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_a
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[2PC (1990s)] → [Saga 이론 (Garcia-Molina, 1987)]
-    → [MSA Saga 재발견 (2014~)]
-    → [Choreography (Kafka 이벤트)]
-    → [Orchestration (Temporal/Cadence, 2020~)]
-    → [현재: Durable Execution — Saga 자동화]
+[2PC (1990s)] -> [Saga 이론 (Garcia-Molina, 1987)]
+    -> [MSA Saga 재발견 (2014~)]
+    -> [Choreography (Kafka 이벤트)]
+    -> [Orchestration (Temporal/Cadence, 2020~)]
+    -> [현재: Durable Execution — Saga 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -65,7 +65,7 @@ Saga는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_a
 
 **진행 상황**: 133 / 371
 
-← **이전**: [133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/133_2pc_limitations/)
-**다음**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/) →
+<- **이전**: [133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/133_2pc_limitations/)
+**다음**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/) ->
 
 ---

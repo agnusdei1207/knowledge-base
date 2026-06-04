@@ -37,19 +37,19 @@ tags = ["ict_convergence"]
 | **수학적 특성** | 비선형적 (합치기 불가) | 선형적 (덧셈을 통한 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Aggregation 가능) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           슈노르 서명의 다중 서명 병합(Aggregation) 시각화   │
-├──────────────────────────────────────────────────────────────┤
-│ [ ECDSA 방식: 3명 서명 시 ]                                  │
-│ 서명1(Alice) + 서명2(Bob) + 서명3(Carol) ─▶ 블록에 3개 다 저장│
-│ (공간 낭비 심함, 누가 참여했는지 다 보임)                    │
-│                                                              │
-│ [ 슈노르 서명 방식: 3명 서명 시 ]                            │
-│ 서명1(Alice) ┐                                              │
-│ 서명2(Bob)   ├─(수학적 덧셈 융합)─▶ 슈퍼 서명 1개로 압축   │
-│ 서명3(Carol) ┘                       블록에 1개만 저장      │
-│ (공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)      │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           슈노르 서명의 다중 서명 병합(Aggregation) 시각화   |
++--------------------------------------------------------------+
+| [ ECDSA 방식: 3명 서명 시 ]                                  |
+| 서명1(Alice) + 서명2(Bob) + 서명3(Carol) --> 블록에 3개 다 저장|
+| (공간 낭비 심함, 누가 참여했는지 다 보임)                    |
+|                                                              |
+| [ 슈노르 서명 방식: 3명 서명 시 ]                            |
+| 서명1(Alice) +                                              |
+| 서명2(Bob)   +-(수학적 덧셈 융합)--> 슈퍼 서명 1개로 압축   |
+| 서명3(Carol) +                       블록에 1개만 저장      |
+| (공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)      |
++--------------------------------------------------------------+
 ```
 
 슈노르 서명은 단순히 크기를 줄이는 것을 넘어, 연산 로직을 선형 방정식 구조로 단순화하여 보안 증명이 ECDSA보다 훨씬 명확하고 깔끔하다.
@@ -113,17 +113,17 @@ tags = ["ict_convergence"]
 
 ```text
 비트코인 탄생 및 ECDSA 채택 (안정성 중시)
-    │
-    ▼
+    |
+    v
 다중 서명(Multi-Sig) 및 스마트 컨트랙트 수요 증가
-    │
-    ▼
+    |
+    v
 블록 용량 고갈 및 트랜잭션 지연/수수료 폭등 문제 직면
-    │
-    ▼
+    |
+    v
 슈노르 서명 (Schnorr Signature) 알고리즘 도입
-    │
-    ▼
+    |
+    v
 서명 병합(Key Aggregation)을 통한 프라이버시 및 확장성 동시 확보
 ```
 
@@ -139,7 +139,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 97 / 552
 
-← **이전**: [96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/)
-**다음**: [98. 블록체인 데이터 인덱싱 (The Graph Blockchain Indexing Protocol)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/098_the_graph_blockchain_indexing/) →
+<- **이전**: [96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/)
+**다음**: [98. 블록체인 데이터 인덱싱 (The Graph Blockchain Indexing Protocol)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/098_the_graph_blockchain_indexing/) ->
 
 ---

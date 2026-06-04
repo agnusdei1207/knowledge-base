@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Expand and Contract 패턴은 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))을 <strong>확장(Expand) → 병행(Migrate) → 수축(Contract)</strong>의 3단계로 분리하여, 신·구버전 앱이 동시에 운영 DB를 사용해도 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 없이(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Downtime)</strong> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 진화시키는 기법이다.
+> 1. **본질**: Expand and Contract 패턴은 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))을 <strong>확장(Expand) -> 병행(Migrate) -> 수축(Contract)</strong>의 3단계로 분리하여, 신·구버전 앱이 동시에 운영 DB를 사용해도 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 없이(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Downtime)</strong> [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 진화시키는 기법이다.
 > 2. **가치**: 컬럼 삭제·이름 변경을 가장 마지막 단계로 미룸으로써, 배포 중 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하더라도 <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 그대로 남아 장애를 방지</strong>하며, 이는 블루/그린 배포의 DB 판 완성형이다.
 > 3. **판단 포인트**: Flyway·Liquibase로 각 단계를 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리(V1__expand, V2__migrate, V3__contract)</strong>하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Migration 또는 DB [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)로 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
@@ -18,28 +18,28 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-앱은 블루/그린·[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)로 무중단이 가능하지만, <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)는 갑자기 바꾸면 구버전 앱이 에러</strong>를 뿜는다. "컬럼 이름을 `name` → `full_name`으로 바꿔야 하는데, 구버전 앱은 아직 `name`을 읽고 있다." 이때 점검 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 띄우는 것은 현대 DevOps의 목표가 아니다.
+앱은 블루/그린·[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)로 무중단이 가능하지만, <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)는 갑자기 바꾸면 구버전 앱이 에러</strong>를 뿜는다. "컬럼 이름을 `name` -> `full_name`으로 바꿔야 하는데, 구버전 앱은 아직 `name`을 읽고 있다." 이때 점검 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 띄우는 것은 현대 DevOps의 목표가 아니다.
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│       Expand and Contract 3단계 흐름도                 │
-├───────────────────────────────────────────────────────┤
-│  Phase 1: Expand (확장)                               │
-│   DB: full_name 컬럼 추가 (name 그대로 유지)          │
-│   App v1: name 읽기/쓰기 (변경 없음)                  │
-│                                                       │
-│  Phase 2: Migrate (병행)                              │
-│   DB: name → full_name 데이터 복사 (트리거/배치)      │
-│   App v2: full_name 쓰기 + name에도 동시 기록         │
-│   (구버전 앱 호환 유지)                               │
-│                                                       │
-│  Phase 3: Contract (수축)                             │
-│   App v2 전면 배포 확인 후                            │
-│   DB: name 컬럼 삭제 (청소)                           │
-│   App v2: full_name만 사용                            │
-│                                                       │
-│  롤백 안전: Phase 1~2에서 문제 시 name 그대로 활용    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|       Expand and Contract 3단계 흐름도                 |
++-------------------------------------------------------+
+|  Phase 1: Expand (확장)                               |
+|   DB: full_name 컬럼 추가 (name 그대로 유지)          |
+|   App v1: name 읽기/쓰기 (변경 없음)                  |
+|                                                       |
+|  Phase 2: Migrate (병행)                              |
+|   DB: name -> full_name 데이터 복사 (트리거/배치)      |
+|   App v2: full_name 쓰기 + name에도 동시 기록         |
+|   (구버전 앱 호환 유지)                               |
+|                                                       |
+|  Phase 3: Contract (수축)                             |
+|   App v2 전면 배포 확인 후                            |
+|   DB: name 컬럼 삭제 (청소)                           |
+|   App v2: full_name만 사용                            |
+|                                                       |
+|  롤백 안전: Phase 1~2에서 문제 시 name 그대로 활용    |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 레고 성의 빨간 기둥을 파란색으로 바꾸고 싶을 때, 성을 무너뜨리지 않고 **파란 기둥을 옆에 세우고(Expand)**, 사람들을 파란 기둥으로 옮긴 뒤(Migrate), 빨간 기둥을 조용히 빼내는(Contract) 공사법이다.
@@ -72,7 +72,7 @@ tags = ["studynote-devops-sre"]
 
 | 비교 | 빅뱅 배포 | Expand & Contract |
 |:---|:---|:---|
-| **방식** | 점검 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) → 한 번에 변경 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 유지하며 단계적</strong> |
+| **방식** | 점검 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) -> 한 번에 변경 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 유지하며 단계적</strong> |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | 고려 안 함 | **구·신버전 동시 호환** |
 | **복잡도** | 낮음 | 높음 (3단계) |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | DB 복원 매우 어려움 | <strong>매우 쉬움 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실 0)</strong> |
@@ -88,8 +88,8 @@ tags = ["studynote-devops-sre"]
 3. **테스트**: "구버전 앱 + 신버전 DB" 조합으로 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 필수 실행.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Contract 서두르기**: 구버전 앱이 아직 남아있는데 구 컬럼 삭제 → 구버전 앱 에러 폭발.
-- <strong>마이그레이션 미완료 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 누락</strong>: 10만 건 중 1천 건만 복사된 상태에서 Contract → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실.
+- **Contract 서두르기**: 구버전 앱이 아직 남아있는데 구 컬럼 삭제 -> 구버전 앱 에러 폭발.
+- <strong>마이그레이션 미완료 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 누락</strong>: 10만 건 중 1천 건만 복사된 상태에서 Contract -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실.
 
 ---
 
@@ -119,14 +119,14 @@ tags = ["studynote-devops-sre"]
 
 ```text
 [점검 페이지 시대 — DB 변경 시 서비스 전면 중단]
-    │
-    ▼
+    |
+    v
 [Expand and Contract 패턴 (2010s) — 단계적 스키마 진화]
-    │
-    ▼
+    |
+    v
 [Flyway/Liquibase CI/CD 통합 (2015~) — 마이그레이션 자동화]
-    │
-    ▼
+    |
+    v
 [현재: Online DDL + Ghost/pt-osc — 대용량 테이블 무중단 변경]
 ```
 
@@ -141,7 +141,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 110 / 373
 
-← **이전**: [109. SBOM 추출 파이프라인 (Software Bill of Materials) - 공급망 보안 의무화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/109_sbom_extraction_pipeline/)
-**다음**: [111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/111_micro_frontends_deployment/) →
+<- **이전**: [109. SBOM 추출 파이프라인 (Software Bill of Materials) - 공급망 보안 의무화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/109_sbom_extraction_pipeline/)
+**다음**: [111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/111_micro_frontends_deployment/) ->
 
 ---

@@ -23,7 +23,7 @@ tags = ["studynote-bigdata"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Spark의 RDD는 강력했지만 근본적인 약점이 있었다.
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 부재</strong>: `RDD[Row]`는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내부 컬럼 타입을 알 수 없어 스파크가 블랙박스처럼 취급
-- **최적화 불가**: 사용자가 `map → filter → join` 순서로 작성해도 스파크는 더 나은 순서를 알아도 재배열 불가
+- **최적화 불가**: 사용자가 `map -> filter -> join` 순서로 작성해도 스파크는 더 나은 순서를 알아도 재배열 불가
 - <strong>다양한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 통합 어려움</strong>: 각 포맷마다 별도 파싱 코드가 필요
 
 ### 2. Spark SQL의 해결책
@@ -49,41 +49,41 @@ df.filter(df.amount > 1000).select("user_id", "amount")
 ### 1. Spark SQL 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│  SQL 문자열 / DataFrame API / Dataset API                      │
-└──────────────────────┬────────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  파서 (Parser) — SQL → 비해석 논리 계획 (Unresolved LP)        │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Analyzer — 카탈로그 참조 → 해석된 논리 계획 (Resolved LP)    │
-│  (테이블명, 컬럼명, 타입 검증)                                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화             │
-│  · 술어 푸시다운 (Predicate Pushdown)                         │
-│  · 컬럼 프루닝 (Column Pruning)                               │
-│  · 상수 폴딩, 조인 순서 최적화                                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택      │
-│  (SortMergeJoin vs BroadcastHashJoin 결정 등)                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성      │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
++---------------------------------------------------------------+
+|  SQL 문자열 / DataFrame API / Dataset API                      |
++----------------------+----------------------------------------+
+                       |
+                       v
++--------------------------------------------------------------+
+|  파서 (Parser) — SQL -> 비해석 논리 계획 (Unresolved LP)        |
++----------------------+---------------------------------------+
+                       |
+                       v
++--------------------------------------------------------------+
+|  Analyzer — 카탈로그 참조 -> 해석된 논리 계획 (Resolved LP)    |
+|  (테이블명, 컬럼명, 타입 검증)                                 |
++----------------------+---------------------------------------+
+                       |
+                       v
++--------------------------------------------------------------+
+|  Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화             |
+|  · 술어 푸시다운 (Predicate Pushdown)                         |
+|  · 컬럼 프루닝 (Column Pruning)                               |
+|  · 상수 폴딩, 조인 순서 최적화                                 |
++----------------------+---------------------------------------+
+                       |
+                       v
++--------------------------------------------------------------+
+|  물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택      |
+|  (SortMergeJoin vs BroadcastHashJoin 결정 등)                 |
++----------------------+---------------------------------------+
+                       |
+                       v
++--------------------------------------------------------------+
+|  코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성      |
++----------------------+---------------------------------------+
+                       |
+                       v
              분산 RDD 실행 (Spark Core)
 ```
 
@@ -149,7 +149,7 @@ result = spark.sql("SELECT * FROM hive_db.sales WHERE year = 2024")
 - [ ] **컬럼형 포맷 사용**: [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC 포맷으로 컬럼 프루닝 효과 극대화
 - [ ] <strong>BroadcastJoin <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a></strong>: 소규모 테이블(< 10MB, 기본값) 조인 시 명시적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용
 - [ ] **AQE 활성화**: `spark.sql.adaptive.enabled=true` (Spark 3.0+ 기본 활성화)
-- [ ] <strong>셔플 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 조정</strong>: `spark.sql.shuffle.partitions` 기본 200 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정
+- [ ] <strong>셔플 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 조정</strong>: `spark.sql.shuffle.partitions` 기본 200 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정
 - [ ] <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 반복 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) DataFrame은 `df.cache()` 또는 `CACHE TABLE`
 
 ### 2. Spark SQL 3.x ANSI SQL 강화
@@ -191,7 +191,7 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [설정](/knowledge-base/studynot
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | 내부 구성 | SQL/DataFrame → 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 변환 |
+| [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | 내부 구성 | SQL/DataFrame -> 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 변환 |
 | [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) | 내부 구성 | 물리 실행 최적화, 메모리/CPU 효율화 |
 | AQE | 확장 기능 | 런타임 재최적화, [Skew Join](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) 자동 처리 |
 | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore | 통합 대상 | 테이블 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 공유 |
@@ -202,17 +202,17 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [설정](/knowledge-base/studynot
 
 ```text
 [Catalyst Optimizer]
-    │
-    ▼
+    |
+    v
 [Tungsten Engine]
-    │
-    ▼
+    |
+    v
 [AQE (Adaptive Query Execution)]
-    │
-    ▼
+    |
+    v
 [Hive Metastore]
-    │
-    ▼
+    |
+    v
 [Delta Lake]
 ```
 
@@ -228,7 +228,7 @@ Spark SQL은 도서관([데이터](/knowledge-base/studynote/05_database/01_db_a
 
 **진행 상황**: 56 / 262
 
-← **이전**: [04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화](/knowledge-base/studynote/16_bigdata/03_spark/055_spark_sql_dataframe/)
-**다음**: [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) →
+<- **이전**: [04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화](/knowledge-base/studynote/16_bigdata/03_spark/055_spark_sql_dataframe/)
+**다음**: [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) ->
 
 ---

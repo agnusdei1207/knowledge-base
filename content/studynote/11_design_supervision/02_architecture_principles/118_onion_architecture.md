@@ -24,25 +24,25 @@ tags = ["studynote-design-supervision"]
 팔레르모는 "핵심은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이며, 인프라는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 필요로 하는 계약(인터페이스)을 구현하는 세부 사항"이라고 주장한다. 이 원칙을 양파 구조로 시각화하여, 가장 안정적인 것([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)이 중심에, 가장 변하기 쉬운 것(인프라)이 외부에 위치하게 했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          어니언 아키텍처 계층 구조                            │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  인프라 (Infrastructure): DB, UI, 외부 서비스        │    │
-│  │  ┌─────────────────────────────────────────────┐   │    │
-│  │  │  애플리케이션 서비스 (Application Services)  │   │    │
-│  │  │  ┌─────────────────────────────────────┐   │   │    │
-│  │  │  │  도메인 서비스 (Domain Services)     │   │   │    │
-│  │  │  │  ┌────────────────────────────┐    │   │   │    │
-│  │  │  │  │  도메인 모델 (Domain Model) │    │   │   │    │
-│  │  │  │  │  Entity, Value Object      │    │   │   │    │
-│  │  │  │  └────────────────────────────┘    │   │   │    │
-│  │  │  └─────────────────────────────────────┘   │   │    │
-│  │  └─────────────────────────────────────────────┘   │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  의존성 방향: 항상 바깥 → 안쪽 (외부가 내부를 의존)          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          어니언 아키텍처 계층 구조                            |
++-------------------------------------------------------------+
+|  +-----------------------------------------------------+    |
+|  |  인프라 (Infrastructure): DB, UI, 외부 서비스        |    |
+|  |  +---------------------------------------------+   |    |
+|  |  |  애플리케이션 서비스 (Application Services)  |   |    |
+|  |  |  +-------------------------------------+   |   |    |
+|  |  |  |  도메인 서비스 (Domain Services)     |   |   |    |
+|  |  |  |  +----------------------------+    |   |   |    |
+|  |  |  |  |  도메인 모델 (Domain Model) |    |   |   |    |
+|  |  |  |  |  Entity, Value Object      |    |   |   |    |
+|  |  |  |  +----------------------------+    |   |   |    |
+|  |  |  +-------------------------------------+   |   |    |
+|  |  +---------------------------------------------+   |    |
+|  +-----------------------------------------------------+    |
+|                                                             |
+|  의존성 방향: 항상 바깥 -> 안쪽 (외부가 내부를 의존)          |
++-------------------------------------------------------------+
 ```
 
 인프라 계층의 Repository 구현체는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층에 정의된 IRepository 인터페이스를 구현한다. 이 인터페이스 계약은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 소유하므로 인프라가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 향해 의존한다.
@@ -63,18 +63,18 @@ tags = ["studynote-design-supervision"]
 | 인프라 | 기술 구현체 / JpaRepository, RestClient, Controller | 애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      도메인 서비스와 애플리케이션 서비스의 역할 분리         │
-├─────────────────────────────────────────────────────────────┤
-│  [도메인 서비스] TransferDomainService                      │
-│   - 이체 규칙 검증 (계좌 잔액 확인, 한도 확인)              │
-│   - 순수 비즈니스 로직 (외부 의존 없음)                     │
-│                                                             │
-│  [애플리케이션 서비스] TransferApplicationService           │
-│   - 트랜잭션 시작/커밋                                      │
-│   - 알림 서비스 호출 (도메인 외 인프라 조율)                 │
-│   - 이체 완료 이벤트 발행                                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      도메인 서비스와 애플리케이션 서비스의 역할 분리         |
++-------------------------------------------------------------+
+|  [도메인 서비스] TransferDomainService                      |
+|   - 이체 규칙 검증 (계좌 잔액 확인, 한도 확인)              |
+|   - 순수 비즈니스 로직 (외부 의존 없음)                     |
+|                                                             |
+|  [애플리케이션 서비스] TransferApplicationService           |
+|   - 트랜잭션 시작/커밋                                      |
+|   - 알림 서비스 호출 (도메인 외 인프라 조율)                 |
+|   - 이체 완료 이벤트 발행                                    |
++-------------------------------------------------------------+
 ```
 
 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이나 알림 발송 같은 인프라 관심사를 모른다. 이런 조율은 애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 담당한다. 이 분리 덕분에 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 순수 비즈니스 규칙만 담당하여 완전한 단위 테스트가 가능하다.
@@ -123,13 +123,13 @@ tags = ["studynote-design-supervision"]
 
 [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)는 "비즈니스의 본질([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 기술 세부 사항(인프라)으로부터 양파 껍질처럼 겹겹이 보호하는 설계"로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 아이를 보호하기 위해 여러 겹의 따뜻한 옷을 입히듯, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 여러 계층([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)→애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)→인프라)이 겹겹이 감싸서 외부 변화로부터 보호한다.
+- **📢 섹션 요약 비유**: 아이를 보호하기 위해 여러 겹의 따뜻한 옷을 입히듯, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 여러 계층([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)->애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)->인프라)이 겹겹이 감싸서 외부 변화로부터 보호한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[계층형 한계] → [어니언 아키텍처] → DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델] → [도메인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리] → MSA 내부 구조]
+[계층형 한계] -> [어니언 아키텍처] -> DDD [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델] -> [도메인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리] -> MSA 내부 구조]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -140,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[데이터베이스 중심 계층형 설계] → [어니언 아키텍처 제안(팔레르모)] → [도메인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리] → [DDD와 통합] → [클린·헥사고날과 수렴] → MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 표준 구조]
+[데이터베이스 중심 계층형 설계] -> [어니언 아키텍처 제안(팔레르모)] -> [도메인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리] -> [DDD와 통합] -> [클린·헥사고날과 수렴] -> MSA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 표준 구조]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +154,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 174 / 530
 
-← **이전**: [117. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/117_clean_architecture/)
-**다음**: [119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/119_mvc_architecture/) →
+<- **이전**: [117. 클린 아키텍처 (Clean Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/117_clean_architecture/)
+**다음**: [119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/119_mvc_architecture/) ->
 
 ---

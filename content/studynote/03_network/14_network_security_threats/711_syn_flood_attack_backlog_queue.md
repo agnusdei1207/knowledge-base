@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    ▼
+    |
+    v
 [SYN Flood 공격]
-    │
-    └──▶ [SYN Flood 대응]
+    |
+    +---> [SYN Flood 대응]
 ```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -40,11 +40,11 @@ tags = ["studynote-network"]
 
 ```text
 [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    ▼
+    |
+    v
 [SYN Flood 공격]
-    │
-    └──▶ [SYN Flood 대응]
+    |
+    +---> [SYN Flood 대응]
 ```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    ▼
+    |
+    v
 [현재 개념: SYN Flood 공격]
-    │
-    ├──▶ [확장 A: SYN Flood 대응]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: SYN Flood 대응]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 832 / 1120
 
-← **이전**: [710. 분산 서비스 거부 공격 (DDoS, Distributed DoS 위협) 봇넷 시스템 C&C 서버 증폭, 감염 및 반사](/knowledge-base/studynote/03_network/14_network_security_threats/710_ddos_distributed_denial_of_service_botnet/)
-**다음**: [712. SYN Flood 대응](/knowledge-base/studynote/03_network/14_network_security_threats/712_syn_cookie_stateless_defense/) →
+<- **이전**: [710. 분산 서비스 거부 공격 (DDoS, Distributed DoS 위협) 봇넷 시스템 C&C 서버 증폭, 감염 및 반사](/knowledge-base/studynote/03_network/14_network_security_threats/710_ddos_distributed_denial_of_service_botnet/)
+**다음**: [712. SYN Flood 대응](/knowledge-base/studynote/03_network/14_network_security_threats/712_syn_cookie_stateless_defense/) ->
 
 ---

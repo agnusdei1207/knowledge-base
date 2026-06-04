@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 중재는 단순한 선착순 문제가 아니다. 긴급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 연속 전송이 필요한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 (Burst) 전송, 오래 기다린 저우선 장치의 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 함께 고려해야 한다. 즉 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중재는 하드웨어 교통정리이면서, 시스템 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 물리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 수준에 내리는 스케줄러라고 볼 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 공유 버스에서 중재가 필요한 이유                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Master A (CPU)  ──┐                                                  │
-│ Master B (DMA)  ──┼─▶ [ 공유 시스템 버스 ] ─▶ Main Memory            │
-│ Master C (I/O)  ──┘                                                  │
-│                                                                      │
-│ 중재 없음  : 동시에 구동 → 충돌/왜곡/재시도                         │
-│ 중재 있음  : 한 번에 한 마스터만 점유 → 예측 가능한 전송            │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 공유 버스에서 중재가 필요한 이유                     |
++----------------------------------------------------------------------+
+| Master A (CPU)  --+                                                  |
+| Master B (DMA)  --+--> [ 공유 시스템 버스 ] --> Main Memory            |
+| Master C (I/O)  --+                                                  |
+|                                                                      |
+| 중재 없음  : 동시에 구동 -> 충돌/왜곡/재시도                         |
+| 중재 있음  : 한 번에 한 마스터만 점유 -> 예측 가능한 전송            |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 넓은 네트워크가 아니라, 한 시점에 한 주체만 사실상 말할 수 있는 공용 배선이라는 점이다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 선을 공유하는 방식 자체를 이해하는 데서 시작하고, 그 첫 관문이 바로 중재 설계다.
@@ -60,20 +60,20 @@ tags = ["studynote-computer-architecture"]
 아래 흐름은 가장 전형적인 중앙 중재 시퀀스를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  버스 중재의 기본 핸드셰이크 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Master 1      BR ───────────────▶                                    │
-│ Master 2      BR ───────▶                                             │
-│                                                                      │
-│ Arbiter            [요청 수집] → [우선순위 판정] → BG to Master 2   │
-│                                                                      │
-│ Master 2                         BG 수신 → BB 활성 → 데이터 전송     │
-│                                                                      │
-│ Others                            BB=1 동안 대기                     │
-│                                                                      │
-│ Master 2                         전송 종료 → BB 해제 → 다음 중재     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                  버스 중재의 기본 핸드셰이크 흐름                    |
++----------------------------------------------------------------------+
+| Master 1      BR ---------------->                                    |
+| Master 2      BR -------->                                             |
+|                                                                      |
+| Arbiter            [요청 수집] -> [우선순위 판정] -> BG to Master 2   |
+|                                                                      |
+| Master 2                         BG 수신 -> BB 활성 -> 데이터 전송     |
+|                                                                      |
+| Others                            BB=1 동안 대기                     |
+|                                                                      |
+| Master 2                         전송 종료 -> BB 해제 -> 다음 중재     |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 병목은 두 군데에서 생긴다. 첫째, 요청자가 많을수록 판정 회로의 복잡도가 증가한다. 둘째, 승자에게 너무 긴 점유 시간을 주면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 좋아질 수 있지만 다른 장치의 대기시간이 늘어난다. 따라서 중재는 단일 정답이 아니라 <strong>평균 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>과 최악 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간의 교환</strong>이다.
@@ -101,14 +101,14 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 공유 버스 시대
-    │
-    ├─▶ 버스 마스터 증가
-    │
-    ├─▶ 중재 필요성 확대
-    │
-    └─▶ 정책 경쟁
-         ├─ 고정 우선순위 : 빠른 긴급 대응
-         └─ 라운드 로빈   : 공평한 순환 보장
+    |
+    +--> 버스 마스터 증가
+    |
+    +--> 중재 필요성 확대
+    |
+    +--> 정책 경쟁
+         +- 고정 우선순위 : 빠른 긴급 대응
+         +- 라운드 로빈   : 공평한 순환 보장
 ```
 
 이 비교에서 기억할 점은 "어느 방식이 더 좋다"가 아니라 "어느 병목과 어느 실패 모드를 감수할 것인가"다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중재는 결국 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이면서도, 동시에 장애 모델을 설계하는 기술이다.
@@ -166,25 +166,25 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 단일 마스터 버스
-    │
-    ▼
+    |
+    v
 멀티마스터 버스 확장
-    │
-    ▼
+    |
+    v
 버스 중재 (Bus Arbitration)
-    │
-    ├─▶ 중앙 집중식 중재 (Centralized Arbitration)
-    │        ├─▶ 고정 우선순위 (Fixed Priority)
-    │        └─▶ 라운드 로빈 (Round Robin)
-    │
-    └─▶ 분산식 중재 (Distributed Arbitration)
-              └─▶ 고신뢰 실시간 제어 버스
-    │
-    ▼
+    |
+    +--> 중앙 집중식 중재 (Centralized Arbitration)
+    |        +--> 고정 우선순위 (Fixed Priority)
+    |        +--> 라운드 로빈 (Round Robin)
+    |
+    +--> 분산식 중재 (Distributed Arbitration)
+              +--> 고신뢰 실시간 제어 버스
+    |
+    v
 PCIe · 스위치 패브릭 · NoC (Network on Chip)
 ```
 
-이 흐름은 "공유 자원 증가 → 충돌 통제 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 세분화 → [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 확장"이라는 진화를 보여준다.
+이 흐름은 "공유 자원 증가 -> 충돌 통제 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 세분화 -> [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 확장"이라는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +198,7 @@ PCIe · 스위치 패브릭 · NoC (Network on Chip)
 
 **진행 상황**: 352 / 803
 
-← **이전**: [350. 버스 마스터 (Bus Master)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/)
-**다음**: [352. 중앙 집중식 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/352_centralized_arbitration/) →
+<- **이전**: [350. 버스 마스터 (Bus Master)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/)
+**다음**: [352. 중앙 집중식 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/352_centralized_arbitration/) ->
 
 ---

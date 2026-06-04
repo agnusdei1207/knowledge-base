@@ -36,14 +36,14 @@ AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database
 아래 그림은 AMI의 기본 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                        AMI의 양방향 운영 구조                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ [스마트 미터] --검침 데이터--> [DCU/RF Mesh] --WAN--> [MDMS/운영센터] │
-│      ▲                                                       │        │
-│      │                                                       │        │
-│      └-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --┘        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                        AMI의 양방향 운영 구조                        |
++----------------------------------------------------------------------+
+| [스마트 미터] --검침 데이터--> [DCU/RF Mesh] --WAN--> [MDMS/운영센터] |
+|      ^                                                       |        |
+|      |                                                       |        |
+|      +-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --+        |
++----------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집만으로 끝나지 않는다는 것이다. MDMS는 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 저장하는 창고가 아니라, 이상 사용량 탐지, 누락 보정, 시간대별 과금, 정전 위치 추정 같은 운영 판단의 중심이 된다. 즉 AMI는 계량기 네트워크라기보다 <strong>센서 계층과 운영 계층을 연결하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 플랫폼</strong>에 가깝다.
@@ -132,21 +132,21 @@ AMI가 제대로 구축되면 검침 자동화 비용 절감뿐 아니라, 피�
 
 ```text
 수동 검침
-    │
-    ▼
+    |
+    v
 AMR (Automated Meter Reading)
-    │
-    ▼
+    |
+    v
 AMI (Advanced Metering Infrastructure)
-    │
-    ▼
+    |
+    v
 수요 반응 (DR) · 실시간 요금제
-    │
-    ▼
+    |
+    v
 스마트 그리드 · 마이크로그리드 운영
 ```
 
-이 흐름은 "검침 자동화 → 양방향 운영 → 에너지 최적화"로 전력 정보 인프라가 진화하는 과정을 보여준다.
+이 흐름은 "검침 자동화 -> 양방향 운영 -> 에너지 최적화"로 전력 정보 인프라가 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -160,7 +160,7 @@ AMI (Advanced Metering Infrastructure)
 
 **진행 상황**: 162 / 552
 
-← **이전**: [161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)
-**다음**: [163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) →
+<- **이전**: [161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)
+**다음**: [163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) ->
 
 ---

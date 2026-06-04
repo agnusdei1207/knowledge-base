@@ -24,16 +24,16 @@ tags = ["studynote-design-supervision"]
 하지만 설계에서 중요한 것은 모양이 아니라 시스템이 그 래핑을 왜 도입했는가이다. 기능을 덧붙이려는가, 아니면 접근 시점을 감시·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·보호하려는가에 따라 유지보수 방식과 테스트 포인트가 달라진다. 이 차이를 모르면 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/) 같은 실무 구현을 패턴 이름만 바꿔 부르는 수준에서 멈추게 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│            같은 외형, 다른 질문: "무엇을 위해 감쌌는가?"          │
-├────────────────────────────────────────────────────────────────────┤
-│ Client ─▶ Wrapper ─▶ Real Object                                  │
-│                                                                    │
-│ If goal = add behavior      -> Decorator                           │
-│ If goal = control access    -> Proxy                               │
-│                                                                    │
-│ Same shape, different intent, different design consequence         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|            같은 외형, 다른 질문: "무엇을 위해 감쌌는가?"          |
++--------------------------------------------------------------------+
+| Client --> Wrapper --> Real Object                                  |
+|                                                                    |
+| If goal = add behavior      -> Decorator                           |
+| If goal = control access    -> Proxy                               |
+|                                                                    |
+| Same shape, different intent, different design consequence         |
++--------------------------------------------------------------------+
 ```
 
 즉 두 패턴의 경계는 코드 문법이 아니라 책임 배치에 있다. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 원본 기능을 유지한 채 부가 기능을 쌓는 쪽에 초점이 있고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 원본에 도달하기 전 단계에서 접근 조건을 조절하는 쪽에 초점이 있다.
@@ -49,21 +49,21 @@ tags = ["studynote-design-supervision"]
 반면 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 실제 객체에 대한 대리자다. 요청을 바로 전달하지 않고, 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·원격 연결·캐시 조회·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 같은 제어 로직을 먼저 수행한다. 클라이언트는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 특별한 객체로 의식하지 않고, 실제 객체처럼 사용한다는 점이 중요하다.
 
 ```text
-┌───────────────────────────────┐    ┌───────────────────────────────┐
-│ Decorator call path           │    │ Proxy call path               │
-├───────────────────────────────┤    ├───────────────────────────────┤
-│ Client                        │    │ Client                        │
-│   │                           │    │   │                           │
-│   ▼                           │    │   ▼                           │
-│ LoggingDecorator              │    │ AccessProxy                   │
-│   │                           │    │   │ check auth / cache / lazy  │
-│   ▼                           │    │   ▼                           │
-│ CompressionDecorator          │    │ RealService                   │
-│   │                           │    │                               │
-│   ▼                           │    │ Transparent to client         │
-│ FileStream                    │    └───────────────────────────────┘
-│ Explicit stacking by client   │
-└───────────────────────────────┘
++-------------------------------+    +-------------------------------+
+| Decorator call path           |    | Proxy call path               |
++-------------------------------+    +-------------------------------+
+| Client                        |    | Client                        |
+|   |                           |    |   |                           |
+|   v                           |    |   v                           |
+| LoggingDecorator              |    | AccessProxy                   |
+|   |                           |    |   | check auth / cache / lazy  |
+|   v                           |    |   v                           |
+| CompressionDecorator          |    | RealService                   |
+|   |                           |    |                               |
+|   v                           |    | Transparent to client         |
+| FileStream                    |    +-------------------------------+
+| Explicit stacking by client   |
++-------------------------------+
 ```
 
 | 항목 | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) |
@@ -149,15 +149,15 @@ tags = ["studynote-design-supervision"]
 
 ```text
 객체 래핑 (Object Wrapping)
-        │
-        ▼
+        |
+        v
 동일 인터페이스 유지
-        │
-        ├──────────────▶ Decorator: responsibility extension
-        │
-        └──────────────▶ Proxy: access mediation
-                               │
-                               ▼
+        |
+        +---------------> Decorator: responsibility extension
+        |
+        +---------------> Proxy: access mediation
+                               |
+                               v
 AOP · Lazy Loading · Remote Proxy · Middleware
 ```
 
@@ -175,7 +175,7 @@ AOP · Lazy Loading · Remote Proxy · Middleware
 
 **진행 상황**: 222 / 530
 
-← **이전**: [165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/165_bridge_vs_strategy/)
-**다음**: [167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/167_abstract_factory_factory_derivation/) →
+<- **이전**: [165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/165_bridge_vs_strategy/)
+**다음**: [167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/167_abstract_factory_factory_derivation/) ->
 
 ---

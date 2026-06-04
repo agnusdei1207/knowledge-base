@@ -24,17 +24,17 @@ tags = ["studynote-it-management"]
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
 ```text
-┌────────────────────┐
-│ Business Need      │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 플랫폼 비즈니스 모델        │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ Value / Control    │
-└────────────────────┘
++--------------------+
+| Business Need      |
++---------+----------+
+          v
++--------------------+
+| 플랫폼 비즈니스 모델        |
++---------+----------+
+          v
++--------------------+
+| Value / Control    |
++--------------------+
 ```
 
 이 흐름은 '[플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) 모델'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
@@ -55,11 +55,11 @@ tags = ["studynote-it-management"]
 | 활용 한계 | 틀이 현실 맥락을 대신하지는 못한다. | 정답집이 아니라 질문집으로 써야 한다. |
 
 ```text
-┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
-│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
-└────┬─────┘           └────┬───────┘           └────┬───────┘
-     │                      │                          │
-     └──── constraints ────▶│◀──── metrics / review ──┘
++----------+   input    +------------+   output   +------------+
+| Trigger  +----------->| Core Rule  +----------->| Decision   |
++----+-----+           +----+-------+           +----+-------+
+     |                      |                          |
+     +---- constraints ----->|<----- metrics / review --+
 ```
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
@@ -127,12 +127,12 @@ tags = ["studynote-it-management"]
 
 ```text
 [OKR]
-    │
-    ▼
+    |
+    v
 [플랫폼 비즈니스 모델]
-    │
-    ├──▶ [3C 분석]
-    └──▶ [전략 맵 연계]
+    |
+    +---> [3C 분석]
+    +---> [전략 맵 연계]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 58 / 587
 
-← **이전**: [애자일 관리 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_agile_management/)
-**다음**: [34. 애자일 경영 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) →
+<- **이전**: [애자일 관리 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_agile_management/)
+**다음**: [34. 애자일 경영 (Agile Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) ->
 
 ---

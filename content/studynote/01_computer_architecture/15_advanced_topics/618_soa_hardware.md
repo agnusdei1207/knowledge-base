@@ -45,24 +45,24 @@ SOA 하드웨어의 핵심은 "[서비스](/knowledge-base/studynote/13_cloud_ar
 이 그림은 SOA에서 실제 하드웨어 병목이 주로 어디에 모이는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              SOA 하드웨어의 핵심: 계산보다 통합 경로를 받쳐 주는 것        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ External Clients / Partners                                               │
-│             │                                                              │
-│             ▼                                                              │
-│   [L7 Gateway / TLS Offload]                                               │
-│             │                                                              │
-│             ▼                                                              │
-│      [ESB / Broker / Policy Engine]                                        │
-│        │            │            │                                          │
-│        ├──▶ Service A            ├──▶ Service B                            │
-│        ├──▶ XML / SOAP Transform └──▶ Service C                            │
-│        │                                                                  │
-│        └──▶ MQ / DB / HSM / Audit Storage                                  │
-│                                                                            │
-│ 병목 포인트: parsing · crypto · central bus saturation · storage latency   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|              SOA 하드웨어의 핵심: 계산보다 통합 경로를 받쳐 주는 것        |
++----------------------------------------------------------------------------+
+| External Clients / Partners                                               |
+|             |                                                              |
+|             v                                                              |
+|   [L7 Gateway / TLS Offload]                                               |
+|             |                                                              |
+|             v                                                              |
+|      [ESB / Broker / Policy Engine]                                        |
+|        |            |            |                                          |
+|        +---> Service A            +---> Service B                            |
+|        +---> XML / SOAP Transform +---> Service C                            |
+|        |                                                                  |
+|        +---> MQ / DB / HSM / Audit Storage                                  |
+|                                                                            |
+| 병목 포인트: parsing · crypto · central bus saturation · storage latency   |
++----------------------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 점은 동기 호출과 비동기 호출이 하드웨어에 서로 다른 압력을 준다는 것이다. 동기 호출은 네트워크 왕복 시간과 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 처리, L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적이고, 비동기 호출은 브로커의 지속 저장 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 큐 깊이, 재처리 경로가 더 중요하다. 따라서 SOA 하드웨어는 "서버를 빠르게"가 아니라 "통합 경로를 끊기지 않게" 설계해야 한다.
@@ -144,20 +144,20 @@ SOA 하드웨어를 제대로 설계하면, [분산](/knowledge-base/studynote/0
 
 ```text
 모놀리식 통합
-      │
-      ▼
+      |
+      v
 SOA + ESB 기반 서비스 연계
-      │
-      ▼
+      |
+      v
 L7 / TLS / XML 오프로딩 강화
-      │
-      ▼
+      |
+      v
 MQ · 고속 스토리지 중심의 신뢰성 통합
-      │
-      ▼
+      |
+      v
 API 게이트웨이 · 이벤트 기반 하이브리드 통합
-      │
-      ▼
+      |
+      v
 클라우드 네이티브 분산 통합 아키텍처
 ```
 
@@ -175,7 +175,7 @@ API 게이트웨이 · 이벤트 기반 하이브리드 통합
 
 **진행 상황**: 618 / 803
 
-← **이전**: [617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/)
-**다음**: [619. MSA (Microservices) 트래픽 처리용 하드웨어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) →
+<- **이전**: [617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/)
+**다음**: [619. MSA (Microservices) 트래픽 처리용 하드웨어](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ->
 
 ---

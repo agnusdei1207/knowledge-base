@@ -24,12 +24,12 @@ tags = ["studynote-ai"]
 <strong>멀티 헤드 어텐션 (Multi-Head Attention)</strong>은 이 문제를 H개의 독립적인 어텐션 헤드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 운영하여 해결한다. 각 헤드는 독립적인 W_Q^i, W_K^i, W_V^i를 학습하여 서로 다른 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전담하게 된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 멀티 헤드 어텐션은 다각도 카메라 시스템이다. 하나의 카메라(단일 헤드)가 건물을 촬영하면 앞면만 보이지만, 8대 카메라(8헤드)가 동시에 전면·후면·좌면·우면·상면 등을 동시에 촬영해 건물 전체를 360도로 이해하는 것이다.
@@ -39,30 +39,30 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│         멀티 헤드 어텐션 (Multi-Head Attention) 구조                │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력 X (T × d_model)                                             │
-│      │                                                           │
-│      ├──▶ Head 1: Q₁=XW_Q¹, K₁=XW_K¹, V₁=XW_V¹                 │
-│      │    Attention(Q₁,K₁,V₁) → head₁  (T × d_v)               │
-│      │                                                           │
-│      ├──▶ Head 2: Q₂=XW_Q², K₂=XW_K², V₂=XW_V²                 │
-│      │    Attention(Q₂,K₂,V₂) → head₂  (T × d_v)               │
-│      │                                                           │
-│      ├──▶  ...         (H개 헤드 병렬 수행)                         │
-│      │                                                           │
-│      └──▶ Head H: Q_H=XW_QH, K_H=XW_KH, V_H=XW_VH              │
-│           Attention(Q_H,K_H,V_H) → head_H  (T × d_v)            │
-│                                                                  │
-│  ① Concat: [head₁; head₂; ...; head_H]  → (T × H·d_v)          │
-│  ② Linear: Concat · W_O  → (T × d_model)                        │
-│                                                                  │
-│  원논문 설정: d_model=512, H=8 → d_k=d_v=64 (512/8)              │
-│  총 파라미터: H×(d_model×d_k) × 3 + d_model×d_model              │
-│             ≈ 단일 헤드와 동일 (헤드당 차원이 1/H로 줄어듦)          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|         멀티 헤드 어텐션 (Multi-Head Attention) 구조                |
++------------------------------------------------------------------+
+|                                                                  |
+|  입력 X (T × d_model)                                             |
+|      |                                                           |
+|      +---> Head 1: Q₁=XW_Q¹, K₁=XW_K¹, V₁=XW_V¹                 |
+|      |    Attention(Q₁,K₁,V₁) -> head₁  (T × d_v)               |
+|      |                                                           |
+|      +---> Head 2: Q₂=XW_Q^, K₂=XW_K^, V₂=XW_V^                 |
+|      |    Attention(Q₂,K₂,V₂) -> head₂  (T × d_v)               |
+|      |                                                           |
+|      +--->  ...         (H개 헤드 병렬 수행)                         |
+|      |                                                           |
+|      +---> Head H: Q_H=XW_QH, K_H=XW_KH, V_H=XW_VH              |
+|           Attention(Q_H,K_H,V_H) -> head_H  (T × d_v)            |
+|                                                                  |
+|  ① Concat: [head₁; head₂; ...; head_H]  -> (T × H·d_v)          |
+|  ② Linear: Concat · W_O  -> (T × d_model)                        |
+|                                                                  |
+|  원논문 설정: d_model=512, H=8 -> d_k=d_v=64 (512/8)              |
+|  총 파라미터: H×(d_model×d_k) × 3 + d_model×d_model              |
+|             ≈ 단일 헤드와 동일 (헤드당 차원이 1/H로 줄어듦)          |
++------------------------------------------------------------------+
 ```
 
 | 헤드 역할 예시 | 학습되는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 실제 관찰된 패턴 |
@@ -122,7 +122,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [멀티 헤드 어텐션 (Multi-Head Attention)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [멀티 헤드 어텐션 (Multi-Head Attention)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -137,7 +137,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 299 / 420
 
-← **이전**: [298. 쿼리(Q) / 키(K) / 밸류(V)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)
-**다음**: [300. 포지셔널 인코딩 (Positional Encoding)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) →
+<- **이전**: [298. 쿼리(Q) / 키(K) / 밸류(V)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)
+**다음**: [300. 포지셔널 인코딩 (Positional Encoding)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ->
 
 ---

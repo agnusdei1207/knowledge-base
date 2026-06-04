@@ -26,14 +26,14 @@ tags = ["studynote-network"]
 아래 그림은 문자 삽입이 프레임 경계를 어떻게 표시하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           Byte-oriented framing with control chars          │
-├──────────────────────────────────────────────────────────────┤
-│ DLE STX | payload byte ... payload byte ... | DLE ETX       │
-│                                                              │
-│ receiver state                                               │
-│   HUNT ──(DLE STX)──▶ IN-FRAME ──(DLE ETX)──▶ DONE           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           Byte-oriented framing with control chars          |
++--------------------------------------------------------------+
+| DLE STX | payload byte ... payload byte ... | DLE ETX       |
+|                                                              |
+| receiver state                                               |
+|   HUNT --(DLE STX)---> IN-FRAME --(DLE ETX)---> DONE           |
++--------------------------------------------------------------+
 ```
 
 핵심은 수신기가 길이를 세지 않고도 "경계 문자를 만날 때까지 읽는다"는 점이다. 따라서 프레임의 본질이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수보다 <strong>특정 기호의 출현</strong>으로 정의된다.
@@ -55,17 +55,17 @@ tags = ["studynote-network"]
 이 과정을 상태 기계로 보면 더 명확하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│               수신기의 해석 상태 전이                       │
-├──────────────────────────────────────────────────────────────┤
-│ HUNT                                                        │
-│   └─ DLE STX 수신 → frame buffer 시작                       │
-│                                                              │
-│ IN-FRAME                                                     │
-│   ├─ 일반 바이트  → 그대로 저장                             │
-│   ├─ DLE DLE     → DLE 한 바이트 저장                       │
-│   └─ DLE ETX     → 프레임 종료                              │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|               수신기의 해석 상태 전이                       |
++--------------------------------------------------------------+
+| HUNT                                                        |
+|   +- DLE STX 수신 -> frame buffer 시작                       |
+|                                                              |
+| IN-FRAME                                                     |
+|   +- 일반 바이트  -> 그대로 저장                             |
+|   +- DLE DLE     -> DLE 한 바이트 저장                       |
+|   +- DLE ETX     -> 프레임 종료                              |
++--------------------------------------------------------------+
 ```
 
 이 방식의 장점은 경계 인식 규칙이 단순하다는 데 있다. 하지만 payload에 `DLE`가 많이 들어가면 stuffing 오버헤드가 커지고, 모든 문자를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 검사해야 하므로 처리 비용도 증가한다. 그래서 문자 삽입은 "단순하지만 항상 효율적인" 방식은 아니다.
@@ -141,17 +141,17 @@ tags = ["studynote-network"]
 
 ```text
 연속 바이트 스트림의 경계 문제
-    │
-    ▼
+    |
+    v
 바이트 카운트 (Byte Counting)
-    │
-    ▼
+    |
+    v
 제어 문자 프레이밍 (STX / ETX)
-    │
-    ▼
+    |
+    v
 DLE 기반 문자 삽입 (Character Stuffing)
-    │
-    ▼
+    |
+    v
 비트 스터핑 · HDLC 같은 비트 지향 프로토콜
 ```
 
@@ -169,7 +169,7 @@ DLE 기반 문자 삽입 (Character Stuffing)
 
 **진행 상황**: 307 / 1120
 
-← **이전**: [185. 바이트 카운트 (Byte Counting) 방식](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)
-**다음**: [187. 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) →
+<- **이전**: [185. 바이트 카운트 (Byte Counting) 방식](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)
+**다음**: [187. 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ->
 
 ---

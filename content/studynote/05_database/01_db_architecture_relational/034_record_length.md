@@ -65,17 +65,17 @@ tags = ["studynote-database"]
   일반적 크기: 4KB ~ 16KB (DBMS 설정)
 
 페이지 내부 구조:
-  ┌──────────────────────────────────────┐
-  │ 페이지 헤더 (LSN, 페이지 유형 등)    │
-  ├──────────────────────────────────────┤
-  │ 슬롯 배열 (레코드 오프셋 테이블)     │
-  │ [슬롯1 → 오프셋 900] [슬롯2 → 450]   │
-  ├──────────────────────────────────────┤
-  │         빈 공간 (Free Space)          │
-  ├──────────────────────────────────────┤
-  │ 레코드 2 (450번지)                    │
-  │ 레코드 1 (900번지)                    │
-  └──────────────────────────────────────┘
+  +--------------------------------------+
+  | 페이지 헤더 (LSN, 페이지 유형 등)    |
+  +--------------------------------------+
+  | 슬롯 배열 (레코드 오프셋 테이블)     |
+  | [슬롯1 -> 오프셋 900] [슬롯2 -> 450]   |
+  +--------------------------------------+
+  |         빈 공간 (Free Space)          |
+  +--------------------------------------+
+  | 레코드 2 (450번지)                    |
+  | 레코드 1 (900번지)                    |
+  +--------------------------------------+
 ```
 
 <strong>슬롯 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>: 가변 길이 레코드의 위치를 추적해 O(1) 접근 가능
@@ -90,13 +90,13 @@ tags = ["studynote-database"]
 행 지향 (Row-oriented / NSM):
   레코드1: [ID=1, Name=Alice, Age=30, Score=90]
   레코드2: [ID=2, Name=Bob,   Age=25, Score=85]
-  → OLTP 최적: 특정 행 전체를 빠르게 읽기
+  -> OLTP 최적: 특정 행 전체를 빠르게 읽기
 
 열 지향 (Column-oriented / DSM):
   ID 컬럼:    [1, 2, 3, 4, ...]
   Name 컬럼:  [Alice, Bob, Carol, ...]
   Age 컬럼:   [30, 25, 28, ...]
-  → OLAP 최적: 특정 컬럼 집계 (SELECT AVG(Age))
+  -> OLAP 최적: 특정 컬럼 집계 (SELECT AVG(Age))
 ```
 
 | 기준         | 행 지향 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))        | 열 지향 ([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))        |
@@ -127,19 +127,19 @@ tags = ["studynote-database"]
 
 ```
 레코드 길이 · 파일 조직
-├── 레코드 방식
-│   ├── 고정 길이 (O(1) 접근, 공간 낭비)
-│   └── 가변 길이 (VARCHAR, 슬롯 배열)
-├── 파일 조직
-│   ├── 순차 / 직접(해시) / ISAM / 군집
-│   └── 페이지·블록 단위 I/O
-├── 저장 방향
-│   ├── 행 지향 (OLTP·트랜잭션)
-│   └── 열 지향 (OLAP·분석)
-└── 최적화
-    ├── 압축 (RLE·비트패킹)
-    ├── 파티셔닝
-    └── 존 맵 (Zone Map)
++-- 레코드 방식
+|   +-- 고정 길이 (O(1) 접근, 공간 낭비)
+|   +-- 가변 길이 (VARCHAR, 슬롯 배열)
++-- 파일 조직
+|   +-- 순차 / 직접(해시) / ISAM / 군집
+|   +-- 페이지·블록 단위 I/O
++-- 저장 방향
+|   +-- 행 지향 (OLTP·트랜잭션)
+|   +-- 열 지향 (OLAP·분석)
++-- 최적화
+    +-- 압축 (RLE·비트패킹)
+    +-- 파티셔닝
+    +-- 존 맵 (Zone Map)
 ```
 
 ---
@@ -147,23 +147,23 @@ tags = ["studynote-database"]
 ## 📈 관련 키워드 및 발전 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              레코드 저장 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ 순차·직접 파일     │ 초기 데이터베이스 파일 방식  │
-│ 1970년대     │ ISAM·관계형 모델   │ 인덱스 + 관계형 DB 등장     │
-│ 1980~90년대  │ 행 지향 RDBMS     │ Oracle·SQL Server 표준화     │
-│ 2000년대     │ 열 지향 DWH       │ Vertica·Sybase IQ 분석 최적화│
-│ 2010년대     │ 클라우드 DWH      │ Redshift·BigQuery·Snowflake  │
-│ 2020년대     │ 벡터화·SIMD       │ DuckDB·ClickHouse 고성능 분석│
-└──────────────┴────────────────────┴─────────────────────────────┘
++-----------------------------------------------------------------+
+|              레코드 저장 발전 흐름                               |
++--------------+--------------------+-----------------------------+
+| 1960년대     | 순차·직접 파일     | 초기 데이터베이스 파일 방식  |
+| 1970년대     | ISAM·관계형 모델   | 인덱스 + 관계형 DB 등장     |
+| 1980~90년대  | 행 지향 RDBMS     | Oracle·SQL Server 표준화     |
+| 2000년대     | 열 지향 DWH       | Vertica·Sybase IQ 분석 최적화|
+| 2010년대     | 클라우드 DWH      | Redshift·BigQuery·Snowflake  |
+| 2020년대     | 벡터화·SIMD       | DuckDB·ClickHouse 고성능 분석|
++--------------+--------------------+-----------------------------+
 
 핵심 키워드 연결:
-고정/가변 길이 → 페이지 구조 → ISAM/해시 → 행 지향 RDBMS
-    ↓                 ↓               ↓             ↓
+고정/가변 길이 -> 페이지 구조 -> ISAM/해시 -> 행 지향 RDBMS
+    v                 v               v             v
 O(1) 접근       슬롯 배열        인덱스 순차     OLTP 최적
-    ↓
-열 지향 → OLAP → Snowflake/BigQuery → 분석 쿼리 최적화
+    v
+열 지향 -> OLAP -> Snowflake/BigQuery -> 분석 쿼리 최적화
 ```
 
 ---
@@ -180,7 +180,7 @@ O(1) 접근       슬롯 배열        인덱스 순차     OLTP 최적
 
 **진행 상황**: 34 / 600
 
-← **이전**: [파일 저장 구조 (File Storage Structure)](/knowledge-base/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)
-**다음**: [035. 블로킹 팩터 (Blocking Factor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/035_blocking_factor/) →
+<- **이전**: [파일 저장 구조 (File Storage Structure)](/knowledge-base/studynote/05_database/01_db_architecture_relational/033_file_storage_structure/)
+**다음**: [035. 블로킹 팩터 (Blocking Factor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/035_blocking_factor/) ->
 
 ---

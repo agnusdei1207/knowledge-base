@@ -44,17 +44,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 AIOps가 과거 데이터와 실시간 데이터를 동시에 쓰는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ AIOps loop for hardware anomaly detection                   │
-├──────────────────────────────────────────────────────────────┤
-│ Historical telemetry ─▶ baseline model ─┐                   │
-│                                          ├─▶ anomaly score   │
-│ Live telemetry ─▶ feature extraction ────┘                   │
-│                                               │              │
-│                              risk band + explanation         │
-│                                               │              │
-│                     ticket / drain / part replacement        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| AIOps loop for hardware anomaly detection                   |
++--------------------------------------------------------------+
+| Historical telemetry --> baseline model -+                   |
+|                                          +--> anomaly score   |
+| Live telemetry --> feature extraction ----+                   |
+|                                               |              |
+|                              risk band + explanation         |
+|                                               |              |
+|                     ticket / drain / part replacement        |
++--------------------------------------------------------------+
 ```
 
 실제 모델은 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))만으로 끝나지 않는다. 같은 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 노드라도 훈련 작업 중인지 유휴 상태인지에 따라 정상 범위가 바뀌므로, 워크로드 문맥을 함께 입력해야 한다. 또한 자동인코더 ([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)), 격리 포리스트 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest), 시계열 예측 모델 등 어떤 알고리즘을 쓰더라도, 결과를 사람에게 설명할 수 있어야 운영 신뢰를 얻는다.
@@ -127,17 +127,17 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 ```text
 임계치 기반 하드웨어 경보
-    │
-    ▼
+    |
+    v
 통계적 기준선 · 추세 분석
-    │
-    ▼
+    |
+    v
 다변량 이상 탐지
-    │
-    ▼
+    |
+    v
 예측 정비 · 자동 드레인
-    │
-    ▼
+    |
+    v
 자율 치유형 인프라
 ```
 
@@ -155,7 +155,7 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 **진행 상황**: 644 / 803
 
-← **이전**: [642. 옵저버빌리티 (Observability) HW 텔레메트리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
-**다음**: [644. 제로 트러스트 (Zero Trust) 아키텍처의 하드웨어 루트 오브 트러스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/644_zero_trust_hardware_rot/) →
+<- **이전**: [642. 옵저버빌리티 (Observability) HW 텔레메트리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
+**다음**: [644. 제로 트러스트 (Zero Trust) 아키텍처의 하드웨어 루트 오브 트러스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/644_zero_trust_hardware_rot/) ->
 
 ---

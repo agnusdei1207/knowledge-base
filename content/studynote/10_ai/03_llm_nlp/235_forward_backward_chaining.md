@@ -28,12 +28,12 @@ tags = ["studynote-ai"]
 이것이 불필요한 규칙 탐색을 완전히 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해 버리는 위대한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a>)</strong>의 탄생이다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 전향 추론([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $\rightarrow$ 목표)은 '냉장고 파먹기'다. 냉장고 문을 열어보니 계란, 치즈, 양파([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 있다. "이 재료를 섞어서 무슨 요리(결론)를 만들지?" 하고 레시피북을 처음부터 끝까지 다 뒤지며 상상하는 거다(경우의 수가 너무 많아 머리 아픔). [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(목표 $\rightarrow$ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 '먹고 싶은 메뉴 정하기'다. "난 오늘 치즈계란말이(목표) 먹을 거야! 이거 만들려면 계란이랑 치즈가 필요한데, 냉장고에 있나?" 하고 거꾸로 팩트만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거다. 쓸데없는 고기 요리 레시피는 아예 쳐다보지도 않으니 훨씬 빠르다.
@@ -45,26 +45,26 @@ tags = ["studynote-ai"]
 추론 엔진이 트리(Tree) 구조의 룰(Rule) 네트워크를 타고 내려가는 방향성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Fact) 주도인가, 목표(Goal) 주도인가에 따라 엔진의 로직이 정반대로 돈다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           전향 추론 (Forward) vs 후향 추론 (Backward) 작동 아키텍처 도해  │
-├──────────────────────────────────────────────────────────────┤
-│  [공통 지식 베이스 (Rule Base)]                                   │
-│   * Rule 1: IF (A) AND (B) THEN (X)                          │
-│   * Rule 2: IF (X) AND (C) THEN (Z)                          │
-│                                                              │
-│  [1. 전향 추론 (Forward Chaining) - 데이터가 이끄는 폭도들]            │
-│   * 시작 팩트(Fact): 사용자 입력 "A, B, C가 참(True)이다!"           │
-│   * 스텝 1: 팩트 A, B가 있으니 Rule 1 발동 ─▶ 새로운 팩트 X 생성!        │
-│   * 스텝 2: 새 팩트 X와 기존 팩트 C가 있으니 Rule 2 발동 ─▶ 최종 결론 Z 도달!│
-│   ─▶ 끝을 모르는 폭주 기관차처럼 조건이 맞으면 결론을 향해 무조건 직진함.   │
-│                                                              │
-│  [2. 후향 추론 (Backward Chaining) - 가설을 증명하는 형사]             │
-│   * 시작 목표(Goal): "결론 Z가 진짜인지 증명해 봐!"                    │
-│   * 스텝 1: Z가 참이려면 Rule 2에 의해 X와 C가 참이어야 하네? (새 목표 X, C)│
-│   * 스텝 2: X가 참이려면 Rule 1에 의해 A와 B가 참이어야 하네? (새 목표 A, B)│
-│   * 스텝 3: DB나 사용자에게 "야, 너 A, B, C 참(True) 맞냐?" 물어봄.    │
-│   * 사용자가 "ㅇㅇ 맞음" 하면 ─▶ "그럼 내 가설 Z는 정답이다!" 증명 완료.  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           전향 추론 (Forward) vs 후향 추론 (Backward) 작동 아키텍처 도해  |
++--------------------------------------------------------------+
+|  [공통 지식 베이스 (Rule Base)]                                   |
+|   * Rule 1: IF (A) AND (B) THEN (X)                          |
+|   * Rule 2: IF (X) AND (C) THEN (Z)                          |
+|                                                              |
+|  [1. 전향 추론 (Forward Chaining) - 데이터가 이끄는 폭도들]            |
+|   * 시작 팩트(Fact): 사용자 입력 "A, B, C가 참(True)이다!"           |
+|   * 스텝 1: 팩트 A, B가 있으니 Rule 1 발동 --> 새로운 팩트 X 생성!        |
+|   * 스텝 2: 새 팩트 X와 기존 팩트 C가 있으니 Rule 2 발동 --> 최종 결론 Z 도달!|
+|   --> 끝을 모르는 폭주 기관차처럼 조건이 맞으면 결론을 향해 무조건 직진함.   |
+|                                                              |
+|  [2. 후향 추론 (Backward Chaining) - 가설을 증명하는 형사]             |
+|   * 시작 목표(Goal): "결론 Z가 진짜인지 증명해 봐!"                    |
+|   * 스텝 1: Z가 참이려면 Rule 2에 의해 X와 C가 참이어야 하네? (새 목표 X, C)|
+|   * 스텝 2: X가 참이려면 Rule 1에 의해 A와 B가 참이어야 하네? (새 목표 A, B)|
+|   * 스텝 3: DB나 사용자에게 "야, 너 A, B, C 참(True) 맞냐?" 물어봄.    |
+|   * 사용자가 "ㅇㅇ 맞음" 하면 --> "그럼 내 가설 Z는 정답이다!" 증명 완료.  |
++--------------------------------------------------------------+
 ```
 
 <strong>핵심 원리 (탐색 트리의 부채꼴 방향, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a> vs Fan-out)</strong>:
@@ -138,7 +138,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[문제 표현] → [전향 추론 (Forward) vs 후향 추론 (Backward)] → [학습 기반 지능과 결합]
+[문제 표현] -> [전향 추론 (Forward) vs 후향 추론 (Backward)] -> [학습 기반 지능과 결합]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -153,7 +153,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 235 / 420
 
-← **이전**: [234. 퍼지 로직 (Fuzzy Logic)](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/)
-**다음**: [236. 상태 공간 탐색 (DFS / BFS)](/knowledge-base/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) →
+<- **이전**: [234. 퍼지 로직 (Fuzzy Logic)](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/)
+**다음**: [236. 상태 공간 탐색 (DFS / BFS)](/knowledge-base/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) ->
 
 ---

@@ -50,40 +50,40 @@ Apache Flink는 2014년 TU Berlin의，연구プロジェクト「Stratosphere�
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                  [ Apache Flink 아키텍처 ]                       │
-│                                                                 │
-│  [Client]                                                       │
-│    │ Flink 코드를 작성하고, JobGraph으로 컴파일                   │
-│    ▼                                                             │
-│  [JobManager (마스터)]                                           │
-│    ├─ JobGraph 스케줄링 → TaskManagers에 태스크 배포             │
-│    ├─ Checkpoint 조정 (체크포인트，协调자)                      │
-│    ├─ 리소스 관리 (Slot 관리)                                    │
-│    └─ 장애 복구 (Task 실패 감지 + 재시작 정책)                   │
-│                                                                 │
-│  [TaskManager (워커)]                                            │
-│    ├─ Task 슬롯 (Task 실행 단위) × N개                           │
-│    ├─ 상태 백엔드 (State Backend): RocksDB / Heap                │
-│    ├─ 네트워크 버퍼 (레코드 교환)                                 │
-│    └─ 입출력 관리                                                │
-│                                                                 │
-│  [DataStream API 실행 흐름]                                      │
-│                                                                 │
-│  Source → [Transformation: map/filter/keyBy]                    │
-│         → [Window: Tumbling/Sliding/Session]                    │
-│         → [Trigger/Evictor] → [Sink: 출력]                      │
-│                                                                 │
-│  [Checkpoint 기반 Exactly-Once 시맨틱스]                         │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ ① Checkpoint Barrier (CB): 데이터 스트림에 주기적으로 삽입  │    │
-│  │ ② Barriers는 소스 연산자로부터下游으로 전달              │    │
-│  │ ③ 모든 연산자가 Barriers를 受領하면 상태를 스냅샷 저장    │    │
-│  │ ④ 장애 시 마지막 Checkpoint Barrier 시점의 상태로 全量 복구 │    │
-│  │ ⑤ 2PC(2단계 커밋)로 End-to-End Exactly-Once 보장         │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  [ Apache Flink 아키텍처 ]                       |
+|                                                                 |
+|  [Client]                                                       |
+|    | Flink 코드를 작성하고, JobGraph으로 컴파일                   |
+|    v                                                             |
+|  [JobManager (마스터)]                                           |
+|    +- JobGraph 스케줄링 -> TaskManagers에 태스크 배포             |
+|    +- Checkpoint 조정 (체크포인트，协调자)                      |
+|    +- 리소스 관리 (Slot 관리)                                    |
+|    +- 장애 복구 (Task 실패 감지 + 재시작 정책)                   |
+|                                                                 |
+|  [TaskManager (워커)]                                            |
+|    +- Task 슬롯 (Task 실행 단위) × N개                           |
+|    +- 상태 백엔드 (State Backend): RocksDB / Heap                |
+|    +- 네트워크 버퍼 (레코드 교환)                                 |
+|    +- 입출력 관리                                                |
+|                                                                 |
+|  [DataStream API 실행 흐름]                                      |
+|                                                                 |
+|  Source -> [Transformation: map/filter/keyBy]                    |
+|         -> [Window: Tumbling/Sliding/Session]                    |
+|         -> [Trigger/Evictor] -> [Sink: 출력]                      |
+|                                                                 |
+|  [Checkpoint 기반 Exactly-Once 시맨틱스]                         |
+|  +---------------------------------------------------------+    |
+|  | ① Checkpoint Barrier (CB): 데이터 스트림에 주기적으로 삽입  |    |
+|  | ② Barriers는 소스 연산자로부터下游으로 전달              |    |
+|  | ③ 모든 연산자가 Barriers를 受領하면 상태를 스냅샷 저장    |    |
+|  | ④ 장애 시 마지막 Checkpoint Barrier 시점의 상태로 全量 복구 |    |
+|  | ⑤ 2PC(2단계 커밋)로 End-to-End Exactly-Once 보장         |    |
+|  +---------------------------------------------------------+    |
+|                                                                 |
++-----------------------------------------------------------------+
 ```
 
 ### 1. Flink 아키텍처: JobManager와 TaskManager
@@ -136,16 +136,16 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구 수준</strong> | < 1초 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) → Flink, 수 초 허용 → [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | ms 단위 실시간이 필요하면 Flink |
-| **상태 크기** | 수십 GB 이상 상태 → RocksDB Backend 필수 | 수 GB 이하 → HashMapStateBackend |
-| **Event Time 정확도** | 규제 보고서 등 정확한 Event Time 처리 → Flink | Processing Time으로 충분 → Spark |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구 수준</strong> | < 1초 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) -> Flink, 수 초 허용 -> [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | ms 단위 실시간이 필요하면 Flink |
+| **상태 크기** | 수십 GB 이상 상태 -> RocksDB Backend 필수 | 수 GB 이하 -> HashMapStateBackend |
+| **Event Time 정확도** | 규제 보고서 등 정확한 Event Time 처리 -> Flink | Processing Time으로 충분 -> Spark |
 | **엔지니어링 역량** | Flink는 학습 곡선이 높음,숙련도 필요 | Spark는 생태계가 큼, 커뮤니티자료다 |
 
 *(추가 실무 적용 가이드 - Flink 도입 [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))*
-- **단계 1**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구가 1초 이상입니까? → 예: Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 고려. 아니오: 다음 단계로.
-- **단계 2**: 상태 저장소로복잡な [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우, 패턴 매칭 등적상태ful 연산이 필요합니까? → 예: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) 권장. 아니오: Spark Structured Streaming도 충분.
-- **단계 3**: Event Time 순서보정가 중요합니까? (예: 금융 거래 분석, inúmer붕れ극복) → 예: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/). 아니오: 어느 쪽이든 가능.
-- **단계 4**: 팀이 이미 Spark 인프라를 보유하고 있습니까? → 예: [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 우선 고려. 아니오: Flink도 충분히 검토.
+- **단계 1**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구가 1초 이상입니까? -> 예: Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 고려. 아니오: 다음 단계로.
+- **단계 2**: 상태 저장소로복잡な [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우, 패턴 매칭 등적상태ful 연산이 필요합니까? -> 예: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) 권장. 아니오: Spark Structured Streaming도 충분.
+- **단계 3**: Event Time 순서보정가 중요합니까? (예: 금융 거래 분석, inúmer붕れ극복) -> 예: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/). 아니오: 어느 쪽이든 가능.
+- **단계 4**: 팀이 이미 Spark 인프라를 보유하고 있습니까? -> 예: [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 우선 고려. 아니오: Flink도 충분히 검토.
 
 - **📢 섹션 요약 비유**: Flink 도입 결정을 "레스토랑 종류 선택"에 비유할 수 있습니다. 만약 고객이"프렌치 디너(다도뷔페)"를 원한다면(대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 중심), 스파크는 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된대형 Kitchen배비료 자동화료대량조리시스템(마이크로배치)가 적합합니다. 하지만 고객이"손님 한 분 한 분의 주문을 받고 바로바로 요리하는 이천수사(Italian Fine Dining)"를 원한다면([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 실시간 처리), 플링크는 각 주문([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을받는 순간즉시 세iseries를 시작하는 Japanese게다마에스(레코드 단위 연속 처리)가 필수입니다.수사를대형 Buffet에서 제공할 수 없듯이, 실시간 ms 수준이 필요한 시스템에 Spark를 강제로 적용하면"손님이 30초간 다음 요리를 기다려서 식탁이 비는"비극가 벌어집니다.
 
@@ -185,14 +185,14 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 
 ```text
 [배치 처리]
-    │
-    ▼
+    |
+    v
 [마이크로 배치]
-    │
-    ▼
+    |
+    v
 [Event Stream]
-    │
-    ▼
+    |
+    v
 [Exactly-once]
 ```
 
@@ -212,7 +212,7 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 
 **진행 상황**: 76 / 262
 
-← **이전**: [24. Apache Spark 3.5 주요 개선 사항](/knowledge-base/studynote/16_bigdata/03_spark/075_spark_35_improvements/)
-**다음**: [02. Apache Kafka - 메시징에서 데이터 허브로의 진화](/knowledge-base/studynote/16_bigdata/04_streaming/077_apache_kafka/) →
+<- **이전**: [24. Apache Spark 3.5 주요 개선 사항](/knowledge-base/studynote/16_bigdata/03_spark/075_spark_35_improvements/)
+**다음**: [02. Apache Kafka - 메시징에서 데이터 허브로의 진화](/knowledge-base/studynote/16_bigdata/04_streaming/077_apache_kafka/) ->
 
 ---

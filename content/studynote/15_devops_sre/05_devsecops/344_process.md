@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | 자동화/추천 계층 | 품질 경고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추천 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 품질에 의존 |
 
 ```text
-┌──────────────┐   connect   ┌──────────────┐   enrich    ┌──────────────┐
-│ Data Sources │ ──────────▶ │ Metadata Hub │ ──────────▶ │ Policy / AI  │
-└──────────────┘             └──────────────┘             └──────────────┘
-        │                             │                            │
-        │ virtual query               │ lineage                    │ govern
-        ▼                             ▼                            ▼
-┌──────────────┐             ┌──────────────┐             ┌──────────────┐
-│ Virtual View │ ──────────▶ │ Catalog      │ ──────────▶ │ Consumers    │
-└──────────────┘             └──────────────┘             └──────────────┘
++--------------+   connect   +--------------+   enrich    +--------------+
+| Data Sources | -----------> | Metadata Hub | -----------> | Policy / AI  |
++--------------+             +--------------+             +--------------+
+        |                             |                            |
+        | virtual query               | lineage                    | govern
+        v                             v                            v
++--------------+             +--------------+             +--------------+
+| Virtual View | -----------> | Catalog      | -----------> | Consumers    |
++--------------+             +--------------+             +--------------+
 ```
 
 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 물리 이동시키지 않고도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 통해 “어디에 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는지”를 파악하고, 필요하면 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 질의나 최적화된 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 결합하는 것이다. 따라서 패브릭은 저장소를 대체하기보다 저장소 위에 얹히는 제어면(Control Plane) 성격이 강하다.
@@ -118,18 +118,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 ETL Integration
-   │
-   ▼
+   |
+   v
 Metadata Catalog
-   │
-   ▼
+   |
+   v
 Virtualization + Lineage
-   │
-   ▼
+   |
+   v
 Data Fabric with Policy Automation
 ```
 
-이 흐름은 “연결 → 이해 → [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) → 자동 통제”로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리가 발전하는 과정을 보여준다.
+이 흐름은 “연결 -> 이해 -> [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) -> 자동 통제”로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리가 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Data Fabric with Policy Automation
 
 **진행 상황**: 344 / 373
 
-← **이전**: [343. 데이터 메시 도메인 프로덕트 분산 (Data Mesh)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/343_process/)
-**다음**: [345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/345_mlops/) →
+<- **이전**: [343. 데이터 메시 도메인 프로덕트 분산 (Data Mesh)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/343_process/)
+**다음**: [345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/345_mlops/) ->
 
 ---

@@ -40,10 +40,10 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 Deployment
-   │
-   ├──► New ReplicaSet ─► Pod v2 ─► Pod v2 ─► Pod v2
-   │
-   └──► Old ReplicaSet ─► Pod v1 ─► Pod v1 (점진 축소)
+   |
+   +--► New ReplicaSet -► Pod v2 -► Pod v2 -► Pod v2
+   |
+   +--► Old ReplicaSet -► Pod v1 -► Pod v1 (점진 축소)
 ```
 
 Rolling update의 핵심은 "새 Pod가 준비되기 전에 옛 Pod를 내리지 않는 것"이다. 그래서 트래픽 분산은 Service와 readiness가 함께 책임져야 한다.
@@ -111,14 +111,14 @@ Rolling update는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02
     ### 📈 관련 키워드 및 발전 흐름도
 
     새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이미지 준비
-    │
-    ▼
+    |
+    v
 Deployment 롤링 시작
-    │
-    ▼
+    |
+    v
 readiness 통과 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 교체
-    │
-    ▼
+    |
+    v
 안정화 후 이전 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 축소
 
     ### 👶 어린이를 위한 3줄 비유 설명
@@ -133,7 +133,7 @@ readiness 통과 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_inf
 
 **진행 상황**: 86 / 371
 
-← **이전**: [86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)
-**다음**: [88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) →
+<- **이전**: [86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)
+**다음**: [88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) ->
 
 ---

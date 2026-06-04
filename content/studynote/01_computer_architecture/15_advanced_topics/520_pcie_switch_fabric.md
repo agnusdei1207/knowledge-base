@@ -36,26 +36,26 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수를 늘리는 동시에, 어디서 병목이 생길 수 있는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      switch fabric는 fan-out과 local routing을 주지만 uplink는 유한 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host / Root Complex  x16                                             │
-│          │                                                           │
-│          ▼                                                           │
-│   [ Upstream Port ]                                                  │
-│          │                                                           │
-│   ┌──────┴───────────────────────────────────────────────────────┐    │
-│   │                    PCIe Switch Fabric                         │    │
-│   │  crossbar + buffers + arbitration                             │    │
-│   ├───────────────┬───────────────────┬───────────────────────────┤    │
-│   │ Down x16      │ Down x16          │ Down x4                   │    │
-│   ▼               ▼                   ▼                           │    │
-│ GPU0  ◀── P2P ─▶  GPU1             NVMe SSD                       │    │
-│   │                                                    multi-host │    │
-│   └───────────────────────── local switching ─────────────────────┘    │
-│                                                                      │
-│ aggregate hot traffic > x16 uplink  → oversubscription bottleneck    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      switch fabric는 fan-out과 local routing을 주지만 uplink는 유한 |
++----------------------------------------------------------------------+
+| Host / Root Complex  x16                                             |
+|          |                                                           |
+|          v                                                           |
+|   [ Upstream Port ]                                                  |
+|          |                                                           |
+|   +------+-------------------------------------------------------+    |
+|   |                    PCIe Switch Fabric                         |    |
+|   |  crossbar + buffers + arbitration                             |    |
+|   +---------------+-------------------+---------------------------+    |
+|   | Down x16      | Down x16          | Down x4                   |    |
+|   v               v                   v                           |    |
+| GPU0  <--- P2P -->  GPU1             NVMe SSD                       |    |
+|   |                                                    multi-host |    |
+|   +------------------------- local switching ---------------------+    |
+|                                                                      |
+| aggregate hot traffic > x16 uplink  -> oversubscription bottleneck    |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 시 보는 포인트 |
@@ -141,18 +141,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 직접 연결 PCIe 장치
-        │
-        ▼
+        |
+        v
 lane bifurcation 기반 정적 분기
-        │
-        ▼
+        |
+        v
 PCIe 스위치 패브릭
-        │
-        ├─▶ P2P DMA
-        ├─▶ 멀티호스트 / NTB
-        ├─▶ JBOF · GPU expansion chassis
-        │
-        ▼
+        |
+        +--> P2P DMA
+        +--> 멀티호스트 / NTB
+        +--> JBOF · GPU expansion chassis
+        |
+        v
 CXL switch · composable infrastructure · 외부 패브릭 확장
 ```
 
@@ -170,7 +170,7 @@ CXL switch · composable infrastructure · 외부 패브릭 확장
 
 **진행 상황**: 520 / 803
 
-← **이전**: [519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/519_iommu_overhead/)
-**다음**: [521. NVMe 오버 패브릭 (NVMe-oF)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/521_nvme_of/) →
+<- **이전**: [519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/519_iommu_overhead/)
+**다음**: [521. NVMe 오버 패브릭 (NVMe-oF)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/521_nvme_of/) ->
 
 ---

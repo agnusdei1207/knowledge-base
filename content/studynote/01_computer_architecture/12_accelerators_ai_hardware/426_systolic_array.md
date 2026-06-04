@@ -43,22 +43,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 "입력은 가로로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 세로로, 부분합은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에서 축적된다"는 원리를 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        4×4 시스톨릭 어레이의 파동형 데이터 흐름                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 좌측 입력 A(i,k)  ───────────────────────────────▶                         │
-│ 상단 입력 B(k,j)  ───────▼                                                │
-│                ┌──────┬──────┬──────┬──────┐                              │
-│                │ PE00 │ PE01 │ PE02 │ PE03 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE10 │ PE11 │ PE12 │ PE13 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE20 │ PE21 │ PE22 │ PE23 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE30 │ PE31 │ PE32 │ PE33 │ ───────▶ 출력 C              │
-│                └──────┴──────┴──────┴──────┘                              │
-│                각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|        4×4 시스톨릭 어레이의 파동형 데이터 흐름                            |
++----------------------------------------------------------------------------+
+| 좌측 입력 A(i,k)  -------------------------------->                         |
+| 상단 입력 B(k,j)  -------v                                                |
+|                +------+------+------+------+                              |
+|                | PE00 | PE01 | PE02 | PE03 |                              |
+|                +------+------+------+------+                              |
+|                | PE10 | PE11 | PE12 | PE13 |                              |
+|                +------+------+------+------+                              |
+|                | PE20 | PE21 | PE22 | PE23 |                              |
+|                +------+------+------+------+                              |
+|                | PE30 | PE31 | PE32 | PE33 | --------> 출력 C              |
+|                +------+------+------+------+                              |
+|                각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적        |
++----------------------------------------------------------------------------+
 ```
 
 실제 행렬 곱셈에서는 A 행렬 원소가 오른쪽으로 이동하고, B 행렬 원소가 아래로 이동하면서, 각 교차점의 PE가 해당 곱을 부분합에 더한다. 클럭이 진행될수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파면이 대각선으로 퍼지고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 가득 차면 거의 모든 PE가 매 사이클 유효한 MAC을 수행한다. 이 상태가 되면 처리량은 매우 높아지고, 메모리에서 같은 값을 다시 읽는 낭비가 줄어든다.
@@ -140,19 +140,19 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 벡터 프로세서 · 배열 프로세서
-            │
-            ▼
+            |
+            v
 메모리 월 (Memory Wall) · 데이터 재사용 요구
-            │
-            ▼
+            |
+            v
 시스톨릭 어레이 (Systolic Array)
-            │
-            ├──▶ Weight Stationary / Output Stationary / Input Stationary
-            │
-            ▼
+            |
+            +---> Weight Stationary / Output Stationary / Input Stationary
+            |
+            v
 TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core
-            │
-            ▼
+            |
+            v
 저정밀도 양자화 · 3D 적층 메모리 · PIM (Processing-In-Memory)
 ```
 
@@ -170,7 +170,7 @@ TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core
 
 **진행 상황**: 427 / 803
 
-← **이전**: [425. TPU (Tensor Processing Unit)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)
-**다음**: [427. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) →
+<- **이전**: [425. TPU (Tensor Processing Unit)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)
+**다음**: [427. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ->
 
 ---

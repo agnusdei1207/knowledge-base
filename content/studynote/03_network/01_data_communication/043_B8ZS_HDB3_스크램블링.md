@@ -20,8 +20,8 @@ tags = ["studynote-network"]
 
 ```
 AMI (Alternate Mark Inversion) 코딩:
-  1 → +V 또는 -V (교대 극성)
-  0 → 0V (무전압)
+  1 -> +V 또는 -V (교대 극성)
+  0 -> 0V (무전압)
 
 문제점: 연속 0 데이터:
   입력:  0 0 0 0 0 0 0 0
@@ -31,7 +31,7 @@ AMI (Alternate Mark Inversion) 코딩:
   이유: 전이(Transition)가 없으면 클럭 복원 불가
 
   T1/E1 회선: 클럭이 데이터에서 추출됨
-  → 연속 0 = 동기 신호 없음 = 데이터 손실
+  -> 연속 0 = 동기 신호 없음 = 데이터 손실
 
 최소 1 밀도 요구사항:
   T1: 15개 0 이상 연속 금지 (기존 규칙)
@@ -50,7 +50,7 @@ AMI (Alternate Mark Inversion) 코딩:
 
 ```
 B8ZS 규칙:
-  연속 8개 0 → 특수 8비트 패턴으로 대체
+  연속 8개 0 -> 특수 8비트 패턴으로 대체
 
   마지막 1의 극성에 따라:
 
@@ -67,14 +67,14 @@ B8ZS 규칙:
   B: 이전 1과 다른 극성 (정상 AMI)
 
   패턴: B-0-0-V-B-0-V-B (8비트)
-  수신측: V 패턴 탐지 → 원래 8개 0으로 복원
+  수신측: V 패턴 탐지 -> 원래 8개 0으로 복원
 
 예시:
   입력:  1  0  0  0  0  0  0  0  0
   AMI:  +V  0  0  0  0  0  0  0  0   (동기 손실!)
   B8ZS: +V  0  0  0 +V -V  0 -V +V  (V=+V, -V 포함)
 
-  수신측: 두 번의 Violation(+V→+V) 탐지 → 00000000으로 복원
+  수신측: 두 번의 Violation(+V->+V) 탐지 -> 00000000으로 복원
 
 사용처:
   T1 (북미): 1.544Mbps, DS1 신호
@@ -89,12 +89,12 @@ B8ZS 규칙:
 
 ```
 HDB3 규칙:
-  연속 4개 0 → 특수 4비트 패턴으로 대체
+  연속 4개 0 -> 특수 4비트 패턴으로 대체
   이전 대체 이후 1의 개수에 따라 결정
 
 패턴 선택 규칙:
-  이전 1 개수가 홀수 → 000V (B=0이므로 B 생략)
-  이전 1 개수가 짝수 → B00V (B = Balancing bit)
+  이전 1 개수가 홀수 -> 000V (B=0이므로 B 생략)
+  이전 1 개수가 짝수 -> B00V (B = Balancing bit)
 
 목적:
   AMI 기본 규칙: 누적 극성 합 = 0 유지 (DC 균형)
@@ -104,14 +104,14 @@ HDB3 규칙:
 예시 (이전 1 개수 짝수):
   입력:  0  0  0  0
   HDB3: +V  0  0  -V   (직전 1이 +면 B=+V, V=-V)
-  수신측: -V 다음 +V = Violation → 0000으로 복원
+  수신측: -V 다음 +V = Violation -> 0000으로 복원
 
 예시 (이전 1 개수 홀수):
   입력:  0  0  0  0
   HDB3:  0  0  0  +V   (직전 1이 +면 V=+V)
 
 수신측 복원:
-  Violation(V) 탐지 → 해당 위치 포함 4개를 0000으로 교체
+  Violation(V) 탐지 -> 해당 위치 포함 4개를 0000으로 교체
   B bit도 제거
 
 사용처:
@@ -187,7 +187,7 @@ E1 회선 구성 (유럽/아시아 기업):
   연속 0 에러: "Line Code Violation" 카운터 증가
   show controllers T1 0/0/0:
     Line Code Violations: 0 (정상)
-    → 증가하면 B8ZS/HDB3 설정 불일치
+    -> 증가하면 B8ZS/HDB3 설정 불일치
 
 DSL과의 관계:
   ADSL/VDSL: DMT(Discrete Multi-Tone) 사용
@@ -232,7 +232,7 @@ AMI 코딩 도입, T1 개발 (Bell Labs)
       |
       v
 [B8ZS 표준화 (1983)]
-T1/D4 → ESF+B8ZS 업그레이드
+T1/D4 -> ESF+B8ZS 업그레이드
 ANSI T1.403
       |
       v
@@ -245,7 +245,7 @@ T1/E1 기반 디지털 음성+데이터
       |
       v
 [현재: IP화 진행]
-TDM(T1/E1) → IP 대체 (SIP, VoIP)
+TDM(T1/E1) -> IP 대체 (SIP, VoIP)
 레거시 T1/E1: 금융권/공공기관 잔존
 ```
 
@@ -263,7 +263,7 @@ TDM(T1/E1) → IP 대체 (SIP, VoIP)
 
 **진행 상황**: 43 / 1120
 
-← **이전**: [042. 4B/5B, 8B/10B 블록 코딩 (Block Coding)](/knowledge-base/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/)
-**다음**: [044. 변조의 필요성](/knowledge-base/studynote/03_network/01_data_communication/044_변조의_필요성/) →
+<- **이전**: [042. 4B/5B, 8B/10B 블록 코딩 (Block Coding)](/knowledge-base/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/)
+**다음**: [044. 변조의 필요성](/knowledge-base/studynote/03_network/01_data_communication/044_변조의_필요성/) ->
 
 ---

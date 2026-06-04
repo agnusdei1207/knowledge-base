@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
+    |
+    v
 [이더넷 프레임 포맷]
-    │
-    └──▶ [Preamble & SFD]
+    |
+    +---> [Preamble & SFD]
 ```
 
 - **📢 섹션 요약 비유**: ** 두 프레임 포맷은 비디오테이프 시절의 **"VHS 대 베타맥스"** 표준 전쟁과 같습니다. 공식 기관(IEEE)이 베타맥스를 밀었지만, 실제 시장에서는 사용이 직관적인 VHS([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II)가 승리하여 현재까지 쓰이고 있습니다.
@@ -43,11 +43,11 @@ tags = ["studynote-network"]
 
 ```text
 [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
+    |
+    v
 [이더넷 프레임 포맷]
-    │
-    └──▶ [Preamble & SFD]
+    |
+    +---> [Preamble & SFD]
 ```
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 포맷의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -59,25 +59,25 @@ tags = ["studynote-network"]
 두 프레임 포맷은 프리앰블(Preamble), 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 그리고 에러 검출 필드(FCS)의 배치가 완전히 동일하다. 유일한 차이는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 2바이트 필드다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │             Ethernet II vs IEEE 802.3 프레임 구조           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │  [Ethernet II (DIX 2.0)] - 현재 인터넷의 사실상 표준             │
- │  ┌────┬─────────┬─────────┬──────┬─────────────────┬─────┐  │
- │  │Pre-│목적지MAC │출발지MAC │ Type │ Data (Payload)  │ FCS │  │
- │  │(8) │  (6)    │  (6)    │ (2)  │  (46 ~ 1500)    │ (4) │  │
- │  └────┴─────────┴─────────┴──────┴─────────────────┴─────┘  │
- │                               ▲ Type > 1536 (0x0600)        │
- │                                                             │
- │  [IEEE 802.3] - LLC(802.2) 헤더를 내부에 추가로 요구함           │
- │  ┌────┬─────────┬─────────┬──────┬─────────────────┬─────┐  │
- │  │Pre-│목적지MAC │출발지MAC │Length│LLC + SNAP + Data│ FCS │  │
- │  │(8) │  (6)    │  (6)    │ (2)  │  (46 ~ 1500)    │ (4) │  │
- │  └────┴─────────┴─────────┴──────┴─────────────────┴─────┘  │
- │                               ▲ Length <= 1500 (0x05DC)     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |             Ethernet II vs IEEE 802.3 프레임 구조           |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |  [Ethernet II (DIX 2.0)] - 현재 인터넷의 사실상 표준             |
+ |  +----+---------+---------+------+-----------------+-----+  |
+ |  |Pre-|목적지MAC |출발지MAC | Type | Data (Payload)  | FCS |  |
+ |  |(8) |  (6)    |  (6)    | (2)  |  (46 ~ 1500)    | (4) |  |
+ |  +----+---------+---------+------+-----------------+-----+  |
+ |                               ^ Type > 1536 (0x0600)        |
+ |                                                             |
+ |  [IEEE 802.3] - LLC(802.2) 헤더를 내부에 추가로 요구함           |
+ |  +----+---------+---------+------+-----------------+-----+  |
+ |  |Pre-|목적지MAC |출발지MAC |Length|LLC + SNAP + Data| FCS |  |
+ |  |(8) |  (6)    |  (6)    | (2)  |  (46 ~ 1500)    | (4) |  |
+ |  +----+---------+---------+------+-----------------+-----+  |
+ |                               ^ Length <= 1500 (0x05DC)     |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 ### 2. 수신 측의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 메커니즘 (0x0600 규칙)
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 이더넷 프레임 포맷]
-    │
-    ├──▶ [확장 A: Preamble & SFD]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: Preamble & SFD]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 포맷는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…에서 출발해 현재 메커니즘을 정교화하고, 이후 Preamble & SFD와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 354 / 1120
 
-← **이전**: [232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/232_multicast_broadcast_mac_address/)
-**다음**: [234. Preamble & SFD (Start of Frame Delimiter)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/234_preamble_and_sfd_start_of_frame_delimiter/) →
+<- **이전**: [232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/232_multicast_broadcast_mac_address/)
+**다음**: [234. Preamble & SFD (Start of Frame Delimiter)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/234_preamble_and_sfd_start_of_frame_delimiter/) ->
 
 ---

@@ -23,14 +23,14 @@ tags = ["studynote-it-management"]
 
 ```text
 [ IT 경영관리의 진화 패러다임 ]
-                  
+
    1960s              1980s               2000s              2020s
- ┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
- │ EDP 관리  │ → │ MIS/정보화   │ → │ IT 거버넌스  │ → │ 디지털 거버넌스│
- │Data Proc. │    │  System화    │    │  COBIT 도입  │    │AI·ESG 포함  │
- └──────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-       │                │                  │                  │
-       ▼                ▼                  ▼                  ▼
+ +----------+    +--------------+    +--------------+    +--------------+
+ | EDP 관리  | -> | MIS/정보화   | -> | IT 거버넌스  | -> | 디지털 거버넌스|
+ |Data Proc. |    |  System화    |    |  COBIT 도입  |    |AI·ESG 포함  |
+ +----------+    +--------------+    +--------------+    +--------------+
+       |                |                  |                  |
+       v                v                  v                  v
   하드웨어 중심    SW·DB 중심       거버넌스 체계       데이터·AI·플랫폼
   "데이터 처리"    "정보 지원"      "가치 창출"        "지속가능 가치"
 ```
@@ -52,41 +52,41 @@ tags = ["studynote-it-management"]
 IT 경영관리의 핵심은 **3개 거버넌스 영역(Governance Area)**과 **5개 관리 프로세스(Management Process)**의 교차 매트릭스로 구성된다. 아래 ASCII 다이어그램은 COBIT 2019의 Governance System Architecture를 기반으로 IT 경영관리 전체 구조를 나타낸다.
 
 ```text
-        ┌─────────────────────────────────────────────────────────┐
-        │         Stakeholder Needs & Value Realization           │
-        │   (이해관계자 니즈 → 가치 실현 목표 → 기업목표 연결)      │
-        └────────────────────────┬────────────────────────────────┘
-                                 │
-        ┌────────────────────────▼────────────────────────────────┐
-        │              거버넌스 시스템 (Governance System)          │
-        │  ┌────────────────────────────────────────────────────┐  │
-        │  │  EDM: Evaluate, Direct, Monitor (5개 거버넌스 목표) │  │
-        │  │  ├─ EDM01 Governance Framework Setting             │  │
-        │  │  ├─ EDM02 Benefits Delivery                        │  │
-        │  │  ├─ EDM03 Risk Optimization                        │  │
-        │  │  ├─ EDM04 Resource Optimization                    │  │
-        │  │  └─ EDM05 Stakeholder Transparency                 │  │
-        │  └────────────────────────────────────────────────────┘  │
-        │  ┌──────────────────┐  ┌────────────────────────────┐   │
-        │  │ Alignment (정렬) │  │ Plan (계획)                │   │
-        │  │ Build (구축)      │  │   APO01-APO14 (14개)        │   │
-        │  └──────────────────┘  └────────────────────────────┘   │
-        │  ┌──────────────────┐  ┌────────────────────────────┐   │
-        │  │ Run (운영)        │  │ Monitor (모니터링)         │   │
-        │  │  BAI01-BAI11      │  │  DSS01-DSS06 + MEA01-MEA04 │   │
-        │  └──────────────────┘  └────────────────────────────┘   │
-        └─────────────────────────────────────────────────────────┘
-                                 │
-        ┌────────────────────────▼────────────────────────────────┐
-        │            핵심 구성 요소 (Components)                     │
-        │  Process | Structures | Information | People&Skills      │
-        │  Culture&Behavior | Goals | Service Infrastructure      │
-        └─────────────────────────────────────────────────────────┘
-                                 │
-        ┌────────────────────────▼────────────────────────────────┐
-        │      적용 도메인 (Design Factors & Focus Areas)            │
-        │  Strategy | Risk | Security | DevOps | Privacy | Compliance│
-        └─────────────────────────────────────────────────────────┘
+        +---------------------------------------------------------+
+        |         Stakeholder Needs & Value Realization           |
+        |   (이해관계자 니즈 -> 가치 실현 목표 -> 기업목표 연결)      |
+        +------------------------+--------------------------------+
+                                 |
+        +------------------------v--------------------------------+
+        |              거버넌스 시스템 (Governance System)          |
+        |  +----------------------------------------------------+  |
+        |  |  EDM: Evaluate, Direct, Monitor (5개 거버넌스 목표) |  |
+        |  |  +- EDM01 Governance Framework Setting             |  |
+        |  |  +- EDM02 Benefits Delivery                        |  |
+        |  |  +- EDM03 Risk Optimization                        |  |
+        |  |  +- EDM04 Resource Optimization                    |  |
+        |  |  +- EDM05 Stakeholder Transparency                 |  |
+        |  +----------------------------------------------------+  |
+        |  +------------------+  +----------------------------+   |
+        |  | Alignment (정렬) |  | Plan (계획)                |   |
+        |  | Build (구축)      |  |   APO01-APO14 (14개)        |   |
+        |  +------------------+  +----------------------------+   |
+        |  +------------------+  +----------------------------+   |
+        |  | Run (운영)        |  | Monitor (모니터링)         |   |
+        |  |  BAI01-BAI11      |  |  DSS01-DSS06 + MEA01-MEA04 |   |
+        |  +------------------+  +----------------------------+   |
+        +---------------------------------------------------------+
+                                 |
+        +------------------------v--------------------------------+
+        |            핵심 구성 요소 (Components)                     |
+        |  Process | Structures | Information | People&Skills      |
+        |  Culture&Behavior | Goals | Service Infrastructure      |
+        +---------------------------------------------------------+
+                                 |
+        +------------------------v--------------------------------+
+        |      적용 도메인 (Design Factors & Focus Areas)            |
+        |  Strategy | Risk | Security | DevOps | Privacy | Compliance|
+        +---------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -94,7 +94,7 @@ IT 경영관리의 핵심은 **3개 거버넌스 영역(Governance Area)**과 **
 | **EDM (Evaluate-Direct-Monitor)** | 이사회·경영진의 거버넌스 의사결정 체계 | COBIT 2019의 5개 거버넌스 목표(EDM01~05) — Benefit Delivery, Risk Optimization, Resource Optimization을 KPI로 측정. 이사회 사이버보안위원회(예: 사이버감사)와 직접 연결 |
 | **APO (Align, Plan, Organize)** | IT 전략·계획·조직·아키텍처 관리 | 14개 프로세스로 구성. APO02(전략), APO04(혁신), APO05(포트폴리오), APO12(위험관리), APO13(보안관리) 등이 핵심 |
 | **BAI (Build, Acquire, Implement)** | 솔루션 도입 및 변경 관리 | BAI03(솔루션 도입), BAI06(변경관리), BAI11(프로젝트관리). PRINCE2/PMP와 연계 |
-| **DSS (Deliver, Service, Support)** | IT 서비스 운영 및 지원 | ITIL 4의 Service Value Chain(Engage→Design→Obtain→Deliver→Support)과 1:1 매핑. DSS02(서비스요청), DSS03(장애관리) |
+| **DSS (Deliver, Service, Support)** | IT 서비스 운영 및 지원 | ITIL 4의 Service Value Chain(Engage->Design->Obtain->Deliver->Support)과 1:1 매핑. DSS02(서비스요청), DSS03(장애관리) |
 | **MEA (Monitor, Evaluate, Assess)** | 성과 측정 및 컴플라이언스 | MEA01(성과 모니터), MEA02(내부통제), MEA03(컴플라이언스), MEA04(감사). ISACA의 CMMI와 연계 |
 
 **IT-Business 정렬의 핵심 메커니즘 (SAMM 모델):**
@@ -102,18 +102,18 @@ IT 경영관리의 핵심은 **3개 거버넌스 영역(Governance Area)**과 **
 Henderson & Venkatraman(1993)의 **Strategic Alignment Model(SAMM)**은 4개 영역의 양방향 정렬을 정의한다:
 
 ```
-                 ┌─────────────────────┐
-                 │   BUSINESS STRATEGY │
-                 │  (사업 전략)         │
-                 └──────┬──────┬───────┘
-                        │      │
-        ┌───────────────┘      └────────────────┐
-        ▼ (External)                            ▼ (Strategy)
-  ┌──────────────┐                       ┌──────────────┐
-  │  Organization │                       │ IT Strategy  │
-  │  & Processes  │  ◀── (Operational)──▶│ & Infra      │
-  │ (조직·프로세스)│                       │(IT 전략·인프라)│
-  └──────────────┘                       └──────────────┘
+                 +---------------------+
+                 |   BUSINESS STRATEGY |
+                 |  (사업 전략)         |
+                 +------+------+-------+
+                        |      |
+        +---------------+      +----------------+
+        v (External)                            v (Strategy)
+  +--------------+                       +--------------+
+  |  Organization |                       | IT Strategy  |
+  |  & Processes  |  <--- (Operational)--->| & Infra      |
+  | (조직·프로세스)|                       |(IT 전략·인프라)|
+  +--------------+                       +--------------+
 ```
 
 **성과 측정의 4관점 BSC (Balanced Scorecard, Kaplan & Norton 1992):**
@@ -123,7 +123,7 @@ Henderson & Venkatraman(1993)의 **Strategic Alignment Model(SAMM)**은 4개 영
 - **내부 프로세스 관점(Internal Process)**: 변경 성공률, MTTR(Mean Time To Repair), 가용성(Availability)
 - **학습·성장 관점(Learning & Growth)**: 직원 역량 지수, 디지털 전환 교육 이수율, 혁신 아이디어 채택률
 
-**📢 섹션 요약 비유**: IT 거버넌스의 EDM-APO-BAI-DSS-MEA 5단계 구조는 **항공기의 비행 사이클(Plan→Build→Fly→Land→Review)**과 같습니다. 이사회가 '비행계획'을 승인(EDM), 파일럿이 '연료·경로 점검'(APO), 정비사가 '기체 조립'(BAI), 조종사가 '운항'(DSS), 관제탑이 '사후 분석'(MEA)을 담당합니다.
+**📢 섹션 요약 비유**: IT 거버넌스의 EDM-APO-BAI-DSS-MEA 5단계 구조는 **항공기의 비행 사이클(Plan->Build->Fly->Land->Review)**과 같습니다. 이사회가 '비행계획'을 승인(EDM), 파일럿이 '연료·경로 점검'(APO), 정비사가 '기체 조립'(BAI), 조종사가 '운항'(DSS), 관제탑이 '사후 분석'(MEA)을 담당합니다.
 
 ---
 
@@ -144,30 +144,30 @@ IT 경영관리 영역은 다수의 표준 프레임워크가 공존하며, 실�
 **4대 프레임워크의 통합 관계도:**
 
 ```text
-        ┌──────────── ISO 38500 ────────────┐
-        │  (6 Principles: Responsibility,   │
-        │   Strategy, Acquisition,          │
-        │   Performance, Conformance,       │
-        │   Human Behavior)                 │
-        └─────────────┬─────────────────────┘
-                      │ 거버넌스 원칙 제공
-                      ▼
-        ┌──────────── COBIT 2019 ───────────┐  ──▶ 감사·컴플라이언스
-        │  (Governance & Management         │       연계: SOX, ISAE 3402
-        │   Objectives: 40 Processes)       │
-        └─────────────┬─────────────────────┘
-                      │ 운영 가이드 제공
-                      ▼
-        ┌──────────── ITIL 4 ───────────────┐
-        │  (Service Value System:           │
-        │   Opportunity/Demand/Value)        │
-        └─────────────┬─────────────────────┘
-                      │ 성숙도 측정
-                      ▼
-        ┌──────────── CMMI 2.0 ─────────────┐
-        │  (Maturity Level 1-5,             │
-        │   Performance Areas)              │
-        └───────────────────────────────────┘
+        +------------ ISO 38500 ------------+
+        |  (6 Principles: Responsibility,   |
+        |   Strategy, Acquisition,          |
+        |   Performance, Conformance,       |
+        |   Human Behavior)                 |
+        +-------------+---------------------+
+                      | 거버넌스 원칙 제공
+                      v
+        +------------ COBIT 2019 -----------+  ---> 감사·컴플라이언스
+        |  (Governance & Management         |       연계: SOX, ISAE 3402
+        |   Objectives: 40 Processes)       |
+        +-------------+---------------------+
+                      | 운영 가이드 제공
+                      v
+        +------------ ITIL 4 ---------------+
+        |  (Service Value System:           |
+        |   Opportunity/Demand/Value)        |
+        +-------------+---------------------+
+                      | 성숙도 측정
+                      v
+        +------------ CMMI 2.0 -------------+
+        |  (Maturity Level 1-5,             |
+        |   Performance Areas)              |
+        +-----------------------------------+
 ```
 
 **관련 표준·도구와의 연계:**
@@ -184,12 +184,12 @@ IT 경영관리 영역은 다수의 표준 프레임워크가 공존하며, 실�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-IT 경영관리의 실무 도입은 **거버넌스 성숙도 진단 → 비전 수립
+IT 경영관리의 실무 도입은 **거버넌스 성숙도 진단 -> 비전 수립
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 723 / 800
 
-← **이전**: [722. IT 경영 관리 핵심 토픽 722번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/722_it_management_core_topic_722_exam_summary/)
-**다음**: [724. IT 경영 관리 핵심 토픽 724번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/724_it_management_core_topic_724_exam_summary/) →
+<- **이전**: [722. IT 경영 관리 핵심 토픽 722번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/722_it_management_core_topic_722_exam_summary/)
+**다음**: [724. IT 경영 관리 핵심 토픽 724번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/724_it_management_core_topic_724_exam_summary/) ->
 
 ---

@@ -28,17 +28,17 @@ RISC가 등장한 배경에는 [CISC](/knowledge-base/studynote/01_computer_arch
 아래 그림은 왜 RISC가 필요해졌는지, 불규칙한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 규칙적인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 파이프라인에 어떤 차이를 만드는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│     RISC의 출발점: 복잡한 명령보다 예측 가능한 흐름이 중요     │
-├──────────────────────────────────────────────────────────────┤
-│ CISC 성향                                                   │
-│ 가변 길이 명령어 ─▶ 복잡한 해독 ─▶ 긴 실행 편차 ─▶ Stall 증가 │
-│                                                              │
-│ RISC 성향                                                   │
-│ 고정 길이 명령어 ─▶ 단순한 해독 ─▶ 균일한 실행 ─▶ 흐름 안정    │
-│                                                              │
-│ 목표: "강한 한 방"보다 "매 클럭 꾸준히 처리"                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|     RISC의 출발점: 복잡한 명령보다 예측 가능한 흐름이 중요     |
++--------------------------------------------------------------+
+| CISC 성향                                                   |
+| 가변 길이 명령어 --> 복잡한 해독 --> 긴 실행 편차 --> Stall 증가 |
+|                                                              |
+| RISC 성향                                                   |
+| 고정 길이 명령어 --> 단순한 해독 --> 균일한 실행 --> 흐름 안정    |
+|                                                              |
+| 목표: "강한 한 방"보다 "매 클럭 꾸준히 처리"                  |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 RISC가 단순히 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 줄인 구조가 아니라, <strong>처리 흐름의 불확실성을 줄인 구조</strong>라는 점이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 예측 가능해질수록 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/), [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/), 파이프라인, 캐시 전단부 설계가 모두 쉬워진다.
@@ -63,18 +63,18 @@ RISC의 핵심 원리는 세 가지로 정리할 수 있다. 첫째, [명령어 
 아래 그림은 전형적인 RISC 실행 흐름을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          RISC 실행 모델: 메모리와 연산 경로를 분리            │
-├──────────────────────────────────────────────────────────────┤
-│ 1. IF  (Instruction Fetch)   : 명령어 인출                   │
-│ 2. ID  (Instruction Decode)  : 필드 해독, 레지스터 읽기      │
-│ 3. EX  (Execute)             : ALU (Arithmetic Logic Unit)   │
-│ 4. MEM (Memory Access)       : 필요 시 Load/Store 수행       │
-│ 5. WB  (Write Back)          : 결과 레지스터 기록            │
-│                                                              │
-│ 산술 명령: IF ─▶ ID ─▶ EX ───────────────▶ WB                │
-│ 메모리 명령: IF ─▶ ID ─▶ EX ─▶ MEM ───────▶ WB               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          RISC 실행 모델: 메모리와 연산 경로를 분리            |
++--------------------------------------------------------------+
+| 1. IF  (Instruction Fetch)   : 명령어 인출                   |
+| 2. ID  (Instruction Decode)  : 필드 해독, 레지스터 읽기      |
+| 3. EX  (Execute)             : ALU (Arithmetic Logic Unit)   |
+| 4. MEM (Memory Access)       : 필요 시 Load/Store 수행       |
+| 5. WB  (Write Back)          : 결과 레지스터 기록            |
+|                                                              |
+| 산술 명령: IF --> ID --> EX ----------------> WB                |
+| 메모리 명령: IF --> ID --> EX --> MEM --------> WB               |
++--------------------------------------------------------------+
 ```
 
 이 구조에서 중요한 것은 모든 명령이 동일한 일을 하는 것이 아니라, <strong>동일한 틀 안에서 움직인다</strong>는 점이다. 그래서 파이프라인 제어가 단순해지고, [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))를 1에 가깝게 유지하려는 설계가 가능해진다. 물론 실제 제품에서는 분기, 캐시 미스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성 때문에 CPI가 정확히 1이 되지는 않지만, RISC는 그 목표를 향해 하드웨어를 가장 규칙적으로 만드는 접근이다.
@@ -119,20 +119,20 @@ RISC는 파이프라인과 슈퍼스칼라, [분기 예측](/knowledge-base/stud
 아래 그림은 실무 판단의 기준선을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             RISC 채택 판단: 구조보다 목표가 먼저다            │
-├──────────────────────────────────────────────────────────────┤
-│ 신규 설계인가?                                               │
-│   ├─ 예 ─▶ 전력/면적/확장성 중요? ─▶ RISC 우선 검토          │
-│   │                                                          │
-│   └─ 아니오                                                  │
-│         └─ 기존 x86 생태계 의존 큼? ─▶ 전환 비용 정밀 검토   │
-│                                                              │
-│ 추가 체크포인트                                              │
-│   • 컴파일러/툴체인 성숙도                                   │
-│   • 코드 크기와 캐시 제약                                    │
-│   • 운영체제/드라이버/애플리케이션 호환성                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             RISC 채택 판단: 구조보다 목표가 먼저다            |
++--------------------------------------------------------------+
+| 신규 설계인가?                                               |
+|   +- 예 --> 전력/면적/확장성 중요? --> RISC 우선 검토          |
+|   |                                                          |
+|   +- 아니오                                                  |
+|         +- 기존 x86 생태계 의존 큼? --> 전환 비용 정밀 검토   |
+|                                                              |
+| 추가 체크포인트                                              |
+|   • 컴파일러/툴체인 성숙도                                   |
+|   • 코드 크기와 캐시 제약                                    |
+|   • 운영체제/드라이버/애플리케이션 호환성                    |
++--------------------------------------------------------------+
 ```
 
 기술사 답안에서는 "RISC는 빠르고 CISC는 느리다"처럼 단순화하면 감점 포인트가 된다. 정확한 표현은 <strong>신규 설계·전력 효율·단순 디코딩·확장성 측면에서는 RISC가 유리하지만, 기존 소프트웨어 자산과 코드 밀도 측면에서는 별도 보완과 전환 전략이 필요하다</strong>는 식이어야 한다.
@@ -174,22 +174,22 @@ RISC의 가장 큰 효과는 하드웨어 설계를 예측 가능하게 만든�
 
 ```text
 복잡한 명령어 중심 설계
-        │
-        ▼
+        |
+        v
 단순 명령 + 고정 길이 형식
-        │
-        ▼
+        |
+        v
 Load/Store + 레지스터 중심 실행
-        │
-        ▼
+        |
+        v
 파이프라인 · 슈퍼스칼라 최적화
-        │
-        ├─▶ ARM 기반 저전력 확산
-        ├─▶ RISC-V 개방형 생태계 확대
-        └─▶ 압축 명령어 · 벡터 확장으로 실용성 보완
+        |
+        +--> ARM 기반 저전력 확산
+        +--> RISC-V 개방형 생태계 확대
+        +--> 압축 명령어 · 벡터 확장으로 실용성 보완
 ```
 
-이 흐름은 RISC가 단순한 반대 개념이 아니라, <strong>단순성 → 규칙성 → <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 → 생태계 확장</strong>으로 이어진 설계 철학임을 보여준다.
+이 흐름은 RISC가 단순한 반대 개념이 아니라, <strong>단순성 -> 규칙성 -> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 -> 생태계 확장</strong>으로 이어진 설계 철학임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -203,7 +203,7 @@ Load/Store + 레지스터 중심 실행
 
 **진행 상황**: 195 / 803
 
-← **이전**: [194. 3-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/194_3_address_instruction/)
-**다음**: [196. CISC (Complex Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) →
+<- **이전**: [194. 3-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/194_3_address_instruction/)
+**다음**: [196. CISC (Complex Instruction Set Computer)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) ->
 
 ---

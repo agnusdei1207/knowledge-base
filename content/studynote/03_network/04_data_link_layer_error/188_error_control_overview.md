@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [비트 스터핑]
-    │
-    ▼
+    |
+    v
 [오류 제어 개요]
-    │
-    └──▶ [비트 에러율]
+    |
+    +---> [비트 에러율]
 ```
 
 - **📢 섹션 요약 비유**: 오류 제어 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 
 ```text
 [비트 스터핑]
-    │
-    ▼
+    |
+    v
 [오류 제어 개요]
-    │
-    └──▶ [비트 에러율]
+    |
+    +---> [비트 에러율]
 ```
 
 - **📢 섹션 요약 비유**: 오류 제어 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 비트 스터핑]
-    │
-    ▼
+    |
+    v
 [현재 개념: 오류 제어 개요]
-    │
-    ├──▶ [확장 A: 비트 에러율]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 비트 에러율]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 오류 제어 개요는 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 309 / 1120
 
-← **이전**: [187. 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)
-**다음**: [189. 비트 에러율 (BER, Bit Error Rate)](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/) →
+<- **이전**: [187. 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)
+**다음**: [189. 비트 에러율 (BER, Bit Error Rate)](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/) ->
 
 ---

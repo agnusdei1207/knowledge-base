@@ -28,8 +28,8 @@ tags = ["studynote-ict-convergence"]
 - **공정성(Fairness)**: 인종·성별 등 민감 속성에 의한 편향 탐지
 
 **해석 범위**
-- **전역(Global) 해석**: 전체 모델 동작 이해 → [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))
-- **국소(Local) 해석**: 특정 예측 한 건에 대한 근거 → [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/), [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 개별 예측
+- **전역(Global) 해석**: 전체 모델 동작 이해 -> [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))
+- **국소(Local) 해석**: 특정 예측 한 건에 대한 근거 -> [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/), [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 개별 예측
 
 - **📢 섹션 요약 비유**: 블랙박스 AI는 "정답은 A야"라고만 말하는 판사이고, XAI는 "왜냐하면 나이가 45세 이상이고 콜레스테롤이 높기 때문이야"라고 판결문을 써주는 판사다.
 
@@ -39,11 +39,11 @@ tags = ["studynote-ict-convergence"]
 
 ```
 원본 예측
-    │
-    ├─── LIME ────► 국소 선형 근사 ──► "이 예측에서 X₁가 +0.3 기여"
-    │               (Perturbation 샘플링)
-    │
-    └─── SHAP ────► 섀플리값 계산 ───► "전체 평균 대비 X₂가 -0.15 기여"
+    |
+    +--- LIME ----► 국소 선형 근사 --► "이 예측에서 X₁가 +0.3 기여"
+    |               (Perturbation 샘플링)
+    |
+    +--- SHAP ----► 섀플리값 계산 ---► "전체 평균 대비 X₂가 -0.15 기여"
                     (연합 게임 이론)
 ```
 
@@ -51,7 +51,7 @@ tags = ["studynote-ict-convergence"]
 1. 예측하려는 샘플 x 주변에 약한 변형(Perturbation) 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 블랙박스 모델로 각 변형 샘플의 예측값 획득
 3. x에 가까울수록 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여
-4. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 적용 선형 모델(Ridge Regression) 학습 → 계수가 각 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기여도
+4. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 적용 선형 모델(Ridge Regression) 학습 -> 계수가 각 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기여도
 
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a> 작동 원리</strong>
 게임 이론의 섀플리 값(Shapley Value): 협동 게임에서 각 플레이어의 공정한 기여도를 모든 가능한 연합 순서의 평균으로 계산.
@@ -78,7 +78,7 @@ $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(
 
 | 모델 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 복잡도 |
 |:---:|:---:|:---:|
-| Tree 계열(XGBoost, LightGBM) | TreeSHAP | O(TLD²) - 빠름 |
+| Tree 계열(XGBoost, LightGBM) | TreeSHAP | O(TLD^) - 빠름 |
 | 딥러닝 | DeepSHAP, GradientSHAP | 근사 |
 | 선형 모델 | LinearSHAP | 정확, 빠름 |
 | 임의 모델 | KernelSHAP | 느림 |
@@ -96,15 +96,15 @@ $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(
 
 <strong>적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>
 
-1. **의료**: 암 진단 모델 → 어떤 유전자 마커가 양성 예측에 기여했는지 의사에게 제공
+1. **의료**: 암 진단 모델 -> 어떤 유전자 마커가 양성 예측에 기여했는지 의사에게 제공
 2. **신용 대출**: 대출 거절 시 "소득 수준(-0.8), 연체 이력(-1.2)"으로 거절 사유 고객 통보
 3. **자율주행**: 급제동 판단 시 "보행자 감지(+2.1)"가 주요 원인임을 로그로 기록
 
 **기술사 판단 포인트**
 
-- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> 단점</strong>: 샘플링 노이즈로 동일 입력에 다른 설명 가능 → 의료처럼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요한 분야엔 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 권장
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> 단점</strong>: 샘플링 노이즈로 동일 입력에 다른 설명 가능 -> 의료처럼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요한 분야엔 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 권장
 - **TreeSHAP**: 트리 기반 모델에서 정확하고 빠른 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) — 금융 스코어링에 실질적 선택지
-- <strong>EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act 고위험 시스템</strong>: Level 3(고위험)은 설명 가능성 문서화 의무 → [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 리포트 자동화 파이프라인 구축 필요
+- <strong>EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act 고위험 시스템</strong>: Level 3(고위험)은 설명 가능성 문서화 의무 -> [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 리포트 자동화 파이프라인 구축 필요
 
 - **📢 섹션 요약 비유**: AI가 "너는 대출 불가"라고만 하면 억울하지만, "소득이 부족해서(-70%), 연체 이력 때문에(-30%)"라고 하면 납득할 수 있다.
 
@@ -133,7 +133,7 @@ XAI는 AI의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[XAI 국소 · 국소 선형 근사 설명] → [XAI · LIME] → [규제 · XAI 법적 의무화 근거]
+[XAI 국소 · 국소 선형 근사 설명] -> [XAI · LIME] -> [규제 · XAI 법적 의무화 근거]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -148,7 +148,7 @@ XAI는 AI의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 
 **진행 상황**: 469 / 552
 
-← **이전**: [468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)
-**다음**: [470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/470_adversarial_attack_poisoning_evasion/) →
+<- **이전**: [468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)
+**다음**: [470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/470_adversarial_attack_poisoning_evasion/) ->
 
 ---

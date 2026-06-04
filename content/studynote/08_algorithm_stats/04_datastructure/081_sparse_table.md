@@ -25,8 +25,8 @@ tags = ["studynote-algorithm-stats"]
 RMQ(l, r) = [l, r] 범위에서 최솟값 쿼리
 예: RMQ(1, 5) = min(4, 3, 1, 6, 7) = 1
 
-나이브 방법: O(n) 쿼리 → 쿼리 Q개면 O(nQ)
-스파스 테이블: O(n log n) 전처리 → O(1) 쿼리
+나이브 방법: O(n) 쿼리 -> 쿼리 Q개면 O(nQ)
+스파스 테이블: O(n log n) 전처리 -> O(1) 쿼리
 ```
 
 - **📢 섹션 요약 비유**: 스파스 테이블은 미리 만들어둔 구간 최솟값 치트시트다. 모든 구간의 답을 미리 계산해두면(치트시트 준비), 질문이 들어왔을 때 즉시 답할 수 있다(O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)).
@@ -58,7 +58,7 @@ RMQ(l, r):
   min(st[2][1], st[2][4-4+1]) = min(st[2][1], st[2][1])
   = min(min(4,3,1,6), ...) = 1
 
-왜 O(1)? 겹쳐도 min은 멱등성 → 두 구간이 겹쳐도 정답
+왜 O(1)? 겹쳐도 min은 멱등성 -> 두 구간이 겹쳐도 정답
 ```
 
 - **📢 섹션 요약 비유**: 겹침 허용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 긴 자 하나로 두 번 재는 것이다. 1m짜리 자로 왼쪽 끝에서 1m, 오른쪽 끝에서 1m 재면 겹치지만, min(최솟값)은 겹쳐도 정답이 변하지 않는다.
@@ -81,12 +81,12 @@ RMQ(l, r):
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/) (Lowest Common Ancestor) 응용
-- 트리를 오일러 투어(Euler Tour)로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 변환 → RMQ 문제로 환원.
+- 트리를 오일러 투어(Euler Tour)로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 변환 -> RMQ 문제로 환원.
 - Farach-Colton and Bender [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/): 스파스 테이블로 [LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/) O(1) 달성.
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 대회 적용
-- 구간 최솟값/최댓값 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수 Q, 업데이트 없음 → 스파스 테이블 O(n log n + Q).
-- 구간 합 + 업데이트 → [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)/[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/).
+- 구간 최솟값/최댓값 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수 Q, 업데이트 없음 -> 스파스 테이블 O(n log n + Q).
+- 구간 합 + 업데이트 -> [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)/[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/).
 
 - **📢 섹션 요약 비유**: [LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/)+스파스 테이블은 가계도에서 공통 조상을 즉시 찾는 시스템이다. 가계도(트리)를 미리 정리해두면(전처리), 어떤 두 사람의 공통 조상도 즉시(O(1)) 확인할 수 있다.
 
@@ -114,23 +114,23 @@ RMQ(l, r):
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a></strong> | 구간 겹침 허용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 이론적 근거 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/">LCA</a></strong> | 스파스 테이블의 대표 응용 문제 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | 동적 갱신이 필요할 때의 대안 |
-| **오일러 투어** | 트리 → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) RMQ 변환 기법 |
+| **오일러 투어** | 트리 -> [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) RMQ 변환 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [나이브 RMQ — O(n) 쿼리, 단순 순회]
-    │
-    ▼
+    |
+    v
 [스파스 테이블 — O(n log n) 전처리, O(1) 쿼리]
-    │
-    ▼
+    |
+    v
 [LCA 결합 — 트리 공통 조상 O(1) 탐색]
-    │
-    ▼
+    |
+    v
 [세그먼트 트리 — 동적 갱신 + 구간 쿼리]
-    │
-    ▼
+    |
+    v
 [퍼시스턴트 세그먼트 트리 — 버전별 히스토리 쿼리]
 ```
 
@@ -146,7 +146,7 @@ RMQ(l, r):
 
 **진행 상황**: 81 / 175
 
-← **이전**: [27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)
-**다음**: [28. 블룸 필터 (Bloom Filter)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/082_bloom_filter/) →
+<- **이전**: [27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)
+**다음**: [28. 블룸 필터 (Bloom Filter)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/082_bloom_filter/) ->
 
 ---

@@ -24,20 +24,20 @@ tags = ["studynote-design-supervision"]
 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이 문제를 근본적으로 해결한다. 현재 잔액 대신 "100원 입금", "50원 출금", "200원 입금" 같은 이벤트들을 순서대로 저장한다. 현재 잔액(250원)은 이 이벤트들을 재생하여 계산한다. 어떤 시점의 잔액도 해당 시점까지의 이벤트를 재생하면 알 수 있다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│        이벤트 소싱 vs 전통 CRUD 저장 방식 비교              │
-├─────────────────────────────────────────────────────────────┤
-│  [전통 CRUD] - 현재 상태만 저장                              │
-│  계좌 잔액: 250원 (이력 없음)                                │
-│                                                             │
-│  [이벤트 소싱] - 이벤트 스트림 저장                          │
-│  이벤트 #1: AccountOpened(balance=0)  @2026-01-01           │
-│  이벤트 #2: MoneyDeposited(amount=100) @2026-01-02          │
-│  이벤트 #3: MoneyWithdrawn(amount=50)  @2026-01-03          │
-│  이벤트 #4: MoneyDeposited(amount=200) @2026-01-04          │
-│                                                             │
-│  현재 상태 = 이벤트 #1~#4 순차 재생 → 잔액 250원            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|        이벤트 소싱 vs 전통 CRUD 저장 방식 비교              |
++-------------------------------------------------------------+
+|  [전통 CRUD] - 현재 상태만 저장                              |
+|  계좌 잔액: 250원 (이력 없음)                                |
+|                                                             |
+|  [이벤트 소싱] - 이벤트 스트림 저장                          |
+|  이벤트 #1: AccountOpened(balance=0)  @2026-01-01           |
+|  이벤트 #2: MoneyDeposited(amount=100) @2026-01-02          |
+|  이벤트 #3: MoneyWithdrawn(amount=50)  @2026-01-03          |
+|  이벤트 #4: MoneyDeposited(amount=200) @2026-01-04          |
+|                                                             |
+|  현재 상태 = 이벤트 #1~#4 순차 재생 -> 잔액 250원            |
++-------------------------------------------------------------+
 ```
 
 이벤트는 append-only로만 저장된다. 한번 기록된 이벤트는 수정하거나 삭제하지 않는다. 이 불변성(immutability)이 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적의 신뢰성을 보장한다.
@@ -58,16 +58,16 @@ tags = ["studynote-design-supervision"]
 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 특정 시점 상태 저장으로 재생 최적화 | N번째 이벤트마다 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│      스냅샷을 통한 이벤트 재생 최적화                        │
-├─────────────────────────────────────────────────────────────┤
-│  이벤트 스트림:                                             │
-│  E1 E2 E3 ... E500 [스냅샷] E501 E502 ... E750 [스냅샷] ... │
-│                                                             │
-│  현재 상태 복원 시:                                         │
-│  가장 최근 스냅샷 로드 + 스냅샷 이후 이벤트만 재생          │
-│  (전체 이벤트 재생 불필요 → 성능 최적화)                    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|      스냅샷을 통한 이벤트 재생 최적화                        |
++-------------------------------------------------------------+
+|  이벤트 스트림:                                             |
+|  E1 E2 E3 ... E500 [스냅샷] E501 E502 ... E750 [스냅샷] ... |
+|                                                             |
+|  현재 상태 복원 시:                                         |
+|  가장 최근 스냅샷 로드 + 스냅샷 이후 이벤트만 재생          |
+|  (전체 이벤트 재생 불필요 -> 성능 최적화)                    |
++-------------------------------------------------------------+
 ```
 
 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화가 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 기술 도전이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 정의한 이벤트 구조가 비즈니스 변화로 바뀌어야 할 때, 이미 저장된 이벤트를 변경할 수 없으므로 업캐스팅(upcasting) 기법으로 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이벤트를 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 변환하여 처리한다.
@@ -123,7 +123,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📌 관련 개념 맵
 
-[CRUD 이력 소실 문제] → [이벤트 소싱] → [애그리게이트] → CQRS 읽기 모델] → [감사 추적·시간 여행]
+[CRUD 이력 소실 문제] -> [이벤트 소싱] -> [애그리게이트] -> CQRS 읽기 모델] -> [감사 추적·시간 여행]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -134,7 +134,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[CRUD 상태 덮어쓰기] → [이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 패턴] → [이벤트 소싱 패턴(그렉 영)] → CQRS+[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 결합] → [EventStoreDB] → [블록체인·ML 이벤트 스트림 활용]
+[CRUD 상태 덮어쓰기] -> [이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 패턴] -> [이벤트 소싱 패턴(그렉 영)] -> CQRS+[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 결합] -> [EventStoreDB] -> [블록체인·ML 이벤트 스트림 활용]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 178 / 530
 
-← **이전**: [121. CQRS 패턴 (Command Query Responsibility Segregation)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/121_cqrs_pattern/)
-**다음**: [123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/123_msa_microservices_architecture/) →
+<- **이전**: [121. CQRS 패턴 (Command Query Responsibility Segregation)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/121_cqrs_pattern/)
+**다음**: [123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/123_msa_microservices_architecture/) ->
 
 ---

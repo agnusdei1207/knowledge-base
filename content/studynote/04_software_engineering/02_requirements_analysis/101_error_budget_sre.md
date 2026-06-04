@@ -30,24 +30,24 @@ tags = ["software_engineering"]
 에러 예산은 정성적인 감정이 아니라, 철저하게 수학적인 산출 공식과 규칙에 의해 작동하는 운영 룰 엔진이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             에러 예산(Error Budget)의 산출과 작동 메커니즘         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  1. SLO (목표 가동률) 설정 합의:                                  │
-│     비즈니스 부서와 타협하여 월간 목표 가용성을 "99.9%"로 합의.        │
-│                                                              │
-│  2. 에러 예산 도출 공식:                                         │
-│     에러 예산 = 100% - SLO(99.9%) = 0.1%                       │
-│                                                              │
-│  3. 실제 허용 시간 환산:                                         │
-│     1개월(30일) = 43,200분.                                   │
-│     43,200분 × 0.1% = 약 43.2분 (합법적 서버 다운타임 허용량!)      │
-│                                                              │
-│  4. 운영 정책 자동 분기 (Policy Trigger):                        │
-│     [잔여 예산 > 0] ──▶ 개발팀의 무제한 신규 배포 허용 (혁신 가속)    │
-│     [잔여 예산 = 0] ──▶ 배포 즉시 동결 (Code Freeze). 안정화 투입   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             에러 예산(Error Budget)의 산출과 작동 메커니즘         |
++--------------------------------------------------------------+
+|                                                              |
+|  1. SLO (목표 가동률) 설정 합의:                                  |
+|     비즈니스 부서와 타협하여 월간 목표 가용성을 "99.9%"로 합의.        |
+|                                                              |
+|  2. 에러 예산 도출 공식:                                         |
+|     에러 예산 = 100% - SLO(99.9%) = 0.1%                       |
+|                                                              |
+|  3. 실제 허용 시간 환산:                                         |
+|     1개월(30일) = 43,200분.                                   |
+|     43,200분 × 0.1% = 약 43.2분 (합법적 서버 다운타임 허용량!)      |
+|                                                              |
+|  4. 운영 정책 자동 분기 (Policy Trigger):                        |
+|     [잔여 예산 > 0] ---> 개발팀의 무제한 신규 배포 허용 (혁신 가속)    |
+|     [잔여 예산 = 0] ---> 배포 즉시 동결 (Code Freeze). 안정화 투입   |
++--------------------------------------------------------------+
 ```
 
 이 도식의 핵심은 남은 예산 43분이 부서 간 이기주의를 부수는 절대 권력이 된다는 점이다. 예산 잔고가 남아있는 한, 운영팀은 개발팀이 실험적인 코드를 라이브 서버에 배포하는 것을 막을 명분이 없다. 반대로 개발팀의 잦은 릴리즈나 롤백으로 인해 서버가 죽어 43분을 모두 소진하면, 즉시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 스위치가 내려가 이번 달 말일까지는 신규 기능 배포가 완전히 통제되고 전원이 버그 픽스와 인프라 안정화에만 매달려야 한다.
@@ -111,20 +111,20 @@ tags = ["software_engineering"]
 
 ```text
 전통적 IT 운영 (Ops)의 무결점 완벽주의 (100% 가용성 추구)
-    │
-    ▼
+    |
+    v
 개발팀(혁신 속도)과 운영팀(안정성 유지) 간의 극심한 충돌 발생
-    │
-    ▼
+    |
+    v
 SRE 철학 대두: "100% 완벽은 비즈니스적 낭비이자 환상"
-    │
-    ▼
+    |
+    v
 SLO (서비스 수준 목표) 타협 및 에러 예산 (Error Budget) 도출
-    │
-    ▼
+    |
+    v
 잔여 예산에 따른 파이프라인 자동 제어 (Code Freeze 연동)
-    │
-    ▼
+    |
+    v
 카오스 엔지니어링 (Chaos Engineering)을 통한 잔여 예산 능동 활용
 ```
 
@@ -139,7 +139,7 @@ SLO (서비스 수준 목표) 타협 및 에러 예산 (Error Budget) 도출
 
 **진행 상황**: 101 / 973
 
-← **이전**: [100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
-**다음**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) →
+<- **이전**: [100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
+**다음**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ->
 
 ---

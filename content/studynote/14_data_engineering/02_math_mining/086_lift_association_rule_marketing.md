@@ -81,7 +81,7 @@ Lift는 같이 자주 보이는 것과 정말 의미 있게 연결된 것을 구
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-거래 데이터 → 빈발 항목집합 → 규칙 생성 → Support/Confidence 필터링 → Lift 계산 → 마케팅 적용
+거래 데이터 -> 빈발 항목집합 -> 규칙 생성 -> Support/Confidence 필터링 -> Lift 계산 -> 마케팅 적용
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -96,7 +96,7 @@ Lift는 같이 자주 보이는 것과 정말 의미 있게 연결된 것을 구
 
 **진행 상황**: 86 / 258
 
-← **이전**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)
-**다음**: [87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출](/knowledge-base/studynote/14_data_engineering/02_math_mining/087_fp_growth_algorithm_frequent_pattern_tree/) →
+<- **이전**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)
+**다음**: [87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출](/knowledge-base/studynote/14_data_engineering/02_math_mining/087_fp_growth_algorithm_frequent_pattern_tree/) ->
 
 ---

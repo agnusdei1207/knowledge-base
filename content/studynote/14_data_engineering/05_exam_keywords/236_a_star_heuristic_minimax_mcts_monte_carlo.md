@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: A*([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 h(n)을 이용해 최단 경로를 효율적으로 탐색하며, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/))는 게임 트리에서 상대의 최선과 자신의 최선을 교차 선택해 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 찾는다.
 > 2. **가치**: [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)(Monte Carlo Tree Search)는 경우의 수가 폭발적으로 많은 바둑·체스에서 무작위 시뮬레이션 통계를 활용해 완전 탐색 없이 강력한 수를 선택하며, AlphaGo의 핵심 엔진이다.
-> 3. **판단 포인트**: 탐색 공간 크기와 실시간 요건에 따라 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)(작은 공간)→A*(경로 찾기)→알파-베타(게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))→[MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)(복잡 게임) 순으로 방법론을 선택한다.
+> 3. **판단 포인트**: 탐색 공간 크기와 실시간 요건에 따라 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)(작은 공간)->A*(경로 찾기)->알파-베타(게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))->[MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)(복잡 게임) 순으로 방법론을 선택한다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -55,28 +55,28 @@ AI가 해결해야 하는 많은 문제는 <strong>상태 공간(<a href="/knowl
 
 허용적 휴리스틱 (Admissible Heuristic):
   h(n) ≤ h*(n)  (실제 비용 이하)
-  → 과소 추정 → 최적 경로 보장
+  -> 과소 추정 -> 최적 경로 보장
 
 대표 휴리스틱:
   맨하탄 거리: |x1-x2| + |y1-y2|  (격자 이동)
-  유클리드 거리: √((x1-x2)² + (y1-y2)²)  (직선 이동)
+  유클리드 거리: √((x1-x2)^ + (y1-y2)^)  (직선 이동)
 ```
 
 **A* 탐색 과정 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)**
 ```
   S = 시작, G = 목표, 숫자 = g(n), 괄호 = h(n)
 
-  S ──3──> A ──4──> G
-  │       (4)      (0)
-  │(7)
-  └──5──> B ──2──> C ──1──> G
+  S --3--> A --4--> G
+  |       (4)      (0)
+  |(7)
+  +--5--> B --2--> C --1--> G
          (3)      (1)
 
   A*가 선택하는 경로:
-    S→A: f = g(3)+h(4) = 7
-    S→B: f = g(5)+h(3) = 8
-    → S→A 먼저 탐색
-    A→G: f = g(7)+h(0) = 7  ← 최적!
+    S->A: f = g(3)+h(4) = 7
+    S->B: f = g(5)+h(3) = 8
+    -> S->A 먼저 탐색
+    A->G: f = g(7)+h(0) = 7  <- 최적!
 ```
 
 ### [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) ([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
@@ -88,17 +88,17 @@ AI가 해결해야 하는 많은 문제는 <strong>상태 공간(<a href="/knowl
                  /         \
              [3]             [5]
             /   \           /   \
-MAX →    [3]   [12]      [8]   [5]
+MAX ->    [3]   [12]      [8]   [5]
          / \   / \       / \   / \
-MIN →   3  5 12  2     8  9  5   7
-                                     ← 단말 노드 (점수)
+MIN ->   3  5 12  2     8  9  5   7
+                                     <- 단말 노드 (점수)
 
 알파-베타 가지치기 (Alpha-Beta Pruning):
   MAX 노드: α = 현재 최대값
   MIN 노드: β = 현재 최소값
 
   β ≤ α이면 해당 가지 탐색 중단 (가지치기)
-  → 최악 O(b^m) → 최적 O(b^(m/2)) 개선
+  -> 최악 O(b^m) -> 최적 O(b^(m/2)) 개선
 ```
 
 ### [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) (Monte Carlo Tree Search) 4단계
@@ -106,27 +106,27 @@ MIN →   3  5 12  2     8  9  5   7
 AlphaGo에서 핵심적으로 사용된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│                MCTS 4단계 반복 루프                          │
-│                                                            │
-│  1. 선택 (Selection)                                       │
-│     UCT 공식으로 가장 유망한 노드 선택                        │
-│     UCT(n) = Q(n)/N(n) + C × √(ln(N_parent)/N(n))         │
-│                 탐욕         탐색 보너스                     │
-│                                                            │
-│  2. 확장 (Expansion)                                       │
-│     선택된 노드에서 새 자식 노드 추가                         │
-│                                                            │
-│  3. 시뮬레이션 (Simulation/Rollout)                         │
-│     무작위 혹은 정책 기반으로 게임 끝까지 플레이               │
-│     결과: 승(+1) / 패(-1) / 무(0)                           │
-│                                                            │
-│  4. 역전파 (Backpropagation)                               │
-│     시뮬레이션 결과를 루트까지 역방향으로 업데이트              │
-│     N(n) += 1, Q(n) += 결과                                │
-│                                                            │
-│  → 수천~수만 번 반복 후 방문 횟수 가장 많은 수 선택            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                MCTS 4단계 반복 루프                          |
+|                                                            |
+|  1. 선택 (Selection)                                       |
+|     UCT 공식으로 가장 유망한 노드 선택                        |
+|     UCT(n) = Q(n)/N(n) + C × √(ln(N_parent)/N(n))         |
+|                 탐욕         탐색 보너스                     |
+|                                                            |
+|  2. 확장 (Expansion)                                       |
+|     선택된 노드에서 새 자식 노드 추가                         |
+|                                                            |
+|  3. 시뮬레이션 (Simulation/Rollout)                         |
+|     무작위 혹은 정책 기반으로 게임 끝까지 플레이               |
+|     결과: 승(+1) / 패(-1) / 무(0)                           |
+|                                                            |
+|  4. 역전파 (Backpropagation)                               |
+|     시뮬레이션 결과를 루트까지 역방향으로 업데이트              |
+|     N(n) += 1, Q(n) += 결과                                |
+|                                                            |
+|  -> 수천~수만 번 반복 후 방문 횟수 가장 많은 수 선택            |
++------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: MCTS는 미로에서 길을 찾을 때 "많이 탐험해서 자주 목적지에 도달한 경로"를 선택하는 방법이다. 개별 탐험은 무작위이지만 통계가 쌓이면 최선의 길이 드러난다.
@@ -138,11 +138,11 @@ AlphaGo에서 핵심적으로 사용된 [알고리즘](/knowledge-base/studynote
 ```
 다익스트라 (Dijkstra):
   모든 방향을 균등하게 탐색
-  → 목표 방향을 모름
+  -> 목표 방향을 모름
 
 A* 알고리즘:
   휴리스틱으로 목표 방향 편향 탐색
-  → 훨씬 빠르게 목표 도달
+  -> 훨씬 빠르게 목표 도달
 
 탐색 영역 비교 (격자 맵):
   다익스트라: 원형으로 전방향 탐색 (넓음)
@@ -158,23 +158,23 @@ A* 알고리즘:
 | 평균 알파-베타 | O(b^(3m/4)) | 무작위 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) |
 | **최적 알파-베타** | **O(b^(m/2))** | **최선 순서 정렬** |
 
-바둑의 경우 b≈250, m≈150이면 완전 탐색이 불가능 → [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) + 신경망 필수
+바둑의 경우 b≈250, m≈150이면 완전 탐색이 불가능 -> [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) + 신경망 필수
 
 ### AlphaGo 구조 ([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) + 딥러닝)
 
 ```
-┌─────────────────────────────────────────────┐
-│              AlphaGo (2016)                  │
-│                                             │
-│  정책 네트워크 (Policy Network)              │
-│  → 다음 수 확률 분포 예측 (MCTS 선택 안내)  │
-│                                             │
-│  가치 네트워크 (Value Network)              │
-│  → 현재 상태 승률 예측 (시뮬레이션 대체)    │
-│                                             │
-│  MCTS + Policy + Value 통합                 │
-│  → 이세돌 9단 4:1 승리                     │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|              AlphaGo (2016)                  |
+|                                             |
+|  정책 네트워크 (Policy Network)              |
+|  -> 다음 수 확률 분포 예측 (MCTS 선택 안내)  |
+|                                             |
+|  가치 네트워크 (Value Network)              |
+|  -> 현재 상태 승률 예측 (시뮬레이션 대체)    |
+|                                             |
+|  MCTS + Policy + Value 통합                 |
+|  -> 이세돌 9단 4:1 승리                     |
++---------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)는 미리 "이 길은 절대 최선이 될 수 없다"고 판단해 탐색을 건너뛰는 것이다. 체스 선수가 "이 수는 분명 질 것 같으니 생각도 안 해"라고 하는 것과 같다.
@@ -243,14 +243,14 @@ A*, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_
 
 ```text
 완전 탐색: BFS · DFS (최적 보장 but 느림)
-    │
-    ▼
+    |
+    v
 A*: g(n) + h(n) 휴리스틱 탐색 (최적 + 효율)
-    │
-    ▼
+    |
+    v
 게임 AI: Minimax · α-β 가지치기 · MCTS
-    │
-    ▼
+    |
+    v
 AlphaGo: MCTS + 딥러닝 정책/가치 네트워크
 ```
 2. [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)는 두 사람이 번갈아 두는 보드게임에서 "상대방은 나쁜 수를 두지 않는다"고 가정하고 내가 가장 유리한 수를 계산하는 방법이다.
@@ -262,7 +262,7 @@ AlphaGo: MCTS + 딥러닝 정책/가치 네트워크
 
 **진행 상황**: 236 / 258
 
-← **이전**: [235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/)
-**다음**: [237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/237_ml_supervised_unsupervised_reinforcement_bias_variance/) →
+<- **이전**: [235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/)
+**다음**: [237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/237_ml_supervised_unsupervised_reinforcement_bias_variance/) ->
 
 ---

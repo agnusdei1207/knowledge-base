@@ -31,21 +31,21 @@ TDD는 켄트 벡 (Kent Beck)이 익스트림 프로그래밍 ([Extreme Programm
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TDD의 기본 사이클은 Red → Green → Refactor다. 먼저 실패하는 테스트를 작성해 요구사항을 코드로 표현하고(Red), 그 테스트를 통과시키는 가장 단순한 구현을 만든 뒤(Green), 마지막으로 중복 제거와 구조 개선을 수행한다([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)). 여기서 중요한 것은 Green 단계에서 "정답 같은 코드"를 만들려 하지 않는 것이다. 우선 통과시키고, 설계 개선은 리팩터 단계로 분리해야 주기가 짧아진다.
+TDD의 기본 사이클은 Red -> Green -> Refactor다. 먼저 실패하는 테스트를 작성해 요구사항을 코드로 표현하고(Red), 그 테스트를 통과시키는 가장 단순한 구현을 만든 뒤(Green), 마지막으로 중복 제거와 구조 개선을 수행한다([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)). 여기서 중요한 것은 Green 단계에서 "정답 같은 코드"를 만들려 하지 않는 것이다. 우선 통과시키고, 설계 개선은 리팩터 단계로 분리해야 주기가 짧아진다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                 TDD의 Red → Green → Refactor               │
-├──────────────────────────────────────────────────────────────┤
-│ 1) RED      : 실패하는 테스트 작성                          │
-│                └─ 요구사항을 실행 가능한 명세로 표현        │
-│ 2) GREEN    : 최소 코드로 테스트 통과                       │
-│                └─ 과설계 금지, 일단 동작 우선               │
-│ 3) REFACTOR : 중복 제거, 이름 개선, 책임 분리               │
-│                └─ 테스트가 안전망 역할 수행                 │
-│                      ▲                                      │
-│                      └──────── 다음 요구사항으로 반복        │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                 TDD의 Red -> Green -> Refactor               |
++--------------------------------------------------------------+
+| 1) RED      : 실패하는 테스트 작성                          |
+|                +- 요구사항을 실행 가능한 명세로 표현        |
+| 2) GREEN    : 최소 코드로 테스트 통과                       |
+|                +- 과설계 금지, 일단 동작 우선               |
+| 3) REFACTOR : 중복 제거, 이름 개선, 책임 분리               |
+|                +- 테스트가 안전망 역할 수행                 |
+|                      ^                                      |
+|                      +-------- 다음 요구사항으로 반복        |
++--------------------------------------------------------------+
 ```
 
 좋은 TDD를 위해서는 테스트 자체의 품질도 중요하다. 흔히 FIRST 원칙이라 하여 빠름 (Fast), 독립성 (Independent), 반복 가능성 (Repeatable), 자기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)성 (Self-Validating), 시기적절함 (Timely)을 요구한다. 테스트 실행이 몇 분씩 걸리거나 외부 환경에 따라 흔들리면, 개발자는 점점 테스트를 덜 돌리게 되고 TDD의 피드백 루프가 끊긴다.
@@ -79,15 +79,15 @@ TDD는 단순히 테스트를 많이 쓰는 것과 다르다. 테스트 후 개�
 
 ```text
            사용자 가치 검증
-                  ▲
-                  │  ATDD / BDD
-                  │
+                  ^
+                  |  ATDD / BDD
+                  |
            통합 시나리오 검증
-                  ▲
-                  │
+                  ^
+                  |
            TDD 기반 단위 테스트
-                  ▲
-                  │
+                  ^
+                  |
              구현 설계 개선
 ```
 
@@ -105,7 +105,7 @@ TDD는 단순히 테스트를 많이 쓰는 것과 다르다. 테스트 후 개�
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **순서**: 실패 테스트 → 최소 구현 → 리팩터 순서를 지키는가.
+1. **순서**: 실패 테스트 -> 최소 구현 -> 리팩터 순서를 지키는가.
 2. **범위**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙처럼 안정된 핵심 로직부터 적용하는가.
 3. **속도**: 로컬에서 수초 내 반복 가능한 테스트 세트를 유지하는가.
 4. **격리**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성을 직접 붙이지 않는가.
@@ -150,20 +150,20 @@ TDD를 꾸준히 적용하면 [결함](/knowledge-base/studynote/04_software_eng
 
 ```text
 요구사항 명세
-    │
-    ▼
+    |
+    v
 실패 테스트 작성 (Red)
-    │
-    ▼
+    |
+    v
 최소 구현 (Green)
-    │
-    ▼
+    |
+    v
 리팩터링 (Refactor)
-    │
-    ▼
+    |
+    v
 테스트 스위트 축적
-    │
-    ▼
+    |
+    v
 CI 기반 회귀 방지 · 지속적 설계 개선
 ```
 
@@ -181,7 +181,7 @@ CI 기반 회귀 방지 · 지속적 설계 개선
 
 **진행 상황**: 278 / 587
 
-← **이전**: [163. 동료 검토 (Peer Review, 동료 코드 품질 검증)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)
-**다음**: [165. BDD (Behavior Driven Development, 행위 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) →
+<- **이전**: [163. 동료 검토 (Peer Review, 동료 코드 품질 검증)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)
+**다음**: [165. BDD (Behavior Driven Development, 행위 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ->
 
 ---

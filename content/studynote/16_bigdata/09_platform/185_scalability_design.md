@@ -26,16 +26,16 @@ tags = ["studynote-bigdata"]
 따라서 확장성은 수직 확장만으로 해결되지 않는다. 더 비싼 장비로 잠시 버틸 수는 있지만, 장애 시 영향 범위가 커지고 비용 증가 곡선도 가파르다. 반면 수평 확장은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복잡도가 늘어나는 대가를 치르지만, 더 작은 단위로 실패를 흡수하고 점진적으로 용량을 키울 수 있다. 빅데이터 플랫폼이 거의 예외 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산을 택하는 이유가 여기에 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Single-node limit vs distributed growth                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Single node                                                        │
-│   compute / memory / disk / network -> one box hits one ceiling   │
-│                                                                    │
-│ Distributed platform                                               │
-│   partitioned data + parallel workers + replica / rebalance       │
-│   -> throughput grows, but coordination cost must be controlled    │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Single-node limit vs distributed growth                           |
++--------------------------------------------------------------------+
+| Single node                                                        |
+|   compute / memory / disk / network -> one box hits one ceiling   |
+|                                                                    |
+| Distributed platform                                               |
+|   partitioned data + parallel workers + replica / rebalance       |
+|   -> throughput grows, but coordination cost must be controlled    |
++--------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 확장성 설계는 식당에 손님이 늘 때 주방을 더 큰 한 칸으로 키울지, 조리대와 직원을 여러 구역으로 나눌지 결정하는 일과 같다. 손님이 계속 늘면 결국 한 칸 주방만으로는 감당이 안 된다.
@@ -49,19 +49,19 @@ tags = ["studynote-bigdata"]
 핵심 원리는 세 가지다. 첫째, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능한 단위로 나눈다</strong>. 둘째, **계산 자원을 부하에 따라 늘리고 줄인다**. 셋째, <strong>노드 추가 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재분배 비용을 통제한다</strong>. 이 세 가지가 맞물리지 않으면 노드를 많이 추가해도 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 셔플 폭증, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 병목 때문에 기대한 만큼 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 늘지 않는다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Scalable big-data platform                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Ingest -> Queue / Log -> Partitioned Storage -> Elastic Compute   │
-│                         │                          │               │
-│                         │                          ├─ batch jobs   │
-│                         │                          ├─ stream jobs  │
-│                         │                          └─ query layer  │
-│                         │                                          │
-│                         └─ metadata / partition map / statistics   │
-│                                                                    │
-│ Scale works only if partitioning, scheduling, and rebalance align  │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Scalable big-data platform                                        |
++--------------------------------------------------------------------+
+| Ingest -> Queue / Log -> Partitioned Storage -> Elastic Compute   |
+|                         |                          |               |
+|                         |                          +- batch jobs   |
+|                         |                          +- stream jobs  |
+|                         |                          +- query layer  |
+|                         |                                          |
+|                         +- metadata / partition map / statistics   |
+|                                                                    |
+| Scale works only if partitioning, scheduling, and rebalance align  |
++--------------------------------------------------------------------+
 ```
 
 | 계층 | 확장 레버 | 설계 포인트 |
@@ -157,20 +157,20 @@ tags = ["studynote-bigdata"]
 
 ```text
 단일 노드 병목
-    │
-    ▼
+    |
+    v
 분산 저장 · 분산 계산 도입
-    │
-    ▼
+    |
+    v
 파티셔닝 · 샤딩 설계
-    │
-    ▼
+    |
+    v
 오토스케일 · 리밸런싱 자동화
-    │
-    ▼
+    |
+    v
 스큐 제어 · 컴팩션 · 메타데이터 최적화
-    │
-    ▼
+    |
+    v
 예측 가능한 대규모 데이터 플랫폼 운영
 ```
 
@@ -186,7 +186,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 185 / 262
 
-← **이전**: [184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata](/knowledge-base/studynote/16_bigdata/09_platform/184_data_catalog_integration/)
-**다음**: [186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip](/knowledge-base/studynote/16_bigdata/09_platform/186_data_compression/) →
+<- **이전**: [184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata](/knowledge-base/studynote/16_bigdata/09_platform/184_data_catalog_integration/)
+**다음**: [186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip](/knowledge-base/studynote/16_bigdata/09_platform/186_data_compression/) ->
 
 ---

@@ -33,15 +33,15 @@ ReplicaSet의 존재 이유는 원하는 상태와 실제 상태를 맞추는 �
 | reconciliation loop | 상태 비교와 조정 | 계속 반복 |
 | self-healing | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 죽은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 대체 |
 
-┌───────────────┐ observe ┌────────────────┐
-│ ReplicaSet    │──────▶│ [current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Pods   │
-│ replicas = 3  │       │ matching label │
-└──────┬────────┘       └──────┬─────────┘
-       │ reconcile create/delete     │
-       ▼                              ▼
-  ┌──────────────┐             ┌───────────────┐
-  │ controller   │────────────▶│ [new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)       │
-  └──────────────┘             └───────────────┘
++---------------+ observe +----------------+
+| ReplicaSet    |------->| [current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Pods   |
+| replicas = 3  |       | matching label |
++------+--------+       +------+---------+
+       | reconcile create/delete     |
+       v                              v
+  +--------------+             +---------------+
+  | controller   |------------->| [new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)       |
+  +--------------+             +---------------+
 - **📢 섹션 요약 비유**: 라벨과 조정 루프가 핵심이다.
 
 ---
@@ -90,7 +90,7 @@ ReplicaSet은 고장난 자리를 다시 채워 넣는 반장 역할이다. 학�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-desired replicas → observe current replicas → reconcile → create/delete Pod → 다시 관찰
+desired replicas -> observe current replicas -> reconcile -> create/delete Pod -> 다시 관찰
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -105,7 +105,7 @@ desired replicas → observe current replicas → reconcile → create/delete Po
 
 **진행 상황**: 85 / 371
 
-← **이전**: [85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)
-**다음**: [87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) →
+<- **이전**: [85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)
+**다음**: [87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) ->
 
 ---

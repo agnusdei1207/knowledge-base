@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 코드 변경 시 <strong>빌드·테스트를 자동 실행(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>: <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong>하고, 검증된 코드를 <strong>스테이징·프로덕션에 자동 배포(CD: <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>)</strong>하는 소프트웨어 엔지니어링의 핵심 자동화 체계다.
-> 2. **가치**: 수동 빌드·배포는 인적 오류·시간 낭비·릴리스 공포(Fear of Release)를 유발하지만, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 <strong>커밋→빌드→테스트→배포를 30분 이내에 자동 완료</strong>하여 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))를 극적으로 개선한다.
+> 2. **가치**: 수동 빌드·배포는 인적 오류·시간 낭비·릴리스 공포(Fear of Release)를 유발하지만, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 <strong>커밋->빌드->테스트->배포를 30분 이내에 자동 완료</strong>하여 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))를 극적으로 개선한다.
 > 3. **판단 포인트**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)(통합) vs CD-Delivery(수동 승인 후 배포) vs CD-[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)(완전 자동 배포)를 구분하고, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)(Trunk-Based Dev) + [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 조합이 Elite 팀의 표준이다.
 
 ---
@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    CI/CD 파이프라인 단계                              │
-├───────────────────────────────────────────────────────┤
-│  [CI — Continuous Integration]                        │
-│   커밋 → 빌드 → 단위 테스트 → 통합 테스트           │
-│   → 코드 품질 검증 (린트·커버리지)                    │
-│                                                       │
-│  [CD — Continuous Delivery]                           │
-│   CI 통과 → 스테이징 배포 → QA → 수동 승인 → Prod   │
-│                                                       │
-│  [CD — Continuous Deployment]                         │
-│   CI 통과 → 자동 Prod 배포 (승인 없음)               │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    CI/CD 파이프라인 단계                              |
++-------------------------------------------------------+
+|  [CI — Continuous Integration]                        |
+|   커밋 -> 빌드 -> 단위 테스트 -> 통합 테스트           |
+|   -> 코드 품질 검증 (린트·커버리지)                    |
+|                                                       |
+|  [CD — Continuous Delivery]                           |
+|   CI 통과 -> 스테이징 배포 -> QA -> 수동 승인 -> Prod   |
+|                                                       |
+|  [CD — Continuous Deployment]                         |
+|   CI 통과 -> 자동 Prod 배포 (승인 없음)               |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: CI는 공장 조립 라인의 품질 검사(불량 자동 탐지)이고, CD는 검사 통과한 제품을 매장(프로덕션)에 자동 진열하는 것이다.
@@ -57,7 +57,7 @@ tags = ["studynote-software-engineering"]
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/">Jenkins</a></strong> | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 플러그인 생태계 |
 | **ArgoCD** | K8s [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) CD |
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구는 자동차 공장의 로봇 팔이다. 사람 없이 용접(빌드)→검사(테스트)→출고(배포)를 자동으로 한다.
+- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구는 자동차 공장의 로봇 팔이다. 사람 없이 용접(빌드)->검사(테스트)->출고(배포)를 자동으로 한다.
 
 ---
 
@@ -75,8 +75,8 @@ tags = ["studynote-software-engineering"]
 
 ### 파이프라인 설계 [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
 1. **빠른 피드백**: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 먼저, 느린 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트는 나중에.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a></strong>: 불완전 기능도 main에 머지 → [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)로 숨김.
-3. **트렁크 기반**: 장기 브랜치 금지 → 머지 충돌 최소화.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a></strong>: 불완전 기능도 main에 머지 -> [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)로 숨김.
+3. **트렁크 기반**: 장기 브랜치 금지 -> 머지 충돌 최소화.
 
 ---
 
@@ -106,17 +106,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [수동 빌드·배포 (2000s)]
-    │
-    ▼
+    |
+    v
 [CI 서버 (Jenkins, 2004~) — 자동 빌드·테스트]
-    │
-    ▼
+    |
+    v
 [CD (Docker+K8s, 2014~) — 자동 배포 파이프라인]
-    │
-    ▼
+    |
+    v
 [GitOps (2017~) — 선언적 CD (ArgoCD/Flux)]
-    │
-    ▼
+    |
+    v
 [현재: Progressive Delivery + AIOps — AI 기반 배포 판단]
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 121 / 973
 
-← **이전**: [120. 선언적 인프라와 멱등성 (Declarative Infrastructure & Idempotence) - IaC 핵심 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/120_declarative_infrastructure_idempotence/)
-**다음**: [122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/122_container_orchestration_kubernetes_k8s/) →
+<- **이전**: [120. 선언적 인프라와 멱등성 (Declarative Infrastructure & Idempotence) - IaC 핵심 원칙](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/120_declarative_infrastructure_idempotence/)
+**다음**: [122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/122_container_orchestration_kubernetes_k8s/) ->
 
 ---

@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [블루투스]
-    │
-    ▼
+    |
+    v
 [블루투스 버전]
-    │
-    └──▶ [BLE]
+    |
+    +---> [BLE]
 ```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -48,11 +48,11 @@ tags = ["studynote-network"]
 
 ```text
 [블루투스]
-    │
-    ▼
+    |
+    v
 [블루투스 버전]
-    │
-    └──▶ [BLE]
+    |
+    +---> [BLE]
 ```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 블루투스]
-    │
-    ▼
+    |
+    v
 [현재 개념: 블루투스 버전]
-    │
-    ├──▶ [확장 A: BLE]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: BLE]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)에서 출발해 현재 메커니즘을 정교화하고, 이후 BLE와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 727 / 1120
 
-← **이전**: [605. 블루투스 (Bluetooth)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)
-**다음**: [607. BLE (Bluetooth Low Energy)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) →
+<- **이전**: [605. 블루투스 (Bluetooth)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)
+**다음**: [607. BLE (Bluetooth Low Energy)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ->
 
 ---

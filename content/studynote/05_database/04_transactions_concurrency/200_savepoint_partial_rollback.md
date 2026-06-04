@@ -22,11 +22,11 @@ tags = ["studynote-database"]
 SAVEPOINT은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내 중간 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지점 설정에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Request -> Tx boundary -> Current concept -> Commit/RB       │
-├──────────────────────────────────────────────────────────────┤
-│ Work unit -> control point -> consistency                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Request -> Tx boundary -> Current concept -> Commit/RB       |
++--------------------------------------------------------------+
+| Work unit -> control point -> consistency                    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 SAVEPOINT를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
@@ -47,11 +47,11 @@ SAVEPOINT는 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장�
 | 운영 주의 | `ROLLBACK 명령어`·`동시성 제어 의 목적`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Begin -> current concept -> Commit / Rollback                │
-├──────────────────────────────────────────────────────────────┤
-│ State change -> control command -> durable result            │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Begin -> current concept -> Commit / Rollback                |
++--------------------------------------------------------------+
+| State change -> control command -> durable result            |
++--------------------------------------------------------------+
 ```
 
 핵심은 SAVEPOINT를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
@@ -115,12 +115,12 @@ SAVEPOINT를 올바르게 적용하면 구조를 단순화하고, 정합성을 �
 
 ```text
 [ROLLBACK 명령어]
-    │
-    ▼
+    |
+    v
 [SAVEPOINT]
-    │
-    ├──▶ [동시성 제어 의 목적]
-    └──▶ [병행 수행 시 문제점]
+    |
+    +---> [동시성 제어 의 목적]
+    +---> [병행 수행 시 문제점]
 ```
 
 [ROLLBACK](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 출발한 논점이 SAVEPOINT에서 핵심 판단으로 모이고, 이후 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 의 목적·병행 수행 시 문제점 같은 확장 주제로 이어지는 흐름을 보여 준다.
@@ -137,7 +137,7 @@ SAVEPOINT를 올바르게 적용하면 구조를 단순화하고, 정합성을 �
 
 **진행 상황**: 200 / 600
 
-← **이전**: [199. ROLLBACK 명령어 (Rollback Command Transaction Cancel)](/knowledge-base/studynote/05_database/04_transactions_concurrency/199_rollback_command_transaction_cancel/)
-**다음**: [201. 동시성 제어 의 목적 (Concurrency Control / 병행 제어)](/knowledge-base/studynote/05_database/04_transactions_concurrency/201_concurrency_control_objectives/) →
+<- **이전**: [199. ROLLBACK 명령어 (Rollback Command Transaction Cancel)](/knowledge-base/studynote/05_database/04_transactions_concurrency/199_rollback_command_transaction_cancel/)
+**다음**: [201. 동시성 제어 의 목적 (Concurrency Control / 병행 제어)](/knowledge-base/studynote/05_database/04_transactions_concurrency/201_concurrency_control_objectives/) ->
 
 ---

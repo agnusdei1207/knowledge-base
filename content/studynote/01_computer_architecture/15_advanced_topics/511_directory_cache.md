@@ -36,23 +36,23 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시 hit와 miss가 coherence 경로를 어떻게 갈라놓는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Requesting Core                                                     │
-│      │                                                              │
-│      ▼                                                              │
-│ Home Agent / LLC Slice                                              │
-│      │                                                              │
-│      ├─ hit  ─▶ Directory Cache ─▶ sharer/owner 즉시 확인           │
-│      │                         └─ targeted invalidate / data fetch   │
-│      │                                                              │
-│      └─ miss ─▶ Backing Directory in LLC/Memory                     │
-│                                ├─ 메타데이터 조회                   │
-│                                └─ 엔트리 채움 후 coherence 진행     │
-│                                                                      │
-│ 결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|            디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다      |
++----------------------------------------------------------------------+
+| Requesting Core                                                     |
+|      |                                                              |
+|      v                                                              |
+| Home Agent / LLC Slice                                              |
+|      |                                                              |
+|      +- hit  --> Directory Cache --> sharer/owner 즉시 확인           |
+|      |                         +- targeted invalidate / data fetch   |
+|      |                                                              |
+|      +- miss --> Backing Directory in LLC/Memory                     |
+|                                +- 메타데이터 조회                   |
+|                                +- 엔트리 채움 후 coherence 진행     |
+|                                                                      |
+| 결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다  |
++----------------------------------------------------------------------+
 ```
 
 | 엔트리 필드 | 의미 | 설계 포인트 |
@@ -141,21 +141,21 @@ sharer 표현 방식도 핵심이다. 코어 수가 적다면 full [bit](/knowle
 
 ```text
 스누핑 확장성 한계
-        │
-        ▼
+        |
+        v
 디렉터리 기반 프로토콜 (Directory-based Protocol)
-        │
-        ▼
+        |
+        v
 backing directory in LLC / memory
-        │
-        ▼
+        |
+        v
 디렉터리 캐시 (Directory Cache)
-        │
-        ├─▶ 희소 디렉터리 · sharer 압축
-        ├─▶ inclusive LLC 기반 snoop filter
-        ├─▶ 분산 home agent
-        │
-        ▼
+        |
+        +--> 희소 디렉터리 · sharer 압축
+        +--> inclusive LLC 기반 snoop filter
+        +--> 분산 home agent
+        |
+        v
 칩렛 · NUMA · CXL.cache 대응 메타데이터 계층화
 ```
 
@@ -173,7 +173,7 @@ backing directory in LLC / memory
 
 **진행 상황**: 511 / 803
 
-← **이전**: [510. 스누핑 버스 병목 현상 (Snooping Bus Bottleneck)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/510_snooping_bus_bottleneck/)
-**다음**: [512. 메시 프로토콜 상태 전이도 (MESI Protocol State Transition Diagram)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/512_mesi_protocol_states/) →
+<- **이전**: [510. 스누핑 버스 병목 현상 (Snooping Bus Bottleneck)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/510_snooping_bus_bottleneck/)
+**다음**: [512. 메시 프로토콜 상태 전이도 (MESI Protocol State Transition Diagram)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/512_mesi_protocol_states/) ->
 
 ---

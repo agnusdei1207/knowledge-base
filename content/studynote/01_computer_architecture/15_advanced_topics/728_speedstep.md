@@ -36,20 +36,20 @@ SpeedStep의 핵심은 "클럭만 깎는 것"이 아니라 <strong>검증된 <a 
 아래 그림은 SpeedStep/EIST 계열의 제어 경로를 단순화한 것이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 SpeedStep / EIST operating loop                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Workload + power policy                                             │
-│        │                                                            │
-│        ▼                                                            │
-│ Select P-state target                                               │
-│        │                                                            │
-│        ▼                                                            │
-│ Voltage ID change <-> PLL / multiplier change                       │
-│        │                                                            │
-│        ├── low load  -> lower V / f                                 │
-│        └── high load -> higher V / f                                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                 SpeedStep / EIST operating loop                     |
++----------------------------------------------------------------------+
+| Workload + power policy                                             |
+|        |                                                            |
+|        v                                                            |
+| Select P-state target                                               |
+|        |                                                            |
+|        v                                                            |
+| Voltage ID change <-> PLL / multiplier change                       |
+|        |                                                            |
+|        +-- low load  -> lower V / f                                 |
+|        +-- high load -> higher V / f                                |
++----------------------------------------------------------------------+
 ```
 
 전환 순서도 중요하다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올릴 때는 보통 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 먼저 올리고 주파수를 올려야</strong> 타이밍 위반이 없고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내릴 때는 <strong>주파수를 먼저 낮추고 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 낮추는</strong> 편이 안전하다. 따라서 SpeedStep은 단순한 스위치가 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레귤레이터, PLL (Phase-Locked Loop), 배수 제어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 결합된 제어 루프다.
@@ -140,20 +140,20 @@ SpeedStep이 남긴 가장 큰 효과는 컴퓨터가 처음으로 "일하지 �
 
 ```text
 Fixed-frequency mobile CPU
-    │
-    ▼
+    |
+    v
 Intel SpeedStep
-    │
-    ▼
+    |
+    v
 Enhanced Intel SpeedStep (EIST)
-    │
-    ▼
+    |
+    v
 ACPI P-state based DVFS
-    │
-    ▼
+    |
+    v
 Speed Shift / HWP
-    │
-    ▼
+    |
+    v
 Faster per-core adaptive power control
 ```
 
@@ -171,7 +171,7 @@ Faster per-core adaptive power control
 
 **진행 상황**: 729 / 803
 
-← **이전**: [727. S0ix 저전력 유휴 상태](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/727_s0ix_idle_states/)
-**다음**: [729. AMD Cool'n'Quiet](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/729_cool_n_quiet/) →
+<- **이전**: [727. S0ix 저전력 유휴 상태](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/727_s0ix_idle_states/)
+**다음**: [729. AMD Cool'n'Quiet](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/729_cool_n_quiet/) ->
 
 ---

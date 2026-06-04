@@ -19,19 +19,19 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    하드 보팅 vs 소프트 보팅                            │
-├───────────────────────────────────────────────────────┤
-│  [하드 보팅 (다수결)]                                 │
-│   모델 A: 고양이      모델 B: 개      모델 C: 고양이  │
-│   → 다수결: 고양이 (2:1)                              │
-│                                                       │
-│  [소프트 보팅 (확률 평균)]                            │
-│   모델 A: 고양이 0.7   모델 B: 개 0.6   모델 C: 고양이 0.9│
-│   고양이 평균: (0.7+0.4+0.9)/3 = 0.67                │
-│   개 평균: (0.3+0.6+0.1)/3 = 0.33                    │
-│   → 소프트 보팅: 고양이 (0.67 > 0.33)                │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    하드 보팅 vs 소프트 보팅                            |
++-------------------------------------------------------+
+|  [하드 보팅 (다수결)]                                 |
+|   모델 A: 고양이      모델 B: 개      모델 C: 고양이  |
+|   -> 다수결: 고양이 (2:1)                              |
+|                                                       |
+|  [소프트 보팅 (확률 평균)]                            |
+|   모델 A: 고양이 0.7   모델 B: 개 0.6   모델 C: 고양이 0.9|
+|   고양이 평균: (0.7+0.4+0.9)/3 = 0.67                |
+|   개 평균: (0.3+0.6+0.1)/3 = 0.33                    |
+|   -> 소프트 보팅: 고양이 (0.67 > 0.33)                |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 선거(1인 1표, 다수결)이고, 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 전문가 점수(확신도 반영)의 평균이다.
@@ -98,17 +98,17 @@ vc = VotingClassifier(
 
 ```text
 [단일 모델 (Decision Tree, SVM)]
-    │
-    ▼
+    |
+    v
 [보팅 (이종 모델 결합, 다수결/확률)]
-    │
-    ▼
+    |
+    v
 [배깅 (1996, Breiman) — 동종 모델 + 샘플링]
-    │
-    ▼
-[부스팅 (1997, AdaBoost → XGBoost)]
-    │
-    ▼
+    |
+    v
+[부스팅 (1997, AdaBoost -> XGBoost)]
+    |
+    v
 [현재: 스태킹 + AutoML — 자동 앙상블 최적화]
 ```
 
@@ -123,7 +123,7 @@ vc = VotingClassifier(
 
 **진행 상황**: 119 / 258
 
-← **이전**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/knowledge-base/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/)
-**다음**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) →
+<- **이전**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/knowledge-base/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/)
+**다음**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) ->
 
 ---

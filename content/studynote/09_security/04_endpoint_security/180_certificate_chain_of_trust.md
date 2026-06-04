@@ -44,28 +44,28 @@ tags = ["studynote-security"]
 아래 그림은 브라우저가 체인을 어떻게 조립하고 어디서 실패하는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Certificate chain verification                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client Trust Store                                                   │
-│   Root CA certificate                                                │
-│        ▲ verify signature on Intermediate CA                         │
-│        │                                                             │
-│ Server sends                                                         │
-│   Intermediate CA certificate                                        │
-│        ▲ verify signature on End Entity                              │
-│        │                                                             │
-│   End Entity certificate for requested host                          │
-│        │                                                             │
-│ Additional checks                                                    │
-│   - SAN / hostname match                                             │
-│   - validity time window                                             │
-│   - key usage / Extended Key Usage                                   │
-│   - revocation status                                                │
-│                                                                      │
-│ Failure cases                                                        │
-│   missing intermediate / expired cert / untrusted root / revoked     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Certificate chain verification                                       |
++----------------------------------------------------------------------+
+| Client Trust Store                                                   |
+|   Root CA certificate                                                |
+|        ^ verify signature on Intermediate CA                         |
+|        |                                                             |
+| Server sends                                                         |
+|   Intermediate CA certificate                                        |
+|        ^ verify signature on End Entity                              |
+|        |                                                             |
+|   End Entity certificate for requested host                          |
+|        |                                                             |
+| Additional checks                                                    |
+|   - SAN / hostname match                                             |
+|   - validity time window                                             |
+|   - key usage / Extended Key Usage                                   |
+|   - revocation status                                                |
+|                                                                      |
+| Failure cases                                                        |
+|   missing intermediate / expired cert / untrusted root / revoked     |
++----------------------------------------------------------------------+
 ```
 
 중요한 점은 서버가 보통 Root Certificate Authority까지 보내지 않는다는 것이다. 루트는 이미 클라이언트 쪽 Trust Store에 있다고 가정하고, 서버는 보통 End Entity와 필요한 Intermediate 묶음만 전달한다. 따라서 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 `fullchain.pem`을 올바르게 구성하지 않으면 서명 자체는 멀쩡해도 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 깨질 수 있다.
@@ -155,18 +155,18 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 
 ```text
 Self-signed local trust
-        │
-        ▼
+        |
+        v
 PKI trust anchor establishment
-        │
-        ▼
+        |
+        v
 Root CA -> Intermediate CA -> End Entity chain
-        │
-        ├─ hostname / validity / EKU checks
-        ├─ CRL / OCSP revocation checks
-        └─ Cross-Signing for root migration
-        │
-        ▼
+        |
+        +- hostname / validity / EKU checks
+        +- CRL / OCSP revocation checks
+        +- Cross-Signing for root migration
+        |
+        v
 Automated issuance and large-scale certificate operations
 ```
 
@@ -184,7 +184,7 @@ Automated issuance and large-scale certificate operations
 
 **진행 상황**: 233 / 1108
 
-← **이전**: [179. Self-signed 인증서 — 자체 발급 인증서, 내부용](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/)
-**다음**: [181. 브릿지 CA (Bridge CA) — 교차 인증](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/) →
+<- **이전**: [179. Self-signed 인증서 — 자체 발급 인증서, 내부용](/knowledge-base/studynote/09_security/04_endpoint_security/179_self_signed_certificate/)
+**다음**: [181. 브릿지 CA (Bridge CA) — 교차 인증](/knowledge-base/studynote/09_security/04_endpoint_security/181_bridge_ca_cross_certification/) ->
 
 ---

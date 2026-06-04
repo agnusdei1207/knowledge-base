@@ -23,23 +23,23 @@ tags = ["studynote-computer-architecture"]
 
 이 분석이 중요한 이유는 강력한 암호 구현도 결국 실리콘 어딘가에 회로와 저장 구조로 남아 있기 때문이다. 제품 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 경쟁사 IP 도난, 군사·금융 장비 분석, 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 타겟형 fault attack 준비까지 모두 이 단계의 정보를 필요로 한다. 한 번 다이 구조가 드러나면 이후의 프로빙, EMA, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 훨씬 정밀해진다.
 
-아래 그림은 물리적 분해 분석이 단순 분해가 아니라 "패키지 제거 → 층별 관찰 → 구조 복원"으로 이어지는 파이프라인임을 보여준다.
+아래 그림은 물리적 분해 분석이 단순 분해가 아니라 "패키지 제거 -> 층별 관찰 -> 구조 복원"으로 이어지는 파이프라인임을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Physical reverse engineering pipeline                           │
-├──────────────────────────────────────────────────────────────────┤
-│ Package removal                                                 │
-│        │                                                        │
-│        ▼                                                        │
-│ Delayering                                                      │
-│        │                                                        │
-│        ▼                                                        │
-│ Imaging                                                         │
-│        │                                                        │
-│        ├──► ROM / fuse read                                     │
-│        └──► Netlist recovery ───► probe / FIB / copy            │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Physical reverse engineering pipeline                           |
++------------------------------------------------------------------+
+| Package removal                                                 |
+|        |                                                        |
+|        v                                                        |
+| Delayering                                                      |
+|        |                                                        |
+|        v                                                        |
+| Imaging                                                         |
+|        |                                                        |
+|        +--► ROM / fuse read                                     |
+|        +--► Netlist recovery ---► probe / FIB / copy            |
++------------------------------------------------------------------+
 ```
 
 즉 물리적 분해 분석은 "무엇이 들어 있나"를 넘어서 "어떻게 만들어졌고 어디를 찌르면 되나"까지 알려 주는 상위 단계의 공격 준비 과정이다.
@@ -65,17 +65,17 @@ tags = ["studynote-computer-architecture"]
 아래 단면도는 물리적 분해 분석이 왜 레이어별 작업인지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Simplified die cross-section                                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Passivation                                                     │
-│ Metal 4                                                         │
-│ Metal 3                                                         │
-│ Metal 2                                                         │
-│ Metal 1                                                         │
-│ Poly / diffusion                                                │
-│ Silicon substrate                                               │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Simplified die cross-section                                     |
++------------------------------------------------------------------+
+| Passivation                                                     |
+| Metal 4                                                         |
+| Metal 3                                                         |
+| Metal 2                                                         |
+| Metal 1                                                         |
+| Poly / diffusion                                                |
+| Silicon substrate                                               |
++------------------------------------------------------------------+
 ```
 
 공격자는 위에서부터 한 층씩 벗기며 이미지를 쌓아 올린다. 방어자는 결국 "한 층을 봐도 전체 의미가 드러나지 않게" 만들거나, 레이어에 접근하는 순간 비밀이 사라지게 만들어야 한다.
@@ -159,18 +159,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Package 제거
-    │
-    ▼
+    |
+    v
 Delayering · Layer Imaging
-    │
-    ▼
+    |
+    v
 Netlist / ROM / eFuse 복원
-    │
-    ├──► Probing (live signal 관측)
-    ├──► FIB edit (회로 우회)
-    └──► IP cloning (복제)
-    │
-    ▼
+    |
+    +--► Probing (live signal 관측)
+    +--► FIB edit (회로 우회)
+    +--► IP cloning (복제)
+    |
+    v
 Active Mesh · Zeroization · PUF · Camouflaging
 ```
 
@@ -188,7 +188,7 @@ Active Mesh · Zeroization · PUF · Camouflaging
 
 **진행 상황**: 781 / 803
 
-← **이전**: [779. 전자기 분석 공격 - EMA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/779_ema_attack/)
-**다음**: [781. FIB (Focused Ion Beam) 수정](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) →
+<- **이전**: [779. 전자기 분석 공격 - EMA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/779_ema_attack/)
+**다음**: [781. FIB (Focused Ion Beam) 수정](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ->
 
 ---

@@ -24,14 +24,14 @@ SiP는 중앙처리장치, 메모리, 무선 칩, 전력 관리 칩, 수동 부�
 이 방식이 부상한 이유는 제품 요구사항이 너무 다양해졌기 때문이다. 웨어러블과 모바일 기기는 극단적 소형화가 필요하고, 차량·통신 장비는 서로 다른 공정의 아날로그·전력·무선 블록을 함께 써야 한다. 하나의 SoC로 모두 해결하려 하면 비용과 개발 기간이 급증하므로, 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 칩과 부품을 패키지에서 조합하는 SiP가 더 현실적인 선택이 된다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ board-level parts → one package system                             │
-├───────────────────────────────┬─────────────────────────────────────┤
-│ PCB board                     │ SiP package                         │
-│ logic wireless power memory   │ [Logic][Wireless][Power][Memory]   │
-│ many traces, large area       │ short traces, small area           │
-│ assembly at board level       │ assembly at package level          │
-└───────────────────────────────┴─────────────────────────────────────┘
++---------------------------------------------------------------------+
+| board-level parts -> one package system                             |
++-------------------------------+-------------------------------------+
+| PCB board                     | SiP package                         |
+| logic wireless power memory   | [Logic][Wireless][Power][Memory]   |
+| many traces, large area       | short traces, small area           |
+| assembly at board level       | assembly at package level          |
++-------------------------------+-------------------------------------+
 ```
 
 이 그림의 핵심은 SiP가 단순히 칩을 많이 넣는 것이 아니라, 보드에서 일어나던 연결과 소형화를 패키지 안으로 끌어오는 구조라는 점이다. 결과적으로 보드 면적, 배선 길이, 전자기 간섭 관리 방식까지 모두 바뀐다.
@@ -55,15 +55,15 @@ SiP는 능동 소자와 수동 소자를 한 패키지 구조 안에서 함께 �
 SiP는 배치 방식에 따라 2D, 2.5D, 3D, 패키지 온 패키지 ([PoP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/), Package on Package)로 나뉜다. 2D는 나란히 배치해 구조가 단순하고, 2.5D는 인터포저를 사용해 높은 배선 밀도를 확보하며, 3D는 적층으로 공간과 배선 길이를 줄인다. PoP는 이미 패키징된 메모리 패키지를 상부에 올려 모바일처럼 면적이 극도로 제한된 제품에 자주 쓰인다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ SiP cross-section example                                           │
-├─────────────────────────────────────────────────────────────────────┤
-│            [Memory Package]  ← PoP                                  │
-│                   │                                                 │
-│ [Logic Die] [RF Die] [PMIC] [Embedded Passives]                    │
-│            └──── Package Substrate / Interposer ────┘              │
-│                    solder balls → Main Board                        │
-└─────────────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------------+
+| SiP cross-section example                                           |
++---------------------------------------------------------------------+
+|            [Memory Package]  <- PoP                                  |
+|                   |                                                 |
+| [Logic Die] [RF Die] [PMIC] [Embedded Passives]                    |
+|            +---- Package Substrate / Interposer ----+              |
+|                    solder balls -> Main Board                        |
++---------------------------------------------------------------------+
 ```
 
 SiP 제조에서 특히 중요한 것은 KGD다. 패키지에 넣기 전에 각 다이가 정상 동작하는지 충분히 검사하지 않으면, 값비싼 패키지 전체를 폐기해야 하는 수율 재앙이 발생한다. 따라서 SiP는 설계만큼 테스트와 조립 공정 관리가 중요한 기술이다.
@@ -142,16 +142,16 @@ SiP의 가장 큰 효과는 시스템 소형화와 재사용성의 동시 확보
 
 ```text
 Board-level discrete modules
-        │
-        ▼
+        |
+        v
 MCM (Multi-Chip Module)
-        │
-        ▼
+        |
+        v
 SiP (System in Package)
-        │
-        ├────────▶ PoP · Embedded Passives
-        ├────────▶ 2.5D / 3D integration
-        └────────▶ Chiplet-based modular package
+        |
+        +---------> PoP · Embedded Passives
+        +---------> 2.5D / 3D integration
+        +---------> Chiplet-based modular package
 ```
 
 이 흐름은 부품이 보드에서 패키지 안으로 이동하면서, 연결 밀도와 시스템 통합 수준이 점점 높아지는 과정을 보여 준다.
@@ -168,7 +168,7 @@ SiP (System in Package)
 
 **진행 상황**: 535 / 803
 
-← **이전**: [534. 무어의 법칙 이후 (More than Moore)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/)
-**다음**: [536. LLVM IR 변환 (컴파일러-HW 인터페이스)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/536_llvm_ir/) →
+<- **이전**: [534. 무어의 법칙 이후 (More than Moore)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/)
+**다음**: [536. LLVM IR 변환 (컴파일러-HW 인터페이스)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/536_llvm_ir/) ->
 
 ---

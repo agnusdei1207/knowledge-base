@@ -30,9 +30,9 @@ tags = ["ai"]
 
 ```text
 Input
-  ↓ threshold
+  v threshold
 Step Function
-  ↓
+  v
 0 or 1
 ```
 
@@ -104,11 +104,11 @@ Step Function
 
 ```text
 Threshold
-  ↓
+  v
 Step Function
-  ↓
+  v
 Perceptron
-  ↓
+  v
 Activation Function
 ```
 
@@ -118,11 +118,11 @@ Activation Function
 
 ```text
 Step Function
-  ↓
+  v
 Perceptron
-  ↓
+  v
 Sigmoid
-  ↓
+  v
 ReLU
 ```
 
@@ -140,7 +140,7 @@ ReLU
 
 **진행 상황**: 68 / 420
 
-← **이전**: [67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수](/knowledge-base/studynote/10_ai/01_ai_basics/067_activation_function_neural_network_non_linearity/)
-**다음**: [69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/) →
+<- **이전**: [67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수](/knowledge-base/studynote/10_ai/01_ai_basics/067_activation_function_neural_network_non_linearity/)
+**다음**: [69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/) ->
 
 ---

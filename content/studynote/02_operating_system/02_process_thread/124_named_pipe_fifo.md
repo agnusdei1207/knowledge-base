@@ -31,33 +31,33 @@ tags = ["studynote-operating-system"]
 이 도식은 일반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) (Unnamed [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 기반이므로 부모-자식 프로세스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 종속되는 반면, 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 경로를 통해 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 없는 프로세스도 통신할 수 있다는 구조적 차이를 명확히 보여준다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │          일반 파이프 vs 지명 파이프 (FIFO) 접근 방식 비교      │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [일반 파이프 (Unnamed Pipe)]                                  │
-  │                                                                │
-  │   Parent Process                                               │
-  │   ┌───────────────────┐                                        │
-  │   │ pipe(fd[2])       │ ──fork()──▶ fd[0], fd[1] 상속          │
-  │   │ fd[0]=읽기        │               │                        │
-  │   │ fd[1]=쓰기        │               ▼                        │
-  │   └───────────────────┘     Child Process (상속된 FD만 접근)   │
-  │                                                                │
-  │   ⚠ 부모-자식 관계 필수, 외부 프로세스 접근 불가               │
-  │                                                                │
-  │  [지명 파이프 (Named Pipe / FIFO)]                             │
-  │                                                                │
-  │   파일 시스템: /tmp/my_fifo (특수 파일)                        │
-  │                     ▲            ▲                             │
-  │                     │            │                             │
-  │              Process A        Process B                        │
-  │              (독립 프로세스)    (독립 프로세스)                │
-  │              open("/tmp/my_fifo", O_WRONLY)                    │
-  │              open("/tmp/my_fifo", O_RDONLY)                    │
-  │                                                                │
-  │   ✅ 부모-자식 관계 무관, 경로만 알면 접근 가능                │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |          일반 파이프 vs 지명 파이프 (FIFO) 접근 방식 비교      |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [일반 파이프 (Unnamed Pipe)]                                  |
+  |                                                                |
+  |   Parent Process                                               |
+  |   +-------------------+                                        |
+  |   | pipe(fd[2])       | --fork()---> fd[0], fd[1] 상속          |
+  |   | fd[0]=읽기        |               |                        |
+  |   | fd[1]=쓰기        |               v                        |
+  |   +-------------------+     Child Process (상속된 FD만 접근)   |
+  |                                                                |
+  |   ⚠ 부모-자식 관계 필수, 외부 프로세스 접근 불가               |
+  |                                                                |
+  |  [지명 파이프 (Named Pipe / FIFO)]                             |
+  |                                                                |
+  |   파일 시스템: /tmp/my_fifo (특수 파일)                        |
+  |                     ^            ^                             |
+  |                     |            |                             |
+  |              Process A        Process B                        |
+  |              (독립 프로세스)    (독립 프로세스)                |
+  |              open("/tmp/my_fifo", O_WRONLY)                    |
+  |              open("/tmp/my_fifo", O_RDONLY)                    |
+  |                                                                |
+  |   ✅ 부모-자식 관계 무관, 경로만 알면 접근 가능                |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조도의 핵심은 통신 경로에 대한 접근 권한의 차이다. 일반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 `pipe()` 시스템 콜이 반환하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `fd[0]`(읽기 전용)과 `fd[1]`([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용)만을 통해 접근할 수 있으며, 이 디스크립터는 `fork()`에 의해 자식 프로세스에게만 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)된다. 따라서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 테이블을 공유하지 않는 완전히 독립적인 프로세스는 일반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 접근할 방법이 없다. 반면 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) (Named [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) / [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상에 `/tmp/my_fifo`와 같은 실제 경로로 존재하는 특수 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로를 알고 있는 모든 프로세스가 `open()` 시스템 콜을 통해 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열고 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 수행할 수 있다. 이러한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기반 접근 모델 덕분에 관련 없는 데몬 프로세스, 사용자 애플리케이션, 심지어 다른 사용자 권한의 프로세스까지도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 퍼미션 (Permission) 범위 내에서 통신에 참여할 수 있다. 이는 시스템 프로그래밍에서 프로세스 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 크게 낮추는 구조적 장점이다.
@@ -86,38 +86,38 @@ tags = ["studynote-operating-system"]
 이 흐름도는 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통한 두 독립 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)의 전체 생명주기를 시각화한 것으로, 특히 `open()` 호출 시의 블로킹 동작과 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서를 명확히 보여준다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │           지명 파이프 (Named Pipe / FIFO) 통신 흐름도          │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [생성 단계]                                                   │
-  │  $ mkfifo /tmp/my_fifo                                         │
-  │     또는                                                       │
-  │  mkfifo("/tmp/my_fifo", 0666);  // 프로그램 내 생성            │
-  │     │                                                          │
-  │     ▼                                                          │
-  │  파일 시스템에 FIFO 특수 파일 생성 (inode 타입 = FIFO)         │
-  │                                                                │
-  │  [통신 단계]                                                   │
-  │                                                                │
-  │  Process A (Writer)            Process B (Reader)              │
-  │       │                            │                           │
-  │   open(O_WRONLY)               open(O_RDONLY)                  │
-  │       │                            │                           │
-  │       │   ◀── 둘 다 열릴 때까지 ──▶ │  (기본 블로킹 동작)      │
-  │       │       open()이 대기          │                         │
-  │       ▼                            ▼                           │
-  │   write("Hello") ──────▶ [FIFO 버퍼] ──────▶ read(buf)         │
-  │   write("World") ──────▶ [Kernel    ] ──────▶ read(buf)        │
-  │   write("!!!")  ──────▶ [Pipe Buf ] ──────▶ read(buf)          │
-  │                          │                                     │
-  │                    FIFO 순서: Hello → World → !!!              │
-  │                          │                                     │
-  │       ▼                            ▼                           │
-  │    close()                      close()                        │
-  │                                                                │
-  │  ⚠ Reader가 close하면 Writer의 write()는 SIGPIPE 시그널 발생   │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |           지명 파이프 (Named Pipe / FIFO) 통신 흐름도          |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [생성 단계]                                                   |
+  |  $ mkfifo /tmp/my_fifo                                         |
+  |     또는                                                       |
+  |  mkfifo("/tmp/my_fifo", 0666);  // 프로그램 내 생성            |
+  |     |                                                          |
+  |     v                                                          |
+  |  파일 시스템에 FIFO 특수 파일 생성 (inode 타입 = FIFO)         |
+  |                                                                |
+  |  [통신 단계]                                                   |
+  |                                                                |
+  |  Process A (Writer)            Process B (Reader)              |
+  |       |                            |                           |
+  |   open(O_WRONLY)               open(O_RDONLY)                  |
+  |       |                            |                           |
+  |       |   <--- 둘 다 열릴 때까지 ---> |  (기본 블로킹 동작)      |
+  |       |       open()이 대기          |                         |
+  |       v                            v                           |
+  |   write("Hello") -------> [FIFO 버퍼] -------> read(buf)         |
+  |   write("World") -------> [Kernel    ] -------> read(buf)        |
+  |   write("!!!")  -------> [Pipe Buf ] -------> read(buf)          |
+  |                          |                                     |
+  |                    FIFO 순서: Hello -> World -> !!!              |
+  |                          |                                     |
+  |       v                            v                           |
+  |    close()                      close()                        |
+  |                                                                |
+  |  ⚠ Reader가 close하면 Writer의 write()는 SIGPIPE 시그널 발생   |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 흐름도에서 가장 중요한 동작 특성은 `open()` 호출의 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 동작이다. 기본적으로 읽기 전용으로 열려는 프로세스는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용 프로세스가 나타날 때까지 대기 (Block)하고, 반대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용 프로세스도 읽기 전용 프로세스가 나타날 때까지 대기한다. 즉, 양측이 모두 준비되지 않으면 통신이 시작되지 않는다. 이는 양측 프로세스 간의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기 단계에서 자연스럽게 이루어짐을 의미한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) Buffer)에 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In-First-Out) 순서로 적재되며, 버퍼가 가득 차면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 프로세스도 블로킹된다. 특히 읽기 프로세스가 `close()`를 호출하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 읽기 측이 끊어진 것으로 간주하여, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 프로세스의 후속 `write()` 호출은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 의해 SIGPIPE 시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 발생시키거나 EPIPE 에러를 반환한다. 이러한 동작 특성 덕분에 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달뿐만 아니라 프로세스 간의 생존 감지 (Liveness [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 용도로도 활용될 수 있다.
@@ -153,38 +153,38 @@ tags = ["studynote-operating-system"]
 이 도식은 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼를 사용하면서도, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방법과 프로세스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 요구 사항에서 근본적으로 다른 두 메커니즘의 아키텍처 차이를 시각화한 것이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │       일반 파이프 vs 지명 파이프 — 커널 자원 관점 비교         │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [일반 파이프]                                                 │
-  │                                                                │
-  │  ┌─── Process A ───┐         ┌─── Process B ───┐               │
-  │  │ fd[1] ──(쓰기)──┼────────▶│ fd[0] ──(읽기) │                │
-  │  └─────────────────┘         └─────────────────┘               │
-  │                    │                                           │
-  │                    ▼                                           │
-  │         ┌─────────────────────┐                                │
-  │         │  Kernel Pipe Buffer │  (FD가 닫히면 자동 해제)       │
-  │         │  (FIFO 순환 큐)     │                                │
-  │         └─────────────────────┘                                │
-  │                                                                │
-  │  [지명 파이프]                                                 │
-  │                                                                │
-  │  ┌─── Process C ───┐         ┌─── Process D ───┐               │
-  │  │ (관계 없음)      │         │ (관계 없음)      │             │
-  │  │ O_WRONLY ───────┼────────▶│ O_RDONLY ─────── │              │
-  │  └─────────────────┘         └─────────────────┘               │
-  │                    │                                           │
-  │                    ▼                                           │
-  │  ┌── File System ───────────────────────────┐                  │
-  │  │ /tmp/my_fifo (FIFO inode, 타입 마킹)      │                 │
-  │  │   └──▶ Kernel Pipe Buffer (FIFO 순환 큐)  │                 │
-  │  └───────────────────────────────────────────┘                 │
-  │                                                                │
-  │  차이점: 접근 경로가 FD 상속 vs 파일 시스템 경로               │
-  │  공통점: 내부 동작은 동일한 커널 파이프 버퍼 사용              │
-  └────────────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------------+
+  |       일반 파이프 vs 지명 파이프 — 커널 자원 관점 비교         |
+  +----------------------------------------------------------------+
+  |                                                                |
+  |  [일반 파이프]                                                 |
+  |                                                                |
+  |  +--- Process A ---+         +--- Process B ---+               |
+  |  | fd[1] --(쓰기)--+--------->| fd[0] --(읽기) |                |
+  |  +-----------------+         +-----------------+               |
+  |                    |                                           |
+  |                    v                                           |
+  |         +---------------------+                                |
+  |         |  Kernel Pipe Buffer |  (FD가 닫히면 자동 해제)       |
+  |         |  (FIFO 순환 큐)     |                                |
+  |         +---------------------+                                |
+  |                                                                |
+  |  [지명 파이프]                                                 |
+  |                                                                |
+  |  +--- Process C ---+         +--- Process D ---+               |
+  |  | (관계 없음)      |         | (관계 없음)      |             |
+  |  | O_WRONLY -------+--------->| O_RDONLY ------- |              |
+  |  +-----------------+         +-----------------+               |
+  |                    |                                           |
+  |                    v                                           |
+  |  +-- File System ---------------------------+                  |
+  |  | /tmp/my_fifo (FIFO inode, 타입 마킹)      |                 |
+  |  |   +---> Kernel Pipe Buffer (FIFO 순환 큐)  |                 |
+  |  +-------------------------------------------+                 |
+  |                                                                |
+  |  차이점: 접근 경로가 FD 상속 vs 파일 시스템 경로               |
+  |  공통점: 내부 동작은 동일한 커널 파이프 버퍼 사용              |
+  +----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원 관점에서 보면 일반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)와 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) Buffer)를 사용한다. 핵심 차이는 이 버퍼에 도달하는 "접근 경로"에 있다. 일반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 프로세스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 테이블 내에서만 존재하므로 `fork()`를 통해 테이블이 복사되지 않으면 접근 불가능하다. 반면 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) ([Virtual File System](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 계층을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 경로로 버퍼에 매핑된다. 즉, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 메커니즘은 완전히 동일하지만, 외부에서 이 메커니즘을 "어떻게 찾아가는가"라는 접근 계층만 다를 뿐이다. 이러한 구조적 통일성 덕분에 개발자는 통신 대상 프로세스와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 따라 두 메커니즘 중 하나를 선택하기만 하면 되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 동작 방식에 대해서는 추가적인 학습이 불필요하다. 실무에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 동일하므로 프로세스 간 독립성 요구 사항만 고려하면 된다.
@@ -214,39 +214,39 @@ tags = ["studynote-operating-system"]
 이 다이어그램은 단일 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 양방향 통신을 시도할 때 발생하는 데드락의 메커니즘과, 두 개의 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 사용하여 이를 해결하는 올바른 아키텍처를 시각화한 것이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │           지명 파이프 양방향 통신 — 데드락과 해결                  │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │  [잘못된 설계: 단일 FIFO로 양방향 통신 시도]                       │
-  │                                                                    │
-  │  Process A                FIFO Buffer              Process B       │
-  │  ┌──────────┐         ┌───────────────┐         ┌──────────┐       │
-  │  │ Request  │────────▶│ [FULL] 쓰기   │         │ Response │       │
-  │  │ (쓰기)   │         │ 대기 중...     │────────▶│ (쓰기)   │      │
-  │  │          │◀────────│ 읽기 시도?     │         │          │      │
-  │  │ (읽기)   │         │ 누가 먼저?    │◀────────│ (읽기)   │       │
-  │  └──────────┘         └───────────────┘         └──────────┘       │
-  │       │                                                  │         │
-  │       └──── 둘 다 쓰기만 시도 → 버퍼 만원 → DEADLOCK ───┘          │
-  │                                                                    │
-  │  [올바른 설계: 쌍방향 FIFO (각각 단방향)]                          │
-  │                                                                    │
-  │  Process A                                              Process B  │
-  │  ┌──────────┐         ┌───────────────┐         ┌──────────┐       │
-  │  │ Request  │────────▶│ FIFO_AB       │────────▶│ Response │       │
-  │  │ (쓰기)   │         │ (A→B 전용)     │         │ (읽기)   │      │
-  │  └──────────┘         └───────────────┘         └──────────┘       │
-  │  ┌──────────┐         ┌───────────────┐         ┌──────────┐       │
-  │  │ Response │◀────────│ FIFO_BA       │◀────────│ Request  │       │
-  │  │ (읽기)   │         │ (B→A 전용)     │         │ (쓰기)   │      │
-  │  └──────────┘         └───────────────┘         └──────────┘       │
-  │                                                                    │
-  │  ✅ 데이터 흐름 방향이 명확 → 데드락 불가                          │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |           지명 파이프 양방향 통신 — 데드락과 해결                  |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |  [잘못된 설계: 단일 FIFO로 양방향 통신 시도]                       |
+  |                                                                    |
+  |  Process A                FIFO Buffer              Process B       |
+  |  +----------+         +---------------+         +----------+       |
+  |  | Request  |--------->| [FULL] 쓰기   |         | Response |       |
+  |  | (쓰기)   |         | 대기 중...     |--------->| (쓰기)   |      |
+  |  |          |<---------| 읽기 시도?     |         |          |      |
+  |  | (읽기)   |         | 누가 먼저?    |<---------| (읽기)   |       |
+  |  +----------+         +---------------+         +----------+       |
+  |       |                                                  |         |
+  |       +---- 둘 다 쓰기만 시도 -> 버퍼 만원 -> DEADLOCK ---+          |
+  |                                                                    |
+  |  [올바른 설계: 쌍방향 FIFO (각각 단방향)]                          |
+  |                                                                    |
+  |  Process A                                              Process B  |
+  |  +----------+         +---------------+         +----------+       |
+  |  | Request  |--------->| FIFO_AB       |--------->| Response |       |
+  |  | (쓰기)   |         | (A->B 전용)     |         | (읽기)   |      |
+  |  +----------+         +---------------+         +----------+       |
+  |  +----------+         +---------------+         +----------+       |
+  |  | Response |<---------| FIFO_BA       |<---------| Request  |       |
+  |  | (읽기)   |         | (B->A 전용)     |         | (쓰기)   |      |
+  |  +----------+         +---------------+         +----------+       |
+  |                                                                    |
+  |  ✅ 데이터 흐름 방향이 명확 -> 데드락 불가                          |
+  +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 비교도의 핵심은 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)성 (Half-Duplex)이라는 근본 설계 특성이다. 단일 FIFO로 양방향 통신을 시도하면, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A와 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) B가 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 수행할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼가 가득 차게 되고, 양측 모두 버퍼에 공간이 생기기를 기다리며 읽기를 수행하지 않는 상황, 즉 고전적인 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다. POSIX 표준에서 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 동작만을 보장하므로, 양방향 통신이 필요한 경우에는 반드시 두 개의 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 각각 명확한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 (A→B, B→A)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. 이 패턴은 실무에서 클라이언트-서버 모델의 요청-응답 통신을 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 구현할 때 반드시 준수해야 하는 설계 원칙이다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 채널을 명확히 분리하는 것은 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 설계에서 데드락을 예방하는 가장 기본적이고 확실한 방법이다.
+**[다이어그램 해설]** 이 비교도의 핵심은 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)성 (Half-Duplex)이라는 근본 설계 특성이다. 단일 FIFO로 양방향 통신을 시도하면, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A와 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) B가 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 수행할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼가 가득 차게 되고, 양측 모두 버퍼에 공간이 생기기를 기다리며 읽기를 수행하지 않는 상황, 즉 고전적인 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다. POSIX 표준에서 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 동작만을 보장하므로, 양방향 통신이 필요한 경우에는 반드시 두 개의 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 각각 명확한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 (A->B, B->A)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. 이 패턴은 실무에서 클라이언트-서버 모델의 요청-응답 통신을 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 구현할 때 반드시 준수해야 하는 설계 원칙이다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 채널을 명확히 분리하는 것은 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 설계에서 데드락을 예방하는 가장 기본적이고 확실한 방법이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: 지명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 버퍼 크기 (리눅스 기본 `/proc/sys/fs/pipe-max-size`)가 전송할 메시지의 최대 크기를 수용할 수 있는가? O_NONBLOCK [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 사용 여부에 따른 에러 처리 로직이 구현되었는가?
@@ -294,12 +294,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [파이프 (Pipe)]
-    │
-    ▼
+    |
+    v
 [지명 파이프 (Named Pipe / FIFO)]
-    │
-    ├──▶ [소켓 (Socket) 통신]
-    └──▶ [RPC (Remote Procedure Call)]
+    |
+    +---> [소켓 (Socket) 통신]
+    +---> [RPC (Remote Procedure Call)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -316,7 +316,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 124 / 800
 
-← **이전**: [123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)
-**다음**: [125. 소켓 (Socket) 통신 - 네트워크, 서로 다른 시스템 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) →
+<- **이전**: [123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)
+**다음**: [125. 소켓 (Socket) 통신 - 네트워크, 서로 다른 시스템 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) ->
 
 ---

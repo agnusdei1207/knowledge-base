@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 정점과 간선을 읽는 순서를 메모리 쪽에서 재정렬해, 범용 캐시가 감당하기 어려운 무작위 접근을 흡수하는 구조다. BFS와 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 알고리즘은 `정점 → 인접 리스트 → 다음 정점 → 또 다른 인접 리스트` 식으로 접근이 이어져 지역성이 매우 낮다. 그래서 범용 중앙처리장치 (Central Processing Unit, CPU)는 계산보다 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 응답을 기다리는 시간이 더 길어지기 쉽다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 정점과 간선을 읽는 순서를 메모리 쪽에서 재정렬해, 범용 캐시가 감당하기 어려운 무작위 접근을 흡수하는 구조다. BFS와 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 알고리즘은 `정점 -> 인접 리스트 -> 다음 정점 -> 또 다른 인접 리스트` 식으로 접근이 이어져 지역성이 매우 낮다. 그래서 범용 중앙처리장치 (Central Processing Unit, CPU)는 계산보다 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 응답을 기다리는 시간이 더 길어지기 쉽다.
 
 특히 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 금융 이상거래 추적, 경로 탐색처럼 연결 차수가 크게 치우친 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 문제가 더 심해진다. BFS는 한 레벨의 프런티어를 넓게 확장하므로 방문 체크와 이웃 읽기가 폭발하고, DFS는 프런티어 폭은 좁아도 깊은 의존성과 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 때문에 캐시가 예측하기 어렵다. 결국 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 계산 문제라기보다 <strong>주소를 얼마나 빨리 찾고, 묶고, 중복을 지우고, 다시 발사하느냐</strong>의 문제다.
 
@@ -34,22 +34,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 메모리 서브시스템이 무작위 요청을 어떻게 파이프라인으로 바꾸는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│    Graph Traversal Memory Subsystem: irregular -> scheduled flow    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host Core / Graph Engine                                             │
-│          │ frontier vertex IDs                                       │
-│          ▼                                                           │
-│   [ Frontier Queue ] -> [ CSR Offset Cache ] -> [ Address Coalescer ]│
-│          │                         │                      │           │
-│          │                         │                      ▼           │
-│          │                         └──────────────> [ Bank Scheduler ]│
-│          │                                            │  │  │        │
-│          ▼                                            ▼  ▼  ▼        │
-│   [ Visited Bitmap SRAM ] <──── duplicate filter ── [ Memory Banks ] │
-│          │                                                           │
-│          └──────────────────────> [ Next Frontier / DFS Stack ]      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|    Graph Traversal Memory Subsystem: irregular -> scheduled flow    |
++----------------------------------------------------------------------+
+| Host Core / Graph Engine                                             |
+|          | frontier vertex IDs                                       |
+|          v                                                           |
+|   [ Frontier Queue ] -> [ CSR Offset Cache ] -> [ Address Coalescer ]|
+|          |                         |                      |           |
+|          |                         |                      v           |
+|          |                         +--------------> [ Bank Scheduler ]|
+|          |                                            |  |  |        |
+|          v                                            v  v  v        |
+|   [ Visited Bitmap SRAM ] <---- duplicate filter -- [ Memory Banks ] |
+|          |                                                           |
+|          +----------------------> [ Next Frontier / DFS Stack ]      |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -130,17 +130,17 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ```text
 포인터 기반 그래프 탐색
-    │
-    ▼
+    |
+    v
 CPU 캐시 미스 · 포인터 체이싱 병목
-    │
-    ▼
+    |
+    v
 CSR/CSC · 정점 재정렬 · 방문 비트맵
-    │
-    ▼
+    |
+    v
 그래프 탐색 전용 메모리 서브시스템
-    │
-    ▼
+    |
+    v
 근접 메모리 컴퓨팅 · PIM · 분산 그래프 분석기
 ```
 
@@ -156,7 +156,7 @@ CSR/CSC · 정점 재정렬 · 방문 비트맵
 
 **진행 상황**: 613 / 803
 
-← **이전**: [612. 행렬 분해 (LU, QR) 전용 병렬 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/612_matrix_decomposition_hw/)
-**다음**: [614. 페이지 랭크 알고리즘 하드웨어 맵핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/614_pagerank_hw_mapping/) →
+<- **이전**: [612. 행렬 분해 (LU, QR) 전용 병렬 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/612_matrix_decomposition_hw/)
+**다음**: [614. 페이지 랭크 알고리즘 하드웨어 맵핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/614_pagerank_hw_mapping/) ->
 
 ---

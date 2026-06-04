@@ -26,19 +26,19 @@ RTO는 "얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secop
 아래 그림은 RTO가 단순히 장비 부팅 시간이 아니라, 탐지와 선언, 전환, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함하는 목표라는 점을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ RTO timeline                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Incident                                                             │
-│   │                                                                  │
-│   ├─ detection                                                       │
-│   ├─ disaster declaration                                            │
-│   ├─ infrastructure / data / app recovery                            │
-│   ├─ service validation                                              │
-│   ▼                                                                  │
-│ Acceptable service restored                                          │
-│   <------------------- must fit inside RTO ----------------------->  │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| RTO timeline                                                         |
++----------------------------------------------------------------------+
+| Incident                                                             |
+|   |                                                                  |
+|   +- detection                                                       |
+|   +- disaster declaration                                            |
+|   +- infrastructure / data / app recovery                            |
+|   +- service validation                                              |
+|   v                                                                  |
+| Acceptable service restored                                          |
+|   <------------------- must fit inside RTO ----------------------->  |
++----------------------------------------------------------------------+
 ```
 
 즉 RTO는 기술팀의 편의 숫자가 아니라, "이 업무는 몇 시간 멈추면 안 되는가"를 조직 차원에서 선언한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마감 시각이다.
@@ -63,22 +63,22 @@ RTO는 먼저 BIA와 MTPD (Maximum Tolerable Period of Disruption)에서 나온�
 아래 그림은 RTO가 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처 결정으로 이어지는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ From business impact to recovery architecture                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ BIA / MTPD                                                           │
-│    │                                                                 │
-│    ▼                                                                 │
-│ RTO target                                                           │
-│    │                                                                 │
-│    ├─ automation level                                               │
-│    ├─ standby infrastructure                                         │
-│    ├─ network / DNS (Domain Name System) failover                    │
-│    ├─ application startup order                                      │
-│    └─ business validation plan                                       │
-│    ▼                                                                 │
-│ feasible recovery strategy                                           │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| From business impact to recovery architecture                        |
++----------------------------------------------------------------------+
+| BIA / MTPD                                                           |
+|    |                                                                 |
+|    v                                                                 |
+| RTO target                                                           |
+|    |                                                                 |
+|    +- automation level                                               |
+|    +- standby infrastructure                                         |
+|    +- network / DNS (Domain Name System) failover                    |
+|    +- application startup order                                      |
+|    +- business validation plan                                       |
+|    v                                                                 |
+| feasible recovery strategy                                           |
++----------------------------------------------------------------------+
 ```
 
 실무에서 자주 놓치는 점은 RTO가 "기술 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간"과 같지 않다는 것이다. 선언 승인, 인력 호출, 배치 재시작, 외부 연계 점검, 사용자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함해야 실제 목표가 된다. 따라서 좋은 RTO 설계는 시스템만이 아니라 운영 절차와 의사결정 체계를 함께 계산한다.
@@ -163,27 +163,27 @@ RTO를 명확히 정의하면 [복구](/knowledge-base/studynote/09_security/13_
 
 ```text
 업무 영향 분석
-    │
-    ▼
+    |
+    v
 MTPD (Maximum Tolerable Period of Disruption)
-    │
-    ▼
+    |
+    v
 RTO / RPO 설정
-    │
-    ▼
+    |
+    v
 복구 전략 선택
-    ├─ Active-Active
-    ├─ Hot Site
-    ├─ Warm Site
-    └─ Cold Site
-    │
-    ▼
+    +- Active-Active
+    +- Hot Site
+    +- Warm Site
+    +- Cold Site
+    |
+    v
 자동화 · 전환 절차 · 검증 기준 수립
-    │
-    ▼
+    |
+    v
 모의훈련 / failover / failback 측정
-    │
-    ▼
+    |
+    v
 지속 개선형 업무 연속성 관리
 ```
 
@@ -201,7 +201,7 @@ RTO / RPO 설정
 
 **진행 상황**: 290 / 587
 
-← **이전**: [175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity](/knowledge-base/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/)
-**다음**: [177. RPO (Recovery Point Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) →
+<- **이전**: [175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity](/knowledge-base/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/)
+**다음**: [177. RPO (Recovery Point Objective)](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ->
 
 ---

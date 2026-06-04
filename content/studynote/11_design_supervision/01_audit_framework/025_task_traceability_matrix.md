@@ -21,18 +21,18 @@ tags = ["studynote-design-supervision"]
 소프트웨어 개발 과정에서 처음 수집한 요구사항이 최종 제품에 모두 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못하면, 납품 시점에 "기능 누락"이나 "테스트 안 된 기능"이 발견되어 프로젝트가 실패할 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           추적 매트릭스 방향성                              │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  순방향 추적 (Forward): 요구사항 → 설계 → 구현 → 테스트    │
-│    "이 요구사항이 어디에 구현됐고 어떻게 검증되나?"         │
-│                                                          │
-│  역방향 추적 (Backward): 테스트 → 구현 → 설계 → 요구사항  │
-│    "이 테스트가 검증하는 요구사항은 무엇인가?"               │
-│                                                          │
-│  양방향 추적 = 완전성(Completeness) + 일관성(Consistency)  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           추적 매트릭스 방향성                              |
++----------------------------------------------------------+
+|                                                          |
+|  순방향 추적 (Forward): 요구사항 -> 설계 -> 구현 -> 테스트    |
+|    "이 요구사항이 어디에 구현됐고 어떻게 검증되나?"         |
+|                                                          |
+|  역방향 추적 (Backward): 테스트 -> 구현 -> 설계 -> 요구사항  |
+|    "이 테스트가 검증하는 요구사항은 무엇인가?"               |
+|                                                          |
+|  양방향 추적 = 완전성(Completeness) + 일관성(Consistency)  |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 추적 매트릭스는 집 건축의 시공 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다. 설계도(요구사항)의 각 항목이 실제로 지어졌는지(구현), 준공 검사를 통과했는지(테스트)를 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 표다.
@@ -44,23 +44,23 @@ tags = ["studynote-design-supervision"]
 ### [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 예시
 
 ```text
-┌─────────┬──────────┬────────────┬──────────────┬────────┐
-│ 요구사항 │  설계 문서│  소스코드  │  테스트 케이스│  상태  │
-├─────────┼──────────┼────────────┼──────────────┼────────┤
-│ REQ-001 │ DS-01    │ auth.py:45 │ TC-001       │ 완료   │
-│ REQ-002 │ DS-02    │ user.py:12 │ TC-002       │ 완료   │
-│ REQ-003 │ DS-03    │    -       │    -         │ 미구현 │
-│ REQ-004 │ DS-01    │ pay.py:78  │ TC-003,004   │ 완료   │
-└─────────┴──────────┴────────────┴──────────────┴────────┘
-REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
++---------+----------+------------+--------------+--------+
+| 요구사항 |  설계 문서|  소스코드  |  테스트 케이스|  상태  |
++---------+----------+------------+--------------+--------+
+| REQ-001 | DS-01    | auth.py:45 | TC-001       | 완료   |
+| REQ-002 | DS-02    | user.py:12 | TC-002       | 완료   |
+| REQ-003 | DS-03    |    -       |    -         | 미구현 |
+| REQ-004 | DS-01    | pay.py:78  | TC-003,004   | 완료   |
++---------+----------+------------+--------------+--------+
+REQ-003: 미구현 -> 즉시 팀 공유 및 일정 조정 필요
 ```
 
 ### JIRA + Confluence 기반 자동화 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)
 
 ```text
-[JIRA Ticket (요구사항)] → [Pull Request (구현)] → [테스트 케이스]
-          │                      │                     │
-          └──────────────────────┴─────────────────────┘
+[JIRA Ticket (요구사항)] -> [Pull Request (구현)] -> [테스트 케이스]
+          |                      |                     |
+          +----------------------+---------------------+
                             RTM 자동 생성
                             (Traceability Plugin)
 ```
@@ -74,7 +74,7 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 | 항목 | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) (요구사항 추적) | 영향 분석 매트릭스 |
 |:---|:---|:---|
 | **목적** | 요구사항 완전성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 변경 요청 시 영향 범위 파악 |
-| **방향** | 양방향 (요구사항↔테스트) | 변경점→영향 받는 항목 |
+| **방향** | 양방향 (요구사항↔테스트) | 변경점->영향 받는 항목 |
 | **사용 시점** | 개발 전 기간 | 변경 요청(CR) 발생 시 |
 
 - **📢 섹션 요약 비유**: RTM은 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)(완성도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이고, 영향 분석 매트릭스는 도미노 패(한 변경이 어디까지 영향을 주는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))이다.
@@ -85,11 +85,11 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 
 ### 실무 시나리오: 의료기기 소프트웨어 DO-178C 준수
 1. 항공/의료 분야에서 모든 요구사항(L1~L5 수준)이 설계·코드·테스트와 1:1로 추적 가능해야 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/).
-2. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 없이는 "이 테스트가 어느 요구사항을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가?" 설명 불가 → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패.
-3. 도구: IBM DOORS, Polarion, Jama Connect → 요구사항 ID 기반 자동 추적.
+2. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 없이는 "이 테스트가 어느 요구사항을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가?" 설명 불가 -> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패.
+3. 도구: IBM DOORS, Polarion, Jama Connect -> 요구사항 ID 기반 자동 추적.
 
 ### 범위 변경([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) 조기 탐지
-- 신규 코드가 추가됐는데 연결된 요구사항이 없다면 → 승인되지 않은 기능 추가([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) 징후.
+- 신규 코드가 추가됐는데 연결된 요구사항이 없다면 -> 승인되지 않은 기능 추가([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) 징후.
 - [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 정기 검토로 이를 조기에 탐지하고 PM에게 보고.
 
 - **📢 섹션 요약 비유**: RTM에 없는 코드 추가는 건축 설계도에 없는 방을 몰래 짓는 것이다. 설계도([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))와 실제 건물(코드)이 항상 일치해야 안전하다.
@@ -124,14 +124,14 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 
 ```text
 [수동 RTM — 스프레드시트 기반 요구사항 추적]
-    │
-    ▼
+    |
+    v
 [DOORS/Polarion — 전문 요구사항 관리 도구]
-    │
-    ▼
+    |
+    v
 [ALM 통합 (Jira/Azure DevOps) — 코드·테스트 자동 연결]
-    │
-    ▼
+    |
+    v
 [AI 기반 추적 — NLP로 요구사항↔코드 자동 매핑]
 ```
 
@@ -147,7 +147,7 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 
 **진행 상황**: 27 / 530
 
-← **이전**: [24. 위험 기반 감리 (Risk-based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/)
-**다음**: [26. 응용 시스템 영역 감리 (Applications System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) →
+<- **이전**: [24. 위험 기반 감리 (Risk-based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/)
+**다음**: [26. 응용 시스템 영역 감리 (Applications System Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_applications_system_area_audit/) ->
 
 ---

@@ -31,13 +31,13 @@ tags = ["studynote-enterprise"]
 
 ```text
 Data Sources
-  ↓
+  v
 Cloud Storage / SaaS
-  ↓
+  v
 Discovery / Classification
-  ↓
+  v
 Access Control / Encryption
-  ↓
+  v
 Governance
 ```
 
@@ -112,11 +112,11 @@ Governance
 
 ```text
 Cloud Data
-  ↓
+  v
 Shadow Data
-  ↓
+  v
 Discovery / Classification
-  ↓
+  v
 Governance
 ```
 
@@ -126,11 +126,11 @@ Governance
 
 ```text
 Shadow IT
-  ↓
+  v
 Shadow Data
-  ↓
+  v
 Data Discovery
-  ↓
+  v
 Cloud Governance
 ```
 
@@ -148,7 +148,7 @@ Cloud Governance
 
 **진행 상황**: 65 / 482
 
-← **이전**: [64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/064_cloud_migration_6r_strategies/)
-**다음**: [66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/066_data_governance_framework/) →
+<- **이전**: [64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/064_cloud_migration_6r_strategies/)
+**다음**: [66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/066_data_governance_framework/) ->
 
 ---

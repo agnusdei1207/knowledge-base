@@ -26,17 +26,17 @@ tags = ["studynote-bigdata"]
 아래 비교는 왜 통합 플랫폼이 등장했는지를 잘 보여 준다. 핵심은 배치와 스트리밍을 같은 인프라에서 돌리는 것보다, 같은 의미 체계와 같은 로직으로 유지하는 데 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Lambda 구조 vs 통합 구조                                      │
-├──────────────────────────────────────────────────────────────┤
-│ Lambda: Raw Data ─▶ Batch Code ─▶ Batch View                 │
-│            └──────▶ Stream Code ─▶ Realtime View             │
-│            => 같은 규칙을 두 번 구현                         │
-│                                                              │
-│ Unified: Bounded / Unbounded Source                          │
-│              └────────▶ One Engine / One Logic ─▶ Result     │
-│              => 재처리와 실시간 계산의 간격 축소             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Lambda 구조 vs 통합 구조                                      |
++--------------------------------------------------------------+
+| Lambda: Raw Data --> Batch Code --> Batch View                 |
+|            +-------> Stream Code --> Realtime View             |
+|            => 같은 규칙을 두 번 구현                         |
+|                                                              |
+| Unified: Bounded / Unbounded Source                          |
+|              +---------> One Engine / One Logic --> Result     |
+|              => 재처리와 실시간 계산의 간격 축소             |
++--------------------------------------------------------------+
 ```
 
 그래서 현대 플랫폼은 "모든 것은 스트림이다" 혹은 "스트리밍도 작은 배치들의 연속이다"라는 두 방향으로 수렴해 왔다. Apache Flink는 전자를, Spark Structured Streaming은 후자를 더 강하게 대표한다. 둘 다 목표는 같지만, 시간 처리 방식과 상태 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 차이를 보인다.
@@ -57,19 +57,19 @@ tags = ["studynote-bigdata"]
 아래 그림은 통합 엔진이 입력 종류와 상관없이 하나의 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 유지하는 방식을 보여준다. 여기서 핵심 구성요소는 소스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 상태 저장소, 체크포인트, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)도 추적([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 또는 오프셋), 그리고 여러 싱크로의 일관된 결과 반영이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Unified Execution Model                                       │
-├──────────────────────────────────────────────────────────────┤
-│ File / Object Store (bounded) ─┐                             │
-│ Kafka / Pulsar (unbounded) ────┼─▶ Parse / Join / Aggregate  │
-│ CDC Stream (unbounded) ────────┘             │               │
-│                                               ▼               │
-│                                   State Store / Checkpoint    │
-│                                               │               │
-│                            ┌──────────────────┴─────────────┐ │
-│                            ▼                                ▼ │
-│                     Realtime Serving                  Lakehouse │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Unified Execution Model                                       |
++--------------------------------------------------------------+
+| File / Object Store (bounded) -+                             |
+| Kafka / Pulsar (unbounded) ----+--> Parse / Join / Aggregate  |
+| CDC Stream (unbounded) --------+             |               |
+|                                               v               |
+|                                   State Store / Checkpoint    |
+|                                               |               |
+|                            +------------------+-------------+ |
+|                            v                                v |
+|                     Realtime Serving                  Lakehouse |
++--------------------------------------------------------------+
 ```
 
 이 모델이 성립하려면 세 가지가 필요하다. 첫째, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)도를 추적해야 한다. 스트리밍에서는 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/), 배치에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝 또는 입력 종료가 그 역할을 한다. 둘째, 상태를 일관되게 보존해야 한다. 조인과 집계가 많아질수록 상태 저장소와 체크포인트가 엔진의 핵심이 된다. 셋째, 실패 후 재시작 시 같은 입력에 대해 같은 의미를 재현할 수 있어야 한다.
@@ -153,17 +153,17 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 [레이크하우스]
 
 ```text
 분리된 Batch / Stream 코드
-    │
-    ▼
+    |
+    v
 Replay 가능한 로그 · Checkpoint
-    │
-    ▼
+    |
+    v
 Unified API (Bounded + Unbounded)
-    │
-    ▼
+    |
+    v
 One Logic / One State Model
-    │
-    ▼
+    |
+    v
 Backfill + Realtime Serving + Lakehouse 연계
 ```
 
@@ -181,7 +181,7 @@ Backfill + Realtime Serving + Lakehouse 연계
 
 **진행 상황**: 179 / 262
 
-← **이전**: [178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/)
-**다음**: [180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/) →
+<- **이전**: [178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/)
+**다음**: [180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/) ->
 
 ---

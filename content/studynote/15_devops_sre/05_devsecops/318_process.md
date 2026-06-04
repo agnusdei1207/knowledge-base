@@ -30,17 +30,17 @@ Toil은 다음 6가지 특성을 모두 가진 업무다:
 | Scales linearly | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장에 비례해 업무량 증가                |
 
 ```
-┌───────────────────────────────────────────────────┐
-│                Toil 판별 흐름                     │
-│                                                   │
-│  반복 작업 발견                                   │
-│      │                                            │
-│      ├─ 자동화 가능? ─── No ──▶ Toil 아님        │
-│      │       │                                   │
-│      │      Yes                                  │
-│      │       │                                   │
-│      └──▶  Toil ──▶ 자동화 우선순위 큐에 등록    │
-└───────────────────────────────────────────────────┘
++---------------------------------------------------+
+|                Toil 판별 흐름                     |
+|                                                   |
+|  반복 작업 발견                                   |
+|      |                                            |
+|      +- 자동화 가능? --- No ---> Toil 아님        |
+|      |       |                                   |
+|      |      Yes                                  |
+|      |       |                                   |
+|      +--->  Toil ---> 자동화 우선순위 큐에 등록    |
++---------------------------------------------------+
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
@@ -72,8 +72,8 @@ SRE는 Overhead는 줄이되, 제거하는 것이 목표인 Toil에 집중한다
 3. **Eliminate**: 자동화 또는 문제 근원 제거
 
 실무 도구:
-- **Runbook 자동화**: 수동 런북 → [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)/Python 스크립트화
-- **Self-healing**: 장애 자동 감지 → 자동 재시작
+- **Runbook 자동화**: 수동 런북 -> [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)/Python 스크립트화
+- **Self-healing**: 장애 자동 감지 -> 자동 재시작
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/">ChatOps</a></strong>: Slack [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 운영 작업 실행
 
 > 📢 **Ⅲ 섹션 요약 비유**
@@ -117,10 +117,10 @@ Toil이 지속적으로 높으면:
 
 ```
 Toil
-    ├── 측정 → 주단위 Toil 시간 로그
-    ├── 자동화 → Runbook 스크립트화, Ansible
-    ├── Self-healing → 장애 자동 감지·재시작
-    └── SRE 건강 지표 → Toil 50% 상한 모니터링
+    +-- 측정 -> 주단위 Toil 시간 로그
+    +-- 자동화 -> Runbook 스크립트화, Ansible
+    +-- Self-healing -> 장애 자동 감지·재시작
+    +-- SRE 건강 지표 -> Toil 50% 상한 모니터링
 ```
 
 > 🧒 **어린이 비유**
@@ -132,7 +132,7 @@ Toil
 
 **진행 상황**: 318 / 373
 
-← **이전**: [SLI SLO SLA Error Budget](/knowledge-base/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/)
-**다음**: [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/05_devsecops/319_process/) →
+<- **이전**: [SLI SLO SLA Error Budget](/knowledge-base/studynote/15_devops_sre/05_devsecops/317_sli_slo_sla/)
+**다음**: [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/05_devsecops/319_process/) ->
 
 ---

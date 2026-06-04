@@ -10,12 +10,12 @@ tags = ["studynote-algorithm"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 최악의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) O(n²)를 방지하기 위해 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법을 고도화함
+- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 최악의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) O(n^)를 방지하기 위해 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법을 고도화함
 - 3-Way Partitioning을 통해 중복 키가 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 효율성을 극대화함
 - Median-of-Three와 무작위 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택을 통해 불균형한 분할을 억제하고 평균적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장함
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))은 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 기반의 고속 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나, 이미 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 역순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 한쪽으로 치우칠 경우 O(n²)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 발생한다. 이를 극복하기 위해 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택의 지능화와 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 방식의 개선이 필수적이다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))은 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 기반의 고속 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나, 이미 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 역순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 한쪽으로 치우칠 경우 O(n^)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 발생한다. 이를 극복하기 위해 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택의 지능화와 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 방식의 개선이 필수적이다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 ```text
@@ -51,28 +51,28 @@ tags = ["studynote-algorithm"]
 - **결론:** [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 단순 구현을 넘어 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 하이브리드 구성을 통해 현대 프로그래밍 언어의 표준 정렬 라이브러리로서의 지위를 공고히 하고 있음
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → Median-of-Three
-- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) → [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) → 3-Way [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) / Hoare [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)
-- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) → 하이브리드 정렬 → [IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) / [TimSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)
+- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> Median-of-Three
+- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) -> [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) -> 3-Way [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) / Hoare [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)
+- [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) -> 하이브리드 정렬 -> [IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) / [TimSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [단순 정렬 (Simple Sort)]
-    │
-    ▼
+    |
+    v
 [퀵 정렬 (Quick Sort)]
-    │
-    ▼
+    |
+    v
 [피벗 선택 최적화 (Pivot Selection)]
-    │
-    ▼
+    |
+    v
 [3-way 분할 (3-way Partition)]
-    │
-    ▼
+    |
+    v
 [IntroSort (Introspective Sort)]
-    │
-    ▼
+    |
+    v
 [병렬 정렬 (Parallel Sort)]
 ```
 
@@ -89,7 +89,7 @@ tags = ["studynote-algorithm"]
 
 **진행 상황**: 15 / 175
 
-← **이전**: [14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)
-**다음**: [9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/) →
+<- **이전**: [14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)
+**다음**: [9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/) ->
 
 ---

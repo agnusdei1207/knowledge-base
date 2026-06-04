@@ -26,24 +26,24 @@ SAN이 중요한 이유는 단순 편의성 때문만이 아니다. 브라우저
 아래 그림은 왜 SAN이 필요해졌는지를 "하나의 게이트웨이, 여러 이름" 관점에서 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why SAN became necessary                                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ One gateway / one IP                                                 │
-│   ├─ api.example.com                                                 │
-│   ├─ admin.example.com                                               │
-│   └─ partner.example.net                                             │
-│                                                                      │
-│ Certificate with one name only                                       │
-│   └─ valid for just one endpoint                                     │
-│                                                                      │
-│ Certificate with SAN list                                            │
-│   ├─ DNS: api.example.com                                            │
-│   ├─ DNS: admin.example.com                                          │
-│   └─ DNS: partner.example.net                                        │
-│                                                                      │
-│ Result: one certificate can explicitly prove multiple identities     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why SAN became necessary                                             |
++----------------------------------------------------------------------+
+| One gateway / one IP                                                 |
+|   +- api.example.com                                                 |
+|   +- admin.example.com                                               |
+|   +- partner.example.net                                             |
+|                                                                      |
+| Certificate with one name only                                       |
+|   +- valid for just one endpoint                                     |
+|                                                                      |
+| Certificate with SAN list                                            |
+|   +- DNS: api.example.com                                            |
+|   +- DNS: admin.example.com                                          |
+|   +- DNS: partner.example.net                                        |
+|                                                                      |
+| Result: one certificate can explicitly prove multiple identities     |
++----------------------------------------------------------------------+
 ```
 
 SAN이 없으면 서버가 안전한 키를 가지고 있어도, 클라이언트는 "접속한 이름과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 이름이 다르다"며 연결을 거부한다. 결국 SAN은 암호화의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라, <strong>신뢰의 범위를 정확히 적어 두는 문제</strong>다.
@@ -57,27 +57,27 @@ SAN이 없으면 서버가 안전한 키를 가지고 있어도, 클라이언트
 SAN은 X.509 v3 확장 필드 안에 들어간다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 본문에는 Subject, 공개키, 유효기간 같은 기본 정보가 있고, SAN은 그중 "이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 대변할 수 있는 이름들"을 추가로 적는 역할을 한다. 실무에서는 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) (Certificate Signing Request) 단계에서 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 목록을 선언하고, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)가 각 이름에 대한 통제권을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로 발급한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ TLS hostname validation with SAN                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client requests: https://api.example.com                             │
-│        │                                                             │
-│        ▼                                                             │
-│ Server sends certificate                                             │
-│   ├─ Subject CN = www.example.com        (legacy / secondary)        │
-│   └─ SAN extension                                                   │
-│      ├─ DNS: api.example.com                                         │
-│      ├─ DNS: admin.example.com                                       │
-│      ├─ DNS: *.internal.example.com                                  │
-│      └─ IP : 10.10.10.5                                              │
-│        │                                                             │
-│ Client matcher                                                       │
-│   ├─ requested host ∈ SAN list  -> continue handshake                │
-│   └─ requested host ∉ SAN list  -> name mismatch error               │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| TLS hostname validation with SAN                                     |
++----------------------------------------------------------------------+
+| Client requests: https://api.example.com                             |
+|        |                                                             |
+|        v                                                             |
+| Server sends certificate                                             |
+|   +- Subject CN = www.example.com        (legacy / secondary)        |
+|   +- SAN extension                                                   |
+|      +- DNS: api.example.com                                         |
+|      +- DNS: admin.example.com                                       |
+|      +- DNS: *.internal.example.com                                  |
+|      +- IP : 10.10.10.5                                              |
+|        |                                                             |
+| Client matcher                                                       |
+|   +- requested host ∈ SAN list  -> continue handshake                |
+|   +- requested host ∉ SAN list  -> name mismatch error               |
++----------------------------------------------------------------------+
 ```
 
-핵심은 SAN이 "추가 정보"가 아니라 <strong>실제 매칭 테이블</strong>이라는 점이다. 특히 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) ([Server Name Indication](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/))는 서버가 어떤 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내보낼지 고르는 힌트이고, SAN은 클라이언트가 받은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 근거다. 즉 SNI와 SAN은 대체 관계가 아니라, `선택 → 검증`의 순서로 연결된다.
+핵심은 SAN이 "추가 정보"가 아니라 <strong>실제 매칭 테이블</strong>이라는 점이다. 특히 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) ([Server Name Indication](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/))는 서버가 어떤 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내보낼지 고르는 힌트이고, SAN은 클라이언트가 받은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 근거다. 즉 SNI와 SAN은 대체 관계가 아니라, `선택 -> 검증`의 순서로 연결된다.
 
 | [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 엔트리 타입 | 표현 예시 | 주 용도 | 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -107,7 +107,7 @@ SAN을 이해할 때 가장 자주 헷갈리는 대상은 Common Name, [와일�
 
 이 비교가 중요한 이유는 운영 판단이 달라지기 때문이다. 예를 들어 `api.example.com`, `admin.example.com`, `billing.partner.net`처럼 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 집합이 고정되어 있고 서로 다른 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>까지 포함</strong>해야 하면 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 적합하다. 반면 `tenant1.example.com`, `tenant2.example.com`처럼 같은 존 아래 하위 호스트가 계속 늘면 와일드카드가 편할 수 있다. 다만 와일드카드는 보통 한 단계 하위 서브도메인에만 적용되고, 범위가 넓을수록 유출 시 파급 범위가 커진다.
 
-또한 SNI와 SAN을 혼동하면 안 된다. SNI가 없으면 서버가 틀린 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내보낼 수 있고, SAN이 없으면 클라이언트가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받아도 이름을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 없다. 그래서 멀티도메인 HTTPS는 흔히 `SNI로 인증서 선택 → SAN으로 이름 검증`의 두 단계를 함께 사용한다.
+또한 SNI와 SAN을 혼동하면 안 된다. SNI가 없으면 서버가 틀린 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내보낼 수 있고, SAN이 없으면 클라이언트가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받아도 이름을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 없다. 그래서 멀티도메인 HTTPS는 흔히 `SNI로 인증서 선택 -> SAN으로 이름 검증`의 두 단계를 함께 사용한다.
 
 - **📢 섹션 요약 비유**: SNI는 호텔 프런트에 "몇 호실 손님인지" 알려 주는 말이고, SAN은 받은 객실 키가 정말 그 방을 열 수 있는지 확인하는 열쇠 목록이다. 방 번호를 말해도 키가 틀리면 못 들어가고, 키가 맞아도 프런트가 엉뚱한 키를 주면 역시 못 들어간다.
 
@@ -171,21 +171,21 @@ SAN을 이해할 때 가장 자주 헷갈리는 대상은 Common Name, [와일�
 
 ```text
 Single-name certificate era
-    │
-    ▼
+    |
+    v
 X.509 v3 extension model
-    │
-    ▼
+    |
+    v
 SAN (DNS / IP / email / URI)
-    │
-    ├─ explicit multi-domain validation
-    ├─ wildcard naming strategy
-    └─ workload identity expression
-    │
-    ▼
+    |
+    +- explicit multi-domain validation
+    +- wildcard naming strategy
+    +- workload identity expression
+    |
+    v
 SNI-based certificate selection
-    │
-    ▼
+    |
+    v
 Modern TLS for load balancer, virtual hosting, service mesh
 ```
 
@@ -203,7 +203,7 @@ Modern TLS for load balancer, virtual hosting, service mesh
 
 **진행 상황**: 227 / 1108
 
-← **이전**: [173. X.509 v3 인증서 — Subject/Issuer/SAN/Key Usage/NSC](/knowledge-base/studynote/09_security/04_endpoint_security/173_x509_v3_certificate/)
-**다음**: [175. 와일드카드 인증서 (Wildcard Certificate)](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) →
+<- **이전**: [173. X.509 v3 인증서 — Subject/Issuer/SAN/Key Usage/NSC](/knowledge-base/studynote/09_security/04_endpoint_security/173_x509_v3_certificate/)
+**다음**: [175. 와일드카드 인증서 (Wildcard Certificate)](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) ->
 
 ---

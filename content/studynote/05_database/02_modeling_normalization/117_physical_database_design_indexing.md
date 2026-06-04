@@ -19,21 +19,21 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    물리 설계 핵심 활동                                 │
-├───────────────────────────────────────────────────────┤
-│  1. 인덱스 설계                                       │
-│     WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스         │
-│     고카디널리티 컬럼 우선                            │
-│  2. 파티셔닝                                          │
-│     대용량 테이블 → Range/Hash/List 분할              │
-│     I/O 분산, Partition Pruning                       │
-│  3. 역정규화                                          │
-│     자주 JOIN하는 테이블 → 병합/중복 컬럼 추가        │
-│     읽기 성능 ↑, 쓰기 복잡도 ↑                       │
-│  4. 스토리지 배치                                     │
-│     테이블스페이스·데이터 파일·RAID 레벨              │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    물리 설계 핵심 활동                                 |
++-------------------------------------------------------+
+|  1. 인덱스 설계                                       |
+|     WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스         |
+|     고카디널리티 컬럼 우선                            |
+|  2. 파티셔닝                                          |
+|     대용량 테이블 -> Range/Hash/List 분할              |
+|     I/O 분산, Partition Pruning                       |
+|  3. 역정규화                                          |
+|     자주 JOIN하는 테이블 -> 병합/중복 컬럼 추가        |
+|     읽기 성능 ^, 쓰기 복잡도 ^                       |
+|  4. 스토리지 배치                                     |
+|     테이블스페이스·데이터 파일·RAID 레벨              |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계가 건물 평면도(방 배치)라면, 물리 설계는 콘크리트 두께·배관 위치·에어컨 위치를 정하는 시공 도면이다.
@@ -106,17 +106,17 @@ tags = ["studynote-database"]
 
 ```text
 [단일 테이블 + Full Scan (초기)]
-    │
-    ▼
+    |
+    v
 [B-Tree 인덱스 (1970s) — O(log N) 검색]
-    │
-    ▼
+    |
+    v
 [파티셔닝 (1990s) — 대용량 테이블 분할]
-    │
-    ▼
+    |
+    v
 [Covering Index / Index Organized Table (2000s)]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 인덱스 자동 추천 (AutoIndex)]
 ```
 
@@ -131,7 +131,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 117 / 600
 
-← **이전**: [116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)
-**다음**: [118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) →
+<- **이전**: [116. 매핑 규칙 (ERD->릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)
+**다음**: [118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) ->
 
 ---

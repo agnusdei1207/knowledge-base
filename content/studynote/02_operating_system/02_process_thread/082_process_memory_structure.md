@@ -27,24 +27,24 @@ tags = ["studynote-operating-system"]
   운영체제는 각 세그먼트의 특성에 맞는 권한을 부여한다. Text는 `Read-Execute`, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/[BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)/Heap은 `Read-Write`, Stack은 `Read-Write`와 더불어 하드웨어 레벨의 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) 제어를 받는다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │              메모리 세그먼트 분할의 필요성 (보호와 효율)         │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [무질서한 메모리]                 [구조화된 메모리]             │
-  │  ┌──────────────┐                 ┌──────────────┐               │
-  │  │   Code 1     │                 │    Text      │ (R-X)         │
-  │  │   Global V   │                 ├──────────────┤               │
-  │  │   Local V    │      ====>      │  Data / BSS  │ (R-W)         │
-  │  │   Malloc()   │                 ├──────────────┤               │
-  │  │   Code 2     │                 │    Heap      │ (R-W)         │
-  │  └──────────────┘                 ├──────────────┤               │
-  │                                   │    Stack     │ (R-W)         │
-  │   - 권한 관리 불가                 └──────────────┘              │
-  │   - 메모리 파편화 심화              - 영역별 권한 격리           │
-  │   - 코드 수정 위험성                - 자원 공유 및 효율성        │
-  │                                                                  │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |              메모리 세그먼트 분할의 필요성 (보호와 효율)         |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [무질서한 메모리]                 [구조화된 메모리]             |
+  |  +--------------+                 +--------------+               |
+  |  |   Code 1     |                 |    Text      | (R-X)         |
+  |  |   Global V   |                 +--------------+               |
+  |  |   Local V    |      ====>      |  Data / BSS  | (R-W)         |
+  |  |   Malloc()   |                 +--------------+               |
+  |  |   Code 2     |                 |    Heap      | (R-W)         |
+  |  +--------------+                 +--------------+               |
+  |                                   |    Stack     | (R-W)         |
+  |   - 권한 관리 불가                 +--------------+              |
+  |   - 메모리 파편화 심화              - 영역별 권한 격리           |
+  |   - 코드 수정 위험성                - 자원 공유 및 효율성        |
+  |                                                                  |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그림은 평면적인 메모리 적재 방식과 세그먼트 기반 구조화 방식의 차이를 극명하게 보여준다. 구조화되지 않은 메모리에서는 실행 코드(Code)와 수정 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Global V)가 섞여 있어, 해커가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 시 코드를 덮어쓰는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 공격에 매우 취약하다. 반면, 오른쪽의 구조화된 모델에서는 각 영역에 엄격한 권한 (Read, Write, Execute)을 부여함으로써 코드가 수정되는 것을 하드웨어 레벨에서 차단한다. 또한, 동일한 프로그램이 여러 번 실행될 때 'Text' 영역만 물리 메모리에서 공유하고 나머지는 프로세스별로 독립시키는 기법을 통해 전체 시스템의 메모리 효율을 극대화할 수 있다.
@@ -72,26 +72,26 @@ tags = ["studynote-operating-system"]
 Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌하지 않도록 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)의 양 끝단에 배치된다. Stack은 주소값이 감소하는 방향으로, Heap은 주소값이 증가하는 방향으로 자라나며 그 사이의 빈 공간 (Free Space)을 공유한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 Heap vs Stack 성장 방향 및 충돌 방지             │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [Stack] (High Address)                                          │
-  │     |                                                            │
-  │     v  (성장 방향: Downward)                                     │
-  │                                                                  │
-  │  ~~~~~~~~~~~ [ 공유 공간 (Free Memory) ] ~~~~~~~~~~~             │
-  │                                                                  │
-  │     ^  (성장 방향: Upward)                                       │
-  │     |                                                            │
-  │  [Heap]                                                          │
-  │                                                                  │
-  │  [BSS / Data / Text] (Low Address)                               │
-  │                                                                  │
-  │  * Stack Overflow: Stack이 Heap 영역을 침범할 때 발생            │
-  │  * Heap Overflow: Heap이 Stack 영역을 침범할 때 발생             │
-  │                                                                  │
-  └──────────────────────────────────────────────────────────────────┘
+  +------------------------------------------------------------------+
+  |                 Heap vs Stack 성장 방향 및 충돌 방지             |
+  +------------------------------------------------------------------+
+  |                                                                  |
+  |  [Stack] (High Address)                                          |
+  |     |                                                            |
+  |     v  (성장 방향: Downward)                                     |
+  |                                                                  |
+  |  ~~~~~~~~~~~ [ 공유 공간 (Free Memory) ] ~~~~~~~~~~~             |
+  |                                                                  |
+  |     ^  (성장 방향: Upward)                                       |
+  |     |                                                            |
+  |  [Heap]                                                          |
+  |                                                                  |
+  |  [BSS / Data / Text] (Low Address)                               |
+  |                                                                  |
+  |  * Stack Overflow: Stack이 Heap 영역을 침범할 때 발생            |
+  |  * Heap Overflow: Heap이 Stack 영역을 침범할 때 발생             |
+  |                                                                  |
+  +------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 구조는 메모리 활용의 유연성을 극대화하기 위한 설계이다. Stack은 함수가 호출될 때마다 프레임 (Frame)이 쌓이므로 예측 가능한 관리 (LIFO: Last-In First-Out)가 가능하지만, Heap은 `malloc()` 등에 의해 비정기적으로 할당되므로 파편화 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 문제가 발생하기 쉽다. 두 영역이 서로를 향해 자라나게 함으로써, 어느 한쪽이 많이 필요할 때 남은 공간을 유동적으로 쓸 수 있게 한다. 현대 OS에서는 이들 사이에 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) 매핑 영역 (Memory [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))을 두어 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (.so, .dll)를 효율적으로 로드한다. 실무적으로 Stack의 크기는 보통 제한 (예: 8MB)되어 있으며, 이를 초과하면 프로세스는 세그먼테이션 폴트 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)와 함께 즉시 종료된다.
@@ -186,12 +186,12 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 
 ```text
 [프로그램 (Program) vs 프로세스 (Process)]
-    │
-    ▼
+    |
+    v
 [프로세스 메모리 구조]
-    │
-    ├──▶ [BSS (Block Started by Symbol) 영역]
-    └──▶ [힙 (Heap) 영역]
+    |
+    +---> [BSS (Block Started by Symbol) 영역]
+    +---> [힙 (Heap) 영역]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -208,7 +208,7 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 
 **진행 상황**: 82 / 800
 
-← **이전**: [081. 프로그램 vs 프로세스 (Program vs. Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/081_program_vs_process/)
-**다음**: [83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) →
+<- **이전**: [081. 프로그램 vs 프로세스 (Program vs. Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/081_program_vs_process/)
+**다음**: [83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) ->
 
 ---

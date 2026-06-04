@@ -34,26 +34,26 @@ DSPy(Stanford NLP, 2023)는 이 문제를 컴파일러 패러다임으로 해결
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌────────────────────────────────────────────────────┐
-│                DSPy 아키텍처                        │
-│                                                    │
-│  개발자 선언                                        │
-│  ┌─────────────────────────────────────┐           │
-│  │  Signature: "질문 → 답변"            │           │
-│  │  Module: ChainOfThought, Predict    │           │
-│  └──────────────┬──────────────────────┘           │
-│                 │                                  │
-│  최적화기(Teleprompter)                             │
-│  ┌──────────────▼──────────────────────┐           │
-│  │  BootstrapFewShot: 자동 예제 생성   │           │
-│  │  MIPRO: 명령어+예제 동시 최적화     │           │
-│  └──────────────┬──────────────────────┘           │
-│                 │                                  │
-│  컴파일된 프로그램(Compiled Program)                │
-│  ┌──────────────▼──────────────────────┐           │
-│  │  최적 프롬프트 + 퓨샷 예제 + 구조  │           │
-│  └─────────────────────────────────────┘           │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+|                DSPy 아키텍처                        |
+|                                                    |
+|  개발자 선언                                        |
+|  +-------------------------------------+           |
+|  |  Signature: "질문 -> 답변"            |           |
+|  |  Module: ChainOfThought, Predict    |           |
+|  +--------------+----------------------+           |
+|                 |                                  |
+|  최적화기(Teleprompter)                             |
+|  +--------------v----------------------+           |
+|  |  BootstrapFewShot: 자동 예제 생성   |           |
+|  |  MIPRO: 명령어+예제 동시 최적화     |           |
+|  +--------------+----------------------+           |
+|                 |                                  |
+|  컴파일된 프로그램(Compiled Program)                |
+|  +--------------v----------------------+           |
+|  |  최적 프롬프트 + 퓨샷 예제 + 구조  |           |
+|  +-------------------------------------+           |
++----------------------------------------------------+
 ```
 
 <strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
@@ -120,17 +120,17 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/">LLMOps</a> 파이프라인 통합</strong>
 
-1. **개발 단계**: Signature + Module로 로직 선언 → [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
-2. **최적화 단계**: Trainset + [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의 → Teleprompter로 오프라인 컴파일
-3. **배포 단계**: `compiled_program.save("rag.json")` → 저장 후 프로덕션 로드
-4. **모니터링**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 하락 감지 → 새 데이터로 재컴파일 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+1. **개발 단계**: Signature + Module로 로직 선언 -> [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
+2. **최적화 단계**: Trainset + [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의 -> Teleprompter로 오프라인 컴파일
+3. **배포 단계**: `compiled_program.save("rag.json")` -> 저장 후 프로덕션 로드
+4. **모니터링**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 하락 감지 -> 새 데이터로 재컴파일 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
 
 **기술사 판단 포인트**
 
-1. **최적화 비용**: MIPRO는 수백~수천 회 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출 → 비용 예산 수립 필수
-2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 설계</strong>: DSPy 최적화 품질은 평가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에 완전히 의존 → 비즈니스 목표와 직결된 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의
-3. **모델 교체 대응**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 동일 Trainset으로 재컴파일 → 수동 재작업 불필요
-4. **연구/프로덕션 갭**: DSPy는 연구 환경에서 검증됨 → 대규모 트래픽 환경은 추가 엔지니어링 필요
+1. **최적화 비용**: MIPRO는 수백~수천 회 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출 -> 비용 예산 수립 필수
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 설계</strong>: DSPy 최적화 품질은 평가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에 완전히 의존 -> 비즈니스 목표와 직결된 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의
+3. **모델 교체 대응**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 동일 Trainset으로 재컴파일 -> 수동 재작업 불필요
+4. **연구/프로덕션 갭**: DSPy는 연구 환경에서 검증됨 -> 대규모 트래픽 환경은 추가 엔지니어링 필요
 
 - **📢 섹션 요약 비유**: DSPy 컴파일은 한 번 투자해 영구 자산(최적 프롬프트)을 만드는 것 — 매번 수동으로 고치는 소모전을 끝낸다.
 
@@ -157,7 +157,7 @@ DSPy는 프롬프트 엔지니어링을 수동 예술에서 자동화된 엔지�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[DSPy 핵심 · 입출력 스키마 선언] → [DSPy 프롬프트 자동 최적화 · 컴파일] → [DSPy Module · 단계별 추론]
+[DSPy 핵심 · 입출력 스키마 선언] -> [DSPy 프롬프트 자동 최적화 · 컴파일] -> [DSPy Module · 단계별 추론]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -172,7 +172,7 @@ DSPy는 프롬프트 엔지니어링을 수동 예술에서 자동화된 엔지�
 
 **진행 상황**: 529 / 552
 
-← **이전**: [528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/528_vllm_paged_attention_kv_cache_optimization/)
-**다음**: [530. 지식 그래프 기반 검색 증강 생성 (GraphRAG)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) →
+<- **이전**: [528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/528_vllm_paged_attention_kv_cache_optimization/)
+**다음**: [530. 지식 그래프 기반 검색 증강 생성 (GraphRAG)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) ->
 
 ---

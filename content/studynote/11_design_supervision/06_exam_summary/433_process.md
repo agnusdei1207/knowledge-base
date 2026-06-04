@@ -20,9 +20,9 @@ tags = ["studynote-design-supervision"]
 이 구조가 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 요구가 점점 복잡해지고 실시간성이 커졌기 때문이다. [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 미디어 변환, 이벤트 정제, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 전처리처럼 한 덩어리 코드로 처리하면 변경 영향이 크고 병목 지점을 찾기 어렵다. 반면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 구조는 문제를 작은 변환 단계로 나누어 확장성과 유지보수성을 높인다.
 
 ```text
-┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐
-│ Source │──▶│Filter A│──▶│Filter B│──▶│ Sink   │
-└────────┘   └────────┘   └────────┘   └────────┘
++--------+   +--------+   +--------+   +--------+
+| Source |--->|Filter A|--->|Filter B|--->| Sink   |
++--------+   +--------+   +--------+   +--------+
 ```
 
 시험에서는 단순히 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐른다”가 아니라, 각 필터가 독립적으로 교체 가능하며 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 단계 간 결합도를 낮춘다는 점을 써야 한다. 여기에 스트리밍 처리와 단계별 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이성을 붙이면 답안이 더 실무적으로 보인다.
@@ -39,11 +39,11 @@ tags = ["studynote-design-supervision"]
 | 운영 제어 | 모니터링과 병목 분석으로 필터별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다. | 백프레셔 제어, 관측성, 확장 단위 검토 |
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Ingest   │──▶│ Normalize│──▶│ Enrich   │──▶│ Publish  │
-└────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘
-     │              │              │              │
-     └──────────────┴──────Audit / Metrics────────┘
++----------+   +----------+   +----------+   +----------+
+| Ingest   |--->| Normalize|--->| Enrich   |--->| Publish  |
++----+-----+   +----+-----+   +----+-----+   +----+-----+
+     |              |              |              |
+     +--------------+------Audit / Metrics--------+
 ```
 
 핵심 원리는 표준 입력·표준 출력, 단계적 분리, 조합 가능성이다. 예를 들어 새로운 정제 규칙이 필요하면 해당 필터만 바꾸면 되므로 전체 시스템 재작성 부담이 작다. 다만 필터 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 불안정하거나 특정 필터가 상태를 과도하게 가지면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터의 장점이 급감한다.
@@ -90,13 +90,13 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 단일 배치 프로그램
-    ↓
+    v
 유닉스 셸 파이프 조합
-    ↓
+    v
 ETL 단계 분리
-    ↓
+    v
 실시간 스트림 처리
-    ↓
+    v
 관측 가능한 데이터 파이프라인
 ```
 
@@ -111,7 +111,7 @@ ETL 단계 분리
 
 **진행 상황**: 511 / 530
 
-← **이전**: [432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/432_architecture/)
-**다음**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/434_pbs_api/) →
+<- **이전**: [432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/432_architecture/)
+**다음**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/434_pbs_api/) ->
 
 ---

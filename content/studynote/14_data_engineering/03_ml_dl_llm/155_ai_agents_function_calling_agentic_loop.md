@@ -19,8 +19,8 @@ tags = ["studynote-data-engineering"]
 ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해서 다음 주 일정 요약 후 팀원들에게 이메일 보내"처럼 여러 도구를 순차적으로 활용하는 작업은 못 한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트는 이를 가능하게 한다.
 
 <strong>에이전트 vs 일반 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 호출</strong>
-- 일반 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/): 입력 → 1회 출력
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트: 목표 → 계획 → 도구 호출 → 관찰 → 재계획 → ... → 결과
+- 일반 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/): 입력 -> 1회 출력
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트: 목표 -> 계획 -> 도구 호출 -> 관찰 -> 재계획 -> ... -> 결과
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트는 단순히 지시를 따르는 사무직 직원이 아니라, 목표를 주면 스스로 방법을 찾아 실행하는 자율적인 프로젝트 매니저다.
 
@@ -38,47 +38,47 @@ ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/st
 [ReAct 에이전트 루프]
 
 목표: "2024년 삼성전자 주가 분석 후 리포트 작성"
-          │
-          ▼
+          |
+          v
   [THINK/REASON]
   "먼저 주가 데이터를 검색해야 해"
-          │
-          ▼
+          |
+          v
   [ACT - Function Call]
   {
     "function": "web_search",
     "args": {"query": "삼성전자 2024 주가 데이터"}
   }
-          │
-          ▼
+          |
+          v
   [OBSERVE]
   검색 결과 반환
-          │
-          ▼
+          |
+          v
   [THINK] "데이터를 분석해야 해"
-          │
-          ▼
+          |
+          v
   [ACT - Function Call]
   {
     "function": "code_interpreter",
     "args": {"code": "import pandas as pd; ..."}
   }
-          │
-          ▼
+          |
+          v
   [OBSERVE] 분석 결과
-          │
-          ▼
+          |
+          v
   [THINK] "이제 리포트를 작성할 수 있어"
-          │
-          ▼
+          |
+          v
   최종 리포트 생성
 
 [멀티 에이전트 협업]
     목표
-      │
+      |
   오케스트레이터 에이전트
-  ┌───┼───────────┐
-  ▼   ▼           ▼
+  +---+-----------+
+  v   v           v
 검색  코드 실행  문서 작성
 에이전트 에이전트 에이전트
 ```
@@ -168,21 +168,21 @@ ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/st
 
 ```text
 LLM 단순 채팅 (단일 턴 응답)
-    │
-    ▼
+    |
+    v
 Function Calling — LLM이 외부 도구/API 호출
-    │
-    ▼
+    |
+    v
 ReAct 패턴 (Reasoning + Acting 반복)
-    │
-    ▼
+    |
+    v
 AI 에이전트 (Agentic Loop)
-    ├─► Planning: 목표 분해 → 서브태스크
-    ├─► Tool Use: 검색 · 코드 실행 · API 호출
-    ├─► Memory: 단기(대화) · 장기(벡터 DB)
-    └─► Reflection: 자기 평가 · 재계획
-    │
-    ▼
+    +-► Planning: 목표 분해 -> 서브태스크
+    +-► Tool Use: 검색 · 코드 실행 · API 호출
+    +-► Memory: 단기(대화) · 장기(벡터 DB)
+    +-► Reflection: 자기 평가 · 재계획
+    |
+    v
 멀티 에이전트: CrewAI · AutoGen · LangGraph
 ```
 
@@ -192,7 +192,7 @@ AI 에이전트 (Agentic Loop)
 
 **진행 상황**: 155 / 258
 
-← **이전**: [154. GAN (Generative Adversarial Network) - 생성자와 판별자의 피 터지는 적대적 훈련 연금술](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)
-**다음**: [156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/156_recommendation_system_deepfm_collaborative_filtering/) →
+<- **이전**: [154. GAN (Generative Adversarial Network) - 생성자와 판별자의 피 터지는 적대적 훈련 연금술](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)
+**다음**: [156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/156_recommendation_system_deepfm_collaborative_filtering/) ->
 
 ---

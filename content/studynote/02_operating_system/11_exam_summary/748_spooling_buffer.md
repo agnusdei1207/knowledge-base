@@ -34,30 +34,30 @@ tags = ["studynote-operating-system"]
   - 1950~60년대 천공 카드 리더기나 마그네틱 테이프 같은 끔찍하게 느린 입출력 기기 때문에 고가의 메인프레임 CPU가 멍때리는 시간을 줄이기 위해 개발되었다. 'On-Line'이라는 말은 천공 카드를 오프라인 장비로 따로 빼서 읽던 시절, 본체(On-Line) 디스크를 활용해 이 갭을 메웠다는 역사적 의미를 담고 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 스풀링 적용 전후의 시스템 처리 흐름 차이             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [적용 전: 직접 I/O (응용 프로그램 차단 병목)]                     │
-  │                                                             │
-  │  App A ──(직접 인쇄 시작)──▶ 프린터 (1분 소요)                     │
-  │  App B ──(인쇄 버튼 누름)──▶ ⚠ 사용 중 거부 (Busy) 또는 데이터 섞임  │
-  │   ※ App A는 프린터가 다 찍을 때까지 1분간 화면이 멈춤(Freeze) 발생      │
-  │                                                             │
-  │  [적용 후: 디스크 스풀링 구조 (비동기 해방)]                       │
-  │                                                             │
-  │  App A ──▶ [디스크 스풀 영역] (1초 만에 저장 완료 -> App A 해방!) │
-  │                 │    (File 1)                               │
-  │  App B ──▶ [디스크 스풀 영역] (1초 만에 저장 완료 -> App B 해방!) │
-  │                 │    (File 2)                               │
-  │                 │                                           │
-  │                 ▼ (스풀 큐 - FIFO)                           │
-  │           [ OS Spooler Daemon ]  (백그라운드 프로세스)         │
-  │                 │ 1. File 1 꺼내서 프린터 전송                  │
-  │                 │ 2. 다 끝나면 File 2 전송                      │
-  │                 ▼                                           │
-  │              프린터 (느려도 상관없이 자기 페이스대로 인쇄)             │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 스풀링 적용 전후의 시스템 처리 흐름 차이             |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [적용 전: 직접 I/O (응용 프로그램 차단 병목)]                     |
+  |                                                             |
+  |  App A --(직접 인쇄 시작)---> 프린터 (1분 소요)                     |
+  |  App B --(인쇄 버튼 누름)---> ⚠ 사용 중 거부 (Busy) 또는 데이터 섞임  |
+  |   ※ App A는 프린터가 다 찍을 때까지 1분간 화면이 멈춤(Freeze) 발생      |
+  |                                                             |
+  |  [적용 후: 디스크 스풀링 구조 (비동기 해방)]                       |
+  |                                                             |
+  |  App A ---> [디스크 스풀 영역] (1초 만에 저장 완료 -> App A 해방!) |
+  |                 |    (File 1)                               |
+  |  App B ---> [디스크 스풀 영역] (1초 만에 저장 완료 -> App B 해방!) |
+  |                 |    (File 2)                               |
+  |                 |                                           |
+  |                 v (스풀 큐 - FIFO)                           |
+  |           [ OS Spooler Daemon ]  (백그라운드 프로세스)         |
+  |                 | 1. File 1 꺼내서 프린터 전송                  |
+  |                 | 2. 다 끝나면 File 2 전송                      |
+  |                 v                                           |
+  |              프린터 (느려도 상관없이 자기 페이스대로 인쇄)             |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 아키텍처의 핵심은 거대한 하드 디스크를 '버퍼'로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 송신자(응용 프로그램)와 수신자(프린터)의 시간 축을 완전히 분리(Decoupling)하는 데 있다. 사용자는 인쇄를 누르자마자 1초 만에 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 끝나므로 인쇄가 끝난 줄 착각하고 즉시 다른 문서 작업으로 돌아갈 수 있다. 반면 OS 내부에 몰래 숨어있는 스풀러 데몬(`lpd`, `CUPS` 등)은 디스크에 차곡차곡 쌓인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(큐)을 들여다보며, 프린터가 쉬고 있을 때마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 꺼내 차례대로 넘겨준다. 독점 장치가 마치 다중 사용자 공유 장치인 것처럼 보이는 가상화의 한 형태다.
@@ -84,27 +84,27 @@ tags = ["studynote-operating-system"]
 두 기술 모두 송신자와 수신자의 "속도 차이를 보완"하기 위해 임시 저장소를 둔다는 철학은 같지만, 규모와 목적지에서 명확한 급의 차이가 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 버퍼링 vs 디스크 스풀링의 구조적 차이            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 버퍼링 (Buffering) ]          [ 스풀링 (Spooling) ]             │
-  │                                                                   │
-  │   위치: 메인 메모리 (RAM)           위치: 하드 디스크 (보조기억장치)         │
-  │   크기: 작음 (수 KB ~ 수 MB)        크기: 큼 (수백 MB ~ 수 GB)           │
-  │                                                                   │
-  │   App ──▶[메모리 버퍼]──▶ 디스크   App A ─▶ [디스크 Spool]            │
-  │              ▲                        │      │      │            │
-  │              │                        │   App B ─▶  │            │
-  │  단일 작업(Single Job)의 속도 보완        │             ▼            │
-  │  (디스크에 쓰기 전에 메모리에 묶기)         │        [스풀 데몬]           │
-  │                                       │             │            │
-  │                                       └───────────▶ 프린터        │
-  │                                  다중 작업(Multi Job)의 큐잉 및 독점장치 공유 │
-  │                                                                   │
-  │   ※ 차이점 요약: 버퍼링은 1개 작업의 데이터 조각을 잠시 모아주는 "임시 바구니"고, │
-  │               스풀링은 여러 사용자의 거대한 작업을 겹치지 않게 줄 세우는 "대형 창고"다.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 버퍼링 vs 디스크 스풀링의 구조적 차이            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 버퍼링 (Buffering) ]          [ 스풀링 (Spooling) ]             |
+  |                                                                   |
+  |   위치: 메인 메모리 (RAM)           위치: 하드 디스크 (보조기억장치)         |
+  |   크기: 작음 (수 KB ~ 수 MB)        크기: 큼 (수백 MB ~ 수 GB)           |
+  |                                                                   |
+  |   App --->[메모리 버퍼]---> 디스크   App A --> [디스크 Spool]            |
+  |              ^                        |      |      |            |
+  |              |                        |   App B -->  |            |
+  |  단일 작업(Single Job)의 속도 보완        |             v            |
+  |  (디스크에 쓰기 전에 메모리에 묶기)         |        [스풀 데몬]           |
+  |                                       |             |            |
+  |                                       +------------> 프린터        |
+  |                                  다중 작업(Multi Job)의 큐잉 및 독점장치 공유 |
+  |                                                                   |
+  |   ※ 차이점 요약: 버퍼링은 1개 작업의 데이터 조각을 잠시 모아주는 "임시 바구니"고, |
+  |               스풀링은 여러 사용자의 거대한 작업을 겹치지 않게 줄 세우는 "대형 창고"다.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)은 한 프로세스가 테이프나 디스크로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때, 메모리 램(RAM)에 일정량의 버퍼 블록을 만들어 두고 거기를 채우는 동안 CPU 연산을 겹치게(Overlap) 만드는 미시적 기술이다. 이는 '단일 프로세스' 내에서 이루어진다. 반면 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 저장 매체가 거대한 디스크이며, OS 레벨에서 A 프로그램, B 프로그램이 동시에 던진 출력물 전체를 가상의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 관리하여 '여러 프로세스'가 하나의 독점 장치를 안전하게 공유([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))할 수 있게 만드는 거시적 스케줄링 기술이다. [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)이 하천의 작은 웅덩이라면 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 거대한 다목적 댐과 같다.
@@ -145,24 +145,24 @@ tags = ["studynote-operating-system"]
    - <strong>아키텍트 판단 (소프트웨어적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 도입)</strong>: 동기적 웹 요청을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 패턴</strong>으로 바꾼다. 브라우저가 요청을 보내면 웹 서버는 즉시 "요청이 접수되었습니다"라고 비동기 응답([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 202 Accepted)을 던지고 사용자를 해방시킨다. 엑셀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 작업은 메시지 큐([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), SQS 등 스풀 역할)에 쌓이고, 백그라운드 워커 프로세스(스풀 데몬)가 여유 리소스 내에서 엑셀을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 S3에 올린 뒤 이메일이나 푸시 알림으로 다운로드 링크를 보내는 방식으로 전체 UX와 시스템 안정성을 구출한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메시지 큐(Message Queue)를 활용한 현대적 스풀링 설계        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [동기식(Sync) 구조 - 타임아웃 장애 발생]                               │
-  │   Client ─────(리포트 요청: 3분 대기)─────▶ Web Server ──▶ DB 부하      │
-  │      X 타임아웃 발생 (연결 끊김, CPU 낭비)                                │
-  │                                                                   │
-  │   [비동기식(Async) 스풀링 구조 - 안정적 처리]                            │
-  │                   [ 거대한 완충 댐 (Spool/MQ) ]                     │
-  │   Client ──1.요청──▶ [ 메시지 큐 (Kafka, SQS) ]  ◀──3. 폴링 ── Worker │
-  │      ▲             │  (작업 ID: 1234 생성)  │              (백그라운드)│
-  │      │             └─────────┬────────────┘                   │  │
-  │      │ 2. "요청 접수" 즉시 응답  │                              ▼  │
-  │      └───────────────────────┘                         (리포트 DB)│
-  │                                                                │  │
-  │   Client ──4.나중에 작업완료 알림 ◀── (푸시 알림/이메일 전송) ────────┘  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메시지 큐(Message Queue)를 활용한 현대적 스풀링 설계        |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [동기식(Sync) 구조 - 타임아웃 장애 발생]                               |
+  |   Client -----(리포트 요청: 3분 대기)------> Web Server ---> DB 부하      |
+  |      X 타임아웃 발생 (연결 끊김, CPU 낭비)                                |
+  |                                                                   |
+  |   [비동기식(Async) 스풀링 구조 - 안정적 처리]                            |
+  |                   [ 거대한 완충 댐 (Spool/MQ) ]                     |
+  |   Client --1.요청---> [ 메시지 큐 (Kafka, SQS) ]  <---3. 폴링 -- Worker |
+  |      ^             |  (작업 ID: 1234 생성)  |              (백그라운드)|
+  |      |             +---------+------------+                   |  |
+  |      | 2. "요청 접수" 즉시 응답  |                              v  |
+  |      +-----------------------+                         (리포트 DB)|
+  |                                                                |  |
+  |   Client --4.나중에 작업완료 알림 <--- (푸시 알림/이메일 전송) --------+  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 아키텍처 도식은 반세기 전에 개발된 OS 프린터 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 개념이 오늘날 어떻게 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 생존 전략으로 쓰이는지 보여준다. 느린 프린터가 "느린 DB/배치 워커"로 치환되었고, 디스크 스풀 폴더가 "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 큐"로 치환되었을 뿐 사상은 100% 동일하다. 생산자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))가 소비자의 처리 속도에 발목 잡히지 않게 중간에 비동기식 큐라는 완충 지대를 두는 것, 이것이 병목을 해소하고 확장성(Scalability)을 달성하는 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 철학의 정수다.
@@ -211,12 +211,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [I/O 풀링 (Polling) 오버헤드]
-    │
-    ▼
+    |
+    v
 [스풀링 (Spooling) 버퍼]
-    │
-    ├──▶ [메모리 매핑 파일 (mmap)]
-    └──▶ [쓰기 시 복사 (COW)]
+    |
+    +---> [메모리 매핑 파일 (mmap)]
+    +---> [쓰기 시 복사 (COW)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -233,7 +233,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 748 / 800
 
-← **이전**: [747. I/O 풀링 (Polling) 오버헤드](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)
-**다음**: [749. 메모리 매핑 파일 (mmap)](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) →
+<- **이전**: [747. I/O 풀링 (Polling) 오버헤드](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)
+**다음**: [749. 메모리 매핑 파일 (mmap)](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) ->
 
 ---

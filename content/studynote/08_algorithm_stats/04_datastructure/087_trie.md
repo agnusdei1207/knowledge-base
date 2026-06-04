@@ -30,7 +30,7 @@ tags = ["studynote-algorithm-stats"]
 (CAT)(CAR)(CAN)(DOG)
 
 공통 접두사 "CA"를 두 노드가 공유!
-검색 "CAR": C→A→R 이동, O(3) = O(L)
+검색 "CAR": C->A->R 이동, O(3) = O(L)
 ```
 
 - **📢 섹션 요약 비유**: 트라이는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. "컴퓨터과학" 서가 안에 "컴퓨터과학-알고리즘", "컴퓨터과학-네트워크"가 함께 있어서 "컴퓨터과학"이라는 공통 접두사를 공유한다.
@@ -76,7 +76,7 @@ class Trie:
         return True  # 접두사 존재 확인
 ```
 
-- **📢 섹션 요약 비유**: 트라이 삽입은 주소록에 연락처 추가와 같다. 성(C)→이름 첫 글자(A)→두 번째 글자(T) 순으로 트리를 따라 이동하며 새 분기가 필요한 곳에서만 새 노드를 만든다.
+- **📢 섹션 요약 비유**: 트라이 삽입은 주소록에 연락처 추가와 같다. 성(C)->이름 첫 글자(A)->두 번째 글자(T) 순으로 트리를 따라 이동하며 새 분기가 필요한 곳에서만 새 노드를 만든다.
 
 ---
 
@@ -126,15 +126,15 @@ def autocomplete(trie, prefix, max_results=5):
 
 ```text
 일반 트라이:
-  C → A → T (3 노드)
+  C -> A -> T (3 노드)
 
 압축 트라이:
   CAT (1 노드에 "CAT" 저장)
-  CAR → R (공통 접두사 "CA" 이후 분기)
+  CAR -> R (공통 접두사 "CA" 이후 분기)
 
-  "CA" ─── "T" (CAT)
-            └── "R" (CAR)
-            └── "N" (CAN)
+  "CA" --- "T" (CAT)
+            +-- "R" (CAR)
+            +-- "N" (CAN)
 ```
 
 - **📢 섹션 요약 비유**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이는 주소 약어 시스템이다. "서울특별시 강남구"를 매번 쓰는 대신 공통 부분을 하나로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 "서울강남-역삼", "서울강남-삼성"으로 저장하는 것과 같다.
@@ -169,17 +169,17 @@ def autocomplete(trie, prefix, max_results=5):
 
 ```text
 [해시맵·BST — 일반 문자열 저장·검색]
-    │
-    ▼
+    |
+    v
 [트라이 (Trie) — 접두사 공유 O(L) 검색]
-    │
-    ▼
+    |
+    v
 [압축 트라이 (Radix Tree) — 메모리 최적화]
-    │
-    ▼
+    |
+    v
 [Aho-Corasick — 다중 패턴 매칭 (실패 링크 추가)]
-    │
-    ▼
+    |
+    v
 [LLM 토큰화 — BPE 어휘 사전 트라이 매칭]
 ```
 
@@ -195,7 +195,7 @@ def autocomplete(trie, prefix, max_results=5):
 
 **진행 상황**: 87 / 175
 
-← **이전**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)
-**다음**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/) →
+<- **이전**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)
+**다음**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/) ->
 
 ---

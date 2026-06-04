@@ -22,14 +22,14 @@ tags = ["studynote-computer-architecture"]
 퍼블릭 클라우드에서 가장 어려운 질문 중 하나는 "클라우드 관리자가 내 실행 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 수 없는가"다. AWS Nitro Enclaves는 이 질문에 대해, 동일 EC2 인스턴스 안에서도 별도 격리 공간을 만들어 부모 인스턴스와 다른 신뢰 경계를 형성하는 방식으로 답한다. 엔클레이브는 네트워크 인터페이스도 없고 디스크도 직접 붙지 않으며, 오직 제한된 로컬 통신만 허용한다. 즉 편의성 대신 공격 표면을 강하게 줄여 기밀 연산에 특화된 실행 상자를 제공하는 셈이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Parent instance and enclave split               │
-├──────────────────────────────────────────────────────────────┤
-│ Parent EC2  : network / storage / orchestration             │
-│ Enclave     : isolated CPU+RAM / no SSH / no direct NIC     │
-│                                                              │
-│ Only narrow channel: vsock                                  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Parent instance and enclave split               |
++--------------------------------------------------------------+
+| Parent EC2  : network / storage / orchestration             |
+| Enclave     : isolated CPU+RAM / no SSH / no direct NIC     |
+|                                                              |
+| Only narrow channel: vsock                                  |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 큰 집 안에 창문도 없고 전화선도 하나만 있는 금고 방을 따로 만든 것과 같다. 집 주인은 금고 방을 운영하지만 안을 직접 들여다보진 못한다.
@@ -48,16 +48,16 @@ Nitro Enclaves의 핵심은 Nitro Hypervisor가 부모 인스턴스 자원 일�
 | Attestation Doc | 코드 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명 | [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 측정값 연계 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             Nitro Enclave key release workflow              │
-├──────────────────────────────────────────────────────────────┤
-│ EIF boot -> enclave measurement -> attestation doc          │
-│                                        │                     │
-│                                        ▼                     │
-│                             KMS policy validation           │
-│                                        │                     │
-│                                        └─ release wrapped key│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             Nitro Enclave key release workflow              |
++--------------------------------------------------------------+
+| EIF boot -> enclave measurement -> attestation doc          |
+|                                        |                     |
+|                                        v                     |
+|                             KMS policy validation           |
+|                                        |                     |
+|                                        +- release wrapped key|
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 금고 방 안 사람이 회사 인감이 찍힌 확인서를 내야만 금고 열쇠를 받는 구조와 같다. 방이 있다는 사실만으로는 충분하지 않다.
@@ -107,15 +107,15 @@ Nitro Enclaves는 별도 [HSM](/knowledge-base/studynote/01_computer_architectur
 
 ```text
 [Parent Instance Setup]
-    │
-    ▼
+    |
+    v
 [Enclave Boot + Measurement]
-    │
-    ▼
+    |
+    v
 [Attestation-based Key Release]
-    │
-    ├──▶ [Sensitive Computation]
-    └──▶ [Result over vsock]
+    |
+    +---> [Sensitive Computation]
+    +---> [Result over vsock]
 ```
 
 이 흐름은 부모 인스턴스가 엔클레이브를 띄운 뒤, 측정과 증명을 거쳐야만 실제 기밀 연산이 시작된다는 점을 보여준다. 즉 Nitro Enclave의 신뢰는 격리만이 아니라 증명 이후에 완성된다.
@@ -132,7 +132,7 @@ Nitro Enclaves는 별도 [HSM](/knowledge-base/studynote/01_computer_architectur
 
 **진행 상황**: 795 / 803
 
-← **이전**: [793. Microsoft Titan 보안 칩 (Microsoft Titan Security Chip)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/793_microsoft_titan/)
-**다음**: [795. Confidential Computing (기밀 컴퓨팅)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) →
+<- **이전**: [793. Microsoft Titan 보안 칩 (Microsoft Titan Security Chip)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/793_microsoft_titan/)
+**다음**: [795. Confidential Computing (기밀 컴퓨팅)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) ->
 
 ---

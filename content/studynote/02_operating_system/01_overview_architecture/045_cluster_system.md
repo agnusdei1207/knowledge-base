@@ -22,14 +22,14 @@ tags = ["studynote-operating-system"]
 클러스터 시스템 구조:
 
 노드 1         노드 2         노드 3
-┌──────┐       ┌──────┐       ┌──────┐
-│ CPU  │       │ CPU  │       │ CPU  │
-│ RAM  │       │ RAM  │       │ RAM  │
-│ OS   │       │ OS   │       │ OS   │
-└──┬───┘       └──┬───┘       └──┬───┘
-   │              │              │
-   └──────────────┼──────────────┘
-                  │
++------+       +------+       +------+
+| CPU  |       | CPU  |       | CPU  |
+| RAM  |       | RAM  |       | RAM  |
+| OS   |       | OS   |       | OS   |
++--+---+       +--+---+       +--+---+
+   |              |              |
+   +--------------+--------------+
+                  |
         고속 네트워크 (InfiniBand, 10/100G Ethernet)
 
 공유 스토리지:
@@ -61,27 +61,27 @@ Active-Standby (능동-대기):
   Standby Node: 대기 (Heartbeat 모니터링)
 
   장애 감지:
-  Active → Heartbeat 중단
-  Standby → 장애 감지 → Failover
+  Active -> Heartbeat 중단
+  Standby -> 장애 감지 -> Failover
 
   Failover 절차:
   1. VIP (Virtual IP) Standby로 이전
   2. 공유 스토리지 마운트
   3. 서비스 프로세스 시작
-  → 서비스 재개 (다운타임: 수십 초~수 분)
+  -> 서비스 재개 (다운타임: 수십 초~수 분)
 
 Active-Active (능동-능동):
   모든 노드가 서비스 처리
   부하 분산 + 고가용성 동시 달성
 
-  한 노드 장애 → 나머지 노드가 부하 흡수
+  한 노드 장애 -> 나머지 노드가 부하 흡수
 
   조건: 각 노드가 독립적으로 서비스 가능해야 함
   (무상태 서비스, DB의 경우 공유 스토리지 필요)
 
 Split-Brain 문제:
-  네트워크 단절 → 두 노드 모두 Active 주장
-  → 데이터 충돌
+  네트워크 단절 -> 두 노드 모두 Active 주장
+  -> 데이터 충돌
 
   해결: Quorum (쿼럼) 디스크/노드
   과반수 투표 방식으로 Active 결정
@@ -124,8 +124,8 @@ HPC 클러스터 (High-Performance Computing):
   Hybrid: MPI + OpenMP
 
   MPI 예시 (개념):
-  Rank 0 (Master): 데이터 분할 → 전송
-  Rank 1~N: 계산 → 결과 반환 (MPI_Reduce)
+  Rank 0 (Master): 데이터 분할 -> 전송
+  Rank 1~N: 계산 -> 결과 반환 (MPI_Reduce)
 
 활용 분야:
   기상 예보, 분자 동역학, 유체 역학
@@ -175,7 +175,7 @@ OS 이미지     단일             단일            복수 (노드별)
 
 웹 계층 (부하 분산 클러스터):
   L4 로드밸런서: HAProxy 2대 (Active-Active)
-  → 웹 서버 10대 (Nginx + Node.js)
+  -> 웹 서버 10대 (Nginx + Node.js)
   VIP: 10.0.0.1 (Keepalived)
 
 애플리케이션 계층:
@@ -198,9 +198,9 @@ DB 계층 (HA 클러스터):
   이미지/파일: 3-way 복제
 
 장애 시나리오:
-  DB Primary 장애 →
-  Sentinel 감지 (30s) →
-  Secondary 자동 승격 →
+  DB Primary 장애 ->
+  Sentinel 감지 (30s) ->
+  Secondary 자동 승격 ->
   애플리케이션 자동 재연결
 
 SLA: 99.99% 가용성 (연간 다운타임 52분)
@@ -218,7 +218,7 @@ SLA: 99.99% 가용성 (연간 다운타임 52분)
 |   +-- HA 클러스터 (고가용성)
 |   |   +-- Active-Standby
 |   |   +-- Active-Active
-|   |   +-- Split-Brain → Quorum
+|   |   +-- Split-Brain -> Quorum
 |   +-- HPC 클러스터 (고성능)
 |       +-- SLURM
 |       +-- MPI/OpenMP
@@ -270,7 +270,7 @@ Kubernetes: 컨테이너 오케스트레이션
 
 **진행 상황**: 45 / 800
 
-← **이전**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/)
-**다음**: [046. 대기 모드 — OS Standby & Sleep Modes](/knowledge-base/studynote/02_operating_system/01_overview_architecture/046_standby_modes/) →
+<- **이전**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/)
+**다음**: [046. 대기 모드 — OS Standby & Sleep Modes](/knowledge-base/studynote/02_operating_system/01_overview_architecture/046_standby_modes/) ->
 
 ---

@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [HTTP/2 특징]
-    │
-    ▼
+    |
+    v
 [HTTP/2 스트림 다중화]
-    │
-    └──▶ [HTTP/2 헤더 압축]
+    |
+    +---> [HTTP/2 헤더 압축]
 ```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1이 "한 사람이 계산을 끝낼 때까지 뒷사람이 꼼짝 못 하고 기다려야 하는 1줄짜리 좁은 마트 계산대"라면, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 멀티플렉싱은 "계산원 한 명이 수십 명의 손님 물건을 바코드로 번갈아 가며 1개씩 찍어주는 천재적인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 계산대"입니다. 물건이 적은 사람은 순식간에 계산을 끝내고 먼저 나갈 수 있습니다.
@@ -45,25 +45,25 @@ tags = ["studynote-network"]
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 멀티플렉싱은 3단계의 논리적 구조를 통해 구현됩니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ HTTP/2 멀티플렉싱 (Multiplexing) 논리적 아키텍처 ]        │
-│                                                             │
-│   단일 물리적 연결 (Single TCP Connection)                        │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                                                     │   │
-│   │ [ Stream ID: 1 ]  (논리적 양방향 통로: HTML 요청/응답)   │   │
-│   │   ▶ Message (요청) -> [ HEADERS 프레임 ]               │   │
-│   │   ◀ Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] │   │
-│   │                                                     │   │
-│   │ [ Stream ID: 3 ]  (논리적 양방향 통로: CSS 요청/응답)    │   │
-│   │   ▶ Message (요청) -> [ HEADERS 프레임 ]               │   │
-│   │   ◀ Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│     ▼ (전송 시 프레임들의 무작위 믹스 및 Interleaving)               │
-│                                                             │
-│   [TCP 버퍼] ◀ [DATA 1] [DATA 3] [HEAD 3] [DATA 1] [HEAD 1] │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ HTTP/2 멀티플렉싱 (Multiplexing) 논리적 아키텍처 ]        |
+|                                                             |
+|   단일 물리적 연결 (Single TCP Connection)                        |
+|   +-----------------------------------------------------+   |
+|   |                                                     |   |
+|   | [ Stream ID: 1 ]  (논리적 양방향 통로: HTML 요청/응답)   |   |
+|   |   -> Message (요청) -> [ HEADERS 프레임 ]               |   |
+|   |   <- Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] |   |
+|   |                                                     |   |
+|   | [ Stream ID: 3 ]  (논리적 양방향 통로: CSS 요청/응답)    |   |
+|   |   -> Message (요청) -> [ HEADERS 프레임 ]               |   |
+|   |   <- Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] |   |
+|   +-----------------------------------------------------+   |
+|                                                             |
+|     v (전송 시 프레임들의 무작위 믹스 및 Interleaving)               |
+|                                                             |
+|   [TCP 버퍼] <- [DATA 1] [DATA 3] [HEAD 3] [DATA 1] [HEAD 1] |
++-------------------------------------------------------------+
 ```
 
 1. **스트림 (Stream)**: 클라이언트와 서버 사이에 맺어진 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 내에서 논리적으로 구분된 가상의 양방향 흐름입니다. 각 스트림은 고유한 정수 ID(Stream ID)를 가집니다.
@@ -167,12 +167,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: HTTP/2 특징]
-    │
-    ▼
+    |
+    v
 [현재 개념: HTTP/2 스트림 다중화]
-    │
-    ├──▶ [확장 A: HTTP/2 헤더 압축]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: HTTP/2 헤더 압축]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 스트림 다중화는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -189,7 +189,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 588 / 1120
 
-← **이전**: [466. HTTP/2 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/466_http2_multiplexing_hpack/)
-**다음**: [468. HTTP/2 헤더 압축 (HPACK 알고리즘 활용)](/knowledge-base/studynote/03_network/09_application_layer_web_email/468_http2_hpack_header_compression/) →
+<- **이전**: [466. HTTP/2 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/466_http2_multiplexing_hpack/)
+**다음**: [468. HTTP/2 헤더 압축 (HPACK 알고리즘 활용)](/knowledge-base/studynote/03_network/09_application_layer_web_email/468_http2_hpack_header_compression/) ->
 
 ---

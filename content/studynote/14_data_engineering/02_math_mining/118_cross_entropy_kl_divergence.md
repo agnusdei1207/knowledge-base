@@ -19,16 +19,16 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    엔트로피 → 교차 엔트로피 → KL 발산 관계           │
-├───────────────────────────────────────────────────────┤
-│  H(P) = 엔트로피 (P의 불확실성, 상수)                │
-│  H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)      │
-│  D_KL(P||Q) = H(P,Q) - H(P)  (P와 Q의 차이)         │
-│                                                       │
-│  H(P)는 고정 → H(P,Q) 최소화 = D_KL 최소화          │
-│  → 모델 Q가 실제 P에 가까워진다!                     │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    엔트로피 -> 교차 엔트로피 -> KL 발산 관계           |
++-------------------------------------------------------+
+|  H(P) = 엔트로피 (P의 불확실성, 상수)                |
+|  H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)      |
+|  D_KL(P||Q) = H(P,Q) - H(P)  (P와 Q의 차이)         |
+|                                                       |
+|  H(P)는 고정 -> H(P,Q) 최소화 = D_KL 최소화          |
+|  -> 모델 Q가 실제 P에 가까워진다!                     |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "정답(P) 기준으로 모델(Q)의 답이 얼마나 틀렸는지"를 재는 자이고, KL 발산은 "정답과 모델의 순수한 차이"이다.
@@ -46,7 +46,7 @@ tags = ["studynote-dataengineering"]
 | **Focal Loss** | $-\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)(1-\hat{y})^\gamma \log\hat{y}$ | 클래스 불균형 |
 | **Label Smoothing** | $y' = (1-\epsilon)y + \epsilon/K$ | 과적합 완화 |
 
-- **📢 섹션 요약 비유**: Binary CE는 "맞다/틀리다" 시험이고, Categorical CE는 "5지선다" 시험이며, Focal Loss는 "쉬운 문제 배점 ↓, 어려운 문제 배점 ↑"인 시험이다.
+- **📢 섹션 요약 비유**: Binary CE는 "맞다/틀리다" 시험이고, Categorical CE는 "5지선다" 시험이며, Focal Loss는 "쉬운 문제 배점 v, 어려운 문제 배점 ^"인 시험이다.
 
 ---
 
@@ -63,8 +63,8 @@ tags = ["studynote-dataengineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### Label Smoothing 효과
-- Hard Label: [0, 0, 1, 0] → 과적합 유발.
-- Smooth Label (ε=0.1): [0.025, 0.025, 0.925, 0.025] → 과적합 완화.
+- Hard Label: [0, 0, 1, 0] -> 과적합 유발.
+- Smooth Label (ε=0.1): [0.025, 0.025, 0.925, 0.025] -> 과적합 완화.
 
 ---
 
@@ -88,17 +88,17 @@ tags = ["studynote-dataengineering"]
 
 ```text
 [엔트로피 (Shannon, 1948) — 정보 이론 기초]
-    │
-    ▼
+    |
+    v
 [교차 엔트로피 (분류 손실 함수 표준)]
-    │
-    ▼
+    |
+    v
 [KL 발산 (VAE, 2013~) — 생성 모델 최적화]
-    │
-    ▼
+    |
+    v
 [Focal Loss (2017, RetinaNet) — 클래스 불균형 해결]
-    │
-    ▼
+    |
+    v
 [현재: Label Smoothing + Distillation — CE 변형 활용]
 ```
 
@@ -113,7 +113,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 118 / 258
 
-← **이전**: [117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한](/knowledge-base/studynote/14_data_engineering/02_math_mining/117_bayes_error/)
-**다음**: [119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리](/knowledge-base/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/) →
+<- **이전**: [117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한](/knowledge-base/studynote/14_data_engineering/02_math_mining/117_bayes_error/)
+**다음**: [119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리](/knowledge-base/studynote/14_data_engineering/02_math_mining/119_ensemble_voting_methods/) ->
 
 ---

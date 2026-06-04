@@ -62,13 +62,13 @@ Continuous Deployment는 신뢰할 수 있는 자동화 테스트를 기반으�
 
 ```text
 Continuous Delivery (수동 승인 배포)
-    │
-    ▼
-Continuous Deployment: 테스트 통과 → 자동 운영 배포
-    ├─► 전제: 높은 테스트 커버리지 + 자동 롤백
-    └─► Feature Flag: 기능 단위 노출 제어
-    │
-    ▼
+    |
+    v
+Continuous Deployment: 테스트 통과 -> 자동 운영 배포
+    +-► 전제: 높은 테스트 커버리지 + 자동 롤백
+    +-► Feature Flag: 기능 단위 노출 제어
+    |
+    v
 Progressive Delivery + Observability 기반 자동 판단
 ```
 - 사람이 사인을 해줄 필요도 없이, 기계가 "이 장난감은 안전해요!"라고 확인하면 바로 가게로 가는 거죠.
@@ -80,7 +80,7 @@ Progressive Delivery + Observability 기반 자동 판단
 
 **진행 상황**: 164 / 371
 
-← **이전**: [164. 지속적 제공 (Continuous Delivery)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)
-**다음**: [166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/166_cicd_pipeline_tools/) →
+<- **이전**: [164. 지속적 제공 (Continuous Delivery)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)
+**다음**: [166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/166_cicd_pipeline_tools/) ->
 
 ---

@@ -34,11 +34,11 @@ v: 고유벡터 (eigenvector) ∈ ℝⁿ
 ### 특성 방정식 (Characteristic Equation)
 
 ```
-(A - λI)v = 0   → 비자명 해 존재 조건:
+(A - λI)v = 0   -> 비자명 해 존재 조건:
 det(A - λI) = 0   (특성 다항식 = 0)
 ```
 
-n×n 행렬 → n차 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) → n개의 고유값 (중복 포함, 복소수 포함).
+n×n 행렬 -> n차 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) -> n개의 고유값 (중복 포함, 복소수 포함).
 
 📢 **섹션 요약 비유**: 고유벡터는 "거울 변환 후에도 같은 방향을 가리키는 화살표"다 — 거울(A)로 반사해도 줄어들거나 늘어날 뿐(λ배), 방향이 안 바뀌는 특별한 화살표.
 
@@ -49,18 +49,18 @@ n×n 행렬 → n차 [다항식](/knowledge-base/studynote/03_network/04_data_li
 ### 2×2 행렬 고유값 계산 예시
 
 ```
-A = ┌ 3  1 ┐
-    └ 1  3 ┘
+A = + 3  1 +
+    + 1  3 +
 
-det(A - λI) = (3-λ)² - 1 = 0
-λ² - 6λ + 8 = 0
+det(A - λI) = (3-λ)^ - 1 = 0
+λ^ - 6λ + 8 = 0
 λ₁ = 4,  λ₂ = 2
 
-λ₁ = 4: (A - 4I)v = 0 → v₁ = [1, 1]ᵀ / √2
-λ₂ = 2: (A - 2I)v = 0 → v₂ = [1,-1]ᵀ / √2
+λ₁ = 4: (A - 4I)v = 0 -> v₁ = [1, 1]ᵀ / √2
+λ₂ = 2: (A - 2I)v = 0 -> v₂ = [1,-1]ᵀ / √2
 ```
 
-A를 v₁, v₂ 기저로 표현하면 **대각 행렬** ┌4 0┐ └0 2┘.
+A를 v₁, v₂ 기저로 표현하면 **대각 행렬** +4 0+ +0 2+.
 
 ### 고유분해 (Eigendecomposition)
 
@@ -92,18 +92,18 @@ P = [v₁ | v₂ | ... | vₙ]   (고유벡터 열로 구성)
 v₀ (임의 초기화)
 vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
 
-충분히 반복하면 vₖ → v₁ (지배 고유벡터)
-                 ‖A·vₖ‖/‖vₖ‖ → λ₁
+충분히 반복하면 vₖ -> v₁ (지배 고유벡터)
+                 ‖A·vₖ‖/‖vₖ‖ -> λ₁
 ```
 
 **PageRank** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심: 웹 그래프의 전이 행렬에 거듭제곱 반복 적용.
 
 ```
 웹 페이지 그래프
-  A ──► B ──► C
-  │           │
-  ▼           ▼
-  D ◄─────── E
+  A --► B --► C
+  |           |
+  v           v
+  D ◄------- E
 
 전이 행렬 P의 지배 고유벡터 = PageRank 점수 벡터
 ```
@@ -121,7 +121,7 @@ vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
 | 적용 대상 | 정방 행렬 (대각화 가능) | 모든 m×n 행렬 |
 | 분해 결과 | A = PΛP⁻¹ | A = UΣVᵀ |
 | U, V | 같은 행렬 P | 서로 다른 기저 |
-| 대칭 행렬 A=Aᵀ | Λ = Σ², P = Q (직교) | U = V |
+| 대칭 행렬 A=Aᵀ | Λ = Σ^, P = Q (직교) | U = V |
 | 수치 안정성 | 낮음 (비정규 행렬) | 높음 |
 
 ### 진동 분석 (Structural Vibration)
@@ -129,10 +129,10 @@ vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
 기계 구조의 고유 진동수 (Natural Frequency) 계산:
 
 ```
-K·x = ω²·M·x   (K: 강성 행렬, M: 질량 행렬)
-K·M⁻¹·x = ω²·x  ← 고유값 문제!
+K·x = ω^·M·x   (K: 강성 행렬, M: 질량 행렬)
+K·M⁻¹·x = ω^·x  <- 고유값 문제!
 
-고유값 ω²: 고유 진동수의 제곱
+고유값 ω^: 고유 진동수의 제곱
 고유벡터: 진동 모드 형태
 ```
 
@@ -157,14 +157,14 @@ K·M⁻¹·x = ω²·x  ← 고유값 문제!
 
 ### QR [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 실용 고유값 계산
 
-n > 3에서 특성 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)은 근의 공식 없음 (Abel's theorem) → 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 필요:
+n > 3에서 특성 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)은 근의 공식 없음 (Abel's theorem) -> 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 필요:
 
 ```
 QR 알고리즘:
   A₀ = A
   Aₖ₊₁ = Rₖ · Qₖ   (Aₖ = Qₖ · Rₖ QR 분해 후 순서 뒤집기)
 
-충분히 반복하면 Aₖ → 상삼각 (대각이 고유값)
+충분히 반복하면 Aₖ -> 상삼각 (대각이 고유값)
 ```
 
 LAPACK의 `dgeev` 등 모든 실용 고유값 루틴의 기반.
@@ -183,9 +183,9 @@ x' = Ax 형태의 선형 시스템:
 
 ### 기술사 판단 포인트
 
-1. **"대칭 행렬의 고유값이 항상 실수인 이유?"** → 스펙트럼 정리 (에르미트 행렬의 성질)
-2. **"PageRank 수렴 조건은?"** → 전이 행렬이 기약 비주기적 → 유일 정상 분포 = 지배 고유벡터
-3. <strong>"PCA와 고유값의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>는?"</strong> → 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)량
+1. **"대칭 행렬의 고유값이 항상 실수인 이유?"** -> 스펙트럼 정리 (에르미트 행렬의 성질)
+2. **"PageRank 수렴 조건은?"** -> 전이 행렬이 기약 비주기적 -> 유일 정상 분포 = 지배 고유벡터
+3. <strong>"PCA와 고유값의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>는?"</strong> -> 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)량
 
 📢 **섹션 요약 비유**: 안정성 분석의 고유값 실수부는 "시스템 붕괴 속도 미터기"다 — 실수부가 음수면 시간이 지날수록 안정화되고, 양수면 폭발적으로 성장한다.
 
@@ -213,7 +213,7 @@ x' = Ax 형태의 선형 시스템:
 | 고유값/고유벡터 | [Av](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = λv | 변환 분석 |
 | 특성 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) | det(A-λI) = 0 | 고유값 계산 |
 | 고유분해 | A = PΛP⁻¹ | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), Aⁿ 계산 |
-| 스펙트럼 정리 | A=Aᵀ → 실수 λ, 직교 v | 공분산 분해 |
+| 스펙트럼 정리 | A=Aᵀ -> 실수 λ, 직교 v | 공분산 분해 |
 | 거듭제곱 반복법 | vₖ₊₁ = Avₖ/‖Avₖ‖ | PageRank |
 
 ---
@@ -222,20 +222,20 @@ x' = Ax 형태의 선형 시스템:
 
 ```text
 [:---]
-    │
-    ▼
+    |
+    v
 [고유값/고유벡터]
-    │
-    ▼
+    |
+    v
 [특성 다항식]
-    │
-    ▼
+    |
+    v
 [고유분해]
-    │
-    ▼
+    |
+    v
 [스펙트럼 정리]
-    │
-    ▼
+    |
+    v
 [거듭제곱 반복법]
 ```
 
@@ -253,7 +253,7 @@ x' = Ax 형태의 선형 시스템:
 
 **진행 상황**: 162 / 175
 
-← **이전**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)
-**다음**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) →
+<- **이전**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)
+**다음**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ->
 
 ---

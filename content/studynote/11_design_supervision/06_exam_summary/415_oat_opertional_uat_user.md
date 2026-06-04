@@ -22,11 +22,11 @@ tags = ["studynote-design-supervision"]
 특히 전환 직전에는 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)가 통과했더라도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 배치 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/), 권한 분리, 장애 대응, 헬프데스크 인수 같은 운영 요소가 빠질 수 있다. 반대로 OAT가 완료되어도 실제 사용자가 화면 흐름, 예외 처리, 출력물, 마감 업무를 승인하지 않으면 인수 완료로 보기 어렵다. 그래서 기술사 답안에서는 “무엇을 언제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가”를 시간축으로 제시하는 것이 중요하다.
 
 ```text
-┌────────────┐   ┌────────────┐   ┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 시스템 테스트 │──▶│ OAT 수행     │──▶│ UAT 수행     │──▶│ 전환 승인     │──▶│ 운영 개시     │
-└────────────┘   └────────────┘   └────────────┘   └────────────┘   └────────────┘
-      │                  │                  │                  │
-      └─기능 결함 정리   └─운영 준비 확인   └─업무 적합 확인   └─최종 Go/No-Go
++------------+   +------------+   +------------+   +------------+   +------------+
+| 시스템 테스트 |--->| OAT 수행     |--->| UAT 수행     |--->| 전환 승인     |--->| 운영 개시     |
++------------+   +------------+   +------------+   +------------+   +------------+
+      |                  |                  |                  |
+      +-기능 결함 정리   +-운영 준비 확인   +-업무 적합 확인   +-최종 Go/No-Go
 ```
 
 - **📢 섹션 요약 비유**: 새 집에 들어가기 전, 전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)가 되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차가 OAT이고 실제로 가족이 살아도 불편 없는지 보는 절차가 UAT다.
@@ -38,21 +38,21 @@ tags = ["studynote-design-supervision"]
 또 OAT와 UAT는 완전히 직렬일 수도, 일부 병행될 수도 있다. 다만 병행하더라도 감리인은 각 시험의 종료 조건을 분리해 본다. 예를 들어 UAT에서 업무 흐름이 맞아도 OAT에서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표시간이나 운영 절차가 미흡하면 운영 개시를 보류해야 한다.
 
 ```text
-┌──────────────────────┐
-│ 운영 기준선 확정      │
-└──────────┬───────────┘
-           ▼
-┌──────────────────────┐
-│ OAT: 복구·배치·권한   │
-└──────────┬───────────┘
-           ▼
-┌──────────────────────┐
-│ UAT: 시나리오·승인    │
-└──────────┬───────────┘
-           ▼
-┌──────────────────────┐
-│ Go/No-Go 의사결정     │
-└──────────────────────┘
++----------------------+
+| 운영 기준선 확정      |
++----------+-----------+
+           v
++----------------------+
+| OAT: 복구·배치·권한   |
++----------+-----------+
+           v
++----------------------+
+| UAT: 시나리오·승인    |
++----------+-----------+
+           v
++----------------------+
+| Go/No-Go 의사결정     |
++----------------------+
 ```
 
 | 단계 | 핵심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목 | 대표 증적 |
@@ -97,7 +97,7 @@ tags = ["studynote-design-supervision"]
 
 OAT와 UAT의 감리 시점을 올바르게 설계하면 “개발 완료”와 “운영 가능”과 “업무 수용” 사이의 틈을 줄일 수 있다. 그 결과 전환 직후 장애, 사용자 반발, 책임 공방이 줄고, 운영 조직과 현업 조직의 승인 책임도 명확해진다. 특히 대규모 전환·차세대 시스템에서는 이 구분이 프로젝트 성공 여부를 좌우한다.
 
-결론적으로 이 주제의 핵심은 시험 종류를 나열하는 것이 아니라, <strong>누가 무엇을 근거로 운영 개시를 허락하는지</strong>를 보여 주는 것이다. 답안에서는 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)→[OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)→UAT→전환 승인 흐름과 예외 승인 통제를 함께 제시하면 완성도가 높다.
+결론적으로 이 주제의 핵심은 시험 종류를 나열하는 것이 아니라, <strong>누가 무엇을 근거로 운영 개시를 허락하는지</strong>를 보여 주는 것이다. 답안에서는 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)->[OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)->UAT->전환 승인 흐름과 예외 승인 통제를 함께 제시하면 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 공연을 올리기 전 무대 장치 점검, 리허설, 관객 시사회가 모두 끝나야 정식 개막을 선언할 수 있다.
 
@@ -114,24 +114,24 @@ OAT와 UAT의 감리 시점을 올바르게 설계하면 “개발 완료”와 
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/), [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/), UAT, 컷오버, Go/No-Go, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 운영 매뉴얼, 인수 서명
-- 발전 흐름: 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 테스트 → 운영 준비도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)) → 사용자 수용성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(UAT) → 전환 승인 거버넌스 강화
+- 발전 흐름: 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 테스트 -> 운영 준비도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)) -> 사용자 수용성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(UAT) -> 전환 승인 거버넌스 강화
 
 ```text
 요구사항 검증
-     │
-     ▼
+     |
+     v
 시스템 테스트
-     │
-     ▼
+     |
+     v
 OAT(운영 가능성)
-     │
-     ▼
+     |
+     v
 UAT(업무 수용성)
-     │
-     ▼
+     |
+     v
 Go/No-Go 승인
-     │
-     ▼
+     |
+     v
 운영 안정화
 ```
 
@@ -147,7 +147,7 @@ Go/No-Go 승인
 
 **진행 상황**: 493 / 530
 
-← **이전**: [414. 리틀의 법칙 기반 스레드풀 성능감사 (Little's Law)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/414_audit/)
-**다음**: [416. 보안 테스트 퍼징 기반 이상 패킷 자동 주입 (Security Fuzzing for Abnormal Packet Injection)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/416_process/) →
+<- **이전**: [414. 리틀의 법칙 기반 스레드풀 성능감사 (Little's Law)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/414_audit/)
+**다음**: [416. 보안 테스트 퍼징 기반 이상 패킷 자동 주입 (Security Fuzzing for Abnormal Packet Injection)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/416_process/) ->
 
 ---

@@ -26,17 +26,17 @@ tags = ["studynote-network"]
 이 도식은 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)의 미세한 패킷 겹침 문제와, 슬롯 알로하가 어떻게 시간 구획을 통해 이를 해소하는지를 직관적으로 대조한다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│ [Pure ALOHA: 아무 때나 전송 -> 부분 충돌 발생]         │
-│ Node A:      [----패킷 A----]                          │
-│ Node B:              [----패킷 B----] (꼬리와 머리 겹침│
-├────────────────────────────────────────────────────────┤
-│ [Slotted ALOHA: 슬롯 경계에 맞춰 전송 -> 겹침 원천차단]│
-│ Time Slots:  | Slot 1 | Slot 2 | Slot 3 | Slot 4 |     │
-│ Node A:               [패킷 A]                         │
-│ Node B:                        [패킷 B]                │
-│ Node C:                        [패킷 C] (완전 충돌)    │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+| [Pure ALOHA: 아무 때나 전송 -> 부분 충돌 발생]         |
+| Node A:      [----패킷 A----]                          |
+| Node B:              [----패킷 B----] (꼬리와 머리 겹침|
++--------------------------------------------------------+
+| [Slotted ALOHA: 슬롯 경계에 맞춰 전송 -> 겹침 원천차단]|
+| Time Slots:  | Slot 1 | Slot 2 | Slot 3 | Slot 4 |     |
+| Node A:               [패킷 A]                         |
+| Node B:                        [패킷 B]                |
+| Node C:                        [패킷 C] (완전 충돌)    |
++--------------------------------------------------------+
 ```
 *해설*: 이 그림의 핵심은 슬롯 알로하가 부분적인 겹침을 용납하지 않는다는 점이다. 패킷 B가 패킷 A의 꼬리를 무는 최악의 상황이 슬롯 알로하에서는 일어나지 않는다. 이런 배치는 모든 전송이 슬롯의 정확한 경계선에서만 시작되도록 클럭을 통제하기 때문이며, 결과적으로 A 프레임이 안전하게 전송될 수 있는 보호막 역할을 한다. 비록 C가 B와 같은 슬롯을 골라 완전 충돌이 발생할 수는 있지만, 전체적으로 버려지는 시간 낭비는 절반으로 뚝 떨어진다. 실무에서는 이 글로벌 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 유지하기 위한 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 수신 오버헤드를 반드시 감내해야 한다.
 
@@ -90,15 +90,15 @@ tags = ["studynote-network"]
 이 표는 시스템 부하 증가 시 알로하 계열이 겪는 붕괴 시점과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 분석한다.
 
 ```text
-┌──────────────┬──────────────────┬──────────────────┬─────────────────┐
-│ 평가 지표    │ Pure ALOHA       │ Slotted ALOHA    │ 시사점 / 병목   │
-├──────────────┼──────────────────┼──────────────────┼─────────────────┤
-│ 최대 채널효율│ 18.4% (1/2e)     │ 36.8% (1/e)      │ 대역폭 효율 2배 │
-│ 최적 부하(G) │ G = 0.5 패킷/프레임│ G = 1.0 패킷/프레임│ 수용량 2배 증가 │
-│ 트래픽 폭주형│ 0.5 초과 시 급감 │ 1.0 초과 시 급감 │ 과부하 시 시스템붕괴│
-│ 기본 지연시간│ 즉시 전송 (가장 짧음)│ 최대 1프레임 대기│ 단일 패킷은 지연됨│
-│ 기술적 비용  │ 최저             │ 클럭 동기화 비용 │ 구축 복잡도 상승│
-└──────────────┴──────────────────┴──────────────────┴─────────────────┘
++--------------+------------------+------------------+-----------------+
+| 평가 지표    | Pure ALOHA       | Slotted ALOHA    | 시사점 / 병목   |
++--------------+------------------+------------------+-----------------+
+| 최대 채널효율| 18.4% (1/2e)     | 36.8% (1/e)      | 대역폭 효율 2배 |
+| 최적 부하(G) | G = 0.5 패킷/프레임| G = 1.0 패킷/프레임| 수용량 2배 증가 |
+| 트래픽 폭주형| 0.5 초과 시 급감 | 1.0 초과 시 급감 | 과부하 시 시스템붕괴|
+| 기본 지연시간| 즉시 전송 (가장 짧음)| 최대 1프레임 대기| 단일 패킷은 지연됨|
+| 기술적 비용  | 최저             | 클럭 동기화 비용 | 구축 복잡도 상승|
++--------------+------------------+------------------+-----------------+
 ```
 *해설*: 이 표의 핵심은 효율이 2배 좋아졌지만 그 대가로 모든 노드가 시계를 맞춰야 하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 고질적 '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 오버헤드'를 짊어졌다는 점이다. 트래픽 $G$가 극도로 낮을 때는 대기 시간 없이 바로 쏘는 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)의 응답성이 더 좋다. 반면 $G$가 증가할수록 슬롯 알로하는 트래픽 붕괴 현상을 한 템포 늦춰 채널의 생존성을 연장시킨다. 실무에서는 단일 패킷의 Latency를 희생하더라도 전체 망의 가용 Throughput을 확보하기 위해 슬롯 방식을 선호한다.
 
@@ -115,16 +115,16 @@ tags = ["studynote-network"]
 
 ```text
 [LTE/5G 단말기의 망 초기 접속 (RACH: Random Access Channel)]
-         │
-         ├─> 1단계: 단말이 기지국의 동기화 신호(SSB/비콘) 수신 (슬롯 타임 획득)
-         │
-         ├─> 2단계: 단말이 무작위 Preamble을 선택하여 [지정된 슬롯]에 전송 (Slotted ALOHA)
-         │    │
-         │    ├─> 다른 단말과 슬롯/Preamble이 겹쳤는가? (Collision)
-         │    │    ├─ (Yes) ─> 기지국 응답 없음 -> 이진 지수 백오프 후 다음 슬롯 재시도
-         │    │    └─ (No)  ─> 기지국 RAR(응답) 수신 -> 예약된 전용 대역폭(자원) 할당 완료
-         │    │
-         └─> 3단계: 할당받은 전용 자원(TDMA/OFDMA)으로 안전하게 대용량 데이터 전송
+         |
+         +-> 1단계: 단말이 기지국의 동기화 신호(SSB/비콘) 수신 (슬롯 타임 획득)
+         |
+         +-> 2단계: 단말이 무작위 Preamble을 선택하여 [지정된 슬롯]에 전송 (Slotted ALOHA)
+         |    |
+         |    +-> 다른 단말과 슬롯/Preamble이 겹쳤는가? (Collision)
+         |    |    +- (Yes) -> 기지국 응답 없음 -> 이진 지수 백오프 후 다음 슬롯 재시도
+         |    |    +- (No)  -> 기지국 RAR(응답) 수신 -> 예약된 전용 대역폭(자원) 할당 완료
+         |    |
+         +-> 3단계: 할당받은 전용 자원(TDMA/OFDMA)으로 안전하게 대용량 데이터 전송
 ```
 *해설*: 이 흐름의 핵심은 고성능 통신망에서도 사용자가 언제 망에 진입할지 알 수 없는 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 구간'에서는 슬롯 알로하가 가장 가볍고 효율적인 솔루션이라는 점이다. 실무 통신망 설계 시, 전체 주파수 대역 중 아주 좁은 일부 채널(RACH)만 슬롯 알로하경쟁 구역으로 열어두고, 여기서 경합에 승리한 단말에게만 절대 충돌이 나지 않는 전용 차선([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))을 할당하는 투트랙(Two-track) 방식을 사용한다.
 
@@ -164,12 +164,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: ALOHA]
-    │
-    ▼
+    |
+    v
 [현재 개념: Slotted ALOHA]
-    │
-    ├──▶ [확장 A: 예약 방식 접속]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
+    |
+    +---> [확장 A: 예약 방식 접속]
+    +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
 Slotted ALOHA는 ALOHA에서 출발해 현재 메커니즘을 정교화하고, 이후 [예약 방식 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/) 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
@@ -186,7 +186,7 @@ Slotted ALOHA는 ALOHA에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 233 / 1120
 
-← **이전**: [1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/)
-**다음**: [113. 예약 방식 접속 (Reservation Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/) →
+<- **이전**: [1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/)
+**다음**: [113. 예약 방식 접속 (Reservation Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/) ->
 
 ---

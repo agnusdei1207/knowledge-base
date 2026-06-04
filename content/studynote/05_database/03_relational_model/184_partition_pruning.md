@@ -26,18 +26,18 @@ tags = ["studynote-database"]
 아래 그림은 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체와 프루닝의 차이를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Monthly partitions and pruning                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Table : sales_history                                             │
-│   p_2026_01 | p_2026_02 | p_2026_03 | ... | p_2026_12             │
-│                                                                    │
-│ Query : WHERE order_date >= DATE '2026-05-01'                     │
-│                 AND order_date <  DATE '2026-06-01'               │
-│                                                                    │
-│ Without pruning : scan p_2026_01 ~ p_2026_12                      │
-│ With pruning    : skip all except p_2026_05                       │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Monthly partitions and pruning                                    |
++--------------------------------------------------------------------+
+| Table : sales_history                                             |
+|   p_2026_01 | p_2026_02 | p_2026_03 | ... | p_2026_12             |
+|                                                                    |
+| Query : WHERE order_date >= DATE '2026-05-01'                     |
+|                 AND order_date <  DATE '2026-06-01'               |
+|                                                                    |
+| Without pruning : scan p_2026_01 ~ p_2026_12                      |
+| With pruning    : skip all except p_2026_05                       |
++--------------------------------------------------------------------+
 ```
 
 핵심은 "행을 읽고 버리는 것"보다 앞 단계에서 "[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자체를 읽지 않는 것"이다. 그래서 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 필터 조건의 효율화가 아니라, 저장 단위 선택 자체를 줄이는 최적화에 가깝다.
@@ -51,24 +51,24 @@ tags = ["studynote-database"]
 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조건절을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고, 그 값을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 비교한 뒤, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 시작·종료 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 범위를 좁히는 방식으로 동작한다. 즉 조건식이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 직접 비교 가능한 형태여야 하며, 그래야 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 도달 가능하고 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 불가능한지 계산할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ How pruning happens                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ SQL predicate                                                      │
-│   └─ WHERE order_date >= DATE '2026-05-01'                        │
-│                AND order_date <  DATE '2026-06-01'                │
-│        │                                                          │
-│        ▼                                                          │
-│ Predicate normalization                                            │
-│        │                                                          │
-│        ▼                                                          │
-│ Compare with partition boundary metadata                           │
-│        │                                                          │
-│        ├─ unreachable partitions -> removed from plan             │
-│        └─ reachable partitions  -> kept for scan                  │
-│        ▼                                                          │
-│ Remaining partitions + local index / segment access               │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| How pruning happens                                               |
++--------------------------------------------------------------------+
+| SQL predicate                                                      |
+|   +- WHERE order_date >= DATE '2026-05-01'                        |
+|                AND order_date <  DATE '2026-06-01'                |
+|        |                                                          |
+|        v                                                          |
+| Predicate normalization                                            |
+|        |                                                          |
+|        v                                                          |
+| Compare with partition boundary metadata                           |
+|        |                                                          |
+|        +- unreachable partitions -> removed from plan             |
+|        +- reachable partitions  -> kept for scan                  |
+|        v                                                          |
+| Remaining partitions + local index / segment access               |
++--------------------------------------------------------------------+
 ```
 
 | 구분 | 결정 시점 | 대표 상황 | 특징 |
@@ -156,20 +156,20 @@ tags = ["studynote-database"]
 
 ```text
 대용량 테이블 분할
-        │
-        ▼
+        |
+        v
 파티션 키 선정
-        │
-        ├──────────────► 기간 기반 Range Partition
-        ├──────────────► 업무 경계 List Partition
-        └──────────────► 부하 분산 Hash Partition
-        │
-        ▼
+        |
+        +--------------► 기간 기반 Range Partition
+        +--------------► 업무 경계 List Partition
+        +--------------► 부하 분산 Hash Partition
+        |
+        v
 파티션 프루닝 (Partition Pruning)
-        │
-        ├──────────────► 정적 프루닝
-        ├──────────────► 동적 프루닝
-        └──────────────► 로컬 인덱스 · 서브파티션 프루닝 결합
+        |
+        +--------------► 정적 프루닝
+        +--------------► 동적 프루닝
+        +--------------► 로컬 인덱스 · 서브파티션 프루닝 결합
 ```
 
 이 흐름은 "단순 분할"에서 "[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 수준의 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)"로 사고가 확장되는 과정을 보여 준다.
@@ -186,7 +186,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 184 / 600
 
-← **이전**: [183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)](/knowledge-base/studynote/05_database/03_relational_model/183_composite_partitioning/)
-**다음**: [185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/) →
+<- **이전**: [183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)](/knowledge-base/studynote/05_database/03_relational_model/183_composite_partitioning/)
+**다음**: [185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/) ->
 
 ---

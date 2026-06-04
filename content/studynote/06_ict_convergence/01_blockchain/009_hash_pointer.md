@@ -48,18 +48,18 @@ tags = ["ict_convergence"]
 ```
 [일반 포인터 (Traditional Pointer)]        [해시 포인터 (Hash Pointer)]
 
-┌─────────────────────┐                 ┌─────────────────────┐
-│ 데이터 위치 (Pointer) │                 │ 데이터 위치 (Pointer) │
-│ 0x7fff5fbff8c0       │                 │ 0x7fff5fbff8c0       │
-└─────────────────────┘                 └──────────┬──────────┘
-                                                   │
-                                                   ▼
-                    ┌─────────────────────┐
-                    │ 데이터의 해시값     │
-                    │ (Integrity Check)  │
-                    │ Hash = SHA256(data) │
-                    │ abc123...xyz        │
-                    └─────────────────────┘
++---------------------+                 +---------------------+
+| 데이터 위치 (Pointer) |                 | 데이터 위치 (Pointer) |
+| 0x7fff5fbff8c0       |                 | 0x7fff5fbff8c0       |
++---------------------+                 +----------+----------+
+                                                   |
+                                                   v
+                    +---------------------+
+                    | 데이터의 해시값     |
+                    | (Integrity Check)  |
+                    | Hash = SHA256(data) |
+                    | abc123...xyz        |
+                    +---------------------+
 ```
 
 일반 포인터는 단순히 메모리 주소를 보존하며, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유효한지 아닌지는알 수 없다. 반면 해시 포인터는 메모리 주소와 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을보존하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다integrity를자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 특히 중요한데, 어떤 노드로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받을 때, 해당 노드를신뢰하지 않더라도 해시 포인터만 있다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있기 때문이다.
@@ -68,16 +68,16 @@ tags = ["ict_convergence"]
 
 ```
 [블록 #N]                           [블록 #N+1]
-┌──────────────────────┐           ┌──────────────────────┐
-│ 이전 블록 해시        │ ───────► │ 이전 블록 해시        │
-│ (Hash of Block #N-1) │           │ (Hash of Block #N)  │ ◄── 현재 블록의 해시
-│                      │           │                      │     값이 다음 블록에
-│ ...                   │           │ ...                   │     저장됨
-│ (Block Header)        │           │ (Block Header)        │
-└──────────────────────┘           └──────────────────────┘
-        │                                    │
-        │                                    │
-        └────────────────────────────────────┘
++----------------------+           +----------------------+
+| 이전 블록 해시        | -------► | 이전 블록 해시        |
+| (Hash of Block #N-1) |           | (Hash of Block #N)  | ◄-- 현재 블록의 해시
+|                      |           |                      |     값이 다음 블록에
+| ...                   |           | ...                   |     저장됨
+| (Block Header)        |           | (Block Header)        |
++----------------------+           +----------------------+
+        |                                    |
+        |                                    |
+        +------------------------------------+
                     이 연결 자체가 해시 포인터
                     (이전 블록의 위치 + 무결성)
 ```
@@ -161,43 +161,43 @@ tags = ["ict_convergence"]
 |                    해시 포인터 구조 및 동작 원리                    |
 +------------------------------------------------------------------+
 |                                                                  |
-│  [일반 포인터]                                                    │
-│  ┌──────────────────┐                                            │
-│  │ 데이터 위치        │ ──────► [데이터]                          │
-│  │ (메모리 주소)     │                                            │
-│  └──────────────────┘                                            │
-│  문제: 데이터가 조작되었는지 알 수 없음                            │
-│                                                                  │
-│  [해시 포인터]                                                    │
-│  ┌──────────────────┐                                            │
-│  │ 데이터 위치        │ ──────► [데이터] ──► 데이터의 해시값      │
-│  │ (메모리 주소)     │             │              │              │
-│  └────────┬─────────┘             ▼              ▼              │
-│           │                ┌─────────────────┐  abc123...        │
-│           │                │ 무결성 검증:     │                   │
-│           │                │ Hash(data) ==? │                   │
-│           └──────────────► │Stored Hash     │                   │
-│                            └─────────────────┘                   │
-│                            ✅ 일치 → 데이터 무결                     │
-│                            ❌ 불일치 → 데이터 조작됨                 │
-│                                                                  │
+|  [일반 포인터]                                                    |
+|  +------------------+                                            |
+|  | 데이터 위치        | ------► [데이터]                          |
+|  | (메모리 주소)     |                                            |
+|  +------------------+                                            |
+|  문제: 데이터가 조작되었는지 알 수 없음                            |
+|                                                                  |
+|  [해시 포인터]                                                    |
+|  +------------------+                                            |
+|  | 데이터 위치        | ------► [데이터] --► 데이터의 해시값      |
+|  | (메모리 주소)     |             |              |              |
+|  +--------+---------+             v              v              |
+|           |                +-----------------+  abc123...        |
+|           |                | 무결성 검증:     |                   |
+|           |                | Hash(data) ==? |                   |
+|           +--------------► |Stored Hash     |                   |
+|                            +-----------------+                   |
+|                            ✅ 일치 -> 데이터 무결                     |
+|                            ❌ 불일치 -> 데이터 조작됨                 |
+|                                                                  |
 +------------------------------------------------------------------+
-|  블록체인에서의 해시 포인터:                                         │
-│                                                                  │
-│  [블록 N]     [블록 N+1]    [블록 N+2]                           │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐                          │
-│  │ Prev:   │  │ Prev:   │  │ Prev:   │                          │
-│  │ Hash(N-1)│◄─│ Hash(N) │◄─│Hash(N+1)│                         │
-│  └─────────┘  └─────────┘  └─────────┘                          │
-│       ▲             ▲                                            │
-│       │             │                                            │
-│  이것들이 해시 포인터!                                              │
-│  (이전 블록 위치 + 이전 블록 무결성)                                │
-│                                                                  │
-│  만약 블록 N의 데이터를 조작하면:                                   │
-│  → Hash(N)이 변함 → 블록 N+1의 Prev Hash와 불일치                  │
-│  → 블록 N+2도连锁적으로 무효화                                     │
-│  → 전체 체인의 조작发觉                                            │
+|  블록체인에서의 해시 포인터:                                         |
+|                                                                  |
+|  [블록 N]     [블록 N+1]    [블록 N+2]                           |
+|  +---------+  +---------+  +---------+                          |
+|  | Prev:   |  | Prev:   |  | Prev:   |                          |
+|  | Hash(N-1)|◄-| Hash(N) |◄-|Hash(N+1)|                         |
+|  +---------+  +---------+  +---------+                          |
+|       ^             ^                                            |
+|       |             |                                            |
+|  이것들이 해시 포인터!                                              |
+|  (이전 블록 위치 + 이전 블록 무결성)                                |
+|                                                                  |
+|  만약 블록 N의 데이터를 조작하면:                                   |
+|  -> Hash(N)이 변함 -> 블록 N+1의 Prev Hash와 불일치                  |
+|  -> 블록 N+2도连锁적으로 무효화                                     |
+|  -> 전체 체인의 조작发觉                                            |
 +------------------------------------------------------------------+
 ```
 
@@ -215,17 +215,17 @@ tags = ["ict_convergence"]
 
 ```text
 [일반 포인터 (Pointer) — 위치 참조만]
-    │
-    ▼
+    |
+    v
 [해시 함수 (SHA-256) — 데이터 지문 생성]
-    │
-    ▼
+    |
+    v
 [해시 포인터 (Hash Pointer) — 위치 + 무결성 동시 보장]
-    │
-    ▼
+    |
+    v
 [블록체인 해시 체인 — 연속 해시 포인터로 위·변조 방지]
-    │
-    ▼
+    |
+    v
 [머클 트리 / 영지식 증명 — 효율적 부분 검증 및 프라이버시 보호]
 ```
 
@@ -250,7 +250,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 9 / 552
 
-← **이전**: [8. 머클 루트 (Merkle Root) - 모든 트랜잭션 해시를 묶은 최종 해시값](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)
-**다음**: [10. 탈중앙화 (Decentralization) - 단일 장애점(SPOF) 제거 및 투명성 확보](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) →
+<- **이전**: [8. 머클 루트 (Merkle Root) - 모든 트랜잭션 해시를 묶은 최종 해시값](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)
+**다음**: [10. 탈중앙화 (Decentralization) - 단일 장애점(SPOF) 제거 및 투명성 확보](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) ->
 
 ---

@@ -32,7 +32,7 @@ DBMS는 테이블 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 매니저는 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) ([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 연결한다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파서와 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 실행 전에 이 정보를 조회한다.
 
 ```text
-SQL → Parser/Optimizer → Catalog Manager → Data Dictionary
+SQL -> Parser/Optimizer -> Catalog Manager -> Data Dictionary
 ```
 
 | 항목 | 저장 정보 | 활용 |
@@ -111,14 +111,14 @@ SQL → Parser/Optimizer → Catalog Manager → Data Dictionary
 
 ```text
 DDL / DML
-    │
-    ▼
+    |
+    v
 Catalog Manager
-    │
-    ▼
+    |
+    v
 Data Dictionary
-    │
-    ▼
+    |
+    v
 Optimizer / Security / Metadata Query
 ```
 
@@ -136,7 +136,7 @@ Optimizer / Security / Metadata Query
 
 **진행 상황**: 54 / 600
 
-← **이전**: [53. DB 파서와 파스 트리 (DB Parser Parse Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/053_db_parser_parse_tree/)
-**다음**: [55. 커넥션 풀과 DBCP (Connection Pool / DBCP)](/knowledge-base/studynote/05_database/01_db_architecture_relational/055_connection_pool_dbcp/) →
+<- **이전**: [53. DB 파서와 파스 트리 (DB Parser Parse Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/053_db_parser_parse_tree/)
+**다음**: [55. 커넥션 풀과 DBCP (Connection Pool / DBCP)](/knowledge-base/studynote/05_database/01_db_architecture_relational/055_connection_pool_dbcp/) ->
 
 ---

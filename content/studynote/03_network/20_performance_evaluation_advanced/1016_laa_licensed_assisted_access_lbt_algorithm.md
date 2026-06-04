@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [언면허 대역망]
-    │
-    ▼
+    |
+    v
 [LAA]
-    │
-    └──▶ [와이파이 오프로딩]
+    |
+    +---> [와이파이 오프로딩]
 ```
 
 - **📢 섹션 요약 비유**: LAA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ LAA가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
 
 ```text
 [언면허 대역망]
-    │
-    ▼
+    |
+    v
 [LAA]
-    │
-    └──▶ [와이파이 오프로딩]
+    |
+    +---> [와이파이 오프로딩]
 ```
 
 - **📢 섹션 요약 비유**: LAA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -123,12 +123,12 @@ LAA는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 
 ```text
 [선행 개념: 언면허 대역망]
-    │
-    ▼
+    |
+    v
 [현재 개념: LAA]
-    │
-    ├──▶ [확장 A: 와이파이 오프로딩]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 와이파이 오프로딩]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 LAA는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -145,7 +145,7 @@ LAA는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance
 
 **진행 상황**: 117 / 1120
 
-← **이전**: [1015. 언면허 대역망 (Unlicensed Band LTE-U / NR-U)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)
-**다음**: [1017. 와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/) →
+<- **이전**: [1015. 언면허 대역망 (Unlicensed Band LTE-U / NR-U)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)
+**다음**: [1017. 와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/) ->
 
 ---

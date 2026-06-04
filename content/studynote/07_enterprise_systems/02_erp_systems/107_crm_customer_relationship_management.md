@@ -37,17 +37,17 @@ CRM 시스템은 단절된 부서 간의 [데이터](/knowledge-base/studynote/0
 | <strong>고객 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (CS)</strong> | [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) 고객 지원, 불만 분석, 이탈 징후 사전 감지 | 3개월 미접속 VIP 고객에게 컴백 프로모션 알림 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                CRM 통합 데이터 흐름 및 가치 창출             │
-├──────────────────────────────────────────────────────────────┤
-│ [접점] 웹사이트 방문 ─▶ [마케팅] 캠페인 반응 ─▶ (잠재 고객)│
-│            ▼                        ▼                       │
-│      [통합 고객 DB (360도 뷰: 취향, 불만, 구매 이력)]        │
-│            ▼                        ▼                       │
-│ [접점] 모바일 앱 구매 ◀─ [영  업] 교차/상향 판매 ◀─ (기존 고객)│
-│            ▼                        ▼                       │
-│ [접점] 콜센터 클레임 ──▶ [서비스] 이탈 방어 대응 ──▶ (충성 고객)│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                CRM 통합 데이터 흐름 및 가치 창출             |
++--------------------------------------------------------------+
+| [접점] 웹사이트 방문 --> [마케팅] 캠페인 반응 --> (잠재 고객)|
+|            v                        v                       |
+|      [통합 고객 DB (360도 뷰: 취향, 불만, 구매 이력)]        |
+|            v                        v                       |
+| [접점] 모바일 앱 구매 <-- [영  업] 교차/상향 판매 <-- (기존 고객)|
+|            v                        v                       |
+| [접점] 콜센터 클레임 ---> [서비스] 이탈 방어 대응 ---> (충성 고객)|
++--------------------------------------------------------------+
 ```
 이 그림의 핵심은 고객이 어떤 채널(웹, 앱, 전화)로 들어오든, 그리고 기업의 어떤 부서(마케팅, 영업, CS)를 만나든 <strong>단일화된 360도 뷰(Single <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>를 통해 일관되고 맥락 있는 대접을 받는다는 것이다.
 
@@ -111,17 +111,17 @@ CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 �
 
 ```text
 대량 마케팅 (Mass Marketing, 불특정 다수)
-    │
-    ▼
+    |
+    v
 파레토 법칙 체감 및 고객 유지(Retention)의 중요성 대두
-    │
-    ▼
+    |
+    v
 CRM (데이터 통합 기반의 영업/마케팅/CS 자동화)
-    │
-    ▼
+    |
+    v
 SaaS 기반 클라우드 CRM (Salesforce 등) 확산
-    │
-    ▼
+    |
+    v
 지능형 CX (Customer Experience) 플랫폼 및 AI 예측 분석
 ```
 
@@ -139,7 +139,7 @@ SaaS 기반 클라우드 CRM (Salesforce 등) 확산
 
 **진행 상황**: 107 / 482
 
-← **이전**: [106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/106_blockchain_scm_traceability_cold_chain/)
-**다음**: [108. LTV (고객 생애 가치)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) →
+<- **이전**: [106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/106_blockchain_scm_traceability_cold_chain/)
+**다음**: [108. LTV (고객 생애 가치)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) ->
 
 ---

@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전력-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계를 이해하려면 먼저 전력이 어디서 생기는지 봐야 한다. 상보형 금속 산화막 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) (Complementary Metal-Oxide-Semiconductor, [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)) 회로의 동적 전력은 대체로 `P ≈ α × C × V² × f`로 설명한다. 여기서 `α`는 스위칭 활동도, `C`는 부하 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/), `V`는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), `f`는 클럭 주파수다. 핵심은 주파수만 늘어나는 것이 아니라, 더 높은 주파수를 안정적으로 유지하려면 보통 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 올려야 하고, 그 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 제곱으로 전력에 반영된다는 점이다.
+전력-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계를 이해하려면 먼저 전력이 어디서 생기는지 봐야 한다. 상보형 금속 산화막 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) (Complementary Metal-Oxide-Semiconductor, [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)) 회로의 동적 전력은 대체로 `P ≈ α × C × V^ × f`로 설명한다. 여기서 `α`는 스위칭 활동도, `C`는 부하 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/), `V`는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), `f`는 클럭 주파수다. 핵심은 주파수만 늘어나는 것이 아니라, 더 높은 주파수를 안정적으로 유지하려면 보통 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 올려야 하고, 그 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 제곱으로 전력에 반영된다는 점이다.
 
 아래 그림은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높일 때 전력이 왜 급격히 커지는지, 그리고 어느 지점에서 발열 벽에 막히는지를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 목표: 더 짧은 실행 시간                                             │
-│    │                                                                 │
-│    ├─▶ 클럭 주파수 f 증가                                            │
-│    │       │                                                         │
-│    │       └─▶ 타이밍 여유 감소                                      │
-│    │                │                                                │
-│    │                └─▶ 전압 V 상향 필요 가능성                      │
-│    │                         │                                        │
-│    ├─────────────────────────┴─▶ 동적 전력 증가: P ≈ α×C×V²×f        │
-│    │                                                                  │
-│    └─▶ 전력 증가 ─▶ 발열 증가 ─▶ 냉각 한계 접근 ─▶ 스로틀링 발생      │
-│                                                                  │
-│ 결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다        │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다      |
++----------------------------------------------------------------------+
+| 목표: 더 짧은 실행 시간                                             |
+|    |                                                                 |
+|    +--> 클럭 주파수 f 증가                                            |
+|    |       |                                                         |
+|    |       +--> 타이밍 여유 감소                                      |
+|    |                |                                                |
+|    |                +--> 전압 V 상향 필요 가능성                      |
+|    |                         |                                        |
+|    +-------------------------+--> 동적 전력 증가: P ≈ α×C×V^×f        |
+|    |                                                                  |
+|    +--> 전력 증가 --> 발열 증가 --> 냉각 한계 접근 --> 스로틀링 발생      |
+|                                                                  |
+| 결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다        |
++----------------------------------------------------------------------+
 ```
 
 여기에 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/), 즉 누설 전력도 더해진다. 공정이 미세화될수록 트랜지스터를 꺼 둔 상태에서도 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 새기 쉬워져 유휴 구간 전력까지 무시하기 어려워진다. 그래서 현대 프로세서는 단순 고주파화 대신 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절, 클록 게이팅 ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)), 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)), 코어 선택적 활성화 같은 기법을 함께 사용한다.
@@ -135,20 +135,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 데나드 스케일링 (Dennard Scaling)
-    │
-    ▼
+    |
+    v
 클럭 상승 중심 성능 개선
-    │
-    ▼
+    |
+    v
 전력 장벽 (Power Wall) · 열 설계 전력 (TDP) 제약
-    │
-    ▼
+    |
+    v
 DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어
-    │
-    ▼
+    |
+    v
 다크 실리콘 (Dark Silicon) · 이기종 컴퓨팅
-    │
-    ▼
+    |
+    v
 와트당 성능 중심 최적화
 ```
 
@@ -166,7 +166,7 @@ DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어
 
 **진행 상황**: 156 / 803
 
-← **이전**: [155. 다크 실리콘 (Dark Silicon) - 무어의 법칙을 박살 낸 열역학적 셧다운 딜레마](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)
-**다음**: [157. ISA (Instruction Set Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) →
+<- **이전**: [155. 다크 실리콘 (Dark Silicon) - 무어의 법칙을 박살 낸 열역학적 셧다운 딜레마](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)
+**다음**: [157. ISA (Instruction Set Architecture)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ->
 
 ---

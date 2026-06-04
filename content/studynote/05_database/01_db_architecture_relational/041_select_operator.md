@@ -30,7 +30,7 @@ tags = ["studynote-database"]
     예: 나이 > 25
         이름 = '홍길동'
 
-  복합 조건: AND(∧), OR(∨), NOT(¬)
+  복합 조건: AND(∧), OR(∨), NOT(+)
     예: 나이 > 25 ∧ 학과 = '컴퓨터'
 
 SQL 대응:
@@ -210,7 +210,7 @@ Predicate Pushdown 적용:
       |
       v
 [SQL WHERE 절 (1974~)]
-관계 대수 → SQL 문법
+관계 대수 -> SQL 문법
       |
       v
 [B-Tree 인덱스 (1970s)]
@@ -245,7 +245,7 @@ ML 기반 선택도 추정
 
 **진행 상황**: 41 / 600
 
-← **이전**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/)
-**다음**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) →
+<- **이전**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/)
+**다음**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) ->
 
 ---

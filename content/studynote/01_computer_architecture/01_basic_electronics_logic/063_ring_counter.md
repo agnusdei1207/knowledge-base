@@ -31,9 +31,9 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Init 1
-  ↓
-FF1 → FF2 → FF3 → FF4
-  ↑               ↓
+  v
+FF1 -> FF2 -> FF3 -> FF4
+  ^               v
   +------- feedback -------+
 ```
 
@@ -45,7 +45,7 @@ FF1 → FF2 → FF3 → FF4
 | Reset | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) one-hot 상태 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 
 ```text
-1000 → 0100 → 0010 → 0001 → 1000
+1000 -> 0100 -> 0010 -> 0001 -> 1000
 ```
 
 링 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 모든 상태를 다 쓰지 않는다. n개의 플립플롭이 있으면 n개의 상태만 순환한다. 그래서 단순하지만 상태 수 대비 하드웨어 효율은 낮다.
@@ -106,11 +106,11 @@ FF1 → FF2 → FF3 → FF4
 
 ```text
 Shift Register
-  ↓
+  v
 Feedback
-  ↓
+  v
 Ring Counter
-  ↓
+  v
 One-hot Sequencing
 ```
 
@@ -120,11 +120,11 @@ One-hot Sequencing
 
 ```text
 Binary Counter
-  ↓
+  v
 Shift Register
-  ↓
+  v
 Ring Counter
-  ↓
+  v
 Sequence Control
 ```
 
@@ -142,7 +142,7 @@ Sequence Control
 
 **진행 상황**: 63 / 803
 
-← **이전**: [62. 업/다운 카운터 (Up/Down Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/)
-**다음**: [64. 존슨 카운터 (Johnson Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/) →
+<- **이전**: [62. 업/다운 카운터 (Up/Down Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/)
+**다음**: [64. 존슨 카운터 (Johnson Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/) ->
 
 ---

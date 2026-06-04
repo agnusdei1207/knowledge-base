@@ -21,19 +21,19 @@ tags = ["studynote-design-supervision"]
 
 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)의 장점과 단점을 균형 있게 이해해야 적절한 상황에 적용할 수 있다. 패턴 남용은 불필요한 복잡성을 추가하고, 패턴 미사용은 조건 분기 폭발을 초래한다.
 
-실무 적용 전 체크: 핸들러 수가 3개 이상인가? 처리자가 동적으로 바뀌는가? 체인 순서가 바뀔 수 있는가? → 하나라도 Yes라면 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)을 검토하라.
+실무 적용 전 체크: 핸들러 수가 3개 이상인가? 처리자가 동적으로 바뀌는가? 체인 순서가 바뀔 수 있는가? -> 하나라도 Yes라면 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)을 검토하라.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          책임 연쇄 패턴 장단점 정리                           │
-├─────────────────────────────────────────────────────────────┤
-│  장점                         단점                          │
-│  ✅ 발신자-수신자 분리         ⚠ 처리 보장 없음             │
-│  ✅ 핸들러 동적 추가·재배열    ⚠ 긴 체인 → 성능 오버헤드   │
-│  ✅ OCP 달성 (핸들러 독립)     ⚠ 디버깅 어려움             │
-│  ✅ SRP (각 핸들러 단일 책임)  ⚠ 처리자 추적 어려움        │
-│  ✅ 재사용 가능한 핸들러       ⚠ 체인 설정 복잡성          │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          책임 연쇄 패턴 장단점 정리                           |
++-------------------------------------------------------------+
+|  장점                         단점                          |
+|  ✅ 발신자-수신자 분리         ⚠ 처리 보장 없음             |
+|  ✅ 핸들러 동적 추가·재배열    ⚠ 긴 체인 -> 성능 오버헤드   |
+|  ✅ OCP 달성 (핸들러 독립)     ⚠ 디버깅 어려움             |
+|  ✅ SRP (각 핸들러 단일 책임)  ⚠ 처리자 추적 어려움        |
+|  ✅ 재사용 가능한 핸들러       ⚠ 체인 설정 복잡성          |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 공문서 결재 체인은 빠른 처리(장점)를 가능하게 하지만, 어느 부서에서 멈췄는지 추적(단점)이 어려울 수 있다.
@@ -52,16 +52,16 @@ AOP의 인터셉터가 [책임 연쇄 패턴](/knowledge-base/studynote/11_desig
 | 범용성 | 일반 패턴 | 크로스 컷팅 관심사 |
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링 AOP 인터셉터 체인 (책임 연쇄 확장)              │
-├─────────────────────────────────────────────────────────────┤
-│  메서드 호출                                                 │
-│  → @Transactional 인터셉터                                  │
-│  → @Cacheable 인터셉터                                       │
-│  → @Async 인터셉터                                          │
-│  → 실제 메서드 실행                                          │
-│  ← 결과 역순 반환                                            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|       스프링 AOP 인터셉터 체인 (책임 연쇄 확장)              |
++-------------------------------------------------------------+
+|  메서드 호출                                                 |
+|  -> @Transactional 인터셉터                                  |
+|  -> @Cacheable 인터셉터                                       |
+|  -> @Async 인터셉터                                          |
+|  -> 실제 메서드 실행                                          |
+|  <- 결과 역순 반환                                            |
++-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 스프링 AOP 인터셉터는 공문서에 여러 부서([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·캐시·비동기)의 도장을 순서대로 찍고, 결재 후 역순으로 처리 결과를 돌려보내는 것이다.
@@ -73,7 +73,7 @@ AOP의 인터셉터가 [책임 연쇄 패턴](/knowledge-base/studynote/11_desig
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 체인 방향 | 요청: 하향, 응답: 상향 | 자식 → 부모 |
+| 체인 방향 | 요청: 하향, 응답: 상향 | 자식 -> 부모 |
 | 체인 중단 | filterChain 미호출 | stopPropagation() |
 | 적용 영역 | 서버 사이드 | 클라이언트 사이드 |
 
@@ -107,7 +107,7 @@ Node.js Express의 미들웨어가 [책임 연쇄 패턴](/knowledge-base/studyn
 
 ### 📌 관련 개념 맵
 
-[책임 연쇄 패턴 심화] → [AOP 인터셉터 체인] → [서블릿 필터 체인] → [이벤트 버블링] → API Gateway 미들웨어 체인]
+[책임 연쇄 패턴 심화] -> [AOP 인터셉터 체인] -> [서블릿 필터 체인] -> [이벤트 버블링] -> API Gateway 미들웨어 체인]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -118,7 +118,7 @@ Node.js Express의 미들웨어가 [책임 연쇄 패턴](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) 장단점] → [AOP 인터셉터 체인] → [클라우드 미들웨어] → [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터 정책]
+[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) 장단점] -> [AOP 인터셉터 체인] -> [클라우드 미들웨어] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터 정책]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +132,7 @@ Node.js Express의 미들웨어가 [책임 연쇄 패턴](/knowledge-base/studyn
 
 **진행 상황**: 261 / 530
 
-← **이전**: [199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/199_chain_of_responsibility_pattern/)
-**다음**: [201. 미디에이터 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/) →
+<- **이전**: [199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/199_chain_of_responsibility_pattern/)
+**다음**: [201. 미디에이터 패턴 (Mediator Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/) ->
 
 ---

@@ -26,12 +26,12 @@ tags = ["studynote-ict-convergence"]
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Why Needed           | Core Idea            | Expected Gain |
++--------------------------------------------------------------+
+| 문제와 제약           | 구조/규칙/역할        | 성능·신뢰·운영 |
+| 배경을 정리           | 무엇을 바꾸는가        | 무엇이 좋아지는가 |
++--------------------------------------------------------------+
 ```
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
@@ -54,11 +54,11 @@ tags = ["studynote-ict-convergence"]
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Control            │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| Input        | Control            | Governance       | Outcome |
++--------------------------------------------------------------+
+| 데이터·요청   | 핵심 처리/규칙       | 정책·검증·조정    | 서비스 가치 |
++--------------------------------------------------------------+
 ```
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
@@ -130,12 +130,12 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [Z-Wave]
-    │
-    ▼
+    |
+    v
 [블루투스 저전력]
-    │
-    ├──▶ [스레드 프로토콜]
-    └──▶ [엣지 AI / 디지털 트윈 연계]
+    |
+    +---> [스레드 프로토콜]
+    +---> [엣지 AI / 디지털 트윈 연계]
 ```
 
 이 흐름도는 Z-Wave에서 출발해 현재 개념을 거쳐 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
@@ -151,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 114 / 552
 
-← **이전**: [113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/113_z_wave_smart_home_900mhz/)
-**다음**: [115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/115_thread_protocol_ipv6_smart_home/) →
+<- **이전**: [113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/113_z_wave_smart_home_900mhz/)
+**다음**: [115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/115_thread_protocol_ipv6_smart_home/) ->
 
 ---

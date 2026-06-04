@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 스푸핑]
-    │
-    ▼
+    |
+    v
 [DHCP 릴레이 에이전트]
-    │
-    └──▶ [SNMP MIB 구조]
+    |
+    +---> [SNMP MIB 구조]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [DNS 스푸핑]
-    │
-    ▼
+    |
+    v
 [DHCP 릴레이 에이전트]
-    │
-    └──▶ [SNMP MIB 구조]
+    |
+    +---> [SNMP MIB 구조]
 ```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -113,12 +113,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DNS 스푸핑]
-    │
-    ▼
+    |
+    v
 [현재 개념: DHCP 릴레이 에이전트]
-    │
-    ├──▶ [확장 A: SNMP MIB 구조]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: SNMP MIB 구조]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1098 / 1120
 
-← **이전**: [976. DNS 스푸핑 (DNS Spoofing / Cache Poisoning)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/)
-**다음**: [978. SNMP MIB 구조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/978_snmp_mib_management_information_base_oid_asn1/) →
+<- **이전**: [976. DNS 스푸핑 (DNS Spoofing / Cache Poisoning)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/)
+**다음**: [978. SNMP MIB 구조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/978_snmp_mib_management_information_base_oid_asn1/) ->
 
 ---

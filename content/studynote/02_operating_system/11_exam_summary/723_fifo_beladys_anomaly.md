@@ -116,24 +116,24 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 캐시 메모리 및 버퍼 확장(Scale-up) 결정 플로우              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버나 DB의 성능을 높이기 위해 RAM이나 캐시 메모리를 증설하려고 함]            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      현재 시스템의 캐시 교체 정책(Eviction Policy)이 FIFO 기반인가?           │
-  │          ├─ 예 ─────▶ [메모리 증설 보류!]                             │
-  │          │            대책: 벨라디의 모순이나 Bufferbloat 현상 발생 위험 높음. │
-  │          │                  메모리를 꽂기 전에 교체 알고리즘을 LRU나 LFU로    │
-  │          │                  소프트웨어적으로 먼저 교체할 것.                 │
-  │          └─ 아니오 (LRU 계열이나 LFU, W-TinyLFU 등을 쓰고 있다)            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [안전한 Scale-up 진행]                                            │
-  │      - 메모리가 늘어날수록 캐시 히트율(Hit Ratio)이 선형적으로 우상향함을 보장.   │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 캐시 메모리 및 버퍼 확장(Scale-up) 결정 플로우              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버나 DB의 성능을 높이기 위해 RAM이나 캐시 메모리를 증설하려고 함]            |
+  |                |                                                  |
+  |                v                                                  |
+  |      현재 시스템의 캐시 교체 정책(Eviction Policy)이 FIFO 기반인가?           |
+  |          +- 예 ------> [메모리 증설 보류!]                             |
+  |          |            대책: 벨라디의 모순이나 Bufferbloat 현상 발생 위험 높음. |
+  |          |                  메모리를 꽂기 전에 교체 알고리즘을 LRU나 LFU로    |
+  |          |                  소프트웨어적으로 먼저 교체할 것.                 |
+  |          +- 아니오 (LRU 계열이나 LFU, W-TinyLFU 등을 쓰고 있다)            |
+  |                |                                                  |
+  |                v                                                  |
+  |      [안전한 Scale-up 진행]                                            |
+  |      - 메모리가 늘어날수록 캐시 히트율(Hit Ratio)이 선형적으로 우상향함을 보장.   |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 인프라를 증설할 때는 "다다익선(많으면 많을수록 좋다)"이라는 맹신을 버려야 한다. 하부의 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 그것을 소화할 능력이 안 되면, 늘어난 램은 오히려 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 꼬이게 만드는 폭탄이 된다.
@@ -178,12 +178,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [페이지 교체 LRU 원리]
-    │
-    ▼
+    |
+    v
 [FIFO 벨라디의 모순 (FIFO Beladys Anomaly)]
-    │
-    ├──▶ [최적 알고리즘 (OPT) 구현 불가]
-    └──▶ [스래싱 (Thrashing) CPU 이용률 저하]
+    |
+    +---> [최적 알고리즘 (OPT) 구현 불가]
+    +---> [스래싱 (Thrashing) CPU 이용률 저하]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -200,7 +200,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 723 / 800
 
-← **이전**: [722. 페이지 교체 LRU 원리 (Page Replacement Lru Principle)](/knowledge-base/studynote/02_operating_system/11_exam_summary/722_page_replacement_lru_principle/)
-**다음**: [724. 최적 알고리즘 (OPT) 구현 불가](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) →
+<- **이전**: [722. 페이지 교체 LRU 원리 (Page Replacement Lru Principle)](/knowledge-base/studynote/02_operating_system/11_exam_summary/722_page_replacement_lru_principle/)
+**다음**: [724. 최적 알고리즘 (OPT) 구현 불가](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) ->
 
 ---

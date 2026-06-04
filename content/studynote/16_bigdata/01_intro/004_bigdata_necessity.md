@@ -29,14 +29,14 @@ tags = ["bigdata"]
 이 그래프는 제타바이트 시대로 진입함에 따라 전통적 정형 데이터와 비정형 데이터 간의 성장 곡선 격차를 명확히 보여준다.
 
   데이터 규모 (Zettabytes)
-   175 ─|                                                  / (비정형 데이터 폭증: 80%+)
+   175 -|                                                  / (비정형 데이터 폭증: 80%+)
         |                                                /
-   100 ─|                                              /   (이미지, 영상, SNS, IoT 로그)
+   100 -|                                              /   (이미지, 영상, SNS, IoT 로그)
         |                                            /
-    50 ─|                                          /
+    50 -|                                          /
         |                      /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (정형 데이터 한계: 20% 미만)
         |________/‾‾‾‾‾‾‾‾‾‾‾‾‾
-        └─────────────────────────────────────────────────── 시간 (년도)
+        +--------------------------------------------------- 시간 (년도)
                2010          2015         2020          2025
 ```
 
@@ -63,15 +63,15 @@ tags = ["bigdata"]
 이 도식은 엄격한 스키마를 요구하는 RDBMS 기반 적재 흐름과, 비정형 데이터를 즉시 수용하는 데이터 레이크 아키텍처를 대조한다.
 
 [전통적 RDBMS 적재 플로우: 데이터 손실 발생]
-  IoT 로그(비정형) ──(ETL 변환 실패: 스키마 불일치)──> [ Error / 폐기 ]  (병목 및 데이터 유실)
-  정형 데이터      ──(테이블 매핑)─────────────> [ RDBMS 저장 ]
+  IoT 로그(비정형) --(ETL 변환 실패: 스키마 불일치)--> [ Error / 폐기 ]  (병목 및 데이터 유실)
+  정형 데이터      --(테이블 매핑)-------------> [ RDBMS 저장 ]
 
                              VS
 
 [빅데이터 데이터 레이크 적재 플로우: 데이터 무손실 수용]
-  IoT 로그(비정형) ──┐ (형태 무관)
-  비디오/음성      ──┼──────────> [ Data Lake (오브젝트 스토리지) ] ──(필요 시 Spark 파싱)──> [ 분석 마트 ]
-  정형 데이터      ──┘
+  IoT 로그(비정형) --+ (형태 무관)
+  비디오/음성      --+----------> [ Data Lake (오브젝트 스토리지) ] --(필요 시 Spark 파싱)--> [ 분석 마트 ]
+  정형 데이터      --+
 ```
 
 이 구조의 결정적 병목 회피 지점은 <strong>'<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 변환의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Deferred)'</strong>이다. 제타바이트 시대에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입 속도(Velocity)가 너무 빨라 사전에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 거칠 시간적 여유가 없다. 따라서 빅데이터 시스템은 AWS S3나 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 같은 거대한 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 원본 그대로 무조건 적재(Ingestion)부터 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다. 이후 분석가나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들일 때 비로소 구조를 맵핑([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))하므로, 시스템의 수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 중단되거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폐기되는 현상을 원천 차단할 수 있다.
@@ -105,16 +105,16 @@ LOCATION 's3://data-lake/events/2024/';
 이 그래프는 데이터 용량이 증가함에 따라 레거시 시스템과 분산 빅데이터 시스템 간의 인프라 확장 비용이 어떻게 교차하는지 보여준다.
 
 비용 / 난이도
-  ▲
-  │        / (RDBMS Scale-up: 하이엔드 장비 도입 비용 폭발)
-  │       /
-  │      /
-  │     /        /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (빅데이터 Scale-out: 클라우드 기반 선형 증가)
-  │    /        /
-  │   /        /
-  │  /        /
-  │ /        /  <-- 교차점 (빅데이터 도입의 경제적 타당성 확보 시점)
-  └──────────────────────────────────────────────►
+  ^
+  |        / (RDBMS Scale-up: 하이엔드 장비 도입 비용 폭발)
+  |       /
+  |      /
+  |     /        /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (빅데이터 Scale-out: 클라우드 기반 선형 증가)
+  |    /        /
+  |   /        /
+  |  /        /
+  | /        /  <-- 교차점 (빅데이터 도입의 경제적 타당성 확보 시점)
+  +----------------------------------------------►
                     데이터 저장 규모 (TB -> PB -> ZB)
 ```
 
@@ -132,13 +132,13 @@ LOCATION 's3://data-lake/events/2024/';
 이 의사결정 트리는 기업이 현재 인프라 상태를 진단하고 빅데이터 아키텍처 도입을 최종 확정하기 위한 실무 판단 플로우를 보여준다.
 
 [데이터 환경 진단]
-        ↓
-[정형 데이터 비율] ──(90% 이상 정형인가?)──> [Yes] ─> 기존 RDBMS 파티셔닝 / 읽기 지연(Read Replica) 대응
-        ↓ [No, 비정형 다수]
-[데이터 증가 속도] ──(월별 증가량이 선형적인가?)──> [Yes] ─> RDBMS 아카이빙 전략으로 연명 가능
-        ↓ [No, 기하급수적 폭증]
-[처리 레이턴시 요건] ──(단순 야간 배치로 충분한가?)──> [Yes] ─> 클라우드 DW (Snowflake 등) 고려
-        ↓ [No, 실시간 및 머신러닝 분석 필수]
+        v
+[정형 데이터 비율] --(90% 이상 정형인가?)--> [Yes] -> 기존 RDBMS 파티셔닝 / 읽기 지연(Read Replica) 대응
+        v [No, 비정형 다수]
+[데이터 증가 속도] --(월별 증가량이 선형적인가?)--> [Yes] -> RDBMS 아카이빙 전략으로 연명 가능
+        v [No, 기하급수적 폭증]
+[처리 레이턴시 요건] --(단순 야간 배치로 충분한가?)--> [Yes] -> 클라우드 DW (Snowflake 등) 고려
+        v [No, 실시간 및 머신러닝 분석 필수]
 [전면적 빅데이터 레이크하우스 및 스트리밍 파이프라인 도입 확정]
 ```
 
@@ -171,17 +171,17 @@ LOCATION 's3://data-lake/events/2024/';
 
 ```text
 [Zettabyte Era]
-    │
-    ▼
+    |
+    v
 [Unstructured Data]
-    │
-    ▼
+    |
+    v
 [Scale-out (수평 확장)]
-    │
-    ▼
+    |
+    v
 [Schema-on-Read]
-    │
-    ▼
+    |
+    v
 [Data Lakehouse]
 ```
 
@@ -198,7 +198,7 @@ LOCATION 's3://data-lake/events/2024/';
 
 **진행 상황**: 4 / 262
 
-← **이전**: [3. 7V — 5V + Visualization(시각화) + Variability(가변성)](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-**다음**: [5. 비정형 데이터 유형 — 텍스트/이미지/동영상/음성/로그/SNS/IoT 센서](/knowledge-base/studynote/16_bigdata/01_intro/005_unstructured_data/) →
+<- **이전**: [3. 7V — 5V + Visualization(시각화) + Variability(가변성)](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+**다음**: [5. 비정형 데이터 유형 — 텍스트/이미지/동영상/음성/로그/SNS/IoT 센서](/knowledge-base/studynote/16_bigdata/01_intro/005_unstructured_data/) ->
 
 ---

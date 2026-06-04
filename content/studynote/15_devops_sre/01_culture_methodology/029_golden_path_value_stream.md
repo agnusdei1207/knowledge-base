@@ -12,27 +12,27 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))은 아이디어에서 고객 전달까지 모든 단계의 흐름을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 개념이다. 둘 다 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 흐름의 최적화를 목표로 한다.
 > 2. **가치**: [가치 흐름 맵핑](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/), [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/))은 전체 소프트웨어 전달 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 낭비(Waste)를 찾아 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 단축한다. 일반적으로 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 85~95%는 대기 시간([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time)이며, VSM은 이를 가시화한다.
-> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도↑·[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)↓·변경 실패율↓을 동시 달성할 수 있다.
+> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도^·[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)v·변경 실패율v을 동시 달성할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│           가치 흐름 맵핑 (Value Stream Mapping)           │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  아이디어 → [계획] → [개발] → [테스트] → [배포] → 고객   │
-│                                                           │
-│  작업 시간:   2일    3일     1일      0.5일               │
-│  대기 시간:   5일    1일     3일      1일                 │
-│                                                           │
-│  총 리드 타임: 11.5일 (작업 6.5일 + 대기 9.5일)          │
-│  효율: 6.5/16 = 40.6%  ← 대기가 대부분!                  │
-│                                                           │
-│  VSM 목표: 대기 시간 원인 파악 → 제거 → 리드 타임 단축   │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|           가치 흐름 맵핑 (Value Stream Mapping)           |
++----------------------------------------------------------+
+|                                                           |
+|  아이디어 -> [계획] -> [개발] -> [테스트] -> [배포] -> 고객   |
+|                                                           |
+|  작업 시간:   2일    3일     1일      0.5일               |
+|  대기 시간:   5일    1일     3일      1일                 |
+|                                                           |
+|  총 리드 타임: 11.5일 (작업 6.5일 + 대기 9.5일)          |
+|  효율: 6.5/16 = 40.6%  <- 대기가 대부분!                  |
+|                                                           |
+|  VSM 목표: 대기 시간 원인 파악 -> 제거 -> 리드 타임 단축   |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [가치 흐름 맵핑](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
@@ -57,13 +57,13 @@ tags = ["studynote-devops-sre"]
 
 ```text
 골든 패스 (표준):
-  새 서비스 → Backstage 템플릿 → GitHub 리포 자동 생성
-  → CI/CD 자동 설정 → K8s 네임스페이스 → 모니터링 연결
-  → 총 30분
+  새 서비스 -> Backstage 템플릿 -> GitHub 리포 자동 생성
+  -> CI/CD 자동 설정 -> K8s 네임스페이스 -> 모니터링 연결
+  -> 총 30분
 
 비표준 경로 (수동):
-  새 서비스 → 리포 수동 생성 → CI/CD 수동 설정 → 인프라 수동
-  → 총 2~3일
+  새 서비스 -> 리포 수동 생성 -> CI/CD 수동 설정 -> 인프라 수동
+  -> 총 2~3일
 
 골든 패스 = 비표준 경로 대비 100배 생산성
 ```
@@ -126,7 +126,7 @@ tags = ["studynote-devops-sre"]
 | 기대효과 | 내용 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> 단축</strong> | 대기 시간 제거로 전달 속도 향상 |
-| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 개선</strong> | 배포 빈도↑, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)↓ |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 개선</strong> | 배포 빈도^, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)v |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 골든 패스로 마찰 없는 개발 환경 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), JIRA 이슈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 엔진ering Intelligence 플랫폼이 발전하고 있다.
@@ -149,17 +149,17 @@ tags = ["studynote-devops-sre"]
 
 ```text
 [린 제조 — 가치 흐름 맵핑, 낭비 제거]
-    │
-    ▼
+    |
+    v
 [DevOps VSM — 소프트웨어 전달 파이프라인 분석]
-    │
-    ▼
+    |
+    v
 [골든 패스 — 표준화된 빠른 개발·배포 경로]
-    │
-    ▼
+    |
+    v
 [DORA 메트릭 — 가치 흐름 개선 성과 측정]
-    │
-    ▼
+    |
+    v
 [Engineering Intelligence — AI 기반 실시간 흐름 분석]
 ```
 
@@ -175,7 +175,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 29 / 373
 
-← **이전**: [28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)
-**다음**: [30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) →
+<- **이전**: [28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)
+**다음**: [30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ->
 
 ---

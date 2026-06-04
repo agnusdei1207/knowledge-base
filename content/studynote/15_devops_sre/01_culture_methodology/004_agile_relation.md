@@ -20,7 +20,7 @@ tags = ["devops_sre"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-애자일 소프트웨어 개발(Agile Software Development)은 2001년 애자일 선언([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))을 통해 공식화된연건개발 방법론이다. 이전의 전통적 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)([Waterfall Model](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))이Requirements 정의 → 설계 → 구현 → 테스트 → 배포 →유지보수의엄밀な순서에서진행し, 각 단계의 완료후에만다음의 단계에진む 엄격한 선형 프로세스인 반면, 애자일은 짧은 개발 주기([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 1~4주)를 반복하며 지속적으로 결과물을교부하여 변화하는 요구사항에 유연하게 대응하는 것을 핵심 가치로 삼는다.
+애자일 소프트웨어 개발(Agile Software Development)은 2001년 애자일 선언([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))을 통해 공식화된연건개발 방법론이다. 이전의 전통적 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)([Waterfall Model](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))이Requirements 정의 -> 설계 -> 구현 -> 테스트 -> 배포 ->유지보수의엄밀な순서에서진행し, 각 단계의 완료후에만다음의 단계에진む 엄격한 선형 프로세스인 반면, 애자일은 짧은 개발 주기([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 1~4주)를 반복하며 지속적으로 결과물을교부하여 변화하는 요구사항에 유연하게 대응하는 것을 핵심 가치로 삼는다.
 
 그러나 [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/)의작용역는 기본적으로 코드 작성까지이다. 많은 기업이 애자일을 단계 1(기획)에서 단계 2(개발/코딩)까지만 적용하고, 그 이후 단계(운영/배포)는 기존 방식 그대로 두는 "워터-[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)-폴([Water-Scrum-Fall](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))"이라는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)에 빠져 있다. 이 경우 개발 속도는 빨라졌지만, 최종 사용자에게 가치로 전환되기까지의 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 여전히 오래 걸린다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 이 미처 리전국적인 부분을 메워주는 역할을 한다.
 
@@ -30,27 +30,27 @@ tags = ["devops_sre"]
 [개발 방법론별 라이프사이클 커버 범위 비교]
 
 폭포수 모델 (Waterfall)
-┌─────┬──────┬────────┬───────┬────────┬────────┐
-│plan │ code │  test  │ release│ operate│ monitor│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│ (운영) │ (모니터)│
-└─────┴──────┴────────┴───────┴────────┴────────┘
-        ←——————— 애자일 영역 ——————————→
-                  ←——————— 데브옵스 영역 ———————————→
-        ←——————— DevOps + SRE 전체 영역 ———————————→
++-----+------+--------+-------+--------+--------+
+|plan | code |  test  | release| operate| monitor|
+| (계획)|(개발)| (테스트)| (릴리스)| (운영) | (모니터)|
++-----+------+--------+-------+--------+--------+
+        <-——————— 애자일 영역 ——————————->
+                  <-——————— 데브옵스 영역 ———————————->
+        <-——————— DevOps + SRE 전체 영역 ———————————->
 
 애자일 (Agile) - 개발 사이클 중심
-┌─────┬──────┬────────┬───────┐
-│plan │ code │  test  │ release│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│
-└─────┴──────┴────────┴───────┘
-        ←——————— 애자일 핵심 영역 ——————————→
++-----+------+--------+-------+
+|plan | code |  test  | release|
+| (계획)|(개발)| (테스트)| (릴리스)|
++-----+------+--------+-------+
+        <-——————— 애자일 핵심 영역 ——————————->
 
 데브옵스 (DevOps) - 개발+운영 통합
-┌─────┬──────┬────────┬───────┬────────┬────────┐
-│plan │ code │  test  │ release│ operate│ monitor│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│ (운영) │ (모니터)│
-└─────┴──────┴────────┴───────┴────────┴────────┘
-        ←——————— 데브옵스 확장 영역 ———————————→
++-----+------+--------+-------+--------+--------+
+|plan | code |  test  | release| operate| monitor|
+| (계획)|(개발)| (테스트)| (릴리스)| (운영) | (모니터)|
++-----+------+--------+-------+--------+--------+
+        <-——————— 데브옵스 확장 영역 ———————————->
 ```
 
 이 그림의 핵심은 각 방법론의_library 차이에 있다. 애자일은 개발(Plan~Release) 단계의 라이프사이클을 최적화하지만, 그 이후 단계는 대부분 수동 운영 체제에 둔다. 반면 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 개발+운영 전체를 하나의 연속적가치류れ와/과し고착え, 자동화라는공통 언어로관련한다. 실무에서 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 차이를 이해하지 못하면, "우리 팀은 애자일やっ고る의에，위하부서는 여전히 오래 걸리지?"라는 의문을 품게 된다.
@@ -65,7 +65,7 @@ tags = ["devops_sre"]
 
 | 구분 | 애자일 (Agile) | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|:---|
-| **초점** | 백로그 → 동작하는 소프트웨어 | 코드 → 고객 가치 전달 | 애자일의 산출물이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 입력이 됨 |
+| **초점** | 백로그 -> 동작하는 소프트웨어 | 코드 -> 고객 가치 전달 | 애자일의 산출물이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 입력이 됨 |
 | **반복 단위** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) (1~4주) | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 (수분~수시간) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서 여러 번의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 |
 | **팀 구조** | 크로스펑셔널 개발팀 | 개발+운영 통합팀 | 애자일팀에 Ops/보안 역할 통합 |
 | **품질 방법** | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 지속적 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 내 자동 테스트, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 코드 품질에 대한공동책임 |
@@ -77,33 +77,33 @@ tags = ["devops_sre"]
 [애자일 스프린트 + DevOps CI/CD 결합 모델]
 
 스프린트 #N (2주)
-┌────────────────────────────────────────────────────┐
-│  Day 1    │  Day 2-5   │  Day 6-9  │  Day 10-14   │
-│ 스프린트  │ 기능 개발   │ CI/CD     │  스프린트    │
-│ 계획 &   │ (TDD,     │ 파이프라인 │  완료 &     │
-│ 백로그   │ 리팩토링)  │ 자동 실행  │  회고       │
-│ 정리     │           │           │            │
-└────────────────────────────────────────────────────┘
-     │            │            │            │
-     │            │    ┌───────┴───────┐
-     │            │    │  CI/CD Pipeline │
-     │            │    │                 │
-     │            │    │ 1. 코드 병합    │
-     │            │    │ 2. 빌드         │
-     │            │    │ 3. 단위 테스트  │
-     │            │    │ 4. 통합 테스트  │
-     │            │    │ 5. 정적 분석    │
-     │            │    │ 6. 아티팩트 생성 │
-     │            │    │ 7. 카나리 배포  │
-     │            │    │ 8. 모니터링     │
-     │            │    └───────┬───────┘
-     │            │            │
-     ▼            ▼            ▼
-┌────────┐  ┌────────┐  ┌────────────┐
-│ 프로덕션│  │ 프로덕션│  │   DORA     │
-│ 배포 #1 │  │ 배포 #2 │  │  메트릭스   │
-│ (Day 6)│  │ (Day 10)│  │  피드백     │
-└────────┘  └────────┘  └────────────┘
++----------------------------------------------------+
+|  Day 1    |  Day 2-5   |  Day 6-9  |  Day 10-14   |
+| 스프린트  | 기능 개발   | CI/CD     |  스프린트    |
+| 계획 &   | (TDD,     | 파이프라인 |  완료 &     |
+| 백로그   | 리팩토링)  | 자동 실행  |  회고       |
+| 정리     |           |           |            |
++----------------------------------------------------+
+     |            |            |            |
+     |            |    +-------+-------+
+     |            |    |  CI/CD Pipeline |
+     |            |    |                 |
+     |            |    | 1. 코드 병합    |
+     |            |    | 2. 빌드         |
+     |            |    | 3. 단위 테스트  |
+     |            |    | 4. 통합 테스트  |
+     |            |    | 5. 정적 분석    |
+     |            |    | 6. 아티팩트 생성 |
+     |            |    | 7. 카나리 배포  |
+     |            |    | 8. 모니터링     |
+     |            |    +-------+-------+
+     |            |            |
+     v            v            v
++--------+  +--------+  +------------+
+| 프로덕션|  | 프로덕션|  |   DORA     |
+| 배포 #1 |  | 배포 #2 |  |  메트릭스   |
+| (Day 6)|  | (Day 10)|  |  피드백     |
++--------+  +--------+  +------------+
 ```
 
 이프로세스의 핵심은 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서복수다음의 프로덕션 배포(CD)가 발생할 수 있다는 점이다. 전통적인 애자일에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시점에 하나의 배포를 수행했지만, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)와 결합되면 기능 완료 직후 즉시 프로덕션에 배포하여 실제 사용자 피드백을 가장 빠른 시점에 얻을 수 있다. 이를 통해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서도 Build-Measure-Learn [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를고속회전시킬 수 있다.
@@ -132,22 +132,22 @@ tags = ["devops_sre"]
 Level 1:片理 애자일 (Island Agile)
   애자일: ✓ 스프린드 진행
   데브옵스: ✗ 배포는 수동, 전통적 운영
-  → 开发 속도는 향상되지만 배포 병목 남음
+  -> 开发 속도는 향상되지만 배포 병목 남음
 
 Level 2: 개발 중심 CI (Dev-led CI)
   애자일: ✓ 스프린트 + CI 도입
   데브옵스: △ CD 미비, 배포는 Ops가 수동
-  → 빌드 자동화, 하지만 배포 여전히 병목
+  -> 빌드 자동화, 하지만 배포 여전히 병목
 
 Level 3:開発+운영 통합 (DevOps Enabled)
   애자일: ✓ 애자일 + DevOps 팀 통합
   데브옵스: ✓ Full CI/CD, 모니터링 통합
-  → 배포 빈도 향상, 빠른 피드백
+  -> 배포 빈도 향상, 빠른 피드백
 
 Level 4:フル-stack Product Team (목표)
   애자일: ✓ 스프린트 + 전체 팀 책임
   데브옵스: ✓ 셀프 서비스 CD, 피드백 자동화
-  → 최적의 애자일+데브옵스 시너지
+  -> 최적의 애자일+데브옵스 시너지
 ```
 
 > 📢 **섹션 요약 비유**: 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)은차의량개차륜의ようなも의에서ある.  애자일은フロント차륜(개발 속도)이고, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는リア차륜(배포/운영 속도)이다. 편방만 회전으면차는직선에서는なく곡주로しか주れない. 량륜이전っ고초め고차 는목적지へ신속이차 안정적으로 도착한다.
@@ -168,17 +168,17 @@ Level 4:フル-stack Product Team (목표)
   - **판단**: 이는 운영 지식의 부족과 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링/[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 부재가 원인이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관행([토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))을 도입하여 운영 작업을 예측 가능하게 만들고, 장애 발생 시 개발자가 대응하기보다 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(self-healing) 체계를 구축해야 한다.
 
 ```text
-[워터-스크럼-폴 → 진정한 애자일+DevOps 전환]
+[워터-스크럼-폴 -> 진정한 애자일+DevOps 전환]
 
 전 (Water-Scrum-Fall):
-  스프린트完成 → (3주 대기) → 배포 → (2주 대기) → 다음 스프린트
+  스프린트完成 -> (3주 대기) -> 배포 -> (2주 대기) -> 다음 스프린트
   문제: 배포 대기 중 개발자는暇而, 하지만 개발 중엔 Ops는暇而
 
 후 (Agile + DevOps):
   스프린트中:
     Day 1-2: 기능 개발
     Day 3-4: CI/CD 파이프라인으로 자동 배포
-    Day 5: 프로덕션에서 모니터링 → 피드백 수렴
+    Day 5: 프로덕션에서 모니터링 -> 피드백 수렴
   효과: 开发도 Ops도常に何かをしている状態
 ```
 
@@ -200,7 +200,7 @@ Level 4:フル-stack Product Team (목표)
 **미래 전망 및 결론**:
 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의융합은 이제 선택이 아닌 필수이ㅂ다. 특히 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술의 확산으로 인해, 조직 전체가 개발과 운영을통합하여 보고 반응해야 하는 환경이되었다. 향후에는 애자일, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), SRE가피차융합된 "현대적 소프트웨어 엔지니어링"으로통합될 것이다.
 
-조직은 "우리 애자일일태용다" 또는 "우리 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)도입제み다"라는 편리적인식을 버리고, 고객에게 가치을 전달하는 전체 흐름(기획→개발→배포→운영→[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링→개선)을 하나의집성된システム와/과し고설계해야 한다. 이것이 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의정しい관계이다.
+조직은 "우리 애자일일태용다" 또는 "우리 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)도입제み다"라는 편리적인식을 버리고, 고객에게 가치을 전달하는 전체 흐름(기획->개발->배포->운영->[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링->개선)을 하나의집성된システム와/과し고설계해야 한다. 이것이 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의정しい관계이다.
 
 > 📢 **섹션 요약 비유**: 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 건강관리에おける운동과식사의ようなも의에서ある.  운동(애자일)만 하고 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 관리하지 않으면 건강을취득할 수 없고, 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))만 관리하고 운동(애자일)을 하지 않으면 건강은개선되지 않는다. 량방공에계속적에실천し고초め고지속적な 건강개선이실현하는.
 
@@ -218,17 +218,17 @@ Level 4:フル-stack Product Team (목표)
 
 ```text
 [애자일 (Agile)]
-    │
-    ▼
+    |
+    v
 [스프린트 (Sprint)]
-    │
-    ▼
+    |
+    v
 [CI/CD]
-    │
-    ▼
+    |
+    v
 [운영 통합]
-    │
-    ▼
+    |
+    v
 [DevOps]
 ```
 
@@ -246,7 +246,7 @@ Level 4:フル-stack Product Team (목표)
 
 **진행 상황**: 4 / 373
 
-← **이전**: [3. CALMS 프레임워크 - DevOps 5대 핵심 가치 (Culture 문화, Automation 자동화, Lean 린 IT, Measurement](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/)
-**다음**: [5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) →
+<- **이전**: [3. CALMS 프레임워크 - DevOps 5대 핵심 가치 (Culture 문화, Automation 자동화, Lean 린 IT, Measurement](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/003_calms_framework/)
+**다음**: [5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) ->
 
 ---

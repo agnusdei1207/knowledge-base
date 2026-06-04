@@ -19,20 +19,20 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    수동 카나리 vs 자동 카나리 분석 (Kayenta)           │
-├───────────────────────────────────────────────────────┤
-│  [수동]                                               │
-│   카나리 배포 → Grafana 대시보드 관찰 (30분)          │
-│   → "에러가 좀 늘었는데... 괜찮은 것 같기도?"         │
-│   → 주관적 판단, 인간 오류 가능                       │
-│                                                       │
-│  [Kayenta ACA]                                        │
-│   카나리 배포 → 메트릭 자동 수집 (Prometheus)         │
-│   → 통계 검정 (Mann-Whitney U)                        │
-│   → Score: 92/100 → "Promote (자동 진행)"            │
-│   또는 Score: 45/100 → "Rollback (자동 복원)"         │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    수동 카나리 vs 자동 카나리 분석 (Kayenta)           |
++-------------------------------------------------------+
+|  [수동]                                               |
+|   카나리 배포 -> Grafana 대시보드 관찰 (30분)          |
+|   -> "에러가 좀 늘었는데... 괜찮은 것 같기도?"         |
+|   -> 주관적 판단, 인간 오류 가능                       |
+|                                                       |
+|  [Kayenta ACA]                                        |
+|   카나리 배포 -> 메트릭 자동 수집 (Prometheus)         |
+|   -> 통계 검정 (Mann-Whitney U)                        |
+|   -> Score: 92/100 -> "Promote (자동 진행)"            |
+|   또는 Score: 45/100 -> "Rollback (자동 복원)"         |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 수동 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 의사가 "환자 상태가 좀 나아진 것 같은데..."라고 감으로 판단하는 것이고, Kayenta는 혈액 검사 결과(통계)를 기반으로 "수치상 호전"이라고 객관적으로 판정하는 것이다.
@@ -48,8 +48,8 @@ tags = ["studynote-devops-sre"]
 | <strong>1. <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a></strong> | 비교할 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 선정 (레이턴시 p99, 에러율, CPU) |
 | <strong>2. <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집</strong> | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/Datadog에서 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집 |
 | **3. 통계 비교** | Mann-Whitney U 검정으로 유의미한 차이 판정 |
-| **4. 점수 산출** | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)별 Pass/Fail → 가중 합산 → 0~100점 |
-| **5. 판정** | Score ≥ Threshold → **Promote** / Score < → <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a></strong> |
+| **4. 점수 산출** | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)별 Pass/Fail -> 가중 합산 -> 0~100점 |
+| **5. 판정** | Score ≥ Threshold -> **Promote** / Score < -> <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a></strong> |
 
 - **📢 섹션 요약 비유**: Kayenta는 시험 채점 시스템이다. 과목별([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)별) 점수를 매기고, 합산이 합격선(Threshold)을 넘으면 합격(Promote), 못 넘으면 불합격([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-devops-sre"]
 3. **Threshold**: Promote ≥ 90, [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) ≤ 50.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 1개만 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 에러율만 보고 레이턴시 폭등 무시 → 사용자 불만.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 1개만 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 에러율만 보고 레이턴시 폭등 무시 -> 사용자 불만.
 
 ---
 
@@ -104,17 +104,17 @@ Kayenta는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_arch
 
 ```text
 [수동 카나리 배포 (2010s) — 대시보드 관찰, 주관적 판단]
-    │
-    ▼
+    |
+    v
 [Netflix Kayenta (2017) — 통계 기반 자동 카나리 분석]
-    │
-    ▼
+    |
+    v
 [Spinnaker + Kayenta 통합 (2018~) — CD 파이프라인 내장]
-    │
-    ▼
+    |
+    v
 [Argo Rollouts Analysis (2020~) — K8s 네이티브 ACA]
-    │
-    ▼
+    |
+    v
 [현재: AI 기반 ACA — 이상 패턴 학습 + 자동 판정]
 ```
 
@@ -129,7 +129,7 @@ Kayenta는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_arch
 
 **진행 상황**: 114 / 373
 
-← **이전**: [113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/113_aws_sam_serverless_model/)
-**다음**: [115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/) →
+<- **이전**: [113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/113_aws_sam_serverless_model/)
+**다음**: [115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/115_atlantis_terraform_ci/) ->
 
 ---

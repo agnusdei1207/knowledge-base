@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [BGP 속성]
-    │
-    ▼
+    |
+    v
 [EIGRP DUAL 지연 스케일 분산]
-    │
-    └──▶ [브로드캐스트 스톰]
+    |
+    +---> [브로드캐스트 스톰]
 ```
 
 - **📢 섹션 요약 비유**: [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -55,11 +55,11 @@ DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 
 ```text
 [BGP 속성]
-    │
-    ▼
+    |
+    v
 [EIGRP DUAL 지연 스케일 분산]
-    │
-    └──▶ [브로드캐스트 스톰]
+    |
+    +---> [브로드캐스트 스톰]
 ```
 
 - **📢 섹션 요약 비유**: [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 
 ```text
 [선행 개념: BGP 속성]
-    │
-    ▼
+    |
+    v
 [현재 개념: EIGRP DUAL 지연 스케일 분산]
-    │
-    ├──▶ [확장 A: 브로드캐스트 스톰]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 브로드캐스트 스톰]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 
 **진행 상황**: 205 / 1120
 
-← **이전**: [1095. BGP 속성 (Local Pref, MED, AS-path 구성비)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1095_bgp_attributes_local_pref_med_as_path/)
-**다음**: [1097. 브로드캐스트 스톰 (루프 발생)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/) →
+<- **이전**: [1095. BGP 속성 (Local Pref, MED, AS-path 구성비)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1095_bgp_attributes_local_pref_med_as_path/)
+**다음**: [1097. 브로드캐스트 스톰 (루프 발생)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/) ->
 
 ---

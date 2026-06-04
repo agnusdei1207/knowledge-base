@@ -32,7 +32,7 @@ tags = ["studynote-ai"]
 입력 특성의 선형 결합 `z = w·x + b`를 [시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)에 넣어 0~1 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 만든다. 임계값을 넘으면 1, 아니면 0으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
 ```text
-x → z = w·x + b → sigmoid(z) → P(y=1) → class
+x -> z = w·x + b -> sigmoid(z) -> P(y=1) -> class
 ```
 
 | 요소 | 의미 | 포인트 |
@@ -110,14 +110,14 @@ x → z = w·x + b → sigmoid(z) → P(y=1) → class
 
 ```text
 선형 점수
-    │
-    ▼
+    |
+    v
 시그모이드
-    │
-    ▼
+    |
+    v
 확률 출력
-    │
-    ▼
+    |
+    v
 이진 분류
 ```
 
@@ -135,7 +135,7 @@ x → z = w·x + b → sigmoid(z) → P(y=1) → class
 
 **진행 상황**: 55 / 420
 
-← **이전**: [54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)](/knowledge-base/studynote/10_ai/01_ai_basics/054_decision_tree_impurity_entropy_gini/)
-**다음**: [56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른](/knowledge-base/studynote/10_ai/01_ai_basics/056_knn_k_nearest_neighbors_lazy_learning/) →
+<- **이전**: [54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)](/knowledge-base/studynote/10_ai/01_ai_basics/054_decision_tree_impurity_entropy_gini/)
+**다음**: [56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른](/knowledge-base/studynote/10_ai/01_ai_basics/056_knn_k_nearest_neighbors_lazy_learning/) ->
 
 ---

@@ -83,11 +83,11 @@ tags = ["studynote-enterprise"]
 
 ```text
 법/규제
-   ↓
+   v
 기술적 통제
-   ↓
+   v
 증거 / 감사
-   ↓
+   v
 컴플라이언스 운영
 ```
 
@@ -95,11 +95,11 @@ tags = ["studynote-enterprise"]
 
 ## 관련 키워드 및 발전 흐름도
 
-1. SOX → 회계 통제 강화
-2. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화
-3. Basel → 금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 규율
-4. [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) / [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS → 정보보호와 결제 보안
-5. Compliance-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) → 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 지속 운영
+1. SOX -> 회계 통제 강화
+2. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) -> [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화
+3. Basel -> 금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 규율
+4. [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) / [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS -> 정보보호와 결제 보안
+5. Compliance-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) -> 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 지속 운영
 
 ---
 
@@ -115,7 +115,7 @@ IT 컴플라이언스는 규칙을 지키게 하는 안전벨트예요.
 
 **진행 상황**: 58 / 482
 
-← **이전**: [57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/057_disaster_recovery_dr_rto_rpo/)
-**다음**: [59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/059_it_outsourcing_ito_bpo/) →
+<- **이전**: [57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/057_disaster_recovery_dr_rto_rpo/)
+**다음**: [59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/059_it_outsourcing_ito_bpo/) ->
 
 ---

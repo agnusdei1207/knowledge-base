@@ -196,7 +196,7 @@ AI 데이터 검증 오라클 연구
 
 **진행 상황**: 36 / 552
 
-← **이전**: [035. 플래시 론 (Flash Loan)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)
-**다음**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/) →
+<- **이전**: [035. 플래시 론 (Flash Loan)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)
+**다음**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/) ->
 
 ---

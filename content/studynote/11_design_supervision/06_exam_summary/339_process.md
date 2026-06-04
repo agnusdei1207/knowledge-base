@@ -22,17 +22,17 @@ tags = ["studynote-design-supervision"]
 특히 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·양방향 조치은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
-┌──────────────┐
-│ 자산·위협 식별 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 예방 통제 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 증적·재검증   │
-└──────────────┘
++--------------+
+| 자산·위협 식별 |
++------+-------+
+       |
++------v-------+
+| 예방 통제 설계 |
++------+-------+
+       |
++------v-------+
+| 증적·재검증   |
++--------------+
 ```
 
 - **📢 섹션 요약 비유**: 성문, 경비병, 순찰 기록이 함께 있어야 침입을 막는 것과 같다.
@@ -49,9 +49,9 @@ tags = ["studynote-design-supervision"]
 | 증적·조치 | [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 중심으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
 
 ```text
-┌────────────┬────────────┬────────────┐
-│ 정책·설계   │ 운영 설정   │ 로그·조치   │
-└────────────┴────────────┴────────────┘
++------------+------------+------------+
+| 정책·설계   | 운영 설정   | 로그·조치   |
++------------+------------+------------+
 ```
 
 또한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·양방향 조치은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 해시와 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/), 복호화 키 관리, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
-[평문 저장 금지] → [필드별 암호화 정책] → [비식별·암호키 자동 순환]
+[평문 저장 금지] -> [필드별 암호화 정책] -> [비식별·암호키 자동 순환]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·양방향 조치은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 417 / 530
 
-← **이전**: [338. 성능 APM·TPS 튜닝 (APM TPS Performance Tuning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/338_apm_tps/)
-**다음**: [340. 오픈소스 GPL 컴플라이언스 배포 (Open Source GPL Compliance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/) →
+<- **이전**: [338. 성능 APM·TPS 튜닝 (APM TPS Performance Tuning)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/338_apm_tps/)
+**다음**: [340. 오픈소스 GPL 컴플라이언스 배포 (Open Source GPL Compliance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/) ->
 
 ---

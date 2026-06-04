@@ -36,32 +36,32 @@ tags = ["studynote-operating-system"]
   - 대규모 엔터프라이즈 서버와 스토리지 장비에서 기가바이트(GB)를 넘어 테라, 페타바이트(PB) 시대가 열리자, 기존의 낡은 MBR과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 한계(용량, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))를 뚫기 위해 백지상태에서 새롭게 설계된 차세대 규격이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 전통적 스토리지 스택 vs ZFS 통합 아키텍처 비교          │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ 전통적 파편화 스택 (단절의 비극) ]                           │
-  │  ┌────────────────────┐ "나는 이 밑의 LVM 용량만 봐.          │
-  │  │ File System (ext4) │  디스크가 몇 갠지는 몰라!"            │
-  │  ├────────────────────┤                                     │
-  │  │ Volume Mngr (LVM)  │ "나는 디스크를 묶어만 주지,             │
-  │  ├────────────────────┤  안에 무슨 파일이 있는지는 몰라!"       │
-  │  │   RAID / HBA       │ "나는 기계적으로 블록만 복사해.           │
-  │  ├────────────────────┤  그 블록이 빈공간인지 아닌지 몰라!"       │
-  │  │  Disk 1 | Disk 2   │                                     │
-  │  └────────────────────┘                                     │
-  │                                                             │
-  │  [ ZFS (Zettabyte File System) - 진정한 통합의 예술 ]         │
-  │  ┌───────────────────────────────────────────────┐        │
-  │  │ ZFS (파일 시스템 + 볼륨 관리자 + 소프트웨어 RAID 융합) │        │
-  │  │  - Zpool: 모든 디스크를 거대한 물웅덩이(Pool)로 묶음         │        │
-  │  │  - Dataset: 웅덩이에서 물을 퍼서 파일 시스템(마운트) 즉시 생성│        │
-  │  │  - "나는 디스크 3번이 깨진 걸 알고, 2번에서 데이터를 긁어와  │        │
-  │  │    복구할 수 있는 모든 정보를 다 알고 있다!"               │        │
-  │  └──────┬──────────────────┬─────────────────┬───────┘        │
-  │          ▼                  ▼                 ▼               │
-  │      [ Disk 1 ]          [ Disk 2 ]         [ Disk 3 ]         │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 전통적 스토리지 스택 vs ZFS 통합 아키텍처 비교          |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |  [ 전통적 파편화 스택 (단절의 비극) ]                           |
+  |  +--------------------+ "나는 이 밑의 LVM 용량만 봐.          |
+  |  | File System (ext4) |  디스크가 몇 갠지는 몰라!"            |
+  |  +--------------------+                                     |
+  |  | Volume Mngr (LVM)  | "나는 디스크를 묶어만 주지,             |
+  |  +--------------------+  안에 무슨 파일이 있는지는 몰라!"       |
+  |  |   RAID / HBA       | "나는 기계적으로 블록만 복사해.           |
+  |  +--------------------+  그 블록이 빈공간인지 아닌지 몰라!"       |
+  |  |  Disk 1 | Disk 2   |                                     |
+  |  +--------------------+                                     |
+  |                                                             |
+  |  [ ZFS (Zettabyte File System) - 진정한 통합의 예술 ]         |
+  |  +-----------------------------------------------+        |
+  |  | ZFS (파일 시스템 + 볼륨 관리자 + 소프트웨어 RAID 융합) |        |
+  |  |  - Zpool: 모든 디스크를 거대한 물웅덩이(Pool)로 묶음         |        |
+  |  |  - Dataset: 웅덩이에서 물을 퍼서 파일 시스템(마운트) 즉시 생성|        |
+  |  |  - "나는 디스크 3번이 깨진 걸 알고, 2번에서 데이터를 긁어와  |        |
+  |  |    복구할 수 있는 모든 정보를 다 알고 있다!"               |        |
+  |  +------+------------------+-----------------+-------+        |
+  |          v                  v                 v               |
+  |      [ Disk 1 ]          [ Disk 2 ]         [ Disk 3 ]         |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적 스토리지 시스템의 한계는 각 계층(Layer)이 서로 철저하게 장님(Blind)이라는 데 있다. 디스크에 남은 빈 공간이 많은데도, 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 컨트롤러는 고장 난 디스크를 재구축(Rebuild)할 때 빈 공간인지 쓰레기인지 구분 못 하고 테라바이트 전체 블록을 무식하게 1:1로 며칠 동안 복사해야 했다. 하지만 ZFS는 자신이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이면서 동시에 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 컨트롤러다. 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 디스크의 어느 블록에 유효하게 저장되어 있는지 100% 알고 있기 때문에, 디스크가 깨져도 '진짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 저장된 의미 있는 블록'만 빛의 속도로 쏙쏙 빼내어 몇 분 만에 완벽하게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 내는 기적을 보여준다.
@@ -77,27 +77,27 @@ tags = ["studynote-operating-system"]
 ZFS가 "지구상에서 가장 안전한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템"으로 불리는 핵심 이유는 **절대 기존 블록에 덮어쓰기(Overwrite)를 하지 않는다는 원칙** 때문이다. 이를 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 또는 Allocate-on-Write라고 부른다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 기존 덮어쓰기(Overwrite) vs ZFS COW(Copy-on-Write)│
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 전통적 파일 시스템 (ext4) ] - 덮어쓰기 도중 정전(Crash) 발생 시 💥    │
-  │   원본(Block A: 100)을 105로 고치려 함.                              │
-  │   기록 중: [ Block A: 10? ] (쓰다가 정전됨!)                           │
-  │   ▶ 결과: 100도 아니고 105도 아닌 쓰레기값(Corruption)으로 원본 파괴.  │
-  │                                                                   │
-  │  [ ZFS (COW 구조) ] - 절대 원본을 훼손하지 않음!                        │
-  │   원본(Block A: 100)을 105로 고치려 함.                              │
-  │   1. Block A는 그대로 놔둠.                                          │
-  │   2. 텅 빈 새로운 [Block B]를 찾아 105를 기록함.                       │
-  │   3. [Block B] 기록이 100% 완료되었는가?                             │
-  │       ├─ 예 ──▶ 최상위 포인터(Root)를 Block A에서 B로 딸깍! 스위칭.   │
-  │       │         (이제 Block A는 버려지고 B가 원본이 됨)                │
-  │       │                                                           │
-  │       └─ 정전 💥 ▶ 포인터가 아직 A를 가리킴.                          │
-  │                   ▶ 재부팅 시: 쓰다 만 Block B는 그냥 무시되고,        │
-  │                     깨끗하고 완벽한 원본 Block A가 100% 생존해 있음!  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 기존 덮어쓰기(Overwrite) vs ZFS COW(Copy-on-Write)|
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [ 전통적 파일 시스템 (ext4) ] - 덮어쓰기 도중 정전(Crash) 발생 시 💥    |
+  |   원본(Block A: 100)을 105로 고치려 함.                              |
+  |   기록 중: [ Block A: 10? ] (쓰다가 정전됨!)                           |
+  |   -> 결과: 100도 아니고 105도 아닌 쓰레기값(Corruption)으로 원본 파괴.  |
+  |                                                                   |
+  |  [ ZFS (COW 구조) ] - 절대 원본을 훼손하지 않음!                        |
+  |   원본(Block A: 100)을 105로 고치려 함.                              |
+  |   1. Block A는 그대로 놔둠.                                          |
+  |   2. 텅 빈 새로운 [Block B]를 찾아 105를 기록함.                       |
+  |   3. [Block B] 기록이 100% 완료되었는가?                             |
+  |       +- 예 ---> 최상위 포인터(Root)를 Block A에서 B로 딸깍! 스위칭.   |
+  |       |         (이제 Block A는 버려지고 B가 원본이 됨)                |
+  |       |                                                           |
+  |       +- 정전 💥 -> 포인터가 아직 A를 가리킴.                          |
+  |                   -> 재부팅 시: 쓰다 만 Block B는 그냥 무시되고,        |
+  |                     깨끗하고 완벽한 원본 Block A가 100% 생존해 있음!  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 전통적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 저널링(Journaling)이라는 꼼수를 썼지만 결국 원본을 훼손하는 방식이라 미세한 타이밍의 붕괴(Torn Write)를 막지 못했다. ZFS의 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 트리는 항상 새로운 빈 공간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 밑바닥 나뭇잎([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터 나뭇가지(Pointer), 그리고 최상단 루트(Uberblock)까지 원자적(Atomic)으로 포인터를 교체한다. 포인터가 넘어가기 전까지 원본은 1비트도 다치지 않는다. 이 때문에 ZFS 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 도중에 관리자가 도끼로 서버 전원 케이블을 찍어버려도(Crash), 재부팅하면 디스크 검사(`fsck`)조차 필요 없이 단 1초 만에 100% 깨끗한 이전 상태로 돌아가는 무적의 방어력을 자랑한다.
@@ -148,26 +148,26 @@ ZFS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
    - <strong>아키텍트 판단 (중복 제거 비활성화 및 LZ4 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 전환)</strong>: 블록 스토리지에서 ZFS의 온라인 중복 제거는 RAM이 엑사바이트 급으로 넘치지 않는 한 절대 켜서는 안 되는 '금단의 옵션'이다. 아키텍트는 중복 제거를 즉시 끄고(off), 대신 CPU 자원을 거의 먹지 않으면서 디스크 용량을 미친 듯이 아껴주는 <strong>실시간 LZ4 / ZSTD <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<code>compression=on</code>)</strong> 기능을 켠다. 요즘 CPU는 너무 빨라서, 100MB를 디스크에 쓰는 것보다 100MB를 50MB로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 쓰는 게 오히려 "디스크 I/O 속도가 더 빨라지는([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 파라독스)" 마법을 보여주기 때문이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엔터프라이즈 파일 시스템 선택을 위한 아키텍트 결정 트리     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 100TB 이상의 대용량 스토리지 서버를 구축한다 ]                         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      1비트의 오류(Bit Rot)조차 용납 안 되고 랜섬웨어 방어(스냅샷)가 중요한가? │
-  │          ├─ 아니오 ──▶ [ ext4 + 하드웨어 RAID 카드 조합 (속도 최우선) ]│
-  │          │                                                        │
-  │          └─ 예                                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버의 램(RAM) 용량이 데이터를 감당할 만큼 거대하게 풍부한가? (GB당 1MB 이상)│
-  │          ├─ 예 ─────▶ [ ZFS + RAID-Z2 도입 강제! 🚀 ]             │
-  │          │             (소프트웨어 RAID로 하드웨어 카드 버리고 무결성 극대화) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ Btrfs (차선책) 도입 ]                      │
-  │                        (ZFS보다 메모리는 적게 먹으나, RAID 5/6 안정성 주의) │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 엔터프라이즈 파일 시스템 선택을 위한 아키텍트 결정 트리     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 100TB 이상의 대용량 스토리지 서버를 구축한다 ]                         |
+  |                |                                                  |
+  |                v                                                  |
+  |      1비트의 오류(Bit Rot)조차 용납 안 되고 랜섬웨어 방어(스냅샷)가 중요한가? |
+  |          +- 아니오 ---> [ ext4 + 하드웨어 RAID 카드 조합 (속도 최우선) ]|
+  |          |                                                        |
+  |          +- 예                                                    |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버의 램(RAM) 용량이 데이터를 감당할 만큼 거대하게 풍부한가? (GB당 1MB 이상)|
+  |          +- 예 ------> [ ZFS + RAID-Z2 도입 강제! 🚀 ]             |
+  |          |             (소프트웨어 RAID로 하드웨어 카드 버리고 무결성 극대화) |
+  |          |                                                        |
+  |          +- 아니오 ---> [ Btrfs (차선책) 도입 ]                      |
+  |                        (ZFS보다 메모리는 적게 먹으나, RAID 5/6 안정성 주의) |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 왕좌는 오랫동안 ext4의 것이었다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커지며 하드웨어([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드)의 거짓말과 디스크의 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rot)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 잡아내지 못하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 조용히 썩어버린다. ZFS는 "하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드를 절대 믿지 마라(HBA [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) 모드로 꽂아라), 모든 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 연산과 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 똑똑한 ZFS 소프트웨어가 램(RAM)과 CPU를 갈아 넣어서 100% 완벽하게 통제하겠다"는 선언이다. 따라서 ZFS 서버를 구축할 때는 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 컨트롤러에 쓸 예산을 빼서, 서버의 RAM 용량을 무식하게 증설([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) RAM)하는 데 투자하는 것이 진정한 아키텍처 설계다.
@@ -217,12 +217,12 @@ ZFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501
 
 ```text
 [eBPF 동적 커널 트레이싱 프레임워크 성능]
-    │
-    ▼
+    |
+    v
 [ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)]
-    │
-    ├──▶ [LFS (Log-structured File System) 랜덤 쓰기 순차화]
-    └──▶ [모바일 환경 에너지 인지 스케줄러]
+    |
+    +---> [LFS (Log-structured File System) 랜덤 쓰기 순차화]
+    +---> [모바일 환경 에너지 인지 스케줄러]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -239,7 +239,7 @@ ZFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501
 
 **진행 상황**: 781 / 800
 
-← **이전**: [780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/)
-**다음**: [782. LFS (Log-structured File System) 랜덤 쓰기 순차화](/knowledge-base/studynote/02_operating_system/11_exam_summary/782_lfs_log_structured_file_system/) →
+<- **이전**: [780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)](/knowledge-base/studynote/02_operating_system/11_exam_summary/780_ebpf_dynamic_kernel_tracing_performance/)
+**다음**: [782. LFS (Log-structured File System) 랜덤 쓰기 순차화](/knowledge-base/studynote/02_operating_system/11_exam_summary/782_lfs_log_structured_file_system/) ->
 
 ---

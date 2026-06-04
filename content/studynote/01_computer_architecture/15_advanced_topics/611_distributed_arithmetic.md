@@ -41,18 +41,18 @@ y = Σ c_i x_i
 여기서 `x_i[b]`는 각 입력의 b번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 괄호 안쪽 합은 해당 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 0/1로 어떤 조합을 이루느냐에 따라 정해지는 상수의 합이므로, 가능한 결과를 LUT에 저장할 수 있다. 실행 시에는 입력들의 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치를 모아 주소를 만들고, LUT에서 부분합을 읽어 와 시프트 누산한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ x0[b] x1[b] x2[b] ... xK-1[b]  ->  address bits                           │
-│                                      │                                     │
-│                                      ▼                                     │
-│                           LUT of precomputed sums                          │
-│                                      │                                     │
-│                                      ▼                                     │
-│                         shift / accumulate over bit index b                │
-│                                      │                                     │
-│                                      ▼                                     │
-│                                     output y                               │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| x0[b] x1[b] x2[b] ... xK-1[b]  ->  address bits                           |
+|                                      |                                     |
+|                                      v                                     |
+|                           LUT of precomputed sums                          |
+|                                      |                                     |
+|                                      v                                     |
+|                         shift / accumulate over bit index b                |
+|                                      |                                     |
+|                                      v                                     |
+|                                     output y                               |
++----------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -143,20 +143,20 @@ DA를 채택할지 여부는 계수 고정성, 목표 샘플링 속도, [FPGA](/
 
 ```text
 고정 계수 내적 문제
-        │
-        ▼
+        |
+        v
 비트 직렬 분산 산술
-        │
-        ▼
+        |
+        v
 파티셔닝 · OBC 기반 LUT 축소
-        │
-        ▼
+        |
+        v
 비트 병렬 · 파이프라인 DA
-        │
-        ▼
+        |
+        v
 LUT-less / 하이브리드 MAC-DA 구조
-        │
-        ▼
+        |
+        v
 저정밀 AI · FPGA 가속기 응용
 ```
 
@@ -174,7 +174,7 @@ LUT-less / 하이브리드 MAC-DA 구조
 
 **진행 상황**: 611 / 803
 
-← **이전**: [610. 보안 해시 함수 회로 (SHA-3 / Keccak)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/610_sha3_hardware/)
-**다음**: [612. 행렬 분해 (LU, QR) 전용 병렬 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/612_matrix_decomposition_hw/) →
+<- **이전**: [610. 보안 해시 함수 회로 (SHA-3 / Keccak)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/610_sha3_hardware/)
+**다음**: [612. 행렬 분해 (LU, QR) 전용 병렬 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/612_matrix_decomposition_hw/) ->
 
 ---

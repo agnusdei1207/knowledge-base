@@ -32,29 +32,29 @@ tags = ["studynote-cloud-architecture"]
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 생태계의 심장, [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 무정단 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 핑퐁 아키텍처다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          FaaS (서버리스 함수) 이벤트 기반 무한 스케일 아웃 록온 도해 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ ⚡ [ 1. Event Source (트리거 / 방아쇠 핑퐁) ]                    │
-│   - 클라이언트가 API Gateway를 찌르거나 (HTTP),                   │
-│   - AWS S3 버킷에 유저가 사진을 업로드하거나 (Storage Event),        │
-│   - 카프카/SQS 버스에서 메시지가 툭 떨어지거나 (Message Event).       │
-│                                                             │
-│        ======= [ 🌪️ 0.01초 찰나의 폭발: 서버리스 뇌 발동 ] ========│
-│                                                             │
-│ ☁️ [ 2. FaaS Platform (AWS Lambda, GCP Cloud Functions) ]   │
-│   - AWS 뇌 왈: "어? S3에 사진 올라왔네? 야 당장 대기 타던 [썸네일 압축 함수] │
-│     코드 멱살 잡아서 허공에 컨테이너 1개 팟! 하고 띄워(Cold Start) 쾅!!" │
-│                                                             │
-│ 🤖 [ 3. Function Instance (순수 로직 무상태 실행 봇) ]            │
-│   - 함수 봇 1만 개가 동시에 허공에 띄워져서 각자 사진 1만 장을 0.5초 만에    │
-│     압축 렌더링 쳐버리고 ➔ 결과물을 RDS DB나 또 다른 S3에 툭 던져 넣음! │
-│                                                             │
-│ 💀 [ 4. 자살 소멸 (Ephemeral 찰나의 생명) ]                     │
-│   - 할 일 끝난 함수 봇 1만 개는 단 1초의 미련 없이 허공에서 싹 다 자살 분해되어 │
-│     사라짐(Terminate). 메모리 램 리셋 100% 클린 깡통 컷! 💰 요금 정산 끝! │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          FaaS (서버리스 함수) 이벤트 기반 무한 스케일 아웃 록온 도해 🚀 |
++-------------------------------------------------------------+
+|                                                             |
+| ⚡ [ 1. Event Source (트리거 / 방아쇠 핑퐁) ]                    |
+|   - 클라이언트가 API Gateway를 찌르거나 (HTTP),                   |
+|   - AWS S3 버킷에 유저가 사진을 업로드하거나 (Storage Event),        |
+|   - 카프카/SQS 버스에서 메시지가 툭 떨어지거나 (Message Event).       |
+|                                                             |
+|        ======= [ 🌪️ 0.01초 찰나의 폭발: 서버리스 뇌 발동 ] ========|
+|                                                             |
+| ☁️ [ 2. FaaS Platform (AWS Lambda, GCP Cloud Functions) ]   |
+|   - AWS 뇌 왈: "어? S3에 사진 올라왔네? 야 당장 대기 타던 [썸네일 압축 함수] |
+|     코드 멱살 잡아서 허공에 컨테이너 1개 팟! 하고 띄워(Cold Start) 쾅!!" |
+|                                                             |
+| 🤖 [ 3. Function Instance (순수 로직 무상태 실행 봇) ]            |
+|   - 함수 봇 1만 개가 동시에 허공에 띄워져서 각자 사진 1만 장을 0.5초 만에    |
+|     압축 렌더링 쳐버리고 ➔ 결과물을 RDS DB나 또 다른 S3에 툭 던져 넣음! |
+|                                                             |
+| 💀 [ 4. 자살 소멸 (Ephemeral 찰나의 생명) ]                     |
+|   - 할 일 끝난 함수 봇 1만 개는 단 1초의 미련 없이 허공에서 싹 다 자살 분해되어 |
+|     사라짐(Terminate). 메모리 램 리셋 100% 클린 깡통 컷! 💰 요금 정산 끝! |
++-------------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">무상태([Stateless</a>) 헌법의 족쇄 ⛓️]</strong>:
@@ -136,17 +136,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 On-Premise 물리 서버 쇳덩이 / 내가 직접 램 꽂고 랜선 따서 서버실 에어컨 관리하다 불타 셧다운 파국 💥
-    │
-    ▼
+    |
+    v
 IaaS (VM 가상 머신 시대 EC2) / 쇳덩이는 AWS가 관리! 근데 여전히 윈도우 OS 패치랑 24시간 켜둬야 하는 서버 기본료 렌탈비 눈탱이 터짐 💀
-    │
-    ▼
+    |
+    v
 CaaS / PaaS (K8s 도커 컨테이너) / OS 짬처리 완료! 근데 K8s 클러스터 뇌(마스터 노드) 띄우는 고정비 쇳덩이 요금 여전히 존재
-    │
-    ▼
+    |
+    v
 Serverless / FaaS (AWS 람다 대관식 🚀) / 서버 고정비 아예 0원으로 삭제 척살 쾅!! 유저가 찌를 때 0.1초 찰나만 켜서 연산 치고 죽여버리는 밀리초(ms) 단위 극한 Pay-per-use 요금제 압살 혁명 ✨
-    │
-    ▼
+    |
+    v
 Cold Start 극복 및 Knative K8s 융합 / 자바 부팅 랙 쳐 죽이려고 SnapStart 띄우고, 특정 클라우드 노예(Lock-in) 안 되려고 도커 컨테이너 자체를 서버리스로 띄우는(Knative, Cloud Run) 궁극 멀티클라우드 생태계 대통일 달성
 ```
 
@@ -162,7 +162,7 @@ Cold Start 극복 및 Knative K8s 융합 / 자바 부팅 랙 쳐 죽이려고 Sn
 
 **진행 상황**: 150 / 371
 
-← **이전**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/)
-**다음**: [152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/152_cold_start_latency_serverless/) →
+<- **이전**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/)
+**다음**: [152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/152_cold_start_latency_serverless/) ->
 
 ---

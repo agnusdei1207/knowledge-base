@@ -55,20 +55,20 @@ tags = ["design_supervision"]
 
 ```text
 [감리인: 지적 사항 발표] -> "보안 취약점 X가 존재하여 조치가 필요함"
-         │
-         ▼
+         |
+         v
 [사업자: 이견 제기] -> "그것은 우리 과업 범위가 아니라 타 부서 연동 시스템의 문제임"
-         │
-         ▼ (감리인의 3단계 검증 로직 가동)
+         |
+         v (감리인의 3단계 검증 로직 가동)
    ① [경계 검증] 해당 모듈이 RFP 및 요구사항 명세서(범위) 내에 있는가?
    ② [증거 대조] 타 부서 시스템의 응답값 때문이라는 네트워크 패킷 덤프가 확인되었는가?
    ③ [위험 평가] 사업자 소관이 아니더라도, 전체 시스템 다운을 유발하는 치명적 리스크인가?
-         │
-         ▼
+         |
+         v
 [최종 합의 도출] -> "필수 조치는 해당 부서로 이관(감리 제외)하되, 현 시스템에서는 방어 코드(예외처리)를 넣는 것으로 권고사항 하향 합의"
 ```
 
-이 동작 원리의 핵심은 '책임 떠넘기기'가 아니라 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화([Risk Mitigation](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/))'에 초점을 맞춘다는 점입니다. 사업자의 반론이 타당하다면 즉각 지적을 철회하거나 수위를 낮추어(필수 조치 → 권고 사항), 보고서의 무결성을 지키고 사업자의 수용성을 높여야 합니다. 종료 회의에서 감리인이 자존심 때문에 틀린 지적을 고집하는 것은 최악의 아마추어리즘입니다.
+이 동작 원리의 핵심은 '책임 떠넘기기'가 아니라 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화([Risk Mitigation](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/))'에 초점을 맞춘다는 점입니다. 사업자의 반론이 타당하다면 즉각 지적을 철회하거나 수위를 낮추어(필수 조치 -> 권고 사항), 보고서의 무결성을 지키고 사업자의 수용성을 높여야 합니다. 종료 회의에서 감리인이 자존심 때문에 틀린 지적을 고집하는 것은 최악의 아마추어리즘입니다.
 
 > 📢 **섹션 요약 비유**: 종료 회의의 이견 조율 과정은 비디오 판독(VAR)을 거치는 스포츠 심판의 판정과 같습니다. 항의가 들어오면 감정적으로 화를 내는 것이 아니라, 함께 화면(증거와 규정)을 돌려보고 오심이면 번복하고 정심이면 확고히 판정을 유지하는 팩트 기반의 커뮤니케이션입니다.
 
@@ -107,14 +107,14 @@ tags = ["design_supervision"]
 [종료 회의 갈등 관리 및 이견 조율 플로우]
 
 (이견 발생)
-    │
-    ├─ 1단계: 사실 확인 (Is it a Fact?) ──> 증거 불충분 시 ──> [지적 철회]
-    │      (코드, 로그, RFP 기준 대조)
-    │
-    ├─ 2단계: 범위 확인 (Is it in Scope?) ──> 범위 외 사항 시 ──> [권고사항 하향 또는 발주처 이관]
-    │      (계약상 구현 의무가 있는가?)
-    │
-    └─ 3단계: 임팩트 판단 (Is it Critical?) ──> 치명적 문제 시 ──> [필수 조치 강행 (발주자 중재 요청)]
+    |
+    +- 1단계: 사실 확인 (Is it a Fact?) --> 증거 불충분 시 --> [지적 철회]
+    |      (코드, 로그, RFP 기준 대조)
+    |
+    +- 2단계: 범위 확인 (Is it in Scope?) --> 범위 외 사항 시 --> [권고사항 하향 또는 발주처 이관]
+    |      (계약상 구현 의무가 있는가?)
+    |
+    +- 3단계: 임팩트 판단 (Is it Critical?) --> 치명적 문제 시 --> [필수 조치 강행 (발주자 중재 요청)]
            (시스템 안정성에 영향을 주는가?)
 ```
 
@@ -154,17 +154,17 @@ tags = ["design_supervision"]
 
 ```text
 [감리 수행 — 중간 감리·단계 감리로 이슈 발굴]
-    │
-    ▼
+    |
+    v
 [감리 결과 정리 — 감리 이슈 목록·조치 권고사항 작성]
-    │
-    ▼
+    |
+    v
 [종료 회의 (Exit Meeting) — 감리인·피감리인 간 이슈 합의]
-    │
-    ▼
+    |
+    v
 [감리 보고서 확정 — 합의 내용 반영 후 발주자 제출]
-    │
-    ▼
+    |
+    v
 [조치 결과 확인 — 권고사항 이행 여부 사후 점검]
 ```
 종료 회의는 감리 이슈에 대한 이견을 공식 합의로 전환하는 관문으로, [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)의 품질과 권고사항 이행력을 결정하는 핵심 단계다.
@@ -180,7 +180,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 20 / 530
 
-← **이전**: [18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)
-**다음**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/) →
+<- **이전**: [18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)
+**다음**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/) ->
 
 ---

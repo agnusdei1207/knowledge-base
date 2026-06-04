@@ -30,9 +30,9 @@ tags = ["database"]
 
 ```text
 Super Key
-  ↓ minimality
+  v minimality
 Candidate Key
-  ↓ choose one
+  v choose one
 Primary Key
 ```
 
@@ -103,11 +103,11 @@ Primary Key
 
 ```text
 Super Key
-  ↓
+  v
 Candidate Key
-  ↓
+  v
 Primary Key
-  ↓
+  v
 Foreign Key
 ```
 
@@ -117,11 +117,11 @@ Foreign Key
 
 ```text
 Uniqueness
-  ↓
+  v
 Minimality
-  ↓
+  v
 Candidate Key
-  ↓
+  v
 Normalization
 ```
 
@@ -139,7 +139,7 @@ Normalization
 
 **진행 상황**: 69 / 600
 
-← **이전**: [68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)
-**다음**: [70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) →
+<- **이전**: [68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)
+**다음**: [70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) ->
 
 ---

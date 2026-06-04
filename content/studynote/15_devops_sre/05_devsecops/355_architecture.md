@@ -165,7 +165,7 @@ CXL 3.0 (P2P 통신, 패브릭 수준 메모리 공유)
 
 **진행 상황**: 355 / 373
 
-← **이전**: [354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/354_process/)
-**다음**: [356. 데이터옵스 CI/CD dbt 분석 파이프 자동망 (DataOps CI/CD with dbt)](/knowledge-base/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/) →
+<- **이전**: [354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/354_process/)
+**다음**: [356. 데이터옵스 CI/CD dbt 분석 파이프 자동망 (DataOps CI/CD with dbt)](/knowledge-base/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/) ->
 
 ---

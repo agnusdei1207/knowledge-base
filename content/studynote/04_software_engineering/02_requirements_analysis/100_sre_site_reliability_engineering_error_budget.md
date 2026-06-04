@@ -39,21 +39,21 @@ SRE의 아키텍처적 근간은 완벽함을 포기하고, 측정 가능한 [�
 SRE 팀은 SLO를 99.9%로 합의함으로써, 한 달 중 약 <strong>43분의 합법적 장애 시간</strong>을 얻어낸다. 이 43분이 바로 개발과 운영의 저울추 역할을 하는 혁명의 도구, <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong>이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스    │
-├──────────────────────────────────────────────────────────────┤
-│ [ 이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준) ]             │
-│                                                              │
-│ 개발팀: "새로운 기능을 배포하고 싶습니다!"                     │
-│   │                                                          │
-│   ▼                                                          │
-│ 현재까지 깎아먹은 장애 시간이 43분을 초과했는가?                 │
-│                                                              │
-│ ├─▶ [아니오 (잔여 예산 20분)] ──▶ "배포 승인!" (속도 혁신 지속) │
-│ │                                                          │
-│ └─▶ [예 (예산 전액 소진)] ──────▶ "배포 강제 올스톱! (코드 프리즈)"│
-│                                  신뢰성 버그 수정에 전력투구! │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스    |
++--------------------------------------------------------------+
+| [ 이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준) ]             |
+|                                                              |
+| 개발팀: "새로운 기능을 배포하고 싶습니다!"                     |
+|   |                                                          |
+|   v                                                          |
+| 현재까지 깎아먹은 장애 시간이 43분을 초과했는가?                 |
+|                                                              |
+| +--> [아니오 (잔여 예산 20분)] ---> "배포 승인!" (속도 혁신 지속) |
+| |                                                          |
+| +--> [예 (예산 전액 소진)] -------> "배포 강제 올스톱! (코드 프리즈)"|
+|                                  신뢰성 버그 수정에 전력투구! |
++--------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 부모님이 아이에게 준 '한 달 지각 허용 쿠폰(43분)'과 같다. 쿠폰이 남아있을 때는 아이(개발팀)가 아침에 늦잠을 자며 아슬아슬하게 뛰어가는 모험(배포)을 할 수 있지만, 쿠폰을 다 쓰는 순간 무조건 일찍 일어나 모범생(시스템 안정성 올인) 모드로 전환해야 하는 철저한 타협 시스템이다.
@@ -109,17 +109,17 @@ SRE와 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requ
 
 ```text
 전통적 ITIL / 시스템 관리자 (SysAdmin) · 매뉴얼 작업, 수동 복구
-    │
-    ▼
+    |
+    v
 데브옵스 (DevOps) · 개발과 운영의 문화적 융합 및 CI/CD 확산
-    │
-    ▼
+    |
+    v
 SRE (Site Reliability Engineering) · 운영을 소프트웨어 엔지니어링으로 코딩화
-    │
-    ▼
+    |
+    v
 SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정
-    │
-    ▼
+    |
+    v
 에러 예산 (Error Budget) · 데이터 기반의 배포 스로틀링(Throttling) 및 신뢰성 통제
 ```
 
@@ -135,7 +135,7 @@ SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정
 
 **진행 상황**: 100 / 973
 
-← **이전**: [99. 지속적 배포 (CD, Continuous Deployment / Delivery)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)
-**다음**: [101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) →
+<- **이전**: [99. 지속적 배포 (CD, Continuous Deployment / Delivery)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)
+**다음**: [101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ->
 
 ---

@@ -125,25 +125,25 @@ void unlock() {
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 임계 구역 (Critical Section) 동기화 전략 결정 플로우       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티코어 환경에서 공유 데이터 보호를 위한 Lock 설계]                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      임계 구역 내부에서 실행되는 코드의 평균 소요 시간이 어떻게 되는가?           │
-  │          ├─ 길다 (> 1ms) ──▶ [Mutex / Semaphore 등 Sleep Lock 필수]  │
-  │          │                   (예: 파일 I/O, 네트워크 통신, 무거운 DB 쿼리)  │
-  │          └─ 매우 짧다 (< 수 마이크로초)                                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      현재 시스템이 싱글 코어(Single Core) 이거나, CPU 할당량이 제한적인가?      │
-  │          ├─ 예 ─────▶ [스핀락 금지 (Deadlock 및 타임슬라이스 낭비 폭발)]  │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Spinlock 적용 가결!]                        │
-  │                         단, Exponential Back-off 나 TTAS 최적화 결합 필수 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 임계 구역 (Critical Section) 동기화 전략 결정 플로우       |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [멀티코어 환경에서 공유 데이터 보호를 위한 Lock 설계]                     |
+  |                |                                                  |
+  |                v                                                  |
+  |      임계 구역 내부에서 실행되는 코드의 평균 소요 시간이 어떻게 되는가?           |
+  |          +- 길다 (> 1ms) ---> [Mutex / Semaphore 등 Sleep Lock 필수]  |
+  |          |                   (예: 파일 I/O, 네트워크 통신, 무거운 DB 쿼리)  |
+  |          +- 매우 짧다 (< 수 마이크로초)                                  |
+  |                |                                                  |
+  |                v                                                  |
+  |      현재 시스템이 싱글 코어(Single Core) 이거나, CPU 할당량이 제한적인가?      |
+  |          +- 예 ------> [스핀락 금지 (Deadlock 및 타임슬라이스 낭비 폭발)]  |
+  |          |                                                        |
+  |          +- 아니오 ---> [Spinlock 적용 가결!]                        |
+  |                         단, Exponential Back-off 나 TTAS 최적화 결합 필수 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자의 가장 큰 착각은 "[스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) = 고성능"이라는 공식이다. [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 아주 특수한 상황(짧은 락, 넉넉한 멀티코어, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경)에서만 허락되는 양날의 검이다. 현대 OS(Linux의 Futex)는 뮤텍스를 구현할 때 "처음엔 잠깐 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 돌아보고, 그래도 안 풀리면 뮤텍스처럼 잠들어버리는(Adaptive [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))" 방식을 채택하여 개발자가 굳이 위험한 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 직접 짜지 않아도 되게 만들어 주었다.
@@ -189,12 +189,12 @@ void unlock() {
 
 ```text
 [뮤텍스 락 (Mutex Lock)]
-    │
-    ▼
+    |
+    v
 [스핀락 바쁜 대기 (Busy Wait)]
-    │
-    ├──▶ [세마포어 P, V 연산]
-    └──▶ [모니터 (Monitor) 동기화 추상화]
+    |
+    +---> [세마포어 P, V 연산]
+    +---> [모니터 (Monitor) 동기화 추상화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -211,7 +211,7 @@ void unlock() {
 
 **진행 상황**: 700 / 800
 
-← **이전**: [699. 뮤텍스 락 (Mutex Lock)](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)
-**다음**: [701. 세마포어 P, V 연산 (Semaphore P V Operations)](/knowledge-base/studynote/02_operating_system/11_exam_summary/701_semaphore_p_v_operations/) →
+<- **이전**: [699. 뮤텍스 락 (Mutex Lock)](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)
+**다음**: [701. 세마포어 P, V 연산 (Semaphore P V Operations)](/knowledge-base/studynote/02_operating_system/11_exam_summary/701_semaphore_p_v_operations/) ->
 
 ---

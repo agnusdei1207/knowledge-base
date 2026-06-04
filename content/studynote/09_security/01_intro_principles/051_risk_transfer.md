@@ -32,24 +32,24 @@ tags = ["studynote-security"]
 위험 전가는 언제 쓰이는가? 위험의 '발생 가능성'과 '피해 규모(영향도)'의 2x2 매트릭스에서 결정된다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix) │
-├────────────────────────────────────────────────────────┤
-│                     │                                  │
-│   피해 규모 (Impact) │            [ 위험 수용 ]          │
-│          ▲          │            (Acceptance)        │
-│          │    낮음  │  무시하고 버팀 (볼펜 도난 수준)        │
-│          │          ├──────────────────────────────────┤
-│          │          │                                  │
-│          │    높음  │  ★★ [ 위험 전가 (Transfer) ] ★★ │
-│          │          │ 보험 가입, 클라우드 아웃소싱으로 떠넘김│
-│          └──────────┼──────────────────────────────────┤
-│                     │      낮음           높음         │
-│                     │ ◀───── 발생 가능성 (Probability) │
-│                                                        │
-│   [ 위험 회피 (Avoidance) ] : 가능성/피해 모두 큼 ──▶ 사업 아예 철수│
-│   [ 위험 감소 (Mitigation) ] : 시스템 해킹 방어 ──▶ 방화벽 등 보안투자│
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix) |
++--------------------------------------------------------+
+|                     |                                  |
+|   피해 규모 (Impact) |            [ 위험 수용 ]          |
+|          ^          |            (Acceptance)        |
+|          |    낮음  |  무시하고 버팀 (볼펜 도난 수준)        |
+|          |          +----------------------------------+
+|          |          |                                  |
+|          |    높음  |  ★★ [ 위험 전가 (Transfer) ] ★★ |
+|          |          | 보험 가입, 클라우드 아웃소싱으로 떠넘김|
+|          +----------+----------------------------------+
+|                     |      낮음           높음         |
+|                     | <------ 발생 가능성 (Probability) |
+|                                                        |
+|   [ 위험 회피 (Avoidance) ] : 가능성/피해 모두 큼 ---> 사업 아예 철수|
+|   [ 위험 감소 (Mitigation) ] : 시스템 해킹 방어 ---> 방화벽 등 보안투자|
++--------------------------------------------------------+
 ```
 
 위험 전가는 <strong>"발생할 확률은 벼락 맞을 정도로 매우 낮지만, 한 번 터지면 회사 기둥뿌리가 뽑히는(피해 규모 매우 높음) 재앙"</strong>에 대한 가장 완벽한 수학적 정답이다. 지진으로 인한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴나, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)로 인한 1,000억 원대 영업 손실이 전가의 핵심 타겟이다.
@@ -109,21 +109,21 @@ tags = ["studynote-security"]
 
 ```text
 정보 시스템의 복잡도 증가 및 제로데이 해킹 공격의 일상화
-    │
-    ▼
+    |
+    v
 기술적 보안 통제(방화벽 등) 비용 폭증 및 100% 방어의 불가능성 인지
-    │
-    ▼
+    |
+    v
 잔여 위험(Residual Risk) 식별 및 위험 평가(Risk Assessment) 매트릭스 도출
-    │
-    ▼
-발생 가능성은 낮으나 치명적 피해를 주는 위험 ──▶ 제3자에게 위험 전가(Transfer) 실행
-    │
-    ▼
+    |
+    v
+발생 가능성은 낮으나 치명적 피해를 주는 위험 ---> 제3자에게 위험 전가(Transfer) 실행
+    |
+    v
 사이버 보험 시장 폭발적 성장 및 클라우드(SaaS/IaaS) 기반의 인프라 책임 공유 모델(Shared Responsibility) 정착
 ```
 
-이 흐름도는 "기술적 방어의 한계 도달 → 재무적 충격에 대한 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 평가 → 보험/아웃소싱을 통한 재무적 방패(전가) 확보"로 귀결되는 정보보안 경영 거버넌스의 진화를 보여준다.
+이 흐름도는 "기술적 방어의 한계 도달 -> 재무적 충격에 대한 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 평가 -> 보험/아웃소싱을 통한 재무적 방패(전가) 확보"로 귀결되는 정보보안 경영 거버넌스의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +137,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 51 / 1108
 
-← **이전**: [이스트-웨스트 트래픽 보안 (East-West Traffic Security)](/knowledge-base/studynote/09_security/01_intro_principles/050_east_west_traffic/)
-**다음**: [52. 위험 완화 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/052_risk_mitigation/) →
+<- **이전**: [이스트-웨스트 트래픽 보안 (East-West Traffic Security)](/knowledge-base/studynote/09_security/01_intro_principles/050_east_west_traffic/)
+**다음**: [52. 위험 완화 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/052_risk_mitigation/) ->
 
 ---

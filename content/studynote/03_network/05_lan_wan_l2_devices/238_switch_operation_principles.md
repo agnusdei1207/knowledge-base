@@ -28,11 +28,11 @@ tags = ["studynote-network"]
 
 ```text
 [충돌 도메인 / 브로드캐스트 도메인]
-    │
-    ▼
+    |
+    v
 [스위치 의 동작 원리]
-    │
-    └──▶ [MAC 주소 테이블]
+    |
+    +---> [MAC 주소 테이블]
 ```
 
 - **📢 섹션 요약 비유**: <strong> 스위치는 들어오는 기차(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)의 행선지 표지판(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)을 보고 0.001초 만에 </strong>"철도 선로([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 방향을 정확히 착! 하고 바꿔주는 철도 신호수"**입니다.
@@ -51,27 +51,27 @@ tags = ["studynote-network"]
 - 따라서 동시에 말을 해도(송수신) 절대 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하지 않는 **전이중(Full-Duplex)** 통신이 완성된다. [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별로 쪼개진 것이다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 허브(Hub) vs 스위치(Switch)                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 허브 (더미) ] - L1 장비                                   │
- │       │                                                     │
- │       ├─▶ (모든 포트로 전기 신호 복사/증폭) Flooding              │
- │       │   (Collision 발생 가능성 극대화)                       │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ L2 스위치 ] - L2 장비                                     │
- │       │     ┌───────── CAM Table ──────────┐                │
- │       │     │ Port 1 : 00:AA:BB:... (PC A) │                │
- │       │     │ Port 3 : 00:CC:DD:... (PC B) │                │
- │       │     └──────────────────────────────┘                │
- │       │                                                     │
- │       └─▶ (MAC 읽고 Port 3으로만 조용히 전달) Switching         │
- │           (Collision 완벽 차단, 전이중 통신)                   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                 허브(Hub) vs 스위치(Switch)                 |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 허브 (더미) ] - L1 장비                                   |
+ |       |                                                     |
+ |       +--> (모든 포트로 전기 신호 복사/증폭) Flooding              |
+ |       |   (Collision 발생 가능성 극대화)                       |
+ |                                                             |
+ | ----------------------------------------------------------- |
+ |                                                             |
+ |   [ L2 스위치 ] - L2 장비                                     |
+ |       |     +--------- CAM Table ----------+                |
+ |       |     | Port 1 : 00:AA:BB:... (PC A) |                |
+ |       |     | Port 3 : 00:CC:DD:... (PC B) |                |
+ |       |     +------------------------------+                |
+ |       |                                                     |
+ |       +--> (MAC 읽고 Port 3으로만 조용히 전달) Switching         |
+ |           (Collision 완벽 차단, 전이중 통신)                   |
+ |                                                             |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>가 모든 파이프가 뻥 뚫려 있어서 어느 한 곳에 물감을 타면 전체 물이 다 오염되는 거대한 </strong>"공용 수영장"**이라면, 스위치는 수많은 파이프에 **"지능형 밸브"**를 달아 내가 원하는 수도꼭지로만 정확히 물을 틀어주는 최첨단 배관 시스템입니다.
@@ -132,12 +132,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 충돌 도메인 / 브로드캐스트 도메인]
-    │
-    ▼
+    |
+    v
 [현재 개념: 스위치 의 동작 원리]
-    │
-    ├──▶ [확장 A: MAC 주소 테이블]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+    |
+    +---> [확장 A: MAC 주소 테이블]
+    +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
 스위치 의 동작 원리는 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 359 / 1120
 
-← **이전**: [237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)
-**다음**: [239. MAC 주소 테이블 (MAC Address Table, CAM Table)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/239_mac_address_table_cam_table/) →
+<- **이전**: [237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)
+**다음**: [239. MAC 주소 테이블 (MAC Address Table, CAM Table)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/239_mac_address_table_cam_table/) ->
 
 ---

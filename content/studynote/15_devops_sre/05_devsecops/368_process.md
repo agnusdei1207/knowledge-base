@@ -30,16 +30,16 @@ ChatGPT 급 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_converge
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              침수 냉각 (2-Phase Immersion) 구조                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [냉각 탱크]                                                     │
-│  서버 + GPU 완전 침지 (유전체 냉각액)                            │
-│  액체 비등 → 증기 → 응축기 → 액체 재순환                        │
-│                                                                  │
-│  PUE = 총 데이터센터 전력 / IT 장비 전력                        │
-│  공랭: PUE 1.4~1.8 / 수냉: 1.1~1.3 / 침수: 1.03~1.1           │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              침수 냉각 (2-Phase Immersion) 구조                  |
++------------------------------------------------------------------+
+|  [냉각 탱크]                                                     |
+|  서버 + GPU 완전 침지 (유전체 냉각액)                            |
+|  액체 비등 -> 증기 -> 응축기 -> 액체 재순환                        |
+|                                                                  |
+|  PUE = 총 데이터센터 전력 / IT 장비 전력                        |
+|  공랭: PUE 1.4~1.8 / 수냉: 1.1~1.3 / 침수: 1.03~1.1           |
++------------------------------------------------------------------+
 ```
 
 | 냉각 방식       | [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 범위    | 랙당 전력  | 주요 적용 대상            |
@@ -83,8 +83,8 @@ Google은 2030년 Carbon-Free Energy 24/7 목표를 선언했다. [Kubernetes](/
 5. [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 2 탄소 보고: PPA (전력구매계약) 또는 REC (재생에너지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서) 확보
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- PUE만 측정하고 WUE(물 소비)·CUE(탄소) 무시 → 불완전한 그린 지표
-- RE100 달성을 위한 REC 구매만으로 [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 2 제로 주장 → 그린워싱
+- PUE만 측정하고 WUE(물 소비)·CUE(탄소) 무시 -> 불완전한 그린 지표
+- RE100 달성을 위한 REC 구매만으로 [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 2 제로 주장 -> 그린워싱
 - 침수 냉각 도입 시 액체 누출 대응 계획 미수립
 
 - 📢 섹션 요약 비유: RE100 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(REC)만 구매하는 그린워싱은, 마라톤에서 중간부터 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타고 완주했다고 주장하는 것과 같다. 실제 탄소 감축은 없고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 있다.
@@ -116,20 +116,20 @@ Google은 2030년 Carbon-Free Energy 24/7 목표를 선언했다. [Kubernetes](/
 
 ```text
 공랭 데이터센터 (PUE 1.5~1.8)
-    │
-    ▼
+    |
+    v
 수냉·자유냉각 도입 (PUE 1.2~1.3)
-    │
-    ▼
+    |
+    v
 침수 냉각 (PUE 1.02~1.1, 고밀도 GPU 필수)
-    │
-    ▼
+    |
+    v
 RE100 + PPA (재생에너지 전력 조달)
-    │
-    ▼
+    |
+    v
 Carbon-Aware Computing (Temporal/Spatial Shifting)
-    │
-    ▼
+    |
+    v
 24/7 Carbon-Free + AI 탄소 자동 최적화
 ```
 
@@ -145,7 +145,7 @@ Carbon-Aware Computing (Temporal/Spatial Shifting)
 
 **진행 상황**: 368 / 373
 
-← **이전**: [367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading](/knowledge-base/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/)
-**다음**: [369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)](/knowledge-base/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) →
+<- **이전**: [367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading](/knowledge-base/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/)
+**다음**: [369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)](/knowledge-base/studynote/15_devops_sre/05_devsecops/369_dlt_bft/) ->
 
 ---

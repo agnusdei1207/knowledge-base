@@ -24,15 +24,15 @@ tags = ["studynote-bigdata"]
 Plotly는 Python 객체를 브라우저에서 동작하는 인터랙티브 Figure 명세로 바꾸고, Dash는 그 Figure를 버튼, 드롭다운, 슬라이더, 테이블과 연결해 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 애플리케이션으로 묶는다. 즉 Plotly가 "차트를 그리는 도구"라면 Dash는 "그 차트를 사용하는 화면과 흐름을 설계하는 도구"다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│         분석 결과를 "공유 가능한 앱"으로 바꾸는 두 단계            │
-├────────────────────────────────────────────────────────────────────┤
-│ Python DataFrame / Query Result                                  │
-│      │                                                            │
-│      ├─ Plotly → 인터랙티브 Figure (줌 · 호버 · 선택)             │
-│      └─ Dash   → Figure + 입력 위젯 + 상태 흐름                   │
-│                         = 브라우저에서 쓰는 데이터 앱             │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|         분석 결과를 "공유 가능한 앱"으로 바꾸는 두 단계            |
++--------------------------------------------------------------------+
+| Python DataFrame / Query Result                                  |
+|      |                                                            |
+|      +- Plotly -> 인터랙티브 Figure (줌 · 호버 · 선택)             |
+|      +- Dash   -> Figure + 입력 위젯 + 상태 흐름                   |
+|                         = 브라우저에서 쓰는 데이터 앱             |
++--------------------------------------------------------------------+
 ```
 
 이 조합이 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 속도와 전달력을 동시에 높이기 때문이다. 분석가는 기존 Python 생태계의 Pandas, NumPy, scikit-learn 결과를 바로 화면으로 연결할 수 있고, 사용자는 정적 보고서가 아니라 직접 탐색 가능한 시각적 인터페이스를 얻게 된다.
@@ -46,23 +46,23 @@ Plotly는 Python 객체를 브라우저에서 동작하는 인터랙티브 Figur
 Plotly/Dash의 핵심은 "차트 렌더링"과 "상태 변화"를 분리하는 데 있다. Plotly는 Figure를 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation) 형태의 선언으로 표현하고, 브라우저 쪽 Plotly.js가 이를 실제 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링한다. Dash는 레이아웃 트리와 콜백 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 정의해, 어떤 입력 변화가 어떤 출력 갱신으로 이어지는지를 Python 함수로 연결한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Dash Reactive Loop                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Browser                                                           │
-│  React Component + Plotly.js Renderer                             │
-│  Dropdown / Slider / Graph / Table                                │
-│          │                                                        │
-│          ▼ input props                                            │
-│ Dash Callback Graph (Python)                                      │
-│  Input ─▶ function ─▶ Output                                      │
-│          │         └▶ State                                       │
-│          │                                                        │
-│          ├─ query / Pandas transform / cache                      │
-│          └─ figure JSON / rows / text 반환                        │
-│          ▼                                                        │
-│ Browser Re-render                                                 │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|                    Dash Reactive Loop                             |
++--------------------------------------------------------------------+
+| Browser                                                           |
+|  React Component + Plotly.js Renderer                             |
+|  Dropdown / Slider / Graph / Table                                |
+|          |                                                        |
+|          v input props                                            |
+| Dash Callback Graph (Python)                                      |
+|  Input --> function --> Output                                      |
+|          |         +-> State                                       |
+|          |                                                        |
+|          +- query / Pandas transform / cache                      |
+|          +- figure JSON / rows / text 반환                        |
+|          v                                                        |
+| Browser Re-render                                                 |
++--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 설계 포인트 |
@@ -165,17 +165,17 @@ Plotly/Dash를 잘 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 ```text
 Python 분석 결과
-    │
-    ▼
+    |
+    v
 Plotly Figure 생성
-    │
-    ▼
+    |
+    v
 Dash Layout + Callback 연결
-    │
-    ├─ 필터 · 드릴다운 · 상태 관리
-    ├─ 캐시 · 백그라운드 작업
-    └─ 인증 · 배포
-    ▼
+    |
+    +- 필터 · 드릴다운 · 상태 관리
+    +- 캐시 · 백그라운드 작업
+    +- 인증 · 배포
+    v
 운영 가능한 인터랙티브 데이터 앱
 ```
 
@@ -193,7 +193,7 @@ Dash Layout + Callback 연결
 
 **진행 상황**: 171 / 262
 
-← **이전**: [170. D3.js (Data-Driven Documents) — JavaScript 커스텀 인터랙티브 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/170_d3js/)
-**다음**: [172. 네트워크 시각화 (Network Visualization)](/knowledge-base/studynote/16_bigdata/08_visualization/172_network_visualization/) →
+<- **이전**: [170. D3.js (Data-Driven Documents) — JavaScript 커스텀 인터랙티브 시각화](/knowledge-base/studynote/16_bigdata/08_visualization/170_d3js/)
+**다음**: [172. 네트워크 시각화 (Network Visualization)](/knowledge-base/studynote/16_bigdata/08_visualization/172_network_visualization/) ->
 
 ---

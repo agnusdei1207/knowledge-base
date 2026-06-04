@@ -22,11 +22,11 @@ tags = ["studynote-computer-architecture"]
 NOR 게이트 SR 래치:
 
 구조:
-  S ──┬──[NOR]── Q
-      │     ↑
-  R ──┼──[NOR]── Q̄
-      │     ↑
-      └─────┘ (피드백)
+  S --+--[NOR]-- Q
+      |     ^
+  R --+--[NOR]-- Q̄
+      |     ^
+      +-----+ (피드백)
 
 진리표:
   S  R  Q(다음)  동작
@@ -36,25 +36,25 @@ NOR 게이트 SR 래치:
   1  1  금지!    불정의 (Forbidden)
 
 NAND 게이트 SR 래치 (액티브 LOW):
-  S̄ ──[NAND]── Q
-  R̄ ──[NAND]── Q̄
+  S̄ --[NAND]-- Q
+  R̄ --[NAND]-- Q̄
 
-  S=0, R=1 → Set (Q=1)
-  S=1, R=0 → Reset (Q=0)
-  S=0, R=0 → 금지! (NAND의 금지 상태)
-  S=1, R=1 → 유지
+  S=0, R=1 -> Set (Q=1)
+  S=1, R=0 -> Reset (Q=0)
+  S=0, R=0 -> 금지! (NAND의 금지 상태)
+  S=1, R=1 -> 유지
 
 SR 래치 동작 원리:
   기억 상태 (S=0, R=0):
   가정: Q=1, Q̄=0
-  Q NOR: S=0, Q̄=0 → 출력 1 ✓ (자기 유지)
-  Q̄ NOR: R=0, Q=1 → 출력 0 ✓ (자기 유지)
-  → 피드백이 상태를 유지!
+  Q NOR: S=0, Q̄=0 -> 출력 1 ✓ (자기 유지)
+  Q̄ NOR: R=0, Q=1 -> 출력 0 ✓ (자기 유지)
+  -> 피드백이 상태를 유지!
 
 금지 상태 (S=1, R=1):
-  Q NOR: S=1 → 출력 무조건 0
-  Q̄ NOR: R=1 → 출력 무조건 0
-  Q=0, Q̄=0 → Q ≠ Q̄ 조건 위반!
+  Q NOR: S=1 -> 출력 무조건 0
+  Q̄ NOR: R=1 -> 출력 무조건 0
+  Q=0, Q̄=0 -> Q ≠ Q̄ 조건 위반!
   이후 S=R=0으로 가면 예측 불가 상태
 ```
 
@@ -71,8 +71,8 @@ SR 래치의 문제: S=R=1 금지 상태
 해결: S와 R을 단일 입력 D로 연결 (R = D̄)
 
 구조:
-  D ──┬──────────────[NOR]── Q
-      └──[NOT]── R ─[NOR]── Q̄
+  D --+--------------[NOR]-- Q
+      +--[NOT]-- R -[NOR]-- Q̄
        S = D
 
 진리표:
@@ -83,24 +83,24 @@ SR 래치의 문제: S=R=1 금지 상태
 
 투명성 (Transparency):
   EN=1인 동안:
-  D 변화 → 즉시 Q 변화
+  D 변화 -> 즉시 Q 변화
   (D가 "투명하게" Q로 전달됨)
 
   EN=0인 순간:
-  D 변화 → Q 무변화 (래치됨)
+  D 변화 -> Q 무변화 (래치됨)
 
 투명성 문제:
   EN 신호 HIGH 구간에 D가 여러 번 변하면?
-  → Q도 여러 번 변함 (글리치)
+  -> Q도 여러 번 변함 (글리치)
 
   조합 논리 루프:
-  래치 Q → 조합 논리 → 래치 D → ...
+  래치 Q -> 조합 논리 -> 래치 D -> ...
   EN=1 동안 루프 발진 가능
 
   vs D 플립플롭:
-  EN=1 전체가 아닌 EN의 에지(↑)에서만 변화
-  → 타이밍 예측 가능
-  → 동기식 설계에 적합
+  EN=1 전체가 아닌 EN의 에지(^)에서만 변화
+  -> 타이밍 예측 가능
+  -> 동기식 설계에 적합
 ```
 
 > 📢 **섹션 요약 비유**: D 래치 투명성 = 유리문 — EN=1(열림): 밖 상황(D) 즉시 보임(Q 변화). EN=0(닫힘): 마지막 상태 유지. 문 열린 동안 변화가 많으면 불안정(글리치 위험)!
@@ -114,7 +114,7 @@ SR 래치의 문제: S=R=1 금지 상태
 
 특성         | 래치          | D 플립플롭
 -------------|---------------|---------------
-트리거 방식  | 레벨 (Level)  | 에지 (Edge ↑/↓)
+트리거 방식  | 레벨 (Level)  | 에지 (Edge ^/v)
 샘플 타이밍  | EN=1 전체 구간| 클럭 에지 순간
 투명성       | 있음          | 없음
 메타스태빌리티| 높음         | 낮음 (에지 설계)
@@ -127,24 +127,24 @@ SR 래치의 문제: S=R=1 금지 상태
 ASIC/SoC에서 래치 적극 활용:
   면적: 래치 ≈ D FF / 2
   전력: 래치 ≈ D FF × 0.6
-  → 모바일 SoC에서 전력 절감에 활용
+  -> 모바일 SoC에서 전력 절감에 활용
 
 Latch-Based Pipeline:
-  전통: D FF → 조합 → D FF
-  래치 기반: 마스터 래치 → 조합 → 슬레이브 래치
+  전통: D FF -> 조합 -> D FF
+  래치 기반: 마스터 래치 -> 조합 -> 슬레이브 래치
 
   이점: 사이클 "빌림(borrowing)" 가능
   단점: 타이밍 분석 복잡
 
 FPGA에서:
   LUT 기반 래치 구현 비효율
-  기본 소자가 D FF → FPGA에선 FF 선호
+  기본 소자가 D FF -> FPGA에선 FF 선호
 
 Latch Inference 경고:
   HDL 설계 시 의도치 않은 래치 생성 주의
 
   Verilog: always 블록에서 일부 조건 미정의
-  → 합성기가 래치로 구현 (경고 발생)
+  -> 합성기가 래치로 구현 (경고 발생)
 ```
 
 > 📢 **섹션 요약 비유**: 래치 vs [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) = 문 vs 카메라 셔터 — 래치는 문 열린 동안 계속 들어옴(레벨). [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 셔터 누르는 순간만(에지). 모바일은 에너지 절약 위해 래치 선호!
@@ -160,26 +160,26 @@ SR 래치 응용:
   기계 스위치는 눌릴 때 여러 번 튐(바운싱)
 
   SPDT 스위치 + NAND SR 래치:
-  스위치 A → S
-  스위치 B → R
+  스위치 A -> S
+  스위치 B -> R
 
   바운싱 동안:
   SR 래치가 최초 전환 후 상태 유지
-  → 깨끗한 단일 전환 신호 생성
+  -> 깨끗한 단일 전환 신호 생성
 
 2. 우선순위 회로:
   인터럽트 신호 래치:
-  여러 인터럽트 소스 → SR 래치
-  처리 완료 → R 신호로 래치 클리어
+  여러 인터럽트 소스 -> SR 래치
+  처리 완료 -> R 신호로 래치 클리어
 
 D 래치 응용:
 
 1. 버스 인터페이스:
-  8비트 데이터 버스 → 8개 D 래치
-  주소 디코더 → EN
+  8비트 데이터 버스 -> 8개 D 래치
+  주소 디코더 -> EN
 
-  특정 주소 접근 시: EN=1 → 데이터 통과
-  → 출력 레지스터에 저장
+  특정 주소 접근 시: EN=1 -> 데이터 통과
+  -> 출력 레지스터에 저장
 
 2. 파이프라인 스테이지 (CPU):
   클럭 HIGH: 마스터 래치 투명 (입력 통과)
@@ -208,20 +208,20 @@ D 래치 응용:
 문제:
   모든 상태 저장 소자를 D FF로 구현
   D FF 수: 5,000,000개
-  전력 소비: FF 클럭 토글 → 동적 전력 주요 원인
+  전력 소비: FF 클럭 토글 -> 동적 전력 주요 원인
 
 래치 기반 최적화:
 
 분석:
   전체 FF 중 40%는 단방향 데이터 흐름
-  → 레벨 트리거 래치로 대체 가능
+  -> 레벨 트리거 래치로 대체 가능
 
 교체 전략:
   Critical Path FF: D FF 유지 (타이밍 중요)
   Non-Critical Path FF: 래치 쌍으로 대체
 
 결과:
-  교체된 FF: 2,000,000개 → 래치
+  교체된 FF: 2,000,000개 -> 래치
 
   면적: -18% (래치 = FF의 약 50% 면적)
   동적 전력: -12% (클럭 토글 감소)
@@ -307,7 +307,7 @@ Latch-Based Pipeline
 
 **진행 상황**: 48 / 803
 
-← **이전**: [047. 레벨 트리거 — Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/)
-**다음**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/) →
+<- **이전**: [047. 레벨 트리거 — Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/)
+**다음**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/) ->
 
 ---

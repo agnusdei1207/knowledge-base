@@ -19,19 +19,19 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│   베어메탈 vs. VM 클라우드 비교                           │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  베어메탈 클라우드:                                       │
-│  [물리 서버] ← 직접 사용 (OS → 하드웨어)                  │
-│                                                         │
-│  VM 클라우드:                                            │
-│  [물리 서버] → [하이퍼바이저] → [VM1][VM2][VM3]          │
-│                                                         │
-│  성능: 베어메탈 > VM (하이퍼바이저 오버헤드 없음)          │
-│  탄력성: VM > 베어메탈 (초 단위 vs. 분~시간 단위)         │
-└─────────────────────────────────────────────────────────┘
++---------------------------------------------------------+
+|   베어메탈 vs. VM 클라우드 비교                           |
++---------------------------------------------------------+
+|                                                         |
+|  베어메탈 클라우드:                                       |
+|  [물리 서버] <- 직접 사용 (OS -> 하드웨어)                  |
+|                                                         |
+|  VM 클라우드:                                            |
+|  [물리 서버] -> [하이퍼바이저] -> [VM1][VM2][VM3]          |
+|                                                         |
+|  성능: 베어메탈 > VM (하이퍼바이저 오버헤드 없음)          |
+|  탄력성: VM > 베어메탈 (초 단위 vs. 분~시간 단위)         |
++---------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 베어메탈은 럭셔리 단독 주택이다. 공동 주택([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))보다 비싸지만 이웃 소음(노이즈 네이버) 없이 집 전체를 혼자 쓴다. 공동 주택은 더 저렴하지만 이웃이 시끄러우면 내 생활이 영향받는다.
@@ -44,14 +44,14 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 1. 사용자 요청 (API/포털)
-        ↓
+        v
 2. 서버 할당 (자동화 인프라 오케스트레이션)
    - IPMI/BMC로 원격 전원·부팅 제어
-   - PXE 부팅 → OS 이미지 자동 설치
-        ↓
+   - PXE 부팅 -> OS 이미지 자동 설치
+        v
 3. 네트워크 설정 (VLAN, 방화벽)
-        ↓
-4. 서버 준비 완료 → 사용자 접근 (10~30분)
+        v
+4. 서버 준비 완료 -> 사용자 접근 (10~30분)
 ```
 
 ### 주요 [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
@@ -83,12 +83,12 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 베어메탈 최적 워크로드
-- **SAP HANA 인메모리 DB**: 수 TB RAM + 빠른 I/O 요구 → 베어메탈 최적.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습 클러스터</strong>: A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(NVLink, [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) → [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 오버헤드 없음.
-- **고빈도 트레이딩(HFT)**: 마이크로초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구 → [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 제거.
+- **SAP HANA 인메모리 DB**: 수 TB RAM + 빠른 I/O 요구 -> 베어메탈 최적.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습 클러스터</strong>: A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(NVLink, [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) -> [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 오버헤드 없음.
+- **고빈도 트레이딩(HFT)**: 마이크로초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구 -> [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 제거.
 
 ### 베어메탈 + [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 조합
-- 베어메탈 서버 위에 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 직접 배포 → 물리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) + [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이점.
+- 베어메탈 서버 위에 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 직접 배포 -> 물리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) + [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이점.
 
 - **📢 섹션 요약 비유**: 베어메탈+Kubernetes는 경기장에 직접 설치된 최고급 음향 시스템이다. 건물 벽([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 없이 공간 전체가 음향 전용으로 최적화되고, 앱([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))은 이 최적 환경을 직접 활용한다.
 
@@ -122,17 +122,17 @@ tags = ["studynote-cloud-architecture"]
 
 ```text
 [전용 물리 서버 — 성능 최고, 탄력성 없음]
-    │
-    ▼
+    |
+    v
 [VM 클라우드 — 탄력성 확보, 성능 일부 손실]
-    │
-    ▼
+    |
+    v
 [베어메탈 클라우드 — 성능 + 클라우드 탄력성]
-    │
-    ▼
+    |
+    v
 [베어메탈 + Kubernetes — 성능 + 컨테이너 오케스트레이션]
-    │
-    ▼
+    |
+    v
 [DPU 기반 베어메탈 — 하드웨어 가속 가상화 기능]
 ```
 
@@ -148,7 +148,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 26 / 371
 
-← **이전**: [26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/026_hci/)
-**다음**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/) →
+<- **이전**: [26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/026_hci/)
+**다음**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/) ->
 
 ---

@@ -22,12 +22,12 @@ tags = ["studynote-ai"]
 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 수백~수천 개의 결정 트리를 [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))으로 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)한 모델이다. 각 트리가 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부트스트랩(Bootstrap) 샘플로 독립 학습하므로 단독 트리보다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 낮다. 이 수백 개 트리에서 "어떤 특성이 분할에 가장 자주, 효과적으로 사용됐는가?"를 종합하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 드러내는 변수 중요도 지도(Feature Importance Map)가 완성된다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 변수 중요도는 "500명의 심사위원(트리)이 매긴 평점 평균"이다. 500명이 각자 심사(분할)할 때 "이 기준(특성)을 쓰면 심사가 훨씬 쉬워졌다"고 투표한 횟수와 효과를 합산한 것이 중요도다.
@@ -37,19 +37,19 @@ tags = ["studynote-ai"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│       MDI (Mean Decrease Impurity) 계산 과정             │
-├──────────────────────────────────────────────────────────┤
-│  for 각 트리 t in 랜덤 포레스트:                        │
-│    for 각 분할 노드 v in 트리 t (특성 j 사용):          │
-│      ΔI(v) = I(부모) - [Nₗ/N·I(왼쪽) + Nᵣ/N·I(오른쪽)]│
-│      → 불순도 감소량 계산                               │
-│                                                          │
-│  특성 j의 중요도:                                       │
-│  VI(j) = (1/|T|) · Σₜ Σᵥ(특성j 사용) ΔI(v) / N(v)     │
-│                                                          │
-│  정규화: VI(j) = VI(j) / Σⱼ VI(j)  (합이 1이 되도록)  │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|       MDI (Mean Decrease Impurity) 계산 과정             |
++----------------------------------------------------------+
+|  for 각 트리 t in 랜덤 포레스트:                        |
+|    for 각 분할 노드 v in 트리 t (특성 j 사용):          |
+|      ΔI(v) = I(부모) - [Nₗ/N·I(왼쪽) + Nᵣ/N·I(오른쪽)]|
+|      -> 불순도 감소량 계산                               |
+|                                                          |
+|  특성 j의 중요도:                                       |
+|  VI(j) = (1/|T|) · Σₜ Σᵥ(특성j 사용) ΔI(v) / N(v)     |
+|                                                          |
+|  정규화: VI(j) = VI(j) / Σⱼ VI(j)  (합이 1이 되도록)  |
++----------------------------------------------------------+
 ```
 
 | 방법 | 계산 방식 | 장점 | 단점 |
@@ -104,7 +104,7 @@ OOB(Out-Of-Bag) 오차: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[데이터 전처리] → [랜덤 포레스트 변수 중요도 (Feature Importance)] → [최적화·운영 자동화]
+[데이터 전처리] -> [랜덤 포레스트 변수 중요도 (Feature Importance)] -> [최적화·운영 자동화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -119,7 +119,7 @@ OOB(Out-Of-Bag) 오차: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_
 
 **진행 상황**: 355 / 420
 
-← **이전**: [354. PCA (Principal Component Analysis)](/knowledge-base/studynote/10_ai/05_data_science_ml/354_pca_covariance/)
-**다음**: [356. 마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/10_ai/05_data_science_ml/356_mahalanobis_distance/) →
+<- **이전**: [354. PCA (Principal Component Analysis)](/knowledge-base/studynote/10_ai/05_data_science_ml/354_pca_covariance/)
+**다음**: [356. 마할라노비스 거리 (Mahalanobis Distance)](/knowledge-base/studynote/10_ai/05_data_science_ml/356_mahalanobis_distance/) ->
 
 ---

@@ -45,12 +45,12 @@ tags = ["studynote-data-engineering"]
 또는 곱셈 분해:
 시계열 = T × S × R
 
-┌────────────────────────────────────────────┐
-│ 트렌드 (Trend)      : 장기 증감 방향        │
-│ 계절성 (Seasonality): 주기적 반복 패턴      │
-│ 주기성 (Cyclicity)  : 불규칙 중기 파동      │
-│ 잔차 (Residual)     : 설명 불가 노이즈      │
-└────────────────────────────────────────────┘
++--------------------------------------------+
+| 트렌드 (Trend)      : 장기 증감 방향        |
+| 계절성 (Seasonality): 주기적 반복 패턴      |
+| 주기성 (Cyclicity)  : 불규칙 중기 파동      |
+| 잔차 (Residual)     : 설명 불가 노이즈      |
++--------------------------------------------+
 
 Python: from statsmodels.tsa.seasonal import seasonal_decompose
 ```
@@ -61,13 +61,13 @@ Python: from statsmodels.tsa.seasonal import seasonal_decompose
 
 ```
 ADF Test (Augmented Dickey-Fuller Test, 확장 디키-풀러 검정):
-─────────────────────────────────────────────────────────────
+-------------------------------------------------------------
 H₀: 단위근 존재 (비정상, Non-Stationary)
 H₁: 단위근 없음 (정상, Stationary)
 
 결과 해석:
-p-value < 0.05 → H₀ 기각 → 정상 시계열
-p-value ≥ 0.05 → 비정상 → 차분(Differencing) 적용
+p-value < 0.05 -> H₀ 기각 -> 정상 시계열
+p-value ≥ 0.05 -> 비정상 -> 차분(Differencing) 적용
 
 차분(Differencing):
   1차 차분: Yₜ' = Yₜ - Yₜ₋₁     (트렌드 제거)
@@ -79,10 +79,10 @@ p-value ≥ 0.05 → 비정상 → 차분(Differencing) 적용
 
 ```
 ARIMA(p, d, q) 구성:
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 AR (AutoRegressive, 자기회귀, p):
   Yₜ = c + φ₁Yₜ₋₁ + φ₂Yₜ₋₂ + ... + φₚYₜ₋ₚ + εₜ
-  → 과거 p개 자신의 값으로 현재 예측
+  -> 과거 p개 자신의 값으로 현재 예측
 
 I  (Integrated, 누적, d):
   d번 차분하여 정상성 확보
@@ -90,13 +90,13 @@ I  (Integrated, 누적, d):
 
 MA (Moving Average, 이동평균, q):
   Yₜ = c + εₜ + θ₁εₜ₋₁ + θ₂εₜ₋₂ + ... + θqεₜ₋q
-  → 과거 q개 오차항으로 현재 보정
-────────────────────────────────────────────────────────
+  -> 과거 q개 오차항으로 현재 보정
+--------------------------------------------------------
 
 파라미터 선택:
-  ACF (AutoCorrelation Function, 자기상관함수) → q 결정
-  PACF (Partial ACF, 편자기상관함수)           → p 결정
-  AIC/BIC 최소화                               → 최적 (p,d,q) 탐색
+  ACF (AutoCorrelation Function, 자기상관함수) -> q 결정
+  PACF (Partial ACF, 편자기상관함수)           -> p 결정
+  AIC/BIC 최소화                               -> 최적 (p,d,q) 탐색
 ```
 
 | 모델 | 설명 | 사용 시점 |
@@ -121,16 +121,16 @@ MA (Moving Average, 이동평균, q):
 ? = 예측 대상 (빈 칸 채우기 = 추천)
 
 방법 1: 사용자 기반 (User-Based CF)
-  → "사용자1과 유사한 사용자가 좋아한 것 추천"
-  → 유사도: 코사인 유사도, 피어슨 상관
+  -> "사용자1과 유사한 사용자가 좋아한 것 추천"
+  -> 유사도: 코사인 유사도, 피어슨 상관
 
 방법 2: 아이템 기반 (Item-Based CF)
-  → "사용자가 좋아한 영화와 유사한 영화 추천"
-  → Amazon 초기 추천 시스템에서 사용
+  -> "사용자가 좋아한 영화와 유사한 영화 추천"
+  -> Amazon 초기 추천 시스템에서 사용
 
 방법 3: 행렬 분해 (Matrix Factorization)
-  → R ≈ P × Qᵀ   (SVD, ALS, SGD)
-  → 희소 행렬에서도 잠재 요인(Latent Factor) 추출
+  -> R ≈ P × Qᵀ   (SVD, ALS, SGD)
+  -> 희소 행렬에서도 잠재 요인(Latent Factor) 추출
 ```
 
 | 방법 | 장점 | 단점 |
@@ -161,16 +161,16 @@ MA (Moving Average, 이동평균, q):
 
 ```
 콜드 스타트 유형 및 해결:
-────────────────────────────────────────────────────────
+--------------------------------------------------------
 신규 사용자 콜드 스타트:
-  → 온보딩 시 명시적 선호 수집 (별점·장르 선택)
-  → 인기도 기반 추천 (Popular Items)
-  → 콘텐츠 기반 필터링 병행
+  -> 온보딩 시 명시적 선호 수집 (별점·장르 선택)
+  -> 인기도 기반 추천 (Popular Items)
+  -> 콘텐츠 기반 필터링 병행
 
 신규 아이템 콜드 스타트:
-  → 메타데이터 기반 콘텐츠 유사도 계산
-  → 하이브리드 추천 (CB + CF 결합)
-────────────────────────────────────────────────────────
+  -> 메타데이터 기반 콘텐츠 유사도 계산
+  -> 하이브리드 추천 (CB + CF 결합)
+--------------------------------------------------------
 ```
 
 📢 **섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 "새 학교에 전학 온 학생에게 친구를 소개해 주는 것"이다. 아직 친구 기록이 없으니 "관심사 설문(콘텐츠 기반)"으로 첫 소개를 시작한다.
@@ -185,15 +185,15 @@ MA (Moving Average, 이동평균, q):
 [데이터] 3년간 월별 의류 판매량 (36 관측치)
 
 [전처리]
-① 시계열 분해 → 강한 계절성(12개월 주기) 확인
-② ADF Test: p = 0.34 → 비정상
-③ 1차 차분 → ADF: p = 0.01 → 정상화
+① 시계열 분해 -> 강한 계절성(12개월 주기) 확인
+② ADF Test: p = 0.34 -> 비정상
+③ 1차 차분 -> ADF: p = 0.01 -> 정상화
 
 [모델 선택]
-ACF, PACF 분석 → SARIMA(1,1,1)(1,1,1)₁₂
+ACF, PACF 분석 -> SARIMA(1,1,1)(1,1,1)₁₂
 
 [평가]
-RMSE = 245, MAPE = 4.2% → 예측 오차 4.2%
+RMSE = 245, MAPE = 4.2% -> 예측 오차 4.2%
 다음 6개월 재고 주문 계획 수립에 활용
 ```
 
@@ -241,7 +241,7 @@ ARIMA와 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data
 |:---|:---|:---|
 | 전처리 | [Stationarity](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/) (정상성) | 평균·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시간 불변 |
 | 전처리 | [ADF Test](/knowledge-base/studynote/06_ict_convergence/05_data_science/343_stationarity_adf_test/) (디키-풀러 검정) | 단위근 검정 |
-| 전처리 | Differencing (차분) | 비정상 → 정상 변환 |
+| 전처리 | Differencing (차분) | 비정상 -> 정상 변환 |
 | 모델 | AR ([AutoRegressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) | 과거 자신의 값 이용 |
 | 모델 | MA (Moving Average) | 과거 오차 이용 |
 | 모델 | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) (p,d,q) | AR+I+MA 통합 모델 |
@@ -261,17 +261,17 @@ ARIMA와 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data
 
 ```text
 이동 평균 · 지수 평활법 (단순 예측)
-    │
-    ▼
+    |
+    v
 ARIMA(p,d,q): 자기회귀 + 차분 + 이동평균
-    ├─► 정상성 변환: ADF 검정 · 차분(d)
-    └─► SARIMA: 계절성 패턴 반영
-    │
-    ▼
+    +-► 정상성 변환: ADF 검정 · 차분(d)
+    +-► SARIMA: 계절성 패턴 반영
+    |
+    v
 Prophet (Facebook) · DeepAR (Amazon) · Temporal Fusion Transformer
-    │
-    ▼
-협업 필터링: 사용자-아이템 행렬 → 추천 시스템
+    |
+    v
+협업 필터링: 사용자-아이템 행렬 -> 추천 시스템
 ```
 2. [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) 추천은 "나와 같은 책을 읽은 사람들이 다음에 읽은 책을 나에게 추천"하는 것으로, 직접 물어보지 않아도 취향을 알 수 있다.
 3. [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 문제는 "아직 아무 책도 읽지 않은 신규 회원에게 추천하기 어렵다"는 것이고, 이를 해결하려면 처음에 좋아하는 장르를 물어보는 방법을 쓴다.
@@ -282,7 +282,7 @@ Prophet (Facebook) · DeepAR (Amazon) · Temporal Fusion Transformer
 
 **진행 상황**: 229 / 258
 
-← **이전**: [228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/228_pca_lda_tsne_dimensionality_reduction/)
-**다음**: [230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) →
+<- **이전**: [228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/228_pca_lda_tsne_dimensionality_reduction/)
+**다음**: [230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ->
 
 ---

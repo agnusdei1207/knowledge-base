@@ -33,11 +33,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 Physical HW
-   ▲
-   │
+   ^
+   |
 Hypervisor (VMM)
-   ├─ VM1 → Guest OS → Apps
-   └─ VM2 → Guest OS → Apps
+   +- VM1 -> Guest OS -> Apps
+   +- VM2 -> Guest OS -> Apps
 ```
 
 | 기능 | 역할 | 포인트 |
@@ -116,14 +116,14 @@ Type 1은 하드웨어 위에서 직접 동작하고, Type 2는 호스트 OS 위
 
 ```text
 물리 서버
-    │
-    ▼
+    |
+    v
 하이퍼바이저
-    │
-    ▼
+    |
+    v
 가상 머신
-    │
-    ▼
+    |
+    v
 클라우드 / 멀티테넌시
 ```
 
@@ -141,7 +141,7 @@ Type 1은 하드웨어 위에서 직접 동작하고, Type 2는 호스트 OS 위
 
 **진행 상황**: 54 / 800
 
-← **이전**: [53. 가상화 아키텍처 (Virtualization Architecture)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/)
-**다음**: [55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/055_bare_metal_hypervisor/) →
+<- **이전**: [53. 가상화 아키텍처 (Virtualization Architecture)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/)
+**다음**: [55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/055_bare_metal_hypervisor/) ->
 
 ---

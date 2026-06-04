@@ -34,16 +34,16 @@ tags = ["studynote-it-management"]
 인스펙션은 아무나 모여 문서를 읽는 회의가 아니다. 저자, 사회자, 인스펙터, 기록자가 역할을 나누고, 계획부터 후속 조치까지 정해진 흐름을 따른다. 이 구조 덕분에 회의가 의견 대립이나 설계 토론으로 흐르지 않고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 활동에 집중될 수 있다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   인스펙션의 표준 흐름: 준비된 결함 탐지            │
-├──────────────────────────────────────────────────────────────────────┤
-│  1. 계획 (Planning)        : 대상, 일정, 참여자 선정                │
-│  2. 개요 설명 (Overview)   : 저자가 목적과 맥락 설명                │
-│  3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토   │
-│  4. 회의 (Meeting)         : 결함 식별·분류·기록                    │
-│  5. 수정 (Rework)          : 저자가 결함 수정                       │
-│  6. 후속 조치 (Follow-up)  : 사회자가 수정 완료 확인                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                   인스펙션의 표준 흐름: 준비된 결함 탐지            |
++----------------------------------------------------------------------+
+|  1. 계획 (Planning)        : 대상, 일정, 참여자 선정                |
+|  2. 개요 설명 (Overview)   : 저자가 목적과 맥락 설명                |
+|  3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토   |
+|  4. 회의 (Meeting)         : 결함 식별·분류·기록                    |
+|  5. 수정 (Rework)          : 저자가 결함 수정                       |
+|  6. 후속 조치 (Follow-up)  : 사회자가 수정 완료 확인                |
++----------------------------------------------------------------------+
 ```
 
 | 역할 | 책임 | 핵심 주의점 |
@@ -97,7 +97,7 @@ tags = ["studynote-it-management"]
 - 너무 큰 문서를 한 번에 검토해 집중력이 무너지는 경우
 - [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 없이 경험만 믿고 검토하는 경우
 
-실무 판단의 핵심은 "형식만 공식적"인 회의를 피하는 것이다. 준비와 기록, 후속 조치가 빠지면 인스펙션은 이름만 남은 회의가 된다. 기술사 답안에서는 보통 **정의 → 역할/절차 → 다른 리뷰와의 차이 → 적용 시 유의점** 순서로 정리하면 설득력이 높다.
+실무 판단의 핵심은 "형식만 공식적"인 회의를 피하는 것이다. 준비와 기록, 후속 조치가 빠지면 인스펙션은 이름만 남은 회의가 된다. 기술사 답안에서는 보통 **정의 -> 역할/절차 -> 다른 리뷰와의 차이 -> 적용 시 유의점** 순서로 정리하면 설득력이 높다.
 
 - **📢 섹션 요약 비유**: 인스펙션을 잘 운영하는 것은 회의를 많이 하는 것이 아니라, 검사표와 기록표를 들고 정말 필요한 곳을 정확히 점검하는 것과 같다. 형식만 남으면 바쁜데도 품질은 안 오른다.
 
@@ -130,17 +130,17 @@ tags = ["studynote-it-management"]
 
 ```text
 품질 관리 (QA vs QC)
-    │
-    ▼
+    |
+    v
 인스펙션 (Inspection)
-    │
-    ▼
+    |
+    v
 워크스루 (Walkthrough) · 동료 검토 (Peer Review)
-    │
-    ▼
+    |
+    v
 TDD (Test Driven Development) · BDD (Behavior Driven Development) 기반 실행 전/후 품질 강화
-    │
-    ▼
+    |
+    v
 CI/CD 파이프라인과 형상 관리로 지속 검증
 ```
 
@@ -158,7 +158,7 @@ CI/CD 파이프라인과 형상 관리로 지속 검증
 
 **진행 상황**: 275 / 587
 
-← **이전**: [160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/)
-**다음**: [162. 워크스루 (Walkthrough, 비공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) →
+<- **이전**: [160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/)
+**다음**: [162. 워크스루 (Walkthrough, 비공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) ->
 
 ---

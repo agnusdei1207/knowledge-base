@@ -29,11 +29,11 @@ tags = ["studynote-network"]
 
 ```text
 [버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    ▼
+    |
+    v
 [식별자, 플래그, 단편화 오프셋]
-    │
-    └──▶ [DF 비트 / MF 비트]
+    |
+    +---> [DF 비트 / MF 비트]
 ```
 
 - **📢 섹션 요약 비유**: ** 두 번째 줄은 도축업자(라우터)가 소 한 마리를 3등분으로 썰어서 부위별로 포장할 때, 나중에 식당 주인이 다시 온전한 소 한 마리로 꿰맬 수 있도록 뼈마다 **"원래 위치 좌표(Offset)와 원래 소의 이름(ID)"을 마커로 적어주는 잔인하지만 친절한 시스템**입니다.
@@ -56,26 +56,26 @@ tags = ["studynote-network"]
 - 크기 공간이 13비트밖에 안 돼서 1바이트 단위로 적을 수가 없으므로, <strong>항상 8바이트 단위</strong>로 나누어 적는다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                4000바이트 패킷의 3단 분리 시나리오 (MTU 1500)   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 원본 패킷 ] ID: 99 / MF: 0 / Offset: 0                    │
- │                                                             │
- │     ===== 라우터가 3조각으로 가차 없이 찢어버림! =====               │
- │                                                             │
- │   [ 1번 조각 ] ID: 99 / MF: 1 (뒤에 더 있음) / Offset: 0        │
- │              (0 ~ 1479 바이트 데이터 담김)                      │
- │                                                             │
- │   [ 2번 조각 ] ID: 99 / MF: 1 (뒤에 더 있음) / Offset: 185      │
- │              (185 * 8 = 1480. 즉 1480바이트부터 1480개 담김)   │
- │                                                             │
- │   [ 3번 조각 ] ID: 99 / MF: 0 (내가 꼬리 끝!) / Offset: 370      │
- │              (370 * 8 = 2960. 2960바이트부터 나머지 다 담김)   │
- │                                                             │
- │   ▶ 도착지 PC는 ID 99번 바구니에 3개를 모은 뒤, MF=0이 올 때까지 기다 │
- │      렸다가 Offset 0, 185, 370 순서대로 풀로 이어 붙인다!         │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                4000바이트 패킷의 3단 분리 시나리오 (MTU 1500)   |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 원본 패킷 ] ID: 99 / MF: 0 / Offset: 0                    |
+ |                                                             |
+ |     ===== 라우터가 3조각으로 가차 없이 찢어버림! =====               |
+ |                                                             |
+ |   [ 1번 조각 ] ID: 99 / MF: 1 (뒤에 더 있음) / Offset: 0        |
+ |              (0 ~ 1479 바이트 데이터 담김)                      |
+ |                                                             |
+ |   [ 2번 조각 ] ID: 99 / MF: 1 (뒤에 더 있음) / Offset: 185      |
+ |              (185 * 8 = 1480. 즉 1480바이트부터 1480개 담김)   |
+ |                                                             |
+ |   [ 3번 조각 ] ID: 99 / MF: 0 (내가 꼬리 끝!) / Offset: 370      |
+ |              (370 * 8 = 2960. 2960바이트부터 나머지 다 담김)   |
+ |                                                             |
+ |   -> 도착지 PC는 ID 99번 바구니에 3개를 모은 뒤, MF=0이 올 때까지 기다 |
+ |      렸다가 Offset 0, 185, 370 순서대로 풀로 이어 붙인다!         |
+ +-------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ** 라우터는 프라모델 박스(패킷)를 억지로 3동강 내면서, 각 동강의 표지에 **"이건 건담 모델(ID 99)이고, 내 뒤에 조각 더 있고(MF 1), 이건 몸통 부분(Offset 185)이다"**라고 견출지를 붙여주는 완벽한 파쇄 분배 시스템입니다.
@@ -136,12 +136,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    ▼
+    |
+    v
 [현재 개념: 식별자, 플래그, 단편화 오프셋]
-    │
-    ├──▶ [확장 A: DF 비트 / MF 비트]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: DF 비트 / MF 비트]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 식별자, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 헤더 길이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입, 전체 길이에서 출발해 현재 메커니즘을 정교화하고, 이후 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -158,7 +158,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 410 / 1120
 
-← **이전**: [288. 버전 (IV), 헤더 길이 (IHL), 서비스 타입 (TOS/DSCP), 전체 길이 (Total Length)](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)
-**다음**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/knowledge-base/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/) →
+<- **이전**: [288. 버전 (IV), 헤더 길이 (IHL), 서비스 타입 (TOS/DSCP), 전체 길이 (Total Length)](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)
+**다음**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/knowledge-base/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/) ->
 
 ---

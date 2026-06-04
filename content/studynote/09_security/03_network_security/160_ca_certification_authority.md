@@ -36,19 +36,19 @@ CA는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_
 아래 그림은 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 함께 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│               CA 기반 인증서 발급·검증 흐름                        │
-├────────────────────────────────────────────────────────────────────┤
-│ [Issuance]                                                         │
-│ Subject -> CSR 제출 -> RA 신원 확인 -> Intermediate CA 서명       │
-│                                                                    │
-│ [Validation]                                                       │
-│ Browser trust store -> Root CA -> Intermediate CA -> Server Cert   │
-│                                                │                   │
-│                                                └-> CRL/OCSP 확인   │
-│                                                                    │
-│ Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|               CA 기반 인증서 발급·검증 흐름                        |
++--------------------------------------------------------------------+
+| [Issuance]                                                         |
+| Subject -> CSR 제출 -> RA 신원 확인 -> Intermediate CA 서명       |
+|                                                                    |
+| [Validation]                                                       |
+| Browser trust store -> Root CA -> Intermediate CA -> Server Cert   |
+|                                                |                   |
+|                                                +-> CRL/OCSP 확인   |
+|                                                                    |
+| Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"         |
++--------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 신뢰가 단일 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 한 장에서 나오지 않는다는 점이다. 클라이언트는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효기간, 서명 체인, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 일치 여부, 폐기 상태를 함께 본다. 루트 CA는 보통 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 브라우저의 신뢰 저장소에 탑재되어 있고, 중간 CA가 실제 대량 발급을 수행한다. 루트 키를 오프라인에 가깝게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 중간 CA를 분리하는 이유도 여기에 있다.
@@ -132,16 +132,16 @@ CA가 잘 운영되면, 서로 처음 만나는 주체 사이에도 빠른 신�
 
 ```text
 자체 서명 인증서
-    │
-    ▼
+    |
+    v
 공용/사설 CA 체계 확립
-    │
-    ├─ Root CA
-    ├─ Intermediate CA
-    ├─ X.509 인증서
-    └─ CRL / OCSP
-    │
-    ▼
+    |
+    +- Root CA
+    +- Intermediate CA
+    +- X.509 인증서
+    +- CRL / OCSP
+    |
+    v
 ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영
 ```
 
@@ -159,7 +159,7 @@ ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영
 
 **진행 상황**: 213 / 1108
 
-← **이전**: [159. PKI (Public Key Infrastructure) — 공개키 인증서 체계](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)
-**다음**: [161. RA (Registration Authority) — 인증 요청 검증/승인](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) →
+<- **이전**: [159. PKI (Public Key Infrastructure) — 공개키 인증서 체계](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)
+**다음**: [161. RA (Registration Authority) — 인증 요청 검증/승인](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) ->
 
 ---

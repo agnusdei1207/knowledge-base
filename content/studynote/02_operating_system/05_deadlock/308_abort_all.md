@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-교착 탐지기([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))가 삐용삐용 울며 `P1→P2→P3→P4` 4놈이 교차로에서 둥글게 원형 대기(Cycle)로 알박기 중인 사실을 적발했다고 치자.
+교착 탐지기([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))가 삐용삐용 울며 `P1->P2->P3->P4` 4놈이 교차로에서 둥글게 원형 대기(Cycle)로 알박기 중인 사실을 적발했다고 치자.
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 명령을 내린다.
 이때 OS가 고를 수 있는 가장 터프한 `해결책 루트 A`가 바로 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 연루자 전원 사살 (Abort All)"</strong>이다.
@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 길거리에 4명이 서로 멱살을 잡고 데드락에 빠져 무한 정지 상태에 빠졌다. 경찰(OS)이 와서 누가 잘못했나 CCTV를 보는 대신(연산 로직), 수류탄을 하나 까서 4명 사이에 던져버린다. 4명 다 증발한다. 길거리엔 구경하던 사람들만 남아 여유롭게 길을 지나간다(교착 완전 해방).
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         Abort All (전체 강제 종료)의 스펙타클한 파괴력         │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [상황 전개 전]                                                │
-│  P1 (90% 완료), P2 (50% 완료), P3 (10% 완료)                   │
-│  이 셋이 단 하나 남은 프린터와 블록 때문에 원형대기(Cycle) 됨. │
-│                                                                │
-│  [OS 사령관의 복구 판단 (Abort All 채택!)]                     │
-│  "계산기 치워! 싹 다 날려!!"                                   │
-│                                                                │
-│  [상황 종료 후의 핏빛 결과]                                    │
-│  1. P1: 메모리 강제 반환 (90% 완료한 12시간짜리 작업 증발)     │
-│  2. P2: 메모리 강제 반환 (파일 반쯤 쓰다 개박살남)             │
-│  3. P3: 즉사                                                   │
-│  ▶ 데드락 사이클 고리는 100% 끊어지고 시스템은 살아났으나,     │
-│     시스템 자원 낭비(매몰 비용 파괴)라는 치명적 부상을 입음.   │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         Abort All (전체 강제 종료)의 스펙타클한 파괴력         |
++----------------------------------------------------------------+
+|                                                                |
+|  [상황 전개 전]                                                |
+|  P1 (90% 완료), P2 (50% 완료), P3 (10% 완료)                   |
+|  이 셋이 단 하나 남은 프린터와 블록 때문에 원형대기(Cycle) 됨. |
+|                                                                |
+|  [OS 사령관의 복구 판단 (Abort All 채택!)]                     |
+|  "계산기 치워! 싹 다 날려!!"                                   |
+|                                                                |
+|  [상황 종료 후의 핏빛 결과]                                    |
+|  1. P1: 메모리 강제 반환 (90% 완료한 12시간짜리 작업 증발)     |
+|  2. P2: 메모리 강제 반환 (파일 반쯤 쓰다 개박살남)             |
+|  3. P3: 즉사                                                   |
+|  -> 데드락 사이클 고리는 100% 끊어지고 시스템은 살아났으나,     |
+|     시스템 자원 낭비(매몰 비용 파괴)라는 치명적 부상을 입음.   |
++----------------------------------------------------------------+
 ```
 
 **📢 섹션 요약 비유**: Abort All [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식은 집에 쥐(데드락)가 나타났을 때, 쥐덫(세밀한 타깃팅)을 놓는 게 아니라 귀찮다며 집에다 수류탄(전체 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화)을 던져버리는 방식입니다. 쥐는 확실히 잡히지만 내 화장대([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 날아갑니다.
@@ -70,7 +70,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 스펙트럼 | Abort All (전원 사살) | Abort One-by-One (순차 사살) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 연산 오버헤드</strong> | 단칼 1방 (1나노초 비용) | 1명 죽이고 탐지 또 돌림 (O(n²) 뺑뺑이) |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 연산 오버헤드</strong> | 단칼 1방 (1나노초 비용) | 1명 죽이고 탐지 또 돌림 (O(n^) 뺑뺑이) |
 | **비용(Cost) 낭비율** | 끔찍함 (애꿎은 정상 작업분까지 다 폭파됨) | 최적의 1놈만 최소 희생양으로 바침 |
 | **데드락 해결 속도** | 체감이 불가할 만큼 빠름 | 누구 죽일지 계산하느라 렉 걸림 |
 
@@ -117,12 +117,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [교착 상태 복구 (Recovery from Deadlock)]
-    │
-    ▼
+    |
+    v
 [프로세스 종료 방식]
-    │
-    ├──▶ [프로세스 순차 종료 방식]
-    └──▶ [종료 대상 선택 (희생자 선택) 기준]
+    |
+    +---> [프로세스 순차 종료 방식]
+    +---> [종료 대상 선택 (희생자 선택) 기준]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -139,7 +139,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 308 / 800
 
-← **이전**: [307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)
-**다음**: [309. 프로세스 순차 종료 방식 (Abort One By One)](/knowledge-base/studynote/02_operating_system/05_deadlock/309_abort_one_by_one/) →
+<- **이전**: [307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)
+**다음**: [309. 프로세스 순차 종료 방식 (Abort One By One)](/knowledge-base/studynote/02_operating_system/05_deadlock/309_abort_one_by_one/) ->
 
 ---

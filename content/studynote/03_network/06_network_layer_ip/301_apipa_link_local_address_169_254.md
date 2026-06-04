@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [루프백 IP]
-    │
-    ▼
+    |
+    v
 [APIPA / 링크 로컬 주소]
-    │
-    └──▶ [브로드캐스트 주소]
+    |
+    +---> [브로드캐스트 주소]
 ```
 
 - **📢 섹션 요약 비유**: <strong> <code>169.254.x.x</code>는 식당에서 주문(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 요청)을 했는데 종업원이 안 오자, 손님이 </strong>"에잇! 내가 주방 가서 대충 컵라면(임시 IP) 끓여 먹고 말지!"**라며 임시방편으로 배를 채우는(랜 통신) 생존 본능입니다.
@@ -50,25 +50,25 @@ tags = ["studynote-network"]
 - 즉, 같은 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 허브나 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(같은 Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 꽂힌 PC들끼리만 스타크래프트 로컬 게임이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유가 가능할 뿐, 네이버나 구글로는 절대 갈 수 없다.
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                APIPA를 만났을 때의 현실 트러블슈팅(T/S)          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황 ] 인터넷이 안 돼서 명령 프롬프트에 `ipconfig`를 쳤다.         │
- │                                                             │
- │   IPv4 주소 . . . . . . . . . : 169.254.85.123              │
- │   서브넷 마스크 . . . . . . . : 255.255.0.0                  │
- │   기본 게이트웨이 . . . . . . : (비어 있음)                    │
- │                                                             │
- │   [ 엔지니어의 뇌 구조 (원인 추적) ]                               │
- │   1. "앗 169.254네! DHCP 서버가 죽었구나!"                       │
- │   2. (벽 랜 단자 점검) "랜선이 딸깍 안 꽂혀있나?"                    │
- │   3. (스위치 점검) "사무실 스위치 포트가 죽었나?"                    │
- │   4. (DHCP 서버 점검) "공유기 전원이 꺼졌나? DHCP 풀이 꽉 찼나?"      │
- │                                                             │
- │   ▶ 결과: "내 PC가 이상한 IP를 잡았어"가 아니라 "내 PC가 IP를      │
- │           못 받고 비상 모드에 들어갔어"라고 해석해야 한다!            │
- └─────────────────────────────────────────────────────────────┘
+ +-------------------------------------------------------------+
+ |                APIPA를 만났을 때의 현실 트러블슈팅(T/S)          |
+ +-------------------------------------------------------------+
+ |                                                             |
+ |   [ 상황 ] 인터넷이 안 돼서 명령 프롬프트에 `ipconfig`를 쳤다.         |
+ |                                                             |
+ |   IPv4 주소 . . . . . . . . . : 169.254.85.123              |
+ |   서브넷 마스크 . . . . . . . : 255.255.0.0                  |
+ |   기본 게이트웨이 . . . . . . : (비어 있음)                    |
+ |                                                             |
+ |   [ 엔지니어의 뇌 구조 (원인 추적) ]                               |
+ |   1. "앗 169.254네! DHCP 서버가 죽었구나!"                       |
+ |   2. (벽 랜 단자 점검) "랜선이 딸깍 안 꽂혀있나?"                    |
+ |   3. (스위치 점검) "사무실 스위치 포트가 죽었나?"                    |
+ |   4. (DHCP 서버 점검) "공유기 전원이 꺼졌나? DHCP 풀이 꽉 찼나?"      |
+ |                                                             |
+ |   -> 결과: "내 PC가 이상한 IP를 잡았어"가 아니라 "내 PC가 IP를      |
+ |           못 받고 비상 모드에 들어갔어"라고 해석해야 한다!            |
+ +-------------------------------------------------------------+
 ```
 
 ### 3. IPv6의 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) (`fe80::`)
@@ -132,12 +132,12 @@ APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_l
 
 ```text
 [선행 개념: 루프백 IP]
-    │
-    ▼
+    |
+    v
 [현재 개념: APIPA / 링크 로컬 주소]
-    │
-    ├──▶ [확장 A: 브로드캐스트 주소]
-    └──▶ [확장 B: 대규모 주소 자동화]
+    |
+    +---> [확장 A: 브로드캐스트 주소]
+    +---> [확장 B: 대규모 주소 자동화]
 ```
 
 APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)는 루프백 IP에서 출발해 현재 메커니즘을 정교화하고, 이후 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -154,7 +154,7 @@ APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_l
 
 **진행 상황**: 422 / 1120
 
-← **이전**: [300. 루프백 IP (Loopback IP)](/knowledge-base/studynote/03_network/06_network_layer_ip/300_loopback_ip_127_0_0_1_localhost/)
-**다음**: [302. 브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/) →
+<- **이전**: [300. 루프백 IP (Loopback IP)](/knowledge-base/studynote/03_network/06_network_layer_ip/300_loopback_ip_127_0_0_1_localhost/)
+**다음**: [302. 브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/) ->
 
 ---

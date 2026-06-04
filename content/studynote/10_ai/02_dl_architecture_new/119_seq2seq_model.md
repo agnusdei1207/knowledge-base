@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Seq2Seq은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a> RNN이 입력 시퀀스를 고정 길이 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">컨텍스트 벡터</a>로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하고, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> RNN이 이 벡터를 기반으로 출력 시퀀스를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처이다.
-> 2. **가치**: 입력과 출력의 **길이가 다른** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(기계 번역: "I love you" → "나는 너를 사랑해", 요약, 챗봇)에 최적이며, 이전 RNN은 입력=출력 길이가 같아야 했다.
+> 2. **가치**: 입력과 출력의 **길이가 다른** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(기계 번역: "I love you" -> "나는 너를 사랑해", 요약, 챗봇)에 최적이며, 이전 RNN은 입력=출력 길이가 같아야 했다.
 > 3. **판단 포인트**: [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)가 <strong>고정 길이(병목)</strong>이므로 긴 입력에서 정보 손실이 발생하며, 이를 해결한 것이 **Attention 메커니즘**(Bahdanau, 2014)이고, 최종 진화가 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong>(2017)이다.
 
 ---
@@ -19,19 +19,19 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    Seq2Seq 아키텍처                                   │
-├───────────────────────────────────────────────────────┤
-│  [인코더]                  [디코더]                    │
-│   I → h1 → love → h2 → you → h3                     │
-│                              │                        │
-│                         Context Vector (c)            │
-│                              │                        │
-│                    <SOS> → 나는 → 너를 → 사랑해 → <EOS>│
-│                                                       │
-│  문제: c가 고정 길이 → 긴 문장에서 정보 손실!        │
-│  해결: Attention → c 대신 모든 h_i를 가중 참조       │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    Seq2Seq 아키텍처                                   |
++-------------------------------------------------------+
+|  [인코더]                  [디코더]                    |
+|   I -> h1 -> love -> h2 -> you -> h3                     |
+|                              |                        |
+|                         Context Vector (c)            |
+|                              |                        |
+|                    <SOS> -> 나는 -> 너를 -> 사랑해 -> <EOS>|
+|                                                       |
+|  문제: c가 고정 길이 -> 긴 문장에서 정보 손실!        |
+|  해결: Attention -> c 대신 모든 h_i를 가중 참조       |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 통역사가 영어 문장을 듣고 메모([컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/))하는 것이고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 메모를 보고 한국어로 말하는 것이다. 메모가 한 줄(고정 길이)이면 긴 문장은 다 못 적는다.
@@ -44,8 +44,8 @@ tags = ["studynote-ai"]
 
 | 요소 | 역할 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong> | 입력 시퀀스 → [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a></strong> | [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) → 출력 시퀀스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong> | 입력 시퀀스 -> [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a></strong> | [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) -> 출력 시퀀스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a></strong> | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 최종 Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
 | **Teacher Forcing** | 학습 시 정답 토큰을 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 입력으로 사용 |
 
@@ -73,16 +73,16 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) 적용 분야
-1. **기계 번역**: 원문 → 번역문 (Google NMT [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)).
-2. **챗봇**: 질문 → 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
-3. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/">텍스트 요약</a></strong>: 긴 문서 → 요약문.
-4. **음성 인식**: 오디오 → 텍스트.
+1. **기계 번역**: 원문 -> 번역문 (Google NMT [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)).
+2. **챗봇**: 질문 -> 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
+3. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/">텍스트 요약</a></strong>: 긴 문서 -> 요약문.
+4. **음성 인식**: 오디오 -> 텍스트.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문제를 해결한 혁신 아키텍처이며, Attention과 결합하여 Transformer의 직접적 전신이 되었다.
+Seq2Seq은 "가변 길이 입력 -> 가변 길이 출력"이라는 근본 문제를 해결한 혁신 아키텍처이며, Attention과 결합하여 Transformer의 직접적 전신이 되었다.
 
 ---
 
@@ -100,17 +100,17 @@ Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문�
 
 ```text
 [RNN (입력=출력 길이 동일)]
-    │
-    ▼
+    |
+    v
 [Seq2Seq (2014, Sutskever) — 가변 길이 변환]
-    │
-    ▼
+    |
+    v
 [Attention (2014, Bahdanau) — 병목 해소]
-    │
-    ▼
+    |
+    v
 [Transformer (2017) — Self-Attention, 순환 제거]
-    │
-    ▼
+    |
+    v
 [현재: GPT/BERT — Transformer 기반 거대 모델]
 ```
 
@@ -125,7 +125,7 @@ Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문�
 
 **진행 상황**: 119 / 420
 
-← **이전**: [118. 양방향 RNN (Bidirectional RNN) - 순방향+역방향 컨텍스트 동시 활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/118_bidirectional_rnn/)
-**다음**: [120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) →
+<- **이전**: [118. 양방향 RNN (Bidirectional RNN) - 순방향+역방향 컨텍스트 동시 활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/118_bidirectional_rnn/)
+**다음**: [120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) ->
 
 ---

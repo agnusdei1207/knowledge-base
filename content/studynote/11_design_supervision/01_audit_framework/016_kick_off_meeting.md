@@ -28,11 +28,11 @@ tags = ["design_supervision"]
 이 도식은 감리 수명주기에서 착수 회의가 가지는 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 역할을 보여줍니다. 사전 계획이 실제 실행으로 넘어가는 관문입니다.
 
 ```text
-┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-│  감리 계획 수립 │ ----> │   착수 회의     │ ----> │   실지 감리     │
-│ (Planning)      │       │ (Kick-off)      │       │ (Execution)     │
-└────────┬────────┘       └────────┬────────┘       └────────┬────────┘
-         │                         │                         │
++-----------------+       +-----------------+       +-----------------+
+|  감리 계획 수립 | ----> |   착수 회의     | ----> |   실지 감리     |
+| (Planning)      |       | (Kick-off)      |       | (Execution)     |
++--------+--------+       +--------+--------+       +--------+--------+
+         |                         |                         |
   [문서 검토/분석]          [이해관계자 합의]          [증거 수집/인터뷰]
 ```
 
@@ -61,7 +61,7 @@ tags = ["design_supervision"]
                         /          \
   (요구사항/중점사항 제시) /            \ (프로젝트 현황/이슈 보고)
                       /              \
-                     ▼                ▼
+                     v                v
             [ 감리 법인 ] <======> [ 피감리인 (사업자) ]
                      (감리 계획, 일정, 협조사항 브리핑)
                      (수검 환경, 인터뷰 일정 조율 피드백)
@@ -115,14 +115,14 @@ tags = ["design_supervision"]
 
 ```text
 [착수 회의 중 이슈 발생]
-         │
-         ▼
+         |
+         v
 [이슈가 감리 계획서(범위) 내에 있는가?]
-   ├─ (Yes) ──> [관련 증빙(RFP, 제안서) 기반 즉각 기준 제시] ──> [합의 및 회의록 기록]
-   │
-   └─ (No)  ──> [일정/비용에 영향을 미치는가?]
-                   ├─ (Yes) ──> [발주자-사업자 간 별도 협의기구 이관, 감리 범위 제외]
-                   └─ (No)  ──> [참고사항/권고사항으로 감리 관점에 유연하게 편입]
+   +- (Yes) --> [관련 증빙(RFP, 제안서) 기반 즉각 기준 제시] --> [합의 및 회의록 기록]
+   |
+   +- (No)  --> [일정/비용에 영향을 미치는가?]
+                   +- (Yes) --> [발주자-사업자 간 별도 협의기구 이관, 감리 범위 제외]
+                   +- (No)  --> [참고사항/권고사항으로 감리 관점에 유연하게 편입]
 ```
 
 이 흐름의 핵심은 감리인이 모든 문제를 현장에서 해결하려 들지 않고, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 중심으로 판단을 분리한다는 점입니다. 따라서 무리한 감리 범위 확장을 막고 정해진 일정 내에 고품질의 감리를 수행하는 안정성을 확보할 수 있습니다.
@@ -163,17 +163,17 @@ tags = ["design_supervision"]
 
 ```text
 [예비 조사 (Preliminary Survey) — 사전 산출물 검토, 감리 주안점 도출]
-    │
-    ▼
+    |
+    v
 [착수 회의 (Kick-off Meeting) — 이해관계자 역할·범위·일정 공식 합의]
-    │
-    ▼
+    |
+    v
 [현장 감리 (On-site Audit) — 소스코드·아키텍처·보안 집중 점검]
-    │
-    ▼
+    |
+    v
 [중간 보고 (Interim Report) — 주요 결함 조기 통보, 개선 방향 협의]
-    │
-    ▼
+    |
+    v
 [종료 회의 (Exit Meeting) — 착수 합의 사항과 결과 대조, 최종 감리 확정]
 ```
 이 흐름은 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)의 전체 수명 주기에서 착수 회의가 [예비 조사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)를 집약하여 이후 모든 활동의 기준점을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 핵심 역할을 하며, 이를 중심으로 감리 전 과정이 유기적으로 연결되는 구조를 보여준다.
@@ -189,7 +189,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 17 / 530
 
-← **이전**: [15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)
-**다음**: [17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) →
+<- **이전**: [15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)
+**다음**: [17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) ->
 
 ---

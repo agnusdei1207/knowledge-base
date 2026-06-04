@@ -24,30 +24,30 @@ tags = ["studynote-operating-system"]
 - **필요성**: OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 관리하므로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·전환 비용이 크다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)당 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 1~8MB, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 1~10μs). I/O 바운드 작업이 많은 환경에서 수만 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 메모리와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드가 병목이 된다. 코루틴은 사용자 공간에서 문맥 전환을 수행하므로, 이러한 오버헤드 없이 수십만 개의 동시 작업을 관리할 수 있다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│       서브루틴 vs 코루틴 — 실행 흐름 비교                     │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  서브루틴 (함수):                                             │
-│  caller ──▶ [함수 시작] ──▶ [함수 끝] ──▶ caller로 복귀       │
-│               단일 진입점       단일 종료점                   │
-│               │                                   ▲           │
-│               └── 한 번만 실행, 중간에 멈출 불가 ──┘          │
-│                                                               │
-│  코루틴:                                                      │
-│  caller ──▶ [코루틴 A 시작] ──yield──▶ caller                 │
-│               │                         │                     │
-│               │    ┌───────────────────┘                      │
-│               │    │                                          │
-│               └─resume─▶ [코루틴 A 계속] ──yield──▶ caller    │
-│                            │                    │             │
-│                            └────────────────────┘             │
-│                                                               │
-│  특징:                                                        │
-│  - 진입점이 여러 개 (재개 시마다 다른 지점)                   │
-│  - caller와 coroutine가 양방향 제어 전환                      │
-│  - 상태를 자체적으로 보관 (로컬 변수 유지)                    │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|       서브루틴 vs 코루틴 — 실행 흐름 비교                     |
++---------------------------------------------------------------+
+|                                                               |
+|  서브루틴 (함수):                                             |
+|  caller ---> [함수 시작] ---> [함수 끝] ---> caller로 복귀       |
+|               단일 진입점       단일 종료점                   |
+|               |                                   ^           |
+|               +-- 한 번만 실행, 중간에 멈출 불가 --+          |
+|                                                               |
+|  코루틴:                                                      |
+|  caller ---> [코루틴 A 시작] --yield---> caller                 |
+|               |                         |                     |
+|               |    +-------------------+                      |
+|               |    |                                          |
+|               +-resume--> [코루틴 A 계속] --yield---> caller    |
+|                            |                    |             |
+|                            +--------------------+             |
+|                                                               |
+|  특징:                                                        |
+|  - 진입점이 여러 개 (재개 시마다 다른 지점)                   |
+|  - caller와 coroutine가 양방향 제어 전환                      |
+|  - 상태를 자체적으로 보관 (로컬 변수 유지)                    |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 서브루틴은 호출자가 제어권을 넘기면 함수가 끝날 때까지 제어권을 돌려받지 못한다. 반면 코루틴은 yield 시점에서 제어권을 호출자에게 반환하고, resume 호출로 중단 시점부터 다시 실행을 이어간다. 이것이 코루틴이 "협력적(cooperative)"인 이유다 — 코루틴 스스로가 언제 양보할지 결정하기 때문이다. preemptive(선점형) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 달리, 코루틴은 절대 자신의 의지에 반해 선점되지 않으므로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 발생하지 않지만, 한 코루틴이 양보하지 않으면 전체 시스템이 멈추는 리스크가 있다.
@@ -70,29 +70,29 @@ tags = ["studynote-operating-system"]
 ### async/await 구현 원리
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│         async/await — 컴파일러 변환 예시                           │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  소스 코드 (Python):                                               │
-│  async def fetch_data():                                           │
-│      data = await read_file()   ① 여기서 일시 중단                 │
-│      result = await process(data) ② 여기서 재개                    │
-│      return result                                                 │
-│                                                                    │
-│  컴파일러가 생성한 상태 머신:                                      │
-│  ┌─────────────────────────────────────────────┐                   │
-│  │ 상태 = INIT                                 │                   │
-│  │ ── read_file() 호출 → 상태 = WAIT_FILE    │                     │
-│  │ ── 결과 수신 → 상태 = HAVE_DATA            │                    │
-│  │ ── process(data) 호출 → 상태 = WAIT_PROC  │                     │
-│  │ ── 결과 수신 → 상태 = HAVE_RESULT          │                    │
-│  │ ── return result                           │                    │
-│  └─────────────────────────────────────────────┘                   │
-│                                                                    │
-│  ① await에서: 현재 로컬 변수를 클로저에 저장 → 이벤트 루프로 복귀  │
-│  ② future 완료 시: 저장된 로컬 변수 복원 → 중단 지점에서 재개      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+|         async/await — 컴파일러 변환 예시                           |
++--------------------------------------------------------------------+
+|                                                                    |
+|  소스 코드 (Python):                                               |
+|  async def fetch_data():                                           |
+|      data = await read_file()   ① 여기서 일시 중단                 |
+|      result = await process(data) ② 여기서 재개                    |
+|      return result                                                 |
+|                                                                    |
+|  컴파일러가 생성한 상태 머신:                                      |
+|  +---------------------------------------------+                   |
+|  | 상태 = INIT                                 |                   |
+|  | -- read_file() 호출 -> 상태 = WAIT_FILE    |                     |
+|  | -- 결과 수신 -> 상태 = HAVE_DATA            |                    |
+|  | -- process(data) 호출 -> 상태 = WAIT_PROC  |                     |
+|  | -- 결과 수신 -> 상태 = HAVE_RESULT          |                    |
+|  | -- return result                           |                    |
+|  +---------------------------------------------+                   |
+|                                                                    |
+|  ① await에서: 현재 로컬 변수를 클로저에 저장 -> 이벤트 루프로 복귀  |
+|  ② future 완료 시: 저장된 로컬 변수 복원 -> 중단 지점에서 재개      |
++--------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** async/await는 컴파일러가 코루틴을 상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)으로 변환하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)리스 코루틴 구현이다. await 시점에서 현재 함수의 모든 로컬 변수를 힙에 저장하고 제어권을 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에게 반환한다. Future가 완료되면 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)가 저장된 변수를 복원하고 중단 지점에서 실행을 재개한다. 이 방식의 장점은 각 코루틴에 독립 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요 없으므로 메모리 오버헤드가 극히 작다는 것이다. 단점은 await는 코루틴 함수 내부에서만 사용할 수 있고, 일반 함수 내부에서는 await를 호출할 수 없다.
@@ -155,12 +155,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [고루틴 (Goroutine)]
-    │
-    ▼
+    |
+    v
 [코루틴 (Coroutine)]
-    │
-    ├──▶ [이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
-    └──▶ [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
+    |
+    +---> [이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
+    +---> [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -177,7 +177,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 141 / 800
 
-← **이전**: [140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)
-**다음**: [142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) →
+<- **이전**: [140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)
+**다음**: [142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ->
 
 ---

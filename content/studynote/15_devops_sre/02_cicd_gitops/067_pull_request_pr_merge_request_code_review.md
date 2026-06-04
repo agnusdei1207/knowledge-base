@@ -31,9 +31,9 @@ GitHub에서는 Pull Request, GitLab에서는 Merge Request라고 부르지만 �
 
 ```text
 feature branch
-  ↓
+  v
 PR / MR
-  ↓ review + CI
+  v review + CI
 merge to main
 ```
 
@@ -107,11 +107,11 @@ PR 프로세스는 코드 품질과 협업 품질을 동시에 높인다. 그래
 
 ```text
 Feature Branch
-  ↓
+  v
 Pull Request
-  ↓
+  v
 Review / CI
-  ↓
+  v
 Merge
 ```
 
@@ -121,11 +121,11 @@ Merge
 
 ```text
 Commit
-  ↓
+  v
 Pull Request
-  ↓
+  v
 Code Review
-  ↓
+  v
 Merge Workflow
 ```
 
@@ -143,7 +143,7 @@ PR은 그런 [확인](/knowledge-base/studynote/04_software_engineering/12_testi
 
 **진행 상황**: 67 / 373
 
-← **이전**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)
-**다음**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) →
+<- **이전**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)
+**다음**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) ->
 
 ---

@@ -61,31 +61,31 @@ Function  :    ___/\___        ___/\/\/\___     (요청 즉시 실행 및 소멸
 
 이 도식은 사용자의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청부터 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 백엔드 엔진이 어떻게 마이크로VM을 할당하고 반환하는지를 보여주는 계층 구조도이다.
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ 1. 클라이언트 요청 (HTTP / S3 이벤트 / Cron)                │
-└───────┬──────────────────────────────────────────────┬──────┘
-        │ (페이로드)                                   │ (응답)
-┌───────▼──────────────────────────────────────────────┴──────┐
-│ 2. API 게이트웨이 / 이벤트 라우터 (인증, 속도 제한)         │
-└───────┬──────────────────────────────────────────────┬──────┘
-        │ (함수 호출 이벤트)                           │
-┌───────▼──────────────────────────────────────────────┴──────┐
-│ 3. FaaS 컨트롤러 (스케일아웃 매니저)                        │
-│   [ 유휴 워커 풀 ]       ==>   [ 콜드 워커 초기화 ]         │
-└───────┬──────────────────────────────────────────────┬──────┘
-        │ (디스패치)                                   │
-┌───────▼──────────────────────────────────────────────┴──────┐
-│ 4. 워커 노드 (물리 서버)                                    │
-│ ┌────────────────┐ ┌────────────────┐ ┌────────────────┐    │
-│ │ MicroVM (Warm) │ │ MicroVM (Cold) │ │ MicroVM (Term) │    │
-│ │ - 노드 런타임  │ │ - OS/코드 부팅 │ │ - GC / 정리    │    │
-│ │ - 실행()       │ │ - 패키지 다운  │ │                │    │
-│ └────────────────┘ └────────────────┘ └────────────────┘    │
-└───────┬──────────────────────────────────────────────┬──────┘
-        │ (상태 읽기/쓰기 - 필수!)                     │
-┌───────▼──────────────────────────────────────────────┴──────┐
-│ 5. 외부 백엔드 서비스 (DynamoDB, S3, RDS)                   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+| 1. 클라이언트 요청 (HTTP / S3 이벤트 / Cron)                |
++-------+----------------------------------------------+------+
+        | (페이로드)                                   | (응답)
++-------v----------------------------------------------+------+
+| 2. API 게이트웨이 / 이벤트 라우터 (인증, 속도 제한)         |
++-------+----------------------------------------------+------+
+        | (함수 호출 이벤트)                           |
++-------v----------------------------------------------+------+
+| 3. FaaS 컨트롤러 (스케일아웃 매니저)                        |
+|   [ 유휴 워커 풀 ]       ==>   [ 콜드 워커 초기화 ]         |
++-------+----------------------------------------------+------+
+        | (디스패치)                                   |
++-------v----------------------------------------------+------+
+| 4. 워커 노드 (물리 서버)                                    |
+| +----------------+ +----------------+ +----------------+    |
+| | MicroVM (Warm) | | MicroVM (Cold) | | MicroVM (Term) |    |
+| | - 노드 런타임  | | - OS/코드 부팅 | | - GC / 정리    |    |
+| | - 실행()       | | - 패키지 다운  | |                |    |
+| +----------------+ +----------------+ +----------------+    |
++-------+----------------------------------------------+------+
+        | (상태 읽기/쓰기 - 필수!)                     |
++-------v----------------------------------------------+------+
+| 5. 외부 백엔드 서비스 (DynamoDB, S3, RDS)                   |
++-------------------------------------------------------------+
 ```
 이 구조도의 핵심은 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 컨트롤러가 요청 인입 시 '유휴 워커(Warm)'가 있는지, '새로운 워커(Cold)'를 띄워야 하는지 판단하는 동적 스케줄링 계층에 있다. Worker Node 내부에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 격리 수준이 높으면서도 부팅이 빠른 MicroVM(예: AWS Firecracker)이 사용된다. 또한 실행 환경 자체가 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))이므로, 모든 영구 데이터는 반드시 5번 계층(DB)에 의존해야 한다는 점이 아키텍처의 최대 제약이자 트레이드오프다.
 
@@ -93,18 +93,18 @@ Function  :    ___/\___        ___/\/\/\___     (요청 즉시 실행 및 소멸
 FaaS의 가장 치명적인 단점은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)다. 함수가 오랫동안 호출되지 않으면 클라우드는 비용 절감을 위해 해당 인스턴스를 회수(Kill)한다.
 이 타이밍 그래프는 웜 스타트와 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시 발생하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 구간의 차이를 명확히 대조한다.
 ```text
-[요청 시작] ──────────────────── 시간(ms) ─────────────────────► [응답 완료]
+[요청 시작] -------------------- 시간(ms) ---------------------► [응답 완료]
 
 [Warm Start (최적)]
-REQ ──►│ 실행(Execute) 10ms │──► ACK
+REQ --►| 실행(Execute) 10ms |--► ACK
        (이미 준비된 컨테이너/메모리 재사용)
 
 [Cold Start (초기 지연 병목 발생)]
-REQ ──►│ 1. 인스턴스/VM 부팅 (50ms) │
-       │ 2. 런타임 초기화 (100ms)    │
-       │ 3. 코드/패키지 로드 (200ms) │
-       │ 4. DB 커넥션 맺기 (150ms)   │
-       │ 5. 실행(Execute) (10ms)     │──► ACK (총 510ms 소요)
+REQ --►| 1. 인스턴스/VM 부팅 (50ms) |
+       | 2. 런타임 초기화 (100ms)    |
+       | 3. 코드/패키지 로드 (200ms) |
+       | 4. DB 커넥션 맺기 (150ms)   |
+       | 5. 실행(Execute) (10ms)     |--► ACK (총 510ms 소요)
 ```
 이 타이밍 도식의 핵심은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시 순수 비즈니스 로직(5번)의 실행 시간보다 인프라와 런타임이 준비되는 시간(1~4번)이 몇십 배 길게 소요된다는 점이다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 패키지처럼 크기가 크거나 JVM처럼 무거운 환경일수록 3번 구간의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적이다. 따라서 실시간 응답성이 극도로 중요한 경우, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 채택을 보류하거나 '[프로비저닝된 동시성](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/)([Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/))' 기능을 통해 강제로 웜 상태를 유지(비용 지불)하는 설계가 필요하다.
 
@@ -142,10 +142,10 @@ FaaS는 만능이 아니며 워크로드의 특성에 따라 [IaaS](/knowledge-b
 ```text
 [Client / 클라이언트]        [API Gateway / API 게이트웨이]             [FaaS (AWS Lambda)]            [RDBMS]
                             ____(Scale-out)___
-Requests =>    1,000 req => │ Func 1 (Conn 1) │ --- (TCP Handshake) ---> [DB Max Conn = 200]
-                            │ Func 2 (Conn 1) │ --- (TCP Handshake) --->  │
-                            │ ...             │                           │ (200개 초과 시 즉각 연결 거부!)
-                            │ Func 1000 (Conn)│ --- (Conn Refused) ----X (전체 시스템 장애 발생)
+Requests =>    1,000 req => | Func 1 (Conn 1) | --- (TCP Handshake) ---> [DB Max Conn = 200]
+                            | Func 2 (Conn 1) | --- (TCP Handshake) --->  |
+                            | ...             |                           | (200개 초과 시 즉각 연결 거부!)
+                            | Func 1000 (Conn)| --- (Conn Refused) ----X (전체 시스템 장애 발생)
                             -------------------
 ```
 이 흐름의 핵심은 FaaS의 무한한 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 역설적으로 백엔드 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공격하는 자체 DDoS 형태가 된다는 점이다. 기존 WAS 서버는 한정된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내에서 DB 커넥션 풀을 공유하지만, FaaS는 각각 독립된 마이크로VM이므로 풀을 공유하지 못하고 수천 개의 새로운 연결을 맺으려다 DB를 터뜨린다.
@@ -187,14 +187,14 @@ FaaS는 단순히 함수 조각을 넘어서, 진정한 [클라우드 네이티�
 
 ```text
 [가상 머신 (VM, Virtual Machine)]
-    │
-    ▼
+    |
+    v
 [컨테이너 (Container)]
-    │
-    ▼
+    |
+    v
 [FaaS (Function as a Service)]
-    │
-    ▼
+    |
+    v
 [이벤트 기반 아키텍처 (Event-Driven Architecture)]
 ```
 
@@ -210,7 +210,7 @@ FaaS는 단순히 함수 조각을 넘어서, 진정한 [클라우드 네이티�
 
 **진행 상황**: 5 / 371
 
-← **이전**: [5. BaaS (Backend as a Service) - 모바일/웹 앱을 위한 공통 백엔드 API (인증, 푸시, DB) 제공 (Firebase)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/005_baas/)
-**다음**: [7. 퍼블릭 클라우드 (Public Cloud) - 다수의 기업이 공유하는 공용 인프라 (AWS, Azure, GCP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) →
+<- **이전**: [5. BaaS (Backend as a Service) - 모바일/웹 앱을 위한 공통 백엔드 API (인증, 푸시, DB) 제공 (Firebase)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/005_baas/)
+**다음**: [7. 퍼블릭 클라우드 (Public Cloud) - 다수의 기업이 공유하는 공용 인프라 (AWS, Azure, GCP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) ->
 
 ---

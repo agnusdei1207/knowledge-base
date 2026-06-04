@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
 TOGAF의 중심은 ADM이다. 요구사항을 받아 아키텍처를 개발하고, 구현과 거버넌스를 통해 반복 개선한다.
 
 ```text
-Preliminary → Vision → Business → Data → Application → Technology → Migration
+Preliminary -> Vision -> Business -> Data -> Application -> Technology -> Migration
 ```
 
 | 영역 | 역할 |
@@ -111,14 +111,14 @@ TOGAF는 전사 아키텍처를 체계적으로 정렬하고, 변화에 대한 �
 
 ```text
 비전
-    │
-    ▼
+    |
+    v
 ADM
-    │
-    ▼
+    |
+    v
 아키텍처 산출물
-    │
-    ▼
+    |
+    v
 로드맵 / 거버넌스
 ```
 
@@ -136,7 +136,7 @@ ADM
 
 **진행 상황**: 56 / 973
 
-← **이전**: [55. Zachman Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)
-**다음**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/knowledge-base/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/) →
+<- **이전**: [55. Zachman Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)
+**다음**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/knowledge-base/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/) ->
 
 ---

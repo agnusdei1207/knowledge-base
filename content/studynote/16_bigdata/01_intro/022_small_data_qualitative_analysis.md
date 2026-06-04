@@ -40,21 +40,21 @@ tags = ["studynote-bigdata"]
 빅데이터 아키텍처가 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), 스파크 같은 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) IT 인프라에 의존한다면, 스몰 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)는 철저히 <strong>인지 심리학과 정성적(Qualitative) 리서치 방법론</strong>에 의존합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 빅데이터와 스몰 데이터의 상호 보완 파이프라인 ]         │
-│                                                             │
-│   ┌──────────────────────┐        ┌──────────────────────┐  │
-│   │ [ Big Data (What?) ] │        │ [ Small Data (Why?) ]│  │
-│   │ - 웹/앱 로그, 트랜잭션  │=======>│ - 심층 인터뷰 (IDI)    │  │
-│   │ - 수백만 건 정량 데이터 │(이상탐지)│ - 섀도잉 (관찰)        │  │
-│   │ - 머신러닝 연관성 분석  │        │ - 소수 타겟 정성 분석    │  │
-│   └──────────┬───────────┘        └───────────┬──────────┘  │
-│              │ (가설 검증)                    │ (동기 도출)  │
-│              ▼                                ▼            │
-│   ┌─────────────────────────────────────────────────────────┐ │
-│   │        [ Actionable Insight (가치 창출 및 비즈니스 결정) ]  │ │
-│   └─────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          [ 빅데이터와 스몰 데이터의 상호 보완 파이프라인 ]         |
+|                                                             |
+|   +----------------------+        +----------------------+  |
+|   | [ Big Data (What?) ] |        | [ Small Data (Why?) ]|  |
+|   | - 웹/앱 로그, 트랜잭션  |=======>| - 심층 인터뷰 (IDI)    |  |
+|   | - 수백만 건 정량 데이터 |(이상탐지)| - 섀도잉 (관찰)        |  |
+|   | - 머신러닝 연관성 분석  |        | - 소수 타겟 정성 분석    |  |
+|   +----------+-----------+        +-----------+----------+  |
+|              | (가설 검증)                    | (동기 도출)  |
+|              v                                v            |
+|   +---------------------------------------------------------+ |
+|   |        [ Actionable Insight (가치 창출 및 비즈니스 결정) ]  | |
+|   +---------------------------------------------------------+ |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 완벽한 아키텍처는 빅데이터로 거시적 현상을 포착하고, 스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 핀셋 분석을 하는 것입니다. 예를 들어, 빅데이터([GA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/))가 "결제창에서 70%가 이탈한다(What)"는 사실을 알려주면, 스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사용자 인터뷰/관찰)를 통해 "글씨가 너무 작고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 없는 디자인 때문에 불안해서 나갔다(Why)"는 감정적 근본 원인을 찾아내어 UI를 수정(Action)하는 메커니즘입니다.
@@ -140,17 +140,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [빅데이터 (Big Data) — '무엇(What)' 상관관계 포착]
-    │
-    ▼
+    |
+    v
 [이상 징후 식별 — "30대 여성이 밤에 기저귀를 구매하다 포기해"]
-    │
-    ▼
+    |
+    v
 [스몰 데이터 — '왜(Why)' 인과관계 규명 (관찰·인터뷰)]
-    │
-    ▼
+    |
+    v
 [맥락 (Context) 발굴 — 고객 감정·동기 발견]
-    │
-    ▼
+    |
+    v
 [비즈니스 혁신 트리거 — 제품·마케팅 전략 전환]
 ```
 빅데이터가 거시적 패턴을 포착하면, 스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정성적 리서치가 인과관계와 감정적 맥락을 발굴하여 실질적 비즈니스 혁신의 방아쇠를 당기는 상호 보완 흐름이다.
@@ -170,7 +170,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 22 / 262
 
-← **이전**: [21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB](/knowledge-base/studynote/16_bigdata/01_intro/021_zettabyte_era_data_explosion/)
-**다음**: [01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/) →
+<- **이전**: [21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB](/knowledge-base/studynote/16_bigdata/01_intro/021_zettabyte_era_data_explosion/)
+**다음**: [01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리](/knowledge-base/studynote/16_bigdata/02_hadoop/023_apache_hadoop_distributed_storage_processing/) ->
 
 ---

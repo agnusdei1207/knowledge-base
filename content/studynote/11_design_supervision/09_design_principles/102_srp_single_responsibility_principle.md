@@ -38,18 +38,18 @@ SRP의 핵심 원리는 기능의 <strong>응집성(<a href="/knowledge-base/stu
 | 변경 영향도 | 변경된 해당 클래스만 다시 테스트하면 됨 | 한 줄 변경 시 전체 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) 필요 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             SRP 관점에서의 아키텍처 분리 원리                  │
-├──────────────────────────────────────────────────────────────┤
-│ [위반: God Class]                                            │
-│ UserAccount ─▶ (회원가입 로직 + DB 저장 쿼리 + 가입 메일 발송) │
-│                                                              │
-│ [준수: SRP 적용 후]                                          │
-│ UserRegistration ───▶ (회원가입 비즈니스 로직만 담당)        │
-│        │                                                     │
-│        ├─▶ UserRepository (DB 저장만 담당)                   │
-│        └─▶ EmailSender (메일 발송망 담당)                    │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             SRP 관점에서의 아키텍처 분리 원리                  |
++--------------------------------------------------------------+
+| [위반: God Class]                                            |
+| UserAccount --> (회원가입 로직 + DB 저장 쿼리 + 가입 메일 발송) |
+|                                                              |
+| [준수: SRP 적용 후]                                          |
+| UserRegistration ----> (회원가입 비즈니스 로직만 담당)        |
+|        |                                                     |
+|        +--> UserRepository (DB 저장만 담당)                   |
+|        +--> EmailSender (메일 발송망 담당)                    |
++--------------------------------------------------------------+
 ```
 
 이 그림은 하나의 덩치 큰 클래스가 비즈니스, [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(DB), 외부 통신 책임을 모두 지고 있던 상태에서, SRP를 적용하여 각각의 고유한 책임을 가진 3개의 클래스로 분리된 구조를 보여준다. 이렇게 분리하면 메일 서버의 API가 바뀌더라도 `UserRepository`나 `UserRegistration` 코드는 단 한 줄도 수정할 필요가 없다.
@@ -114,21 +114,21 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 
 ```text
 스파게티 코드 및 갓 클래스 (God Class) 출현
-    │
-    ▼
+    |
+    v
 응집도 (Cohesion)와 결합도 (Coupling) 개념 정립
-    │
-    ▼
-단일 책임 원칙 (SRP) ─▶ SOLID 설계 원칙의 기반 확립
-    │
-    ▼
+    |
+    v
+단일 책임 원칙 (SRP) --> SOLID 설계 원칙의 기반 확립
+    |
+    v
 관심사의 분리 (SoC) 및 디자인 패턴 (Design Patterns) 적용
-    │
-    ▼
+    |
+    v
 바운디드 컨텍스트 (Bounded Context) 및 MSA (Microservices Architecture)
 ```
 
-이 흐름도는 "무질서한 코드 → 설계 원칙 도입 → 구조적 패턴 적용 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍처"로 단일 책임의 개념이 확장되는 과정을 보여준다.
+이 흐름도는 "무질서한 코드 -> 설계 원칙 도입 -> 구조적 패턴 적용 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍처"로 단일 책임의 개념이 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +142,7 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 
 **진행 상황**: 147 / 530
 
-← **이전**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
-**다음**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) →
+<- **이전**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
+**다음**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) ->
 
 ---

@@ -22,16 +22,16 @@ tags = ["studynote-data-engineering"]
 생물학적 뉴런                 인공 뉴런 (퍼셉트론)
 
    수상돌기 (Dendrites)          입력 x₁, x₂, ..., xₙ
-       │ 신호 수신                     │ 가중합 계산
-       ▼                               ▼
+       | 신호 수신                     | 가중합 계산
+       v                               v
    세포체 (Cell Body)             가중합: z = Σ(wᵢ·xᵢ) + b
-   신호 통합·처리                        │
-       │                               ▼
-       ▼                         활성화 함수 f(z)
-   축삭 (Axon)                         │
-   신호 전달                            ▼
-       │                          출력 y = f(z)
-       ▼
+   신호 통합·처리                        |
+       |                               v
+       v                         활성화 함수 f(z)
+   축삭 (Axon)                         |
+   신호 전달                            v
+       |                          출력 y = f(z)
+       v
    다음 뉴런으로
 
   생물 뉴런의 핵심: 역치 이상이면 발화
@@ -51,11 +51,11 @@ XOR 문제: 선형 분리 불가 ❌
   ○●    어떤 직선으로도
          두 클래스를 분리 불가
 
-  (0,0)=0  (1,1)=0  → ●
-  (0,1)=1  (1,0)=1  → ○
+  (0,0)=0  (1,1)=0  -> ●
+  (0,1)=1  (1,0)=1  -> ○
 
 Minsky & Papert (1969): 단층 퍼셉트론으로
-XOR 풀 수 없음 → 첫 번째 AI 겨울
+XOR 풀 수 없음 -> 첫 번째 AI 겨울
 ```
 
 📢 **섹션 요약 비유**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로 직선만 그을 수 있는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다. 모든 문제가 직선 하나로 풀린다면 좋겠지만, XOR처럼 곡선이 필요한 문제는 손이 묶인다.
@@ -65,22 +65,22 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 ### [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer Perceptron) 구조
 
 ```
-┌───────────────────────────────────────────────────────┐
-│              MLP 네트워크 구조                          │
-│                                                       │
-│  입력층         은닉층 1        은닉층 2       출력층   │
-│  (Input)       (Hidden 1)     (Hidden 2)    (Output)  │
-│                                                       │
-│   x₁ ──────── h₁₁ ─────── h₂₁ ────────         │
-│   x₂ ────── × h₁₂ ──── × h₂₂ ────── × ──→ ŷ  │
-│   x₃ ──────── h₁₃ ─────── h₂₃ ────────         │
-│                                                       │
-│   × = 가중치·편향 연산 + 활성화 함수 적용              │
-│                                                       │
-│  계층별 수식:                                          │
-│    z = W·x + b      (선형 변환)                       │
-│    a = f(z)         (비선형 활성화)                    │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|              MLP 네트워크 구조                          |
+|                                                       |
+|  입력층         은닉층 1        은닉층 2       출력층   |
+|  (Input)       (Hidden 1)     (Hidden 2)    (Output)  |
+|                                                       |
+|   x₁ -------- h₁₁ ------- h₂₁ --------         |
+|   x₂ ------ × h₁₂ ---- × h₂₂ ------ × ---> ŷ  |
+|   x₃ -------- h₁₃ ------- h₂₃ --------         |
+|                                                       |
+|   × = 가중치·편향 연산 + 활성화 함수 적용              |
+|                                                       |
+|  계층별 수식:                                          |
+|    z = W·x + b      (선형 변환)                       |
+|    a = f(z)         (비선형 활성화)                    |
++-------------------------------------------------------+
 ```
 
 ### 보편 근사 정리 (Universal Approximation Theorem)
@@ -116,23 +116,23 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 그래프:
   σ(x)
-  1.0 │          ─────────
-      │        ╱
-  0.5 │      ╱  ← 변곡점 (x=0)
-      │    ╱
-  0.0 │─────────
-      └──────────────────── x
+  1.0 |          ---------
+      |        ╱
+  0.5 |      ╱  <- 변곡점 (x=0)
+      |    ╱
+  0.0 |---------
+      +-------------------- x
        -5   0    5
 
 장점:
-  ✅ 출력 (0,1) → 확률 해석 가능
+  ✅ 출력 (0,1) -> 확률 해석 가능
   ✅ 미분 가능 (연속 함수)
   ✅ 이진 분류 출력층에 적합
 
 단점:
   ❌ 기울기 소실 (Vanishing Gradient)
-     → |x|가 크면 σ'(x) ≈ 0
-     → 깊은 레이어 학습 불가
+     -> |x|가 크면 σ'(x) ≈ 0
+     -> 깊은 레이어 학습 불가
   ❌ 출력 중심이 0이 아님 (비대칭)
   ❌ 지수 연산으로 계산 비용 높음
 ```
@@ -141,27 +141,27 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 ```
 순전파 (Forward Pass):
-  x → [Layer 1] → a₁ → [Layer 2] → a₂ → ŷ → 손실 L
+  x -> [Layer 1] -> a₁ -> [Layer 2] -> a₂ -> ŷ -> 손실 L
 
 역전파 (Backward Pass):
-  손실 L → ∂L/∂W₂ → ∂L/∂a₁ → ∂L/∂W₁ → 가중치 업데이트
+  손실 L -> ∂L/∂W₂ -> ∂L/∂a₁ -> ∂L/∂W₁ -> 가중치 업데이트
 
 연쇄 법칙 (Chain Rule) 적용:
   ∂L/∂W₁ = (∂L/∂ŷ) × (∂ŷ/∂a₂) × (∂a₂/∂a₁) × (∂a₁/∂W₁)
 
 가중치 업데이트 (경사 하강법, Gradient Descent):
-  W ← W - η × ∂L/∂W
+  W <- W - η × ∂L/∂W
   여기서 η = 학습률 (Learning Rate)
 ```
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 흐름 다이어그램:</strong>
 ```
-순전파:   x → W₁ → a₁ → W₂ → ŷ → L (손실 계산)
-               ↑                        │
-역전파:   ∂L/∂W₁ ←─────────────────────╯ (기울기 역방향 전달)
+순전파:   x -> W₁ -> a₁ -> W₂ -> ŷ -> L (손실 계산)
+               ^                        |
+역전파:   ∂L/∂W₁ <----------------------+ (기울기 역방향 전달)
 ```
 
-📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리 실패 후 원인을 찾는 것이다. "음식이 짜다(손실 크다)" → "어디서 소금이 많이 들어갔나?" → 각 조리 단계를 거슬러 올라가며 원인을 찾는다.
+📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리 실패 후 원인을 찾는 것이다. "음식이 짜다(손실 크다)" -> "어디서 소금이 많이 들어갔나?" -> 각 조리 단계를 거슬러 올라가며 원인을 찾는다.
 
 ## Ⅲ. 비교 및 연결
 
@@ -197,23 +197,23 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
   이후 층:     점차 줄이거나 유지
 
 예시 (입력 100차원, 10클래스 분류):
-  Input(100) → Hidden(200) → Hidden(100) → Output(10)
+  Input(100) -> Hidden(200) -> Hidden(100) -> Output(10)
              ReLU          ReLU           Softmax
 
 과적합 방지:
-  → 드롭아웃(Dropout) 0.3~0.5 각 은닉층 후 추가
-  → 배치 정규화(Batch Normalization) 적용
+  -> 드롭아웃(Dropout) 0.3~0.5 각 은닉층 후 추가
+  -> 배치 정규화(Batch Normalization) 적용
 ```
 
 ### XOR 문제 MLP 해결 과정
 
 ```
-레이어 구성: Input(2) → Hidden(2) → Output(1)
+레이어 구성: Input(2) -> Hidden(2) -> Output(1)
             ReLU         Sigmoid
 
 학습 데이터:
-  (0,0) → 0    (0,1) → 1
-  (1,0) → 1    (1,1) → 0
+  (0,0) -> 0    (0,1) -> 1
+  (1,0) -> 1    (1,1) -> 0
 
 은닉층의 역할:
   h₁: "둘 다 0이거나 둘 다 1" 탐지 (AND+AND)
@@ -225,8 +225,8 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 1. **은닉층 깊이 vs 너비**: 깊이(층 수)는 추상 표현 학습, 너비(뉴런 수)는 세부 패턴 수용
 2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a> 사용 주의</strong>: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 권장, 출력층에만 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
-3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 너무 크면 발산, 너무 작으면 수렴 느림 → [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
-4. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong>: 0으로 초기화 금지 → He/Xavier 초기화 사용
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 너무 크면 발산, 너무 작으면 수렴 느림 -> [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
+4. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong>: 0으로 초기화 금지 -> He/Xavier 초기화 사용
 
 📢 **섹션 요약 비유**: 은닉층은 화가가 스케치를 하기 전 밑그림을 그리는 과정이다. 바로 최종 그림을 그리는 것보다, 중간 단계를 거치면 훨씬 복잡한 그림이 가능해진다.
 
@@ -265,15 +265,15 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-단층 퍼셉트론 → XOR 문제 (선형 분리 불가)
-    │
-    ▼
+단층 퍼셉트론 -> XOR 문제 (선형 분리 불가)
+    |
+    v
 MLP (다층 퍼셉트론): 은닉층 + 비선형 활성화 함수
-    ├─► Sigmoid · Tanh → ReLU · Swish
-    └─► 역전파 (Backpropagation) + Chain Rule
-    │
-    ▼
-CNN · RNN · Transformer → 딥러닝 시대
+    +-► Sigmoid · Tanh -> ReLU · Swish
+    +-► 역전파 (Backpropagation) + Chain Rule
+    |
+    v
+CNN · RNN · Transformer -> 딥러닝 시대
 ```
 2. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 선생님 말씀 중 중요한 것에 귀를 쫑긋 세우는 것(w 큼)이고, 편향은 기본적으로 긍정적이거나 부정적인 선입견(b)이다.
 3. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리가 실패했을 때 "마지막에 소금을 넣었나, 그 전에 간장을 넣었나" 거슬러 올라가며 잘못된 단계를 찾아 고치는 과정이다.
@@ -284,7 +284,7 @@ CNN · RNN · Transformer → 딥러닝 시대
 
 **진행 상황**: 239 / 258
 
-← **이전**: [238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
-**다음**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) →
+<- **이전**: [238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
+**다음**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) ->
 
 ---

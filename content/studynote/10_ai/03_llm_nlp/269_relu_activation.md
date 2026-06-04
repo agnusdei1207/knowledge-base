@@ -36,7 +36,7 @@ ReLU: f(x) = max(0, x)
 | **연산** | e^(-x) 지수 함수 (비쌈) | max(0,x) 단순 비교 (매우 빠름) |
 | **기울기** | 최대 0.25, 포화 시 ≈0 | 양수 구간 항상 1 |
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a></strong> | 심각 | 양수 구간에서 없음 |
-| **희소 활성화** | 항상 비영(Non-[zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) | ~50% 뉴런 비활성화 → 희소성 |
+| **희소 활성화** | 항상 비영(Non-[zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) | ~50% 뉴런 비활성화 -> 희소성 |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 속도</strong> | 느림 | 빠름 (곱셈 없이 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) |
 
 ### 등장 배경
@@ -52,22 +52,22 @@ ReLU: f(x) = max(0, x)
 ### ReLU 계열 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교 구조
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              ReLU 계열 활성화 함수 그래프 비교                    │
-│                                                                 │
-│  y                                                              │
-│  ↑   Leaky ReLU           ReLU              ELU                 │
-│  │  /                   /                  /                    │
-│  │ /  (기울기=1)        /  (기울기=1)       /  (기울기=1)         │
-│  │/                   /                  /                     │
-│──┼────────────     ──┼────────────    ──┼────────────  → x     │
-│  │\  (기울기=α)      │  (기울기=0)      │~  (지수 감소)          │
-│  │ \                │                  │                        │
-│                                                                 │
-│  Leaky ReLU:          ReLU:             ELU:                    │
-│  f(x)=max(αx, x)     f(x)=max(0,x)     f(x)=x       (x≥0)     │
-│  α≈0.01              죽은 ReLU 문제    f(x)=α(eˣ-1) (x<0)     │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|              ReLU 계열 활성화 함수 그래프 비교                    |
+|                                                                 |
+|  y                                                              |
+|  ^   Leaky ReLU           ReLU              ELU                 |
+|  |  /                   /                  /                    |
+|  | /  (기울기=1)        /  (기울기=1)       /  (기울기=1)         |
+|  |/                   /                  /                     |
+|--+------------     --+------------    --+------------  -> x     |
+|  |\  (기울기=α)      |  (기울기=0)      |~  (지수 감소)          |
+|  | \                |                  |                        |
+|                                                                 |
+|  Leaky ReLU:          ReLU:             ELU:                    |
+|  f(x)=max(αx, x)     f(x)=max(0,x)     f(x)=x       (x≥0)     |
+|  α≈0.01              죽은 ReLU 문제    f(x)=α(eˣ-1) (x<0)     |
++-----------------------------------------------------------------+
 ```
 
 ### ReLU 계열 변형 상세 비교
@@ -85,20 +85,20 @@ ReLU: f(x) = max(0, x)
 ### 죽은 ReLU (Dying ReLU) 문제
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                  죽은 ReLU 발생 메커니즘                          │
-│                                                                 │
-│  뉴런 입력이 음수가 되면:                                         │
-│                                                                 │
-│  1. ReLU 출력 = 0                                               │
-│  2. 역전파 기울기 = 0                                            │
-│  3. 가중치 갱신 없음 (∂L/∂W = 0)                                │
-│  4. 다음 배치에서도 같은 음수 입력                                │
-│  5. 영구적으로 비활성화 → "죽은 뉴런"                             │
-│                                                                 │
-│  원인: 큰 학습률 → 가중치 크게 갱신 → 뉴런 입력이 항상 음수         │
-│  예방: 적절한 학습률, He 초기화, Leaky ReLU 사용                   │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                  죽은 ReLU 발생 메커니즘                          |
+|                                                                 |
+|  뉴런 입력이 음수가 되면:                                         |
+|                                                                 |
+|  1. ReLU 출력 = 0                                               |
+|  2. 역전파 기울기 = 0                                            |
+|  3. 가중치 갱신 없음 (∂L/∂W = 0)                                |
+|  4. 다음 배치에서도 같은 음수 입력                                |
+|  5. 영구적으로 비활성화 -> "죽은 뉴런"                             |
+|                                                                 |
+|  원인: 큰 학습률 -> 가중치 크게 갱신 -> 뉴런 입력이 항상 음수         |
+|  예방: 적절한 학습률, He 초기화, Leaky ReLU 사용                   |
++-----------------------------------------------------------------+
 ```
 
 ### 희소 활성화 (Sparse Activation)
@@ -129,10 +129,10 @@ ReLU는 약 50%의 뉴런을 비활성화한다(출력=0). 이는 <strong>희소
 ### ReLU와 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 조합
 
 ```
-Linear → BatchNorm → ReLU  (권장 순서)
+Linear -> BatchNorm -> ReLU  (권장 순서)
 
 이유: BatchNorm이 입력을 정규화해 ReLU가 음수 구간으로
-     쏠리는 현상 방지 → 죽은 ReLU 예방 효과
+     쏠리는 현상 방지 -> 죽은 ReLU 예방 효과
 ```
 
 - **📢 섹션 요약 비유**: ReLU는 도로의 일방통행 게이트 — 앞으로 가는 차(양수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 속도 그대로 통과, 역주행 차(음수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 차단한다. Leaky ReLU는 역주행을 완전히 막지 않고 서행으로 통과시켜 도로 전체가 마비되는 것을 방지한다.
@@ -143,10 +143,10 @@ Linear → BatchNorm → ReLU  (권장 순서)
 
 ### 기술사 시험 핵심 논점
 
-1. <strong>ReLU <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 해결 원리</strong>: f'(x)=1 (x>0) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 감쇠 없이 통과 → 깊은 신경망 학습 가능
-2. **죽은 ReLU 원인과 대책**: 큰 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) → [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 → 항상 음수 입력 → Leaky ReLU / [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정
-3. **희소 활성화의 장점**: ~50% 뉴런 비활성화 → 계산 효율 + 자연스러운 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과
-4. **Swish/GELU 등장 배경**: 단순 ReLU보다 부드러운 전환 → 대규모 모델에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+1. <strong>ReLU <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 해결 원리</strong>: f'(x)=1 (x>0) -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 감쇠 없이 통과 -> 깊은 신경망 학습 가능
+2. **죽은 ReLU 원인과 대책**: 큰 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) -> [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 -> 항상 음수 입력 -> Leaky ReLU / [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정
+3. **희소 활성화의 장점**: ~50% 뉴런 비활성화 -> 계산 효율 + 자연스러운 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과
+4. **Swish/GELU 등장 배경**: 단순 ReLU보다 부드러운 전환 -> 대규모 모델에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 ### 파라미터 수 비교 시나리오
 
@@ -169,9 +169,9 @@ GELU:  파라미터 없음
 |:---|:---|
 | **학습 속도** | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 약 6배 빠른 수렴 |
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 방지</strong> | 20층 이상 신경망 학습 가능 |
-| **계산 비용** | 단순 max 연산 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 최적화 |
+| **계산 비용** | 단순 max 연산 -> [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 최적화 |
 | <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 희소 활성화로 자연스러운 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| **딥러닝 혁명** | AlexNet → VGG → ResNet으로 이어진 딥러닝 르네상스 |
+| **딥러닝 혁명** | AlexNet -> VGG -> ResNet으로 이어진 딥러닝 르네상스 |
 
 ### 결론
 
@@ -195,7 +195,7 @@ ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [ReLU (Rectified Linear Unit)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [ReLU (Rectified Linear Unit)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -210,7 +210,7 @@ ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 
 
 **진행 상황**: 269 / 420
 
-← **이전**: [268. 시그모이드 (Sigmoid) 활성화](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
-**다음**: [270. 소프트맥스 (Softmax)](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) →
+<- **이전**: [268. 시그모이드 (Sigmoid) 활성화](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
+**다음**: [270. 소프트맥스 (Softmax)](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ->
 
 ---

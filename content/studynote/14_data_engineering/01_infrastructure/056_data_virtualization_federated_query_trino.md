@@ -33,13 +33,13 @@ tags = ["studynote-data-engineering"]
 
 ```text
 클라이언트 SQL
-      ↓
+      v
 Coordinator
-      ↓
-Connectors ──> MySQL / PostgreSQL / S3 / 로그 저장소
-      ↓
+      v
+Connectors --> MySQL / PostgreSQL / S3 / 로그 저장소
+      v
 Workers
-      ↓
+      v
 결과 병합
 ```
 
@@ -104,11 +104,11 @@ Workers
 
 ```text
 원본 데이터 소스
-      ↓
+      v
 Connector / Coordinator / Worker
-      ↓
+      v
 분산 실행 + Pushdown
-      ↓
+      v
 통합 SQL 결과
 ```
 
@@ -116,11 +116,11 @@ Connector / Coordinator / Worker
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 중심 복사 → 중앙 집중형 분석
-2. [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) → 원본 유지와 논리적 통합
-3. [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) → SQL 하나로 다중 소스 접근
-4. Trino와 Presto → 고성능 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진의 대중화
-5. Lakehouse와 semantic layer → [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 물리화를 함께 쓰는 방향
+1. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 중심 복사 -> 중앙 집중형 분석
+2. [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) -> 원본 유지와 논리적 통합
+3. [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) -> SQL 하나로 다중 소스 접근
+4. Trino와 Presto -> 고성능 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진의 대중화
+5. Lakehouse와 semantic layer -> [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 물리화를 함께 쓰는 방향
 
 ---
 
@@ -136,7 +136,7 @@ Connector / Coordinator / Worker
 
 **진행 상황**: 56 / 258
 
-← **이전**: [55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/055_separation_of_compute_and_storage_cloud_dw/)
-**다음**: [57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) →
+<- **이전**: [55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/055_separation_of_compute_and_storage_cloud_dw/)
+**다음**: [57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) ->
 
 ---

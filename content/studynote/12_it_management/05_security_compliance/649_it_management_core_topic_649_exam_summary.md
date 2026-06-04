@@ -24,7 +24,7 @@ IT 경영 관리(Information Technology Management, 이하 IT-Mgmt)는 단순한
 **기술적 배경과挑战**:
 - 2010년대 이후 **클라우드(AWS·Azure·GCP), AI/ML, IoT, 블록체인**이 보편화되며 IT 자원의 **경계가 흐려지고(Boundaryless IT)**, SaaS·PaaS·IaaS 다중 벤더 환경에서 통제 범위 정의가 핵심 이슈로 부상
 - **NIS2(유럽, 2024)**, **개인정보보호법 개정(2023, 가명정보 도입)**, **AI 기본법(2025 제정 추진)** 등 컴플라이언스 요구사항이 폭증하여, **GRC(Governance-Risk-Compliance) 통합 플랫폼**이 필수
-- **생성형 AI(GenAI)** 도입으로 Shadow IT가 LLM API 키·SaaS Copilot 단위로 분산화 → 중앙 가시성(Visibility) 확보가 기술사 논점
+- **생성형 AI(GenAI)** 도입으로 Shadow IT가 LLM API 키·SaaS Copilot 단위로 분산화 -> 중앙 가시성(Visibility) 확보가 기술사 논점
 
 **Old vs New Paradigm 비교**:
 | 구분 | 구(Old) 패러다임 | 신(New) 패러다임 |
@@ -38,35 +38,35 @@ IT 경영 관리(Information Technology Management, 이하 IT-Mgmt)는 단순한
 ```text
 [IT 경영 관리 4P 통합 프레임워크 (Governance 4P Model)]
 
-                    ┌──────────────────────────────────┐
-                    │   Board / CEO / 이사회 거버넌스     │
-                    │   (전략 의사결정·책무성·리스크)     │
-                    └──────────────┬───────────────────┘
-                                   │ 위임
-                    ┌──────────────▼───────────────────┐
-                    │   IT Steering Committee (ISC)     │
-                    │   - CIO / CDO / CFO / CISO       │
-                    └──────────────┬───────────────────┘
-                                   │ 통제
-        ┌──────────────────────────┼──────────────────────────┐
-        │                          │                          │
-┌───────▼────────┐         ┌───────▼────────┐         ┌───────▼────────┐
-│ 1. Portfolio   │         │ 2. Program     │         │ 3. Project     │
-│    Management  │         │    Management  │         │    Management  │
-│  (투자 포트폴리오)│         │   (프로그램)   │         │   (PMBOK/Agile)│
-└───────┬────────┘         └───────┬────────┘         └───────┬────────┘
-        │                          │                          │
-        └──────────────────────────┼──────────────────────────┘
-                                   │ 성과·가치
-                    ┌──────────────▼───────────────────┐
-                    │ 4. Performance & Value Mgmt      │
-                    │   BSC / OKR / FinOps / VRIO      │
-                    └──────────────┬───────────────────┘
-                                   │ 보고
-                    ┌──────────────▼───────────────────┐
-                    │  Continuous Monitoring & Audit   │
-                    │  (ISO 38500 · COBIT · 내부감사)  │
-                    └──────────────────────────────────┘
+                    +----------------------------------+
+                    |   Board / CEO / 이사회 거버넌스     |
+                    |   (전략 의사결정·책무성·리스크)     |
+                    +--------------+-------------------+
+                                   | 위임
+                    +--------------v-------------------+
+                    |   IT Steering Committee (ISC)     |
+                    |   - CIO / CDO / CFO / CISO       |
+                    +--------------+-------------------+
+                                   | 통제
+        +--------------------------+--------------------------+
+        |                          |                          |
++-------v--------+         +-------v--------+         +-------v--------+
+| 1. Portfolio   |         | 2. Program     |         | 3. Project     |
+|    Management  |         |    Management  |         |    Management  |
+|  (투자 포트폴리오)|         |   (프로그램)   |         |   (PMBOK/Agile)|
++-------+--------+         +-------+--------+         +-------+--------+
+        |                          |                          |
+        +--------------------------+--------------------------+
+                                   | 성과·가치
+                    +--------------v-------------------+
+                    | 4. Performance & Value Mgmt      |
+                    |   BSC / OKR / FinOps / VRIO      |
+                    +--------------+-------------------+
+                                   | 보고
+                    +--------------v-------------------+
+                    |  Continuous Monitoring & Audit   |
+                    |  (ISO 38500 · COBIT · 내부감사)  |
+                    +----------------------------------+
 ```
 
 **왜 필요한가?**: "We have 47 different SaaS subscriptions and no one knows who pays for what" — Forbes(2024)에 따르면 **대기업의 평균 SaaS 낭비가 30%**에 달하며, 이는 **FinOps + ITAM(IT Asset Management) + 거버넌스 위원회** 부재의 직접적 결과이다.
@@ -83,47 +83,47 @@ IT 경영 관리의 4대 핵심 표준은 **상호 보완적 관계**를 가지�
 [IT 거버넌스 표준 프레임워크 매핑 - 계층적 통합 구조]
 
    추상화 레벨            표준 프레임워크              적용 대상
-   ─────────────────────────────────────────────────────────────
+   -------------------------------------------------------------
    ① 전략 (Strategy)      ISO 38500 (2015)           이사회·경영진
-        │                  COBIT 2019 EDM (Evaluate, Direct, Monitor)
-        │                  Zachman / TOGAF 10         EA 아키텍처
-        ▼
+        |                  COBIT 2019 EDM (Evaluate, Direct, Monitor)
+        |                  Zachman / TOGAF 10         EA 아키텍처
+        v
    ② 전술 (Tactical)      COBIT 2019 (전체 40 Governance/Management Obj.)
-        │                  ITIL 4 Service Value System
-        │                  PMBOK 7th (8 Performance Domains)
-        ▼
+        |                  ITIL 4 Service Value System
+        |                  PMBOK 7th (8 Performance Domains)
+        v
    ③ 운영 (Operational)   ITIL 4 Practices (34개)    서비스 데스크·운영팀
-        │                  DevOps/DevSecOps 파이프라인
-        │                  ISO 27001 (ISMS) / NIST CSF
-        ▼
-   ④ 측정 (Measurement)   COBIT 2019 Cascade (Goals → Process → Metrics)
+        |                  DevOps/DevSecOps 파이프라인
+        |                  ISO 27001 (ISMS) / NIST CSF
+        v
+   ④ 측정 (Measurement)   COBIT 2019 Cascade (Goals -> Process -> Metrics)
                           Balanced Scorecard (BSC)
                           DORA / SPACE / OKR
-   ─────────────────────────────────────────────────────────────
+   -------------------------------------------------------------
 
    [연계 메커니즘: COBIT Cascade]
-   Stakeholder Needs → Enterprise Goals → Alignment Goals →
-       → Governance/Management Objectives → Process Activities →
-           → Process Capability (CMMI 0-5 or PAM ISO 15504)
+   Stakeholder Needs -> Enterprise Goals -> Alignment Goals ->
+       -> Governance/Management Objectives -> Process Activities ->
+           -> Process Capability (CMMI 0-5 or PAM ISO 15504)
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **COBIT 2019** (Control Objectives for Information and Related Technologies) | **전사 IT 거버넌스·관리**의 40개 목표(EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 4) 제공 | **EDM 사이클**: Evaluate(현황 평가) → Direct(방향·정책 수립) → Monitor(성과 측정). 설계 팩터 11개(전략·목표·위험·역할·문제·문화·역량 등)로 **커스터마이즈된 거버넌스 시스템** 설계. PAM(Process Assessment Model)으로 **프로세스 성숙도 0~5 척도 측정** |
+| **COBIT 2019** (Control Objectives for Information and Related Technologies) | **전사 IT 거버넌스·관리**의 40개 목표(EDM 5 + APO 14 + BAI 11 + DSS 6 + MEA 4) 제공 | **EDM 사이클**: Evaluate(현황 평가) -> Direct(방향·정책 수립) -> Monitor(성과 측정). 설계 팩터 11개(전략·목표·위험·역할·문제·문화·역량 등)로 **커스터마이즈된 거버넌스 시스템** 설계. PAM(Process Assessment Model)으로 **프로세스 성숙도 0~5 척도 측정** |
 | **ITIL 4** (Information Technology Infrastructure Library) | **서비스 가치 사슬(SVC, Service Value Chain)** 중심의 운영 우수성 프레임워크 | **34개 Practice**(변경관리·인시던트·문제·릴리스 등) + **7개 guiding principle**(Focus on value, Start where you are, Progress iteratively, etc.). **Four Dimensions Model**: 조직·사람·정보·기술·공급자·가치사슬(Products 포함) |
 | **PMBOK 7th** (Project Management Body of Knowledge, PMI) | 프로젝트 거버넌스의 8개 **Performance Domain** | **8 Domains**: Stakeholder, Team, Development Approach, Planning, Project Work, Delivery, Measurement, Uncertainty. **12 Principle of Project Management** + Tailoring 가이드 |
-| **TOGAF 10 / Zachman** (Enterprise Architecture) | **비즈니스-데이터-애플리케이션-기술** 4계층 아키텍처 정렬 | **ADM(Architecture Development Method)**: Preliminary→A(비즈니스)→B/D(데이터)→C(애플리케이션)→D(기술)→E,F,G 구현·마이그레이션. **EA Repository**(ArchiMate 3.2 모델링 언어) |
-| **Balanced Scorecard (BSC)** | **재무·고객·내부프로세스·학습성장** 4관점 KPI | **Strategy Map**(인과관계 다이어그램) + **CSF/KPI/PPI 3단 계층**. 예: ITSM 운영에서 "평균복구시간(MTTR)" → "서비스 가용성" → "고객만족도(CSAT)" → "매출 유지율" |
+| **TOGAF 10 / Zachman** (Enterprise Architecture) | **비즈니스-데이터-애플리케이션-기술** 4계층 아키텍처 정렬 | **ADM(Architecture Development Method)**: Preliminary->A(비즈니스)->B/D(데이터)->C(애플리케이션)->D(기술)->E,F,G 구현·마이그레이션. **EA Repository**(ArchiMate 3.2 모델링 언어) |
+| **Balanced Scorecard (BSC)** | **재무·고객·내부프로세스·학습성장** 4관점 KPI | **Strategy Map**(인과관계 다이어그램) + **CSF/KPI/PPI 3단 계층**. 예: ITSM 운영에서 "평균복구시간(MTTR)" -> "서비스 가용성" -> "고객만족도(CSAT)" -> "매출 유지율" |
 | **DORA Metrics** | DevOps 성과 4대 지표 | **배포빈도(DF)** · **변경리드타임(MLT)** · **평균복구시간(MTTR)** · **변경실패율(CFR)**. Elite: 1일 1배포+ MLT<1일+ MTTR<1시간+ CFR 0-15% |
-| **FinOps Foundation** | 클라우드 비용 거버넌스 | **Inform→Optimize→Operate** 3단계. **TBM(Tech Business Management)** taxonomy + Showback/Chargeback 모델. **Reserved Instance/ Savings Plan** 최적화 |
-| **ISO 38500 (2015)** | **이사회·경영진**의 IT 거버넌스 6원칙 | **6 Principle**: Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior. **Governance Model**: Direct(지시) → Evaluate(평가) → Monitor(모니터) |
+| **FinOps Foundation** | 클라우드 비용 거버넌스 | **Inform->Optimize->Operate** 3단계. **TBM(Tech Business Management)** taxonomy + Showback/Chargeback 모델. **Reserved Instance/ Savings Plan** 최적화 |
+| **ISO 38500 (2015)** | **이사회·경영진**의 IT 거버넌스 6원칙 | **6 Principle**: Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behavior. **Governance Model**: Direct(지시) -> Evaluate(평가) -> Monitor(모니터) |
 
 **핵심 메커니즘: COBIT Cascade + Capability Level**
 1. **이해관계자 니즈 식별**: 13개 Enterprise Goal 중 관련 목표 선정 (예: "AG01: IT 준수 및 지원", "AG04: 위험 관리")
-2. **Alignment Goal 매핑**: Enterprise Goal → Alignment Goal (예: AG01 → "EDM01: 거버넌스 프레임워크 설정")
-3. **Management Process 도출**: Alignment Goal → Process (예: EDM01 → EDM01.01 "비즈니스 원칙 준수 평가")
+2. **Alignment Goal 매핑**: Enterprise Goal -> Alignment Goal (예: AG01 -> "EDM01: 거버넌스 프레임워크 설정")
+3. **Management Process 도출**: Alignment Goal -> Process (예: EDM01 -> EDM01.01 "비즈니스 원칙 준수 평가")
 4. **Capability 평가**: PAM(Process Assessment Model, ISO/IEC 33020 기반) 6레벨(0:불완전~5:최적화) 측정
-5. **KPI 연결**: RACI Matrix + Process Goal Metric (예: EDM01 → "% of governance issues resolved within agreed timeframe ≥ 95%")
+5. **KPI 연결**: RACI Matrix + Process Goal Metric (예: EDM01 -> "% of governance issues resolved within agreed timeframe ≥ 95%")
 
 **거버넌스 운영 주기**: 일반적으로 **Quarterly IT Steering Committee + Monthly Operational Review + Annual Independent Audit**의 3단 리듬을 사용한다.
 
@@ -154,7 +154,7 @@ IT 경영 관리 표준들은 **경쟁 관계가 아니라 상호 보완적**이
 
 **진행 상황**: 649 / 800
 
-← **이전**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/)
-**다음**: [650. IT 경영 관리 핵심 토픽 650번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/650_it_management_core_topic_650_exam_summary/) →
+<- **이전**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/)
+**다음**: [650. IT 경영 관리 핵심 토픽 650번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/650_it_management_core_topic_650_exam_summary/) ->
 
 ---

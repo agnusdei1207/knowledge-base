@@ -26,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 웨이 예측이 "모든 방을 동시에 여는 것"이 아니라, "가장 가능성 높은 방부터 보는 것"임을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Way prediction before full set lookup                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ address → index                                                           │
-│           ├────────▶ predictor table ───────▶ predicted way = 2           │
-│           └────────▶ set 37 in cache                                      │
-│                                                                            │
-│ first access : read tag/data of way2 only                                  │
-│       if tag match  ───────────────────────────────────────▶ return data   │
-│       if tag miss   ─▶ probe remaining ways / recover                      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    Way prediction before full set lookup                   |
++----------------------------------------------------------------------------+
+| address -> index                                                           |
+|           +---------> predictor table --------> predicted way = 2           |
+|           +---------> set 37 in cache                                      |
+|                                                                            |
+| first access : read tag/data of way2 only                                  |
+|       if tag match  ----------------------------------------> return data   |
+|       if tag miss   --> probe remaining ways / recover                      |
++----------------------------------------------------------------------------+
 ```
 
 즉 웨이 예측은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이는 기법이라기보다, <strong>높은 연관도가 가진 전력·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 비용을 줄이는 미세 구조 최적화</strong>로 보는 것이 정확하다. 캐시 구조는 그대로 두고, 접근 방식만 더 영리하게 만드는 셈이다.
@@ -130,24 +130,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 Direct-mapped cache
-      │
-      ▼
+      |
+      v
 Set-associative cache
-      │
-      ▼
+      |
+      v
 Parallel tag/data lookup
-      │
-      ▼
+      |
+      v
 Power concern in L1 caches
-      │
-      ▼
+      |
+      v
 Way prediction
-      │
-      ▼
+      |
+      v
 Adaptive confidence-based cache lookup
 ```
 
-이 흐름은 "충돌 미스 완화 → 연관도 증가 → 전력 부담 발생 → 예측 기반 선택적 접근"으로 이어진 캐시 미세 구조의 진화를 보여 준다.
+이 흐름은 "충돌 미스 완화 -> 연관도 증가 -> 전력 부담 발생 -> 예측 기반 선택적 접근"으로 이어진 캐시 미세 구조의 진화를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -161,7 +161,7 @@ Adaptive confidence-based cache lookup
 
 **진행 상황**: 504 / 803
 
-← **이전**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/)
-**다음**: [505. 캐시 라인 프리패치 (Cache Line Prefetching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/505_cache_line_prefetch/) →
+<- **이전**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/)
+**다음**: [505. 캐시 라인 프리패치 (Cache Line Prefetching)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/505_cache_line_prefetch/) ->
 
 ---

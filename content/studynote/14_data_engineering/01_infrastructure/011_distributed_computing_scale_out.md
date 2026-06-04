@@ -31,16 +31,16 @@ tags = ["data_engineering"]
 [트래픽/데이터 볼륨 증가에 따른 확장 방식의 한계 비교]
 
 비용 / 처리량
-  ↑
-  │                    [Scale-up (수직 확장)] : 고가 장비 한계 도달 (장벽)
-  │                   ↗ ✖ (물리적 한계, 비용 폭발)
-  │                 ↗
-  │               ↗
-  │             ↗      [Scale-out (수평 확장)] : 지속적 노드 추가
-  │           ↗    ────────────────────────────────────────────▶ (선형 확장)
-  │         ↗    ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...
-  │       ↗    ─
-  └─────────────────────────────────────────────────────→ 데이터 규모 (PB+)
+  ^
+  |                    [Scale-up (수직 확장)] : 고가 장비 한계 도달 (장벽)
+  |                   ↗ ✖ (물리적 한계, 비용 폭발)
+  |                 ↗
+  |               ↗
+  |             ↗      [Scale-out (수평 확장)] : 지속적 노드 추가
+  |           ↗    ---------------------------------------------> (선형 확장)
+  |         ↗    - 노드 1 - 노드 2 - 노드 3 - 노드 N ...
+  |       ↗    -
+  +------------------------------------------------------> 데이터 규모 (PB+)
 ```
 
 이 흐름의 핵심은 비용 효율성과 물리적 한계 돌파에 있다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 메인프레임과 같은 고가 장비를 요구하지만 어느 시점부터는 비용 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증가율이 급감한다. 반면 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 구조에서는 상대적으로 저렴한 x86 서버를 클러스터에 편입시키는 것만으로 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 선형적으로 높일 수 있다. 실무에서는 이러한 구조 덕분에 클라우드 인프라의 자동 확장(Auto-scaling) 기능과 맞물려 수요 변동에 탄력적으로 대응할 수 있게 된다.
@@ -64,26 +64,26 @@ tags = ["data_engineering"]
 아래 다이어그램은 무공유 아키텍처 환경에서 여러 개의 워커 노드가 메모리나 디스크를 일절 공유하지 않고, 독립적인 자원으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 수행하는 구조를 나타낸다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│               [Client Request / Job Submission]        │
-└──────────────┬──────────────────────────────┬──────────┘
-               │                              │
-        ┌──────▼──────┐                ┌──────▼──────┐
-        │ Master Node │<=== 동기화 ===>│ Coordinator │
-        │ (Metadata)  │                │ (ZooKeeper) │
-        └──────┬──────┘                └──────┬──────┘
-               │ 스케줄링 및 헬스 체크        │
- ┌─────────────┼─────────────┬────────────────┤
- ▼             ▼             ▼                ▼
-┌─────────┐   ┌─────────┐   ┌─────────┐      ┌─────────┐
-│ Worker 1│   │ Worker 2│   │ Worker 3│      │ Worker N│
-│ - CPU   │   │ - CPU   │   │ - CPU   │      │ - CPU   │
-│ - RAM   │   │ - RAM   │   │ - RAM   │ ...  │ - RAM   │
-│ - Disk  │   │ - Disk  │   │ - Disk  │      │ - Disk  │
-└─────────┘   └─────────┘   └─────────┘      └─────────┘
-   ▲             ▲             ▲                ▲
-   └─────────────┴───────┬─────┴────────────────┘
-                         │ 셔플(Shuffle) / 데이터 전송망
++--------------------------------------------------------+
+|               [Client Request / Job Submission]        |
++--------------+------------------------------+----------+
+               |                              |
+        +------v------+                +------v------+
+        | Master Node |<=== 동기화 ===>| Coordinator |
+        | (Metadata)  |                | (ZooKeeper) |
+        +------+------+                +------+------+
+               | 스케줄링 및 헬스 체크        |
+ +-------------+-------------+----------------+
+ v             v             v                v
++---------+   +---------+   +---------+      +---------+
+| Worker 1|   | Worker 2|   | Worker 3|      | Worker N|
+| - CPU   |   | - CPU   |   | - CPU   |      | - CPU   |
+| - RAM   |   | - RAM   |   | - RAM   | ...  | - RAM   |
+| - Disk  |   | - Disk  |   | - Disk  |      | - Disk  |
++---------+   +---------+   +---------+      +---------+
+   ^             ^             ^                ^
+   +-------------+-------+-----+----------------+
+                         | 셔플(Shuffle) / 데이터 전송망
 ```
 
 이 그림의 핵심은 각 워커 노드가 자신만의 CPU, RAM, 디스크를 독립적으로 소유하며 다른 노드와 자원을 물리적으로 공유하지 않는다는 점이다. 이는 노드 간 경합(Contention)을 없애 선형 확장을 가능하게 하는 핵심 메커니즘이다. 반면, 이 때문에 워커 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 필요할 때는 네트워크를 통한 셔플(Shuffle)이 발생하여 심각한 I/O 병목이 발생할 수 있다. 실무에서는 이러한 네트워크 이동을 최소화하기 위해 '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))' 원칙, 즉 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 노드로 보내는 전략을 우선해야 한다.
@@ -118,8 +118,8 @@ tags = ["data_engineering"]
 
 Worker 1 [Data A] ====↘
 Worker 2 [Data B] ====(Network Switch)====> [Reducer/Aggregator]
-Worker 3 [Data C] ====↗       ▲
-Worker N [Data D] ==↗         │
+Worker 3 [Data C] ====↗       ^
+Worker N [Data D] ==↗         |
                            병목 지점: 과도한 노드 확장은
                            동기화 및 데이터 교환 네트워크 오버헤드 유발
 ```
@@ -142,15 +142,15 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 [스케일 아웃 도입 의사결정 플로우]
 
 [시스템 성능 저하 감지]
-         ↓
+         v
 [병목이 디스크/메모리인가? 아니면 CPU 연산인가?]
-   ├─ (단순 쿼리/강력한 일관성 필요) ──> [Scale-up 및 RDB 튜닝 고려]
-   └─ (대규모 데이터/분석/무상태) ──> [데이터 파티셔닝 가능 여부 판단]
-                                             ↓
-             ┌─────────(Yes)─────────────────┴──────────(No)────┐
-             ↓                                                  ↓
+   +- (단순 쿼리/강력한 일관성 필요) --> [Scale-up 및 RDB 튜닝 고려]
+   +- (대규모 데이터/분석/무상태) --> [데이터 파티셔닝 가능 여부 판단]
+                                             v
+             +---------(Yes)-----------------+----------(No)----+
+             v                                                  v
    [분산 아키텍처 전환 (Scale-out)]                  [애플리케이션 로직 재설계 (Sharding 도입)]
-             ↓
+             v
    [네트워크 대역폭 및 ZooKeeper 동기화 설계]
 ```
 
@@ -187,17 +187,17 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 ```text
 [단일 서버 (Monolithic Server) — 수직 확장(Scale-Up)의 물리적 한계]
-    │
-    ▼
+    |
+    v
 [수평 확장 (Scale-Out) — 동일 서버 복제·로드 밸런싱으로 처리량 선형 증가]
-    │
-    ▼
+    |
+    v
 [분산 파일 시스템 (HDFS / GFS) — 데이터 샤딩과 복제로 고가용성 저장]
-    │
-    ▼
+    |
+    v
 [분산 컴퓨팅 프레임워크 (MapReduce / Spark) — 클러스터 전체 병렬 연산]
-    │
-    ▼
+    |
+    v
 [컨테이너 오케스트레이션 (Kubernetes) — 동적 Scale-Out 자동화·자원 최적화]
 ```
 
@@ -214,7 +214,7 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 **진행 상황**: 11 / 258
 
-← **이전**: [10. 스키마 온 라이트 (Schema-on-Write) - 저장 전 정규화/ETL을 통해 스키마에 맞게 정제 (DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)
-**다음**: [12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크](/knowledge-base/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/) →
+<- **이전**: [10. 스키마 온 라이트 (Schema-on-Write) - 저장 전 정규화/ETL을 통해 스키마에 맞게 정제 (DW)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)
+**다음**: [12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크](/knowledge-base/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/) ->
 
 ---

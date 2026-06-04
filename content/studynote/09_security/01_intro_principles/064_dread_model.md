@@ -31,13 +31,13 @@ tags = ["studynote-security"]
 
 ```text
 Threat
-  ↓
+  v
 DREAD Factors
-  ↓
+  v
 Score
-  ↓
+  v
 Priority
-  ↓
+  v
 Mitigation
 ```
 
@@ -106,11 +106,11 @@ DREAD를 쓰면 보안 논의가 구체적이고 반복 가능해진다. 무엇�
 
 ```text
 Threat
-  ↓
+  v
 DREAD
-  ↓
+  v
 Priority
-  ↓
+  v
 Mitigation Plan
 ```
 
@@ -120,11 +120,11 @@ Mitigation Plan
 
 ```text
 Threat Identification
-  ↓
+  v
 Risk Scoring
-  ↓
+  v
 DREAD
-  ↓
+  v
 Security Backlog
 ```
 
@@ -142,7 +142,7 @@ DREAD는 그런 위험 점수표예요.
 
 **진행 상황**: 64 / 1108
 
-← **이전**: [063. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/01_intro_principles/063_threat_modeling/)
-**다음**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/) →
+<- **이전**: [063. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/01_intro_principles/063_threat_modeling/)
+**다음**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/) ->
 
 ---

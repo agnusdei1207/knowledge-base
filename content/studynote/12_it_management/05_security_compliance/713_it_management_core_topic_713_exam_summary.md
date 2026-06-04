@@ -25,26 +25,26 @@ tags = ["studynote-it-management"]
 
 ```text
    [ 정보화 전략 수립 4단계 - ISD(Information Strategy Discovery) ]
-   ┌────────────────────────────────────────────────────────────┐
-   │  Phase 1   Phase 2    Phase 3    Phase 4                  │
-   │  현황분석  →  SWOT   →  목표설정  →  실행계획             │
-   │  (As-Is)     분석      (To-Be)     (Roadmap)              │
-   │    │           │          │           │                    │
-   │    ▼           ▼          ▼           ▼                    │
-   │  BPA        5-Forces   BSC KPI    우선순위화               │
-   │  Value Chain 경쟁분석    Tree 구축  AHP/ROI                │
-   │  BPI         CSF 도출    RACI 정의  Quick-Win/MoE           │
-   └────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-   ┌────────────────────────────────────────────────────────────┐
-   │          IT 거버넌스 통합 프레임워크 (상위레벨)            │
-   │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌─────────┐ │
-   │  │ 전략정렬 │ ↔ │ 가치제공 │ ↔ │ 리스크관 │ ↔ │ 성과측정│ │
-   │  │Align     │   │Delivery  │   │리Risk Mgmt│   │Measure │ │
-   │  └──────────┘   └──────────┘   └──────────┘   └─────────┘ │
-   │         ↑ COBIT 2019 40 Governance & Management Obj. ↑   │
-   └────────────────────────────────────────────────────────────┘
+   +------------------------------------------------------------+
+   |  Phase 1   Phase 2    Phase 3    Phase 4                  |
+   |  현황분석  ->  SWOT   ->  목표설정  ->  실행계획             |
+   |  (As-Is)     분석      (To-Be)     (Roadmap)              |
+   |    |           |          |           |                    |
+   |    v           v          v           v                    |
+   |  BPA        5-Forces   BSC KPI    우선순위화               |
+   |  Value Chain 경쟁분석    Tree 구축  AHP/ROI                |
+   |  BPI         CSF 도출    RACI 정의  Quick-Win/MoE           |
+   +------------------------------------------------------------+
+                                |
+                                v
+   +------------------------------------------------------------+
+   |          IT 거버넌스 통합 프레임워크 (상위레벨)            |
+   |  +----------+   +----------+   +----------+   +---------+ |
+   |  | 전략정렬 | ↔ | 가치제공 | ↔ | 리스크관 | ↔ | 성과측정| |
+   |  |Align     |   |Delivery  |   |리Risk Mgmt|   |Measure | |
+   |  +----------+   +----------+   +----------+   +---------+ |
+   |         ^ COBIT 2019 40 Governance & Management Obj. ^   |
+   +------------------------------------------------------------+
 ```
 
 **기존 vs 새로운 패러다임**
@@ -61,50 +61,50 @@ tags = ["studynote-it-management"]
 IT 경영관리의 3대 핵심 메커니즘은 ① **전략정렬(Strategic Alignment)** ② **가치지향관리(Value-Driven Management)** ③ **위험-통제-성능 균형(GRC-Performance Triangle)** 이다.
 
 ```text
-   ┌──────────────────────────────────────────────────────────────┐
-   │         IT 성과관리 아키텍처 5계층 모델 (PDCA + BSC)         │
-   │                                                              │
-   │  Layer 5  ┌────────────────────────────────────────────┐    │
-   │  의사결정 │  경영진 / 이사회                             │    │
-   │  (Decide) │  ├ CIO 보고 ── BSC Dashboard (Real-time)   │    │
-   │           │  ├ IT Strategy Committee (월 1회)          │    │
-   │           │  └ Risk Committee (격주)                   │    │
-   │           └────────────────────────────────────────────┘    │
-   │                          ▲                                   │
-   │  Layer 4  ┌────────────────────────────────────────────┐    │
-   │  분석/보고│  BI/Analytics (Tableau, Power BI, Looker)  │    │
-   │  (Report) │  + EA Repository (ArchiMate, LeanIX)       │    │
-   │           │  + ITFM (Apptio, SAP ITPM)                 │    │
-   │           └────────────────────────────────────────────┘    │
-   │                          ▲                                   │
-   │  Layer 3  ┌────────────────────────────────────────────┐    │
-   │  측정/계량│  KPI Tree ─── IT Scorecard (BSC 4 View)    │    │
-   │  (Measure)│  ├ 재무    : TCO, ROI, EVA-S, Cost/Trans  │    │
-   │           │  ├ 고객    : NPS, SLA 준수율, 만족도        │    │
-   │           │  ├ 프로세스: 가용성 99.95%, MTTR, 변경성공률│    │
-   │           │  └ 학습성장: 역량 Index, 인증률, 이직률     │    │
-   │           └────────────────────────────────────────────┘    │
-   │                          ▲                                   │
-   │  Layer 2  ┌────────────────────────────────────────────┐    │
-   │  통제/감사│  Control Objectives (COBIT 2019: 40개)     │    │
-   │  (Control)│  + ISO 27001 (114 통제) + ITIL4 (34 Practice)│    │
-   │           │  + Internal Audit + External 감리          │    │
-   │           └────────────────────────────────────────────┘    │
-   │                          ▲                                   │
-   │  Layer 1  ┌────────────────────────────────────────────┐    │
-   │  운영/실행│  ITSM (ServiceNow, BMC Helix)              │    │
-   │  (Operate)│  + DevOps (GitLab, Jenkins)                │    │
-   │           │  + FinOps (Cloudability, Vantage)          │    │
-   │           └────────────────────────────────────────────┘    │
-   └──────────────────────────────────────────────────────────────┘
+   +--------------------------------------------------------------+
+   |         IT 성과관리 아키텍처 5계층 모델 (PDCA + BSC)         |
+   |                                                              |
+   |  Layer 5  +--------------------------------------------+    |
+   |  의사결정 |  경영진 / 이사회                             |    |
+   |  (Decide) |  + CIO 보고 -- BSC Dashboard (Real-time)   |    |
+   |           |  + IT Strategy Committee (월 1회)          |    |
+   |           |  + Risk Committee (격주)                   |    |
+   |           +--------------------------------------------+    |
+   |                          ^                                   |
+   |  Layer 4  +--------------------------------------------+    |
+   |  분석/보고|  BI/Analytics (Tableau, Power BI, Looker)  |    |
+   |  (Report) |  + EA Repository (ArchiMate, LeanIX)       |    |
+   |           |  + ITFM (Apptio, SAP ITPM)                 |    |
+   |           +--------------------------------------------+    |
+   |                          ^                                   |
+   |  Layer 3  +--------------------------------------------+    |
+   |  측정/계량|  KPI Tree --- IT Scorecard (BSC 4 View)    |    |
+   |  (Measure)|  + 재무    : TCO, ROI, EVA-S, Cost/Trans  |    |
+   |           |  + 고객    : NPS, SLA 준수율, 만족도        |    |
+   |           |  + 프로세스: 가용성 99.95%, MTTR, 변경성공률|    |
+   |           |  + 학습성장: 역량 Index, 인증률, 이직률     |    |
+   |           +--------------------------------------------+    |
+   |                          ^                                   |
+   |  Layer 2  +--------------------------------------------+    |
+   |  통제/감사|  Control Objectives (COBIT 2019: 40개)     |    |
+   |  (Control)|  + ISO 27001 (114 통제) + ITIL4 (34 Practice)|    |
+   |           |  + Internal Audit + External 감리          |    |
+   |           +--------------------------------------------+    |
+   |                          ^                                   |
+   |  Layer 1  +--------------------------------------------+    |
+   |  운영/실행|  ITSM (ServiceNow, BMC Helix)              |    |
+   |  (Operate)|  + DevOps (GitLab, Jenkins)                |    |
+   |           |  + FinOps (Cloudability, Vantage)          |    |
+   |           +--------------------------------------------+    |
+   +--------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **전략정렬 (Strategic Alignment)** | 비즈니스 전략과 IT 로드맵의 양방향 매핑 | Henderson & Venkatraman SAMM(Strategic Alignment Maturity Model) 4단계(Initial→Committed→Established→Improved) 측정, EA(Enterprise Architecture) 기반 Business Capability ↔ Application ↔ Technology 3-Layer 매핑 |
+| **전략정렬 (Strategic Alignment)** | 비즈니스 전략과 IT 로드맵의 양방향 매핑 | Henderson & Venkatraman SAMM(Strategic Alignment Maturity Model) 4단계(Initial->Committed->Established->Improved) 측정, EA(Enterprise Architecture) 기반 Business Capability ↔ Application ↔ Technology 3-Layer 매핑 |
 | **BSC + KPI Tree** | 재무/고객/내부프로세스/학습성장 4관점 균형 성과측정 | Kaplan & Norton BSC 프레임워크, Strategic Map(Causal Map) 작성법, SMART KPI + Lag/Lead Indicator 조합, 1개 CSF당 2~4개 KPI 배정 (Nielsen Norman Group 5±2 법칙) |
 | **COBIT 2019** | 40개 거버넌스·관리 목표를 통해 IT 활동 통제 | EDM(5개), APO(14개), BAI(11개), DSS(6개), MEA(4개) 5도메인 구조, Design Factors(11개)로 조직별 맞춤 설계, RACI Chart 필수 |
-| **IT 투자 포트폴리오 (ITPF)** | Run(현업운영) / Grow(역량확장) / Transform(혁신) 비율 최적화 | Garner 70:20:10 원칙(현업 중심), McKinsey 60:30:10(혁신 강화형), Stage-Gate 펀딩 모델(Discovery→Pilot→Scale), Pipeline 가시화(Apptio, ServiceNow SPM) |
+| **IT 투자 포트폴리오 (ITPF)** | Run(현업운영) / Grow(역량확장) / Transform(혁신) 비율 최적화 | Garner 70:20:10 원칙(현업 중심), McKinsey 60:30:10(혁신 강화형), Stage-Gate 펀딩 모델(Discovery->Pilot->Scale), Pipeline 가시화(Apptio, ServiceNow SPM) |
 | **VoI/ROI 분석 모델** | 재무적·비재무적 가치 종합 산출 | 정량 ROI = (비용절감 + 수익증가) / 총투자비, 정성 VoI = 무형가치(브랜드, 민첩성) ± 리스크 조정, Gartner TBM(Technology Business Management) 4-Layer Cost Model |
 
 **핵심 측정식 및 정량 지표**
@@ -147,7 +147,7 @@ IT 경영관리의 주요 프레임워크 간 비교 및 실무 상호운용성
 
 **진행 상황**: 713 / 800
 
-← **이전**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/)
-**다음**: [714. IT 경영 관리 핵심 토픽 714번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/714_it_management_core_topic_714_exam_summary/) →
+<- **이전**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/)
+**다음**: [714. IT 경영 관리 핵심 토픽 714번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/714_it_management_core_topic_714_exam_summary/) ->
 
 ---

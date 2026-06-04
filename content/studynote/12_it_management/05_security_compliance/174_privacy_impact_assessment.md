@@ -26,19 +26,19 @@ PIA는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_
 국내에서는 일정 규모 이상의 공공기관 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)파일을 대상으로 법적 영향평가가 요구되며, 민간도 고위험 처리나 글로벌 규제 대응 관점에서 [DPIA](/knowledge-base/studynote/09_security/16_data_privacy/796_gdpr_dpia/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Impact Assessment) 수준의 평가를 활용한다. 즉 PIA는 특정 기관만의 문서 작업이 아니라, <strong>Privacy by Design을 구현하는 경영·아키텍처 도구</strong>다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why privacy problems must be found before launch                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ New service idea                                                     │
-│   -> collect data                                                    │
-│   -> store data                                                      │
-│   -> share / outsource                                               │
-│   -> analyze / profile                                               │
-│   -> retain / destroy                                                │
-│                                                                      │
-│ If no PIA: hidden risks remain inside design                         │
-│ If PIA   : risky flow is found before production                     │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Why privacy problems must be found before launch                     |
++----------------------------------------------------------------------+
+| New service idea                                                     |
+|   -> collect data                                                    |
+|   -> store data                                                      |
+|   -> share / outsource                                               |
+|   -> analyze / profile                                               |
+|   -> retain / destroy                                                |
+|                                                                      |
+| If no PIA: hidden risks remain inside design                         |
+| If PIA   : risky flow is found before production                     |
++----------------------------------------------------------------------+
 ```
 
 즉 PIA의 필요성은 규제 준수만이 아니라, <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 처리 구조를 설명 가능하고 통제 가능한 형태로 만드는 것</strong>에 있다.
@@ -49,28 +49,28 @@ PIA는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PIA는 보통 `대상 식별 → 데이터 흐름 파악 → 위험 분석 → 개선 설계 → 이행 확인`의 순서로 진행된다. 여기서 가장 중요한 출발점은 시스템 기능 목록이 아니라 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>의 생애주기</strong>다. 무엇을 수집하는지보다, 어디서 들어와 누구를 거쳐 어디에 저장되고 언제 파기되는지까지 끊김 없이 보여 주어야 실질적 위험이 보인다.
+PIA는 보통 `대상 식별 -> 데이터 흐름 파악 -> 위험 분석 -> 개선 설계 -> 이행 확인`의 순서로 진행된다. 여기서 가장 중요한 출발점은 시스템 기능 목록이 아니라 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>의 생애주기</strong>다. 무엇을 수집하는지보다, 어디서 들어와 누구를 거쳐 어디에 저장되고 언제 파기되는지까지 끊김 없이 보여 주어야 실질적 위험이 보인다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ PIA workflow                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Change trigger                                                       │
-│   ├─ new system                                                      │
-│   ├─ major feature expansion                                         │
-│   ├─ third-party linkage                                             │
-│   └─ AI / analytics profiling                                        │
-│        │                                                             │
-│        ▼                                                             │
-│ Data inventory -> Data flow map -> Risk analysis -> Control design   │
-│        │               │                   │                          │
-│        │               │                   ├─ minimization            │
-│        │               │                   ├─ access control          │
-│        │               │                   ├─ retention / deletion    │
-│        │               │                   └─ transfer safeguards     │
-│        ▼               ▼                                              │
-│ Scope confirmation      Remediation plan -> review -> launch decision │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| PIA workflow                                                         |
++----------------------------------------------------------------------+
+| Change trigger                                                       |
+|   +- new system                                                      |
+|   +- major feature expansion                                         |
+|   +- third-party linkage                                             |
+|   +- AI / analytics profiling                                        |
+|        |                                                             |
+|        v                                                             |
+| Data inventory -> Data flow map -> Risk analysis -> Control design   |
+|        |               |                   |                          |
+|        |               |                   +- minimization            |
+|        |               |                   +- access control          |
+|        |               |                   +- retention / deletion    |
+|        |               |                   +- transfer safeguards     |
+|        v               v                                              |
+| Scope confirmation      Remediation plan -> review -> launch decision |
++----------------------------------------------------------------------+
 ```
 
 | 평가 축 | 대표 질문 | 설계 반영 예시 |
@@ -166,22 +166,22 @@ PIA를 제대로 수행하면 시스템 오픈 후 뒤늦게 [데이터](/knowle
 
 ```text
 Personal data collection expands
-    │
-    ▼
+    |
+    v
 Need for privacy risk visibility
-    │
-    ▼
+    |
+    v
 PIA / DPIA methodology
-    │
-    ├─ data inventory
-    ├─ flow mapping
-    ├─ risk analysis
-    └─ remediation planning
-    │
-    ▼
+    |
+    +- data inventory
+    +- flow mapping
+    +- risk analysis
+    +- remediation planning
+    |
+    v
 Privacy by Design in SDLC (Software Development Life Cycle)
-    │
-    ▼
+    |
+    v
 Audit / ISMS-P / digital trust governance
 ```
 
@@ -199,7 +199,7 @@ Audit / ISMS-P / digital trust governance
 
 **진행 상황**: 288 / 587
 
-← **이전**: [173. 정보보호최고책임자 (CISO) 지정 의무 및 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)
-**다음**: [175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity](/knowledge-base/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/) →
+<- **이전**: [173. 정보보호최고책임자 (CISO) 지정 의무 및 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)
+**다음**: [175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity](/knowledge-base/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/) ->
 
 ---

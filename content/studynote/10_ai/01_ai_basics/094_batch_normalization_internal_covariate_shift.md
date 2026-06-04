@@ -32,19 +32,19 @@ tags = ["studynote-ai"]
 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 주로 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) ([Activation Function](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)) 이전에 적용되어 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미니배치 단위로 모아 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 계산한다. 핵심은 무작정 0과 1로 고정하는 것이 아니라, 원래의 표현력을 잃지 않도록 복원 파라미터를 함께 학습한다는 점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  배치 정규화 (Batch Normalization) 메커니즘                 │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [미니배치 입력] x = {x_1, x_2, ..., x_m}                  │
-│                                                              │
-│ 2. [평균/분산 계산] μ_B (평균), σ²_B (분산) 추출              │
-│                                                              │
-│ 3. [정규화 (Normalize)]  x_hat = (x - μ_B) / √(σ²_B + ε)     │
-│    => 분포를 평균 0, 분산 1로 강제 정렬 (ε은 0 나누기 방지용)   │
-│                                                              │
-│ 4. [스케일 및 시프트]  y = γ * x_hat + β                     │
-│    => 모델이 스스로 최적의 형태를 찾도록 융통성 부여 (학습 변수)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  배치 정규화 (Batch Normalization) 메커니즘                 |
++--------------------------------------------------------------+
+| 1. [미니배치 입력] x = {x_1, x_2, ..., x_m}                  |
+|                                                              |
+| 2. [평균/분산 계산] μ_B (평균), σ^_B (분산) 추출              |
+|                                                              |
+| 3. [정규화 (Normalize)]  x_hat = (x - μ_B) / √(σ^_B + ε)     |
+|    => 분포를 평균 0, 분산 1로 강제 정렬 (ε은 0 나누기 방지용)   |
+|                                                              |
+| 4. [스케일 및 시프트]  y = γ * x_hat + β                     |
+|    => 모델이 스스로 최적의 형태를 찾도록 융통성 부여 (학습 변수)  |
++--------------------------------------------------------------+
 ```
 
 단순히 평균을 0, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 1로 맞추면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 구간에만 머무르게 되어 딥러닝 고유의 비선형성(예: ReLU의 꺾임)이 죽어버린다. 따라서 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 값에 스케일 파라미터 $\gamma$ (감마)를 곱하고 시프트 파라미터 $\beta$ (베타)를 더해준다. 이 두 변수는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가장 알맞은 형태로 기계가 스스로 학습한다.
@@ -106,17 +106,17 @@ tags = ["studynote-ai"]
 
 ```text
 기울기 소실 및 널뛰는 학습
-    │
-    ▼
+    |
+    v
 가중치 초기화 (He, Xavier) · 낮은 학습률 사용
-    │
-    ▼
+    |
+    v
 배치 정규화 (Batch Normalization) 도입 (분포 강제 정돈)
-    │
-    ▼
+    |
+    v
 레이어 정규화 (Layer Normalization) (자연어/RNN 확장)
-    │
-    ▼
+    |
+    v
 그룹 정규화 (Group Normalization) (작은 배치 크기 극복)
 ```
 
@@ -132,7 +132,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 94 / 420
 
-← **이전**: [93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍](/knowledge-base/studynote/10_ai/01_ai_basics/093_early_stopping_overfitting_validation_loss/)
-**다음**: [95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처](/knowledge-base/studynote/10_ai/01_ai_basics/095_cnn_convolutional_neural_network_image_recognition/) →
+<- **이전**: [93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍](/knowledge-base/studynote/10_ai/01_ai_basics/093_early_stopping_overfitting_validation_loss/)
+**다음**: [95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처](/knowledge-base/studynote/10_ai/01_ai_basics/095_cnn_convolutional_neural_network_image_recognition/) ->
 
 ---

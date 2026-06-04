@@ -26,9 +26,9 @@ tags = ["studynote-devops-sre"]
 ```text
 Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Desired State        |--->| Plan / Diff          |--->| Apply Engine         |--->| State & Policy       |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 이 그림은 [테라폼 상태 파일](/knowledge-base/studynote/15_devops_sre/05_devsecops/196_tfstate_json_s3/) tfstate 잠금이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
@@ -51,9 +51,9 @@ Deployment / Control / Feedback Flow
 ```text
 Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
++----------------------+   +----------------------+   +----------------------+   +----------------------+
+| Desired State        |--->| Plan / Diff          |--->| Apply Engine         |--->| State & Policy       |
++----------------------+   +----------------------+   +----------------------+   +----------------------+
 ```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
@@ -123,13 +123,13 @@ Reference Architecture
 
 ```text
 [Remote Backend]
-    │
-    ▼
+    |
+    v
 [테라폼 상태 파일 tfstate 잠금]
-    │
-    ├──▶ [State Lock]
-    ├──▶ [Drift]
-    └──▶ [수동 프로비저닝과 운영자별 개별 스크립트]
+    |
+    +---> [State Lock]
+    +---> [Drift]
+    +---> [수동 프로비저닝과 운영자별 개별 스크립트]
 ```
 
 이 흐름도는 [테라폼 상태 파일](/knowledge-base/studynote/15_devops_sre/05_devsecops/196_tfstate_json_s3/) tfstate 잠금이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
@@ -145,7 +145,7 @@ Reference Architecture
 
 **진행 상황**: 294 / 373
 
-← **이전**: [293. 구성 편류 방지 불변 인프라 (Architecture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/293_architecture/)
-**다음**: [295. 마이크로서비스 MSA 도메인 주도 설계 DDD (Microservice Architecture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/295_msa_ddd/) →
+<- **이전**: [293. 구성 편류 방지 불변 인프라 (Architecture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/293_architecture/)
+**다음**: [295. 마이크로서비스 MSA 도메인 주도 설계 DDD (Microservice Architecture)](/knowledge-base/studynote/15_devops_sre/05_devsecops/295_msa_ddd/) ->
 
 ---

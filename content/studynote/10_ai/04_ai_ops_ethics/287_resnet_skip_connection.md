@@ -40,12 +40,12 @@ $$H(x) = F(x) + x$$
 최적해가 항등 변환에 가깝다면 <strong>F(x) ≈ 0</strong>이 되어야 하고, 이는 H(x) = x를 직접 학습하는 것보다 훨씬 쉽다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 잔차 학습은 '변화량만 기억하는 공부법'이다. "오늘 배운 내용 전체를 다시 써라"는 어렵지만, "어제와 달라진 점만 써라"는 쉽다. ResNet은 각 층이 전체 변환이 아닌 '달라진 것(잔차)'만 학습하게 한다.
@@ -60,55 +60,55 @@ $$H(x) = F(x) + x$$
 기본 잔차 블록 (Basic Block, ResNet-18/34):
 
     x (입력)
-    │
-    ├─────────────────────────┐
-    │                         │ (Shortcut/Skip)
-    ▼                         │
-┌──────────────┐              │
-│ 3×3 Conv     │              │
-│ BN + ReLU    │              │
-└──────────────┘              │
-    │                         │
-    ▼                         │
-┌──────────────┐              │
-│ 3×3 Conv     │              │
-│ BN           │              │
-└──────────────┘              │
-    │                         │
-    └──────────────+───────────┘
-                   │
+    |
+    +-------------------------+
+    |                         | (Shortcut/Skip)
+    v                         |
++--------------+              |
+| 3×3 Conv     |              |
+| BN + ReLU    |              |
++--------------+              |
+    |                         |
+    v                         |
++--------------+              |
+| 3×3 Conv     |              |
+| BN           |              |
++--------------+              |
+    |                         |
+    +--------------+-----------+
+                   |
                  ReLU
-                   │
+                   |
                 H(x) = F(x) + x
 
 보틀넥 잔차 블록 (Bottleneck Block, ResNet-50/101/152):
 
     x (256채널)
-    │
-    ├────────────────────────────┐
-    │                            │ (1×1 Projection)
-    ▼                            │
-┌─────────────┐                  │
-│ 1×1 Conv 64 │  채널 축소       │
-│ BN + ReLU   │                  │
-└─────────────┘                  │
-    │                            │
-    ▼                            │
-┌─────────────┐                  │
-│ 3×3 Conv 64 │  공간 특징 추출  │
-│ BN + ReLU   │                  │
-└─────────────┘                  │
-    │                            │
-    ▼                            │
-┌─────────────┐                  │
-│ 1×1 Conv 256│  채널 복원       │
-│ BN          │                  │
-└─────────────┘                  │
-    │                            │
-    └─────────────+──────────────┘
-                  │
+    |
+    +----------------------------+
+    |                            | (1×1 Projection)
+    v                            |
++-------------+                  |
+| 1×1 Conv 64 |  채널 축소       |
+| BN + ReLU   |                  |
++-------------+                  |
+    |                            |
+    v                            |
++-------------+                  |
+| 3×3 Conv 64 |  공간 특징 추출  |
+| BN + ReLU   |                  |
++-------------+                  |
+    |                            |
+    v                            |
++-------------+                  |
+| 1×1 Conv 256|  채널 복원       |
+| BN          |                  |
++-------------+                  |
+    |                            |
+    +-------------+--------------+
+                  |
                 ReLU
-                  │
+                  |
               H(x) = F(x) + x
 ```
 
@@ -141,7 +141,7 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 | 모델 | 핵심 변경점 | 특징 |
 |:---|:---|:---|
 | Pre-Activation ResNet | BN-[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)-Conv 순서 변경 | 수렴 안정성 향상 |
-| Wide ResNet (WRN) | 채널 수 확장, 층 수 감소 | 정확도↑, 학습 속도↑ |
+| Wide ResNet (WRN) | 채널 수 확장, 층 수 감소 | 정확도^, 학습 속도^ |
 | ResNeXt | 그룹 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 도입 (Cardinality) | 동일 파라미터로 정확도 향상 |
 | DenseNet | 모든 이전 층과 연결 | 특징 재사용 극대화 |
 | SENet | 채널 어텐션 (SE Block) 추가 | 채널 중요도 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습 |
@@ -150,8 +150,8 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 
 ```
 VGGNet (단순 적층)           ResNet (잔차 연결)
-─────────────────           ─────────────────
-x → [Conv] → [Conv] → y    x → [Conv] → [Conv] → y
+-----------------           -----------------
+x -> [Conv] -> [Conv] -> y    x -> [Conv] -> [Conv] -> y
                             +---------- skip ------+
                                      +x
                              기울기 경로 항상 열림
@@ -182,15 +182,15 @@ Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/24
 
 ```
 입력 이미지
-    │
+    |
  ResNet 백본 (C2~C5 특징 맵)
-    │
+    |
  FPN (Feature Pyramid Network)
-    ├── P2 (고해상도, 소형 객체)
-    ├── P3
-    ├── P4
-    └── P5 (저해상도, 대형 객체)
-    │
+    +-- P2 (고해상도, 소형 객체)
+    +-- P3
+    +-- P4
+    +-- P5 (저해상도, 대형 객체)
+    |
  RPN + RoI Align + 분류/회귀 헤드
 ```
 
@@ -213,18 +213,18 @@ Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/24
 ### 잔차 연결의 수학적 정리
 
 ```
-┌────────────────────────────────────────────────────┐
-│ 순전파: H(x) = F(x) + x                           │
-│                                                    │
-│ 역전파: ∂L/∂x = ∂L/∂H × (∂F/∂x + 1)             │
-│                                                    │
-│ → '+1' 항이 항상 기울기 흐름 보장                  │
-│ → 아무리 깊어도 기울기 ≥ ∂L/∂H                    │
-│                                                    │
-│ 보틀넥 절감:                                       │
-│   Basic(3×3×2) 대비 Bottleneck(1×1+3×3+1×1):     │
-│   파라미터 약 1/4, 연산량 약 1/9                   │
-└────────────────────────────────────────────────────┘
++----------------------------------------------------+
+| 순전파: H(x) = F(x) + x                           |
+|                                                    |
+| 역전파: ∂L/∂x = ∂L/∂H × (∂F/∂x + 1)             |
+|                                                    |
+| -> '+1' 항이 항상 기울기 흐름 보장                  |
+| -> 아무리 깊어도 기울기 ≥ ∂L/∂H                    |
+|                                                    |
+| 보틀넥 절감:                                       |
+|   Basic(3×3×2) 대비 Bottleneck(1×1+3×3+1×1):     |
+|   파라미터 약 1/4, 연산량 약 1/9                   |
++----------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: ResNet은 'GPS가 달린 택배 시스템'이다. 중간에 길이 막혀도([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)) 고속도로(스킵 연결)를 타고 택배(기울기)가 항상 출발지까지 정확히 되돌아간다. 덕분에 어느 택배 기사(층)도 올바른 피드백을 받아 일을 제대로 배울 수 있다.
@@ -245,7 +245,7 @@ Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/24
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [ResNet (Residual Network)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [ResNet (Residual Network)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -260,7 +260,7 @@ Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/24
 
 **진행 상황**: 287 / 420
 
-← **이전**: [286. 1×1 합성곱 (1x1 Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/286_1x1_convolution/)
-**다음**: [288. 객체 탐지 (Object Detection)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) →
+<- **이전**: [286. 1×1 합성곱 (1x1 Convolution)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/286_1x1_convolution/)
+**다음**: [288. 객체 탐지 (Object Detection)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ->
 
 ---

@@ -48,23 +48,23 @@ tags = ["studynote-operating-system"]
 현대 리눅스/윈도우의 기본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 크기는 **4KB (4,096 Bytes)** 다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 페이징(Paging) 환경의 내부 단편화 발생 원리             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [상황: 프로세스 A가 17KB의 메모리를 요구함]                            │
-  │                                                                   │
-  │   - OS의 페이지 크기 = 4KB                                          │
-  │   - 필요 페이지 수 계산: 17KB / 4KB = 4장 ... 나머지 1KB             │
-  │   - OS는 무조건 '온전한 페이지' 단위로만 할당해야 함! (쪼개기 불가)         │
-  │   - 결론: OS는 프로세스 A에게 [ 5장의 페이지 (총 20KB) ]를 할당함.      │
-  │                                                                   │
-  │  [메모리 할당 맵]                                                    │
-  │   [Page 1] (4KB 꽉 참)                                             │
-  │   [Page 2] (4KB 꽉 참)                                             │
-  │   [Page 3] (4KB 꽉 참)                                             │
-  │   [Page 4] (4KB 꽉 참)                                             │
-  │   [Page 5] (1KB 사용됨) + [ 3KB의 버려진 공간 (내부 단편화!) ] ◀──     │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 페이징(Paging) 환경의 내부 단편화 발생 원리             |
+  +-------------------------------------------------------------------+
+  |  [상황: 프로세스 A가 17KB의 메모리를 요구함]                            |
+  |                                                                   |
+  |   - OS의 페이지 크기 = 4KB                                          |
+  |   - 필요 페이지 수 계산: 17KB / 4KB = 4장 ... 나머지 1KB             |
+  |   - OS는 무조건 '온전한 페이지' 단위로만 할당해야 함! (쪼개기 불가)         |
+  |   - 결론: OS는 프로세스 A에게 [ 5장의 페이지 (총 20KB) ]를 할당함.      |
+  |                                                                   |
+  |  [메모리 할당 맵]                                                    |
+  |   [Page 1] (4KB 꽉 참)                                             |
+  |   [Page 2] (4KB 꽉 참)                                             |
+  |   [Page 3] (4KB 꽉 참)                                             |
+  |   [Page 4] (4KB 꽉 참)                                             |
+  |   [Page 5] (1KB 사용됨) + [ 3KB의 버려진 공간 (내부 단편화!) ] <---     |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 <strong>오직 프로세스의 '가장 마지막 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>'에서만 발생</strong>한다. 따라서 1개 프로세스당 발생하는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)의 최댓값은 `페이지 크기 - 1Byte (약 4KB)`를 넘을 수 없으며, <strong>평균적인 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> 크기는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a>의 절반(약 2KB)</strong>이다. 프로세스의 크기가 수백 MB라 하더라도 낭비되는 메모리는 고작 2KB에 불과하므로, 이 정도의 낭비는 현대 OS에서 완전히 무시된다.
@@ -109,26 +109,26 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 애플리케이션 메모리 단편화 (Fragmentation) 진단 플로우     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버의 실제 사용량(RSS)이 논리적 데이터 크기보다 비정상적으로 높을 때]      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버에 할당된 페이지 크기(Page Size)가 얼마인가? (`getconf PAGE_SIZE`)│
-  │          ├─ 2MB / 1GB (Huge Page 환경)                            │
-  │          │    ├──▶ [내부 단편화(Internal Fragmentation) 과다 의심]   │
-  │          │    └──▶ 대책: THP(Transparent Huge Pages)를 Disable 하거나│
-  │          │              어플리케이션 특성에 맞춰 4KB 기본 페이지로 롤백.   │
-  │          └─ 4KB (기본 환경)                                        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      4KB 환경인데도 메모리 낭비가 심하다면, 범인은 페이징(OS)이 아니다!         │
-  │          ├──▶ [어플리케이션 Heap의 '외부 단편화' 확진]                 │
-  │          │    대책: 유저 스페이스 할당기(malloc, jemalloc)의 파편화 튜닝 │
-  │          │          또는 Java GC의 Compaction 지연 문제 점검.         │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 애플리케이션 메모리 단편화 (Fragmentation) 진단 플로우     |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버의 실제 사용량(RSS)이 논리적 데이터 크기보다 비정상적으로 높을 때]      |
+  |                |                                                  |
+  |                v                                                  |
+  |      서버에 할당된 페이지 크기(Page Size)가 얼마인가? (`getconf PAGE_SIZE`)|
+  |          +- 2MB / 1GB (Huge Page 환경)                            |
+  |          |    +---> [내부 단편화(Internal Fragmentation) 과다 의심]   |
+  |          |    +---> 대책: THP(Transparent Huge Pages)를 Disable 하거나|
+  |          |              어플리케이션 특성에 맞춰 4KB 기본 페이지로 롤백.   |
+  |          +- 4KB (기본 환경)                                        |
+  |                |                                                  |
+  |                v                                                  |
+  |      4KB 환경인데도 메모리 낭비가 심하다면, 범인은 페이징(OS)이 아니다!         |
+  |          +---> [어플리케이션 Heap의 '외부 단편화' 확진]                 |
+  |          |    대책: 유저 스페이스 할당기(malloc, jemalloc)의 파편화 튜닝 |
+  |          |          또는 Java GC의 Compaction 지연 문제 점검.         |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)"는 4KB 기본 리눅스 환경에서는 완전히 무시해도 되는(1개 프로세스당 2KB 낭비) 교과서적인 개념이다. 하지만 클라우드 엔지니어가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝을 위해 <strong>Huge Page를 건드리는 순간, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>는 시스템을 멈추게 하는 치명적인 현실의 괴물</strong>로 다가온다. 상자의 크기([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))를 키우는 것은 항상 낭비([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))와의 트레이드오프임을 계산해야 한다.
@@ -173,12 +173,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [외부 단편화 가변 분할]
-    │
-    ▼
+    |
+    v
 [내부 단편화 고정/페이징 (Internal Fragmentation Fixed Paging)]
-    │
-    ├──▶ [동적 할당 First/Best/Worst Fit]
-    └──▶ [페이징 시스템 프레임 테이블]
+    |
+    +---> [동적 할당 First/Best/Worst Fit]
+    +---> [페이징 시스템 프레임 테이블]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -195,7 +195,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 713 / 800
 
-← **이전**: [712. 외부 단편화 가변 분할 (External Fragmentation Variable Partition)](/knowledge-base/studynote/02_operating_system/11_exam_summary/712_external_fragmentation_variable_partition/)
-**다음**: [714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/714_dynamic_allocation_first_best_worst_fit/) →
+<- **이전**: [712. 외부 단편화 가변 분할 (External Fragmentation Variable Partition)](/knowledge-base/studynote/02_operating_system/11_exam_summary/712_external_fragmentation_variable_partition/)
+**다음**: [714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)](/knowledge-base/studynote/02_operating_system/11_exam_summary/714_dynamic_allocation_first_best_worst_fit/) ->
 
 ---

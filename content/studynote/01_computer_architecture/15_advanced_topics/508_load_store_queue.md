@@ -36,22 +36,22 @@ LSQ는 보통 Load [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datas
 아래 그림은 로드와 스토어가 LSQ 안에서 어떻게 서로 다른 생애주기를 가지는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ LSQ lifecycle for in-flight memory operations                           │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Dispatch                                                                 │
-│   ├─ Load  -> allocate LQ entry (age, addr?, size, done)                 │
-│   └─ Store -> allocate SQ entry (age, addr?, data?, commit=0)            │
-│                                                                          │
-│ Address ready                                                             │
-│   ├─ Load  -> search older SQ entries                                     │
-│   │            ├─ exact match + data ready -> forward                     │
-│   │            └─ no match              -> issue to cache                 │
-│   └─ Store -> keep addr/data in SQ until commit                           │
-│                                                                          │
-│ Commit                                                                    │
-│   └─ oldest ready store writes to L1 / memory in program order            │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| LSQ lifecycle for in-flight memory operations                           |
++--------------------------------------------------------------------------+
+| Dispatch                                                                 |
+|   +- Load  -> allocate LQ entry (age, addr?, size, done)                 |
+|   +- Store -> allocate SQ entry (age, addr?, data?, commit=0)            |
+|                                                                          |
+| Address ready                                                             |
+|   +- Load  -> search older SQ entries                                     |
+|   |            +- exact match + data ready -> forward                     |
+|   |            +- no match              -> issue to cache                 |
+|   +- Store -> keep addr/data in SQ until commit                           |
+|                                                                          |
+| Commit                                                                    |
+|   +- oldest ready store writes to L1 / memory in program order            |
++--------------------------------------------------------------------------+
 ```
 
 | 큐 | 핵심 필드 | 왜 필요한가 |
@@ -127,24 +127,24 @@ LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_compute
 
 ```text
 단순 write buffer
-    │
-    ▼
+    |
+    v
 분리된 load/store buffer
-    │
-    ▼
+    |
+    v
 주소 비교 기반 LSQ
-    │
-    ▼
+    |
+    v
 스토어 포워딩과 위반 복구
-    │
-    ▼
+    |
+    v
 대형·고대역 LSQ
-    │
-    ▼
+    |
+    v
 분산형·계층형 LSQ
 ```
 
-이 흐름은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 버퍼 → 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 관리 → 적극적 포워딩과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 확장성 최적화"로 LSQ가 발전하는 방향을 보여준다.
+이 흐름은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 버퍼 -> 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 관리 -> 적극적 포워딩과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) -> 확장성 최적화"로 LSQ가 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +158,7 @@ LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_compute
 
 **진행 상황**: 508 / 803
 
-← **이전**: [507. 메모리 의존성 예측기 (Memory Dependence Predictor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/)
-**다음**: [509. 레지스터 파일 포트 (Register File Ports)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/) →
+<- **이전**: [507. 메모리 의존성 예측기 (Memory Dependence Predictor)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/)
+**다음**: [509. 레지스터 파일 포트 (Register File Ports)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/) ->
 
 ---

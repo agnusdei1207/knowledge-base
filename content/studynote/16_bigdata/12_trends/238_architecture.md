@@ -22,9 +22,9 @@ tags = ["studynote-bigdata"]
 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) + 빅데이터 (최적화 문제, 양자 ML [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연구)은 빅데이터 환경에서 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
@@ -42,9 +42,9 @@ tags = ["studynote-bigdata"]
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
++--------------+   +--------------+   +--------------+
+| 요구사항         |--->| 구성 요소        |--->| 운영 결과        |
++--------------+   +--------------+   +--------------+
 ```
 
 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)와 양자 ML은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
@@ -110,17 +110,17 @@ tags = ["studynote-bigdata"]
 
 ```text
 [배치 처리 아키텍처(Lambda)]
-    │
-    ▼
+    |
+    v
 [스트리밍 처리]
-    │
-    ▼
+    |
+    v
 [카파 아키텍처(Kappa)]
-    │
-    ▼
+    |
+    v
 [레이크하우스(Lakehouse)]
-    │
-    ▼
+    |
+    v
 [데이터 메시(Data Mesh)]
 ```
 
@@ -138,7 +138,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 238 / 262
 
-← **이전**: [232. 오픈소스 포맷 경쟁 (Apache Iceberg 사실상 표준화 움직임)](/knowledge-base/studynote/16_bigdata/12_trends/237_apache_iceberg/)
-**다음**: [234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)](/knowledge-base/studynote/16_bigdata/12_trends/239_architecture/) →
+<- **이전**: [232. 오픈소스 포맷 경쟁 (Apache Iceberg 사실상 표준화 움직임)](/knowledge-base/studynote/16_bigdata/12_trends/237_apache_iceberg/)
+**다음**: [234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)](/knowledge-base/studynote/16_bigdata/12_trends/239_architecture/) ->
 
 ---

@@ -19,17 +19,17 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    OCF 프레임워크                                     │
-├───────────────────────────────────────────────────────┤
-│  [응용 계층] — 스마트홈·헬스케어·산업 IoT 앱         │
-│  [OCF 서비스 계층]                                    │
-│   디바이스 발견·리소스 관리·보안·데이터 모델          │
-│  [전송 계층] — CoAP / HTTP / WebSocket               │
-│  [네트워크] — Wi-Fi / BLE / Thread / Zigbee          │
-│                                                       │
-│  핵심: 이기종 디바이스 자동 발견 + 표준 데이터 모델   │
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    OCF 프레임워크                                     |
++-------------------------------------------------------+
+|  [응용 계층] — 스마트홈·헬스케어·산업 IoT 앱         |
+|  [OCF 서비스 계층]                                    |
+|   디바이스 발견·리소스 관리·보안·데이터 모델          |
+|  [전송 계층] — CoAP / HTTP / WebSocket               |
+|  [네트워크] — Wi-Fi / BLE / Thread / Zigbee          |
+|                                                       |
+|  핵심: 이기종 디바이스 자동 발견 + 표준 데이터 모델   |
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: OCF는 IoT의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 표준</strong>이다. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 이전에는 프린터마다 다른 케이블이 필요했지만, USB로 통일되면서 아무 프린터나 연결할 수 있게 되었다.
@@ -89,17 +89,17 @@ OCF는 <strong>이기종 <a href="/knowledge-base/studynote/06_ict_convergence/0
 
 ```text
 [독자 IoT 프로토콜 (사일로, 2010s)]
-    │
-    ▼
-[OIC → OCF (2014~2016) — 상호운용성 표준]
-    │
-    ▼
+    |
+    v
+[OIC -> OCF (2014~2016) — 상호운용성 표준]
+    |
+    v
 [IoTivity 오픈소스 (2015~)]
-    │
-    ▼
+    |
+    v
 [Matter (2022) — 스마트 홈 통합 표준]
-    │
-    ▼
+    |
+    v
 [현재: OCF + Matter + Thread — IoT 표준 생태계]
 ```
 
@@ -114,7 +114,7 @@ OCF는 <strong>이기종 <a href="/knowledge-base/studynote/06_ict_convergence/0
 
 **진행 상황**: 123 / 552
 
-← **이전**: [122. oneM2M IoT 표준 - 글로벌 IoT 서비스 플랫폼 표준 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/122_onem2m_iot_standard/)
-**다음**: [124. IoT 봇넷 & Mirai - IoT 디바이스 대상 DDoS 봇넷 공격](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/124_iot_botnet_mirai/) →
+<- **이전**: [122. oneM2M IoT 표준 - 글로벌 IoT 서비스 플랫폼 표준 아키텍처](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/122_onem2m_iot_standard/)
+**다음**: [124. IoT 봇넷 & Mirai - IoT 디바이스 대상 DDoS 봇넷 공격](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/124_iot_botnet_mirai/) ->
 
 ---

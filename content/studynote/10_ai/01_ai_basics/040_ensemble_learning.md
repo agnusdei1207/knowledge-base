@@ -29,7 +29,7 @@ tags = ["studynote-ai"]
   Bias-Variance Trade-off 균형
 
 오류 분해:
-  총 오류 = 편향² + 분산 + 노이즈
+  총 오류 = 편향^ + 분산 + 노이즈
 
 다수결 원리:
   각 모델이 독립적으로 오류를 범한다면
@@ -247,7 +247,7 @@ AutoML에서 기본 모델로 채택
 
 **진행 상황**: 40 / 420
 
-← **이전**: [039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기](/knowledge-base/studynote/10_ai/01_ai_basics/039_naive_bayes/)
-**다음**: [041. 하이퍼파라미터 튜닝 (Hyperparameter Tuning)](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) →
+<- **이전**: [039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기](/knowledge-base/studynote/10_ai/01_ai_basics/039_naive_bayes/)
+**다음**: [041. 하이퍼파라미터 튜닝 (Hyperparameter Tuning)](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) ->
 
 ---

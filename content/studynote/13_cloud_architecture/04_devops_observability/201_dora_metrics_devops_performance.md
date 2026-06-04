@@ -43,19 +43,19 @@ tags = ["studynote-cloud-architecture"]
 ### 4개 지표의 두 축
 
 ```
-  ┌─────────────────────────────────────────────────────┐
-  │                    DORA 지표 구조                     │
-  ├──────────────────────────┬──────────────────────────┤
-  │    처리량 (Throughput)    │    안정성 (Stability)     │
-  │                          │                          │
-  │  ① 배포 빈도              │  ③ MTTR                  │
-  │  (Deployment Frequency)  │  (Mean Time to Restore)  │
-  │                          │                          │
-  │  ② 변경 리드타임          │  ④ 변경 실패율            │
-  │  (Lead Time for Changes) │  (Change Failure Rate)   │
-  └──────────────────────────┴──────────────────────────┘
-              │                           │
-              ▼                           ▼
+  +-----------------------------------------------------+
+  |                    DORA 지표 구조                     |
+  +--------------------------+--------------------------+
+  |    처리량 (Throughput)    |    안정성 (Stability)     |
+  |                          |                          |
+  |  ① 배포 빈도              |  ③ MTTR                  |
+  |  (Deployment Frequency)  |  (Mean Time to Restore)  |
+  |                          |                          |
+  |  ② 변경 리드타임          |  ④ 변경 실패율            |
+  |  (Lead Time for Changes) |  (Change Failure Rate)   |
+  +--------------------------+--------------------------+
+              |                           |
+              v                           v
         빠른가? (속도)             안전한가? (품질)
 ```
 
@@ -88,10 +88,10 @@ tags = ["studynote-cloud-architecture"]
 
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 향상 | 필요한 기술 관행 |
 |:---|:---|
-| 배포 빈도↑ | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), 작은 배포 단위 |
-| 리드타임↓ | 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 속도, 배포 파이프라인 최적화 |
-| [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)↓ | 관찰성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 인시던트 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) |
-| 변경 실패율↓ | 테스트 커버리지, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 코드 품질 |
+| 배포 빈도^ | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), 작은 배포 단위 |
+| 리드타임v | 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 속도, 배포 파이프라인 최적화 |
+| [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)v | 관찰성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 인시던트 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) |
+| 변경 실패율v | 테스트 커버리지, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 코드 품질 |
 
 📢 **섹션 요약 비유**: DORA와 SPACE의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 병원의 혈액 검사([DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/))와 건강 설문(SPACE)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 혈액 검사는 객관적 수치를 주고, 설문은 환자가 느끼는 상태를 알려준다. 둘 다 필요하다.
 
@@ -103,15 +103,15 @@ tags = ["studynote-cloud-architecture"]
 ```
 배포 빈도 측정:
   CI/CD 시스템(Jenkins, ArgoCD)의 프로덕션 배포 이벤트 카운트
-  → 일/주/월 단위 집계
+  -> 일/주/월 단위 집계
 
 리드타임 측정:
-  Git 커밋 타임스탬프 → 프로덕션 배포 완료 타임스탬프
-  → 두 시간의 차이를 중앙값 또는 p75로 측정
+  Git 커밋 타임스탬프 -> 프로덕션 배포 완료 타임스탬프
+  -> 두 시간의 차이를 중앙값 또는 p75로 측정
 
 MTTR 측정:
-  인시던트 발생 시각 → 서비스 완전 복구 시각
-  → PagerDuty, OpsGenie 등 인시던트 관리 도구에서 자동 측정
+  인시던트 발생 시각 -> 서비스 완전 복구 시각
+  -> PagerDuty, OpsGenie 등 인시던트 관리 도구에서 자동 측정
 
 변경 실패율 측정:
   (장애 유발 배포 수 / 전체 배포 수) × 100
@@ -119,9 +119,9 @@ MTTR 측정:
 
 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 성숙도 향상 로드맵</strong>:
 ```
-Low → Medium:   CI 도입, 테스트 자동화 시작
-Medium → High:  CD 자동화, 카나리 배포 적용
-High → Elite:   완전 자동화 파이프라인, 카오스 엔지니어링
+Low -> Medium:   CI 도입, 테스트 자동화 시작
+Medium -> High:  CD 자동화, 카나리 배포 적용
+High -> Elite:   완전 자동화 파이프라인, 카오스 엔지니어링
 ```
 
 **기술사 판단 포인트**:
@@ -167,12 +167,12 @@ High → Elite:   완전 자동화 파이프라인, 카오스 엔지니어링
 
 ```text
 DORA 4대 메트릭
-    ├─► 배포 빈도 (Deployment Frequency)
-    ├─► 변경 리드 타임 (Lead Time for Changes)
-    ├─► 변경 실패율 (Change Failure Rate)
-    └─► MTTR (Mean Time to Recovery)
-    │
-    ▼
+    +-► 배포 빈도 (Deployment Frequency)
+    +-► 변경 리드 타임 (Lead Time for Changes)
+    +-► 변경 실패율 (Change Failure Rate)
+    +-► MTTR (Mean Time to Recovery)
+    |
+    v
 Elite · High · Medium · Low 성숙도 등급
 ```
 2. 엘리트 팀은 하루에 여러 번 배포해도 실수가 5%도 안 돼. 빠르면서 정확한 거야.
@@ -184,7 +184,7 @@ Elite · High · Medium · Low 성숙도 등급
 
 **진행 상황**: 200 / 371
 
-← **이전**: [200. IDP / Backstage (Internal Developer Platform)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)
-**다음**: [202. SPACE 프레임워크 (SPACE Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/202_space_framework_agile_performance/) →
+<- **이전**: [200. IDP / Backstage (Internal Developer Platform)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)
+**다음**: [202. SPACE 프레임워크 (SPACE Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/202_space_framework_agile_performance/) ->
 
 ---

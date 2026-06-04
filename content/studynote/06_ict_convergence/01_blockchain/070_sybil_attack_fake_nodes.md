@@ -30,9 +30,9 @@ tags = ["ict_convergence"]
 
 ```text
 Attacker
-  ↓ create many identities
+  v create many identities
 Fake Nodes
-  ↓
+  v
 Manipulated Consensus
 ```
 
@@ -104,11 +104,11 @@ Manipulated Consensus
 
 ```text
 Identity
-  ↓
+  v
 Sybil Attack
-  ↓
+  v
 Consensus Manipulation
-  ↓
+  v
 Defense
 ```
 
@@ -118,11 +118,11 @@ Defense
 
 ```text
 P2P Network
-  ↓
+  v
 Sybil Attack
-  ↓
+  v
 Identity Verification
-  ↓
+  v
 Trust Model
 ```
 
@@ -140,7 +140,7 @@ Trust Model
 
 **진행 상황**: 70 / 552
 
-← **이전**: [69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/)
-**다음**: [71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/071_baas_blockchain_as_a_service/) →
+<- **이전**: [69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/)
+**다음**: [71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/071_baas_blockchain_as_a_service/) ->
 
 ---

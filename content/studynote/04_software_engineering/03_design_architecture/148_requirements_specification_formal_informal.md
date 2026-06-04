@@ -18,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-요구사항 명세 (Requirements Specification)는 요구공학 프로세스(도출 → 분석 → **명세** → [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 3번째 단계로, 기획자나 분석가의 머릿속에 있는 시스템의 동작 방식과 제약 조건을 문서(SRS, Software Requirements Specification)로 박제하는 행위다.
+요구사항 명세 (Requirements Specification)는 요구공학 프로세스(도출 -> 분석 -> **명세** -> [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 3번째 단계로, 기획자나 분석가의 머릿속에 있는 시스템의 동작 방식과 제약 조건을 문서(SRS, Software Requirements Specification)로 박제하는 행위다.
 
 "비밀번호를 5회 이상 틀리면 계정을 잠가라." 겉보기엔 완벽한 한글 문장이다. 하지만 개발자는 "누적 5회인가, 연속 5회인가? 영구 잠금인가, 30분 잠금인가?"라며 멈칫한다. 인간의 자연어는 본질적으로 다의성과 모호함, 누락을 내포하고 있기 때문에, 개발의 기준이 되는 설계도는 해석의 여지를 남기지 않는 깐깐한 잣대가 필요했다. 여기서 글이나 그림으로 대략 적어내는 비정형 명세(Informal Specification)와, 수학적 집합과 논리식으로 완벽히 치환하는 정형 명세(Formal Specification)의 패러다임 충돌이 발생한다.
 
@@ -31,25 +31,25 @@ tags = ["studynote-software-engineering"]
 명세의 강도(Rigor) 스펙트럼은 자연어에서 수학으로 갈수록 모호성은 사라지지만 작성 난이도가 극악으로 치솟는다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          비정형(Informal) 명세 vs 정형(Formal) 명세 비교 예시       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 1. 비정형 명세 (Informal / 자연어 기반) ]                       │
-│ 요구사항: "사용자가 비밀번호를 5회 이상 틀리면, 계정을 잠가야 한다."        │
-│ 💥 위험성: 읽는 사람의 상상력에 따라 버그가 탄생하는 모호성(Ambiguity) 늪.   │
-│                                                             │
-│ [ 2. 반정형 명세 (Semi-Formal / UML, 도식화, 결정표) ] 🌟 실무 타협점│
-│ 요구사항: 의사결정표 (Decision Table) 포맷                       │
-│ IF (연속_실패 >= 5) AND (상태 == 정상) THEN 잠금=TRUE, 해제=NOW+30m;│
-│                                                             │
-│ [ 3. 정형 명세 (Formal / 수학적, 논리식 기반) ] 🚀 우주/의료 레벨 │
-│ 요구사항: Z-Language 등 이산수학과 집합론 기호 사용                 │
-│ State: Lock = { TRUE, FALSE }, failCount ∈ ℕ                  │
-│ Init: failCount = 0, Lock = FALSE                             │
-│ Inv: (failCount ≥ 5) ⇒ (Lock = TRUE)                           │
-│ 🛡️ 강점: 컴퓨터 검증 도구(Model Checker)에 넣으면 설계 모순 0% 증명!     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          비정형(Informal) 명세 vs 정형(Formal) 명세 비교 예시       |
++-------------------------------------------------------------+
+|                                                             |
+| [ 1. 비정형 명세 (Informal / 자연어 기반) ]                       |
+| 요구사항: "사용자가 비밀번호를 5회 이상 틀리면, 계정을 잠가야 한다."        |
+| 💥 위험성: 읽는 사람의 상상력에 따라 버그가 탄생하는 모호성(Ambiguity) 늪.   |
+|                                                             |
+| [ 2. 반정형 명세 (Semi-Formal / UML, 도식화, 결정표) ] 🌟 실무 타협점|
+| 요구사항: 의사결정표 (Decision Table) 포맷                       |
+| IF (연속_실패 >= 5) AND (상태 == 정상) THEN 잠금=TRUE, 해제=NOW+30m;|
+|                                                             |
+| [ 3. 정형 명세 (Formal / 수학적, 논리식 기반) ] 🚀 우주/의료 레벨 |
+| 요구사항: Z-Language 등 이산수학과 집합론 기호 사용                 |
+| State: Lock = { TRUE, FALSE }, failCount ∈ ℕ                  |
+| Init: failCount = 0, Lock = FALSE                             |
+| Inv: (failCount ≥ 5) ⇒ (Lock = TRUE)                           |
+| 🛡️ 강점: 컴퓨터 검증 도구(Model Checker)에 넣으면 설계 모순 0% 증명!     |
++-------------------------------------------------------------+
 ```
 
 1번 비정형 명세는 현업(고객)이 읽기 훌륭하지만, 문서 100페이지가 넘어가면 앞뒤가 안 맞는 모순(Contradiction)이 무수히 발생한다. 3번 정형 명세는 이를 수학의 명제로 치환한다. 인간이 읽기는 지옥 같지만, 모델 체커(Model Checker)에 돌리면 로직 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 코딩 전에 컴파일 에러처럼 완벽하게 잡아낸다. 2번 반정형 명세는 이 둘을 타협하여 그림([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 문법으로 모호성을 통제하는 현실적인 중간 지대다.
@@ -115,17 +115,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 비정형 명세 (Informal) / 100% 자연어 의존, 모호성 폭발 및 해석의 충돌
-    │
-    ▼
+    |
+    v
 구조적 명세 도구 / DFD (자료흐름도), DD (자료사전), Mini-Spec (의사결정표) 도입
-    │
-    ▼
+    |
+    v
 정형 기법 (Formal Methods) 태동 / Z-Language, VDM 등 수학적 증명 (상업 시장 실패)
-    │
-    ▼
+    |
+    v
 객체지향 UML (Unified Modeling Language) / 반정형 시각화 모델링으로 실무 평정
-    │
-    ▼
+    |
+    v
 BDD 기반 실행 가능한 명세 (Executable Specification) / 명세서가 곧 자동화 테스트 코드!
 ```
 
@@ -141,7 +141,7 @@ BDD 기반 실행 가능한 명세 (Executable Specification) / 명세서가 곧
 
 **진행 상황**: 148 / 973
 
-← **이전**: [147. 유스케이스 다이어그램 (Use Case Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/)
-**다음**: [149. 소프트웨어 요구사항 명세서 (SRS, Software Requirements Specification)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/) →
+<- **이전**: [147. 유스케이스 다이어그램 (Use Case Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/)
+**다음**: [149. 소프트웨어 요구사항 명세서 (SRS, Software Requirements Specification)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/) ->
 
 ---

@@ -50,31 +50,31 @@ tags = ["studynote-operating-system"]
 현대 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(4.8 이후)은 ChaCha20 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 기반의 <strong>CRNG (Cryptographic Random Number Generator)</strong>를 사용한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 커널 엔트로피 풀 및 난수 생성 아키텍처              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. 엔트로피 소스 (Entropy Sources)]                                │
-  │   - 마우스/키보드 입력 시간 차이 (데스크탑)                              │
-  │   - 디스크/네트워크 IRQ 발생 타이밍 (서버)                               │
-  │   ★ 하드웨어 TRNG (Intel RDSEED, TPM 칩) ◀── 고속/고품질 소스        │
-  │            │                                                      │
-  │  ==========▼======================================================│
-  │  [2. 커널 엔트로피 믹서 (Kernel Entropy Mixer)]                        │
-  │   - 들어온 노이즈(이벤트)들을 BLAKE2s/SHA 해시 함수로 마구 뒤섞어          │
-  │     [Primary Entropy Pool (기본 풀, 보통 4096 비트)]에 저장.           │
-  │                                                                   │
-  │  ==========▼======================================================│
-  │  [3. CRNG (Cryptographic RNG) 추출기]                               │
-  │   - 기본 풀에서 가져온 진짜 무작위성(Seed)을 CRNG 엔진에 주입.             │
-  │   - CRNG 엔진(ChaCha20)이 무한대의 의사 난수(PRNG)를 초고속으로 뿜어냄.     │
-  │                                                                   │
-  │  ==========▼======================================================│
-  │  [4. 유저 스페이스 인터페이스 (User Space API)]                        │
-  │   - /dev/random   : (과거엔 풀이 마르면 블로킹됨, 현재는 urandom과 동일) │
-  │   - /dev/urandom  : 풀이 마르든 말든 CRNG 엔진을 돌려 절대 블로킹 안 됨. │
-  │   - getrandom()   : (현대적 시스템 콜) 부팅 직후 풀이 덜 찼을 때만 블로킹.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 리눅스 커널 엔트로피 풀 및 난수 생성 아키텍처              |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [1. 엔트로피 소스 (Entropy Sources)]                                |
+  |   - 마우스/키보드 입력 시간 차이 (데스크탑)                              |
+  |   - 디스크/네트워크 IRQ 발생 타이밍 (서버)                               |
+  |   ★ 하드웨어 TRNG (Intel RDSEED, TPM 칩) <--- 고속/고품질 소스        |
+  |            |                                                      |
+  |  ==========v======================================================|
+  |  [2. 커널 엔트로피 믹서 (Kernel Entropy Mixer)]                        |
+  |   - 들어온 노이즈(이벤트)들을 BLAKE2s/SHA 해시 함수로 마구 뒤섞어          |
+  |     [Primary Entropy Pool (기본 풀, 보통 4096 비트)]에 저장.           |
+  |                                                                   |
+  |  ==========v======================================================|
+  |  [3. CRNG (Cryptographic RNG) 추출기]                               |
+  |   - 기본 풀에서 가져온 진짜 무작위성(Seed)을 CRNG 엔진에 주입.             |
+  |   - CRNG 엔진(ChaCha20)이 무한대의 의사 난수(PRNG)를 초고속으로 뿜어냄.     |
+  |                                                                   |
+  |  ==========v======================================================|
+  |  [4. 유저 스페이스 인터페이스 (User Space API)]                        |
+  |   - /dev/random   : (과거엔 풀이 마르면 블로킹됨, 현재는 urandom과 동일) |
+  |   - /dev/urandom  : 풀이 마르든 말든 CRNG 엔진을 돌려 절대 블로킹 안 됨. |
+  |   - getrandom()   : (현대적 시스템 콜) 부팅 직후 풀이 덜 찼을 때만 블로킹.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자들은 `/dev/urandom`은 가짜 난수라 위험하고 `/dev/random`을 써야 한다고 착각한다. 이는 10년 전 이야기다. 현재 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 기본 풀에 256비트(32바이트)의 진짜 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)만 최초로 차고 나면, 그 씨앗을 바탕으로 CRNG가 우주가 끝날 때까지 해킹 불가능한 암호학적 난수를 무한정 만들어낸다. 따라서 <strong>TRNG의 가장 중요한 임무는 "서버가 부팅된 직후(0.1초)의 텅 빈 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> 풀을 얼마나 빨리 채워주느냐"</strong>에 있다.
@@ -131,27 +131,27 @@ CPU 안에 어떻게 '물리적 무작위성'을 넣었을까? 인텔의 `Digita
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 서버/가상머신 엔트로피 고갈 방지 아키텍처 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 클라우드 인스턴스 또는 베어메탈 서버 프로비저닝]                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      시스템이 가상머신(VM / Cloud Instance) 환경인가?                  │
-  │          ├─ 예 ─────▶ 하이퍼바이저에서 `virtio-rng` 장치를 매핑했는가? │
-  │          │             (VM의 `lsmod | grep virtio_rng` 확인)       │
-  │          └─ 아니오 (물리적 베어메탈 서버이다)                            │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      CPU가 최신 하드웨어 명령어(RDRAND, RDSEED)를 지원하는가?              │
-  │          ├─ 예 ─────▶ 커널이 부팅 시 자동으로 이를 감지하고 풀을 채움.     │
-  │          │            (추가 설정 불필요, `dmesg | grep rdrand` 확인)   │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [대안 1] TPM 칩 기반의 HWRNG 활성화            │
-  │                         [대안 2] `haveged` 데몬 설치 (CPU 타이머 틱을   │
-  │                                 미세 측정해 소프트웨어적으로 엔트로피 짜냄)│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 서버/가상머신 엔트로피 고갈 방지 아키텍처 플로우           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [새로운 클라우드 인스턴스 또는 베어메탈 서버 프로비저닝]                 |
+  |                |                                                  |
+  |                v                                                  |
+  |      시스템이 가상머신(VM / Cloud Instance) 환경인가?                  |
+  |          +- 예 ------> 하이퍼바이저에서 `virtio-rng` 장치를 매핑했는가? |
+  |          |             (VM의 `lsmod | grep virtio_rng` 확인)       |
+  |          +- 아니오 (물리적 베어메탈 서버이다)                            |
+  |                |                                                  |
+  |                v                                                  |
+  |      CPU가 최신 하드웨어 명령어(RDRAND, RDSEED)를 지원하는가?              |
+  |          +- 예 ------> 커널이 부팅 시 자동으로 이를 감지하고 풀을 채움.     |
+  |          |            (추가 설정 불필요, `dmesg | grep rdrand` 확인)   |
+  |          |                                                        |
+  |          +- 아니오 ---> [대안 1] TPM 칩 기반의 HWRNG 활성화            |
+  |                         [대안 2] `haveged` 데몬 설치 (CPU 타이머 틱을   |
+  |                                 미세 측정해 소프트웨어적으로 엔트로피 짜냄)|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "난수 부족"은 눈에 보이지 않는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이다. CPU도 남고 램도 남는데 톰캣(Tomcat) 서버가 부팅될 때 수 분간 멈춰있다면 십중팔구 `SecureRandom` 클래스가 리눅스의 `/dev/random` 블로킹에 걸린 것이다. 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 많이 해결했지만, 클라우드 환경에서는 여전히 `virtio-rng` 패스스루가 가장 완벽한 인프라 처방전이다.
@@ -198,12 +198,12 @@ CPU 안에 어떻게 '물리적 무작위성'을 넣었을까? 인텔의 `Digita
 
 ```text
 [부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)]
-    │
-    ▼
+    |
+    v
 [하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식]
-    │
-    ├──▶ [소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법]
-    └──▶ [시스템 프로그램과 응용 프로그램의 차이]
+    |
+    +---> [소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법]
+    +---> [시스템 프로그램과 응용 프로그램의 차이]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -220,7 +220,7 @@ CPU 안에 어떻게 '물리적 무작위성'을 넣었을까? 인텔의 `Digita
 
 **진행 상황**: 669 / 800
 
-← **이전**: [668. 부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI,](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)
-**다음**: [670. 소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/) →
+<- **이전**: [668. 부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI,](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)
+**다음**: [670. 소프트웨어 오류 주입 (Fault Injection) 카오스 테스팅 시스템 커널 모듈 활용법](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/) ->
 
 ---

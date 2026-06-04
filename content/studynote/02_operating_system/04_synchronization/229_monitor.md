@@ -27,29 +27,29 @@ tags = ["studynote-operating-system"]
 ```text
   [모니터(Monitor)의 구조적 시각화: 철통 보안 은행 금고]
 
-  [ 일반 스레드 1, 2, 3 ] ──▶ (진입 시도)
-                                                                                            │
+  [ 일반 스레드 1, 2, 3 ] ---> (진입 시도)
+                                                                                            |
   ======================== [ 모니터 경계선 (Monitor Boundary) ] ========================
-  │                              ▼                                                          │
-  │     [ 진입 큐 (Entry Queue) ] ─▶ ⛔ (스레드 2, 3은 여기서 블록됨)                       │
-  │                              │                                                          │
-  │    ┌─────────────────────────▼───────────────────────────┐                              │
-  │    │ 1. 상호 배제 구역 (오직 스레드 1만 들어와 있음)             │                      │
-  │    │                                                     │                              │
-  │    │  [ 공유 데이터 (Shared Data) ]                       │                             │
-  │    │   - 통장 잔고 = 100만 원                              │                            │
-  │    │                                                     │                              │
-  │    │  [ 조작 함수 (Operations) ]                         │                              │
-  │    │   - 입금() { 잔고 += 금액; }                         │                             │
-  │    │   - 출금() { 잔고 -= 금액; }                         │                             │
-  │    │                                                     │                              │
-  │    │  [ 조건 변수 (Condition Variable) 및 대기 큐 ]        │                            │
-  │    │   - 잔고부족_조건 ─▶ (스레드 4가 여기서 자고 있음 💤)     │                        │
-  │    └─────────────────────────┬───────────────────────────┘                              │
-  │                              │ (함수 종료 시 자동 Unlock)                               │
-  ===============================│==================================================        │
-                                 ▼
-                          [ 스레드 1 퇴장 ] ─▶ (진입 큐에 있던 스레드 2 자동 입장)
+  |                              v                                                          |
+  |     [ 진입 큐 (Entry Queue) ] --> ⛔ (스레드 2, 3은 여기서 블록됨)                       |
+  |                              |                                                          |
+  |    +-------------------------v---------------------------+                              |
+  |    | 1. 상호 배제 구역 (오직 스레드 1만 들어와 있음)             |                      |
+  |    |                                                     |                              |
+  |    |  [ 공유 데이터 (Shared Data) ]                       |                             |
+  |    |   - 통장 잔고 = 100만 원                              |                            |
+  |    |                                                     |                              |
+  |    |  [ 조작 함수 (Operations) ]                         |                              |
+  |    |   - 입금() { 잔고 += 금액; }                         |                             |
+  |    |   - 출금() { 잔고 -= 금액; }                         |                             |
+  |    |                                                     |                              |
+  |    |  [ 조건 변수 (Condition Variable) 및 대기 큐 ]        |                            |
+  |    |   - 잔고부족_조건 --> (스레드 4가 여기서 자고 있음 💤)     |                        |
+  |    +-------------------------+---------------------------+                              |
+  |                              | (함수 종료 시 자동 Unlock)                               |
+  ===============================|==================================================        |
+                                 v
+                          [ 스레드 1 퇴장 ] --> (진입 큐에 있던 스레드 2 자동 입장)
 ```
 **[다이어그램 해설]** 모니터는 완벽한 요새다. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모니터 깊숙한 곳에 숨겨져 있어 외부에서 절대 직접 건드릴 수 없다(`private`). 오직 모니터가 제공하는 함수(입금, 출금)를 통해서만 접근 가능한데, 이 함수들은 모니터라는 거대한 자물쇠에 의해 "무조건 1명씩만 실행"됨이 문법적으로 강제된다. 실수로 락을 안 풀고 나가는 휴먼 에러 자체가 성립할 수 없는 완벽한 설계다.
 
@@ -139,22 +139,22 @@ tags = ["studynote-operating-system"]
    - **아키텍처 결단**: 모니터의 훌륭한 철학은 가져오되, 구현은 프레임워크에 넘긴다. `CountDownLatch`, `CyclicBarrier`, `Semaphore` 클래스 등 이미 100% 검증된 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 유틸리티 클래스(Concurrent Utilities)를 레고 블록 조립하듯 끼워 맞추는 것이 실무에서 데드락을 내지 않는 아키텍트의 정석이다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     객체 지향(OOP) 환경에서의 동기화 설계 (Monitor 적용 여부)      │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [요구사항: 스레드 안전한(Thread-safe) 은행 계좌 클래스 설계]     │
-  │                │                                                   │
-  │                ▼ 동기화 보호막의 범위(Scope) 설정                  │
-  │      [ 1. 클래스 내부 변수가 많고, 연관 로직이 복잡하다 ]          │
-  │       ├─▶ 판단: Monitor (Synchronized 메서드) 적용                 │
-  │       ├─▶ 이유: 락 관리를 언어에 맡겨 휴먼 에러를 원천 차단.       │
-  │       └─▶ 효과: 객체 스스로 상태를 보호하는 완벽한 OOP 달성.       │
-  │                                                                    │
-  │      [ 2. 0.01ms라도 빠른 극한의 성능(TPS)이 필요하다 ]            │
-  │       ├─▶ 판단: Monitor 폐기. CAS 기반 Atomic 객체로 도배.         │
-  │       └─▶ 효과: OS 레벨의 락(Sleep)을 완전히 제거하여 무정지 질주. │
-  └────────────────────────────────────────────────────────────────────┘
+  +--------------------------------------------------------------------+
+  |     객체 지향(OOP) 환경에서의 동기화 설계 (Monitor 적용 여부)      |
+  +--------------------------------------------------------------------+
+  |                                                                    |
+  |   [요구사항: 스레드 안전한(Thread-safe) 은행 계좌 클래스 설계]     |
+  |                |                                                   |
+  |                v 동기화 보호막의 범위(Scope) 설정                  |
+  |      [ 1. 클래스 내부 변수가 많고, 연관 로직이 복잡하다 ]          |
+  |       +--> 판단: Monitor (Synchronized 메서드) 적용                 |
+  |       +--> 이유: 락 관리를 언어에 맡겨 휴먼 에러를 원천 차단.       |
+  |       +--> 효과: 객체 스스로 상태를 보호하는 완벽한 OOP 달성.       |
+  |                                                                    |
+  |      [ 2. 0.01ms라도 빠른 극한의 성능(TPS)이 필요하다 ]            |
+  |       +--> 판단: Monitor 폐기. CAS 기반 Atomic 객체로 도배.         |
+  |       +--> 효과: OS 레벨의 락(Sleep)을 완전히 제거하여 무정지 질주. |
+  +--------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 모니터는 객체 지향 프로그래밍([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))과 완벽한 찰떡궁합이다. "객체의 상태는 객체의 메서드로만 바꾼다"는 [OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/) 철학에, "메서드는 한 번에 한 놈만 돈다"는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 철학을 얹어 완벽한 스레드-세이프([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 블랙박스를 만들어낸다. 하지만 성능이 병목일 때는 이 두꺼운 철판(모니터)을 떼어내고 원시적인 하드웨어 락([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))으로 돌아가는 역주행을 선택해야 할 때도 있다.
 
@@ -188,12 +188,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [Test-and-Set 명령어]
-    │
-    ▼
+    |
+    v
 [모니터 (Monitor)]
-    │
-    ├──▶ [원자적 변수 (Atomic Variable)]
-    └──▶ [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
+    |
+    +---> [원자적 변수 (Atomic Variable)]
+    +---> [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -210,7 +210,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 229 / 800
 
-← **이전**: [228. 조건 변수 (Condition Variable)](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)
-**다음**: [230. 교착 상태 (Deadlock)](/knowledge-base/studynote/02_operating_system/04_synchronization/230_deadlock/) →
+<- **이전**: [228. 조건 변수 (Condition Variable)](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)
+**다음**: [230. 교착 상태 (Deadlock)](/knowledge-base/studynote/02_operating_system/04_synchronization/230_deadlock/) ->
 
 ---

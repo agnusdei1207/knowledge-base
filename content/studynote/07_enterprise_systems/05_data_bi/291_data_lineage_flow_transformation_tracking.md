@@ -26,37 +26,37 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 리니지 흐름도                         │
-│                                                             │
-│  [소스]        [ETL/ELT]          [DW/마트]      [리포트]   │
-│                                                             │
-│  ┌───────┐    ┌──────────┐    ┌──────────┐   ┌──────────┐  │
-│  │  CRM  │───▶│transform │───▶│ SALES_DW │──▶│ 매출 리포│  │
-│  │ (주문)│    │  (dbt)   │    │(팩트테이블│   │  (Tableau│  │
-│  └───────┘    └──────────┘    └──────────┘   └──────────┘  │
-│       │                            │                        │
-│  ┌────▼──┐    ┌──────────┐    ┌───▼──────┐                 │
-│  │  ERP  │───▶│  Spark   │───▶│CUST_MART │                 │
-│  │(제품) │    │  Job     │    │(고객 마트│                 │
-│  └───────┘    └──────────┘    └──────────┘                 │
-│                                                             │
-│  컬럼 수준 리니지 예:                                         │
-│  CRM.order_amount → transform(sum) → SALES_DW.total_sales  │
-│                         │                                   │
-│                    ┌────▼────────────────────────────────┐  │
-│                    │ 리니지 그래프 (방향성 비순환 그래프)  │  │
-│                    │ DAG (Directed Acyclic Graph)         │  │
-│                    └─────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  데이터 리니지 흐름도                         |
+|                                                             |
+|  [소스]        [ETL/ELT]          [DW/마트]      [리포트]   |
+|                                                             |
+|  +-------+    +----------+    +----------+   +----------+  |
+|  |  CRM  |---->|transform |---->| SALES_DW |--->| 매출 리포|  |
+|  | (주문)|    |  (dbt)   |    |(팩트테이블|   |  (Tableau|  |
+|  +-------+    +----------+    +----------+   +----------+  |
+|       |                            |                        |
+|  +----v--+    +----------+    +---v------+                 |
+|  |  ERP  |---->|  Spark   |---->|CUST_MART |                 |
+|  |(제품) |    |  Job     |    |(고객 마트|                 |
+|  +-------+    +----------+    +----------+                 |
+|                                                             |
+|  컬럼 수준 리니지 예:                                         |
+|  CRM.order_amount -> transform(sum) -> SALES_DW.total_sales  |
+|                         |                                   |
+|                    +----v--------------------------------+  |
+|                    | 리니지 그래프 (방향성 비순환 그래프)  |  |
+|                    | DAG (Directed Acyclic Graph)         |  |
+|                    +-------------------------------------+  |
++-------------------------------------------------------------+
 ```
 
 ### 리니지 수준 비교
 
 | 수준 | 범위 | 활용 |
 |:---|:---|:---|
-| 테이블 리니지 | 소스 테이블 → 대상 테이블 | 영향도 분석, 장애 범위 파악 |
-| 컬럼 리니지 | 소스 컬럼 → 변환 → 대상 컬럼 | 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 증명 |
+| 테이블 리니지 | 소스 테이블 -> 대상 테이블 | 영향도 분석, 장애 범위 파악 |
+| 컬럼 리니지 | 소스 컬럼 -> 변환 -> 대상 컬럼 | 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 증명 |
 | 실행 리니지 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 작업 실행 이력 포함 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석, 디버깅 |
 | 비즈니스 리니지 | 비즈니스 용어 기준 추적 | 임원 리포트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
@@ -78,10 +78,10 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **주요 활용 시나리오**:
-1. **장애 대응**: 매출 리포트 수치 오류 발생 → 리니지로 소스까지 역추적 (수시간 → 수분)
-2. <strong>규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: "이 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디서 왔고 어디에 쓰였냐" → 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제출
+1. **장애 대응**: 매출 리포트 수치 오류 발생 -> 리니지로 소스까지 역추적 (수시간 -> 수분)
+2. <strong>규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: "이 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디서 왔고 어디에 쓰였냐" -> 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제출
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 변경 영향 분석</strong>: 소스 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 다운스트림 영향 사전 파악
-4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 근본 원인 분석</strong>: 품질 이상 → 어느 변환 단계에서 오염됐는지 추적
+4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 근본 원인 분석</strong>: 품질 이상 -> 어느 변환 단계에서 오염됐는지 추적
 
 **도구 선택**:
 - Apache Atlas: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계
@@ -97,7 +97,7 @@ tags = ["studynote-enterprise-systems"]
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류 근본 원인 분석 시간 70% 단축
 - 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 비용 절감 (리니지 자동 제출)
 - [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 변경 시 리그레션 위험 사전 차단
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 → 경영진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 강화
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 -> 경영진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 강화
 
 **한계 및 전제조건**:
 - 동적 SQL, 스크립트 기반 ETL의 자동 파싱은 완전하지 않음
@@ -120,18 +120,18 @@ tags = ["studynote-enterprise-systems"]
 
 ```
 소스 시스템 데이터 생성 (DB, API, 파일)
-    │
-    ▼
+    |
+    v
 ETL/ELT 파이프라인 (수집·변환·적재)
-    │
-    ▼
-테이블 수준 리니지 → 컬럼 수준 리니지 진화
-    │
-    ▼
+    |
+    v
+테이블 수준 리니지 -> 컬럼 수준 리니지 진화
+    |
+    v
 OpenLineage 표준 + dbt·Airflow 자동 수집
-    │
-    ▼
-Data Catalog 통합 → 규제 감사·품질 근본 원인 분석
+    |
+    v
+Data Catalog 통합 -> 규제 감사·품질 근본 원인 분석
 ```
 
 > **키워드**: [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/), Column-level Lineage, OpenLineage, [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Provenance
@@ -148,7 +148,7 @@ Data Catalog 통합 → 규제 감사·품질 근본 원인 분석
 
 **진행 상황**: 291 / 482
 
-← **이전**: [290. 데이터 카탈로그 (Data Catalog) - 통합 메타데이터 저장소](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/290_data_catalog_integrated_metadata_repository/)
-**다음**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/) →
+<- **이전**: [290. 데이터 카탈로그 (Data Catalog) - 통합 메타데이터 저장소](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/290_data_catalog_integrated_metadata_repository/)
+**다음**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/) ->
 
 ---

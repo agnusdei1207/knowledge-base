@@ -38,23 +38,23 @@ tags = ["studynote-computer-architecture"]
 | **XOR 게이트** | 들어오는 캐리와 나가는 캐리 비교 | MSB로 들어오는 캐리와 나가는 캐리가 다르면(XOR=1) 오버플로우 감지 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        부호 있는 정수 (8-bit Signed) 덧셈 시 오버플로우 발생 원리     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [ 정상적인 양수의 한계: +127 ]                                  │
-│     0 1 1 1 1 1 1 1  (최상위 비트 0은 양수)                     │
-│                                                              │
-│   [ 한계에 +1을 더하는 연산 수행 ]                                 │
-│     0 1 1 1 1 1 1 1  (+127)                                  │
-│   + 0 0 0 0 0 0 0 1  (  +1)                                  │
-│   ───────────────────                                        │
-│     1 0 0 0 0 0 0 0  (◀ 부호 비트가 1로 변경됨)                  │
-│                                                              │
-│   [ ALU (Arithmetic Logic Unit)의 연산 결과 해석 ]                  │
-│     "부호 비트가 1이다. 이 값은 -128이다."                          │
-│     결론: 127 + 1 = -128 이라는 잘못된 계산 발생                   │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        부호 있는 정수 (8-bit Signed) 덧셈 시 오버플로우 발생 원리     |
++--------------------------------------------------------------+
+|                                                              |
+|   [ 정상적인 양수의 한계: +127 ]                                  |
+|     0 1 1 1 1 1 1 1  (최상위 비트 0은 양수)                     |
+|                                                              |
+|   [ 한계에 +1을 더하는 연산 수행 ]                                 |
+|     0 1 1 1 1 1 1 1  (+127)                                  |
+|   + 0 0 0 0 0 0 0 1  (  +1)                                  |
+|   -------------------                                        |
+|     1 0 0 0 0 0 0 0  (<- 부호 비트가 1로 변경됨)                  |
+|                                                              |
+|   [ ALU (Arithmetic Logic Unit)의 연산 결과 해석 ]                  |
+|     "부호 비트가 1이다. 이 값은 -128이다."                          |
+|     결론: 127 + 1 = -128 이라는 잘못된 계산 발생                   |
++--------------------------------------------------------------+
 ```
 
 위 다이어그램이 보여주듯, 양수끼리 더했는데 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 공간까지 자리올림이 침범하면서 값 전체가 음수로 역전된다. 이를 하드웨어는 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))로 들어가는 Carry-in과 나가는 Carry-out의 XOR 연산을 통해 오버플로우로 판별하고, OF 상태를 업데이트하여 후속 처리를 유도한다.
@@ -99,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 
 오버플로우에 대한 방어 메커니즘을 올바르게 이해하고 적용하면, 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 지키고 예측할 수 없는 런타임 크래시를 예방할 수 있다. 하드웨어 수준에서의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 알림과 소프트웨어 수준에서의 타입 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 결합되어 안정적인 컴퓨팅 환경을 보장한다.
 
-향후 시스템 아키텍처는 고성능 처리를 위해 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) 폭을 지속적으로 확장(32비트 → 64비트 → 128비트)하여 오버플로우 발생 한계를 우주적 스케일로 미루고 있으며, 프로그래밍 언어 차원 (예: [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Swift)에서도 오버플로우 발생 시 프로그램을 안전하게 중단시키는 (Panic) 패러다임이 기본값으로 자리잡고 있다. 결론적으로 오버플로우는 기계적 유한성을 인정하고 변수의 안전한 그릇 크기를 설계하는 통찰력을 요구하는 핵심 개념이다.
+향후 시스템 아키텍처는 고성능 처리를 위해 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) 폭을 지속적으로 확장(32비트 -> 64비트 -> 128비트)하여 오버플로우 발생 한계를 우주적 스케일로 미루고 있으며, 프로그래밍 언어 차원 (예: [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Swift)에서도 오버플로우 발생 시 프로그램을 안전하게 중단시키는 (Panic) 패러다임이 기본값으로 자리잡고 있다. 결론적으로 오버플로우는 기계적 유한성을 인정하고 변수의 안전한 그릇 크기를 설계하는 통찰력을 요구하는 핵심 개념이다.
 
 - **📢 섹션 요약 비유**: 바텐더가 컵의 용량을 정확히 알고 넘치기 전에 물을 멈추는 통제력과 같다. 컴퓨터는 넘치면 바닥까지 쏟아버리고 독약(쓰레기 값)으로 채우는 기계이므로, 프로그래머라는 바텐더가 용량 제한 센서를 각별히 신경 써서 달아주어야 한다.
 
@@ -117,17 +117,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 2의 보수 (2's Complement) 표현법 도입
-    │
-    ▼
+    |
+    v
 ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생
-    │
-    ▼
+    |
+    v
 오버플로우 (Overflow) / 언더플로우 (Underflow) 감지 및 예외 처리
-    │
-    ▼
+    |
+    v
 포화 연산 (Saturation Arithmetic) 및 64비트/128비트 아키텍처 확장
-    │
-    ▼
+    |
+    v
 안전한 언어 컴파일러 레벨의 오버플로우 방지 (SafeMath, Rust Panic)
 ```
 
@@ -145,7 +145,7 @@ ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생
 
 **진행 상황**: 95 / 803
 
-← **이전**: [94. 편향 지수 (Bias)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)
-**다음**: [96. 언더플로우 (Underflow)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) →
+<- **이전**: [94. 편향 지수 (Bias)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)
+**다음**: [96. 언더플로우 (Underflow)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ->
 
 ---

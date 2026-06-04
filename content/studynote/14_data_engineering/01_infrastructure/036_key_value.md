@@ -208,7 +208,7 @@ AI 임베딩 벡터 저장소로 활용
 
 **진행 상황**: 36 / 258
 
-← **이전**: [035. NoSQL 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)
-**다음**: [037. 문서 저장소 (Document Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) →
+<- **이전**: [035. NoSQL 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)
+**다음**: [037. 문서 저장소 (Document Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) ->
 
 ---

@@ -78,17 +78,17 @@ Standard Trie:        Compressed Trie (Patricia):
 
 ```text
 [일반 트라이 (Standard Trie — 문자 단위 노드)]
-    │
-    ▼
+    |
+    v
 [압축 트라이 / 기수 트리 (Compressed Trie / Radix Tree)]
-    │
-    ▼
+    |
+    v
 [Patricia Trie — 단일 자식 노드 완전 제거]
-    │
-    ▼
+    |
+    v
 [Merkle Patricia Tree (MPT — 이더리움 상태 저장)]
-    │
-    ▼
+    |
+    v
 [Adaptive Radix Tree (ART — 인메모리 DB 인덱스)]
 ```
 단순 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)의 노드 폭증 문제를 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 해결한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)는 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) MPT 등에서 공간과 캐시 효율의 최적 균형을 제공한다.
@@ -104,7 +104,7 @@ Standard Trie:        Compressed Trie (Patricia):
 
 **진행 상황**: 73 / 175
 
-← **이전**: [펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/072_fenwick_tree/)
-**다음**: [22. 서픽스 트리/배열 (Suffix Tree/Array) — 문자열 분석](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/074_suffix_tree_array/) →
+<- **이전**: [펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/072_fenwick_tree/)
+**다음**: [22. 서픽스 트리/배열 (Suffix Tree/Array) — 문자열 분석](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/074_suffix_tree_array/) ->
 
 ---

@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [미드홀]
-    │
-    ▼
+    |
+    v
 [프론트홀]
-    │
-    └──▶ [셀 엣지 수율]
+    |
+    +---> [셀 엣지 수율]
 ```
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 
 ```text
 [미드홀]
-    │
-    ▼
+    |
+    v
 [프론트홀]
-    │
-    └──▶ [셀 엣지 수율]
+    |
+    +---> [셀 엣지 수율]
 ```
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -118,12 +118,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 미드홀]
-    │
-    ▼
+    |
+    v
 [현재 개념: 프론트홀]
-    │
-    ├──▶ [확장 A: 셀 엣지 수율]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: 셀 엣지 수율]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)는 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -140,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 112 / 1120
 
-← **이전**: [1010. 미드홀 (Midhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)
-**다음**: [1012. 셀 엣지 수율 (Cell Edge Throughput)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/) →
+<- **이전**: [1010. 미드홀 (Midhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)
+**다음**: [1012. 셀 엣지 수율 (Cell Edge Throughput)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/) ->
 
 ---

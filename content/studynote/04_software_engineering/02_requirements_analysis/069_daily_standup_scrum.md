@@ -30,9 +30,9 @@ tags = ["software_engineering"]
 
 ```text
 Yesterday / Today / Blockers
-  ↓
+  v
 Daily Scrum
-  ↓
+  v
 Team Synchronization
 ```
 
@@ -105,11 +105,11 @@ Team Synchronization
 
 ```text
 Daily Scrum
-  ↓
+  v
 Blockers
-  ↓
+  v
 Synchronization
-  ↓
+  v
 Team Flow
 ```
 
@@ -119,11 +119,11 @@ Team Flow
 
 ```text
 Scrum
-  ↓
+  v
 Daily Scrum
-  ↓
+  v
 Impediment Removal
-  ↓
+  v
 Team Sync
 ```
 
@@ -141,7 +141,7 @@ Team Sync
 
 **진행 상황**: 69 / 973
 
-← **이전**: [68. 스프린트 계획 회의 (Sprint Planning)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)
-**다음**: [70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/) →
+<- **이전**: [68. 스프린트 계획 회의 (Sprint Planning)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)
+**다음**: [70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/) ->
 
 ---

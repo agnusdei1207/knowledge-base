@@ -64,28 +64,28 @@ tags = ["studynote-operating-system"]
 프로세스 $P_0$에서 $P_1$으로 CPU 제어권이 넘어갈 때 PCB가 어떻게 작동하는지 본다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 문맥 교환 시 PCB의 Save & Restore 파이프라인           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │     [ CPU ]               [ PCB 0 (P0용) ]      [ PCB 1 (P1용) ]   │
-  │                                                                   │
-  │  P0 실행 중 (Running)                                              │
-  │        │                                                          │
-  │  ⚡ 인터럽트/시스템콜 발생                                             │
-  │        │                                                          │
-  │  [커널 개입] ──────────────▶ P0의 현재 레지스터                       │
-  │  P0 중지 (Ready)              값을 PCB 0에 덮어씀.                     │
-  │                             (Save state)                          │
-  │                                                                   │
-  │  [스케줄러 동작] - "다음은 P1 차례다!"                                  │
-  │                                                                   │
-  │  [커널 개입] ◀───────────────────────────────── PCB 1에서 과거에        │
-  │  P1 시작 (Running)                             저장해둔 레지스터 값을      │
-  │                                               CPU로 복원 (Restore)  │
-  │        │                                                          │
-  │  P1 실행 중 (Running)                                              │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 문맥 교환 시 PCB의 Save & Restore 파이프라인           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |     [ CPU ]               [ PCB 0 (P0용) ]      [ PCB 1 (P1용) ]   |
+  |                                                                   |
+  |  P0 실행 중 (Running)                                              |
+  |        |                                                          |
+  |  ⚡ 인터럽트/시스템콜 발생                                             |
+  |        |                                                          |
+  |  [커널 개입] ---------------> P0의 현재 레지스터                       |
+  |  P0 중지 (Ready)              값을 PCB 0에 덮어씀.                     |
+  |                             (Save state)                          |
+  |                                                                   |
+  |  [스케줄러 동작] - "다음은 P1 차례다!"                                  |
+  |                                                                   |
+  |  [커널 개입] <---------------------------------- PCB 1에서 과거에        |
+  |  P1 시작 (Running)                             저장해둔 레지스터 값을      |
+  |                                               CPU로 복원 (Restore)  |
+  |        |                                                          |
+  |  P1 실행 중 (Running)                                              |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 Save와 Restore 과정이 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>)</strong>다. PCB는 메모리(RAM)에 있으므로, CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 값을 메모리(PCB)로 옮겨 적는 데는 필연적으로 시간이 걸린다 (오버헤드). 아무 일도 안 하고 오직 백업과 복원만 하는 이 '무의미한 찰나'를 줄이기 위해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 PCB를 최대한 가볍게 만들려 노력한다.
@@ -131,24 +131,24 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 서버 아키텍처 스레드/프로세스 수량 최적화 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [고성능 분산 처리 시스템의 Worker 풀(Pool) 크기 결정]                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      처리하려는 작업이 파일 읽기/DB 통신(I/O Bound) 위주의 작업인가?         │
-  │          ├─ 예 ─────▶ [스레드/프로세스 수를 CPU 코어의 수 배로 늘림]      │
-  │          │            (I/O 대기 시간에 다른 TCB/PCB로 문맥 교환하여 효율 UP)│
-  │          └─ 아니오 (순수 수학 계산, 암호화, 압축 등 CPU Bound 작업이다)     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [스레드/프로세스 수를 딱 CPU 코어 개수만큼만 제한 (예: 16코어 = 16개)] │
-  │       - 이유: 어차피 100% CPU를 쓰는 연산인데 PCB를 100개로 늘려봐야,       │
-  │               커널이 레지스터 백업(Save/Restore)하는 오버헤드만 폭증하여    │
-  │               시스템 전체 처리 속도가 기하급수적으로 느려진다.              │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 서버 아키텍처 스레드/프로세스 수량 최적화 플로우           |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [고성능 분산 처리 시스템의 Worker 풀(Pool) 크기 결정]                   |
+  |                |                                                  |
+  |                v                                                  |
+  |      처리하려는 작업이 파일 읽기/DB 통신(I/O Bound) 위주의 작업인가?         |
+  |          +- 예 ------> [스레드/프로세스 수를 CPU 코어의 수 배로 늘림]      |
+  |          |            (I/O 대기 시간에 다른 TCB/PCB로 문맥 교환하여 효율 UP)|
+  |          +- 아니오 (순수 수학 계산, 암호화, 압축 등 CPU Bound 작업이다)     |
+  |                |                                                  |
+  |                v                                                  |
+  |      [스레드/프로세스 수를 딱 CPU 코어 개수만큼만 제한 (예: 16코어 = 16개)] |
+  |       - 이유: 어차피 100% CPU를 쓰는 연산인데 PCB를 100개로 늘려봐야,       |
+  |               커널이 레지스터 백업(Save/Restore)하는 오버헤드만 폭증하여    |
+  |               시스템 전체 처리 속도가 기하급수적으로 느려진다.              |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보 개발자는 "속도가 느리니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(프로세스)를 더 늘리자!"고 착각한다. 프로세스가 늘어날수록 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에는 수백 개의 무거운 PCB가 생겨나고, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 누구에게 CPU를 줄지 고르는 계산에 시간을 허비하게 된다. 아키텍트는 하드웨어(코어 수)와 태스크의 성격을 일치시키는 '적정 PCB/TCB 개수 유지'의 철학을 가져야 한다.
@@ -195,12 +195,12 @@ PCB([프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/0
 
 ```text
 [프로세스 주소 공간 분리]
-    │
-    ▼
+    |
+    v
 [PCB 구성 요소 필수 암기 (PCB Process Control Block Components)]
-    │
-    ├──▶ [문맥 교환 TLB 플러시]
-    └──▶ [단기 스케줄러 디스패치]
+    |
+    +---> [문맥 교환 TLB 플러시]
+    +---> [단기 스케줄러 디스패치]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -217,7 +217,7 @@ PCB([프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/0
 
 **진행 상황**: 683 / 800
 
-← **이전**: [682. 프로세스 주소 공간 분리 (Process Address Space Isolation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/682_process_address_space_isolation/)
-**다음**: [684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)](/knowledge-base/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/) →
+<- **이전**: [682. 프로세스 주소 공간 분리 (Process Address Space Isolation)](/knowledge-base/studynote/02_operating_system/11_exam_summary/682_process_address_space_isolation/)
+**다음**: [684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)](/knowledge-base/studynote/02_operating_system/11_exam_summary/684_context_switch_tlb_flush_asid/) ->
 
 ---

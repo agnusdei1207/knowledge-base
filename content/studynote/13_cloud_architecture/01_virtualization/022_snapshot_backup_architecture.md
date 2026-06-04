@@ -40,30 +40,30 @@ tags = ["studynote-cloud"]
 클라우드 벤더와 스토리지 제조사는 주로 두 가지 아키텍처 중 하나를 사용합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ 스냅샷 메커니즘: CoW vs RoW 아키텍처 비교 ]           │
-│                                                             │
-│  1. Copy-on-Write (CoW) 방식                                 │
-│     [ 원본 블록 ]       [ 수정 요청(Write 'B') 발생 ]          │
-│       ┌───┐                   ┌───┐   --> (1. 원본 'A' 읽기) │
-│       │ A │ ----------------> │ B │   --> (3. 'B' 덮어쓰기)  │
-│       └───┘                   └───┘                        │
-│                                 │   --> (2. 스냅샷에 'A' 쓰기)│
-│                                 ▼                          │
-│                           [ 스냅샷 공간: A ]                │
-│   * 특징: 쓰기 발생 시 [읽기 1번 + 쓰기 2번] 발생 -> 쓰기 성능 저하(Penalty) │
-│                                                             │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                                                             │
-│  2. Redirect-on-Write (RoW) 방식                             │
-│     [ 원본 블록 ]       [ 수정 요청(Write 'B') 발생 ]          │
-│       ┌───┐                   ┌───┐   --> (원본 'A'는 그대로 방치)│
-│       │ A │   새로운 공간에     │ B │   --> (1. 빈 공간에 'B' 쓰기)│
-│       └───┘   'B'를 바로 작성   └───┘   --> (2. 포인터만 'B'로 변경)│
-│       (스냅샷이 A를 물고있음)                                    │
-│                                                             │
-│   * 특징: 쓰기 발생 시 [쓰기 1번]만 발생 -> 성능 저하 없음. 현대 스토리지 대세. │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             [ 스냅샷 메커니즘: CoW vs RoW 아키텍처 비교 ]           |
+|                                                             |
+|  1. Copy-on-Write (CoW) 방식                                 |
+|     [ 원본 블록 ]       [ 수정 요청(Write 'B') 발생 ]          |
+|       +---+                   +---+   --> (1. 원본 'A' 읽기) |
+|       | A | ----------------> | B |   --> (3. 'B' 덮어쓰기)  |
+|       +---+                   +---+                        |
+|                                 |   --> (2. 스냅샷에 'A' 쓰기)|
+|                                 v                          |
+|                           [ 스냅샷 공간: A ]                |
+|   * 특징: 쓰기 발생 시 [읽기 1번 + 쓰기 2번] 발생 -> 쓰기 성능 저하(Penalty) |
+|                                                             |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+|                                                             |
+|  2. Redirect-on-Write (RoW) 방식                             |
+|     [ 원본 블록 ]       [ 수정 요청(Write 'B') 발생 ]          |
+|       +---+                   +---+   --> (원본 'A'는 그대로 방치)|
+|       | A |   새로운 공간에     | B |   --> (1. 빈 공간에 'B' 쓰기)|
+|       +---+   'B'를 바로 작성   +---+   --> (2. 포인터만 'B'로 변경)|
+|       (스냅샷이 A를 물고있음)                                    |
+|                                                             |
+|   * 특징: 쓰기 발생 시 [쓰기 1번]만 발생 -> 성능 저하 없음. 현대 스토리지 대세. |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]**
@@ -156,17 +156,17 @@ tags = ["studynote-cloud"]
 
 ```text
 [풀 백업 (Full Backup) — 수 TB 복사, 백업 윈도우 초과]
-    │
-    ▼
+    |
+    v
 [스냅샷 (Snapshot) — CoW/RoW로 포인터만 찰칵]
-    │
-    ▼
-[빠른 복원 (Rollback) — RTO를 분 단위 → 초 단위로 단축]
-    │
-    ▼
+    |
+    v
+[빠른 복원 (Rollback) — RTO를 분 단위 -> 초 단위로 단축]
+    |
+    v
 [AMI / EBS Snapshot — 클라우드 인스턴스 클론 기반]
-    │
-    ▼
+    |
+    v
 [오토 스케일링 (Auto Scaling) — 수천 대 즉시 복제]
 ```
 전통 풀 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 한계를 스냅샷이 포인터 기반으로 해결하고, [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)/RoW로 RTO를 단축하며, [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)을 통해 클라우드 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)의 근간 기술로 융합되는 흐름이다.
@@ -186,7 +186,7 @@ tags = ["studynote-cloud"]
 
 **진행 상황**: 21 / 371
 
-← **이전**: [21. 하드웨어 보조 가상화 (Hardware-assisted Virtualization) - CPU에 가상화 지원 명령어(Intel](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/)
-**다음**: [23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/) →
+<- **이전**: [21. 하드웨어 보조 가상화 (Hardware-assisted Virtualization) - CPU에 가상화 지원 명령어(Intel](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/)
+**다음**: [23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/) ->
 
 ---

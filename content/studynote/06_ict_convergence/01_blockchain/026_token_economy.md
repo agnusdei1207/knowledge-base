@@ -19,15 +19,15 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│          토큰 유형 분류                                     │
-├──────────────────────────────────────────────────────────┤
-│ 결제 토큰  (Payment Token) : 비트코인 — 교환 매개           │
-│ 유틸리티  (Utility Token)  : ETH — 서비스 접근 수단          │
-│ 거버넌스  (Governance)     : UNI, COMP — 프로토콜 투표권    │
-│ 증권형    (Security Token) : 금융 자산 디지털화, 규제 적용   │
-│ NFT       (Non-Fungible)   : 고유 디지털 자산 소유권        │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|          토큰 유형 분류                                     |
++----------------------------------------------------------+
+| 결제 토큰  (Payment Token) : 비트코인 — 교환 매개           |
+| 유틸리티  (Utility Token)  : ETH — 서비스 접근 수단          |
+| 거버넌스  (Governance)     : UNI, COMP — 프로토콜 투표권    |
+| 증권형    (Security Token) : 금융 자산 디지털화, 규제 적용   |
+| NFT       (Non-Fungible)   : 고유 디지털 자산 소유권        |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 토큰은 테마파크의 코인이다. 코인을 구입하여(토큰 매입) 놀이기구를 타고([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용), 코인이 부족해지면 가치가 올라간다(희소성). 하지만 테마파크가 코인을 무한정 발행하면 코인 가치가 떨어진다(인플레이션).
@@ -59,13 +59,13 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [트랜잭션 수수료]
-       │
-  ┌────┴────┐
-  │ Base Fee│ → 소각(Burn) → 공급량 감소 → 희소성↑
-  │(변동)   │
-  └────┬────┘
-       │ Tip (Priority Fee) → 검증자 보상
-       ▼
+       |
+  +----+----+
+  | Base Fee| -> 소각(Burn) -> 공급량 감소 -> 희소성^
+  |(변동)   |
+  +----+----+
+       | Tip (Priority Fee) -> 검증자 보상
+       v
 [검증자]
 ```
 
@@ -77,7 +77,7 @@ tags = ["studynote-ict-convergence"]
 
 | 항목 | PoW 토큰 이코노미 | PoS 토큰 이코노미 |
 |:---|:---|:---|
-| **인센티브** | 채굴 보상 (전기→토큰) | 스테이킹 보상 (토큰→토큰) |
+| **인센티브** | 채굴 보상 (전기->토큰) | 스테이킹 보상 (토큰->토큰) |
 | **보안 비용** | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 토큰 잠금 (Slashing 위험) |
 | **토큰 집중** | 채굴 풀 중앙화 위험 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보유자 유리 |
 
@@ -89,8 +89,8 @@ tags = ["studynote-ict-convergence"]
 
 ### [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 유동성 채굴(Liquidity Mining) 토큰 이코노미
 1. [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 유동성 공급자(LP)에게 거버넌스 토큰으로 보상.
-2. 높은 APY(Annual Percentage Yield) → 유동성 급속 유입.
-3. 토큰 가격 하락 → APY 감소 → 유동성 이탈("death spiral").
+2. 높은 APY(Annual Percentage Yield) -> 유동성 급속 유입.
+3. 토큰 가격 하락 -> APY 감소 -> 유동성 이탈("death spiral").
 4. 방어: 토큰 소각, 바이백, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수익 분배로 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/) 확보.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -128,17 +128,17 @@ tags = ["studynote-ict-convergence"]
 
 ```text
 [비트코인 채굴 보상 — 최초의 토큰 이코노미]
-    │
-    ▼
+    |
+    v
 [이더리움 가스비 + ERC-20 토큰 — 범용 토큰 표준]
-    │
-    ▼
+    |
+    v
 [DeFi 유동성 채굴 — 토큰 이코노미 확장]
-    │
-    ▼
+    |
+    v
 [DAO 거버넌스 토큰 — 탈중앙화 조직 의사결정]
-    │
-    ▼
+    |
+    v
 [지속 가능 토큰 이코노미 — 소각·스테이킹·효용 설계]
 ```
 
@@ -154,7 +154,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 26 / 552
 
-← **이전**: [25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준](/knowledge-base/studynote/06_ict_convergence/01_blockchain/025_turing_completeness/)
-**다음**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/knowledge-base/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/) →
+<- **이전**: [25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준](/knowledge-base/studynote/06_ict_convergence/01_blockchain/025_turing_completeness/)
+**다음**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/knowledge-base/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/) ->
 
 ---

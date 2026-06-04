@@ -44,22 +44,22 @@ CISA는 이 복잡한 기술 환경을 위험 기반 [감사](/knowledge-base/st
 아래 다이어그램은 CISA가 위험 기반으로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행하는 기본 사이클을 보여준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ CISA risk-based audit cycle                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Business objective                                                 │
-│        │                                                           │
-│        ▼                                                           │
-│ Risk assessment -> high / medium / low                             │
-│        │                                                           │
-│        ▼                                                           │
-│ Control review   -> design and operating effectiveness             │
-│        │                                                           │
-│        ▼                                                           │
-│ Evidence & reporting -> findings / residual risk / recommendation  │
-│        │                                                           │
-│        └────────────── follow-up and re-assessment ───────────────┘
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| CISA risk-based audit cycle                                       |
++--------------------------------------------------------------------+
+| Business objective                                                 |
+|        |                                                           |
+|        v                                                           |
+| Risk assessment -> high / medium / low                             |
+|        |                                                           |
+|        v                                                           |
+| Control review   -> design and operating effectiveness             |
+|        |                                                           |
+|        v                                                           |
+| Evidence & reporting -> findings / residual risk / recommendation  |
+|        |                                                           |
+|        +-------------- follow-up and re-assessment ---------------+
++--------------------------------------------------------------------+
 ```
 
 여기서 핵심은 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 자원이 무한하지 않다는 사실이다. [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 관점은 모든 시스템을 똑같이 보는 대신, 자산 가치와 위협 수준이 높은 영역에 더 깊은 테스트를 배치한다. 그래서 CISA는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 모음이 아니라 위험 우선순위화 프레임워크다.
@@ -132,17 +132,17 @@ ISACA와 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framewo
 
 ```text
 IT Governance Need
-    │
-    ▼
+    |
+    v
 ISACA Standards and Community
-    │
-    ▼
+    |
+    v
 CISA Risk-based Audit Perspective
-    │
-    ▼
+    |
+    v
 Control Evaluation · Residual Risk
-    │
-    ▼
+    |
+    v
 Governance and Assurance Maturity
 ```
 
@@ -160,7 +160,7 @@ Governance and Assurance Maturity
 
 **진행 상황**: 221 / 482
 
-← **이전**: [220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/220_it_audit_overview/)
-**다음**: [222. COBIT 2019 거버넌스 (COBIT 2019 Governance)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/222_cobit_2019_governance/) →
+<- **이전**: [220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/220_it_audit_overview/)
+**다음**: [222. COBIT 2019 거버넌스 (COBIT 2019 Governance)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/222_cobit_2019_governance/) ->
 
 ---

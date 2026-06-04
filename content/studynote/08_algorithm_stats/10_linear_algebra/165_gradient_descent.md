@@ -13,7 +13,7 @@ tags = ["studynote-algorithm"]
 
 > 1. **본질**: 기울기 하강법 (Gradient Descent) 은 함수의 *음의 기울기 방향으로 조금씩 이동*하며 최솟값을 찾는 반복 최적화 — f(x)가 감소하는 방향은 항상 -∇f(x)다.
 > 2. **가치**: SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/), [확률적 경사 하강법](/knowledge-base/studynote/10_ai/01_ai_basics/081_stochastic_gradient_descent_sgd/)) 와 그 변형 ([Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) 이 현대 딥러닝의 사실상 유일한 학습 방법이며, [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η가 수렴 속도와 안정성의 핵심 하이퍼파라미터다.
-> 3. **판단 포인트**: 배치 크기 ↑ → 그래디언트 정확↑, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율↑ / 배치 크기 ↓ → 노이즈↑ ([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출), 메모리 효율↑ — 실무에서 배치 크기와 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링이 함께 조정된다.
+> 3. **판단 포인트**: 배치 크기 ^ -> 그래디언트 정확^, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율^ / 배치 크기 v -> 노이즈^ ([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출), 메모리 효율^ — 실무에서 배치 크기와 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링이 함께 조정된다.
 
 ---
 
@@ -34,19 +34,19 @@ x_{t+1} = x_t - η · ∇f(x_t)
 
 ```
 손실 L
-   │
-   │╲         η 너무 큰 경우: 발산 (Diverge)
-   │ ╲  ╱╲   ↗
-   │  ╲╱  ╲─╱
-   │
-   │╲                 η 적절: 수렴 (Converge)
-   │ ╲
-   │  ╲─────────
-   │
-   │╲              η 너무 작음: 매우 느린 수렴
-   │ ╲
-   │  ╲─────────────────────────────
-   └────────────────────────────────►
+   |
+   |╲         η 너무 큰 경우: 발산 (Diverge)
+   | ╲  ╱╲   ↗
+   |  ╲╱  ╲-╱
+   |
+   |╲                 η 적절: 수렴 (Converge)
+   | ╲
+   |  ╲---------
+   |
+   |╲              η 너무 작음: 매우 느린 수렴
+   | ╲
+   |  ╲-----------------------------
+   +--------------------------------►
                    반복 횟수 t
 ```
 
@@ -68,7 +68,7 @@ x_{t+1} = x_t - η · ∇f(x_t)
 
 ```
 m_t = β₁·m_{t-1} + (1-β₁)·g_t          (1차 모멘트: 기울기 EMA)
-v_t = β₂·v_{t-1} + (1-β₂)·g_t²         (2차 모멘트: 분산 EMA)
+v_t = β₂·v_{t-1} + (1-β₂)·g_t^         (2차 모멘트: 분산 EMA)
 
 m̂_t = m_t / (1-β₁ᵗ)   (바이어스 보정)
 v̂_t = v_t / (1-β₂ᵗ)
@@ -78,20 +78,20 @@ x_{t+1} = x_t - η · m̂_t / (√v̂_t + ε)
 
 기본값: β₁=0.9, β₂=0.999, ε=1e-8
 
-특징: 각 파라미터마다 개별 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응 → 희소 그래디언트에 강함.
+특징: 각 파라미터마다 개별 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응 -> 희소 그래디언트에 강함.
 
 ### 주요 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 비교
 
 ```
 손실 경관 (Loss Landscape)
-          ╭──────────────────────────────╮
-          │     ╭───────────╮            │
-          │  ╭──╯           ╰──╮         │
-          │ ╱  안장점(Saddle)   ╲        │
-SGD ──────│─────────────────────X────────┼──► 지역 최소
-Momentum ─│──────────────────/──X────────┼──► 빠른 수렴
-Adam ─────│────────────────/────X────────┼──► 안장점 탈출 잘함
-          ╰──────────────────────────────╯
+          +------------------------------+
+          |     +-----------+            |
+          |  +--+           +--+         |
+          | ╱  안장점(Saddle)   ╲        |
+SGD ------|---------------------X--------+--► 지역 최소
+Momentum -|------------------/--X--------+--► 빠른 수렴
+Adam -----|----------------/----X--------+--► 안장점 탈출 잘함
+          +------------------------------+
 ```
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 아이디어 | 장점 | 단점 |
@@ -114,7 +114,7 @@ Adam ─────│────────────────/──�
 |:---|:---:|:---:|
 | Batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) (고정 lr) | O(1/t) | O(ρᵗ) 선형 |
 | SGD (감소 lr) | O(1/√t) | O(1/t) |
-| Nesterov 가속 [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) | O(1/t²) | O(ρᵗ) 더 빠름 |
+| Nesterov 가속 [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) | O(1/t^) | O(ρᵗ) 더 빠름 |
 
 <strong>Nesterov <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">모멘텀</a></strong>:
 
@@ -123,7 +123,7 @@ y_{t+1} = x_t + γ(x_t - x_{t-1})   (미리보기 위치)
 x_{t+1} = y_{t+1} - η·∇f(y_{t+1})  (보정된 위치에서 업데이트)
 ```
 
-일반 Momentum의 O(1/t) → Nesterov의 O(1/t²) 개선 ([볼록 함수](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/)).
+일반 Momentum의 O(1/t) -> Nesterov의 O(1/t^) 개선 ([볼록 함수](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/)).
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링 (LR Scheduling)
 
@@ -131,8 +131,8 @@ x_{t+1} = y_{t+1} - η·∇f(y_{t+1})  (보정된 위치에서 업데이트)
 시간에 따른 lr 변화 전략:
 Step Decay:    lr = lr₀ × γ^(epoch / step_size)
 Cosine:        lr = lr_min + ½(lr_max - lr_min)(1 + cos(πt/T))
-Warmup:        초기 몇 스텝 lr 천천히 증가 → 안정화
-OneCycleLR:    lr 상승 → 하강 (1 사이클)
+Warmup:        초기 몇 스텝 lr 천천히 증가 -> 안정화
+OneCycleLR:    lr 상승 -> 하강 (1 사이클)
 ```
 
 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 모델의 Warmup + Cosine decay가 현대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습 표준.
@@ -159,16 +159,16 @@ GPT-3 학습 설정:
 손실 경관의 급경사(Cliff)에서 그래디언트 폭발 방지:
 
 ```
-‖g‖ > threshold이면: g ← g × threshold / ‖g‖
+‖g‖ > threshold이면: g <- g × threshold / ‖g‖
 ```
 
 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 등 순환 구조에서 필수.
 
 ### 기술사 판단 포인트
 
-1. <strong>"SGD vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a> 선택 기준은?"</strong> → 볼록 문제/소규모: SGD (이론적 보장) / 딥러닝: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) (빠른 수렴)
-2. <strong>"배치 크기와 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>의 관계는?"</strong> → 배치 크기 2배 → [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) √2 또는 2배 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Linear Scaling Rule)
-3. **"그래디언트 소실/폭발 대응은?"** → 소실: [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), 잔차 연결([ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)) / 폭발: 그래디언트 클리핑
+1. <strong>"SGD vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a> 선택 기준은?"</strong> -> 볼록 문제/소규모: SGD (이론적 보장) / 딥러닝: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) (빠른 수렴)
+2. <strong>"배치 크기와 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>의 관계는?"</strong> -> 배치 크기 2배 -> [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) √2 또는 2배 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Linear Scaling Rule)
+3. **"그래디언트 소실/폭발 대응은?"** -> 소실: [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), 잔차 연결([ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)) / 폭발: 그래디언트 클리핑
 
 📢 **섹션 요약 비유**: 그래디언트 클리핑은 "과속 방지 턱"이다 — 그래디언트가 너무 크면(급경사) 정해진 속도(threshold) 이상으로 달리지 못하게 제한한다.
 
@@ -193,11 +193,11 @@ GPT-3 학습 설정:
 
 | 개념 | 수식 | 연결 |
 |:---|:---|:---|
-| Batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) | x←x-η·∇f(전체) | [볼록 함수](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/) 수렴 보장 |
-| SGD | x←x-η·∇f(단일) | 딥러닝 노이즈 탈출 |
+| Batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) | x<-x-η·∇f(전체) | [볼록 함수](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/) 수렴 보장 |
+| SGD | x<-x-η·∇f(단일) | 딥러닝 노이즈 탈출 |
 | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) | 1st+2nd 모멘트 적응 | 딥러닝 표준 |
 | LR 스케줄링 | Cosine/Warmup | 대규모 모델 학습 |
-| 그래디언트 클리핑 | ‖g‖>th → [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
+| 그래디언트 클리핑 | ‖g‖>th -> [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 
 ---
 
@@ -205,14 +205,14 @@ GPT-3 학습 설정:
 
 ```text
 [손실 함수 (Loss Function)]
-    │
-    ▼
+    |
+    v
 [경사 하강법 (Gradient Descent)]
-    │
-    ▼
+    |
+    v
 [학습률 (Learning Rate)]
-    │
-    ▼
+    |
+    v
 [최적화 (Optimization)]
 ```
 
@@ -229,7 +229,7 @@ GPT-3 학습 설정:
 
 **진행 상황**: 165 / 175
 
-← **이전**: [5. 볼록 함수 (Convex Function) — 전역 최적 보장](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/)
-**다음**: [7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) →
+<- **이전**: [5. 볼록 함수 (Convex Function) — 전역 최적 보장](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/164_convex_function/)
+**다음**: [7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) ->
 
 ---

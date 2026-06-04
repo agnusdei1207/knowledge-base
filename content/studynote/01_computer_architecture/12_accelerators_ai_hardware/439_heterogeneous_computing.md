@@ -36,22 +36,22 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 이기종 컴퓨팅에서 실제 병목이 어디서 생기는지를 보여준다. 연산이 빠른 가속기를 붙여도 입력 복사와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 크면 전체 응답시간은 거의 줄지 않는다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Heterogeneous offload path                                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ App Thread                                                                │
-│    │                                                                       │
-│    ▼                                                                       │
-│ CPU prepares task                                                          │
-│    │                                                                       │
-│    ├── copy input ──▶ Shared/Device Memory ──▶ Accelerator compute         │
-│    │                     ▲                         │                        │
-│    │                     │                         ├── sync / interrupt     │
-│    │                     │                         ▼                        │
-│    └── wait or overlap ◀─┴──────── result writeback / pointer handoff      │
-│                                                                            │
-│ Key bottlenecks: copy latency, memory coherence, launch overhead, sync     │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Heterogeneous offload path                                                |
++----------------------------------------------------------------------------+
+| App Thread                                                                |
+|    |                                                                       |
+|    v                                                                       |
+| CPU prepares task                                                          |
+|    |                                                                       |
+|    +-- copy input ---> Shared/Device Memory ---> Accelerator compute         |
+|    |                     ^                         |                        |
+|    |                     |                         +-- sync / interrupt     |
+|    |                     |                         v                        |
+|    +-- wait or overlap <--+-------- result writeback / pointer handoff      |
+|                                                                            |
+| Key bottlenecks: copy latency, memory coherence, launch overhead, sync     |
++----------------------------------------------------------------------------+
 ```
 
 핵심 설계 포인트는 다음과 같다.
@@ -149,24 +149,24 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 범용 CPU 중심 처리
-    │
-    ▼
+    |
+    v
 GPU · DSP 기반 부분 가속
-    │
-    ▼
+    |
+    v
 SoC (System on Chip) 통합 이기종 구조
-    │
-    ▼
+    |
+    v
 UMA (Unified Memory Architecture) · HSA (Heterogeneous System Architecture)
-    │
-    ▼
+    |
+    v
 NPU (Neural Processing Unit) 중심 AI 가속
-    │
-    ▼
+    |
+    v
 Chiplet · CXL (Compute Express Link) 기반 확장형 이기종 인프라
 ```
 
-이 흐름은 "범용 처리 → 부분 가속 → 칩 내부 통합 → 메모리 공유 강화 → 랙 단위 확장"으로 이기종 컴퓨팅의 초점이 이동해 온 과정을 보여준다.
+이 흐름은 "범용 처리 -> 부분 가속 -> 칩 내부 통합 -> 메모리 공유 강화 -> 랙 단위 확장"으로 이기종 컴퓨팅의 초점이 이동해 온 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -180,7 +180,7 @@ Chiplet · CXL (Compute Express Link) 기반 확장형 이기종 인프라
 
 **진행 상황**: 440 / 803
 
-← **이전**: [438. LPU (Language Processing Unit, LLM 가속기)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/)
-**다음**: [440. 오프로딩 (Offloading)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) →
+<- **이전**: [438. LPU (Language Processing Unit, LLM 가속기)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/)
+**다음**: [440. 오프로딩 (Offloading)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ->
 
 ---

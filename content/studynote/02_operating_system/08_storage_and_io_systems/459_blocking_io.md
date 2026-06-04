@@ -28,30 +28,30 @@ tags = ["studynote-operating-system"]
   3. **개발 편의성의 승리**: 코드가 눈에 보이는 대로 직관적으로 흘러가기 때문에, 50년간 전 세계 모든 프로그래밍 언어의 I/O 기본 뼈대로 군림함.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        블로킹 I/O(Blocking I/O) 호출 시 OS 스케줄러의 생사여탈권 시각화  │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 유저 스레드의 코드 실행 ]                                              │
-│ 1. `print("읽기 시작!");`  (스레드 달리는 중 🏃‍♂️)                      │
-│                                                                          │
-│ 2. `data = read(file_fd);` ◀ (I/O 블로킹 시스템 콜 작렬!)                │
-│     │                                                                    │
-│     ▼ (이 순간 OS 스케줄러가 개입하여 멱살을 잡음)                       │
-│ ┌──────────────────────────────────────────────────┐                     │
-│ │ OS: "디스크 읽어올 테니까 넌 대기실(Wait Queue)로 꺼져!"       │       │
-│ │ -> 유저 스레드를 'Running' -> 💤 'Sleep (Blocked)' 강제 변환! │        │
-│ │ -> CPU 코어는 재빨리 딴 앱(유튜브)을 가져와서 돌림 (효율 극강)    │    │
-│ └──────────────────────────────────────────────────┘                     │
-│     │                                                                    │
-│     ▼ (--- 8 밀리초의 영겁의 시간이 흐름 ---)                            │
-│ [ 디스크 하드웨어 ] 💥 인터럽트 발생! "야 데이터 다 긁어왔어!"           │
-│                                                                          │
-│ 3. OS: "대기실에 자고 있던 유저 스레드 깨워라!"                          │
-│    -> 스레드 💤 'Sleep' -> 🏃‍♂️ 'Ready/Running' 으로 부활!              │
-│                                                                          │
-│ 4. `print(data);` (잠에서 깬 스레드가 다음 줄 실행 재개!)                │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+|        블로킹 I/O(Blocking I/O) 호출 시 OS 스케줄러의 생사여탈권 시각화  |
++--------------------------------------------------------------------------+
+|                                                                          |
+| [ 유저 스레드의 코드 실행 ]                                              |
+| 1. `print("읽기 시작!");`  (스레드 달리는 중 🏃‍♂️)                      |
+|                                                                          |
+| 2. `data = read(file_fd);` <- (I/O 블로킹 시스템 콜 작렬!)                |
+|     |                                                                    |
+|     v (이 순간 OS 스케줄러가 개입하여 멱살을 잡음)                       |
+| +--------------------------------------------------+                     |
+| | OS: "디스크 읽어올 테니까 넌 대기실(Wait Queue)로 꺼져!"       |       |
+| | -> 유저 스레드를 'Running' -> 💤 'Sleep (Blocked)' 강제 변환! |        |
+| | -> CPU 코어는 재빨리 딴 앱(유튜브)을 가져와서 돌림 (효율 극강)    |    |
+| +--------------------------------------------------+                     |
+|     |                                                                    |
+|     v (--- 8 밀리초의 영겁의 시간이 흐름 ---)                            |
+| [ 디스크 하드웨어 ] 💥 인터럽트 발생! "야 데이터 다 긁어왔어!"           |
+|                                                                          |
+| 3. OS: "대기실에 자고 있던 유저 스레드 깨워라!"                          |
+|    -> 스레드 💤 'Sleep' -> 🏃‍♂️ 'Ready/Running' 으로 부활!              |
+|                                                                          |
+| 4. `print(data);` (잠에서 깬 스레드가 다음 줄 실행 재개!)                |
++--------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** "Block 당했다"는 것은 프로그램이 렉이 걸려 에러가 난 게 아니다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 녀석의 CPU 점유 권한을 강제로 박탈하고 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 쑤셔 박아, CPU가 허공에 삽질([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하는 것을 완벽하게 막아준 <strong>고도의 자원 절약 스케줄링의 혜택</strong>을 받은 것이다.
 
@@ -104,12 +104,12 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 - 이 블로킹의 끔찍한 확장성(Scalability) 한계 때문에 아파치는 왕좌를 내려놓고, 논블로킹(epoll) 기반의 닌자 같은 웹서버 <strong>Nginx</strong>에게 전 세계를 지배당했다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ I/O 아키텍처 │ 동작 방식    │ 동시접속 1만명 렉│ 대표적인 프레임워크  │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ Blocking │ 1인당 1스레드 배정│ ☠️ 서버 즉사  │ 과거 Apache, Spring(구)│
-│ Non-Block│ 소수 스레드가 뜀 │ 🚀 거의 0초 컷 │ Nginx, Node.js, Netty  │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
++----------+------------+------------+----------------------------------+
+| I/O 아키텍처 | 동작 방식    | 동시접속 1만명 렉| 대표적인 프레임워크  |
++----------+------------+------------+----------------------------------+
+| Blocking | 1인당 1스레드 배정| ☠️ 서버 즉사  | 과거 Apache, Spring(구)|
+| Non-Block| 소수 스레드가 뜀 | 🚀 거의 0초 컷 | Nginx, Node.js, Netty  |
++----------+------------+------------+----------------------------------+
 ```
 **[매트릭스 해설]** "그럼 무조건 넌블로킹이 좋은 거 아닌가?" 절대 아니다. 넌블로킹으로 짜인 코드는 인간이 읽기 더럽게 어렵다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오면 이거 해주고, 실패하면 저기로 가고..." 온갖 콜백(Callback) 지옥이 펼쳐진다. 그래서 현대에는 코드는 겉보기에 꿀 뚝뚝 떨어지는 순차적 '블로킹'처럼 예쁘게(`async/await`, [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) 짜면서, 뒤에선 OS가 알아서 '넌블로킹'으로 찢어 돌려주는 궁극의 하이브리드 문법(Golang, Kotlin)이 세상을 지배하게 된 것이다.
 
@@ -170,12 +170,12 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ```text
 [예약 및 단독 장치 접근 제어]
-    │
-    ▼
+    |
+    v
 [블로킹 I/O (Blocking I/O)]
-    │
-    ├──▶ [논블로킹 I/O (Non-blocking I/O)]
-    └──▶ [비동기 I/O (Asynchronous I/O, AIO)]
+    |
+    +---> [논블로킹 I/O (Non-blocking I/O)]
+    +---> [비동기 I/O (Asynchronous I/O, AIO)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -192,7 +192,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 **진행 상황**: 459 / 800
 
-← **이전**: [458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/458_device_reservation_exclusive_access/)
-**다음**: [460. 논블로킹 I/O (Non-blocking I/O) - 데이터가 없어도 즉시 반환 (오류/0 바이트 반환)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/460_non_blocking_io/) →
+<- **이전**: [458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/458_device_reservation_exclusive_access/)
+**다음**: [460. 논블로킹 I/O (Non-blocking I/O) - 데이터가 없어도 즉시 반환 (오류/0 바이트 반환)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/460_non_blocking_io/) ->
 
 ---

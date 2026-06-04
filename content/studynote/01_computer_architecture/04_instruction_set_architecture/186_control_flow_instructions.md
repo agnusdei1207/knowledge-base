@@ -26,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 순차 실행과 제어 흐름 변경이 PC를 어떻게 다르게 다루는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           PC 이동 방식: 순차 실행 vs 제어 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ 순차 실행                                                   │
-│   100 ──▶ 101 ──▶ 102 ──▶ 103                               │
-│                                                              │
-│ 조건부 분기                                                  │
-│   100 ──▶ 101 ──▶ [BRANCH if Z=1] ───────▶ 220               │
-│                          └─ false 이면 102로 계속 진행      │
-│                                                              │
-│ 서브루틴 호출                                                │
-│   300 ──▶ [CALL 900] ──▶ 900 ... [RET] ──▶ 301               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           PC 이동 방식: 순차 실행 vs 제어 흐름              |
++--------------------------------------------------------------+
+| 순차 실행                                                   |
+|   100 ---> 101 ---> 102 ---> 103                               |
+|                                                              |
+| 조건부 분기                                                  |
+|   100 ---> 101 ---> [BRANCH if Z=1] --------> 220               |
+|                          +- false 이면 102로 계속 진행      |
+|                                                              |
+| 서브루틴 호출                                                |
+|   300 ---> [CALL 900] ---> 900 ... [RET] ---> 301               |
++--------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸기보다 <strong>실행의 다음 좌표를 바꾼다</strong>는 점이다. 컴퓨터 구조에서 지능처럼 보이는 대부분의 동작은 결국 "어디로 갈 것인가"를 결정하는 문제로 환원된다.
@@ -53,29 +53,29 @@ tags = ["studynote-computer-architecture"]
 
 | 유형 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신 방식 | 추가 상태 | 대표 소프트웨어 의미 |
 | :--- | :--- | :--- | :--- |
-| [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) ([Conditional Branch](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)) | 조건이 참이면 `PC ← PC + offset` | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)/Sign/Carry 같은 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) | `if`, `while`, `for` |
-| 무조건 점프 (Unconditional Jump) | `PC ← target` | 별도 조건 불필요 | `goto`, 루프 탈출 |
-| 호출 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) | `return address 저장 후 PC ← target` | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 진입 |
-| 복귀 (Return) | `PC ← saved return address` | 저장된 복귀 주소 | 함수 종료, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 복귀 |
+| [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) ([Conditional Branch](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)) | 조건이 참이면 `PC <- PC + offset` | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)/Sign/Carry 같은 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) | `if`, `while`, `for` |
+| 무조건 점프 (Unconditional Jump) | `PC <- target` | 별도 조건 불필요 | `goto`, 루프 탈출 |
+| 호출 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) | `return address 저장 후 PC <- target` | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 진입 |
+| 복귀 (Return) | `PC <- saved return address` | 저장된 복귀 주소 | 함수 종료, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 복귀 |
 
 호출과 복귀는 단순 점프보다 한 단계 더 복잡하다. 현재 위치를 잃어버리면 돌아올 수 없기 때문이다. 그래서 `CALL`은 목적지로 점프하기 전에 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소를 저장하고, `RET`은 그 주소를 다시 꺼내 PC에 넣는다. 이 저장이 깊어질수록 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)과 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 계층이 만들어진다.
 
 아래 그림은 호출과 복귀의 내부 주소 보존 과정을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             CALL / RETURN 의 주소 보존 메커니즘             │
-├──────────────────────────────────────────────────────────────┤
-│ 시작: PC = 300, 명령어 = CALL 900                          │
-│                                                              │
-│ 1) return address = 301 계산                                 │
-│ 2) stack.push(301)                                            │
-│ 3) PC = 900                                                   │
-│ 4) 서브루틴 실행                                              │
-│ 5) RET 수행 → PC = stack.pop() = 301                         │
-│                                                              │
-│ 결과: "잠깐 다른 곳에서 일하고 정확히 원래 줄로 복귀"       │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             CALL / RETURN 의 주소 보존 메커니즘             |
++--------------------------------------------------------------+
+| 시작: PC = 300, 명령어 = CALL 900                          |
+|                                                              |
+| 1) return address = 301 계산                                 |
+| 2) stack.push(301)                                            |
+| 3) PC = 900                                                   |
+| 4) 서브루틴 실행                                              |
+| 5) RET 수행 -> PC = stack.pop() = 301                         |
+|                                                              |
+| 결과: "잠깐 다른 곳에서 일하고 정확히 원래 줄로 복귀"       |
++--------------------------------------------------------------+
 ```
 
 하드웨어 입장에서는 여기서 큰 비용이 생긴다. 분기 결과와 목표 주소가 확정되기 전까지 파이프라인은 다음에 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져와야 할지 확신할 수 없다. 그래서 깊은 파이프라인일수록 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))가 커지고, 예측 실패 시 플러시 (Flush) 비용도 급증한다.
@@ -111,17 +111,17 @@ tags = ["studynote-computer-architecture"]
 아래 체크 흐름은 핫패스에서 어떤 제어 흐름 전략을 택할지 판단할 때 유용하다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          핫패스 제어 흐름 최적화 판단 순서                 │
-├──────────────────────────────────────────────────────────────┤
-│ 분기가 자주 실행되는가?                                     │
-│   ├─ 아니오 → 가독성 우선                                   │
-│   └─ 예                                                      │
-│       ├─ 결과가 예측 가능한가? → 예 → 일반 branch 유지      │
-│       └─ 아니오                                              │
-│            ├─ 값 선택 문제인가? → CMOV / predication 검토   │
-│            └─ 주소 선택 문제인가? → jump table / layout 조정│
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          핫패스 제어 흐름 최적화 판단 순서                 |
++--------------------------------------------------------------+
+| 분기가 자주 실행되는가?                                     |
+|   +- 아니오 -> 가독성 우선                                   |
+|   +- 예                                                      |
+|       +- 결과가 예측 가능한가? -> 예 -> 일반 branch 유지      |
+|       +- 아니오                                              |
+|            +- 값 선택 문제인가? -> CMOV / predication 검토   |
+|            +- 주소 선택 문제인가? -> jump table / layout 조정|
++--------------------------------------------------------------+
 ```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -167,17 +167,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 순차 실행
-    │
-    ▼
+    |
+    v
 조건부 분기 · 무조건 점프
-    │
-    ▼
+    |
+    v
 호출/복귀 · 스택 프레임
-    │
-    ▼
+    |
+    v
 제어 해저드 (Control Hazard)
-    │
-    ▼
+    |
+    v
 분기 예측 · 투기 실행 (Speculative Execution)
 ```
 
@@ -195,7 +195,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 186 / 803
 
-← **이전**: [185. 논리 연산 명령어 (Logical Operation Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/185_logical_operations/)
-**다음**: [187. 조건부 분기 (Conditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) →
+<- **이전**: [185. 논리 연산 명령어 (Logical Operation Instructions)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/185_logical_operations/)
+**다음**: [187. 조건부 분기 (Conditional Branch)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) ->
 
 ---

@@ -36,28 +36,28 @@ tags = ["database"]
 |:---|:---|:---|
 | [제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)) | 반복 집단 제거 | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 <strong>원자값</strong>만 가짐 |
 | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) | 부분 함수 종속 제거 | 복합 기본키의 일부에만 종속된 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 분리 |
-| [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) | 이행적 함수 종속 제거 | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 꼬리 무는 종속 (A→B, B→C) 분리 |
+| [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) | 이행적 함수 종속 제거 | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 꼬리 무는 종속 (A->B, B->C) 분리 |
 | [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 제약 | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키 ([Candidate Key](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/))가 아닌 종속 분리 |
 | [제4정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)) | [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)) 제거 | 하나의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 여러 독립적 값을 가질 때 분리 |
 | [제5정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/) (5NF) | 조인 종속 (JD) 제거 | 3개 이상의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) 가능 시 분리 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                  정규화 과정의 무손실 분해 원리               │
-├──────────────────────────────────────────────────────────────┤
-│ [원래 테이블: 수강] (학번, 과목코드, 성적, 과목명)                 │
-│         │ (부분 함수 종속 발생: 과목코드 ─▶ 과목명)             │
-│         ▼                                                    │
-│ ┌──────────────────────┐  ┌────────────────────────┐         │
-│ │ [테이블 A: 성적]      │  │ [테이블 B: 과목]        │         │
-│ │ 학번, 과목코드, 성적    │  │ 과목코드(PK), 과목명      │         │
-│ └──────────────────────┘  └────────────────────────┘         │
-│         │                             │                      │
-│         └──────▶ 조인 (JOIN) ◀──────┘                      │
-│                (과목코드 기준)                                  │
-│         ▼                                                    │
-│ [완벽히 복원된 원래 테이블] (가짜 데이터 없음 = 무손실)               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|                  정규화 과정의 무손실 분해 원리               |
++--------------------------------------------------------------+
+| [원래 테이블: 수강] (학번, 과목코드, 성적, 과목명)                 |
+|         | (부분 함수 종속 발생: 과목코드 --> 과목명)             |
+|         v                                                    |
+| +----------------------+  +------------------------+         |
+| | [테이블 A: 성적]      |  | [테이블 B: 과목]        |         |
+| | 학번, 과목코드, 성적    |  | 과목코드(PK), 과목명      |         |
+| +----------------------+  +------------------------+         |
+|         |                             |                      |
+|         +-------> 조인 (JOIN) <-------+                      |
+|                (과목코드 기준)                                  |
+|         v                                                    |
+| [완벽히 복원된 원래 테이블] (가짜 데이터 없음 = 무손실)               |
++--------------------------------------------------------------+
 ```
 
 이 그림은 분해 후 외래키를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 연결할 때, 어떤 정보의 손실이나 잉여 없이 완벽히 복원되어야 한다는 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)의 핵심을 보여준다.
@@ -123,17 +123,17 @@ tags = ["database"]
 
 ```text
 데이터 종속성 파악 (Functional Dependency)
-    │
-    ▼
+    |
+    v
 정규화 적용 (1NF ~ BCNF)
-    │
-    ▼
+    |
+    v
 무손실 분해 및 종속성 보존 검증
-    │
-    ▼
+    |
+    v
 논리적 무결성 확보 (Anomaly 제거)
-    │
-    ▼
+    |
+    v
 성능 튜닝 및 반정규화 (De-normalization) 결합
 ```
 
@@ -151,7 +151,7 @@ tags = ["database"]
 
 **진행 상황**: 100 / 600
 
-← **이전**: [99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리](/knowledge-base/studynote/05_database/02_modeling_normalization/099_armstrongs_axioms_reflexivity/)
-**다음**: [101. 무손실 분해 (Lossless-Join Decomposition) - 조인 시 원래 릴레이션이 복원됨 보장](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) →
+<- **이전**: [99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리](/knowledge-base/studynote/05_database/02_modeling_normalization/099_armstrongs_axioms_reflexivity/)
+**다음**: [101. 무손실 분해 (Lossless-Join Decomposition) - 조인 시 원래 릴레이션이 복원됨 보장](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) ->
 
 ---

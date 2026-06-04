@@ -41,25 +41,25 @@ tags = ["studynote-ict-convergence"]
 
 ```
 데이터 입력
-    │
-    ├─ 연속형 ──┬─ 2집단 ──┬─ 독립 → t = (X̄₁-X̄₂) / SE
-    │           │          └─ 대응 → t = d̄ / (s_d/√n)
-    │           └─ 3집단+ → F = MS_between / MS_within (ANOVA)
-    │
-    └─ 범주형 ─────────────→ χ² = Σ(O-E)²/E (Chi-Square)
+    |
+    +- 연속형 --+- 2집단 --+- 독립 -> t = (X̄₁-X̄₂) / SE
+    |           |          +- 대응 -> t = d̄ / (s_d/√n)
+    |           +- 3집단+ -> F = MS_between / MS_within (ANOVA)
+    |
+    +- 범주형 --------------> χ^ = Σ(O-E)^/E (Chi-Square)
 ```
 
 ### [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F-통계량
 
 - **집단 간 평균 제곱 (MS_between)**: 집단 평균들이 전체 평균에서 얼마나 떨어졌는가.
 - **집단 내 평균 제곱 (MS_within)**: 각 집단 내부의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/).
-- **F = MS_between / MS_within**: 이 비가 클수록 집단 간 차이가 집단 내 변동보다 크다 → H₀ 기각.
+- **F = MS_between / MS_within**: 이 비가 클수록 집단 간 차이가 집단 내 변동보다 크다 -> H₀ 기각.
 
 | 검정 | 통계량 | 귀무가설 |
 |:---|:---|:---|
 | [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | t 통계량 | 두 집단 평균 동일 |
 | [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | F 통계량 | 모든 집단 평균 동일 |
-| 카이제곱 | χ² 통계량 | 두 변수 독립 (기대빈도 vs 관측빈도) |
+| 카이제곱 | χ^ 통계량 | 두 변수 독립 (기대빈도 vs 관측빈도) |
 
 - **📢 섹션 요약 비유**: ANOVA는 여러 식당의 음식 맛을 비교할 때, 각 식당 안에서 메뉴별 맛 차이 대비 식당 간 맛 차이가 크면 "식당마다 다르다"고 결론 내리는 방식이야.
 
@@ -90,17 +90,17 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 <strong>시나리오 1 - 마케팅 채널 비교 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a>)</strong>:
 - 이메일 vs SNS 광고의 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 차이 검정.
-- Levene's Test로 등분산성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 동일하지 않으면 Welch's [t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 적용.
-- p = 0.02 < 0.05 → SNS 광고 CTR이 통계적으로 유의미하게 높음.
+- Levene's Test로 등분산성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 동일하지 않으면 Welch's [t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 적용.
+- p = 0.02 < 0.05 -> SNS 광고 CTR이 통계적으로 유의미하게 높음.
 
 <strong>시나리오 2 - 처리법 비교 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
 - A/B/C 3가지 UI 디자인의 체류 시간 비교.
-- One-way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/): F=6.3, p=0.003 → H₀ 기각.
+- One-way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/): F=6.3, p=0.003 -> H₀ 기각.
 - Tukey HSD: A-C 간 유의미한 차이 (p=0.002), B-C 차이 없음.
 
 **시나리오 3 - 성별 × 구매 여부 (카이제곱)**:
 - 성별(남/여)과 구매 여부(Yes/No) 독립성 검정.
-- χ²=8.7, df=1, p=0.003 → 성별과 구매 여부는 독립이 아님(연관성 있음).
+- χ^=8.7, df=1, p=0.003 -> 성별과 구매 여부는 독립이 아님(연관성 있음).
 
 **기술사 판단 포인트**:
 - 정규성 검정: Shapiro-Wilk Test (n<50) 또는 Kolmogorov-Smirnov (n≥50).
@@ -135,7 +135,7 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[t-분포 · Welch's t] → [t-검정 · ANOVA] → [사후 검정 · FWER 통제]
+[t-분포 · Welch's t] -> [t-검정 · ANOVA] -> [사후 검정 · FWER 통제]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -150,7 +150,7 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 **진행 상황**: 513 / 552
 
-← **이전**: [512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)](/knowledge-base/studynote/06_ict_convergence/05_data_science/512_hypothesis_testing_p_value_significance/)
-**다음**: [514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)](/knowledge-base/studynote/06_ict_convergence/05_data_science/514_regression_ols_vif_multicollinearity/) →
+<- **이전**: [512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)](/knowledge-base/studynote/06_ict_convergence/05_data_science/512_hypothesis_testing_p_value_significance/)
+**다음**: [514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)](/knowledge-base/studynote/06_ict_convergence/05_data_science/514_regression_ols_vif_multicollinearity/) ->
 
 ---

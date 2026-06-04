@@ -30,19 +30,19 @@ tags = ["studynote-devops-sre"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│              Purdue 참조 모델 계층 구조                          │
-├──────────────────────────────────────────────────────────────────┤
-│  Level 4: 기업 네트워크 (ERP, MES, IT 시스템)                   │
-│           ─── DMZ (방화벽 + 데이터 다이오드) ───────────────── │
-│  Level 3: 제조 운영 (MES, 히스토리안, 엔지니어링 워크스테이션)  │
-│           ─── 내부 방화벽 ──────────────────────────────────── │
-│  Level 2: 제어 감시 (SCADA, HMI, DCS)                           │
-│           ─── 제어망 방화벽 ────────────────────────────────── │
-│  Level 1: 기본 제어 (PLC, RTU, 지능형 장치)                     │
-│           ─── 필드버스 ──────────────────────────────────────  │
-│  Level 0: 물리 공정 (센서, 액추에이터, 모터)                    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|              Purdue 참조 모델 계층 구조                          |
++------------------------------------------------------------------+
+|  Level 4: 기업 네트워크 (ERP, MES, IT 시스템)                   |
+|           --- DMZ (방화벽 + 데이터 다이오드) ----------------- |
+|  Level 3: 제조 운영 (MES, 히스토리안, 엔지니어링 워크스테이션)  |
+|           --- 내부 방화벽 ------------------------------------ |
+|  Level 2: 제어 감시 (SCADA, HMI, DCS)                           |
+|           --- 제어망 방화벽 ---------------------------------- |
+|  Level 1: 기본 제어 (PLC, RTU, 지능형 장치)                     |
+|           --- 필드버스 --------------------------------------  |
+|  Level 0: 물리 공정 (센서, 액추에이터, 모터)                    |
++------------------------------------------------------------------+
 ```
 
 | 레벨  | 구성 요소                  | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수단                    |
@@ -52,7 +52,7 @@ tags = ["studynote-devops-sre"]
 | [DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/)   | 히스토리안, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 서버  | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/), [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 게이트|
 | 4     | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 기업 IT               | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)               |
 
-<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a>)</strong>: 물리적으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하는 하드웨어 장치. [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)→IT 방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 허용하고, IT→[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 방향 접근은 물리적으로 차단한다.
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a>)</strong>: 물리적으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하는 하드웨어 장치. [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)->IT 방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 허용하고, IT->[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 방향 접근은 물리적으로 차단한다.
 
 - 📢 섹션 요약 비유: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 한쪽 방향으로만 흐르는 강의 갑문이다. 공장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부로 나가는 것은 허용하지만, 외부에서 공장으로 들어오는 것은 물리적으로 막는다.
 
@@ -82,9 +82,9 @@ tags = ["studynote-devops-sre"]
 5. 원격 접근: [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) + [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) + 권한 최소화, 작업 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 녹화
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 시스템에 IT [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 그대로 적용 → [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 저하, 생산 중단
-- [DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/) 없는 IT-[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 직접 연결 → [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 전파 경로
-- [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 원격 접근에 공유 계정 사용 → [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 불가
+- [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 시스템에 IT [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 그대로 적용 -> [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 저하, 생산 중단
+- [DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/) 없는 IT-[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 직접 연결 -> [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 전파 경로
+- [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 원격 접근에 공유 계정 사용 -> [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 불가
 
 - 📢 섹션 요약 비유: IT [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 OT에 그대로 적용하는 것은 병원 수술실에 일반 사무실 소방 규정을 적용하는 것과 같다.
 
@@ -114,20 +114,20 @@ tags = ["studynote-devops-sre"]
 
 ```text
 에어갭 ICS (물리적 완전 격리)
-    │
-    ▼
+    |
+    v
 Purdue 모델 (계층별 논리 분리)
-    │
-    ▼
+    |
+    v
 IT-OT DMZ + 데이터 다이오드 (Industry 4.0 연동)
-    │
-    ▼
+    |
+    v
 IEC 62443 (국제 OT 보안 표준화)
-    │
-    ▼
+    |
+    v
 OT IDS + 자산 가시성 (이상 탐지 고도화)
-    │
-    ▼
+    |
+    v
 5G 사설망 + AI 기반 자율 방어 ICS
 ```
 
@@ -143,7 +143,7 @@ OT IDS + 자산 가시성 (이상 탐지 고도화)
 
 **진행 상황**: 366 / 373
 
-← **이전**: [365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G](/knowledge-base/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/)
-**다음**: [367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading](/knowledge-base/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) →
+<- **이전**: [365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G](/knowledge-base/studynote/15_devops_sre/05_devsecops/365_c_v2x_5g/)
+**다음**: [367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading](/knowledge-base/studynote/15_devops_sre/05_devsecops/367_dpu_smartnic/) ->
 
 ---

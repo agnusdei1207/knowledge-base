@@ -40,25 +40,25 @@ tags = ["studynote-devops-sre"]
 CI와 CD는 물과 기름처럼 분리된 것이 아니라, 하나의 컨베이어 벨트([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 위에서 동작합니다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│              [ CI/CD 엔드투엔드 파이프라인 아키텍처 ]             │
-│                                                             │
-│  [ Dev ]      [ CI (Continuous Integration) ]               │
-│ ┌───────┐      ┌───────┐    ┌───────┐    ┌────────────────┐ │
-│ │ Commit├─────▶│ Build │───▶│ Test  │───▶│ Artifact Push  │ │
-│ │ (Git) │      │(Maven)│    │(JUnit)│    │ (Docker Reg.)  │ │
-│ └───────┘      └───────┘    └───────┘    └────────┬───────┘ │
-│                                                   │         │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ │
-│                                                   ▼         │
-│               [ CD (Continuous Deployment) ]                │
-│             ┌────────────────────────────────────┐          │
-│             │ Deployment Orchestrator (ArgoCD)   │          │
-│             └─┬──────────────┬───────────────┬───┘          │
-│               ▼              ▼               ▼              │
-│          [ Staging ]     [ Pre-Prod ]    [ Production ]     │
-│        (QA 자동화 테스트) (성능/부하 테스트)   (실제 고객 서비스)    │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              [ CI/CD 엔드투엔드 파이프라인 아키텍처 ]             |
+|                                                             |
+|  [ Dev ]      [ CI (Continuous Integration) ]               |
+| +-------+      +-------+    +-------+    +----------------+ |
+| | Commit+------>| Build |---->| Test  |---->| Artifact Push  | |
+| | (Git) |      |(Maven)|    |(JUnit)|    | (Docker Reg.)  | |
+| +-------+      +-------+    +-------+    +--------+-------+ |
+|                                                   |         |
+| - - - - - - - - - - - - - - - - - - - - - - - - - + - - - - |
+|                                                   v         |
+|               [ CD (Continuous Deployment) ]                |
+|             +------------------------------------+          |
+|             | Deployment Orchestrator (ArgoCD)   |          |
+|             +-+--------------+---------------+---+          |
+|               v              v               v              |
+|          [ Staging ]     [ Pre-Prod ]    [ Production ]     |
+|        (QA 자동화 테스트) (성능/부하 테스트)   (실제 고객 서비스)    |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 개발자가 코드를 커밋하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Github Actions)가 빌드와 테스트를 수행해 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 등록합니다. CD 도구(ArgoCD, [Spinnaker](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/))는 새 이미지가 등록된 것을 감지하고, 개발/스테이징/운영(Prod) 환경 서버에 정의된 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Rolling, Blue/Green 등)에 따라 자동으로 이미지를 갈아 끼우고 트래픽을 넘깁니다.
@@ -132,20 +132,20 @@ CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/1
 
 ```text
 [CI (Continuous Integration — 코드 병합·빌드·자동 테스트)]
-    │
-    ▼
+    |
+    v
 [Continuous Delivery — 릴리스 패키지 자동화 (수동 배포 버튼)]
-    │
-    ▼
+    |
+    v
 [Continuous Deployment — 프로덕션 무인 자동 배포]
-    │
-    ▼
+    |
+    v
 [Blue/Green / Canary 배포 — 무중단·점진적 트래픽 전환]
-    │
-    ▼
+    |
+    v
 [GitOps (ArgoCD/Flux) — 선언적 Git 기반 클라우드 네이티브 배포]
 ```
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)→[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)→Continuous Deployment로 자동화 수준이 높아지며, Blue/Green·[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 무중단 릴리스를 보장하고 GitOps는 Git을 단일 진실 원천으로 하는 선언적 배포로 완성된다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)->[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)->Continuous Deployment로 자동화 수준이 높아지며, Blue/Green·[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 무중단 릴리스를 보장하고 GitOps는 Git을 단일 진실 원천으로 하는 선언적 배포로 완성된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CD는 "코드를 고치면 로봇 공장이 알아서 테스트하고 포장해서 고객에게 배송"하는 완전 자동화 택배 시스템이에요!
@@ -162,7 +162,7 @@ CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/1
 
 **진행 상황**: 21 / 373
 
-← **이전**: [20. 지속적 전달 (CD, Continuous Delivery) - CI를 통과한 코드를 프로덕션(운영) 환경에 배포할 준비(아티팩트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/)
-**다음**: [22. 지속적 피드백 (Continuous Feedback)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/) →
+<- **이전**: [20. 지속적 전달 (CD, Continuous Delivery) - CI를 통과한 코드를 프로덕션(운영) 환경에 배포할 준비(아티팩트](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/)
+**다음**: [22. 지속적 피드백 (Continuous Feedback)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/) ->
 
 ---

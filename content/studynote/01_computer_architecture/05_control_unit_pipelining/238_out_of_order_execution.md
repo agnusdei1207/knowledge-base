@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 왜 OoO가 필요한지 보여준다. 핵심은 <strong>앞의 느린 명령이 전체 흐름을 멈추게 하지 않도록, 준비된 뒤 명령들을 먼저 흘려보내는 것</strong>이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            순차 실행 vs 비순차 실행: 지연을 대하는 방식의 차이            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 프로그램 순서:   I1(load miss)   I2(add)   I3(mul)   I4(store address)    │
-│                                                                            │
-│ 순차 실행:      I1 대기 ──────── 동안 I2, I3, I4도 함께 정지               │
-│                                                                            │
-│ 비순차 실행:    I1 대기 중에도 I2, I3, I4 중 준비된 명령부터 먼저 실행     │
-│                 └──────────── 파이프라인 빈칸을 뒤 명령으로 메움 ──────────┘ │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|            순차 실행 vs 비순차 실행: 지연을 대하는 방식의 차이            |
++----------------------------------------------------------------------------+
+| 프로그램 순서:   I1(load miss)   I2(add)   I3(mul)   I4(store address)    |
+|                                                                            |
+| 순차 실행:      I1 대기 -------- 동안 I2, I3, I4도 함께 정지               |
+|                                                                            |
+| 비순차 실행:    I1 대기 중에도 I2, I3, I4 중 준비된 명령부터 먼저 실행     |
+|                 +------------ 파이프라인 빈칸을 뒤 명령으로 메움 ----------+ |
++----------------------------------------------------------------------------+
 ```
 
 즉 OoO는 "프로그램 의미를 바꾸는 기술"이 아니라 "기다리는 시간을 다른 일로 채우는 기술"이다. 프로그램이 요구한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성만 지키면, 하드웨어는 내부 실행 순서를 유연하게 바꿔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지킨다.
@@ -46,7 +46,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OoO 코어는 보통 <strong>순차 인출·해독 → 리네이밍·디스패치 → 비순차 실행 → 순차 커밋</strong>의 흐름으로 동작한다. 앞단은 프로그램 순서를 유지해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고 해독하지만, 중간 실행 창(window)에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 골라 먼저 내보낸다. 마지막에는 ROB가 결과를 원래 순서대로 확정하여 외부에 보이는 상태를 일관되게 유지한다.
+OoO 코어는 보통 <strong>순차 인출·해독 -> 리네이밍·디스패치 -> 비순차 실행 -> 순차 커밋</strong>의 흐름으로 동작한다. 앞단은 프로그램 순서를 유지해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고 해독하지만, 중간 실행 창(window)에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 골라 먼저 내보낸다. 마지막에는 ROB가 결과를 원래 순서대로 확정하여 외부에 보이는 상태를 일관되게 유지한다.
 
 | 구성 요소 | 핵심 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -59,20 +59,20 @@ OoO 코어는 보통 <strong>순차 인출·해독 → 리네이밍·디스패�
 이 구조를 동작 관점에서 보면 아래와 같다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    OoO 코어의 내부 데이터 흐름과 제어 흐름                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Fetch/Decode ─▶ Rename ─▶ Dispatch ─▶ Reservation Station                 │
-│    │              │           │                    │                       │
-│    │              │           │                    ├─ Ready? ─▶ Execute    │
-│    │              │           │                    │             │          │
-│    │              │           └──────────────▶ ROB ◀─────────────┘          │
-│    │              │                                    │                    │
-│    └──────── 프로그램 순서 유지 ────────────────────────┘                    │
-│                                                     Commit                  │
-│                                                       │                     │
-│                                         아키텍처 상태는 항상 순차 반영      │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    OoO 코어의 내부 데이터 흐름과 제어 흐름                |
++----------------------------------------------------------------------------+
+| Fetch/Decode --> Rename --> Dispatch --> Reservation Station                 |
+|    |              |           |                    |                       |
+|    |              |           |                    +- Ready? --> Execute    |
+|    |              |           |                    |             |          |
+|    |              |           +---------------> ROB <--------------+          |
+|    |              |                                    |                    |
+|    +-------- 프로그램 순서 유지 ------------------------+                    |
+|                                                     Commit                  |
+|                                                       |                     |
+|                                         아키텍처 상태는 항상 순차 반영      |
++----------------------------------------------------------------------------+
 ```
 
 핵심 원리는 세 가지다. 첫째, <strong>리네이밍</strong>으로 이름 충돌을 제거해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 후보를 늘린다. 둘째, <strong>wakeup/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">select</a></strong> 단계에서 피연산자가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 골라 실행한다. 셋째, <strong>순차 커밋</strong>으로 예외, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 분기 실패가 생겨도 "어디까지가 확정 상태인가"를 명확히 만든다. 이 덕분에 내부는 자유롭게 움직여도 외부에서는 마치 순차 실행한 것처럼 보이는 정밀 예외 (Precise Exception)가 성립한다.
@@ -151,23 +151,23 @@ OoO의 가장 큰 효과는 <strong>같은 클럭에서도 더 많은 일을 끝
 
 ```text
 순차 파이프라인
-    │
-    ▼
+    |
+    v
 해저드 관리 (RAW, WAR, WAW) · 데이터 포워딩
-    │
-    ▼
+    |
+    v
 수퍼스칼라 (Superscalar) · 명령어 발급 폭 (Issue Width)
-    │
-    ▼
+    |
+    v
 레지스터 리네이밍 (Register Renaming)
-    │
-    ▼
+    |
+    v
 비순차 실행 (Out-of-Order Execution, OoO)
-    │
-    ▼
+    |
+    v
 재주문 버퍼 (ROB) · 예약역 (RS) · 토마술로 알고리즘
-    │
-    ▼
+    |
+    v
 고성능 멀티코어 · 이기종 코어 · 전력 효율 최적화
 ```
 
@@ -185,7 +185,7 @@ OoO의 가장 큰 효과는 <strong>같은 클럭에서도 더 많은 일을 끝
 
 **진행 상황**: 238 / 803
 
-← **이전**: [237. 명령어 발급 폭 (Issue Width)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/)
-**다음**: [239. 레지스터 리네이밍 (Register Renaming)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) →
+<- **이전**: [237. 명령어 발급 폭 (Issue Width)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/)
+**다음**: [239. 레지스터 리네이밍 (Register Renaming)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ->
 
 ---

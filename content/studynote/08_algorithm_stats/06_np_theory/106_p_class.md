@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 > **핵심 인사이트**
 > 1. P([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Time) 클래스는 결정론적 튜링 머신([DTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/))이 입력 크기 n의 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 내에 해결할 수 있는 판정 문제(Decision Problem)의 집합으로, 현실적으로 "컴퓨터로 효율적으로 해결 가능한" 문제의 범주다.
-> 2. P 클래스 판별 기준은 다항 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 존재 여부이며, 정렬(O(n log n)), 최단 경로(O((V+E) log V)), [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(O(V·E²)) 모두 P에 속한다 — 시간 복잡도가 n^k 형태이면 P에 속한다.
+> 2. P 클래스 판별 기준은 다항 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 존재 여부이며, 정렬(O(n log n)), 최단 경로(O((V+E) log V)), [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(O(V·E^)) 모두 P에 속한다 — 시간 복잡도가 n^k 형태이면 P에 속한다.
 > 3. P ⊆ NP임은 증명됐지만 P = NP인지는 여전히 미해결 난제(Millennium Prize Problem)로, 만약 P = NP라면 암호화([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)의 수학적 기반이 무너지는 혁명적 결과가 된다.
 
 ---
@@ -30,7 +30,7 @@ P (Polynomial Time) 클래스:
 
 다항 시간:
   T(n) = O(n^k) (k는 상수)
-  예: O(n), O(n²), O(n⁵) -> P
+  예: O(n), O(n^), O(n⁵) -> P
   예: O(2ⁿ), O(n!) -> P 아님
 
 P 클래스 직관:
@@ -117,7 +117,7 @@ P ⊆ NP ⊆ PSPACE ⊆ EXPTIME
   효율적 알고리즘 없음
 
 Miller-Rabin (1976):
-  확률적 알고리즘 O(k log² n)
+  확률적 알고리즘 O(k log^ n)
   k번 반복 -> 오류 확률 4^(-k)
   P에 속하는지 불명확 (확률적)
 
@@ -238,7 +238,7 @@ P ⊆ BQP ⊆ PSPACE
 
 **진행 상황**: 106 / 175
 
-← **이전**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/)
-**다음**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/107_np_class/) →
+<- **이전**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/)
+**다음**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/107_np_class/) ->
 
 ---

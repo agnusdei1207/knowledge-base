@@ -29,15 +29,15 @@ tags = ["cloud_architecture"]
 
 ```text
 [기존 물리 서버 구조]          [하이퍼바이저 기반 가상화 구조]
-┌──────────────────┐         ┌────────┬────────┬────────┐
-│   Application    │         │ App A  │ App B  │ App C  │
-├──────────────────┤         ├────────┼────────┼────────┤
-│      OS          │         │Guest OS│Guest OS│Guest OS│
-├──────────────────┤         ├────────┴────────┴────────┤
-│     Hardware     │         │      Hypervisor / VMM    │
-│ (CPU/RAM 15% 사용)│         ├──────────────────────────┤
-└──────────────────┘         │   Hardware (CPU/RAM 80%) │
-                             └──────────────────────────┘
++------------------+         +--------+--------+--------+
+|   Application    |         | App A  | App B  | App C  |
++------------------+         +--------+--------+--------+
+|      OS          |         |Guest OS|Guest OS|Guest OS|
++------------------+         +--------+--------+--------+
+|     Hardware     |         |      Hypervisor / VMM    |
+| (CPU/RAM 15% 사용)|         +--------------------------+
++------------------+         |   Hardware (CPU/RAM 80%) |
+                             +--------------------------+
 ```
 
 이 그림의 핵심은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 하드웨어와 OS 사이의 강결합을 끊고, 독립적인 Guest OS 환경을 제공한다는 점이다. 과거에는 애플리케이션 간 충돌을 막기 위해 물리 서버를 별도로 구매해야 했지만, 이제는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 제공하는 논리적 격리를 통해 한 서버에서 여러 작업을 고밀도로 처리할 수 있다. 이는 결과적으로 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 상면 공간, 전력 소비, 증설 리드 타임을 극적으로 단축시켰다.
@@ -61,28 +61,28 @@ tags = ["cloud_architecture"]
 아래의 도식은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 내에서 VMM([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))이 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 앤 에뮬레이션([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)-and-Emulate) 방식으로 Guest OS의 특권 명령을 어떻게 가로채고 처리하는지를 나타낸다.
 
 ```text
-┌───────────────── VM (Guest) ─────────────────┐
-│ [User Space / 유저 공간]     User Application            │
-│                        ↓ (System Call)       │
-│ [Kernel Space / 커널 공간]   Guest OS (비특권 모드)        │
-│          (Privileged Instruction 실행 시도)    │
-└─────────────────────────┬────────────────────┘
-                          │ TRAP (예외 발생)
-┌─────────────────────────▼────────────────────┐
-│                  Hypervisor (VMM)            │
-│  1. 명령어 인터셉트 (Intercept)                │
-│  2. 권한 확인 및 가상 상태 번역 (Emulate)        │
-│  3. 물리 하드웨어로 안전하게 스케줄링             │
-└─────────────────────────┬────────────────────┘
-                          │ 실행
-┌─────────────────────────▼────────────────────┐
-│      Physical Hardware (CPU/Memory/I/O)      │
-└──────────────────────────────────────────────┘
++----------------- VM (Guest) -----------------+
+| [User Space / 유저 공간]     User Application            |
+|                        v (System Call)       |
+| [Kernel Space / 커널 공간]   Guest OS (비특권 모드)        |
+|          (Privileged Instruction 실행 시도)    |
++-------------------------+--------------------+
+                          | TRAP (예외 발생)
++-------------------------v--------------------+
+|                  Hypervisor (VMM)            |
+|  1. 명령어 인터셉트 (Intercept)                |
+|  2. 권한 확인 및 가상 상태 번역 (Emulate)        |
+|  3. 물리 하드웨어로 안전하게 스케줄링             |
++-------------------------+--------------------+
+                          | 실행
++-------------------------v--------------------+
+|      Physical Hardware (CPU/Memory/I/O)      |
++----------------------------------------------+
 ```
 
 이 흐름의 핵심은 Guest OS가 자신이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 위에서 돌고 있다는 사실을 모른 채(또는 아는 상태로) CPU의 권한 높은 명령(Privileged [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 내릴 때, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이를 가로채어([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 대리 실행(Emulate)한다는 점이다. 이런 배치는 시스템 전체의 안정성을 담보하기 때문이며, 만약 Guest OS가 물리 하드웨어를 직접 제어한다면 다른 VM의 메모리 영역을 침범하거나 전체 시스템을 크래시시킬 수 있다. 따라서 모든 중요한 자원 요청은 반드시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)라는 관문을 거쳐야 하며, 이 관문에서의 처리 지연이 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드(Overhead)의 주원인이 된다.
 
-[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 메모리 관리 원리는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Shadow Paging](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/))에 있다. Guest OS는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) → Guest 물리 메모리'로 변환하지만, 실제로는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이 'Guest 물리 메모리'를 다시 'Host 물리 메모리'로 변환해야 한다. 이를 가속하기 위해 최근에는 CPU 차원에서 EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) 같은 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) 기술을 적극 활용한다.
+[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 메모리 관리 원리는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Shadow Paging](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/))에 있다. Guest OS는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) -> Guest 물리 메모리'로 변환하지만, 실제로는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이 'Guest 물리 메모리'를 다시 'Host 물리 메모리'로 변환해야 한다. 이를 가속하기 위해 최근에는 CPU 차원에서 EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) 같은 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) 기술을 적극 활용한다.
 
 📢 **섹션 요약 비유**: 각 가상 머신(세입자)이 중앙 보일러실(물리 하드웨어)을 직접 조작하려 할 때, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(관리인)가 그 요청을 중간에 낚아채어 안전하게 온도를 맞춰주는 통제 시스템과 같습니다.
 
@@ -106,19 +106,19 @@ tags = ["cloud_architecture"]
 
 ```text
        [타입 1 하이퍼바이저 (VM)]           [컨테이너 아키텍처]
-┌───────┐ ┌───────┐ ┌───────┐      ┌───────┐ ┌───────┐ ┌───────┐
-│ 앱 A  │ │ 앱 B  │ │ 앱 C  │      │ 앱 A  │ │ 앱 B  │ │ 앱 C  │
-├───────┤ ├───────┤ ├───────┤      ├───────┤ ├───────┤ ├───────┤
-│ Bin/Li│ │ Bin/Li│ │ Bin/Li│      │ Bin/Li│ │ Bin/Li│ │ Bin/Li│
-├───────┤ ├───────┤ ├───────┤      └───────┴─┴───────┴─┴───────┘
-│GuestOS│ │GuestOS│ │GuestOS│                  |
-├───────┴─┴───────┴─┴───────┤      ┌───────────────────────────┐
-│       하이퍼바이저        │      │      컨테이너 엔진        │
-├───────────────────────────┤      ├───────────────────────────┤
-│         하드웨어          │      │     호스트 OS 커널        │
-└───────────────────────────┘      ├───────────────────────────┤
-                                   │         하드웨어          │
-                                   └───────────────────────────┘
++-------+ +-------+ +-------+      +-------+ +-------+ +-------+
+| 앱 A  | | 앱 B  | | 앱 C  |      | 앱 A  | | 앱 B  | | 앱 C  |
++-------+ +-------+ +-------+      +-------+ +-------+ +-------+
+| Bin/Li| | Bin/Li| | Bin/Li|      | Bin/Li| | Bin/Li| | Bin/Li|
++-------+ +-------+ +-------+      +-------+-+-------+-+-------+
+|GuestOS| |GuestOS| |GuestOS|                  |
++-------+-+-------+-+-------+      +---------------------------+
+|       하이퍼바이저        |      |      컨테이너 엔진        |
++---------------------------+      +---------------------------+
+|         하드웨어          |      |     호스트 OS 커널        |
++---------------------------+      +---------------------------+
+                                   |         하드웨어          |
+                                   +---------------------------+
 ```
 
 Type 1 방식은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 분리되어 있어 악성코드가 하나의 VM을 장악하더라도 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 레벨을 뚫지 않는 한 다른 VM으로 전파([Hypervisor Escape](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/))되지 않아 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 클라우드 환경에서 매우 안전하다. 반면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 방식은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 무거운 Guest OS 부팅 과정을 생략하고 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하기 때문에 수 밀리초 내에 수천 개의 인스턴스를 확장할 수 있다. 실무에서는 이러한 두 가지 장점을 결합하여, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 위에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(K8s Worker Node)를 올리는 하이브리드 패턴이 엔터프라이즈의 표준으로 자리 잡았다.
@@ -143,14 +143,14 @@ Type 1 방식은 OS [커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 ```text
 [새로운 워크로드 배포 요건 분석]
-            │
-            ├─ (Yes) ──▶ 완벽한 커널 격리와 이기종 OS(Windows 등)가 필요한가?
-            │               │
-            │               └─▶ [선택] 하이퍼바이저 (Type 1 VM) 할당
-            │
-            ├─ (No) ───▶ 마이크로서비스(MSA) 기반이며 빠른 오토스케일링이 중요한가?
-                            │
-                            └─▶ [선택] 컨테이너 기반 클러스터 (K8s) 배포
+            |
+            +- (Yes) ---> 완벽한 커널 격리와 이기종 OS(Windows 등)가 필요한가?
+            |               |
+            |               +--> [선택] 하이퍼바이저 (Type 1 VM) 할당
+            |
+            +- (No) ----> 마이크로서비스(MSA) 기반이며 빠른 오토스케일링이 중요한가?
+                            |
+                            +--> [선택] 컨테이너 기반 클러스터 (K8s) 배포
                                 (단, Worker Node 자체는 하이퍼바이저 위에서 격리)
 ```
 
@@ -188,20 +188,20 @@ Type 1 방식은 OS [커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 ```text
 [물리 서버 독점 (Bare-metal) — 단일 OS·워크로드 고정 배치, 자원 낭비]
-    │
-    ▼
+    |
+    v
 [Type-1 하이퍼바이저 (Bare-metal VMM) — 하드웨어 직접 제어, 엔터프라이즈 표준]
-    │
-    ▼
+    |
+    v
 [Type-2 하이퍼바이저 (Hosted VMM) — 호스트 OS 위 동작, 개발·테스트 환경]
-    │
-    ▼
+    |
+    v
 [하드웨어 보조 가상화 (Intel VT-x / AMD-V) — CPU 내장 VMX 명령어로 오버헤드 대폭 절감]
-    │
-    ▼
+    |
+    v
 [컨테이너 (Container) — 게스트 OS 제거, 프로세스 수준 격리로 초경량화]
-    │
-    ▼
+    |
+    v
 [마이크로VM / DPU 오프로딩 — Firecracker ms 부팅·서버리스 FaaS, Nitro 베어메탈급 클라우드]
 ```
 이 흐름은 물리 서버의 자원 낭비를 해소하기 위해 등장한 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드를 하드웨어 가속으로 해결하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 마이크로VM으로 경량화되어 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 클라우드의 최소 실행 단위로 진화하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술의 계보를 보여준다.
@@ -217,7 +217,7 @@ Type 1 방식은 OS [커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 **진행 상황**: 15 / 371
 
-← **이전**: [15. 가상화 (Virtualization) - 물리적 하드웨어(CPU, RAM, 디스크)를 논리적인 여러 개의 자원(Virtual Machine)으로](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)
-**다음**: [17. Type 1 하이퍼바이저 (베어메탈, Bare-metal) - 하드웨어 위에 OS 없이 직접 설치되어 오버헤드가 적고 고성능 (VMware](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/017_Type_1_하이퍼바이저/) →
+<- **이전**: [15. 가상화 (Virtualization) - 물리적 하드웨어(CPU, RAM, 디스크)를 논리적인 여러 개의 자원(Virtual Machine)으로](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)
+**다음**: [17. Type 1 하이퍼바이저 (베어메탈, Bare-metal) - 하드웨어 위에 OS 없이 직접 설치되어 오버헤드가 적고 고성능 (VMware](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/017_Type_1_하이퍼바이저/) ->
 
 ---

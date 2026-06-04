@@ -33,8 +33,8 @@ tags = ["App Store Connect", "OWASP MASVS", "Play Store", "accessibility", "app 
 ### 1.2 감리 시점
 
 ```
-요구사항 분석 → 설계 → 개발 → [감리 포인트] → 스토어 심사 → 배포
-                                    ↑
+요구사항 분석 -> 설계 -> 개발 -> [감리 포인트] -> 스토어 심사 -> 배포
+                                    ^
                     알파/베타 테스트 완료 후
                     스토어 제출 전 2~4주
 ```
@@ -128,7 +128,7 @@ MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 ### 5.2 재감리 절차
 
 ```
-감리 지적사항 → 개발팀 수정 → 수정 확인서 제출 → 재감리 → 배포 승인
+감리 지적사항 -> 개발팀 수정 -> 수정 확인서 제출 -> 재감리 -> 배포 승인
 ```
 
 📢 **섹션 요약 비유**: 감리 보고서는 시험 성적표 — 필수 과목 불합격(필수 지적)은 재시험, 선택 과목 권고는 다음에 개선.
@@ -139,18 +139,18 @@ MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 
 ```
 모바일 앱 감리
-├── 배포 정책 준수
-│   ├── Google Play (Data Safety, Target API)
-│   └── Apple App Store (Privacy Manifest, ATS)
-├── 보안 감리
-│   ├── OWASP MASVS (L1/L2)
-│   └── 인증서 고정, 루팅 탐지
-├── 접근성 감리
-│   ├── KMAG (한국 모바일 접근성 지침)
-│   └── TalkBack / VoiceOver
-└── 감리 결과
-    ├── 필수/권고/참고 분류
-    └── 재감리 절차
++-- 배포 정책 준수
+|   +-- Google Play (Data Safety, Target API)
+|   +-- Apple App Store (Privacy Manifest, ATS)
++-- 보안 감리
+|   +-- OWASP MASVS (L1/L2)
+|   +-- 인증서 고정, 루팅 탐지
++-- 접근성 감리
+|   +-- KMAG (한국 모바일 접근성 지침)
+|   +-- TalkBack / VoiceOver
++-- 감리 결과
+    +-- 필수/권고/참고 분류
+    +-- 재감리 절차
 ```
 
 ---
@@ -159,17 +159,17 @@ MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 
 ```
 모바일 앱 초기 심사 (앱 스토어 개설, 2008~)
-     │  보안 위협 증가
-     ▼
-OWASP Mobile Top 10 (2010) → MASVS (2016)
-     │  개인정보보호법 강화
-     ▼
+     |  보안 위협 증가
+     v
+OWASP Mobile Top 10 (2010) -> MASVS (2016)
+     |  개인정보보호법 강화
+     v
 Google Privacy Sandbox / Apple Privacy Manifest (2021~)
-     │  공공앱 접근성 의무화
-     ▼
+     |  공공앱 접근성 의무화
+     v
 한국 모바일 접근성 지침 법제화 + 공공앱 감리 의무화
-     │  AI 기반 자동 보안 검증
-     ▼
+     |  AI 기반 자동 보안 검증
+     v
 지속적 모바일 앱 보안 감리 자동화 (현재~)
 ```
 
@@ -189,7 +189,7 @@ Google Privacy Sandbox / Apple Privacy Manifest (2021~)
 
 **진행 상황**: 76 / 530
 
-← **이전**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/)
-**다음**: [51. AI / 빅데이터 사업 감리 (AI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) →
+<- **이전**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/)
+**다음**: [51. AI / 빅데이터 사업 감리 (AI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) ->
 
 ---

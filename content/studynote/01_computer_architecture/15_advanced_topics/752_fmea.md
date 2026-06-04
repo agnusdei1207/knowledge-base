@@ -31,31 +31,31 @@ FMEA (Failure Mode and Effects Analysis)는 제품이나 시스템이 수행해�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FMEA의 기본 흐름은 <strong>기능 정의 → 고장 모드 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> → 영향 분석 → 원인 및 현재 통제 파악 → 우선순위 평가 → 개선 조치</strong>다. 여기서 많이 쓰는 지표가 <strong>RPN (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Priority Number)</strong> 이며, 전통적으로 `RPN = Severity × Occurrence × Detection` 으로 계산한다. 즉 심각도 ([Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/)), 발생도 (Occurrence), 검출도 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))를 각각 점수화해 어떤 항목을 먼저 처리할지 정한다.
+FMEA의 기본 흐름은 <strong>기능 정의 -> 고장 모드 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> -> 영향 분석 -> 원인 및 현재 통제 파악 -> 우선순위 평가 -> 개선 조치</strong>다. 여기서 많이 쓰는 지표가 <strong>RPN (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Priority Number)</strong> 이며, 전통적으로 `RPN = Severity × Occurrence × Detection` 으로 계산한다. 즉 심각도 ([Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/)), 발생도 (Occurrence), 검출도 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))를 각각 점수화해 어떤 항목을 먼저 처리할지 정한다.
 
 아래 그림은 FMEA가 부품 이름 나열이 아니라, <strong>기능에서 시작해 영향과 조치로 내려가는 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/">구조적 분석</a></strong>임을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      FMEA reasoning pipeline                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Function                                                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Failure mode                                                         │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Local effect ─▶ next higher effect ─▶ system effect                  │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Current controls / detectability                                     │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Severity × Occurrence × Detection                                    │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Action, owner, due date, re-score                                    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|                      FMEA reasoning pipeline                        |
++----------------------------------------------------------------------+
+| Function                                                            |
+|    |                                                                 |
+|    v                                                                 |
+| Failure mode                                                         |
+|    |                                                                 |
+|    v                                                                 |
+| Local effect --> next higher effect --> system effect                  |
+|    |                                                                 |
+|    v                                                                 |
+| Current controls / detectability                                     |
+|    |                                                                 |
+|    v                                                                 |
+| Severity × Occurrence × Detection                                    |
+|    |                                                                 |
+|    v                                                                 |
+| Action, owner, due date, re-score                                    |
++----------------------------------------------------------------------+
 ```
 
 예를 들어 서버 플랫폼을 분석한다면 아래처럼 쓸 수 있다.
@@ -110,7 +110,7 @@ FMEA는 또 **설계 FMEA (Design FMEA, DFMEA)** 와 <strong>공정 FMEA (<a hre
 - **공통 원인 장애 누락**: [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 부품이 같은 버그나 같은 전원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 공유하면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 효과가 줄어든다.
 - **업데이트 없는 FMEA**: 설계 변경, 필드 장애, 테스트 결과가 나와도 표를 고치지 않으면 빠르게 구식 문서가 된다.
 
-기술사 답안에서는 FMEA를 "고장 유형 나열표"로 적는 것보다, <strong>우선순위 결정 도구이자 설계·시험·운영을 연결하는 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 관문</strong>으로 설명하는 것이 중요하다. 특히 FMEA → 설계 보강 → [결함 주입 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) → 현장 피드백 → FMEA 갱신의 닫힌 루프를 보여 주면 더 설득력 있다.
+기술사 답안에서는 FMEA를 "고장 유형 나열표"로 적는 것보다, <strong>우선순위 결정 도구이자 설계·시험·운영을 연결하는 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 관문</strong>으로 설명하는 것이 중요하다. 특히 FMEA -> 설계 보강 -> [결함 주입 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) -> 현장 피드백 -> FMEA 갱신의 닫힌 루프를 보여 주면 더 설득력 있다.
 
 - **📢 섹션 요약 비유**: FMEA는 시험 전 오답 노트를 만드는 과정과 같다. 틀릴 만한 문제를 미리 적어 놓아야, 정말 중요한 약점을 먼저 고칠 수 있다.
 
@@ -143,22 +143,22 @@ FMEA를 잘 수행하면 설계 변경 비용이 가장 싼 시점에 위험을 
 
 ```text
 요구사항 · 기능 정의
-    │
-    ▼
+    |
+    v
 FMEA (Failure Mode and Effects Analysis)
 : failure mode · effect · cause · control
-    │
-    ▼
+    |
+    v
 우선순위 결정
 : RPN / severity / action priority
-    │
-    ├──▶ 설계 보강
-    │     : ECC · redundancy · hot swap · watchdog
-    │
-    ├──▶ 정량 분석 확장
-    │     : FTA · RBD
-    │
-    └──▶ 실험 검증
+    |
+    +---> 설계 보강
+    |     : ECC · redundancy · hot swap · watchdog
+    |
+    +---> 정량 분석 확장
+    |     : FTA · RBD
+    |
+    +---> 실험 검증
           : fault injection test · burn-in test
 ```
 
@@ -174,7 +174,7 @@ FMEA (Failure Mode and Effects Analysis)
 
 **진행 상황**: 753 / 803
 
-← **이전**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)
-**다음**: [753. FTA (Fault Tree Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) →
+<- **이전**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)
+**다음**: [753. FTA (Fault Tree Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) ->
 
 ---

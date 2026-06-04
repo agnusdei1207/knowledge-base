@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [SDH]
-    │
-    ▼
+    |
+    v
 [SONET]
-    │
-    └──▶ [ROF]
+    |
+    +---> [ROF]
 ```
 
 - **📢 섹션 요약 비유**: SONET는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -53,11 +53,11 @@ SONET은 이 51.84Mbps짜리 OC-1 박스를 계속 곱해서 속도를 올립니
 
 ```text
 [SDH]
-    │
-    ▼
+    |
+    v
 [SONET]
-    │
-    └──▶ [ROF]
+    |
+    +---> [ROF]
 ```
 
 - **📢 섹션 요약 비유**: SONET의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -122,12 +122,12 @@ SONET는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ```text
 [선행 개념: SDH]
-    │
-    ▼
+    |
+    v
 [현재 개념: SONET]
-    │
-    ├──▶ [확장 A: ROF]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: ROF]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 SONET는 SDH에서 출발해 현재 메커니즘을 정교화하고, 이후 ROF와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -144,7 +144,7 @@ SONET는 SDH에서 출발해 현재 메커니즘을 정교화하고, 이후 ROF�
 
 **진행 상황**: 1017 / 1120
 
-← **이전**: [895. SDH (동기식 디지털 위계)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)
-**다음**: [897. RoF (Radio over Fiber)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) →
+<- **이전**: [895. SDH (동기식 디지털 위계)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)
+**다음**: [897. RoF (Radio over Fiber)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) ->
 
 ---

@@ -26,20 +26,20 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 아래 그림은 EMA가 전원선을 건드리지 않고도 칩 가까이에서 누설을 수집하는 구조를 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ EMA observes near-field leakage without touching the power rail │
-├──────────────────────────────────────────────────────────────────┤
-│                 probe                                           │
-│                  │                                              │
-│                  ▼                                              │
-│      ┌──────────────────────┐                                   │
-│      │  package / die area  │  <- local switching currents      │
-│      └──────────────────────┘                                   │
-│                  │                                              │
-│          LNA / filter / scope                                   │
-│                  │                                              │
-│             EM trace_i(t)                                       │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| EMA observes near-field leakage without touching the power rail |
++------------------------------------------------------------------+
+|                 probe                                           |
+|                  |                                              |
+|                  v                                              |
+|      +----------------------+                                   |
+|      |  package / die area  |  <- local switching currents      |
+|      +----------------------+                                   |
+|                  |                                              |
+|          LNA / filter / scope                                   |
+|                  |                                              |
+|             EM trace_i(t)                                       |
++------------------------------------------------------------------+
 ```
 
 즉 EMA는 "전기를 어디서 얼마나 썼는가"를 칩 주변의 공간 정보와 함께 읽는 공격이다. 그래서 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 코어 위치, 패키지 구조, 실드 배치에 따라 실제 위험도가 크게 달라진다.
@@ -65,17 +65,17 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 아래 그림은 EMA가 hotspot을 찾기 위해 칩 표면을 스캔하는 개념을 요약한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Hotspot scan on package / die                                   │
-├──────────────────────────────────────────────────────────────────┤
-│ y ↑                                                              │
-│   │   low   low   low   low                                     │
-│   │   low   HOT   HOT   low                                     │
-│   │   low   HOT   HOT   low                                     │
-│   │   low   low   low   low                                     │
-│   └──────────────────────────────────────────────→ x           │
-│ Probe above HOT area => higher SNR, easier key recovery         │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+| Hotspot scan on package / die                                   |
++------------------------------------------------------------------+
+| y ^                                                              |
+|   |   low   low   low   low                                     |
+|   |   low   HOT   HOT   low                                     |
+|   |   low   HOT   HOT   low                                     |
+|   |   low   low   low   low                                     |
+|   +-----------------------------------------------> x           |
+| Probe above HOT area => higher SNR, easier key recovery         |
++------------------------------------------------------------------+
 ```
 
 이때 reverse engineering으로 평면도(floorplan)를 알고 있으면 어디가 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어인지, 어느 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 키 스케줄인지 더 정확히 짚을 수 있다. 반대로 설계자는 코어 위치와 배선 구조 자체가 EMA 방어의 일부라는 점을 알아야 한다.
@@ -159,17 +159,17 @@ EMA를 이해하면 물리 보안에서 "접촉하지 않아도 읽을 수 있�
 
 ```text
 스위칭 전류의 근접 전자기 누설
-    │
-    ▼
+    |
+    v
 Near-Field Probe · Hotspot Scan
-    │
-    ▼
+    |
+    v
 SEMA / DEMA
-    │
-    ├──► DPA와 결합한 통계 누설 분석
-    └──► EMFI와 결합한 물리 공격 정밀화
-    │
-    ▼
+    |
+    +--► DPA와 결합한 통계 누설 분석
+    +--► EMFI와 결합한 물리 공격 정밀화
+    |
+    v
 Shielding · Floorplan 최적화 · Masking · EM TVLA
 ```
 
@@ -187,7 +187,7 @@ Shielding · Floorplan 최적화 · Masking · EM TVLA
 
 **진행 상황**: 780 / 803
 
-← **이전**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)
-**다음**: [780. 물리적 분해 분석 (Reverse 엔진ering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) →
+<- **이전**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)
+**다음**: [780. 물리적 분해 분석 (Reverse 엔진ering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) ->
 
 ---

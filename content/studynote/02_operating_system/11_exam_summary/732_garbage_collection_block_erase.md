@@ -50,32 +50,32 @@ tags = ["studynote-operating-system"]
 FTL이 어떻게 Valid [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구출하고 블록을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하는지 4단계로 본다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SSD 가비지 컬렉션 (GC) 이사 및 폭파 시뮬레이션           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [상황: Block X와 Block Y가 쓰레기(Invalid)로 가득 참]                  │
-  │                                                                   │
-  │   - Block X: [V1] [ I ] [ I ] [V2]  (V: Valid, I: Invalid)        │
-  │   - Block Y: [ I ] [V3] [ I ] [ I ]                               │
-  │   - Block Z: [ 비어있음 (Free Block) ]                              │
-  │                                                                   │
-  │  [ 1. Victim Block (희생 블록) 선정 ]                                │
-  │   - FTL이 쓰레기(I)가 가장 많은 블록을 찾는다 -> Block X와 Y 당첨.         │
-  │                                                                   │
-  │  [ 2. 유효 데이터 복사 (Valid Page Copy) ]                           │
-  │   - Block X의 V1, V2를 Block Z로 복사한다.                            │
-  │   - Block Y의 V3를 Block Z로 복사한다.                               │
-  │   - FTL 매핑 테이블 업데이트 (V1, V2, V3의 주소가 Block Z로 변경됨!)       │
-  │                                                                   │
-  │  [ 3. 희생 블록 폭파 (Erase Block) ]                                 │
-  │   - 이제 Block X와 Y에는 쓰레기(I)만 남았다.                            │
-  │   - 하드웨어에 Erase 명령을 내려 Block X, Y를 완전히 백지화(Free)시킨다.   │
-  │                                                                   │
-  │  [ 4. 결과 (Free Block 확보) ]                                      │
-  │   - Block Z: [V1] [V2] [V3] [ 비어있음 ]  (사용 중)                   │
-  │   - Block X: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           │
-  │   - Block Y: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SSD 가비지 컬렉션 (GC) 이사 및 폭파 시뮬레이션           |
+  +-------------------------------------------------------------------+
+  |  [상황: Block X와 Block Y가 쓰레기(Invalid)로 가득 참]                  |
+  |                                                                   |
+  |   - Block X: [V1] [ I ] [ I ] [V2]  (V: Valid, I: Invalid)        |
+  |   - Block Y: [ I ] [V3] [ I ] [ I ]                               |
+  |   - Block Z: [ 비어있음 (Free Block) ]                              |
+  |                                                                   |
+  |  [ 1. Victim Block (희생 블록) 선정 ]                                |
+  |   - FTL이 쓰레기(I)가 가장 많은 블록을 찾는다 -> Block X와 Y 당첨.         |
+  |                                                                   |
+  |  [ 2. 유효 데이터 복사 (Valid Page Copy) ]                           |
+  |   - Block X의 V1, V2를 Block Z로 복사한다.                            |
+  |   - Block Y의 V3를 Block Z로 복사한다.                               |
+  |   - FTL 매핑 테이블 업데이트 (V1, V2, V3의 주소가 Block Z로 변경됨!)       |
+  |                                                                   |
+  |  [ 3. 희생 블록 폭파 (Erase Block) ]                                 |
+  |   - 이제 Block X와 Y에는 쓰레기(I)만 남았다.                            |
+  |   - 하드웨어에 Erase 명령을 내려 Block X, Y를 완전히 백지화(Free)시킨다.   |
+  |                                                                   |
+  |  [ 4. 결과 (Free Block 확보) ]                                      |
+  |   - Block Z: [V1] [V2] [V3] [ 비어있음 ]  (사용 중)                   |
+  |   - Block X: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           |
+  |   - Block Y: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 과정은 엄청난 고비용 작업이다. V1, V2, V3를 복사하느라 낸드 플래시에 쓸데없는 "읽기"와 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 추가로 발생했다. 내가 저장하고 싶은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100MB인데, GC가 뒤에서 이삿짐을 나르느라 실제로 낸드 칩에 300MB를 쓰게 될 수도 있다. 이를 전문 용어로 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a> Factor)</strong> 이라 하며, WAF가 높아질수록 SSD의 수명은 기하급수적으로 깎여나간다.
@@ -120,26 +120,26 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SSD 스토리지 수명(TBW) 및 성능 방어 아키텍처 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [DB/카프카 등 Write-Intensive(쓰기 집약적) 서버 인프라 설계]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      사용 중인 파일 시스템과 OS 커널이 주기적인 TRIM을 지원하는가?            │
-  │          ├─ 예 ─────▶ [Cron / Systemd timer로 주 1회 fstrim 스케줄링]  │
-  │          │            (실시간 discard 옵션(mount -o discard)은 I/O 딜레이를 │
-  │          │             유발하므로, 야간에 배치로 주 1회 몰아서 지우는 걸 권장)    │
-  │          └─ 아니오 ──▶ ZFS 등 구형 환경이라면 펌웨어 레벨 튜닝 절실          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서비스 오픈 후 디스크 사용량 임계치(Alert Threshold)를 몇 %로 잡을 것인가?│
-  │          ├──▶ [일반 서버: 80% / DB 서버: 70% 설정 권장]                 │
-  │          │    결론: HDD 시절에는 95% 찰 때까지 버텨도 성능 저하가 없었지만,    │
-  │          │          SSD는 80%를 넘기면 GC 효율이 극감하여 WAF가 폭발한다.      │
-  │          │          디스크가 70% 찼을 때 무조건 용량 증설(Scale-up)을 해야 한다.│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 SSD 스토리지 수명(TBW) 및 성능 방어 아키텍처 플로우         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [DB/카프카 등 Write-Intensive(쓰기 집약적) 서버 인프라 설계]              |
+  |                |                                                  |
+  |                v                                                  |
+  |      사용 중인 파일 시스템과 OS 커널이 주기적인 TRIM을 지원하는가?            |
+  |          +- 예 ------> [Cron / Systemd timer로 주 1회 fstrim 스케줄링]  |
+  |          |            (실시간 discard 옵션(mount -o discard)은 I/O 딜레이를 |
+  |          |             유발하므로, 야간에 배치로 주 1회 몰아서 지우는 걸 권장)    |
+  |          +- 아니오 ---> ZFS 등 구형 환경이라면 펌웨어 레벨 튜닝 절실          |
+  |                |                                                  |
+  |                v                                                  |
+  |      서비스 오픈 후 디스크 사용량 임계치(Alert Threshold)를 몇 %로 잡을 것인가?|
+  |          +---> [일반 서버: 80% / DB 서버: 70% 설정 권장]                 |
+  |          |    결론: HDD 시절에는 95% 찰 때까지 버텨도 성능 저하가 없었지만,    |
+  |          |          SSD는 80%를 넘기면 GC 효율이 극감하여 WAF가 폭발한다.      |
+  |          |          디스크가 70% 찼을 때 무조건 용량 증설(Scale-up)을 해야 한다.|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "디스크 용량 = 속도"라는 공식은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대의 새로운 진리다. 1TB SSD에 900GB의 짐이 차 있으면, FTL은 빈 100GB 방을 찾기 위해 이삿짐을 미친 듯이 이리저리 빼고 넣어야 한다(GC). 방이 500GB 비어 있으면 이삿짐을 그냥 대충 휙휙 던져도(최소한의 GC) 정리가 된다. 디스크 용량을 넉넉하게 유지하는 것 자체가 최고의 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이다.
@@ -184,12 +184,12 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 ```text
 [SSD FTL (Flash Translation Layer)]
-    │
-    ▼
+    |
+    v
 [가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)]
-    │
-    ├──▶ [파일 시스템 연속, 연결, 색인 할당]
-    └──▶ [FAT 방식 연결 할당 최적화]
+    |
+    +---> [파일 시스템 연속, 연결, 색인 할당]
+    +---> [FAT 방식 연결 할당 최적화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -206,7 +206,7 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 **진행 상황**: 732 / 800
 
-← **이전**: [731. SSD FTL (Flash Translation Layer)](/knowledge-base/studynote/02_operating_system/11_exam_summary/731_ssd_ftl_flash_translation_layer/)
-**다음**: [733. 파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)](/knowledge-base/studynote/02_operating_system/11_exam_summary/733_file_system_allocation_contiguous_linked_indexed/) →
+<- **이전**: [731. SSD FTL (Flash Translation Layer)](/knowledge-base/studynote/02_operating_system/11_exam_summary/731_ssd_ftl_flash_translation_layer/)
+**다음**: [733. 파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)](/knowledge-base/studynote/02_operating_system/11_exam_summary/733_file_system_allocation_contiguous_linked_indexed/) ->
 
 ---

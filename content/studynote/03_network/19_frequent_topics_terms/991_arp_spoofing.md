@@ -33,33 +33,33 @@ tags = ["studynote-network"]
 다음은 정상적인 통신과 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에 의해 경로가 변조된 통신(MitM)의 차이를 보여주는 비교 다이어그램이다.
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│        정상 스위칭 통신 vs ARP Spoofing 기반 중간자 공격 (MitM)      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [정상적인 통신 구조]                                           │
-│  [사용자 PC] ────────────────────────────────▶ [게이트웨이/라우터]  │
-│  IP: 10.0.0.2                       IP: 10.0.0.1              │
-│  MAC: AA:AA                        MAC: CC:CC                 │
-│  (ARP Cache: 10.0.0.1 = CC:CC)      (인터넷으로 직접 전송)          │
-│                                                               │
-│                                                               │
-│ [ARP Spoofing 공격 상태]                                       │
-│                                                               │
-│                        1. 위조된 ARP 응답 전송 (Broadcast/Unicast)│
-│                        "10.0.0.1의 MAC은 BB:BB야!"            │
-│                       ┌─────────────────────┐                 │
-│                       │                     │                 │
-│  [사용자 PC] ◀─────────┴─ [공격자 (Attacker)] ┴────────▶ [게이트웨이/라우터]
-│  IP: 10.0.0.2         │  IP: 10.0.0.99      │ IP: 10.0.0.1
-│  MAC: AA:AA           │  MAC: BB:BB         │ MAC: CC:CC
-│  (ARP 오염됨:          │                     │ (ARP 오염됨:
-│   10.0.0.1 = BB:BB)   │                     │  10.0.0.2 = BB:BB)
-│                       ▼                     ▼
-│           2. 패킷 전송 (가로채기)       3. 원본 전달 (Relay)
-│  사용자 PC ─────────────▶ 공격자 PC ──────────▶ 게이트웨이/인터넷
-│  (인터넷 접속은 정상적으로 되므로 사용자는 해킹 사실을 인지하지 못함) │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|        정상 스위칭 통신 vs ARP Spoofing 기반 중간자 공격 (MitM)      |
++---------------------------------------------------------------+
+|                                                               |
+| [정상적인 통신 구조]                                           |
+|  [사용자 PC] ---------------------------------> [게이트웨이/라우터]  |
+|  IP: 10.0.0.2                       IP: 10.0.0.1              |
+|  MAC: AA:AA                        MAC: CC:CC                 |
+|  (ARP Cache: 10.0.0.1 = CC:CC)      (인터넷으로 직접 전송)          |
+|                                                               |
+|                                                               |
+| [ARP Spoofing 공격 상태]                                       |
+|                                                               |
+|                        1. 위조된 ARP 응답 전송 (Broadcast/Unicast)|
+|                        "10.0.0.1의 MAC은 BB:BB야!"            |
+|                       +---------------------+                 |
+|                       |                     |                 |
+|  [사용자 PC] <----------+- [공격자 (Attacker)] +---------> [게이트웨이/라우터]
+|  IP: 10.0.0.2         |  IP: 10.0.0.99      | IP: 10.0.0.1
+|  MAC: AA:AA           |  MAC: BB:BB         | MAC: CC:CC
+|  (ARP 오염됨:          |                     | (ARP 오염됨:
+|   10.0.0.1 = BB:BB)   |                     |  10.0.0.2 = BB:BB)
+|                       v                     v
+|           2. 패킷 전송 (가로채기)       3. 원본 전달 (Relay)
+|  사용자 PC --------------> 공격자 PC -----------> 게이트웨이/인터넷
+|  (인터넷 접속은 정상적으로 되므로 사용자는 해킹 사실을 인지하지 못함) |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 정상적인 상태에서 사용자 PC는 게이트웨이의 진짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소([CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/):[CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/))를 목적지로 하여 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 전송한다. 그러나 공격자는 사용자 PC에게 "내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1(게이트웨이)이야, 내 MAC은 BB:BB야"라는 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 응답을 보내고, 동시에 게이트웨이에게는 "내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.2(사용자)야, 내 MAC은 BB:BB야"라고 거짓말을 양방향으로 수행한다. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프로토콜은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기능이 없으므로([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 사용자 PC와 라우터는 이 거짓 정보를 순진하게 믿고 자신의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Cache Table을 공격자의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(BB:BB)로 덮어쓴다. 이제 사용자가 인터넷으로 보내는 모든 패킷은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 의해 물리적으로 공격자에게 전달되며, 공격자는 패킷의 내용(평문 비밀번호 등)을 스니핑한 후 IP 포워딩(IP Forwarding) 기능을 통해 원래 목적지인 라우터로 넘겨준다. 따라서 사용자는 인터넷이 정상 작동하는 것처럼 느끼지만 실제로는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 감시당하는 완벽한 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MitM)이 성립된다.
@@ -90,35 +90,35 @@ tags = ["studynote-network"]
 다음은 공격자가 희생자의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 테이블을 동적으로 오염시키고 유지하는 패킷 흐름도이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│            ARP Cache Poisoning 및 상태 유지 메커니즘 흐름도            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [사용자 PC (Victim)]                                [공격자 (Attacker)] │
-│  ARP Table: 10.0.0.1 = CC:CC                         MAC: BB:BB  │
-│       │                                                  │       │
-│       │ ◀──────── (1. 가짜 ARP Reply 지속 전송) ───────────┤       │
-│       │    "10.0.0.1 is at BB:BB"                        │       │
-│       │                                                  │       │
-│       ▼                                                  │       │
-│  [테이블 오염 발생]                                         │       │
-│  ARP Table 업데이트:                                        │       │
-│  10.0.0.1 = BB:BB (공격자 MAC으로 변경됨)                   │       │
-│       │                                                  │       │
-│       │ ──── (2. 외부 웹서버로 보낼 데이터를 전송) ─────────▶│       │
-│       │    [Dest MAC: BB:BB / Dest IP: 8.8.8.8]          │       │
-│       │                                                  ▼       │
-│       │                                         [데이터 패킷 캡처/분석]│
-│       │                                                  │       │
-│       │                                         [3. IP 포워딩]   │
-│       │                                                  │       │
-│       │ ◀──────── (4. 가짜 ARP Reply 반복) ──────────────┤       │
-│       │   (테이블이 원래대로 복구되는 것을 막기 위해 초당 수회 반복) │       │
-│                                                                  │
-│ ⚠ 핵심: 캐시 테이블은 동적(Dynamic)이므로 정상 라우터의 브로드캐스트로 │
-│ 인해 원래 상태로 복구될 수 있다. 따라서 공격자는 스푸핑 상태 유지를 위해 │
-│ 백그라운드에서 가짜 패킷을 무한 반복(Flooding)하여 오염을 고착화시킨다.│
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            ARP Cache Poisoning 및 상태 유지 메커니즘 흐름도            |
++------------------------------------------------------------------+
+|                                                                  |
+|  [사용자 PC (Victim)]                                [공격자 (Attacker)] |
+|  ARP Table: 10.0.0.1 = CC:CC                         MAC: BB:BB  |
+|       |                                                  |       |
+|       | <--------- (1. 가짜 ARP Reply 지속 전송) -----------+       |
+|       |    "10.0.0.1 is at BB:BB"                        |       |
+|       |                                                  |       |
+|       v                                                  |       |
+|  [테이블 오염 발생]                                         |       |
+|  ARP Table 업데이트:                                        |       |
+|  10.0.0.1 = BB:BB (공격자 MAC으로 변경됨)                   |       |
+|       |                                                  |       |
+|       | ---- (2. 외부 웹서버로 보낼 데이터를 전송) ---------->|       |
+|       |    [Dest MAC: BB:BB / Dest IP: 8.8.8.8]          |       |
+|       |                                                  v       |
+|       |                                         [데이터 패킷 캡처/분석]|
+|       |                                                  |       |
+|       |                                         [3. IP 포워딩]   |
+|       |                                                  |       |
+|       | <--------- (4. 가짜 ARP Reply 반복) --------------+       |
+|       |   (테이블이 원래대로 복구되는 것을 막기 위해 초당 수회 반복) |       |
+|                                                                  |
+| ⚠ 핵심: 캐시 테이블은 동적(Dynamic)이므로 정상 라우터의 브로드캐스트로 |
+| 인해 원래 상태로 복구될 수 있다. 따라서 공격자는 스푸핑 상태 유지를 위해 |
+| 백그라운드에서 가짜 패킷을 무한 반복(Flooding)하여 오염을 고착화시킨다.|
++------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 타이밍 흐름도는 오염(Poisoning)이 단회성 이벤트가 아니라 지속적 유지가 필요한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))임을 보여준다. 공격자가 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply를 보내 희생자의 캐시를 조작([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1=BB:BB)하더라도, 진짜 게이트웨이([CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/):[CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/)) 역시 자신의 정상적인 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷을 주기적으로 네트워크에 뿌린다. 만약 희생자가 정상 패킷을 다시 받으면 테이블은 원래대로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)된다. 이를 막기 위해 공격 도구(예: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 툴)는 초당 수회에서 수십 회의 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 응답을 네트워크에 무차별적으로 쏟아붓는다(Flooding). 이 때문에 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 공격이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 랜(LAN) 구간에서는 비정상적으로 엄청난 양의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷이 관찰되며, 이는 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) (Network [Intrusion Detection System](/knowledge-base/studynote/09_security/uncategorized/994_ids_ips_intrusion_detection_prevention_false_positive/))나 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 공격을 탐지하는 강력한 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 포인트가 된다.
@@ -162,32 +162,32 @@ tags = ["studynote-network"]
 실무 방어 관점에서 기업 내부망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 DAI 및 [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Security를 적용하는 의사결정 플로우는 다음과 같다.
 
 ```text
-┌───────────────────────────────────────────────────────────────────┐
-│            엔터프라이즈 스위치의 ARP/L2 계층 방어 의사결정 플로우           │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│   [스위치 포트별 보안 정책 수립 (L2 Security)]                         │
-│                │                                                  │
-│                ▼                                                  │
-│      [질문 1] 해당 네트워크는 DHCP를 통해 IP를 동적으로 할당받는가?      │
-│          ├─ 예 ─────▶ [DHCP Snooping 활성화]                      │
-│          │                     │  (IP-MAC-Port 바인딩 테이블 생성)   │
-│          │                     ▼                                  │
-│          │             [DAI (Dynamic ARP Inspection) 적용]        │
-│          │             (위조된 ARP 응답 패킷 스위치 단에서 하드웨어 Drop) │
-│          │                                                        │
-│          └─ 아니오 (고정 IP 환경, 서버 팜 등)                        │
-│                │                                                  │
-│                ▼                                                  │
-│      [질문 2] 고정 IP 서버망의 L2 무결성을 어떻게 보장할 것인가?         │
-│          ├─ [조치 A] 핵심 서버 및 라우터의 ARP 테이블을 Static으로 고정 │
-│          │                                                        │
-│          └─ [조치 B] 스위치 포트에 'Port Security (MAC 제한)' 적용    │
-│                      (인가된 서버의 MAC 이외의 프레임 인입 시 포트 Shutdown)│
-│                                                                   │
-│   [결론]: L2 공격 방어는 클라이언트 PC 백신이 아닌 통신 장비(Switch)의  │
-│   인프라 통제(DAI/Port Security)로 원천 봉쇄하는 것이 가장 확실하다.    │
-└───────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|            엔터프라이즈 스위치의 ARP/L2 계층 방어 의사결정 플로우           |
++-------------------------------------------------------------------+
+|                                                                   |
+|   [스위치 포트별 보안 정책 수립 (L2 Security)]                         |
+|                |                                                  |
+|                v                                                  |
+|      [질문 1] 해당 네트워크는 DHCP를 통해 IP를 동적으로 할당받는가?      |
+|          +- 예 ------> [DHCP Snooping 활성화]                      |
+|          |                     |  (IP-MAC-Port 바인딩 테이블 생성)   |
+|          |                     v                                  |
+|          |             [DAI (Dynamic ARP Inspection) 적용]        |
+|          |             (위조된 ARP 응답 패킷 스위치 단에서 하드웨어 Drop) |
+|          |                                                        |
+|          +- 아니오 (고정 IP 환경, 서버 팜 등)                        |
+|                |                                                  |
+|                v                                                  |
+|      [질문 2] 고정 IP 서버망의 L2 무결성을 어떻게 보장할 것인가?         |
+|          +- [조치 A] 핵심 서버 및 라우터의 ARP 테이블을 Static으로 고정 |
+|          |                                                        |
+|          +- [조치 B] 스위치 포트에 'Port Security (MAC 제한)' 적용    |
+|                      (인가된 서버의 MAC 이외의 프레임 인입 시 포트 Shutdown)|
+|                                                                   |
+|   [결론]: L2 공격 방어는 클라이언트 PC 백신이 아닌 통신 장비(Switch)의  |
+|   인프라 통제(DAI/Port Security)로 원천 봉쇄하는 것이 가장 확실하다.    |
++-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 기업 망 방어의 핵심은 단말([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))에 의존하지 않고 관문([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 불량 패킷을 잘라내는 것이다. 동적 IP(사무용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 환경에서는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 IP를 내려줄 때 누가 어떤 IP와 MAC을 가졌는지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 몰래 엿듣고(Snooping) 장부에 적어둔다. 이후 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 PC가 자신이 10번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) PC의 IP라고 주장하는 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply를 보내면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 장부(Binding Table)와 대조해 보고 거짓말임을 인지하여 그 패킷이 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나가는 것을 물리적으로 차단(Drop)한다. 이것이 DAI (Dynamic [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Inspection)의 원리다. 반면 고정 IP를 쓰는 서버 팜에서는 DHCP를 쓰지 않으므로, 관리자가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 "이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 서버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 하나만 허용해라([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"라고 명시하거나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 ARP를 정적(Static) 고정하여 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 방어해야 한다.
@@ -238,12 +238,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 봇넷 C&C]
-    │
-    ▼
+    |
+    v
 [현재 개념: ARP 스푸핑]
-    │
-    ├──▶ [확장 A: 방화벽]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 방화벽]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) C&C에서 출발해 현재 메커니즘을 정교화하고, 이후 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -260,7 +260,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1112 / 1120
 
-← **이전**: [990. 봇넷 (Botnet) C&C](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)
-**다음**: [992. 방화벽 (Stateful Inspection)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/992_firewall_stateful_inspection/) →
+<- **이전**: [990. 봇넷 (Botnet) C&C](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)
+**다음**: [992. 방화벽 (Stateful Inspection)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/992_firewall_stateful_inspection/) ->
 
 ---

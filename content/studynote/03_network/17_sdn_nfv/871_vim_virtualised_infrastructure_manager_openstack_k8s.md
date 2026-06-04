@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [VNFM]
-    │
-    ▼
+    |
+    v
 [VIM]
-    │
-    └──▶ [서비스 체이닝 (Service Chainin…]
+    |
+    +---> [서비스 체이닝 (Service Chainin…]
 ```
 
 - **📢 섹션 요약 비유**: VIM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -52,11 +52,11 @@ tags = ["studynote-network"]
 
 ```text
 [VNFM]
-    │
-    ▼
+    |
+    v
 [VIM]
-    │
-    └──▶ [서비스 체이닝 (Service Chainin…]
+    |
+    +---> [서비스 체이닝 (Service Chainin…]
 ```
 
 - **📢 섹션 요약 비유**: VIM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ VIM는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ```text
 [선행 개념: VNFM]
-    │
-    ▼
+    |
+    v
 [현재 개념: VIM]
-    │
-    ├──▶ [확장 A: 서비스 체이닝 (Service Chainin…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
+    |
+    +---> [확장 A: 서비스 체이닝 (Service Chainin…]
+    +---> [확장 B: 프로그래머블 네트워크]
 ```
 
 VIM는 VNFM에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ VIM는 VNFM에서 출발해 현재 메커니즘을 정교화하고, 이후 [서�
 
 **진행 상황**: 992 / 1120
 
-← **이전**: [870. VNFM (VNF 매니저)](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)
-**다음**: [872. 서비스 체이닝 (SFC)](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) →
+<- **이전**: [870. VNFM (VNF 매니저)](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)
+**다음**: [872. 서비스 체이닝 (SFC)](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ->
 
 ---

@@ -32,25 +32,25 @@ tags = ["studynote-database"]
 피터 첸의 E-R 모델은 도형(Symbol)이 곧 아키텍처의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 계약서다.
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│           피터 첸(Peter Chen) 기본 E-R 표기법의 시각적 컴포넌트 │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 동그라미: 속성(Attribute) ]   [ 동그라미: 속성 ]        │
-│          (학번)                      (이름)            │
-│            │                          │                │
-│            ▼                          ▼                │
-│       ┌─────────┐      (N:M)      ┌─────────┐          │
-│       │  학생   │ ◀───◆ 수강 ◆───▶ │  과목   │          │
-│       │(Entity) │      (마름모)      │(Entity) │          │
-│       └─────────┘     (Relation)    └─────────┘          │
-│        (네모 상자)                                       │
-│                                                        │
-│ * 맵핑 논리:                                            │
-│   - 네모(개체) ──▶ 훗날 물리 DB의 '테이블(Table)'로 변신!    │
-│   - 동그라미(속성) ──▶ 테이블 안의 '컬럼(Column/필드)'로 쏙!   │
-│   - 마름모(관계) ──▶ N:M 관계의 경우 '교차 테이블'로 변신!    │
-└────────────────────────────────────────────────────────┘
++--------------------------------------------------------+
+|           피터 첸(Peter Chen) 기본 E-R 표기법의 시각적 컴포넌트 |
++--------------------------------------------------------+
+|                                                        |
+|  [ 동그라미: 속성(Attribute) ]   [ 동그라미: 속성 ]        |
+|          (학번)                      (이름)            |
+|            |                          |                |
+|            v                          v                |
+|       +---------+      (N:M)      +---------+          |
+|       |  학생   | <----◆ 수강 ◆----> |  과목   |          |
+|       |(Entity) |      (마름모)      |(Entity) |          |
+|       +---------+     (Relation)    +---------+          |
+|        (네모 상자)                                       |
+|                                                        |
+| * 맵핑 논리:                                            |
+|   - 네모(개체) ---> 훗날 물리 DB의 '테이블(Table)'로 변신!    |
+|   - 동그라미(속성) ---> 테이블 안의 '컬럼(Column/필드)'로 쏙!   |
+|   - 마름모(관계) ---> N:M 관계의 경우 '교차 테이블'로 변신!    |
++--------------------------------------------------------+
 ```
 
 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>성(Cardinality)</strong>의 정의가 E-R 모델의 꽃이다. 학생 한 명이 여러 과목을 듣고, 과목 하나에 여러 학생이 들어온다면 이는 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(N:M) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 마름모 선 위에 적히는 1:1, 1:N, N:M 같은 카디널리티 숫자가 나중에 외래키(FK)를 어느 테이블에 꽂아야 할지 결정짓는 물리적 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 설계 도면이 된다.
@@ -112,21 +112,21 @@ E-R 모델은 특정 DB의 쇳덩어리에 종속되지 않는 고결함을 갖�
 
 ```text
 하드웨어 중심의 망형(Network) / 계층형(Hierarchical) DB의 복잡성 직면
-    │
-    ▼
+    |
+    v
 에드거 코드의 관계형 데이터 모델(Relational Model) 수학적 제안 (1970)
-    │
-    ▼
+    |
+    v
 수학을 비즈니스 현실 언어로 번역할 필요성 대두
-    │
-    ▼
+    |
+    v
 피터 첸(Peter Chen)의 E-R (Entity-Relationship) 모델 논문 발표 (1976)
-    │
-    ▼
-개념적/논리적/물리적 데이터 모델링 3단계 분리 원칙 확립 ──▶ 현대 정보공학(IE) ERD 표준으로 안착
+    |
+    v
+개념적/논리적/물리적 데이터 모델링 3단계 분리 원칙 확립 ---> 현대 정보공학(IE) ERD 표준으로 안착
 ```
 
-이 흐름도는 "딱딱한 수학 및 기계 중심의 설계 → 인간과 비즈니스 중심의 직관적 모델링([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) → 이를 기계어로 맵핑하는 자동화 체계"로 이어지는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 공학의 진화 과정을 보여준다.
+이 흐름도는 "딱딱한 수학 및 기계 중심의 설계 -> 인간과 비즈니스 중심의 직관적 모델링([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) -> 이를 기계어로 맵핑하는 자동화 체계"로 이어지는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 공학의 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +140,7 @@ E-R 모델은 특정 DB의 쇳덩어리에 종속되지 않는 고결함을 갖�
 
 **진행 상황**: 80 / 600
 
-← **이전**: [079. NULL 무결성과 NOT NULL 제약조건](/knowledge-base/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/)
-**다음**: [081. 개체 개념 (Entity Concept in E-R Model)](/knowledge-base/studynote/05_database/02_modeling_normalization/081_entity_concept_er_model/) →
+<- **이전**: [079. NULL 무결성과 NOT NULL 제약조건](/knowledge-base/studynote/05_database/02_modeling_normalization/079_null_integrity_not_null/)
+**다음**: [081. 개체 개념 (Entity Concept in E-R Model)](/knowledge-base/studynote/05_database/02_modeling_normalization/081_entity_concept_er_model/) ->
 
 ---

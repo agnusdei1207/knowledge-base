@@ -30,13 +30,13 @@ tags = ["software_engineering"]
 이 도식은 폭포수 모델의 후반부 위험 집중 현상과 나선형 모델의 분산 통제 원리를 보여줍니다.
 
 [폭포수 모델의 위험 누적 (Big Bang Fail)]
-시간 ─▶  [요구사항] ─▶ [설계] ─▶ [구현] ─▶ [테스트 (위험 폭발! 💣)]
-비용/리스크: 낮음 ───────────▶ 매우 높음 ───────────▶ 복구 불가
+시간 -->  [요구사항] --> [설계] --> [구현] --> [테스트 (위험 폭발! 💣)]
+비용/리스크: 낮음 ------------> 매우 높음 ------------> 복구 불가
 
 [나선형 모델의 위험 통제 (Risk-Driven)]
-Phase 1: 기획 ─▶ [위험 분석 (PoC)] ─▶ 개발 ─▶ 평가 (작은 리스크 해소)
-Phase 2: 기획 ─▶ [위험 분석 (Proto)] ─▶ 개발 ─▶ 평가 (중간 리스크 해소)
-Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최종 리스크 해소)
+Phase 1: 기획 --> [위험 분석 (PoC)] --> 개발 --> 평가 (작은 리스크 해소)
+Phase 2: 기획 --> [위험 분석 (Proto)] --> 개발 --> 평가 (중간 리스크 해소)
+Phase 3: 기획 --> [위험 분석 (Simul)] --> 개발 --> 평가 (최종 리스크 해소)
 ```
 이 도식에서 핵심은 위험을 발견하고 대응하는 시점이 '테스트' 단계에서 '각 주기의 위험 분석' 단계로 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 되었다는 점입니다. 이런 배치는 실패 시 발생하는 매몰 비용(Sunk Cost)을 최소화하기 때문이며, 따라서 프로젝트가 돌이킬 수 없는 상태가 되기 전에 방향을 수정하거나 중단(Go/No-Go) 결정을 내릴 수 있게 합니다.
 
@@ -58,17 +58,17 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
 ```text
 이 구조도는 나선형 모델의 4개 사분면을 도는 사이클과 비용/반경의 확장을 보여줍니다.
 
-                 [1. 목표 설정 및 대안 탐색] │ [2. 위험 분석 및 타당성 검증]
-                                             │
-                       계획 수립             │      프로토타입 1, 2, 3...
-                             ↖               │      ↗ (시뮬레이션, 모델링)
-                                 ↖           │   ↗
-──────────────────────────────────── 똬리(Spiral) 확장 ────────────────────────────────
-                                 ↙           │   ↘
-                     고객 평가/리뷰          │      설계, 코딩, 테스트
-                             ↙               │      ↘ (단위/통합 테스트)
-                                             │
-                 [4. 다음 단계 계획 및 평가] │ [3. 엔지니어링 및 개발]
+                 [1. 목표 설정 및 대안 탐색] | [2. 위험 분석 및 타당성 검증]
+                                             |
+                       계획 수립             |      프로토타입 1, 2, 3...
+                             ↖               |      ↗ (시뮬레이션, 모델링)
+                                 ↖           |   ↗
+------------------------------------ 똬리(Spiral) 확장 --------------------------------
+                                 ↙           |   ↘
+                     고객 평가/리뷰          |      설계, 코딩, 테스트
+                             ↙               |      ↘ (단위/통합 테스트)
+                                             |
+                 [4. 다음 단계 계획 및 평가] | [3. 엔지니어링 및 개발]
 
 * 중심점(0,0)에서 시작하여 밖으로 나갈수록 누적 개발 비용과 프로젝트 규모가 증가함.
 ```
@@ -92,12 +92,12 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
 ```text
 이 매트릭스는 프로젝트의 특성(불확실성 vs 규모)에 따른 생명주기 모델의 의사결정 트리를 보여줍니다.
 
-┌────────────┬────────────────────────┬────────────────────────┐
-│ 요구 불확실성│ 시스템 규모 (Small)    │ 시스템 규모 (Large)    │
-├────────────┼────────────────────────┼────────────────────────┤
-│ 낮음 (Low) │ V-모델 / 폭포수 모델   │ 폭포수 모델 (점진적 적용)│
-│ 높음 (High)│ 프로토타입 / 애자일    │ ▶ 나선형 모델 (Spiral)◀ │
-└────────────┴────────────────────────┴────────────────────────┘
++------------+------------------------+------------------------+
+| 요구 불확실성| 시스템 규모 (Small)    | 시스템 규모 (Large)    |
++------------+------------------------+------------------------+
+| 낮음 (Low) | V-모델 / 폭포수 모델   | 폭포수 모델 (점진적 적용)|
+| 높음 (High)| 프로토타입 / 애자일    | -> 나선형 모델 (Spiral)<- |
++------------+------------------------+------------------------+
 ```
 이 매트릭스의 핵심은 '규모가 크면서 동시에 불확실성(위험)이 높은 프로젝트'에는 나선형 모델이 유일한 해답이 된다는 점입니다. 규모가 클 때 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 단순히 적용하면 팀 간 의존성 관리에 실패하고, 폭포수를 적용하면 막판 빅뱅 테스트에서 프로젝트가 파탄납니다. 나선형 모델은 매 사이클마다 아키텍처적 위험을 수학적/공학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 높더라도 전체 프로젝트의 기대 손실 비용(Expected Loss)을 드라마틱하게 낮춥니다.
 
@@ -112,10 +112,10 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
 ```text
 이 상태도는 나선형 모델에서 위험 분석 실패 시 발생하는 안티패턴(무한 나선)을 시각화합니다.
 
-[위험 식별] ──▶ [프로토타입 검증] ──▶ [위험 미해결] ──┐
-   ▲                                              │ (의사결정 보류)
-   │                                              ▼
-   └──────── (위험 감수 없이 무한 프로토타이핑) ─── [예산 고갈 및 납기 지연]
+[위험 식별] ---> [프로토타입 검증] ---> [위험 미해결] --+
+   ^                                              | (의사결정 보류)
+   |                                              v
+   +-------- (위험 감수 없이 무한 프로토타이핑) --- [예산 고갈 및 납기 지연]
 ```
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 판단</strong>
 1. **위험 평가 역량**: 프로젝트 매니저(PM)와 아키텍트가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모델링, 재무적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석, 보안 취약점 도출을 정량적으로 수행할 수 있는가? (단순 추측이 아님)
@@ -152,17 +152,17 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
 
 ```text
 [폭포수 모델 (Waterfall Model)]
-    │
-    ▼
+    |
+    v
 [프로토타입 모델 (Prototype Model)]
-    │
-    ▼
+    |
+    v
 [나선형 모델 (Spiral Model)]
-    │
-    ▼
+    |
+    v
 [위험 분석 (Risk Analysis)]
-    │
-    ▼
+    |
+    v
 [애자일 방법론 (Agile Methodology)]
 ```
 
@@ -179,7 +179,7 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
 
 **진행 상황**: 7 / 973
 
-← **이전**: [6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/)
-**다음**: [8. 반복적/점진적 모델 (Iterative and Incremental Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/) →
+<- **이전**: [6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/)
+**다음**: [8. 반복적/점진적 모델 (Iterative and Incremental Model)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/008_iterative_incremental_model/) ->
 
 ---

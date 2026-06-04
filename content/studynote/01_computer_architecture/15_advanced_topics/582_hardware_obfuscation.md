@@ -28,21 +28,21 @@ tags = ["studynote-computer-architecture"]
 이 그림은 제조 단계와 활성화 단계가 어떻게 분리되는지를 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Locked hardware across an untrusted supply chain                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Design owner inserts locking / camouflage                                 │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Foundry sees locked netlist and builds chip                               │
-│        │                                                                   │
-│        ├─ no key      -> wrong output / limited function                  │
-│        │                                                                   │
-│        └─ trusted activation -> correct key / device-unique secret        │
-│                                   │                                        │
-│                                   ▼                                        │
-│                             full intended behavior                         │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Locked hardware across an untrusted supply chain                          |
++----------------------------------------------------------------------------+
+| Design owner inserts locking / camouflage                                 |
+|        |                                                                   |
+|        v                                                                   |
+| Foundry sees locked netlist and builds chip                               |
+|        |                                                                   |
+|        +- no key      -> wrong output / limited function                  |
+|        |                                                                   |
+|        +- trusted activation -> correct key / device-unique secret        |
+|                                   |                                        |
+|                                   v                                        |
+|                             full intended behavior                         |
++----------------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 비밀 요리책을 남에게 맡겨 인쇄하되, 핵심 양념 비율은 암호로 적어 둬서 정답을 모르면 요리 모양은 비슷해도 맛은 절대 같아지지 않게 만드는 방식과 같다.
@@ -65,18 +65,18 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)된 칩이 왜 키와 함께 설계되어야 하는지 구조적으로 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Obfuscated chip = locked logic + hidden key path                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Inputs -> locked combinational / sequential logic -> outputs              │
-│                ▲                                                          │
-│                │                                                           │
-│         secret key source                                                 │
-│     (PUF or trusted provisioning)                                         │
-│                │                                                           │
-│                ├─ wrong key -> corrupted outputs / dead modes             │
-│                └─ correct key -> intended function                        │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+| Obfuscated chip = locked logic + hidden key path                          |
++----------------------------------------------------------------------------+
+| Inputs -> locked combinational / sequential logic -> outputs              |
+|                ^                                                          |
+|                |                                                           |
+|         secret key source                                                 |
+|     (PUF or trusted provisioning)                                         |
+|                |                                                           |
+|                +- wrong key -> corrupted outputs / dead modes             |
+|                +- correct key -> intended function                        |
++----------------------------------------------------------------------------+
 ```
 
 다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, <strong>기능 숨김 + 분석 난도 증가 + 테스트 경로 통제</strong>를 동시에 노린다.
@@ -157,20 +157,20 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 글로벌 분업형 반도체 공급망
-        │
-        ▼
+        |
+        v
 IP 유출 · 과잉 생산 · 역공학 우려
-        │
-        ▼
+        |
+        v
 논리 잠금 · 레이아웃 위장 도입
-        │
-        ▼
+        |
+        v
 SAT 저항 구조 · 스캔 보호 결합
-        │
-        ▼
+        |
+        v
 PUF 기반 칩별 활성화
-        │
-        ▼
+        |
+        v
 생애주기 인증 · 공급망 추적 강화
 ```
 
@@ -188,7 +188,7 @@ PUF 기반 칩별 활성화
 
 **진행 상황**: 582 / 803
 
-← **이전**: [581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/581_microcode_patch/)
-**다음**: [583. 데이터 대역폭 압축 인코딩 (Bandwidth Compression Encoding)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/583_bandwidth_compression/) →
+<- **이전**: [581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/581_microcode_patch/)
+**다음**: [583. 데이터 대역폭 압축 인코딩 (Bandwidth Compression Encoding)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/583_bandwidth_compression/) ->
 
 ---

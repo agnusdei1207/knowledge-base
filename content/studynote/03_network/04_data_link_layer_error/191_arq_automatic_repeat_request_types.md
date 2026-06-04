@@ -27,11 +27,11 @@ tags = ["studynote-network"]
 
 ```text
 [순방향 에러 수정]
-    │
-    ▼
+    |
+    v
 [역방향 에러 수정 / 자동 재전송 요청]
-    │
-    └──▶ [패리티 검사]
+    |
+    +---> [패리티 검사]
 ```
 
 - **📢 섹션 요약 비유**: 역방향 에러 수정 / 자동 재전송 요청은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -62,11 +62,11 @@ tags = ["studynote-network"]
 
 ```text
 [순방향 에러 수정]
-    │
-    ▼
+    |
+    v
 [역방향 에러 수정 / 자동 재전송 요청]
-    │
-    └──▶ [패리티 검사]
+    |
+    +---> [패리티 검사]
 ```
 
 - **📢 섹션 요약 비유**: ** ARQ는 식당의 **'음식 재주문(컴플레인)'**입니다.
@@ -127,12 +127,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 순방향 에러 수정]
-    │
-    ▼
+    |
+    v
 [현재 개념: 역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ├──▶ [확장 A: 패리티 검사]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: 패리티 검사]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 역방향 에러 수정 / 자동 재전송 요청는 [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -149,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 312 / 1120
 
-← **이전**: [190. 순방향 에러 수정 (FEC, Forward Error Correction)](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)
-**다음**: [192. 패리티 검사 (Parity Check)](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/) →
+<- **이전**: [190. 순방향 에러 수정 (FEC, Forward Error Correction)](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)
+**다음**: [192. 패리티 검사 (Parity Check)](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/) ->
 
 ---

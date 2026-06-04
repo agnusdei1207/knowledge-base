@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [DTLS 프로토콜 CoAP 결합]
-    │
-    ▼
+    |
+    v
 [소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    └──▶ [무전원 통신 환경 적응]
+    |
+    +---> [무전원 통신 환경 적응]
 ```
 
 - **📢 섹션 요약 비유**: 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 
 ```text
 [DTLS 프로토콜 CoAP 결합]
-    │
-    ▼
+    |
+    v
 [소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    └──▶ [무전원 통신 환경 적응]
+    |
+    +---> [무전원 통신 환경 적응]
 ```
 
 - **📢 섹션 요약 비유**: 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -112,12 +112,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DTLS 프로토콜 CoAP 결합]
-    │
-    ▼
+    |
+    v
 [현재 개념: 소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    ├──▶ [확장 A: 무전원 통신 환경 적응]
-    └──▶ [확장 B: 자율형 엣지 협업]
+    |
+    +---> [확장 A: 무전원 통신 환경 적응]
+    +---> [확장 B: 자율형 엣지 협업]
 ```
 
 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…는 [DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합에서 출발해 현재 메커니즘을 정교화하고, 이후 [무전원 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/646_passive_iot_intermittent_computing/) 환경 적응와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -134,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 766 / 1120
 
-← **이전**: [644. DTLS (Datagram TLS) 프로토콜 CoAP 결합](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/)
-**다음**: [646. 무전원 통신 (Passive IoT 통신) 환경 적응](/knowledge-base/studynote/03_network/12_iot_wpan_edge/646_passive_iot_intermittent_computing/) →
+<- **이전**: [644. DTLS (Datagram TLS) 프로토콜 CoAP 결합](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/)
+**다음**: [646. 무전원 통신 (Passive IoT 통신) 환경 적응](/knowledge-base/studynote/03_network/12_iot_wpan_edge/646_passive_iot_intermittent_computing/) ->
 
 ---

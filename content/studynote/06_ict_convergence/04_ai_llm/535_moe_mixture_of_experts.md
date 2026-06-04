@@ -103,7 +103,7 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[Deep Learning Architecture · Transformer] → [전문가 혼합 모델] → [Switch Transformer · Mixtral]
+[Deep Learning Architecture · Transformer] -> [전문가 혼합 모델] -> [Switch Transformer · Mixtral]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -118,7 +118,7 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 
 **진행 상황**: 535 / 552
 
-← **이전**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/)
-**다음**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/) →
+<- **이전**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/)
+**다음**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/) ->
 
 ---

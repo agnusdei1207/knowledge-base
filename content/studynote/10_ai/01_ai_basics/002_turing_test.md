@@ -29,16 +29,16 @@ tags = ["ai"]
 
 ```text
 [ 튜링 테스트 (Imitation Game) 아키텍처 ]
-┌──────────────┐
-│  심사관 (C)  │ (인간)
-└──────┬───────┘
-       │ [ 텍스트 기반 질의응답 / 블라인드 테스트 ]
-   ┌───┴────────────────┐
-   ▼                    ▼
-┌────────┐           ┌────────┐
-│ 대상 A │           │ 대상 B │
-│ (인간) │           │ (기계) │
-└────────┘           └────────┘
++--------------+
+|  심사관 (C)  | (인간)
++------+-------+
+       | [ 텍스트 기반 질의응답 / 블라인드 테스트 ]
+   +---+----------------+
+   v                    v
++--------+           +--------+
+| 대상 A |           | 대상 B |
+| (인간) |           | (기계) |
++--------+           +--------+
 ```
 
 이 그림의 핵심은 심사관(C)이 대상 A와 B의 물리적 실체를 전혀 볼 수 없다는 점이다. 오직 텔레타이프(현대의 메신저 인터페이스)를 통한 텍스트 입출력(I/O) 교환만으로 판단을 내려야 한다. 만약 기계(B)가 인간(A)인 척 심사관을 기만하는 데 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 30%(튜링의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기준)를 넘는다면 테스트를 통과한 것으로 본다. 이는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 내부적으로 어떻게 연산하는지는 무시하고, 출력의 결과물만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)의 시초이다.
@@ -63,15 +63,15 @@ tags = ["ai"]
 
 ```text
 [ 심사관의 질문 입력: "어제 본 영화 어땠어?" ]
-   ↓
+   v
 [ NLU 분석 ] => 질문 의도: 과거 경험에 대한 주관적 평가 요구
-   ↓
+   v
 [ Persona/Memory ] => (기계는 영화를 볼 수 없음) => 미리 설정된 '20대 인간' 페르소나의 기억 DB 검색
-   ↓
+   v
 [ NLG 생성 ] => "완전 노잼이었어. 중간에 잘 뻔함." (1차 생성)
-   ↓
+   v
 [ Humanization Filter ] => 기계처럼 보이지 않기 위해 고의적 오타 삽입 및 타이핑 지연(Latency) 추가
-   ↓
+   v
 [ 최종 출력 ] => "완전 노잼이엇음ㅋㅋ 중간에 잘뻔.." (응답 전송)
 ```
 
@@ -95,11 +95,11 @@ tags = ["ai"]
 
 ```text
 [ 튜링 테스트: I/O 일치성 검증 ]
-Input(질문) ──> [ 블랙박스 (기계) ] ──> Output(정답)
+Input(질문) --> [ 블랙박스 (기계) ] --> Output(정답)
     => 결과만 같으면 통과! (구조적 이해 불필요)
 
 [ 중국어 방: 내부 이해도 검증 ]
-Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ──> Output(중국어 정답)
+Input(중국어) --> [ 방 안의 사람(규칙서만 보고 조합) ] --> Output(중국어 정답)
     => 방 안의 사람은 중국어의 '의미'를 전혀 모름. (이해 없는 단순 기호 조작 = 현재의 AI)
 ```
 
@@ -128,11 +128,11 @@ Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ─�
 ```text
 [ ELIZA 효과 기반 안티패턴 ]
 (단순 키워드 매칭 챗봇 배포) => "슬프다" 키워드 입력
-   ↓
+   v
 (챗봇 응답) => "왜 슬프신가요? 더 말씀해주세요." (단순 반사형 질문)
-   ↓
+   v
 (사용자 착각) => AI가 자신을 진심으로 이해하고 공감한다고 착각함 (과잉 의인화)
-   ↓
+   v
 (비즈니스 타격) => 복잡한 업무 지시 시 챗봇이 먹통이 되어 심각한 CS 클레임 및 신뢰도 하락
 ```
 
@@ -168,17 +168,17 @@ Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ─�
 
 ```text
 [Chinese Room Argument (중국어 방 논변)]
-    │
-    ▼
+    |
+    v
 [CAPTCHA (캡챠)]
-    │
-    ▼
+    |
+    v
 [LLM (대형 언어 모델)]
-    │
-    ▼
+    |
+    v
 [ELIZA Effect (엘리자 효과)]
-    │
-    ▼
+    |
+    v
 [RLHF (인간 피드백 기반 강화학습)]
 ```
 
@@ -195,7 +195,7 @@ Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ─�
 
 **진행 상황**: 2 / 420
 
-← **이전**: [1. 인공지능 (Artificial Intelligence)의 정의 - 지능적 기계 및 에이전트를 설계하는 학문](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)
-**다음**: [3. 강인공지능 (Strong AI / AGI, Artificial General Intelligence) - 인간과 같거나 뛰어난 범용](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) →
+<- **이전**: [1. 인공지능 (Artificial Intelligence)의 정의 - 지능적 기계 및 에이전트를 설계하는 학문](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)
+**다음**: [3. 강인공지능 (Strong AI / AGI, Artificial General Intelligence) - 인간과 같거나 뛰어난 범용](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) ->
 
 ---

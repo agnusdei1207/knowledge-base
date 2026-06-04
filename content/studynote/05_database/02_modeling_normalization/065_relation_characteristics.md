@@ -30,10 +30,10 @@ tags = ["database"]
 
 ```text
 Relation
-  ├─ Tuples are unordered
-  ├─ Attributes are unordered
-  ├─ Tuples are unique
-  └─ Attributes are atomic
+  +- Tuples are unordered
+  +- Attributes are unordered
+  +- Tuples are unique
+  +- Attributes are atomic
 ```
 
 | 특징 | 의미 |
@@ -101,11 +101,11 @@ Relation
 
 ```text
 Relation
-  ↓
+  v
 Tuple / Attribute
-  ↓
+  v
 Atomicity / Uniqueness
-  ↓
+  v
 Normalization
 ```
 
@@ -115,11 +115,11 @@ Normalization
 
 ```text
 관계형 모델
-  ↓
+  v
 릴레이션 특징
-  ↓
+  v
 제1정규형
-  ↓
+  v
 무결성
 ```
 
@@ -137,7 +137,7 @@ Normalization
 
 **진행 상황**: 65 / 600
 
-← **이전**: [64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)
-**다음**: [66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)](/knowledge-base/studynote/05_database/02_modeling_normalization/066_null_value_three_valued_logic/) →
+<- **이전**: [64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)
+**다음**: [66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)](/knowledge-base/studynote/05_database/02_modeling_normalization/066_null_value_three_valued_logic/) ->
 
 ---

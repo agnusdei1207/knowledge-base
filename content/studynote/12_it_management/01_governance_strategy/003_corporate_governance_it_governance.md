@@ -30,18 +30,18 @@ tags = ["it_management"]
 ```text
 이 도식은 기업 거버넌스라는 거대한 우산 아래에 IT 거버넌스와 다른 하위 거버넌스들이 어떻게 계층적으로 결합되어 있는지를 보여준다.
 
-       ┌────────────────────────────────────────────────────────┐
-       │             기업 거버넌스 (Corporate Governance)            │
-       │  (목표: 주주 가치 극대화, 전사 리스크 통제, 투명성 확보)   │
-       └──────────┬─────────────────────────────┬───────────┘
-                  │                             │ (전략 및 정책 하달)
-         ┌────────▼────────┐          ┌────────▼────────┐
-         │ 재무 거버넌스     │          │  IT 거버넌스     │
-         │ (Financial)      │          │ (IT Governance)  │
-         └────────┬────────┘          └────────┬────────┘
-                  │                             │
-                  └──────────────┬──────────────┘
-                               ▼ (상호 의존 및 데이터 정합성 제공)
+       +--------------------------------------------------------+
+       |             기업 거버넌스 (Corporate Governance)            |
+       |  (목표: 주주 가치 극대화, 전사 리스크 통제, 투명성 확보)   |
+       +----------+-----------------------------+-----------+
+                  |                             | (전략 및 정책 하달)
+         +--------v--------+          +--------v--------+
+         | 재무 거버넌스     |          |  IT 거버넌스     |
+         | (Financial)      |          | (IT Governance)  |
+         +--------+--------+          +--------+--------+
+                  |                             |
+                  +--------------+--------------+
+                               v (상호 의존 및 데이터 정합성 제공)
                   [ 통합된 비즈니스 가치 및 컴플라이언스 준수 ]
 ```
 
@@ -69,17 +69,17 @@ tags = ["it_management"]
 이 흐름도는 기업 거버넌스의 최상위 의사결정이 IT 거버넌스를 거쳐 실무로 하달되고, 그 결과가 다시 상향 보고되는 캐스케이딩(Cascading) 사이클을 보여준다.
 
 [주주 / 이해관계자]
-      ▲ (투명한 성과 및 리스크 보고)
-      │
-[이사회 (Board) - 기업 거버넌스] ──(비즈니스 전략 및 위험 수용 한도 지시)──┐
-      ▲                                                           │
-      │ (IT 투자 성과 및 보안 현황 보고)                           │
-      │                                                           ▼
-[IT 거버넌스 위원회 (CxO, CIO)] ──(IT 전략 수립, 자원 배분, 정책 하달)──┐
-      ▲                                                           │
-      │ (SLA 달성률, 인시던트 데이터 상향)                          │
-      │                                                           ▼
-[IT 실행 조직 (Management)] <──(시스템 운영, 프로젝트 실행, 보안 통제)──┘
+      ^ (투명한 성과 및 리스크 보고)
+      |
+[이사회 (Board) - 기업 거버넌스] --(비즈니스 전략 및 위험 수용 한도 지시)--+
+      ^                                                           |
+      | (IT 투자 성과 및 보안 현황 보고)                           |
+      |                                                           v
+[IT 거버넌스 위원회 (CxO, CIO)] --(IT 전략 수립, 자원 배분, 정책 하달)--+
+      ^                                                           |
+      | (SLA 달성률, 인시던트 데이터 상향)                          |
+      |                                                           v
+[IT 실행 조직 (Management)] <--(시스템 운영, 프로젝트 실행, 보안 통제)--+
 ```
 
 이 사이클에서 주목해야 할 내부 메커니즘은 '[위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) 한도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite)'의 전달이다. 이사회가 "올해는 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용한 공격적인 마케팅을 하되, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 0에 수렴해야 한다"는 기업 거버넌스 지침을 내리면, IT 거버넌스는 이를 해석하여 "모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 암호화 및 망분리를 의무화하고, 신규 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석 시스템의 예산을 2배 증액한다"는 IT 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 캐스케이딩한다. 만약 이 연결 고리가 끊어지면, IT 부서는 예산 절감을 위해 보안을 희생하는 등 전사 방향과 엇나간 결정을 내리게 된다.
@@ -110,15 +110,15 @@ tags = ["it_management"]
 
                        [ 기업 거버넌스 (비즈니스 전략 명확성) ]
                           낮음 (Low)            높음 (High)
-                 ┌────────────────────────┬────────────────────────┐
-     높음 (High) │ 2. 기술 과잉형 기업    │ 4. 혁신 주도형 기업    │
-[ IT             │ - IT 부서만 최신 기술  │ - IT가 비즈니스 가치로 │
- 거버넌스        │ - 비즈니스 매출엔 둔감 │   직결되는 이상적 상태 │
- 성숙도]         ├────────────────────────┼────────────────────────┤
-                 │ 1. 위험 방치형 기업    │ 3. 비즈니스 고립형 기업│
-     낮음 (Low)  │ - 둘 다 부재           │ - 전략은 좋으나 IT가   │
-                 │ - 생존 위협 상태       │   뒷받침 못해 실행 실패│
-                 └────────────────────────┴────────────────────────┘
+                 +------------------------+------------------------+
+     높음 (High) | 2. 기술 과잉형 기업    | 4. 혁신 주도형 기업    |
+[ IT             | - IT 부서만 최신 기술  | - IT가 비즈니스 가치로 |
+ 거버넌스        | - 비즈니스 매출엔 둔감 |   직결되는 이상적 상태 |
+ 성숙도]         +------------------------+------------------------+
+                 | 1. 위험 방치형 기업    | 3. 비즈니스 고립형 기업|
+     낮음 (Low)  | - 둘 다 부재           | - 전략은 좋으나 IT가   |
+                 | - 생존 위협 상태       |   뒷받침 못해 실행 실패|
+                 +------------------------+------------------------+
 ```
 
 이 매트릭스는 IT 거버넌스 단독으로는 성공할 수 없음을 명확히 보여준다. IT 거버넌스가 아무리 훌륭해도(2사분면), 기업 거버넌스가 부실하여 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 모호하다면 IT는 '오버엔지니어링'된 비용 낭비에 불과하다. 반대로 기업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 뛰어나도 IT 거버넌스가 없으면(3사분면) 잦은 시스템 장애와 섀도우 IT로 인해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실행 단계에서 무너진다. 실무에서는 우리 조직이 이 4가지 중 어디에 해당하는지 파악하고, 균형 있게 성숙도(4사분면)를 끌어올리는 것이 핵심 과제다.
@@ -150,15 +150,15 @@ tags = ["it_management"]
 이 의사결정 트리는 전사적 중대 재해(예: 랜섬웨어 감염으로 인한 전사 서비스 중단) 발생 시, 거버넌스 체계 내에서 책임과 대응이 어떻게 흐르는지 보여준다.
 
 [랜섬웨어 전사 감염 및 고객 데이터 유출 발생!]
-         │
-         ▼ (즉각 보고 채널 가동)
-[IT 거버넌스 - 위험 관리] ──> 침해 사고 대응팀(CERT) 가동, BCP(업무연속성계획) 발동
-         │
-         ▼ (에스컬레이션)
-[기업 거버넌스 - 이사회/CEO] ──> 규제 당국 자진 신고(컴플라이언스), 주주 및 언론 대응
-         │
-         ▼ (사후 감사 및 개선)
-[원인 분석 파이프라인] ──(IT 일반 통제 우회 확인)──> IT 보안 예산 강제 증액 및 CISO 권한 강화
+         |
+         v (즉각 보고 채널 가동)
+[IT 거버넌스 - 위험 관리] --> 침해 사고 대응팀(CERT) 가동, BCP(업무연속성계획) 발동
+         |
+         v (에스컬레이션)
+[기업 거버넌스 - 이사회/CEO] --> 규제 당국 자진 신고(컴플라이언스), 주주 및 언론 대응
+         |
+         v (사후 감사 및 개선)
+[원인 분석 파이프라인] --(IT 일반 통제 우회 확인)--> IT 보안 예산 강제 증액 및 CISO 권한 강화
 ```
 
 이 플로우는 IT 장애가 IT 부서의 선에서 끝나는 것이 아니라, 즉각적으로 기업 거버넌스의 영역(주주 대응, 법적 책임)으로 에스컬레이션됨을 보여준다. 실무에서는 사고 발생 시 [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)([정보보호최고책임자](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/))가 CEO를 거치지 않고 이사회에 직보할 수 있는 '독립된 보고 라인(Reporting Line)'을 갖추고 있는지가 기업/IT 거버넌스 융합의 핵심 평가 지표로 작용한다.
@@ -196,17 +196,17 @@ tags = ["it_management"]
 
 ```text
 [IT 거버넌스 (IT Governance)]
-    │
-    ▼
+    |
+    v
 [SOX (Sarbanes-Oxley Act)]
-    │
-    ▼
+    |
+    v
 [GRC (Governance, Risk, and Compliance)]
-    │
-    ▼
+    |
+    v
 [IT 전략 위원회 (IT Strategy Committee)]
-    │
-    ▼
+    |
+    v
 [COBIT 2019]
 ```
 
@@ -223,7 +223,7 @@ tags = ["it_management"]
 
 **진행 상황**: 3 / 587
 
-← **이전**: [2. IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험](/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/)
-**다음**: [003. 기업 거버넌스와 IT 거버넌스의 관계](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_relationship/) →
+<- **이전**: [2. IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험](/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/)
+**다음**: [003. 기업 거버넌스와 IT 거버넌스의 관계](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_relationship/) ->
 
 ---

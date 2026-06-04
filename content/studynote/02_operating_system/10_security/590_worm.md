@@ -142,12 +142,12 @@ Robert Morris가사조(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 
 ```text
 [바이러스 (Virus)]
-    │
-    ▼
+    |
+    v
 [웜 (Worm)]
-    │
-    ├──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
-    └──▶ [셸코드 (Shellcode) 인젝션]
+    |
+    +---> [버퍼 오버플로우 (Buffer Overflow) 원리]
+    +---> [셸코드 (Shellcode) 인젝션]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -164,7 +164,7 @@ Robert Morris가사조(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 
 **진행 상황**: 590 / 800
 
-← **이전**: [589. 바이러스 (Virus) - 호스트 프로그램 기생](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)
-**다음**: [591. 버퍼 오버플로우 (Buffer Overflow) 원리 - C언어 취약 함수 악용 리턴 주소 덮어쓰기](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) →
+<- **이전**: [589. 바이러스 (Virus) - 호스트 프로그램 기생](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)
+**다음**: [591. 버퍼 오버플로우 (Buffer Overflow) 원리 - C언어 취약 함수 악용 리턴 주소 덮어쓰기](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ->
 
 ---

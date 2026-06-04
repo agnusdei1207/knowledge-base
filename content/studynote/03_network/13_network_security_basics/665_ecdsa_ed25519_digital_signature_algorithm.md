@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 
 ```text
 [ECC]
-    │
-    ▼
+    |
+    v
 [ECDSA, Ed25519]
-    │
-    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    |
+    +---> [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
 ```
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ ECDSA는 서명을 찍을 때마다 매번 내부적으로 무작위 숫자(난�
 
 ```text
 [ECC]
-    │
-    ▼
+    |
+    v
 [ECDSA, Ed25519]
-    │
-    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    |
+    +---> [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
 ```
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -115,12 +115,12 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 
 ```text
 [선행 개념: ECC]
-    │
-    ▼
+    |
+    v
 [현재 개념: ECDSA, Ed25519]
-    │
-    ├──▶ [확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
+    |
+    +---> [확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 ECC에서 출발해 현재 메커니즘을 정교화하고, 이후 디피-헬만 상호 키 교환 원리 및 스니핑 취…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -137,7 +137,7 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 
 **진행 상황**: 786 / 1120
 
-← **이전**: [664. ECC (Elliptical Curve Cryptography, 타원 곡선 통신망 적용)](/knowledge-base/studynote/03_network/13_network_security_basics/664_ecc_elliptical_curve_cryptography_mobile/)
-**다음**: [666. 디피-헬만 상호 키 교환 (Diffie-Hellman Key Exchange) 원리 및 스니핑 취약점](/knowledge-base/studynote/03_network/13_network_security_basics/666_diffie_hellman_key_exchange_mitm/) →
+<- **이전**: [664. ECC (Elliptical Curve Cryptography, 타원 곡선 통신망 적용)](/knowledge-base/studynote/03_network/13_network_security_basics/664_ecc_elliptical_curve_cryptography_mobile/)
+**다음**: [666. 디피-헬만 상호 키 교환 (Diffie-Hellman Key Exchange) 원리 및 스니핑 취약점](/knowledge-base/studynote/03_network/13_network_security_basics/666_diffie_hellman_key_exchange_mitm/) ->
 
 ---

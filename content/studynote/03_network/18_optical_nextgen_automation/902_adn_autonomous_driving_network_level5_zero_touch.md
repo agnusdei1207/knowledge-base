@@ -23,11 +23,11 @@ tags = ["studynote-network"]
 
 ```text
 [AIOps]
-    │
-    ▼
+    |
+    v
 [자율-구동 네트워크]
-    │
-    └──▶ [디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    |
+    +---> [디지털 트윈 네트워크 실시간 토폴로지 동기…]
 ```
 
 - **📢 섹션 요약 비유**: 자율-구동 네트워크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -47,11 +47,11 @@ tags = ["studynote-network"]
 
 ```text
 [AIOps]
-    │
-    ▼
+    |
+    v
 [자율-구동 네트워크]
-    │
-    └──▶ [디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    |
+    +---> [디지털 트윈 네트워크 실시간 토폴로지 동기…]
 ```
 
 - **📢 섹션 요약 비유**: 자율-구동 네트워크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -116,12 +116,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: AIOps]
-    │
-    ▼
+    |
+    v
 [현재 개념: 자율-구동 네트워크]
-    │
-    ├──▶ [확장 A: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+    |
+    +---> [확장 A: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
 자율-구동 네트워크는 AIOps에서 출발해 현재 메커니즘을 정교화하고, 이후 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -138,7 +138,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1023 / 1120
 
-← **이전**: [901. AIOps (인공지능 IT 운영)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/901_aiops_artificial_intelligence_it_operations_observability/)
-**다음**: [903. 디지털 트윈 병목 검증](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/903_digital_twin_bottleneck_simulation_what_if/) →
+<- **이전**: [901. AIOps (인공지능 IT 운영)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/901_aiops_artificial_intelligence_it_operations_observability/)
+**다음**: [903. 디지털 트윈 병목 검증](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/903_digital_twin_bottleneck_simulation_what_if/) ->
 
 ---

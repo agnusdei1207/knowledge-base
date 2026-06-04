@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 > **핵심 인사이트**
 > 1. 셸(Shell)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 사용자 사이의 인터페이스로 — 사용자의 명령을 해석·실행하는 명령 해석기([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))이며, 이름처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 감싸는 "껍데기" 역할을 한다.
 > 2. 셸 스크립트는 변수·조건·반복·함수·파이프를 지원하는 완전한 프로그래밍 언어이며 — 프로세스 포크(fork)/익스큐트(exec) 시스템 콜의 흐름을 직접 제어하므로, OS 자동화·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 핵심 도구이다.
-> 3. Bash(Bourne Again SHell)는 POSIX 표준 셸의 사실상 표준이지만 — Zsh(개선된 자동완성), Fish(사용자 친화), sh(POSIX 순수 호환) 등 다양한 셸이 용도에 따라 선택되며, macOS는 Catalina 이후 기본 셸을 Bash → Zsh로 전환했다.
+> 3. Bash(Bourne Again SHell)는 POSIX 표준 셸의 사실상 표준이지만 — Zsh(개선된 자동완성), Fish(사용자 친화), sh(POSIX 순수 호환) 등 다양한 셸이 용도에 따라 선택되며, macOS는 Catalina 이후 기본 셸을 Bash -> Zsh로 전환했다.
 
 ---
 
@@ -23,14 +23,14 @@ tags = ["studynote-operating-system"]
 
 운영체제 구조:
   사용자
-    │
-    ↓ (명령 입력)
-  [셸 (Shell)]  ← 인터프리터, 스크립트 실행
-    │
-    ↓ (시스템 콜)
+    |
+    v (명령 입력)
+  [셸 (Shell)]  <- 인터프리터, 스크립트 실행
+    |
+    v (시스템 콜)
   [커널 (Kernel)]
-    │
-    ↓ (하드웨어 제어)
+    |
+    v (하드웨어 제어)
   [하드웨어]
 
 셸의 역할:
@@ -117,7 +117,7 @@ Bash 셸 스크립팅:
   greet "Alice"
 
 파이프 & 리다이렉션:
-  # 파이프: 출력 → 다음 명령 입력
+  # 파이프: 출력 -> 다음 명령 입력
   ls -la | grep ".log" | wc -l
 
   # 리다이렉션
@@ -150,11 +150,11 @@ PATH 동작:
   ls 명령 실행:
   1. /usr/local/bin/ls 있나? 없음
   2. /usr/bin/ls 있나? 없음
-  3. /bin/ls 있나? 있음 → 실행
+  3. /bin/ls 있나? 있음 -> 실행
 
 셸 변수 vs 환경 변수:
-  MY_VAR="local"   → 현재 셸만 (export 없음)
-  export MY_VAR    → 자식 프로세스에게 상속
+  MY_VAR="local"   -> 현재 셸만 (export 없음)
+  export MY_VAR    -> 자식 프로세스에게 상속
 
   확인: env | grep MY_VAR
   삭제: unset MY_VAR
@@ -190,7 +190,7 @@ PATH 동작:
 
 프로세스 치환 (Process Substitution):
   diff <(ls dir1) <(ls dir2)
-  → 명령 출력을 파일처럼 사용
+  -> 명령 출력을 파일처럼 사용
 
 Here Document:
   cat <<EOF
@@ -298,7 +298,7 @@ deploy.sh:
   ./deploy.sh 2>&1 | tee -a /var/log/deploy.log
 ```
 
-> 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 셸 스크립트는 자동 이사 — 기존 짐 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) → 새 짐 배치 → 입주 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(헬스체크) → 문제면 자동 되돌리기. 사람 손 없이 자동으로 안전하게 배포.
+> 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 셸 스크립트는 자동 이사 — 기존 짐 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) -> 새 짐 배치 -> 입주 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(헬스체크) -> 문제면 자동 되돌리기. 사람 손 없이 자동으로 안전하게 배포.
 
 ---
 
@@ -357,7 +357,7 @@ Container 셸 (Alpine sh)
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 셸은 번역관 — 사람의 말(ls -la)을 컴퓨터 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 언어(시스템 콜)로 번역해주는 통역사예요!
-2. 셸 스크립트는 자동 요리 레시피 — 재료 준비→가열→담기 순서를 스크립트로 써두면 버튼 하나로 자동으로 실행!
+2. 셸 스크립트는 자동 요리 레시피 — 재료 준비->가열->담기 순서를 스크립트로 써두면 버튼 하나로 자동으로 실행!
 3. bash vs zsh — bash는 기본 잘 되는 도구, zsh는 자동완성이 뛰어난 스마트 도구. macOS는 zsh로 업그레이드했어요!
 
 ---
@@ -366,7 +366,7 @@ Container 셸 (Alpine sh)
 
 **진행 상황**: 44 / 800
 
-← **이전**: [043. 보호와 보안 (Protection & Security)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/)
-**다음**: [045. 클러스터 시스템 — Cluster System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/045_cluster_system/) →
+<- **이전**: [043. 보호와 보안 (Protection & Security)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/)
+**다음**: [045. 클러스터 시스템 — Cluster System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/045_cluster_system/) ->
 
 ---

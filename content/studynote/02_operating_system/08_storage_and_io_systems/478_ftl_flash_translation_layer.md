@@ -28,27 +28,27 @@ tags = ["studynote-operating-system"]
   3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a> Table의 거대화</strong>: 도망간 주소를 기억하려면 램([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))에 거대한 딕셔너리 장부가 필요해짐 -> [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기판에 DRAM이 꽂히게 된 근본 원인.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        FTL (Flash Translation Layer)의 사기적인 주소 맵핑 시각화      │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 1. 최초 저장 (Write) ]                                              │
-│  OS: "하드야, LBA 10번지에 '사과'라고 저장해!"                        │
-│  FTL: (빈 물리방 500번지를 찾아 '사과' 씀)                            │
-│  FTL 장부 📝: [ LBA 10 ──▶ PBA 500 ] 기록 완료.                       │
-│                                                                       │
-│ [ 2. 덮어쓰기 발생 (Overwrite / Update) ]                             │
-│  OS: "하드야, LBA 10번지 내용 '바나나'로 덮어써!!"                    │
-│                                                                       │
-│  ❌ 만약 HDD였다면? 500번지 찾아가서 '사과' 지우고 '바나나' 썼음.     │
-│  🚀 FTL의 흑마술 (Out-of-place Update):                               │
-│   1) 500번지에 덮어쓰는 미친 짓(Erase 렉 터짐) 절대 안 함!            │
-│   2) 저 멀리 깨끗하게 비어있는 PBA 999번지 방을 찾아 '바나나' 씀.     │
-│   3) FTL 장부 📝: [ LBA 10 ──▶ PBA 999 ] 로 화살표 쓱 바꿈!           │
-│   4) 옛날 500번지 방은 [💀 Invalid 쓰레기]로 딱지 붙이고 버려둠.      │
-│                                                                       │
-│  ✅ 결과: OS는 10번지에 덮어쓴 줄 알고 쾌재를 부르며 1초 만에 일 끝냄!│
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        FTL (Flash Translation Layer)의 사기적인 주소 맵핑 시각화      |
++-----------------------------------------------------------------------+
+|                                                                       |
+| [ 1. 최초 저장 (Write) ]                                              |
+|  OS: "하드야, LBA 10번지에 '사과'라고 저장해!"                        |
+|  FTL: (빈 물리방 500번지를 찾아 '사과' 씀)                            |
+|  FTL 장부 📝: [ LBA 10 ---> PBA 500 ] 기록 완료.                       |
+|                                                                       |
+| [ 2. 덮어쓰기 발생 (Overwrite / Update) ]                             |
+|  OS: "하드야, LBA 10번지 내용 '바나나'로 덮어써!!"                    |
+|                                                                       |
+|  ❌ 만약 HDD였다면? 500번지 찾아가서 '사과' 지우고 '바나나' 썼음.     |
+|  🚀 FTL의 흑마술 (Out-of-place Update):                               |
+|   1) 500번지에 덮어쓰는 미친 짓(Erase 렉 터짐) 절대 안 함!            |
+|   2) 저 멀리 깨끗하게 비어있는 PBA 999번지 방을 찾아 '바나나' 씀.     |
+|   3) FTL 장부 📝: [ LBA 10 ---> PBA 999 ] 로 화살표 쓱 바꿈!           |
+|   4) 옛날 500번지 방은 [💀 Invalid 쓰레기]로 딱지 붙이고 버려둠.      |
+|                                                                       |
+|  ✅ 결과: OS는 10번지에 덮어쓴 줄 알고 쾌재를 부르며 1초 만에 일 끝냄!|
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** FTL은 가상 메모리의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))가 램을 속이는 짓과 소름 돋게 똑같은 짓을 디스크에서 하고 있다. "[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) -> [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)"라는 중간 다리(Indirection)를 하나 놔줌으로써, 하드웨어가 가진 가장 치명적인 약점(덮어쓰기 불가, 마모)을 모두 우회해 버린다. 이 맵핑 장부 갱신 속도가 곧 SSD의 체감 스피드(IOPS)다.
 
@@ -107,12 +107,12 @@ FTL이 저 3가지 엔진을 돌리면 끔찍한 부작용이 터진다.
 - 이 미친 증폭 때문에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명(TBW)이 빛의 속도로 깎여나가고, 백그라운드 복사 렉 때문에 내 게임이 멈추는 것이다. 최고급 FTL의 가치는 이 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 계수([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))를 1.1 수준으로 얼마나 예술적으로 틀어막느냐에 달려있다.
 
 ```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────────────────┐
-│ FTL 지능   │ GC 빈도      │ Wear Leveling│ 쓰기 증폭(WAF) 수치                        │
-├──────────┼────────────┼────────────┼──────────────────────────────────────────────────┤
-│ 멍청함 (싸구려)│ 파일 지울 때마다 튐│ 한 곳만 파서 타버림│ ☠️ 10배~100배 (금방 고장)  │
-│ 천재 (엔터용) │ 백그라운드 몰래 함 │ 10만 개 방 고르게 분배│ 🚀 1.1배~2배 (수년 거뜬) │
-└──────────┴────────────┴────────────┴──────────────────────────────────────────────────┘
++----------+------------+------------+--------------------------------------------------+
+| FTL 지능   | GC 빈도      | Wear Leveling| 쓰기 증폭(WAF) 수치                        |
++----------+------------+------------+--------------------------------------------------+
+| 멍청함 (싸구려)| 파일 지울 때마다 튐| 한 곳만 파서 타버림| ☠️ 10배~100배 (금방 고장)  |
+| 천재 (엔터용) | 백그라운드 몰래 함 | 10만 개 방 고르게 분배| 🚀 1.1배~2배 (수년 거뜬) |
++----------+------------+------------+--------------------------------------------------+
 ```
 **[매트릭스 해설]** "SSD는 삼성이나 인텔 사세요"라는 맹신은 바로 이 컨트롤러(FTL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 기술력 차이에서 온다. 똑같은 하이닉스 낸드 칩을 사다 박아도, 멍청한 중국산 FTL을 끼우면 6개월 만에 셀이 타서 읽기 전용 벽돌이 되고 툭하면 프리징이 걸리지만, 천재적인 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 최적화를 얹으면 10년을 혹사해도 끄떡없이 100만 IOPS를 방어해 낸다.
 
@@ -175,12 +175,12 @@ FTL (Flash Translation Layer)은 "하드웨어의 치명적 결함을 어떻게�
 
 ```text
 [가비지 컬렉션 (Garbage Collection in SSD)]
-    │
-    ▼
+    |
+    v
 [FTL (Flash Translation Layer)]
-    │
-    ├──▶ [마모 평준화 (Wear Leveling)]
-    └──▶ [쓰기 증폭 (Write Amplification) 현상]
+    |
+    +---> [마모 평준화 (Wear Leveling)]
+    +---> [쓰기 증폭 (Write Amplification) 현상]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -197,7 +197,7 @@ FTL (Flash Translation Layer)은 "하드웨어의 치명적 결함을 어떻게�
 
 **진행 상황**: 478 / 800
 
-← **이전**: [477. 가비지 컬렉션 (Garbage Collection in SSD) - 유효 페이지 복사 후 블록 전체 지우기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/477_ssd_garbage_collection/)
-**다음**: [479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) →
+<- **이전**: [477. 가비지 컬렉션 (Garbage Collection in SSD) - 유효 페이지 복사 후 블록 전체 지우기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/477_ssd_garbage_collection/)
+**다음**: [479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) ->
 
 ---

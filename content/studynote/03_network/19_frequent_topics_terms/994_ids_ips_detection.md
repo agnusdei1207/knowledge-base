@@ -31,24 +31,24 @@ tags = ["studynote-network"]
 이러한 역사적 배경을 이해하기 위해서는 IDS와 IPS의 근본적인 네트워크 위치와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 차이를 파악해야 한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │              IDS vs IPS 네트워크 위치 및 데이터 흐름            │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [미러링 기반 IDS (Intrusion Detection System)]           │
-  │                                                         │
-  │  Internet ─── [Router] ──┬── [Switch] ─── 내부 서버        │
-  │                          │    (SPAN/Mirror)             │
-  │                          └──▶ [IDS] (경고만 발생, 차단 불가) │
-  │                                                         │
-  │  [인라인 기반 IPS (Intrusion Prevention System)]          │
-  │                                                         │
-  │  Internet ─── [Router] ──▶ [IPS] ──▶ [Switch] ─── 내부 서버│
-  │                          (패킷 심사 및 차단)               │
-  │                                                         │
-  │  * IDS는 트래픽의 복사본을 분석하므로 네트워크 지연이 없음         │
-  │  * IPS는 실제 경로에 위치하므로 고성능 처리 병목 관리 필수          │
-  └─────────────────────────────────────────────────────────┘
+  +---------------------------------------------------------+
+  |              IDS vs IPS 네트워크 위치 및 데이터 흐름            |
+  +---------------------------------------------------------+
+  |                                                         |
+  |  [미러링 기반 IDS (Intrusion Detection System)]           |
+  |                                                         |
+  |  Internet --- [Router] --+-- [Switch] --- 내부 서버        |
+  |                          |    (SPAN/Mirror)             |
+  |                          +---> [IDS] (경고만 발생, 차단 불가) |
+  |                                                         |
+  |  [인라인 기반 IPS (Intrusion Prevention System)]          |
+  |                                                         |
+  |  Internet --- [Router] ---> [IPS] ---> [Switch] --- 내부 서버|
+  |                          (패킷 심사 및 차단)               |
+  |                                                         |
+  |  * IDS는 트래픽의 복사본을 분석하므로 네트워크 지연이 없음         |
+  |  * IPS는 실제 경로에 위치하므로 고성능 처리 병목 관리 필수          |
+  +---------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 도식은 IDS와 IPS의 아키텍처적 근본 차이를 보여준다. IDS는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 SPAN (Switched [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Analyzer) 기능이나 광 탭(Tap)을 통해 패킷의 '복사본'을 받아 분석한다. 따라서 장애가 나도 전체 네트워크 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)에는 영향을 주지 않지만, 이미 서버로 향하는 원본 패킷을 물리적으로 막을 수 없다. 반면 IPS는 라우터와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이의 주 경로(Inline)에 위치한다. IPS가 패킷을 허용해야만 내부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 전달되므로 공격을 완벽히 차단할 수 있지만, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 자체가 병목 지점(Choke Point)이 되거나 장애 발생 시 전체 네트워크가 단절되는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이 될 수 있다. 따라서 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 도입 시에는 Fail-Open(장애 시 트래픽 무조건 통과) 설계와 하드웨어 바이패스(Bypass) 기능이 필수적으로 요구된다.
@@ -74,25 +74,25 @@ tags = ["studynote-network"]
 보안 시스템의 탐지 정확성을 평가할 때는 단순히 "몇 개를 잡았는가"가 아니라, 실제 상태와 시스템의 판단이 엇갈리는 4가지 교차 영역을 엄밀히 측정해야 한다. 이를 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))이라고 한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────┐
-  │             혼동 행렬 (Confusion Matrix) 및 성능 지표         │
-  ├──────────────────────────────────────────────────────────┤
-  │                                                          │
-  │                      [시스템의 예측/판단]                    │
-  │                  탐지함 (Positive)    통과시킴 (Negative)     │
-  │                ┌──────────────────┬──────────────────┐   │
-  │      실제 공격   │ True Positive(TP)│ False Negative(FN) │   │
-  │  [실제  (True)   │ (정상 탐지/차단)   │ (미탐 - 보안 사고)   │   │
-  │   상태]         ├──────────────────┼──────────────────┤   │
-  │      정상 트래픽 │ False Positive(FP)│ True Negative(TN)  │   │
-  │       (False)  │ (오탐 - 가용성 저하)│ (정상 통과)         │   │
-  │                └──────────────────┴──────────────────┘   │
-  │                                                          │
-  │  [핵심 수식]                                               │
-  │  * 재현율(Recall) = TP / (TP + FN) : 실제 공격 중 탐지 비율  │
-  │  * 정밀도(Precision) = TP / (TP + FP) : 탐지된 것 중 실제 공격│
-  │  * FPR (오탐률) = FP / (FP + TN) : 정상 중 잘못 차단된 비율  │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |             혼동 행렬 (Confusion Matrix) 및 성능 지표         |
+  +----------------------------------------------------------+
+  |                                                          |
+  |                      [시스템의 예측/판단]                    |
+  |                  탐지함 (Positive)    통과시킴 (Negative)     |
+  |                +------------------+------------------+   |
+  |      실제 공격   | True Positive(TP)| False Negative(FN) |   |
+  |  [실제  (True)   | (정상 탐지/차단)   | (미탐 - 보안 사고)   |   |
+  |   상태]         +------------------+------------------+   |
+  |      정상 트래픽 | False Positive(FP)| True Negative(TN)  |   |
+  |       (False)  | (오탐 - 가용성 저하)| (정상 통과)         |   |
+  |                +------------------+------------------+   |
+  |                                                          |
+  |  [핵심 수식]                                               |
+  |  * 재현율(Recall) = TP / (TP + FN) : 실제 공격 중 탐지 비율  |
+  |  * 정밀도(Precision) = TP / (TP + FP) : 탐지된 것 중 실제 공격|
+  |  * FPR (오탐률) = FP / (FP + TN) : 정상 중 잘못 차단된 비율  |
+  +----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 표는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)과 보안 분석에서 가장 핵심이 되는 평가 모델이다. 'True/False'는 시스템의 판단이 맞았는지 틀렸는지를 의미하고, 'Positive/Negative'는 시스템이 공격이라고 판단하여 경고를 띄웠는지(Positive), 아니면 정상으로 보고 무시했는지(Negative)를 의미한다. 실무에서 가장 치명적인 것은 False Negative (미탐)와 False Positive (오탐)이다. FN은 실제 공격(True)을 시스템이 정상(Negative)으로 착각해 통과시킨 것이므로 시스템 침해 사고로 직결된다. FP는 정상 트래픽(False)을 시스템이 공격(Positive)으로 오해해 차단한 것으로, 합법적인 고객의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용을 막아버리는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 장애를 유발한다. 따라서 보안 관리자는 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))과 [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))을 동시에 모니터링하여 탐지 룰을 지속적으로 튜닝해야 한다.
@@ -102,25 +102,25 @@ tags = ["studynote-network"]
 침입 탐지는 본질적으로 확률적 판단의 연속이다. 시스템 내부적으로 특정 트래픽의 '위협 점수(Threat Score)'를 계산하고, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 넘으면 공격으로 판단한다. 이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 어떻게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하느냐에 따라 탐지율과 오탐률이 극적으로 변한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────┐
-  │            탐지 임계치(Threshold)에 따른 FP와 FN의 트레이드오프  │
-  ├──────────────────────────────────────────────────────────┤
-  │                                                          │
-  │  정상 트래픽 분포                 공격 트래픽 분포             │
-  │        \                         /                       │
-  │         \        [임계치 A]     /                        │
-  │   #######\           │         /@@@@@@@                  │
-  │  #########\          │        /@@@@@@@@@                 │
-  │ ###########\   [FN]  │  [FP] /@@@@@@@@@@@                │
-  │ ────────────\────────┼──────/───────────── 위협 점수      │
-  │               \      │     /                             │
-  │                \     │    /                              │
-  │                  겹치는 구간 (판단 모호)                     │
-  │                                                          │
-  │  * 임계치 A 이동:                                          │
-  │    - 왼쪽으로 이동(민감도 증가): FN(미탐) 감소, FP(오탐) 급증  │
-  │    - 오른쪽으로 이동(보수적):   FP(오탐) 감소, FN(미탐) 급증  │
-  └──────────────────────────────────────────────────────────┘
+  +----------------------------------------------------------+
+  |            탐지 임계치(Threshold)에 따른 FP와 FN의 트레이드오프  |
+  +----------------------------------------------------------+
+  |                                                          |
+  |  정상 트래픽 분포                 공격 트래픽 분포             |
+  |        \                         /                       |
+  |         \        [임계치 A]     /                        |
+  |   #######\           |         /@@@@@@@                  |
+  |  #########\          |        /@@@@@@@@@                 |
+  | ###########\   [FN]  |  [FP] /@@@@@@@@@@@                |
+  | ------------\--------+------/------------- 위협 점수      |
+  |               \      |     /                             |
+  |                \     |    /                              |
+  |                  겹치는 구간 (판단 모호)                     |
+  |                                                          |
+  |  * 임계치 A 이동:                                          |
+  |    - 왼쪽으로 이동(민감도 증가): FN(미탐) 감소, FP(오탐) 급증  |
+  |    - 오른쪽으로 이동(보수적):   FP(오탐) 감소, FN(미탐) 급증  |
+  +----------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그래프는 정상 트래픽과 공격 트래픽의 특징(위협 점수)이 완벽히 분리되지 않고 일부분 겹쳐 있음(Overlapping)을 시각적으로 보여준다. 공격자들은 의도적으로 정상 트래픽과 유사하게 패킷을 위장(Evasion)하므로 이 겹치는 구간은 필연적으로 발생한다. 보안 관리자가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 '[임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)'는 이 x축 위의 수직선이다. [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 왼쪽으로 당기면 아주 작은 의심만 있어도 족족 잡아내므로 실제 공격을 놓치는 FN(미탐)은 줄어들지만, 선 오른쪽에 속하게 되는 억울한 정상 트래픽 즉 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(오탐)가 폭발적으로 증가한다. 반대로 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 오른쪽으로 밀면 오탐은 줄지만 정교한 공격이 그대로 통과하게 된다. 실무에서는 이 트레이드오프를 수치화한 ROC (Receiver Operating Characteristic) 곡선의 밑면적(AUC, Area Under Curve)을 넓히기 위해 탐지 모델 자체의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)력을 고도화해야 한다.
@@ -162,25 +162,25 @@ tags = ["studynote-network"]
 IPS와 IDS를 어디에, 어떻게 배치할지 결정하는 것은 비즈니스의 성격에 따라 극명하게 갈린다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │             IDS/IPS 배치 및 임계치 설정 실무 의사결정 트리            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │      [비즈니스의 최우선 가치는 무엇인가?]                             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      가용성과 서비스 연속성 (예: 포털, 이커머스)                      │
-  │          ├─ [배치] 미러링 기반 IDS 운영 또는 보수적 차단 IPS 구성       │
-  │          └─ [정책] FP(오탐) 최소화 위주 튜닝, 경고 위주 모니터링        │
-  │                                                                   │
-  │                ▼                                                  │
-  │      기밀성과 무결성 (예: 금융 망, 국방 인프라, 망분리 내부망)           │
-  │          ├─ [배치] 인라인 기반 IPS 및 망 연계 구간 필수 검사 적용       │
-  │          └─ [정책] FN(미탐) 최소화, 의심스러우면 차단(Zero Trust)     │
-  │                                                                   │
-  │   * 기술사적 핵심 판단: 방어 장비의 도입보다 '지속적인 룰 튜닝과        │
-  │     예외 처리 프로세스(Exception Handling)' 확립이 더 중요하다.        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |             IDS/IPS 배치 및 임계치 설정 실무 의사결정 트리            |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |      [비즈니스의 최우선 가치는 무엇인가?]                             |
+  |                |                                                  |
+  |                v                                                  |
+  |      가용성과 서비스 연속성 (예: 포털, 이커머스)                      |
+  |          +- [배치] 미러링 기반 IDS 운영 또는 보수적 차단 IPS 구성       |
+  |          +- [정책] FP(오탐) 최소화 위주 튜닝, 경고 위주 모니터링        |
+  |                                                                   |
+  |                v                                                  |
+  |      기밀성과 무결성 (예: 금융 망, 국방 인프라, 망분리 내부망)           |
+  |          +- [배치] 인라인 기반 IPS 및 망 연계 구간 필수 검사 적용       |
+  |          +- [정책] FN(미탐) 최소화, 의심스러우면 차단(Zero Trust)     |
+  |                                                                   |
+  |   * 기술사적 핵심 판단: 방어 장비의 도입보다 '지속적인 룰 튜닝과        |
+  |     예외 처리 프로세스(Exception Handling)' 확립이 더 중요하다.        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 의사결정 트리는 보안 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 단순히 기술적인 문제가 아니라 비즈니스 [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) 모델([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite)과 직결됨을 보여준다. 이커머스 쇼핑몰에서 1명의 정상 고객 결제를 오탐으로 막아버리면 즉각적인 매출 손실과 브랜드 이미지 하락으로 이어진다. 따라서 차단(Prevention)에는 매우 보수적으로 접근해야 한다. 반면, 폐쇄망이나 방산 업체 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 앞단에서는 단 1개의 공격 패킷(미탐)이라도 유입되면 국가적 재난이나 치명적 기밀 유출이 발생하므로 다소간의 업무 불편(오탐)을 감수하더라도 공격적으로 차단 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. 실무에서는 이 양극단 사이에서 '모니터링 모드'로 한 달 이상 운영하며 오탐을 솎아내는 과정이 필수적이다.
@@ -233,12 +233,12 @@ IPS와 IDS를 어디에, 어떻게 배치할지 결정하는 것은 비즈니스
 
 ```text
 [선행 개념: WAF]
-    │
-    ▼
+    |
+    v
 [현재 개념: IDS / IPS 탐지 차단율]
-    │
-    ├──▶ [확장 A: 네트워크 슬라이싱]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 네트워크 슬라이싱]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) / [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 탐지 차단율는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -255,7 +255,7 @@ IPS와 IDS를 어디에, 어떻게 배치할지 결정하는 것은 비즈니스
 
 **진행 상황**: 1115 / 1120
 
-← **이전**: [993. WAF (웹 방화벽)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)
-**다음**: [995. 네트워크 슬라이싱](/knowledge-base/studynote/03_network/19_frequent_topics_terms/995_network_slicing/) →
+<- **이전**: [993. WAF (웹 방화벽)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)
+**다음**: [995. 네트워크 슬라이싱](/knowledge-base/studynote/03_network/19_frequent_topics_terms/995_network_slicing/) ->
 
 ---

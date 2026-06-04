@@ -39,16 +39,16 @@ DBSCAN 핵심 아이디어:
 
 핵심 점 (Core Point):
   ε 반경 내 minPts개 이상 이웃
-  → 밀도 충족 = 군집의 중심
+  -> 밀도 충족 = 군집의 중심
 
 경계 점 (Border Point):
   ε 반경 내 minPts 미만 이웃
   BUT 핵심 점의 ε 반경 내에 있음
-  → 군집에 속하지만 중심 아님
+  -> 군집에 속하지만 중심 아님
 
 잡음 점 (Noise Point):
   핵심 점도 아니고 경계 점도 아님
-  → 이상치 (Outlier)
+  -> 이상치 (Outlier)
 
 예: ε=1, minPts=3
 
@@ -56,7 +56,7 @@ DBSCAN 핵심 아이디어:
   •C      •E        •F (F = Noise)
 
   A,B,C가 서로 ε 내에 있고 각각 3개 이웃
-  → A,B,C = Core Points → 같은 군집
+  -> A,B,C = Core Points -> 같은 군집
   D,E = Border Points (핵심 점의 ε 내, 하지만 minPts 미달)
   F = Noise
 ```
@@ -77,7 +77,7 @@ DBSCAN 알고리즘:
   1. 모든 점 미방문(unvisited)으로 초기화
 
   2. 각 점 P에 대해:
-     이미 방문 → 건너뜀
+     이미 방문 -> 건너뜀
      P를 방문 표시
 
      N = ε-이웃(P)   (P에서 ε 내 모든 점)
@@ -101,8 +101,8 @@ DBSCAN 알고리즘:
   이웃 탐색 O(n log n) (공간 인덱스)
   전체: O(n log n)
 
-  최악 (인덱스 없음): O(n²)
-  → 큰 데이터셋: KD-Tree, Ball Tree 사용
+  최악 (인덱스 없음): O(n^)
+  -> 큰 데이터셋: KD-Tree, Ball Tree 사용
 
 결과:
   군집 (정수 라벨): 0, 1, 2, ...
@@ -120,7 +120,7 @@ DBSCAN 알고리즘:
 
 ε 결정법 (k-거리 그래프):
   1. 각 점의 k번째 (= minPts-1번째) 이웃 거리 계산
-  2. 오름차순 정렬 → 그래프 시각화
+  2. 오름차순 정렬 -> 그래프 시각화
   3. 팔꿈치(Elbow) 지점 = 적절한 ε
 
   팔꿈치 전: 밀도 높은 지역 (군집 내부)
@@ -137,16 +137,16 @@ minPts 선택:
 
 ε 영향:
   ε 너무 작음:
-  → 거의 모든 점 = Noise
+  -> 거의 모든 점 = Noise
 
   ε 너무 큼:
-  → 모든 점 = 하나의 군집
+  -> 모든 점 = 하나의 군집
 
 예: 지리 데이터
   위도/경도 포인트
   ε = 0.5km, minPts = 5
 
-  상업 지역: 점 밀집 → 군집
+  상업 지역: 점 밀집 -> 군집
   외딴 집: Noise
 
   k-거리 그래프로 ε = 0.5km 확인
@@ -165,13 +165,13 @@ DBSCAN 한계:
   예:
   군집 A: 매우 촘촘 (밀도 높음)
   군집 B: 느슨함 (밀도 낮음)
-  → A에 맞는 ε: B를 군집으로 못 잡음
-  → B에 맞는 ε: A와 B가 하나의 군집으로 합쳐짐
+  -> A에 맞는 ε: B를 군집으로 못 잡음
+  -> B에 맞는 ε: A와 B가 하나의 군집으로 합쳐짐
 
 HDBSCAN (Hierarchical DBSCAN):
   ε을 여러 값으로 시도
-  → 계층적 군집 트리 생성
-  → 안정적인 군집 자동 선택
+  -> 계층적 군집 트리 생성
+  -> 안정적인 군집 자동 선택
 
   장점:
   가변 밀도 처리
@@ -216,8 +216,8 @@ OPTICS (Ordering Points To Identify Clustering Structure):
 
 데이터 특징:
   features: [금액, 시간대, 상점카테고리, 위치, 빈도]
-  정상 거래: 일상적 패턴 → 밀집 군집
-  이상 거래: 패턴 이탈 → Noise
+  정상 거래: 일상적 패턴 -> 밀집 군집
+  이상 거래: 패턴 이탈 -> Noise
 
 구현:
   import sklearn
@@ -317,7 +317,7 @@ Ester et al., KDD 1996
 
 **진행 상황**: 46 / 420
 
-← **이전**: [045. K-평균 군집화 — K-Means Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/045_kmeans/)
-**다음**: [047. 계층적 군집화 — Hierarchical Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/047_hierarchical_clustering/) →
+<- **이전**: [045. K-평균 군집화 — K-Means Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/045_kmeans/)
+**다음**: [047. 계층적 군집화 — Hierarchical Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/047_hierarchical_clustering/) ->
 
 ---

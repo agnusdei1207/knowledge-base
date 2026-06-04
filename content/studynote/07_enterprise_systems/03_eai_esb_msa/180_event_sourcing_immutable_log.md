@@ -26,21 +26,21 @@ tags = ["studynote-enterprise"]
 이 방식이 필요한 이유는 상태 그 자체보다 "변화의 과정"이 중요한 업무가 분명히 존재하기 때문이다. 금융 원장, 주문 수명주기, 포인트 적립·차감, 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 장기 보상 처리처럼 과거 사건의 맥락이 비즈니스 의미를 가지는 영역에서는 단순 덮어쓰기만으로는 설명력이 부족하다. 장애 분석이나 재현 테스트 관점에서도 "결과"만 있는 시스템보다 "발생 순서"가 남는 시스템이 훨씬 강하다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ State overwrite vs event history                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ State-based storage                                                │
-│   balance = 70000                                                  │
-│   └─ current value is visible, path to it is mostly lost           │
-│                                                                    │
-│ Event-sourced storage                                              │
-│   +100000  DepositMade                                             │
-│   -20000   PurchaseApproved                                        │
-│   -10000   FeeCharged                                              │
-│   = 70000   current balance by replay                              │
-│                                                                    │
-│ same current state, much richer history                            │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| State overwrite vs event history                                   |
++--------------------------------------------------------------------+
+| State-based storage                                                |
+|   balance = 70000                                                  |
+|   +- current value is visible, path to it is mostly lost           |
+|                                                                    |
+| Event-sourced storage                                              |
+|   +100000  DepositMade                                             |
+|   -20000   PurchaseApproved                                        |
+|   -10000   FeeCharged                                              |
+|   = 70000   current balance by replay                              |
+|                                                                    |
+| same current state, much richer history                            |
++--------------------------------------------------------------------+
 ```
 
 중요한 포인트는 이벤트가 단순한 행 변경 이력이 아니라는 점이다. 좋은 이벤트는 `status_changed_to_3`보다 `OrderShipped`처럼 <strong>비즈니스에서 이해 가능한 사실</strong>이어야 한다. 그래야 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 단순 기술 기록이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어가 된다.
@@ -56,25 +56,25 @@ tags = ["studynote-enterprise"]
 여기서 중요한 기술 요소는 순서와 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이다. 같은 주문이나 같은 계좌에 대해 두 명령이 동시에 들어오면, 어떤 이벤트가 먼저 기록되는지가 결과를 바꿀 수 있다. 그래서 이벤트 저장소는 보통 스트림 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이나 예상 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 검사를 사용해 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) ([Optimistic Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)) 를 수행한다. 즉 "내가 본 마지막 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 다음에 이어 붙인다"는 조건이 깨지면 다시 읽고 재판단하게 만든다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Event sourcing write and rebuild flow                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Command                                                            │
-│   │                                                                │
-│   ▼                                                                │
-│ load snapshot + past events                                        │
-│   │                                                                │
-│   ▼                                                                │
-│ Aggregate validates business rules                                 │
-│   │                                                                │
-│   ├─ invalid -> reject command                                     │
-│   ▼                                                                │
-│ append new event(s) with expected stream version                   │
-│   │                                                                │
-│   ├──────────────► projector updates read model                    │
-│   │                                                                │
-│   └──────────────► replay later to rebuild current state           │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Event sourcing write and rebuild flow                              |
++--------------------------------------------------------------------+
+| Command                                                            |
+|   |                                                                |
+|   v                                                                |
+| load snapshot + past events                                        |
+|   |                                                                |
+|   v                                                                |
+| Aggregate validates business rules                                 |
+|   |                                                                |
+|   +- invalid -> reject command                                     |
+|   v                                                                |
+| append new event(s) with expected stream version                   |
+|   |                                                                |
+|   +--------------► projector updates read model                    |
+|   |                                                                |
+|   +--------------► replay later to rebuild current state           |
++--------------------------------------------------------------------+
 ```
 
 구성 요소를 요약하면 다음과 같다.
@@ -122,21 +122,21 @@ tags = ["studynote-enterprise"]
 기술사 관점에서는 특히 이벤트 설계 품질이 중요하다. 이벤트는 `row_updated`처럼 기술적인 차분보다 `PaymentAuthorized`, `InventoryReserved`처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어로 표현되어야 한다. 그래야 시간이 지나도 이벤트 의미를 이해할 수 있고, 다른 읽기 모델이나 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 재사용하기 쉽다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When event sourcing is worth the cost                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Need full audit / replay / temporal reconstruction?                │
-│   ├─ Yes -> event sourcing candidate                               │
-│   └─ No  -> current-state model may be enough                      │
-│                                                                    │
-│ Need separate read models and eventual consistency is acceptable?  │
-│   ├─ Yes -> pair with CQRS                                         │
-│   └─ No  -> keep simpler projection strategy                       │
-│                                                                    │
-│ Can the team operate versioning, snapshot, reprocessing?           │
-│   ├─ Yes -> adopt selectively                                      │
-│   └─ No  -> complexity may outweigh benefit                        │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When event sourcing is worth the cost                              |
++--------------------------------------------------------------------+
+| Need full audit / replay / temporal reconstruction?                |
+|   +- Yes -> event sourcing candidate                               |
+|   +- No  -> current-state model may be enough                      |
+|                                                                    |
+| Need separate read models and eventual consistency is acceptable?  |
+|   +- Yes -> pair with CQRS                                         |
+|   +- No  -> keep simpler projection strategy                       |
+|                                                                    |
+| Can the team operate versioning, snapshot, reprocessing?           |
+|   +- Yes -> adopt selectively                                      |
+|   +- No  -> complexity may outweigh benefit                        |
++--------------------------------------------------------------------+
 ```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -190,21 +190,21 @@ tags = ["studynote-enterprise"]
 
 ```text
 비즈니스 명령
-        │
-        ▼
+        |
+        v
 과거 이벤트 재생 + 규칙 검증
-        │
-        ▼
+        |
+        v
 새 이벤트 append
-        │
-        ├──────────────► 스냅샷 생성으로 재생 비용 절감
-        │
-        ├──────────────► 프로젝션으로 읽기 모델 생성
-        │
-        └──────────────► 감사 추적 · 시점 복원 · 외부 연계
+        |
+        +--------------► 스냅샷 생성으로 재생 비용 절감
+        |
+        +--------------► 프로젝션으로 읽기 모델 생성
+        |
+        +--------------► 감사 추적 · 시점 복원 · 외부 연계
 ```
 
-이 흐름도는 "명령 → 이벤트 기록 → 재생/투영 → 운영 가치"로 이어지는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
+이 흐름도는 "명령 -> 이벤트 기록 -> 재생/투영 -> 운영 가치"로 이어지는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -218,7 +218,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 180 / 482
 
-← **이전**: [179. CQRS (Command Query Responsibility Segregation) 패턴 - MSA의 복잡한 조인 조회 한계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/179_cqrs_pattern_command_query/)
-**다음**: [181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/181_service_mesh_istio_linkerd/) →
+<- **이전**: [179. CQRS (Command Query Responsibility Segregation) 패턴 - MSA의 복잡한 조인 조회 한계](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/179_cqrs_pattern_command_query/)
+**다음**: [181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/181_service_mesh_istio_linkerd/) ->
 
 ---

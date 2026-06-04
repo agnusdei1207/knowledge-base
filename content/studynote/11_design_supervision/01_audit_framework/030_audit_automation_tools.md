@@ -21,18 +21,18 @@ tags = ["studynote-design-supervision"]
 ```text
 감리 자동화 영역:
 
-  ┌────────────────────────────────────────┐
-  │  코드 품질        │  보안 취약점        │
-  │  SonarQube        │  SAST (Checkmarx)   │
-  │  PMD, Checkstyle  │  DAST (OWASP ZAP)   │
-  ├────────────────────────────────────────┤
-  │  의존성 관리       │  아키텍처 준수      │
-  │  OWASP Dependency  │  ArchUnit, jQAssist │
-  │  Snyk, Dependabot  │  ADR 검증           │
-  ├────────────────────────────────────────┤
-  │  성능·부하 테스트  │  문서 완성도        │
-  │  JMeter, k6        │  AI 문서 분석       │
-  └────────────────────────────────────────┘
+  +----------------------------------------+
+  |  코드 품질        |  보안 취약점        |
+  |  SonarQube        |  SAST (Checkmarx)   |
+  |  PMD, Checkstyle  |  DAST (OWASP ZAP)   |
+  +----------------------------------------+
+  |  의존성 관리       |  아키텍처 준수      |
+  |  OWASP Dependency  |  ArchUnit, jQAssist |
+  |  Snyk, Dependabot  |  ADR 검증           |
+  +----------------------------------------+
+  |  성능·부하 테스트  |  문서 완성도        |
+  |  JMeter, k6        |  AI 문서 분석       |
+  +----------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 감리 자동화 도구는 공장 품질 검사 로봇이다. 인간 검사원(감리사)이 모든 제품을 일일이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 로봇(자동화 도구)이 1차 품질 검사를 수행하고, 복잡한 판단은 전문가에게 넘긴다.
@@ -56,18 +56,18 @@ tags = ["studynote-design-supervision"]
 
 ```text
 개발자 커밋
-    │
-    ▼
+    |
+    v
 CI 파이프라인:
   1. 빌드 (컴파일 오류)
   2. 단위 테스트 (기능 검증)
   3. SonarQube (코드 품질 게이트)
   4. Snyk (의존성 취약점)
   5. SAST (정적 보안 분석)
-    │
-    ▼
-Quality Gate 통과 → 배포 승인
-Quality Gate 실패 → 자동 차단 + 감리 보고서
+    |
+    v
+Quality Gate 통과 -> 배포 승인
+Quality Gate 실패 -> 자동 차단 + 감리 보고서
 ```
 
 - **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동 감리는 자동화 공항 보안 검색대다. 모든 수하물(커밋)이 X선(자동화 도구)을 통과하고, 이상 징후는 보안 요원(감리사)에게 자동 전달된다.
@@ -97,8 +97,8 @@ GitHub Copilot for Security:
   - 자연어로 코드 설명 요청
 
 AI 아키텍처 감리:
-  - 아키텍처 다이어그램 → 코드 일치 검증
-  - 요구사항 → 구현 추적성 자동 분석
+  - 아키텍처 다이어그램 -> 코드 일치 검증
+  - 요구사항 -> 구현 추적성 자동 분석
   - 기술 부채 예측 및 리팩토링 우선순위
 
 공공 정보화 감리 자동화:
@@ -139,17 +139,17 @@ AI 아키텍처 감리:
 
 ```text
 [수작업 감리 — 문서·코드 수동 검토]
-    │
-    ▼
+    |
+    v
 [정적 분석 도구 — PMD, Checkstyle, SonarQube]
-    │
-    ▼
+    |
+    v
 [CI/CD 통합 Quality Gate — 자동 차단 + 보고]
-    │
-    ▼
+    |
+    v
 [SAST/DAST/IAST — 보안 자동화 (DevSecOps)]
-    │
-    ▼
+    |
+    v
 [AI/LLM 감리 — 맥락 이해 기반 지능형 코드 리뷰]
 ```
 
@@ -165,7 +165,7 @@ AI 아키텍처 감리:
 
 **진행 상황**: 36 / 530
 
-← **이전**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_database_area_audit/)
-**다음**: [30. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/030_system_architecture_security_audit/) →
+<- **이전**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_database_area_audit/)
+**다음**: [30. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/030_system_architecture_security_audit/) ->
 
 ---

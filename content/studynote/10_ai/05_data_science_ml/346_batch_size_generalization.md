@@ -35,12 +35,12 @@ tags = ["studynote-ai"]
 이 딜레마를 해결하기 위해 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, Gradient Noise 활용, Linear Scaling Rule 이 개발됐다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 배치 사이즈 선택은 "여론 조사의 표본 크기"와 같다. 소수에게 물어보면(소배치) 노이즈가 많지만 다양한 의견이 나오고, 대규모 조사(대배치)는 정확하지만 평균에만 치우쳐 새로운 집단에서 틀릴 수 있다.
@@ -53,25 +53,25 @@ tags = ["studynote-ai"]
 
 ```
   Loss
-  │
-  │        샤프 미니마            플랫 미니마
-  │       (Sharp Minima)          (Flat Minima)
-  │
-  │   │         │
-  │   │         │
-  │   │         │         ╰─────────────╯
-  │  ╰╯         ╰╯        플랫 미니마:
-  │  좁고 깊은 골짜기        넓고 얕은 평원
-  │                          배포 환경 변화에 강건
-  └───────────────────────────────────────────▶ w
-         ↑                      ↑
+  |
+  |        샤프 미니마            플랫 미니마
+  |       (Sharp Minima)          (Flat Minima)
+  |
+  |   |         |
+  |   |         |
+  |   |         |         +-------------+
+  |  ++         ++        플랫 미니마:
+  |  좁고 깊은 골짜기        넓고 얕은 평원
+  |                          배포 환경 변화에 강건
+  +--------------------------------------------> w
+         ^                      ^
    큰 배치 수렴              작은 배치 수렴
 
   핵심 차이:
-  ┌──────────────────────────────────────────────────┐
-  │ Sharp: 파라미터 ε 이동 시 Loss 폭발적 증가       │
-  │ Flat:  파라미터 ε 이동해도 Loss 거의 불변        │
-  └──────────────────────────────────────────────────┘
+  +--------------------------------------------------+
+  | Sharp: 파라미터 ε 이동 시 Loss 폭발적 증가       |
+  | Flat:  파라미터 ε 이동해도 Loss 거의 불변        |
+  +--------------------------------------------------+
 ```
 
 ### 플랫 미니마와 일반화의 수학적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -80,9 +80,9 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 
 ```
   일반화 오차 ≤ 훈련 오차 + C · √(헤시안 최대 고유값 / n)
-  ─────────────────────────────────────────────────────────
-  헤시안 최대 고유값 ↑ (Sharp) → 일반화 오차 ↑
-  헤시안 최대 고유값 ↓ (Flat)  → 일반화 오차 ↓
+  ---------------------------------------------------------
+  헤시안 최대 고유값 ^ (Sharp) -> 일반화 오차 ^
+  헤시안 최대 고유값 v (Flat)  -> 일반화 오차 v
 ```
 
 ### SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)) 의 노이즈 효과
@@ -92,10 +92,10 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
   g_batch = (1/B) Σᵢ∈B ∇L(xᵢ, w)  (배치 크기 B)
 
   기울기 분산:
-  Var[g_batch] = (1/B) · σ²(전체 기울기 분산)
+  Var[g_batch] = (1/B) · σ^(전체 기울기 분산)
 
-  배치 크기 B 증가 → 분산 1/B 감소 → 노이즈 감소
-  → 결정론적 기울기 → Sharp Minima 로 수렴
+  배치 크기 B 증가 -> 분산 1/B 감소 -> 노이즈 감소
+  -> 결정론적 기울기 -> Sharp Minima 로 수렴
 ```
 
 ### 선형 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 규칙 (Linear Scaling Rule)
@@ -104,11 +104,11 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
   기본 설정: 배치 B₀, 학습률 η₀
   변경 설정: 배치 kB₀
 
-  규칙: 학습률 → k·η₀
+  규칙: 학습률 -> k·η₀
 
   직관:
   B₀ 배치로 1 스텝 = k개 미니배치로 k 스텝의 기울기 합
-  → 학습률을 k배 늘려야 동일 파라미터 변화량 유지
+  -> 학습률을 k배 늘려야 동일 파라미터 변화량 유지
 
   Warmup (워밍업) 필요:
   - 초기에 큰 학습률 적용 시 불안정
@@ -132,23 +132,23 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 
 ```
   손실 경관에서 지역 최솟값 탈출:
-  ┌──────────────────────────────────────────────────┐
-  │  Sharp Minima: 좁은 골짜기에서 큰 노이즈로 탈출  │
-  │                                                  │
-  │     ╰╯ ← 탈출 가능 (노이즈 충분)                │
-  │         ─────────────────────────────────        │
-  │                           └ 플랫 목표 지점       │
-  │                                                  │
-  │  작은 배치: 노이즈 ↑ → Sharp 탈출 가능           │
-  │  큰  배치: 노이즈 ↓ → Sharp 에 갇힘              │
-  └──────────────────────────────────────────────────┘
+  +--------------------------------------------------+
+  |  Sharp Minima: 좁은 골짜기에서 큰 노이즈로 탈출  |
+  |                                                  |
+  |     ++ <- 탈출 가능 (노이즈 충분)                |
+  |         ---------------------------------        |
+  |                           + 플랫 목표 지점       |
+  |                                                  |
+  |  작은 배치: 노이즈 ^ -> Sharp 탈출 가능           |
+  |  큰  배치: 노이즈 v -> Sharp 에 갇힘              |
+  +--------------------------------------------------+
 ```
 
 ### 배치 사이즈 조정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 설명 | 효과 |
 |:---|:---|:---|
-| Linear Scaling Rule | 배치 k배 → [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) k배 | 이론적 등가성 유지 |
+| Linear Scaling Rule | 배치 k배 -> [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) k배 | 이론적 등가성 유지 |
 | LARS (Layer-wise Adaptive Rate Scaling) | 레이어별 다른 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적용 | 초대형 배치 안정화 |
 | Gradient Noise 추가 | 큰 배치에 인공 노이즈 주입 | Flat Minima 유도 |
 | [Cosine Annealing](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/309_cosine_annealing/) | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 코사인 감소 | 플랫 영역 탐색 |
@@ -166,7 +166,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
   일반 원칙:
   1. 배치 32~256: 대부분 과제에서 안정적
   2. 배치 1,024+: Linear Scaling Rule 적용
-     → 초기 Warmup 필수 (학습 불안정 방지)
+     -> 초기 Warmup 필수 (학습 불안정 방지)
   3. 배치 8,192+: LARS/LAMB 옵티마이저 사용
      (ImageNet 대규모 분산 학습 표준)
 
@@ -179,7 +179,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 ### 기술사 출제 포인트
 
 - Sharp Minima vs Flat Minima 의 정의와 손실 경관에서의 위치
-- 작은 배치 → Gradient Noise → Flat Minima 수렴 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름
+- 작은 배치 -> Gradient Noise -> Flat Minima 수렴 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름
 - Linear Scaling Rule 수식과 적용 조건 (Warmup 포함)
 - 헤시안 최대 고유값과 일반화 오차의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 - SAM (Sharpness-Aware Minimization) 동작 원리
@@ -208,7 +208,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 |:---|:---|
 | Flat Minima (플랫 미니마) | 넓은 손실 곡면, 일반화 / 작은 배치 수렴 지점 |
 | Sharp Minima (샤프 미니마) | 좁은 손실 곡면, 과적합 / 큰 배치 수렴 지점 |
-| Linear Scaling Rule | 배치 k배 → [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) k배 / [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 핵심 조정 원칙 |
+| Linear Scaling Rule | 배치 k배 -> [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) k배 / [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 핵심 조정 원칙 |
 | Gradient Noise | 작은 배치 부산물 / Flat Minima 탐색 동력 |
 | SAM | Sharpness-Aware Minimization / Flat Minima 직접 탐색 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) |
 | Gradient Accumulation | 유효 배치 확장 / VRAM 제약 하 대형 배치 효과 |
@@ -216,7 +216,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [배치 사이즈 (Batch Size) 와 일반화 성능] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [배치 사이즈 (Batch Size) 와 일반화 성능] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -231,7 +231,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 
 **진행 상황**: 346 / 420
 
-← **이전**: [345. 역전파 편미분 (Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/345_backprop_chain_rule_math/)
-**다음**: [347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/) →
+<- **이전**: [345. 역전파 편미분 (Backpropagation)](/knowledge-base/studynote/10_ai/05_data_science_ml/345_backprop_chain_rule_math/)
+**다음**: [347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/) ->
 
 ---

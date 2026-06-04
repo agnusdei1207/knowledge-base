@@ -33,11 +33,11 @@ Bolt-on 방식은 애플리케이션 바깥쪽에 보안 계층을 추가한다.
 
 ```text
 사용자 요청
-   ↓
+   v
 WAF / IPS / Firewall
-   ↓
+   v
 취약한 애플리케이션
-   ↓
+   v
 DB / 내부 자원
 ```
 
@@ -105,11 +105,11 @@ Bolt-on은 종종 "[Defense in Depth](/knowledge-base/studynote/09_security/01_i
 
 ```text
 기능 우선 개발
-   ↓
+   v
 Bolt-on Security
-   ↓
+   v
 기술 부채 / 우회 공격
-   ↓
+   v
 Security by Design / DevSecOps
 ```
 
@@ -119,11 +119,11 @@ Security by Design / DevSecOps
 
 ```text
 사후 방어
-   ↓
+   v
 WAF / IPS / Firewall
-   ↓
+   v
 보안 설계 내재화
-   ↓
+   v
 Shift-Left / DevSecOps
 ```
 
@@ -141,7 +141,7 @@ Shift-Left / DevSecOps
 
 **진행 상황**: 59 / 1108
 
-← **이전**: [58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/)
-**다음**: [60. Privacy by Design (PbD) - 7대 기본 원칙](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/) →
+<- **이전**: [58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/)
+**다음**: [60. Privacy by Design (PbD) - 7대 기본 원칙](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/) ->
 
 ---

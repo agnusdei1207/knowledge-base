@@ -28,23 +28,23 @@ tags = ["studynote-operating-system"]
   3. **시간차 공격(Interleaving) 적용**: 하드웨어 아비터(Arbiter)가 이 빈 클럭을 DMA에게 토스해 주는 로직을 구현함.
 
 ```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        버스트 모드(Burst Mode) vs 사이클 스틸링(Cycle Stealing) 비교  │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ ▶ 1. 버스트 모드 (깡패 DMA의 독점)                                    │
-│   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       │
-│   [CPU] 연산 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 연산                     │
-│   [DMA] 대기 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 대기                     │
-│   💥 결과: DMA가 6틱 동안 짐을 한 방에 다 옮기지만, 그동안 CPU는 뇌사.│
-│                                                                       │
-│ ▶ 2. 사이클 스틸링 (눈치 백단 DMA의 얌체 짓)                          │
-│   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       │
-│   [CPU] 램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산        │
-│   [DMA] 대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐                 │
-│   ✅ 결과: CPU가 램을 안 읽는 짝수 틱(연산 시간)을 DMA가 훔쳐서 짐을  │
-│           나름. CPU 체감 속도 저하 0%, 짐도 스무스하게 다 옮김!       │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------+
+|        버스트 모드(Burst Mode) vs 사이클 스틸링(Cycle Stealing) 비교  |
++-----------------------------------------------------------------------+
+|                                                                       |
+| -> 1. 버스트 모드 (깡패 DMA의 독점)                                    |
+|   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       |
+|   [CPU] 연산 | 🚫 | 🚫 | 🚫 | 🚫 | 🚫 | 🚫 | 연산                     |
+|   [DMA] 대기 | 짐 | 짐 | 짐 | 짐 | 짐 | 짐 | 대기                     |
+|   💥 결과: DMA가 6틱 동안 짐을 한 방에 다 옮기지만, 그동안 CPU는 뇌사.|
+|                                                                       |
+| -> 2. 사이클 스틸링 (눈치 백단 DMA의 얌체 짓)                          |
+|   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       |
+|   [CPU] 램읽기| 연산 |램읽기| 연산 |램읽기| 연산 |램읽기| 연산        |
+|   [DMA] 대기 | 짐 | 대기 | 짐 | 대기 | 짐 | 대기 | 짐                 |
+|   ✅ 결과: CPU가 램을 안 읽는 짝수 틱(연산 시간)을 DMA가 훔쳐서 짐을  |
+|           나름. CPU 체감 속도 저하 0%, 짐도 스무스하게 다 옮김!       |
++-----------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** 사이클 스틸링은 엄밀히 말해 '도둑질(Steal)'이라기보다 <strong>'빈 공간 줍기'</strong>에 가깝다. 하지만 어쩌다 CPU와 DMA가 정확히 동시에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 요구하면, 경찰([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)은 무조건 DMA의 손을 들어준다. 왜냐하면 CPU는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 조금 늦게 써도 연산만 좀 늦어질 뿐이지만, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)(디바이스)는 제때 짐을 램에 안 버리면 뒤에서 밀려오는 패킷들에 치여 하드웨어 버퍼가 터져버리기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss) 때문이다. CPU 입장에선 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 통행권을 강탈당하는 느낌이 들 수밖에 없다.
 
@@ -97,12 +97,12 @@ DMA가 짐을 나르는 3가지 철학적 방법론이다. 하드웨어의 성�
 - 이럴 때는 OS가 눈물을 머금고 CPU를 묶어버린 뒤, <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/">Burst Mode</a></strong>를 켜서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 완전히 비워주고 물대포를 한 방에 쏴버리는 것이 오히려 시스템 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 1만 배 이득이다.
 
 ```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 장치 속도  │ DMA 전송 방식 │ 버스 점유율  │ 데이터 유실 위험   │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ 느림 (HDD)│ 사이클 스틸링  │ CPU와 공평분배│ 거의 없음         │
-│ 초고속(GPU)│ 버스트 모드  │ DMA가 100% 장악│ 스틸링 쓰면 폭발함│
-└──────────┴────────────┴────────────┴───────────────────────────┘
++----------+------------+------------+---------------------------+
+| 장치 속도  | DMA 전송 방식 | 버스 점유율  | 데이터 유실 위험   |
++----------+------------+------------+---------------------------+
+| 느림 (HDD)| 사이클 스틸링  | CPU와 공평분배| 거의 없음         |
+| 초고속(GPU)| 버스트 모드  | DMA가 100% 장악| 스틸링 쓰면 폭발함|
++----------+------------+------------+---------------------------+
 ```
 **[매트릭스 해설]** [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 설계는 철저한 '물리량의 싸움'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 뚫어버릴 기세일 때, 찔끔찔끔 양보하는 미덕(스틸링)은 사치다. 차를 다 막고 경찰 에스코트 아래 호송 차량을 쏘는 것([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트)이 가장 안전한 방법이다. 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 디바이스의 스펙을 읽고 이 두 모드를 다이내믹하게 스위칭하며 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 지휘한다.
 
@@ -160,12 +160,12 @@ PCIe는 1차선 도로가 아니라 각 장비가 [스위치](/knowledge-base/st
 
 ```text
 [직접 메모리 접근 (DMA, Direct Memory Access)]
-    │
-    ▼
+    |
+    v
 [사이클 스틸링 (Cycle Stealing)]
-    │
-    ├──▶ [DMA 산란-수집 (Scatter-Gather)]
-    └──▶ [I/O 서브시스템의 커널 서비스]
+    |
+    +---> [DMA 산란-수집 (Scatter-Gather)]
+    +---> [I/O 서브시스템의 커널 서비스]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
@@ -182,7 +182,7 @@ PCIe는 1차선 도로가 아니라 각 장비가 [스위치](/knowledge-base/st
 
 **진행 상황**: 451 / 800
 
-← **이전**: [450. 직접 메모리 접근 (DMA, Direct Memory Access) - CPU 개입 없이 장치와 메모리 간 직접 데이터 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/)
-**다음**: [452. DMA 산란-수집 (Scatter-Gather) - 불연속적 물리 메모리 블록을 한 번의 DMA로 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/) →
+<- **이전**: [450. 직접 메모리 접근 (DMA, Direct Memory Access) - CPU 개입 없이 장치와 메모리 간 직접 데이터 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/)
+**다음**: [452. DMA 산란-수집 (Scatter-Gather) - 불연속적 물리 메모리 블록을 한 번의 DMA로 전송](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/) ->
 
 ---

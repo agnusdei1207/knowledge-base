@@ -30,11 +30,11 @@ tags = ["it_management"]
 
 ```text
 Item
-  ↓
+  v
 Multiple Hash Functions
-  ↓
+  v
 Bit Array
-  ↓
+  v
 Membership Test
 ```
 
@@ -107,11 +107,11 @@ Membership Test
 
 ```text
 Hash Functions
-  ↓
+  v
 Bloom Filter
-  ↓
+  v
 Membership Test
-  ↓
+  v
 Probabilistic DS
 ```
 
@@ -121,11 +121,11 @@ Probabilistic DS
 
 ```text
 Set Membership
-  ↓
+  v
 Bloom Filter
-  ↓
+  v
 Count-Min Sketch
-  ↓
+  v
 Approximate Query
 ```
 
@@ -143,7 +143,7 @@ Approximate Query
 
 **진행 상황**: 115 / 587
 
-← **이전**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/)
-**다음**: [66. 서비스 전환 (Service Transition)](/knowledge-base/studynote/12_it_management/02_itsm_itil/066_service_transition/) →
+<- **이전**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/)
+**다음**: [66. 서비스 전환 (Service Transition)](/knowledge-base/studynote/12_it_management/02_itsm_itil/066_service_transition/) ->
 
 ---

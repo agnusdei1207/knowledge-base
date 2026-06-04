@@ -19,24 +19,24 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌──────────────────────────────────────────────────────────┐
-│         파일 시스템 5대 문제                               │
-├──────────────────────────────────────────────────────────┤
-│  1. 데이터 중복성 (Data Redundancy)                       │
-│     → 같은 고객 정보가 주문파일·배송파일·결제파일에 반복  │
-│                                                           │
-│  2. 데이터 불일치 (Data Inconsistency)                    │
-│     → 한 파일 고객 주소 변경 시 다른 파일은 미반영        │
-│                                                           │
-│  3. 데이터 종속성 (Data Dependency)                       │
-│     → 파일 구조 변경 시 모든 프로그램 수정 필요           │
-│                                                           │
-│  4. 무결성 제약 없음 (No Integrity Constraints)           │
-│     → 잘못된 값(음수 나이, 존재하지 않는 외래 키) 저장 가능│
-│                                                           │
-│  5. 동시성·보안 부재 (No Concurrency/Security)           │
-│     → 여러 사용자 동시 수정 → 데이터 손상                │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|         파일 시스템 5대 문제                               |
++----------------------------------------------------------+
+|  1. 데이터 중복성 (Data Redundancy)                       |
+|     -> 같은 고객 정보가 주문파일·배송파일·결제파일에 반복  |
+|                                                           |
+|  2. 데이터 불일치 (Data Inconsistency)                    |
+|     -> 한 파일 고객 주소 변경 시 다른 파일은 미반영        |
+|                                                           |
+|  3. 데이터 종속성 (Data Dependency)                       |
+|     -> 파일 구조 변경 시 모든 프로그램 수정 필요           |
+|                                                           |
+|  4. 무결성 제약 없음 (No Integrity Constraints)           |
+|     -> 잘못된 값(음수 나이, 존재하지 않는 외래 키) 저장 가능|
+|                                                           |
+|  5. 동시성·보안 부재 (No Concurrency/Security)           |
+|     -> 여러 사용자 동시 수정 -> 데이터 손상                |
++----------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 문제는 포스트잇 관리 방식이다. 각 부서가 각자 포스트잇([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 고객 정보를 적으면 중복·불일치·분실이 발생한다. DB는 모든 부서가 공유하는 화이트보드(중앙 관리)다.
@@ -59,10 +59,10 @@ tags = ["studynote-database"]
 ### [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)
 
 ```text
-물리적 독립성: 저장 구조 변경 → 논리 스키마 불변
-  (예: HDD → SSD 마이그레이션, 파티셔닝)
+물리적 독립성: 저장 구조 변경 -> 논리 스키마 불변
+  (예: HDD -> SSD 마이그레이션, 파티셔닝)
 
-논리적 독립성: 논리 스키마 변경 → 응용 프로그램 불변
+논리적 독립성: 논리 스키마 변경 -> 응용 프로그램 불변
   (예: 테이블 컬럼 추가 시 기존 앱 수정 불필요)
 ```
 
@@ -92,16 +92,16 @@ tags = ["studynote-database"]
 마이크로서비스 로컬 파일 저장:
   서비스 A: /data/users.json
   서비스 B: /data/users.json (별도 복사본)
-  → 중복·불일치 재발 → 이벤트 소싱/공유 DB 필요
+  -> 중복·불일치 재발 -> 이벤트 소싱/공유 DB 필요
 
 CSV 기반 데이터 교환:
   각 팀이 Excel/CSV로 데이터 공유
-  → 버전 불일치, 무결성 미보장
-  → 데이터 허브/API 기반 교환으로 전환 필요
+  -> 버전 불일치, 무결성 미보장
+  -> 데이터 허브/API 기반 교환으로 전환 필요
 
 로그 파일 기반 상태 관리:
   앱 상태를 로그 파일에 저장
-  → 동시 접근 충돌, 일관성 보장 불가
+  -> 동시 접근 충돌, 일관성 보장 불가
 ```
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 부서별 포스트잇의 현대판이다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자신의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 관리하면, 50년 전 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 겪었던 중복·불일치 문제가 그대로 재발한다.
@@ -136,17 +136,17 @@ CSV 기반 데이터 교환:
 
 ```text
 [파일 시스템 — 데이터 중복·불일치·종속성 5대 문제]
-    │
-    ▼
+    |
+    v
 [RDBMS — 정규화·ACID·SQL로 파일 시스템 문제 해결]
-    │
-    ▼
+    |
+    v
 [분산 DB — CAP 정리, 일관성·가용성 트레이드오프]
-    │
-    ▼
+    |
+    v
 [NoSQL — 스키마 유연성, 수평 확장]
-    │
-    ▼
+    |
+    v
 [레이크하우스 — 파일 형식(Parquet)+ACID(Delta/Iceberg) 통합]
 ```
 
@@ -162,7 +162,7 @@ CSV 기반 데이터 교환:
 
 **진행 상황**: 29 / 600
 
-← **이전**: [28. 데이터베이스 사용자 유형 (Database Users)](/knowledge-base/studynote/05_database/01_db_architecture_relational/028_database_users/)
-**다음**: [30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축](/knowledge-base/studynote/05_database/01_db_architecture_relational/030_data_integrity_security/) →
+<- **이전**: [28. 데이터베이스 사용자 유형 (Database Users)](/knowledge-base/studynote/05_database/01_db_architecture_relational/028_database_users/)
+**다음**: [30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축](/knowledge-base/studynote/05_database/01_db_architecture_relational/030_data_integrity_security/) ->
 
 ---

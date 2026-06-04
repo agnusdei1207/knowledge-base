@@ -52,20 +52,20 @@ tags = ["studynote-software-engineering"]
 
 ```text
 변경 요청(CR) 제출
-    │
-    ▼
+    |
+    v
 영향 분석 (Impact Analysis)
-    ├─ 변경 범위 파악
-    ├─ 리스크 평가
-    └─ 비용·일정 추정
-    │
-    ▼
+    +- 변경 범위 파악
+    +- 리스크 평가
+    +- 비용·일정 추정
+    |
+    v
 변경 승인위원회(CCB: Configuration Change Board)
-    │
-    ▼
-구현 → 테스트 → 배포
-    │
-    ▼
+    |
+    v
+구현 -> 테스트 -> 배포
+    |
+    v
 구성 관리 시스템 업데이트
 ```
 
@@ -139,17 +139,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 [소프트웨어 유지보수 — 전체 비용의 60~80%]
-    │
-    ▼
+    |
+    v
 [4유형 분류 — 수정/적응/완전화/예방 (ISO 14764)]
-    │
-    ▼
+    |
+    v
 [변경 관리 (CCB) — 체계적 변경 승인 프로세스]
-    │
-    ▼
+    |
+    v
 [유지보수성 향상 — 응집도·결합도·테스트 자동화]
-    │
-    ▼
+    |
+    v
 [AI 자동 유지보수 — 결함 자동 감지·수정 제안]
 ```
 
@@ -165,7 +165,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 31 / 973
 
-← **이전**: [30. 소프트웨어 재사용과 CBD — Component Based Development](/knowledge-base/studynote/04_software_engineering/01_overview_principles/030_software_reuse_cbd/)
-**다음**: [소프트웨어 노후화 (Software Obsolescence)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) →
+<- **이전**: [30. 소프트웨어 재사용과 CBD — Component Based Development](/knowledge-base/studynote/04_software_engineering/01_overview_principles/030_software_reuse_cbd/)
+**다음**: [소프트웨어 노후화 (Software Obsolescence)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) ->
 
 ---

@@ -33,13 +33,13 @@ Fabric의 핵심은 역할 분담이다. 각 노드는 자기 역할만 맡고, 
 
 ```text
 Client
-  ↓ proposal
+  v proposal
 Endorsing Peer
-  ↓ execute chaincode
+  v execute chaincode
 Endorsement
-  ↓
+  v
 Orderer
-  ↓ sort blocks
+  v sort blocks
 Peers validate / commit
 ```
 
@@ -106,11 +106,11 @@ Fabric은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockch
 
 ```text
 MSP
-   ↓
+   v
 Peer / Orderer
-   ↓
+   v
 Execute-Order-Validate
-   ↓
+   v
 기업형 블록체인 거버넌스
 ```
 
@@ -120,11 +120,11 @@ Execute-Order-Validate
 
 ```text
 퍼블릭 블록체인
-   ↓
+   v
 퍼미션드 블록체인
-   ↓
+   v
 Hyperledger Fabric
-   ↓
+   v
 MSP / Peer / Orderer 분리
 ```
 
@@ -142,7 +142,7 @@ MSP / Peer / Orderer 분리
 
 **진행 상황**: 60 / 552
 
-← **이전**: [59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/)
-**다음**: [61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) →
+<- **이전**: [59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/)
+**다음**: [61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) ->
 
 ---

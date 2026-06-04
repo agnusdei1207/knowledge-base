@@ -34,36 +34,36 @@ tags = ["studynote-operating-system"]
 운영체제와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 분석할 때, "CPU 큐에 대기 중인 프로세스가 왜 이렇게 많은가?", "디스크 I/O [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 10ms에서 5ms로 줄이면 전체 시스템 처리량은 얼마나 개선되는가?" 같은 질문에 답해야 한다. 이러한 질문에 대해 복잡한 시뮬레이션이나 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)) 모델링 없이도, L = λW라는 단 하나의 식으로 직관적이고 정확한 답을 제공하는 것이 리틀의 법칙의 실용적 가치다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│     리틀의 법칙 직관적 이해: 커피숍 대기열                    │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [커피숍에 손님이 줄을 서서 기다리고 있는 상황]              │
-│                                                                │
-│  입구 → [도착] → 대기열(Queue) → [서비스] → 퇴장             │
-│          ▲         │              │                            │
-│          │    대기 중인 손님들     │                            │
-│          │    (여기가 클수록      │                             │
-│          │     기다림이 길어짐)   │                             │
-│          │                        │                            │
-│   λ (도착률)              W (체류시간)                        │
-│   "1분에 3명 들어옴"      "한 사람당 10분 머묶"              │
-│                                                                │
-│  리틀의 법칙 적용:                                             │
-│  L = λ × W = 3(명/분) × 10(분) = 30명                        │
-│  → 커피숍 안에는 항상 평균 30명의 손님이 있음!               │
-│                                                                │
-│  [OS에 대입하면?]                                              │
-│  입구 → 프로세스 도착 → CPU 대기 큐 → CPU 서비스 → 완료      │
-│   λ=100proc/s               W=0.05s                           │
-│  L = 100 × 0.05 = 5개 프로세스                                │
-│  → 런 큐(Run Queue)에 평균 5개 프로세스 존재                 │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|     리틀의 법칙 직관적 이해: 커피숍 대기열                    |
++----------------------------------------------------------------+
+|                                                                |
+|  [커피숍에 손님이 줄을 서서 기다리고 있는 상황]              |
+|                                                                |
+|  입구 -> [도착] -> 대기열(Queue) -> [서비스] -> 퇴장             |
+|          ^         |              |                            |
+|          |    대기 중인 손님들     |                            |
+|          |    (여기가 클수록      |                             |
+|          |     기다림이 길어짐)   |                             |
+|          |                        |                            |
+|   λ (도착률)              W (체류시간)                        |
+|   "1분에 3명 들어옴"      "한 사람당 10분 머묶"              |
+|                                                                |
+|  리틀의 법칙 적용:                                             |
+|  L = λ × W = 3(명/분) × 10(분) = 30명                        |
+|  -> 커피숍 안에는 항상 평균 30명의 손님이 있음!               |
+|                                                                |
+|  [OS에 대입하면?]                                              |
+|  입구 -> 프로세스 도착 -> CPU 대기 큐 -> CPU 서비스 -> 완료      |
+|   λ=100proc/s               W=0.05s                           |
+|  L = 100 × 0.05 = 5개 프로세스                                |
+|  -> 런 큐(Run Queue)에 평균 5개 프로세스 존재                 |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 다이어그램은 리틀의 법칙을 일상적인 커피숍 대기열로 직관적으로 설명한다. 1분에 3명의 손님이 도착하고(λ=3), 각 손님이 커피숍에서 평균 10분을 머무른다면(W=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 커피숍 안에는 항상 평균 30명의 손님이 있다(L=30). 이 관계는 커피숍의 내부 구조(바리스타 수, 주문 방식 등)에 관계없이 항상 성립한다. OS의 CPU 스케줄링 큐에서도 동일한 원리가 적용된다.
 
-- **📢 섹션 요약 비유**: 수영장에 물이 들어오는 양(도착률 λ)과 물이 나가는 양이 같을 때, 수영장의 물 높이(대기 수 L)는 물이 수영장에 머무는 시간(W)에 비례합니다. 물이 빨리 빠져나갈수록(W↓) 수영장의 물 높이(L↓)는 낮아지고, 늦게 빠져나갈수록(W↑) 높아집니다.
+- **📢 섹션 요약 비유**: 수영장에 물이 들어오는 양(도착률 λ)과 물이 나가는 양이 같을 때, 수영장의 물 높이(대기 수 L)는 물이 수영장에 머무는 시간(W)에 비례합니다. 물이 빨리 빠져나갈수록(Wv) 수영장의 물 높이(Lv)는 낮아지고, 늦게 빠져나갈수록(W^) 높아집니다.
 
 ---
 
@@ -88,31 +88,31 @@ tags = ["studynote-operating-system"]
 여기서 W̄는 각 고객의 체류 시간의 평균이다. 따라서 L̄ = λ̄ × W̄가 된다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│     리틀의 법칙의 그래프적 증명 직관                          │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  도착/출발 누적 수                                             │
-│  ▲                                                             │
-│  │         ╱ 도착 누적 A(t)                                    │
-│  │        ╱                                                    │
-│  │       ╱ ┌──────────┐ ← 이 면적 = 총 체류 시간 합          │
-│  │      ╱  │  빗금친   │    = A(T) × W̄                       │
-│  │     ╱   │  영역     │                                       │
-│  │    ╱    │ (시스템에 │    평균 고객 수 L̄                     │
-│  │   ╱     │  머문 시간│    = 면적 / T                         │
-│  │  ╱ 출발 │  전체 합) │    = A(T) × W̄ / T                    │
-│  │ ╱ 누적  └──────────┘    = λ̄ × W̄                            │
-│  │╱ D(t)                                                       │
-│  └──────────────────────────────────▶ 시간 T                   │
-│                                                                │
-│  [핵심 통찰]                                                   │
-│  도착 곡선과 출발 곡선 사이의 면적(빗금 영역)이 바로          │
-│  "모든 고객이 시스템에 머문 총 시간의 합"이다.                │
-│  이를 시간 T로 나누면 "평균적으로 몇 명이 있었는가?" = L      │
-│  총 체류 시간을 고객 수 A(T)로 나누면 "평균 체류 시간" = W   │
-│  따라서 L = (A(T)/T) × W = λ × W ∎                            │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|     리틀의 법칙의 그래프적 증명 직관                          |
++----------------------------------------------------------------+
+|                                                                |
+|  도착/출발 누적 수                                             |
+|  ^                                                             |
+|  |         ╱ 도착 누적 A(t)                                    |
+|  |        ╱                                                    |
+|  |       ╱ +----------+ <- 이 면적 = 총 체류 시간 합          |
+|  |      ╱  |  빗금친   |    = A(T) × W̄                       |
+|  |     ╱   |  영역     |                                       |
+|  |    ╱    | (시스템에 |    평균 고객 수 L̄                     |
+|  |   ╱     |  머문 시간|    = 면적 / T                         |
+|  |  ╱ 출발 |  전체 합) |    = A(T) × W̄ / T                    |
+|  | ╱ 누적  +----------+    = λ̄ × W̄                            |
+|  |╱ D(t)                                                       |
+|  +-----------------------------------> 시간 T                   |
+|                                                                |
+|  [핵심 통찰]                                                   |
+|  도착 곡선과 출발 곡선 사이의 면적(빗금 영역)이 바로          |
+|  "모든 고객이 시스템에 머문 총 시간의 합"이다.                |
+|  이를 시간 T로 나누면 "평균적으로 몇 명이 있었는가?" = L      |
+|  총 체류 시간을 고객 수 A(T)로 나누면 "평균 체류 시간" = W   |
+|  따라서 L = (A(T)/T) × W = λ × W ∎                            |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 그래프는 리틀의 법칙의 수학적 증명을 직관적으로 보여준다. 도착 누적 곡선 A(t)와 출발 누적 곡선 D(t) 사이의 빗금 영역이 바로 "모든 고객이 시스템에 머문 시간의 총합"이다. 이 면적을 전체 시간 T로 나누면 평균 고객 수 L이 되고, 도착한 총 고객 수 A(T)로 나누면 평균 체류 시간 W가 된다. 이 관계는 시스템의 내부 구조에 전혀 의존하지 않으므로 보편적으로 성립한다.
@@ -122,43 +122,43 @@ tags = ["studynote-operating-system"]
 리틀의 법칙은 시스템의 어느 부분에도 적용할 수 있다. 전체 시스템뿐 아니라, [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))만, 서버(Server)만, 또는 특정 자원만을 경계로 정의하여 적용할 수 있다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│     일반화된 리틀의 법칙: 시스템 부분별 적용                   │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [전체 시스템]                                                 │
-│  ┌────────────┐   ┌────────────┐   ┌────────────┐            │
-│  │ 대기 큐    │ → │  서버 1    │ → │  완료      │            │
-│  │ (Queue)    │   │            │   │            │            │
-│  │            │ ┌→│  서버 2    │─┐ │            │            │
-│  │            │ │ │            │ │ │            │            │
-│  └────────────┘ │ └────────────┘ │ └────────────┘            │
-│                                                                │
-│  [부분별 리틀의 법칙 적용]                                    │
-│                                                                │
-│  ① 대기 큐(Queue)에만 적용:                                   │
-│     Lq = λ × Wq                                               │
-│     Lq: 큐 내 대기 평균 수, Wq: 큐 대기 시간                  │
-│                                                                │
-│  ② 서버(Server)에만 적용:                                     │
-│     Ls = λ × Ws = λ × S                                      │
-│     Ls: 서비스 중인 평균 수, S: 평균 서비스 시간              │
-│     →利用率(Utilization) ρ = λ × S = Ls                       │
-│                                                                │
-│  ③ 전체 시스템에 적용:                                        │
-│     L = λ × W = Lq + Ls                                       │
-│     W = Wq + Ws = Wq + S                                      │
-│                                                                │
-│  [활용 예시: CPU 스케줄링]                                    │
-│  λ = 100 proc/s, S = 0.02s (서비스 시간), c = 4 (CPU 코어)   │
-│  ρ = λ × S / c = 100 × 0.02 / 4 = 0.5 (50% 사용률)          │
-│  → CPU 코어당 50% 사용률로 안정적 운영 (ρ < 1이어야 안정)    │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|     일반화된 리틀의 법칙: 시스템 부분별 적용                   |
++----------------------------------------------------------------+
+|                                                                |
+|  [전체 시스템]                                                 |
+|  +------------+   +------------+   +------------+            |
+|  | 대기 큐    | -> |  서버 1    | -> |  완료      |            |
+|  | (Queue)    |   |            |   |            |            |
+|  |            | +->|  서버 2    |-+ |            |            |
+|  |            | | |            | | |            |            |
+|  +------------+ | +------------+ | +------------+            |
+|                                                                |
+|  [부분별 리틀의 법칙 적용]                                    |
+|                                                                |
+|  ① 대기 큐(Queue)에만 적용:                                   |
+|     Lq = λ × Wq                                               |
+|     Lq: 큐 내 대기 평균 수, Wq: 큐 대기 시간                  |
+|                                                                |
+|  ② 서버(Server)에만 적용:                                     |
+|     Ls = λ × Ws = λ × S                                      |
+|     Ls: 서비스 중인 평균 수, S: 평균 서비스 시간              |
+|     ->利用率(Utilization) ρ = λ × S = Ls                       |
+|                                                                |
+|  ③ 전체 시스템에 적용:                                        |
+|     L = λ × W = Lq + Ls                                       |
+|     W = Wq + Ws = Wq + S                                      |
+|                                                                |
+|  [활용 예시: CPU 스케줄링]                                    |
+|  λ = 100 proc/s, S = 0.02s (서비스 시간), c = 4 (CPU 코어)   |
+|  ρ = λ × S / c = 100 × 0.02 / 4 = 0.5 (50% 사용률)          |
+|  -> CPU 코어당 50% 사용률로 안정적 운영 (ρ < 1이어야 안정)    |
++----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 구조도는 리틀의 법칙을 시스템의 다양한 부분에 독립적으로 적용할 수 있음을 보여준다. [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)에만 적용하면 큐 내 평균 대기 수와 대기 시간의 관계를 파악할 수 있고, 서버에만 적용하면 서버 활용도(Utilization)를 계산할 수 있다. 전체 시스템에서는 이 둘의 합이 된다. 이를 통해 "대기 시간을 줄이려면?" → "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간(S)을 줄이거나, 서버 수(c)를 늘리거나, 도착률(λ)을 제한해야 한다"는 명확한 튜닝 방향을 도출할 수 있다.
+**[다이어그램 해설]** 이 구조도는 리틀의 법칙을 시스템의 다양한 부분에 독립적으로 적용할 수 있음을 보여준다. [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)에만 적용하면 큐 내 평균 대기 수와 대기 시간의 관계를 파악할 수 있고, 서버에만 적용하면 서버 활용도(Utilization)를 계산할 수 있다. 전체 시스템에서는 이 둘의 합이 된다. 이를 통해 "대기 시간을 줄이려면?" -> "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간(S)을 줄이거나, 서버 수(c)를 늘리거나, 도착률(λ)을 제한해야 한다"는 명확한 튜닝 방향을 도출할 수 있다.
 
-- **📢 섹션 요약 비유**: 식당에서 "대기석([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 앉아 있는 손님 수"와 "식사 중인 손님 수(Server)"를 따로 계산할 수 있는 것과 같습니다. 대기석이 꽉 찬다면 식사 속도를 높이거나(S↓), 테이블을 추가하거나(c↑), 예약제로 손님 수를 조절(λ↓)해야 한다는 해결책이 명확해집니다.
+- **📢 섹션 요약 비유**: 식당에서 "대기석([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 앉아 있는 손님 수"와 "식사 중인 손님 수(Server)"를 따로 계산할 수 있는 것과 같습니다. 대기석이 꽉 찬다면 식사 속도를 높이거나(Sv), 테이블을 추가하거나(c^), 예약제로 손님 수를 조절(λv)해야 한다는 해결책이 명확해집니다.
 
 ---
 
@@ -167,33 +167,33 @@ tags = ["studynote-operating-system"]
 ### 대기행렬 모델(M/M/1, M/M/c, M/G/1)과 리틀의 법칙
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│     대기행렬 모델별 리틀의 법칙 적용 비교                      │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  모델      │ M/M/1      │ M/M/c       │ M/G/1                  │
-│  ─────────┼───────────┼────────────┼────────────────────── │
-│  도착 분포 │ 지수 분포   │ 지수 분포    │ 지수 분포             │
-│  서비스분포│ 지수 분포   │ 지수 분포    │ 일반 분포              │
-│  서버 수   │ 1개         │ c개          │ 1개                    │
-│  ─────────┼───────────┼────────────┼────────────────────── │
-│  L (시스템 │ ρ/(1-ρ)   │ 복잡한 공식  │ Lq + ρ                │
-│    내 수)  │             │              │                        │
-│  W (체류   │ S/(1-ρ)   │ 복잡한 공식  │ Wq + S                │
-│    시간)   │             │              │                        │
-│  Wq(대기   │ ρS/(1-ρ)  │ 복잡한 공식  │ Pollaczek-            │
-│    시간)   │             │              │ Khinchine 공식         │
-│  ─────────┼───────────┼────────────┼────────────────────── │
-│  리틀의    │ 항상 성립   │ 항상 성립    │ 항상 성립              │
-│  법칙      │ L=λW       │ L=λW         │ L=λW                   │
-│  ─────────┼───────────┼────────────┼────────────────────── │
-│  안정 조건 │ ρ < 1      │ ρ < 1       │ ρ < 1                 │
-│            │ (λ < μ)    │ (λ < c×μ)   │ (λ < μ)               │
-│                                                                │
-│  ※ ρ = 이용률(Utilization), S = 평균 서비스 시간             │
-│  ※ μ = 서비스율(Service Rate) = 1/S                           │
-│  ※ 리틀의 법칙은 모든 모델에서 동일하게 L = λW로 성립!       │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|     대기행렬 모델별 리틀의 법칙 적용 비교                      |
++----------------------------------------------------------------+
+|                                                                |
+|  모델      | M/M/1      | M/M/c       | M/G/1                  |
+|  ---------+-----------+------------+---------------------- |
+|  도착 분포 | 지수 분포   | 지수 분포    | 지수 분포             |
+|  서비스분포| 지수 분포   | 지수 분포    | 일반 분포              |
+|  서버 수   | 1개         | c개          | 1개                    |
+|  ---------+-----------+------------+---------------------- |
+|  L (시스템 | ρ/(1-ρ)   | 복잡한 공식  | Lq + ρ                |
+|    내 수)  |             |              |                        |
+|  W (체류   | S/(1-ρ)   | 복잡한 공식  | Wq + S                |
+|    시간)   |             |              |                        |
+|  Wq(대기   | ρS/(1-ρ)  | 복잡한 공식  | Pollaczek-            |
+|    시간)   |             |              | Khinchine 공식         |
+|  ---------+-----------+------------+---------------------- |
+|  리틀의    | 항상 성립   | 항상 성립    | 항상 성립              |
+|  법칙      | L=λW       | L=λW         | L=λW                   |
+|  ---------+-----------+------------+---------------------- |
+|  안정 조건 | ρ < 1      | ρ < 1       | ρ < 1                 |
+|            | (λ < μ)    | (λ < c×μ)   | (λ < μ)               |
+|                                                                |
+|  ※ ρ = 이용률(Utilization), S = 평균 서비스 시간             |
+|  ※ μ = 서비스율(Service Rate) = 1/S                           |
+|  ※ 리틀의 법칙은 모든 모델에서 동일하게 L = λW로 성립!       |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 표는 다양한 대기행렬 모델에서 리틀의 법칙이 어떻게 적용되는지 비교한다. M/M/1, M/M/c, M/G/1 모델 모두에서 L과 W의 세부 공식은 다르지만, L = λW라는 관계는 모든 모델에서 동일하게 성립한다. 이것이 리틀의 법칙의 위력이다. 복잡한 대기행렬 모델의 정확한 공식을 몰라도, L, λ, W 중 두 값을 알면 나머지 하나를 항상 정확하게 계산할 수 있다.
@@ -226,53 +226,53 @@ tags = ["studynote-operating-system"]
 - 4코어 서버에서 Load Average = 8 (2분 평균) 관측.
 - 리틀의 법칙: L = Load Average = 8, c(코어 수) = 4
 - 코어당 평균 큐 길이: 8/4 = 2 (각 코어에 평균 2개 프로세스 대기)
-- 이용률 ρ ≈ L/(L+c) → 근사치 높음 → CPU 확장 또는 최적화 필요.
-- 결정: 코어 수를 4→8로 증설하면 Load Average 8/8 = 1 (코어당 1개, 이상적).
+- 이용률 ρ ≈ L/(L+c) -> 근사치 높음 -> CPU 확장 또는 최적화 필요.
+- 결정: 코어 수를 4->8로 증설하면 Load Average 8/8 = 1 (코어당 1개, 이상적).
 
 <strong>시나리오 3: <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 체인 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> 예측</strong>
-- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체인: [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) → Order [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → Payment [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → DB
-- 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 독립적 리틀의 법칙 적용 → 전체 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 예측.
-- Order [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): λ=200 req/s, L(동시 처리 수)=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) → W=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/200=50ms
-- Payment [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): λ=200 req/s, L=5 → W=5/200=25ms
+- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체인: [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) -> Order [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> Payment [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> DB
+- 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 독립적 리틀의 법칙 적용 -> 전체 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 예측.
+- Order [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): λ=200 req/s, L(동시 처리 수)=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) -> W=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/200=50ms
+- Payment [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): λ=200 req/s, L=5 -> W=5/200=25ms
 - 전체 체인 예상 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/): 50ms + 25ms + DB(5ms) ≈ 80ms
 - SLA가 100ms라면 여유 있음; 50ms라면 병목 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Order) 최적화 필요.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│     리틀의 법칙 기반 성능 튜닝 의사결정 흐름                  │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [성능 목표 설정]                                              │
-│  "응답 시간 W을 50ms 이하로 유지하고 싶다"                   │
-│     │                                                          │
-│     ▼                                                          │
-│  [현재 상태 측정]                                              │
-│  λ = 500 req/s (측정), L = 40 (모니터링 지표)                 │
-│     │                                                          │
-│     ▼                                                          │
-│  [리틀의 법칙으로 현재 체류 시간 계산]                        │
-│  W = L / λ = 40 / 500 = 80ms (목표 50ms 초과!)               │
-│     │                                                          │
-│     ▼                                                          │
-│  [튜닝 옵션 분석]                                              │
-│                                                                │
-│  옵션 A: 도착률 제한 (λ ↓)                                    │
-│  λ_new = L_target / W_target = 40 / 0.05 = 800 req/s         │
-│  → 현재 500 req/s이므로 L을 줄여야 함                        │
-│                                                                │
-│  옵션 B: 서비스 시간 단축 → L 감소                            │
-│  서비스 시간 최적화(캐시, 인덱스) → W가 줄면 L도 줄어듦      │
-│  목표: W = 50ms → L = 500 × 0.05 = 25 (40→25로 감목)        │
-│                                                                │
-│  옵션 C: 서버(코어) 수 증설 → 처리율 증가                    │
-│  c를 4→8로 증설 → 병렬 처리율 향상 → W 감소                  │
-│                                                                │
-│  [선택] 옵션 B(캐시 도입) + 옵션 C(1대 증설)의 조합          │
-│  → 리틀의 법칙으로 튜닝 전후를 정량 예측 가능!                │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|     리틀의 법칙 기반 성능 튜닝 의사결정 흐름                  |
++----------------------------------------------------------------+
+|                                                                |
+|  [성능 목표 설정]                                              |
+|  "응답 시간 W을 50ms 이하로 유지하고 싶다"                   |
+|     |                                                          |
+|     v                                                          |
+|  [현재 상태 측정]                                              |
+|  λ = 500 req/s (측정), L = 40 (모니터링 지표)                 |
+|     |                                                          |
+|     v                                                          |
+|  [리틀의 법칙으로 현재 체류 시간 계산]                        |
+|  W = L / λ = 40 / 500 = 80ms (목표 50ms 초과!)               |
+|     |                                                          |
+|     v                                                          |
+|  [튜닝 옵션 분석]                                              |
+|                                                                |
+|  옵션 A: 도착률 제한 (λ v)                                    |
+|  λ_new = L_target / W_target = 40 / 0.05 = 800 req/s         |
+|  -> 현재 500 req/s이므로 L을 줄여야 함                        |
+|                                                                |
+|  옵션 B: 서비스 시간 단축 -> L 감소                            |
+|  서비스 시간 최적화(캐시, 인덱스) -> W가 줄면 L도 줄어듦      |
+|  목표: W = 50ms -> L = 500 × 0.05 = 25 (40->25로 감목)        |
+|                                                                |
+|  옵션 C: 서버(코어) 수 증설 -> 처리율 증가                    |
+|  c를 4->8로 증설 -> 병렬 처리율 향상 -> W 감소                  |
+|                                                                |
+|  [선택] 옵션 B(캐시 도입) + 옵션 C(1대 증설)의 조합          |
+|  -> 리틀의 법칙으로 튜닝 전후를 정량 예측 가능!                |
++----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 흐름도는 리틀의 법칙을 활용하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 방향을 정량적으로 결정하는 과정을 보여준다. L = λW에서 세 변수 중 두 개를 알면 나머지 하나를 계산할 수 있으므로, "도착률을 제한할 것인가(λ↓)", "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간을 단축할 것인가(W↓)", "서버를 증설할 것인가(c↑)"의 세 가지 튜닝 방향을 수학적으로 비교할 수 있다.
+**[다이어그램 해설]** 이 흐름도는 리틀의 법칙을 활용하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 방향을 정량적으로 결정하는 과정을 보여준다. L = λW에서 세 변수 중 두 개를 알면 나머지 하나를 계산할 수 있으므로, "도착률을 제한할 것인가(λv)", "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간을 단축할 것인가(Wv)", "서버를 증설할 것인가(c^)"의 세 가지 튜닝 방향을 수학적으로 비교할 수 있다.
 
 - **📢 섹션 요약 비유**: 목표 시간 내에 마라톤을 완주하고 싶다면, "속도(λ)를 올리거나, 거리(W)를 줄이거나, 훈련(L)을 늘리거나" 중 하나를 선택해야 합니다. 리틀의 법칙은 이 세 가지의 관계를 정확한 숫자로 보여주어, 가장 효과적인 전략을 선택할 수 있게 합니다.
 
@@ -307,12 +307,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]
-    │
-    ▼
+    |
+    v
 [리틀의 법칙 (Little's Law)]
-    │
-    ├──▶ [CPU 유휴 (Idle) 대기 루프 최적화]
-    └──▶ [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
+    |
+    +---> [CPU 유휴 (Idle) 대기 루프 최적화]
+    +---> [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -329,7 +329,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 610 / 800
 
-← **이전**: [609. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)
-**다음**: [611. CPU 유휴 (Idle) 대기 루프 최적화](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) →
+<- **이전**: [609. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)
+**다음**: [611. CPU 유휴 (Idle) 대기 루프 최적화](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) ->
 
 ---

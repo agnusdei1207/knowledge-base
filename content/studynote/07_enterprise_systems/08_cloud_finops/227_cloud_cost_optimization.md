@@ -45,22 +45,22 @@ tags = ["studynote-enterprise"]
 아래 그림은 비용 절감 기술이 "워크로드 특성"을 기준으로 어떻게 분기되는지 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Cost optimization by workload profile                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Compute                                                              │
-│   Steady + stateful        -> RI/SP + rightsizing                    │
-│   Variable + stateless     -> autoscaling + spot                     │
-│   Office-hour only         -> start/stop scheduling                  │
-│   Rare event driven        -> serverless                             │
-│                                                                      │
-│ Storage                                                              │
-│   Hot data                 -> standard / SSD tier                    │
-│   Warm data                -> infrequent access tier                 │
-│   Cold archive             -> deep archive                           │
-│                                                                      │
-│ Core rule: choose by interruption tolerance and response target      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+| Cost optimization by workload profile                                |
++----------------------------------------------------------------------+
+| Compute                                                              |
+|   Steady + stateful        -> RI/SP + rightsizing                    |
+|   Variable + stateless     -> autoscaling + spot                     |
+|   Office-hour only         -> start/stop scheduling                  |
+|   Rare event driven        -> serverless                             |
+|                                                                      |
+| Storage                                                              |
+|   Hot data                 -> standard / SSD tier                    |
+|   Warm data                -> infrequent access tier                 |
+|   Cold archive             -> deep archive                           |
+|                                                                      |
+| Core rule: choose by interruption tolerance and response target      |
++----------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 모든 기술이 모든 워크로드에 맞지 않는다는 점이다. 예를 들어 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)는 70~90% 수준의 비용 절감 여지가 있지만, 중단 허용성과 재시도 설계가 없으면 오히려 장애를 만든다. 반대로 야간 정지 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링은 가장 쉬운 전술이지만 24시간 고객 트래픽이 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에는 적용할 수 없다.
@@ -143,17 +143,17 @@ tags = ["studynote-enterprise"]
 
 ```text
 Lift-and-shift migration
-        │
-        ▼
+        |
+        v
 Idle resource discovery
-        │
-        ▼
+        |
+        v
 Rightsizing + scheduling
-        │
-        ▼
+        |
+        v
 Autoscaling + RI/SP + storage tiering
-        │
-        ▼
+        |
+        v
 Spot-aware / serverless cloud-native optimization
 ```
 
@@ -171,7 +171,7 @@ Spot-aware / serverless cloud-native optimization
 
 **진행 상황**: 227 / 482
 
-← **이전**: [226. FinOps (Cloud Financial Management)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/226_finops_cloud_financial_management/)
-**다음**: [228. IT 서비스 카탈로그 (IT Service Catalog)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/228_it_service_catalog/) →
+<- **이전**: [226. FinOps (Cloud Financial Management)](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/226_finops_cloud_financial_management/)
+**다음**: [228. IT 서비스 카탈로그 (IT Service Catalog)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/228_it_service_catalog/) ->
 
 ---

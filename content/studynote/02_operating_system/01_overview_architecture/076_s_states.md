@@ -24,9 +24,9 @@ tags = ["studynote-operating-system"]
 항상 켜 두면 전력과 수명이 낭비되고, 완전히 끄면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 느려진다. 그래서 운영체제는 사용하지 않는 동안만 전력을 줄이고, 필요할 때 빠르게 돌아올 수 있는 여러 단계를 제공한다.
 
 ```text
-S0(작동) ─▶ S3(대기) ─▶ S4(최대 절전) ─▶ S5(종료)
-   │            │             │               │
-   └────────────┴─────────────┴───────────────┘
+S0(작동) --> S3(대기) --> S4(최대 절전) --> S5(종료)
+   |            |             |               |
+   +------------+-------------+---------------+
                 복귀 시간은 뒤로 갈수록 길어짐
 ```
 
@@ -50,13 +50,13 @@ S0(작동) ─▶ S3(대기) ─▶ S4(최대 절전) ─▶ S5(종료)
 
 ```text
 [사용 중]
-    │
-    ▼
-S0 ──▶ S3 ──▶ S4 ──▶ S5
- │       │       │
- │       │       └─ 배터리/정책에 따라 자동 전환
- │       └─ RAM 내용 유지
- └─ Modern Standby(S0ix): 깨어 있을 수 있는 저전력 모드
+    |
+    v
+S0 ---> S3 ---> S4 ---> S5
+ |       |       |
+ |       |       +- 배터리/정책에 따라 자동 전환
+ |       +- RAM 내용 유지
+ +- Modern Standby(S0ix): 깨어 있을 수 있는 저전력 모드
 ```
 
 S3는 RAM을 살려 두기 때문에 복귀가 빠르지만, 전원이 끊기면 내용이 날아간다. S4는 RAM 내용을 디스크에 저장해 전원을 거의 끊을 수 있지만, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 더 길다.
@@ -128,17 +128,17 @@ S-states는 전력 절감, 배터리 수명, 발열 감소, [복구](/knowledge-
 
 ```text
 상시 전원
-    │
-    ▼
+    |
+    v
 S3(빠른 복귀)
-    │
-    ▼
+    |
+    v
 S4(디스크 저장)
-    │
-    ▼
+    |
+    v
 S5(완전 종료)
-    │
-    ▼
+    |
+    v
 S0ix / Modern Standby(상시 연결 + 저전력)
 ```
 
@@ -156,7 +156,7 @@ S0ix / Modern Standby(상시 연결 + 저전력)
 
 **진행 상황**: 76 / 800
 
-← **이전**: [75. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)
-**다음**: [77. 프로세서 전원 상태 (C-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/) →
+<- **이전**: [75. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)
+**다음**: [77. 프로세서 전원 상태 (C-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/) ->
 
 ---

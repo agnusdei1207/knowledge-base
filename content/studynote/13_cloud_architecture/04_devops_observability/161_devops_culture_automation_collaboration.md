@@ -74,14 +74,14 @@ tags = ["studynote-cloud"]
 
 ```text
 사일로 조직 (Dev ↔ Ops 분리, 배포 지연)
-    │
-    ▼
+    |
+    v
 DevOps: 문화 + 자동화 + 협업 (CI/CD · IaC)
-    │
-    ▼
+    |
+    v
 SRE: 신뢰성 엔지니어링 (SLI/SLO · Error Budget)
-    │
-    ▼
+    |
+    v
 Platform Engineering · DevSecOps · FinOps
 ```
 2. 예전에는 일주일에 한 번 배달했다면, 이제는 주문 즉시 요리하고 바로 배달(자동화)해요.
@@ -93,7 +93,7 @@ Platform Engineering · DevSecOps · FinOps
 
 **진행 상황**: 160 / 371
 
-← **이전**: [160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/160_service_mesh_istio_linkerd/)
-**다음**: [CALMS 프레임워크 (CALMS Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/162_calms_framework_devops_principles/) →
+<- **이전**: [160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/160_service_mesh_istio_linkerd/)
+**다음**: [CALMS 프레임워크 (CALMS Framework)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/162_calms_framework_devops_principles/) ->
 
 ---

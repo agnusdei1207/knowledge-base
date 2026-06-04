@@ -28,15 +28,15 @@ tags = ["software_engineering"]
 이 도식은 반복(Iterative)과 점진(Incremental)의 본질적인 개념 차이를 시각화하여 보여줍니다.
 
 [반복적 (Iterative) - "디테일의 진화"]
-전체 연필 스케치 ──▶ 기본 채색 ──▶ 명암 및 세부 묘사 ──▶ 완성된 모나리자 그림
-(초기부터 전체 형태는 보이나 품질이 낮음 → 갈수록 정교해짐)
+전체 연필 스케치 ---> 기본 채색 ---> 명암 및 세부 묘사 ---> 완성된 모나리자 그림
+(초기부터 전체 형태는 보이나 품질이 낮음 -> 갈수록 정교해짐)
 
 [점진적 (Incremental) - "조각의 결합"]
-왼쪽 팔 완성 ──▶ 오른쪽 팔 완성 ──▶ 몸통 완성 ──▶ 다리 결합 ──▶ 완성된 로봇 조립
-(한 번에 일부분만 완벽히 구현 → 조금씩 기능 범위가 넓어짐)
+왼쪽 팔 완성 ---> 오른쪽 팔 완성 ---> 몸통 완성 ---> 다리 결합 ---> 완성된 로봇 조립
+(한 번에 일부분만 완벽히 구현 -> 조금씩 기능 범위가 넓어짐)
 
 [반복적 + 점진적 결합 (Modern SDLC)]
-코어 기능 스케치 및 완성 ──▶ 부가 기능 스케치 및 완성 ──▶ 점진적 배포의 반복
+코어 기능 스케치 및 완성 ---> 부가 기능 스케치 및 완성 ---> 점진적 배포의 반복
 ```
 이 도식에서 핵심은 두 방식이 문제를 나누고 정복([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))하는 방향이 다르다는 점입니다. 반복적 방식은 '품질의 깊이(Depth)'를 쪼개고, 점진적 방식은 '기능의 넓이([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))'를 쪼갭니다. 따라서 실무에서는 아키텍처의 뼈대는 반복적으로 다듬으면서, 개별 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)나 기능 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 점진적으로 추가 배포하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 병행해야 합니다. 이것이 분리되면 품질이 조악한 전체 시스템이 되거나, 통합되지 않는 고립된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 파편화가 발생합니다.
 
@@ -58,14 +58,14 @@ tags = ["software_engineering"]
 ```text
 이 아키텍처 도해는 점진적 배포 단위(Increment)들이 시간에 따라 릴리즈되며 시스템이 완성되는 흐름을 보여줍니다.
 
-Time ────────────────────────────────────────────────────────────▶
+Time ------------------------------------------------------------->
 [요구사항 정의/아키텍처 설계] (전체 윤곽)
-      │
-      ├─▶ Increment 1 (핵심결제) : 분석 ─ 설계 ─ 코딩 ─ 테스트 ──▶ [Release 1]
-      │
-      ├─▶ Increment 2 (장바구니) :      분석 ─ 설계 ─ 코딩 ─ 테스트 ──▶ [Release 2] (통합)
-      │
-      └─▶ Increment 3 (추천엔진) :           분석 ─ 설계 ─ 코딩 ─ 테스트 ──▶ [Release 3] (통합)
+      |
+      +--> Increment 1 (핵심결제) : 분석 - 설계 - 코딩 - 테스트 ---> [Release 1]
+      |
+      +--> Increment 2 (장바구니) :      분석 - 설계 - 코딩 - 테스트 ---> [Release 2] (통합)
+      |
+      +--> Increment 3 (추천엔진) :           분석 - 설계 - 코딩 - 테스트 ---> [Release 3] (통합)
 ```
 이 흐름의 핵심은 한 증분의 배포가 끝나기 전에 다음 증분의 분석/설계가 오버래핑(Overlapping)되며 진행된다는 점과, 릴리즈 시점마다 이전 증분들과의 완벽한 '[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))'가 강제된다는 점입니다. 따라서 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 자동화 파이프라인이 구축되어 있지 않으면, 증분이 추가될 때마다 회귀 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Regression [Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))이 폭증하여 시스템이 붕괴됩니다. 실무에서는 아키텍처의 유연성이 매우 중요하며, 확장에 닫힌 강결합(Tight [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 설계를 하면 Increment 2단계부터 통합 지옥에 빠지게 됩니다.
 
@@ -91,19 +91,19 @@ Time ─────────────────────────
 [가치 인도 및 위험도 누적 곡선 비교]
 
 가치(Value)
- ▲                      / (폭포수 가치: 마지막에 수직 상승)
- │                    /
- │    __--‾‾--__--‾‾ (점진적 가치: 단계적으로 우상향)
- │ __-
- └────────────────────────────▶ 시간
+ ^                      / (폭포수 가치: 마지막에 수직 상승)
+ |                    /
+ |    __--‾‾--__--‾‾ (점진적 가치: 단계적으로 우상향)
+ | __-
+ +-----------------------------> 시간
 
 위험(Risk)
- ▲ -----                 (폭포수 위험: 끝까지 알 수 없음)
- │       ＼
- │ ＼      ＼
- │   ＼_--_  ＼  (점진적 위험: 배포마다 급격히 하락)
- │         ‾‾--__
- └────────────────────────────▶ 시간
+ ^ -----                 (폭포수 위험: 끝까지 알 수 없음)
+ |       ＼
+ | ＼      ＼
+ |   ＼_--_  ＼  (점진적 위험: 배포마다 급격히 하락)
+ |         ‾‾--__
+ +-----------------------------> 시간
 ```
 이 도식의 핵심은 반복/점진적 모델이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 리스크를 떨어뜨리고 비즈니스 가치를 조기 확보하는 교차점(Cross Point)을 만들어낸다는 점입니다. [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)은 아무리 훌륭한 시스템이라도 오픈 전날까지는 고객 가치가 '0'이며, 위험도는 'Max' 상태를 유지합니다. 반면, 점진적 모델은 핵심 기능 20%만 배포해도 즉시 수익이 창출되므로 재무적 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 관점에서 절대적으로 유리합니다. 다만, 이 방식은 아키텍처가 불안정할 경우 "잘못 설계된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 덕지덕지 이어 붙인 프랑켄슈타인 시스템"을 만들 수 있는 트레이드오프를 가집니다.
 
@@ -119,10 +119,10 @@ Time ─────────────────────────
 이 의사결정 트리는 모듈 분할(Increment 정의) 시 흔히 발생하는 안티패턴을 보여줍니다.
 
 [전체 시스템 범위 식별]
-        │
-        ├─▶ 수평적 쪼개기(DB 먼저, 다음 서버, 다음 UI) ──▶ (안티패턴!) 배포해도 고객이 쓸 수 없음 (가치 0)
-        │
-        └─▶ 수직적 쪼개기(기능별: UI+서버+DB 한 세트) ──▶ (올바른 점진적!) [핵심 기능 릴리즈 및 수익 창출]
+        |
+        +--> 수평적 쪼개기(DB 먼저, 다음 서버, 다음 UI) ---> (안티패턴!) 배포해도 고객이 쓸 수 없음 (가치 0)
+        |
+        +--> 수직적 쪼개기(기능별: UI+서버+DB 한 세트) ---> (올바른 점진적!) [핵심 기능 릴리즈 및 수익 창출]
 ```
 <strong>실무 판단 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 방지</strong>
 1. **수직적 슬라이싱(Vertical Slicing)**: 증분을 나눌 때 레이어별(DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), UI)로 나누면 단일 릴리즈 시 동작하는 기능이 없습니다. 반드시 고객 관점의 유스케이스(예: 회원가입 전체 플로우) 단위로 수직적으로 잘라서 배포해야 합니다.
@@ -160,17 +160,17 @@ Time ─────────────────────────
 
 ```text
 [폭포수 모델 (Waterfall) — 순차 개발]
-    │
-    ▼
+    |
+    v
 [반복적/점진적 모델 (Iterative/Incremental)]
-    │
-    ▼
+    |
+    v
 [애자일 (Agile) / 스크럼 (Scrum)]
-    │
-    ▼
+    |
+    v
 [지속적 통합/배포 (CI/CD)]
-    │
-    ▼
+    |
+    v
 [DevOps / GitOps]
 ```
 
@@ -187,7 +187,7 @@ Time ─────────────────────────
 
 **진행 상황**: 8 / 973
 
-← **이전**: [7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/)
-**다음**: [9. RAD (Rapid Application Development) 모델 - JAD, CASE 도구 활용](/knowledge-base/studynote/04_software_engineering/01_overview_principles/009_rad_model/) →
+<- **이전**: [7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/)
+**다음**: [9. RAD (Rapid Application Development) 모델 - JAD, CASE 도구 활용](/knowledge-base/studynote/04_software_engineering/01_overview_principles/009_rad_model/) ->
 
 ---

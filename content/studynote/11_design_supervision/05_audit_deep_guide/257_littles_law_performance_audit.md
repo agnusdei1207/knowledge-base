@@ -37,9 +37,9 @@ W (Wait)   : 평균 응답 시간 (초, second)
 | W | 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 0.5초 |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
++--------------+    +--------------+    +--------------+
+| Problem      |--->| Core Idea    |--->| Expected Gain |
++--------------+    +--------------+    +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 리틀의 법칙은 "마트 계산대(시스템)에 항상 몇 명이 줄 서 있는지(L)는 시간당 처리 고객 수(λ)와 1명당 걸리는 시간(W)의 곱"이라는 상식적 수학이다.
@@ -48,72 +48,72 @@ W (Wait)   : 평균 응답 시간 (초, second)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  실무 계산 예시                                               │
-│                                                             │
-│  목표 성능:                                                  │
-│  - 목표 TPS (λ): 200 tps                                    │
-│  - 평균 응답 시간 (W): 0.3초                                 │
-│                                                             │
-│  필요 스레드 수 (L):                                         │
-│  L = λ × W = 200 × 0.3 = 60개                               │
-│                                                             │
-│  안전 마진 (20%) 적용:                                       │
-│  스레드 풀 설정 = 60 × 1.2 = 72개  →  75개 설정             │
-│                                                             │
-│  커넥션 풀 산정:                                             │
-│  - DB 쿼리 TPS: 150 tps (쿼리 비중 75%)                     │
-│  - 평균 DB 응답 시간: 0.1초                                  │
-│  L_db = 150 × 0.1 = 15개  →  커넥션 풀 20개 설정            │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|  실무 계산 예시                                               |
+|                                                             |
+|  목표 성능:                                                  |
+|  - 목표 TPS (λ): 200 tps                                    |
+|  - 평균 응답 시간 (W): 0.3초                                 |
+|                                                             |
+|  필요 스레드 수 (L):                                         |
+|  L = λ × W = 200 × 0.3 = 60개                               |
+|                                                             |
+|  안전 마진 (20%) 적용:                                       |
+|  스레드 풀 설정 = 60 × 1.2 = 72개  ->  75개 설정             |
+|                                                             |
+|  커넥션 풀 산정:                                             |
+|  - DB 쿼리 TPS: 150 tps (쿼리 비중 75%)                     |
+|  - 평균 DB 응답 시간: 0.1초                                  |
+|  L_db = 150 × 0.1 = 15개  ->  커넥션 풀 20개 설정            |
++-------------------------------------------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              스레드 풀 설정 시나리오 비교                     │
-│                                                             │
-│  [과소 설정: 스레드 풀 = 10개]                               │
-│                                                             │
-│  요청 60개 ──► 활성 스레드 10개 ──► 대기 큐 50개             │
-│                    │                                        │
-│                    ▼                                        │
-│  응답 시간 급증, 타임아웃(Timeout) 발생, 500 오류             │
-│                                                             │
-│  [과다 설정: 스레드 풀 = 500개]                              │
-│                                                             │
-│  요청 60개 ──► 활성 스레드 60개 ──► 유휴 스레드 440개        │
-│                    │                                        │
-│                    ▼                                        │
-│  메모리 낭비 (스레드 1개 = 약 1MB 스택)                      │
-│  불필요한 컨텍스트 스위칭(Context Switching) 오버헤드         │
-│                                                             │
-│  [적정 설정: 스레드 풀 = 75개]                               │
-│                                                             │
-│  요청 60개 ──► 활성 스레드 60개 ──► 여유 스레드 15개         │
-│                    │                                        │
-│                    ▼                                        │
-│  안정적 TPS 유지, 피크 부하 흡수 가능                        │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              스레드 풀 설정 시나리오 비교                     |
+|                                                             |
+|  [과소 설정: 스레드 풀 = 10개]                               |
+|                                                             |
+|  요청 60개 --► 활성 스레드 10개 --► 대기 큐 50개             |
+|                    |                                        |
+|                    v                                        |
+|  응답 시간 급증, 타임아웃(Timeout) 발생, 500 오류             |
+|                                                             |
+|  [과다 설정: 스레드 풀 = 500개]                              |
+|                                                             |
+|  요청 60개 --► 활성 스레드 60개 --► 유휴 스레드 440개        |
+|                    |                                        |
+|                    v                                        |
+|  메모리 낭비 (스레드 1개 = 약 1MB 스택)                      |
+|  불필요한 컨텍스트 스위칭(Context Switching) 오버헤드         |
+|                                                             |
+|  [적정 설정: 스레드 풀 = 75개]                               |
+|                                                             |
+|  요청 60개 --► 활성 스레드 60개 --► 여유 스레드 15개         |
+|                    |                                        |
+|                    v                                        |
+|  안정적 TPS 유지, 피크 부하 흡수 가능                        |
++-------------------------------------------------------------+
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              커넥션 풀 최적화 원리                            │
-│                                                             │
-│  WAS 스레드 ──► 커넥션 풀에서 커넥션 획득                    │
-│                                                             │
-│  커넥션 풀 부족 시:                                          │
-│  스레드가 커넥션 대기 ──► 응답 시간 증가 ──► 스레드 풀 포화  │
-│                                                             │
-│  권장 공식:                                                  │
-│  DB 커넥션 풀 = (WAS 스레드 풀) × (DB 쿼리 비중)            │
-│               × (DB 응답 시간 / WAS 응답 시간)              │
-│                                                             │
-│  HikariCP(히카리CP) 권장:                                    │
-│  connections = ((core_count × 2) + effective_spindle_count) │
-│                                                             │
-│  예: CPU 4코어, SSD 1개 = (4×2)+1 = 9개 (약 10개 설정)      │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|              커넥션 풀 최적화 원리                            |
+|                                                             |
+|  WAS 스레드 --► 커넥션 풀에서 커넥션 획득                    |
+|                                                             |
+|  커넥션 풀 부족 시:                                          |
+|  스레드가 커넥션 대기 --► 응답 시간 증가 --► 스레드 풀 포화  |
+|                                                             |
+|  권장 공식:                                                  |
+|  DB 커넥션 풀 = (WAS 스레드 풀) × (DB 쿼리 비중)            |
+|               × (DB 응답 시간 / WAS 응답 시간)              |
+|                                                             |
+|  HikariCP(히카리CP) 권장:                                    |
+|  connections = ((core_count × 2) + effective_spindle_count) |
+|                                                             |
+|  예: CPU 4코어, SSD 1개 = (4×2)+1 = 9개 (약 10개 설정)      |
++-------------------------------------------------------------+
 ```
 
 | 항목 | 설명 | 포인트 |
@@ -157,7 +157,7 @@ W (Wait)   : 평균 응답 시간 (초, second)
 ```
 # Tomcat server.xml
 <Executor name="tomcatThreadPool"
-          maxThreads="75"       ← 리틀의 법칙 기반 설정
+          maxThreads="75"       <- 리틀의 법칙 기반 설정
           minSpareThreads="10"/>
 
 # Spring Boot application.yml
@@ -171,7 +171,7 @@ server:
 spring:
   datasource:
     hikari:
-      maximum-pool-size: 20    ← L_db = λ_db × W_db
+      maximum-pool-size: 20    <- L_db = λ_db × W_db
       minimum-idle: 5
       connection-timeout: 30000
 ```
@@ -207,7 +207,7 @@ spring:
 | 연관 개념 | [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) | L, λ, W 실시간 측정 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) theory → 리틀의 법칙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 → capacity planning
+[queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) theory -> 리틀의 법칙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 -> capacity planning
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리틀의 법칙은 "놀이공원에서 항상 몇 명이 줄 서 있는지는 1시간에 몇 명 태우는지와 1번 타는 데 걸리는 시간을 곱하면 나온다"는 거야.
@@ -220,7 +220,7 @@ spring:
 
 **진행 상황**: 318 / 530
 
-← **이전**: [256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/256_performance_metrics_tps_rsp/)
-**다음**: [258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) →
+<- **이전**: [256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/256_performance_metrics_tps_rsp/)
+**다음**: [258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) ->
 
 ---

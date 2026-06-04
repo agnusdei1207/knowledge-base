@@ -36,22 +36,22 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 [ELK Stack 중앙화 로깅 아키텍처]
 
 마이크로서비스들
-├── Service A: 로그 출력 (stdout/file)
-├── Service B: 로그 출력
-└── Service C: 로그 출력
-         ↓
++-- Service A: 로그 출력 (stdout/file)
++-- Service B: 로그 출력
++-- Service C: 로그 출력
+         v
 [수집 에이전트]
   Filebeat / Fluentd / Fluentbit
   (각 노드에 DaemonSet으로 배포)
-         ↓
+         v
 [수집·변환·파싱]
   Logstash / Kafka (버퍼)
   (필드 추출, 필터링, 강화)
-         ↓
+         v
 [저장·인덱싱]
   Elasticsearch 클러스터
   (샤딩, 복제, 역인덱스)
-         ↓
+         v
 [시각화·검색]
   Kibana 대시보드
   (로그 검색, 시각화, 알람)
@@ -113,7 +113,7 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/">로그 수집</a>:</strong>
 - DaemonSet으로 Fluentbit 배포: 모든 노드의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자동 수집
-- `kubectl logs` 단기 저장 한계 → 중앙화 필수
+- `kubectl logs` 단기 저장 한계 -> 중앙화 필수
 - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 stdout/stderr로만 출력 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 금지)
 
 **실무 알람 연동:**
@@ -128,7 +128,7 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 
 중앙화된 로깅은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 장애 진단 시간을 드라마틱하게 단축한다. [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time To Repair)이 "각 서버에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속하여 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 찾기"의 시간에서 "Kibana에서 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 검색" 30초로 줄어든다.
 
-비용과 보존 정책이 주요 운영 과제다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 매우 빠르게 증가하므로, Hot(최근 7일, 빠른 검색) → Warm(30일, 일반 검색) → Cold(90일, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 보관) → Delete(삭제) 레이어별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기(ILM, [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) 정책을 반드시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
+비용과 보존 정책이 주요 운영 과제다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 매우 빠르게 증가하므로, Hot(최근 7일, 빠른 검색) -> Warm(30일, 일반 검색) -> Cold(90일, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 보관) -> Delete(삭제) 레이어별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기(ILM, [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) 정책을 반드시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
 📢 **섹션 요약 비유**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ILM은 편의점 유통기한 관리다. 신선식품(최근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))은 냉장 진열대에, 조금 지난 것은 창고에, 오래된 것은 폐기한다. 모든 걸 냉장 진열대에 두면 공간이 부족하다.
 
@@ -151,13 +151,13 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 
 ```text
 각 서버별 개별 로그 파일 (분산 시 확인 불가)
-    │
-    ▼
+    |
+    v
 중앙 집중 로깅: ELK (Elastic · Logstash · Kibana) · Loki
-    ├─► 구조화 로그: JSON 형식 + Trace ID 포함
-    └─► 로그 레벨: DEBUG · INFO · WARN · ERROR · FATAL
-    │
-    ▼
+    +-► 구조화 로그: JSON 형식 + Trace ID 포함
+    +-► 로그 레벨: DEBUG · INFO · WARN · ERROR · FATAL
+    |
+    v
 AIOps: 로그 패턴 자동 분석 · 이상 탐지
 ```
 2. ELK Stack은 전국 모든 지점의 일기장을 한 곳에 모아서 쉽게 검색하는 시스템이에요.
@@ -169,7 +169,7 @@ AIOps: 로그 패턴 자동 분석 · 이상 탐지
 
 **진행 상황**: 186 / 371
 
-← **이전**: [186. 골든 시그널 (4 Golden Signals - SRE 모니터링)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)
-**다음**: [188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/188_distributed_tracing_opentelemetry/) →
+<- **이전**: [186. 골든 시그널 (4 Golden Signals - SRE 모니터링)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)
+**다음**: [188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/188_distributed_tracing_opentelemetry/) ->
 
 ---

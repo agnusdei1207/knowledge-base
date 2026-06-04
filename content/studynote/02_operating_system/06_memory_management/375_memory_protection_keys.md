@@ -28,26 +28,26 @@ tags = ["studynote-operating-system"]
   3. **MPK의 하드웨어 해킹 방어**: 인텔은 이 한계를 부수기 위해 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번역 장부(PTE)의 안 쓰는 빈 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 4개를 활용, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 자체를 뜯어고치지 않고 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 똑딱 끄고 켜는 것으로 수백 MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 권한을 1클럭 만에 바꿀 수 있는 초가성비 회로를 설계해 냈다.
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        기존 mprotect() vs 혁신적 MPK(Protection Key) 동작 비교          │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 목표: 수만 개의 페이지로 이루어진 1GB 데이터에 '쓰기 금지(락)' 걸기 ] │
-│                                                                         │
-│ ▶ 과거: OS 시스템 콜 (mprotect) 사용 시                                 │
-│   1. 유저 프로그램이 커널에 "이 1GB 영역 잠가줘!" 라고 부탁함.          │
-│   2. OS가 1GB를 커버하는 수만 개의 페이지 테이블(PTE)을 일일이 순회하며 │
-│      R/W 비트를 0으로 다 덮어씀 (막대한 루프 연산 낭비).                │
-│   3. 갱신했으니 기존 CPU 캐시를 싹 다 날림 (TLB Flush 재앙 터짐).       │
-│   ▶ 결과: 락 한 번 걸고 푸는 데 수 밀리초(ms)씩 서버가 얼어붙음.        │
-│                                                                         │
-│ ▶ 현대: MPK (Memory Protection Keys) 사용 시                            │
-│   1. 애초에 1GB 페이지들에 'Key 5번' 도장을 미리 찍어둠.                │
-│   2. 유저 프로그램이 락을 걸고 싶을 때, 단 1줄의 어셈블리어(WRPKRU)로   │
-│      내 레지스터에서 'Key 5번 열쇠'를 슬쩍 버림.                        │
-│   3. 하드웨어가 앞으로 Key 5번 구역 쓰기 시도를 1나노초만에 쳐냄.       │
-│   ▶ 결과: 커널 개입 0회! TLB Flush 없음! 단 1클럭(1ns) 만에 락킹 완료!  │
-└─────────────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------------+
+|        기존 mprotect() vs 혁신적 MPK(Protection Key) 동작 비교          |
++-------------------------------------------------------------------------+
+|                                                                         |
+| [ 목표: 수만 개의 페이지로 이루어진 1GB 데이터에 '쓰기 금지(락)' 걸기 ] |
+|                                                                         |
+| -> 과거: OS 시스템 콜 (mprotect) 사용 시                                 |
+|   1. 유저 프로그램이 커널에 "이 1GB 영역 잠가줘!" 라고 부탁함.          |
+|   2. OS가 1GB를 커버하는 수만 개의 페이지 테이블(PTE)을 일일이 순회하며 |
+|      R/W 비트를 0으로 다 덮어씀 (막대한 루프 연산 낭비).                |
+|   3. 갱신했으니 기존 CPU 캐시를 싹 다 날림 (TLB Flush 재앙 터짐).       |
+|   -> 결과: 락 한 번 걸고 푸는 데 수 밀리초(ms)씩 서버가 얼어붙음.        |
+|                                                                         |
+| -> 현대: MPK (Memory Protection Keys) 사용 시                            |
+|   1. 애초에 1GB 페이지들에 'Key 5번' 도장을 미리 찍어둠.                |
+|   2. 유저 프로그램이 락을 걸고 싶을 때, 단 1줄의 어셈블리어(WRPKRU)로   |
+|      내 레지스터에서 'Key 5번 열쇠'를 슬쩍 버림.                        |
+|   3. 하드웨어가 앞으로 Key 5번 구역 쓰기 시도를 1나노초만에 쳐냄.       |
+|   -> 결과: 커널 개입 0회! TLB Flush 없음! 단 1클럭(1ns) 만에 락킹 완료!  |
++-------------------------------------------------------------------------+
 ```
 **[다이어그램 해설]** MPK의 가장 파괴적인 혁신은 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Flush의 종말'이다. 기존에는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 수정하면 그 내용이 바뀌었으므로 무조건 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시를 터뜨려야 했다. 하지만 MPK는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(장부)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 건드리지 않은 채 그대로 놔두고, CPU 코어 내부의 '내 권한 상태(PKRU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))'만 바꾸는 우회로를 썼다. 캐시를 지울 필요 없이 보안 스위칭이 가능해진, 하드웨어 아키텍처 설계의 예술이다.
 
@@ -72,25 +72,25 @@ MPK는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_me
    - 동시에 내 코어의 PKRU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 까보고 "아, 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 3에 대해 Write Disable이 걸려있네?"라고 교차 대조를 한 뒤, 위반 시 벼락(SegFault)을 날린다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              MPK 권한 검사 논리 회로 (MMU 내부)                        │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 1. 메모리 접근 시도 (예: 메모리 번지에 쓰기(Write) 시도) ]           │
-│                                                                        │
-│ [ 2. 페이지 테이블의 R/W 비트 통과 ]                                   │
-│   -> "R/W 권한은 열려있네. 패스!"                                      │
-│                                                                        │
-│ [ 3. 페이지 테이블에서 MPK 키 추출 ]                                   │
-│   -> "이 페이지에는 'Key 7'이 찍혀있군."                               │
-│                                                                        │
-│ [ 4. 현재 코어의 PKRU 레지스터 검사 (최종 방어선) ]                    │
-│   -> 내 PKRU 레지스터의 7번째 칸 비트를 쳐다봄.                        │
-│   -> "어? Key 7에 대해 WD(Write Disable) 비트가 1로 켜져있네!"         │
-│                                                                        │
-│ 💥 [ 5. 검문 실패 및 징벌 ]                                            │
-│   하드웨어가 즉각 OS에게 Page Fault 트랩을 던지고 쓰기(Write)를 차단!  │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|              MPK 권한 검사 논리 회로 (MMU 내부)                        |
++------------------------------------------------------------------------+
+|                                                                        |
+| [ 1. 메모리 접근 시도 (예: 메모리 번지에 쓰기(Write) 시도) ]           |
+|                                                                        |
+| [ 2. 페이지 테이블의 R/W 비트 통과 ]                                   |
+|   -> "R/W 권한은 열려있네. 패스!"                                      |
+|                                                                        |
+| [ 3. 페이지 테이블에서 MPK 키 추출 ]                                   |
+|   -> "이 페이지에는 'Key 7'이 찍혀있군."                               |
+|                                                                        |
+| [ 4. 현재 코어의 PKRU 레지스터 검사 (최종 방어선) ]                    |
+|   -> 내 PKRU 레지스터의 7번째 칸 비트를 쳐다봄.                        |
+|   -> "어? Key 7에 대해 WD(Write Disable) 비트가 1로 켜져있네!"         |
+|                                                                        |
+| 💥 [ 5. 검문 실패 및 징벌 ]                                            |
+|   하드웨어가 즉각 OS에게 Page Fault 트랩을 던지고 쓰기(Write)를 차단!  |
++------------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 이 방어벽은 매우 입체적이다. OS가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 뼈대 권한(R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 통과했더라도, 마지막 0.1초의 순간에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들고 있는 내면의 자물쇠(PKRU)를 통해 2차 필터링을 거친다. 유저 모드 어플리케이션은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 부르지 않고 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 `WRPKRU` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 자기 코어의 PKRU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값만 슥슥 바꾸며(오버헤드 제로) 16개 구역에 대한 온/오프라인 모드를 마음대로 조작한다.
@@ -171,12 +171,12 @@ MPK는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_me
 
 ```text
 [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
-    │
-    ▼
+    |
+    v
 [메모리 보호 키 (Memory Protection Keys)]
-    │
-    ├──▶ [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
-    └──▶ [NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
+    |
+    +---> [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
+    +---> [NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -193,7 +193,7 @@ MPK는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_me
 
 **진행 상황**: 375 / 800
 
-← **이전**: [374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)
-**다음**: [376. 캐시 인식 데이터 구조 (Cache-aware Data Structures)](/knowledge-base/studynote/02_operating_system/06_memory_management/376_cache_aware_data_structures/) →
+<- **이전**: [374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)
+**다음**: [376. 캐시 인식 데이터 구조 (Cache-aware Data Structures)](/knowledge-base/studynote/02_operating_system/06_memory_management/376_cache_aware_data_structures/) ->
 
 ---

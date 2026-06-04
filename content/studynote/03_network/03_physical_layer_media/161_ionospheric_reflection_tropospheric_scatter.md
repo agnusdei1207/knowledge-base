@@ -48,18 +48,18 @@ tags = ["studynote-network"]
 아래 그림은 두 방식이 LOS 한계를 넘는 경로를 어떻게 만드는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               beyond-line-of-sight propagation via atmosphere              │
-├────────────────────────────────────────────────────────────────────────────┤
-│                        ionosphere                                          │
-│                   /-----------------\                                      │
-│ HF Tx -----------/                   \----------- HF Rx                    │
-│                                                                            │
-│ UHF/SHF Tx ========>  troposcatter volume  . . . . .  ========> Rx        │
-│                                                                            │
-│ Earth surface  ____________________________________________________        │
-│                   horizon gap that pure LOS cannot cross                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|               beyond-line-of-sight propagation via atmosphere              |
++----------------------------------------------------------------------------+
+|                        ionosphere                                          |
+|                   /-----------------\                                      |
+| HF Tx -----------/                   \----------- HF Rx                    |
+|                                                                            |
+| UHF/SHF Tx ========>  troposcatter volume  . . . . .  ========> Rx        |
+|                                                                            |
+| Earth surface  ____________________________________________________        |
+|                   horizon gap that pure LOS cannot cross                   |
++----------------------------------------------------------------------------+
 ```
 
 이 그림에서 전리층 반사는 상층 대기에 닿았다가 다시 내려오는 경로이고, 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 상층 대기에서 퍼진 일부 에너지를 이어받는 경로다. 따라서 전리층 반사는 전파 환경의 시간적 변동성이 더 크고, 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 링크 버짓 (Link Budget)과 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 확보가 더 중요하다. 둘 다 단순 출력 증가만으로 해결되지 않으며, 대기층의 성질을 이해해야 설계가 성립한다.
@@ -133,16 +133,16 @@ tags = ["studynote-network"]
 
 ```text
 지구 곡률에 의한 LOS 한계
-        │
-        ▼
+        |
+        v
 전리층 반사 (HF 장거리 천파)
-        │
-        ├── 국제 방송 · 해상 통신
-        │
-        ▼
+        |
+        +-- 국제 방송 · 해상 통신
+        |
+        v
 대류권 산란 (UHF/SHF BLOS 링크)
-        │
-        ▼
+        |
+        v
 마이크로파 릴레이 · 위성 통신 · 현대 백홀망
 ```
 
@@ -160,7 +160,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 282 / 1120
 
-← **이전**: [160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/)
-**다음**: [162. 직선 가시거리 통신 (LOS, Line-of-Sight)](/knowledge-base/studynote/03_network/03_physical_layer_media/162_los_line_of_sight_communication/) →
+<- **이전**: [160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/)
+**다음**: [162. 직선 가시거리 통신 (LOS, Line-of-Sight)](/knowledge-base/studynote/03_network/03_physical_layer_media/162_los_line_of_sight_communication/) ->
 
 ---

@@ -36,26 +36,26 @@ tags = ["studynote-operating-system"]
   - 리눅스 2.0 시절(1996년) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(LinuxThreads, 이후 NPTL)를 구현하기 위해 도입되었으며, 리눅스가 세상에서 가장 가볍고 빠른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(LWP) 성능을 가지게 만든 1등 공신이다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 clone() 플래그에 따른 프로세스와 스레드의 탄생        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ 1. 전통적인 프로세스 생성 (fork() 호출 시) ]                   │
-  │   - 커널 내부 변환: `clone(SIGCHLD)`                            │
-  │   - 플래그 0개. 아무것도 공유 안 함.                               │
-  │   - 결과: 부모와 메모리 주소도 다르고, 파일 목록도 다른 완전한 [남남]     │
-  │                                                             │
-  │   [ 2. 스레드 생성 (pthread_create() 호출 시) ]                 │
-  │   - 커널 내부 변환: `clone(CLONE_VM | CLONE_FS | CLONE_FILES │  │
-  │                           | CLONE_SIGHAND | CLONE_THREAD)`  │
-  │   - 플래그 풀가동. 뼛속까지 공유함.                                │
-  │   - 결과: 부모와 힙(Heap)도 같고 열린 파일도 같은 [한 몸뚱이 스레드]    │
-  │                                                             │
-  │   [ 3. 기괴한 프랑켄슈타인 (clone() 직접 호출) ]                   │
-  │   - 개발자가 C코드로: `clone(CLONE_FILES)` 만 달랑 줌             │
-  │   - 결과: 메모리(변수)는 각자 따로 쓰는데, 파일 열어놓은 목록만 공유하는   │
-  │           변태적인 태스크가 탄생! (POSIX 표준 밖의 극강 유연성)        │
-  └─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |                 clone() 플래그에 따른 프로세스와 스레드의 탄생        |
+  +-------------------------------------------------------------+
+  |                                                             |
+  |   [ 1. 전통적인 프로세스 생성 (fork() 호출 시) ]                   |
+  |   - 커널 내부 변환: `clone(SIGCHLD)`                            |
+  |   - 플래그 0개. 아무것도 공유 안 함.                               |
+  |   - 결과: 부모와 메모리 주소도 다르고, 파일 목록도 다른 완전한 [남남]     |
+  |                                                             |
+  |   [ 2. 스레드 생성 (pthread_create() 호출 시) ]                 |
+  |   - 커널 내부 변환: `clone(CLONE_VM | CLONE_FS | CLONE_FILES |  |
+  |                           | CLONE_SIGHAND | CLONE_THREAD)`  |
+  |   - 플래그 풀가동. 뼛속까지 공유함.                                |
+  |   - 결과: 부모와 힙(Heap)도 같고 열린 파일도 같은 [한 몸뚱이 스레드]    |
+  |                                                             |
+  |   [ 3. 기괴한 프랑켄슈타인 (clone() 직접 호출) ]                   |
+  |   - 개발자가 C코드로: `clone(CLONE_FILES)` 만 달랑 줌             |
+  |   - 결과: 메모리(변수)는 각자 따로 쓰는데, 파일 열어놓은 목록만 공유하는   |
+  |           변태적인 태스크가 탄생! (POSIX 표준 밖의 극강 유연성)        |
+  +-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에는 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'라는 자료구조가 따로 존재하지 않는다. 오로지 `task_struct` ([태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))라는 동일한 뼈대만 존재할 뿐이다. 우리가 껍데기 API인 `fork()`나 `pthread_create()`를 부르면, 리눅스 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(glibc)가 뒤에서 몰래 저렇게 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(비트마스크 1과 0)를 조합해서 `clone()`이라는 단 하나의 마스터 시스템 콜로 던진다. 이 유연한 구조 덕분에 개발자는 원한다면 "메모리는 공유 안 하는데, 부모가 죽어도 안 죽는 고아"라든가, "메모리만 공유하고 시그널은 각자 받는 놈" 같은 기상천외한 혼종(Hybrid)을 만들어내어 극한의 최적화를 달성할 수 있다.
@@ -83,25 +83,25 @@ tags = ["studynote-operating-system"]
 POSIX 표준은 "모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 같은 PID를 가져야 한다"고 규정한다. 그런데 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 만들 때마다 내부적으로 고유한 번호(TID, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) ID)를 새로 발급한다. 이 충돌을 어떻게 해결했을까?
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 태스크 구조체(task_struct)의 TGID 꼼수         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 메인 프로세스 시작 ]                                              │
-  │   - 커널 내부 태스크 ID (TID): 1000                                 │
-  │   - 프로세스 ID (PID)      : 1000                                 │
-  │   - 스레드 그룹 ID (TGID)  : 1000  ◀ 그룹의 대장 (Thread Group Leader)│
-  │                                                                   │
-  │   [ CLONE_THREAD 플래그로 스레드 1 생성 ]                           │
-  │   - 커널 내부 태스크 ID (TID): 1001  ◀ 커널 스케줄러는 얘를 독립적으로 스케줄링│
-  │   - 프로세스 ID (PID)      : 1000  ◀ 사용자(User)한테 보여주는 가짜 번호! │
-  │   - 스레드 그룹 ID (TGID)  : 1000  ◀ 메인 대장의 번호를 복사해서 소속됨    │
-  │                                                                   │
-  │   [ CLONE_THREAD 플래그로 스레드 2 생성 ]                           │
-  │   - 커널 내부 태스크 ID (TID): 1002                                 │
-  │   - 프로세스 ID (PID)      : 1000                                 │
-  │   - 스레드 그룹 ID (TGID)  : 1000                                 │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 리눅스 태스크 구조체(task_struct)의 TGID 꼼수         |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 메인 프로세스 시작 ]                                              |
+  |   - 커널 내부 태스크 ID (TID): 1000                                 |
+  |   - 프로세스 ID (PID)      : 1000                                 |
+  |   - 스레드 그룹 ID (TGID)  : 1000  <- 그룹의 대장 (Thread Group Leader)|
+  |                                                                   |
+  |   [ CLONE_THREAD 플래그로 스레드 1 생성 ]                           |
+  |   - 커널 내부 태스크 ID (TID): 1001  <- 커널 스케줄러는 얘를 독립적으로 스케줄링|
+  |   - 프로세스 ID (PID)      : 1000  <- 사용자(User)한테 보여주는 가짜 번호! |
+  |   - 스레드 그룹 ID (TGID)  : 1000  <- 메인 대장의 번호를 복사해서 소속됨    |
+  |                                                                   |
+  |   [ CLONE_THREAD 플래그로 스레드 2 생성 ]                           |
+  |   - 커널 내부 태스크 ID (TID): 1002                                 |
+  |   - 프로세스 ID (PID)      : 1000                                 |
+  |   - 스레드 그룹 ID (TGID)  : 1000                                 |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 리눅스의 설계 철학은 정말 얍삽하고 똑똑하다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 `PID` 따위는 쳐다보지도 않는다. 오직 고유한 `TID(1000, 1001, 1002)`만 보고 3개의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 CPU 코어에 평등하게 던져버린다. 그런데 유저가 터미널에서 `ps` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치거나 `getpid()` 함수를 부르면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `TID` 대신 `TGID` 필드의 값(1000)을 리턴해 준다. 결국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 입장에서는 3개의 독립된 일꾼인데, 밖에서 볼 때는 PID 1000번이라는 하나의 거대한 프로그램(프로세스) 안에 묶여있는 것처럼 완벽한 환상(Illusion)을 만들어낸 것이다.
@@ -142,28 +142,28 @@ POSIX 표준은 "모든 [스레드](/knowledge-base/studynote/02_operating_syste
    - <strong>아키텍트 판단 (SIGHAND 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 분리)</strong>: 기본적으로 부모가 죽어 터미널이 끊기면 `SIGHUP`(연결 끊김) 시그널이 자식들에게 폭격처럼 내려와 다 같이 죽는다. (시그널 공유 및 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 독립적인 데몬(Daemon)으로 완벽히 살리려면 `nohup`을 쓰거나 시스템 프로그래밍 단에서 `setsid()`를 호출하고, 내부적으로 `clone()` 시 시그널 핸들링을 분리하여 부모의 죽음이 자식에게 전파되지 않는 완벽한 고아(Orphan) 상태를 강제로 조성해야 한다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 태스크 생성 방식에 따른 커널 자원 공유 파급력 (의사결정)    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 어떤 형태의 동시성(Concurrency) 아키텍처를 짤 것인가? ]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      전역 변수(Global Var)나 거대한 힙(Heap) 캐시를 빠르고 쉽게 공유해야 하나?│
-  │          ├─ 예 ─────▶ [ 스레드 모델 (pthread / clone(CLONE_VM)) ]    │
-  │          │             - 장점: 통신 비용(IPC) 거의 0 (가장 빠름)        │
-  │          │             - 단점: 🚨 한 놈이 메모리 침범(Segfault)하면   │
-  │          │                     형제들까지 시스템 전체가 동반 사망함!     │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ 프로세스 모델 (fork / clone(0)) ]             │
-  │                        - 장점: 🟢 완벽한 격리로 한 놈이 죽어도 나머진 무사함 │
-  │                        - 단점: 통신하려면 무거운 파이프, 공유메모리 IPC 필수 │
-  │                │                                                  │
-  │                ▼ [아키텍트의 타협안 - 모던 브라우저 크롬(Chrome) 모델]  │
-  │      "UI는 메인 프로세스가 잡고, 각 탭(Tab)은 샌드박싱된 자식 프로세스로 띄워라."│
-  │      "탭이 램을 1GB씩 처먹다가 OOM으로 죽어도 해당 탭만 '앗 앗!' 하고 죽고,   │
-  │       브라우저 전체가 꺼지지 않게 구조적으로 격리(Isolation)시켜라!"        │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 태스크 생성 방식에 따른 커널 자원 공유 파급력 (의사결정)    |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [ 어떤 형태의 동시성(Concurrency) 아키텍처를 짤 것인가? ]               |
+  |                |                                                  |
+  |                v                                                  |
+  |      전역 변수(Global Var)나 거대한 힙(Heap) 캐시를 빠르고 쉽게 공유해야 하나?|
+  |          +- 예 ------> [ 스레드 모델 (pthread / clone(CLONE_VM)) ]    |
+  |          |             - 장점: 통신 비용(IPC) 거의 0 (가장 빠름)        |
+  |          |             - 단점: 🚨 한 놈이 메모리 침범(Segfault)하면   |
+  |          |                     형제들까지 시스템 전체가 동반 사망함!     |
+  |          |                                                        |
+  |          +- 아니오 ---> [ 프로세스 모델 (fork / clone(0)) ]             |
+  |                        - 장점: 🟢 완벽한 격리로 한 놈이 죽어도 나머진 무사함 |
+  |                        - 단점: 통신하려면 무거운 파이프, 공유메모리 IPC 필수 |
+  |                |                                                  |
+  |                v [아키텍트의 타협안 - 모던 브라우저 크롬(Chrome) 모델]  |
+  |      "UI는 메인 프로세스가 잡고, 각 탭(Tab)은 샌드박싱된 자식 프로세스로 띄워라."|
+  |      "탭이 램을 1GB씩 처먹다가 OOM으로 죽어도 해당 탭만 '앗 앗!' 하고 죽고,   |
+  |       브라우저 전체가 꺼지지 않게 구조적으로 격리(Isolation)시켜라!"        |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 초보자는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 프로세스보다 무조건 좋고 빠르다고 맹신한다(모든 걸 `CLONE_VM`으로 묶어버림). 하지만 공유(Share)는 필연적으로 상호 파괴의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(운명 공동체)를 동반한다. 메모리를 공유하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나가 널 포인터를 잘못 건드려 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트가 터지면, OS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 보호를 위해 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)뿐만 아니라 `TGID`로 묶인 128개의 멀쩡한 형제 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 한 방에 다 몰살시킨다. 따라서 절대 죽으면 안 되는 핵심 미션 크리티컬 앱(결제, 로드밸런싱 등)은 오히려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 버리고 무거운 다중 프로세스(공유 단절)로 설계하여 생존성(Resilience)을 챙기는 것이 정석이다.
@@ -212,12 +212,12 @@ POSIX 표준은 "모든 [스레드](/knowledge-base/studynote/02_operating_syste
 
 ```text
 [하이퍼스레딩 물리 코어 논리 코어 분할 구조]
-    │
-    ▼
+    |
+    v
 [클론(clone) 시스템 콜 스레드 공유 플래그]
-    │
-    ├──▶ [cgroups 메모리, CPU 자원 제한 격리 컨테이너]
-    └──▶ [안드로이드 LMK (Low Memory Killer) 작동]
+    |
+    +---> [cgroups 메모리, CPU 자원 제한 격리 컨테이너]
+    +---> [안드로이드 LMK (Low Memory Killer) 작동]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -234,7 +234,7 @@ POSIX 표준은 "모든 [스레드](/knowledge-base/studynote/02_operating_syste
 
 **진행 상황**: 785 / 800
 
-← **이전**: [784. 하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)](/knowledge-base/studynote/02_operating_system/11_exam_summary/784_hyperthreading_smt_logical_core/)
-**다음**: [786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)](/knowledge-base/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/) →
+<- **이전**: [784. 하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)](/knowledge-base/studynote/02_operating_system/11_exam_summary/784_hyperthreading_smt_logical_core/)
+**다음**: [786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)](/knowledge-base/studynote/02_operating_system/11_exam_summary/786_cgroups_memory_cpu_isolation_container/) ->
 
 ---

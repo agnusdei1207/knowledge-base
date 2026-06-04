@@ -31,34 +31,34 @@ tags = ["studynote-network"]
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처의 도래</strong>: 한 대의 서버 메모리에서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 관리하다가, 트래픽 폭증으로 서버가 수십 대로 스케일아웃([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하면서 서버 간 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 공유해야 하는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 아키텍처가 발전했다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                세션(Session) 동작 메커니즘 흐름도               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Client / Browser]                           [Web Server]   │
-│         │                                         │         │
-│         │ 1. POST /login (ID: user, PW: 123)      │         │
-│         │────────────────────────────────────────▶│         │
-│         │                             [서버 메모리(세션 저장소)] │
-│         │                             ➔ 회원 인증 완료        │
-│         │                             ➔ 임의의 난수 생성:       │
-│         │                                "SID=xyz987"     │
-│         │                             ➔ 매핑: "xyz987" = user │
-│         │ 2. 200 OK                               │         │
-│   ┌─────│    Set-Cookie: session_id=xyz987        │         │
-│저장│     │◀────────────────────────────────────────│         │
-│   │     │                                         │         │
-│   └────▶│ (이후 페이지 이동 시)                         │         │
-│         │                                         │         │
-│         │ 3. GET /my_profile                      │         │
-│         │    Cookie: session_id=xyz987            │         │
-│         │────────────────────────────────────────▶│         │
-│         │                             [서버 메모리 검색]        │
-│         │                             ➔ "xyz987" 이 누구지?   │
-│         │                             ➔ 아, user 구나!      │
-│         │ 4. 200 OK (user의 개인정보 화면)             │         │
-│         │◀────────────────────────────────────────│         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                세션(Session) 동작 메커니즘 흐름도               |
++-------------------------------------------------------------+
+|                                                             |
+| [Client / Browser]                           [Web Server]   |
+|         |                                         |         |
+|         | 1. POST /login (ID: user, PW: 123)      |         |
+|         |----------------------------------------->|         |
+|         |                             [서버 메모리(세션 저장소)] |
+|         |                             ➔ 회원 인증 완료        |
+|         |                             ➔ 임의의 난수 생성:       |
+|         |                                "SID=xyz987"     |
+|         |                             ➔ 매핑: "xyz987" = user |
+|         | 2. 200 OK                               |         |
+|   +-----|    Set-Cookie: session_id=xyz987        |         |
+|저장|     |<-----------------------------------------|         |
+|   |     |                                         |         |
+|   +----->| (이후 페이지 이동 시)                         |         |
+|         |                                         |         |
+|         | 3. GET /my_profile                      |         |
+|         |    Cookie: session_id=xyz987            |         |
+|         |----------------------------------------->|         |
+|         |                             [서버 메모리 검색]        |
+|         |                             ➔ "xyz987" 이 누구지?   |
+|         |                             ➔ 아, user 구나!      |
+|         | 4. 200 OK (user의 개인정보 화면)             |         |
+|         |<-----------------------------------------|         |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 메커니즘의 본질은 클라이언트와 서버의 <strong>역할 분담</strong>이다. 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 통과하면, 서버는 64바이트 이상의 복잡한 무작위 난수 문자열(`session_id=xyz987`)을 찍어낸다. 그리고 서버 내부의 거대한 딕셔너리(해시맵)에 `{"xyz987": "관리자권한, 접속시간..."}`을 기록한다. 브라우저로 내려가는 것은 오직 껍데기(난수 문자열)뿐이다. 해커가 통신을 훔쳐보더라도 알 수 없는 난수표일 뿐이며, 조작(예: `session_id=admin123`)하려 해도 서버의 해시맵에 그런 키가 없으면 접근이 거부된다. 즉, 상태를 유지하기 위해 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)라는 '배달원'을 쓰되, 중요한 알맹이([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 서버에 귀속시키는 방어 체계다.
@@ -85,33 +85,33 @@ tags = ["studynote-network"]
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)처럼 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 "서버 1번의 램(RAM)"에만 저장해 두면 치명적인 버그가 발생한다. 사용자가 첫 요청에서 로그인하여 1번 서버 램에 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 만들었다. 하지만 다음 클릭 때 로드밸런서가 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 위해 사용자의 요청을 2번 서버로 보내버리면(Round Robin), 2번 서버의 램에는 사용자의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보가 없으므로 "너 누구야? 다시 로그인해!"라며 튕겨버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 불일치(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Inconsistency)</strong>가 발생한다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│          분산 서버 환경에서의 세션 아키텍처 3가지 해결책          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [문제 상황] 로드밸런서(LB)가 트래픽을 분산시키면 로그인이 풀린다!      │
-│                                                             │
-│ [해결책 1: Sticky Session (스티키 세션)]                        │
-│                                                             │
-│   Client A ──(항상)──▶ [ WAS 1 ] (A의 세션 보관)              │
-│   Client B ──(항상)──▶ [ WAS 2 ] (B의 세션 보관)              │
-│  ➔ 로드밸런서가 쿠키를 보고, A는 죽을 때까지 WAS 1번으로만 꽂아준다.   │
-│  ⚠️ 단점: 트래픽 쏠림 발생. WAS 1이 죽으면 A는 영원히 로그아웃됨.      │
-│                                                             │
-│ [해결책 2: Session Clustering (톰캣 세션 복제)]                 │
-│                                                             │
-│   Client ────▶ [ WAS 1 ] ◀─(세션 데이터 100% 복제)─▶ [ WAS 2 ] │
-│  ➔ WAS 1에 세션이 생기면, 내부망 멀티캐스트로 WAS 2에도 똑같이 복사.  │
-│  ⚠️ 단점: 서버가 10대, 100대 늘어나면 복제 트래픽 폭주로 네트워크 마비. │
-│                                                             │
-│ [해결책 3: External Session Store (외부 분산 DB - Redis 등)]    │
-│  🌟 현대 아키텍처의 표준                                        │
-│                                                             │
-│   Client ────▶ [ WAS 1 ] ──┐                                │
-│   Client ────▶ [ WAS 2 ] ──┼─▶ [ 🚀 거대한 Redis 메모리 DB ]  │
-│   Client ────▶ [ WAS 3 ] ──┘   (모든 세션을 중앙 집중형으로 캐싱)  │
-│  ➔ 서버들은 자기를 Stateless로 비우고, 상태는 전부 Redis에 위임!     │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|          분산 서버 환경에서의 세션 아키텍처 3가지 해결책          |
++-------------------------------------------------------------+
+|                                                             |
+| [문제 상황] 로드밸런서(LB)가 트래픽을 분산시키면 로그인이 풀린다!      |
+|                                                             |
+| [해결책 1: Sticky Session (스티키 세션)]                        |
+|                                                             |
+|   Client A --(항상)---> [ WAS 1 ] (A의 세션 보관)              |
+|   Client B --(항상)---> [ WAS 2 ] (B의 세션 보관)              |
+|  ➔ 로드밸런서가 쿠키를 보고, A는 죽을 때까지 WAS 1번으로만 꽂아준다.   |
+|  ⚠️ 단점: 트래픽 쏠림 발생. WAS 1이 죽으면 A는 영원히 로그아웃됨.      |
+|                                                             |
+| [해결책 2: Session Clustering (톰캣 세션 복제)]                 |
+|                                                             |
+|   Client -----> [ WAS 1 ] <--(세션 데이터 100% 복제)--> [ WAS 2 ] |
+|  ➔ WAS 1에 세션이 생기면, 내부망 멀티캐스트로 WAS 2에도 똑같이 복사.  |
+|  ⚠️ 단점: 서버가 10대, 100대 늘어나면 복제 트래픽 폭주로 네트워크 마비. |
+|                                                             |
+| [해결책 3: External Session Store (외부 분산 DB - Redis 등)]    |
+|  🌟 현대 아키텍처의 표준                                        |
+|                                                             |
+|   Client -----> [ WAS 1 ] --+                                |
+|   Client -----> [ WAS 2 ] --+--> [ 🚀 거대한 Redis 메모리 DB ]  |
+|   Client -----> [ WAS 3 ] --+   (모든 세션을 중앙 집중형으로 캐싱)  |
+|  ➔ 서버들은 자기를 Stateless로 비우고, 상태는 전부 Redis에 위임!     |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처에서 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 유지하는 것은 서버의 수평 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 가로막는 가장 큰 장애물이다. '스티키 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)'은 로드밸런서가 클라이언트 IP나 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 씹어보고 한놈만 패는 방식으로 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(서버 다운 시 장애)과 로드밸런싱 효율이 떨어진다. '[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링'은 노드 간 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Full-mesh) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 유발하여 서버가 늘어날수록 급격히 느려진다. 결국 현대의 대규모 클라우드 아키텍처는 3번째 방식인 외부 인메모리 저장소([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached 등) 아키텍처로 수렴했다. 웹 서버(WAS)들의 RAM에서는 상태를 싹 다 빼버려(Stateless화) 마음대로 서버를 죽이고 살리게 만들고, 1초에 수십만 건을 처리하는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터가 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 전역 저장소 역할을 전담하는 분업화다.
@@ -152,29 +152,29 @@ tags = ["studynote-network"]
    - **판단**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 외부 인메모리 DB로 빼는 아키텍처([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 발생)의 뼈아픈 부작용이다. 이런 크리티컬 패스(Critical Path)를 설계할 때는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터를 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), Sentinel)하는 것은 기본이고, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 장애 시 백업용 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(암호화된 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/))으로 일시 전환되도록 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 로직을 백엔드에 설계해두어야 한다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 세션 하이재킹 방어 다차원 검증 로직          │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [해커의 공격] 💥                                              │
-  │ 서울에 있는 해커가 부산에 있는 희생자의 세션 ID(XYZ) 쿠키를 훔쳤다! │
-  │ 해커 ──(SID: XYZ)──▶ [웹 서버] (로그인 시도)                     │
-  │                                                             │
-  │ [서버 내부의 다차원 세션 검증 로직]                              │
-  │  1. Redis 조회 ➔ SID: XYZ 존재함? (통과)                     │
-  │                                                             │
-  │  2. IP 주소 검증 (Location Check)                           │
-  │     이 세션을 처음 만든 사람은 부산(IP: 1.1.1.1)이었는데,         │
-  │     지금 요청을 보낸 애는 서울(IP: 8.8.8.8)이잖아?                 │
-  │                                                             │
-  │  3. User-Agent 검증 (Device Check)                          │
-  │     이 세션은 어제 모바일 아이폰으로 만들었는데,                   │
-  │     지금 찌른 애는 PC 크롬 브라우저네?                          │
-  │                                                             │
-  │  ❌ 판정: "세션 훔쳤구나! 당장 파기해!"                       │
-  │  ➔ 서버가 즉시 Redis에서 XYZ 세션을 날려버림 (강제 로그아웃)        │
-  │  ➔ 해커 브라우저로 401 Unauthorized 반환                       │
-└─────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------+
+  |         실무 아키텍처: 세션 하이재킹 방어 다차원 검증 로직          |
+  +-------------------------------------------------------------+
+  |                                                             |
+  | [해커의 공격] 💥                                              |
+  | 서울에 있는 해커가 부산에 있는 희생자의 세션 ID(XYZ) 쿠키를 훔쳤다! |
+  | 해커 --(SID: XYZ)---> [웹 서버] (로그인 시도)                     |
+  |                                                             |
+  | [서버 내부의 다차원 세션 검증 로직]                              |
+  |  1. Redis 조회 ➔ SID: XYZ 존재함? (통과)                     |
+  |                                                             |
+  |  2. IP 주소 검증 (Location Check)                           |
+  |     이 세션을 처음 만든 사람은 부산(IP: 1.1.1.1)이었는데,         |
+  |     지금 요청을 보낸 애는 서울(IP: 8.8.8.8)이잖아?                 |
+  |                                                             |
+  |  3. User-Agent 검증 (Device Check)                          |
+  |     이 세션은 어제 모바일 아이폰으로 만들었는데,                   |
+  |     지금 찌른 애는 PC 크롬 브라우저네?                          |
+  |                                                             |
+  |  ❌ 판정: "세션 훔쳤구나! 당장 파기해!"                       |
+  |  ➔ 서버가 즉시 Redis에서 XYZ 세션을 날려버림 (강제 로그아웃)        |
+  |  ➔ 해커 브라우저로 401 Unauthorized 반환                       |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 단순히 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID만 일치한다고 모든 요청을 프리패스 시켜주는 것은 하수들의 구현이다. 금융권 등 높은 보안이 요구되는 시스템에서는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 사용자의 IP 앞자리 대역, User-Agent, 심지어 디바이스 핑거프린트까지 함께 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 객체 안에 결합(Binding)시켜 둔다. 이후 매 요청이 들어올 때마다 헤더에 적힌 정보와 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)에 저장된 정보를 대조하여 오차 범위(IP 변경 등)가 비정상적으로 크면 곧바로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 무효화(Invalidation)시키는 방어벽을 친다.
@@ -225,12 +225,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: 쿠키]
-    │
-    ▼
+    |
+    v
 [현재 개념: 세션]
-    │
-    ├──▶ [확장 A: REST API]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+    |
+    +---> [확장 A: REST API]
+    +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -247,7 +247,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 597 / 1120
 
-← **이전**: [475. 쿠키 (Cookie)](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)
-**다음**: [477. REST API (Representational State Transfer)](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) →
+<- **이전**: [475. 쿠키 (Cookie)](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)
+**다음**: [477. REST API (Representational State Transfer)](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ->
 
 ---

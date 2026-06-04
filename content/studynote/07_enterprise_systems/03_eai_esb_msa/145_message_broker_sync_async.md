@@ -19,8 +19,8 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-동기: A→B (B 장애 시 A도 실패)
-비동기: A→Queue→B (B 장애 시 Queue에 보관)
+동기: A->B (B 장애 시 A도 실패)
+비동기: A->Queue->B (B 장애 시 Queue에 보관)
 패턴: Point-to-Point(1:1) | Pub/Sub(1:N)
 RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)
 Kafka: 분산 로그 (대용량, 순서 보장)
@@ -49,10 +49,10 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[IBM MQ (1990s)] → [JMS (Java, 2001)]
-    → [RabbitMQ (2007, AMQP)]
-    → [Kafka (2011, 분산 로그)]
-    → [현재: Pulsar·RedPanda — Kafka 대안]
+[IBM MQ (1990s)] -> [JMS (Java, 2001)]
+    -> [RabbitMQ (2007, AMQP)]
+    -> [Kafka (2011, 분산 로그)]
+    -> [현재: Pulsar·RedPanda — Kafka 대안]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -66,7 +66,7 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 
 **진행 상황**: 145 / 482
 
-← **이전**: [144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/)
-**다음**: [146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) →
+<- **이전**: [144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/)
+**다음**: [146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ->
 
 ---

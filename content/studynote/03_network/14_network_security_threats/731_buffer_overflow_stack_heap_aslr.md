@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [APT (Advanced Persistent…]
-    │
-    ▼
+    |
+    v
 [버퍼 오버플로우 공격]
-    │
-    └──▶ [제로 데이 공격]
+    |
+    +---> [제로 데이 공격]
 ```
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -50,11 +50,11 @@ tags = ["studynote-network"]
 
 ```text
 [APT (Advanced Persistent…]
-    │
-    ▼
+    |
+    v
 [버퍼 오버플로우 공격]
-    │
-    └──▶ [제로 데이 공격]
+    |
+    +---> [제로 데이 공격]
 ```
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -126,12 +126,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: APT (Advanced Persistent…]
-    │
-    ▼
+    |
+    v
 [현재 개념: 버퍼 오버플로우 공격]
-    │
-    ├──▶ [확장 A: 제로 데이 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
+    |
+    +---> [확장 A: 제로 데이 공격]
+    +---> [확장 B: 예측형 위협 대응]
 ```
 
 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격는 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 852 / 1120
 
-← **이전**: [730. APT (Advanced Persistent Threat 고도화 공격망](/knowledge-base/studynote/03_network/14_network_security_threats/730_sql_injection_error_blind_union/)
-**다음**: [732. 제로 데이 (Zero-day 방어되지 않은 취약점 노출 즉시 전산자원 위협) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/732_zero_day_attack_vulnerability_exploit/) →
+<- **이전**: [730. APT (Advanced Persistent Threat 고도화 공격망](/knowledge-base/studynote/03_network/14_network_security_threats/730_sql_injection_error_blind_union/)
+**다음**: [732. 제로 데이 (Zero-day 방어되지 않은 취약점 노출 즉시 전산자원 위협) 공격](/knowledge-base/studynote/03_network/14_network_security_threats/732_zero_day_attack_vulnerability_exploit/) ->
 
 ---

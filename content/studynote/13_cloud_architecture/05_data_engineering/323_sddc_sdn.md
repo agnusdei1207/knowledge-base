@@ -22,13 +22,13 @@ tags = ["studynote-cloud-architecture"]
 따라서 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) [소프트웨어 정의 데이터센터](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 스토리지를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SDDC 소프트웨어 정의 데이터센터 SDN 스토리지가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정                 │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 ─▶ 자원 배치 ─▶ 실행 환경 ─▶ 운영 피드백                  │
-│    │           │             │             │                       │
-│    └──────── 성능·비용·전력의 균형점을 반복적으로 조정 ──────────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SDDC 소프트웨어 정의 데이터센터 SDN 스토리지가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정                 |
++--------------------------------------------------------------+
+| 요구사항 --> 자원 배치 --> 실행 환경 --> 운영 피드백                  |
+|    |           |             |             |                       |
+|    +-------- 성능·비용·전력의 균형점을 반복적으로 조정 ----------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) [소프트웨어 정의 데이터센터](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 스토리지가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ tags = ["studynote-cloud-architecture"]
 | 운영 계층 | 비용·전력·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 최적화 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), cooling, scheduling |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ SDDC 소프트웨어 정의 데이터센터 SDN 스토리지 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| SDDC 소프트웨어 정의 데이터센터 SDN 스토리지 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) [소프트웨어 정의 데이터센터](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 스토리지는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[전용 장비 중심] → [SDDC 소프트웨어 정의 데이터센터 SDN 스토리지] → [풀링·오프로딩·자동 최적화]
+[전용 장비 중심] -> [SDDC 소프트웨어 정의 데이터센터 SDN 스토리지] -> [풀링·오프로딩·자동 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 322 / 371
 
-← **이전**: [322. 클라우드 마이그레이션 6R (Rehost, Refactor 중심)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/322_6r_rehost_refactor/)
-**다음**: [324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/324_process/) →
+<- **이전**: [322. 클라우드 마이그레이션 6R (Rehost, Refactor 중심)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/322_6r_rehost_refactor/)
+**다음**: [324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/324_process/) ->
 
 ---

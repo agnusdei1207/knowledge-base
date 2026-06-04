@@ -32,11 +32,11 @@ tags = ["studynote-network"]
 
 ```text
 [반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
+    |
+    v
 [은닉 단말 문제]
-    │
-    └──▶ [매체 접근 제어]
+    |
+    +---> [매체 접근 제어]
 ```
 
 - **📢 섹션 요약 비유**: 은닉 단말 문제는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -54,11 +54,11 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 
 ```text
 [반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
+    |
+    v
 [은닉 단말 문제]
-    │
-    └──▶ [매체 접근 제어]
+    |
+    +---> [매체 접근 제어]
 ```
 
 - **📢 섹션 요약 비유**: 은닉 단말 문제의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -130,12 +130,12 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 
 ```text
 [선행 개념: 반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
+    |
+    v
 [현재 개념: 은닉 단말 문제]
-    │
-    ├──▶ [확장 A: 매체 접근 제어]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: 매체 접근 제어]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 은닉 단말 문제는 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출에서 출발해 현재 메커니즘을 정교화하고, 이후 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -152,7 +152,7 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 
 **진행 상황**: 1073 / 1120
 
-← **이전**: [951. 반송파 감지 다중 접속 및 충돌 검출 (CSMA/CD)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/951_csma_cd_carrier_sense_multiple_access_collision_detection/)
-**다음**: [953. 매체 접근 제어 (MAC)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/953_mac_media_access_control_contention_controlled_channelization/) →
+<- **이전**: [951. 반송파 감지 다중 접속 및 충돌 검출 (CSMA/CD)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/951_csma_cd_carrier_sense_multiple_access_collision_detection/)
+**다음**: [953. 매체 접근 제어 (MAC)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/953_mac_media_access_control_contention_controlled_channelization/) ->
 
 ---

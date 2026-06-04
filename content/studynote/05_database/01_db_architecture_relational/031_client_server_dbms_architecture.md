@@ -23,19 +23,19 @@ tags = ["studynote-database"]
 
 1-Tier (파일 공유):
   [앱+DB+데이터 모두 한 기계]
-  → 다중 사용자 불가
+  -> 다중 사용자 불가
 
 2-Tier (C/S):
-  [클라이언트 앱] ──SQL──> [DB 서버]
-  → 클라이언트가 두꺼움 (Fat Client)
+  [클라이언트 앱] --SQL--> [DB 서버]
+  -> 클라이언트가 두꺼움 (Fat Client)
 
 3-Tier:
-  [브라우저/앱] ──HTTP──> [앱 서버] ──SQL──> [DB 서버]
-  → 표준 웹 아키텍처
+  [브라우저/앱] --HTTP--> [앱 서버] --SQL--> [DB 서버]
+  -> 표준 웹 아키텍처
 
 N-Tier (MSA):
-  [클라이언트] → [API 게이트웨이] → [서비스A,B,C] → [DB A,B,C]
-  → 서비스별 독립 DB
+  [클라이언트] -> [API 게이트웨이] -> [서비스A,B,C] -> [DB A,B,C]
+  -> 서비스별 독립 DB
 ```
 
 - **📢 섹션 요약 비유**: 아키텍처 발전은 음식점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 방식이다. 혼자 밥 해먹기(1-Tier), 식당 가서 주문(2-Tier), 배달앱으로 주문(3-Tier), 여러 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연동([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 순으로 복잡성과 확장성이 증가한다.
@@ -48,7 +48,7 @@ N-Tier (MSA):
 
 ```text
 커넥션 풀 없이:
-  요청마다 새 연결 생성 (100ms+) → 응답 지연
+  요청마다 새 연결 생성 (100ms+) -> 응답 지연
 
 커넥션 풀 사용:
   시작 시 10개 연결 미리 생성 (DB 서버와 TCP 유지)
@@ -111,8 +111,8 @@ spring:
 ### 읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분리 아키텍처
 
 ```text
-쓰기 연결 풀 → Primary DB (쓰기 전용)
-읽기 연결 풀 → Replica DB×N (읽기 분산)
+쓰기 연결 풀 -> Primary DB (쓰기 전용)
+읽기 연결 풀 -> Replica DB×N (읽기 분산)
 
 장점:
   - 읽기 쿼리 부하 분산
@@ -152,17 +152,17 @@ spring:
 
 ```text
 [파일 공유 DB — 1-Tier, 동시성 문제]
-    │
-    ▼
+    |
+    v
 [2-Tier C/S — DB 서버 중앙화, Fat Client]
-    │
-    ▼
+    |
+    v
 [3-Tier — 앱 서버 추가, 커넥션 풀, 표준 웹 구조]
-    │
-    ▼
+    |
+    v
 [MSA — 서비스별 독립 DB, API 게이트웨이]
-    │
-    ▼
+    |
+    v
 [서버리스 DB 프록시 — Lambda 커넥션 폭발 해결]
 ```
 
@@ -170,7 +170,7 @@ spring:
 
 1. 클라이언트-서버 DB는 식당 주문 시스템이에요 — 손님(클라이언트)이 주문하면 주방(DB 서버)에서 처리해요!
 2. 커넥션 풀은 택시 대기소예요 — 미리 연결을 만들어둬서 요청이 오면 즉시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)해요!
-3. 현대 앱은 3-Tier로 브라우저→앱서버→DB 서버 구조로 동작해요!
+3. 현대 앱은 3-Tier로 브라우저->앱서버->DB 서버 구조로 동작해요!
 
 ---
 
@@ -178,7 +178,7 @@ spring:
 
 **진행 상황**: 31 / 600
 
-← **이전**: [30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축](/knowledge-base/studynote/05_database/01_db_architecture_relational/030_data_integrity_security/)
-**다음**: [TP 모니터 (Transaction Processing Monitor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/032_tp_monitor/) →
+<- **이전**: [30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축](/knowledge-base/studynote/05_database/01_db_architecture_relational/030_data_integrity_security/)
+**다음**: [TP 모니터 (Transaction Processing Monitor)](/knowledge-base/studynote/05_database/01_db_architecture_relational/032_tp_monitor/) ->
 
 ---

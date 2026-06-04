@@ -49,30 +49,30 @@ tags = ["studynote-operating-system"]
 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 직후 프로세스 B가 겪어야 하는 고통스러운 하드웨어적 과정이다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Context Switch 직후의 TLB Miss 폭풍 현상             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 문맥 교환 (A -> B)]                                        │
-  │   - 스케줄러가 CR3(페이지 테이블 기준 레지스터)를 프로세스 B의 지도로 바꿈.  │
-  │   - 하드웨어: "앗! CR3가 바뀌었네? 예전 TLB 다 지워(Flush)!"             │
-  │   - 현재 TLB 상태: 텅~ 빔 (Empty)                                   │
-  │                                                                   │
-  │  [상황 2: 프로세스 B의 첫 실행]                                        │
-  │   - B: "내 변수(가상 주소 0x4000) 가져와!"                           │
-  │   - CPU: (TLB를 뒤진다) "어? 0x4000이 없네?" ──▶ [ TLB MISS!! ]     │
-  │                                                                   │
-  │  [상황 3: Page Walk (극심한 성능 저하 발생)]                         │
-  │   - CPU 내부의 하드웨어(Page Walker)가 주소를 찾기 위해 RAM으로 달려감.   │
-  │     1) RAM에서 Page Directory 읽음 (100 Cycle 지연)               │
-  │     2) RAM에서 Page Table 읽음 (100 Cycle 지연)                   │
-  │     3) 드디어 "0x4000 = 물리 0x8000" 임을 알아냄!                    │
-  │                                                                   │
-  │  [상황 4: TLB 갱신 및 데이터 반환]                                    │
-  │   - 알아낸 정보를 다시 텅 빈 TLB에 적어둠 (TLB Fill).                   │
-  │   - 드디어 RAM에서 진짜 데이터를 가져옴.                               │
-  │   ★ 결론: 평소 1사이클이면 될 일을, 문맥 교환 직후엔 수백 사이클을 낭비함!  │
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 Context Switch 직후의 TLB Miss 폭풍 현상             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |  [상황 1: 문맥 교환 (A -> B)]                                        |
+  |   - 스케줄러가 CR3(페이지 테이블 기준 레지스터)를 프로세스 B의 지도로 바꿈.  |
+  |   - 하드웨어: "앗! CR3가 바뀌었네? 예전 TLB 다 지워(Flush)!"             |
+  |   - 현재 TLB 상태: 텅~ 빔 (Empty)                                   |
+  |                                                                   |
+  |  [상황 2: 프로세스 B의 첫 실행]                                        |
+  |   - B: "내 변수(가상 주소 0x4000) 가져와!"                           |
+  |   - CPU: (TLB를 뒤진다) "어? 0x4000이 없네?" ---> [ TLB MISS!! ]     |
+  |                                                                   |
+  |  [상황 3: Page Walk (극심한 성능 저하 발생)]                         |
+  |   - CPU 내부의 하드웨어(Page Walker)가 주소를 찾기 위해 RAM으로 달려감.   |
+  |     1) RAM에서 Page Directory 읽음 (100 Cycle 지연)               |
+  |     2) RAM에서 Page Table 읽음 (100 Cycle 지연)                   |
+  |     3) 드디어 "0x4000 = 물리 0x8000" 임을 알아냄!                    |
+  |                                                                   |
+  |  [상황 4: TLB 갱신 및 데이터 반환]                                    |
+  |   - 알아낸 정보를 다시 텅 빈 TLB에 적어둠 (TLB Fill).                   |
+  |   - 드디어 RAM에서 진짜 데이터를 가져옴.                               |
+  |   ★ 결론: 평소 1사이클이면 될 일을, 문맥 교환 직후엔 수백 사이클을 낭비함!  |
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 컴퓨터가 버벅거리는 가장 큰 이유는 CPU가 연산을 못 해서가 아니라, '메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 못 가져와서' 멍때리고 있기 때문이다([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)). [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시가 일어나면, 프로세스 B는 자기가 쓸 변수와 함수들의 주소를 다시 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에 채워 넣기 위해 램(RAM)을 수십 번씩 파헤치는 `Page Walk`를 겪어야 한다. 이 "예열되는 시간"이 바로 멀티태스킹의 가장 큰 숨겨진 오버헤드다.
@@ -133,26 +133,26 @@ tags = ["studynote-operating-system"]
 ### 의사결정 및 튜닝 플로우
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 메모리 및 컨텍스트 스위치 성능 최적화 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 성능 모니터링: CPU 캐시 미스(TLB Miss)로 인한 IPC(Instruction Per Cycle) 저하]
-  │                │                                                  │
-  │                ▼                                                  │
-  │      애플리케이션이 수십 GB 이상의 메모리를 활발하게 읽고 쓰는가? (예: DB, JVM) │
-  │          ├─ 예 ─────▶ [Transparent Huge Pages (THP) 활성화 검토]   │
-  │          │            (TLB 엔트리 하나가 커버하는 메모리 범위를 넓혀 Miss 방어)│
-  │          └─ 아니오 (작은 메모리 공간을 쓴다)                             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      멀티프로세스(Nginx, PHP-FPM) 기반으로 초당 수만 건의 스위칭이 일어나는가? │
-  │          ├─ 예 ─────▶ [CPU의 ASID/PCID 기능 활성화 여부 점검]       │
-  │          │            (cat /proc/cpuinfo | grep pcid 로 하드웨어 지원 확인)│
-  │          │            또는 Event-driven 단일 스레드(Node.js 등) 구조로 전환 │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 시스템 콜을 줄여 User/Kernel 모드 전환(KPTI) 최소화│
-  └───────────────────────────────────────────────────────────────────┘
+  +-------------------------------------------------------------------+
+  |                 메모리 및 컨텍스트 스위치 성능 최적화 플로우             |
+  +-------------------------------------------------------------------+
+  |                                                                   |
+  |   [서버 성능 모니터링: CPU 캐시 미스(TLB Miss)로 인한 IPC(Instruction Per Cycle) 저하]
+  |                |                                                  |
+  |                v                                                  |
+  |      애플리케이션이 수십 GB 이상의 메모리를 활발하게 읽고 쓰는가? (예: DB, JVM) |
+  |          +- 예 ------> [Transparent Huge Pages (THP) 활성화 검토]   |
+  |          |            (TLB 엔트리 하나가 커버하는 메모리 범위를 넓혀 Miss 방어)|
+  |          +- 아니오 (작은 메모리 공간을 쓴다)                             |
+  |                |                                                  |
+  |                v                                                  |
+  |      멀티프로세스(Nginx, PHP-FPM) 기반으로 초당 수만 건의 스위칭이 일어나는가? |
+  |          +- 예 ------> [CPU의 ASID/PCID 기능 활성화 여부 점검]       |
+  |          |            (cat /proc/cpuinfo | grep pcid 로 하드웨어 지원 확인)|
+  |          |            또는 Event-driven 단일 스레드(Node.js 등) 구조로 전환 |
+  |          |                                                        |
+  |          +- 아니오 ---> 시스템 콜을 줄여 User/Kernel 모드 전환(KPTI) 최소화|
+  +-------------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 무겁다"고 말할 때, 초보자는 단순히 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 개를 저장하는 게 무겁다고 생각한다(수십 나노초). 하지만 진짜 무거운 것은 보이지 않는 파도, 즉 <strong>TLB와 L1/L2 캐시가 씻겨 내려간 뒤 다시 차오를 때까지 겪는 '메모리 읽기 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(수 밀리초)'</strong>이다. 고성능 아키텍처는 이 보이지 않는 캐시 온도를 따뜻하게 유지(Hot Cache)하는 것에 목숨을 건다.
@@ -198,12 +198,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [PCB 구성 요소 필수 암기]
-    │
-    ▼
+    |
+    v
 [문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)]
-    │
-    ├──▶ [단기 스케줄러 디스패치]
-    └──▶ [CPU 바운드 vs I/O 바운드]
+    |
+    +---> [단기 스케줄러 디스패치]
+    +---> [CPU 바운드 vs I/O 바운드]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -220,7 +220,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 684 / 800
 
-← **이전**: [683. PCB 구성 요소 필수 암기 (PCB Process Control Block Components)](/knowledge-base/studynote/02_operating_system/11_exam_summary/683_pcb_process_control_block_components/)
-**다음**: [685. 단기 스케줄러 디스패치 (Short Term Scheduler Dispatcher)](/knowledge-base/studynote/02_operating_system/11_exam_summary/685_short_term_scheduler_dispatcher/) →
+<- **이전**: [683. PCB 구성 요소 필수 암기 (PCB Process Control Block Components)](/knowledge-base/studynote/02_operating_system/11_exam_summary/683_pcb_process_control_block_components/)
+**다음**: [685. 단기 스케줄러 디스패치 (Short Term Scheduler Dispatcher)](/knowledge-base/studynote/02_operating_system/11_exam_summary/685_short_term_scheduler_dispatcher/) ->
 
 ---

@@ -87,7 +87,7 @@ ERP는 재무, 구매, 생산, 인사 같은 핵심 업무를 하나의 흐름�
 
 성공적인 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 구축은 정보가 한곳에서 이어지고, 재무·물류·인사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 규칙으로 처리하게 만든다. 그 결과 결산 속도, 재고 가시성, 통제 추적성이 좋아진다. 반대로 생명주기 관리가 약하면 통합 시스템이 오히려 부서별 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 숨기는 껍데기가 된다.
 
-결론적으로 ERP는 도구보다 운영 방식의 표준화가 먼저다. 기술사 답변에서는 "패키지 선택"보다 "업무 합의→이관→안정화"의 순서를 강조하면 설득력이 높다.
+결론적으로 ERP는 도구보다 운영 방식의 표준화가 먼저다. 기술사 답변에서는 "패키지 선택"보다 "업무 합의->이관->안정화"의 순서를 강조하면 설득력이 높다.
 
 - 📢 섹션 요약 비유: 회사 이사 준비
 
@@ -106,17 +106,17 @@ ERP는 재무, 구매, 생산, 인사 같은 핵심 업무를 하나의 흐름�
 
 ```text
 준비 / 범위 합의
-   ↓
+   v
 Fit-Gap 분석
-   ↓
+   v
 설계·커스터마이징
-   ↓
+   v
 마스터 데이터 정제 / 이관
-   ↓
+   v
 UAT 및 전환 리허설
-   ↓
+   v
 Cutover
-   ↓
+   v
 Hypercare / 안정화
 ```
 
@@ -132,7 +132,7 @@ Hypercare / 안정화
 
 **진행 상황**: 85 / 482
 
-← **이전**: [84. 확장형 ERP (Extended ERP) - 외부 공급망(SCM) 및 고객(CRM)까지 통합 연계 (ERP II)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/084_extended_erp_erp_ii_scm_crm/)
-**다음**: [86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/086_bpr_vs_erp_customization/) →
+<- **이전**: [84. 확장형 ERP (Extended ERP) - 외부 공급망(SCM) 및 고객(CRM)까지 통합 연계 (ERP II)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/084_extended_erp_erp_ii_scm_crm/)
+**다음**: [86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/086_bpr_vs_erp_customization/) ->
 
 ---

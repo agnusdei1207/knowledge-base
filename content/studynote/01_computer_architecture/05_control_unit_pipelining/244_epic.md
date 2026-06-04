@@ -46,28 +46,28 @@ EPIC의 중심에는 <strong>번들 단위 실행</strong>이 있다. 대표 구
 이 그림은 EPIC이 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 3개를 그냥 묶는 것"</strong>이 아니라, 실행 그룹의 경계까지 전달한다는 점을 보여준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                  EPIC 번들(Bundle)과 실행 그룹(Instruction Group)            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Bundle N                                                                     │
-│ ┌──────────────┬──────────────┬──────────────┬──────────────┐                │
-│ │ Slot 0       │ Slot 1       │ Slot 2       │ Template     │                │
-│ │ Integer Op   │ Memory Op    │ Branch Op    │ type + stop  │                │
-│ └──────┬───────┴──────┬───────┴──────┬───────┴──────┬───────┘                │
-│        │              │              │              │                        │
-│        └──────────────┴──────────────┴──────────────┘                        │
-│                     same group if stop bit = 0                               │
-│                                                                              │
-│ Bundle N+1                                                                   │
-│ ┌──────────────┬──────────────┬──────────────┬──────────────┐                │
-│ │ Slot 0       │ Slot 1       │ Slot 2       │ Template     │                │
-│ └──────────────┴──────────────┴──────────────┴──────────────┘                │
-│                              ▲                                               │
-│                     stop bit = 1 이면 여기서 의존성 경계 형성                │
-└──────────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------------+
+|                  EPIC 번들(Bundle)과 실행 그룹(Instruction Group)            |
++------------------------------------------------------------------------------+
+| Bundle N                                                                     |
+| +--------------+--------------+--------------+--------------+                |
+| | Slot 0       | Slot 1       | Slot 2       | Template     |                |
+| | Integer Op   | Memory Op    | Branch Op    | type + stop  |                |
+| +------+-------+------+-------+------+-------+------+-------+                |
+|        |              |              |              |                        |
+|        +--------------+--------------+--------------+                        |
+|                     same group if stop bit = 0                               |
+|                                                                              |
+| Bundle N+1                                                                   |
+| +--------------+--------------+--------------+--------------+                |
+| | Slot 0       | Slot 1       | Slot 2       | Template     |                |
+| +--------------+--------------+--------------+--------------+                |
+|                              ^                                               |
+|                     stop bit = 1 이면 여기서 의존성 경계 형성                |
++------------------------------------------------------------------------------+
 ```
 
-프레디케이션은 EPIC의 대표 기능이다. 일반적인 분기문은 "조건 평가 → [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) → 틀리면 플러시" 흐름을 타지만, EPIC은 참/거짓 경로 일부를 조건 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 연결해 분기 자체를 줄인다. 예를 들어 `p1`이 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 `p2`가 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 코드 구간에 배치하면, 짧은 분기에서는 예측 실패 비용보다 조건부 실행의 낭비가 더 작을 수 있다.
+프레디케이션은 EPIC의 대표 기능이다. 일반적인 분기문은 "조건 평가 -> [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) -> 틀리면 플러시" 흐름을 타지만, EPIC은 참/거짓 경로 일부를 조건 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 연결해 분기 자체를 줄인다. 예를 들어 `p1`이 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 `p2`가 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 코드 구간에 배치하면, 짧은 분기에서는 예측 실패 비용보다 조건부 실행의 낭비가 더 작을 수 있다.
 
 추측 로드와 고급 로드는 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 대응 장치다. 컴파일러는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 크게 문제되지 않는다고 판단하면 로드를 미리 당겨 배치하고, 나중에 체크 명령으로 예외나 충돌 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 이는 현대 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 프로세서가 하드웨어에서 하던 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨김 일부를, EPIC에서는 소프트웨어 스케줄링과 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 차원의 힌트로 옮긴 것이라 볼 수 있다.
 
@@ -149,27 +149,27 @@ EPIC이 노린 기대효과는 분명했다. 복잡한 동적 [스케줄러](/kn
 
 ```text
 수퍼스칼라의 하드웨어 복잡도 증가
-    │
-    ▼
+    |
+    v
 VLIW (Very Long Instruction Word)
-    │
-    ▼
+    |
+    v
 EPIC (Explicitly Parallel Instruction Computing)
-    │
-    ├─▶ 프레디케이션 (Predication)
-    │
-    ├─▶ 추측 로드 (Speculative Load)
-    │
-    └─▶ 소프트웨어 파이프라이닝 (Software Pipelining)
-    │
-    ▼
+    |
+    +--> 프레디케이션 (Predication)
+    |
+    +--> 추측 로드 (Speculative Load)
+    |
+    +--> 소프트웨어 파이프라이닝 (Software Pipelining)
+    |
+    v
 아이테니엄 (Itanium, IA-64) 상용화 실험
-    │
-    ▼
+    |
+    v
 도메인 특화 가속기 · 컴파일러 힌트 기반 최적화로 철학 일부 계승
 ```
 
-이 흐름은 "동적 하드웨어 부담 증가 → 정적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 실험 → 보조 메커니즘 추가 → 상용화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 부분 계승"의 진화를 보여준다.
+이 흐름은 "동적 하드웨어 부담 증가 -> 정적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 실험 -> 보조 메커니즘 추가 -> 상용화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> 부분 계승"의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +183,7 @@ EPIC (Explicitly Parallel Instruction Computing)
 
 **진행 상황**: 244 / 803
 
-← **이전**: [243. VLIW (Very Long Instruction Word)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/243_vliw/)
-**다음**: [245. 메모리 계층 구조 (Memory Hierarchy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/245_memory_hierarchy/) →
+<- **이전**: [243. VLIW (Very Long Instruction Word)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/243_vliw/)
+**다음**: [245. 메모리 계층 구조 (Memory Hierarchy)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/245_memory_hierarchy/) ->
 
 ---

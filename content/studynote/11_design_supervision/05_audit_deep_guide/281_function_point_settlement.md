@@ -21,24 +21,24 @@ tags = ["studynote-design-supervision"]
 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 정산 감리는 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 기반 대가 산정과 정산 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 고정가·성과기반 계약이 늘면서 규모와 공수를 구조적으로 설명하는 산정 체계의 필요성이 커졌다. 특히 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 계수 규칙은 사람 의존 절차로 흩어지고, 최종적으로 정산 공정성이 남지 않아 의사결정이 감각에 의존하게 된다. 산정 근거가 약하면 과소 추정, 분쟁, 정산 지연이 반복된다.
 
 ```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 범위 기준선 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 계수 규칙 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 정산 공정성 증적 확보 │
-└──────────────────┘
++------------------+
+| 요구사항·위험 인식 |
++--------+---------+
+         |
+         v
++------------------+
+| 범위 기준선 기준 수립 |
++--------+---------+
+         |
+         v
++------------------+
+| 계수 규칙 설계 반영 |
++--------+---------+
+         |
+         v
++------------------+
+| 정산 공정성 증적 확보 |
++------------------+
 ```
 - **📢 섹션 요약 비유**: [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 정산 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
@@ -54,14 +54,14 @@ tags = ["studynote-design-supervision"]
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 정산 공정성을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
 ```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
++------------------+      +------------------+
+| 정책·표준 계층    | ----> | 구현·운영 계층    |
++--------+---------+      +--------+---------+
+         |                           |
+         v                           v
++------------------+ <----- +------------------+
+| 모니터링·증적 계층 |      | 시정조치·개선 계층 |
++------------------+      +------------------+
 ```
 - **📢 섹션 요약 비유**: 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 계수 규칙, 정산 공정성은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 - 확장 개념: 예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[범위 기준선] → [기능점수 정산 감리] → [예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))]
+[범위 기준선] -> [기능점수 정산 감리] -> [예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 342 / 530
 
-← **이전**: [280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/280_inspection_peer_review_audit/)
-**다음**: [282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/282_cocomo_ii_effort_estimation/) →
+<- **이전**: [280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/280_inspection_peer_review_audit/)
+**다음**: [282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/282_cocomo_ii_effort_estimation/) ->
 
 ---

@@ -24,12 +24,12 @@ SPDK가 필요해진 배경은 저장장치와 [운영체제](/knowledge-base/st
 즉, 이제 병목은 “디스크가 느리다”보다 “빠른 장치를 다루는 소프트웨어 길이 길다”에 가깝다. SPDK는 이 문제를 해결하기 위해 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)와 비슷한 철학을 스토리지에 가져왔다. 사용자 공간 애플리케이션이 장치 큐를 직접 다루고, 완료 여부를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)해 짧은 I/O (Input/Output) 경로를 만든다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Kernel path: Application -> syscall -> filesystem -> block -> NVMe      │
-│               driver -> interrupt -> Application                         │
-│ SPDK path : Application -> SPDK poller -> NVMe queue pair -> completion │
-│               polling -> callback                                        │
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Kernel path: Application -> syscall -> filesystem -> block -> NVMe      |
+|               driver -> interrupt -> Application                         |
+| SPDK path : Application -> SPDK poller -> NVMe queue pair -> completion |
+|               polling -> callback                                        |
++--------------------------------------------------------------------------+
 ```
 
 이 차이는 특히 작은 랜덤 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 짧은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 경로에서 크게 드러난다. 장치보다 소프트웨어가 더 느린 상황에서는, 경로를 줄이는 것 자체가 가장 직접적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 수단이 된다.
@@ -53,12 +53,12 @@ SPDK의 기본 구조는 “사용자 공간 [NVMe](/knowledge-base/studynote/02
 SPDK의 강점은 큐를 코어 단위로 나눠 락 경쟁을 줄인다는 데 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 계층은 범용성을 위해 많은 장치를 한 경로에서 다루지만, SPDK는 애초에 특정 애플리케이션이 특정 장치를 전담하는 상황을 가정한다. 그래서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 예측 가능성이 높고, 짧은 I/O 경로를 만들기 쉽다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Application thread -> SPDK reactor -> submit queue -> NVMe controller   │
-│                                            │                             │
-│                                            └─ completion queue -> poller │
-│                                                               -> callback│
-└──────────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------------+
+| Application thread -> SPDK reactor -> submit queue -> NVMe controller   |
+|                                            |                             |
+|                                            +- completion queue -> poller |
+|                                                               -> callback|
++--------------------------------------------------------------------------+
 ```
 
 물론 대가도 있다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 절전 모델보다 코어를 계속 사용하게 되고, 파일시스템이 제공하던 편의 기능을 애플리케이션이나 상위 라이브러리가 더 많이 책임져야 한다. 따라서 SPDK는 “짧은 경로가 절대적으로 중요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)”에서 가장 빛난다.
@@ -143,17 +143,17 @@ SPDK는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_s
 
 ```text
 HDD (Hard Disk Drive) 중심 블록 I/O
-        │
-        ▼
+        |
+        v
 커널 NVMe 경로 최적화
-        │
-        ▼
+        |
+        v
 `io_uring` 기반 고성능 커널 I/O
-        │
-        ▼
+        |
+        v
 SPDK (Storage Performance Development Kit)
-        │
-        ▼
+        |
+        v
 NVMe-oF 기반 분리형 사용자 공간 스토리지 데이터 평면
 ```
 
@@ -171,7 +171,7 @@ NVMe-oF 기반 분리형 사용자 공간 스토리지 데이터 평면
 
 **진행 상황**: 673 / 803
 
-← **이전**: [671. DPDK (Data Plane Development Kit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)
-**다음**: [673. RDMA iWARP 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/673_rdma_iwarp/) →
+<- **이전**: [671. DPDK (Data Plane Development Kit)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)
+**다음**: [673. RDMA iWARP 프로토콜](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/673_rdma_iwarp/) ->
 
 ---

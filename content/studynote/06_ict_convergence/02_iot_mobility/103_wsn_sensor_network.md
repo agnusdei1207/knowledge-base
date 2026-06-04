@@ -38,17 +38,17 @@ WSN은 크게 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 | **게이트웨이 (Gateway)** | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인터넷(IP망)을 통해 서버/사용자로 전송 | 외부망 연결 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│             WSN 멀티 홉 라우팅 및 데이터 병합 구조           │
-├──────────────────────────────────────────────────────────────┤
-│    [노드 A] (20도) ─┐                                        │
-│                     ▼           데이터 병합                  │
-│    [노드 B] (21도) ─▶ [헤더 노드] ──────▶ [싱크 노드] ──▶ 인터넷│
-│                     ▲  (평균 20.5도 산출)                    │
-│    [노드 C] (20.5도)┘                                        │
-│                                                              │
-│ * 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|             WSN 멀티 홉 라우팅 및 데이터 병합 구조           |
++--------------------------------------------------------------+
+|    [노드 A] (20도) -+                                        |
+|                     v           데이터 병합                  |
+|    [노드 B] (21도) --> [헤더 노드] -------> [싱크 노드] ---> 인터넷|
+|                     ^  (평균 20.5도 산출)                    |
+|    [노드 C] (20.5도)+                                        |
+|                                                              |
+| * 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)  |
++--------------------------------------------------------------+
 ```
 
 센서 노드는 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(RF)이 배터리를 가장 많이 소모하므로, 필요할 때만 깨어나는 듀티 사이클(Duty Cycle) 제어 기법과 LEACH(Low-Energy Adaptive [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) Hierarchy) 같은 에너지 균형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용해 네트워크 전체의 수명을 연장한다.
@@ -110,14 +110,14 @@ WSN을 통해 우리는 교량의 미세한 균열, 공장 파이프의 [가스]
 
 ```text
 초기 단방향 센서 측정 (Point-to-Point)
-    │
-    ▼
+    |
+    v
 무선 센서 네트워크 (WSN) · 멀티 홉 라우팅, 배터리 제약 극복
-    │
-    ▼
+    |
+    v
 유비쿼터스 센서망 (USN) · 인터넷망과의 결합, IPv6 적용 (6LoWPAN)
-    │
-    ▼
+    |
+    v
 사물인터넷 (IoT) 플랫폼 · 빅데이터 분석 및 인공지능(AI) 기반 자동 제어
 ```
 
@@ -135,7 +135,7 @@ WSN을 통해 우리는 교량의 미세한 균열, 공장 파이프의 [가스]
 
 **진행 상황**: 103 / 552
 
-← **이전**: [IoT 3대 구성 요소](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/102_iot_3_components/)
-**다음**: [104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/104_tinyos_riot_freertos_micro_os/) →
+<- **이전**: [IoT 3대 구성 요소](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/102_iot_3_components/)
+**다음**: [104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/104_tinyos_riot_freertos_micro_os/) ->
 
 ---

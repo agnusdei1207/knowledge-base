@@ -19,19 +19,19 @@ tags = ["studynote-database"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌───────────────────────────────────────────────────────┐
-│    스타 스키마 구조                                    │
-├───────────────────────────────────────────────────────┤
-│        [DIM_날짜]                                     │
-│            │                                          │
-│  [DIM_상품]──[FACT_매출]──[DIM_고객]                  │
-│            │                                          │
-│        [DIM_매장]                                     │
-│                                                       │
-│  FACT_매출: 날짜KEY, 상품KEY, 고객KEY, 매장KEY,       │
-│            매출액, 수량, 할인액 (측정값)               │
-│  DIM_상품: 상품KEY, 상품명, 카테고리, 브랜드 (분석 축)│
-└───────────────────────────────────────────────────────┘
++-------------------------------------------------------+
+|    스타 스키마 구조                                    |
++-------------------------------------------------------+
+|        [DIM_날짜]                                     |
+|            |                                          |
+|  [DIM_상품]--[FACT_매출]--[DIM_고객]                  |
+|            |                                          |
+|        [DIM_매장]                                     |
+|                                                       |
+|  FACT_매출: 날짜KEY, 상품KEY, 고객KEY, 매장KEY,       |
+|            매출액, 수량, 할인액 (측정값)               |
+|  DIM_상품: 상품KEY, 상품명, 카테고리, 브랜드 (분석 축)|
++-------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 "무엇이 일어났는가(매출 3만원)"를 기록하고, 디멘전 테이블은 "어디서, 언제, 누가, 무엇을(분석 축)"을 설명한다.
@@ -59,7 +59,7 @@ tags = ["studynote-database"]
 | **중복** | 있음 | 최소 |
 | <strong>현대 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a></strong> | **표준** | 드물게 사용 |
 
-- **📢 섹션 요약 비유**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 백화점 안내판(한 곳에 모든 정보)이고, 스노우플레이크는 안내판→층별 안내→매장별 안내로 나뉜 체계다.
+- **📢 섹션 요약 비유**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 백화점 안내판(한 곳에 모든 정보)이고, 스노우플레이크는 안내판->층별 안내->매장별 안내로 나뉜 체계다.
 
 ---
 
@@ -107,17 +107,17 @@ tags = ["studynote-database"]
 
 ```text
 [ER 모델 3NF (OLTP, 1970s)]
-    │
-    ▼
+    |
+    v
 [Kimball 차원 모델링 (1996) — 스타 스키마·팩트/디멘전]
-    │
-    ▼
+    |
+    v
 [스노우플레이크 스키마 (디멘전 정규화 변형)]
-    │
-    ▼
+    |
+    v
 [컬럼 스토어 DW (BigQuery, 2010s) — 스타 스키마 최적]
-    │
-    ▼
+    |
+    v
 [현재: dbt + 스타 스키마 — 분석 엔지니어링 자동화]
 ```
 
@@ -132,7 +132,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 118 / 600
 
-← **이전**: [117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화](/knowledge-base/studynote/05_database/02_modeling_normalization/117_physical_database_design_indexing/)
-**다음**: [119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소](/knowledge-base/studynote/05_database/02_modeling_normalization/119_fact_table_dimension_table/) →
+<- **이전**: [117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화](/knowledge-base/studynote/05_database/02_modeling_normalization/117_physical_database_design_indexing/)
+**다음**: [119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소](/knowledge-base/studynote/05_database/02_modeling_normalization/119_fact_table_dimension_table/) ->
 
 ---

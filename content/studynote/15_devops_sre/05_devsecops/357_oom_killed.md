@@ -32,21 +32,21 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│             K8s QoS 클래스와 OOM Score 우선순위                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [BestEffort] oom_adj=1000 — 가장 먼저 종료                     │
-│  Request=0, Limit=0 (설정 없음)                                  │
-│                                                                  │
-│  [Burstable] oom_adj=1~999 — 중간 우선순위                      │
-│  Request < Limit 또는 일부 컨테이너만 설정                       │
-│                                                                  │
-│  [Guaranteed] oom_adj=-998 — 마지막에 종료                      │
-│  Request == Limit (모든 컨테이너)                                │
-│                                                                  │
-│  cgroup v2 경계                                                  │
-│  memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료     │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             K8s QoS 클래스와 OOM Score 우선순위                  |
++------------------------------------------------------------------+
+|  [BestEffort] oom_adj=1000 — 가장 먼저 종료                     |
+|  Request=0, Limit=0 (설정 없음)                                  |
+|                                                                  |
+|  [Burstable] oom_adj=1~999 — 중간 우선순위                      |
+|  Request < Limit 또는 일부 컨테이너만 설정                       |
+|                                                                  |
+|  [Guaranteed] oom_adj=-998 — 마지막에 종료                      |
+|  Request == Limit (모든 컨테이너)                                |
+|                                                                  |
+|  cgroup v2 경계                                                  |
+|  memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료     |
++------------------------------------------------------------------+
 ```
 
 | [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스   | 조건                          | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 종료 순서 | oom_adj 범위 |
@@ -88,9 +88,9 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 5. [VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) 도입 검토: Recommendation 모드로 시작
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- Request 0, Limit 무한대 → BestEffort로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 먼저 종료됨
-- Limit을 Request의 10배 이상 → 노드 메모리 오버커밋
-- Java `-Xmx` 미설정 → cgroup Limit 초과 [OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 반복
+- Request 0, Limit 무한대 -> BestEffort로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 먼저 종료됨
+- Limit을 Request의 10배 이상 -> 노드 메모리 오버커밋
+- Java `-Xmx` 미설정 -> cgroup Limit 초과 [OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 반복
 
 - 📢 섹션 요약 비유: Resource Limit 없이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 운영하는 것은 무한 리필 뷔페에서 접시 제한 없이 음식을 쌓는 것과 같다.
 
@@ -120,24 +120,24 @@ Guaranteed QoS와 VPA를 도입하면 [OOM](/knowledge-base/studynote/02_operati
 
 ```text
 Linux OOM Killer (커널 기반 프로세스 강제 종료)
-    │
-    ▼
+    |
+    v
 cgroup v1 — 컨테이너 메모리 격리
-    │
-    ▼
+    |
+    v
 K8s Resource Request/Limit + QoS 클래스
-    │
-    ▼
+    |
+    v
 cgroup v2 — 계층적 메모리 제어 강화
-    │
-    ▼
+    |
+    v
 VPA (Vertical Pod Autoscaler) — 자동 자원 최적화
-    │
-    ▼
+    |
+    v
 AI 기반 사전 예측적 자원 관리 (Karpenter)
 ```
 
-흐름은 "사후 강제 종료 → 격리 경계 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 우선순위 → 자동 최적화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측"으로 진화한다.
+흐름은 "사후 강제 종료 -> 격리 경계 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 우선순위 -> 자동 최적화 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측"으로 진화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +151,7 @@ AI 기반 사전 예측적 자원 관리 (Karpenter)
 
 **진행 상황**: 357 / 373
 
-← **이전**: [356. 데이터옵스 CI/CD dbt 분석 파이프 자동망 (DataOps CI/CD with dbt)](/knowledge-base/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/)
-**다음**: [358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/) →
+<- **이전**: [356. 데이터옵스 CI/CD dbt 분석 파이프 자동망 (DataOps CI/CD with dbt)](/knowledge-base/studynote/15_devops_sre/05_devsecops/356_ci_cd_dbt/)
+**다음**: [358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/) ->
 
 ---

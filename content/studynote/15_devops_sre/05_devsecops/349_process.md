@@ -39,15 +39,15 @@ tags = ["studynote-devops-sre"]
 | Platform Standard | 배포/관측 공통화 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
 
 ```text
-┌──────────────┐    secure link   ┌──────────────┐    policy    ┌──────────────┐
-│ On-Prem DC   │ ───────────────▶ │ Cloud A      │ ───────────▶ │ Cloud B      │
-└──────────────┘                  └──────────────┘              └──────────────┘
-        │                                 │                             │
-        │ federation                      │ observability               │ DR / burst
-        ▼                                 ▼                             ▼
-┌──────────────┐                  ┌──────────────┐              ┌──────────────┐
-│ IAM / DNS    │ ◀──────────────▶ │ GitOps / IaC │ ◀──────────▶ │ Runtime Std. │
-└──────────────┘                  └──────────────┘              └──────────────┘
++--------------+    secure link   +--------------+    policy    +--------------+
+| On-Prem DC   | ----------------> | Cloud A      | ------------> | Cloud B      |
++--------------+                  +--------------+              +--------------+
+        |                                 |                             |
+        | federation                      | observability               | DR / burst
+        v                                 v                             v
++--------------+                  +--------------+              +--------------+
+| IAM / DNS    | <----------------> | GitOps / IaC | <------------> | Runtime Std. |
++--------------+                  +--------------+              +--------------+
 ```
 
 중요한 점은 “모든 것을 공통 기술로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)”하는 것과 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 강점을 활용”하는 것 사이의 균형이다. 지나친 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 각 클라우드의 장점을 못 쓰게 만들고, 지나친 특화는 운영자와 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)을 조각낸다.
@@ -119,18 +119,18 @@ tags = ["studynote-devops-sre"]
 
 ```text
 Single Cloud
-   │
-   ▼
+   |
+   v
 Hybrid Cloud
-   │
-   ▼
+   |
+   v
 Multi-Cloud Platform Standard
-   │
-   ▼
+   |
+   v
 Policy-driven Placement / DR / Lock-in Mitigation
 ```
 
-이 흐름은 “단일 환경 → 혼합 환경 → 표준화된 다중 환경 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 배치”로 성숙하는 과정을 보여준다.
+이 흐름은 “단일 환경 -> 혼합 환경 -> 표준화된 다중 환경 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 배치”로 성숙하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -144,7 +144,7 @@ Policy-driven Placement / DR / Lock-in Mitigation
 
 **진행 상황**: 349 / 373
 
-← **이전**: [348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/348_finops_ri/)
-**다음**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/) →
+<- **이전**: [348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/348_finops_ri/)
+**다음**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/) ->
 
 ---

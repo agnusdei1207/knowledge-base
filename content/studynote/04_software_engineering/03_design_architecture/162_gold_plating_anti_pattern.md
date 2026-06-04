@@ -45,21 +45,21 @@ tags = ["studynote-software-engineering"]
 아래 그림은 승인 없는 "선의의 추가"가 왜 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로 바뀌는지 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    how gold plating creates hidden cost                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Approved requirement                                                      │
-│      │                                                                     │
-│      ├─ design / build / test / release                                   │
-│      │                                                                     │
-│      └─ unapproved extra feature                                           │
-│             ├─ extra branches in code                                      │
-│             ├─ extra dependencies                                          │
-│             ├─ extra test cases                                            │
-│             └─ extra operational support                                   │
-│                                ▼                                           │
-│                     delay / defect risk / technical debt                   │
-└────────────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------------+
+|                    how gold plating creates hidden cost                   |
++----------------------------------------------------------------------------+
+| Approved requirement                                                      |
+|      |                                                                     |
+|      +- design / build / test / release                                   |
+|      |                                                                     |
+|      +- unapproved extra feature                                           |
+|             +- extra branches in code                                      |
+|             +- extra dependencies                                          |
+|             +- extra test cases                                            |
+|             +- extra operational support                                   |
+|                                v                                           |
+|                     delay / defect risk / technical debt                   |
++----------------------------------------------------------------------------+
 ```
 
 이 그림의 핵심은 "기능 하나 더"가 독립적으로 존재하지 않는다는 점이다. 추가 기능이 들어오면 제어 흐름이 늘고, RTM에 없는 코드가 생기며, 테스트와 운영이 모두 그 후행 비용을 떠안게 된다. 그래서 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 원칙은 미래를 대비하지 말라는 뜻이 아니라, 승인되지 않은 가정을 현재 시스템에 심지 말라는 뜻으로 읽어야 한다.
@@ -135,18 +135,18 @@ tags = ["studynote-software-engineering"]
 
 ```text
 요구사항 베이스라인 확정
-        │
-        ├── 변경 요청 + 영향도 분석 + 승인
-        │          │
-        │          ▼
-        │     통제된 기능 확장
-        │
-        └── 내부의 임의 추가 구현
-                   │
-                   ▼
+        |
+        +-- 변경 요청 + 영향도 분석 + 승인
+        |          |
+        |          v
+        |     통제된 기능 확장
+        |
+        +-- 내부의 임의 추가 구현
+                   |
+                   v
          골드 플래팅 (Gold Plating)
-                   │
-                   ▼
+                   |
+                   v
          일정 지연 · 기술 부채 · 유지보수 비용 증가
 ```
 
@@ -164,7 +164,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 162 / 973
 
-← **이전**: [161. 범위 크리프 (Scope Creep) - 무분별한 요구사항 확장 방지](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)
-**다음**: [163. 비즈니스 프로세스 모델링 (BPMN)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) →
+<- **이전**: [161. 범위 크리프 (Scope Creep) - 무분별한 요구사항 확장 방지](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)
+**다음**: [163. 비즈니스 프로세스 모델링 (BPMN)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ->
 
 ---

@@ -36,28 +36,28 @@ tags = ["studynote-ict-convergence"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│               O-RAN 3분할 아키텍처                        │
-├──────────────────────────────────────────────────────────┤
-│  [Non-RT RIC]  비실시간 제어 (> 1초)                       │
-│  rApp (Third-party 앱) / A1 인터페이스                     │
-│        │ A1 인터페이스                                     │
-│  [Near-RT RIC]  준실시간 제어 (10ms~1초)                   │
-│  xApp (Third-party 앱) / E2 인터페이스                     │
-│        │ E2 인터페이스                                     │
-│  ┌─────────────────────────────────────────┐             │
-│  │  O-CU (Central Unit)                    │             │
-│  │  - PDCP·RRC (L3·상위 L2)               │             │
-│  │  - F1 인터페이스 (개방)                  │             │
-│  ├─────────────────────────────────────────┤             │
-│  │  O-DU (Distributed Unit)               │             │
-│  │  - RLC·MAC·하위 PHY (하위 L2·상위 L1)   │             │
-│  │  - Fronthaul 인터페이스 (개방)           │             │
-│  ├─────────────────────────────────────────┤             │
-│  │  O-RU (Remote Unit)                    │             │
-│  │  - RF·안테나·상위 PHY (하위 L1)          │             │
-│  └─────────────────────────────────────────┘             │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|               O-RAN 3분할 아키텍처                        |
++----------------------------------------------------------+
+|  [Non-RT RIC]  비실시간 제어 (> 1초)                       |
+|  rApp (Third-party 앱) / A1 인터페이스                     |
+|        | A1 인터페이스                                     |
+|  [Near-RT RIC]  준실시간 제어 (10ms~1초)                   |
+|  xApp (Third-party 앱) / E2 인터페이스                     |
+|        | E2 인터페이스                                     |
+|  +-----------------------------------------+             |
+|  |  O-CU (Central Unit)                    |             |
+|  |  - PDCP·RRC (L3·상위 L2)               |             |
+|  |  - F1 인터페이스 (개방)                  |             |
+|  +-----------------------------------------+             |
+|  |  O-DU (Distributed Unit)               |             |
+|  |  - RLC·MAC·하위 PHY (하위 L2·상위 L1)   |             |
+|  |  - Fronthaul 인터페이스 (개방)           |             |
+|  +-----------------------------------------+             |
+|  |  O-RU (Remote Unit)                    |             |
+|  |  - RF·안테나·상위 PHY (하위 L1)          |             |
+|  +-----------------------------------------+             |
++----------------------------------------------------------+
 ```
 
 ### [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 핵심 구성 요소
@@ -102,9 +102,9 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> 보안 취약점</strong>
 
-- **개방형 인터페이스**: [Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)·E2·A1 인터페이스를 표준 공개 → 공격자 분석 용이.
-- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">3rd party</a> 앱</strong>: xApp 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계 미흡 → 악성 앱 삽입 위험.
-- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a></strong>: 다수 벤더 부품 사용 → [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 취약점 증가.
+- **개방형 인터페이스**: [Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)·E2·A1 인터페이스를 표준 공개 -> 공격자 분석 용이.
+- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">3rd party</a> 앱</strong>: xApp 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계 미흡 -> 악성 앱 삽입 위험.
+- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a></strong>: 다수 벤더 부품 사용 -> [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 취약점 증가.
 - **대응**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 보안 위협 모델([O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) Alliance TIFG) 표준화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중.
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 보안 딜레마는 잠금장치가 없는 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 생태계다. 앱스토어(xApp 마켓)를 개방하면 혁신 앱이 쏟아지지만, 악성 앱도 들어올 수 있다. Apple 앱스토어처럼 엄격한 심사(보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))가 필요하다.
@@ -132,7 +132,7 @@ O-RAN은 이동통신 산업의 구조적 혁신을 이끄는 핵심 트렌드�
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[xApp · Near-RT] → [O-RAN 오픈 무선 접속 네트워크] → [상용 서버 활용 · 전용 하드웨어 의존 탈피]
+[xApp · Near-RT] -> [O-RAN 오픈 무선 접속 네트워크] -> [상용 서버 활용 · 전용 하드웨어 의존 탈피]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -147,7 +147,7 @@ O-RAN은 이동통신 산업의 구조적 혁신을 이끄는 핵심 트렌드�
 
 **진행 상황**: 497 / 552
 
-← **이전**: [496. 6G 테라헤르츠, NTN, RIS 기술 (6G Terahertz NTN RIS Satellite Communication)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/496_6g_terahertz_ntn_ris_satellite/)
-**다음**: [498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/498_smart_factory_cps_microgrid_integration/) →
+<- **이전**: [496. 6G 테라헤르츠, NTN, RIS 기술 (6G Terahertz NTN RIS Satellite Communication)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/496_6g_terahertz_ntn_ris_satellite/)
+**다음**: [498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/498_smart_factory_cps_microgrid_integration/) ->
 
 ---

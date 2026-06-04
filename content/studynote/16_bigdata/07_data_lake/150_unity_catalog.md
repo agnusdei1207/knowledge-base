@@ -37,33 +37,33 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                Unity Catalog 3-수준 네임스페이스                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [Account 메타스토어]                                             │
-│       │                                                          │
-│       ├── catalog_prod          (Catalog 수준)                   │
-│       │       ├── sales         (Schema 수준)                    │
-│       │       │     ├── orders  (Table / View / Volume)          │
-│       │       │     └── customers                               │
-│       │       └── marketing                                      │
-│       │             └── campaigns                               │
-│       │                                                          │
-│       └── catalog_dev           (개발용 Catalog)                 │
-│                                                                  │
-│  [접근 제어 레이어]                                               │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  GRANT SELECT ON TABLE catalog.schema.table TO group_a   │   │
-│  │  CREATE ROW FILTER ON TABLE orders (dept = current_user) │   │
-│  │  CREATE COLUMN MASK ON TABLE users (ssn → 'XXXX')        │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  [Delta Sharing]                                                 │
-│  ┌───────────────┐   공유   ┌──────────────────────────────┐   │
-│  │ Unity Catalog  │ ──────▶ │ 외부 소비자 (Snowflake / R / │   │
-│  │ (공유자)       │         │  Pandas / Power BI)          │   │
-│  └───────────────┘         └──────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                Unity Catalog 3-수준 네임스페이스                  |
++------------------------------------------------------------------+
+|  [Account 메타스토어]                                             |
+|       |                                                          |
+|       +-- catalog_prod          (Catalog 수준)                   |
+|       |       +-- sales         (Schema 수준)                    |
+|       |       |     +-- orders  (Table / View / Volume)          |
+|       |       |     +-- customers                               |
+|       |       +-- marketing                                      |
+|       |             +-- campaigns                               |
+|       |                                                          |
+|       +-- catalog_dev           (개발용 Catalog)                 |
+|                                                                  |
+|  [접근 제어 레이어]                                               |
+|  +----------------------------------------------------------+   |
+|  |  GRANT SELECT ON TABLE catalog.schema.table TO group_a   |   |
+|  |  CREATE ROW FILTER ON TABLE orders (dept = current_user) |   |
+|  |  CREATE COLUMN MASK ON TABLE users (ssn -> 'XXXX')        |   |
+|  +----------------------------------------------------------+   |
+|                                                                  |
+|  [Delta Sharing]                                                 |
+|  +---------------+   공유   +------------------------------+   |
+|  | Unity Catalog  | -------> | 외부 소비자 (Snowflake / R / |   |
+|  | (공유자)       |         |  Pandas / Power BI)          |   |
+|  +---------------+         +------------------------------+   |
++------------------------------------------------------------------+
 ```
 
 **핵심 기능 요약**
@@ -118,10 +118,10 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 | 질문 | 핵심 답변 |
 |:---|:---|
-| 3-수준 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 의미 | [catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)(조직/환경 구분) → [schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) → table(오브젝트) |
+| 3-수준 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 의미 | [catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)(조직/환경 구분) -> [schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) -> table(오브젝트) |
 | [Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 구현 | ROW FILTER 함수 + COLUMN MASK [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 동적 적용 |
 | Delta Sharing 원리 | 서버가 서명된 URL 발급, 소비자가 직접 스토리지 읽기 (복사 없음) |
-| 리니지 추적 방식 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 시 SQL 파싱 → 컬럼 → 컬럼 매핑 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| 리니지 추적 방식 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 시 SQL 파싱 -> 컬럼 -> 컬럼 매핑 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 > 📢 **섹션 요약 비유**: Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 운영은 마치 건물 출입 통제와 같다. 각 방(테이블)마다 카드키 권한을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 특정 서류(컬럼)는 권한자에게만 보이며, 모든 출입 기록은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))로 남는다.
 
@@ -131,7 +131,7 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 | 효과 | 내용 |
 |:---|:---|
-| 거버넌스 일원화 | 워크스페이스별 파편화된 권한 관리 → 단일 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리 |
+| 거버넌스 일원화 | 워크스페이스별 파편화된 권한 관리 -> 단일 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리 |
 | 규정 준수 자동화 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 컬럼 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 선언, 운영 오버헤드 최소화 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | 리니지 추적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제 원인 신속 파악 |
 | [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 활성화 | Delta Sharing으로 복사 없는 안전한 외부 공유 실현 |
@@ -159,17 +159,17 @@ Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_
 
 ```text
 [분산 데이터 사일로 (Data Silo) — 거버넌스 부재]
-    │
-    ▼
+    |
+    v
 [데이터 카탈로그 (Data Catalog) — 메타데이터 관리]
-    │
-    ▼
+    |
+    v
 [Unity Catalog — 3-수준 네임스페이스 (catalog.schema.table)]
-    │
-    ▼
+    |
+    v
 [행/컬럼 수준 접근 제어 (Row Filter / Column Mask)]
-    │
-    ▼
+    |
+    v
 [Delta Sharing — 오픈 프로토콜 안전 데이터 공유]
 ```
 
@@ -186,7 +186,7 @@ Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_
 
 **진행 상황**: 150 / 262
 
-← **이전**: [149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/)
-**다음**: [151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/) →
+<- **이전**: [149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/)
+**다음**: [151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold](/knowledge-base/studynote/16_bigdata/07_data_lake/151_multi_tier_architecture/) ->
 
 ---

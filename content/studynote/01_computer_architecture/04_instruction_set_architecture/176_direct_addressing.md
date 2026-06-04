@@ -26,18 +26,18 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 직접 주소 지정의 핵심이 "주소 계산"이 아니라 "주소 제시"에 있음을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Direct addressing: the instruction already contains the location   │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction = [ opcode | address field A ]                        │
-│                           │                                       │
-│                           ▼                                       │
-│                     Effective Address                             │
-│                         EA = A                                    │
-│                           │                                       │
-│                           ▼                                       │
-│                    Memory[EA] -> operand                          │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Direct addressing: the instruction already contains the location   |
++--------------------------------------------------------------------+
+| instruction = [ opcode | address field A ]                        |
+|                           |                                       |
+|                           v                                       |
+|                     Effective Address                             |
+|                         EA = A                                    |
+|                           |                                       |
+|                           v                                       |
+|                    Memory[EA] -> operand                          |
++--------------------------------------------------------------------+
 ```
 
 여기서 중요한 점은 직접 주소 지정이 [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/))과 다르다는 사실이다. [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 숫자 자체가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)지만, 직접 주소 지정은 그 숫자가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 장소</strong>를 가리킨다. 따라서 둘 다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 숫자가 보이더라도, 해석 방식은 전혀 다르다.
@@ -62,16 +62,16 @@ tags = ["studynote-computer-architecture"]
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 범위가 직접 충돌한다는 점을 보여 준다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Instruction width trade-off                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ 16-bit instruction example                                         │
-│ [ opcode 4b ][ direct address 12b ]                                │
-│                 └──────────────▶ 2^12 = 4096 locations             │
-│                                                                    │
-│ more address bits  -> larger reachable memory                      │
-│ fewer opcode bits  -> fewer instruction kinds                      │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| Instruction width trade-off                                        |
++--------------------------------------------------------------------+
+| 16-bit instruction example                                         |
+| [ opcode 4b ][ direct address 12b ]                                |
+|                 +---------------> 2^12 = 4096 locations             |
+|                                                                    |
+| more address bits  -> larger reachable memory                      |
+| fewer opcode bits  -> fewer instruction kinds                      |
++--------------------------------------------------------------------+
 ```
 
 예를 들어 16비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))에 4비트를 쓰면, 주소는 12비트만 남는다. 이 경우 직접 가리킬 수 있는 공간은 4,096개 위치뿐이다. 메모리가 커질수록 직접 주소 지정은 곧바로 확장성 문제에 부딪히며, 이 한계 때문에 현대 구조에서는 베이스+변위 (Base + [Displacement](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))나 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 더 널리 쓰인다.
@@ -109,15 +109,15 @@ tags = ["studynote-computer-architecture"]
 아래 판단 흐름은 직접 주소 지정을 써도 되는지 빠르게 가르는 기준이다.
 
 ```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When is direct addressing appropriate?                             │
-├────────────────────────────────────────────────────────────────────┤
-│ target address fixed by hardware or boot convention?               │
-│   ├─ yes -> direct / absolute reference is reasonable              │
-│   └─ no                                                            │
-│        ├─ code may relocate? -> use PC-relative or base+offset     │
-│        └─ address stored in register? -> register indirect         │
-└────────────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------------+
+| When is direct addressing appropriate?                             |
++--------------------------------------------------------------------+
+| target address fixed by hardware or boot convention?               |
+|   +- yes -> direct / absolute reference is reasonable              |
+|   +- no                                                            |
+|        +- code may relocate? -> use PC-relative or base+offset     |
+|        +- address stored in register? -> register indirect         |
++--------------------------------------------------------------------+
 ```
 
 ### 실무 판단 기준
@@ -164,18 +164,18 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 small fixed memory systems
-        │
-        ▼
+        |
+        v
 direct addressing (EA = A)
-        │
-        ├──────────────▶ simple decode and fixed absolute access
-        │
-        ├──────────────▶ address-field size limitation
-        │
-        ▼
+        |
+        +---------------> simple decode and fixed absolute access
+        |
+        +---------------> address-field size limitation
+        |
+        v
 base/index and PC-relative addressing
-        │
-        ▼
+        |
+        v
 MMIO and boot vectors remain as fixed-address use cases
 ```
 
@@ -193,7 +193,7 @@ MMIO and boot vectors remain as fixed-address use cases
 
 **진행 상황**: 176 / 803
 
-← **이전**: [175. 레지스터 주소 지정 (Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)
-**다음**: [177. 간접 주소 지정 (Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) →
+<- **이전**: [175. 레지스터 주소 지정 (Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)
+**다음**: [177. 간접 주소 지정 (Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ->
 
 ---

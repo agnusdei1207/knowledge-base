@@ -78,13 +78,13 @@ GitOps는 개발자의 운영 개입을 최소화하고 소프트웨어 [공급�
 
 ```text
 수동 kubectl apply (명령형 배포)
-    │
-    ▼
+    |
+    v
 GitOps: Git = Single Source of Truth
-    ├─► Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)
-    └─► Push 방식: Jenkins (CI가 클러스터에 배포)
-    │
-    ▼
+    +-► Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)
+    +-► Push 방식: Jenkins (CI가 클러스터에 배포)
+    |
+    v
 Progressive Delivery: Argo Rollouts · Flagger
 ```
 2. 만약 누군가 몰래 피자 조각을 훔쳐 가면, 로봇이 요리책과 다르다는 걸 알고 다시 피자를 채워 넣는답니다.
@@ -96,7 +96,7 @@ Progressive Delivery: Argo Rollouts · Flagger
 
 **진행 상황**: 166 / 371
 
-← **이전**: [166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/166_cicd_pipeline_tools/)
-**다음**: [168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/168_gitops_push_vs_pull_deployment/) →
+<- **이전**: [166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/166_cicd_pipeline_tools/)
+**다음**: [168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/168_gitops_push_vs_pull_deployment/) ->
 
 ---

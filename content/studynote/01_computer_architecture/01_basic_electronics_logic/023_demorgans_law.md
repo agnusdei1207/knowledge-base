@@ -26,34 +26,34 @@ tags = ["studynote-computer-architecture"]
 
 | 법칙 | 수식 | 의미 |
 |:---|:---:|:---|
-| **제 1법칙 (NAND 분해)** | $\overline{A \cdot B} = \overline{A} + \overline{B}$ | NAND 전체 부정 → 각각 NOT 후 OR |
-| **제 2법칙 (NOR 분해)** | $\overline{A + B} = \overline{A} \cdot \overline{B}$ | NOR 전체 부정 → 각각 NOT 후 AND |
+| **제 1법칙 (NAND 분해)** | $\overline{A \cdot B} = \overline{A} + \overline{B}$ | NAND 전체 부정 -> 각각 NOT 후 OR |
+| **제 2법칙 (NOR 분해)** | $\overline{A + B} = \overline{A} \cdot \overline{B}$ | NOR 전체 부정 -> 각각 NOT 후 AND |
 
 법칙이 없었다면 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) (Electronic Design Automation) 합성 툴은 회로를 하나의 게이트 족으로 묶어 최적화하지 못했을 것이다.
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│       드모르간 법칙의 물리적 게이트 등가 변환                 │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  ▶ 제 1법칙: NAND = NOT(A·B) = NOT_A OR NOT_B             │
-│                                                           │
-│     A ──┐                    A ──[NOT]──┐                 │
-│         ├──[NAND]──  ≡            [OR]── 출력             │
-│     B ──┘                    B ──[NOT]──┘                 │
-│                                                           │
-│  ▶ 제 2법칙: NOR = NOT(A+B) = NOT_A AND NOT_B             │
-│                                                           │
-│     A ──┐                    A ──[NOT]──┐                 │
-│         ├──[NOR]───  ≡            [AND]─ 출력             │
-│     B ──┘                    B ──[NOT]──┘                 │
-│                                                           │
-│  결론: NAND 또는 NOR 한 종류만으로                          │
-│        AND / OR / NOT 모두 구현 가능 → 범용 게이트           │
-└───────────────────────────────────────────────────────────┘
++-----------------------------------------------------------+
+|       드모르간 법칙의 물리적 게이트 등가 변환                 |
++-----------------------------------------------------------+
+|                                                           |
+|  -> 제 1법칙: NAND = NOT(A·B) = NOT_A OR NOT_B             |
+|                                                           |
+|     A --+                    A --[NOT]--+                 |
+|         +--[NAND]--  ≡            [OR]-- 출력             |
+|     B --+                    B --[NOT]--+                 |
+|                                                           |
+|  -> 제 2법칙: NOR = NOT(A+B) = NOT_A AND NOT_B             |
+|                                                           |
+|     A --+                    A --[NOT]--+                 |
+|         +--[NOR]---  ≡            [AND]- 출력             |
+|     B --+                    B --[NOT]--+                 |
+|                                                           |
+|  결론: NAND 또는 NOR 한 종류만으로                          |
+|        AND / OR / NOT 모두 구현 가능 -> 범용 게이트           |
++-----------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: "비가 오고 천둥이 친다"의 반대말은 "비가 안 오거나 천둥이 안 친다"이다. "비가 안 오고 천둥도 안 친다"(AND → AND)가 아니다. 드모르간은 일상 언어 속에 숨어있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 참모습을 꺼내주는 진실의 거울이다.
+📢 **섹션 요약 비유**: "비가 오고 천둥이 친다"의 반대말은 "비가 안 오거나 천둥이 안 친다"이다. "비가 안 오고 천둥도 안 친다"(AND -> AND)가 아니다. 드모르간은 일상 언어 속에 숨어있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 참모습을 꺼내주는 진실의 거울이다.
 
 ---
 
@@ -66,24 +66,24 @@ tags = ["studynote-computer-architecture"]
 복잡한 수식 $F = ((A + B') \cdot C)'$ 을 드모르간으로 단계적으로 전개하면:
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│         드모르간 법칙을 활용한 Logic Depth 압축 최적화           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [초기 수식: 괄호 4단 중첩 → 게이트 직렬 4단]                  │
-│  F = ( (A + B') · C )'                                       │
-│                                                              │
-│  [1단계: 바깥쪽 부정 분배 — 제 1법칙 적용]                      │
-│  F = (A + B')'  +  C'      ← AND(·)가 OR(+)로 뒤집힘          │
-│                                                              │
-│  [2단계: 안쪽 부정 분배 — 제 2법칙 적용]                        │
-│  F = (A' · B'') + C'       ← OR(+)가 AND(·)로 뒤집힘          │
-│                                                              │
-│  [3단계: 이중 부정 상쇄 (B'' = B)]                             │
-│  F = A'B + C'              ← 2단 SOP(Sum of Products) 완성    │
-│                                                              │
-│  4단 직렬  ──▶  2단 병렬: 클럭 지연(Propagation Delay) 반토막  │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|         드모르간 법칙을 활용한 Logic Depth 압축 최적화           |
++--------------------------------------------------------------+
+|                                                              |
+|  [초기 수식: 괄호 4단 중첩 -> 게이트 직렬 4단]                  |
+|  F = ( (A + B') · C )'                                       |
+|                                                              |
+|  [1단계: 바깥쪽 부정 분배 — 제 1법칙 적용]                      |
+|  F = (A + B')'  +  C'      <- AND(·)가 OR(+)로 뒤집힘          |
+|                                                              |
+|  [2단계: 안쪽 부정 분배 — 제 2법칙 적용]                        |
+|  F = (A' · B'') + C'       <- OR(+)가 AND(·)로 뒤집힘          |
+|                                                              |
+|  [3단계: 이중 부정 상쇄 (B'' = B)]                             |
+|  F = A'B + C'              <- 2단 SOP(Sum of Products) 완성    |
+|                                                              |
+|  4단 직렬  --->  2단 병렬: 클럭 지연(Propagation Delay) 반토막  |
++--------------------------------------------------------------+
 ```
 
 ### 범용 게이트 ([Universal Gate](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/)) 구현 예시
@@ -91,24 +91,24 @@ tags = ["studynote-computer-architecture"]
 NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│          NAND 게이트로 만드는 완전한 논리 함수 세계              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  NOT(A)   :  A ──┐                                          │
-│                   ├── NAND ── NOT_A     (입력 단락 연결)       │
-│               A ──┘                                          │
-│                                                              │
-│  AND(A,B) :  A ──┐              ┌──┐                         │
-│                   ├─NAND─┬─NAND─┘  └─ A·B                   │
-│               B ──┘      │ (단락)                            │
-│                                                              │
-│  OR(A,B)  :  A ─NAND─┐                                      │
-│                        ├─NAND── A+B  (드모르간 제1법칙 역이용) │
-│               B ─NAND─┘                                      │
-│                                                              │
-│  ✔ NAND 4개만 있으면 세상 모든 논리 함수를 조합 가능             │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|          NAND 게이트로 만드는 완전한 논리 함수 세계              |
++--------------------------------------------------------------+
+|                                                              |
+|  NOT(A)   :  A --+                                          |
+|                   +-- NAND -- NOT_A     (입력 단락 연결)       |
+|               A --+                                          |
+|                                                              |
+|  AND(A,B) :  A --+              +--+                         |
+|                   +-NAND-+-NAND-+  +- A·B                   |
+|               B --+      | (단락)                            |
+|                                                              |
+|  OR(A,B)  :  A -NAND-+                                      |
+|                        +-NAND-- A+B  (드모르간 제1법칙 역이용) |
+|               B -NAND-+                                      |
+|                                                              |
+|  ✔ NAND 4개만 있으면 세상 모든 논리 함수를 조합 가능             |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 마트료시카 인형처럼 4중으로 겹겹이 포장된 선물 상자를 열려면 한 겹씩 풀어야 해서 시간이 한참 걸린다. 드모르간의 칼로 상자를 한 번에 납작하게 쫙 펼쳐 내용물을 1열로 나란히 진열하면 원하는 물건을 1초 만에 집어들 수 있다.
@@ -122,7 +122,7 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 | 비교 항목 | SOP (Sum of Products, 곱의 합) | POS (Product of Sums, 합의 곱) |
 |:---|:---|:---|
 | **수식 형태** | $AB + CD$ | $(A+B)(C+D)$ |
-| **드모르간 변환** | 전체에 바 씌우고 적용 → POS로 변환 | 전체에 바 씌우고 적용 → SOP로 변환 |
+| **드모르간 변환** | 전체에 바 씌우고 적용 -> POS로 변환 | 전체에 바 씌우고 적용 -> SOP로 변환 |
 | **하드웨어 매핑** | NAND-NAND 2단 구조에 직접 매핑 | NOR-NOR 2단 구조에 직접 매핑 |
 | **최적화 도구** | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) ([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)) SOP 간소화 | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) POS 간소화 |
 
@@ -131,24 +131,24 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 프로그래밍 언어의 조건문 리팩토링에서도 드모르간이 그대로 작동한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│        소프트웨어 조건문에서의 드모르간 법칙 적용                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [원본 — 부정 괄호 덕지덕지]                                  │
-│  if !(user.isAdmin && user.isActive) { deny(); }             │
-│                                                              │
-│  [드모르간 제1법칙 적용 후 — 가독성 폭발]                       │
-│  if (!user.isAdmin || !user.isActive) { deny(); }            │
-│                                                              │
-│  [원본 — 이중 부정 혼란]                                       │
-│  if !(errorCode == 0 || retryCount > 3) { abort(); }         │
-│                                                              │
-│  [드모르간 제2법칙 적용 후]                                     │
-│  if (errorCode != 0 && retryCount <= 3) { abort(); }         │
-│                                                              │
-│  ✔ 수식 간소화 = 버그 감소 + 코드 리뷰 속도 향상               │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|        소프트웨어 조건문에서의 드모르간 법칙 적용                |
++--------------------------------------------------------------+
+|                                                              |
+|  [원본 — 부정 괄호 덕지덕지]                                  |
+|  if !(user.isAdmin && user.isActive) { deny(); }             |
+|                                                              |
+|  [드모르간 제1법칙 적용 후 — 가독성 폭발]                       |
+|  if (!user.isAdmin || !user.isActive) { deny(); }            |
+|                                                              |
+|  [원본 — 이중 부정 혼란]                                       |
+|  if !(errorCode == 0 || retryCount > 3) { abort(); }         |
+|                                                              |
+|  [드모르간 제2법칙 적용 후]                                     |
+|  if (errorCode != 0 && retryCount <= 3) { abort(); }         |
+|                                                              |
+|  ✔ 수식 간소화 = 버그 감소 + 코드 리뷰 속도 향상               |
++--------------------------------------------------------------+
 ```
 
 📢 **섹션 요약 비유**: 드모르간은 레고 블록의 만능 어댑터다. 길쭉한 블록(OR 게이트), 네모 블록(AND 게이트)을 비싸게 따로 살 필요 없이 가장 싸고 흔한 세모 블록(NAND) 하나만 잔뜩 사서 끼워 맞추면 어떤 성이든 다 지을 수 있다.
@@ -163,7 +163,7 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 ### 실무 시나리오 2: 임베디드 저전력 최적화
 
-심박수 센서용 초저전력 SoC에서 동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) $P = [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)^2 f$를 줄이기 위해 회로 깊이를 단축하는 드모르간 최적화를 적용했다. 로직 깊이가 8단 → 4단으로 줄면서 클럭 주파수를 낮춰도 타이밍을 충족하게 되어 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 38% 감소했다.
+심박수 센서용 초저전력 SoC에서 동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) $P = [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)^2 f$를 줄이기 위해 회로 깊이를 단축하는 드모르간 최적화를 적용했다. 로직 깊이가 8단 -> 4단으로 줄면서 클럭 주파수를 낮춰도 타이밍을 충족하게 되어 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 38% 감소했다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -216,21 +216,21 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 ```text
 [부울 대수 (Boolean Algebra)]
-  │  논리 연산의 수학적 체계
-  ▼
+  |  논리 연산의 수학적 체계
+  v
 [드모르간의 법칙 (De Morgan's Law)]
-  │  NOT 분배 시 AND ↔ OR 반전
-  ├──▶ [NAND / NOR 범용 게이트 (Universal Gate)]
-  │      단일 게이트로 모든 회로 구현
-  ├──▶ [카르노 맵 최적화 (Karnaugh Map)]
-  │      SOP ↔ POS 변환으로 회로 간소화
-  ▼
+  |  NOT 분배 시 AND ↔ OR 반전
+  +---> [NAND / NOR 범용 게이트 (Universal Gate)]
+  |      단일 게이트로 모든 회로 구현
+  +---> [카르노 맵 최적화 (Karnaugh Map)]
+  |      SOP ↔ POS 변환으로 회로 간소화
+  v
 [논리 합성 엔진 (Logic Synthesis EDA)]
-  │  드모르간 기반 자동 최적화
-  ▼
+  |  드모르간 기반 자동 최적화
+  v
 [VLSI / SoC 설계 (고성능 저전력)]
-  │  Critical Path 단축, fmax 향상
-  ▼
+  |  Critical Path 단축, fmax 향상
+  v
 [AI 기반 자동 합성 (ML-driven EDA)]
      머신러닝으로 드모르간 변환 공간 탐색
 ```
@@ -250,7 +250,7 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 **진행 상황**: 23 / 803
 
-← **이전**: [22. 부울 대수 (Boolean Algebra)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)
-**다음**: [24. 진리표 (Truth Table) — 논리 함수의 완전한 진술](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) →
+<- **이전**: [22. 부울 대수 (Boolean Algebra)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)
+**다음**: [24. 진리표 (Truth Table) — 논리 함수의 완전한 진술](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) ->
 
 ---

@@ -36,24 +36,24 @@ EER의 핵심 원리는 공통점과 차이점을 위아래로 재배치하는 �
 | **슈퍼클래스 (Superclass)** | 공통 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가진 부모 개체 | 자식에게 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)해 줌 |
 | **서브클래스 (Subclass)** | 고유 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 추가로 가진 자식 개체 | 부모의 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 100% 물려받음 |
 
-서브클래스를 나눌 때는 두 가지 중요한 제약조건(규칙)이 작동한다. 첫째, 중복(Disjointness) 제약조건은 자식들끼리 겹칠 수 없는 배타적 분리(Disjoint, d)인지, 교집합이 가능한 중복 허용(Overlap, o)인지 결정한다. 둘째, 참여(Completeness) 제약조건은 부모가 반드시 자식 중 하나에 속해야 하는 전체 참여(Total, ===)인지, 어디에도 안 속하는 예외 부모가 존재하는 부분 참여(Partial, ─)인지를 규정한다.
+서브클래스를 나눌 때는 두 가지 중요한 제약조건(규칙)이 작동한다. 첫째, 중복(Disjointness) 제약조건은 자식들끼리 겹칠 수 없는 배타적 분리(Disjoint, d)인지, 교집합이 가능한 중복 허용(Overlap, o)인지 결정한다. 둘째, 참여(Completeness) 제약조건은 부모가 반드시 자식 중 하나에 속해야 하는 전체 참여(Total, ===)인지, 어디에도 안 속하는 예외 부모가 존재하는 부분 참여(Partial, -)인지를 규정한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           EER 상속 계층과 제약조건 (직원 모델링 예시)             │
-├──────────────────────────────────────────────────────────────┤
-│                     [ 직 원 (슈퍼클래스) ]                       │
-│                     (사번, 이름, 입사일)                       │
-│                              │                               │
-│                              d (Disjoint: 배타적 분리)         │
-│             ┌────────────────┴────────────────┐              │
-│             ▼                                ▼              │
-│    [ 정규직 (서브클래스) ]              [ 계약직 (서브클래스) ]    │
-│        (연봉, 보너스)                      (시급, 계약기간)      │
-│                                                              │
-│ * 특징: 직원은 정규직이면서 계약직일 수 없음 (d).                  │
-│        정규직은 부모의 '사번, 이름'을 그대로 물려받아 사용함.           │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           EER 상속 계층과 제약조건 (직원 모델링 예시)             |
++--------------------------------------------------------------+
+|                     [ 직 원 (슈퍼클래스) ]                       |
+|                     (사번, 이름, 입사일)                       |
+|                              |                               |
+|                              d (Disjoint: 배타적 분리)         |
+|             +----------------+----------------+              |
+|             v                                v              |
+|    [ 정규직 (서브클래스) ]              [ 계약직 (서브클래스) ]    |
+|        (연봉, 보너스)                      (시급, 계약기간)      |
+|                                                              |
+| * 특징: 직원은 정규직이면서 계약직일 수 없음 (d).                  |
+|        정규직은 부모의 '사번, 이름'을 그대로 물려받아 사용함.           |
++--------------------------------------------------------------+
 ```
 이 다이어그램은 특수화의 과정을 보여준다. 하나의 직원이 두 서브클래스에 속할 수 없음을 명확히 하여, 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 유지하게 만든다.
 
@@ -115,17 +115,17 @@ EER을 도입하면 [데이터](/knowledge-base/studynote/05_database/01_db_arch
 
 ```text
 전통적 ER 모델 (Entity-Relationship)
-    │
-    ▼
+    |
+    v
 객체지향 설계 사상 등장 (OOP)
-    │
-    ▼
+    |
+    v
 확장 ER 모델 (EER) · 일반화(Generalization) 및 특수화(Specialization)
-    │
-    ▼
+    |
+    v
 상속 제약조건 (Disjoint, Overlap, Total, Partial)
-    │
-    ▼
+    |
+    v
 ORM 연계 및 물리적 슈퍼타입/서브타입 테이블 변환
 ```
 
@@ -143,7 +143,7 @@ ORM 연계 및 물리적 슈퍼타입/서브타입 테이블 변환
 
 **진행 상황**: 89 / 600
 
-← **이전**: [88. 식별자 (Identifier) - ER 모델에서의 키](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)
-**다음**: [90. 이상 현상 (Anomaly) - 정규화를 거치지 않아 발생하는 데이터 중복에 따른 부작용](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) →
+<- **이전**: [88. 식별자 (Identifier) - ER 모델에서의 키](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)
+**다음**: [90. 이상 현상 (Anomaly) - 정규화를 거치지 않아 발생하는 데이터 중복에 따른 부작용](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ->
 
 ---

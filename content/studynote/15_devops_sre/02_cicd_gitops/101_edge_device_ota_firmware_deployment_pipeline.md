@@ -38,23 +38,23 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 | <strong>A/B 뱅크 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 두 구역으로 나눠 안전하게 덮어쓰기 | 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Auto-[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 전원 차단 대비 |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│           엣지 OTA의 듀얼 뱅크 (A/B Partition) 업데이트 원리         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 정상 동작 중 (A 실행)                                     │
-│    [ Partition A (Active) ] <--- 시스템 실행 중             │
-│    [ Partition B (Idle)   ]                                  │
-│                                                              │
-│ 2. 백그라운드 다운로드 & 굽기 (B에 업데이트)                    │
-│    [ Partition A (Active) ] <--- 서비스 무중단 유지           │
-│    [ Partition B (Writing)] <--- 무선으로 새 펌웨어 기록       │
-│                                                              │
-│ 3. 무결성 검증 후 리부팅 (Swap)                              │
-│    [ Partition A (Idle)   ] <--- 롤백을 위해 기존 버전 보존    │
-│    [ Partition B (Active) ] <--- 새 펌웨어로 부팅 성공!       │
-│                                                              │
-│ ※ 만약 부팅 B가 실패하면? 다시 A로 자동 재부팅 (Fail-safe)     │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|           엣지 OTA의 듀얼 뱅크 (A/B Partition) 업데이트 원리         |
++--------------------------------------------------------------+
+| 1. 정상 동작 중 (A 실행)                                     |
+|    [ Partition A (Active) ] <--- 시스템 실행 중             |
+|    [ Partition B (Idle)   ]                                  |
+|                                                              |
+| 2. 백그라운드 다운로드 & 굽기 (B에 업데이트)                    |
+|    [ Partition A (Active) ] <--- 서비스 무중단 유지           |
+|    [ Partition B (Writing)] <--- 무선으로 새 펌웨어 기록       |
+|                                                              |
+| 3. 무결성 검증 후 리부팅 (Swap)                              |
+|    [ Partition A (Idle)   ] <--- 롤백을 위해 기존 버전 보존    |
+|    [ Partition B (Active) ] <--- 새 펌웨어로 부팅 성공!       |
+|                                                              |
+| ※ 만약 부팅 B가 실패하면? 다시 A로 자동 재부팅 (Fail-safe)     |
++--------------------------------------------------------------+
 ```
 
 이 다이어그램이 보여주듯, 새 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 다운로드해서 덮어쓰는 동안에도 기기는 A [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 통해 정상 작동한다. 업데이트가 완료된 후 리부팅 시 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)([Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))가 진입점을 B로 변경하기만 하면 된다. 중간에 전원이 끊어지더라도 A [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 손상되지 않았으므로 기기가 벽돌(Brick)이 되는 사태를 완벽하게 막아준다.
@@ -120,21 +120,21 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 
 ```text
 서비스 센터 방문 / 물리적 플래싱 (USB)
-    │
-    ▼
+    |
+    v
 단일 파티션 OTA (업데이트 중 전원 꺼지면 벽돌 발생)
-    │
-    ▼
+    |
+    v
 A/B 듀얼 파티션 (무중단 다운로드 및 안전 롤백 보장)
-    │
-    ▼
+    |
+    v
 델타(Delta) 업데이트 (네트워크 및 스토리지 I/O 최소화)
-    │
-    ▼
+    |
+    v
 Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)
 ```
 
-이 흐름도는 "물리적 교체 → 단순 원격 배포 → 안전성 확보([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) → 효율성 확보(차분) → 완벽한 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 원격 하드웨어 배포 기술의 진화를 보여준다.
+이 흐름도는 "물리적 교체 -> 단순 원격 배포 -> 안전성 확보([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) -> 효율성 확보(차분) -> 완벽한 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 원격 하드웨어 배포 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +148,7 @@ Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)
 
 **진행 상황**: 101 / 373
 
-← **이전**: [100. 멀티 리전 (Multi-Region) 배포 파이프라인 - 글로벌 고가용성(DR) 및 레이턴시 최적화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)
-**다음**: [에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/) →
+<- **이전**: [100. 멀티 리전 (Multi-Region) 배포 파이프라인 - 글로벌 고가용성(DR) 및 레이턴시 최적화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)
+**다음**: [에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/) ->
 
 ---

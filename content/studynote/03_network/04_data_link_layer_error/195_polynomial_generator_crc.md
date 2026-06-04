@@ -33,11 +33,11 @@ tags = ["studynote-network"]
 
 ```text
 [CRC]
-    │
-    ▼
+    |
+    v
 [다항식 연산 / 생성 다항식]
-    │
-    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
+    |
+    +---> [CRC-16, CRC-32, CRC-CCIT…]
 ```
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -56,11 +56,11 @@ tags = ["studynote-network"]
 
 ```text
 [CRC]
-    │
-    ▼
+    |
+    v
 [다항식 연산 / 생성 다항식]
-    │
-    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
+    |
+    +---> [CRC-16, CRC-32, CRC-CCIT…]
 ```
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -128,12 +128,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: CRC]
-    │
-    ▼
+    |
+    v
 [현재 개념: 다항식 연산 / 생성 다항식]
-    │
-    ├──▶ [확장 A: CRC-16, CRC-32, CRC-CCIT…]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+    |
+    +---> [확장 A: CRC-16, CRC-32, CRC-CCIT…]
+    +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식는 CRC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -150,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 316 / 1120
 
-← **이전**: [194. CRC (Cyclic Redundancy Check, 순환 중복 검사)](/knowledge-base/studynote/03_network/04_data_link_layer_error/194_crc_cyclic_redundancy_check/)
-**다음**: [196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT](/knowledge-base/studynote/03_network/04_data_link_layer_error/196_crc_standards_16_32_ccitt/) →
+<- **이전**: [194. CRC (Cyclic Redundancy Check, 순환 중복 검사)](/knowledge-base/studynote/03_network/04_data_link_layer_error/194_crc_cyclic_redundancy_check/)
+**다음**: [196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT](/knowledge-base/studynote/03_network/04_data_link_layer_error/196_crc_standards_16_32_ccitt/) ->
 
 ---

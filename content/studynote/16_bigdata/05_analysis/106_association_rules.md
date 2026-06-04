@@ -37,26 +37,26 @@ tags = ["studynote-bigdata"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">향상도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">Lift</a>)</strong> | [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│             연관 규칙 마이닝 파이프라인                          │
-├──────────────────────────────────────────────────────────────────┤
-│  거래 DB                                                         │
-│  T1: {우유, 빵, 버터}                                            │
-│  T2: {맥주, 기저귀, 콜라}          Step 1: 빈발 항목 집합 생성   │
-│  T3: {우유, 기저귀, 맥주, 콜라}  ──────────────────────────────▶│
-│  T4: {빵, 우유}                    min_support 임계값 적용       │
-│  ...                                                             │
-├──────────────────────────────────────────────────────────────────┤
-│  빈발 항목 집합 (Frequent Itemsets)                              │
-│  {맥주, 기저귀}: support=0.4                                     │
-│  {맥주, 콜라}:   support=0.3    Step 2: 규칙 생성 & 필터링      │
-│  {기저귀, 콜라}: support=0.3  ──────────────────────────────────▶│
-│                                  min_confidence 임계값 적용      │
-├──────────────────────────────────────────────────────────────────┤
-│  최종 규칙                                                       │
-│  {기저귀} → {맥주}   conf=0.80, lift=2.1  ✅ 의미 있음          │
-│  {빵}     → {우유}   conf=0.67, lift=1.3  ✅ 의미 있음          │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|             연관 규칙 마이닝 파이프라인                          |
++------------------------------------------------------------------+
+|  거래 DB                                                         |
+|  T1: {우유, 빵, 버터}                                            |
+|  T2: {맥주, 기저귀, 콜라}          Step 1: 빈발 항목 집합 생성   |
+|  T3: {우유, 기저귀, 맥주, 콜라}  ------------------------------->|
+|  T4: {빵, 우유}                    min_support 임계값 적용       |
+|  ...                                                             |
++------------------------------------------------------------------+
+|  빈발 항목 집합 (Frequent Itemsets)                              |
+|  {맥주, 기저귀}: support=0.4                                     |
+|  {맥주, 콜라}:   support=0.3    Step 2: 규칙 생성 & 필터링      |
+|  {기저귀, 콜라}: support=0.3  ----------------------------------->|
+|                                  min_confidence 임계값 적용      |
++------------------------------------------------------------------+
+|  최종 규칙                                                       |
+|  {기저귀} -> {맥주}   conf=0.80, lift=2.1  ✅ 의미 있음          |
+|  {빵}     -> {우유}   conf=0.67, lift=1.3  ✅ 의미 있음          |
++------------------------------------------------------------------+
 ```
 
 ### Apriori vs [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth
@@ -80,7 +80,7 @@ tags = ["studynote-bigdata"]
 | 항목 | 연관 규칙 | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) |
 |:---|:---|:---|
 | **입력** | 거래 단위 항목 집합 | 사용자-아이템 평점 행렬 |
-| **출력** | {A} → {B} 규칙 | 사용자별 추천 항목 |
+| **출력** | {A} -> {B} 규칙 | 사용자별 추천 항목 |
 | **개인화** | 없음 (집단 패턴) | 있음 (개인 선호 반영) |
 | **설명 가능성** | 높음 (규칙 명시적) | 낮음 (잠재 요인 기반) |
 | **적용 사례** | 진열 배치, 번들 프로모션 | 넷플릭스·유튜브 추천 |
@@ -96,7 +96,7 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/knowledge-base/studyn
 ### 적용 시나리오
 
 1. **리테일 진열 최적화**: [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) > 2.0인 {A, B} 쌍을 인접 진열하여 교차 구매율 향상
-2. **의료 공동 진단**: 전자 의무 기록 (EMR, Electronic Medical Record)에서 함께 나타나는 질환 조합 탐지 → 조기 스크리닝 가이드
+2. **의료 공동 진단**: 전자 의무 기록 (EMR, Electronic Medical Record)에서 함께 나타나는 질환 조합 탐지 -> 조기 스크리닝 가이드
 3. **금융 이상 패턴**: 특정 거래 항목 조합이 사기 거래에 빈발하는지 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -142,17 +142,17 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/knowledge-base/studyn
 
 ```text
 [데이터 마이닝]
-    │
-    ▼
+    |
+    v
 [연관 규칙]
-    │
-    ▼
+    |
+    v
 [Apriori 알고리즘]
-    │
-    ▼
+    |
+    v
 [FP-Growth]
-    │
-    ▼
+    |
+    v
 [협업 필터링]
 ```
 
@@ -169,7 +169,7 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/knowledge-base/studyn
 
 **진행 상황**: 106 / 262
 
-← **이전**: [군집화 (Clustering) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)
-**다음**: [104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매](/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) →
+<- **이전**: [군집화 (Clustering) 분석](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)
+**다음**: [104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매](/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) ->
 
 ---

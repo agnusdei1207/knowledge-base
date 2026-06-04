@@ -39,9 +39,9 @@ tags = ["studynote-algorithm"]
 
 ```
       A          =     U      ·    Σ      ·   Vᵀ
-  ┌────────┐       ┌───────┐   ┌───────┐   ┌───────┐
-  │ m × n  │   =   │ m × m │ × │ m × n │ × │ n × n │
-  └────────┘       └───────┘   └───────┘   └───────┘
+  +--------+       +-------+   +-------+   +-------+
+  | m × n  |   =   | m × m | × | m × n | × | n × n |
+  +--------+       +-------+   +-------+   +-------+
   (원본 행렬)    (좌 특이벡터) (특이값 대각) (우 특이벡터)
 ```
 
@@ -63,7 +63,7 @@ k=1, 2, 3... 으로 증가시키며 점진적 근사:
 
 ```
 원본 A (rank r)
-    ↓ SVD
+    v SVD
 A ≈ σ₁u₁v₁ᵀ + σ₂u₂v₂ᵀ + ... + σₖuₖvₖᵀ
    (가장 중요한 k개 성분만 사용)
 ```
@@ -72,7 +72,7 @@ A ≈ σ₁u₁v₁ᵀ + σ₂u₂v₂ᵀ + ... + σₖuₖvₖᵀ
 
 ```
 원본 이미지 행렬 A (512×512):
-  저장: 512² = 262,144 픽셀
+  저장: 512^ = 262,144 픽셀
 
 SVD 후 k=50 성분 유지:
   저장: k(m+n+1) = 50(512+512+1) = 51,250 값
@@ -86,15 +86,15 @@ SVD 후 k=50 성분 유지:
 A = QR (Q: 직교, R: 상삼각)
 
 ```
-┌ a₁₁ a₁₂ a₁₃ ┐   ┌ q₁₁ q₁₂ q₁₃ ┐   ┌ r₁₁ r₁₂ r₁₃ ┐
-│ a₂₁ a₂₂ a₂₃ │ = │ q₂₁ q₂₂ q₂₃ │ × │  0  r₂₂ r₂₃ │
-└ a₃₁ a₃₂ a₃₃ ┘   └ q₃₁ q₃₂ q₃₃ ┘   └  0   0  r₃₃ ┘
++ a₁₁ a₁₂ a₁₃ +   + q₁₁ q₁₂ q₁₃ +   + r₁₁ r₁₂ r₁₃ +
+| a₂₁ a₂₂ a₂₃ | = | q₂₁ q₂₂ q₂₃ | × |  0  r₂₂ r₂₃ |
++ a₃₁ a₃₂ a₃₃ +   + q₃₁ q₃₂ q₃₃ +   +  0   0  r₃₃ +
                     직교 행렬 Q            상삼각 R
 ```
 
 최소제곱 풀이 Ax ≈ b (m > n):
 ```
-QRx = b → Rx = Qᵀb  → 후방 대입으로 풀기
+QRx = b -> Rx = Qᵀb  -> 후방 대입으로 풀기
 ```
 
 QR 분해는 가우스 소거보다 수치적으로 안정적.
@@ -113,8 +113,8 @@ QR 분해는 가우스 소거보다 수치적으로 안정적.
 
 일반 행렬에서 SVD와 고유값의 연결:
 ```
-AᵀA = VΣ²Vᵀ   → AᵀA의 고유벡터 = V, 고유값 = σᵢ²
-AAᵀ = UΣ²Uᵀ   → AAᵀ의 고유벡터 = U, 고유값 = σᵢ²
+AᵀA = VΣ^Vᵀ   -> AᵀA의 고유벡터 = V, 고유값 = σᵢ^
+AAᵀ = UΣ^Uᵀ   -> AAᵀ의 고유벡터 = U, 고유값 = σᵢ^
 ```
 
 ### 의사역행렬 (Pseudoinverse, Moore-Penrose)
@@ -170,14 +170,14 @@ X = UΣVᵀ
 
 주성분 = Vᵀ 의 행들 (우 특이벡터)
 주성분 점수 = UΣ (좌 특이벡터 × 특이값)
-분산 설명량 = σᵢ² / Σ σⱼ²
+분산 설명량 = σᵢ^ / Σ σⱼ^
 ```
 
 ### 기술사 판단 포인트
 
-1. **"정방 행렬에 가장 일반적인 분해는?"** → LU (det≠0), 고유분해 (대각화 가능)
-2. **"수치 안정성이 가장 좋은 분해는?"** → [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)
-3. **"최소제곱 문제의 표준 풀이는?"** → QR 분해 (Normal Equation AᵀAx=Aᵀb보다 안정)
+1. **"정방 행렬에 가장 일반적인 분해는?"** -> LU (det≠0), 고유분해 (대각화 가능)
+2. **"수치 안정성이 가장 좋은 분해는?"** -> [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)
+3. **"최소제곱 문제의 표준 풀이는?"** -> QR 분해 (Normal Equation AᵀAx=Aᵀb보다 안정)
 
 📢 **섹션 요약 비유**: [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 기반 추천은 "음악 취향 DNA"와 같다 — 각 사용자를 몇 개의 잠재 취향 벡터(U)로, 각 곡을 잠재 장르 벡터(V)로 표현해 유사도를 계산한다.
 
@@ -214,17 +214,17 @@ NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임�
 
 ```text
 [LU]
-    │
-    ▼
+    |
+    v
 [QR]
-    │
-    ▼
+    |
+    v
 [SVD]
-    │
-    ▼
+    |
+    v
 [고유분해]
-    │
-    ▼
+    |
+    v
 [콜레스키]
 ```
 
@@ -242,7 +242,7 @@ NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임�
 
 **진행 상황**: 161 / 175
 
-← **이전**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/)
-**다음**: [3. 고유값/고유벡터 (Eigenvalue/Eigenvector) — Av = λv](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/162_eigenvalue_eigenvector/) →
+<- **이전**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/)
+**다음**: [3. 고유값/고유벡터 (Eigenvalue/Eigenvector) — Av = λv](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/162_eigenvalue_eigenvector/) ->
 
 ---

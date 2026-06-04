@@ -21,33 +21,33 @@ tags = ["studynote-network"]
 
 - **개념**: V2X는 차량이 도로 위를 주행하며 주변의 모든 것(Everything)과 실시간으로 무선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환하는 기술의 총칭이다. 크게 차량 간 통신(**V2V**, Vehicle to Vehicle), 차량과 도로 인프라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 통신(**V2I**, Vehicle to Infrastructure), 차량과 통신망 클라우드(**V2N**, Network), 차량과 보행자 폰(**V2P**, Pedestrian) 4가지 하위 영역으로 융합 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 - **필요성**: 테슬라로 대표되는 현재의 자율주행(Autopilot) 기술은 사실상 '고립형 자율주행'이다. 카메라가 표지판을 찍고 라이다 센서가 앞차와의 거리를 재서 혼자 판단한다. 하지만 폭설로 카메라가 눈에 덮이거나, 커브 길 뒤쪽에서 덤프트럭이 역주행으로 날아오면 센서는 물리적 빛이 차단되어(LOS, Line-of-Sight 한계) 충돌 직전 0.1초 전에나 발견하고 사고가 터진다. 이 치명적인 물리적 시야의 한계를 돌파하려면, <strong>앞차가 급브레이크를 밟는 순간 그 '제동 정보'를 뒤따라오는 10대의 차에게 전파(RF)로 0.001초 만에 쏴버려서 센서보다 먼저 컴퓨터가 브레이크를 밟게 만드는 협력형(Cooperative) 초시공간 인프라</strong>가 절대적으로 절실했다.
-- **등장 배경**: ① 센서(카메라/레이더)의 악천후 및 사각지대 비전 상실이라는 치명적 아킬레스건 부각 → ② 군집 주행([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)) 시 앞차와 뒷차의 간격을 1m 이내로 붙이면서도 충돌하지 않기 위한 1ms 초저지연 통신([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 요구 폭발 → ③ 국가 주도의 차세대 지능형 교통망([C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/)) 사업이 본격화되며 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 자동차 의무 장착 논의 급물살.
+- **등장 배경**: ① 센서(카메라/레이더)의 악천후 및 사각지대 비전 상실이라는 치명적 아킬레스건 부각 -> ② 군집 주행([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)) 시 앞차와 뒷차의 간격을 1m 이내로 붙이면서도 충돌하지 않기 위한 1ms 초저지연 통신([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 요구 폭발 -> ③ 국가 주도의 차세대 지능형 교통망([C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/)) 사업이 본격화되며 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 자동차 의무 장착 논의 급물살.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│             자율주행 센서(비전)의 한계 vs V2X(초연결) 구원의 시각화    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 고립형 자율주행 (카메라 & 라이다 센서만 맹신할 때)]              │
-│   (건물 벽 코너 사각지대)                                          │
-│         🏢🏢🏢                                                │
-│         🏢🏢🏢                                                │
-│   내 차 ─(카메라 시야 막힘!)─X─ (코너 뒤) 덤프트럭 역주행 돌진 중!! 🚚💨 │
-│   => 결과: 내 차 카메라는 코너를 꺾고 나서야 트럭을 발견함. 브레이크 밟아도│
-│            관성 때문에 이미 늦어서 정면충돌 폭발! (센서의 가시거리 한계) │
-│                                                             │
-│   [혁신: V2X 통신 기반 협력형 자율주행 (육감의 발동)]                    │
-│   (건물 벽 코너 사각지대)                                          │
-│         🏢🏢🏢                                                │
-│   내 차 ◀══(보이지 않는 전파 빔 건물 관통)══ (코너 뒤) 덤프트럭 🚚💨  │
-│   (V2V 수신)                             (V2V 긴급 방송 송신)     │
-│                                                             │
-│   트럭: "야 코너에 있는 차들 다 비켜! 나 지금 브레이크 파열돼서 미끄러짐!" │
-│   내 차 컴퓨터: "어? 코너 뒤에 보이지는 않는데, 전파로 위험 신호 떴네!"    │
-│                 (내 차 센서가 보기 3초 전, 이미 자동으로 브레이크 콱 밟고 정차)│
-│   => 결과: 센서의 시야를 벗어난 사각지대의 재앙을 무선 통신(V2V/V2I)이     │
-│            미리 귀띔해주어 교통사고 사망률을 0%로 수렴시키는 기적의 방패!   │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|             자율주행 센서(비전)의 한계 vs V2X(초연결) 구원의 시각화    |
++-------------------------------------------------------------+
+|                                                             |
+|   [과거: 고립형 자율주행 (카메라 & 라이다 센서만 맹신할 때)]              |
+|   (건물 벽 코너 사각지대)                                          |
+|         🏢🏢🏢                                                |
+|         🏢🏢🏢                                                |
+|   내 차 -(카메라 시야 막힘!)-X- (코너 뒤) 덤프트럭 역주행 돌진 중!! 🚚💨 |
+|   => 결과: 내 차 카메라는 코너를 꺾고 나서야 트럭을 발견함. 브레이크 밟아도|
+|            관성 때문에 이미 늦어서 정면충돌 폭발! (센서의 가시거리 한계) |
+|                                                             |
+|   [혁신: V2X 통신 기반 협력형 자율주행 (육감의 발동)]                    |
+|   (건물 벽 코너 사각지대)                                          |
+|         🏢🏢🏢                                                |
+|   내 차 <---(보이지 않는 전파 빔 건물 관통)-- (코너 뒤) 덤프트럭 🚚💨  |
+|   (V2V 수신)                             (V2V 긴급 방송 송신)     |
+|                                                             |
+|   트럭: "야 코너에 있는 차들 다 비켜! 나 지금 브레이크 파열돼서 미끄러짐!" |
+|   내 차 컴퓨터: "어? 코너 뒤에 보이지는 않는데, 전파로 위험 신호 떴네!"    |
+|                 (내 차 센서가 보기 3초 전, 이미 자동으로 브레이크 콱 밟고 정차)|
+|   => 결과: 센서의 시야를 벗어난 사각지대의 재앙을 무선 통신(V2V/V2I)이     |
+|            미리 귀띔해주어 교통사고 사망률을 0%로 수렴시키는 기적의 방패!   |
++-------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** V2X의 핵심 철학은 "눈(Camera)으로 보지 말고, 귀(Radio Frequency)로 듣고 피하라"는 것이다. 카메라는 빛을 수집하므로 앞에 트럭이 가리면 그 너머를 볼 수 없다(가려진 시야, Hidden Node). 반면 V2V 통신 전파(5.9GHz)는 건물이나 트럭을 뚫고, 심지어 1km 앞 고속도로에 결빙이 있다는 정보를 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(V2I)을 통해 내 차로 쏴준다. 내 차의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴퓨터는 센서가 수집한 시각 정보에 V2X가 물어다 준 '보이지 않는 세계의 정보'를 완벽하게 [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)(Sensor Fusion)하여, 인간의 반응 속도(약 1초)를 0.01초로 단축해 버리는 궁극의 방어 운전 아키텍처를 완성한다.
@@ -88,11 +88,11 @@ V2X는 누구와 대화하느냐에 따라 통신 [프로토콜](/knowledge-base
 
 ```text
 [MANET]
-    │
-    ▼
+    |
+    v
 [V2X]
-    │
-    └──▶ [WAVE DSRC]
+    |
+    +---> [WAVE DSRC]
 ```
 
 - **📢 섹션 요약 비유**: 트럭 5대가 1m 간격으로 달릴 때 센서(레이더)만 믿는 건, 눈 가린 사람들 5명이 앞사람 등짝에 손만 대고 일렬로 뛰는 것과 같습니다. 앞사람이 넘어지면 뒤로 와다다다 덮치며 다 죽죠. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(초저지연) 군집 주행은 맨 앞사람의 뇌파(브레이크 생각)를 뒷사람 4명의 머릿속으로 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)처럼 다이렉트로 꽂아버려서, 5명이 소름 돋게 1초의 오차도 없이 동시에 똑같이 멈춰서는 무결점 텔레파시 협동입니다.
@@ -114,24 +114,24 @@ V2X는 누구와 대화하느냐에 따라 통신 [프로토콜](/knowledge-base
 | **글로벌 패권 현황**| 일본(Toyota), NXP 선호. 초창기 미국(오바마) 주도. | <strong>중국, 유럽, 미국(바이든), <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a>, 아우디 압도적 선택. 사실상 글로벌 표준 전쟁 승리 유력.</strong> |
 
 ```text
-┌───────────────────────────────────────────────────────────────┐
-│               C-V2X (Cellular V2X)의 Uu망과 PC5망 융합 구조 시각화    │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   * C-V2X는 기지국이 죽으면 멈추는 약점을 보완하기 위해 2개의 심장을 탑재함!   │
-│                                                               │
-│   1. [Uu (Network) 인터페이스] - "멀리 있는 통신사 5G 기지국과 대화"      │
-│      내 차 ◀=====(5G Uu망 빔 3km)=====> [SKT / KT 5G 거대 철탑 기지국] │
-│      * 용도: 10km 앞 고속도로 다중 추돌 사고 소식 다운로드 (느긋한 광역 정보) │
-│                                                               │
-│   2. [PC5 (Direct) 인터페이스] - "바로 앞차와 기지국 안 거치고 다이렉트 무전"│
-│      내 차 ◀=====(PC5 사이드링크 10m)=====> 앞 차 (덤프트럭)           │
-│      * 용도: 기지국에 신호 다녀올 시간도 없다! 앞차 급브레이크 정보 0.001초 컷!│
-│                                                               │
-│   => 결과: 기지국이 살아있을 땐 Uu망으로 거대한 클라우드(V2N) 지도를 업데이트받고,│
-│            터널 안에 들어가서 기지국 5G가 끊기면 즉시 PC5 다이렉트 통신(V2V)으로│
-│            앞차와 P2P로 생존을 이어가는 궁극의 무결점 하이브리드 모빌리티망!  │
-└───────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|               C-V2X (Cellular V2X)의 Uu망과 PC5망 융합 구조 시각화    |
++---------------------------------------------------------------+
+|                                                               |
+|   * C-V2X는 기지국이 죽으면 멈추는 약점을 보완하기 위해 2개의 심장을 탑재함!   |
+|                                                               |
+|   1. [Uu (Network) 인터페이스] - "멀리 있는 통신사 5G 기지국과 대화"      |
+|      내 차 <-=====(5G Uu망 빔 3km)=====> [SKT / KT 5G 거대 철탑 기지국] |
+|      * 용도: 10km 앞 고속도로 다중 추돌 사고 소식 다운로드 (느긋한 광역 정보) |
+|                                                               |
+|   2. [PC5 (Direct) 인터페이스] - "바로 앞차와 기지국 안 거치고 다이렉트 무전"|
+|      내 차 <-=====(PC5 사이드링크 10m)=====> 앞 차 (덤프트럭)           |
+|      * 용도: 기지국에 신호 다녀올 시간도 없다! 앞차 급브레이크 정보 0.001초 컷!|
+|                                                               |
+|   => 결과: 기지국이 살아있을 땐 Uu망으로 거대한 클라우드(V2N) 지도를 업데이트받고,|
+|            터널 안에 들어가서 기지국 5G가 끊기면 즉시 PC5 다이렉트 통신(V2V)으로|
+|            앞차와 P2P로 생존을 이어가는 궁극의 무결점 하이브리드 모빌리티망!  |
++---------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 기술이 결국 낡은 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(와이파이)를 밀어내고 글로벌 자율주행의 대세가 된 이유를 설명하는 완벽한 아키텍처다. C-V2X는 이동통신의 고질병인 '기지국 필수' 요건을 <strong>PC5 (Sidelink, 단말 간 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>)</strong>라는 혁신적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 융합으로 해결했다. 고속도로 터널에 들어가 통신사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 막대기가 0칸으로 죽어버려도, 자동차 칩셋 안에 내장된 PC5 채널이 활성화되어 앞차와 다이렉트 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 무전망(Ad-hoc)을 즉석에서 뚫어버린다. 기지국의 광역 통제력(Uu망)과 애드혹의 즉각 생존력(PC5망)을 모두 쥐어버린 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 진영의 천재적인 융합 설계다.
@@ -194,12 +194,12 @@ V2X는 누구와 대화하느냐에 따라 통신 [프로토콜](/knowledge-base
 
 ```text
 [선행 개념: MANET]
-    │
-    ▼
+    |
+    v
 [현재 개념: V2X]
-    │
-    ├──▶ [확장 A: WAVE DSRC]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+    |
+    +---> [확장 A: WAVE DSRC]
+    +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
 V2X는 MANET에서 출발해 현재 메커니즘을 정교화하고, 이후 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) DSRC와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -216,7 +216,7 @@ V2X는 MANET에서 출발해 현재 메커니즘을 정교화하고, 이후 [WAV
 
 **진행 상황**: 710 / 1120
 
-← **이전**: [588. MANET (Mobile Ad-hoc Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)
-**다음**: [590. WAVE (IEEE 802.11p 무선차량통신) DSRC(단거리전용)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) →
+<- **이전**: [588. MANET (Mobile Ad-hoc Network)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)
+**다음**: [590. WAVE (IEEE 802.11p 무선차량통신) DSRC(단거리전용)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) ->
 
 ---

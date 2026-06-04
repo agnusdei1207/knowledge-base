@@ -19,20 +19,20 @@ tags = ["studynote-algorithm-stats"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│              최대 힙 구조 (배열 인덱스 기반)                  │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│         [10]                  인덱스:                       │
-│        /    \                 0: 10 (루트)                  │
-│      [8]    [9]               1: 8                         │
-│     / \    / \                2: 9                         │
-│   [5] [7] [3] [6]             3: 5                         │
-│                               4: 7  ...                    │
-│  배열: [10, 8, 9, 5, 7, 3, 6]                              │
-│  부모(i) = (i-1) // 2                                      │
-│  왼쪽(i) = 2*i + 1, 오른쪽(i) = 2*i + 2                   │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|              최대 힙 구조 (배열 인덱스 기반)                  |
++------------------------------------------------------------+
+|                                                            |
+|         [10]                  인덱스:                       |
+|        /    \                 0: 10 (루트)                  |
+|      [8]    [9]               1: 8                         |
+|     / \    / \                2: 9                         |
+|   [5] [7] [3] [6]             3: 5                         |
+|                               4: 7  ...                    |
+|  배열: [10, 8, 9, 5, 7, 3, 6]                              |
+|  부모(i) = (i-1) // 2                                      |
+|  왼쪽(i) = 2*i + 1, 오른쪽(i) = 2*i + 2                   |
++------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 힙은 병원 응급실 대기 시스템이다. 가장 위급한 환자(최솟값/최댓값)가 항상 가장 먼저 처치받을 수 있도록, 대기 목록을 반정렬 상태로 유지한다.
@@ -67,10 +67,10 @@ max_val = -heapq.heappop(max_heap)  # 10 반환
 ### Sift-Up (삽입) / Sift-Down (삭제) 원리
 
 ```text
-삽입(Push):  새 원소를 마지막에 추가 → Sift-Up (부모와 비교·교환)
+삽입(Push):  새 원소를 마지막에 추가 -> Sift-Up (부모와 비교·교환)
              O(log n): 트리 높이만큼 비교
 
-삭제(Pop):   루트를 제거 → 마지막 원소를 루트로 → Sift-Down
+삭제(Pop):   루트를 제거 -> 마지막 원소를 루트로 -> Sift-Down
              O(log n): 두 자식 중 더 큰/작은 값과 교환 반복
 ```
 
@@ -89,7 +89,7 @@ max_val = -heapq.heappop(max_heap)  # 10 반환
 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)):
 1. 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 힙 구성: O(n)
 2. n번 [Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/): O(n log n)
-→ 총 O(n log n), 추가 공간 O(1) (In-place)
+-> 총 O(n log n), 추가 공간 O(1) (In-place)
 
 - **📢 섹션 요약 비유**: 힙과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬의 차이는 도서관 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 우편함 비교다. 도서관(정렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))은 모든 책이 정렬되어 n번째 책도 O(1)에 찾지만, 우편함(힙)은 "가장 중요한 우편"만 즉시 꺼낼 수 있고 나머지 순서는 보장 안 된다.
 
@@ -118,7 +118,7 @@ def dijkstra(graph, start):
                 heapq.heappush(pq, (new_dist, next_node))
 
     return dist
-# 힙 없는 다익스트라: O(V²)
+# 힙 없는 다익스트라: O(V^)
 # 힙 기반 다익스트라: O((V+E) log V)
 ```
 
@@ -154,17 +154,17 @@ OS 프로세스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/0
 
 ```text
 [완전 이진 트리 — 힙의 구조적 기반]
-    │
-    ▼
+    |
+    v
 [최소/최대 힙 — 힙 속성(Heap Property)]
-    │
-    ▼
+    |
+    v
 [우선순위 큐 — 힙의 ADT 응용]
-    │
-    ▼
+    |
+    v
 [다익스트라/프림 MST — 그래프 알고리즘 활용]
-    │
-    ▼
+    |
+    v
 [스트리밍 Top-K — 실시간 대용량 데이터 처리]
 ```
 
@@ -180,7 +180,7 @@ OS 프로세스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/0
 
 **진행 상황**: 78 / 175
 
-← **이전**: [25. Union-Find (Disjoint Set) — 분리 집합 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/)
-**다음**: [26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/) →
+<- **이전**: [25. Union-Find (Disjoint Set) — 분리 집합 자료구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/)
+**다음**: [26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/) ->
 
 ---

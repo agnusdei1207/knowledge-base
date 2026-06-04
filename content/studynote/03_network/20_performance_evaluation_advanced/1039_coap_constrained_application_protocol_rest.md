@@ -24,11 +24,11 @@ tags = ["studynote-network"]
 
 ```text
 [MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
+    |
+    v
 [CoAP 프로토콜 및 REST]
-    │
-    └──▶ [Thread / Matter 표준 망]
+    |
+    +---> [Thread / Matter 표준 망]
 ```
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 
 ```text
 [MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
+    |
+    v
 [CoAP 프로토콜 및 REST]
-    │
-    └──▶ [Thread / Matter 표준 망]
+    |
+    +---> [Thread / Matter 표준 망]
 ```
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -117,12 +117,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
+    |
+    v
 [현재 개념: CoAP 프로토콜 및 REST]
-    │
-    ├──▶ [확장 A: Thread / Matter 표준 망]
-    └──▶ [확장 B: AI 기반 성능 예측]
+    |
+    +---> [확장 A: Thread / Matter 표준 망]
+    +---> [확장 B: AI 기반 성능 예측]
 ```
 
 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 퍼블리시 서브스크라이브 모드에서 출발해 현재 메커니즘을 정교화하고, 이후 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -139,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 142 / 1120
 
-← **이전**: [1038. MQTT 프로토콜](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1038_mqtt_publish_subscribe_iot_protocol/)
-**다음**: [103. FDD (Frequency Division Duplexing) - 주파수 분할 이중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) →
+<- **이전**: [1038. MQTT 프로토콜](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1038_mqtt_publish_subscribe_iot_protocol/)
+**다음**: [103. FDD (Frequency Division Duplexing) - 주파수 분할 이중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) ->
 
 ---

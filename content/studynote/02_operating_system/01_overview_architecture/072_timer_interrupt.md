@@ -31,9 +31,9 @@ tags = ["studynote-operating-system"]
 
 ```text
 Timer Tick
-  ↓ interrupt
+  v interrupt
 Kernel
-  ↓
+  v
 Scheduler / Context Switch
 ```
 
@@ -105,9 +105,9 @@ Scheduler / Context Switch
 
 ```text
 Timer
-  ↓ interrupt
+  v interrupt
 Preemption
-  ↓
+  v
 Scheduler
 ```
 
@@ -117,11 +117,11 @@ Scheduler
 
 ```text
 Timer
-  ↓
+  v
 Interrupt
-  ↓
+  v
 Preemptive Scheduling
-  ↓
+  v
 Context Switch
 ```
 
@@ -139,7 +139,7 @@ CPU도 잠깐 쉬어요.
 
 **진행 상황**: 72 / 800
 
-← **이전**: [71. 운영체제 타이머 (Timer) - 시스템 클럭, 카운터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/)
-**다음**: [73. 틱 (Tick) / 지피스 (Jiffies)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) →
+<- **이전**: [71. 운영체제 타이머 (Timer) - 시스템 클럭, 카운터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/)
+**다음**: [73. 틱 (Tick) / 지피스 (Jiffies)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) ->
 
 ---

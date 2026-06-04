@@ -27,12 +27,12 @@ tags = ["studynote-ai"]
 - **하이퍼파라미터 민감도 완화**: 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 설계 없이도 비교적 우수한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 코사인 어닐링은 산을 내려갈 때 처음에는 성큼성큼 뛰어가다가(높은 LR), 바닥에 가까워질수록 보폭을 줄여 조심스럽게 걷는(낮은 LR) 것과 같다. 때로는 담을 넘기 위해 다시 점프(Restart)를 하기도 한다.
@@ -54,13 +54,13 @@ tags = ["studynote-ai"]
 [ 코사인 어닐링 학습률 변화 곡선 ]
 
   Learning Rate
-      ▲
+      ^
   max █  * *
       █ *     *
       █*       *        * *
       █         *      *   *
       █          *    *     *
-  min █───────────*──*───────*──▶ Epoch
+  min █-----------*--*-------*---> Epoch
       +-------------------------+
          Cycle 1      Cycle 2
 ```
@@ -123,7 +123,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[손실 함수·기울기 계산] → [코사인 어닐링 (Cosine Annealing Scheduler)] → [대규모 분산 학습·서빙 최적화]
+[손실 함수·기울기 계산] -> [코사인 어닐링 (Cosine Annealing Scheduler)] -> [대규모 분산 학습·서빙 최적화]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -138,7 +138,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 407 / 420
 
-← **이전**: [406. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/05_data_science_ml/406_tensor_core_mac/)
-**다음**: [408. CLIP (Contrastive Language-Image Pre-training)](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) →
+<- **이전**: [406. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/05_data_science_ml/406_tensor_core_mac/)
+**다음**: [408. CLIP (Contrastive Language-Image Pre-training)](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ->
 
 ---

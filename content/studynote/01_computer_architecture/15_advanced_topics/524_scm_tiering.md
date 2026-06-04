@@ -26,16 +26,16 @@ tags = ["studynote-computer-architecture"]
 이 그림은 CPU (Central Processing Unit) 기준에서 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화가 메우려는 간극을 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        메모리와 스토리지 사이의 큰 틈을 SCM 계층이 메운다             │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Cache  : sub-ns                                                 │
-│ DRAM       : ~100 ns      빠르지만 휘발성 / 용량당 가격 높음          │
-│ SCM        : ~0.3~5 μs    느리지만 비휘발성 / 바이트 접근 가능        │
-│ NVMe SSD   : ~50~100 μs   저렴하지만 블록 I/O 중심                    │
-│                                                                      │
-│ 목표: "전원이 꺼져도 남아 있으면서 SSD보다 훨씬 가까운 중간층" 확보    │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|        메모리와 스토리지 사이의 큰 틈을 SCM 계층이 메운다             |
++----------------------------------------------------------------------+
+| CPU Cache  : sub-ns                                                 |
+| DRAM       : ~100 ns      빠르지만 휘발성 / 용량당 가격 높음          |
+| SCM        : ~0.3~5 μs    느리지만 비휘발성 / 바이트 접근 가능        |
+| NVMe SSD   : ~50~100 μs   저렴하지만 블록 I/O 중심                    |
+|                                                                      |
+| 목표: "전원이 꺼져도 남아 있으면서 SSD보다 훨씬 가까운 중간층" 확보    |
++----------------------------------------------------------------------+
 ```
 
 결국 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화의 필요성은 단순 용량 확장보다, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a>을 얻는 순간 너무 멀어지는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다시 CPU 가까이 끌어오는 데</strong> 있다. 이 시각이 있어야 왜 SCM이 메모리와 스토리지 양쪽 언어를 모두 가진 계층인지 이해된다.
@@ -59,17 +59,17 @@ tags = ["studynote-computer-architecture"]
 이 그림은 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화가 속도 기준 배치와 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 경로를 동시에 어떻게 다루는지 보여 준다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      SCM 계층화는 '속도 기준 배치'와 '영속성 기준 배치'를 함께 다룬다 │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Cache                                                            │
-│    │                                                                 │
-│    ├─ 핫 / 쓰기 집중 데이터 ───────▶ DRAM                            │
-│    ├─ 웜 / 영속 데이터 ───────────▶ SCM                              │
-│    └─ 콜드 / 대용량 데이터 ───────▶ NVMe SSD                         │
-│                                                                      │
-│ 내구성 경로: CPU Cache → flush → SCM persist domain → 재기동 후 재사용│
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|      SCM 계층화는 '속도 기준 배치'와 '영속성 기준 배치'를 함께 다룬다 |
++----------------------------------------------------------------------+
+| CPU Cache                                                            |
+|    |                                                                 |
+|    +- 핫 / 쓰기 집중 데이터 --------> DRAM                            |
+|    +- 웜 / 영속 데이터 ------------> SCM                              |
+|    +- 콜드 / 대용량 데이터 --------> NVMe SSD                         |
+|                                                                      |
+| 내구성 경로: CPU Cache -> flush -> SCM persist domain -> 재기동 후 재사용|
++----------------------------------------------------------------------+
 ```
 
 실제로 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 얻으려면 CPU 캐시에 머물던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지속 영역에 도달했음을 보장해야 한다. 그래서 캐시 라인 flush와 순서 보장(fence) 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 내구성 절차가 중요해진다. SCM은 저장장치이면서 메모리이기 때문에, "어디에 둘 것인가"뿐 아니라 "언제 실제 영속 상태가 되는가"도 설계 대상이다.
@@ -148,17 +148,17 @@ tags = ["studynote-computer-architecture"]
 
 ```text
 DRAM 중심 메모리 + SSD 중심 영속 저장
-        │
-        ▼
+        |
+        v
 Persistent Memory / Optane 계열 시도
-        │
-        ▼
+        |
+        v
 DRAM · SCM · SSD의 핫 / 웜 / 콜드 계층화
-        │
-        ▼
+        |
+        v
 DAX 기반 직접 접근 · 빠른 재기동
-        │
-        ▼
+        |
+        v
 CXL 기반 풀드 메모리 · 소프트웨어 정의 티어링
 ```
 
@@ -176,7 +176,7 @@ CXL 기반 풀드 메모리 · 소프트웨어 정의 티어링
 
 **진행 상황**: 524 / 803
 
-← **이전**: [523. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/)
-**다음**: [525. 메인 메모리 압축 기술 (Main Memory Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/525_main_memory_compression/) →
+<- **이전**: [523. RoCE (RDMA over Converged Ethernet)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/)
+**다음**: [525. 메인 메모리 압축 기술 (Main Memory Compression)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/525_main_memory_compression/) ->
 
 ---

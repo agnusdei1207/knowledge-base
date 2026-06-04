@@ -22,40 +22,40 @@ tags = ["studynote-operating-system"]
 - **개념**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 취소는 취소 요청(request)이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 종료시키는 기법이다. 비동기식 취소는 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 어느 시점에서든 즉시 SIGCANCEL 시그널을 전송하여 강제 중단하며, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소는 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점에 도달했을 때만 종료를 수행한다.
 
 ```text
-┌────────────────────────────────────────────────────────────────┐
-│         비동기식 vs 지연 취소 비교                             │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  비동기식 취소 (PTHREAD_CANCEL_ASYNCHRONOUS):                  │
-│  취소 요청 ──▶ 타겟 스레드에 SIGCANCEL 전송                    │
-│             ──▶ 타겟 스레드 즉시 종료                          │
-│                                                                │
-│  리스크:                                                       │
-│  ┌──────────────────────────────────────┐                      │
-│  │ void* worker(void* arg) {            │                      │
-│  │   lock(&mutex);      ◀── 락 획득        │                   │
-│  │   data = process();  ◀── 중간에 종료!    │                  │
-│  │   unlock(&mutex);  ◀── 영원 안 됨       │ ▶ 데드락          │
-│  │ }                                     │                     │
-│  └──────────────────────────────────────┘                      │
-│                                                                │
-│  지연 취소 (PTHREAD_CANCEL_DEFERRED, 기본):                    │
-│  취소 요청 ──▶ 타겟 스레드에 플래그 설정                       │
-│             ──▶ 타겟 스레드가 취소 점점 도달 시                │
-│                ──▶ 안전하게 종료 (락 해제 등)                  │
-│                                                                │
-│  안전:                                                         │
-│  ┌──────────────────────────────────────┐                      │
-│  │ void* worker(void* arg) {            │                      │
-│  │   while (!cancelled) {               │                      │
-│  │     lock(&mutex);                   │                       │
-│  │     data = process();                │                      │
-│  │     unlock(&mutex);                 │ ▶ 안전 종료           │
-│  │   }                                      │                  │
-│  │   cleanup();                           │                    │
-│  │ }                                     │                     │
-│  └──────────────────────────────────────┘                      │
-└────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------+
+|         비동기식 vs 지연 취소 비교                             |
++----------------------------------------------------------------+
+|                                                                |
+|  비동기식 취소 (PTHREAD_CANCEL_ASYNCHRONOUS):                  |
+|  취소 요청 ---> 타겟 스레드에 SIGCANCEL 전송                    |
+|             ---> 타겟 스레드 즉시 종료                          |
+|                                                                |
+|  리스크:                                                       |
+|  +--------------------------------------+                      |
+|  | void* worker(void* arg) {            |                      |
+|  |   lock(&mutex);      <--- 락 획득        |                   |
+|  |   data = process();  <--- 중간에 종료!    |                  |
+|  |   unlock(&mutex);  <--- 영원 안 됨       | -> 데드락          |
+|  | }                                     |                     |
+|  +--------------------------------------+                      |
+|                                                                |
+|  지연 취소 (PTHREAD_CANCEL_DEFERRED, 기본):                    |
+|  취소 요청 ---> 타겟 스레드에 플래그 설정                       |
+|             ---> 타겟 스레드가 취소 점점 도달 시                |
+|                ---> 안전하게 종료 (락 해제 등)                  |
+|                                                                |
+|  안전:                                                         |
+|  +--------------------------------------+                      |
+|  | void* worker(void* arg) {            |                      |
+|  |   while (!cancelled) {               |                      |
+|  |     lock(&mutex);                   |                       |
+|  |     data = process();                |                      |
+|  |     unlock(&mutex);                 | -> 안전 종료           |
+|  |   }                                      |                  |
+|  |   cleanup();                           |                    |
+|  | }                                     |                     |
+|  +--------------------------------------+                      |
++----------------------------------------------------------------+
 ```
 
 **[다이어그램 해설]** 비동기식 취소에서는 락을 획득한 상태에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 강제 종료되므로 락이 영원 해제되지 않아 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 발생한다. 반면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소에서는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 루프 내에서 pthread_testcancel()이나 [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점(예: pthread_cond_wait() 등)에 도달할 때만 종료하므로, 락 해제와 자원 정리(cleanup)를 보장할 수 있다. 이 때문에 POSIX에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소를 기본값으로 사용한다.
@@ -118,12 +118,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [고아 프로세스 (Orphan Process)]
-    │
-    ▼
+    |
+    v
 [스레드 취소 (Thread Cancellation)]
-    │
-    ├──▶ [취소 점 (Cancellation Point)]
-    └──▶ [스레드 로컬 저장소 (TLS, Thread-Local Storage)]
+    |
+    +---> [취소 점 (Cancellation Point)]
+    +---> [스레드 로컬 저장소 (TLS, Thread-Local Storage)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -140,7 +140,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 111 / 800
 
-← **이전**: [110. 고아 프로세스 (Orphan Process) - 부모가 먼저 종료된 상태 (init 프로세스가 입양)](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/)
-**다음**: [112. 취소 점 (Cancellation Point)](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/) →
+<- **이전**: [110. 고아 프로세스 (Orphan Process) - 부모가 먼저 종료된 상태 (init 프로세스가 입양)](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/)
+**다음**: [112. 취소 점 (Cancellation Point)](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/) ->
 
 ---

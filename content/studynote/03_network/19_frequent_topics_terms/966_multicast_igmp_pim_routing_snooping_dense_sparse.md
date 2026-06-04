@@ -25,11 +25,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAT 횡단]
-    │
-    ▼
+    |
+    v
 [멀티캐스트]
-    │
-    └──▶ [TCP 슬라이딩 윈도우]
+    |
+    +---> [TCP 슬라이딩 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 
 ```text
 [NAT 횡단]
-    │
-    ▼
+    |
+    v
 [멀티캐스트]
-    │
-    └──▶ [TCP 슬라이딩 윈도우]
+    |
+    +---> [TCP 슬라이딩 윈도우]
 ```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -119,12 +119,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: NAT 횡단]
-    │
-    ▼
+    |
+    v
 [현재 개념: 멀티캐스트]
-    │
-    ├──▶ [확장 A: TCP 슬라이딩 윈도우]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+    |
+    +---> [확장 A: TCP 슬라이딩 윈도우]
+    +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
@@ -141,7 +141,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1087 / 1120
 
-← **이전**: [965. NAT 횡단 (NAT Traversal)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/965_nat_traversal_stun_turn_ice_webrtc_p2p/)
-**다음**: [967. TCP 슬라이딩 윈도우](/knowledge-base/studynote/03_network/19_frequent_topics_terms/967_tcp_sliding_window_flow_control_buffer_management/) →
+<- **이전**: [965. NAT 횡단 (NAT Traversal)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/965_nat_traversal_stun_turn_ice_webrtc_p2p/)
+**다음**: [967. TCP 슬라이딩 윈도우](/knowledge-base/studynote/03_network/19_frequent_topics_terms/967_tcp_sliding_window_flow_control_buffer_management/) ->
 
 ---

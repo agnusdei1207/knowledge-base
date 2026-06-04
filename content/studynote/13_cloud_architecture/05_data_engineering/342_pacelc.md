@@ -22,13 +22,13 @@ PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communic
 따라서 PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 차이 한계 모델를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ PACELC 정상 시 지연 일관성 차이 한계 모델가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어               │
-├──────────────────────────────────────────────────────────────┤
-│ Source ─▶ Ingest ─▶ Store/Meta ─▶ Compute ─▶ Consume              │
-│   │         │           │              │           │               │
-│   └────── 규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌 ──────┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| PACELC 정상 시 지연 일관성 차이 한계 모델가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어               |
++--------------------------------------------------------------+
+| Source --> Ingest --> Store/Meta --> Compute --> Consume              |
+|   |         |           |              |           |               |
+|   +------ 규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌 ------+
++--------------------------------------------------------------+
 ```
 
 이 그림은 PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 차이 한계 모델가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
@@ -47,13 +47,13 @@ PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communic
 | 활용 계층 | 분석·ML·서빙으로 소비 | BI, [feature store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) |
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│ PACELC 정상 시 지연 일관성 차이 한계 모델 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+| PACELC 정상 시 지연 일관성 차이 한계 모델 핵심 원리                                          |
++--------------------------------------------------------------+
+| 입력/요구 --> 정책 결정 --> 실행/저장 --> 검증/피드백            |
+|     |           |            |              |                |
+|     +------ 병목이 생기면 제어 규칙과 데이터 경계를 재조정 --+
++--------------------------------------------------------------+
 ```
 
 강한 통제는 안정성을 높이지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 차이 한계 모델는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
@@ -110,7 +110,7 @@ PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communic
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
-[배치 중심 사일로] → [PACELC 정상 시 지연 일관성 차이 한계 모델] → [실시간·거버넌스 결합 플랫폼]
+[배치 중심 사일로] -> [PACELC 정상 시 지연 일관성 차이 한계 모델] -> [실시간·거버넌스 결합 플랫폼]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -124,7 +124,7 @@ PACELC 정상 시 [지연](/knowledge-base/studynote/03_network/01_data_communic
 
 **진행 상황**: 341 / 371
 
-← **이전**: [341. CAP 파티션 감내 일관 가용성 트레이드 오프 (CAP)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)
-**다음**: [343. 샤딩 컨시스턴트 해싱 링 분배 데이터 편향 방지 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/343_process/) →
+<- **이전**: [341. CAP 파티션 감내 일관 가용성 트레이드 오프 (CAP)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)
+**다음**: [343. 샤딩 컨시스턴트 해싱 링 분배 데이터 편향 방지 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/343_process/) ->
 
 ---

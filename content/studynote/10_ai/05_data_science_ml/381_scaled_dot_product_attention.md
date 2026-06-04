@@ -21,15 +21,15 @@ tags = ["studynote-ai"]
 
 2017년 Vaswani et al.의 "Attention is All You Need" 논문이 소개한 Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product Attention은 RNN의 순차적 처리를 대체해 시퀀스 내 모든 위치 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로</strong> 계산한다.
 
-기존 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)(Bahdanau, Luong)은 고정된 내적 또는 학습 가능한 정렬 함수를 사용했지만, Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product는 행렬 연산 하나로 전체 시퀀스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 O(n²dₖ)에 처리한다.
+기존 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)(Bahdanau, Luong)은 고정된 내적 또는 학습 가능한 정렬 함수를 사용했지만, Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product는 행렬 연산 하나로 전체 시퀀스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 O(n^dₖ)에 처리한다.
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
++----------------------------------------------+
+| Background Problem -> Need -> Adoption Value   |
++----------------------------------------------+
+| Existing limitation | Operational pressure   |
+| New requirement     | Design decision point  |
++----------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: 어텐션은 "도서관에서 책(Value)을 찾을 때 내 질문(Query)과 각 책의 색인 카드([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 비교해 가장 관련 있는 책을 많이 빌려오는" 과정이다.
@@ -55,28 +55,28 @@ Q, K의 각 원소가 N(0,1)이면 내적 QKᵀ의 각 원소의 [분산](/knowl
 
 ```
 Var(qᵢ · kⱼ) = Σₖ Var(qₖ) · Var(kₖ) = dₖ
-표준편차 = √dₖ → √dₖ로 나누면 분산 = 1 회복
+표준편차 = √dₖ -> √dₖ로 나누면 분산 = 1 회복
 ```
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 입력이 극단값 → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/):
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 입력이 극단값 -> [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/):
 ```
-softmax([1000, -1000]) ≈ [1, 0]  ← 기울기 ≈ 0
-softmax([1, -1])       ≈ [0.88, 0.12] ← 기울기 정상
+softmax([1000, -1000]) ≈ [1, 0]  <- 기울기 ≈ 0
+softmax([1, -1])       ≈ [0.88, 0.12] <- 기울기 정상
 ```
 
 ### 멀티헤드 어텐션 ([Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/))
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  입력 X  →  선형 변환 × h번                          │
-│                                                     │
-│  헤드₁: Attention(QW₁ᴾ, KW₁ᴾ, VW₁ᵛ)              │
-│  헤드₂: Attention(QW₂ᴾ, KW₂ᴾ, VW₂ᵛ)              │
-│  ...                                                │
-│  헤드ₕ: Attention(QWₕᴾ, KWₕᴾ, VWₕᵛ)              │
-│                ↓ Concat                             │
-│  MultiHead = Concat(head₁,...,headₕ) · Wᴼ          │
-└─────────────────────────────────────────────────────┘
++-----------------------------------------------------+
+|  입력 X  ->  선형 변환 × h번                          |
+|                                                     |
+|  헤드₁: Attention(QW₁ᴾ, KW₁ᴾ, VW₁ᵛ)              |
+|  헤드₂: Attention(QW₂ᴾ, KW₂ᴾ, VW₂ᵛ)              |
+|  ...                                                |
+|  헤드ₕ: Attention(QWₕᴾ, KWₕᴾ, VWₕᵛ)              |
+|                v Concat                             |
+|  MultiHead = Concat(head₁,...,headₕ) · Wᴼ          |
++-----------------------------------------------------+
 
 dₖ = dₘₒₐₑₗ / h  (각 헤드는 더 낮은 차원에서 작동)
 ```
@@ -96,8 +96,8 @@ dₖ = dₘₒₐₑₗ / h  (각 헤드는 더 낮은 차원에서 작동)
 
 | 어텐션 유형 | 복잡도 | 특징 |
 |:---|:---|:---|
-| Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product | O(n²dₖ) | 표준, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
-| 가산 어텐션 (Additive) | O(n²d) | 작은 dₖ에서 유리 |
+| Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product | O(n^dₖ) | 표준, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| 가산 어텐션 (Additive) | O(n^d) | 작은 dₖ에서 유리 |
 | 로컬 어텐션 | O(nwd) | 윈도우 w 제한 |
 | 희소 어텐션 | O(n√n·d) | 메모리 효율 |
 
@@ -107,7 +107,7 @@ dₖ = dₘₒₐₑₗ / h  (각 헤드는 더 낮은 차원에서 작동)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**Flash Attention**: 어텐션 행렬을 분할(Tiling)하여 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 접근을 최소화 → I/O bound에서 2~4배 속도 향상
+**Flash Attention**: 어텐션 행렬을 분할(Tiling)하여 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 접근을 최소화 -> I/O bound에서 2~4배 속도 향상
 <strong>긴 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a></strong>: RoPE (Rotary Position [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)), ALiBi로 외삽 가능
 **추론 최적화**: [KV Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/) - K, V를 재사용해 자기 회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 향상
 
@@ -139,7 +139,7 @@ Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[입력 표현·특징 추출] → [스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)] → [경량화·멀티모달·서비스 적용]
+[입력 표현·특징 추출] -> [스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)] -> [경량화·멀티모달·서비스 적용]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -154,7 +154,7 @@ Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/
 
 **진행 상황**: 381 / 420
 
-← **이전**: [380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)](/knowledge-base/studynote/10_ai/05_data_science_ml/380_gradient_vanishing_kaiming/)
-**다음**: [382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/382_positional_encoding_math/) →
+<- **이전**: [380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)](/knowledge-base/studynote/10_ai/05_data_science_ml/380_gradient_vanishing_kaiming/)
+**다음**: [382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/382_positional_encoding_math/) ->
 
 ---

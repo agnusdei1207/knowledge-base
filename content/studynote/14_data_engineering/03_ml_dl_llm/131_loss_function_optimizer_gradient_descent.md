@@ -19,9 +19,9 @@ tags = ["studynote-dataengineering"]
 ## Ⅰ. 개요 및 필요성
 
 ```text
-학습 루프: 예측 → 손실 계산 → 역전파 → 가중치 업데이트 → 반복
+학습 루프: 예측 -> 손실 계산 -> 역전파 -> 가중치 업데이트 -> 반복
   Loss: Cross-Entropy (분류), MSE (회귀)
-  Optimizer: SGD → Momentum → Adam (표준)
+  Optimizer: SGD -> Momentum -> Adam (표준)
 ```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 **시험 채점**, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 **"어떻게 공부하면 점수가 오를까" 방향 계산**, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 <strong>실제 공부 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
@@ -33,7 +33,7 @@ tags = ["studynote-dataengineering"]
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 특징 |
 |:---|:---|
 | **SGD** | 기본, 느림 |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a></strong> | 관성 추가, 진동↓ |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a></strong> | 관성 추가, 진동v |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a></strong> | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a>+RMSProp, 표준</strong> |
 | **AdamW** | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)+[Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) |
 
@@ -58,9 +58,9 @@ tags = ["studynote-dataengineering"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-[SGD (1951)] → [Momentum (1964)] → [AdaGrad (2011)]
-    → [RMSProp (2012)] → [Adam (2014) — 표준]
-    → [AdamW (2018)] → [현재: Lion·Sophia — 차세대 옵티마이저]
+[SGD (1951)] -> [Momentum (1964)] -> [AdaGrad (2011)]
+    -> [RMSProp (2012)] -> [Adam (2014) — 표준]
+    -> [AdamW (2018)] -> [현재: Lion·Sophia — 차세대 옵티마이저]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -74,7 +74,7 @@ tags = ["studynote-dataengineering"]
 
 **진행 상황**: 131 / 258
 
-← **이전**: [130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/130_relu_activation_function/)
-**다음**: [132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/) →
+<- **이전**: [130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/130_relu_activation_function/)
+**다음**: [132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/) ->
 
 ---

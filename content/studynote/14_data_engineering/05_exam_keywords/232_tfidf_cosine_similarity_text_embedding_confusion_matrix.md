@@ -42,7 +42,7 @@ TF(t, d) = (문서 d에서 단어 t의 등장 횟수) / (문서 d의 전체 단�
 <strong>IDF (Inverse <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> Frequency, 역문서 빈도)</strong>
 ```
 IDF(t) = log( N / df(t) )
-         또는 log( 1 + N / (1 + df(t)) )  ← 스무딩 (Smoothing) 버전
+         또는 log( 1 + N / (1 + df(t)) )  <- 스무딩 (Smoothing) 버전
 
 여기서:
   N    = 전체 문서 수
@@ -57,31 +57,31 @@ TF-IDF(t, d) = TF(t, d) × IDF(t)
 ### 계산 예시 (3개 문서)
 
 ```
-문서1: "AI 모델 학습 AI 모델"          → AI 2회, 모델 2회, 학습 1회
-문서2: "머신러닝 학습 데이터"            → 머신러닝 1회, 학습 1회, 데이터 1회
-문서3: "딥러닝 AI 신경망"              → 딥러닝 1회, AI 1회, 신경망 1회
+문서1: "AI 모델 학습 AI 모델"          -> AI 2회, 모델 2회, 학습 1회
+문서2: "머신러닝 학습 데이터"            -> 머신러닝 1회, 학습 1회, 데이터 1회
+문서3: "딥러닝 AI 신경망"              -> 딥러닝 1회, AI 1회, 신경망 1회
 
 N = 3  (전체 문서 수)
 
-IDF("AI") = log(3/2) = 0.405   ← 2개 문서에 등장 → 흔한 단어
+IDF("AI") = log(3/2) = 0.405   <- 2개 문서에 등장 -> 흔한 단어
 IDF("학습") = log(3/2) = 0.405
-IDF("신경망") = log(3/1) = 1.099  ← 1개 문서에만 등장 → 희귀·중요 단어
+IDF("신경망") = log(3/1) = 1.099  <- 1개 문서에만 등장 -> 희귀·중요 단어
 
 TF-IDF("AI", 문서1) = (2/5) × 0.405 = 0.162
-TF-IDF("신경망", 문서3) = (1/3) × 1.099 = 0.366  ← 더 높은 가중치
+TF-IDF("신경망", 문서3) = (1/3) × 1.099 = 0.366  <- 더 높은 가중치
 ```
 
 ### 벡터 공간 모델 (Vector Space Model) 구조
 
 ```
                     어휘 사전 (Vocabulary)
-         ┌────────┬─────────┬────────┬──────────┐
-         │  AI    │  모델   │  학습  │  신경망   │
-┌────────┼────────┼─────────┼────────┼──────────┤
-│ 문서1  │ 0.162  │  0.200  │ 0.081  │   0.000  │
-│ 문서2  │ 0.000  │  0.000  │ 0.135  │   0.000  │
-│ 문서3  │ 0.135  │  0.000  │ 0.000  │   0.366  │
-└────────┴────────┴─────────┴────────┴──────────┘
+         +--------+---------+--------+----------+
+         |  AI    |  모델   |  학습  |  신경망   |
++--------+--------+---------+--------+----------+
+| 문서1  | 0.162  |  0.200  | 0.081  |   0.000  |
+| 문서2  | 0.000  |  0.000  | 0.135  |   0.000  |
+| 문서3  | 0.135  |  0.000  | 0.000  |   0.366  |
++--------+--------+---------+--------+----------+
 
 각 문서 = 고차원 벡터 공간의 한 점
 ```
@@ -99,8 +99,8 @@ cos(θ) = (A · B) / (|A| × |B|)
   결과 범위: -1 (완전 반대) ~ 0 (무관) ~ 1 (동일)
 
 코사인 유사도 vs 유클리드 거리:
-  코사인: 방향 기반 → 문서 길이 불변 → 텍스트 검색에 적합
-  유클리드: 거리 기반 → 문서 길이 영향 → 이미지·좌표 분석에 적합
+  코사인: 방향 기반 -> 문서 길이 불변 -> 텍스트 검색에 적합
+  유클리드: 거리 기반 -> 문서 길이 영향 -> 이미지·좌표 분석에 적합
 ```
 
 ### [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))
@@ -109,20 +109,20 @@ cos(θ) = (A · B) / (|A| × |B|)
 
 ```
                    예측 (Predicted)
-                ┌──────────────┬──────────────┐
-                │  양성 (Pos)  │  음성 (Neg)  │
-┌───────────────┼──────────────┼──────────────┤
-│ 실제 양성(Pos)│  TP (참양성) │  FN (거짓음성)│
-│               │  True Pos    │  False Neg   │
-├───────────────┼──────────────┼──────────────┤
-│ 실제 음성(Neg)│  FP (거짓양성)│  TN (참음성) │
-│               │  False Pos   │  True Neg    │
-└───────────────┴──────────────┴──────────────┘
+                +--------------+--------------+
+                |  양성 (Pos)  |  음성 (Neg)  |
++---------------+--------------+--------------+
+| 실제 양성(Pos)|  TP (참양성) |  FN (거짓음성)|
+|               |  True Pos    |  False Neg   |
++---------------+--------------+--------------+
+| 실제 음성(Neg)|  FP (거짓양성)|  TN (참음성) |
+|               |  False Pos   |  True Neg    |
++---------------+--------------+--------------+
 
-TP: 실제 양성을 양성으로 정확히 예측   → "맞음"
-TN: 실제 음성을 음성으로 정확히 예측   → "맞음"
-FP: 실제 음성인데 양성으로 잘못 예측   → 1종 오류 (False Alarm, 오탐)
-FN: 실제 양성인데 음성으로 잘못 예측   → 2종 오류 (Miss, 미탐)
+TP: 실제 양성을 양성으로 정확히 예측   -> "맞음"
+TN: 실제 음성을 음성으로 정확히 예측   -> "맞음"
+FP: 실제 음성인데 양성으로 잘못 예측   -> 1종 오류 (False Alarm, 오탐)
+FN: 실제 양성인데 음성으로 잘못 예측   -> 2종 오류 (Miss, 미탐)
 ```
 
 📢 **섹션 요약 비유**: [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)은 병원 검사 결과표다. TP=진짜 환자를 환자로 진단, TN=건강인을 건강으로 진단, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)=건강인을 환자로 오진(과잉 진단), FN=환자를 건강으로 오진(놓침).
@@ -144,12 +144,12 @@ FN: 실제 양성인데 음성으로 잘못 예측   → 2종 오류 (Miss, 미�
 ### TP/TN/[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)/FN 파생 지표
 
 ```
-Precision (정밀도) = TP / (TP + FP)    → 양성 예측의 신뢰도
-Recall (재현율)   = TP / (TP + FN)    → 실제 양성의 탐지율
-Accuracy (정확도) = (TP+TN) / 전체    → 전체 예측 정확도
-F1 Score          = 2×P×R / (P+R)    → 정밀도·재현율 조화평균
-Specificity       = TN / (TN + FP)    → 음성 탐지율
-FPR (거짓양성률)  = FP / (FP + TN)    → ROC 곡선 X축
+Precision (정밀도) = TP / (TP + FP)    -> 양성 예측의 신뢰도
+Recall (재현율)   = TP / (TP + FN)    -> 실제 양성의 탐지율
+Accuracy (정확도) = (TP+TN) / 전체    -> 전체 예측 정확도
+F1 Score          = 2×P×R / (P+R)    -> 정밀도·재현율 조화평균
+Specificity       = TN / (TN + FP)    -> 음성 탐지율
+FPR (거짓양성률)  = FP / (FP + TN)    -> ROC 곡선 X축
 ```
 
 📢 **섹션 요약 비유**: TF-IDF는 "자주 쓰지만 너무 흔하지 않은 단어"에 높은 점수를 준다. 마치 이력서에서 "저는 숨을 쉽니다"는 무의미하지만 "양자컴퓨팅 경험"은 희귀하고 중요한 정보다.
@@ -160,7 +160,7 @@ FPR (거짓양성률)  = FP / (FP + TN)    → ROC 곡선 X축
 
 ```
 문서 전처리         벡터화             유사도 계산       결과 반환
-[원본 문서]  →  [토크나이징]  →  [TF-IDF 행렬]  →  [코사인 유사도]
+[원본 문서]  ->  [토크나이징]  ->  [TF-IDF 행렬]  ->  [코사인 유사도]
                  정제·불용어              (문서×어휘)       상위 K개 문서
                  제거·소문자화
 ```
@@ -213,16 +213,16 @@ TF-IDF는 단순하지만 문서 검색·[분류](/knowledge-base/studynote/16_b
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-BoW (Bag of Words) → 빈도만 카운팅
-    │
-    ▼
-TF-IDF: 문서 빈도 역수 가중치 → 핵심 단어 추출
-    │
-    ▼
+BoW (Bag of Words) -> 빈도만 카운팅
+    |
+    v
+TF-IDF: 문서 빈도 역수 가중치 -> 핵심 단어 추출
+    |
+    v
 Word2Vec · GloVe: 단어 임베딩 (의미 유사도)
-    │
-    ▼
-BERT Embedding · Sentence Transformer → 코사인 유사도
+    |
+    v
+BERT Embedding · Sentence Transformer -> 코사인 유사도
 ```
 2. [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 책이 가리키는 방향이 얼마나 비슷한지 각도로 재는 것—방향이 같을수록(각도 0도) 비슷한 책이다.
 3. [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)은 AI가 정답을 맞혔는지 틀렸는지 4가지 상자(TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN)에 나눠 세어보는 성적표다.
@@ -233,7 +233,7 @@ BERT Embedding · Sentence Transformer → 코사인 유사도
 
 **진행 상황**: 232 / 258
 
-← **이전**: [231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)
-**다음**: [233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) →
+<- **이전**: [231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)
+**다음**: [233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ->
 
 ---
